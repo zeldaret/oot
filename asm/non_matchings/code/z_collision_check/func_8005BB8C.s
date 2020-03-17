@@ -1,0 +1,11 @@
+glabel func_8005BB8C
+/* AD2D2C 8005BB8C 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* AD2D30 8005BB90 AFBF0014 */  sw    $ra, 0x14($sp)
+/* AD2D34 8005BB94 0C016E6C */  jal   func_8005B9B0
+/* AD2D38 8005BB98 00000000 */   nop   
+/* AD2D3C 8005BB9C 8FBF0014 */  lw    $ra, 0x14($sp)
+/* AD2D40 8005BBA0 27BD0018 */  addiu $sp, $sp, 0x18
+/* AD2D44 8005BBA4 24020001 */  li    $v0, 1
+/* AD2D48 8005BBA8 03E00008 */  jr    $ra
+/* AD2D4C 8005BBAC 00000000 */   nop   
+

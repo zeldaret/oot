@@ -1,0 +1,476 @@
+.include "macro.inc"
+
+ # assembler directives
+ .set noat      # allow manual use of $at
+ .set noreorder # don't insert nops after branches
+ .set gp=64     # allow use of 64-bit general purposee registers
+
+.section .rodata
+
+glabel D_80A41C00
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C10
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C20
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C30
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C40
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C50
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C60
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C70
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C80
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41C90
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel D_80A41CA0
+    .asciz "../z_en_go.c"
+    .balign 4
+
+glabel jtbl_80A41CB0
+.word L80A3E658
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E70C
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E72C
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E78C
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E7D4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E81C
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E864
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8F4
+.word L80A3E8AC
+glabel jtbl_80A41E74
+.word L80A3ED10
+.word L80A3ED10
+.word L80A3E970
+.word L80A3ED10
+.word L80A3EAE0
+.word L80A3EC88
+.word L80A3ECF8
+.word L80A3ED10
+.word L80A3ED10
+.word L80A3ED10
+glabel jtbl_80A41E9C
+.word L80A3EA54
+.word L80A3EA88
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAA4
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAC8
+.word L80A3EAD8
+.word L80A3EAC8
+.word L80A3EAC8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAC0
+.word L80A3EAC8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD0
+glabel jtbl_80A41F40
+.word L80A3E9C8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3E9E4
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EAD8
+.word L80A3EA00
+.word L80A3EAD8
+.word L80A3EA1C
+.word L80A3EAD8
+.word L80A3EA38
+glabel D_80A41F84
+ .word func_80A3F02C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word func_80A3F02C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word func_80A3F03C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word func_80A3F02C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word func_80A3F02C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word L80A3F04C
+.word func_80A3F02C
+glabel D_80A420C8
+ .word 0x462AA000
+glabel D_80A420CC
+ .word 0x3C23D70A
+glabel D_80A420D0
+ .word 0x461C4000
+glabel D_80A420D4
+ .word 0x4099999A
+glabel D_80A420D8
+ .word 0x4622F983
+glabel D_80A420DC
+ .word 0x3C23D70A
+glabel D_80A420E0
+ .word 0x4099999A
+glabel jtbl_80A420E4
+.word L80A3FCC8
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FD50
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE38
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FDD8
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FD90
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE38
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE38
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE60
+.word L80A3FE38
+glabel D_80A422A8
+ .word 0x49AFC800
+glabel D_80A422AC
+ .word 0x3DCCCCCD
+glabel D_80A422B0
+ .word 0x3DCCCCCD
+glabel D_80A422B4
+ .word 0x3DCCCCCD
+glabel D_80A422B8
+ .word 0x3DCCCCCD
+glabel D_80A422BC
+ .word 0xBDCCCCCD
+glabel D_80A422C0
+ .word 0x3DCCCCCD
+glabel D_80A422C4
+ .word 0x40490FDB
+glabel D_80A422C8
+ .word 0x40490FDB
+glabel D_80A422CC
+ .word 0x40490FDB
+glabel D_80A422D0
+ .word 0x40490FDB
+glabel D_80A422D4
+ .word 0x3E4CCCCD
+glabel D_80A422D8
+ .word 0x3ECCCCCD, 0x00000000
+
+

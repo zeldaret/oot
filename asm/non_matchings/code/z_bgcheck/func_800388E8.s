@@ -1,0 +1,17 @@
+glabel func_800388E8
+/* AAFA88 800388E8 C4A40000 */  lwc1  $f4, ($a1)
+/* AAFA8C 800388EC 4600218D */  trunc.w.s $f6, $f4
+/* AAFA90 800388F0 440F3000 */  mfc1  $t7, $f6
+/* AAFA94 800388F4 00000000 */  nop   
+/* AAFA98 800388F8 A48F0000 */  sh    $t7, ($a0)
+/* AAFA9C 800388FC C4A80004 */  lwc1  $f8, 4($a1)
+/* AAFAA0 80038900 4600428D */  trunc.w.s $f10, $f8
+/* AAFAA4 80038904 44195000 */  mfc1  $t9, $f10
+/* AAFAA8 80038908 00000000 */  nop   
+/* AAFAAC 8003890C A4990002 */  sh    $t9, 2($a0)
+/* AAFAB0 80038910 C4B00008 */  lwc1  $f16, 8($a1)
+/* AAFAB4 80038914 4600848D */  trunc.w.s $f18, $f16
+/* AAFAB8 80038918 44099000 */  mfc1  $t1, $f18
+/* AAFABC 8003891C 03E00008 */  jr    $ra
+/* AAFAC0 80038920 A4890004 */   sh    $t1, 4($a0)
+

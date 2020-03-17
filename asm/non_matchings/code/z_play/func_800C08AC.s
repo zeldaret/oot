@@ -1,0 +1,126 @@
+.rdata
+glabel D_8014492C
+    .asciz "\x1b[41;37mcamera control: error: return to main, other camera left. %d cleared!!\n\x1b[m"
+    .balign 4
+
+.text
+glabel func_800C08AC
+/* B37A4C 800C08AC 27BDFFD0 */  addiu $sp, $sp, -0x30
+/* B37A50 800C08B0 00053C00 */  sll   $a3, $a1, 0x10
+/* B37A54 800C08B4 00073C03 */  sra   $a3, $a3, 0x10
+/* B37A58 800C08B8 AFB10024 */  sw    $s1, 0x24($sp)
+/* B37A5C 800C08BC 2401FFFF */  li    $at, -1
+/* B37A60 800C08C0 00808825 */  move  $s1, $a0
+/* B37A64 800C08C4 AFBF002C */  sw    $ra, 0x2c($sp)
+/* B37A68 800C08C8 AFB20028 */  sw    $s2, 0x28($sp)
+/* B37A6C 800C08CC AFB00020 */  sw    $s0, 0x20($sp)
+/* B37A70 800C08D0 AFA50034 */  sw    $a1, 0x34($sp)
+/* B37A74 800C08D4 14E10003 */  bne   $a3, $at, .L800C08E4
+/* B37A78 800C08D8 AFA60038 */   sw    $a2, 0x38($sp)
+/* B37A7C 800C08DC 10000003 */  b     .L800C08EC
+/* B37A80 800C08E0 848507A0 */   lh    $a1, 0x7a0($a0)
+.L800C08E4:
+/* B37A84 800C08E4 00072C00 */  sll   $a1, $a3, 0x10
+/* B37A88 800C08E8 00052C03 */  sra   $a1, $a1, 0x10
+.L800C08EC:
+/* B37A8C 800C08EC 0C0300E1 */  jal   func_800C0384
+/* B37A90 800C08F0 02202025 */   move  $a0, $s1
+/* B37A94 800C08F4 3C128014 */  lui   $s2, %hi(D_8014492C) # $s2, 0x8014
+/* B37A98 800C08F8 2652492C */  addiu $s2, %lo(D_8014492C) # addiu $s2, $s2, 0x492c
+/* B37A9C 800C08FC 24100001 */  li    $s0, 1
+/* B37AA0 800C0900 00107080 */  sll   $t6, $s0, 2
+.L800C0904:
+/* B37AA4 800C0904 022E7821 */  addu  $t7, $s1, $t6
+/* B37AA8 800C0908 8DF80790 */  lw    $t8, 0x790($t7)
+/* B37AAC 800C090C 02402025 */  move  $a0, $s2
+/* B37AB0 800C0910 53000008 */  beql  $t8, $zero, .L800C0934
+/* B37AB4 800C0914 26100001 */   addiu $s0, $s0, 1
+/* B37AB8 800C0918 0C00084C */  jal   osSyncPrintf
+/* B37ABC 800C091C 02002825 */   move  $a1, $s0
+/* B37AC0 800C0920 00102C00 */  sll   $a1, $s0, 0x10
+/* B37AC4 800C0924 00052C03 */  sra   $a1, $a1, 0x10
+/* B37AC8 800C0928 0C0300E1 */  jal   func_800C0384
+/* B37ACC 800C092C 02202025 */   move  $a0, $s1
+/* B37AD0 800C0930 26100001 */  addiu $s0, $s0, 1
+.L800C0934:
+/* B37AD4 800C0934 00108400 */  sll   $s0, $s0, 0x10
+/* B37AD8 800C0938 00108403 */  sra   $s0, $s0, 0x10
+/* B37ADC 800C093C 2A010004 */  slti  $at, $s0, 4
+/* B37AE0 800C0940 5420FFF0 */  bnezl $at, .L800C0904
+/* B37AE4 800C0944 00107080 */   sll   $t6, $s0, 2
+/* B37AE8 800C0948 87A6003A */  lh    $a2, 0x3a($sp)
+/* B37AEC 800C094C 02202025 */  move  $a0, $s1
+/* B37AF0 800C0950 240503FC */  li    $a1, 1020
+/* B37AF4 800C0954 1CC0000B */  bgtz  $a2, .L800C0984
+/* B37AF8 800C0958 00003825 */   move  $a3, $zero
+/* B37AFC 800C095C 02202025 */  move  $a0, $s1
+/* B37B00 800C0960 00002825 */  move  $a1, $zero
+/* B37B04 800C0964 0C0300C5 */  jal   func_800C0314
+/* B37B08 800C0968 24060007 */   li    $a2, 7
+/* B37B0C 800C096C 8E390790 */  lw    $t9, 0x790($s1)
+/* B37B10 800C0970 A7200162 */  sh    $zero, 0x162($t9)
+/* B37B14 800C0974 8E220790 */  lw    $v0, 0x790($s1)
+/* B37B18 800C0978 84480162 */  lh    $t0, 0x162($v0)
+/* B37B1C 800C097C 10000003 */  b     .L800C098C
+/* B37B20 800C0980 A448014E */   sh    $t0, 0x14e($v0)
+.L800C0984:
+/* B37B24 800C0984 0C02003E */  jal   func_800800F8
+/* B37B28 800C0988 AFA00010 */   sw    $zero, 0x10($sp)
+.L800C098C:
+/* B37B2C 800C098C 8FBF002C */  lw    $ra, 0x2c($sp)
+/* B37B30 800C0990 8FB00020 */  lw    $s0, 0x20($sp)
+/* B37B34 800C0994 8FB10024 */  lw    $s1, 0x24($sp)
+/* B37B38 800C0998 8FB20028 */  lw    $s2, 0x28($sp)
+/* B37B3C 800C099C 03E00008 */  jr    $ra
+/* B37B40 800C09A0 27BD0030 */   addiu $sp, $sp, 0x30
+
+/* B37B44 800C09A4 AFA50004 */  sw    $a1, 4($sp)
+/* B37B48 800C09A8 00052C00 */  sll   $a1, $a1, 0x10
+/* B37B4C 800C09AC 00052C03 */  sra   $a1, $a1, 0x10
+/* B37B50 800C09B0 00057080 */  sll   $t6, $a1, 2
+/* B37B54 800C09B4 008E7821 */  addu  $t7, $a0, $t6
+/* B37B58 800C09B8 8DE30790 */  lw    $v1, 0x790($t7)
+/* B37B5C 800C09BC 2402FFFF */  li    $v0, -1
+/* B37B60 800C09C0 10600003 */  beqz  $v1, .L800C09D0
+/* B37B64 800C09C4 00000000 */   nop   
+/* B37B68 800C09C8 03E00008 */  jr    $ra
+/* B37B6C 800C09CC 84620130 */   lh    $v0, 0x130($v1)
+
+.L800C09D0:
+/* B37B70 800C09D0 03E00008 */  jr    $ra
+/* B37B74 800C09D4 00000000 */   nop   
+
+/* B37B78 800C09D8 AFA50004 */  sw    $a1, 4($sp)
+/* B37B7C 800C09DC 00052C00 */  sll   $a1, $a1, 0x10
+/* B37B80 800C09E0 00052C03 */  sra   $a1, $a1, 0x10
+/* B37B84 800C09E4 00057080 */  sll   $t6, $a1, 2
+/* B37B88 800C09E8 AFA60008 */  sw    $a2, 8($sp)
+/* B37B8C 800C09EC 008E7821 */  addu  $t7, $a0, $t6
+/* B37B90 800C09F0 8DE20790 */  lw    $v0, 0x790($t7)
+/* B37B94 800C09F4 00063400 */  sll   $a2, $a2, 0x10
+/* B37B98 800C09F8 00063403 */  sra   $a2, $a2, 0x10
+/* B37B9C 800C09FC 50400004 */  beql  $v0, $zero, .L800C0A10
+/* B37BA0 800C0A00 84580130 */   lh    $t8, 0x130($v0)
+/* B37BA4 800C0A04 03E00008 */  jr    $ra
+/* B37BA8 800C0A08 00001025 */   move  $v0, $zero
+
+/* B37BAC 800C0A0C 84580130 */  lh    $t8, 0x130($v0)
+.L800C0A10:
+/* B37BB0 800C0A10 50D80004 */  beql  $a2, $t8, .L800C0A24
+/* B37BB4 800C0A14 84590140 */   lh    $t9, 0x140($v0)
+/* B37BB8 800C0A18 03E00008 */  jr    $ra
+/* B37BBC 800C0A1C 00001025 */   move  $v0, $zero
+
+/* B37BC0 800C0A20 84590140 */  lh    $t9, 0x140($v0)
+.L800C0A24:
+/* B37BC4 800C0A24 24010007 */  li    $at, 7
+/* B37BC8 800C0A28 24020001 */  li    $v0, 1
+/* B37BCC 800C0A2C 13210003 */  beq   $t9, $at, .L800C0A3C
+/* B37BD0 800C0A30 00000000 */   nop   
+/* B37BD4 800C0A34 03E00008 */  jr    $ra
+/* B37BD8 800C0A38 24020002 */   li    $v0, 2
+
+.L800C0A3C:
+/* B37BDC 800C0A3C 03E00008 */  jr    $ra
+/* B37BE0 800C0A40 00000000 */   nop   
+

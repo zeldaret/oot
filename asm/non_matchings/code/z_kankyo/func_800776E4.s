@@ -1,0 +1,67 @@
+glabel func_800776E4
+/* AEE884 800776E4 3C018012 */  lui   $at, %hi(D_8011FB30) # $at, 0x8012
+/* AEE888 800776E8 3C028016 */  lui   $v0, %hi(gSaveContext) # $v0, 0x8016
+/* AEE88C 800776EC A020FB30 */  sb    $zero, %lo(D_8011FB30)($at)
+/* AEE890 800776F0 2442E660 */  addiu $v0, %lo(gSaveContext) # addiu $v0, $v0, -0x19a0
+/* AEE894 800776F4 844F1394 */  lh    $t7, 0x1394($v0)
+/* AEE898 800776F8 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* AEE89C 800776FC 240EFFFD */  li    $t6, -3
+/* AEE8A0 80077700 3C010001 */  lui   $at, 1
+/* AEE8A4 80077704 AFBF0014 */  sw    $ra, 0x14($sp)
+/* AEE8A8 80077708 AC400008 */  sw    $zero, 8($v0)
+/* AEE8AC 8007770C AC4E1364 */  sw    $t6, 0x1364($v0)
+/* AEE8B0 80077710 00240821 */  addu  $at, $at, $a0
+/* AEE8B4 80077714 A42F1E1A */  sh    $t7, 0x1e1a($at)
+/* AEE8B8 80077718 3C010001 */  lui   $at, 1
+/* AEE8BC 8007771C 00240821 */  addu  $at, $at, $a0
+/* AEE8C0 80077720 24180014 */  li    $t8, 20
+/* AEE8C4 80077724 A0381E15 */  sb    $t8, 0x1e15($at)
+/* AEE8C8 80077728 3C010001 */  lui   $at, 1
+/* AEE8CC 8007772C 24050003 */  li    $a1, 3
+/* AEE8D0 80077730 00240821 */  addu  $at, $at, $a0
+/* AEE8D4 80077734 A0251E5E */  sb    $a1, 0x1e5e($at)
+/* AEE8D8 80077738 3C030001 */  lui   $v1, 1
+/* AEE8DC 8007773C A045141D */  sb    $a1, 0x141d($v0)
+/* AEE8E0 80077740 00641821 */  addu  $v1, $v1, $a0
+/* AEE8E4 80077744 84631E1A */  lh    $v1, 0x1e1a($v1)
+/* AEE8E8 80077748 24010053 */  li    $at, 83
+/* AEE8EC 8007774C 1061001B */  beq   $v1, $at, .L800777BC
+/* AEE8F0 80077750 240100E4 */   li    $at, 228
+/* AEE8F4 80077754 10610015 */  beq   $v1, $at, .L800777AC
+/* AEE8F8 80077758 240100FC */   li    $at, 252
+/* AEE8FC 8007775C 10610019 */  beq   $v1, $at, .L800777C4
+/* AEE900 80077760 24010102 */   li    $at, 258
+/* AEE904 80077764 10610009 */  beq   $v1, $at, .L8007778C
+/* AEE908 80077768 24010123 */   li    $at, 291
+/* AEE90C 8007776C 1061000B */  beq   $v1, $at, .L8007779C
+/* AEE910 80077770 24010147 */   li    $at, 327
+/* AEE914 80077774 54610014 */  bnel  $v1, $at, .L800777C8
+/* AEE918 80077778 8FBF0014 */   lw    $ra, 0x14($sp)
+/* AEE91C 8007777C 0C00D6DD */  jal   Flags_SetEventChkInf
+/* AEE920 80077780 240400B9 */   li    $a0, 185
+/* AEE924 80077784 10000010 */  b     .L800777C8
+/* AEE928 80077788 8FBF0014 */   lw    $ra, 0x14($sp)
+.L8007778C:
+/* AEE92C 8007778C 0C00D6DD */  jal   Flags_SetEventChkInf
+/* AEE930 80077790 240400B1 */   li    $a0, 177
+/* AEE934 80077794 1000000C */  b     .L800777C8
+/* AEE938 80077798 8FBF0014 */   lw    $ra, 0x14($sp)
+.L8007779C:
+/* AEE93C 8007779C 0C00D6DD */  jal   Flags_SetEventChkInf
+/* AEE940 800777A0 240400B8 */   li    $a0, 184
+/* AEE944 800777A4 10000008 */  b     .L800777C8
+/* AEE948 800777A8 8FBF0014 */   lw    $ra, 0x14($sp)
+.L800777AC:
+/* AEE94C 800777AC 0C00D6DD */  jal   Flags_SetEventChkInf
+/* AEE950 800777B0 240400B6 */   li    $a0, 182
+/* AEE954 800777B4 10000004 */  b     .L800777C8
+/* AEE958 800777B8 8FBF0014 */   lw    $ra, 0x14($sp)
+.L800777BC:
+/* AEE95C 800777BC 0C00D6DD */  jal   Flags_SetEventChkInf
+/* AEE960 800777C0 240400A7 */   li    $a0, 167
+.L800777C4:
+/* AEE964 800777C4 8FBF0014 */  lw    $ra, 0x14($sp)
+.L800777C8:
+/* AEE968 800777C8 27BD0018 */  addiu $sp, $sp, 0x18
+/* AEE96C 800777CC 03E00008 */  jr    $ra
+/* AEE970 800777D0 00000000 */   nop   

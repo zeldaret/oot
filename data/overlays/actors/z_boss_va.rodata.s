@@ -1,0 +1,495 @@
+.include "macro.inc"
+
+ # assembler directives
+ .set noat      # allow manual use of $at
+ .set noreorder # don't insert nops after branches
+ .set gp=64     # allow use of 64-bit general purposee registers
+
+.section .rodata
+
+glabel D_8095C3B0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C3C0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C3D0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C3E0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C3F0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C400
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C410
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C420
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C430
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C440
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C450
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C460
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C470
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C480
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C490
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C4A0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C4B0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C4C0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C4D0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C4E0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C4F0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C500
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C510
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C520
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C530
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C540
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C550
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel jtbl_8095C560
+.word L8094F350
+.word L8094F350
+.word L8094F350
+.word L8094F39C
+.word L8094F39C
+.word L8094F39C
+glabel D_8095C578
+ .word 0x46CB2000
+glabel D_8095C57C
+ .word 0x46CB2000
+glabel D_8095C580
+ .word 0x3F19999A
+glabel D_8095C584
+ .word 0x3F19999A
+glabel D_8095C588
+ .word 0x3F333333
+glabel jtbl_8095C58C
+.word L8094FEC4
+.word L8094FF00
+.word L8094FF00
+.word L8094FF00
+.word L8094FF30
+.word L8094FF30
+.word L8094FF30
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF60
+.word L8094FF60
+.word L8094FF60
+.word L8094FFD8
+glabel jtbl_8095C5E0
+.word L80950024
+.word L809504C4
+.word L809504C4
+.word L809504C4
+.word L80950538
+.word L80950538
+.word L80950538
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L8095059C
+.word L8095059C
+.word L8095059C
+.word L809505B0
+glabel D_8095C634
+ .word 0x3DCCCCCD
+glabel D_8095C638
+ .word 0x3D4CCCCD
+glabel jtbl_8095C63C
+.word L80950830
+.word L80950858
+.word L809508B0
+.word L80950A10
+.word L80950A4C
+.word L80950A9C
+.word L80950AC0
+.word L80951578
+.word L80950CDC
+.word L80950DC8
+.word L80950E78
+.word L80950F2C
+.word L80951578
+.word L80950FF8
+.word L809510AC
+.word L809513F0
+.word L80951460
+.word L809514D0
+.word L8095156C
+glabel D_8095C688
+ .word 0x3DCCCCCD
+glabel D_8095C68C
+ .word 0x3F333333
+glabel D_8095C690
+ .word 0x411CCCCD
+glabel D_8095C694
+ .word 0x3DCCCCCD
+glabel D_8095C698
+ .word 0x3FCCCCCD
+glabel D_8095C69C
+ .word 0x3D99999A
+glabel D_8095C6A0
+ .word 0x3D99999A
+glabel D_8095C6A4
+ .word 0x3D99999A
+glabel D_8095C6A8
+ .word 0x3D99999A
+glabel D_8095C6AC
+ .word 0x3D99999A
+glabel D_8095C6B0
+ .word 0x3D99999A
+glabel D_8095C6B4
+ .word 0x3DCCCCCD
+glabel D_8095C6B8
+ .word 0x3D4CCCCD
+glabel D_8095C6BC
+ .word 0x3DCCCCCD
+glabel D_8095C6C0
+ .word 0x3DCCCCCD
+glabel D_8095C6C4
+ .word 0x3DCCCCCD
+glabel D_8095C6C8
+ .word 0x3D4CCCCD
+glabel D_8095C6CC
+ .word 0x3983126F
+glabel D_8095C6D0
+ .word 0x463B8000
+glabel D_8095C6D4
+ .word 0x3DCCCCCD
+glabel D_8095C6D8
+ .word 0x3D4CCCCD
+glabel D_8095C6DC
+ .word 0x3DCCCCCD
+glabel D_8095C6E0
+ .word 0x3983126F
+glabel D_8095C6E4
+ .word 0x463B8000
+glabel D_8095C6E8
+ .word 0x3DCCCCCD
+glabel D_8095C6EC
+ .word 0x3DCCCCCD
+glabel D_8095C6F0
+ .word 0x3D4CCCCD
+glabel D_8095C6F4
+ .word 0x45AAA000
+glabel D_8095C6F8
+ .word 0x3983126F
+glabel jtbl_8095C6FC
+.word L80953460
+.word L8095361C
+.word L80953CD8
+.word L80953CD8
+.word L80953CD8
+.word L80953CD8
+.word L80953CD8
+.word L80953868
+.word L80953940
+.word L80953A84
+.word L80953CBC
+glabel D_8095C728
+ .word 0x3F19999A
+glabel D_8095C72C
+ .word 0x3DF5C28F
+glabel D_8095C730
+ .word 0x3D99999A
+glabel D_8095C734
+ .word 0x3C75C28F
+glabel D_8095C738
+ .word 0x3E19999A
+glabel D_8095C73C
+ .word 0x3E19999A
+glabel D_8095C740
+ .word 0x3E19999A
+glabel D_8095C744
+ .word 0x3E19999A
+glabel D_8095C748
+ .word 0x3E19999A
+glabel D_8095C74C
+ .word 0x3E19999A
+glabel D_8095C750
+ .word 0x3DCCCCCD
+glabel D_8095C754
+ .word 0x3D4CCCCD
+glabel D_8095C758
+ .word 0x3DCCCCCD
+glabel D_8095C75C
+ .word 0x3DCCCCCD
+glabel D_8095C760
+ .word 0x3E99999A
+glabel D_8095C764
+ .word 0x3DF5C28F
+glabel D_8095C768
+ .word 0x3BA3D70A
+glabel D_8095C76C
+ .word 0x3DCCCCCD
+glabel D_8095C770
+ .word 0x3F19999A
+glabel D_8095C774
+ .word 0x3DCCCCCD
+glabel jtbl_8095C778
+.word L80956998
+.word L80956A1C
+.word L80956A1C
+.word L80956A1C
+.word L80956A1C
+.word L80956CC0
+.word L80956AFC
+.word L80956AFC
+.word L80956D88
+.word L80956D88
+.word L80956D88
+.word L80956D68
+glabel D_8095C7A8
+ .word 0x3E19999A
+glabel D_8095C7AC
+ .word 0x3E19999A
+glabel D_8095C7B0
+ .word 0x3E19999A
+glabel D_8095C7B4
+ .word 0x3DCCCCCD
+glabel D_8095C7B8
+ .word 0x3DCCCCCD
+glabel D_8095C7BC
+ .word 0x3DCCCCCD
+glabel jtbl_8095C7C0
+.word L80957DA8
+.word L80957F50
+.word L80957F50
+.word L80957F50
+.word L80957F50
+.word L80957F50
+.word L80957F50
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957F50
+glabel D_8095C814
+ .word 0x3E75C28F
+glabel D_8095C818
+ .word 0x3F428F5C
+glabel D_8095C81C
+ .word 0x3E4CCCCD
+glabel D_8095C820
+ .word 0xBFC90FDB
+glabel D_8095C824
+ .word 0x44048000
+glabel D_8095C828
+ .word 0x44048000
+glabel D_8095C82C
+ .word 0x38C90FDB
+glabel D_8095C830
+ .word 0x38C90FDB
+glabel D_8095C834
+ .word 0x38C90FDB
+glabel D_8095C838
+ .word 0x38C90FDB
+glabel D_8095C83C
+ .word 0x38C90FDB
+glabel jtbl_8095C840
+.word L80959318
+.word L809594D0
+.word L809594D0
+.word L809594D0
+.word L80959510
+.word L80959510
+.word L80959510
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959550
+.word L80959550
+.word L80959550
+.word L8095978C
+glabel D_8095C894
+ .word 0x3BA3D70A
+glabel D_8095C898
+ .word 0x469C4000
+glabel D_8095C89C
+ .word 0x461C4000
+glabel D_8095C8A0
+ .word 0x418F3333
+glabel D_8095C8A4
+ .word 0x469C4000
+glabel D_8095C8A8
+ .word 0x461C4000
+glabel D_8095C8AC
+ .word 0x3AAA64C3
+glabel D_8095C8B0
+ .word 0x458CA000
+glabel D_8095C8B4
+ .word 0x3F99999A
+glabel D_8095C8B8
+ .word 0x458CA000
+glabel D_8095C8BC
+ .word 0x3F99999A
+glabel D_8095C8C0
+ .word 0x40490FF9
+glabel D_8095C8C4
+ .word 0x3C978D50
+glabel D_8095C8C8
+ .word 0x40490FF9
+glabel D_8095C8CC
+ .word 0x3FC90FDB
+glabel D_8095C8D0
+ .word 0x3DEB851F
+glabel D_8095C8D4
+ .word 0x3E051EB8
+glabel D_8095C8D8
+ .word 0x3DCCCCCD
+glabel D_8095C8DC
+ .word 0x3DCCCCCD
+glabel D_8095C8E0
+ .word 0x3E051EB8
+glabel D_8095C8E4
+ .word 0x3DEB851F
+glabel D_8095C8E8
+ .word 0x40490FF9
+glabel D_8095C8EC
+ .word 0x3CA3D70A
+glabel D_8095C8F0
+ .word 0x40490FF9
+glabel D_8095C8F4
+ .word 0x40490FF9
+glabel jtbl_8095C8F8
+.word L8095B15C
+.word L8095B1D0
+.word L8095B1E4
+.word L8095B154
+.word L8095B1C8
+.word L8095B228
+glabel D_8095C910
+ .word 0x418F3333
+glabel D_8095C914
+ .word 0x3C23D70A
+glabel D_8095C918
+ .word 0x3C23D70A
+glabel D_8095C91C
+ .word 0x3E99999A
+glabel D_8095C920
+ .word 0x3C23D70A
+glabel D_8095C924
+ .word 0x3E99999A
+glabel D_8095C928
+ .word 0x3C23D70A
+glabel D_8095C92C
+ .word 0x3C23D70A
+glabel D_8095C930
+ .word 0x3E99999A
+glabel D_8095C934
+ .word 0x3C23D70A
+glabel D_8095C938
+ .word 0x3F666666
+glabel D_8095C93C
+ .word 0x3C23D70A
+glabel D_8095C940
+ .word 0x40490FDB
+glabel D_8095C944
+ .word 0x3DCCCCCD
+glabel D_8095C948
+ .word 0x3C23D70A
+glabel D_8095C94C
+ .word 0x3DCCCCCD
+glabel D_8095C950
+ .word 0x3F490FDB, 0x00000000, 0x00000000, 0x00000000
+

@@ -1,0 +1,200 @@
+.include "macro.inc"
+
+ # assembler directives
+ .set noat      # allow manual use of $at
+ .set noreorder # don't insert nops after branches
+ .set gp=64     # allow use of 64-bit general purposee registers
+
+.bss
+
+glabel D_80B7E070
+ .space 0x04
+glabel D_80B7E074
+ .space 0x01
+glabel D_80B7E075
+ .space 0x01
+glabel D_80B7E076
+ .space 0x01
+glabel D_80B7E077
+ .space 0x01
+glabel D_80B7E078
+ .space 0x04
+glabel D_80B7E07C
+ .space 0x01
+glabel D_80B7E07D
+ .space 0x01
+glabel D_80B7E07E
+ .space 0x02
+glabel D_80B7E080
+ .space 0x02
+glabel D_80B7E082
+ .space 0x02
+glabel D_80B7E084
+ .space 0x02
+glabel D_80B7E086
+ .space 0x02
+glabel D_80B7E088
+ .space 0x08
+glabel D_80B7E090
+ .space 0x0C
+glabel D_80B7E09C
+ .space 0x02
+glabel D_80B7E09E
+ .space 0x02
+glabel D_80B7E0A0
+ .space 0x02
+glabel D_80B7E0A2
+ .space 0x02
+glabel D_80B7E0A4
+ .space 0x02
+glabel D_80B7E0A6
+ .space 0x02
+glabel D_80B7E0A8
+ .space 0x04
+glabel D_80B7E0AC
+ .space 0x02
+glabel D_80B7E0AE
+ .space 0x02
+glabel D_80B7E0B0
+ .space 0x02
+glabel D_80B7E0B2
+ .space 0x02
+glabel D_80B7E0B4
+ .space 0x02
+glabel D_80B7E0B6
+ .space 0x02
+glabel D_80B7E0B8
+ .space 0x04
+glabel D_80B7E0BC
+ .space 0x04
+glabel D_80B7E0C0
+ .space 0x08
+glabel D_80B7E0C8
+ .space 0x10
+glabel D_80B7E0D8
+ .space 0x04
+glabel D_80B7E0DC
+ .space 0x0C
+glabel D_80B7E0E8
+ .space 0x04
+glabel D_80B7E0EC
+ .space 0x0C
+glabel D_80B7E0F8
+ .space 0x0C
+glabel D_80B7E104
+ .space 0x04
+glabel D_80B7E108
+ .space 0x04
+glabel D_80B7E10C
+ .space 0x04
+glabel D_80B7E110
+ .space 0x04
+glabel D_80B7E114
+ .space 0x02
+glabel D_80B7E116
+ .space 0x02
+glabel D_80B7E118
+ .space 0x04
+glabel D_80B7E11C
+ .space 0x04
+glabel D_80B7E120
+ .space 0x02
+glabel D_80B7E122
+ .space 0x02
+glabel D_80B7E124
+ .space 0x04
+glabel D_80B7E128
+ .space 0x04
+glabel D_80B7E12C
+ .space 0x08
+glabel D_80B7E134
+ .space 0x04
+glabel D_80B7E138
+ .space 0x04
+glabel D_80B7E13C
+ .space 0x04
+glabel D_80B7E140
+ .space 0x04
+glabel D_80B7E144
+ .space 0x04
+glabel D_80B7E148
+ .space 0x04
+glabel D_80B7E14C
+ .space 0x04
+glabel D_80B7E150
+ .space 0x04
+glabel D_80B7E154
+ .space 0x04
+glabel D_80B7E158
+ .space 0x10
+glabel D_80B7E168
+ .space 0x954
+glabel D_80B7EABC
+ .space 0x04
+glabel D_80B7EAC0
+ .space 0x04
+glabel D_80B7EAC4
+ .space 0x04
+glabel D_80B7EAC8
+ .space 0x960
+glabel D_80B7F428
+ .space 0x960
+glabel D_80B7FD88
+ .space 0x0C
+glabel D_80B7FD94
+ .space 0x0C
+glabel D_80B7FDA0
+ .space 0x08
+glabel D_80B7FDA8
+ .space 0x08
+glabel D_80B7FDB0
+ .space 0xF0
+glabel D_80B7FEA0
+ .space 0x04
+glabel D_80B7FEA4
+ .space 0x04
+glabel D_80B7FEA8
+ .space 0x04
+glabel D_80B7FEAC
+ .space 0x04
+glabel D_80B7FEB0
+ .space 0x08
+glabel D_80B7FEB8
+ .space 0x04
+glabel D_80B7FEBC
+ .space 0x04
+glabel D_80B7FEC0
+ .space 0x04
+glabel D_80B7FEC4
+ .space 0x04
+glabel D_80B7FEC8
+ .space 0x04
+glabel D_80B7FECC
+ .space 0x04
+glabel D_80B7FED0
+ .space 0x08
+glabel D_80B7FED8
+ .space 0x0C
+glabel D_80B7FEE4
+ .space 0x04
+glabel D_80B7FEE8
+ .space 0x04
+glabel D_80B7FEEC
+ .space 0x04
+glabel D_80B7FEF0
+ .space 0x08
+glabel D_80B7FEF8
+ .space 0x20D0
+glabel D_80B81FC8
+ .space 0x10E0
+glabel D_80B830A8
+ .space 0x04
+glabel D_80B830AC
+ .space 0x04
+glabel D_80B830B0
+ .space 0x08
+glabel D_80B830B8
+ .space 0x2080
+glabel D_80B85138
+ .space 0x18
+

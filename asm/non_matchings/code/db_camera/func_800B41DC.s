@@ -1,0 +1,61 @@
+glabel func_800B41DC
+/* B2B37C 800B41DC 27BDFFC8 */  addiu $sp, $sp, -0x38
+/* B2B380 800B41E0 AFBF001C */  sw    $ra, 0x1c($sp)
+/* B2B384 800B41E4 AFB10018 */  sw    $s1, 0x18($sp)
+/* B2B388 800B41E8 AFB00014 */  sw    $s0, 0x14($sp)
+/* B2B38C 800B41EC AFA5003C */  sw    $a1, 0x3c($sp)
+/* B2B390 800B41F0 848E007C */  lh    $t6, 0x7c($a0)
+/* B2B394 800B41F4 24010001 */  li    $at, 1
+/* B2B398 800B41F8 00808025 */  move  $s0, $a0
+/* B2B39C 800B41FC 11C1000F */  beq   $t6, $at, .L800B423C
+/* B2B3A0 800B4200 00C03825 */   move  $a3, $a2
+/* B2B3A4 800B4204 87AF003E */  lh    $t7, 0x3e($sp)
+/* B2B3A8 800B4208 26050010 */  addiu $a1, $s0, 0x10
+/* B2B3AC 800B420C 000FC100 */  sll   $t8, $t7, 4
+/* B2B3B0 800B4210 00981021 */  addu  $v0, $a0, $t8
+/* B2B3B4 800B4214 244400A8 */  addiu $a0, $v0, 0xa8
+/* B2B3B8 800B4218 0C02CFD5 */  jal   func_800B3F54
+/* B2B3BC 800B421C AFA2002C */   sw    $v0, 0x2c($sp)
+/* B2B3C0 800B4220 8FA2002C */  lw    $v0, 0x2c($sp)
+/* B2B3C4 800B4224 26050004 */  addiu $a1, $s0, 4
+/* B2B3C8 800B4228 245108B0 */  addiu $s1, $v0, 0x8b0
+/* B2B3CC 800B422C 0C02CFD5 */  jal   func_800B3F54
+/* B2B3D0 800B4230 26240008 */   addiu $a0, $s1, 8
+/* B2B3D4 800B4234 10000011 */  b     .L800B427C
+/* B2B3D8 800B4238 82290001 */   lb    $t1, 1($s1)
+.L800B423C:
+/* B2B3DC 800B423C 87B9003E */  lh    $t9, 0x3e($sp)
+/* B2B3E0 800B4240 24E40094 */  addiu $a0, $a3, 0x94
+/* B2B3E4 800B4244 AFA40024 */  sw    $a0, 0x24($sp)
+/* B2B3E8 800B4248 00194100 */  sll   $t0, $t9, 4
+/* B2B3EC 800B424C 02081021 */  addu  $v0, $s0, $t0
+/* B2B3F0 800B4250 245108B0 */  addiu $s1, $v0, 0x8b0
+/* B2B3F4 800B4254 26250008 */  addiu $a1, $s1, 8
+/* B2B3F8 800B4258 AFA2002C */  sw    $v0, 0x2c($sp)
+/* B2B3FC 800B425C 0C02D013 */  jal   func_800B404C
+/* B2B400 800B4260 26060004 */   addiu $a2, $s0, 4
+/* B2B404 800B4264 8FA2002C */  lw    $v0, 0x2c($sp)
+/* B2B408 800B4268 8FA40024 */  lw    $a0, 0x24($sp)
+/* B2B40C 800B426C 26060010 */  addiu $a2, $s0, 0x10
+/* B2B410 800B4270 0C02D013 */  jal   func_800B404C
+/* B2B414 800B4274 244500A8 */   addiu $a1, $v0, 0xa8
+/* B2B418 800B4278 82290001 */  lb    $t1, 1($s1)
+.L800B427C:
+/* B2B41C 800B427C 3C013FB4 */  li    $at, 0x3FB40000 # 0.000000
+/* B2B420 800B4280 44814000 */  mtc1  $at, $f8
+/* B2B424 800B4284 A609004C */  sh    $t1, 0x4c($s0)
+/* B2B428 800B4288 860A004C */  lh    $t2, 0x4c($s0)
+/* B2B42C 800B428C 448A2000 */  mtc1  $t2, $f4
+/* B2B430 800B4290 00000000 */  nop   
+/* B2B434 800B4294 468021A0 */  cvt.s.w $f6, $f4
+/* B2B438 800B4298 46083282 */  mul.s $f10, $f6, $f8
+/* B2B43C 800B429C E60A0050 */  swc1  $f10, 0x50($s0)
+/* B2B440 800B42A0 C6300004 */  lwc1  $f16, 4($s1)
+/* B2B444 800B42A4 E6100048 */  swc1  $f16, 0x48($s0)
+/* B2B448 800B42A8 8FBF001C */  lw    $ra, 0x1c($sp)
+/* B2B44C 800B42AC 8FB10018 */  lw    $s1, 0x18($sp)
+/* B2B450 800B42B0 8FB00014 */  lw    $s0, 0x14($sp)
+/* B2B454 800B42B4 87A2003E */  lh    $v0, 0x3e($sp)
+/* B2B458 800B42B8 03E00008 */  jr    $ra
+/* B2B45C 800B42BC 27BD0038 */   addiu $sp, $sp, 0x38
+

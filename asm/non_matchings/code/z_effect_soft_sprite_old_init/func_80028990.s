@@ -1,0 +1,52 @@
+glabel func_80028990
+/* A9FB30 80028990 27BDFF88 */  addiu $sp, $sp, -0x78
+/* A9FB34 80028994 F7B40028 */  sdc1  $f20, 0x28($sp)
+/* A9FB38 80028998 AFB60048 */  sw    $s6, 0x48($sp)
+/* A9FB3C 8002899C AFB50044 */  sw    $s5, 0x44($sp)
+/* A9FB40 800289A0 AFB40040 */  sw    $s4, 0x40($sp)
+/* A9FB44 800289A4 AFB3003C */  sw    $s3, 0x3c($sp)
+/* A9FB48 800289A8 AFB20038 */  sw    $s2, 0x38($sp)
+/* A9FB4C 800289AC AFB10034 */  sw    $s1, 0x34($sp)
+/* A9FB50 800289B0 AFB00030 */  sw    $s0, 0x30($sp)
+/* A9FB54 800289B4 4485A000 */  mtc1  $a1, $f20
+/* A9FB58 800289B8 00C0A025 */  move  $s4, $a2
+/* A9FB5C 800289BC 0080A825 */  move  $s5, $a0
+/* A9FB60 800289C0 AFBF004C */  sw    $ra, 0x4c($sp)
+/* A9FB64 800289C4 00008025 */  move  $s0, $zero
+/* A9FB68 800289C8 27B10068 */  addiu $s1, $sp, 0x68
+/* A9FB6C 800289CC 27B2005C */  addiu $s2, $sp, 0x5c
+/* A9FB70 800289D0 27B30050 */  addiu $s3, $sp, 0x50
+/* A9FB74 800289D4 24160014 */  li    $s6, 20
+/* A9FB78 800289D8 4405A000 */  mfc1  $a1, $f20
+.L800289DC:
+/* A9FB7C 800289DC 02802025 */  move  $a0, $s4
+/* A9FB80 800289E0 02203025 */  move  $a2, $s1
+/* A9FB84 800289E4 02403825 */  move  $a3, $s2
+/* A9FB88 800289E8 0C00A225 */  jal   func_80028894
+/* A9FB8C 800289EC AFB30010 */   sw    $s3, 0x10($sp)
+/* A9FB90 800289F0 240E0064 */  li    $t6, 100
+/* A9FB94 800289F4 240F001E */  li    $t7, 30
+/* A9FB98 800289F8 24180007 */  li    $t8, 7
+/* A9FB9C 800289FC AFB80018 */  sw    $t8, 0x18($sp)
+/* A9FBA0 80028A00 AFAF0014 */  sw    $t7, 0x14($sp)
+/* A9FBA4 80028A04 AFAE0010 */  sw    $t6, 0x10($sp)
+/* A9FBA8 80028A08 02A02025 */  move  $a0, $s5
+/* A9FBAC 80028A0C 02202825 */  move  $a1, $s1
+/* A9FBB0 80028A10 02403025 */  move  $a2, $s2
+/* A9FBB4 80028A14 0C00A1CF */  jal   func_8002873C
+/* A9FBB8 80028A18 02603825 */   move  $a3, $s3
+/* A9FBBC 80028A1C 26100001 */  addiu $s0, $s0, 1
+/* A9FBC0 80028A20 5616FFEE */  bnel  $s0, $s6, .L800289DC
+/* A9FBC4 80028A24 4405A000 */   mfc1  $a1, $f20
+/* A9FBC8 80028A28 8FBF004C */  lw    $ra, 0x4c($sp)
+/* A9FBCC 80028A2C D7B40028 */  ldc1  $f20, 0x28($sp)
+/* A9FBD0 80028A30 8FB00030 */  lw    $s0, 0x30($sp)
+/* A9FBD4 80028A34 8FB10034 */  lw    $s1, 0x34($sp)
+/* A9FBD8 80028A38 8FB20038 */  lw    $s2, 0x38($sp)
+/* A9FBDC 80028A3C 8FB3003C */  lw    $s3, 0x3c($sp)
+/* A9FBE0 80028A40 8FB40040 */  lw    $s4, 0x40($sp)
+/* A9FBE4 80028A44 8FB50044 */  lw    $s5, 0x44($sp)
+/* A9FBE8 80028A48 8FB60048 */  lw    $s6, 0x48($sp)
+/* A9FBEC 80028A4C 03E00008 */  jr    $ra
+/* A9FBF0 80028A50 27BD0078 */   addiu $sp, $sp, 0x78
+

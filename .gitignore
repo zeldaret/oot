@@ -1,0 +1,44 @@
+# Cache files
+__pycache__/
+.pyc
+
+# Text editor remnants
+.vscode/
+.vs/
+.idea/
+CMakeLists.txt
+cmake-build-debug
+venv/
+
+# Project-specific ignores
+build/
+notes/
+baserom/
+*.elf
+*.sra
+*.z64
+*.map
+*.dump
+out.txt
+
+# Tool artifacts
+tools/ido7.1_compiler/*
+tools/overlayhelpers/batchdisasm/output/*
+tools/overlayhelpers/batchdisasm/output2/*
+tools/overlayhelpers/batchdisasm/mipsdisasm/*
+tools/disasm/output/*
+tools/asmsplitter/asm/*
+tools/asmsplitter/c/*
+
+# Assets
+*.rgba32.png
+*.rgb5a1.png
+*.i4.png
+*.i8.png
+*.ia4.png
+*.ia8.png
+*.ci4.png
+*.ci8.png
+
+#Per-user configuration
+.python-version

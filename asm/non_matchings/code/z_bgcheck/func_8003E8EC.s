@@ -1,0 +1,20 @@
+glabel func_8003E8EC
+/* AB5A8C 8003E8EC AFA40000 */  sw    $a0, ($sp)
+/* AB5A90 8003E8F0 8CAE0038 */  lw    $t6, 0x38($a1)
+/* AB5A94 8003E8F4 8CAF0034 */  lw    $t7, 0x34($a1)
+/* AB5A98 8003E8F8 ACAE0018 */  sw    $t6, 0x18($a1)
+/* AB5A9C 8003E8FC ACAF0014 */  sw    $t7, 0x14($a1)
+/* AB5AA0 8003E900 8CAF003C */  lw    $t7, 0x3c($a1)
+/* AB5AA4 8003E904 8CAE0040 */  lw    $t6, 0x40($a1)
+/* AB5AA8 8003E908 ACAF001C */  sw    $t7, 0x1c($a1)
+/* AB5AAC 8003E90C ACAE0020 */  sw    $t6, 0x20($a1)
+/* AB5AB0 8003E910 8CAE0048 */  lw    $t6, 0x48($a1)
+/* AB5AB4 8003E914 8CAF0044 */  lw    $t7, 0x44($a1)
+/* AB5AB8 8003E918 ACAE0028 */  sw    $t6, 0x28($a1)
+/* AB5ABC 8003E91C ACAF0024 */  sw    $t7, 0x24($a1)
+/* AB5AC0 8003E920 8CAF004C */  lw    $t7, 0x4c($a1)
+/* AB5AC4 8003E924 8CAE0050 */  lw    $t6, 0x50($a1)
+/* AB5AC8 8003E928 ACAF002C */  sw    $t7, 0x2c($a1)
+/* AB5ACC 8003E92C 03E00008 */  jr    $ra
+/* AB5AD0 8003E930 ACAE0030 */   sw    $t6, 0x30($a1)
+

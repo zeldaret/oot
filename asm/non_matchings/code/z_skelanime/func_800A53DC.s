@@ -1,0 +1,13 @@
+glabel func_800A53DC
+/* B1C57C 800A53DC 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* B1C580 800A53E0 AFBF0014 */  sw    $ra, 0x14($sp)
+/* B1C584 800A53E4 C4840014 */  lwc1  $f4, 0x14($a0)
+/* B1C588 800A53E8 240E0002 */  li    $t6, 2
+/* B1C58C 800A53EC A08E0001 */  sb    $t6, 1($a0)
+/* B1C590 800A53F0 0C02926C */  jal   func_800A49B0
+/* B1C594 800A53F4 E4840010 */   swc1  $f4, 0x10($a0)
+/* B1C598 800A53F8 8FBF0014 */  lw    $ra, 0x14($sp)
+/* B1C59C 800A53FC 27BD0018 */  addiu $sp, $sp, 0x18
+/* B1C5A0 800A5400 03E00008 */  jr    $ra
+/* B1C5A4 800A5404 00000000 */   nop   
+

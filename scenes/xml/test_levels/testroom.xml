@@ -1,0 +1,20 @@
+<Root>
+    <File Name="testroom_scene">
+        <Scene Name="testroom_scene"/>
+    </File>
+    <File Name="testroom_room_0">
+        <Room Name="testroom_room_0"/>
+    </File>
+    <File Name="testroom_room_1">
+        <Room Name="testroom_room_1"/>
+    </File>
+    <File Name="testroom_room_2">
+        <Room Name="testroom_room_2"/>
+    </File>
+    <File Name="testroom_room_3">
+        <Room Name="testroom_room_3"/>
+    </File>
+    <File Name="testroom_room_4">
+        <Room Name="testroom_room_4"/>
+    </File>
+</Root>

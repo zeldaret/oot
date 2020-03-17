@@ -1,0 +1,8 @@
+<Root>
+    <File Name="sutaru_scene">
+        <Scene Name="sutaru_scene"/>
+    </File>
+    <File Name="sutaru_room_0">
+        <Room Name="sutaru_room_0"/>
+    </File>
+</Root>

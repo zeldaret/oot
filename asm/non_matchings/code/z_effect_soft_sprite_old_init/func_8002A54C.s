@@ -1,0 +1,45 @@
+glabel func_8002A54C
+/* AA16EC 8002A54C 27BDFFD0 */  addiu $sp, $sp, -0x30
+/* AA16F0 8002A550 AFBF0014 */  sw    $ra, 0x14($sp)
+/* AA16F4 8002A554 AFA40030 */  sw    $a0, 0x30($sp)
+/* AA16F8 8002A558 AFA50034 */  sw    $a1, 0x34($sp)
+/* AA16FC 8002A55C AFA7003C */  sw    $a3, 0x3c($sp)
+/* AA1700 8002A560 84CE0000 */  lh    $t6, ($a2)
+/* AA1704 8002A564 87A90046 */  lh    $t1, 0x46($sp)
+/* AA1708 8002A568 87A80042 */  lh    $t0, 0x42($sp)
+/* AA170C 8002A56C 448E2000 */  mtc1  $t6, $f4
+/* AA1710 8002A570 87AB004A */  lh    $t3, 0x4a($sp)
+/* AA1714 8002A574 00073C00 */  sll   $a3, $a3, 0x10
+/* AA1718 8002A578 468021A0 */  cvt.s.w $f6, $f4
+/* AA171C 8002A57C 00073C03 */  sra   $a3, $a3, 0x10
+/* AA1720 8002A580 352A8000 */  ori   $t2, $t1, 0x8000
+/* AA1724 8002A584 00A02025 */  move  $a0, $a1
+/* AA1728 8002A588 E7A6001C */  swc1  $f6, 0x1c($sp)
+/* AA172C 8002A58C 84CF0002 */  lh    $t7, 2($a2)
+/* AA1730 8002A590 448F4000 */  mtc1  $t7, $f8
+/* AA1734 8002A594 00000000 */  nop   
+/* AA1738 8002A598 468042A0 */  cvt.s.w $f10, $f8
+/* AA173C 8002A59C E7AA0020 */  swc1  $f10, 0x20($sp)
+/* AA1740 8002A5A0 84D80004 */  lh    $t8, 4($a2)
+/* AA1744 8002A5A4 AFA50018 */  sw    $a1, 0x18($sp)
+/* AA1748 8002A5A8 A7A70028 */  sh    $a3, 0x28($sp)
+/* AA174C 8002A5AC 44988000 */  mtc1  $t8, $f16
+/* AA1750 8002A5B0 A7AA002C */  sh    $t2, 0x2c($sp)
+/* AA1754 8002A5B4 A7A8002A */  sh    $t0, 0x2a($sp)
+/* AA1758 8002A5B8 468084A0 */  cvt.s.w $f18, $f16
+/* AA175C 8002A5BC A7AB002E */  sh    $t3, 0x2e($sp)
+/* AA1760 8002A5C0 10A00003 */  beqz  $a1, .L8002A5D0
+/* AA1764 8002A5C4 E7B20024 */   swc1  $f18, 0x24($sp)
+/* AA1768 8002A5C8 0C00BE0A */  jal   Audio_PlayActorSound2
+/* AA176C 8002A5CC 24052822 */   li    $a1, 10274
+.L8002A5D0:
+/* AA1770 8002A5D0 8FA40030 */  lw    $a0, 0x30($sp)
+/* AA1774 8002A5D4 2405001D */  li    $a1, 29
+/* AA1778 8002A5D8 24060080 */  li    $a2, 128
+/* AA177C 8002A5DC 0C009DE6 */  jal   func_80027798
+/* AA1780 8002A5E0 27A70018 */   addiu $a3, $sp, 0x18
+/* AA1784 8002A5E4 8FBF0014 */  lw    $ra, 0x14($sp)
+/* AA1788 8002A5E8 27BD0030 */  addiu $sp, $sp, 0x30
+/* AA178C 8002A5EC 03E00008 */  jr    $ra
+/* AA1790 8002A5F0 00000000 */   nop   
+

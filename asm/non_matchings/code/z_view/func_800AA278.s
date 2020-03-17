@@ -1,0 +1,65 @@
+.rdata
+glabel D_80141088
+    .asciz "\nview: initialize ---\n"
+    .balign 4
+
+.text
+glabel func_800AA278
+/* B21418 800AA278 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* B2141C 800AA27C AFBF0014 */  sw    $ra, 0x14($sp)
+/* B21420 800AA280 3C013F80 */  li    $at, 0x3F800000 # 0.000000
+/* B21424 800AA284 44811000 */  mtc1  $at, $f2
+/* B21428 800AA288 3C014270 */  li    $at, 0x42700000 # 0.000000
+/* B2142C 800AA28C 44812000 */  mtc1  $at, $f4
+/* B21430 800AA290 3C014120 */  li    $at, 0x41200000 # 0.000000
+/* B21434 800AA294 44800000 */  mtc1  $zero, $f0
+/* B21438 800AA298 44813000 */  mtc1  $at, $f6
+/* B2143C 800AA29C 3C014648 */  li    $at, 0x46480000 # 0.000000
+/* B21440 800AA2A0 44814000 */  mtc1  $at, $f8
+/* B21444 800AA2A4 3C01BF80 */  li    $at, 0xBF800000 # 0.000000
+/* B21448 800AA2A8 44815000 */  mtc1  $at, $f10
+/* B2144C 800AA2AC 3C185649 */  lui   $t8, (0x56494557 >> 16) # lui $t8, 0x5649
+/* B21450 800AA2B0 3C028013 */  lui   $v0, %hi(D_8012ABF0) # $v0, 0x8013
+/* B21454 800AA2B4 240E00F0 */  li    $t6, 240
+/* B21458 800AA2B8 240F0140 */  li    $t7, 320
+/* B2145C 800AA2BC 37184557 */  ori   $t8, (0x56494557 & 0xFFFF) # ori $t8, $t8, 0x4557
+/* B21460 800AA2C0 2442ABF0 */  addiu $v0, %lo(D_8012ABF0) # addiu $v0, $v0, -0x5410
+/* B21464 800AA2C4 AC850004 */  sw    $a1, 4($a0)
+/* B21468 800AA2C8 AC800008 */  sw    $zero, 8($a0)
+/* B2146C 800AA2CC AC8E000C */  sw    $t6, 0xc($a0)
+/* B21470 800AA2D0 AC800010 */  sw    $zero, 0x10($a0)
+/* B21474 800AA2D4 AC8F0014 */  sw    $t7, 0x14($a0)
+/* B21478 800AA2D8 AC980000 */  sw    $t8, ($a0)
+/* B2147C 800AA2DC E4820024 */  swc1  $f2, 0x24($a0)
+/* B21480 800AA2E0 E4820044 */  swc1  $f2, 0x44($a0)
+/* B21484 800AA2E4 E4840018 */  swc1  $f4, 0x18($a0)
+/* B21488 800AA2E8 E4800028 */  swc1  $f0, 0x28($a0)
+/* B2148C 800AA2EC E480002C */  swc1  $f0, 0x2c($a0)
+/* B21490 800AA2F0 E4800034 */  swc1  $f0, 0x34($a0)
+/* B21494 800AA2F4 E4800040 */  swc1  $f0, 0x40($a0)
+/* B21498 800AA2F8 E4800048 */  swc1  $f0, 0x48($a0)
+/* B2149C 800AA2FC E486001C */  swc1  $f6, 0x1c($a0)
+/* B214A0 800AA300 E4880020 */  swc1  $f8, 0x20($a0)
+/* B214A4 800AA304 E48A0030 */  swc1  $f10, 0x30($a0)
+/* B214A8 800AA308 8C590000 */  lw    $t9, ($v0)
+/* B214AC 800AA30C 00803025 */  move  $a2, $a0
+/* B214B0 800AA310 3C048014 */  lui   $a0, %hi(D_80141088) # $a0, 0x8014
+/* B214B4 800AA314 13200007 */  beqz  $t9, .L800AA334
+/* B214B8 800AA318 24841088 */   addiu $a0, %lo(D_80141088) # addiu $a0, $a0, 0x1088
+/* B214BC 800AA31C 0C00084C */  jal   osSyncPrintf
+/* B214C0 800AA320 AFA60018 */   sw    $a2, 0x18($sp)
+/* B214C4 800AA324 3C028013 */  lui   $v0, %hi(D_8012ABF0) # $v0, 0x8013
+/* B214C8 800AA328 2442ABF0 */  addiu $v0, %lo(D_8012ABF0) # addiu $v0, $v0, -0x5410
+/* B214CC 800AA32C 8FA60018 */  lw    $a2, 0x18($sp)
+/* B214D0 800AA330 AC400000 */  sw    $zero, ($v0)
+.L800AA334:
+/* B214D4 800AA334 24080007 */  li    $t0, 7
+/* B214D8 800AA338 ACC00124 */  sw    $zero, 0x124($a2)
+/* B214DC 800AA33C ACC80120 */  sw    $t0, 0x120($a2)
+/* B214E0 800AA340 0C02A9EE */  jal   func_800AA7B8
+/* B214E4 800AA344 00C02025 */   move  $a0, $a2
+/* B214E8 800AA348 8FBF0014 */  lw    $ra, 0x14($sp)
+/* B214EC 800AA34C 27BD0018 */  addiu $sp, $sp, 0x18
+/* B214F0 800AA350 03E00008 */  jr    $ra
+/* B214F4 800AA354 00000000 */   nop   
+

@@ -1,0 +1,50 @@
+glabel func_8005C608
+/* AD37A8 8005C608 27BDFFB0 */  addiu $sp, $sp, -0x50
+/* AD37AC 8005C60C AFA40050 */  sw    $a0, 0x50($sp)
+/* AD37B0 8005C610 24A40024 */  addiu $a0, $a1, 0x24
+/* AD37B4 8005C614 AFB00028 */  sw    $s0, 0x28($sp)
+/* AD37B8 8005C618 00A4082B */  sltu  $at, $a1, $a0
+/* AD37BC 8005C61C 00A08025 */  move  $s0, $a1
+/* AD37C0 8005C620 AFBF002C */  sw    $ra, 0x2c($sp)
+/* AD37C4 8005C624 AFA60058 */  sw    $a2, 0x58($sp)
+/* AD37C8 8005C628 00A01025 */  move  $v0, $a1
+/* AD37CC 8005C62C 1020000B */  beqz  $at, .L8005C65C
+/* AD37D0 8005C630 00C01825 */   move  $v1, $a2
+.L8005C634:
+/* AD37D4 8005C634 8C6F0000 */  lw    $t7, ($v1)
+/* AD37D8 8005C638 2442000C */  addiu $v0, $v0, 0xc
+/* AD37DC 8005C63C 0044082B */  sltu  $at, $v0, $a0
+/* AD37E0 8005C640 AC4FFFF4 */  sw    $t7, -0xc($v0)
+/* AD37E4 8005C644 8C6E0004 */  lw    $t6, 4($v1)
+/* AD37E8 8005C648 2463000C */  addiu $v1, $v1, 0xc
+/* AD37EC 8005C64C AC4EFFF8 */  sw    $t6, -8($v0)
+/* AD37F0 8005C650 8C6FFFFC */  lw    $t7, -4($v1)
+/* AD37F4 8005C654 1420FFF7 */  bnez  $at, .L8005C634
+/* AD37F8 8005C658 AC4FFFFC */   sw    $t7, -4($v0)
+.L8005C65C:
+/* AD37FC 8005C65C 8FA40058 */  lw    $a0, 0x58($sp)
+/* AD3800 8005C660 27B90040 */  addiu $t9, $sp, 0x40
+/* AD3804 8005C664 27A8003C */  addiu $t0, $sp, 0x3c
+/* AD3808 8005C668 27A90038 */  addiu $t1, $sp, 0x38
+/* AD380C 8005C66C AFA90018 */  sw    $t1, 0x18($sp)
+/* AD3810 8005C670 AFA80014 */  sw    $t0, 0x14($sp)
+/* AD3814 8005C674 AFB90010 */  sw    $t9, 0x10($sp)
+/* AD3818 8005C678 27A70044 */  addiu $a3, $sp, 0x44
+/* AD381C 8005C67C 2485000C */  addiu $a1, $a0, 0xc
+/* AD3820 8005C680 0C03322D */  jal   func_800CC8B4
+/* AD3824 8005C684 24860018 */   addiu $a2, $a0, 0x18
+/* AD3828 8005C688 C7A40044 */  lwc1  $f4, 0x44($sp)
+/* AD382C 8005C68C 24020001 */  li    $v0, 1
+/* AD3830 8005C690 E6040024 */  swc1  $f4, 0x24($s0)
+/* AD3834 8005C694 C7A60040 */  lwc1  $f6, 0x40($sp)
+/* AD3838 8005C698 E6060028 */  swc1  $f6, 0x28($s0)
+/* AD383C 8005C69C C7A8003C */  lwc1  $f8, 0x3c($sp)
+/* AD3840 8005C6A0 E608002C */  swc1  $f8, 0x2c($s0)
+/* AD3844 8005C6A4 C7AA0038 */  lwc1  $f10, 0x38($sp)
+/* AD3848 8005C6A8 E60A0030 */  swc1  $f10, 0x30($s0)
+/* AD384C 8005C6AC 8FBF002C */  lw    $ra, 0x2c($sp)
+/* AD3850 8005C6B0 8FB00028 */  lw    $s0, 0x28($sp)
+/* AD3854 8005C6B4 27BD0050 */  addiu $sp, $sp, 0x50
+/* AD3858 8005C6B8 03E00008 */  jr    $ra
+/* AD385C 8005C6BC 00000000 */   nop   
+

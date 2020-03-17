@@ -1,0 +1,31 @@
+glabel func_800C0CB8
+/* B37E58 800C0CB8 3C0E0001 */  lui   $t6, 1
+/* B37E5C 800C0CBC 01C47021 */  addu  $t6, $t6, $a0
+/* B37E60 800C0CC0 8DCE1CC4 */  lw    $t6, 0x1cc4($t6)
+/* B37E64 800C0CC4 3C0F8016 */  lui   $t7, %hi(gGameInfo) # $t7, 0x8016
+/* B37E68 800C0CC8 91C20000 */  lbu   $v0, ($t6)
+/* B37E6C 800C0CCC 38420001 */  xori  $v0, $v0, 1
+/* B37E70 800C0CD0 0002102B */  sltu  $v0, $zero, $v0
+/* B37E74 800C0CD4 10400012 */  beqz  $v0, .L800C0D20
+/* B37E78 800C0CD8 00000000 */   nop   
+/* B37E7C 800C0CDC 8DEFFA90 */  lw    $t7, %lo(gGameInfo)($t7)
+/* B37E80 800C0CE0 85E304B2 */  lh    $v1, 0x4b2($t7)
+/* B37E84 800C0CE4 38620020 */  xori  $v0, $v1, 0x20
+/* B37E88 800C0CE8 0002102B */  sltu  $v0, $zero, $v0
+/* B37E8C 800C0CEC 1040000C */  beqz  $v0, .L800C0D20
+/* B37E90 800C0CF0 00000000 */   nop   
+/* B37E94 800C0CF4 38620030 */  xori  $v0, $v1, 0x30
+/* B37E98 800C0CF8 0002102B */  sltu  $v0, $zero, $v0
+/* B37E9C 800C0CFC 10400008 */  beqz  $v0, .L800C0D20
+/* B37EA0 800C0D00 00000000 */   nop   
+/* B37EA4 800C0D04 38620040 */  xori  $v0, $v1, 0x40
+/* B37EA8 800C0D08 0002102B */  sltu  $v0, $zero, $v0
+/* B37EAC 800C0D0C 10400004 */  beqz  $v0, .L800C0D20
+/* B37EB0 800C0D10 00000000 */   nop   
+/* B37EB4 800C0D14 848200A4 */  lh    $v0, 0xa4($a0)
+/* B37EB8 800C0D18 38420045 */  xori  $v0, $v0, 0x45
+/* B37EBC 800C0D1C 0002102B */  sltu  $v0, $zero, $v0
+.L800C0D20:
+/* B37EC0 800C0D20 03E00008 */  jr    $ra
+/* B37EC4 800C0D24 00000000 */   nop   
+

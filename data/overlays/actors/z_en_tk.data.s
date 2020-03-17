@@ -1,0 +1,42 @@
+.include "macro.inc"
+
+ # assembler directives
+ .set noat      # allow manual use of $at
+ .set noreorder # don't insert nops after branches
+ .set gp=64     # allow use of 64-bit general purposee registers
+
+.section .data
+
+glabel En_Tk_InitVars
+ .word 0x00850400, 0x00000009, 0x00890000, 0x00000770
+.word EnTk_Init
+.word EnTk_Destroy
+.word EnTk_Update
+.word EnTk_Draw
+glabel D_80B1D4D0
+ .word 0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0, 0x040525B0, 0x040521B0, 0x04051DB0
+glabel D_80B1D4F0
+ .word 0x00000000, 0x00000000, 0x00000000
+glabel D_80B1D4FC
+ .word 0x00000000, 0x3E99999A, 0x00000000
+glabel D_80B1D508
+ .word 0x0A000039, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000100, 0x001E0034, 0x00000000, 0x00000000
+glabel D_80B1D534
+ .word 0x00000000, 0x00000000, 0xFF000000
+glabel D_80B1D540
+ .word 0x42100000, 0x41200000
+glabel D_80B1D548
+ .word 0x00000000, 0x00000000, 0x00000000
+glabel D_80B1D554
+ .word 0x00000000, 0x00000000, 0x00000000
+glabel D_80B1D560
+ .word 0x00000000, 0x3E99999A, 0x00000000
+glabel D_80B1D56C
+ .word 0x00000000, 0x00000001, 0x00000002, 0x00000014, 0x00000006
+glabel D_80B1D580
+ .word 0x00000000, 0x00000000, 0x458FC000
+glabel D_80B1D58C
+ .word 0x00000000, 0x00000000, 0x00000000
+glabel D_80B1D598
+ .word 0x06003B40, 0x06004340, 0x06004B40, 0x00000000, 0x00000000, 0x00000000
+

@@ -1,0 +1,11 @@
+<Root>
+    <File Name="kinsuta_scene">
+        <Scene Name="kinsuta_scene"/>
+    </File>
+    <File Name="kinsuta_room_0">
+        <Room Name="kinsuta_room_0">
+            <DListHint Address="0x30B0" Comment="This display list appears to be unused..."/>
+            <DListHint Address="0xB088" Comment="This display list appears to be unused..."/>
+        </Room>
+    </File>
+</Root>

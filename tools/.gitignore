@@ -1,0 +1,6 @@
+# Output files
+*.exe
+yaz0
+makeromfs
+elf2rom
+mkldscript

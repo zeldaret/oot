@@ -1,0 +1,51 @@
+glabel func_8002A3C4
+/* AA1564 8002A3C4 27BDFFC8 */  addiu $sp, $sp, -0x38
+/* AA1568 8002A3C8 3C01437F */  li    $at, 0x437F0000 # 0.000000
+/* AA156C 8002A3CC C7AC004C */  lwc1  $f12, 0x4c($sp)
+/* AA1570 8002A3D0 44812000 */  mtc1  $at, $f4
+/* AA1574 8002A3D4 3C018011 */  lui   $at, %hi(D_801159A6) # 0.000000
+/* AA1578 8002A3D8 A02059A6 */  sb    $zero, %lo(D_801159A6)($at)
+/* AA157C 8002A3DC 460C2182 */  mul.s $f6, $f4, $f12
+/* AA1580 8002A3E0 44877000 */  mtc1  $a3, $f14
+/* AA1584 8002A3E4 3C198011 */  lui   $t9, %hi(D_801159A4) # $t9, 0x8011
+/* AA1588 8002A3E8 3C088011 */  lui   $t0, %hi(D_801159A8) # $t0, 0x8011
+/* AA158C 8002A3EC 44077000 */  mfc1  $a3, $f14
+/* AA1590 8002A3F0 AFBF0034 */  sw    $ra, 0x34($sp)
+/* AA1594 8002A3F4 250859A8 */  addiu $t0, %lo(D_801159A8) # addiu $t0, $t0, 0x59a8
+/* AA1598 8002A3F8 4600320D */  trunc.w.s $f8, $f6
+/* AA159C 8002A3FC 273959A4 */  addiu $t9, %lo(D_801159A4) # addiu $t9, $t9, 0x59a4
+/* AA15A0 8002A400 24AF005C */  addiu $t7, $a1, 0x5c
+/* AA15A4 8002A404 2418000F */  li    $t8, 15
+/* AA15A8 8002A408 44024000 */  mfc1  $v0, $f8
+/* AA15AC 8002A40C 240A0001 */  li    $t2, 1
+/* AA15B0 8002A410 A02259A5 */  sb    $v0, 0x59a5($at)
+/* AA15B4 8002A414 3C018011 */  lui   $at, %hi(D_801159A8) # $at, 0x8011
+/* AA15B8 8002A418 A02059A9 */  sb    $zero, %lo(D_801159A9)($at)
+/* AA15BC 8002A41C A02059AA */  sb    $zero, %lo(D_801159AA)($at)
+/* AA15C0 8002A420 A02259A8 */  sb    $v0, %lo(D_801159A8)($at)
+/* AA15C4 8002A424 3C018011 */  lui   $at, %hi(D_801159A4) # $at, 0x8011
+/* AA15C8 8002A428 A02259A4 */  sb    $v0, %lo(D_801159A4)($at)
+/* AA15CC 8002A42C 3C013F80 */  li    $at, 0x3F800000 # 0.000000
+/* AA15D0 8002A430 44815000 */  mtc1  $at, $f10
+/* AA15D4 8002A434 24020001 */  li    $v0, 1
+/* AA15D8 8002A438 460A6032 */  c.eq.s $f12, $f10
+/* AA15DC 8002A43C 00000000 */  nop   
+/* AA15E0 8002A440 45000003 */  bc1f  .L8002A450
+/* AA15E4 8002A444 00000000 */   nop   
+/* AA15E8 8002A448 10000001 */  b     .L8002A450
+/* AA15EC 8002A44C 00001025 */   move  $v0, $zero
+.L8002A450:
+/* AA15F0 8002A450 87A9004A */  lh    $t1, 0x4a($sp)
+/* AA15F4 8002A454 AFAF0010 */  sw    $t7, 0x10($sp)
+/* AA15F8 8002A458 AFB80014 */  sw    $t8, 0x14($sp)
+/* AA15FC 8002A45C AFB90018 */  sw    $t9, 0x18($sp)
+/* AA1600 8002A460 AFA8001C */  sw    $t0, 0x1c($sp)
+/* AA1604 8002A464 AFA20020 */  sw    $v0, 0x20($sp)
+/* AA1608 8002A468 AFAA0028 */  sw    $t2, 0x28($sp)
+/* AA160C 8002A46C 0C00A8CB */  jal   func_8002A32C
+/* AA1610 8002A470 AFA90024 */   sw    $t1, 0x24($sp)
+/* AA1614 8002A474 8FBF0034 */  lw    $ra, 0x34($sp)
+/* AA1618 8002A478 27BD0038 */  addiu $sp, $sp, 0x38
+/* AA161C 8002A47C 03E00008 */  jr    $ra
+/* AA1620 8002A480 00000000 */   nop   
+

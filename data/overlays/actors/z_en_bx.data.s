@@ -1,0 +1,40 @@
+.include "macro.inc"
+
+ # assembler directives
+ .set noat      # allow manual use of $at
+ .set noreorder # don't insert nops after branches
+ .set gp=64     # allow use of 64-bit general purposee registers
+
+.section .data
+
+glabel En_Bx_InitVars
+ .word 0x00DF0500, 0x00000010, 0x00D50000, 0x00000298
+.word EnBx_Init
+.word EnBx_Destroy
+.word EnBx_Update
+.word EnBx_Draw
+glabel D_809D2490
+ .word 0x06110900, 0x00010000, 0x01000000, 0xFFCFFFFF, 0x03040000, 0xFFCFFFFF, 0x01000000, 0x01010000, 0x003C0064, 0x00640000, 0x00000000
+glabel D_809D24BC
+ .word 0x0A110000, 0x00030000, 0x00000000, 0xFFCFFFFF, 0x03040000, 0x00000000, 0x00000000, 0x01000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000
+glabel D_809D250C
+ .word 0x3C75C28F, 0x3C75C28F, 0x3C75C28F
+glabel D_809D2518
+ .word 0x00000000, 0x00000000, 0x00000000
+glabel D_809D2524
+ .word 0x304C14B4
+glabel D_809D2528
+ .word 0x45FA0000, 0x466A6000, 0x451C4000
+glabel D_809D2534
+ .word 0x45FA0000, 0x461C4000, 0x451C4000
+glabel D_809D2540
+ .word 0xC5FA0000, 0x466A6000, 0x451C4000
+glabel D_809D254C
+ .word 0xC5FA0000, 0x461C4000, 0x451C4000
+glabel D_809D2558
+ .word 0xFFFFFFFF
+glabel D_809D255C
+ .word 0xC8FFFFFF
+glabel D_809D2560
+ .word 0x060024F0, 0x060027F0, 0x060029F0, 0x00000000
+

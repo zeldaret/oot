@@ -1,0 +1,36 @@
+.include "macro.inc"
+
+ # assembler directives
+ .set noat      # allow manual use of $at
+ .set noreorder # don't insert nops after branches
+ .set gp=64     # allow use of 64-bit general purposee registers
+
+.section .data
+
+glabel D_80888D70
+ .word 0xC1A00000, 0xC2F00000, 0xC35C0000, 0xC3A00000, 0xC3D20000
+glabel D_80888D84
+ .word 0x00000000, 0x00000000, 0x00000000, 0x40000040, 0x00000000, 0x00010000, 0xC1A00000, 0x40400000, 0xC1A00000, 0xC1A00000, 0x40400000, 0x41A00000, 0x41A00000, 0x40400000, 0x41A00000, 0x00000000, 0x00000000, 0x00000000, 0x40000040, 0x00000000, 0x00010000, 0x41A00000, 0x40400000, 0x41A00000, 0x41A00000, 0x40400000, 0xC1A00000, 0xC1A00000, 0x40400000, 0xC1A00000
+glabel D_80888DFC
+ .word 0x0A000900, 0x00020000, 0x00000002
+glabel D_80888E08
+ .word D_80888D84
+glabel Bg_Hidan_Hamstep_InitVars
+ .word 0x00710100, 0x00000000, 0x002C0000, 0x00000248
+.word BgHidanHamstep_Init
+.word BgHidanHamstep_Destroy
+.word BgHidanHamstep_Update
+.word BgHidanHamstep_Draw
+glabel D_80888E2C
+ .word func_808887C4
+.word func_80888860
+.word func_808889B8
+.word func_80888A58
+.word func_80888C38
+glabel D_80888E40
+ .word 0x48500064
+glabel D_80888E44
+ .word 0xC2C80000, 0x42200000, 0x42C80000, 0x42200000, 0xC2C80000, 0x00000000, 0x42C80000, 0x00000000, 0xC2C80000, 0xC2200000, 0x42C80000, 0x42200000, 0xC2C80000, 0xC2A00000, 0xC2480000, 0xC2A00000, 0x00000000, 0xC2A00000, 0x42480000, 0xC2A00000, 0x42C80000, 0xC2A00000
+glabel D_80888E9C
+ .word 0x00000000
+

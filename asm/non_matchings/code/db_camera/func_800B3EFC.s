@@ -1,0 +1,17 @@
+glabel func_800B3EFC
+/* B2B09C 800B3EFC C4840000 */  lwc1  $f4, ($a0)
+/* B2B0A0 800B3F00 4600218D */  trunc.w.s $f6, $f4
+/* B2B0A4 800B3F04 440F3000 */  mfc1  $t7, $f6
+/* B2B0A8 800B3F08 00000000 */  nop   
+/* B2B0AC 800B3F0C A4AF0000 */  sh    $t7, ($a1)
+/* B2B0B0 800B3F10 C4880004 */  lwc1  $f8, 4($a0)
+/* B2B0B4 800B3F14 4600428D */  trunc.w.s $f10, $f8
+/* B2B0B8 800B3F18 44195000 */  mfc1  $t9, $f10
+/* B2B0BC 800B3F1C 00000000 */  nop   
+/* B2B0C0 800B3F20 A4B90002 */  sh    $t9, 2($a1)
+/* B2B0C4 800B3F24 C4900008 */  lwc1  $f16, 8($a0)
+/* B2B0C8 800B3F28 4600848D */  trunc.w.s $f18, $f16
+/* B2B0CC 800B3F2C 44099000 */  mfc1  $t1, $f18
+/* B2B0D0 800B3F30 03E00008 */  jr    $ra
+/* B2B0D4 800B3F34 A4A90004 */   sh    $t1, 4($a1)
+

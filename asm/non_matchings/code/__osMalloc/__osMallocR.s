@@ -1,0 +1,95 @@
+glabel __osMallocR
+/* B75624 800FE484 27BDFFB8 */  addiu $sp, $sp, -0x48
+/* B75628 800FE488 AFB1001C */  sw    $s1, 0x1c($sp)
+/* B7562C 800FE48C AFBF0024 */  sw    $ra, 0x24($sp)
+/* B75630 800FE490 AFB20020 */  sw    $s2, 0x20($sp)
+/* B75634 800FE494 24B1000F */  addiu $s1, $a1, 0xf
+/* B75638 800FE498 2401FFF0 */  li    $at, -16
+/* B7563C 800FE49C 00809025 */  move  $s2, $a0
+/* B75640 800FE4A0 AFB00018 */  sw    $s0, 0x18($sp)
+/* B75644 800FE4A4 AFA00034 */  sw    $zero, 0x34($sp)
+/* B75648 800FE4A8 0C03F70F */  jal   ArenaImpl_Lock
+/* B7564C 800FE4AC 02218824 */   and   $s1, $s1, $at
+/* B75650 800FE4B0 0C03F74F */  jal   ArenaImpl_GetLastBlock
+/* B75654 800FE4B4 02402025 */   move  $a0, $s2
+/* B75658 800FE4B8 10400041 */  beqz  $v0, .L800FE5C0
+/* B7565C 800FE4BC 00408025 */   move  $s0, $v0
+.L800FE4C0:
+/* B75660 800FE4C0 844E0002 */  lh    $t6, 2($v0)
+/* B75664 800FE4C4 11C0003A */  beqz  $t6, .L800FE5B0
+/* B75668 800FE4C8 00000000 */   nop   
+/* B7566C 800FE4CC 8C4F0004 */  lw    $t7, 4($v0)
+/* B75670 800FE4D0 01F1082B */  sltu  $at, $t7, $s1
+/* B75674 800FE4D4 14200036 */  bnez  $at, .L800FE5B0
+/* B75678 800FE4D8 00000000 */   nop   
+/* B7567C 800FE4DC 92580022 */  lbu   $t8, 0x22($s2)
+/* B75680 800FE4E0 02402025 */  move  $a0, $s2
+/* B75684 800FE4E4 33190004 */  andi  $t9, $t8, 4
+/* B75688 800FE4E8 53200004 */  beql  $t9, $zero, .L800FE4FC
+/* B7568C 800FE4EC 8E020004 */   lw    $v0, 4($s0)
+/* B75690 800FE4F0 0C03F7D5 */  jal   __osMalloc_FreeBlockTest
+/* B75694 800FE4F4 02002825 */   move  $a1, $s0
+/* B75698 800FE4F8 8E020004 */  lw    $v0, 4($s0)
+.L800FE4FC:
+/* B7569C 800FE4FC 2623000F */  addiu $v1, $s1, 0xf
+/* B756A0 800FE500 2401FFF0 */  li    $at, -16
+/* B756A4 800FE504 00611824 */  and   $v1, $v1, $at
+/* B756A8 800FE508 24630030 */  addiu $v1, $v1, 0x30
+/* B756AC 800FE50C 0062082B */  sltu  $at, $v1, $v0
+/* B756B0 800FE510 10200016 */  beqz  $at, .L800FE56C
+/* B756B4 800FE514 02024021 */   addu  $t0, $s0, $v0
+/* B756B8 800FE518 01112823 */  subu  $a1, $t0, $s1
+/* B756BC 800FE51C AFA50040 */  sw    $a1, 0x40($sp)
+/* B756C0 800FE520 02002025 */  move  $a0, $s0
+/* B756C4 800FE524 0C03F723 */  jal   ArenaImpl_GetNextBlock
+/* B756C8 800FE528 AFA3002C */   sw    $v1, 0x2c($sp)
+/* B756CC 800FE52C 8FA40040 */  lw    $a0, 0x40($sp)
+/* B756D0 800FE530 8FA3002C */  lw    $v1, 0x2c($sp)
+/* B756D4 800FE534 24097373 */  li    $t1, 29555
+/* B756D8 800FE538 AC820008 */  sw    $v0, 8($a0)
+/* B756DC 800FE53C AC90000C */  sw    $s0, 0xc($a0)
+/* B756E0 800FE540 AC910004 */  sw    $s1, 4($a0)
+/* B756E4 800FE544 A4890000 */  sh    $t1, ($a0)
+/* B756E8 800FE548 8E0A0004 */  lw    $t2, 4($s0)
+/* B756EC 800FE54C AE040008 */  sw    $a0, 8($s0)
+/* B756F0 800FE550 01435823 */  subu  $t3, $t2, $v1
+/* B756F4 800FE554 0C03F723 */  jal   ArenaImpl_GetNextBlock
+/* B756F8 800FE558 AE0B0004 */   sw    $t3, 4($s0)
+/* B756FC 800FE55C 10400002 */  beqz  $v0, .L800FE568
+/* B75700 800FE560 8FA50040 */   lw    $a1, 0x40($sp)
+/* B75704 800FE564 AC45000C */  sw    $a1, 0xc($v0)
+.L800FE568:
+/* B75708 800FE568 00A08025 */  move  $s0, $a1
+.L800FE56C:
+/* B7570C 800FE56C A6000002 */  sh    $zero, 2($s0)
+/* B75710 800FE570 02002025 */  move  $a0, $s0
+/* B75714 800FE574 00002825 */  move  $a1, $zero
+/* B75718 800FE578 00003025 */  move  $a2, $zero
+/* B7571C 800FE57C 0C03F6F0 */  jal   ArenaImpl_SetDebugInfo
+/* B75720 800FE580 02403825 */   move  $a3, $s2
+/* B75724 800FE584 26040030 */  addiu $a0, $s0, 0x30
+/* B75728 800FE588 AFA40034 */  sw    $a0, 0x34($sp)
+/* B7572C 800FE58C 924C0022 */  lbu   $t4, 0x22($s2)
+/* B75730 800FE590 240500CD */  li    $a1, 205
+/* B75734 800FE594 318D0001 */  andi  $t5, $t4, 1
+/* B75738 800FE598 11A00009 */  beqz  $t5, .L800FE5C0
+/* B7573C 800FE59C 00000000 */   nop   
+/* B75740 800FE5A0 0C041A18 */  jal   func_80106860
+/* B75744 800FE5A4 02203025 */   move  $a2, $s1
+/* B75748 800FE5A8 10000005 */  b     .L800FE5C0
+/* B7574C 800FE5AC 00000000 */   nop   
+.L800FE5B0:
+/* B75750 800FE5B0 0C03F739 */  jal   ArenaImpl_GetPrevBlock
+/* B75754 800FE5B4 02002025 */   move  $a0, $s0
+/* B75758 800FE5B8 1440FFC1 */  bnez  $v0, .L800FE4C0
+/* B7575C 800FE5BC 00408025 */   move  $s0, $v0
+.L800FE5C0:
+/* B75760 800FE5C0 0C03F719 */  jal   ArenaImpl_Unlock
+/* B75764 800FE5C4 02402025 */   move  $a0, $s2
+/* B75768 800FE5C8 8FBF0024 */  lw    $ra, 0x24($sp)
+/* B7576C 800FE5CC 8FA20034 */  lw    $v0, 0x34($sp)
+/* B75770 800FE5D0 8FB00018 */  lw    $s0, 0x18($sp)
+/* B75774 800FE5D4 8FB1001C */  lw    $s1, 0x1c($sp)
+/* B75778 800FE5D8 8FB20020 */  lw    $s2, 0x20($sp)
+/* B7577C 800FE5DC 03E00008 */  jr    $ra
+/* B75780 800FE5E0 27BD0048 */   addiu $sp, $sp, 0x48

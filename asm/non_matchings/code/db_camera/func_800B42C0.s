@@ -1,0 +1,48 @@
+glabel func_800B42C0
+/* B2B460 800B42C0 27BDFFD0 */  addiu $sp, $sp, -0x30
+/* B2B464 800B42C4 AFBF001C */  sw    $ra, 0x1c($sp)
+/* B2B468 800B42C8 AFB00018 */  sw    $s0, 0x18($sp)
+/* B2B46C 800B42CC AFA50034 */  sw    $a1, 0x34($sp)
+/* B2B470 800B42D0 848E0082 */  lh    $t6, 0x82($a0)
+/* B2B474 800B42D4 00808025 */  move  $s0, $a0
+/* B2B478 800B42D8 24010001 */  li    $at, 1
+/* B2B47C 800B42DC 000E7900 */  sll   $t7, $t6, 4
+/* B2B480 800B42E0 008F1021 */  addu  $v0, $a0, $t7
+/* B2B484 800B42E4 244308B0 */  addiu $v1, $v0, 0x8b0
+/* B2B488 800B42E8 A0600000 */  sb    $zero, ($v1)
+/* B2B48C 800B42EC 80780000 */  lb    $t8, ($v1)
+/* B2B490 800B42F0 244700A0 */  addiu $a3, $v0, 0xa0
+/* B2B494 800B42F4 24840010 */  addiu $a0, $a0, 0x10
+/* B2B498 800B42F8 A0F80000 */  sb    $t8, ($a3)
+/* B2B49C 800B42FC 8499006C */  lh    $t9, 0x6c($a0)
+/* B2B4A0 800B4300 26050004 */  addiu $a1, $s0, 4
+/* B2B4A4 800B4304 5321000B */  beql  $t9, $at, .L800B4334
+/* B2B4A8 800B4308 8FA40034 */   lw    $a0, 0x34($sp)
+/* B2B4AC 800B430C 24E50008 */  addiu $a1, $a3, 8
+/* B2B4B0 800B4310 0C02CFBF */  jal   func_800B3EFC
+/* B2B4B4 800B4314 AFA30028 */   sw    $v1, 0x28($sp)
+/* B2B4B8 800B4318 8FA30028 */  lw    $v1, 0x28($sp)
+/* B2B4BC 800B431C 26040004 */  addiu $a0, $s0, 4
+/* B2B4C0 800B4320 0C02CFBF */  jal   func_800B3EFC
+/* B2B4C4 800B4324 24650008 */   addiu $a1, $v1, 8
+/* B2B4C8 800B4328 1000000D */  b     .L800B4360
+/* B2B4CC 800B432C 8FBF001C */   lw    $ra, 0x1c($sp)
+/* B2B4D0 800B4330 8FA40034 */  lw    $a0, 0x34($sp)
+.L800B4334:
+/* B2B4D4 800B4334 24660008 */  addiu $a2, $v1, 8
+/* B2B4D8 800B4338 AFA7002C */  sw    $a3, 0x2c($sp)
+/* B2B4DC 800B433C 24840094 */  addiu $a0, $a0, 0x94
+/* B2B4E0 800B4340 0C02CFE5 */  jal   func_800B3F94
+/* B2B4E4 800B4344 AFA40024 */   sw    $a0, 0x24($sp)
+/* B2B4E8 800B4348 8FA7002C */  lw    $a3, 0x2c($sp)
+/* B2B4EC 800B434C 8FA40024 */  lw    $a0, 0x24($sp)
+/* B2B4F0 800B4350 26050010 */  addiu $a1, $s0, 0x10
+/* B2B4F4 800B4354 0C02CFE5 */  jal   func_800B3F94
+/* B2B4F8 800B4358 24E60008 */   addiu $a2, $a3, 8
+/* B2B4FC 800B435C 8FBF001C */  lw    $ra, 0x1c($sp)
+.L800B4360:
+/* B2B500 800B4360 86020082 */  lh    $v0, 0x82($s0)
+/* B2B504 800B4364 8FB00018 */  lw    $s0, 0x18($sp)
+/* B2B508 800B4368 03E00008 */  jr    $ra
+/* B2B50C 800B436C 27BD0030 */   addiu $sp, $sp, 0x30
+

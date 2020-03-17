@@ -1,0 +1,11 @@
+glabel func_8005C798
+/* AD3938 8005C798 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* AD393C 8005C79C AFBF0014 */  sw    $ra, 0x14($sp)
+/* AD3940 8005C7A0 0C016E7A */  jal   func_8005B9E8
+/* AD3944 8005C7A4 00000000 */   nop   
+/* AD3948 8005C7A8 8FBF0014 */  lw    $ra, 0x14($sp)
+/* AD394C 8005C7AC 27BD0018 */  addiu $sp, $sp, 0x18
+/* AD3950 8005C7B0 24020001 */  li    $v0, 1
+/* AD3954 8005C7B4 03E00008 */  jr    $ra
+/* AD3958 8005C7B8 00000000 */   nop   
+

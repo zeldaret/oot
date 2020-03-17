@@ -1,0 +1,32 @@
+glabel func_8006C2B0
+/* AE3450 8006C2B0 3C0E8016 */  lui   $t6, %hi(gSaveContext+4) # $t6, 0x8016
+/* AE3454 8006C2B4 8DCEE664 */  lw    $t6, %lo(gSaveContext+4)($t6)
+/* AE3458 8006C2B8 27BDFFE0 */  addiu $sp, $sp, -0x20
+/* AE345C 8006C2BC AFBF001C */  sw    $ra, 0x1c($sp)
+/* AE3460 8006C2C0 11C0000D */  beqz  $t6, .L8006C2F8
+/* AE3464 8006C2C4 8C851C44 */   lw    $a1, 0x1c44($a0)
+/* AE3468 8006C2C8 3C014448 */  li    $at, 0x44480000 # 0.000000
+/* AE346C 8006C2CC 44812000 */  mtc1  $at, $f4
+/* AE3470 8006C2D0 24060146 */  li    $a2, 326
+/* AE3474 8006C2D4 24070004 */  li    $a3, 4
+/* AE3478 8006C2D8 0C00D4FD */  jal   Actor_FindNearby
+/* AE347C 8006C2DC E7A40010 */   swc1  $f4, 0x10($sp)
+/* AE3480 8006C2E0 14400003 */  bnez  $v0, .L8006C2F0
+/* AE3484 8006C2E4 3C048012 */   lui   $a0, %hi(D_8011F3A0) # $a0, 0x8012
+/* AE3488 8006C2E8 10000005 */  b     .L8006C300
+/* AE348C 8006C2EC 2484F3A0 */   addiu $a0, %lo(D_8011F3A0) # addiu $a0, $a0, -0xc60
+.L8006C2F0:
+/* AE3490 8006C2F0 10000005 */  b     .L8006C308
+/* AE3494 8006C2F4 24020160 */   li    $v0, 352
+.L8006C2F8:
+/* AE3498 8006C2F8 3C048012 */  lui   $a0, %hi(D_8011F3D4) # $a0, 0x8012
+/* AE349C 8006C2FC 2484F3D4 */  addiu $a0, %lo(D_8011F3D4) # addiu $a0, $a0, -0xc2c
+.L8006C300:
+/* AE34A0 8006C300 0C01B03F */  jal   func_8006C0FC
+/* AE34A4 8006C304 00000000 */   nop   
+.L8006C308:
+/* AE34A8 8006C308 8FBF001C */  lw    $ra, 0x1c($sp)
+/* AE34AC 8006C30C 27BD0020 */  addiu $sp, $sp, 0x20
+/* AE34B0 8006C310 03E00008 */  jr    $ra
+/* AE34B4 8006C314 00000000 */   nop   
+

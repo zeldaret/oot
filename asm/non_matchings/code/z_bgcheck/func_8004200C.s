@@ -1,0 +1,19 @@
+glabel func_8004200C
+/* AB91AC 8004200C 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* AB91B0 80042010 AFBF0014 */  sw    $ra, 0x14($sp)
+/* AB91B4 80042014 AFA5001C */  sw    $a1, 0x1c($sp)
+/* AB91B8 80042018 0C00F131 */  jal   T_BGCheck_getBGDataInfo
+/* AB91BC 8004201C 00C02825 */   move  $a1, $a2
+/* AB91C0 80042020 14400003 */  bnez  $v0, .L80042030
+/* AB91C4 80042024 8FBF0014 */   lw    $ra, 0x14($sp)
+/* AB91C8 80042028 10000005 */  b     .L80042040
+/* AB91CC 8004202C 24020001 */   li    $v0, 1
+.L80042030:
+/* AB91D0 80042030 8FAE001C */  lw    $t6, 0x1c($sp)
+/* AB91D4 80042034 95C30002 */  lhu   $v1, 2($t6)
+/* AB91D8 80042038 30634000 */  andi  $v1, $v1, 0x4000
+/* AB91DC 8004203C 0003102B */  sltu  $v0, $zero, $v1
+.L80042040:
+/* AB91E0 80042040 03E00008 */  jr    $ra
+/* AB91E4 80042044 27BD0018 */   addiu $sp, $sp, 0x18
+

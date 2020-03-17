@@ -1,0 +1,28 @@
+glabel func_80027DD4
+/* A9EF74 80027DD4 AFA40000 */  sw    $a0, ($sp)
+/* A9EF78 80027DD8 AFA50004 */  sw    $a1, 4($sp)
+/* A9EF7C 80027DDC 00052C00 */  sll   $a1, $a1, 0x10
+/* A9EF80 80027DE0 00042400 */  sll   $a0, $a0, 0x10
+/* A9EF84 80027DE4 00042403 */  sra   $a0, $a0, 0x10
+/* A9EF88 80027DE8 14C00004 */  bnez  $a2, .L80027DFC
+/* A9EF8C 80027DEC 00052C03 */   sra   $a1, $a1, 0x10
+/* A9EF90 80027DF0 00051C00 */  sll   $v1, $a1, 0x10
+/* A9EF94 80027DF4 03E00008 */  jr    $ra
+/* A9EF98 80027DF8 00031403 */   sra   $v0, $v1, 0x10
+
+.L80027DFC:
+/* A9EF9C 80027DFC 00A47023 */  subu  $t6, $a1, $a0
+/* A9EFA0 80027E00 448E2000 */  mtc1  $t6, $f4
+/* A9EFA4 80027E04 44864000 */  mtc1  $a2, $f8
+/* A9EFA8 80027E08 468021A0 */  cvt.s.w $f6, $f4
+/* A9EFAC 80027E0C 468042A0 */  cvt.s.w $f10, $f8
+/* A9EFB0 80027E10 460A3403 */  div.s $f16, $f6, $f10
+/* A9EFB4 80027E14 4600848D */  trunc.w.s $f18, $f16
+/* A9EFB8 80027E18 44189000 */  mfc1  $t8, $f18
+/* A9EFBC 80027E1C 00000000 */  nop   
+/* A9EFC0 80027E20 00981821 */  addu  $v1, $a0, $t8
+/* A9EFC4 80027E24 00031C00 */  sll   $v1, $v1, 0x10
+/* A9EFC8 80027E28 00031C03 */  sra   $v1, $v1, 0x10
+/* A9EFCC 80027E2C 03E00008 */  jr    $ra
+/* A9EFD0 80027E30 00601025 */   move  $v0, $v1
+

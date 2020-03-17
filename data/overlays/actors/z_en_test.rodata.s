@@ -1,0 +1,157 @@
+.include "macro.inc"
+
+ # assembler directives
+ .set noat      # allow manual use of $at
+ .set noreorder # don't insert nops after branches
+ .set gp=64     # allow use of 64-bit general purposee registers
+
+.section .rodata
+
+glabel D_80864700
+
+    .asciz "../z_en_test.c"
+    .balign 4
+
+glabel D_80864710
+
+    .asciz "../z_en_test.c"
+    .balign 4
+
+glabel jtbl_80864720
+.word L8085FA00
+.word L8085FA00
+.word L8085FA98
+.word L8085FA84
+.word L8085FA84
+.word L8085FA00
+.word L8085FA00
+.word L8085FA84
+.word L8085FA74
+.word L8085FA98
+.word L8085FA98
+glabel jtbl_8086474C
+.word L8085FBBC
+.word L8085FBCC
+.word L8085FBE0
+.word L8085FBBC
+.word L8085FBE0
+.word L8085FBCC
+.word L8085FBCC
+.word L8085FBBC
+.word L8085FBCC
+.word L8085FBE0
+glabel D_80864774
+ .word 0x3E4CCCCD
+glabel D_80864778
+ .word 0x3F333333
+glabel D_8086477C
+ .word 0x3E99999A
+glabel D_80864780
+ .word 0x3E99999A
+glabel D_80864784
+ .word 0x3F333333
+glabel D_80864788
+ .word 0x3E19999A
+glabel D_8086478C
+ .word 0x3CA3D70A
+glabel D_80864790
+ .word 0x3F333333
+glabel D_80864794
+ .word 0x3DCCCCCD
+glabel D_80864798
+ .word 0x3ECCCCCD
+glabel D_8086479C
+ .word 0x3E4CCCCD
+glabel D_808647A0
+ .word 0x3DCCCCCD
+glabel D_808647A4
+ .word 0x3CA3D70A
+glabel D_808647A8
+ .word 0x3CA3D70A
+glabel D_808647AC
+ .word 0x3F4CCCCD
+glabel D_808647B0
+ .word 0x3F333333
+glabel D_808647B4
+ .word 0xBF4CCCCD
+glabel D_808647B8
+ .word 0xBF4CCCCD
+glabel D_808647BC
+ .word 0x3F333333
+glabel D_808647C0
+ .word 0x3F333333
+glabel D_808647C4
+ .word 0x3F333333
+glabel D_808647C8
+ .word 0x3F333333
+glabel D_808647CC
+ .word 0x3F333333
+glabel D_808647D0
+ .word 0xBF4CCCCD
+glabel D_808647D4
+ .word 0xBF4CCCCD
+glabel D_808647D8
+ .word 0x3F333333
+glabel D_808647DC
+ .word 0x3C75C28F
+glabel D_808647E0
+ .word 0x3B03126F
+glabel jtbl_808647E4
+.word L808638F4
+.word L808637D4
+.word L80863848
+.word L80863870
+.word L80863884
+glabel jtbl_808647F8
+.word L80863F68
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863F70
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863F88
+.word L80863FCC
+.word L80863FA0
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863F7C
+.word L80863FCC
+.word L80863FCC
+.word L80863F94
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FB8
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FC4
+.word L80863FCC
+.word L80863FCC
+.word L80863FAC
+
+

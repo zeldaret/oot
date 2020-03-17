@@ -1,0 +1,48 @@
+.late_rodata
+glabel D_80140674
+    .float 0.33333334
+
+.text
+glabel func_800A4D9C
+/* B1BF3C 800A4D9C 3C0E8016 */  lui   $t6, %hi(gGameInfo)
+/* B1BF40 800A4DA0 8DCEFA90 */  lw    $t6, %lo(gGameInfo)($t6)
+/* B1BF44 800A4DA4 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* B1BF48 800A4DA8 AFBF0014 */  sw    $ra, 0x14($sp)
+/* B1BF4C 800A4DAC 85CF0110 */  lh    $t7, 0x110($t6)
+/* B1BF50 800A4DB0 3C018014 */  lui   $at, %hi(D_80140674)
+/* B1BF54 800A4DB4 C4280674 */  lwc1  $f8, %lo(D_80140674)($at)
+/* B1BF58 800A4DB8 448F2000 */  mtc1  $t7, $f4
+/* B1BF5C 800A4DBC C490001C */  lwc1  $f16, 0x1c($a0)
+/* B1BF60 800A4DC0 C48A0018 */  lwc1  $f10, 0x18($a0)
+/* B1BF64 800A4DC4 468021A0 */  cvt.s.w $f6, $f4
+/* B1BF68 800A4DC8 46083082 */  mul.s $f2, $f6, $f8
+/* B1BF6C 800A4DCC 44803000 */  mtc1  $zero, $f6
+/* B1BF70 800A4DD0 46028482 */  mul.s $f18, $f16, $f2
+/* B1BF74 800A4DD4 46125100 */  add.s $f4, $f10, $f18
+/* B1BF78 800A4DD8 E4840018 */  swc1  $f4, 0x18($a0)
+/* B1BF7C 800A4DDC C4800018 */  lwc1  $f0, 0x18($a0)
+/* B1BF80 800A4DE0 4606003C */  c.lt.s $f0, $f6
+/* B1BF84 800A4DE4 00000000 */  nop   
+/* B1BF88 800A4DE8 45020006 */  bc1fl .L800A4E04
+/* B1BF8C 800A4DEC C4820014 */   lwc1  $f2, 0x14($a0)
+/* B1BF90 800A4DF0 C4880014 */  lwc1  $f8, 0x14($a0)
+/* B1BF94 800A4DF4 46080400 */  add.s $f16, $f0, $f8
+/* B1BF98 800A4DF8 10000008 */  b     .L800A4E1C
+/* B1BF9C 800A4DFC E4900018 */   swc1  $f16, 0x18($a0)
+/* B1BFA0 800A4E00 C4820014 */  lwc1  $f2, 0x14($a0)
+.L800A4E04:
+/* B1BFA4 800A4E04 4600103E */  c.le.s $f2, $f0
+/* B1BFA8 800A4E08 00000000 */  nop   
+/* B1BFAC 800A4E0C 45000003 */  bc1f  .L800A4E1C
+/* B1BFB0 800A4E10 00000000 */   nop   
+/* B1BFB4 800A4E14 46020281 */  sub.s $f10, $f0, $f2
+/* B1BFB8 800A4E18 E48A0018 */  swc1  $f10, 0x18($a0)
+.L800A4E1C:
+/* B1BFBC 800A4E1C 0C029316 */  jal   func_800A4C58
+/* B1BFC0 800A4E20 00000000 */   nop   
+/* B1BFC4 800A4E24 8FBF0014 */  lw    $ra, 0x14($sp)
+/* B1BFC8 800A4E28 27BD0018 */  addiu $sp, $sp, 0x18
+/* B1BFCC 800A4E2C 00001025 */  move  $v0, $zero
+/* B1BFD0 800A4E30 03E00008 */  jr    $ra
+/* B1BFD4 800A4E34 00000000 */   nop   
+

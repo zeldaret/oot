@@ -1,0 +1,17 @@
+glabel func_8003E688
+/* AB5828 8003E688 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* AB582C 8003E68C AFBF0014 */  sw    $ra, 0x14($sp)
+/* AB5830 8003E690 AFA40018 */  sw    $a0, 0x18($sp)
+/* AB5834 8003E694 0C00E1C7 */  jal   func_8003871C
+/* AB5838 8003E698 24840002 */   addiu $a0, $a0, 2
+/* AB583C 8003E69C 8FA40018 */  lw    $a0, 0x18($sp)
+/* AB5840 8003E6A0 0C00E1C7 */  jal   func_8003871C
+/* AB5844 8003E6A4 24840004 */   addiu $a0, $a0, 4
+/* AB5848 8003E6A8 8FA40018 */  lw    $a0, 0x18($sp)
+/* AB584C 8003E6AC 0C00E1C7 */  jal   func_8003871C
+/* AB5850 8003E6B0 24840006 */   addiu $a0, $a0, 6
+/* AB5854 8003E6B4 8FBF0014 */  lw    $ra, 0x14($sp)
+/* AB5858 8003E6B8 27BD0018 */  addiu $sp, $sp, 0x18
+/* AB585C 8003E6BC 03E00008 */  jr    $ra
+/* AB5860 8003E6C0 00000000 */   nop   
+
