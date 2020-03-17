@@ -1,3 +1,15 @@
+.rdata
+
+glabel D_80978658
+    .asciz "../z_demo_geff.c"
+    .balign 4
+
+glabel D_8097866C
+    .asciz "../z_demo_geff.c"
+    .balign 4
+
+.text
+
 glabel func_80977F80
 /* 00140 80977F80 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00144 80977F84 AFBF0014 */  sw      $ra, 0x0014($sp)           

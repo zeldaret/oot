@@ -1,3 +1,11 @@
+.rdata
+
+glabel D_80978680
+    .asciz "[31m Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n[m"
+    .balign 4
+
+.text
+
 glabel func_80978370
 /* 00530 80978370 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00534 80978374 AFBF0014 */  sw      $ra, 0x0014($sp)           

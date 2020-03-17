@@ -1,3 +1,12 @@
+.rdata
+
+
+glabel D_809785E0
+    .asciz "[31mDemo_Geff_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
+
 glabel DemoGeff_Init
 /* 0000C 80977E4C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00010 80977E50 AFBF0014 */  sw      $ra, 0x0014($sp)           

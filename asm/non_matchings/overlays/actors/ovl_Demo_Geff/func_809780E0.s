@@ -1,3 +1,24 @@
+.late_rodata
+
+glabel D_809787A0
+ .word 0x3C23D70A
+glabel D_809787A4
+ .word 0x3E19999A
+glabel D_809787A8
+ .word 0x3E947AE1
+glabel D_809787AC
+ .word 0x3DF5C28F
+glabel D_809787B0
+ .word 0x3C23D70A
+glabel D_809787B4
+ .word 0x3DCCCCCD
+glabel D_809787B8
+ .word 0x3E19999A
+glabel D_809787BC
+ .word 0x3E4CCCCD
+
+.text
+
 glabel func_809780E0
 /* 002A0 809780E0 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
 /* 002A4 809780E4 2463FA90 */  addiu   $v1, $v1, 0xFA90           ## $v1 = 8015FA90

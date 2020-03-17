@@ -1,3 +1,12 @@
+.rdata
+
+
+glabel D_809786C4
+    .asciz "[31mDemo_Geff_main_bank:バンクを読めない arg_data = %d!\n[m"
+    .balign 4
+
+.text
+
 glabel func_809783D4
 /* 00594 809783D4 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00598 809783D8 AFBF0014 */  sw      $ra, 0x0014($sp)           

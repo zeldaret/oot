@@ -1,3 +1,21 @@
+.late_rodata
+
+glabel jtbl_80978778
+.word L80978064
+.word func_809780E0
+.word L8097816C
+.word L80978064
+.word func_809780E0
+.word L8097816C
+.word L80978064
+.word func_809780E0
+glabel D_80978798
+ .word 0x3C23D70A
+glabel D_8097879C
+ .word 0x3E99999A
+
+.text
+
 glabel func_80978030
 /* 001F0 80978030 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 001F4 80978034 948E001C */  lhu     $t6, 0x001C($a0)           ## 0000001C

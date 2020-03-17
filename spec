@@ -1796,7 +1796,6 @@ beginseg
     name "ovl_Demo_Geff"
     include "build/src/overlays/actors/ovl_Demo_Geff/z_demo_geff.o"
     include "build/data/overlays/actors/z_demo_geff.data.o"
-    include "build/data/overlays/actors/z_demo_geff.rodata.o"
     include "build/data/overlays/actors/z_demo_geff.reloc.o"
 endseg
 
