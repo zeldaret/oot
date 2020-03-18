@@ -804,6 +804,12 @@ typedef struct
 
 typedef struct
 {
+    /* 0x00 */ u8     n_points;
+    /* 0x04 */ Vec3s* point_array;
+} Path; // size = 0x8
+
+typedef struct
+{
     /* 0x00 */ u32 vromStart;
     /* 0x04 */ u32 vromEnd;
 } RomFile; // size = 0x8
@@ -947,7 +953,7 @@ typedef struct GlobalContext
     /* 0x11DFC */ UNK_PTR unk_11DFC;
     /* 0x11E00 */ EntranceEntry* setupEntranceList;
     /* 0x11E04 */ UNK_PTR setupExitList;
-    /* 0x11E08 */ UNK_PTR setupPathList;
+    /* 0x11E08 */ Path* setupPathList;
     /* 0x11E0C */ UNK_PTR naviMsgSegment;
     /* 0x11E10 */ char unk_11E10[0x4];
     /* 0x11E14 */ u8 skyboxId;
