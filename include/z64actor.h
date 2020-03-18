@@ -394,7 +394,9 @@ typedef struct
     /* 0x0846 */ u8      unk_846;
     /* 0x0847 */ char    unk_847[0x004];
     /* 0x084B */ s8      unk_84B[UNK_SIZE];
-    /* 0x084C */ char    unk_84C[0x054];
+    /* 0x084C */ char    unk_84C[0x003];
+    /* 0x084F */ s8      unk_84F;
+    /* 0x0850 */ char    unk_850[0x050];
     /* 0x08A0 */ u8      unk_8A0;
     /* 0x08A1 */ u8      unk_8A1;
     /* 0x08A2 */ u16     unk_8A2;
