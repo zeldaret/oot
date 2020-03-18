@@ -1149,7 +1149,7 @@ void func_800A5240(SkelAnime *skelAnime, u32 animation, f32 unk0);
 void func_800A529C(SkelAnime *skelAnime, u32 animation, f32 unk0, Actor *actor);
 // ? func_800A52F8(?);
 // ? func_800A54FC(?);
-UNK_TYPE func_800A56C8(SkelAnime* skelAnime, f32 arg1);
+s32 func_800A56C8(SkelAnime* skelAnime, f32 arg1);
 // ? func_800A56F0(?);
 // ? func_800A5774(?);
 // ? func_800A57C0(?);

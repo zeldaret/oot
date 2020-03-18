@@ -1003,15 +1003,15 @@ typedef struct LoadedParticleEntry
     /* 0x005F */ u8 type;
 } LoadedParticleEntry; // size = 0x60
 
-typedef struct
+typedef struct SkelAnime
 {
     /* 0x00 */ u8 limbCount;
-    /* 0x01 */ char unk_01[0x01];
+    /* 0x01 */ u8 unk_01;
     /* 0x02 */ u8 dListCount;
-    /* 0x03 */ char unk_03[0x01]; /* Probably Padding */
+    /* 0x03 */ u8 unk_03;
     /* 0x04 */ u32 limbIndex;
     /* 0x08 */ u32 animCurrent;
-    /* 0x0C */ char unk_0C[0x04];
+    /* 0x0C */ f32 unk_0C;
     /* 0x10 */ f32 animFrameCount;
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ f32 animCurrentFrame;
@@ -1020,12 +1020,17 @@ typedef struct
     /* 0x24 */ u32 unk_24;
     /* 0x28 */ u32 unk_28;
     /* 0x2C */ u32 unk_2C;
-    /* 0x30 */ void* funcUnk30; /* Some function pointer */
-    /* 0x34 */ s32 unk_34;
-    /* 0x38 */ s32 unk_38;
-    /* 0x3C */ u16 unk_3C;
-    /* 0x3E */ u16 unk_3E; /* Probably Padding */
-} SkelAnime; // size = 0x40
+    /* 0x30 */ s32 (*mtxUpdate)(struct SkelAnime*);
+    /* 0x34 */ char unk_34[1];
+    /* 0x35 */ u8 unk_35;
+    /* 0x36 */ s16 unk_36;
+    /* 0x38 */ s16 unk_38;
+    /* 0x3A */ s16 unk_3A;
+    /* 0x3C */ s16 unk_3C;
+    /* 0x3E */ s16 unk_3E;
+    /* 0x40 */ s16 unk_40;
+    /* 0x42 */ s16 unk_42;
+} SkelAnime; // size = 0x44
 
 typedef struct
 {
