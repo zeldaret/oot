@@ -1024,8 +1024,10 @@ typedef struct
     /* 0x34 */ s32 unk_34;
     /* 0x38 */ s32 unk_38;
     /* 0x3C */ u16 unk_3C;
-    /* 0x3E */ u16 unk_3E; /* Probably Padding */
-} SkelAnime; // size = 0x40
+    /* 0x3E */ u16 unk_3E;
+    /* 0x40 */ u16 unk_40;
+    /* 0x42 */ u16 unk_42;
+} SkelAnime; // size = 0x44
 
 typedef struct
 {
