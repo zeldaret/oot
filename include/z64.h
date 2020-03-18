@@ -33,8 +33,12 @@
 // Data normally accessed through REG macros (see regs.h)
 typedef struct
 {
-    /* 0x00 */ char  unk_00[0x14];
-    /* 0x14 */ s16   data[0xAE0];
+    /* 0x00 */ s32  reg_page;   //1 is first page
+    /* 0x04 */ s32  reg_group;  //"register" group (R, RS, RO, RP etc.)
+    /* 0x08 */ s32  reg_cur;    //selected register within page
+    /* 0x0C */ s32  dpad_last;
+    /* 0x10 */ s32  repeat;
+    /* 0x14 */ s16  data[0xAE0];
 } GameInfo; // size = 0x15D4
 
 typedef struct
