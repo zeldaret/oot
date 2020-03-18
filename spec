@@ -1880,8 +1880,6 @@ endseg
 beginseg
     name "ovl_Door_Ana"
     include "build/src/overlays/actors/ovl_Door_Ana/z_door_ana.o"
-    include "build/data/overlays/actors/z_door_ana.data.o"
-    include "build/data/overlays/actors/z_door_ana.rodata.o"
     include "build/data/overlays/actors/z_door_ana.reloc.o"
 endseg
 
