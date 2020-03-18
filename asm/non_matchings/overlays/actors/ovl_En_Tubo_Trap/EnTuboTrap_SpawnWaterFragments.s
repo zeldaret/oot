@@ -1,11 +1,12 @@
 .late_rodata
+glabel D_80B265CC
+    .float 0.2
 
-D_80B265CC: .float 0.2
-D_80B265D0: .float 0.2
+glabel D_80B265D0
+    .float 0.2
 
 .text
-
-glabel EnTuboTrap_FragmentsWater
+glabel EnTuboTrap_SpawnWaterFragments
 /* 0039C 80B25C8C 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 003A0 80B25C90 AFB1007C */  sw      $s1, 0x007C($sp)           
 /* 003A4 80B25C94 AFBF009C */  sw      $ra, 0x009C($sp)           

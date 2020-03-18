@@ -1,12 +1,15 @@
 .late_rodata
+glabel D_80B265C0
+    .float 0.23
 
-D_80B265C0: .float 0.23
-D_80B265C4: .float 0.2
-D_80B265C8: .float 0.6
+glabel D_80B265C4
+    .float 0.2
+
+glabel D_80B265C8
+    .float 0.6
 
 .text
-
-glabel EnTuboTrap_Fragments
+glabel EnTuboTrap_SpawnFragments
 /* 00128 80B25A18 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 0012C 80B25A1C F7BE0070 */  sdc1    $f30, 0x0070($sp)          
 /* 00130 80B25A20 3C0180B2 */  lui     $at, %hi(D_80B265C0)       ## $at = 80B20000

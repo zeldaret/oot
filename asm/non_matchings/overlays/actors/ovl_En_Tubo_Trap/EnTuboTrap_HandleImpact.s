@@ -1,4 +1,4 @@
-glabel EnTuboTrap_TestCollider
+glabel EnTuboTrap_HandleImpact
 /* 00618 80B25F08 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0061C 80B25F0C AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00620 80B25F10 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -18,7 +18,7 @@ glabel EnTuboTrap_TestCollider
 /* 00658 80B25F48 00000000 */  nop
 /* 0065C 80B25F4C 45020010 */  bc1fl   .L80B25F90                 
 /* 00660 80B25F50 92020170 */  lbu     $v0, 0x0170($s0)           ## 00000170
-/* 00664 80B25F54 0C2C9723 */  jal     EnTuboTrap_FragmentsWater              
+/* 00664 80B25F54 0C2C9723 */  jal     EnTuboTrap_SpawnWaterFragments              
 /* 00668 80B25F58 00000000 */  nop
 /* 0066C 80B25F5C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00670 80B25F60 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
@@ -41,7 +41,7 @@ glabel EnTuboTrap_TestCollider
 /* 006A8 80B25F98 30580004 */  andi    $t8, $v0, 0x0004           ## $t8 = 00000000
 /* 006AC 80B25F9C 13000015 */  beq     $t8, $zero, .L80B25FF4     
 /* 006B0 80B25FA0 3059FFFB */  andi    $t9, $v0, 0xFFFB           ## $t9 = 00000000
-/* 006B4 80B25FA4 0C2C9686 */  jal     EnTuboTrap_Fragments              
+/* 006B4 80B25FA4 0C2C9686 */  jal     EnTuboTrap_SpawnFragments              
 /* 006B8 80B25FA8 A2190170 */  sb      $t9, 0x0170($s0)           ## 00000170
 /* 006BC 80B25FAC 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
 /* 006C0 80B25FB0 AFA50024 */  sw      $a1, 0x0024($sp)           
@@ -72,7 +72,7 @@ glabel EnTuboTrap_TestCollider
 /* 00714 80B26004 11000016 */  beq     $t0, $zero, .L80B26060     
 /* 00718 80B26008 3069FFFD */  andi    $t1, $v1, 0xFFFD           ## $t1 = 00000000
 /* 0071C 80B2600C A2090171 */  sb      $t1, 0x0171($s0)           ## 00000171
-/* 00720 80B26010 0C2C9686 */  jal     EnTuboTrap_Fragments              
+/* 00720 80B26010 0C2C9686 */  jal     EnTuboTrap_SpawnFragments              
 /* 00724 80B26014 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00728 80B26018 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
 /* 0072C 80B2601C AFA50024 */  sw      $a1, 0x0024($sp)           
@@ -103,7 +103,7 @@ glabel EnTuboTrap_TestCollider
 /* 00780 80B26070 A20B0170 */  sb      $t3, 0x0170($s0)           ## 00000170
 /* 00784 80B26074 14CC0015 */  bne     $a2, $t4, .L80B260CC       
 /* 00788 80B26078 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0078C 80B2607C 0C2C9686 */  jal     EnTuboTrap_Fragments              
+/* 0078C 80B2607C 0C2C9686 */  jal     EnTuboTrap_SpawnFragments              
 /* 00790 80B26080 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00794 80B26084 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00798 80B26088 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
@@ -136,7 +136,7 @@ glabel EnTuboTrap_TestCollider
 /* 007F0 80B260E0 51C0000E */  beql    $t6, $zero, .L80B2611C     
 /* 007F4 80B260E4 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80B260E8:
-/* 007F8 80B260E8 0C2C9686 */  jal     EnTuboTrap_Fragments              
+/* 007F8 80B260E8 0C2C9686 */  jal     EnTuboTrap_SpawnFragments              
 /* 007FC 80B260EC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00800 80B260F0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00804 80B260F4 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024

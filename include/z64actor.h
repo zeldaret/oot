@@ -15,6 +15,11 @@ struct LightMapper;
 
 typedef struct
 {
+    f32 x, y;
+} Vec2f;
+
+typedef struct
+{
     f32 x, y, z;
 } Vec3f;
 
@@ -25,13 +30,8 @@ typedef struct
 
 typedef struct
 {
-    f32 x, y;
-} Vec2f;
-
-typedef struct
-{
-    u32 x, y;
-} Vec2i;
+    s32 x, y, z;
+} Vec3i;
 
 typedef struct
 {

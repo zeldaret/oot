@@ -6,6 +6,8 @@
 
 #include "z_demo_go.h"
 
+#include <vt.h>
+
 #define ROOM  0x00
 #define FLAGS 0x00000010
 
@@ -25,7 +27,7 @@ void func_8097D130(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D290(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D29C(DemoGo* this, GlobalContext* globalCtx);
 
-u32 D_8097D440[] = {0x0600CE80, 0x0600D280, 0x0600D680};
+UNK_PTR D_8097D440[] = {0x0600CE80, 0x0600D280, 0x0600D680};
 
 ActorFunc D_8097D44C[] =
 {
@@ -58,9 +60,10 @@ const ActorInit Demo_Go_InitVars =
     (ActorFunc)DemoGo_Draw,
 };
 
-extern u32 D_060029A8;
-extern u32 D_0600FEF0;
-extern u32 D_06004930;
+extern UNK_TYPE D_060029A8;
+extern UNK_TYPE D_06004930;
+extern UNK_TYPE D_0600E680;
+extern UNK_TYPE D_0600FEF0;
 
 UNK_TYPE func_8097C870(DemoGo *this)
 {
@@ -149,33 +152,36 @@ void func_8097CA78(DemoGo* this, GlobalContext* globalCtx)
     func_8097C9B8(this);
 }
 
-// Not equivalent, I believe in part due to actorAction->endPos being the wrong type, holding floats instead of ints
-#ifdef NON_MATCHING
-void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx) {
+void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx)
+{
     Actor* thisx = &this->actor;
+    PosRot* posRot = &thisx->posRot;
     CutsceneContext* csCtx = &globalCtx->csCtx;
-    Vec3f startPos;
-    f32 temp_ret;
     CsCmdActorAction* actorAction;
+    f32 temp_ret;
+    s32 pad;
+    Vec3f startPos;
+    Vec3f endPos;
 
     if (globalCtx->csCtx.state != 0)
     {
         actorAction = csCtx->actorActions[func_8097C870(this)];
-        if (actorAction != 0)
+        if (actorAction != NULL)
         {
             temp_ret = func_8006F93C(actorAction->endFrame, actorAction->startFrame, csCtx->frames);
-            startPos = actorAction->startPos;
-            thisx->posRot.pos.x = (((actorAction->endPos.x - startPos.x) * temp_ret) + startPos.x);
-            thisx->posRot.pos.y = (((actorAction->endPos.y - startPos.y) * temp_ret) + startPos.y);
-            thisx->posRot.pos.z = (((actorAction->endPos.z - startPos.z) * temp_ret) + startPos.z);
-            thisx->shape.rot.y = actorAction->rot.y;
-            thisx->posRot.rot.y = actorAction->rot.y;
+            startPos.x = actorAction->startPos.x;
+            startPos.y = actorAction->startPos.y;
+            startPos.z = actorAction->startPos.z;
+            endPos.x = actorAction->endPos.x;
+            endPos.y = actorAction->endPos.y;
+            endPos.z = actorAction->endPos.z;
+            posRot->pos.x = (((endPos.x - startPos.x) * temp_ret) + startPos.x);
+            posRot->pos.y = (((endPos.y - startPos.y) * temp_ret) + startPos.y);
+            posRot->pos.z = (((endPos.z - startPos.z) * temp_ret) + startPos.z);
+            posRot->rot.y = thisx->shape.rot.y = actorAction->rot.y;
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Go/func_8097CB0C.s")
-#endif
 
 void func_8097CC08(DemoGo* this)
 {
@@ -207,7 +213,7 @@ void func_8097CCE0(DemoGo* this, GlobalContext* globalCtx)
     if (globalCtx->csCtx.state != 0)
     {
         actorAction = globalCtx->csCtx.actorActions[func_8097C870(this)];
-        if (actorAction != 0)
+        if (actorAction != NULL)
         {
             thisRotY = thisx->posRot.rot.y;
             rotYDelta = actorAction->rot.y - thisRotY;
@@ -234,15 +240,15 @@ UNK_TYPE DemoGo_FrameUpdateMatrix(DemoGo* this)
     return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
-// This is probably at least close to equivalent but not necessarily so
 #ifdef NON_MATCHING
-UNK_TYPE func_8097CDB0(DemoGo* this, GlobalContext* globalCtx, u16 csCmdActorAction)
+// return value isn't produced in the same way
+s32 func_8097CDB0(DemoGo* this, GlobalContext* globalCtx, u16 csCmdActorAction)
 {
     CutsceneContext* csCtx = &globalCtx->csCtx;
     CsCmdActorAction* actorAction = csCtx->actorActions[func_8097C870(this)];
     if (csCtx->state != 0)
     {
-        if (actorAction != 0 && actorAction->action == csCmdActorAction)
+        if (actorAction != NULL && actorAction->action == csCmdActorAction)
         {
             return 1;
         }
@@ -277,7 +283,7 @@ void func_8097CE78(DemoGo* this, GlobalContext* globalCtx)
     if (globalCtx->csCtx.state != 0)
     {
         actorAction = csCtx->actorActions[func_8097C870(this)];
-        if (actorAction != 0 && csCtx->frames >= actorAction->endFrame)
+        if (actorAction != NULL && csCtx->frames >= actorAction->endFrame)
         {
             func_8097CA78(this, globalCtx);
             this->action = 3;
@@ -369,7 +375,7 @@ void DemoGo_Update(DemoGo* this, GlobalContext* globalCtx)
 {
     if (this->action < 0 || this->action >= 7 || D_8097D44C[this->action] == 0)
     {
-        osSyncPrintf("[31mメインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m");
+        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     D_8097D44C[this->action](this, globalCtx);
@@ -391,32 +397,31 @@ void func_8097D290(DemoGo* this, GlobalContext* globalCtx)
 
 }
 
-// Not equivalent yet - the gSPSegment calls are probably the main issue
-#ifdef NON_MATCHING
-extern u32 D_0600E680;
 void func_8097D29C(DemoGo* this, GlobalContext* globalCtx)
 {
-    u32 addr = D_8097D440[this->unk_190];
-    GraphicsContext* gfxCtx = &globalCtx->state.gfxCtx;
+    s32 pad;
+    s16 temp = this->unk_190;
+    SkelAnime* skelAnime = &this->skelAnime;
+    void* srcSegment8 = D_8097D440[temp];
+    void* srcSegment9 = &D_0600E680;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 
     func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
+
     func_80093D18(globalCtx->state.gfxCtx);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment8));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment9));
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600E680));
+    func_800A1AC8(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL, &this->actor);
 
-    func_800A1AC8(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount, 0, 0, &this->actor);
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Go/func_8097D29C.s")
-#endif
 
 void DemoGo_Draw(DemoGo* this, GlobalContext* globalCtx) {
     if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == 0)
     {
-        osSyncPrintf("[31m描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m");
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     D_8097D468[this->drawConfig](this, globalCtx);
