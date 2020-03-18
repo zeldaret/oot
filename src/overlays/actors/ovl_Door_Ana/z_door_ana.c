@@ -5,7 +5,6 @@
 */
 
 #include "z_door_ana.h"
-#include "macros.h"
 
 #define ROOM  0x00
 #define FLAGS 0x02000000
