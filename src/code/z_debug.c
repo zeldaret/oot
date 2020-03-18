@@ -23,9 +23,6 @@
 #define REG_N 96
 #define PAGE_N 16
 
-GameInfo* gGameInfo;
-int       D_8015FA94; //no known symbols
-
 typedef struct
 {
     u8 x;
@@ -34,19 +31,61 @@ typedef struct
     char text[0x15];
 } PrintTextBuffer;
 
-PrintTextBuffer D_8015FA98[0x16];
-//s16 D_8011E0B0 //PrintTextBuffer index
-
-//#define D_8015FC18 D_8015FA98[0x10]
 typedef struct
 {
     u16 push;
     u16 held;
 } InputCombo;
 
-extern InputCombo D_8011E0D4[REG_GROUP_TOTAL]; //register button combos
+GameInfo*       gGameInfo;
+int             D_8015FA94; //no known symbols
+PrintTextBuffer D_8015FA98[0x16];
 
-extern char D_8011E148[];
+s16 D_8011E0B0 = 0; //PrintTextBuffer index
+Color_RGBA8 printTextColors[] = {
+    { 0xFF, 0xFF, 0x20, 0xC0 },
+    { 0xFF, 0x96, 0x80, 0xC0 },
+    { 0x80, 0x60, 0x00, 0x40 },
+    { 0xC0, 0x80, 0x10, 0x80 },
+    { 0xFF, 0xC0, 0x20, 0x80 },
+    { 0xE6, 0xE6, 0xDC, 0x40 },
+    { 0x80, 0x96, 0xFF, 0x80 },
+    { 0x80, 0xFF, 0x20, 0x80 },
+};
+
+InputCombo inputCombos[REG_GROUP_TOTAL] = {
+    { BUTTON_L, BUTTON_C_UP },
+    { BUTTON_L, BUTTON_C_LEFT },
+    { BUTTON_L, BUTTON_C_DOWN },
+    { BUTTON_L, BUTTON_A },
+    { BUTTON_R, BUTTON_C_DOWN },
+    { BUTTON_L, BUTTON_C_RIGHT },
+    { BUTTON_L, BUTTON_R },
+    { BUTTON_L, BUTTON_D_LEFT },
+    { BUTTON_L, BUTTON_D_RIGHT },
+    { BUTTON_L, BUTTON_D_UP },
+    { BUTTON_L, BUTTON_B },
+    { BUTTON_L, BUTTON_Z },
+    { BUTTON_L, BUTTON_D_DOWN },
+    { BUTTON_R, BUTTON_A },
+    { BUTTON_R, BUTTON_B },
+    { BUTTON_R, BUTTON_Z },
+    { BUTTON_R, BUTTON_L },
+    { BUTTON_R, BUTTON_C_UP },
+    { BUTTON_R, BUTTON_C_RIGHT },
+    { BUTTON_R, BUTTON_D_LEFT },
+    { BUTTON_R, BUTTON_C_LEFT },
+    { BUTTON_R, BUTTON_START },
+    { BUTTON_L, BUTTON_START },
+    { BUTTON_R, BUTTON_D_RIGHT },
+    { BUTTON_R, BUTTON_D_UP },
+    { BUTTON_START, BUTTON_R },
+    { BUTTON_START, BUTTON_A },
+    { BUTTON_START, BUTTON_B },
+    { BUTTON_START, BUTTON_C_RIGHT },
+};
+
+char regChar[] = " SOPQMYDUIZCNKXcsiWAVHGmnBdkb";
 
 //initialize GameInfo
 void func_800636C0()
@@ -65,13 +104,12 @@ void func_800636C0()
     }
 }
 
-//Called when free movement is active
+//Called when free movement is active. 
+//8011D394 to enable camera debugger
 void func_8006375C(s32 arg0, s32 arg1, float* d_80855320)
 {
 
 }
-
-//8011D394 enable camera debugger
 
 #ifdef NON_MATCHING //regalloc
 //Copy Camera Debugger Text
@@ -122,7 +160,7 @@ void func_80063828(GfxPrint* gfxPrint)
             buffer = &D_8015FA98[i];
             text = buffer->text;
 
-            color = &D_8011E0B4[buffer->colorId];
+            color = &printTextColors[buffer->colorId];
             GfxPrint_SetColor(gfxPrint, color->r, color->g, color->b, color->a);
             GfxPrint_SetPos(gfxPrint, buffer->x, buffer->y);
             GfxPrint_Printf(gfxPrint, "%s", text); 
@@ -145,7 +183,7 @@ void func_8006390C(Input* input) {
     if (!~(input->raw.pad | ~BUTTON_L) ||
         !~(input->raw.pad | ~BUTTON_R) ||
         !~(input->raw.pad | ~BUTTON_START)) {
-        input_combo = D_8011E0D4;
+        input_combo = inputCombos;
         for (i = 0; i < REG_GROUP_TOTAL; i++)
         {
             if (~(~input_combo->push | input->raw.pad) ||
@@ -217,7 +255,6 @@ void func_8006390C(Input* input) {
                 iREG(0) = 0;
                 func_800AA000(0, iREG(1), iREG(2), iREG(3));
             }
-
         }
     }
 }
@@ -236,7 +273,7 @@ void func_80063C04(GfxPrint* gfxPrint)
 
     //set up register name string
     reg_name[0] = 'R';
-    reg_name[1] = D_8011E148[gGameInfo->reg_group]; //r_group type char
+    reg_name[1] = regChar[gGameInfo->reg_group]; //r_group type char
     reg_name[2] = '\0';
     GfxPrint_SetColor(gfxPrint, 0, 0x80, 0x80, 0x80);
 
@@ -262,7 +299,7 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     void* unk2[6];
     GfxPrint gfxPrint;
     void* unk[2];
-    Gfx* dl_frame[4];//stores state of GfxCtx next ptrs
+    Gfx* dl_frame[4]; //stores state of GfxCtx next ptrs
 
     func_800C6AC4(&dl_frame, gfxCtx, "../z_debug.c", 0x274);
     GfxPrint_Ctor(&gfxPrint);
