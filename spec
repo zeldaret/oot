@@ -444,8 +444,6 @@ beginseg
     include "build/src/code/listalloc.o"
     include "build/src/code/main.o"
     include "build/src/code/padmgr.o"
-    include "build/data/padmgr.data.o"
-    include "build/data/padmgr.bss.o"
     include "build/src/code/sched.o"
     include "build/data/sched.data.o"
     include "build/data/sched.bss.o"
@@ -3805,7 +3803,7 @@ endseg
 beginseg
     name "ovl_En_Wallmas"
     include "build/src/overlays/actors/ovl_En_Wallmas/z_en_wallmas.o"
-    include "build/data/overlays/actors/z_en_wallmas.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wallmas/z_en_wallmas_reloc.o"
 endseg
 
 beginseg
