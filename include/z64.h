@@ -1351,21 +1351,7 @@ typedef struct OverlayRelocationSection {
     /* 0x0C */ u32 bssSize;
     /* 0x10 */ u32 nRelocations;
     /* 0x14 */ u32 relocations[1];
-} OverlayRelocationSection; /* size >= 0x18 */
-
-#define VEC3_ADD( V3A0, V3A1 ) \
-{                              \
-    V3A0.x += V3A1.x;          \
-    V3A0.y += V3A1.y;          \
-    V3A0.z += V3A1.z;          \
-}
-
-#define VEC3_SUB( V3DST, V3A0, V3A1 ) \
-{                                     \
-    V3DST.x = V3A0.x - V3A1.x;        \
-    V3DST.y = V3A0.y - V3A1.y;        \
-    V3DST.z = V3A0.z - V3A1.z;        \
-}
+} OverlayRelocationSection; // size >= 0x18
 
 typedef struct
 {
