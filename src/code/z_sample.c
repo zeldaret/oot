@@ -6,7 +6,7 @@ void Sample_Calc(SampleContext* this)
 {
     if (!~(this->state.input[0].padPressed | ~START_BUTTON))
     {
-        this->state.init = func_800BCA64; this->state.size = sizeof(GlobalContext);
+        SET_NEXT_GAMESTATE(&this->state, func_800BCA64, GlobalContext);
         this->state.running = false;
     }
 }
@@ -73,9 +73,10 @@ void Sample_SetupView(SampleContext* this)
     gfxCtx = this->state.gfxCtx;
     func_800AA278(view, gfxCtx);
 
+    // clang-format off
     v0[1] = SCREEN_HEIGHT; v0[3] = SCREEN_WIDTH; 
-    v0[0] = 0;
-    v0[2] = 0;
+    v0[0] = 0; v0[2] = 0;
+    // clang-format on
 
     func_800AA4FC(view, &v0);
     func_800AA460(view, 60, 10, 12800);

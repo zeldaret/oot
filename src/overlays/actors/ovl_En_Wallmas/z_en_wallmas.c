@@ -849,7 +849,10 @@ static void EnWallmas_DrawXlu(EnWallmas *this, GlobalContext *globalCtx)
         return;
     }
 
+    // clang-format off
     gfxCtx = globalCtx->state.gfxCtx; func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1386);
+    // clang-format on
+
     func_80094044(globalCtx->state.gfxCtx);
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0x00, 0x00, 0x00, 0xFF);
 

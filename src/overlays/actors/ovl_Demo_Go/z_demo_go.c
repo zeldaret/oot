@@ -110,11 +110,8 @@ void func_8097C930(DemoGo* this)
     s16* something = &this->unk_192;
     s16* other = &this->unk_190;
     s32 pad[3];
-    s16 phi_v0;
 
-    if (*something == 0) { phi_v0 = 0; } else { *something -= 1; phi_v0 = *something;}
-
-    if (phi_v0 == 0)
+    if (DECR(*something) == 0)
     {
         *something = Math_Rand_S16Offset(0x3C, 0x3C);
     }

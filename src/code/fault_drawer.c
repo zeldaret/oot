@@ -175,7 +175,7 @@ void FaultDrawer_SetCharPad(s8 padW, s8 padH)
 void FaultDrawer_SetCursor(s32 x, s32 y)
 {
     if (sFaultDrawerStruct.osSyncPrintfEnabled)
-        osSyncPrintf(VT_CUP(%d, %d), (y - sFaultDrawerStruct.yStart) / (sFaultDrawerStruct.charH + sFaultDrawerStruct.charHPad), (x - sFaultDrawerStruct.xStart) / (sFaultDrawerStruct.charW + sFaultDrawerStruct.charWPad));
+        osSyncPrintf(VT_CUP("%d", "%d"), (y - sFaultDrawerStruct.yStart) / (sFaultDrawerStruct.charH + sFaultDrawerStruct.charHPad), (x - sFaultDrawerStruct.xStart) / (sFaultDrawerStruct.charW + sFaultDrawerStruct.charWPad));
     sFaultDrawerStruct.cursorX = x;
     sFaultDrawerStruct.cursorY = y;
 }

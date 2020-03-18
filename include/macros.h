@@ -35,4 +35,8 @@
 #define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
 #define CUR_CAPACITY(upg) CAPACITY(upg, CUR_UPG_VALUE(upg))
 
+#define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
+            (curState)->init = newInit;                  \
+            (curState)->size = sizeof(newStruct);
+
 #endif

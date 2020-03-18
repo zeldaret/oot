@@ -21,7 +21,7 @@
 
 #define VT_ESC "\x1b"
 #define VT_CSI "["
-#define VT_CUP(x, y) VT_ESC VT_CSI #y ";" #x "H"
+#define VT_CUP(x, y) VT_ESC VT_CSI y ";" x "H"
 #define VT_ED(n) VT_ESC VT_CSI #n "J"
 #define VT_SGR(n) VT_ESC VT_CSI n "m"
 

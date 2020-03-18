@@ -15,7 +15,7 @@ static void Opening_SetNextGameState(OpeningContext* this)
     func_800A82C8();
     gSaveContext.cutscene_index = 0xFFF3;
     gSaveContext.scene_setup_index = 7;
-    this->state.init = func_800BCA64; this->state.size = sizeof(GlobalContext);
+    SET_NEXT_GAMESTATE(&this->state, func_800BCA64, GlobalContext);
 }
 
 static void func_80803C5C(OpeningContext* this)

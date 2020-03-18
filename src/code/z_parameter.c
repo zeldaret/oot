@@ -2434,9 +2434,14 @@ void Interface_SetNaviCall(GlobalContext* globalCtx, u16 naviCallState)
         !interfaceCtx->naviCalling &&
         (globalCtx->csCtx.state == 0))
     {
-        // Whitespace matters for codegen here
-        if (naviCallState == 0x1E) Audio_PlaySoundGeneral(NA_SE_VO_NAVY_CALL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        if (naviCallState == 0x1D) func_800F4524(&D_801333D4, NA_SE_VO_NA_HELLO_2, 32);
+        // clang-format off
+        // NOLINTNEXTLINE
+        if (naviCallState == 0x1E) Audio_PlaySoundGeneral(NA_SE_VO_NAVY_CALL, &D_801333D4, 4,
+                                                          &D_801333E0, &D_801333E0, &D_801333E8);
+        // clang-format on
+
+        if (naviCallState == 0x1D)
+            func_800F4524(&D_801333D4, NA_SE_VO_NA_HELLO_2, 32);
 
         interfaceCtx->naviCalling = 1;
         sCUpInvisible = 0;
@@ -2478,14 +2483,16 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange)
     // Translates to: "＊＊＊＊＊ Fluctuation=%d (now=%d, max=%d) ＊＊＊"
     osSyncPrintf("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", healthChange, gSaveContext.health, gSaveContext.health_capacity);
 
-    // Whitespace matters for codegen here
-    if (healthChange > 0) Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    else if ((gSaveContext.double_defense != 0) && (healthChange < 0))
-    {
+    // clang-format off
+    // NOLINTNEXTLINE
+    if (healthChange > 0) Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4,
+                                                 &D_801333E0, &D_801333E0, &D_801333E8);
+    else if ((gSaveContext.double_defense != 0) && (healthChange < 0)) {
         healthChange >>= 1;
         // Translates to: "Heart decrease halved!!＝%d"
         osSyncPrintf("ハート減少半分！！＝%d\n", healthChange);
     }
+    // clang-format on
 
     gSaveContext.health += healthChange;
 
@@ -3582,9 +3589,10 @@ void func_8008A994(InterfaceContext* interfaceCtx)
 {
     s32 sp18[4];
 
-    // Whitespace matters for codegen here
-    sp18[1] = 240; sp18[3] = 320;
+    // clang-format off
+    sp18[1] = SCREEN_HEIGHT; sp18[3] = SCREEN_WIDTH;
     sp18[0] = 0; sp18[2] = 0;
+    // clang-format on
 
     func_800AA4FC(&interfaceCtx->view, sp18);
     func_800AB2C4(&interfaceCtx->view);
