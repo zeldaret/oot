@@ -14,11 +14,11 @@ static void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx);
 static void DoorAna_Update(DoorAna* this, GlobalContext* globalCtx);
 static void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx);
 
-static void func_80993EF0(DoorAna* this, ActorFunc func);
+static void DoorAna_SetupAction(DoorAna* this, ActorFunc func);
 
-static void func_80993FEC(DoorAna* this, GlobalContext* globalCtx);
-static void func_80994124(DoorAna* this, GlobalContext* globalCtx);
-static void func_809942D8(DoorAna* this, GlobalContext* globalCtx);
+static void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx);
+static void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx);
+static void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx);
 
 const ActorInit Door_Ana_InitVars =
 {
@@ -60,7 +60,7 @@ static s16 entrances[] = {
 extern Gfx* D_05001390;
 
 // sets current actionFunc to be ran on next update call
-static void func_80993EF0(DoorAna* this, ActorFunc func)
+static void DoorAna_SetupAction(DoorAna* this, ActorFunc func)
 {
     this->actionFunc = func;
 }
@@ -86,12 +86,14 @@ static void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx)
             this->actor.flags |= 0x10;
         }
         Actor_SetScale(&this->actor, 0);
-        func_80993EF0(this, (ActorFunc)&func_80993FEC);
-        this->actor.unk_1F = 0;
-        return;
+        DoorAna_SetupAction(this, (ActorFunc)&DoorAna_Update_Hidden);
     }
-    func_80993EF0(this, (ActorFunc)&func_80994124);
+    else
+    {
+        DoorAna_SetupAction(this, (ActorFunc)&DoorAna_Update_Open);
+    }
     this->actor.unk_1F = 0;
+    
 }
 
 static void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx)
@@ -104,7 +106,7 @@ static void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx)
 }
 
 // update routine for grottos that are currently "hidden"/unopened
-static void func_80993FEC(DoorAna* this, GlobalContext* globalCtx)
+static void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx)
 {
     bool openGrotto = false;
     if ((this->actor.params & 0x200) == 0)
@@ -113,7 +115,7 @@ static void func_80993FEC(DoorAna* this, GlobalContext* globalCtx)
         if (this->actor.waterSurfaceDist < 40000.0f && func_8006C4A4(globalCtx, 5) != 0)
         {
             openGrotto = true;
-            this->actor.flags &= -0x11;
+            this->actor.flags &= ~0x10;
         }
     }
     else
@@ -133,15 +135,15 @@ static void func_80993FEC(DoorAna* this, GlobalContext* globalCtx)
     // open the grotto
     if (openGrotto)
     {
-        this->actor.params &= 0xFCFF;
-        func_80993EF0(this, (ActorFunc)&func_80994124);
-        Audio_PlaySoundGeneral(0x4802, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        this->actor.params &= ~0x0300;
+        DoorAna_SetupAction(this, (ActorFunc)&DoorAna_Update_Open);
+        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
     func_8002F5F0(&this->actor, globalCtx);
 }
 
 // update routine for grottos that are open
-static void func_80994124(DoorAna* this, GlobalContext* globalCtx)
+static void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx)
 {
     Player* player;
     s32 destinationIdx;
@@ -162,7 +164,7 @@ static void func_80994124(DoorAna* this, GlobalContext* globalCtx)
                 destinationIdx = this->actor.initPosRot.rot.z + 1;
             }
             globalCtx->nextEntranceIndex = entrances[destinationIdx];
-            func_80993EF0(this, (ActorFunc)&func_809942D8);
+            DoorAna_SetupAction(this, (ActorFunc)&DoorAna_Update_Entering);
         }
         else
         {
@@ -183,7 +185,7 @@ static void func_80994124(DoorAna* this, GlobalContext* globalCtx)
 }
 
 // update function for after the player has triggered the grotto
-static void func_809942D8(DoorAna* this, GlobalContext* globalCtx)
+static void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx)
 {
     Player* player;
 
@@ -208,9 +210,9 @@ static void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx)
     Gfx** dList = &D_05001390; // required for stack placement?
     Gfx* gfxArr[3];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_door_ana.c", 0x1B8);
+    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_door_ana.c", 440);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_ana.c", 0x1BE), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_ana.c", 446), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyXlu.p++, dList);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_door_ana.c", 0x1C1);
+    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_door_ana.c", 449);
 }
