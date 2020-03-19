@@ -18,9 +18,9 @@ typedef struct
 s32 EnTk_CheckNextSpot(EnTk *this, GlobalContext *ctxt);
 void EnTk_Init(Actor *this, GlobalContext *ctxt);
 void EnTk_Destroy(Actor *this, GlobalContext *ctxt);
-void EnTk_Stop_Update(EnTk *this, GlobalContext *ctxt);
-void EnTk_Walk_Update(EnTk *this, GlobalContext *ctxt);
-void EnTk_Dig_Update(EnTk *this, GlobalContext *ctxt);
+void EnTk_Rest(EnTk *this, GlobalContext *ctxt);
+void EnTk_Walk(EnTk *this, GlobalContext *ctxt);
+void EnTk_Dig(EnTk *this, GlobalContext *ctxt);
 void EnTk_Update(Actor *this, GlobalContext *ctxt);
 void EnTk_Draw(Actor *this, GlobalContext *ctxt);
 
@@ -57,8 +57,8 @@ const ActorInit En_Tk_InitVars =
     EnTk_Draw,
 };
 
-void EnTk_Eff_Create(EnTk *this, Vec3f *pos, Vec3f *speed, Vec3f *accel,
-                     u8 duration, f32 size, f32 growth)
+void EnTkEff_Create(EnTk *this, Vec3f *pos, Vec3f *speed, Vec3f *accel,
+                    u8 duration, f32 size, f32 growth)
 {
     s16 i;
     EnTkEff *eff = this->eff;
@@ -80,7 +80,7 @@ void EnTk_Eff_Create(EnTk *this, Vec3f *pos, Vec3f *speed, Vec3f *accel,
     }
 }
 
-void EnTk_Eff_Update(EnTk *this)
+void EnTkEff_Update(EnTk *this)
 {
     s16 i;
     EnTkEff *eff;
@@ -105,7 +105,7 @@ void EnTk_Eff_Update(EnTk *this)
     }
 }
 
-void EnTk_Eff_Draw(EnTk *this, GlobalContext *ctxt)
+void EnTkEff_Draw(EnTk *this, GlobalContext *ctxt)
 {
     static u32 images[] =
     {
@@ -180,15 +180,15 @@ void EnTk_Eff_Draw(EnTk *this, GlobalContext *ctxt)
     func_800C6B54(pgdl, ctxt->state.gfxCtx, "../z_en_tk_eff.c", 154);
 }
 
-s32 EnTk_Eff_CreateDflt(EnTk *this, Vec3f *pos, u8 duration, f32 size,
-                        f32 growth, f32 y_accel_max)
+s32 EnTkEff_CreateDflt(EnTk *this, Vec3f *pos, u8 duration, f32 size,
+                       f32 growth, f32 y_accel_max)
 {
     Vec3f speed = {0.f, 0.f, 0.f};
     Vec3f accel = {0.f, 0.3f, 0.f};
 
     accel.y += Math_Rand_ZeroOne() * y_accel_max;
 
-    EnTk_Eff_Create(this, pos, &speed, &accel, duration, size, growth);
+    EnTkEff_Create(this, pos, &speed, &accel, duration, size, growth);
 
     return 0;
 }
@@ -197,54 +197,15 @@ s32 EnTk_Eff_CreateDflt(EnTk *this, Vec3f *pos, u8 duration, f32 size,
 
 static ColliderCylinderInit D_80B1D508 =
 {
-    {
-        0x0A,
-        0x00,
-        0x00,
-        0x39,
-        0x20,
-        0x01,
-        {
-            0x00,
-            0x00,
-        },
-    },
-    {
-        0x00,
-        {
-            0x00,
-            0x00,
-            0x00,
-        },
-        0x00000000,
-        0x00,
-        0x00,
-        {
-            0x00,
-            0x00,
-        },
-        0x00000000,
-        {
-            0x00,
-            0x00,
-            0x00,
-            0x00,
-        },
-        0x00,
-        0x00,
-        0x01,
-        0x00,
-    },
-    {
-        0x001E,
-        0x0034,
-        0x0000,
-        {
-            0x0000,
-            0x0000,
-            0x0000,
-        },
-    },
+    0x0A, 0x00, 0x00, 0x39,
+    0x20, 0x01, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00000000, 0x00, 0x00,
+    0x00, 0x00, 0x00000000,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x01, 0x00,
+    0x001E, 0x0034, 0x0000,
+    0x0000, 0x0000, 0x0000,
 };
 
 static EnTk_SubActorStruct98Init D_80B1D534 =
@@ -256,7 +217,7 @@ static EnTk_SubActorStruct98Init D_80B1D534 =
     0xFF,
 };
 
-void EnTk_Stop(EnTk *this, GlobalContext *ctxt)
+void EnTk_RestAnim(EnTk *this, GlobalContext *ctxt)
 {
     UNK_PTR anim = &D_06002F84;
 
@@ -268,7 +229,7 @@ void EnTk_Stop(EnTk *this, GlobalContext *ctxt)
     this->actor.speedXZ = 0.f;
 }
 
-void EnTk_Walk(EnTk *this, GlobalContext *ctxt)
+void EnTk_WalkAnim(EnTk *this, GlobalContext *ctxt)
 {
     UNK_PTR anim = &D_06001FA8;
 
@@ -279,7 +240,7 @@ void EnTk_Walk(EnTk *this, GlobalContext *ctxt)
     this->action_countdown = Math_Rand_S16Offset(240, 240);
 }
 
-void EnTk_Dig(EnTk *this, GlobalContext *ctxt)
+void EnTk_DigAnim(EnTk *this, GlobalContext *ctxt)
 {
     UNK_PTR anim = &D_06001144;
 
@@ -402,8 +363,7 @@ f32 EnTk_Step(EnTk *this, GlobalContext *ctxt)
     if (this->skel_anim.animCurrentFrame == 0.f ||
         this->skel_anim.animCurrentFrame == 25.f)
     {
-        /* NA_SE_EN_MORIBLIN_WALK */
-        Audio_PlayActorSound2(&this->actor, 0x38B8);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
     }
 
     if (this->skel_anim.animCurrent != (u32)&D_06001FA8)
@@ -674,7 +634,7 @@ s32 EnTk_ChooseReward(EnTk *this)
     return reward;
 }
 
-void EnTk_Dig_Eff(EnTk *this)
+void EnTk_DigEff(EnTk *this)
 {
     Vec3f pos = {0.f, 0.f, 0.f};
     Vec3f speed = {0.f, 0.f, 0.f};
@@ -686,7 +646,7 @@ void EnTk_Dig_Eff(EnTk *this)
         pos.x = (Math_Rand_ZeroOne() - 0.5f) * 12.f + this->v3f_304.x;
         pos.y = (Math_Rand_ZeroOne() - 0.5f) * 8.f + this->v3f_304.y;
         pos.z = (Math_Rand_ZeroOne() - 0.5f) * 12.f + this->v3f_304.z;
-        EnTk_Eff_CreateDflt(this, &pos, 12, 0.2f, 0.1f, 0.f);
+        EnTkEff_CreateDflt(this, &pos, 12, 0.2f, 0.1f, 0.f);
     }
 }
 
@@ -723,7 +683,7 @@ void EnTk_Init(Actor *this, GlobalContext *ctxt)
     tk->actor.gravity = -0.1f;
     tk->current_reward = -1;
     tk->current_spot = NULL;
-    tk->action_func = EnTk_Stop_Update;
+    tk->action_func = EnTk_Rest;
 }
 
 void EnTk_Destroy(Actor *this, GlobalContext *ctxt)
@@ -732,7 +692,7 @@ void EnTk_Destroy(Actor *this, GlobalContext *ctxt)
     ActorCollider_FreeCylinder(ctxt, &tk->collider);
 }
 
-void EnTk_Stop_Update(EnTk *this, GlobalContext *ctxt)
+void EnTk_Rest(EnTk *this, GlobalContext *ctxt)
 {
     s16 v1;
     s16 a1_;
@@ -745,9 +705,9 @@ void EnTk_Stop_Update(EnTk *this, GlobalContext *ctxt)
 
         if (this->h_1E0 == 2)
         {
-            EnTk_Dig(this, ctxt);
+            EnTk_DigAnim(this, ctxt);
             this->h_1E0 = 0;
-            this->action_func = EnTk_Dig_Update;
+            this->action_func = EnTk_Dig;
             return;
         }
 
@@ -777,8 +737,8 @@ void EnTk_Stop_Update(EnTk *this, GlobalContext *ctxt)
     }
     else if (DECR(this->action_countdown) == 0)
     {
-        EnTk_Walk(this, ctxt);
-        this->action_func = EnTk_Walk_Update;
+        EnTk_WalkAnim(this, ctxt);
+        this->action_func = EnTk_Walk;
 
         /*! @bug v1 is uninitialized past this branch */
     }
@@ -791,13 +751,13 @@ void EnTk_Stop_Update(EnTk *this, GlobalContext *ctxt)
     Math_SmoothScaleMaxMinS(&this->head_rot, a1_, 6, 1000, 1);
 }
 
-void EnTk_Walk_Update(EnTk *this, GlobalContext *ctxt)
+void EnTk_Walk(EnTk *this, GlobalContext *ctxt)
 {
     if (this->h_1E0 == 2)
     {
-        EnTk_Dig(this, ctxt);
+        EnTk_DigAnim(this, ctxt);
         this->h_1E0 = 0;
-        this->action_func = EnTk_Dig_Update;
+        this->action_func = EnTk_Dig;
     }
     else
     {
@@ -809,13 +769,13 @@ void EnTk_Walk_Update(EnTk *this, GlobalContext *ctxt)
         DECR(this->action_countdown);
         if (EnTk_CheckFacingPlayer(this) != 0 || this->action_countdown == 0)
         {
-            EnTk_Stop(this, ctxt);
-            this->action_func = EnTk_Stop_Update;
+            EnTk_RestAnim(this, ctxt);
+            this->action_func = EnTk_Rest;
         }
     }
 }
 
-void EnTk_Dig_Update(EnTk *this, GlobalContext *ctxt)
+void EnTk_Dig(EnTk *this, GlobalContext *ctxt)
 {
     Vec3f reward_origin;
     Vec3f reward_pos;
@@ -828,12 +788,12 @@ void EnTk_Dig_Update(EnTk *this, GlobalContext *ctxt)
         0x0006, /* Heart piece */
     };
 
-    EnTk_Dig_Eff(this);
+    EnTk_DigEff(this);
 
     if (this->skel_anim.animCurrentFrame == 32.f)
     {
-        /* NA_SE_EV_DIG_UP - What's gonna come out? */
-        Audio_PlayActorSound2(&this->actor, 0x28C8);
+        /* What's gonna come out? */
+        Audio_PlayActorSound2(&this->actor, NA_SE_EV_DIG_UP);
 
         this->reward_timer = 0;
 
@@ -872,19 +832,19 @@ void EnTk_Dig_Update(EnTk *this, GlobalContext *ctxt)
         /* Play a reward sound shortly after digging */
         if (this->valid_dig_here == 0)
         {
-            /* NA_SE_SY_ERROR - Bad dig spot */
-            Audio_PlayActorSound2(&this->actor, 0x4806);
+            /* Bad dig spot */
+            Audio_PlayActorSound2(&this->actor, NA_SE_SY_ERROR);
         }
         else if (this->current_reward == 4)
         {
-            /* NA_SE_SY_CORRECT_CHIME - Heart piece */
-            Audio_PlaySoundGeneral(0x4802, &D_801333D4, 4, &D_801333E0,
-                                   &D_801333E0, &D_801333E8);
+            /* Heart piece */
+            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4,
+                                   &D_801333E0, &D_801333E0, &D_801333E8);
         }
         else
         {
-            /* NA_SE_SY_TRE_BOX_APPEAR - Rupee */
-            Audio_PlayActorSound2(&this->actor, 0x4807);
+            /* Rupee */
+            Audio_PlayActorSound2(&this->actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
     }
     this->reward_timer++;
@@ -901,11 +861,11 @@ void EnTk_Dig_Update(EnTk *this, GlobalContext *ctxt)
             func_80106CCC(ctxt);
         }
 
-        EnTk_Stop(this, ctxt);
+        EnTk_RestAnim(this, ctxt);
 
         this->current_reward = -1;
         this->valid_dig_here = 0;
-        this->action_func = EnTk_Stop_Update;
+        this->action_func = EnTk_Rest;
     }
 }
 
@@ -925,7 +885,7 @@ void EnTk_Update(Actor *this, GlobalContext *ctxt)
 
     tk->action_func(tk, ctxt);
 
-    EnTk_Eff_Update(tk);
+    EnTkEff_Update(tk);
 
     EnTk_UpdateEyes(tk);
 }
@@ -1003,7 +963,7 @@ void EnTk_Draw(Actor *this, GlobalContext *ctxt)
     Gfx *pgdl[4];
 
     Matrix_Push();
-    EnTk_Eff_Draw(tk, ctxt);
+    EnTkEff_Draw(tk, ctxt);
     Matrix_Pull();
 
     gfx = ctxt->state.gfxCtx;
