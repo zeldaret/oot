@@ -97,8 +97,12 @@ void EnTkEff_Update(EnTk *this)
             }
             eff->accel.x = Math_Rand_ZeroOne() * 0.4f - 0.2f;
             eff->accel.z = Math_Rand_ZeroOne() * 0.4f - 0.2f;
-            VEC3_ADD(eff->pos, eff->speed)
-            VEC3_ADD(eff->speed, eff->accel)
+            eff->pos.x += eff->speed.x;
+            eff->pos.y += eff->speed.y;
+            eff->pos.z += eff->speed.z;
+            eff->speed.x += eff->accel.x;
+            eff->speed.y += eff->accel.y;
+            eff->speed.z += eff->accel.z;
             eff->size += eff->growth;
         }
         eff++;
@@ -806,7 +810,9 @@ void EnTk_Dig(EnTk *this, GlobalContext *ctxt)
             Matrix_RotateY(this->actor.shape.rot.y, 0);
             Matrix_MultVec3f(&reward_origin, &reward_pos);
 
-            VEC3_ADD(reward_pos, this->actor.posRot.pos)
+            reward_pos.x += this->actor.posRot.pos.x;
+            reward_pos.y += this->actor.posRot.pos.y;
+            reward_pos.z += this->actor.posRot.pos.z;
 
             this->current_reward = EnTk_ChooseReward(this);
             if (this->current_reward == 3)
