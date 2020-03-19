@@ -6,12 +6,12 @@
 
 struct BgHidanFirewall;
 
-typedef void (*FirewallFunc)(struct BgHidanFirewall* this, GlobalContext* globalCtx);
+typedef void FirewallFunc(struct BgHidanFirewall* this, GlobalContext* globalCtx);
 
 typedef struct BgHidanFirewall
 {
     /* 0x0000 */ Actor                 actor;
-    /* 0x014C */ FirewallFunc          actionFunc; // idle, countdown, etc
+    /* 0x014C */ FirewallFunc*         actionFunc; // idle, countdown, etc
     /* 0x0150 */ s16                   unk_150;
     /* 0x0154 */ ColliderCylinderMain* collider;
     /* 0x0158 */ char                  unk_158[0xC];
