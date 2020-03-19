@@ -3184,9 +3184,7 @@ endseg
 beginseg
     name "ovl_En_Lightbox"
     include "build/src/overlays/actors/ovl_En_Lightbox/z_en_lightbox.o"
-    include "build/data/overlays/actors/z_en_lightbox.data.o"
-    include "build/data/overlays/actors/z_en_lightbox.rodata.o"
-    include "build/data/overlays/actors/z_en_lightbox.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Lightbox/z_en_lightbox_reloc.o"
 endseg
 
 beginseg
