@@ -1,20 +1,16 @@
 #include <ultra64.h>
 #include <global.h>
 
-#ifdef NON_MATCHING
-void Lib_MemSet(void* dest, size_t size, u8 val)
+void Lib_MemSet(u8 dest[], size_t size, u8 val)
 {
-    u8* destu = dest;
-    u32 i;
+    size_t i = 0;
 
-    for (i = 0; i < size; i++)
-    {
-        *destu++ = val;
-    }
+    if (i == size) return;
+    do {
+        *dest++ = val;
+        i++;
+    } while (i != size);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lib/Lib_MemSet.s")
-#endif
 
 f32 Math_Coss(s16 angle)
 {
@@ -559,15 +555,12 @@ f32 func_800784D8(f32* pValue, f32 target, f32 scale, f32 maxStep, f32 minStep)
     return step;
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 s16 Math_SmoothScaleMaxMinS(s16* pValue, s16 target, s16 invScale, s16 maxStep, s16 minStep)
 {
+    s16 step = 0;
     s16 diff = (target - *pValue);
-    s32 baseStep;
-    s16 step;
 
-    baseStep = diff / invScale;
+    s32 baseStep = diff / invScale;
 
     if (*pValue != target)
     {
@@ -604,9 +597,6 @@ s16 Math_SmoothScaleMaxMinS(s16* pValue, s16 target, s16 invScale, s16 maxStep, 
 
     return diff;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_lib/Math_SmoothScaleMaxMinS.s")
-#endif
 
 void Math_SmoothScaleMaxS(s16* pValue, s16 target, s16 invScale, s16 maxStep)
 {
