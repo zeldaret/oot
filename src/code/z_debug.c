@@ -3,24 +3,8 @@
 #include <z64.h>
 #include <color.h>
 #include <regs.h>
+#include <PR/os_cont.h>
 
-#define BUTTON_C_RIGHT        0x0001
-#define BUTTON_C_LEFT         0x0002
-#define BUTTON_C_DOWN         0x0004
-#define BUTTON_C_UP           0x0008
-#define BUTTON_R              0x0010
-#define BUTTON_L              0x0020
-#define BUTTON_D_RIGHT        0x0100
-#define BUTTON_D_LEFT         0x0200
-#define BUTTON_D_DOWN         0x0400
-#define BUTTON_D_UP           0x0800
-#define BUTTON_START          0x1000
-#define BUTTON_Z              0x2000
-#define BUTTON_B              0x4000
-#define BUTTON_A              0x8000
-
-#define REG_GROUP_TOTAL 29
-#define REG_N 96
 #define PAGE_N 16
 
 typedef struct
@@ -53,36 +37,36 @@ Color_RGBA8 printTextColors[] = {
     { 0x80, 0xFF, 0x20, 0x80 },
 };
 
-InputCombo inputCombos[REG_GROUP_TOTAL] = {
-    { BUTTON_L, BUTTON_C_UP },
-    { BUTTON_L, BUTTON_C_LEFT },
-    { BUTTON_L, BUTTON_C_DOWN },
-    { BUTTON_L, BUTTON_A },
-    { BUTTON_R, BUTTON_C_DOWN },
-    { BUTTON_L, BUTTON_C_RIGHT },
-    { BUTTON_L, BUTTON_R },
-    { BUTTON_L, BUTTON_D_LEFT },
-    { BUTTON_L, BUTTON_D_RIGHT },
-    { BUTTON_L, BUTTON_D_UP },
-    { BUTTON_L, BUTTON_B },
-    { BUTTON_L, BUTTON_Z },
-    { BUTTON_L, BUTTON_D_DOWN },
-    { BUTTON_R, BUTTON_A },
-    { BUTTON_R, BUTTON_B },
-    { BUTTON_R, BUTTON_Z },
-    { BUTTON_R, BUTTON_L },
-    { BUTTON_R, BUTTON_C_UP },
-    { BUTTON_R, BUTTON_C_RIGHT },
-    { BUTTON_R, BUTTON_D_LEFT },
-    { BUTTON_R, BUTTON_C_LEFT },
-    { BUTTON_R, BUTTON_START },
-    { BUTTON_L, BUTTON_START },
-    { BUTTON_R, BUTTON_D_RIGHT },
-    { BUTTON_R, BUTTON_D_UP },
-    { BUTTON_START, BUTTON_R },
-    { BUTTON_START, BUTTON_A },
-    { BUTTON_START, BUTTON_B },
-    { BUTTON_START, BUTTON_C_RIGHT },
+InputCombo inputCombos[REG_GROUPS] = {
+    { L_TRIG, U_CBUTTONS },
+    { L_TRIG, L_CBUTTONS },
+    { L_TRIG, D_CBUTTONS },
+    { L_TRIG, A_BUTTON },
+    { R_TRIG, D_CBUTTONS },
+    { L_TRIG, R_CBUTTONS },
+    { L_TRIG, R_TRIG },
+    { L_TRIG, L_JPAD },
+    { L_TRIG, R_JPAD },
+    { L_TRIG, U_JPAD },
+    { L_TRIG, B_BUTTON },
+    { L_TRIG, Z_TRIG },
+    { L_TRIG, D_JPAD },
+    { R_TRIG, A_BUTTON },
+    { R_TRIG, B_BUTTON },
+    { R_TRIG, Z_TRIG },
+    { R_TRIG, L_TRIG },
+    { R_TRIG, U_CBUTTONS },
+    { R_TRIG, R_CBUTTONS },
+    { R_TRIG, L_JPAD },
+    { R_TRIG, L_CBUTTONS },
+    { R_TRIG, START_BUTTON },
+    { L_TRIG, START_BUTTON },
+    { R_TRIG, R_JPAD },
+    { R_TRIG, U_JPAD },
+    { START_BUTTON, R_TRIG },
+    { START_BUTTON, A_BUTTON },
+    { START_BUTTON, B_BUTTON },
+    { START_BUTTON, R_CBUTTONS },
 };
 
 char regChar[] = " SOPQMYDUIZCNKXcsiWAVHGmnBdkb";
@@ -92,13 +76,13 @@ void func_800636C0()
 {
     s32 i;
 
-    gGameInfo = (GameInfo*)SystemArena_MallocDebug(sizeof(GameInfo), "../z_debug.c", 0x104);
-    gGameInfo->reg_page = 0;
-    gGameInfo->reg_group = 0;
-    gGameInfo->reg_cur = 0;
-    gGameInfo->dpad_last = 0;
+    gGameInfo = (GameInfo*)SystemArena_MallocDebug(sizeof(GameInfo), "../z_debug.c", 260);
+    gGameInfo->regPage = 0;
+    gGameInfo->regGroup = 0;
+    gGameInfo->regCur = 0;
+    gGameInfo->dpadLast = 0;
     gGameInfo->repeat = 0;
-    for (i = 0; i < 0xAE0; i++)
+    for (i = 0; i < ARRAY_COUNT(gGameInfo->data); i++)
     {
         gGameInfo->data[i] = 0;
     }
@@ -116,7 +100,7 @@ void func_8006375C(s32 arg0, s32 arg1, float* d_80855320)
 void func_8006376C(u8 x, u8 y, u8 colorId, const char* text)
 {
     PrintTextBuffer* buf;
-    char* next_text;
+    char* bufText;
     s16 i; //v1
 
     buf = &D_8015FA98[D_8011E0B0];
@@ -127,15 +111,15 @@ void func_8006376C(u8 x, u8 y, u8 colorId, const char* text)
         buf->colorId = colorId;
 
         i = 0;
-        next_text = buf->text + 1;
+        bufText = buf->text + 1;
 
         if (*buf->text = *text++) {
             do if (i++ > 0x14) {
                 break;
-            } while (*next_text++ = *text++);
+            } while (*bufText++ = *text++);
         }
 
-        *next_text = '\0';
+        *bufText = '\0';
         D_8011E0B0++;
     }
 }
@@ -173,18 +157,18 @@ void func_80063828(GfxPrint* gfxPrint)
 void func_8006390C(Input* input) {
 
     s32 dpad;
-    s32 reg_group;
+    s32 regGroup;
     s32 increment;
     InputCombo* input_combo;
     s32 i;
 
-    reg_group = (gGameInfo->reg_group * (REG_N / PAGE_N) + gGameInfo->reg_page) * PAGE_N - PAGE_N;
+    regGroup = (gGameInfo->regGroup * (REG_PER_GROUP / PAGE_N) + gGameInfo->regPage) * PAGE_N - PAGE_N;
     dpad = input->raw.pad & 0xF00;
-    if (!~(input->raw.pad | ~BUTTON_L) ||
-        !~(input->raw.pad | ~BUTTON_R) ||
-        !~(input->raw.pad | ~BUTTON_START)) {
+    if (!~(input->raw.pad | ~L_TRIG) ||
+        !~(input->raw.pad | ~R_TRIG) ||
+        !~(input->raw.pad | ~START_BUTTON)) {
         input_combo = inputCombos;
-        for (i = 0; i < REG_GROUP_TOTAL; i++)
+        for (i = 0; i < REG_GROUPS; i++)
         {
             if (~(~input_combo->push | input->raw.pad) ||
                 ~(~input_combo->held | input->padPressed)) {
@@ -194,17 +178,17 @@ void func_8006390C(Input* input) {
                 break;
         }
 
-        if (i < REG_GROUP_TOTAL) {
-            if (i == gGameInfo->reg_group) {
-                gGameInfo->reg_page = (gGameInfo->reg_page + 1) % 7;
+        if (i < REG_GROUPS) {
+            if (i == gGameInfo->regGroup) {
+                gGameInfo->regPage = (gGameInfo->regPage + 1) % 7;
                 return;
             }
-            gGameInfo->reg_group = i;
-            gGameInfo->reg_page = 0;
+            gGameInfo->regGroup = i;
+            gGameInfo->regPage = 0;
         }
     }
     else {
-        switch (gGameInfo->reg_page - 1)
+        switch (gGameInfo->regPage - 1)
         {
         case 0:
         case 1:
@@ -213,42 +197,42 @@ void func_8006390C(Input* input) {
         case 4:
         case 5:
 
-            if (dpad == gGameInfo->dpad_last) {
+            if (dpad == gGameInfo->dpadLast) {
                 gGameInfo->repeat--;
                 if (gGameInfo->repeat < 0) {
                     gGameInfo->repeat = 1;
                 }
                 else {
-                    dpad ^= gGameInfo->dpad_last;
+                    dpad ^= gGameInfo->dpadLast;
                 }
             }
             else {
                 gGameInfo->repeat = 0x10;
-                gGameInfo->dpad_last = dpad;
+                gGameInfo->dpadLast = dpad;
             }
 
             increment =
-                (dpad & BUTTON_D_RIGHT) ? (
-                    !~(input->raw.pad | ~(BUTTON_A | BUTTON_B)) ? 1000 :
-                    !~(input->raw.pad | ~BUTTON_A) ? 100 :
-                    !~(input->raw.pad | ~BUTTON_B) ? 10 : 1) :
-                    (dpad & BUTTON_D_LEFT) ? (
-                        !~(input->raw.pad | ~(BUTTON_A | BUTTON_B)) ? -1000 :
-                        !~(input->raw.pad | ~BUTTON_A) ? -100 :
-                        !~(input->raw.pad | ~BUTTON_B) ? -10 : -1) :
+                (dpad & R_JPAD) ? (
+                    !~(input->raw.pad | ~(A_BUTTON | B_BUTTON)) ? 1000 :
+                    !~(input->raw.pad | ~A_BUTTON) ? 100 :
+                    !~(input->raw.pad | ~B_BUTTON) ? 10 : 1) :
+                    (dpad & L_JPAD) ? (
+                        !~(input->raw.pad | ~(A_BUTTON | B_BUTTON)) ? -1000 :
+                        !~(input->raw.pad | ~A_BUTTON) ? -100 :
+                        !~(input->raw.pad | ~B_BUTTON) ? -10 : -1) :
                 0;
 
-            gGameInfo->data[gGameInfo->reg_cur + reg_group] += increment;
-            if (dpad & BUTTON_D_UP) {
-                gGameInfo->reg_cur--;
-                if (gGameInfo->reg_cur < 0) {
-                    gGameInfo->reg_cur = PAGE_N - 1;
+            gGameInfo->data[gGameInfo->regCur + regGroup] += increment;
+            if (dpad & U_JPAD) {
+                gGameInfo->regCur--;
+                if (gGameInfo->regCur < 0) {
+                    gGameInfo->regCur = PAGE_N - 1;
                 }
             }
-            else if (dpad & BUTTON_D_DOWN) {
-                gGameInfo->reg_cur++;
-                if (gGameInfo->reg_cur >= PAGE_N) {
-                    gGameInfo->reg_cur = 0;
+            else if (dpad & D_JPAD) {
+                gGameInfo->regCur++;
+                if (gGameInfo->regCur >= PAGE_N) {
+                    gGameInfo->regCur = 0;
                 }
             }
             if (iREG(0)) {
@@ -264,28 +248,28 @@ void func_80063C04(GfxPrint* gfxPrint)
 {
     s32 i;
     s32 page;
-    s32 reg_group;
+    s32 regGroup;
     s32 test; //removing affects stack
-    char reg_name[3];
+    char name[3];
 
-    page = (gGameInfo->reg_page * PAGE_N) - PAGE_N;
-    reg_group = (gGameInfo->reg_group * (REG_N / PAGE_N) + gGameInfo->reg_page) * PAGE_N - PAGE_N;
+    page = (gGameInfo->regPage * PAGE_N) - PAGE_N;
+    regGroup = (gGameInfo->regGroup * (REG_PER_GROUP / PAGE_N) + gGameInfo->regPage) * PAGE_N - PAGE_N;
 
     //set up register name string
-    reg_name[0] = 'R';
-    reg_name[1] = regChar[gGameInfo->reg_group]; //r_group type char
-    reg_name[2] = '\0';
+    name[0] = 'R';
+    name[1] = regChar[gGameInfo->regGroup]; //r_group type char
+    name[2] = '\0';
     GfxPrint_SetColor(gfxPrint, 0, 0x80, 0x80, 0x80);
 
     for (i = 0; i != PAGE_N; i++)
     {
-        if (i == gGameInfo->reg_cur)
+        if (i == gGameInfo->regCur)
         {
             GfxPrint_SetColor(gfxPrint, 0, 0xff, 0xff, 0xff);
         }
         GfxPrint_SetPos(gfxPrint, 3, i + 5);
-        GfxPrint_Printf(gfxPrint, "%s%02d%6d", &reg_name, page + i, gGameInfo->data[i + reg_group]);
-        if (i == gGameInfo->reg_cur)
+        GfxPrint_Printf(gfxPrint, "%s%02d%6d", &name, page + i, gGameInfo->data[i + regGroup]);
+        if (i == gGameInfo->regCur)
         {
             GfxPrint_SetColor(gfxPrint, 0, 0x80, 0x80, 0x80);
         }
@@ -295,24 +279,24 @@ void func_80063C04(GfxPrint* gfxPrint)
 void func_80063D7C(GraphicsContext* gfxCtx) {
     Gfx* sp7C;
     Gfx* sp78;
-    Gfx* temp_ret;
+    Gfx* tempRet;
     void* unk2[6];
     GfxPrint gfxPrint;
     void* unk[2];
-    Gfx* dl_frame[4]; //stores state of GfxCtx next ptrs
+    Gfx* dlFrame[4]; //stores state of GfxCtx next ptrs
 
-    func_800C6AC4(&dl_frame, gfxCtx, "../z_debug.c", 0x274);
+    func_800C6AC4(&dlFrame, gfxCtx, "../z_debug.c", 628);
     GfxPrint_Ctor(&gfxPrint);
     sp78 = gfxCtx->polyOpa.p;
-    temp_ret = func_800C6C20(gfxCtx->polyOpa.p);
-    gSPDisplayList(gfxCtx->overlay.p++, temp_ret);
-    GfxPrint_Open(&gfxPrint, temp_ret);
+    tempRet = func_800C6C20(gfxCtx->polyOpa.p);
+    gSPDisplayList(gfxCtx->overlay.p++, tempRet);
+    GfxPrint_Open(&gfxPrint, tempRet);
 
     if ((OREG(0) == 1) || (OREG(0) == 8)) {
         func_80063828(&gfxPrint);
     }
 
-    if (gGameInfo->reg_page != 0) {
+    if (gGameInfo->regPage != 0) {
         func_80063C04(&gfxPrint);
     }
 
@@ -322,6 +306,6 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     func_800C6C28(sp78, sp7C);
     gfxCtx->polyOpa.p = sp7C;
     if (0);
-    func_800C6B54(&dl_frame, gfxCtx, "../z_debug.c", 0x298);
+    func_800C6B54(&dlFrame, gfxCtx, "../z_debug.c", 664);
     GfxPrint_Dtor(&gfxPrint);
 }
