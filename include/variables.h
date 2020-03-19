@@ -697,7 +697,7 @@ extern volatile u32 D_8012D290;
 extern Mtx gMtxClear;
 extern MtxF gMtxFClear;
 //extern ? D_8012DBB0;
-//extern ? D_8012DBC0;
+extern u32 D_8012DBC0;
 extern volatile u32 gIrqMgrResetStatus;
 extern u32 D_8012DBA0;
 extern u32 D_8012DBA4;
