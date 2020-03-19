@@ -615,7 +615,7 @@ endseg
 beginseg
     name "ovl_title"
     include "build/src/overlays/gamestates/ovl_title/z_title.o"
-    include "build/data/overlays/gamestates/z_title.reloc.o"
+    include "build/src/overlays/gamestates/ovl_title/z_title_reloc.o"
     address 0x80800000
 endseg
 

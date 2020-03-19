@@ -41,7 +41,7 @@ void Title_Calc(TitleContext* this)
     this->exit = 1;
 }
 
-void Title_InitView(TitleContext* this, float x, float y, float z)
+void Title_InitView(TitleContext* this, f32 x, f32 y, f32 z)
 {
     View* view;
     Vec3f v1;
@@ -96,9 +96,9 @@ void Title_Draw(TitleContext* this)
     gSPSetLights1(gfxCtx->polyOpa.p++, sTitleLights);
     Title_InitView(this, 0, 150.0, 300.0);
     func_80093D18(this->state.gfxCtx);
-    Matrix_Translate(-53.0, -5.0, 0, 0);
-    Matrix_Scale(1.0, 1.0, 1.0, 1);
-    Matrix_RotateXYZ(0, sTitleRotY, 0, 1);
+    Matrix_Translate(-53.0, -5.0, 0, MTXMODE_NEW);
+    Matrix_Scale(1.0, 1.0, 1.0, MTXMODE_APPLY);
+    Matrix_RotateXYZ(0, sTitleRotY, 0, MTXMODE_APPLY);
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_title.c", 424), G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_01002720);
@@ -110,7 +110,7 @@ void Title_Draw(TitleContext* this)
     gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 170, 255, 255, 255);
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 255, 128);
     
-    _gDPLoadTextureBlockTile(gfxCtx->polyOpa.p++,
+    gDPLoadMultiBlock(gfxCtx->polyOpa.p++,
                         &D_01001800,
                         0x100,
                         1,
@@ -135,7 +135,7 @@ void Title_Draw(TitleContext* this)
                             G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
 
-        gDPSetTileSize(gfxCtx->polyOpa.p++, /*G_TX_RENDERTILE*/1, this->uls, (this->ult & 0x7F) - idx*4, 0, 0);
+        gDPSetTileSize(gfxCtx->polyOpa.p++, 1, this->uls, (this->ult & 0x7F) - idx*4, 0, 0);
         gSPTextureRectangle(gfxCtx->polyOpa.p++, 388, y << 2, 1156, (y+2)<<2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
     }
     
