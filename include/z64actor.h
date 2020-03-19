@@ -329,8 +329,8 @@ typedef struct
     /* 0x15A */ u16 unk_15A;
     /* 0x15C */ u32 unk_15C;
     /* 0x160 */ u8 unk_160;
-	/* 0x161 */ char unk_161;
-	/* 0x162 */ s16 unk_162;
+    /* 0x161 */ char unk_161;
+    /* 0x162 */ s16 unk_162;
 } DynaPolyActor; // size = 0x164
 
 typedef struct
