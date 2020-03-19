@@ -50,16 +50,16 @@ void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx){
     scale = D_80886D88;
     this->actor.scale.y = D_80886D88;
 
-    this->ukn_150 = 0;
+    this->unk_150 = 0;
 
     ActorCollider_AllocCylinder(globalCtx, ((s32*)this+0x55));//TODO: fix this. multiple cylinders?
     ActorCollider_InitCylinder(globalCtx, ((s32*)this+0x55), &this->actor, &D_80886CD0);
 
-    this->ukn_19C = this->actor.posRot.pos.y;
+    this->pos_19A.y = this->actor.posRot.pos.y;
 
     func_80061ED4(&this->actor.sub_98, 0, D_80886CFC);
     
-    this->method = BgHidanFirewall_Idle;
+    this->actionFunc = BgHidanFirewall_Wait;
     return;
 }
 
@@ -74,31 +74,29 @@ void BgHidanFirewall_Destroy(BgHidanFirewall* this, GlobalContext* globalCtx)
 // s32 func_80886728(BgHidanFirewall* this, GlobalContext* globalCtx)
 // {
 //     Vec3f* sp18; //TODO: where does this come from?
-//     f32 temp_f0;
-//     u32 phi_return;
+//     f32 phi_return;
 
 //     func_8002DBD0(&this->actor, sp18, &(globalCtx->actorCtx.actorList[2].first->posRot.pos));
 
-//     phi_return = 0;
+//     phi_return = 0.0f;
 //     if (fabsf(sp18->x) < 100.0f)
 //     {
-//         temp_f0 = fabsf(sp18->z);
-//         phi_return = temp_f0;
-//         if (temp_f0 < 120.0f)
+//         phi_return = fabsf(sp18->z);
+//         if (phi_return < 120.0f)
 //         {
-//             phi_return = 1;
+//             phi_return = 1.401298464324817e-45f;
 //         }
 //     }
 //     return phi_return;
 // }
 
-void BgHidanFirewall_Idle(BgHidanFirewall* this, GlobalContext* globalCtx)
+void BgHidanFirewall_Wait(BgHidanFirewall* this, GlobalContext* globalCtx)
 {
     if (func_80886728(this, globalCtx) != 0)
     {
         this->actor.draw = func_80886B34;
         this->actor.params = 5;
-        this->method = BgHidanFirewall_Countdown;
+        this->actionFunc = BgHidanFirewall_Countdown;
     }
 }
 
@@ -111,7 +109,7 @@ void BgHidanFirewall_Countdown(BgHidanFirewall* this, GlobalContext* globalCtx)
     }
     if (this->actor.params == 0)
     {
-        this->method = &func_80886810;
+        this->actionFunc = &func_80886810;
     }
 }
 
@@ -125,7 +123,7 @@ void func_80886810(BgHidanFirewall* this, GlobalContext* globalCtx)
     if (Math_ApproxF(&this->actor.scale.y, D_80886D8C, D_80886D8C) != 0)
     {
         this->actor.draw = 0;
-        this->method = BgHidanFirewall_Idle;
+        this->actionFunc = BgHidanFirewall_Wait;
     }
     else
     {
@@ -149,91 +147,84 @@ void func_80886898(BgHidanFirewall* this, GlobalContext* globalCtx)
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Firewall/func_808868FC.s")
-// void func_808868FC(BgHidanFirewall* this, GlobalContext* globalCtx, Vec3f* arg2)
+// void func_808868FC(BgHidanFirewall* this, GlobalContext* globalCtx)
 // {
-//     f32 sp38;
-//     Vec3f* sp30 = &globalCtx->actorCtx.actorList[2].first->posRot.pos;
-//     f32 sp28;
+//     Vec3f* temp = &globalCtx->actorCtx.actorList[2].first->posRot.pos;
+//     Vec3f sp30;
 //     f32 temp_ret;
+//     f32 sp28;
 //     f32 phi_f0;
 
-//     func_8002DBD0((Actor*)this, &sp30, arg2);
-//     if (globalCtx->actorCtx.actorList[2].first->posRot.pos.x < -70.0f)
+//     func_8002DBD0(&this->actor, &sp30, temp); 
+//     if (sp30.x < -70.0f)
 //     {
-//         globalCtx->actorCtx.actorList[2].first->posRot.pos.x = -70.0f;
+//         sp30.x = -70.0f;
 //     }
 //     else
 //     {
-//         if (70.0f < globalCtx->actorCtx.actorList[2].first->posRot.pos.x)
+//         if (70.0f < sp30.x)
 //         {
 //             phi_f0 = 70.0f;
 //         }
 //         else
 //         {
-//             phi_f0 = globalCtx->actorCtx.actorList[2].first->posRot.pos.x;
+//             phi_f0 = sp30.x;
 //         }
-//         globalCtx->actorCtx.actorList[2].first->posRot.pos.x = (f32) phi_f0;
+//         sp30.x = phi_f0;
 //     }
 //     if (this->actor.params == 0)
 //     {
-//         if (0.0f < sp38)
+//         if (0.0f < sp30.z)
 //         {
-//             sp38 = -25.0f;
+//             sp30.z = -25.0f;
 //             this->actor.params = -1;
 //         }
 //         else
 //         {
-//             sp38 = 25.0f;
+//             sp30.z = 25.0f;
 //             this->actor.params = 1;
 //         }
 //     }
 //     else
 //     {
-//         sp38 = this->actor.params * 25.0f;
+//         sp30.z = this->actor.params * 25.0f;
 //     }
-//     sp28 = Math_Sins(this->actor.sub_B4.rot2.y);
-//     temp_ret = Math_Coss(this->actor.sub_B4.rot2.y);
-//     this->ukn_19A = (s16) ((this->actor.posRot.pos.x + (globalCtx->actorCtx.actorList[2].first->posRot.pos.x * temp_ret)) + (sp38 * sp28));
-//     this->ukn_19E = (s16) ((this->actor.posRot.pos.z - (globalCtx->actorCtx.actorList[2].first->posRot.pos.x * sp28)) + (sp38 * temp_ret));
+//     sp28 = Math_Sins(this->actor.shape.rot.y); 
+//     temp_ret = Math_Coss(this->actor.shape.rot.y);
+//     this->pos_19A.x = ((this->actor.posRot.pos.x + (sp30.x * temp_ret)) + (sp30.z * sp28));
+//     this->pos_19A.z = ((this->actor.posRot.pos.z - (sp30.x * sp28)) + (sp30.z * temp_ret));
 // }
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Firewall/BgHidanFirewall_Update.s")
 // void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx)
 // {
-//     // s32 temp_t8;
 //     s32 phi_t8;
-    
-//     // s16 temp_t6 = this->ukn_150;
-//     s32 temp_t7 = (this->ukn_150 + 1);
+//     u8 t;
 
-//     // temp_t8 = temp_t7 & 7;
-//     // phi_t8 = temp_t8;
-//     phi_t8 = temp_t7 & 7;
+//     phi_t8 = (((this->ukn_150)) + 1) & 7;
+//     t = this->ukn_164;
 
-//     if (temp_t7 < 0)
+//     if ((this->ukn_150) + 1 < 0 && phi_t8)
 //     {
-//         // phi_t8 = temp_t8;
-//         // if (temp_t8 != 0)
-//         if (phi_t8 != 0)
-//         {
-//             phi_t8 = phi_t8 - 8;
-//         }
+//         phi_t8 -= 8;
 //     }
 //     this->ukn_150 = phi_t8;
+
 //     if ((this->ukn_164 & 2) != 0)
 //     {
-//         this->ukn_164 = (this->ukn_164 & 0xfffd);
+//         this->ukn_164 &= 0xfffd;
 //         func_80886898(this, globalCtx);
 //     }
-//     this->ukn_14C(this, globalCtx);
-//     if (&func_80886810 == this->ukn_14C)
+//     this->actionFunc(this, globalCtx);
+//     if (&func_80886810 == this->actionFunc)
 //     {
 //         func_808868FC(this, globalCtx);
-//         Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, &this->collision);
-//         Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collision);
-//         func_8002F974((Actor*)this, 0x2034);
+//         Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+//         Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+//         func_8002F974(&this->actor, 0x2034);
 //     }
-// } //Still working on this
+// }
 
 // BgHidanFirewall_Draw
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Firewall/func_80886B34.s")

@@ -11,16 +11,13 @@ typedef void (*FirewallFunc)(struct BgHidanFirewall* this, GlobalContext* global
 typedef struct BgHidanFirewall
 {
     /* 0x0000 */ Actor                 actor;
-    /* 0x014C */ FirewallFunc          method; // idle, countdown, etc
-    /* 0x0150 */ s16                   ukn_150;
-    /* 0x0152 */ s16                   ukn_152;
+    /* 0x014C */ FirewallFunc          actionFunc; // idle, countdown, etc
+    /* 0x0150 */ s16                   unk_150;
     /* 0x0154 */ ColliderCylinderMain* collider;
-    /* 0x0158 */ char                  ukn_158[0xC];
-    /* 0x0164 */ u8                    ukn_164;
-    /* 0x0165 */ char                  ukn_166[0x35];
-    /* 0x019A */ s16                   ukn_19A;
-    /* 0x019C */ s16                   ukn_19C;
-    /* 0x019E */ s16                   ukn_19E;
+    /* 0x0158 */ char                  unk_158[0xC];
+    /* 0x0164 */ u8                    unk_164;
+    /* 0x0165 */ char                  unk_166[0x35];
+    /* 0x019A */ Vec3s                 pos_19A;
 } BgHidanFirewall; // size = 0x01A0
 
 extern const ActorInit Bg_Hidan_Firewall_InitVars;
@@ -28,7 +25,7 @@ extern const ActorInit Bg_Hidan_Firewall_InitVars;
 void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Destroy(BgHidanFirewall* this, GlobalContext* globalCtx);
 s32  func_80886728(BgHidanFirewall* this, GlobalContext* globalCtx);
-void BgHidanFirewall_Idle(BgHidanFirewall* this, GlobalContext* globalCtx);
+void BgHidanFirewall_Wait(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Countdown(BgHidanFirewall* this, GlobalContext* globalCtx);
 void func_80886810(BgHidanFirewall* this, GlobalContext* globalCtx);
 void func_80886898(BgHidanFirewall* this, GlobalContext* globalCtx);
