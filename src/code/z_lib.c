@@ -1,10 +1,11 @@
 #include <ultra64.h>
 #include <global.h>
 
-void Lib_MemSet(u8 dest[], size_t size, u8 val)
+void Lib_MemSet(u8* dest, size_t size, u8 val)
 {
-    size_t i = 0;
+    u32 i = 0;
 
+    // TODO: Convert this to while/for if possible
     if (i == size) return;
     do {
         *dest++ = val;
