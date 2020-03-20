@@ -444,8 +444,6 @@ beginseg
     include "build/src/code/listalloc.o"
     include "build/src/code/main.o"
     include "build/src/code/padmgr.o"
-    include "build/data/padmgr.data.o"
-    include "build/data/padmgr.bss.o"
     include "build/src/code/sched.o"
     include "build/data/sched.data.o"
     include "build/data/sched.bss.o"
@@ -617,8 +615,7 @@ endseg
 beginseg
     name "ovl_title"
     include "build/src/overlays/gamestates/ovl_title/z_title.o"
-    include "build/data/overlays/gamestates/z_title.data.o"
-    include "build/data/overlays/gamestates/z_title.reloc.o"
+    include "build/src/overlays/gamestates/ovl_title/z_title_reloc.o"
     address 0x80800000
 endseg
 
@@ -1880,9 +1877,7 @@ endseg
 beginseg
     name "ovl_Door_Ana"
     include "build/src/overlays/actors/ovl_Door_Ana/z_door_ana.o"
-    include "build/data/overlays/actors/z_door_ana.data.o"
-    include "build/data/overlays/actors/z_door_ana.rodata.o"
-    include "build/data/overlays/actors/z_door_ana.reloc.o"
+    include "build/src/overlays/actors/ovl_Door_Ana/z_door_ana_reloc.o"
 endseg
 
 beginseg
@@ -3186,9 +3181,7 @@ endseg
 beginseg
     name "ovl_En_Lightbox"
     include "build/src/overlays/actors/ovl_En_Lightbox/z_en_lightbox.o"
-    include "build/data/overlays/actors/z_en_lightbox.data.o"
-    include "build/data/overlays/actors/z_en_lightbox.rodata.o"
-    include "build/data/overlays/actors/z_en_lightbox.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Lightbox/z_en_lightbox_reloc.o"
 endseg
 
 beginseg
@@ -3803,7 +3796,7 @@ endseg
 beginseg
     name "ovl_En_Wallmas"
     include "build/src/overlays/actors/ovl_En_Wallmas/z_en_wallmas.o"
-    include "build/data/overlays/actors/z_en_wallmas.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Wallmas/z_en_wallmas_reloc.o"
 endseg
 
 beginseg
