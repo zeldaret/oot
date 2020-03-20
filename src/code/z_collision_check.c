@@ -98,8 +98,16 @@ void func_8005B818(GlobalContext* globalCtx, ColliderBody* body)
 
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B824.s")
+extern ColliderBump D_8011DE20;
 
+//init
+s32 func_8005B824(GlobalContext* globalCtx, ColliderBump* bump)
+{
+    *bump = D_8011DE20;
+    return 1;
+}
+
+//destructor
 s32 func_8005B850(GlobalContext* globalCtx, ColliderBump* bump)
 {
     return 1;
