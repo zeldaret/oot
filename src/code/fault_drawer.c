@@ -47,7 +47,7 @@ FaultDrawer sFaultDrawerDefault =
     22, 297,//xStart, xEnd
     0xFFFF, 0x0000, //foreColor, backColor
     22, 16, //cursorX, cursorY
-    &sFaultDrawerFont, //font
+    sFaultDrawerFont, //font
     8, 8, 0, 0,
     { //printColors
         0x0001, 0xF801, 0x07C1, 0xFFC1,
@@ -63,7 +63,6 @@ FaultDrawer sFaultDrawerDefault =
 FaultDrawer sFaultDrawerStruct;
 char D_8016B6C0[0x20]; //? unused
 
-
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled)
 {
     sFaultDrawerStruct.osSyncPrintfEnabled = enabled;
@@ -75,9 +74,10 @@ void FaultDrawer_DrawRecImpl(s32 xstart, s32 ystart, s32 xend, s32 yend, u16 col
     if (sFaultDrawerStruct.w - xstart > 0 && sFaultDrawerStruct.h - ystart > 0)
     {
         s32 x, y;
-        for (y = 0; y < yend-ystart+1; y++)
-            for (x = 0; x < xend-xstart+1; x++)
-                sFaultDrawerStruct.fb[sFaultDrawerStruct.w*y+x] = color;
+
+        for (y = 0; y <= yend - ystart; y++)
+            for (x = 0; x <= xend - xstart; x++)
+                sFaultDrawerStruct.fb[sFaultDrawerStruct.w * y + x] = color;
 
         osWritebackDCacheAll();
     }
@@ -86,35 +86,38 @@ void FaultDrawer_DrawRecImpl(s32 xstart, s32 ystart, s32 xend, s32 yend, u16 col
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault_drawer/FaultDrawer_DrawRecImpl.s")
 #endif
 
-
 #ifdef NON_MATCHING
+// regalloc and minor ordering differences
 void FaultDrawer_DrawChar(char c)
 {
     s32 x, y;
-    u32* dataStart = &sFaultDrawerStruct.fontData[(c >> 3) * 0x10 + (c & 4) >> 2];
-    u16* fb = &sFaultDrawerStruct.fb[sFaultDrawerStruct.w * sFaultDrawerStruct.cursorY + sFaultDrawerStruct.cursorX];
+    u32* dataPtr;
+    u16* fb;
 
-    if (sFaultDrawerStruct.xStart <= sFaultDrawerStruct.cursorX &&
-        sFaultDrawerStruct.charW + sFaultDrawerStruct.cursorX -1 <= sFaultDrawerStruct.xEnd &&
-        sFaultDrawerStruct.yStart <= sFaultDrawerStruct.cursorY &&
-        sFaultDrawerStruct.charH + sFaultDrawerStruct.cursorY -1 <= sFaultDrawerStruct.yEnd &&
-        sFaultDrawerStruct.charH != 0
-        )
+    dataPtr = &sFaultDrawerStruct.fontData[((c & 4) >> 2) + ((c / 8) * 16)];
+
+    fb = &sFaultDrawerStruct.fb[sFaultDrawerStruct.cursorY * sFaultDrawerStruct.w];
+    fb = &fb[sFaultDrawerStruct.cursorX];
+
+    if ((sFaultDrawerStruct.xStart <= sFaultDrawerStruct.cursorX) &&
+        ((sFaultDrawerStruct.charW + sFaultDrawerStruct.cursorX - 1) <= sFaultDrawerStruct.xEnd) &&
+        (sFaultDrawerStruct.yStart <= sFaultDrawerStruct.cursorY) &&
+        ((sFaultDrawerStruct.charH + sFaultDrawerStruct.cursorY - 1) <= sFaultDrawerStruct.yEnd))
     {
         for (y = 0; y < sFaultDrawerStruct.charH; y++)
         {
-            u32 mask = 0x10000000 << (c & 3);
+            u32 mask = 0x10000000 << (c % 4);
+            u32 data = *dataPtr;
             for (x = 0; x < sFaultDrawerStruct.charW; x++)
             {
-                if ((mask & *dataStart))
+                if (mask & data)
                     fb[x] = sFaultDrawerStruct.foreColor;
-                else
-                    if (sFaultDrawerStruct.backColor & 1)
-                        fb[x] = sFaultDrawerStruct.backColor;
+                else if (sFaultDrawerStruct.backColor & 1)
+                    fb[x] = sFaultDrawerStruct.backColor;
                 mask >>= 4;
             }
             fb += sFaultDrawerStruct.w;
-            dataStart += 2;
+            dataPtr += 2;
         }
     }
 }
@@ -186,58 +189,56 @@ void FaultDrawer_FillScreen()
     FaultDrawer_SetCursor(sFaultDrawerStruct.xStart, sFaultDrawerStruct.yStart);
 }
 
-#ifdef NON_MATCHING
 u32 FaultDrawer_FormatStringFunc(u32 arg0, const char* str, s32 count)
 {
-    while (count)
+    for (count; count != 0; count--, str++)
     {
-        s32 curXStart; //s32?
+        s32 curXStart;
         s32 curXEnd;
 
         if (sFaultDrawerStruct.escCode)
         {
             sFaultDrawerStruct.escCode = false;
             if (*str > 0x30 && *str < 0x3A)
-                FaultDrawer_SetForeColor(gFaultStruct.colors[*str + 12]);
+                FaultDrawer_SetForeColor(sFaultDrawerStruct.printColors[*str - 0x30]);
 
             curXStart = sFaultDrawerStruct.cursorX;
             curXEnd = sFaultDrawerStruct.xEnd - sFaultDrawerStruct.charW;
         }
         else
         {
-            if (*str == '\n')
+            switch (*str)
             {
-                if (sFaultDrawerStruct.osSyncPrintfEnabled)
-                    osSyncPrintf("\n");
+                case '\n':
+                    if (sFaultDrawerStruct.osSyncPrintfEnabled)
+                        osSyncPrintf("\n");
 
-                sFaultDrawerStruct.cursorX = sFaultDrawerStruct.w;
-                curXStart = sFaultDrawerStruct.w;
-                curXEnd = sFaultDrawerStruct.xEnd - sFaultDrawerStruct.charW;
-            }
-            else if (*str == '\x1a')
-            {
-                sFaultDrawerStruct.escCode = true;
-                curXStart = sFaultDrawerStruct.cursorX;
-                curXEnd = sFaultDrawerStruct.xEnd - sFaultDrawerStruct.charW;
-            }
-            else
-            {
-                if (sFaultDrawerStruct.osSyncPrintfEnabled)
-                    osSyncPrintf("%c", *str);
+                    sFaultDrawerStruct.cursorX = sFaultDrawerStruct.w;
+                    curXStart = sFaultDrawerStruct.cursorX;
+                    curXEnd = sFaultDrawerStruct.xEnd - sFaultDrawerStruct.charW;
+                    break;
+                case '\x1A':
+                    sFaultDrawerStruct.escCode = true;
+                    curXStart = sFaultDrawerStruct.cursorX;
+                    curXEnd = sFaultDrawerStruct.xEnd - sFaultDrawerStruct.charW;
+                    break;
+                default:
+                    if (sFaultDrawerStruct.osSyncPrintfEnabled)
+                        osSyncPrintf("%c", *str);
 
-                FaultDrawer_DrawChar(*str);
-                sFaultDrawerStruct.cursorX += sFaultDrawerStruct.charW + sFaultDrawerStruct.charWPad;
+                    FaultDrawer_DrawChar(*str);
+                    sFaultDrawerStruct.cursorX += sFaultDrawerStruct.charW + sFaultDrawerStruct.charWPad;
 
-                curXStart = sFaultDrawerStruct.cursorX;
-                curXEnd = sFaultDrawerStruct.xEnd - sFaultDrawerStruct.charW;
+                    curXStart = sFaultDrawerStruct.cursorX;
+                    curXEnd = sFaultDrawerStruct.xEnd - sFaultDrawerStruct.charW;
             }
         }
 
         if (curXEnd <= curXStart)
         {
-            sFaultDrawerStruct.cursorY += sFaultDrawerStruct.charH + sFaultDrawerStruct.charHPad;
             sFaultDrawerStruct.cursorX = sFaultDrawerStruct.xStart;
-            if (sFaultDrawerStruct.yEnd - sFaultDrawerStruct.charH <= (u16)sFaultDrawerStruct.cursorY) //cast?
+            sFaultDrawerStruct.cursorY += sFaultDrawerStruct.charH + sFaultDrawerStruct.charHPad;
+            if (sFaultDrawerStruct.yEnd - sFaultDrawerStruct.charH <= sFaultDrawerStruct.cursorY)
             {
                 if (sFaultDrawerStruct.inputCallback)
                 {
@@ -247,16 +248,12 @@ u32 FaultDrawer_FormatStringFunc(u32 arg0, const char* str, s32 count)
                 sFaultDrawerStruct.cursorY = sFaultDrawerStruct.yStart;
             }
         }
-
-        count--;
-        str++;
     }
+
     osWritebackDCacheAll();
+
     return arg0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault_drawer/FaultDrawer_FormatStringFunc.s")
-#endif
 
 void FaultDrawer_VPrintf(const char* str, char* args) //va_list
 {

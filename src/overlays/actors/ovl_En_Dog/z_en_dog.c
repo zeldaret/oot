@@ -231,7 +231,7 @@ static s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx)
         gSaveContext.dogParams = (this->actor.params & 0x7FFF);
         return 1;
     }
-    
+
     return 0;
 }
 
@@ -331,8 +331,8 @@ static void EnDog_Init(EnDog* this, GlobalContext* globalCtx)
                 Actor_Kill(&this->actor);
             }
             break;
-
-        case SCENE_BACK_ALLEY:
+        // Richard's Home
+        case SCENE_IMPA:
             if ((u32)(this->actor.params & 0x8000) == 0)
             {
                 if (gSaveContext.richardIsLost == 0)

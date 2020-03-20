@@ -7,6 +7,8 @@
 #include <ultra64.h>
 #include <global.h>
 
+#include <vt.h>
+
 //temp struct until we can reference other actors outside of their file
 typedef struct
 {
@@ -56,7 +58,7 @@ static void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx)
 {
     osSyncPrintf("\n\n");
     //"Anubis control tag generated"
-    osSyncPrintf("[32m☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n[m", this->actor.params);
+    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
 
     if (this->actor.params < (s16)0xFFFF)
     {

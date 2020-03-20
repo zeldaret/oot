@@ -232,8 +232,9 @@ void func_80044340(Camera *camera, Vec3f *b, Vec3f *c)
     *c = sp20.unk_00;
 }
 
-#ifdef NON_MATCHING
 f32 func_80038B7C();
+
+#ifdef NON_MATCHING
 // ordering
 s32 func_800443A0(Camera *camera, Vec3f *b, Vec3f *c)
 {
@@ -449,17 +450,16 @@ f32 func_80045714(Vec3f *a, s16 b, s16 c, f32 arg3);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045714.s")
 #endif
 
-#ifdef NON_MATCHING
 f32 func_8007C0A8(f32, f32);
-// CLOSE: stack is slightly off, probably a temp var
+
 s32 func_800457A8(Camera *camera, struct_80045714 *b, f32 c, s16 d)
 {
     f32 unused;
     Vec3f sp50;
     Vec3f sp44;
     s32 unused2;
-    f32 temp_ret;
     PosRot *sp2C;
+    f32 temp_ret;
     
     temp_ret = func_8002DC84(camera->player);
 
@@ -481,13 +481,11 @@ s32 func_800457A8(Camera *camera, struct_80045714 *b, f32 c, s16 d)
     
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800457A8.s")
-#endif
+
+f32 func_8007C028(Vec3f *, Vec3f *);
 
 #ifdef NON_MATCHING
-f32 func_8007C028(Vec3f *, Vec3f *);
-// CLOSE: regalloc, plus stack is slightly off, probably a temp var
+// CLOSE: regalloc
 s32 func_800458D4(Camera *camera, struct_80045714 *b, f32 c, f32 *d, s16 e)
 {
     f32 phi_f2;
@@ -496,7 +494,7 @@ s32 func_800458D4(Camera *camera, struct_80045714 *b, f32 c, f32 *d, s16 e)
     f32 temp_ret;
     PosRot *temp_s1;
     f32 sp48;
-    Vec3f sp3C; // unused
+    s32 pad[2];
 
     sp60.y = func_8002DC84(camera->player) + c;
     sp60.x = 0.0f;
@@ -631,7 +629,6 @@ s32 func_80045C74(Camera *camera, struct_80045714 *b, f32 c, f32 *d, s16 arg4)
                 phi_f16 = 1.0f - sinf(OREG(33) * (M_PI / 180) - temp_ret_3);
             else
                 phi_f16 = 1.0f;
-            }
             
             sp70.y -= temp * phi_f16;
         }
@@ -881,51 +878,43 @@ void Camera_Vec3fCopy(Vec3f *src, Vec3f *dst)
 // 225 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057C6C.s")
 
-#ifdef NON_MATCHING
-// still needs a bit of work, but should be functionally equivalent
+s32 func_8005AD40(Camera *camera, s32 a, s16 b, f32 c, s16 d, s16 e, s16 f);
+
 void func_80057FC4(Camera *camera)
 {
     if (camera != &camera->globalCtx->cameraCtx.activeCameras[0])
     {
-        camera->unk_142 = 33;
+        camera->unk_154 = camera->unk_142 = 33;
         camera->unk_14C &= ~0x4;
-        camera->unk_154 = camera->unk_142; // compiler uses the same temp reg, but it should load from 142 right after being saved to
-        // maybe try camera->unk_154 = camera->unk_142 = 33 and make them have differing signs?
-        return;
     }
-    // try putting these in a bunch of if else statements
-    if (*camera->globalCtx->roomCtx.curRoom.unk_08 != 1)
+    else if (camera->globalCtx->roomCtx.curRoom.mesh->polygon.type != 1)
     {
-        if (camera->globalCtx->roomCtx.curRoom.unk_03 != 0)
+        switch (camera->globalCtx->roomCtx.curRoom.unk_03)
         {
-            if (camera->globalCtx->roomCtx.curRoom.unk_03 == 1)
-            {
+            case 1:
                 func_8005AD40(camera, 0, -99, 0, 0, 18, 10);
-                camera->unk_142 = 3;
-                camera->unk_154 = camera->unk_142;
-                return;
-            }
-            osSyncPrintf("camera: room type: default set etc (%d)\n", camera->globalCtx->roomCtx.curRoom.unk_03);
-            func_8005AD40(camera, 0, -99, 0, 0, 18, 10);
-            camera->unk_142 = 1;
-            camera->unk_154 = camera->unk_142;
-            return;
+                camera->unk_154 = camera->unk_142 = 3;
+                break;
+            case 0:
+                osSyncPrintf("camera: room type: default set field\n");
+                func_8005AD40(camera, 0, -99, 0, 0, 18, 10);
+                camera->unk_154 = camera->unk_142 = 1;
+                break;
+            default:
+                osSyncPrintf("camera: room type: default set etc (%d)\n", camera->globalCtx->roomCtx.curRoom.unk_03);
+                func_8005AD40(camera, 0, -99, 0, 0, 18, 10);
+                camera->unk_154 = camera->unk_142 = 1;
+                camera->unk_14C |= 4;
+                break;
         }
-        osSyncPrintf("camera: room type: default set field\n");
-        func_8005AD40(camera, 0, -99, 0, 0, 18, 10);
-        camera->unk_142 = 1;
-        camera->unk_14C |= 4;
-        camera->unk_154 = camera->unk_142;
-        return;
     }
-    osSyncPrintf("camera: room type: prerender\n");
-    camera->unk_142 = 0x21;
-    camera->unk_14C &= 0xfffb;
-    camera->unk_154 = camera->unk_142;
+    else
+    {
+        osSyncPrintf("camera: room type: prerender\n");
+        camera->unk_154 = camera->unk_142 = 33;
+        camera->unk_14C &= ~0x4;
+    }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057FC4.s")
-#endif
 
 void Camera_Stub80058140(Camera *camera)
 {
@@ -1093,7 +1082,7 @@ s16 func_8005AD1C(Camera *camera, s16 b)
     return camera->unk_14C;
 }
 
-s32 func_8005AD40(Camera *camera, s32 a, s16 b, s16 c, s16 d, s16 e, s16 f)
+s32 func_8005AD40(Camera *camera, s32 a, s16 b, f32 c, s16 d, s16 e, s16 f)
 {
     if ((camera->unk_142 == 43) || (camera->unk_142 == 29))
         return 0;

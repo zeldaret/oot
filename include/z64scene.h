@@ -481,7 +481,7 @@ typedef enum
     /* 0x32 */ SCENE_NIGHT_SHOP,
     /* 0x33 */ SCENE_FACE_SHOP,
     /* 0x34 */ SCENE_LINK_HOME,
-    /* 0x35 */ SCENE_BACK_ALLEY,
+    /* 0x35 */ SCENE_IMPA,
     /* 0x36 */ SCENE_MALON_STABLE,
     /* 0x37 */ SCENE_LABO,
     /* 0x38 */ SCENE_HYLIA_LABO,

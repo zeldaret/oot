@@ -286,12 +286,12 @@ glabel func_800C5C2C
 /* B3CDF8 800C5C58 3C0F8080 */  lui   $t7, %hi(func_80801E44) # $t7, 0x8080
 /* B3CDFC 800C5C5C 25EF1E44 */  addiu $t7, %lo(func_80801E44) # addiu $t7, $t7, 0x1e44
 /* B3CE00 800C5C60 144F0004 */  bne   $v0, $t7, .L800C5C74
-/* B3CE04 800C5C64 3C188080 */   lui   $t8, %hi(func_80800878) # $t8, 0x8080
+/* B3CE04 800C5C64 3C188080 */   lui   $t8, %hi(Title_Init) # $t8, 0x8080
 /* B3CE08 800C5C68 3C028012 */  lui   $v0, %hi(D_8011F860) # $v0, 0x8012
 /* B3CE0C 800C5C6C 10000022 */  b     .L800C5CF8
 /* B3CE10 800C5C70 2442F860 */   addiu $v0, %lo(D_8011F860) # addiu $v0, $v0, -0x7a0
 .L800C5C74:
-/* B3CE14 800C5C74 27180878 */  addiu $t8, %lo(func_80800878) # addiu $t8, $t8, 0x878
+/* B3CE14 800C5C74 27180878 */  addiu $t8, %lo(Title_Init) # addiu $t8, $t8, 0x878
 /* B3CE18 800C5C78 14580004 */  bne   $v0, $t8, .L800C5C8C
 /* B3CE1C 800C5C7C 3C19800C */   lui   $t9, %hi(func_800BCA64) # $t9, 0x800c
 /* B3CE20 800C5C80 3C028012 */  lui   $v0, %hi(D_8011F890) # $v0, 0x8012
