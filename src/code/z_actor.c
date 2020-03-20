@@ -3763,7 +3763,7 @@ void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 baseTex
         case SCENE_HAKADAN_BS:
         case SCENE_KAKARIKO:
         case SCENE_KAKARIKO3:
-        case SCENE_IMPA:
+        case SCENE_BACK_ALLEY:
         case SCENE_HUT:
         case SCENE_HAKAANA:
         case SCENE_HAKASITARELAY:
@@ -4343,17 +4343,6 @@ s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3)
 
     return arg2;
 }
-
-// Some animation related structure
-typedef struct
-{
-    /* 0x00 */ u32      animation;
-    /* 0x04 */ f32      playbackSpeed;
-    /* 0x08 */ f32      unk_08;
-    /* 0x0C */ f32      frameCount;
-    /* 0x10 */ u8       unk_10;
-    /* 0x14 */ f32      transitionRate;
-} struct_80034EC0_Entry; // size = 0x18
 
 void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2)
 {

@@ -72,7 +72,7 @@ RestrictionFlags sRestrictionFlags[] =
     { SCENE_KOKIRI_HOME5,       0x10, 0x10, 0x15 },
     { SCENE_MALON_STABLE,       0x10, 0x10, 0x15 },
     { SCENE_HUT,                0x10, 0x10, 0x15 },
-    { SCENE_IMPA,               0x10, 0x10, 0x15 },
+    { SCENE_BACK_ALLEY,               0x10, 0x10, 0x15 },
     { SCENE_LABO,               0x10, 0x10, 0x15 },
     { SCENE_HYLIA_LABO,         0x00, 0x10, 0x15 },
     { SCENE_TENT,               0x10, 0x10, 0x15 },

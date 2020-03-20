@@ -949,7 +949,7 @@ typedef struct GlobalContext
     /* 0x11DFC */ UNK_PTR unk_11DFC;
     /* 0x11E00 */ EntranceEntry* setupEntranceList;
     /* 0x11E04 */ UNK_PTR setupExitList;
-    /* 0x11E08 */ UNK_PTR setupPathList;
+    /* 0x11E08 */ Path* setupPathList;
     /* 0x11E0C */ UNK_PTR naviMsgSegment;
     /* 0x11E10 */ char unk_11E10[0x4];
     /* 0x11E14 */ u8 skyboxId;
@@ -1005,6 +1005,17 @@ typedef struct LoadedParticleEntry
     /* 0x005F */ u8 type;
 } LoadedParticleEntry; // size = 0x60
 
+// Some animation related structure
+typedef struct
+{
+    /* 0x00 */ u32      animation;
+    /* 0x04 */ f32      playbackSpeed;
+    /* 0x08 */ f32      unk_08;
+    /* 0x0C */ f32      frameCount;
+    /* 0x10 */ u8       unk_10;
+    /* 0x14 */ f32      transitionRate;
+} struct_80034EC0_Entry; // size = 0x18
+
 typedef struct
 {
     /* 0x00 */ u8 limbCount;
@@ -1012,7 +1023,7 @@ typedef struct
     /* 0x02 */ u8 dListCount;
     /* 0x03 */ char unk_03[0x01]; /* Probably Padding */
     /* 0x04 */ u32 limbIndex;
-    /* 0x08 */ u32 animCurrent;
+    /* 0x08 */ u32* animCurrent;
     /* 0x0C */ char unk_0C[0x04];
     /* 0x10 */ f32 animFrameCount;
     /* 0x14 */ f32 unk_14;
@@ -1028,17 +1039,6 @@ typedef struct
     /* 0x3C */ u16 unk_3C;
     /* 0x3E */ u16 unk_3E; /* Probably Padding */
 } SkelAnime; // size = 0x40
-
-// Some animation related structure
-typedef struct
-{
-    /* 0x00 */ u32      animation;
-    /* 0x04 */ f32      playbackSpeed;
-    /* 0x08 */ f32      unk_08;
-    /* 0x0C */ f32      frameCount;
-    /* 0x10 */ u8       unk_10;
-    /* 0x14 */ f32      transitionRate;
-} struct_80034EC0_Entry; // size = 0x18
 
 typedef struct
 {
