@@ -924,7 +924,7 @@ void MapMark_DrawConditionally(GlobalContext* globalCtx);
 void PreNmiBuff_Init(PreNmiBuff* this);
 void PreNmiBuff_SetReset(PreNmiBuff* this);
 u32 PreNmiBuff_IsResetting(PreNmiBuff* this);
-// ? func_8007BF10(?);
+void MsgEvent_SendNullTask();
 f32 func_8007BF90(Vec3f*, Vec3f*);
 // ? func_8007C028(?);
 // ? func_8007C058(?);

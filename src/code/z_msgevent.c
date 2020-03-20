@@ -2,7 +2,7 @@
 #include <global.h>
 #include <sched.h>
 
-void func_8007BF10()
+void MsgEvent_SendNullTask()
 {
     u32 pad[4];
     OSScTask task;
@@ -11,11 +11,11 @@ void func_8007BF10()
     u32 pad2[1];
 
     task.next = NULL;
-    task.flags = 3;
+    task.flags = OS_SC_RCP_MASK;
     task.msgQ = &queue;
     task.msg = NULL;
     task.framebuffer = NULL;
-    task.list.t.type = 0;
+    task.list.t.type = M_NULTASK;
     osCreateMesgQueue(task.msgQ, &msg, 1);
     osSendMesg(&gSchedContext.cmdQ, &task, OS_MESG_BLOCK);
     func_800C95F8(&gSchedContext); // osScKickEntryMsg

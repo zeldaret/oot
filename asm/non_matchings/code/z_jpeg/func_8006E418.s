@@ -96,7 +96,7 @@ glabel func_8006E418
 /* AE5620 8006E480 27A502B8 */  addiu $a1, $sp, 0x2b8
 /* AE5624 8006E484 0C001874 */  jal   osCreateMesgQueue
 /* AE5628 8006E488 24060001 */   li    $a2, 1
-/* AE562C 8006E48C 0C01EFC4 */  jal   func_8007BF10
+/* AE562C 8006E48C 0C01EFC4 */  jal   MsgEvent_SendNullTask
 /* AE5630 8006E490 00000000 */   nop   
 /* AE5634 8006E494 0C001A78 */  jal   osGetTime
 /* AE5638 8006E498 00000000 */   nop   
