@@ -1,8 +1,15 @@
 #include <ultra64.h>
 #include <global.h>
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B280.s")
+void func_8005B2AC(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
 
+//draw red poly
+void func_8005B280(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC)
+{
+    func_8005B2AC(gfx, vA, vB, vC, 255, 0, 0);
+}
+
+//draw poly
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B2AC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B65C.s")
