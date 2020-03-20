@@ -1109,9 +1109,13 @@ void Scene_Draw(GlobalContext* globalCtx);
 // ? func_800A0D94(?);
 // ? func_800A106C(?);
 // ? func_800A1344(?);
-void SkelAnime_Draw(GlobalContext* globalCtx, u32 limbIndex, u32 adt, u8 limbDListCnt, void* internal0, void* internal1);
+void SkelAnime_Draw(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDrawTable,
+                    SkelAnime_LimbUpdateMatrix updateMtxFunc, SkelAnime_LimbAppendDlist appendDlistFunc,
+                    Actor* actor);
 // ? func_800A180C(?);
-void func_800A1AC8(GlobalContext *globalCtx, u32 limbIndex, u32 actorDrawTbl, u32 dListCount, void* posUpdateFunc, void *drawFunc, Actor* actor);
+void func_800A1AC8(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDrawTable,
+                   u32 dListCount, SkelAnime_LimbUpdateMatrix updateMtxFunc,
+                   SkelAnime_LimbAppendDlist appendDlistFunc, Actor* actor);
 // ? func_800A1D8C(?);
 // ? func_800A1FC8(?);
 s32 SkelAnime_GetFrameCount(u32 animation);
@@ -1132,8 +1136,8 @@ Gfx* func_800A273C(GlobalContext* globalCtx, u32 limbIndex, u32 adt, u8 limbDLis
 // ? func_800A3F08(?);
 // ? func_800A3D70(?);
 // ? func_800A4478(?);
-void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 skeleton, u32 animation, u8 unk0, u8 unk1, u8 unk2);
-void func_800A46F8(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 skeleton, u32 animation, u8 unk0, u16* unk1, u8 unk2);
+void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 skelAnimeInitSeg, u32 animation, Vec3s* actorDrawTable, s32 arg5, s32 limbCount);
+void func_800A46F8(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 skelAnimeInitSeg, u32 animation, Vec3s* actorDrawTable, s32 arg5, s32 limbCount);
 // ? func_800A4A20(?);
 // ? func_800A4AD8(?);
 // ? func_800A4D9C(?);
@@ -1146,7 +1150,7 @@ s32 SkelAnime_FrameUpdateMatrix(SkelAnime* skelAnime);
 void SkelAnime_ChangeAnimation(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed, f32 unk0, f32 frameCount, u8 unk1, f32 transitionRate);
 void func_800A51E8(SkelAnime *skelAnime, u32 animation);
 void func_800A5240(SkelAnime *skelAnime, u32 animation, f32 unk0);
-void func_800A529C(SkelAnime *skelAnime, u32 animation, f32 unk0, Actor *actor);
+void func_800A529C(SkelAnime *skelAnime, u32 animation, f32 unk0);
 // ? func_800A52F8(?);
 // ? func_800A54FC(?);
 s32 func_800A56C8(SkelAnime* skelAnime, f32 arg1);

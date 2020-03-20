@@ -847,6 +847,22 @@ typedef struct
     /* 0x01E2 */ char unk_1E2[6];
 } TitleContext; // size = 0x1E8
 
+typedef struct
+{
+    /* 0x000 */ u8 unk_00;
+    /* 0x001 */ char unk_01[3];
+    /* 0x004 */ char unk_04[0x20];
+    /* 0x024 */ OSMesgQueue msgQueue;
+    /* 0x03C */ OSMesg msg;
+} AnimationEntry; // size = 0x40
+
+typedef struct
+{
+    s16 animationCount;
+    char unk_02[2];
+    AnimationEntry entries[0x32];
+} AnimationContext;
+
 // Global Context (dbg ram start: 80212020)
 typedef struct GlobalContext
 {
@@ -923,7 +939,8 @@ typedef struct GlobalContext
     /* 0x10B0B */ char unk_10B0B[0x7];
     /* 0x10B12 */ u8 unk_10B12[4];
     /* 0x10B16 */ u8 unk_10B16[4];
-    /* 0x10B1A */ char unk_10B1A[0xC8A];
+    /* 0x10B1A */ char unk_10B1A[0x6];
+    /* 0x10B20 */ AnimationContext animationCtx;
     /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
     /* 0x11D30 */ s16 unk_11D30[2];
@@ -1003,12 +1020,26 @@ typedef struct LoadedParticleEntry
     /* 0x005F */ u8 type;
 } LoadedParticleEntry; // size = 0x60
 
+typedef s32 (*SkelAnime_LimbUpdateMatrix)(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+             Vec3f* pos, Vec3s* rot, Actor* actor);
+
+typedef void (*SkelAnime_LimbAppendDlist)(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+                                          Vec3s* rot, Actor* actor);
+
+typedef struct
+{
+    Vec3s pos;
+    u8 firstChildIndex;
+    u8 nextLimbIndex;
+    Gfx* dList;
+} SkelLimbEntry;
+
 typedef struct SkelAnime
 {
     /* 0x00 */ u8 limbCount;
     /* 0x01 */ u8 unk_01;
     /* 0x02 */ u8 dListCount;
-    /* 0x03 */ u8 unk_03;
+    /* 0x03 */ s8 unk_03;
     /* 0x04 */ u32 limbIndex;
     /* 0x08 */ u32 animCurrent;
     /* 0x0C */ f32 unk_0C;
@@ -1016,12 +1047,12 @@ typedef struct SkelAnime
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ f32 animCurrentFrame;
     /* 0x1C */ f32 animPlaybackSpeed;
-    /* 0x20 */ u32 actorDrawTbl;
-    /* 0x24 */ u32 unk_24;
-    /* 0x28 */ u32 unk_28;
-    /* 0x2C */ u32 unk_2C;
-    /* 0x30 */ s32 (*mtxUpdate)(struct SkelAnime*);
-    /* 0x34 */ char unk_34[1];
+    /* 0x20 */ Vec3s* actorDrawTbl;
+    /* 0x24 */ Vec3s* unk_24;
+    /* 0x28 */ f32 unk_28;
+    /* 0x2C */ f32 unk_2C;
+    /* 0x30 */ s32 (*mtxUpdate)();
+    /* 0x34 */ s8 unk_34;
     /* 0x35 */ u8 unk_35;
     /* 0x36 */ s16 unk_36;
     /* 0x38 */ s16 unk_38;
