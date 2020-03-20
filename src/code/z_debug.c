@@ -5,8 +5,6 @@
 #include <regs.h>
 #include <PR/os_cont.h>
 
-#define PAGE_N 16
-
 typedef struct
 {
     u8 x;
@@ -162,7 +160,7 @@ void func_8006390C(Input* input) {
     InputCombo* input_combo;
     s32 i;
 
-    regGroup = (gGameInfo->regGroup * (REG_PER_GROUP / PAGE_N) + gGameInfo->regPage) * PAGE_N - PAGE_N;
+    regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
     dpad = input->raw.pad & 0xF00;
     if (!~(input->raw.pad | ~L_TRIG) ||
         !~(input->raw.pad | ~R_TRIG) ||
@@ -180,7 +178,7 @@ void func_8006390C(Input* input) {
 
         if (i < REG_GROUPS) {
             if (i == gGameInfo->regGroup) {
-                gGameInfo->regPage = (gGameInfo->regPage + 1) % 7;
+                gGameInfo->regPage = (gGameInfo->regPage + 1) % (REG_PAGES + 1);
                 return;
             }
             gGameInfo->regGroup = i;
@@ -190,12 +188,12 @@ void func_8006390C(Input* input) {
     else {
         switch (gGameInfo->regPage - 1)
         {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
 
             if (dpad == gGameInfo->dpadLast) {
                 gGameInfo->repeat--;
@@ -226,12 +224,12 @@ void func_8006390C(Input* input) {
             if (dpad & U_JPAD) {
                 gGameInfo->regCur--;
                 if (gGameInfo->regCur < 0) {
-                    gGameInfo->regCur = PAGE_N - 1;
+                    gGameInfo->regCur = REG_PER_PAGE - 1;
                 }
             }
             else if (dpad & D_JPAD) {
                 gGameInfo->regCur++;
-                if (gGameInfo->regCur >= PAGE_N) {
+                if (gGameInfo->regCur >= REG_PER_PAGE) {
                     gGameInfo->regCur = 0;
                 }
             }
@@ -252,8 +250,8 @@ void func_80063C04(GfxPrint* gfxPrint)
     s32 test; //removing affects stack
     char name[3];
 
-    page = (gGameInfo->regPage * PAGE_N) - PAGE_N;
-    regGroup = (gGameInfo->regGroup * (REG_PER_GROUP / PAGE_N) + gGameInfo->regPage) * PAGE_N - PAGE_N;
+    page = (gGameInfo->regPage * REG_PER_PAGE) - REG_PER_PAGE;
+    regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
 
     //set up register name string
     name[0] = 'R';
@@ -261,7 +259,7 @@ void func_80063C04(GfxPrint* gfxPrint)
     name[2] = '\0';
     GfxPrint_SetColor(gfxPrint, 0, 0x80, 0x80, 0x80);
 
-    for (i = 0; i != PAGE_N; i++)
+    for (i = 0; i != REG_PER_PAGE; i++)
     {
         if (i == gGameInfo->regCur)
         {
