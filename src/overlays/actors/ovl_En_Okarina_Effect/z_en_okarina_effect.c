@@ -7,6 +7,8 @@
 #include <ultra64.h>
 #include <global.h>
 
+#include <vt.h>
+
 typedef struct
 {
     /* 0x0000 */ Actor actor;
@@ -58,7 +60,7 @@ static void EnOkarinaEffect_Init(EnOkarinaEffect* this, GlobalContext* globalCtx
 {
     osSyncPrintf("\n\n");
     //"Ocarina Storm Effect"
-    osSyncPrintf("[33m☆☆☆☆☆ オカリナあらし効果ビカビカビカ〜 ☆☆☆☆☆ \n[m");
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ オカリナあらし効果ビカビカビカ〜 ☆☆☆☆☆ \n" VT_RST);
     osSyncPrintf("\n\n");
     if (globalCtx->unk_10B12[1] != 0)
     {

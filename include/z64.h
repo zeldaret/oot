@@ -33,8 +33,12 @@
 // Data normally accessed through REG macros (see regs.h)
 typedef struct
 {
-    /* 0x00 */ char  unk_00[0x14];
-    /* 0x14 */ s16   data[0xAE0];
+    /* 0x00 */ s32  regPage;   //1 is first page
+    /* 0x04 */ s32  regGroup;  //"register" group (R, RS, RO, RP etc.)
+    /* 0x08 */ s32  regCur;    //selected register within page
+    /* 0x0C */ s32  dpadLast;
+    /* 0x10 */ s32  repeat;
+    /* 0x14 */ s16  data[REG_GROUPS * REG_PER_GROUP]; //0xAE0
 } GameInfo; // size = 0x15D4
 
 typedef struct
@@ -808,6 +812,11 @@ typedef struct
     /* 0x04 */ u32 vromEnd;
 } RomFile; // size = 0x8
 
+typedef struct
+{
+    /* 0x00 */ void* read_buff;
+} Sram; // size = 0x4
+
 typedef struct GameAllocEntry
 {
     /* 0x00 */ struct GameAllocEntry* next;
@@ -840,10 +849,17 @@ typedef struct GameState
 typedef struct
 {
     /* 0x0000 */ GameState state;
-    /* 0x00A4 */ char unk_A4[0x12C];
-    /* 0x01D0 */ UNK_TYPE unk_1D0;
-    /* 0x01D4 */ char unk_1D4[0xD];
-    /* 0x01E1 */ u8 unk_1E1;
+    /* 0x00A4 */ void* staticSegment;
+    /* 0x00A8 */ View view;
+    /* 0x01D0 */ Sram sram;
+    /* 0x01D4 */ u16 unk_1D4; // not used in mq dbg (some sort of timer that doesn't seem to affect anything)
+    /* 0x01D6 */ s16 coverAlpha;
+    /* 0x01D8 */ s16 addAlpha; // not used in mq dbg
+    /* 0x01DA */ u16 visibleDuration; // not used in mq dbg
+    /* 0x01DC */ s16 ult;
+    /* 0x01DE */ s16 uls;
+    /* 0x01E0 */ char unk_1E0;
+    /* 0x01E1 */ u8 exit;
     /* 0x01E2 */ char unk_1E2[6];
 } TitleContext; // size = 0x1E8
 
@@ -1024,8 +1040,10 @@ typedef struct
     /* 0x34 */ s32 unk_34;
     /* 0x38 */ s32 unk_38;
     /* 0x3C */ u16 unk_3C;
-    /* 0x3E */ u16 unk_3E; /* Probably Padding */
-} SkelAnime; // size = 0x40
+    /* 0x3E */ u16 unk_3E;
+    /* 0x40 */ u16 unk_40;
+    /* 0x42 */ u16 unk_42;
+} SkelAnime; // size = 0x44
 
 typedef struct
 {
@@ -1349,21 +1367,7 @@ typedef struct OverlayRelocationSection {
     /* 0x0C */ u32 bssSize;
     /* 0x10 */ u32 nRelocations;
     /* 0x14 */ u32 relocations[1];
-} OverlayRelocationSection; /* size >= 0x18 */
-
-#define VEC3_ADD( V3A0, V3A1 ) \
-{                              \
-    V3A0.x += V3A1.x;          \
-    V3A0.y += V3A1.y;          \
-    V3A0.z += V3A1.z;          \
-}
-
-#define VEC3_SUB( V3DST, V3A0, V3A1 ) \
-{                                     \
-    V3DST.x = V3A0.x - V3A1.x;        \
-    V3DST.y = V3A0.y - V3A1.y;        \
-    V3DST.z = V3A0.z - V3A1.z;        \
-}
+} OverlayRelocationSection; // size >= 0x18
 
 typedef struct
 {
