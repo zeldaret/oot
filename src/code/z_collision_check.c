@@ -74,7 +74,7 @@ extern ColliderTouch D_8011DE18;
 
 //initialize
 s32 func_8005B7C0(GlobalContext* globalCtx, ColliderTouch* touch) { 
-    *colliderTouch = D_8011DE18;
+    *touch = D_8011DE18;
     return 1;
 }
 
@@ -84,8 +84,14 @@ s32 func_8005B7E4(GlobalContext* globalCtx, ColliderTouch* touch)
     return 1;
 }
 
-//initialize from overlay
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B7F4.s")
+//copy
+s32 func_8005B7F4(GlobalContext* globalCtx, ColliderTouch* copyTo, ColliderTouch* copyFrom)
+{
+    copyTo->flags = copyFrom->flags;
+    copyTo->unk_04 = copyFrom->unk_04;
+    copyTo->damage = copyFrom->damage;
+    return 1;
+}
 
 void func_8005B818(GlobalContext* globalCtx, ColliderBody* body)
 {
