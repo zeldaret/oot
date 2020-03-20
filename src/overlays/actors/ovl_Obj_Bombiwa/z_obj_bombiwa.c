@@ -41,12 +41,12 @@ static ColliderCylinderInit colliderInit =
     0x00, 0x00, 0x00, 0x00, 
     0x00, 0x01, 0x01, 0x00,
     0x0037, 0x0046, 0x0000, 
-    0x0000, 0x0000, 0x0000
+    0x0000, 0x0000, 0x0000,
 };
 
 static u32 damageChart[] = 
 {
-    0x0000000C, 0x003CFF00
+    0x0000000C, 0x003CFF00,
 };
 
 static InitChainEntry initChain[] = 
@@ -54,12 +54,12 @@ static InitChainEntry initChain[] =
     ICHAIN_VEC3F_DIV1000(scale, 0x64, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 0x7D0, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 0x15E, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_FC, 0x3E8, ICHAIN_STOP)
+    ICHAIN_F32(unk_FC, 0x3E8, ICHAIN_STOP),
 };
 
 static s16 effectScales[] = 
 {
-    17, 14, 10, 8, 7, 5, 3, 2
+    17, 14, 10, 8, 7, 5, 3, 2,
 };
 
 extern Gfx* D_060009E0; //dlist
@@ -79,17 +79,20 @@ static void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx)
     if ((Flags_GetSwitch(globalCtx, this->actor.params & 0x3F) != 0))
     {
         Actor_Kill(&this->actor);
-        return;
     }
-    func_80061ED4(&this->actor.sub_98.damageChart, NULL, damageChart);
-    if (this->actor.shape.rot.y == 0)
+    else
     {
-        s16 rand = (s16) Math_Rand_ZeroFloat(65536.0f);
-        this->actor.posRot.rot.y = rand;
-        this->actor.shape.rot.y = rand;
+        func_80061ED4(&this->actor.sub_98.damageChart, NULL, damageChart);
+        if (this->actor.shape.rot.y == 0)
+        {
+            s16 rand = (s16) Math_Rand_ZeroFloat(65536.0f);
+            this->actor.posRot.rot.y = rand;
+            this->actor.shape.rot.y = rand;
+        }
+        this->actor.shape.unk_08 = -200.0f;
+        this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + 20.0f;
     }
-    this->actor.shape.unk_08 = -200.0f;
-    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + 20.0f;
+    
 }
 
 static void ObjBombiwa_Destroy(ObjBombiwa* this, GlobalContext* globalCtx)
@@ -139,15 +142,17 @@ static void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx)
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
         Actor_Kill(&this->actor);
-        return;
     }
-    this->collider.base.collideFlags &= ~0x2;
-    if (this->actor.xzDistanceFromLink < 800.0f)
+    else
     {
-        sub_11E60 = &globalCtx->sub_11E60;
-        collider = &this->collider;
-        Actor_CollisionCheck_SetAC(globalCtx, sub_11E60, collider);
-        Actor_CollisionCheck_SetOT(globalCtx, sub_11E60, collider);
+        this->collider.base.collideFlags &= ~0x2;
+        if (this->actor.xzDistanceFromLink < 800.0f)
+        {
+            sub_11E60 = &globalCtx->sub_11E60;
+            collider = &this->collider;
+            Actor_CollisionCheck_SetAC(globalCtx, sub_11E60, collider);
+            Actor_CollisionCheck_SetOT(globalCtx, sub_11E60, collider);
+        }
     }
 }
 
