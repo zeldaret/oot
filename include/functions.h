@@ -846,7 +846,7 @@ void func_800775D8();
 s32 func_800775E4();
 void func_800775F0(u16);
 // ? func_80077600(?);
-void Lib_MemSet(void* dest, size_t size, u8 val);
+void Lib_MemSet(u8* dest, size_t size, u8 val);
 f32 Math_Coss(s16 angle);
 f32 Math_Sins(s16 angle);
 s32 Math_ApproxUpdateScaledS(s16* fp, s16 target, s16 step);
