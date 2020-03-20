@@ -988,7 +988,7 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2);
 void func_80088B34(s16 arg0);
 void Interface_Draw(GlobalContext* globalCtx);
 void Interface_Update(GlobalContext* globalCtx);
-f32 func_8008E520(Actor*, UNK_PTR movementPath, s16, s16*);
+f32 func_8008E520(Actor* actor, Path* path, s16, s16*);
 // ? func_8008E6A0(?);
 // ? func_8008E6AC(?);
 // ? func_8008E750(?);
