@@ -8,7 +8,7 @@ typedef struct
 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 action;
-    /* 0x0150 */ s32 unk_150;
+    /* 0x0150 */ s32 drawConfig;
     /* 0x0154 */ s32 unk_154;
     /* 0x0158 */ Actor* unk_158;
     /* 0x015C */ f32 unk_15C;
