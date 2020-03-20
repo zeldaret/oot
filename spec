@@ -339,7 +339,7 @@ beginseg
     include "build/src/code/z_malloc.o"
     include "build/src/code/z_map_mark.o"
     include "build/src/code/z_moji.o"
-    include "build/src/code/prenmi_buff.o"
+    include "build/src/code/z_prenmi_buff.o"
     include "build/src/code/z_msgevent.o"
     include "build/src/code/code_8007BF90.o"
     include "build/src/code/z_onepointdemo.o"
