@@ -759,7 +759,7 @@ void func_80062D60(GlobalContext*, Vec3f*);
 s32 func_80062ECC(f32, f32, f32, Vec3f*, Vec3f*, Vec3f*, Vec3f*, Vec3f*);
 void SaveContext_Init(void);
 // ? func_800636C0(?);
-void func_8006375C(UNK_TYPE, UNK_TYPE, UNK_TYPE);
+void func_8006375C(s32 arg0, s32 arg1, float* d_80855320);
 // ? func_8006376C(?);
 // ? func_80063828(?);
 // ? func_8006390C(?);
@@ -1474,7 +1474,7 @@ void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
 void func_800C6AC4(Gfx** a0, GraphicsContext* gfxCtx, char* file, s32 line);
 void func_800C6B54(Gfx** a0, GraphicsContext* gfxCtx, char* file, s32 line);
 Gfx* func_800C6C20(Gfx* a0);
-// ? func_800C6C28(?);
+Gfx* func_800C6C28(Gfx* a0, Gfx* dlist); //branch dlist
 // ? func_800C6C3C(?);
 ListAlloc* ListAlloc_Init(ListAlloc* this);
 void* ListAlloc_Alloc(ListAlloc* this, u32 size);
@@ -2384,5 +2384,7 @@ void func_801109B0(GlobalContext* globalCtx);
 void func_80110F68(GlobalContext* globalCtx);
 void func_80112098(GlobalContext* globalCtx);
 
-void func_80800878(TitleContext*);
+void Title_Init(TitleContext*);
+void Opening_Init(OpeningContext* this);
+
 #endif
