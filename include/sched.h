@@ -10,8 +10,8 @@ typedef struct OSScTask
     /* 0x08 */ u32            flags;
     /* 0x0C */ void*          framebuffer;
     /* 0x10 */ OSTask         list;
-    /* 0x58 */ OSMesgQueue*   msgQ;
-    /* 0x5C */ OSMesg         msg;
+    /* 0x50 */ OSMesgQueue*   msgQ;
+    /* 0x54 */ OSMesg         msg;
 } OSScTask;
 
 typedef struct
@@ -38,5 +38,7 @@ typedef struct
     /* 0x0220 */ UNK_TYPE     unk_250;
     /* 0x0220 */ char         unk_254[0x04];
 } SchedContext; // size = 0x258
+
+extern SchedContext gSchedContext;
 
 #endif
