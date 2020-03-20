@@ -808,6 +808,11 @@ typedef struct
     /* 0x04 */ u32 vromEnd;
 } RomFile; // size = 0x8
 
+typedef struct
+{
+    /* 0x00 */ void* read_buff;
+} Sram; // size = 0x4
+
 typedef struct GameAllocEntry
 {
     /* 0x00 */ struct GameAllocEntry* next;
@@ -840,10 +845,17 @@ typedef struct GameState
 typedef struct
 {
     /* 0x0000 */ GameState state;
-    /* 0x00A4 */ char unk_A4[0x12C];
-    /* 0x01D0 */ UNK_TYPE unk_1D0;
-    /* 0x01D4 */ char unk_1D4[0xD];
-    /* 0x01E1 */ u8 unk_1E1;
+    /* 0x00A4 */ void* staticSegment;
+    /* 0x00A8 */ View view;
+    /* 0x01D0 */ Sram sram;
+    /* 0x01D4 */ u16 unk_1D4; // not used in mq dbg (some sort of timer that doesn't seem to affect anything)
+    /* 0x01D6 */ s16 coverAlpha;
+    /* 0x01D8 */ s16 addAlpha; // not used in mq dbg
+    /* 0x01DA */ u16 visibleDuration; // not used in mq dbg
+    /* 0x01DC */ s16 ult;
+    /* 0x01DE */ s16 uls;
+    /* 0x01E0 */ char unk_1E0;
+    /* 0x01E1 */ u8 exit;
     /* 0x01E2 */ char unk_1E2[6];
 } TitleContext; // size = 0x1E8
 

@@ -2384,5 +2384,7 @@ void func_801109B0(GlobalContext* globalCtx);
 void func_80110F68(GlobalContext* globalCtx);
 void func_80112098(GlobalContext* globalCtx);
 
-void func_80800878(TitleContext*);
+void Title_Init(TitleContext*);
+void Opening_Init(OpeningContext* this);
+
 #endif
