@@ -308,8 +308,6 @@ beginseg
     include "build/src/code/z_common_data.o"
     include "build/data/z_common_data.bss.o"
     include "build/src/code/z_debug.o"
-    include "build/data/z_debug.data.o"
-    include "build/data/z_debug.bss.o"
     include "build/src/code/z_debug_display.o"
     include "build/src/code/z_demo.o"
     include "build/src/code/code_80069420.o"

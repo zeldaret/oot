@@ -1,7 +1,12 @@
 #ifndef _REGS_H_
 #define _REGS_H_
 
-#define BASE_REG(n, r) gGameInfo->data[n * 96 + r]
+#define REG_GROUPS 29 //number of REG groups, i.e. REG, SREG, OREG, etc.
+#define REG_PAGES 6
+#define REG_PER_PAGE 16
+#define REG_PER_GROUP REG_PAGES * REG_PER_PAGE
+
+#define BASE_REG(n, r) gGameInfo->data[n * REG_PER_GROUP + r]
 
 #define  REG(r) BASE_REG(0, r)
 #define SREG(r) BASE_REG(1, r)
