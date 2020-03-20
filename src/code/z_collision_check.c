@@ -165,6 +165,8 @@ s32 func_8005BA74(UNK_TYPE arg0, UNK_TYPE arg1)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BCC8.s")
 
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BD50.s")
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BE50.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C050.s")
