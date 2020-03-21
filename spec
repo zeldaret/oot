@@ -1595,9 +1595,7 @@ endseg
 beginseg
     name "ovl_Bg_Toki_Swd"
     include "build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd.o"
-    include "build/data/overlays/actors/z_bg_toki_swd.data.o"
-    include "build/data/overlays/actors/z_bg_toki_swd.rodata.o"
-    include "build/data/overlays/actors/z_bg_toki_swd.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd_reloc.o"
 endseg
 
 beginseg
