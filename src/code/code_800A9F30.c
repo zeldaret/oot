@@ -45,22 +45,18 @@ void func_800AA0B4(void)
     if (0) ; // Necessary to match
 }
 
-#ifdef NON_MATCHING
 void func_800AA0F0(void)
 {
-    if ((gPadMgr.unk_460 == func_800A9F30) && (gPadMgr.unk_464 == 0))
+    PadMgr* padmgr = &gPadMgr;
+
+    if ((padmgr->unk_460 == func_800A9F30) && (padmgr->unk_464 == 0))
     {
-        // asm loads/writes directly to 0x80166D20 and 0x80166D24
-        // but the compiler wants to reuse offsets from 0x801668C0
-        gPadMgr.unk_460 = NULL;
-        gPadMgr.unk_464 = 0;
+        padmgr->unk_460 = NULL;
+        padmgr->unk_464 = 0;
     }
 
     func_800D3178(&D_80160FD0);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800A9F30/func_800AA0F0.s")
-#endif
 
 u32 func_800AA148(void)
 {

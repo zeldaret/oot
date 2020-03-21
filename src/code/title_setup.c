@@ -6,7 +6,7 @@ void TitleSetup_InitImpl(GameState* gameState)
     osSyncPrintf("ゼルダ共通データ初期化\n");
     SaveContext_Init();
     gameState->running = false;
-    gameState->init = func_80800878; gameState->size = sizeof(TitleContext);
+    gameState->init = Title_Init; gameState->size = sizeof(TitleContext);
 }
 
 void TitleSetup_Destroy(GameState* gameState)

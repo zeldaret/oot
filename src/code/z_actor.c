@@ -4332,7 +4332,7 @@ s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3)
 
     if (arg3 < var)
     {
-        actor->flags &= ~0x1;
+        actor->flags &= ~1;
         Math_SmoothScaleMaxMinS(&arg2, 0, 6, 0x14, 1);
     }
     else
@@ -4426,35 +4426,7 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx)
     return ret;
 }
 
-/* z_cheap_proc.c */
-
-void Draw_DListOpa(GlobalContext* globalCtx, u32 dlist)
-{
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
-
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_cheap_proc.c", 214);
-
-    func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_cheap_proc.c", 216), G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyOpa.p++, dlist);
-
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_cheap_proc.c", 219);
-}
-
-void Draw_DListXlu(GlobalContext* globalCtx, u32 dlist)
-{
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
-
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_cheap_proc.c", 228);
-
-    func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_cheap_proc.c", 230), G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyXlu.p++, dlist);
-
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_cheap_proc.c", 233);
-}
+#include "z_cheap_proc.c"
 
 u8 func_800353E8(GlobalContext* globalCtx)
 {
