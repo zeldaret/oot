@@ -565,10 +565,6 @@ extern Scene gSceneTable[110];
 extern u8 gLetterTLUT[4][32]; // original name: "moji_tlut"
 extern u8 gFontFF[]; // original name: "font_ff"
 //extern ? D_8012ABF0;
-//extern ? D_8012AC00;
-//extern ? D_8012AC28;
-//extern ? D_8012AC40;
-//extern ? D_8012AC58;
 //extern ? D_8012AC90;
 //extern ? D_8012ACA0;
 //extern ? D_8012AD20;
