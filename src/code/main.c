@@ -7,7 +7,7 @@ u32 gScreenWidth = SCREEN_WIDTH;
 u32 gScreenHeight = SCREEN_HEIGHT;
 u32 gSystemHeapSize = 0;
 
-u8* gAppNmiBufferPtr;
+PreNmiBuff* gAppNmiBufferPtr;
 SchedContext gSchedContext;
 PadMgr gPadMgr;
 IrqMgr gIrqMgr;
@@ -50,8 +50,8 @@ void Main(void* arg0)
     osSyncPrintf("mainproc 実行開始\n"); //Start running
     gScreenWidth = SCREEN_WIDTH;
     gScreenHeight = SCREEN_HEIGHT;
-    gAppNmiBufferPtr = osAppNmiBuffer;
-    func_8007BE60(gAppNmiBufferPtr);
+    gAppNmiBufferPtr = (PreNmiBuff*)osAppNmiBuffer;
+    PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Start();
     SysCfb_Init(0);
     sysHeap = (u32)gSystemHeap;
@@ -112,7 +112,7 @@ void Main(void* arg0)
         if (*msg == OS_SC_PRE_NMI_MSG)
         {
             osSyncPrintf("main.c: リセットされたみたいだよ\n"); //Looks like it's been reset
-            func_8007BED4(gAppNmiBufferPtr);
+            PreNmiBuff_SetReset(gAppNmiBufferPtr);
         }
     }
 
