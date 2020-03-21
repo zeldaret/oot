@@ -1,3 +1,9 @@
+/*
+ * File: z_demo_geff.c
+ * Overlay: Demo_Geff
+ * Description:
+*/
+
 #include "z_demo_geff.h"
 
 #include <vt.h>
@@ -10,7 +16,7 @@ void DemoGeff_Destroy(DemoGeff* this, GlobalContext* globalCtx);
 void DemoGeff_Update(DemoGeff* this, GlobalContext* globalCtx);
 void DemoGeff_Draw(DemoGeff* this, GlobalContext* globalCtx);
 
-void func_80978030(DemoGeff* this, GlobalContext* globalCtx);
+void DemoGeff_SetScale(DemoGeff* this, GlobalContext* globalCtx);
 
 void func_809783D4(DemoGeff* this, GlobalContext* globalCtx);
 void func_80978308(DemoGeff* this, GlobalContext* globalCtx);
@@ -21,10 +27,11 @@ void func_80978344(DemoGeff* this, GlobalContext* globalCtx);
 s16 objectIds[] = { OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF,
                     OBJECT_GEFF, OBJECT_GEFF, OBJECT_UNSET_0, };
 
-ActorFunc D_80978584[] = { func_80978030, func_80978030, func_80978030, func_80978030, func_80978030, func_80978030,
-                           func_80978030, func_80978030, func_80978030, };
-ActorFunc actionFuncs[] = { func_809783D4, func_80978308, };
-ActorFunc drawFuncs[] = { func_809784D4, func_80978344, };
+ActorFunc scaleFuncs[] = { (ActorFunc)DemoGeff_SetScale, (ActorFunc)DemoGeff_SetScale, (ActorFunc)DemoGeff_SetScale,
+                           (ActorFunc)DemoGeff_SetScale, (ActorFunc)DemoGeff_SetScale, (ActorFunc)DemoGeff_SetScale,
+                           (ActorFunc)DemoGeff_SetScale, (ActorFunc)DemoGeff_SetScale, (ActorFunc)DemoGeff_SetScale, };
+ActorFunc actionFuncs[] = { (ActorFunc)func_809783D4, (ActorFunc)func_80978308, };
+ActorFunc drawFuncs[] = { (ActorFunc)func_809784D4, (ActorFunc)func_80978344, };
 
 const ActorInit Demo_Geff_InitVars =
 {
@@ -74,33 +81,32 @@ void func_80977EA8(GlobalContext* globalCtx, u32 dlist) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Geff/func_80977F80.s")
 /*void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
-    s32 unk_154 = this->unk_154;
     s32 pad[2];
+    s32 objBankIndex = this->objBankIndex;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    ObjectContext* objCtx = &globalCtx->objectCtx;
+    s16 pad2;
     Gfx* gfxArr[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_demo_geff.c", 204);
+    func_800C6AC4(gfxArr, gfxCtx, "../z_demo_geff.c", 204);
     
-    gSPSegment(gfxCtx->polyOpa.p++, 0x06, objCtx->status[unk_154].segment);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(objCtx->status[unk_154].segment);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objBankIndex].segment);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_demo_geff.c", 212);
+    func_800C6B54(gfxArr, gfxCtx, "../z_demo_geff.c", 212);
 }*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Geff/func_80978030.s")
-/*void func_80978030(DemoGeff* this, GlobalContext* globalCtx) {
+void DemoGeff_SetScale(DemoGeff* this, GlobalContext* globalCtx) {
     Vec3f* thisScale = &this->actor.scale;
     this->action = 1;
     this->drawConfig = 1;
 
-    switch ((u16)this->actor.params) {
-        default:
+    switch (this->actor.params) {
+        case 0:
+        case 3:
+        case 6:
             thisScale->x = ((f32) kREG(7) * 0.01f) + 0.3f;
             thisScale->y = ((f32) kREG(8) * 0.01f) + 0.3f;
             thisScale->z = ((f32) kREG(9) * 0.01f) + 0.3f;
-            break;
-        case 8:
             break;
         case 1:
         case 4:
@@ -109,55 +115,51 @@ void func_80977EA8(GlobalContext* globalCtx, u32 dlist) {
             thisScale->y = ((f32) kREG(11) * 0.01f) + 0.29f;
             thisScale->z = ((f32) kREG(12) * 0.01f) + 0.12f;
             break;
-        case 2:
-        case 5:
+        default:
             thisScale->x = ((f32) kREG(13) * 0.01f) + 0.1f;
             thisScale->y = ((f32) kREG(14) * 0.01f) + 0.15f;
             thisScale->z = ((f32) kREG(15) * 0.01f) + 0.2f;
             break;
     }
-}*/
+}
 
 void func_809781FC(DemoGeff* this, GlobalContext* globalCtx) {
     s32 targetParams = 2;
-    Actor* demoGt;
+    Actor* propIt;
 
-    if (this->unk_158 == 0) {
-        demoGt = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+    if (this->demoGt == NULL) {
+        propIt = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
         if ((this->actor.params != 0) && (this->actor.params != 1) && (this->actor.params != 2)) {
             targetParams = 2;
         } else {
             targetParams = 1;
         }
-        while (demoGt != 0) {
-            if (demoGt->id == ACTOR_DEMO_GT && demoGt->params == targetParams) {
-                this->unk_15C = (this->actor.posRot.pos.x - demoGt->posRot.pos.x);
-                this->unk_160 = (this->actor.posRot.pos.y - demoGt->posRot.pos.y);
-                this->unk_164 = (this->actor.posRot.pos.z - demoGt->posRot.pos.z);
-                this->unk_158 = demoGt;
+        while (propIt != NULL) {
+            if (propIt->id == ACTOR_DEMO_GT && propIt->params == targetParams) {
+                this->deltaPosX = this->actor.posRot.pos.x - propIt->posRot.pos.x;
+                this->deltaPosY = this->actor.posRot.pos.y - propIt->posRot.pos.y;
+                this->deltaPosZ = this->actor.posRot.pos.z - propIt->posRot.pos.z;
+                this->demoGt = propIt;
             }
-            demoGt = demoGt->next;
+            propIt = propIt->next;
         }
     }
 }
 
 void func_809782A0(DemoGeff* this, GlobalContext* globalCtx) {
-    Actor* unk_158 = this->unk_158;
+    DemoGt* demoGt = this->demoGt;
     s16 params = this->actor.params;
-    if (unk_158 != NULL) {
-        if ((params != 6) && (params != 7) && (params != 8)) {
-            this->actor.posRot.pos.x = unk_158->posRot.pos.x + this->unk_15C;
-            this->actor.posRot.pos.y = unk_158->posRot.pos.y + this->unk_160;
-            this->actor.posRot.pos.z = unk_158->posRot.pos.z + this->unk_164;
-        }
+    if (demoGt != NULL && (params != 6) && (params != 7) && (params != 8)) {
+        this->actor.posRot.pos.x = demoGt->actor.posRot.pos.x + this->deltaPosX;
+        this->actor.posRot.pos.y = demoGt->actor.posRot.pos.y + this->deltaPosY;
+        this->actor.posRot.pos.z = demoGt->actor.posRot.pos.z + this->deltaPosZ;
     }
-
 }
 
 void func_80978308(DemoGeff* this, GlobalContext* globalCtx) {
     func_809781FC(this, globalCtx);
     func_809782A0(this, globalCtx);
-    func_80978030(this, globalCtx);
+    DemoGeff_SetScale(this, globalCtx);
 }
 
 void func_80978344(DemoGeff* this, GlobalContext* globalCtx) {
@@ -166,7 +168,7 @@ void func_80978344(DemoGeff* this, GlobalContext* globalCtx) {
 
 void func_80978370(DemoGeff* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params;
-    ActorFunc actorFunc = D_80978584[params];
+    ActorFunc actorFunc = scaleFuncs[params];
     if (actorFunc == NULL) {
         osSyncPrintf(VT_FGCOL(RED) " Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n" VT_RST, params);
         Actor_Kill(&this->actor);
@@ -189,7 +191,7 @@ void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
         return;
     }
     if (Object_IsLoaded(objCtx, objBankIndex)) {
-        this->unk_154 = objBankIndex;
+        this->objBankIndex = objBankIndex;
         func_80978370(this, globalCtx);
     }
 }
