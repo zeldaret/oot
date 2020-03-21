@@ -84,7 +84,7 @@ s32 func_8005B7E4(GlobalContext* globalCtx, ColliderTouch* touch)
     return 1;
 }
 
-//copy
+//copy. copyFrom might actually be a different type
 s32 func_8005B7F4(GlobalContext* globalCtx, ColliderTouch* copyTo, ColliderTouch* copyFrom)
 {
     copyTo->flags = copyFrom->flags;
@@ -113,7 +113,14 @@ s32 func_8005B850(GlobalContext* globalCtx, ColliderBump* bump)
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B860.s")
+//init from overlay
+s32 func_8005B860(GlobalContext* globalCtx, ColliderBump* bump, ColliderBumpInit* init)
+{
+    bump->flags = init->flags;
+    bump->effect = init->effect;
+    bump->unk_05 = init->unk_05;
+    return 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B884.s")
 

@@ -237,6 +237,13 @@ typedef struct
     /* 0x0A */ s16 unk_0A;
 } ColliderBump; // size = 0x0C
 
+typedef struct
+{
+    /* 0x00 */ s32 flags; /* Collision Exclusion Mask */
+    /* 0x04 */ u8 effect; /* Damage Effect (Knockback, Fire, etc.) */
+    /* 0x05 */ u8 unk_05;
+} ColliderBumpInit; // size = 0x0C
+
 typedef struct ColliderBody
 {
     /* 0x00 */ ColliderTouch toucher;
@@ -302,7 +309,7 @@ typedef struct
 typedef struct
 {
     /* 0x00 */ ColliderBodyInfo body;
-    /* 0x06 */ ColliderBodyInfoInner inner;
+    /* 0x08 */ ColliderBodyInfoInner inner;
     /* 0x20 */ ColliderDimensions dim;
 } ColliderCylinderInit; // size = 0x2C
 
