@@ -56,35 +56,36 @@ void DemoGeff_Init(DemoGeff* this, GlobalContext* globalCtx) {
     this->drawConfig = 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Geff/func_80977EA8.s")
-/*void func_80977EA8(GlobalContext* globalCtx, u32 dlist) {
-    GraphicsContext* gfxCtx = &globalCtx->state.gfxCtx;
+void func_80977EA8(GlobalContext* globalCtx, u32 dlist) {
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    s16 pad;
     Gfx* gfxArr[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_demo_geff.c", 181);
-    func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_geff.c", 183),
+    func_800C6AC4(gfxArr, gfxCtx, "../z_demo_geff.c", 181);
+    func_80093D18(gfxCtx);
+
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_demo_geff.c", 183),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, dlist);
     gSPPopMatrix(gfxCtx->polyOpa.p++, G_MTX_MODELVIEW);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_demo_geff.c", 188);
-}*/
+    func_800C6B54(gfxArr, gfxCtx, "../z_demo_geff.c", 188);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Geff/func_80977F80.s")
 /*void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
+    s32 unk_154 = this->unk_154;
+    s32 pad[2];
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    ObjectContext* objCtx = &globalCtx->objectCtx;
     Gfx* gfxArr[4];
 
     func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_demo_geff.c", 204);
+    
+    gSPSegment(gfxCtx->polyOpa.p++, 0x06, objCtx->status[unk_154].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(objCtx->status[unk_154].segment);
 
-    temp_a0 = (arg1 + (this->unk_154 * 0x44)) + 0x10000;
-
-    gSPSegment(gfxCtx->polyOpa.p++, 0x06, temp_a0->unk17B4),
-
-    *(void *)0x80166FC0 = (s32) (temp_a0->unk17B4 + 0x80000000);
-
-    func_800C6B54(gfxArr, &globalCtx->state.gfxCtx, "../z_demo_geff.c", 212);
+    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_demo_geff.c", 212);
 }*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Geff/func_80978030.s")
@@ -140,18 +141,18 @@ void func_809781FC(DemoGeff* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Geff/func_809782A0.s")
-/*void func_809782A0(DemoGeff* this, GlobalContext* globalCtx) {
-    s16 params;
-    if (this->unk_158 != 0) {
-        params = this->actor.params;
+void func_809782A0(DemoGeff* this, GlobalContext* globalCtx) {
+    Actor* unk_158 = this->unk_158;
+    s16 params = this->actor.params;
+    if (unk_158 != NULL) {
         if ((params != 6) && (params != 7) && (params != 8)) {
-            this->actor.posRot.pos.x = this->unk_158->posRot.pos.x + this->unk_15C;
-            this->actor.posRot.pos.y = this->unk_158->posRot.pos.y + this->unk_160;
-            this->actor.posRot.pos.z = this->unk_158->posRot.pos.z + this->unk_164;
+            this->actor.posRot.pos.x = unk_158->posRot.pos.x + this->unk_15C;
+            this->actor.posRot.pos.y = unk_158->posRot.pos.y + this->unk_160;
+            this->actor.posRot.pos.z = unk_158->posRot.pos.z + this->unk_164;
         }
-    } 
-}*/
+    }
+
+}
 
 void func_80978308(DemoGeff* this, GlobalContext* globalCtx) {
     func_809781FC(this, globalCtx);
@@ -163,17 +164,16 @@ void func_80978344(DemoGeff* this, GlobalContext* globalCtx) {
     func_80977EA8(globalCtx, &D_06000EA0);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Geff/func_80978370.s")
-/*void func_80978370(DemoGeff* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->actor;
-    ActorFunc actorFunc = D_80978584[thisx->params];
+void func_80978370(DemoGeff* this, GlobalContext* globalCtx) {
+    s16 params = this->actor.params;
+    ActorFunc actorFunc = D_80978584[params];
     if (actorFunc == NULL) {
-        osSyncPrintf(VT_FGCOL(RED) " Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n" VT_RST, thisx->params);
-        Actor_Kill(thisx);
+        osSyncPrintf(VT_FGCOL(RED) " Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n" VT_RST, params);
+        Actor_Kill(&this->actor);
         return;
     }
     actorFunc(this, globalCtx);
-}*/
+}
 
 void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
     ObjectContext* objCtx = &globalCtx->objectCtx;
