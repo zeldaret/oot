@@ -69,7 +69,7 @@ glabel func_8008E520
 /* B05750 8008E5B0 46083301 */  sub.s $f12, $f6, $f8
 /* B05754 8008E5B4 46128381 */  sub.s $f14, $f16, $f18
 /* B05758 8008E5B8 E7AC001C */  swc1  $f12, 0x1c($sp)
-/* B0575C 8008E5BC 0C03F494 */  jal   func_800FD250
+/* B0575C 8008E5BC 0C03F494 */  jal   Math_atan2f
 /* B05760 8008E5C0 E7AE0018 */   swc1  $f14, 0x18($sp)
 /* B05764 8008E5C4 3C018014 */  lui   $at, %hi(D_8013E760)
 /* B05768 8008E5C8 C424E760 */  lwc1  $f4, %lo(D_8013E760)($at)
