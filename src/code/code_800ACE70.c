@@ -12,35 +12,57 @@ typedef struct
     /* 0x0C */ u32 unk_0C;
 } struct_801664F0;
 
-Gwords D_8012AC00[] = 
+Gfx D_8012AC00[] = 
 {
-    gsDPSetOtherMode(0, G_RM_VISCVG | G_RM_VISCVG2 | G_ZS_PRIM),
+    gsDPSetOtherMode(
+        G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE | G_TD_CLAMP |
+        G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+        G_AC_NONE | G_ZS_PRIM | G_RM_VISCVG | G_RM_VISCVG2),
     gsDPFillRectangle(0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1),
     gsDPPipeSync(),
     gsDPSetBlendColor(0, 0, 0, 8),
     gsSPEndDisplayList(),
 };
 
-Gwords D_8012AC28[] = 
+Gfx D_8012AC28[] = 
 {
-    gsDPSetOtherMode(0, GBL_c1(3, 1, 1, 1) | GBL_c2(3, 1, 1, 1) | IM_RD | FORCE_BL | G_ZS_PRIM),
+    gsDPSetOtherMode(
+        G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE | G_TD_CLAMP |
+        G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+        G_AC_NONE | G_ZS_PRIM | IM_RD | CVG_DST_CLAMP | ZMODE_OPA | FORCE_BL |
+        GBL_c1(G_BL_CLR_FOG, G_BL_A_FOG,G_BL_CLR_MEM, G_BL_A_MEM) |
+        GBL_c2(G_BL_CLR_FOG, G_BL_A_FOG, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPFillRectangle(0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1),
     gsSPEndDisplayList(),
 };
 
-Gwords D_8012AC40[] = 
+Gfx D_8012AC40[] = 
 {
-    gsDPSetOtherMode(0, GBL_c1(0, 3, 1, 1) | GBL_c2(0, 3, 1, 1) | IM_RD | FORCE_BL | G_ZS_PRIM),
+    gsDPSetOtherMode(
+        G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE | G_TD_CLAMP |
+        G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+        G_AC_NONE | G_ZS_PRIM | IM_RD | CVG_DST_CLAMP | ZMODE_OPA | FORCE_BL |
+        GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_MEM, G_BL_A_MEM) |
+        GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_MEM, G_BL_A_MEM)),
+
     gsDPFillRectangle(0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1),
     gsSPEndDisplayList(),
 };
 
-Gwords D_8012AC58[] = 
+Gfx D_8012AC58[] = 
 {
     gsDPSetCombineLERP(K5, K5, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, K5, K5, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
-    gsDPSetOtherMode(G_CD_DISABLE | G_AD_NOTPATTERN, G_ZS_PRIM | IM_RD | CVG_DST_WRAP | CVG_DST_FULL | FORCE_BL | GBL_c1(0, 0, 1, 0) | GBL_c2(0, 0, 1, 0)),
+     gsDPSetOtherMode(
+         G_AD_NOTPATTERN | G_CD_DISABLE | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE | G_TD_CLAMP |
+         G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+         G_AC_NONE | G_ZS_PRIM | G_RM_CLD_SURF | G_RM_CLD_SURF2),
     gsDPFillRectangle(0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1),
-    gsDPSetOtherMode(0, GBL_c1(0, 3, 1, 1) | GBL_c2(0, 3, 1, 1) | IM_RD | FORCE_BL | G_ZS_PRIM),
+    gsDPSetOtherMode(
+        G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE | G_TD_CLAMP |
+        G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+        G_AC_NONE | G_ZS_PRIM | IM_RD | CVG_DST_CLAMP | ZMODE_OPA | FORCE_BL |
+        GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_MEM, G_BL_A_MEM) |
+        GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_MEM, G_BL_A_MEM)),
     gsDPFillRectangle(0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1),
     gsSPEndDisplayList(),
 };
