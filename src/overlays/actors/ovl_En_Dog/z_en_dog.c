@@ -326,7 +326,7 @@ static void EnDog_Init(EnDog* this, GlobalContext* globalCtx)
     switch (globalCtx->sceneNum)
     {
         case SCENE_MARKET_NIGHT:
-            if ((gSaveContext.dogIsLost == 0) && (((this->actor.params & 0x0F00) >> 8) == 1))
+            if ((!gSaveContext.dogIsLost) && (((this->actor.params & 0x0F00) >> 8) == 1))
             {
                 Actor_Kill(&this->actor);
             }
@@ -334,7 +334,7 @@ static void EnDog_Init(EnDog* this, GlobalContext* globalCtx)
         case SCENE_IMPA: // Richard's Home
             if ((u32)(this->actor.params & 0x8000) == 0)
             {
-                if (gSaveContext.dogIsLost == 0)
+                if (!gSaveContext.dogIsLost)
                 {
                     this->nextBehavior = DOG_SIT;
                     this->actionFunc = EnDog_Wait;
