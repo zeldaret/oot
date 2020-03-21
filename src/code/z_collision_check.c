@@ -14,12 +14,14 @@ void func_8005B280(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC)
 
 extern Collider D_8011DE00;
 
+//Init Collider
 s32 func_8005B65C(GlobalContext* globalCtx, Collider* collision)
 {
     *collision = D_8011DE00;
     return 1;
 }
 
+//Destruct Collider
 s32 func_8005B6A0(GlobalContext* globalCtx, Collider* collision)
 {
     return 1;
@@ -27,7 +29,8 @@ s32 func_8005B6A0(GlobalContext* globalCtx, Collider* collision)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B6B0.s")
 
-s32 func_8005B6EC(GlobalContext* globalCtx, Collider* collision, Actor* actor, ColliderBodyInfo* src)
+//SetInit Collider (maskB = 0x10)
+s32 func_8005B6EC(GlobalContext* globalCtx, Collider* collision, Actor* actor, ColliderInit* src)
 {
     collision->actor = actor;
     collision->unk_14 = src->unk_00;
@@ -39,7 +42,8 @@ s32 func_8005B6EC(GlobalContext* globalCtx, Collider* collision, Actor* actor, C
     return 1;
 }
 
-s32 func_8005B72C(GlobalContext* globalCtx, Collider* collision, Actor* actor, ColliderBodyInfo* src)
+//SetInit Collider (maskB = src->maskB)
+s32 func_8005B72C(GlobalContext* globalCtx, Collider* collision, Actor* actor, ColliderInit* src)
 {
     collision->actor = actor;
     collision->unk_14 = src->unk_00;
@@ -72,24 +76,24 @@ void func_8005B79C(GlobalContext* globalCtx, Collider* collision)
 
 extern ColliderTouch D_8011DE18;
 
-//initialize
+//Initialize ColliderTouch
 s32 func_8005B7C0(GlobalContext* globalCtx, ColliderTouch* touch) { 
     *touch = D_8011DE18;
     return 1;
 }
 
-//destructor
+//Destruct ColliderTouch
 s32 func_8005B7E4(GlobalContext* globalCtx, ColliderTouch* touch)
 {
     return 1;
 }
 
-//copy. copyFrom might actually be a different type
-s32 func_8005B7F4(GlobalContext* globalCtx, ColliderTouch* copyTo, ColliderTouch* copyFrom)
+//SetInit ColliderTouch. src might actually be a different type
+s32 func_8005B7F4(GlobalContext* globalCtx, ColliderTouch* dest, ColliderTouch* src)
 {
-    copyTo->flags = copyFrom->flags;
-    copyTo->unk_04 = copyFrom->unk_04;
-    copyTo->damage = copyFrom->damage;
+    dest->flags = src->flags;
+    dest->unk_04 = src->unk_04;
+    dest->damage = src->damage;
     return 1;
 }
 
@@ -100,20 +104,20 @@ void func_8005B818(GlobalContext* globalCtx, ColliderBody* body)
 
 extern ColliderBump D_8011DE20;
 
-//init
+//Initialize ColliderBump
 s32 func_8005B824(GlobalContext* globalCtx, ColliderBump* bump)
 {
     *bump = D_8011DE20;
     return 1;
 }
 
-//destructor
+//Destruct ColliderBump 
 s32 func_8005B850(GlobalContext* globalCtx, ColliderBump* bump)
 {
     return 1;
 }
 
-//init from overlay
+//SetInit ColliderBump
 s32 func_8005B860(GlobalContext* globalCtx, ColliderBump* bump, ColliderBumpInit* init)
 {
     bump->flags = init->flags;
@@ -124,6 +128,7 @@ s32 func_8005B860(GlobalContext* globalCtx, ColliderBump* bump, ColliderBumpInit
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B884.s")
 
+//Destruct ColliderBody
 s32 func_8005B904(GlobalContext* globalCtx, ColliderBody* body)
 {
     func_8005B7E4(globalCtx, &body->toucher);
@@ -131,14 +136,15 @@ s32 func_8005B904(GlobalContext* globalCtx, ColliderBody* body)
     return 1;
 }
 
-s32 func_8005B93C(GlobalContext* globalCtx, ColliderBody* body, ColliderBodyInfoInner* bodyInfoInner)
+//SetInit ColliderBody
+s32 func_8005B93C(GlobalContext* globalCtx, ColliderBody* body, ColliderBodyInit* bodyInit)
 {
-    body->flags = bodyInfoInner->bodyFlags;
-    func_8005B7F4(globalCtx, &body->toucher, &bodyInfoInner->toucherMask);
-    func_8005B860(globalCtx, &body->bumper, &bodyInfoInner->bumperMask);
-    body->toucherFlags = bodyInfoInner->toucherFlags;
-    body->bumperFlags = bodyInfoInner->bumperFlags;
-    body->flags2 = bodyInfoInner->bodyFlags2;
+    body->flags = bodyInit->bodyFlags;
+    func_8005B7F4(globalCtx, &body->toucher, &bodyInit->toucher);
+    func_8005B860(globalCtx, &body->bumper, &bodyInit->bumper);
+    body->toucherFlags = bodyInit->toucherFlags;
+    body->bumperFlags = bodyInit->bumperFlags;
+    body->flags2 = bodyInit->bodyFlags2;
     return 1;
 }
 
@@ -202,12 +208,12 @@ s32 func_8005BA74(UNK_TYPE arg0, UNK_TYPE arg1)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C2BC.s")
 
-s32 func_8005C318(GlobalContext* globalCtx, ColliderDimensions* dim)
+s32 func_8005C318(GlobalContext* globalCtx, ColliderCylinderDim* dim)
 {
     return 1;
 }
 
-s32 func_8005C328(GlobalContext* globalCtx, ColliderDimensions* dest, ColliderDimensions* src)
+s32 func_8005C328(GlobalContext* globalCtx, ColliderCylinderDim* dest, ColliderCylinderDim* src)
 {
     *dest = *src;
     return 1;
@@ -303,7 +309,7 @@ s32 func_8005C5F8(UNK_TYPE arg0, UNK_TYPE arg1)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CE6C.s")
 
-s32 func_8005CEB4(GlobalContext* globalCtx, ColliderDimensions* dim) {
+s32 func_8005CEB4(GlobalContext* globalCtx, ColliderCylinderDim* dim) {
     return 1;
 }
 
@@ -313,6 +319,7 @@ s32 func_8005CEB4(GlobalContext* globalCtx, ColliderDimensions* dim) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CF90.s")
 
+//Init Cylinder?
 s32 func_8005D018(GlobalContext* globalCtx, ColliderCylinderMain* collision)
 {
     func_8005B65C(globalCtx, &collision->base);
@@ -321,6 +328,7 @@ s32 func_8005D018(GlobalContext* globalCtx, ColliderCylinderMain* collision)
     return 1;
 }
 
+//Destruct Cylinder?
 s32 func_8005D060(GlobalContext* globalCtx, ColliderCylinderMain* collision)
 {
     func_8005B6A0(globalCtx, &collision->base);
@@ -329,6 +337,7 @@ s32 func_8005D060(GlobalContext* globalCtx, ColliderCylinderMain* collision)
     return 1;
 }
 
+//SetInit Cylinder? maskB = 0x10
 s32 func_8005D0A8(GlobalContext* globalCtx, ColliderCylinderMain* collision, Actor* actor, ColliderCylinderInit* src)
 {
     func_8005B6EC(globalCtx, &collision->base, actor, &src->body);
@@ -337,6 +346,7 @@ s32 func_8005D0A8(GlobalContext* globalCtx, ColliderCylinderMain* collision, Act
     return 1;
 }
 
+//SetInit Cylinder? maskB = src->maskB
 s32 func_8005D104(GlobalContext* globalCtx, ColliderCylinderMain* collision, Actor* actor, ColliderCylinderInit* src)
 {
     func_8005B72C(globalCtx, &collision->base, actor, &src->body);
