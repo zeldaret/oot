@@ -302,9 +302,9 @@ typedef struct
 typedef struct
 {
     /* 0x00 */ ColliderBodyInfo body;
-    /* 0x06 */ ColliderBodyInfoInner inner;
-    /* 0x20 */ ColliderDimensions dim;
-} ColliderCylinderInit; // size = 0x2C
+    /* 0x08 */ ColliderBodyInfoInner inner;
+    /* 0x22 */ ColliderDimensions dim;
+} ColliderCylinderInit; // size = 0x2E
 
 typedef struct
 {
