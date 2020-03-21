@@ -808,12 +808,6 @@ typedef struct
 
 typedef struct
 {
-    /* 0x00 */ u8     n_points;
-    /* 0x04 */ Vec3s* point_array;
-} Path; // size = 0x8
-
-typedef struct
-{
     /* 0x00 */ u32 vromStart;
     /* 0x04 */ u32 vromEnd;
 } RomFile; // size = 0x8
