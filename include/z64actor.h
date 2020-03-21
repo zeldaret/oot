@@ -284,8 +284,16 @@ typedef struct
     /* 0x03 */ u8 maskA; /* Bitwise-And with Mask B */
     /* 0x04 */ u8 maskB; /* Bitwise-And with Mask A */
     /* 0x05 */ u8 type; /* Collider Type */
-    /* 0x06 */ u8 unk_06[0x2]; /* 0000 */
 } ColliderInit; // size = 0x08
+
+typedef struct
+{
+    /* 0x00 */ Actor* actor;
+    /* 0x04 */ u8 colliderFlags; /* Compared to 0x11 */
+    /* 0x05 */ u8 collideFlags; /* Compared to 0x10 */
+    /* 0x06 */ u8 maskA; /* Bitwise-and compared to 0x13 */
+    /* 0x07 */ u8 type; /* Cylinder Collection, Cylinder, Triangle Collection, Quad */
+} ColliderInit_Actor; // size = 0x08
 
 typedef struct
 {
@@ -308,6 +316,14 @@ typedef struct
     /* 0x08 */ ColliderBodyInit inner;
     /* 0x20 */ ColliderCylinderDim dim;
 } ColliderCylinderInit; // size = 0x2C
+
+
+typedef struct
+{
+    /* 0x00 */ ColliderInit_Actor body;
+    /* 0x08 */ ColliderBodyInit inner;
+    /* 0x20 */ ColliderCylinderDim dim;
+} ColliderCylinderInit_Actor; // size = 0x2C
 
 typedef struct
 {

@@ -685,7 +685,7 @@ s32 func_8005C318(GlobalContext* globalCtx, ColliderCylinderDim* dim);
 s32 func_8005C328(GlobalContext* globalCtx, ColliderCylinderDim* dest, ColliderCylinderDim* src);
 s32 ActorCollider_AllocCylinder(GlobalContext* globalCtx, ColliderCylinderMain* collision);
 s32 ActorCollider_FreeCylinder(GlobalContext* globalCtx, ColliderCylinderMain* collision);
-s32 func_8005C3F4(GlobalContext* globalCtx, ColliderCylinderMain* collision, ColliderCylinderInit* arg2);
+s32 func_8005C3F4(GlobalContext* globalCtx, ColliderCylinderMain* collision, ColliderCylinderInit_Actor* arg2);
 s32 ActorCollider_InitCylinder(GlobalContext* globalCtx, ColliderCylinderMain* collision, Actor* actor, ColliderCylinderInit* src);
 s32 func_8005C508(GlobalContext* globalCtx, ColliderCylinderMain* collision);
 s32 func_8005C540(GlobalContext* globalCtx, ColliderCylinderMain* collision);

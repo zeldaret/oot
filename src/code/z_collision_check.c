@@ -27,7 +27,17 @@ s32 func_8005B6A0(GlobalContext* globalCtx, Collider* collision)
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B6B0.s")
+//SetInit Collider (ColliderInit_Actor)
+s32 func_8005B6B0(GlobalContext* globalCtx, Collider* collision, ColliderInit_Actor* src)
+{
+    collision->actor = src->actor;
+    collision->colliderFlags = src->colliderFlags;
+    collision->collideFlags = src->collideFlags;
+    collision->maskA = src->maskA;
+    collision->maskB = 0x10;
+    collision->type = src->type;
+    return 1;
+}
 
 //SetInit Collider (maskB = 0x10)
 s32 func_8005B6EC(GlobalContext* globalCtx, Collider* collision, Actor* actor, ColliderInit* src)
@@ -235,7 +245,9 @@ s32 ActorCollider_FreeCylinder(GlobalContext* globalCtx, ColliderCylinderMain* c
     return 1;
 }
 
-s32 func_8005C3F4(GlobalContext* globalCtx, ColliderCylinderMain* collision, ColliderCylinderInit* src)
+//SetInit Cylinder legacy?
+//used only by DekuJr, D_80B92A00
+s32 func_8005C3F4(GlobalContext* globalCtx, ColliderCylinderMain* collision, ColliderCylinderInit_Actor* src)
 {
     func_8005B6B0(globalCtx, &collision->base, &src->body);
     func_8005B93C(globalCtx, &collision->body, &src->inner);
@@ -243,6 +255,7 @@ s32 func_8005C3F4(GlobalContext* globalCtx, ColliderCylinderMain* collision, Col
     return 1;
 }
 
+//SetInit Cylinder maskB = 0x10
 s32 func_8005C450(GlobalContext* globalCtx, ColliderCylinderMain* collision, Actor* actor, ColliderCylinderInit* src)
 {
     func_8005B6EC(globalCtx, &collision->base, actor, &src->body);
@@ -251,6 +264,8 @@ s32 func_8005C450(GlobalContext* globalCtx, ColliderCylinderMain* collision, Act
     return 1;
 }
 
+//SetInit Cylinder maskB = src->maskB
+//8005c4ac
 s32 ActorCollider_InitCylinder(GlobalContext* globalCtx, ColliderCylinderMain* collision, Actor* actor, ColliderCylinderInit* src)
 {
     func_8005B72C(globalCtx, &collision->base, actor, &src->body);
