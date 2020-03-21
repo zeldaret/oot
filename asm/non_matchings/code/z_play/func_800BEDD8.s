@@ -370,7 +370,7 @@ glabel func_800BEDD8
 /* B364E4 800BF344 84430190 */  lh    $v1, 0x190($v0)
 /* B364E8 800BF348 5461000E */  bnel  $v1, $at, .L800BF384
 /* B364EC 800BF34C 28610004 */   slti  $at, $v1, 4
-/* B364F0 800BF350 0C01EFC4 */  jal   func_8007BF10
+/* B364F0 800BF350 0C01EFC4 */  jal   MsgEvent_SendNullTask
 /* B364F4 800BF354 00000000 */   nop   
 /* B364F8 800BF358 0C030DDC */  jal   func_800C3770
 /* B364FC 800BF35C 8FA4003C */   lw    $a0, 0x3c($sp)

@@ -1403,4 +1403,12 @@ typedef struct ListAlloc
     /* 0x04 */ struct ListAlloc* next;
 } ListAlloc; //size = 0x8
 
+typedef struct
+{
+    /* 0x00 */ u32 resetting;
+    /* 0x04 */ u32 resetCount;
+    /* 0x08 */ OSTime duration;
+    /* 0x10 */ OSTime resetTime;
+} PreNmiBuff; //size = 0x18 (actually osAppNmiBuffer is 0x40 bytes large but the rest is unused)
+
 #endif

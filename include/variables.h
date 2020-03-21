@@ -3573,7 +3573,7 @@ extern Color_RGBA8 D_801614B0;
 //extern ? D_801665E0;
 //extern ? D_801665F0;
 //extern ? D_80166648;
-extern u8* gAppNmiBufferPtr;
+extern PreNmiBuff* gAppNmiBufferPtr;
 //extern ? gSchedContext;
 //extern u8 gPadMgr[];
 extern u8 D_80166B68;
