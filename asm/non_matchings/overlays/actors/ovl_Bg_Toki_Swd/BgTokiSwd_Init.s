@@ -13,7 +13,7 @@ glabel BgTokiSwd_Init
 /* 00030 808BAE70 3C05808C */  lui     $a1, %hi(func_808BAF40)    ## $a1 = 808C0000
 /* 00034 808BAE74 24A5AF40 */  addiu   $a1, $a1, %lo(func_808BAF40) ## $a1 = 808BAF40
 /* 00038 808BAE78 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0003C 808BAE7C 0C22EB90 */  jal     func_808BAE40              
+/* 0003C 808BAE7C 0C22EB90 */  jal     BgTokiSwd_SetupAction              
 /* 00040 808BAE80 E60400BC */  swc1    $f4, 0x00BC($s0)           ## 000000BC
 /* 00044 808BAE84 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
 /* 00048 808BAE88 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660

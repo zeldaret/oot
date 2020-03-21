@@ -71,7 +71,7 @@ glabel func_808BAF40
 /* 001F8 808BB038 A2191414 */  sb      $t9, 0x1414($s0)           ## 8015FA74
 /* 001FC 808BB03C 3C05808C */  lui     $a1, %hi(func_808BB0AC)    ## $a1 = 808C0000
 /* 00200 808BB040 24A5B0AC */  addiu   $a1, $a1, %lo(func_808BB0AC) ## $a1 = 808BB0AC
-/* 00204 808BB044 0C22EB90 */  jal     func_808BAE40              
+/* 00204 808BB044 0C22EB90 */  jal     BgTokiSwd_SetupAction              
 /* 00208 808BB048 AC800118 */  sw      $zero, 0x0118($a0)         ## 00000118
 /* 0020C 808BB04C 10000008 */  beq     $zero, $zero, .L808BB070   
 /* 00210 808BB050 8E081360 */  lw      $t0, 0x1360($s0)           ## 8015F9C0

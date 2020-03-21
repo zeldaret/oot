@@ -22,7 +22,7 @@ glabel func_808BB0AC
 /* 002B4 808BB0F4 AC8F0134 */  sw      $t7, 0x0134($a0)           ## 00000134
 .L808BB0F8:
 /* 002B8 808BB0F8 3C05808C */  lui     $a1, %hi(func_808BB128)    ## $a1 = 808C0000
-/* 002BC 808BB0FC 0C22EB90 */  jal     func_808BAE40              
+/* 002BC 808BB0FC 0C22EB90 */  jal     BgTokiSwd_SetupAction              
 /* 002C0 808BB100 24A5B128 */  addiu   $a1, $a1, %lo(func_808BB128) ## $a1 = 808BB128
 /* 002C4 808BB104 10000005 */  beq     $zero, $zero, .L808BB11C   
 /* 002C8 808BB108 8FBF0014 */  lw      $ra, 0x0014($sp)           
