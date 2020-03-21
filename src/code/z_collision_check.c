@@ -136,7 +136,15 @@ s32 func_8005B860(GlobalContext* globalCtx, ColliderBump* bump, ColliderBumpInit
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B884.s")
+extern ColliderBody D_8011DE2C;
+
+//Initialize ColliderBody
+s32 func_8005B884(GlobalContext* globalCtx, ColliderBody* body) {
+    *body = D_8011DE2C;
+    func_8005B7C0(globalCtx, &body->toucher);
+    func_8005B824(globalCtx, &body->bumper);
+    return 1;
+}
 
 //Destruct ColliderBody
 s32 func_8005B904(GlobalContext* globalCtx, ColliderBody* body)
