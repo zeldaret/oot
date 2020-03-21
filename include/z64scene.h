@@ -390,6 +390,12 @@ typedef struct
 	s32 properties;
 } WaterBoxHeader;
 
+typedef struct
+{
+    /* 0x00 */ u8 count; // Total number of points in the path for the actor to follow
+    /* 0x04 */ Vec3s* path;  // Segment Address of the start of the path list
+} Path; // size = 0x8
+
 typedef union
 {
     SCmdBase              base;

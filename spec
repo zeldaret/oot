@@ -2592,9 +2592,7 @@ endseg
 beginseg
     name "ovl_En_Dog"
     include "build/src/overlays/actors/ovl_En_Dog/z_en_dog.o"
-    include "build/data/overlays/actors/z_en_dog.data.o"
-    include "build/data/overlays/actors/z_en_dog.rodata.o"
-    include "build/data/overlays/actors/z_en_dog.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dog/z_en_dog_reloc.o"
 endseg
 
 beginseg
