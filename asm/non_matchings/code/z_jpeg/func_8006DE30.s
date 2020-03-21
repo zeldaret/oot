@@ -25,10 +25,10 @@ glabel func_8006DE30
 /* AE502C 8006DE8C 3C018012 */  lui   $at, %hi(D_8011FA64) # $at, 0x8012
 /* AE5030 8006DE90 AC20FA64 */  sw    $zero, %lo(D_8011FA64)($at)
 /* AE5034 8006DE94 AFA40028 */  sw    $a0, 0x28($sp)
-/* AE5038 8006DE98 0C034B7C */  jal   func_800D2DF0
+/* AE5038 8006DE98 0C034B7C */  jal   SysUcode_GetUCodeBoot
 /* AE503C 8006DE9C AFA30024 */   sw    $v1, 0x24($sp)
 /* AE5040 8006DEA0 3C018012 */  lui   $at, %hi(D_8011FA68) # $at, 0x8012
-/* AE5044 8006DEA4 0C034B7F */  jal   func_800D2DFC
+/* AE5044 8006DEA4 0C034B7F */  jal   SysUcode_GetUcodeBootSize
 /* AE5048 8006DEA8 AC22FA68 */   sw    $v0, %lo(D_8011FA68)($at)
 /* AE504C 8006DEAC 8FA30024 */  lw    $v1, 0x24($sp)
 /* AE5050 8006DEB0 8FA70028 */  lw    $a3, 0x28($sp)
