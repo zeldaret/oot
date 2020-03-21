@@ -1,3 +1,12 @@
+.rdata
+
+glabel D_80AF51C4
+ .word 0xA4AAA4EC, 0xA4ACBEAE, 0xBEBEA4C0, 0xA1AA200A, 0x00000000
+glabel D_80AF51D8
+ .word 0xA4A6A4AA, 0xA4EAA4E3, 0xA1BCA1AA, 0x200A0000
+
+.text
+
 glabel func_80AF39DC
 /* 0148C 80AF39DC 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 01490 80AF39E0 AFB10018 */  sw      $s1, 0x0018($sp)           

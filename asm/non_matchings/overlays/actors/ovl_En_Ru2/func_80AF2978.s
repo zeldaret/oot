@@ -1,3 +1,10 @@
+.late_rodata
+
+glabel D_80AF527C
+ .word 0x42A6AAAB
+
+.text
+
 glabel func_80AF2978
 /* 00428 80AF2978 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 0042C 80AF297C 3C0180AF */  lui     $at, %hi(D_80AF527C)       ## $at = 80AF0000
