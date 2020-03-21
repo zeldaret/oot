@@ -16,7 +16,7 @@ static void DemoGeff_Destroy(DemoGeff* this, GlobalContext* globalCtx);
 static void DemoGeff_Update(DemoGeff* this, GlobalContext* globalCtx);
 static void DemoGeff_Draw(DemoGeff* this, GlobalContext* globalCtx);
 
-static void DemoGeff_SetScale(DemoGeff* this, GlobalContext* globalCtx);
+static void func_80978030(DemoGeff* this, GlobalContext* globalCtx);
 
 static void func_809783D4(DemoGeff* this, GlobalContext* globalCtx);
 static void func_80978308(DemoGeff* this, GlobalContext* globalCtx);
@@ -25,11 +25,11 @@ static void func_809784D4(DemoGeff* this, GlobalContext* globalCtx);
 static void func_80978344(DemoGeff* this, GlobalContext* globalCtx);
 
 s16 objectIds[] = { OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF,
-                    OBJECT_GEFF, OBJECT_GEFF, OBJECT_UNSET_0, };
+                    OBJECT_GEFF, OBJECT_GEFF, };
 
-ActorFunc scaleFuncs[] = { (ActorFunc)DemoGeff_SetScale, (ActorFunc)DemoGeff_SetScale, (ActorFunc)DemoGeff_SetScale,
-                           (ActorFunc)DemoGeff_SetScale, (ActorFunc)DemoGeff_SetScale, (ActorFunc)DemoGeff_SetScale,
-                           (ActorFunc)DemoGeff_SetScale, (ActorFunc)DemoGeff_SetScale, (ActorFunc)DemoGeff_SetScale, };
+ActorFunc scaleFuncs[] = { (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
+                           (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
+                           (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030, };
 ActorFunc actionFuncs[] = { (ActorFunc)func_809783D4, (ActorFunc)func_80978308, };
 ActorFunc drawFuncs[] = { (ActorFunc)func_809784D4, (ActorFunc)func_80978344, };
 
@@ -65,8 +65,7 @@ static void DemoGeff_Init(DemoGeff* this, GlobalContext* globalCtx) {
 
 static void func_80977EA8(GlobalContext* globalCtx, u32 dlist) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    s16 pad;
-    Gfx* gfxArr[4];
+    Gfx* gfxArr[5];
 
     func_800C6AC4(gfxArr, gfxCtx, "../z_demo_geff.c", 181);
     func_80093D18(gfxCtx);
@@ -83,22 +82,20 @@ static void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 objBankIndex = this->objBankIndex;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    s16 pad2;
-    Gfx* gfxArr[4];
+    Gfx* gfxArr[5];
 
     func_800C6AC4(gfxArr, gfxCtx, "../z_demo_geff.c", 204);
     
     gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objBankIndex].segment);
 
-    if (!globalCtx) {
-
-    }
+    // Necessary to match
+    if (!globalCtx) {}
 
     func_800C6B54(gfxArr, gfxCtx, "../z_demo_geff.c", 212);
 }
 
-static void DemoGeff_SetScale(DemoGeff* this, GlobalContext* globalCtx) {
+static void func_80978030(DemoGeff* this, GlobalContext* globalCtx) {
     Vec3f* thisScale = &this->actor.scale;
     this->action = 1;
     this->drawConfig = 1;
@@ -107,21 +104,21 @@ static void DemoGeff_SetScale(DemoGeff* this, GlobalContext* globalCtx) {
         case 0:
         case 3:
         case 6:
-            thisScale->x = ((f32) kREG(7) * 0.01f) + 0.3f;
-            thisScale->y = ((f32) kREG(8) * 0.01f) + 0.3f;
-            thisScale->z = ((f32) kREG(9) * 0.01f) + 0.3f;
+            thisScale->x = (kREG(7) * 0.01f) + 0.3f;
+            thisScale->y = (kREG(8) * 0.01f) + 0.3f;
+            thisScale->z = (kREG(9) * 0.01f) + 0.3f;
             break;
         case 1:
         case 4:
         case 7:
-            thisScale->x = ((f32) kREG(10) * 0.01f) + 0.15f;
-            thisScale->y = ((f32) kREG(11) * 0.01f) + 0.29f;
-            thisScale->z = ((f32) kREG(12) * 0.01f) + 0.12f;
+            thisScale->x = (kREG(10) * 0.01f) + 0.15f;
+            thisScale->y = (kREG(11) * 0.01f) + 0.29f;
+            thisScale->z = (kREG(12) * 0.01f) + 0.12f;
             break;
         default:
-            thisScale->x = ((f32) kREG(13) * 0.01f) + 0.1f;
-            thisScale->y = ((f32) kREG(14) * 0.01f) + 0.15f;
-            thisScale->z = ((f32) kREG(15) * 0.01f) + 0.2f;
+            thisScale->x = (kREG(13) * 0.01f) + 0.1f;
+            thisScale->y = (kREG(14) * 0.01f) + 0.15f;
+            thisScale->z = (kREG(15) * 0.01f) + 0.2f;
             break;
     }
 }
@@ -162,7 +159,7 @@ static void func_809782A0(DemoGeff* this, GlobalContext* globalCtx) {
 static void func_80978308(DemoGeff* this, GlobalContext* globalCtx) {
     func_809781FC(this, globalCtx);
     func_809782A0(this, globalCtx);
-    DemoGeff_SetScale(this, globalCtx);
+    func_80978030(this, globalCtx);
 }
 
 static void func_80978344(DemoGeff* this, GlobalContext* globalCtx) {
