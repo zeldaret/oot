@@ -105,7 +105,7 @@ extern UNK_PTR D_06001368;
 extern UNK_PTR D_06000D78;
 extern UNK_PTR D_06000278;
 
-static void EnDog_WalkSFX(EnDog* this)
+static void EnDog_PlayWalkSFX(EnDog* this)
 {
     u32* walk = &D_06001368;
     if (this->skelAnime.animCurrent == walk)
@@ -117,7 +117,7 @@ static void EnDog_WalkSFX(EnDog* this)
     }
 }
 
-static void EnDog_RunSFX(EnDog* this)
+static void EnDog_PlayRunSFX(EnDog* this)
 {
     u32* run = &D_06000D78;
     if (this->skelAnime.animCurrent == run)
@@ -129,7 +129,7 @@ static void EnDog_RunSFX(EnDog* this)
     }
 }
 
-static void EnDog_BarkSFX(EnDog* this)
+static void EnDog_PlayBarkSFX(EnDog* this)
 {
     u32* bark = &D_06000278;
     if (this->skelAnime.animCurrent == bark)
@@ -141,7 +141,7 @@ static void EnDog_BarkSFX(EnDog* this)
     }
 }
 
-static s32 EnDog_PlayAnimSFX(EnDog* this)
+static s32 EnDog_PlayAnimAndSFX(EnDog* this)
 {
     s32 animation;
 
@@ -195,13 +195,13 @@ static s32 EnDog_PlayAnimSFX(EnDog* this)
             }
             break;
         case DOG_WALK: 
-            EnDog_WalkSFX(this); 
+            EnDog_PlayWalkSFX(this); 
             break;
         case DOG_RUN: 
-            EnDog_RunSFX(this);
+            EnDog_PlayRunSFX(this);
             break;
         case DOG_BARK: 
-            EnDog_BarkSFX(this);
+            EnDog_PlayBarkSFX(this);
             if (this){} // needed for regalloc
             break;
     }
@@ -210,9 +210,9 @@ static s32 EnDog_PlayAnimSFX(EnDog* this)
 
 static s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx)
 {
-    if ((this->collider.base.collideFlags & 2) != 0)
+    if ((this->collider.base.collideFlags & 2))
     {
-        this->collider.base.collideFlags &= 0xFFFD;
+        this->collider.base.collideFlags &= ~2;
         return 2;
     }
 
@@ -221,9 +221,9 @@ static s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx)
         return 0;
     }
 
-    if ((this->collider.base.maskB & 1) != 0)
+    if ((this->collider.base.maskB & 1))
     {
-        this->collider.base.maskB &= 0xFFFE;
+        this->collider.base.maskB &= ~1;
         if (gSaveContext.dogParams != 0)
         {
             return 0;
@@ -255,7 +255,7 @@ static EnDog_UpdateWaypoint(EnDog* this, GlobalContext* globalCtx)
     
     this->waypoint += change;
 
-    if (this->reverse != 0)
+    if (this->reverse)
     {
         if (this->waypoint < 0)
         {
@@ -326,16 +326,15 @@ static void EnDog_Init(EnDog* this, GlobalContext* globalCtx)
     switch (globalCtx->sceneNum)
     {
         case SCENE_MARKET_NIGHT:
-            if ((gSaveContext.richardIsLost == 0) && (((this->actor.params & 0x0F00) >> 8) == 1))
+            if ((gSaveContext.dogIsLost == 0) && (((this->actor.params & 0x0F00) >> 8) == 1))
             {
                 Actor_Kill(&this->actor);
             }
             break;
-        // Richard's Home
-        case SCENE_IMPA:
+        case SCENE_IMPA: // Richard's Home
             if ((u32)(this->actor.params & 0x8000) == 0)
             {
-                if (gSaveContext.richardIsLost == 0)
+                if (gSaveContext.dogIsLost == 0)
                 {
                     this->nextBehavior = DOG_SIT;
                     this->actionFunc = EnDog_Wait;
@@ -349,8 +348,6 @@ static void EnDog_Init(EnDog* this, GlobalContext* globalCtx)
                 }
             }
             break;
-
-        default: break;
     }
 
     if ((u32)(this->actor.params & 0x8000) != 0)
@@ -373,7 +370,7 @@ static void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx)
 
 static void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx)
 {
-    s16ArrEntry behaviors[] = { 3, 5, 2 };
+    s16ArrEntry behaviors[] = { DOG_SIT, DOG_BOW, DOG_BARK };
     s16ArrEntry unused[] = { 40, 80, 20 };
     f32 speed;
     s32 frame;
@@ -383,7 +380,7 @@ static void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx)
         this->actionFunc = EnDog_FollowLink;
     }
 
-    if(DECR(this->behaviorTimer))
+    if (DECR(this->behaviorTimer) != 0)
     {
         if (this->nextBehavior == DOG_WALK)
         {
@@ -427,7 +424,7 @@ static void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx)
         this->actionFunc = EnDog_FollowLink;
     }
 
-    if(DECR(this->behaviorTimer) == 0)
+    if (DECR(this->behaviorTimer) == 0)
     {
         this->behaviorTimer = Math_Rand_S16Offset(200, 100);
         if (globalCtx->state.frames % 2)
@@ -441,7 +438,7 @@ static void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx)
 
         if (this->nextBehavior == DOG_RUN)
         {
-            this->behaviorTimer = (this->behaviorTimer / 2);
+            this->behaviorTimer /= 2;
         }
         this->actionFunc = EnDog_FollowPath;
     }
@@ -533,7 +530,7 @@ static void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx)
         absAngleDiff = fabsf(absAngleDiff);
         if (absAngleDiff < 200.0f)
         {
-            this->nextBehavior = 3;
+            this->nextBehavior = DOG_SIT;
             this->actionFunc = EnDog_Wait;
             this->actor.speedXZ = 0.0f;
         }
@@ -563,10 +560,10 @@ static void EnDog_Update(EnDog* this, GlobalContext* globalCtx)
     s32 pad1;
     s32 pad2;
 
-    EnDog_PlayAnimSFX(this);
+    EnDog_PlayAnimAndSFX(this);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    func_8002E4B4(globalCtx, &this->actor, (f32)this->collider.dim.radius, 
-                  (f32)this->collider.dim.height * 0.5f, 0.0f, 5);
+    func_8002E4B4(globalCtx, &this->actor, this->collider.dim.radius, 
+                  this->collider.dim.height * 0.5f, 0.0f, 5);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
     ActorCollider_Cylinder_Update(&this->actor, &this->collider);

@@ -209,7 +209,7 @@ typedef struct
     /* 0x1418 */ u8           fade_duration;
     /* 0x1419 */ u8           unk_1419; // transition related
     /* 0x141A */ u16          environment_time;
-    /* 0x141C */ u8           richardIsLost;
+    /* 0x141C */ u8           dogIsLost;
     /* 0x141D */ u8           transition_type;
     /* 0x141E */ char         unk_141E[0x0002];
     /* 0x1420 */ s16          world_map_area;
