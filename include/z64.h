@@ -1031,7 +1031,7 @@ typedef struct
     Vec3s pos;
     u8 firstChildIndex;
     u8 nextLimbIndex;
-    Gfx* dList;
+    Gfx* displayLists[1]; // maybe?
 } SkelLimbEntry;
 
 typedef struct SkelAnime
