@@ -211,7 +211,7 @@ glabel func_808B0CE0
 /* 00680 808B0FE0 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00684 808B0FE4 0C032BFB */  jal     func_800CAFEC              
 /* 00688 808B0FE8 AFA7002C */  sw      $a3, 0x002C($sp)           
-/* 0068C 808B0FEC 0C03F4DA */  jal     func_800FD368              
+/* 0068C 808B0FEC 0C03F4DA */  jal     Math_acosf
 /* 00690 808B0FF0 46000306 */  mov.s   $f12, $f0                  
 /* 00694 808B0FF4 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 00698 808B0FF8 46000306 */  mov.s   $f12, $f0                  

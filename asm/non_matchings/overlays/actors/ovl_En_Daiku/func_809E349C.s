@@ -90,7 +90,7 @@ glabel func_809E349C
 /* 00AC8 809E35F8 460A4501 */  sub.s   $f20, $f8, $f10            
 /* 00ACC 809E35FC 46049581 */  sub.s   $f22, $f18, $f4            
 /* 00AD0 809E3600 4600A306 */  mov.s   $f12, $f20                 
-/* 00AD4 809E3604 0C03F494 */  jal     func_800FD250              
+/* 00AD4 809E3604 0C03F494 */  jal     Math_atan2f              
 /* 00AD8 809E3608 4600B386 */  mov.s   $f14, $f22                 
 /* 00ADC 809E360C 46180182 */  mul.s   $f6, $f0, $f24             
 /* 00AE0 809E3610 00000000 */  nop

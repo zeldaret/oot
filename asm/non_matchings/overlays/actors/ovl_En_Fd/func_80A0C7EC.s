@@ -99,7 +99,7 @@ glabel func_80A0C7EC
 /* 01284 80A0C944 0C282FA8 */  jal     func_80A0BEA0              
 /* 01288 80A0C948 860704BA */  lh      $a3, 0x04BA($s0)           ## 000004BA
 /* 0128C 80A0C94C C7AC0030 */  lwc1    $f12, 0x0030($sp)          
-/* 01290 80A0C950 0C03F494 */  jal     func_800FD250              
+/* 01290 80A0C950 0C03F494 */  jal     Math_atan2f              
 /* 01294 80A0C954 C7AE0038 */  lwc1    $f14, 0x0038($sp)          
 /* 01298 80A0C958 3C0180A1 */  lui     $at, %hi(D_80A0E1C4)       ## $at = 80A10000
 /* 0129C 80A0C95C C42AE1C4 */  lwc1    $f10, %lo(D_80A0E1C4)($at) 
