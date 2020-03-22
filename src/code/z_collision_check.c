@@ -201,10 +201,14 @@ s32 func_8005BA74(UNK_TYPE arg0, UNK_TYPE arg1)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BA84.s")
 
 //call 5BA84, 5BA30 
+//Initialize JntSphItem
+s32 func_8005BAD8(GlobalContext* gctx, ColliderJntSphItem* item);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BAD8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BB10.s")
 
+//SetInit JntSphItem
+s32 func_8005BB48(GlobalContext* gctx, ColliderJntSphItem* item, ColliderJntSphItemInit* init);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BB48.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BB8C.s")
@@ -214,7 +218,7 @@ s32 func_8005BA74(UNK_TYPE arg0, UNK_TYPE arg1)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BBD4.s")
 
 //Initialize ? List //ClObjJntSph
-s32 func_8005BBF8(GlobalContext* globalCtx, ColliderList_8005BBF8 *collision) {
+s32 func_8005BBF8(GlobalContext* globalCtx, ColliderJntSph* collision) {
     func_8005B65C(globalCtx, &collision->base);
     collision->count = 0;
     collision->list = NULL;
@@ -236,7 +240,30 @@ s32 func_8005BBF8(GlobalContext* globalCtx, ColliderList_8005BBF8 *collision) {
 //ClObjJntSph_set5
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BF50.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C050.s")
+//SetInit jntsph
+s32 func_8005C050(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src, ColliderJntSphItem* list) {
+    ColliderJntSphItem* destNext;
+    ColliderJntSphItemInit* srcNext;
+
+    func_8005B72C(globalCtx, &dest->base, actor, &src->body);
+    dest->count = src->count;
+    dest->list = list;
+
+    if (dest->list == NULL) 
+        __assert("pclobj_jntsph->elem_tbl != NULL", "../z_collision_check.c", 1603);
+
+    destNext = dest->list;
+    srcNext = src->list;
+
+    while (destNext < dest->list + dest->count)
+    {
+        func_8005BAD8(globalCtx, destNext);
+        func_8005BB48(globalCtx, destNext, srcNext);
+        destNext++;
+        srcNext++;
+    }
+    return 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C124.s")
 
