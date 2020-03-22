@@ -1,6 +1,6 @@
 #include "z_bg_po_event.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgPoEvent_Init(BgPoEvent* this, GlobalContext* globalCtx);
@@ -66,4 +66,3 @@ const ActorInit Bg_Po_Event_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Event/BgPoEvent_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Event/BgPoEvent_Draw.s")
-

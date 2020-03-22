@@ -1,6 +1,6 @@
 #include "z_en_fw.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000215
 
 void EnFw_Init(EnFw* this, GlobalContext* globalCtx);

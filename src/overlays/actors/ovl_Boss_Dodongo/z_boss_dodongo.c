@@ -1,6 +1,6 @@
 #include "z_boss_dodongo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void BossDodongo_Init(BossDodongo* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_bg_spot18_obj.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgSpot18Obj_Init(BgSpot18Obj* this, GlobalContext* globalCtx);

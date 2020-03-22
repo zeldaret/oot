@@ -1,6 +1,6 @@
 #include "z_en_bom_bowl_man.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x08000039
 
 void EnBomBowlMan_Init(EnBomBowlMan* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_magic_fire.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void MagicFire_Init(MagicFire* this, GlobalContext* globalCtx);

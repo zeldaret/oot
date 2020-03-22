@@ -1,8 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef enum
-{
+typedef enum {
     /* 0x00 */ DROP_RUPEE_GREEN,
     /* 0x01 */ DROP_RUPEE_BLUE,
     /* 0x02 */ DROP_RUPEE_RED,
@@ -31,8 +30,7 @@ typedef enum
     /* 0x19 */ DROP_BOMBS_SPECIAL
 } DropType;
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ Actor actor;
     /* 0x14C */ ActorFunc updateFunc;
     /* 0x150 */ s16 collectibleFlag;
@@ -65,15 +63,13 @@ extern u8 D_80115664[];
 
 // Internal Actor Functions
 
-void En_Item00_SetNewUpdate(ActorEnItem00* this, ActorFunc newUpdateFunc)
-{
+void En_Item00_SetNewUpdate(ActorEnItem00* this, ActorFunc newUpdateFunc) {
     this->updateFunc = newUpdateFunc;
 }
 
 #ifdef NON_MATCHING
 // Very close to matching, just a single ordering issue
-void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx)
-{
+void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx) {
     s32 pad1;
     s32 pad2;
     f32 sp34;
@@ -91,8 +87,7 @@ void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx)
 
     this->actor.params = this->actor.params & 0x00FF;
 
-    if (Flags_GetCollectible(globalCtx, this->collectibleFlag))
-    {
+    if (Flags_GetCollectible(globalCtx, this->collectibleFlag)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -103,8 +98,7 @@ void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx)
 
     this->unk_158 = 1;
 
-    switch (this->actor.params)
-    {
+    switch (this->actor.params) {
         case DROP_RUPEE_GREEN:
         case DROP_RUPEE_BLUE:
         case DROP_RUPEE_RED:
@@ -216,8 +210,7 @@ void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx)
     this->unk_152 = 0;
 
     // MISMATCH: minor ordering issues here
-    if (!spawnParam8000)
-    {
+    if (!spawnParam8000) {
         En_Item00_SetNewUpdate(this, (ActorFunc)func_8001DFC8);
         this->unk_15A = -1;
         return;
@@ -230,8 +223,7 @@ void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx)
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = 0.0f;
 
-    switch (this->actor.params)
-    {
+    switch (this->actor.params) {
         case DROP_RUPEE_GREEN:
             Item_Give(globalCtx, ITEM_RUPEE_GREEN);
             break;
@@ -307,147 +299,131 @@ void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_en_item00/En_Item00_Init.s")
 #endif
 
-void En_Item00_Destroy(ActorEnItem00* this, GlobalContext* globalCtx)
-{
+void En_Item00_Destroy(ActorEnItem00* this, GlobalContext* globalCtx) {
     ColliderCylinderMain* cylinderCollider = &this->cylinderCollider;
     ActorCollider_FreeCylinder(globalCtx, cylinderCollider);
 }
 
-void func_8001DFC8(ActorEnItem00* this, GlobalContext* globalCtx)
-{
-    if ((this->actor.params <= DROP_RUPEE_RED) ||
-        ((this->actor.params == DROP_HEART) && (this->unk_15A < 0)) ||
-        (this->actor.params == DROP_HEART_PIECE))
-    {
+void func_8001DFC8(ActorEnItem00* this, GlobalContext* globalCtx) {
+    if ((this->actor.params <= DROP_RUPEE_RED) || ((this->actor.params == DROP_HEART) && (this->unk_15A < 0)) ||
+        (this->actor.params == DROP_HEART_PIECE)) {
         this->actor.shape.rot.y += 960;
-    }
-    else
-    {
-        if ((this->actor.params >= DROP_SHIELD_DEKU) && (this->actor.params != DROP_BOMBS_SPECIAL))
-        {
-            if (this->unk_15A == -1)
-            {
-                if (!Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->actor.posRot.rot.x - 0x4000, 2, 3000, 1500))
+    } else {
+        if ((this->actor.params >= DROP_SHIELD_DEKU) && (this->actor.params != DROP_BOMBS_SPECIAL)) {
+            if (this->unk_15A == -1) {
+                if (!Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, this->actor.posRot.rot.x - 0x4000, 2, 3000,
+                                             1500)) {
                     this->unk_15A = -2;
-            }
-            else
-            {
-                if (!Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, -this->actor.posRot.rot.x - 0x4000, 2, 3000, 1500))
+                }
+            } else {
+                if (!Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, -this->actor.posRot.rot.x - 0x4000, 2, 3000,
+                                             1500)) {
                     this->unk_15A = -1;
+                }
             }
             Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.x, 0, 2, 2500, 500);
         }
     }
 
-    if (this->actor.params == DROP_HEART_PIECE)
+    if (this->actor.params == DROP_HEART_PIECE) {
         this->actor.shape.unk_08 = Math_Sins(this->actor.shape.rot.y) * 150.0f + 850.0f;
+    }
 
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
 
-    if (this->unk_154 == 0)
-        if ((this->actor.params != DROP_SMALL_KEY) &&
-            (this->actor.params != DROP_HEART_PIECE) &&
-            (this->actor.params != DROP_HEART_CONTAINER))
-        {
+    if (this->unk_154 == 0) {
+        if ((this->actor.params != DROP_SMALL_KEY) && (this->actor.params != DROP_HEART_PIECE) &&
+            (this->actor.params != DROP_HEART_CONTAINER)) {
             this->unk_154 = -1;
         }
+    }
 
-    if (this->unk_15A == 0)
-        if ((this->actor.params != DROP_SMALL_KEY) &&
-            (this->actor.params != DROP_HEART_PIECE) &&
-            (this->actor.params != DROP_HEART_CONTAINER))
-        {
+    if (this->unk_15A == 0) {
+        if ((this->actor.params != DROP_SMALL_KEY) && (this->actor.params != DROP_HEART_PIECE) &&
+            (this->actor.params != DROP_HEART_CONTAINER)) {
             Actor_Kill(&this->actor);
         }
+    }
 
-    if ((this->actor.gravity != 0.0f) && !(this->actor.bgCheckFlags & 0x0001))
+    if ((this->actor.gravity != 0.0f) && !(this->actor.bgCheckFlags & 0x0001)) {
         En_Item00_SetNewUpdate(this, (ActorFunc)func_8001E1C8);
+    }
 }
 
-void func_8001E1C8(ActorEnItem00* this, GlobalContext* globalCtx)
-{
+void func_8001E1C8(ActorEnItem00* this, GlobalContext* globalCtx) {
     f32 originalVelocity;
     Vec3f pos;
 
-    if (this->actor.params <= DROP_RUPEE_RED)
+    if (this->actor.params <= DROP_RUPEE_RED) {
         this->actor.shape.rot.y += 960;
+    }
 
-    if (globalCtx->gameplayFrames & 1)
-    {
+    if (globalCtx->gameplayFrames & 1) {
         pos.x = this->actor.posRot.pos.x + Math_Rand_CenteredFloat(10.0f);
         pos.y = this->actor.posRot.pos.y + Math_Rand_CenteredFloat(10.0f);
         pos.z = this->actor.posRot.pos.z + Math_Rand_CenteredFloat(10.0f);
         func_80028B74(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
     }
 
-    if (this->actor.bgCheckFlags & 0x0003)
-    {
+    if (this->actor.bgCheckFlags & 0x0003) {
         originalVelocity = this->actor.velocity.y;
-        if (originalVelocity > -2.0f)
-        {
+        if (originalVelocity > -2.0f) {
             En_Item00_SetNewUpdate(this, (ActorFunc)func_8001DFC8);
             this->actor.velocity.y = 0.0f;
-        }
-        else
-        {
+        } else {
             this->actor.velocity.y = originalVelocity * -0.8f;
             this->actor.bgCheckFlags = this->actor.bgCheckFlags & 0xFFFE;
         }
     }
 }
 
-void func_8001E304(ActorEnItem00* this, GlobalContext* globalCtx)
-{
+void func_8001E304(ActorEnItem00* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f pos;
     s32 var1;
 
     this->unk_15A++;
 
-    if (this->actor.params == DROP_HEART)
-    {
-        if (this->actor.velocity.y < 0.0f)
-        {
+    if (this->actor.params == DROP_HEART) {
+        if (this->actor.velocity.y < 0.0f) {
             this->actor.speedXZ = 0.0f;
             this->actor.gravity = -0.4f;
-            if (this->actor.velocity.y < -1.5f)
+            if (this->actor.velocity.y < -1.5f) {
                 this->actor.velocity.y = -1.5f;
-            this->actor.initPosRot.rot.z += (s16) ((this->actor.velocity.y + 3.0f) * 1000.0f);
-            this->actor.posRot.pos.x += Math_Coss(this->actor.rotTowardsLinkY) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
-            this->actor.posRot.pos.z += Math_Sins(this->actor.rotTowardsLinkY) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
+            }
+            this->actor.initPosRot.rot.z += (s16)((this->actor.velocity.y + 3.0f) * 1000.0f);
+            this->actor.posRot.pos.x +=
+                Math_Coss(this->actor.rotTowardsLinkY) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
+            this->actor.posRot.pos.z +=
+                Math_Sins(this->actor.rotTowardsLinkY) * (-3.0f * Math_Coss(this->actor.initPosRot.rot.z));
         }
     }
 
-    if (this->actor.params <= DROP_RUPEE_RED)
-    {
+    if (this->actor.params <= DROP_RUPEE_RED) {
         this->actor.shape.rot.y += 960;
-    }
-    else if ((this->actor.params >= DROP_SHIELD_DEKU) && (this->actor.params != DROP_BOMBS_SPECIAL))
-    {
+    } else if ((this->actor.params >= DROP_SHIELD_DEKU) && (this->actor.params != DROP_BOMBS_SPECIAL)) {
         this->actor.posRot.rot.x -= 700;
         this->actor.shape.rot.y += 400;
         this->actor.shape.rot.x = this->actor.posRot.rot.x - 0x4000;
     }
 
-    if (this->actor.velocity.y <= 2.0f)
-    {
+    if (this->actor.velocity.y <= 2.0f) {
         var1 = (u16)this->actor.shape.rot.z + 10000;
-        if (var1 < 65535)
+        if (var1 < 65535) {
             this->actor.shape.rot.z += 10000;
-        else
+        } else {
             this->actor.shape.rot.z = -1;
+        }
     }
 
-    if (!(globalCtx->gameplayFrames & 1))
-    {
+    if (!(globalCtx->gameplayFrames & 1)) {
         pos.x = this->actor.posRot.pos.x + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.y = this->actor.posRot.pos.y + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
         pos.z = this->actor.posRot.pos.z + (Math_Rand_ZeroOne() - 0.5f) * 10.0f;
         func_80028B74(globalCtx, &pos, &D_80115518, &D_80115524, &D_80115510, &D_80115514);
     }
 
-    if (this->actor.bgCheckFlags & 0x0003)
-    {
+    if (this->actor.bgCheckFlags & 0x0003) {
         En_Item00_SetNewUpdate(this, (ActorFunc)func_8001DFC8);
         this->actor.shape.rot.z = 0;
         this->actor.velocity.y = 0.0f;
@@ -455,40 +431,36 @@ void func_8001E304(ActorEnItem00* this, GlobalContext* globalCtx)
     }
 }
 
-void func_8001E5C8(ActorEnItem00* this, GlobalContext* globalCtx)
-{
+void func_8001E5C8(ActorEnItem00* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->unk_152 != 0)
-    {
-        if (!func_8002F410(&this->actor, globalCtx))
-        {
+    if (this->unk_152 != 0) {
+        if (!func_8002F410(&this->actor, globalCtx)) {
             func_8002F434(&this->actor, globalCtx, this->unk_152, 50.0f, 80.0f);
             this->unk_15A++;
-        }
-        else
-        {
+        } else {
             this->unk_152 = 0;
         }
     }
 
-    if (this->unk_15A == 0)
-    {
+    if (this->unk_15A == 0) {
         Actor_Kill(&this->actor);
         return;
     }
 
     this->actor.posRot.pos = player->actor.posRot.pos;
 
-    if (this->actor.params <= DROP_RUPEE_RED)
+    if (this->actor.params <= DROP_RUPEE_RED) {
         this->actor.shape.rot.y += 960;
-    else if (this->actor.params == DROP_HEART)
+    } else if (this->actor.params == DROP_HEART) {
         this->actor.shape.rot.y = 0;
+    }
 
     this->actor.posRot.pos.y += 40.0f + Math_Sins(this->unk_15A * 15000) * (this->unk_15A * 0.3f);
 
-    if LINK_IS_ADULT
-        this->actor.posRot.pos.y += 20.0f;
+    if
+        LINK_IS_ADULT
+    this->actor.posRot.pos.y += 20.0f;
 }
 
 extern s32 D_80157D90;
@@ -497,8 +469,7 @@ extern s16 D_80157D94;
 
 #ifdef NON_MATCHING
 // Almost matching, just a few minor ordering issues
-void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx)
-{
+void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx) {
     s32 pad1;
     s32 pad2;
     s32 sp3C;
@@ -521,44 +492,34 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx)
     this->actor.scale.z = this->actor.scale.x;
     this->actor.scale.y = this->actor.scale.x;
 
-    if (this->actor.gravity)
-    {
-        if (this->actor.bgCheckFlags & 0x0003)
-        {
+    if (this->actor.gravity) {
+        if (this->actor.bgCheckFlags & 0x0003) {
             // Separate symbols seem to be used here for 0x80157D90 since the loads and stores are completely separate
-            if (D_80157D90 != globalCtx->gameplayFrames)
-            {
+            if (D_80157D90 != globalCtx->gameplayFrames) {
                 D_80157D90_ = globalCtx->gameplayFrames;
                 D_80157D94 = 0;
-                for (i = 0; i < 50; i++)
-                {
-                    if (globalCtx->colCtx.dyna.flags[i] & 1)
-                    {
+                for (i = 0; i < 50; i++) {
+                    if (globalCtx->colCtx.dyna.flags[i] & 1) {
                         dynaActor = globalCtx->colCtx.dyna.actorMeshArr[i].actor;
                         if ((dynaActor != NULL) && (dynaActor->update != NULL) &&
                             ((dynaActor->posRot.pos.x != dynaActor->pos4.x) ||
                              (dynaActor->posRot.pos.y != dynaActor->pos4.y) ||
-                             (dynaActor->posRot.pos.z != dynaActor->pos4.z)))
-                        {
+                             (dynaActor->posRot.pos.z != dynaActor->pos4.z))) {
                             D_80157D94++;
                             break;
                         }
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             sp3A = 1;
             Actor_MoveForward(&this->actor);
         }
 
-        if (sp3A || D_80157D94)
-        {
+        if (sp3A || D_80157D94) {
             func_8002E4B4(globalCtx, &this->actor, 10.0f, 15.0f, 15.0f, 0x1D);
 
-            if (this->actor.unk_80 <= -10000.0f)
-            {
+            if (this->actor.unk_80 <= -10000.0f) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -569,8 +530,7 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx)
     Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, &this->cylinderCollider);
 
     if ((this->actor.params == DROP_SHIELD_DEKU) || (this->actor.params == DROP_SHIELD_HYLIAN) ||
-        (this->actor.params == DROP_TUNIC_ZORA) || (this->actor.params == DROP_TUNIC_GORON))
-    {
+        (this->actor.params == DROP_TUNIC_ZORA) || (this->actor.params == DROP_TUNIC_GORON)) {
         f32 newUnkBC = Math_Coss(this->actor.shape.rot.x) * 37.0f;
         this->actor.shape.unk_08 = newUnkBC;
         if (newUnkBC >= 0.0f)
@@ -583,8 +543,7 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx)
         return;
 
     // MISMATCH: The first function argument is loaded too early here
-    if (!((this->actor.xzDistanceFromLink <= 30.0f) &&
-          (this->actor.yDistanceFromLink >= -50.0f) &&
+    if (!((this->actor.xzDistanceFromLink <= 30.0f) && (this->actor.yDistanceFromLink >= -50.0f) &&
           (this->actor.yDistanceFromLink <= 50.0f)))
         if (!func_8002F410(&this->actor, globalCtx))
             return;
@@ -592,8 +551,7 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx)
     if (globalCtx->unk_10A20 != 0)
         return;
 
-    switch (this->actor.params)
-    {
+    switch (this->actor.params) {
         case DROP_RUPEE_GREEN:
             Item_Give(globalCtx, ITEM_RUPEE_GREEN);
             break;
@@ -675,8 +633,7 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx)
     if ((sp3C != 0) && !func_8002F410(&this->actor, globalCtx))
         func_8002F554(&this->actor, globalCtx, sp3C);
 
-    switch (this->actor.params)
-    {
+    switch (this->actor.params) {
         case DROP_HEART_PIECE:
         case DROP_HEART_CONTAINER:
         case DROP_SMALL_KEY:
@@ -684,29 +641,22 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx)
         case DROP_SHIELD_HYLIAN:
         case DROP_TUNIC_ZORA:
         case DROP_TUNIC_GORON:
-            if (func_8002F410(&this->actor, globalCtx))
-            {
+            if (func_8002F410(&this->actor, globalCtx)) {
                 Flags_SetCollectible(globalCtx, this->collectibleFlag);
                 Actor_Kill(&this->actor);
             }
             return;
     }
 
-    if ((this->actor.params <= DROP_RUPEE_RED) || (this->actor.params == DROP_RUPEE_ORANGE))
-    {
+    if ((this->actor.params <= DROP_RUPEE_RED) || (this->actor.params == DROP_RUPEE_ORANGE)) {
         Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    }
-    else if (sp3C != 0)
-    {
-        if (func_8002F410(&this->actor, globalCtx))
-        {
+    } else if (sp3C != 0) {
+        if (func_8002F410(&this->actor, globalCtx)) {
             Flags_SetCollectible(globalCtx, this->collectibleFlag);
             Actor_Kill(&this->actor);
         }
         return;
-    }
-    else
-    {
+    } else {
         Audio_PlaySoundGeneral(NA_SE_SY_GET_ITEM, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
 
@@ -734,15 +684,12 @@ void func_8001F080(ActorEnItem00* this, GlobalContext* globalCtx);
 void func_8001F1F4(ActorEnItem00* this, GlobalContext* globalCtx);
 void func_8001F334(ActorEnItem00* this, GlobalContext* globalCtx);
 
-void En_Item00_Draw(ActorEnItem00* this, GlobalContext* globalCtx)
-{
+void En_Item00_Draw(ActorEnItem00* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 unkFloat;
 
-    if (!(this->unk_156 & this->unk_158))
-    {
-        switch (this->actor.params)
-        {
+    if (!(this->unk_156 & this->unk_158)) {
+        switch (this->actor.params) {
             case DROP_RUPEE_GREEN:
             case DROP_RUPEE_BLUE:
             case DROP_RUPEE_RED:
@@ -757,20 +704,15 @@ void En_Item00_Draw(ActorEnItem00* this, GlobalContext* globalCtx)
                 func_8001F1F4(this, globalCtx);
                 break;
             case DROP_HEART:
-                if (this->unk_15A < 0)
-                {
-                    if (this->unk_15A == -1)
-                    {
+                if (this->unk_15A < 0) {
+                    if (this->unk_15A == -1) {
                         s8 bankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_HEART);
-                        if (Object_IsLoaded(&globalCtx->objectCtx, bankIndex))
-                        {
+                        if (Object_IsLoaded(&globalCtx->objectCtx, bankIndex)) {
                             this->actor.objBankIndex = bankIndex;
                             Actor_SetObjectDependency(globalCtx, &this->actor);
                             this->unk_15A = -2;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         unkFloat = 16.0f;
                         Matrix_Scale(unkFloat, unkFloat, unkFloat, MTXMODE_APPLY);
                         func_800694A0(globalCtx, 0x08);
@@ -813,8 +755,7 @@ void En_Item00_Draw(ActorEnItem00* this, GlobalContext* globalCtx)
 /**
  * Draw Function used for Rupee types of En_Item00.
  */
-void func_8001EF30(ActorEnItem00* this, GlobalContext* globalCtx)
-{
+void func_8001EF30(ActorEnItem00* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 iconNb;
     Gfx* gfxArr[5];
@@ -824,15 +765,16 @@ void func_8001EF30(ActorEnItem00* this, GlobalContext* globalCtx)
     func_80093D18(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
 
-    if (1) // Necessary to match
-    {
-        if (this->actor.params <= DROP_RUPEE_RED)
+    if (1) { // Necessary to match
+        if (this->actor.params <= DROP_RUPEE_RED) {
             iconNb = this->actor.params;
-        else
+        } else {
             iconNb = this->actor.params - 0x10;
+        }
     }
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1562), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1562),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80115530[iconNb]));
 
@@ -844,8 +786,7 @@ void func_8001EF30(ActorEnItem00* this, GlobalContext* globalCtx)
 /**
  * Draw Function used for most collectible types of En_Item00 (ammo, bombs, sticks, nuts, magic...).
  */
-void func_8001F080(ActorEnItem00* this, GlobalContext* globalCtx)
-{
+void func_8001F080(ActorEnItem00* this, GlobalContext* globalCtx) {
     s32 iconNb;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
@@ -856,16 +797,18 @@ void func_8001F080(ActorEnItem00* this, GlobalContext* globalCtx)
 
     gfxCtx->polyOpa.p = func_800BC8A0(globalCtx, gfxCtx->polyOpa.p);
 
-    if (this->actor.params == DROP_BOMBS_SPECIAL)
+    if (this->actor.params == DROP_BOMBS_SPECIAL) {
         iconNb = 1;
-    else if (this->actor.params >= DROP_ARROWS_SMALL)
+    } else if (this->actor.params >= DROP_ARROWS_SMALL) {
         iconNb -= 3;
+    }
 
     gfxCtx->polyOpa.p = func_800946E4(gfxCtx->polyOpa.p);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80115544[iconNb]));
 
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1607), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1607),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_0403F070);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1611);
@@ -874,8 +817,7 @@ void func_8001F080(ActorEnItem00* this, GlobalContext* globalCtx)
 /**
  * Draw Function used for the Heart Container type of En_Item00.
  */
-void func_8001F1F4(ActorEnItem00* this, GlobalContext* globalCtx)
-{
+void func_8001F1F4(ActorEnItem00* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[5];
 
@@ -883,12 +825,14 @@ void func_8001F1F4(ActorEnItem00* this, GlobalContext* globalCtx)
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1634), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1634),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_0403BBA0);
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002ED80(&this->actor, globalCtx, 0);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1644), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1644),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_0403BCD8);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1647);
@@ -897,8 +841,7 @@ void func_8001F1F4(ActorEnItem00* this, GlobalContext* globalCtx)
 /**
  * Draw Function used for the Piece of Heart type of En_Item00.
  */
-void func_8001F334(ActorEnItem00* this, GlobalContext* globalCtx)
-{
+void func_8001F334(ActorEnItem00* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[5];
 
@@ -906,7 +849,8 @@ void func_8001F334(ActorEnItem00* this, GlobalContext* globalCtx)
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002ED80(&this->actor, globalCtx, 0);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1670), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1670),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_0403B030);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1673);
@@ -916,38 +860,39 @@ void func_8001F334(ActorEnItem00* this, GlobalContext* globalCtx)
  * Converts a given drop type ID based on link's current age, health and owned items.
  * Returns a new drop type ID or -1 to cancel the drop.
  */
-s16 func_8001F404(s16 dropId)
-{
-    if (LINK_IS_ADULT)
-    {
-        if (dropId == DROP_SEEDS)
+s16 func_8001F404(s16 dropId) {
+    if (LINK_IS_ADULT) {
+        if (dropId == DROP_SEEDS) {
             dropId = DROP_ARROWS_SMALL;
-        else if (dropId == DROP_STICK)
+        } else if (dropId == DROP_STICK) {
             dropId = DROP_RUPEE_GREEN;
-    }
-    else
-    {
-        if (dropId == DROP_ARROWS_SMALL || dropId == DROP_ARROWS_MEDIUM || dropId == DROP_ARROWS_LARGE)
+        }
+    } else {
+        if (dropId == DROP_ARROWS_SMALL || dropId == DROP_ARROWS_MEDIUM || dropId == DROP_ARROWS_LARGE) {
             dropId = DROP_SEEDS;
+        }
     }
 
     // This is convoluted but it seems like it must be a single condition to match
+    // clang-format off
     if (((dropId == DROP_BOMBS_A      || dropId == DROP_BOMBS_SPECIAL || dropId == DROP_BOMBS_B)      && INV_CONTENT(ITEM_BOMB) == ITEM_NONE) ||
         ((dropId == DROP_ARROWS_SMALL || dropId == DROP_ARROWS_MEDIUM || dropId == DROP_ARROWS_LARGE) && INV_CONTENT(ITEM_BOW) == ITEM_NONE) ||
         ((dropId == DROP_MAGIC_LARGE  || dropId == DROP_MAGIC_SMALL)                                  && gSaveContext.magic_level == 0) ||
-        ((dropId == DROP_SEEDS)                                                                       && INV_CONTENT(ITEM_SLINGSHOT) == ITEM_NONE))
+        ((dropId == DROP_SEEDS)                                                                       && INV_CONTENT(ITEM_SLINGSHOT) == ITEM_NONE)) {
         return -1;
+    }
+    // clang-format on
 
-    if (dropId == DROP_HEART && gSaveContext.health_capacity == gSaveContext.health)
+    if (dropId == DROP_HEART && gSaveContext.health_capacity == gSaveContext.health) {
         return DROP_RUPEE_GREEN;
+    }
 
     return dropId;
 }
 
 // External functions used by other actors to drop collectibles, which usually results in spawning an En_Item00 actor.
 
-Actor* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params)
-{
+Actor* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params) {
     s32 pad[2];
     ActorEnItem00* spawnedActor = NULL;
     s16 param4000 = params & 0x4000;
@@ -956,26 +901,21 @@ Actor* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 param
 
     params = params & 0x3FFF;
 
-    if (((params & 0x00FF) == DROP_FLEXIBLE) && !param4000)
-    {
+    if (((params & 0x00FF) == DROP_FLEXIBLE) && !param4000) {
         // TODO: Prevent the cast to ActorEnItem00 here since this is a different actor (En_Elf)
-        spawnedActor = (ActorEnItem00*) Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF,
-                                                    spawnPos->x, spawnPos->y + 40.0f, spawnPos->z,
-                                                    0, 0, 0, 0x0002);
+        spawnedActor = (ActorEnItem00*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x,
+                                                   spawnPos->y + 40.0f, spawnPos->z, 0, 0, 0, 0x0002);
         func_8002A9F4(globalCtx, spawnPos, 0x28E7, 1, 1, 0x28);
-    }
-    else
-    {
-        if (!param8000)
+    } else {
+        if (!param8000) {
             params = func_8001F404(params & 0x00FF);
+        }
 
-        if (params != -1)
-        {
-            spawnedActor = (ActorEnItem00*) Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ITEM00,
-                                                        spawnPos->x, spawnPos->y, spawnPos->z,
-                                                        0, 0, 0, params | param8000 | param3F00);
-            if ((spawnedActor != NULL) && !param8000)
-            {
+        if (params != -1) {
+            spawnedActor =
+                (ActorEnItem00*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ITEM00, spawnPos->x, spawnPos->y,
+                                            spawnPos->z, 0, 0, 0, params | param8000 | param3F00);
+            if ((spawnedActor != NULL) && !param8000) {
                 spawnedActor->actor.velocity.y = !param4000 ? 8.0f : -2.0f;
                 spawnedActor->actor.speedXZ = 2.0f;
                 spawnedActor->actor.gravity = -0.9f;
@@ -985,8 +925,7 @@ Actor* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 param
                 spawnedActor->unk_15A = 220;
                 if ((spawnedActor->actor.params != DROP_SMALL_KEY) &&
                     (spawnedActor->actor.params != DROP_HEART_PIECE) &&
-                    (spawnedActor->actor.params != DROP_HEART_CONTAINER))
-                {
+                    (spawnedActor->actor.params != DROP_HEART_CONTAINER)) {
                     spawnedActor->actor.room = -1;
                 }
                 spawnedActor->actor.flags |= 0x0010;
@@ -994,11 +933,10 @@ Actor* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 param
         }
     }
 
-    return (Actor*) spawnedActor;
+    return (Actor*)spawnedActor;
 }
 
-Actor* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params)
-{
+Actor* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params) {
     ActorEnItem00* spawnedActor = NULL;
     s32 pad;
     s16 param4000 = params & 0x4000;
@@ -1007,24 +945,18 @@ Actor* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 para
 
     params = params & 0x3FFF;
 
-    if (((params & 0x00FF) == DROP_FLEXIBLE) && !param4000)
-    {
+    if (((params & 0x00FF) == DROP_FLEXIBLE) && !param4000) {
         // TODO: Prevent the cast to ActorEnItem00 here since this is a different actor (En_Elf)
-        spawnedActor = (ActorEnItem00*) Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF,
-                                                    spawnPos->x, spawnPos->y + 40.0f, spawnPos->z,
-                                                    0, 0, 0, 0x0002);
+        spawnedActor = (ActorEnItem00*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x,
+                                                   spawnPos->y + 40.0f, spawnPos->z, 0, 0, 0, 0x0002);
         func_8002A9F4(globalCtx, spawnPos, 0x28E7, 1, 1, 0x28);
-    }
-    else
-    {
+    } else {
         params = func_8001F404(params & 0x00FF);
-        if (params != -1)
-        {
-            spawnedActor = (ActorEnItem00*) Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ITEM00,
-                                                        spawnPos->x, spawnPos->y, spawnPos->z,
-                                                        0, 0, 0, params | param8000 | param3F00);
-            if ((spawnedActor != NULL) && !param8000)
-            {
+        if (params != -1) {
+            spawnedActor =
+                (ActorEnItem00*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ITEM00, spawnPos->x, spawnPos->y,
+                                            spawnPos->z, 0, 0, 0, params | param8000 | param3F00);
+            if ((spawnedActor != NULL) && !param8000) {
                 spawnedActor->actor.velocity.y = 0.0f;
                 spawnedActor->actor.speedXZ = 0.0f;
                 spawnedActor->actor.gravity = param4000 ? 0.0f : -0.9f;
@@ -1034,11 +966,10 @@ Actor* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 para
         }
     }
 
-    return (Actor*) spawnedActor;
+    return (Actor*)spawnedActor;
 }
 
-void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3f* spawnPos, s16 params)
-{
+void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3f* spawnPos, s16 params) {
     s32 pad;
     ActorEnItem00* spawnedActor;
     s16 dropQuantity;
@@ -1050,133 +981,93 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
     param8000 = params & 0x8000;
     params = params & 0x7FFF;
 
-    if (fromActor != NULL)
-    {
-        if (fromActor->unk_116)
-        {
-            if (fromActor->unk_116 & 0x01)
-            {
+    if (fromActor != NULL) {
+        if (fromActor->unk_116) {
+            if (fromActor->unk_116 & 0x01) {
                 params = 1 * 0x10;
                 dropTableIndex = 0xB;
-            }
-            else if (fromActor->unk_116 & 0x02)
-            {
+            } else if (fromActor->unk_116 & 0x02) {
                 params = 1 * 0x10;
                 dropTableIndex = 0x6;
-            }
-            else if (fromActor->unk_116 & 0x04)
-            {
+            } else if (fromActor->unk_116 & 0x04) {
                 params = 6 * 0x10;
                 dropTableIndex = 0x9;
-            }
-            else if (fromActor->unk_116 & 0x08)
-            {
+            } else if (fromActor->unk_116 & 0x08) {
                 params = 3 * 0x10;
                 dropTableIndex = 0xB;
-            }
-            else if (fromActor->unk_116 & 0x10)
-            {
+            } else if (fromActor->unk_116 & 0x10) {
                 params = 6 * 0x10;
                 dropTableIndex = 0xC;
-            }
-            else if (fromActor->unk_116 & 0x20)
-            {
+            } else if (fromActor->unk_116 & 0x20) {
                 params = 0 * 0x10;
                 dropTableIndex = 0x0;
-            }
-            else if (fromActor->unk_116 & 0x40)
-            {
+            } else if (fromActor->unk_116 & 0x40) {
                 params = 0 * 0x10;
                 dropTableIndex = 0x1;
             }
         }
-        if (fromActor->unk_116 & 0x20)
+        if (fromActor->unk_116 & 0x20) {
             dropId = DROP_RUPEE_PURPLE;
-        else
+        } else {
             dropId = D_80115574[params + dropTableIndex];
-    }
-    else
+        }
+    } else {
         dropId = D_80115574[params + dropTableIndex];
+    }
 
-    if (dropId == DROP_FLEXIBLE)
-    {
-        if (gSaveContext.health <= 0x10) // 1 heart or less
-        {
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF,
-                        spawnPos->x, spawnPos->y + 40.0f, spawnPos->z,
-                        0, 0, 0, 0x0002);
+    if (dropId == DROP_FLEXIBLE) {
+        if (gSaveContext.health <= 0x10) { // 1 heart or less
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, spawnPos->x, spawnPos->y + 40.0f, spawnPos->z, 0,
+                        0, 0, 0x0002);
             func_8002A9F4(globalCtx, spawnPos, 0x28E7, 1, 1, 0x28);
             return;
-        }
-        else if (gSaveContext.health <= 0x30) // 3 hearts or less
-        {
+        } else if (gSaveContext.health <= 0x30) { // 3 hearts or less
             params = 0xB * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_HEART;
-        }
-        else if (gSaveContext.health <= 0x50) // 5 hearts or less
-        {
+        } else if (gSaveContext.health <= 0x50) { // 5 hearts or less
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_HEART;
-        }
-        else if ((gSaveContext.magic_level != 0) && (gSaveContext.magic == 0)) // Empty magic meter
-        {
+        } else if ((gSaveContext.magic_level != 0) && (gSaveContext.magic == 0)) { // Empty magic meter
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_MAGIC_LARGE;
-        }
-        else if ((gSaveContext.magic_level != 0) && (gSaveContext.magic <= (gSaveContext.magic_level >> 1))) // Half magic or less
-        {
+        } else if ((gSaveContext.magic_level != 0) &&
+                   (gSaveContext.magic <= (gSaveContext.magic_level >> 1))) { // Half magic or less
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_MAGIC_SMALL;
-        }
-        else if (LINK_IS_CHILD && (AMMO(ITEM_SLINGSHOT) < 6)) // Child and less then 6 deku seeds
-        {
+        } else if (LINK_IS_CHILD && (AMMO(ITEM_SLINGSHOT) < 6)) { // Child and less then 6 deku seeds
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_SEEDS;
-        }
-        else if (LINK_IS_ADULT && (AMMO(ITEM_BOW) < 6)) // Adult and less than 6 arrows
-        {
+        } else if (LINK_IS_ADULT && (AMMO(ITEM_BOW) < 6)) { // Adult and less than 6 arrows
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_ARROWS_MEDIUM;
-        }
-        else if (AMMO(ITEM_BOMB) < 6) // Less than 6 bombs
-        {
+        } else if (AMMO(ITEM_BOMB) < 6) { // Less than 6 bombs
             params = 0xD * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_BOMBS_A;
-        }
-        else if (gSaveContext.rupees < 11) // Less than 11 Rupees
-        {
+        } else if (gSaveContext.rupees < 11) { // Less than 11 Rupees
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_RUPEE_RED;
-        }
-        else
-        {
+        } else {
             return;
         }
     }
 
-    if (dropId != 0xFF)
-    {
+    if (dropId != 0xFF) {
         dropQuantity = D_80115664[params + dropTableIndex];
-        while (dropQuantity > 0)
-        {
-            if (!param8000)
-            {
+        while (dropQuantity > 0) {
+            if (!param8000) {
                 dropId = func_8001F404(dropId);
-                if (dropId != 0xFF)
-                {
-                    spawnedActor = (ActorEnItem00*) Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ITEM00,
-                                                                spawnPos->x, spawnPos->y, spawnPos->z,
-                                                                0, 0, 0, dropId);
-                    if ((spawnedActor != NULL) && (dropId != 0xFF))
-                    {
+                if (dropId != 0xFF) {
+                    spawnedActor = (ActorEnItem00*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ITEM00,
+                                                               spawnPos->x, spawnPos->y, spawnPos->z, 0, 0, 0, dropId);
+                    if ((spawnedActor != NULL) && (dropId != 0xFF)) {
                         spawnedActor->actor.velocity.y = 8.0f;
                         spawnedActor->actor.speedXZ = 2.0f;
                         spawnedActor->actor.gravity = -0.9f;
@@ -1186,16 +1077,13 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
                         spawnedActor->actor.flags |= 0x0010;
                         if ((spawnedActor->actor.params != DROP_SMALL_KEY) &&
                             (spawnedActor->actor.params != DROP_HEART_PIECE) &&
-                            (spawnedActor->actor.params != DROP_HEART_CONTAINER))
-                        {
+                            (spawnedActor->actor.params != DROP_HEART_CONTAINER)) {
                             spawnedActor->actor.room = -1;
                         }
                         spawnedActor->unk_15A = 220;
                     }
                 }
-            }
-            else
-            {
+            } else {
                 Item_DropCollectible(globalCtx, spawnPos, params | 0x8000);
             }
             dropQuantity--;

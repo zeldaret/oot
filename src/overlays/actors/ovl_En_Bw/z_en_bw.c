@@ -1,6 +1,6 @@
 #include "z_en_bw.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnBw_Init(EnBw* this, GlobalContext* globalCtx);

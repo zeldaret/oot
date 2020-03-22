@@ -1,6 +1,6 @@
 #include "z_en_ma3.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000039
 
 void EnMa3_Init(EnMa3* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_arrow_ice.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx);

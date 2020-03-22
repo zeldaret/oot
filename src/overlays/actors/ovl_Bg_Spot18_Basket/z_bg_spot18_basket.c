@@ -1,6 +1,6 @@
 #include "z_bg_spot18_basket.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgSpot18Basket_Init(BgSpot18Basket* this, GlobalContext* globalCtx);

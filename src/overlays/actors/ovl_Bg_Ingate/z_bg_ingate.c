@@ -1,6 +1,6 @@
 #include "z_bg_ingate.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgIngate_Init(BgIngate* this, GlobalContext* globalCtx);

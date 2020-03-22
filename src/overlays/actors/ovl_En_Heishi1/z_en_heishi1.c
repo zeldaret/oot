@@ -1,6 +1,6 @@
 #include "z_en_heishi1.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnHeishi1_Init(EnHeishi1* this, GlobalContext* globalCtx);

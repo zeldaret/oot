@@ -60,4 +60,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AB9EC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800ABE74.s")
-

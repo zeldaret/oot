@@ -1,6 +1,6 @@
 #include "z_bg_dy_yoseizo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000030
 
 void BgDyYoseizo_Init(BgDyYoseizo* this, GlobalContext* globalCtx);

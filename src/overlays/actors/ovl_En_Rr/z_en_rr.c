@@ -1,6 +1,6 @@
 #include "z_en_rr.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000435
 
 void EnRr_Init(EnRr* this, GlobalContext* globalCtx);

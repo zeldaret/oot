@@ -2,10 +2,8 @@
 #include <global.h>
 #include <PR/os_cont.h>
 
-void Sample_Calc(SampleContext* this)
-{
-    if (!~(this->state.input[0].padPressed | ~START_BUTTON))
-    {
+void Sample_Calc(SampleContext* this) {
+    if (!~(this->state.input[0].padPressed | ~START_BUTTON)) {
         SET_NEXT_GAMESTATE(&this->state, func_800BCA64, GlobalContext);
         this->state.running = false;
     }
@@ -13,8 +11,7 @@ void Sample_Calc(SampleContext* this)
 
 // very close from matching, the only difference is the place of "mtx" in the stack
 #ifdef NON_MATCHING
-void Sample_Draw(SampleContext* this)
-{
+void Sample_Draw(SampleContext* this) {
     u32 pad;
     GraphicsContext* gfxCtx = this->state.gfxCtx;
     View* view = &this->view;
@@ -49,19 +46,15 @@ void Sample_Draw(SampleContext* this)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_sample/Sample_Draw.s")
 #endif
 
-void Sample_Update(SampleContext* this)
-{
+void Sample_Update(SampleContext* this) {
     Sample_Draw(this);
     Sample_Calc(this);
 }
 
-void Sample_Destroy(SampleContext* this)
-{
-
+void Sample_Destroy(SampleContext* this) {
 }
 
-void Sample_SetupView(SampleContext* this)
-{
+void Sample_SetupView(SampleContext* this) {
     View* view;
     GraphicsContext* gfxCtx;
     u32 v0[4];
@@ -94,16 +87,14 @@ void Sample_SetupView(SampleContext* this)
     func_800AA358(view, &v1, &v2, &v3);
 }
 
-void Sample_LoadTitleStatic(SampleContext* this)
-{
+void Sample_LoadTitleStatic(SampleContext* this) {
     u32 size = _title_staticSegmentRomEnd - _title_staticSegmentRomStart;
-    
+
     this->staticSegment = Game_Alloc(&this->state, size, "../z_sample.c", 163);
     DmaMgr_SendRequest1(this->staticSegment, _title_staticSegmentRomStart, size, "../z_sample.c", 164);
 }
 
-void Sample_Init(SampleContext* this)
-{
+void Sample_Init(SampleContext* this) {
     this->state.main = Sample_Update;
     this->state.destroy = Sample_Destroy;
     R_UPDATE_RATE = 1;

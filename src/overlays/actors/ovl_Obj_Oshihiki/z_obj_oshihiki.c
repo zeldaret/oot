@@ -1,6 +1,6 @@
 #include "z_obj_oshihiki.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ObjOshihiki_Init(ObjOshihiki* this, GlobalContext* globalCtx);

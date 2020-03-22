@@ -1,6 +1,6 @@
 #include "z_item_b_heart.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ItemBHeart_Init(ItemBHeart* this, GlobalContext* globalCtx);

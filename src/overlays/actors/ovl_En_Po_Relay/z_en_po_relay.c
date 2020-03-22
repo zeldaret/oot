@@ -1,6 +1,6 @@
 #include "z_en_po_relay.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00011019
 
 void EnPoRelay_Init(EnPoRelay* this, GlobalContext* globalCtx);

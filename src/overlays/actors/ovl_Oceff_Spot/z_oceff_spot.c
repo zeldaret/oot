@@ -1,6 +1,6 @@
 #include "z_oceff_spot.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void OceffSpot_Init(OceffSpot* this, GlobalContext* globalCtx);

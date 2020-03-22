@@ -1,6 +1,6 @@
 #include "z_en_gb.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnGb_Init(EnGb* this, GlobalContext* globalCtx);

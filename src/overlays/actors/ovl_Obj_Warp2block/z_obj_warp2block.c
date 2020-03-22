@@ -1,6 +1,6 @@
 #include "z_obj_warp2block.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x0A000011
 
 void ObjWarp2block_Init(ObjWarp2block* this, GlobalContext* globalCtx);

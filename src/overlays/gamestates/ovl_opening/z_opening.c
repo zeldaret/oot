@@ -2,13 +2,12 @@
  * File: z_opening.c
  * Overlay: ovl_opening
  * Description: Initializes the game into the title screen
-*/
+ */
 
 #include <ultra64.h>
 #include <global.h>
 
-static void Opening_SetNextGameState(OpeningContext* this)
-{
+static void Opening_SetNextGameState(OpeningContext* this) {
     gSaveContext.game_mode = 1;
     this->state.running = false;
     gSaveContext.link_age = 0;
@@ -18,25 +17,19 @@ static void Opening_SetNextGameState(OpeningContext* this)
     SET_NEXT_GAMESTATE(&this->state, func_800BCA64, GlobalContext);
 }
 
-static void func_80803C5C(OpeningContext* this)
-{
-
+static void func_80803C5C(OpeningContext* this) {
 }
 
-static void Opening_Update(OpeningContext* this)
-{
+static void Opening_Update(OpeningContext* this) {
     func_80095248(this->state.gfxCtx, 0, 0, 0);
     Opening_SetNextGameState(this);
     func_80803C5C(this);
 }
 
-static void Opening_Destroy(OpeningContext* this)
-{
-
+static void Opening_Destroy(OpeningContext* this) {
 }
 
-void Opening_Init(OpeningContext* this)
-{
+void Opening_Init(OpeningContext* this) {
     R_UPDATE_RATE = 1;
     Matrix_Init(&this->state);
     func_800AA278(&this->view, this->state.gfxCtx);

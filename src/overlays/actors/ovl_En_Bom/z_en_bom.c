@@ -1,6 +1,6 @@
 #include "z_en_bom.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnBom_Init(EnBom* this, GlobalContext* globalCtx);

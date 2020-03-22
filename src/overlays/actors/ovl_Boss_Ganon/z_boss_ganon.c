@@ -1,6 +1,6 @@
 #include "z_boss_ganon.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void BossGanon_Init(BossGanon* this, GlobalContext* globalCtx);
@@ -158,4 +158,3 @@ const ActorInit Boss_Ganon_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808E3564.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808E3D84.s")
-

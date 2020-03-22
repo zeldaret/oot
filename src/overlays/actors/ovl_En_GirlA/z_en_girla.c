@@ -1,6 +1,6 @@
 #include "z_en_girla.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnGirlA_Init(EnGirlA* this, GlobalContext* globalCtx);

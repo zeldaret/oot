@@ -1,6 +1,6 @@
 #include "z_obj_kibako.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x04000010
 
 void ObjKibako_Init(ObjKibako* this, GlobalContext* globalCtx);

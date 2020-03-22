@@ -1,8 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-void SaveContext_Init(void)
-{
+void SaveContext_Init(void) {
     bzero(&gSaveContext, sizeof(gSaveContext));
     D_8015FA88 = 0;
     D_8015FA8C = 0;
@@ -18,4 +17,3 @@ void SaveContext_Init(void)
     gSaveContext.transition_type = 0xFF;
     gSaveContext.unk_13EE = 50;
 }
-
