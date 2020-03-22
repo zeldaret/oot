@@ -13,34 +13,28 @@ struct GlobalContext;
 // From z64light.h
 struct LightMapper;
 
-typedef struct
-{
+typedef struct {
     f32 x, y;
 } Vec2f;
 
-typedef struct
-{
+typedef struct {
     f32 x, y, z;
 } Vec3f;
 
-typedef struct
-{
+typedef struct {
     s16 x, y, z;
 } Vec3s;
 
-typedef struct
-{
+typedef struct {
     s32 x, y, z;
 } Vec3i;
 
-typedef struct
-{
+typedef struct {
     Vec3f pos;
     Vec3s rot;
 } PosRot; // size = 0x14
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ char   unk_00[0x8];
     /* 0x08 */ Vec3s  norm;  // Normal vector
     /* 0x0E */ s16    dist;  // Plane distance from origin
@@ -48,8 +42,7 @@ typedef struct
 
 typedef void (*ActorFunc)(struct Actor*, struct GlobalContext*);
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ s16 id;
     /* 0x02 */ u8  type; // Classifies actor and determines when actor will execute
     /* 0x03 */ u8  room; // Room instance was spawned in. If value set to FF in rom, instance does not despawn when swapping rooms
@@ -62,15 +55,13 @@ typedef struct
     /* 0x1C */ ActorFunc draw; // Draw function
 } ActorInit; // size = 0x20
 
-typedef enum
-{
+typedef enum {
     ALLOCTYPE_NORMAL,
     ALLOCTYPE_ABSOLUTE,
     ALLOCTYPE_PERMANENT
 } AllocType;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u32   vromStart;
     /* 0x04 */ u32   vromEnd;
     /* 0x08 */ void* vramStart;
@@ -82,25 +73,21 @@ typedef struct
     /* 0x1E */ s8    nbLoaded; // original name: "clients"
 } ActorOverlay; // size = 0x20
 
-typedef struct
-{
-    struct
-    {
+typedef struct {
+    struct {
         char damage : 4;
         char effect : 4;
     } attack[32];
 } ActorDamageChart;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8 health;
     /* 0x02 */ s16 unk_02;
     /* 0x04 */ s16 unk_04;
     /* 0x06 */ u8 mass;
 } SubActor98Init;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ ActorDamageChart* damageChart;  // For actors which contain a damage chart (example: Stalfos)...
     /* 0x04 */ Vec3f displacement; // Amount to correct velocity (0x5C) by when colliding into a body
     /* 0x10 */ s16   unk_10;
@@ -114,8 +101,7 @@ typedef struct
     /* 0x1B */ u8    unk_1B;
 } SubActorStruct98; // size = 0x1C
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ Vec3s  rot; // Current actor shape rotation
     /* 0x06 */ u8     unk_06;
     /* 0x08 */ f32    unk_08; // Model y axis offset. Represents model space units. collision mesh related
@@ -125,8 +111,7 @@ typedef struct
     /* 0x15 */ u8     unk_15;
 } ActorShape; // size = 0x18
 
-typedef struct Actor
-{
+typedef struct Actor {
     /* 0x000 */ s16     id; // Actor Id
     /* 0x002 */ u8      type; // Actor Type. Refer to the corresponding enum for values
     /* 0x003 */ s8      room; // Room number the actor is part of. FF denotes that the actor won't despawn on a room change
@@ -198,16 +183,14 @@ typedef struct Actor
     /* From here on, the structure and size varies for each actor */
 } Actor; // size = 0x14C
 
-typedef enum
-{
+typedef enum {
     COLTYPE_CYLINDER = 1,
     COLTYPE_CYLINDER_GROUP = 0,
     COLTYPE_QUAD = 3,
     COLTYPE_TRIANGLE_GROUP = 2
 } ColliderType;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ Actor* actor;
     /* 0x04 */ Actor* at;
     /* 0x08 */ Actor* ac;
@@ -220,15 +203,13 @@ typedef struct
     /* 0x15 */ u8 type; /* Cylinder Collection, Cylinder, Triangle Collection, Quad */
 } Collider; // size = 0x18
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ s32 flags; /* Toucher Attack Identifier Flags */
     /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 damage; /* Damage or Stun Timer */
 } ColliderTouch; // size = 0x08
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ s32 flags; /* Collision Exclusion Mask */
     /* 0x04 */ u8 effect; /* Damage Effect (Knockback, Fire, etc.) */
     /* 0x05 */ u8 unk_05;
@@ -237,8 +218,7 @@ typedef struct
     /* 0x0A */ s16 unk_0A;
 } ColliderBump; // size = 0x0C
 
-typedef struct ColliderBody
-{
+typedef struct ColliderBody {
     /* 0x00 */ ColliderTouch toucher;
     /* 0x08 */ ColliderBump bumper;
     /* 0x14 */ u8 flags;
@@ -251,14 +231,12 @@ typedef struct ColliderBody
     /* 0x24 */ struct ColliderBody* colliding;
 } ColliderBody; // size = 0x28
 
-typedef struct ColliderBodyEntry
-{
+typedef struct ColliderBodyEntry {
     /* 0x00 */ ColliderBody c;
     /* 0x28 */ char unk_28[0x18];
 } ColliderBodyEntry; // size = 0x40
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8 bodyFlags;
     /* 0x01 */ u8 unk_09[0x3]; /* 000000 */
     /* 0x04 */ s32 toucherMask; /* Attack Toucher Exclusion Mask */
@@ -273,8 +251,7 @@ typedef struct
     /* 0x17 */ u8 unk_1F; /* 00 */
 } ColliderBodyInfoInner; // size = 0x1A
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8 unk_00;
     /* 0x01 */ u8 colliderFlags; /* Collider Flags */
     /* 0x02 */ u8 collideFlags; /* Collide Flags */
@@ -284,30 +261,26 @@ typedef struct
     /* 0x06 */ u8 unk_06[0x2]; /* 0000 */
 } ColliderBodyInfo; // size = 0x08
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ s16 radius; /* Cylinder Radius */
     /* 0x02 */ s16 height; /* Cylinder Height */
     /* 0x04 */ s16 yShift; /* Shift Cylinder on Y Axis */
     /* 0x06 */ Vec3s position; /* {X, Y, Z} position of Cylinder */
 } ColliderDimensions; // size = 0xC
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ Collider base;
     /* 0x18 */ ColliderBody body;
     /* 0x40 */ ColliderDimensions dim;
 } ColliderCylinderMain; // size = 0x4C
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ ColliderBodyInfo body;
     /* 0x06 */ ColliderBodyInfoInner inner;
     /* 0x20 */ ColliderDimensions dim;
 } ColliderCylinderInit; // size = 0x2C
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ Actor* actor;
     /* 0x04 */ char unk_04[0x10];
     /* 0x14 */ Vec3f scale1;
@@ -319,8 +292,7 @@ typedef struct
     /* 0x54 */ char unk_54[0x10];
 } ActorMesh; // size = 0x64
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ Actor actor;
     /* 0x14C */ u32 dynaPolyId;
     /* 0x150 */ f32 unk_150;
@@ -332,8 +304,7 @@ typedef struct
     /* 0x162 */ s16 unk_162;
 } DynaPolyActor; // size = 0x164
 
-typedef struct
-{
+typedef struct {
     /* 0x0000 */ Actor   actor;
     /* 0x014C */ s8      currentTunic;
     /* 0x014D */ s8      currentSword;
@@ -408,10 +379,9 @@ typedef struct
     /* 0x0A60 */ char    unk_A60[0x18];
     /* 0x0A78 */ s8      unk_A78;
     /* 0x0A79 */ char    unk_A79[0x1B];
-} Player; //size = 0xA94
+} Player; // size = 0xA94
 
-typedef enum
-{
+typedef enum {
     /* 0x00 */ ACTORTYPE_SWITCH,
     /* 0x01 */ ACTORTYPE_BG,
     /* 0x02 */ ACTORTYPE_PLAYER,
@@ -426,8 +396,7 @@ typedef enum
     /* 0x0B */ ACTORTYPE_CHEST
 } ActorType;
 
-typedef enum
-{
+typedef enum {
     /* 0x0000 */ ACTOR_PLAYER,
     /* 0x0001 */ ACTOR_UNSET_1,
     /* 0x0002 */ ACTOR_EN_TEST,
