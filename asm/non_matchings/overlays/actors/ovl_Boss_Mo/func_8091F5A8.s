@@ -292,7 +292,7 @@ glabel L8091F8F8
 /* 03EE4 8091F9E4 C60401DC */  lwc1    $f4, 0x01DC($s0)           ## 000001DC
 /* 03EE8 8091F9E8 E7AC0098 */  swc1    $f12, 0x0098($sp)          
 /* 03EEC 8091F9EC 46062381 */  sub.s   $f14, $f4, $f6             
-/* 03EF0 8091F9F0 0C03F494 */  jal     func_800FD250              
+/* 03EF0 8091F9F0 0C03F494 */  jal     Math_atan2f              
 /* 03EF4 8091F9F4 E7AE0090 */  swc1    $f14, 0x0090($sp)          
 /* 03EF8 8091F9F8 C7B00098 */  lwc1    $f16, 0x0098($sp)          
 /* 03EFC 8091F9FC C7B20090 */  lwc1    $f18, 0x0090($sp)          
@@ -302,7 +302,7 @@ glabel L8091F8F8
 /* 03F0C 8091FA0C 46129282 */  mul.s   $f10, $f18, $f18           
 /* 03F10 8091FA10 460A4100 */  add.s   $f4, $f8, $f10             
 /* 03F14 8091FA14 E7A4003C */  swc1    $f4, 0x003C($sp)           
-/* 03F18 8091FA18 0C03F494 */  jal     func_800FD250              
+/* 03F18 8091FA18 0C03F494 */  jal     Math_atan2f              
 /* 03F1C 8091FA1C 46002384 */  sqrt.s  $f14, $f4                  
 /* 03F20 8091FA20 3C018092 */  lui     $at, %hi(D_80926D08)       ## $at = 80920000
 /* 03F24 8091FA24 C7A20088 */  lwc1    $f2, 0x0088($sp)           

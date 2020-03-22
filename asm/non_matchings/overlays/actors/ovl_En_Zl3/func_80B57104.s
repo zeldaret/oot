@@ -25,7 +25,7 @@ glabel func_80B57104
 /* 03DB0 80B57160 4503000D */  bc1tl   .L80B57198                 
 /* 03DB4 80B57164 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 .L80B57168:
-/* 03DB8 80B57168 0C03F494 */  jal     func_800FD250              
+/* 03DB8 80B57168 0C03F494 */  jal     Math_atan2f              
 /* 03DBC 80B5716C 00000000 */  nop
 /* 03DC0 80B57170 3C0180B6 */  lui     $at, %hi(D_80B5AB88)       ## $at = 80B60000
 /* 03DC4 80B57174 C424AB88 */  lwc1    $f4, %lo(D_80B5AB88)($at)  

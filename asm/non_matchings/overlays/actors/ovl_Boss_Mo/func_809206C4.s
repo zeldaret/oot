@@ -65,7 +65,7 @@ glabel L80920734
 /* 04CB8 809207B8 C62A0F70 */  lwc1    $f10, 0x0F70($s1)          ## 00000F70
 /* 04CBC 809207BC E7AC0088 */  swc1    $f12, 0x0088($sp)          
 /* 04CC0 809207C0 460A4381 */  sub.s   $f14, $f8, $f10            
-/* 04CC4 809207C4 0C03F494 */  jal     func_800FD250              
+/* 04CC4 809207C4 0C03F494 */  jal     Math_atan2f              
 /* 04CC8 809207C8 E7AE0084 */  swc1    $f14, 0x0084($sp)          
 /* 04CCC 809207CC C7AC0088 */  lwc1    $f12, 0x0088($sp)          
 /* 04CD0 809207D0 C7AE0084 */  lwc1    $f14, 0x0084($sp)          

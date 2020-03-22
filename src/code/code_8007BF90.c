@@ -121,8 +121,8 @@ Vec3f* func_8007C4E0(Vec3f* dest, Vec3f* a, Vec3f* b)
 {
     Vec3f var;
 
-    var.x = func_800FD250(b->z - a->z, b->y - a->y);
-    var.y = func_800FD250(b->x - a->x, b->z - a->z);
+    var.x = Math_atan2f(b->z - a->z, b->y - a->y);
+    var.y = Math_atan2f(b->x - a->x, b->z - a->z);
     var.z = 0;
 
     *dest = var;

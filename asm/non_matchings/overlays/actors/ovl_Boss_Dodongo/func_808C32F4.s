@@ -171,7 +171,7 @@ glabel func_808C32F4
               
 /* 023D4 808C3564 00000000 */  nop
 /* 023D8 808C3568 C7AC0048 */  lwc1    $f12, 0x0048($sp)          
-/* 023DC 808C356C 0C03F494 */  jal     func_800FD250              
+/* 023DC 808C356C 0C03F494 */  jal     Math_atan2f              
 /* 023E0 808C3570 C7AE0044 */  lwc1    $f14, 0x0044($sp)          
 /* 023E4 808C3574 3C01808D */  lui     $at, %hi(D_808CA6C8)       ## $at = 808D0000
 /* 023E8 808C3578 C42AA6C8 */  lwc1    $f10, %lo(D_808CA6C8)($at) 
