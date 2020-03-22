@@ -672,7 +672,7 @@ void func_8005B9B0(GlobalContext* globalCtx, ColliderBody* body);
 void func_8005B9E8(GlobalContext* globalCtx, ColliderBody* body);
 // ? func_8005BA1C(?);
 // ? func_8005BA30(?);
-s32 func_8005BA74(UNK_TYPE, UNK_TYPE);
+s32 func_8005BA74(GlobalContext* globalCtx, ColliderJntSphItemDim* item);
 // ? func_8005BA84(?);
 // ? func_8005BAD8(?);
 // ? func_8005BB10(?);

@@ -199,11 +199,13 @@ s32 func_8005BA30(GlobalContext* globalCtx, ColliderJntSphItemDim* dim) {
     return 1;
 }
 
-s32 func_8005BA74(UNK_TYPE arg0, UNK_TYPE arg1)
+//Destruct JntSphItemDim
+s32 func_8005BA74(GlobalContext* globalCtx, ColliderJntSphItemDim* item)
 {
     return 1;
 }
 
+//SetInit JntSphItemDim
 s32 func_8005BA84(GlobalContext* globalCtx, ColliderJntSphItemDim* dest, ColliderJntSphItemDimInit* src);
 /*
 {
@@ -222,7 +224,12 @@ s32 func_8005BAD8(GlobalContext* globalCtx, ColliderJntSphItem* item) {
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BB10.s")
+//Destruct JntSphItem
+s32 func_8005BB10(GlobalContext* globalCtx, ColliderJntSphItem* item) {
+    func_8005B904(globalCtx, &item->body);
+    func_8005BA74(globalCtx, &item->dim);
+    return 1;
+}
 
 //SetInit JntSphItem
 s32 func_8005BB48(GlobalContext* globalCtx, ColliderJntSphItem* dest, ColliderJntSphItemInit* src) {
