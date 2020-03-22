@@ -788,9 +788,7 @@ endseg
 beginseg
     name "ovl_Bg_Gate_Shutter"
     include "build/src/overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.o"
-    include "build/data/overlays/actors/z_bg_gate_shutter.data.o"
-    include "build/data/overlays/actors/z_bg_gate_shutter.rodata.o"
-    include "build/data/overlays/actors/z_bg_gate_shutter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter_reloc.o"
 endseg
 
 beginseg
