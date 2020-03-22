@@ -3678,9 +3678,7 @@ endseg
 beginseg
     name "ovl_En_Tk"
     include "build/src/overlays/actors/ovl_En_Tk/z_en_tk.o"
-    include "build/data/overlays/actors/z_en_tk.data.o"
-    include "build/data/overlays/actors/z_en_tk.rodata.o"
-    include "build/data/overlays/actors/z_en_tk.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Tk/z_en_tk_reloc.o"
 endseg
 
 beginseg
