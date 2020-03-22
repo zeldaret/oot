@@ -274,7 +274,7 @@ typedef struct
     /* 0x15 */ u8 bumperFlags; /* Bumper Flags */
     /* 0x16 */ u8 bodyFlags2;
     /* 0x17 */ u8 unk_1F; /* 00 */
-} ColliderBodyInit; // size = 0x1A
+} ColliderBodyInit; // size = 0x18
 
 typedef struct
 {
@@ -326,8 +326,17 @@ typedef struct
 } ColliderCylinderInit_Actor; // size = 0x2C
 
 typedef struct {
-    s32 pad[6];
-} ColliderJntSphItemDim;
+    Vec3s unk_00;
+    s32 unk_08[2];
+    float unk_10;
+    s8 unk_14;
+} ColliderJntSphItemDim; //size 0x18
+
+typedef struct {
+    u8 unk_00;
+    Vec3s unk_02;
+    s16 unk_0A;
+} ColliderJntSphItemDimInit; //size 0x0C
 
 typedef struct {
     ColliderBody body;
@@ -335,7 +344,8 @@ typedef struct {
 } ColliderJntSphItem;
 
 typedef struct {
-    char pad[0x24];
+    ColliderBodyInit body;
+    ColliderJntSphItemDimInit dim;
 } ColliderJntSphItemInit;
 
 typedef struct
