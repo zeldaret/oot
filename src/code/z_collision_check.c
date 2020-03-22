@@ -252,10 +252,29 @@ s32 func_8005BBF8(GlobalContext* globalCtx, ColliderJntSph* collision) {
     collision->list = NULL;
     return 1;
 }
+//Destruct ColliderJntSph (malloc)
+s32 func_8005BC28(GlobalContext* globalCtx, ColliderJntSph* collider) {
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BC28.s")
+    ColliderJntSph* next;
 
-//Destruct ColliderJntSph
+    func_8005B6A0(globalCtx, &collider->base);
+    next = collider->list;
+
+    while (next < collider->list + collider->count) {
+
+        func_8005BB10(globalCtx, next);
+        next++;
+    }
+
+    collider->count = 0;
+    if (collider->list != NULL) {
+        ZeldaArena_FreeDebug(collider->list, "../z_collision_check.c", 0x571);
+    }
+    collider->list = NULL;
+    return 1;
+}
+
+//Destruct ColliderJntSph (no malloc)
 s32 func_8005BCC8(GlobalContext* globalCtx, ColliderJntSph* collider) {
     ColliderJntSph* next;
 
