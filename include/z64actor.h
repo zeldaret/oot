@@ -339,14 +339,14 @@ typedef struct {
 } ColliderJntSphItemDimInit; //size 0x0C
 
 typedef struct {
-    ColliderBody body;
-    ColliderJntSphItemDim dim;
-} ColliderJntSphItem;
+    /* 0x00 */ ColliderBody body;
+    /* 0x28 */ ColliderJntSphItemDim dim;
+} ColliderJntSphItem; // size = 0x40
 
 typedef struct {
-    ColliderBodyInit body;
-    ColliderJntSphItemDimInit dim;
-} ColliderJntSphItemInit;
+    /* 0x00 */ ColliderBodyInit body;
+    /* 0x18 */ ColliderJntSphItemDimInit dim;
+} ColliderJntSphItemInit; // size = 0x24
 
 typedef struct
 {
@@ -356,8 +356,8 @@ typedef struct
 } ColliderJntSph;
 
 typedef struct {
-    ColliderInit body;
-    s32 count;
+    /* 0x00 */ ColliderInit body;
+    /* 0x08 */ s32 count;
     /* 0x0C */ ColliderJntSphItemInit* list;
 } ColliderJntSphInit;
 
