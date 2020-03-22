@@ -23,7 +23,7 @@ void Sample_Draw(SampleContext* this)
 
     func_800C6AC4(gfxArr, gfxCtx, "../z_sample.c", 62);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0, 0);
+    gSPSegment(gfxCtx->polyOpa.p++, 0, NULL;
     gSPSegment(gfxCtx->polyOpa.p++, 1, this->staticSegment);
 
     func_80095248(gfxCtx, 0, 0, 0);
@@ -95,7 +95,7 @@ void Sample_SetupView(SampleContext* this)
 
 void Sample_LoadTitleStatic(SampleContext* this)
 {
-    u32 size = (u32)(_title_staticSegmentRomEnd - _title_staticSegmentRomStart);
+    u32 size = _title_staticSegmentRomEnd - _title_staticSegmentRomStart;
     
     this->staticSegment = Game_Alloc(&this->state, size, "../z_sample.c", 163);
     DmaMgr_SendRequest1(this->staticSegment, _title_staticSegmentRomStart, size, "../z_sample.c", 164);
