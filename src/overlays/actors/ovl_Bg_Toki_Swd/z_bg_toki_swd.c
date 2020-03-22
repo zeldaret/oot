@@ -394,7 +394,7 @@ static void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx)
        {
            if (LINK_IS_CHILD) 
            {
-               Item_Give(globalCtx, 0x3C);
+               Item_Give(globalCtx, ITEM_SWORD_MASTER);
                globalCtx->csCtx.segment = D_808BB2F0;
            } 
            else 
@@ -403,7 +403,7 @@ static void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx)
            }
            Audio_SetBGM(NA_BGM_STOP);
            Audio_SetBGM(NA_SE_PL_BOUND_DIRT);
-           gSaveContext.cutscene_trigger = (u8)1;
+           gSaveContext.cutscene_trigger = 1;
            this->actor.attachedA = 0;
            BgTokiSwd_SetupAction(this, func_808BB0AC);
        } 
@@ -419,10 +419,12 @@ static void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx)
    {
        if (globalCtx->unk_11D30[0] > 0) 
        {
-           globalCtx->unk_11D30[0] = globalCtx->unk_11D30[0] - 1;
-           return;
+           globalCtx->unk_11D30[0]--;
        }
-       globalCtx->unk_11D30[0] = 0;
+       else
+       {
+           globalCtx->unk_11D30[0] = 0;
+       }
    }
 }
 
@@ -453,7 +455,7 @@ static void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx)
 {
     if ((func_8006C4A4(globalCtx, 1) != 0) && (globalCtx->unk_11D30[0] < 0xFF))
     {
-        globalCtx->unk_11D30[0] = globalCtx->unk_11D30[0] + 5;
+        globalCtx->unk_11D30[0]+= 5;
     }
 }
 
