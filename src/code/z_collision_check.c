@@ -191,7 +191,13 @@ void func_8005BA1C(GlobalContext* globalCtx, ColliderBody* body)
     body->flags2 &= ~0x2;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BA30.s")
+extern ColliderJntSphItemDim D_8011DE54;
+
+//initialize JntSphItemDim
+s32 func_8005BA30(GlobalContext* globalCtx, ColliderJntSphItemDim* dim) {
+    *dim = D_8011DE54;
+    return 1;
+}
 
 s32 func_8005BA74(UNK_TYPE arg0, UNK_TYPE arg1)
 {
@@ -200,10 +206,12 @@ s32 func_8005BA74(UNK_TYPE arg0, UNK_TYPE arg1)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BA84.s")
 
-//call 5BA84, 5BA30 
 //Initialize JntSphItem
-s32 func_8005BAD8(GlobalContext* gctx, ColliderJntSphItem* item);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BAD8.s")
+s32 func_8005BAD8(GlobalContext* globalCtx, ColliderJntSphItem* item) {
+    func_8005B884(globalCtx, &item->body);
+    func_8005BA30(globalCtx, &item->dim);
+    return 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BB10.s")
 
@@ -215,9 +223,10 @@ s32 func_8005BB48(GlobalContext* gctx, ColliderJntSphItem* item, ColliderJntSphI
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BBB0.s")
 
+//wrapper for 5BA1C
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BBD4.s")
 
-//Initialize ? List //ClObjJntSph
+//Initialize ColliderJntSph
 s32 func_8005BBF8(GlobalContext* globalCtx, ColliderJntSph* collision) {
     func_8005B65C(globalCtx, &collision->base);
     collision->count = 0;
@@ -269,6 +278,7 @@ s32 func_8005C050(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, 
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C1AC.s")
 
+//D_8011DF18 func ptr
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C234.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C2BC.s")
@@ -470,6 +480,7 @@ void func_8005D400(UNK_TYPE arg0, UNK_TYPE arg1)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D9F4.s")
 
+//CollisionCheck_SetOC()
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DC4C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DF2C.s")

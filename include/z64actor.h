@@ -300,7 +300,7 @@ typedef struct
     /* 0x00 */ s16 radius; /* Cylinder Radius */
     /* 0x02 */ s16 height; /* Cylinder Height */
     /* 0x04 */ s16 yShift; /* Shift Cylinder on Y Axis */
-    /* 0x06 */ Vec3s position; /* {X, Y, Z} position of Cylinder */
+    /* 0x08 */ Vec3s position; /* {X, Y, Z} position of Cylinder */
 } ColliderCylinderDim; // size = 0xC
 
 typedef struct
@@ -326,7 +326,12 @@ typedef struct
 } ColliderCylinderInit_Actor; // size = 0x2C
 
 typedef struct {
-    char pad[0x40];
+    s32 pad[6];
+} ColliderJntSphItemDim;
+
+typedef struct {
+    ColliderBody body;
+    ColliderJntSphItemDim dim;
 } ColliderJntSphItem;
 
 typedef struct {
