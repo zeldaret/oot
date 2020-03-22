@@ -1,6 +1,6 @@
 #include "z_en_river_sound.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnRiverSound_Init(EnRiverSound* this, GlobalContext* globalCtx);

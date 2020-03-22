@@ -1,6 +1,6 @@
 #include "z_en_ru2.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnRu2_Init(EnRu2* this, GlobalContext* globalCtx);

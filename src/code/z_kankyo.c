@@ -31,8 +31,7 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80073A5C.s")
 
-f32 func_800746DC()
-{
+f32 func_800746DC() {
     return Math_Rand_ZeroOne() - 0.5f;
 }
 
@@ -70,23 +69,19 @@ f32 func_800746DC()
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_800773A8.s")
 
-s32 func_800775CC()
-{
+s32 func_800775CC() {
     return gSaveContext.unk_18;
 }
 
-void func_800775D8()
-{
+void func_800775D8() {
     gSaveContext.unk_18 = 0;
 }
 
-s32 func_800775E4()
-{
+s32 func_800775E4() {
     return gSaveContext.unk_14;
 }
 
-void func_800775F0(u16 arg0)
-{
+void func_800775F0(u16 arg0) {
     gSaveContext.unk_140E = arg0;
 }
 
@@ -97,4 +92,3 @@ void func_800775F0(u16 arg0)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80077684.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_800776E4.s")
-

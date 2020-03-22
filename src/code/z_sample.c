@@ -2,19 +2,16 @@
 #include <global.h>
 #include <PR/os_cont.h>
 
-void Sample_Calc(SampleContext* this)
-{
-    if (!~(this->state.input[0].padPressed | ~START_BUTTON))
-    {
-        this->state.init = func_800BCA64; this->state.size = sizeof(GlobalContext);
+void Sample_Calc(SampleContext* this) {
+    if (!~(this->state.input[0].padPressed | ~START_BUTTON)) {
+        SET_NEXT_GAMESTATE(&this->state, func_800BCA64, GlobalContext);
         this->state.running = false;
     }
 }
 
 // very close from matching, the only difference is the place of "mtx" in the stack
 #ifdef NON_MATCHING
-void Sample_Draw(SampleContext* this)
-{
+void Sample_Draw(SampleContext* this) {
     u32 pad;
     GraphicsContext* gfxCtx = this->state.gfxCtx;
     View* view = &this->view;
@@ -49,19 +46,15 @@ void Sample_Draw(SampleContext* this)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_sample/Sample_Draw.s")
 #endif
 
-void Sample_Update(SampleContext* this)
-{
+void Sample_Update(SampleContext* this) {
     Sample_Draw(this);
     Sample_Calc(this);
 }
 
-void Sample_Destroy(SampleContext* this)
-{
-
+void Sample_Destroy(SampleContext* this) {
 }
 
-void Sample_SetupView(SampleContext* this)
-{
+void Sample_SetupView(SampleContext* this) {
     View* view;
     GraphicsContext* gfxCtx;
     u32 v0[4];
@@ -73,9 +66,10 @@ void Sample_SetupView(SampleContext* this)
     gfxCtx = this->state.gfxCtx;
     func_800AA278(view, gfxCtx);
 
+    // clang-format off
     v0[1] = SCREEN_HEIGHT; v0[3] = SCREEN_WIDTH; 
-    v0[0] = 0;
-    v0[2] = 0;
+    v0[0] = 0; v0[2] = 0;
+    // clang-format on
 
     func_800AA4FC(view, &v0);
     func_800AA460(view, 60, 10, 12800);
@@ -93,16 +87,14 @@ void Sample_SetupView(SampleContext* this)
     func_800AA358(view, &v1, &v2, &v3);
 }
 
-void Sample_LoadTitleStatic(SampleContext* this)
-{
+void Sample_LoadTitleStatic(SampleContext* this) {
     u32 size = _title_staticSegmentRomEnd - _title_staticSegmentRomStart;
-    
+
     this->staticSegment = Game_Alloc(&this->state, size, "../z_sample.c", 163);
     DmaMgr_SendRequest1(this->staticSegment, _title_staticSegmentRomStart, size, "../z_sample.c", 164);
 }
 
-void Sample_Init(SampleContext* this)
-{
+void Sample_Init(SampleContext* this) {
     this->state.main = Sample_Update;
     this->state.destroy = Sample_Destroy;
     R_UPDATE_RATE = 1;

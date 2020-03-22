@@ -1,6 +1,6 @@
 #include "z_bg_mori_bigst.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgMoriBigst_Init(BgMoriBigst* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_en_vali.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00001015
 
 void EnVali_Init(EnVali* this, GlobalContext* globalCtx);

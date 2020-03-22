@@ -1,6 +1,6 @@
 #include "z_magic_dark.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void MagicDark_Init(MagicDark* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_boss_ganondrof.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void BossGanondrof_Init(BossGanondrof* this, GlobalContext* globalCtx);

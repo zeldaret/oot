@@ -1,6 +1,6 @@
 #include "z_bg_menkuri_eye.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000020
 
 void BgMenkuriEye_Init(BgMenkuriEye* this, GlobalContext* globalCtx);
@@ -30,4 +30,3 @@ const ActorInit Bg_Menkuri_Eye_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Menkuri_Eye/BgMenkuriEye_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Menkuri_Eye/BgMenkuriEye_Draw.s")
-

@@ -1,6 +1,6 @@
 #include "z_en_ma1.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000039
 
 void EnMa1_Init(EnMa1* this, GlobalContext* globalCtx);

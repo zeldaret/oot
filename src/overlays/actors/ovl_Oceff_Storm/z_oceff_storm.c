@@ -1,6 +1,6 @@
 #include "z_oceff_storm.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000030
 
 void OceffStorm_Init(OceffStorm* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_bg_spot16_doughnut.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgSpot16Doughnut_Init(BgSpot16Doughnut* this, GlobalContext* globalCtx);

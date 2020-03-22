@@ -6,8 +6,7 @@
 
 #include "../ovl_Demo_Gt/z_demo_gt.h"
 
-typedef struct
-{
+typedef struct {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 action;
     /* 0x0150 */ s32 drawConfig;

@@ -1,6 +1,6 @@
 #include "z_obj_makeoshihiki.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000020
 
 void ObjMakeoshihiki_Init(ObjMakeoshihiki* this, GlobalContext* globalCtx);

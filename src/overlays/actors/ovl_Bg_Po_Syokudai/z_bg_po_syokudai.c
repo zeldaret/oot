@@ -1,6 +1,6 @@
 #include "z_bg_po_syokudai.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgPoSyokudai_Init(BgPoSyokudai* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_bg_mizu_shutter.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgMizuShutter_Init(BgMizuShutter* this, GlobalContext* globalCtx);

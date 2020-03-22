@@ -1,6 +1,6 @@
 #include "z_en_go.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000039
 
 void EnGo_Init(EnGo* this, GlobalContext* globalCtx);

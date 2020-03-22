@@ -1,6 +1,6 @@
 #include "z_en_ani.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnAni_Init(EnAni* this, GlobalContext* globalCtx);

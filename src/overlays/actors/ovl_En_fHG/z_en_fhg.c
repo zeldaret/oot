@@ -1,6 +1,6 @@
 #include "z_en_fhg.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnfHG_Init(EnfHG* this, GlobalContext* globalCtx);

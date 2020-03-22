@@ -1,6 +1,6 @@
 #include "z_bg_mori_elevator.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgMoriElevator_Init(BgMoriElevator* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_en_siofuki.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnSiofuki_Init(EnSiofuki* this, GlobalContext* globalCtx);

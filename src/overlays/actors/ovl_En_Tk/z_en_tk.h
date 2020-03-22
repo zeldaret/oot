@@ -5,8 +5,7 @@
 #include <global.h>
 
 /* Dirt particle effect */
-typedef struct
-{
+typedef struct {
     /* 0x0000 */ u8         active;
     /* 0x0001 */ u8         timeLeft;
     /* 0x0002 */ u8         timeTotal;
@@ -20,20 +19,18 @@ typedef struct
 
 typedef struct EnTk EnTk;
 
-typedef void EnTkFunc(EnTk *this, GlobalContext *ctxt);
+typedef void EnTkFunc(EnTk* this, GlobalContext* globalCtx);
 
-struct EnTk
-{
+struct EnTk {
     /* 0x0000 */ Actor      actor;
     /* 0x014C */ SkelAnime  skelAnim;
-    /* 0x0190 */ EnTkFunc  *actionFunc;
-    /* 0x0194 */ ColliderCylinderMain
-                            collider;
+    /* 0x0190 */ EnTkFunc*  actionFunc;
+    /* 0x0194 */ ColliderCylinderMain collider;
     /* 0x01E0 */ s16        h_1E0;
     /* 0x01E2 */ char       unk_1E2[0x26];
     /* 0x0208 */ u8         validDigHere;
     /* 0x0209 */ u8         rewardCount[4];
-    /* 0x0210 */ Actor     *currentSpot;
+    /* 0x0210 */ Actor*     currentSpot;
     /* 0x0214 */ s32        currentReward;
     /* 0x0218 */ s16        blinkCycles;
     /* 0x021A */ s16        rewardTimer;

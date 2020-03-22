@@ -1,6 +1,6 @@
 #include "z_en_mm2.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnMm2_Init(EnMm2* this, GlobalContext* globalCtx);

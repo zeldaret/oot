@@ -1,6 +1,6 @@
 #include "z_bg_jya_1flift.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgJya1flift_Init(BgJya1flift* this, GlobalContext* globalCtx);

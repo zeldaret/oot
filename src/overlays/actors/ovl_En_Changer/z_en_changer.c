@@ -1,6 +1,6 @@
 #include "z_en_changer.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnChanger_Init(EnChanger* this, GlobalContext* globalCtx);

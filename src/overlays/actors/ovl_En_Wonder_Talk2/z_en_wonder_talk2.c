@@ -1,6 +1,6 @@
 #include "z_en_wonder_talk2.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x08000009
 
 void EnWonderTalk2_Init(EnWonderTalk2* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_en_daiku.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnDaiku_Init(EnDaiku* this, GlobalContext* globalCtx);

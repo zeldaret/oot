@@ -1,6 +1,6 @@
 #include "z_demo_sa.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void DemoSa_Init(DemoSa* this, GlobalContext* globalCtx);

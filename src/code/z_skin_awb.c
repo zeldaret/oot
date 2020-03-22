@@ -10,4 +10,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_awb/func_800A698C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_awb/func_800A6AC4.s")
-

@@ -1,6 +1,6 @@
 #include "z_en_bili.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00005005
 
 void EnBili_Init(EnBili* this, GlobalContext* globalCtx);

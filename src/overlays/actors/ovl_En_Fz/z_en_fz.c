@@ -1,6 +1,6 @@
 #include "z_en_fz.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000415
 
 void EnFz_Init(EnFz* this, GlobalContext* globalCtx);
