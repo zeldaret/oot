@@ -200,6 +200,7 @@ s32 func_8005BA74(UNK_TYPE arg0, UNK_TYPE arg1)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BA84.s")
 
+//call 5BA84, 5BA30 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BAD8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BB10.s")
@@ -212,15 +213,28 @@ s32 func_8005BA74(UNK_TYPE arg0, UNK_TYPE arg1)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BBD4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BBF8.s")
+//Initialize ? List
+s32 func_8005BBF8(GlobalContext* globalCtx, ColliderList_8005BBF8 *collision) {
+    func_8005B65C(globalCtx, &collision->base);
+    collision->count = 0;
+    collision->list = NULL;
+    return 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BC28.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BCC8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BD50.s")
+//call 5BAD8, 5BB48
+//ClObjJntSph?
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BD50.s") 
 
+//ClObjJntSph_set3
+//called by En_Nwc
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BE50.s")
+
+//ClObjJntSph_set5
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BF50.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C050.s")
 

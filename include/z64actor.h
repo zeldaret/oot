@@ -222,6 +222,13 @@ typedef struct
 
 typedef struct
 {
+    /* 0x00 */ Collider base;
+    /* 0x18 */ s32 count;
+    /* 0x1C */ s32* list;
+} ColliderList_8005BBF8;
+
+typedef struct
+{
     /* 0x00 */ s32 flags; /* Toucher Attack Identifier Flags */
     /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 damage; /* Damage or Stun Timer */
