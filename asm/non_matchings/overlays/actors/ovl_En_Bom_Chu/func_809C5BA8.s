@@ -41,7 +41,7 @@ glabel func_809C5BA8
 /* 00414 809C5C44 00000000 */  nop
 /* 00418 809C5C48 4501005F */  bc1t    .L809C5DC8                 
 /* 0041C 809C5C4C 00000000 */  nop
-/* 00420 809C5C50 0C03F4DA */  jal     func_800FD368              
+/* 00420 809C5C50 0C03F4DA */  jal     Math_acosf              
 /* 00424 809C5C54 00000000 */  nop
 /* 00428 809C5C58 3C01809C */  lui     $at, %hi(D_809C6DE0)       ## $at = 809C0000
 /* 0042C 809C5C5C C4306DE0 */  lwc1    $f16, %lo(D_809C6DE0)($at) 
