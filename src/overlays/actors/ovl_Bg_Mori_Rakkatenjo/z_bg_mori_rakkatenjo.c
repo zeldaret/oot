@@ -1,6 +1,6 @@
 #include "z_bg_mori_rakkatenjo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgMoriRakkatenjo_Init(BgMoriRakkatenjo* this, GlobalContext* globalCtx);

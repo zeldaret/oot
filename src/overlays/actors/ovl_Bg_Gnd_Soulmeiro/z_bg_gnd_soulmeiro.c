@@ -1,6 +1,6 @@
 #include "z_bg_gnd_soulmeiro.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgGndSoulmeiro_Init(BgGndSoulmeiro* this, GlobalContext* globalCtx);

@@ -8,7 +8,7 @@
 
 #include <vt.h>
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx);

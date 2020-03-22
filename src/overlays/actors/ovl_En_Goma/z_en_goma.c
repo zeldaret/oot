@@ -1,6 +1,6 @@
 #include "z_en_goma.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void EnGoma_Init(EnGoma* this, GlobalContext* globalCtx);

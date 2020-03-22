@@ -2,8 +2,7 @@
 #include <global.h>
 #include <sched.h>
 
-void MsgEvent_SendNullTask()
-{
+void MsgEvent_SendNullTask() {
     u32 pad[4];
     OSScTask task;
     OSMesgQueue queue;

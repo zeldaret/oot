@@ -1,6 +1,6 @@
 #include "z_bg_mori_kaitenkabe.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgMoriKaitenkabe_Init(BgMoriKaitenkabe* this, GlobalContext* globalCtx);

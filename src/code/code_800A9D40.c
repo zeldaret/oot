@@ -1,23 +1,20 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ OSPiHandle piHandle;
     /* 0x74 */ OSIoMesg ioMesg;
     /* 0x8C */ OSMesgQueue mesgQ;
 } struct_800A9D40;
 
-struct_800A9D40 D_8012A690 = {0};
+struct_800A9D40 D_8012A690 = { 0 };
 
 void func_800A9D40(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
-                   u8 handlePulse, u32 handleSpeed)
-{
+                   u8 handlePulse, u32 handleSpeed) {
     u32 int_disabled;
 
-    OSPiHandle *handle = &D_8012A690.piHandle;
-    if ((u32) OS_PHYSICAL_TO_K1(addr) != (*handle).baseAddress)
-    {
+    OSPiHandle* handle = &D_8012A690.piHandle;
+    if ((u32)OS_PHYSICAL_TO_K1(addr) != (*handle).baseAddress) {
         D_8012A690.piHandle.type = handleType;
         (*handle).baseAddress = OS_PHYSICAL_TO_K1(addr);
         D_8012A690.piHandle.latency = handleLatency;
@@ -37,8 +34,7 @@ void func_800A9D40(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u
     }
 }
 
-void func_800A9E14(UNK_PTR dramAddr, size_t size, UNK_TYPE arg2)
-{
+void func_800A9E14(UNK_PTR dramAddr, size_t size, UNK_TYPE arg2) {
     OSMesg mesg;
 
     osCreateMesgQueue(&D_8012A690.mesgQ, &mesg, 1);
@@ -50,8 +46,7 @@ void func_800A9E14(UNK_PTR dramAddr, size_t size, UNK_TYPE arg2)
     osInvalDCache(dramAddr, size);
 }
 
-void Sram_ReadWrite(UNK_TYPE arg0, UNK_PTR dramAddr, size_t size, UNK_TYPE arg3)
-{
+void Sram_ReadWrite(UNK_TYPE arg0, UNK_PTR dramAddr, size_t size, UNK_TYPE arg3) {
     osSyncPrintf("ssSRAMReadWrite:%08x %08x %08x %d\n", arg0, dramAddr, size, arg3);
     func_800A9D40(arg0, 3, 1, 5, 0xd, 2, 0xc, 0);
     func_800A9E14(dramAddr, size, arg3);

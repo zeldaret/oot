@@ -3,12 +3,10 @@
 
 #include <ultra64/controller.h>
 
-s32 osContStartReadData(OSMesgQueue *mq) //func_80100EF0
-{
+s32 osContStartReadData(OSMesgQueue* mq) {
     s32 ret;
-    __osSiGetAccess(); //__osSiGetAccess
-    if (_osCont_lastPollType != 1)
-    {
+    __osSiGetAccess(); // __osSiGetAccess
+    if (_osCont_lastPollType != 1) {
         __osPackReadData();
         __osSiRawStartDma(OS_WRITE, &_osPifInternalBuff);
         osRecvMesg(mq, NULL, OS_MESG_BLOCK);
@@ -19,8 +17,8 @@ s32 osContStartReadData(OSMesgQueue *mq) //func_80100EF0
     return ret;
 }
 
-void osContGetReadData(OSContPad *pad) { //func_80100F74
-    PIF_IO_slot_t *slot_ptr;
+void osContGetReadData(OSContPad* pad) {
+    PIF_IO_slot_t* slot_ptr;
     PIF_IO_slot_t slot;
     s32 i;
     slot_ptr = _osPifInternalBuff.slots;
@@ -35,12 +33,12 @@ void osContGetReadData(OSContPad *pad) { //func_80100F74
     };
 }
 
-void __osPackReadData() { //func_80101000 
-    PIF_IO_slot_t *slot_ptr;
+void __osPackReadData() {
+    PIF_IO_slot_t* slot_ptr;
     PIF_IO_slot_t slot;
     s32 i;
     slot_ptr = _osPifInternalBuff.slots;
-    for(i = 0; i < 0xF; i++) {
+    for (i = 0; i < 0xF; i++) {
         _osPifInternalBuff.words[i] = 0;
     }
     _osPifInternalBuff.status_control = 1;
@@ -51,7 +49,7 @@ void __osPackReadData() { //func_80101000
     slot.button = 0xFFFF;
     slot.rawStickX = 0xFF;
     slot.rawStickY = 0xFF;
-    for(i = 0; i < _osCont_numControllers; i++) {
+    for (i = 0; i < _osCont_numControllers; i++) {
         *slot_ptr++ = slot;
     }
     slot_ptr->hdr.slot_type = 0xFE;

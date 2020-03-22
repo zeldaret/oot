@@ -1,6 +1,6 @@
 #include "z_en_horse_normal.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnHorseNormal_Init(EnHorseNormal* this, GlobalContext* globalCtx);

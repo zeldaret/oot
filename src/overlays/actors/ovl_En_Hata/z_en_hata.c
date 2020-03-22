@@ -1,6 +1,6 @@
 #include "z_en_hata.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnHata_Init(EnHata* this, GlobalContext* globalCtx);

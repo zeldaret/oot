@@ -1,6 +1,6 @@
 #include "z_bg_treemouth.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgTreemouth_Init(BgTreemouth* this, GlobalContext* globalCtx);

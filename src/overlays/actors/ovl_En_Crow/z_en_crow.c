@@ -1,6 +1,6 @@
 #include "z_en_crow.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00005005
 
 void EnCrow_Init(EnCrow* this, GlobalContext* globalCtx);

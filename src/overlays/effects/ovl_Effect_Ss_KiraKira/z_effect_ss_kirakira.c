@@ -10,7 +10,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_KiraKira/func_809AACAC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_KiraKira/func_809AAD6C.s")
-
-
-
-

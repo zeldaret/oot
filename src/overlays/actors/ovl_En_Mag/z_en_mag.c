@@ -1,6 +1,6 @@
 #include "z_en_mag.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnMag_Init(EnMag* this, GlobalContext* globalCtx);

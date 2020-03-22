@@ -1,6 +1,6 @@
 #include "z_en_wall_tubo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnWallTubo_Init(EnWallTubo* this, GlobalContext* globalCtx);

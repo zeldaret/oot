@@ -1,6 +1,6 @@
 #include "z_shot_sun.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void ShotSun_Init(ShotSun* this, GlobalContext* globalCtx);

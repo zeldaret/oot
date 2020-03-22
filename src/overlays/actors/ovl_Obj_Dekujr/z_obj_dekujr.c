@@ -1,6 +1,6 @@
 #include "z_obj_dekujr.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void ObjDekujr_Init(ObjDekujr* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_mir_ray.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void MirRay_Init(MirRay* this, GlobalContext* globalCtx);

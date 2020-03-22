@@ -1,6 +1,6 @@
 #include "z_bg_ice_turara.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgIceTurara_Init(BgIceTurara* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_en_jsjutan.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnJsjutan_Init(EnJsjutan* this, GlobalContext* globalCtx);
@@ -34,4 +34,3 @@ const ActorInit En_Jsjutan_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/EnJsjutan_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/EnJsjutan_Draw.s")
-

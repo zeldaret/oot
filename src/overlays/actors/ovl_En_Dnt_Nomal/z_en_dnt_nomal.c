@@ -1,6 +1,6 @@
 #include "z_en_dnt_nomal.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnDntNomal_Init(EnDntNomal* this, GlobalContext* globalCtx);

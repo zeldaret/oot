@@ -3,8 +3,7 @@
 
 #define OBJECT_EXCHANGE_BANK_MAX 19
 
-typedef enum
-{
+typedef enum {
     /* 0x0000 */ OBJECT_UNSET_0,
     /* 0x0001 */ OBJECT_GAMEPLAY_KEEP,
     /* 0x0002 */ OBJECT_GAMEPLAY_FIELD_KEEP,

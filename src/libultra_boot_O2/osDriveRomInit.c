@@ -3,8 +3,7 @@
 
 OSPiHandle __DriveRomHandle;
 
-OSPiHandle* osDriveRomInit()
-{
+OSPiHandle* osDriveRomInit() {
     register s32 status;
     register u32 a;
     register s32 prevInt;
@@ -12,8 +11,7 @@ OSPiHandle* osDriveRomInit()
 
     __osPiGetAccess();
 
-    if (!D_8000AC70)
-    {
+    if (!D_8000AC70) {
         __osPiRelAccess();
         return &__DriveRomHandle;
     }
@@ -25,8 +23,9 @@ OSPiHandle* osDriveRomInit()
     __DriveRomHandle.speed = 0;
     bzero(&__DriveRomHandle.transferInfo, sizeof(__OSTranxInfo));
 
-    while (status = HW_REG(PI_STATUS_REG, u32), status & PI_STATUS_ERROR)
+    while (status = HW_REG(PI_STATUS_REG, u32), status & PI_STATUS_ERROR) {
         ;
+    }
 
     HW_REG(PI_BSD_DOM1_LAT_REG, u32) = 0xff;
     HW_REG(PI_BSD_DOM1_PGS_REG, u32) = 0;

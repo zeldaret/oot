@@ -174,4 +174,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A56F0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A5774.s")
-

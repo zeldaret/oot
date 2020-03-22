@@ -1,6 +1,6 @@
 #include "z_bg_spot15_rrbox.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgSpot15Rrbox_Init(BgSpot15Rrbox* this, GlobalContext* globalCtx);

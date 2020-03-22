@@ -1,6 +1,6 @@
 #include "z_en_syateki_niw.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnSyatekiNiw_Init(EnSyatekiNiw* this, GlobalContext* globalCtx);

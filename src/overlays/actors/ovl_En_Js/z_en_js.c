@@ -1,6 +1,6 @@
 #include "z_en_js.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnJs_Init(EnJs* this, GlobalContext* globalCtx);
@@ -54,6 +54,3 @@ const ActorInit En_Js_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Js/func_80A895F4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Js/EnJs_Draw.s")
-
-
-

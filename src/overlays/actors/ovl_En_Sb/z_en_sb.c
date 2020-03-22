@@ -1,6 +1,6 @@
 #include "z_en_sb.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnSb_Init(EnSb* this, GlobalContext* globalCtx);

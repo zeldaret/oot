@@ -5,8 +5,8 @@
 
 #define BUFF_LEN 0x20
 
-s16 _Ldunscale(s16 *, _Pft *);
-void _Genld(_Pft *, u8, u8 *, s16, s16);
+s16 _Ldunscale(s16*, _Pft*);
+void _Genld(_Pft*, u8, u8*, s16, s16);
 
 const double D_800122E0[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L, 10e127L, 10e255L };
 
@@ -43,9 +43,9 @@ const double D_800122E0[] = { 10e0L, 10e1L, 10e3L, 10e7L, 10e15L, 10e31L, 10e63L
 #define _D3 3
 #endif
 
-void _Ldtob(_Pft *args, u8 type) {
+void _Ldtob(_Pft* args, u8 type) {
     u8 buff[BUFF_LEN];
-    u8 *ptr;
+    u8* ptr;
     u32 sp70;
     f64 val;
     /* maybe struct? */
@@ -159,9 +159,9 @@ void _Ldtob(_Pft *args, u8 type) {
     _Genld((_Pft*)args, type, ptr, nsig, exp);
 }
 
-s16 _Ldunscale(s16 *pex, _Pft *px) {
+s16 _Ldunscale(s16* pex, _Pft* px) {
 
-    unsigned short *ps = (unsigned short *) px;
+    unsigned short* ps = (unsigned short*)px;
     short xchar = (ps[_D0] & _DMASK) >> _DOFF;
     if (xchar == _DMAX) { /* NaN or INF */
         *pex = 0;
@@ -179,16 +179,15 @@ s16 _Ldunscale(s16 *pex, _Pft *px) {
     }
 }
 
-void _Genld(_Pft *px, u8 code, u8 *p, s16 nsig, s16 xexp) {
+void _Genld(_Pft* px, u8 code, u8* p, s16 nsig, s16 xexp) {
     u8 point = '.';
     if (nsig <= 0) {
         nsig = 1,
 
-        p = (u8 *) "0";
+        p = (u8*)"0";
     }
 
-    if (code == 'f'
-        || ((code == 'g' || code == 'G') && (-4 <= xexp) && (xexp < px->prec))) { /* 'f' format */
+    if (code == 'f' || ((code == 'g' || code == 'G') && (-4 <= xexp) && (xexp < px->prec))) { /* 'f' format */
         ++xexp;            /* change to leading digit count */
         if (code != 'f') { /* fixup for 'g' */
             if (!(px->flags & FLAGS_HASH) && nsig < px->prec) {
@@ -257,7 +256,7 @@ void _Genld(_Pft *px, u8 code, u8 *p, s16 nsig, s16 xexp) {
             px->n1 += nsig;
             px->nz1 = px->prec - nsig;
         }
-        p = (u8 *) &px->s[px->n1]; /* put exponent */
+        p = (u8*)&px->s[px->n1]; /* put exponent */
         *p++ = code;
         if (0 <= xexp) {
             *p++ = '+';
@@ -273,11 +272,10 @@ void _Genld(_Pft *px, u8 code, u8 *p, s16 nsig, s16 xexp) {
         }
         *p++ = xexp / 10 + '0', xexp %= 10;
         *p++ = xexp + '0';
-        px->n2 = p - (u8 *) &px->s[px->n1];
+        px->n2 = p - (u8*)&px->s[px->n1];
     }
     if ((px->flags & (FLAGS_ZERO | FLAGS_MINUS)) == FLAGS_ZERO) { /* pad with leading zeros */
-        int n =
-            px->n0 + px->n1 + px->nz1 + px->n2 + px->nz2;
+        int n = px->n0 + px->n1 + px->nz1 + px->n2 + px->nz2;
 
         if (n < px->width) {
             px->nz0 = px->width - n;

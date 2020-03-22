@@ -1,6 +1,6 @@
 #include "z_eff_dust.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EffDust_Init(EffDust* this, GlobalContext* globalCtx);

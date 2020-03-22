@@ -1,6 +1,6 @@
 #include "z_en_niw_lady.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnNiwLady_Init(EnNiwLady* this, GlobalContext* globalCtx);

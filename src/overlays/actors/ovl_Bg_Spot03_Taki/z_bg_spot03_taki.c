@@ -1,6 +1,6 @@
 #include "z_bg_spot03_taki.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgSpot03Taki_Init(BgSpot03Taki* this, GlobalContext* globalCtx);

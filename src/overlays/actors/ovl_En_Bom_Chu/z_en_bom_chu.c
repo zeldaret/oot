@@ -1,6 +1,6 @@
 #include "z_en_bom_chu.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnBomChu_Init(EnBomChu* this, GlobalContext* globalCtx);
