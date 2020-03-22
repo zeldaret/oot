@@ -445,10 +445,12 @@ static void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx)
             this->actor.draw = BgTokiSwd_Draw; //sword has been placed, draw the master sword
         }
         BgTokiSwd_SetupAction(this, func_808BB128);
-        return;
     }
-    player = PLAYER;
-    player->interactRangeActor = &this->actor;
+    else
+    {
+        player = PLAYER;
+        player->interactRangeActor = &this->actor;
+    }
 }
 
 static void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx)
