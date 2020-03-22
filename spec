@@ -383,8 +383,7 @@ beginseg
     include "build/src/code/z_view.o"
     include "build/data/z_view.data.o"
     include "build/src/code/z_vimode.o"
-    include "build/asm/code_800ACE70.o"
-    include "build/data/code_800ACE70.data.o"
+    include "build/src/code/code_800ACE70.o"
     include "build/src/code/z_vismono.o"
     include "build/asm/code_800AD920.o"
     include "build/src/code/z_vr_box.o"
@@ -509,10 +508,8 @@ beginseg
     include "build/src/code/code_800FC620.o"
     include "build/asm/code_800FCB50.o"
     include "build/asm/code_800FCD40.o"
-    include "build/asm/code_800FCE80.o"
-    include "build/data/code_800FCE80.data.o"
-    include "build/data/code_800FCE80.rodata.o"
-    include "build/data/code_800FCE80.bss.o"
+    include "build/src/code/code_800FCE80.o"
+    include "build/asm/fp.o"
     include "build/src/code/system_malloc.o"
     include "build/asm/code_800FD970.o"
     include "build/data/code_800FD970.data.o"
@@ -1594,9 +1591,7 @@ endseg
 beginseg
     name "ovl_Bg_Toki_Swd"
     include "build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd.o"
-    include "build/data/overlays/actors/z_bg_toki_swd.data.o"
-    include "build/data/overlays/actors/z_bg_toki_swd.rodata.o"
-    include "build/data/overlays/actors/z_bg_toki_swd.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd_reloc.o"
 endseg
 
 beginseg
@@ -1789,9 +1784,7 @@ endseg
 beginseg
     name "ovl_Demo_Geff"
     include "build/src/overlays/actors/ovl_Demo_Geff/z_demo_geff.o"
-    include "build/data/overlays/actors/z_demo_geff.data.o"
-    include "build/data/overlays/actors/z_demo_geff.rodata.o"
-    include "build/data/overlays/actors/z_demo_geff.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Geff/z_demo_geff_reloc.o"
 endseg
 
 beginseg
@@ -2592,9 +2585,7 @@ endseg
 beginseg
     name "ovl_En_Dog"
     include "build/src/overlays/actors/ovl_En_Dog/z_en_dog.o"
-    include "build/data/overlays/actors/z_en_dog.data.o"
-    include "build/data/overlays/actors/z_en_dog.rodata.o"
-    include "build/data/overlays/actors/z_en_dog.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dog/z_en_dog_reloc.o"
 endseg
 
 beginseg

@@ -383,7 +383,7 @@ f32 func_800449AC(Camera *camera, Vec3f *b, s32 *arg2)
 
 s16 func_80044A74(Vec3f *a, Vec3f *b)
 {
-    return func_800FD250(b->x - a->x, b->z - a->z) * (180 / M_PI) * (32767.5f / 180) + 0.5f;
+    return Math_atan2f(b->x - a->x, b->z - a->z) * (180 / M_PI) * (32767.5f / 180) + 0.5f;
 }
 
 // 234 lines
@@ -505,7 +505,7 @@ s32 func_800458D4(Camera *camera, struct_80045714 *b, f32 c, f32 *d, s16 e)
         sp60.y -= func_80045714(&camera->unk_108, temp_s1->rot.y, b->unk_06, OREG(9));
     
     sp48 = temp_s1->pos.y - *d;
-    temp_ret = func_800FD250(sp48, func_8007C028(&camera->unk_50, &camera->unk_5C)); // f2 and f14 are swapped
+    temp_ret = Math_atan2f(sp48, func_8007C028(&camera->unk_50, &camera->unk_5C)); // f2 and f14 are swapped
     
     if (OREG(32) * (M_PI / 180) < temp_ret)
         phi_f2 = 1.0f - sinf(temp_ret - OREG(32) * (M_PI / 180));
@@ -600,8 +600,8 @@ s32 func_80045C74(Camera *camera, struct_80045714 *b, f32 c, f32 *d, s16 arg4)
         if (PREG(75) == 0)
         {
             sp54 = func_8007C028(&camera->unk_50, &camera->unk_5C);
-            func_800FD250(temp, sp54);
-            temp_f2 = func_800FCE80(camera->unk_FC * 0.4f * (M_PI / 180)) * sp54;
+            Math_atan2f(temp, sp54);
+            temp_f2 = Math_tanf(camera->unk_FC * 0.4f * (M_PI / 180)) * sp54;
             
             if (temp > temp_f2)
             {
@@ -621,7 +621,7 @@ s32 func_80045C74(Camera *camera, struct_80045714 *b, f32 c, f32 *d, s16 arg4)
         }
         else
         {
-            temp_ret_3 = func_800FD250(temp, func_8007C028(&camera->unk_50, &camera->unk_5C));
+            temp_ret_3 = Math_atan2f(temp, func_8007C028(&camera->unk_50, &camera->unk_5C));
             
             if (OREG(32) * (M_PI / 180) < temp_ret_3)
                 phi_f16 = 1.0f - sinf(temp_ret_3 - OREG(32) * (M_PI / 180));

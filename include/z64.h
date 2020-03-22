@@ -163,7 +163,9 @@ typedef struct
     /* 0x1360 */ s32          scene_setup_index;
     /* 0x1364 */ s32          respawn_flag; // "restart_flag"
     /* 0x1368 */ RespawnData  respawn[3]; // "restart_data"
-    /* 0x13BC */ char         unk_13BC[0x000B];
+    /* 0x13BC */ char         unk_13BC[0x0008];
+    /* 0x13C4 */ s16          dogParams;
+    /* 0x13C6 */ char         unk_13C6[0x0001];
     /* 0x13C7 */ u8           unk_13C7;
     /* 0x13C8 */ u16          nayrus_love_timer;
     /* 0x13CA */ char         unk_13CA[0x0002];
@@ -207,7 +209,7 @@ typedef struct
     /* 0x1418 */ u8           fade_duration;
     /* 0x1419 */ u8           unk_1419; // transition related
     /* 0x141A */ u16          environment_time;
-    /* 0x141C */ u8           unk_141C;
+    /* 0x141C */ u8           dogIsLost;
     /* 0x141D */ u8           transition_type;
     /* 0x141E */ char         unk_141E[0x0002];
     /* 0x1420 */ s16          world_map_area;
@@ -1019,6 +1021,17 @@ typedef struct LoadedParticleEntry
     /* 0x005F */ u8 type;
 } LoadedParticleEntry; // size = 0x60
 
+// Some animation related structure
+typedef struct
+{
+    /* 0x00 */ u32      animation;
+    /* 0x04 */ f32      playbackSpeed;
+    /* 0x08 */ f32      unk_08;
+    /* 0x0C */ f32      frameCount;
+    /* 0x10 */ u8       unk_10;
+    /* 0x14 */ f32      transitionRate;
+} struct_80034EC0_Entry; // size = 0x18
+
 typedef struct
 {
     /* 0x00 */ u8 limbCount;
@@ -1026,7 +1039,7 @@ typedef struct
     /* 0x02 */ u8 dListCount;
     /* 0x03 */ char unk_03[0x01]; /* Probably Padding */
     /* 0x04 */ u32 limbIndex;
-    /* 0x08 */ u32 animCurrent;
+    /* 0x08 */ u32* animCurrent;
     /* 0x0C */ char unk_0C[0x04];
     /* 0x10 */ f32 animFrameCount;
     /* 0x14 */ f32 unk_14;

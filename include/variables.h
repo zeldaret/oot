@@ -565,10 +565,6 @@ extern Scene gSceneTable[110];
 extern u8 gLetterTLUT[4][32]; // original name: "moji_tlut"
 extern u8 gFontFF[]; // original name: "font_ff"
 //extern ? D_8012ABF0;
-//extern ? D_8012AC00;
-//extern ? D_8012AC28;
-//extern ? D_8012AC40;
-//extern ? D_8012AC58;
 //extern ? D_8012AC90;
 //extern ? D_8012ACA0;
 //extern ? D_8012AD20;
@@ -3145,7 +3141,6 @@ extern char D_80146238[];
 //extern ? D_8014AA38;
 //extern ? D_8014AA5C;
 //extern ? D_8014AA80;
-//extern ? D_8014AAC0;
 //extern ? D_8014B210;
 //extern ? D_8014B280;
 //extern ? D_8014B2E0;
@@ -3473,7 +3468,7 @@ extern GlobalContext* D_80157DA0;
 extern SaveContext gSaveContext; // 0x8015E660
 extern u32 D_8015FA88;
 extern u32 D_8015FA8C;
-extern GameInfo* gGameInfo;
+extern GameInfo* gGameInfo; // 0x8015FA90
 //extern ? D_8015FA98;
 //extern ? D_8015FA9B;
 //extern ? D_8015FC18;
@@ -3852,7 +3847,6 @@ extern u32 D_8016B5F5;
 //extern ? D_80174DBC;
 //extern ? D_80174DC0;
 //extern ? D_801755D0;
-//extern ? D_80175600;
 extern u32 __osMalloc_FreeBlockTest_Enable;
 //extern ? D_80175640;
 //extern ? D_80175660;
