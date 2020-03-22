@@ -213,7 +213,7 @@ s32 func_8005BA74(UNK_TYPE arg0, UNK_TYPE arg1)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BBD4.s")
 
-//Initialize ? List
+//Initialize ? List //ClObjJntSph
 s32 func_8005BBF8(GlobalContext* globalCtx, ColliderList_8005BBF8 *collision) {
     func_8005B65C(globalCtx, &collision->base);
     collision->count = 0;
@@ -237,6 +237,12 @@ s32 func_8005BBF8(GlobalContext* globalCtx, ColliderList_8005BBF8 *collision) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BF50.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C050.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C124.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C1AC.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C234.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C2BC.s")
 
