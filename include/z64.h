@@ -302,7 +302,9 @@ typedef struct
 {
     /* 0x0000 */ char   unk_00[0x28];
     /* 0x0028 */ Vec3f  eye;
-    /* 0x0034 */ char   unk_34[0xF4];
+    /* 0x0034 */ char   unk_34[0xEC];
+    /* 0x0120 */ u32    unk_120;
+    /* 0x0124 */ char   unk_124[4];
 } View; // size = 0x128
 
 typedef struct
@@ -864,6 +866,13 @@ typedef struct
     /* 0x01E1 */ u8 exit;
     /* 0x01E2 */ char unk_1E2[6];
 } TitleContext; // size = 0x1E8
+
+typedef struct
+{
+    /* 0x0000 */ GameState state;
+    /* 0x00A4 */ void* staticSegment;
+    /* 0x00A8 */ View view;
+} SampleContext;
 
 // Global Context (dbg ram start: 80212020)
 typedef struct GlobalContext
