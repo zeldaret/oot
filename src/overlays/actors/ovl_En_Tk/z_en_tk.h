@@ -4,7 +4,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-/* Dust particle effect */
+/* Dirt particle effect */
 typedef struct
 {
     /* 0x0000 */ u8         active;
@@ -16,8 +16,7 @@ typedef struct
     /* 0x0014 */ Vec3f      pos;
     /* 0x0020 */ Vec3f      speed;
     /* 0x002C */ Vec3f      accel;
-    /* 0x0038 */
-} EnTkEff;
+} EnTkEff; // size = 0x0038
 
 typedef struct EnTk EnTk;
 
@@ -49,8 +48,7 @@ struct EnTk
     /* 0x022A */ u16        hz_296[55];
     /* 0x0304 */ Vec3f      v3f_304;
     /* 0x0310 */ EnTkEff    eff[20];
-    /* 0x0770 */
-};
+}; // size = 0x0770
 
 extern const ActorInit En_Tk_InitVars;
 

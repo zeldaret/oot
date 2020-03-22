@@ -305,12 +305,6 @@ typedef struct
 
 typedef struct
 {
-    /* 0x00 */ u8     nPoints;
-    /* 0x04 */ Vec3s* pointArray;
-} Path; // size = 0x8
-
-typedef struct
-{
     u8 ambientClrR, ambientClrG, ambientClrB;
 
     u8 diffuseClrA_R, diffuseClrA_G, diffuseClrA_B;
