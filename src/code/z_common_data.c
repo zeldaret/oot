@@ -14,7 +14,7 @@ void SaveContext_Init(void)
     gSaveContext.chamber_cutscene_num = 0;
     gSaveContext.next_day_time = 0xFFFF;
     gSaveContext.environment_time = 0;
-    gSaveContext.unk_141C = 1;
+    gSaveContext.dogIsLost = 1;
     gSaveContext.transition_type = 0xFF;
     gSaveContext.unk_13EE = 50;
 }
