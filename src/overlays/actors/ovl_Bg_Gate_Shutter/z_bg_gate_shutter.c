@@ -2,7 +2,7 @@
  * File: z_bg_gate_shutter.c
  * Overlay: Bg_Gate_Shutter
  * Description:
-*/
+ */
 
 #include "z_bg_gate_shutter.h"
 
@@ -21,8 +21,7 @@ static void func_80878300(BgGateShutter* this, GlobalContext* globalCtx);
 static void func_808783AC(BgGateShutter* this, GlobalContext* globalCtx);
 static void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx);
 
-const ActorInit Bg_Gate_Shutter_InitVars =
-{
+const ActorInit Bg_Gate_Shutter_InitVars = {
     ACTOR_BG_GATE_SHUTTER,
     ACTORTYPE_ITEMACTION,
     ROOM,
@@ -141,6 +140,6 @@ static void BgGateShutter_Draw(BgGateShutter* this, GlobalContext* globalCtx) {
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_06001CD0);
-    
+
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 333);
 }
