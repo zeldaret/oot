@@ -426,8 +426,8 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags)
                 gfxCtx->polyOpa.p = spA8;
             }
 
-            // gSPLoadUcode(gfxCtx->polyOpa.p++, func_800D2E14(), func_800D2E20())?
-            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, func_800D2E14(), func_800D2E20(), 0x800);
+            // gSPLoadUcode(gfxCtx->polyOpa.p++, SysUcode_GetUcode(), SysUcode_GetUcodeData())?
+            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, SysUcode_GetUcode(), SysUcode_GetUcodeData(), 0x800);
         }
     }
 
@@ -542,8 +542,8 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags)
                 gfxCtx->polyOpa.p = spA8;
             }
 
-            // gSPLoadUcode(gfxCtx->polyOpa.p++, func_800D2E14(), func_800D2E20())?
-            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, func_800D2E14(), func_800D2E20(), 0x800);
+            // gSPLoadUcode(gfxCtx->polyOpa.p++, SysUcode_GetUcode(), SysUcode_GetUcodeData())?
+            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, SysUcode_GetUcode(), SysUcode_GetUcodeData(), 0x800);
         }
     }
 

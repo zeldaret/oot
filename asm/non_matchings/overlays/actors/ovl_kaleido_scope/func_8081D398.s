@@ -620,13 +620,13 @@ glabel func_8081D398
 /* 0A4BC 8081DCDC 8FB101CC */  lw      $s1, 0x01CC($sp)           
 /* 0A4C0 8081DCE0 26390008 */  addiu   $t9, $s1, 0x0008           ## $t9 = 0C000008
 /* 0A4C4 8081DCE4 AFB901CC */  sw      $t9, 0x01CC($sp)           
-/* 0A4C8 8081DCE8 0C034B88 */  jal     func_800D2E20              
+/* 0A4C8 8081DCE8 0C034B88 */  jal     SysUcode_GetUcodeData              
 /* 0A4CC 8081DCEC AE320000 */  sw      $s2, 0x0000($s1)           ## 0C000000
 /* 0A4D0 8081DCF0 AE220004 */  sw      $v0, 0x0004($s1)           ## 0C000004
 /* 0A4D4 8081DCF4 8FB101CC */  lw      $s1, 0x01CC($sp)           
 /* 0A4D8 8081DCF8 262E0008 */  addiu   $t6, $s1, 0x0008           ## $t6 = 0C000008
 /* 0A4DC 8081DCFC AFAE01CC */  sw      $t6, 0x01CC($sp)           
-/* 0A4E0 8081DD00 0C034B85 */  jal     func_800D2E14              
+/* 0A4E0 8081DD00 0C034B85 */  jal     SysUcode_GetUcode              
 /* 0A4E4 8081DD04 AE330000 */  sw      $s3, 0x0000($s1)           ## 0C000000
 /* 0A4E8 8081DD08 AE220004 */  sw      $v0, 0x0004($s1)           ## 0C000004
 /* 0A4EC 8081DD0C 8FB801CC */  lw      $t8, 0x01CC($sp)           
