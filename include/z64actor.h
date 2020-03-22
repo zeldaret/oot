@@ -361,6 +361,12 @@ typedef struct {
     /* 0x0C */ ColliderJntSphItemInit* list;
 } ColliderJntSphInit;
 
+typedef struct {
+    /* 0x00 */ ColliderInit_Actor body;
+    /* 0x08 */ s32 count;
+    /* 0x0C */ ColliderJntSphItemInit* list;
+} ColliderJntSphInit_Actor;
+
 typedef struct
 {
     /* 0x00 */ Actor* actor;

@@ -257,9 +257,36 @@ s32 func_8005BBF8(GlobalContext* globalCtx, ColliderJntSph* collision) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BCC8.s")
 
-//call 5BAD8, 5BB48
 //ClObjJntSph?
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BD50.s") 
+s32 func_8005BD50(GlobalContext* globalCtx, ColliderJntSph* dest, ColliderJntSphInit_Actor* src) {
+    ColliderJntSphItem* destNext;
+    ColliderJntSphItemInit* srcNext;
+
+    func_8005B6B0(globalCtx, &dest->base, &src->body);
+    dest->count = src->count;
+    dest->list = ZeldaArena_MallocDebug(src->count * sizeof(ColliderJntSphItem), "../z_collision_check.c", 0x5A3);
+
+    if (dest->list == NULL) {
+        dest->count = 0;
+        osSyncPrintf("\x1b[31m");
+        osSyncPrintf("ClObjJntSph_set():zelda_malloc()出来ません。\n"); //EUC-JP: 出来ません。 | Can not.
+        osSyncPrintf("\x1b[m");
+        return 0;
+    }
+
+    destNext = dest->list;
+    srcNext = src->list;
+
+    while (destNext < dest->list + dest->count)
+    {
+        func_8005BAD8(globalCtx, destNext);
+        func_8005BB48(globalCtx, destNext, srcNext);
+        destNext++;
+        srcNext++;
+    }
+    return 1;
+}
+
 
 //ClObjJntSph_set3 (maskB = 0x10)
 //called by En_Nwc
