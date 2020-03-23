@@ -866,7 +866,6 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Megane"
     include "build/src/overlays/actors/ovl_Bg_Haka_Megane/z_bg_haka_megane.o"
-    include "build/data/overlays/actors/z_bg_haka_megane.data.o"
     include "build/data/overlays/actors/z_bg_haka_megane.reloc.o"
 endseg
 
