@@ -34,8 +34,8 @@ const ActorInit Bg_Gate_Shutter_InitVars = {
     (ActorFunc)BgGateShutter_Draw,
 };
 
-extern UNK_PTR D_06001CD0;
-extern UNK_PTR D_06001DA8;
+extern UNK_TYPE D_06001CD0;
+extern UNK_TYPE D_06001DA8;
 
 static void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx) {
     s32 pad[2];
