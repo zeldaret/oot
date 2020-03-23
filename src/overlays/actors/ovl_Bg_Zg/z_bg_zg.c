@@ -101,7 +101,8 @@ static void BgZg_Update(BgZg *this,GlobalContext *globalCtx)
 
 }
 
-static void BgZg_Init(BgZg* this, GlobalContext* globalCtx) {
+static void BgZg_Init(BgZg* this, GlobalContext* globalCtx) 
+{
     s32 sp20[2];
     Actor* thisx = &this->dyna.actor;
     u32 local_c;
