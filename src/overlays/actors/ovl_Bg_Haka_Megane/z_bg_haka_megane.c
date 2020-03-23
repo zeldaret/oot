@@ -18,8 +18,7 @@ static void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx);
 static void func_8087DC64(BgHakaMegane* this, GlobalContext* globalCtx);
 static void func_8087DC94(BgHakaMegane* this, GlobalContext* globalCtx);
 
-const ActorInit Bg_Haka_Megane_InitVars =
-{
+const ActorInit Bg_Haka_Megane_InitVars = {
     ACTOR_BG_HAKA_MEGANE,
     ACTORTYPE_PROP,
     ROOM,
@@ -84,8 +83,8 @@ static void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
             collision = collisions[this->dyna.actor.params];
             if (collision != 0) {
                 DynaPolyInfo_Alloc(collision, &localC);
-                this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna,
-                                                                   &this->dyna.actor, localC);
+                this->dyna.dynaPolyId =
+                    DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
             }
         } else {
             this->actionFunc = (ActorFunc)func_8087DC64;
@@ -105,7 +104,6 @@ static void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx) {
 }
 
 static void func_8087DC64(BgHakaMegane* this, GlobalContext* globalCtx) {
-
 }
 
 static void BgHakaMegane_Update(BgHakaMegane* this, GlobalContext* globalCtx) {
