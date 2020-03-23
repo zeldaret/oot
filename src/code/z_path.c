@@ -33,4 +33,14 @@ f32 Path_OrientAndGetDistSq(Actor* actor, Path* path, s16 waypoint, s16* yaw) {
     return SQ(dx) + SQ(dz);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_path/Path_CopyLastPoint.s")
+void Path_CopyLastPoint(Path* path, Vec3f* dest) {
+    Vec3s* pointPos;
+
+    if (path != NULL) {
+        pointPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[path->count - 1];
+
+        dest->x = pointPos->x;
+        dest->y = pointPos->y;
+        dest->z = pointPos->z;
+    }
+}
