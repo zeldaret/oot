@@ -223,7 +223,7 @@ void GfxPrint_SetBasePosPx(GfxPrint* this, s32 x, s32 y) {
 
 #ifdef NON_MATCHING
 // regalloc and ordering differences
-void GfxPrint_PrintCharImpl(GfxPrint* this, char c) {
+void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
     if (this->flag & GFXPRINT_UPDATE_MODE) {
         this->flag &= ~GFXPRINT_UPDATE_MODE;
 

@@ -20,8 +20,8 @@ void Sample_Draw(SampleContext* this) {
 
     func_800C6AC4(gfxArr, gfxCtx, "../z_sample.c", 62);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0, NULL;
-    gSPSegment(gfxCtx->polyOpa.p++, 1, this->staticSegment);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x01, this->staticSegment);
 
     func_80095248(gfxCtx, 0, 0, 0);
 
