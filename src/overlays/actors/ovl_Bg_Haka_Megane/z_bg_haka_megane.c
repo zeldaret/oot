@@ -14,7 +14,7 @@ static void BgHakaMegane_Destroy(BgHakaMegane* this, GlobalContext* globalCtx);
 static void BgHakaMegane_Update(BgHakaMegane* this, GlobalContext* globalCtx);
 
 static void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx);
-static void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx);
+ void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx);
 static void func_8087DC64(BgHakaMegane* this, GlobalContext* globalCtx);
 static void func_8087DC94(BgHakaMegane* this, GlobalContext* globalCtx);
 
@@ -92,13 +92,13 @@ static void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx) {
+void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     if (globalCtx->actorCtx.unk_03 != 0) {
         thisx->flags |= 0x80;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     } else {
-        thisx->flags &= -0x81;
+        thisx->flags &= ~0x80;
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     }
 }
