@@ -1,6 +1,6 @@
 #include "z_bg_spot01_idomizu.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000020
 
 void BgSpot01Idomizu_Init(BgSpot01Idomizu* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_en_mk.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnMk_Init(EnMk* this, GlobalContext* globalCtx);

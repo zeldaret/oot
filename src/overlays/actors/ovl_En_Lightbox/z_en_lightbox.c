@@ -2,11 +2,11 @@
  * File: z_en_lightbox.c
  * Overlay: ovl_En_Lightbox
  * Description:
-*/
+ */
 
 #include "z_en_lightbox.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx);
@@ -14,8 +14,7 @@ static void EnLightbox_Destroy(EnLightbox* this, GlobalContext* globalCtx);
 static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx);
 static void EnLightbox_Draw(EnLightbox* this, GlobalContext* globalCtx);
 
-const ActorInit En_Lightbox_InitVars =
-{
+const ActorInit En_Lightbox_InitVars = {
     ACTOR_EN_LIGHTBOX,
     ACTORTYPE_PROP,
     ROOM,
@@ -31,13 +30,12 @@ const ActorInit En_Lightbox_InitVars =
 extern u32 D_06000B70;
 extern u32 D_06001F10;
 
-static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx)
-{
+static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx) {
     u32 local_c = 0;
     Actor* thisx = &this->dyna.actor;
     s32 pad[4];
 
-    switch(thisx->params){
+    switch (thisx->params) {
         case 0:
             Actor_SetScale(thisx, 0.025f);
             break;
@@ -65,56 +63,41 @@ static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx)
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 }
 
-static void EnLightbox_Destroy(EnLightbox* this, GlobalContext* globalCtx)
-{
+static void EnLightbox_Destroy(EnLightbox* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx)
-{
+static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    if (this->dyna.unk_162 != 0)
-    {
-        if (func_8002F5A0(thisx, globalCtx))
-        {
+    if (this->dyna.unk_162 != 0) {
+        if (func_8002F5A0(thisx, globalCtx)) {
             this->dyna.unk_162 = 0;
         }
-    }
-    else
-    {
-        if (func_8002F410(thisx, globalCtx))
-        {
+    } else {
+        if (func_8002F410(thisx, globalCtx)) {
             this->dyna.unk_162++;
-        }
-        else
-        {
-            if (thisx->speedXZ)
-            {
-                if (thisx->bgCheckFlags & 8)
-                {
+        } else {
+            if (thisx->speedXZ) {
+                if (thisx->bgCheckFlags & 8) {
                     thisx->posRot.rot.y = (thisx->posRot.rot.y + thisx->unk_7E) - thisx->posRot.rot.y;
-                    Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->unk_E4, 4, &D_801333E0, &D_801333E0,
+                                           &D_801333E8);
                     thisx->speedXZ *= 0.7f;
                     thisx->bgCheckFlags &= ~0x8;
                 }
             }
 
-            if ((thisx->bgCheckFlags & 1) == 0)
-            {
+            if ((thisx->bgCheckFlags & 1) == 0) {
                 Math_ApproxF(&thisx->speedXZ, 0, IREG(57) / 100.0f);
-            }
-            else
-            {
+            } else {
                 Math_ApproxF(&thisx->speedXZ, 0, IREG(58) / 100.0f);
-                if ((thisx->bgCheckFlags & 2) && (thisx->velocity.y < IREG(59) / 100.0f))
-                {
-                    Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                if ((thisx->bgCheckFlags & 2) && (thisx->velocity.y < IREG(59) / 100.0f)) {
+                    Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->unk_E4, 4, &D_801333E0, &D_801333E0,
+                                           &D_801333E8);
                     thisx->velocity.y *= IREG(60) / 100.0f;
                     thisx->bgCheckFlags &= ~0x1;
-                }
-                else
-                {
+                } else {
                     func_8002F580(thisx, globalCtx);
                 }
             }
@@ -125,7 +108,6 @@ static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx)
     thisx->posRot2.pos = thisx->posRot.pos;
 }
 
-static void EnLightbox_Draw(EnLightbox* this, GlobalContext* globalCtx)
-{
+static void EnLightbox_Draw(EnLightbox* this, GlobalContext* globalCtx) {
     Draw_DListOpa(globalCtx, &D_06000B70);
 }

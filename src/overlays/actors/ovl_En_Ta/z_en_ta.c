@@ -1,6 +1,6 @@
 #include "z_en_ta.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnTa_Init(EnTa* this, GlobalContext* globalCtx);

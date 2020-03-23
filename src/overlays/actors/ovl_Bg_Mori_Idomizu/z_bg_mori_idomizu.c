@@ -1,6 +1,6 @@
 #include "z_bg_mori_idomizu.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgMoriIdomizu_Init(BgMoriIdomizu* this, GlobalContext* globalCtx);

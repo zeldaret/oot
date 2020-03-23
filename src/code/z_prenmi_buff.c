@@ -1,20 +1,15 @@
 #include <ultra64.h>
 #include <global.h>
 
-#define COLD_RESET  0
-#define NMI         1
+#define COLD_RESET 0
+#define NMI 1
 
-
-void PreNmiBuff_Init(PreNmiBuff* this)
-{
+void PreNmiBuff_Init(PreNmiBuff* this) {
     this->resetting = false;
-    if (osResetType == COLD_RESET)
-    {
+    if (osResetType == COLD_RESET) {
         this->resetCount = 0;
         this->duration = 0;
-    }
-    else
-    {
+    } else {
         this->resetCount++;
         this->duration += this->resetTime;
     }
@@ -22,14 +17,11 @@ void PreNmiBuff_Init(PreNmiBuff* this)
     this->resetTime = 0;
 }
 
-
-void PreNmiBuff_SetReset(PreNmiBuff* this)
-{
+void PreNmiBuff_SetReset(PreNmiBuff* this) {
     this->resetting = true;
     this->resetTime = osGetTime();
 }
 
-u32 PreNmiBuff_IsResetting(PreNmiBuff* this)
-{
+u32 PreNmiBuff_IsResetting(PreNmiBuff* this) {
     return this->resetting;
 }

@@ -1,6 +1,6 @@
 #include "z_demo_effect.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void DemoEffect_Init(DemoEffect* this, GlobalContext* globalCtx);

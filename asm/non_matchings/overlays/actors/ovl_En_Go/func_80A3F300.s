@@ -47,7 +47,7 @@ glabel func_80A3F300
 /* 00E40 80A3F3B0 46083301 */  sub.s   $f12, $f6, $f8             
 /* 00E44 80A3F3B4 46128381 */  sub.s   $f14, $f16, $f18           
 /* 00E48 80A3F3B8 E7AC002C */  swc1    $f12, 0x002C($sp)          
-/* 00E4C 80A3F3BC 0C03F494 */  jal     func_800FD250              
+/* 00E4C 80A3F3BC 0C03F494 */  jal     Math_atan2f              
 /* 00E50 80A3F3C0 E7AE0028 */  swc1    $f14, 0x0028($sp)          
 /* 00E54 80A3F3C4 3C0180A4 */  lui     $at, %hi(D_80A420D8)       ## $at = 80A40000
 /* 00E58 80A3F3C8 C42420D8 */  lwc1    $f4, %lo(D_80A420D8)($at)  

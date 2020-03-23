@@ -1671,115 +1671,15 @@ void func_800A5408(SkelAnime* skelAnime)
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A5408.s")
-#endif
 
-void func_800A5428(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src, u8* arg3)
-{
-    s32 i;
-    for(i = 0; i < skelAnime->limbCount; i++, dst++, src++)
-    {
-        if(*arg3++)
-        {
-            *dst = *src;
-        }
-    }
-}
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A5428.s")
 
-void func_800A5490(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src, u8* arg3)
-{
-    s32 i;
-    for(i = 0;i < skelAnime->limbCount; i++, dst++, src++)
-    {
-        if(*arg3++ < 1U){
-            *dst = *src;
-        }
-    }
-}
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A5490.s")
 
-void func_800A54FC(SkelAnime* skelAnime, Vec3f* pos, s16 angle)
-{
-    f32 x;
-    f32 z;
-    f32 sin;
-    f32 cos;
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A54FC.s")
 
-    if((skelAnime->unk_35 & 0x10) != 0)
-    {
-        pos->z = 0.0f;
-        pos->x = 0.0f;
-    }
-    else
-    {
-        x = (f32)skelAnime->actorDrawTbl->x;
-        z = (f32)skelAnime->actorDrawTbl->z;
-        sin = Math_Sins(angle);
-        cos = Math_Coss(angle);
-        pos->x = x * cos + z * sin;
-        pos->z = z * cos - x * sin;
-        x = (f32)skelAnime->unk_38;
-        z = (f32)skelAnime->unk_3C;
-        sin = Math_Sins(skelAnime->unk_36);
-        cos = Math_Coss(skelAnime->unk_36);
-        pos->x -= x * cos + z * sin;
-        pos->z -= z * cos - x * sin;
-    }
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A56C8.s")
 
-    skelAnime->unk_36 = angle;
-    skelAnime->unk_38 = skelAnime->actorDrawTbl->x;
-    skelAnime->actorDrawTbl->x = skelAnime->unk_3E;
-    skelAnime->unk_3C = skelAnime->actorDrawTbl->z;
-    skelAnime->actorDrawTbl->z = skelAnime->unk_42;
-    if((skelAnime->unk_35 & 2) != 0)
-    {
-        if((skelAnime->unk_35 & 0x10) != 0)
-        {
-            pos->y = 0.0f;
-        }
-        else
-        {
-            pos->y = (f32)(skelAnime->actorDrawTbl->y - skelAnime->unk_3A);
-        }
-        skelAnime->unk_3A = skelAnime->actorDrawTbl->y;
-        skelAnime->actorDrawTbl->y = skelAnime->unk_40;
-    }
-    else
-    {
-        pos->y = 0.0f;
-        skelAnime->unk_3A = skelAnime->actorDrawTbl->y;
-    }
-    skelAnime->unk_35 &= ~0x10;
-}
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A56F0.s")
 
-s32 func_800A56C8(SkelAnime *skelAnime, f32 arg1)
-{
-    return func_800A4478(skelAnime, arg1, 1.0f);
-}
-
-// SkelAnime_Free
-void func_800A56F0(SkelAnime *skelAnime, s32 arg1)
-{
-    if (skelAnime->actorDrawTbl != NULL)
-    {
-        ZeldaArena_FreeDebug(skelAnime->actorDrawTbl, "../z_skelanime.c", 3729);
-    }
-    else
-    {
-        osSyncPrintf("now_joint あきまへん！！\n"); // now_joint Akimane! !
-    }
-    if (skelAnime->unk_24 != NULL)
-    {
-        ZeldaArena_FreeDebug(skelAnime->unk_24, "../z_skelanime.c", 3731);
-        return;
-    }
-    osSyncPrintf("morf_joint あきまへん！！\n"); // "morf_joint Akimane !!"
-}
-
-// SkelAnime_CopyVec3s
-void func_800A5774(SkelAnime* skelAnime, Vec3s *dst, Vec3s *src)
-{
-    s32 i;
-    for(i = 0; i < skelAnime->limbCount; i++)
-    {
-        *dst++ = *src++;
-    }
-}
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A5774.s")

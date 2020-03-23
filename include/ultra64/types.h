@@ -24,15 +24,13 @@ typedef double f64;
 
 
 typedef long int Mtx_t[4][4];
-typedef union
-{
+typedef union {
     Mtx_t m;
     long long int forc_structure_alignment;
 } Mtx;
 
 typedef float MtxF_t[4][4];
-typedef union
-{
+typedef union {
     MtxF_t mf;
     struct
     {

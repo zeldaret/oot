@@ -2,23 +2,20 @@
 #include <global.h>
 #include <vt.h>
 
-void func_80092320(PreNMIContext* prenmiCtx)
-{
+void func_80092320(PreNMIContext* prenmiCtx) {
     prenmiCtx->state.running = false;
     prenmiCtx->state.init = NULL;
     prenmiCtx->state.size = 0;
 }
 
-void PreNMI_Update(PreNMIContext* prenmiCtx)
-{
+void PreNMI_Update(PreNMIContext* prenmiCtx) {
     osSyncPrintf(VT_COL(YELLOW, BLACK) "prenmi_move\n" VT_RST);
 
     // Strings existing only in rodata
     ("../z_prenmi.c");
     ("(int)volume = %d\n");
 
-    if (prenmiCtx->timer == 0)
-    {
+    if (prenmiCtx->timer == 0) {
         ViConfig_UpdateVi(1);
         func_80092320(prenmiCtx);
         return;
@@ -27,8 +24,7 @@ void PreNMI_Update(PreNMIContext* prenmiCtx)
     prenmiCtx->timer--;
 }
 
-void PreNMI_Draw(PreNMIContext* prenmiCtx)
-{
+void PreNMI_Draw(PreNMIContext* prenmiCtx) {
     GraphicsContext* gfxCtx = prenmiCtx->state.gfxCtx;
     Gfx* gfxArr[5];
 
@@ -45,21 +41,17 @@ void PreNMI_Draw(PreNMIContext* prenmiCtx)
     func_800C6B54(gfxArr, gfxCtx, "../z_prenmi.c", 112);
 }
 
-void PreNMI_Main(PreNMIContext* prenmiCtx)
-{
+void PreNMI_Main(PreNMIContext* prenmiCtx) {
     PreNMI_Update(prenmiCtx);
     PreNMI_Draw(prenmiCtx);
 
     prenmiCtx->state.unk_A0 = 1;
 }
 
-void PreNMI_Destroy(PreNMIContext* prenmiCtx)
-{
-
+void PreNMI_Destroy(PreNMIContext* prenmiCtx) {
 }
 
-void PreNMI_Init(PreNMIContext* prenmiCtx)
-{
+void PreNMI_Init(PreNMIContext* prenmiCtx) {
     prenmiCtx->state.main = PreNMI_Main;
     prenmiCtx->state.destroy = PreNMI_Destroy;
     prenmiCtx->timer = 30;

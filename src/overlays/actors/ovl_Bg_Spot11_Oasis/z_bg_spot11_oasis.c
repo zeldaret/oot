@@ -1,6 +1,6 @@
 #include "z_bg_spot11_oasis.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgSpot11Oasis_Init(BgSpot11Oasis* this, GlobalContext* globalCtx);

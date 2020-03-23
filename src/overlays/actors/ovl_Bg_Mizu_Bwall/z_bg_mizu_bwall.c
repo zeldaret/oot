@@ -1,6 +1,6 @@
 #include "z_bg_mizu_bwall.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgMizuBwall_Init(BgMizuBwall* this, GlobalContext* globalCtx);

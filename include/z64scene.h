@@ -1,8 +1,7 @@
 #ifndef _Z64SCENE_H_
 #define _Z64SCENE_H_
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u32 sceneVromStart;
     /* 0x04 */ u32 sceneVromEnd;
     /* 0x08 */ u32 titleVromStart;
@@ -13,50 +12,43 @@ typedef struct
     /* 0x13 */ u8  unk_13;
 } Scene; // size = 0x14
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x04 */ u32 data2;
 } SCmdBase;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x04 */ u32 segment;
 } SCmdSpawnList;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  num;
     /* 0x04 */ u32 segment;
 } SCmdActorList;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x04 */ u32 segment;
 } SCmdCsCameraList;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x04 */ u32 segment;
 } SCmdColHeader;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  num;
     /* 0x04 */ u32 segment;
 } SCmdRoomList;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x02 */ char pad[2];
@@ -66,71 +58,61 @@ typedef struct
     /* 0x07 */ u8  unk_07;
 } SCmdWindSettings;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x04 */ u32 segment;
 } SCmdEntranceList;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  naviMsgNum;
     /* 0x04 */ u32 keepObjectId;
 } SCmdSpecialFiles;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  gpFlag1;
     /* 0x04 */ u32 gpFlag2;
 } SCmdRoomBehavior;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x04 */ u32 segment;
 } SCmdMesh;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  num;
     /* 0x04 */ u32 segment;
 } SCmdObjectList;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  num;
     /* 0x04 */ u32 segment;
 } SCmdLightList;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x04 */ u32 segment;
 } SCmdPathList;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  num;
     /* 0x04 */ u32 segment;
 } SCmdTransiActorList;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  num;
     /* 0x04 */ u32 segment;
 } SCmdLightSettingList;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x02 */ char pad[2];
@@ -139,8 +121,7 @@ typedef struct
     /* 0x06 */ u8  unk_06;
 } SCmdTimeSettings;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x02 */ char pad[2];
@@ -149,8 +130,7 @@ typedef struct
     /* 0x06 */ u8  unk_06;
 } SCmdSkyboxSettings;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x02 */ char pad[2];
@@ -158,22 +138,19 @@ typedef struct
     /* 0x05 */ u8  unk_05;
 } SCmdSkyboxDisables;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x04 */ u32 data2;
 } SCmdEndMarker;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x04 */ u32 segment;
 } SCmdExitList;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  bgmId;
     /* 0x02 */ char pad[4];
@@ -181,42 +158,36 @@ typedef struct
     /* 0x07 */ u8  musicSeq;
 } SCmdSoundSettings;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x02 */ char pad[5];
     /* 0x07 */ u8  echo;
 } SCmdEchoSettings;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x04 */ u32 segment;
 } SCmdCutsceneData;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
     /* 0x04 */ u32 segment;
 } SCmdAltHeaders;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  cameraMovement;
     /* 0x04 */ u32 area;
 } SCmdMiscSettings;
 
-typedef struct
-{
+typedef struct {
     u8 headerType;
 } MeshHeaderBase;
 
-typedef struct
-{
+typedef struct {
     MeshHeaderBase base;
 
     u8 numEntries;
@@ -224,174 +195,144 @@ typedef struct
     u32 dListEnd;
 } MeshHeader0;
 
-typedef struct
-{
+typedef struct {
     u32 opaqueDList;
-	u32 translucentDList;
+    u32 translucentDList;
 } MeshEntry0;
 
-typedef struct
-{
+typedef struct {
     MeshHeaderBase base;
-
     u8 format;
     u32 entryRecord;
 } MeshHeader1Base;
 
-typedef struct
-{
+typedef struct {
     MeshHeader1Base base;
-    
     u32 imagePtr; // 0x08
-
-	u32 unknown; // 0x0C
-	u32 unknown2; // 0x10
-
-	u16 bgWidth; // 0x14
-	u16 bgHeight; // 0x16
-	
-	u8 imageFormat; // 0x18
-	u8 imageSize; // 0x19
-	u16 imagePal; // 0x1A
-	u16 imageFlip; // 0x1C
-
+    u32 unknown; // 0x0C
+    u32 unknown2; // 0x10
+    u16 bgWidth; // 0x14
+    u16 bgHeight; // 0x16
+    u8 imageFormat; // 0x18
+    u8 imageSize; // 0x19
+    u16 imagePal; // 0x1A
+    u16 imageFlip; // 0x1C
 } MeshHeader1Single;
 
-typedef struct
-{
+typedef struct {
     MeshHeader1Base base;
-    
     u8 bgCnt;
     u32 bgRecordPtr;
-
 } MeshHeader1Multi;
 
-typedef struct
-{
+typedef struct {
     u16 unknown; // 0x00
-	s8 bgID; // 0x02
-
-	u32 imagePtr; // 0x04
-	u32 unknown2; // 0x08
-	u32 unknown3; // 0x0C
-
-	u16 bgWidth; // 0x10
-	u16 bgHeight; // 0x12
-
-	u8 imageFmt; // 0x14
-	u8 imageSize; // 0x15
-	u16 imagePal; // 0x16
-	u16 imageFlip; // 0x18
+    s8 bgID; // 0x02
+    u32 imagePtr; // 0x04
+    u32 unknown2; // 0x08
+    u32 unknown3; // 0x0C
+    u16 bgWidth; // 0x10
+    u16 bgHeight; // 0x12
+    u8 imageFmt; // 0x14
+    u8 imageSize; // 0x15
+    u16 imagePal; // 0x16
+    u16 imageFlip; // 0x18
 } BackgroundRecord;
 
-typedef struct
-{
-	s16 playerXMax, playerZMax;
-	s16 playerXMin, playerZMin;
-
-	u32 opaqueDList;
-	u32 translucentDList;
+typedef struct {
+    s16 playerXMax, playerZMax;
+    s16 playerXMin, playerZMin;
+    u32 opaqueDList;
+    u32 translucentDList;
 } MeshEntry2;
 
-typedef struct
-{
+typedef struct {
     MeshHeaderBase base;
-
     u8 numEntries;
-	u32 dListStart;
-	u32 dListEnd;
+    u32 dListStart;
+    u32 dListEnd;
 } MeshHeader2;
 
 
-typedef struct
-{
+typedef struct {
     u8 ambientClrR, ambientClrG, ambientClrB;
-
     u8 diffuseClrA_R, diffuseClrA_G, diffuseClrA_B;
     u8 diffuseDirA_X, diffuseDirA_Y, diffuseDirA_Z;
     u8 diffuseClrB_R, diffuseClrB_G, diffuseClrB_B;
     u8 diffuseDirB_X, diffuseDirB_Y, diffuseDirB_Z;
-
     u8 fogClrR, fogClrG, fogClrB;
     u16 unk;
     u16 drawDistance;
 } LightSettings;
 
-typedef struct
-{
+typedef struct {
     s16 absMinX, absMinY, absMinZ;
     s16 absMaxX, absMaxY, absMaxZ;
-	s16 numVerts;
-	s32 vtxSegmentOffset;
-	s16 numPolygons;
-	s32 polySegmentOffset;
-	s32 polyTypeDefSegmentOffset;
-	s32 camDataSegmentOffset;
-
-	s16 numWaterBoxes;
-	s32 waterBoxSegmentOffset;
+    s16 numVerts;
+    s32 vtxSegmentOffset;
+    s16 numPolygons;
+    s32 polySegmentOffset;
+    s32 polyTypeDefSegmentOffset;
+    s32 camDataSegmentOffset;
+    s16 numWaterBoxes;
+    s32 waterBoxSegmentOffset;
 } ColHeader;
 
-typedef struct
-{
+typedef struct {
     s16 cameraSType;            // 0x00
-	s16 numCameras;             // 0x02
-	s32 camPosDataSeg;  // 0x04
+    s16 numCameras;             // 0x02
+    s32 camPosDataSeg;  // 0x04
 } CamData;
 
-typedef struct
-{
+typedef struct {
     u32 unknown;
     u32 camPosDataSeg;
 } CamPosDataEntry;
 
 
 /*
-typedef union
-{
+typedef union {
     _CamData data;
     long long int forceStructAlignment;
 } CamData;
 */
 
-typedef struct
-{
+typedef struct {
     s16 posX, posY, posZ;
-	s16 rotX, rotY, rotZ;
-	s16 fov;
-	s16 jfifId;
-	s16 unk;
-	//s16 unk2;
-	//s32 unk;
+    s16 rotX, rotY, rotZ;
+    s16 fov;
+    s16 jfifId;
+    s16 unk;
 } CamPosData;
 
 /*
-typedef union
-{
+typedef union {
     _CamPosData data;
     long long int forceStructAlignment;
 } CamPosData;
 */
 
-typedef struct
-{
+typedef struct {
     s16 type;
-	s16 vtxA, vtxB, vtxC;
-	s16 a, b, c, d;
+    s16 vtxA, vtxB, vtxC;
+    s16 a, b, c, d;
 } RoomPoly;
 
-typedef struct
-{
+typedef struct {
     s16 xMin;
-	s16 ySurface;
-	s16 zMin;
-	s16 xLength;
-	s16 zLength;
-	s32 properties;
+    s16 ySurface;
+    s16 zMin;
+    s16 xLength;
+    s16 zLength;
+    s32 properties;
 } WaterBoxHeader;
 
-typedef union
-{
+typedef struct {
+    /* 0x00 */ u8 count; // Total number of points in the path for the actor to follow
+    /* 0x04 */ Vec3s* path;  // Segment Address of the start of the path list
+} Path; // size = 0x8
+
+typedef union {
     SCmdBase              base;
     SCmdSpawnList         spawnList;
     SCmdActorList         actorList;
@@ -420,8 +361,7 @@ typedef union
     SCmdAltHeaders        altHeaders;
 } SceneCmd; // size = 0x8
 
-typedef enum
-{
+typedef enum {
     /* 0x00 */ SCENE_YDAN,
     /* 0x01 */ SCENE_DDAN,
     /* 0x02 */ SCENE_BDAN,

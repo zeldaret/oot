@@ -1,6 +1,6 @@
 #include "z_en_vb_ball.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnVbBall_Init(EnVbBall* this, GlobalContext* globalCtx);

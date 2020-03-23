@@ -1,6 +1,6 @@
 #include "z_en_viewer.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnViewer_Init(EnViewer* this, GlobalContext* globalCtx);
@@ -70,4 +70,3 @@ const ActorInit En_Viewer_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Viewer/func_80B2C8AC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Viewer/func_80B2CC1C.s")
-

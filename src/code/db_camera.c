@@ -80,4 +80,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B958C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B9638.s")
-

@@ -1,6 +1,6 @@
 #include "z_bg_spot08_iceblock.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgSpot08Iceblock_Init(BgSpot08Iceblock* this, GlobalContext* globalCtx);

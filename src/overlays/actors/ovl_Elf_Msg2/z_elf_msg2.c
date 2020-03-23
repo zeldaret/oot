@@ -1,6 +1,6 @@
 #include "z_elf_msg2.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ElfMsg2_Init(ElfMsg2* this, GlobalContext* globalCtx);

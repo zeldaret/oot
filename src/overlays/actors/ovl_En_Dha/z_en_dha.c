@@ -1,6 +1,6 @@
 #include "z_en_dha.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnDha_Init(EnDha* this, GlobalContext* globalCtx);

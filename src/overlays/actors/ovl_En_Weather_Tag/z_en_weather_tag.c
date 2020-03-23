@@ -1,6 +1,6 @@
 #include "z_en_weather_tag.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnWeatherTag_Init(EnWeatherTag* this, GlobalContext* globalCtx);

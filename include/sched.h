@@ -13,8 +13,7 @@
 #define OS_SC_RCP_MASK          0x0003
 #define OS_SC_TYPE_MASK         0x0007
 
-typedef struct OSScTask
-{
+typedef struct OSScTask {
     /* 0x00 */ struct OSScTask* next;
     /* 0x04 */ u32            state;
     /* 0x08 */ u32            flags;
@@ -24,14 +23,12 @@ typedef struct OSScTask
     /* 0x54 */ OSMesg         msg;
 } OSScTask;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ char     unk_00[0x12];
     /* 0x12 */ s8       unk_12;
 } struct_800C8BC4;
 
-typedef struct
-{
+typedef struct {
     /* 0x0000 */ OSMesgQueue  interruptQ;
     /* 0x0018 */ OSMesg       intBuf[8];
     /* 0x0038 */ OSMesgQueue  cmdQ;

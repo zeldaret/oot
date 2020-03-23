@@ -1,6 +1,6 @@
 #include "z_en_dns.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnDns_Init(EnDns* this, GlobalContext* globalCtx);

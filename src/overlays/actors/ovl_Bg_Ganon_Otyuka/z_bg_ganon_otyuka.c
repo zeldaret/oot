@@ -1,6 +1,6 @@
 #include "z_bg_ganon_otyuka.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgGanonOtyuka_Init(BgGanonOtyuka* this, GlobalContext* globalCtx);

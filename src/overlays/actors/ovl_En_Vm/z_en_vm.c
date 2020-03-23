@@ -1,6 +1,6 @@
 #include "z_en_vm.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000011
 
 void EnVm_Init(EnVm* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_en_syateki_man.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x08000019
 
 void EnSyatekiMan_Init(EnSyatekiMan* this, GlobalContext* globalCtx);
