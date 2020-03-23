@@ -20,11 +20,11 @@ static void func_808C0CD4(BgZg* this, GlobalContext* globalCtx);
 static void func_808C0D08(BgZg* this, GlobalContext* globalCtx);
 static void func_808C0EEC(BgZg* this, GlobalContext* globalCtx);
 
-static const ActorFunc funcTbl[] = { (ActorFunc)func_808C0CD4, (ActorFunc)func_808C0D08 };
+static const ActorFunc actionFuncs[] = { (ActorFunc)func_808C0CD4, (ActorFunc)func_808C0D08, };
 
-static InitChainEntry initChain[] = { ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP) };
+static InitChainEntry initChain[] = { ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP), };
 
-static const ActorFunc funcTbl2[] = { (ActorFunc)func_808C0EEC };
+static const ActorFunc drawFuncs[] = { (ActorFunc)func_808C0EEC, };
 
 const ActorInit Bg_Zg_InitVars = {
     ACTOR_BG_ZG,
@@ -52,8 +52,7 @@ static void func_808C0C50(BgZg* this) {
 
 static s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
-    s32 flag;
-    flag = (thisx->params >> 8) & 0xFF;
+    s32 flag = (thisx->params >> 8) & 0xFF;
     return Flags_GetSwitch(globalCtx, flag);
 }
 
@@ -64,7 +63,7 @@ static s32 func_808C0CC8(BgZg* this) {
 
 static void func_808C0CD4(BgZg* this, GlobalContext* globalCtx) {
     if (func_808C0C98(this, globalCtx) != 0) {
-        this->funcIndex = 1;
+        this->action = 1;
         func_808C0C50(this);
     }
 }
@@ -79,13 +78,13 @@ static void func_808C0D08(BgZg* this, GlobalContext* globalCtx) {
 }
 
 static void BgZg_Update(BgZg* this, GlobalContext* globalCtx) {
-    s32 funcIndex = this->funcIndex;
+    s32 action = this->action;
 
-    if (((funcIndex < 0) || (1 < funcIndex)) || (funcTbl[funcIndex] == NULL)) {
+    if (((action < 0) || (1 < action)) || (actionFuncs[action] == NULL)) {
         // Translates to: "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        funcTbl[funcIndex](&this->dyna.actor, globalCtx);
+        actionFuncs[action](&this->dyna.actor, globalCtx);
     }
 }
 
@@ -105,11 +104,8 @@ static void BgZg_Init(BgZg* this, GlobalContext* globalCtx) {
         thisx->scale.y = thisx->scale.y * 1.2f;
     }
 
-    else {
-    }
-
-    this->funcIndex = 0;
-    this->unk_168 = 0;
+    this->action = 0;
+    this->drawConfig = 0;
     if (func_808C0C98(this, globalCtx) != 0) {
         Actor_Kill(thisx);
     }
@@ -134,12 +130,12 @@ static void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
 }
 
 static void BgZg_Draw(BgZg* this, GlobalContext* globalCtx) {
-    s32 funcIndex = this->unk_168;
+    s32 action = this->drawConfig;
 
-    if (((funcIndex < 0) || (0 < funcIndex)) || funcTbl2[funcIndex] == 0) {
+    if (((action < 0) || (action > 0)) || drawFuncs[action] == 0) {
         // Translates to: "Drawing mode is wrong !!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        funcTbl2[funcIndex](this, globalCtx);
+        drawFuncs[action](this, globalCtx);
     }
 }
