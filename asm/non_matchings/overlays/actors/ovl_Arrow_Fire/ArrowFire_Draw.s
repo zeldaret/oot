@@ -1,3 +1,33 @@
+.rdata
+glabel D_80867B5C
+    .asciz "../z_arrow_fire.c"
+    .balign 4
+
+glabel D_80867B70
+    .asciz "../z_arrow_fire.c"
+    .balign 4
+
+glabel D_80867B84
+    .asciz "../z_arrow_fire.c"
+    .balign 4
+
+.late_rodata
+
+glabel D_80867BAC
+    .float 9.58738E-05
+glabel D_80867BB0
+    .float 9.58738E-05
+glabel D_80867BB4
+    .float 9.58738E-05
+glabel D_80867BB8
+    .float 0.01
+glabel D_80867BBC
+    .float 1500
+glabel D_80867BC0
+    .float 0.2
+    .balign 4
+
+.text
 glabel ArrowFire_Draw
 /* 00580 80866290 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 00584 80866294 AFBF003C */  sw      $ra, 0x003C($sp)           

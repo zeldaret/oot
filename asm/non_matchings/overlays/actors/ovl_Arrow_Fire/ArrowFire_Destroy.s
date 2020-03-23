@@ -1,3 +1,17 @@
+.rdata
+glabel D_80867B30
+    .asciz "../z_arrow_fire.c"
+    .balign 4
+
+glabel D_80867B44
+    .asciz "\"消滅\" = %s\n"
+    .balign 4
+
+glabel D_80867B54
+    .asciz "消滅"
+    .balign 4
+
+.text
 glabel ArrowFire_Destroy
 /* 00080 80865D90 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00084 80865D94 AFBF0014 */  sw      $ra, 0x0014($sp)           

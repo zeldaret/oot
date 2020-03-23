@@ -684,7 +684,6 @@ beginseg
     name "ovl_Arrow_Fire"
     include "build/src/overlays/actors/ovl_Arrow_Fire/z_arrow_fire.o"
     include "build/data/overlays/actors/z_arrow_fire.data.o"
-    include "build/data/overlays/actors/z_arrow_fire.rodata.o"
     include "build/data/overlays/actors/z_arrow_fire.reloc.o"
 endseg
 
