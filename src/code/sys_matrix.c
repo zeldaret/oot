@@ -738,12 +738,13 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
 
     vec->y = Math_atan2f(mf->zx, mf->zz) * (32768 / M_PI);
 
-    if (!flag)
+    if (!flag) {
         vec->z = Math_atan2f(mf->xy, mf->yy) * (32768 / M_PI);
-    else
+    } else {
         vec->z = Math_atan2f(mf->xy / sqrtf(SQ(mf->xx) + SQ(mf->xz) + SQ(mf->xy)),
                              mf->yy / sqrtf(SQ(mf->yx) + SQ(mf->yz) + SQ(mf->yy))) *
                  (32768 / M_PI);
+    }
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D20CC.s")
@@ -762,12 +763,13 @@ void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
 
     vec->z = Math_atan2f(mf->xy, mf->xx) * (32768 / M_PI);
 
-    if (!flag)
+    if (!flag) {
         vec->x = Math_atan2f(mf->yz, mf->zz) * (32768 / M_PI);
-    else
+    } else {
         vec->x = Math_atan2f(mf->yz / sqrtf(SQ(mf->yx) + SQ(mf->yy) + SQ(mf->yz)),
                              mf->zz / sqrtf(SQ(mf->zx) + SQ(mf->zy) + SQ(mf->zz))) *
                  (32768 / M_PI);
+    }
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D2264.s")

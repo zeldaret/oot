@@ -114,10 +114,11 @@ void FaultDrawer_DrawChar(char c) {
             u32 mask = 0x10000000 << (c % 4);
             u32 data = *dataPtr;
             for (x = 0; x < sFaultDrawerStruct.charW; x++) {
-                if (mask & data)
+                if (mask & data) {
                     fb[x] = sFaultDrawerStruct.foreColor;
-                else if (sFaultDrawerStruct.backColor & 1)
+                } else if (sFaultDrawerStruct.backColor & 1) {
                     fb[x] = sFaultDrawerStruct.backColor;
+                }
                 mask >>= 4;
             }
             fb += sFaultDrawerStruct.w;
