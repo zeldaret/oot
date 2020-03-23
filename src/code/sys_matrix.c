@@ -1,83 +1,74 @@
 #include <ultra64.h>
 #include <global.h>
 
-Mtx gMtxClear =
-{
+// clang-format off
+Mtx gMtxClear = {
     65536,     0,     1,     0,
         0, 65536,     0,     1,
         0,     0,     0,     0,
         0,     0,     0,     0,
 };
-MtxF gMtxFClear =
-{
+MtxF gMtxFClear = {
     1.0f, 0.0f, 0.0f, 0.0f,
     0.0f, 1.0f, 0.0f, 0.0f,
     0.0f, 0.0f, 1.0f, 0.0f,
     0.0f, 0.0f, 0.0f, 1.0f,
 };
+// clang-format on
 
-MtxF* sMatrixStack; // "Matrix_stack"
+MtxF* sMatrixStack;   // "Matrix_stack"
 MtxF* sCurrentMatrix; // "Matrix_now"
 
-void Matrix_Init(GameState* gameState)
-{
+void Matrix_Init(GameState* gameState) {
     sCurrentMatrix = Game_Alloc(gameState, 20 * sizeof(MtxF), "../sys_matrix.c", 153);
     sMatrixStack = sCurrentMatrix;
 }
 
-void Matrix_Push(void)
-{
+void Matrix_Push(void) {
     Matrix_MtxFCopy(sCurrentMatrix + 1, sCurrentMatrix);
     sCurrentMatrix++;
 }
 
-void Matrix_Pull(void)
-{
+void Matrix_Pull(void) {
     sCurrentMatrix--;
-    if (sCurrentMatrix < sMatrixStack)
+    if (sCurrentMatrix < sMatrixStack) {
         __assert("Matrix_now >= Matrix_stack", "../sys_matrix.c", 176);
+    }
 }
 
-void Matrix_Get(MtxF* dest)
-{
+void Matrix_Get(MtxF* dest) {
     Matrix_MtxFCopy(dest, sCurrentMatrix);
 }
 
-void Matrix_Put(MtxF* src)
-{
+void Matrix_Put(MtxF* src) {
     Matrix_MtxFCopy(sCurrentMatrix, src);
 }
 
-MtxF* Matrix_GetCurrent(void)
-{
+MtxF* Matrix_GetCurrent(void) {
     return sCurrentMatrix;
 }
 
-void Matrix_Mult(MtxF* mf, u8 mode)
-{
+void Matrix_Mult(MtxF* mf, u8 mode) {
     MtxF* cmf = Matrix_GetCurrent();
 
-    if (mode == MTXMODE_APPLY)
+    if (mode == MTXMODE_APPLY) {
         func_800A6FA0(cmf, mf, cmf);
-    else
+    } else {
         Matrix_MtxFCopy(sCurrentMatrix, mf);
+    }
 }
 
 #ifdef NON_MATCHING
 // minor ordering and regalloc differences
-void Matrix_Translate(f32 x, f32 y, f32 z, u8 mode)
-{
+void Matrix_Translate(f32 x, f32 y, f32 z, u8 mode) {
     MtxF* cmf = sCurrentMatrix;
 
-    if (mode == MTXMODE_APPLY)
-    {
+    if (mode == MTXMODE_APPLY) {
         cmf->wx += cmf->xx * x + cmf->yx * y + cmf->zx * z;
         cmf->wy += cmf->xy * x + cmf->yy * y + cmf->zy * z;
         cmf->wz += cmf->xz * x + cmf->yz * y + cmf->zz * z;
         cmf->ww += cmf->xw * x + cmf->yw * y + cmf->zw * z;
-    }
-    else
-    {
+    } else {
         func_800A7A24(cmf, x, y, z);
     }
 }
@@ -85,12 +76,10 @@ void Matrix_Translate(f32 x, f32 y, f32 z, u8 mode)
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/Matrix_Translate.s")
 #endif
 
-void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode)
-{
+void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode) {
     MtxF* cmf = sCurrentMatrix;
 
-    if (mode == MTXMODE_APPLY)
-    {
+    if (mode == MTXMODE_APPLY) {
         cmf->xx *= x;
         cmf->xy *= x;
         cmf->xz *= x;
@@ -103,25 +92,20 @@ void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode)
         cmf->xw *= x;
         cmf->yw *= y;
         cmf->zw *= z;
-    }
-    else
-    {
+    } else {
         func_800A76A4(cmf, x, y, z);
     }
 }
 
-void Matrix_RotateX(f32 x, u8 mode)
-{
+void Matrix_RotateX(f32 x, u8 mode) {
     MtxF* cmf;
     f32 sin;
     f32 cos;
     f32 temp1;
     f32 temp2;
 
-    if (mode == MTXMODE_APPLY)
-    {
-        if (x != 0)
-        {
+    if (mode == MTXMODE_APPLY) {
+        if (x != 0) {
             cmf = sCurrentMatrix;
 
             sin = sinf(x);
@@ -147,18 +131,13 @@ void Matrix_RotateX(f32 x, u8 mode)
             cmf->yw = temp1 * cos + temp2 * sin;
             cmf->zw = temp2 * cos - temp1 * sin;
         }
-    }
-    else
-    {
+    } else {
         cmf = sCurrentMatrix;
 
-        if (x != 0)
-        {
+        if (x != 0) {
             sin = sinf(x);
             cos = cosf(x);
-        }
-        else
-        {
+        } else {
             sin = 0.0f;
             cos = 1.0f;
         }
@@ -182,18 +161,15 @@ void Matrix_RotateX(f32 x, u8 mode)
     }
 }
 
-void Matrix_RotateY(f32 y, u8 mode)
-{
+void Matrix_RotateY(f32 y, u8 mode) {
     MtxF* cmf;
     f32 sin;
     f32 cos;
     f32 temp1;
     f32 temp2;
 
-    if (mode == MTXMODE_APPLY)
-    {
-        if (y != 0)
-        {
+    if (mode == MTXMODE_APPLY) {
+        if (y != 0) {
             cmf = sCurrentMatrix;
 
             sin = sinf(y);
@@ -219,18 +195,13 @@ void Matrix_RotateY(f32 y, u8 mode)
             cmf->xw = temp1 * cos - temp2 * sin;
             cmf->zw = temp1 * sin + temp2 * cos;
         }
-    }
-    else
-    {
+    } else {
         cmf = sCurrentMatrix;
 
-        if (y != 0)
-        {
+        if (y != 0) {
             sin = sinf(y);
             cos = cosf(y);
-        }
-        else
-        {
+        } else {
             sin = 0.0f;
             cos = 1.0f;
         }
@@ -254,18 +225,15 @@ void Matrix_RotateY(f32 y, u8 mode)
     }
 }
 
-void Matrix_RotateZ(f32 z, u8 mode)
-{
+void Matrix_RotateZ(f32 z, u8 mode) {
     MtxF* cmf;
     f32 sin;
     f32 cos;
     f32 temp1;
     f32 temp2;
 
-    if (mode == MTXMODE_APPLY)
-    {
-        if (z != 0)
-        {
+    if (mode == MTXMODE_APPLY) {
+        if (z != 0) {
             cmf = sCurrentMatrix;
 
             sin = sinf(z);
@@ -291,18 +259,13 @@ void Matrix_RotateZ(f32 z, u8 mode)
             cmf->xw = temp1 * cos + temp2 * sin;
             cmf->yw = temp2 * cos - temp1 * sin;
         }
-    }
-    else
-    {
+    } else {
         cmf = sCurrentMatrix;
 
-        if (z != 0)
-        {
+        if (z != 0) {
             sin = sinf(z);
             cos = cosf(z);
-        }
-        else
-        {
+        } else {
             sin = 0.0f;
             cos = 1.0f;
         }
@@ -326,16 +289,14 @@ void Matrix_RotateZ(f32 z, u8 mode)
     }
 }
 
-void Matrix_RotateXYZ(s16 x, s16 y, s16 z, u8 mode)
-{
+void Matrix_RotateXYZ(s16 x, s16 y, s16 z, u8 mode) {
     MtxF* cmf = sCurrentMatrix;
     f32 temp1;
     f32 temp2;
     f32 sin;
     f32 cos;
 
-    if (mode == MTXMODE_APPLY)
-    {
+    if (mode == MTXMODE_APPLY) {
         sin = Math_Sins(z);
         cos = Math_Coss(z);
 
@@ -359,8 +320,7 @@ void Matrix_RotateXYZ(s16 x, s16 y, s16 z, u8 mode)
         cmf->xw = temp1 * cos + temp2 * sin;
         cmf->yw = temp2 * cos - temp1 * sin;
 
-        if (y != 0)
-        {
+        if (y != 0) {
             sin = Math_Sins(y);
             cos = Math_Coss(y);
 
@@ -385,8 +345,7 @@ void Matrix_RotateXYZ(s16 x, s16 y, s16 z, u8 mode)
             cmf->zw = temp1 * sin + temp2 * cos;
         }
 
-        if (x != 0)
-        {
+        if (x != 0) {
             sin = Math_Sins(x);
             cos = Math_Coss(x);
 
@@ -410,15 +369,12 @@ void Matrix_RotateXYZ(s16 x, s16 y, s16 z, u8 mode)
             cmf->yw = temp1 * cos + temp2 * sin;
             cmf->zw = temp2 * cos - temp1 * sin;
         }
-    }
-    else
-    {
+    } else {
         func_800A7704(cmf, x, y, z);
     }
 }
 
-void func_800D1340(Vec3f* arg0, Vec3s* arg1)
-{
+void func_800D1340(Vec3f* arg0, Vec3s* arg1) {
     MtxF* cmf = sCurrentMatrix;
     f32 sin;
     f32 cos;
@@ -452,8 +408,7 @@ void func_800D1340(Vec3f* arg0, Vec3s* arg1)
     cmf->xw = temp1 * cos + temp2 * sin;
     cmf->yw = temp2 * cos - temp1 * sin;
 
-    if (arg1->y != 0)
-    {
+    if (arg1->y != 0) {
         sin = Math_Sins(arg1->y);
         cos = Math_Coss(arg1->y);
 
@@ -478,8 +433,7 @@ void func_800D1340(Vec3f* arg0, Vec3s* arg1)
         cmf->zw = temp1 * sin + temp2 * cos;
     }
 
-    if (arg1->x != 0)
-    {
+    if (arg1->x != 0) {
         sin = Math_Sins(arg1->x);
         cos = Math_Coss(arg1->x);
 
@@ -507,8 +461,7 @@ void func_800D1340(Vec3f* arg0, Vec3s* arg1)
 
 #ifdef NON_MATCHING
 // regalloc differences
-void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec)
-{
+void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
     MtxF* cmf = sCurrentMatrix;
     f32 sp30;
     f32 sp2C;
@@ -528,8 +481,7 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec)
     cmf->zw = 0.0f;
     cmf->ww = 1.0f;
 
-    if (vec->x != 0)
-    {
+    if (vec->x != 0) {
         sp24 = Math_Sins(vec->x);
         sp28 = Math_Coss(vec->x);
 
@@ -539,9 +491,7 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec)
         cmf->yz = sp2C * sp24;
         cmf->zx = sp30 * sp28;
         cmf->yx = sp30 * sp24;
-    }
-    else
-    {
+    } else {
         cmf->zz = sp2C;
         cmf->zx = sp30;
         cmf->zy = 0.0f;
@@ -550,8 +500,7 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec)
         cmf->yy = 1.0f;
     }
 
-    if (vec->z != 0)
-    {
+    if (vec->z != 0) {
         sp24 = Math_Sins(vec->z);
         sp28 = Math_Coss(vec->z);
 
@@ -568,9 +517,7 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec)
         sp2C = cmf->yy;
         cmf->xy = sp2C * sp24;
         cmf->yy = sp2C * sp28;
-    }
-    else
-    {
+    } else {
         cmf->xy = 0.0f;
     }
 }
@@ -580,74 +527,73 @@ void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec)
 
 #ifdef NON_MATCHING
 // mostly regalloc differences
-Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest)
-{
+Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest) {
     u16* m1 = (u16*)&dest->m[0][0];
     u16* m2 = (u16*)&dest->m[2][0];
     s32 temp;
 
     temp = src->xx * 65536.0f;
-    m1[0] = (temp >> 0x10) & 0xFFFF;;
+    m1[0] = (temp >> 0x10) & 0xFFFF;
     m2[0] = temp & 0xFFFF;
 
     temp = src->xy * 65536.0f;
-    m1[1] = (temp >> 0x10) & 0xFFFF;;
+    m1[1] = (temp >> 0x10) & 0xFFFF;
     m2[1] = temp & 0xFFFF;
 
     temp = src->xz * 65536.0f;
-    m1[2] = (temp >> 0x10) & 0xFFFF;;
+    m1[2] = (temp >> 0x10) & 0xFFFF;
     m2[2] = temp & 0xFFFF;
 
     temp = src->xw * 65536.0f;
-    m1[3] = (temp >> 0x10) & 0xFFFF;;
+    m1[3] = (temp >> 0x10) & 0xFFFF;
     m2[3] = temp & 0xFFFF;
 
     temp = src->yx * 65536.0f;
-    m1[4] = (temp >> 0x10) & 0xFFFF;;
+    m1[4] = (temp >> 0x10) & 0xFFFF;
     m2[4] = temp & 0xFFFF;
 
     temp = src->yy * 65536.0f;
-    m1[5] = (temp >> 0x10) & 0xFFFF;;
+    m1[5] = (temp >> 0x10) & 0xFFFF;
     m2[5] = temp & 0xFFFF;
 
     temp = src->yz * 65536.0f;
-    m1[6] = (temp >> 0x10) & 0xFFFF;;
+    m1[6] = (temp >> 0x10) & 0xFFFF;
     m2[6] = temp & 0xFFFF;
 
     temp = src->yw * 65536.0f;
-    m1[7] = (temp >> 0x10) & 0xFFFF;;
+    m1[7] = (temp >> 0x10) & 0xFFFF;
     m2[7] = temp & 0xFFFF;
 
     temp = src->zx * 65536.0f;
-    m1[8] = (temp >> 0x10) & 0xFFFF;;
+    m1[8] = (temp >> 0x10) & 0xFFFF;
     m2[8] = temp & 0xFFFF;
 
     temp = src->zy * 65536.0f;
-    m1[9] = (temp >> 0x10) & 0xFFFF;;
+    m1[9] = (temp >> 0x10) & 0xFFFF;
     m2[9] = temp & 0xFFFF;
 
     temp = src->zz * 65536.0f;
-    m1[10] = (temp >> 0x10) & 0xFFFF;;
+    m1[10] = (temp >> 0x10) & 0xFFFF;
     m2[10] = temp & 0xFFFF;
 
     temp = src->zw * 65536.0f;
-    m1[11] = (temp >> 0x10) & 0xFFFF;;
+    m1[11] = (temp >> 0x10) & 0xFFFF;
     m2[11] = temp & 0xFFFF;
 
     temp = src->wx * 65536.0f;
-    m1[12] = (temp >> 0x10) & 0xFFFF;;
+    m1[12] = (temp >> 0x10) & 0xFFFF;
     m2[12] = temp & 0xFFFF;
 
     temp = src->wy * 65536.0f;
-    m1[13] = (temp >> 0x10) & 0xFFFF;;
+    m1[13] = (temp >> 0x10) & 0xFFFF;
     m2[13] = temp & 0xFFFF;
 
     temp = src->wz * 65536.0f;
-    m1[14] = (temp >> 0x10) & 0xFFFF;;
+    m1[14] = (temp >> 0x10) & 0xFFFF;
     m2[14] = temp & 0xFFFF;
 
     temp = src->ww * 65536.0f;
-    m1[15] = (temp >> 0x10) & 0xFFFF;;
+    m1[15] = (temp >> 0x10) & 0xFFFF;
     m2[15] = temp & 0xFFFF;
 
     return dest;
@@ -656,23 +602,19 @@ Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest)
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/Matrix_MtxFToMtx.s")
 #endif
 
-Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line)
-{
+Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line) {
     return Matrix_MtxFToMtx(Matrix_CheckFloats(sCurrentMatrix, file, line), dest);
 }
 
-Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line)
-{
+Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line) {
     return Matrix_ToMtx(Graph_Alloc(gfxCtx, sizeof(Mtx)), file, line);
 }
 
-Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx)
-{
+Mtx* Matrix_MtxFToNewMtx(MtxF* src, GraphicsContext* gfxCtx) {
     return Matrix_MtxFToMtx(src, Graph_Alloc(gfxCtx, sizeof(Mtx)));
 }
 
-void Matrix_MultVec3f(Vec3f* src, Vec3f* dest)
-{
+void Matrix_MultVec3f(Vec3f* src, Vec3f* dest) {
     MtxF* cmf = sCurrentMatrix;
 
     dest->x = cmf->wx + (cmf->xx * src->x + cmf->yx * src->y + cmf->zx * src->z);
@@ -680,8 +622,7 @@ void Matrix_MultVec3f(Vec3f* src, Vec3f* dest)
     dest->z = cmf->wz + (cmf->xz * src->x + cmf->yz * src->y + cmf->zz * src->z);
 }
 
-void Matrix_MtxFCopy(MtxF* dest, MtxF* src)
-{
+void Matrix_MtxFCopy(MtxF* dest, MtxF* src) {
     dest->xx = src->xx;
     dest->xy = src->xy;
     dest->xz = src->xz;
@@ -716,8 +657,7 @@ void Matrix_MtxFCopy(MtxF* dest, MtxF* src)
     dest->ww = src->ww;
 }
 
-void Matrix_MtxToMtxF(Mtx* src, MtxF* dest)
-{
+void Matrix_MtxToMtxF(Mtx* src, MtxF* dest) {
     u16* m1 = (u16*)&src->m[0][0];
     u16* m2 = (u16*)&src->m[2][0];
 
@@ -739,15 +679,13 @@ void Matrix_MtxToMtxF(Mtx* src, MtxF* dest)
     dest->ww = ((m1[15] << 0x10) | m2[15]) * (1 / 65536.0f);
 }
 
-void Matrix_MultVec3fExt(Vec3f* src, Vec3f* dest, MtxF* mf)
-{
+void Matrix_MultVec3fExt(Vec3f* src, Vec3f* dest, MtxF* mf) {
     dest->x = mf->wx + (mf->xx * src->x + mf->yx * src->y + mf->zx * src->z);
     dest->y = mf->wy + (mf->xy * src->x + mf->yy * src->y + mf->zy * src->z);
     dest->z = mf->wz + (mf->xz * src->x + mf->yz * src->y + mf->zz * src->z);
 }
 
-void Matrix_Reverse(MtxF* mf)
-{
+void Matrix_Reverse(MtxF* mf) {
     f32 temp;
 
     temp = mf->xy;
@@ -764,8 +702,7 @@ void Matrix_Reverse(MtxF* mf)
 }
 
 #ifdef NON_MATCHING
-void func_800D1FD4(MtxF* mf)
-{
+void func_800D1FD4(MtxF* mf) {
     MtxF* cmf = sCurrentMatrix;
     f32 temp;
 
@@ -790,24 +727,23 @@ void func_800D1FD4(MtxF* mf)
 
 #ifdef NON_MATCHING
 // same differences as func_800D2264
-void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag)
-{
-    vec->x = func_800FD250(-mf->zy, sqrtf(SQ(mf->zx) + SQ(mf->zz))) * (32768 / M_PI);
+void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
+    vec->x = Math_atan2f(-mf->zy, sqrtf(SQ(mf->zx) + SQ(mf->zz))) * (32768 / M_PI);
 
-    if ((vec->x == 0x4000) || (vec->x == -0x4000))
-    {
+    if ((vec->x == 0x4000) || (vec->x == -0x4000)) {
         vec->z = 0;
-        vec->y = func_800FD250(-mf->xz, mf->xx) * (32768 / M_PI);
+        vec->y = Math_atan2f(-mf->xz, mf->xx) * (32768 / M_PI);
         return;
     }
 
-    vec->y = func_800FD250(mf->zx, mf->zz) * (32768 / M_PI);
+    vec->y = Math_atan2f(mf->zx, mf->zz) * (32768 / M_PI);
 
     if (!flag)
-        vec->z = func_800FD250(mf->xy, mf->yy) * (32768 / M_PI);
+        vec->z = Math_atan2f(mf->xy, mf->yy) * (32768 / M_PI);
     else
-        vec->z = func_800FD250(mf->xy / sqrtf(SQ(mf->xx) + SQ(mf->xz) + SQ(mf->xy)), 
-                               mf->yy / sqrtf(SQ(mf->yx) + SQ(mf->yz) + SQ(mf->yy))) * (32768 / M_PI);
+        vec->z = Math_atan2f(mf->xy / sqrtf(SQ(mf->xx) + SQ(mf->xz) + SQ(mf->xy)),
+                             mf->yy / sqrtf(SQ(mf->yx) + SQ(mf->yz) + SQ(mf->yy))) *
+                 (32768 / M_PI);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D20CC.s")
@@ -815,24 +751,23 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag)
 
 #ifdef NON_MATCHING
 // same differences as func_800D20CC
-void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag)
-{
-    vec->y = func_800FD250(-mf->xz, sqrtf(SQ(mf->xx) + SQ(mf->xy))) * (32768 / M_PI);
+void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
+    vec->y = Math_atan2f(-mf->xz, sqrtf(SQ(mf->xx) + SQ(mf->xy))) * (32768 / M_PI);
 
-    if ((vec->y == 0x4000) || (vec->y == -0x4000))
-    {
+    if ((vec->y == 0x4000) || (vec->y == -0x4000)) {
         vec->x = 0;
-        vec->z = func_800FD250(-mf->yx, mf->yy) * (32768 / M_PI);
+        vec->z = Math_atan2f(-mf->yx, mf->yy) * (32768 / M_PI);
         return;
     }
 
-    vec->z = func_800FD250(mf->xy, mf->xx) * (32768 / M_PI);
+    vec->z = Math_atan2f(mf->xy, mf->xx) * (32768 / M_PI);
 
     if (!flag)
-        vec->x = func_800FD250(mf->yz, mf->zz) * (32768 / M_PI);
+        vec->x = Math_atan2f(mf->yz, mf->zz) * (32768 / M_PI);
     else
-        vec->x = func_800FD250(mf->yz / sqrtf(SQ(mf->yx) + SQ(mf->yy) + SQ(mf->yz)), 
-                               mf->zz / sqrtf(SQ(mf->zx) + SQ(mf->zy) + SQ(mf->zz))) * (32768 / M_PI);
+        vec->x = Math_atan2f(mf->yz / sqrtf(SQ(mf->yx) + SQ(mf->yy) + SQ(mf->yz)),
+                             mf->zz / sqrtf(SQ(mf->zx) + SQ(mf->zy) + SQ(mf->zz))) *
+                 (32768 / M_PI);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D2264.s")
@@ -840,8 +775,7 @@ void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag)
 
 #ifdef NON_MATCHING
 // regalloc differences
-void func_800D23FC(f32 f, Vec3f* vec, u8 mode)
-{
+void func_800D23FC(f32 f, Vec3f* vec, u8 mode) {
     MtxF* cmf;
     f32 sin;
     f32 cos;
@@ -851,10 +785,8 @@ void func_800D23FC(f32 f, Vec3f* vec, u8 mode)
     f32 temp3;
     f32 temp4;
 
-    if (mode == MTXMODE_APPLY)
-    {
-        if (f != 0)
-        {
+    if (mode == MTXMODE_APPLY) {
+        if (f != 0) {
             cmf = sCurrentMatrix;
 
             sin = sinf(f);
@@ -884,13 +816,10 @@ void func_800D23FC(f32 f, Vec3f* vec, u8 mode)
             cmf->yz = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
             cmf->zz = temp3 * cos + vec->z * temp4 + sin * (temp1 * vec->y - temp2 * vec->x);
         }
-    }
-    else
-    {
+    } else {
         cmf = sCurrentMatrix;
 
-        if (f != 0)
-        {
+        if (f != 0) {
             sin = sinf(f);
             cos = cosf(f);
             rCos = 1.0f - cos;
@@ -921,9 +850,7 @@ void func_800D23FC(f32 f, Vec3f* vec, u8 mode)
             cmf->wy = 0.0f;
             cmf->wz = 0.0f;
             cmf->ww = 1.0f;
-        }
-        else
-        {
+        } else {
             cmf->xy = 0.0f;
             cmf->xz = 0.0f;
             cmf->xw = 0.0f;
@@ -947,17 +874,16 @@ void func_800D23FC(f32 f, Vec3f* vec, u8 mode)
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D23FC.s")
 #endif
 
-MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line)
-{
+MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
     s32 i, j;
 
-    for (i = 0; i < 4; i++)
-    {
-        for (j = 0; j < 4; j++)
-        {
-            if (!(-32768.0f <= mf->mf[i][j]) || !(mf->mf[i][j] < 32768.0f))
-            {
-                osSyncPrintf("%s %d: [%s] =\n/ %12.6f %12.6f %12.6f %12.6f \\\n| %12.6f %12.6f %12.6f %12.6f |\n| %12.6f %12.6f %12.6f %12.6f |\n\\ %12.6f %12.6f %12.6f %12.6f /\n", file, line, "mf", mf->xx, mf->yx, mf->zx, mf->wx, mf->xy, mf->yy, mf->zy, mf->wy, mf->xz, mf->yz, mf->zz, mf->wz, mf->xw, mf->yw, mf->zw, mf->ww);
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
+            if (!(-32768.0f <= mf->mf[i][j]) || !(mf->mf[i][j] < 32768.0f)) {
+                osSyncPrintf("%s %d: [%s] =\n/ %12.6f %12.6f %12.6f %12.6f \\\n| %12.6f %12.6f %12.6f %12.6f |\n| "
+                             "%12.6f %12.6f %12.6f %12.6f |\n\\ %12.6f %12.6f %12.6f %12.6f /\n",
+                             file, line, "mf", mf->xx, mf->yx, mf->zx, mf->wx, mf->xy, mf->yy, mf->zy, mf->wy, mf->xz,
+                             mf->yz, mf->zz, mf->wz, mf->xw, mf->yw, mf->zw, mf->ww);
                 Fault_AddHungupAndCrash(file, line);
             }
         }
@@ -966,8 +892,7 @@ MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line)
     return mf;
 }
 
-void func_800D2A34(MtxF* mf, f32 arg1, f32 arg2, f32 arg3, f32 arg4)
-{
+void func_800D2A34(MtxF* mf, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     mf->xy = 0.0f;
     mf->xz = 0.0f;
     mf->xw = 0.0f;
@@ -986,16 +911,14 @@ void func_800D2A34(MtxF* mf, f32 arg1, f32 arg2, f32 arg3, f32 arg4)
     mf->ww = 1.0f;
 }
 
-void func_800D2A98(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4)
-{
+void func_800D2A98(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     MtxF mf;
 
     func_800D2A34(&mf, arg1, arg2, arg3, arg4);
     func_801064E0(&mf, mtx);
 }
 
-void func_800D2AE4(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4)
-{
+void func_800D2AE4(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     u16* m1 = (u16*)&mtx->m[0][0];
     u16* m2 = (u16*)&mtx->m[2][0];
     u32 temp;
@@ -1047,8 +970,7 @@ void func_800D2AE4(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4)
     m2[15] = 0;
 }
 
-void func_800D2BD0(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6)
-{
+void func_800D2BD0(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
     u16* m1 = (u16*)&mtx->m[0][0];
     u16* m2 = (u16*)&mtx->m[2][0];
     u32 temp;
@@ -1102,8 +1024,7 @@ void func_800D2BD0(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f
 
 #ifdef NON_MATCHING
 // minor ordering and regalloc differences
-void func_800D2CEC(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6)
-{
+void func_800D2CEC(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
     u16* m1 = (u16*)&mtx->m[0][0];
     u16* m2 = (u16*)&mtx->m[2][0];
     u32 temp;

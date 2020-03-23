@@ -1,6 +1,6 @@
 #include "z_en_elf.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000030
 
 void EnElf_Init(EnElf* this, GlobalContext* globalCtx);

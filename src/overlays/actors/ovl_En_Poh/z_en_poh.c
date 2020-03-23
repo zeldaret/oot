@@ -1,6 +1,6 @@
 #include "z_en_poh.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00001015
 
 void EnPoh_Init(EnPoh* this, GlobalContext* globalCtx);

@@ -3,20 +3,20 @@
 
 #include <z64.h>
 
-#define DECLARE_SEGMENT(name) \
+#define DECLARE_SEGMENT(name)          \
     extern u8 _##name##SegmentStart[]; \
     extern u8 _##name##SegmentEnd[];
 
-#define DECLARE_ROM_SEGMENT(name) \
+#define DECLARE_ROM_SEGMENT(name)         \
     extern u8 _##name##SegmentRomStart[]; \
     extern u8 _##name##SegmentRomEnd[];
 
-#define DECLARE_BSS_SEGMENT(name) \
+#define DECLARE_BSS_SEGMENT(name)         \
     extern u8 _##name##SegmentBssStart[]; \
     extern u8 _##name##SegmentBssEnd[];
 
 #define DECLARE_OVERLAY_SEGMENT(name) \
-    DECLARE_SEGMENT(ovl_##name) \
+    DECLARE_SEGMENT(ovl_##name)       \
     DECLARE_ROM_SEGMENT(ovl_##name)
 
 DECLARE_SEGMENT(boot)
@@ -1090,6 +1090,5 @@ DECLARE_ROM_SEGMENT(testroom_room_1)
 DECLARE_ROM_SEGMENT(testroom_room_2)
 DECLARE_ROM_SEGMENT(testroom_room_3)
 DECLARE_ROM_SEGMENT(testroom_room_4)
-
 
 #endif

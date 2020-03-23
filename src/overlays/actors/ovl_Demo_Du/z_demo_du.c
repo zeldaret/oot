@@ -1,6 +1,6 @@
 #include "z_demo_du.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void DemoDu_Init(DemoDu* this, GlobalContext* globalCtx);

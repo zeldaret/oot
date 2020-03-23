@@ -49,7 +49,7 @@ glabel func_80ABCF4C
 /* 00444 80ABCFF4 861900B6 */  lh      $t9, 0x00B6($s0)           ## 000000B6
 /* 00448 80ABCFF8 C60C0094 */  lwc1    $f12, 0x0094($s0)          ## 00000094
 /* 0044C 80ABCFFC C60E0090 */  lwc1    $f14, 0x0090($s0)          ## 00000090
-/* 00450 80ABD000 0C03F494 */  jal     func_800FD250              
+/* 00450 80ABD000 0C03F494 */  jal     Math_atan2f              
 /* 00454 80ABD004 A6190032 */  sh      $t9, 0x0032($s0)           ## 00000032
 /* 00458 80ABD008 E7A0002C */  swc1    $f0, 0x002C($sp)           
 /* 0045C 80ABD00C 0C041184 */  jal     cosf

@@ -1,6 +1,6 @@
 #include "z_en_kusa.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00800010
 
 void EnKusa_Init(EnKusa* this, GlobalContext* globalCtx);

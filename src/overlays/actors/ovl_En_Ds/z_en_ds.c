@@ -1,6 +1,6 @@
 #include "z_en_ds.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnDs_Init(EnDs* this, GlobalContext* globalCtx);
@@ -62,6 +62,3 @@ const ActorInit En_Ds_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ds/func_809FDA7C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ds/EnDs_Draw.s")
-
-
-

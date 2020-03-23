@@ -1,6 +1,6 @@
 #include "z_obj_lightswitch.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ObjLightswitch_Init(ObjLightswitch* this, GlobalContext* globalCtx);

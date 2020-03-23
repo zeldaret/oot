@@ -1,6 +1,6 @@
 #include "z_en_m_thunder.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnMThunder_Init(EnMThunder* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_bg_hidan_sekizou.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHidanSekizou_Init(BgHidanSekizou* this, GlobalContext* globalCtx);

@@ -1,31 +1,28 @@
 #include <global.h>
 
-const u8 *strchr(const u8 *str, s32 ch)
-{
+const u8* strchr(const u8* str, s32 ch) {
     u8 c = ch;
-    while (*str != c)
-    {
-        if (*str == 0)
+    while (*str != c) {
+        if (*str == 0) {
             return NULL;
+        }
         str++;
     }
     return str;
 }
 
-size_t strlen(const u8 *str)
-{
-    const u8 *ptr = str;
-    while (*ptr)
+size_t strlen(const u8* str) {
+    const u8* ptr = str;
+    while (*ptr) {
         ptr++;
+    }
     return ptr - str;
 }
 
-void *memcpy(void *dst, const void *src, size_t size)
-{
-    u8 *_dst = dst;
-    const u8 *_src = src;
-    while (size > 0)
-    {
+void* memcpy(void* dst, const void* src, size_t size) {
+    u8* _dst = dst;
+    const u8* _src = src;
+    while (size > 0) {
         *_dst++ = *_src++;
         size--;
     }

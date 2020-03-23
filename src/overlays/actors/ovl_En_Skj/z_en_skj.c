@@ -1,6 +1,6 @@
 #include "z_en_skj.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000015
 
 void EnSkj_Init(EnSkj* this, GlobalContext* globalCtx);
@@ -212,4 +212,3 @@ const ActorInit En_Skj_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skj/func_80B014E4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skj/EnSkj_Draw.s")
-

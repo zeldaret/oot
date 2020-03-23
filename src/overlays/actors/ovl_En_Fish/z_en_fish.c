@@ -1,6 +1,6 @@
 #include "z_en_fish.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnFish_Init(EnFish* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_en_trap.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnTrap_Init(EnTrap* this, GlobalContext* globalCtx);

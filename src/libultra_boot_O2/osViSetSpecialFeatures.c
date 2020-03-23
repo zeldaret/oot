@@ -1,7 +1,6 @@
 #include <global.h>
 
-void osViSetSpecialFeatures(u32 func)
-{
+void osViSetSpecialFeatures(u32 func) {
     register u32 int_disabled = __osDisableInt();
     if (func & OS_VI_GAMMA_ON) {
         __osViNext->features |= OS_VI_GAMMA;

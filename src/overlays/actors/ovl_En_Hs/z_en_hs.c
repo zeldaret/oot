@@ -1,6 +1,6 @@
 #include "z_en_hs.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnHs_Init(EnHs* this, GlobalContext* globalCtx);

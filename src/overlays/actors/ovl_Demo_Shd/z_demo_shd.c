@@ -1,6 +1,6 @@
 #include "z_demo_shd.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void DemoShd_Init(DemoShd* this, GlobalContext* globalCtx);

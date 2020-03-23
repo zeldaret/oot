@@ -1,6 +1,6 @@
 #include "z_bg_spot00_hanebasi.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgSpot00Hanebasi_Init(BgSpot00Hanebasi* this, GlobalContext* globalCtx);

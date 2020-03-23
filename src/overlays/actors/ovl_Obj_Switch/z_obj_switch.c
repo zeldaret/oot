@@ -1,6 +1,6 @@
 #include "z_obj_switch.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ObjSwitch_Init(ObjSwitch* this, GlobalContext* globalCtx);

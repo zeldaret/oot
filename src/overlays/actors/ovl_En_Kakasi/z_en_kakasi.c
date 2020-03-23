@@ -1,6 +1,6 @@
 #include "z_en_kakasi.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000009
 
 void EnKakasi_Init(EnKakasi* this, GlobalContext* globalCtx);

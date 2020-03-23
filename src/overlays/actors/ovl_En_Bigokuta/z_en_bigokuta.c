@@ -1,6 +1,6 @@
 #include "z_en_bigokuta.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void EnBigokuta_Init(EnBigokuta* this, GlobalContext* globalCtx);

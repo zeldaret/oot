@@ -1,6 +1,6 @@
 #include "z_en_diving_game.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnDivingGame_Init(EnDivingGame* this, GlobalContext* globalCtx);

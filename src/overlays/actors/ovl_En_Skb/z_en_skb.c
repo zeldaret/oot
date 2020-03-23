@@ -1,6 +1,6 @@
 #include "z_en_skb.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnSkb_Init(EnSkb* this, GlobalContext* globalCtx);

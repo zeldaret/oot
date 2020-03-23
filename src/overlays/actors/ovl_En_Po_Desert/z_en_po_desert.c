@@ -1,6 +1,6 @@
 #include "z_en_po_desert.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00001090
 
 void EnPoDesert_Init(EnPoDesert* this, GlobalContext* globalCtx);

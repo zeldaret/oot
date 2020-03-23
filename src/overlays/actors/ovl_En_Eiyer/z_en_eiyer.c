@@ -1,6 +1,6 @@
 #include "z_en_eiyer.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnEiyer_Init(EnEiyer* this, GlobalContext* globalCtx);

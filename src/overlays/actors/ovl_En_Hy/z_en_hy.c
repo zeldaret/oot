@@ -1,6 +1,6 @@
 #include "z_en_hy.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnHy_Init(EnHy* this, GlobalContext* globalCtx);

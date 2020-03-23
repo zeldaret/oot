@@ -1,6 +1,6 @@
 #include "z_en_jj.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnJj_Init(EnJj* this, GlobalContext* globalCtx);

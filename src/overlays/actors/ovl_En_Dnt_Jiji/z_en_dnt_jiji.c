@@ -1,6 +1,6 @@
 #include "z_en_dnt_jiji.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnDntJiji_Init(EnDntJiji* this, GlobalContext* globalCtx);

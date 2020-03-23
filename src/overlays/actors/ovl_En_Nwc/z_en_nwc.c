@@ -1,6 +1,6 @@
 #include "z_en_nwc.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnNwc_Init(EnNwc* this, GlobalContext* globalCtx);

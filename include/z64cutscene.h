@@ -1,16 +1,14 @@
 #ifndef _Z64CUTSCENE_H_
 #define _Z64CUTSCENE_H_
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u16 entrance;       // entrance index upon which the cutscene should trigger
     /* 0x02 */ u8  ageRestriction; // 0 for adult only, 1 for child only, 2 for both ages
     /* 0x03 */ u8  flag;           // event_chk_inf flag bound to the entrance cutscene
     /* 0x04 */ u32 segAddr;        // segment offset location of the cutscene
 } EntranceCutscene; // size = 0x8
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ s8    continueFlag;
     /* 0x01 */ s8    cameraRoll;
     /* 0x02 */ s16   nextPointFrame;
@@ -18,38 +16,33 @@ typedef struct
     /* 0x08 */ Vec3s pos;
 } CutsceneCameraPoint; // size = 0x10
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u16 base;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
 } CsCmdBase;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  unk_00;
     /* 0x01 */ u8  setting;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
 } CsCmdEnvLighting;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8  unk_00;
     /* 0x01 */ u8  sequence;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
 } CsCmdMusicChange;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u16 type;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
 } CsCmdMusicFade;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u16 unk_00;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
@@ -58,8 +51,7 @@ typedef struct
     /* 0x08 */ u8  unk_08;
 } CsCmdUnknown9;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u16 unk_00;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
@@ -67,8 +59,7 @@ typedef struct
     /* 0x07 */ u8  minute;
 } CsCmdDayTime;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u16 base;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
@@ -77,8 +68,7 @@ typedef struct
     /* 0x0A */ u16 textId2;
 } CsCmdTextbox; // size = 0xC
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u16 action;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
@@ -88,8 +78,7 @@ typedef struct
     /* 0x24 */ Vec3i normal;
 } CsCmdActorAction; // size = 0x30
 
-typedef enum
-{
+typedef enum {
     CS_STATE_IDLE,
     CS_STATE_SKIPPABLE_INIT,
     CS_STATE_SKIPPABLE_EXEC,
@@ -97,8 +86,7 @@ typedef enum
     CS_STATE_UNSKIPPABLE_EXEC
 } CutsceneState;
 
-typedef enum
-{
+typedef enum {
     CS_CMD_00 = 0x0000,
     CS_CMD_CAMERA_POS = 0x0001,
     CS_CMD_CAMERA_FOCUS = 0x0002,

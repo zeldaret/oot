@@ -1,6 +1,6 @@
 #include "z_arrow_fire.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void ArrowFire_Init(ArrowFire* this, GlobalContext* globalCtx);

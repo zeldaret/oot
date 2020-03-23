@@ -6,8 +6,7 @@
 
 #include <ultra64/controller.h>
 
-typedef struct
-{
+typedef struct {
     /* 0x0000 */ OSContStatus pad_status[4];
     /* 0x0010 */ OSMesg msgbuf1[1];
     /* 0x0014 */ OSMesg msgbuf2[1];
@@ -24,10 +23,10 @@ typedef struct
     /* 0x02A8 */ u8 unk_2A8;
     /* 0x02A9 */ u8 unk_2A9;
     /* 0x02AA */ u8 unk_2AA[4];
-    /* 0x02AA */ u8 unk_2AE[4]; //Looks like 1 if vibration pack, 2 if (maybe controller pack)?
+    /* 0x02AA */ u8 unk_2AE[4]; // Looks like 1 if vibration pack, 2 if (maybe controller pack)?
     /* 0x02B2 */ u8 unk_2B2[4];
     /* 0x02B6 */ u8 unk_2B6[4];
-    /* 0x02BA */ char unk_2BA[0x02]; //probably padding
+    /* 0x02BA */ char unk_2BA[0x02]; // probably padding
     /* 0x02BC */ unk_controller_t unk_controller[4];
     /* 0x045C */ u8 unk_45C;
     /* 0x045D */ u8 unk_45D;
@@ -37,5 +36,5 @@ typedef struct
     /* 0x0464 */ s32 unk_464;
 } PadMgr; // size = 0x468
 
- 
-#endif //_PADMGR_H_
+
+#endif

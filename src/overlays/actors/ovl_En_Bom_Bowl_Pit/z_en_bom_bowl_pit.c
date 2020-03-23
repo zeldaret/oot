@@ -1,6 +1,6 @@
 #include "z_en_bom_bowl_pit.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnBomBowlPit_Init(EnBomBowlPit* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_en_ssh.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void EnSsh_Init(EnSsh* this, GlobalContext* globalCtx);

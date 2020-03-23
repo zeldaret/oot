@@ -1,6 +1,6 @@
 #include "z_en_honotrap.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnHonotrap_Init(EnHonotrap* this, GlobalContext* globalCtx);

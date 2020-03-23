@@ -1,6 +1,6 @@
 #include "z_obj_tsubo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00800010
 
 void ObjTsubo_Init(ObjTsubo* this, GlobalContext* globalCtx);
