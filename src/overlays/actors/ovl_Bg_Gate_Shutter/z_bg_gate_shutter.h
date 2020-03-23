@@ -5,8 +5,13 @@
 #include <global.h>
 
 typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x30];
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ ActorFunc actionFunc;
+    /* 0x0168 */ s16 unk_168;
+    /* 0x016C */ f32 somePosX;
+    /* 0x0170 */ f32 somePosY;
+    /* 0x0174 */ f32 somePosZ;
+    /* 0x0178 */ s16 unk_178;
 } BgGateShutter; // size = 0x017C
 
 extern const ActorInit Bg_Gate_Shutter_InitVars;

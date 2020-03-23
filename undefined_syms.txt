@@ -239,6 +239,10 @@ D_06000B70 = 0x06000B70;
 // z_effect_ss_extra
 D_06000DC0 = 0x06000DC0;
 
+// z_bg_gate_shutter
+D_06001CD0 = 0x06001CD0;
+D_06001DA8 = 0x06001DA8;
+
 // z_bg_gjyo_bridge
 D_06000600 = 0x06000600;
 D_06000DB8 = 0x06000DB8;
