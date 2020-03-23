@@ -1,6 +1,6 @@
 #include "z_obj_mure3.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ObjMure3_Init(ObjMure3* this, GlobalContext* globalCtx);

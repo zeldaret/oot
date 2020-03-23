@@ -1,6 +1,6 @@
 #include "z_bg_jya_block.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgJyaBlock_Init(BgJyaBlock* this, GlobalContext* globalCtx);

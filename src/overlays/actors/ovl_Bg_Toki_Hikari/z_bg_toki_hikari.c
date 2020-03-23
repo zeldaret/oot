@@ -1,6 +1,6 @@
 #include "z_bg_toki_hikari.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000020
 
 void BgTokiHikari_Init(BgTokiHikari* this, GlobalContext* globalCtx);

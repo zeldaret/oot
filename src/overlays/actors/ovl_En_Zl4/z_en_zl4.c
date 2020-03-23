@@ -1,6 +1,6 @@
 #include "z_en_zl4.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnZl4_Init(EnZl4* this, GlobalContext* globalCtx);

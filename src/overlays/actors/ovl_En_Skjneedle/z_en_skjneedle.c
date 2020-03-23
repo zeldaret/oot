@@ -1,6 +1,6 @@
 #include "z_en_skjneedle.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000205
 
 void EnSkjneedle_Init(EnSkjneedle* this, GlobalContext* globalCtx);

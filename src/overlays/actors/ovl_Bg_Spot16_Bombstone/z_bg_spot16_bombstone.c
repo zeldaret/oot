@@ -1,6 +1,6 @@
 #include "z_bg_spot16_bombstone.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgSpot16Bombstone_Init(BgSpot16Bombstone* this, GlobalContext* globalCtx);

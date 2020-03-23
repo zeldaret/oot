@@ -133,29 +133,25 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_rcp/func_80094E54.s")
 
-Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y)
-{
+Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y) {
     return Draw_TexScroll(gfxCtx, x, y, 0, 0);
 }
 
-Gfx* Draw_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height)
-{
+Gfx* Draw_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height) {
     Gfx* displayList = Graph_Alloc(gfxCtx, 3 * sizeof(Gfx));
 
     x %= 2048;
     y %= 2048;
 
     gDPTileSync(displayList);
-    gDPSetTileSize(displayList+1, 0, x, y,
-                   (x+((width-1)<<2)), (y+((height-1)<<2)));
-    gSPEndDisplayList(displayList+2);
+    gDPSetTileSize(displayList + 1, 0, x, y, (x + ((width - 1) << 2)), (y + ((height - 1) << 2)));
+    gSPEndDisplayList(displayList + 2);
 
     return displayList;
 }
 
-Gfx* Draw_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1,
-                       s32 tile2, u32 x2, u32 y2, s32 width2, s32 height2)
-{
+Gfx* Draw_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
+                       u32 y2, s32 width2, s32 height2) {
     Gfx* displayList = Graph_Alloc(gfxCtx, 5 * sizeof(Gfx));
 
     x1 %= 2048;
@@ -164,20 +160,16 @@ Gfx* Draw_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 w
     y2 %= 2048;
 
     gDPTileSync(displayList);
-    gDPSetTileSize(displayList+1, tile1, x1, y1,
-                   (x1+((width1-1)<<2)), (y1+((height1-1)<<2)));
-    gDPTileSync(displayList+2);
-    gDPSetTileSize(displayList+3, tile2, x2, y2,
-                   (x2+((width2-1)<<2)), (y2+((height2-1)<<2)));
-    gSPEndDisplayList(displayList+4);
+    gDPSetTileSize(displayList + 1, tile1, x1, y1, (x1 + ((width1 - 1) << 2)), (y1 + ((height1 - 1) << 2)));
+    gDPTileSync(displayList + 2);
+    gDPSetTileSize(displayList + 3, tile2, x2, y2, (x2 + ((width2 - 1) << 2)), (y2 + ((height2 - 1) << 2)));
+    gSPEndDisplayList(displayList + 4);
 
     return displayList;
 }
 
-Gfx* Draw_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1,
-                               s32 tile2, u32 x2, u32 y2, s32 width2, s32 height2,
-                               s32 red, s32 green, s32 blue, s32 alpha)
-{
+Gfx* Draw_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
+                               u32 x2, u32 y2, s32 width2, s32 height2, s32 red, s32 green, s32 blue, s32 alpha) {
     Gfx* displayList = Graph_Alloc(gfxCtx, 6 * sizeof(Gfx));
 
     x1 %= 2048;
@@ -186,13 +178,11 @@ Gfx* Draw_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y
     y2 %= 2048;
 
     gDPTileSync(displayList);
-    gDPSetTileSize(displayList+1, tile1, x1, y1,
-                   (x1+((width1-1)<<2)), (y1+((height1-1)<<2)));
-    gDPTileSync(displayList+2);
-    gDPSetTileSize(displayList+3, tile2, x2, y2,
-                   (x2+((width2-1)<<2)), (y2+((height2-1)<<2)));
-    gDPSetEnvColor(displayList+4, red, green, blue, alpha);
-    gSPEndDisplayList(displayList+5);
+    gDPSetTileSize(displayList + 1, tile1, x1, y1, (x1 + ((width1 - 1) << 2)), (y1 + ((height1 - 1) << 2)));
+    gDPTileSync(displayList + 2);
+    gDPSetTileSize(displayList + 3, tile2, x2, y2, (x2 + ((width2 - 1) << 2)), (y2 + ((height2 - 1) << 2)));
+    gDPSetEnvColor(displayList + 4, red, green, blue, alpha);
+    gSPEndDisplayList(displayList + 5);
 
     return displayList;
 }
@@ -202,4 +192,3 @@ Gfx* Draw_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_rcp/func_80095248.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_rcp/func_80095974.s")
-

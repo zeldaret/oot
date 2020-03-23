@@ -1,6 +1,6 @@
 #include "z_en_ice_hono.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnIceHono_Init(EnIceHono* this, GlobalContext* globalCtx);

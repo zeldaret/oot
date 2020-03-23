@@ -1,6 +1,6 @@
 #include "z_bg_haka.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHaka_Init(BgHaka* this, GlobalContext* globalCtx);

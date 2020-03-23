@@ -3,8 +3,7 @@
 
 OSPiHandle __CartRomHandle;
 
-OSPiHandle* osCartRomInit()
-{
+OSPiHandle* osCartRomInit() {
     register u32 a;
     register s32 status;
     register u32 prevInt;
@@ -17,8 +16,7 @@ OSPiHandle* osCartRomInit()
 
     __osPiGetAccess();
 
-    if (!D_8000AF10)
-    {
+    if (!D_8000AF10) {
         __osPiRelAccess();
         return &__CartRomHandle;
     }
@@ -30,8 +28,9 @@ OSPiHandle* osCartRomInit()
     __CartRomHandle.speed = 0;
     bzero(&__CartRomHandle.transferInfo, sizeof(__OSTranxInfo));
 
-    while (status = HW_REG(PI_STATUS_REG, u32), status & PI_STATUS_ERROR)
+    while (status = HW_REG(PI_STATUS_REG, u32), status & PI_STATUS_ERROR) {
         ;
+    }
 
     lastLatency = HW_REG(PI_BSD_DOM1_LAT_REG, u32);
     lastPageSize = HW_REG(PI_BSD_DOM1_PGS_REG, u32);

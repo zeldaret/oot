@@ -1,6 +1,6 @@
 #include "z_en_niw.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00800010
 
 void EnNiw_Init(EnNiw* this, GlobalContext* globalCtx);

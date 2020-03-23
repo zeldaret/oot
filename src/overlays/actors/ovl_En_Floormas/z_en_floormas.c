@@ -1,6 +1,6 @@
 #include "z_en_floormas.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000405
 
 void EnFloormas_Init(EnFloormas* this, GlobalContext* globalCtx);

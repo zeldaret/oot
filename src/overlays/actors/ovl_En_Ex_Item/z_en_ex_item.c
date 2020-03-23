@@ -1,6 +1,6 @@
 #include "z_en_ex_item.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnExItem_Init(EnExItem* this, GlobalContext* globalCtx);

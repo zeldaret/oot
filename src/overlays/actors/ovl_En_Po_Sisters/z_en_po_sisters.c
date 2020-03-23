@@ -1,6 +1,6 @@
 #include "z_en_po_sisters.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00005215
 
 void EnPoSisters_Init(EnPoSisters* this, GlobalContext* globalCtx);

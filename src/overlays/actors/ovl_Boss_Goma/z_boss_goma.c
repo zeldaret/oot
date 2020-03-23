@@ -1,6 +1,6 @@
 #include "z_boss_goma.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void BossGoma_Init(BossGoma* this, GlobalContext* globalCtx);

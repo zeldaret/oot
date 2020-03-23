@@ -1,6 +1,6 @@
 #include "z_en_du.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000009
 
 void EnDu_Init(EnDu* this, GlobalContext* globalCtx);

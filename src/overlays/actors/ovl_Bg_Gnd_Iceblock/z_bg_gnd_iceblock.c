@@ -1,6 +1,6 @@
 #include "z_bg_gnd_iceblock.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgGndIceblock_Init(BgGndIceblock* this, GlobalContext* globalCtx);
@@ -48,4 +48,3 @@ const ActorInit Bg_Gnd_Iceblock_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Iceblock/BgGndIceblock_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Gnd_Iceblock/BgGndIceblock_Draw.s")
-

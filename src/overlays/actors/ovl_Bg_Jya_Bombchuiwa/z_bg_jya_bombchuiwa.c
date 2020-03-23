@@ -1,6 +1,6 @@
 #include "z_bg_jya_bombchuiwa.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000001
 
 void BgJyaBombchuiwa_Init(BgJyaBombchuiwa* this, GlobalContext* globalCtx);

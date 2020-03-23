@@ -1,6 +1,6 @@
 #include "z_demo_6k.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void Demo6K_Init(Demo6K* this, GlobalContext* globalCtx);

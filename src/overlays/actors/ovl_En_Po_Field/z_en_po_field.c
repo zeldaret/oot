@@ -1,6 +1,6 @@
 #include "z_en_po_field.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00001035
 
 void EnPoField_Init(EnPoField* this, GlobalContext* globalCtx);
@@ -104,4 +104,3 @@ const ActorInit En_Po_Field_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD6BF4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Po_Field/func_80AD6C4C.s")
-

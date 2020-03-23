@@ -1,6 +1,6 @@
 #include "z_demo_im.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000011
 
 void DemoIm_Init(DemoIm* this, GlobalContext* globalCtx);

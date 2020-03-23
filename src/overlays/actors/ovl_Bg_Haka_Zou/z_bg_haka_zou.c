@@ -1,6 +1,6 @@
 #include "z_bg_haka_zou.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgHakaZou_Init(BgHakaZou* this, GlobalContext* globalCtx);

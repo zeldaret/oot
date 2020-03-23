@@ -1,6 +1,6 @@
 #include "z_en_okuta.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnOkuta_Init(EnOkuta* this, GlobalContext* globalCtx);

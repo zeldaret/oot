@@ -1,6 +1,6 @@
 #include "z_boss_fd2.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void BossFd2_Init(BossFd2* this, GlobalContext* globalCtx);

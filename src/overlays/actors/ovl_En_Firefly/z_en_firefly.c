@@ -1,6 +1,6 @@
 #include "z_en_firefly.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00005005
 
 void EnFirefly_Init(EnFirefly* this, GlobalContext* globalCtx);

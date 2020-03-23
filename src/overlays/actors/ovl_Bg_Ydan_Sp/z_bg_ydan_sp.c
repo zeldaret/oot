@@ -1,6 +1,6 @@
 #include "z_bg_ydan_sp.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgYdanSp_Init(BgYdanSp* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_en_dy_extra.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnDyExtra_Init(EnDyExtra* this, GlobalContext* globalCtx);

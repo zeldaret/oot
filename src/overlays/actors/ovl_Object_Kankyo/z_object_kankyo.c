@@ -1,6 +1,6 @@
 #include "z_object_kankyo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000030
 
 void ObjectKankyo_Init(ObjectKankyo* this, GlobalContext* globalCtx);

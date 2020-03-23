@@ -1,6 +1,6 @@
 #include "z_bg_mizu_water.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgMizuWater_Init(BgMizuWater* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_en_bdfire.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnBdfire_Init(EnBdfire* this, GlobalContext* globalCtx);

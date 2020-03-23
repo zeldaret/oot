@@ -1,4 +1,24 @@
+#!/usr/bin/env python3
+
 import os
+import re
+import argparse
+
+parser = argparse.ArgumentParser(description="Computes current progress throughout the whole project.")
+parser.add_argument("-m", "--matching", dest='matching', action='store_true',
+                    help="Output matching progress instead of decompilation progress")
+args = parser.parse_args()
+
+NON_MATCHING_PATTERN = "#ifdef\s+NON_MATCHING.*?#pragma\s+GLOBAL_ASM\s*\(\s*\"(.*?)\"\s*\).*?#endif"
+
+def GetNonMatchingFunctions(files):
+    functions = []
+
+    for file in files:
+        with open(file) as f:
+            functions += re.findall(NON_MATCHING_PATTERN, f.read(), re.DOTALL)
+
+    return functions
 
 def ReadAllLines(fileName):
     lineList = list()
@@ -7,27 +27,30 @@ def ReadAllLines(fileName):
 
     return lineList
 
-def GetFiles(path):
+def GetFiles(path, ext):
     files = []
     
     for r, d, f in os.walk(path):
         for file in f:
-            if '.s' in file:
+            if file.endswith(ext):
                 files.append(os.path.join(r, file))
 
     return files
 
+nonMatchingFunctions = GetNonMatchingFunctions(GetFiles("src", ".c")) if not args.matching else []
+
 def GetNonMatchingSize(path):
     size = 0
 
-    asmFiles = GetFiles(path)
+    asmFiles = GetFiles(path, ".s")
 
     for asmFilePath in asmFiles:
-        asmLines = ReadAllLines(asmFilePath)
+        if asmFilePath not in nonMatchingFunctions:
+            asmLines = ReadAllLines(asmFilePath)
 
-        for asmLine in asmLines:
-            if (asmLine.startswith("/*")):
-                size += 4
+            for asmLine in asmLines:
+                if (asmLine.startswith("/*")):
+                    size += 4
 
     return size
 
@@ -97,12 +120,13 @@ ovlPct = 100 * ovl / ovlSize
 compiled_bytes = total
 bytesPerHeartPiece = compiled_bytes / 80
 
+adjective = "decompiled" if not args.matching else "matched"
+
 print(str(total) + " total bytes of decompilable code\n")
-print(str(src) + " bytes of code in src " + str(srcPct) + "%\n")
-#print(str(asm) + " bytes of code in asm " + str(asmPct) + "%\n")
-print(str(boot) + "/" + str(bootSize) + " bytes of code in boot " + str(bootPct) + "%\n")
-print(str(code) + "/" + str(codeSize) + " bytes of code in code " + str(codePct) + "%\n")
-print(str(ovl) + "/" + str(ovlSize) + " bytes of code in overlays " + str(ovlPct) + "%\n")
+print(str(src) + " bytes " + adjective + " in src " + str(srcPct) + "%\n")
+print(str(boot) + "/" + str(bootSize) + " bytes " + adjective + " in boot " + str(bootPct) + "%\n")
+print(str(code) + "/" + str(codeSize) + " bytes " + adjective + " in code " + str(codePct) + "%\n")
+print(str(ovl) + "/" + str(ovlSize) + " bytes " + adjective + " in overlays " + str(ovlPct) + "%\n")
 print("------------------------------------\n")
 
 heartPieces = int(src / bytesPerHeartPiece)

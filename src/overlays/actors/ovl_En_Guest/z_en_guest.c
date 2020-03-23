@@ -1,6 +1,6 @@
 #include "z_en_guest.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnGuest_Init(EnGuest* this, GlobalContext* globalCtx);

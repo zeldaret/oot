@@ -1,6 +1,6 @@
 #include "z_bg_ice_objects.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgIceObjects_Init(BgIceObjects* this, GlobalContext* globalCtx);

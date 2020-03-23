@@ -788,9 +788,7 @@ endseg
 beginseg
     name "ovl_Bg_Gate_Shutter"
     include "build/src/overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.o"
-    include "build/data/overlays/actors/z_bg_gate_shutter.data.o"
-    include "build/data/overlays/actors/z_bg_gate_shutter.rodata.o"
-    include "build/data/overlays/actors/z_bg_gate_shutter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter_reloc.o"
 endseg
 
 beginseg
@@ -3676,9 +3674,7 @@ endseg
 beginseg
     name "ovl_En_Tk"
     include "build/src/overlays/actors/ovl_En_Tk/z_en_tk.o"
-    include "build/data/overlays/actors/z_en_tk.data.o"
-    include "build/data/overlays/actors/z_en_tk.rodata.o"
-    include "build/data/overlays/actors/z_en_tk.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Tk/z_en_tk_reloc.o"
 endseg
 
 beginseg

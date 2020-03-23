@@ -1,6 +1,6 @@
 #include "z_bg_ydan_hasi.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgYdanHasi_Init(BgYdanHasi* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_bg_zg.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void BgZg_Init(BgZg* this, GlobalContext* globalCtx);
