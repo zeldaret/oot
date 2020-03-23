@@ -1640,9 +1640,7 @@ endseg
 beginseg
     name "ovl_Bg_Zg"
     include "build/src/overlays/actors/ovl_Bg_Zg/z_bg_zg.o"
-    include "build/data/overlays/actors/z_bg_zg.data.o"
-    include "build/data/overlays/actors/z_bg_zg.rodata.o"
-    include "build/data/overlays/actors/z_bg_zg.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Zg/z_bg_zg_reloc.o"
 endseg
 
 beginseg
