@@ -328,8 +328,8 @@ typedef struct {
 } WaterBoxHeader;
 
 typedef struct {
-    /* 0x00 */ u8 count; // Total number of points in the path for the actor to follow
-    /* 0x04 */ Vec3s* path;  // Segment Address of the start of the path list
+    /* 0x00 */ u8 count; // number of points in the path
+    /* 0x04 */ Vec3s* points; // Segment Address to the array of points
 } Path; // size = 0x8
 
 typedef union {
