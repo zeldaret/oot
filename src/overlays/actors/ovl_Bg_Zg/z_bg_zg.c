@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_zg.c
+ * Overlay: ovl_Bg_Zg
+ * Description: Metal bars (Ganon's Castle)
+ */
+
 #include "z_bg_zg.h"
 
 #define ROOM 0x00
