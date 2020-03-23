@@ -132,7 +132,7 @@ static void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
 static void BgZg_Draw(BgZg* this, GlobalContext* globalCtx) {
     s32 action = this->drawConfig;
 
-    if (((action < 0) || (action > 0)) || drawFuncs[action] == 0) {
+    if (((action < 0) || (action > 0)) || drawFuncs[action] == NULL) {
         // Translates to: "Drawing mode is wrong !!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
