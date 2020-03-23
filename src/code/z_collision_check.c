@@ -238,12 +238,26 @@ s32 func_8005BB48(GlobalContext* globalCtx, ColliderJntSphItem* dest, ColliderJn
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BB8C.s")
+//Set CollisionBody Property
+//arg1 could be wrong type
+s32 func_8005BB8C(GlobalContext* globalCtx, ColliderJntSphItem* collider) {
+    func_8005B9B0(globalCtx, &collider->body);
+    return 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BBB0.s")
+//Set CollisionBody Property
+//arg1 could be wrong type
+s32 func_8005BBB0(GlobalContext* globalCtx, ColliderJntSphItem* collider) {
+    func_8005B9E8(globalCtx, &collider->body);
+    return 1;
+}
 
-//wrapper for 5BA1C
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BBD4.s")
+//Set CollisionBody Property
+//arg1 could be wrong type
+s32 func_8005BBD4(GlobalContext* globalCtx, ColliderJntSphItem* collider) {
+    func_8005BA1C(globalCtx, &collider->body);
+    return 1;
+}
 
 //Initialize ColliderJntSph
 s32 func_8005BBF8(GlobalContext* globalCtx, ColliderJntSph* collision) {
