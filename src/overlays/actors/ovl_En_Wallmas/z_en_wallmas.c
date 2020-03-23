@@ -169,7 +169,7 @@ static void EnWallmas_StandStart(EnWallmas* this) {
 }
 
 static void EnWallmas_WalkStart(EnWallmas* this) {
-    func_800A529C(&this->skelAnime, &D_060041F4, 3.0f, &this->actor);
+    func_800A529C(&this->skelAnime, &D_060041F4, 3.0f);
     this->actionFunc = (ActorFunc)&EnWallmas_Walk;
     this->actor.speedXZ = 3.0f;
 }

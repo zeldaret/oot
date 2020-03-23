@@ -1143,7 +1143,8 @@ void func_800A1AC8(GlobalContext* globalCtx, u32 limbIndex, u32 actorDrawTbl, u3
 s32 SkelAnime_GetFrameCount(u32 animation);
 // ? func_800A2044(?);
 // ? func_800A24A0(?);
-Gfx* func_800A273C(GlobalContext* globalCtx, u32 limbIndex, u32 adt, u8 limbDListCnt, void* internal0, void* internal1,
+Gfx* func_800A273C(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDrawTable, s32 dListCount,
+                   SkelAnime_LimbUpdateMatrix2 updateMtxFunc, SkelAnime_LimbAppendDlist2 appendDlistFunc,
                    Actor* actor, Gfx* gfx);
 // ? func_800A2E70(?);
 // ? func_800A32EC(?);
@@ -1159,15 +1160,10 @@ Gfx* func_800A273C(GlobalContext* globalCtx, u32 limbIndex, u32 adt, u8 limbDLis
 // ? func_800A3F08(?);
 // ? func_800A3D70(?);
 // ? func_800A4478(?);
-<<<<<<< HEAD
-void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 skelAnimeInitSeg, u32 animation, Vec3s* actorDrawTable, s32 arg5, s32 limbCount);
-void func_800A46F8(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 skelAnimeInitSeg, u32 animation, Vec3s* actorDrawTable, s32 arg5, s32 limbCount);
-=======
-void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 skeleton, u32 animation, u16* unk0, u16* unk1,
-                    u8 unk2);
-void func_800A46F8(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 skeleton, u32 animation, u16* unk0, u16* unk1,
-                   u8 unk2);
->>>>>>> master
+void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 skelAnimeInitSeg, u32 animation, Vec3s* actorDrawTable,
+                    s32 arg5, s32 limbCount);
+void func_800A46F8(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 skelAnimeInitSeg, u32 animation, Vec3s* actorDrawTable,
+                    s32 arg5, s32 limbCount);
 // ? func_800A4A20(?);
 // ? func_800A4AD8(?);
 // ? func_800A4D9C(?);
@@ -1177,18 +1173,11 @@ void func_800A46F8(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 skeleton,
 s32 SkelAnime_FrameUpdateMatrix(SkelAnime* skelAnime);
 // ? func_800A4C58(?);
 // ? func_800A4FE4(?);
-<<<<<<< HEAD
-void SkelAnime_ChangeAnimation(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed, f32 unk0, f32 frameCount, u8 unk1, f32 transitionRate);
+void SkelAnime_ChangeAnimation(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed, f32 unk0, f32 frameCount,
+                               u8 unk1, f32 transitionRate);
 void func_800A51E8(SkelAnime *skelAnime, u32 animation);
 void func_800A5240(SkelAnime *skelAnime, u32 animation, f32 unk0);
 void func_800A529C(SkelAnime *skelAnime, u32 animation, f32 unk0);
-=======
-void SkelAnime_ChangeAnimation(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed, f32 unk0, f32 frameCount,
-                               u8 unk1, f32 transitionRate);
-void func_800A51E8(SkelAnime* skelAnime, u32 animation);
-void func_800A5240(SkelAnime* skelAnime, u32 animation, f32 unk0);
-void func_800A529C(SkelAnime* skelAnime, u32 animation, f32 unk0, Actor* actor);
->>>>>>> master
 // ? func_800A52F8(?);
 // ? func_800A54FC(?);
 s32 func_800A56C8(SkelAnime* skelAnime, f32 arg1);

@@ -49,7 +49,7 @@ typedef struct SkelAnime
     /* 0x02 */ u8 dListCount;
     /* 0x03 */ s8 unk_03;
     /* 0x04 */ u32 limbIndex;
-    /* 0x08 */ u32 animCurrent;
+    /* 0x08 */ u32* animCurrent;
     /* 0x0C */ f32 unk_0C;
     /* 0x10 */ f32 animFrameCount; // ending frame? 
     /* 0x14 */ f32 unk_14; // Loop frame? 
@@ -96,7 +96,7 @@ typedef enum {
     ANIMATION_TYPE2,
     ANIMATION_TYPE3,
     ANIMATION_TYPE4,
-    ANIMATION_TYPE5,
+    ANIMATION_TYPE5
 } AnimationType;
 
 typedef struct

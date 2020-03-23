@@ -436,3 +436,5 @@ D_060009E0 = 0x060009E0;
 // z_bg_toki_swd
 D_06001BD0 = 0x06001BD0;
 
+// z_skelanime
+link_animetion_segment = 0x07000000;
