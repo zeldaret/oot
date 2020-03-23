@@ -367,8 +367,6 @@ beginseg
     include "build/src/code/z_scene.o"
     include "build/src/code/z_scene_table.o"
     include "build/src/code/z_skelanime.o"
-    include "build/data/z_skelanime.data.o"
-    include "build/data/z_skelanime.bss.o"
     include "build/src/code/z_skin.o"
     include "build/data/z_skin.bss.o"
     include "build/src/code/z_skin_awb.o"

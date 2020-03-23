@@ -11,6 +11,8 @@
 #include <z64scene.h>
 #include <z64effect.h>
 #include <z64item.h>
+#include <z64animation.h>
+#include <z64dma.h>
 #include <bgm.h>
 #include <sfx.h>
 #include <color.h>
@@ -532,18 +534,6 @@ typedef struct
 
 typedef struct
 {
-    /* 0x00 */ u32      vromAddr; // VROM address (source)
-    /* 0x04 */ void*    dramAddr; // DRAM address (destination)
-    /* 0x08 */ u32      size;     // File Transfer size
-    /* 0x0C */ char*    filename; // Filename for debugging
-    /* 0x10 */ s32      line;     // Line for debugging
-    /* 0x14 */ s32      unk_14;
-    /* 0x18 */ OSMesgQueue* notifyQueue; // Message queue for the notification message
-    /* 0x1C */ OSMesg   notifyMsg;       // Completion notification message
-} DmaRequest; // size = 0x20
-
-typedef struct
-{
     /* 0x0000 */ View   view;
     /* 0x0128 */ Vtx*   vtx_128;
     /* 0x012C */ Vtx*   vtx_12C;
@@ -863,22 +853,6 @@ typedef struct
     /* 0x01E2 */ char unk_1E2[6];
 } TitleContext; // size = 0x1E8
 
-typedef struct
-{
-    /* 0x000 */ u8 unk_00;
-    /* 0x001 */ char unk_01[3];
-    /* 0x004 */ char unk_04[0x20];
-    /* 0x024 */ OSMesgQueue msgQueue;
-    /* 0x03C */ OSMesg msg;
-} AnimationEntry; // size = 0x40
-
-typedef struct
-{
-    s16 animationCount;
-    char unk_02[2];
-    AnimationEntry entries[0x32];
-} AnimationContext;
-
 // Global Context (dbg ram start: 80212020)
 typedef struct GlobalContext
 {
@@ -1035,46 +1009,6 @@ typedef struct LoadedParticleEntry
     /* 0x005E */ u8 priority; // Lower value means higher priority
     /* 0x005F */ u8 type;
 } LoadedParticleEntry; // size = 0x60
-
-typedef s32 (*SkelAnime_LimbUpdateMatrix)(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-             Vec3f* pos, Vec3s* rot, Actor* actor);
-
-typedef void (*SkelAnime_LimbAppendDlist)(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-                                          Vec3s* rot, Actor* actor);
-
-typedef struct
-{
-    Vec3s pos;
-    u8 firstChildIndex;
-    u8 nextLimbIndex;
-    Gfx* displayLists[1]; // maybe?
-} SkelLimbEntry;
-
-typedef struct SkelAnime
-{
-    /* 0x00 */ u8 limbCount;
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 dListCount;
-    /* 0x03 */ s8 unk_03;
-    /* 0x04 */ u32 limbIndex;
-    /* 0x08 */ u32 animCurrent;
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ f32 animFrameCount;
-    /* 0x14 */ f32 unk_14;
-    /* 0x18 */ f32 animCurrentFrame;
-    /* 0x1C */ f32 animPlaybackSpeed;
-    /* 0x20 */ u32 actorDrawTbl;
-    /* 0x24 */ u32 unk_24;
-    /* 0x28 */ u32 unk_28;
-    /* 0x2C */ u32 unk_2C;
-    /* 0x30 */ void* funcUnk30; /* Some function pointer */
-    /* 0x34 */ s32 unk_34;
-    /* 0x38 */ s32 unk_38;
-    /* 0x3C */ u16 unk_3C;
-    /* 0x3E */ u16 unk_3E;
-    /* 0x40 */ u16 unk_40;
-    /* 0x42 */ u16 unk_42;
-} SkelAnime; // size = 0x44
 
 typedef struct
 {
@@ -1299,14 +1233,6 @@ typedef struct
     /* 0x18 */ u8 unk_18[0x20-0x18];
     /* 0x20 */ u8 data[0x10000-0x20];
 } ISVDbg;
-
-typedef struct
-{
-    /* 0x00 */ u32 vromStart;
-    /* 0x04 */ u32 vromEnd;
-    /* 0x08 */ u32 romStart;
-    /* 0x0C */ u32 romEnd;
-} DmaEntry;
 
 typedef struct
 {

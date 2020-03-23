@@ -1123,7 +1123,7 @@ void func_800A1AC8(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDrawTab
 s32 SkelAnime_GetFrameCount(u32 animation);
 // ? func_800A2044(?);
 // ? func_800A24A0(?);
-Gfx* func_800A273C(GlobalContext* globalCtx, u32 limbIndex, u32 adt, u8 limbDListCnt, void* internal0, void* internal1, Actor* actor, Gfx* gfx);
+Gfx* func_800A273C(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDrawTable, s32 arg3, SkelAnime_LimbUpdateMatrix2 arg4, SkelAnime_LimbAppendDlist2 arg5, Actor* arg6, Gfx *arg7);
 // ? func_800A2E70(?);
 // ? func_800A32EC(?);
 // ? func_800A3334(?);
