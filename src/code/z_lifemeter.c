@@ -48,7 +48,7 @@ void Health_InitData(GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// this function still needs some work
+// this function still needs some work but it should be functionally equivalent
 void Health_UpdateData(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     f32 temp_f0 = interfaceCtx->unk_1FE * 0.1f;

@@ -520,7 +520,7 @@ s32 func_80045B08(Camera* camera, struct_80045714* b, f32 c, s16 d) {
     return 1;
 }
 
-#ifdef NON_MATCHING
+/*
 // someone who's not me can have fun with this function
 s32 func_80045C74(Camera* camera, struct_80045714* b, f32 c, f32* d, s16 arg4) {
     Vec3f sp70;
@@ -593,9 +593,8 @@ s32 func_80045C74(Camera* camera, struct_80045714* b, f32 c, f32* d, s16 arg4) {
 
     return 1;
 }
-#else
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045C74.s")
-#endif
 
 // 421 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800460A8.s")

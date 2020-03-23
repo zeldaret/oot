@@ -85,7 +85,7 @@ typedef struct struct_80095D04 {
 
 // Room Draw Polygon Type 2
 #ifdef NON_MATCHING
-// this function still needs some work
+// this function still needs some work but it should be functionally equivalent
 void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     PolygonType2* polygon2;
     PolygonDlist2* polygonDlist;

@@ -96,14 +96,14 @@ void func_8002B66C(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3,
 }
 
 #ifdef NON_MATCHING
-// this function still needs a lot of work
+// saved register, stack usage and minor ordering differences
 void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     MtxF spE8;
-    Vec2f spE0;
-    s32 index;
+    f32 spE0[2];
+    s32 i;
     f32* spAC;
-    Gfx* gfxArr[7];
+    Gfx* gfxArr[4];
     f32 temp_10;
     u8 temp_14;
     f32 temp_f0;
@@ -124,8 +124,8 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, Globa
 
     if (temp_f20 > 20.0f) {
         temp_10 = actor->shape.unk_10;
-        actor->shape.unk_10 *= 0.3f;
         temp_14 = actor->shape.unk_14;
+        actor->shape.unk_10 *= 0.3f;
         actor->shape.unk_14 *= ((temp_f20 - 20.0f) * 0.02f) > 1.0f ? 1.0f : ((temp_f20 - 20.0f) * 0.02f);
         ActorShadow_DrawFunc_Circle(actor, lightMapper, globalCtx);
         actor->shape.unk_10 = temp_10;
@@ -133,18 +133,18 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, Globa
     }
 
     if (temp_f20 < 200.0f) {
-        spAC = &spE0.x;
-        gfxCtx = globalCtx->state.gfxCtx;
-        temp_s6 = lightMapper->numLights - 2;
+        phi_s7 = &actor->unk_CC[0];
+        spAC = &spE0[0];
+        temp_s6 = lightMapper->numLights;
+        temp_s6 -= 2;
 
+        gfxCtx = globalCtx->state.gfxCtx;
         func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 1741);
 
         gfxCtx->polyOpa.p = func_80093774(gfxCtx->polyOpa.p, 0x2C);
         actor->shape.unk_15 = 0;
 
-        phi_s7 = &actor->unk_CC;
-
-        for (index = 0; index < 2; index++) {
+        for (i = 0; i < 2; i++) {
             phi_s7->y += 50.0f;
             *spAC = func_800BFCB8(globalCtx, &spE8, phi_s7);
             phi_s7->y -= 50.0f;
@@ -162,12 +162,12 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, Globa
                 if (30.0f < phi_f2)
                     phi_f2 = 30.0f;
 
-                temp_f24 = actor->shape.unk_14 * (1.0f - (phi_f2 * (1.f / 30)));
+                temp_f24 = actor->shape.unk_14 * (1.0f - (phi_f2 * (1.0f / 30)));
 
                 if (30.0f < phi_f2)
                     phi_f2 = 30.0f;
 
-                temp_f20_2 = 1.0f - (phi_f2 * (1.f / 70));
+                temp_f20_2 = 1.0f - (phi_f2 * (1.0f / 70));
                 temp_f22_2 = (actor->shape.unk_10 * temp_f20_2) * actor->scale.x;
 
                 phi_s2 = 0;
@@ -198,14 +198,11 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, Globa
             phi_s7++;
         }
 
-        if (!(actor->bgCheckFlags & 1))
+        if (!(actor->bgCheckFlags & 1)) {
             actor->shape.unk_15 = 0;
-        else if (actor->shape.unk_15 == 3) {
-            temp_f0 = actor->unk_CC.y - actor->unk_D8.y;
-            if ((spE0.x + temp_f0) < (spE0.y - temp_f0))
-                actor->shape.unk_15 = 2;
-            else
-                actor->shape.unk_15 = 1;
+        } else if (actor->shape.unk_15 == 3) {
+            temp_f0 = actor->unk_CC[0].y - actor->unk_CC[1].y;
+            actor->shape.unk_15 = ((spE0[0] + temp_f0) < (spE0[1] - temp_f0)) ? 2 : 1;
         }
 
         func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 1831);
@@ -217,9 +214,9 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, Globa
 
 void func_8002BDB0(Actor* actor, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, UNK_PTR arg5) {
     if (arg1 == arg2) {
-        Matrix_MultVec3f(arg3, &actor->unk_CC);
+        Matrix_MultVec3f(arg3, &actor->unk_CC[0]);
     } else if (arg1 == arg4) {
-        Matrix_MultVec3f(arg5, &actor->unk_D8);
+        Matrix_MultVec3f(arg5, &actor->unk_CC[1]);
     }
 }
 
@@ -310,25 +307,25 @@ void func_8002C0C0(TargetContext* targetCtx, Actor* actor, GlobalContext* global
 }
 
 #ifdef NON_MATCHING
-// this function still needs some work
+// regalloc and minor ordering differences
 void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
     Actor* actor;
     Player* player;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* gfxArr[4];
+    TargetContextEntry* entry;
     s16 spCE;
+    f32 temp1;
     Vec3f spBC;
     s32 spB8;
     f32 spB4;
     s32 spB0;
     s32 spAC;
-    s32 i;
-    TargetContextEntry* entry;
-    f32 temp1;
     f32 var1;
     f32 var2;
-    Vec3f* vec;
+    s32 i;
 
+    actor = targetCtx->targetedActor;
     gfxCtx = globalCtx->state.gfxCtx;
     func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 2029);
 
@@ -343,11 +340,11 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         else
             spB8 = 3;
 
-        if (targetCtx->targetedActor != NULL) {
-            Math_Vec3f_Copy(&targetCtx->targetCenterPos, &targetCtx->targetedActor->posRot2.pos);
+        if (actor != NULL) {
+            Math_Vec3f_Copy(&targetCtx->targetCenterPos, &actor->posRot2.pos);
             var1 = (500.0f - targetCtx->unk_44) / 420.0f;
         } else {
-            targetCtx->unk_48 -= 0x78;
+            targetCtx->unk_48 -= 120;
             if (targetCtx->unk_48 < 0)
                 targetCtx->unk_48 = 0;
             spCE = targetCtx->unk_48;
@@ -355,13 +352,13 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
         func_8002BE04(globalCtx, &targetCtx->targetCenterPos, &spBC, &spB4);
 
-        temp1 = ((spBC.x * spB4) * 160.0f) * var1;
-        spBC.x = (temp1 < -320.0f) ? -320.0f : ((temp1 > 320.0f) ? 320.0f : temp1);
+        temp1 = ((spBC.x * spB4) * 160) * var1;
+        spBC.x = (temp1 < -320) ? -320 : ((temp1 > 320) ? 320 : temp1);
 
-        temp1 = ((spBC.y * spB4) * 120.0f) * var1;
-        spBC.y = (temp1 < -240.0f) ? -240.0f : ((temp1 > 240.0f) ? 240.0f : temp1);
+        temp1 = ((spBC.y * spB4) * 120) * var1;
+        spBC.y = (temp1 < -240) ? -240 : ((temp1 > 240) ? 240 : temp1);
 
-        spBC.z *= var1;
+        spBC.z = spBC.z * var1;
 
         targetCtx->unk_4C--;
         if (targetCtx->unk_4C < 0)
@@ -369,7 +366,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
         func_8002BE64(targetCtx, targetCtx->unk_4C, spBC.x, spBC.y, spBC.z);
 
-        if ((!(player->stateFlags1 & 0x40)) || (targetCtx->targetedActor != player->unk_664)) {
+        if ((!(player->stateFlags1 & 0x40)) || (actor != player->unk_664)) {
             gfxCtx->overlay.p = func_80093774(gfxCtx->overlay.p, 0x39);
 
             for (spB0 = 0, spAC = targetCtx->unk_4C; spB0 < spB8; spB0++) {
@@ -720,20 +717,17 @@ void TitleCard_Update(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// major ordering and stack usage differences
 void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     s32 spCC;
     s32 spC8;
     s32 unk1;
     s32 spC0;
-    s32 unk2;
+    s32 sp38;
     s32 spB8;
     s32 spB4;
     s32 spB0;
     GraphicsContext* gfxCtx;
     Gfx* gfxArr[4];
-    s32 sp38;
 
     if (titleCtx->unk_C != 0) {
         spCC = titleCtx->unk_8;
@@ -743,14 +737,13 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
         sp38 = spCC * 2;
 
         gfxCtx = globalCtx->state.gfxCtx;
-
         func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 2824);
 
         spB0 = spCC * spC8 * gSaveContext.language;
-
         spC8 = (spCC * spC8 > 0x1000) ? 0x1000 / spCC : spC8;
+        spB4 = spB8 + (spC8 * 4);
 
-        spB4 = (spC8 * 4) + spB8;
+        if (1) {} // Necessary to match
 
         gfxCtx->overlay.p = func_80093808(gfxCtx->overlay.p);
 
@@ -761,8 +754,8 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
 
-        gSPTextureRectangle(gfxCtx->overlay.p++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 - 1, G_TX_RENDERTILE, 0, 0,
-                            1024, 1024);
+        gSPTextureRectangle(gfxCtx->overlay.p++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1,
+                            G_TX_RENDERTILE, 0, 0, 1024, 1024);
 
         spC8 = titleCtx->unk_9 - spC8;
 
@@ -771,16 +764,13 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
                                 spC8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                 G_TX_NOLOD, G_TX_NOLOD);
 
-            gSPTextureRectangle(gfxCtx->overlay.p++, spC0, spB4, ((sp38 * 2) + spC0) - 4, spB4 - 1, G_TX_RENDERTILE, 0,
-                                0, 1024, 1024);
+            gSPTextureRectangle(gfxCtx->overlay.p++, spC0, spB4, ((sp38 * 2) + spC0) - 4, spB4 + (spC8 * 4) - 1,
+                                G_TX_RENDERTILE, 0, 0, 1024, 1024);
         }
 
         func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 2880);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/TitleCard_Draw.s")
-#endif
 
 s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     if ((globalCtx->actorCtx.titleCtx.delayB != 0) || (globalCtx->actorCtx.titleCtx.unk_C != 0)) {
@@ -1802,7 +1792,8 @@ Color_RGB8 D_80116060 = { 0xFF, 0xFF, 0xFF };
 Color_RGB8 D_80116064 = { 0x64, 0xC8, 0x00 };
 
 #ifdef NON_MATCHING
-// this function still needs a lot of work
+// saved register, stack usage and minor ordering differences
+// this also doesn't generate a few useless struct copies
 void func_8002FBAC(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     Gfx* gfxArr[6];
@@ -1810,6 +1801,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
     f32 spD8;
     f32 spD4;
     s32 spD0;
+    s32 spCC;
     f32 spC0;
     Vec3f spB4;
     Vec3f spA4;
@@ -1839,6 +1831,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
         spD4 = 1.0f;
 
         temp_a3 = gSaveContext.respawn[RESPAWN_MODE_TOP].data - 0x28;
+        spCC = temp_a3;
 
         if (temp_a3 < 0) {
             gSaveContext.respawn[RESPAWN_MODE_TOP].data++;
@@ -1871,7 +1864,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                 temp_f12 = sp9C * 0.5f;
                 temp_f14 = temp_ret - temp_f12;
                 spD8 += sqrtf((temp_f12 * temp_f12) - (temp_f14 * temp_f14)) * 0.2f;
-                osSyncPrintf("-------- DISPLAY Y=%f\n", (f64)spD8);
+                osSyncPrintf("-------- DISPLAY Y=%f\n", spD8);
             }
 
             spA4.x = Math_Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
@@ -1886,6 +1879,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0x28;
             }
 
+            // somehow this shouldn't be optimized out
             gSaveContext.respawn[RESPAWN_MODE_TOP].pos = gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
         } else if (temp_a3 > 0) {
             temp_f12 = temp_a3 * 0.1f;
@@ -1914,7 +1908,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data++;
             }
 
-            spD4 = temp_a3 * 0.200000000000000011102230246252 + 1.0f;
+            spD4 = spCC * 0.200000000000000011102230246252 + 1.0f;
         }
 
         if ((globalCtx->csCtx.state == 0) &&
@@ -3723,17 +3717,15 @@ struct_80116130 D_80116130[13] = {
 };
 
 #ifdef NON_MATCHING
-// this function still needs a lot of work
+// regalloc differences
 void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5, s16 arg6, s16 arg7,
                    u8 arg8) {
     s16 sp46;
     s16 sp44;
-    s16 temp1;
-    s16 sp40;
     s16 temp2;
+    s16 sp40;
+    s16 temp1;
     Vec3f sp30;
-    s16 temp3;
-    s16 temp4;
 
     sp30.x = actor->posRot.pos.x;
     sp30.y = actor->posRot.pos.y + arg1->unk_14;
@@ -3741,27 +3733,34 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
 
     sp46 = Math_Vec3f_Pitch(&sp30, &arg1->unk_18);
     sp44 = Math_Vec3f_Yaw(&sp30, &arg1->unk_18);
+    sp40 = Math_Vec3f_Yaw(&actor->posRot.pos, &arg1->unk_18) - actor->shape.rot.y;
 
-    temp1 = Math_Vec3f_Yaw(&actor->posRot.pos, &arg1->unk_18) - actor->shape.rot.y;
+    temp1 = (sp40 < -arg2) ? -arg2 : ((sp40 > arg2) ? arg2 : sp40);
+    Math_SmoothScaleMaxMinS(&arg1->unk_0A, temp1, 6, 2000, 1);
 
-    Math_SmoothScaleMaxMinS(&arg1->unk_0A, (temp1 < -arg2) ? -arg2 : ((temp1 > arg2) ? arg2 : temp1), 6, 2000, 1);
+    sp40 = (ABS(sp40) >= 0x8000) ? 0 : ((sp40 >= 0) ? sp40 : -sp40);
+    arg1->unk_0A = ((arg1->unk_0A < -sp40) ? -sp40 : ((arg1->unk_0A > sp40) ? sp40 : arg1->unk_0A));
 
-    temp3 = (ABS(temp1) >= 0x8000) ? 0 : ((temp1 >= 0) ? temp1 : -temp1);
-    arg1->unk_0A = ((arg1->unk_0A < -temp3) ? -temp3 : ((arg1->unk_0A > temp3) ? temp3 : arg1->unk_0A));
+    sp40 = sp40 - arg1->unk_0A;
 
-    sp40 = temp1 - arg1->unk_0A;
-    Math_SmoothScaleMaxMinS(&arg1->unk_10, (sp40 < -arg5) ? -arg5 : ((sp40 > arg5) ? arg5 : sp40), 6, 2000, 1);
+    temp1 = (sp40 < -arg5) ? -arg5 : ((sp40 > arg5) ? arg5 : sp40);
+    Math_SmoothScaleMaxMinS(&arg1->unk_10, temp1, 6, 2000, 1);
 
-    temp4 = (ABS(sp40) >= 0x8000) ? 0 : ((sp40 >= 0) ? sp40 : -sp40);
-    arg1->unk_10 = ((arg1->unk_10 < -temp4) ? -temp4 : ((arg1->unk_10 > temp4) ? temp4 : arg1->unk_10));
+    sp40 = (ABS(sp40) >= 0x8000) ? 0 : ((sp40 >= 0) ? sp40 : -sp40);
+    arg1->unk_10 = ((arg1->unk_10 < -sp40) ? -sp40 : ((arg1->unk_10 > sp40) ? sp40 : arg1->unk_10));
 
-    if (arg8 != 0)
+    if (arg8 != 0) {
+        if (arg3) {} // Seems necessary to match
         Math_SmoothScaleMaxMinS(&actor->shape.rot.y, sp44, 6, 2000, 1);
+    }
 
-    Math_SmoothScaleMaxMinS(&arg1->unk_08, (sp46 < arg4) ? arg4 : ((sp46 > arg3) ? arg3 : sp46), 6, 2000, 1);
+    temp1 = (sp46 < arg4) ? arg4 : ((sp46 > arg3) ? arg3 : sp46);
+    Math_SmoothScaleMaxMinS(&arg1->unk_08, temp1, 6, 2000, 1);
 
     temp2 = sp46 - arg1->unk_08;
-    Math_SmoothScaleMaxMinS(&arg1->unk_0E, (temp2 < arg7) ? arg4 : ((temp2 > arg6) ? arg3 : temp2), 6, 2000, 1);
+
+    temp1 = (temp2 < arg7) ? arg7 : ((temp2 > arg6) ? arg6 : temp2);
+    Math_SmoothScaleMaxMinS(&arg1->unk_0E, temp1, 6, 2000, 1);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_800344BC.s")

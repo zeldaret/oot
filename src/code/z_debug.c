@@ -1,8 +1,5 @@
 #include <ultra64.h>
 #include <global.h>
-#include <z64.h>
-#include <color.h>
-#include <regs.h>
 #include <PR/os_cont.h>
 
 typedef struct {
@@ -60,39 +57,30 @@ void func_800636C0() {
 void func_8006375C(s32 arg0, s32 arg1, float* d_80855320) {
 }
 
-#ifdef NON_MATCHING // regalloc
 // Copy Camera Debugger Text
 void func_8006376C(u8 x, u8 y, u8 colorId, const char* text) {
     PrintTextBuffer* buf;
     char* bufText;
-    s16 i; // v1
+    s16 i;
 
     buf = &D_8015FA98[D_8011E0B0];
     if (D_8011E0B0 < 0x16) {
-
         buf->x = x;
         buf->y = y;
         buf->colorId = colorId;
 
         i = 0;
-        bufText = buf->text + 1;
-
-        if (*buf->text = *text++) {
-            do
-                if (i++ > 0x14) {
-                    break;
-                }
-            while (*bufText++ = *text++);
+        bufText = buf->text;
+        while (*bufText++ = *text++) {
+            if (i++ > 0x14) {
+                break;
+            }
         }
 
         *bufText = '\0';
         D_8011E0B0++;
     }
 }
-
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_debug/func_8006376C.s")
-#endif
 
 // Draw Text
 void func_80063828(GfxPrint* gfxPrint) {
