@@ -31,7 +31,7 @@ glabel func_800A180C
 /* B189D8 800A1838 0C031AB1 */  jal   func_800C6AC4
 /* B189DC 800A183C AFA50044 */   sw    $a1, 0x44($sp)
 /* B189E0 800A1840 0C034213 */  jal   Matrix_Push
-/* B189E4 800A1844 00000000 */   nop   
+/* B189E4 800A1844 00000000 */   nop
 /* B189E8 800A1848 8FB8006C */  lw    $t8, 0x6c($sp)
 /* B189EC 800A184C 8FAF0070 */  lw    $t7, 0x70($sp)
 /* B189F0 800A1850 3C0D8016 */  lui   $t5, %hi(gSegments)
@@ -74,12 +74,12 @@ glabel func_800A180C
 /* B18A84 800A18E4 E7A60050 */  swc1  $f6, 0x50($sp)
 /* B18A88 800A18E8 846D0002 */  lh    $t5, 2($v1)
 /* B18A8C 800A18EC 448D4000 */  mtc1  $t5, $f8
-/* B18A90 800A18F0 00000000 */  nop   
+/* B18A90 800A18F0 00000000 */  nop
 /* B18A94 800A18F4 468042A0 */  cvt.s.w $f10, $f8
 /* B18A98 800A18F8 E7AA0054 */  swc1  $f10, 0x54($sp)
 /* B18A9C 800A18FC 84780004 */  lh    $t8, 4($v1)
 /* B18AA0 800A1900 44988000 */  mtc1  $t8, $f16
-/* B18AA4 800A1904 00000000 */  nop   
+/* B18AA4 800A1904 00000000 */  nop
 /* B18AA8 800A1908 468084A0 */  cvt.s.w $f18, $f16
 /* B18AAC 800A190C E7B20058 */  swc1  $f18, 0x58($sp)
 /* B18AB0 800A1910 8C6E0008 */  lw    $t6, 8($v1)
@@ -95,7 +95,7 @@ glabel func_800A180C
 /* B18AD8 800A1938 1440002D */  bnez  $v0, .L800A19F0
 .L800A193C:
 /* B18ADC 800A193C 27A40050 */   addiu $a0, $sp, 0x50
-/* B18AE0 800A1940 0C0344D0 */  jal   func_800D1340
+/* B18AE0 800A1940 0C0344D0 */  jal   Matrix_TranslateThenRotateZYX
 /* B18AE4 800A1944 27A50048 */   addiu $a1, $sp, 0x48
 /* B18AE8 800A1948 8FAB0060 */  lw    $t3, 0x60($sp)
 /* B18AEC 800A194C 8FAC0084 */  lw    $t4, 0x84($sp)
@@ -169,7 +169,7 @@ glabel func_800A180C
 /* B18BF0 800A1A50 AFAD001C */   sw    $t5, 0x1c($sp)
 .L800A1A54:
 /* B18BF4 800A1A54 0C034221 */  jal   Matrix_Pull
-/* B18BF8 800A1A58 00000000 */   nop   
+/* B18BF8 800A1A58 00000000 */   nop
 /* B18BFC 800A1A5C 8FAE0064 */  lw    $t6, 0x64($sp)
 /* B18C00 800A1A60 240100FF */  li    $at, 255
 /* B18C04 800A1A64 8FA40068 */  lw    $a0, 0x68($sp)
@@ -197,5 +197,5 @@ glabel func_800A180C
 /* B18C58 800A1AB8 8FBF0024 */  lw    $ra, 0x24($sp)
 /* B18C5C 800A1ABC 27BD0068 */  addiu $sp, $sp, 0x68
 /* B18C60 800A1AC0 03E00008 */  jr    $ra
-/* B18C64 800A1AC4 00000000 */   nop   
+/* B18C64 800A1AC4 00000000 */   nop
 

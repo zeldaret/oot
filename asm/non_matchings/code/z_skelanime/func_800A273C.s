@@ -86,7 +86,7 @@ glabel func_800A273C
 /* B199CC 800A282C E7AA0050 */  swc1  $f10, 0x50($sp)
 /* B199D0 800A2830 846A0004 */  lh    $t2, 4($v1)
 /* B199D4 800A2834 448A8000 */  mtc1  $t2, $f16
-/* B199D8 800A2838 00000000 */  nop   
+/* B199D8 800A2838 00000000 */  nop
 /* B199DC 800A283C 468084A0 */  cvt.s.w $f18, $f16
 /* B199E0 800A2840 E7B20054 */  swc1  $f18, 0x54($sp)
 /* B199E4 800A2844 886E0006 */  lwl   $t6, 6($v1)
@@ -109,7 +109,7 @@ glabel func_800A273C
 /* B19A28 800A2888 14400027 */  bnez  $v0, .L800A2928
 .L800A288C:
 /* B19A2C 800A288C 27A4004C */   addiu $a0, $sp, 0x4c
-/* B19A30 800A2890 0C0344D0 */  jal   func_800D1340
+/* B19A30 800A2890 0C0344D0 */  jal   Matrix_TranslateThenRotateZYX
 /* B19A34 800A2894 27A50044 */   addiu $a1, $sp, 0x44
 /* B19A38 800A2898 8FAA005C */  lw    $t2, 0x5c($sp)
 /* B19A3C 800A289C 8FA40040 */  lw    $a0, 0x40($sp)
@@ -182,11 +182,11 @@ glabel func_800A273C
 /* B19B3C 800A299C AFA20084 */  sw    $v0, 0x84($sp)
 .L800A29A0:
 /* B19B40 800A29A0 0C034221 */  jal   Matrix_Pull
-/* B19B44 800A29A4 00000000 */   nop   
+/* B19B44 800A29A4 00000000 */   nop
 /* B19B48 800A29A8 8FA20084 */  lw    $v0, 0x84($sp)
 .L800A29AC:
 /* B19B4C 800A29AC 8FBF002C */  lw    $ra, 0x2c($sp)
 /* B19B50 800A29B0 27BD0068 */  addiu $sp, $sp, 0x68
 /* B19B54 800A29B4 03E00008 */  jr    $ra
-/* B19B58 800A29B8 00000000 */   nop   
+/* B19B58 800A29B8 00000000 */   nop
 

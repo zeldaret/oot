@@ -8,18 +8,6 @@
 struct GlobalContext;
 struct Actor;
 
-typedef s32 (*SkelAnime_LimbUpdateMatrix)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-             Vec3f* pos, Vec3s* rot, struct Actor* actor);
-
-typedef void (*SkelAnime_LimbAppendDlist)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-                                          Vec3s* rot, struct Actor* actor);
-
-typedef s32 (*SkelAnime_LimbUpdateMatrix2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-             Vec3f* pos, Vec3s* rot, struct Actor* actor, Gfx** gfx);
-
-typedef void (*SkelAnime_LimbAppendDlist2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
-                                          Vec3s* rot, struct Actor* actor, Gfx** gfx);
-
 typedef struct
 {
     /* 0x000 */ u32 limbs[1];   // One ore more limbs, index 0 is the root limb.
@@ -51,8 +39,8 @@ typedef struct SkelAnime
     /* 0x04 */ u32 limbIndex;
     /* 0x08 */ u32* animCurrent;
     /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ f32 animFrameCount; // ending frame? 
-    /* 0x14 */ f32 unk_14; // Loop frame? 
+    /* 0x10 */ f32 animFrameCount; // ending frame?
+    /* 0x14 */ f32 unk_14; // Loop frame?
     /* 0x18 */ f32 animCurrentFrame;
     /* 0x1C */ f32 animPlaybackSpeed;
     /* 0x20 */ Vec3s* actorDrawTbl; // now_joint
@@ -80,7 +68,7 @@ typedef struct
     u16 z;
 } AnimationRotationIndex;
 
-typedef struct 
+typedef struct
 {
     /* 0x000 */ s16 frameCount;
     /* 0x002 */ char pad[2];
@@ -116,7 +104,7 @@ typedef struct
     char unk_0C[0x30];
 } AnimationEntryType1;
 
-typedef struct 
+typedef struct
 {
     u8 unk_00;
     u8 unk_01;
@@ -127,7 +115,7 @@ typedef struct
     char unk_10[0x2C];
 } AnimationEntryType2;
 
-typedef struct 
+typedef struct
 {
     u8 unk_00;
     u8 vecCount;
@@ -138,7 +126,7 @@ typedef struct
     char unk_10[0x2C];
 } AnimationEntryType3;
 
-typedef struct 
+typedef struct
 {
     u8 unk_00;
     u8 vecCount;
@@ -149,7 +137,7 @@ typedef struct
     char unk_10[0x2C];
 } AnimationEntryType4;
 
-typedef struct 
+typedef struct
 {
     struct Actor* actor;
     SkelAnime* skelAnime;
@@ -195,7 +183,20 @@ typedef struct
     u32 animationSegAddress;
 } LinkAnimetionEntry;
 
-#endif
+typedef s32 (*SkelAnime_LimbUpdateMatrix)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+             Vec3f* pos, Vec3s* rot, struct Actor* actor);
+
+typedef void (*SkelAnime_LimbAppendDlist)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+                                          Vec3s* rot, struct Actor* actor);
+
+typedef s32 (*SkelAnime_LimbUpdateMatrix2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+             Vec3f* pos, Vec3s* rot, struct Actor* actor, Gfx** gfx);
+
+typedef void (*SkelAnime_LimbAppendDlist2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+                                          Vec3s* rot, struct Actor* actor, Gfx** gfx);
+
+typedef void (*AnimationEntryCallback)(struct GlobalContext*, AnimationEntryType*);
+
 
 extern u32 link_animetion_segment; // 0x07000000
 #define LINK_ANIMETION_OFFSET(addr,offset) (((u32)&_link_animetionSegmentRomStart)+((u32)addr)-((u32)&link_animetion_segment)+((u32)offset))
@@ -203,3 +204,5 @@ extern u32 link_animetion_segment; // 0x07000000
 #define LIMB_DONE 0xFF
 
 #define LOG(file,line,msg,arg) LogUtils_LogThreadId(file, line); osSyncPrintf(msg, arg)
+
+#endif

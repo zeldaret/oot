@@ -27,7 +27,7 @@ glabel func_800A08A0
 /* B17A6C 800A08CC 0C031AB1 */  jal   func_800C6AC4
 /* B17A70 800A08D0 AFA50048 */   sw    $a1, 0x48($sp)
 /* B17A74 800A08D4 0C034213 */  jal   Matrix_Push
-/* B17A78 800A08D8 00000000 */   nop   
+/* B17A78 800A08D8 00000000 */   nop
 /* B17A7C 800A08DC 8FB8006C */  lw    $t8, 0x6c($sp)
 /* B17A80 800A08E0 8FAF0070 */  lw    $t7, 0x70($sp)
 /* B17A84 800A08E4 3C0E8016 */  lui   $t6, %hi(gSegments)
@@ -73,12 +73,12 @@ glabel func_800A08A0
 /* B17B24 800A0984 E7A60054 */  swc1  $f6, 0x54($sp)
 /* B17B28 800A0988 85180002 */  lh    $t8, 2($t0)
 /* B17B2C 800A098C 44984000 */  mtc1  $t8, $f8
-/* B17B30 800A0990 00000000 */  nop   
+/* B17B30 800A0990 00000000 */  nop
 /* B17B34 800A0994 468042A0 */  cvt.s.w $f10, $f8
 /* B17B38 800A0998 E7AA0058 */  swc1  $f10, 0x58($sp)
 /* B17B3C 800A099C 850F0004 */  lh    $t7, 4($t0)
 /* B17B40 800A09A0 448F8000 */  mtc1  $t7, $f16
-/* B17B44 800A09A4 00000000 */  nop   
+/* B17B44 800A09A4 00000000 */  nop
 /* B17B48 800A09A8 468084A0 */  cvt.s.w $f18, $f16
 /* B17B4C 800A09AC E7B2005C */  swc1  $f18, 0x5c($sp)
 /* B17B50 800A09B0 8F2C0008 */  lw    $t4, 8($t9)
@@ -94,7 +94,7 @@ glabel func_800A08A0
 .L800A09D8:
 /* B17B78 800A09D8 27A40054 */  addiu $a0, $sp, 0x54
 /* B17B7C 800A09DC 27A5004C */  addiu $a1, $sp, 0x4c
-/* B17B80 800A09E0 0C0344D0 */  jal   func_800D1340
+/* B17B80 800A09E0 0C0344D0 */  jal   Matrix_TranslateThenRotateZYX
 /* B17B84 800A09E4 AFA80064 */   sw    $t0, 0x64($sp)
 /* B17B88 800A09E8 8FB80060 */  lw    $t8, 0x60($sp)
 /* B17B8C 800A09EC 8FA80064 */  lw    $t0, 0x64($sp)
@@ -185,5 +185,5 @@ glabel func_800A08A0
 /* B17CD0 800A0B30 8FBF0024 */  lw    $ra, 0x24($sp)
 /* B17CD4 800A0B34 27BD0068 */  addiu $sp, $sp, 0x68
 /* B17CD8 800A0B38 03E00008 */  jr    $ra
-/* B17CDC 800A0B3C 00000000 */   nop   
+/* B17CDC 800A0B3C 00000000 */   nop
 

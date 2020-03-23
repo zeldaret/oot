@@ -54,7 +54,7 @@ glabel SkelAnime_Draw
 /* B187C8 800A1628 0C031AB1 */  jal   func_800C6AC4
 /* B187CC 800A162C AFA50044 */   sw    $a1, 0x44($sp)
 /* B187D0 800A1630 0C034213 */  jal   Matrix_Push
-/* B187D4 800A1634 00000000 */   nop   
+/* B187D4 800A1634 00000000 */   nop
 /* B187D8 800A1638 8FB8006C */  lw    $t8, 0x6c($sp)
 /* B187DC 800A163C 3C0B8016 */  lui   $t3, %hi(gSegments)
 /* B187E0 800A1640 3C0100FF */  lui   $at, (0x00FFFFFF >> 16) # lui $at, 0xff
@@ -82,12 +82,12 @@ glabel SkelAnime_Draw
 /* B18838 800A1698 E7A60050 */  swc1  $f6, 0x50($sp)
 /* B1883C 800A169C 846F0002 */  lh    $t7, 2($v1)
 /* B18840 800A16A0 448F4000 */  mtc1  $t7, $f8
-/* B18844 800A16A4 00000000 */  nop   
+/* B18844 800A16A4 00000000 */  nop
 /* B18848 800A16A8 468042A0 */  cvt.s.w $f10, $f8
 /* B1884C 800A16AC E7AA0054 */  swc1  $f10, 0x54($sp)
 /* B18850 800A16B0 84780004 */  lh    $t8, 4($v1)
 /* B18854 800A16B4 44988000 */  mtc1  $t8, $f16
-/* B18858 800A16B8 00000000 */  nop   
+/* B18858 800A16B8 00000000 */  nop
 /* B1885C 800A16BC 468084A0 */  cvt.s.w $f18, $f16
 /* B18860 800A16C0 E7B20058 */  swc1  $f18, 0x58($sp)
 /* B18864 800A16C4 886A0006 */  lwl   $t2, 6($v1)
@@ -108,7 +108,7 @@ glabel SkelAnime_Draw
 /* B188A0 800A1700 1440001E */  bnez  $v0, .L800A177C
 .L800A1704:
 /* B188A4 800A1704 27A40050 */   addiu $a0, $sp, 0x50
-/* B188A8 800A1708 0C0344D0 */  jal   func_800D1340
+/* B188A8 800A1708 0C0344D0 */  jal   Matrix_TranslateThenRotateZYX
 /* B188AC 800A170C 27A50048 */   addiu $a1, $sp, 0x48
 /* B188B0 800A1710 8FAF005C */  lw    $t7, 0x5c($sp)
 /* B188B4 800A1714 8FA70044 */  lw    $a3, 0x44($sp)
@@ -165,7 +165,7 @@ glabel SkelAnime_Draw
 /* B18974 800A17D4 AFB80018 */   sw    $t8, 0x18($sp)
 .L800A17D8:
 /* B18978 800A17D8 0C034221 */  jal   Matrix_Pull
-/* B1897C 800A17DC 00000000 */   nop   
+/* B1897C 800A17DC 00000000 */   nop
 /* B18980 800A17E0 8FA80068 */  lw    $t0, 0x68($sp)
 /* B18984 800A17E4 3C068014 */  lui   $a2, %hi(D_80140158) # $a2, 0x8014
 /* B18988 800A17E8 24C60158 */  addiu $a2, %lo(D_80140158) # addiu $a2, $a2, 0x158
@@ -177,5 +177,5 @@ glabel SkelAnime_Draw
 .L800A1800:
 /* B189A0 800A1800 27BD0068 */  addiu $sp, $sp, 0x68
 /* B189A4 800A1804 03E00008 */  jr    $ra
-/* B189A8 800A1808 00000000 */   nop   
+/* B189A8 800A1808 00000000 */   nop
 

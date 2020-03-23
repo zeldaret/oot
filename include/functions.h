@@ -1133,8 +1133,9 @@ void Scene_Draw(GlobalContext* globalCtx);
 // ? func_800A0D94(?);
 // ? func_800A106C(?);
 // ? func_800A1344(?);
-void SkelAnime_Draw(GlobalContext* globalCtx, u32 limbIndex, u32 adt, u8 limbDListCnt, void* internal0,
-                    void* internal1);
+void SkelAnime_Draw(GlobalContext* globalCtx, u32* limbIndex, Vec3s* actorDrawTable,
+                    SkelAnime_LimbUpdateMatrix updateMtxFunc, SkelAnime_LimbAppendDlist appendDlistFunc,
+                    Actor* actor);
 // ? func_800A180C(?);
 void func_800A1AC8(GlobalContext* globalCtx, u32 limbIndex, u32 actorDrawTbl, u32 dListCount, void* posUpdateFunc,
                    void* drawFunc, Actor* actor);
@@ -1642,8 +1643,8 @@ void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode);
 void Matrix_RotateX(f32 x, u8 mode);
 void Matrix_RotateY(f32 y, u8 mode);
 void Matrix_RotateZ(f32 z, u8 mode);
-void Matrix_RotateXYZ(s16 x, s16 y, s16 z, u8 mode);
-void func_800D1340(Vec3f* arg0, Vec3s* arg1);
+void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
+void Matrix_TranslateThenRotateZYX(Vec3f* arg0, Vec3s* arg1);
 void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec);
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
 Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line);

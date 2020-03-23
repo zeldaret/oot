@@ -95,7 +95,7 @@ void Title_Draw(TitleContext* this) {
     func_80093D18(this->state.gfxCtx);
     Matrix_Translate(-53.0, -5.0, 0, MTXMODE_NEW);
     Matrix_Scale(1.0, 1.0, 1.0, MTXMODE_APPLY);
-    Matrix_RotateXYZ(0, sTitleRotY, 0, MTXMODE_APPLY);
+    Matrix_RotateZYX(0, sTitleRotY, 0, MTXMODE_APPLY);
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_title.c", 424), G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_01002720);
