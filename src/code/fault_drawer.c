@@ -65,38 +65,51 @@ void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled) {
     sFaultDrawerStruct.osSyncPrintfEnabled = enabled;
 }
 
-#ifdef NON_MATCHING
-void FaultDrawer_DrawRecImpl(s32 xstart, s32 ystart, s32 xend, s32 yend, u16 color) {
-    if (sFaultDrawerStruct.w - xstart > 0 && sFaultDrawerStruct.h - ystart > 0) {
-        s32 x, y;
+void FaultDrawer_DrawRecImpl(s32 xStart, s32 yStart, s32 xEnd, s32 yEnd, u16 color) {
+    u16* fb;
+    s32 x, y;
+    s32 xDiff = sFaultDrawerStruct.w - xStart;
+    s32 yDiff = sFaultDrawerStruct.h - yStart;
+    s32 xSize = xEnd - xStart + 1;
+    s32 ySize = yEnd - yStart + 1;
 
-        for (y = 0; y <= yend - ystart; y++)
-            for (x = 0; x <= xend - xstart; x++)
-                sFaultDrawerStruct.fb[sFaultDrawerStruct.w * y + x] = color;
+    if (xDiff > 0 && yDiff > 0) {
+        if (xDiff < xSize) {
+            xSize = xDiff;
+        }
+
+        if (yDiff < ySize) {
+            ySize = yDiff;
+        }
+
+        fb = sFaultDrawerStruct.fb + sFaultDrawerStruct.w * yStart + xStart;
+        for (y = 0; y < ySize; y++) {
+            for (x = 0; x < xSize; x++) {
+                *fb++ = color;
+            }
+            fb += sFaultDrawerStruct.w - xSize;
+        }
 
         osWritebackDCacheAll();
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault_drawer/FaultDrawer_DrawRecImpl.s")
-#endif
 
 #ifdef NON_MATCHING
 // regalloc and minor ordering differences
 void FaultDrawer_DrawChar(char c) {
+    u16* fb;
     s32 x, y;
     u32* dataPtr;
-    u16* fb;
+    s32 cursorX = sFaultDrawerStruct.cursorX;
+    s32 cursorY = sFaultDrawerStruct.cursorY;
 
     dataPtr = &sFaultDrawerStruct.fontData[((c & 4) >> 2) + ((c / 8) * 16)];
+    fb = sFaultDrawerStruct.fb + sFaultDrawerStruct.w * cursorY + cursorX;
 
-    fb = &sFaultDrawerStruct.fb[sFaultDrawerStruct.cursorY * sFaultDrawerStruct.w];
-    fb = &fb[sFaultDrawerStruct.cursorX];
-
-    if ((sFaultDrawerStruct.xStart <= sFaultDrawerStruct.cursorX) &&
-        ((sFaultDrawerStruct.charW + sFaultDrawerStruct.cursorX - 1) <= sFaultDrawerStruct.xEnd) &&
-        (sFaultDrawerStruct.yStart <= sFaultDrawerStruct.cursorY) &&
-        ((sFaultDrawerStruct.charH + sFaultDrawerStruct.cursorY - 1) <= sFaultDrawerStruct.yEnd)) {
+    if ((sFaultDrawerStruct.xStart <= cursorX) &&
+        ((sFaultDrawerStruct.charW + cursorX - 1) <= sFaultDrawerStruct.xEnd) &&
+        (sFaultDrawerStruct.yStart <= cursorY) &&
+        ((sFaultDrawerStruct.charH + cursorY - 1) <= sFaultDrawerStruct.yEnd)) {
         for (y = 0; y < sFaultDrawerStruct.charH; y++) {
             u32 mask = 0x10000000 << (c % 4);
             u32 data = *dataPtr;
@@ -152,7 +165,7 @@ void FaultDrawer_SetBackColor(u16 color) {
 }
 
 void FaultDrawer_SetFontColor(u16 color) {
-    FaultDrawer_SetForeColor((u16)(color | 1)); // force alpha to be set
+    FaultDrawer_SetForeColor(color | 1); // force alpha to be set
 }
 
 void FaultDrawer_SetCharPad(s8 padW, s8 padH) {
@@ -260,7 +273,7 @@ void FaultDrawer_DrawText(s32 x, s32 y, const char* fmt, ...) {
 }
 
 void FaultDrawer_SetDrawerFB(void* fb, u16 w, u16 h) {
-    sFaultDrawerStruct.fb = (u16*)fb;
+    sFaultDrawerStruct.fb = fb;
     sFaultDrawerStruct.w = w;
     sFaultDrawerStruct.h = h;
 }

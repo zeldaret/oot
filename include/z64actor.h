@@ -144,8 +144,7 @@ typedef struct Actor {
     /* 0x094 */ f32     yDistanceFromLink;
     /* 0x098 */ SubActorStruct98 sub_98;
     /* 0x0B4 */ ActorShape shape;
-    /* 0x0CC */ Vec3f   unk_CC; // Used in Link, not Deku Babas
-    /* 0x0D8 */ Vec3f   unk_D8; // Used in Link, not Deku Babas
+    /* 0x0CC */ Vec3f   unk_CC[2];
     /* 0x0E4 */ Vec3f   unk_E4; // Stores result of some vector transformation involving actor xyz vector, and a matrix at Global Context + 11D60
     /* 0x0F0 */ f32     unk_F0; // Related to above
     /* 0x0F4 */ f32     unk_F4;
