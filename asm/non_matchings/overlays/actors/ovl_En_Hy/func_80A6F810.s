@@ -8,7 +8,7 @@ glabel func_80A6F810
 /* 00278 80A6F828 30A5007F */  andi    $a1, $a1, 0x007F           ## $a1 = 00000000
 /* 0027C 80A6F82C 24A50025 */  addiu   $a1, $a1, 0x0025           ## $a1 = 00000025
 /* 00280 80A6F830 AFA40020 */  sw      $a0, 0x0020($sp)           
-/* 00284 80A6F834 0C01B0D8 */  jal     func_8006C360              
+/* 00284 80A6F834 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00288 80A6F838 AFA3001C */  sw      $v1, 0x001C($sp)           
 /* 0028C 80A6F83C 8FA3001C */  lw      $v1, 0x001C($sp)           
 /* 00290 80A6F840 8FA40020 */  lw      $a0, 0x0020($sp)           

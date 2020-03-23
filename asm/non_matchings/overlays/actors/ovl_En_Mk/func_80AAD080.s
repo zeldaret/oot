@@ -119,7 +119,7 @@ glabel func_80AAD080
 /* 00930 80AAD230 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L80AAD234:
 /* 00934 80AAD234 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00938 80AAD238 0C01B0D8 */  jal     func_8006C360              
+/* 00938 80AAD238 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 0093C 80AAD23C 2405001A */  addiu   $a1, $zero, 0x001A         ## $a1 = 0000001A
 /* 00940 80AAD240 3059FFFF */  andi    $t9, $v0, 0xFFFF           ## $t9 = 00000000
 /* 00944 80AAD244 17200003 */  bne     $t9, $zero, .L80AAD254     
