@@ -94,30 +94,33 @@ void FaultDrawer_DrawRecImpl(s32 xStart, s32 yStart, s32 xEnd, s32 yEnd, u16 col
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc and minor ordering differences
 void FaultDrawer_DrawChar(char c) {
     u16* fb;
     s32 x, y;
+    s32 test;
     u32* dataPtr;
+    u32 data;
     s32 cursorX = sFaultDrawerStruct.cursorX;
     s32 cursorY = sFaultDrawerStruct.cursorY;
+    u32** temp = &sFaultDrawerStruct.fontData;
 
-    dataPtr = &sFaultDrawerStruct.fontData[((c & 4) >> 2) + ((c / 8) * 16)];
-    fb = sFaultDrawerStruct.fb + sFaultDrawerStruct.w * cursorY + cursorX;
+    test = c % 4;
+    dataPtr = &temp[0][(((c / 8) * 16) + ((c & 4) >> 2))];
+    fb = sFaultDrawerStruct.fb + (sFaultDrawerStruct.w * cursorY) + cursorX;
 
     if ((sFaultDrawerStruct.xStart <= cursorX) &&
         ((sFaultDrawerStruct.charW + cursorX - 1) <= sFaultDrawerStruct.xEnd) &&
         (sFaultDrawerStruct.yStart <= cursorY) &&
         ((sFaultDrawerStruct.charH + cursorY - 1) <= sFaultDrawerStruct.yEnd)) {
         for (y = 0; y < sFaultDrawerStruct.charH; y++) {
-            u32 mask = 0x10000000 << (c % 4);
-            u32 data = *dataPtr;
+            u32 mask = 0x10000000 << test;
+            data = *dataPtr;
             for (x = 0; x < sFaultDrawerStruct.charW; x++) {
-                if (mask & data)
+                if (mask & data) {
                     fb[x] = sFaultDrawerStruct.foreColor;
-                else if (sFaultDrawerStruct.backColor & 1)
+                } else if (sFaultDrawerStruct.backColor & 1) {
                     fb[x] = sFaultDrawerStruct.backColor;
+                }
                 mask >>= 4;
             }
             fb += sFaultDrawerStruct.w;
@@ -125,9 +128,6 @@ void FaultDrawer_DrawChar(char c) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/fault_drawer/FaultDrawer_DrawChar.s")
-#endif
 
 s32 FaultDrawer_ColorToPrintColor(u16 color) {
     s32 i;
