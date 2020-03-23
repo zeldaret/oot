@@ -1,39 +1,33 @@
 #include <ultra64.h>
 #include <global.h>
 
-void func_800BC450(GlobalContext* globalCtx)
-{
-      func_8005A7A8(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0],
-                    globalCtx->unk_1242B - 1, globalCtx);
+void func_800BC450(GlobalContext* globalCtx) {
+    func_8005A7A8(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], globalCtx->unk_1242B - 1,
+                  globalCtx);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800BC490.s")
 
-s32 func_800BC56C(GlobalContext* globalCtx, s16 arg1)
-{
+s32 func_800BC56C(GlobalContext* globalCtx, s16 arg1) {
     return arg1 == globalCtx->unk_1242B;
 }
 
-void func_800BC590(GlobalContext* globalCtx)
-{
+void func_800BC590(GlobalContext* globalCtx) {
     osSyncPrintf("Game_play_shop_pr_vr_switch_set()\n");
-    if (YREG(15) == 0x10)
-    {
+    if (YREG(15) == 0x10) {
         globalCtx->unk_1242B = 2;
     }
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800BC5E0.s")
 
-void func_800BC88C(GlobalContext* globalCtx)
-{
+void func_800BC88C(GlobalContext* globalCtx) {
     globalCtx->unk_123F0 = -1;
 }
 
-Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* a1)
-{
-    func_80093708(a1, globalCtx->lightCtx.unk_07, globalCtx->lightCtx.unk_08,
-                  globalCtx->lightCtx.unk_09, 0, globalCtx->lightCtx.unk_0A, 1000);
+Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* a1) {
+    func_80093708(a1, globalCtx->lightCtx.unk_07, globalCtx->lightCtx.unk_08, globalCtx->lightCtx.unk_09, 0,
+                  globalCtx->lightCtx.unk_0A, 1000);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800BC8EC.s")
@@ -48,8 +42,7 @@ Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* a1)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800BFAE4.s")
 
-s32 func_800BFC84(GlobalContext* globalCtx)
-{
+s32 func_800BFC84(GlobalContext* globalCtx) {
     return globalCtx->csCtx.state != 0 || func_8008E988(globalCtx) != 0;
 }
 
@@ -59,8 +52,7 @@ s32 func_800BFC84(GlobalContext* globalCtx)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800BFEC4.s")
 
-void func_800BFF0C(GlobalContext* globalCtx, s32 a1)
-{
+void func_800BFF0C(GlobalContext* globalCtx, s32 a1) {
     globalCtx->curSpawn = a1;
     globalCtx->linkActorEntry = NULL;
     globalCtx->unk_11DFC = NULL;
@@ -85,8 +77,7 @@ void func_800BFF0C(GlobalContext* globalCtx, s32 a1)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800C0230.s")
 
-s16 func_800C030C(GlobalContext* globalCtx)
-{
+s16 func_800C030C(GlobalContext* globalCtx) {
     return globalCtx->cameraCtx.unk_5C0;
 }
 
@@ -120,8 +111,7 @@ s16 func_800C030C(GlobalContext* globalCtx)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800C0AF4.s")
 
-void func_800C0B60(GlobalContext* globalCtx)
-{
+void func_800C0B60(GlobalContext* globalCtx) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].temp_swch_flags = globalCtx->actorCtx.flags.tempSwch;
     gSaveContext.respawn[RESPAWN_MODE_DOWN].temp_collect_flags = globalCtx->actorCtx.flags.tempCollect;
     gSaveContext.respawn_flag = 1;
@@ -130,48 +120,35 @@ void func_800C0B60(GlobalContext* globalCtx)
     globalCtx->fadeOutTransition = 2;
 }
 
-void func_800C0BB4(GlobalContext* globalCtx)
-{
+void func_800C0BB4(GlobalContext* globalCtx) {
     gSaveContext.respawn_flag = -1;
     globalCtx->sceneLoadFlag = 0x14;
 
-    if (globalCtx->sceneNum == SCENE_GANON_SONOGO ||
-        globalCtx->sceneNum == SCENE_GANON_FINAL ||
-        globalCtx->sceneNum == SCENE_GANONTIKA_SONOGO ||
-        globalCtx->sceneNum == SCENE_GANON_DEMO)
-    {
+    if (globalCtx->sceneNum == SCENE_GANON_SONOGO || globalCtx->sceneNum == SCENE_GANON_FINAL ||
+        globalCtx->sceneNum == SCENE_GANONTIKA_SONOGO || globalCtx->sceneNum == SCENE_GANON_DEMO) {
         globalCtx->nextEntranceIndex = 0x043F;
         Item_Give(globalCtx, ITEM_SWORD_MASTER);
-    }
-    else if (gSaveContext.entrance_index == 0x028A ||
-            gSaveContext.entrance_index == 0x028E ||
-            gSaveContext.entrance_index == 0x0292 ||
-            gSaveContext.entrance_index == 0x0476)
-    {
+    } else if (gSaveContext.entrance_index == 0x028A || gSaveContext.entrance_index == 0x028E ||
+               gSaveContext.entrance_index == 0x0292 || gSaveContext.entrance_index == 0x0476) {
         globalCtx->nextEntranceIndex = 0x01F9;
-    }
-    else
-    {
+    } else {
         globalCtx->nextEntranceIndex = gSaveContext.entrance_index;
     }
 
     globalCtx->fadeOutTransition = 2;
 }
 
-void func_800C0C88(GlobalContext* globalCtx)
-{
+void func_800C0C88(GlobalContext* globalCtx) {
     func_800C0AF4(globalCtx, 0, 0xDFF);
     func_800C0BB4(globalCtx);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800C0CB8.s")
 
-s32 func_800C0D28(GlobalContext* globalCtx)
-{
+s32 func_800C0D28(GlobalContext* globalCtx) {
     return globalCtx->unk_7B8 != 0;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800C0D34.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800C0DB4.s")
-

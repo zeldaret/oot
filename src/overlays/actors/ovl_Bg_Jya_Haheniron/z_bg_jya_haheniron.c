@@ -1,6 +1,6 @@
 #include "z_bg_jya_haheniron.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgJyaHaheniron_Init(BgJyaHaheniron* this, GlobalContext* globalCtx);

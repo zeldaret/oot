@@ -1,6 +1,6 @@
 #include "z_door_gerudo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void DoorGerudo_Init(DoorGerudo* this, GlobalContext* globalCtx);

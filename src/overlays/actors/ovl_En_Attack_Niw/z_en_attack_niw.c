@@ -1,6 +1,6 @@
 #include "z_en_attack_niw.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnAttackNiw_Init(EnAttackNiw* this, GlobalContext* globalCtx);

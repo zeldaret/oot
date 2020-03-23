@@ -1,6 +1,6 @@
 #include "z_obj_comb.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx);

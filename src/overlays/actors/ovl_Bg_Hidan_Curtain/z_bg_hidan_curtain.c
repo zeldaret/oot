@@ -1,6 +1,6 @@
 #include "z_bg_hidan_curtain.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgHidanCurtain_Init(BgHidanCurtain* this, GlobalContext* globalCtx);

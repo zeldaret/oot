@@ -1,6 +1,6 @@
 #include "z_en_peehat.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x01000015
 
 void EnPeehat_Init(EnPeehat* this, GlobalContext* globalCtx);

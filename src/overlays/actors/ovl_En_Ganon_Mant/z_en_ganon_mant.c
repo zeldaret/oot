@@ -1,6 +1,6 @@
 #include "z_en_ganon_mant.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnGanonMant_Init(EnGanonMant* this, GlobalContext* globalCtx);

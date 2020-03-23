@@ -1,6 +1,6 @@
 #include "z_en_ge1.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnGe1_Init(EnGe1* this, GlobalContext* globalCtx);

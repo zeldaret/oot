@@ -1,6 +1,6 @@
 #include "z_demo_kekkai.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void DemoKekkai_Init(DemoKekkai* this, GlobalContext* globalCtx);

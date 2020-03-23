@@ -2,13 +2,13 @@
  * File: z_demo_geff.c
  * Overlay: Demo_Geff
  * Description:
-*/
+ */
 
 #include "z_demo_geff.h"
 
 #include <vt.h>
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 static void DemoGeff_Init(DemoGeff* this, GlobalContext* globalCtx);
@@ -24,17 +24,25 @@ static void func_80978308(DemoGeff* this, GlobalContext* globalCtx);
 static void func_809784D4(DemoGeff* this, GlobalContext* globalCtx);
 static void func_80978344(DemoGeff* this, GlobalContext* globalCtx);
 
-s16 objectIds[] = { OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF,
-                    OBJECT_GEFF, OBJECT_GEFF, };
+s16 objectIds[] = {
+    OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF,
+};
 
-ActorFunc scaleFuncs[] = { (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
-                           (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
-                           (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030, };
-ActorFunc actionFuncs[] = { (ActorFunc)func_809783D4, (ActorFunc)func_80978308, };
-ActorFunc drawFuncs[] = { (ActorFunc)func_809784D4, (ActorFunc)func_80978344, };
+ActorFunc scaleFuncs[] = {
+    (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
+    (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
+    (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
+};
+ActorFunc actionFuncs[] = {
+    (ActorFunc)func_809783D4,
+    (ActorFunc)func_80978308,
+};
+ActorFunc drawFuncs[] = {
+    (ActorFunc)func_809784D4,
+    (ActorFunc)func_80978344,
+};
 
-const ActorInit Demo_Geff_InitVars =
-{
+const ActorInit Demo_Geff_InitVars = {
     ACTOR_DEMO_GEFF,
     ACTORTYPE_BOSS,
     ROOM,
@@ -50,7 +58,6 @@ const ActorInit Demo_Geff_InitVars =
 extern UNK_TYPE D_06000EA0;
 
 static void DemoGeff_Destroy(DemoGeff* this, GlobalContext* globalCtx) {
-
 }
 
 static void DemoGeff_Init(DemoGeff* this, GlobalContext* globalCtx) {
@@ -85,7 +92,7 @@ static void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
     Gfx* gfxArr[5];
 
     func_800C6AC4(gfxArr, gfxCtx, "../z_demo_geff.c", 204);
-    
+
     gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objBankIndex].segment);
 
@@ -205,7 +212,6 @@ static void DemoGeff_Update(DemoGeff* this, GlobalContext* globalCtx) {
 }
 
 static void func_809784D4(DemoGeff* this, GlobalContext* globalCtx) {
-
 }
 
 static void DemoGeff_Draw(DemoGeff* this, GlobalContext* globalCtx) {

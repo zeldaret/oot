@@ -6,6 +6,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Magma/func_809A62A8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_G_Magma/func_809A6300.s")
-
-
-

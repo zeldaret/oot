@@ -1,6 +1,6 @@
 #include "z_oceff_wipe.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void OceffWipe_Init(OceffWipe* this, GlobalContext* globalCtx);

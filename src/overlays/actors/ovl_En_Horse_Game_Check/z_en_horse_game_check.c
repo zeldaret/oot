@@ -1,6 +1,6 @@
 #include "z_en_horse_game_check.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnHorseGameCheck_Init(EnHorseGameCheck* this, GlobalContext* globalCtx);

@@ -12,4 +12,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_vismono/func_800AD5C0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_vismono/func_800AD870.s")
-

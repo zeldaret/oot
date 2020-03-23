@@ -1,6 +1,6 @@
 #include "z_en_bubble.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000001
 
 void EnBubble_Init(EnBubble* this, GlobalContext* globalCtx);

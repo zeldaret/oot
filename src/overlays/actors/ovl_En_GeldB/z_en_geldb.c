@@ -1,6 +1,6 @@
 #include "z_en_geldb.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnGeldB_Init(EnGeldB* this, GlobalContext* globalCtx);

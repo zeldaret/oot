@@ -1,6 +1,6 @@
 #include "z_en_owl.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx);

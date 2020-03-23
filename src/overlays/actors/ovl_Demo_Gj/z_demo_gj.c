@@ -1,6 +1,6 @@
 #include "z_demo_gj.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void DemoGj_Init(DemoGj* this, GlobalContext* globalCtx);

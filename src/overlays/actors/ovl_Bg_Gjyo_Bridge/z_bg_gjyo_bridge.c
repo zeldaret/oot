@@ -1,6 +1,6 @@
 #include "z_bg_gjyo_bridge.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgGjyoBridge_Init(BgGjyoBridge* this, GlobalContext* globalCtx);

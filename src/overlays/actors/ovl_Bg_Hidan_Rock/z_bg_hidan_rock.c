@@ -1,6 +1,6 @@
 #include "z_bg_hidan_rock.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHidanRock_Init(BgHidanRock* this, GlobalContext* globalCtx);

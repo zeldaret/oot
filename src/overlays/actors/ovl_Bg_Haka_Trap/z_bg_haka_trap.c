@@ -1,6 +1,6 @@
 #include "z_bg_haka_trap.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHakaTrap_Init(BgHakaTrap* this, GlobalContext* globalCtx);

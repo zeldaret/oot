@@ -1,6 +1,6 @@
 #include "z_bg_spot12_gate.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgSpot12Gate_Init(BgSpot12Gate* this, GlobalContext* globalCtx);

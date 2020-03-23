@@ -1,10 +1,9 @@
 #include <global.h>
 #include <ultra64/hardware.h>
 
-void __osViSwapContext()
-{
-    register OSViMode *s0;
-    register OSViContext *s1;
+void __osViSwapContext() {
+    register OSViMode* s0;
+    register OSViContext* s1;
     u32 origin;
     u32 hStart;
     u32 vstart;

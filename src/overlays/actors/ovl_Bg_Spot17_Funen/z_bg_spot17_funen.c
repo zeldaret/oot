@@ -1,6 +1,6 @@
 #include "z_bg_spot17_funen.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgSpot17Funen_Init(BgSpot17Funen* this, GlobalContext* globalCtx);
