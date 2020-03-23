@@ -1,3 +1,21 @@
+.rdata
+
+glabel D_808B207C
+
+    .asciz "../z_bg_spot09_obj.c"
+    .balign 4
+
+glabel D_808B2094
+
+    .asciz "../z_bg_spot09_obj.c"
+    .balign 4
+
+glabel D_808B20AC
+ .asciz "../z_bg_spot09_obj.c"
+ .balign 4
+
+.text
+
 glabel BgSpot09Obj_Draw
 /* 003A0 808B1E80 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 003A4 808B1E84 AFB00014 */  sw      $s0, 0x0014($sp)           
