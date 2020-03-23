@@ -9,8 +9,7 @@ void ItemBHeart_Update(ItemBHeart* this, GlobalContext* globalCtx);
 void ItemBHeart_Draw(ItemBHeart* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Item_B_Heart_InitVars =
-{
+const ActorInit Item_B_Heart_InitVars = {
     ACTOR_ITEM_B_HEART,
     ACTORTYPE_MISC,
     ROOM,

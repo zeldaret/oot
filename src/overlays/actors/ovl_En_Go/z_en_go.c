@@ -9,8 +9,7 @@ void EnGo_Update(EnGo* this, GlobalContext* globalCtx);
 void EnGo_Draw(EnGo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Go_InitVars =
-{
+const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
     ACTORTYPE_NPC,
     ROOM,

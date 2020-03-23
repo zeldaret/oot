@@ -9,8 +9,7 @@ void BossGoma_Update(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_Draw(BossGoma* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Boss_Goma_InitVars =
-{
+const ActorInit Boss_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORTYPE_BOSS,
     ROOM,

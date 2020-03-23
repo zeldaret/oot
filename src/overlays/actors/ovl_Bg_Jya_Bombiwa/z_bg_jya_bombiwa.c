@@ -9,8 +9,7 @@ void BgJyaBombiwa_Update(BgJyaBombiwa* this, GlobalContext* globalCtx);
 void BgJyaBombiwa_Draw(BgJyaBombiwa* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Bombiwa_InitVars =
-{
+const ActorInit Bg_Jya_Bombiwa_InitVars = {
     ACTOR_BG_JYA_BOMBIWA,
     ACTORTYPE_BG,
     ROOM,

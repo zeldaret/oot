@@ -9,8 +9,7 @@ void EnJj_Update(EnJj* this, GlobalContext* globalCtx);
 void EnJj_Draw(EnJj* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Jj_InitVars =
-{
+const ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
     ACTORTYPE_ITEMACTION,
     ROOM,

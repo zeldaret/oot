@@ -9,8 +9,7 @@ void BgJyaBigmirror_Update(BgJyaBigmirror* this, GlobalContext* globalCtx);
 void BgJyaBigmirror_Draw(BgJyaBigmirror* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Bigmirror_InitVars =
-{
+const ActorInit Bg_Jya_Bigmirror_InitVars = {
     ACTOR_BG_JYA_BIGMIRROR,
     ACTORTYPE_BG,
     ROOM,

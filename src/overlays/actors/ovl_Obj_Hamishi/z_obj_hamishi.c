@@ -9,8 +9,7 @@ void ObjHamishi_Update(ObjHamishi* this, GlobalContext* globalCtx);
 void ObjHamishi_Draw(ObjHamishi* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Hamishi_InitVars =
-{
+const ActorInit Obj_Hamishi_InitVars = {
     ACTOR_OBJ_HAMISHI,
     ACTORTYPE_PROP,
     ROOM,

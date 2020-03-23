@@ -9,8 +9,7 @@ void BgJyaLift_Update(BgJyaLift* this, GlobalContext* globalCtx);
 void BgJyaLift_Draw(BgJyaLift* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Lift_InitVars =
-{
+const ActorInit Bg_Jya_Lift_InitVars = {
     ACTOR_BG_JYA_LIFT,
     ACTORTYPE_BG,
     ROOM,

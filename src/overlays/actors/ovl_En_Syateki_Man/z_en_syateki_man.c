@@ -9,8 +9,7 @@ void EnSyatekiMan_Update(EnSyatekiMan* this, GlobalContext* globalCtx);
 void EnSyatekiMan_Draw(EnSyatekiMan* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Syateki_Man_InitVars =
-{
+const ActorInit En_Syateki_Man_InitVars = {
     ACTOR_EN_SYATEKI_MAN,
     ACTORTYPE_NPC,
     ROOM,

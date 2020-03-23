@@ -9,8 +9,7 @@ void BgDdanKd_Update(BgDdanKd* this, GlobalContext* globalCtx);
 void BgDdanKd_Draw(BgDdanKd* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ddan_Kd_InitVars =
-{
+const ActorInit Bg_Ddan_Kd_InitVars = {
     ACTOR_BG_DDAN_KD,
     ACTORTYPE_BG,
     ROOM,

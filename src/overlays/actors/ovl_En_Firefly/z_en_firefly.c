@@ -9,8 +9,7 @@ void EnFirefly_Update(EnFirefly* this, GlobalContext* globalCtx);
 void EnFirefly_Draw(EnFirefly* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Firefly_InitVars =
-{
+const ActorInit En_Firefly_InitVars = {
     ACTOR_EN_FIREFLY,
     ACTORTYPE_ENEMY,
     ROOM,

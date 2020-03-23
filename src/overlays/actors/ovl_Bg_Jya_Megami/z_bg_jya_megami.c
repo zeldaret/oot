@@ -9,8 +9,7 @@ void BgJyaMegami_Update(BgJyaMegami* this, GlobalContext* globalCtx);
 void BgJyaMegami_Draw(BgJyaMegami* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Megami_InitVars =
-{
+const ActorInit Bg_Jya_Megami_InitVars = {
     ACTOR_BG_JYA_MEGAMI,
     ACTORTYPE_BG,
     ROOM,

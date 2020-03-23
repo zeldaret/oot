@@ -9,8 +9,7 @@ void EnGe3_Update(EnGe3* this, GlobalContext* globalCtx);
 void EnGe3_Draw(EnGe3* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ge3_InitVars =
-{
+const ActorInit En_Ge3_InitVars = {
     ACTOR_EN_GE3,
     ACTORTYPE_NPC,
     ROOM,

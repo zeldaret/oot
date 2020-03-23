@@ -9,8 +9,7 @@ void EnFw_Update(EnFw* this, GlobalContext* globalCtx);
 void EnFw_Draw(EnFw* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Fw_InitVars =
-{
+const ActorInit En_Fw_InitVars = {
     ACTOR_EN_FW,
     ACTORTYPE_ENEMY,
     ROOM,

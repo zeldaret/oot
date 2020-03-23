@@ -8,8 +8,7 @@ void BgBreakwall_Destroy(BgBreakwall* this, GlobalContext* globalCtx);
 void BgBreakwall_Update(BgBreakwall* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Breakwall_InitVars =
-{
+const ActorInit Bg_Breakwall_InitVars = {
     ACTOR_BG_BREAKWALL,
     ACTORTYPE_BG,
     ROOM,

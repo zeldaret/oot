@@ -8,8 +8,7 @@ void EnTana_Destroy(EnTana* this, GlobalContext* globalCtx);
 void EnTana_Update(EnTana* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Tana_InitVars =
-{
+const ActorInit En_Tana_InitVars = {
     ACTOR_EN_TANA,
     ACTORTYPE_PROP,
     ROOM,

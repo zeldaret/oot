@@ -9,8 +9,7 @@ void EnFdFire_Update(EnFdFire* this, GlobalContext* globalCtx);
 void EnFdFire_Draw(EnFdFire* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Fd_Fire_InitVars =
-{
+const ActorInit En_Fd_Fire_InitVars = {
     ACTOR_EN_FD_FIRE,
     ACTORTYPE_ENEMY,
     ROOM,

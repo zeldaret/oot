@@ -9,8 +9,7 @@ void EnBigokuta_Update(EnBigokuta* this, GlobalContext* globalCtx);
 void EnBigokuta_Draw(EnBigokuta* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bigokuta_InitVars =
-{
+const ActorInit En_Bigokuta_InitVars = {
     ACTOR_EN_BIGOKUTA,
     ACTORTYPE_ENEMY,
     ROOM,

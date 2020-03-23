@@ -9,8 +9,7 @@ void BgBombwall_Update(BgBombwall* this, GlobalContext* globalCtx);
 void BgBombwall_Draw(BgBombwall* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Bombwall_InitVars =
-{
+const ActorInit Bg_Bombwall_InitVars = {
     ACTOR_BG_BOMBWALL,
     ACTORTYPE_BG,
     ROOM,

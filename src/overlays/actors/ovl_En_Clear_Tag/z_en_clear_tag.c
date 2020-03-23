@@ -9,8 +9,7 @@ void EnClearTag_Update(EnClearTag* this, GlobalContext* globalCtx);
 void EnClearTag_Draw(EnClearTag* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Clear_Tag_InitVars =
-{
+const ActorInit En_Clear_Tag_InitVars = {
     ACTOR_EN_CLEAR_TAG,
     ACTORTYPE_BOSS,
     ROOM,

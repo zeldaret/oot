@@ -9,8 +9,7 @@ void DemoGt_Update(DemoGt* this, GlobalContext* globalCtx);
 void DemoGt_Draw(DemoGt* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_Gt_InitVars =
-{
+const ActorInit Demo_Gt_InitVars = {
     ACTOR_DEMO_GT,
     ACTORTYPE_PROP,
     ROOM,

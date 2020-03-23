@@ -9,8 +9,7 @@ void EnCow_Update(EnCow* this, GlobalContext* globalCtx);
 void EnCow_Draw(EnCow* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Cow_InitVars =
-{
+const ActorInit En_Cow_InitVars = {
     ACTOR_EN_COW,
     ACTORTYPE_NPC,
     ROOM,

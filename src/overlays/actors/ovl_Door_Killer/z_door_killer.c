@@ -8,8 +8,7 @@ void DoorKiller_Destroy(DoorKiller* this, GlobalContext* globalCtx);
 void DoorKiller_Update(DoorKiller* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Door_Killer_InitVars =
-{
+const ActorInit Door_Killer_InitVars = {
     ACTOR_DOOR_KILLER,
     ACTORTYPE_BG,
     ROOM,

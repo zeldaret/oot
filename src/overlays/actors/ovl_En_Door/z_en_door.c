@@ -9,8 +9,7 @@ void EnDoor_Update(EnDoor* this, GlobalContext* globalCtx);
 void EnDoor_Draw(EnDoor* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Door_InitVars =
-{
+const ActorInit En_Door_InitVars = {
     ACTOR_EN_DOOR,
     ACTORTYPE_DOOR,
     ROOM,

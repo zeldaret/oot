@@ -9,8 +9,7 @@ void ObjOshihiki_Update(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_Draw(ObjOshihiki* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Oshihiki_InitVars =
-{
+const ActorInit Obj_Oshihiki_InitVars = {
     ACTOR_OBJ_OSHIHIKI,
     ACTORTYPE_PROP,
     ROOM,

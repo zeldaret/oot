@@ -8,8 +8,7 @@ void EnSyatekiItm_Destroy(EnSyatekiItm* this, GlobalContext* globalCtx);
 void EnSyatekiItm_Update(EnSyatekiItm* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Syateki_Itm_InitVars =
-{
+const ActorInit En_Syateki_Itm_InitVars = {
     ACTOR_EN_SYATEKI_ITM,
     ACTORTYPE_PROP,
     ROOM,

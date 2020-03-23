@@ -8,8 +8,7 @@ void EnOssan_Destroy(EnOssan* this, GlobalContext* globalCtx);
 void EnOssan_Update(EnOssan* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ossan_InitVars =
-{
+const ActorInit En_Ossan_InitVars = {
     ACTOR_EN_OSSAN,
     ACTORTYPE_NPC,
     ROOM,
