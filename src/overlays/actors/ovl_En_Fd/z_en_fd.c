@@ -1,6 +1,6 @@
 #include "z_en_fd.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000215
 
 void EnFd_Init(EnFd* this, GlobalContext* globalCtx);

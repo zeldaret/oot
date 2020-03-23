@@ -1,6 +1,6 @@
 #include "z_end_title.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EndTitle_Init(EndTitle* this, GlobalContext* globalCtx);

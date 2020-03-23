@@ -15,8 +15,7 @@ void PlayerCall_Destroy(Player* player, GlobalContext* globalCtx);
 void PlayerCall_Update(Player* player, GlobalContext* globalCtx);
 void PlayerCall_Draw(Player* player, GlobalContext* globalCtx);
 
-const ActorInit Player_InitVars =
-{
+const ActorInit Player_InitVars = {
     ACTOR_PLAYER,
     ACTORTYPE_PLAYER,
     0,
@@ -29,35 +28,30 @@ const ActorInit Player_InitVars =
     (ActorFunc)PlayerCall_Draw,
 };
 
-void PlayerCall_InitFuncPtrs()
-{
+void PlayerCall_InitFuncPtrs() {
     sPlayerCallInitFunc = KaleidoManager_GetRamAddr(func_80846CD8);
     sPlayerCallDestroyFunc = KaleidoManager_GetRamAddr(func_8084AB54);
     sPlayerCallUpdateFunc = KaleidoManager_GetRamAddr(func_80849EA8);
     sPlayerCallDrawFunc = KaleidoManager_GetRamAddr(func_8084A5C4);
 }
 
-void PlayerCall_Init(Player* player, GlobalContext* globalCtx)
-{
+void PlayerCall_Init(Player* player, GlobalContext* globalCtx) {
     KaleidoScopeCall_LoadPlayer();
     PlayerCall_InitFuncPtrs();
     sPlayerCallInitFunc(player, globalCtx);
 }
 
-void PlayerCall_Destroy(Player* player, GlobalContext* globalCtx)
-{
+void PlayerCall_Destroy(Player* player, GlobalContext* globalCtx) {
     KaleidoScopeCall_LoadPlayer();
     sPlayerCallDestroyFunc(player, globalCtx);
 }
 
-void PlayerCall_Update(Player* player, GlobalContext* globalCtx)
-{
+void PlayerCall_Update(Player* player, GlobalContext* globalCtx) {
     KaleidoScopeCall_LoadPlayer();
     sPlayerCallUpdateFunc(player, globalCtx);
 }
 
-void PlayerCall_Draw(Player* player, GlobalContext* globalCtx)
-{
+void PlayerCall_Draw(Player* player, GlobalContext* globalCtx) {
     KaleidoScopeCall_LoadPlayer();
     sPlayerCallDrawFunc(player, globalCtx);
 }

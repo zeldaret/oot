@@ -1,6 +1,6 @@
 #include "z_efc_erupc.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EfcErupc_Init(EfcErupc* this, GlobalContext* globalCtx);

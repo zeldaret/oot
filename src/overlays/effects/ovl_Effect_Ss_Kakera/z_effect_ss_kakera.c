@@ -36,7 +36,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809AA230.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Kakera/func_809AA430.s")
-
-
-
-

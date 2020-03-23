@@ -1,6 +1,6 @@
 #include "z_bg_spot09_obj.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgSpot09Obj_Init(BgSpot09Obj* this, GlobalContext* globalCtx);

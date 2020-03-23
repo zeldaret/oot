@@ -1,6 +1,6 @@
 #include "z_en_ge3.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnGe3_Init(EnGe3* this, GlobalContext* globalCtx);

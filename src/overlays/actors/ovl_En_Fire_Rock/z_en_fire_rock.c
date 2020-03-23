@@ -1,6 +1,6 @@
 #include "z_en_fire_rock.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnFireRock_Init(EnFireRock* this, GlobalContext* globalCtx);

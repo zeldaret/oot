@@ -1,6 +1,6 @@
 #include "z_en_ik.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnIk_Init(EnIk* this, GlobalContext* globalCtx);
@@ -164,4 +164,3 @@ const ActorInit En_Ik_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/func_80A781CC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ik/EnIk_Init.s")
-

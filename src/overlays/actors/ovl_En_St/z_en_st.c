@@ -1,6 +1,6 @@
 #include "z_en_st.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void EnSt_Init(EnSt* this, GlobalContext* globalCtx);

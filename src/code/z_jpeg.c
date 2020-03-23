@@ -10,4 +10,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_jpeg/func_8006E0EC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_jpeg/func_8006E418.s")
-

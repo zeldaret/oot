@@ -1,6 +1,6 @@
 #include "z_obj_hamishi.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ObjHamishi_Init(ObjHamishi* this, GlobalContext* globalCtx);

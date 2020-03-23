@@ -1,6 +1,6 @@
 #include "z_bg_ydan_maruta.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgYdanMaruta_Init(BgYdanMaruta* this, GlobalContext* globalCtx);
@@ -40,6 +40,3 @@ const ActorInit Bg_Ydan_Maruta_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ydan_Maruta/BgYdanMaruta_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ydan_Maruta/BgYdanMaruta_Draw.s")
-
-
-

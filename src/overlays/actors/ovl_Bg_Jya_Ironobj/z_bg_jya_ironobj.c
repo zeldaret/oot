@@ -1,6 +1,6 @@
 #include "z_bg_jya_ironobj.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgJyaIronobj_Init(BgJyaIronobj* this, GlobalContext* globalCtx);

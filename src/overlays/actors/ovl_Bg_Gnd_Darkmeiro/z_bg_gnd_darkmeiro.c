@@ -1,6 +1,6 @@
 #include "z_bg_gnd_darkmeiro.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgGndDarkmeiro_Init(BgGndDarkmeiro* this, GlobalContext* globalCtx);

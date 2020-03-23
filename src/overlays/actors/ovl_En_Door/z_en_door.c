@@ -1,6 +1,6 @@
 #include "z_en_door.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnDoor_Init(EnDoor* this, GlobalContext* globalCtx);

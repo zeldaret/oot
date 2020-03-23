@@ -1,6 +1,6 @@
 #include "z_demo_ext.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void DemoExt_Init(DemoExt* this, GlobalContext* globalCtx);

@@ -4,8 +4,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct
-{
+typedef struct {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Vec3f arrowPos;
     /* 0x0158 */ f32 unk_158;

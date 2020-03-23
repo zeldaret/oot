@@ -1,6 +1,6 @@
 #include "z_bg_jya_bigmirror.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgJyaBigmirror_Init(BgJyaBigmirror* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_obj_ice_poly.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ObjIcePoly_Init(ObjIcePoly* this, GlobalContext* globalCtx);

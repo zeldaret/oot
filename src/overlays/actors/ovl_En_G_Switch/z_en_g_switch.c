@@ -1,6 +1,6 @@
 #include "z_en_g_switch.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnGSwitch_Init(EnGSwitch* this, GlobalContext* globalCtx);

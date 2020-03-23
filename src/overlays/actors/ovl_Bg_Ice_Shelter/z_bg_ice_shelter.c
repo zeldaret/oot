@@ -1,6 +1,6 @@
 #include "z_bg_ice_shelter.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgIceShelter_Init(BgIceShelter* this, GlobalContext* globalCtx);

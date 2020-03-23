@@ -1,6 +1,6 @@
 #include "z_en_blkobj.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnBlkobj_Init(EnBlkobj* this, GlobalContext* globalCtx);

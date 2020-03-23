@@ -1,6 +1,6 @@
 #include "z_en_part.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnPart_Init(EnPart* this, GlobalContext* globalCtx);

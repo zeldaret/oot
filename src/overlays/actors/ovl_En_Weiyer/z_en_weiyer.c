@@ -1,6 +1,6 @@
 #include "z_en_weiyer.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnWeiyer_Init(EnWeiyer* this, GlobalContext* globalCtx);

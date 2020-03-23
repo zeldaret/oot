@@ -1,6 +1,6 @@
 #include "z_boss_mo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void BossMo_Init(BossMo* this, GlobalContext* globalCtx);
@@ -74,4 +74,3 @@ const ActorInit Boss_Mo_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Mo/func_80925480.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Mo/func_80925C18.s")
-

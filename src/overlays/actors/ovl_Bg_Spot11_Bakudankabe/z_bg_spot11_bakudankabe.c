@@ -1,6 +1,6 @@
 #include "z_bg_spot11_bakudankabe.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgSpot11Bakudankabe_Init(BgSpot11Bakudankabe* this, GlobalContext* globalCtx);

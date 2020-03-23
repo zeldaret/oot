@@ -1,6 +1,6 @@
 #include "z_bg_haka_gate.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHakaGate_Init(BgHakaGate* this, GlobalContext* globalCtx);
@@ -52,4 +52,3 @@ const ActorInit Bg_Haka_Gate_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Gate/func_8087C85C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Gate/BgHakaGate_Draw.s")
-

@@ -18,4 +18,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/func_800B23E8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/func_800B23F0.s")
-

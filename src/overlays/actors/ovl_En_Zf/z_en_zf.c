@@ -1,6 +1,6 @@
 #include "z_en_zf.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnZf_Init(EnZf* this, GlobalContext* globalCtx);
@@ -134,4 +134,3 @@ const ActorInit En_Zf_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B49C2C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B49E4C.s")
-

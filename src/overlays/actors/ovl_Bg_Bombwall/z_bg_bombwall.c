@@ -1,6 +1,6 @@
 #include "z_bg_bombwall.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00400000
 
 void BgBombwall_Init(BgBombwall* this, GlobalContext* globalCtx);

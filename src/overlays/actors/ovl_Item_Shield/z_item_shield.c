@@ -1,6 +1,6 @@
 #include "z_item_shield.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ItemShield_Init(ItemShield* this, GlobalContext* globalCtx);

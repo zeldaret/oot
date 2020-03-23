@@ -1,6 +1,6 @@
 #include "z_bg_haka_water.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgHakaWater_Init(BgHakaWater* this, GlobalContext* globalCtx);

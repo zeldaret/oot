@@ -1,6 +1,6 @@
 #include "z_obj_timeblock.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x0A000011
 
 void ObjTimeblock_Init(ObjTimeblock* this, GlobalContext* globalCtx);

@@ -37,7 +37,7 @@ glabel func_80A6DE38
 /* 005EC 80A6DEBC 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
 /* 005F0 80A6DEC0 44817000 */  mtc1    $at, $f14                  ## $f14 = 30.00
 /* 005F4 80A6DEC4 E60001F4 */  swc1    $f0, 0x01F4($s0)           ## 000001F4
-/* 005F8 80A6DEC8 0C03F494 */  jal     func_800FD250              
+/* 005F8 80A6DEC8 0C03F494 */  jal     Math_atan2f              
 /* 005FC 80A6DECC 46009301 */  sub.s   $f12, $f18, $f0            
 /* 00600 80A6DED0 3C0180A7 */  lui     $at, %hi(D_80A6E2C0)       ## $at = 80A70000
 /* 00604 80A6DED4 C424E2C0 */  lwc1    $f4, %lo(D_80A6E2C0)($at)  

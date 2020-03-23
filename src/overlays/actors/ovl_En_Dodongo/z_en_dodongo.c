@@ -1,6 +1,6 @@
 #include "z_en_dodongo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnDodongo_Init(EnDodongo* this, GlobalContext* globalCtx);

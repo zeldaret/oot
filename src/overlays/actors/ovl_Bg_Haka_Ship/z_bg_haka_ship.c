@@ -1,6 +1,6 @@
 #include "z_bg_haka_ship.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgHakaShip_Init(BgHakaShip* this, GlobalContext* globalCtx);

@@ -1,6 +1,6 @@
 #include "z_demo_ik.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void DemoIk_Init(DemoIk* this, GlobalContext* globalCtx);
