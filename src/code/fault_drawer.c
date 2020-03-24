@@ -97,15 +97,14 @@ void FaultDrawer_DrawRecImpl(s32 xStart, s32 yStart, s32 xEnd, s32 yEnd, u16 col
 void FaultDrawer_DrawChar(char c) {
     u16* fb;
     s32 x, y;
-    s32 test;
     u32* dataPtr;
     u32 data;
     s32 cursorX = sFaultDrawerStruct.cursorX;
     s32 cursorY = sFaultDrawerStruct.cursorY;
-    u32** temp = &sFaultDrawerStruct.fontData;
+    u32** fontData = &sFaultDrawerStruct.fontData;
+    s32 shift = c % 4;
 
-    test = c % 4;
-    dataPtr = &temp[0][(((c / 8) * 16) + ((c & 4) >> 2))];
+    dataPtr = &fontData[0][(((c / 8) * 16) + ((c & 4) >> 2))];
     fb = sFaultDrawerStruct.fb + (sFaultDrawerStruct.w * cursorY) + cursorX;
 
     if ((sFaultDrawerStruct.xStart <= cursorX) &&
@@ -113,7 +112,7 @@ void FaultDrawer_DrawChar(char c) {
         (sFaultDrawerStruct.yStart <= cursorY) &&
         ((sFaultDrawerStruct.charH + cursorY - 1) <= sFaultDrawerStruct.yEnd)) {
         for (y = 0; y < sFaultDrawerStruct.charH; y++) {
-            u32 mask = 0x10000000 << test;
+            u32 mask = 0x10000000 << shift;
             data = *dataPtr;
             for (x = 0; x < sFaultDrawerStruct.charW; x++) {
                 if (mask & data) {
