@@ -60,7 +60,9 @@ static s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
     if (gSaveContext.scene_setup_index >= 4) {
         return thisx->params == 0;
     }
+
     temp_v1 = (gSaveContext.event_chk_inf[9] & 0xF) == 0xF;
+
     if (LINK_IS_CHILD) {
         linkAge = YEARS_CHILD;
     } else {
@@ -81,6 +83,7 @@ static s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
     } else {
         return thisx->params == 2;
     }
+
     return 0;
 }
 
