@@ -3,14 +3,14 @@
 #define ROOM 0x00
 #define FLAGS 0x00000000
 
-void BgSpot09Obj_Init(BgSpot09Obj* this, GlobalContext* globalCtx);
-void BgSpot09Obj_Destroy(BgSpot09Obj* this, GlobalContext* globalCtx);
-void BgSpot09Obj_Update(BgSpot09Obj* this, GlobalContext* globalCtx);
-void BgSpot09Obj_Draw(BgSpot09Obj* this, GlobalContext* globalCtx);
+static void BgSpot09Obj_Init(BgSpot09Obj* this, GlobalContext* globalCtx);
+static void BgSpot09Obj_Destroy(BgSpot09Obj* this, GlobalContext* globalCtx);
+static void BgSpot09Obj_Update(BgSpot09Obj* this, GlobalContext* globalCtx);
+static void BgSpot09Obj_Draw(BgSpot09Obj* this, GlobalContext* globalCtx);
 
-s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx);
-s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx);
-s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx);
+static s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx);
+static s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx);
+static s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot09_Obj_InitVars =
 {
@@ -26,66 +26,66 @@ const ActorInit Bg_Spot09_Obj_InitVars =
     (ActorFunc)BgSpot09Obj_Draw,
 };
 
-u32 D_808B1F90[] = {
+static u32 D_808B1F90[] = {
     0x00000000, 0x06005520, 0x0600283C, 0x06008458, 0x06007580
 };
 
 typedef s32 (*ActorFuncRet)(struct Actor*, struct GlobalContext*);
-ActorFuncRet D_808B1FA4[] = {
+static ActorFuncRet D_808B1FA4[] = {
     (ActorFuncRet)func_808B1BEC, (ActorFuncRet)func_808B1AE0, (ActorFuncRet)func_808B1BA0,
 };
 
-InitChainEntry initChain1[] = {
+static InitChainEntry initChain1[] = {
     ICHAIN_F32(unk_F4, 7200, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 3000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 7200, ICHAIN_STOP),
 };
 
-InitChainEntry initChain2[] = {
+static InitChainEntry initChain2[] = {
     ICHAIN_F32(unk_F4, 7200, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 800, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 1500, ICHAIN_STOP),
 };
 
-u32 dists[] = {
+static u32 dlists[] = {
     0x06000100, 0x06003970, 0x06001120, 0x06007D40, 0x06006210,
 };
 
 extern UNK_TYPE D_06008010;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot09_Obj/func_808B1AE0.s")
-/*void func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
-    u16 temp_v1;
-    s32 phi_v0;
+static s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
+    s32 temp_v1;
+    s32 linkAge;
+    Actor* thisx = &this->dyna.actor;
 
-    if (gSaveContext->unk1360 >= 4) {
-        return (u32) arg0->unk1C < 1U;
+    if (gSaveContext.scene_setup_index >= 4) {
+        return thisx->params == 0;
     }
-    temp_v1 = (u32) ((gSaveContext->unkEE6 & 0xF) ^ 0xF) < 1U;
-    if (gSaveContext->unk4 != 0) {
-        phi_v0 = 5;
+    temp_v1 = (gSaveContext.event_chk_inf[9] & 0xF) == 0xF;
+    if (LINK_IS_CHILD) {
+        linkAge = YEARS_CHILD;
     } else {
-        phi_v0 = 0x11;
+        linkAge = YEARS_ADULT;
     }
-    if (phi_v0 == 0x11) {
-        if (arg0->unk1C == 0) {
-            return (u16)0;
-        }
-        if (arg0->unk1C == 1) {
-            return temp_v1 < 1U;
-        }
-        if (arg0->unk1C == 3) {
-            return (u16)1;
-        }
-        if (arg0->unk1C == 4) {
-            return temp_v1;
-        }
-        return (u16)0;
-    }
-    return (u32) (arg0->unk1C ^ 2) < 1U;
-}*/
 
-s32 func_808B1BA0(BgSpot09Obj *this, GlobalContext *globalCtx) {
+    if (linkAge == YEARS_ADULT) {
+        switch (thisx->params) {
+            case 0:
+                return 0;
+            case 1:
+                return !temp_v1;
+            case 4:
+                return temp_v1;
+            case 3:
+                return 1;
+        }
+    } else {
+        return thisx->params == 2;
+    }
+    return 0;
+}
+
+static s32 func_808B1BA0(BgSpot09Obj *this, GlobalContext *globalCtx) {
     Actor* thisx = &this->dyna.actor;
     if (thisx->params == 3) {
         Actor_SetScale(thisx, 0.1f);
@@ -95,7 +95,7 @@ s32 func_808B1BA0(BgSpot09Obj *this, GlobalContext *globalCtx) {
     return 1;
 }
 
-s32 func_808B1BEC(BgSpot09Obj *this, GlobalContext *globalCtx) {
+static s32 func_808B1BEC(BgSpot09Obj *this, GlobalContext *globalCtx) {
     Actor* thisx = &this->dyna.actor;
     s32 localC = 0;
     s32 pad[2];
@@ -108,7 +108,7 @@ s32 func_808B1BEC(BgSpot09Obj *this, GlobalContext *globalCtx) {
     return 1;
 }
 
-s32 func_808B1C70(BgSpot09Obj *this, GlobalContext *globalCtx) {
+static s32 func_808B1C70(BgSpot09Obj *this, GlobalContext *globalCtx) {
     s32 i;
     for (i = 0; i < ARRAY_COUNT(D_808B1FA4); i++) {
         if (!D_808B1FA4[i](this, globalCtx)) {
@@ -118,17 +118,17 @@ s32 func_808B1C70(BgSpot09Obj *this, GlobalContext *globalCtx) {
     return 1;
 }
 
-s32 func_808B1CEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
+static s32 func_808B1CEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, &initChain1);
     return 1;
 }
 
-s32 func_808B1D18(BgSpot09Obj* this, GlobalContext* globalCtx) {
+static s32 func_808B1D18(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, &initChain2);
     return 1;
 }
 
-s32 func_808B1D44(BgSpot09Obj* this, GlobalContext* globalCtx) {
+static s32 func_808B1D44(BgSpot09Obj* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.params == 3) {
         return func_808B1D18(this, globalCtx);
     } else {
@@ -136,7 +136,7 @@ s32 func_808B1D44(BgSpot09Obj* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot09Obj_Init(BgSpot09Obj* this, GlobalContext* globalCtx) {
+static void BgSpot09Obj_Init(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     osSyncPrintf("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n", thisx->params,
@@ -154,7 +154,7 @@ void BgSpot09Obj_Init(BgSpot09Obj* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot09Obj_Destroy(BgSpot09Obj* this, GlobalContext* globalCtx) {
+static void BgSpot09Obj_Destroy(BgSpot09Obj* this, GlobalContext* globalCtx) {
     DynaCollisionContext* dynaColCtx = &globalCtx->colCtx.dyna;
     Actor* thisx = &this->dyna.actor;
 
@@ -163,17 +163,18 @@ void BgSpot09Obj_Destroy(BgSpot09Obj* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot09Obj_Update(BgSpot09Obj* this, GlobalContext* globalCtx) {
+static void BgSpot09Obj_Update(BgSpot09Obj* this, GlobalContext* globalCtx) {
 
 }
 
-void BgSpot09Obj_Draw(BgSpot09Obj* this, GlobalContext* globalCtx) {
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[3];
+static void BgSpot09Obj_Draw(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
+    GraphicsContext* gfxCtx;
+    Gfx* gfxArr[3];
 
-    Draw_DListOpa(globalCtx, dists[thisx->params]);
+    Draw_DListOpa(globalCtx, dlists[thisx->params]);
     if (thisx->params == 3) {
+        gfxCtx = globalCtx->state.gfxCtx;
         func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 388);
         func_80093D84(globalCtx->state.gfxCtx);
 
