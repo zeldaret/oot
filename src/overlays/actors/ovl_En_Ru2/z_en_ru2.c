@@ -646,14 +646,15 @@ void func_80AF3530(EnRu2* this, UNK_TYPE arg1) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ru2/func_80AF3564.s")
-/*void func_80AF3564(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3564(EnRu2* this, GlobalContext* globalCtx) {
     CsCmdActorAction* csCmdActorAction = func_80AF27AC(globalCtx, 3);
     s32 action;
+    s32 unk_2BC;
     
     if (csCmdActorAction != NULL) {
         action = csCmdActorAction->action;
-        if (action != this->unk_2BC) {
+        unk_2BC = this->unk_2BC;
+        if (action != unk_2BC) {
             switch (action) {
                 case 7:
                     func_80AF346C(this, globalCtx);
@@ -668,7 +669,7 @@ void func_80AF3530(EnRu2* this, UNK_TYPE arg1) {
             this->unk_2BC = action;
         }
     }
-}*/
+}
 
 void func_80AF3604(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF3564(this, globalCtx);
@@ -769,22 +770,20 @@ void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
 /*void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad;
     MessageContext* msgCtx;
-    u8* unk_2C2;
+    s32 pad2;
     u8 dialogState;
     Player* player;
-    s32 pad2;
+    s32 pad3;
 
     msgCtx = &globalCtx->msgCtx;
+    if (!globalCtx){}
     dialogState = func_8010BDBC(msgCtx);
 
     if (dialogState == 3) {
         if (this->unk_2C3 != 3) {
             osSyncPrintf("おれが小松だ！ \n");
-            unk_2C2 = &this->unk_2C2;
-            *unk_2C2 += 1;
-            *unk_2C2 = *unk_2C2 % 6;
-            
-            if (*unk_2C2 == 3) {
+            this->unk_2C2++;
+            if (this->unk_2C2 % 6 == 3) {
                 player = PLAYER;
                 osSyncPrintf("うおりゃー！ \n");
                 func_8005B1A4(globalCtx->cameraCtx.activeCameraPtrs[0]);
@@ -794,6 +793,8 @@ void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
             }
         }
     }
+
+    if (globalCtx->cameraCtx.activeCameraPtrs){}
 
     this->unk_2C3 = dialogState;
     if (func_8010BDBC(msgCtx) == 2) {
@@ -811,14 +812,11 @@ void func_80AF3ADC(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ru2/func_80AF3B74.s")
-/*void func_80AF3B74(EnRu2* this, GlobalContext* globalCtx) {
-    u16 temp = (((u16)(kREG(3) + 0x28)) + ((u16)(kREG(2) + 0x96))) & 0xFFFFFFFFFFFFFFFF;
-
-    if (this->unk_2C0 > temp) {
+void func_80AF3B74(EnRu2* this, GlobalContext* globalCtx) {
+    if (this->unk_2C0 > (((u16)(kREG(3) + 0x28)) + ((u16)(kREG(2) + 0x96)) & 0xFFFF)) {
         Actor_Kill(&this->actor);
     }
-}*/
+}
 
 void func_80AF3BC8(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF3878(this, globalCtx);
@@ -907,7 +905,7 @@ void func_80AF3F14(EnRu2* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ru2/func_80AF3F20.s")
 /*void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    u32 something = D_80AF410C[this->unk_2A4];
+    u32 addr = D_80AF410C[this->unk_2A4];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
@@ -915,8 +913,8 @@ void func_80AF3F14(EnRu2* this, GlobalContext* globalCtx) {
     func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2.c", 642);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(something));  
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(something));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));  
+    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116290);
 

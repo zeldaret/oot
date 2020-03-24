@@ -20,7 +20,7 @@ typedef struct {
     /* 0x02B8 */ s32 unk_2B8;
     /* 0x02BC */ s32 unk_2BC;
     /* 0x02C0 */ u16 unk_2C0;
-    /* 0x02C2 */ s8 unk_2C2;
+    /* 0x02C2 */ u8 unk_2C2;
     /* 0x02C3 */ u8 unk_2C3;
     /* 0x02C4 */ f32 unk_2C4;
     /* 0x02C8 */ ColliderCylinderMain collider;
