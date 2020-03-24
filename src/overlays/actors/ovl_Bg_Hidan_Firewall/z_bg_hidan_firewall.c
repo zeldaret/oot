@@ -8,8 +8,7 @@ void BgHidanFirewall_Destroy(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Firewall_InitVars =
-{
+const ActorInit Bg_Hidan_Firewall_InitVars = {
     ACTOR_BG_HIDAN_FIREWALL,
     ACTORTYPE_BG,
     ROOM,

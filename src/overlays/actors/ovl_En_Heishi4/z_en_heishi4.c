@@ -9,8 +9,7 @@ void EnHeishi4_Update(EnHeishi4* this, GlobalContext* globalCtx);
 void EnHeishi4_Draw(EnHeishi4* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Heishi4_InitVars =
-{
+const ActorInit En_Heishi4_InitVars = {
     ACTOR_EN_HEISHI4,
     ACTORTYPE_NPC,
     ROOM,

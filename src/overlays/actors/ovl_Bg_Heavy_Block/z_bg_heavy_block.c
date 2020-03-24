@@ -9,8 +9,7 @@ void BgHeavyBlock_Update(BgHeavyBlock* this, GlobalContext* globalCtx);
 void BgHeavyBlock_Draw(BgHeavyBlock* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Heavy_Block_InitVars =
-{
+const ActorInit Bg_Heavy_Block_InitVars = {
     ACTOR_BG_HEAVY_BLOCK,
     ACTORTYPE_BG,
     ROOM,

@@ -280,7 +280,7 @@ void func_80098958(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x0B: Object List
 #ifdef NON_MATCHING
-// this function still needs some work
+// this function still needs some work but it should be functionally equivalent
 void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
     s32 i, j, k;
     s16* objectEntry;
@@ -312,13 +312,15 @@ void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
         }
     }
 
-    if (cmd->objectList.num > OBJECT_EXCHANGE_BANK_MAX)
+    if (cmd->objectList.num > OBJECT_EXCHANGE_BANK_MAX) {
         __assert("scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
+    }
 
     while (k < cmd->objectList.num) {
         nextPtr = func_800982FC(&globalCtx->objectCtx, i, *objectEntry);
-        if (i < OBJECT_EXCHANGE_BANK_MAX - 1)
+        if (i < OBJECT_EXCHANGE_BANK_MAX - 1) {
             globalCtx->objectCtx.status[i + 1].segment = nextPtr;
+        }
         k++;
         objectEntry++;
         status++;

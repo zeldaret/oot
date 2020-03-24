@@ -9,8 +9,7 @@ void EnKarebaba_Update(EnKarebaba* this, GlobalContext* globalCtx);
 void EnKarebaba_Draw(EnKarebaba* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Karebaba_InitVars =
-{
+const ActorInit En_Karebaba_InitVars = {
     ACTOR_EN_KAREBABA,
     ACTORTYPE_ENEMY,
     ROOM,

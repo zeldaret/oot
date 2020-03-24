@@ -9,8 +9,7 @@ void EnMThunder_Update(EnMThunder* this, GlobalContext* globalCtx);
 void EnMThunder_Draw(EnMThunder* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_M_Thunder_InitVars =
-{
+const ActorInit En_M_Thunder_InitVars = {
     ACTOR_EN_M_THUNDER,
     ACTORTYPE_ITEMACTION,
     ROOM,

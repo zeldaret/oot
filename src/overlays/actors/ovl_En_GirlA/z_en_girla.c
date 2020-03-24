@@ -8,8 +8,7 @@ void EnGirlA_Destroy(EnGirlA* this, GlobalContext* globalCtx);
 void EnGirlA_Update(EnGirlA* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_GirlA_InitVars =
-{
+const ActorInit En_GirlA_InitVars = {
     ACTOR_EN_GIRLA,
     ACTORTYPE_PROP,
     ROOM,

@@ -9,8 +9,7 @@ void ArmsHook_Update(ArmsHook* this, GlobalContext* globalCtx);
 void ArmsHook_Draw(ArmsHook* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Arms_Hook_InitVars =
-{
+const ActorInit Arms_Hook_InitVars = {
     ACTOR_ARMS_HOOK,
     ACTORTYPE_ITEMACTION,
     ROOM,

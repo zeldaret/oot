@@ -9,8 +9,7 @@ void EnTite_Update(EnTite* this, GlobalContext* globalCtx);
 void EnTite_Draw(EnTite* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Tite_InitVars =
-{
+const ActorInit En_Tite_InitVars = {
     ACTOR_EN_TITE,
     ACTORTYPE_ENEMY,
     ROOM,

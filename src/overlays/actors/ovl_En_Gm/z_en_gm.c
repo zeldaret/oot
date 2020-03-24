@@ -8,8 +8,7 @@ void EnGm_Destroy(EnGm* this, GlobalContext* globalCtx);
 void EnGm_Update(EnGm* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Gm_InitVars =
-{
+const ActorInit En_Gm_InitVars = {
     ACTOR_EN_GM,
     ACTORTYPE_NPC,
     ROOM,

@@ -8,8 +8,7 @@ void EnEncount2_Update(EnEncount2* this, GlobalContext* globalCtx);
 void EnEncount2_Draw(EnEncount2* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Encount2_InitVars =
-{
+const ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
     ACTORTYPE_ENEMY,
     ROOM,

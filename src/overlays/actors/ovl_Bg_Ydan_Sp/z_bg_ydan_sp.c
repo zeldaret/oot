@@ -9,8 +9,7 @@ void BgYdanSp_Update(BgYdanSp* this, GlobalContext* globalCtx);
 void BgYdanSp_Draw(BgYdanSp* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ydan_Sp_InitVars =
-{
+const ActorInit Bg_Ydan_Sp_InitVars = {
     ACTOR_BG_YDAN_SP,
     ACTORTYPE_BG,
     ROOM,

@@ -9,8 +9,7 @@ void ObjIcePoly_Update(ObjIcePoly* this, GlobalContext* globalCtx);
 void ObjIcePoly_Draw(ObjIcePoly* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Ice_Poly_InitVars =
-{
+const ActorInit Obj_Ice_Poly_InitVars = {
     ACTOR_OBJ_ICE_POLY,
     ACTORTYPE_PROP,
     ROOM,

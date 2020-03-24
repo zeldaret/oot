@@ -8,8 +8,7 @@ void ShotSun_Destroy(ShotSun* this, GlobalContext* globalCtx);
 void ShotSun_Update(ShotSun* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Shot_Sun_InitVars =
-{
+const ActorInit Shot_Sun_InitVars = {
     ACTOR_SHOT_SUN,
     ACTORTYPE_PROP,
     ROOM,

@@ -9,8 +9,7 @@ void BgIceObjects_Update(BgIceObjects* this, GlobalContext* globalCtx);
 void BgIceObjects_Draw(BgIceObjects* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ice_Objects_InitVars =
-{
+const ActorInit Bg_Ice_Objects_InitVars = {
     ACTOR_BG_ICE_OBJECTS,
     ACTORTYPE_PROP,
     ROOM,

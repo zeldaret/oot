@@ -9,8 +9,7 @@ void EnAm_Update(EnAm* this, GlobalContext* globalCtx);
 void EnAm_Draw(EnAm* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Am_InitVars =
-{
+const ActorInit En_Am_InitVars = {
     ACTOR_EN_AM,
     ACTORTYPE_ENEMY,
     ROOM,

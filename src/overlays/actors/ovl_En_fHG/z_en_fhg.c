@@ -9,8 +9,7 @@ void EnfHG_Update(EnfHG* this, GlobalContext* globalCtx);
 void EnfHG_Draw(EnfHG* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_fHG_InitVars =
-{
+const ActorInit En_fHG_InitVars = {
     ACTOR_EN_FHG,
     ACTORTYPE_BG,
     ROOM,

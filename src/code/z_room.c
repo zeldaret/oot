@@ -85,7 +85,7 @@ typedef struct struct_80095D04 {
 
 // Room Draw Polygon Type 2
 #ifdef NON_MATCHING
-// this function still needs some work
+// this function still needs some work but it should be functionally equivalent
 void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     PolygonType2* polygon2;
     PolygonDlist2* polygonDlist;
@@ -129,8 +129,9 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     spA4 = &spB8[0];
     polygonDlist = SEGMENTED_TO_VIRTUAL(room->mesh->polygon2.start);
     polygon2 = &room->mesh->polygon2;
-    if (polygon2->num > SHAPE_SORT_MAX)
+    if (polygon2->num > SHAPE_SORT_MAX) {
         __assert("polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
+    }
 
     sp78 = polygonDlist;
     for (sp9C = 0; sp9C < polygon2->num; sp9C++) {
@@ -152,8 +153,9 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
                     spA4->unk_08 = NULL;
                 } else {
                     do {
-                        if (spA4->unk_04 < phi_v0->unk_04)
+                        if (spA4->unk_04 < phi_v0->unk_04) {
                             break;
+                        }
                         phi_v0 = phi_v0->unk_0C;
                     } while (phi_v0 != NULL);
 
@@ -165,10 +167,11 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
                     } else {
                         phi_a0 = phi_v0->unk_08;
                         spA4->unk_08 = phi_a0;
-                        if (phi_a0 == NULL)
+                        if (phi_a0 == NULL) {
                             spB4 = spA4;
-                        else
+                        } else {
                             phi_a0->unk_0C = spA4;
+                        }
                         phi_v0->unk_08 = spA4;
                         spA4->unk_0C = (void*)phi_v0;
                     }
@@ -187,25 +190,30 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
         if (iREG(86) != 0) {
             phi_v1 = 0;
             while (phi_v1 < polygon2->num) {
-                if (phi_s0 == sp78)
+                if (phi_s0 == sp78) {
                     break;
+                }
                 phi_v1++;
                 sp78++;
             }
 
             if (((iREG(86) == 1) && (iREG(89) > sp9C)) || ((iREG(86) == 2) && (iREG(89) == sp9C))) {
-                if ((flags & 1) && (phi_s0->opa != NULL))
+                if ((flags & 1) && (phi_s0->opa != NULL)) {
                     gSPDisplayList(gfxCtx->polyOpa.p++, phi_s0->opa);
+                }
 
-                if ((flags & 2) && (phi_s0->xlu != NULL))
+                if ((flags & 2) && (phi_s0->xlu != NULL)) {
                     gSPDisplayList(gfxCtx->polyXlu.p++, phi_s0->xlu);
+                }
             }
         } else {
-            if ((flags & 1) && (phi_s0->opa != NULL))
+            if ((flags & 1) && (phi_s0->opa != NULL)) {
                 gSPDisplayList(gfxCtx->polyOpa.p++, phi_s0->opa);
+            }
 
-            if ((flags & 2) && (phi_s0->xlu != NULL))
+            if ((flags & 2) && (phi_s0->xlu != NULL)) {
                 gSPDisplayList(gfxCtx->polyXlu.p++, phi_s0->xlu);
+            }
         }
 
         spB4 = spB4->unk_0C;
@@ -541,8 +549,9 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     for (i = 0; i < globalCtx->nbRooms; i++) {
         roomSize = roomList[i].vromEnd - roomList[i].vromStart;
         osSyncPrintf("ROOM%d size=%d\n", i, roomSize);
-        if (maxRoomSize < roomSize)
+        if (maxRoomSize < roomSize) {
             maxRoomSize = roomSize;
+        }
     }
 
     if (globalCtx->nbTransitionActors != 0) {
@@ -559,8 +568,9 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
             cumulRoomSize = (frontRoom != backRoom) ? frontRoomSize + backRoomSize : frontRoomSize;
             osSyncPrintf("DOOR%d=<%d> ROOM1=<%d, %d> ROOM2=<%d, %d>\n", j, cumulRoomSize, frontRoom, frontRoomSize,
                          backRoom, backRoomSize);
-            if (maxRoomSize < cumulRoomSize)
+            if (maxRoomSize < cumulRoomSize) {
                 maxRoomSize = cumulRoomSize;
+            }
             transitionActor++;
         }
     }
@@ -578,10 +588,11 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
 
-    if (gSaveContext.respawn_flag > 0)
+    if (gSaveContext.respawn_flag > 0) {
         nextRoomNum = gSaveContext.respawn[gSaveContext.respawn_flag - 1].room_index;
-    else
+    } else {
         nextRoomNum = globalCtx->setupEntranceList[globalCtx->curSpawn].room;
+    }
     func_8009728C(globalCtx, roomCtx, nextRoomNum);
 
     return maxRoomSize;

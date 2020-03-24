@@ -335,7 +335,7 @@ s32 EnTk_Orient(EnTk* this, GlobalContext* globalCtx) {
     }
 
     path = &globalCtx->setupPathList[0];
-    point = SEGMENTED_TO_VIRTUAL(path->path);
+    point = SEGMENTED_TO_VIRTUAL(path->points);
     point += this->currentWaypoint;
 
     dx = point->x - this->actor.posRot.pos.x;
@@ -359,7 +359,7 @@ s32 EnTk_Orient(EnTk* this, GlobalContext* globalCtx) {
 u16 func_80B1C54C(GlobalContext* globalCtx, Actor* a1) {
     u16 ret;
 
-    ret = func_8006C360(globalCtx, 14);
+    ret = Text_GetFaceReaction(globalCtx, 14);
     if (ret != 0) {
         return ret;
     }

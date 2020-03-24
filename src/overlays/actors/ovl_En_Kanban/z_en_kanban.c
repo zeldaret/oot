@@ -9,8 +9,7 @@ void EnKanban_Update(EnKanban* this, GlobalContext* globalCtx);
 void EnKanban_Draw(EnKanban* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Kanban_InitVars =
-{
+const ActorInit En_Kanban_InitVars = {
     ACTOR_EN_KANBAN,
     ACTORTYPE_PROP,
     ROOM,

@@ -9,8 +9,7 @@ void BgHidanKousi_Update(BgHidanKousi* this, GlobalContext* globalCtx);
 void BgHidanKousi_Draw(BgHidanKousi* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Kousi_InitVars =
-{
+const ActorInit Bg_Hidan_Kousi_InitVars = {
     ACTOR_BG_HIDAN_KOUSI,
     ACTORTYPE_PROP,
     ROOM,

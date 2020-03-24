@@ -99,7 +99,7 @@ glabel func_80AFF7D8
 /* 0169C 80AFF94C 316C0200 */  andi    $t4, $t3, 0x0200           ## $t4 = 00000000
 /* 016A0 80AFF950 11800009 */  beq     $t4, $zero, .L80AFF978     
 /* 016A4 80AFF954 00000000 */  nop
-/* 016A8 80AFF958 0C01B0D8 */  jal     func_8006C360              
+/* 016A8 80AFF958 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 016AC 80AFF95C 24050015 */  addiu   $a1, $zero, 0x0015         ## $a1 = 00000015
 /* 016B0 80AFF960 304DFFFF */  andi    $t5, $v0, 0xFFFF           ## $t5 = 00000000
 /* 016B4 80AFF964 15A00015 */  bne     $t5, $zero, .L80AFF9BC     
@@ -124,7 +124,7 @@ glabel func_80AFF7D8
 /* 016F8 80AFF9A8 10000004 */  beq     $zero, $zero, .L80AFF9BC   
 /* 016FC 80AFF9AC A61802C4 */  sh      $t8, 0x02C4($s0)           ## 000002C4
 .L80AFF9B0:
-/* 01700 80AFF9B0 0C01B0D8 */  jal     func_8006C360              
+/* 01700 80AFF9B0 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 01704 80AFF9B4 24050015 */  addiu   $a1, $zero, 0x0015         ## $a1 = 00000015
 /* 01708 80AFF9B8 A60202C4 */  sh      $v0, 0x02C4($s0)           ## 000002C4
 .L80AFF9BC:

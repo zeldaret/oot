@@ -9,8 +9,7 @@ void EnMu_Update(EnMu* this, GlobalContext* globalCtx);
 void EnMu_Draw(EnMu* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Mu_InitVars =
-{
+const ActorInit En_Mu_InitVars = {
     ACTOR_EN_MU,
     ACTORTYPE_NPC,
     ROOM,

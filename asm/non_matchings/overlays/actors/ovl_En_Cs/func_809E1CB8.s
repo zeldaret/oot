@@ -5,7 +5,7 @@ glabel func_809E1CB8
 /* 00414 809E1CC4 8CAE1C44 */  lw      $t6, 0x1C44($a1)           ## 00001C44
 /* 00418 809E1CC8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0041C 809E1CCC 2405000F */  addiu   $a1, $zero, 0x000F         ## $a1 = 0000000F
-/* 00420 809E1CD0 0C01B0D8 */  jal     func_8006C360              
+/* 00420 809E1CD0 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00424 809E1CD4 AFAE001C */  sw      $t6, 0x001C($sp)           
 /* 00428 809E1CD8 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
 /* 0042C 809E1CDC 95EFF556 */  lhu     $t7, -0x0AAA($t7)          ## 8015F556

@@ -9,8 +9,7 @@ void DemoExt_Update(DemoExt* this, GlobalContext* globalCtx);
 void DemoExt_Draw(DemoExt* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_Ext_InitVars =
-{
+const ActorInit Demo_Ext_InitVars = {
     ACTOR_DEMO_EXT,
     ACTORTYPE_NPC,
     ROOM,

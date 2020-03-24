@@ -9,8 +9,7 @@ void ItemOcarina_Update(ItemOcarina* this, GlobalContext* globalCtx);
 void ItemOcarina_Draw(ItemOcarina* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Item_Ocarina_InitVars =
-{
+const ActorInit Item_Ocarina_InitVars = {
     ACTOR_ITEM_OCARINA,
     ACTORTYPE_ITEMACTION,
     ROOM,

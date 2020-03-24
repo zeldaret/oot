@@ -8,8 +8,7 @@ void BgMoriKaitenkabe_Destroy(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_Update(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mori_Kaitenkabe_InitVars =
-{
+const ActorInit Bg_Mori_Kaitenkabe_InitVars = {
     ACTOR_BG_MORI_KAITENKABE,
     ACTORTYPE_BG,
     ROOM,

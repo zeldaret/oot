@@ -9,8 +9,7 @@ void EnNiw_Update(EnNiw* this, GlobalContext* globalCtx);
 void EnNiw_Draw(EnNiw* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Niw_InitVars =
-{
+const ActorInit En_Niw_InitVars = {
     ACTOR_EN_NIW,
     ACTORTYPE_PROP,
     ROOM,

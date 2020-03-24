@@ -9,8 +9,7 @@ void EnBox_Update(EnBox* this, GlobalContext* globalCtx);
 void EnBox_Draw(EnBox* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Box_InitVars =
-{
+const ActorInit En_Box_InitVars = {
     Chest,
     ACTORTYPE_CHEST,
     ROOM,

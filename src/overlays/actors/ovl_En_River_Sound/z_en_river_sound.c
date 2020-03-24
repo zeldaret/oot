@@ -9,8 +9,7 @@ void EnRiverSound_Update(EnRiverSound* this, GlobalContext* globalCtx);
 void EnRiverSound_Draw(EnRiverSound* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_River_Sound_InitVars =
-{
+const ActorInit En_River_Sound_InitVars = {
     ACTOR_EN_RIVER_SOUND,
     ACTORTYPE_BG,
     ROOM,

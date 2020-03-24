@@ -9,8 +9,7 @@ void EnGanonMant_Update(EnGanonMant* this, GlobalContext* globalCtx);
 void EnGanonMant_Draw(EnGanonMant* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ganon_Mant_InitVars =
-{
+const ActorInit En_Ganon_Mant_InitVars = {
     ACTOR_EN_GANON_MANT,
     ACTORTYPE_BOSS,
     ROOM,

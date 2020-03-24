@@ -67,13 +67,13 @@ extern D_060005EC;
 extern D_06003DC0;
 
 static void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx) {
-    this->actor.textId = func_8006C360(globalCtx, 0x1B);
+    this->actor.textId = Text_GetFaceReaction(globalCtx, 0x1B);
     if (this->actor.textId == 0) {
         if (BEANS_BOUGHT >= 10) {
             this->actor.textId = 0x406B;
-            return;
+        } else {
+            this->actor.textId = offerTextIds[BEANS_BOUGHT];
         }
-        this->actor.textId = offerTextIds[BEANS_BOUGHT];
     }
 }
 
