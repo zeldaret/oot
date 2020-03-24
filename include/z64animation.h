@@ -25,9 +25,8 @@ typedef struct {
 typedef struct {
     /* 0x000 */ u32 limbIndexSeg;   // Segment address of SkelLimbIndex.
     /* 0x004 */ u8 limbCount;       // Number of limbs in the model.
-    /* 0x005 */ char pad[3];        // Padding.
+    /* 0x005 */ char unk_05[3];     // unknown, maybe padding?
     /* 0x008 */ u8 dListCount;      // Number of display lists in the model.
-    /* 0x009 */ char pad2[3];       // Padding.
 } SkelAnimeLimbHeader;  // Size = 0xC
 
 typedef struct SkelAnime {
@@ -72,7 +71,6 @@ typedef struct {
     /* 0x004 */ u32 rotationValueSeg; // referenced as tbl
     /* 0x008 */ u32 rotationIndexSeg; // referenced as ref_tbl
     /* 0x00C */ u16 limit;
-    /* 0x00E */ char pad[2];
 } AnimationHeader; // size = 0x10
 
 typedef enum {
@@ -93,7 +91,6 @@ typedef struct {
 typedef struct {
     /* 0x000 */ u8 unk_00;
     /* 0x001 */ u8 vecCount;
-    /* 0x002 */ char pad[2];
     /* 0x004 */ Vec3s* dst;
     /* 0x008 */ Vec3s* src;
     /* 0x00C */ char unk_0C[0x30];
@@ -102,7 +99,6 @@ typedef struct {
 typedef struct {
     /* 0x000 */ u8 unk_00;
     /* 0x001 */ u8 unk_01;
-    /* 0x002 */ char pad[2];
     /* 0x004 */ Vec3s* unk_04;
     /* 0x008 */ Vec3s* unk_08;
     /* 0x00C */ f32 unk_0C;
@@ -112,7 +108,6 @@ typedef struct {
 typedef struct {
     /* 0x000 */ u8 unk_00;
     /* 0x001 */ u8 vecCount;
-    /* 0x002 */ char pad[2];
     /* 0x004 */ Vec3s* dst;
     /* 0x008 */ Vec3s* src;
     /* 0x00C */ u8* index;
@@ -153,7 +148,6 @@ typedef union {
 typedef struct {
     /* 0x000 */ u8 type;
     /* 0x001 */ u8 unk_01;
-    /* 0x002 */ char pad[2];
     /* 0x004 */ AnimationEntryType types;
 } AnimationEntry; // size = 0x40
 
@@ -165,7 +159,6 @@ typedef struct AnimationContext {
 
 typedef struct {
     u16 frameCount;
-    char pad[2];
     u32 animationSegAddress;
 } LinkAnimetionEntry;
 

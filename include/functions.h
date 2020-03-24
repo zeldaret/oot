@@ -1187,7 +1187,7 @@ void SkelAnime_InitSV(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 limbHe
                       Vec3s* actorDrawTable, s32 arg5, s32 limbCount);
 void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 limbHeaderSeg, u32 animation);
 s32 SkelAnime_FrameUpdateMatrix(SkelAnime* skelAnime);
-void SkelAnime_ChangeAnimationImpl(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed, f32 unk0, f32 frameCount,
+void SkelAnime_ChangeAnimationImpl(SkelAnime* skelAnime, u32* animation, f32 playbackSpeed, f32 unk0, f32 frameCount,
                                    u8 unk1, f32 transitionRate, s8 unk2);
 void SkelAnime_ChangeAnimation(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed, f32 unk0, f32 frameCount,
                                u8 unk1, f32 transitionRate);
