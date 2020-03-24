@@ -344,7 +344,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment9));
 
     SkelAnime_DrawSV(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL,
-                  &this->actor);
+                     &this->actor);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
 }

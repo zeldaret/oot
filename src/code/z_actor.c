@@ -3898,8 +3898,8 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, void* unkFunc
     gDPPipeSync(gfxCtx->polyOpa.p++);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80034B28(globalCtx->state.gfxCtx));
 
-    gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount,
-                                      unkFunc1, unkFunc2, actor, gfxCtx->polyOpa.p);
+    gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl,
+                                          skelAnime->dListCount, unkFunc1, unkFunc2, actor, gfxCtx->polyOpa.p);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8860);
 }
@@ -3917,8 +3917,8 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, void* unkFunc
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, alpha);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, func_80034B54(globalCtx->state.gfxCtx));
 
-    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount,
-                                      unkFunc1, unkFunc2, actor, gfxCtx->polyXlu.p);
+    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl,
+                                          skelAnime->dListCount, unkFunc1, unkFunc2, actor, gfxCtx->polyXlu.p);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8904);
 }

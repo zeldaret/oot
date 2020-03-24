@@ -480,6 +480,6 @@ static void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
-                  EnDog_Callback1, EnDog_Callback2, &this->actor);
+                     EnDog_Callback1, EnDog_Callback2, &this->actor);
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
 }

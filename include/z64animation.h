@@ -11,21 +11,18 @@
 struct GlobalContext;
 struct Actor;
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ u32 limbs[1];   // One ore more limbs, index 0 is the root limb.
 } SkelLimbTable; // Size >= 4
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ Vec3s translation;      // Translation relative to parent limb.  root limb is a tranlation for entire model.
     /* 0x006 */ u8 firstChildIndex;     // The first child's index into the limb table.
     /* 0x007 */ u8 nextLimbIndex;       // The parent limb's next limb index into the limb table.
     /* 0x008 */ Gfx* displayLists[1];   // Display lists for the limb. Index 0 is the normal display list, index 1 is the far model display list.
 } SkelLimbEntry; // Size = 0xC or 0x10
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ u32 limbIndexSeg;   // Segment address of SkelLimbIndex.
     /* 0x004 */ u8 limbCount;       // Number of limbs in the model.
     /* 0x005 */ char pad[3];        // Padding.
@@ -33,8 +30,7 @@ typedef struct
     /* 0x009 */ char pad2[3];       // Padding.
 } SkelAnimeLimbHeader;  // Size = 0xC
 
-typedef struct SkelAnime
-{
+typedef struct SkelAnime {
     /* 0x00 */ u8 limbCount; // joint_Num
     /* 0x01 */ u8 unk_01; // state? 00 = loop 02 = don't loop ?
     /* 0x02 */ u8 dListCount;
@@ -64,15 +60,13 @@ typedef struct SkelAnime
 
 typedef s16 AnimationRotationValue;
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ u16 x;
     /* 0x002 */ u16 y;
     /* 0x004 */ u16 z;
 } AnimationRotationIndex; // size = 0x06
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ s16 frameCount;
     /* 0x002 */ s16 unk_02;
     /* 0x004 */ u32 rotationValueSeg; // referenced as tbl
@@ -90,15 +84,13 @@ typedef enum {
     ANIMATION_TYPE5
 } AnimationType;
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ DmaRequest req;
     /* 0x020 */ OSMesgQueue msgQueue;
     /* 0x038 */ OSMesg msg;
 } AnimationEntryType0;
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ u8 unk_00;
     /* 0x001 */ u8 vecCount;
     /* 0x002 */ char pad[2];
@@ -107,8 +99,7 @@ typedef struct
     /* 0x00C */ char unk_0C[0x30];
 } AnimationEntryType1;
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ u8 unk_00;
     /* 0x001 */ u8 unk_01;
     /* 0x002 */ char pad[2];
@@ -118,8 +109,7 @@ typedef struct
     /* 0x010 */ char unk_10[0x2C];
 } AnimationEntryType2;
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ u8 unk_00;
     /* 0x001 */ u8 vecCount;
     /* 0x002 */ char pad[2];
@@ -129,8 +119,7 @@ typedef struct
     /* 0x010 */ char unk_10[0x2C];
 } AnimationEntryType3;
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ u8 unk_00;
     /* 0x001 */ u8 vecCount;
     /* 0x002 */ char unk_02[0x2];
@@ -140,21 +129,18 @@ typedef struct
     /* 0x010 */ char unk_10[0x2C];
 } AnimationEntryType4;
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ struct Actor* actor;
     /* 0x004 */ SkelAnime* skelAnime;
     /* 0x008 */ f32 unk_08;
     /* 0x00C */ char unk_0C[0x30];
 } AnimationEntryType5;
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ u8 raw[0x3C];
 } AnimationEntryRaw;
 
-typedef union
-{
+typedef union {
     AnimationEntryRaw raw;
     AnimationEntryType0 type0;
     AnimationEntryType1 type1;
@@ -164,23 +150,20 @@ typedef union
     AnimationEntryType5 type5;
 } AnimationEntryType;
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ u8 type;
     /* 0x001 */ u8 unk_01;
     /* 0x002 */ char pad[2];
     /* 0x004 */ AnimationEntryType types;
 } AnimationEntry; // size = 0x40
 
-typedef struct AnimationContext
-{
+typedef struct AnimationContext {
     s16 animationCount;
     char unk_02[2];
     AnimationEntry entries[0x32];
 } AnimationContext;
 
-typedef struct
-{
+typedef struct {
     u16 frameCount;
     char pad[2];
     u32 animationSegAddress;
@@ -199,7 +182,6 @@ typedef void (*SkelAnime_LimbAppendDlist2)(struct GlobalContext* globalCtx, s32 
                                           Vec3s* rot, struct Actor* actor, Gfx** gfx);
 
 typedef void (*AnimationEntryCallback)(struct GlobalContext*, AnimationEntryType*);
-
 
 extern u32 link_animetion_segment;
 
