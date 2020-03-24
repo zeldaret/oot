@@ -29,7 +29,7 @@ glabel D_801400B4
     .balign 4
 
 .text
-glabel func_800A106C
+glabel SkelAnime_LodDrawSV
 /* B1820C 800A106C 27BDFF80 */  addiu $sp, $sp, -0x80
 /* B18210 800A1070 AFBF002C */  sw    $ra, 0x2c($sp)
 /* B18214 800A1074 AFA40080 */  sw    $a0, 0x80($sp)
@@ -202,7 +202,7 @@ glabel func_800A106C
 /* B1849C 800A12FC AFAB0010 */  sw    $t3, 0x10($sp)
 /* B184A0 800A1300 AFA20014 */  sw    $v0, 0x14($sp)
 /* B184A4 800A1304 AFAE0018 */  sw    $t6, 0x18($sp)
-/* B184A8 800A1308 0C028365 */  jal   func_800A0D94
+/* B184A8 800A1308 0C028365 */  jal   SkelAnime_LodDrawLimbSV
 /* B184AC 800A130C AFAF001C */   sw    $t7, 0x1c($sp)
 .L800A1310:
 /* B184B0 800A1310 0C034221 */  jal   Matrix_Pull

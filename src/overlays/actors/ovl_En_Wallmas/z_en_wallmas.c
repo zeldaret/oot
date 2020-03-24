@@ -94,7 +94,7 @@ static void EnWallmas_Init(EnWallmas* this, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, initChain);
     ActorShape_Init(&this->actor.shape, 0, NULL, 0.5f);
-    func_800A46F8(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
                   0x19);
 
     ActorCollider_AllocCylinder(globalCtx, &this->colCylinder);
@@ -630,7 +630,7 @@ static void EnWallmas_DrawOpa(GlobalContext* globalCtx, s32 arg1, s32 arg2, s32 
 static void EnWallmas_Draw(EnWallmas* this, GlobalContext* globalCtx) {
     if (this->actionFunc != (ActorFunc)&EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);
-        func_800A1AC8(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawSV(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
                       &EnWallMas_UpdatePos, &EnWallmas_DrawOpa, &this->actor);
     }
 

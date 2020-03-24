@@ -5,6 +5,9 @@
 #include <ultra64/gbi.h>
 #include <z64dma.h>
 
+#define LINK_ANIMETION_OFFSET(addr,offset) (((u32)&_link_animetionSegmentRomStart)+((u32)addr)-((u32)&link_animetion_segment)+((u32)offset))
+#define LIMB_DONE 0xFF
+
 struct GlobalContext;
 struct Actor;
 
@@ -23,11 +26,11 @@ typedef struct
 
 typedef struct
 {
-    u32 limbIndexSeg;   // Segment address of SkelLimbIndex.
-    u8 limbCount;       // Number of limbs in the model.
-    char pad[3];        // Padding.
-    u8 dListCount;      // Number of display lists in the model.
-    char pad2[3];       // Padding.
+    /* 0x000 */ u32 limbIndexSeg;   // Segment address of SkelLimbIndex.
+    /* 0x004 */ u8 limbCount;       // Number of limbs in the model.
+    /* 0x005 */ char pad[3];        // Padding.
+    /* 0x008 */ u8 dListCount;      // Number of display lists in the model.
+    /* 0x009 */ char pad2[3];       // Padding.
 } SkelAnimeLimbHeader;  // Size = 0xC
 
 typedef struct SkelAnime
@@ -63,19 +66,19 @@ typedef s16 AnimationRotationValue;
 
 typedef struct
 {
-    u16 x;
-    u16 y;
-    u16 z;
-} AnimationRotationIndex;
+    /* 0x000 */ u16 x;
+    /* 0x002 */ u16 y;
+    /* 0x004 */ u16 z;
+} AnimationRotationIndex; // size = 0x06
 
 typedef struct
 {
     /* 0x000 */ s16 frameCount;
-    /* 0x002 */ char pad[2];
-    /* 0x004 */ u32 rotationValueSeg; // tbl
-    /* 0x008 */ u32 rotationIndexSeg; //ref_tbl
+    /* 0x002 */ s16 unk_02;
+    /* 0x004 */ u32 rotationValueSeg; // referenced as tbl
+    /* 0x008 */ u32 rotationIndexSeg; // referenced as ref_tbl
     /* 0x00C */ u16 limit;
-    /* 0x00E */ char pad2[2];
+    /* 0x00E */ char pad[2];
 } AnimationHeader; // size = 0x10
 
 typedef enum {
@@ -89,65 +92,65 @@ typedef enum {
 
 typedef struct
 {
-    DmaRequest req;
-    OSMesgQueue msgQueue;
-    OSMesg msg;
+    /* 0x000 */ DmaRequest req;
+    /* 0x020 */ OSMesgQueue msgQueue;
+    /* 0x038 */ OSMesg msg;
 } AnimationEntryType0;
 
 typedef struct
 {
-    u8 unk_00;
-    u8 vecCount;
-    char pad[2];
-    Vec3s* dst;
-    Vec3s* src;
-    char unk_0C[0x30];
+    /* 0x000 */ u8 unk_00;
+    /* 0x001 */ u8 vecCount;
+    /* 0x002 */ char pad[2];
+    /* 0x004 */ Vec3s* dst;
+    /* 0x008 */ Vec3s* src;
+    /* 0x00C */ char unk_0C[0x30];
 } AnimationEntryType1;
 
 typedef struct
 {
-    u8 unk_00;
-    u8 unk_01;
-    char pad[2];
-    Vec3s* unk_04;
-    Vec3s* unk_08;
-    f32 unk_0C;
-    char unk_10[0x2C];
+    /* 0x000 */ u8 unk_00;
+    /* 0x001 */ u8 unk_01;
+    /* 0x002 */ char pad[2];
+    /* 0x004 */ Vec3s* unk_04;
+    /* 0x008 */ Vec3s* unk_08;
+    /* 0x00C */ f32 unk_0C;
+    /* 0x010 */ char unk_10[0x2C];
 } AnimationEntryType2;
 
 typedef struct
 {
-    u8 unk_00;
-    u8 vecCount;
-    char pad[2];
-    Vec3s* dst;
-    Vec3s* src;
-    u8* index;
-    char unk_10[0x2C];
+    /* 0x000 */ u8 unk_00;
+    /* 0x001 */ u8 vecCount;
+    /* 0x002 */ char pad[2];
+    /* 0x004 */ Vec3s* dst;
+    /* 0x008 */ Vec3s* src;
+    /* 0x00C */ u8* index;
+    /* 0x010 */ char unk_10[0x2C];
 } AnimationEntryType3;
 
 typedef struct
 {
-    u8 unk_00;
-    u8 vecCount;
-    char unk_02[0x2];
-    Vec3s* dst;
-    Vec3s* src;
-    u8* index;
-    char unk_10[0x2C];
+    /* 0x000 */ u8 unk_00;
+    /* 0x001 */ u8 vecCount;
+    /* 0x002 */ char unk_02[0x2];
+    /* 0x004 */ Vec3s* dst;
+    /* 0x008 */ Vec3s* src;
+    /* 0x00C */ u8* index;
+    /* 0x010 */ char unk_10[0x2C];
 } AnimationEntryType4;
 
 typedef struct
 {
-    struct Actor* actor;
-    SkelAnime* skelAnime;
-    f32 unk_08;
-    char unk_0C[0x30];
+    /* 0x000 */ struct Actor* actor;
+    /* 0x004 */ SkelAnime* skelAnime;
+    /* 0x008 */ f32 unk_08;
+    /* 0x00C */ char unk_0C[0x30];
 } AnimationEntryType5;
 
 typedef struct
 {
-    u8 raw[0x3C];
+    /* 0x000 */ u8 raw[0x3C];
 } AnimationEntryRaw;
 
 typedef union
@@ -198,11 +201,6 @@ typedef void (*SkelAnime_LimbAppendDlist2)(struct GlobalContext* globalCtx, s32 
 typedef void (*AnimationEntryCallback)(struct GlobalContext*, AnimationEntryType*);
 
 
-extern u32 link_animetion_segment; // 0x07000000
-#define LINK_ANIMETION_OFFSET(addr,offset) (((u32)&_link_animetionSegmentRomStart)+((u32)addr)-((u32)&link_animetion_segment)+((u32)offset))
-
-#define LIMB_DONE 0xFF
-
-#define LOG(file,line,msg,arg) LogUtils_LogThreadId(file, line); osSyncPrintf(msg, arg)
+extern u32 link_animetion_segment;
 
 #endif

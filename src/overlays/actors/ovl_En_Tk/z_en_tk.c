@@ -508,7 +508,7 @@ void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
 
     ActorShape_Init(&thisAgain->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.f);
 
-    func_800A46F8(globalCtx, &thisAgain->skelAnim, (u32)&D_0600BE40, 0, thisAgain->hz_22A, thisAgain->hz_296, 18);
+    SkelAnime_InitSV(globalCtx, &thisAgain->skelAnim, (u32)&D_0600BE40, 0, thisAgain->hz_22A, thisAgain->hz_296, 18);
     SkelAnime_ChangeAnimation(&thisAgain->skelAnim, (u32)anim, 1.f, 0.f, SkelAnime_GetFrameCount((u32)&D_06002F84), 0,
                               0.f);
 
@@ -769,7 +769,7 @@ void EnTk_Draw(EnTk* this, GlobalContext* globalCtx) {
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(eyeImages[thisAgain->eyeImageIdx]));
 
-    func_800A1AC8(globalCtx, thisAgain->skelAnim.limbIndex, thisAgain->skelAnim.actorDrawTbl,
+    SkelAnime_DrawSV(globalCtx, thisAgain->skelAnim.limbIndex, thisAgain->skelAnim.actorDrawTbl,
                   thisAgain->skelAnim.dListCount, func_80B1D278, func_80B1D2E4, &thisAgain->actor);
 
     func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);

@@ -86,7 +86,7 @@ static void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
         return;
     }
     Actor_ProcessInitChain(&this->actor, initChain);
-    func_800A46F8(globalCtx, &this->skelAnime, &D_06003DC0, &D_060005EC, &this->unkSkelAnimeStruct, &this->unk_1C6,
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06003DC0, &D_060005EC, &this->unkSkelAnimeStruct, &this->unk_1C6,
                   9); // skelanime_mtx_init
     ActorCollider_AllocCylinder(globalCtx, &this->collider);
     func_8005C450(globalCtx, &this->collider, this, &unk_col_80AB0320);
@@ -191,6 +191,6 @@ static void EnMs_Update(EnMs* this, GlobalContext* globalCtx) {
 
 void EnMs_Draw(EnMs* this, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A1AC8(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount, 0, 0,
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount, 0, 0,
                   &this->actor);
 }

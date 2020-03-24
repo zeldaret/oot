@@ -242,7 +242,7 @@ static void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
     collider = &this->collider;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
     skelAnime = &this->skelAnime;
-    func_800A46F8(globalCtx, skelAnime, &D_06007290, 0, &this->unk_1F4, &this->unk_242, 13);
+    SkelAnime_InitSV(globalCtx, skelAnime, &D_06007290, 0, &this->unk_1F4, &this->unk_242, 13);
     func_80034EC0(skelAnime, animations, 0);
 
     if ((this->actor.params & 0x8000) == 0) {
@@ -479,7 +479,7 @@ static void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(gfxCtx->polyOpa.p++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
-    func_800A1AC8(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
                   EnDog_Callback1, EnDog_Callback2, &this->actor);
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
 }

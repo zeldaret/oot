@@ -87,7 +87,7 @@ void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
 }
 
 void DemoGo_Destroy(DemoGo* this, GlobalContext* globalCtx) {
-    func_800A56F0(&this->skelAnime, globalCtx);
+    SkelAnime_Free(&this->skelAnime, globalCtx);
 }
 
 void func_8097C930(DemoGo* this) {
@@ -320,7 +320,7 @@ void DemoGo_Init(DemoGo* this, GlobalContext* globalCtx) {
     s16 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    func_800A46F8(globalCtx, &this->skelAnime, &D_0600FEF0, 0, 0, 0, 0);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600FEF0, 0, 0, 0, 0);
     SkelAnime_ChangeAnimation(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(animation), 2, 0.0f);
     this->action = 0;
 }
@@ -343,7 +343,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment8));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment9));
 
-    func_800A1AC8(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL,
+    SkelAnime_DrawSV(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL,
                   &this->actor);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);

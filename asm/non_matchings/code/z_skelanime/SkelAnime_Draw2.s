@@ -17,7 +17,7 @@ glabel D_80140314
     .balign 4
 
 .text
-glabel func_800A2288
+glabel SkelAnime_Draw2
 /* B19428 800A2288 27BDFFA8 */  addiu $sp, $sp, -0x58
 /* B1942C 800A228C AFBF0024 */  sw    $ra, 0x24($sp)
 /* B19430 800A2290 AFA40058 */  sw    $a0, 0x58($sp)
@@ -146,7 +146,7 @@ glabel func_800A2288
 /* B1960C 800A246C AFA80010 */  sw    $t0, 0x10($sp)
 /* B19610 800A2470 AFA20014 */  sw    $v0, 0x14($sp)
 /* B19614 800A2474 AFA90018 */  sw    $t1, 0x18($sp)
-/* B19618 800A2478 0C028811 */  jal   func_800A2044
+/* B19618 800A2478 0C028811 */  jal   SkelAnime_Draw2Limb
 /* B1961C 800A247C AFB8001C */   sw    $t8, 0x1c($sp)
 /* B19620 800A2480 AFA20070 */  sw    $v0, 0x70($sp)
 .L800A2484:
