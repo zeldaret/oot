@@ -9,8 +9,7 @@ void EffDust_Update(EffDust* this, GlobalContext* globalCtx);
 void EffDust_Draw(EffDust* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Eff_Dust_InitVars =
-{
+const ActorInit Eff_Dust_InitVars = {
     ACTOR_EFF_DUST,
     ACTORTYPE_NPC,
     ROOM,

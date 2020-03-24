@@ -9,8 +9,7 @@ void EnDaikuKakariko_Update(EnDaikuKakariko* this, GlobalContext* globalCtx);
 void EnDaikuKakariko_Draw(EnDaikuKakariko* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Daiku_Kakariko_InitVars =
-{
+const ActorInit En_Daiku_Kakariko_InitVars = {
     ACTOR_EN_DAIKU_KAKARIKO,
     ACTORTYPE_NPC,
     ROOM,

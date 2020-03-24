@@ -9,8 +9,7 @@ void BgJyaBlock_Update(BgJyaBlock* this, GlobalContext* globalCtx);
 void BgJyaBlock_Draw(BgJyaBlock* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Block_InitVars =
-{
+const ActorInit Bg_Jya_Block_InitVars = {
     ACTOR_BG_JYA_BLOCK,
     ACTORTYPE_PROP,
     ROOM,

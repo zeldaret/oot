@@ -9,8 +9,7 @@ void EnKakasi_Update(EnKakasi* this, GlobalContext* globalCtx);
 void EnKakasi_Draw(EnKakasi* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Kakasi_InitVars =
-{
+const ActorInit En_Kakasi_InitVars = {
     ACTOR_EN_KAKASI,
     ACTORTYPE_NPC,
     ROOM,

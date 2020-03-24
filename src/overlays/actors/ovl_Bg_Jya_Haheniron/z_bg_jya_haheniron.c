@@ -9,8 +9,7 @@ void BgJyaHaheniron_Update(BgJyaHaheniron* this, GlobalContext* globalCtx);
 void BgJyaHaheniron_Draw(BgJyaHaheniron* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Haheniron_InitVars =
-{
+const ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
     ACTORTYPE_PROP,
     ROOM,

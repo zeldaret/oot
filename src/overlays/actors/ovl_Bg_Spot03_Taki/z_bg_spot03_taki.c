@@ -9,8 +9,7 @@ void BgSpot03Taki_Update(BgSpot03Taki* this, GlobalContext* globalCtx);
 void BgSpot03Taki_Draw(BgSpot03Taki* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot03_Taki_InitVars =
-{
+const ActorInit Bg_Spot03_Taki_InitVars = {
     ACTOR_BG_SPOT03_TAKI,
     ACTORTYPE_BG,
     ROOM,

@@ -8,8 +8,7 @@ void EnChanger_Destroy(EnChanger* this, GlobalContext* globalCtx);
 void EnChanger_Update(EnChanger* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Changer_InitVars =
-{
+const ActorInit En_Changer_InitVars = {
     ACTOR_EN_CHANGER,
     ACTORTYPE_PROP,
     ROOM,

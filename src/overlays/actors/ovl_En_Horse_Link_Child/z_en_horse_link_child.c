@@ -9,8 +9,7 @@ void EnHorseLinkChild_Update(EnHorseLinkChild* this, GlobalContext* globalCtx);
 void EnHorseLinkChild_Draw(EnHorseLinkChild* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Horse_Link_Child_InitVars =
-{
+const ActorInit En_Horse_Link_Child_InitVars = {
     ACTOR_EN_HORSE_LINK_CHILD,
     ACTORTYPE_BG,
     ROOM,

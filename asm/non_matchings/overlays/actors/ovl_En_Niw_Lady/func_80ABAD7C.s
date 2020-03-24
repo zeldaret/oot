@@ -8,11 +8,11 @@ glabel func_80ABAD7C
 /* 01154 80ABAD94 A48E010E */  sh      $t6, 0x010E($a0)           ## 0000010E
 /* 01158 80ABAD98 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 0115C 80ABAD9C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 01160 80ABADA0 0C01B0D8 */  jal     func_8006C360              
+/* 01160 80ABADA0 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 01164 80ABADA4 24050008 */  addiu   $a1, $zero, 0x0008         ## $a1 = 00000008
 /* 01168 80ABADA8 10400004 */  beq     $v0, $zero, .L80ABADBC     
 /* 0116C 80ABADAC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01170 80ABADB0 0C01B0D8 */  jal     func_8006C360              
+/* 01170 80ABADB0 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 01174 80ABADB4 24050008 */  addiu   $a1, $zero, 0x0008         ## $a1 = 00000008
 /* 01178 80ABADB8 A602010E */  sh      $v0, 0x010E($s0)           ## 0000010E
 .L80ABADBC:

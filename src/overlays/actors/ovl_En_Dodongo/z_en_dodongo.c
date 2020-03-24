@@ -9,8 +9,7 @@ void EnDodongo_Update(EnDodongo* this, GlobalContext* globalCtx);
 void EnDodongo_Draw(EnDodongo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dodongo_InitVars =
-{
+const ActorInit En_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
     ACTORTYPE_ENEMY,
     ROOM,

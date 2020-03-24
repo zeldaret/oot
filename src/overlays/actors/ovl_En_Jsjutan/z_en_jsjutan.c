@@ -9,8 +9,7 @@ void EnJsjutan_Update(EnJsjutan* this, GlobalContext* globalCtx);
 void EnJsjutan_Draw(EnJsjutan* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Jsjutan_InitVars =
-{
+const ActorInit En_Jsjutan_InitVars = {
     ACTOR_EN_JSJUTAN,
     ACTORTYPE_NPC,
     ROOM,

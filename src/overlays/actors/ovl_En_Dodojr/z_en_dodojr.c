@@ -9,8 +9,7 @@ void EnDodojr_Update(EnDodojr* this, GlobalContext* globalCtx);
 void EnDodojr_Draw(EnDodojr* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dodojr_InitVars =
-{
+const ActorInit En_Dodojr_InitVars = {
     ACTOR_EN_DODOJR,
     ACTORTYPE_ENEMY,
     ROOM,

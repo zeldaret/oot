@@ -9,8 +9,7 @@ void EnDntJiji_Update(EnDntJiji* this, GlobalContext* globalCtx);
 void EnDntJiji_Draw(EnDntJiji* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dnt_Jiji_InitVars =
-{
+const ActorInit En_Dnt_Jiji_InitVars = {
     ACTOR_EN_DNT_JIJI,
     ACTORTYPE_NPC,
     ROOM,

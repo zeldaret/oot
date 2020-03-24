@@ -9,8 +9,7 @@ void BgSpot17Bakudankabe_Update(BgSpot17Bakudankabe* this, GlobalContext* global
 void BgSpot17Bakudankabe_Draw(BgSpot17Bakudankabe* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot17_Bakudankabe_InitVars =
-{
+const ActorInit Bg_Spot17_Bakudankabe_InitVars = {
     ACTOR_BG_SPOT17_BAKUDANKABE,
     ACTORTYPE_BG,
     ROOM,

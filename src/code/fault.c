@@ -137,8 +137,9 @@ void Fault_AddClient(FaultClient* client, void* callback, void* param0, void* pa
 
 end:
     osSetIntMask(mask);
-    if (alreadyExists)
+    if (alreadyExists) {
         osSyncPrintf(VT_COL(RED, WHITE) "fault_AddClient: %08x は既にリスト中にある\n" VT_RST, client);
+    }
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/Fault_AddClient.s")
@@ -270,27 +271,34 @@ u32 Fault_WaitForInputImpl() {
 
             kDown = curInput->padPressed;
 
-            if (kDown == 0x20)
+            if (kDown == 0x20) {
                 sFaultStructPtr->faultActive = !sFaultStructPtr->faultActive;
+            }
 
-            if (!sFaultStructPtr->faultActive)
+            if (!sFaultStructPtr->faultActive) {
                 break;
+            }
 
-            if (count-- < 1)
+            if (count-- < 1) {
                 return false;
+            }
         }
 
-        if (kDown == 0x8000 || kDown == 0x100)
+        if (kDown == 0x8000 || kDown == 0x100) {
             return false;
+        }
 
-        if (kDown == 0x200)
+        if (kDown == 0x200) {
             return true;
+        }
 
-        if (kDown == 0x800)
+        if (kDown == 0x800) {
             FaultDrawer_SetOsSyncPrintfEnabled(true);
+        }
 
-        if (kDown == 0x400)
+        if (kDown == 0x400) {
             FaultDrawer_SetOsSyncPrintfEnabled(false);
+        }
     }
 
     return false;
@@ -555,24 +563,28 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
     s32 off;
 
     while (true) {
-        if (addr < 0x80000000)
+        if (addr < 0x80000000) {
             addr = 0x80000000;
-        if (addr > 0x807fff00)
+        }
+        if (addr > 0x807fff00) {
             addr = 0x807fff00;
+        }
 
         addr &= ~0xF;
         Fault_DrawMemDumpPage("Dump", (u32*)addr, 0);
         count = 600;
 
         while (sFaultStructPtr->faultActive) {
-            if (count == 0)
+            if (count == 0) {
                 return;
+            }
 
             count--;
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-            if (!~(curInput->padPressed | ~0x20))
+            if (!~(curInput->padPressed | ~0x20)) {
                 sFaultStructPtr->faultActive = false;
+            }
         }
 
         do {
@@ -580,31 +592,42 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
             Fault_UpdatePadImpl();
         } while (curInput->padPressed == 0);
 
-        if (!~(curInput->padPressed | ~0x1000))
+        if (!~(curInput->padPressed | ~0x1000)) {
             return;
+        }
 
-        if (!~(curInput->raw.pad | ~0x8000))
+        if (!~(curInput->raw.pad | ~0x8000)) {
             return;
+        }
 
         off = 0x10;
-        if (!~(curInput->raw.pad | ~0x2000))
+        if (!~(curInput->raw.pad | ~0x2000)) {
             off = 0x100;
-        if (!~(curInput->raw.pad | ~0x4000))
+        }
+        if (!~(curInput->raw.pad | ~0x4000)) {
             off <<= 8;
-        if (!~(curInput->raw.pad | ~0x800))
+        }
+        if (!~(curInput->raw.pad | ~0x800)) {
             addr -= off;
-        if (!~(curInput->raw.pad | ~0x400))
+        }
+        if (!~(curInput->raw.pad | ~0x400)) {
             addr += off;
-        if (!~(curInput->raw.pad | ~0x8))
+        }
+        if (!~(curInput->raw.pad | ~0x8)) {
             addr = pc;
-        if (!~(curInput->raw.pad | ~0x4))
+        }
+        if (!~(curInput->raw.pad | ~0x4)) {
             addr = sp;
-        if (!~(curInput->raw.pad | ~0x2))
+        }
+        if (!~(curInput->raw.pad | ~0x2)) {
             addr = unk0;
-        if (!~(curInput->raw.pad | ~0x1))
+        }
+        if (!~(curInput->raw.pad | ~0x1)) {
             addr = unk1;
-        if (!~(curInput->raw.pad | ~0x20))
+        }
+        if (!~(curInput->raw.pad | ~0x20)) {
             break;
+        }
     }
 
     sFaultStructPtr->faultActive = true;
@@ -715,15 +738,16 @@ void Fault_ThreadEntry(void* arg) {
         __osSetFpcCsr(__osGetFpcCsr() & -0xf81);
         sFaultStructPtr->faultedThread = faultedThread;
 
-        while (!sFaultStructPtr->faultHandlerEnabled)
+        while (!sFaultStructPtr->faultHandlerEnabled) {
             Fault_Sleep(1000);
+        }
 
         Fault_Sleep(500);
         Fault_CommitFB();
 
-        if (sFaultStructPtr->faultActive)
+        if (sFaultStructPtr->faultActive) {
             Fault_Wait5Seconds();
-        else {
+        } else {
             Fault_DrawCornerRec(0xF801);
             Fault_WaitForButtonCombo();
         }

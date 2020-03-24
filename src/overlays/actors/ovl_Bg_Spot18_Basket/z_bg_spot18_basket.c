@@ -9,8 +9,7 @@ void BgSpot18Basket_Update(BgSpot18Basket* this, GlobalContext* globalCtx);
 void BgSpot18Basket_Draw(BgSpot18Basket* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot18_Basket_InitVars =
-{
+const ActorInit Bg_Spot18_Basket_InitVars = {
     ACTOR_BG_SPOT18_BASKET,
     ACTORTYPE_PROP,
     ROOM,

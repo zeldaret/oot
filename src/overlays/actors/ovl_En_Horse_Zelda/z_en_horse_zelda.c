@@ -9,8 +9,7 @@ void EnHorseZelda_Update(EnHorseZelda* this, GlobalContext* globalCtx);
 void EnHorseZelda_Draw(EnHorseZelda* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Horse_Zelda_InitVars =
-{
+const ActorInit En_Horse_Zelda_InitVars = {
     ACTOR_EN_HORSE_ZELDA,
     ACTORTYPE_BG,
     ROOM,

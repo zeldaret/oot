@@ -9,8 +9,7 @@ void BgHidanHrock_Update(BgHidanHrock* this, GlobalContext* globalCtx);
 void BgHidanHrock_Draw(BgHidanHrock* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Hrock_InitVars =
-{
+const ActorInit Bg_Hidan_Hrock_InitVars = {
     ACTOR_BG_HIDAN_HROCK,
     ACTORTYPE_BG,
     ROOM,

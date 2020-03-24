@@ -9,8 +9,7 @@ void BossTw_Update(BossTw* this, GlobalContext* globalCtx);
 void BossTw_Draw(BossTw* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Boss_Tw_InitVars =
-{
+const ActorInit Boss_Tw_InitVars = {
     ACTOR_BOSS_TW,
     ACTORTYPE_BOSS,
     ROOM,

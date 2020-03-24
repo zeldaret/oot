@@ -9,8 +9,7 @@ void ObjComb_Update(ObjComb* this, GlobalContext* globalCtx);
 void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Comb_InitVars =
-{
+const ActorInit Obj_Comb_InitVars = {
     ACTOR_OBJ_COMB,
     ACTORTYPE_PROP,
     ROOM,

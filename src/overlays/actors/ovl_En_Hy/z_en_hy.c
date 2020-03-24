@@ -9,8 +9,7 @@ void EnHy_Update(EnHy* this, GlobalContext* globalCtx);
 void EnHy_Draw(EnHy* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Hy_InitVars =
-{
+const ActorInit En_Hy_InitVars = {
     ACTOR_EN_HY,
     ACTORTYPE_NPC,
     ROOM,

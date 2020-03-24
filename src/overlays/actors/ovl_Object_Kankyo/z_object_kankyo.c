@@ -9,8 +9,7 @@ void ObjectKankyo_Update(ObjectKankyo* this, GlobalContext* globalCtx);
 void ObjectKankyo_Draw(ObjectKankyo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Object_Kankyo_InitVars =
-{
+const ActorInit Object_Kankyo_InitVars = {
     ACTOR_OBJECT_KANKYO,
     ACTORTYPE_ITEMACTION,
     ROOM,

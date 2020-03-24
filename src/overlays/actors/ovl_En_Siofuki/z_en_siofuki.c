@@ -9,8 +9,7 @@ void EnSiofuki_Update(EnSiofuki* this, GlobalContext* globalCtx);
 void EnSiofuki_Draw(EnSiofuki* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Siofuki_InitVars =
-{
+const ActorInit En_Siofuki_InitVars = {
     ACTOR_EN_SIOFUKI,
     ACTORTYPE_BG,
     ROOM,

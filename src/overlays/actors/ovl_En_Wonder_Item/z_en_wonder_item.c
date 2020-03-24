@@ -8,8 +8,7 @@ void EnWonderItem_Destroy(EnWonderItem* this, GlobalContext* globalCtx);
 void EnWonderItem_Update(EnWonderItem* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Wonder_Item_InitVars =
-{
+const ActorInit En_Wonder_Item_InitVars = {
     ACTOR_EN_WONDER_ITEM,
     ACTORTYPE_PROP,
     ROOM,

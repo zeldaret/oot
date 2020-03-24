@@ -8,8 +8,7 @@ void BgMoriBigst_Destroy(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_Update(BgMoriBigst* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mori_Bigst_InitVars =
-{
+const ActorInit Bg_Mori_Bigst_InitVars = {
     ACTOR_BG_MORI_BIGST,
     ACTORTYPE_BG,
     ROOM,

@@ -9,8 +9,7 @@ void EnPart_Update(EnPart* this, GlobalContext* globalCtx);
 void EnPart_Draw(EnPart* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Part_InitVars =
-{
+const ActorInit En_Part_InitVars = {
     ACTOR_EN_PART,
     ACTORTYPE_ITEMACTION,
     ROOM,

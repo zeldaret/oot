@@ -9,8 +9,7 @@ void BgRelayObjects_Update(BgRelayObjects* this, GlobalContext* globalCtx);
 void BgRelayObjects_Draw(BgRelayObjects* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Relay_Objects_InitVars =
-{
+const ActorInit Bg_Relay_Objects_InitVars = {
     ACTOR_BG_RELAY_OBJECTS,
     ACTORTYPE_BG,
     ROOM,

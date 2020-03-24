@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-u16 D_8011F3F0[60][9] = {
+u16 sReactionTextIds[60][9] = {
     { 0x0000, 0x7124, 0x7127, 0x7126, 0x7125, 0x7127, 0x7124, 0x7125, 0x7127 },
     { 0x0000, 0x7128, 0x7129, 0x7128, 0x7128, 0x7128, 0x7128, 0x712A, 0x712B },
     { 0x0000, 0x7128, 0x712B, 0x7128, 0x7128, 0x7129, 0x7128, 0x712B, 0x7128 },
@@ -64,7 +64,7 @@ u16 D_8011F3F0[60][9] = {
     { 0x0000, 0x7104, 0x7105, 0x7107, 0x7105, 0x710C, 0x7105, 0x7107, 0x7107 },
 };
 
-u16 func_8006C360(GlobalContext* globalCtx, u32 idx) {
-    u8 mask = func_8008F080(globalCtx);
-    return D_8011F3F0[idx][mask];
+u16 Text_GetFaceReaction(GlobalContext* globalCtx, u32 reactionSet) {
+    u8 currentMask = func_8008F080(globalCtx);
+    return sReactionTextIds[reactionSet][currentMask];
 }

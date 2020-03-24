@@ -9,8 +9,7 @@ void OceffStorm_Update(OceffStorm* this, GlobalContext* globalCtx);
 void OceffStorm_Draw(OceffStorm* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Oceff_Storm_InitVars =
-{
+const ActorInit Oceff_Storm_InitVars = {
     ACTOR_OCEFF_STORM,
     ACTORTYPE_ITEMACTION,
     ROOM,

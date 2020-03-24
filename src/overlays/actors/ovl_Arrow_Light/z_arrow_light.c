@@ -9,8 +9,7 @@ void ArrowLight_Update(ArrowLight* this, GlobalContext* globalCtx);
 void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Arrow_Light_InitVars =
-{
+const ActorInit Arrow_Light_InitVars = {
     ACTOR_ARROW_LIGHT,
     ACTORTYPE_ITEMACTION,
     ROOM,

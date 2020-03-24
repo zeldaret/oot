@@ -9,8 +9,7 @@ void EnDekunuts_Update(EnDekunuts* this, GlobalContext* globalCtx);
 void EnDekunuts_Draw(EnDekunuts* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dekunuts_InitVars =
-{
+const ActorInit En_Dekunuts_InitVars = {
     ACTOR_EN_DEKUNUTS,
     ACTORTYPE_ENEMY,
     ROOM,

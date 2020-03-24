@@ -9,8 +9,7 @@ void BgSpot01Idomizu_Update(BgSpot01Idomizu* this, GlobalContext* globalCtx);
 void BgSpot01Idomizu_Draw(BgSpot01Idomizu* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot01_Idomizu_InitVars =
-{
+const ActorInit Bg_Spot01_Idomizu_InitVars = {
     ACTOR_BG_SPOT01_IDOMIZU,
     ACTORTYPE_BG,
     ROOM,

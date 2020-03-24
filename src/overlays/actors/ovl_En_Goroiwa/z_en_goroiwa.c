@@ -9,8 +9,7 @@ void EnGoroiwa_Update(EnGoroiwa* this, GlobalContext* globalCtx);
 void EnGoroiwa_Draw(EnGoroiwa* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Goroiwa_InitVars =
-{
+const ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
     ACTORTYPE_PROP,
     ROOM,

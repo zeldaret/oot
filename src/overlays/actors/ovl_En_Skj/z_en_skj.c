@@ -9,8 +9,7 @@ void EnSkj_Update(EnSkj* this, GlobalContext* globalCtx);
 void EnSkj_Draw(EnSkj* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Skj_InitVars =
-{
+const ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,
     ACTORTYPE_ENEMY,
     ROOM,

@@ -9,8 +9,7 @@ void BossFd2_Update(BossFd2* this, GlobalContext* globalCtx);
 void BossFd2_Draw(BossFd2* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Boss_Fd2_InitVars =
-{
+const ActorInit Boss_Fd2_InitVars = {
     ACTOR_BOSS_FD2,
     ACTORTYPE_BOSS,
     ROOM,

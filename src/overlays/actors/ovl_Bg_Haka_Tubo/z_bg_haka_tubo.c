@@ -9,8 +9,7 @@ void BgHakaTubo_Update(BgHakaTubo* this, GlobalContext* globalCtx);
 void BgHakaTubo_Draw(BgHakaTubo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Haka_Tubo_InitVars =
-{
+const ActorInit Bg_Haka_Tubo_InitVars = {
     ACTOR_BG_HAKA_TUBO,
     ACTORTYPE_BG,
     ROOM,
