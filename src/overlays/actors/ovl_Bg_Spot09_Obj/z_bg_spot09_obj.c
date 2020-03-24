@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_spot09_obj.c
+ * Overlay: ovl_Bg_Spot09_Obj
+ * Description:
+ */
+
 #include "z_bg_spot09_obj.h"
 
 #define ROOM 0x00
@@ -27,11 +33,10 @@ const ActorInit Bg_Spot09_Obj_InitVars = {
 
 static u32 D_808B1F90[] = { 0x00000000, 0x06005520, 0x0600283C, 0x06008458, 0x06007580 };
 
-typedef s32 (*ActorFuncRet)(struct Actor*, struct GlobalContext*);
-static ActorFuncRet D_808B1FA4[] = {
-    (ActorFuncRet)func_808B1BEC,
-    (ActorFuncRet)func_808B1AE0,
-    (ActorFuncRet)func_808B1BA0,
+static s32 (*D_808B1FA4[])(BgSpot09Obj* this, GlobalContext* globalCtx) = {
+    func_808B1BEC,
+    func_808B1AE0,
+    func_808B1BA0,
 };
 
 static InitChainEntry initChain1[] = {
@@ -46,37 +51,28 @@ static InitChainEntry initChain2[] = {
     ICHAIN_F32(unk_FC, 1500, ICHAIN_STOP),
 };
 
-static u32 dlists[] = {
-    0x06000100, 0x06003970, 0x06001120, 0x06007D40, 0x06006210,
-};
+static u32 dlists[] = { 0x06000100, 0x06003970, 0x06001120, 0x06007D40, 0x06006210 };
 
 extern UNK_TYPE D_06008010;
 
 static s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
-    s32 temp_v1;
-    s32 linkAge;
+    s32 carpentersRescued;
     Actor* thisx = &this->dyna.actor;
 
     if (gSaveContext.scene_setup_index >= 4) {
         return thisx->params == 0;
     }
 
-    temp_v1 = (gSaveContext.event_chk_inf[9] & 0xF) == 0xF;
+    carpentersRescued = (gSaveContext.event_chk_inf[9] & 0xF) == 0xF;
 
-    if (LINK_IS_CHILD) {
-        linkAge = YEARS_CHILD;
-    } else {
-        linkAge = YEARS_ADULT;
-    }
-
-    if (linkAge == YEARS_ADULT) {
+    if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
         switch (thisx->params) {
             case 0:
                 return 0;
             case 1:
-                return !temp_v1;
+                return !carpentersRescued;
             case 4:
-                return temp_v1;
+                return carpentersRescued;
             case 3:
                 return 1;
         }
