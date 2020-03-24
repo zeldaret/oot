@@ -1,7 +1,7 @@
 #ifndef _FUNCTIONS_H_
 #define _FUNCTIONS_H_
 
-#include <z64.h>
+#include "z64.h"
 
 float fabsf(float f);
 #pragma intrinsic(fabsf)
@@ -1138,41 +1138,35 @@ void SkelAnime_LodDrawSV(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorD
                          SkelAnime_LimbUpdateMatrix updateMtxFunc, SkelAnime_LimbAppendDlist appendDlistFunc,
                          Actor* actor, s32 dListIndex);
 void SkelAnime_Draw(GlobalContext* globalCtx, u32* limbIndex, Vec3s* actorDrawTable,
-                    SkelAnime_LimbUpdateMatrix updateMtxFunc, SkelAnime_LimbAppendDlist appendDlistFunc,
-                    Actor* actor);
+                    SkelAnime_LimbUpdateMatrix updateMtxFunc, SkelAnime_LimbAppendDlist appendDlistFunc, Actor* actor);
 void SkelAnime_DrawSV(GlobalContext* globalCtx, u32 limbIndex, u32 actorDrawTbl, u32 dListCount, void* posUpdateFunc,
-                   void* drawFunc, Actor* actor);
+                      void* drawFunc, Actor* actor);
 s32 SkelAnime_GetFrameCount(u32 animation);
 Gfx* SkelAnime_Draw2(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDrawTable,
                      SkelAnime_LimbUpdateMatrix2 updateMtxFunc, SkelAnime_LimbAppendDlist2 appendDlistFunc,
                      Actor* actor, Gfx* gfx);
 Gfx* SkelAnime_DrawSV2(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDrawTable, s32 dListCount,
-                   SkelAnime_LimbUpdateMatrix2 updateMtxFunc, SkelAnime_LimbAppendDlist2 appendDlistFunc,
-                   Actor* actor, Gfx* gfx);
-void func_800A2E70(u8,Vec3s*,Vec3s*,Vec3s*,f32);
+                       SkelAnime_LimbUpdateMatrix2 updateMtxFunc, SkelAnime_LimbAppendDlist2 appendDlistFunc,
+                       Actor* actor, Gfx* gfx);
+void func_800A2E70(u8, Vec3s*, Vec3s*, Vec3s*, f32);
 void func_800A32EC(u16* arg0);
 void func_800A32F4(s32 arg0);
 void func_800A3310(void* arg0);
 void func_800A336C(GlobalContext* globalCtx, u32 linkAnimetionSeg, s32 frame, s32 limbCount, void* ram);
-void func_800A3478(GlobalContext* globalCtx, s32 vecCount,
-                   Vec3s* dst, Vec3s* src);
-void func_800A34DC(GlobalContext* globalCtx, s32 arg1,
-                   Vec3s* arg2, Vec3s* arg3, f32 arg4);
-void func_800A3548(GlobalContext* globalCtx, s32 vecCount,
-                   s32 dst, s32 src, s32 index);
-void func_800A35B4(GlobalContext* globalCtx, s32 vecCount,
-                   Vec3s* dst, Vec3s* src, u8* index);
-void func_800A3620(GlobalContext* globalCtx, Actor* actor,
-                   SkelAnime* skelAnime, f32 arg3);
+void func_800A3478(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src);
+void func_800A34DC(GlobalContext* globalCtx, s32 arg1, Vec3s* arg2, Vec3s* arg3, f32 arg4);
+void func_800A3548(GlobalContext* globalCtx, s32 vecCount, s32 dst, s32 src, s32 index);
+void func_800A35B4(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src, u8* index);
+void func_800A3620(GlobalContext* globalCtx, Actor* actor, SkelAnime* skelAnime, f32 arg3);
 void func_800A390C(GlobalContext* globalCtx, AnimationContext* animationCtx);
-void func_800A39AC(GlobalContext* globalCtx, SkelAnime *skelAnime, u32 limbHeaderSeg, u32* animation,
-                   s32 flags, Vec3s* actorDrawTbl, Vec3s* arg6, s32 limbBufCount);
+void func_800A39AC(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 limbHeaderSeg, u32* animation, s32 flags,
+                   Vec3s* actorDrawTbl, Vec3s* arg6, s32 limbBufCount);
 void func_800A3B8C(SkelAnime* skelAnime);
 void func_800A3BC0(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void func_800A3C9C(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void func_800A3EE8(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 arg2);
-void func_800A3F08(GlobalContext* globalCtx, SkelAnime* skelAnime, u32* animation, f32 playbackSpeed,
-                   f32 arg4, f32 frameCount, u8 arg6, f32 arg7);
+void func_800A3F08(GlobalContext* globalCtx, SkelAnime* skelAnime, u32* animation, f32 playbackSpeed, f32 arg4,
+                   f32 frameCount, u8 arg6, f32 arg7);
 void func_800A407C(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 animation);
 void func_800A40DC(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 animation, f32 playbackSpeed);
 void func_800A4140(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 animation);
@@ -1181,22 +1175,21 @@ void func_800A41FC(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void func_800A425C(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 animation, f32 frame);
 void func_800A42A0(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 animation, f32 frame);
 void func_800A42E4(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 frame);
-void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 animationSeg,
-                   f32 frame, s32 arg4, f32 arg5, f32 arg6, s32 arg7);
-void func_800A43B8(GlobalContext* globalCtx, SkelAnime *skelAnime, u32 animation,
-                   f32 frame, s32 arg4, f32 arg5, f32 arg6, s32 arg7);
+void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 animationSeg, f32 frame, s32 arg4, f32 arg5,
+                   f32 arg6, s32 arg7);
+void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 animation, f32 frame, s32 arg4, f32 arg5,
+                   f32 arg6, s32 arg7);
 s32 func_800A4530(SkelAnime* skelAnime, f32 arg1);
-void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 limbHeaderSeg,
-                    u32 animation, Vec3s* actorDrawTable, s32 arg5, s32 limbCount);
-void SkelAnime_InitSV(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 limbHeaderSeg,
-                      u32 animation, Vec3s* actorDrawTable, s32 arg5, s32 limbCount);
-void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime *skelAnime,
-                        u32 limbHeaderSeg, u32 animation);
+void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 limbHeaderSeg, u32 animation,
+                    Vec3s* actorDrawTable, s32 arg5, s32 limbCount);
+void SkelAnime_InitSV(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 limbHeaderSeg, u32 animation,
+                      Vec3s* actorDrawTable, s32 arg5, s32 limbCount);
+void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 limbHeaderSeg, u32 animation);
 s32 SkelAnime_FrameUpdateMatrix(SkelAnime* skelAnime);
-void SkelAnime_ChangeAnimationImpl(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed,
-                                   f32 unk0, f32 frameCount, u8 unk1, f32 transitionRate, s8 unk2);
-void SkelAnime_ChangeAnimation(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed,
-                               f32 unk0, f32 frameCount, u8 unk1, f32 transitionRate);
+void SkelAnime_ChangeAnimationImpl(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed, f32 unk0, f32 frameCount,
+                                   u8 unk1, f32 transitionRate, s8 unk2);
+void SkelAnime_ChangeAnimation(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed, f32 unk0, f32 frameCount,
+                               u8 unk1, f32 transitionRate);
 void func_800A51E8(SkelAnime* skelAnime, u32 animation);
 void func_800A5240(SkelAnime* skelAnime, u32 animation, f32 transitionRate);
 void func_800A529C(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed);
