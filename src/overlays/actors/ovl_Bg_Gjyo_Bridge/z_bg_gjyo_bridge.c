@@ -9,8 +9,7 @@ void BgGjyoBridge_Update(BgGjyoBridge* this, GlobalContext* globalCtx);
 void BgGjyoBridge_Draw(BgGjyoBridge* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Gjyo_Bridge_InitVars =
-{
+const ActorInit Bg_Gjyo_Bridge_InitVars = {
     ACTOR_BG_GJYO_BRIDGE,
     ACTORTYPE_PROP,
     ROOM,

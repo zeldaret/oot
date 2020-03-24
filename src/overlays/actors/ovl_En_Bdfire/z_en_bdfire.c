@@ -9,8 +9,7 @@ void EnBdfire_Update(EnBdfire* this, GlobalContext* globalCtx);
 void EnBdfire_Draw(EnBdfire* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bdfire_InitVars =
-{
+const ActorInit En_Bdfire_InitVars = {
     ACTOR_PLAYER,
     ACTORTYPE_ENEMY,
     ROOM,

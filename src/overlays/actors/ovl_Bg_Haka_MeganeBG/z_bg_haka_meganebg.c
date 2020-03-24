@@ -9,8 +9,7 @@ void BgHakaMeganeBG_Update(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 void BgHakaMeganeBG_Draw(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Haka_MeganeBG_InitVars =
-{
+const ActorInit Bg_Haka_MeganeBG_InitVars = {
     ACTOR_BG_HAKA_MEGANEBG,
     ACTORTYPE_BG,
     ROOM,

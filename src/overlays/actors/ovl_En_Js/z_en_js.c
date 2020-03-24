@@ -9,8 +9,7 @@ void EnJs_Update(EnJs* this, GlobalContext* globalCtx);
 void EnJs_Draw(EnJs* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Js_InitVars =
-{
+const ActorInit En_Js_InitVars = {
     ACTOR_EN_JS,
     ACTORTYPE_NPC,
     ROOM,

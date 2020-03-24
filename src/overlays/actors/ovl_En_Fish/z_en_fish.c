@@ -9,8 +9,7 @@ void EnFish_Update(EnFish* this, GlobalContext* globalCtx);
 void EnFish_Draw(EnFish* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Fish_InitVars =
-{
+const ActorInit En_Fish_InitVars = {
     ACTOR_EN_FISH,
     ACTORTYPE_ITEMACTION,
     ROOM,

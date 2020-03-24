@@ -9,8 +9,7 @@ void EnVbBall_Update(EnVbBall* this, GlobalContext* globalCtx);
 void EnVbBall_Draw(EnVbBall* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Vb_Ball_InitVars =
-{
+const ActorInit En_Vb_Ball_InitVars = {
     ACTOR_PLAYER,
     ACTORTYPE_BOSS,
     ROOM,

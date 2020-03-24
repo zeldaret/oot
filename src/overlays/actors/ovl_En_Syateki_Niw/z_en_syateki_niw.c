@@ -9,8 +9,7 @@ void EnSyatekiNiw_Update(EnSyatekiNiw* this, GlobalContext* globalCtx);
 void EnSyatekiNiw_Draw(EnSyatekiNiw* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Syateki_Niw_InitVars =
-{
+const ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
     ACTORTYPE_PROP,
     ROOM,

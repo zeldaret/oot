@@ -9,8 +9,7 @@ void BgPoEvent_Update(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_Draw(BgPoEvent* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Po_Event_InitVars =
-{
+const ActorInit Bg_Po_Event_InitVars = {
     ACTOR_BG_PO_EVENT,
     ACTORTYPE_BG,
     ROOM,

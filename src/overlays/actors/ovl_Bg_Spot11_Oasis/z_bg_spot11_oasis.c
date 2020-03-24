@@ -7,8 +7,7 @@ void BgSpot11Oasis_Init(BgSpot11Oasis* this, GlobalContext* globalCtx);
 void BgSpot11Oasis_Update(BgSpot11Oasis* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot11_Oasis_InitVars =
-{
+const ActorInit Bg_Spot11_Oasis_InitVars = {
     ACTOR_BG_SPOT11_OASIS,
     ACTORTYPE_BG,
     ROOM,

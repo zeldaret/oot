@@ -9,8 +9,7 @@ void EnIshi_Update(EnIshi* this, GlobalContext* globalCtx);
 void EnIshi_Draw(EnIshi* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ishi_InitVars =
-{
+const ActorInit En_Ishi_InitVars = {
     ACTOR_EN_ISHI,
     ACTORTYPE_PROP,
     ROOM,

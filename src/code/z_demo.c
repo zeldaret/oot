@@ -114,8 +114,9 @@ void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         gSaveContext.cutscene_trigger = 1;
     }
 
-    if ((gSaveContext.cutscene_trigger != 0) && (globalCtx->sceneLoadFlag == 0x14))
+    if ((gSaveContext.cutscene_trigger != 0) && (globalCtx->sceneLoadFlag == 0x14)) {
         gSaveContext.cutscene_trigger = 0;
+    }
 
     if ((gSaveContext.cutscene_trigger != 0) && (csCtx->state == CS_STATE_IDLE)) {
         // Translates to: "CUTSCENE START REQUEST ANNOUNCEMENT!"
@@ -172,13 +173,15 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
 
     sp3F = 0;
 
-    if ((csCtx->frames < cmd->startFrame) || (csCtx->frames >= cmd->endFrame) && (cmd->endFrame != cmd->startFrame))
+    if ((csCtx->frames < cmd->startFrame) || (csCtx->frames >= cmd->endFrame) && (cmd->endFrame != cmd->startFrame)) {
         return;
+    }
 
     temp = func_8006F93C(cmd->endFrame - 1, cmd->startFrame, csCtx->frames);
 
-    if (csCtx->frames == cmd->startFrame)
+    if (csCtx->frames == cmd->startFrame) {
         sp3F = 1;
+    }
 
     switch (cmd->base) {
         case 1:
@@ -198,13 +201,15 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         case 3:
             if (sp3F != 0) {
                 func_8006C3D0(globalCtx, 0);
-                if (gSaveContext.entrance_index == 0x0053)
+                if (gSaveContext.entrance_index == 0x0053) {
                     func_8006C3D0(globalCtx, 2);
+                }
             }
             break;
         case 6:
-            if (globalCtx->unk_10AC4 < 0x3200)
+            if (globalCtx->unk_10AC4 < 0x3200) {
                 globalCtx->unk_10AC4 += 0x23;
+            }
             break;
         case 7:
             if (sp3F != 0) {
@@ -219,8 +224,9 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 8:
-            if (globalCtx->unk_11D30[0] < 0x80)
+            if (globalCtx->unk_11D30[0] < 0x80) {
                 globalCtx->unk_11D30[0] += 4;
+            }
             break;
         case 9:
             globalCtx->unk_10B12[3] = 0x10;
@@ -229,33 +235,40 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             func_8006C3D0(globalCtx, 1);
             break;
         case 11:
-            if (globalCtx->unk_11D30[0] < 0x672)
+            if (globalCtx->unk_11D30[0] < 0x672) {
                 globalCtx->unk_11D30[0] += 0x14;
-            if (csCtx->frames == 0x30F)
+            }
+            if (csCtx->frames == 0x30F) {
                 func_80078884(NA_SE_EV_DEKU_DEATH);
-            else if (csCtx->frames == 0x2CD)
+            } else if (csCtx->frames == 0x2CD) {
                 globalCtx->unk_11D30[0] = 0;
+            }
             break;
         case 12:
             if (sp3F != 0) {
-                if (csCtx->state != CS_STATE_UNSKIPPABLE_EXEC)
+                if (csCtx->state != CS_STATE_UNSKIPPABLE_EXEC) {
                     csCtx->state = CS_STATE_UNSKIPPABLE_INIT;
+                }
             }
             break;
         case 13:
-            if (globalCtx->unk_11D30[1] == 0)
+            if (globalCtx->unk_11D30[1] == 0) {
                 func_80078884(NA_SE_EV_TRIFORCE_FLASH);
-            if (globalCtx->unk_11D30[1] < 0xFF)
+            }
+            if (globalCtx->unk_11D30[1] < 0xFF) {
                 globalCtx->unk_11D30[1] += 5;
+            }
             break;
         case 14:
-            if (sp3F != 0)
+            if (sp3F != 0) {
                 func_800BC490(globalCtx, 1);
+            }
             break;
         case 15:
-            if (sp3F != 0)
+            if (sp3F != 0) {
                 TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, player->unk_1B0, 0xA0, 0x78, 0x90,
                                         0x18, 0x14);
+            }
             break;
         case 16:
             if (sp3F != 0) {
@@ -266,14 +279,16 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 17:
-            if (sp3F != 0)
+            if (sp3F != 0) {
                 func_80092FAC(D_8015FCCA);
+            }
             break;
         case 18:
             globalCtx->unk_10B12[0] = 0;
             globalCtx->gloomySkyEvent = 2;
-            if (gSaveContext.day_time < 0x4AAB)
+            if (gSaveContext.day_time < 0x4AAB) {
                 gSaveContext.day_time += 30;
+            }
             if (globalCtx->unk_10B12[1] == 0) {
                 D_8011FB30 = 0;
                 func_800F6D58(14, 1, 0);
@@ -305,17 +320,19 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 25:
             gSaveContext.day_time += 30;
-            if ((gSaveContext.day_time & 0xFFFF) > 0xCAAA)
+            if ((gSaveContext.day_time & 0xFFFF) > 0xCAAA) {
                 gSaveContext.day_time = 0xCAAA;
+            }
             break;
         case 26:
             if ((gSaveContext.day_time < 0x3000) || (gSaveContext.day_time >= 0x4555)) {
-                if ((gSaveContext.day_time >= 0x4555) && (gSaveContext.day_time < 0xAAAB))
+                if ((gSaveContext.day_time >= 0x4555) && (gSaveContext.day_time < 0xAAAB)) {
                     globalCtx->unk_10AE3 = 1;
-                else if ((gSaveContext.day_time >= 0xAAAB) && (gSaveContext.day_time < 0xC556))
+                } else if ((gSaveContext.day_time >= 0xAAAB) && (gSaveContext.day_time < 0xC556)) {
                     globalCtx->unk_10AE3 = 2;
-                else
+                } else {
                     globalCtx->unk_10AE3 = 3;
+                }
             }
             break;
         case 27:
@@ -346,18 +363,20 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             func_8006C3D0(globalCtx, 4);
             break;
         case 32:
-            if (sp3F != 0)
+            if (sp3F != 0) {
                 globalCtx->unk_10B0A = 1;
+            }
             func_800788CC(0x20C0);
             break;
         case 33:
             gSaveContext.unk_1422 = 1;
             break;
         case 34:
-            if (!gSaveContext.night_flag)
+            if (!gSaveContext.night_flag) {
                 gSaveContext.day_time -= D_8011FB40;
-            else
+            } else {
                 gSaveContext.day_time -= D_8011FB40 * 2;
+            }
             break;
         case 35:
             func_800EE824(csCtx);

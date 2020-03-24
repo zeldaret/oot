@@ -8,8 +8,7 @@ void BgMoriElevator_Destroy(BgMoriElevator* this, GlobalContext* globalCtx);
 void BgMoriElevator_Update(BgMoriElevator* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mori_Elevator_InitVars =
-{
+const ActorInit Bg_Mori_Elevator_InitVars = {
     ACTOR_BG_MORI_ELEVATOR,
     ACTORTYPE_BG,
     ROOM,

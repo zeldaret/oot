@@ -9,8 +9,7 @@ void EnFhgFire_Update(EnFhgFire* this, GlobalContext* globalCtx);
 void EnFhgFire_Draw(EnFhgFire* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Fhg_Fire_InitVars =
-{
+const ActorInit En_Fhg_Fire_InitVars = {
     ACTOR_PLAYER,
     ACTORTYPE_BOSS,
     ROOM,

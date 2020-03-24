@@ -9,8 +9,7 @@ void EnButte_Update(EnButte* this, GlobalContext* globalCtx);
 void EnButte_Draw(EnButte* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Butte_InitVars =
-{
+const ActorInit En_Butte_InitVars = {
     ACTOR_EN_BUTTE,
     ACTORTYPE_ITEMACTION,
     ROOM,

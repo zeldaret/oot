@@ -9,8 +9,7 @@ void EnBomBowlMan_Update(EnBomBowlMan* this, GlobalContext* globalCtx);
 void EnBomBowlMan_Draw(EnBomBowlMan* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bom_Bowl_Man_InitVars =
-{
+const ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
     ACTORTYPE_NPC,
     ROOM,

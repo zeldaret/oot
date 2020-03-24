@@ -9,8 +9,7 @@ void BgIceShelter_Update(BgIceShelter* this, GlobalContext* globalCtx);
 void BgIceShelter_Draw(BgIceShelter* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ice_Shelter_InitVars =
-{
+const ActorInit Bg_Ice_Shelter_InitVars = {
     ACTOR_BG_ICE_SHELTER,
     ACTORTYPE_BG,
     ROOM,

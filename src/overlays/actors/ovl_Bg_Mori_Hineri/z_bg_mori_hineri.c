@@ -8,8 +8,7 @@ void BgMoriHineri_Destroy(BgMoriHineri* this, GlobalContext* globalCtx);
 void BgMoriHineri_Update(BgMoriHineri* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mori_Hineri_InitVars =
-{
+const ActorInit Bg_Mori_Hineri_InitVars = {
     ACTOR_BG_MORI_HINERI,
     ACTORTYPE_BG,
     ROOM,

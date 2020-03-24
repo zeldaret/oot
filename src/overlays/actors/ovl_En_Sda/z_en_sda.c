@@ -9,8 +9,7 @@ void EnSda_Update(EnSda* this, GlobalContext* globalCtx);
 void EnSda_Draw(EnSda* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Sda_InitVars =
-{
+const ActorInit En_Sda_InitVars = {
     ACTOR_EN_SDA,
     ACTORTYPE_BOSS,
     ROOM,

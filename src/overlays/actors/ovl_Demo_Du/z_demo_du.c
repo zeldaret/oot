@@ -9,8 +9,7 @@ void DemoDu_Update(DemoDu* this, GlobalContext* globalCtx);
 void DemoDu_Draw(DemoDu* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_Du_InitVars =
-{
+const ActorInit Demo_Du_InitVars = {
     ACTOR_DEMO_DU,
     ACTORTYPE_NPC,
     ROOM,

@@ -9,8 +9,7 @@ void BgIceShutter_Update(BgIceShutter* this, GlobalContext* globalCtx);
 void BgIceShutter_Draw(BgIceShutter* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ice_Shutter_InitVars =
-{
+const ActorInit Bg_Ice_Shutter_InitVars = {
     ACTOR_BG_ICE_SHUTTER,
     ACTORTYPE_PROP,
     ROOM,

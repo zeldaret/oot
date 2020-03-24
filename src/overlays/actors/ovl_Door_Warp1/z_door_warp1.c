@@ -9,8 +9,7 @@ void DoorWarp1_Update(DoorWarp1* this, GlobalContext* globalCtx);
 void DoorWarp1_Draw(DoorWarp1* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Door_Warp1_InitVars =
-{
+const ActorInit Door_Warp1_InitVars = {
     ACTOR_DOOR_WARP1,
     ACTORTYPE_ITEMACTION,
     ROOM,

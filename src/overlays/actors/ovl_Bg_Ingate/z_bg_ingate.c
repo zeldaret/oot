@@ -9,8 +9,7 @@ void BgIngate_Update(BgIngate* this, GlobalContext* globalCtx);
 void BgIngate_Draw(BgIngate* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ingate_InitVars =
-{
+const ActorInit Bg_Ingate_InitVars = {
     ACTOR_BG_INGATE,
     ACTORTYPE_PROP,
     ROOM,

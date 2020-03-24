@@ -129,7 +129,7 @@ glabel func_80B03A00
 /* 01944 80B03BB4 2405000D */  addiu   $a1, $zero, 0x000D         ## $a1 = 0000000D
 /* 01948 80B03BB8 57200031 */  bnel    $t9, $zero, .L80B03C80     
 /* 0194C 80B03BBC 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 01950 80B03BC0 0C01B0D8 */  jal     func_8006C360              
+/* 01950 80B03BC0 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 01954 80B03BC4 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 01958 80B03BC8 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 0195C 80B03BCC 3048FFFF */  andi    $t0, $v0, 0xFFFF           ## $t0 = 00000000

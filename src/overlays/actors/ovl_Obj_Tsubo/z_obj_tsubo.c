@@ -8,8 +8,7 @@ void ObjTsubo_Destroy(ObjTsubo* this, GlobalContext* globalCtx);
 void ObjTsubo_Update(ObjTsubo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Tsubo_InitVars =
-{
+const ActorInit Obj_Tsubo_InitVars = {
     ACTOR_OBJ_TSUBO,
     ACTORTYPE_PROP,
     ROOM,

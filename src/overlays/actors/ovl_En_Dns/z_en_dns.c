@@ -9,8 +9,7 @@ void EnDns_Update(EnDns* this, GlobalContext* globalCtx);
 void EnDns_Draw(EnDns* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dns_InitVars =
-{
+const ActorInit En_Dns_InitVars = {
     ACTOR_EN_DNS,
     ACTORTYPE_BG,
     ROOM,

@@ -9,8 +9,7 @@ void EnBom_Update(EnBom* this, GlobalContext* globalCtx);
 void EnBom_Draw(EnBom* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bom_InitVars =
-{
+const ActorInit En_Bom_InitVars = {
     ACTOR_EN_BOM,
     ACTORTYPE_EXPLOSIVES,
     ROOM,

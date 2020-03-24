@@ -9,8 +9,7 @@ void MagicFire_Update(MagicFire* this, GlobalContext* globalCtx);
 void MagicFire_Draw(MagicFire* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Magic_Fire_InitVars =
-{
+const ActorInit Magic_Fire_InitVars = {
     ACTOR_MAGIC_FIRE,
     ACTORTYPE_ITEMACTION,
     ROOM,
