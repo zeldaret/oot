@@ -9,8 +9,7 @@ void ObjTimeblock_Update(ObjTimeblock* this, GlobalContext* globalCtx);
 void ObjTimeblock_Draw(ObjTimeblock* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Timeblock_InitVars =
-{
+const ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
     ACTORTYPE_ITEMACTION,
     ROOM,

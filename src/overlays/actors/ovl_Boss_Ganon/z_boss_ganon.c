@@ -9,8 +9,7 @@ void BossGanon_Update(BossGanon* this, GlobalContext* globalCtx);
 void BossGanon_Draw(BossGanon* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Boss_Ganon_InitVars =
-{
+const ActorInit Boss_Ganon_InitVars = {
     ACTOR_BOSS_GANON,
     ACTORTYPE_BOSS,
     ROOM,

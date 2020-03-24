@@ -9,8 +9,7 @@ void MagicDark_Update(MagicDark* this, GlobalContext* globalCtx);
 void MagicDark_Draw(MagicDark* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Magic_Dark_InitVars =
-{
+const ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
     ACTORTYPE_ITEMACTION,
     ROOM,

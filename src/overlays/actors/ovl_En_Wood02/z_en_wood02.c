@@ -9,8 +9,7 @@ void EnWood02_Update(EnWood02* this, GlobalContext* globalCtx);
 void EnWood02_Draw(EnWood02* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Wood02_InitVars =
-{
+const ActorInit En_Wood02_InitVars = {
     ACTOR_EN_WOOD02,
     ACTORTYPE_PROP,
     ROOM,

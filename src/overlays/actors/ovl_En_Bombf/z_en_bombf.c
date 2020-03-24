@@ -9,8 +9,7 @@ void EnBombf_Update(EnBombf* this, GlobalContext* globalCtx);
 void EnBombf_Draw(EnBombf* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bombf_InitVars =
-{
+const ActorInit En_Bombf_InitVars = {
     ACTOR_EN_BOMBF,
     ACTORTYPE_PROP,
     ROOM,

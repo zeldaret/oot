@@ -70,12 +70,10 @@ static void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {
     if (this->unk_168 == 1 && !(gSaveContext.inf_table[7] & 0x40)) {
         this->unk_178 = 2;
         this->actionFunc = (ActorFunc)func_80878300;
-    }
-    else if (this->unk_168 == 2) {
+    } else if (this->unk_168 == 2) {
         this->unk_178 = 2;
         this->actionFunc = (ActorFunc)func_80878300;
-    }
-    else if (this->unk_168 < 0) {
+    } else if (this->unk_168 < 0) {
         this->unk_178 = 2;
         this->actionFunc = (ActorFunc)func_808783D4;
     }

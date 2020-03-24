@@ -9,8 +9,7 @@ void EnNiwGirl_Update(EnNiwGirl* this, GlobalContext* globalCtx);
 void EnNiwGirl_Draw(EnNiwGirl* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Niw_Girl_InitVars =
-{
+const ActorInit En_Niw_Girl_InitVars = {
     ACTOR_EN_NIW_GIRL,
     ACTORTYPE_NPC,
     ROOM,

@@ -9,8 +9,7 @@ void BgHidanKowarerukabe_Update(BgHidanKowarerukabe* this, GlobalContext* global
 void BgHidanKowarerukabe_Draw(BgHidanKowarerukabe* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Kowarerukabe_InitVars =
-{
+const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     ACTOR_BG_HIDAN_KOWARERUKABE,
     ACTORTYPE_BG,
     ROOM,

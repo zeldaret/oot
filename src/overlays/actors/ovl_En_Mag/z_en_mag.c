@@ -9,8 +9,7 @@ void EnMag_Update(EnMag* this, GlobalContext* globalCtx);
 void EnMag_Draw(EnMag* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Mag_InitVars =
-{
+const ActorInit En_Mag_InitVars = {
     ACTOR_EN_MAG,
     ACTORTYPE_PROP,
     ROOM,

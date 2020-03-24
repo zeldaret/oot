@@ -9,8 +9,7 @@ void EnSi_Update(EnSi* this, GlobalContext* globalCtx);
 void EnSi_Draw(EnSi* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Si_InitVars =
-{
+const ActorInit En_Si_InitVars = {
     ACTOR_EN_SI,
     ACTORTYPE_ITEMACTION,
     ROOM,

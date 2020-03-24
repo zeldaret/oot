@@ -8,8 +8,7 @@ void EnDntDemo_Destroy(EnDntDemo* this, GlobalContext* globalCtx);
 void EnDntDemo_Update(EnDntDemo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dnt_Demo_InitVars =
-{
+const ActorInit En_Dnt_Demo_InitVars = {
     ACTOR_EN_DNT_DEMO,
     ACTORTYPE_PROP,
     ROOM,

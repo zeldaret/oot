@@ -9,8 +9,7 @@ void EnPoSisters_Update(EnPoSisters* this, GlobalContext* globalCtx);
 void EnPoSisters_Draw(EnPoSisters* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Po_Sisters_InitVars =
-{
+const ActorInit En_Po_Sisters_InitVars = {
     ACTOR_EN_PO_SISTERS,
     ACTORTYPE_ENEMY,
     ROOM,

@@ -224,7 +224,7 @@ static s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
     s16 targetYaw;
     f32 waypointDistSq;
 
-    waypointDistSq = func_8008E520(&this->actor, this->path, this->waypoint, &targetYaw);
+    waypointDistSq = Path_OrientAndGetDistSq(&this->actor, this->path, this->waypoint, &targetYaw);
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, targetYaw, 10, 1000, 1);
 
     if ((waypointDistSq > 0.0f) && (waypointDistSq < 1000.0f)) {
@@ -261,7 +261,7 @@ static void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
     this->actor.gravity = -1.0f;
-    this->path = func_8008E4E0(globalCtx, (s16)((this->actor.params & 0x00F0) >> 4), 0xF);
+    this->path = Path_GetByIndex(globalCtx, (this->actor.params & 0x00F0) >> 4, 0xF);
 
     switch (globalCtx->sceneNum) {
         case SCENE_MARKET_NIGHT:

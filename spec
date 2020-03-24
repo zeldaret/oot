@@ -280,9 +280,9 @@ beginseg
     include "build/data/z_eff_shield_particle.data.o"
     include "build/src/code/z_eff_spark.o"
     include "build/src/code/z_eff_ss_dead.o"
-    include "build/src/code/code_80026B00.o"
-    include "build/data/code_80026B00.data.o"
-    include "build/data/code_80026B00.bss.o"
+    include "build/src/code/z_effect.o"
+    include "build/data/z_effect.data.o"
+    include "build/data/z_effect.bss.o"
     include "build/src/code/z_effect_soft_sprite.o"
     include "build/data/z_effect_soft_sprite.data.o"
     include "build/src/code/z_effect_soft_sprite_old_init.o"
@@ -315,7 +315,7 @@ beginseg
     include "build/asm/code_8006BA00.o"
     include "build/src/code/z_elf_message.o"
     include "build/data/z_elf_message.data.o"
-    include "build/src/code/code_8006C360.o"
+    include "build/src/code/z_face_reaction.o"
     include "build/src/code/code_8006C3A0.o"
     include "build/src/code/code_8006C510.o"
     include "build/src/code/z_fcurve_data_skelanime.o"
@@ -348,17 +348,16 @@ beginseg
     include "build/data/z_map_exp.data.o"
     include "build/data/z_map_exp.bss.o"
     include "build/src/code/z_parameter.o"
-    include "build/asm/code_8008E4E0.o"
-    include "build/data/code_8008E4E0.rodata.o"
+    include "build/src/code/z_path.o"
     include "build/asm/code_8008E6A0.o"
     include "build/src/code/z_player_lib.o"
     include "build/data/z_player_lib.data.o"
     include "build/data/z_player_lib.bss.o"
     include "build/src/code/z_prenmi.o"
-    include "build/asm/code_80092500.o"
-    include "build/data/code_80092500.data.o"
-    include "build/data/code_80092500.rodata.o"
-    include "build/data/code_80092500.bss.o"
+    include "build/asm/z_quake.o"
+    include "build/data/z_quake.data.o"
+    include "build/data/z_quake.rodata.o"
+    include "build/data/z_quake.bss.o"
     include "build/src/code/z_rcp.o"
     include "build/data/z_rcp.data.o"
     include "build/src/code/z_room.o"
@@ -866,8 +865,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Megane"
     include "build/src/overlays/actors/ovl_Bg_Haka_Megane/z_bg_haka_megane.o"
-    include "build/data/overlays/actors/z_bg_haka_megane.data.o"
-    include "build/data/overlays/actors/z_bg_haka_megane.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Megane/z_bg_haka_megane_reloc.o"
 endseg
 
 beginseg
@@ -1638,9 +1636,7 @@ endseg
 beginseg
     name "ovl_Bg_Zg"
     include "build/src/overlays/actors/ovl_Bg_Zg/z_bg_zg.o"
-    include "build/data/overlays/actors/z_bg_zg.data.o"
-    include "build/data/overlays/actors/z_bg_zg.rodata.o"
-    include "build/data/overlays/actors/z_bg_zg.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Zg/z_bg_zg_reloc.o"
 endseg
 
 beginseg

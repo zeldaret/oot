@@ -9,8 +9,7 @@ void EnEiyer_Update(EnEiyer* this, GlobalContext* globalCtx);
 void EnEiyer_Draw(EnEiyer* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Eiyer_InitVars =
-{
+const ActorInit En_Eiyer_InitVars = {
     ACTOR_EN_EIYER,
     ACTORTYPE_ENEMY,
     ROOM,

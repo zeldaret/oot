@@ -9,8 +9,7 @@ void DemoShd_Update(DemoShd* this, GlobalContext* globalCtx);
 void DemoShd_Draw(DemoShd* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_Shd_InitVars =
-{
+const ActorInit Demo_Shd_InitVars = {
     ACTOR_DEMO_SHD,
     ACTORTYPE_ITEMACTION,
     ROOM,

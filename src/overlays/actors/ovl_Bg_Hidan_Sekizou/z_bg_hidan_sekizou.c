@@ -9,8 +9,7 @@ void BgHidanSekizou_Update(BgHidanSekizou* this, GlobalContext* globalCtx);
 void BgHidanSekizou_Draw(BgHidanSekizou* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Sekizou_InitVars =
-{
+const ActorInit Bg_Hidan_Sekizou_InitVars = {
     ACTOR_BG_HIDAN_SEKIZOU,
     ACTORTYPE_BG,
     ROOM,

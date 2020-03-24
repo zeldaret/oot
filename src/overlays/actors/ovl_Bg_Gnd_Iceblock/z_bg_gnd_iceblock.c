@@ -9,8 +9,7 @@ void BgGndIceblock_Update(BgGndIceblock* this, GlobalContext* globalCtx);
 void BgGndIceblock_Draw(BgGndIceblock* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Gnd_Iceblock_InitVars =
-{
+const ActorInit Bg_Gnd_Iceblock_InitVars = {
     ACTOR_BG_GND_ICEBLOCK,
     ACTORTYPE_PROP,
     ROOM,

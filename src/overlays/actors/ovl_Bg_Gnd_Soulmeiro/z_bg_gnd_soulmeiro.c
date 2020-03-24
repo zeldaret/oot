@@ -9,8 +9,7 @@ void BgGndSoulmeiro_Update(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 void BgGndSoulmeiro_Draw(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Gnd_Soulmeiro_InitVars =
-{
+const ActorInit Bg_Gnd_Soulmeiro_InitVars = {
     ACTOR_BG_GND_SOULMEIRO,
     ACTORTYPE_PROP,
     ROOM,

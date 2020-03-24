@@ -9,8 +9,7 @@ void BgHidanFwbig_Update(BgHidanFwbig* this, GlobalContext* globalCtx);
 void BgHidanFwbig_Draw(BgHidanFwbig* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Fwbig_InitVars =
-{
+const ActorInit Bg_Hidan_Fwbig_InitVars = {
     ACTOR_BG_HIDAN_FWBIG,
     ACTORTYPE_PROP,
     ROOM,

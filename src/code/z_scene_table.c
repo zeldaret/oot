@@ -2271,10 +2271,11 @@ void func_8009FE58(GlobalContext* globalCtx) {
         D_8012A398 += 0.15f + (globalCtx->unk_11D30[1] * 0.001f);
     }
 
-    if (globalCtx->roomCtx.curRoom.num == 2)
+    if (globalCtx->roomCtx.curRoom.num == 2) {
         Matrix_Scale(1, sinf(D_8012A398) * 0.8f, 1, MTXMODE_NEW);
-    else
+    } else {
         Matrix_Scale(1.005f, sinf(D_8012A398) * 0.8f, 1.005f, MTXMODE_NEW);
+    }
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x0D, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_scene_table.c", 7809));
 

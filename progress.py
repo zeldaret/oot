@@ -88,28 +88,18 @@ nonMatchingASMBoot = GetNonMatchingSize("asm/non_matchings/boot")
 nonMatchingASMCode = GetNonMatchingSize("asm/non_matchings/code") + GetNonMatchingSize("asm/non_matchings/libultra_code")
 nonMatchingASMOvl = GetNonMatchingSize("asm/non_matchings/overlays")
 
-codeSize = 1004128 # 1.00mb
-bootSize = 36752
-#ovlSize = 3727584 # 3.727mb
-ovlSize = 2812000 # .text section only
-libultraSize = 40816 # This is temp
-audioSize = 0 # This is temp
-handwritten = 0 # This is temp
-
 src -= nonMatchingASM
 code -= nonMatchingASMCode
 boot -= nonMatchingASMBoot
 ovl -= nonMatchingASMOvl
 asm += nonMatchingASM
-#print(nonMatchingASM)
 
-#asm = asm - (libultra_size + audio_size + handwritten - boot_size - code_size - ovl_size)
-#asm = asm - (libultra_size + audio_size + handwritten)
-#asm = -(libultra_size + audio_size + handwritten - boot_size - code_size - ovl_size)
-#asm += codeSize
-#asm += bootSize
-#asm += ovlSize
-#asm -= src
+bootSize = 30704 # decompilable code only
+codeSize = 1004128 # .text section except rsp bins (1.00mb)
+ovlSize = 2812000 # .text sections
+handwritten = 5840 # boot only
+
+asm -= handwritten
 
 total = src + asm
 srcPct = 100 * src / total

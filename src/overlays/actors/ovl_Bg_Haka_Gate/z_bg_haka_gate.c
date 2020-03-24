@@ -9,8 +9,7 @@ void BgHakaGate_Update(BgHakaGate* this, GlobalContext* globalCtx);
 void BgHakaGate_Draw(BgHakaGate* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Haka_Gate_InitVars =
-{
+const ActorInit Bg_Haka_Gate_InitVars = {
     ACTOR_BG_HAKA_GATE,
     ACTORTYPE_PROP,
     ROOM,

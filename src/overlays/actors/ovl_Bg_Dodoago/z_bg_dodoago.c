@@ -9,8 +9,7 @@ void BgDodoago_Update(BgDodoago* this, GlobalContext* globalCtx);
 void BgDodoago_Draw(BgDodoago* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Dodoago_InitVars =
-{
+const ActorInit Bg_Dodoago_InitVars = {
     ACTOR_BG_DODOAGO,
     ACTORTYPE_BG,
     ROOM,

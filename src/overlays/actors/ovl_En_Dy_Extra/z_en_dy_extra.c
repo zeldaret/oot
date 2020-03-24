@@ -9,8 +9,7 @@ void EnDyExtra_Update(EnDyExtra* this, GlobalContext* globalCtx);
 void EnDyExtra_Draw(EnDyExtra* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dy_Extra_InitVars =
-{
+const ActorInit En_Dy_Extra_InitVars = {
     ACTOR_EN_DY_EXTRA,
     ACTORTYPE_PROP,
     ROOM,

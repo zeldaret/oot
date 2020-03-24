@@ -8,8 +8,7 @@ void EnBomBowlPit_Destroy(EnBomBowlPit* this, GlobalContext* globalCtx);
 void EnBomBowlPit_Update(EnBomBowlPit* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bom_Bowl_Pit_InitVars =
-{
+const ActorInit En_Bom_Bowl_Pit_InitVars = {
     ACTOR_EN_BOM_BOWL_PIT,
     ACTORTYPE_PROP,
     ROOM,

@@ -9,8 +9,7 @@ void EnFloormas_Update(EnFloormas* this, GlobalContext* globalCtx);
 void EnFloormas_Draw(EnFloormas* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Floormas_InitVars =
-{
+const ActorInit En_Floormas_InitVars = {
     ACTOR_EN_FLOORMAS,
     ACTORTYPE_ENEMY,
     ROOM,

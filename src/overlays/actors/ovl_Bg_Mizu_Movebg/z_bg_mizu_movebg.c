@@ -9,8 +9,7 @@ void BgMizuMovebg_Update(BgMizuMovebg* this, GlobalContext* globalCtx);
 void BgMizuMovebg_Draw(BgMizuMovebg* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mizu_Movebg_InitVars =
-{
+const ActorInit Bg_Mizu_Movebg_InitVars = {
     ACTOR_BG_MIZU_MOVEBG,
     ACTORTYPE_BG,
     ROOM,

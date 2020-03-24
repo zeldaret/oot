@@ -9,8 +9,7 @@ void BgSpot01Idohashira_Update(BgSpot01Idohashira* this, GlobalContext* globalCt
 void BgSpot01Idohashira_Draw(BgSpot01Idohashira* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot01_Idohashira_InitVars =
-{
+const ActorInit Bg_Spot01_Idohashira_InitVars = {
     ACTOR_BG_SPOT01_IDOHASHIRA,
     ACTORTYPE_PROP,
     ROOM,

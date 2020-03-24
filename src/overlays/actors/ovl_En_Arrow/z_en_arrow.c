@@ -9,8 +9,7 @@ void EnArrow_Update(EnArrow* this, GlobalContext* globalCtx);
 void EnArrow_Draw(EnArrow* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Arrow_InitVars =
-{
+const ActorInit En_Arrow_InitVars = {
     ACTOR_EN_ARROW,
     ACTORTYPE_ITEMACTION,
     ROOM,
