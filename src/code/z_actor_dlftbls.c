@@ -2,24 +2,19 @@
 #include <global.h>
 #include <initvars.h>
 
-#define ACTOR_OVERLAY(name, allocType)                                  \
-    {                                                                       \
-        (u32)_ovl_##name##SegmentRomStart, (u32)_ovl_##name##SegmentRomEnd, \
-        _ovl_##name##SegmentStart, _ovl_##name##SegmentEnd,                 \
-        NULL, &name##_InitVars, #name, allocType, 0                         \
+#define ACTOR_OVERLAY(name, allocType)                                                                  \
+    {                                                                                                   \
+        (u32) _ovl_##name##SegmentRomStart, (u32)_ovl_##name##SegmentRomEnd, _ovl_##name##SegmentStart, \
+            _ovl_##name##SegmentEnd, NULL, &name##_InitVars, #name, allocType, 0                        \
     }
 
-#define ACTOR_OVERLAY_INTERNAL(name, allocType)     \
-    {                                                   \
-        0, 0,                                           \
-        NULL, NULL,                                     \
-        NULL, &name##_InitVars, #name, allocType, 0     \
-    }
+#define ACTOR_OVERLAY_INTERNAL(name, allocType) \
+    { 0, 0, NULL, NULL, NULL, &name##_InitVars, #name, allocType, 0 }
 
-#define ACTOR_OVERLAY_UNSET { 0 }
+#define ACTOR_OVERLAY_UNSET \
+    { 0 }
 
-ActorOverlay gActorOverlayTable[] =
-{
+ActorOverlay gActorOverlayTable[] = {
     ACTOR_OVERLAY_INTERNAL(Player, ALLOCTYPE_NORMAL),
     ACTOR_OVERLAY_UNSET,
     ACTOR_OVERLAY(En_Test, ALLOCTYPE_NORMAL),
@@ -497,26 +492,21 @@ s32 gMaxProfile = 0;
 
 static FaultClient sFaultClient;
 
-void ActorOverlayTable_LogPrint(void)
-{
+void ActorOverlayTable_LogPrint(void) {
     ActorOverlay* overlayEntry;
     u32 i;
 
     osSyncPrintf("actor_dlftbls %u\n", gMaxProfile);
     osSyncPrintf("RomStart RomEnd   SegStart SegEnd   allocp   profile  segname\n");
 
-    for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < gMaxProfile; i++, overlayEntry++)
-    {
-        osSyncPrintf("%08x %08x %08x %08x %08x %08x %s\n",
-                     overlayEntry->vromStart, overlayEntry->vromEnd,
-                     overlayEntry->vramStart, overlayEntry->vramEnd,
-                     overlayEntry->loadedRamAddr, &overlayEntry->initInfo->id,
-                     overlayEntry->name != NULL ? overlayEntry->name : "?");
+    for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < gMaxProfile; i++, overlayEntry++) {
+        osSyncPrintf("%08x %08x %08x %08x %08x %08x %s\n", overlayEntry->vromStart, overlayEntry->vromEnd,
+                     overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr,
+                     &overlayEntry->initInfo->id, overlayEntry->name != NULL ? overlayEntry->name : "?");
     }
 }
 
-void ActorOverlayTable_FaultPrint(void* arg0, void* arg1)
-{
+void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
     ActorOverlay* overlayEntry;
     u32 overlaySize;
     s32 i;
@@ -526,26 +516,22 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1)
     FaultDrawer_Printf("actor_dlftbls %u\n", gMaxProfile);
     FaultDrawer_Printf("No. RamStart- RamEnd cn  Name\n");
 
-    for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < gMaxProfile; i++, overlayEntry++)
-    {
+    for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < gMaxProfile; i++, overlayEntry++) {
         overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
-        if (overlayEntry->loadedRamAddr != NULL)
-        {
-            FaultDrawer_Printf("%3d %08x-%08x %3d %s\n",
-                               i, overlayEntry->loadedRamAddr, (u32)overlayEntry->loadedRamAddr + overlaySize,
-                               overlayEntry->nbLoaded, overlayEntry->name != NULL ? overlayEntry->name : "");
+        if (overlayEntry->loadedRamAddr != NULL) {
+            FaultDrawer_Printf("%3d %08x-%08x %3d %s\n", i, overlayEntry->loadedRamAddr,
+                               (u32)overlayEntry->loadedRamAddr + overlaySize, overlayEntry->nbLoaded,
+                               overlayEntry->name != NULL ? overlayEntry->name : "");
         }
     }
 }
 
-void ActorOverlayTable_Init(void)
-{
+void ActorOverlayTable_Init(void) {
     gMaxProfile = ACTOR_DLF_MAX;
     Fault_AddClient(&sFaultClient, ActorOverlayTable_FaultPrint, NULL, NULL);
 }
 
-void ActorOverlayTable_Cleanup(void)
-{
+void ActorOverlayTable_Cleanup(void) {
     Fault_RemoveClient(&sFaultClient);
     gMaxProfile = 0;
 }

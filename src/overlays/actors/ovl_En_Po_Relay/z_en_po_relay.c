@@ -1,6 +1,6 @@
 #include "z_en_po_relay.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00011019
 
 void EnPoRelay_Init(EnPoRelay* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnPoRelay_Update(EnPoRelay* this, GlobalContext* globalCtx);
 void EnPoRelay_Draw(EnPoRelay* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Po_Relay_InitVars =
-{
+const ActorInit En_Po_Relay_InitVars = {
     ACTOR_EN_PO_RELAY,
     ACTORTYPE_NPC,
     ROOM,

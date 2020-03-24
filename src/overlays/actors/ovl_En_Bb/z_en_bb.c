@@ -1,6 +1,6 @@
 #include "z_en_bb.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x01000015
 
 void EnBb_Init(EnBb* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnBb_Update(EnBb* this, GlobalContext* globalCtx);
 void EnBb_Draw(EnBb* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bb_InitVars =
-{
+const ActorInit En_Bb_InitVars = {
     ACTOR_EN_BB,
     ACTORTYPE_ENEMY,
     ROOM,

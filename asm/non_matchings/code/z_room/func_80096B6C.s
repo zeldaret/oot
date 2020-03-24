@@ -224,7 +224,7 @@ glabel func_80096B6C
 /* B0E010 80096E70 AE0A02C0 */  sw    $t2, 0x2c0($s0)
 /* B0E014 80096E74 AF2B0000 */  sw    $t3, ($t9)
 /* B0E018 80096E78 AFB90058 */  sw    $t9, 0x58($sp)
-/* B0E01C 80096E7C 0C034B88 */  jal   func_800D2E20
+/* B0E01C 80096E7C 0C034B88 */  jal   SysUcode_GetUcodeData
 /* B0E020 80096E80 AFA80048 */   sw    $t0, 0x48($sp)
 /* B0E024 80096E84 8FA40058 */  lw    $a0, 0x58($sp)
 /* B0E028 80096E88 3C0DDD00 */  lui   $t5, (0xDD0007FF >> 16) # lui $t5, 0xdd00
@@ -234,7 +234,7 @@ glabel func_80096B6C
 /* B0E038 80096E98 246C0008 */  addiu $t4, $v1, 8
 /* B0E03C 80096E9C AE0C02C0 */  sw    $t4, 0x2c0($s0)
 /* B0E040 80096EA0 AC6D0000 */  sw    $t5, ($v1)
-/* B0E044 80096EA4 0C034B85 */  jal   func_800D2E14
+/* B0E044 80096EA4 0C034B85 */  jal   SysUcode_GetUcode
 /* B0E048 80096EA8 AFA30058 */   sw    $v1, 0x58($sp)
 /* B0E04C 80096EAC 8FA40058 */  lw    $a0, 0x58($sp)
 /* B0E050 80096EB0 8FA80048 */  lw    $t0, 0x48($sp)

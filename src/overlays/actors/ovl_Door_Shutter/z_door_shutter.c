@@ -1,6 +1,6 @@
 #include "z_door_shutter.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void DoorShutter_Init(DoorShutter* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void DoorShutter_Update(DoorShutter* this, GlobalContext* globalCtx);
 void DoorShutter_Draw(DoorShutter* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Door_Shutter_InitVars =
-{
+const ActorInit Door_Shutter_InitVars = {
     ACTOR_DOOR_SHUTTER,
     ACTORTYPE_DOOR,
     ROOM,

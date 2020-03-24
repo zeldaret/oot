@@ -1,6 +1,6 @@
 #include "z_bg_ydan_hasi.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgYdanHasi_Init(BgYdanHasi* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgYdanHasi_Update(BgYdanHasi* this, GlobalContext* globalCtx);
 void BgYdanHasi_Draw(BgYdanHasi* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ydan_Hasi_InitVars =
-{
+const ActorInit Bg_Ydan_Hasi_InitVars = {
     ACTOR_BG_YDAN_HASI,
     ACTORTYPE_BG,
     ROOM,

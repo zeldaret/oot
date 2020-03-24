@@ -1,6 +1,6 @@
 #include "z_bg_ddan_jd.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgDdanJd_Init(BgDdanJd* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgDdanJd_Update(BgDdanJd* this, GlobalContext* globalCtx);
 void BgDdanJd_Draw(BgDdanJd* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ddan_Jd_InitVars =
-{
+const ActorInit Bg_Ddan_Jd_InitVars = {
     ACTOR_BG_DDAN_JD,
     ACTORTYPE_BG,
     ROOM,
@@ -36,6 +35,3 @@ const ActorInit Bg_Ddan_Jd_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Jd/BgDdanJd_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Jd/BgDdanJd_Draw.s")
-
-
-

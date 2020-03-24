@@ -1,6 +1,6 @@
 #include "z_en_gs.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000009
 
 void EnGs_Init(EnGs* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnGs_Update(EnGs* this, GlobalContext* globalCtx);
 void EnGs_Draw(EnGs* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Gs_InitVars =
-{
+const ActorInit En_Gs_InitVars = {
     ACTOR_EN_GS,
     ACTORTYPE_PROP,
     ROOM,

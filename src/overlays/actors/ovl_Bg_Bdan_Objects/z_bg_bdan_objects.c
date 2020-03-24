@@ -1,6 +1,6 @@
 #include "z_bg_bdan_objects.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgBdanObjects_Update(BgBdanObjects* this, GlobalContext* globalCtx);
 void BgBdanObjects_Draw(BgBdanObjects* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Bdan_Objects_InitVars =
-{
+const ActorInit Bg_Bdan_Objects_InitVars = {
     ACTOR_BG_BDAN_OBJECTS,
     ACTORTYPE_BG,
     ROOM,

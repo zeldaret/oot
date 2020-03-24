@@ -1,6 +1,6 @@
 #include "z_en_fu.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000019
 
 void EnFu_Init(EnFu* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnFu_Update(EnFu* this, GlobalContext* globalCtx);
 void EnFu_Draw(EnFu* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Fu_InitVars =
-{
+const ActorInit En_Fu_InitVars = {
     ACTOR_EN_FU,
     ACTORTYPE_NPC,
     ROOM,
@@ -52,4 +51,3 @@ const ActorInit En_Fu_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fu/func_80A1E26C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fu/EnFu_Draw.s")
-

@@ -1,6 +1,6 @@
 #include "z_fishing.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void Fishing_Init(Fishing* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void Fishing_Update(Fishing* this, GlobalContext* globalCtx);
 void Fishing_Draw(Fishing* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Fishing_InitVars =
-{
+const ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
     ACTORTYPE_NPC,
     ROOM,
@@ -114,4 +113,3 @@ const ActorInit Fishing_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B7A140.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B7A278.s")
-

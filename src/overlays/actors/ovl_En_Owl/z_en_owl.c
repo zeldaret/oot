@@ -1,6 +1,6 @@
 #include "z_en_owl.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx);
 void EnOwl_Draw(EnOwl* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Owl_InitVars =
-{
+const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
     ACTORTYPE_NPC,
     ROOM,

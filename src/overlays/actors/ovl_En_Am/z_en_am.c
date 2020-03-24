@@ -1,6 +1,6 @@
 #include "z_en_am.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x04000015
 
 void EnAm_Init(EnAm* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnAm_Update(EnAm* this, GlobalContext* globalCtx);
 void EnAm_Draw(EnAm* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Am_InitVars =
-{
+const ActorInit En_Am_InitVars = {
     ACTOR_EN_AM,
     ACTORTYPE_ENEMY,
     ROOM,

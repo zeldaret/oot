@@ -1,6 +1,6 @@
 #include "z_bg_hidan_rock.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHidanRock_Init(BgHidanRock* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgHidanRock_Update(BgHidanRock* this, GlobalContext* globalCtx);
 void BgHidanRock_Draw(BgHidanRock* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Rock_InitVars =
-{
+const ActorInit Bg_Hidan_Rock_InitVars = {
     ACTOR_BG_HIDAN_ROCK,
     ACTORTYPE_BG,
     ROOM,

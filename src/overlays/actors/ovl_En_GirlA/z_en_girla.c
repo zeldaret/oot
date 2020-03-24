@@ -1,6 +1,6 @@
 #include "z_en_girla.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnGirlA_Init(EnGirlA* this, GlobalContext* globalCtx);
@@ -8,8 +8,7 @@ void EnGirlA_Destroy(EnGirlA* this, GlobalContext* globalCtx);
 void EnGirlA_Update(EnGirlA* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_GirlA_InitVars =
-{
+const ActorInit En_GirlA_InitVars = {
     ACTOR_EN_GIRLA,
     ACTORTYPE_PROP,
     ROOM,

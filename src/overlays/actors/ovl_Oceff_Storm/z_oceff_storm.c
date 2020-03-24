@@ -1,6 +1,6 @@
 #include "z_oceff_storm.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000030
 
 void OceffStorm_Init(OceffStorm* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void OceffStorm_Update(OceffStorm* this, GlobalContext* globalCtx);
 void OceffStorm_Draw(OceffStorm* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Oceff_Storm_InitVars =
-{
+const ActorInit Oceff_Storm_InitVars = {
     ACTOR_OCEFF_STORM,
     ACTORTYPE_ITEMACTION,
     ROOM,

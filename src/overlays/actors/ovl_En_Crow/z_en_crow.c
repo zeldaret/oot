@@ -1,6 +1,6 @@
 #include "z_en_crow.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00005005
 
 void EnCrow_Init(EnCrow* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnCrow_Update(EnCrow* this, GlobalContext* globalCtx);
 void EnCrow_Draw(EnCrow* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Crow_InitVars =
-{
+const ActorInit En_Crow_InitVars = {
     ACTOR_EN_CROW,
     ACTORTYPE_ENEMY,
     ROOM,

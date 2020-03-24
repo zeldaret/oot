@@ -1,6 +1,6 @@
 #include "z_en_shopnuts.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnShopnuts_Init(EnShopnuts* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnShopnuts_Update(EnShopnuts* this, GlobalContext* globalCtx);
 void EnShopnuts_Draw(EnShopnuts* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Shopnuts_InitVars =
-{
+const ActorInit En_Shopnuts_InitVars = {
     ACTOR_EN_SHOPNUTS,
     ACTORTYPE_ENEMY,
     ROOM,

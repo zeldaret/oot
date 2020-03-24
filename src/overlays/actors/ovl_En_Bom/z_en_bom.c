@@ -1,6 +1,6 @@
 #include "z_en_bom.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnBom_Init(EnBom* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnBom_Update(EnBom* this, GlobalContext* globalCtx);
 void EnBom_Draw(EnBom* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bom_InitVars =
-{
+const ActorInit En_Bom_InitVars = {
     ACTOR_EN_BOM,
     ACTORTYPE_EXPLOSIVES,
     ROOM,

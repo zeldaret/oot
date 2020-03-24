@@ -1,6 +1,6 @@
 #include "z_en_eiyer.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnEiyer_Init(EnEiyer* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnEiyer_Update(EnEiyer* this, GlobalContext* globalCtx);
 void EnEiyer_Draw(EnEiyer* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Eiyer_InitVars =
-{
+const ActorInit En_Eiyer_InitVars = {
     ACTOR_EN_EIYER,
     ACTORTYPE_ENEMY,
     ROOM,

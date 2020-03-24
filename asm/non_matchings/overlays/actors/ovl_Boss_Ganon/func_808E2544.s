@@ -114,7 +114,7 @@ glabel L808E26AC
 /* 0BE7C 808E26EC C6460280 */  lwc1    $f6, 0x0280($s2)           ## 00000280
 /* 0BE80 808E26F0 E7AC0098 */  swc1    $f12, 0x0098($sp)          
 /* 0BE84 808E26F4 46083381 */  sub.s   $f14, $f6, $f8             
-/* 0BE88 808E26F8 0C03F494 */  jal     func_800FD250              
+/* 0BE88 808E26F8 0C03F494 */  jal     Math_atan2f              
 /* 0BE8C 808E26FC E7AE0090 */  swc1    $f14, 0x0090($sp)          
 /* 0BE90 808E2700 3C018090 */  lui     $at, %hi(D_808F8214)       ## $at = 80900000
 /* 0BE94 808E2704 C42A8214 */  lwc1    $f10, %lo(D_808F8214)($at) 
@@ -131,7 +131,7 @@ glabel L808E26AC
 /* 0BEC0 808E2730 46002384 */  sqrt.s  $f14, $f4                  
 /* 0BEC4 808E2734 E7A40058 */  swc1    $f4, 0x0058($sp)           
 /* 0BEC8 808E2738 A7A80080 */  sh      $t0, 0x0080($sp)           
-/* 0BECC 808E273C 0C03F494 */  jal     func_800FD250              
+/* 0BECC 808E273C 0C03F494 */  jal     Math_atan2f              
 /* 0BED0 808E2740 E7AE008C */  swc1    $f14, 0x008C($sp)          
 /* 0BED4 808E2744 3C0145C0 */  lui     $at, 0x45C0                ## $at = 45C00000
 /* 0BED8 808E2748 44816000 */  mtc1    $at, $f12                  ## $f12 = 6144.00
@@ -282,7 +282,7 @@ glabel L808E28FC
 /* 0C0F0 808E2960 46044301 */  sub.s   $f12, $f8, $f4             
 /* 0C0F4 808E2964 AE2D01F8 */  sw      $t5, 0x01F8($s1)           ## 000001F8
 /* 0C0F8 808E2968 C62601F8 */  lwc1    $f6, 0x01F8($s1)           ## 000001F8
-/* 0C0FC 808E296C 0C03F494 */  jal     func_800FD250              
+/* 0C0FC 808E296C 0C03F494 */  jal     Math_atan2f              
 /* 0C100 808E2970 460A3381 */  sub.s   $f14, $f6, $f10            
 /* 0C104 808E2974 3C018090 */  lui     $at, %hi(D_808F821C)       ## $at = 80900000
 /* 0C108 808E2978 C428821C */  lwc1    $f8, %lo(D_808F821C)($at)  
@@ -322,7 +322,7 @@ glabel L808E29A8
 /* 0C18C 808E29FC C62601F8 */  lwc1    $f6, 0x01F8($s1)           ## 000001F8
 /* 0C190 808E2A00 E7AC0098 */  swc1    $f12, 0x0098($sp)          
 /* 0C194 808E2A04 460A3381 */  sub.s   $f14, $f6, $f10            
-/* 0C198 808E2A08 0C03F494 */  jal     func_800FD250              
+/* 0C198 808E2A08 0C03F494 */  jal     Math_atan2f              
 /* 0C19C 808E2A0C E7AE0090 */  swc1    $f14, 0x0090($sp)          
 /* 0C1A0 808E2A10 3C018090 */  lui     $at, %hi(D_808F8220)       ## $at = 80900000
 /* 0C1A4 808E2A14 C4288220 */  lwc1    $f8, %lo(D_808F8220)($at)  
@@ -337,7 +337,7 @@ glabel L808E29A8
 /* 0C1C8 808E2A38 46085000 */  add.s   $f0, $f10, $f8             
 /* 0C1CC 808E2A3C 44083000 */  mfc1    $t0, $f6                   
 /* 0C1D0 808E2A40 46000384 */  sqrt.s  $f14, $f0                  
-/* 0C1D4 808E2A44 0C03F494 */  jal     func_800FD250              
+/* 0C1D4 808E2A44 0C03F494 */  jal     Math_atan2f              
 /* 0C1D8 808E2A48 A7A80080 */  sh      $t0, 0x0080($sp)           
 /* 0C1DC 808E2A4C 3C018090 */  lui     $at, %hi(D_808F8224)       ## $at = 80900000
 /* 0C1E0 808E2A50 C4248224 */  lwc1    $f4, %lo(D_808F8224)($at)  
@@ -638,7 +638,7 @@ glabel L808E2E70
 /* 0C62C 808E2E9C C62A01F8 */  lwc1    $f10, 0x01F8($s1)          ## 000001F8
 /* 0C630 808E2EA0 E7AC0098 */  swc1    $f12, 0x0098($sp)          
 /* 0C634 808E2EA4 46065381 */  sub.s   $f14, $f10, $f6            
-/* 0C638 808E2EA8 0C03F494 */  jal     func_800FD250              
+/* 0C638 808E2EA8 0C03F494 */  jal     Math_atan2f              
 /* 0C63C 808E2EAC E7AE0090 */  swc1    $f14, 0x0090($sp)          
 /* 0C640 808E2EB0 3C018090 */  lui     $at, %hi(D_808F822C)       ## $at = 80900000
 /* 0C644 808E2EB4 C428822C */  lwc1    $f8, %lo(D_808F822C)($at)  
@@ -654,7 +654,7 @@ glabel L808E2E70
 /* 0C66C 808E2EDC 440E5000 */  mfc1    $t6, $f10                  
 /* 0C670 808E2EE0 46000384 */  sqrt.s  $f14, $f0                  
 /* 0C674 808E2EE4 A7AE0080 */  sh      $t6, 0x0080($sp)           
-/* 0C678 808E2EE8 0C03F494 */  jal     func_800FD250              
+/* 0C678 808E2EE8 0C03F494 */  jal     Math_atan2f              
 /* 0C67C 808E2EEC E7AE008C */  swc1    $f14, 0x008C($sp)          
 /* 0C680 808E2EF0 3C0145C0 */  lui     $at, 0x45C0                ## $at = 45C00000
 /* 0C684 808E2EF4 44816000 */  mtc1    $at, $f12                  ## $f12 = 6144.00

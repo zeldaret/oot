@@ -1,6 +1,6 @@
 #include "z_bg_ice_shutter.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgIceShutter_Init(BgIceShutter* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgIceShutter_Update(BgIceShutter* this, GlobalContext* globalCtx);
 void BgIceShutter_Draw(BgIceShutter* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ice_Shutter_InitVars =
-{
+const ActorInit Bg_Ice_Shutter_InitVars = {
     ACTOR_BG_ICE_SHUTTER,
     ACTORTYPE_PROP,
     ROOM,
@@ -38,6 +37,3 @@ const ActorInit Bg_Ice_Shutter_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shutter/BgIceShutter_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ice_Shutter/BgIceShutter_Draw.s")
-
-
-

@@ -1,6 +1,6 @@
 #include "z_arrow_fire.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void ArrowFire_Init(ArrowFire* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void ArrowFire_Update(ArrowFire* this, GlobalContext* globalCtx);
 void ArrowFire_Draw(ArrowFire* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Arrow_Fire_InitVars =
-{
+const ActorInit Arrow_Fire_InitVars = {
     ACTOR_ARROW_FIRE,
     ACTORTYPE_ITEMACTION,
     ROOM,

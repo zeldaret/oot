@@ -635,7 +635,7 @@ glabel L808C5A4C
               
 /* 04D0C 808C5E9C E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 04D10 808C5EA0 C7AC0180 */  lwc1    $f12, 0x0180($sp)          
-/* 04D14 808C5EA4 0C03F494 */  jal     func_800FD250              
+/* 04D14 808C5EA4 0C03F494 */  jal     Math_atan2f              
 /* 04D18 808C5EA8 C7AE017C */  lwc1    $f14, 0x017C($sp)          
 /* 04D1C 808C5EAC 3C01808D */  lui     $at, %hi(D_808CA7A8)       ## $at = 808D0000
 /* 04D20 808C5EB0 C426A7A8 */  lwc1    $f6, %lo(D_808CA7A8)($at)  
@@ -754,7 +754,7 @@ glabel L808C5FE4
 /* 04EC4 808C6054 460E7182 */  mul.s   $f6, $f14, $f14            
 /* 04EC8 808C6058 46062000 */  add.s   $f0, $f4, $f6              
 /* 04ECC 808C605C 46000004 */  sqrt.s  $f0, $f0                   
-/* 04ED0 808C6060 0C03F494 */  jal     func_800FD250              
+/* 04ED0 808C6060 0C03F494 */  jal     Math_atan2f              
 /* 04ED4 808C6064 E600022C */  swc1    $f0, 0x022C($s0)           ## 0000022C
 /* 04ED8 808C6068 2419015E */  addiu   $t9, $zero, 0x015E         ## $t9 = 0000015E
 /* 04EDC 808C606C 24080009 */  addiu   $t0, $zero, 0x0009         ## $t0 = 00000009

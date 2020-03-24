@@ -6,7 +6,7 @@ glabel func_80A711B4
 /* 01C14 80A711C4 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 01C18 80A711C8 82060214 */  lb      $a2, 0x0214($s0)           ## 00000214
 /* 01C1C 80A711CC 8E050210 */  lw      $a1, 0x0210($s0)           ## 00000210
-/* 01C20 80A711D0 0C023948 */  jal     func_8008E520              
+/* 01C20 80A711D0 0C023948 */  jal     Path_OrientAndGetDistSq              
 /* 01C24 80A711D4 27A7002E */  addiu   $a3, $sp, 0x002E           ## $a3 = FFFFFFFE
 /* 01C28 80A711D8 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
 /* 01C2C 80A711DC AFAE0010 */  sw      $t6, 0x0010($sp)           

@@ -1,6 +1,6 @@
 #include "z_en_si.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000201
 
 void EnSi_Init(EnSi* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnSi_Update(EnSi* this, GlobalContext* globalCtx);
 void EnSi_Draw(EnSi* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Si_InitVars =
-{
+const ActorInit En_Si_InitVars = {
     ACTOR_EN_SI,
     ACTORTYPE_ITEMACTION,
     ROOM,
@@ -38,6 +37,3 @@ const ActorInit En_Si_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Si/EnSi_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Si/EnSi_Draw.s")
-
-
-
