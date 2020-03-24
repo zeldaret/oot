@@ -289,8 +289,9 @@ void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if ((sp2C != 0) && !func_8002F410(&this->actor, globalCtx))
+    if ((sp2C != 0) && !func_8002F410(&this->actor, globalCtx)) {
         func_8002F554(&this->actor, globalCtx, sp2C);
+    }
 
     En_Item00_SetNewUpdate(this, (ActorFunc)func_8001E5C8);
     this->updateFunc(this, globalCtx);
@@ -480,11 +481,13 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx) {
     sp3C = 0;
     sp3A = 0;
 
-    if (this->unk_15A > 0)
+    if (this->unk_15A > 0) {
         this->unk_15A--;
+    }
 
-    if ((this->unk_15A > 0) && (this->unk_15A < 41) && (this->unk_154 <= 0))
+    if ((this->unk_15A > 0) && (this->unk_15A < 41) && (this->unk_154 <= 0)) {
         this->unk_156 = this->unk_15A;
+    }
 
     this->updateFunc(this, globalCtx);
 
@@ -533,23 +536,28 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx) {
         (this->actor.params == DROP_TUNIC_ZORA) || (this->actor.params == DROP_TUNIC_GORON)) {
         f32 newUnkBC = Math_Coss(this->actor.shape.rot.x) * 37.0f;
         this->actor.shape.unk_08 = newUnkBC;
-        if (newUnkBC >= 0.0f)
+        if (newUnkBC >= 0.0f) {
             this->actor.shape.unk_08 = this->actor.shape.unk_08;
-        else
+        } else {
             this->actor.shape.unk_08 = -this->actor.shape.unk_08;
+        }
     }
 
-    if (this->unk_154 > 0)
+    if (this->unk_154 > 0) {
         return;
+    }
 
     // MISMATCH: The first function argument is loaded too early here
     if (!((this->actor.xzDistanceFromLink <= 30.0f) && (this->actor.yDistanceFromLink >= -50.0f) &&
-          (this->actor.yDistanceFromLink <= 50.0f)))
-        if (!func_8002F410(&this->actor, globalCtx))
+          (this->actor.yDistanceFromLink <= 50.0f))) {
+        if (!func_8002F410(&this->actor, globalCtx)) {
             return;
+        }
+    }
 
-    if (globalCtx->unk_10A20 != 0)
+    if (globalCtx->unk_10A20 != 0) {
         return;
+    }
 
     switch (this->actor.params) {
         case DROP_RUPEE_GREEN:
@@ -630,8 +638,9 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx) {
     }
 
     // MISMATCH: The first function argument is also loaded too early here
-    if ((sp3C != 0) && !func_8002F410(&this->actor, globalCtx))
+    if ((sp3C != 0) && !func_8002F410(&this->actor, globalCtx)) {
         func_8002F554(&this->actor, globalCtx, sp3C);
+    }
 
     switch (this->actor.params) {
         case DROP_HEART_PIECE:

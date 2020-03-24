@@ -8,8 +8,7 @@ void EnKusa_Destroy(EnKusa* this, GlobalContext* globalCtx);
 void EnKusa_Update(EnKusa* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Kusa_InitVars =
-{
+const ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
     ACTORTYPE_PROP,
     ROOM,

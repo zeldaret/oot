@@ -9,8 +9,7 @@ void EnInsect_Update(EnInsect* this, GlobalContext* globalCtx);
 void EnInsect_Draw(EnInsect* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Insect_InitVars =
-{
+const ActorInit En_Insect_InitVars = {
     ACTOR_EN_INSECT,
     ACTORTYPE_ITEMACTION,
     ROOM,

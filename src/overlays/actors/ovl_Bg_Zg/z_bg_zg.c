@@ -20,11 +20,18 @@ static void func_808C0CD4(BgZg* this, GlobalContext* globalCtx);
 static void func_808C0D08(BgZg* this, GlobalContext* globalCtx);
 static void func_808C0EEC(BgZg* this, GlobalContext* globalCtx);
 
-static const ActorFunc actionFuncs[] = { (ActorFunc)func_808C0CD4, (ActorFunc)func_808C0D08, };
+static const ActorFunc actionFuncs[] = {
+    (ActorFunc)func_808C0CD4,
+    (ActorFunc)func_808C0D08,
+};
 
-static InitChainEntry initChain[] = { ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP), };
+static InitChainEntry initChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+};
 
-static const ActorFunc drawFuncs[] = { (ActorFunc)func_808C0EEC, };
+static const ActorFunc drawFuncs[] = {
+    (ActorFunc)func_808C0EEC,
+};
 
 const ActorInit Bg_Zg_InitVars = {
     ACTOR_BG_ZG,

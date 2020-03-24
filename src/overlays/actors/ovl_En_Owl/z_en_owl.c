@@ -9,8 +9,7 @@ void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx);
 void EnOwl_Draw(EnOwl* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Owl_InitVars =
-{
+const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
     ACTORTYPE_NPC,
     ROOM,

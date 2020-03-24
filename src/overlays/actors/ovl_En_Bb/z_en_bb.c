@@ -9,8 +9,7 @@ void EnBb_Update(EnBb* this, GlobalContext* globalCtx);
 void EnBb_Draw(EnBb* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bb_InitVars =
-{
+const ActorInit En_Bb_InitVars = {
     ACTOR_EN_BB,
     ACTORTYPE_ENEMY,
     ROOM,

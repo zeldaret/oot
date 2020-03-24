@@ -224,8 +224,9 @@ s32 func_800443A0(Camera* camera, Vec3f* b, Vec3f* c) {
 
     sp34 = NULL; // this is moved to the top when it should be done in the middle of the function args being loaded
     if (func_8003DD6C(&camera->globalCtx->colCtx, b, c, &sp40, &sp34, 1, 1, 1, 0, &sp38) != 0) {
-        if (func_80038B7C(sp34, b) < 0.0f)
+        if (func_80038B7C(sp34, b) < 0.0f) {
             return 1;
+        }
     }
     return 0;
 }
@@ -461,18 +462,20 @@ s32 func_800458D4(Camera* camera, struct_80045714* b, f32 c, f32* d, s16 e) {
     sp60.z = 0.0f;
 
     temp_s1 = &camera->unk_94;
-    if (e != 0)
+    if (e != 0) {
         sp60.y -= func_80045714(&camera->unk_108, temp_s1->rot.y, b->unk_06, OREG(9));
+    }
 
     sp48 = temp_s1->pos.y - *d;
     temp_ret = Math_atan2f(sp48, func_8007C028(&camera->unk_50, &camera->unk_5C)); // f2 and f14 are swapped
 
-    if (OREG(32) * (M_PI / 180) < temp_ret)
+    if (OREG(32) * (M_PI / 180) < temp_ret) {
         phi_f2 = 1.0f - sinf(temp_ret - OREG(32) * (M_PI / 180));
-    else if (OREG(33) * (M_PI / 180) > temp_ret)
+    } else if (OREG(33) * (M_PI / 180) > temp_ret) {
         phi_f2 = 1.0f - sinf(OREG(33) * (M_PI / 180) - temp_ret);
-    else
+    } else {
         phi_f2 = 1.0f;
+    }
 
     sp60.y -= sp48 * phi_f2;
     func_80043A3C(&sp60, &camera->unk_E4, OREG(29) * 0.01f, OREG(30) * 0.01f, 0.1f);

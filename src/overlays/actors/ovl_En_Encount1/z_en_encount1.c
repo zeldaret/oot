@@ -7,8 +7,7 @@ void EnEncount1_Init(EnEncount1* this, GlobalContext* globalCtx);
 void EnEncount1_Update(EnEncount1* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Encount1_InitVars =
-{
+const ActorInit En_Encount1_InitVars = {
     ACTOR_EN_ENCOUNT1,
     ACTORTYPE_PROP,
     ROOM,

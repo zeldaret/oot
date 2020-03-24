@@ -9,8 +9,7 @@ void ElfMsg2_Update(ElfMsg2* this, GlobalContext* globalCtx);
 void ElfMsg2_Draw(ElfMsg2* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Elf_Msg2_InitVars =
-{
+const ActorInit Elf_Msg2_InitVars = {
     ACTOR_ELF_MSG2,
     ACTORTYPE_BG,
     ROOM,

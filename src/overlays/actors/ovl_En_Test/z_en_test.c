@@ -9,8 +9,7 @@ void EnTest_Update(EnTest* this, GlobalContext* globalCtx);
 void EnTest_Draw(EnTest* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Test_InitVars =
-{
+const ActorInit En_Test_InitVars = {
     ACTOR_EN_TEST,
     ACTORTYPE_ENEMY,
     ROOM,

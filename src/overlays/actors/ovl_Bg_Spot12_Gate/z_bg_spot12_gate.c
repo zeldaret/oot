@@ -9,8 +9,7 @@ void BgSpot12Gate_Update(BgSpot12Gate* this, GlobalContext* globalCtx);
 void BgSpot12Gate_Draw(BgSpot12Gate* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot12_Gate_InitVars =
-{
+const ActorInit Bg_Spot12_Gate_InitVars = {
     ACTOR_BG_SPOT12_GATE,
     ACTORTYPE_BG,
     ROOM,

@@ -9,8 +9,7 @@ void BgBdanObjects_Update(BgBdanObjects* this, GlobalContext* globalCtx);
 void BgBdanObjects_Draw(BgBdanObjects* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Bdan_Objects_InitVars =
-{
+const ActorInit Bg_Bdan_Objects_InitVars = {
     ACTOR_BG_BDAN_OBJECTS,
     ACTORTYPE_BG,
     ROOM,

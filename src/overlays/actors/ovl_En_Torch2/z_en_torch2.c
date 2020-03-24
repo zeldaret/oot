@@ -9,8 +9,7 @@ void EnTorch2_Update(EnTorch2* this, GlobalContext* globalCtx);
 void EnTorch2_Draw(EnTorch2* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Torch2_InitVars =
-{
+const ActorInit En_Torch2_InitVars = {
     ACTOR_EN_TORCH2,
     ACTORTYPE_BOSS,
     ROOM,

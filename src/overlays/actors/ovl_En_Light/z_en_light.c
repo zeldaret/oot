@@ -9,8 +9,7 @@ void EnLight_Update(EnLight* this, GlobalContext* globalCtx);
 void EnLight_Draw(EnLight* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Light_InitVars =
-{
+const ActorInit En_Light_InitVars = {
     ACTOR_EN_LIGHT,
     ACTORTYPE_ITEMACTION,
     ROOM,

@@ -159,19 +159,21 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
             { 0xF6F7, 0x0139, 0x1766 },
         };
 
-        if (gSaveContext.entrance_index == 0x028A)
+        if (gSaveContext.entrance_index == 0x028A) {
             spawnPos = spawnPositions[0];
-        else if (gSaveContext.entrance_index == 0x028E)
+        } else if (gSaveContext.entrance_index == 0x028E) {
             spawnPos = spawnPositions[1];
-        else if (gSaveContext.entrance_index == 0x0292)
+        } else if (gSaveContext.entrance_index == 0x0292) {
             spawnPos = spawnPositions[2];
-        else
+        } else {
             spawnPos = spawnPositions[3];
+        }
 
         player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, spawnPos.x, spawnPos.y,
                                         spawnPos.z, 0, player->actor.posRot.rot.y, 0, 7);
-        if (player->rideActor == NULL)
+        if (player->rideActor == NULL) {
             __assert("player->ride.actor != NULL", "../z_horse.c", 561);
+        }
 
         func_8002DECC(globalCtx, player, player->rideActor);
         func_8002DE74(globalCtx, player);
@@ -180,15 +182,17 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                (Flags_GetEventChkInf(0x18) == 0) && (DREG(1) == 0)) {
         player->rideActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 894.0f, 0.0f, -2084.0f, 0, -0x7FFF, 0, 5);
-        if (player->rideActor == NULL)
+        if (player->rideActor == NULL) {
             __assert("player->ride.actor != NULL", "../z_horse.c", 582);
+        }
 
         func_8002DECC(globalCtx, player, player->rideActor);
         func_8002DE74(globalCtx, player);
         gSaveContext.horse_data.scene = globalCtx->sceneNum;
 
-        if (globalCtx->sceneNum == SCENE_SPOT12)
+        if (globalCtx->sceneNum == SCENE_SPOT12) {
             player->rideActor->room = -1;
+        }
     } else {
         static struct_8011F9B8 D_8011F9B8[] = {
             { 93, 0xFFF0, 0x0E10, 0x0585, 0x0168, 0x8001, 8 }, { 99, 0xFFF0, 0xFF06, 0x0001, 0xF9D4, 0x4000, 6 },
@@ -210,8 +214,9 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                     player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE,
                                                     D_8011F9B8[i].pos.x, D_8011F9B8[i].pos.y, D_8011F9B8[i].pos.z, 0,
                                                     player->actor.posRot.rot.y, 0, D_8011F9B8[i].type);
-                    if (player->rideActor == NULL)
+                    if (player->rideActor == NULL) {
                         __assert("player->ride.actor != NULL", "../z_horse.c", 628);
+                    }
 
                     func_8002DECC(globalCtx, player, player->rideActor);
                     func_8002DE74(globalCtx, player);
@@ -221,14 +226,16 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                     s32 pad2;
 
                     temp = 0;
-                    if (((gSaveContext.event_inf[0] & 0x10) >> 4) && D_8011F9B8[i].type == 6)
+                    if (((gSaveContext.event_inf[0] & 0x10) >> 4) && D_8011F9B8[i].type == 6) {
                         temp = 0x8000;
+                    }
 
                     player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE,
                                                     D_8011F9B8[i].pos.x, D_8011F9B8[i].pos.y, D_8011F9B8[i].pos.z, 0,
                                                     D_8011F9B8[i].angle, 0, D_8011F9B8[i].type | temp);
-                    if (player->rideActor == NULL)
+                    if (player->rideActor == NULL) {
                         __assert("player->ride.actor != NULL", "../z_horse.c", 667);
+                    }
 
                     player->actor.posRot.pos.x = D_8011F9B8[i].pos.x;
                     player->actor.posRot.pos.y = D_8011F9B8[i].pos.y;

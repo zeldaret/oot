@@ -9,8 +9,7 @@ void ObjLightswitch_Update(ObjLightswitch* this, GlobalContext* globalCtx);
 void ObjLightswitch_Draw(ObjLightswitch* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Lightswitch_InitVars =
-{
+const ActorInit Obj_Lightswitch_InitVars = {
     ACTOR_OBJ_LIGHTSWITCH,
     ACTORTYPE_SWITCH,
     ROOM,

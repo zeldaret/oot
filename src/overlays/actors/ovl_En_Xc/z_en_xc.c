@@ -9,8 +9,7 @@ void EnXc_Update(EnXc* this, GlobalContext* globalCtx);
 void EnXc_Draw(EnXc* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Xc_InitVars =
-{
+const ActorInit En_Xc_InitVars = {
     ACTOR_EN_XC,
     ACTORTYPE_NPC,
     ROOM,

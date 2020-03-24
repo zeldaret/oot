@@ -9,8 +9,7 @@ void BgGanonOtyuka_Update(BgGanonOtyuka* this, GlobalContext* globalCtx);
 void BgGanonOtyuka_Draw(BgGanonOtyuka* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ganon_Otyuka_InitVars =
-{
+const ActorInit Bg_Ganon_Otyuka_InitVars = {
     ACTOR_BG_GANON_OTYUKA,
     ACTORTYPE_PROP,
     ROOM,

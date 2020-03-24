@@ -9,8 +9,7 @@ void EnPoField_Update(EnPoField* this, GlobalContext* globalCtx);
 void EnPoField_Draw(EnPoField* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Po_Field_InitVars =
-{
+const ActorInit En_Po_Field_InitVars = {
     ACTOR_EN_PO_FIELD,
     ACTORTYPE_ENEMY,
     ROOM,

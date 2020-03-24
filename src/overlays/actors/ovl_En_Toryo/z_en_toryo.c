@@ -9,8 +9,7 @@ void EnToryo_Update(EnToryo* this, GlobalContext* globalCtx);
 void EnToryo_Draw(EnToryo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Toryo_InitVars =
-{
+const ActorInit En_Toryo_InitVars = {
     ACTOR_EN_TORYO,
     ACTORTYPE_NPC,
     ROOM,

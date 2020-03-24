@@ -9,8 +9,7 @@ void EnKo_Update(EnKo* this, GlobalContext* globalCtx);
 void EnKo_Draw(EnKo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ko_InitVars =
-{
+const ActorInit En_Ko_InitVars = {
     ACTOR_EN_KO,
     ACTORTYPE_NPC,
     ROOM,

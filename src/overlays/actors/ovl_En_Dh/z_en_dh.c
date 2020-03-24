@@ -9,8 +9,7 @@ void EnDh_Update(EnDh* this, GlobalContext* globalCtx);
 void EnDh_Draw(EnDh* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dh_InitVars =
-{
+const ActorInit En_Dh_InitVars = {
     ACTOR_EN_DH,
     ACTORTYPE_ENEMY,
     ROOM,

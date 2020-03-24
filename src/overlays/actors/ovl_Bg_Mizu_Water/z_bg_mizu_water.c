@@ -9,8 +9,7 @@ void BgMizuWater_Update(BgMizuWater* this, GlobalContext* globalCtx);
 void BgMizuWater_Draw(BgMizuWater* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mizu_Water_InitVars =
-{
+const ActorInit Bg_Mizu_Water_InitVars = {
     ACTOR_BG_MIZU_WATER,
     ACTORTYPE_BG,
     ROOM,

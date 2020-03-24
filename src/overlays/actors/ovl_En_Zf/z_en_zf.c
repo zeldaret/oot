@@ -9,8 +9,7 @@ void EnZf_Update(EnZf* this, GlobalContext* globalCtx);
 void EnZf_Draw(EnZf* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Zf_InitVars =
-{
+const ActorInit En_Zf_InitVars = {
     ACTOR_EN_ZF,
     ACTORTYPE_ENEMY,
     ROOM,

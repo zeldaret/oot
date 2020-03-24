@@ -8,8 +8,7 @@ void EnOkarinaTag_Destroy(EnOkarinaTag* this, GlobalContext* globalCtx);
 void EnOkarinaTag_Update(EnOkarinaTag* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Okarina_Tag_InitVars =
-{
+const ActorInit En_Okarina_Tag_InitVars = {
     ACTOR_EN_OKARINA_TAG,
     ACTORTYPE_PROP,
     ROOM,

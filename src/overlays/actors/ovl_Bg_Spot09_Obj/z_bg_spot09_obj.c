@@ -9,8 +9,7 @@ void BgSpot09Obj_Update(BgSpot09Obj* this, GlobalContext* globalCtx);
 void BgSpot09Obj_Draw(BgSpot09Obj* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot09_Obj_InitVars =
-{
+const ActorInit Bg_Spot09_Obj_InitVars = {
     ACTOR_BG_SPOT09_OBJ,
     ACTORTYPE_BG,
     ROOM,

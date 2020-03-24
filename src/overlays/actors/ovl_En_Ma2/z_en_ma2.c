@@ -9,8 +9,7 @@ void EnMa2_Update(EnMa2* this, GlobalContext* globalCtx);
 void EnMa2_Draw(EnMa2* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ma2_InitVars =
-{
+const ActorInit En_Ma2_InitVars = {
     ACTOR_EN_MA2,
     ACTORTYPE_NPC,
     ROOM,

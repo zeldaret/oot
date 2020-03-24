@@ -9,8 +9,7 @@ void Fishing_Update(Fishing* this, GlobalContext* globalCtx);
 void Fishing_Draw(Fishing* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Fishing_InitVars =
-{
+const ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
     ACTORTYPE_NPC,
     ROOM,

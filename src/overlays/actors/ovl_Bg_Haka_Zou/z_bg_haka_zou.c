@@ -8,8 +8,7 @@ void BgHakaZou_Destroy(BgHakaZou* this, GlobalContext* globalCtx);
 void BgHakaZou_Update(BgHakaZou* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Haka_Zou_InitVars =
-{
+const ActorInit Bg_Haka_Zou_InitVars = {
     ACTOR_BG_HAKA_ZOU,
     ACTORTYPE_PROP,
     ROOM,

@@ -8,8 +8,7 @@ void BgSpot17Funen_Destroy(BgSpot17Funen* this, GlobalContext* globalCtx);
 void BgSpot17Funen_Update(BgSpot17Funen* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot17_Funen_InitVars =
-{
+const ActorInit Bg_Spot17_Funen_InitVars = {
     ACTOR_BG_SPOT17_FUNEN,
     ACTORTYPE_SWITCH,
     ROOM,

@@ -8,8 +8,7 @@ void EnWonderTalk_Destroy(EnWonderTalk* this, GlobalContext* globalCtx);
 void EnWonderTalk_Update(EnWonderTalk* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Wonder_Talk_InitVars =
-{
+const ActorInit En_Wonder_Talk_InitVars = {
     ACTOR_EN_WONDER_TALK,
     ACTORTYPE_PROP,
     ROOM,

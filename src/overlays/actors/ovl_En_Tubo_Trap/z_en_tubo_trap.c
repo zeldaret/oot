@@ -98,12 +98,13 @@ void EnTuboTrap_SpawnFragments(EnTuboTrap* this, GlobalContext* globalCtx) {
         spC8.z += actorPos->z;
 
         rand = Math_Rand_ZeroOne();
-        if (rand < 0.2f)
+        if (rand < 0.2f) {
             temp = 96;
-        else if (rand < 0.6f)
+        } else if (rand < 0.6f) {
             temp = 64;
-        else
+        } else {
             temp = 32;
+        }
 
         Effect_SpawnFragment(globalCtx, &spC8, &spBC, actorPos, -240, temp, 10, 10, 0,
                              (Math_Rand_ZeroOne() * 65.0f) + 15.0f, 0, 32, 60, -1, 3, addr);
@@ -153,10 +154,11 @@ void EnTuboTrap_SpawnWaterFragments(EnTuboTrap* this, GlobalContext* globalCtx) 
         spC8.z += actorPos->z;
 
         rand = Math_Rand_ZeroOne();
-        if (rand < 0.2f)
+        if (rand < 0.2f) {
             temp = 64;
-        else
+        } else {
             temp = 32;
+        }
 
         Effect_SpawnFragment(globalCtx, &spC8, &spBC, actorPos, -180, temp, 30, 30, 0,
                              (Math_Rand_ZeroOne() * 65.0f) + 15.0f, 0, 32, 70, -1, 3, addr);

@@ -9,8 +9,7 @@ void EnSsh_Update(EnSsh* this, GlobalContext* globalCtx);
 void EnSsh_Draw(EnSsh* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ssh_InitVars =
-{
+const ActorInit En_Ssh_InitVars = {
     ACTOR_EN_SSH,
     ACTORTYPE_NPC,
     ROOM,

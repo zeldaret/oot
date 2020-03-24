@@ -9,8 +9,7 @@ void EnDekubaba_Update(EnDekubaba* this, GlobalContext* globalCtx);
 void EnDekubaba_Draw(EnDekubaba* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dekubaba_InitVars =
-{
+const ActorInit En_Dekubaba_InitVars = {
     ACTOR_EN_DEKUBABA,
     ACTORTYPE_ENEMY,
     ROOM,

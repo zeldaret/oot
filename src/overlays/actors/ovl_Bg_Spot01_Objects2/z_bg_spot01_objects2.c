@@ -8,8 +8,7 @@ void BgSpot01Objects2_Destroy(BgSpot01Objects2* this, GlobalContext* globalCtx);
 void BgSpot01Objects2_Update(BgSpot01Objects2* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot01_Objects2_InitVars =
-{
+const ActorInit Bg_Spot01_Objects2_InitVars = {
     ACTOR_BG_SPOT01_OBJECTS2,
     ACTORTYPE_BG,
     ROOM,

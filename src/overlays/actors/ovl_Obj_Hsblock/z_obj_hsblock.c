@@ -9,8 +9,7 @@ void ObjHsblock_Update(ObjHsblock* this, GlobalContext* globalCtx);
 void ObjHsblock_Draw(ObjHsblock* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Hsblock_InitVars =
-{
+const ActorInit Obj_Hsblock_InitVars = {
     ACTOR_OBJ_HSBLOCK,
     ACTORTYPE_BG,
     ROOM,
