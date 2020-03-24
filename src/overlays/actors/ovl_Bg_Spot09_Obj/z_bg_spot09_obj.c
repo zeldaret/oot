@@ -12,8 +12,7 @@ static s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx);
 static s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx);
 static s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx);
 
-const ActorInit Bg_Spot09_Obj_InitVars =
-{
+const ActorInit Bg_Spot09_Obj_InitVars = {
     ACTOR_BG_SPOT09_OBJ,
     ACTORTYPE_BG,
     ROOM,
@@ -26,13 +25,13 @@ const ActorInit Bg_Spot09_Obj_InitVars =
     (ActorFunc)BgSpot09Obj_Draw,
 };
 
-static u32 D_808B1F90[] = {
-    0x00000000, 0x06005520, 0x0600283C, 0x06008458, 0x06007580
-};
+static u32 D_808B1F90[] = { 0x00000000, 0x06005520, 0x0600283C, 0x06008458, 0x06007580 };
 
 typedef s32 (*ActorFuncRet)(struct Actor*, struct GlobalContext*);
 static ActorFuncRet D_808B1FA4[] = {
-    (ActorFuncRet)func_808B1BEC, (ActorFuncRet)func_808B1AE0, (ActorFuncRet)func_808B1BA0,
+    (ActorFuncRet)func_808B1BEC,
+    (ActorFuncRet)func_808B1AE0,
+    (ActorFuncRet)func_808B1BA0,
 };
 
 static InitChainEntry initChain1[] = {
@@ -85,7 +84,7 @@ static s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-static s32 func_808B1BA0(BgSpot09Obj *this, GlobalContext *globalCtx) {
+static s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     if (thisx->params == 3) {
         Actor_SetScale(thisx, 0.1f);
@@ -95,7 +94,7 @@ static s32 func_808B1BA0(BgSpot09Obj *this, GlobalContext *globalCtx) {
     return 1;
 }
 
-static s32 func_808B1BEC(BgSpot09Obj *this, GlobalContext *globalCtx) {
+static s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     s32 localC = 0;
     s32 pad[2];
@@ -108,7 +107,7 @@ static s32 func_808B1BEC(BgSpot09Obj *this, GlobalContext *globalCtx) {
     return 1;
 }
 
-static s32 func_808B1C70(BgSpot09Obj *this, GlobalContext *globalCtx) {
+static s32 func_808B1C70(BgSpot09Obj* this, GlobalContext* globalCtx) {
     s32 i;
     for (i = 0; i < ARRAY_COUNT(D_808B1FA4); i++) {
         if (!D_808B1FA4[i](this, globalCtx)) {
@@ -164,7 +163,6 @@ static void BgSpot09Obj_Destroy(BgSpot09Obj* this, GlobalContext* globalCtx) {
 }
 
 static void BgSpot09Obj_Update(BgSpot09Obj* this, GlobalContext* globalCtx) {
-
 }
 
 static void BgSpot09Obj_Draw(BgSpot09Obj* this, GlobalContext* globalCtx) {
