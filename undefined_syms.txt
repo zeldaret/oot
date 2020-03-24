@@ -442,3 +442,6 @@ D_06001BD0 = 0x06001BD0;
 // z_bg_zg
 D_060011D4 = 0x060011D4;
 D_06001080 = 0x06001080;
+
+// z_skelanime
+link_animetion_segment = 0x07000000;
