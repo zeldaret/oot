@@ -95,7 +95,7 @@ glabel func_808CB718
 /* 00AB4 808CB874 4600A306 */  mov.s   $f12, $f20                 
 /* 00AB8 808CB878 460A0202 */  mul.s   $f8, $f0, $f10             
 /* 00ABC 808CB87C 4608B580 */  add.s   $f22, $f22, $f8            
-/* 00AC0 808CB880 0C03F494 */  jal     func_800FD250              
+/* 00AC0 808CB880 0C03F494 */  jal     Math_atan2f              
 /* 00AC4 808CB884 4600B386 */  mov.s   $f14, $f22                 
 /* 00AC8 808CB888 3C01808D */  lui     $at, %hi(D_808D1E4C)       ## $at = 808D0000
 /* 00ACC 808CB88C C4381E4C */  lwc1    $f24, %lo(D_808D1E4C)($at) 
@@ -117,7 +117,7 @@ glabel func_808CB718
 /* 00B0C 808CB8CC 00000000 */  nop
 /* 00B10 808CB8D0 46805220 */  cvt.s.w $f8, $f10                  
 /* 00B14 808CB8D4 E7AE0090 */  swc1    $f14, 0x0090($sp)          
-/* 00B18 808CB8D8 0C03F494 */  jal     func_800FD250              
+/* 00B18 808CB8D8 0C03F494 */  jal     Math_atan2f              
 /* 00B1C 808CB8DC E7A801B4 */  swc1    $f8, 0x01B4($sp)           
 /* 00B20 808CB8E0 46180102 */  mul.s   $f4, $f0, $f24             
 /* 00B24 808CB8E4 3C04808D */  lui     $a0, %hi(D_808D1C30)       ## $a0 = 808D0000

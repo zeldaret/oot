@@ -1,6 +1,6 @@
 #include "z_en_bubble.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000001
 
 void EnBubble_Init(EnBubble* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnBubble_Update(EnBubble* this, GlobalContext* globalCtx);
 void EnBubble_Draw(EnBubble* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bubble_InitVars =
-{
+const ActorInit En_Bubble_InitVars = {
     ACTOR_EN_BUBBLE,
     ACTORTYPE_ENEMY,
     ROOM,

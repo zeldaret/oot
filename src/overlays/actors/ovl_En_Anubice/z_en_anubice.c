@@ -1,6 +1,6 @@
 #include "z_en_anubice.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnAnubice_Init(EnAnubice* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnAnubice_Update(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_Draw(EnAnubice* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Anubice_InitVars =
-{
+const ActorInit En_Anubice_InitVars = {
     ACTOR_EN_ANUBICE,
     ACTORTYPE_ENEMY,
     ROOM,

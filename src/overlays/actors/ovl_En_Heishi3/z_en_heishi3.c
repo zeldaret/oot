@@ -1,6 +1,6 @@
 #include "z_en_heishi3.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnHeishi3_Init(EnHeishi3* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnHeishi3_Update(EnHeishi3* this, GlobalContext* globalCtx);
 void EnHeishi3_Draw(EnHeishi3* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Heishi3_InitVars =
-{
+const ActorInit En_Heishi3_InitVars = {
     ACTOR_EN_HEISHI3,
     ACTORTYPE_NPC,
     ROOM,

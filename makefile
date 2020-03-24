@@ -26,8 +26,8 @@ OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
 CC         := $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bin/cc
 CC_OLD     := $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
 
-# Check code syntax with host compiler (TODO: define NON_MATCHING because the non-matching code is utterly broken)
-CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -D _LANGUAGE_C -I include -include stdarg.h
+# Check code syntax with host compiler
+CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -D _LANGUAGE_C -D NON_MATCHING -I include -include stdarg.h
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
@@ -156,10 +156,6 @@ build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(OPTIMIZATION) -o $@ $^
 #	$(CC_CHECK) $^
 	$(OBJCOPY) -O binary $@ $@.bin
-
-#build/src/boot/%.o: src/boot/%.c
-#	$(CC) -c $(CFLAGS) $(OPTIMIZATION) -o $@ $^
-#	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(OPTIMIZATION) -o $@ $^

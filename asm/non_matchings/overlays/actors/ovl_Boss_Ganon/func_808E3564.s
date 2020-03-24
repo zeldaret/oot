@@ -123,14 +123,14 @@ glabel func_808E3564
 /* 0CEC4 808E3734 46128581 */  sub.s   $f22, $f16, $f18           
 /* 0CEC8 808E3738 4600A306 */  mov.s   $f12, $f20                 
 /* 0CECC 808E373C 46085601 */  sub.s   $f24, $f10, $f8            
-/* 0CED0 808E3740 0C03F494 */  jal     func_800FD250              
+/* 0CED0 808E3740 0C03F494 */  jal     Math_atan2f              
 /* 0CED4 808E3744 4600B386 */  mov.s   $f14, $f22                 
 /* 0CED8 808E3748 4614A682 */  mul.s   $f26, $f20, $f20           
 /* 0CEDC 808E374C E7A000B0 */  swc1    $f0, 0x00B0($sp)           
 /* 0CEE0 808E3750 4600C306 */  mov.s   $f12, $f24                 
 /* 0CEE4 808E3754 4616B702 */  mul.s   $f28, $f22, $f22           
 /* 0CEE8 808E3758 461CD000 */  add.s   $f0, $f26, $f28            
-/* 0CEEC 808E375C 0C03F494 */  jal     func_800FD250              
+/* 0CEEC 808E375C 0C03F494 */  jal     Math_atan2f              
 /* 0CEF0 808E3760 46000384 */  sqrt.s  $f14, $f0                  
 /* 0CEF4 808E3764 C6040038 */  lwc1    $f4, 0x0038($s0)           ## 00010038
 /* 0CEF8 808E3768 46000507 */  neg.s   $f20, $f0                  

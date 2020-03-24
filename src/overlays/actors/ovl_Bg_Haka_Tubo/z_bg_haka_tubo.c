@@ -1,6 +1,6 @@
 #include "z_bg_haka_tubo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgHakaTubo_Init(BgHakaTubo* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgHakaTubo_Update(BgHakaTubo* this, GlobalContext* globalCtx);
 void BgHakaTubo_Draw(BgHakaTubo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Haka_Tubo_InitVars =
-{
+const ActorInit Bg_Haka_Tubo_InitVars = {
     ACTOR_BG_HAKA_TUBO,
     ACTORTYPE_BG,
     ROOM,

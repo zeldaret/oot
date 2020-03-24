@@ -1,7 +1,6 @@
 #include <global.h>
 
-void osYieldThread()
-{
+void osYieldThread() {
     register u32 prevInt;
 
     prevInt = __osDisableInt();

@@ -1,10 +1,13 @@
 #include <z64.h>
 
-#define printSpStatus(x, name) if (x & SP_STATUS_##name) osSyncPrintf(#name " ")
-#define printDpStatus(x, name) if (x & DPC_STATUS_##name) osSyncPrintf(#name " ")
+#define printSpStatus(x, name) \
+    if (x & SP_STATUS_##name)  \
+    osSyncPrintf(#name " ")
+#define printDpStatus(x, name) \
+    if (x & DPC_STATUS_##name) \
+    osSyncPrintf(#name " ")
 
-void func_800FBCE0()
-{
+void func_800FBCE0() {
     u32 spStatus = __osSpGetStatus();
     u32 dpStatus = osDpGetStatus();
 
@@ -41,8 +44,7 @@ void func_800FBCE0()
     osSyncPrintf("\n");
 }
 
-void func_800FBFD8()
-{
+void func_800FBFD8() {
     func_800FBCE0();
     osDpSetStatus(DPC_SET_FREEZE | DPC_SET_FLUSH);
     __osSpSetStatus(SP_SET_HALT | SP_SET_SIG2 | SP_CLR_INTR_BREAK);

@@ -10,12 +10,12 @@ glabel func_80A53AD4
               
 /* 00C54 80A53AF4 AFAF0024 */  sw      $t7, 0x0024($sp)           
 /* 00C58 80A53AF8 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00C5C 80A53AFC 0C01B0D8 */  jal     func_8006C360              
+/* 00C5C 80A53AFC 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00C60 80A53B00 24050005 */  addiu   $a1, $zero, 0x0005         ## $a1 = 00000005
 /* 00C64 80A53B04 10400006 */  beq     $v0, $zero, .L80A53B20     
 /* 00C68 80A53B08 2418200E */  addiu   $t8, $zero, 0x200E         ## $t8 = 0000200E
 /* 00C6C 80A53B0C 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00C70 80A53B10 0C01B0D8 */  jal     func_8006C360              
+/* 00C70 80A53B10 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00C74 80A53B14 24050005 */  addiu   $a1, $zero, 0x0005         ## $a1 = 00000005
 /* 00C78 80A53B18 10000002 */  beq     $zero, $zero, .L80A53B24   
 /* 00C7C 80A53B1C A602010E */  sh      $v0, 0x010E($s0)           ## 0000010E

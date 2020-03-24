@@ -1,6 +1,6 @@
 #include "z_obj_dekujr.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void ObjDekujr_Init(ObjDekujr* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void ObjDekujr_Update(ObjDekujr* this, GlobalContext* globalCtx);
 void ObjDekujr_Draw(ObjDekujr* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Dekujr_InitVars =
-{
+const ActorInit Obj_Dekujr_InitVars = {
     ACTOR_OBJ_DEKUJR,
     ACTORTYPE_NPC,
     ROOM,

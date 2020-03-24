@@ -1,6 +1,6 @@
 #include "z_en_wonder_talk2.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x08000009
 
 void EnWonderTalk2_Init(EnWonderTalk2* this, GlobalContext* globalCtx);
@@ -8,8 +8,7 @@ void EnWonderTalk2_Destroy(EnWonderTalk2* this, GlobalContext* globalCtx);
 void EnWonderTalk2_Update(EnWonderTalk2* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Wonder_Talk2_InitVars =
-{
+const ActorInit En_Wonder_Talk2_InitVars = {
     ACTOR_EN_WONDER_TALK2,
     ACTORTYPE_ITEMACTION,
     ROOM,

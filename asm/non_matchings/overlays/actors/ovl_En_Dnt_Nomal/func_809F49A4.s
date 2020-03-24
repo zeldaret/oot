@@ -48,7 +48,7 @@ glabel func_809F49A4
 /* 01798 809F4A58 1000004D */  beq     $zero, $zero, .L809F4B90   
 /* 0179C 809F4A5C E6100068 */  swc1    $f16, 0x0068($s0)          ## 00000068
 .L809F4A60:
-/* 017A0 809F4A60 0C03F494 */  jal     func_800FD250              
+/* 017A0 809F4A60 0C03F494 */  jal     Math_atan2f              
 /* 017A4 809F4A64 00000000 */  nop
 /* 017A8 809F4A68 3C01809F */  lui     $at, %hi(D_809F6050)       ## $at = 809F0000
 /* 017AC 809F4A6C C4326050 */  lwc1    $f18, %lo(D_809F6050)($at) 

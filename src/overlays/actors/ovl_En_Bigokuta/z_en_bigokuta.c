@@ -1,6 +1,6 @@
 #include "z_en_bigokuta.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void EnBigokuta_Init(EnBigokuta* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnBigokuta_Update(EnBigokuta* this, GlobalContext* globalCtx);
 void EnBigokuta_Draw(EnBigokuta* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bigokuta_InitVars =
-{
+const ActorInit En_Bigokuta_InitVars = {
     ACTOR_EN_BIGOKUTA,
     ACTORTYPE_ENEMY,
     ROOM,

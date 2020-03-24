@@ -1,6 +1,6 @@
 #include "z_bg_mizu_water.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgMizuWater_Init(BgMizuWater* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgMizuWater_Update(BgMizuWater* this, GlobalContext* globalCtx);
 void BgMizuWater_Draw(BgMizuWater* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mizu_Water_InitVars =
-{
+const ActorInit Bg_Mizu_Water_InitVars = {
     ACTOR_BG_MIZU_WATER,
     ACTORTYPE_BG,
     ROOM,

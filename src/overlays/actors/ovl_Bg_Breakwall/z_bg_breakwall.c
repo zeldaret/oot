@@ -1,6 +1,6 @@
 #include "z_bg_breakwall.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgBreakwall_Init(BgBreakwall* this, GlobalContext* globalCtx);
@@ -8,8 +8,7 @@ void BgBreakwall_Destroy(BgBreakwall* this, GlobalContext* globalCtx);
 void BgBreakwall_Update(BgBreakwall* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Breakwall_InitVars =
-{
+const ActorInit Bg_Breakwall_InitVars = {
     ACTOR_BG_BREAKWALL,
     ACTORTYPE_BG,
     ROOM,

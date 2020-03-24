@@ -280,9 +280,9 @@ beginseg
     include "build/data/z_eff_shield_particle.data.o"
     include "build/src/code/z_eff_spark.o"
     include "build/src/code/z_eff_ss_dead.o"
-    include "build/src/code/code_80026B00.o"
-    include "build/data/code_80026B00.data.o"
-    include "build/data/code_80026B00.bss.o"
+    include "build/src/code/z_effect.o"
+    include "build/data/z_effect.data.o"
+    include "build/data/z_effect.bss.o"
     include "build/src/code/z_effect_soft_sprite.o"
     include "build/data/z_effect_soft_sprite.data.o"
     include "build/src/code/z_effect_soft_sprite_old_init.o"
@@ -315,7 +315,7 @@ beginseg
     include "build/asm/code_8006BA00.o"
     include "build/src/code/z_elf_message.o"
     include "build/data/z_elf_message.data.o"
-    include "build/src/code/code_8006C360.o"
+    include "build/src/code/z_face_reaction.o"
     include "build/src/code/code_8006C3A0.o"
     include "build/src/code/code_8006C510.o"
     include "build/src/code/z_fcurve_data_skelanime.o"
@@ -348,17 +348,16 @@ beginseg
     include "build/data/z_map_exp.data.o"
     include "build/data/z_map_exp.bss.o"
     include "build/src/code/z_parameter.o"
-    include "build/asm/code_8008E4E0.o"
-    include "build/data/code_8008E4E0.rodata.o"
+    include "build/src/code/z_path.o"
     include "build/asm/code_8008E6A0.o"
     include "build/src/code/z_player_lib.o"
     include "build/data/z_player_lib.data.o"
     include "build/data/z_player_lib.bss.o"
     include "build/src/code/z_prenmi.o"
-    include "build/asm/code_80092500.o"
-    include "build/data/code_80092500.data.o"
-    include "build/data/code_80092500.rodata.o"
-    include "build/data/code_80092500.bss.o"
+    include "build/asm/z_quake.o"
+    include "build/data/z_quake.data.o"
+    include "build/data/z_quake.rodata.o"
+    include "build/data/z_quake.bss.o"
     include "build/src/code/z_rcp.o"
     include "build/data/z_rcp.data.o"
     include "build/src/code/z_room.o"
@@ -383,8 +382,7 @@ beginseg
     include "build/src/code/z_view.o"
     include "build/data/z_view.data.o"
     include "build/src/code/z_vimode.o"
-    include "build/asm/code_800ACE70.o"
-    include "build/data/code_800ACE70.data.o"
+    include "build/src/code/code_800ACE70.o"
     include "build/src/code/z_vismono.o"
     include "build/asm/code_800AD920.o"
     include "build/src/code/z_vr_box.o"
@@ -509,10 +507,8 @@ beginseg
     include "build/src/code/code_800FC620.o"
     include "build/asm/code_800FCB50.o"
     include "build/asm/code_800FCD40.o"
-    include "build/asm/code_800FCE80.o"
-    include "build/data/code_800FCE80.data.o"
-    include "build/data/code_800FCE80.rodata.o"
-    include "build/data/code_800FCE80.bss.o"
+    include "build/src/code/code_800FCE80.o"
+    include "build/asm/fp.o"
     include "build/src/code/system_malloc.o"
     include "build/asm/code_800FD970.o"
     include "build/data/code_800FD970.data.o"
@@ -791,9 +787,7 @@ endseg
 beginseg
     name "ovl_Bg_Gate_Shutter"
     include "build/src/overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.o"
-    include "build/data/overlays/actors/z_bg_gate_shutter.data.o"
-    include "build/data/overlays/actors/z_bg_gate_shutter.rodata.o"
-    include "build/data/overlays/actors/z_bg_gate_shutter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter_reloc.o"
 endseg
 
 beginseg
@@ -871,8 +865,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Megane"
     include "build/src/overlays/actors/ovl_Bg_Haka_Megane/z_bg_haka_megane.o"
-    include "build/data/overlays/actors/z_bg_haka_megane.data.o"
-    include "build/data/overlays/actors/z_bg_haka_megane.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Megane/z_bg_haka_megane_reloc.o"
 endseg
 
 beginseg
@@ -1594,9 +1587,7 @@ endseg
 beginseg
     name "ovl_Bg_Toki_Swd"
     include "build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd.o"
-    include "build/data/overlays/actors/z_bg_toki_swd.data.o"
-    include "build/data/overlays/actors/z_bg_toki_swd.rodata.o"
-    include "build/data/overlays/actors/z_bg_toki_swd.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Toki_Swd/z_bg_toki_swd_reloc.o"
 endseg
 
 beginseg
@@ -1647,9 +1638,7 @@ endseg
 beginseg
     name "ovl_Bg_Zg"
     include "build/src/overlays/actors/ovl_Bg_Zg/z_bg_zg.o"
-    include "build/data/overlays/actors/z_bg_zg.data.o"
-    include "build/data/overlays/actors/z_bg_zg.rodata.o"
-    include "build/data/overlays/actors/z_bg_zg.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Zg/z_bg_zg_reloc.o"
 endseg
 
 beginseg
@@ -1789,9 +1778,7 @@ endseg
 beginseg
     name "ovl_Demo_Geff"
     include "build/src/overlays/actors/ovl_Demo_Geff/z_demo_geff.o"
-    include "build/data/overlays/actors/z_demo_geff.data.o"
-    include "build/data/overlays/actors/z_demo_geff.rodata.o"
-    include "build/data/overlays/actors/z_demo_geff.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Geff/z_demo_geff_reloc.o"
 endseg
 
 beginseg
@@ -2592,9 +2579,7 @@ endseg
 beginseg
     name "ovl_En_Dog"
     include "build/src/overlays/actors/ovl_En_Dog/z_en_dog.o"
-    include "build/data/overlays/actors/z_en_dog.data.o"
-    include "build/data/overlays/actors/z_en_dog.rodata.o"
-    include "build/data/overlays/actors/z_en_dog.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dog/z_en_dog_reloc.o"
 endseg
 
 beginseg
@@ -3685,9 +3670,7 @@ endseg
 beginseg
     name "ovl_En_Tk"
     include "build/src/overlays/actors/ovl_En_Tk/z_en_tk.o"
-    include "build/data/overlays/actors/z_en_tk.data.o"
-    include "build/data/overlays/actors/z_en_tk.rodata.o"
-    include "build/data/overlays/actors/z_en_tk.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Tk/z_en_tk_reloc.o"
 endseg
 
 beginseg

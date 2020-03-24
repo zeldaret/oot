@@ -1,6 +1,6 @@
 #include "z_en_clear_tag.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void EnClearTag_Init(EnClearTag* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnClearTag_Update(EnClearTag* this, GlobalContext* globalCtx);
 void EnClearTag_Draw(EnClearTag* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Clear_Tag_InitVars =
-{
+const ActorInit En_Clear_Tag_InitVars = {
     ACTOR_EN_CLEAR_TAG,
     ACTORTYPE_BOSS,
     ROOM,
@@ -44,4 +43,3 @@ const ActorInit En_Clear_Tag_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Clear_Tag/func_809D5004.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Clear_Tag/func_809D53CC.s")
-
