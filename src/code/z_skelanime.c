@@ -1,5 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
+#include <vt.h>
 
 s32 func_800A3D70(GlobalContext*, SkelAnime*);
 s32 func_800A3E0C(GlobalContext*, SkelAnime*);
@@ -52,7 +53,7 @@ void SkelAnime_LodDrawLimb(GlobalContext* globalCtx, s32 limbIndex, u32* limbTab
         if (dList != NULL) {
             do {
                 if (1) {
-                    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 0x325),
+                    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 805),
                               G_MTX_LOAD);
 
                     gSPDisplayList(gfxCtx->polyOpa.p++, dList);
@@ -77,7 +78,7 @@ void SkelAnime_LodDrawLimb(GlobalContext* globalCtx, s32 limbIndex, u32* limbTab
                               appendDlistFunc, actor, dListIndex);
     }
 
-    func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 0x335);
+    func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 821);
 }
 
 void SkelAnime_LodDraw(GlobalContext* globalCtx, u32* limbIndex, Vec3s* actorDrawTable,
@@ -92,13 +93,13 @@ void SkelAnime_LodDraw(GlobalContext* globalCtx, u32* limbIndex, Vec3s* actorDra
     Gfx* gfx[4];
 
     if (limbIndex == NULL) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("Si2_Lod_draw():skelがNULLです。\n");
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
         return;
     }
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 0x351);
+    func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 849);
     Matrix_Push();
 
     limbEntry = SEGMENTED_TO_VIRTUAL(*limbIndex);
@@ -112,7 +113,7 @@ void SkelAnime_LodDraw(GlobalContext* globalCtx, u32* limbIndex, Vec3s* actorDra
     if ((updateMtxFunc == NULL) || (updateMtxFunc(globalCtx, 1, &dList, &pos, &rot, actor) == 0)) {
         Matrix_TranslateThenRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 0x371),
+            gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 881),
                       G_MTX_LOAD);
 
             gSPDisplayList(gfxCtx->polyOpa.p++, dList);
@@ -128,7 +129,7 @@ void SkelAnime_LodDraw(GlobalContext* globalCtx, u32* limbIndex, Vec3s* actorDra
     }
 
     Matrix_Pull();
-    func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 0x37E);
+    func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 894);
 }
 
 #ifdef NON_MATCHING
@@ -207,9 +208,9 @@ void SkelAnime_LodDrawSV(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorD
     } while (0);
 
     if (limbTable == NULL) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("Si2_Lod_draw_SV():skelがNULLです。\n");
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
         return;
     }
     gfxCtx = globalCtx->state.gfxCtx;
@@ -270,7 +271,7 @@ void SkelAnime_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, u32* limbTable,
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 0x434);
+    func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1076);
     Matrix_Push();
 
     limbEntry = SEGMENTED_TO_VIRTUAL(limbTable[limbIndex]);
@@ -324,9 +325,9 @@ void SkelAnime_Draw(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDrawTa
     Gfx* gfx[4];
 
     if (limbTable == NULL) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("Si2_draw():skelがNULLです。\n"); // Si2_draw (): skel is NULL.
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
         return;
     }
 
@@ -378,29 +379,28 @@ void SkelAnime_DrawLimbSV(GlobalContext* globalCtx, u32 limbIndex, u32* limbTabl
     SkelLimbEntry* limbEntry;
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(sp34, globalCtx->state.gfxCtx, "../z_skelanime.c", 0x4BE);
+    func_800C6AC4(sp34, globalCtx->state.gfxCtx, "../z_skelanime.c", 1214);
     Matrix_Push();
     limbEntry = SEGMENTED_TO_VIRTUAL(limbTable[limbIndex]);
     limbRot = actorDrawTable[++limbIndex];
 
-    limbPos.x = (f32)limbEntry->pos.x;
-    limbPos.y = (f32)limbEntry->pos.y;
-    limbPos.z = (f32)limbEntry->pos.z;
+    limbPos.x = (f32)limbEntry->translation.x;
+    limbPos.y = (f32)limbEntry->translation.y;
+    limbPos.z = (f32)limbEntry->translation.z;
 
-    limbDlist[0] = limbEntry->dList;
-    limbDlist[1] = limbEntry->dList;
+    limbDlist[0] = limbDlist[1] = limbEntry->displayLists[0];
 
     if ((updateMtxFunc == NULL) ||
         (updateMtxFunc(globalCtx, limbIndex, &limbDlist[0], &limbPos, &limbRot, actor) == 0)) {
         Matrix_TranslateThenRotateZYX(&limbPos, &limbRot);
         if (limbDlist[0] != NULL) {
-            Matrix_ToMtx(*limbMatricies, "../z_skelanime.c", 0x4DA);
+            Matrix_ToMtx(*limbMatricies, "../z_skelanime.c", 1242);
             gSPMatrix(gfxCtx->polyOpa.p++, *limbMatricies, G_MTX_LOAD);
             gSPDisplayList(gfxCtx->polyOpa.p++, &limbDlist[0]);
             (*limbMatricies)++;
         } else {
             if (&limbDlist[1] != 0) {
-                Matrix_ToMtx(*limbMatricies, "../z_skelanime.c", 0x4E1);
+                Matrix_ToMtx(*limbMatricies, "../z_skelanime.c", 1249);
                 (*limbMatricies)++;
             }
         }
@@ -422,7 +422,7 @@ void SkelAnime_DrawLimbSV(GlobalContext* globalCtx, u32 limbIndex, u32* limbTabl
                              appendDlistFunc, actor, limbMatricies);
     }
 
-    func_800C6B54(sp34, globalCtx->state.gfxCtx, "../z_skelanime.c", 0x4F1);
+    func_800C6B54(sp34, globalCtx->state.gfxCtx, "../z_skelanime.c", 1265);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/SkelAnime_DrawLimbSV.s")
@@ -443,9 +443,9 @@ void SkelAnime_DrawSV(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDraw
     limbMatricies = Graph_Alloc(globalCtx->state.gfxCtx, dListCount << 6);
 
     if (limbTable == NULL) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("Si2_draw_SV():skelがNULLです。\n"); // Si2_draw_SV (): skel is NULL.
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
         return;
     }
 
@@ -463,7 +463,7 @@ void SkelAnime_DrawSV(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDraw
 
     rot = actorDrawTable[1];
 
-    skelDlist[0] = skelDlist[1] = rootLimb->dList;
+    skelDlist[0] = skelDlist[1] = rootLimb->displayLists[0];
 
     if ((updateMtxFunc == NULL) || (updateMtxFunc(globalCtx, 1, &skelDlist[0], &pos, &rot, actor) == 0)) {
         Matrix_TranslateThenRotateZYX(&pos, &rot);
@@ -495,7 +495,6 @@ void SkelAnime_DrawSV(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDraw
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/SkelAnime_DrawSV.s")
 #endif
-#undef NON_MATCHING
 
 /*
  * Copies the rotation values from the rotation value table, indexed by the rotation index table
@@ -571,7 +570,7 @@ Gfx* SkelAnime_Draw2Limb(GlobalContext* globalCtx, s32 limbIndex, u32* limbTable
     if ((updateMtxFunc == NULL) || (updateMtxFunc(globalCtx, limbIndex, &dList, &pos, &rot, actor, &gfx) == 0)) {
         Matrix_TranslateThenRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(gfx++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 0x5D1), G_MTX_LOAD);
+            gSPMatrix(gfx++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 1489), G_MTX_LOAD);
             gSPDisplayList(gfx++, dList);
         }
     }
@@ -606,9 +605,9 @@ Gfx* SkelAnime_Draw2(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDrawT
     Gfx* dList;
 
     if (limbTable == NULL) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("Si2_draw2():skelがNULLです。NULLを返します。\n");
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
         return NULL;
     }
 
@@ -627,7 +626,7 @@ Gfx* SkelAnime_Draw2(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDrawT
     if ((updateMtxFunc == NULL) || (updateMtxFunc(globalCtx, 1, &dList, &pos, &rot, actor, &gfx) == 0)) {
         Matrix_TranslateThenRotateZYX(&pos, &rot);
         if (dList != NULL) {
-            gSPMatrix(gfx++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 0x616), G_MTX_LOAD);
+            gSPMatrix(gfx++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_skelanime.c", 1558), G_MTX_LOAD);
             gSPDisplayList(gfx++, dList);
         }
     }
@@ -673,13 +672,13 @@ Gfx* SkelAnime_DrawLimbSV2(GlobalContext* globalCtx, s32 limbIndex, u32* limbTab
     if ((updateMtxFunc == NULL) || (updateMtxFunc(globalCtx, limbIndex, &dList1, &pos, &rot, actor, &gfx) == 0)) {
         Matrix_TranslateThenRotateZYX(&pos, &rot);
         if (dList1 != NULL) {
-            Matrix_ToMtx(*mtx, "../z_skelanime.c", 0x657);
+            Matrix_ToMtx(*mtx, "../z_skelanime.c", 1623);
             gSPMatrix(gfx++, *mtx, G_MTX_LOAD);
             gSPDisplayList(gfx++, dList1);
             (*mtx)++;
         } else {
             if (dList2 != NULL) {
-                Matrix_ToMtx(*mtx, "../z_skelanime.c", 0x65E);
+                Matrix_ToMtx(*mtx, "../z_skelanime.c", 1630);
                 (*mtx)++;
             }
         }
@@ -715,9 +714,9 @@ Gfx* SkelAnime_DrawSV2(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDra
 
     mtx = Graph_Alloc(globalCtx->state.gfxCtx, dListCount * sizeof(*mtx));
     if (limbTable == NULL) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("Si2_draw2_SV():skelがNULLです。NULLを返します。\n");
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
         return NULL;
     }
 
@@ -736,13 +735,13 @@ Gfx* SkelAnime_DrawSV2(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDra
     if ((updateMtxFunc == NULL) || (updateMtxFunc(globalCtx, 1, &dList1, &pos, &rot, actor, &gfx) == 0)) {
         Matrix_TranslateThenRotateZYX(&pos, &rot);
         if (dList1 != NULL) {
-            Matrix_ToMtx(mtx, "../z_skelanime.c", 0x6AE);
+            Matrix_ToMtx(mtx, "../z_skelanime.c", 1710);
             gSPMatrix(gfx++, mtx, G_MTX_LOAD);
             gSPDisplayList(gfx++, dList1);
             mtx++;
         } else {
             if (dList2 != NULL) {
-                Matrix_ToMtx(mtx, "../z_skelanime.c", 0x6B5);
+                Matrix_ToMtx(mtx, "../z_skelanime.c", 1717);
                 mtx++;
             }
         }
@@ -828,7 +827,7 @@ void func_800A336C(GlobalContext* globalCtx, u32 linkAnimetionSeg, s32 frame, s3
         DmaMgr_SendRequest2(
             &entry->types.type0.req, ram,
             LINK_ANIMETION_OFFSET(linkAnimetionEntry->animationSegAddress, ((sizeof(Vec3s) * limbCount + 2) * frame)),
-            sizeof(Vec3s) * limbCount + 2, 0, &entry->types.type0.msgQueue, NULL, "../z_skelanime.c", 0x7D4);
+            sizeof(Vec3s) * limbCount + 2, 0, &entry->types.type0.msgQueue, NULL, "../z_skelanime.c", 2004);
     }
 }
 
@@ -1008,10 +1007,10 @@ void func_800A39AC(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 limbHeade
     }
 
     if ((skelAnime->actorDrawTbl == NULL) || (skelAnime->unk_24 == NULL)) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf(
             "Skeleton_Info_Rom_SV_ct メモリアロケーションエラー\n"); // Skeleton_Info_Rom_SV_ct Memory allocation error
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
     }
 
     func_800A3F08(globalCtx, skelAnime, animation, 1.0f, 0.0f, 0.0f, 0, 0.0f);
@@ -1257,9 +1256,9 @@ void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 limbHead
         skelAnime->unk_24 = arg5;
     }
     if ((skelAnime->actorDrawTbl == NULL) || (skelAnime->unk_24 == NULL)) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("Skeleton_Info2_ct メモリアロケーションエラー\n"); // Skeleton_Info2_ct memory allocation error
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
     }
 
     if (animation != 0) {
@@ -1284,16 +1283,16 @@ void SkelAnime_InitSV(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 limbHe
             ZeldaArena_MallocDebug(skelAnime->limbCount * sizeof(*skelAnime->unk_24), "../z_skelanime.c", 3048);
     } else {
         if (limbCount != skelAnime->limbCount) {
-            __assert("joint_buff_num == this->joint_num", "../z_skelanime.c", 0xBEC);
+            __assert("joint_buff_num == this->joint_num", "../z_skelanime.c", 3052);
         }
         skelAnime->actorDrawTbl = actorDrawTable;
         skelAnime->unk_24 = arg5;
     }
     if ((skelAnime->actorDrawTbl == NULL) || (skelAnime->unk_24 == NULL)) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf(
             "Skeleton_Info_Rom_SV_ct メモリアロケーションエラー\n"); // Skeleton_Info_Rom_SV_ct Memory allocation error
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
     }
 
     if (animation != 0) {
@@ -1312,10 +1311,10 @@ void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 limb
     skelAnime->unk_24 =
         ZeldaArena_MallocDebug(skelAnime->limbCount * sizeof(*skelAnime->unk_24), "../z_skelanime.c", 3121);
     if ((skelAnime->actorDrawTbl == NULL) || (skelAnime->unk_24 == NULL)) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf(
             "Skeleton_Info2_skin2_ct メモリアロケーションエラー\n"); // Skeleton_Info2_skin2_ct Memory allocation error
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
     }
 
     if (animation != 0) {
@@ -1432,7 +1431,6 @@ void func_800A4C58(SkelAnime* skelAnime) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A4C58.s")
 #endif
-#undef NON_MATCHING
 
 #ifdef NON_MATCHING
 s32 func_800A4D9C(SkelAnime* skelAnime) {
@@ -1448,7 +1446,6 @@ s32 func_800A4D9C(SkelAnime* skelAnime) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A4D9C.s")
 #endif
-#undef NON_MATCHING
 
 #ifdef NON_MATCHING
 s32 func_800A4E38(SkelAnime* skelAnime) {
@@ -1466,7 +1463,6 @@ s32 func_800A4E38(SkelAnime* skelAnime) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A4E38.s")
 #endif
-#undef NON_MATCHING
 
 s32 func_800A4EE0(SkelAnime* skelAnime) {
     f32 temp_f14;
@@ -1506,10 +1502,10 @@ void SkelAnime_ChangeAnimationImpl(SkelAnime* skelAnime, u32 animation, f32 play
             transitionRate = -transitionRate;
         } else {
             if (unk2 != 0) {
-                skelAnime->mtxUpdate = (void*)&func_800A4AD8;
+                skelAnime->animUpdate = (void*)&func_800A4AD8;
                 skelAnime->unk_03 = unk2;
             } else {
-                skelAnime->mtxUpdate = (void*)&func_800A4A20;
+                skelAnime->animUpdate = (void*)&func_800A4A20;
             }
             SkelAnime_AnimateFrame(animation, (s32)unk0, skelAnime->limbCount, skelAnime->actorDrawTbl);
         }
@@ -1538,7 +1534,6 @@ void SkelAnime_ChangeAnimationImpl(SkelAnime* skelAnime, u32 animation, f32 play
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/SkelAnime_ChangeAnimationImpl.s")
 #endif
-#undef NON_MATCHING
 
 void SkelAnime_ChangeAnimation(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed, f32 unk0, f32 frameCount,
                                u8 unk1, f32 transitionRate) {

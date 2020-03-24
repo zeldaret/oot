@@ -1139,8 +1139,9 @@ void SkelAnime_LodDrawSV(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorD
                          Actor* actor, s32 dListIndex);
 void SkelAnime_Draw(GlobalContext* globalCtx, u32* limbIndex, Vec3s* actorDrawTable,
                     SkelAnime_LimbUpdateMatrix updateMtxFunc, SkelAnime_LimbAppendDlist appendDlistFunc, Actor* actor);
-void SkelAnime_DrawSV(GlobalContext* globalCtx, u32 limbIndex, u32 actorDrawTbl, u32 dListCount, void* posUpdateFunc,
-                      void* drawFunc, Actor* actor);
+void SkelAnime_DrawSV(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDrawTable, u32 dListCount,
+                      SkelAnime_LimbUpdateMatrix updateMtxFunc, SkelAnime_LimbAppendDlist appendDlistFunc,
+                      Actor* actor);
 s32 SkelAnime_GetFrameCount(u32 animation);
 Gfx* SkelAnime_Draw2(GlobalContext* globalCtx, u32* limbTable, Vec3s* actorDrawTable,
                      SkelAnime_LimbUpdateMatrix2 updateMtxFunc, SkelAnime_LimbAppendDlist2 appendDlistFunc,
