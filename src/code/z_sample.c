@@ -34,10 +34,11 @@ void Sample_Draw(SampleContext* this) {
 
     gfxCtx->polyOpa.p = func_80093708(gfxCtx->polyOpa.p, 0xFF, 0xFF, 0xFF, 0, 0, 0);
     func_80093D18(gfxCtx);
-    
+
     gDPSetCycleType(gfxCtx->polyOpa.p++, G_CYC_1CYCLE);
     gDPSetRenderMode(gfxCtx->polyOpa.p++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
-    gDPSetCombineLERP(gfxCtx->polyOpa.p++, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE);
+    gDPSetCombineLERP(gfxCtx->polyOpa.p++, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0,
+                      PRIMITIVE);
     gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0x00, 0x00);
 
     func_800C6B54(gfxArr, gfxCtx, "../z_sample.c", 111);

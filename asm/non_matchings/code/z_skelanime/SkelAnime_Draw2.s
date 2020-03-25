@@ -17,7 +17,7 @@ glabel D_80140314
     .balign 4
 
 .text
-glabel func_800A2288
+glabel SkelAnime_Draw2
 /* B19428 800A2288 27BDFFA8 */  addiu $sp, $sp, -0x58
 /* B1942C 800A228C AFBF0024 */  sw    $ra, 0x24($sp)
 /* B19430 800A2290 AFA40058 */  sw    $a0, 0x58($sp)
@@ -38,7 +38,7 @@ glabel func_800A2288
 /* B1946C 800A22CC 00001025 */   move  $v0, $zero
 .L800A22D0:
 /* B19470 800A22D0 0C034213 */  jal   Matrix_Push
-/* B19474 800A22D4 00000000 */   nop   
+/* B19474 800A22D4 00000000 */   nop
 /* B19478 800A22D8 8FAF005C */  lw    $t7, 0x5c($sp)
 /* B1947C 800A22DC 3C0A8016 */  lui   $t2, %hi(gSegments)
 /* B19480 800A22E0 3C0100FF */  lui   $at, (0x00FFFFFF >> 16) # lui $at, 0xff
@@ -71,7 +71,7 @@ glabel func_800A2288
 /* B194EC 800A234C E7AA0044 */  swc1  $f10, 0x44($sp)
 /* B194F0 800A2350 846F0004 */  lh    $t7, 4($v1)
 /* B194F4 800A2354 448F8000 */  mtc1  $t7, $f16
-/* B194F8 800A2358 00000000 */  nop   
+/* B194F8 800A2358 00000000 */  nop
 /* B194FC 800A235C 468084A0 */  cvt.s.w $f18, $f16
 /* B19500 800A2360 E7B20048 */  swc1  $f18, 0x48($sp)
 /* B19504 800A2364 88690006 */  lwl   $t1, 6($v1)
@@ -93,7 +93,7 @@ glabel func_800A2288
 /* B19544 800A23A4 1440001B */  bnez  $v0, .L800A2414
 .L800A23A8:
 /* B19548 800A23A8 27A40040 */   addiu $a0, $sp, 0x40
-/* B1954C 800A23AC 0C0344D0 */  jal   func_800D1340
+/* B1954C 800A23AC 0C0344D0 */  jal   Matrix_TranslateThenRotateZYX
 /* B19550 800A23B0 27A50038 */   addiu $a1, $sp, 0x38
 /* B19554 800A23B4 8FAF004C */  lw    $t7, 0x4c($sp)
 /* B19558 800A23B8 8FB90070 */  lw    $t9, 0x70($sp)
@@ -146,16 +146,16 @@ glabel func_800A2288
 /* B1960C 800A246C AFA80010 */  sw    $t0, 0x10($sp)
 /* B19610 800A2470 AFA20014 */  sw    $v0, 0x14($sp)
 /* B19614 800A2474 AFA90018 */  sw    $t1, 0x18($sp)
-/* B19618 800A2478 0C028811 */  jal   func_800A2044
+/* B19618 800A2478 0C028811 */  jal   SkelAnime_Draw2Limb
 /* B1961C 800A247C AFB8001C */   sw    $t8, 0x1c($sp)
 /* B19620 800A2480 AFA20070 */  sw    $v0, 0x70($sp)
 .L800A2484:
 /* B19624 800A2484 0C034221 */  jal   Matrix_Pull
-/* B19628 800A2488 00000000 */   nop   
+/* B19628 800A2488 00000000 */   nop
 /* B1962C 800A248C 8FA20070 */  lw    $v0, 0x70($sp)
 .L800A2490:
 /* B19630 800A2490 8FBF0024 */  lw    $ra, 0x24($sp)
 /* B19634 800A2494 27BD0058 */  addiu $sp, $sp, 0x58
 /* B19638 800A2498 03E00008 */  jr    $ra
-/* B1963C 800A249C 00000000 */   nop   
+/* B1963C 800A249C 00000000 */   nop
 
