@@ -79,7 +79,7 @@ typedef enum {
     /* 0x06 */ DOG_BOW_2,
 } DogBehavior;
 
-extern UNK_PTR D_06007290;
+extern SkeletonHeader D_06007290;
 extern AnimationHeader D_06001368;
 extern AnimationHeader D_06000D78;
 extern AnimationHeader D_06000278;
@@ -242,7 +242,7 @@ static void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
     collider = &this->collider;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
     skelAnime = &this->skelAnime;
-    SkelAnime_InitSV(globalCtx, skelAnime, &D_06007290, 0, &this->unk_1F4, &this->unk_242, 13);
+    SkelAnime_InitSV(globalCtx, skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
     func_80034EC0(skelAnime, animations, 0);
 
     if ((this->actor.params & 0x8000) == 0) {

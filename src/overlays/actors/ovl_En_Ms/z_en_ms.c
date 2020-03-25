@@ -63,8 +63,8 @@ static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_4C, 500, ICHAIN_STOP),
 };
 
-extern D_060005EC;
-extern D_06003DC0;
+extern AnimationHeader D_060005EC;
+extern SkeletonHeader D_06003DC0;
 
 static void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx) {
     this->actor.textId = Text_GetFaceReaction(globalCtx, 0x1B);

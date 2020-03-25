@@ -320,7 +320,7 @@ void DemoGo_Init(DemoGo* this, GlobalContext* globalCtx) {
     AnimationHeader* animation = &D_06004930;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600FEF0, 0, 0, 0, 0);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
     SkelAnime_ChangeAnimation(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(&animation->genericHeader), 2, 0.0f);
     this->action = 0;
 }

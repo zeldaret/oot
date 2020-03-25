@@ -57,8 +57,8 @@ static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_4C, 5600, ICHAIN_STOP),
 };
 
-extern u32 D_0600006C;
-extern u32 D_06002190;
+extern AnimationHeader D_0600006C;
+extern SkeletonHeader D_06002190;
 
 void EnBird_SetNewUpdate(EnBird* this, ActorFunc newUpdateFunc) {
     this->updateFunc = newUpdateFunc;
