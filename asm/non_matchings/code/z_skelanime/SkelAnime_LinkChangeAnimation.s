@@ -1,4 +1,4 @@
-glabel func_800A3F08
+glabel SkelAnime_LinkChangeAnimation
 /* B1B0A8 800A3F08 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B1B0AC 800A3F0C C7AC0044 */  lwc1  $f12, 0x44($sp)
 /* B1B0B0 800A3F10 44802000 */  mtc1  $zero, $f4
@@ -49,7 +49,7 @@ glabel func_800A3F08
 /* B1B15C 800A3FBC 8FA40028 */  lw    $a0, 0x28($sp)
 /* B1B160 800A3FC0 02202825 */  move  $a1, $s1
 /* B1B164 800A3FC4 44069000 */  mfc1  $a2, $f18
-/* B1B168 800A3FC8 0C028CDB */  jal   func_800A336C
+/* B1B168 800A3FC8 0C028CDB */  jal   SkelAnime_LoadLinkAnimetion
 /* B1B16C 800A3FCC AFA80010 */   sw    $t0, 0x10($sp)
 /* B1B170 800A3FD0 C7AC0044 */  lwc1  $f12, 0x44($sp)
 .L800A3FD4:
@@ -71,7 +71,7 @@ glabel func_800A3F08
 /* B1B1AC 800A400C 02202825 */  move  $a1, $s1
 /* B1B1B0 800A4010 AFAA0010 */  sw    $t2, 0x10($sp)
 /* B1B1B4 800A4014 44064000 */  mfc1  $a2, $f8
-/* B1B1B8 800A4018 0C028CDB */  jal   func_800A336C
+/* B1B1B8 800A4018 0C028CDB */  jal   SkelAnime_LoadLinkAnimetion
 /* B1B1BC 800A401C 00000000 */   nop
 /* B1B1C0 800A4020 44805000 */  mtc1  $zero, $f10
 /* B1B1C4 800A4024 00000000 */  nop

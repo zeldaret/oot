@@ -31,16 +31,16 @@ extern UNK_TYPE D_04052DB0;
 extern UNK_TYPE D_040531B0;
 extern UNK_TYPE D_040535B0;
 extern UNK_TYPE D_040539B0;
-extern UNK_TYPE D_06001144;
-extern UNK_TYPE D_06001FA8;
-extern UNK_TYPE D_06002F84;
+extern AnimationHeader D_06001144;
+extern AnimationHeader D_06001FA8;
+extern AnimationHeader D_06002F84;
 extern UNK_TYPE D_06003B40;
 extern UNK_TYPE D_06004340;
 extern UNK_TYPE D_06004B40;
-extern UNK_TYPE D_0600ACE0;
-extern UNK_TYPE D_0600BC90;
-extern UNK_TYPE D_0600BCA0;
-extern UNK_TYPE D_0600BE40;
+extern Gfx D_0600ACE0[];
+extern Gfx D_0600BC90[];
+extern Gfx D_0600BCA0[];
+extern SkeletonHeader D_0600BE40;
 
 const ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
@@ -136,7 +136,7 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
         if (eff->active != 0) {
             if (gfxSetup == 0) {
                 gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 0);
-                gSPDisplayList(gfxCtx->polyXlu.p++, &D_0600BC90);
+                gSPDisplayList(gfxCtx->polyXlu.p++, D_0600BC90);
                 gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x64, 0x3C, 0x14, 0x00);
                 gfxSetup = 1;
             }
@@ -154,7 +154,7 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
             imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(images) / eff->timeTotal);
             gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(images[imageIdx]));
 
-            gSPDisplayList(gfxCtx->polyXlu.p++, &D_0600BCA0);
+            gSPDisplayList(gfxCtx->polyXlu.p++, D_0600BCA0);
         }
         eff++;
     }
@@ -186,9 +186,9 @@ static EnTk_SubActorStruct98Init D_80B1D534 = {
 };
 
 void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
-    UNK_PTR anim = &D_06002F84;
+    AnimationHeader* anim = &D_06002F84;
 
-    SkelAnime_ChangeAnimation(&this->skelAnim, (u32)anim, 1.f, 0.f, SkelAnime_GetFrameCount((u32)&D_06002F84), 0,
+    SkelAnime_ChangeAnimation(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
                               -10.f);
 
     this->actionCountdown = Math_Rand_S16Offset(60, 60);
@@ -196,18 +196,18 @@ void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
 }
 
 void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
-    UNK_PTR anim = &D_06001FA8;
+    AnimationHeader* anim = &D_06001FA8;
 
-    SkelAnime_ChangeAnimation(&this->skelAnim, (u32)anim, 1.f, 0.f, SkelAnime_GetFrameCount((u32)&D_06002F84), 0,
+    SkelAnime_ChangeAnimation(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
                               -10.f);
 
     this->actionCountdown = Math_Rand_S16Offset(240, 240);
 }
 
 void EnTk_DigAnim(EnTk* this, GlobalContext* globalCtx) {
-    UNK_PTR anim = &D_06001144;
+    AnimationHeader* anim = &D_06001144;
 
-    SkelAnime_ChangeAnimation(&this->skelAnim, (u32)anim, 1.f, 0.f, SkelAnime_GetFrameCount((u32)&D_06001144), 0,
+    SkelAnime_ChangeAnimation(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06001144.genericHeader), 0,
                               -10.f);
 
     if (EnTk_CheckNextSpot(this, globalCtx) >= 0) {
@@ -306,7 +306,7 @@ f32 EnTk_Step(EnTk* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
     }
 
-    if (this->skelAnim.animCurrent != (u32*)&D_06001FA8) {
+    if (this->skelAnim.animCurrentSeg != &D_06001FA8) {
         return 0.f;
     }
 
@@ -504,12 +504,12 @@ void EnTk_DigEff(EnTk* this) {
 
 void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
     EnTk* thisAgain = this;
-    UNK_PTR anim = &D_06002F84;
+    AnimationHeader* anim = &D_06002F84;
 
     ActorShape_Init(&thisAgain->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.f);
 
-    SkelAnime_InitSV(globalCtx, &thisAgain->skelAnim, (u32)&D_0600BE40, 0, thisAgain->hz_22A, thisAgain->hz_296, 18);
-    SkelAnime_ChangeAnimation(&thisAgain->skelAnim, (u32)anim, 1.f, 0.f, SkelAnime_GetFrameCount((u32)&D_06002F84), 0,
+    SkelAnime_InitSV(globalCtx, &thisAgain->skelAnim, &D_0600BE40, 0, thisAgain->hz_22A, thisAgain->hz_296, 18);
+    SkelAnime_ChangeAnimation(&thisAgain->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
                               0.f);
 
     ActorCollider_AllocCylinder(globalCtx, &thisAgain->collider);
@@ -707,7 +707,7 @@ void func_80B1D200(GlobalContext* globalCtx) {
     gfxCtx = globalCtx->state.gfxCtx;
     func_800C6AC4(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
 
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_0600ACE0);
+    gSPDisplayList(gfxCtx->polyOpa.p++, D_0600ACE0);
 
     func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
 }
@@ -769,7 +769,7 @@ void EnTk_Draw(EnTk* this, GlobalContext* globalCtx) {
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(eyeImages[thisAgain->eyeImageIdx]));
 
-    SkelAnime_DrawSV(globalCtx, thisAgain->skelAnim.limbIndex, thisAgain->skelAnim.actorDrawTbl,
+    SkelAnime_DrawSV(globalCtx, thisAgain->skelAnim.skeleton, thisAgain->skelAnim.actorDrawTbl,
                      thisAgain->skelAnim.dListCount, func_80B1D278, func_80B1D2E4, &thisAgain->actor);
 
     func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);

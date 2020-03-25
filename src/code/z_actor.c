@@ -9,7 +9,7 @@ void ActorShape_Init(ActorShape* shape, f32 arg1, void* shadowDrawFunc, f32 arg3
     shape->unk_14 = -1;
 }
 
-void func_8002B200(Actor* actor, LightMapper* lightMapper, GlobalContext* globalCtx, u32 dlist, Color_RGBA8* color) {
+void func_8002B200(Actor* actor, LightMapper* lightMapper, GlobalContext* globalCtx, Gfx* dlist, Color_RGBA8* color) {
     f32 temp1;
     f32 temp2;
     MtxF sp60;
@@ -41,7 +41,7 @@ void func_8002B200(Actor* actor, LightMapper* lightMapper, GlobalContext* global
             func_80038A28(actor->floorPoly, actor->posRot.pos.x, actor->unk_80, actor->posRot.pos.z, &sp60);
             Matrix_Put(&sp60);
 
-            if (dlist != (u32)&D_04049210) {
+            if (dlist != D_04049210) {
                 Matrix_RotateY(actor->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
             }
 
@@ -3898,7 +3898,7 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, void* unkFunc
     gDPPipeSync(gfxCtx->polyOpa.p++);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80034B28(globalCtx->state.gfxCtx));
 
-    gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl,
+    gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl,
                                           skelAnime->dListCount, unkFunc1, unkFunc2, actor, gfxCtx->polyOpa.p);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8860);
@@ -3917,7 +3917,7 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, void* unkFunc
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, alpha);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, func_80034B54(globalCtx->state.gfxCtx));
 
-    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl,
+    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl,
                                           skelAnime->dListCount, unkFunc1, unkFunc2, actor, gfxCtx->polyXlu.p);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8904);

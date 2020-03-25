@@ -80,13 +80,13 @@ typedef enum {
 } DogBehavior;
 
 extern UNK_PTR D_06007290;
-extern UNK_PTR D_06001368;
-extern UNK_PTR D_06000D78;
-extern UNK_PTR D_06000278;
+extern AnimationHeader D_06001368;
+extern AnimationHeader D_06000D78;
+extern AnimationHeader D_06000278;
 
 static void EnDog_PlayWalkSFX(EnDog* this) {
-    u32* walk = &D_06001368;
-    if (this->skelAnime.animCurrent == walk) {
+    AnimationHeader* walk = &D_06001368;
+    if (this->skelAnime.animCurrentSeg == walk) {
         if ((this->skelAnime.animCurrentFrame == 1.0f) || (this->skelAnime.animCurrentFrame == 7.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
@@ -94,8 +94,8 @@ static void EnDog_PlayWalkSFX(EnDog* this) {
 }
 
 static void EnDog_PlayRunSFX(EnDog* this) {
-    u32* run = &D_06000D78;
-    if (this->skelAnime.animCurrent == run) {
+    AnimationHeader* run = &D_06000D78;
+    if (this->skelAnime.animCurrentSeg == run) {
         if ((this->skelAnime.animCurrentFrame == 2.0f) || (this->skelAnime.animCurrentFrame == 4.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
@@ -103,8 +103,8 @@ static void EnDog_PlayRunSFX(EnDog* this) {
 }
 
 static void EnDog_PlayBarkSFX(EnDog* this) {
-    u32* bark = &D_06000278;
-    if (this->skelAnime.animCurrent == bark) {
+    AnimationHeader* bark = &D_06000278;
+    if (this->skelAnime.animCurrentSeg == bark) {
         if ((this->skelAnime.animCurrentFrame == 13.0f) || (this->skelAnime.animCurrentFrame == 19.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_SMALL_DOG_BARK);
         }
@@ -479,7 +479,7 @@ static void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(gfxCtx->polyOpa.p++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
                      EnDog_Callback1, EnDog_Callback2, &this->actor);
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
 }

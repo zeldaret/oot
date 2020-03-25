@@ -76,18 +76,17 @@ static InitChainEntry initChain[3] = {
 
 static Vec3f D_80B30D70 = { 0.0f, 0.0f, 0.0f };
 
-extern u32 D_06000EA4;
-extern u32 D_06000590;
-extern u32 D_0600299C;
-extern u32 D_06008FB0;
-extern u32 D_06009DB0;
-extern u32 D_060019CC;
-extern u32 D_06009520;
-extern u32 D_06009244;
-extern u32 D_060041F4;
-extern u32 D_0600A054;
-extern u32 D_06008688;
-extern u32 D_04049210;
+extern AnimationHeader D_06000EA4;
+extern AnimationHeader D_06000590;
+extern AnimationHeader D_0600299C;
+extern SkeletonHeader D_06008FB0;
+extern AnimationHeader D_06009DB0;
+extern AnimationHeader D_060019CC;
+extern AnimationHeader D_06009520;
+extern AnimationHeader D_06009244;
+extern AnimationHeader D_060041F4;
+extern AnimationHeader D_0600A054;
+extern Gfx D_06008688[];
 
 static void EnWallmas_Init(EnWallmas* this, GlobalContext* globalCtx) {
     EnWallmas* this2 = this;
@@ -137,7 +136,7 @@ static void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
 
 static void EnWallmas_DropStart(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    u32* objSegChangeAnime = &D_0600299C;
+    AnimationHeader* objSegChangeAnime = &D_0600299C;
 
     SkelAnime_ChangeAnimation(&this->skelAnime, objSegChangeAnime, 0.0f, 20.0f,
                               (f32)SkelAnime_GetFrameCount(&D_0600299C), 2, 0.0f);
@@ -152,8 +151,8 @@ static void EnWallmas_DropStart(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 static void EnWallmas_LandStart(EnWallmas* this, GlobalContext* globalCtx) {
-    u32* objSegFrameCount = &D_060019CC;
-    u32* objSegChangeAnime = &D_060019CC;
+    AnimationHeader* objSegFrameCount = &D_060019CC;
+    AnimationHeader* objSegChangeAnime = &D_060019CC;
 
     SkelAnime_ChangeAnimation(&this->skelAnime, objSegChangeAnime, 1.0f, 41.0f,
                               SkelAnime_GetFrameCount(objSegFrameCount), 2, -3.0f);
@@ -180,8 +179,8 @@ static void EnWallmas_JumpToCeilingStart(EnWallmas* this) {
     this->actor.speedXZ = 0.0f;
 }
 static void EnWallmas_ReturnToCeilingStart(EnWallmas* this) {
-    u32* objSegFrameCount = &D_060019CC;
-    u32* objSegChangeAnime = &D_060019CC;
+    AnimationHeader* objSegFrameCount = &D_060019CC;
+    AnimationHeader* objSegChangeAnime = &D_060019CC;
 
     this->timer = 0;
     this->actor.speedXZ = 0.0f;
@@ -620,7 +619,7 @@ static void EnWallmas_DrawOpa(GlobalContext* globalCtx, s32 arg1, s32 arg2, s32 
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
 
         gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1489), G_MTX_LOAD);
-        gSPDisplayList(gfxCtx->polyOpa.p++, &D_06008688);
+        gSPDisplayList(gfxCtx->polyOpa.p++, D_06008688);
 
         Matrix_Pull();
         func_800C6B54(&gfx, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1495);
@@ -630,7 +629,7 @@ static void EnWallmas_DrawOpa(GlobalContext* globalCtx, s32 arg1, s32 arg2, s32 
 static void EnWallmas_Draw(EnWallmas* this, GlobalContext* globalCtx) {
     if (this->actionFunc != (ActorFunc)&EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
                          &EnWallMas_UpdatePos, &EnWallmas_DrawOpa, &this->actor);
     }
 
