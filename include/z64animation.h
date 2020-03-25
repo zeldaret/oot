@@ -7,7 +7,7 @@
 
 #define LINK_ANIMETION_OFFSET(addr,offset) (((u32)&_link_animetionSegmentRomStart)+((u32)addr)-((u32)&link_animetion_segment)+((u32)offset))
 #define LIMB_DONE 0xFF
-#define ANIMATION_ENTRY_MAX 0x32
+#define ANIMATION_ENTRY_MAX 50
 
 struct GlobalContext;
 struct Actor;

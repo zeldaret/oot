@@ -18,7 +18,7 @@ void SkelAnime_AnimationType5Loaded(GlobalContext* globalCtx, AnimationEntryType
 
 //.data
 u32 D_8012A480 = 0;
-static AnimationEntryCallback D_8012A484[] = {
+static AnimationEntryCallback AnimationLoadDone[] = {
     &SkelAnime_LinkAnimetionLoaded,  &SkelAnime_AnimationType1Loaded, &SkelAnime_AnimationType2Loaded,
     &SkelAnime_AnimationType3Loaded, &SkelAnime_AnimationType4Loaded, &SkelAnime_AnimationType5Loaded,
 };
@@ -131,7 +131,6 @@ void SkelAnime_LodDraw(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* acto
     func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 894);
 }
 
-//#define NON_MATCHING
 #ifdef NON_MATCHING
 // regalloc
 void SkelAnime_LodDrawLimbSV(GlobalContext* globalCtx, s32 limbIndex, Skeleton* skeleton, Vec3s* actorDrawTable,
@@ -776,18 +775,44 @@ s16 func_800A2E2C(GenericAnimationHeader* animationSeg) {
     return animation->frameCount - 1;
 }
 
-// Very large update function
+#ifdef NON_MATCHING
+// Functionally equal, but loop unrolling is way off.
+void func_800A2E70(s32 limbCount, Vec3s* vec1, Vec3s* vec2, Vec3s* vec3, f32 unkf) {
+    Vec3s* pvec1;
+    Vec3s* pvec2;
+    Vec3s* pvec3;
+    s32 iVar3;
+
+    if (unkf < 1.0f) {
+        for (iVar3 = 0, pvec1 = vec1, pvec2 = vec2, pvec3 = vec3; iVar3 < limbCount;
+             iVar3++, pvec1++, pvec2++, pvec3++) {
+            pvec1->x = pvec2->x + ((s16)(pvec3->x - pvec2->x) * unkf);
+            pvec1->y = pvec2->y + ((s16)(pvec3->y - pvec2->y) * unkf);
+            pvec1->z = pvec2->z + ((s16)(pvec3->z - pvec2->z) * unkf);
+        }
+    } else {
+        for (iVar3 = 0; iVar3 < limbCount; iVar3++) {
+            pvec1 = &vec1[iVar3];
+            pvec3 = &vec3[iVar3];
+            pvec1->x = pvec3->x;
+            pvec1->y = pvec3->y;
+            pvec1->z = pvec3->z;
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A2E70.s")
+#endif
 
-void func_800A32EC(u16* arg0) {
-    *arg0 = 0;
+void SkelAnime_AnimationCtxReset(AnimationContext* animationCtx) {
+    animationCtx->animationCount = 0;
 }
 
-void func_800A32F4(s32 arg0) {
-    D_801600B0 *= 2;
+void func_800A32F4(GlobalContext* globalCtx) {
+    D_801600B0 <<= 1;
 }
 
-void func_800A3310(void* arg0) {
+void func_800A3310(GlobalContext* globalCtx) {
     u32* D_8012A480Ptr = &D_8012A480;
 
     *D_8012A480Ptr |= D_801600B0;
@@ -954,7 +979,7 @@ void func_800A390C(GlobalContext* globalCtx, AnimationContext* animationCtx) {
     AnimationEntry* entry;
 
     for (entry = animationCtx->entries; animationCtx->animationCount != 0; entry++, animationCtx->animationCount--) {
-        D_8012A484[entry->type](globalCtx, &entry->types);
+        AnimationLoadDone[entry->type](globalCtx, &entry->types);
     }
 
     D_801600B0 = 1;

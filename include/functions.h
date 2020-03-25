@@ -1149,10 +1149,10 @@ Gfx* SkelAnime_Draw2(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorD
 Gfx* SkelAnime_DrawSV2(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDrawTable, s32 dListCount,
                        SkelAnime_LimbUpdateMatrix2 updateMtxFunc, SkelAnime_LimbAppendDlist2 appendDlistFunc,
                        Actor* actor, Gfx* gfx);
-void func_800A2E70(u8, Vec3s*, Vec3s*, Vec3s*, f32);
-void func_800A32EC(u16* arg0);
-void func_800A32F4(s32 arg0);
-void func_800A3310(void* arg0);
+void func_800A2E70(s32, Vec3s*, Vec3s*, Vec3s*, f32);
+void SkelAnime_AnimationCtxReset(AnimationContext* animationCtx);
+void func_800A32F4(GlobalContext* globalCtx);
+void func_800A3310(GlobalContext* globalCtx);
 void SkelAnime_LoadLinkAnimetion(GlobalContext* globalCtx, LinkAnimetionEntry* linkAnimetionSeg, s32 frame,
                                  s32 limbCount, void* ram);
 void SkelAnime_LoadAnimationType1(GlobalContext* globalCtx, s32 vecCount, Vec3s* dst, Vec3s* src);
