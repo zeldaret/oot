@@ -6,6 +6,8 @@
 
 #include "z_en_ru2.h"
 
+#include <vt.h>
+
 #define ROOM 0x00
 #define FLAGS 0x00000010
 
@@ -42,10 +44,9 @@ static void func_80AF321C(EnRu2* this, GlobalContext* globalCtx);
 static void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit D_80AF40E0 = {
-    { 0x0A, 0x00, 0x09, 0x00, 0x01, 0x00, 0x00, 0x00 },
-    { 0x00, 0x00, 0x00, 0x00, 0x00000000, 0x00, 0x00, 0x00, 0x00, 0x00000080, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00,
-      0x00 },
-    { 0x001E, 0x0064, 0x0000, 0x0000, 0x0000, 0x0000 },
+    0x0A, 0x00,       0x09, 0x00, 0x01,   0x00,   0x00,       0x00,   0x00,   0x00,   0x00,
+    0x00, 0x00000000, 0x00, 0x00, 0x00,   0x00,   0x00000080, 0x00,   0x00,   0x00,   0x00,
+    0x00, 0x01,       0x00, 0x00, 0x001E, 0x0064, 0x0000,     0x0000, 0x0000, 0x0000,
 };
 
 static u32 D_80AF410C[] = {
@@ -93,8 +94,6 @@ extern u32 D_06000DE8;
 extern u32 D_0600E630;
 extern u32 D_0600F03C;
 extern u32 D_0600F8B8;
-extern u32 D_80116280; // z_actor.c
-extern u32 D_80116290;
 
 static void func_80AF2550(EnRu2* this, GlobalContext* globalCtx) {
     EnRu2* thisLocal = this;
@@ -480,7 +479,7 @@ static void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
     gSPSegment(gfxCtx->polyXlu.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_2B4);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280);
+    gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
     gfxCtx->polyXlu.p = func_800A273C(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount,
                                       0, 0, 0, gfxCtx->polyXlu.p);
@@ -751,7 +750,7 @@ static void func_80AF3D60(EnRu2* this, GlobalContext* globalCtx) {
 
 static void EnRu2_Update(EnRu2* this, GlobalContext* globalCtx) {
     if (this->action < 0 || this->action >= 20 || D_80AF50BC[this->action] == 0) {
-        osSyncPrintf("[31mメインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m");
+        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     D_80AF50BC[this->action](this, globalCtx);
@@ -798,7 +797,7 @@ static void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(addr));
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116290);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
     func_800A1AC8(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL,
                   &this->actor);
@@ -807,7 +806,7 @@ static void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
 
 static void EnRu2_Draw(EnRu2* this, GlobalContext* globalCtx) {
     if (this->drawConfig < 0 || this->drawConfig >= 3 || D_80AF510C[this->drawConfig] == 0) {
-        osSyncPrintf("[31m描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m");
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     D_80AF510C[this->drawConfig](this, globalCtx);
