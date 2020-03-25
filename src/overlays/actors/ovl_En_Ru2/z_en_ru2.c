@@ -181,7 +181,7 @@ CsCmdActorAction* func_80AF27AC(GlobalContext* globalCtx, s32 actorActionIdx) {
     if (globalCtx->csCtx.state != 0) {
         return globalCtx->csCtx.actorActions[actorActionIdx];
     }
-    return 0;
+    return NULL;
 }
 
 s32 func_80AF27D0(EnRu2* this, GlobalContext* globalCtx, u16 arg2, s32 actorActionIdx) {
