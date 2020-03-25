@@ -766,8 +766,7 @@ void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ru2/func_80AF39DC.s")
-/*void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad;
     MessageContext* msgCtx;
     s32 pad2;
@@ -776,7 +775,6 @@ void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad3;
 
     msgCtx = &globalCtx->msgCtx;
-    if (!globalCtx){}
     dialogState = func_8010BDBC(msgCtx);
 
     if (dialogState == 3) {
@@ -786,7 +784,7 @@ void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
             if (this->unk_2C2 % 6 == 3) {
                 player = PLAYER;
                 osSyncPrintf("うおりゃー！ \n");
-                func_8005B1A4(globalCtx->cameraCtx.activeCameraPtrs[0]);
+                func_8005B1A4(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0]);
                 player->actor.posRot.pos.x = 820.0f;
                 player->actor.posRot.pos.y = 0.0f;
                 player->actor.posRot.pos.z = 180.0f;
@@ -794,14 +792,12 @@ void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (globalCtx->cameraCtx.activeCameraPtrs){}
-
     this->unk_2C3 = dialogState;
     if (func_8010BDBC(msgCtx) == 2) {
         this->action = 18;
-        func_8005B1A4(globalCtx->cameraCtx.activeCameraPtrs[0]);
+        func_8005B1A4(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0]);
     }
-}*/
+}
 
 void func_80AF3ADC(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C4 += 1.0f;
