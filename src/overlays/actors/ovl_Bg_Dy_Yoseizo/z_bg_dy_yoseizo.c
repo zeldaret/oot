@@ -1,6 +1,6 @@
 #include "z_bg_dy_yoseizo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000030
 
 void BgDyYoseizo_Init(BgDyYoseizo* this, GlobalContext* globalCtx);
@@ -8,8 +8,7 @@ void BgDyYoseizo_Destroy(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_Update(BgDyYoseizo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Dy_Yoseizo_InitVars =
-{
+const ActorInit Bg_Dy_Yoseizo_InitVars = {
     ACTOR_BG_DY_YOSEIZO,
     ACTORTYPE_PROP,
     ROOM,

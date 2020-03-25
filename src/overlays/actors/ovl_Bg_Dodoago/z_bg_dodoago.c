@@ -1,6 +1,6 @@
 #include "z_bg_dodoago.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgDodoago_Init(BgDodoago* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgDodoago_Update(BgDodoago* this, GlobalContext* globalCtx);
 void BgDodoago_Draw(BgDodoago* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Dodoago_InitVars =
-{
+const ActorInit Bg_Dodoago_InitVars = {
     ACTOR_BG_DODOAGO,
     ACTORTYPE_BG,
     ROOM,
@@ -42,4 +41,3 @@ const ActorInit Bg_Dodoago_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/BgDodoago_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Dodoago/BgDodoago_Draw.s")
-

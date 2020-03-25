@@ -1,6 +1,6 @@
 #include "z_en_ny.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnNy_Init(EnNy* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnNy_Update(EnNy* this, GlobalContext* globalCtx);
 void EnNy_Draw(EnNy* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ny_InitVars =
-{
+const ActorInit En_Ny_InitVars = {
     ACTOR_EN_NY,
     ACTORTYPE_ENEMY,
     ROOM,

@@ -1,6 +1,6 @@
 #include "z_en_toryo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnToryo_Init(EnToryo* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnToryo_Update(EnToryo* this, GlobalContext* globalCtx);
 void EnToryo_Draw(EnToryo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Toryo_InitVars =
-{
+const ActorInit En_Toryo_InitVars = {
     ACTOR_EN_TORYO,
     ACTORTYPE_NPC,
     ROOM,

@@ -2,7 +2,7 @@
  * File: z_en_nutsball.c
  * Overlay: ovl_En_Nutsball
  * Description: The projectile fired by deku scrubs and octoroks.
-*/
+ */
 
 #include "z_en_nutsball.h"
 
@@ -16,8 +16,7 @@ static void func_80ABBB34(EnNutsball* this, GlobalContext* globalCtx);
 static void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx);
 static void EnNutsball_Draw(EnNutsball* this, GlobalContext* globalCtx);
 
-const ActorInit En_Nutsball_InitVars =
-{
+const ActorInit En_Nutsball_InitVars = {
     ACTOR_EN_NUTSBALL,
     ACTORTYPE_PROP,
     ROOM,
@@ -30,27 +29,16 @@ const ActorInit En_Nutsball_InitVars =
     (ActorFunc)NULL,
 };
 
-static ColliderCylinderInit cylinderInitData =
-{
-    0xa, 0x11, 0x9, 0x39,
-    0x20, 0x1, { 0x0, 0x0 },
-    0x0, { 0x0, 0x0, 0x0 },
-    0xffcfffff,
-    0x0, 0x8, { 0x0, 0x0} ,
-    0xffcfffff,
-    { 0x0, 0x0, 0x0, 0x0 },
-    0x11, 0x1, 0x1, 0x0,
-    0xd,
-    0xd,
-    0x0,
-    { 0x0, 0x0, 0x0 }
+static ColliderCylinderInit cylinderInitData = {
+    0x0A, 0x11,       0x09, 0x39, 0x20,   0x01,   0x00,       0x00,   0x00,   0x00,   0x00,
+    0x00, 0xFFCFFFFF, 0x00, 0x08, 0x00,   0x00,   0xFFCFFFFF, 0x00,   0x00,   0x00,   0x00,
+    0x11, 0x01,       0x01, 0x00, 0x000D, 0x000D, 0x0000,     0x0000, 0x0000, 0x0000,
 };
 
 static s16 objectTbl[] = { OBJECT_DEKUNUTS, OBJECT_HINTNUTS, OBJECT_SHOPNUTS, OBJECT_DNS, OBJECT_DNK };
 static u32 dListTbl[] = { 0x06002028, 0x060012F0, 0x06004008, 0x06002410, 0x06001890 };
 
-static void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx)
-{
+static void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx) {
     s32 pad[2];
 
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawFunc_Circle, 13.0f);
@@ -58,22 +46,20 @@ static void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx)
     ActorCollider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
     this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, objectTbl[this->actor.params]);
 
-    if (this->objBankIndex < 0)
+    if (this->objBankIndex < 0) {
         Actor_Kill(&this->actor);
-    else
+    } else {
         this->actionFunc = (ActorFunc)func_80ABBB34;
+    }
 }
 
-static void EnNutsball_Destroy(EnNutsball* this, GlobalContext* globalCtx)
-{
+static void EnNutsball_Destroy(EnNutsball* this, GlobalContext* globalCtx) {
     ColliderCylinderMain* collider = &this->collider;
     ActorCollider_FreeCylinder(globalCtx, collider);
 }
 
-static void func_80ABBB34(EnNutsball* this, GlobalContext* globalCtx)
-{
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex))
-    {
+static void func_80ABBB34(EnNutsball* this, GlobalContext* globalCtx) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         this->actor.objBankIndex = this->objBankIndex;
         this->actor.draw = (ActorFunc)EnNutsball_Draw;
         this->actor.shape.rot.y = 0;
@@ -83,31 +69,26 @@ static void func_80ABBB34(EnNutsball* this, GlobalContext* globalCtx)
     }
 }
 
-static void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx)
-{
+static void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3s sp4C;
     Vec3f sp40;
 
     this->timer--;
 
-    if (this->timer == 0)
+    if (this->timer == 0) {
         this->actor.gravity = -1;
+    }
 
     this->actor.initPosRot.rot.z += 0x2AA8;
 
-    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) ||
-        (this->collider.base.colliderFlags & 2) || (this->collider.base.collideFlags & 2) ||
-        (this->collider.base.maskA & 2))
-    {
+    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.colliderFlags & 2) ||
+        (this->collider.base.collideFlags & 2) || (this->collider.base.maskA & 2)) {
         // Checking if the player is using a shield that reflects projectiles
         // And if so, reflects the projectile on impact
-        if ((player->currentShield == 1) || ((player->currentShield == 2) && LINK_IS_ADULT))
-        {
-            if ((this->collider.base.colliderFlags & 2) &&
-                (this->collider.base.colliderFlags & 0x10) &&
-                (this->collider.base.colliderFlags & 4))
-            {
+        if ((player->currentShield == 1) || ((player->currentShield == 2) && LINK_IS_ADULT)) {
+            if ((this->collider.base.colliderFlags & 2) && (this->collider.base.colliderFlags & 0x10) &&
+                (this->collider.base.colliderFlags & 4)) {
                 this->collider.base.colliderFlags &= ~0x16;
                 this->collider.base.colliderFlags |= 0x08;
 
@@ -126,22 +107,19 @@ static void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx)
         func_800297A4(globalCtx, &sp40, 0x40C00000, 0, 7, 3, 15, -1, 10, 0);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
         Actor_Kill(&this->actor);
-    }
-    else
-    {
-        if (this->timer == -300)
+    } else {
+        if (this->timer == -300) {
             Actor_Kill(&this->actor);
+        }
     }
 }
 
-static void EnNutsball_Update(EnNutsball* this, GlobalContext* globalCtx)
-{
+static void EnNutsball_Update(EnNutsball* this, GlobalContext* globalCtx) {
     EnNutsball* nutsball = this;
     Player* player = PLAYER;
     s32 pad;
 
-    if (!(player->stateFlags1 & 0x300000C0) || (nutsball->actionFunc == (ActorFunc)func_80ABBB34))
-    {
+    if (!(player->stateFlags1 & 0x300000C0) || (nutsball->actionFunc == (ActorFunc)func_80ABBB34)) {
         nutsball->actionFunc(nutsball, globalCtx);
 
         Actor_MoveForward(&nutsball->actor);
@@ -156,8 +134,7 @@ static void EnNutsball_Update(EnNutsball* this, GlobalContext* globalCtx)
     }
 }
 
-static void EnNutsball_Draw(EnNutsball* this, GlobalContext* globalCtx)
-{
+static void EnNutsball_Draw(EnNutsball* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[5];
 
@@ -166,7 +143,8 @@ static void EnNutsball_Draw(EnNutsball* this, GlobalContext* globalCtx)
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
     Matrix_RotateZ(this->actor.initPosRot.rot.z * 9.58738e-05f, MTXMODE_APPLY);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 333), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 333),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, dListTbl[this->actor.params]);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_nutsball.c", 337);

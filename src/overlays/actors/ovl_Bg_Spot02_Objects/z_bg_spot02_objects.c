@@ -1,6 +1,6 @@
 #include "z_bg_spot02_objects.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgSpot02Objects_Init(BgSpot02Objects* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgSpot02Objects_Update(BgSpot02Objects* this, GlobalContext* globalCtx);
 void BgSpot02Objects_Draw(BgSpot02Objects* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot02_Objects_InitVars =
-{
+const ActorInit Bg_Spot02_Objects_InitVars = {
     ACTOR_BG_SPOT02_OBJECTS,
     ACTORTYPE_BG,
     ROOM,

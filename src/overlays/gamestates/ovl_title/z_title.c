@@ -2,7 +2,7 @@
  * File: z_title.c
  * Overlay: ovl_title
  * Description: Displays the Nintendo Logo
-*/
+ */
 
 #include <ultra64.h>
 #include <global.h>
@@ -12,8 +12,7 @@ extern Gfx D_01002720[];
 extern u8 D_01001800[];
 extern u8 D_01000000[];
 
-void Title_PrintBuildInfo(Gfx** gfxp)
-{
+void Title_PrintBuildInfo(Gfx** gfxp) {
     Gfx* g;
     GfxPrint* printer;
 
@@ -35,14 +34,13 @@ void Title_PrintBuildInfo(Gfx** gfxp)
     *gfxp = g;
 }
 
-// Note: In other rom versions this function also updates unk_1D4, coverAlpha, addAlpha, visibleDuration to calculate the fade-in/fade-out + the duration of the n64 logo animation
-void Title_Calc(TitleContext* this)
-{
+// Note: In other rom versions this function also updates unk_1D4, coverAlpha, addAlpha, visibleDuration to calculate
+// the fade-in/fade-out + the duration of the n64 logo animation
+void Title_Calc(TitleContext* this) {
     this->exit = 1;
 }
 
-void Title_InitView(TitleContext* this, f32 x, f32 y, f32 z)
-{
+void Title_InitView(TitleContext* this, f32 x, f32 y, f32 z) {
     View* view;
     Vec3f v1;
     Vec3f v2;
@@ -64,8 +62,7 @@ void Title_InitView(TitleContext* this, f32 x, f32 y, f32 z)
     func_800AAA50(view, 0xF);
 }
 
-void Title_Draw(TitleContext* this)
-{
+void Title_Draw(TitleContext* this) {
     static s16 sTitleRotY = 0;
     static u32 D_808009A4 = 0;
     static Lights1 sTitleLights = gdSPDefLights1(0x64, 0x64, 0x64, 0xFF, 0xFF, 0xFF, 0x45, 0x45, 0x45);
@@ -106,40 +103,22 @@ void Title_Draw(TitleContext* this)
     gDPPipeSync(gfxCtx->polyOpa.p++);
     gDPSetCycleType(gfxCtx->polyOpa.p++, G_CYC_2CYCLE);
     gDPSetRenderMode(gfxCtx->polyOpa.p++, G_RM_XLU_SURF2, G_RM_OPA_CI | CVG_DST_WRAP);
-    gDPSetCombineLERP(gfxCtx->polyOpa.p++, TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, 0, 0, 0, TEXEL0, PRIMITIVE, ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0);
+    gDPSetCombineLERP(gfxCtx->polyOpa.p++, TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, 0, 0, 0, TEXEL0, PRIMITIVE,
+                      ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0);
     gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 170, 255, 255, 255);
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 255, 128);
-    
-    gDPLoadMultiBlock(gfxCtx->polyOpa.p++,
-                        &D_01001800,
-                        0x100,
-                        1,
-                        G_IM_FMT_I,
-                        G_IM_SIZ_8b,
-                        32, 32,
-                        0,
-                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
-                        5, 5,
-                        2, 11);
-    
-    
-    for (idx = 0, y = 94; idx < 16; idx++, y += 2)
-    {
-        gDPLoadTextureBlock(gfxCtx->polyOpa.p++,
-                            &D_01000000[0x180 * idx],
-                            G_IM_FMT_I,
-                            G_IM_SIZ_8b,
-                            192, 2,
-                            0,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMASK, G_TX_NOMASK,
-                            G_TX_NOLOD, G_TX_NOLOD);
 
-        gDPSetTileSize(gfxCtx->polyOpa.p++, 1, this->uls, (this->ult & 0x7F) - idx*4, 0, 0);
-        gSPTextureRectangle(gfxCtx->polyOpa.p++, 388, y << 2, 1156, (y+2)<<2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
+    gDPLoadMultiBlock(gfxCtx->polyOpa.p++, &D_01001800, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
+                      G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 2, 11);
+
+    for (idx = 0, y = 94; idx < 16; idx++, y += 2) {
+        gDPLoadTextureBlock(gfxCtx->polyOpa.p++, &D_01000000[0x180 * idx], G_IM_FMT_I, G_IM_SIZ_8b, 192, 2, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
+
+        gDPSetTileSize(gfxCtx->polyOpa.p++, 1, this->uls, (this->ult & 0x7F) - idx * 4, 0, 0);
+        gSPTextureRectangle(gfxCtx->polyOpa.p++, 388, y << 2, 1156, (y + 2) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
     }
-    
-    
 
     func_8007672C(this->state.gfxCtx, 0, 0, 0, (s16)this->coverAlpha, 2);
 
@@ -148,8 +127,7 @@ void Title_Draw(TitleContext* this)
     func_800C6B54(&gfxArr, this->state.gfxCtx, "../z_title.c", 483);
 }
 
-void Title_Update(TitleContext* this)
-{
+void Title_Update(TitleContext* this) {
     GraphicsContext* gfxCtx = this->state.gfxCtx;
     u32 pad;
     Gfx* gfxArr[4];
@@ -163,38 +141,33 @@ void Title_Update(TitleContext* this)
     func_80095248(this->state.gfxCtx, 0, 0, 0);
     Title_Calc(this);
     Title_Draw(this);
-    if (D_8012DBC0)
-    {
+    if (D_8012DBC0) {
         gfx[0] = gfxCtx->polyOpa.p;
         Title_PrintBuildInfo(&gfx);
         gfxCtx->polyOpa.p = gfx[0];
     }
-    if (this->exit)
-    {
+    if (this->exit) {
         gSaveContext.seq_index = -1;
         gSaveContext.night_sfx = -1;
         gSaveContext.game_mode = 1;
         this->state.running = false;
-        this->state.init = Opening_Init; this->state.size = sizeof(OpeningContext);
+        SET_NEXT_GAMESTATE(&this->state, Opening_Init, OpeningContext);
     }
 
     func_800C6B54(&gfxArr, this->state.gfxCtx, "../z_title.c", 541);
 }
 
-void Title_Destroy(TitleContext* this)
-{
+void Title_Destroy(TitleContext* this) {
     func_800A9AD0(this, &this->sram);
 }
 
-void Title_Init(TitleContext* this)
-{
+void Title_Init(TitleContext* this) {
     u32 size = (u32)_nintendo_rogo_staticSegmentRomEnd - (u32)_nintendo_rogo_staticSegmentRomStart;
     u32 pad;
 
     this->staticSegment = Game_Alloc(&this->state, size, "../z_title.c", 611);
     osSyncPrintf("z_title.c\n");
-    if (this->staticSegment == NULL)
-    {
+    if (this->staticSegment == NULL) {
         __assert("this->staticSegment != NULL", "../z_title.c", 614);
     }
     DmaMgr_SendRequest1(this->staticSegment, (u32)_nintendo_rogo_staticSegmentRomStart, size, "../z_title.c", 615);

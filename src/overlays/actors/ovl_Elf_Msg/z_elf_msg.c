@@ -1,6 +1,6 @@
 #include "z_elf_msg.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ElfMsg_Init(ElfMsg* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void ElfMsg_Update(ElfMsg* this, GlobalContext* globalCtx);
 void ElfMsg_Draw(ElfMsg* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Elf_Msg_InitVars =
-{
+const ActorInit Elf_Msg_InitVars = {
     ACTOR_ELF_MSG,
     ACTORTYPE_ITEMACTION,
     ROOM,

@@ -1,6 +1,6 @@
 #include "z_bg_bowl_wall.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgBowlWall_Init(BgBowlWall* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgBowlWall_Update(BgBowlWall* this, GlobalContext* globalCtx);
 void BgBowlWall_Draw(BgBowlWall* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Bowl_Wall_InitVars =
-{
+const ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
     ACTORTYPE_PROP,
     ROOM,

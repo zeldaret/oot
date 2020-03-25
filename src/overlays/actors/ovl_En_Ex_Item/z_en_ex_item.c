@@ -1,6 +1,6 @@
 #include "z_en_ex_item.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnExItem_Init(EnExItem* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnExItem_Update(EnExItem* this, GlobalContext* globalCtx);
 void EnExItem_Draw(EnExItem* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ex_Item_InitVars =
-{
+const ActorInit En_Ex_Item_InitVars = {
     ACTOR_EN_EX_ITEM,
     ACTORTYPE_PROP,
     ROOM,

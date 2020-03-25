@@ -1,6 +1,6 @@
 #include "z_en_light.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnLight_Init(EnLight* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnLight_Update(EnLight* this, GlobalContext* globalCtx);
 void EnLight_Draw(EnLight* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Light_InitVars =
-{
+const ActorInit En_Light_InitVars = {
     ACTOR_EN_LIGHT,
     ACTORTYPE_ITEMACTION,
     ROOM,

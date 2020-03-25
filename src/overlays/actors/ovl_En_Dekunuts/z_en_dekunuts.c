@@ -1,6 +1,6 @@
 #include "z_en_dekunuts.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnDekunuts_Init(EnDekunuts* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnDekunuts_Update(EnDekunuts* this, GlobalContext* globalCtx);
 void EnDekunuts_Draw(EnDekunuts* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dekunuts_InitVars =
-{
+const ActorInit En_Dekunuts_InitVars = {
     ACTOR_EN_DEKUNUTS,
     ACTORTYPE_ENEMY,
     ROOM,

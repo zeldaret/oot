@@ -1,6 +1,6 @@
 #include "z_bg_gjyo_bridge.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgGjyoBridge_Init(BgGjyoBridge* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgGjyoBridge_Update(BgGjyoBridge* this, GlobalContext* globalCtx);
 void BgGjyoBridge_Draw(BgGjyoBridge* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Gjyo_Bridge_InitVars =
-{
+const ActorInit Bg_Gjyo_Bridge_InitVars = {
     ACTOR_BG_GJYO_BRIDGE,
     ACTORTYPE_PROP,
     ROOM,

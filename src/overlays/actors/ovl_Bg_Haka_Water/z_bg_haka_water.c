@@ -1,6 +1,6 @@
 #include "z_bg_haka_water.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgHakaWater_Init(BgHakaWater* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgHakaWater_Update(BgHakaWater* this, GlobalContext* globalCtx);
 void BgHakaWater_Draw(BgHakaWater* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Haka_Water_InitVars =
-{
+const ActorInit Bg_Haka_Water_InitVars = {
     ACTOR_BG_HAKA_WATER,
     ACTORTYPE_PROP,
     ROOM,

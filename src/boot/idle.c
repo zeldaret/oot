@@ -17,15 +17,15 @@ u32 gViConfigFeatures = OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_OFF;
 f32 gViConfigXScale = 1.0;
 f32 gViConfigYScale = 1.0;
 
-void Main_ThreadEntry(void* arg0)
-{
+void Main_ThreadEntry(void* arg0) {
     OSTime var1;
 
     osSyncPrintf("mainx 実行開始\n");
     DmaMgr_Start();
     osSyncPrintf("codeセグメントロード中...");
     var1 = osGetTime();
-    DmaMgr_SendRequest1((u32)_dmadataSegmentEnd, (u32)_codeSegmentRomStart, _codeSegmentRomEnd - _codeSegmentRomStart, "../idle.c", 238);
+    DmaMgr_SendRequest1((u32)_dmadataSegmentEnd, (u32)_codeSegmentRomStart, _codeSegmentRomEnd - _codeSegmentRomStart,
+                        "../idle.c", 238);
     var1 -= osGetTime();
     osSyncPrintf("\rcodeセグメントロード中...完了\n");
     osSyncPrintf("転送時間 %6.3f\n");
@@ -35,8 +35,7 @@ void Main_ThreadEntry(void* arg0)
     osSyncPrintf("mainx 実行終了\n");
 }
 
-void Idle_ThreadEntry(void* a0)
-{
+void Idle_ThreadEntry(void* a0) {
     osSyncPrintf("アイドルスレッド(idleproc)実行開始\n");
     osSyncPrintf("作製者    : %s\n", gBuildTeam);
     osSyncPrintf("作成日時  : %s\n", gBuildDate);
@@ -57,8 +56,7 @@ void Idle_ThreadEntry(void* a0)
     gViConfigXScale = 1.0f;
     gViConfigYScale = 1.0f;
 
-    switch (osTvType)
-    {
+    switch (osTvType) {
         case 1:
             D_80013960 = 2;
             gViConfigMode = osViModeNtscLan1;
@@ -82,11 +80,12 @@ void Idle_ThreadEntry(void* a0)
     osViBlack(1);
     osViSwapBuffer(0x803da80);
     osCreatePiManager(0x96, &gPiMgrCmdQ, sPiMgrCmdBuff, 0x32);
-    StackCheck_Init(&sMainStackInfo, sMainStack, sMainStack+sizeof(sMainStack), 0, 0x400, "main");
-    osCreateThread(&sMainThread, 3, Main_ThreadEntry, a0, sMainStack+sizeof(sMainStack), 10);
+    StackCheck_Init(&sMainStackInfo, sMainStack, sMainStack + sizeof(sMainStack), 0, 0x400, "main");
+    osCreateThread(&sMainThread, 3, Main_ThreadEntry, a0, sMainStack + sizeof(sMainStack), 10);
     osStartThread(&sMainThread);
     osSetThreadPri(NULL, 0);
 
-    while(1)
+    while (1) {
         ;
+    }
 }

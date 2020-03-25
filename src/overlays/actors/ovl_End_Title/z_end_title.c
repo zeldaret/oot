@@ -1,6 +1,6 @@
 #include "z_end_title.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EndTitle_Init(EndTitle* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EndTitle_Update(EndTitle* this, GlobalContext* globalCtx);
 void EndTitle_Draw(EndTitle* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit End_Title_InitVars =
-{
+const ActorInit End_Title_InitVars = {
     ACTOR_END_TITLE,
     ACTORTYPE_ITEMACTION,
     ROOM,

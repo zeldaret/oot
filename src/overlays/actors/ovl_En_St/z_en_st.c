@@ -1,6 +1,6 @@
 #include "z_en_st.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void EnSt_Init(EnSt* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnSt_Update(EnSt* this, GlobalContext* globalCtx);
 void EnSt_Draw(EnSt* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_St_InitVars =
-{
+const ActorInit En_St_InitVars = {
     ACTOR_EN_ST,
     ACTORTYPE_ENEMY,
     ROOM,

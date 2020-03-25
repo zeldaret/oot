@@ -1,6 +1,6 @@
 #include "z_en_horse_zelda.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnHorseZelda_Init(EnHorseZelda* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnHorseZelda_Update(EnHorseZelda* this, GlobalContext* globalCtx);
 void EnHorseZelda_Draw(EnHorseZelda* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Horse_Zelda_InitVars =
-{
+const ActorInit En_Horse_Zelda_InitVars = {
     ACTOR_EN_HORSE_ZELDA,
     ACTORTYPE_BG,
     ROOM,

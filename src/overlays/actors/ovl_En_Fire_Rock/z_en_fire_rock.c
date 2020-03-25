@@ -1,6 +1,6 @@
 #include "z_en_fire_rock.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnFireRock_Init(EnFireRock* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnFireRock_Update(EnFireRock* this, GlobalContext* globalCtx);
 void EnFireRock_Draw(EnFireRock* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Fire_Rock_InitVars =
-{
+const ActorInit En_Fire_Rock_InitVars = {
     ACTOR_EN_FIRE_ROCK,
     ACTORTYPE_ENEMY,
     ROOM,

@@ -1,6 +1,6 @@
 #include "z_en_bom_bowl_man.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x08000039
 
 void EnBomBowlMan_Init(EnBomBowlMan* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnBomBowlMan_Update(EnBomBowlMan* this, GlobalContext* globalCtx);
 void EnBomBowlMan_Draw(EnBomBowlMan* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bom_Bowl_Man_InitVars =
-{
+const ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
     ACTORTYPE_NPC,
     ROOM,

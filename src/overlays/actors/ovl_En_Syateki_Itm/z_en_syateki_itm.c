@@ -1,6 +1,6 @@
 #include "z_en_syateki_itm.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnSyatekiItm_Init(EnSyatekiItm* this, GlobalContext* globalCtx);
@@ -8,8 +8,7 @@ void EnSyatekiItm_Destroy(EnSyatekiItm* this, GlobalContext* globalCtx);
 void EnSyatekiItm_Update(EnSyatekiItm* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Syateki_Itm_InitVars =
-{
+const ActorInit En_Syateki_Itm_InitVars = {
     ACTOR_EN_SYATEKI_ITM,
     ACTORTYPE_PROP,
     ROOM,

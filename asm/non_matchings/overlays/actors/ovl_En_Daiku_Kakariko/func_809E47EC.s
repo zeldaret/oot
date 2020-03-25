@@ -50,7 +50,7 @@ glabel func_809E47EC
 /* 00584 809E48A4 33280003 */  andi    $t0, $t9, 0x0003           ## $t0 = 00000000
 /* 00588 809E48A8 00084880 */  sll     $t1, $t0,  2               
 /* 0058C 809E48AC 00A92821 */  addu    $a1, $a1, $t1              
-/* 00590 809E48B0 0C01B0D8 */  jal     func_8006C360              
+/* 00590 809E48B0 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00594 809E48B4 8CA55570 */  lw      $a1, %lo(D_809E5570)($a1)  
 /* 00598 809E48B8 304AFFFF */  andi    $t2, $v0, 0xFFFF           ## $t2 = 00000000
 /* 0059C 809E48BC 15400035 */  bne     $t2, $zero, .L809E4994     

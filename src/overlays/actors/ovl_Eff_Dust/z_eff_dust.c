@@ -1,6 +1,6 @@
 #include "z_eff_dust.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EffDust_Init(EffDust* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EffDust_Update(EffDust* this, GlobalContext* globalCtx);
 void EffDust_Draw(EffDust* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Eff_Dust_InitVars =
-{
+const ActorInit Eff_Dust_InitVars = {
     ACTOR_EFF_DUST,
     ACTORTYPE_NPC,
     ROOM,

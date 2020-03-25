@@ -8,7 +8,7 @@ glabel D_8013F2D0
     .balign 4
 
 .text
-glabel func_80097604
+glabel Sample_Draw
 /* B0E7A4 80097604 27BDFF90 */  addiu $sp, $sp, -0x70
 /* B0E7A8 80097608 AFBF002C */  sw    $ra, 0x2c($sp)
 /* B0E7AC 8009760C AFB00028 */  sw    $s0, 0x28($sp)

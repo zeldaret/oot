@@ -6,16 +6,14 @@
 u32 gCurrentRegion = 0;
 LocaleCartInfo sCartInfo;
 
-//temporary
+// temporary
 extern PadMgr gPadMgr;
 
-void Locale_Init()
-{
+void Locale_Init() {
     osEPiReadIo(gCartHandle, 0x38, &sCartInfo.mediaFormat);
     osEPiReadIo(gCartHandle, 0x3C, &sCartInfo.regionInfo);
 
-    switch (sCartInfo.countryCode)
-    {
+    switch (sCartInfo.countryCode) {
         case 'J': // "NTSC-U (North America)"
             gCurrentRegion = REGION_US;
             break;
@@ -36,39 +34,39 @@ void Locale_Init()
     osSyncPrintf("z_locale_init:日本用かアメリカ用か３コンで判断させる\n");
 }
 
-void Locale_ResetRegion()
-{
+void Locale_ResetRegion() {
     gCurrentRegion = REGION_NULL;
 }
 
-u32 func_80001F48()
-{
-    PadMgr* padMgr = (PadMgr*)(u32)&gPadMgr; //cast required to match
+u32 func_80001F48() {
+    PadMgr* padMgr = (PadMgr*)(u32)&gPadMgr; // cast required to match
 
-    if (gCurrentRegion == REGION_NATIVE)
+    if (gCurrentRegion == REGION_NATIVE) {
         return 0;
+    }
 
-    if (padMgr->unk_2A8 & 4)
+    if (padMgr->unk_2A8 & 4) {
         return 0;
+    }
 
     return 1;
 }
 
-u32 func_80001F8C()
-{
-    PadMgr* padMgr = (PadMgr*)(u32)&gPadMgr; //cast required to match
+u32 func_80001F8C() {
+    PadMgr* padMgr = (PadMgr*)(u32)&gPadMgr; // cast required to match
 
-    if (gCurrentRegion == REGION_NATIVE)
+    if (gCurrentRegion == REGION_NATIVE) {
         return 0;
+    }
 
-    if (padMgr->unk_2A8 & 4)
+    if (padMgr->unk_2A8 & 4) {
         return 1;
+    }
 
     return 0;
 }
 
 // This function appears to be unused?
-u32 Locale_IsRegionNative()
-{
+u32 Locale_IsRegionNative() {
     return gCurrentRegion == REGION_NATIVE;
 }

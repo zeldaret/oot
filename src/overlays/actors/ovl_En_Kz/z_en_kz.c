@@ -1,6 +1,6 @@
 #include "z_en_kz.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnKz_Init(EnKz* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnKz_Update(EnKz* this, GlobalContext* globalCtx);
 void EnKz_Draw(EnKz* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Kz_InitVars =
-{
+const ActorInit En_Kz_InitVars = {
     ACTOR_EN_KZ,
     ACTORTYPE_NPC,
     ROOM,

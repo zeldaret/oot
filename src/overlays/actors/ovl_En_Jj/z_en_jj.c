@@ -1,6 +1,6 @@
 #include "z_en_jj.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnJj_Init(EnJj* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnJj_Update(EnJj* this, GlobalContext* globalCtx);
 void EnJj_Draw(EnJj* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Jj_InitVars =
-{
+const ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
     ACTORTYPE_ITEMACTION,
     ROOM,

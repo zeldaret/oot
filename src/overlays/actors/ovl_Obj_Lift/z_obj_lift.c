@@ -1,6 +1,6 @@
 #include "z_obj_lift.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ObjLift_Init(ObjLift* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void ObjLift_Update(ObjLift* this, GlobalContext* globalCtx);
 void ObjLift_Draw(ObjLift* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Lift_InitVars =
-{
+const ActorInit Obj_Lift_InitVars = {
     ACTOR_OBJ_LIFT,
     ACTORTYPE_BG,
     ROOM,
