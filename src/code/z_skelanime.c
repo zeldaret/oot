@@ -754,8 +754,57 @@ Gfx* SkelAnime_DrawSV2(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* acto
     return gfx;
 }
 
-// Seems to be some kind of rotations update, somewhat large.
+#ifdef NON_MATCHING
+/*
+ * Seems to be completely unused by the game, doesn't really make much sense with the
+ * rest of SkelAnime animation types. This does not match due to loop unrolling, but
+ * is functionally equal.
+*/
+
+typedef struct {
+    s16 limitx;
+    s16 indexx;
+    s16 limity;
+    s16 indexy;
+    s16 limitz;
+    s16 indexz;
+} unk_struct;
+s16 func_800A29BC(AnimationHeader* animationSeg, s32 arg1, Vec3s *arg2)
+{
+    AnimationRotationValue* temp_t1;
+    unk_struct *temp_a3;
+    AnimationHeader *temp_v0;
+    s32 i;
+
+    temp_v0 = SEGMENTED_TO_VIRTUAL(animationSeg);
+    temp_a3 = SEGMENTED_TO_VIRTUAL(temp_v0->rotationIndexSeg);
+    temp_t1 = SEGMENTED_TO_VIRTUAL(temp_v0->rotationValueSeg);
+
+
+    arg2->x = arg1 < temp_a3->limitx ? (&temp_t1[arg1])[temp_a3->indexx] : temp_t1[temp_a3->indexx];
+    arg2->y = arg1 < temp_a3->limity ? (&temp_t1[arg1])[temp_a3->indexy] : temp_t1[temp_a3->indexy];
+    arg2->z = arg1 < temp_a3->limitz ? (&temp_t1[arg1])[temp_a3->indexz] : temp_t1[temp_a3->indexz];
+
+    arg2++;
+    temp_a3++;
+    i = 1;
+    if(temp_v0->genericHeader.unk_02 > 0){
+        do {
+
+            arg2->x = arg1 < temp_a3->limitx ? (&temp_t1[arg1])[temp_a3->indexx] : temp_t1[temp_a3->indexx];
+            arg2->y = arg1 < temp_a3->limity ? (&temp_t1[arg1])[temp_a3->indexy] : temp_t1[temp_a3->indexy];
+            arg2->z = arg1 < temp_a3->limitz ? (&temp_t1[arg1])[temp_a3->indexz] : temp_t1[temp_a3->indexz];
+
+            temp_a3++;
+            arg2++;
+            i++;
+        } while ((temp_v0->genericHeader.unk_02 + 1) != i);
+    }
+    return temp_v0->genericHeader.unk_02;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skelanime/func_800A29BC.s")
+#endif
 
 s16 func_800A2DBC(GenericAnimationHeader* animationSeg) {
     GenericAnimationHeader* animation = SEGMENTED_TO_VIRTUAL(animationSeg);
