@@ -8,8 +8,7 @@ void BgGndDarkmeiro_Destroy(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 void BgGndDarkmeiro_Update(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Gnd_Darkmeiro_InitVars =
-{
+const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
     ACTOR_BG_GND_DARKMEIRO,
     ACTORTYPE_PROP,
     ROOM,

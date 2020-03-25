@@ -9,8 +9,7 @@ void EnFd_Update(EnFd* this, GlobalContext* globalCtx);
 void EnFd_Draw(EnFd* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Fd_InitVars =
-{
+const ActorInit En_Fd_InitVars = {
     ACTOR_EN_FD,
     ACTORTYPE_ENEMY,
     ROOM,

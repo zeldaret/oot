@@ -9,8 +9,7 @@ void ObjSyokudai_Update(ObjSyokudai* this, GlobalContext* globalCtx);
 void ObjSyokudai_Draw(ObjSyokudai* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Syokudai_InitVars =
-{
+const ActorInit Obj_Syokudai_InitVars = {
     ACTOR_OBJ_SYOKUDAI,
     ACTORTYPE_PROP,
     ROOM,

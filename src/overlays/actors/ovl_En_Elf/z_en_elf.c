@@ -9,8 +9,7 @@ void EnElf_Update(EnElf* this, GlobalContext* globalCtx);
 void EnElf_Draw(EnElf* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Elf_InitVars =
-{
+const ActorInit En_Elf_InitVars = {
     ACTOR_EN_ELF,
     ACTORTYPE_ITEMACTION,
     ROOM,

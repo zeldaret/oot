@@ -9,8 +9,7 @@ void BgHakaTrap_Update(BgHakaTrap* this, GlobalContext* globalCtx);
 void BgHakaTrap_Draw(BgHakaTrap* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Haka_Trap_InitVars =
-{
+const ActorInit Bg_Haka_Trap_InitVars = {
     ACTOR_BG_HAKA_TRAP,
     ACTORTYPE_BG,
     ROOM,

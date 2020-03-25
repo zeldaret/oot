@@ -9,8 +9,7 @@ void ObjDekujr_Update(ObjDekujr* this, GlobalContext* globalCtx);
 void ObjDekujr_Draw(ObjDekujr* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Dekujr_InitVars =
-{
+const ActorInit Obj_Dekujr_InitVars = {
     ACTOR_OBJ_DEKUJR,
     ACTORTYPE_NPC,
     ROOM,

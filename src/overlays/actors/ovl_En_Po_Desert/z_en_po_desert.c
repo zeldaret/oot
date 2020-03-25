@@ -9,8 +9,7 @@ void EnPoDesert_Update(EnPoDesert* this, GlobalContext* globalCtx);
 void EnPoDesert_Draw(EnPoDesert* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Po_Desert_InitVars =
-{
+const ActorInit En_Po_Desert_InitVars = {
     ACTOR_EN_PO_DESERT,
     ACTORTYPE_BG,
     ROOM,

@@ -9,8 +9,7 @@ void OceffWipe4_Update(OceffWipe4* this, GlobalContext* globalCtx);
 void OceffWipe4_Draw(OceffWipe4* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Oceff_Wipe4_InitVars =
-{
+const ActorInit Oceff_Wipe4_InitVars = {
     ACTOR_OCEFF_WIPE4,
     ACTORTYPE_ITEMACTION,
     ROOM,

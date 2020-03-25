@@ -9,8 +9,7 @@ void EnViewer_Update(EnViewer* this, GlobalContext* globalCtx);
 void EnViewer_Draw(EnViewer* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Viewer_InitVars =
-{
+const ActorInit En_Viewer_InitVars = {
     ACTOR_EN_VIEWER,
     ACTORTYPE_ITEMACTION,
     ROOM,

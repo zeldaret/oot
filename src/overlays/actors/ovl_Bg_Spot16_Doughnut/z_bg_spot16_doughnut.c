@@ -9,8 +9,7 @@ void BgSpot16Doughnut_Update(BgSpot16Doughnut* this, GlobalContext* globalCtx);
 void BgSpot16Doughnut_Draw(BgSpot16Doughnut* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot16_Doughnut_InitVars =
-{
+const ActorInit Bg_Spot16_Doughnut_InitVars = {
     ACTOR_BG_SPOT16_DOUGHNUT,
     ACTORTYPE_PROP,
     ROOM,

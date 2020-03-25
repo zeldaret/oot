@@ -8,8 +8,7 @@ void EnKakasi2_Destroy(EnKakasi2* this, GlobalContext* globalCtx);
 void EnKakasi2_Update(EnKakasi2* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Kakasi2_InitVars =
-{
+const ActorInit En_Kakasi2_InitVars = {
     ACTOR_EN_KAKASI2,
     ACTORTYPE_PROP,
     ROOM,

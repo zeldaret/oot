@@ -9,8 +9,7 @@ void EnPoRelay_Update(EnPoRelay* this, GlobalContext* globalCtx);
 void EnPoRelay_Draw(EnPoRelay* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Po_Relay_InitVars =
-{
+const ActorInit En_Po_Relay_InitVars = {
     ACTOR_EN_PO_RELAY,
     ACTORTYPE_NPC,
     ROOM,

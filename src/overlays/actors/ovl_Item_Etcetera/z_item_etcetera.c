@@ -8,8 +8,7 @@ void ItemEtcetera_Destroy(ItemEtcetera* this, GlobalContext* globalCtx);
 void ItemEtcetera_Update(ItemEtcetera* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Item_Etcetera_InitVars =
-{
+const ActorInit Item_Etcetera_InitVars = {
     ACTOR_ITEM_ETCETERA,
     ACTORTYPE_PROP,
     ROOM,

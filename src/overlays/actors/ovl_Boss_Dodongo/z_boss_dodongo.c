@@ -9,8 +9,7 @@ void BossDodongo_Update(BossDodongo* this, GlobalContext* globalCtx);
 void BossDodongo_Draw(BossDodongo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Boss_Dodongo_InitVars =
-{
+const ActorInit Boss_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
     ACTORTYPE_BOSS,
     ROOM,

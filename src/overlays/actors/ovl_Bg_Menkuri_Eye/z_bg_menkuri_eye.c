@@ -9,8 +9,7 @@ void BgMenkuriEye_Update(BgMenkuriEye* this, GlobalContext* globalCtx);
 void BgMenkuriEye_Draw(BgMenkuriEye* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Menkuri_Eye_InitVars =
-{
+const ActorInit Bg_Menkuri_Eye_InitVars = {
     ACTOR_BG_MENKURI_EYE,
     ACTORTYPE_BG,
     ROOM,

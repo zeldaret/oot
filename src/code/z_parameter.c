@@ -1141,13 +1141,15 @@ void Inventory_SwapAgeEquipment(void) {
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         for (i = 0; i < 4; i++) {
-            if (i != 0)
+            if (i != 0) {
                 gSaveContext.child_equips.button_items[i] = gSaveContext.equips.button_items[i];
-            else
+            } else {
                 gSaveContext.child_equips.button_items[i] = ITEM_SWORD_KOKIRI;
+            }
 
-            if (i != 0)
+            if (i != 0) {
                 gSaveContext.child_equips.c_button_slots[i - 1] = gSaveContext.equips.c_button_slots[i - 1];
+            }
         }
 
         gSaveContext.child_equips.equipment = gSaveContext.equips.equipment;
@@ -1172,8 +1174,9 @@ void Inventory_SwapAgeEquipment(void) {
             for (i = 0; i < 4; i++) {
                 gSaveContext.equips.button_items[i] = gSaveContext.adult_equips.button_items[i];
 
-                if (i != 0)
+                if (i != 0) {
                     gSaveContext.equips.c_button_slots[i - 1] = gSaveContext.adult_equips.c_button_slots[i - 1];
+                }
 
                 if (((gSaveContext.equips.button_items[i] >= ITEM_BOTTLE) &&
                      (gSaveContext.equips.button_items[i] <= ITEM_POE)) ||
@@ -1190,8 +1193,9 @@ void Inventory_SwapAgeEquipment(void) {
         for (i = 0; i < 4; i++) {
             gSaveContext.adult_equips.button_items[i] = gSaveContext.equips.button_items[i];
 
-            if (i != 0)
+            if (i != 0) {
                 gSaveContext.adult_equips.c_button_slots[i - 1] = gSaveContext.equips.c_button_slots[i - 1];
+            }
         }
 
         gSaveContext.adult_equips.equipment = gSaveContext.equips.equipment;
@@ -1200,8 +1204,9 @@ void Inventory_SwapAgeEquipment(void) {
             for (i = 0; i < 4; i++) {
                 gSaveContext.equips.button_items[i] = gSaveContext.child_equips.button_items[i];
 
-                if (i != 0)
+                if (i != 0) {
                     gSaveContext.equips.c_button_slots[i - 1] = gSaveContext.child_equips.c_button_slots[i - 1];
+                }
 
                 if (((gSaveContext.equips.button_items[i] >= ITEM_BOTTLE) &&
                      (gSaveContext.equips.button_items[i] <= ITEM_POE)) ||
@@ -1221,8 +1226,9 @@ void Inventory_SwapAgeEquipment(void) {
     temp = gEquipMasks[EQUIP_SHIELD] & gSaveContext.equips.equipment;
     if (temp != 0) {
         temp >>= gEquipShifts[EQUIP_SHIELD];
-        if (!(gBitFlags[temp + 3] & gSaveContext.equipment))
+        if (!(gBitFlags[temp + 3] & gSaveContext.equipment)) {
             gSaveContext.equips.equipment &= gEquipNegMasks[EQUIP_SHIELD];
+        }
     }
 }
 #else
@@ -1315,8 +1321,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
     s8 bombCount;
 
     slot = SLOT(item);
-    if (item >= ITEM_STICKS_5)
+    if (item >= ITEM_STICKS_5) {
         slot = SLOT(sExtraItemBases[item - ITEM_STICKS_5]);
+    }
 
     osSyncPrintf(VT_FGCOL(YELLOW));
     osSyncPrintf("item_get_setting=%d  pt=%d  z=%x\n", item, slot, gSaveContext.items[slot]);
@@ -1330,8 +1337,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         osSyncPrintf("封印 = %x\n", gSaveContext.quest_items);
         osSyncPrintf(VT_RST);
 
-        if (item == ITEM_MEDALLION_WATER)
+        if (item == ITEM_MEDALLION_WATER) {
             func_8006D0AC(globalCtx);
+        }
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SONG_MINUET) && (item <= ITEM_SONG_STORMS)) {
@@ -1423,8 +1431,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             return ITEM_NONE;
         } else {
             AMMO(ITEM_BOW)++;
-            if (AMMO(ITEM_BOW) > CUR_CAPACITY(UPG_QUIVER))
+            if (AMMO(ITEM_BOW) > CUR_CAPACITY(UPG_QUIVER)) {
                 AMMO(ITEM_BOW) = CUR_CAPACITY(UPG_QUIVER);
+            }
         }
     } else if (item == ITEM_QUIVER_40) {
         Inventory_ChangeUpgrade(UPG_QUIVER, 2);
@@ -1450,8 +1459,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             return ITEM_NONE;
         } else {
             AMMO(ITEM_BOMB)++;
-            if (AMMO(ITEM_BOMB) > CUR_CAPACITY(UPG_BOMB_BAG))
+            if (AMMO(ITEM_BOMB) > CUR_CAPACITY(UPG_BOMB_BAG)) {
                 AMMO(ITEM_BOMB) = CUR_CAPACITY(UPG_BOMB_BAG);
+            }
         }
     } else if (item == ITEM_BOMB_BAG_30) {
         Inventory_ChangeUpgrade(UPG_BOMB_BAG, 2);
@@ -1483,26 +1493,30 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         Inventory_ChangeUpgrade(UPG_WALLET, 2);
         return ITEM_NONE;
     } else if (item == ITEM_STICK_UPGRADE_20) {
-        if (gSaveContext.items[slot] == ITEM_NONE)
+        if (gSaveContext.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_STICK) = ITEM_STICK;
+        }
         Inventory_ChangeUpgrade(UPG_STICKS, 2);
         AMMO(ITEM_STICK) = CAPACITY(UPG_STICKS, 2);
         return ITEM_NONE;
     } else if (item == ITEM_STICK_UPGRADE_30) {
-        if (gSaveContext.items[slot] == ITEM_NONE)
+        if (gSaveContext.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_STICK) = ITEM_STICK;
+        }
         Inventory_ChangeUpgrade(UPG_STICKS, 3);
         AMMO(ITEM_STICK) = CAPACITY(UPG_STICKS, 3);
         return ITEM_NONE;
     } else if (item == ITEM_NUT_UPGRADE_30) {
-        if (gSaveContext.items[slot] == ITEM_NONE)
+        if (gSaveContext.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_NUT) = ITEM_NUT;
+        }
         Inventory_ChangeUpgrade(UPG_NUTS, 2);
         AMMO(ITEM_NUT) = CAPACITY(UPG_NUTS, 2);
         return ITEM_NONE;
     } else if (item == ITEM_NUT_UPGRADE_40) {
-        if (gSaveContext.items[slot] == ITEM_NONE)
+        if (gSaveContext.items[slot] == ITEM_NONE) {
             INV_CONTENT(ITEM_NUT) = ITEM_NUT;
+        }
         Inventory_ChangeUpgrade(UPG_NUTS, 3);
         AMMO(ITEM_NUT) = CAPACITY(UPG_NUTS, 3);
         return ITEM_NONE;
@@ -1521,8 +1535,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             AMMO(ITEM_STICK) = 1;
         } else {
             AMMO(ITEM_STICK)++;
-            if (AMMO(ITEM_STICK) > CUR_CAPACITY(UPG_STICKS))
+            if (AMMO(ITEM_STICK) > CUR_CAPACITY(UPG_STICKS)) {
                 AMMO(ITEM_STICK) = CUR_CAPACITY(UPG_STICKS);
+            }
         }
     } else if ((item == ITEM_STICKS_5) || (item == ITEM_STICKS_10)) {
         if (gSaveContext.items[slot] == ITEM_NONE) {
@@ -1530,8 +1545,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             AMMO(ITEM_STICK) = sAmmoRefillCounts[item - ITEM_STICKS_5];
         } else {
             AMMO(ITEM_STICK) += sAmmoRefillCounts[item - ITEM_STICKS_5];
-            if (AMMO(ITEM_STICK) > CUR_CAPACITY(UPG_STICKS))
+            if (AMMO(ITEM_STICK) > CUR_CAPACITY(UPG_STICKS)) {
                 AMMO(ITEM_STICK) = CUR_CAPACITY(UPG_STICKS);
+            }
         }
         item = ITEM_STICK;
     } else if (item == ITEM_NUT) {
@@ -1540,8 +1556,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             AMMO(ITEM_NUT) = ITEM_NUT;
         } else {
             AMMO(ITEM_NUT)++;
-            if (AMMO(ITEM_NUT) > CUR_CAPACITY(UPG_NUTS))
+            if (AMMO(ITEM_NUT) > CUR_CAPACITY(UPG_NUTS)) {
                 AMMO(ITEM_NUT) = CUR_CAPACITY(UPG_NUTS);
+            }
         }
     } else if ((item == ITEM_NUTS_5) || (item == ITEM_NUTS_10)) {
         if (gSaveContext.items[slot] == ITEM_NONE) {
@@ -1552,8 +1569,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
                          sAmmoRefillCounts[item - ITEM_NUTS_5]);
         } else {
             AMMO(ITEM_NUT) += sAmmoRefillCounts[item - ITEM_NUTS_5];
-            if (AMMO(ITEM_NUT) > CUR_CAPACITY(UPG_NUTS))
+            if (AMMO(ITEM_NUT) > CUR_CAPACITY(UPG_NUTS)) {
                 AMMO(ITEM_NUT) = CUR_CAPACITY(UPG_NUTS);
+            }
         }
         item = ITEM_NUT;
     } else if (item == ITEM_BOMB) {
@@ -1561,14 +1579,16 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         osSyncPrintf(" 爆弾  爆弾  爆弾  爆弾 爆弾   爆弾 爆弾 \n");
         bombCount = AMMO(ITEM_BOMB) + 1;
         AMMO(ITEM_BOMB) = bombCount;
-        if (bombCount > CUR_CAPACITY(UPG_BOMB_BAG))
+        if (bombCount > CUR_CAPACITY(UPG_BOMB_BAG)) {
             AMMO(ITEM_BOMB) = CUR_CAPACITY(UPG_BOMB_BAG);
+        }
         return ITEM_NONE;
     } else if ((item >= ITEM_BOMBS_5) && (item <= ITEM_BOMBS_30)) {
         bombCount = AMMO(ITEM_BOMB) + sAmmoRefillCounts[item - ITEM_BOMBS_5];
         AMMO(ITEM_BOMB) = bombCount;
-        if (bombCount > CUR_CAPACITY(UPG_BOMB_BAG))
+        if (bombCount > CUR_CAPACITY(UPG_BOMB_BAG)) {
             AMMO(ITEM_BOMB) = CUR_CAPACITY(UPG_BOMB_BAG);
+        }
         return ITEM_NONE;
     } else if (item == ITEM_BOMBCHU) {
         if (gSaveContext.items[slot] == ITEM_NONE) {
@@ -1577,8 +1597,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             return ITEM_NONE;
         } else {
             AMMO(ITEM_BOMBCHU) += 10;
-            if (AMMO(ITEM_BOMBCHU) > 50)
+            if (AMMO(ITEM_BOMBCHU) > 50) {
                 AMMO(ITEM_BOMBCHU) = 50;
+            }
             return ITEM_NONE;
         }
     } else if ((item == ITEM_BOMBCHUS_5) || (item == ITEM_BOMBCHUS_20)) {
@@ -1588,15 +1609,17 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             return ITEM_NONE;
         } else {
             AMMO(ITEM_BOMBCHU) += sAmmoRefillCounts[item - ITEM_BOMBCHUS_5 + 8];
-            if (AMMO(ITEM_BOMBCHU) > 50)
+            if (AMMO(ITEM_BOMBCHU) > 50) {
                 AMMO(ITEM_BOMBCHU) = 50;
+            }
             return ITEM_NONE;
         }
     } else if ((item >= ITEM_ARROWS_SMALL) && (item <= ITEM_ARROWS_LARGE)) {
         AMMO(ITEM_BOW) += sAmmoRefillCounts[item - ITEM_ARROWS_SMALL + 4];
 
-        if ((AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) || (AMMO(ITEM_BOW) < 0))
+        if ((AMMO(ITEM_BOW) >= CUR_CAPACITY(UPG_QUIVER)) || (AMMO(ITEM_BOW) < 0)) {
             AMMO(ITEM_BOW) = CUR_CAPACITY(UPG_QUIVER);
+        }
 
         osSyncPrintf("%d本  Item_MaxGet=%d\n", AMMO(ITEM_BOW), CUR_CAPACITY(UPG_QUIVER));
 
@@ -1609,8 +1632,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
     } else if (item == ITEM_SEEDS) {
         AMMO(ITEM_SLINGSHOT) += 5;
 
-        if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG))
+        if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
             AMMO(ITEM_SLINGSHOT) = CUR_CAPACITY(UPG_BULLET_BAG);
+        }
 
         if (!(gSaveContext.item_get_inf[1] & 8)) {
             gSaveContext.item_get_inf[1] |= 8;
@@ -1621,8 +1645,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
     } else if (item == ITEM_SEEDS_30) {
         AMMO(ITEM_SLINGSHOT) += 30;
 
-        if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG))
+        if (AMMO(ITEM_SLINGSHOT) >= CUR_CAPACITY(UPG_BULLET_BAG)) {
             AMMO(ITEM_SLINGSHOT) = CUR_CAPACITY(UPG_BULLET_BAG);
+        }
 
         if (!(gSaveContext.item_get_inf[1] & 8)) {
             gSaveContext.item_get_inf[1] |= 8;
@@ -1665,8 +1690,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         Health_ChangeBy(globalCtx, 0x10);
         return item;
     } else if (item == ITEM_MAGIC_SMALL) {
-        if (gSaveContext.unk_13F0 != 10)
+        if (gSaveContext.unk_13F0 != 10) {
             func_80087680(globalCtx);
+        }
 
         func_80087708(globalCtx, 12, 5);
 
@@ -1677,8 +1703,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
         return item;
     } else if (item == ITEM_MAGIC_LARGE) {
-        if (gSaveContext.unk_13F0 != 10)
+        if (gSaveContext.unk_13F0 != 10) {
             func_80087680(globalCtx);
+        }
 
         func_80087708(globalCtx, 24, 5);
 
@@ -1741,8 +1768,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             }
         }
     } else if ((item >= ITEM_WEIRD_EGG) && (item <= ITEM_CLAIM_CHECK)) {
-        if (item == ITEM_SAW)
+        if (item == ITEM_SAW) {
             gSaveContext.item_get_inf[1] |= 0x8000;
+        }
 
         prevTradeItem = INV_CONTENT(item);
         INV_CONTENT(item) = item;
@@ -1990,8 +2018,9 @@ void Inventory_UpdateBottleItem(GlobalContext* globalCtx, u8 item, u8 cButton) {
 
     // Special case to only empty half of a Lon Lon Milk Bottle
     if ((gSaveContext.items[gSaveContext.equips.c_button_slots[cButton - 1]] == ITEM_MILK_BOTTLE) &&
-        (item == ITEM_BOTTLE))
+        (item == ITEM_BOTTLE)) {
         item = ITEM_MILK_HALF;
+    }
 
     gSaveContext.items[gSaveContext.equips.c_button_slots[cButton - 1]] = item;
     gSaveContext.equips.button_items[cButton] = item;
@@ -2052,14 +2081,17 @@ u32 sDoActionTextures[] = { 0x07000000, 0x07000180 };
 #ifdef NON_MATCHING
 // 0x80000000 is reused in the 2 *_TO_VIRTUAL macros when it shouldn't
 void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 arg2) {
-    if (action >= 0x1D)
+    if (action >= 0x1D) {
         action = 0x0A;
+    }
 
-    if (gSaveContext.language != 0)
+    if (gSaveContext.language != 0) {
         action += 0x1D;
+    }
 
-    if (gSaveContext.language == 2)
+    if (gSaveContext.language == 2) {
         action += 0x1D;
+    }
 
     if ((action != 0x0A) && (action != 0x27) && (action != 0x44)) {
         osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, OS_MESG_BLOCK);
@@ -2375,12 +2407,14 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             if (gSaveContext.unk_13F4 != maxMagic) {
                 if (gSaveContext.unk_13F4 < maxMagic) {
                     gSaveContext.unk_13F4 += 8;
-                    if (gSaveContext.unk_13F4 > maxMagic)
+                    if (gSaveContext.unk_13F4 > maxMagic) {
                         gSaveContext.unk_13F4 = maxMagic;
+                    }
                 } else {
                     gSaveContext.unk_13F4 -= 8;
-                    if (gSaveContext.unk_13F4 <= maxMagic)
+                    if (gSaveContext.unk_13F4 <= maxMagic) {
                         gSaveContext.unk_13F4 = maxMagic;
+                    }
                 }
             } else {
                 gSaveContext.unk_13F0 = 9;
@@ -2389,8 +2423,9 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
         case 9:
             gSaveContext.magic += 4;
 
-            if (gSaveContext.game_mode == 0 && gSaveContext.scene_setup_index < 4)
+            if (gSaveContext.game_mode == 0 && gSaveContext.scene_setup_index < 4) {
                 Audio_PlaySoundGeneral(0x401F, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
 
             // Translates to: "Storage MAGIC_NOW=%d (%d)"
             osSyncPrintf("蓄電 MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.unk_13F6);
@@ -2423,20 +2458,23 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
         case 6:
             color = sMagicBorderColors[sMagicBorderIndexes[sMagicBorderStep]];
 
-            if (sMagicBorderR >= color[0])
+            if (sMagicBorderR >= color[0]) {
                 sMagicBorderR -= ABS(sMagicBorderR - color[0]) / sMagicBorderRatio;
-            else
+            } else {
                 sMagicBorderR += ABS(sMagicBorderR - color[0]) / sMagicBorderRatio;
+            }
 
-            if (sMagicBorderG >= color[1])
+            if (sMagicBorderG >= color[1]) {
                 sMagicBorderG -= ABS(sMagicBorderG - color[1]) / sMagicBorderRatio;
-            else
+            } else {
                 sMagicBorderG += ABS(sMagicBorderG - color[1]) / sMagicBorderRatio;
+            }
 
-            if (sMagicBorderB >= color[2])
+            if (sMagicBorderB >= color[2]) {
                 sMagicBorderB -= ABS(sMagicBorderB - color[2]) / sMagicBorderRatio;
-            else
+            } else {
                 sMagicBorderB += ABS(sMagicBorderB - color[2]) / sMagicBorderRatio;
+            }
 
             sMagicBorderRatio--;
             if (sMagicBorderRatio == 0) {
@@ -2445,8 +2483,9 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                 sMagicBorderB = color[2];
                 sMagicBorderRatio = YREG(40 + sMagicBorderStep);
                 sMagicBorderStep++;
-                if (sMagicBorderStep >= 4)
+                if (sMagicBorderStep >= 4) {
                     sMagicBorderStep = 0;
+                }
             }
             break;
         case 5:
@@ -2481,20 +2520,23 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
 
             color = sMagicBorderColors[sMagicBorderIndexes[sMagicBorderStep]];
 
-            if (sMagicBorderR >= color[0])
+            if (sMagicBorderR >= color[0]) {
                 sMagicBorderR -= ABS(sMagicBorderR - color[0]) / sMagicBorderRatio;
-            else
+            } else {
                 sMagicBorderR += ABS(sMagicBorderR - color[0]) / sMagicBorderRatio;
+            }
 
-            if (sMagicBorderG >= color[1])
+            if (sMagicBorderG >= color[1]) {
                 sMagicBorderG -= ABS(sMagicBorderG - color[1]) / sMagicBorderRatio;
-            else
+            } else {
                 sMagicBorderG += ABS(sMagicBorderG - color[1]) / sMagicBorderRatio;
+            }
 
-            if (sMagicBorderB >= color[2])
+            if (sMagicBorderB >= color[2]) {
                 sMagicBorderB -= ABS(sMagicBorderB - color[2]) / sMagicBorderRatio;
-            else
+            } else {
                 sMagicBorderB += ABS(sMagicBorderB - color[2]) / sMagicBorderRatio;
+            }
 
             sMagicBorderRatio--;
             if (sMagicBorderRatio == 0) {
@@ -2503,8 +2545,9 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                 sMagicBorderB = color[2];
                 sMagicBorderRatio = YREG(40 + sMagicBorderStep);
                 sMagicBorderStep++;
-                if (sMagicBorderStep >= 4)
+                if (sMagicBorderStep >= 4) {
                     sMagicBorderStep = 0;
+                }
             }
             break;
         case 10:
@@ -2772,13 +2815,14 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
             // C-Up Button Texture, Color & Label (Navi Text)
             gDPPipeSync(gfxCtx->overlay.p++);
 
-            if ((gSaveContext.unk_13EA == 1) || (gSaveContext.unk_13EA == 2) || (gSaveContext.unk_13EA == 5))
+            if ((gSaveContext.unk_13EA == 1) || (gSaveContext.unk_13EA == 2) || (gSaveContext.unk_13EA == 5)) {
                 cUpAlpha = 0;
-            else if ((player->stateFlags2 & 0x00200000) || (func_8008F2F8(globalCtx) == 4) ||
-                     (player->stateFlags2 & 0x00040000))
+            } else if ((player->stateFlags2 & 0x00200000) || (func_8008F2F8(globalCtx) == 4) ||
+                       (player->stateFlags2 & 0x00040000)) {
                 cUpAlpha = 0x46;
-            else
+            } else {
                 cUpAlpha = interfaceCtx->healthAlpha;
+            }
 
             gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2), cUpAlpha);
             gDPSetCombineLERP(gfxCtx->overlay.p++, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0,
@@ -2820,15 +2864,16 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     // Empty C Button Arrows
     for (i = 1; i < 4; i++) {
         if (gSaveContext.equips.button_items[i] > 0xF0) {
-            if (i == 1)
+            if (i == 1) {
                 gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                                 interfaceCtx->cLeftAlpha);
-            else if (i == 2)
+            } else if (i == 2) {
                 gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                                 interfaceCtx->cDownAlpha);
-            else
+            } else {
                 gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2),
                                 interfaceCtx->cRightAlpha);
+            }
 
             gfxCtx->overlay.p =
                 Draw_TextureIA8(gfxCtx->overlay.p, &D_02000A00[i + 1], 0x20, 0x20, R_ITEM_BTN_X(i), R_ITEM_BTN_Y(i),
@@ -3188,12 +3233,13 @@ void Interface_Draw(GlobalContext* globalCtx) {
         // Rupee Counter
         gDPPipeSync(gfxCtx->overlay.p++);
 
-        if (gSaveContext.rupees == CUR_CAPACITY(UPG_WALLET))
+        if (gSaveContext.rupees == CUR_CAPACITY(UPG_WALLET)) {
             gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0x78, 0xFF, 0x00, interfaceCtx->magicAlpha);
-        else if (gSaveContext.rupees != 0)
+        } else if (gSaveContext.rupees != 0) {
             gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->magicAlpha);
-        else
+        } else {
             gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0x64, 0x64, 0x64, interfaceCtx->magicAlpha);
+        }
 
         gDPSetCombineLERP(gfxCtx->overlay.p++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0,
                           0, PRIMITIVE, 0);
@@ -3201,8 +3247,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
         interfaceCtx->counterDigits[0] = interfaceCtx->counterDigits[1] = 0;
         interfaceCtx->counterDigits[2] = gSaveContext.rupees;
 
-        if ((interfaceCtx->counterDigits[2] >= 10000) || (interfaceCtx->counterDigits[2] < 0))
+        if ((interfaceCtx->counterDigits[2] >= 10000) || (interfaceCtx->counterDigits[2] < 0)) {
             interfaceCtx->counterDigits[2] &= 0xDDD;
+        }
 
         while (interfaceCtx->counterDigits[2] >= 100) {
             interfaceCtx->counterDigits[2] -= 100;
@@ -3225,8 +3272,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
         Interface_DrawMagicBar(globalCtx);
         Interface_DrawMinimap(globalCtx);
 
-        if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3))
+        if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3)) {
             func_8002C124(&globalCtx->actorCtx.targetCtx, globalCtx); // Draw Z-Target
+        }
 
         func_80094520(globalCtx->state.gfxCtx);
 
@@ -3343,10 +3391,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
                   G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPVertex(gfxCtx->overlay.p++, &interfaceCtx->vtx_128[4], 4, 0);
 
-        if ((interfaceCtx->unk_1EC < 2) || (interfaceCtx->unk_1EC == 3))
+        if ((interfaceCtx->unk_1EC < 2) || (interfaceCtx->unk_1EC == 3)) {
             Interface_DrawActionLabel(globalCtx->state.gfxCtx, (void*)(u32)interfaceCtx->do_actionSegment);
-        else
+        } else {
             Interface_DrawActionLabel(globalCtx->state.gfxCtx, (void*)((u32)interfaceCtx->do_actionSegment + 0x180));
+        }
 
         gDPPipeSync(gfxCtx->overlay.p++);
 
@@ -3441,10 +3490,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     phi_s1 = ZREG(14);
                     for (phi_s3 = 1; phi_s3 < 7; phi_s3++) {
                         // Carrot Color (based on availability)
-                        if ((interfaceCtx->unk_23A == 0) || (interfaceCtx->unk_23A < phi_s3))
+                        if ((interfaceCtx->unk_23A == 0) || (interfaceCtx->unk_23A < phi_s3)) {
                             gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0x00, 0x96, 0xFF, interfaceCtx->aAlpha);
-                        else
+                        } else {
                             gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->aAlpha);
+                        }
 
                         gSPTextureRectangle(gfxCtx->overlay.p++, phi_s1 << 2, ZREG(15) << 2, (phi_s1 + 16) << 2,
                                             (ZREG(15) + 16) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
@@ -3507,10 +3557,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 (gSaveContext.equips.button_items[0] != ITEM_SWORD_MASTER) &&
                 (gSaveContext.equips.button_items[0] != ITEM_SWORD_BGS) &&
                 (gSaveContext.equips.button_items[0] != ITEM_SWORD_KNIFE)) {
-                if (gSaveContext.button_status[0] != BTN_ENABLED)
+                if (gSaveContext.button_status[0] != BTN_ENABLED) {
                     gSaveContext.equips.button_items[0] = gSaveContext.button_status[0];
-                else
+                } else {
                     gSaveContext.equips.button_items[0] = ITEM_NONE;
+                }
             }
 
             // Revert any spoiling trade quest items
@@ -3553,20 +3604,22 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 case 5:
                 case 11:
                     D_8015FFE0 = D_8015FFE2 = 20;
-                    if (gSaveContext.timer_1_state == 5)
+                    if (gSaveContext.timer_1_state == 5) {
                         gSaveContext.timer_1_state = 6;
-                    else
+                    } else {
                         gSaveContext.timer_1_state = 12;
+                    }
                     break;
                 case 6:
                 case 12:
                     D_8015FFE2--;
                     if (D_8015FFE2 == 0) {
                         D_8015FFE2 = 20;
-                        if (gSaveContext.timer_1_state == 6)
+                        if (gSaveContext.timer_1_state == 6) {
                             gSaveContext.timer_1_state = 7;
-                        else
+                        } else {
                             gSaveContext.timer_1_state = 13;
+                        }
                     }
                     break;
                 case 3:
@@ -3574,10 +3627,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     phi_s3 = (gSaveContext.timer_x[0] - 26) / D_8015FFE2;
                     gSaveContext.timer_x[0] -= phi_s3;
 
-                    if (gSaveContext.health_capacity > 0xA0)
+                    if (gSaveContext.health_capacity > 0xA0) {
                         phi_s3 = (gSaveContext.timer_y[0] - 54) / D_8015FFE2;
-                    else
+                    } else {
                         phi_s3 = (gSaveContext.timer_y[0] - 46) / D_8015FFE2;
+                    }
                     gSaveContext.timer_y[0] -= phi_s3;
 
                     D_8015FFE2--;
@@ -3585,30 +3639,34 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         gSaveContext.timer_x[0] = 26;
                         D_8015FFE2 = 20;
 
-                        if (gSaveContext.health_capacity > 0xA0)
+                        if (gSaveContext.health_capacity > 0xA0) {
                             gSaveContext.timer_y[0] = 54;
-                        else
+                        } else {
                             gSaveContext.timer_y[0] = 46;
+                        }
 
-                        if (gSaveContext.timer_1_state == 3)
+                        if (gSaveContext.timer_1_state == 3) {
                             gSaveContext.timer_1_state = 4;
-                        else
+                        } else {
                             gSaveContext.timer_1_state = 8;
+                        }
                     }
                 case 4:
                 case 8:
                     if ((gSaveContext.timer_1_state == 4) || (gSaveContext.timer_1_state == 8)) {
-                        if (gSaveContext.health_capacity > 0xA0)
+                        if (gSaveContext.health_capacity > 0xA0) {
                             gSaveContext.timer_y[0] = 54;
-                        else
+                        } else {
                             gSaveContext.timer_y[0] = 46;
+                        }
                     }
 
                     if ((gSaveContext.timer_1_state >= 3) && (msgCtx->unk_E300 == 0)) {
                         D_8015FFE0--;
                         if (D_8015FFE0 == 0) {
-                            if (gSaveContext.timer_1_value != 0)
+                            if (gSaveContext.timer_1_value != 0) {
                                 gSaveContext.timer_1_value--;
+                            }
 
                             D_8015FFE0 = 20;
 
@@ -3620,13 +3678,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                 }
                                 D_80125A5C = 0;
                             } else if (gSaveContext.timer_1_value > 60) {
-                                if (sTimerDigits[4] == 1)
+                                if (sTimerDigits[4] == 1) {
                                     Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_WOMAN, &D_801333D4, 4, &D_801333E0,
                                                            &D_801333E0, &D_801333E8);
+                                }
                             } else if (gSaveContext.timer_1_value >= 11) {
-                                if (sTimerDigits[4] & 1)
+                                if (sTimerDigits[4] & 1) {
                                     Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &D_801333D4, 4, &D_801333E0,
                                                            &D_801333E0, &D_801333E8);
+                                }
                             } else {
                                 Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_E, &D_801333D4, 4, &D_801333E0,
                                                        &D_801333E0, &D_801333E8);
@@ -3638,10 +3698,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     phi_s3 = (gSaveContext.timer_x[0] - 26) / D_8015FFE2;
                     gSaveContext.timer_x[0] -= phi_s3;
 
-                    if (gSaveContext.health_capacity > 0xA0)
+                    if (gSaveContext.health_capacity > 0xA0) {
                         phi_s3 = (gSaveContext.timer_y[0] - 54) / D_8015FFE2;
-                    else
+                    } else {
                         phi_s3 = (gSaveContext.timer_y[0] - 46) / D_8015FFE2;
+                    }
                     gSaveContext.timer_y[0] -= phi_s3;
 
                     D_8015FFE2--;
@@ -3649,19 +3710,21 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         gSaveContext.timer_x[0] = 26;
                         D_8015FFE2 = 20;
 
-                        if (gSaveContext.health_capacity > 0xA0)
+                        if (gSaveContext.health_capacity > 0xA0) {
                             gSaveContext.timer_y[0] = 54;
-                        else
+                        } else {
                             gSaveContext.timer_y[0] = 46;
+                        }
 
                         gSaveContext.timer_1_state = 14;
                     }
                 case 14:
                     if (gSaveContext.timer_1_state == 14) {
-                        if (gSaveContext.health_capacity > 0xA0)
+                        if (gSaveContext.health_capacity > 0xA0) {
                             gSaveContext.timer_y[0] = 54;
-                        else
+                        } else {
                             gSaveContext.timer_y[0] = 46;
+                        }
                     }
 
                     if (gSaveContext.timer_1_state >= 3) {
@@ -3686,10 +3749,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
                         gSaveContext.timer_y[1] = 80;
                         D_8015FFE4 = D_8015FFE6 = 20;
 
-                        if (gSaveContext.timer_2_state < 7)
+                        if (gSaveContext.timer_2_state < 7) {
                             gSaveContext.timer_2_state = 2;
-                        else
+                        } else {
                             gSaveContext.timer_2_state = 8;
+                        }
 
                         gSaveContext.timer_1_state = 0;
                     } else {
@@ -3706,20 +3770,22 @@ void Interface_Draw(GlobalContext* globalCtx) {
                             gSaveContext.timer_x[1] = 140;
                             gSaveContext.timer_y[1] = 80;
                             D_8015FFE4 = D_8015FFE6 = 20;
-                            if (gSaveContext.timer_2_state == 1)
+                            if (gSaveContext.timer_2_state == 1) {
                                 gSaveContext.timer_2_state = 2;
-                            else
+                            } else {
                                 gSaveContext.timer_2_state = 8;
+                            }
                             break;
                         case 2:
                         case 8:
                             D_8015FFE6--;
                             if (D_8015FFE6 == 0) {
                                 D_8015FFE6 = 20;
-                                if (gSaveContext.timer_2_state == 2)
+                                if (gSaveContext.timer_2_state == 2) {
                                     gSaveContext.timer_2_state = 3;
-                                else
+                                } else {
                                     gSaveContext.timer_2_state = 9;
+                                }
                             }
                             break;
                         case 3:
@@ -3730,10 +3796,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
                             phi_s3 = (gSaveContext.timer_x[1] - 26) / D_8015FFE2;
                             gSaveContext.timer_x[1] -= phi_s3;
 
-                            if (gSaveContext.health_capacity > 0xA0)
+                            if (gSaveContext.health_capacity > 0xA0) {
                                 phi_s3 = (gSaveContext.timer_y[1] - 54) / D_8015FFE6;
-                            else
+                            } else {
                                 phi_s3 = (gSaveContext.timer_y[1] - 46) / D_8015FFE6;
+                            }
                             gSaveContext.timer_y[1] -= phi_s3;
 
                             D_8015FFE6--;
@@ -3741,23 +3808,26 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                 gSaveContext.timer_x[1] = 26;
                                 D_8015FFE6 = 20;
 
-                                if (gSaveContext.health_capacity > 0xA0)
+                                if (gSaveContext.health_capacity > 0xA0) {
                                     gSaveContext.timer_y[1] = 54;
-                                else
+                                } else {
                                     gSaveContext.timer_y[1] = 46;
+                                }
 
-                                if (gSaveContext.timer_2_state == 3)
+                                if (gSaveContext.timer_2_state == 3) {
                                     gSaveContext.timer_2_state = 4;
-                                else
+                                } else {
                                     gSaveContext.timer_2_state = 10;
+                                }
                             }
                         case 4:
                         case 10:
                             if ((gSaveContext.timer_2_state == 4) || (gSaveContext.timer_2_state == 10)) {
-                                if (gSaveContext.health_capacity > 0xA0)
+                                if (gSaveContext.health_capacity > 0xA0) {
                                     gSaveContext.timer_y[1] = 54;
-                                else
+                                } else {
                                     gSaveContext.timer_y[1] = 46;
+                                }
                             }
 
                             if (gSaveContext.timer_2_state >= 3) {
@@ -3785,13 +3855,15 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                             }
                                         } else {
                                             if (gSaveContext.timer_2_value > 60) {
-                                                if (sTimerDigits[4] == 1)
+                                                if (sTimerDigits[4] == 1) {
                                                     Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_WOMAN, &D_801333D4, 4,
                                                                            &D_801333E0, &D_801333E0, &D_801333E8);
+                                                }
                                             } else if (gSaveContext.timer_2_value > 10) {
-                                                if (sTimerDigits[4] & 1)
+                                                if (sTimerDigits[4] & 1) {
                                                     Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &D_801333D4, 4,
                                                                            &D_801333E0, &D_801333E0, &D_801333E8);
+                                                }
                                             } else {
                                                 Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_E, &D_801333D4, 4,
                                                                        &D_801333E0, &D_801333E0, &D_801333E8);
@@ -3817,8 +3889,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
                             break;
                         case 6:
                             D_8015FFE6--;
-                            if (D_8015FFE6 == 0)
+                            if (D_8015FFE6 == 0) {
                                 gSaveContext.timer_2_state = 0;
+                            }
                             break;
                     }
             }
@@ -3828,10 +3901,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 sTimerDigits[0] = sTimerDigits[1] = sTimerDigits[3] = 0;
                 sTimerDigits[2] = 10; // digit 10 is used as ':' (colon)
 
-                if (gSaveContext.timer_1_state != 0)
+                if (gSaveContext.timer_1_state != 0) {
                     sTimerDigits[4] = gSaveContext.timer_1_value;
-                else
+                } else {
                     sTimerDigits[4] = gSaveContext.timer_2_value;
+                }
 
                 while (sTimerDigits[4] >= 60) {
                     sTimerDigits[1]++;
@@ -3860,15 +3934,17 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                   TEXEL0, 0, PRIMITIVE, 0);
 
                 if (gSaveContext.timer_1_state != 0) {
-                    if ((gSaveContext.timer_1_value < 10) && (gSaveContext.timer_1_state < 11))
+                    if ((gSaveContext.timer_1_value < 10) && (gSaveContext.timer_1_state < 11)) {
                         gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0x32, 0x00, 0xFF);
-                    else
+                    } else {
                         gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
+                    }
                 } else {
-                    if ((gSaveContext.timer_2_value < 10) && (gSaveContext.timer_2_state < 6))
+                    if ((gSaveContext.timer_2_value < 10) && (gSaveContext.timer_2_state < 6)) {
                         gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0x32, 0x00, 0xFF);
-                    else
+                    } else {
                         gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0x00, 0xFF);
+                    }
                 }
 
                 for (phi_s3 = 0; phi_s3 < 5; phi_s3++) {
@@ -3881,8 +3957,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
         }
     }
 
-    if (pauseCtx->flag == 3)
+    if (pauseCtx->flag == 3) {
         func_8002AAB0(globalCtx);
+    }
 
     if (interfaceCtx->unk_244 != 0) {
         gDPPipeSync(gfxCtx->overlay.p++);
@@ -3952,32 +4029,38 @@ void Interface_Update(GlobalContext* globalCtx) {
         case 12:
         case 13:
             alpha = 0xFF - (gSaveContext.unk_13EC << 5);
-            if (alpha < 0)
+            if (alpha < 0) {
                 alpha = 0;
+            }
 
             func_80082850(globalCtx, alpha);
             gSaveContext.unk_13EC++;
 
-            if (alpha == 0)
+            if (alpha == 0) {
                 gSaveContext.unk_13E8 = 0;
+            }
             break;
         case 50:
             alpha = 0xFF - (gSaveContext.unk_13EC << 5);
-            if (alpha < 0)
+            if (alpha < 0) {
                 alpha = 0;
+            }
 
             alpha1 = 0xFF - alpha;
-            if (alpha1 >= 0xFF)
+            if (alpha1 >= 0xFF) {
                 alpha1 = 0xFF;
+            }
 
             osSyncPrintf("case 50 : alpha=%d  alpha1=%d\n", alpha, alpha1);
             func_80082644(globalCtx, alpha1);
 
-            if (interfaceCtx->healthAlpha != 0xFF)
+            if (interfaceCtx->healthAlpha != 0xFF) {
                 interfaceCtx->healthAlpha = alpha1;
+            }
 
-            if (interfaceCtx->magicAlpha != 0xFF)
+            if (interfaceCtx->magicAlpha != 0xFF) {
                 interfaceCtx->magicAlpha = alpha1;
+            }
 
             switch (globalCtx->sceneNum) {
                 case SCENE_SPOT00:
@@ -4000,20 +4083,23 @@ void Interface_Update(GlobalContext* globalCtx) {
                 case SCENE_SPOT18:
                 case SCENE_SPOT20:
                 case SCENE_GANON_TOU:
-                    if (interfaceCtx->minimapAlpha < 0xAA)
+                    if (interfaceCtx->minimapAlpha < 0xAA) {
                         interfaceCtx->minimapAlpha = alpha1;
-                    else
+                    } else {
                         interfaceCtx->minimapAlpha = 0xAA;
+                    }
                     break;
                 default:
-                    if (interfaceCtx->minimapAlpha != 0xFF)
+                    if (interfaceCtx->minimapAlpha != 0xFF) {
                         interfaceCtx->minimapAlpha = alpha1;
+                    }
                     break;
             }
 
             gSaveContext.unk_13EC++;
-            if (alpha1 == 0xFF)
+            if (alpha1 == 0xFF) {
                 gSaveContext.unk_13E8 = 0;
+            }
 
             break;
         case 52:
@@ -4030,8 +4116,9 @@ void Interface_Update(GlobalContext* globalCtx) {
         gSaveContext.health_accumulator -= 4;
         gSaveContext.health += 4;
 
-        if ((gSaveContext.health & 0xF) < 4)
+        if ((gSaveContext.health & 0xF) < 4) {
             Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        }
 
         osSyncPrintf("now_life=%d  max_life=%d\n", gSaveContext.health, gSaveContext.health_capacity);
 
@@ -4079,8 +4166,9 @@ void Interface_Update(GlobalContext* globalCtx) {
                 gSaveContext.rupee_accumulator += 10;
                 gSaveContext.rupees -= 10;
 
-                if (gSaveContext.rupees < 0)
+                if (gSaveContext.rupees < 0) {
                     gSaveContext.rupees = 0;
+                }
 
                 Audio_PlaySoundGeneral(NA_SE_SY_RUPY_COUNT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
@@ -4108,8 +4196,9 @@ void Interface_Update(GlobalContext* globalCtx) {
                 interfaceCtx->unk_1EC = 0;
                 interfaceCtx->unk_1EE = interfaceCtx->unk_1F0;
                 action = interfaceCtx->unk_1EE;
-                if ((action == 0x1D) || (action == 0x1E))
+                if ((action == 0x1D) || (action == 0x1E)) {
                     action = 0xA;
+                }
                 Interface_LoadActionLabel(interfaceCtx, action, 0);
             }
             break;
@@ -4127,8 +4216,9 @@ void Interface_Update(GlobalContext* globalCtx) {
                 interfaceCtx->unk_1EC = 0;
                 interfaceCtx->unk_1EE = interfaceCtx->unk_1F0;
                 action = interfaceCtx->unk_1EE;
-                if ((action == 0x1D) || (action == 0x1E))
+                if ((action == 0x1D) || (action == 0x1E)) {
                     action = 0xA;
+                }
                 Interface_LoadActionLabel(interfaceCtx, action, 0);
             }
             break;
@@ -4173,11 +4263,13 @@ void Interface_Update(GlobalContext* globalCtx) {
         interfaceCtx->unk_23C = 0;
 
         if (sHBAScoreTier == 0) {
-            if (gSaveContext.minigame_score >= 1000)
+            if (gSaveContext.minigame_score >= 1000) {
                 sHBAScoreTier++;
+            }
         } else if (sHBAScoreTier == 1) {
-            if (gSaveContext.minigame_score >= 1500)
+            if (gSaveContext.minigame_score >= 1500) {
                 sHBAScoreTier++;
+            }
         }
 
         sHBAScoreDigits[1] = 0;
@@ -4202,14 +4294,16 @@ void Interface_Update(GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.unk_1422 != 0) {
-        if ((msgCtx->unk_E3F0 != 0x31) && (gSaveContext.unk_1422 == 1))
+        if ((msgCtx->unk_E3F0 != 0x31) && (gSaveContext.unk_1422 == 1)) {
             globalCtx->msgCtx.unk_E3EE = 4;
+        }
 
         if (globalCtx->unk_10A26 != 0) {
             if (gSaveContext.unk_1422 != 2) {
                 D_80125B60 = 0;
-                if ((gSaveContext.day_time >= 0x4555) && (gSaveContext.day_time <= 0xC001))
+                if ((gSaveContext.day_time >= 0x4555) && (gSaveContext.day_time <= 0xC001)) {
                     D_80125B60 = 1;
+                }
 
                 gSaveContext.unk_1422 = 2;
                 D_80125B64 = D_8011FB40;

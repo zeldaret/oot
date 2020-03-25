@@ -8,8 +8,7 @@ void EnDntNomal_Destroy(EnDntNomal* this, GlobalContext* globalCtx);
 void EnDntNomal_Update(EnDntNomal* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dnt_Nomal_InitVars =
-{
+const ActorInit En_Dnt_Nomal_InitVars = {
     ACTOR_EN_DNT_NOMAL,
     ACTORTYPE_PROP,
     ROOM,

@@ -9,8 +9,7 @@ void EnTakaraMan_Update(EnTakaraMan* this, GlobalContext* globalCtx);
 void EnTakaraMan_Draw(EnTakaraMan* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Takara_Man_InitVars =
-{
+const ActorInit En_Takara_Man_InitVars = {
     ACTOR_EN_TAKARA_MAN,
     ACTORTYPE_NPC,
     ROOM,

@@ -246,22 +246,24 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
     if (this->flag & GFXPRINT_FLAG4) {
         gDPSetPrimColorMod(this->dlist++, 0, 0, 0);
 
-        if (this->flag & GFXPRINT_FLAG64)
+        if (this->flag & GFXPRINT_FLAG64) {
             gSPTextureRectangle(this->dlist++, (this->posX + 4) << 1, (this->posY + 4) << 1, (this->posX + 4 + 32) << 1,
                                 (this->posY + 4 + 32) << 1, c * 2, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 512, 512);
-        else
+        } else {
             gSPTextureRectangle(this->dlist++, this->posX + 4, this->posY + 4, this->posX + 4 + 32, this->posY + 4 + 32,
                                 c * 2, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1024, 1024);
+        }
 
         gDPSetPrimColorMod(this->dlist++, 0, 0, *(u32*)&this->color);
     }
 
-    if (this->flag & GFXPRINT_FLAG64)
+    if (this->flag & GFXPRINT_FLAG64) {
         gSPTextureRectangle(this->dlist++, (this->posX) << 1, (this->posY) << 1, (this->posX + 32) << 1,
                             (this->posY + 32) << 1, c * 2, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 512, 512);
-    else
+    } else {
         gSPTextureRectangle(this->dlist++, this->posX, this->posY, this->posX + 32, this->posY + 32, c * 2,
                             (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1024, 1024);
+    }
 
     this->posX += 32;
 }

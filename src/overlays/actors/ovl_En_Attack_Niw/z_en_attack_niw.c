@@ -9,8 +9,7 @@ void EnAttackNiw_Update(EnAttackNiw* this, GlobalContext* globalCtx);
 void EnAttackNiw_Draw(EnAttackNiw* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Attack_Niw_InitVars =
-{
+const ActorInit En_Attack_Niw_InitVars = {
     ACTOR_EN_ATTACK_NIW,
     ACTORTYPE_ENEMY,
     ROOM,

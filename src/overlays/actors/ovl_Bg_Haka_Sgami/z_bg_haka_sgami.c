@@ -8,8 +8,7 @@ void BgHakaSgami_Destroy(BgHakaSgami* this, GlobalContext* globalCtx);
 void BgHakaSgami_Update(BgHakaSgami* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Haka_Sgami_InitVars =
-{
+const ActorInit Bg_Haka_Sgami_InitVars = {
     ACTOR_BG_HAKA_SGAMI,
     ACTORTYPE_PROP,
     ROOM,
