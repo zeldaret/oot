@@ -18,7 +18,7 @@ void SkelAnime_AnimationType5Loaded(GlobalContext* globalCtx, AnimationEntryType
 
 //.data
 u32 D_8012A480 = 0;
-static AnimationEntryCallback AnimationLoadDone[] = {
+static AnimationEntryCallback sAnimationLoadDone[] = {
     &SkelAnime_LinkAnimetionLoaded,  &SkelAnime_AnimationType1Loaded, &SkelAnime_AnimationType2Loaded,
     &SkelAnime_AnimationType3Loaded, &SkelAnime_AnimationType4Loaded, &SkelAnime_AnimationType5Loaded,
 };
@@ -979,7 +979,7 @@ void func_800A390C(GlobalContext* globalCtx, AnimationContext* animationCtx) {
     AnimationEntry* entry;
 
     for (entry = animationCtx->entries; animationCtx->animationCount != 0; entry++, animationCtx->animationCount--) {
-        AnimationLoadDone[entry->type](globalCtx, &entry->types);
+        sAnimationLoadDone[entry->type](globalCtx, &entry->types);
     }
 
     D_801600B0 = 1;
