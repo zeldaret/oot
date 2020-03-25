@@ -3884,8 +3884,8 @@ Gfx* func_80034B54(GraphicsContext* gfxCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_80034B54.s")
 #endif
 
-void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, void* unkFunc1, void* unkFunc2, Actor* actor,
-                   s16 alpha) {
+void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, SkelAnime_LimbUpdateMatrix2 unkFunc1,
+                   SkelAnime_LimbAppendDlist2 unkFunc2, Actor* actor, s16 alpha) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 
@@ -3904,8 +3904,8 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, void* unkFunc
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8860);
 }
 
-void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, void* unkFunc1, void* unkFunc2, Actor* actor,
-                   s16 alpha) {
+void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, SkelAnime_LimbUpdateMatrix2 unkFunc1,
+                   SkelAnime_LimbAppendDlist2 unkFunc2, Actor* actor, s16 alpha) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 

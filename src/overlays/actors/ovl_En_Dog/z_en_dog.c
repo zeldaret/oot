@@ -457,11 +457,12 @@ static void EnDog_Update(EnDog* this, GlobalContext* globalCtx) {
     Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
 }
 
-static UNK_TYPE EnDog_Callback1(UNK_TYPE unused1, UNK_TYPE unused2, UNK_TYPE unused3, UNK_TYPE unused4) {
+static UNK_TYPE EnDog_Callback1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                Actor* actor) {
     return 0;
 }
 
-static void EnDog_Callback2(UNK_TYPE unused1, UNK_TYPE unused2, UNK_TYPE unused3, UNK_TYPE unused4) {
+static void EnDog_Callback2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
 }
 
 static void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {

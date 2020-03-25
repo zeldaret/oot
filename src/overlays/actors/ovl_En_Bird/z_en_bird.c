@@ -89,7 +89,7 @@ void EnBird_Destroy(EnBird* this, GlobalContext* globalCtx) {
 void func_809C1CAC(EnBird* this, s16 params) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_0600006C);
     f32 playbackSpeed = this->unk_19C ? 0.0f : 1.0f;
-    u32* anim = &D_0600006C;
+    AnimationHeader* anim = &D_0600006C;
 
     this->unk_198 = Math_Rand_S16Offset(5, 0x23);
     SkelAnime_ChangeAnimation(&this->skelAnime, anim, playbackSpeed, 0.0f, frameCount, 0, 0.0f);

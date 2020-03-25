@@ -191,6 +191,6 @@ static void EnMs_Update(EnMs* this, GlobalContext* globalCtx) {
 
 void EnMs_Draw(EnMs* this, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount, 0,
-                     0, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
+                     NULL, NULL, &this->actor);
 }

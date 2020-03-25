@@ -36,8 +36,6 @@ static void EnWallmas_WaitForSwitchFlag(EnWallmas* this, GlobalContext* globalCt
 static void EnWallmas_Stun(EnWallmas* this, GlobalContext* globalCtx);
 static void EnWallmas_Update(EnWallmas* this, GlobalContext* globalCtx);
 static void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx);
-static s32 EnWallMas_UpdatePos(GlobalContext* globalCtx, s32 arg1, s32 arg2, Actor* arg3, void* arg4, EnWallmas* arg5);
-static void EnWallmas_DrawOpa(GlobalContext* globalCtx, s32 arg1, s32 arg2, s32 arg3);
 static void EnWallmas_Draw(EnWallmas* this, GlobalContext* globalCtx);
 
 const ActorInit En_Wallmas_InitVars = {
@@ -591,24 +589,25 @@ static void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1426);
 }
 
-static s32 EnWallMas_UpdatePos(GlobalContext* globalCtx, s32 arg1, s32 arg2, Actor* arg3, void* arg4, EnWallmas* arg5) {
-    if (arg1 == 1) {
-        if (arg5->actionFunc != (ActorFunc)EnWallmas_TakePlayer) {
-            arg3->initPosRot.pos.x = arg3->initPosRot.pos.x - 1600.0f;
+static s32 EnWallMas_UpdatePos(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                               Actor* actor) {
+    EnWallmas* this = (EnWallmas*)actor;
+    if (limbIndex == 1) {
+        if (this->actionFunc != (ActorFunc)EnWallmas_TakePlayer) {
+            pos->z -= 1600.0f;
         } else {
-            arg3->initPosRot.pos.x = arg3->initPosRot.pos.x -
-                                     ((1600.0f * (arg5->skelAnime.animFrameCount - arg5->skelAnime.animCurrentFrame)) /
-                                      arg5->skelAnime.animFrameCount);
+            pos->z -= ((1600.0f * (this->skelAnime.animFrameCount - this->skelAnime.animCurrentFrame)) /
+                       this->skelAnime.animFrameCount);
         }
     }
     return 0;
 }
 
-static void EnWallmas_DrawOpa(GlobalContext* globalCtx, s32 arg1, s32 arg2, s32 arg3) {
+static void EnWallmas_DrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
     GraphicsContext* gfxCtx;
     Gfx* gfx[4];
 
-    if (arg1 == 2) {
+    if (limbIndex == 2) {
         gfxCtx = globalCtx->state.gfxCtx;
 
         func_800C6AC4(&gfx, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1478);

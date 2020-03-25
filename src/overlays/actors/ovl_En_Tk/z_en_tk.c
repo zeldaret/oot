@@ -712,36 +712,36 @@ void func_80B1D200(GlobalContext* globalCtx) {
     func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
 }
 
-s32 func_80B1D278(s16 a0, UNK_TYPE a1, UNK_TYPE a2, UNK_TYPE a3, Vec3s* sp10, Actor* actor) {
+s32 func_80B1D278(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
     EnTk* tk = (EnTk*)actor;
 
-    switch (a1) {
+    switch (limbIndex) {
         /* Limb 15 - Head */
         case 15:
-            tk->h_21E = sp10->y;
+            tk->h_21E = rot->y;
             break;
         /* Limb 16 - Jaw */
         case 16:
-            tk->h_21E += sp10->y;
-            sp10->y += tk->headRot;
+            tk->h_21E += rot->y;
+            rot->y += tk->headRot;
             break;
     }
 
     return 0;
 }
 
-void func_80B1D2E4(GlobalContext* globalCtx, UNK_TYPE a1, UNK_TYPE a2, UNK_TYPE a3, Actor* actor) {
+void func_80B1D2E4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
     EnTk* this = (EnTk*)actor;
     Vec3f sp28 = { 0.f, 0.f, 4600.f };
     Vec3f sp1C = { 0.f, 0.f, 0.f };
 
     /* Limb 16 - Jaw */
-    if (a1 == 16) {
+    if (limbIndex == 16) {
         Matrix_MultVec3f(&sp1C, &this->actor.posRot2.pos);
     }
 
     /* Limb 14 - Neck */
-    if (a1 == 14) {
+    if (limbIndex == 14) {
         Matrix_MultVec3f(&sp28, &this->v3f_304);
         func_80B1D200(globalCtx);
     }
