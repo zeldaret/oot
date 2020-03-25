@@ -19,9 +19,8 @@ void SkelAnime_AnimationType5Loaded(GlobalContext* globalCtx, AnimationEntryType
 //.data
 u32 D_8012A480 = 0;
 static AnimationEntryCallback D_8012A484[] = {
-    &SkelAnime_LinkAnimetionLoaded, &SkelAnime_AnimationType1Loaded,
-    &SkelAnime_AnimationType2Loaded, &SkelAnime_AnimationType3Loaded,
-    &SkelAnime_AnimationType4Loaded, &SkelAnime_AnimationType5Loaded,
+    &SkelAnime_LinkAnimetionLoaded,  &SkelAnime_AnimationType1Loaded, &SkelAnime_AnimationType2Loaded,
+    &SkelAnime_AnimationType3Loaded, &SkelAnime_AnimationType4Loaded, &SkelAnime_AnimationType5Loaded,
 };
 
 //.bss
@@ -811,8 +810,8 @@ AnimationEntry* SkelAnime_NextEntry(AnimationContext* animationCtx, AnimationTyp
  * The next 6 functions are coordinate with the AnimationType enum
  */
 
-void SkelAnime_LoadLinkAnimetion(GlobalContext* globalCtx, LinkAnimetionEntry* linkAnimetionSeg, s32 frame, s32 limbCount,
-                   void* ram) {
+void SkelAnime_LoadLinkAnimetion(GlobalContext* globalCtx, LinkAnimetionEntry* linkAnimetionSeg, s32 frame,
+                                 s32 limbCount, void* ram) {
     AnimationEntry* entry;
     LinkAnimetionEntry* linkAnimetionEntry;
     char pad[4];
@@ -963,7 +962,8 @@ void func_800A390C(GlobalContext* globalCtx, AnimationContext* animationCtx) {
 }
 
 void SkelAnime_InitLinkAnimetion(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                   LinkAnimetionEntry* linkAnimetionEntrySeg, s32 flags, Vec3s* actorDrawTbl, Vec3s* arg6, s32 limbBufCount) {
+                                 LinkAnimetionEntry* linkAnimetionEntrySeg, s32 flags, Vec3s* actorDrawTbl, Vec3s* arg6,
+                                 s32 limbBufCount) {
     char pad[8];
     SkeletonHeader* skeletonHeader;
     size_t allocSize;
@@ -1038,15 +1038,15 @@ s32 func_800A3BE4(GlobalContext* globalCtx, SkelAnime* skelAnime) {
     }
 
     SkelAnime_LoadAnimationType2(globalCtx, skelAnime->limbCount, skelAnime->actorDrawTbl, skelAnime->unk_24,
-                  1.0f - (skelAnime->unk_28 / prevUnk28));
+                                 1.0f - (skelAnime->unk_28 / prevUnk28));
     return 0;
 }
 
 void func_800A3C9C(GlobalContext* globalCtx, SkelAnime* skelAnime) {
     f32 updateRate;
 
-    SkelAnime_LoadLinkAnimetion(globalCtx, skelAnime->linkAnimetionSeg, skelAnime->animCurrentFrame, skelAnime->limbCount,
-                  skelAnime->actorDrawTbl);
+    SkelAnime_LoadLinkAnimetion(globalCtx, skelAnime->linkAnimetionSeg, skelAnime->animCurrentFrame,
+                                skelAnime->limbCount, skelAnime->actorDrawTbl);
     if (skelAnime->unk_28 != 0) {
         updateRate = R_UPDATE_RATE * 0.5f;
         skelAnime->unk_28 -= skelAnime->unk_2C * updateRate;
@@ -1054,7 +1054,8 @@ void func_800A3C9C(GlobalContext* globalCtx, SkelAnime* skelAnime) {
             skelAnime->unk_28 = 0.0f;
             return;
         }
-        SkelAnime_LoadAnimationType2(globalCtx, skelAnime->limbCount, skelAnime->actorDrawTbl, skelAnime->unk_24, skelAnime->unk_28);
+        SkelAnime_LoadAnimationType2(globalCtx, skelAnime->limbCount, skelAnime->actorDrawTbl, skelAnime->unk_24,
+                                     skelAnime->unk_28);
     }
 }
 
@@ -1098,24 +1099,28 @@ void func_800A3EE8(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 arg2) {
 }
 
 #ifdef NON_MATCHING
-void SkelAnime_LinkChangeAnimation(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed,
-                   f32 frame, f32 frameCount, u8 arg6, f32 arg7) {
+void SkelAnime_LinkChangeAnimation(GlobalContext* globalCtx, SkelAnime* skelAnime,
+                                   LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed, f32 frame,
+                                   f32 frameCount, u8 arg6, f32 arg7) {
 
     skelAnime->unk_01 = arg6;
-    if ((arg7 != 0.0f) && ((linkAnimetionEntrySeg == skelAnime->linkAnimetionSeg) || (frame != skelAnime->animCurrentFrame))) {
+    if ((arg7 != 0.0f) &&
+        ((linkAnimetionEntrySeg == skelAnime->linkAnimetionSeg) || (frame != skelAnime->animCurrentFrame))) {
         if (arg7 < 0.0f) {
             func_800A3B8C(skelAnime);
             SkelAnime_CopyVec3s(skelAnime, skelAnime->unk_24, skelAnime->actorDrawTbl);
             arg7 = -arg7;
         } else {
             skelAnime->animUpdate = &func_800A3BE4;
-            SkelAnime_LoadLinkAnimetion(globalCtx, linkAnimetionEntrySeg, (s32)frame, skelAnime->limbCount, skelAnime->unk_24);
+            SkelAnime_LoadLinkAnimetion(globalCtx, linkAnimetionEntrySeg, (s32)frame, skelAnime->limbCount,
+                                        skelAnime->unk_24);
         }
         skelAnime->unk_28 = 1.0f;
         skelAnime->unk_2C = 1.0f / arg7;
     } else {
         func_800A3B8C(skelAnime);
-        SkelAnime_LoadLinkAnimetion(globalCtx, linkAnimetionEntrySeg, (s32)frame, skelAnime->limbCount, skelAnime->actorDrawTbl);
+        SkelAnime_LoadLinkAnimetion(globalCtx, linkAnimetionEntrySeg, (s32)frame, skelAnime->limbCount,
+                                    skelAnime->actorDrawTbl);
         skelAnime->unk_28 = 0.0f;
     }
 
@@ -1131,21 +1136,25 @@ void SkelAnime_LinkChangeAnimation(GlobalContext* globalCtx, SkelAnime* skelAnim
 #endif
 
 void func_800A407C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg) {
-    SkelAnime_LinkChangeAnimation(globalCtx, skelAnime, linkAnimetionEntrySeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(&linkAnimetionEntrySeg->genericHeader), 2, 0.0f);
+    SkelAnime_LinkChangeAnimation(globalCtx, skelAnime, linkAnimetionEntrySeg, 1.0f, 0.0f,
+                                  SkelAnime_GetFrameCount(&linkAnimetionEntrySeg->genericHeader), 2, 0.0f);
 }
 
-void func_800A40DC(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed) {
-    SkelAnime_LinkChangeAnimation(globalCtx, skelAnime, linkAnimetionEntrySeg, playbackSpeed, 0.0f, SkelAnime_GetFrameCount(&linkAnimetionEntrySeg->genericHeader), 2,
-                  0.0f);
+void func_800A40DC(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
+                   f32 playbackSpeed) {
+    SkelAnime_LinkChangeAnimation(globalCtx, skelAnime, linkAnimetionEntrySeg, playbackSpeed, 0.0f,
+                                  SkelAnime_GetFrameCount(&linkAnimetionEntrySeg->genericHeader), 2, 0.0f);
 }
 
 void func_800A4140(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg) {
-    SkelAnime_LinkChangeAnimation(globalCtx, skelAnime, linkAnimetionEntrySeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(&linkAnimetionEntrySeg->genericHeader), 0, 0.0f);
+    SkelAnime_LinkChangeAnimation(globalCtx, skelAnime, linkAnimetionEntrySeg, 1.0f, 0.0f,
+                                  SkelAnime_GetFrameCount(&linkAnimetionEntrySeg->genericHeader), 0, 0.0f);
 }
 
-void func_800A419C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed) {
-    SkelAnime_LinkChangeAnimation(globalCtx, skelAnime, linkAnimetionEntrySeg, playbackSpeed, 0.0f, SkelAnime_GetFrameCount(&linkAnimetionEntrySeg->genericHeader), 0,
-                  0.0f);
+void func_800A419C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
+                   f32 playbackSpeed) {
+    SkelAnime_LinkChangeAnimation(globalCtx, skelAnime, linkAnimetionEntrySeg, playbackSpeed, 0.0f,
+                                  SkelAnime_GetFrameCount(&linkAnimetionEntrySeg->genericHeader), 0, 0.0f);
 }
 
 void func_800A41FC(GlobalContext* globalCtx, SkelAnime* skelAnime) {
@@ -1156,22 +1165,26 @@ void func_800A422C(GlobalContext* globalCtx, SkelAnime* skelAnime) {
     SkelAnime_LoadAnimationType1(globalCtx, skelAnime->limbCount, skelAnime->actorDrawTbl, skelAnime->unk_24);
 }
 
-void func_800A425C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 frame) {
+void func_800A425C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
+                   f32 frame) {
     SkelAnime_LoadLinkAnimetion(globalCtx, linkAnimetionEntrySeg, (s32)frame, skelAnime->limbCount, skelAnime->unk_24);
 }
 
-void func_800A42A0(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 frame) {
-    SkelAnime_LoadLinkAnimetion(globalCtx, linkAnimetionEntrySeg, (s32)frame, skelAnime->limbCount, skelAnime->actorDrawTbl);
+void func_800A42A0(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
+                   f32 frame) {
+    SkelAnime_LoadLinkAnimetion(globalCtx, linkAnimetionEntrySeg, (s32)frame, skelAnime->limbCount,
+                                skelAnime->actorDrawTbl);
 }
 
 void func_800A42E4(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 arg2) {
     SkelAnime_LoadAnimationType2(globalCtx, skelAnime->limbCount, skelAnime->actorDrawTbl, skelAnime->unk_24, arg2);
 }
 
-void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 frame, LinkAnimetionEntry* linkAnimetionEntrySeg2,
-                   f32 arg5, f32 arg6, Vec3s* arg7) {
+void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 frame,
+                   LinkAnimetionEntry* linkAnimetionEntrySeg2, f32 arg5, f32 arg6, Vec3s* arg7) {
     Vec3s* alignedArg7;
-    SkelAnime_LoadLinkAnimetion(globalCtx, linkAnimetionEntrySeg, (s32)frame, skelAnime->limbCount, skelAnime->actorDrawTbl);
+    SkelAnime_LoadLinkAnimetion(globalCtx, linkAnimetionEntrySeg, (s32)frame, skelAnime->limbCount,
+                                skelAnime->actorDrawTbl);
 
     alignedArg7 = (Vec3s*)ALIGN16((u32)arg7);
 
@@ -1179,8 +1192,8 @@ void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetion
     SkelAnime_LoadAnimationType2(globalCtx, skelAnime->limbCount, skelAnime->actorDrawTbl, alignedArg7, arg6);
 }
 
-void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 frame, LinkAnimetionEntry* linkAnimetionEntrySeg2,
-                   f32 arg5, f32 arg6, Vec3s* arg7) {
+void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 frame,
+                   LinkAnimetionEntry* linkAnimetionEntrySeg2, f32 arg5, f32 arg6, Vec3s* arg7) {
     Vec3s* alignedArg7;
 
     SkelAnime_LoadLinkAnimetion(globalCtx, linkAnimetionEntrySeg, (s32)frame, skelAnime->limbCount, skelAnime->unk_24);
@@ -1521,21 +1534,23 @@ void SkelAnime_ChangeAnimation(SkelAnime* skelAnime, AnimationHeader* animationS
 }
 
 void func_800A51E8(SkelAnime* skelAnime, AnimationHeader* animationSeg) {
-    SkelAnime_ChangeAnimation(skelAnime, animationSeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(&animationSeg->genericHeader), 2, 0.0f);
+    SkelAnime_ChangeAnimation(skelAnime, animationSeg, 1.0f, 0.0f,
+                              SkelAnime_GetFrameCount(&animationSeg->genericHeader), 2, 0.0f);
 }
 
 void func_800A5240(SkelAnime* skelAnime, AnimationHeader* animationSeg, f32 transitionRate) {
-    SkelAnime_ChangeAnimation(skelAnime, animationSeg, 1.0f, 0, SkelAnime_GetFrameCount(&animationSeg->genericHeader), 2,
-                              transitionRate);
+    SkelAnime_ChangeAnimation(skelAnime, animationSeg, 1.0f, 0, SkelAnime_GetFrameCount(&animationSeg->genericHeader),
+                              2, transitionRate);
 }
 
 void func_800A529C(SkelAnime* skelAnime, AnimationHeader* animationSeg, f32 playbackSpeed) {
-    SkelAnime_ChangeAnimation(skelAnime, animationSeg, playbackSpeed, 0.0f, SkelAnime_GetFrameCount(&animationSeg->genericHeader), 2,
-                              0.0f);
+    SkelAnime_ChangeAnimation(skelAnime, animationSeg, playbackSpeed, 0.0f,
+                              SkelAnime_GetFrameCount(&animationSeg->genericHeader), 2, 0.0f);
 }
 
 void SkelAnime_ChangeAnimationDefault(SkelAnime* skelAnime, AnimationHeader* animationSeg) {
-    SkelAnime_ChangeAnimation(skelAnime, animationSeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(&animationSeg->genericHeader), 0, 0.0f);
+    SkelAnime_ChangeAnimation(skelAnime, animationSeg, 1.0f, 0.0f,
+                              SkelAnime_GetFrameCount(&animationSeg->genericHeader), 0, 0.0f);
 }
 
 void SkelAnime_ChangeAnimationTransitionRate(SkelAnime* skelAnime, AnimationHeader* animationSeg, f32 transitionRate) {
@@ -1543,8 +1558,8 @@ void SkelAnime_ChangeAnimationTransitionRate(SkelAnime* skelAnime, AnimationHead
 }
 
 void SkelAnime_ChangeAnimationPlaybackSpeed(SkelAnime* skelAnime, AnimationHeader* animationSeg, f32 playbackSpeed) {
-    SkelAnime_ChangeAnimation(skelAnime, animationSeg, playbackSpeed, 0.0f, SkelAnime_GetFrameCount(&animationSeg->genericHeader), 0,
-                              0.0f);
+    SkelAnime_ChangeAnimation(skelAnime, animationSeg, playbackSpeed, 0.0f,
+                              SkelAnime_GetFrameCount(&animationSeg->genericHeader), 0, 0.0f);
 }
 
 void func_800A53DC(SkelAnime* skelAnime) {
