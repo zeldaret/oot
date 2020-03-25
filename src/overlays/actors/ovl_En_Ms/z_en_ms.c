@@ -63,8 +63,8 @@ static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_4C, 500, ICHAIN_STOP),
 };
 
-extern D_060005EC;
-extern D_06003DC0;
+extern AnimationHeader D_060005EC;
+extern SkeletonHeader D_06003DC0;
 
 static void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx) {
     this->actor.textId = Text_GetFaceReaction(globalCtx, 0x1B);
@@ -86,8 +86,8 @@ static void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
         return;
     }
     Actor_ProcessInitChain(&this->actor, initChain);
-    func_800A46F8(globalCtx, &this->skelAnime, &D_06003DC0, &D_060005EC, &this->unkSkelAnimeStruct, &this->unk_1C6,
-                  9); // skelanime_mtx_init
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06003DC0, &D_060005EC, &this->unkSkelAnimeStruct, &this->unk_1C6,
+                     9);
     ActorCollider_AllocCylinder(globalCtx, &this->collider);
     func_8005C450(globalCtx, &this->collider, this, &unk_col_80AB0320);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
@@ -191,6 +191,6 @@ static void EnMs_Update(EnMs* this, GlobalContext* globalCtx) {
 
 void EnMs_Draw(EnMs* this, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A1AC8(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount, 0, 0,
-                  &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
+                     NULL, NULL, &this->actor);
 }

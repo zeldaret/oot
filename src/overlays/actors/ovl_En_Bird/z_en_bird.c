@@ -57,8 +57,8 @@ static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_4C, 5600, ICHAIN_STOP),
 };
 
-extern u32 D_0600006C;
-extern u32 D_06002190;
+extern AnimationHeader D_0600006C;
+extern SkeletonHeader D_06002190;
 
 void EnBird_SetNewUpdate(EnBird* this, ActorFunc newUpdateFunc) {
     this->updateFunc = newUpdateFunc;
@@ -89,7 +89,7 @@ void EnBird_Destroy(EnBird* this, GlobalContext* globalCtx) {
 void func_809C1CAC(EnBird* this, s16 params) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_0600006C);
     f32 playbackSpeed = this->unk_19C ? 0.0f : 1.0f;
-    u32* anim = &D_0600006C;
+    AnimationHeader* anim = &D_0600006C;
 
     this->unk_198 = Math_Rand_S16Offset(5, 0x23);
     SkelAnime_ChangeAnimation(&this->skelAnime, anim, playbackSpeed, 0.0f, frameCount, 0, 0.0f);
@@ -146,5 +146,5 @@ void EnBird_Update(EnBird* this, GlobalContext* globalCtx) {
 }
 
 void EnBird_Draw(EnBird* this, GlobalContext* globalCtx) {
-    SkelAnime_Draw(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, 0, NULL, NULL);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, 0, NULL, NULL);
 }

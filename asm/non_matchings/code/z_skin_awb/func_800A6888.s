@@ -73,7 +73,7 @@ glabel func_800A6888
 /* B1DAFC 800A695C 2406011E */   li    $a2, 286
 .L800A6960:
 /* B1DB00 800A6960 2624004C */  addiu $a0, $s1, 0x4c
-/* B1DB04 800A6964 0C0295BC */  jal   func_800A56F0
+/* B1DB04 800A6964 0C0295BC */  jal   SkelAnime_Free
 /* B1DB08 800A6968 8FA50030 */   lw    $a1, 0x30($sp)
 /* B1DB0C 800A696C 8FBF002C */  lw    $ra, 0x2c($sp)
 .L800A6970:
