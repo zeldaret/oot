@@ -170,14 +170,14 @@ ActorFunc D_80AF50BC[] =
     (ActorFunc)func_80AF3C64,
     (ActorFunc)func_80AF3CB8,
     (ActorFunc)func_80AF3D0C,
-    (ActorFunc)func_80AF3D60
+    (ActorFunc)func_80AF3D60,
 };
 
 ActorFunc D_80AF510C[] =
 {
     (ActorFunc)func_80AF3F14,
     (ActorFunc)func_80AF3F20,
-    (ActorFunc)func_80AF321C
+    (ActorFunc)func_80AF321C,
 };
 
 const ActorInit En_Ru2_InitVars =
@@ -261,7 +261,7 @@ void func_80AF26AC(EnRu2* this) {
 }
 
 void func_80AF26D0(EnRu2* this, GlobalContext* globalCtx) {
-    s32 one;
+    s32 one; // Needed to match
     if (globalCtx->csCtx.state == 0) {
         if (D_80AF4118 != 0) {
             if (this->actor.params == 2) {
@@ -574,10 +574,10 @@ void func_80AF31C8(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF26D0(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ru2/func_80AF321C.s")
-/*void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
-    s32 pad[3];
-    u32 addr = D_80AF410C[this->unk_2A4];
+void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    s16 temp = this->unk_2A4;
+    UNK_PTR addr = D_80AF410C[temp];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
@@ -594,7 +594,7 @@ void func_80AF31C8(EnRu2* this, GlobalContext* globalCtx) {
                                       0, 0, 0, gfxCtx->polyXlu.p);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
-}*/
+}
 
 void func_80AF3394(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF28E8(this, &D_0600E630, 0, 0.0f, 0);
@@ -614,8 +614,7 @@ void func_80AF33E0(EnRu2* this) {
     if (temp_f0 <= *unk_2B0) {
         this->unk_2B4 = 0xFF;
         this->actor.shape.unk_14 = 0xFF;
-    }
-    else {
+    } else {
         temp_f18 = (*unk_2B0/ temp_f0) * 255.0f;
         this->unk_2B4 = temp_f18;
         this->actor.shape.unk_14 = temp_f18;
@@ -629,7 +628,7 @@ void func_80AF346C(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF34A4(EnRu2* this) {
-    if (kREG(17) + 10.0f <= this->unk_2B0) {
+    if (this->unk_2B0 >= kREG(17) + 10.0f) {
         this->action = 12;
         this->drawConfig = 1;
     }
@@ -710,11 +709,11 @@ s32 func_80AF3718(EnRu2* this, GlobalContext* globalCtx) {
 void func_80AF3744(EnRu2* this, GlobalContext* globalCtx) {
     if (func_80AF3718(this, globalCtx)) {
         Actor_Kill(&this->actor);
-        return;
+    } else {
+        func_80AF28E8(this, &D_06000DE8, 0, 0.0f, 0);
+        this->action = 14;
+        this->drawConfig = 1;
     }
-    func_80AF28E8(this, &D_06000DE8, 0, 0.0f, 0);
-    this->action = 14;
-    this->drawConfig = 1;
 }
 
 void func_80AF37AC() {
@@ -756,10 +755,7 @@ void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
     *unk_2C4 += 1.0f;
     if (*unk_2C4 == kREG(6) + 40.0f) {
         func_80AF37AC();
-        return;
-    }
-    
-    if (*unk_2C4 > kREG(4) + 50.0f) {
+    } else if (*unk_2C4 > kREG(4) + 50.0f) {
         this->actor.textId = 0x403E;
         func_8010B680(globalCtx, this->actor.textId, 0);
         this->action = 17;
@@ -898,10 +894,10 @@ void func_80AF3F14(EnRu2* this, GlobalContext* globalCtx) {
 
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ru2/func_80AF3F20.s")
-/*void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
-    s32 pad[3];
-    u32 addr = D_80AF410C[this->unk_2A4];
+void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    s16 temp = this->unk_2A4;
+    UNK_PTR addr = D_80AF410C[temp];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
@@ -917,7 +913,7 @@ void func_80AF3F14(EnRu2* this, GlobalContext* globalCtx) {
     func_800A1AC8(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount,
                   NULL, NULL, &this->actor);
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
-}*/
+}
 
 void EnRu2_Draw(EnRu2* this, GlobalContext* globalCtx) {
 if (this->drawConfig < 0 || this->drawConfig >= 3 || D_80AF510C[this->drawConfig] == 0)
