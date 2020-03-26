@@ -43,8 +43,8 @@ void ArrowFire_Init(ArrowFire* this, GlobalContext* globalCtx) {
     this->unk_158 = 1.0f;
     func_80865D10(this, func_80865DD8);
     Actor_SetScale(this, 0.01);
-    this->unk_168 = 0xA0;
-    this->unk_166 = 0;
+    this->opacity = 0xA0;
+    this->timer = 0;
     this->unk_15C = 0.0f;
 }
 
@@ -75,34 +75,72 @@ void func_80865DD8(ArrowFire* this, GlobalContext* globalCtx) {
 
     // If arrow's attached is null, Link has fired the arrow
     if (arrow->actor.attachedA == NULL) {
-        this->arrowPos = this->actor.posRot.pos;
+        this->translatedPos = this->actor.posRot.pos;
         this->fireRadius = 10;
         func_80865D10(this, &func_808660E8);
-        this->unk_168 = 0xFF;
+        this->opacity = 0xFF;
     }
 }
 
-void func_80865ECC(Vec3f* arrowPos, Vec3f* firePos, f32 scale) {
-    arrowPos->x += ((firePos->x - arrowPos->x) * scale);
-    arrowPos->y += ((firePos->y - arrowPos->y) * scale);
-    arrowPos->z += ((firePos->z - arrowPos->z) * scale);
+void func_80865ECC(Vec3f* translatedPos, Vec3f* firePos, f32 scale) {
+    translatedPos->x += ((firePos->x - translatedPos->x) * scale);
+    translatedPos->y += ((firePos->y - translatedPos->y) * scale);
+    translatedPos->z += ((firePos->z - translatedPos->z) * scale);
 }
 
-// ArrowFire_
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Arrow_Fire/func_80865F1C.s")
+// ArrowFire_Hit
 void func_80865F1C(ArrowFire* this, GlobalContext* globalCtx) {
     f32 scale;
-
+    f32 offset;
+    u16 timer;
+ 
     if (this->actor.unk_F0 < 50.0f) {
         scale = 10.0f;
     } else {
         if (950.0f < this->actor.unk_F0) {
             scale = 310.0f;
         } else {
-            scale = ((this->actor.unk_F0 - 50.0f) * 0.33333334f) + 10.0f;
+            scale = this->actor.unk_F0;
+            scale = ((scale - 50.0f) * 0.33333334f) + 10.0f;
         }
     }
+   
+    timer = this->timer;
+    if (timer != 0) {
+        this->timer -= 1;
+       
+        if (this->timer >= 8){
+            offset = ((this->timer - 8) * 0.041666668f);
+            offset = SQ(offset);
+            this->fireRadius = (((1.0f - offset) * scale) + 10.0f);
+            this->unk_158 += ((2.0f - this->unk_158) * 0.1f);
+            if (this->timer < 0x10) {
+                if (this->timer){} // needed for regalloc
+                this->opacity = ((this->timer * 0x23) - 0x118);
+            }
+        }
+    }
+ 
+    if (this->timer >= 9) {
+        if (this->unk_15C < 1.0f) {
+            this->unk_15C += 0.25f;
+        }
+    } else {
+        if (this->unk_15C > 0.0f) {
+            this->unk_15C -= 0.125f;
+        }
+    }
+ 
+    if (this->timer < 8) { 
+        this->opacity = 0;
+    }
+ 
+    if (this->timer == 0) {
+        this->timer = 0xFF;
+        Actor_Kill(&this->actor);
+    }
 }
+
 
 // ArrowFire_Fly
 void func_808660E8(ArrowFire* this, GlobalContext* globalCtx) {
@@ -118,23 +156,23 @@ void func_808660E8(ArrowFire* this, GlobalContext* globalCtx) {
     // copy position and rotation from the attached arrow
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
-    distanceScaled = Math_Vec3f_DistXYZ(&this->arrowPos, &this->actor.posRot.pos) * 0.041666668f;
+    distanceScaled = Math_Vec3f_DistXYZ(&this->translatedPos, &this->actor.posRot.pos) * 0.041666668f;
     this->unk_158 = distanceScaled;
     if (distanceScaled < 1.0f) {
         this->unk_158 = 1.0f;
     }
-    func_80865ECC(&this->arrowPos, &this->actor.posRot.pos, 0.05f);
+    func_80865ECC(&this->translatedPos, &this->actor.posRot.pos, 0.05f);
 
     if (arrow->hitWall & 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
         func_80865D10(this, &func_80865F1C);
-        this->unk_166 = 32;
-        this->unk_168 = 0xFF;
+        this->timer = 32;
+        this->opacity = 0xFF;
     } else if (arrow->timer < 0x22) {
-        if (this->unk_168 < 0x23) {
+        if (this->opacity < 0x23) {
             Actor_Kill(&this->actor);
         } else {
-            this->unk_168 -= 25;
+            this->opacity -= 0x19;
         }
     }
 }
@@ -147,4 +185,24 @@ void ArrowFire_Update(ArrowFire* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Arrow_Fire/ArrowFire_Draw.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Arrow_Fire/ArrowFire_Draw.s")
+
+void ArrowFire_Draw(ArrowFire* this, GlobalContext* globalCtx){
+    u32 gameplayFrames; //8c
+    Actor* tranform; 
+    Gfx* gfxArr[2]; //70
+    EnArrow* arrow; //if this messes up the stack i need to cast
+
+    gameplayFrames = globalCtx->state.frames;
+    arrow = this->actor.attachedA; // may need to assign elsewhere
+    if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 0xFF)) {
+        if (arrow->hitWall & 2){
+            tranform = &this->actor;
+        } else {
+            tranform = &arrow->actor;
+        }
+        func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618);
+        
+    }
+
+}
