@@ -320,7 +320,8 @@ typedef struct {
     /* 0x015F */ u8      currentMask;
     /* 0x0160 */ char    unk_160[0x050];
     /* 0x01B0 */ u32     unk_1B0;
-    /* 0x01B4 */ char    unk_1B4[0x1F8];
+    /* 0x01B4 */ char    skelAnime[0x44];
+    /* 0x01F8 */ char    unk_1F8[0x1B4];
     /* 0x03AC */ Actor*  heldActor;
     /* 0x03B0 */ char    unk_3B0[0x084];
     /* 0x0434 */ u8      getItemId;
@@ -353,7 +354,9 @@ typedef struct {
     /* 0x06A4 */ f32     unk_6A4;
     /* 0x06A8 */ char    unk_6A8[0x5];
     /* 0x06AD */ u8      unk_6AD;
-    /* 0x06AE */ char    unk_6AE[0x186];
+    /* 0x06AE */ char    unk_6AE[0x1A];
+    /* 0x06C8 */ char    skelAnime2[0x44];
+    /* 0x070C */ char    unk_70C[0x128];
     /* 0x0834 */ s16     unk_834;
     /* 0x0836 */ char    unk_836[0x006];
     /* 0x083C */ s16     unk_83C;

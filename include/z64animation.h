@@ -9,6 +9,9 @@
 #define LIMB_DONE 0xFF
 #define ANIMATION_ENTRY_MAX 50
 
+#define ANIME_FLAG_UPDATEXZ 0x02
+#define ANIME_FLAG_UPDATEY  0x10
+
 struct GlobalContext;
 struct Actor;
 typedef struct SkelAnime SkelAnime;
@@ -152,25 +155,21 @@ struct SkelAnime {
         LinkAnimetionEntry* linkAnimetionSeg;
         GenericAnimationHeader* genericSeg;
     };
-    /* 0x0C */ f32 unk_0C;
+    /* 0x0C */ f32 initialFrame;
     /* 0x10 */ f32 animFrameCount; // ending frame?
     /* 0x14 */ f32 unk_14; // Loop frame?
     /* 0x18 */ f32 animCurrentFrame;
     /* 0x1C */ f32 animPlaybackSpeed;
     /* 0x20 */ Vec3s* actorDrawTbl; // now_joint
-    /* 0x24 */ Vec3s* unk_24; // morf_joint
-    /* 0x28 */ f32 unk_28;
-    /* 0x2C */ f32 unk_2C;
+    /* 0x24 */ Vec3s* transitionDrawTbl; // morf_joint
+    /* 0x28 */ f32 transCurrentFrame;
+    /* 0x2C */ f32 transitionStep;
     /* 0x30 */ s32 (*animUpdate)();
-    /* 0x34 */ s8 unk_34;
-    /* 0x35 */ u8 unk_35; // flags
-    /* 0x36 */ s16 unk_36;
-    /* 0x38 */ s16 unk_38;
-    /* 0x3A */ s16 unk_3A;
-    /* 0x3C */ s16 unk_3C;
-    /* 0x3E */ s16 unk_3E;
-    /* 0x40 */ s16 unk_40;
-    /* 0x42 */ s16 unk_42;
+    /* 0x34 */ s8 initFlags;
+    /* 0x35 */ u8 flags; // flags
+    /* 0x36 */ s16 prevFrameRot;
+    /* 0x38 */ Vec3s prevFramePos;
+    /* 0x3E */ Vec3s unk_3E;
 }; // size = 0x44
 
 typedef s32 (*SkelAnime_LimbUpdateMatrix)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
