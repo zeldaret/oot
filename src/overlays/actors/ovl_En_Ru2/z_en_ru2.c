@@ -86,14 +86,14 @@ const ActorInit En_Ru2_InitVars = {
     (ActorFunc)EnRu2_Draw,
 };
 
-extern u32 D_060004CC;
+extern AnimationHeader* D_060004CC;
 extern SkeletonHeader* D_0600C700;
-extern u32 D_0600D3DC;
-extern u32 D_0600DCAC;
-extern u32 D_06000DE8;
-extern u32 D_0600E630;
-extern u32 D_0600F03C;
-extern u32 D_0600F8B8;
+extern AnimationHeader* D_0600D3DC;
+extern AnimationHeader* D_0600DCAC;
+extern AnimationHeader* D_06000DE8;
+extern AnimationHeader* D_0600E630;
+extern AnimationHeader* D_0600F03C;
+extern AnimationHeader* D_0600F8B8;
 
 static void func_80AF2550(EnRu2* this, GlobalContext* globalCtx) {
     EnRu2* thisLocal = this;
@@ -216,8 +216,8 @@ static void func_80AF2868(EnRu2* this, GlobalContext* globalCtx, u32 actorAction
     }
 }
 
-static void func_80AF28E8(EnRu2* this, u32 animation, u8 arg2, f32 transitionRate, s32 arg4) {
-    f32 frameCount = SkelAnime_GetFrameCount(animation);
+static void func_80AF28E8(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
+    f32 frameCount = SkelAnime_GetFrameCount(&animation->genericHeader);
     f32 playbackSpeed;
     f32 unk0;
     f32 fc;
@@ -301,7 +301,7 @@ static void func_80AF2B94(EnRu2* this) {
 }
 
 static void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
-    UNK_PTR animation = &D_0600D3DC;
+    AnimationHeader* animation = &D_0600D3DC;
     CsCmdActorAction* csCmdActorAction;
     if (globalCtx->csCtx.state != 0) {
         csCmdActorAction = globalCtx->csCtx.actorActions[3];
