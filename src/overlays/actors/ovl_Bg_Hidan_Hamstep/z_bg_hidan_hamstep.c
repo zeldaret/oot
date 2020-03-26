@@ -1,6 +1,6 @@
 #include "z_bg_hidan_hamstep.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHidanHamstep_Init(BgHidanHamstep* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgHidanHamstep_Update(BgHidanHamstep* this, GlobalContext* globalCtx);
 void BgHidanHamstep_Draw(BgHidanHamstep* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Hamstep_InitVars =
-{
+const ActorInit Bg_Hidan_Hamstep_InitVars = {
     ACTOR_BG_HIDAN_HAMSTEP,
     ACTORTYPE_BG,
     ROOM,

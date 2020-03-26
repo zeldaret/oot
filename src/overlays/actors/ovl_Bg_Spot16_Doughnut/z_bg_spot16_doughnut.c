@@ -1,6 +1,6 @@
 #include "z_bg_spot16_doughnut.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgSpot16Doughnut_Init(BgSpot16Doughnut* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgSpot16Doughnut_Update(BgSpot16Doughnut* this, GlobalContext* globalCtx);
 void BgSpot16Doughnut_Draw(BgSpot16Doughnut* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot16_Doughnut_InitVars =
-{
+const ActorInit Bg_Spot16_Doughnut_InitVars = {
     ACTOR_BG_SPOT16_DOUGHNUT,
     ACTORTYPE_PROP,
     ROOM,

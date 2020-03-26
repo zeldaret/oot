@@ -1,6 +1,6 @@
 #include "z_en_stream.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnStream_Init(EnStream* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnStream_Update(EnStream* this, GlobalContext* globalCtx);
 void EnStream_Draw(EnStream* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Stream_InitVars =
-{
+const ActorInit En_Stream_InitVars = {
     ACTOR_EN_STREAM,
     ACTORTYPE_BG,
     ROOM,

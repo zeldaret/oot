@@ -1,6 +1,6 @@
 #include "z_oceff_wipe2.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void OceffWipe2_Init(OceffWipe2* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void OceffWipe2_Update(OceffWipe2* this, GlobalContext* globalCtx);
 void OceffWipe2_Draw(OceffWipe2* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Oceff_Wipe2_InitVars =
-{
+const ActorInit Oceff_Wipe2_InitVars = {
     ACTOR_OCEFF_WIPE2,
     ACTORTYPE_ITEMACTION,
     ROOM,

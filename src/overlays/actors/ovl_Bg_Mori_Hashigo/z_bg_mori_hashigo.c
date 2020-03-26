@@ -1,6 +1,6 @@
 #include "z_bg_mori_hashigo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgMoriHashigo_Init(BgMoriHashigo* this, GlobalContext* globalCtx);
@@ -8,8 +8,7 @@ void BgMoriHashigo_Destroy(BgMoriHashigo* this, GlobalContext* globalCtx);
 void BgMoriHashigo_Update(BgMoriHashigo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mori_Hashigo_InitVars =
-{
+const ActorInit Bg_Mori_Hashigo_InitVars = {
     ACTOR_BG_MORI_HASHIGO,
     ACTORTYPE_BG,
     ROOM,

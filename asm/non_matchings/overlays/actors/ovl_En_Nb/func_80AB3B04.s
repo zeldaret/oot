@@ -15,7 +15,7 @@ glabel func_80AB3B04
 /* 02DA4 80AB3B34 35F80009 */  ori     $t8, $t7, 0x0009           ## $t8 = 00000009
 /* 02DA8 80AB3B38 ACD80004 */  sw      $t8, 0x0004($a2)           ## 00000004
 /* 02DAC 80AB3B3C AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 02DB0 80AB3B40 0C01B0D8 */  jal     func_8006C360              
+/* 02DB0 80AB3B40 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 02DB4 80AB3B44 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 02DB8 80AB3B48 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 02DBC 80AB3B4C 3059FFFF */  andi    $t9, $v0, 0xFFFF           ## $t9 = 00000000

@@ -1,6 +1,6 @@
 #include "z_en_dnt_demo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnDntDemo_Init(EnDntDemo* this, GlobalContext* globalCtx);
@@ -8,8 +8,7 @@ void EnDntDemo_Destroy(EnDntDemo* this, GlobalContext* globalCtx);
 void EnDntDemo_Update(EnDntDemo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dnt_Demo_InitVars =
-{
+const ActorInit En_Dnt_Demo_InitVars = {
     ACTOR_EN_DNT_DEMO,
     ACTORTYPE_PROP,
     ROOM,

@@ -164,4 +164,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002A9F4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_effect_soft_sprite_old_init/func_8002AA44.s")
-

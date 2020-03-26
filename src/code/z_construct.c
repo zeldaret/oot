@@ -1,15 +1,13 @@
-#include <ultra64.h> 
+#include <ultra64.h>
 #include <global.h>
 
-void func_80110990(GlobalContext* globalCtx)
-{
+void func_80110990(GlobalContext* globalCtx) {
     func_80080F44(globalCtx);
 }
 
 #ifdef NON_MATCHING
 // regalloc, stack usage and minor ordering differences
-void func_801109B0(GlobalContext* globalCtx)
-{
+void func_801109B0(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s32 parameterStart;
     s32 parameterSize;
@@ -32,9 +30,9 @@ void func_801109B0(GlobalContext* globalCtx)
     interfaceCtx->unk_228 = XREG(95);
     interfaceCtx->minimapAlpha = 0;
     interfaceCtx->unk_260 = 0;
-    interfaceCtx->unk_244 = interfaceCtx->aAlpha = interfaceCtx->bAlpha =
-    interfaceCtx->cLeftAlpha = interfaceCtx->cDownAlpha = interfaceCtx->cRightAlpha =
-    interfaceCtx->healthAlpha = interfaceCtx->startAlpha = interfaceCtx->magicAlpha = 0;
+    interfaceCtx->unk_244 = interfaceCtx->aAlpha = interfaceCtx->bAlpha = interfaceCtx->cLeftAlpha =
+        interfaceCtx->cDownAlpha = interfaceCtx->cRightAlpha = interfaceCtx->healthAlpha = interfaceCtx->startAlpha =
+            interfaceCtx->magicAlpha = 0;
 
     parameterStart = _parameter_staticSegmentRomStart;
     parameterSize = _parameter_staticSegmentRomEnd - parameterStart;
@@ -46,9 +44,10 @@ void func_801109B0(GlobalContext* globalCtx)
 
     osSyncPrintf("parameter->parameterSegment=%x", interfaceCtx->parameterSegment);
 
-    if (interfaceCtx->parameterSegment == NULL)
+    if (interfaceCtx->parameterSegment == NULL) {
         __assert("parameter->parameterSegment != NULL", "../z_construct.c", 161);
-    
+    }
+
     DmaMgr_SendRequest1(interfaceCtx->parameterSegment, parameterStart, parameterSize, "../z_construct.c", 162);
 
     interfaceCtx->do_actionSegment = Game_Alloc(&globalCtx->state, 0x480, "../z_construct.c", 166);
@@ -57,28 +56,33 @@ void func_801109B0(GlobalContext* globalCtx)
     osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 0x480);
     osSyncPrintf("parameter->do_actionSegment=%x", interfaceCtx->do_actionSegment);
 
-    if (interfaceCtx->do_actionSegment == NULL)
+    if (interfaceCtx->do_actionSegment == NULL) {
         __assert("parameter->do_actionSegment != NULL", "../z_construct.c", 169);
+    }
 
     do_actionStart = _do_action_staticSegmentRomStart;
 
-    if (gSaveContext.language == 0)
+    if (gSaveContext.language == 0) {
         do_actionOffset = 0;
-    else if (gSaveContext.language == 1)
+    } else if (gSaveContext.language == 1) {
         do_actionOffset = 0x2B80;
-    else
+    } else {
         do_actionOffset = 0x5700;
+    }
 
-    DmaMgr_SendRequest1(interfaceCtx->do_actionSegment, do_actionStart + do_actionOffset, 0x300, "../z_construct.c", 174);
+    DmaMgr_SendRequest1(interfaceCtx->do_actionSegment, do_actionStart + do_actionOffset, 0x300, "../z_construct.c",
+                        174);
 
-    if (gSaveContext.language == 0)
+    if (gSaveContext.language == 0) {
         do_actionOffset = 0x480;
-    else if (gSaveContext.language == 1)
+    } else if (gSaveContext.language == 1) {
         do_actionOffset = 0x3000;
-    else
+    } else {
         do_actionOffset = 0x5B80;
+    }
 
-    DmaMgr_SendRequest1((void*)((u32)interfaceCtx->do_actionSegment + 0x300), do_actionStart + do_actionOffset, 0x180, "../z_construct.c", 178);
+    DmaMgr_SendRequest1((void*)((u32)interfaceCtx->do_actionSegment + 0x300), do_actionStart + do_actionOffset, 0x180,
+                        "../z_construct.c", 178);
 
     interfaceCtx->icon_itemSegment = Game_Alloc(&globalCtx->state, 0x4000, "../z_construct.c", 190);
 
@@ -86,69 +90,72 @@ void func_801109B0(GlobalContext* globalCtx)
     osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", 0x4000);
     osSyncPrintf("parameter->icon_itemSegment=%x\n", interfaceCtx->icon_itemSegment);
 
-    if (interfaceCtx->icon_itemSegment == NULL)
+    if (interfaceCtx->icon_itemSegment == NULL) {
         __assert("parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
+    }
 
-    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n",
-                 gSaveContext.equips.button_items[0], gSaveContext.equips.button_items[1],
-                 gSaveContext.equips.button_items[2], gSaveContext.equips.button_items[3]);
+    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.equips.button_items[0],
+                 gSaveContext.equips.button_items[1], gSaveContext.equips.button_items[2],
+                 gSaveContext.equips.button_items[3]);
 
-    if (gSaveContext.equips.button_items[0] < 0xF0)
+    if (gSaveContext.equips.button_items[0] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->icon_itemSegment,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[0] * 0x80,
-                            0x1000, "../z_construct.c", 198);
-    else if (gSaveContext.equips.button_items[0] != 0xFF)
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[0] * 0x80, 0x1000,
+                            "../z_construct.c", 198);
+    } else if (gSaveContext.equips.button_items[0] != 0xFF) {
         DmaMgr_SendRequest1(interfaceCtx->icon_itemSegment,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[0] * 0x80,
-                            0x1000, "../z_construct.c", 203);
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[0] * 0x80, 0x1000,
+                            "../z_construct.c", 203);
+    }
 
-    if (gSaveContext.equips.button_items[1] < 0xF0)
+    if (gSaveContext.equips.button_items[1] < 0xF0) {
         DmaMgr_SendRequest1((void*)((u32)interfaceCtx->icon_itemSegment + 0x1000),
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[1] * 0x80,
-                            0x1000, "../z_construct.c", 209);
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[1] * 0x80, 0x1000,
+                            "../z_construct.c", 209);
+    }
 
-    if (gSaveContext.equips.button_items[2] < 0xF0)
+    if (gSaveContext.equips.button_items[2] < 0xF0) {
         DmaMgr_SendRequest1((void*)((u32)interfaceCtx->icon_itemSegment + 0x2000),
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[2] * 0x80,
-                            0x1000, "../z_construct.c", 214);
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[2] * 0x80, 0x1000,
+                            "../z_construct.c", 214);
+    }
 
-    if (gSaveContext.equips.button_items[3] < 0xF0)
+    if (gSaveContext.equips.button_items[3] < 0xF0) {
         DmaMgr_SendRequest1((void*)((u32)interfaceCtx->icon_itemSegment + 0x3000),
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[3] * 0x80,
-                            0x1000, "../z_construct.c", 219);
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[3] * 0x80, 0x1000,
+                            "../z_construct.c", 219);
+    }
 
     osSyncPrintf("ＥＶＥＮＴ＝%d\n", gSaveContext.timer_1_state);
 
-    if ((gSaveContext.timer_1_state == 4) || (gSaveContext.timer_1_state == 8) ||
-        (gSaveContext.timer_2_state == 4) || (gSaveContext.timer_2_state == 10))
-    {
+    if ((gSaveContext.timer_1_state == 4) || (gSaveContext.timer_1_state == 8) || (gSaveContext.timer_2_state == 4) ||
+        (gSaveContext.timer_2_state == 10)) {
         osSyncPrintf("restart_flag=%d\n", gSaveContext.respawn_flag);
 
-        if ((gSaveContext.respawn_flag == -1) || (gSaveContext.respawn_flag == 1))
-        {
-            if (gSaveContext.timer_1_state == 4)
-            {
+        if ((gSaveContext.respawn_flag == -1) || (gSaveContext.respawn_flag == 1)) {
+            if (gSaveContext.timer_1_state == 4) {
                 gSaveContext.timer_1_state = 1;
                 gSaveContext.timer_x[0] = 140;
                 gSaveContext.timer_y[0] = 80;
             }
         }
 
-        if ((gSaveContext.timer_1_state == 4) || (gSaveContext.timer_1_state == 8))
+        if ((gSaveContext.timer_1_state == 4) || (gSaveContext.timer_1_state == 8)) {
             temp = 0;
-        else
+        } else {
             temp = 1;
+        }
 
         gSaveContext.timer_x[temp] = 26;
 
-        if (gSaveContext.health_capacity > 0xA0)
+        if (gSaveContext.health_capacity > 0xA0) {
             gSaveContext.timer_y[temp] = 54;
-        else
+        } else {
             gSaveContext.timer_y[temp] = 46;
+        }
     }
 
-    if ((gSaveContext.timer_1_state >= 11) && (gSaveContext.timer_1_state < 16))
-    {
+    if ((gSaveContext.timer_1_state >= 11) && (gSaveContext.timer_1_state < 16)) {
         gSaveContext.timer_1_state = 0;
         // Translates to: "Timer Stop!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timer_1_state);
@@ -179,8 +186,7 @@ void func_801109B0(GlobalContext* globalCtx)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_construct/func_801109B0.s")
 #endif
 
-void func_80110F68(GlobalContext* globalCtx)
-{
+void func_80110F68(GlobalContext* globalCtx) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     s32 pad;
 
@@ -202,16 +208,16 @@ void func_80110F68(GlobalContext* globalCtx)
     // Translates to: "Textbox game_alloc=%x"
     osSyncPrintf("吹き出しgame_alloc=%x\n", 0x2200);
 
-    if (msgCtx->textboxSegment == NULL)
+    if (msgCtx->textboxSegment == NULL) {
         __assert("message->fukidashiSegment != NULL", "../z_construct.c", 352);
+    }
 
     func_8006EF10(&globalCtx->msgCtx.unk_128);
 
     YREG(31) = 0;
 }
 
-void func_80111070(void)
-{
+void func_80111070(void) {
     YREG(8) = 0xA;
     YREG(14) = 0;
     YREG(15) = 0;
@@ -526,8 +532,7 @@ void func_80111070(void)
     WREG(94) = 3;
     WREG(95) = 6;
 
-    if (gSaveContext.game_mode == 0)
-    {
+    if (gSaveContext.game_mode == 0) {
         VREG(0) = 0x34;
         VREG(1) = 0x24;
         VREG(2) = 0xD6;
@@ -618,7 +623,6 @@ void func_80111070(void)
     VREG(92) = -0x3F;
 }
 
-void func_80112098(GlobalContext* globalCtx)
-{
+void func_80112098(GlobalContext* globalCtx) {
     func_80111070();
 }

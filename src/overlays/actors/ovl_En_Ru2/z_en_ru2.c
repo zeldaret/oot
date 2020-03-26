@@ -1,6 +1,6 @@
 #include "z_en_ru2.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnRu2_Init(EnRu2* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnRu2_Update(EnRu2* this, GlobalContext* globalCtx);
 void EnRu2_Draw(EnRu2* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ru2_InitVars =
-{
+const ActorInit En_Ru2_InitVars = {
     ACTOR_EN_RU2,
     ACTORTYPE_NPC,
     ROOM,

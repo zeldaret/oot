@@ -13,6 +13,7 @@
 #define SQ(x) ((x)*(x))
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
 #define DECR(x) ((x) == 0 ? 0 : ((x) -= 1))
+#define CLAMP(x,min,max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 
 #define PLAYER ((Player*)globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first)
 
@@ -33,5 +34,9 @@
 #define CUR_UPG_VALUE(upg) ((s32)(gSaveContext.upgrades & gUpgradeMasks[upg]) >> gUpgradeShifts[upg])
 #define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
 #define CUR_CAPACITY(upg) CAPACITY(upg, CUR_UPG_VALUE(upg))
+
+#define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
+            (curState)->init = newInit;                  \
+            (curState)->size = sizeof(newStruct);
 
 #endif

@@ -1,6 +1,6 @@
 #include "z_en_daiku_kakariko.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnDaikuKakariko_Init(EnDaikuKakariko* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnDaikuKakariko_Update(EnDaikuKakariko* this, GlobalContext* globalCtx);
 void EnDaikuKakariko_Draw(EnDaikuKakariko* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Daiku_Kakariko_InitVars =
-{
+const ActorInit En_Daiku_Kakariko_InitVars = {
     ACTOR_EN_DAIKU_KAKARIKO,
     ACTORTYPE_NPC,
     ROOM,

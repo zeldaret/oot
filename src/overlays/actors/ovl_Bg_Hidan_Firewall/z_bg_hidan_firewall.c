@@ -1,6 +1,6 @@
 #include "z_bg_hidan_firewall.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx);
@@ -8,8 +8,7 @@ void BgHidanFirewall_Destroy(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Firewall_InitVars =
-{
+const ActorInit Bg_Hidan_Firewall_InitVars = {
     ACTOR_BG_HIDAN_FIREWALL,
     ACTORTYPE_BG,
     ROOM,

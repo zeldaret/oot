@@ -1,6 +1,6 @@
 #include "z_en_kanban.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnKanban_Init(EnKanban* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnKanban_Update(EnKanban* this, GlobalContext* globalCtx);
 void EnKanban_Draw(EnKanban* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Kanban_InitVars =
-{
+const ActorInit En_Kanban_InitVars = {
     ACTOR_EN_KANBAN,
     ACTORTYPE_PROP,
     ROOM,

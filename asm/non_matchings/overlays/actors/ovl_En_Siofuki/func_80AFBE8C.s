@@ -90,7 +90,7 @@ glabel func_80AFBE8C
 /* 00460 80AFBFE0 46000004 */  sqrt.s  $f0, $f0                   
 /* 00464 80AFBFE4 E7A00030 */  swc1    $f0, 0x0030($sp)           
 /* 00468 80AFBFE8 AE090188 */  sw      $t1, 0x0188($s0)           ## 00000188
-/* 0046C 80AFBFEC 0C03F494 */  jal     func_800FD250              
+/* 0046C 80AFBFEC 0C03F494 */  jal     Math_atan2f              
 /* 00470 80AFBFF0 AE000184 */  sw      $zero, 0x0184($s0)         ## 00000184
 /* 00474 80AFBFF4 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00478 80AFBFF8 44811000 */  mtc1    $at, $f2                   ## $f2 = 1.00

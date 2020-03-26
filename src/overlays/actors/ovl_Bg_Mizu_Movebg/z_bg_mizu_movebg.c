@@ -1,6 +1,6 @@
 #include "z_bg_mizu_movebg.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgMizuMovebg_Init(BgMizuMovebg* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgMizuMovebg_Update(BgMizuMovebg* this, GlobalContext* globalCtx);
 void BgMizuMovebg_Draw(BgMizuMovebg* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mizu_Movebg_InitVars =
-{
+const ActorInit Bg_Mizu_Movebg_InitVars = {
     ACTOR_BG_MIZU_MOVEBG,
     ACTORTYPE_BG,
     ROOM,
@@ -40,4 +39,3 @@ const ActorInit Bg_Mizu_Movebg_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mizu_Movebg/BgMizuMovebg_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mizu_Movebg/BgMizuMovebg_Draw.s")
-

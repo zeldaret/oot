@@ -1,6 +1,6 @@
 #include "z_en_honotrap.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnHonotrap_Init(EnHonotrap* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnHonotrap_Update(EnHonotrap* this, GlobalContext* globalCtx);
 void EnHonotrap_Draw(EnHonotrap* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Honotrap_InitVars =
-{
+const ActorInit En_Honotrap_InitVars = {
     ACTOR_EN_HONOTRAP,
     ACTORTYPE_PROP,
     ROOM,

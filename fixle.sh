@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 var="$1"
 if [ ! -n "$var" ]
 then

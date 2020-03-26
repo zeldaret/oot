@@ -17,7 +17,7 @@ glabel func_80A462D8
 /* 035E4 80A46314 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 035E8 80A46318 8E040208 */  lw      $a0, 0x0208($s0)           ## 00000208
 /* 035EC 80A4631C 260504AC */  addiu   $a1, $s0, 0x04AC           ## $a1 = 000004AC
-/* 035F0 80A46320 0C023983 */  jal     func_8008E60C              
+/* 035F0 80A46320 0C023983 */  jal     Path_CopyLastPoint              
 /* 035F4 80A46324 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 035F8 80A46328 26040024 */  addiu   $a0, $s0, 0x0024           ## $a0 = 00000024
 /* 035FC 80A4632C 0C01E01A */  jal     Math_Vec3f_Yaw

@@ -1,6 +1,6 @@
 #include "z_en_box.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnBox_Init(EnBox* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnBox_Update(EnBox* this, GlobalContext* globalCtx);
 void EnBox_Draw(EnBox* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Box_InitVars =
-{
+const ActorInit En_Box_InitVars = {
     Chest,
     ACTORTYPE_CHEST,
     ROOM,

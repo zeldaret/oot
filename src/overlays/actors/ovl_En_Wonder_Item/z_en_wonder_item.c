@@ -1,6 +1,6 @@
 #include "z_en_wonder_item.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnWonderItem_Init(EnWonderItem* this, GlobalContext* globalCtx);
@@ -8,8 +8,7 @@ void EnWonderItem_Destroy(EnWonderItem* this, GlobalContext* globalCtx);
 void EnWonderItem_Update(EnWonderItem* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Wonder_Item_InitVars =
-{
+const ActorInit En_Wonder_Item_InitVars = {
     ACTOR_EN_WONDER_ITEM,
     ACTORTYPE_PROP,
     ROOM,
@@ -43,4 +42,3 @@ const ActorInit En_Wonder_Item_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wonder_Item/func_80B38B78.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wonder_Item/EnWonderItem_Update.s")
-

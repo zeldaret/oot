@@ -1,6 +1,6 @@
 #include "z_bg_toki_hikari.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000020
 
 void BgTokiHikari_Init(BgTokiHikari* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgTokiHikari_Update(BgTokiHikari* this, GlobalContext* globalCtx);
 void BgTokiHikari_Draw(BgTokiHikari* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Toki_Hikari_InitVars =
-{
+const ActorInit Bg_Toki_Hikari_InitVars = {
     ACTOR_BG_TOKI_HIKARI,
     ACTORTYPE_BG,
     ROOM,

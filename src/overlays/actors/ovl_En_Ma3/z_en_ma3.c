@@ -1,6 +1,6 @@
 #include "z_en_ma3.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000039
 
 void EnMa3_Init(EnMa3* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnMa3_Update(EnMa3* this, GlobalContext* globalCtx);
 void EnMa3_Draw(EnMa3* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ma3_InitVars =
-{
+const ActorInit En_Ma3_InitVars = {
     ACTOR_EN_MA3,
     ACTORTYPE_NPC,
     ROOM,

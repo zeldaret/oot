@@ -1,6 +1,6 @@
 #include "z_en_brob.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnBrob_Init(EnBrob* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnBrob_Update(EnBrob* this, GlobalContext* globalCtx);
 void EnBrob_Draw(EnBrob* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Brob_InitVars =
-{
+const ActorInit En_Brob_InitVars = {
     ACTOR_EN_BROB,
     ACTORTYPE_ENEMY,
     ROOM,

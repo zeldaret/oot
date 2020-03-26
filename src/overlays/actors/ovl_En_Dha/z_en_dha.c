@@ -1,6 +1,6 @@
 #include "z_en_dha.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnDha_Init(EnDha* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnDha_Update(EnDha* this, GlobalContext* globalCtx);
 void EnDha_Draw(EnDha* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dha_InitVars =
-{
+const ActorInit En_Dha_InitVars = {
     ACTOR_EN_DHA,
     ACTORTYPE_ENEMY,
     ROOM,

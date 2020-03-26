@@ -1,6 +1,6 @@
 #include "z_en_ex_ruppy.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnExRuppy_Init(EnExRuppy* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnExRuppy_Update(EnExRuppy* this, GlobalContext* globalCtx);
 void EnExRuppy_Draw(EnExRuppy* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ex_Ruppy_InitVars =
-{
+const ActorInit En_Ex_Ruppy_InitVars = {
     ACTOR_EN_EX_RUPPY,
     ACTORTYPE_PROP,
     ROOM,

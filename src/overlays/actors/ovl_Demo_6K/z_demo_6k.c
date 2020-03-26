@@ -1,6 +1,6 @@
 #include "z_demo_6k.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void Demo6K_Init(Demo6K* this, GlobalContext* globalCtx);
@@ -8,8 +8,7 @@ void Demo6K_Destroy(Demo6K* this, GlobalContext* globalCtx);
 void Demo6K_Update(Demo6K* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_6K_InitVars =
-{
+const ActorInit Demo_6K_InitVars = {
     ACTOR_DEMO_6K,
     ACTORTYPE_PROP,
     ROOM,
