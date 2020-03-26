@@ -16,14 +16,16 @@ def fail(msg):
     print(msg, file=sys.stderr)
     sys.exit(1)
 
+MISSING_PREREQUISITES = "Missing prerequisite python module {}. " \
+    "Run `python3 -m pip install --user colorama ansiwrap attrs watchdog python-Levenshtein` to install prerequisites (python-Levenshtein only needed for --algorithm=levenshtein)."
+
 try:
     import attr
     from colorama import Fore, Style, Back
     import ansiwrap
     import watchdog
 except ModuleNotFoundError as e:
-    fail(f"Missing prerequisite python module {e.name}. "
-        "Run `python3 -m pip install --user colorama ansiwrap attrs watchdog` to install prerequisites.")
+    fail(MISSING_PREREQUISITES.format(e.name))
 
 # Prefer to use diff_settings.py from the current working directory
 sys.path.insert(0, '.')
@@ -66,6 +68,8 @@ parser.add_argument('-w', '--watch', dest='watch', action='store_true',
         "Recommended in combination with -m.")
 parser.add_argument('--width', dest='column_width', type=int, default=50,
         help="Sets the width of the left and right view column.")
+parser.add_argument('--algorithm', dest='algorithm', default='difflib',
+        choices=['levenshtein', 'difflib'], help="Diff algorithm to use.")
 
 # Project-specific flags, e.g. different versions/make arguments.
 if hasattr(diff_settings, "add_custom_arguments"):
@@ -105,6 +109,12 @@ DEBOUNCE_DELAY = 0.1
 FS_WATCH_EXTENSIONS = ['.c', '.h']
 
 # ==== LOGIC ====
+
+if args.algorithm == 'levenshtein':
+    try:
+        import Levenshtein
+    except ModuleNotFoundError as e:
+        fail(MISSING_PREREQUISITES.format(e.name))
 
 binutils_prefix = None
 
@@ -449,6 +459,32 @@ def color_branch_imms(br1, br2):
         br2 = f'{Fore.LIGHTBLUE_EX}{br2}{Style.RESET_ALL}'
     return br1, br2
 
+def diff_sequences_difflib(seq1, seq2):
+    differ = difflib.SequenceMatcher(a=seq1, b=seq2, autojunk=False)
+    return differ.get_opcodes()
+
+def diff_sequences(seq1, seq2):
+    if (args.algorithm != 'levenshtein' or len(seq1) * len(seq2) > 4 * 10**8 or
+            len(seq1) + len(seq2) >= 0x110000):
+        return diff_sequences_difflib(seq1, seq2)
+
+    # The Levenshtein library assumes that we compare strings, not lists. Convert.
+    # (Per the check above we know we have fewer than 0x110000 unique elements, so chr() works.)
+    remapping = {}
+    def remap(seq):
+        seq = seq[:]
+        for i in range(len(seq)):
+            val = remapping.get(seq[i])
+            if val is None:
+                val = chr(len(remapping))
+                remapping[seq[i]] = val
+            seq[i] = val
+        return ''.join(seq)
+
+    seq1 = remap(seq1)
+    seq2 = remap(seq2)
+    return Levenshtein.opcodes(seq1, seq2)
+
 def do_diff(basedump, mydump):
     asm_lines1 = basedump.split('\n')
     asm_lines2 = mydump.split('\n')
@@ -477,8 +513,7 @@ def do_diff(basedump, mydump):
                     btset.add(bt + ":")
                     sc.color_symbol(bt + ":")
 
-    differ: difflib.SequenceMatcher = difflib.SequenceMatcher(a=mnemonics1, b=mnemonics2, autojunk=False)
-    for (tag, i1, i2, j1, j2) in differ.get_opcodes():
+    for (tag, i1, i2, j1, j2) in diff_sequences(mnemonics1, mnemonics2):
         lines1 = asm_lines1[i1:i2]
         lines2 = asm_lines2[j1:j2]
 
@@ -791,7 +826,7 @@ def main():
                     display.progress("Building...")
                     ret = run_make(make_target, capture_output=True)
                     if ret.returncode != 0:
-                        display.update(ret.stderr.decode() or ret.stdout.decode(), error=True)
+                        display.update(ret.stderr.decode('utf-8-sig', 'replace') or ret.stdout.decode('utf-8-sig', 'replace'), error=True)
                         continue
                 mydump = run_objdump(mycmd)
                 display.update(mydump, error=False)

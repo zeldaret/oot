@@ -1,14 +1,14 @@
 glabel func_80ADA028
 /* 01098 80ADA028 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
-/* 0109C 80ADA02C AFBF0014 */  sw      $ra, 0x0014($sp)           
+/* 0109C 80ADA02C AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 010A0 80ADA030 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
 /* 010A4 80ADA034 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 010A8 80ADA038 24A514CC */  addiu   $a1, $a1, 0x14CC           ## $a1 = 060014CC
-/* 010AC 80ADA03C AFA70018 */  sw      $a3, 0x0018($sp)           
+/* 010AC 80ADA03C AFA70018 */  sw      $a3, 0x0018($sp)
 /* 010B0 80ADA040 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 010B4 80ADA044 0C0294D3 */  jal     func_800A534C              
+/* 010B4 80ADA044 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
 /* 010B8 80ADA048 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
-/* 010BC 80ADA04C 8FA70018 */  lw      $a3, 0x0018($sp)           
+/* 010BC 80ADA04C 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 010C0 80ADA050 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 010C4 80ADA054 3C0980AE */  lui     $t1, %hi(func_80ADBBF4)    ## $t1 = 80AE0000
 /* 010C8 80ADA058 90EF0199 */  lbu     $t7, 0x0199($a3)           ## 00000199
@@ -22,9 +22,9 @@ glabel func_80ADA028
 /* 010E8 80ADA078 ACE80004 */  sw      $t0, 0x0004($a3)           ## 00000004
 /* 010EC 80ADA07C ACE90190 */  sw      $t1, 0x0190($a3)           ## 00000190
 /* 010F0 80ADA080 E4E40068 */  swc1    $f4, 0x0068($a3)           ## 00000068
-/* 010F4 80ADA084 8FBF0014 */  lw      $ra, 0x0014($sp)           
+/* 010F4 80ADA084 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 010F8 80ADA088 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
-/* 010FC 80ADA08C 03E00008 */  jr      $ra                        
+/* 010FC 80ADA08C 03E00008 */  jr      $ra
 /* 01100 80ADA090 00000000 */  nop
 
 

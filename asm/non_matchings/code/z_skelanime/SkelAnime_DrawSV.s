@@ -29,7 +29,7 @@ glabel D_80140224
     .balign 4
 
 .text
-glabel func_800A1AC8
+glabel SkelAnime_DrawSV
 /* B18C68 800A1AC8 27BDFF88 */  addiu $sp, $sp, -0x78
 /* B18C6C 800A1ACC AFBF0024 */  sw    $ra, 0x24($sp)
 /* B18C70 800A1AD0 AFA40078 */  sw    $a0, 0x78($sp)
@@ -100,12 +100,12 @@ glabel func_800A1AC8
 /* B18D70 800A1BD0 E7A6005C */  swc1  $f6, 0x5c($sp)
 /* B18D74 800A1BD4 846B0002 */  lh    $t3, 2($v1)
 /* B18D78 800A1BD8 448B4000 */  mtc1  $t3, $f8
-/* B18D7C 800A1BDC 00000000 */  nop   
+/* B18D7C 800A1BDC 00000000 */  nop
 /* B18D80 800A1BE0 468042A0 */  cvt.s.w $f10, $f8
 /* B18D84 800A1BE4 E7AA0060 */  swc1  $f10, 0x60($sp)
 /* B18D88 800A1BE8 846D0004 */  lh    $t5, 4($v1)
 /* B18D8C 800A1BEC 448D8000 */  mtc1  $t5, $f16
-/* B18D90 800A1BF0 00000000 */  nop   
+/* B18D90 800A1BF0 00000000 */  nop
 /* B18D94 800A1BF4 468084A0 */  cvt.s.w $f18, $f16
 /* B18D98 800A1BF8 E7B20064 */  swc1  $f18, 0x64($sp)
 /* B18D9C 800A1BFC 886C0006 */  lwl   $t4, 6($v1)
@@ -130,7 +130,7 @@ glabel func_800A1AC8
 .L800A1C48:
 /* B18DE8 800A1C48 27A4005C */  addiu $a0, $sp, 0x5c
 /* B18DEC 800A1C4C 27A50054 */  addiu $a1, $sp, 0x54
-/* B18DF0 800A1C50 0C0344D0 */  jal   func_800D1340
+/* B18DF0 800A1C50 0C0344D0 */  jal   Matrix_TranslateThenRotateZYX
 /* B18DF4 800A1C54 AFA8004C */   sw    $t0, 0x4c($sp)
 /* B18DF8 800A1C58 8FAD006C */  lw    $t5, 0x6c($sp)
 /* B18DFC 800A1C5C 8FA8004C */  lw    $t0, 0x4c($sp)
@@ -197,11 +197,11 @@ glabel func_800A1AC8
 /* B18EE4 800A1D44 AFAB001C */  sw    $t3, 0x1c($sp)
 /* B18EE8 800A1D48 AFB90010 */  sw    $t9, 0x10($sp)
 /* B18EEC 800A1D4C AFA20014 */  sw    $v0, 0x14($sp)
-/* B18EF0 800A1D50 0C028603 */  jal   func_800A180C
+/* B18EF0 800A1D50 0C028603 */  jal   SkelAnime_DrawLimbSV
 /* B18EF4 800A1D54 AFAA0018 */   sw    $t2, 0x18($sp)
 .L800A1D58:
 /* B18EF8 800A1D58 0C034221 */  jal   Matrix_Pull
-/* B18EFC 800A1D5C 00000000 */   nop   
+/* B18EFC 800A1D5C 00000000 */   nop
 /* B18F00 800A1D60 8FA90078 */  lw    $t1, 0x78($sp)
 /* B18F04 800A1D64 3C068014 */  lui   $a2, %hi(D_80140224) # $a2, 0x8014
 /* B18F08 800A1D68 24C60224 */  addiu $a2, %lo(D_80140224) # addiu $a2, $a2, 0x224
@@ -213,5 +213,5 @@ glabel func_800A1AC8
 .L800A1D80:
 /* B18F20 800A1D80 27BD0078 */  addiu $sp, $sp, 0x78
 /* B18F24 800A1D84 03E00008 */  jr    $ra
-/* B18F28 800A1D88 00000000 */   nop   
+/* B18F28 800A1D88 00000000 */   nop
 
