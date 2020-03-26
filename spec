@@ -791,8 +791,6 @@ endseg
 beginseg
     name "ovl_Bg_Gjyo_Bridge"
     include "build/src/overlays/actors/ovl_Bg_Gjyo_Bridge/z_bg_gjyo_bridge.o"
-    include "build/data/overlays/actors/z_bg_gjyo_bridge.data.o"
-    include "build/data/overlays/actors/z_bg_gjyo_bridge.rodata.o"
     include "build/data/overlays/actors/z_bg_gjyo_bridge.reloc.o"
 endseg
 
