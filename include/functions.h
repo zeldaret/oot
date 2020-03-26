@@ -1169,8 +1169,8 @@ void func_800A3BC0(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void func_800A3C9C(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void func_800A3EE8(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 arg2);
 void SkelAnime_LinkChangeAnimation(GlobalContext* globalCtx, SkelAnime* skelAnime,
-                                   LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed, f32 arg4,
-                                   f32 frameCount, u8 arg6, f32 arg7);
+                                   LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed, f32 frame,
+                                   f32 frameCount, u8 arg6, f32 transitionRate);
 void func_800A407C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg);
 void func_800A40DC(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
                    f32 playbackSpeed);

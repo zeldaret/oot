@@ -74,7 +74,6 @@ typedef struct {
     /* 0x001 */ u8 vecCount;
     /* 0x004 */ Vec3s* dst;
     /* 0x008 */ Vec3s* src;
-    /* 0x00C */ char unk_0C[0x30];
 } AnimationEntryType1;
 
 typedef struct {
@@ -83,7 +82,6 @@ typedef struct {
     /* 0x004 */ Vec3s* unk_04;
     /* 0x008 */ Vec3s* unk_08;
     /* 0x00C */ f32 unk_0C;
-    /* 0x010 */ char unk_10[0x2C];
 } AnimationEntryType2;
 
 typedef struct {
@@ -92,7 +90,6 @@ typedef struct {
     /* 0x004 */ Vec3s* dst;
     /* 0x008 */ Vec3s* src;
     /* 0x00C */ u8* index;
-    /* 0x010 */ char unk_10[0x2C];
 } AnimationEntryType3;
 
 typedef struct {
@@ -102,14 +99,12 @@ typedef struct {
     /* 0x004 */ Vec3s* dst;
     /* 0x008 */ Vec3s* src;
     /* 0x00C */ u8* index;
-    /* 0x010 */ char unk_10[0x2C];
 } AnimationEntryType4;
 
 typedef struct {
     /* 0x000 */ struct Actor* actor;
     /* 0x004 */ SkelAnime* skelAnime;
     /* 0x008 */ f32 unk_08;
-    /* 0x00C */ char unk_0C[0x30];
 } AnimationEntryType5;
 
 typedef struct {
