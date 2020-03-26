@@ -14,8 +14,8 @@ static void BgGjyoBridge_Destroy(BgGjyoBridge* this, GlobalContext* globalCtx);
 static void BgGjyoBridge_Update(BgGjyoBridge* this, GlobalContext* globalCtx);
 static void BgGjyoBridge_Draw(BgGjyoBridge* this, GlobalContext* globalCtx);
 static void func_808787A4(BgGjyoBridge* this, GlobalContext* globalCtx);
-static void func_808787B0(BgGjyoBridge* this, GlobalContext* globalCtx);
-static void func_80878904(BgGjyoBridge* this, GlobalContext* globalCtx);
+static void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, GlobalContext* globalCtx);
+static void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Gjyo_Bridge_InitVars = {
     ACTOR_BG_GJYO_BRIDGE,
@@ -30,12 +30,14 @@ const ActorInit Bg_Gjyo_Bridge_InitVars = {
     (ActorFunc)BgGjyoBridge_Draw,
 };
 
-InitChainEntry initChain[] = { ICHAIN_F32(unk_F8, 800, ICHAIN_CONTINUE),
-                               ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP) };
+InitChainEntry initChain[] = {
+    ICHAIN_F32(unk_F8, 800, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
+};
 
-extern u32 D_06000600;
-extern u32 D_06000DB8;
-extern u32 D_02002640;
+extern UNK_TYPE D_06000600;
+extern UNK_TYPE D_06000DB8;
+extern UNK_TYPE D_02002640;
 
 void BgGjyoBridge_Init(BgGjyoBridge* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -53,11 +55,11 @@ void BgGjyoBridge_Init(BgGjyoBridge* this, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, dynaCollisionContext, this, local_c);
 
     if (gSaveContext.event_chk_inf[4] & 0x2000) {
-        this->actionFunc = &func_808787A4;
+        this->actionFunc = func_808787A4;
     } else {
-        this->dyna.actor.draw = 0;
+        this->dyna.actor.draw = NULL;
         func_8003EBF8(globalCtx, dynaCollisionContext, this->dyna.dynaPolyId);
-        this->actionFunc = &func_808787B0;
+        this->actionFunc = BgGjyoBridge_TriggerCutscene;
     }
 }
 
@@ -68,7 +70,7 @@ void BgGjyoBridge_Destroy(BgGjyoBridge* this, GlobalContext* globalCtx) {
 void func_808787A4(BgGjyoBridge* this, GlobalContext* globalCtx) {
 }
 
-void func_808787B0(BgGjyoBridge* this, GlobalContext* globalCtx) {
+void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((gBitFlags[3] & gSaveContext.quest_items) && (gBitFlags[4] & gSaveContext.quest_items) &&
@@ -78,12 +80,12 @@ void func_808787B0(BgGjyoBridge* this, GlobalContext* globalCtx) {
         (func_800BFC84(globalCtx) == 0)) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02002640);
         gSaveContext.cutscene_trigger = 1;
-        this->actionFunc = &func_80878904;
+        this->actionFunc = BgGjyoBridge_SpawnBridge;
     }
 }
 
-void func_80878904(BgGjyoBridge* this, GlobalContext* globalCtx) {
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.actorActions[2] != 0) &&
+void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx) {
+    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.actorActions[2] != NULL) &&
         (globalCtx->csCtx.actorActions[2]->action == 2)) {
         this->dyna.actor.draw = &BgGjyoBridge_Draw;
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
