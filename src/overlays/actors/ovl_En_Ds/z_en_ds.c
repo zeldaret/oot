@@ -59,7 +59,7 @@ void EnDs_Init(EnDs* this, GlobalContext* globalCtx) {
 
     this->actor.sub_98.mass = 0xFF;
 
-    Actor_SetScale(this, 0.0130000002682f);
+    Actor_SetScale(this, 0.013f);
 
     this->actionFunc = EnDs_Wait;
     this->actor.unk_1F = 1;
@@ -131,8 +131,8 @@ void EnDs_BrewOddPotion3(EnDs* this, GlobalContext* globalCtx) {
         func_8010B720(globalCtx, 0x504D);
     }
 
-    Math_ApproxF(&this->unk_1E4, 0, 0.0299999993294f);
-    func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0x3DCCCCCD, 1.0f);
+    Math_ApproxF(&this->unk_1E4, 0, 0.03f);
+    func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
 }
 
 void EnDs_BrewOddPotion2(EnDs* this, GlobalContext* globalCtx) {
@@ -153,8 +153,8 @@ void EnDs_BrewOddPotion1(EnDs* this, GlobalContext* globalCtx) {
         this->brewTimer = 20;
     }
 
-    Math_ApproxF(&this->unk_1E4, 1.0f, 0.00999999977648f);
-    func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0x3DCCCCCD, 1.0f);
+    Math_ApproxF(&this->unk_1E4, 1.0f, 0.01f);
+    func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
 }
 
 void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {
@@ -182,7 +182,9 @@ int EnDs_CheckRupeesAndBottle() {
     } else if (Inventory_HasEmptyBottle() == 0) {
         return 1;
     }
-    return 2;
+    else {
+        return 2;
+    }   
 }
 
 void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx) {
