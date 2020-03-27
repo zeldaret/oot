@@ -366,8 +366,6 @@ beginseg
     include "build/src/code/z_scene.o"
     include "build/src/code/z_scene_table.o"
     include "build/src/code/z_skelanime.o"
-    include "build/data/z_skelanime.data.o"
-    include "build/data/z_skelanime.bss.o"
     include "build/src/code/z_skin.o"
     include "build/data/z_skin.bss.o"
     include "build/src/code/z_skin_awb.o"
@@ -793,9 +791,7 @@ endseg
 beginseg
     name "ovl_Bg_Gjyo_Bridge"
     include "build/src/overlays/actors/ovl_Bg_Gjyo_Bridge/z_bg_gjyo_bridge.o"
-    include "build/data/overlays/actors/z_bg_gjyo_bridge.data.o"
-    include "build/data/overlays/actors/z_bg_gjyo_bridge.rodata.o"
-    include "build/data/overlays/actors/z_bg_gjyo_bridge.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gjyo_Bridge/z_bg_gjyo_bridge_reloc.o"
 endseg
 
 beginseg
@@ -1478,9 +1474,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot12_Gate"
     include "build/src/overlays/actors/ovl_Bg_Spot12_Gate/z_bg_spot12_gate.o"
-    include "build/data/overlays/actors/z_bg_spot12_gate.data.o"
-    include "build/data/overlays/actors/z_bg_spot12_gate.rodata.o"
-    include "build/data/overlays/actors/z_bg_spot12_gate.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot12_Gate/z_bg_spot12_gate_reloc.o"
 endseg
 
 beginseg
@@ -3478,9 +3472,7 @@ endseg
 beginseg
     name "ovl_En_Ru2"
     include "build/src/overlays/actors/ovl_En_Ru2/z_en_ru2.o"
-    include "build/data/overlays/actors/z_en_ru2.data.o"
-    include "build/data/overlays/actors/z_en_ru2.rodata.o"
-    include "build/data/overlays/actors/z_en_ru2.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ru2/z_en_ru2_reloc.o"
 endseg
 
 beginseg

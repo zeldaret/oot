@@ -54,7 +54,7 @@ extern u32 D_0403F070;
 extern u32 D_04042440;
 //extern ? D_04048160;
 extern u32 D_04048180;
-extern u32 D_04049210;
+extern Gfx D_04049210[];
 extern u32 D_04049AD0;
 //extern ? D_0404D1C0;
 extern u32 D_0404D450;
@@ -185,7 +185,8 @@ extern EffectTableInfo EffectSS2Info; // 801158B0
 //extern ? D_80115F68;
 //extern ? D_80115F6C;
 //extern ? D_80115F70;
-extern ActorOverlay gActorOverlayTable[471]; // original name: "actor_dlftbls"
+extern Gfx D_80116280[];
+extern ActorOverlay gActorOverlayTable[471]; // original name: "actor_dlftbls" 801162A0
 extern s32 gMaxProfile;
 //extern ? D_80119E2C;
 //extern ? D_80119E52;
@@ -544,8 +545,6 @@ extern u32 gObjectTableSize;
 extern RomFile gObjectTable[402];
 extern EntranceInfo gEntranceTable[1556];
 extern Scene gSceneTable[110];
-//extern ? D_8012A480;
-//extern ? D_8012A484;
 //extern ? D_8012A4A0;
 //extern ? D_8012A4E0;
 //extern ? D_8012A4EC;
@@ -3506,7 +3505,6 @@ extern u8 D_8015FD70;
 //extern ? D_80160014;
 //extern ? D_80160018;
 //extern ? D_80160020;
-//extern ? D_801600B0;
 //extern ? D_801600C0;
 extern u8 D_80161010;
 extern u8 D_801610D4;

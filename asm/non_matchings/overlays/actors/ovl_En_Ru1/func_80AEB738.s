@@ -1,8 +1,8 @@
 glabel func_80AEB738
 /* 00B28 80AEB738 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
-/* 00B2C 80AEB73C AFBF001C */  sw      $ra, 0x001C($sp)           
-/* 00B30 80AEB740 AFB00018 */  sw      $s0, 0x0018($sp)           
-/* 00B34 80AEB744 AFA50024 */  sw      $a1, 0x0024($sp)           
+/* 00B2C 80AEB73C AFBF001C */  sw      $ra, 0x001C($sp)
+/* 00B30 80AEB740 AFB00018 */  sw      $s0, 0x0018($sp)
+/* 00B34 80AEB744 AFA50024 */  sw      $a1, 0x0024($sp)
 /* 00B38 80AEB748 8C8E016C */  lw      $t6, 0x016C($a0)           ## 0000016C
 /* 00B3C 80AEB74C 8C99016C */  lw      $t9, 0x016C($a0)           ## 0000016C
 /* 00B40 80AEB750 8C8B016C */  lw      $t3, 0x016C($a0)           ## 0000016C
@@ -22,21 +22,21 @@ glabel func_80AEB738
 /* 00B78 80AEB788 97290004 */  lhu     $t1, 0x0004($t9)           ## 00000004
 /* 00B7C 80AEB78C A4890188 */  sh      $t1, 0x0188($a0)           ## 00000188
 /* 00B80 80AEB790 856C0002 */  lh      $t4, 0x0002($t3)           ## 00000002
-/* 00B84 80AEB794 014C082A */  slt     $at, $t2, $t4              
-/* 00B88 80AEB798 50200009 */  beql    $at, $zero, .L80AEB7C0     
-/* 00B8C 80AEB79C 8FBF001C */  lw      $ra, 0x001C($sp)           
+/* 00B84 80AEB794 014C082A */  slt     $at, $t2, $t4
+/* 00B88 80AEB798 50200009 */  beql    $at, $zero, .L80AEB7C0
+/* 00B8C 80AEB79C 8FBF001C */  lw      $ra, 0x001C($sp)
 /* 00B90 80AEB7A0 90CD0035 */  lbu     $t5, 0x0035($a2)           ## 00000181
 /* 00B94 80AEB7A4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00B98 80AEB7A8 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 00B9C 80AEB7AC 35AE0003 */  ori     $t6, $t5, 0x0003           ## $t6 = 00000003
 /* 00BA0 80AEB7B0 A0CE0035 */  sb      $t6, 0x0035($a2)           ## 00000181
-/* 00BA4 80AEB7B4 0C028D88 */  jal     func_800A3620              
-/* 00BA8 80AEB7B8 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 00BAC 80AEB7BC 8FBF001C */  lw      $ra, 0x001C($sp)           
+/* 00BA4 80AEB7B4 0C028D88 */  jal     SkelAnime_LoadAnimationType5
+/* 00BA8 80AEB7B8 8FA40024 */  lw      $a0, 0x0024($sp)
+/* 00BAC 80AEB7BC 8FBF001C */  lw      $ra, 0x001C($sp)
 .L80AEB7C0:
-/* 00BB0 80AEB7C0 8FB00018 */  lw      $s0, 0x0018($sp)           
+/* 00BB0 80AEB7C0 8FB00018 */  lw      $s0, 0x0018($sp)
 /* 00BB4 80AEB7C4 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-/* 00BB8 80AEB7C8 03E00008 */  jr      $ra                        
+/* 00BB8 80AEB7C8 03E00008 */  jr      $ra
 /* 00BBC 80AEB7CC 00000000 */  nop
 
 

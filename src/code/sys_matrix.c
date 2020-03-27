@@ -8,6 +8,7 @@ Mtx gMtxClear = {
         0,     0,     0,     0,
         0,     0,     0,     0,
 };
+
 MtxF gMtxFClear = {
     1.0f, 0.0f, 0.0f, 0.0f,
     0.0f, 1.0f, 0.0f, 0.0f,
@@ -58,23 +59,28 @@ void Matrix_Mult(MtxF* mf, u8 mode) {
     }
 }
 
-#ifdef NON_MATCHING
-// minor ordering and regalloc differences
 void Matrix_Translate(f32 x, f32 y, f32 z, u8 mode) {
     MtxF* cmf = sCurrentMatrix;
+    f32 tx;
+    f32 ty;
 
     if (mode == MTXMODE_APPLY) {
-        cmf->wx += cmf->xx * x + cmf->yx * y + cmf->zx * z;
-        cmf->wy += cmf->xy * x + cmf->yy * y + cmf->zy * z;
-        cmf->wz += cmf->xz * x + cmf->yz * y + cmf->zz * z;
-        cmf->ww += cmf->xw * x + cmf->yw * y + cmf->zw * z;
+        tx = cmf->xx;
+        ty = cmf->yx;
+        cmf->wx += tx * x + ty * y + cmf->zx * z;
+        tx = cmf->xy;
+        ty = cmf->yy;
+        cmf->wy += tx * x + ty * y + cmf->zy * z;
+        tx = cmf->xz;
+        ty = cmf->yz;
+        cmf->wz += tx * x + ty * y + cmf->zz * z;
+        tx = cmf->xw;
+        ty = cmf->yw;
+        cmf->ww += tx * x + ty * y + cmf->zw * z;
     } else {
         func_800A7A24(cmf, x, y, z);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/Matrix_Translate.s")
-#endif
 
 void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode) {
     MtxF* cmf = sCurrentMatrix;
@@ -289,7 +295,13 @@ void Matrix_RotateZ(f32 z, u8 mode) {
     }
 }
 
-void Matrix_RotateXYZ(s16 x, s16 y, s16 z, u8 mode) {
+/*
+ * Rotates the top of the matrix stack by `z` degrees, then
+ * rotates that matrix by `y` degrees, then rotates that matrix
+ * by `x` degrees.
+ * Original Name: Matrix_RotateXYZ, changed to reflect rotation order.
+ */
+void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
     MtxF* cmf = sCurrentMatrix;
     f32 temp1;
     f32 temp2;
@@ -374,43 +386,47 @@ void Matrix_RotateXYZ(s16 x, s16 y, s16 z, u8 mode) {
     }
 }
 
-void func_800D1340(Vec3f* arg0, Vec3s* arg1) {
+/*
+ * Translates the top of the matrix stack by `translation` units,
+ * then rotates that matrix by `rotation` in Z-Y-X order
+ */
+void Matrix_TranslateThenRotateZYX(Vec3f* translation, Vec3s* rotation) {
     MtxF* cmf = sCurrentMatrix;
     f32 sin;
     f32 cos;
     f32 temp1;
     f32 temp2;
 
-    sin = Math_Sins(arg1->z);
-    cos = Math_Coss(arg1->z);
+    sin = Math_Sins(rotation->z);
+    cos = Math_Coss(rotation->z);
 
     temp1 = cmf->xx;
     temp2 = cmf->yx;
-    cmf->wx += temp1 * arg0->x + temp2 * arg0->y + cmf->zx * arg0->z;
+    cmf->wx += temp1 * translation->x + temp2 * translation->y + cmf->zx * translation->z;
     cmf->xx = temp1 * cos + temp2 * sin;
     cmf->yx = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->xy;
     temp2 = cmf->yy;
-    cmf->wy += temp1 * arg0->x + temp2 * arg0->y + cmf->zy * arg0->z;
+    cmf->wy += temp1 * translation->x + temp2 * translation->y + cmf->zy * translation->z;
     cmf->xy = temp1 * cos + temp2 * sin;
     cmf->yy = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->xz;
     temp2 = cmf->yz;
-    cmf->wz += temp1 * arg0->x + temp2 * arg0->y + cmf->zz * arg0->z;
+    cmf->wz += temp1 * translation->x + temp2 * translation->y + cmf->zz * translation->z;
     cmf->xz = temp1 * cos + temp2 * sin;
     cmf->yz = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->xw;
     temp2 = cmf->yw;
-    cmf->ww += temp1 * arg0->x + temp2 * arg0->y + cmf->zw * arg0->z;
+    cmf->ww += temp1 * translation->x + temp2 * translation->y + cmf->zw * translation->z;
     cmf->xw = temp1 * cos + temp2 * sin;
     cmf->yw = temp2 * cos - temp1 * sin;
 
-    if (arg1->y != 0) {
-        sin = Math_Sins(arg1->y);
-        cos = Math_Coss(arg1->y);
+    if (rotation->y != 0) {
+        sin = Math_Sins(rotation->y);
+        cos = Math_Coss(rotation->y);
 
         temp1 = cmf->xx;
         temp2 = cmf->zx;
@@ -433,9 +449,9 @@ void func_800D1340(Vec3f* arg0, Vec3s* arg1) {
         cmf->zw = temp1 * sin + temp2 * cos;
     }
 
-    if (arg1->x != 0) {
-        sin = Math_Sins(arg1->x);
-        cos = Math_Coss(arg1->x);
+    if (rotation->x != 0) {
+        sin = Math_Sins(rotation->x);
+        cos = Math_Coss(rotation->x);
 
         temp1 = cmf->yx;
         temp2 = cmf->zx;
