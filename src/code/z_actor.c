@@ -4064,7 +4064,6 @@ void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
 Vec3f D_80116268 = { 0.0f, -1.5f, 0.0f };
 Vec3f D_80116274 = { 0.0f, -0.2f, 0.0f };
 
-// unused
 Gfx D_80116280[] = {
     gsDPSetRenderMode(AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
                           GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA),

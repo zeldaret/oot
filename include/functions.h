@@ -831,6 +831,7 @@ void func_8006EE48(UNK_TYPE);
 // ? func_8006F0FC(?);
 // ? func_8006F140(?);
 f32 func_8006F93C(u16, u16, u16);
+f32 func_8006F9BC(u16, u16, u16, u16, u16);
 // ? func_8006FB94(?);
 // ? func_8006FC88(?);
 // ? func_80070600(?);
