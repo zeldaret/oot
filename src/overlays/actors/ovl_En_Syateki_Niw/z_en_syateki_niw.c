@@ -1,6 +1,6 @@
 #include "z_en_syateki_niw.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnSyatekiNiw_Init(EnSyatekiNiw* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnSyatekiNiw_Update(EnSyatekiNiw* this, GlobalContext* globalCtx);
 void EnSyatekiNiw_Draw(EnSyatekiNiw* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Syateki_Niw_InitVars =
-{
+const ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
     ACTORTYPE_PROP,
     ROOM,

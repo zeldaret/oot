@@ -21,11 +21,11 @@
 
 #define VT_ESC "\x1b"
 #define VT_CSI "["
-#define VT_CUP(x, y) VT_ESC VT_CSI #y ";" #x "H"
+#define VT_CUP(x, y) VT_ESC VT_CSI y ";" x "H"
 #define VT_ED(n) VT_ESC VT_CSI #n "J"
 #define VT_SGR(n) VT_ESC VT_CSI n "m"
 
-//Add more macros if necessary
+// Add more macros if necessary
 #define VT_COL(back, fore) VT_SGR(VT_COLOR(BACKGROUND, back) ";" VT_COLOR(FOREGROUND, fore))
 #define VT_FGCOL(color) VT_SGR(VT_COLOR(FOREGROUND, color))
 #define VT_BGCOL(color) VT_SGR(VT_COLOR(BACKGROUND, color))

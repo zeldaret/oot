@@ -1,6 +1,6 @@
 #include "z_en_test.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnTest_Init(EnTest* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnTest_Update(EnTest* this, GlobalContext* globalCtx);
 void EnTest_Draw(EnTest* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Test_InitVars =
-{
+const ActorInit En_Test_InitVars = {
     ACTOR_EN_TEST,
     ACTORTYPE_ENEMY,
     ROOM,

@@ -1,6 +1,6 @@
 #include "z_obj_timeblock.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x0A000011
 
 void ObjTimeblock_Init(ObjTimeblock* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void ObjTimeblock_Update(ObjTimeblock* this, GlobalContext* globalCtx);
 void ObjTimeblock_Draw(ObjTimeblock* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Timeblock_InitVars =
-{
+const ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
     ACTORTYPE_ITEMACTION,
     ROOM,

@@ -16,4 +16,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_vimode/func_800ACA98.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_vimode/func_800ACAF8.s")
-

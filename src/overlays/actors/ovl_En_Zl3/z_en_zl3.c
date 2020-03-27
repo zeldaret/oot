@@ -1,6 +1,6 @@
 #include "z_en_zl3.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnZl3_Init(EnZl3* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnZl3_Update(EnZl3* this, GlobalContext* globalCtx);
 void EnZl3_Draw(EnZl3* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Zl3_InitVars =
-{
+const ActorInit En_Zl3_InitVars = {
     ACTOR_EN_ZL3,
     ACTORTYPE_NPC,
     ROOM,

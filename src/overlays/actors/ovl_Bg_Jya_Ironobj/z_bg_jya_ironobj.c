@@ -1,6 +1,6 @@
 #include "z_bg_jya_ironobj.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgJyaIronobj_Init(BgJyaIronobj* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgJyaIronobj_Update(BgJyaIronobj* this, GlobalContext* globalCtx);
 void BgJyaIronobj_Draw(BgJyaIronobj* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Ironobj_InitVars =
-{
+const ActorInit Bg_Jya_Ironobj_InitVars = {
     ACTOR_BG_JYA_IRONOBJ,
     ACTORTYPE_PROP,
     ROOM,

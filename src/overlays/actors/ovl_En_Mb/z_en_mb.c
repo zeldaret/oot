@@ -1,6 +1,6 @@
 #include "z_en_mb.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnMb_Init(EnMb* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnMb_Update(EnMb* this, GlobalContext* globalCtx);
 void EnMb_Draw(EnMb* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Mb_InitVars =
-{
+const ActorInit En_Mb_InitVars = {
     ACTOR_EN_MB,
     ACTORTYPE_ENEMY,
     ROOM,

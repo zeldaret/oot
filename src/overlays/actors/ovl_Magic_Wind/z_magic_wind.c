@@ -1,6 +1,6 @@
 #include "z_magic_wind.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void MagicWind_Init(MagicWind* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void MagicWind_Update(MagicWind* this, GlobalContext* globalCtx);
 void MagicWind_Draw(MagicWind* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Magic_Wind_InitVars =
-{
+const ActorInit Magic_Wind_InitVars = {
     ACTOR_MAGIC_WIND,
     ACTORTYPE_ITEMACTION,
     ROOM,

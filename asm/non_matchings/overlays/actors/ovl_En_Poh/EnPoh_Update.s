@@ -1,58 +1,58 @@
 glabel EnPoh_Update
 /* 027E4 80AE0534 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
-/* 027E8 80AE0538 AFB00028 */  sw      $s0, 0x0028($sp)           
+/* 027E8 80AE0538 AFB00028 */  sw      $s0, 0x0028($sp)
 /* 027EC 80AE053C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 027F0 80AE0540 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 027F4 80AE0544 342117A4 */  ori     $at, $at, 0x17A4           ## $at = 000117A4
-/* 027F8 80AE0548 AFBF002C */  sw      $ra, 0x002C($sp)           
-/* 027FC 80AE054C AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 02800 80AE0550 00A12021 */  addu    $a0, $a1, $at              
+/* 027F8 80AE0548 AFBF002C */  sw      $ra, 0x002C($sp)
+/* 027FC 80AE054C AFA50034 */  sw      $a1, 0x0034($sp)
+/* 02800 80AE0550 00A12021 */  addu    $a0, $a1, $at
 /* 02804 80AE0554 0C026062 */  jal     Object_IsLoaded
-              
+
 /* 02808 80AE0558 82050196 */  lb      $a1, 0x0196($s0)           ## 00000196
-/* 0280C 80AE055C 10400042 */  beq     $v0, $zero, .L80AE0668     
+/* 0280C 80AE055C 10400042 */  beq     $v0, $zero, .L80AE0668
 /* 02810 80AE0560 3C0F80AE */  lui     $t7, %hi(func_80AE0A1C)    ## $t7 = 80AE0000
 /* 02814 80AE0564 820E0196 */  lb      $t6, 0x0196($s0)           ## 00000196
 /* 02818 80AE0568 25EF0A1C */  addiu   $t7, $t7, %lo(func_80AE0A1C) ## $t7 = 80AE0A1C
 /* 0281C 80AE056C AE0F0130 */  sw      $t7, 0x0130($s0)           ## 00000130
 /* 02820 80AE0570 A20E001E */  sb      $t6, 0x001E($s0)           ## 0000001E
-/* 02824 80AE0574 8FA40034 */  lw      $a0, 0x0034($sp)           
+/* 02824 80AE0574 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 02828 80AE0578 0C00B591 */  jal     Actor_SetObjectDependency
-              
+
 /* 0282C 80AE057C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02830 80AE0580 92180197 */  lbu     $t8, 0x0197($s0)           ## 00000197
-/* 02834 80AE0584 8FA40034 */  lw      $a0, 0x0034($sp)           
+/* 02834 80AE0584 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 02838 80AE0588 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 0283C 80AE058C 17000012 */  bne     $t8, $zero, .L80AE05D8     
+/* 0283C 80AE058C 17000012 */  bne     $t8, $zero, .L80AE05D8
 /* 02840 80AE0590 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
 /* 02844 80AE0594 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
 /* 02848 80AE0598 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
 /* 0284C 80AE059C 2619019E */  addiu   $t9, $s0, 0x019E           ## $t9 = 0000019E
 /* 02850 80AE05A0 2608021C */  addiu   $t0, $s0, 0x021C           ## $t0 = 0000021C
 /* 02854 80AE05A4 24090015 */  addiu   $t1, $zero, 0x0015         ## $t1 = 00000015
-/* 02858 80AE05A8 AFA90018 */  sw      $t1, 0x0018($sp)           
-/* 0285C 80AE05AC AFA80014 */  sw      $t0, 0x0014($sp)           
-/* 02860 80AE05B0 AFB90010 */  sw      $t9, 0x0010($sp)           
+/* 02858 80AE05A8 AFA90018 */  sw      $t1, 0x0018($sp)
+/* 0285C 80AE05AC AFA80014 */  sw      $t0, 0x0014($sp)
+/* 02860 80AE05B0 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 02864 80AE05B4 24E70A60 */  addiu   $a3, $a3, 0x0A60           ## $a3 = 06000A60
 /* 02868 80AE05B8 24C650D0 */  addiu   $a2, $a2, 0x50D0           ## $a2 = 060050D0
-/* 0286C 80AE05BC 8FA40034 */  lw      $a0, 0x0034($sp)           
+/* 0286C 80AE05BC 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 02870 80AE05C0 0C02915F */  jal     SkelAnime_Init
-              
+
 /* 02874 80AE05C4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 02878 80AE05C8 3C0A80AE */  lui     $t2, %hi(func_80AE0EE4)    ## $t2 = 80AE0000
 /* 0287C 80AE05CC 254A0EE4 */  addiu   $t2, $t2, %lo(func_80AE0EE4) ## $t2 = 80AE0EE4
-/* 02880 80AE05D0 1000001F */  beq     $zero, $zero, .L80AE0650   
+/* 02880 80AE05D0 1000001F */  beq     $zero, $zero, .L80AE0650
 /* 02884 80AE05D4 AE0A0134 */  sw      $t2, 0x0134($s0)           ## 00000134
 .L80AE05D8:
 /* 02888 80AE05D8 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
 /* 0288C 80AE05DC 260B019E */  addiu   $t3, $s0, 0x019E           ## $t3 = 0000019E
 /* 02890 80AE05E0 260C021C */  addiu   $t4, $s0, 0x021C           ## $t4 = 0000021C
 /* 02894 80AE05E4 240D000C */  addiu   $t5, $zero, 0x000C         ## $t5 = 0000000C
-/* 02898 80AE05E8 AFAD0018 */  sw      $t5, 0x0018($sp)           
-/* 0289C 80AE05EC AFAC0014 */  sw      $t4, 0x0014($sp)           
-/* 028A0 80AE05F0 AFAB0010 */  sw      $t3, 0x0010($sp)           
+/* 02898 80AE05E8 AFAD0018 */  sw      $t5, 0x0018($sp)
+/* 0289C 80AE05EC AFAC0014 */  sw      $t4, 0x0014($sp)
+/* 028A0 80AE05F0 AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 028A4 80AE05F4 24E709DC */  addiu   $a3, $a3, 0x09DC           ## $a3 = 060009DC
-/* 028A8 80AE05F8 0C0291BE */  jal     func_800A46F8              
+/* 028A8 80AE05F8 0C0291BE */  jal     SkelAnime_InitSV
 /* 028AC 80AE05FC 24C66F90 */  addiu   $a2, $a2, 0x6F90           ## $a2 = 00006F90
 /* 028B0 80AE0600 8E180324 */  lw      $t8, 0x0324($s0)           ## 00000324
 /* 028B4 80AE0604 3C0E80AE */  lui     $t6, %hi(func_80AE1148)    ## $t6 = 80AE0000
@@ -66,7 +66,7 @@ glabel EnPoh_Update
 /* 028D4 80AE0624 8479002A */  lh      $t9, 0x002A($v1)           ## 0000002A
 /* 028D8 80AE0628 240C0037 */  addiu   $t4, $zero, 0x0037         ## $t4 = 00000037
 /* 028DC 80AE062C 240D000F */  addiu   $t5, $zero, 0x000F         ## $t5 = 0000000F
-/* 028E0 80AE0630 00194023 */  subu    $t0, $zero, $t9            
+/* 028E0 80AE0630 00194023 */  subu    $t0, $zero, $t9
 /* 028E4 80AE0634 A468002A */  sh      $t0, 0x002A($v1)           ## 0000002A
 /* 028E8 80AE0638 A6090032 */  sh      $t1, 0x0032($s0)           ## 00000032
 /* 028EC 80AE063C 860A0032 */  lh      $t2, 0x0032($s0)           ## 00000032
@@ -78,14 +78,14 @@ glabel EnPoh_Update
 /* 02900 80AE0650 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
 /* 02904 80AE0654 2401FFEF */  addiu   $at, $zero, 0xFFEF         ## $at = FFFFFFEF
 /* 02908 80AE0658 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0290C 80AE065C 01C17824 */  and     $t7, $t6, $at              
-/* 02910 80AE0660 0C2B78F7 */  jal     func_80ADE3DC              
+/* 0290C 80AE065C 01C17824 */  and     $t7, $t6, $at
+/* 02910 80AE0660 0C2B78F7 */  jal     func_80ADE3DC
 /* 02914 80AE0664 AE0F0004 */  sw      $t7, 0x0004($s0)           ## 00000004
 .L80AE0668:
-/* 02918 80AE0668 8FBF002C */  lw      $ra, 0x002C($sp)           
-/* 0291C 80AE066C 8FB00028 */  lw      $s0, 0x0028($sp)           
+/* 02918 80AE0668 8FBF002C */  lw      $ra, 0x002C($sp)
+/* 0291C 80AE066C 8FB00028 */  lw      $s0, 0x0028($sp)
 /* 02920 80AE0670 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-/* 02924 80AE0674 03E00008 */  jr      $ra                        
+/* 02924 80AE0674 03E00008 */  jr      $ra
 /* 02928 80AE0678 00000000 */  nop
 
 

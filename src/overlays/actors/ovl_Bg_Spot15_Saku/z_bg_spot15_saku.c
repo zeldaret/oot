@@ -2,11 +2,11 @@
  * File: z_bg_spot15_saku.c
  * Overlay: ovl_Bg_Spot15_Saku
  * Description:
-*/
+ */
 
 #include "z_bg_spot15_saku.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgSpot15Saku_Init(BgSpot15Saku* this, GlobalContext* globalCtx);
@@ -18,8 +18,7 @@ void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx);
 void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx);
 void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx);
 
-const ActorInit Bg_Spot15_Saku_InitVars =
-{
+const ActorInit Bg_Spot15_Saku_InitVars = {
     ACTOR_BG_SPOT15_SAKU,
     ACTORTYPE_ITEMACTION,
     ROOM,
@@ -35,8 +34,7 @@ const ActorInit Bg_Spot15_Saku_InitVars =
 extern u32 D_060003C0;
 extern u32 D_060004D0;
 
-void BgSpot15Saku_Init(BgSpot15Saku* this, GlobalContext* globalCtx)
-{
+void BgSpot15Saku_Init(BgSpot15Saku* this, GlobalContext* globalCtx) {
     s32 pad[2];
     Actor* thisx = &this->dyna.actor;
     s32 local_c = 0;
@@ -50,27 +48,23 @@ void BgSpot15Saku_Init(BgSpot15Saku* this, GlobalContext* globalCtx)
     this->unk_170 = thisx->posRot.pos.x;
     this->unk_174 = thisx->posRot.pos.y;
     this->unk_178 = thisx->posRot.pos.z;
-    if ((gSaveContext.inf_table[7] & 2) != 0)
-    {
+    if ((gSaveContext.inf_table[7] & 2) != 0) {
         thisx->posRot.pos.z = 2659.0f;
     }
     this->actionFunc = func_808B4930;
 }
 
-void BgSpot15Saku_Destroy(BgSpot15Saku* this, GlobalContext* globalCtx)
-{
+void BgSpot15Saku_Destroy(BgSpot15Saku* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 #ifdef NON_MATCHING
 // regalloc differences
-void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx)
-{
+void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {
     void* temp = this->unk_168;
     void* temp2 = this->unk_16C;
 
-    if ((temp != NULL || temp2 != NULL) && !(gSaveContext.inf_table[7] & 2))
-    {
+    if ((temp != NULL || temp2 != NULL) && !(gSaveContext.inf_table[7] & 2)) {
         this->unk_17C = 2;
         this->actionFunc = func_808B4978;
     }
@@ -79,15 +73,12 @@ void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx)
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Saku/func_808B4930.s")
 #endif
 
-void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx)
-{
+void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
-    if (!this->unk_17C)
-    {
+    if (!this->unk_17C) {
         Audio_PlayActorSound2(thisx, 0x2067);
         thisx->posRot.pos.z -= 2.0f;
-        if (thisx->posRot.pos.z < 2660.0f)
-        {
+        if (thisx->posRot.pos.z < 2660.0f) {
             Audio_PlayActorSound2(thisx, 0x280E);
             this->unk_17C = 0x1E;
             this->actionFunc = func_808B4A04;
@@ -97,10 +88,8 @@ void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx)
 
 #ifdef NON_MATCHING
 // single regalloc difference
-void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx)
-{
-    if (this->unk_17C == 0)
-    {
+void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx) {
+    if (this->unk_17C == 0) {
         this->unk_168 = 0 & 0xFFFFFFFFFFFFFFFF;
         this->unk_16C = 0 & 0xFFFFFFFFFFFFFFFF;
         this->actionFunc = func_808B4930;
@@ -110,14 +99,12 @@ void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx)
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Saku/func_808B4A04.s")
 #endif
 
-void BgSpot15Saku_Update(BgSpot15Saku* this, GlobalContext* globalCtx)
-{
+void BgSpot15Saku_Update(BgSpot15Saku* this, GlobalContext* globalCtx) {
     DECR(this->unk_17C);
     this->actionFunc(this, globalCtx);
 }
 
-void BgSpot15Saku_Draw(BgSpot15Saku* this, GlobalContext* globalCtx)
-{
+void BgSpot15Saku_Draw(BgSpot15Saku* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 

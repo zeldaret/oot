@@ -1,6 +1,6 @@
 #include "z_magic_dark.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void MagicDark_Init(MagicDark* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void MagicDark_Update(MagicDark* this, GlobalContext* globalCtx);
 void MagicDark_Draw(MagicDark* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Magic_Dark_InitVars =
-{
+const ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
     ACTORTYPE_ITEMACTION,
     ROOM,

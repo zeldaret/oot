@@ -1,6 +1,6 @@
 #include "z_demo_kankyo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void DemoKankyo_Init(DemoKankyo* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void DemoKankyo_Update(DemoKankyo* this, GlobalContext* globalCtx);
 void DemoKankyo_Draw(DemoKankyo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_Kankyo_InitVars =
-{
+const ActorInit Demo_Kankyo_InitVars = {
     ACTOR_DEMO_KANKYO,
     ACTORTYPE_BG,
     ROOM,
@@ -70,4 +69,3 @@ const ActorInit Demo_Kankyo_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Kankyo/func_8098ABC0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Kankyo/func_8098B354.s")
-

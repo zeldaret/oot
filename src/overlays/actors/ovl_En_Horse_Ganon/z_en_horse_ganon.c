@@ -1,6 +1,6 @@
 #include "z_en_horse_ganon.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx);
 void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Horse_Ganon_InitVars =
-{
+const ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
     ACTORTYPE_BG,
     ROOM,

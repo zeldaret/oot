@@ -1,6 +1,6 @@
 #include "z_en_horse_game_check.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnHorseGameCheck_Init(EnHorseGameCheck* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnHorseGameCheck_Update(EnHorseGameCheck* this, GlobalContext* globalCtx);
 void EnHorseGameCheck_Draw(EnHorseGameCheck* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Horse_Game_Check_InitVars =
-{
+const ActorInit En_Horse_Game_Check_InitVars = {
     ACTOR_EN_HORSE_GAME_CHECK,
     ACTORTYPE_BG,
     ROOM,

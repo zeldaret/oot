@@ -10,7 +10,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Fhg_Flash/func_809A4E28.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/effects/ovl_Effect_Ss_Fhg_Flash/func_809A4EC0.s")
-
-
-
-

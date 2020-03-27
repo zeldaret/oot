@@ -178,7 +178,7 @@ glabel func_800A663C
 /* B1D9E4 800A6844 8FA40048 */  lw    $a0, 0x48($sp)
 /* B1D9E8 800A6848 26A5004C */  addiu $a1, $s5, 0x4c
 /* B1D9EC 800A684C 8FA60050 */  lw    $a2, 0x50($sp)
-/* B1D9F0 800A6850 0C02921F */  jal   func_800A487C
+/* B1D9F0 800A6850 0C02921F */  jal   SkelAnime_InitSkin
 /* B1D9F4 800A6854 8FA70054 */   lw    $a3, 0x54($sp)
 /* B1D9F8 800A6858 8FBF003C */  lw    $ra, 0x3c($sp)
 /* B1D9FC 800A685C 8FB00018 */  lw    $s0, 0x18($sp)

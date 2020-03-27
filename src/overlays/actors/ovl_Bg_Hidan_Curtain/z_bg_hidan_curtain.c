@@ -1,6 +1,6 @@
 #include "z_bg_hidan_curtain.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgHidanCurtain_Init(BgHidanCurtain* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgHidanCurtain_Update(BgHidanCurtain* this, GlobalContext* globalCtx);
 void BgHidanCurtain_Draw(BgHidanCurtain* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Curtain_InitVars =
-{
+const ActorInit Bg_Hidan_Curtain_InitVars = {
     ACTOR_BG_HIDAN_CURTAIN,
     ACTORTYPE_PROP,
     ROOM,

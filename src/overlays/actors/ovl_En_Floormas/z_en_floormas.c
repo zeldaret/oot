@@ -1,6 +1,6 @@
 #include "z_en_floormas.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000405
 
 void EnFloormas_Init(EnFloormas* this, GlobalContext* globalCtx);
@@ -8,11 +8,8 @@ void EnFloormas_Destroy(EnFloormas* this, GlobalContext* globalCtx);
 void EnFloormas_Update(EnFloormas* this, GlobalContext* globalCtx);
 void EnFloormas_Draw(EnFloormas* this, GlobalContext* globalCtx);
 
-void func_80A193C4(EnFloormas* this, GlobalContext* globalCtx);
-void func_80A18F50(EnFloormas* this, GlobalContext* globalCtx);
-
-const ActorInit En_Floormas_InitVars =
-{
+/*
+const ActorInit En_Floormas_InitVars = {
     ACTOR_EN_FLOORMAS,
     ACTORTYPE_ENEMY,
     ROOM,

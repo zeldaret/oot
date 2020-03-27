@@ -1,6 +1,6 @@
 #include "z_bg_spot12_saku.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgSpot12Saku_Init(BgSpot12Saku* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgSpot12Saku_Update(BgSpot12Saku* this, GlobalContext* globalCtx);
 void BgSpot12Saku_Draw(BgSpot12Saku* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot12_Saku_InitVars =
-{
+const ActorInit Bg_Spot12_Saku_InitVars = {
     ACTOR_BG_SPOT12_SAKU,
     ACTORTYPE_BG,
     ROOM,

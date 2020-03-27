@@ -1,6 +1,6 @@
 #include "z_obj_switch.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ObjSwitch_Init(ObjSwitch* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void ObjSwitch_Update(ObjSwitch* this, GlobalContext* globalCtx);
 void ObjSwitch_Draw(ObjSwitch* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Switch_InitVars =
-{
+const ActorInit Obj_Switch_InitVars = {
     ACTOR_OBJ_SWITCH,
     ACTORTYPE_SWITCH,
     ROOM,

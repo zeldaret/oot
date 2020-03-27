@@ -1,13 +1,12 @@
 #include <global.h>
 
 OSThread* __osThreadTail[2] = { NULL, (OSThread*)-1 };
-OSThread *__osRunQueue = __osThreadTail;
-OSThread *__osActiveQueue = __osThreadTail;
-OSThread *__osRunningThread = NULL;
+OSThread* __osRunQueue = __osThreadTail;
+OSThread* __osActiveQueue = __osThreadTail;
+OSThread* __osRunningThread = NULL;
 OSThread* __osFaultedThread = NULL;
 
-void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, void* sp, OSPri pri)
-{
+void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, void* sp, OSPri pri) {
     register u32 s0;
     u32 t8;
 

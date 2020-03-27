@@ -1,6 +1,6 @@
 #include "z_arrow_ice.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void ArrowIce_Update(ArrowIce* this, GlobalContext* globalCtx);
 void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Arrow_Ice_InitVars =
-{
+const ActorInit Arrow_Ice_InitVars = {
     ACTOR_ARROW_ICE,
     ACTORTYPE_ITEMACTION,
     ROOM,

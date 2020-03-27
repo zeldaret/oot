@@ -58,7 +58,7 @@ glabel func_800458D4
 /* ABCB18 80045978 0C01F00A */  jal   func_8007C028
 /* ABCB1C 8004597C E7A60048 */   swc1  $f6, 0x48($sp)
 /* ABCB20 80045980 C7AC0048 */  lwc1  $f12, 0x48($sp)
-/* ABCB24 80045984 0C03F494 */  jal   func_800FD250
+/* ABCB24 80045984 0C03F494 */  jal   Math_atan2f
 /* ABCB28 80045988 46000386 */   mov.s $f14, $f0
 /* ABCB2C 8004598C 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* ABCB30 80045990 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)

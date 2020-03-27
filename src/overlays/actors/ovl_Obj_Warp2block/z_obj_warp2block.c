@@ -1,6 +1,6 @@
 #include "z_obj_warp2block.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x0A000011
 
 void ObjWarp2block_Init(ObjWarp2block* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void ObjWarp2block_Update(ObjWarp2block* this, GlobalContext* globalCtx);
 void ObjWarp2block_Draw(ObjWarp2block* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Warp2block_InitVars =
-{
+const ActorInit Obj_Warp2block_InitVars = {
     ACTOR_OBJ_WARP2BLOCK,
     ACTORTYPE_ITEMACTION,
     ROOM,

@@ -1,6 +1,6 @@
 #include "z_demo_ec.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void DemoEc_Init(DemoEc* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void DemoEc_Update(DemoEc* this, GlobalContext* globalCtx);
 void DemoEc_Draw(DemoEc* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_Ec_InitVars =
-{
+const ActorInit Demo_Ec_InitVars = {
     ACTOR_DEMO_EC,
     ACTORTYPE_NPC,
     ROOM,

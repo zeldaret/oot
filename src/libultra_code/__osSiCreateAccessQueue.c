@@ -7,13 +7,13 @@ OSMesg osSiMesgBuff[SIAccessQueueSize];
 OSMesgQueue gOsSiMessageQueue;
 u32 gOsSiAccessQueueCreated = 0;
 
-void __osSiCreateAccessQueue() { //func_80100B50
+void __osSiCreateAccessQueue() {
     gOsSiAccessQueueCreated = 1;
     osCreateMesgQueue(&gOsSiMessageQueue, &osSiMesgBuff[0], SIAccessQueueSize - 1);
     osSendMesg(&gOsSiMessageQueue, NULL, OS_MESG_NOBLOCK);
 }
 
-void __osSiGetAccess() { //func_80100BA0
+void __osSiGetAccess() {
     OSMesg sp1c;
     if (!gOsSiAccessQueueCreated) {
         __osSiCreateAccessQueue();
@@ -21,6 +21,6 @@ void __osSiGetAccess() { //func_80100BA0
     osRecvMesg(&gOsSiMessageQueue, &sp1c, OS_MESG_BLOCK);
 }
 
-void __osSiRelAccess() { //func_80100BE4
+void __osSiRelAccess() {
     osSendMesg(&gOsSiMessageQueue, NULL, OS_MESG_NOBLOCK);
 }

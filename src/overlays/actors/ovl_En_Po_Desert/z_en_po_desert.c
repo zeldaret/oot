@@ -1,6 +1,6 @@
 #include "z_en_po_desert.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00001090
 
 void EnPoDesert_Init(EnPoDesert* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnPoDesert_Update(EnPoDesert* this, GlobalContext* globalCtx);
 void EnPoDesert_Draw(EnPoDesert* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Po_Desert_InitVars =
-{
+const ActorInit En_Po_Desert_InitVars = {
     ACTOR_EN_PO_DESERT,
     ACTORTYPE_BG,
     ROOM,

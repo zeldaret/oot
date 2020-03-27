@@ -1,6 +1,6 @@
 #include "z_item_ocarina.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ItemOcarina_Init(ItemOcarina* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void ItemOcarina_Update(ItemOcarina* this, GlobalContext* globalCtx);
 void ItemOcarina_Draw(ItemOcarina* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Item_Ocarina_InitVars =
-{
+const ActorInit Item_Ocarina_InitVars = {
     ACTOR_ITEM_OCARINA,
     ACTORTYPE_ITEMACTION,
     ROOM,

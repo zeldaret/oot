@@ -1,6 +1,6 @@
 #include "z_boss_goma.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void BossGoma_Init(BossGoma* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BossGoma_Update(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_Draw(BossGoma* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Boss_Goma_InitVars =
-{
+const ActorInit Boss_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORTYPE_BOSS,
     ROOM,

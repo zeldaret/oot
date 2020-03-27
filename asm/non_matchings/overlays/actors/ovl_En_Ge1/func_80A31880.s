@@ -4,7 +4,7 @@ glabel func_80A31880
 /* 00F18 80A31888 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00F1C 80A3188C AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 00F20 80A31890 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00F24 80A31894 0C01B0D8 */  jal     func_8006C360              
+/* 00F24 80A31894 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00F28 80A31898 24050022 */  addiu   $a1, $zero, 0x0022         ## $a1 = 00000022
 /* 00F2C 80A3189C 14400002 */  bne     $v0, $zero, .L80A318A8     
 /* 00F30 80A318A0 3046FFFF */  andi    $a2, $v0, 0xFFFF           ## $a2 = 00000000

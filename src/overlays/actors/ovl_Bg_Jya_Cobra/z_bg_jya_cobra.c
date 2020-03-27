@@ -1,6 +1,6 @@
 #include "z_bg_jya_cobra.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgJyaCobra_Init(BgJyaCobra* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgJyaCobra_Update(BgJyaCobra* this, GlobalContext* globalCtx);
 void BgJyaCobra_Draw(BgJyaCobra* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Cobra_InitVars =
-{
+const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
     ACTORTYPE_PROP,
     ROOM,

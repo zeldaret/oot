@@ -1,6 +1,6 @@
 #include "z_en_geldb.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnGeldB_Init(EnGeldB* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnGeldB_Update(EnGeldB* this, GlobalContext* globalCtx);
 void EnGeldB_Draw(EnGeldB* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_GeldB_InitVars =
-{
+const ActorInit En_GeldB_InitVars = {
     ACTOR_EN_GELDB,
     ACTORTYPE_ENEMY,
     ROOM,

@@ -1,6 +1,6 @@
 #include "z_boss_dodongo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void BossDodongo_Init(BossDodongo* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BossDodongo_Update(BossDodongo* this, GlobalContext* globalCtx);
 void BossDodongo_Draw(BossDodongo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Boss_Dodongo_InitVars =
-{
+const ActorInit Boss_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
     ACTORTYPE_BOSS,
     ROOM,
