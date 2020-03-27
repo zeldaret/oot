@@ -184,7 +184,7 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
 // ? func_8002389C(?);
 void func_80024F0C(UNK_TYPE);
 void func_80026400(GlobalContext*, Color_RGBA8*, u8, s16);
-// ? func_80026608(?);
+void func_80026608(GlobalContext*);
 void func_80026860(GlobalContext*, Color_RGBA8*, u8, s16);
 // ? func_80026A6C(?);
 GlobalContext* func_80026B00(void);
@@ -1148,6 +1148,7 @@ void func_800A51E8(SkelAnime *skelAnime, u32 animation);
 void func_800A5240(SkelAnime *skelAnime, u32 animation, f32 unk0);
 void func_800A529C(SkelAnime *skelAnime, u32 animation, f32 unk0, Actor *actor);
 // ? func_800A52F8(?);
+void func_800A5384(SkelAnime* skelAnime, u32 animation, f32 arg2);
 // ? func_800A54FC(?);
 UNK_TYPE func_800A56C8(SkelAnime* skelAnime, f32 arg1);
 // ? func_800A56F0(?);
