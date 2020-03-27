@@ -259,7 +259,7 @@ void EnDs_Update(EnDs* this, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     
-    if ((this->unk_1E8 & 1)) {
+    if (this->unk_1E8 & 1) {
         func_80038290(globalCtx, this, &this->unk_1D8, &this->unk_1DE, this->actor.posRot2.pos);
     } else {
         Math_SmoothScaleMaxMinS(&this->unk_1D8.x, 0, 6, 0x1838, 100);
