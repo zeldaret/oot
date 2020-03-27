@@ -17,8 +17,8 @@ void EnDs_Draw(EnDs* this, GlobalContext* globalCtx);
 void EnDs_Talk(EnDs* this, GlobalContext* globalCtx);
 void EnDs_TalkNoEmptyBottle(EnDs* this, GlobalContext* globalCtx);
 void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx);
-void EnDs_GiveOddPotion2(EnDs* this, GlobalContext* globalCtx);
-void EnDs_GiveOddPotion1(EnDs* this, GlobalContext* globalCtx);
+void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx);
+void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx);
 void EnDs_TalkAfterBrewOddPotion(EnDs* this, GlobalContext* globalCtx);
 void EnDs_BrewOddPotion3(EnDs* this, GlobalContext* globalCtx);
 void EnDs_BrewOddPotion2(EnDs* this, GlobalContext* globalCtx);
@@ -45,8 +45,8 @@ const ActorInit En_Ds_InitVars = {
     (ActorFunc)EnDs_Draw,
 };
 
-extern UNK_TYPE D_06004768;
-extern UNK_TYPE D_0600039C;
+extern SkeletonHeader D_06004768;
+extern AnimationHeader D_0600039C;
 
 Vec3f mtxSrc = { 1100.0f, 500.0f, 0.0f };
 
@@ -64,7 +64,7 @@ void EnDs_Init(EnDs* this, GlobalContext* globalCtx) {
     this->actionFunc = EnDs_Wait;
     this->actor.unk_1F = 1;
     this->unk_1E8 = 0;
-    this->actor.flags &= -2;
+    this->actor.flags &= ~0x1;
     this->unk_1E4 = 0.0f;
 }
 
@@ -74,7 +74,7 @@ void EnDs_Destroy(EnDs* this, GlobalContext* globalCtx) {
 void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx) != 0) {
         this->actionFunc = EnDs_Wait;
-        this->actor.flags &= 0xFFFEFFFF;
+        this->actor.flags &= ~0x10000;
     }
     this->unk_1E8 |= 1;
 }
@@ -96,19 +96,19 @@ void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDs_GiveOddPotion2(EnDs* this, GlobalContext* globalCtx) {
+void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx) != 0) {
         this->actor.textId = 0x504F;
         this->actionFunc = EnDs_TalkAfterGiveOddPotion;
-        this->actor.flags &= -0x101;
+        this->actor.flags &= ~0x100;
         gSaveContext.item_get_inf[3] |= 1;
     }
 }
 
-void EnDs_GiveOddPotion1(EnDs* this, GlobalContext* globalCtx) {
+void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx) != 0) {
         this->actor.attachedA = NULL;
-        this->actionFunc = EnDs_GiveOddPotion2;
+        this->actionFunc = EnDs_DisplayOddPotionText;
         gSaveContext.timer_2_state = 0;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
@@ -118,7 +118,7 @@ void EnDs_GiveOddPotion1(EnDs* this, GlobalContext* globalCtx) {
 void EnDs_TalkAfterBrewOddPotion(EnDs* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
-        this->actionFunc = EnDs_GiveOddPotion1;
+        this->actionFunc = EnDs_GiveOddPotion;
         func_8002F434(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
     }
 }
@@ -208,7 +208,7 @@ void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
                         return;
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
-                        this->actor.flags &= 0xFFFEFFFF;
+                        this->actor.flags &= ~0x10000;
                         func_8002F434(this, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;
