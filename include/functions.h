@@ -189,8 +189,9 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
 void func_80024F0C(UNK_TYPE);
 void func_80026400(GlobalContext*, Color_RGBA8*, u8, s16);
 void func_80026608(GlobalContext*);
+void func_80026690(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
 void func_80026860(GlobalContext*, Color_RGBA8*, u8, s16);
-// ? func_80026A6C(?);
+void func_80026A6C(GlobalContext* globalCtx);
 GlobalContext* func_80026B00(void);
 // ? func_80026B0C(?);
 // ? func_80026C1C(?);
