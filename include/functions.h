@@ -1171,7 +1171,7 @@ void func_800A46F8(GlobalContext* globalCtx, SkelAnime* skelAnime, u32 skeleton,
 // ? func_800A49B0(?);
 s32 SkelAnime_FrameUpdateMatrix(SkelAnime* skelAnime);
 // ? func_800A4C58(?);
-// ? func_800A4FE4(?);
+void func_800A4FE4(SkelAnime*, u32, f32, f32, f32, u8, f32, u8);
 void SkelAnime_ChangeAnimation(SkelAnime* skelAnime, u32 animation, f32 playbackSpeed, f32 unk0, f32 frameCount,
                                u8 unk1, f32 transitionRate);
 void func_800A51E8(SkelAnime* skelAnime, u32 animation);

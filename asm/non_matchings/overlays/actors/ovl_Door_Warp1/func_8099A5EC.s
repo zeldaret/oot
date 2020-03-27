@@ -1,3 +1,34 @@
+.rdata
+glabel D_8099C60C
+    .asciz "\nparcent=[%f]"
+    .balign 4
+
+.late_rodata
+glabel D_8099C7C4
+    .word 0x3C656041
+
+glabel D_8099C7C8
+    .word 0x3C23D70A
+
+glabel D_8099C7CC
+    .word 0x3C23D70A
+
+glabel D_8099C7D0
+    .word 0x3DCCCCCD
+
+glabel D_8099C7D4
+    .word 0x3C23D70A
+    
+glabel D_8099C7D8
+    .word 0x3C23D70A
+
+glabel D_8099C7DC
+    .word 0x3C23D70A
+
+glabel D_8099C7E0
+    .word 0x3C23D70A
+
+.text
 glabel func_8099A5EC
 /* 01E6C 8099A5EC 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 01E70 8099A5F0 AFBF002C */  sw      $ra, 0x002C($sp)           

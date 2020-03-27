@@ -1,3 +1,25 @@
+.rdata
+glabel D_8099C5C8
+    # EUC-JP: じかんがきたからおーしまい | It’s time for me
+    .asciz "\n\n\nじかんがきたからおーしまい fade_direction=[%d]"
+    .balign 4
+
+glabel D_8099C5FC
+    # EUC-JP: おわりおわり | End 0A0A0AA4 AAA4EFA4 EAA4AAA4 EFA4EA00
+    .asciz "\n\n\nおわりおわり"
+    .balign 4
+
+.late_rodata
+glabel D_8099C7A4
+    .word 0x3DCCCCCD
+
+glabel D_8099C7A8
+    .word 0x3C23D70A
+
+glabel D_8099C7AC
+    .word 0x3DCCCCCD
+
+.text
 glabel func_80999A68
 /* 012E8 80999A68 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 012EC 80999A6C AFBF0034 */  sw      $ra, 0x0034($sp)           

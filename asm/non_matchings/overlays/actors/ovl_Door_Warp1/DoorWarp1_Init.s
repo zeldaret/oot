@@ -1,3 +1,9 @@
+.rdata
+glabel D_8099C5B0
+    .asciz "\nBOSSWARP arg_data=[%d]"
+    .balign 4
+
+.text
 glabel DoorWarp1_Init
 /* 00008 80998788 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0000C 8099878C AFB10028 */  sw      $s1, 0x0028($sp)           

@@ -331,7 +331,9 @@ typedef struct {
     /* 0x0444 */ u8      action;
     /* 0x0445 */ char    unk_445[0x003];
     /* 0x0448 */ Actor*  unk_448;
-    /* 0x0445 */ char    unk_44C[0x01E];
+    /* 0x044C */ char    unk_44C[0x004];
+    /* 0x0450 */ Vec3f   unk_450;
+    /* 0x045C */ char    unk_45C[0x00E];
     /* 0x046A */ u16     unk_46A;
     /* 0x046C */ char    unk_46C[0x6E];
     /* 0x04DA */ s16     unk_4DA;
