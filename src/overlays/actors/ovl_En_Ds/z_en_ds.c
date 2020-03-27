@@ -51,7 +51,6 @@ extern UNK_TYPE D_0600039C;
 Vec3f mtxSrc = { 1100.0f, 500.0f, 0.0f };
 
 void EnDs_Init(EnDs* this, GlobalContext* globalCtx) {
-
     SkelAnime* skelAnime = &this->skelAnime;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
@@ -131,8 +130,8 @@ void EnDs_BrewOddPotion3(EnDs* this, GlobalContext* globalCtx) {
         this->actionFunc = EnDs_TalkAfterBrewOddPotion;
         func_8010B720(globalCtx, 0x504D);
     }
-    Math_ApproxF(&this->unk_1E4, 0, 0.0299999993294f);
 
+    Math_ApproxF(&this->unk_1E4, 0, 0.0299999993294f);
     func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0x3DCCCCCD, 1.0f);
 }
 
@@ -153,8 +152,8 @@ void EnDs_BrewOddPotion1(EnDs* this, GlobalContext* globalCtx) {
         this->actionFunc = EnDs_BrewOddPotion2;
         this->brewTimer = 20;
     }
-    Math_ApproxF(&this->unk_1E4, 1.0f, 0.00999999977648f);
 
+    Math_ApproxF(&this->unk_1E4, 1.0f, 0.00999999977648f);
     func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0x3DCCCCCD, 1.0f);
 }
 
@@ -162,7 +161,6 @@ void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
-
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 this->actionFunc = EnDs_BrewOddPotion1;
@@ -224,7 +222,6 @@ void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
-
     Player* player = PLAYER;
     s16 unkAngle;
 
@@ -259,7 +256,9 @@ void EnDs_Update(EnDs* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         this->skelAnime.animCurrentFrame = 0.0f;
     }
+
     this->actionFunc(this, globalCtx);
+    
     if ((this->unk_1E8 & 1)) {
         func_80038290(globalCtx, this, &this->unk_1D8, &this->unk_1DE, this->actor.posRot2.pos);
     } else {
