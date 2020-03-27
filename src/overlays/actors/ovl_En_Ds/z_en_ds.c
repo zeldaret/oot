@@ -181,10 +181,9 @@ int EnDs_CheckRupeesAndBottle() {
         return 0;
     } else if (Inventory_HasEmptyBottle() == 0) {
         return 1;
-    }
-    else {
+    } else {
         return 2;
-    }   
+    }
 }
 
 void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx) {
@@ -260,7 +259,7 @@ void EnDs_Update(EnDs* this, GlobalContext* globalCtx) {
     }
 
     this->actionFunc(this, globalCtx);
-    
+
     if (this->unk_1E8 & 1) {
         func_80038290(globalCtx, this, &this->unk_1D8, &this->unk_1DE, this->actor.posRot2.pos);
     } else {
