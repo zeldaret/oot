@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80A9D9B8
+ .float 1638.0
+glabel D_80A9D9BC
+ .float 265.0
+
+.text
 glabel func_80A9C95C
 /* 0040C 80A9C95C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00410 80A9C960 AFB00018 */  sw      $s0, 0x0018($sp)           

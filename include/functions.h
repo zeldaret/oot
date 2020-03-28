@@ -402,6 +402,7 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, SkelAnime_Lim
 void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, SkelAnime_LimbUpdateMatrix2 unkFunc1,
                    SkelAnime_LimbAppendDlist2 unkFunc2, Actor* actor, s16 alpha);
 void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2);
+void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3);
 void Actor_Noop(Actor* actor, GlobalContext* globalCtx);
 void Draw_DListOpa(GlobalContext* globalCtx, u32 dlist);
 void Draw_DListXlu(GlobalContext* globalCtx, u32 dlist);
