@@ -9,8 +9,7 @@ void BossGanondrof_Update(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Draw(BossGanondrof* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Boss_Ganondrof_InitVars =
-{
+const ActorInit Boss_Ganondrof_InitVars = {
     ACTOR_BOSS_GANONDROF,
     ACTORTYPE_BOSS,
     ROOM,

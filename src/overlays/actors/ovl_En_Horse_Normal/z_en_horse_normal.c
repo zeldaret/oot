@@ -9,8 +9,7 @@ void EnHorseNormal_Update(EnHorseNormal* this, GlobalContext* globalCtx);
 void EnHorseNormal_Draw(EnHorseNormal* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Horse_Normal_InitVars =
-{
+const ActorInit En_Horse_Normal_InitVars = {
     ACTOR_EN_HORSE_NORMAL,
     ACTORTYPE_BG,
     ROOM,

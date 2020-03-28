@@ -9,8 +9,7 @@ void DemoKankyo_Update(DemoKankyo* this, GlobalContext* globalCtx);
 void DemoKankyo_Draw(DemoKankyo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_Kankyo_InitVars =
-{
+const ActorInit Demo_Kankyo_InitVars = {
     ACTOR_DEMO_KANKYO,
     ACTORTYPE_BG,
     ROOM,

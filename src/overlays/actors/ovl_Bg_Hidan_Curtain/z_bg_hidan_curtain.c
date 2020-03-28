@@ -9,8 +9,7 @@ void BgHidanCurtain_Update(BgHidanCurtain* this, GlobalContext* globalCtx);
 void BgHidanCurtain_Draw(BgHidanCurtain* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Curtain_InitVars =
-{
+const ActorInit Bg_Hidan_Curtain_InitVars = {
     ACTOR_BG_HIDAN_CURTAIN,
     ACTORTYPE_PROP,
     ROOM,

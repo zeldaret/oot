@@ -9,8 +9,7 @@ void BgMizuBwall_Update(BgMizuBwall* this, GlobalContext* globalCtx);
 void BgMizuBwall_Draw(BgMizuBwall* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mizu_Bwall_InitVars =
-{
+const ActorInit Bg_Mizu_Bwall_InitVars = {
     ACTOR_BG_MIZU_BWALL,
     ACTORTYPE_BG,
     ROOM,

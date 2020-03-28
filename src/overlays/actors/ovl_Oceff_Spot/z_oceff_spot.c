@@ -9,8 +9,7 @@ void OceffSpot_Update(OceffSpot* this, GlobalContext* globalCtx);
 void OceffSpot_Draw(OceffSpot* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Oceff_Spot_InitVars =
-{
+const ActorInit Oceff_Spot_InitVars = {
     ACTOR_OCEFF_SPOT,
     ACTORTYPE_ITEMACTION,
     ROOM,

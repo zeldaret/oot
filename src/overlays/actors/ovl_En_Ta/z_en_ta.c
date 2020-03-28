@@ -9,8 +9,7 @@ void EnTa_Update(EnTa* this, GlobalContext* globalCtx);
 void EnTa_Draw(EnTa* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ta_InitVars =
-{
+const ActorInit En_Ta_InitVars = {
     ACTOR_EN_TA,
     ACTORTYPE_NPC,
     ROOM,

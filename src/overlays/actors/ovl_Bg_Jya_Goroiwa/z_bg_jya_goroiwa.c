@@ -9,8 +9,7 @@ void BgJyaGoroiwa_Update(BgJyaGoroiwa* this, GlobalContext* globalCtx);
 void BgJyaGoroiwa_Draw(BgJyaGoroiwa* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Goroiwa_InitVars =
-{
+const ActorInit Bg_Jya_Goroiwa_InitVars = {
     ACTOR_BG_JYA_GOROIWA,
     ACTORTYPE_PROP,
     ROOM,

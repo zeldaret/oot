@@ -9,8 +9,7 @@ void EnHonotrap_Update(EnHonotrap* this, GlobalContext* globalCtx);
 void EnHonotrap_Draw(EnHonotrap* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Honotrap_InitVars =
-{
+const ActorInit En_Honotrap_InitVars = {
     ACTOR_EN_HONOTRAP,
     ACTORTYPE_PROP,
     ROOM,

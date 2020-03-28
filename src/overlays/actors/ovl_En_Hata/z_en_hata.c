@@ -9,8 +9,7 @@ void EnHata_Update(EnHata* this, GlobalContext* globalCtx);
 void EnHata_Draw(EnHata* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Hata_InitVars =
-{
+const ActorInit En_Hata_InitVars = {
     ACTOR_EN_HATA,
     ACTORTYPE_PROP,
     ROOM,

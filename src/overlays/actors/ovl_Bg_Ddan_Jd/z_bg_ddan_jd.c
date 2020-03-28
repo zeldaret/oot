@@ -9,8 +9,7 @@ void BgDdanJd_Update(BgDdanJd* this, GlobalContext* globalCtx);
 void BgDdanJd_Draw(BgDdanJd* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ddan_Jd_InitVars =
-{
+const ActorInit Bg_Ddan_Jd_InitVars = {
     ACTOR_BG_DDAN_JD,
     ACTORTYPE_BG,
     ROOM,

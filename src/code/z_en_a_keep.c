@@ -94,8 +94,9 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->actor.params >= 9)
+    if (this->actor.params >= 9) {
         sp28 = 12.0f;
+    }
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, sp28);
 
@@ -154,8 +155,9 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->actor.params < 5)
+    if (this->actor.params < 5) {
         this->actor.sub_98.mass = 0xFF;
+    }
 
     if (this->dynaPolyId != -1) {
         DynaPolyInfo_Alloc(D_8011546C[this->dynaPolyId], &sp34);

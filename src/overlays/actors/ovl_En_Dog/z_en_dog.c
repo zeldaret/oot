@@ -79,14 +79,14 @@ typedef enum {
     /* 0x06 */ DOG_BOW_2,
 } DogBehavior;
 
-extern UNK_PTR D_06007290;
-extern UNK_PTR D_06001368;
-extern UNK_PTR D_06000D78;
-extern UNK_PTR D_06000278;
+extern SkeletonHeader D_06007290;
+extern AnimationHeader D_06001368;
+extern AnimationHeader D_06000D78;
+extern AnimationHeader D_06000278;
 
 static void EnDog_PlayWalkSFX(EnDog* this) {
-    u32* walk = &D_06001368;
-    if (this->skelAnime.animCurrent == walk) {
+    AnimationHeader* walk = &D_06001368;
+    if (this->skelAnime.animCurrentSeg == walk) {
         if ((this->skelAnime.animCurrentFrame == 1.0f) || (this->skelAnime.animCurrentFrame == 7.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
@@ -94,8 +94,8 @@ static void EnDog_PlayWalkSFX(EnDog* this) {
 }
 
 static void EnDog_PlayRunSFX(EnDog* this) {
-    u32* run = &D_06000D78;
-    if (this->skelAnime.animCurrent == run) {
+    AnimationHeader* run = &D_06000D78;
+    if (this->skelAnime.animCurrentSeg == run) {
         if ((this->skelAnime.animCurrentFrame == 2.0f) || (this->skelAnime.animCurrentFrame == 4.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
@@ -103,8 +103,8 @@ static void EnDog_PlayRunSFX(EnDog* this) {
 }
 
 static void EnDog_PlayBarkSFX(EnDog* this) {
-    u32* bark = &D_06000278;
-    if (this->skelAnime.animCurrent == bark) {
+    AnimationHeader* bark = &D_06000278;
+    if (this->skelAnime.animCurrentSeg == bark) {
         if ((this->skelAnime.animCurrentFrame == 13.0f) || (this->skelAnime.animCurrentFrame == 19.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_SMALL_DOG_BARK);
         }
@@ -224,7 +224,7 @@ static s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
     s16 targetYaw;
     f32 waypointDistSq;
 
-    waypointDistSq = func_8008E520(&this->actor, this->path, this->waypoint, &targetYaw);
+    waypointDistSq = Path_OrientAndGetDistSq(&this->actor, this->path, this->waypoint, &targetYaw);
     Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, targetYaw, 10, 1000, 1);
 
     if ((waypointDistSq > 0.0f) && (waypointDistSq < 1000.0f)) {
@@ -242,7 +242,7 @@ static void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
     collider = &this->collider;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
     skelAnime = &this->skelAnime;
-    func_800A46F8(globalCtx, skelAnime, &D_06007290, 0, &this->unk_1F4, &this->unk_242, 13);
+    SkelAnime_InitSV(globalCtx, skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
     func_80034EC0(skelAnime, animations, 0);
 
     if ((this->actor.params & 0x8000) == 0) {
@@ -261,7 +261,7 @@ static void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
     this->actor.gravity = -1.0f;
-    this->path = func_8008E4E0(globalCtx, (s16)((this->actor.params & 0x00F0) >> 4), 0xF);
+    this->path = Path_GetByIndex(globalCtx, (this->actor.params & 0x00F0) >> 4, 0xF);
 
     switch (globalCtx->sceneNum) {
         case SCENE_MARKET_NIGHT:
@@ -457,11 +457,12 @@ static void EnDog_Update(EnDog* this, GlobalContext* globalCtx) {
     Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
 }
 
-static UNK_TYPE EnDog_Callback1(UNK_TYPE unused1, UNK_TYPE unused2, UNK_TYPE unused3, UNK_TYPE unused4) {
+static UNK_TYPE EnDog_Callback1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                Actor* actor) {
     return 0;
 }
 
-static void EnDog_Callback2(UNK_TYPE unused1, UNK_TYPE unused2, UNK_TYPE unused3, UNK_TYPE unused4) {
+static void EnDog_Callback2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
 }
 
 static void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
@@ -479,7 +480,7 @@ static void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(gfxCtx->polyOpa.p++, colors[this->actor.params & 0xF].r, colors[this->actor.params & 0xF].g,
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
-    func_800A1AC8(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
-                  EnDog_Callback1, EnDog_Callback2, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
+                     EnDog_Callback1, EnDog_Callback2, &this->actor);
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
 }

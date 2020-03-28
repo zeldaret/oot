@@ -9,8 +9,7 @@ void BgGndFiremeiro_Update(BgGndFiremeiro* this, GlobalContext* globalCtx);
 void BgGndFiremeiro_Draw(BgGndFiremeiro* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Gnd_Firemeiro_InitVars =
-{
+const ActorInit Bg_Gnd_Firemeiro_InitVars = {
     ACTOR_BG_GND_FIREMEIRO,
     ACTORTYPE_PROP,
     ROOM,

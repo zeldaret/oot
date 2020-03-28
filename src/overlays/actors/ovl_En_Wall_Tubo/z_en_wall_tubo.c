@@ -8,8 +8,7 @@ void EnWallTubo_Destroy(EnWallTubo* this, GlobalContext* globalCtx);
 void EnWallTubo_Update(EnWallTubo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Wall_Tubo_InitVars =
-{
+const ActorInit En_Wall_Tubo_InitVars = {
     ACTOR_EN_WALL_TUBO,
     ACTORTYPE_PROP,
     ROOM,

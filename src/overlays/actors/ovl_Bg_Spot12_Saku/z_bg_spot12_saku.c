@@ -9,8 +9,7 @@ void BgSpot12Saku_Update(BgSpot12Saku* this, GlobalContext* globalCtx);
 void BgSpot12Saku_Draw(BgSpot12Saku* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot12_Saku_InitVars =
-{
+const ActorInit Bg_Spot12_Saku_InitVars = {
     ACTOR_BG_SPOT12_SAKU,
     ACTORTYPE_BG,
     ROOM,

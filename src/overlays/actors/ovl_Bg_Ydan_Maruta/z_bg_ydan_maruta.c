@@ -9,8 +9,7 @@ void BgYdanMaruta_Update(BgYdanMaruta* this, GlobalContext* globalCtx);
 void BgYdanMaruta_Draw(BgYdanMaruta* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ydan_Maruta_InitVars =
-{
+const ActorInit Bg_Ydan_Maruta_InitVars = {
     ACTOR_BG_YDAN_MARUTA,
     ACTORTYPE_PROP,
     ROOM,

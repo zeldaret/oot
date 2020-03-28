@@ -9,8 +9,7 @@ void BgHidanDalm_Update(BgHidanDalm* this, GlobalContext* globalCtx);
 void BgHidanDalm_Draw(BgHidanDalm* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Dalm_InitVars =
-{
+const ActorInit Bg_Hidan_Dalm_InitVars = {
     ACTOR_BG_HIDAN_DALM,
     ACTORTYPE_BG,
     ROOM,

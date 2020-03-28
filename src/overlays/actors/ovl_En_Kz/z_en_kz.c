@@ -9,8 +9,7 @@ void EnKz_Update(EnKz* this, GlobalContext* globalCtx);
 void EnKz_Draw(EnKz* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Kz_InitVars =
-{
+const ActorInit En_Kz_InitVars = {
     ACTOR_EN_KZ,
     ACTORTYPE_NPC,
     ROOM,

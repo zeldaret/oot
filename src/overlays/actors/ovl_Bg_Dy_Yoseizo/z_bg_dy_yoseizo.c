@@ -8,8 +8,7 @@ void BgDyYoseizo_Destroy(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_Update(BgDyYoseizo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Dy_Yoseizo_InitVars =
-{
+const ActorInit Bg_Dy_Yoseizo_InitVars = {
     ACTOR_BG_DY_YOSEIZO,
     ACTORTYPE_PROP,
     ROOM,

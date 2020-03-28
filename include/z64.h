@@ -11,6 +11,8 @@
 #include <z64scene.h>
 #include <z64effect.h>
 #include <z64item.h>
+#include <z64animation.h>
+#include <z64dma.h>
 #include <bgm.h>
 #include <sfx.h>
 #include <color.h>
@@ -500,17 +502,6 @@ typedef struct {
 } MessageContext; // size = 0xE418
 
 typedef struct {
-    /* 0x00 */ u32      vromAddr; // VROM address (source)
-    /* 0x04 */ void*    dramAddr; // DRAM address (destination)
-    /* 0x08 */ u32      size;     // File Transfer size
-    /* 0x0C */ char*    filename; // Filename for debugging
-    /* 0x10 */ s32      line;     // Line for debugging
-    /* 0x14 */ s32      unk_14;
-    /* 0x18 */ OSMesgQueue* notifyQueue; // Message queue for the notification message
-    /* 0x1C */ OSMesg   notifyMsg;       // Completion notification message
-} DmaRequest; // size = 0x20
-
-typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Vtx*   vtx_128;
     /* 0x012C */ Vtx*   vtx_12C;
@@ -885,7 +876,8 @@ typedef struct GlobalContext {
     /* 0x10B0B */ char unk_10B0B[0x7];
     /* 0x10B12 */ u8 unk_10B12[4];
     /* 0x10B16 */ u8 unk_10B16[4];
-    /* 0x10B1A */ char unk_10B1A[0xC8A];
+    /* 0x10B1A */ char unk_10B1A[0x6];
+    /* 0x10B20 */ AnimationContext animationCtx;
     /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
     /* 0x11D30 */ s16 unk_11D30[2];
@@ -964,38 +956,13 @@ typedef struct LoadedParticleEntry {
 
 // Some animation related structure
 typedef struct {
-    /* 0x00 */ u32      animation;
-    /* 0x04 */ f32      playbackSpeed;
-    /* 0x08 */ f32      unk_08;
-    /* 0x0C */ f32      frameCount;
-    /* 0x10 */ u8       unk_10;
-    /* 0x14 */ f32      transitionRate;
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ f32              playbackSpeed;
+    /* 0x08 */ f32              unk_08;
+    /* 0x0C */ f32              frameCount;
+    /* 0x10 */ u8               unk_10;
+    /* 0x14 */ f32              transitionRate;
 } struct_80034EC0_Entry; // size = 0x18
-
-typedef struct {
-    /* 0x00 */ u8 limbCount;
-    /* 0x01 */ char unk_01[0x01];
-    /* 0x02 */ u8 dListCount;
-    /* 0x03 */ char unk_03[0x01]; /* Probably Padding */
-    /* 0x04 */ u32 limbIndex;
-    /* 0x08 */ u32* animCurrent;
-    /* 0x0C */ char unk_0C[0x04];
-    /* 0x10 */ f32 animFrameCount;
-    /* 0x14 */ f32 unk_14;
-    /* 0x18 */ f32 animCurrentFrame;
-    /* 0x1C */ f32 animPlaybackSpeed;
-    /* 0x20 */ u32 actorDrawTbl;
-    /* 0x24 */ u32 unk_24;
-    /* 0x28 */ u32 unk_28;
-    /* 0x2C */ u32 unk_2C;
-    /* 0x30 */ void* funcUnk30; /* Some function pointer */
-    /* 0x34 */ s32 unk_34;
-    /* 0x38 */ s32 unk_38;
-    /* 0x3C */ u16 unk_3C;
-    /* 0x3E */ u16 unk_3E;
-    /* 0x40 */ u16 unk_40;
-    /* 0x42 */ u16 unk_42;
-} SkelAnime; // size = 0x44
 
 typedef struct {
     /* 0x00 */ u32 unk_00;
@@ -1199,13 +1166,6 @@ typedef struct {
     /* 0x18 */ u8 unk_18[0x20-0x18];
     /* 0x20 */ u8 data[0x10000-0x20];
 } ISVDbg;
-
-typedef struct {
-    /* 0x00 */ u32 vromStart;
-    /* 0x04 */ u32 vromEnd;
-    /* 0x08 */ u32 romStart;
-    /* 0x0C */ u32 romEnd;
-} DmaEntry;
 
 typedef struct {
     char name[0x18];

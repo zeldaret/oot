@@ -9,8 +9,7 @@ void EnHintnuts_Update(EnHintnuts* this, GlobalContext* globalCtx);
 void EnHintnuts_Draw(EnHintnuts* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Hintnuts_InitVars =
-{
+const ActorInit En_Hintnuts_InitVars = {
     ACTOR_EN_HINTNUTS,
     ACTORTYPE_ENEMY,
     ROOM,

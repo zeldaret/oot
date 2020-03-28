@@ -9,8 +9,7 @@ void EnReeba_Update(EnReeba* this, GlobalContext* globalCtx);
 void EnReeba_Draw(EnReeba* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Reeba_InitVars =
-{
+const ActorInit En_Reeba_InitVars = {
     ACTOR_EN_REEBA,
     ACTORTYPE_MISC,
     ROOM,

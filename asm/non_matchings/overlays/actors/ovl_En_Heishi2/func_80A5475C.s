@@ -8,7 +8,7 @@ glabel func_80A5475C
               
 /* 018D4 80A54774 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 018D8 80A54778 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 018DC 80A5477C 0C01B0D8 */  jal     func_8006C360              
+/* 018DC 80A5477C 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 018E0 80A54780 24050005 */  addiu   $a1, $zero, 0x0005         ## $a1 = 00000005
 /* 018E4 80A54784 10400011 */  beq     $v0, $zero, .L80A547CC     
 /* 018E8 80A54788 8FA60018 */  lw      $a2, 0x0018($sp)           

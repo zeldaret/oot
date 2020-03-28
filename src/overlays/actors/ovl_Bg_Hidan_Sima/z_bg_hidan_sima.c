@@ -9,8 +9,7 @@ void BgHidanSima_Update(BgHidanSima* this, GlobalContext* globalCtx);
 void BgHidanSima_Draw(BgHidanSima* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Sima_InitVars =
-{
+const ActorInit Bg_Hidan_Sima_InitVars = {
     ACTOR_BG_HIDAN_SIMA,
     ACTORTYPE_BG,
     ROOM,

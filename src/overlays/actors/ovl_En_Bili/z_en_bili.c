@@ -9,8 +9,7 @@ void EnBili_Update(EnBili* this, GlobalContext* globalCtx);
 void EnBili_Draw(EnBili* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bili_InitVars =
-{
+const ActorInit En_Bili_InitVars = {
     ACTOR_EN_BILI,
     ACTORTYPE_ENEMY,
     ROOM,

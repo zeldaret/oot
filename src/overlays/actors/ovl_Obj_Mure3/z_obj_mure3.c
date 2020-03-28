@@ -8,8 +8,7 @@ void ObjMure3_Destroy(ObjMure3* this, GlobalContext* globalCtx);
 void ObjMure3_Update(ObjMure3* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Mure3_InitVars =
-{
+const ActorInit Obj_Mure3_InitVars = {
     ACTOR_OBJ_MURE3,
     ACTORTYPE_BG,
     ROOM,

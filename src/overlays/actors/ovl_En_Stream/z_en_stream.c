@@ -9,8 +9,7 @@ void EnStream_Update(EnStream* this, GlobalContext* globalCtx);
 void EnStream_Draw(EnStream* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Stream_InitVars =
-{
+const ActorInit En_Stream_InitVars = {
     ACTOR_EN_STREAM,
     ACTORTYPE_BG,
     ROOM,

@@ -9,8 +9,7 @@ void EnBubble_Update(EnBubble* this, GlobalContext* globalCtx);
 void EnBubble_Draw(EnBubble* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bubble_InitVars =
-{
+const ActorInit En_Bubble_InitVars = {
     ACTOR_EN_BUBBLE,
     ACTORTYPE_ENEMY,
     ROOM,

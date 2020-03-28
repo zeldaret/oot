@@ -9,8 +9,7 @@ void EfcErupc_Update(EfcErupc* this, GlobalContext* globalCtx);
 void EfcErupc_Draw(EfcErupc* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Efc_Erupc_InitVars =
-{
+const ActorInit Efc_Erupc_InitVars = {
     ACTOR_EFC_ERUPC,
     ACTORTYPE_ITEMACTION,
     ROOM,

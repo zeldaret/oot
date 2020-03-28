@@ -9,8 +9,7 @@ void EnSt_Update(EnSt* this, GlobalContext* globalCtx);
 void EnSt_Draw(EnSt* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_St_InitVars =
-{
+const ActorInit En_St_InitVars = {
     ACTOR_EN_ST,
     ACTORTYPE_ENEMY,
     ROOM,
