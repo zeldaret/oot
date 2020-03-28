@@ -269,7 +269,7 @@ s32 func_8005BBF8(GlobalContext* globalCtx, ColliderJntSph* collision) {
 //Destruct ColliderJntSph (malloc)
 s32 func_8005BC28(GlobalContext* globalCtx, ColliderJntSph* collider) {
 
-    ColliderJntSph* next;
+    ColliderJntSphItem* next;
 
     func_8005B6A0(globalCtx, &collider->base);
     next = collider->list;
@@ -290,7 +290,7 @@ s32 func_8005BC28(GlobalContext* globalCtx, ColliderJntSph* collider) {
 
 //Destruct ColliderJntSph (no malloc)
 s32 func_8005BCC8(GlobalContext* globalCtx, ColliderJntSph* collider) {
-    ColliderJntSph* next;
+    ColliderJntSphItem* next;
 
     func_8005B6A0(globalCtx, &collider->base);
     next = collider->list;
@@ -424,34 +424,71 @@ s32 func_8005C050(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, 
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C124.s")
+#ifdef NON_MATCHING
+//Set collider body property.  arg1 not confirmed
+s32 func_8005C124(GlobalContext* globalCtx, ColliderJntSph* collider) 
+{
+    ColliderJntSphItem* phi_s0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C1AC.s")
-/*
-s32 func_8005C1AC(s32 arg0, void* arg1) {
-    u32 temp_s0;
-    u32 phi_s0;
+    func_8005B76C(globalCtx, &collider->base);
 
-    func_8005B784();
-    phi_s0 = arg1->unk1C;
-    if ((u32)arg1->unk1C < (u32)(arg1->unk1C + (arg1->unk18 << 6))) {
-    loop_1:
-        func_8005BBB0(arg0, phi_s0);
-        temp_s0 = phi_s0 + 0x40;
-        phi_s0 = temp_s0;
-        if (temp_s0 < (u32)(arg1->unk1C + (arg1->unk18 << 6))) {
-            goto loop_1;
-        }
+    phi_s0 = collider->list;
+
+    while (phi_s0 < collider->list + collider->count) {
+        func_8005BB8C(globalCtx, phi_s0);
+        phi_s0++;
     }
     return 1;
 }
-*/
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C124.s")
+#endif // NON_MATCHING
+
+#ifdef NON_MATCHING
+//Set collider body property.  arg1 not confirmed
+s32 func_8005C1AC(GlobalContext* globalCtx, ColliderJntSph* collider) {
+    ColliderJntSphItem* next;
+
+    func_8005B784(globalCtx, &collider->base);
+    next = collider->list;
+
+    while (next < collider->list + collider->count)
+    {
+        func_8005BBB0(globalCtx, next);
+        next++;
+    }
+    return 1;
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C1AC.s")
+#endif // NON_MATCHING
 
 
+#ifdef NON_MATCHING
+//Set collider body property.  arg1 not confirmed
 //D_8011DF18 func ptr
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C234.s")
+s32 func_8005C234(GlobalContext* globalCtx, ColliderJntSph* collider) {
+    ColliderJntSphItem* next;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C2BC.s")
+    func_8005B79C(globalCtx, &collider->base);
+    next = collider->list;
+    while (next < collider->list + collider->count) {
+        func_8005BBD4(globalCtx, next);
+        next++;
+    }
+    return 1;
+}
+
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C234.s")
+#endif // NON_MATCHING
+
+//#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C2BC.s")
+extern ColliderCylinderDim D_8011DE6C;
+s32 func_8005C2BC(GlobalContext* globalCtx, ColliderCylinderDim* dim) {
+    *dim = D_8011DE6C;
+    return 1;
+}
 
 s32 func_8005C318(GlobalContext* globalCtx, ColliderCylinderDim* dim)
 {
