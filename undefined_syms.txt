@@ -464,3 +464,7 @@ D_06001080 = 0x06001080;
 
 // z_skelanime
 link_animetion_segment = 0x07000000;
+
+// z_en_ds
+D_06004768 = 0x06004768;
+D_0600039C = 0x0600039C;

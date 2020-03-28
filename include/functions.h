@@ -857,6 +857,7 @@ f32 func_800746DC();
 // ? func_800766C4(?);
 // ? func_8007672C(?);
 // ? func_80076934(?);
+void func_800773A8(GlobalContext* globalCtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4);
 s32 func_800775CC();
 void func_800775D8();
 s32 func_800775E4();
