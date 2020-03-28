@@ -129,7 +129,7 @@ build/undefined_syms.txt: undefined_syms.txt
 clean:
 	$(RM) $(ROM) $(ELF) -r build
 
-extract:
+setup:
 	make -C tools
 	python3 fixbaserom.py
 	python3 extract_baserom.py

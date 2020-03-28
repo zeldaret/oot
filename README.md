@@ -14,6 +14,6 @@ This repo does not include all assets necessary for compiling the ROM. A prior c
 This is a disassembly and decompilation of Legend of Zelda: Ocarina of Time Master Quest (debug)
 
 It builds the following ROM:
-* zelda_ocarina_mq_dbg.z64 `md5: 717179476af84133b14ff73af87db57a`
+* zelda_ocarina_mq_dbg.z64 `md5: f0b7f35375f9cc8ca1b2d59d78e35405`
 
 Please refer to the Getting Started guide in the Wiki for setup instructions.
