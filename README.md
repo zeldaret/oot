@@ -17,5 +17,3 @@ It builds the following ROM:
 * zelda_ocarina_mq_dbg.z64 `md5: 717179476af84133b14ff73af87db57a`
 
 Please refer to the Getting Started guide in the Wiki for setup instructions.
-
-Thanks to z64me and CrookedPoe for their actor documentation. https://github.com/CrookedPoe/z64-rw
