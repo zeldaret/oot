@@ -11,7 +11,9 @@ typedef struct {
     /* 0x0154 */ s32 unk_154;
     /* 0x0158 */ char unk_158[0x48];
     /* 0x01a0 */ SkelAnime skelAnime;
-    /* 0x01e4 */ char unk_1a4[0x18];
+    /* 0x01e4 */ char unk_1a4[0x10];
+    /* 0x01f4 */ f32 unk_1f4;
+    /* 0x01f8 */ char unk_1f8[0x4];
     /* 0x01FC */ ColliderCylinderMain collider;
     /* 0x0248 */ u32 unk_248; // not sure what this is supposed to be, maybe ColliderCustomMain from z_bg_bdan_switch.c
     /* 0x024C */ char unk_24C[0x1C];

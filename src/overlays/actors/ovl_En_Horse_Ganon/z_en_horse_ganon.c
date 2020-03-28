@@ -14,6 +14,7 @@ void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx);
 void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx);
 
 void func_80A68AC4(EnHorseGanon* this);
+void func_80A68FA8();
 
 // const ActorInit En_Horse_Ganon_InitVars = {
 //     ACTOR_EN_HORSE_GANON,
@@ -45,6 +46,9 @@ extern UNK_PTR D_80A691C0;
 extern UNK_PTR D_80A691B0;
 extern UNK_PTR D_06018668;
 extern UNK_PTR D_06004AA4;
+
+// the rest are padding
+const f32 D_80A692D0[] = { 10430.3779297f, 0.0f, 0.0f, 0.0f };
 
 s16* func_80A68660(EnHorseGanon* this, u32 offset, f32* floatArray)
 {
@@ -125,10 +129,31 @@ void func_80A68DB0(EnHorseGanon* this, s32 unknown)
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68E14.s")
+void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx)
+{
+    u32 junk; // aligns stack properly
+    CollisionPoly* col;
+    f32 temp_ret;
+    Vec3f v;
+    s32 temp1;
+
+    v.x = Math_Sins(this->actor.shape.rot.y) * 30.0f + this->actor.posRot.pos.x;
+    v.y = this->actor.posRot.pos.y + 60.0f;
+    v.z = Math_Coss(this->actor.shape.rot.y) * 30.0f + this->actor.posRot.pos.z;
+
+    temp_ret = func_8003C940(&globalCtx->colCtx, &col, &temp1, &v);
+
+    this->unk_1f4 = temp_ret;
+    this->actor.shape.rot.x = D_80A692D0[0] * Math_atan2f(this->actor.posRot.pos.y - temp_ret, 30.0f);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/EnHorseGanon_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68FA8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/EnHorseGanon_Draw.s")
+void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx)
+{
+    func_80A68E14(this, globalCtx);
+    func_80093D18(globalCtx->state.gfxCtx);
+    func_800A6330(this, globalCtx, &this->unk_154, func_80A68FA8, 1);
+}
