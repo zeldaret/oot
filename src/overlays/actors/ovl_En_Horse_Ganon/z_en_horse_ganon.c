@@ -16,18 +16,17 @@ void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx);
 void func_80A68AC4(EnHorseGanon* this);
 void func_80A68FA8();
 
-// const ActorInit En_Horse_Ganon_InitVars = {
-//     ACTOR_EN_HORSE_GANON,
-//     ACTORTYPE_BG,
-//     ROOM,
-//     FLAGS,
-//     OBJECT_HORSE_GANON,
-//     sizeof(EnHorseGanon),
-//     (ActorFunc)EnHorseGanon_Init,
-//     (ActorFunc)EnHorseGanon_Destroy,
-//     (ActorFunc)EnHorseGanon_Update,
-//     (ActorFunc)EnHorseGanon_Draw,
-// };
+const ActorInit En_Horse_Ganon_InitVars = {
+    ACTOR_EN_HORSE_GANON,
+    ACTORTYPE_BG,
+    FLAGS,
+    OBJECT_HORSE_GANON,
+    sizeof(EnHorseGanon),
+    (ActorFunc)EnHorseGanon_Init,
+    (ActorFunc)EnHorseGanon_Destroy,
+    (ActorFunc)EnHorseGanon_Update,
+    (ActorFunc)EnHorseGanon_Draw,
+};
 
 
 // static InitChainEntry initChain[] = {

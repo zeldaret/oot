@@ -7,12 +7,6 @@
 
 .section .data
 
-glabel En_Horse_Ganon_InitVars
- .word 0x00420100, 0x00000010, 0x002D0000, 0x000002A8
-.word EnHorseGanon_Init
-.word EnHorseGanon_Destroy
-.word EnHorseGanon_Update
-.word EnHorseGanon_Draw
 glabel D_80A691B0
  .word 0x06004AA4, 0x06005264, 0x06005B78, 0x06002CE4
 glabel D_80A691C0
