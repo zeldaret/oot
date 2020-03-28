@@ -9,8 +9,7 @@ void EnExRuppy_Update(EnExRuppy* this, GlobalContext* globalCtx);
 void EnExRuppy_Draw(EnExRuppy* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ex_Ruppy_InitVars =
-{
+const ActorInit En_Ex_Ruppy_InitVars = {
     ACTOR_EN_EX_RUPPY,
     ACTORTYPE_PROP,
     ROOM,

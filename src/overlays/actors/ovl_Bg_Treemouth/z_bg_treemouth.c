@@ -9,8 +9,7 @@ void BgTreemouth_Update(BgTreemouth* this, GlobalContext* globalCtx);
 void BgTreemouth_Draw(BgTreemouth* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Treemouth_InitVars =
-{
+const ActorInit Bg_Treemouth_InitVars = {
     ACTOR_BG_TREEMOUTH,
     ACTORTYPE_BG,
     ROOM,

@@ -26,7 +26,7 @@ glabel func_80A56B40
 .L80A56B98:
 /* 00AC8 80A56B98 00AE2821 */  addu    $a1, $a1, $t6              
 /* 00ACC 80A56B9C 8CA56EF0 */  lw      $a1, %lo(D_80A56EF0)($a1)  
-/* 00AD0 80A56BA0 0C01B0D8 */  jal     func_8006C360              
+/* 00AD0 80A56BA0 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00AD4 80A56BA4 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00AD8 80A56BA8 10400013 */  beq     $v0, $zero, .L80A56BF8     
 /* 00ADC 80A56BAC 8FA60018 */  lw      $a2, 0x0018($sp)           

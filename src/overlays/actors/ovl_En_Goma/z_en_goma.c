@@ -9,8 +9,7 @@ void EnGoma_Update(EnGoma* this, GlobalContext* globalCtx);
 void EnGoma_Draw(EnGoma* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Goma_InitVars =
-{
+const ActorInit En_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORTYPE_ENEMY,
     ROOM,

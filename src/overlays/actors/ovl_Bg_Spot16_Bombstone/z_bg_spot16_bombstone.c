@@ -9,8 +9,7 @@ void BgSpot16Bombstone_Update(BgSpot16Bombstone* this, GlobalContext* globalCtx)
 void BgSpot16Bombstone_Draw(BgSpot16Bombstone* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot16_Bombstone_InitVars =
-{
+const ActorInit Bg_Spot16_Bombstone_InitVars = {
     ACTOR_BG_SPOT16_BOMBSTONE,
     ACTORTYPE_PROP,
     ROOM,

@@ -9,8 +9,7 @@ void DemoKekkai_Update(DemoKekkai* this, GlobalContext* globalCtx);
 void DemoKekkai_Draw(DemoKekkai* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_Kekkai_InitVars =
-{
+const ActorInit Demo_Kekkai_InitVars = {
     ACTOR_DEMO_KEKKAI,
     ACTORTYPE_ITEMACTION,
     ROOM,

@@ -9,8 +9,7 @@ void EnPeehat_Update(EnPeehat* this, GlobalContext* globalCtx);
 void EnPeehat_Draw(EnPeehat* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Peehat_InitVars =
-{
+const ActorInit En_Peehat_InitVars = {
     ACTOR_EN_PEEHAT,
     ACTORTYPE_ENEMY,
     ROOM,

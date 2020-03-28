@@ -8,8 +8,7 @@ void BgMoriHashira4_Destroy(BgMoriHashira4* this, GlobalContext* globalCtx);
 void BgMoriHashira4_Update(BgMoriHashira4* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mori_Hashira4_InitVars =
-{
+const ActorInit Bg_Mori_Hashira4_InitVars = {
     ACTOR_BG_MORI_HASHIRA4,
     ACTORTYPE_BG,
     ROOM,

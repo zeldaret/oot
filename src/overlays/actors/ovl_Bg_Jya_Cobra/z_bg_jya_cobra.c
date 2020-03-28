@@ -9,8 +9,7 @@ void BgJyaCobra_Update(BgJyaCobra* this, GlobalContext* globalCtx);
 void BgJyaCobra_Draw(BgJyaCobra* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Cobra_InitVars =
-{
+const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
     ACTORTYPE_PROP,
     ROOM,

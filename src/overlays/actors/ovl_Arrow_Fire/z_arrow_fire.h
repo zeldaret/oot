@@ -12,7 +12,7 @@ typedef struct {
     /* 0x0160 */ ActorFunc actionFunc;
     /* 0x0164 */ s16 fireRadius;
     /* 0x0166 */ u16 timer;
-    /* 0x0168 */ u8 opacity;
+    /* 0x0168 */ u8 alpha;
 } ArrowFire; // size = 0x016C
 
 extern const ActorInit Arrow_Fire_InitVars;

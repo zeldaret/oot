@@ -8,8 +8,7 @@ void EnPoh_Destroy(EnPoh* this, GlobalContext* globalCtx);
 void EnPoh_Update(EnPoh* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Poh_InitVars =
-{
+const ActorInit En_Poh_InitVars = {
     ACTOR_EN_POH,
     ACTORTYPE_ENEMY,
     ROOM,

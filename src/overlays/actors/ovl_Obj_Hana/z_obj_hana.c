@@ -9,8 +9,7 @@ void ObjHana_Update(ObjHana* this, GlobalContext* globalCtx);
 void ObjHana_Draw(ObjHana* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Hana_InitVars =
-{
+const ActorInit Obj_Hana_InitVars = {
     ACTOR_OBJ_HANA,
     ACTORTYPE_PROP,
     ROOM,

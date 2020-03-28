@@ -9,8 +9,7 @@ void EnTrap_Update(EnTrap* this, GlobalContext* globalCtx);
 void EnTrap_Draw(EnTrap* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Trap_InitVars =
-{
+const ActorInit En_Trap_InitVars = {
     ACTOR_EN_TRAP,
     ACTORTYPE_BG,
     ROOM,

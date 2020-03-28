@@ -9,8 +9,7 @@ void EnYukabyun_Update(EnYukabyun* this, GlobalContext* globalCtx);
 void EnYukabyun_Draw(EnYukabyun* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Yukabyun_InitVars =
-{
+const ActorInit En_Yukabyun_InitVars = {
     ACTOR_EN_YUKABYUN,
     ACTORTYPE_ENEMY,
     ROOM,

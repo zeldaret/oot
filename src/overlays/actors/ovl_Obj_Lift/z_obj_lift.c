@@ -9,8 +9,7 @@ void ObjLift_Update(ObjLift* this, GlobalContext* globalCtx);
 void ObjLift_Draw(ObjLift* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Lift_InitVars =
-{
+const ActorInit Obj_Lift_InitVars = {
     ACTOR_OBJ_LIFT,
     ACTORTYPE_BG,
     ROOM,

@@ -9,8 +9,7 @@ void EnCrow_Update(EnCrow* this, GlobalContext* globalCtx);
 void EnCrow_Draw(EnCrow* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Crow_InitVars =
-{
+const ActorInit En_Crow_InitVars = {
     ACTOR_EN_CROW,
     ACTORTYPE_ENEMY,
     ROOM,

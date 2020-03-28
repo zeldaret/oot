@@ -149,6 +149,13 @@ DL_VASE = 0x06000000;
 // z_door_toki
 DOOR_TOKI_COLLISION_DATA = 0x06007888;
 
+// z_bg_spot09_obj
+D_06008010 = 0x06008010;
+
+// z_bg_spot12_gate
+D_06001080 = 0x06001080;
+D_060011EC = 0x060011EC;
+
 // z_bg_spot18_futa
 DL_SPOT18_FUTA = 0x06000368;
 DL_SPOT18_FUTA2 = 0x06000150;
@@ -257,6 +264,9 @@ D_060003C0 = 0x060003C0;
 // z_effect_ss_ice_smoke
 D_060030A0 = 0x060030A0;
 D_06003158 = 0x06003158;
+
+// z_bg_haka_megane
+D_06001250 = 0x06001250;
 
 // z_bg_haka_meganebg
 D_06005334 = 0x06005334;
@@ -418,7 +428,6 @@ D_06009244 = 0x06009244;
 D_060041F4 = 0x060041F4;
 D_0600A054 = 0x0600A054;
 D_06008688 = 0x06008688;
-D_04049210 = 0x04049210;
 
 // z_en_lightbox
 D_06000B70 = 0x06000B70;
@@ -436,3 +445,9 @@ D_060009E0 = 0x060009E0;
 // z_bg_toki_swd
 D_06001BD0 = 0x06001BD0;
 
+// z_bg_zg
+D_060011D4 = 0x060011D4;
+D_06001080 = 0x06001080;
+
+// z_skelanime
+link_animetion_segment = 0x07000000;

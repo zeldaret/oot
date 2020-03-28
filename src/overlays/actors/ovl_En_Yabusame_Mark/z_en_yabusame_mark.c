@@ -8,8 +8,7 @@ void EnYabusameMark_Destroy(EnYabusameMark* this, GlobalContext* globalCtx);
 void EnYabusameMark_Update(EnYabusameMark* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Yabusame_Mark_InitVars =
-{
+const ActorInit En_Yabusame_Mark_InitVars = {
     ACTOR_EN_YABUSAME_MARK,
     ACTORTYPE_PROP,
     ROOM,

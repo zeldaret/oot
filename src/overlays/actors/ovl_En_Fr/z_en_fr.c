@@ -8,8 +8,7 @@ void EnFr_Destroy(EnFr* this, GlobalContext* globalCtx);
 void EnFr_Update(EnFr* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Fr_InitVars =
-{
+const ActorInit En_Fr_InitVars = {
     ACTOR_EN_FR,
     ACTORTYPE_NPC,
     ROOM,

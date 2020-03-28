@@ -9,7 +9,7 @@ void ActorShape_Init(ActorShape* shape, f32 arg1, void* shadowDrawFunc, f32 arg3
     shape->unk_14 = -1;
 }
 
-void func_8002B200(Actor* actor, LightMapper* lightMapper, GlobalContext* globalCtx, u32 dlist, Color_RGBA8* color) {
+void func_8002B200(Actor* actor, LightMapper* lightMapper, GlobalContext* globalCtx, Gfx* dlist, Color_RGBA8* color) {
     f32 temp1;
     f32 temp2;
     MtxF sp60;
@@ -41,7 +41,7 @@ void func_8002B200(Actor* actor, LightMapper* lightMapper, GlobalContext* global
             func_80038A28(actor->floorPoly, actor->posRot.pos.x, actor->unk_80, actor->posRot.pos.z, &sp60);
             Matrix_Put(&sp60);
 
-            if (dlist != (u32)&D_04049210) {
+            if (dlist != D_04049210) {
                 Matrix_RotateY(actor->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
             }
 
@@ -156,16 +156,19 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, Globa
             if ((phi_f2 >= -1.0f) && (phi_f2 < 500.0f)) {
                 phi_s0 = lightMapper->lights;
 
-                if (phi_f2 <= 0.0f)
+                if (phi_f2 <= 0.0f) {
                     actor->shape.unk_15++;
+                }
 
-                if (30.0f < phi_f2)
+                if (30.0f < phi_f2) {
                     phi_f2 = 30.0f;
+                }
 
                 temp_f24 = actor->shape.unk_14 * (1.0f - (phi_f2 * (1.0f / 30)));
 
-                if (30.0f < phi_f2)
+                if (30.0f < phi_f2) {
                     phi_f2 = 30.0f;
+                }
 
                 temp_f20_2 = 1.0f - (phi_f2 * (1.0f / 70));
                 temp_f22_2 = (actor->shape.unk_10 * temp_f20_2) * actor->scale.x;
@@ -187,8 +190,9 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, Globa
                     if (phi_s0->l.dir[1] > 0) {
                         temp_a3 = (ABS(phi_s0->l.dir[1]) * ((phi_s0->l.col[0] + phi_s0->l.col[1]) + phi_s0->l.col[2])) -
                                   (phi_s2 * 8);
-                        if (temp_a3 > 0)
+                        if (temp_a3 > 0) {
                             func_8002B66C(globalCtx, phi_s0, &spE8, temp_a3, temp_f24, temp_f22_2, temp_f20_2);
+                        }
                     }
                     phi_s0++;
                 }
@@ -335,18 +339,20 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         spCE = 0xFF;
         var1 = 1.0f;
 
-        if (targetCtx->unk_4B != 0)
+        if (targetCtx->unk_4B != 0) {
             spB8 = 1;
-        else
+        } else {
             spB8 = 3;
+        }
 
         if (actor != NULL) {
             Math_Vec3f_Copy(&targetCtx->targetCenterPos, &actor->posRot2.pos);
             var1 = (500.0f - targetCtx->unk_44) / 420.0f;
         } else {
             targetCtx->unk_48 -= 120;
-            if (targetCtx->unk_48 < 0)
+            if (targetCtx->unk_48 < 0) {
                 targetCtx->unk_48 = 0;
+            }
             spCE = targetCtx->unk_48;
         }
 
@@ -361,8 +367,9 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         spBC.z = spBC.z * var1;
 
         targetCtx->unk_4C--;
-        if (targetCtx->unk_4C < 0)
+        if (targetCtx->unk_4C < 0) {
             targetCtx->unk_4C = 2;
+        }
 
         func_8002BE64(targetCtx, targetCtx->unk_4C, spBC.x, spBC.y, spBC.z);
 
@@ -373,10 +380,11 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
                 entry = &targetCtx->arr_50[spAC];
 
                 if (entry->unk_0C < 500.0f) {
-                    if (entry->unk_0C <= 120.0f)
+                    if (entry->unk_0C <= 120.0f) {
                         var2 = 0.15f;
-                    else
+                    } else {
                         var2 = ((entry->unk_0C - 120.0f) * 0.001f) + 0.15f;
+                    }
 
                     Matrix_Translate(entry->pos.x, entry->pos.y, 0.0f, MTXMODE_NEW);
                     Matrix_Scale(var2, 0.15f, 1.0f, MTXMODE_APPLY);
@@ -398,8 +406,9 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
                 }
 
                 spCE = spCE - (0xFF / 3);
-                if (spCE < 0)
+                if (spCE < 0) {
                     spCE = 0;
+                }
                 spAC = (spAC + 1) % 3;
             }
         }
@@ -900,7 +909,7 @@ void func_8002D9A4(Actor* actor, f32 arg1) {
 
 void func_8002D9F8(Actor* actor, UNK_PTR arg1) {
     Vec3f sp1C;
-    func_800A54FC(arg1, &sp1C, actor->shape.rot.y, actor);
+    func_800A54FC(arg1, &sp1C, actor->shape.rot.y);
     actor->posRot.pos.x += sp1C.x * actor->scale.x;
     actor->posRot.pos.y += sp1C.y * actor->scale.y;
     actor->posRot.pos.z += sp1C.z * actor->scale.z;
@@ -1437,14 +1446,16 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
     abs_var = ABS(var);
 
     if (player->unk_664 != NULL) {
-        if ((abs_var > 0x4000) || (actor->flags & 0x8000000))
+        if ((abs_var > 0x4000) || (actor->flags & 0x8000000)) {
             return FLT_MAX;
-        else
+        } else {
             return actor->waterSurfaceDist - actor->waterSurfaceDist * 0.8f * ((0x4000 - abs_var) * 3.0517578125e-05f);
+        }
     }
 
-    if (abs_var > 0x2AAA)
+    if (abs_var > 0x2AAA) {
         return FLT_MAX;
+    }
 
     return actor->waterSurfaceDist;
 }
@@ -1822,10 +1833,11 @@ void func_8002FBAC(GlobalContext* globalCtx) {
     func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 5308);
 
     if (gSaveContext.respawn[RESPAWN_MODE_TOP].data != 0) {
-        if (LINK_IS_ADULT)
+        if (LINK_IS_ADULT) {
             spD8 = 80.0f;
-        else
+        } else {
             spD8 = 60.0f;
+        }
 
         spD0 = 0xFF;
         spD4 = 1.0f;
@@ -3872,8 +3884,8 @@ Gfx* func_80034B54(GraphicsContext* gfxCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_80034B54.s")
 #endif
 
-void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, void* unkFunc1, void* unkFunc2, Actor* actor,
-                   s16 alpha) {
+void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, SkelAnime_LimbUpdateMatrix2 unkFunc1,
+                   SkelAnime_LimbAppendDlist2 unkFunc2, Actor* actor, s16 alpha) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 
@@ -3886,14 +3898,14 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, void* unkFunc
     gDPPipeSync(gfxCtx->polyOpa.p++);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80034B28(globalCtx->state.gfxCtx));
 
-    gfxCtx->polyOpa.p = func_800A273C(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount,
-                                      unkFunc1, unkFunc2, actor, gfxCtx->polyOpa.p);
+    gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl,
+                                          skelAnime->dListCount, unkFunc1, unkFunc2, actor, gfxCtx->polyOpa.p);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8860);
 }
 
-void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, void* unkFunc1, void* unkFunc2, Actor* actor,
-                   s16 alpha) {
+void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, SkelAnime_LimbUpdateMatrix2 unkFunc1,
+                   SkelAnime_LimbAppendDlist2 unkFunc2, Actor* actor, s16 alpha) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 
@@ -3905,8 +3917,8 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, void* unkFunc
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, alpha);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, func_80034B54(globalCtx->state.gfxCtx));
 
-    gfxCtx->polyXlu.p = func_800A273C(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount,
-                                      unkFunc1, unkFunc2, actor, gfxCtx->polyXlu.p);
+    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl,
+                                          skelAnime->dListCount, unkFunc1, unkFunc2, actor, gfxCtx->polyXlu.p);
 
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8904);
 }

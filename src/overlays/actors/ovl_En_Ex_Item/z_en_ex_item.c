@@ -9,8 +9,7 @@ void EnExItem_Update(EnExItem* this, GlobalContext* globalCtx);
 void EnExItem_Draw(EnExItem* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ex_Item_InitVars =
-{
+const ActorInit En_Ex_Item_InitVars = {
     ACTOR_EN_EX_ITEM,
     ACTORTYPE_PROP,
     ROOM,

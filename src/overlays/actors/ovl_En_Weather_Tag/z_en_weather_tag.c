@@ -8,8 +8,7 @@ void EnWeatherTag_Destroy(EnWeatherTag* this, GlobalContext* globalCtx);
 void EnWeatherTag_Update(EnWeatherTag* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Weather_Tag_InitVars =
-{
+const ActorInit En_Weather_Tag_InitVars = {
     ACTOR_EN_WEATHER_TAG,
     ACTORTYPE_PROP,
     ROOM,

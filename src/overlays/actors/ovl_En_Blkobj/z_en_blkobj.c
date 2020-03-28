@@ -9,8 +9,7 @@ void EnBlkobj_Update(EnBlkobj* this, GlobalContext* globalCtx);
 void EnBlkobj_Draw(EnBlkobj* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Blkobj_InitVars =
-{
+const ActorInit En_Blkobj_InitVars = {
     ACTOR_EN_BLKOBJ,
     ACTORTYPE_PROP,
     ROOM,

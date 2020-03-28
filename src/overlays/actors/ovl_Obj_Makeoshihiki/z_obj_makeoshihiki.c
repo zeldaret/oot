@@ -7,8 +7,7 @@ void ObjMakeoshihiki_Init(ObjMakeoshihiki* this, GlobalContext* globalCtx);
 void ObjMakeoshihiki_Draw(ObjMakeoshihiki* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Makeoshihiki_InitVars =
-{
+const ActorInit Obj_Makeoshihiki_InitVars = {
     ACTOR_OBJ_MAKEOSHIHIKI,
     ACTORTYPE_PROP,
     ROOM,

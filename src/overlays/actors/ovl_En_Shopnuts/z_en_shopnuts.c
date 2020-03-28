@@ -9,8 +9,7 @@ void EnShopnuts_Update(EnShopnuts* this, GlobalContext* globalCtx);
 void EnShopnuts_Draw(EnShopnuts* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Shopnuts_InitVars =
-{
+const ActorInit En_Shopnuts_InitVars = {
     ACTOR_EN_SHOPNUTS,
     ACTORTYPE_ENEMY,
     ROOM,

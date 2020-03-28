@@ -9,8 +9,7 @@ void EnVali_Update(EnVali* this, GlobalContext* globalCtx);
 void EnVali_Draw(EnVali* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Vali_InitVars =
-{
+const ActorInit En_Vali_InitVars = {
     ACTOR_EN_VALI,
     ACTORTYPE_ENEMY,
     ROOM,

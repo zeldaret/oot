@@ -9,8 +9,7 @@ void BgSpot05Soko_Update(BgSpot05Soko* this, GlobalContext* globalCtx);
 void BgSpot05Soko_Draw(BgSpot05Soko* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot05_Soko_InitVars =
-{
+const ActorInit Bg_Spot05_Soko_InitVars = {
     ACTOR_BG_SPOT05_SOKO,
     ACTORTYPE_PROP,
     ROOM,

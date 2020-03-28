@@ -8,8 +8,7 @@ void EnSth_Destroy(EnSth* this, GlobalContext* globalCtx);
 void EnSth_Update(EnSth* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Sth_InitVars =
-{
+const ActorInit En_Sth_InitVars = {
     ACTOR_EN_STH,
     ACTORTYPE_NPC,
     ROOM,

@@ -9,8 +9,7 @@ void ObjKibako_Update(ObjKibako* this, GlobalContext* globalCtx);
 void ObjKibako_Draw(ObjKibako* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Kibako_InitVars =
-{
+const ActorInit Obj_Kibako_InitVars = {
     ACTOR_OBJ_KIBAKO,
     ACTORTYPE_PROP,
     ROOM,

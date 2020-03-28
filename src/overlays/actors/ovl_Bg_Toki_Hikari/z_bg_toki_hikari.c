@@ -9,8 +9,7 @@ void BgTokiHikari_Update(BgTokiHikari* this, GlobalContext* globalCtx);
 void BgTokiHikari_Draw(BgTokiHikari* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Toki_Hikari_InitVars =
-{
+const ActorInit Bg_Toki_Hikari_InitVars = {
     ACTOR_BG_TOKI_HIKARI,
     ACTORTYPE_BG,
     ROOM,

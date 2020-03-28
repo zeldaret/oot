@@ -9,8 +9,7 @@ void BgHakaWater_Update(BgHakaWater* this, GlobalContext* globalCtx);
 void BgHakaWater_Draw(BgHakaWater* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Haka_Water_InitVars =
-{
+const ActorInit Bg_Haka_Water_InitVars = {
     ACTOR_BG_HAKA_WATER,
     ACTORTYPE_PROP,
     ROOM,

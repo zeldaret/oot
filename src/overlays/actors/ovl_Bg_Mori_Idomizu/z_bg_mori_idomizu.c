@@ -8,8 +8,7 @@ void BgMoriIdomizu_Destroy(BgMoriIdomizu* this, GlobalContext* globalCtx);
 void BgMoriIdomizu_Update(BgMoriIdomizu* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mori_Idomizu_InitVars =
-{
+const ActorInit Bg_Mori_Idomizu_InitVars = {
     ACTOR_BG_MORI_IDOMIZU,
     ACTORTYPE_BG,
     ROOM,

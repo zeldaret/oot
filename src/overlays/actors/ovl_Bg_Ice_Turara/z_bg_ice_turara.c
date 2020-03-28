@@ -9,8 +9,7 @@ void BgIceTurara_Update(BgIceTurara* this, GlobalContext* globalCtx);
 void BgIceTurara_Draw(BgIceTurara* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Ice_Turara_InitVars =
-{
+const ActorInit Bg_Ice_Turara_InitVars = {
     ACTOR_BG_ICE_TURARA,
     ACTORTYPE_PROP,
     ROOM,

@@ -9,8 +9,7 @@ void DemoTreLgt_Update(DemoTreLgt* this, GlobalContext* globalCtx);
 void DemoTreLgt_Draw(DemoTreLgt* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_Tre_Lgt_InitVars =
-{
+const ActorInit Demo_Tre_Lgt_InitVars = {
     ACTOR_DEMO_TRE_LGT,
     ACTORTYPE_ITEMACTION,
     ROOM,

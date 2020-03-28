@@ -9,8 +9,7 @@ void EnIk_Update(EnIk* this, GlobalContext* globalCtx);
 void EnIk_Draw(EnIk* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ik_InitVars =
-{
+const ActorInit En_Ik_InitVars = {
     ACTOR_EN_IK,
     ACTORTYPE_BOSS,
     ROOM,
