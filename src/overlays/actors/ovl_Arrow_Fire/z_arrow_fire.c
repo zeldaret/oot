@@ -117,7 +117,7 @@ void func_80865F1C(ArrowFire* this, GlobalContext* globalCtx) {
             this->fireRadius = (((1.0f - offset) * scale) + 10.0f);
             this->unk_158 += ((2.0f - this->unk_158) * 0.1f);
             if (this->timer < 0x10) {
-                if (1){} // needed for regalloc
+                if (1){} 
                 this->alpha = ((this->timer * 0x23) - 0x118);
             }
         }
@@ -186,7 +186,6 @@ void ArrowFire_Update(ArrowFire* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Arrow_Fire/ArrowFire_Draw.s")
 void ArrowFire_Draw(ArrowFire* this, GlobalContext* globalCtx){
     s32 pad1;
     s32 pad2;
@@ -198,15 +197,15 @@ void ArrowFire_Draw(ArrowFire* this, GlobalContext* globalCtx){
     s32 pad4;
     Gfx* gfxArr[2];
 
-    stateFrames = globalCtx->state.frames;
-    arrow = this->actor.attachedA;
+    if (1) {
+        stateFrames = globalCtx->state.frames;
+        arrow = this->actor.attachedA;
+    }
+
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 0xFF)) {
-        if (arrow->hitWall & 2){
-            tranform = &this->actor;
-        } else {
-            tranform = &arrow->actor;
-        }
-        func_800C6AC4(gfxArr, gfxCtx = globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618);
+        if (1) {}
+        tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
+        gfxCtx = globalCtx->state.gfxCtx; func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618); 
         Matrix_Translate(tranform->posRot.pos.x, tranform->posRot.pos.y, tranform->posRot.pos.z, MTXMODE_NEW);
         Matrix_RotateY(tranform->shape.rot.y * 9.58738E-05f, MTXMODE_APPLY); // 2*PI/65536, do we have a pi define?
         Matrix_RotateX(tranform->shape.rot.x * 9.58738E-05f, MTXMODE_APPLY); // 2*PI/65536, do we have a pi define?
