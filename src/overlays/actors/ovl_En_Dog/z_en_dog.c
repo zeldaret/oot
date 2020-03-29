@@ -1,3 +1,9 @@
+/*
+ * File: z_en_dog.c
+ * Overlay: ovl_En_Dog
+ * Description: Dog actor that Link can interact with
+ */
+
 #include "z_en_dog.h"
 
 #define ROOM 0x00
