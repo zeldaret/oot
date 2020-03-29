@@ -47,7 +47,7 @@ glabel BgMizuMovebg_Draw
 /* 00CB4 8089E8E4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00CB8 8089E8E8 AFA2006C */  sw      $v0, 0x006C($sp)           
 /* 00CBC 8089E8EC AFA60054 */  sw      $a2, 0x0054($sp)           
-/* 00CC0 8089E8F0 0C02541A */  jal     Draw_TwoTexScrollEnvColor              
+/* 00CC0 8089E8F0 0C02541A */  jal     Gfx_TwoTexScrollEnvColor              
 /* 00CC4 8089E8F4 AFAD0038 */  sw      $t5, 0x0038($sp)           
 /* 00CC8 8089E8F8 8FA3006C */  lw      $v1, 0x006C($sp)           
 /* 00CCC 8089E8FC 3C0FDB06 */  lui     $t7, 0xDB06                ## $t7 = DB060000
@@ -79,7 +79,7 @@ glabel BgMizuMovebg_Draw
 /* 00D34 8089E964 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00D38 8089E968 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00D3C 8089E96C AFA20068 */  sw      $v0, 0x0068($sp)           
-/* 00D40 8089E970 0C02541A */  jal     Draw_TwoTexScrollEnvColor              
+/* 00D40 8089E970 0C02541A */  jal     Gfx_TwoTexScrollEnvColor              
 /* 00D44 8089E974 AFAC0038 */  sw      $t4, 0x0038($sp)           
 /* 00D48 8089E978 8FA30068 */  lw      $v1, 0x0068($sp)           
 /* 00D4C 8089E97C 3C0EDB06 */  lui     $t6, 0xDB06                ## $t6 = DB060000
@@ -111,7 +111,7 @@ glabel BgMizuMovebg_Draw
 /* 00DB4 8089E9E4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00DB8 8089E9E8 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00DBC 8089E9EC AFA20064 */  sw      $v0, 0x0064($sp)           
-/* 00DC0 8089E9F0 0C02541A */  jal     Draw_TwoTexScrollEnvColor              
+/* 00DC0 8089E9F0 0C02541A */  jal     Gfx_TwoTexScrollEnvColor              
 /* 00DC4 8089E9F4 AFAB0038 */  sw      $t3, 0x0038($sp)           
 /* 00DC8 8089E9F8 8FA30064 */  lw      $v1, 0x0064($sp)           
 /* 00DCC 8089E9FC 3C0DDB06 */  lui     $t5, 0xDB06                ## $t5 = DB060000
@@ -146,7 +146,7 @@ glabel BgMizuMovebg_Draw
 /* 00E40 8089EA70 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00E44 8089EA74 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00E48 8089EA78 AFA20060 */  sw      $v0, 0x0060($sp)           
-/* 00E4C 8089EA7C 0C02541A */  jal     Draw_TwoTexScrollEnvColor              
+/* 00E4C 8089EA7C 0C02541A */  jal     Gfx_TwoTexScrollEnvColor              
 /* 00E50 8089EA80 AFAA0038 */  sw      $t2, 0x0038($sp)           
 /* 00E54 8089EA84 8FA30060 */  lw      $v1, 0x0060($sp)           
 /* 00E58 8089EA88 3C0CDA38 */  lui     $t4, 0xDA38                ## $t4 = DA380000

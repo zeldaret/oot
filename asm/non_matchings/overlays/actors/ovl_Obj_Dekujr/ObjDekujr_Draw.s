@@ -61,7 +61,7 @@ glabel ObjDekujr_Draw
 /* 00520 80B92940 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00524 80B92944 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00528 80B92948 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 0052C 80B9294C 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0052C 80B9294C 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00530 80B92950 AFA2004C */  sw      $v0, 0x004C($sp)           
 /* 00534 80B92954 8FA3004C */  lw      $v1, 0x004C($sp)           
 /* 00538 80B92958 3C09DA38 */  lui     $t1, 0xDA38                ## $t1 = DA380000

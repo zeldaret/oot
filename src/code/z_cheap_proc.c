@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-void Draw_DListOpa(GlobalContext* globalCtx, u32 dlist) {
+void Gfx_DrawDListOpa(GlobalContext* globalCtx, u32 dlist) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 
@@ -15,7 +15,7 @@ void Draw_DListOpa(GlobalContext* globalCtx, u32 dlist) {
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_cheap_proc.c", 219);
 }
 
-void Draw_DListXlu(GlobalContext* globalCtx, u32 dlist) {
+void Gfx_DrawDListXlu(GlobalContext* globalCtx, u32 dlist) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 

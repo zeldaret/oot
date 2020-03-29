@@ -66,7 +66,7 @@ glabel BgGndSoulmeiro_Draw
 /* 00704 8087B4C4 00086080 */  sll     $t4, $t0,  2               
 /* 00708 8087B4C8 3C058088 */  lui     $a1, %hi(D_8087B578)       ## $a1 = 80880000
 /* 0070C 8087B4CC 00AC2821 */  addu    $a1, $a1, $t4              
-/* 00710 8087B4D0 0C00D4C9 */  jal     Draw_DListXlu
+/* 00710 8087B4D0 0C00D4C9 */  jal     Gfx_DrawDListXlu
               
 /* 00714 8087B4D4 8CA5B578 */  lw      $a1, %lo(D_8087B578)($a1)  
 /* 00718 8087B4D8 10000007 */  beq     $zero, $zero, .L8087B4F8   
@@ -75,7 +75,7 @@ glabel BgGndSoulmeiro_Draw
 /* 00720 8087B4E0 00086880 */  sll     $t5, $t0,  2               
 /* 00724 8087B4E4 3C058088 */  lui     $a1, %hi(D_8087B578)       ## $a1 = 80880000
 /* 00728 8087B4E8 00AD2821 */  addu    $a1, $a1, $t5              
-/* 0072C 8087B4EC 0C00D498 */  jal     Draw_DListOpa
+/* 0072C 8087B4EC 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00730 8087B4F0 8CA5B578 */  lw      $a1, %lo(D_8087B578)($a1)  
 /* 00734 8087B4F4 8FBF001C */  lw      $ra, 0x001C($sp)           

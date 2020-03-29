@@ -188,7 +188,7 @@ glabel OceffWipe2_Draw
 /* 003F0 80BA9FA0 AFAA0028 */  sw      $t2, 0x0028($sp)           
 /* 003F4 80BA9FA4 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 003F8 80BA9FA8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 003FC 80BA9FAC 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 003FC 80BA9FAC 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00400 80BA9FB0 AFA20054 */  sw      $v0, 0x0054($sp)           
 /* 00404 80BA9FB4 8FA30054 */  lw      $v1, 0x0054($sp)           
 /* 00408 80BA9FB8 3C0C80BB */  lui     $t4, %hi(D_80BAB238)       ## $t4 = 80BB0000

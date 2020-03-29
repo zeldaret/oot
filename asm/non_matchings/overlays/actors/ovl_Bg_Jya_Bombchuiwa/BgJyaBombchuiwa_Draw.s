@@ -9,7 +9,7 @@ glabel BgJyaBombchuiwa_Draw
 /* 009D8 80894E78 304E0001 */  andi    $t6, $v0, 0x0001           ## $t6 = 00000000
 /* 009DC 80894E7C 11C00007 */  beq     $t6, $zero, .L80894E9C     
 /* 009E0 80894E80 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 009E4 80894E84 0C00D498 */  jal     Draw_DListOpa
+/* 009E4 80894E84 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 009E8 80894E88 24A5E8D0 */  addiu   $a1, $a1, 0xE8D0           ## $a1 = 0600E8D0
 /* 009EC 80894E8C 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000

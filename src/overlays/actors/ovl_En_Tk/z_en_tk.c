@@ -135,7 +135,7 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(this->eff); i++) {
         if (eff->active != 0) {
             if (gfxSetup == 0) {
-                gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 0);
+                gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0);
                 gSPDisplayList(gfxCtx->polyXlu.p++, D_0600BC90);
                 gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x64, 0x3C, 0x14, 0x00);
                 gfxSetup = 1;

@@ -14,7 +14,7 @@ glabel BgYdanHasi_Draw
 /* 005BC 808BEABC 00027080 */  sll     $t6, $v0,  2               
 /* 005C0 808BEAC0 3C05808C */  lui     $a1, %hi(D_808BEC24)       ## $a1 = 808C0000
 /* 005C4 808BEAC4 00AE2821 */  addu    $a1, $a1, $t6              
-/* 005C8 808BEAC8 0C00D498 */  jal     Draw_DListOpa
+/* 005C8 808BEAC8 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 005CC 808BEACC 8CA5EC24 */  lw      $a1, %lo(D_808BEC24)($a1)  
 /* 005D0 808BEAD0 10000044 */  beq     $zero, $zero, .L808BEBE4   
@@ -54,7 +54,7 @@ glabel BgYdanHasi_Draw
 /* 00654 808BEB54 AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 00658 808BEB58 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 0065C 808BEB5C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00660 808BEB60 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00660 808BEB60 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00664 808BEB64 AFA2004C */  sw      $v0, 0x004C($sp)           
 /* 00668 808BEB68 8FA8004C */  lw      $t0, 0x004C($sp)           
 /* 0066C 808BEB6C 3C0EDA38 */  lui     $t6, 0xDA38                ## $t6 = DA380000

@@ -37,7 +37,7 @@ glabel func_80942C70
 /* 0A02C 80942CFC 30C600FF */  andi    $a2, $a2, 0x00FF           ## $a2 = 00000000
 /* 0A030 80942D00 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0A034 80942D04 24070020 */  addiu   $a3, $zero, 0x0020         ## $a3 = 00000020
-/* 0A038 80942D08 0C0253A7 */  jal     Draw_TexScroll              
+/* 0A038 80942D08 0C0253A7 */  jal     Gfx_TexScroll              
 /* 0A03C 80942D0C AFA20058 */  sw      $v0, 0x0058($sp)           
 /* 0A040 80942D10 8FA30058 */  lw      $v1, 0x0058($sp)           
 /* 0A044 80942D14 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000

@@ -681,7 +681,7 @@ glabel func_80076934
 /* AEE498 800772F8 AFA3008C */  sw    $v1, 0x8c($sp)
 /* AEE49C 800772FC E7AE0098 */  swc1  $f14, 0x98($sp)
 /* AEE4A0 80077300 AFA20068 */  sw    $v0, 0x68($sp)
-/* AEE4A4 80077304 0C0253D0 */  jal   Draw_TwoTexScroll
+/* AEE4A4 80077304 0C0253D0 */  jal   Gfx_TwoTexScroll
 /* AEE4A8 80077308 30C60FFF */   andi  $a2, $a2, 0xfff
 /* AEE4AC 8007730C 8FA80068 */  lw    $t0, 0x68($sp)
 /* AEE4B0 80077310 8FA3008C */  lw    $v1, 0x8c($sp)

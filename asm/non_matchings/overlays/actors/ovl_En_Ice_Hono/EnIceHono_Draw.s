@@ -42,7 +42,7 @@ glabel EnIceHono_Draw
 /* 00EBC 80A73EAC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00EC0 80A73EB0 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 00EC4 80A73EB4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00EC8 80A73EB8 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00EC8 80A73EB8 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00ECC 80A73EBC AFA20058 */  sw      $v0, 0x0058($sp)           
 /* 00ED0 80A73EC0 8FA30058 */  lw      $v1, 0x0058($sp)           
 /* 00ED4 80A73EC4 3C0FFA00 */  lui     $t7, 0xFA00                ## $t7 = FA000000

@@ -191,7 +191,7 @@ glabel func_800B2B98
 /* B29DF8 800B2C58 9606000E */  lhu   $a2, 0xe($s0)
 /* B29DFC 800B2C5C 9605000C */  lhu   $a1, 0xc($s0)
 /* B29E00 800B2C60 AFA00010 */  sw    $zero, 0x10($sp)
-/* B29E04 800B2C64 0C02536E */  jal   func_80094DB8
+/* B29E04 800B2C64 0C02536E */  jal   Gfx_BranchTexScroll
 /* B29E08 800B2C68 00003825 */   move  $a3, $zero
 /* B29E0C 800B2C6C 8FAB007C */  lw    $t3, 0x7c($sp)
 /* B29E10 800B2C70 3C0DDB06 */  lui   $t5, (0xDB060020 >> 16) # lui $t5, 0xdb06

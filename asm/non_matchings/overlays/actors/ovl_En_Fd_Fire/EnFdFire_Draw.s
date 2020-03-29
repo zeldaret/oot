@@ -194,7 +194,7 @@ glabel EnFdFire_Draw
 /* 00A1C 80A0EECC AFA20064 */  sw      $v0, 0x0064($sp)           
 /* 00A20 80A0EED0 00005812 */  mflo    $t3                        
 /* 00A24 80A0EED4 AFAB0020 */  sw      $t3, 0x0020($sp)           
-/* 00A28 80A0EED8 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00A28 80A0EED8 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00A2C 80A0EEDC 00000000 */  nop
 /* 00A30 80A0EEE0 8FA30064 */  lw      $v1, 0x0064($sp)           
 /* 00A34 80A0EEE4 3C0FFA00 */  lui     $t7, 0xFA00                ## $t7 = FA000000

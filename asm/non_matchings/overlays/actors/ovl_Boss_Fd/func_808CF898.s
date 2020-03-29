@@ -186,7 +186,7 @@ glabel func_808CF898
 /* 04D9C 808CFB5C 3C120601 */  lui     $s2, 0x0601                ## $s2 = 06010000
 /* 04DA0 808CFB60 2652B3A8 */  addiu   $s2, $s2, 0xB3A8           ## $s2 = 0600B3A8
 /* 04DA4 808CFB64 8E0402D0 */  lw      $a0, 0x02D0($s0)           ## 000002D0
-/* 04DA8 808CFB68 0C024DDD */  jal     func_80093774              
+/* 04DA8 808CFB68 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 04DAC 808CFB6C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 04DB0 808CFB70 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 /* 04DB4 808CFB74 244B0008 */  addiu   $t3, $v0, 0x0008           ## $t3 = 00000008
@@ -289,7 +289,7 @@ glabel func_808CF898
 /* 04F2C 808CFCEC 3C120601 */  lui     $s2, 0x0601                ## $s2 = 06010000
 /* 04F30 808CFCF0 2652B3A8 */  addiu   $s2, $s2, 0xB3A8           ## $s2 = 0600B3A8
 /* 04F34 808CFCF4 8E0402D0 */  lw      $a0, 0x02D0($s0)           ## 000002D0
-/* 04F38 808CFCF8 0C024DDD */  jal     func_80093774              
+/* 04F38 808CFCF8 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 04F3C 808CFCFC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 04F40 808CFD00 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 /* 04F44 808CFD04 24580008 */  addiu   $t8, $v0, 0x0008           ## $t8 = 00000008

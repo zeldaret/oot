@@ -316,7 +316,7 @@ glabel EnFhgFire_Draw
 /* 02398 80A115F8 AFA2005C */  sw      $v0, 0x005C($sp)           
 /* 0239C 80A115FC 00095400 */  sll     $t2, $t1, 16               
 /* 023A0 80A11600 000A5C03 */  sra     $t3, $t2, 16               
-/* 023A4 80A11604 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 023A4 80A11604 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 023A8 80A11608 AFAB0020 */  sw      $t3, 0x0020($sp)           
 /* 023AC 80A1160C 8FA3005C */  lw      $v1, 0x005C($sp)           
 /* 023B0 80A11610 3C180601 */  lui     $t8, 0x0601                ## $t8 = 06010000

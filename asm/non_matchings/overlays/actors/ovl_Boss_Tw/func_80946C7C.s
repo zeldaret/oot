@@ -120,7 +120,7 @@ glabel func_80946C7C
 /* 0E17C 80946E4C 01FE0019 */  multu   $t7, $s8                   
 /* 0E180 80946E50 0000C012 */  mflo    $t8                        
 /* 0E184 80946E54 03193821 */  addu    $a3, $t8, $t9              
-/* 0E188 80946E58 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0E188 80946E58 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0E18C 80946E5C 30E700FF */  andi    $a3, $a3, 0x00FF           ## $a3 = 00000000
 /* 0E190 80946E60 AE220004 */  sw      $v0, 0x0004($s1)           ## 0601A434
 /* 0E194 80946E64 866D0156 */  lh      $t5, 0x0156($s3)           ## 00000156
@@ -285,7 +285,7 @@ glabel func_80946C7C
 /* 0E408 809470D8 017E0019 */  multu   $t3, $s8                   
 /* 0E40C 809470DC 00006012 */  mflo    $t4                        
 /* 0E410 809470E0 018D3821 */  addu    $a3, $t4, $t5              
-/* 0E414 809470E4 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0E414 809470E4 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0E418 809470E8 30E700FF */  andi    $a3, $a3, 0x00FF           ## $a3 = 00000000
 /* 0E41C 809470EC AE220004 */  sw      $v0, 0x0004($s1)           ## 0601AB04
 /* 0E420 809470F0 86690156 */  lh      $t1, 0x0156($s3)           ## 00000156

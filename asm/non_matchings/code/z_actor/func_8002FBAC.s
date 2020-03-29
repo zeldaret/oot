@@ -432,7 +432,7 @@ glabel func_8002FBAC
 /* AA72EC 8003014C 572A00A3 */  bnel  $t9, $t2, .L800303DC
 /* AA72F0 80030150 C50213A4 */   lwc1  $f2, 0x13a4($t0)
 /* AA72F4 80030154 8D6402D0 */  lw    $a0, 0x2d0($t3)
-/* AA72F8 80030158 0C024DDD */  jal   func_80093774
+/* AA72F8 80030158 0C024DDD */  jal   Gfx_CallSetupDL
 /* AA72FC 8003015C AFA20034 */   sw    $v0, 0x34($sp)
 /* AA7300 80030160 8FAD00EC */  lw    $t5, 0xec($sp)
 /* AA7304 80030164 3C038016 */  lui   $v1, %hi(gSaveContext) # $v1, 0x8016

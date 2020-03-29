@@ -356,7 +356,6 @@ beginseg
     include "build/src/code/z_prenmi.o"
     include "build/src/code/z_quake.o"
     include "build/src/code/z_rcp.o"
-    include "build/data/z_rcp.data.o"
     include "build/src/code/z_room.o"
     include "build/src/code/z_sample.o"
     include "build/src/code/code_80097A00.o"

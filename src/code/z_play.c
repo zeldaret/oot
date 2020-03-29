@@ -26,8 +26,8 @@ void func_800BC88C(GlobalContext* globalCtx) {
 }
 
 Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* a1) {
-    func_80093708(a1, globalCtx->lightCtx.unk_07, globalCtx->lightCtx.unk_08, globalCtx->lightCtx.unk_09, 0,
-                  globalCtx->lightCtx.unk_0A, 1000);
+    Gfx_SetFog2(a1, globalCtx->lightCtx.unk_07, globalCtx->lightCtx.unk_08, globalCtx->lightCtx.unk_09, 0,
+                globalCtx->lightCtx.unk_0A, 1000);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800BC8EC.s")

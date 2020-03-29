@@ -59,7 +59,7 @@ glabel EnLight_Draw
 /* 00A50 80A9E590 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00A54 80A9E594 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 00A58 80A9E598 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00A5C 80A9E59C 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00A5C 80A9E59C 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00A60 80A9E5A0 AFA20068 */  sw      $v0, 0x0068($sp)           
 /* 00A64 80A9E5A4 8FA30068 */  lw      $v1, 0x0068($sp)           
 /* 00A68 80A9E5A8 8FA80084 */  lw      $t0, 0x0084($sp)           
@@ -127,7 +127,7 @@ glabel EnLight_Draw
 /* 00B5C 80A9E69C AFAF001C */  sw      $t7, 0x001C($sp)           
 /* 00B60 80A9E6A0 AFB90024 */  sw      $t9, 0x0024($sp)           
 /* 00B64 80A9E6A4 AFAC0028 */  sw      $t4, 0x0028($sp)           
-/* 00B68 80A9E6A8 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00B68 80A9E6A8 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00B6C 80A9E6AC AFA2005C */  sw      $v0, 0x005C($sp)           
 /* 00B70 80A9E6B0 8FA8005C */  lw      $t0, 0x005C($sp)           
 /* 00B74 80A9E6B4 3C0A0500 */  lui     $t2, 0x0500                ## $t2 = 05000000

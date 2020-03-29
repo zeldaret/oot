@@ -241,6 +241,8 @@ typedef struct {
     /* 0x02A8 */ TwoHeadGfxArena    overlay;
     /* 0x02B8 */ TwoHeadGfxArena    polyOpa;
     /* 0x02C8 */ TwoHeadGfxArena    polyXlu;
+    /* 0x02D8 */ char               unk_2D8[0x0004];
+    /* 0x02DC */ UNK_TYPE           unk_2DC;
 } GraphicsContext;
 
 typedef struct {
