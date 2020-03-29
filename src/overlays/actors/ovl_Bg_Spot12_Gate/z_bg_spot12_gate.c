@@ -115,10 +115,10 @@ static void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
     Math_ApproxF(&thisx->velocity.y, 1.6f, 0.03f);
     if (Math_ApproxF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y + 200.0f, thisx->velocity.y)) {
         func_808B3274(this);
-        var = func_80092F88(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 3);
-        func_80092DAC(var, -0x3CB0);
-        func_80092E70(var, 3, 0, 0, 0);
-        func_80092DF0(var, 0xC);
+        var = Quake_Add(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 3);
+        Quake_SetSpeed(var, -0x3CB0);
+        Quake_SetQuakeValues(var, 3, 0, 0, 0);
+        Quake_SetCountdown(var, 0xC);
         Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
         func_8002F974(thisx, 0x2067);

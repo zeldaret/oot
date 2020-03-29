@@ -10,7 +10,7 @@ glabel func_8099803C
 /* 01DBC 8099805C 0C030129 */  jal     func_800C04A4              
 /* 01DC0 80998060 00052C03 */  sra     $a1, $a1, 16               
 /* 01DC4 80998064 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
-/* 01DC8 80998068 0C024BE2 */  jal     func_80092F88              
+/* 01DC8 80998068 0C024BE2 */  jal     Quake_Add              
 /* 01DCC 8099806C 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
 /* 01DD0 80998070 44806000 */  mtc1    $zero, $f12                ## $f12 = 0.00
 /* 01DD4 80998074 A7A20026 */  sh      $v0, 0x0026($sp)           
@@ -19,16 +19,16 @@ glabel func_8099803C
 /* 01DE0 80998080 0C02A7DB */  jal     func_800A9F6C              
 /* 01DE4 80998084 24070064 */  addiu   $a3, $zero, 0x0064         ## $a3 = 00000064
 /* 01DE8 80998088 87A40026 */  lh      $a0, 0x0026($sp)           
-/* 01DEC 8099808C 0C024B6B */  jal     func_80092DAC              
+/* 01DEC 8099808C 0C024B6B */  jal     Quake_SetSpeed              
 /* 01DF0 80998090 24054E20 */  addiu   $a1, $zero, 0x4E20         ## $a1 = 00004E20
 /* 01DF4 80998094 87A40026 */  lh      $a0, 0x0026($sp)           
 /* 01DF8 80998098 87A5002E */  lh      $a1, 0x002E($sp)           
 /* 01DFC 8099809C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 01E00 809980A0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 01E04 809980A4 0C024B9C */  jal     func_80092E70              
+/* 01E04 809980A4 0C024B9C */  jal     Quake_SetQuakeValues              
 /* 01E08 809980A8 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01E0C 809980AC 87A40026 */  lh      $a0, 0x0026($sp)           
-/* 01E10 809980B0 0C024B7C */  jal     func_80092DF0              
+/* 01E10 809980B0 0C024B7C */  jal     Quake_SetCountdown              
 /* 01E14 809980B4 87A50032 */  lh      $a1, 0x0032($sp)           
 /* 01E18 809980B8 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 01E1C 809980BC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

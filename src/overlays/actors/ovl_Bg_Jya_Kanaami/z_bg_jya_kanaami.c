@@ -111,10 +111,10 @@ static void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
     if (Math_ApproxUpdateScaledS(&this->actor.posRot.rot.x, 0x4000, this->unk_168)) {
         func_80899A08(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_TRAP_BOUND);
-        var = func_80092F88(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 3);
-        func_80092DAC(var, 25000);
-        func_80092E70(var, 2, 0, 0, 0);
-        func_80092DF0(var, 0x10);
+        var = Quake_Add(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 3);
+        Quake_SetSpeed(var, 25000);
+        Quake_SetQuakeValues(var, 2, 0, 0, 0);
+        Quake_SetCountdown(var, 0x10);
     }
 }
 
