@@ -1,12 +1,13 @@
 #include <global.h>
 #include <padmgr.h>
+#include <vt.h>
 
 extern PadMgr gPadMgr;
 
-u32 D_8012DBC0 = 0;
+u32 D_8012DBC0 = false;
 
 void func_800D31A0() {
-    osSyncPrintf("\x1b[31m\n**** Freeze!! ****\n\x1b[m");
+    osSyncPrintf(VT_FGCOL(RED) "\n**** Freeze!! ****\n" VT_RST);
     while (true) {
         func_800FF4AC(1000); // msleep
     }
