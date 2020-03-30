@@ -619,13 +619,20 @@ s32 func_8005C608(GlobalContext* globalCtx, ColliderTriItemDim* dest, ColliderTr
     return 1;
 }
 
+//Initialize ColliderTriItem
 s32 func_8005C6C0(GlobalContext* globalCtx, ColliderTriItem* collision) {
     func_8005B884(globalCtx, &collision->body);
     func_8005C5B0(globalCtx, &collision->dim);
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C6F8.s")
+//Destruct ColliderTriItem
+s32 func_8005C6F8(GlobalContext* globalCtx, ColliderTriItem* collision) {
+    func_8005B904(globalCtx, &collision->body);
+    func_8005C5F8(globalCtx, &collision->dim);
+    return 1;
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C730.s")
 
