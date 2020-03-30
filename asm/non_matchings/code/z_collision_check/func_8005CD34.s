@@ -1,0 +1,43 @@
+.text
+glabel func_8005CD34
+/* AD3ED4 8005CD34 27BDFFD8 */  addiu $sp, $sp, -0x28
+/* AD3ED8 8005CD38 AFBF0024 */  sw    $ra, 0x24($sp)
+/* AD3EDC 8005CD3C AFB2001C */  sw    $s2, 0x1c($sp)
+/* AD3EE0 8005CD40 AFB10018 */  sw    $s1, 0x18($sp)
+/* AD3EE4 8005CD44 00809025 */  move  $s2, $a0
+/* AD3EE8 8005CD48 AFB30020 */  sw    $s3, 0x20($sp)
+/* AD3EEC 8005CD4C AFB00014 */  sw    $s0, 0x14($sp)
+/* AD3EF0 8005CD50 00A08825 */  move  $s1, $a1
+/* AD3EF4 8005CD54 0C016DE1 */  jal   func_8005B784
+/* AD3EF8 8005CD58 AFA5002C */   sw    $a1, 0x2c($sp)
+/* AD3EFC 8005CD5C 8FA5002C */  lw    $a1, 0x2c($sp)
+/* AD3F00 8005CD60 2413005C */  li    $s3, 92
+/* AD3F04 8005CD64 8CAE0018 */  lw    $t6, 0x18($a1)
+/* AD3F08 8005CD68 8CB0001C */  lw    $s0, 0x1c($a1)
+/* AD3F0C 8005CD6C 01D30019 */  multu $t6, $s3
+/* AD3F10 8005CD70 00007812 */  mflo  $t7
+/* AD3F14 8005CD74 020FC021 */  addu  $t8, $s0, $t7
+/* AD3F18 8005CD78 0218082B */  sltu  $at, $s0, $t8
+/* AD3F1C 8005CD7C 1020000C */  beqz  $at, .L8005CDB0
+/* AD3F20 8005CD80 02402025 */   move  $a0, $s2
+.L8005CD84:
+/* AD3F24 8005CD84 0C0171E6 */  jal   func_8005C798
+/* AD3F28 8005CD88 02002825 */   move  $a1, $s0
+/* AD3F2C 8005CD8C 8E280018 */  lw    $t0, 0x18($s1)
+/* AD3F30 8005CD90 8E39001C */  lw    $t9, 0x1c($s1)
+/* AD3F34 8005CD94 2610005C */  addiu $s0, $s0, 0x5c
+/* AD3F38 8005CD98 01130019 */  multu $t0, $s3
+/* AD3F3C 8005CD9C 00004812 */  mflo  $t1
+/* AD3F40 8005CDA0 03295021 */  addu  $t2, $t9, $t1
+/* AD3F44 8005CDA4 020A082B */  sltu  $at, $s0, $t2
+/* AD3F48 8005CDA8 5420FFF6 */  bnezl $at, .L8005CD84
+/* AD3F4C 8005CDAC 02402025 */   move  $a0, $s2
+.L8005CDB0:
+/* AD3F50 8005CDB0 8FBF0024 */  lw    $ra, 0x24($sp)
+/* AD3F54 8005CDB4 8FB00014 */  lw    $s0, 0x14($sp)
+/* AD3F58 8005CDB8 8FB10018 */  lw    $s1, 0x18($sp)
+/* AD3F5C 8005CDBC 8FB2001C */  lw    $s2, 0x1c($sp)
+/* AD3F60 8005CDC0 8FB30020 */  lw    $s3, 0x20($sp)
+/* AD3F64 8005CDC4 27BD0028 */  addiu $sp, $sp, 0x28
+/* AD3F68 8005CDC8 03E00008 */  jr    $ra
+/* AD3F6C 8005CDCC 24020001 */   li    $v0, 1

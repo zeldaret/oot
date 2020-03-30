@@ -761,7 +761,38 @@ s32 func_8005CA88(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, Co
 }
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CBAC.s")
+//SetInit ColliderTris
+s32 func_8005CBAC(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src, ColliderTriItem* list) {
+    ColliderTriItem* destNext;
+    ColliderTriItemInit* srcNext;
+
+    func_8005B72C(globalCtx, &dest->base, actor, &src->body);
+    dest->count = src->count;
+    dest->list = list;
+
+    if (dest->list == NULL) {
+        __assert("pclobj_tris->elem_tbl != NULL", "../z_collision_check.c", 2258);
+    }
+
+    destNext = dest->list;
+    srcNext = src->list;
+
+    while (destNext < dest->list + dest->count)
+    {
+        func_8005C6C0(globalCtx, destNext);
+        func_8005C730(globalCtx, destNext, srcNext);
+        destNext++;
+        srcNext++;
+    }
+    return 1;
+}
+
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CC98.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CD34.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CDD0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CE6C.s")
 

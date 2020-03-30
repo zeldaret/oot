@@ -1,0 +1,43 @@
+.text
+glabel func_8005CC98
+/* AD3E38 8005CC98 27BDFFD8 */  addiu $sp, $sp, -0x28
+/* AD3E3C 8005CC9C AFBF0024 */  sw    $ra, 0x24($sp)
+/* AD3E40 8005CCA0 AFB2001C */  sw    $s2, 0x1c($sp)
+/* AD3E44 8005CCA4 AFB10018 */  sw    $s1, 0x18($sp)
+/* AD3E48 8005CCA8 00809025 */  move  $s2, $a0
+/* AD3E4C 8005CCAC AFB30020 */  sw    $s3, 0x20($sp)
+/* AD3E50 8005CCB0 AFB00014 */  sw    $s0, 0x14($sp)
+/* AD3E54 8005CCB4 00A08825 */  move  $s1, $a1
+/* AD3E58 8005CCB8 0C016DDB */  jal   func_8005B76C
+/* AD3E5C 8005CCBC AFA5002C */   sw    $a1, 0x2c($sp)
+/* AD3E60 8005CCC0 8FA5002C */  lw    $a1, 0x2c($sp)
+/* AD3E64 8005CCC4 2413005C */  li    $s3, 92
+/* AD3E68 8005CCC8 8CAE0018 */  lw    $t6, 0x18($a1)
+/* AD3E6C 8005CCCC 8CB0001C */  lw    $s0, 0x1c($a1)
+/* AD3E70 8005CCD0 01D30019 */  multu $t6, $s3
+/* AD3E74 8005CCD4 00007812 */  mflo  $t7
+/* AD3E78 8005CCD8 020FC021 */  addu  $t8, $s0, $t7
+/* AD3E7C 8005CCDC 0218082B */  sltu  $at, $s0, $t8
+/* AD3E80 8005CCE0 1020000C */  beqz  $at, .L8005CD14
+/* AD3E84 8005CCE4 02402025 */   move  $a0, $s2
+.L8005CCE8:
+/* AD3E88 8005CCE8 0C0171DD */  jal   func_8005C774
+/* AD3E8C 8005CCEC 02002825 */   move  $a1, $s0
+/* AD3E90 8005CCF0 8E280018 */  lw    $t0, 0x18($s1)
+/* AD3E94 8005CCF4 8E39001C */  lw    $t9, 0x1c($s1)
+/* AD3E98 8005CCF8 2610005C */  addiu $s0, $s0, 0x5c
+/* AD3E9C 8005CCFC 01130019 */  multu $t0, $s3
+/* AD3EA0 8005CD00 00004812 */  mflo  $t1
+/* AD3EA4 8005CD04 03295021 */  addu  $t2, $t9, $t1
+/* AD3EA8 8005CD08 020A082B */  sltu  $at, $s0, $t2
+/* AD3EAC 8005CD0C 5420FFF6 */  bnezl $at, .L8005CCE8
+/* AD3EB0 8005CD10 02402025 */   move  $a0, $s2
+.L8005CD14:
+/* AD3EB4 8005CD14 8FBF0024 */  lw    $ra, 0x24($sp)
+/* AD3EB8 8005CD18 8FB00014 */  lw    $s0, 0x14($sp)
+/* AD3EBC 8005CD1C 8FB10018 */  lw    $s1, 0x18($sp)
+/* AD3EC0 8005CD20 8FB2001C */  lw    $s2, 0x1c($sp)
+/* AD3EC4 8005CD24 8FB30020 */  lw    $s3, 0x20($sp)
+/* AD3EC8 8005CD28 27BD0028 */  addiu $sp, $sp, 0x28
+/* AD3ECC 8005CD2C 03E00008 */  jr    $ra
+/* AD3ED0 8005CD30 24020001 */   li    $v0, 1
