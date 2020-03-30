@@ -32,6 +32,7 @@ void func_80A187AC(EnFloormas* this, GlobalContext* globalCtx);
 void func_80A18650(EnFloormas* this, GlobalContext* globalCtx);
 void func_80A185C4(EnFloormas* this, GlobalContext* globalCtx);
 void func_80A18500(EnFloormas* this, GlobalContext* globalCtx);
+void func_80A18C78(EnFloormas* this, GlobalContext* globalCtx);
 
 const ActorInit En_Floormas_InitVars = {
     ACTOR_EN_FLOORMAS,
@@ -159,14 +160,6 @@ extern AnimationHeader D_06002158;
 extern AnimationHeader D_0600A054;
 extern AnimationHeader D_060041F4;
 extern AnimationHeader D_06009244;
-
-void func_80A18310(EnFloormas* this) {
-    func_800A51E8(&this->skelAnime, &D_06000EA4);
-    this->actionFunc = (ActorFunc)&func_80A19C6C;
-    this->actor.speedXZ = 0.0f;
-    this->actor.velocity.y = 0.0f;
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
-}
 
 #define NON_MATCHING
 #ifdef NON_MATCHING
@@ -333,12 +326,7 @@ void func_80A17B40(EnFloormas* this) {
     this->actionFunc = (ActorFunc)&func_80A18D68;
 }
 
-
-#define UNK_FLOATBEC1 0.60000002384185791015625f
-
 void func_80A17BEC(EnFloormas* this) {
-    u32* objSkelAnimeFrameCount = &D_060019CC;
-    u32* objSkelAnimeChangeAnimation = &D_060019CC;
     s32 temp_t7;
 
     Actor_SetScale(&this->actor, 0.004f);
@@ -351,10 +339,10 @@ void func_80A17BEC(EnFloormas* this) {
     this->actor.shape.rot.y = this->actor.attachedA->shape.rot.y + 0x5555;
     this->actor.posRot.pos = this->actor.attachedA->posRot.pos;
     this->actor.params = 0x10;
-    SkelAnime_ChangeAnimation(&this->skelAnime, objSkelAnimeChangeAnimation, 1.0f, 41.0f,
-                              (f32)SkelAnime_GetFrameCount(objSkelAnimeFrameCount), 2, 0.0f);
-    this->colCylinder.dim.radius = (f32)D_80A1A470[16] * UNK_FLOATBEC1;
-    this->colCylinder.dim.height = (f32)D_80A1A470[17] * UNK_FLOATBEC1;
+    SkelAnime_ChangeAnimation(&this->skelAnime, &D_060019CC, 1.0f, 41.0f,
+                              (f32)SkelAnime_GetFrameCount(&D_060019CC), 2, 0.0f);
+    this->colCylinder.dim.radius = (f32)D_80A1A470[16] * 0.6f;
+    this->colCylinder.dim.height = (f32)D_80A1A470[17] * 0.6f;
     this->colCylinder.body.bumperFlags &= ~4;
     this->actor.speedXZ = 4.0f;
     this->actor.velocity.y = 7.0f;
@@ -484,7 +472,18 @@ void func_80A18254(EnFloormas* this) {
     this->actor.velocity.y = 5.5f;
 }
 
+#ifdef NON_MATCHING
+void func_80A18310(EnFloormas* this)
+{
+    func_800A51E8(&this->skelAnime, &D_06000EA4);
+    this->actionFunc = &func_80A19C6C;
+    this->actor.speedXZ = 0.0f;
+    this->actor.velocity.y = 0.0f;
+    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Floormas/func_80A18310.s")
+#endif
 
 void func_80A18364(EnFloormas* this) {
     SkelAnime_ChangeAnimation(&this->skelAnime, &D_060019CC, 1.5f, 0, 20.0f, 2, -3.0f);
