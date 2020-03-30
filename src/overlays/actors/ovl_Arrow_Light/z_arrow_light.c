@@ -170,7 +170,7 @@ void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
         ArrowLight_SetupAction(this, &ArrowLight_Hit);
         this->timer = 32;
         this->alpha = 0xFF;
-    } else if (arrow->timer < 0x22) {
+    } else if (arrow->timer < 34) {
         if (this->alpha < 0x23) {
             Actor_Kill(&this->actor);
         } else {
