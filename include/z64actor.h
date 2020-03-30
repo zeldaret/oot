@@ -385,6 +385,13 @@ typedef struct {
 
 typedef struct
 {
+    /* 0x00 */ Collider base;
+    /* 0x18 */ s32 count;
+    /* 0x1C */ ColliderTriItem* list;
+} ColliderTris; //size 0x20
+
+typedef struct
+{
     /* 0x00 */ Actor* actor;
     /* 0x04 */ char unk_04[0x10];
     /* 0x14 */ Vec3f scale1;

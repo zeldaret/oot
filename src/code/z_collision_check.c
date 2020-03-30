@@ -646,7 +646,6 @@ s32 func_8005C774(GlobalContext* globalCtx, ColliderTriItem* item) {
     return 1;
 }
 
-
 s32 func_8005C798(GlobalContext* globalCtx, ColliderTriItem* item) {
     func_8005B9E8(globalCtx, &item->body);
     return 1;
@@ -657,8 +656,16 @@ s32 func_8005C7BC(GlobalContext* globalCtx, ColliderTriItem* item) {
     return 1;
 }
 
+//Initialize ColliderTris
+s32 func_8005C7E0(GlobalContext* globalCtx, ColliderTris* tris) {
+    func_8005B65C(globalCtx, &tris->base);
+    tris->count = 0;
+    tris->list = 0;
+    return 1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C7E0.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C810.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C8C8.s")
 

@@ -4,20 +4,7 @@ glabel D_8013A750
     .balign 4
 
 .text
-glabel func_8005C7E0
-/* AD3980 8005C7E0 27BDFFE8 */  addiu $sp, $sp, -0x18
-/* AD3984 8005C7E4 AFBF0014 */  sw    $ra, 0x14($sp)
-/* AD3988 8005C7E8 0C016D97 */  jal   func_8005B65C
-/* AD398C 8005C7EC AFA5001C */   sw    $a1, 0x1c($sp)
-/* AD3990 8005C7F0 8FA5001C */  lw    $a1, 0x1c($sp)
-/* AD3994 8005C7F4 24020001 */  li    $v0, 1
-/* AD3998 8005C7F8 ACA00018 */  sw    $zero, 0x18($a1)
-/* AD399C 8005C7FC ACA0001C */  sw    $zero, 0x1c($a1)
-/* AD39A0 8005C800 8FBF0014 */  lw    $ra, 0x14($sp)
-/* AD39A4 8005C804 27BD0018 */  addiu $sp, $sp, 0x18
-/* AD39A8 8005C808 03E00008 */  jr    $ra
-/* AD39AC 8005C80C 00000000 */   nop   
-
+glabel func_8005C810
 /* AD39B0 8005C810 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* AD39B4 8005C814 AFBF0024 */  sw    $ra, 0x24($sp)
 /* AD39B8 8005C818 AFB2001C */  sw    $s2, 0x1c($sp)
