@@ -8,11 +8,17 @@ void EnKz_Destroy(EnKz* this, GlobalContext* globalCtx);
 void EnKz_Update(EnKz* this, GlobalContext* globalCtx);
 void EnKz_Draw(EnKz* this, GlobalContext* globalCtx);
 
-void func_80A9D42C(EnKz* this, GlobalContext* globalCtx);
 void func_80A9D0C0(EnKz* this, GlobalContext* globalCtx);
 void func_80A9D130(EnKz* this, GlobalContext* globalCtx);
 void func_80A9D25C(EnKz* this, GlobalContext* globalCtx);
 void func_80A9D3C8(EnKz* this, GlobalContext* globalCtx);
+
+void func_80A9D42C(EnKz* this, GlobalContext* globalCtx);
+void func_80A9D490(EnKz* this, GlobalContext* globalCtx);
+void func_80A9D520(EnKz* this, GlobalContext* globalCtx);
+
+void func_80A9D670();
+void func_80A9D744();
 
 /*
 const ActorInit En_Kz_InitVars = {
@@ -62,10 +68,16 @@ static struct_80034EC0_Entry animations[] = {
     { 0x0600046C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
 };
 
+static UNK_PTR eyeImages[] = {
+    0x06001470, 
+    0x06001870, 
+    0x06001C70,
+};
+
 typedef enum {
     /* 0x00 */ KZ_WAIT,
     /* 0x01 */ KZ_TALK,
-    /* 0x02 */ KZ_MWEEP,
+    /* 0x02 */ KZ_SPECIAL, // as child used to setup the mweep cutscene, as adult use to setup get item
 } KingZoraBehavior;
 
 extern SkeletonHeader D_060186D0;
@@ -78,7 +90,16 @@ extern SkeletonHeader D_060186D0;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9C6C0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9C8E4.s")
+//EnKz_UpdateEyes
+void func_80A9C8E4(EnKz* this) {
+    if (DECR(this->blinkTimer) == 0) {
+        this->eyeImageIdx += 1;
+        if (this->eyeImageIdx >= 3) {
+            this->blinkTimer = Math_Rand_S16Offset(30, 30);
+            this->eyeImageIdx = 0;
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9C95C.s")
 
@@ -92,7 +113,8 @@ void EnKz_Init(EnKz* this, GlobalContext* globalCtx){
     s32 pad;
     s32 pad1;
     
-    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060186D0, NULL, &this->actorDrawTable, &this->skelanimeArg5, 12);
+    SkelAnime_InitSV(globalCtx, &this->skelanime, &D_060186D0, NULL, &this->actorDrawTable, 
+                     &this->actorTransitionTable, 12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     ActorCollider_AllocCylinder(globalCtx, &this->collider);
     ActorCollider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
@@ -117,11 +139,14 @@ void EnKz_Init(EnKz* this, GlobalContext* globalCtx){
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/EnKz_Destroy.s")
+void EnKz_Destroy(EnKz* this, GlobalContext* globalCtx) {
+    EnKz* thisAgain = this;
+    ActorCollider_FreeCylinder(globalCtx, &thisAgain->collider);
+}
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9D0C0.s")
+//EnKz_PreMweepWait
 void func_80A9D0C0(EnKz* this, GlobalContext* globalCtx){
-    if (this->nextBehavior == KZ_MWEEP) {
+    if (this->nextBehavior == KZ_SPECIAL) {
         func_80034EC0(&this->skelanime, animations, 2); //use enum?
         this->nextBehavior = KZ_WAIT;
         this->actionFunc = func_80A9D130;
@@ -178,19 +203,86 @@ void func_80A9D25C(EnKz* this, GlobalContext* globalCtx) {
     }
 }
 
+//EnKz_StopMweep
+void func_80A9D3C8(EnKz* this, GlobalContext* globalCtx) {
+    func_800C0314(globalCtx, this->unk_214, 7);
+    func_800C0384(globalCtx, this->unk_212);
+    func_8002DF54(globalCtx, &this->actor, 7);
+    this->actionFunc = func_80A9D42C;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9D3C8.s")
+//EnKz_PostMweepWait
+void func_80A9D42C(EnKz* this, GlobalContext* globalCtx) {
+    if (this->nextBehavior == KZ_SPECIAL) {
+        this->actionFunc = func_80A9D490;
+        func_80A9D490(this, globalCtx);
+    } else {
+        func_80034F54(globalCtx, &this->unk_2A6, &this->unk_2BE, 12);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9D42C.s")
+//EnKz_SetupGetItem
+void func_80A9D490(EnKz* this, GlobalContext* globalCtx) {
+    s32 getItemID;
+    f32 xzRange;
+    f32 yRange;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9D490.s")
+    if (func_8002F410(this, globalCtx)) {
+        this->actor.attachedA = NULL;
+        this->nextBehavior = KZ_TALK;
+        this->actionFunc = func_80A9D520;
+    } else {
+        getItemID = this->unk_209 == 1 ? GI_FROG : GI_TUNIC_ZORA;
+        yRange = fabsf(this->actor.yDistanceFromLink) + 1.0f;
+        xzRange = this->actor.xzDistanceFromLink + 1.0f;
+        func_8002F434(&this->actor, globalCtx, getItemID, xzRange, yRange);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9D520.s")
+//EnKz_StartTimer
+void func_80A9D520(EnKz* this, GlobalContext* globalCtx) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx))) {
+        if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_FROG) {
+            func_80088AA0(180); // start timer 2 with 3 minutes
+            gSaveContext.event_inf[1] &= ~1;
+        }
+        this->nextBehavior = KZ_WAIT;
+        this->actionFunc = func_80A9D42C;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/EnKz_Update.s")
+void EnKz_Update(EnKz* this, GlobalContext* globalCtx) {
+    s32 pad1;
+    s32 pad2;
+
+    if (LINK_IS_ADULT && !(gSaveContext.inf_table[19] & 0x100)) {
+        gSaveContext.inf_table[19] |= 0x100;
+    }
+    ActorCollider_Cylinder_Update(&this->actor, &this->collider);
+    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    func_80A9C8E4(this);
+    Actor_MoveForward(&this->actor);
+    if (this->actionFunc != (ActorFunc)func_80A9D520) {
+        func_80A9CB18(this, globalCtx);
+    }
+    this->actionFunc(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9D670.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9D744.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/EnKz_Draw.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/EnKz_Draw.s")
+void EnKz_Draw(EnKz* this, GlobalContext* globalCtx) {
+    Gfx* gfxArr[4];
+    GraphicsContext* gfxCtx;
+
+    gfxCtx = globalCtx->state.gfxCtx;
+    func_800C6AC4(&gfxArr, &globalCtx->state.gfxCtx, "../z_en_kz.c", 1259);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(eyeImages[this->eyeImageIdx]));
+    func_800943C8(&globalCtx->state.gfxCtx);
+    SkelAnime_DrawSV(globalCtx, &this->skelanime.skeleton, &this->skelanime.actorDrawTbl, 
+                     &this->skelanime.dListCount, func_80A9D670, func_80A9D744, &this->actor);
+    func_800C6B54(&gfxArr, &globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);
+}
