@@ -368,9 +368,7 @@ typedef struct {
 } ColliderJntSphInit_Actor;
 
 typedef struct {
-    /* 0x00 */ Vec3f pointA;
-    /* 0x0C */ Vec3f pointB;
-    /* 0x18 */ Vec3f pointC;
+    /* 0x00 */ Vec3f poly[3];
     /* 0x24 */ Vec3f unitNormal;
     /* 0x30 */ float normalDist;
 } ColliderTriDim;

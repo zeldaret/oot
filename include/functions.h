@@ -1550,7 +1550,7 @@ f32 func_800CA774(f32);
 // ? func_800CB934(?);
 // ? func_800CBAE4(?);
 // ? func_800CBC60(?);
-// ? func_800CC8B4(?);
+void func_800CC8B4(Vec3f* a, Vec3f* b, Vec3f* c, float* nx, float* ny, float* nz, float* nd); //compute unit normal
 // ? func_800CC9C8(?);
 // ? func_800CCA04(?);
 // ? func_800CCA3C(?);

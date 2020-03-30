@@ -595,7 +595,29 @@ s32 func_8005C5F8(GlobalContext* globalCtx, ColliderTriDim* dim)
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C608.s")
+//Copy ColliderTriDim
+s32 func_8005C608(GlobalContext* globalCtx, ColliderTriDim* dest, ColliderTriDim* src)
+{
+    Vec3f* d;
+    Vec3f* s;
+    float nx, ny, nz, nd;
+
+    d = dest->poly;
+    s = src->poly;
+    while (d < dest->poly + 3)
+    {
+        *d++ = *s++;
+    }
+
+    func_800CC8B4(&src->poly[0], &src->poly[1], &src->poly[2],
+        &nx, &ny, &nz, &nd);
+        
+    dest->unitNormal.x = nx;
+    dest->unitNormal.y = ny;
+    dest->unitNormal.z = nz;
+    dest->normalDist = nd;
+    return 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C6C0.s")
 
