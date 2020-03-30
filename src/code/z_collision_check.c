@@ -730,7 +730,36 @@ s32 func_8005C964(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, Co
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CA88.s")
+//ClObjTris_set5 (maskB = src->maskB)
+s32 func_8005CA88(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src) {
+    ColliderTriItem* destNext;
+    ColliderTriItemInit* srcNext;
+
+    func_8005B72C(globalCtx, &dest->base, actor, &src->body);
+    dest->count = src->count;
+    dest->list = ZeldaArena_MallocDebug(dest->count * sizeof(ColliderTriItem), "../z_collision_check.c", 2207);
+
+    if (dest->list == NULL) {
+        osSyncPrintf("\x1b[31m");
+        osSyncPrintf("ClObjTris_set5():zelda_malloc出来ません\n"); //EUC-JP: 出来ません。 | Can not.
+        osSyncPrintf("\x1b[m");
+        dest->count = 0;
+        return 0;
+    }
+
+    destNext = dest->list;
+    srcNext = src->list;
+
+    while (destNext < dest->list + dest->count)
+    {
+        func_8005C6C0(globalCtx, destNext);
+        func_8005C730(globalCtx, destNext, srcNext);
+        destNext++;
+        srcNext++;
+    }
+    return 1;
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CBAC.s")
 
