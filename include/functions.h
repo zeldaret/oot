@@ -691,7 +691,7 @@ s32 func_8005C508(GlobalContext* globalCtx, ColliderCylinderMain* collision);
 s32 func_8005C540(GlobalContext* globalCtx, ColliderCylinderMain* collision);
 s32 func_8005C578(GlobalContext* globalCtx, ColliderCylinderMain* collision);
 // ? func_8005C5B0(?);
-s32 func_8005C5F8(GlobalContext* globalCtx, ColliderTriDim* dim);
+s32 func_8005C5F8(GlobalContext* globalCtx, ColliderTriItemDim* dim);
 // ? func_8005C608(?);
 // ? func_8005C6C0(?);
 // ? func_8005C6F8(?);

@@ -371,9 +371,12 @@ typedef struct {
     /* 0x00 */ Vec3f poly[3];
     /* 0x24 */ Vec3f unitNormal;
     /* 0x30 */ float normalDist;
-} ColliderTriDim;
+} ColliderTriItemDim;
 
-
+typedef struct {
+    /* 0x00 */ ColliderBody body;
+    /* 0x28 */ ColliderTriItemDim dim;
+} ColliderTriItem;
 
 typedef struct
 {

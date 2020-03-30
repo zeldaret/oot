@@ -580,23 +580,23 @@ s32 func_8005C578(GlobalContext* globalCtx, ColliderCylinderMain* collision)
     return 1;
 }
 
-extern ColliderTriDim D_8011DE78;
+extern ColliderTriItemDim D_8011DE78;
 
-//Initialize ColliderTriDim
-s32 func_8005C5B0(GlobalContext* globalCtx, ColliderTriDim* dim)
+//Initialize ColliderTriItemDim
+s32 func_8005C5B0(GlobalContext* globalCtx, ColliderTriItemDim* dim)
 {
     *dim = D_8011DE78;
     return 1;
 }
 
-//Destruct ColliderTriDim
-s32 func_8005C5F8(GlobalContext* globalCtx, ColliderTriDim* dim)
+//Destruct ColliderTriItemDim
+s32 func_8005C5F8(GlobalContext* globalCtx, ColliderTriItemDim* dim)
 {
     return 1;
 }
 
-//Copy ColliderTriDim
-s32 func_8005C608(GlobalContext* globalCtx, ColliderTriDim* dest, ColliderTriDim* src)
+//Copy ColliderTriItemDim
+s32 func_8005C608(GlobalContext* globalCtx, ColliderTriItemDim* dest, ColliderTriItemDim* src)
 {
     Vec3f* d;
     Vec3f* s;
@@ -619,7 +619,11 @@ s32 func_8005C608(GlobalContext* globalCtx, ColliderTriDim* dest, ColliderTriDim
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C6C0.s")
+s32 func_8005C6C0(GlobalContext* globalCtx, ColliderTriItem* collision) {
+    func_8005B884(globalCtx, &collision->body);
+    func_8005C5B0(globalCtx, &collision->dim);
+    return 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C6F8.s")
 
