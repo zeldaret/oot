@@ -46,6 +46,8 @@ extern UNK_PTR D_80A691B0;
 extern UNK_PTR D_06018668;
 extern UNK_PTR D_06004AA4;
 
+extern s32 D_80A692B8;
+
 // the rest are padding
 const f32 D_80A692D0[] = { 10430.3779297f, 0.0f, 0.0f, 0.0f };
 
@@ -63,6 +65,23 @@ s16* func_80A68660(EnHorseGanon* this, u32 offset, f32* floatArray)
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A686A8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68870.s")
+/*void func_80A68870(EnHorseGanon* this)
+// regalloc mismatch
+{
+    if (this->skelAnime.animCurrentFrame > (f32) (&D_80A692B8)[this->unk_1e8])
+    {
+        if ((&D_80A692B8)[this->unk_1e8] != 0 || !(this->skelAnime.animCurrentFrame > (f32) (&D_80A692B8)[1]))
+        {
+            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+
+            this->unk_1e8 += 1;
+            if (this->unk_1e8 >= 2)
+            {
+                this->unk_1e8 = 0;
+            }
+        }
+    }
+}*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/EnHorseGanon_Init.s")
 // void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx)
