@@ -272,15 +272,15 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 16:
             if (sp3F != 0) {
-                D_8015FCCA = func_80092F88(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 6);
-                func_80092DAC(D_8015FCCA, 0x7FFF);
-                func_80092E70(D_8015FCCA, 4, 0, 1000, 0);
-                func_80092DF0(D_8015FCCA, 800);
+                D_8015FCCA = Quake_Add(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 6);
+                Quake_SetSpeed(D_8015FCCA, 0x7FFF);
+                Quake_SetQuakeValues(D_8015FCCA, 4, 0, 1000, 0);
+                Quake_SetCountdown(D_8015FCCA, 800);
             }
             break;
         case 17:
             if (sp3F != 0) {
-                func_80092FAC(D_8015FCCA);
+                Quake_RemoveFromIdx(D_8015FCCA);
             }
             break;
         case 18:
