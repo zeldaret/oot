@@ -689,9 +689,7 @@ endseg
 beginseg
     name "ovl_Arrow_Light"
     include "build/src/overlays/actors/ovl_Arrow_Light/z_arrow_light.o"
-    include "build/data/overlays/actors/z_arrow_light.data.o"
-    include "build/data/overlays/actors/z_arrow_light.rodata.o"
-    include "build/data/overlays/actors/z_arrow_light.reloc.o"
+    include "build/src/overlays/actors/ovl_Arrow_Light/z_arrow_light_reloc.o"
 endseg
 
 beginseg

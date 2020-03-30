@@ -46,7 +46,7 @@ void ArrowFire_Init(ArrowFire* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, initChain);
     this->radius = 0;
     this->unk_158 = 1.0f;
-    ArrowFire_SetupAction(this, ArrowFire_Charge);
+    ArrowFire_SetupAction(&this->actor, ArrowFire_Charge);
     Actor_SetScale(this, 0.01);
     this->alpha = 0xA0;
     this->timer = 0;
@@ -118,7 +118,7 @@ void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx) {
             offset = SQ(offset);
             this->radius = (((1.0f - offset) * scale) + 10.0f);
             this->unk_158 += ((2.0f - this->unk_158) * 0.1f);
-            if (this->timer < 0x10) {
+            if (this->timer < 16) {
                 if (1){} 
                 this->alpha = ((this->timer * 0x23) - 0x118);
             }
@@ -140,7 +140,7 @@ void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx) {
     }
  
     if (this->timer == 0) {
-        this->timer = 0xFF;
+        this->timer = 255;
         Actor_Kill(&this->actor);
     }
 }
@@ -200,7 +200,7 @@ void ArrowFire_Draw(ArrowFire* this, GlobalContext* globalCtx){
     arrow = this->actor.attachedA;
     if (1) {}
 
-    if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 0xFF)) {
+    if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
         if (1) {}
         tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
         gfxCtx = globalCtx->state.gfxCtx; func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618); 

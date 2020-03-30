@@ -47,7 +47,7 @@ void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx) {
     this->radius = 0;
     this->unk_160 = 1.0f;
     ArrowIce_SetupAction(this, ArrowIce_Charge);
-    Actor_SetScale(this, 0.01);
+    Actor_SetScale(&this->actor, 0.01);
     this->alpha = 0x64;
     this->timer = 0;
     this->unk_164 = 0.0f;
@@ -118,7 +118,7 @@ void ArrowIce_Hit(ArrowIce* this, GlobalContext* globalCtx) {
             offset = SQ(offset);
             this->radius = (((1.0f - offset) * scale) + 10.0f);
             this->unk_160 += ((2.0f - this->unk_160) * 0.1f);
-            if (this->timer < 0x10) {
+            if (this->timer < 16) {
                 if (1){} 
                 this->alpha = ((this->timer * 0x23) - 0x118);
             }
@@ -140,7 +140,7 @@ void ArrowIce_Hit(ArrowIce* this, GlobalContext* globalCtx) {
     }
  
     if (this->timer == 0) {
-        this->timer = 0xFF;
+        this->timer = 255;
         Actor_Kill(&this->actor);
     }
 }
@@ -200,7 +200,7 @@ void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx){
     arrow = this->actor.attachedA;
     if (1) {}
 
-    if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 0xFF)) {
+    if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
         if (1) {}
         tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
         gfxCtx = globalCtx->state.gfxCtx; func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 610); 

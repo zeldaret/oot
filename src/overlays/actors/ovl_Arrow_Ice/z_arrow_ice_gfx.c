@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "z_arrow_ice.h"
 
 static UNK_TYPE texture1[] = {
     0x00061507, 0x00000000, 0x295A2B08, 0x10030F03, 0x0D070006, 0x00031625, 0x3F230012, 0x79590000, 0x00102C2A,
