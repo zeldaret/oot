@@ -1236,17 +1236,17 @@ void func_8009BEEC(GlobalContext* globalCtx) {
     s32 var;
 
     if (globalCtx->gameplayFrames % 128 == 13) {
-        var = func_80092F88(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 2);
-        func_80092DAC(var, 10000);
-        func_80092E70(var, 4, 0, 0, 0);
-        func_80092DF0(var, 127);
+        var = Quake_Add(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 2);
+        Quake_SetSpeed(var, 10000);
+        Quake_SetQuakeValues(var, 4, 0, 0, 0);
+        Quake_SetCountdown(var, 127);
     }
 
     if ((globalCtx->gameplayFrames % 64 == 0) && (Math_Rand_ZeroOne() > 0.6f)) {
-        var = func_80092F88(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 3);
-        func_80092DAC(var, 32000.0f + (Math_Rand_ZeroOne() * 3000.0f));
-        func_80092E70(var, 10.0f - (Math_Rand_ZeroOne() * 9.0f), 0, 0, 0);
-        func_80092DF0(var, 48.0f - (Math_Rand_ZeroOne() * 15.0f));
+        var = Quake_Add(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 3);
+        Quake_SetSpeed(var, 32000.0f + (Math_Rand_ZeroOne() * 3000.0f));
+        Quake_SetQuakeValues(var, 10.0f - (Math_Rand_ZeroOne() * 9.0f), 0, 0, 0);
+        Quake_SetCountdown(var, 48.0f - (Math_Rand_ZeroOne() * 15.0f));
     }
 }
 #else

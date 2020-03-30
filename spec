@@ -354,10 +354,7 @@ beginseg
     include "build/data/z_player_lib.data.o"
     include "build/data/z_player_lib.bss.o"
     include "build/src/code/z_prenmi.o"
-    include "build/asm/z_quake.o"
-    include "build/data/z_quake.data.o"
-    include "build/data/z_quake.rodata.o"
-    include "build/data/z_quake.bss.o"
+    include "build/src/code/z_quake.o"
     include "build/src/code/z_rcp.o"
     include "build/data/z_rcp.data.o"
     include "build/src/code/z_room.o"
@@ -457,9 +454,7 @@ beginseg
     include "build/data/sys_ucode.data.o"
     include "build/asm/code_800D2E30.o"
     include "build/data/code_800D2E30.data.o"
-    include "build/asm/code_800D31A0.o"
-    include "build/data/code_800D31A0.data.o"
-    include "build/data/code_800D31A0.rodata.o"
+    include "build/src/code/code_800D31A0.o"
     include "build/src/code/irqmgr.o"
     include "build/src/code/debug_malloc.o"
     include "build/src/code/fault.o"
@@ -791,9 +786,7 @@ endseg
 beginseg
     name "ovl_Bg_Gjyo_Bridge"
     include "build/src/overlays/actors/ovl_Bg_Gjyo_Bridge/z_bg_gjyo_bridge.o"
-    include "build/data/overlays/actors/z_bg_gjyo_bridge.data.o"
-    include "build/data/overlays/actors/z_bg_gjyo_bridge.rodata.o"
-    include "build/data/overlays/actors/z_bg_gjyo_bridge.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Gjyo_Bridge/z_bg_gjyo_bridge_reloc.o"
 endseg
 
 beginseg
@@ -2587,8 +2580,7 @@ endseg
 beginseg
     name "ovl_En_Ds"
     include "build/src/overlays/actors/ovl_En_Ds/z_en_ds.o"
-    include "build/data/overlays/actors/z_en_ds.data.o"
-    include "build/data/overlays/actors/z_en_ds.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ds/z_en_ds_reloc.o"
 endseg
 
 beginseg
@@ -3474,9 +3466,7 @@ endseg
 beginseg
     name "ovl_En_Ru2"
     include "build/src/overlays/actors/ovl_En_Ru2/z_en_ru2.o"
-    include "build/data/overlays/actors/z_en_ru2.data.o"
-    include "build/data/overlays/actors/z_en_ru2.rodata.o"
-    include "build/data/overlays/actors/z_en_ru2.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ru2/z_en_ru2_reloc.o"
 endseg
 
 beginseg
