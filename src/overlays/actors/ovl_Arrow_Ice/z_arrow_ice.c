@@ -203,8 +203,9 @@ void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx) {
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
         if (1) {}
         tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
-        gfxCtx = globalCtx->state.gfxCtx;
-        func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 610);
+        // clang-format off
+        gfxCtx = globalCtx->state.gfxCtx; func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 610);
+        // clang-format on
         Matrix_Translate(tranform->posRot.pos.x, tranform->posRot.pos.y, tranform->posRot.pos.z, MTXMODE_NEW);
         Matrix_RotateY(tranform->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
         Matrix_RotateX(tranform->shape.rot.x * (M_PI / 32768), MTXMODE_APPLY);
