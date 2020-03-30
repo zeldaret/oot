@@ -483,12 +483,16 @@ s32 func_8005C234(GlobalContext* globalCtx, ColliderJntSph* collider) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C234.s")
 #endif // NON_MATCHING
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C2BC.s")
-extern ColliderCylinderDim D_8011DE6C;
+#ifdef NON_MATCHING
+//matching, but needs data section imported
 s32 func_8005C2BC(GlobalContext* globalCtx, ColliderCylinderDim* dim) {
-    *dim = D_8011DE6C;
+    ColliderCylinderDim init = { 0, 0, 0, 0, 0, 0 }; //TODO: this is D_8011DE6C;
+    *dim = init;
     return 1;
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C2BC.s")
+#endif // NON_MATCHING
 
 s32 func_8005C318(GlobalContext* globalCtx, ColliderCylinderDim* dim)
 {
