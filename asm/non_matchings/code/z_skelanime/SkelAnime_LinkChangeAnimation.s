@@ -84,7 +84,7 @@ glabel SkelAnime_LinkChangeAnimation
 /* B1B1DC 800A403C C7B20038 */  lwc1  $f18, 0x38($sp)
 /* B1B1E0 800A4040 E6120018 */  swc1  $f18, 0x18($s0)
 /* B1B1E4 800A4044 C7A4003C */  lwc1  $f4, 0x3c($sp)
-/* B1B1E8 800A4048 0C0287F2 */  jal   func_800A1FC8
+/* B1B1E8 800A4048 0C0287F2 */  jal   SkelAnime_GetTotalFrames
 /* B1B1EC 800A404C E6040010 */   swc1  $f4, 0x10($s0)
 /* B1B1F0 800A4050 44823000 */  mtc1  $v0, $f6
 /* B1B1F4 800A4054 00000000 */  nop

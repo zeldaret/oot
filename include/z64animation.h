@@ -152,7 +152,7 @@ struct SkelAnime {
     };
     /* 0x0C */ f32 initialFrame;
     /* 0x10 */ f32 animFrameCount; // ending frame?
-    /* 0x14 */ f32 unk_14; // Loop frame?
+    /* 0x14 */ f32 totalFrames; // Loop frame?
     /* 0x18 */ f32 animCurrentFrame;
     /* 0x1C */ f32 animPlaybackSpeed;
     /* 0x20 */ Vec3s* actorDrawTbl; // now_joint

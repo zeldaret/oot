@@ -45,7 +45,7 @@ glabel func_800A4C58
 /* B1BE8C 800A4CEC 92040000 */  lbu   $a0, ($s0)
 /* B1BE90 800A4CF0 27A70038 */  addiu $a3, $sp, 0x38
 /* B1BE94 800A4CF4 E7A20010 */  swc1  $f2, 0x10($sp)
-/* B1BE98 800A4CF8 0C028B9C */  jal   func_800A2E70
+/* B1BE98 800A4CF8 0C028B9C */  jal   SkelAnime_InterpolateRotation
 /* B1BE9C 800A4CFC 00A03025 */   move  $a2, $a1
 /* B1BEA0 800A4D00 C6000028 */  lwc1  $f0, 0x28($s0)
 .L800A4D04:
@@ -81,7 +81,7 @@ glabel func_800A4C58
 /* B1BF14 800A4D74 92040000 */  lbu   $a0, ($s0)
 /* B1BF18 800A4D78 8E070024 */  lw    $a3, 0x24($s0)
 /* B1BF1C 800A4D7C E7A00010 */  swc1  $f0, 0x10($sp)
-/* B1BF20 800A4D80 0C028B9C */  jal   func_800A2E70
+/* B1BF20 800A4D80 0C028B9C */  jal   SkelAnime_InterpolateRotation
 /* B1BF24 800A4D84 00A03025 */   move  $a2, $a1
 .L800A4D88:
 /* B1BF28 800A4D88 8FBF0024 */  lw    $ra, 0x24($sp)
