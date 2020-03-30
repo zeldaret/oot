@@ -97,7 +97,7 @@ void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx) {
     f32 scale;
     f32 offset;
     u16 timer;
- 
+
     if (this->actor.unk_F0 < 50.0f) {
         scale = 10.0f;
     } else {
@@ -108,23 +108,23 @@ void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx) {
             scale = ((scale - 50.0f) * 0.33333334f) + 10.0f;
         }
     }
-   
+
     timer = this->timer;
     if (timer != 0) {
         this->timer -= 1;
-       
-        if (this->timer >= 8){
+
+        if (this->timer >= 8) {
             offset = ((this->timer - 8) * 0.041666668f);
             offset = SQ(offset);
             this->radius = (((1.0f - offset) * scale) + 10.0f);
             this->unk_160 += ((2.0f - this->unk_160) * 0.1f);
             if (this->timer < 16) {
-                if (1){} 
+                if (1) {}
                 this->alpha = ((this->timer * 0x23) - 0x118);
             }
         }
     }
- 
+
     if (this->timer >= 9) {
         if (this->unk_164 < 1.0f) {
             this->unk_164 += 0.25f;
@@ -134,11 +134,11 @@ void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx) {
             this->unk_164 -= 0.125f;
         }
     }
- 
-    if (this->timer < 8) { 
+
+    if (this->timer < 8) {
         this->alpha = 0;
     }
- 
+
     if (this->timer == 0) {
         this->timer = 255;
         Actor_Kill(&this->actor);
@@ -192,7 +192,7 @@ void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx) {
     s32 pad2;
     u32 stateFrames;
     GraphicsContext* gfxCtx;
-    Actor* tranform; 
+    Actor* tranform;
     EnArrow* arrow;
     Gfx* gfxArr[4];
 
@@ -203,7 +203,8 @@ void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx) {
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
         if (1) {}
         tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
-        gfxCtx = globalCtx->state.gfxCtx; func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_light.c", 598); 
+        gfxCtx = globalCtx->state.gfxCtx;
+        func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_light.c", 598);
         Matrix_Translate(tranform->posRot.pos.x, tranform->posRot.pos.y, tranform->posRot.pos.z, MTXMODE_NEW);
         Matrix_RotateY(tranform->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
         Matrix_RotateX(tranform->shape.rot.x * (M_PI / 32768), MTXMODE_APPLY);
@@ -213,7 +214,7 @@ void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx) {
         // Draw yellow effect over the screen when arrow hits
         if (this->unk_164 > 0) {
             gfxCtx->polyXlu.p = func_800937C0(gfxCtx->polyXlu.p);
-            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, (s32)(30.0f * this->unk_164) & 0xFF, 
+            gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, (s32)(30.0f * this->unk_164) & 0xFF,
                             (s32)(40.0f * this->unk_164) & 0xFF, 0, (s32)(150.0f * this->unk_164) & 0xFF);
             gDPSetAlphaDither(gfxCtx->polyXlu.p++, G_AD_DISABLE);
             gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_DISABLE);
@@ -232,12 +233,12 @@ void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx) {
         }
         Matrix_Scale(this->radius * 0.2f, this->unk_160 * 4.0f, this->radius * 0.2f, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
-        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_light.c", 648), G_MTX_NOPUSH |
-                  G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_light.c", 648),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfxCtx->polyXlu.p++, textureDL);
-        gSPDisplayList(gfxCtx->polyXlu.p++, Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 
-                       511 - (stateFrames * 5) % 512, 0, 4, 32, 1, 511 - (stateFrames * 10) % 512, 
-                       511 - (stateFrames * 30) % 512, 8, 16));
+        gSPDisplayList(gfxCtx->polyXlu.p++,
+                       Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 4, 32, 1,
+                                         511 - (stateFrames * 10) % 512, 511 - (stateFrames * 30) % 512, 8, 16));
         gSPDisplayList(gfxCtx->polyXlu.p++, vertexDL);
         func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_light.c", 664);
     }
