@@ -374,14 +374,18 @@ typedef struct {
 } ColliderTriItemDim; //size = 0x34
 
 typedef struct {
+    /* 0x00 */ Vec3f poly[3];
+} ColliderTriItemDimInit; //size = 0x24
+
+typedef struct {
     /* 0x00 */ ColliderBody body;
     /* 0x28 */ ColliderTriItemDim dim;
 } ColliderTriItem; //size = 0x5C
 
 typedef struct {
     /* 0x00 */ ColliderBodyInit body;
-    /* 0x18 */ ColliderTriItemDim dim;
-} ColliderTriItemInit;
+    /* 0x18 */ ColliderTriItemDimInit dim;
+} ColliderTriItemInit; //size 0x3C
 
 typedef struct
 {
@@ -389,6 +393,13 @@ typedef struct
     /* 0x18 */ s32 count;
     /* 0x1C */ ColliderTriItem* list;
 } ColliderTris; //size = 0x20
+
+typedef struct
+{
+    /* 0x00 */ ColliderInit body;
+    /* 0x08 */ s32 count;
+    /* 0x0C */ ColliderTriItemInit* list;
+} ColliderTrisInit;
 
 typedef struct
 {
