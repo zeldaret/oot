@@ -185,7 +185,8 @@ extern EffectTableInfo EffectSS2Info; // 801158B0
 //extern ? D_80115F68;
 //extern ? D_80115F6C;
 //extern ? D_80115F70;
-extern ActorOverlay gActorOverlayTable[471]; // original name: "actor_dlftbls"
+extern Gfx D_80116280[];
+extern ActorOverlay gActorOverlayTable[471]; // original name: "actor_dlftbls" 801162A0
 extern s32 gMaxProfile;
 //extern ? D_80119E2C;
 //extern ? D_80119E52;

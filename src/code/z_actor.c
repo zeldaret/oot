@@ -3516,17 +3516,17 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
 }
 
 void func_80033DB8(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
-    s16 var = func_80092F88(&globalCtx->cameraCtx.activeCameras[0], 3);
-    func_80092DAC(var, 20000);
-    func_80092E70(var, arg1, 0, 0, 0);
-    func_80092DF0(var, arg2);
+    s16 var = Quake_Add(&globalCtx->cameraCtx.activeCameras[0], 3);
+    Quake_SetSpeed(var, 20000);
+    Quake_SetQuakeValues(var, arg1, 0, 0, 0);
+    Quake_SetCountdown(var, arg2);
 }
 
 void func_80033E1C(GlobalContext* globalCtx, s16 arg1, s16 arg2, s16 arg3) {
-    s16 var = func_80092F88(&globalCtx->cameraCtx.activeCameras[0], 3);
-    func_80092DAC(var, arg3);
-    func_80092E70(var, arg1, 0, 0, 0);
-    func_80092DF0(var, arg2);
+    s16 var = Quake_Add(&globalCtx->cameraCtx.activeCameras[0], 3);
+    Quake_SetSpeed(var, arg3);
+    Quake_SetQuakeValues(var, arg1, 0, 0, 0);
+    Quake_SetCountdown(var, arg2);
 }
 
 void func_80033E88(Actor* actor, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
@@ -4064,7 +4064,6 @@ void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
 Vec3f D_80116268 = { 0.0f, -1.5f, 0.0f };
 Vec3f D_80116274 = { 0.0f, -0.2f, 0.0f };
 
-// unused
 Gfx D_80116280[] = {
     gsDPSetRenderMode(AA_EN | Z_CMP | Z_UPD | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
                           GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA),
