@@ -376,7 +376,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ ColliderBody body;
     /* 0x28 */ ColliderTriItemDim dim;
-} ColliderTriItem;
+} ColliderTriItem; //size = 0x5C
 
 typedef struct {
     /* 0x00 */ ColliderBodyInit body;
@@ -388,7 +388,7 @@ typedef struct
     /* 0x00 */ Collider base;
     /* 0x18 */ s32 count;
     /* 0x1C */ ColliderTriItem* list;
-} ColliderTris; //size 0x20
+} ColliderTris; //size = 0x20
 
 typedef struct
 {

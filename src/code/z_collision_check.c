@@ -277,7 +277,6 @@ s32 func_8005BC28(GlobalContext* globalCtx, ColliderJntSph* collider) {
     next = collider->list;
 
     while (next < collider->list + collider->count) {
-
         func_8005BB10(globalCtx, next);
         next++;
     }
@@ -665,7 +664,27 @@ s32 func_8005C7E0(GlobalContext* globalCtx, ColliderTris* tris) {
 }
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C810.s")
+//Destruct ColliderTris (malloc)
+s32 func_8005C810(GlobalContext* globalCtx, ColliderTris* tris) {
+    ColliderTriItem* next;
+    u32 temp_s0;
+    u32 phi_s0;
+
+    func_8005B6A0(globalCtx, &tris->base);
+    next = tris->list;
+
+    while (next < tris->list + tris->count) {
+        func_8005C6F8(globalCtx, next);
+        next++;
+    }
+
+    tris->count = 0;
+    if (tris->list != NULL) {
+        ZeldaArena_FreeDebug(tris->list, "../z_collision_check.c", 0x833);
+    }
+    tris->list = NULL;
+    return 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C8C8.s")
 
