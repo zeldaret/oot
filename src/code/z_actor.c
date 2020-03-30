@@ -3516,17 +3516,17 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
 }
 
 void func_80033DB8(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
-    s16 var = func_80092F88(&globalCtx->cameraCtx.activeCameras[0], 3);
-    func_80092DAC(var, 20000);
-    func_80092E70(var, arg1, 0, 0, 0);
-    func_80092DF0(var, arg2);
+    s16 var = Quake_Add(&globalCtx->cameraCtx.activeCameras[0], 3);
+    Quake_SetSpeed(var, 20000);
+    Quake_SetQuakeValues(var, arg1, 0, 0, 0);
+    Quake_SetCountdown(var, arg2);
 }
 
 void func_80033E1C(GlobalContext* globalCtx, s16 arg1, s16 arg2, s16 arg3) {
-    s16 var = func_80092F88(&globalCtx->cameraCtx.activeCameras[0], 3);
-    func_80092DAC(var, arg3);
-    func_80092E70(var, arg1, 0, 0, 0);
-    func_80092DF0(var, arg2);
+    s16 var = Quake_Add(&globalCtx->cameraCtx.activeCameras[0], 3);
+    Quake_SetSpeed(var, arg3);
+    Quake_SetQuakeValues(var, arg1, 0, 0, 0);
+    Quake_SetCountdown(var, arg2);
 }
 
 void func_80033E88(Actor* actor, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
