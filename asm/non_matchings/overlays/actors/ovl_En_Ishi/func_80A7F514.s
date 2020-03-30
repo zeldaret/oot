@@ -58,12 +58,12 @@ glabel func_80A7F514
 /* 0118C 80A7F5EC 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
 /* 01190 80A7F5F0 000E7880 */  sll     $t7, $t6,  2               
 /* 01194 80A7F5F4 022FC021 */  addu    $t8, $s1, $t7              
-/* 01198 80A7F5F8 0C024BE2 */  jal     func_80092F88              
+/* 01198 80A7F5F8 0C024BE2 */  jal     Quake_Add              
 /* 0119C 80A7F5FC 8F040790 */  lw      $a0, 0x0790($t8)           ## 00000790
 /* 011A0 80A7F600 00022400 */  sll     $a0, $v0, 16               
 /* 011A4 80A7F604 AFA20040 */  sw      $v0, 0x0040($sp)           
 /* 011A8 80A7F608 00042403 */  sra     $a0, $a0, 16               
-/* 011AC 80A7F60C 0C024B6B */  jal     func_80092DAC              
+/* 011AC 80A7F60C 0C024B6B */  jal     Quake_SetSpeed              
 /* 011B0 80A7F610 2405C350 */  addiu   $a1, $zero, 0xC350         ## $a1 = FFFFC350
 /* 011B4 80A7F614 87B10042 */  lh      $s1, 0x0042($sp)           
 /* 011B8 80A7F618 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
@@ -71,11 +71,11 @@ glabel func_80A7F514
 /* 011C0 80A7F620 00112400 */  sll     $a0, $s1, 16               
 /* 011C4 80A7F624 00042403 */  sra     $a0, $a0, 16               
 /* 011C8 80A7F628 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 011CC 80A7F62C 0C024B9C */  jal     func_80092E70              
+/* 011CC 80A7F62C 0C024B9C */  jal     Quake_SetQuakeValues              
 /* 011D0 80A7F630 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 011D4 80A7F634 00112400 */  sll     $a0, $s1, 16               
 /* 011D8 80A7F638 00042403 */  sra     $a0, $a0, 16               
-/* 011DC 80A7F63C 0C024B7C */  jal     func_80092DF0              
+/* 011DC 80A7F63C 0C024B7C */  jal     Quake_SetCountdown              
 /* 011E0 80A7F640 24050007 */  addiu   $a1, $zero, 0x0007         ## $a1 = 00000007
 /* 011E4 80A7F644 C60C008C */  lwc1    $f12, 0x008C($s0)          ## 0000008C
 /* 011E8 80A7F648 240500FF */  addiu   $a1, $zero, 0x00FF         ## $a1 = 000000FF

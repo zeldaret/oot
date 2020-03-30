@@ -71,7 +71,7 @@ glabel func_800BCA64
 /* B33C80 800BCAE0 02002825 */   move  $a1, $s0
 /* B33C84 800BCAE4 0C03DA0A */  jal   func_800F6828
 /* B33C88 800BCAE8 00002025 */   move  $a0, $zero
-/* B33C8C 800BCAEC 0C024BCE */  jal   func_80092F38
+/* B33C8C 800BCAEC 0C024BCE */  jal   Quake_Init
 /* B33C90 800BCAF0 00000000 */   nop
 /* B33C94 800BCAF4 00002025 */  move  $a0, $zero
 /* B33C98 800BCAF8 02201025 */  move  $v0, $s1
