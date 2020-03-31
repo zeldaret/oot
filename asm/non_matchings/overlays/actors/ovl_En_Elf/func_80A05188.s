@@ -14,7 +14,7 @@ glabel func_80A05188
 /* 03588 80A051B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0358C 80A051BC 5040000B */  beql    $v0, $zero, .L80A051EC     
 /* 03590 80A051C0 8FA40020 */  lw      $a0, 0x0020($sp)           
-/* 03594 80A051C4 0C01B0AC */  jal     func_8006C2B0              
+/* 03594 80A051C4 0C01B0AC */  jal     ElfMessage_GetSariaText              
 /* 03598 80A051C8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0359C 80A051CC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 035A0 80A051D0 0C042DC8 */  jal     func_8010B720              
