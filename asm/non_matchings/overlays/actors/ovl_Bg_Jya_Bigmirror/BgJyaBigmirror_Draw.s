@@ -9,12 +9,12 @@ glabel BgJyaBigmirror_Draw
 /* 0078C 80893E6C 11C0000A */  beq     $t6, $zero, .L80893E98     
 /* 00790 80893E70 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00794 80893E74 24A5E1B0 */  addiu   $a1, $a1, 0xE1B0           ## $a1 = 0600E1B0
-/* 00798 80893E78 0C00D498 */  jal     Draw_DListOpa
+/* 00798 80893E78 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 0079C 80893E7C AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 007A0 80893E80 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 007A4 80893E84 24A5E2D0 */  addiu   $a1, $a1, 0xE2D0           ## $a1 = 0600E2D0
-/* 007A8 80893E88 0C00D4C9 */  jal     Draw_DListXlu
+/* 007A8 80893E88 0C00D4C9 */  jal     Gfx_DrawDListXlu
               
 /* 007AC 80893E8C 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 007B0 80893E90 8FA60018 */  lw      $a2, 0x0018($sp)           

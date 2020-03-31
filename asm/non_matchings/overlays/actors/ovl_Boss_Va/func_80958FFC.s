@@ -49,7 +49,7 @@ glabel func_80958FFC
 /* 09DF8 809590B8 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 09DFC 809590BC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 09E00 809590C0 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 09E04 809590C4 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 09E04 809590C4 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 09E08 809590C8 AFA20054 */  sw      $v0, 0x0054($sp)           
 /* 09E0C 809590CC 8FA80054 */  lw      $t0, 0x0054($sp)           
 /* 09E10 809590D0 3C0FDA38 */  lui     $t7, 0xDA38                ## $t7 = DA380000

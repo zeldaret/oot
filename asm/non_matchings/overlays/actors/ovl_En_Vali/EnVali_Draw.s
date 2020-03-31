@@ -35,7 +35,7 @@ glabel EnVali_Draw
 /* 020EC 80B2879C 30C6007F */  andi    $a2, $a2, 0x007F           ## $a2 = 00000000
 /* 020F0 80B287A0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 020F4 80B287A4 24070020 */  addiu   $a3, $zero, 0x0020         ## $a3 = 00000020
-/* 020F8 80B287A8 0C0253A7 */  jal     Draw_TexScroll
+/* 020F8 80B287A8 0C0253A7 */  jal     Gfx_TexScroll
 /* 020FC 80B287AC AFA20048 */  sw      $v0, 0x0048($sp)
 /* 02100 80B287B0 8FA30048 */  lw      $v1, 0x0048($sp)
 /* 02104 80B287B4 3C0DDB06 */  lui     $t5, 0xDB06                ## $t5 = DB060000

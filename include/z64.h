@@ -241,6 +241,8 @@ typedef struct {
     /* 0x02A8 */ TwoHeadGfxArena    overlay;
     /* 0x02B8 */ TwoHeadGfxArena    polyOpa;
     /* 0x02C8 */ TwoHeadGfxArena    polyXlu;
+    /* 0x02D8 */ char               unk_2D8[0x0004];
+    /* 0x02DC */ UNK_TYPE           unk_2DC;
 } GraphicsContext;
 
 typedef struct {
@@ -801,6 +803,13 @@ typedef struct
     /* 0x00A8 */ View view;
 } SampleContext;
 
+typedef struct {
+    /* 0x00 */ u8 byte0;
+    /* 0x01 */ u8 byte1;
+    /* 0x02 */ u8 byte2;
+    /* 0x03 */ u8 byte3;
+} ElfMessage; // size = 0x4
+
 // Global Context (dbg ram start: 80212020)
 typedef struct GlobalContext {
     /* 0x00000 */ GameState state;
@@ -902,7 +911,7 @@ typedef struct GlobalContext {
     /* 0x11E00 */ EntranceEntry* setupEntranceList;
     /* 0x11E04 */ UNK_PTR setupExitList;
     /* 0x11E08 */ Path* setupPathList;
-    /* 0x11E0C */ UNK_PTR naviMsgSegment;
+    /* 0x11E0C */ ElfMessage* cUpElfMsgs;
     /* 0x11E10 */ char unk_11E10[0x4];
     /* 0x11E14 */ u8 skyboxId;
     /* 0x11E15 */ s8 sceneLoadFlag; // "fade_direction"
@@ -1276,5 +1285,44 @@ typedef struct {
     /* 0x08 */ OSTime duration;
     /* 0x10 */ OSTime resetTime;
 } PreNmiBuff; // size = 0x18 (actually osAppNmiBuffer is 0x40 bytes large but the rest is unused)
+
+typedef struct {
+    /* 0x00 */ s16 unk_00;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+} SubQuakeRequest14;
+
+typedef struct {
+    /* 0x00 */ s16 randIdx;
+    /* 0x02 */ s16 countdownMax;
+    /* 0x04 */ Camera* cam;
+    /* 0x08 */ u32 callbackIdx;
+    /* 0x0C */ s16 y;
+    /* 0x0E */ s16 x;
+    /* 0x10 */ s16 zoom;
+    /* 0x12 */ s16 rotZ;
+    /* 0x14 */ SubQuakeRequest14 unk_14;
+    /* 0x1A */ s16 speed;
+    /* 0x1C */ s16 unk_1C;
+    /* 0x1E */ s16 countdown;
+    /* 0x20 */ s16 camPtrIdx;
+} QuakeRequest; // size = 0x24
+
+typedef struct {
+    /* 0x00 */ Vec3f vec1;
+    /* 0x0C */ Vec3f vec2;
+    /* 0x18 */ s16 rotZ;
+    /* 0x1A */ s16 unk_1A;
+    /* 0x1C */ s16 zoom;
+} ShakeInfo; // size = 0x1E
+
+typedef struct {
+    /* 0x00 */ Vec3f vec1;
+    /* 0x0C */ Vec3f vec2;
+    /* 0x18 */ s16 rotZ;
+    /* 0x1A */ s16 unk_1A;
+    /* 0x1C */ s16 zoom;
+    /* 0x20 */ f32 unk_20;
+} UnkQuakeCalcStruct; // size = 0x24
 
 #endif

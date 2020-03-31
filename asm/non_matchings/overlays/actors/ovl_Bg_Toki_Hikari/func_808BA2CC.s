@@ -270,7 +270,7 @@ glabel func_808BA2CC
 /* 007CC 808BA6CC AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 007D0 808BA6D0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 007D4 808BA6D4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 007D8 808BA6D8 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 007D8 808BA6D8 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 007DC 808BA6DC AFA20078 */  sw      $v0, 0x0078($sp)           
 /* 007E0 808BA6E0 8FA80078 */  lw      $t0, 0x0078($sp)           
 /* 007E4 808BA6E4 3C0D0600 */  lui     $t5, 0x0600                ## $t5 = 06000000

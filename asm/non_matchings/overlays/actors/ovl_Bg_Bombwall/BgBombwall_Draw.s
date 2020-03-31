@@ -3,7 +3,7 @@ glabel BgBombwall_Draw
 /* 00728 8086EEF8 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 0072C 8086EEFC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00730 8086EF00 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00734 8086EF04 0C00D498 */  jal     Draw_DListOpa
+/* 00734 8086EF04 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00738 8086EF08 8CC5029C */  lw      $a1, 0x029C($a2)           ## 0000029C
 /* 0073C 8086EF0C 8FBF0014 */  lw      $ra, 0x0014($sp)           

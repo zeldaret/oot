@@ -395,7 +395,7 @@ glabel func_80091A24
 /* B091C0 80092020 00002825 */  move  $a1, $zero
 /* B091C4 80092024 00003025 */  move  $a2, $zero
 /* B091C8 80092028 00003825 */  move  $a3, $zero
-/* B091CC 8009202C 0C024DC2 */  jal   func_80093708
+/* B091CC 8009202C 0C024DC2 */  jal   Gfx_SetFog2
 /* B091D0 80092030 AC6E02C0 */   sw    $t6, 0x2c0($v1)
 /* B091D4 80092034 8FA30114 */  lw    $v1, 0x114($sp)
 /* B091D8 80092038 8FA80130 */  lw    $t0, 0x130($sp)

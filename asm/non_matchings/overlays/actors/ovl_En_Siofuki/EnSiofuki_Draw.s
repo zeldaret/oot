@@ -73,7 +73,7 @@ glabel EnSiofuki_Draw
 /* 00B34 80AFC6B4 AFA70020 */  sw      $a3, 0x0020($sp)           
 /* 00B38 80AFC6B8 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 00B3C 80AFC6BC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00B40 80AFC6C0 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00B40 80AFC6C0 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00B44 80AFC6C4 AFA20054 */  sw      $v0, 0x0054($sp)           
 /* 00B48 80AFC6C8 8FA30054 */  lw      $v1, 0x0054($sp)           
 /* 00B4C 80AFC6CC 3C0C0600 */  lui     $t4, 0x0600                ## $t4 = 06000000

@@ -53,7 +53,7 @@ glabel BgSpot01Idomizu_Draw
 /* 00244 808ABD24 AFAC0014 */  sw      $t4, 0x0014($sp)           
 /* 00248 808ABD28 AFAB0010 */  sw      $t3, 0x0010($sp)           
 /* 0024C 808ABD2C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00250 808ABD30 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00250 808ABD30 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00254 808ABD34 AFA20050 */  sw      $v0, 0x0050($sp)           
 /* 00258 808ABD38 8FA90050 */  lw      $t1, 0x0050($sp)           
 /* 0025C 808ABD3C 3C0A0600 */  lui     $t2, 0x0600                ## $t2 = 06000000

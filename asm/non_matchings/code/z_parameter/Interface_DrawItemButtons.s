@@ -89,7 +89,7 @@ glabel Interface_DrawItemButtons
 /* AFFF90 80088DF0 00084040 */  sll   $t0, $t0, 1
 /* AFFF94 80088DF4 3108FFFF */  andi  $t0, $t0, 0xffff
 /* AFFF98 80088DF8 AFA80020 */  sw    $t0, 0x20($sp)
-/* AFFF9C 80088DFC 0C0210A6 */  jal   Draw_TextureIA8
+/* AFFF9C 80088DFC 0C0210A6 */  jal   Gfx_TextureIA8
 /* AFFFA0 80088E00 AFA80024 */   sw    $t0, 0x24($sp)
 /* AFFFA4 80088E04 8FAA0140 */  lw    $t2, 0x140($sp)
 /* AFFFA8 80088E08 8FAC003C */  lw    $t4, 0x3c($sp)
@@ -908,7 +908,7 @@ glabel Interface_DrawItemButtons
 /* B00C24 80089A84 3108FFFF */  andi  $t0, $t0, 0xffff
 /* B00C28 80089A88 AFA80020 */  sw    $t0, 0x20($sp)
 /* B00C2C 80089A8C AFA80024 */  sw    $t0, 0x24($sp)
-/* B00C30 80089A90 0C0210A6 */  jal   Draw_TextureIA8
+/* B00C30 80089A90 0C0210A6 */  jal   Gfx_TextureIA8
 /* B00C34 80089A94 A7A9014A */   sh    $t1, 0x14a($sp)
 /* B00C38 80089A98 8FAA0140 */  lw    $t2, 0x140($sp)
 /* B00C3C 80089A9C 87A9014A */  lh    $t1, 0x14a($sp)

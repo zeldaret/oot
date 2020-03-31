@@ -39,7 +39,7 @@ glabel EnBlkobj_Draw
 /* 0042C 809C248C AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00430 809C2490 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00434 809C2494 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00438 809C2498 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00438 809C2498 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0043C 809C249C AFA20048 */  sw      $v0, 0x0048($sp)           
 /* 00440 809C24A0 8FA30048 */  lw      $v1, 0x0048($sp)           
 /* 00444 809C24A4 3C0CDA38 */  lui     $t4, 0xDA38                ## $t4 = DA380000

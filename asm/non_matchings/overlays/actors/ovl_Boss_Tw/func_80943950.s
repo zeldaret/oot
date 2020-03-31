@@ -48,7 +48,7 @@ glabel L809439B8
 /* 0AD34 80943A04 44064000 */  mfc1    $a2, $f8                   
 /* 0AD38 80943A08 00000000 */  nop
 /* 0AD3C 80943A0C 00063400 */  sll     $a2, $a2, 16               
-/* 0AD40 80943A10 0C0253A7 */  jal     Draw_TexScroll              
+/* 0AD40 80943A10 0C0253A7 */  jal     Gfx_TexScroll              
 /* 0AD44 80943A14 00063403 */  sra     $a2, $a2, 16               
 /* 0AD48 80943A18 8FA3005C */  lw      $v1, 0x005C($sp)           
 /* 0AD4C 80943A1C 8FA80070 */  lw      $t0, 0x0070($sp)           
@@ -140,7 +140,7 @@ glabel L80943B0C
 /* 0AEA0 80943B70 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0AEA4 80943B74 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 0AEA8 80943B78 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 0AEAC 80943B7C 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0AEAC 80943B7C 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0AEB0 80943B80 AFA2004C */  sw      $v0, 0x004C($sp)           
 /* 0AEB4 80943B84 8FA3004C */  lw      $v1, 0x004C($sp)           
 /* 0AEB8 80943B88 8FAA0080 */  lw      $t2, 0x0080($sp)           
@@ -176,7 +176,7 @@ glabel L80943B94
 /* 0AF2C 80943BFC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0AF30 80943C00 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 0AF34 80943C04 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 0AF38 80943C08 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0AF38 80943C08 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0AF3C 80943C0C AFA20048 */  sw      $v0, 0x0048($sp)           
 /* 0AF40 80943C10 8FA30048 */  lw      $v1, 0x0048($sp)           
 /* 0AF44 80943C14 8FAA0080 */  lw      $t2, 0x0080($sp)           
@@ -211,7 +211,7 @@ glabel L80943C20
 /* 0AFB4 80943C84 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 0AFB8 80943C88 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0AFBC 80943C8C AFA20044 */  sw      $v0, 0x0044($sp)           
-/* 0AFC0 80943C90 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0AFC0 80943C90 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0AFC4 80943C94 AFA3001C */  sw      $v1, 0x001C($sp)           
 /* 0AFC8 80943C98 8FA90044 */  lw      $t1, 0x0044($sp)           
 /* 0AFCC 80943C9C 8FAA0080 */  lw      $t2, 0x0080($sp)           
@@ -233,7 +233,7 @@ glabel L80943CA8
 /* 0B008 80943CD8 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 0B00C 80943CDC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0B010 80943CE0 24070020 */  addiu   $a3, $zero, 0x0020         ## $a3 = 00000020
-/* 0B014 80943CE4 0C0253A7 */  jal     Draw_TexScroll              
+/* 0B014 80943CE4 0C0253A7 */  jal     Gfx_TexScroll              
 /* 0B018 80943CE8 AFA20040 */  sw      $v0, 0x0040($sp)           
 /* 0B01C 80943CEC 8FA30040 */  lw      $v1, 0x0040($sp)           
 /* 0B020 80943CF0 8FAA0080 */  lw      $t2, 0x0080($sp)           

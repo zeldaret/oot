@@ -276,22 +276,22 @@ glabel L80064B78
 /* ADBD24 80064B84 24050006 */  li    $a1, 6
 /* ADBD28 80064B88 000B6080 */  sll   $t4, $t3, 2
 /* ADBD2C 80064B8C 020C6821 */  addu  $t5, $s0, $t4
-/* ADBD30 80064B90 0C024BE2 */  jal   func_80092F88
+/* ADBD30 80064B90 0C024BE2 */  jal   Quake_Add
 /* ADBD34 80064B94 8DA40790 */   lw    $a0, 0x790($t5)
 /* ADBD38 80064B98 3C108016 */  lui   $s0, %hi(D_8015FCCA) # $s0, 0x8016
 /* ADBD3C 80064B9C 2610FCCA */  addiu $s0, %lo(D_8015FCCA) # addiu $s0, $s0, -0x336
 /* ADBD40 80064BA0 A6020000 */  sh    $v0, ($s0)
 /* ADBD44 80064BA4 86040000 */  lh    $a0, ($s0)
-/* ADBD48 80064BA8 0C024B6B */  jal   func_80092DAC
+/* ADBD48 80064BA8 0C024B6B */  jal   Quake_SetSpeed
 /* ADBD4C 80064BAC 24057FFF */   li    $a1, 32767
 /* ADBD50 80064BB0 86040000 */  lh    $a0, ($s0)
 /* ADBD54 80064BB4 24050004 */  li    $a1, 4
 /* ADBD58 80064BB8 00003025 */  move  $a2, $zero
 /* ADBD5C 80064BBC 240703E8 */  li    $a3, 1000
-/* ADBD60 80064BC0 0C024B9C */  jal   func_80092E70
+/* ADBD60 80064BC0 0C024B9C */  jal   Quake_SetQuakeValues
 /* ADBD64 80064BC4 AFA00010 */   sw    $zero, 0x10($sp)
 /* ADBD68 80064BC8 86040000 */  lh    $a0, ($s0)
-/* ADBD6C 80064BCC 0C024B7C */  jal   func_80092DF0
+/* ADBD6C 80064BCC 0C024B7C */  jal   Quake_SetCountdown
 /* ADBD70 80064BD0 24050320 */   li    $a1, 800
 /* ADBD74 80064BD4 100000F4 */  b     .L80064FA8
 /* ADBD78 80064BD8 8FBF002C */   lw    $ra, 0x2c($sp)
@@ -299,7 +299,7 @@ glabel L80064BDC
 /* ADBD7C 80064BDC 104000F1 */  beqz  $v0, .L80064FA4
 /* ADBD80 80064BE0 3C108016 */   lui   $s0, %hi(D_8015FCCA) # $s0, 0x8016
 /* ADBD84 80064BE4 2610FCCA */  addiu $s0, %lo(D_8015FCCA) # addiu $s0, $s0, -0x336
-/* ADBD88 80064BE8 0C024BEB */  jal   func_80092FAC
+/* ADBD88 80064BE8 0C024BEB */  jal   Quake_RemoveFromIdx
 /* ADBD8C 80064BEC 86040000 */   lh    $a0, ($s0)
 /* ADBD90 80064BF0 100000ED */  b     .L80064FA8
 /* ADBD94 80064BF4 8FBF002C */   lw    $ra, 0x2c($sp)

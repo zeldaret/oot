@@ -16,7 +16,7 @@ glabel BgSpot08Bakudankabe_Draw
 /* 00514 808B07E4 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00518 808B07E8 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 0051C 808B07EC 24A53898 */  addiu   $a1, $a1, 0x3898           ## $a1 = 06003898
-/* 00520 808B07F0 0C00D498 */  jal     Draw_DListOpa
+/* 00520 808B07F0 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00524 808B07F4 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 00528 808B07F8 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -231,7 +231,7 @@ glabel func_80BA54AC
 /* 02D9C 80BA583C AFA70020 */  sw      $a3, 0x0020($sp)           
 /* 02DA0 80BA5840 AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 02DA4 80BA5844 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 02DA8 80BA5848 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 02DA8 80BA5848 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 02DAC 80BA584C 00408025 */  or      $s0, $v0, $zero            ## $s0 = 00000000
 /* 02DB0 80BA5850 AE020004 */  sw      $v0, 0x0004($s0)           ## 00000004
 /* 02DB4 80BA5854 8E2202D0 */  lw      $v0, 0x02D0($s1)           ## 000002D0

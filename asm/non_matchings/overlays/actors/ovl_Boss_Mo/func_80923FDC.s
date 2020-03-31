@@ -68,7 +68,7 @@ glabel func_80923FDC
 /* 085E4 809240E4 AFA2005C */  sw      $v0, 0x005C($sp)           
 /* 085E8 809240E8 000FC400 */  sll     $t8, $t7, 16               
 /* 085EC 809240EC 0018CC03 */  sra     $t9, $t8, 16               
-/* 085F0 809240F0 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 085F0 809240F0 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 085F4 809240F4 AFB90020 */  sw      $t9, 0x0020($sp)           
 /* 085F8 809240F8 8FA3005C */  lw      $v1, 0x005C($sp)           
 /* 085FC 809240FC 3C0CE700 */  lui     $t4, 0xE700                ## $t4 = E7000000
