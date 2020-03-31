@@ -55,7 +55,7 @@ void EnDs_Init(EnDs* this, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
     SkelAnime_InitSV(globalCtx, skelAnime, &D_06004768, &D_0600039C, &this->actorDrawTable, &this->unk_1B4, 6);
-    SkelAnimeChangeAnimationDefaultStop(&this->skelAnime, &D_0600039C);
+    SkelAnime_ChangeAnimationDefaultStop(&this->skelAnime, &D_0600039C);
 
     this->actor.sub_98.mass = 0xFF;
 

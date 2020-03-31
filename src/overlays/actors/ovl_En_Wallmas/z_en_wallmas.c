@@ -161,7 +161,7 @@ static void EnWallmas_LandStart(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 static void EnWallmas_StandStart(EnWallmas* this) {
-    SkelAnimeChangeAnimationDefaultStop(&this->skelAnime, &D_0600A054);
+    SkelAnime_ChangeAnimationDefaultStop(&this->skelAnime, &D_0600A054);
     this->actionFunc = (ActorFunc)&EnWallmas_Stand;
 }
 
@@ -172,7 +172,7 @@ static void EnWallmas_WalkStart(EnWallmas* this) {
 }
 
 static void EnWallmas_JumpToCeilingStart(EnWallmas* this) {
-    SkelAnimeChangeAnimationDefaultStop(&this->skelAnime, &D_06009244);
+    SkelAnime_ChangeAnimationDefaultStop(&this->skelAnime, &D_06009244);
     this->actionFunc = (ActorFunc)&EnWallmas_JumpToCeiling;
     this->actor.speedXZ = 0.0f;
 }
@@ -204,7 +204,7 @@ static void EnWallmas_TakeDamageStart(EnWallmas* this) {
 }
 
 static void EnWallmas_DamageCoolDownStart(EnWallmas* this) {
-    SkelAnimeChangeAnimationDefaultStop(&this->skelAnime, &D_06000EA4);
+    SkelAnime_ChangeAnimationDefaultStop(&this->skelAnime, &D_06000EA4);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;

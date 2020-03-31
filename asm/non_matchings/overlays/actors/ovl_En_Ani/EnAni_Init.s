@@ -31,7 +31,7 @@ glabel EnAni_Init
 /* 00074 809B03E4 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00078 809B03E8 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 0007C 809B03EC 24A576EC */  addiu   $a1, $a1, 0x76EC           ## $a1 = 060076EC
-/* 00080 809B03F0 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop
+/* 00080 809B03F0 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
 /* 00084 809B03F4 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00088 809B03F8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0008C 809B03FC AFA50034 */  sw      $a1, 0x0034($sp)
