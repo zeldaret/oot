@@ -51,21 +51,16 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     Vec3f pos1;
     Vec3f posSum;
     Vec3f pos2;
-    Gfx** dlist;
-
+    Gfx** dlist = &D_05009940;
     s16 scale;
-    s16 phi_s2;
+    s16 phi_s2 = 0;
     s16 gravityInfluence;
     char u0;
     char rotSpeed;
-
     f32 rand1;
     f32 rand2;
     s32 i;
 
-    dlist = &D_05009940;
-
-    phi_s2 = 0;
     for (i = 0; i < 31; i++) {
         phi_s2 += 20000;
         rand1 = Math_Rand_ZeroOne() * 10.0f;
@@ -81,7 +76,6 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
         pos2.z = (Math_Rand_ZeroOne() - 0.5f) + pos1.z * 0.5f;
 
         scale = Math_Rand_ZeroOne() * 72.0f + 25.0f;
-
         if (scale < 40) {
             gravityInfluence = -200;
             rotSpeed = 40;
@@ -94,7 +88,6 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
         }
 
         rand2 = Math_Rand_ZeroOne();
-
         if (rand2 < 0.1f) {
             u0 = 96;
         } else if (rand2 < 0.8f) {
@@ -136,13 +129,13 @@ void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, &D_80B92314);
-    func_8005BBF8(globalCtx, &this->unk_150);
-    func_8005C050(globalCtx, &this->unk_150, this, &D_80B92304, &this->unk_170);
+    func_8005BBF8(globalCtx, &this->collider);
+    func_8005C050(globalCtx, &this->collider, this, &D_80B92304, &this->unk_170);
     func_80B91FB0(this);
 }
 
 void ObjComb_Destroy(ObjComb* this, GlobalContext* globalCtx) {
-    func_8005BCC8(globalCtx, &this->unk_150);
+    func_8005BCC8(globalCtx, &this->collider);
 }
 
 void func_80B91FB0(ObjComb* this) {
@@ -157,8 +150,8 @@ void func_80B91FC0(ObjComb* this, GlobalContext* globalCtx) {
         this->unk_1B0 = 0;
     }
 
-    if ((this->unk_161 & 2) != 0) {
-        this->unk_161 &= 0xFFFD;
+    if ((this->collider.collideFlags & 0x2) != 0) {
+        this->collider.collideFlags &= ~0x2;
         flags = this->colliderBody->colliding->toucher.flags;
         if (flags & 0x4001F866) {
             this->unk_1B0 = 1500;
@@ -168,19 +161,18 @@ void func_80B91FC0(ObjComb* this, GlobalContext* globalCtx) {
             Actor_Kill(this);
         }
     } else {
-        Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, &this->unk_150);
+        Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, &this->collider);
     }
 
     if (this->actor.update != NULL) {
-        Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->unk_150);
+        Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
     }
 }
 
 void ObjComb_Update(ObjComb* this, GlobalContext* globalCtx) {
-    this->unk_1B2 += 0x2EE0;
+    this->unk_1B2 += 12000;
     this->actionFunc(&this->actor, globalCtx);
-    this->actor.shape.rot.x =
-        (s32)((Math_Sins(this->unk_1B2) * (f32)this->unk_1B0) + (f32)this->actor.initPosRot.rot.x);
+    this->actor.shape.rot.x = Math_Sins(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
 }
 
 void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx) {
@@ -195,9 +187,9 @@ void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx) {
 
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (118.0f * this->actor.scale.y),
                      this->actor.posRot.pos.z, 0);
-    Matrix_RotateY((f32)this->actor.shape.rot.y * 0.0000958738f, 1);
-    Matrix_RotateX((f32)this->actor.shape.rot.x * 0.0000958738f, 1);
-    Matrix_RotateZ((f32)this->actor.shape.rot.z * 0.0000958738f, 1);
+    Matrix_RotateY(this->actor.shape.rot.y * 0.0000958738f, 1);
+    Matrix_RotateX(this->actor.shape.rot.x * 0.0000958738f, 1);
+    Matrix_RotateZ(this->actor.shape.rot.z * 0.0000958738f, 1);
     Matrix_Translate(0, -(this->actor.scale.y * 118.0f), 0, 1);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
 
@@ -206,6 +198,6 @@ void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx) {
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_050095B0);
 
-    func_800628A4(0, &this->unk_150);
+    func_800628A4(0, &this->collider);
     func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
 }

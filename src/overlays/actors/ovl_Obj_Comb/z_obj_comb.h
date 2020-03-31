@@ -7,9 +7,8 @@
 typedef struct {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ActorFunc actionFunc;
-    /* 0x0150 */ char unk_150[0x11];
-    /* 0x0161 */ u8 unk_161;
-    /* 0x0162 */ char unk_162[0xA];
+    /* 0x0150 */ Collider collider;
+    /* 0x0168 */ char unk_168[0x4];
     /* 0x016C */ ColliderBody* colliderBody;
     /* 0x0170 */ char unk_170[0x2C];
     /* 0x019C */ char unk_19C[0x14];
