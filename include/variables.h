@@ -263,8 +263,6 @@ extern s32 D_8011D3AC;
 extern s16 D_8011E0B0;
 extern Color_RGBA8 D_8011E0B4[];
 //extern ? D_8011E0D4;
-//extern ? D_8011F3A0;
-//extern ? D_8011F3D4;
 //extern ? D_8011F830;
 //extern ? D_8011F860;
 //extern ? D_8011F890;

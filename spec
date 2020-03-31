@@ -314,7 +314,6 @@ beginseg
     include "build/src/code/z_draw.o"
     include "build/asm/code_8006BA00.o"
     include "build/src/code/z_elf_message.o"
-    include "build/data/z_elf_message.data.o"
     include "build/src/code/z_face_reaction.o"
     include "build/src/code/code_8006C3A0.o"
     include "build/src/code/code_8006C510.o"

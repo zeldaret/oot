@@ -58,7 +58,7 @@ void func_800BFF0C(GlobalContext* globalCtx, s32 a1) {
     globalCtx->unk_11DFC = NULL;
     globalCtx->setupEntranceList = NULL;
     globalCtx->setupExitList = NULL;
-    globalCtx->naviMsgSegment = NULL;
+    globalCtx->cUpElfMsgs = NULL;
     globalCtx->setupPathList = NULL;
     globalCtx->nbSetupActors = 0;
     Object_InitBank(globalCtx, &globalCtx->objectCtx);
