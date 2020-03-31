@@ -212,7 +212,7 @@ glabel L8093D7EC
 /* 04C08 8093D8D8 A1D00564 */  sb      $s0, 0x0564($t6)           ## 00000564
 /* 04C0C 8093D8DC 8E440000 */  lw      $a0, 0x0000($s2)           ## 8094C848
 /* 04C10 8093D8E0 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 04C14 8093D8E4 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 04C14 8093D8E4 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
 /* 04C18 8093D8E8 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 04C1C 8093D8EC 3C014382 */  lui     $at, 0x4382                ## $at = 43820000
 /* 04C20 8093D8F0 44811000 */  mtc1    $at, $f2                   ## $f2 = 260.00
@@ -430,7 +430,7 @@ glabel L8093DAB8
 /* 04F4C 8093DC1C C428AFA0 */  lwc1    $f8, %lo(D_8094AFA0)($at)
 /* 04F50 8093DC20 E62806A0 */  swc1    $f8, 0x06A0($s1)           ## 000006A0
 /* 04F54 8093DC24 8E440000 */  lw      $a0, 0x0000($s2)           ## 8094C848
-/* 04F58 8093DC28 0C029490 */  jal     func_800A5240
+/* 04F58 8093DC28 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop
 /* 04F5C 8093DC2C 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 04F60 8093DC30 0C028800 */  jal     SkelAnime_GetFrameCount
 
@@ -630,7 +630,7 @@ glabel L8093DC4C
 /* 05214 8093DEE4 261088C8 */  addiu   $s0, $s0, 0x88C8           ## $s0 = 060088C8
 /* 05218 8093DEE8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 060088C8
 /* 0521C 8093DEEC 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
-/* 05220 8093DEF0 0C029490 */  jal     func_800A5240
+/* 05220 8093DEF0 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop
 /* 05224 8093DEF4 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 05228 8093DEF8 0C028800 */  jal     SkelAnime_GetFrameCount
 
@@ -656,7 +656,7 @@ glabel L8093DC4C
 /* 0526C 8093DF3C 8E440000 */  lw      $a0, 0x0000($s2)           ## 8094C848
 /* 05270 8093DF40 24A56F28 */  addiu   $a1, $a1, 0x6F28           ## $a1 = 06006F28
 /* 05274 8093DF44 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 05278 8093DF48 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 05278 8093DF48 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
 /* 0527C 8093DF4C 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 05280 8093DF50 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
 /* 05284 8093DF54 44814000 */  mtc1    $at, $f8                   ## $f8 = 1000.00
@@ -702,7 +702,7 @@ glabel L8093DC4C
 /* 05314 8093DFE4 A1D00564 */  sb      $s0, 0x0564($t6)           ## 00000564
 /* 05318 8093DFE8 8E640000 */  lw      $a0, 0x0000($s3)           ## 8094C844
 /* 0531C 8093DFEC 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 05320 8093DFF0 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 05320 8093DFF0 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
 /* 05324 8093DFF4 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 000005CC
 /* 05328 8093DFF8 3C014382 */  lui     $at, 0x4382                ## $at = 43820000
 /* 0532C 8093DFFC 44811000 */  mtc1    $at, $f2                   ## $f2 = 260.00
@@ -782,7 +782,7 @@ glabel L8093DC4C
 /* 0543C 8093E10C 8E440000 */  lw      $a0, 0x0000($s2)           ## 8094C848
 /* 05440 8093E110 24A56F28 */  addiu   $a1, $a1, 0x6F28           ## $a1 = 06006F28
 /* 05444 8093E114 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 05448 8093E118 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 05448 8093E118 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
 /* 0544C 8093E11C 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 05450 8093E120 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
 /* 05454 8093E124 44813000 */  mtc1    $at, $f6                   ## $f6 = 1000.00
@@ -961,7 +961,7 @@ glabel L8093E258
 /* 056E8 8093E3B8 C42AAFBC */  lwc1    $f10, %lo(D_8094AFBC)($at)
 /* 056EC 8093E3BC E62A06A0 */  swc1    $f10, 0x06A0($s1)          ## 000006A0
 /* 056F0 8093E3C0 8E640000 */  lw      $a0, 0x0000($s3)           ## 8094C844
-/* 056F4 8093E3C4 0C029490 */  jal     func_800A5240
+/* 056F4 8093E3C4 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop
 /* 056F8 8093E3C8 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 056FC 8093E3CC 0C028800 */  jal     SkelAnime_GetFrameCount
 
@@ -1158,7 +1158,7 @@ glabel L8093E3E8
 /* 059A4 8093E674 261088C8 */  addiu   $s0, $s0, 0x88C8           ## $s0 = 060088C8
 /* 059A8 8093E678 02002825 */  or      $a1, $s0, $zero            ## $a1 = 060088C8
 /* 059AC 8093E67C 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
-/* 059B0 8093E680 0C029490 */  jal     func_800A5240
+/* 059B0 8093E680 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop
 /* 059B4 8093E684 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 059B8 8093E688 0C028800 */  jal     SkelAnime_GetFrameCount
 
@@ -1184,7 +1184,7 @@ glabel L8093E3E8
 /* 059FC 8093E6CC 8E640000 */  lw      $a0, 0x0000($s3)           ## 8094C844
 /* 05A00 8093E6D0 24A56F28 */  addiu   $a1, $a1, 0x6F28           ## $a1 = 06006F28
 /* 05A04 8093E6D4 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 05A08 8093E6D8 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 05A08 8093E6D8 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
 /* 05A0C 8093E6DC 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 05A10 8093E6E0 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
 /* 05A14 8093E6E4 44815000 */  mtc1    $at, $f10                  ## $f10 = 1000.00
@@ -1282,7 +1282,7 @@ glabel L8093E3E8
 /* 05B60 8093E830 8E640000 */  lw      $a0, 0x0000($s3)           ## 8094C844
 /* 05B64 8093E834 24A56F28 */  addiu   $a1, $a1, 0x6F28           ## $a1 = 06006F28
 /* 05B68 8093E838 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 05B6C 8093E83C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 05B6C 8093E83C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
 /* 05B70 8093E840 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
 /* 05B74 8093E844 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
 /* 05B78 8093E848 44812000 */  mtc1    $at, $f4                   ## $f4 = 1000.00

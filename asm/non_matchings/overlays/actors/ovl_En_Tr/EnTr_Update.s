@@ -51,7 +51,7 @@ glabel EnTr_Update
 /* 00F7C 80B23C6C 240539B0 */  addiu   $a1, $zero, 0x39B0         ## $a1 = 000039B0
 /* 00F80 80B23C70 8FA40034 */  lw      $a0, 0x0034($sp)
 .L80B23C74:
-/* 00F84 80B23C74 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 00F84 80B23C74 0C0294BE */  jal     SkelAnime_ChangeAnimationDefaultRepeat
 /* 00F88 80B23C78 8E0502E4 */  lw      $a1, 0x02E4($s0)           ## 000002E4
 /* 00F8C 80B23C7C 1000001B */  beq     $zero, $zero, .L80B23CEC
 /* 00F90 80B23C80 00000000 */  nop
@@ -83,7 +83,7 @@ glabel EnTr_Update
 /* 00FEC 80B23CDC 10000003 */  beq     $zero, $zero, .L80B23CEC
 /* 00FF0 80B23CE0 00000000 */  nop
 .L80B23CE4:
-/* 00FF4 80B23CE4 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 00FF4 80B23CE4 0C0294BE */  jal     SkelAnime_ChangeAnimationDefaultRepeat
 /* 00FF8 80B23CE8 8FA40034 */  lw      $a0, 0x0034($sp)
 .L80B23CEC:
 /* 00FFC 80B23CEC 10000004 */  beq     $zero, $zero, .L80B23D00

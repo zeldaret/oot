@@ -171,13 +171,13 @@ glabel func_80A198EC
 /* 02640 80A19B50 15400007 */  bne     $t2, $zero, .L80A19B70     
 /* 02644 80A19B54 00000000 */  nop
 /* 02648 80A19B58 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 0264C 80A19B5C 0C02947A */  jal     func_800A51E8              
+/* 0264C 80A19B5C 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 02650 80A19B60 24A539B0 */  addiu   $a1, $a1, 0x39B0           ## $a1 = 060039B0
 /* 02654 80A19B64 240B0001 */  addiu   $t3, $zero, 0x0001         ## $t3 = 00000001
 /* 02658 80A19B68 10000004 */  beq     $zero, $zero, .L80A19B7C   
 /* 0265C 80A19B6C A60B0194 */  sh      $t3, 0x0194($s0)           ## 00000194
 .L80A19B70:
-/* 02660 80A19B70 0C02947A */  jal     func_800A51E8              
+/* 02660 80A19B70 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 02664 80A19B74 24A59DB0 */  addiu   $a1, $a1, 0x9DB0           ## $a1 = FFFF9DB0
 /* 02668 80A19B78 A6000194 */  sh      $zero, 0x0194($s0)         ## 00000194
 .L80A19B7C:

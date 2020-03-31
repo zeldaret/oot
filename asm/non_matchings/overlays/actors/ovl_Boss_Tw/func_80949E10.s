@@ -166,7 +166,7 @@ glabel func_80949E10
 /* 11398 8094A068 24A55030 */  addiu   $a1, $a1, 0x5030           ## $a1 = 06035030
 /* 1139C 8094A06C E61001A4 */  swc1    $f16, 0x01A4($s0)          ## 000001A4
 /* 113A0 8094A070 8FA40038 */  lw      $a0, 0x0038($sp)
-/* 113A4 8094A074 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 113A4 8094A074 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
 /* 113A8 8094A078 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 .L8094A07C:
 /* 113AC 8094A07C 960D0088 */  lhu     $t5, 0x0088($s0)           ## 00000088

@@ -48,7 +48,7 @@ glabel EnHorseZelda_Init
 /* 002BC 80A6DB8C AE000150 */  sw      $zero, 0x0150($s0)         ## 00000150
 /* 002C0 80A6DB90 3C0580A7 */  lui     $a1, %hi(D_80A6E1D0)       ## $a1 = 80A70000
 /* 002C4 80A6DB94 8CA5E1D0 */  lw      $a1, %lo(D_80A6E1D0)($a1)  
-/* 002C8 80A6DB98 0C02947A */  jal     func_800A51E8              
+/* 002C8 80A6DB98 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 002CC 80A6DB9C 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 002D0 80A6DBA0 260501FC */  addiu   $a1, $s0, 0x01FC           ## $a1 = 000001FC
 /* 002D4 80A6DBA4 AFA50028 */  sw      $a1, 0x0028($sp)           

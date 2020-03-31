@@ -48,7 +48,7 @@ glabel EnHorseGanon_Init
 /* 00378 80A689D8 AE000150 */  sw      $zero, 0x0150($s0)         ## 00000150
 /* 0037C 80A689DC 3C0580A7 */  lui     $a1, %hi(D_80A691B0)       ## $a1 = 80A70000
 /* 00380 80A689E0 8CA591B0 */  lw      $a1, %lo(D_80A691B0)($a1)  
-/* 00384 80A689E4 0C02947A */  jal     func_800A51E8              
+/* 00384 80A689E4 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 00388 80A689E8 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 0038C 80A689EC 260501FC */  addiu   $a1, $s0, 0x01FC           ## $a1 = 000001FC
 /* 00390 80A689F0 AFA50028 */  sw      $a1, 0x0028($sp)           

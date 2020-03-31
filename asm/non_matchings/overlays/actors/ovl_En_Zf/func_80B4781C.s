@@ -286,7 +286,7 @@ glabel func_80B4781C
 /* 03BE0 80B47C30 3C0580B5 */  lui     $a1, %hi(D_80B4A280)       ## $a1 = 80B50000
 /* 03BE4 80B47C34 00AC2821 */  addu    $a1, $a1, $t4              
 /* 03BE8 80B47C38 8CA5A280 */  lw      $a1, %lo(D_80B4A280)($a1)  
-/* 03BEC 80B47C3C 0C0294A7 */  jal     func_800A529C              
+/* 03BEC 80B47C3C 0C0294A7 */  jal     SkelAnime_ChangeAnimationPlaybackStop              
 /* 03BF0 80B47C40 8FA60070 */  lw      $a2, 0x0070($sp)           
 .L80B47C44:
 /* 03BF4 80B47C44 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

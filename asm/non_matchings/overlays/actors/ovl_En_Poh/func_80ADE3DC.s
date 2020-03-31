@@ -13,7 +13,7 @@ glabel func_80ADE3DC
 /* 006B8 80ADE408 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 006BC 80ADE40C 24A511C4 */  addiu   $a1, $a1, 0x11C4           ## $a1 = 060011C4
 /* 006C0 80ADE410 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 006C4 80ADE414 0C0294A7 */  jal     func_800A529C              
+/* 006C4 80ADE414 0C0294A7 */  jal     SkelAnime_ChangeAnimationPlaybackStop              
 /* 006C8 80ADE418 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 006CC 80ADE41C 3C1980AE */  lui     $t9, %hi(func_80ADEF38)    ## $t9 = 80AE0000
 /* 006D0 80ADE420 2739EF38 */  addiu   $t9, $t9, %lo(func_80ADEF38) ## $t9 = 80ADEF38
@@ -23,7 +23,7 @@ glabel func_80ADE3DC
 /* 006DC 80ADE42C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 006E0 80ADE430 24A50FE4 */  addiu   $a1, $a1, 0x0FE4           ## $a1 = 06000FE4
 /* 006E4 80ADE434 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 006E8 80ADE438 0C0294A7 */  jal     func_800A529C              
+/* 006E8 80ADE438 0C0294A7 */  jal     SkelAnime_ChangeAnimationPlaybackStop              
 /* 006EC 80ADE43C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 006F0 80ADE440 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 006F4 80ADE444 44813000 */  mtc1    $at, $f6                   ## $f6 = 20.00

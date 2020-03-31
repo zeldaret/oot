@@ -97,7 +97,7 @@ glabel func_80B6404C
 /* 017E4 80B641A4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 017E8 80B641A8 24A5B4C8 */  addiu   $a1, $a1, 0xB4C8           ## $a1 = 0600B4C8
 /* 017EC 80B641AC 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 017F0 80B641B0 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 017F0 80B641B0 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
 /* 017F4 80B641B4 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 017F8 80B641B8 240B8000 */  addiu   $t3, $zero, 0x8000         ## $t3 = FFFF8000
 /* 017FC 80B641BC 1000001E */  beq     $zero, $zero, .L80B64238

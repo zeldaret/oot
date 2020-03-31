@@ -36,7 +36,7 @@ glabel func_8093234C
 /* 05DF4 809323C4 3C064080 */  lui     $a2, 0x4080                ## $a2 = 40800000
 /* 05DF8 809323C8 00194080 */  sll     $t0, $t9,  2               
 /* 05DFC 809323CC 00A82821 */  addu    $a1, $a1, $t0              
-/* 05E00 809323D0 0C029490 */  jal     func_800A5240              
+/* 05E00 809323D0 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 05E04 809323D4 8CA57854 */  lw      $a1, %lo(D_80937854)($a1)  
 /* 05E08 809323D8 10000009 */  beq     $zero, $zero, .L80932400   
 /* 05E0C 809323DC 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
@@ -46,7 +46,7 @@ glabel func_8093234C
 /* 05E18 809323E8 3C0640C0 */  lui     $a2, 0x40C0                ## $a2 = 40C00000
 /* 05E1C 809323EC 00095080 */  sll     $t2, $t1,  2               
 /* 05E20 809323F0 00AA2821 */  addu    $a1, $a1, $t2              
-/* 05E24 809323F4 0C029490 */  jal     func_800A5240              
+/* 05E24 809323F4 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 05E28 809323F8 8CA57864 */  lw      $a1, %lo(D_80937864)($a1)  
 /* 05E2C 809323FC 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 .L80932400:

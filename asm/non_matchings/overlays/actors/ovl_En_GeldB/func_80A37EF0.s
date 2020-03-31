@@ -21,7 +21,7 @@ glabel func_80A37EF0
 /* 02C28 80A37F38 57010006 */  bnel    $t8, $at, .L80A37F54       
 /* 02C2C 80A37F3C 2401000F */  addiu   $at, $zero, 0x000F         ## $at = 0000000F
 .L80A37F40:
-/* 02C30 80A37F40 0C0294A7 */  jal     func_800A529C              
+/* 02C30 80A37F40 0C0294A7 */  jal     SkelAnime_ChangeAnimationPlaybackStop              
 /* 02C34 80A37F44 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 02C38 80A37F48 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 02C3C 80A37F4C 90E202FE */  lbu     $v0, 0x02FE($a3)           ## 000002FE

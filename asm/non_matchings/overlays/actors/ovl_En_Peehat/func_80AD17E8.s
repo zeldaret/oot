@@ -17,7 +17,7 @@ glabel func_80AD17E8
 /* 02384 80AD1824 15000011 */  bne     $t0, $zero, .L80AD186C     
 .L80AD1828:
 /* 02388 80AD1828 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 0238C 80AD182C 0C029490 */  jal     func_800A5240              
+/* 0238C 80AD182C 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 02390 80AD1830 3C06C080 */  lui     $a2, 0xC080                ## $a2 = C0800000
 /* 02394 80AD1834 3C0140C0 */  lui     $at, 0x40C0                ## $at = 40C00000
 /* 02398 80AD1838 A60000B4 */  sh      $zero, 0x00B4($s0)         ## 000000B4

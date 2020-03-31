@@ -9,7 +9,7 @@ glabel func_80B167C0
 /* 02D38 80B167D8 10400004 */  beq     $v0, $zero, .L80B167EC     
 /* 02D3C 80B167DC 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 02D40 80B167E0 8FAE0020 */  lw      $t6, 0x0020($sp)           
-/* 02D44 80B167E4 0C02947A */  jal     func_800A51E8              
+/* 02D44 80B167E4 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 02D48 80B167E8 8DC502E4 */  lw      $a1, 0x02E4($t6)           ## 000002E4
 .L80B167EC:
 /* 02D4C 80B167EC 8FBF0014 */  lw      $ra, 0x0014($sp)           

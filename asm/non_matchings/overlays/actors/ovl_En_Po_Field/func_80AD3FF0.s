@@ -6,7 +6,7 @@ glabel func_80AD3FF0
 /* 00500 80AD4000 24A50608 */  addiu   $a1, $a1, 0x0608           ## $a1 = 06000608
 /* 00504 80AD4004 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 00508 80AD4008 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 0050C 80AD400C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 0050C 80AD400C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
 /* 00510 80AD4010 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 00514 80AD4014 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 00518 80AD4018 3C014140 */  lui     $at, 0x4140                ## $at = 41400000

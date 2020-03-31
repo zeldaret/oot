@@ -7,7 +7,7 @@ glabel func_80901020
 /* 040F4 80901034 3C050603 */  lui     $a1, 0x0603                ## $a1 = 06030000
 /* 040F8 80901038 24A5A848 */  addiu   $a1, $a1, 0xA848           ## $a1 = 0602A848
 /* 040FC 8090103C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 04100 80901040 0C029490 */  jal     func_800A5240              
+/* 04100 80901040 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 04104 80901044 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 04108 80901048 3C040603 */  lui     $a0, 0x0603                ## $a0 = 06030000
 /* 0410C 8090104C 0C028800 */  jal     SkelAnime_GetFrameCount

@@ -107,7 +107,7 @@ glabel EnTa_Init
 /* 00264 80B13D04 A60002B4 */  sh      $zero, 0x02B4($s0)         ## 000002B4
 /* 00268 80B13D08 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 0026C 80B13D0C 24A51C94 */  addiu   $a1, $a1, 0x1C94           ## $a1 = 06001C94
-/* 00270 80B13D10 0C02947A */  jal     func_800A51E8
+/* 00270 80B13D10 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop
 /* 00274 80B13D14 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00278 80B13D18 3C0E0600 */  lui     $t6, 0x0600                ## $t6 = 06000000
 /* 0027C 80B13D1C 25CE1C94 */  addiu   $t6, $t6, 0x1C94           ## $t6 = 06001C94
@@ -123,7 +123,7 @@ glabel EnTa_Init
 /* 002A0 80B13D40 A60F02B4 */  sh      $t7, 0x02B4($s0)           ## 000002B4
 /* 002A4 80B13D44 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 002A8 80B13D48 24A5CD50 */  addiu   $a1, $a1, 0xCD50           ## $a1 = 0600CD50
-/* 002AC 80B13D4C 0C02947A */  jal     func_800A51E8
+/* 002AC 80B13D4C 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop
 /* 002B0 80B13D50 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 002B4 80B13D54 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 002B8 80B13D58 44813000 */  mtc1    $at, $f6                   ## $f6 = 54.00
@@ -183,7 +183,7 @@ glabel EnTa_Init
 /* 0036C 80B13E0C A60002B4 */  sh      $zero, 0x02B4($s0)         ## 000002B4
 /* 00370 80B13E10 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00374 80B13E14 24A51C94 */  addiu   $a1, $a1, 0x1C94           ## $a1 = 06001C94
-/* 00378 80B13E18 0C02947A */  jal     func_800A51E8
+/* 00378 80B13E18 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop
 /* 0037C 80B13E1C 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00380 80B13E20 3C0D0600 */  lui     $t5, 0x0600                ## $t5 = 06000000
 /* 00384 80B13E24 25AD1C94 */  addiu   $t5, $t5, 0x1C94           ## $t5 = 06001C94
@@ -220,7 +220,7 @@ glabel EnTa_Init
 /* 003F0 80B13E90 A60002B4 */  sh      $zero, 0x02B4($s0)         ## 000002B4
 /* 003F4 80B13E94 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 003F8 80B13E98 24A51C94 */  addiu   $a1, $a1, 0x1C94           ## $a1 = 06001C94
-/* 003FC 80B13E9C 0C02947A */  jal     func_800A51E8
+/* 003FC 80B13E9C 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop
 /* 00400 80B13EA0 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00404 80B13EA4 3C180600 */  lui     $t8, 0x0600                ## $t8 = 06000000
 /* 00408 80B13EA8 27181C94 */  addiu   $t8, $t8, 0x1C94           ## $t8 = 06001C94
@@ -236,7 +236,7 @@ glabel EnTa_Init
 /* 0042C 80B13ECC A61902B4 */  sh      $t9, 0x02B4($s0)           ## 000002B4
 /* 00430 80B13ED0 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00434 80B13ED4 24A5CD50 */  addiu   $a1, $a1, 0xCD50           ## $a1 = 0600CD50
-/* 00438 80B13ED8 0C02947A */  jal     func_800A51E8
+/* 00438 80B13ED8 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop
 /* 0043C 80B13EDC 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00440 80B13EE0 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 00444 80B13EE4 44814000 */  mtc1    $at, $f8                   ## $f8 = 54.00
@@ -425,7 +425,7 @@ glabel EnTa_Init
 /* 006EC 80B1418C A60002B4 */  sh      $zero, 0x02B4($s0)         ## 000002B4
 /* 006F0 80B14190 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 006F4 80B14194 24A517E8 */  addiu   $a1, $a1, 0x17E8           ## $a1 = 060017E8
-/* 006F8 80B14198 0C02947A */  jal     func_800A51E8
+/* 006F8 80B14198 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop
 /* 006FC 80B1419C 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00700 80B141A0 3C0F0600 */  lui     $t7, 0x0600                ## $t7 = 06000000
 /* 00704 80B141A4 25EF17E8 */  addiu   $t7, $t7, 0x17E8           ## $t7 = 060017E8
@@ -439,7 +439,7 @@ glabel EnTa_Init
 /* 00720 80B141C0 A61802B4 */  sh      $t8, 0x02B4($s0)           ## 000002B4
 /* 00724 80B141C4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00728 80B141C8 24A5CD50 */  addiu   $a1, $a1, 0xCD50           ## $a1 = 0600CD50
-/* 0072C 80B141CC 0C02947A */  jal     func_800A51E8
+/* 0072C 80B141CC 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop
 /* 00730 80B141D0 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00734 80B141D4 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 00738 80B141D8 44812000 */  mtc1    $at, $f4                   ## $f4 = 54.00
@@ -458,7 +458,7 @@ glabel EnTa_Init
 /* 00768 80B14208 A60802B4 */  sh      $t0, 0x02B4($s0)           ## 000002B4
 /* 0076C 80B1420C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00770 80B14210 24A5CD50 */  addiu   $a1, $a1, 0xCD50           ## $a1 = 0600CD50
-/* 00774 80B14214 0C02947A */  jal     func_800A51E8
+/* 00774 80B14214 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop
 /* 00778 80B14218 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 0077C 80B1421C 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 00780 80B14220 44813000 */  mtc1    $at, $f6                   ## $f6 = 54.00

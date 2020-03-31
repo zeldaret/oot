@@ -35,7 +35,7 @@ glabel EnCow_Init
 /* 00290 809DF090 AFA50040 */  sw      $a1, 0x0040($sp)
 /* 00294 809DF094 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00298 809DF098 24A501CC */  addiu   $a1, $a1, 0x01CC           ## $a1 = 060001CC
-/* 0029C 809DF09C 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 0029C 809DF09C 0C0294BE */  jal     SkelAnime_ChangeAnimationDefaultRepeat
 /* 002A0 809DF0A0 8FA40040 */  lw      $a0, 0x0040($sp)
 /* 002A4 809DF0A4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 002A8 809DF0A8 AFA50040 */  sw      $a1, 0x0040($sp)
@@ -176,7 +176,7 @@ glabel EnCow_Init
 /* 00488 809DF288 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0048C 809DF28C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00490 809DF290 24A54348 */  addiu   $a1, $a1, 0x4348           ## $a1 = 06004348
-/* 00494 809DF294 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 00494 809DF294 0C0294BE */  jal     SkelAnime_ChangeAnimationDefaultRepeat
 /* 00498 809DF298 8FA40040 */  lw      $a0, 0x0040($sp)
 /* 0049C 809DF29C 3C0B809E */  lui     $t3, %hi(func_809DFE98)    ## $t3 = 809E0000
 /* 004A0 809DF2A0 3C0C809E */  lui     $t4, %hi(func_809E0070)    ## $t4 = 809E0000

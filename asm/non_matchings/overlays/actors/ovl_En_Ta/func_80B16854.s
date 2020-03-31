@@ -15,7 +15,7 @@ glabel func_80B16854
 /* 02DE0 80B16880 AFA40024 */  sw      $a0, 0x0024($sp)           
 /* 02DE4 80B16884 1040000F */  beq     $v0, $zero, .L80B168C4     
 /* 02DE8 80B16888 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 02DEC 80B1688C 0C02947A */  jal     func_800A51E8              
+/* 02DEC 80B1688C 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 02DF0 80B16890 8E0502E4 */  lw      $a1, 0x02E4($s0)           ## 000002E4
 /* 02DF4 80B16894 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
 /* 02DF8 80B16898 44816000 */  mtc1    $at, $f12                  ## $f12 = 100.00

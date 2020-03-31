@@ -49,7 +49,7 @@ glabel func_80A60AFC
 /* 058C8 80A60BB8 8D4A5E58 */  lw      $t2, %lo(D_80A65E58)($t2)  
 /* 058CC 80A60BBC 8D450018 */  lw      $a1, 0x0018($t2)           ## 80A60018
 /* 058D0 80A60BC0 44064000 */  mfc1    $a2, $f8                   
-/* 058D4 80A60BC4 0C0294A7 */  jal     func_800A529C              
+/* 058D4 80A60BC4 0C0294A7 */  jal     SkelAnime_ChangeAnimationPlaybackStop              
 /* 058D8 80A60BC8 00000000 */  nop
 /* 058DC 80A60BCC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 058E0 80A60BD0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

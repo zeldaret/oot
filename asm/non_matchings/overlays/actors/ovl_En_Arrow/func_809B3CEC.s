@@ -10,7 +10,7 @@ glabel func_809B3CEC
 /* 003EC 809B3D0C 24A54640 */  addiu   $a1, $a1, %lo(func_809B4640) ## $a1 = 809B4640
 /* 003F0 809B3D10 3C050400 */  lui     $a1, 0x0400                ## $a1 = 04000000
 /* 003F4 809B3D14 24A54310 */  addiu   $a1, $a1, 0x4310           ## $a1 = 04004310
-/* 003F8 809B3D18 0C02947A */  jal     func_800A51E8              
+/* 003F8 809B3D18 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 003FC 809B3D1C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00400 809B3D20 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float

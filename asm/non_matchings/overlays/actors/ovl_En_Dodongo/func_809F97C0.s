@@ -80,7 +80,7 @@ glabel func_809F97C0
 /* 01680 809F98D0 AFA70058 */  sw      $a3, 0x0058($sp)           
 /* 01684 809F98D4 8FA50058 */  lw      $a1, 0x0058($sp)           
 /* 01688 809F98D8 8FA40038 */  lw      $a0, 0x0038($sp)           
-/* 0168C 809F98DC 0C0294A7 */  jal     func_800A529C              
+/* 0168C 809F98DC 0C0294A7 */  jal     SkelAnime_ChangeAnimationPlaybackStop              
 /* 01690 809F98E0 3C064000 */  lui     $a2, 0x4000                ## $a2 = 40000000
 /* 01694 809F98E4 3C03FFCF */  lui     $v1, 0xFFCF                ## $v1 = FFCF0000
 /* 01698 809F98E8 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011

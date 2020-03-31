@@ -14,7 +14,7 @@ glabel func_80861C40
 /* 0261C 80861C6C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 02620 80861C70 55C0000F */  bnel    $t6, $zero, .L80861CB0     
 /* 02624 80861C74 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
-/* 02628 80861C78 0C02947A */  jal     func_800A51E8              
+/* 02628 80861C78 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 0262C 80861C7C 24A5A99C */  addiu   $a1, $a1, 0xA99C           ## $a1 = 0600A99C
 /* 02630 80861C80 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 02634 80861C84 AE0207E8 */  sw      $v0, 0x07E8($s0)           ## 000007E8

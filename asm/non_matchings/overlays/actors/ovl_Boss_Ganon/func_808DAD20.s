@@ -131,7 +131,7 @@ glabel L808DAD6C
 /* 04674 808DAEE4 46803220 */  cvt.s.w $f8, $f6                   
 /* 04678 808DAEE8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000150
 /* 0467C 808DAEEC 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 04680 808DAEF0 0C029490 */  jal     func_800A5240              
+/* 04680 808DAEF0 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 04684 808DAEF4 E62801CC */  swc1    $f8, 0x01CC($s1)           ## 000001CC
 /* 04688 808DAEF8 44808000 */  mtc1    $zero, $f16                ## $f16 = 0.00
 /* 0468C 808DAEFC 862201B6 */  lh      $v0, 0x01B6($s1)           ## 000001B6
@@ -255,7 +255,7 @@ glabel L808DB080
 /* 04838 808DB0A8 468082A0 */  cvt.s.w $f10, $f16                 
 /* 0483C 808DB0AC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000001
 /* 04840 808DB0B0 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 04844 808DB0B4 0C029490 */  jal     func_800A5240              
+/* 04844 808DB0B4 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 04848 808DB0B8 E62A01CC */  swc1    $f10, 0x01CC($s1)          ## 000001CC
 /* 0484C 808DB0BC 44809000 */  mtc1    $zero, $f18                ## $f18 = 0.00
 /* 04850 808DB0C0 24080003 */  addiu   $t0, $zero, 0x0003         ## $t0 = 00000003
@@ -292,7 +292,7 @@ glabel L808DB0D8
 /* 048BC 808DB12C 468021A0 */  cvt.s.w $f6, $f4                   
 /* 048C0 808DB130 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000001
 /* 048C4 808DB134 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 048C8 808DB138 0C029490 */  jal     func_800A5240              
+/* 048C8 808DB138 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 048CC 808DB13C E62601CC */  swc1    $f6, 0x01CC($s1)           ## 000001CC
 /* 048D0 808DB140 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
               

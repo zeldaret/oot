@@ -34,7 +34,7 @@ glabel func_808D90F8
 /* 02900 808D9170 AC286FC0 */  sw      $t0, 0x6FC0($at)           ## 80166FC0
 /* 02904 808D9174 24A5EA00 */  addiu   $a1, $a1, 0xEA00           ## $a1 = 0600EA00
 /* 02908 808D9178 26040150 */  addiu   $a0, $s0, 0x0150           ## $a0 = 00000150
-/* 0290C 808D917C 0C029490 */  jal     func_800A5240              
+/* 0290C 808D917C 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 02910 808D9180 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 02914 808D9184 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 02918 808D9188 0C028800 */  jal     SkelAnime_GetFrameCount

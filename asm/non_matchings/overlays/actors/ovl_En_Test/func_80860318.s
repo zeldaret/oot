@@ -8,7 +8,7 @@ glabel func_80860318
 /* 00CE0 80860330 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 00CE4 80860334 AFA40024 */  sw      $a0, 0x0024($sp)           
 /* 00CE8 80860338 24A5C438 */  addiu   $a1, $a1, 0xC438           ## $a1 = 0600C438
-/* 00CEC 8086033C 0C0294A7 */  jal     func_800A529C              
+/* 00CEC 8086033C 0C0294A7 */  jal     SkelAnime_ChangeAnimationPlaybackStop              
 /* 00CF0 80860340 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 00CF4 80860344 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
               

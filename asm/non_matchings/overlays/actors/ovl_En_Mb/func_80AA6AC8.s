@@ -13,7 +13,7 @@ glabel func_80AA6AC8
 /* 00AA0 80AA6AF0 468021A0 */  cvt.s.w $f6, $f4                   
 /* 00AA4 80AA6AF4 2604018C */  addiu   $a0, $s0, 0x018C           ## $a0 = 0000018C
 /* 00AA8 80AA6AF8 3C06C080 */  lui     $a2, 0xC080                ## $a2 = C0800000
-/* 00AAC 80AA6AFC 0C029490 */  jal     func_800A5240              
+/* 00AAC 80AA6AFC 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 00AB0 80AA6B00 E7A60024 */  swc1    $f6, 0x0024($sp)           
 /* 00AB4 80AA6B04 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 /* 00AB8 80AA6B08 240E000A */  addiu   $t6, $zero, 0x000A         ## $t6 = 0000000A

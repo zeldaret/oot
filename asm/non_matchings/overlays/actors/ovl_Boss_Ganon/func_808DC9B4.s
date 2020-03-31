@@ -28,7 +28,7 @@ glabel func_808DC9B4
 /* 061A8 808DCA18 468021A0 */  cvt.s.w $f6, $f4                   
 /* 061AC 808DCA1C 4406C000 */  mfc1    $a2, $f24                  
 /* 061B0 808DCA20 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06004884
-/* 061B4 808DCA24 0C029490 */  jal     func_800A5240              
+/* 061B4 808DCA24 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 061B8 808DCA28 E62601CC */  swc1    $f6, 0x01CC($s1)           ## 000001CC
 /* 061BC 808DCA2C 3C028090 */  lui     $v0, %hi(D_808F93C0)       ## $v0 = 80900000
 /* 061C0 808DCA30 244293C0 */  addiu   $v0, $v0, %lo(D_808F93C0)  ## $v0 = 808F93C0

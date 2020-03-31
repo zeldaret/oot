@@ -21,7 +21,7 @@ glabel func_80B14570
 /* 00B1C 80B145BC 24A5E3D8 */  addiu   $a1, $a1, 0xE3D8           ## $a1 = 0600E3D8
 /* 00B20 80B145C0 A4F902CE */  sh      $t9, 0x02CE($a3)           ## 000002CE
 /* 00B24 80B145C4 A4E802CC */  sh      $t0, 0x02CC($a3)           ## 000002CC
-/* 00B28 80B145C8 0C02947A */  jal     func_800A51E8              
+/* 00B28 80B145C8 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 00B2C 80B145CC 24E4014C */  addiu   $a0, $a3, 0x014C           ## $a0 = 0000014C
 /* 00B30 80B145D0 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 00B34 80B145D4 3C090600 */  lui     $t1, 0x0600                ## $t1 = 06000000

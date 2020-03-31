@@ -204,7 +204,7 @@ glabel L808D41FC
 /* 01D48 808D43B8 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 01D4C 808D43BC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 01D50 808D43C0 24A589DC */  addiu   $a1, $a1, 0x89DC           ## $a1 = 060089DC
-/* 01D54 808D43C4 0C029490 */  jal     func_800A5240              
+/* 01D54 808D43C4 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 01D58 808D43C8 3C06C120 */  lui     $a2, 0xC120                ## $a2 = C1200000
 /* 01D5C 808D43CC 100000D7 */  beq     $zero, $zero, .L808D472C   
 /* 01D60 808D43D0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

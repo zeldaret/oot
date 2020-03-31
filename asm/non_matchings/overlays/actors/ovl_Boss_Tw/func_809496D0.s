@@ -10,7 +10,7 @@ glabel func_809496D0
 /* 10A20 809496F0 24A56FBC */  addiu   $a1, $a1, 0x6FBC           ## $a1 = 06036FBC
 /* 10A24 809496F4 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 10A28 809496F8 24840568 */  addiu   $a0, $a0, 0x0568           ## $a0 = 00000568
-/* 10A2C 809496FC 0C029490 */  jal     func_800A5240              
+/* 10A2C 809496FC 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 10A30 80949700 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 10A34 80949704 3C040603 */  lui     $a0, 0x0603                ## $a0 = 06030000
 /* 10A38 80949708 0C028800 */  jal     SkelAnime_GetFrameCount

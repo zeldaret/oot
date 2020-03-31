@@ -40,7 +40,7 @@ glabel func_808DC4DC
 /* 05D00 808DC570 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 05D04 808DC574 A60B01C2 */  sh      $t3, 0x01C2($s0)           ## 000001C2
 /* 05D08 808DC578 24A5A598 */  addiu   $a1, $a1, 0xA598           ## $a1 = 0600A598
-/* 05D0C 808DC57C 0C029490 */  jal     func_800A5240              
+/* 05D0C 808DC57C 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 05D10 808DC580 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 05D14 808DC584 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 05D18 808DC588 0C028800 */  jal     SkelAnime_GetFrameCount

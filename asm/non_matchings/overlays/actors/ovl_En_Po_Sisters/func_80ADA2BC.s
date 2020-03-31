@@ -7,7 +7,7 @@ glabel func_80ADA2BC
 /* 01340 80ADA2D0 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 01344 80ADA2D4 24A50D40 */  addiu   $a1, $a1, 0x0D40           ## $a1 = 06000D40
 /* 01348 80ADA2D8 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 0134C 80ADA2DC 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 0134C 80ADA2DC 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
 /* 01350 80ADA2E0 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
 /* 01354 80ADA2E4 92020194 */  lbu     $v0, 0x0194($s0)           ## 00000194
 /* 01358 80ADA2E8 240E0028 */  addiu   $t6, $zero, 0x0028         ## $t6 = 00000028

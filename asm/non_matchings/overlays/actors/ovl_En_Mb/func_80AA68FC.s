@@ -7,7 +7,7 @@ glabel func_80AA68FC
 /* 008C0 80AA6910 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 008C4 80AA6914 24A541A8 */  addiu   $a1, $a1, 0x41A8           ## $a1 = 060041A8
 /* 008C8 80AA6918 2484018C */  addiu   $a0, $a0, 0x018C           ## $a0 = 0000018C
-/* 008CC 80AA691C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 008CC 80AA691C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
 /* 008D0 80AA6920 3C06C080 */  lui     $a2, 0xC080                ## $a2 = C0800000
 /* 008D4 80AA6924 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 008D8 80AA6928 24040028 */  addiu   $a0, $zero, 0x0028         ## $a0 = 00000028

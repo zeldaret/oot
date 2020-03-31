@@ -8,7 +8,7 @@ glabel func_80AD9D44
 /* 00DCC 80AD9D5C 15C10009 */  bne     $t6, $at, .L80AD9D84       
 /* 00DD0 80AD9D60 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00DD4 80AD9D64 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00DD8 80AD9D68 0C02947A */  jal     func_800A51E8              
+/* 00DD8 80AD9D68 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 00DDC 80AD9D6C 24A5119C */  addiu   $a1, $a1, 0x119C           ## $a1 = 0600119C
 /* 00DE0 80AD9D70 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00DE4 80AD9D74 0C00BE0A */  jal     Audio_PlayActorSound2

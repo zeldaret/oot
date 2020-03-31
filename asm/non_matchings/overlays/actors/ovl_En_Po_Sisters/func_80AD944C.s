@@ -14,7 +14,7 @@ glabel func_80AD944C
 .L80AD947C:
 /* 004EC 80AD947C 24E4014C */  addiu   $a0, $a3, 0x014C           ## $a0 = 0000014C
 /* 004F0 80AD9480 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
-/* 004F4 80AD9484 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 004F4 80AD9484 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
 /* 004F8 80AD9488 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 004FC 80AD948C 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 00500 80AD9490 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00

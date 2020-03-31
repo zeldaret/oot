@@ -74,13 +74,13 @@ glabel func_80B2A300
 /* 00210 80B2A410 14410005 */  bne     $v0, $at, .L80B2A428
 /* 00214 80B2A414 3C064040 */  lui     $a2, 0x4040                ## $a2 = 40400000
 .L80B2A418:
-/* 00218 80B2A418 0C0294E1 */  jal     SkelAnime_ChangeAnimationPlaybackSpeed
+/* 00218 80B2A418 0C0294E1 */  jal     SkelAnime_ChangeAnimationPlaybackRepeat
 /* 0021C 80B2A41C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00220 80B2A420 10000005 */  beq     $zero, $zero, .L80B2A438
 /* 00224 80B2A424 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80B2A428:
 /* 00228 80B2A428 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000330
-/* 0022C 80B2A42C 0C0294E1 */  jal     SkelAnime_ChangeAnimationPlaybackSpeed
+/* 0022C 80B2A42C 0C0294E1 */  jal     SkelAnime_ChangeAnimationPlaybackRepeat
 /* 00230 80B2A430 8FA50044 */  lw      $a1, 0x0044($sp)
 /* 00234 80B2A434 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80B2A438:

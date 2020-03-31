@@ -26,7 +26,7 @@ glabel func_80AA6F8C
 /* 00F98 80AA6FE8 24A51950 */  addiu   $a1, $a1, 0x1950           ## $a1 = 06001950
 /* 00F9C 80AA6FEC 11000003 */  beq     $t0, $zero, .L80AA6FFC     
 /* 00FA0 80AA6FF0 2604018C */  addiu   $a0, $s0, 0x018C           ## $a0 = 0000018C
-/* 00FA4 80AA6FF4 0C0294A7 */  jal     func_800A529C              
+/* 00FA4 80AA6FF4 0C0294A7 */  jal     SkelAnime_ChangeAnimationPlaybackStop              
 /* 00FA8 80AA6FF8 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 .L80AA6FFC:
 /* 00FAC 80AA6FFC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

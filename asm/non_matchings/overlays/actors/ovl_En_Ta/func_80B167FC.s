@@ -9,7 +9,7 @@ glabel func_80B167FC
 /* 02D74 80B16814 AFA40024 */  sw      $a0, 0x0024($sp)           
 /* 02D78 80B16818 10400006 */  beq     $v0, $zero, .L80B16834     
 /* 02D7C 80B1681C 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 02D80 80B16820 0C02947A */  jal     func_800A51E8              
+/* 02D80 80B16820 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 02D84 80B16824 8E0502E4 */  lw      $a1, 0x02E4($s0)           ## 000002E4
 /* 02D88 80B16828 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02D8C 80B1682C 0C00BE0A */  jal     Audio_PlayActorSound2

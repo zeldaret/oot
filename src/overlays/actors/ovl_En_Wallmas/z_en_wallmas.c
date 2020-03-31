@@ -161,18 +161,18 @@ static void EnWallmas_LandStart(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 static void EnWallmas_StandStart(EnWallmas* this) {
-    func_800A51E8(&this->skelAnime, &D_0600A054);
+    SkelAnimeChangeAnimationDefaultStop(&this->skelAnime, &D_0600A054);
     this->actionFunc = (ActorFunc)&EnWallmas_Stand;
 }
 
 static void EnWallmas_WalkStart(EnWallmas* this) {
-    func_800A529C(&this->skelAnime, &D_060041F4, 3.0f);
+    SkelAnime_ChangeAnimationPlaybackStop(&this->skelAnime, &D_060041F4, 3.0f);
     this->actionFunc = (ActorFunc)&EnWallmas_Walk;
     this->actor.speedXZ = 3.0f;
 }
 
 static void EnWallmas_JumpToCeilingStart(EnWallmas* this) {
-    func_800A51E8(&this->skelAnime, &D_06009244);
+    SkelAnimeChangeAnimationDefaultStop(&this->skelAnime, &D_06009244);
     this->actionFunc = (ActorFunc)&EnWallmas_JumpToCeiling;
     this->actor.speedXZ = 0.0f;
 }
@@ -190,7 +190,7 @@ static void EnWallmas_ReturnToCeilingStart(EnWallmas* this) {
 }
 
 static void EnWallmas_TakeDamageStart(EnWallmas* this) {
-    func_800A5240(&this->skelAnime, &D_06000590, -3.0f);
+    SkelAnime_ChangeAnimationTransitionStop(&this->skelAnime, &D_06000590, -3.0f);
     if ((this->colCylinder.body.colliding->toucher.flags & 0x1F824) != 0) {
         this->actor.posRot.rot.y = this->colCylinder.base.ac->posRot.rot.y;
     } else {
@@ -204,7 +204,7 @@ static void EnWallmas_TakeDamageStart(EnWallmas* this) {
 }
 
 static void EnWallmas_DamageCoolDownStart(EnWallmas* this) {
-    func_800A51E8(&this->skelAnime, &D_06000EA4);
+    SkelAnimeChangeAnimationDefaultStop(&this->skelAnime, &D_06000EA4);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
@@ -223,7 +223,7 @@ static void EnWallMas_DieBegin(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 static void EnWallmas_TakePlayerBegin(EnWallmas* this, GlobalContext* globalCtx) {
-    func_800A5240(&this->skelAnime, &D_06009520, -5.0f);
+    SkelAnime_ChangeAnimationTransitionStop(&this->skelAnime, &D_06009520, -5.0f);
     this->timer = -0x1e;
     this->actionFunc = (ActorFunc)&EnWallmas_TakePlayer;
     this->actor.speedXZ = 0.0f;

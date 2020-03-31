@@ -14,7 +14,7 @@ glabel func_80AA8378
 /* 02354 80AA83A4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 02358 80AA83A8 11C00011 */  beq     $t6, $zero, .L80AA83F0     
 /* 0235C 80AA83AC 00000000 */  nop
-/* 02360 80AA83B0 0C02947A */  jal     func_800A51E8              
+/* 02360 80AA83B0 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 02364 80AA83B4 24A5E18C */  addiu   $a1, $a1, 0xE18C           ## $a1 = 0600E18C
 /* 02368 80AA83B8 A600032E */  sh      $zero, 0x032E($s0)         ## 0000032E
 /* 0236C 80AA83BC C60C0090 */  lwc1    $f12, 0x0090($s0)          ## 00000090

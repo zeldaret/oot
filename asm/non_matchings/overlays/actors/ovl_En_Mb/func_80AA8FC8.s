@@ -20,7 +20,7 @@ glabel func_80AA8FC8
 /* 02FBC 80AA900C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 02FC0 80AA9010 24A516B4 */  addiu   $a1, $a1, 0x16B4           ## $a1 = 060016B4
 /* 02FC4 80AA9014 2604018C */  addiu   $a0, $s0, 0x018C           ## $a0 = 0000018C
-/* 02FC8 80AA9018 0C029490 */  jal     func_800A5240              
+/* 02FC8 80AA9018 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 02FCC 80AA901C 3C06C080 */  lui     $a2, 0xC080                ## $a2 = C0800000
 /* 02FD0 80AA9020 3C01C100 */  lui     $at, 0xC100                ## $at = C1000000
 /* 02FD4 80AA9024 44812000 */  mtc1    $at, $f4                   ## $f4 = -8.00
@@ -28,7 +28,7 @@ glabel func_80AA8FC8
 /* 02FDC 80AA902C E6040068 */  swc1    $f4, 0x0068($s0)           ## 00000068
 .L80AA9030:
 /* 02FE0 80AA9030 24A516B4 */  addiu   $a1, $a1, 0x16B4           ## $a1 = 000016B4
-/* 02FE4 80AA9034 0C029490 */  jal     func_800A5240              
+/* 02FE4 80AA9034 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
 /* 02FE8 80AA9038 3C06C080 */  lui     $a2, 0xC080                ## $a2 = C0800000
 /* 02FEC 80AA903C 3C014100 */  lui     $at, 0x4100                ## $at = 41000000
 /* 02FF0 80AA9040 44813000 */  mtc1    $at, $f6                   ## $f6 = 8.00

@@ -64,7 +64,7 @@ glabel func_809EB624
 glabel L809EB708
 /* 009C8 809EB708 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 009CC 809EB70C 24A51A3C */  addiu   $a1, $a1, 0x1A3C           ## $a1 = 06001A3C
-/* 009D0 809EB710 0C02947A */  jal     func_800A51E8              
+/* 009D0 809EB710 0C02947A */  jal     SkelAnimeChangeAnimationDefaultStop              
 /* 009D4 809EB714 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 009D8 809EB718 920C0250 */  lbu     $t4, 0x0250($s0)           ## 00000250
 /* 009DC 809EB71C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
