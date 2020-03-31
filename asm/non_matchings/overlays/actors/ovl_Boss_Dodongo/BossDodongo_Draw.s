@@ -29,7 +29,7 @@ glabel BossDodongo_Draw
 /* 03B4C 808C4CDC AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 03B50 808C4CE0 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 03B54 808C4CE4 240500FF */  addiu   $a1, $zero, 0x00FF         ## $a1 = 000000FF
-/* 03B58 808C4CE8 0C024CDC */  jal     func_80093370              
+/* 03B58 808C4CE8 0C024CDC */  jal     Gfx_SetFog              
 /* 03B5C 808C4CEC 240700FF */  addiu   $a3, $zero, 0x00FF         ## $a3 = 000000FF
 /* 03B60 808C4CF0 10000073 */  beq     $zero, $zero, .L808C4EC0   
 /* 03B64 808C4CF4 AE2202C0 */  sw      $v0, 0x02C0($s1)           ## 000002C0
@@ -154,7 +154,7 @@ glabel BossDodongo_Draw
 /* 03D18 808C4EA8 C6080220 */  lwc1    $f8, 0x0220($s0)           ## 00000220
 /* 03D1C 808C4EAC 4600428D */  trunc.w.s $f10, $f8                  
 /* 03D20 808C4EB0 440D5000 */  mfc1    $t5, $f10                  
-/* 03D24 808C4EB4 0C024CDC */  jal     func_80093370              
+/* 03D24 808C4EB4 0C024CDC */  jal     Gfx_SetFog              
 /* 03D28 808C4EB8 AFAD0018 */  sw      $t5, 0x0018($sp)           
 /* 03D2C 808C4EBC AE2202C0 */  sw      $v0, 0x02C0($s1)           ## 000002C0
 .L808C4EC0:

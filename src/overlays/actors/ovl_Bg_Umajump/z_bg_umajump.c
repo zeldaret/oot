@@ -68,5 +68,5 @@ static void Update(ActorBgUmajump* this, GlobalContext* globalCtx) {
 }
 
 static void Draw(ActorBgUmajump* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_06001220);
+    Gfx_DrawDListOpa(globalCtx, &D_06001220);
 }

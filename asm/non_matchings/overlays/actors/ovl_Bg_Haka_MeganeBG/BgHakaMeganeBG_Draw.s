@@ -8,7 +8,7 @@ glabel BgHakaMeganeBG_Draw
 /* 00564 8087E394 00027080 */  sll     $t6, $v0,  2               
 /* 00568 8087E398 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0056C 8087E39C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 00570 8087E3A0 0C00D4C9 */  jal     Draw_DListXlu
+/* 00570 8087E3A0 0C00D4C9 */  jal     Gfx_DrawDListXlu
               
 /* 00574 8087E3A4 24A58EB0 */  addiu   $a1, $a1, 0x8EB0           ## $a1 = 06008EB0
 /* 00578 8087E3A8 10000006 */  beq     $zero, $zero, .L8087E3C4   
@@ -16,7 +16,7 @@ glabel BgHakaMeganeBG_Draw
 .L8087E3B0:
 /* 00580 8087E3B0 3C058088 */  lui     $a1, %hi(D_8087E410)       ## $a1 = 80880000
 /* 00584 8087E3B4 00AE2821 */  addu    $a1, $a1, $t6              
-/* 00588 8087E3B8 0C00D498 */  jal     Draw_DListOpa
+/* 00588 8087E3B8 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 0058C 8087E3BC 8CA5E410 */  lw      $a1, %lo(D_8087E410)($a1)  
 /* 00590 8087E3C0 8FBF0014 */  lw      $ra, 0x0014($sp)           

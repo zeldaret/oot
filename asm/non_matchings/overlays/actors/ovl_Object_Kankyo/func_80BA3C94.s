@@ -43,7 +43,7 @@ glabel func_80BA3C94
 /* 01298 80BA3D38 0C031AB1 */  jal     func_800C6AC4              
 /* 0129C 80BA3D3C 00A09025 */  or      $s2, $a1, $zero            ## $s2 = 00000000
 /* 012A0 80BA3D40 8E4402D0 */  lw      $a0, 0x02D0($s2)           ## 000002D0
-/* 012A4 80BA3D44 0C024DDD */  jal     func_80093774              
+/* 012A4 80BA3D44 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 012A8 80BA3D48 24050014 */  addiu   $a1, $zero, 0x0014         ## $a1 = 00000014
 /* 012AC 80BA3D4C 3C040405 */  lui     $a0, 0x0405                ## $a0 = 04050000
 /* 012B0 80BA3D50 2484C160 */  addiu   $a0, $a0, 0xC160           ## $a0 = 0404C160

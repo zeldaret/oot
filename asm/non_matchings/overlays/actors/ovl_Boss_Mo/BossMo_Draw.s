@@ -67,7 +67,7 @@ glabel BossMo_Draw
 /* 0910C 80924C0C AFB80024 */  sw      $t8, 0x0024($sp)           
 /* 09110 80924C10 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 09114 80924C14 AFA20054 */  sw      $v0, 0x0054($sp)           
-/* 09118 80924C18 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 09118 80924C18 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0911C 80924C1C AFAF0020 */  sw      $t7, 0x0020($sp)           
 /* 09120 80924C20 8FA30054 */  lw      $v1, 0x0054($sp)           
 /* 09124 80924C24 3C09FA00 */  lui     $t1, 0xFA00                ## $t1 = FA000000

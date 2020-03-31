@@ -61,7 +61,7 @@ glabel BgSpot03Taki_Draw
 /* 006F0 808AE1D0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 006F4 808AE1D4 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 006F8 808AE1D8 AFA20060 */  sw      $v0, 0x0060($sp)           
-/* 006FC 808AE1DC 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 006FC 808AE1DC 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00700 808AE1E0 AFA8007C */  sw      $t0, 0x007C($sp)           
 /* 00704 808AE1E4 8FA30060 */  lw      $v1, 0x0060($sp)           
 /* 00708 808AE1E8 8FA8007C */  lw      $t0, 0x007C($sp)           
@@ -130,7 +130,7 @@ glabel BgSpot03Taki_Draw
 /* 007FC 808AE2DC AFAF001C */  sw      $t7, 0x001C($sp)           
 /* 00800 808AE2E0 AFB90028 */  sw      $t9, 0x0028($sp)           
 /* 00804 808AE2E4 AFB80024 */  sw      $t8, 0x0024($sp)           
-/* 00808 808AE2E8 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00808 808AE2E8 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0080C 808AE2EC AFA2004C */  sw      $v0, 0x004C($sp)           
 /* 00810 808AE2F0 8FA3004C */  lw      $v1, 0x004C($sp)           
 /* 00814 808AE2F4 3C0C0600 */  lui     $t4, 0x0600                ## $t4 = 06000000

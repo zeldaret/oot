@@ -64,7 +64,7 @@ glabel EnRr_Draw
 /* 01E88 80AEA2C8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 01E8C 80AEA2CC 00004025 */  or      $t0, $zero, $zero          ## $t0 = 00000000
 /* 01E90 80AEA2D0 3006007F */  andi    $a2, $zero, 0x007F         ## $a2 = 00000000
-/* 01E94 80AEA2D4 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 01E94 80AEA2D4 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 01E98 80AEA2D8 00408025 */  or      $s0, $v0, $zero            ## $s0 = 00000000
 /* 01E9C 80AEA2DC 0C034213 */  jal     Matrix_Push
 /* 01EA0 80AEA2E0 AE020004 */  sw      $v0, 0x0004($s0)           ## 00000004

@@ -254,7 +254,7 @@ glabel ArrowFire_Draw
 /* 00960 80866670 AFAB001C */  sw      $t3, 0x001C($sp)
 /* 00964 80866674 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00968 80866678 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 0096C 8086667C 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 0096C 8086667C 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 00970 80866680 AFA2004C */  sw      $v0, 0x004C($sp)
 /* 00974 80866684 8FA3004C */  lw      $v1, 0x004C($sp)
 /* 00978 80866688 3C188086 */  lui     $t8, %hi(D_80867A40)       ## $t8 = 80860000

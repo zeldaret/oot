@@ -9,7 +9,7 @@ glabel ObjBean_Draw
 /* 0232C 80B90DAC 11C00006 */  beq     $t6, $zero, .L80B90DC8     
 /* 02330 80B90DB0 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 02334 80B90DB4 24A50090 */  addiu   $a1, $a1, 0x0090           ## $a1 = 06000090
-/* 02338 80B90DB8 0C00D498 */  jal     Draw_DListOpa
+/* 02338 80B90DB8 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 0233C 80B90DBC AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 02340 80B90DC0 8FA60018 */  lw      $a2, 0x0018($sp)           
@@ -20,7 +20,7 @@ glabel ObjBean_Draw
 /* 02350 80B90DD0 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 02354 80B90DD4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 02358 80B90DD8 24A503F0 */  addiu   $a1, $a1, 0x03F0           ## $a1 = 060003F0
-/* 0235C 80B90DDC 0C00D498 */  jal     Draw_DListOpa
+/* 0235C 80B90DDC 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 02360 80B90DE0 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 02364 80B90DE4 8FA60018 */  lw      $a2, 0x0018($sp)           

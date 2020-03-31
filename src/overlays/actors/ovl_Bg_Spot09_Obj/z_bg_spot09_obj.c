@@ -169,7 +169,7 @@ static void BgSpot09Obj_Draw(BgSpot09Obj* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     Gfx* gfxArr[3];
 
-    Draw_DListOpa(globalCtx, dlists[thisx->params]);
+    Gfx_DrawDListOpa(globalCtx, dlists[thisx->params]);
     if (thisx->params == 3) {
         gfxCtx = globalCtx->state.gfxCtx;
         func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 388);

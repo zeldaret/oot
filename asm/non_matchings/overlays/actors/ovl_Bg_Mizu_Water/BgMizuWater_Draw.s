@@ -40,7 +40,7 @@ glabel BgMizuWater_Draw
 /* 00B80 808A0430 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 00B84 808A0434 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00B88 808A0438 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00B8C 808A043C 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00B8C 808A043C 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00B90 808A0440 AFA20058 */  sw      $v0, 0x0058($sp)           
 /* 00B94 808A0444 8FA80058 */  lw      $t0, 0x0058($sp)           
 /* 00B98 808A0448 3C0DDA38 */  lui     $t5, 0xDA38                ## $t5 = DA380000

@@ -44,7 +44,7 @@ glabel EfcErupc_Draw
 /* 003A8 8099D058 AFAF0028 */  sw      $t7, 0x0028($sp)           
 /* 003AC 8099D05C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 003B0 8099D060 AFA20070 */  sw      $v0, 0x0070($sp)           
-/* 003B4 8099D064 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 003B4 8099D064 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 003B8 8099D068 00603025 */  or      $a2, $v1, $zero            ## $a2 = 00000000
 /* 003BC 8099D06C 8FA90070 */  lw      $t1, 0x0070($sp)           
 /* 003C0 8099D070 3C19DB06 */  lui     $t9, 0xDB06                ## $t9 = DB060000
@@ -76,7 +76,7 @@ glabel EfcErupc_Draw
 /* 00428 8099D0D8 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 0042C 8099D0DC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00430 8099D0E0 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 00434 8099D0E4 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00434 8099D0E4 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00438 8099D0E8 AFA2006C */  sw      $v0, 0x006C($sp)           
 /* 0043C 8099D0EC 8FA8006C */  lw      $t0, 0x006C($sp)           
 /* 00440 8099D0F0 3C0CDB06 */  lui     $t4, 0xDB06                ## $t4 = DB060000
@@ -108,7 +108,7 @@ glabel EfcErupc_Draw
 /* 004A8 8099D158 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 004AC 8099D15C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 004B0 8099D160 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 004B4 8099D164 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 004B4 8099D164 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 004B8 8099D168 AFA20068 */  sw      $v0, 0x0068($sp)           
 /* 004BC 8099D16C 8FA80068 */  lw      $t0, 0x0068($sp)           
 /* 004C0 8099D170 0C034213 */  jal     Matrix_Push              

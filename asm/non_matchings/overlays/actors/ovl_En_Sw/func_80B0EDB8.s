@@ -44,7 +44,7 @@ glabel func_80B0EDB8
 /* 030AC 80B0EE5C 000B6403 */  sra     $t4, $t3, 16               
 /* 030B0 80B0EE60 AFAC0018 */  sw      $t4, 0x0018($sp)           
 /* 030B4 80B0EE64 AFA00014 */  sw      $zero, 0x0014($sp)         
-/* 030B8 80B0EE68 0C024DC2 */  jal     func_80093708              
+/* 030B8 80B0EE68 0C024DC2 */  jal     Gfx_SetFog2              
 /* 030BC 80B0EE6C AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 030C0 80B0EE70 8FAD0040 */  lw      $t5, 0x0040($sp)           
 /* 030C4 80B0EE74 3C0680B1 */  lui     $a2, %hi(D_80B0F1D0)       ## $a2 = 80B10000

@@ -137,7 +137,7 @@ glabel func_80977950
 /* 007D8 80977B68 AFAB0028 */  sw      $t3, 0x0028($sp)
 /* 007DC 80977B6C AFAD0024 */  sw      $t5, 0x0024($sp)
 /* 007E0 80977B70 AFA30054 */  sw      $v1, 0x0054($sp)
-/* 007E4 80977B74 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 007E4 80977B74 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 007E8 80977B78 AFAC0020 */  sw      $t4, 0x0020($sp)
 /* 007EC 80977B7C 8FA80054 */  lw      $t0, 0x0054($sp)
 /* 007F0 80977B80 3C18DA38 */  lui     $t8, 0xDA38                ## $t8 = DA380000

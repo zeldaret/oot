@@ -73,7 +73,7 @@ glabel func_80974B80
 /* 03D44 80974C94 AFAA001C */  sw      $t2, 0x001C($sp)           
 /* 03D48 80974C98 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 03D4C 80974C9C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 03D50 80974CA0 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 03D50 80974CA0 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 03D54 80974CA4 AFA20064 */  sw      $v0, 0x0064($sp)           
 /* 03D58 80974CA8 8FA30064 */  lw      $v1, 0x0064($sp)           
 /* 03D5C 80974CAC 0C034213 */  jal     Matrix_Push              

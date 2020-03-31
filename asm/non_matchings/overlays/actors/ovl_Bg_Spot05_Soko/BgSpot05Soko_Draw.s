@@ -7,7 +7,7 @@ glabel BgSpot05Soko_Draw
 /* 00264 808AE6D4 3C05808B */  lui     $a1, %hi(D_808AE724)       ## $a1 = 808B0000
 /* 00268 808AE6D8 000E7880 */  sll     $t7, $t6,  2               
 /* 0026C 808AE6DC 00AF2821 */  addu    $a1, $a1, $t7              
-/* 00270 808AE6E0 0C00D498 */  jal     Draw_DListOpa
+/* 00270 808AE6E0 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00274 808AE6E4 8CA5E724 */  lw      $a1, %lo(D_808AE724)($a1)  
 /* 00278 808AE6E8 8FBF0014 */  lw      $ra, 0x0014($sp)           

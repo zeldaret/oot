@@ -121,7 +121,7 @@ glabel func_808AA2B0
 /* 00D00 808AA480 00408025 */  or      $s0, $v0, $zero            ## $s0 = 00000000
 /* 00D04 808AA484 0000C012 */  mflo    $t8                        
 /* 00D08 808AA488 331901FF */  andi    $t9, $t8, 0x01FF           ## $t9 = 000000FF
-/* 00D0C 808AA48C 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00D0C 808AA48C 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00D10 808AA490 AFB90020 */  sw      $t9, 0x0020($sp)           
 /* 00D14 808AA494 16200003 */  bne     $s1, $zero, .L808AA4A4     
 /* 00D18 808AA498 AE020004 */  sw      $v0, 0x0004($s0)           ## 00000004

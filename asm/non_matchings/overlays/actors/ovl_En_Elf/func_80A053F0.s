@@ -26,7 +26,7 @@ glabel func_80A053F0
 /* 0381C 80A0544C 51000012 */  beql    $t0, $zero, .L80A05498     
 /* 03820 80A05450 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80A05454:
-/* 03824 80A05454 0C01B0C6 */  jal     func_8006C318              
+/* 03824 80A05454 0C01B0C6 */  jal     ElfMessage_GetCUpText              
 /* 03828 80A05458 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 0382C 80A0545C 8FA3002C */  lw      $v1, 0x002C($sp)           
 /* 03830 80A05460 2401015F */  addiu   $at, $zero, 0x015F         ## $at = 0000015F
@@ -60,7 +60,7 @@ glabel func_80A053F0
 /* 03894 80A054C4 8E0D002C */  lw      $t5, 0x002C($s0)           ## 0000002C
 /* 03898 80A054C8 AE0C003C */  sw      $t4, 0x003C($s0)           ## 0000003C
 /* 0389C 80A054CC AE0D0040 */  sw      $t5, 0x0040($s0)           ## 00000040
-/* 038A0 80A054D0 0C01B0C6 */  jal     func_8006C318              
+/* 038A0 80A054D0 0C01B0C6 */  jal     ElfMessage_GetCUpText              
 /* 038A4 80A054D4 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 038A8 80A054D8 960E010E */  lhu     $t6, 0x010E($s0)           ## 0000010E
 /* 038AC 80A054DC 3C0C80A0 */  lui     $t4, %hi(func_80A052F4)    ## $t4 = 80A00000

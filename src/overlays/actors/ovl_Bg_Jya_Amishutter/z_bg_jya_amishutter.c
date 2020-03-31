@@ -131,5 +131,5 @@ static void BgJyaAmishutter_Update(BgJyaAmishutter* this, GlobalContext* globalC
 }
 
 static void BgJyaAmishutter_Draw(BgJyaAmishutter* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_0600C0A0);
+    Gfx_DrawDListOpa(globalCtx, &D_0600C0A0);
 }

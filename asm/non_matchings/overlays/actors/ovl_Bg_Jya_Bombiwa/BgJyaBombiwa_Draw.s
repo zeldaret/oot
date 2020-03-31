@@ -4,7 +4,7 @@ glabel BgJyaBombiwa_Draw
 /* 00524 808956C4 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00528 808956C8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0052C 808956CC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 00530 808956D0 0C00D498 */  jal     Draw_DListOpa
+/* 00530 808956D0 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00534 808956D4 24A5E490 */  addiu   $a1, $a1, 0xE490           ## $a1 = 0600E490
 /* 00538 808956D8 8FA50018 */  lw      $a1, 0x0018($sp)           

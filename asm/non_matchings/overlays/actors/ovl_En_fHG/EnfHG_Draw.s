@@ -33,7 +33,7 @@ glabel EnfHG_Draw
 /* 02560 80B64F20 AFA90018 */  sw      $t1, 0x0018($sp)           
 /* 02564 80B64F24 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 02568 80B64F28 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 0256C 80B64F2C 0C024CDC */  jal     func_80093370              
+/* 0256C 80B64F2C 0C024CDC */  jal     Gfx_SetFog              
 /* 02570 80B64F30 240500FF */  addiu   $a1, $zero, 0x00FF         ## $a1 = 000000FF
 /* 02574 80B64F34 10000076 */  beq     $zero, $zero, .L80B65110   
 /* 02578 80B64F38 AE2202C0 */  sw      $v0, 0x02C0($s1)           ## 000002C0
@@ -162,7 +162,7 @@ glabel EnfHG_Draw
 /* 02738 80B650F8 44195000 */  mfc1    $t9, $f10                  
 /* 0273C 80B650FC 00000000 */  nop
 /* 02740 80B65100 272803E8 */  addiu   $t0, $t9, 0x03E8           ## $t0 = 000003E8
-/* 02744 80B65104 0C024CDC */  jal     func_80093370              
+/* 02744 80B65104 0C024CDC */  jal     Gfx_SetFog              
 /* 02748 80B65108 AFA80018 */  sw      $t0, 0x0018($sp)           
 /* 0274C 80B6510C AE2202C0 */  sw      $v0, 0x02C0($s1)           ## 000002C0
 .L80B65110:

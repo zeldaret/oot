@@ -144,7 +144,7 @@ glabel ActorShadow_DrawFunc_Teardrop
 /* AA2C28 8002BA88 0C031AB1 */  jal   func_800C6AC4
 /* AA2C2C 8002BA8C 00A08025 */   move  $s0, $a1
 /* AA2C30 8002BA90 8E0402C0 */  lw    $a0, 0x2c0($s0)
-/* AA2C34 8002BA94 0C024DDD */  jal   func_80093774
+/* AA2C34 8002BA94 0C024DDD */  jal   Gfx_CallSetupDL
 /* AA2C38 8002BA98 2405002C */   li    $a1, 44
 /* AA2C3C 8002BA9C 3C014248 */  li    $at, 0x42480000 # 0.000000
 /* AA2C40 8002BAA0 4481E000 */  mtc1  $at, $f28

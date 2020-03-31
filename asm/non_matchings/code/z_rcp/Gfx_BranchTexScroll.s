@@ -1,4 +1,4 @@
-glabel func_80094DB8
+glabel Gfx_BranchTexScroll
 /* B0BF58 80094DB8 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B0BF5C 80094DBC AFBF0014 */  sw    $ra, 0x14($sp)
 /* B0BF60 80094DC0 AFA5001C */  sw    $a1, 0x1c($sp)

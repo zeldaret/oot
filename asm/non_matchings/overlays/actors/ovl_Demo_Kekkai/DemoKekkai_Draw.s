@@ -67,7 +67,7 @@ glabel DemoKekkai_Draw
 /* 01054 8098E024 AFAB0028 */  sw      $t3, 0x0028($sp)           
 /* 01058 8098E028 AFA70020 */  sw      $a3, 0x0020($sp)           
 /* 0105C 8098E02C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 01060 8098E030 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 01060 8098E030 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 01064 8098E034 AFA2004C */  sw      $v0, 0x004C($sp)           
 /* 01068 8098E038 8FA3004C */  lw      $v1, 0x004C($sp)           
 /* 0106C 8098E03C 3C0E0600 */  lui     $t6, 0x0600                ## $t6 = 06000000
