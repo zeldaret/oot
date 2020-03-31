@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_comb.c
+ * Overlay: ovl_Obj_Comb
+ * Description: Beehive
+ */
+
 #include "z_obj_comb.h"
 
 #define ROOM 0x00
@@ -37,7 +43,7 @@ UNK_TYPE D_80B92304[] = {
     &D_80B922E0,
 };
 
-InitChainEntry D_80B92314[] = {
+InitChainEntry initChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 1100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 100, ICHAIN_CONTINUE),
@@ -95,7 +101,6 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
         } else {
             u0 = 32;
         }
-
         Effect_SpawnFragment(globalCtx, &posSum, &pos2, &posSum, gravityInfluence, u0, rotSpeed, 4, 0, scale, 0, 0, 80,
                              -1, 2, dlist);
     }
@@ -128,7 +133,7 @@ void func_80B91E4C(ObjComb* this, GlobalContext* globalCtx) {
 void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    Actor_ProcessInitChain(&this->actor, &D_80B92314);
+    Actor_ProcessInitChain(&this->actor, &initChain);
     func_8005BBF8(globalCtx, &this->collider);
     func_8005C050(globalCtx, &this->collider, this, &D_80B92304, &this->unk_170);
     func_80B91FB0(this);
