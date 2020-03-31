@@ -52,7 +52,7 @@ glabel func_808AF524
 /* 00E6C 808AF5EC AFA20064 */  sw      $v0, 0x0064($sp)           
 /* 00E70 808AF5F0 AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 00E74 808AF5F4 AFB0001C */  sw      $s0, 0x001C($sp)           
-/* 00E78 808AF5F8 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00E78 808AF5F8 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00E7C 808AF5FC 02003825 */  or      $a3, $s0, $zero            ## $a3 = 00000000
 /* 00E80 808AF600 8FA30064 */  lw      $v1, 0x0064($sp)           
 /* 00E84 808AF604 8FA60050 */  lw      $a2, 0x0050($sp)           
@@ -80,7 +80,7 @@ glabel func_808AF524
 /* 00EDC 808AF65C AFA70020 */  sw      $a3, 0x0020($sp)           
 /* 00EE0 808AF660 AFB0001C */  sw      $s0, 0x001C($sp)           
 /* 00EE4 808AF664 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00EE8 808AF668 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00EE8 808AF668 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00EEC 808AF66C AFA20060 */  sw      $v0, 0x0060($sp)           
 /* 00EF0 808AF670 8FA30060 */  lw      $v1, 0x0060($sp)           
 /* 00EF4 808AF674 3C0BFB00 */  lui     $t3, 0xFB00                ## $t3 = FB000000

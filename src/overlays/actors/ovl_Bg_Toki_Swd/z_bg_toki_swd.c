@@ -288,7 +288,7 @@ static void BgTokiSwd_Draw(BgTokiSwd* this, GlobalContext* globalCtx) {
     func_8002EBCC(&this->actor, globalCtx, 0);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x08,
-               Draw_TexScroll(globalCtx->state.gfxCtx, 0, -(globalCtx->gameplayFrames % 0x80), 32, 32));
+               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, -(globalCtx->gameplayFrames % 0x80), 32, 32));
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 742),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_06001BD0);

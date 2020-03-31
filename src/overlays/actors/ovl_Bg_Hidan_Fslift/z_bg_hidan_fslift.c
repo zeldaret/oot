@@ -146,5 +146,5 @@ static void BgHidanFslift_Update(BgHidanFslift* this, GlobalContext* globalCtx) 
 }
 
 static void BgHidanFslift_Draw(BgHidanFslift* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_0600B630);
+    Gfx_DrawDListOpa(globalCtx, &D_0600B630);
 }

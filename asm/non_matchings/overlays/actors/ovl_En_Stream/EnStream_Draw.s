@@ -60,7 +60,7 @@ glabel EnStream_Draw
 /* 00494 80B0BC34 AFA3001C */  sw      $v1, 0x001C($sp)           
 /* 00498 80B0BC38 AFAB0010 */  sw      $t3, 0x0010($sp)           
 /* 0049C 80B0BC3C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 004A0 80B0BC40 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 004A0 80B0BC40 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 004A4 80B0BC44 AFA2004C */  sw      $v0, 0x004C($sp)           
 /* 004A8 80B0BC48 8FA8004C */  lw      $t0, 0x004C($sp)           
 /* 004AC 80B0BC4C 3C0A0600 */  lui     $t2, 0x0600                ## $t2 = 06000000

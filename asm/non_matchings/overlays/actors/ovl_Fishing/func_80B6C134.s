@@ -38,7 +38,7 @@ glabel func_80B6C134
 /* 02824 80B6C1C4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 02828 80B6C1C8 AFA20054 */  sw      $v0, 0x0054($sp)           
 /* 0282C 80B6C1CC 00603025 */  or      $a2, $v1, $zero            ## $a2 = 00010000
-/* 02830 80B6C1D0 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 02830 80B6C1D0 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 02834 80B6C1D4 000338C0 */  sll     $a3, $v1,  3               
 /* 02838 80B6C1D8 8FA80054 */  lw      $t0, 0x0054($sp)           
 /* 0283C 80B6C1DC 3C18C3E1 */  lui     $t8, 0xC3E1                ## $t8 = C3E10000

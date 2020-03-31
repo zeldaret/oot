@@ -6,7 +6,7 @@ glabel EnTrap_Draw
 /* 01180 80B257E0 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 01184 80B257E4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 01188 80B257E8 24A51400 */  addiu   $a1, $a1, 0x1400           ## $a1 = 06001400
-/* 0118C 80B257EC 0C00D498 */  jal     Draw_DListOpa
+/* 0118C 80B257EC 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 01190 80B257F0 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 01194 80B257F4 8FBF0014 */  lw      $ra, 0x0014($sp)           

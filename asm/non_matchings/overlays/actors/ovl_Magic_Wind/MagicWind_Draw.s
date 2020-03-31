@@ -18,7 +18,7 @@ glabel MagicWind_Draw
 /* 006EC 80B8B7EC 24050019 */  addiu   $a1, $zero, 0x0019         ## $a1 = 00000019
 /* 006F0 80B8B7F0 11F9000E */  beq     $t7, $t9, .L80B8B82C       
 /* 006F4 80B8B7F4 00000000 */  nop
-/* 006F8 80B8B7F8 0C024DDD */  jal     func_80093774              
+/* 006F8 80B8B7F8 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 006FC 80B8B7FC 8E0402D0 */  lw      $a0, 0x02D0($s0)           ## 000002D0
 /* 00700 80B8B800 8FA40050 */  lw      $a0, 0x0050($sp)           
 /* 00704 80B8B804 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0

@@ -4,7 +4,7 @@ glabel BgIceShutter_Draw
 /* 003A8 80891E68 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 003AC 80891E6C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 003B0 80891E70 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 003B4 80891E74 0C00D498 */  jal     Draw_DListOpa
+/* 003B4 80891E74 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 003B8 80891E78 24A52740 */  addiu   $a1, $a1, 0x2740           ## $a1 = 06002740
 /* 003BC 80891E7C 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -136,5 +136,5 @@ static void Update(ActorHidanSyoku* this, GlobalContext* globalCtx) {
 }
 
 static void Draw(ActorHidanSyoku* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_0600A7E0);
+    Gfx_DrawDListOpa(globalCtx, &D_0600A7E0);
 }

@@ -8,7 +8,7 @@ glabel ObjHana_Draw
 /* 001C8 80B93A28 31CF0003 */  andi    $t7, $t6, 0x0003           ## $t7 = 00000000
 /* 001CC 80B93A2C 000FC100 */  sll     $t8, $t7,  4               
 /* 001D0 80B93A30 00B82821 */  addu    $a1, $a1, $t8              
-/* 001D4 80B93A34 0C00D498 */  jal     Draw_DListOpa
+/* 001D4 80B93A34 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 001D8 80B93A38 8CA53AA4 */  lw      $a1, %lo(D_80B93AA4)($a1)  
 /* 001DC 80B93A3C 8FBF0014 */  lw      $ra, 0x0014($sp)           

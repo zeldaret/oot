@@ -56,7 +56,7 @@ glabel func_80AE1148
 /* 034C4 80AE1214 8DA40000 */  lw      $a0, 0x0000($t5)           ## 00000000
 /* 034C8 80AE1218 AFA20074 */  sw      $v0, 0x0074($sp)
 /* 034CC 80AE121C AFA8008C */  sw      $t0, 0x008C($sp)
-/* 034D0 80AE1220 0C025474 */  jal     func_800951D0
+/* 034D0 80AE1220 0C025474 */  jal     Gfx_EnvColor
 /* 034D4 80AE1224 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 034D8 80AE1228 8FA30074 */  lw      $v1, 0x0074($sp)
 /* 034DC 80AE122C 8FA8008C */  lw      $t0, 0x008C($sp)
@@ -76,7 +76,7 @@ glabel func_80AE1148
 /* 03514 80AE1264 8F240000 */  lw      $a0, 0x0000($t9)           ## 00000000
 /* 03518 80AE1268 AFA8008C */  sw      $t0, 0x008C($sp)
 /* 0351C 80AE126C AFA20070 */  sw      $v0, 0x0070($sp)
-/* 03520 80AE1270 0C025474 */  jal     func_800951D0
+/* 03520 80AE1270 0C025474 */  jal     Gfx_EnvColor
 /* 03524 80AE1274 AFAA0010 */  sw      $t2, 0x0010($sp)
 /* 03528 80AE1278 8FA30070 */  lw      $v1, 0x0070($sp)
 /* 0352C 80AE127C 8FA8008C */  lw      $t0, 0x008C($sp)
@@ -94,7 +94,7 @@ glabel func_80AE1148
 /* 0355C 80AE12AC 91050000 */  lbu     $a1, 0x0000($t0)           ## 00000000
 /* 03560 80AE12B0 8DA40000 */  lw      $a0, 0x0000($t5)           ## 00000000
 /* 03564 80AE12B4 AFA2006C */  sw      $v0, 0x006C($sp)
-/* 03568 80AE12B8 0C025474 */  jal     func_800951D0
+/* 03568 80AE12B8 0C025474 */  jal     Gfx_EnvColor
 /* 0356C 80AE12BC AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 03570 80AE12C0 8FA3006C */  lw      $v1, 0x006C($sp)
 /* 03574 80AE12C4 3C18DB06 */  lui     $t8, 0xDB06                ## $t8 = DB060000
@@ -145,7 +145,7 @@ glabel func_80AE1148
 /* 03624 80AE1374 8F240000 */  lw      $a0, 0x0000($t9)           ## 00000000
 /* 03628 80AE1378 AFA20064 */  sw      $v0, 0x0064($sp)
 /* 0362C 80AE137C AFA8008C */  sw      $t0, 0x008C($sp)
-/* 03630 80AE1380 0C025474 */  jal     func_800951D0
+/* 03630 80AE1380 0C025474 */  jal     Gfx_EnvColor
 /* 03634 80AE1384 AFAA0010 */  sw      $t2, 0x0010($sp)
 /* 03638 80AE1388 8FA30064 */  lw      $v1, 0x0064($sp)
 /* 0363C 80AE138C 8FA8008C */  lw      $t0, 0x008C($sp)
@@ -165,7 +165,7 @@ glabel func_80AE1148
 /* 03674 80AE13C4 8DA40000 */  lw      $a0, 0x0000($t5)           ## 00000000
 /* 03678 80AE13C8 AFA8008C */  sw      $t0, 0x008C($sp)
 /* 0367C 80AE13CC AFA20060 */  sw      $v0, 0x0060($sp)
-/* 03680 80AE13D0 0C025474 */  jal     func_800951D0
+/* 03680 80AE13D0 0C025474 */  jal     Gfx_EnvColor
 /* 03684 80AE13D4 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 03688 80AE13D8 8FA30060 */  lw      $v1, 0x0060($sp)
 /* 0368C 80AE13DC 8FA8008C */  lw      $t0, 0x008C($sp)
@@ -183,7 +183,7 @@ glabel func_80AE1148
 /* 036BC 80AE140C 91050000 */  lbu     $a1, 0x0000($t0)           ## 00000000
 /* 036C0 80AE1410 8D440000 */  lw      $a0, 0x0000($t2)           ## 00000000
 /* 036C4 80AE1414 AFA2005C */  sw      $v0, 0x005C($sp)
-/* 036C8 80AE1418 0C025474 */  jal     func_800951D0
+/* 036C8 80AE1418 0C025474 */  jal     Gfx_EnvColor
 /* 036CC 80AE141C AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 036D0 80AE1420 8FA3005C */  lw      $v1, 0x005C($sp)
 /* 036D4 80AE1424 3C0DDB06 */  lui     $t5, 0xDB06                ## $t5 = DB060000

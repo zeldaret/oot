@@ -469,8 +469,7 @@ static void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
     s32 pad;
     Color_RGBA8 colors[] = { { 0xFF, 0xFF, 0xC8, 0x00 }, { 0x96, 0x64, 0x32, 0x00 } };
     GraphicsContext* gfxCtx;
-    s32 pad2[2];
-    Gfx* gfxArr[2];
+    Gfx* gfxArr[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
     func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_dog.c", 972);

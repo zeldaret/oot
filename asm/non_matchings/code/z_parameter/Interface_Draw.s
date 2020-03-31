@@ -179,7 +179,7 @@ glabel Interface_Draw
 /* B01D10 8008AB70 AFAA0020 */  sw    $t2, 0x20($sp)
 /* B01D14 8008AB74 AFAB0024 */  sw    $t3, 0x24($sp)
 /* B01D18 8008AB78 24070010 */  li    $a3, 16
-/* B01D1C 8008AB7C 0C0210A6 */  jal   Draw_TextureIA8
+/* B01D1C 8008AB7C 0C0210A6 */  jal   Gfx_TextureIA8
 /* B01D20 8008AB80 24060010 */   li    $a2, 16
 /* B01D24 8008AB84 AE8202B0 */  sw    $v0, 0x2b0($s4)
 /* B01D28 8008AB88 86EC00A4 */  lh    $t4, 0xa4($s7)
@@ -239,7 +239,7 @@ glabel L8008ABB0
 /* B01DFC 8008AC5C AFAE001C */  sw    $t6, 0x1c($sp)
 /* B01E00 8008AC60 AFAC0014 */  sw    $t4, 0x14($sp)
 /* B01E04 8008AC64 AFAB0010 */  sw    $t3, 0x10($sp)
-/* B01E08 8008AC68 0C0210A6 */  jal   Draw_TextureIA8
+/* B01E08 8008AC68 0C0210A6 */  jal   Gfx_TextureIA8
 /* B01E0C 8008AC6C 24070010 */   li    $a3, 16
 /* B01E10 8008AC70 AE8202B0 */  sw    $v0, 0x2b0($s4)
 /* B01E14 8008AC74 24590008 */  addiu $t9, $v0, 8
@@ -305,7 +305,7 @@ glabel L8008ABB0
 /* B01EFC 8008AD5C AFAD0018 */  sw    $t5, 0x18($sp)
 /* B01F00 8008AD60 AFAC0014 */  sw    $t4, 0x14($sp)
 /* B01F04 8008AD64 AFAB0010 */  sw    $t3, 0x10($sp)
-/* B01F08 8008AD68 0C02112F */  jal   Draw_TextureI8
+/* B01F08 8008AD68 0C02112F */  jal   Gfx_TextureI8
 /* B01F0C 8008AD6C 032A2821 */   addu  $a1, $t9, $t2
 /* B01F10 8008AD70 AE8202B0 */  sw    $v0, 0x2b0($s4)
 /* B01F14 8008AD74 86C30238 */  lh    $v1, 0x238($s6)
@@ -328,7 +328,7 @@ glabel L8008ABB0
 /* B01F54 8008ADB4 032A2821 */  addu  $a1, $t9, $t2
 /* B01F58 8008ADB8 AFB20010 */  sw    $s2, 0x10($sp)
 /* B01F5C 8008ADBC 24060008 */  li    $a2, 8
-/* B01F60 8008ADC0 0C02112F */  jal   Draw_TextureI8
+/* B01F60 8008ADC0 0C02112F */  jal   Gfx_TextureI8
 /* B01F64 8008ADC4 24070010 */   li    $a3, 16
 /* B01F68 8008ADC8 AE8202B0 */  sw    $v0, 0x2b0($s4)
 .L8008ADCC:
@@ -482,7 +482,7 @@ glabel L8008ABB0
 /* B02188 8008AFE8 AFB90024 */  sw    $t9, 0x24($sp)
 /* B0218C 8008AFEC AFB20010 */  sw    $s2, 0x10($sp)
 /* B02190 8008AFF0 24060008 */  li    $a2, 8
-/* B02194 8008AFF4 0C02112F */  jal   Draw_TextureI8
+/* B02194 8008AFF4 0C02112F */  jal   Gfx_TextureI8
 /* B02198 8008AFF8 24070010 */   li    $a3, 16
 /* B0219C 8008AFFC 26730001 */  addiu $s3, $s3, 1
 /* B021A0 8008B000 00139C00 */  sll   $s3, $s3, 0x10
@@ -1743,7 +1743,7 @@ glabel L8008ABB0
 /* B034B4 8008C314 00021040 */  sll   $v0, $v0, 1
 /* B034B8 8008C318 3042FFFF */  andi  $v0, $v0, 0xffff
 /* B034BC 8008C31C AFA20020 */  sw    $v0, 0x20($sp)
-/* B034C0 8008C320 0C02112F */  jal   Draw_TextureI8
+/* B034C0 8008C320 0C02112F */  jal   Gfx_TextureI8
 /* B034C4 8008C324 AFA20024 */   sw    $v0, 0x24($sp)
 /* B034C8 8008C328 26310009 */  addiu $s1, $s1, 9
 /* B034CC 8008C32C 26100001 */  addiu $s0, $s0, 1
@@ -2897,7 +2897,7 @@ glabel L8008D1EC
 /* B044F8 8008D358 AFAC0020 */  sw    $t4, 0x20($sp)
 /* B044FC 8008D35C AFAB001C */  sw    $t3, 0x1c($sp)
 /* B04500 8008D360 24070010 */  li    $a3, 16
-/* B04504 8008D364 0C0210A6 */  jal   Draw_TextureIA8
+/* B04504 8008D364 0C0210A6 */  jal   Gfx_TextureIA8
 /* B04508 8008D368 AFB10010 */   sw    $s1, 0x10($sp)
 /* B0450C 8008D36C 8FA90064 */  lw    $t1, 0x64($sp)
 /* B04510 8008D370 AE8202B0 */  sw    $v0, 0x2b0($s4)
@@ -3000,7 +3000,7 @@ glabel L8008D1EC
 /* B04684 8008D4E4 AFA20024 */  sw    $v0, 0x24($sp)
 /* B04688 8008D4E8 AFA90064 */  sw    $t1, 0x64($sp)
 /* B0468C 8008D4EC 24060008 */  li    $a2, 8
-/* B04690 8008D4F0 0C02112F */  jal   Draw_TextureI8
+/* B04690 8008D4F0 0C02112F */  jal   Gfx_TextureI8
 /* B04694 8008D4F4 24070010 */   li    $a3, 16
 /* B04698 8008D4F8 26730001 */  addiu $s3, $s3, 1
 /* B0469C 8008D4FC 00139C00 */  sll   $s3, $s3, 0x10

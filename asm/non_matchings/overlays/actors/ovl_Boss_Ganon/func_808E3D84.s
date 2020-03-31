@@ -577,7 +577,7 @@ glabel func_808E3D84
 /* 0DDC8 808E4638 AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 0DDCC 808E463C AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 0DDD0 808E4640 AFA200C4 */  sw      $v0, 0x00C4($sp)           
-/* 0DDD4 808E4644 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0DDD4 808E4644 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0DDD8 808E4648 00033080 */  sll     $a2, $v1,  2               
 /* 0DDDC 808E464C 8FA800C4 */  lw      $t0, 0x00C4($sp)           
 /* 0DDE0 808E4650 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
@@ -675,7 +675,7 @@ glabel func_808E3D84
 /* 0DF48 808E47B8 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 0DF4C 808E47BC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0DF50 808E47C0 AFA200AC */  sw      $v0, 0x00AC($sp)           
-/* 0DF54 808E47C4 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0DF54 808E47C4 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0DF58 808E47C8 00033080 */  sll     $a2, $v1,  2               
 /* 0DF5C 808E47CC 8FA800AC */  lw      $t0, 0x00AC($sp)           
 /* 0DF60 808E47D0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
@@ -773,7 +773,7 @@ glabel func_808E3D84
 /* 0E0C8 808E4938 AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 0E0CC 808E493C AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 0E0D0 808E4940 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 0E0D4 808E4944 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0E0D4 808E4944 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0E0D8 808E4948 AFA20094 */  sw      $v0, 0x0094($sp)           
 /* 0E0DC 808E494C 8FA30094 */  lw      $v1, 0x0094($sp)           
 /* 0E0E0 808E4950 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
@@ -882,7 +882,7 @@ glabel func_808E3D84
 /* 0E274 808E4AE4 AFA9001C */  sw      $t1, 0x001C($sp)           
 /* 0E278 808E4AE8 AFB80020 */  sw      $t8, 0x0020($sp)           
 /* 0E27C 808E4AEC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 0E280 808E4AF0 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0E280 808E4AF0 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0E284 808E4AF4 AFA2007C */  sw      $v0, 0x007C($sp)           
 /* 0E288 808E4AF8 8FA8007C */  lw      $t0, 0x007C($sp)           
 /* 0E28C 808E4AFC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000

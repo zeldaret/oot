@@ -291,5 +291,5 @@ void EnTuboTrap_Update(EnTuboTrap* this, GlobalContext* globalCtx) {
 }
 
 void EnTuboTrap_Draw(EnTuboTrap* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, D_05017870);
+    Gfx_DrawDListOpa(globalCtx, D_05017870);
 }
