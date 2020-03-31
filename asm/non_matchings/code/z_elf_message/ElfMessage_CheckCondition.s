@@ -91,7 +91,7 @@ glabel jtbl_8013B8C8
     .word L8006BE10
 
 .text
-glabel func_8006BBC0
+glabel ElfMessage_CheckCondition
 /* AE2D60 8006BBC0 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AE2D64 8006BBC4 AFBF0014 */  sw    $ra, 0x14($sp)
 /* AE2D68 8006BBC8 90850000 */  lbu   $a1, ($a0)
