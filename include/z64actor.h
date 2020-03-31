@@ -318,8 +318,7 @@ typedef struct
 } ColliderCylinderInit; // size = 0x2C
 
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ ColliderInit_Actor body;
     /* 0x08 */ ColliderBodyInit inner;
     /* 0x20 */ ColliderCylinderDim dim;
@@ -348,8 +347,7 @@ typedef struct {
     /* 0x18 */ ColliderJntSphItemDimInit dim;
 } ColliderJntSphItemInit; // size = 0x24
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ Collider base;
     /* 0x18 */ s32 count;
     /* 0x1C */ ColliderJntSphItem* list;
@@ -387,19 +385,24 @@ typedef struct {
     /* 0x18 */ ColliderTriItemDimInit dim;
 } ColliderTriItemInit; //size 0x3C
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ Collider base;
     /* 0x18 */ s32 count;
     /* 0x1C */ ColliderTriItem* list;
 } ColliderTris; //size = 0x20
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ ColliderInit body;
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderTriItemInit* list;
 } ColliderTrisInit;
+
+typedef struct {
+    /* 0x00 */ Vec3f quad[4];
+    /* 0x30 */ Vec3s max; //bounding box max
+    /* 0x36 */ Vec3s min; //bounding box min
+    /* 0x3C */ s32 unk3C;
+} ColliderQuadDim;
 
 typedef struct
 {
