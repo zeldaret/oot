@@ -238,7 +238,7 @@ void ArrowFire_Draw(ArrowFire* this, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfxCtx->polyXlu.p++, textureDL);
         gSPDisplayList(gfxCtx->polyXlu.p++,
-                       Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 255 - (stateFrames * 2) % 256, 0, 64, 32, 1,
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 255 - (stateFrames * 2) % 256, 0, 64, 32, 1,
                                          255 - stateFrames % 256, 511 - (stateFrames * 10) % 512, 64, 64));
         gSPDisplayList(gfxCtx->polyXlu.p++, vertexDL);
         func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_fire.c", 682);

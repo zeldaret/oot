@@ -238,7 +238,7 @@ void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfxCtx->polyXlu.p++, textureDL);
         gSPDisplayList(gfxCtx->polyXlu.p++,
-                       Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 128, 32, 1,
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 128, 32, 1,
                                          511 - (stateFrames * 10) % 512, 511 - (stateFrames * 10) % 512, 4, 16));
         gSPDisplayList(gfxCtx->polyXlu.p++, vertexDL);
         func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 676);
