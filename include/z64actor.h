@@ -401,7 +401,7 @@ typedef struct {
     /* 0x00 */ Vec3f quad[4];
     /* 0x30 */ Vec3s max; //bounding box max
     /* 0x36 */ Vec3s min; //bounding box min
-    /* 0x3C */ s32 unk3C;
+    /* 0x3C */ f32 unk3C;
 } ColliderQuadDim;
 
 typedef struct

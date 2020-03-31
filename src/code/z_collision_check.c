@@ -834,11 +834,17 @@ s32 func_8005CE6C(GlobalContext* globalCtx, ColliderQuadDim* dim) {
     return 1;
 }
 
+//Destruct ColliderQuadDim
 s32 func_8005CEB4(GlobalContext* globalCtx, ColliderQuadDim* dim) {
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CEC4.s")
+//Set ColliderQuadDim unk3C
+s32 func_8005CEC4(GlobalContext* globalCtx, ColliderQuadDim* dim) {
+    dim->unk3C = 1.0E38f;
+    return 1;
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CEDC.s")
 
