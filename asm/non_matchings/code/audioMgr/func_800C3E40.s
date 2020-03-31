@@ -1,3 +1,10 @@
+.rdata
+glabel D_80144C80
+    # EUC-JP: オーディオマネージャが OS_SC_PRE_NMI_MSG を受け取りました | Audio manager received OS_SC_PRE_NMI_MSG
+    .asciz "オーディオマネージャが OS_SC_PRE_NMI_MSG を受け取りました\n"
+    .balign 4
+
+.text
 glabel func_800C3E40
 /* B3AFE0 800C3E40 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B3AFE4 800C3E44 AFA40018 */  sw    $a0, 0x18($sp)
