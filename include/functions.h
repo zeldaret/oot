@@ -756,8 +756,8 @@ s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, SubGlobalContext11E60* 
 // ? func_80061C98(?);
 // ? func_80061E48(?);
 // ? func_80061E8C(?);
-void func_80061ED4(SubActorStruct98* sub98, ActorDamageChart* damageChart, SubActor98Init* subActor98Init);
-void func_80061EFC(SubActorStruct98* sub98, ActorDamageChart* damageChart, SubActor98Init* subActor98Init);
+void func_80061ED4(SubActorStruct98* sub98, ActorDamageChart* damageChart, Sub98Init4* sub98Init);
+void func_80061EFC(SubActorStruct98* sub98, ActorDamageChart* damageChart, Sub98Init4* sub98Init);
 // ? func_80061F64(?);
 // ? func_800622E4(?);
 // ? func_80062530(?);
