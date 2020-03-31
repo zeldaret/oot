@@ -404,6 +404,16 @@ typedef struct {
     /* 0x3C */ f32 unk3C;
 } ColliderQuadDim;
 
+typedef struct {
+    /* 0x00 */ Vec3f quad[4];
+} ColliderQuadDimInit;
+
+typedef struct {
+    /* 0x00 */ Collider base;
+    /* 0x18 */ ColliderBody body;
+    /* 0x40 */ ColliderQuadDim dim;
+} ColliderQuad;
+
 typedef struct
 {
     /* 0x00 */ Actor* actor;

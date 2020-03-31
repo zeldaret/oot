@@ -845,7 +845,7 @@ s32 func_8005CEC4(GlobalContext* globalCtx, ColliderQuadDim* dim) {
     return 1;
 }
 
-
+//ColliderQuadDim compute ?
 void func_8005CEDC(ColliderQuadDim* dim) {
     dim->max.x = (dim->quad[3].x + dim->quad[2].x) * 0.5f;
     dim->max.y = (dim->quad[3].y + dim->quad[2].y) * 0.5f;
@@ -855,10 +855,18 @@ void func_8005CEDC(ColliderQuadDim* dim) {
     dim->min.z = (dim->quad[1].z + dim->quad[0].z) * 0.5f;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CF90.s")
+//SetInit ColliderQuadDim
+s32 func_8005CF90(GlobalContext* globalCtx, ColliderQuadDim* dest, ColliderQuadDimInit* src) {
+    dest->quad[0] = src->quad[0];
+    dest->quad[1] = src->quad[1];
+    dest->quad[2] = src->quad[2];
+    dest->quad[3] = src->quad[3];
+    func_8005CEDC(dest);
+    return 1;
+}
 
-//Init Quad
-s32 func_8005D018(GlobalContext* globalCtx, ColliderCylinderMain* collision)
+//Initialize ColliderQuad
+s32 func_8005D018(GlobalContext* globalCtx, ColliderQuad* collision)
 {
     func_8005B65C(globalCtx, &collision->base);
     func_8005B884(globalCtx, &collision->body);
@@ -867,8 +875,8 @@ s32 func_8005D018(GlobalContext* globalCtx, ColliderCylinderMain* collision)
 }
 
 
-//Destruct Cylinder?
-s32 func_8005D060(GlobalContext* globalCtx, ColliderCylinderMain* collision)
+//Destruct ColliderQuad
+s32 func_8005D060(GlobalContext* globalCtx, ColliderQuad* collision)
 {
     func_8005B6A0(globalCtx, &collision->base);
     func_8005B904(globalCtx, &collision->body);
