@@ -2,6 +2,8 @@
 #include <global.h>
 #include <vt.h>
 
+#define ONE_THIRD (1.0f / 3.0f)
+
 s32 func_800A3D70(GlobalContext*, SkelAnime*);
 s32 func_800A3E0C(GlobalContext*, SkelAnime*);
 s32 func_800A4D9C(SkelAnime* skelAnime);
@@ -1388,7 +1390,7 @@ s32 func_800A4A20(SkelAnime* skelAnime) {
     f32 updateRate;
 
     prevUnk28 = skelAnime->transCurrentFrame;
-    updateRate = R_UPDATE_RATE * 0.33333334f;
+    updateRate = R_UPDATE_RATE * ONE_THIRD;
     skelAnime->transCurrentFrame -= skelAnime->transitionStep * updateRate;
     if (skelAnime->transCurrentFrame <= 0.0f) {
         func_800A49B0(skelAnime);
@@ -1407,7 +1409,7 @@ s32 func_800A4AD8(SkelAnime* skelAnime) {
     f32 updateRate;
 
     temp_a2 = (s16)(skelAnime->transCurrentFrame * 16384.0f);
-    updateRate = R_UPDATE_RATE * 0.33333334f;
+    updateRate = R_UPDATE_RATE * ONE_THIRD;
     skelAnime->transCurrentFrame -= skelAnime->transitionStep * updateRate;
     if (skelAnime->transCurrentFrame <= 0.0f) {
         func_800A49B0(skelAnime);
@@ -1443,7 +1445,7 @@ void func_800A4C58(SkelAnime* skelAnime) {
 
     SkelAnime_AnimateFrame(skelAnime->animCurrentSeg, skelAnime->animCurrentFrame, skelAnime->limbCount,
                            skelAnime->actorDrawTbl);
-    if (skelAnime->unk_01 & 0x1) {
+    if (skelAnime->mode & 0x1) {
         temp_f8 = (s32)skelAnime->animCurrentFrame;
         temp_f10 = temp_f8;
         temp_f8++;
@@ -1455,7 +1457,7 @@ void func_800A4C58(SkelAnime* skelAnime) {
         SkelAnime_InterpolateRotation(skelAnime->limbCount, skelAnime->actorDrawTbl, skelAnime->actorDrawTbl, sp38, temp_f2);
     }
     if (skelAnime->transCurrentFrame != 0) {
-        skelAnime->transCurrentFrame -= skelAnime->transitionStep * (R_UPDATE_RATE * 0.33333334f);
+        skelAnime->transCurrentFrame -= skelAnime->transitionStep * (R_UPDATE_RATE * ONE_THIRD);
         temp_f0 = skelAnime->transCurrentFrame;
         if (temp_f0 <= 0.0f) {
             skelAnime->transCurrentFrame = 0.0f;
@@ -1470,7 +1472,7 @@ void func_800A4C58(SkelAnime* skelAnime) {
 #endif
 
 s32 func_800A4D9C(SkelAnime* skelAnime) {
-    f32 updateRate = R_UPDATE_RATE * 0.33333334f;
+    f32 updateRate = R_UPDATE_RATE * ONE_THIRD;
     skelAnime->animCurrentFrame += skelAnime->animPlaybackSpeed * updateRate;
     if (skelAnime->animCurrentFrame < 0.0f) {
         skelAnime->animCurrentFrame += skelAnime->totalFrames;
@@ -1482,7 +1484,7 @@ s32 func_800A4D9C(SkelAnime* skelAnime) {
 }
 
 s32 func_800A4E38(SkelAnime* skelAnime) {
-    f32 updateRate = R_UPDATE_RATE * 0.33333334f;
+    f32 updateRate = R_UPDATE_RATE * ONE_THIRD;
     skelAnime->animCurrentFrame += skelAnime->animPlaybackSpeed * updateRate;
     if (skelAnime->animCurrentFrame < skelAnime->initialFrame) {
         skelAnime->animCurrentFrame = (skelAnime->animCurrentFrame - skelAnime->initialFrame) + skelAnime->animFrameCount;
@@ -1497,7 +1499,7 @@ s32 func_800A4E38(SkelAnime* skelAnime) {
 s32 func_800A4EE0(SkelAnime* skelAnime) {
     f32 temp_f14;
 
-    temp_f14 = R_UPDATE_RATE * 0.33333334f;
+    temp_f14 = R_UPDATE_RATE * ONE_THIRD;
     if (skelAnime->animCurrentFrame == skelAnime->animFrameCount) {
 
         SkelAnime_AnimateFrame(skelAnime->animCurrentSeg, (s32)skelAnime->animCurrentFrame, skelAnime->limbCount,
