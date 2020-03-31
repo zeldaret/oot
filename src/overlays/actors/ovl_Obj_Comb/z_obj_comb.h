@@ -6,7 +6,15 @@
 
 typedef struct {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x68];
+    /* 0x014C */ ActorFunc actionFunc;
+    /* 0x0150 */ char unk_150[0x11];
+    /* 0x0161 */ u8 unk_161;
+    /* 0x0162 */ char unk_162[0xA];
+    /* 0x016C */ ColliderBody* colliderBody;
+    /* 0x0170 */ char unk_170[0x2C];
+    /* 0x019C */ char unk_19C[0x14];
+    /* 0x01B0 */ s16 unk_1B0;
+    /* 0x01B2 */ s16 unk_1B2;
 } ObjComb; // size = 0x01B4
 
 extern const ActorInit Obj_Comb_InitVars;
