@@ -47,7 +47,7 @@ void ArrowLight_Init(ArrowLight* this, GlobalContext* globalCtx) {
     this->radius = 0;
     this->unk_160 = 1.0f;
     ArrowLight_SetupAction(this, ArrowLight_Charge);
-    Actor_SetScale(&this->actor, 0.01);
+    Actor_SetScale(&this->actor, 0.01f);
     this->alpha = 0x82;
     this->timer = 0;
     this->unk_164 = 0.0f;
@@ -105,7 +105,7 @@ void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx) {
             scale = 310.0f;
         } else {
             scale = this->actor.unk_F0;
-            scale = ((scale - 50.0f) * 0.33333334f) + 10.0f;
+            scale = ((scale - 50.0f) * (1.0f / 3.0f)) + 10.0f;
         }
     }
 
@@ -114,7 +114,7 @@ void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx) {
         this->timer -= 1;
 
         if (this->timer >= 8) {
-            offset = ((this->timer - 8) * 0.041666668f);
+            offset = ((this->timer - 8) * (1.0f / 24.0f));
             offset = SQ(offset);
             this->radius = (((1.0f - offset) * scale) + 10.0f);
             this->unk_160 += ((2.0f - this->unk_160) * 0.1f);
@@ -158,7 +158,7 @@ void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
     // copy position and rotation from the attached arrow
     this->actor.posRot.pos = arrow->actor.posRot.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
-    distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.posRot.pos) * 0.041666668f;
+    distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.posRot.pos) * (1.0f / 24.0f);
     this->unk_160 = distanceScaled;
     if (distanceScaled < 1.0f) {
         this->unk_160 = 1.0f;
@@ -167,7 +167,7 @@ void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
 
     if (arrow->hitWall & 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_LIGHT);
-        ArrowLight_SetupAction(this, &ArrowLight_Hit);
+        ArrowLight_SetupAction(this, ArrowLight_Hit);
         this->timer = 32;
         this->alpha = 0xFF;
     } else if (arrow->timer < 34) {
