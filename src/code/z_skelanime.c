@@ -15,7 +15,7 @@ void SkelAnime_AnimationType2Loaded(GlobalContext* globalCtx, AnimationEntryType
 void SkelAnime_AnimationType3Loaded(GlobalContext* globalCtx, AnimationEntryType3* entry);
 void SkelAnime_AnimationType4Loaded(GlobalContext* globalCtx, AnimationEntryType4* entry);
 void SkelAnime_AnimationType5Loaded(GlobalContext* globalCtx, AnimationEntryType5* entry);
-#define NON_MATCHING
+//#define NON_MATCHING
 //.data
 u32 D_8012A480 = 0;
 static AnimationEntryCallback sAnimationLoadDone[] = {
@@ -149,7 +149,7 @@ void SkelAnime_LodDrawLimbSV(GlobalContext* globalCtx, s32 limbIndex, Skeleton* 
     Vec3f pos;
     Vec3s rot;
     GraphicsContext* gfxCtx;
-    Gfx* gfx[3];
+    Gfx* gfx[4];
 
     Matrix_Push();
 
@@ -381,7 +381,7 @@ void SkelAnime_DrawLimbSV(GlobalContext* globalCtx, s32 limbIndex, Skeleton* ske
     Vec3f pos;
     Vec3s rot;
     GraphicsContext* gfxCtx;
-    Gfx* gfx[3];
+    Gfx* gfx[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
     func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1214);
@@ -1057,7 +1057,7 @@ void SkelAnime_InitLinkAnimetion(GlobalContext* globalCtx, SkelAnime* skelAnime,
 }
 
 void func_800A3B8C(SkelAnime* skelAnime) {
-    if (skelAnime->unk_01 < 2) {
+    if (skelAnime->mode < 2) {
         skelAnime->animUpdate = &func_800A3D70;
     } else {
         skelAnime->animUpdate = &func_800A3E0C;
@@ -1142,9 +1142,9 @@ void func_800A3EE8(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 transitio
 
 void SkelAnime_LinkChangeAnimation(GlobalContext* globalCtx, SkelAnime* skelAnime,
                                    LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed, f32 frame,
-                                   f32 frameCount, u8 arg6, f32 transitionRate) {
+                                   f32 frameCount, u8 animationMode, f32 transitionRate) {
 
-    skelAnime->unk_01 = arg6;
+    skelAnime->mode = animationMode;
     if ((transitionRate != 0.0f) &&
         ((linkAnimetionEntrySeg != skelAnime->linkAnimetionSeg) || (frame != skelAnime->animCurrentFrame))) {
         if (transitionRate < 0) {
@@ -1244,7 +1244,7 @@ void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetion
 }
 
 void func_800A4454(SkelAnime* skelAnime) {
-    skelAnime->unk_01 = 2;
+    skelAnime->mode = 2;
     func_800A3B8C(skelAnime);
 }
 
@@ -1370,9 +1370,9 @@ void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, Skeleton
 }
 
 void func_800A49B0(SkelAnime* skelAnime) {
-    if (skelAnime->unk_01 < 2) {
+    if (skelAnime->mode < 2) {
         skelAnime->animUpdate = &func_800A4D9C;
-    } else if (skelAnime->unk_01 < 4) {
+    } else if (skelAnime->mode < 4) {
         skelAnime->animUpdate = &func_800A4EE0;
     } else {
         skelAnime->animUpdate = &func_800A4E38;
@@ -1522,8 +1522,8 @@ s32 func_800A4EE0(SkelAnime* skelAnime) {
 }
 
 void SkelAnime_ChangeAnimationImpl(SkelAnime* skelAnime, AnimationHeader* animationSeg, f32 playbackSpeed, f32 frame,
-                                   f32 frameCount, u8 unk1, f32 transitionRate, s8 unk2) {
-    skelAnime->unk_01 = unk1;
+                                   f32 frameCount, u8 animationType, f32 transitionRate, s8 unk2) {
+    skelAnime->mode = animationType;
     if ((transitionRate != 0.0f) &&
         ((animationSeg != skelAnime->animCurrentSeg) || (frame != skelAnime->animCurrentFrame))) {
         if (transitionRate < 0) {
@@ -1551,11 +1551,11 @@ void SkelAnime_ChangeAnimationImpl(SkelAnime* skelAnime, AnimationHeader* animat
     skelAnime->initialFrame = frame;
     skelAnime->animFrameCount = frameCount;
     skelAnime->totalFrames = SkelAnime_GetTotalFrames(&animationSeg->genericHeader);
-    if (skelAnime->unk_01 >= 4) {
+    if (skelAnime->mode >= 4) {
         skelAnime->animCurrentFrame = 0.0f;
     } else {
         skelAnime->animCurrentFrame = frame;
-        if (skelAnime->unk_01 < 2) {
+        if (skelAnime->mode < 2) {
             skelAnime->animFrameCount = skelAnime->totalFrames - 1.0f;
         }
     }
@@ -1597,7 +1597,7 @@ void SkelAnime_ChangeAnimationPlaybackSpeed(SkelAnime* skelAnime, AnimationHeade
 }
 
 void func_800A53DC(SkelAnime* skelAnime) {
-    skelAnime->unk_01 = 2;
+    skelAnime->mode = 2;
     skelAnime->animFrameCount = skelAnime->totalFrames;
     func_800A49B0(skelAnime);
 }

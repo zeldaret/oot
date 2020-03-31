@@ -140,7 +140,11 @@ typedef struct {
 
 struct SkelAnime {
     /* 0x00 */ u8 limbCount; // joint_Num
-    /* 0x01 */ u8 unk_01; // state? 00 = loop 02 = don't loop ?
+    /* modes 0 and 1 repeat the animation indefinitely
+     * modes 2 and 3 play the animaton once then stop
+     * modes >= 4 play the animation once, and always start at frame 0.
+    */
+    /* 0x01 */ u8 mode;
     /* 0x02 */ u8 dListCount;
     /* 0x03 */ s8 unk_03;
     /* 0x04 */ Skeleton* skeleton;
@@ -151,8 +155,8 @@ struct SkelAnime {
         GenericAnimationHeader* genericSeg;
     };
     /* 0x0C */ f32 initialFrame;
-    /* 0x10 */ f32 animFrameCount; // ending frame?
-    /* 0x14 */ f32 totalFrames; // Loop frame?
+    /* 0x10 */ f32 animFrameCount;
+    /* 0x14 */ f32 totalFrames;
     /* 0x18 */ f32 animCurrentFrame;
     /* 0x1C */ f32 animPlaybackSpeed;
     /* 0x20 */ Vec3s* actorDrawTbl; // now_joint
