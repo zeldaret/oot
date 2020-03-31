@@ -795,10 +795,37 @@ s32 func_8005CC98(GlobalContext* globalCtx, ColliderTris* collider) {
     return 1;
 }
 
+//Set ColliderTris collider body property
+s32 func_8005CD34(GlobalContext* globalCtx, ColliderTris* collider) {
+    ColliderTriItem* next;
+    ColliderTris* col = collider;
+    GlobalContext* gctx = globalCtx;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CD34.s")
+    func_8005B784(gctx, &col->base);
+    next = col->list;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CDD0.s")
+    while (next < col->list + col->count) {
+        func_8005C798(gctx, next);
+        next++;
+    }
+    return 1;
+}
+
+//Set ColliderTris collider body property
+s32 func_8005CDD0(GlobalContext* globalCtx, ColliderTris* collider) {
+    ColliderTriItem* next;
+    ColliderTris* col = collider;
+    GlobalContext* gctx = globalCtx;
+
+    func_8005B79C(gctx, &col->base);
+    next = col->list;
+
+    while (next < col->list + col->count) {
+        func_8005C7BC(gctx, next);
+        next++;
+    }
+    return 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CE6C.s")
 
