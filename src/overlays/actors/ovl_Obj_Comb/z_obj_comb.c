@@ -15,9 +15,9 @@ void ObjComb_Update(ObjComb* this, GlobalContext* globalCtx);
 void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx);
 
 void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx);
-void func_80B91E4C(ObjComb* this, GlobalContext* globalCtx);
-void func_80B91FB0(ObjComb* this);
-void func_80B91FC0(ObjComb* this, GlobalContext* globalCtx);
+void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx);
+void ObjComb_SetWait(ObjComb* this);
+void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Comb_InitVars = {
     ACTOR_OBJ_COMB,
@@ -43,7 +43,7 @@ UNK_TYPE D_80B92304[] = {
     &D_80B922E0,
 };
 
-InitChainEntry initChain[] = {
+static InitChainEntry initChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 1100, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 100, ICHAIN_CONTINUE),
@@ -59,21 +59,21 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     Vec3f pos2;
     Gfx** dlist = &D_05009940;
     s16 scale;
-    s16 phi_s2 = 0;
+    s16 angle = 0;
     s16 gravityInfluence;
-    char u0;
-    char rotSpeed;
+    u8 u0;
+    u8 rotSpeed;
     f32 rand1;
     f32 rand2;
     s32 i;
 
     for (i = 0; i < 31; i++) {
-        phi_s2 += 20000;
+        angle += 20000;
         rand1 = Math_Rand_ZeroOne() * 10.0f;
 
-        pos1.x = Math_Sins(phi_s2) * rand1;
+        pos1.x = Math_Sins(angle) * rand1;
         pos1.y = (i - 15) * 0.7f;
-        pos1.z = Math_Coss(phi_s2) * rand1;
+        pos1.z = Math_Coss(angle) * rand1;
 
         Math_Vec3f_Sum(&pos1, &this->actor.posRot.pos, &posSum);
 
@@ -111,12 +111,12 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     func_80033480(globalCtx, &posSum, 40.0f, 6, 70, 60, 1);
 }
 
-void func_80B91E4C(ObjComb* this, GlobalContext* globalCtx) {
+void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params & 0x1F;
 
     if ((params > 0) || (params < 0x1A)) {
         if (params == 6) {
-            if (Flags_GetCollectible(globalCtx, (this->actor.params >> 8) & 0x3F) != 0) {
+            if (Flags_GetCollectible(globalCtx, (this->actor.params >> 8) & 0x3F)) {
                 params = -1;
             } else {
                 params = (params | (((this->actor.params >> 8) & 0x3F) << 8));
@@ -135,20 +135,20 @@ void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, &initChain);
     func_8005BBF8(globalCtx, &this->collider);
-    func_8005C050(globalCtx, &this->collider, this, &D_80B92304, &this->unk_170);
-    func_80B91FB0(this);
+    func_8005C050(globalCtx, &this->collider, this, &D_80B92304, &this->colliderBody);
+    ObjComb_SetWait(this);
 }
 
 void ObjComb_Destroy(ObjComb* this, GlobalContext* globalCtx) {
     func_8005BCC8(globalCtx, &this->collider);
 }
 
-void func_80B91FB0(ObjComb* this) {
-    this->actionFunc = func_80B91FC0;
+void ObjComb_SetWait(ObjComb* this) {
+    this->actionFunc = ObjComb_Wait;
 }
 
-void func_80B91FC0(ObjComb* this, GlobalContext* globalCtx) {
-    s32 flags;
+void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
+    s32 toucherFlags;
 
     this->unk_1B0 -= 50;
     if (this->unk_1B0 < 0) {
@@ -157,12 +157,12 @@ void func_80B91FC0(ObjComb* this, GlobalContext* globalCtx) {
 
     if ((this->collider.collideFlags & 0x2) != 0) {
         this->collider.collideFlags &= ~0x2;
-        flags = this->colliderBody->colliding->toucher.flags;
-        if (flags & 0x4001F866) {
+        toucherFlags = this->colliderBodyPtr->colliding->toucher.flags;
+        if (toucherFlags & 0x4001F866) {
             this->unk_1B0 = 1500;
         } else {
             ObjComb_Break(this, globalCtx);
-            func_80B91E4C(this, globalCtx);
+            ObjComb_ChooseItemDrop(this, globalCtx);
             Actor_Kill(this);
         }
     } else {
