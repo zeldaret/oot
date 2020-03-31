@@ -4,10 +4,18 @@ import sys
 import struct
 import hashlib
 
-# Read in the original ROM
+
+# Determine if we have a ROM file
+romFileName = ""
 if (path.exists("baserom_original.z64")):
-    print("File 'baserom_original.z64' found.")
-    with open("baserom_original.z64", mode='rb') as file:
+    romFileName = "baserom_original.z64"
+elif (path.exists("baserom_original.n64")):
+    romFileName = "baserom_original.n64"
+
+# Read in the original ROM
+if (romFileName != ""):
+    print("File '" + romFileName + "' found.")
+    with open(romFileName, mode='rb') as file:
         fileContent = bytearray(file.read())
 
         # Check if ROM needs to be byte swapped
@@ -28,9 +36,9 @@ if (path.exists("baserom_original.z64")):
         
             print("Byte swapping done.")
 else:
-    print("Error: Could not find baserom_original.z64.")
+    print("Error: Could not find baserom_original.z64/baserom_original.n64.")
     sys.exit(1)
-
+    
 # Strip the overdump
 print("Stripping overdump...")
 strippedContent = list(fileContent[0:0x3600000])
