@@ -7,45 +7,6 @@
 
 .section .data
 
-glabel D_8011DE00
-    .incbin "baserom.z64", 0xB94FA0, 0x18
-
-glabel D_8011DE18
-    .incbin "baserom.z64", 0xB94FB8, 0x8
-
-glabel D_8011DE20
-    .incbin "baserom.z64", 0xB94FC0, 0xC
-
-glabel D_8011DE2C
-    .incbin "baserom.z64", 0xB94FCC, 0x28
-
-glabel D_8011DE54
-    .incbin "baserom.z64", 0xB94FF4, 0x18
-
-glabel D_8011DE6C
-    .incbin "baserom.z64", 0xB9500C, 0xC
-
-glabel D_8011DE78
-    .incbin "baserom.z64", 0xB95018, 0x34
-
-glabel D_8011DEAC
-    .incbin "baserom.z64", 0xB9504C, 0x40
-
-glabel D_8011DEEC
-    .incbin "baserom.z64", 0xB9508C, 0xC
-
-glabel D_8011DEF8
-    .incbin "baserom.z64", 0xB95098, 0x10
-
-glabel D_8011DF08
-    .incbin "baserom.z64", 0xB950A8, 0x10
-
-glabel D_8011DF18
-    .incbin "baserom.z64", 0xB950B8, 0x10
-
-glabel D_8011DF28
-    .incbin "baserom.z64", 0xB950C8, 0x18
-
 glabel D_8011DF40
     .incbin "baserom.z64", 0xB950E0, 0x1
 

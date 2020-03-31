@@ -12,12 +12,11 @@ void func_8005B280(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC)
 //draw poly
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B2AC.s")
 
-extern Collider D_8011DE00;
-
 //Init Collider
 s32 func_8005B65C(GlobalContext* globalCtx, Collider* collision)
 {
-    *collision = D_8011DE00;
+    static Collider init = { NULL, NULL, NULL, NULL, 0, 0, 0, 0, 3, 4 };
+    *collision = init;
     return 1;
 }
 
@@ -87,11 +86,10 @@ void func_8005B79C(GlobalContext* globalCtx, Collider* collision)
     collision->maskB &= ~0x1;
 }
 
-extern ColliderTouch D_8011DE18;
-
 //Initialize ColliderTouch
 s32 func_8005B7C0(GlobalContext* globalCtx, ColliderTouch* touch) { 
-    *touch = D_8011DE18;
+    static ColliderTouch init = { 0, 0, 0 };
+    *touch = init;
     return 1;
 }
 
@@ -115,12 +113,11 @@ void func_8005B818(GlobalContext* globalCtx, ColliderBody* body)
 
 }
 
-extern ColliderBump D_8011DE20;
-
 //Initialize ColliderBump
 s32 func_8005B824(GlobalContext* globalCtx, ColliderBump* bump)
 {
-    *bump = D_8011DE20;
+    static ColliderBump init = { (s32)0xFFCFFFFF, 0, 0, 0, 0, 0 };
+    *bump = init;
     return 1;
 }
 
@@ -139,11 +136,14 @@ s32 func_8005B860(GlobalContext* globalCtx, ColliderBump* bump, ColliderBumpInit
     return 1;
 }
 
-extern ColliderBody D_8011DE2C;
-
 //Initialize ColliderBody
 s32 func_8005B884(GlobalContext* globalCtx, ColliderBody* body) {
-    *body = D_8011DE2C;
+    static ColliderBody init = {
+        { 0, 0, 0 },
+        { (s32)0xFFCFFFFF, 0, 0, 0, 0, 0 },
+        0, 0, 0, 0, 0, NULL, 0, NULL,
+    };
+    *body = init;
     func_8005B7C0(globalCtx, &body->toucher);
     func_8005B824(globalCtx, &body->bumper);
     return 1;
@@ -194,11 +194,10 @@ void func_8005BA1C(GlobalContext* globalCtx, ColliderBody* body)
     body->flags2 &= ~0x2;
 }
 
-extern ColliderJntSphItemDim D_8011DE54;
-
 //initialize JntSphItemDim
 s32 func_8005BA30(GlobalContext* globalCtx, ColliderJntSphItemDim* dim) {
-    *dim = D_8011DE54;
+    static ColliderJntSphItemDim init = { 0 };
+    *dim = init;
     return 1;
 }
 
@@ -242,21 +241,18 @@ s32 func_8005BB48(GlobalContext* globalCtx, ColliderJntSphItem* dest, ColliderJn
 }
 
 //Set CollisionBody Property
-//arg1 could be wrong type
 s32 func_8005BB8C(GlobalContext* globalCtx, ColliderJntSphItem* collider) {
     func_8005B9B0(globalCtx, &collider->body);
     return 1;
 }
 
 //Set CollisionBody Property
-//TODO: arg1 could be wrong type
 s32 func_8005BBB0(GlobalContext* globalCtx, ColliderJntSphItem* collider) {
     func_8005B9E8(globalCtx, &collider->body);
     return 1;
 }
 
 //Set CollisionBody Property
-//arg1 could be wrong type
 s32 func_8005BBD4(GlobalContext* globalCtx, ColliderJntSphItem* collider) {
     func_8005BA1C(globalCtx, &collider->body);
     return 1;
@@ -269,6 +265,7 @@ s32 func_8005BBF8(GlobalContext* globalCtx, ColliderJntSph* collision) {
     collision->list = NULL;
     return 1;
 }
+
 //Destruct ColliderJntSph (malloc)
 s32 func_8005BC28(GlobalContext* globalCtx, ColliderJntSph* collider) {
     ColliderJntSphItem* next;
@@ -473,19 +470,12 @@ s32 func_8005C234(GlobalContext* globalCtx, ColliderJntSph* collider) {
     return 1;
 }
 
-#ifdef NON_MATCHING
 //Initialize ColliderCylinderDim
-//matching, but needs data section imported
 s32 func_8005C2BC(GlobalContext* globalCtx, ColliderCylinderDim* dim) {
-    ColliderCylinderDim init = { 0, 0, 0, 0, 0, 0 }; //TODO: this is D_8011DE6C;
+    ColliderCylinderDim init = { }; 
     *dim = init;
     return 1;
 }
-#else
-//Initialize ColliderCylinderDim
-s32 func_8005C2BC(GlobalContext* globalCtx, ColliderCylinderDim* dim);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005C2BC.s")
-#endif // NON_MATCHING
 
 //Destruct ColliderCylinderDim
 s32 func_8005C318(GlobalContext* globalCtx, ColliderCylinderDim* dim)
@@ -569,12 +559,11 @@ s32 func_8005C578(GlobalContext* globalCtx, ColliderCylinder* collision)
     return 1;
 }
 
-extern ColliderTrisItemDim D_8011DE78;
-
 //Initialize ColliderTrisItemDim
 s32 func_8005C5B0(GlobalContext* globalCtx, ColliderTrisItemDim* dim)
 {
-    *dim = D_8011DE78;
+    static ColliderTrisItemDim init = { 0 };
+    *dim = init;
     return 1;
 }
 
@@ -628,7 +617,6 @@ s32 func_8005C730(GlobalContext* globalCtx, ColliderTrisItem* dest, ColliderTris
     func_8005C608(globalCtx, &dest->dim, &src->dim);
     return 1;
 }
-
 
 s32 func_8005C774(GlobalContext* globalCtx, ColliderTrisItem* item) {
     func_8005B9B0(globalCtx, &item->body);
@@ -747,7 +735,6 @@ s32 func_8005CA88(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, Co
     return 1;
 }
 
-
 //SetInit ColliderTris
 s32 func_8005CBAC(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src, ColliderTrisItem* list) {
     ColliderTrisItem* destNext;
@@ -773,7 +760,6 @@ s32 func_8005CBAC(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, Co
     }
     return 1;
 }
-
 
 //Set ColliderTris collider body property
 s32 func_8005CC98(GlobalContext* globalCtx, ColliderTris* collider) {
@@ -823,10 +809,13 @@ s32 func_8005CDD0(GlobalContext* globalCtx, ColliderTris* collider) {
     return 1;
 }
 
-extern ColliderQuadDim D_8011DEAC;
 //Initialize ColliderQuadDim
 s32 func_8005CE6C(GlobalContext* globalCtx, ColliderQuadDim* dim) {
-    *dim = D_8011DEAC;
+    static ColliderQuadDim init = {
+        { {0, 0, 0}, {0, 0, 0}, {0, 0, 0}, {0, 0, 0} },
+        {0, 0, 0}, {0, 0, 0}, 1.0E38f,
+    };
+    *dim = init;
     return 1;
 }
 
@@ -922,6 +911,11 @@ s32 func_8005D1E0(GlobalContext* globalCtx, ColliderQuad* collision)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D218.s")
 
+u32 D_8011DEF8[] = { 0x8005C124, 0x8005C508, 0x8005CC98, 0x8005D160 };
+u32 D_8011DF08[] = { 0x8005C1AC, 0x8005C540, 0x8005CD34, 0x8005D1A8 };
+u32 D_8011DF18[] = { 0x8005C234, 0x8005C578, 0x8005CDD0, 0x8005D1E0 };
+u32 D_8011DF28[] = { 0x8005DF9C, 0x8005DFAC, 0x8005E10C, 0x8005E26C, 0x8005E2A4, 0x8005E2C8 };
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D334.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D3A4.s")
@@ -934,7 +928,6 @@ void func_8005D3BC(GlobalContext* globalCtx, CollisionCheckContext* check) {
     AREG(22) = 1;
     AREG(23) = 1;
 } 
-
 
 void func_8005D400(UNK_TYPE arg0, UNK_TYPE arg1)
 {
@@ -986,8 +979,42 @@ void func_8005D4C8(GlobalContext* globalCtx, CollisionCheckContext* check) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D9F4.s")
 
-//CollisionCheck_SetOC()
+//CollisionCheck_SetOT()
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DC4C.s")
+/*
+s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, CollisionCheckContext* simpleBodyGroups, Collider* collision) {
+    s32 temp_v0;
+    void* temp_a3;
+
+    temp_a3 = arg1;
+    if (func_800C0D28() == 1) {
+        return -1;
+    }
+    if (arg2->unk15 >= 4) {
+        __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3229);
+    }
+    arg1 = (void*)arg1;
+    *(&D_8011DF18 + (arg2->unk15 * 4))(arg0, arg2, arg1);
+    if (arg2->unk0 != 0) {
+        if (arg2->unk0->unk130 == 0) {
+            return -1;
+        }
+    }
+    if (arg1->unk1C0 >= 0x32) {
+        osSyncPrintf(&D_8013AB10, arg1);
+        return -1;
+    }
+    if ((arg1->unk2 & 1) != 0) {
+        return -1;
+    }
+    (arg1 + (arg1->unk1C0 * 4))->unk1C4 = arg2;
+    temp_v0 = arg1->unk1C0;
+    arg1->unk1C0 = (s32)(arg1->unk1C0 + 1);
+    return temp_v0;
+}
+*/
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DD5C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DF2C.s")
 

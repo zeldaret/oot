@@ -1,3 +1,9 @@
+.section .data
+
+glabel D_8011DEEC
+    .incbin "baserom.z64", 0xB9508C, 0xC
+
+.text
 glabel func_8005D218
 /* AD43B8 8005D218 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* AD43BC 8005D21C AFBF0014 */  sw    $ra, 0x14($sp)
