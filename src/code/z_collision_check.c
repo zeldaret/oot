@@ -968,7 +968,15 @@ void func_8005D40C(GlobalContext* globalCtx, CollisionCheckContext* check) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D4B4.s")
+//unconfirmed args
+void func_8005D4B4(GlobalContext* globalCtx, CollisionCheckContext* check) {
+    check->unk2 |= 1;
+}
+
+//unconfirmed args
+void func_8005D4C8(GlobalContext* globalCtx, CollisionCheckContext* check) {
+    check->unk2 &= ~1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D4DC.s")
 
