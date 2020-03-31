@@ -44,7 +44,7 @@ glabel func_809426F0
 /* 09AC8 80942798 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 09ACC 8094279C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 09AD0 809427A0 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 09AD4 809427A4 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 09AD4 809427A4 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 09AD8 809427A8 00408025 */  or      $s0, $v0, $zero            ## $s0 = 00000000
 /* 09ADC 809427AC 0C034213 */  jal     Matrix_Push              
 /* 09AE0 809427B0 AE020004 */  sw      $v0, 0x0004($s0)           ## 00000004
@@ -298,7 +298,7 @@ glabel func_809426F0
 /* 09EAC 80942B7C AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 09EB0 80942B80 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 09EB4 80942B84 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 09EB8 80942B88 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 09EB8 80942B88 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 09EBC 80942B8C 00408025 */  or      $s0, $v0, $zero            ## $s0 = 00000000
 /* 09EC0 80942B90 4406A000 */  mfc1    $a2, $f20                  
 /* 09EC4 80942B94 AE020004 */  sw      $v0, 0x0004($s0)           ## 00000004

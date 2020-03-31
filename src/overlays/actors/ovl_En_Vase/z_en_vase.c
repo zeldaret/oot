@@ -38,5 +38,5 @@ static void Destroy(ActorEnVase* this, GlobalContext* globalCtx) {
 }
 
 static void Draw(ActorEnVase* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &DL_VASE);
+    Gfx_DrawDListOpa(globalCtx, &DL_VASE);
 }

@@ -171,7 +171,7 @@ glabel EnPoSisters_Draw
 /* 04348 80ADD2D8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0434C 80ADD2DC 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 04350 80ADD2E0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 04354 80ADD2E4 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 04354 80ADD2E4 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 04358 80ADD2E8 00408025 */  or      $s0, $v0, $zero            ## $s0 = 00000000
 /* 0435C 80ADD2EC AE020004 */  sw      $v0, 0x0004($s0)           ## 00000004
 /* 04360 80ADD2F0 8E6202D0 */  lw      $v0, 0x02D0($s3)           ## 000002D0

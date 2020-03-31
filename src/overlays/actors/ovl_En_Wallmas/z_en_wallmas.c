@@ -57,7 +57,12 @@ static ColliderCylinderInit colCylinderInit = {
     0x00, 0x01,       0x01, 0x00, 0x001E, 0x0028, 0x0000,     0x0000, 0x0000, 0x0000,
 };
 
-static SubActor98Init subActor98Init = { 0x04, 0x001E, 0x0028, 0x96 };
+static Sub98Init4 sub98Init = { 
+    0x04, 
+    0x001E, 
+    0x0028, 
+    0x96, 
+};
 
 static ActorDamageChart damageChart = { {
     { 0x1, 0x0 }, { 0x0, 0x2 }, { 0x0, 0x1 }, { 0x0, 0x2 }, { 0x1, 0x0 }, { 0x0, 0x2 }, { 0x0, 0x2 }, { 0x1, 0x0 },
@@ -96,7 +101,7 @@ static void EnWallmas_Init(EnWallmas* this, GlobalContext* globalCtx) {
 
     ActorCollider_AllocCylinder(globalCtx, &this->colCylinder);
     ActorCollider_InitCylinder(globalCtx, &this->colCylinder, &this->actor, &colCylinderInit);
-    func_80061ED4(&this->actor.sub_98, &damageChart, &subActor98Init);
+    func_80061ED4(&this->actor.sub_98, &damageChart, &sub98Init);
     this2->switchFlag = (u8)(this2->actor.params >> 0x8);
     this->actor.params = this->actor.params & 0xFF;
 

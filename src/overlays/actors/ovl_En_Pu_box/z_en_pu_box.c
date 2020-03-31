@@ -85,5 +85,5 @@ static void EnPubox_Update(EnPubox* this, GlobalContext* globalCtx) {
 }
 
 static void EnPubox_Draw(EnPubox* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_06000380);
+    Gfx_DrawDListOpa(globalCtx, &D_06000380);
 }

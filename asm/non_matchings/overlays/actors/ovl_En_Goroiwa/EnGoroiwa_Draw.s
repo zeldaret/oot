@@ -4,7 +4,7 @@ glabel EnGoroiwa_Draw
 /* 02190 80A4DE30 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 02194 80A4DE34 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 02198 80A4DE38 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 0219C 80A4DE3C 0C00D498 */  jal     Draw_DListOpa
+/* 0219C 80A4DE3C 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 021A0 80A4DE40 24A506B0 */  addiu   $a1, $a1, 0x06B0           ## $a1 = 060006B0
 /* 021A4 80A4DE44 8FBF0014 */  lw      $ra, 0x0014($sp)           

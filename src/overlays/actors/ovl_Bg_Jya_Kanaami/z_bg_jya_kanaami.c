@@ -131,5 +131,5 @@ static void BgJyaKanaami_Update(BgJyaKanaami* this, GlobalContext* globalCtx) {
 }
 
 static void BgJyaKanaami_Draw(BgJyaKanaami* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_0600F000);
+    Gfx_DrawDListOpa(globalCtx, &D_0600F000);
 }

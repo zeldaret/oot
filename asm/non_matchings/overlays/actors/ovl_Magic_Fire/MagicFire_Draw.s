@@ -338,7 +338,7 @@ glabel MagicFire_Draw
 /* 00A2C 80B8979C 310601FF */  andi    $a2, $t0, 0x01FF           ## $a2 = 00000000
 /* 00A30 80B897A0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00A34 80B897A4 AFA300A4 */  sw      $v1, 0x00A4($sp)           
-/* 00A38 80B897A8 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00A38 80B897A8 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00A3C 80B897AC AFA20040 */  sw      $v0, 0x0040($sp)           
 /* 00A40 80B897B0 8FA90040 */  lw      $t1, 0x0040($sp)           
 /* 00A44 80B897B4 8FA300A4 */  lw      $v1, 0x00A4($sp)           

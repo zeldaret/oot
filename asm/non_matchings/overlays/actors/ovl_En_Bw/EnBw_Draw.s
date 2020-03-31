@@ -210,7 +210,7 @@ glabel EnBw_Draw
 /* 02B8C 809D126C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 02B90 809D1270 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 02B94 809D1274 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 02B98 809D1278 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 02B98 809D1278 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 02B9C 809D127C AFA20060 */  sw      $v0, 0x0060($sp)
 /* 02BA0 809D1280 8FA30060 */  lw      $v1, 0x0060($sp)
 /* 02BA4 809D1284 3C0FFA00 */  lui     $t7, 0xFA00                ## $t7 = FA000000

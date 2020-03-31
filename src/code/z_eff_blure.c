@@ -14,7 +14,7 @@ void func_80020F60(u32 unused, GraphicsContext* gfxCtx) {
 
     func_800C6AC4(gfxArr, gfxCtx, D_80135180, 809);
 
-    gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 0x26);
+    gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x26);
 
     func_800C6B54(gfxArr, gfxCtx, D_80135194, 813);
 }

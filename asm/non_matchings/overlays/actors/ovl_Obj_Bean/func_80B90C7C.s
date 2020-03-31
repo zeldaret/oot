@@ -27,7 +27,7 @@ glabel func_80B90C7C
 /* 02260 80B90CE0 46006386 */  mov.s   $f14, $f12                 
 /* 02264 80B90CE4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 02268 80B90CE8 24A50650 */  addiu   $a1, $a1, 0x0650           ## $a1 = 06000650
-/* 0226C 80B90CEC 0C00D498 */  jal     Draw_DListOpa
+/* 0226C 80B90CEC 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 02270 80B90CF0 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 02274 80B90CF4 8FBF0014 */  lw      $ra, 0x0014($sp)           

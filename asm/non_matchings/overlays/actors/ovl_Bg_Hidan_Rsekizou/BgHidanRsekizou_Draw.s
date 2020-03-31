@@ -45,7 +45,7 @@ glabel BgHidanRsekizou_Draw
 /* 008E8 8088CAE8 0C0346EA */  jal     Matrix_MtxFCopy              
 /* 008EC 8088CAEC AC480004 */  sw      $t0, 0x0004($v0)           ## 00000004
 /* 008F0 8088CAF0 8E2402D0 */  lw      $a0, 0x02D0($s1)           ## 000002D0
-/* 008F4 8088CAF4 0C024DDD */  jal     func_80093774              
+/* 008F4 8088CAF4 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 008F8 8088CAF8 24050014 */  addiu   $a1, $zero, 0x0014         ## $a1 = 00000014
 /* 008FC 8088CAFC AE2202D0 */  sw      $v0, 0x02D0($s1)           ## 000002D0
 /* 00900 8088CB00 86A907A0 */  lh      $t1, 0x07A0($s5)           ## 000007A0

@@ -64,7 +64,7 @@ glabel ObjIcePoly_Draw
 /* 00814 80B94A74 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00818 80B94A78 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 0081C 80B94A7C AFA2004C */  sw      $v0, 0x004C($sp)
-/* 00820 80B94A80 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 00820 80B94A80 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 00824 80B94A84 306700FF */  andi    $a3, $v1, 0x00FF           ## $a3 = 00000000
 /* 00828 80B94A88 8FA8004C */  lw      $t0, 0x004C($sp)
 /* 0082C 80B94A8C 3C19FB00 */  lui     $t9, 0xFB00                ## $t9 = FB000000

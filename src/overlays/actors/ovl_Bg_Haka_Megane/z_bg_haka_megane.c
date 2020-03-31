@@ -114,12 +114,12 @@ static void func_8087DC94(BgHakaMegane* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if ((thisx->flags & 0x80) == 0x80) {
-        Draw_DListXlu(globalCtx, dlists[thisx->params]);
+        Gfx_DrawDListXlu(globalCtx, dlists[thisx->params]);
     } else {
-        Draw_DListOpa(globalCtx, dlists[thisx->params]);
+        Gfx_DrawDListOpa(globalCtx, dlists[thisx->params]);
     }
 
     if (thisx->params == 0) {
-        Draw_DListXlu(globalCtx, &D_06001250);
+        Gfx_DrawDListXlu(globalCtx, &D_06001250);
     }
 }

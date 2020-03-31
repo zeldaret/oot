@@ -68,7 +68,7 @@ glabel func_809A9280
 /* 001D8 809A9388 AFA20060 */  sw      $v0, 0x0060($sp)           
 /* 001DC 809A938C 0000C012 */  mflo    $t8                        
 /* 001E0 809A9390 AFB80020 */  sw      $t8, 0x0020($sp)           
-/* 001E4 809A9394 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 001E4 809A9394 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 001E8 809A9398 00000000 */  nop
 /* 001EC 809A939C 8FA30060 */  lw      $v1, 0x0060($sp)           
 /* 001F0 809A93A0 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
