@@ -777,8 +777,15 @@ typedef struct
 
 typedef struct
 {
-    /* 0x00 */ char     unk_00[0x028C];
-} SubGlobalContext11E60; // size = 0x28C
+    /* 0x000 */ s16 colAtCount;
+    /* 0x002 */ u16 unk2;
+    /* 0x004 */ Collider colAt[50];
+    /* 0x0CC */ s32 colAcCount;
+    /* 0x0D0 */ Collider colAc[60];
+    /* 0x1C0 */ s32 colOtCount;
+    /* 0x1C4 */ Collider colOt[50];
+
+} CollisionCheckContext; // size = 0x28C SubGlobalContext11E60
 
 typedef struct
 {
@@ -975,7 +982,7 @@ typedef struct GlobalContext
     /* 0x11E5D */ s8 bombchuBowlingAmmo; // "bombchu_game_flag"
     /* 0x11E5E */ u8 fadeOutTransition;
     /* 0x11E5F */ char unk_11E5F[0x1];
-    /* 0x11E60 */ SubGlobalContext11E60 sub_11E60;
+    /* 0x11E60 */ CollisionCheckContext sub_11E60;
     /* 0x120EC */ char unk_120EC[0x304];
     /* 0x123F0 */ s32 unk_123F0;
     /* 0x123F4 */ char unk_123F4[0x27];
