@@ -846,7 +846,14 @@ s32 func_8005CEC4(GlobalContext* globalCtx, ColliderQuadDim* dim) {
 }
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CEDC.s")
+void func_8005CEDC(ColliderQuadDim* dim) {
+    dim->max.x = (dim->quad[3].x + dim->quad[2].x) * 0.5f;
+    dim->max.y = (dim->quad[3].y + dim->quad[2].y) * 0.5f;
+    dim->max.z = (dim->quad[3].z + dim->quad[2].z) * 0.5f;
+    dim->min.x = (dim->quad[1].x + dim->quad[0].x) * 0.5f;
+    dim->min.y = (dim->quad[1].y + dim->quad[0].y) * 0.5f;
+    dim->min.z = (dim->quad[1].z + dim->quad[0].z) * 0.5f;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005CF90.s")
 
