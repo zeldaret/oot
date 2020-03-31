@@ -941,7 +941,34 @@ void func_8005D400(UNK_TYPE arg0, UNK_TYPE arg1)
 
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D40C.s")
+//Initialize CollisionCheckContext 
+void func_8005D40C(GlobalContext* globalCtx, CollisionCheckContext* check) {
+    Collider** c;
+
+    if ((check->unk2 & 1) == 0) {
+        check->colAtCount = 0;
+        check->colAcCount = 0;
+        check->colOtCount = 0;
+        check->unkCount = 0;
+        for (c = check->colAt; c < check->colAt + 50; c++) {
+            *c = NULL;
+        }
+
+        for (c = check->colAc; c < check->colAc + 60; c++) {
+            *c = NULL;
+        }
+
+        for (c = check->colOt; c < check->colOt + 50; c++) {
+            *c = NULL;
+        }
+
+        for (c = check->unk290; c < check->unk290 + 3; c++) {
+            *c = NULL;
+        }
+    }
+}
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D4B4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D4DC.s")
 
