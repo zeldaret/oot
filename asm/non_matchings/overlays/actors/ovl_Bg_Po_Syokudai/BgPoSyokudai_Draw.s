@@ -239,7 +239,7 @@ glabel BgPoSyokudai_Draw
 /* 0070C 808A87BC 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 00710 808A87C0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00714 808A87C4 AFA2005C */  sw      $v0, 0x005C($sp)           
-/* 00718 808A87C8 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00718 808A87C8 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0071C 808A87CC AFA80064 */  sw      $t0, 0x0064($sp)           
 /* 00720 808A87D0 8FA3005C */  lw      $v1, 0x005C($sp)           
 /* 00724 808A87D4 8FA80064 */  lw      $t0, 0x0064($sp)           

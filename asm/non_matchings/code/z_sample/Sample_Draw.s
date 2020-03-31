@@ -96,7 +96,7 @@ glabel Sample_Draw
 /* B0E8F4 80097754 AFA00018 */  sw    $zero, 0x18($sp)
 /* B0E8F8 80097758 AFA00014 */  sw    $zero, 0x14($sp)
 /* B0E8FC 8009775C AFA00010 */  sw    $zero, 0x10($sp)
-/* B0E900 80097760 0C024DC2 */  jal   func_80093708
+/* B0E900 80097760 0C024DC2 */  jal   Gfx_SetFog2
 /* B0E904 80097764 240700FF */   li    $a3, 255
 /* B0E908 80097768 AE0202C0 */  sw    $v0, 0x2c0($s0)
 /* B0E90C 8009776C 0C024F46 */  jal   func_80093D18

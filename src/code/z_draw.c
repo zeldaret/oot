@@ -187,7 +187,7 @@ static void func_800695C0(GlobalContext* globalCtx, s16 drawId) {
 
     func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 572);
 
-    gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 5);
+    gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 5);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 576),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[0]);
@@ -208,9 +208,9 @@ static void func_8006969C(GlobalContext* globalCtx, s16 drawId) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
-                                 0 * (globalCtx->state.frames * 0), 16, 32, 1, 1 * (globalCtx->state.frames * 1),
-                                 1 * -(globalCtx->state.frames * 8), 16, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
+                                0 * (globalCtx->state.frames * 0), 16, 32, 1, 1 * (globalCtx->state.frames * 1),
+                                1 * -(globalCtx->state.frames * 8), 16, 32));
     Matrix_Push();
     Matrix_Translate(-8.0f, -2.0f, 0.0f, MTXMODE_APPLY);
     func_800D1FD4(&globalCtx->mf_11DA0);
@@ -238,9 +238,9 @@ static void func_80069880(GlobalContext* globalCtx, s16 drawId) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
-                                 0 * (globalCtx->state.frames * 0), 16, 32, 1, 1 * (globalCtx->state.frames * 1),
-                                 1 * -(globalCtx->state.frames * 6), 16, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
+                                0 * (globalCtx->state.frames * 0), 16, 32, 1, 1 * (globalCtx->state.frames * 1),
+                                1 * -(globalCtx->state.frames * 6), 16, 32));
     Matrix_Push();
     func_800D1FD4(&globalCtx->mf_11DA0);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 656),
@@ -268,9 +268,9 @@ static void func_80069AC8(GlobalContext* globalCtx, s16 drawId) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
-                                 0 * (globalCtx->state.frames * 0), 32, 32, 1, 1 * (globalCtx->state.frames * 1),
-                                 1 * -(globalCtx->state.frames * 6), 32, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
+                                0 * (globalCtx->state.frames * 0), 32, 32, 1, 1 * (globalCtx->state.frames * 1),
+                                1 * -(globalCtx->state.frames * 6), 32, 32));
     Matrix_Push();
     func_800D1FD4(&globalCtx->mf_11DA0);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 698),
@@ -289,10 +289,10 @@ static void func_80069CF0(GlobalContext* globalCtx, s16 drawId) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0) % 256,
-                                 1 * (globalCtx->state.frames * 2) % 256, 64, 64, 1,
-                                 0 * (globalCtx->state.frames * 0) % 128, 1 * (globalCtx->state.frames * 1) % 128, 32,
-                                 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0) % 256,
+                                1 * (globalCtx->state.frames * 2) % 256, 64, 64, 1,
+                                0 * (globalCtx->state.frames * 0) % 128, 1 * (globalCtx->state.frames * 1) % 128, 32,
+                                32));
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 723),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
@@ -318,9 +318,9 @@ static void func_80069EB0(GlobalContext* globalCtx, s16 drawId) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
-                                 1 * -(globalCtx->state.frames * 5), 32, 32, 1, 0 * (globalCtx->state.frames * 0),
-                                 0 * (globalCtx->state.frames * 0), 32, 64));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
+                                1 * -(globalCtx->state.frames * 5), 32, 32, 1, 0 * (globalCtx->state.frames * 0),
+                                0 * (globalCtx->state.frames * 0), 32, 64));
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 760),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
@@ -354,7 +354,7 @@ static void func_8006A158(GlobalContext* globalCtx, s16 drawId) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
-    gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 5);
+    gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 5);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 822),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
@@ -370,9 +370,9 @@ static void func_8006A2A0(GlobalContext* globalCtx, s16 drawId) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, -1 * (globalCtx->state.frames * 1),
-                                 1 * (globalCtx->state.frames * 1), 32, 32, 1, -1 * (globalCtx->state.frames * 1),
-                                 1 * (globalCtx->state.frames * 1), 32, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -1 * (globalCtx->state.frames * 1),
+                                1 * (globalCtx->state.frames * 1), 32, 32, 1, -1 * (globalCtx->state.frames * 1),
+                                1 * (globalCtx->state.frames * 1), 32, 32));
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 845),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[1]);
@@ -397,9 +397,9 @@ static void func_8006A4B0(GlobalContext* globalCtx, s16 drawId) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 1 * (globalCtx->state.frames * 1),
-                                 0 * (globalCtx->state.frames * 1), 32, 32, 1, 0 * (globalCtx->state.frames * 1),
-                                 0 * (globalCtx->state.frames * 1), 32, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 1 * (globalCtx->state.frames * 1),
+                                0 * (globalCtx->state.frames * 1), 32, 32, 1, 0 * (globalCtx->state.frames * 1),
+                                0 * (globalCtx->state.frames * 1), 32, 32));
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 878),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
@@ -415,9 +415,9 @@ static void func_8006A5F0(GlobalContext* globalCtx, s16 drawId) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 1 * (globalCtx->state.frames * 6),
-                                 1 * (globalCtx->state.frames * 6), 32, 32, 1, 1 * (globalCtx->state.frames * 6),
-                                 1 * (globalCtx->state.frames * 6), 32, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 1 * (globalCtx->state.frames * 6),
+                                1 * (globalCtx->state.frames * 6), 32, 32, 1, 1 * (globalCtx->state.frames * 6),
+                                1 * (globalCtx->state.frames * 6), 32, 32));
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 901),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
@@ -433,9 +433,9 @@ static void func_8006A73C(GlobalContext* globalCtx, s16 drawId) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 1),
-                                 1 * -(globalCtx->state.frames * 3), 32, 32, 1, 0 * (globalCtx->state.frames * 1),
-                                 1 * -(globalCtx->state.frames * 2), 32, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 1),
+                                1 * -(globalCtx->state.frames * 3), 32, 32, 1, 0 * (globalCtx->state.frames * 1),
+                                1 * -(globalCtx->state.frames * 2), 32, 32));
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 924),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[0]);
@@ -451,9 +451,9 @@ static void func_8006A88C(GlobalContext* globalCtx, s16 drawId) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
-                                 1 * (globalCtx->state.frames * 1), 32, 32, 1, 0 * (globalCtx->state.frames * 0),
-                                 1 * (globalCtx->state.frames * 1), 32, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
+                                1 * (globalCtx->state.frames * 1), 32, 32, 1, 0 * (globalCtx->state.frames * 0),
+                                1 * (globalCtx->state.frames * 1), 32, 32));
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 947),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[0]);
@@ -555,9 +555,9 @@ static void func_8006AF9C(GlobalContext* globalCtx, s16 drawId) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 1 * (globalCtx->state.frames * 2),
-                                 1 * -(globalCtx->state.frames * 6), 32, 32, 1, 1 * (globalCtx->state.frames * 1),
-                                 -1 * (globalCtx->state.frames * 2), 32, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 1 * (globalCtx->state.frames * 2),
+                                1 * -(globalCtx->state.frames * 6), 32, 32, 1, 1 * (globalCtx->state.frames * 1),
+                                -1 * (globalCtx->state.frames * 2), 32, 32));
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1074),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[0]);
@@ -636,9 +636,9 @@ static void func_8006B54C(GlobalContext* globalCtx, s16 drawId) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx, 0, 1 * (globalCtx->state.frames * 2),
-                                 -1 * (globalCtx->state.frames * 2), 64, 64, 1, 1 * (globalCtx->state.frames * 4),
-                                 1 * -(globalCtx->state.frames * 4), 32, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 1 * (globalCtx->state.frames * 2),
+                                -1 * (globalCtx->state.frames * 2), 64, 64, 1, 1 * (globalCtx->state.frames * 4),
+                                1 * -(globalCtx->state.frames * 4), 32, 32));
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1173),
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[2]);

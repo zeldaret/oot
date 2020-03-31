@@ -70,12 +70,12 @@ glabel func_809A6568
 /* 002D8 809A6678 17000006 */  bne     $t8, $zero, .L809A6694     
 /* 002DC 809A667C 00000000 */  nop
 /* 002E0 809A6680 8E0402D0 */  lw      $a0, 0x02D0($s0)           ## 000002D0
-/* 002E4 809A6684 0C024DDD */  jal     func_80093774              
+/* 002E4 809A6684 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 002E8 809A6688 2405003D */  addiu   $a1, $zero, 0x003D         ## $a1 = 0000003D
 /* 002EC 809A668C 10000004 */  beq     $zero, $zero, .L809A66A0   
 /* 002F0 809A6690 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 .L809A6694:
-/* 002F4 809A6694 0C024DDD */  jal     func_80093774              
+/* 002F4 809A6694 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 002F8 809A6698 8E0402D0 */  lw      $a0, 0x02D0($s0)           ## 000002D0
 /* 002FC 809A669C AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 .L809A66A0:

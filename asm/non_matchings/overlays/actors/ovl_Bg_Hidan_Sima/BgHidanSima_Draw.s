@@ -56,7 +56,7 @@ glabel BgHidanSima_Draw
 /* 00D0C 8088F0DC 2718E7A8 */  addiu   $t8, $t8, %lo(func_8088E7A8) ## $t8 = 8088E7A8
 /* 00D10 8088F0E0 17190019 */  bne     $t8, $t9, .L8088F148       
 /* 00D14 8088F0E4 24050014 */  addiu   $a1, $zero, 0x0014         ## $a1 = 00000014
-/* 00D18 8088F0E8 0C024DDD */  jal     func_80093774              
+/* 00D18 8088F0E8 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 00D1C 8088F0EC 8E0402D0 */  lw      $a0, 0x02D0($s0)           ## 000002D0
 /* 00D20 8088F0F0 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00D24 8088F0F4 24480008 */  addiu   $t0, $v0, 0x0008           ## $t0 = 00000008

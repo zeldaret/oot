@@ -35,7 +35,7 @@ glabel BossFd_Draw
 /* 0525C 808D001C 8E0402C0 */  lw      $a0, 0x02C0($s0)           ## 000002C0
 /* 05260 808D0020 AFAB0018 */  sw      $t3, 0x0018($sp)           
 /* 05264 808D0024 AFAA0014 */  sw      $t2, 0x0014($sp)           
-/* 05268 808D0028 0C024CDC */  jal     func_80093370              
+/* 05268 808D0028 0C024CDC */  jal     Gfx_SetFog              
 /* 0526C 808D002C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 05270 808D0030 AE0202C0 */  sw      $v0, 0x02C0($s0)           ## 000002C0
 .L808D0034:

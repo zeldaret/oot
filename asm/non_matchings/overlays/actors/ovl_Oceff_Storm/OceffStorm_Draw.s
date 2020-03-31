@@ -113,7 +113,7 @@ glabel OceffStorm_Draw
 /* 00710 80BA77F0 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 00714 80BA77F4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00718 80BA77F8 AFA2004C */  sw      $v0, 0x004C($sp)           
-/* 0071C 80BA77FC 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0071C 80BA77FC 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00720 80BA7800 000A3080 */  sll     $a2, $t2,  2               
 /* 00724 80BA7804 8FA8004C */  lw      $t0, 0x004C($sp)           
 /* 00728 80BA7808 3C0E80BB */  lui     $t6, %hi(D_80BA8B90)       ## $t6 = 80BB0000

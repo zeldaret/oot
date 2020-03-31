@@ -8,14 +8,14 @@ glabel BgYdanMaruta_Draw
 /* 00564 808BF2A4 00000000 */  nop
 /* 00568 808BF2A8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0056C 808BF2AC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 00570 808BF2B0 0C00D498 */  jal     Draw_DListOpa
+/* 00570 808BF2B0 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00574 808BF2B4 24A58D88 */  addiu   $a1, $a1, 0x8D88           ## $a1 = 06008D88
 /* 00578 808BF2B8 10000005 */  beq     $zero, $zero, .L808BF2D0   
 /* 0057C 808BF2BC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L808BF2C0:
 /* 00580 808BF2C0 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00584 808BF2C4 0C00D498 */  jal     Draw_DListOpa
+/* 00584 808BF2C4 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00588 808BF2C8 24A56570 */  addiu   $a1, $a1, 0x6570           ## $a1 = 06006570
 /* 0058C 808BF2CC 8FBF0014 */  lw      $ra, 0x0014($sp)           
