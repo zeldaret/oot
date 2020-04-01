@@ -108,7 +108,7 @@ glabel BgHakaWater_Draw
 /* 00558 80882258 E7A00084 */  swc1    $f0, 0x0084($sp)           
 /* 0055C 8088225C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00560 80882260 AFAA0010 */  sw      $t2, 0x0010($sp)           
-/* 00564 80882264 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00564 80882264 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00568 80882268 AFA20064 */  sw      $v0, 0x0064($sp)           
 /* 0056C 8088226C 8FA80064 */  lw      $t0, 0x0064($sp)           
 /* 00570 80882270 C7A00084 */  lwc1    $f0, 0x0084($sp)           

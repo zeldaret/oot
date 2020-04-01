@@ -271,7 +271,7 @@ glabel BgGanonOtyuka_Draw
 /* 00C10 80876530 AFAA0018 */  sw      $t2, 0x0018($sp)           
 /* 00C14 80876534 AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 00C18 80876538 AFA80010 */  sw      $t0, 0x0010($sp)           
-/* 00C1C 8087653C 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00C1C 8087653C 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00C20 80876540 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00C24 80876544 AE020004 */  sw      $v0, 0x0004($s0)           ## 00000006
 /* 00C28 80876548 8E6302D0 */  lw      $v1, 0x02D0($s3)           ## 000002D0

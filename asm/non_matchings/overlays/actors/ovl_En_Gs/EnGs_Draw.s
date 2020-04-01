@@ -217,7 +217,7 @@ glabel EnGs_Draw
 /* 019B8 80A4FCD8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 019BC 80A4FCDC 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 019C0 80A4FCE0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 019C4 80A4FCE4 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 019C4 80A4FCE4 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 019C8 80A4FCE8 00408825 */  or      $s1, $v0, $zero            ## $s1 = 00000000
 /* 019CC 80A4FCEC AE220004 */  sw      $v0, 0x0004($s1)           ## 00000004
 /* 019D0 80A4FCF0 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0

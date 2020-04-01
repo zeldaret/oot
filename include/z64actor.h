@@ -81,13 +81,6 @@ typedef struct {
 } ActorDamageChart;
 
 typedef struct {
-    /* 0x00 */ u8 health;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-    /* 0x06 */ u8 mass;
-} SubActor98Init;
-
-typedef struct {
     /* 0x00 */ ActorDamageChart* damageChart;  // For actors which contain a damage chart (example: Stalfos)...
     /* 0x04 */ Vec3f displacement; // Amount to correct velocity (0x5C) by when colliding into a body
     /* 0x10 */ s16   unk_10;
@@ -182,6 +175,21 @@ typedef struct Actor {
     /* From here on, the structure and size varies for each actor */
 } Actor; // size = 0x14C
 
+typedef struct {
+    /* 0x00 */ u8 health;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ u8 mass;
+} Sub98Init4;
+
+typedef struct {
+    /* 0x00 */ u8 health;
+    /* 0x02 */ s16 unk_10;
+    /* 0x04 */ s16 unk_12;
+    /* 0x06 */ u16 unk_14;
+    /* 0x08 */ u8 mass;
+} Sub98Init5;
+
 typedef enum {
     COLTYPE_CYLINDER = 1,
     COLTYPE_CYLINDER_GROUP = 0,
@@ -275,9 +283,9 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ ColliderBodyInfo body;
-    /* 0x06 */ ColliderBodyInfoInner inner;
-    /* 0x20 */ ColliderDimensions dim;
-} ColliderCylinderInit; // size = 0x2C
+    /* 0x08 */ ColliderBodyInfoInner inner;
+    /* 0x22 */ ColliderDimensions dim;
+} ColliderCylinderInit; // size = 0x2E
 
 typedef struct {
     /* 0x00 */ Actor* actor;

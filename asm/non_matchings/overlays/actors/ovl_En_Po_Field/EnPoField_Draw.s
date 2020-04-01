@@ -40,7 +40,7 @@ glabel EnPoField_Draw
 /* 02E7C 80AD697C 91060007 */  lbu     $a2, 0x0007($t0)           ## 00000007
 /* 02E80 80AD6980 91050006 */  lbu     $a1, 0x0006($t0)           ## 00000006
 /* 02E84 80AD6984 AFAC0010 */  sw      $t4, 0x0010($sp)
-/* 02E88 80AD6988 0C025474 */  jal     func_800951D0
+/* 02E88 80AD6988 0C025474 */  jal     Gfx_EnvColor
 /* 02E8C 80AD698C AFA20060 */  sw      $v0, 0x0060($sp)
 /* 02E90 80AD6990 8FA30060 */  lw      $v1, 0x0060($sp)
 /* 02E94 80AD6994 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF
@@ -63,7 +63,7 @@ glabel EnPoField_Draw
 /* 02ED4 80AD69D4 92250214 */  lbu     $a1, 0x0214($s1)           ## 00000214
 /* 02ED8 80AD69D8 8E440000 */  lw      $a0, 0x0000($s2)           ## 00000000
 /* 02EDC 80AD69DC AFA2005C */  sw      $v0, 0x005C($sp)
-/* 02EE0 80AD69E0 0C025474 */  jal     func_800951D0
+/* 02EE0 80AD69E0 0C025474 */  jal     Gfx_EnvColor
 /* 02EE4 80AD69E4 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 02EE8 80AD69E8 8FA3005C */  lw      $v1, 0x005C($sp)
 /* 02EEC 80AD69EC 3C19DB06 */  lui     $t9, 0xDB06                ## $t9 = DB060000
@@ -103,7 +103,7 @@ glabel EnPoField_Draw
 /* 02F70 80AD6A70 92250214 */  lbu     $a1, 0x0214($s1)           ## 00000214
 /* 02F74 80AD6A74 8E440000 */  lw      $a0, 0x0000($s2)           ## 00000000
 /* 02F78 80AD6A78 AFA20054 */  sw      $v0, 0x0054($sp)
-/* 02F7C 80AD6A7C 0C025474 */  jal     func_800951D0
+/* 02F7C 80AD6A7C 0C025474 */  jal     Gfx_EnvColor
 /* 02F80 80AD6A80 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 02F84 80AD6A84 8FA30054 */  lw      $v1, 0x0054($sp)
 /* 02F88 80AD6A88 3C18DB06 */  lui     $t8, 0xDB06                ## $t8 = DB060000

@@ -145,7 +145,7 @@ glabel func_809A35DC
 /* 004DC 809A380C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 004E0 809A3810 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 004E4 809A3814 AFA2005C */  sw      $v0, 0x005C($sp)           
-/* 004E8 809A3818 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 004E8 809A3818 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 004EC 809A381C 310700FF */  andi    $a3, $t0, 0x00FF           ## $a3 = 00000000
 /* 004F0 809A3820 8FA3005C */  lw      $v1, 0x005C($sp)           
 /* 004F4 809A3824 3C0AFA00 */  lui     $t2, 0xFA00                ## $t2 = FA000000

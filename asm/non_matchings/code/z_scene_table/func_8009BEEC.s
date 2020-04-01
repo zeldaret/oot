@@ -24,12 +24,12 @@ glabel func_8009BEEC
 /* B130C4 8009BF24 000FC080 */  sll   $t8, $t7, 2
 /* B130C8 8009BF28 0098C821 */  addu  $t9, $a0, $t8
 /* B130CC 8009BF2C 8F240790 */  lw    $a0, 0x790($t9)
-/* B130D0 8009BF30 0C024BE2 */  jal   func_80092F88
+/* B130D0 8009BF30 0C024BE2 */  jal   Quake_Add
 /* B130D4 8009BF34 AFA2002C */   sw    $v0, 0x2c($sp)
 /* B130D8 8009BF38 00022400 */  sll   $a0, $v0, 0x10
 /* B130DC 8009BF3C AFA20034 */  sw    $v0, 0x34($sp)
 /* B130E0 8009BF40 00042403 */  sra   $a0, $a0, 0x10
-/* B130E4 8009BF44 0C024B6B */  jal   func_80092DAC
+/* B130E4 8009BF44 0C024B6B */  jal   Quake_SetSpeed
 /* B130E8 8009BF48 24052710 */   li    $a1, 10000
 /* B130EC 8009BF4C 87B00036 */  lh    $s0, 0x36($sp)
 /* B130F0 8009BF50 24050004 */  li    $a1, 4
@@ -37,11 +37,11 @@ glabel func_8009BEEC
 /* B130F8 8009BF58 00102400 */  sll   $a0, $s0, 0x10
 /* B130FC 8009BF5C 00042403 */  sra   $a0, $a0, 0x10
 /* B13100 8009BF60 00003825 */  move  $a3, $zero
-/* B13104 8009BF64 0C024B9C */  jal   func_80092E70
+/* B13104 8009BF64 0C024B9C */  jal   Quake_SetQuakeValues
 /* B13108 8009BF68 AFA00010 */   sw    $zero, 0x10($sp)
 /* B1310C 8009BF6C 00102400 */  sll   $a0, $s0, 0x10
 /* B13110 8009BF70 00042403 */  sra   $a0, $a0, 0x10
-/* B13114 8009BF74 0C024B7C */  jal   func_80092DF0
+/* B13114 8009BF74 0C024B7C */  jal   Quake_SetCountdown
 /* B13118 8009BF78 2405007F */   li    $a1, 127
 /* B1311C 8009BF7C 8FA8002C */  lw    $t0, 0x2c($sp)
 /* B13120 8009BF80 8D031DE4 */  lw    $v1, 0x1de4($t0)
@@ -61,7 +61,7 @@ glabel func_8009BEEC
 /* B13154 8009BFB4 24050003 */  li    $a1, 3
 /* B13158 8009BFB8 000A5880 */  sll   $t3, $t2, 2
 /* B1315C 8009BFBC 022B6021 */  addu  $t4, $s1, $t3
-/* B13160 8009BFC0 0C024BE2 */  jal   func_80092F88
+/* B13160 8009BFC0 0C024BE2 */  jal   Quake_Add
 /* B13164 8009BFC4 8D840790 */   lw    $a0, 0x790($t4)
 /* B13168 8009BFC8 0C03F66B */  jal   Math_Rand_ZeroOne
 /* B1316C 8009BFCC AFA20034 */   sw    $v0, 0x34($sp)
@@ -78,7 +78,7 @@ glabel func_8009BEEC
 /* B13198 8009BFF8 44059000 */  mfc1  $a1, $f18
 /* B1319C 8009BFFC 00000000 */  nop   
 /* B131A0 8009C000 00052C00 */  sll   $a1, $a1, 0x10
-/* B131A4 8009C004 0C024B6B */  jal   func_80092DAC
+/* B131A4 8009C004 0C024B6B */  jal   Quake_SetSpeed
 /* B131A8 8009C008 00052C03 */   sra   $a1, $a1, 0x10
 /* B131AC 8009C00C 0C03F66B */  jal   Math_Rand_ZeroOne
 /* B131B0 8009C010 00000000 */   nop   
@@ -97,7 +97,7 @@ glabel func_8009BEEC
 /* B131E4 8009C044 44058000 */  mfc1  $a1, $f16
 /* B131E8 8009C048 00000000 */  nop   
 /* B131EC 8009C04C 00052C00 */  sll   $a1, $a1, 0x10
-/* B131F0 8009C050 0C024B9C */  jal   func_80092E70
+/* B131F0 8009C050 0C024B9C */  jal   Quake_SetQuakeValues
 /* B131F4 8009C054 00052C03 */   sra   $a1, $a1, 0x10
 /* B131F8 8009C058 0C03F66B */  jal   Math_Rand_ZeroOne
 /* B131FC 8009C05C 00000000 */   nop   
@@ -113,7 +113,7 @@ glabel func_8009BEEC
 /* B13224 8009C084 44055000 */  mfc1  $a1, $f10
 /* B13228 8009C088 00000000 */  nop   
 /* B1322C 8009C08C 00052C00 */  sll   $a1, $a1, 0x10
-/* B13230 8009C090 0C024B7C */  jal   func_80092DF0
+/* B13230 8009C090 0C024B7C */  jal   Quake_SetCountdown
 /* B13234 8009C094 00052C03 */   sra   $a1, $a1, 0x10
 /* B13238 8009C098 8FBF0024 */  lw    $ra, 0x24($sp)
 .L8009C09C:

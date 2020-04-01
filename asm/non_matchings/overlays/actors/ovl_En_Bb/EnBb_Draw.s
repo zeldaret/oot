@@ -198,7 +198,7 @@ glabel EnBb_Draw
 /* 0355C 809BB83C AFA20068 */  sw      $v0, 0x0068($sp)           
 /* 03560 809BB840 00007012 */  mflo    $t6                        
 /* 03564 809BB844 31CF01FF */  andi    $t7, $t6, 0x01FF           ## $t7 = 00000001
-/* 03568 809BB848 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 03568 809BB848 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0356C 809BB84C AFAF0020 */  sw      $t7, 0x0020($sp)           
 /* 03570 809BB850 8FA80068 */  lw      $t0, 0x0068($sp)           
 /* 03574 809BB854 3C19FA00 */  lui     $t9, 0xFA00                ## $t9 = FA000000

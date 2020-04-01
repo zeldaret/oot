@@ -52,7 +52,7 @@ glabel BgHidanSekizou_Draw
 /* 010EC 8088DFAC AC4C0004 */  sw      $t4, 0x0004($v0)           ## 00000004
 /* 010F0 8088DFB0 AC4B0000 */  sw      $t3, 0x0000($v0)           ## 00000000
 .L8088DFB4:
-/* 010F4 8088DFB4 0C024DDD */  jal     func_80093774              
+/* 010F4 8088DFB4 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 010F8 8088DFB8 8E6402D0 */  lw      $a0, 0x02D0($s3)           ## 000002D0
 /* 010FC 8088DFBC AE6202D0 */  sw      $v0, 0x02D0($s3)           ## 000002D0
 /* 01100 8088DFC0 862D001C */  lh      $t5, 0x001C($s1)           ## 0000001C

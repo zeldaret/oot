@@ -4,7 +4,7 @@ glabel BgSpot12Saku_Draw
 /* 003D4 808B37F4 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 003D8 808B37F8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 003DC 808B37FC 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 003E0 808B3800 0C00D498 */  jal     Draw_DListOpa
+/* 003E0 808B3800 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 003E4 808B3804 24A52260 */  addiu   $a1, $a1, 0x2260           ## $a1 = 06002260
 /* 003E8 808B3808 8FBF0014 */  lw      $ra, 0x0014($sp)           

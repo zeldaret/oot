@@ -75,5 +75,5 @@ static void Update(ActorSpot18Futa* this, GlobalContext* globalCtx) {
 }
 
 static void Draw(ActorSpot18Futa* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &DL_SPOT18_FUTA2);
+    Gfx_DrawDListOpa(globalCtx, &DL_SPOT18_FUTA2);
 }

@@ -146,7 +146,7 @@ glabel BossGanon2_Draw
 /* 08BE0 80905B20 240F044B */  addiu   $t7, $zero, 0x044B         ## $t7 = 0000044B
 /* 08BE4 80905B24 AFAF0018 */  sw      $t7, 0x0018($sp)
 /* 08BE8 80905B28 AFAD0014 */  sw      $t5, 0x0014($sp)
-/* 08BEC 80905B2C 0C024CDC */  jal     func_80093370
+/* 08BEC 80905B2C 0C024CDC */  jal     Gfx_SetFog
 /* 08BF0 80905B30 AFAC0010 */  sw      $t4, 0x0010($sp)
 /* 08BF4 80905B34 8FB80068 */  lw      $t8, 0x0068($sp)
 /* 08BF8 80905B38 AF0202C0 */  sw      $v0, 0x02C0($t8)           ## 000002C0

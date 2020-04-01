@@ -35,7 +35,7 @@ glabel BossFd2_Draw
 /* 03760 808D5DD0 2409044B */  addiu   $t1, $zero, 0x044B         ## $t1 = 0000044B
 /* 03764 808D5DD4 AFA90018 */  sw      $t1, 0x0018($sp)
 /* 03768 808D5DD8 AFA80014 */  sw      $t0, 0x0014($sp)
-/* 0376C 808D5DDC 0C024CDC */  jal     func_80093370
+/* 0376C 808D5DDC 0C024CDC */  jal     Gfx_SetFog
 /* 03770 808D5DE0 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 03774 808D5DE4 AE0202C0 */  sw      $v0, 0x02C0($s0)           ## 000002C0
 .L808D5DE8:
@@ -102,7 +102,7 @@ glabel BossFd2_Draw
 /* 03868 808D5ED8 AFA20054 */  sw      $v0, 0x0054($sp)
 /* 0386C 808D5EDC 000D7C00 */  sll     $t7, $t5, 16
 /* 03870 808D5EE0 000FC403 */  sra     $t8, $t7, 16
-/* 03874 808D5EE4 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 03874 808D5EE4 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 03878 808D5EE8 AFB80020 */  sw      $t8, 0x0020($sp)
 /* 0387C 808D5EEC 8FA30054 */  lw      $v1, 0x0054($sp)
 /* 03880 808D5EF0 3C09FA00 */  lui     $t1, 0xFA00                ## $t1 = FA000000

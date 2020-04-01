@@ -7,7 +7,7 @@ glabel BgHidanHrock_Draw
 /* 006A0 808897D0 3C058089 */  lui     $a1, %hi(D_808898B0)       ## $a1 = 80890000
 /* 006A4 808897D4 000E7880 */  sll     $t7, $t6,  2               
 /* 006A8 808897D8 00AF2821 */  addu    $a1, $a1, $t7              
-/* 006AC 808897DC 0C00D498 */  jal     Draw_DListOpa
+/* 006AC 808897DC 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 006B0 808897E0 8CA598B0 */  lw      $a1, %lo(D_808898B0)($a1)  
 /* 006B4 808897E4 8FBF0014 */  lw      $ra, 0x0014($sp)           

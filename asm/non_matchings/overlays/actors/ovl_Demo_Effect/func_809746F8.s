@@ -66,7 +66,7 @@ glabel func_809746F8
 /* 038A4 809747F4 AFA8008C */  sw      $t0, 0x008C($sp)           
 /* 038A8 809747F8 AFB90020 */  sw      $t9, 0x0020($sp)           
 /* 038AC 809747FC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 038B0 80974800 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 038B0 80974800 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 038B4 80974804 AFA20074 */  sw      $v0, 0x0074($sp)           
 /* 038B8 80974808 8FA90074 */  lw      $t1, 0x0074($sp)           
 /* 038BC 8097480C 8FA8008C */  lw      $t0, 0x008C($sp)           
@@ -102,7 +102,7 @@ glabel func_809746F8
 /* 03930 80974880 AFAF0028 */  sw      $t7, 0x0028($sp)           
 /* 03934 80974884 AFA8008C */  sw      $t0, 0x008C($sp)           
 /* 03938 80974888 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 0393C 8097488C 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0393C 8097488C 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 03940 80974890 AFA20070 */  sw      $v0, 0x0070($sp)           
 /* 03944 80974894 8FA90070 */  lw      $t1, 0x0070($sp)           
 /* 03948 80974898 8FA8008C */  lw      $t0, 0x008C($sp)           
@@ -138,7 +138,7 @@ glabel func_809746F8
 /* 039BC 8097490C AFAB0028 */  sw      $t3, 0x0028($sp)           
 /* 039C0 80974910 AFA8008C */  sw      $t0, 0x008C($sp)           
 /* 039C4 80974914 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 039C8 80974918 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 039C8 80974918 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 039CC 8097491C AFA2006C */  sw      $v0, 0x006C($sp)           
 /* 039D0 80974920 8FA9006C */  lw      $t1, 0x006C($sp)           
 /* 039D4 80974924 8FA8008C */  lw      $t0, 0x008C($sp)           
@@ -158,7 +158,7 @@ glabel func_809746F8
 /* 03A04 80974954 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 03A08 80974958 00A03025 */  or      $a2, $a1, $zero            ## $a2 = 00000000
 /* 03A0C 8097495C 24070010 */  addiu   $a3, $zero, 0x0010         ## $a3 = 00000010
-/* 03A10 80974960 0C0253A7 */  jal     Draw_TexScroll              
+/* 03A10 80974960 0C0253A7 */  jal     Gfx_TexScroll              
 /* 03A14 80974964 AFA20068 */  sw      $v0, 0x0068($sp)           
 /* 03A18 80974968 8FA30068 */  lw      $v1, 0x0068($sp)           
 /* 03A1C 8097496C 3C19DA38 */  lui     $t9, 0xDA38                ## $t9 = DA380000

@@ -40,7 +40,7 @@ glabel func_80AD6C4C
 /* 031E4 80AD6CE4 91060007 */  lbu     $a2, 0x0007($t0)           ## 00000007
 /* 031E8 80AD6CE8 91050006 */  lbu     $a1, 0x0006($t0)           ## 00000006
 /* 031EC 80AD6CEC AFAC0010 */  sw      $t4, 0x0010($sp)           
-/* 031F0 80AD6CF0 0C025474 */  jal     func_800951D0              
+/* 031F0 80AD6CF0 0C025474 */  jal     Gfx_EnvColor              
 /* 031F4 80AD6CF4 AFA2007C */  sw      $v0, 0x007C($sp)           
 /* 031F8 80AD6CF8 8FA3007C */  lw      $v1, 0x007C($sp)           
 /* 031FC 80AD6CFC 240A00C8 */  addiu   $t2, $zero, 0x00C8         ## $t2 = 000000C8
@@ -150,7 +150,7 @@ glabel func_80AD6C4C
 /* 03394 80AD6E94 AFA80094 */  sw      $t0, 0x0094($sp)           
 /* 03398 80AD6E98 00006012 */  mflo    $t4                        
 /* 0339C 80AD6E9C 318A01FF */  andi    $t2, $t4, 0x01FF           ## $t2 = 00000000
-/* 033A0 80AD6EA0 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 033A0 80AD6EA0 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 033A4 80AD6EA4 AFAA0020 */  sw      $t2, 0x0020($sp)           
 /* 033A8 80AD6EA8 8FA30068 */  lw      $v1, 0x0068($sp)           
 /* 033AC 80AD6EAC 8FA80094 */  lw      $t0, 0x0094($sp)           
