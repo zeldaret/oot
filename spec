@@ -3624,9 +3624,7 @@ endseg
 beginseg
     name "ovl_En_Tana"
     include "build/src/overlays/actors/ovl_En_Tana/z_en_tana.o"
-    include "build/data/overlays/actors/z_en_tana.data.o"
-    include "build/data/overlays/actors/z_en_tana.rodata.o"
-    include "build/data/overlays/actors/z_en_tana.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Tana/z_en_tana_reloc.o"
 endseg
 
 beginseg
