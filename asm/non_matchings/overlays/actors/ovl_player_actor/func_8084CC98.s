@@ -147,7 +147,7 @@ glabel func_8084CC98
 /* 1AC9C 8084CEAC 8DAD493C */  lw      $t5, %lo(D_8085493C)($t5)
 /* 1ACA0 8084CEB0 3C064100 */  lui     $a2, 0x4100                ## $a2 = 41000000
 /* 1ACA4 8084CEB4 AE0D01BC */  sw      $t5, 0x01BC($s0)           ## 000001BC
-/* 1ACA8 8084CEB8 0C028FBA */  jal     func_800A3EE8
+/* 1ACA8 8084CEB8 0C028FBA */  jal     SkelAnime_SetTransition
 /* 1ACAC 8084CEBC 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 1ACB0 8084CEC0 86020850 */  lh      $v0, 0x0850($s0)           ## 00000850
 /* 1ACB4 8084CEC4 8FA40054 */  lw      $a0, 0x0054($sp)

@@ -1175,7 +1175,7 @@ void SkelAnime_InitLinkAnimetion(GlobalContext* globalCtx, SkelAnime* skelAnime,
 void func_800A3B8C(SkelAnime* skelAnime);
 s32 func_800A3BC0(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void func_800A3C9C(GlobalContext* globalCtx, SkelAnime* skelAnime);
-void func_800A3EE8(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 arg2);
+void SkelAnime_SetTransition(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 transitionRate);
 void SkelAnime_LinkChangeAnimation(GlobalContext* globalCtx, SkelAnime* skelAnime,
                                    LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed, f32 frame,
                                    f32 frameCount, u8 arg6, f32 transitionRate);
@@ -1193,10 +1193,12 @@ void func_800A425C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetion
 void func_800A42A0(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
                    f32 frame);
 void func_800A42E4(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 frame);
-void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 frame,
-                   LinkAnimetionEntry* linkAnimetionEntrySeg2, f32 arg5, f32 arg6, Vec3s* arg7);
-void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 frame,
-                   LinkAnimetionEntry* linkAnimetionEntrySeg2, f32 arg5, f32 arg6, Vec3s* arg7);
+void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
+                   f32 transitionFrame, LinkAnimetionEntry* linkAnimetionEntrySeg2, f32 frame, f32 transitionRate,
+                   Vec3s* actorDrawTable);
+void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
+                   f32 transitionFrame, LinkAnimetionEntry* linkAnimetionEntrySeg2, f32 frame, f32 transitionRate,
+                   Vec3s* arg7);
 s32 func_800A4530(SkelAnime* skelAnime, f32 arg1);
 void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                     AnimationHeader* animationseg, Vec3s* actorDrawTable, Vec3s* arg5, s32 limbCount);
