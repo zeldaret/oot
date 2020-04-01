@@ -1102,7 +1102,22 @@ s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, CollisionCheckContext* 
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E81C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800611A0.s")
+extern void (*D_8011DF5C[])(GlobalContext*, CollisionCheckContext*, Collider*);
+void func_800611A0(GlobalContext* globalCtx, CollisionCheckContext* check) {
+    Collider** col;
+    Collider* temp;
+
+    for (col = check->colAc; col < check->colAc + check->colAcCount; col++) {
+        temp = *col;
+        if (temp != NULL) {
+            if (temp->collideFlags & 1) {
+                if ((temp->actor == 0) || (temp->actor->update != NULL)) {
+                    (*D_8011DF5C[temp->type])(globalCtx, check, temp);
+                }
+            }
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061274.s")
 
