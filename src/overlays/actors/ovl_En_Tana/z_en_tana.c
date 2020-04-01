@@ -39,17 +39,17 @@ static const ActorFunc drawFuncs[] = {
     (ActorFunc)func_80B1809C,
 };
 
-static u32 dListTbl[] = {
+static Gfx* dListTbl[] = {
     0x06000B80,
     0x060027E8,
     0x060027E8,
 };
 
-static u32 dListTbl2[] = {
-    0x00000000,
+static Gfx* dListTbl2[] = {
+    NULL,
     0x06000E08,
     0x06001608,
-    0x00000000,
+    NULL,
 };
 
 static void EnTana_Init(EnTana* this, GlobalContext* globalCtx) {
