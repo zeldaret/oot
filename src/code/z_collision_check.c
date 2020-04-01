@@ -993,9 +993,68 @@ u32 D_8011DF28[] = { 0x8005DF9C, 0x8005DFAC, 0x8005E10C, 0x8005E26C, 0x8005E2A4,
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D62C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D79C.s")
+s32 Actor_CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+    s32 index;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D9F4.s")
+    if (func_800C0D28(globalCtx) == 1) {
+        return -1;
+    }
+    if (collider->type >= 4) {
+        __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 2997);
+    }
+    check = (void*)check;
+    (*&D_8011DEF8[collider->type])(globalCtx, collider);
+    if (collider->actor != NULL) {
+        if (collider->actor->update == NULL) {
+            return -1;
+        }
+    }
+    if (check->colAtCount >= 50) {
+        osSyncPrintf("CollisionCheck_setAT():インデックスがオーバーして追加不能\n");
+        //EUC-JP: インデックスがオーバーして追加不能 | Index exceeded and cannot be added
+        return -1;
+    }
+    if (check->unk2 & 1) {
+        return -1;
+    }
+    index = check->colAtCount;
+    check->colAt[check->colAtCount++] = collider;
+    return index;
+}
+
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D8AC.s")
+
+s32 Actor_CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+    s32 index;
+
+    if (func_800C0D28(globalCtx) == 1) {
+        return -1;
+    }
+    if (collider->type >= 4) {
+        __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3114);
+    }
+    check = (void*)check;
+    (*&D_8011DF08[collider->type])(globalCtx, collider);
+    if (collider->actor != NULL) {
+        if (collider->actor->update == NULL) {
+            return -1;
+        }
+    }
+    if (check->colAcCount >= 60) {
+        osSyncPrintf("CollisionCheck_setAC():インデックスがオーバして追加不能\n");
+        //EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
+        return -1;
+    }
+    if (check->unk2 & 1) {
+        return -1;
+    }
+    index = check->colAcCount;
+    check->colAc[check->colAcCount++] = collider;
+    return index;
+}
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DB04.s")
 
 //TODO: rename to CollisionCheck_SetOC()
 s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
@@ -1019,7 +1078,7 @@ s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, CollisionCheckContext* 
         //EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
         return -1;
     }
-    if ((check->unk2 & 1) != 0) {
+    if (check->unk2 & 1) {
         return -1;
     }
     index = check->colOcCount;
