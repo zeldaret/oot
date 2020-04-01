@@ -211,7 +211,7 @@ typedef struct
     /* 0x00 */ Actor* actor;
     /* 0x04 */ Actor* at;
     /* 0x08 */ Actor* ac;
-    /* 0x0C */ Actor* ot;
+    /* 0x0C */ Actor* oc;
     /* 0x10 */ u8 colliderFlags; /* Compared to 0x11 */
     /* 0x11 */ u8 collideFlags; /* Compared to 0x10 */
     /* 0x12 */ u8 maskA; /* Bitwise-and compared to 0x13 */

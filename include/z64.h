@@ -782,8 +782,8 @@ typedef struct
     /* 0x004 */ Collider* colAt[50];
     /* 0x0CC */ s32 colAcCount;
     /* 0x0D0 */ Collider* colAc[60];
-    /* 0x1C0 */ s32 colOtCount;
-    /* 0x1C4 */ Collider* colOt[50];
+    /* 0x1C0 */ s32 colOcCount;
+    /* 0x1C4 */ Collider* colOc[50];
     /* 0x28C */ s32 unkCount;
     /* 0x290 */ Collider* unk290[3];
 
