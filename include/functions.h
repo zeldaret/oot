@@ -1157,7 +1157,7 @@ Gfx* SkelAnime_Draw2(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorD
 Gfx* SkelAnime_DrawSV2(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDrawTable, s32 dListCount,
                        SkelAnime_LimbUpdateMatrix2 updateMtxFunc, SkelAnime_LimbAppendDlist2 appendDlistFunc,
                        Actor* actor, Gfx* gfx);
-void SkelAnime_InterpolateRotation(s32, Vec3s*, Vec3s*, Vec3s*, f32);
+void SkelAnime_InterpolateVec3s(s32, Vec3s*, Vec3s*, Vec3s*, f32);
 void SkelAnime_AnimationCtxReset(AnimationContext* animationCtx);
 void func_800A32F4(GlobalContext* globalCtx);
 void func_800A3310(GlobalContext* globalCtx);
@@ -1179,12 +1179,14 @@ void func_800A3EE8(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 arg2);
 void SkelAnime_LinkChangeAnimation(GlobalContext* globalCtx, SkelAnime* skelAnime,
                                    LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed, f32 frame,
                                    f32 frameCount, u8 arg6, f32 transitionRate);
-void SkelAnime_LinkChangeAnimationDefaultStop(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg);
-void SkelAnime_LinkChangeAnimationPlaybackStop(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
-                   f32 playbackSpeed);
-void SkelAnime_LinkChangeAnimationDefaultRepeat(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg);
-void SkelAnime_LinkChangeAnimationPlaybackRepeat(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
-                   f32 playbackSpeed);
+void SkelAnime_LinkChangeAnimationDefaultStop(GlobalContext* globalCtx, SkelAnime* skelAnime,
+                                              LinkAnimetionEntry* linkAnimetionEntrySeg);
+void SkelAnime_LinkChangeAnimationPlaybackStop(GlobalContext* globalCtx, SkelAnime* skelAnime,
+                                               LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed);
+void SkelAnime_LinkChangeAnimationDefaultRepeat(GlobalContext* globalCtx, SkelAnime* skelAnime,
+                                                LinkAnimetionEntry* linkAnimetionEntrySeg);
+void SkelAnime_LinkChangeAnimationPlaybackRepeat(GlobalContext* globalCtx, SkelAnime* skelAnime,
+                                                 LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed);
 void func_800A41FC(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void func_800A425C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
                    f32 frame);
