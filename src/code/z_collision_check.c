@@ -1148,7 +1148,28 @@ void func_80061274(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8006139C.s")
+//Test Attack Collisions
+void func_8006139C(GlobalContext* globalCtx, CollisionCheckContext* check) {
+    Collider** colAt;
+    Collider* colliderAt;
+
+    if (check->colAtCount != 0) {
+        if (check->colAcCount != 0) {
+            for (colAt = check->colAt; colAt < check->colAt + check->colAtCount; colAt++) {
+                colliderAt = *colAt;
+                if (colliderAt != NULL) {
+                    if (colliderAt->colliderFlags & 1) {
+                        if ((colliderAt->actor == NULL) || (colliderAt->actor->update != NULL)) {
+                            func_80061274(globalCtx, check, colliderAt);
+                        }
+                    }
+                }
+            }
+            func_800611A0(globalCtx, check);
+        }
+    }
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8006146C.s")
 
