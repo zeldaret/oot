@@ -160,9 +160,9 @@ glabel Item_Give
 /* AFBF64 80084DC4 2A01006C */  slti  $at, $s0, 0x6c
 /* AFBF68 80084DC8 10200018 */  beqz  $at, .L80084E2C
 /* AFBF6C 80084DCC 00106080 */   sll   $t4, $s0, 2
-/* AFBF70 80084DD0 3C0D8012 */  lui   $t5, %hi(D_80126F88)
+/* AFBF70 80084DD0 3C0D8012 */  lui   $t5, %hi(gBitFlags-0x198)
 /* AFBF74 80084DD4 01AC6821 */  addu  $t5, $t5, $t4
-/* AFBF78 80084DD8 8DAD6F88 */  lw    $t5, %lo(D_80126F88)($t5)
+/* AFBF78 80084DD8 8DAD6F88 */  lw    $t5, %lo(gBitFlags-0x198)($t5)
 /* AFBF7C 80084DDC 8E3900A4 */  lw    $t9, 0xa4($s1)
 /* AFBF80 80084DE0 3C048014 */  lui   $a0, %hi(D_8013DF58) # $a0, 0x8014
 /* AFBF84 80084DE4 2484DF58 */  addiu $a0, %lo(D_8013DF58) # addiu $a0, $a0, -0x20a8
@@ -223,9 +223,9 @@ glabel Item_Give
 /* AFC054 80084EB4 2A01006F */   slti  $at, $s0, 0x6f
 /* AFC058 80084EB8 10200013 */  beqz  $at, .L80084F08
 /* AFC05C 80084EBC 00107880 */   sll   $t7, $s0, 2
-/* AFC060 80084EC0 3C188012 */  lui   $t8, %hi(D_80126FB8)
+/* AFC060 80084EC0 3C188012 */  lui   $t8, %hi(gBitFlags-0x168)
 /* AFC064 80084EC4 030FC021 */  addu  $t8, $t8, $t7
-/* AFC068 80084EC8 8F186FB8 */  lw    $t8, %lo(D_80126FB8)($t8)
+/* AFC068 80084EC8 8F186FB8 */  lw    $t8, %lo(gBitFlags-0x168)($t8)
 /* AFC06C 80084ECC 8E2E00A4 */  lw    $t6, 0xa4($s1)
 /* AFC070 80084ED0 3C048014 */  lui   $a0, %hi(D_8013DFA0) # $a0, 0x8014
 /* AFC074 80084ED4 2484DFA0 */  addiu $a0, %lo(D_8013DFA0) # addiu $a0, $a0, -0x2060
@@ -248,9 +248,9 @@ glabel Item_Give
 /* AFC0B4 80084F14 24010070 */  li    $at, 112
 /* AFC0B8 80084F18 16010012 */  bne   $s0, $at, .L80084F64
 .L80084F1C:
-/* AFC0BC 80084F1C 3C0F8012 */   lui   $t7, %hi(D_80126FB8)
+/* AFC0BC 80084F1C 3C0F8012 */   lui   $t7, %hi(gBitFlags-0x168)
 /* AFC0C0 80084F20 01ED7821 */  addu  $t7, $t7, $t5
-/* AFC0C4 80084F24 8DEF6FB8 */  lw    $t7, %lo(D_80126FB8)($t7)
+/* AFC0C4 80084F24 8DEF6FB8 */  lw    $t7, %lo(gBitFlags-0x168)($t7)
 /* AFC0C8 80084F28 8E3900A4 */  lw    $t9, 0xa4($s1)
 /* AFC0CC 80084F2C 3C048014 */  lui   $a0, %hi(D_8013DFBC) # $a0, 0x8014
 /* AFC0D0 80084F30 2484DFBC */  addiu $a0, %lo(D_8013DFBC) # addiu $a0, $a0, -0x2044
@@ -270,9 +270,9 @@ glabel Item_Give
 /* AFC104 80084F64 24010071 */  li    $at, 113
 /* AFC108 80084F68 16010017 */  bne   $s0, $at, .L80084FC8
 /* AFC10C 80084F6C 00106080 */   sll   $t4, $s0, 2
-/* AFC110 80084F70 3C0D8012 */  lui   $t5, %hi(D_80126FB8)
+/* AFC110 80084F70 3C0D8012 */  lui   $t5, %hi(gBitFlags-0x168)
 /* AFC114 80084F74 01AC6821 */  addu  $t5, $t5, $t4
-/* AFC118 80084F78 8DAD6FB8 */  lw    $t5, %lo(D_80126FB8)($t5)
+/* AFC118 80084F78 8DAD6FB8 */  lw    $t5, %lo(gBitFlags-0x168)($t5)
 /* AFC11C 80084F7C 8E3800A4 */  lw    $t8, 0xa4($s1)
 /* AFC120 80084F80 862F00D0 */  lh    $t7, 0xd0($s1)
 /* AFC124 80084F84 3C048014 */  lui   $a0, %hi(D_8013DFD8) # $a0, 0x8014
@@ -299,9 +299,9 @@ glabel Item_Give
 /* AFC174 80084FD4 10200031 */  beqz  $at, .L8008509C
 /* AFC178 80084FD8 3C028012 */   lui   $v0, %hi(gEquipShifts) # $v0, 0x8012
 /* AFC17C 80084FDC 0010C080 */  sll   $t8, $s0, 2
-/* AFC180 80084FE0 3C0D8012 */  lui   $t5, %hi(D_80127034)
+/* AFC180 80084FE0 3C0D8012 */  lui   $t5, %hi(gBitFlags-0xec)
 /* AFC184 80084FE4 01B86821 */  addu  $t5, $t5, $t8
-/* AFC188 80084FE8 8DAD7034 */  lw    $t5, %lo(D_80127034)($t5)
+/* AFC188 80084FE8 8DAD7034 */  lw    $t5, %lo(gBitFlags-0xec)($t5)
 /* AFC18C 80084FEC 904271F0 */  lbu   $v0, %lo(gEquipShifts)($v0)
 /* AFC190 80084FF0 962C009C */  lhu   $t4, 0x9c($s1)
 /* AFC194 80084FF4 2401003D */  li    $at, 61
@@ -354,11 +354,11 @@ glabel Item_Give
 /* AFC244 800850A4 2A010041 */   slti  $at, $s0, 0x41
 /* AFC248 800850A8 1020000C */  beqz  $at, .L800850DC
 /* AFC24C 800850AC 00106880 */   sll   $t5, $s0, 2
-/* AFC250 800850B0 3C0C8012 */  lui   $t4, %hi(D_80127028)
+/* AFC250 800850B0 3C0C8012 */  lui   $t4, %hi(gBitFlags-0xf8)
 /* AFC254 800850B4 018D6021 */  addu  $t4, $t4, $t5
 /* AFC258 800850B8 3C198012 */  lui   $t9, %hi(gEquipShifts+1) # $t9, 0x8012
 /* AFC25C 800850BC 933971F1 */  lbu   $t9, %lo(gEquipShifts+1)($t9)
-/* AFC260 800850C0 8D8C7028 */  lw    $t4, %lo(D_80127028)($t4)
+/* AFC260 800850C0 8D8C7028 */  lw    $t4, %lo(gBitFlags-0xf8)($t4)
 /* AFC264 800850C4 962E009C */  lhu   $t6, 0x9c($s1)
 /* AFC268 800850C8 240200FF */  li    $v0, 255
 /* AFC26C 800850CC 032C7804 */  sllv  $t7, $t4, $t9
@@ -371,11 +371,11 @@ glabel Item_Give
 /* AFC284 800850E4 2A010044 */   slti  $at, $s0, 0x44
 /* AFC288 800850E8 1020000C */  beqz  $at, .L8008511C
 /* AFC28C 800850EC 00106880 */   sll   $t5, $s0, 2
-/* AFC290 800850F0 3C0C8012 */  lui   $t4, %hi(D_8012701C)
+/* AFC290 800850F0 3C0C8012 */  lui   $t4, %hi(gBitFlags-0x104)
 /* AFC294 800850F4 018D6021 */  addu  $t4, $t4, $t5
 /* AFC298 800850F8 3C198012 */  lui   $t9, %hi(gEquipShifts+2) # $t9, 0x8012
 /* AFC29C 800850FC 933971F2 */  lbu   $t9, %lo(gEquipShifts+2)($t9)
-/* AFC2A0 80085100 8D8C701C */  lw    $t4, %lo(D_8012701C)($t4)
+/* AFC2A0 80085100 8D8C701C */  lw    $t4, %lo(gBitFlags-0x104)($t4)
 /* AFC2A4 80085104 962F009C */  lhu   $t7, 0x9c($s1)
 /* AFC2A8 80085108 240200FF */  li    $v0, 255
 /* AFC2AC 8008510C 032C7004 */  sllv  $t6, $t4, $t9
@@ -388,11 +388,11 @@ glabel Item_Give
 /* AFC2C4 80085124 2A010047 */   slti  $at, $s0, 0x47
 /* AFC2C8 80085128 1020000C */  beqz  $at, .L8008515C
 /* AFC2CC 8008512C 00106880 */   sll   $t5, $s0, 2
-/* AFC2D0 80085130 3C0C8012 */  lui   $t4, %hi(D_80127010)
+/* AFC2D0 80085130 3C0C8012 */  lui   $t4, %hi(gBitFlags-0x110)
 /* AFC2D4 80085134 018D6021 */  addu  $t4, $t4, $t5
 /* AFC2D8 80085138 3C198012 */  lui   $t9, %hi(gEquipShifts+3) # $t9, 0x8012
 /* AFC2DC 8008513C 933971F3 */  lbu   $t9, %lo(gEquipShifts+3)($t9)
-/* AFC2E0 80085140 8D8C7010 */  lw    $t4, %lo(D_80127010)($t4)
+/* AFC2E0 80085140 8D8C7010 */  lw    $t4, %lo(gBitFlags-0x110)($t4)
 /* AFC2E4 80085144 962E009C */  lhu   $t6, 0x9c($s1)
 /* AFC2E8 80085148 240200FF */  li    $v0, 255
 /* AFC2EC 8008514C 032C7804 */  sllv  $t7, $t4, $t9
@@ -410,11 +410,11 @@ glabel Item_Give
 /* AFC318 80085178 24010077 */   li    $at, 119
 .L8008517C:
 /* AFC31C 8008517C 962D1402 */  lhu   $t5, 0x1402($s1)
-/* AFC320 80085180 3C0E8012 */  lui   $t6, %hi(D_80126F50)
+/* AFC320 80085180 3C0E8012 */  lui   $t6, %hi(gBitFlags-0x1d0)
 /* AFC324 80085184 01D97021 */  addu  $t6, $t6, $t9
 /* AFC328 80085188 022D1821 */  addu  $v1, $s1, $t5
 /* AFC32C 8008518C 906C00A8 */  lbu   $t4, 0xa8($v1)
-/* AFC330 80085190 8DCE6F50 */  lw    $t6, %lo(D_80126F50)($t6)
+/* AFC330 80085190 8DCE6F50 */  lw    $t6, %lo(gBitFlags-0x1d0)($t6)
 /* AFC334 80085194 240200FF */  li    $v0, 255
 /* AFC338 80085198 018E7825 */  or    $t7, $t4, $t6
 /* AFC33C 8008519C 10000475 */  b     .L80086374

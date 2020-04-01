@@ -82,7 +82,7 @@ glabel func_8084A5C4
 /* 184DC 8084A6EC 440C8000 */  mfc1    $t4, $f16                  
 /* 184E0 8084A6F0 00000000 */  nop
 /* 184E4 8084A6F4 01AC7023 */  subu    $t6, $t5, $t4              
-/* 184E8 8084A6F8 0C024DC2 */  jal     func_80093708              
+/* 184E8 8084A6F8 0C024DC2 */  jal     Gfx_SetFog2              
 /* 184EC 8084A6FC AFAE0018 */  sw      $t6, 0x0018($sp)           
 /* 184F0 8084A700 8FAF00A4 */  lw      $t7, 0x00A4($sp)           
 /* 184F4 8084A704 ADE202C0 */  sw      $v0, 0x02C0($t7)           ## 000002C0
@@ -309,7 +309,7 @@ glabel func_8084A5C4
 /* 18844 8084AA54 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 18848 8084AA58 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 1884C 8084AA5C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 18850 8084AA60 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 18850 8084AA60 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 18854 8084AA64 AFA20064 */  sw      $v0, 0x0064($sp)           
 /* 18858 8084AA68 C7AC0068 */  lwc1    $f12, 0x0068($sp)          
 /* 1885C 8084AA6C 8FA80064 */  lw      $t0, 0x0064($sp)           

@@ -59,7 +59,7 @@ glabel EnFz_Draw
 /* 0156C 80A2132C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 01570 80A21330 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 01574 80A21334 AFA2005C */  sw      $v0, 0x005C($sp)           
-/* 01578 80A21338 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 01578 80A21338 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0157C 80A2133C 3067007F */  andi    $a3, $v1, 0x007F           ## $a3 = 00000000
 /* 01580 80A21340 8FA8005C */  lw      $t0, 0x005C($sp)           
 /* 01584 80A21344 3C0FDA38 */  lui     $t7, 0xDA38                ## $t7 = DA380000

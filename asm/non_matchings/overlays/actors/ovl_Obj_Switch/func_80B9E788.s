@@ -4,7 +4,7 @@ glabel func_80B9E788
 /* 01580 80B9E790 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 01584 80B9E794 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 01588 80B9E798 3C050500 */  lui     $a1, 0x0500                ## $a1 = 05000000
-/* 0158C 80B9E79C 0C00D498 */  jal     Draw_DListOpa
+/* 0158C 80B9E79C 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 01590 80B9E7A0 24A55AD0 */  addiu   $a1, $a1, 0x5AD0           ## $a1 = 05005AD0
 /* 01594 80B9E7A4 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -269,7 +269,7 @@ glabel func_80B6D688
 /* 040F8 80B6DA98 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 .L80B6DA9C:
 /* 040FC 80B6DA9C 8E2402D0 */  lw      $a0, 0x02D0($s1)           ## 000002D0
-/* 04100 80B6DAA0 0C024DDD */  jal     func_80093774              
+/* 04100 80B6DAA0 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 04104 80B6DAA4 24050014 */  addiu   $a1, $zero, 0x0014         ## $a1 = 00000014
 /* 04108 80B6DAA8 AE2202D0 */  sw      $v0, 0x02D0($s1)           ## 000002D0
 /* 0410C 80B6DAAC 244F0008 */  addiu   $t7, $v0, 0x0008           ## $t7 = 00000008

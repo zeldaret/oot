@@ -108,7 +108,7 @@ glabel func_80074704
 /* AEBA4C 800748AC AE2802D0 */  sw    $t0, 0x2d0($s1)
 /* AEBA50 800748B0 AC4A0004 */  sw    $t2, 4($v0)
 /* AEBA54 800748B4 AC490000 */  sw    $t1, ($v0)
-/* AEBA58 800748B8 0C024DDD */  jal   func_80093774
+/* AEBA58 800748B8 0C024DDD */  jal   Gfx_CallSetupDL
 /* AEBA5C 800748BC 8E2402D0 */   lw    $a0, 0x2d0($s1)
 /* AEBA60 800748C0 AE2202D0 */  sw    $v0, 0x2d0($s1)
 /* AEBA64 800748C4 92830B13 */  lbu   $v1, 0xb13($s4)

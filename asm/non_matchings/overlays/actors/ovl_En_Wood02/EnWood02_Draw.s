@@ -82,7 +82,7 @@ glabel EnWood02_Draw
 /* 00DCC 80B3BD3C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00DD0 80B3BD40 AC790004 */  sw      $t9, 0x0004($v1)           ## 00000004
 /* 00DD4 80B3BD44 8FA40064 */  lw      $a0, 0x0064($sp)           
-/* 00DD8 80B3BD48 0C00D498 */  jal     Draw_DListOpa
+/* 00DD8 80B3BD48 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00DDC 80B3BD4C 24A50700 */  addiu   $a1, $a1, 0x0700           ## $a1 = 06000700
 /* 00DE0 80B3BD50 10000058 */  beq     $zero, $zero, .L80B3BEB4   
@@ -102,7 +102,7 @@ glabel EnWood02_Draw
 /* 00E14 80B3BD84 8CA5BF54 */  lw      $a1, %lo(D_80B3BF54)($a1)  
 /* 00E18 80B3BD88 A3A60053 */  sb      $a2, 0x0053($sp)           
 /* 00E1C 80B3BD8C A3A70052 */  sb      $a3, 0x0052($sp)           
-/* 00E20 80B3BD90 0C00D498 */  jal     Draw_DListOpa
+/* 00E20 80B3BD90 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00E24 80B3BD94 A3A80051 */  sb      $t0, 0x0051($sp)           
 /* 00E28 80B3BD98 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0

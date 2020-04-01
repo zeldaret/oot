@@ -4,7 +4,7 @@ glabel ObjKibako_Draw
 /* 00B60 80B95800 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00B64 80B95804 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00B68 80B95808 3C050500 */  lui     $a1, 0x0500                ## $a1 = 05000000
-/* 00B6C 80B9580C 0C00D498 */  jal     Draw_DListOpa
+/* 00B6C 80B9580C 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00B70 80B95810 24A55290 */  addiu   $a1, $a1, 0x5290           ## $a1 = 05005290
 /* 00B74 80B95814 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -127,7 +127,7 @@ glabel EnDh_Draw
 /* 016DC 809EC41C AFAA0028 */  sw      $t2, 0x0028($sp)
 /* 016E0 809EC420 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 016E4 809EC424 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 016E8 809EC428 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 016E8 809EC428 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 016EC 809EC42C AFA2005C */  sw      $v0, 0x005C($sp)
 /* 016F0 809EC430 8FA8005C */  lw      $t0, 0x005C($sp)
 /* 016F4 809EC434 3C0CFA00 */  lui     $t4, 0xFA00                ## $t4 = FA000000

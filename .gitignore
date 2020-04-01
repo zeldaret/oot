@@ -17,6 +17,8 @@ baserom/
 *.elf
 *.sra
 *.z64
+*.n64
+*.v64
 *.map
 *.dump
 out.txt
