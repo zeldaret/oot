@@ -997,40 +997,35 @@ u32 D_8011DF28[] = { 0x8005DF9C, 0x8005DFAC, 0x8005E10C, 0x8005E26C, 0x8005E2A4,
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D9F4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DC4C.s")
 //TODO: rename to CollisionCheck_SetOC()
-/*
-s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, CollisionCheckContext* simpleBodyGroups, Collider* collision) {
-    s32 temp_v0;
-    void* temp_a3;
+s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+    s32 index;
 
-    temp_a3 = arg1;
-    if (func_800C0D28() == 1) {
+    if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
-    if (arg2->unk15 >= 4) {
+    if (collider->type >= 4) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3229);
     }
-    arg1 = (void*)arg1;
-    *(&D_8011DF18 + (arg2->unk15 * 4))(arg0, arg2, arg1);
-    if (arg2->unk0 != 0) {
-        if (arg2->unk0->unk130 == 0) {
+    check = (void*)check;
+    (*D_8011DF18[collider->type])(globalCtx, collider);
+    if (collider->actor != NULL) {
+        if (collider->actor->update == NULL) {
             return -1;
         }
     }
-    if (arg1->unk1C0 >= 0x32) {
-        osSyncPrintf("CollisionCheck_setOC():インデックスがオーバして追加不能\n", arg1);
+    if (check->colOcCount >= 50) {
+        osSyncPrintf("CollisionCheck_setOC():インデックスがオーバして追加不能\n"); 
+        //EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
         return -1;
     }
-    if ((arg1->unk2 & 1) != 0) {
+    if ((check->unk2 & 1) != 0) {
         return -1;
     }
-    (arg1 + (arg1->unk1C0 * 4))->unk1C4 = arg2;
-    temp_v0 = arg1->unk1C0;
-    arg1->unk1C0 = (s32)(arg1->unk1C0 + 1);
-    return temp_v0;
+    index = check->colOcCount;
+    check->colOc[check->colOcCount++] = collider;
+    return index;
 }
-*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DD5C.s")
 
