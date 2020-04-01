@@ -88,7 +88,7 @@ glabel EnDyExtra_Draw
 /* 003C4 809FFAB4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 003C8 809FFAB8 AFA20060 */  sw      $v0, 0x0060($sp)           
 /* 003CC 809FFABC AFA3001C */  sw      $v1, 0x001C($sp)           
-/* 003D0 809FFAC0 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 003D0 809FFAC0 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 003D4 809FFAC4 00033040 */  sll     $a2, $v1,  1               
 /* 003D8 809FFAC8 8FA80060 */  lw      $t0, 0x0060($sp)           
 /* 003DC 809FFACC 3C0FE700 */  lui     $t7, 0xE700                ## $t7 = E7000000

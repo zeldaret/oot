@@ -1,3 +1,9 @@
+/*
+ * File: z_en_dog.c
+ * Overlay: ovl_En_Dog
+ * Description: Dog actor that Link can interact with
+ */
+
 #include "z_en_dog.h"
 
 #define ROOM 0x00
@@ -35,17 +41,7 @@ static ColliderCylinderInit cylinderInit = {
     0x0010, 0x0014, 0x0000, 0x0000, 0x0000,     0x0000,
 };
 
-// There are multiple versions of sub98 init structs
-// Keeping these local until z_collision_check is decompiled
-typedef struct {
-    /* 0x00 */ u8 health;
-    /* 0x02 */ s16 unk_10;
-    /* 0x04 */ s16 unk_12;
-    /* 0x06 */ u16 unk_14;
-    /* 0x08 */ u8 mass;
-} sub98Init;
-
-static sub98Init sub98Data = {
+static Sub98Init5 sub98Data = {
     0x00,   // health
     0x0000, // unk_10
     0x0000, // unk_12
@@ -469,8 +465,7 @@ static void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
     s32 pad;
     Color_RGBA8 colors[] = { { 0xFF, 0xFF, 0xC8, 0x00 }, { 0x96, 0x64, 0x32, 0x00 } };
     GraphicsContext* gfxCtx;
-    s32 pad2[2];
-    Gfx* gfxArr[2];
+    Gfx* gfxArr[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
     func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_dog.c", 972);

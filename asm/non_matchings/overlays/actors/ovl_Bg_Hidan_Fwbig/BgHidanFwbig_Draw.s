@@ -148,7 +148,7 @@ glabel BgHidanFwbig_Draw
 /* 00B1C 80887E0C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 00B20 80887E10 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 00B24 80887E14 AFA20050 */  sw      $v0, 0x0050($sp)           
-/* 00B28 80887E18 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00B28 80887E18 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00B2C 80887E1C 3066007F */  andi    $a2, $v1, 0x007F           ## $a2 = 00000000
 /* 00B30 80887E20 8FA80050 */  lw      $t0, 0x0050($sp)           
 /* 00B34 80887E24 3C19DA38 */  lui     $t9, 0xDA38                ## $t9 = DA380000

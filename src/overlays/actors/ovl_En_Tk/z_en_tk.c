@@ -1,15 +1,10 @@
-#include <ultra64.h>
-#include <global.h>
-#include "z_en_tk.h"
+/*
+ * File: z_en_tk.c
+ * Overlay: ovl_En_Tk
+ * Description: Dampe NPC from "Dampe's Heart-Pounding Gravedigging Tour"
+ */
 
-typedef struct {
-    /* 0x0000 */ u8 health; /* SubActorStruct98.health */
-    /* 0x0002 */ s16 h_2;   /* SubActorStruct98.unk_10 */
-    /* 0x0004 */ s16 h_4;   /* SubActorStruct98.unk_12 */
-    /* 0x0006 */ s16 h_6;   /* SubActorStruct98.unk_14 */
-    /* 0x0008 */ u8 mass;   /* SubActorStruct98.mass */
-    /* 0x000A */
-} EnTk_SubActorStruct98Init;
+#include "z_en_tk.h"
 
 #define ROOM 0x00
 #define FLAGS 0x00000009
@@ -135,7 +130,7 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(this->eff); i++) {
         if (eff->active != 0) {
             if (gfxSetup == 0) {
-                gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 0);
+                gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0);
                 gSPDisplayList(gfxCtx->polyXlu.p++, D_0600BC90);
                 gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x64, 0x3C, 0x14, 0x00);
                 gfxSetup = 1;
@@ -181,7 +176,7 @@ static ColliderCylinderInit D_80B1D508 = {
     0x00, 0x00,       0x01, 0x00, 0x001E, 0x0034, 0x0000,     0x0000, 0x0000, 0x0000,
 };
 
-static EnTk_SubActorStruct98Init D_80B1D534 = {
+static Sub98Init5 D_80B1D534 = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 

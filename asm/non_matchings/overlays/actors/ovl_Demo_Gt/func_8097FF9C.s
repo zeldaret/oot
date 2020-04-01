@@ -47,7 +47,7 @@ glabel func_8097FF9C
 /* 029E0 80980050 8C6B0008 */  lw      $t3, 0x0008($v1)           ## 00000180
 /* 029E4 80980054 AFAC0038 */  sw      $t4, 0x0038($sp)           
 /* 029E8 80980058 AFA20060 */  sw      $v0, 0x0060($sp)           
-/* 029EC 8098005C 0C02541A */  jal     Draw_TwoTexScrollEnvColor              
+/* 029EC 8098005C 0C02541A */  jal     Gfx_TwoTexScrollEnvColor              
 /* 029F0 80980060 AFAB0034 */  sw      $t3, 0x0034($sp)           
 /* 029F4 80980064 8FA90060 */  lw      $t1, 0x0060($sp)           
 /* 029F8 80980068 3C0EDA38 */  lui     $t6, 0xDA38                ## $t6 = DA380000

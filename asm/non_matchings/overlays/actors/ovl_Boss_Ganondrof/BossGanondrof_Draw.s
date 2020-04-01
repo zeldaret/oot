@@ -67,7 +67,7 @@ glabel BossGanondrof_Draw
 /* 042F8 80914938 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 042FC 8091493C 240500FF */  addiu   $a1, $zero, 0x00FF         ## $a1 = 000000FF
 /* 04300 80914940 24060032 */  addiu   $a2, $zero, 0x0032         ## $a2 = 00000032
-/* 04304 80914944 0C024CDC */  jal     func_80093370              
+/* 04304 80914944 0C024CDC */  jal     Gfx_SetFog              
 /* 04308 80914948 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0430C 8091494C 10000076 */  beq     $zero, $zero, .L80914B28   
 /* 04310 80914950 AE0202C0 */  sw      $v0, 0x02C0($s0)           ## 000002C0
@@ -195,7 +195,7 @@ glabel BossGanondrof_Draw
 /* 044D0 80914B10 44098000 */  mfc1    $t1, $f16                  
 /* 044D4 80914B14 00000000 */  nop
 /* 044D8 80914B18 252A03E8 */  addiu   $t2, $t1, 0x03E8           ## $t2 = 000003E8
-/* 044DC 80914B1C 0C024CDC */  jal     func_80093370              
+/* 044DC 80914B1C 0C024CDC */  jal     Gfx_SetFog              
 /* 044E0 80914B20 AFAA0018 */  sw      $t2, 0x0018($sp)           
 /* 044E4 80914B24 AE0202C0 */  sw      $v0, 0x02C0($s0)           ## 000002C0
 .L80914B28:

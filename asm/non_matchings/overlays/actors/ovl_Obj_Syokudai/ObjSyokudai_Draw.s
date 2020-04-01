@@ -112,7 +112,7 @@ glabel ObjSyokudai_Draw
 /* 009E4 80B9FC94 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 009E8 80B9FC98 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 009EC 80B9FC9C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 009F0 80B9FCA0 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 009F0 80B9FCA0 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 009F4 80B9FCA4 AFA20060 */  sw      $v0, 0x0060($sp)           
 /* 009F8 80B9FCA8 8FA30060 */  lw      $v1, 0x0060($sp)           
 /* 009FC 80B9FCAC 3C0AFA00 */  lui     $t2, 0xFA00                ## $t2 = FA000000

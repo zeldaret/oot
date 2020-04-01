@@ -4,7 +4,7 @@ glabel BgSpot18Shutter_Draw
 /* 00454 808B9824 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00458 808B9828 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0045C 808B982C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00460 808B9830 0C00D498 */  jal     Draw_DListOpa
+/* 00460 808B9830 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00464 808B9834 24A50420 */  addiu   $a1, $a1, 0x0420           ## $a1 = 06000420
 /* 00468 808B9838 8FBF0014 */  lw      $ra, 0x0014($sp)           

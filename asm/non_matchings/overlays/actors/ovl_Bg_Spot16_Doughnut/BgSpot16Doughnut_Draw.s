@@ -64,7 +64,7 @@ glabel BgSpot16Doughnut_Draw
 /* 003A0 808B67E0 AFA8001C */  sw      $t0, 0x001C($sp)           
 /* 003A4 808B67E4 AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 003A8 808B67E8 AFAA0010 */  sw      $t2, 0x0010($sp)           
-/* 003AC 808B67EC 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 003AC 808B67EC 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 003B0 808B67F0 AFA20058 */  sw      $v0, 0x0058($sp)           
 /* 003B4 808B67F4 8FA30058 */  lw      $v1, 0x0058($sp)           
 /* 003B8 808B67F8 3C19FB00 */  lui     $t9, 0xFB00                ## $t9 = FB000000

@@ -143,5 +143,5 @@ static void BgSpot12Gate_Update(BgSpot12Gate* this, GlobalContext* globalCtx) {
 }
 
 static void BgSpot12Gate_Draw(BgSpot12Gate* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_06001080);
+    Gfx_DrawDListOpa(globalCtx, &D_06001080);
 }

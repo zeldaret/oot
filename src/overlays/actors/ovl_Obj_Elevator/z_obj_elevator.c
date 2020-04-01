@@ -121,5 +121,5 @@ static void ObjElevator_Update(ObjElevator* this, GlobalContext* globalCtx) {
 }
 
 static void ObjElevator_Draw(ObjElevator* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_06000180);
+    Gfx_DrawDListOpa(globalCtx, &D_06000180);
 }

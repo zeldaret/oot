@@ -266,7 +266,7 @@ glabel ArrowLight_Draw
 /* 00990 8086A640 AFAC0020 */  sw      $t4, 0x0020($sp)
 /* 00994 8086A644 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00998 8086A648 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 0099C 8086A64C 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 0099C 8086A64C 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 009A0 8086A650 AFA2004C */  sw      $v0, 0x004C($sp)
 /* 009A4 8086A654 8FA8004C */  lw      $t0, 0x004C($sp)
 /* 009A8 8086A658 3C0F8087 */  lui     $t7, %hi(D_8086BA10)       ## $t7 = 80870000

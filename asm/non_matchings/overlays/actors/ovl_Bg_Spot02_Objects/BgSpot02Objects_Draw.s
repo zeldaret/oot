@@ -7,7 +7,7 @@ glabel BgSpot02Objects_Draw
 /* 005B0 808ACC10 3C05808B */  lui     $a1, %hi(D_808AD8B0)       ## $a1 = 808B0000
 /* 005B4 808ACC14 000E7880 */  sll     $t7, $t6,  2               
 /* 005B8 808ACC18 00AF2821 */  addu    $a1, $a1, $t7              
-/* 005BC 808ACC1C 0C00D498 */  jal     Draw_DListOpa
+/* 005BC 808ACC1C 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 005C0 808ACC20 8CA5D8B0 */  lw      $a1, %lo(D_808AD8B0)($a1)  
 /* 005C4 808ACC24 8FBF0014 */  lw      $ra, 0x0014($sp)           

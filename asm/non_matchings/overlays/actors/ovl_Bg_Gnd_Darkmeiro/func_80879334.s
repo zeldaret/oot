@@ -28,7 +28,7 @@ glabel func_80879334
 /* 0076C 8087939C 8D250000 */  lw      $a1, 0x0000($t1)           ## 00000000
 /* 00770 808793A0 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00774 808793A4 24A5BEC0 */  addiu   $a1, $a1, 0xBEC0           ## $a1 = 0600BEC0
-/* 00778 808793A8 0C00D4C9 */  jal     Draw_DListXlu
+/* 00778 808793A8 0C00D4C9 */  jal     Gfx_DrawDListXlu
               
 /* 0077C 808793AC 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00780 808793B0 8FBF0014 */  lw      $ra, 0x0014($sp)           

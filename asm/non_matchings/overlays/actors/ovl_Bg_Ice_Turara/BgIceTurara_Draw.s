@@ -4,7 +4,7 @@ glabel BgIceTurara_Draw
 /* 006D0 808925F0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 006D4 808925F4 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 006D8 808925F8 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 006DC 808925FC 0C00D498 */  jal     Draw_DListOpa
+/* 006DC 808925FC 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 006E0 80892600 24A523D0 */  addiu   $a1, $a1, 0x23D0           ## $a1 = 060023D0
 /* 006E4 80892604 8FBF0014 */  lw      $ra, 0x0014($sp)           

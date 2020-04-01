@@ -215,7 +215,7 @@ glabel EnFd_Draw
 /* 01C88 80A0D348 AFA80024 */  sw      $t0, 0x0024($sp)
 /* 01C8C 80A0D34C AFA0001C */  sw      $zero, 0x001C($sp)
 /* 01C90 80A0D350 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 01C94 80A0D354 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 01C94 80A0D354 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 01C98 80A0D358 AFA20058 */  sw      $v0, 0x0058($sp)
 /* 01C9C 80A0D35C 8FA30058 */  lw      $v1, 0x0058($sp)
 /* 01CA0 80A0D360 3C0BE700 */  lui     $t3, 0xE700                ## $t3 = E7000000

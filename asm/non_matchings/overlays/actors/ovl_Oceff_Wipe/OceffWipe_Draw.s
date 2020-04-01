@@ -242,7 +242,7 @@ glabel OceffWipe_Draw
 /* 004BC 80BA924C AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 004C0 80BA9250 AFA70020 */  sw      $a3, 0x0020($sp)           
 /* 004C4 80BA9254 AFB90028 */  sw      $t9, 0x0028($sp)           
-/* 004C8 80BA9258 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 004C8 80BA9258 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 004CC 80BA925C AFA20054 */  sw      $v0, 0x0054($sp)           
 /* 004D0 80BA9260 8FA30054 */  lw      $v1, 0x0054($sp)           
 /* 004D4 80BA9264 3C1880BB */  lui     $t8, %hi(D_80BA99E8)       ## $t8 = 80BB0000

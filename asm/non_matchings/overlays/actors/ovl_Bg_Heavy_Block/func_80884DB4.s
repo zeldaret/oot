@@ -21,7 +21,7 @@ glabel func_80884DB4
 /* 0166C 80884DFC 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 01670 80884E00 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 01674 80884E04 24A518A0 */  addiu   $a1, $a1, 0x18A0           ## $a1 = 060018A0
-/* 01678 80884E08 0C00D498 */  jal     Draw_DListOpa
+/* 01678 80884E08 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 0167C 80884E0C 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 01680 80884E10 1000000C */  beq     $zero, $zero, .L80884E44   
@@ -35,7 +35,7 @@ glabel func_80884DB4
 /* 0169C 80884E2C 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 016A0 80884E30 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 016A4 80884E34 24A51A30 */  addiu   $a1, $a1, 0x1A30           ## $a1 = 06001A30
-/* 016A8 80884E38 0C00D498 */  jal     Draw_DListOpa
+/* 016A8 80884E38 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 016AC 80884E3C 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 016B0 80884E40 8FBF0014 */  lw      $ra, 0x0014($sp)           
