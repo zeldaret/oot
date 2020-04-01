@@ -1111,7 +1111,7 @@ void func_800611A0(GlobalContext* globalCtx, CollisionCheckContext* check) {
         temp = *col;
         if (temp != NULL) {
             if (temp->collideFlags & 1) {
-                if ((temp->actor == 0) || (temp->actor->update != NULL)) {
+                if (temp->actor == NULL || temp->actor->update != NULL) {
                     (*D_8011DF5C[temp->type])(globalCtx, check, temp);
                 }
             }
@@ -1126,18 +1126,24 @@ void func_80061274(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
 
     for (col = check->colAc; col < check->colAc + check->colAcCount; col++) {
         temp = *col;
-        if (temp != NULL) {
-            if (temp->collideFlags & 1) {
-                if ((temp->actor == 0) || (temp->actor->update != 0)) {
-                    if ((temp->collideFlags & collider->colliderFlags) & 0x38) {
-                        if (collider != temp) {
-                            if ((((collider->colliderFlags & 0x40) != 0) || (collider->actor == NULL)) || (temp->actor != collider->actor)) {
-                                (*D_8011DF6C[collider->type][temp->type])(globalCtx, check, collider, temp);
-                            }
-                        }
-                    }
-                }
-            }
+        if (temp == NULL) {
+            continue;
+        }
+        else if (!(temp->collideFlags & 1)) {
+            continue;
+        }
+        else if (temp->actor != NULL && temp->actor->update == NULL) {
+            continue;
+        }
+        else if (!((temp->collideFlags & collider->colliderFlags) & 0x38)) {
+            continue;
+        }
+        else if (collider == temp) {
+            continue;
+        }
+
+        else if ((collider->colliderFlags & 0x40) || collider->actor == NULL || temp->actor != collider->actor) {
+            (*D_8011DF6C[collider->type][temp->type])(globalCtx, check, collider, temp);
         }
     }
 }
