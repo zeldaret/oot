@@ -1119,7 +1119,28 @@ void func_800611A0(GlobalContext* globalCtx, CollisionCheckContext* check) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061274.s")
+extern void (*D_8011DF6C[4][4])(GlobalContext*, CollisionCheckContext*, Collider*, Collider*);
+void func_80061274(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+    Collider** col;
+    Collider* temp;
+
+    for (col = check->colAc; col < check->colAc + check->colAcCount; col++) {
+        temp = *col;
+        if (temp != NULL) {
+            if (temp->collideFlags & 1) {
+                if ((temp->actor == 0) || (temp->actor->update != 0)) {
+                    if ((temp->collideFlags & collider->colliderFlags) & 0x38) {
+                        if (collider != temp) {
+                            if ((((collider->colliderFlags & 0x40) != 0) || (collider->actor == NULL)) || (temp->actor != collider->actor)) {
+                                (*D_8011DF6C[collider->type][temp->type])(globalCtx, check, collider, temp);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8006139C.s")
 
