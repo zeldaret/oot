@@ -58,7 +58,6 @@ void BgSpot15Saku_Destroy(BgSpot15Saku* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-// regalloc differences
 void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {
     if (this->unk_168 && !(gSaveContext.inf_table[7] & 2)) {
         this->unk_17C = 2;
@@ -79,7 +78,6 @@ void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx) {
     }
 }
 
-// single regalloc difference
 void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx) {
     if (!this->unk_17C) {
         this->unk_168 = 0;
