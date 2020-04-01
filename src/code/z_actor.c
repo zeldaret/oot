@@ -23,7 +23,7 @@ void func_8002B200(Actor* actor, LightMapper* lightMapper, GlobalContext* global
             gfxCtx = globalCtx->state.gfxCtx;
             func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 1553);
 
-            gfxCtx->polyOpa.p = func_80093774(gfxCtx->polyOpa.p, 0x2C);
+            gfxCtx->polyOpa.p = Gfx_CallSetupDL(gfxCtx->polyOpa.p, 0x2C);
 
             gDPSetCombineLERP(gfxCtx->polyOpa.p++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0,
                               0, COMBINED);
@@ -141,7 +141,7 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, Globa
         gfxCtx = globalCtx->state.gfxCtx;
         func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 1741);
 
-        gfxCtx->polyOpa.p = func_80093774(gfxCtx->polyOpa.p, 0x2C);
+        gfxCtx->polyOpa.p = Gfx_CallSetupDL(gfxCtx->polyOpa.p, 0x2C);
         actor->shape.unk_15 = 0;
 
         for (i = 0; i < 2; i++) {
@@ -374,7 +374,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         func_8002BE64(targetCtx, targetCtx->unk_4C, spBC.x, spBC.y, spBC.z);
 
         if ((!(player->stateFlags1 & 0x40)) || (actor != player->unk_664)) {
-            gfxCtx->overlay.p = func_80093774(gfxCtx->overlay.p, 0x39);
+            gfxCtx->overlay.p = Gfx_CallSetupDL(gfxCtx->overlay.p, 0x39);
 
             for (spB0 = 0, spAC = targetCtx->unk_4C; spB0 < spB8; spB0++) {
                 entry = &targetCtx->arr_50[spAC];
@@ -418,7 +418,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
     if ((actor != NULL) && !(actor->flags & 0x8000000)) {
         NaviColor* naviColor = &sNaviColorList[actor->type];
 
-        gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 0x7);
+        gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x7);
 
         Matrix_Translate(actor->posRot2.pos.x, actor->posRot2.pos.y + (actor->unk_4C * actor->scale.y) + 17.0f,
                          actor->posRot2.pos.z, MTXMODE_NEW);
@@ -1926,7 +1926,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
         if ((globalCtx->csCtx.state == 0) &&
             (gSaveContext.respawn[RESPAWN_MODE_TOP].entrance_index == gSaveContext.entrance_index) &&
             (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].room_index)) {
-            gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 0x19);
+            gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x19);
 
             Matrix_Translate(gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x,
                              gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8,
@@ -3489,7 +3489,7 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
 
     if (0) {} // Necessary to match
 
-    gfxCtx->polyOpa.p = func_80093774(gfxCtx->polyOpa.p, 0x2C);
+    gfxCtx->polyOpa.p = Gfx_CallSetupDL(gfxCtx->polyOpa.p, 0x2C);
 
     gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0x00, 0x00, 0x00, alpha);
 

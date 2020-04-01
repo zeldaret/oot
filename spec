@@ -314,7 +314,6 @@ beginseg
     include "build/src/code/z_draw.o"
     include "build/asm/code_8006BA00.o"
     include "build/src/code/z_elf_message.o"
-    include "build/data/z_elf_message.data.o"
     include "build/src/code/z_face_reaction.o"
     include "build/src/code/code_8006C3A0.o"
     include "build/src/code/code_8006C510.o"
@@ -356,7 +355,6 @@ beginseg
     include "build/src/code/z_prenmi.o"
     include "build/src/code/z_quake.o"
     include "build/src/code/z_rcp.o"
-    include "build/data/z_rcp.data.o"
     include "build/src/code/z_room.o"
     include "build/src/code/z_sample.o"
     include "build/src/code/code_80097A00.o"
@@ -672,25 +670,19 @@ endseg
 beginseg
     name "ovl_Arrow_Fire"
     include "build/src/overlays/actors/ovl_Arrow_Fire/z_arrow_fire.o"
-    include "build/data/overlays/actors/z_arrow_fire.data.o"
-    include "build/data/overlays/actors/z_arrow_fire.rodata.o"
-    include "build/data/overlays/actors/z_arrow_fire.reloc.o"
+    include "build/src/overlays/actors/ovl_Arrow_Fire/z_arrow_fire_reloc.o"
 endseg
 
 beginseg
     name "ovl_Arrow_Ice"
     include "build/src/overlays/actors/ovl_Arrow_Ice/z_arrow_ice.o"
-    include "build/data/overlays/actors/z_arrow_ice.data.o"
-    include "build/data/overlays/actors/z_arrow_ice.rodata.o"
-    include "build/data/overlays/actors/z_arrow_ice.reloc.o"
+    include "build/src/overlays/actors/ovl_Arrow_Ice/z_arrow_ice_reloc.o"
 endseg
 
 beginseg
     name "ovl_Arrow_Light"
     include "build/src/overlays/actors/ovl_Arrow_Light/z_arrow_light.o"
-    include "build/data/overlays/actors/z_arrow_light.data.o"
-    include "build/data/overlays/actors/z_arrow_light.rodata.o"
-    include "build/data/overlays/actors/z_arrow_light.reloc.o"
+    include "build/src/overlays/actors/ovl_Arrow_Light/z_arrow_light_reloc.o"
 endseg
 
 beginseg

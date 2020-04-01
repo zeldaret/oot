@@ -63,5 +63,5 @@ static void Update(ActorMenkuriKaiten* this, GlobalContext* globalCtx) {
 }
 
 static void Draw(ActorMenkuriKaiten* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_060038D0);
+    Gfx_DrawDListOpa(globalCtx, &D_060038D0);
 }

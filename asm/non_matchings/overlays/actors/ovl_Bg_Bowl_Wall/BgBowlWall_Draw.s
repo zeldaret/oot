@@ -28,7 +28,7 @@ glabel BgBowlWall_Draw
 /* 007CC 8086F92C AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 007D0 8086F930 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 007D4 8086F934 24070010 */  addiu   $a3, $zero, 0x0010         ## $a3 = 00000010
-/* 007D8 8086F938 0C0253A7 */  jal     Draw_TexScroll              
+/* 007D8 8086F938 0C0253A7 */  jal     Gfx_TexScroll              
 /* 007DC 8086F93C AFA2003C */  sw      $v0, 0x003C($sp)           
 /* 007E0 8086F940 8FA8003C */  lw      $t0, 0x003C($sp)           
 /* 007E4 8086F944 3C09E700 */  lui     $t1, 0xE700                ## $t1 = E7000000

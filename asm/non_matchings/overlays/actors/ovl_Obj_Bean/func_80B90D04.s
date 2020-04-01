@@ -28,7 +28,7 @@ glabel func_80B90D04
 /* 022EC 80B90D6C C48E01D4 */  lwc1    $f14, 0x01D4($a0)          ## 000001D4
 /* 022F0 80B90D70 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 022F4 80B90D74 24A501B0 */  addiu   $a1, $a1, 0x01B0           ## $a1 = 060001B0
-/* 022F8 80B90D78 0C00D498 */  jal     Draw_DListOpa
+/* 022F8 80B90D78 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 022FC 80B90D7C 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 02300 80B90D80 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -9,7 +9,7 @@ glabel BgJyaCobra_Draw
 /* 018D4 808971C4 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 018D8 808971C8 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 018DC 808971CC 24A50790 */  addiu   $a1, $a1, 0x0790           ## $a1 = 06010790
-/* 018E0 808971D0 0C00D498 */  jal     Draw_DListOpa
+/* 018E0 808971D0 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 018E4 808971D4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 018E8 808971D8 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00

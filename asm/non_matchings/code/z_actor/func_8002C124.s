@@ -195,7 +195,7 @@ glabel func_8002C124
 /* AA3514 8002C374 52280089 */  beql  $s1, $t0, .L8002C59C
 /* AA3518 8002C378 8FA300F0 */   lw    $v1, 0xf0($sp)
 .L8002C37C:
-/* AA351C 8002C37C 0C024DDD */  jal   func_80093774
+/* AA351C 8002C37C 0C024DDD */  jal   Gfx_CallSetupDL
 /* AA3520 8002C380 8E6402B0 */   lw    $a0, 0x2b0($s3)
 /* AA3524 8002C384 AE6202B0 */  sw    $v0, 0x2b0($s3)
 /* AA3528 8002C388 8FAA00B8 */  lw    $t2, 0xb8($sp)
@@ -355,7 +355,7 @@ glabel func_8002C124
 /* AA3770 8002C5D0 8E6402D0 */  lw    $a0, 0x2d0($s3)
 /* AA3774 8002C5D4 24050007 */  li    $a1, 7
 /* AA3778 8002C5D8 0009C8C0 */  sll   $t9, $t1, 3
-/* AA377C 8002C5DC 0C024DDD */  jal   func_80093774
+/* AA377C 8002C5DC 0C024DDD */  jal   Gfx_CallSetupDL
 /* AA3780 8002C5E0 032A8021 */   addu  $s0, $t9, $t2
 /* AA3784 8002C5E4 AE6202D0 */  sw    $v0, 0x2d0($s3)
 /* AA3788 8002C5E8 C6300054 */  lwc1  $f16, 0x54($s1)

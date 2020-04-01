@@ -16,7 +16,7 @@ glabel BgJyaHaheniron_Draw
 /* 00630 808986F0 3C05808A */  lui     $a1, %hi(D_808987B8)       ## $a1 = 808A0000
 /* 00634 808986F4 00AE2821 */  addu    $a1, $a1, $t6              
 /* 00638 808986F8 8CA587B8 */  lw      $a1, %lo(D_808987B8)($a1)  
-/* 0063C 808986FC 0C00D498 */  jal     Draw_DListOpa
+/* 0063C 808986FC 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00640 80898700 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00644 80898704 8FBF0014 */  lw      $ra, 0x0014($sp)           

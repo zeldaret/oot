@@ -262,7 +262,7 @@ glabel ArrowIce_Draw
 /* 00980 80868650 AFAD0028 */  sw      $t5, 0x0028($sp)
 /* 00984 80868654 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00988 80868658 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 0098C 8086865C 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 0098C 8086865C 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 00990 80868660 AFA2004C */  sw      $v0, 0x004C($sp)
 /* 00994 80868664 8FA8004C */  lw      $t0, 0x004C($sp)
 /* 00998 80868668 3C188087 */  lui     $t8, %hi(D_80869A20)       ## $t8 = 80870000

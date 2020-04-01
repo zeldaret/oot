@@ -83,7 +83,7 @@ glabel func_80BA7450
 /* 004B4 80BA7594 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 004B8 80BA7598 AFA30074 */  sw      $v1, 0x0074($sp)           
 /* 004BC 80BA759C AFA2004C */  sw      $v0, 0x004C($sp)           
-/* 004C0 80BA75A0 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 004C0 80BA75A0 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 004C4 80BA75A4 000A30C0 */  sll     $a2, $t2,  3               
 /* 004C8 80BA75A8 8FA8004C */  lw      $t0, 0x004C($sp)           
 /* 004CC 80BA75AC 8FA30074 */  lw      $v1, 0x0074($sp)           

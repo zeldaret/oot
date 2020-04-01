@@ -5,7 +5,7 @@ glabel BgHakaTubo_Draw
 /* 008B8 80881B08 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 008BC 80881B0C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 008C0 80881B10 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 008C4 80881B14 0C00D498 */  jal     Draw_DListOpa
+/* 008C4 80881B14 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 008C8 80881B18 24A5FE40 */  addiu   $a1, $a1, 0xFE40           ## $a1 = 0600FE40
 /* 008CC 80881B1C 8FA40018 */  lw      $a0, 0x0018($sp)           

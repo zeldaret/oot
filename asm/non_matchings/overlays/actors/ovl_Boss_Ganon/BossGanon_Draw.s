@@ -34,7 +34,7 @@ glabel BossGanon_Draw
 /* 0A4E4 808E0D54 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 0A4E8 808E0D58 240500FF */  addiu   $a1, $zero, 0x00FF         ## $a1 = 000000FF
 /* 0A4EC 808E0D5C 24060032 */  addiu   $a2, $zero, 0x0032         ## $a2 = 00000032
-/* 0A4F0 808E0D60 0C024CDC */  jal     func_80093370
+/* 0A4F0 808E0D60 0C024CDC */  jal     Gfx_SetFog
 /* 0A4F4 808E0D64 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0A4F8 808E0D68 AE4202C0 */  sw      $v0, 0x02C0($s2)           ## 000002C0
 /* 0A4FC 808E0D6C 8E4302D0 */  lw      $v1, 0x02D0($s2)           ## 000002D0

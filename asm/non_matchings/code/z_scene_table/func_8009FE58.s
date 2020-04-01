@@ -91,7 +91,7 @@ glabel func_8009FE58
 /* B170A8 8009FF08 AFB9001C */  sw    $t9, 0x1c($sp)
 /* B170AC 8009FF0C AFA80094 */  sw    $t0, 0x94($sp)
 /* B170B0 8009FF10 00002825 */  move  $a1, $zero
-/* B170B4 8009FF14 0C0253D0 */  jal   Draw_TwoTexScroll
+/* B170B4 8009FF14 0C0253D0 */  jal   Gfx_TwoTexScroll
 /* B170B8 8009FF18 AFA20078 */   sw    $v0, 0x78($sp)
 /* B170BC 8009FF1C 8FA30078 */  lw    $v1, 0x78($sp)
 /* B170C0 8009FF20 8FA80094 */  lw    $t0, 0x94($sp)
@@ -122,7 +122,7 @@ glabel func_8009FE58
 /* B17124 8009FF84 AFA0001C */  sw    $zero, 0x1c($sp)
 /* B17128 8009FF88 00002825 */  move  $a1, $zero
 /* B1712C 8009FF8C 00003025 */  move  $a2, $zero
-/* B17130 8009FF90 0C0253D0 */  jal   Draw_TwoTexScroll
+/* B17130 8009FF90 0C0253D0 */  jal   Gfx_TwoTexScroll
 /* B17134 8009FF94 AFA20074 */   sw    $v0, 0x74($sp)
 /* B17138 8009FF98 8FA30074 */  lw    $v1, 0x74($sp)
 /* B1713C 8009FF9C 10000012 */  b     .L8009FFE8
@@ -141,7 +141,7 @@ glabel func_8009FE58
 /* B1716C 8009FFCC 30A5007F */  andi  $a1, $a1, 0x7f
 /* B17170 8009FFD0 3106007F */  andi  $a2, $t0, 0x7f
 /* B17174 8009FFD4 24070020 */  li    $a3, 32
-/* B17178 8009FFD8 0C0253A7 */  jal   Draw_TexScroll
+/* B17178 8009FFD8 0C0253A7 */  jal   Gfx_TexScroll
 /* B1717C 8009FFDC AFA20070 */   sw    $v0, 0x70($sp)
 /* B17180 8009FFE0 8FA90070 */  lw    $t1, 0x70($sp)
 /* B17184 8009FFE4 AD220004 */  sw    $v0, 4($t1)

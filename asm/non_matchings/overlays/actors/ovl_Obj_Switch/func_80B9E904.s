@@ -148,7 +148,7 @@ glabel func_80B9E904
 /* 01938 80B9EB48 AFB90028 */  sw      $t9, 0x0028($sp)           
 /* 0193C 80B9EB4C AFAC0024 */  sw      $t4, 0x0024($sp)           
 /* 01940 80B9EB50 AFA20054 */  sw      $v0, 0x0054($sp)           
-/* 01944 80B9EB54 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 01944 80B9EB54 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 01948 80B9EB58 AFAA0020 */  sw      $t2, 0x0020($sp)           
 /* 0194C 80B9EB5C 8FA30054 */  lw      $v1, 0x0054($sp)           
 /* 01950 80B9EB60 8FA80074 */  lw      $t0, 0x0074($sp)           

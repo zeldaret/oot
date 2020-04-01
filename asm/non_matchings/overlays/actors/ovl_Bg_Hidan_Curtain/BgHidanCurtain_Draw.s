@@ -59,7 +59,7 @@ glabel BgHidanCurtain_Draw
 /* 00930 80885AD0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00934 80885AD4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00938 80885AD8 AFA2004C */  sw      $v0, 0x004C($sp)           
-/* 0093C 80885ADC 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0093C 80885ADC 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00940 80885AE0 3066007F */  andi    $a2, $v1, 0x007F           ## $a2 = 00000000
 /* 00944 80885AE4 8FA8004C */  lw      $t0, 0x004C($sp)           
 /* 00948 80885AE8 3C18DA38 */  lui     $t8, 0xDA38                ## $t8 = DA380000

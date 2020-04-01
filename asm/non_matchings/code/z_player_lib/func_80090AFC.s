@@ -68,7 +68,7 @@ glabel func_80090AFC
 /* B07D50 80090BB0 0C031AB1 */  jal   func_800C6AC4
 /* B07D54 80090BB4 00A08025 */   move  $s0, $a1
 /* B07D58 80090BB8 8E0402B0 */  lw    $a0, 0x2b0($s0)
-/* B07D5C 80090BBC 0C024DDD */  jal   func_80093774
+/* B07D5C 80090BBC 0C024DDD */  jal   Gfx_CallSetupDL
 /* B07D60 80090BC0 24050007 */   li    $a1, 7
 /* B07D64 80090BC4 AE0202B0 */  sw    $v0, 0x2b0($s0)
 /* B07D68 80090BC8 8FA400A0 */  lw    $a0, 0xa0($sp)

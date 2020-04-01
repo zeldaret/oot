@@ -66,7 +66,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8  code;
-    /* 0x01 */ u8  naviMsgNum;
+    /* 0x01 */ u8  cUpElfMsgNum;
     /* 0x04 */ u32 keepObjectId;
 } SCmdSpecialFiles;
 

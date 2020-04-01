@@ -32,7 +32,7 @@ void Sample_Draw(SampleContext* this) {
     func_80103D58(mtx, SREG(37), SREG(38), SREG(39), 1.0f, SREG(40), SREG(41), SREG(42));
     gSPMatrix(gfxCtx->polyOpa.p++, mtx, G_MTX_LOAD);
 
-    gfxCtx->polyOpa.p = func_80093708(gfxCtx->polyOpa.p, 0xFF, 0xFF, 0xFF, 0, 0, 0);
+    gfxCtx->polyOpa.p = Gfx_SetFog2(gfxCtx->polyOpa.p, 0xFF, 0xFF, 0xFF, 0, 0, 0);
     func_80093D18(gfxCtx);
 
     gDPSetCycleType(gfxCtx->polyOpa.p++, G_CYC_1CYCLE);
