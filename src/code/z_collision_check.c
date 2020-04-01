@@ -211,16 +211,12 @@ s32 func_8005BA74(GlobalContext* globalCtx, ColliderJntSphItemDim* item)
 }
 
 //SetInit JntSphItemDim
-s32 func_8005BA84(GlobalContext* globalCtx, ColliderJntSphItemDim* dest, ColliderJntSphItemDimInit* src);
-/*
-{
+s32 func_8005BA84(GlobalContext* globalCtx, ColliderJntSphItemDim* dest, ColliderJntSphItemDimInit* src) {
     dest->unk_14 = src->unk_00;
     dest->unk_00 = src->unk_02;
     dest->unk_10 = src->unk_0A * 0.01f;
     return 1;
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005BA84.s")
 
 //Initialize JntSphItem
 s32 func_8005BAD8(GlobalContext* globalCtx, ColliderJntSphItem* item) {

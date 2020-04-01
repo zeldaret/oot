@@ -325,17 +325,25 @@ typedef struct {
 } ColliderCylinderInit_Actor; // size = 0x2C
 
 typedef struct {
-    Vec3s unk_00;
-    s32 unk_08[2];
+    s16 unk_00;
+    s16 unk_02;
+    s16 unk_04;
+    s16 unk_06;
+} ColliderJntSphDimUnk; //size = 0x08
+
+typedef struct {
+    ColliderJntSphDimUnk unk_00;
+    Vec3s pos;
+    s16 radius;
     float unk_10;
     s8 unk_14;
-} ColliderJntSphItemDim; //size 0x18
+} ColliderJntSphItemDim; //size = 0x18
 
 typedef struct {
     u8 unk_00;
-    Vec3s unk_02;
+    ColliderJntSphDimUnk unk_02;
     s16 unk_0A;
-} ColliderJntSphItemDimInit; //size 0x0C
+} ColliderJntSphItemDimInit; //size = 0x0C
 
 typedef struct {
     /* 0x00 */ ColliderBody body;
