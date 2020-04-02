@@ -4004,9 +4004,7 @@ endseg
 beginseg
     name "ovl_Obj_Comb"
     include "build/src/overlays/actors/ovl_Obj_Comb/z_obj_comb.o"
-    include "build/data/overlays/actors/z_obj_comb.data.o"
-    include "build/data/overlays/actors/z_obj_comb.rodata.o"
-    include "build/data/overlays/actors/z_obj_comb.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Comb/z_obj_comb_reloc.o"
 endseg
 
 beginseg
