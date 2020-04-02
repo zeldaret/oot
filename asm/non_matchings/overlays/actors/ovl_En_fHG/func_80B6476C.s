@@ -207,7 +207,7 @@ glabel func_80B6476C
 /* 02090 80B64A50 AE0D01FC */  sw      $t5, 0x01FC($s0)           ## 000001FC
 /* 02094 80B64A54 44060000 */  mfc1    $a2, $f0
 /* 02098 80B64A58 8FA4004C */  lw      $a0, 0x004C($sp)
-/* 0209C 80B64A5C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 0209C 80B64A5C 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 020A0 80B64A60 AFA20050 */  sw      $v0, 0x0050($sp)
 /* 020A4 80B64A64 8FA20050 */  lw      $v0, 0x0050($sp)
 /* 020A8 80B64A68 240F0005 */  addiu   $t7, $zero, 0x0005         ## $t7 = 00000005

@@ -40,7 +40,7 @@ glabel EnGeldB_Draw
 /* 0481C 80A39B2C 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
 /* 04820 80A39B30 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 04824 80A39B34 E7A40010 */  swc1    $f4, 0x0010($sp)
-/* 04828 80A39B38 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 04828 80A39B38 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 0482C 80A39B3C E7A60018 */  swc1    $f6, 0x0018($sp)
 /* 04830 80A39B40 86880312 */  lh      $t0, 0x0312($s4)           ## 00000312

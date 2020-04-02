@@ -141,7 +141,7 @@ glabel EnToryo_Init
 /* 001F8 80B20368 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 001FC 80B2036C 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 00200 80B20370 AFAC0014 */  sw      $t4, 0x0014($sp)
-/* 00204 80B20374 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00204 80B20374 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00208 80B20378 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 0020C 80B2037C 960D01E8 */  lhu     $t5, 0x01E8($s0)           ## 000001E8

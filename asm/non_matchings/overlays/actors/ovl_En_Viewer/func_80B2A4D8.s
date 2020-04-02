@@ -27,12 +27,12 @@ glabel func_80B2A4D8
 /* 0033C 80B2A53C 10610006 */  beq     $v1, $at, .L80B2A558
 /* 00340 80B2A540 3C064040 */  lui     $a2, 0x4040                ## $a2 = 40400000
 /* 00344 80B2A544 25040198 */  addiu   $a0, $t0, 0x0198           ## $a0 = 00000198
-/* 00348 80B2A548 0C0294E1 */  jal     SkelAnime_ChangeAnimationPlaybackSpeed
+/* 00348 80B2A548 0C0294E1 */  jal     SkelAnime_ChangeAnimPlaybackRepeat
 /* 0034C 80B2A54C 00E02825 */  or      $a1, $a3, $zero            ## $a1 = 00000000
 /* 00350 80B2A550 10000004 */  beq     $zero, $zero, .L80B2A564
 /* 00354 80B2A554 8FBF0014 */  lw      $ra, 0x0014($sp)
 .L80B2A558:
-/* 00358 80B2A558 0C0294A7 */  jal     func_800A529C
+/* 00358 80B2A558 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
 /* 0035C 80B2A55C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00360 80B2A560 8FBF0014 */  lw      $ra, 0x0014($sp)
 .L80B2A564:

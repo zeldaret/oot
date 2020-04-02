@@ -34,7 +34,7 @@ glabel func_80A7735C
 /* 030C8 80A773D8 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 030CC 80A773DC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 030D0 80A773E0 E7A80010 */  swc1    $f8, 0x0010($sp)
-/* 030D4 80A773E4 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 030D4 80A773E4 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 030D8 80A773E8 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 030DC 80A773EC 24080003 */  addiu   $t0, $zero, 0x0003         ## $t0 = 00000003

@@ -18,7 +18,7 @@ glabel func_80850F9C
 /* 1EDCC 80850FDC E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 1EDD0 80850FE0 E7A00014 */  swc1    $f0, 0x0014($sp)
 /* 1EDD4 80850FE4 24A501B4 */  addiu   $a1, $a1, 0x01B4           ## $a1 = 000001B4
-/* 1EDD8 80850FE8 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 1EDD8 80850FE8 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 1EDDC 80850FEC E7A4001C */  swc1    $f4, 0x001C($sp)
 /* 1EDE0 80850FF0 0C20C884 */  jal     func_80832210
 /* 1EDE4 80850FF4 8FA4002C */  lw      $a0, 0x002C($sp)

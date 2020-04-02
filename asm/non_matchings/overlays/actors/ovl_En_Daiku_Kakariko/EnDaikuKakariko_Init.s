@@ -127,7 +127,7 @@ glabel EnDaikuKakariko_Init
 /* 00270 809E4590 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00274 809E4594 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 00278 809E4598 AFA80014 */  sw      $t0, 0x0014($sp)
-/* 0027C 809E459C 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 0027C 809E459C 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00280 809E45A0 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 00284 809E45A4 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
