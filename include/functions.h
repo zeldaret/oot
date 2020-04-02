@@ -1590,7 +1590,7 @@ void func_800CC8B4(Vec3f* a, Vec3f* b, Vec3f* c, float* nx, float* ny, float* nz
 // ? func_800CFC8C(?);
 s32 func_800CFCAC(PosRadius* a, PosRadius* b, f32* unk, f32* dist);
 // ? func_800CFD84(?);
-// ? func_800CFDA4(?);
+s32 func_800CFDA4(PosRadius* a, ColliderCylinderDim* b, f32* unk, f32* dist);
 // ? func_800CFF14(?);
 // ? func_800CFF34(?);
 // ? func_800D0104(?);

@@ -1120,8 +1120,8 @@ void func_8005DF9C(UNK_TYPE arg0, UNK_TYPE arg1, UNK_TYPE arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E800.s")
 
 s32 func_8005E81C(GlobalContext* globalContext,
-    ColliderJntSph* left, ColliderJntSphItem* leftItem, Vec3f* leftv,
-    ColliderJntSph* right, ColliderJntSphItem* rightItem, Vec3f* rightv, Vec3f* unk);
+    Collider* left, ColliderBody* leftBody, Vec3f* leftv,
+    Collider* right, ColliderBody* rightBody, Vec3f* rightv, Vec3f* unk);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E81C.s")
 
 //Check ColliderJntSph to ColliderJntSph
@@ -1161,7 +1161,7 @@ void func_8005E9C0(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
                                 else {
                                     Math_Vec3f_Copy(&sp78, &sp6C);
                                 }
-                                func_8005E81C(globalCtx, left, lItem, &sp6C, right, rItem, &sp60, &sp78);
+                                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp6C, &right->base, &rItem->body, &sp60, &sp78);
                                 if ((right->base.maskB & 0x40) == 0) {
                                     return;
                                 }
@@ -1174,7 +1174,62 @@ void func_8005E9C0(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005EC6C.s")
+//Check ColliderJntSph to ColliderCylinder 
+void func_8005EC6C(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) { 
+
+    ColliderJntSph* left = (ColliderJntSph*)l;
+    ColliderCylinder* right = (ColliderCylinder*)r;
+    ColliderJntSphItem* lItem;
+    f32 sp80;
+    f32 sp7C;
+    Vec3f sp70;
+    Vec3f sp64;
+    Vec3f sp58;
+    f32 temp_f0;
+
+    if (left->count > 0 && left->list != NULL && right->dim.radius > 0 && right->dim.height > 0) {
+        if (func_8005DF50(&right->body) == 1) {
+            return;
+        }
+        for (lItem = left->list; lItem < left->list + left->count; lItem++) {
+            if (func_8005DF2C(&lItem->body) == 1) {
+                continue;
+            }
+            if (func_8005DF74(&lItem->body, &right->body) == 1) {
+                continue;
+            }
+            if (func_800CFDA4(&lItem->dim.posr, &right->dim, &sp80, &sp7C) != 0) {
+                sp64.x = lItem->dim.posr.pos.x;
+                sp64.y = lItem->dim.posr.pos.y;
+                sp64.z = lItem->dim.posr.pos.z;
+                sp58.x = right->dim.position.x;
+                sp58.y = right->dim.position.y;
+                sp58.z = right->dim.position.z;
+                if (!(fabsf(sp7C) < 0.008f)) {
+                    temp_f0 = right->dim.radius / sp7C;
+                    if (temp_f0 <= 1.0f) {
+                        sp70.x = ((sp64.x - sp58.x) * temp_f0) + sp58.x;
+                        sp70.y = ((sp64.y - sp58.y) * temp_f0) + sp58.y;
+                        sp70.z = ((sp64.z - sp58.z) * temp_f0) + sp58.z;
+                    }
+                    else {
+                        Math_Vec3f_Copy(&sp70, &sp64);
+                    }
+                }
+                else {
+                    Math_Vec3f_Copy(&sp70, &sp64);
+                }
+                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp64, &right->base, &right->body, &sp58, &sp70);
+                return;
+            }
+        }
+    }
+}
+
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005EEE0.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005F17C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8006110C.s")
 
