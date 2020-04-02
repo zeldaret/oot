@@ -45,8 +45,11 @@ static Gfx* dListTbl[] = {
 static void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx) {
 
     Actor* thisx = &this->dyna.actor;
-    u32 sp24[2];
-    sp24[0] = 0;
+    u32 pad1;
+    u32 sp24;
+    u32 pad2;
+
+    sp24 = 0;
     Actor_ProcessInitChain(thisx, initChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
@@ -56,18 +59,18 @@ static void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx) {
         if (LINK_IS_ADULT) {
             Actor_Kill(thisx);
         } else {
-            this->actionFunc = &func_808AE5A8;
+            this->actionFunc = func_808AE5A8;
         }
     } else {
         DynaPolyInfo_Alloc(&D_060012C0, &sp24);
         if (Flags_GetSwitch(globalCtx, this->switchFlag) != 0) {
             Actor_Kill(thisx);
         } else {
-            this->actionFunc = &func_808AE5B4;
+            this->actionFunc = func_808AE5B4;
             thisx->flags |= 0x10;
         }
     }
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24[0]);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
 }
 
 static void BgSpot05Soko_Destroy(BgSpot05Soko* this, GlobalContext* globalCtx) {
@@ -83,7 +86,7 @@ static void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
         Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 0x1E, NA_SE_EV_METALDOOR_CLOSE);
         Actor_SetHeight(thisx, 50.0f);
         func_80080480(globalCtx, thisx);
-        this->actionFunc = &func_808AE630;
+        this->actionFunc = func_808AE630;
         thisx->speedXZ = 0.5f;
     }
 }
@@ -98,11 +101,9 @@ static void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
 }
 
 static void BgSpot05Soko_Update(BgSpot05Soko* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
-    this->actionFunc(thisx, globalCtx);
+    this->actionFunc(this, globalCtx);
 }
 
-extern Gfx* D_808AE724[];
 static void BgSpot05Soko_Draw(BgSpot05Soko* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, dListTbl[this->dyna.actor.params]);
 }

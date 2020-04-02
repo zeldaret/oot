@@ -55,7 +55,7 @@ static void EnTana_Init(EnTana* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     osSyncPrintf("☆☆☆ %s ☆☆☆\n", shelfTypes[thisx->params]);
     Actor_SetScale(thisx, 1.0f);
-    thisx->flags &= 0xFFFFFFFE;
+    thisx->flags &= ~1;
     thisx->draw = drawFuncs[thisx->params];
 }
 
