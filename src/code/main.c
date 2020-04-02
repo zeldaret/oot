@@ -89,7 +89,7 @@ void Main(void* arg0) {
     func_800C3FEC(&gAudioMgr, sAudioStack + sizeof(sAudioStack), 0xc, 0xa, &gSchedContext, &gIrqMgr);
 
     StackCheck_Init(&sPadMgrStackInfo, sPadMgrStack, sPadMgrStack + sizeof(sPadMgrStack), 0, 0x100, "padmgr");
-    PadMgr_Init(&gPadMgr, &sSiIntMsgQ, &gIrqMgr, 7, 0xe, &sIrqMgrStack);
+    padmgr_Init(&gPadMgr, &sSiIntMsgQ, &gIrqMgr, 7, 0xe, &sIrqMgrStack);
 
     func_800C3FC4(&gAudioMgr);
 

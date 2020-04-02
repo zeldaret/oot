@@ -4,6 +4,7 @@
 #include <ultra64.h>
 #include <ultra64/gbi.h>
 #include <ultra64/gs2dex.h>
+#include <ultra64/controller.h>
 #include <z64light.h>
 #include <z64actor.h>
 #include <z64object.h>
@@ -244,30 +245,25 @@ typedef struct {
 } GraphicsContext;
 
 typedef struct {
-    /* 0x00 */ union {
-        struct  {
-            u16 a   : 1;
-            u16 b   : 1;
-            u16 z   : 1;
-            u16 s   : 1;
-            u16 du  : 1;
-            u16 dd  : 1;
-            u16 dl  : 1;
-            u16 dr  : 1;
-            u16     : 2;
-            u16 l   : 1;
-            u16 r   : 1;
-            u16 cu  : 1;
-            u16 cd  : 1;
-            u16 cl  : 1;
-            u16 cr  : 1;
+    PadInput input;
+    union{
+        u16 status;
+        struct{
+            u8 errno;
+            u8 status_lo;
         };
-        u16        pad;
     };
-    /* 0x02 */ s8  x;
-    /* 0x03 */ s8  y;
-} RawInput; // size = 0x4
+} PadState;
 
+typedef struct
+{
+    /* 0x00 */ PadState current;
+    /* 0x06 */ PadState prev;
+    /* 0x0C */ PadState pressed_diff;
+    /* 0x12 */ PadState released_adj;
+} Input; // size = 0x18
+
+#if 0
 typedef struct {
     /* 0x00 */ RawInput raw;
     /* 0x04 */ u16      status;
@@ -282,6 +278,7 @@ typedef struct {
     /* 0x15 */ s8       yAdjusted;
     /* 0x16 */ char     unk_16[0x02];
 } Input; // size = 0x18
+#endif
 
 typedef struct {
     /* 0x0000 */ char   unk_00[0x28];

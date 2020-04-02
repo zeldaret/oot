@@ -1,14 +1,3 @@
-.include "macro.inc"
-
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
-
-.section .text
-
-.align 4
-
 glabel func_80105F40
 /* B7D0E0 80105F40 27BDFFA0 */  addiu $sp, $sp, -0x60
 /* B7D0E4 80105F44 AFBF003C */  sw    $ra, 0x3c($sp)
@@ -46,6 +35,7 @@ glabel func_80105F40
 /* B7D160 80105FC0 02808025 */   move  $s0, $s4
 /* B7D164 80105FC4 8FD90000 */  lw    $t9, ($fp)
 /* B7D168 80105FC8 12390023 */  beq   $s1, $t9, .L80106058
+/* B7D16C 80105FCC 24080002 */   li    $t0, 2
 .L80105FCC:
 /* B7D16C 80105FCC 24080002 */   li    $t0, 2
 /* B7D170 80105FD0 A2E80000 */  sb    $t0, ($s7)
@@ -53,6 +43,7 @@ glabel func_80105F40
 /* B7D178 80105FD8 1A200010 */  blez  $s1, .L8010601C
 /* B7D17C 80105FDC 00001025 */   move  $v0, $zero
 /* B7D180 80105FE0 32240003 */  andi  $a0, $s1, 3
+/* B7D1A0 80106000 24420004 */   addiu $v0, $v0, 4
 /* B7D184 80105FE4 10800006 */  beqz  $a0, .L80106000
 /* B7D188 80105FE8 00801825 */   move  $v1, $a0
 .L80105FEC:
@@ -61,12 +52,13 @@ glabel func_80105F40
 /* B7D194 80105FF4 1462FFFD */  bne   $v1, $v0, .L80105FEC
 /* B7D198 80105FF8 26100001 */   addiu $s0, $s0, 1
 /* B7D19C 80105FFC 10510007 */  beq   $v0, $s1, .L8010601C
-.L80106000:
 /* B7D1A0 80106000 24420004 */   addiu $v0, $v0, 4
+.L80106000:
 /* B7D1A4 80106004 A2000000 */  sb    $zero, ($s0)
 /* B7D1A8 80106008 A2000001 */  sb    $zero, 1($s0)
 /* B7D1AC 8010600C A2000002 */  sb    $zero, 2($s0)
 /* B7D1B0 80106010 A2000003 */  sb    $zero, 3($s0)
+/* B7D1A0 80106000 24420004 */   addiu $v0, $v0, 4
 /* B7D1B4 80106014 1451FFFA */  bne   $v0, $s1, .L80106000
 /* B7D1B8 80106018 26100004 */   addiu $s0, $s0, 4
 .L8010601C:

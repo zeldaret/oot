@@ -2,10 +2,36 @@
 #define _ULTRA64_CONTROLLER_H_
 
 #include <ultra64.h>
-#include <global.h>
 
 #include <PR/os_cont.h>
 #include <PR/os_message.h>
+
+typedef struct
+{
+    /* 0x00 */ union{
+        u16 button;
+        struct{
+            u16 a   : 1;
+            u16 b   : 1;
+            u16 z   : 1;
+            u16 s   : 1;
+            u16 du  : 1;
+            u16 dd  : 1;
+            u16 dl  : 1;
+            u16 dr  : 1;
+            u16 illegal_h : 1;
+            u16 illegal_l : 1;
+            u16 l   : 1;
+            u16 r   : 1;
+            u16 cu  : 1;
+            u16 cd  : 1;
+            u16 cl  : 1;
+            u16 cr  : 1;
+        };
+    };
+    /* 0x02 */ s8  x;
+    /* 0x03 */ s8  y;
+} PadInput; // size = 0x4
 
 typedef struct
 {
@@ -19,11 +45,7 @@ typedef struct
 {
     PIF_header_t hdr;
     union{
-        struct{
-            u16 button;
-            s8 rawStickX;
-            s8 rawStickY;
-        };
+        PadInput input;
         struct{
             u8 ctl_type_lo;
             u8 ctl_type_hi;

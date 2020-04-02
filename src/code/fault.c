@@ -249,7 +249,7 @@ void Fault_Sleep(u32 duration) {
 
 void Fault_PadCallback(Input* input) {
     // BUG: this function is not called correctly and thus will crash from reading a bad pointer at 0x800C7E4C
-    func_800C7E08(input, 0);
+    padmgr_RequestPadData(input, 0);
 }
 
 void Fault_UpdatePadImpl() {

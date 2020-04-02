@@ -570,7 +570,7 @@ beginseg
     include "build/asm/code_80105C20.o"
     include "build/asm/code_80105CF0.o"
     include "build/data/code_80105CF0.data.o"
-    include "build/asm/code_80105F40.o"
+    include "build/src/code/code_80105F40.o"
     include "build/asm/code_80106170.o"
     include "build/asm/osSetTimer.o"
     include "build/src/libultra_code/__osSpGetStatus.o"

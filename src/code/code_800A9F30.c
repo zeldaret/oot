@@ -7,7 +7,7 @@ extern PadMgr gPadMgr;
 
 void func_800A9F30(s32 a, s32 b) {
     func_800D2E30(&D_80160FD0);
-    func_800C7948(a, &D_80160FD0);
+    padmgr_RumbleSet(a, &D_80160FD0);
 }
 
 void func_800A9F6C(f32 a, u8 b, u8 c, u8 d) {
@@ -44,7 +44,7 @@ void func_800AA0B4(void) {
 void func_800AA0F0(void) {
     PadMgr* padmgr = &gPadMgr;
 
-    if ((padmgr->unk_460 == func_800A9F30) && (padmgr->unk_464 == 0)) {
+    if (((void*)padmgr->unk_460 == (void*)func_800A9F30) && (padmgr->unk_464 == 0)) {
         padmgr->unk_460 = NULL;
         padmgr->unk_464 = 0;
     }
@@ -53,7 +53,7 @@ void func_800AA0F0(void) {
 }
 
 u32 func_800AA148(void) {
-    return ((gPadMgr.unk_2AE[0] ^ 1) == 0);
+    return ((gPadMgr.pak_type[0] ^ 1) == 0);
 }
 
 void func_800AA15C(void) {

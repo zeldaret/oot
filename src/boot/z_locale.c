@@ -45,7 +45,7 @@ u32 func_80001F48() {
         return 0;
     }
 
-    if (padMgr->unk_2A8 & 4) {
+    if (padMgr->valid_ctrlrs_mask & 4) {
         return 0;
     }
 
@@ -59,7 +59,7 @@ u32 func_80001F8C() {
         return 0;
     }
 
-    if (padMgr->unk_2A8 & 4) {
+    if (padMgr->valid_ctrlrs_mask & 4) {
         return 1;
     }
 
