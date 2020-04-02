@@ -103,7 +103,7 @@ s32 func_8005B7E4(GlobalContext* globalCtx, ColliderTouch* touch)
 s32 func_8005B7F4(GlobalContext* globalCtx, ColliderTouch* dest, ColliderTouch* src)
 {
     dest->flags = src->flags;
-    dest->unk_04 = src->unk_04;
+    dest->effect = src->effect;
     dest->damage = src->damage;
     return 1;
 }
@@ -116,7 +116,7 @@ void func_8005B818(GlobalContext* globalCtx, ColliderBody* body)
 //Initialize ColliderBump
 s32 func_8005B824(GlobalContext* globalCtx, ColliderBump* bump)
 {
-    static ColliderBump init = { (s32)0xFFCFFFFF, 0, 0, 0, 0, 0 };
+    static ColliderBump init = { (s32)0xFFCFFFFF, 0, 0, { 0, 0, 0 } };
     *bump = init;
     return 1;
 }
@@ -140,7 +140,7 @@ s32 func_8005B860(GlobalContext* globalCtx, ColliderBump* bump, ColliderBumpInit
 s32 func_8005B884(GlobalContext* globalCtx, ColliderBody* body) {
     static ColliderBody init = {
         { 0, 0, 0 },
-        { (s32)0xFFCFFFFF, 0, 0, 0, 0, 0 },
+        { (s32)0xFFCFFFFF, 0, 0, {0, 0, 0} },
         0, 0, 0, 0, 0, NULL, 0, NULL,
     };
     *body = init;
@@ -172,8 +172,8 @@ s32 func_8005B93C(GlobalContext* globalCtx, ColliderBody* body, ColliderBodyInit
 //SetAT ColliderBody
 void func_8005B9B0(GlobalContext* globalCtx, ColliderBody* body)
 {
-    body->unk_18 = 0;
-    body->unk_20 = 0;
+    body->unk18 = NULL;
+    body->unk20 = NULL;
     body->toucherFlags &= ~0x2;
     body->toucherFlags &= ~0x40;
     func_8005B818(globalCtx, body);
@@ -182,13 +182,13 @@ void func_8005B9B0(GlobalContext* globalCtx, ColliderBody* body)
 //SetAC ColliderBody
 void func_8005B9E8(GlobalContext* globalCtx, ColliderBody* body)
 {
-    body->bumper.unk_0A = 0;
+    body->bumper.unk_06.z = 0;
     body->bumperFlags &= ~0x2;
     body->bumperFlags &= ~0x80;
     body->colBuf = NULL;
     body->colliding = NULL;
-    body->bumper.unk_08 = body->bumper.unk_0A;
-    body->bumper.unk_06 = body->bumper.unk_0A;
+    body->bumper.unk_06.y = body->bumper.unk_06.z;
+    body->bumper.unk_06.x = body->bumper.unk_06.z;
 }
 
 //SetOC ColliderBody
@@ -1117,12 +1117,55 @@ void func_8005DF9C(UNK_TYPE arg0, UNK_TYPE arg1, UNK_TYPE arg2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E604.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E800.s")
+void func_8005E800(Collider* left, Collider* right) {
+    left->colliderFlags |= 4;
+    right->collideFlags |= 0x80;
+}
 
+//Set AT to AC collision
 s32 func_8005E81C(GlobalContext* globalContext,
     Collider* left, ColliderBody* leftBody, Vec3f* leftv,
-    Collider* right, ColliderBody* rightBody, Vec3f* rightv, Vec3f* unk);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E81C.s")
+    Collider* right, ColliderBody* rightBody, Vec3f* rightv, Vec3f* arg7) {
+
+    if ((right->collideFlags & 4) != 0) {
+        if (left->actor != NULL) {
+            if (right->actor != NULL) {
+                func_8005E800(left, right);
+            }
+        }
+    }
+    if ((rightBody->bumperFlags & 8) == 0) {
+        left->colliderFlags |= 2;
+        left->at = right->actor;
+        leftBody->unk18 = right;
+        leftBody->unk20 = rightBody; 
+        leftBody->toucherFlags |= 2;
+        if (left->actor != NULL) {
+            left->actor->sub_98.impactEffect = rightBody->bumper.effect;
+        }
+    }
+    right->collideFlags |= 2;
+    right->ac = left->actor;
+    rightBody->colBuf = left;
+    rightBody->colliding = leftBody;
+    rightBody->bumperFlags |= 2;
+    if (right->actor != NULL) {
+        right->actor->sub_98.unk_1B = (u8)leftBody->toucher.effect;
+    }
+    rightBody->bumper.unk_06.x = (s16)arg7->x;
+    rightBody->bumper.unk_06.y = (s16)arg7->y;
+    rightBody->bumper.unk_06.z = (s16)arg7->z;
+    if (((((leftBody->toucherFlags & 0x20) == 0) && (right->unk_14 != 9)) && (right->unk_14 != 0xB)) && (right->unk_14 != 0xC)) {
+        rightBody->bumperFlags |= 0x80;
+    }
+    else {
+        leftBody = (void*)leftBody;
+        func_8005E604(globalContext, left, leftBody, right, rightBody, arg7);
+        leftBody->toucherFlags |= 0x40;
+    }
+    return 1;
+}
+
 
 //Check ColliderJntSph to ColliderJntSph
 void func_8005E9C0(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {

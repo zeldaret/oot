@@ -212,18 +212,18 @@ typedef struct
     /* 0x04 */ Actor* at;
     /* 0x08 */ Actor* ac;
     /* 0x0C */ Actor* oc;
-    /* 0x10 */ u8 colliderFlags; /* Compared to 0x11 */
-    /* 0x11 */ u8 collideFlags; /* Compared to 0x10 */
-    /* 0x12 */ u8 maskA; /* Bitwise-and compared to 0x13 */
-    /* 0x13 */ u8 maskB; /* Bitwise-and compared to 0x12 */
+    /* 0x10 */ u8 colliderFlags; //Compared to 0x11 
+    /* 0x11 */ u8 collideFlags; //Compared to 0x10 
+    /* 0x12 */ u8 maskA; //Bitwise-and compared to 0x13
+    /* 0x13 */ u8 maskB; //Bitwise-and compared to 0x12 
     /* 0x14 */ u8 unk_14;
-    /* 0x15 */ u8 type; /* Cylinder Collection, Cylinder, Triangle Collection, Quad */
+    /* 0x15 */ u8 type; //Cylinder Collection, Cylinder, Triangle Collection, Quad
 } Collider; // size = 0x18
 
 typedef struct
 {
     /* 0x00 */ s32 flags; /* Toucher Attack Identifier Flags */
-    /* 0x04 */ u8 unk_04;
+    /* 0x04 */ u8 effect;
     /* 0x05 */ u8 damage; /* Damage or Stun Timer */
 } ColliderTouch; // size = 0x08
 
@@ -232,9 +232,7 @@ typedef struct
     /* 0x00 */ s32 flags; /* Collision Exclusion Mask */
     /* 0x04 */ u8 effect; /* Damage Effect (Knockback, Fire, etc.) */
     /* 0x05 */ u8 unk_05;
-    /* 0x06 */ s16 unk_06;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ s16 unk_0A;
+    /* 0x06 */ Vec3s unk_06;
 } ColliderBump; // size = 0x0C
 
 typedef struct
@@ -252,17 +250,11 @@ typedef struct ColliderBody
     /* 0x15 */ u8 toucherFlags;
     /* 0x16 */ u8 bumperFlags;
     /* 0x17 */ u8 flags2;
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ struct ColliderBodyEntry* colBuf;
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ struct ColliderBody* colliding;
+    /* 0x18 */ Collider* unk18; //left
+    /* 0x1C */ Collider* colBuf; //right
+    /* 0x20 */ struct ColliderBody* unk20; //left
+    /* 0x24 */ struct ColliderBody* colliding; //right
 } ColliderBody; // size = 0x28
-
-typedef struct ColliderBodyEntry
-{
-    /* 0x00 */ ColliderBody c;
-    /* 0x28 */ char unk_28[0x18];
-} ColliderBodyEntry; // size = 0x40
 
 typedef struct
 {
