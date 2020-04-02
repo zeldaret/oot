@@ -1139,37 +1139,31 @@ void func_8005E9C0(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
 
     left = (ColliderJntSph*)l;
     right = (ColliderJntSph*)r;
-    if (left->count > 0) {
-        if (left->list != NULL) {
-            if (right->count > 0) {
-                if (right->list != NULL) {
-                    for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-                        if (func_8005DF2C(&lItem->body) != 1) {
-                            for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-                                if (func_8005DF50(&rItem->body) != 1) {
-                                    if (func_8005DF74(&lItem->body, &rItem->body) != 1) {
-                                        if (func_800CFCAC(&lItem->dim.posr, &rItem->dim.posr, &sp8C, &sp88) == 1) {
-                                            sp6C.x = lItem->dim.posr.pos.x;
-                                            sp6C.y = lItem->dim.posr.pos.y;
-                                            sp6C.z = lItem->dim.posr.pos.z;
-                                            sp60.x = rItem->dim.posr.pos.x;
-                                            sp60.y = rItem->dim.posr.pos.y;
-                                            sp60.z = rItem->dim.posr.pos.z;
-                                            if (!(fabsf(sp88) < 0.008f)) {
-                                                temp_f0 = rItem->dim.posr.radius / sp88;
-                                                sp78.x = (((sp6C.x - sp60.x) * temp_f0) + sp60.x);
-                                                sp78.y = (((sp6C.y - sp60.y) * temp_f0) + sp60.y);
-                                                sp78.z = (((sp6C.z - sp60.z) * temp_f0) + sp60.z);
-                                            }
-                                            else {
-                                                Math_Vec3f_Copy(&sp78, &sp6C);
-                                            }
-                                            func_8005E81C(globalCtx, left, lItem, &sp6C, right, rItem, &sp60, &sp78);
-                                            if ((right->base.maskB & 0x40) == 0) {
-                                                return;
-                                            }
-                                        }
-                                    }
+    if (left->count > 0 && left->list != NULL && right->count > 0 && right->list != NULL) {
+        for (lItem = left->list; lItem < left->list + left->count; lItem++) {
+            if (func_8005DF2C(&lItem->body) != 1) {
+                for (rItem = right->list; rItem < right->list + right->count; rItem++) {
+                    if (func_8005DF50(&rItem->body) != 1) {
+                        if (func_8005DF74(&lItem->body, &rItem->body) != 1) {
+                            if (func_800CFCAC(&lItem->dim.posr, &rItem->dim.posr, &sp8C, &sp88) == 1) {
+                                sp6C.x = lItem->dim.posr.pos.x;
+                                sp6C.y = lItem->dim.posr.pos.y;
+                                sp6C.z = lItem->dim.posr.pos.z;
+                                sp60.x = rItem->dim.posr.pos.x;
+                                sp60.y = rItem->dim.posr.pos.y;
+                                sp60.z = rItem->dim.posr.pos.z;
+                                if (!(fabsf(sp88) < 0.008f)) {
+                                    temp_f0 = rItem->dim.posr.radius / sp88;
+                                    sp78.x = (((sp6C.x - sp60.x) * temp_f0) + sp60.x);
+                                    sp78.y = (((sp6C.y - sp60.y) * temp_f0) + sp60.y);
+                                    sp78.z = (((sp6C.z - sp60.z) * temp_f0) + sp60.z);
+                                }
+                                else {
+                                    Math_Vec3f_Copy(&sp78, &sp6C);
+                                }
+                                func_8005E81C(globalCtx, left, lItem, &sp6C, right, rItem, &sp60, &sp78);
+                                if ((right->base.maskB & 0x40) == 0) {
+                                    return;
                                 }
                             }
                         }
@@ -1270,6 +1264,7 @@ void func_8006139C(GlobalContext* globalCtx, CollisionCheckContext* check) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061E8C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061ED4.s")
+//func_80061ED4 a1 = ActorDamageChart
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061EFC.s")
 
