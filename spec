@@ -1400,8 +1400,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot05_Soko"
     include "build/src/overlays/actors/ovl_Bg_Spot05_Soko/z_bg_spot05_soko.o"
-    include "build/data/overlays/actors/z_bg_spot05_soko.data.o"
-    include "build/data/overlays/actors/z_bg_spot05_soko.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot05_Soko/z_bg_spot05_soko_reloc.o"
 endseg
 
 beginseg
