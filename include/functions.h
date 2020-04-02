@@ -1178,17 +1178,16 @@ void func_800A3B8C(SkelAnime* skelAnime);
 s32 func_800A3BC0(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void func_800A3C9C(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void SkelAnime_SetTransition(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 transitionRate);
-void SkelAnime_ChangeLinkAnim(GlobalContext* globalCtx, SkelAnime* skelAnime,
-                                   LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed, f32 frame,
-                                   f32 frameCount, u8 arg6, f32 transitionRate);
+void SkelAnime_ChangeLinkAnim(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
+                              f32 playbackSpeed, f32 frame, f32 frameCount, u8 arg6, f32 transitionRate);
 void SkelAnime_ChangeLinkAnimDefaultStop(GlobalContext* globalCtx, SkelAnime* skelAnime,
-                                              LinkAnimetionEntry* linkAnimetionEntrySeg);
+                                         LinkAnimetionEntry* linkAnimetionEntrySeg);
 void SkelAnime_ChangeLinkAnimPlaybackStop(GlobalContext* globalCtx, SkelAnime* skelAnime,
-                                               LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed);
+                                          LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed);
 void SkelAnime_ChangeLinkAnimDefaultRepeat(GlobalContext* globalCtx, SkelAnime* skelAnime,
-                                                LinkAnimetionEntry* linkAnimetionEntrySeg);
+                                           LinkAnimetionEntry* linkAnimetionEntrySeg);
 void SkelAnime_ChangeLinkAnimPlaybackRepeat(GlobalContext* globalCtx, SkelAnime* skelAnime,
-                                                 LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed);
+                                            LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed);
 void func_800A41FC(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void func_800A425C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
                    f32 frame);
@@ -1210,9 +1209,9 @@ void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, Skeleton
                         AnimationHeader* animationseg);
 s32 SkelAnime_FrameUpdateMatrix(SkelAnime* skelAnime);
 void SkelAnime_ChangeAnimImpl(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 frame,
-                                   f32 frameCount, u8 unk1, f32 transitionRate, s8 unk2);
+                              f32 frameCount, u8 unk1, f32 transitionRate, s8 unk2);
 void SkelAnime_ChangeAnim(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 unk0,
-                               f32 frameCount, u8 unk1, f32 transitionRate);
+                          f32 frameCount, u8 unk1, f32 transitionRate);
 void SkelAnime_ChangeAnimDefaultStop(SkelAnime* skelAnime, AnimationHeader* animationseg);
 void SkelAnime_ChangeAnimTransitionStop(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 transitionRate);
 void SkelAnime_ChangeAnimPlaybackStop(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed);
