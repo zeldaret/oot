@@ -49,7 +49,6 @@ static Gfx* dListTbl2[] = {
     NULL,
     0x06000E08,
     0x06001608,
-    NULL,
 };
 
 static void EnTana_Init(EnTana* this, GlobalContext* globalCtx) {

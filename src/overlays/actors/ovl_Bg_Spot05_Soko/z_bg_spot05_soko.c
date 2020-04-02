@@ -40,7 +40,6 @@ static InitChainEntry initChain[] = {
 static Gfx* dListTbl[] = {
     0x06000840,
     0x06001190,
-    NULL,
 };
 
 static void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx) {
