@@ -332,11 +332,15 @@ typedef struct {
 } ColliderJntSphDimUnk; //size = 0x08
 
 typedef struct {
-    ColliderJntSphDimUnk unk_00;
     Vec3s pos;
     s16 radius;
-    float unk_10;
-    s8 unk_14;
+} PosRadius;
+
+typedef struct {
+    /* 0x00 */ ColliderJntSphDimUnk unk_00;
+    /* 0x08 */ PosRadius posr;
+    /* 0x10 */ float unk_10;
+    /* 0x14 */ s8 unk_14;
 } ColliderJntSphItemDim; //size = 0x18
 
 typedef struct {

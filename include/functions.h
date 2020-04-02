@@ -1588,7 +1588,7 @@ void func_800CC8B4(Vec3f* a, Vec3f* b, Vec3f* c, float* nx, float* ny, float* nz
 // ? func_800CF7D0(?);
 // ? func_800CFC6C(?);
 // ? func_800CFC8C(?);
-// ? func_800CFCAC(?);
+s32 func_800CFCAC(PosRadius* a, PosRadius* b, f32* unk, f32* dist);
 // ? func_800CFD84(?);
 // ? func_800CFDA4(?);
 // ? func_800CFF14(?);
