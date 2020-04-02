@@ -244,7 +244,7 @@ glabel func_80838A14
 /* 06B90 80838DA0 354B0001 */  ori     $t3, $t2, 0x0001           ## $t3 = 00000001
 /* 06B94 80838DA4 A60B0088 */  sh      $t3, 0x0088($s0)           ## 00000088
 /* 06B98 80838DA8 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 06B9C 80838DAC 0C029037 */  jal     SkelAnime_LinkChangeAnimationPlaybackStop
+/* 06B9C 80838DAC 0C029037 */  jal     SkelAnime_ChangeLinkAnimPlaybackStop
 /* 06BA0 80838DB0 260501B4 */  addiu   $a1, $s0, 0x01B4           ## $a1 = 000001B4
 /* 06BA4 80838DB4 0C028CC4 */  jal     func_800A3310
 /* 06BA8 80838DB8 8FA40044 */  lw      $a0, 0x0044($sp)

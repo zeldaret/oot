@@ -4,13 +4,14 @@
 #include <ultra64.h>
 #include <ultra64/gbi.h>
 #include <z64dma.h>
+#include <z64vec.h>
 
 #define LINK_ANIMETION_OFFSET(addr,offset) (((u32)&_link_animetionSegmentRomStart)+((u32)addr)-((u32)&link_animetion_segment)+((u32)offset))
 #define LIMB_DONE 0xFF
 #define ANIMATION_ENTRY_MAX 50
 
-#define ANIME_FLAG_UPDATEXZ 0x02
-#define ANIME_FLAG_UPDATEY  0x10
+#define ANIM_FLAG_UPDATEXZ 0x02
+#define ANIM_FLAG_UPDATEY  0x10
 
 struct GlobalContext;
 struct Actor;
@@ -165,7 +166,7 @@ struct SkelAnime {
     /* 0x2C */ f32 transitionStep;
     /* 0x30 */ s32 (*animUpdate)();
     /* 0x34 */ s8 initFlags;
-    /* 0x35 */ u8 flags; // flags
+    /* 0x35 */ u8 flags;
     /* 0x36 */ s16 prevFrameRot;
     /* 0x38 */ Vec3s prevFramePos;
     /* 0x3E */ Vec3s unk_3E;

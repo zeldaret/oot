@@ -244,7 +244,7 @@ glabel func_808382DC
 /* 06450 80838660 8CC643B4 */  lw      $a2, %lo(D_808543B4)($a2)
 .L80838664:
 /* 06454 80838664 8FA40074 */  lw      $a0, 0x0074($sp)
-/* 06458 80838668 0C02901F */  jal     SkelAnime_LinkChangeAnimationDefaultStop
+/* 06458 80838668 0C02901F */  jal     SkelAnime_ChangeLinkAnimDefaultStop
 /* 0645C 8083866C 260506C8 */  addiu   $a1, $s0, 0x06C8           ## $a1 = 000006C8
 /* 06460 80838670 1000000B */  beq     $zero, $zero, .L808386A0
 /* 06464 80838674 8E0F067C */  lw      $t7, 0x067C($s0)           ## 0000067C

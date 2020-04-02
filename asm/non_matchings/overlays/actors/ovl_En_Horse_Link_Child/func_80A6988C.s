@@ -16,7 +16,7 @@ glabel func_80A6988C
 /* 004F0 80A698C0 00B82821 */  addu    $a1, $a1, $t8
 /* 004F4 80A698C4 8CA5AEE0 */  lw      $a1, %lo(D_80A6AEE0)($a1)
 /* 004F8 80A698C8 24C401A0 */  addiu   $a0, $a2, 0x01A0           ## $a0 = 000001A0
-/* 004FC 80A698CC 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 004FC 80A698CC 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 00500 80A698D0 AFA60018 */  sw      $a2, 0x0018($sp)
 /* 00504 80A698D4 0C29A569 */  jal     func_80A695A4
 /* 00508 80A698D8 8FA40018 */  lw      $a0, 0x0018($sp)

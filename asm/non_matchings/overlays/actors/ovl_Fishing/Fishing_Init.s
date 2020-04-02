@@ -76,7 +76,7 @@ glabel Fishing_Init
 /* 00CB8 80B6A658 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00CBC 80B6A65C 24A5453C */  addiu   $a1, $a1, 0x453C           ## $a1 = 0600453C
 /* 00CC0 80B6A660 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
-/* 00CC4 80B6A664 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
+/* 00CC4 80B6A664 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 00CC8 80B6A668 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 00CCC 80B6A66C 3C014320 */  lui     $at, 0x4320                ## $at = 43200000
 /* 00CD0 80B6A670 44812000 */  mtc1    $at, $f4                   ## $f4 = 160.00
@@ -527,7 +527,7 @@ glabel Fishing_Init
 /* 0131C 80B6ACBC AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01320 80B6ACC0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 01324 80B6ACC4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0600007C
-/* 01328 80B6ACC8 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
+/* 01328 80B6ACC8 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 0132C 80B6ACCC 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 01330 80B6ACD0 10000010 */  beq     $zero, $zero, .L80B6AD14
 /* 01334 80B6ACD4 00000000 */  nop
@@ -545,7 +545,7 @@ glabel Fishing_Init
 /* 01360 80B6AD00 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01364 80B6AD04 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 01368 80B6AD08 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0600CFE0
-/* 0136C 80B6AD0C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
+/* 0136C 80B6AD0C 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 01370 80B6AD10 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 .L80B6AD14:
 /* 01374 80B6AD14 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

@@ -36,7 +36,7 @@ glabel func_808351D4
 /* 03040 80835250 260506C8 */  addiu   $a1, $s0, 0x06C8           ## $a1 = 000006C8
 /* 03044 80835254 000A5880 */  sll     $t3, $t2,  2
 /* 03048 80835258 00CB3021 */  addu    $a2, $a2, $t3
-/* 0304C 8083525C 0C02901F */  jal     SkelAnime_LinkChangeAnimationDefaultStop
+/* 0304C 8083525C 0C02901F */  jal     SkelAnime_ChangeLinkAnimDefaultStop
 /* 03050 80835260 8CC643CC */  lw      $a2, %lo(D_808543CC)($a2)
 /* 03054 80835264 240CFFFF */  addiu   $t4, $zero, 0xFFFF         ## $t4 = FFFFFFFF
 /* 03058 80835268 10000017 */  beq     $zero, $zero, .L808352C8
@@ -54,7 +54,7 @@ glabel func_808351D4
 /* 03080 80835290 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 03084 80835294 000D7080 */  sll     $t6, $t5,  2
 /* 03088 80835298 00CE3021 */  addu    $a2, $a2, $t6
-/* 0308C 8083529C 0C029050 */  jal     SkelAnime_LinkChangeAnimationDefaultRepeat
+/* 0308C 8083529C 0C029050 */  jal     SkelAnime_ChangeLinkAnimDefaultRepeat
 /* 03090 808352A0 8CC643D4 */  lw      $a2, %lo(D_808543D4)($a2)
 /* 03094 808352A4 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001
 /* 03098 808352A8 10000007 */  beq     $zero, $zero, .L808352C8

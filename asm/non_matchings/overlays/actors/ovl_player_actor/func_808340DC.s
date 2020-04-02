@@ -108,7 +108,7 @@ glabel func_808340DC
 /* 02050 80834260 E7AC0010 */  swc1    $f12, 0x0010($sp)
 /* 02054 80834264 E7AE0014 */  swc1    $f14, 0x0014($sp)
 /* 02058 80834268 AFA80018 */  sw      $t0, 0x0018($sp)
-/* 0205C 8083426C 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 0205C 8083426C 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 02060 80834270 E7B0001C */  swc1    $f16, 0x001C($sp)
 /* 02064 80834274 8E09067C */  lw      $t1, 0x067C($s0)           ## 0000067C
 /* 02068 80834278 2401FEFF */  addiu   $at, $zero, 0xFEFF         ## $at = FFFFFEFF

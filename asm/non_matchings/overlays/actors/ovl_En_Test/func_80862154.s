@@ -5,7 +5,7 @@ glabel func_80862154
 /* 02B10 80862160 AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 02B14 80862164 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 02B18 80862168 24A58604 */  addiu   $a1, $a1, 0x8604           ## $a1 = 06008604
-/* 02B1C 8086216C 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 02B1C 8086216C 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 02B20 80862170 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 02B24 80862174 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02B28 80862178 0C00BE0A */  jal     Audio_PlayActorSound2

@@ -173,7 +173,7 @@ glabel EnHorseNormal_Init
 /* 003D8 80A6B628 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 003DC 80A6B62C 00194080 */  sll     $t0, $t9,  2
 /* 003E0 80A6B630 00A82821 */  addu    $a1, $a1, $t0
-/* 003E4 80A6B634 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 003E4 80A6B634 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 003E8 80A6B638 8CA5D370 */  lw      $a1, %lo(D_80A6D370)($a1)
 /* 003EC 80A6B63C 3C0180A7 */  lui     $at, %hi(D_80A6D5B0)       ## $at = 80A70000
 /* 003F0 80A6B640 C432D5B0 */  lwc1    $f18, %lo(D_80A6D5B0)($at)
@@ -246,7 +246,7 @@ glabel EnHorseNormal_Init
 /* 004E8 80A6B738 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 004EC 80A6B73C 000A5880 */  sll     $t3, $t2,  2
 /* 004F0 80A6B740 00AB2821 */  addu    $a1, $a1, $t3
-/* 004F4 80A6B744 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 004F4 80A6B744 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 004F8 80A6B748 8CA5D370 */  lw      $a1, %lo(D_80A6D370)($a1)
 /* 004FC 80A6B74C 0C29B1AC */  jal     func_80A6C6B0
 /* 00500 80A6B750 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -292,7 +292,7 @@ glabel EnHorseNormal_Init
 /* 0059C 80A6B7EC 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 005A0 80A6B7F0 000C6880 */  sll     $t5, $t4,  2
 /* 005A4 80A6B7F4 00AD2821 */  addu    $a1, $a1, $t5
-/* 005A8 80A6B7F8 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 005A8 80A6B7F8 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 005AC 80A6B7FC 8CA5D370 */  lw      $a1, %lo(D_80A6D370)($a1)
 /* 005B0 80A6B800 0C29B133 */  jal     func_80A6C4CC
 /* 005B4 80A6B804 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -306,7 +306,7 @@ glabel EnHorseNormal_Init
 /* 005D0 80A6B820 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 005D4 80A6B824 000E7880 */  sll     $t7, $t6,  2
 /* 005D8 80A6B828 00AF2821 */  addu    $a1, $a1, $t7
-/* 005DC 80A6B82C 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 005DC 80A6B82C 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 005E0 80A6B830 8CA5D370 */  lw      $a1, %lo(D_80A6D370)($a1)
 /* 005E4 80A6B834 1000000F */  beq     $zero, $zero, .L80A6B874
 /* 005E8 80A6B838 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
@@ -322,7 +322,7 @@ glabel EnHorseNormal_Init
 /* 0060C 80A6B85C 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 00610 80A6B860 0018C880 */  sll     $t9, $t8,  2
 /* 00614 80A6B864 00B92821 */  addu    $a1, $a1, $t9
-/* 00618 80A6B868 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 00618 80A6B868 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 0061C 80A6B86C 8CA5D370 */  lw      $a1, %lo(D_80A6D370)($a1)
 /* 00620 80A6B870 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
 .L80A6B874:

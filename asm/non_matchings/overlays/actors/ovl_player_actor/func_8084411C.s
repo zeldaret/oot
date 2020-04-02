@@ -149,7 +149,7 @@ glabel func_8084411C
 /* 12130 80844340 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 12134 80844344 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 12138 80844348 E7A00014 */  swc1    $f0, 0x0014($sp)
-/* 1213C 8084434C 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 1213C 8084434C 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 12140 80844350 E7AA001C */  swc1    $f10, 0x001C($sp)
 /* 12144 80844354 2419FFFF */  addiu   $t9, $zero, 0xFFFF         ## $t9 = FFFFFFFF
 /* 12148 80844358 100000E6 */  beq     $zero, $zero, .L808446F4

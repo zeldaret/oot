@@ -33,7 +33,7 @@ glabel func_808356E8
 /* 0354C 8083575C 8FA50020 */  lw      $a1, 0x0020($sp)
 /* 03550 80835760 3C060400 */  lui     $a2, 0x0400                ## $a2 = 04000000
 /* 03554 80835764 24C62E10 */  addiu   $a2, $a2, 0x2E10           ## $a2 = 04002E10
-/* 03558 80835768 0C029050 */  jal     SkelAnime_LinkChangeAnimationDefaultRepeat
+/* 03558 80835768 0C029050 */  jal     SkelAnime_ChangeLinkAnimDefaultRepeat
 /* 0355C 8083576C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L80835770:
 /* 03560 80835770 8FA80024 */  lw      $t0, 0x0024($sp)

@@ -153,7 +153,7 @@ glabel EnGoma_Init
 /* 00220 80A490E0 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00224 80A490E4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00228 80A490E8 24A51548 */  addiu   $a1, $a1, 0x1548           ## $a1 = 06001548
-/* 0022C 80A490EC 0C0294BE */  jal     SkelAnime_ChangeAnimationDefaultRepeat
+/* 0022C 80A490EC 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00230 80A490F0 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00234 80A490F4 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
 /* 00238 80A490F8 240B0002 */  addiu   $t3, $zero, 0x0002         ## $t3 = 00000002

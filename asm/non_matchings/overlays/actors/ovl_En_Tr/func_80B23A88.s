@@ -45,7 +45,7 @@ glabel func_80B23A88
 /* 00E3C 80B23B2C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00E40 80B23B30 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00E44 80B23B34 24A549C8 */  addiu   $a1, $a1, 0x49C8           ## $a1 = 060049C8
-/* 00E48 80B23B38 0C0294BE */  jal     SkelAnime_ChangeAnimationDefaultRepeat
+/* 00E48 80B23B38 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00E4C 80B23B3C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00E50 80B23B40 10000019 */  beq     $zero, $zero, .L80B23BA8
 /* 00E54 80B23B44 AE0002E4 */  sw      $zero, 0x02E4($s0)         ## 000002E4
@@ -62,7 +62,7 @@ glabel func_80B23A88
 /* 00E78 80B23B68 AFA70024 */  sw      $a3, 0x0024($sp)
 /* 00E7C 80B23B6C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00E80 80B23B70 24A549C8 */  addiu   $a1, $a1, 0x49C8           ## $a1 = 060049C8
-/* 00E84 80B23B74 0C0294BE */  jal     SkelAnime_ChangeAnimationDefaultRepeat
+/* 00E84 80B23B74 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00E88 80B23B78 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00E8C 80B23B7C 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 /* 00E90 80B23B80 8FA70024 */  lw      $a3, 0x0024($sp)

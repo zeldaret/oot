@@ -57,11 +57,11 @@ static ColliderCylinderInit colCylinderInit = {
     0x00, 0x01,       0x01, 0x00, 0x001E, 0x0028, 0x0000,     0x0000, 0x0000, 0x0000,
 };
 
-static Sub98Init4 sub98Init = { 
-    0x04, 
-    0x001E, 
-    0x0028, 
-    0x96, 
+static Sub98Init4 sub98Init = {
+    0x04,
+    0x001E,
+    0x0028,
+    0x96,
 };
 
 static ActorDamageChart damageChart = { {
@@ -141,8 +141,8 @@ static void EnWallmas_DropStart(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     AnimationHeader* objSegChangeAnime = &D_0600299C;
 
-    SkelAnime_ChangeAnimation(&this->skelAnime, objSegChangeAnime, 0.0f, 20.0f,
-                              (f32)SkelAnime_GetFrameCount(&D_0600299C), 2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 0.0f, 20.0f, (f32)SkelAnime_GetFrameCount(&D_0600299C), 2,
+                         0.0f);
 
     this->unk_2c4 = player->actor.posRot.pos.y;
     this->actor.posRot.pos.y = player->actor.posRot.pos.y + 300.0f;
@@ -157,8 +157,8 @@ static void EnWallmas_LandStart(EnWallmas* this, GlobalContext* globalCtx) {
     AnimationHeader* objSegFrameCount = &D_060019CC;
     AnimationHeader* objSegChangeAnime = &D_060019CC;
 
-    SkelAnime_ChangeAnimation(&this->skelAnime, objSegChangeAnime, 1.0f, 41.0f,
-                              SkelAnime_GetFrameCount(objSegFrameCount), 2, -3.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 1.0f, 41.0f, SkelAnime_GetFrameCount(objSegFrameCount), 2,
+                         -3.0f);
 
     func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_LAND);
@@ -166,18 +166,18 @@ static void EnWallmas_LandStart(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 static void EnWallmas_StandStart(EnWallmas* this) {
-    SkelAnime_ChangeAnimationDefaultStop(&this->skelAnime, &D_0600A054);
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600A054);
     this->actionFunc = (ActorFunc)&EnWallmas_Stand;
 }
 
 static void EnWallmas_WalkStart(EnWallmas* this) {
-    SkelAnime_ChangeAnimationPlaybackStop(&this->skelAnime, &D_060041F4, 3.0f);
+    SkelAnime_ChangeAnimPlaybackStop(&this->skelAnime, &D_060041F4, 3.0f);
     this->actionFunc = (ActorFunc)&EnWallmas_Walk;
     this->actor.speedXZ = 3.0f;
 }
 
 static void EnWallmas_JumpToCeilingStart(EnWallmas* this) {
-    SkelAnime_ChangeAnimationDefaultStop(&this->skelAnime, &D_06009244);
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06009244);
     this->actionFunc = (ActorFunc)&EnWallmas_JumpToCeiling;
     this->actor.speedXZ = 0.0f;
 }
@@ -188,14 +188,14 @@ static void EnWallmas_ReturnToCeilingStart(EnWallmas* this) {
     this->timer = 0;
     this->actor.speedXZ = 0.0f;
 
-    SkelAnime_ChangeAnimation(&this->skelAnime, objSegChangeAnime, 3.0f, 0.0f,
-                              (f32)SkelAnime_GetFrameCount(objSegFrameCount), 2, -3.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 3.0f, 0.0f,
+                         (f32)SkelAnime_GetFrameCount(objSegFrameCount), 2, -3.0f);
 
     this->actionFunc = (ActorFunc)&EnWallmas_ReturnToCeiling;
 }
 
 static void EnWallmas_TakeDamageStart(EnWallmas* this) {
-    SkelAnime_ChangeAnimationTransitionStop(&this->skelAnime, &D_06000590, -3.0f);
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000590, -3.0f);
     if ((this->colCylinder.body.colliding->toucher.flags & 0x1F824) != 0) {
         this->actor.posRot.rot.y = this->colCylinder.base.ac->posRot.rot.y;
     } else {
@@ -209,7 +209,7 @@ static void EnWallmas_TakeDamageStart(EnWallmas* this) {
 }
 
 static void EnWallmas_DamageCoolDownStart(EnWallmas* this) {
-    SkelAnime_ChangeAnimationDefaultStop(&this->skelAnime, &D_06000EA4);
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000EA4);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
@@ -228,7 +228,7 @@ static void EnWallMas_DieBegin(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 static void EnWallmas_TakePlayerBegin(EnWallmas* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnimationTransitionStop(&this->skelAnime, &D_06009520, -5.0f);
+    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06009520, -5.0f);
     this->timer = -0x1e;
     this->actionFunc = (ActorFunc)&EnWallmas_TakePlayer;
     this->actor.speedXZ = 0.0f;
@@ -251,7 +251,7 @@ static void EnWallmas_ProximityOrSwitchInit(EnWallmas* this) {
 }
 
 static void EnWallmas_StunBegin(EnWallmas* this) {
-    SkelAnime_ChangeAnimation(&this->skelAnime, &D_060019CC, 1.5f, 0, 20.0f, 2, -3.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060019CC, 1.5f, 0, 20.0f, 2, -3.0f);
 
     this->actor.speedXZ = 0.0f;
     if (this->actor.sub_98.damageEffect == 4) {

@@ -15,7 +15,7 @@ glabel func_80851B90
 /* 1F9B4 80851BC4 24A501B4 */  addiu   $a1, $a1, 0x01B4           ## $a1 = 000001B4
 /* 1F9B8 80851BC8 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 1F9BC 80851BCC E7A00014 */  swc1    $f0, 0x0014($sp)
-/* 1F9C0 80851BD0 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 1F9C0 80851BD0 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 1F9C4 80851BD4 E7A4001C */  swc1    $f4, 0x001C($sp)
 /* 1F9C8 80851BD8 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 1F9CC 80851BDC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

@@ -1,14 +1,14 @@
 glabel func_80A00588
 /* 005E8 80A00588 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
-/* 005EC 80A0058C AFBF0014 */  sw      $ra, 0x0014($sp)           
+/* 005EC 80A0058C AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 005F0 80A00590 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
 /* 005F4 80A00594 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 005F8 80A00598 24A504C4 */  addiu   $a1, $a1, 0x04C4           ## $a1 = 060004C4
-/* 005FC 80A0059C AFA70018 */  sw      $a3, 0x0018($sp)           
+/* 005FC 80A0059C AFA70018 */  sw      $a3, 0x0018($sp)
 /* 00600 80A005A0 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 00604 80A005A4 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
+/* 00604 80A005A4 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 00608 80A005A8 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
-/* 0060C 80A005AC 8FA70018 */  lw      $a3, 0x0018($sp)           
+/* 0060C 80A005AC 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 00610 80A005B0 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 00614 80A005B4 2408FFFF */  addiu   $t0, $zero, 0xFFFF         ## $t0 = FFFFFFFF
 /* 00618 80A005B8 90EE0298 */  lbu     $t6, 0x0298($a3)           ## 00000298
@@ -20,14 +20,14 @@ glabel func_80A00588
 /* 00630 80A005D0 ACF90004 */  sw      $t9, 0x0004($a3)           ## 00000004
 /* 00634 80A005D4 A4E80194 */  sh      $t0, 0x0194($a3)           ## 00000194
 /* 00638 80A005D8 E4E4006C */  swc1    $f4, 0x006C($a3)           ## 0000006C
-/* 0063C 80A005DC 85291992 */  lh      $t1, %lo(D_80A01992)($t1)  
+/* 0063C 80A005DC 85291992 */  lh      $t1, %lo(D_80A01992)($t1)
 /* 00640 80A005E0 3C0A80A0 */  lui     $t2, %hi(func_80A01010)    ## $t2 = 80A00000
 /* 00644 80A005E4 254A1010 */  addiu   $t2, $t2, %lo(func_80A01010) ## $t2 = 80A01010
 /* 00648 80A005E8 ACEA0190 */  sw      $t2, 0x0190($a3)           ## 00000190
 /* 0064C 80A005EC A4E902CA */  sh      $t1, 0x02CA($a3)           ## 000002CA
-/* 00650 80A005F0 8FBF0014 */  lw      $ra, 0x0014($sp)           
+/* 00650 80A005F0 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 00654 80A005F4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
-/* 00658 80A005F8 03E00008 */  jr      $ra                        
+/* 00658 80A005F8 03E00008 */  jr      $ra
 /* 0065C 80A005FC 00000000 */  nop
 
 

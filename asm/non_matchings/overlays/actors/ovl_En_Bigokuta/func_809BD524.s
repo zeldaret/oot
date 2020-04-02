@@ -1,12 +1,12 @@
 glabel func_809BD524
 /* 008C4 809BD524 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
-/* 008C8 809BD528 AFB00020 */  sw      $s0, 0x0020($sp)           
+/* 008C8 809BD528 AFB00020 */  sw      $s0, 0x0020($sp)
 /* 008CC 809BD52C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 008D0 809BD530 AFBF0024 */  sw      $ra, 0x0024($sp)           
+/* 008D0 809BD530 AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 008D4 809BD534 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 008D8 809BD538 24A50D1C */  addiu   $a1, $a1, 0x0D1C           ## $a1 = 06000D1C
 /* 008DC 809BD53C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 008E0 809BD540 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop              
+/* 008E0 809BD540 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 008E4 809BD544 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 008E8 809BD548 920F02FC */  lbu     $t7, 0x02FC($s0)           ## 000002FC
 /* 008EC 809BD54C 240E0050 */  addiu   $t6, $zero, 0x0050         ## $t6 = 00000050
@@ -16,7 +16,7 @@ glabel func_809BD524
 /* 008FC 809BD55C A21802FC */  sb      $t8, 0x02FC($s0)           ## 000002FC
 /* 00900 809BD560 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00904 809BD564 0C00BE0A */  jal     Audio_PlayActorSound2
-              
+
 /* 00908 809BD568 24053904 */  addiu   $a1, $zero, 0x3904         ## $a1 = 00003904
 /* 0090C 809BD56C 8E1902A8 */  lw      $t9, 0x02A8($s0)           ## 000002A8
 /* 00910 809BD570 240B0001 */  addiu   $t3, $zero, 0x0001         ## $t3 = 00000001
@@ -28,10 +28,10 @@ glabel func_809BD524
 /* 00928 809BD588 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0092C 809BD58C 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
 /* 00930 809BD590 312A0001 */  andi    $t2, $t1, 0x0001           ## $t2 = 00000000
-/* 00934 809BD594 51400005 */  beql    $t2, $zero, .L809BD5AC     
+/* 00934 809BD594 51400005 */  beql    $t2, $zero, .L809BD5AC
 /* 00938 809BD598 A2000195 */  sb      $zero, 0x0195($s0)         ## 00000195
 /* 0093C 809BD59C A20B0195 */  sb      $t3, 0x0195($s0)           ## 00000195
-/* 00940 809BD5A0 10000003 */  beq     $zero, $zero, .L809BD5B0   
+/* 00940 809BD5A0 10000003 */  beq     $zero, $zero, .L809BD5B0
 /* 00944 809BD5A4 A60C0196 */  sh      $t4, 0x0196($s0)           ## 00000196
 /* 00948 809BD5A8 A2000195 */  sb      $zero, 0x0195($s0)         ## 00000195
 .L809BD5AC:
@@ -39,15 +39,15 @@ glabel func_809BD524
 .L809BD5B0:
 /* 00950 809BD5B0 860E0196 */  lh      $t6, 0x0196($s0)           ## 00000196
 /* 00954 809BD5B4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00958 809BD5B8 0C00D09B */  jal     func_8003426C              
-/* 0095C 809BD5BC AFAE0010 */  sw      $t6, 0x0010($sp)           
+/* 00958 809BD5B8 0C00D09B */  jal     func_8003426C
+/* 0095C 809BD5BC AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 00960 809BD5C0 3C0F809C */  lui     $t7, %hi(func_809BE058)    ## $t7 = 809C0000
 /* 00964 809BD5C4 25EFE058 */  addiu   $t7, $t7, %lo(func_809BE058) ## $t7 = 809BE058
 /* 00968 809BD5C8 AE0F0190 */  sw      $t7, 0x0190($s0)           ## 00000190
-/* 0096C 809BD5CC 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 00970 809BD5D0 8FB00020 */  lw      $s0, 0x0020($sp)           
+/* 0096C 809BD5CC 8FBF0024 */  lw      $ra, 0x0024($sp)
+/* 00970 809BD5D0 8FB00020 */  lw      $s0, 0x0020($sp)
 /* 00974 809BD5D4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-/* 00978 809BD5D8 03E00008 */  jr      $ra                        
+/* 00978 809BD5D8 03E00008 */  jr      $ra
 /* 0097C 809BD5DC 00000000 */  nop
 
 

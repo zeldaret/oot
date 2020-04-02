@@ -48,7 +48,7 @@ glabel EnHorseLinkChild_Init
 /* 00344 80A69714 AE000150 */  sw      $zero, 0x0150($s0)         ## 00000150
 /* 00348 80A69718 3C0580A7 */  lui     $a1, %hi(D_80A6AEE0)       ## $a1 = 80A70000
 /* 0034C 80A6971C 8CA5AEE0 */  lw      $a1, %lo(D_80A6AEE0)($a1)
-/* 00350 80A69720 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 00350 80A69720 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 00354 80A69724 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 00358 80A69728 260501F4 */  addiu   $a1, $s0, 0x01F4           ## $a1 = 000001F4
 /* 0035C 80A6972C AFA50028 */  sw      $a1, 0x0028($sp)

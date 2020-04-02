@@ -6,7 +6,7 @@ glabel func_808D3D38
 /* 016D8 808D3D48 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 016DC 808D3D4C 24A57850 */  addiu   $a1, $a1, 0x7850           ## $a1 = 06007850
 /* 016E0 808D3D50 AFA60018 */  sw      $a2, 0x0018($sp)
-/* 016E4 808D3D54 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 016E4 808D3D54 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 016E8 808D3D58 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 016EC 808D3D5C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 016F0 808D3D60 0C028800 */  jal     SkelAnime_GetFrameCount

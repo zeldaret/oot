@@ -27,7 +27,7 @@ glabel func_80AA77D0
 /* 017DC 80AA782C 10400007 */  beq     $v0, $zero, .L80AA784C
 /* 017E0 80AA7830 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 017E4 80AA7834 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 017E8 80AA7838 0C0294BE */  jal     SkelAnime_ChangeAnimationDefaultRepeat
+/* 017E8 80AA7838 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 017EC 80AA783C 24A52F10 */  addiu   $a1, $a1, 0x2F10           ## $a1 = 06002F10
 /* 017F0 80AA7840 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 017F4 80AA7844 0C00BE0A */  jal     Audio_PlayActorSound2

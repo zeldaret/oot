@@ -10,7 +10,7 @@ glabel func_80A17808
 /* 00318 80A17828 24A541F4 */  addiu   $a1, $a1, 0x41F4           ## $a1 = 060041F4
 /* 0031C 80A1782C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00320 80A17830 3C063FC0 */  lui     $a2, 0x3FC0                ## $a2 = 3FC00000
-/* 00324 80A17834 0C0294E1 */  jal     SkelAnime_ChangeAnimationPlaybackRepeat
+/* 00324 80A17834 0C0294E1 */  jal     SkelAnime_ChangeAnimPlaybackRepeat
 /* 00328 80A17838 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 0032C 80A1783C 10000005 */  beq     $zero, $zero, .L80A17854
 /* 00330 80A17840 8FA70018 */  lw      $a3, 0x0018($sp)

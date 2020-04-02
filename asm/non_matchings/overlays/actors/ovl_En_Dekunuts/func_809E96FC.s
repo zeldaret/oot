@@ -1,16 +1,16 @@
 glabel func_809E96FC
 /* 0019C 809E96FC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
-/* 001A0 809E9700 AFB00018 */  sw      $s0, 0x0018($sp)           
+/* 001A0 809E9700 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 001A4 809E9704 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 001A8 809E9708 AFBF001C */  sw      $ra, 0x001C($sp)           
+/* 001A8 809E9708 AFBF001C */  sw      $ra, 0x001C($sp)
 /* 001AC 809E970C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 001B0 809E9710 24A50D1C */  addiu   $a1, $a1, 0x0D1C           ## $a1 = 06000D1C
 /* 001B4 809E9714 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 001B8 809E9718 0C0294A7 */  jal     SkelAnime_ChangeAnimationPlaybackStop              
+/* 001B8 809E9718 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
 /* 001BC 809E971C 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 001C0 809E9720 24040064 */  addiu   $a0, $zero, 0x0064         ## $a0 = 00000064
 /* 001C4 809E9724 0C01DF64 */  jal     Math_Rand_S16Offset
-              
+
 /* 001C8 809E9728 24050032 */  addiu   $a1, $zero, 0x0032         ## $a1 = 00000032
 /* 001CC 809E972C 240E0005 */  addiu   $t6, $zero, 0x0005         ## $t6 = 00000005
 /* 001D0 809E9730 A6020196 */  sh      $v0, 0x0196($s0)           ## 00000196
@@ -25,10 +25,10 @@ glabel func_809E96FC
 /* 001F0 809E9750 31F8FFFE */  andi    $t8, $t7, 0xFFFE           ## $t8 = 00000000
 /* 001F4 809E9754 A21802D9 */  sb      $t8, 0x02D9($s0)           ## 000002D9
 /* 001F8 809E9758 AE190190 */  sw      $t9, 0x0190($s0)           ## 00000190
-/* 001FC 809E975C 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 00200 809E9760 8FB00018 */  lw      $s0, 0x0018($sp)           
+/* 001FC 809E975C 8FBF001C */  lw      $ra, 0x001C($sp)
+/* 00200 809E9760 8FB00018 */  lw      $s0, 0x0018($sp)
 /* 00204 809E9764 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-/* 00208 809E9768 03E00008 */  jr      $ra                        
+/* 00208 809E9768 03E00008 */  jr      $ra
 /* 0020C 809E976C 00000000 */  nop
 
 

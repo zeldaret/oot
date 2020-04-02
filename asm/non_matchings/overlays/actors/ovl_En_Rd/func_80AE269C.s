@@ -10,13 +10,13 @@ glabel func_80AE269C
 /* 002BC 80AE26BC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 002C0 80AE26C0 24A587D0 */  addiu   $a1, $a1, 0x87D0           ## $a1 = 060087D0
 /* 002C4 80AE26C4 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
-/* 002C8 80AE26C8 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
+/* 002C8 80AE26C8 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 002CC 80AE26CC 3C06C0C0 */  lui     $a2, 0xC0C0                ## $a2 = C0C00000
 /* 002D0 80AE26D0 10000004 */  beq     $zero, $zero, .L80AE26E4
 /* 002D4 80AE26D4 00000000 */  nop
 .L80AE26D8:
 /* 002D8 80AE26D8 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
-/* 002DC 80AE26DC 0C0294BE */  jal     SkelAnime_ChangeAnimationDefaultRepeat
+/* 002DC 80AE26DC 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 002E0 80AE26E0 24A55D98 */  addiu   $a1, $a1, 0x5D98           ## $a1 = 00005D98
 .L80AE26E4:
 /* 002E4 80AE26E4 0C03F66B */  jal     Math_Rand_ZeroOne

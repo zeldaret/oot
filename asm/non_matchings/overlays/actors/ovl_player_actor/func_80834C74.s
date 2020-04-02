@@ -31,7 +31,7 @@ glabel func_80834C74
 /* 02AD4 80834CE4 00095080 */  sll     $t2, $t1,  2
 /* 02AD8 80834CE8 00CA3021 */  addu    $a2, $a2, $t2
 /* 02ADC 80834CEC 8CC63914 */  lw      $a2, %lo(D_80853914)($a2)
-/* 02AE0 80834CF0 0C029050 */  jal     SkelAnime_LinkChangeAnimationDefaultRepeat
+/* 02AE0 80834CF0 0C029050 */  jal     SkelAnime_ChangeLinkAnimDefaultRepeat
 /* 02AE4 80834CF4 8FA50024 */  lw      $a1, 0x0024($sp)
 /* 02AE8 80834CF8 8E19082C */  lw      $t9, 0x082C($s0)           ## 0000082C
 /* 02AEC 80834CFC A20006AC */  sb      $zero, 0x06AC($s0)         ## 000006AC

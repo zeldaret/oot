@@ -55,7 +55,7 @@ glabel func_80A3D838
 /* 00224 80A3D904 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00228 80A3D908 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 0022C 80A3D90C E7A60010 */  swc1    $f6, 0x0010($sp)
-/* 00230 80A3D910 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00230 80A3D910 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00234 80A3D914 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00238 80A3D918 3C0E80A4 */  lui     $t6, %hi(func_80A3E1EC)    ## $t6 = 80A40000

@@ -15,7 +15,7 @@ glabel func_80A5DD58
 /* 02A9C 80A5DD8C 0018C880 */  sll     $t9, $t8,  2
 /* 02AA0 80A5DD90 01194021 */  addu    $t0, $t0, $t9
 /* 02AA4 80A5DD94 8D085E58 */  lw      $t0, %lo(D_80A65E58)($t0)
-/* 02AA8 80A5DD98 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 02AA8 80A5DD98 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 02AAC 80A5DD9C 8D050018 */  lw      $a1, 0x0018($t0)           ## 80A60018
 /* 02AB0 80A5DDA0 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 02AB4 80A5DDA4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

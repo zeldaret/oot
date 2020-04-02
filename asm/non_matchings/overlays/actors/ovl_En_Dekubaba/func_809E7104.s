@@ -80,7 +80,7 @@ glabel func_809E7104
 /* 01A48 809E7218 00621824 */  and     $v1, $v1, $v0
 /* 01A4C 809E721C 10600054 */  beq     $v1, $zero, .L809E7370
 /* 01A50 809E7220 8FA40034 */  lw      $a0, 0x0034($sp)
-/* 01A54 809E7224 0C0294E1 */  jal     SkelAnime_ChangeAnimationPlaybackRepeat
+/* 01A54 809E7224 0C0294E1 */  jal     SkelAnime_ChangeAnimPlaybackRepeat
 /* 01A58 809E7228 3C064080 */  lui     $a2, 0x4080                ## $a2 = 40800000
 /* 01A5C 809E722C 0C01DE1C */  jal     Math_Sins
               ## sins?

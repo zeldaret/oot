@@ -8,7 +8,7 @@ glabel func_80AD9D44
 /* 00DCC 80AD9D5C 15C10009 */  bne     $t6, $at, .L80AD9D84
 /* 00DD0 80AD9D60 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00DD4 80AD9D64 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00DD8 80AD9D68 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 00DD8 80AD9D68 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 00DDC 80AD9D6C 24A5119C */  addiu   $a1, $a1, 0x119C           ## $a1 = 0600119C
 /* 00DE0 80AD9D70 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00DE4 80AD9D74 0C00BE0A */  jal     Audio_PlayActorSound2
@@ -32,7 +32,7 @@ glabel func_80AD9D44
 /* 00E20 80AD9DB0 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00E24 80AD9DB4 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00E28 80AD9DB8 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 00E2C 80AD9DBC 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00E2C 80AD9DBC 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00E30 80AD9DC0 E7A00018 */  swc1    $f0, 0x0018($sp)
 .L80AD9DC4:

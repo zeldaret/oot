@@ -7,7 +7,7 @@ glabel func_809114E8
 /* 00EBC 809114FC 44066000 */  mfc1    $a2, $f12
 /* 00EC0 80911500 24A50060 */  addiu   $a1, $a1, 0x0060           ## $a1 = 06010060
 /* 00EC4 80911504 AFA70018 */  sw      $a3, 0x0018($sp)
-/* 00EC8 80911508 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
+/* 00EC8 80911508 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 00ECC 8091150C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00ED0 80911510 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 00ED4 80911514 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00

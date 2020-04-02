@@ -34,7 +34,7 @@ glabel func_808FFDB0
 /* 02EE8 808FFE28 AC296FC0 */  sw      $t1, 0x6FC0($at)           ## 80166FC0
 /* 02EEC 808FFE2C 24A5FFE4 */  addiu   $a1, $a1, 0xFFE4           ## $a1 = 0600FFE4
 /* 02EF0 808FFE30 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 02EF4 808FFE34 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
+/* 02EF4 808FFE34 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 02EF8 808FFE38 3C06C120 */  lui     $a2, 0xC120                ## $a2 = C1200000
 /* 02EFC 808FFE3C 920B0334 */  lbu     $t3, 0x0334($s0)           ## 00000334
 /* 02F00 808FFE40 3C0A8090 */  lui     $t2, %hi(func_808FFEBC)    ## $t2 = 80900000

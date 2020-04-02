@@ -106,7 +106,7 @@ glabel func_8094A1C0
 /* 11684 8094A354 3C06C120 */  lui     $a2, 0xC120                ## $a2 = C1200000
 /* 11688 8094A358 4600320D */  trunc.w.s $f8, $f6
 /* 1168C 8094A35C 440F4000 */  mfc1    $t7, $f8
-/* 11690 8094A360 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
+/* 11690 8094A360 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 11694 8094A364 A60F0030 */  sh      $t7, 0x0030($s0)           ## 00000030
 /* 11698 8094A368 8FBF004C */  lw      $ra, 0x004C($sp)
 /* 1169C 8094A36C D7B40018 */  ldc1    $f20, 0x0018($sp)

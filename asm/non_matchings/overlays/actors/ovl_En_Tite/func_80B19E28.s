@@ -8,7 +8,7 @@ glabel func_80B19E28
 /* 013C0 80B19E40 24A512E4 */  addiu   $a1, $a1, 0x12E4           ## $a1 = 060012E4
 /* 013C4 80B19E44 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 013C8 80B19E48 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 013CC 80B19E4C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
+/* 013CC 80B19E4C 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 013D0 80B19E50 3C064080 */  lui     $a2, 0x4080                ## $a2 = 40800000
 /* 013D4 80B19E54 8FA40018 */  lw      $a0, 0x0018($sp)
 /* 013D8 80B19E58 3C01C0C0 */  lui     $at, 0xC0C0                ## $at = C0C00000

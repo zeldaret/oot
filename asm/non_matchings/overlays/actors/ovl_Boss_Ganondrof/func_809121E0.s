@@ -21,7 +21,7 @@ glabel func_809121E0
 /* 01BE8 80912228 468021A0 */  cvt.s.w $f6, $f4
 /* 01BEC 8091222C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01BF0 80912230 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 01BF4 80912234 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
+/* 01BF4 80912234 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 01BF8 80912238 E60601D0 */  swc1    $f6, 0x01D0($s0)           ## 000001D0
 /* 01BFC 8091223C 24180032 */  addiu   $t8, $zero, 0x0032         ## $t8 = 00000032
 /* 01C00 80912240 2419003C */  addiu   $t9, $zero, 0x003C         ## $t9 = 0000003C
@@ -38,7 +38,7 @@ glabel func_809121E0
 /* 01C24 80912264 468042A0 */  cvt.s.w $f10, $f8
 /* 01C28 80912268 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01C2C 8091226C 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
-/* 01C30 80912270 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRepeat
+/* 01C30 80912270 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 01C34 80912274 E60A01D0 */  swc1    $f10, 0x01D0($s0)          ## 000001D0
 .L80912278:
 /* 01C38 80912278 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

@@ -388,7 +388,7 @@ glabel func_8084CC98
 .L8084D210:
 /* 1B000 8084D210 50C00006 */  beql    $a2, $zero, .L8084D22C
 /* 1B004 8084D214 8E09067C */  lw      $t1, 0x067C($s0)           ## 0000067C
-/* 1B008 8084D218 0C02901F */  jal     SkelAnime_LinkChangeAnimationDefaultStop
+/* 1B008 8084D218 0C02901F */  jal     SkelAnime_ChangeLinkAnimDefaultStop
 /* 1B00C 8084D21C 260506C8 */  addiu   $a1, $s0, 0x06C8           ## $a1 = 000006C8
 /* 1B010 8084D220 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 1B014 8084D224 A219084F */  sb      $t9, 0x084F($s0)           ## 0000084F

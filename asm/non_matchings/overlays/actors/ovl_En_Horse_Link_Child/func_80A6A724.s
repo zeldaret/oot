@@ -1,7 +1,7 @@
 glabel func_80A6A724
 /* 01354 80A6A724 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
-/* 01358 80A6A728 AFBF002C */  sw      $ra, 0x002C($sp)           
-/* 0135C 80A6A72C AFB00028 */  sw      $s0, 0x0028($sp)           
+/* 01358 80A6A728 AFBF002C */  sw      $ra, 0x002C($sp)
+/* 0135C 80A6A72C AFB00028 */  sw      $s0, 0x0028($sp)
 /* 01360 80A6A730 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
 /* 01364 80A6A734 44812000 */  mtc1    $at, $f4                   ## $f4 = 2.00
 /* 01368 80A6A738 240E0004 */  addiu   $t6, $zero, 0x0004         ## $t6 = 00000004
@@ -11,38 +11,38 @@ glabel func_80A6A724
 /* 01378 80A6A748 AC8E014C */  sw      $t6, 0x014C($a0)           ## 0000014C
 /* 0137C 80A6A74C AC8F0150 */  sw      $t7, 0x0150($a0)           ## 00000150
 /* 01380 80A6A750 AC8001E8 */  sw      $zero, 0x01E8($a0)         ## 000001E8
-/* 01384 80A6A754 0C29A569 */  jal     func_80A695A4              
+/* 01384 80A6A754 0C29A569 */  jal     func_80A695A4
 /* 01388 80A6A758 E4840068 */  swc1    $f4, 0x0068($a0)           ## 00000068
-/* 0138C 80A6A75C E7A00030 */  swc1    $f0, 0x0030($sp)           
+/* 0138C 80A6A75C E7A00030 */  swc1    $f0, 0x0030($sp)
 /* 01390 80A6A760 8E180150 */  lw      $t8, 0x0150($s0)           ## 00000150
 /* 01394 80A6A764 3C0480A7 */  lui     $a0, %hi(D_80A6AEE0)       ## $a0 = 80A70000
-/* 01398 80A6A768 0018C880 */  sll     $t9, $t8,  2               
-/* 0139C 80A6A76C 00992021 */  addu    $a0, $a0, $t9              
+/* 01398 80A6A768 0018C880 */  sll     $t9, $t8,  2
+/* 0139C 80A6A76C 00992021 */  addu    $a0, $a0, $t9
 /* 013A0 80A6A770 0C028800 */  jal     SkelAnime_GetFrameCount
-              
-/* 013A4 80A6A774 8C84AEE0 */  lw      $a0, %lo(D_80A6AEE0)($a0)  
+
+/* 013A4 80A6A774 8C84AEE0 */  lw      $a0, %lo(D_80A6AEE0)($a0)
 /* 013A8 80A6A778 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
 /* 013AC 80A6A77C 8E080150 */  lw      $t0, 0x0150($s0)           ## 00000150
 /* 013B0 80A6A780 3C01C0A0 */  lui     $at, 0xC0A0                ## $at = C0A00000
-/* 013B4 80A6A784 46803220 */  cvt.s.w $f8, $f6                   
+/* 013B4 80A6A784 46803220 */  cvt.s.w $f8, $f6
 /* 013B8 80A6A788 44815000 */  mtc1    $at, $f10                  ## $f10 = -5.00
 /* 013BC 80A6A78C 3C0580A7 */  lui     $a1, %hi(D_80A6AEE0)       ## $a1 = 80A70000
-/* 013C0 80A6A790 00084880 */  sll     $t1, $t0,  2               
-/* 013C4 80A6A794 00A92821 */  addu    $a1, $a1, $t1              
+/* 013C0 80A6A790 00084880 */  sll     $t1, $t0,  2
+/* 013C4 80A6A794 00A92821 */  addu    $a1, $a1, $t1
 /* 013C8 80A6A798 240A0002 */  addiu   $t2, $zero, 0x0002         ## $t2 = 00000002
-/* 013CC 80A6A79C AFAA0014 */  sw      $t2, 0x0014($sp)           
-/* 013D0 80A6A7A0 8CA5AEE0 */  lw      $a1, %lo(D_80A6AEE0)($a1)  
-/* 013D4 80A6A7A4 E7A80010 */  swc1    $f8, 0x0010($sp)           
+/* 013CC 80A6A79C AFAA0014 */  sw      $t2, 0x0014($sp)
+/* 013D0 80A6A7A0 8CA5AEE0 */  lw      $a1, %lo(D_80A6AEE0)($a1)
+/* 013D4 80A6A7A4 E7A80010 */  swc1    $f8, 0x0010($sp)
 /* 013D8 80A6A7A8 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
-/* 013DC 80A6A7AC 8FA60030 */  lw      $a2, 0x0030($sp)           
+/* 013DC 80A6A7AC 8FA60030 */  lw      $a2, 0x0030($sp)
 /* 013E0 80A6A7B0 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
-/* 013E4 80A6A7B4 0C029468 */  jal     SkelAnime_ChangeAnimation
-              
-/* 013E8 80A6A7B8 E7AA0018 */  swc1    $f10, 0x0018($sp)          
-/* 013EC 80A6A7BC 8FBF002C */  lw      $ra, 0x002C($sp)           
-/* 013F0 80A6A7C0 8FB00028 */  lw      $s0, 0x0028($sp)           
+/* 013E4 80A6A7B4 0C029468 */  jal     SkelAnime_ChangeAnim
+
+/* 013E8 80A6A7B8 E7AA0018 */  swc1    $f10, 0x0018($sp)
+/* 013EC 80A6A7BC 8FBF002C */  lw      $ra, 0x002C($sp)
+/* 013F0 80A6A7C0 8FB00028 */  lw      $s0, 0x0028($sp)
 /* 013F4 80A6A7C4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-/* 013F8 80A6A7C8 03E00008 */  jr      $ra                        
+/* 013F8 80A6A7C8 03E00008 */  jr      $ra
 /* 013FC 80A6A7CC 00000000 */  nop
 
 

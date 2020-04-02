@@ -17,7 +17,7 @@ glabel func_80835688
 /* 034B4 808356C4 3C060400 */  lui     $a2, 0x0400                ## $a2 = 04000000
 /* 034B8 808356C8 24C62E10 */  addiu   $a2, $a2, 0x2E10           ## $a2 = 04002E10
 /* 034BC 808356CC 8FA4001C */  lw      $a0, 0x001C($sp)
-/* 034C0 808356D0 0C029050 */  jal     SkelAnime_LinkChangeAnimationDefaultRepeat
+/* 034C0 808356D0 0C029050 */  jal     SkelAnime_ChangeLinkAnimDefaultRepeat
 /* 034C4 808356D4 24A506C8 */  addiu   $a1, $a1, 0x06C8           ## $a1 = 000006C8
 .L808356D8:
 /* 034C8 808356D8 8FBF0014 */  lw      $ra, 0x0014($sp)

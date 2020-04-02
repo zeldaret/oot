@@ -29,7 +29,7 @@ glabel func_80B14B6C
 /* 01138 80B14BD8 24A5CF28 */  addiu   $a1, $a1, 0xCF28           ## $a1 = 0600CF28
 /* 0113C 80B14BDC 35F80010 */  ori     $t8, $t7, 0x0010           ## $t8 = 00000010
 /* 01140 80B14BE0 A4580ED6 */  sh      $t8, 0x0ED6($v0)           ## 8015F536
-/* 01144 80B14BE4 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 01144 80B14BE4 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 01148 80B14BE8 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 0114C 80B14BEC 3C190601 */  lui     $t9, 0x0601                ## $t9 = 06010000
 /* 01150 80B14BF0 2739C858 */  addiu   $t9, $t9, 0xC858           ## $t9 = 0600C858

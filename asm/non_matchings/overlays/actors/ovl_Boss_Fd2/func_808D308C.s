@@ -12,7 +12,7 @@ glabel func_808D308C
 /* 00A40 808D30B0 8FA40020 */  lw      $a0, 0x0020($sp)
 /* 00A44 808D30B4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00A48 808D30B8 24A5AE90 */  addiu   $a1, $a1, 0xAE90           ## $a1 = 0600AE90
-/* 00A4C 808D30BC 0C0294BE */  jal     SkelAnime_ChangeAnimationDefaultRepeat
+/* 00A4C 808D30BC 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00A50 808D30C0 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00A54 808D30C4 8FA30020 */  lw      $v1, 0x0020($sp)
 /* 00A58 808D30C8 3C18808D */  lui     $t8, %hi(func_808D3140)    ## $t8 = 808D0000

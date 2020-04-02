@@ -12,7 +12,7 @@ glabel func_80834894
 /* 026AC 808348BC 0C023B1C */  jal     func_8008EC70
 /* 026B0 808348C0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L808348C4:
-/* 026B4 808348C4 0C029502 */  jal     SkelAnime_AnimationReverse
+/* 026B4 808348C4 0C029502 */  jal     SkelAnime_AnimReverse
 /* 026B8 808348C8 260406C8 */  addiu   $a0, $s0, 0x06C8           ## $a0 = 000006C8
 /* 026BC 808348CC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 026C0 808348D0 0C00BDF7 */  jal     func_8002F7DC

@@ -45,12 +45,12 @@ glabel func_80AE2744
 /* 003E0 80AE27E0 00000000 */  nop
 /* 003E4 80AE27E4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 003E8 80AE27E8 24A55D98 */  addiu   $a1, $a1, 0x5D98           ## $a1 = 06005D98
-/* 003EC 80AE27EC 0C0294BE */  jal     SkelAnime_ChangeAnimationDefaultRepeat
+/* 003EC 80AE27EC 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 003F0 80AE27F0 8FA4002C */  lw      $a0, 0x002C($sp)
 /* 003F4 80AE27F4 10000018 */  beq     $zero, $zero, .L80AE2858
 /* 003F8 80AE27F8 8E0A0118 */  lw      $t2, 0x0118($s0)           ## 00000118
 .L80AE27FC:
-/* 003FC 80AE27FC 0C0294BE */  jal     SkelAnime_ChangeAnimationDefaultRepeat
+/* 003FC 80AE27FC 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00400 80AE2800 24A557AC */  addiu   $a1, $a1, 0x57AC           ## $a1 = 000057AC
 /* 00404 80AE2804 10000014 */  beq     $zero, $zero, .L80AE2858
 /* 00408 80AE2808 8E0A0118 */  lw      $t2, 0x0118($s0)           ## 00000118

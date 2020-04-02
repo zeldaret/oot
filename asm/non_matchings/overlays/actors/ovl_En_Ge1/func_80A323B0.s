@@ -9,7 +9,7 @@ glabel func_80A323B0
 /* 01A58 80A323C8 10400004 */  beq     $v0, $zero, .L80A323DC
 /* 01A5C 80A323CC 8FA4001C */  lw      $a0, 0x001C($sp)
 /* 01A60 80A323D0 8FAE0020 */  lw      $t6, 0x0020($sp)
-/* 01A64 80A323D4 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 01A64 80A323D4 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 01A68 80A323D8 8DC502B0 */  lw      $a1, 0x02B0($t6)           ## 000002B0
 .L80A323DC:
 /* 01A6C 80A323DC 8FBF0014 */  lw      $ra, 0x0014($sp)

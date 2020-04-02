@@ -37,7 +37,7 @@ glabel func_809EB624
 /* 00964 809EB6A4 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00968 809EB6A8 3C06BF80 */  lui     $a2, 0xBF80                ## $a2 = BF800000
 /* 0096C 809EB6AC E7AA0018 */  swc1    $f10, 0x0018($sp)
-/* 00970 809EB6B0 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00970 809EB6B0 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00974 809EB6B4 E7A80010 */  swc1    $f8, 0x0010($sp)
 /* 00978 809EB6B8 8E0802C8 */  lw      $t0, 0x02C8($s0)           ## 000002C8
@@ -64,7 +64,7 @@ glabel func_809EB624
 glabel L809EB708
 /* 009C8 809EB708 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 009CC 809EB70C 24A51A3C */  addiu   $a1, $a1, 0x1A3C           ## $a1 = 06001A3C
-/* 009D0 809EB710 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 009D0 809EB710 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 009D4 809EB714 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 009D8 809EB718 920C0250 */  lbu     $t4, 0x0250($s0)           ## 00000250
 /* 009DC 809EB71C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -165,7 +165,7 @@ glabel L809EB81C
 /* 00B38 809EB878 E7AA0010 */  swc1    $f10, 0x0010($sp)
 /* 00B3C 809EB87C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00B40 809EB880 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
-/* 00B44 809EB884 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00B44 809EB884 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00B48 809EB888 E7B00018 */  swc1    $f16, 0x0018($sp)
 /* 00B4C 809EB88C 10000022 */  beq     $zero, $zero, .L809EB918
@@ -188,7 +188,7 @@ glabel L809EB81C
 /* 00B88 809EB8C8 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00B8C 809EB8CC 3C06BF80 */  lui     $a2, 0xBF80                ## $a2 = BF800000
 /* 00B90 809EB8D0 E7A60018 */  swc1    $f6, 0x0018($sp)
-/* 00B94 809EB8D4 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00B94 809EB8D4 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00B98 809EB8D8 E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 00B9C 809EB8DC 920B0250 */  lbu     $t3, 0x0250($s0)           ## 00000250

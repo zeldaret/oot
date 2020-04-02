@@ -10,12 +10,12 @@ glabel func_80ADE28C
 /* 0055C 80ADE2AC 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00560 80ADE2B0 24A504EC */  addiu   $a1, $a1, 0x04EC           ## $a1 = 060004EC
 /* 00564 80ADE2B4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 00568 80ADE2B8 0C029490 */  jal     SkelAnime_ChangeAnimationTransitionStop
+/* 00568 80ADE2B8 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 0056C 80ADE2BC 3C06C0C0 */  lui     $a2, 0xC0C0                ## $a2 = C0C00000
 /* 00570 80ADE2C0 10000004 */  beq     $zero, $zero, .L80ADE2D4
 /* 00574 80ADE2C4 8E0F02F8 */  lw      $t7, 0x02F8($s0)           ## 000002F8
 .L80ADE2C8:
-/* 00578 80ADE2C8 0C02947A */  jal     SkelAnime_ChangeAnimationDefaultStop
+/* 00578 80ADE2C8 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 0057C 80ADE2CC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00580 80ADE2D0 8E0F02F8 */  lw      $t7, 0x02F8($s0)           ## 000002F8
 .L80ADE2D4:
