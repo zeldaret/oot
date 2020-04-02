@@ -690,6 +690,7 @@ s32 func_8005BA74(UNK_TYPE, UNK_TYPE);
 // ? func_8005BB8C(?);
 // ? func_8005BBB0(?);
 // ? func_8005BBD4(?);
+void func_8005C050(GlobalContext* globalCtx, Collider* collision, Actor* actor, UNK_TYPE arg3, UNK_TYPE arg4);
 // ? func_8005C2BC(?);
 s32 func_8005C318(GlobalContext* globalCtx, ColliderDimensions* dim);
 s32 func_8005C328(GlobalContext* globalCtx, ColliderDimensions* dest, ColliderDimensions* src);
