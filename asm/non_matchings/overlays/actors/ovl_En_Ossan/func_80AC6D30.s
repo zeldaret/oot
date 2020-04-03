@@ -42,7 +42,7 @@ glabel func_80AC6D30
 /* 0412C 80AC6DCC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 04130 80AC6DD0 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 04134 80AC6DD4 E7A60010 */  swc1    $f6, 0x0010($sp)
-/* 04138 80AC6DD8 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 04138 80AC6DD8 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 0413C 80AC6DDC E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 04140 80AC6DE0 8FA20030 */  lw      $v0, 0x0030($sp)

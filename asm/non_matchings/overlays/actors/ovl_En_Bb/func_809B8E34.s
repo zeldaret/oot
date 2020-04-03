@@ -5,7 +5,7 @@ glabel func_809B8E34
 /* 00B60 809B8E40 AFBF001C */  sw      $ra, 0x001C($sp)
 /* 00B64 809B8E44 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00B68 809B8E48 24A50444 */  addiu   $a1, $a1, 0x0444           ## $a1 = 06000444
-/* 00B6C 809B8E4C 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 00B6C 809B8E4C 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00B70 809B8E50 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00B74 809B8E54 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float

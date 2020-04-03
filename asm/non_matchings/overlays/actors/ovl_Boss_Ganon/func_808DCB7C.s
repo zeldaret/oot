@@ -92,7 +92,7 @@ glabel L808DCC88
 /* 06448 808DCCB8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06004DA8
 /* 0644C 808DCCBC 46805420 */  cvt.s.w $f16, $f10
 /* 06450 808DCCC0 E63001CC */  swc1    $f16, 0x01CC($s1)          ## 000001CC
-/* 06454 808DCCC4 0C029490 */  jal     func_800A5240
+/* 06454 808DCCC4 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 06458 808DCCC8 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 0645C 808DCCCC 10000101 */  beq     $zero, $zero, .L808DD0D4
 /* 06460 808DCCD0 8FBF002C */  lw      $ra, 0x002C($sp)
@@ -113,7 +113,7 @@ glabel L808DCCD4
 /* 06494 808DCD04 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06003D40
 /* 06498 808DCD08 46809120 */  cvt.s.w $f4, $f18
 /* 0649C 808DCD0C E62401CC */  swc1    $f4, 0x01CC($s1)           ## 000001CC
-/* 064A0 808DCD10 0C029490 */  jal     func_800A5240
+/* 064A0 808DCD10 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 064A4 808DCD14 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 064A8 808DCD18 100000EE */  beq     $zero, $zero, .L808DD0D4
 /* 064AC 808DCD1C 8FBF002C */  lw      $ra, 0x002C($sp)
@@ -145,7 +145,7 @@ glabel L808DCD20
 /* 0650C 808DCD7C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 060063CC
 /* 06510 808DCD80 46809120 */  cvt.s.w $f4, $f18
 /* 06514 808DCD84 E62401CC */  swc1    $f4, 0x01CC($s1)           ## 000001CC
-/* 06518 808DCD88 0C029490 */  jal     func_800A5240
+/* 06518 808DCD88 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 0651C 808DCD8C 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 06520 808DCD90 8E2F0004 */  lw      $t7, 0x0004($s1)           ## 00000004
 /* 06524 808DCD94 240E0046 */  addiu   $t6, $zero, 0x0046         ## $t6 = 00000046
@@ -177,7 +177,7 @@ glabel L808DCDA8
 /* 06580 808DCDF0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 060069A0
 /* 06584 808DCDF4 46803220 */  cvt.s.w $f8, $f6
 /* 06588 808DCDF8 E62801CC */  swc1    $f8, 0x01CC($s1)           ## 000001CC
-/* 0658C 808DCDFC 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 0658C 808DCDFC 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 06590 808DCE00 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 06594 808DCE04 100000B3 */  beq     $zero, $zero, .L808DD0D4
 /* 06598 808DCE08 8FBF002C */  lw      $ra, 0x002C($sp)
@@ -205,7 +205,7 @@ glabel L808DCE0C
 /* 065E0 808DCE50 02002825 */  or      $a1, $s0, $zero            ## $a1 = 060058C4
 /* 065E4 808DCE54 46805420 */  cvt.s.w $f16, $f10
 /* 065E8 808DCE58 E63001CC */  swc1    $f16, 0x01CC($s1)          ## 000001CC
-/* 065EC 808DCE5C 0C029490 */  jal     func_800A5240
+/* 065EC 808DCE5C 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 065F0 808DCE60 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 065F4 808DCE64 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 065F8 808DCE68 240C0050 */  addiu   $t4, $zero, 0x0050         ## $t4 = 00000050
@@ -255,7 +255,7 @@ glabel L808DCEC8
 /* 06698 808DCF08 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06006028
 /* 0669C 808DCF0C 468021A0 */  cvt.s.w $f6, $f4
 /* 066A0 808DCF10 E62601CC */  swc1    $f6, 0x01CC($s1)           ## 000001CC
-/* 066A4 808DCF14 0C029490 */  jal     func_800A5240
+/* 066A4 808DCF14 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 066A8 808DCF18 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 066AC 808DCF1C 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 066B0 808DCF20 3C0B8090 */  lui     $t3, %hi(D_808F93C0)       ## $t3 = 80900000
@@ -300,7 +300,7 @@ glabel L808DCF74
 /* 06738 808DCFA8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06008A88
 /* 0673C 808DCFAC 46805420 */  cvt.s.w $f16, $f10
 /* 06740 808DCFB0 E63001CC */  swc1    $f16, 0x01CC($s1)          ## 000001CC
-/* 06744 808DCFB4 0C029490 */  jal     func_800A5240
+/* 06744 808DCFB4 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 06748 808DCFB8 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 0674C 808DCFBC 240F0008 */  addiu   $t7, $zero, 0x0008         ## $t7 = 00000008
 /* 06750 808DCFC0 A62F01C2 */  sh      $t7, 0x01C2($s1)           ## 000001C2

@@ -60,7 +60,7 @@ glabel EnGuest_Update
 /* 001B8 80A503D8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 001BC 80A503DC AFA00014 */  sw      $zero, 0x0014($sp)
 /* 001C0 80A503E0 E7A60010 */  swc1    $f6, 0x0010($sp)
-/* 001C4 80A503E4 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 001C4 80A503E4 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 001C8 80A503E8 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 001CC 80A503EC 3C0E80A5 */  lui     $t6, %hi(func_80A509D4)    ## $t6 = 80A50000

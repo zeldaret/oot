@@ -12,7 +12,7 @@ glabel func_80A4A470
 /* 015D8 80A4A498 24A51548 */  addiu   $a1, $a1, 0x1548           ## $a1 = 06001548
 /* 015DC 80A4A49C AFA70018 */  sw      $a3, 0x0018($sp)
 /* 015E0 80A4A4A0 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 015E4 80A4A4A4 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 015E4 80A4A4A4 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 015E8 80A4A4A8 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 015EC 80A4A4AC 3C014170 */  lui     $at, 0x4170                ## $at = 41700000
 /* 015F0 80A4A4B0 44816000 */  mtc1    $at, $f12                  ## $f12 = 15.00

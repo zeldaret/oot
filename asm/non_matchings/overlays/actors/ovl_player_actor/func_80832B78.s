@@ -22,7 +22,7 @@ glabel func_80832B78
 /* 009B4 80832BC4 8FA60030 */  lw      $a2, 0x0030($sp)
 /* 009B8 80832BC8 E7AA001C */  swc1    $f10, 0x001C($sp)
 /* 009BC 80832BCC 24A501B4 */  addiu   $a1, $a1, 0x01B4           ## $a1 = 000001B4
-/* 009C0 80832BD0 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 009C0 80832BD0 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 009C4 80832BD4 E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 009C8 80832BD8 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 009CC 80832BDC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

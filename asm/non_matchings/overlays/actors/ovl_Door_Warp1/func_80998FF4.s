@@ -41,7 +41,7 @@ glabel func_80998FF4
 /* 00904 80999084 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00908 80999088 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 0090C 8099908C 44072000 */  mfc1    $a3, $f4
-/* 00910 80999090 0C0293F9 */  jal     SkelAnime_ChangeAnimationImpl
+/* 00910 80999090 0C0293F9 */  jal     SkelAnime_ChangeAnimImpl
 /* 00914 80999094 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00918 80999098 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 0091C 8099909C 0C028800 */  jal     SkelAnime_GetFrameCount

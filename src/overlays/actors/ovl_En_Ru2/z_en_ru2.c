@@ -232,7 +232,7 @@ static void func_80AF28E8(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 
         playbackSpeed = -1.0f;
     }
 
-    SkelAnime_ChangeAnimation(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
+    SkelAnime_ChangeAnim(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
 }
 
 static void func_80AF2978(EnRu2* this, GlobalContext* globalCtx) {
@@ -306,8 +306,7 @@ static void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         csCmdActorAction = globalCtx->csCtx.actorActions[3];
         if (csCmdActorAction != NULL && csCmdActorAction->action == 3) {
-            SkelAnime_ChangeAnimation(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(animation), 2,
-                                      0.0f);
+            SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(animation), 2, 0.0f);
             this->action = 4;
         }
     }
