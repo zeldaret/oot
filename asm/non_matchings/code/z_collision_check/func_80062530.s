@@ -101,14 +101,3 @@ glabel func_80062530
 /* AD9820 80062680 8FBE0040 */  lw    $fp, 0x40($sp)
 /* AD9824 80062684 03E00008 */  jr    $ra
 /* AD9828 80062688 27BD0048 */   addiu $sp, $sp, 0x48
-
-/* AD982C 8006268C 27BDFFE0 */  addiu $sp, $sp, -0x20
-/* AD9830 80062690 AFBF001C */  sw    $ra, 0x1c($sp)
-/* AD9834 80062694 AFA00010 */  sw    $zero, 0x10($sp)
-/* AD9838 80062698 0C01894C */  jal   func_80062530
-/* AD983C 8006269C AFA00014 */   sw    $zero, 0x14($sp)
-/* AD9840 800626A0 8FBF001C */  lw    $ra, 0x1c($sp)
-/* AD9844 800626A4 27BD0020 */  addiu $sp, $sp, 0x20
-/* AD9848 800626A8 03E00008 */  jr    $ra
-/* AD984C 800626AC 00000000 */   nop   
-
