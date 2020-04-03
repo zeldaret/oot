@@ -114,11 +114,11 @@ void func_8006390C(Input* input) {
     s32 i;
 
     regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
-    dpad = input->raw.pad & 0xF00;
-    if (!~(input->raw.pad | ~L_TRIG) || !~(input->raw.pad | ~R_TRIG) || !~(input->raw.pad | ~START_BUTTON)) {
+    dpad = input->current.input.button & 0xF00;
+    if (!~(input->current.input.button | ~L_TRIG) || !~(input->current.input.button | ~R_TRIG) || !~(input->current.input.button | ~START_BUTTON)) {
         input_combo = inputCombos;
         for (i = 0; i < REG_GROUPS; i++) {
-            if (~(~input_combo->push | input->raw.pad) || ~(~input_combo->held | input->padPressed)) {
+            if (~(~input_combo->push | input->current.input.button) || ~(~input_combo->held | input->pressed_diff.input.button)) {
                 input_combo++;
             } else {
                 break;
@@ -155,14 +155,14 @@ void func_8006390C(Input* input) {
                 }
 
                 increment = (dpad & R_JPAD)
-                                ? (!~(input->raw.pad | ~(A_BUTTON | B_BUTTON))
+                                ? (!~(input->current.input.button | ~(A_BUTTON | B_BUTTON))
                                        ? 1000
-                                       : !~(input->raw.pad | ~A_BUTTON) ? 100 : !~(input->raw.pad | ~B_BUTTON) ? 10 : 1)
-                                : (dpad & L_JPAD) ? (!~(input->raw.pad | ~(A_BUTTON | B_BUTTON))
+                                       : !~(input->current.input.button | ~A_BUTTON) ? 100 : !~(input->current.input.button | ~B_BUTTON) ? 10 : 1)
+                                : (dpad & L_JPAD) ? (!~(input->current.input.button | ~(A_BUTTON | B_BUTTON))
                                                          ? -1000
-                                                         : !~(input->raw.pad | ~A_BUTTON)
+                                                         : !~(input->current.input.button | ~A_BUTTON)
                                                                ? -100
-                                                               : !~(input->raw.pad | ~B_BUTTON) ? -10 : -1)
+                                                               : !~(input->current.input.button | ~B_BUTTON) ? -10 : -1)
                                                   : 0;
 
                 gGameInfo->data[gGameInfo->regCur + regGroup] += increment;
