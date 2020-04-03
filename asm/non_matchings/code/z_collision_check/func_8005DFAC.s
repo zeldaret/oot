@@ -88,6 +88,7 @@ glabel func_8005DFAC
 /* AD52A4 8005E104 03E00008 */  jr    $ra
 /* AD52A8 8005E108 00000000 */   nop   
 
+glabel func_8005E10C
 /* AD52AC 8005E10C 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* AD52B0 8005E110 AFBF001C */  sw    $ra, 0x1c($sp)
 /* AD52B4 8005E114 AFA5002C */  sw    $a1, 0x2c($sp)
@@ -177,6 +178,7 @@ glabel func_8005DFAC
 /* AD5404 8005E264 03E00008 */  jr    $ra
 /* AD5408 8005E268 00000000 */   nop   
 
+glabel func_8005E26C
 /* AD540C 8005E26C 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AD5410 8005E270 AFBF0014 */  sw    $ra, 0x14($sp)
 /* AD5414 8005E274 AFA5001C */  sw    $a1, 0x1c($sp)
@@ -192,6 +194,7 @@ glabel func_8005DFAC
 /* AD543C 8005E29C 03E00008 */  jr    $ra
 /* AD5440 8005E2A0 00000000 */   nop   
 
+glabel func_8005E2A4
 /* AD5444 8005E2A4 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AD5448 8005E2A8 AFBF0014 */  sw    $ra, 0x14($sp)
 /* AD544C 8005E2AC AFA5001C */  sw    $a1, 0x1c($sp)
@@ -202,6 +205,7 @@ glabel func_8005DFAC
 /* AD5460 8005E2C0 03E00008 */  jr    $ra
 /* AD5464 8005E2C4 00000000 */   nop   
 
+glabel func_8005E2C8
 /* AD5468 8005E2C8 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AD546C 8005E2CC AFBF0014 */  sw    $ra, 0x14($sp)
 /* AD5470 8005E2D0 AFA5001C */  sw    $a1, 0x1c($sp)

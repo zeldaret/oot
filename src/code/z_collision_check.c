@@ -983,7 +983,15 @@ s32(*D_8011DF08[])(GlobalContext*, Collider*) = {
 s32(*D_8011DF18[])(GlobalContext*, Collider*) = {
     func_8005C234, func_8005C578, func_8005CDD0, func_8005D1E0 };
 
-u32 D_8011DF28[] = { 0x8005DF9C, 0x8005DFAC, 0x8005E10C, 0x8005E26C, 0x8005E2A4, 0x8005E2C8 };
+void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
+void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
+void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
+void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
+void func_8005E2A4(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
+void func_8005E2C8(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
+
+void (*D_8011DF28[])(GlobalContext*, Collider*, Vec3f*) = {
+    func_8005DF9C, func_8005DFAC, func_8005E10C, func_8005E26C, func_8005E2A4, func_8005E2C8 };
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D4DC.s")
 
@@ -1105,17 +1113,69 @@ s32 func_8005DF74(ColliderBody* left, ColliderBody* right) {
     return 0;
 }
 
-void func_8005DF9C(UNK_TYPE arg0, UNK_TYPE arg1, UNK_TYPE arg2) {
+void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DFAC.s")
 
+void func_8005E2EC(GlobalContext* globalContext, ColliderBody* a, Collider* b, Vec3f* c);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E2EC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E4F8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E604.s")
+typedef struct {
+    u8 unk00;
+    u8 unk01;
+} D_8011DF40_s;
+
+extern D_8011DF40_s D_8011DF40[0x0E];
+
+void func_8005E604(GlobalContext* globalContext, Collider* left, ColliderBody* leftBody,
+    Collider* right, ColliderBody* rightBody, Vec3f* arg5) {
+
+    if ((rightBody->bumperFlags & 0x40) == 0) {
+        if (((leftBody->toucherFlags & 0x20) != 0) || ((leftBody->toucherFlags & 0x40) == 0)) {
+            if (right->actor != NULL) {
+                (*D_8011DF28[D_8011DF40[right->unk_14].unk00])(globalContext, right, arg5);
+            }
+            if (right->actor != 0) {
+                if (D_8011DF40[right->unk_14].unk01 == 3) {
+                    func_8005E2EC(globalContext, leftBody, right, arg5);
+                    return;
+                }
+                if (D_8011DF40[right->unk_14].unk01 == 4) {
+                    if (left->actor == NULL) {
+
+                        func_80062CD4(globalContext, arg5);
+                        Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                        return;
+                    }
+                    func_80062E14(globalContext, arg5, &left->actor->unk_E4);
+                    return;
+                }
+                if (D_8011DF40[right->unk_14].unk01 != 5) {
+                    func_80029CA4(globalContext, D_8011DF40[right->unk_14].unk01, arg5);
+                    if ((rightBody->bumperFlags & 0x20) == 0) {
+                        func_8005E4F8(left, rightBody);
+                        return;
+                    }
+                }
+            }
+            else {
+                func_80029CA4(globalContext, 0, arg5);
+                if (right->actor == NULL) {
+                    Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    return;
+                }
+                Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &right->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+        }
+        else {
+
+        }
+    }
+}
 
 void func_8005E800(Collider* left, Collider* right) {
     left->colliderFlags |= 4;
@@ -1394,7 +1454,39 @@ void func_8006139C(GlobalContext* globalCtx, CollisionCheckContext* check) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062DF4.s")
 
+extern u8 D_8011E068;
+extern s16 D_8011E06A;
+extern s16 D_8011E06C;
+extern s16 D_8011E06E;
+extern s16 D_8011E096;
+extern s16 D_8011E098;
+extern s16 D_8011E09A;
+
+#ifdef NON_MATCHING
+void func_80062E14(GlobalContext* globalContext, Vec3f* arg1, Vec3f* arg2) {
+    s32 sp24;
+    s32 x;
+    s32 y;
+    s32 z;
+
+    x = arg1->x;
+    D_8011E096 = x;
+    y = arg1->y;
+    D_8011E098 = y;
+    z = arg1->z;
+    D_8011E09A = z;
+    D_8011E06A = x;
+    D_8011E06C = y;
+    D_8011E06E = z;
+
+    Effect_Add(globalContext, &sp24, 3, 0, 1, &D_8011E068);
+    Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062E14.s")
+#endif // NON_MATCHING
+
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062ECC.s")
 
