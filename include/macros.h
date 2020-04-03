@@ -35,6 +35,8 @@
 #define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
 #define CUR_CAPACITY(upg) CAPACITY(upg, CUR_UPG_VALUE(upg))
 
+#define HAS_QUEST_STATUS(qs) (((s32)(gSaveContext.quest_items & gBitFlags[qs])) != 0)
+
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
             (curState)->init = newInit;                  \
             (curState)->size = sizeof(newStruct);

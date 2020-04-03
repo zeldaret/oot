@@ -1,13 +1,45 @@
+.rdata
+glabel D_80ACD650
+    .asciz "[36m 会話フクロウ %4x no = %d, sv = %d\n[m"
+    .balign 4
+
+glabel D_80ACD67C
+    .asciz "savebitでフクロウ退避\n"
+    .balign 4
+
+glabel D_80ACD694
+ .word 0xA5D5A5AF, 0xA5EDA5A6, 0xC2E0C8F2, 0x0A000000
+glabel D_80ACD6A4
+ .word 0xA5D5A5AF, 0xA5EDA5A6, 0xC2E0C8F2, 0x0A000000
+glabel D_80ACD6B4
+ .word 0xA5D5A5AF, 0xA5EDA5A6, 0xC2E0C8F2, 0x0A000000
+glabel D_80ACD6C4
+ .word 0xA5D5A5AF, 0xA5EDA5A6, 0xC2E0C8F2, 0x0A000000
+glabel D_80ACD6D4
+ .word 0xA5D5A5AF, 0xA5EDA5A6, 0xC2E0C8F2, 0x0A000000
+glabel D_80ACD6E4
+ .word 0x1B5B3336, 0x6D000000
+glabel D_80ACD6EC
+    .asciz "no = %d  \n"
+    .balign 4
+
+glabel D_80ACD6F8
+ .word 0xCCA4B4B0, 0xC0AEA4CE, 0xA5D5A5AF, 0xA5EDA5A6, 0xCCA4B4B0, 0xC0AEA4CE, 0xA5D5A5AF, 0xA5EDA5A6, 0xCCA4B4B0, 0xC0AEA4CE, 0xA5D5A5AF, 0xA5EDA5A6, 0x0A000000
+
+glabel D_80ACD72C
+ .word 0x1B5B6D00
+
+.text
 glabel EnOwl_Init
 /* 00000 80AC9F20 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00004 80AC9F24 AFA50054 */  sw      $a1, 0x0054($sp)
 /* 00008 80AC9F28 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 0000C 80AC9F2C AFB00028 */  sw      $s0, 0x0028($sp)
-/* 00010 80AC9F30 3C0580AD */  lui     $a1, %hi(D_80ACD61C)       ## $a1 = 80AD0000
+/* 00010 80AC9F30 3C0580AD */  lui     $a1, %hi(sOwlInitChain)       ## $a1 = 80AD0000
 /* 00014 80AC9F34 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00018 80AC9F38 0C01E037 */  jal     Actor_ProcessInitChain
 
-/* 0001C 80AC9F3C 24A5D61C */  addiu   $a1, $a1, %lo(D_80ACD61C)  ## $a1 = 80ACD61C
+/* 0001C 80AC9F3C 24A5D61C */  addiu   $a1, $a1, %lo(sOwlInitChain)  ## $a1 = 80ACD61C
 /* 00020 80AC9F40 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
 /* 00024 80AC9F44 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
 /* 00028 80AC9F48 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
@@ -47,9 +79,9 @@ glabel EnOwl_Init
 /* 000AC 80AC9FCC 0C0170D9 */  jal     ActorCollider_AllocCylinder
 
 /* 000B0 80AC9FD0 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 000B4 80AC9FD4 3C0780AD */  lui     $a3, %hi(D_80ACD5F0)       ## $a3 = 80AD0000
+/* 000B4 80AC9FD4 3C0780AD */  lui     $a3, %hi(sOwlColliderInit)       ## $a3 = 80AD0000
 /* 000B8 80AC9FD8 8FA50038 */  lw      $a1, 0x0038($sp)
-/* 000BC 80AC9FDC 24E7D5F0 */  addiu   $a3, $a3, %lo(D_80ACD5F0)  ## $a3 = 80ACD5F0
+/* 000BC 80AC9FDC 24E7D5F0 */  addiu   $a3, $a3, %lo(sOwlColliderInit)  ## $a3 = 80ACD5F0
 /* 000C0 80AC9FE0 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 000C4 80AC9FE4 0C01712B */  jal     ActorCollider_InitCylinder
 
@@ -63,17 +95,17 @@ glabel EnOwl_Init
 /* 000E4 80ACA004 E6040070 */  swc1    $f4, 0x0070($s0)           ## 00000070
 /* 000E8 80ACA008 E606004C */  swc1    $f6, 0x004C($s0)           ## 0000004C
 /* 000EC 80ACA00C 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
-/* 000F0 80ACA010 3C0580AD */  lui     $a1, %hi(func_80ACBA24)    ## $a1 = 80AD0000
+/* 000F0 80ACA010 3C0580AD */  lui     $a1, %hi(EnOwl_WaitDefault)    ## $a1 = 80AD0000
 /* 000F4 80ACA014 3C0B0601 */  lui     $t3, 0x0601                ## $t3 = 06010000
 /* 000F8 80ACA018 256BC8A0 */  addiu   $t3, $t3, 0xC8A0           ## $t3 = 0600C8A0
-/* 000FC 80ACA01C 24A5BA24 */  addiu   $a1, $a1, %lo(func_80ACBA24) ## $a1 = 80ACBA24
+/* 000FC 80ACA01C 24A5BA24 */  addiu   $a1, $a1, %lo(EnOwl_WaitDefault) ## $a1 = 80ACBA24
 /* 00100 80ACA020 3C0680AD */  lui     $a2, %hi(func_80ACC540)    ## $a2 = 80AD0000
 /* 00104 80ACA024 24C6C540 */  addiu   $a2, $a2, %lo(func_80ACC540) ## $a2 = 80ACC540
 /* 00108 80ACA028 AFA50038 */  sw      $a1, 0x0038($sp)
 /* 0010C 80ACA02C AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 00110 80ACA030 8FA70034 */  lw      $a3, 0x0034($sp)
 /* 00114 80ACA034 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00118 80ACA038 0C2B342E */  jal     func_80ACD0B8
+/* 00118 80ACA038 0C2B342E */  jal     EnOwl_ChangeMode
 /* 0011C 80ACA03C E7A80014 */  swc1    $f8, 0x0014($sp)
 /* 00120 80ACA040 8605001C */  lh      $a1, 0x001C($s0)           ## 0000001C
 /* 00124 80ACA044 24030004 */  addiu   $v1, $zero, 0x0004         ## $v1 = 00000004
@@ -143,15 +175,15 @@ glabel L80ACA110
 /* 00204 80ACA124 10000095 */  beq     $zero, $zero, .L80ACA37C
 /* 00208 80ACA128 E60A00F4 */  swc1    $f10, 0x00F4($s0)          ## 000000F4
 glabel L80ACA12C
-/* 0020C 80ACA12C 3C1880AD */  lui     $t8, %hi(func_80ACA928)    ## $t8 = 80AD0000
-/* 00210 80ACA130 2718A928 */  addiu   $t8, $t8, %lo(func_80ACA928) ## $t8 = 80ACA928
+/* 0020C 80ACA12C 3C1880AD */  lui     $t8, %hi(EnOwl_WaitOutsideKokiri)    ## $t8 = 80AD0000
+/* 00210 80ACA130 2718A928 */  addiu   $t8, $t8, %lo(EnOwl_WaitOutsideKokiri) ## $t8 = 80ACA928
 /* 00214 80ACA134 10000091 */  beq     $zero, $zero, .L80ACA37C
 /* 00218 80ACA138 AE18040C */  sw      $t8, 0x040C($s0)           ## 0000040C
 glabel L80ACA13C
 /* 0021C 80ACA13C 961903FC */  lhu     $t9, 0x03FC($s0)           ## 000003FC
-/* 00220 80ACA140 3C0A80AD */  lui     $t2, %hi(func_80ACAB2C)    ## $t2 = 80AD0000
+/* 00220 80ACA140 3C0A80AD */  lui     $t2, %hi(EnOwl_WaitHyruleCastle)    ## $t2 = 80AD0000
 /* 00224 80ACA144 24090020 */  addiu   $t1, $zero, 0x0020         ## $t1 = 00000020
-/* 00228 80ACA148 254AAB2C */  addiu   $t2, $t2, %lo(func_80ACAB2C) ## $t2 = 80ACAB2C
+/* 00228 80ACA148 254AAB2C */  addiu   $t2, $t2, %lo(EnOwl_WaitHyruleCastle) ## $t2 = 80ACAB2C
 /* 0022C 80ACA14C 37280002 */  ori     $t0, $t9, 0x0002           ## $t0 = 00000002
 /* 00230 80ACA150 A60803FC */  sh      $t0, 0x03FC($s0)           ## 000003FC
 /* 00234 80ACA154 A60903EE */  sh      $t1, 0x03EE($s0)           ## 000003EE
@@ -161,11 +193,11 @@ glabel L80ACA160
 /* 00240 80ACA160 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
 /* 00244 80ACA164 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
 /* 00248 80ACA168 944B0EDC */  lhu     $t3, 0x0EDC($v0)           ## 8015F53C
-/* 0024C 80ACA16C 3C0D80AD */  lui     $t5, %hi(func_80ACACD8)    ## $t5 = 80AD0000
+/* 0024C 80ACA16C 3C0D80AD */  lui     $t5, %hi(EnOwl_WaitKakariko)    ## $t5 = 80AD0000
 /* 00250 80ACA170 3C0480AD */  lui     $a0, %hi(D_80ACD694)       ## $a0 = 80AD0000
 /* 00254 80ACA174 316C0001 */  andi    $t4, $t3, 0x0001           ## $t4 = 00000000
 /* 00258 80ACA178 11800007 */  beq     $t4, $zero, .L80ACA198
-/* 0025C 80ACA17C 25ADACD8 */  addiu   $t5, $t5, %lo(func_80ACACD8) ## $t5 = 80ACACD8
+/* 0025C 80ACA17C 25ADACD8 */  addiu   $t5, $t5, %lo(EnOwl_WaitKakariko) ## $t5 = 80ACACD8
 /* 00260 80ACA180 0C00084C */  jal     osSyncPrintf
 
 /* 00264 80ACA184 2484D694 */  addiu   $a0, $a0, %lo(D_80ACD694)  ## $a0 = 80ACD694
@@ -181,11 +213,11 @@ glabel L80ACA1A0
 /* 00280 80ACA1A0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
 /* 00284 80ACA1A4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
 /* 00288 80ACA1A8 944E0EDC */  lhu     $t6, 0x0EDC($v0)           ## 8015F53C
-/* 0028C 80ACA1AC 3C1880AD */  lui     $t8, %hi(func_80ACAE5C)    ## $t8 = 80AD0000
+/* 0028C 80ACA1AC 3C1880AD */  lui     $t8, %hi(EnOwl_WaitGerudo)    ## $t8 = 80AD0000
 /* 00290 80ACA1B0 3C0480AD */  lui     $a0, %hi(D_80ACD6A4)       ## $a0 = 80AD0000
 /* 00294 80ACA1B4 31CF0008 */  andi    $t7, $t6, 0x0008           ## $t7 = 00000000
 /* 00298 80ACA1B8 11E00007 */  beq     $t7, $zero, .L80ACA1D8
-/* 0029C 80ACA1BC 2718AE5C */  addiu   $t8, $t8, %lo(func_80ACAE5C) ## $t8 = 80ACAE5C
+/* 0029C 80ACA1BC 2718AE5C */  addiu   $t8, $t8, %lo(EnOwl_WaitGerudo) ## $t8 = 80ACAE5C
 /* 002A0 80ACA1C0 0C00084C */  jal     osSyncPrintf
 
 /* 002A4 80ACA1C4 2484D6A4 */  addiu   $a0, $a0, %lo(D_80ACD6A4)  ## $a0 = 80ACD6A4
@@ -198,8 +230,8 @@ glabel L80ACA1A0
 /* 002B8 80ACA1D8 10000068 */  beq     $zero, $zero, .L80ACA37C
 /* 002BC 80ACA1DC AE18040C */  sw      $t8, 0x040C($s0)           ## 0000040C
 glabel L80ACA1E0
-/* 002C0 80ACA1E0 3C1980AD */  lui     $t9, %hi(func_80ACAFE0)    ## $t9 = 80AD0000
-/* 002C4 80ACA1E4 2739AFE0 */  addiu   $t9, $t9, %lo(func_80ACAFE0) ## $t9 = 80ACAFE0
+/* 002C0 80ACA1E0 3C1980AD */  lui     $t9, %hi(EnOwl_WaitLakeHylia)    ## $t9 = 80AD0000
+/* 002C4 80ACA1E4 2739AFE0 */  addiu   $t9, $t9, %lo(EnOwl_WaitLakeHylia) ## $t9 = 80ACAFE0
 /* 002C8 80ACA1E8 10000064 */  beq     $zero, $zero, .L80ACA37C
 /* 002CC 80ACA1EC AE19040C */  sw      $t9, 0x040C($s0)           ## 0000040C
 glabel L80ACA1F0
@@ -211,8 +243,8 @@ glabel L80ACA1F0
 /* 002E4 80ACA204 15200007 */  bne     $t1, $zero, .L80ACA224
 /* 002E8 80ACA208 00000000 */  nop
 /* 002EC 80ACA20C 944A0EDC */  lhu     $t2, 0x0EDC($v0)           ## 8015F53C
-/* 002F0 80ACA210 3C0C80AD */  lui     $t4, %hi(func_80ACB0B0)    ## $t4 = 80AD0000
-/* 002F4 80ACA214 258CB0B0 */  addiu   $t4, $t4, %lo(func_80ACB0B0) ## $t4 = 80ACB0B0
+/* 002F0 80ACA210 3C0C80AD */  lui     $t4, %hi(EnOwl_WaitZoraRiver)    ## $t4 = 80AD0000
+/* 002F4 80ACA214 258CB0B0 */  addiu   $t4, $t4, %lo(EnOwl_WaitZoraRiver) ## $t4 = 80ACB0B0
 /* 002F8 80ACA218 314B0001 */  andi    $t3, $t2, 0x0001           ## $t3 = 00000000
 /* 002FC 80ACA21C 15600007 */  bne     $t3, $zero, .L80ACA23C
 /* 00300 80ACA220 00000000 */  nop
@@ -229,8 +261,8 @@ glabel L80ACA1F0
 /* 0031C 80ACA23C 1000004F */  beq     $zero, $zero, .L80ACA37C
 /* 00320 80ACA240 AE0C040C */  sw      $t4, 0x040C($s0)           ## 0000040C
 glabel L80ACA244
-/* 00324 80ACA244 3C0D80AD */  lui     $t5, %hi(func_80ACB1A0)    ## $t5 = 80AD0000
-/* 00328 80ACA248 25ADB1A0 */  addiu   $t5, $t5, %lo(func_80ACB1A0) ## $t5 = 80ACB1A0
+/* 00324 80ACA244 3C0D80AD */  lui     $t5, %hi(EnOwl_WaitHyliaShortcut)    ## $t5 = 80AD0000
+/* 00328 80ACA248 25ADB1A0 */  addiu   $t5, $t5, %lo(EnOwl_WaitHyliaShortcut) ## $t5 = 80ACB1A0
 /* 0032C 80ACA24C AE0D040C */  sw      $t5, 0x040C($s0)           ## 0000040C
 /* 00330 80ACA250 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 00334 80ACA254 0C00B2ED */  jal     Flags_UnsetSwitch
@@ -239,13 +271,13 @@ glabel L80ACA244
 /* 0033C 80ACA25C 10000048 */  beq     $zero, $zero, .L80ACA380
 /* 00340 80ACA260 8FBF002C */  lw      $ra, 0x002C($sp)
 glabel L80ACA264
-/* 00344 80ACA264 3C0E80AD */  lui     $t6, %hi(func_80ACB2B4)    ## $t6 = 80AD0000
-/* 00348 80ACA268 25CEB2B4 */  addiu   $t6, $t6, %lo(func_80ACB2B4) ## $t6 = 80ACB2B4
+/* 00344 80ACA264 3C0E80AD */  lui     $t6, %hi(EnOwl_WaitDeathMountainShortcut)    ## $t6 = 80AD0000
+/* 00348 80ACA268 25CEB2B4 */  addiu   $t6, $t6, %lo(EnOwl_WaitDeathMountainShortcut) ## $t6 = 80ACB2B4
 /* 0034C 80ACA26C 10000043 */  beq     $zero, $zero, .L80ACA37C
 /* 00350 80ACA270 AE0E040C */  sw      $t6, 0x040C($s0)           ## 0000040C
 glabel L80ACA274
-/* 00354 80ACA274 3C0F80AD */  lui     $t7, %hi(func_80ACB2B4)    ## $t7 = 80AD0000
-/* 00358 80ACA278 25EFB2B4 */  addiu   $t7, $t7, %lo(func_80ACB2B4) ## $t7 = 80ACB2B4
+/* 00354 80ACA274 3C0F80AD */  lui     $t7, %hi(EnOwl_WaitDeathMountainShortcut)    ## $t7 = 80AD0000
+/* 00358 80ACA278 25EFB2B4 */  addiu   $t7, $t7, %lo(EnOwl_WaitDeathMountainShortcut) ## $t7 = 80ACB2B4
 /* 0035C 80ACA27C 1000003F */  beq     $zero, $zero, .L80ACA37C
 /* 00360 80ACA280 AE0F040C */  sw      $t7, 0x040C($s0)           ## 0000040C
 glabel L80ACA284
@@ -259,11 +291,11 @@ glabel L80ACA294
 /* 0037C 80ACA29C 3C198012 */  lui     $t9, 0x8012                ## $t9 = 80120000
 /* 00380 80ACA2A0 8F397150 */  lw      $t9, 0x7150($t9)           ## 80127150
 /* 00384 80ACA2A4 8C4800A4 */  lw      $t0, 0x00A4($v0)           ## 8015E704
-/* 00388 80ACA2A8 3C0A80AD */  lui     $t2, %hi(func_80ACB568)    ## $t2 = 80AD0000
+/* 00388 80ACA2A8 3C0A80AD */  lui     $t2, %hi(EnOwl_WaitLWPreSaria)    ## $t2 = 80AD0000
 /* 0038C 80ACA2AC 3C0480AD */  lui     $a0, %hi(D_80ACD6C4)       ## $a0 = 80AD0000
 /* 00390 80ACA2B0 03284824 */  and     $t1, $t9, $t0
 /* 00394 80ACA2B4 15200007 */  bne     $t1, $zero, .L80ACA2D4
-/* 00398 80ACA2B8 254AB568 */  addiu   $t2, $t2, %lo(func_80ACB568) ## $t2 = 80ACB568
+/* 00398 80ACA2B8 254AB568 */  addiu   $t2, $t2, %lo(EnOwl_WaitLWPreSaria) ## $t2 = 80ACB568
 /* 0039C 80ACA2BC 0C00084C */  jal     osSyncPrintf
 
 /* 003A0 80ACA2C0 2484D6C4 */  addiu   $a0, $a0, %lo(D_80ACD6C4)  ## $a0 = 80ACD6C4
@@ -281,11 +313,11 @@ glabel L80ACA2DC
 /* 003C4 80ACA2E4 3C0B8012 */  lui     $t3, 0x8012                ## $t3 = 80120000
 /* 003C8 80ACA2E8 8D6B7158 */  lw      $t3, 0x7158($t3)           ## 80127158
 /* 003CC 80ACA2EC 8C4C00A4 */  lw      $t4, 0x00A4($v0)           ## 8015E704
-/* 003D0 80ACA2F0 3C0E80AD */  lui     $t6, %hi(func_80ACB6EC)    ## $t6 = 80AD0000
+/* 003D0 80ACA2F0 3C0E80AD */  lui     $t6, %hi(EnOwl_WaitLWPostSaria)    ## $t6 = 80AD0000
 /* 003D4 80ACA2F4 3C0480AD */  lui     $a0, %hi(D_80ACD6D4)       ## $a0 = 80AD0000
 /* 003D8 80ACA2F8 016C6824 */  and     $t5, $t3, $t4
 /* 003DC 80ACA2FC 15A00007 */  bne     $t5, $zero, .L80ACA31C
-/* 003E0 80ACA300 25CEB6EC */  addiu   $t6, $t6, %lo(func_80ACB6EC) ## $t6 = 80ACB6EC
+/* 003E0 80ACA300 25CEB6EC */  addiu   $t6, $t6, %lo(EnOwl_WaitLWPostSaria) ## $t6 = 80ACB6EC
 /* 003E4 80ACA304 0C00084C */  jal     osSyncPrintf
 
 /* 003E8 80ACA308 2484D6D4 */  addiu   $a0, $a0, %lo(D_80ACD6D4)  ## $a0 = 80ACD6D4
@@ -317,9 +349,9 @@ glabel L80ACA2DC
 
 /* 00438 80ACA358 2484D72C */  addiu   $a0, $a0, %lo(D_80ACD72C)  ## $a0 = 80ACD72C
 /* 0043C 80ACA35C 960F03FC */  lhu     $t7, 0x03FC($s0)           ## 000003FC
-/* 00440 80ACA360 3C0880AD */  lui     $t0, %hi(func_80ACA928)    ## $t0 = 80AD0000
+/* 00440 80ACA360 3C0880AD */  lui     $t0, %hi(EnOwl_WaitOutsideKokiri)    ## $t0 = 80AD0000
 /* 00444 80ACA364 24190020 */  addiu   $t9, $zero, 0x0020         ## $t9 = 00000020
-/* 00448 80ACA368 2508A928 */  addiu   $t0, $t0, %lo(func_80ACA928) ## $t0 = 80ACA928
+/* 00448 80ACA368 2508A928 */  addiu   $t0, $t0, %lo(EnOwl_WaitOutsideKokiri) ## $t0 = 80ACA928
 /* 0044C 80ACA36C 35F80002 */  ori     $t8, $t7, 0x0002           ## $t8 = 00000002
 /* 00450 80ACA370 A61803FC */  sh      $t8, 0x03FC($s0)           ## 000003FC
 /* 00454 80ACA374 A61903EE */  sh      $t9, 0x03EE($s0)           ## 000003EE

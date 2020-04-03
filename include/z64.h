@@ -352,7 +352,7 @@ typedef struct {
     /* 0x0162 */ s16 unk_162;
     /* 0x0164 */ s16 unk_164;
     /* 0x0166 */ s16 unk_166; // unknown if used
-    /* 0x0168 */ s16 unk_168;
+    /* 0x0168 */ s16 unk_168; // cameraType ?
     /* 0x016A */ s16 unk_16A; // unknown if used
 } Camera; // size = 0x16C
 

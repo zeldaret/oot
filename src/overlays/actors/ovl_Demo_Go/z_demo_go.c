@@ -149,7 +149,7 @@ void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx) {
             posRot->pos.x = (((endPos.x - startPos.x) * temp_ret) + startPos.x);
             posRot->pos.y = (((endPos.y - startPos.y) * temp_ret) + startPos.y);
             posRot->pos.z = (((endPos.z - startPos.z) * temp_ret) + startPos.z);
-            posRot->rot.y = thisx->shape.rot.y = actorAction->rot.y;
+            posRot->rot.y = thisx->shape.rot.y = (s16)actorAction->pitch;
         }
     }
 }
@@ -179,9 +179,9 @@ void func_8097CCE0(DemoGo* this, GlobalContext* globalCtx) {
         actorAction = globalCtx->csCtx.actorActions[func_8097C870(this)];
         if (actorAction != NULL) {
             thisRotY = thisx->posRot.rot.y;
-            rotYDelta = actorAction->rot.y - thisRotY;
+            rotYDelta = (s16)actorAction->pitch - thisRotY;
             if ((rotYDelta > -(kREG(16) + 0x96)) && (rotYDelta < kREG(16) + 0x96)) {
-                newRotY = actorAction->rot.y;
+                newRotY = (s16)actorAction->pitch;
             } else if (rotYDelta > 0) {
                 newRotY = (thisRotY + kREG(16)) + 0x96;
             } else {

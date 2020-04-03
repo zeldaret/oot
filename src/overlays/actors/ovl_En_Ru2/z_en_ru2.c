@@ -210,7 +210,7 @@ static void func_80AF2868(EnRu2* this, GlobalContext* globalCtx, u32 actorAction
         thisx->posRot.pos.x = csCmdActorAction->startPos.x;
         thisx->posRot.pos.y = csCmdActorAction->startPos.y;
         thisx->posRot.pos.z = csCmdActorAction->startPos.z;
-        newRotY = csCmdActorAction->rot.y;
+        newRotY = csCmdActorAction->pitch;
         thisx->shape.rot.y = newRotY;
         thisx->posRot.rot.y = newRotY;
     }

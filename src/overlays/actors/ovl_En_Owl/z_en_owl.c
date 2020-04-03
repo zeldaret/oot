@@ -1,13 +1,27 @@
+#include <vt.h>
 #include "z_en_owl.h"
 
 #define ROOM 0x00
 #define FLAGS 0x00000019
 
+extern Gfx D_060089A8;
+extern Gfx D_06008DA8;
+extern Gfx D_060091A8;
+//600C1C4
+extern AnimationHeader D_0600C1C4;
+extern CsCmdActorAction D_0201E6A0;
+extern CsCmdActorAction D_0201B0C0;
+extern AnimationHeader D_06001168;
+extern SkeletonHeader D_06003F18;
+extern SkeletonHeader D_060100B0;
+extern AnimationHeader D_060015CC;
+extern AnimationHeader D_06003760;
+extern AnimationHeader D_0600C684;
+
 void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx);
 void EnOwl_Destroy(EnOwl* this, GlobalContext* globalCtx);
 void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx);
 void EnOwl_Draw(EnOwl* this, GlobalContext* globalCtx);
-
 
 const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
@@ -22,210 +36,205 @@ const ActorInit En_Owl_InitVars = {
     (ActorFunc)EnOwl_Draw,
 };
 
-static InitChainEntry sInitChain[] = {
-0xC8500019, 0xB0F40578, 0xB0F807D0, 0x30FC0960
+ColliderCylinderInit sOwlColliderInit = {
+    0x0A, 0x00, 0x11, 0x39, 0x10, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00000000, 0x00, 0x00, 0x00, 0x00, 0xFFCFFFFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00, 0x001E, 0x0028, 0x0000, 0x0000, 0x0000, 0x0000,
 };
 
-static ColliderCylinderInit sColliderInit = {
-    0x0A001139, 0x10010000, 0x00000000, 0x00000000, 0x00000000, 0xFFCFFFFF, 0x00000000, 0x00010100, 0x001E0028, 0x00000000, 0x00000000
+InitChainEntry sOwlInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 25, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_F4, 1400, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_F8, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_FC, 2400, ICHAIN_STOP),
 };
 
-extern SkeletonHeader D_06003F18;
-extern SkeletonHeader D_060100B0;
-extern AnimationHeader D_060015CC;
-extern AnimationHeader D_06003760;
+Vec3s D_80ACD62C = {0.0f, 0.0f, 0.0f};
 
-void func_80ACD0B8(EnOwl* this, ActorFunc, void*, s32, AnimationHeader*, f32);
-void func_80ACBA24(EnOwl* this, GlobalContext* globalCtx);
+Gfx* dLists[] = {
+    NULL,
+    &D_060089A8,
+    &D_06008DA8,
+    &D_060091A8,
+};
+
+void EnOwl_ChangeMode(EnOwl* this, ActorFunc, OwlFunc, SkelAnime*, AnimationHeader*, f32);
+void EnOwl_WaitDefault(EnOwl* this, GlobalContext* globalCtx);
 void func_80ACC540(EnOwl* this);
-void func_80ACA928(EnOwl* this, GlobalContext* globalCtx);
-void func_80ACAB2C(EnOwl* this, GlobalContext* globalCtx);
-/*
-void SkelAnime_ChangeAnimation(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 unk0,
-                               f32 frameCount, u8 unk1, f32 transitionRate);*/
-#define NON_MATCHING
-#ifdef NON_MATCHING
-void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx, ActorFunc actionFunc, void* arg3, s32 arg4)
-{
-    u32 sp44;
-    s32 sp40;
-    void *sp38;
-    s32 sp34;
-    s32 temp_a1;
-    s32 temp_a3;
-    s8 temp_v0;
-    u32 temp_a2;
-    void *temp_a1_2;
-    void *temp_v0_2;
-    u32 phi_a2;
-    s32 phi_a3;
+void EnOwl_WaitOutsideKokiri(EnOwl* this, GlobalContext* globalCtx);
+void EnOwl_WaitHyruleCastle(EnOwl* this, GlobalContext* globalCtx);
+void EnOwl_WaitKakariko(EnOwl* this, GlobalContext* globalCtx);
+void EnOwl_WaitGerudo(EnOwl* this, GlobalContext* globalCtx);
+void EnOwl_WaitLakeHylia(EnOwl* this, GlobalContext* globalCtx);
+void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx);
+void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx);
+void EnOwl_WaitDeathMountainShortcut(EnOwl* this, GlobalContext* globalCtx);
+void func_80ACB3E0(EnOwl* this, GlobalContext* globalCtx);
+void EnOwl_WaitLWPreSaria(EnOwl* this, GlobalContext* globalCtx);
+void EnOwl_WaitLWPostSaria(EnOwl* this, GlobalContext* globalCtx);
+void func_80ACD4D4(EnOwl* this, GlobalContext* globalCtx);
+void func_80ACD130(EnOwl* this, GlobalContext* globalCtx, s32 arg2);
+void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx);
+void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx);
+void func_80ACAA54(EnOwl* this, GlobalContext* globalCtx);
+void func_80ACAC6C(EnOwl* this, GlobalContext* globalCtx);
+void func_80ACADF0(EnOwl* this, GlobalContext* globalCtx);
+void func_80ACAF74(EnOwl* this, GlobalContext* globalCtx);
+void func_80ACC30C(EnOwl* this, GlobalContext* globalCtx);
+void func_80ACB4FC(EnOwl* this, GlobalContext* globalCtx);
+void func_80ACB680(EnOwl* this, GlobalContext* globalCtx);
+void func_80ACC460(EnOwl* this);
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
-    ActorShape_Init(&this->actor.shape, 0, (void*)0x8003B5EC, 36.0f);
+void func_80ACBEA0(EnOwl*,GlobalContext*);
+
+//#define NON_MATCHING
+#ifdef NON_MATCHING
+// Close, stack alloc and using r0 instead of zero in unk_406 assignment
+void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx)
+{
+    ColliderCylinderMain* colCylinder;
+    u8 zero;
+    u32 whichOwl;
+    s32 switchFlag;
+    SkelAnime* skelAnime2;
+
+    Actor_ProcessInitChain(&this->actor, sOwlInitChain);
+    ActorShape_Init(&this->actor.shape, 0, &ActorShadow_DrawFunc_Circle, 36.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06003F18, &D_060015CC, this->drawTbl, this->transitionTbl, 0x15);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime2, &D_060100B0, &D_06003760, this->drawTbl, this->transitionTbl2, 0x10);
-    ActorCollider_AllocCylinder(globalCtx, &this->colCylinder);
-    ActorCollider_InitCylinder(globalCtx, &this->colCylinder, &this->actor, &sColliderInit);
+    skelAnime2 = &this->skelAnime2;
+    SkelAnime_InitSV(globalCtx, skelAnime2, &D_060100B0, &D_06003760, this->drawTbl2, this->transitionTbl2, 0x10);
+    colCylinder = &this->colCylinder;
+    ActorCollider_AllocCylinder(globalCtx, colCylinder);
+    ActorCollider_InitCylinder(globalCtx, colCylinder, &this->actor, &sOwlColliderInit);
     this->actor.sub_98.mass = 0xFF;
     this->actor.minVelocityY = -10.0f;
     this->actor.unk_4C = 500.0f;
-    func_80ACD0B8(this, &func_80ACBA24, &func_80ACC540, sp34, &D_06003760, 0.0f);
-    temp_v0 = 0 & 0xFF;
-    this->unk_406 = 0;
-    this->unk_3FC = 0;
+    EnOwl_ChangeMode(this, &EnOwl_WaitDefault, &func_80ACC540, skelAnime2, &D_06003760, 0.0f);
+    zero = 0;
+    this->unk_406 = zero;
+    this->actionFlags = this->unk_406;
     this->unk_409 = 0;
     this->unk_405 = 4;
     this->unk_407 = 0;
     this->unk_404 = 0;
     this->unk_408 = 4;
-    phi_a2 = (u32) ((s32) (this->actor.params & 0xFC0) >> 6);
-    phi_a3 = this->actor.params & 0x3F;
-    if (this->actor.params != 0xFFF)
+    whichOwl = (this->actor.params & 0xFC0) >> 6;
+    switchFlag = this->actor.params & 0x3F;
+    if (this->actor.params == 0xFFF)
     {
-        goto block_2;
+        whichOwl = 1;
+        switchFlag = 0x20;
     }
-    phi_a2 = 1U;
-    phi_a3 = 0x20;
-block_2:
-    sp44 = (u32) phi_a2;
-    sp40 = (s32) phi_a3;
-    osSyncPrintf("[36m 会話フクロウ %4x no = %d, sv = %d\n[m", &this->actor.params, phi_a2, phi_a3); // [36m conversation owl% 4x no =% d, sv =% d \ n [m
-    temp_a2 = phi_a2;
-    temp_a3 = phi_a3;
-    if (temp_a2 == 0)
+    osSyncPrintf(VT_FGCOL(CYAN) " 会話フクロウ %4x no = %d, sv = %d\n" VT_RST, this->actor.params, whichOwl, switchFlag); // conversation owl %4x no = %d, sv = %d
+
+    // If the Owl is not the default, and the switch flag is set, remove the owl.
+    if (whichOwl != OWL_DEFAULT && switchFlag < 0x20 && Flags_GetSwitch(globalCtx, switchFlag))
     {
-        goto block_6;
+        osSyncPrintf("savebitでフクロウ退避\n"); // Save owl with savebit
+        Actor_Kill(&this->actor);
+        return;
     }
-    if (temp_a3 >= 0x20)
-    {
-        goto block_6;
-    }
-    sp44 = temp_a2;
-    if (Flags_GetSwitch(globalCtx, temp_a3) == 0)
-    {
-        goto block_6;
-    }
-    osSyncPrintf("savebitでフクロウ退避\n"); // "Escape owl with savebit
-    Actor_Kill(&this->actor);
-    return;
-block_6:
+
     this->unk_3EE = 0;
     this->unk_400 = this->actor.posRot.rot.y;
-    if ((u32) temp_a2 >= 0xDU)
-    {
-        goto block_32;
-    }
-    goto **(&jtbl_80ACD7FC + (temp_a2 * 4));
-    switch(temp_a2){
-        default:
-        this->unk_40A = 0;
-        this->actionFunc = sp38;
-        this->actor.unk_F4 = 4000.0f;
-        break;
-        case 1:
-        this->actionFunc = &func_80ACA928;
-        break;
-        case 2:
-        this->unk_3FC |= 2;
-        this->unk_3EE = 0x20;
-        this->actionFunc = &func_80ACAB2C;
-        break;
-        case 3:
-        
+    switch(whichOwl){
+        // Default, does nothing
+        case OWL_DEFAULT:
+            this->actionFunc = &EnOwl_WaitDefault;
+            this->actor.unk_F4 = 4000.0f;
+            this->unk_40A = 0;
+            break;
+        // outside kokiri forest
+        case OWL_OUTSIDE_KOKIRI:
+            this->actionFunc = &EnOwl_WaitOutsideKokiri;
+            break;
+        // Entrance to Hyrule castle
+        case OWL_HYRULE_CASTLE:
+            this->actionFlags |= 2;
+            this->unk_3EE = 0x20;
+            this->actionFunc = &EnOwl_WaitHyruleCastle;
+            break;
+        // In front of kakariko
+        case OWL_KAKARIKO:
+            // has zelda's letter
+            if(gSaveContext.event_chk_inf[4] & 1){
+                osSyncPrintf("フクロウ退避\n"); // Owl evacuation
+                Actor_Kill(&this->actor);
+                return;
+            }
 
+            this->actionFunc = &EnOwl_WaitKakariko;
+            break;
+        // Between Lake Hylia and Gerudo Valley
+        case OWL_HYLIA_GERUDO:
+            // has ocarina of time
+            if(gSaveContext.event_chk_inf[4] & 8){
+                osSyncPrintf("フクロウ退避\n"); // Owl evacuation
+                Actor_Kill(&this->actor);
+                return;
+            }
+            this->actionFunc = &EnOwl_WaitGerudo;
+            break;
+        // In front of Lake Hylia
+        case OWL_LAKE_HYLIA:
+            this->actionFunc = &EnOwl_WaitLakeHylia;
+            break;
+        // unknown
+        case OWL_ZORA_RIVER:
+            // opened zora's domain or has zelda's letter
+            if((gSaveContext.event_chk_inf[3] & 0x200) ||
+            (gSaveContext.event_chk_inf[4] & 1) == 0){
+                osSyncPrintf("フクロウ退避\n"); // Owl evacuation
+                Actor_Kill(&this->actor);
+                return;
+            }
+
+            this->actionFunc = &EnOwl_WaitZoraRiver;
+            break;
+        // Lake hylia shortcut
+        case OWL_HYLIA_SHORTCUT:
+            this->actionFunc = &EnOwl_WaitHyliaShortcut;
+            Flags_UnsetSwitch(globalCtx, 0x23);
+            return;
+        // Death mountain shortcut
+        case OWL_DEATH_MOUNTAIN:
+            this->actionFunc = &EnOwl_WaitDeathMountainShortcut;
+            break;
+        // Death mountain shortcut
+        case OWL_DEATH_MOUNTAIN2:
+            this->actionFunc = &EnOwl_WaitDeathMountainShortcut;
+            break;
+        // Dessert Colossus
+        case OWL_DESSERT_COLOSSUS:
+            this->actionFunc = &func_80ACB3E0;
+            break;
+        // Lost woods before saria
+        case OWL_LOST_WOODS_PRESARIA:
+            if (!HAS_QUEST_STATUS(0xC)){
+                osSyncPrintf("フクロウ退避\n"); // Owl evacuation
+                Actor_Kill(&this->actor);
+                return;
+            }
+            this->actionFunc = &EnOwl_WaitLWPreSaria;
+            break;
+        // Lost woods after saria
+        case OWL_LOST_WOODS_POSTSARIA:
+            if(!HAS_QUEST_STATUS(0xC)){
+                osSyncPrintf("フクロウ退避\n"); // Owl evacuation
+                Actor_Kill(&this->actor);
+                return;
+            }
+            this->actionFunc = &EnOwl_WaitLWPostSaria;
+            break;
+        // Outside kokiri forest
+        default:
+            osSyncPrintf(VT_FGCOL(CYAN));
+            osSyncPrintf("no = %d  \n", whichOwl);
+            osSyncPrintf("未完成のフクロウ未完成のフクロウ未完成のフクロウ\n"); // Unfinished owl unfinished owl unfinished owl
+            osSyncPrintf(VT_RST);
+            this->actionFlags |= 2;
+            this->unk_3EE = 0x20;
+            this->actionFunc = &EnOwl_WaitOutsideKokiri;
+            break;
     }
-case 2:
-    arg0->unk3FC = (u16) (arg0->unk3FC | 2);
-    arg0->unk3EE = (u16)0x20;
-    arg0->unk40C = &func_80ACAB2C;
-    goto block_33;
-case 3:
-    if (((0x80160000 + 0xE660)->unkEDC & 1) == 0)
-    {
-        goto block_13;
-    }
-    osSyncPrintf(&D_80ACD694, temp_a2);
-    Actor_Kill(arg0);
-    return;
-block_13:
-    arg0->unk40C = &func_80ACACD8;
-    goto block_33;
-case 4:
-    if (((0x80160000 + 0xE660)->unkEDC & 8) == 0)
-    {
-        goto block_16;
-    }
-    osSyncPrintf(&D_80ACD6A4, temp_a2);
-    Actor_Kill(arg0);
-    return;
-block_16:
-    arg0->unk40C = &func_80ACAE5C;
-    goto block_33;
-case 5:
-    arg0->unk40C = &func_80ACAFE0;
-    goto block_33;
-case 6:
-    temp_v0_2 = 0x80160000 + 0xE660;
-    if ((temp_v0_2->unkEDA & 0x200) != 0)
-    {
-        goto block_20;
-    }
-    if ((temp_v0_2->unkEDC & 1) != 0)
-    {
-        goto block_21;
-    }
-block_20:
-    osSyncPrintf(&D_80ACD6B4, temp_a2);
-    Actor_Kill(arg0);
-    return;
-block_21:
-    arg0->unk40C = &func_80ACB0B0;
-    goto block_33;
-case 7:
-    arg0->unk40C = &func_80ACB1A0;
-    Flags_UnsetSwitch(sp54, 0x23, temp_a2);
-    return;
-case 8:
-    arg0->unk40C = &func_80ACB2B4;
-    goto block_33;
-case 9:
-    arg0->unk40C = &func_80ACB2B4;
-    goto block_33;
-case 10:
-    arg0->unk40C = &func_80ACB3E0;
-    goto block_33;
-case 11:
-    if ((*(void *)0x80127150 & (0x80160000 + 0xE660)->unkA4) != 0)
-    {
-        goto block_28;
-    }
-    osSyncPrintf(&D_80ACD6C4, temp_a2);
-    Actor_Kill(arg0);
-    return;
-block_28:
-    arg0->unk40C = &func_80ACB568;
-    goto block_33;
-case 12:
-    if ((*(void *)0x80127158 & (0x80160000 + 0xE660)->unkA4) != 0)
-    {
-        goto block_31;
-    }
-    osSyncPrintf(&D_80ACD6D4, temp_a2);
-    Actor_Kill(arg0);
-    return;
-block_31:
-    arg0->unk40C = &func_80ACB6EC;
-    goto block_33;
-block_32:
-    sp44 = (u32) temp_a2;
-    osSyncPrintf(&D_80ACD6E4, temp_a2);
-    osSyncPrintf(&D_80ACD6EC, sp44);
-    osSyncPrintf(&D_80ACD6F8);
-    osSyncPrintf(&D_80ACD72C);
-    arg0->unk3FC = (u16) (arg0->unk3FC | 2);
-    arg0->unk3EE = (u16)0x20;
-    arg0->unk40C = &func_80ACA928;
-block_33:
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/EnOwl_Init.s")
@@ -237,136 +246,1424 @@ void EnOwl_Destroy(EnOwl* this, GlobalContext* globalCtx)
     ActorCollider_FreeCylinder(globalCtx, &thisx->colCylinder);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA3B8.s")
+/*
+ * Rotates this to the player instance
+*/
+void EnOwl_LookAtLink(EnOwl* this, GlobalContext* globalCtx)
+{
+    s16 yaw;
+    Player* player = PLAYER;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA3F4.s")
+    yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &player->actor.posRot.pos);
+    this->actor.posRot.rot.y = yaw;
+    this->actor.shape.rot.y = yaw;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA558.s")
+/*
+ * Checks if link is within `targetDist` units, initalize the camera for the owl.
+ * returns 0 if the link is not within `targetDistance`, returns 1 once link is within
+ * the distance, and the camera has been initalized.
+*/
+s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 targetDist, u16 flags)
+{
+    s32 cameraFlags;
+    f32 distCheck;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA5C8.s")
+    if (func_8002F194(&this->actor, globalCtx) != 0)
+    {
+        if (this->actor.params == 0xFFF)
+        {
+            this->actionFlags |= 0x40;
+            cameraFlags = -0x64;
+        }
+        else
+        {
+            if (Math_Rand_ZeroOne() < 0.5f)
+            {
+                cameraFlags = (flags & 1) != 0 ? -0x61 : -0x63;
+                this->actionFlags |= 0x40;
+            }
+            else
+            {
+                cameraFlags = (flags & 1) ? -0x60 : -0x62;
+                this->actionFlags &= ~0x40;
+            }
+        }
+        this->cameraIdx = func_800800F8(globalCtx, 0x21FC, (s16)cameraFlags, &this->actor, 0);
+        return 1;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA62C.s")
+    this->actor.textId = textId;
+    distCheck = (flags & 2) ? 200.0f : 1000.0f;
+    if (this->actor.xzDistanceFromLink < targetDist)
+    {
+        this->actor.flags |= 0x10000;
+        func_8002F1C4(&this->actor, globalCtx, targetDist, distCheck, 0);
+    }
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA690.s")
+s32 func_80ACA558(EnOwl* this, GlobalContext* globalCtx, u16 textId)
+{
+    if (func_8002F194(&this->actor, globalCtx) != 0)
+    {
+        return 1;
+    }
+    this->actor.textId = textId;
+    if (this->actor.xzDistanceFromLink < 120.0f)
+    {
+        func_8002F1C4(&this->actor, globalCtx, 350.0f, 1000.0f, 0);
+    }
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA6C0.s")
+void func_80ACA5C8(EnOwl* this)
+{
+    EnOwl_ChangeMode(this, &func_80ACBEA0, &func_80ACC540, &this->skelAnime, &D_0600C684, 0.0f);
+    this->curDlistIdx = 0;
+    this->nextDlistIdx = Math_Rand_S16Offset(60, 60);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA71C.s")
+void func_80ACA62C(EnOwl* this, GlobalContext* globalCtx)
+{
+    s32 switchFlag;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA76C.s")
+    switchFlag = this->actor.params & 0x3F;
+    if (switchFlag < 0x20)
+    {
+        Flags_SetSwitch(globalCtx, switchFlag);
+        osSyncPrintf(VT_FGCOL(CYAN) " Actor_Environment_sw = %d\n" VT_RST, Flags_GetSwitch(globalCtx, switchFlag));
+    }
+    func_80ACA5C8(this);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA7E0.s")
+void func_80ACA690(EnOwl* this, GlobalContext* globalCtx)
+{
+    if ((this->unk_3EE & 0x3F) == 0)
+    {
+        func_80ACA62C(this, globalCtx);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA88C.s")
+void func_80ACA6C0(EnOwl* this)
+{
+    if (Math_Rand_CenteredFloat(1.0f) < 0.0f)
+    {
+        this->actionFlags |= 0x20;
+    }
+    else
+    {
+        this->actionFlags &= ~0x20;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA928.s")
+void func_80ACA71C(EnOwl* this)
+{
+    func_80ACA6C0(this);
+    this->unk_3F2 = 0;
+    this->actionFlags |= 0x10;
+    this->unk_408 = 4;
+    this->unk_404 = 0;
+    this->unk_406 = 0;
+    this->unk_405 = 4;
+    this->unk_407 = this->unk_3F2;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACA998.s")
+void func_80ACA76C(EnOwl* this, GlobalContext* globalCtx)
+{
+    func_8002DF54(globalCtx, &this->actor, 8);
+    if (func_8002F334(&this->actor, globalCtx) != 0)
+    {
+        Audio_SetBGM(0x110000FF);
+        func_80ACA62C(this, globalCtx);
+        this->actor.flags &= ~0x10000;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACAA54.s")
+void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx)
+{
+    func_8002DF54(globalCtx, &this->actor, 8);
+    if (func_8002F334(&this->actor, globalCtx) != 0)
+    {
+        Audio_SetBGM(0x110000FF);
+        if ((this->unk_3EE & 0x3F) == 0)
+        {
+            func_80ACA62C(this, globalCtx);
+        }
+        else
+        {
+            this->actionFlags &= ~2;
+            func_80ACA71C(this);
+            this->actionFunc = &func_80ACA690;
+        }
+        this->actor.flags &= ~0x10000;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACAAC0.s")
+void EnOwl_ConfirmKokiriMessage(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0){
+        switch(globalCtx->msgCtx.choiceIndex){
+            case OWL_REPEAT:
+                func_8010B720(globalCtx, 0x2065);
+                break;
+            case OWL_OK:
+                func_8010B720(globalCtx, 0x2067);
+                this->actionFunc = &func_80ACA76C;
+                break;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACAB2C.s")
+void EnOwl_WaitOutsideKokiri(EnOwl* this, GlobalContext* globalCtx)
+{
+    EnOwl_LookAtLink(this, globalCtx);
+    if (EnOwl_CheckInitTalk(this, globalCtx, 0x2064, 360.0f, 0) != 0)
+    {
+        // Sets BGM
+        func_800F5C64(0x5A);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACAB88.s")
+        this->actionFunc = &EnOwl_ConfirmKokiriMessage;
+        // spoke to owl by lost woods
+        gSaveContext.event_chk_inf[6] |= 0x8000;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACAC6C.s")
+void func_80ACA998(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
+    {
+        switch(globalCtx->msgCtx.choiceIndex){
+            case 0:
+                func_8010B720(globalCtx, 0x2069);
+                this->actionFunc = &func_80ACAA54;
+                break;
+            case 1:
+                func_8010B720(globalCtx, 0x206B);
+                this->actionFunc = &func_80ACA7E0;
+                break;
+        }
+        this->actionFlags &= ~2;
+        func_80ACA71C(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACACD8.s")
+void func_80ACAA54(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
+        {
+        func_8010B720(globalCtx, 0x206A);
+        this->actionFunc = &func_80ACA998;
+        this->actionFlags |= 2;
+        func_80ACA71C(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACAD34.s")
+void func_80ACAAC0(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
+    {
+        func_8010B720(globalCtx, 0x2069);
+        this->actionFunc = &func_80ACAA54;
+        this->actionFlags &= ~2;
+        func_80ACA71C(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACADF0.s")
+void EnOwl_WaitHyruleCastle(EnOwl* this, GlobalContext* globalCtx)
+{
+    EnOwl_LookAtLink(this, globalCtx);
+    if (EnOwl_CheckInitTalk(this, globalCtx, 0x2068, 540.0f, 0) != 0)
+    {
+        func_800F5C64(0x5A);
+        this->actionFunc = &func_80ACAAC0;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACAE5C.s")
+void func_80ACAB88(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
+    {
+        switch(globalCtx->msgCtx.choiceIndex){
+            case 0:
+                // obtained zelda's letter
+                if (gSaveContext.event_chk_inf[4] & 1)
+                {
+                    func_8010B720(globalCtx, 0x206D);
+                }
+                else
+                {
+                    func_8010B720(globalCtx, 0x206C);
+                }
+                this->actionFunc = &func_80ACAC6C;
+                break;
+            case 1:
+                func_8010B720(globalCtx, 0x206E);
+                this->actionFunc = &func_80ACA7E0;
+                break;
+        }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACAEB8.s")
+        this->actionFlags &= ~2;
+        func_80ACA71C(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACAF74.s")
+void func_80ACAC6C(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
+    {
+        func_8010B720(globalCtx, 0x206A);
+        this->actionFunc = &func_80ACAB88;
+        this->actionFlags |= 2;
+        func_80ACA71C(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACAFE0.s")
+void EnOwl_WaitKakariko(EnOwl* this, GlobalContext* globalCtx)
+{
+    EnOwl_LookAtLink(this, globalCtx);
+    if (EnOwl_CheckInitTalk(this, globalCtx, 0x206C, 480.0f, 0) != 0)
+    {
+        func_800F5C64(0x5A);
+        this->actionFunc = &func_80ACAC6C;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB03C.s")
+void func_80ACAD34(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
+    {
+        switch(globalCtx->msgCtx.choiceIndex){
+            case 0:
+                func_8010B720(globalCtx, 0x206F);
+                this->actionFunc = &func_80ACADF0;
+                break;
+            case 1:
+                func_8010B720(globalCtx, 0x2070);
+                this->actionFunc = &func_80ACA7E0;
+                break;
+        }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB0B0.s")
+        this->actionFlags &= ~2;
+        func_80ACA71C(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB148.s")
+void func_80ACADF0(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
+    {
+        func_8010B720(globalCtx, 0x206A);
+        this->actionFunc = &func_80ACAD34;
+        this->actionFlags |= 2;
+        func_80ACA71C(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB1A0.s")
+void EnOwl_WaitGerudo(EnOwl* this, GlobalContext *globalCtx)
+{
+    EnOwl_LookAtLink(this, globalCtx);
+    if (EnOwl_CheckInitTalk(this, globalCtx, 0x206F, 360.0f, 0) != 0)
+    {
+        func_800F5C64(0x5A);
+        this->actionFunc = &func_80ACADF0;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB22C.s")
+void func_80ACAEB8(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
+    {
+        switch(globalCtx->msgCtx.choiceIndex){
+            case 0:
+                func_8010B720(globalCtx, 0x2071);
+                this->actionFunc = &func_80ACAF74;
+                break;
+            case 1:
+                func_8010B720(globalCtx, 0x2072);
+                this->actionFunc = &func_80ACA7E0;
+                break;
+        }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB274.s")
+        this->actionFlags &= ~2;
+        func_80ACA71C(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB2B4.s")
+void func_80ACAF74(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
+    {
+        func_8010B720(globalCtx, 0x206A);
+        this->actionFunc = &func_80ACAEB8;
+        this->actionFlags |= 2;
+        func_80ACA71C(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB344.s")
+void EnOwl_WaitLakeHylia(EnOwl* this, GlobalContext* globalCtx)
+{
+    EnOwl_LookAtLink(this, globalCtx);
+    if (EnOwl_CheckInitTalk(this, globalCtx, 0x2071, 360.0f, 0) != 0)
+    {
+        func_800F5C64(0x5A);
+        this->actionFunc = &func_80ACAF74;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB3E0.s")
+void func_80ACB03C(EnOwl* this, GlobalContext* globalCtx)
+{
+    func_8002DF54(globalCtx, &this->actor, 8);
+    if (func_8002F334(&this->actor, globalCtx) != 0)
+    {
+        Audio_SetBGM(0x110000FF);
+        func_80ACA62C(this, globalCtx);
+        this->actor.flags &= ~0x10000;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB440.s")
+void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx)
+{
+    u16 textId;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB4FC.s")
+    EnOwl_LookAtLink(this, globalCtx);
+    if (HAS_QUEST_STATUS(0xE))
+    {
+        if (HAS_QUEST_STATUS(0xC))
+        {
+            textId = 0x4031;
+        }
+        else
+        {
+            textId = 0x4017;
+        }
+    }
+    else
+    {
+        textId = 0x4002;
+    }
+    if (EnOwl_CheckInitTalk(this, globalCtx, textId, 360.0f, 0) != 0)
+    {
+        func_800F5C64(0x5A);
+        this->actionFunc = &func_80ACB03C;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB568.s")
+void func_80ACB148(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8002F334(&this->actor, globalCtx) != 0)
+    {
+        Audio_SetBGM(0x110000FF);
+        func_80ACA5C8(this);
+        this->actionFunc = &func_80ACC30C;
+        Flags_SetSwitch(globalCtx, 0x23);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB5C4.s")
+void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx)
+{
+    u16 textId;
+    // Spoke to Owl in Lake Hylia
+    if ((gSaveContext.inf_table[25] & 0x20) != 0)
+    {
+        textId = 0x4004;
+    }
+    else
+    {
+        textId = 0x4003;
+    }
+    EnOwl_LookAtLink(this, globalCtx);
+    if (func_80ACA558(this, globalCtx, textId) != 0)
+    {
+        gSaveContext.inf_table[25] |= 0x20;
+        func_800F5C64(0x5A);
+        this->actionFunc = &func_80ACB148;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB680.s")
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB6EC.s")
+void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8002F334(&this->actor, globalCtx) != 0)
+    {
+        Audio_SetBGM(0x110000FF);
+        func_80ACA5C8(this);
+        this->actionFunc = &func_80ACC30C;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB748.s")
+void func_80ACB274(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8002F334(this, globalCtx) != 0)
+    {
+        Audio_SetBGM(0x110000FF);
+        this->actionFunc = &EnOwl_WaitDeathMountainShortcut;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB904.s")
+void EnOwl_WaitDeathMountainShortcut(EnOwl* this, GlobalContext* globalCtx)
+{
+    EnOwl_LookAtLink(this, globalCtx);
+    if (!gSaveContext.magic_acquired)
+    {
+        if (func_80ACA558(this, globalCtx, 0x3062) != 0)
+        {
+            func_800F5C64(0x5A);
+            this->actionFunc = &func_80ACB274;
+            return;
+        }
+    }
+    else
+    {
+        if (func_80ACA558(this, globalCtx, 0x3063) != 0)
+        {
+            func_800F5C64(0x5A);
+            this->actionFunc = &func_80ACB22C;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACB994.s")
+void func_80ACB344(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
+    {
+        switch(globalCtx->msgCtx.choiceIndex){
+            case 0:
+                func_8010B720(globalCtx, 0x607A);
+                break;
+            case 1:
+                func_8010B720(globalCtx, 0x607C);
+                this->actionFunc = &func_80ACA7E0;
+            break;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACBA24.s")
+void func_80ACB3E0(EnOwl* this, GlobalContext* globalCtx)
+{
+    EnOwl_LookAtLink(this, globalCtx);
+    if (EnOwl_CheckInitTalk(this, globalCtx, 0x6079, 360.0f, 2) != 0)
+    {
+        func_800F5C64(0x5A);
+        this->actionFunc = &func_80ACB344;
+    }
+}
 
+void func_80ACB440(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
+    {
+        switch(globalCtx->msgCtx.choiceIndex){
+            case 0:
+                func_8010B720(globalCtx, 0x10C1);
+                this->actionFunc = &func_80ACB4FC;
+                break;
+            case 1:
+                func_8010B720(globalCtx, 0x10C3);
+                this->actionFunc = &func_80ACA7E0;
+        }
+
+        this->actionFlags &= ~2;
+        func_80ACA71C(this);
+    }
+}
+
+void func_80ACB4FC(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
+    {
+        func_8010B720(globalCtx, 0x10C2);
+        this->actionFunc = &func_80ACB440;
+        this->actionFlags |= 2;
+        func_80ACA71C(this);
+    }
+}
+
+void EnOwl_WaitLWPreSaria(EnOwl* this, GlobalContext* globalCtx)
+{
+    EnOwl_LookAtLink(this, globalCtx);
+    if (EnOwl_CheckInitTalk(this, globalCtx, 0x10C0, 190.0f, 0) != 0)
+    {
+        func_800F5C64(0x5A);
+        this->actionFunc = &func_80ACB4FC;
+    }
+}
+
+void func_80ACB5C4(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx) != 0)
+    {
+        switch(globalCtx->msgCtx.choiceIndex){
+            case 0:
+                func_8010B720(globalCtx, 0x10C5);
+                this->actionFunc = &func_80ACB680;
+                break;
+            case 1:
+                func_8010B720(globalCtx, 0x10C7);
+                this->actionFunc = &func_80ACA7E0;
+                break;
+        }
+
+        this->actionFlags &= ~2;
+        func_80ACA71C(this);
+    }
+}
+
+void func_80ACB680(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0)
+    {
+        func_8010B720(globalCtx, 0x10C6);
+        this->actionFunc = &func_80ACB5C4;
+        this->actionFlags |= 2;
+        func_80ACA71C(this);
+    }
+}
+
+void EnOwl_WaitLWPostSaria(EnOwl* this, GlobalContext* globalCtx)
+{
+    EnOwl_LookAtLink(this, globalCtx);
+    if (EnOwl_CheckInitTalk(this, globalCtx, 0x10C4, 360.0f, 0) != 0)
+    {
+        func_800F5C64(0x5A);
+        this->actionFunc = &func_80ACB680;
+    }
+}
+
+void func_80ACB748(EnOwl* this, GlobalContext* globalCtx)
+{
+    f32 unkf2;
+    f32 xyzDist;
+    u32 whichOwl;
+
+    whichOwl = (this->actor.params & 0xFC0) >> 6;
+    xyzDist = func_800CB678(&this->eye, &globalCtx->view.eye) / 45.0f;
+    this->eye.x = globalCtx->view.eye.x;
+    this->eye.y = globalCtx->view.eye.y;
+    this->eye.z = globalCtx->view.eye.z;
+    xyzDist = xyzDist;
+    if(xyzDist > 1.0f){
+        xyzDist = 1.0f;
+    }
+    switch(whichOwl){
+        case 7:
+            unkf2 = xyzDist * 2.f;
+            func_800F436C(&D_80ACD62C, 0x20BD, unkf2);
+            if((0x144 < globalCtx->csCtx.frames) || ((0x8D < globalCtx->csCtx.frames && (globalCtx->csCtx.frames < 0x10b)))){
+                func_800F4414(&D_80ACD62C, 0x3926, unkf2);
+            }
+            if(globalCtx->csCtx.frames == 0x55){
+                func_800F436C(&D_80ACD62C, 0x28BE, unkf2);
+            }
+            break;
+        case 8:
+        case 9:
+            unkf2 = xyzDist * 2.f;
+            func_800F436C(&D_80ACD62C, 0x20BD, unkf2);
+            if((0x1A3 < globalCtx->csCtx.frames) || ((0xC1 < globalCtx->csCtx.frames && (globalCtx->csCtx.frames < 0x119)))){
+                func_800F4414(&D_80ACD62C, 0x3926, unkf2);
+            }
+            if(globalCtx->csCtx.frames == 0xd9){
+                func_800F436C(&D_80ACD62C, 0x28BE, unkf2);
+            }
+            break;
+    }
+}
+
+void func_80ACB904(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && (globalCtx->csCtx.actorActions[7] != NULL))
+    {
+        if (this->unk_40A != globalCtx->csCtx.actorActions[7]->action)
+        {
+            func_80ACD130(this, globalCtx, 7);
+            func_80ACBAB8(this, globalCtx);
+        }
+        func_80ACD2CC(this, globalCtx);
+    }
+
+    if ((this->actionFlags & 0x80) != 0)
+    {
+        func_80ACB748(this, globalCtx);
+    }
+}
+
+void func_80ACB994(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && (globalCtx->csCtx.actorActions[7] != NULL)){
+        if (this->unk_40A != globalCtx->csCtx.actorActions[7]->action)
+        {
+            func_80ACD130(this, globalCtx, 7);
+            func_80ACBAB8(this, globalCtx);
+        }
+        func_80ACD4D4(this, globalCtx);
+    }
+    if ((this->actionFlags & 0x80) != 0)
+    {
+        func_80ACB748(this, globalCtx);
+    }
+}
+
+void EnOwl_WaitDefault(EnOwl* this, GlobalContext* globalCtx)
+{
+    u16 angle;
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && (globalCtx->csCtx.actorActions[7] != NULL)){
+        if (this->unk_40A != globalCtx->csCtx.actorActions[7]->action)
+        {
+            this->actionFlags |= 4;
+            func_80ACD130(this, globalCtx, 7);
+            func_80ACBAB8(this, globalCtx);
+        }
+        else
+        {
+             this->actor.posRot.rot.z = globalCtx->csCtx.actorActions[7]->pitch;
+        }
+    }
+
+    if ((this->actionFlags & 0x80) != 0)
+    {
+        func_80ACB748(this, globalCtx);
+    }
+}
+
+#ifdef NON_MATCHING
+// Actually matches, temporary for jtbl
+void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx)
+{
+    switch(globalCtx->csCtx.actorActions[7]->action - 1){
+        case CS_STATE_IDLE:
+            EnOwl_ChangeMode(this, &func_80ACB904, &func_80ACC540, &this->skelAnime, &D_060015CC, 0.0f);
+            break;
+        case CS_STATE_SKIPPABLE_INIT:
+            this->actor.draw = &EnOwl_Draw;
+            EnOwl_ChangeMode(this, &EnOwl_WaitDefault, &func_80ACC540, &this->skelAnime, &D_06003760, 0.0f);
+            break;
+        case CS_STATE_SKIPPABLE_EXEC:
+            this->actor.draw = &EnOwl_Draw;
+            EnOwl_ChangeMode(this, &func_80ACB994, &func_80ACC540, &this->skelAnime, &D_060015CC, 0.0f);
+            break;
+        case CS_STATE_UNSKIPPABLE_INIT:
+            this->actor.draw = NULL;
+            this->actionFunc = &EnOwl_WaitDefault;
+            break;
+        case CS_STATE_UNSKIPPABLE_EXEC:
+            Actor_Kill(&this->actor);
+            break;
+    }
+    this->unk_40A = globalCtx->csCtx.actorActions[7]->action;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACBAB8.s")
+#endif
+extern f32 D_80ACD844;
+extern f32 D_80ACD848;
+extern f32 D_80ACD84C;
+void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx)
+{
+    this->actor.flags |= 0x20;
+    if(D_80ACD844 < this->actor.xzDistanceFromLink)
+    //if (6000.0f < this->actor.xzDistanceFromLink)
+    {
+        if ((this->actionFlags & 0x80) == 0)
+        {
+            Actor_Kill(&this->actor);
+        }
+    }
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x80, 0x40);
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    if (this->actor.speedXZ < 16.0f)
+    {
+        this->actor.speedXZ += 0.5f;
+    }
+    if ((this->unk_3F8 + 1000.0f) < this->actor.posRot.pos.y)
+    {
+        if (0.0f < this->actor.velocity.y)
+        {
+            //this->actor.velocity.y -= 0.4f;
+            this->actor.velocity.y -= D_80ACD848;
+        }
+    }
+    else
+    {
+        if (this->actor.velocity.y < 4.0f)
+        {
+            this->actor.velocity.y += D_80ACD84C;
+            //this->actor.velocity.y += 0.2f;
+        }
+    }
+    this->actionFlags |= 8;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACBC0C.s")
+void func_80ACBD4C(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (10.0f < this->skelAnime.animCurrentFrame)
+    {
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x400, 0x40);
+        this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACBD4C.s")
+    if (45.0f < this->skelAnime.animCurrentFrame)
+    {
+        this->actor.velocity.y = 2.0f;
+        this->actor.gravity = 0.0f;
+        this->actor.speedXZ = 8.0f;
+    }
+    else if (17.0f < this->skelAnime.animCurrentFrame)
+    {
+        this->actor.velocity.y = 6.0f;
+        this->actor.gravity = 0.0f;
+        this->actor.speedXZ = 4.0f;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACBEA0.s")
+    if ((this->actionFlags & 1) != 0)
+    {
+        EnOwl_ChangeMode(this, &func_80ACBC0C, &func_80ACC460, &this->skelAnime, &D_060015CC, 0.0f);
+        this->unk_3FE = 6;
+        if(this->actionFlags & 0x40){
+            this->unk_400 += 0x2000;
+        }else{
+            this->unk_400 -= 0x2000;
+        }
+    }
+    this->actionFlags |= 8;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACBF50.s")
+void func_80ACBEA0(EnOwl* this, GlobalContext* GlobalContext)
+{
+    if ((this->actionFlags & 1) != 0)
+    {
+        this->unk_3FE = 3;
+        EnOwl_ChangeMode(this, &func_80ACBD4C, &func_80ACC540, &this->skelAnime, &D_06001168, 0.0f);
+        this->unk_3F8 = this->actor.posRot.pos.y;
+        this->actor.velocity.y = 2.0f;
+        if ((this->actionFlags & 0x40) != 0)
+        {
+            this->unk_400 = this->actor.posRot.rot.y + 0x4000;
+        }
+        else
+        {
+            this->unk_400 = this->actor.posRot.rot.y - 0x4000;
+        }
+    }
+    this->actionFlags |= 8;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACC00C.s")
+void func_80ACBF50(EnOwl* this, GlobalContext* globalCtx)
+{
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    if ((this->actionFlags & 1) != 0)
+    {
+        EnOwl_ChangeMode(this, &func_80ACBC0C, &func_80ACC460, &this->skelAnime, &D_060015CC, 0.0f);
+        this->unk_3FE = 6;
+        this->actor.velocity.y = 2.0f;
+        this->actor.gravity = 0.0f;
+        this->actor.speedXZ = 4.0f;
+    }
+    this->actionFlags |= 8;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACC23C.s")
+void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx)
+{
+    s32 whichOwl;
+    s32 temp_v0;
+    s32 temp_v0_2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACC30C.s")
+    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    if (this->actor.xzDistanceFromLink < 50.0f)
+    {
+        if (func_800BFC84(globalCtx) == 0)
+        {
+            whichOwl = (this->actor.params & 0xFC0) >> 6;
+            osSyncPrintf(VT_FGCOL(CYAN));
+            osSyncPrintf("%dのフクロウ\n", whichOwl); // "%d owl"
+            osSyncPrintf(VT_RST);
+            switch(whichOwl){
+                case 7:
+                    osSyncPrintf(VT_FGCOL(CYAN));
+                    osSyncPrintf("SPOT 06 の デモがはしった\n"); // Demo of SPOT 06
+                    osSyncPrintf(VT_RST);
+                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_0201B0C0);
+                    this->actor.draw = NULL;
+                    break;
+                case 8:
+                case 9:
+                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_0201E6A0);
+                    this->actor.draw = NULL;
+                    break;
+                default:
+                    __assert("0", "../z_en_owl.c", 1693);
+                    break;
+            }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACC390.s")
+            func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
+            gSaveContext.cutscene_trigger = 1;
+            func_800F44EC(0x14, 0xA);
+            this->actionFunc = &EnOwl_WaitDefault;
+            this->unk_40A = 0;
+            this->actionFlags |= 0x80;
+            D_8011FB40 = 0;
+        }
+    }
+    if (37.0f <= this->skelAnime.animCurrentFrame)
+    {
+        if (this->unk_3FE > 0)
+        {
+            this->skelAnime.animCurrentFrame = 21.0f;
+            this->unk_3FE--;
+        }
+        else
+        {
+            this->actionFunc = &func_80ACBF50;
+        }
+    }
+    this->actionFlags |= 8;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACC460.s")
+void func_80ACC23C(EnOwl* this, GlobalContext* globalCtx)
+{
+    if (this->skelAnime.animCurrentFrame < 20.0f)
+    {
+        this->actor.speedXZ = 1.5f;
+    }
+    else
+    {
+        this->actor.speedXZ = 0.0f;
+        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
+        this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACC540.s")
+    if (37.0f <= this->skelAnime.animCurrentFrame)
+    {
+        this->skelAnime.animCurrentFrame = 21.0f;
+        this->actionFunc = &func_80ACC00C;
+        this->unk_3FE = 5;
+        this->actor.velocity.y = 0.0f;
+        this->actor.gravity = 0.0f;
+        this->actor.speedXZ = 0.0f;
+    }
+    this->actionFlags |= 8;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACC5CC.s")
+extern f32 D_80ACD850;
+void func_80ACC30C(EnOwl* this, GlobalContext* globalCtx)
+{
+    if ((this->actionFlags & 1) != 0)
+    {
+        this->unk_3FE = 3;
+        EnOwl_ChangeMode(this, &func_80ACC23C, &func_80ACC540, &this->skelAnime, &D_06001168, 0.0f);
+        this->unk_3F8 = this->actor.posRot.pos.y;
+        this->actor.velocity.y = D_80ACD850;
+        //this->actor.velocity.y = 0.2f;
+    }
+    this->actionFlags |= 8;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACC624.s")
+void func_80ACC390(EnOwl* this)
+{
+    SkelAnime_FrameUpdateMatrix(this->curSkelAnime);
+    if (this->unk_3FE > 0)
+    {
+        this->unk_3FE--;
+        this->actor.shape.rot.z = Math_Sins(this->unk_3FE * 0x333) * 1000.0f;
+    }else {
+        this->unk_410 = &func_80ACC460;
+        this->unk_3FE = 6;
+        SkelAnime_ChangeAnimation(this->curSkelAnime, &D_060015CC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060015CC.genericHeader), 2, 5.0f);
+    }
+}
 
+void func_80ACC460(EnOwl* this)
+{
+    if (SkelAnime_FrameUpdateMatrix(this->curSkelAnime) != 0)
+    {
+        if (this->unk_3FE > 0)
+        {
+            this->unk_3FE--;
+            SkelAnime_ChangeAnimation(this->curSkelAnime, this->curSkelAnime->animCurrentSeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(this->curSkelAnime->animCurrentSeg), 2, 0.0f);
+        }
+        else {
+            this->unk_3FE = 0xA0;
+            this->unk_410 = &func_80ACC390;
+            SkelAnime_ChangeAnimation(this->curSkelAnime, &D_0600C1C4, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&D_0600C1C4.genericHeader), 0, 5.0f);
+        }
+    }
+}
+
+void func_80ACC540(EnOwl* this)
+{
+    if (SkelAnime_FrameUpdateMatrix(this->curSkelAnime) != 0)
+    {
+        SkelAnime_ChangeAnimation(this->curSkelAnime, this->curSkelAnime->animCurrentSeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(this->curSkelAnime->animCurrentSeg), 2, 0.0f);
+        this->actionFlags |= 1;
+        return;
+    }
+    this->actionFlags &= ~1;
+}
+
+s32 func_80ACC5CC(EnOwl* this)
+{
+    s32 phi_v1;
+    s32 ret;
+
+    phi_v1 = ((this->actionFlags & 2) != 0) ? 0x20 : 0;
+    if (phi_v1 == (this->unk_3EE & 0x3F)) {
+        return 1;
+    }
+
+    if ((this->actionFlags & 0x20) != 0) {
+        this->unk_3EE += 4;
+    } else {
+        this->unk_3EE -= 4;
+    }
+
+    return 0;
+}
+
+s32 func_80ACC624(EnOwl* this, GlobalContext* globalCtx)
+{
+    s32 switchFlag = (this->actor.params & 0xFC0) >> 6;
+    if ((globalCtx->sceneNum != 0x5C))
+    {
+        return 1;
+    }
+
+    if(switchFlag == 0xA){
+        return 1;
+    }
+
+    if (globalCtx->csCtx.frames >= 0x12C && globalCtx->csCtx.frames < 0x1AF)
+    {
+        return 1;
+    }
+
+    if (globalCtx->csCtx.frames >= 0x438 && globalCtx->csCtx.frames < 0x493)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+#ifdef NON_MATCHING
+void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx)
+{
+    u32 phi_v0;
+    s16 phi_a1;
+    s16 phi_return;
+    AnimationHeader* curAnim;
+    f32 curAnimFrame;
+
+    ActorCollider_Cylinder_Update(&this->actor, &this->colCylinder);
+    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->colCylinder);
+    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 5);
+    this->unk_410(this);
+    this->actionFlags &= ~8;
+    this->actionFunc(&this->actor, globalCtx);
+    if (this->actor.update == NULL)
+    {
+        osSyncPrintf("フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"); // Owl disappears !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return;
+    }
+    if ((this->actionFlags & 0x80) == 0 && func_80ACC624(this, globalCtx) != 0)
+    {
+        curAnim = this->skelAnime.animCurrentSeg;
+        curAnimFrame = this->skelAnime.animCurrentFrame;
+        if(((&D_06001168 == this->skelAnime.animCurrentSeg) && (2.0f != this->skelAnime.animCurrentFrame) &&
+        ((9.0f == this->skelAnime.animCurrentFrame) || (23.0f == this->skelAnime.animCurrentFrame) || (40.0f == this->skelAnime.animCurrentFrame) || (58.0f == this->skelAnime.animCurrentFrame) || (&D_060015CC != this->skelAnime.animCurrentSeg) || (4.0f == this->skelAnime.animCurrentFrame))) ||
+        ((&D_060015CC == this->skelAnime.animCurrentSeg) && 4.0f == this->skelAnime.animCurrentFrame)){
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_OWL_FLUTTER);
+        }
+    }
+
+    if (this->actor.draw != NULL)
+    {
+        Actor_MoveForward(&this->actor);
+    }
+
+    if ((this->actionFlags & 2) != 0)
+    {
+        this->curDlistIdx = 2;
+    }
+    else
+    {
+        if (this->nextDlistIdx == 0)
+        {
+            phi_v0 = 0;
+        }
+        else
+        {
+             this->nextDlistIdx--;
+             phi_v0 = this->nextDlistIdx;
+        }
+
+        if (phi_v0 == 0)
+        {
+            this->nextDlistIdx = Math_Rand_S16Offset(0x3C, 0x3C);
+        }
+
+        this->curDlistIdx = this->nextDlistIdx;
+
+        if (this->curDlistIdx >= 3)
+        {
+            this->curDlistIdx = 0;
+        }
+    }
+    if ((this->actionFlags & 8) == 0)
+    {
+        phi_a1 = 0;
+        if ((this->actionFlags & 0x10) != 0)
+        {
+            switch(this->unk_404){
+                case 0:
+                    this->unk_404 = 1;
+                    this->unk_405 = 6;
+                    phi_a1 = 0;
+                    break;
+                case 1:
+                    this->unk_405--;
+                    if (this->unk_405 != 0)
+                    {
+                        phi_a1 = Math_Coss(this->unk_405 * 8192) * 4096.0f;
+                    }
+                    else
+                    {
+                        if ((this->actionFlags & 2) != 0)
+                        {
+                            this->unk_3EE = 0;
+                        }
+                        else
+                        {
+                            this->unk_3EE = 0x20;
+                        }
+                        if ((this->actionFlags & 0x20) != 0)
+                        {
+                            this->unk_3EE -=4;
+                        }
+                        else
+                        {
+                            this->unk_3EE += 4;
+                        }
+                        this->unk_404++;
+                    }
+                    phi_a1 = phi_a1;
+                    if ((this->actionFlags & 0x20) != 0)
+                    {
+                        phi_a1 = -phi_a1;
+                    }
+                    break;
+                case 2:
+                    phi_a1 = 0;
+                    if (func_80ACC5CC(this) != 0)
+                    {
+                        this->actionFlags &= ~0x10;
+                        this->unk_406 = (s32)Math_Rand_ZeroFloat(20.0f) + 0x3C;
+                        this->unk_404 = 0;
+                        func_80ACA6C0(this);
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            if (this->unk_406 > 0)
+            {
+                this->unk_406--;
+                phi_a1 = 0;
+            }
+            else
+            {
+                if(this->unk_404 == 0){
+                    if (Math_Rand_ZeroOne() < 0.3f)
+                    {
+                        this->unk_404 = 4;
+                        this->unk_405 = 0xC;
+                    }
+                    else
+                    {
+                        this->unk_404 = 1;
+                        this->unk_405 = 4;
+                    }
+                }
+
+                this->unk_405--;
+
+                switch(this->unk_404){
+                    case 1:
+                        phi_a1 = (s32)(Math_Sins((-this->unk_405 * 4096 + 0x4000)) * 5000.0f);
+                        if (this->unk_405 <= 0)
+                        {
+                            this->unk_404 = 2;
+                            this->unk_405 = (s32)(Math_Rand_ZeroFloat(15.0f) + 5.0f);
+                        }
+                        break;
+                    case 2:
+                        if (this->unk_405 <= 0)
+                        {
+                            this->unk_404 = 3;
+                            this->unk_405 = 4;
+                        }
+                        phi_a1 = 0x1388;
+                        break;
+                    case 3:
+                        phi_a1 = Math_Sins(this->unk_405 * 4096) * 5000.0f;
+                        if (this->unk_405 <= 0)
+                        {
+                            this->unk_404 = 0;
+                            this->unk_406 = (s32)Math_Rand_ZeroFloat(20.0f) + 0x3C;
+                            func_80ACA6C0(this);
+                        }
+                        break;
+                    case 4:
+                        phi_a1 = Math_Sins(this->unk_405 * 8192) * 5000.0f;
+                        if (this->unk_405 <= 0)
+                        {
+                            this->unk_404 = 0;
+                            this->unk_406 = (s32)Math_Rand_ZeroFloat(20.0f) + 0x3C;
+                            func_80ACA6C0(this);
+                        }
+                        break;
+                }
+
+                if ((this->actionFlags & 0x20) != 0)
+                {
+                    phi_a1 = -phi_a1;
+                }
+            }
+            if (this->unk_409 > 0)
+            {
+                this->unk_409--;
+            }
+            else
+            {
+                this->unk_408--;
+                switch(this->unk_407){
+                    case 0:
+                        this->unk_3F2 = (-this->unk_408 * 0x5DC) + 0x1770;
+                        if (this->unk_408 <= 0)
+                        {
+                            this->unk_407 = 1;
+                            this->unk_408 = (s32)(Math_Rand_ZeroFloat(15.0f) + 5.0f);
+                        }
+                        break;
+                    case 1:
+                        this->unk_3F2 = 0x1770;
+                        if (this->unk_408 <= 0)
+                        {
+                            this->unk_407 = 2;
+                            this->unk_408 = 4;
+                        }
+                        break;
+                    case 2:
+                        this->unk_3F2 = this->unk_408 * 0x5DC;
+                        if (this->unk_408 <= 0)
+                        {
+                            this->unk_407 = 0;
+                            this->unk_408 = 4;
+                            this->unk_409 = (s32)Math_Rand_ZeroFloat(40.0f) + 0xA0;
+                        }
+                        break;
+                }
+            }
+        }
+        this->unk_3F0 = (this->unk_3EE * 1024) + phi_a1;
+        this->unk_3EC = ABS(this->unk_3F0) >> 3;
+    }
+    else
+    {
+        this->unk_3F2 = 0;
+        if ((this->actionFlags & 2) != 0)
+        {
+            this->unk_3F0 = -0x8000;
+        }
+        else
+        {
+            this->unk_3F0 = 0;
+        }
+        this->unk_3EC = ABS(this->unk_3F0) >> 3;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/EnOwl_Update.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACCE00.s")
+#define NON_MATCHING
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACCF34.s")
+// "mtxUpdate"
+s32 EnOwl_PreDrawLimb(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f* pos, Vec3s* rot, Actor* actor)
+{
+    EnOwl* this = (EnOwl*)actor;
+    switch(limbIndex){
+        case 3:
+            rot->x += this->unk_3F0;
+            rot->z += this->unk_3EC;
+            rot->z -= this->unk_3F2;
+            break;
+        case 2:
+            rot->z += this->unk_3F2;
+            break;
+        case 4:
+            if ((this->actionFlags & 8) == 0)
+            {
+                rot->y -= (s16)(this->unk_3EC * 1.5f);
+            }
+            break;
+        case 5:
+            if ((this->actionFlags & 8) == 0)
+            {
+                rot->y += (s16)(this->unk_3EC * 1.5f);
+            }
+            break;
+        default:
+            break;
+    }
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/EnOwl_Draw.s")
+// "appendDList"
+void EnOwl_PostDrawLimb(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3s* rot, Actor* actor)
+{
+    EnOwl* this = (EnOwl*)actor;
+    Vec3f vec;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACD0B8.s")
+    vec.z = 0.0f;
+    if ((this->actionFlags & 2) != 0)
+    {
+        vec.x = 700.0f;
+        vec.y = 400.0f;
+    }
+    else
+    {
+        vec.y = 0.0f;
+        vec.x = 1400.0f;
+    }
+    if (limbIndex == 3)
+    {
+        Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACD130.s")
+extern char D_FN1[];
+extern char D_FN2[];
+void EnOwl_Draw(EnOwl* this, GlobalContext* globalCtx)
+{
+    char pad[8];
+    GraphicsContext* gfxCtx;
+    Gfx* gfx[4];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACD1C4.s")
+    gfxCtx = globalCtx->state.gfxCtx;
+    func_800C6AC4(gfx, globalCtx->state.gfxCtx, D_FN1, 2247);
+    func_800943C8(globalCtx->state.gfxCtx);
+    gSPSegment(gfxCtx->polyOpa.p++, 8, SEGMENTED_TO_VIRTUAL(dLists[this->curDlistIdx + 1]));
+    SkelAnime_DrawSV(globalCtx, this->curSkelAnime->skeleton, this->curSkelAnime->actorDrawTbl, this->curSkelAnime->dListCount, &EnOwl_PreDrawLimb, &EnOwl_PostDrawLimb, &this->actor);
+    func_800C6B54(gfx, globalCtx->state.gfxCtx, D_FN2, 2264);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACD220.s")
+void EnOwl_ChangeMode(EnOwl *this, ActorFunc actionFunc, OwlFunc arg2, SkelAnime* skelAnime, AnimationHeader* animation, f32 transitionRate)
+{
+    this->curSkelAnime = skelAnime;
+    SkelAnime_ChangeAnimation(this->curSkelAnime, animation, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&animation->genericHeader), 2, transitionRate);
+    this->actionFunc = actionFunc;
+    this->unk_410 = arg2;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACD2CC.s")
+void func_80ACD130(EnOwl* this, GlobalContext* globalCtx, s32 idx)
+{
+    Vec3f startPos;
+    CsCmdActorAction  *temp_v0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACD4D4.s")
+    temp_v0 = globalCtx->csCtx.actorActions[idx];
+    startPos.x = globalCtx->csCtx.actorActions[idx]->startPos.x;
+    startPos.y = globalCtx->csCtx.actorActions[idx]->startPos.y;
+    startPos.z = globalCtx->csCtx.actorActions[idx]->startPos.z;
+    this->actor.posRot.pos = startPos;
+    this->actor.posRot.rot.y = this->actor.shape.rot.y = globalCtx->csCtx.actorActions[idx]->pitch;
+    this->actor.shape.rot.z = globalCtx->csCtx.actorActions[idx]->yaw;
+}
+
+f32 func_80ACD1C4(GlobalContext* globalCtx, s32 idx)
+{
+    f32 ret;
+
+    ret = func_8006F93C(globalCtx->csCtx.actorActions[idx]->endFrame, globalCtx->csCtx.actorActions[idx]->startFrame, globalCtx->csCtx.frames);
+    if (1.0f < ret)
+    {
+        ret = 1.0f;
+    }
+    return ret;
+}
+
+void func_80ACD220(EnOwl* this, Vec3f *arg1, f32 arg2)
+{
+    Vec3f rpy;
+
+    rpy.x = (arg1->x - this->actor.posRot.pos.x) * arg2;
+    rpy.y = (arg1->y - this->actor.posRot.pos.y) * arg2;
+    rpy.z = (arg1->z - this->actor.posRot.pos.z) * arg2;
+
+    Math_ApproxF(&this->actor.velocity.y, rpy.y, 1.0f);
+    this->actor.speedXZ = sqrtf(SQ(rpy.x) + SQ(rpy.z));
+    this->actor.posRot.rot.y = Math_Vec3f_Yaw(&this->actor.posRot.pos, arg1);
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+}
+
+void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx)
+{
+    Vec3f pos;
+    s32 angle;
+    f32 t;
+    f32 phi_f2;
+
+    t = func_80ACD1C4(globalCtx, 7);
+    pos.x = globalCtx->csCtx.actorActions[7]->startPos.x;
+    pos.y = globalCtx->csCtx.actorActions[7]->startPos.y;
+    pos.z = globalCtx->csCtx.actorActions[7]->startPos.z;
+    angle = (s16)globalCtx->csCtx.actorActions[7]->pitch - this->actor.posRot.rot.z;
+    if(angle < 0){
+        angle += 0x10000;
+    }
+    angle = (s16)((t * angle) + this->actor.posRot.rot.z);
+    angle = (u16)angle;
+    if ((this->actionFlags & 4) != 0)
+    {
+        phi_f2 = globalCtx->csCtx.actorActions[7]->roll;
+        phi_f2 *= 0.054931640625f;
+        if (phi_f2 < 0.0f)
+        {
+            phi_f2 += 360.0f;
+        }
+        pos.x -= Math_Sins(angle) * phi_f2;
+        pos.z += Math_Coss(angle) * phi_f2;
+        this->unk_3F8 = phi_f2;
+        this->actor.posRot.pos = pos;
+        this->actor.draw = &EnOwl_Draw;
+        this->actionFlags &= ~4;
+        this->actor.speedXZ = 0.0f;
+        return;
+    }
+    pos.x -= Math_Sins(angle) * this->unk_3F8;
+    pos.z += Math_Coss(angle) * this->unk_3F8;
+    func_80ACD220(this, &pos, 1.0f);
+}
+
+void func_80ACD4D4(EnOwl* this, GlobalContext* globalCtx)
+{
+    Vec3f pos;
+    Vec3f endPosf;
+    f32 temp_ret;
+    CsCmdActorAction* actorCmd;
+
+    temp_ret = func_80ACD1C4(globalCtx, 7);
+    pos.x = globalCtx->csCtx.actorActions[7]->startPos.x;
+    pos.y = globalCtx->csCtx.actorActions[7]->startPos.y;
+    pos.z = globalCtx->csCtx.actorActions[7]->startPos.z;
+    actorCmd = globalCtx->csCtx.actorActions[7];
+    endPosf.x = actorCmd->endPos.x;
+    endPosf.y = actorCmd->endPos.y;
+    endPosf.z = actorCmd->endPos.z;
+    pos.x = (endPosf.x - pos.x) * temp_ret + pos.x;
+    pos.y = (endPosf.y - pos.y) * temp_ret + pos.y;
+    pos.z = (endPosf.z - pos.z) * temp_ret + pos.z;
+    func_80ACD220(this, &pos, 1.0f);
+}

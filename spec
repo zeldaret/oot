@@ -3339,8 +3339,6 @@ endseg
 beginseg
     name "ovl_En_Owl"
     include "build/src/overlays/actors/ovl_En_Owl/z_en_owl.o"
-    include "build/data/overlays/actors/z_en_owl.data.o"
-    include "build/data/overlays/actors/z_en_owl.rodata.o"
     include "build/data/overlays/actors/z_en_owl.reloc.o"
 endseg
 

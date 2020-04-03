@@ -72,7 +72,9 @@ typedef struct {
     /* 0x00 */ u16 action;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-    /* 0x06 */ Vec3s rot;
+    /* 0x06 */ u16 roll;
+    /* 0x08 */ u16 pitch;
+    /* 0x0A */ u16 yaw;
     /* 0x0C */ Vec3i startPos;
     /* 0x18 */ Vec3i endPos;
     /* 0x24 */ Vec3i normal;
