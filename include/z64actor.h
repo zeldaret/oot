@@ -217,7 +217,7 @@ typedef struct
     /* 0x12 */ u8 maskA; //Bitwise-and compared to 0x13
     /* 0x13 */ u8 maskB; //Bitwise-and compared to 0x12 
     /* 0x14 */ u8 unk_14;
-    /* 0x15 */ u8 type; //Cylinder Collection, Cylinder, Triangle Collection, Quad
+    /* 0x15 */ u8 type; //JntSph, Cylinder, Tris, Quad
 } Collider; // size = 0x18
 
 typedef struct

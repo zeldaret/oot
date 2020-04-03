@@ -1449,7 +1449,58 @@ void func_8005EC6C(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
 }
 
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005EEE0.s")
+//Check ColliderCylinder to ColliderJntSph
+void func_8005EEE0(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    ColliderCylinder* left = (ColliderCylinder*)l;
+    ColliderJntSph* right = (ColliderJntSph*)r;
+    f32 sp9C;
+    f32 sp98;
+    ColliderJntSphItem* rItem;
+    Vec3f sp88;
+    Vec3f sp7C;
+    Vec3f sp70;
+    f32 temp_f0;
+
+    if (right->count > 0 && right->list != 0 && left->dim.radius > 0 && left->dim.height > 0) {
+        if (func_8005DF2C(&left->body) == 1) {
+            return;
+        }
+        for (rItem = right->list; rItem < right->list + right->count; rItem++) {
+            if (func_8005DF50(&rItem->body) == 1) {
+                continue;
+            }
+            if (func_8005DF74(&left->body, &rItem->body) == 1) {
+                continue;
+            }
+            if (func_800CFDA4(&rItem->dim.posr, &left->dim, &sp9C, &sp98) != 0) {
+                sp7C.x = left->dim.position.x;
+                sp7C.y = left->dim.position.y;
+                sp7C.z = left->dim.position.z;
+                sp70.x = rItem->dim.posr.pos.x;
+                sp70.y = rItem->dim.posr.pos.y;
+                sp70.z = rItem->dim.posr.pos.z;
+                if (!(fabsf(sp98) < 0.008f)) {
+                    temp_f0 = (f32)rItem->dim.posr.radius / sp98;
+                    if (temp_f0 <= 1.0f) {
+                        sp88.x = ((sp7C.x - sp70.x) * temp_f0) + sp70.x;
+                        sp88.y = ((sp7C.y - sp70.y) * temp_f0) + sp70.y;
+                        sp88.z = ((sp7C.z - sp70.z) * temp_f0) + sp70.z;
+                    }
+                    else {
+                        Math_Vec3f_Copy(&sp88, &sp7C);
+                    }
+                }
+                else {
+                    Math_Vec3f_Copy(&sp88, &sp7C);
+                }
+                func_8005E81C(globalCtx, &left->base, &left->body, &sp7C, &right->base, &rItem->body, &sp70, &sp88);
+                if ((right->base.maskB & 0x40) == 0) {
+                    break;
+                }
+            }
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005F17C.s")
 
