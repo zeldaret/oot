@@ -233,7 +233,7 @@ void Effect_SpawnFragment(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* b
 // ? func_8002993C(?);
 // ? func_800299AC(?);
 // ? func_80029C50(?);
-// ? func_80029CA4(?);
+void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos); //arg a1 is not s32, this will not OK func_8005E604
 // ? func_80029F44(?);
 // ? func_8002A32C(?);
 // ? func_8002A3C4(?);

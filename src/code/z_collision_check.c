@@ -1119,10 +1119,69 @@ void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DFAC.s")
 
-void func_8005E2EC(GlobalContext* globalContext, ColliderBody* a, Collider* b, Vec3f* c);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E2EC.s")
+void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* arg1, Collider* arg2, Vec3f* arg3) {
+    s32 temp_v0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E4F8.s")
+    temp_v0 = arg1->toucherFlags & 0x18;
+    if (temp_v0 == 0) {
+        if (arg2->unk_14 != 9) {
+            func_80029CA4(globalCtx, 0, arg3);
+            if (arg2->actor == NULL) {
+                Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                return;
+            }
+            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &arg2->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            return;
+        }
+    }
+    if (temp_v0 == 0) {
+        func_80029CA4(globalCtx, 3, arg3);
+        if (arg2->actor == NULL) {
+            func_80062D60(globalCtx, arg3);
+            return;
+        }
+        func_80062DAC(globalCtx, arg3, &arg2->actor->unk_E4);
+        return;
+    }
+    if (temp_v0 == 8) {
+        func_80029CA4(globalCtx, 0, arg3);
+        if (arg2->actor == NULL) {
+            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            return;
+        }
+        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &arg2->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        return;
+    }
+    if (temp_v0 == 0x10) {
+        func_80029CA4(globalCtx, 1, arg3);
+        if (arg2->actor == NULL) {
+            Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            return;
+        }
+        Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &arg2->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        return;
+    }
+} 
+
+s32 func_8005E4F8(Collider* left, ColliderBody* rightBody) {
+    if (left->actor != NULL) {
+        if (ACTORTYPE_PLAYER == left->actor->type) {
+            if (rightBody->flags == 0) {
+                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE, &left->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+            else if (rightBody->flags == 1) {
+                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_STRIKE_HARD, &left->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+            else if (2 == rightBody->flags) {
+                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND, &left->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+            else if (rightBody->flags == 3) {
+                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND, &left->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            }
+        }
+    }
+    return 1;
+}
 
 typedef struct {
     u8 unk00;
@@ -1139,12 +1198,12 @@ void func_8005E604(GlobalContext* globalContext, Collider* left, ColliderBody* l
             if (right->actor != NULL) {
                 (*D_8011DF28[D_8011DF40[right->unk_14].unk00])(globalContext, right, arg5);
             }
-            if (right->actor != 0) {
+            if (right->actor != NULL) {
                 if (D_8011DF40[right->unk_14].unk01 == 3) {
                     func_8005E2EC(globalContext, leftBody, right, arg5);
                     return;
                 }
-                if (D_8011DF40[right->unk_14].unk01 == 4) {
+                else if (D_8011DF40[right->unk_14].unk01 == 4) {
                     if (left->actor == NULL) {
 
                         func_80062CD4(globalContext, arg5);
@@ -1154,7 +1213,7 @@ void func_8005E604(GlobalContext* globalContext, Collider* left, ColliderBody* l
                     func_80062E14(globalContext, arg5, &left->actor->unk_E4);
                     return;
                 }
-                if (D_8011DF40[right->unk_14].unk01 != 5) {
+                else if (D_8011DF40[right->unk_14].unk01 != 5) {
                     func_80029CA4(globalContext, D_8011DF40[right->unk_14].unk01, arg5);
                     if ((rightBody->bumperFlags & 0x20) == 0) {
                         func_8005E4F8(left, rightBody);
@@ -1170,9 +1229,6 @@ void func_8005E604(GlobalContext* globalContext, Collider* left, ColliderBody* l
                 }
                 Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &right->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
-        }
-        else {
-
         }
     }
 }
