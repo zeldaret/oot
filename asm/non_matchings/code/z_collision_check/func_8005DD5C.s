@@ -17,11 +17,6 @@ glabel D_8013ABDC
     # EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
     .balign 4
 
-glabel D_8013AC18
-    .asciz "CollisionCheck_setOCLine():インデックスがオーバして追加不能\n"
-    # EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
-    .balign 4
-
 .text
 glabel func_8005DD5C
 /* AD4EFC 8005DD5C 27BDFFE0 */  addiu $sp, $sp, -0x20
@@ -112,44 +107,3 @@ glabel func_8005DD5C
 /* AD5030 8005DE90 8FB10018 */  lw    $s1, 0x18($sp)
 /* AD5034 8005DE94 03E00008 */  jr    $ra
 /* AD5038 8005DE98 27BD0020 */   addiu $sp, $sp, 0x20
-
-/* AD503C 8005DE9C 27BDFFE8 */  addiu $sp, $sp, -0x18
-/* AD5040 8005DEA0 AFBF0014 */  sw    $ra, 0x14($sp)
-/* AD5044 8005DEA4 AFA40018 */  sw    $a0, 0x18($sp)
-/* AD5048 8005DEA8 AFA60020 */  sw    $a2, 0x20($sp)
-/* AD504C 8005DEAC 0C03034A */  jal   func_800C0D28
-/* AD5050 8005DEB0 AFA5001C */   sw    $a1, 0x1c($sp)
-/* AD5054 8005DEB4 24010001 */  li    $at, 1
-/* AD5058 8005DEB8 14410003 */  bne   $v0, $at, .L8005DEC8
-/* AD505C 8005DEBC 8FA7001C */   lw    $a3, 0x1c($sp)
-/* AD5060 8005DEC0 10000016 */  b     .L8005DF1C
-/* AD5064 8005DEC4 2402FFFF */   li    $v0, -1
-.L8005DEC8:
-/* AD5068 8005DEC8 8FA40018 */  lw    $a0, 0x18($sp)
-/* AD506C 8005DECC 8FA50020 */  lw    $a1, 0x20($sp)
-/* AD5070 8005DED0 0C0174E9 */  jal   func_8005D3A4
-/* AD5074 8005DED4 AFA7001C */   sw    $a3, 0x1c($sp)
-/* AD5078 8005DED8 8FA7001C */  lw    $a3, 0x1c($sp)
-/* AD507C 8005DEDC 3C048014 */  lui   $a0, %hi(D_8013AC18) # $a0, 0x8014
-/* AD5080 8005DEE0 8FAE0020 */  lw    $t6, 0x20($sp)
-/* AD5084 8005DEE4 8CE3028C */  lw    $v1, 0x28c($a3)
-/* AD5088 8005DEE8 28610003 */  slti  $at, $v1, 3
-/* AD508C 8005DEEC 14200005 */  bnez  $at, .L8005DF04
-/* AD5090 8005DEF0 00037880 */   sll   $t7, $v1, 2
-/* AD5094 8005DEF4 0C00084C */  jal   osSyncPrintf
-/* AD5098 8005DEF8 2484AC18 */   addiu $a0, %lo(D_8013AC18) # addiu $a0, $a0, -0x53e8
-/* AD509C 8005DEFC 10000007 */  b     .L8005DF1C
-/* AD50A0 8005DF00 2402FFFF */   li    $v0, -1
-.L8005DF04:
-/* AD50A4 8005DF04 00EFC021 */  addu  $t8, $a3, $t7
-/* AD50A8 8005DF08 AF0E0290 */  sw    $t6, 0x290($t8)
-/* AD50AC 8005DF0C 8CF9028C */  lw    $t9, 0x28c($a3)
-/* AD50B0 8005DF10 00601025 */  move  $v0, $v1
-/* AD50B4 8005DF14 27280001 */  addiu $t0, $t9, 1
-/* AD50B8 8005DF18 ACE8028C */  sw    $t0, 0x28c($a3)
-.L8005DF1C:
-/* AD50BC 8005DF1C 8FBF0014 */  lw    $ra, 0x14($sp)
-/* AD50C0 8005DF20 27BD0018 */  addiu $sp, $sp, 0x18
-/* AD50C4 8005DF24 03E00008 */  jr    $ra
-/* AD50C8 8005DF28 00000000 */   nop   
-

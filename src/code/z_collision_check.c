@@ -923,7 +923,12 @@ s32 func_8005D1E0(GlobalContext* globalCtx, Collider* collision)
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D334.s")
 
+s32 func_8005D3A4(GlobalContext* globalContext, UNK_PTR line);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D3A4.s")
+//s32 func_8005D3A4(s32 arg0, void* arg1) {
+//    arg1->unk18 = (u16)(arg1->unk18 & 0xFFFE);
+//    return 1;
+//}
 
 void func_8005D40C(GlobalContext* globalCtx, CollisionCheckContext* check);
 void func_8005D3BC(GlobalContext* globalCtx, CollisionCheckContext* check) {
@@ -947,7 +952,7 @@ void func_8005D40C(GlobalContext* globalCtx, CollisionCheckContext* check) {
         check->colAtCount = 0;
         check->colAcCount = 0;
         check->colOcCount = 0;
-        check->unkCount = 0;
+        check->colOcLineCount = 0;
         for (c = check->colAt; c < check->colAt + 50; c++) {
             *c = NULL;
         }
@@ -960,7 +965,7 @@ void func_8005D40C(GlobalContext* globalCtx, CollisionCheckContext* check) {
             *c = NULL;
         }
 
-        for (c = check->unk290; c < check->unk290 + 3; c++) {
+        for (c = check->colOcLine; c < check->colOcLine + 3; c++) {
             *c = NULL;
         }
     }
@@ -1026,8 +1031,49 @@ s32 Actor_CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* 
     return index;
 }
 
+#ifdef NON_MATCHING
+//CollisionCheck_setAT_SAC()
+s32 func_8005D8AC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider, s32 index) {
+    s32 result;
 
+    if (collider->type >= 4) {
+        __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3037);
+    }
+    //index = (s32)index;
+    result = index;
+    if (func_800C0D28(globalCtx) == 1) {
+        return -1;
+    }
+    //index = temp_a3;
+    (*&D_8011DEF8[collider->type])(globalCtx, collider);
+    if (collider->actor != NULL) {
+        if (collider->actor->update == NULL) {
+            return -1;
+        }
+    }
+    if (check->unk2 & 1) {
+        if (index >= check->colAtCount) {
+            osSyncPrintf("CollisionCheck_setAT_SAC():全データ数より大きいところに登録しようとしている。\n");
+            //EUC-JP: 全データ数より大きいところに登録しようとしている。 | You are trying to register a location that is larger than the total number of data.
+            return -1;
+        }
+        result = index;
+        check->colAt[index] = collider;
+    }
+    else {
+        if (check->colAtCount >= 50) {
+            osSyncPrintf("CollisionCheck_setAT():インデックスがオーバーして追加不能\n");
+            return -1;
+        }
+        result = check->colAtCount;
+        check->colAt[check->colAtCount++] = collider;
+    }
+    return result;
+}
+
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D8AC.s")
+#endif // DEBUG
 
 s32 Actor_CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
     s32 index;
@@ -1091,6 +1137,23 @@ s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, CollisionCheckContext* 
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DD5C.s")
+
+s32 func_8005DE9C(GlobalContext* globalCtx, CollisionCheckContext* check, UNK_PTR collider) {
+    s32 index;
+
+    if (func_800C0D28(globalCtx) == 1) {
+        return -1;
+    }
+    func_8005D3A4(globalCtx, collider);
+    if (check->colOcLineCount >= 3) {
+        osSyncPrintf("CollisionCheck_setOCLine():インデックスがオーバして追加不能\n");
+        return -1;
+    }
+    index = check->colOcLineCount;
+    check->colOcLine[check->colOcLineCount++] = collider;
+    return index;
+}
+
 
 s32 func_8005DF2C(ColliderBody* body) {
     if ((body->toucherFlags & 1) == 0) {
