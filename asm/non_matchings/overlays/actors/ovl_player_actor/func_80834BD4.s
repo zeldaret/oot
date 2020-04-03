@@ -27,7 +27,7 @@ glabel func_80834BD4
 /* 02A24 80834C34 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 02A28 80834C38 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 02A2C 80834C3C E7A00014 */  swc1    $f0, 0x0014($sp)
-/* 02A30 80834C40 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 02A30 80834C40 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 02A34 80834C44 E7A6001C */  swc1    $f6, 0x001C($sp)
 .L80834C48:
 /* 02A38 80834C48 8E0F067C */  lw      $t7, 0x067C($s0)           ## 0000067C

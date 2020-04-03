@@ -133,7 +133,7 @@ glabel func_808409CC
 /* 0E990 80840BA0 260501B4 */  addiu   $a1, $s0, 0x01B4           ## $a1 = 000001B4
 /* 0E994 80840BA4 E7AA001C */  swc1    $f10, 0x001C($sp)
 /* 0E998 80840BA8 E7A40010 */  swc1    $f4, 0x0010($sp)
-/* 0E99C 80840BAC 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 0E99C 80840BAC 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 0E9A0 80840BB0 E7A80014 */  swc1    $f8, 0x0014($sp)
 /* 0E9A4 80840BB4 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 0E9A8 80840BB8 8FB00028 */  lw      $s0, 0x0028($sp)

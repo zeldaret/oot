@@ -5,7 +5,7 @@ glabel func_809B96EC
 /* 01418 809B96F8 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 0141C 809B96FC 24A50444 */  addiu   $a1, $a1, 0x0444           ## $a1 = 06000444
 /* 01420 809B9700 AFA60018 */  sw      $a2, 0x0018($sp)
-/* 01424 809B9704 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 01424 809B9704 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 01428 809B9708 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 0142C 809B970C 8FA40018 */  lw      $a0, 0x0018($sp)
 /* 01430 809B9710 3C014040 */  lui     $at, 0x4040                ## $at = 40400000

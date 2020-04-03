@@ -31,7 +31,7 @@ glabel func_8098ECF4
 /* 00904 8098ED64 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00908 8098ED68 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 0090C 8098ED6C E7A80010 */  swc1    $f8, 0x0010($sp)
-/* 00910 8098ED70 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00910 8098ED70 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00914 8098ED74 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00918 8098ED78 240F0007 */  addiu   $t7, $zero, 0x0007         ## $t7 = 00000007
