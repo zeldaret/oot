@@ -3,7 +3,6 @@
 
 volatile u32 D_8012ABF0 = 1;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA190.s")
 // TODO replace UNK_VIEW_STRUCT with Viewport and match with that instead
 void func_800AA190(UNK_VIEW_STRUCT* arg0, Viewport* viewport) {
     s32 xLen;
@@ -21,7 +20,6 @@ void func_800AA190(UNK_VIEW_STRUCT* arg0, Viewport* viewport) {
     arg0->unk_E = 0;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA1F8.s")
 View* func_800AA1F8(GraphicsContext* gfxCtx) {
     View* allocated = SystemArena_MallocDebug(sizeof(View), "../z_view.c", 285);
     if (allocated != NULL) {
@@ -31,12 +29,10 @@ View* func_800AA1F8(GraphicsContext* gfxCtx) {
     return allocated;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA250.s")
 void func_800AA250(View* view) {
     SystemArena_FreeDebug(view, "../z_view.c", 297);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA278.s")
 void func_800AA278(View* view, GraphicsContext* gfxCtx) {
     view->gfxCtx = gfxCtx;
     view->viewport.topY = 0;
@@ -66,7 +62,6 @@ void func_800AA278(View* view, GraphicsContext* gfxCtx) {
     func_800AA7B8(view);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA358.s")
 void func_800AA358(View* view, Vec3f* vec1, Vec3f* vec2, Vec3f* vec3) {
     if (vec1->x == vec2->x && vec1->z == vec2->z) {
         vec1->x += 0.1f;
@@ -77,25 +72,21 @@ void func_800AA358(View* view, Vec3f* vec1, Vec3f* vec2, Vec3f* vec3) {
     view->unk_120 |= 1;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA3F0.s")
 void func_800AA3F0(View* view, Vec3f* vec1, Vec3f* vec2, Vec3f* vec3) {
     view->eye = *vec1;
     view->unk_34 = *vec2;
     view->unk_40 = *vec3;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA43C.s")
 void func_800AA43C(View* view, f32 arg1) {
     view->unk_120 |= 4;
     view->unk_24 = arg1;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA454.s")
 void func_800AA454(View* view, f32* arg1) {
     *arg1 = view->unk_24;
 }
 
-///#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA460.s")
 void func_800AA460(View* view, f32 fieldOfView, f32 fogDistance, f32 zDepth) {
     view->fieldOfView = fieldOfView;
     view->fogDistance = fogDistance;
@@ -103,14 +94,12 @@ void func_800AA460(View* view, f32 fieldOfView, f32 fogDistance, f32 zDepth) {
     view->unk_120 |= 4;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA48C.s")
 void func_800AA48C(View* view, f32* fieldOfView, f32* fogDistance, f32* zDepth) {
     *fieldOfView = view->fieldOfView;
     *fogDistance = view->fogDistance;
     *zDepth = view->zDepth;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA4A8.s")
 void func_800AA4A8(View* view, f32 fieldOfView, f32 fogDistance, f32 zDepth) {
     view->fieldOfView = fieldOfView;
     view->fogDistance = fogDistance;
@@ -119,20 +108,17 @@ void func_800AA4A8(View* view, f32 fieldOfView, f32 fogDistance, f32 zDepth) {
     view->unk_24 = 1.0f;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA4E0.s")
 void func_800AA4E0(View* view, f32* fieldOfView, f32* fogDistance, f32* zDepth) {
     *fieldOfView = view->fieldOfView;
     *fogDistance = view->fogDistance;
     *zDepth = view->zDepth;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA4FC.s")
 void func_800AA4FC(View* view, Viewport* viewport) {
     view->viewport = *viewport;
     view->unk_120 |= 2;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA52C.s")
 void func_800AA52C(View* view, Viewport* viewport) {
     *viewport = view->viewport;
 }
@@ -186,26 +172,22 @@ void func_800AA550(View* view) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA550.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA76C.s")
 void func_800AA76C(View* view, f32 arg1, f32 arg2, f32 arg3) {
     view->unk_E8.x = arg1;
     view->unk_E8.y = arg2;
     view->unk_E8.z = arg3;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA78C.s")
 void func_800AA78C(View* view, f32 arg1, f32 arg2, f32 arg3) {
     view->unk_F4.x = arg1;
     view->unk_F4.y = arg2;
     view->unk_F4.z = arg3;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA7AC.s")
 void func_800AA7AC(View* view, f32 arg1) {
     view->unk_100 = arg1;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA7B8.s")
 void func_800AA7B8(View* view) {
     view->unk_E8.x = 0.0f;
     view->unk_E8.y = 0.0f;
@@ -218,7 +200,6 @@ void func_800AA7B8(View* view) {
     view->unk_100 = 0.0f;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA814.s")
 void func_800AA814(View* view) {
     view->unk_E8.x = 0.0f;
     view->unk_E8.y = 0.0f;
@@ -229,14 +210,12 @@ void func_800AA814(View* view) {
     view->unk_100 = 1.0f;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA840.s")
 void func_800AA840(View* view, Vec3f vec1, Vec3f vec2, f32 arg3) {
     view->unk_E8 = vec1;
     view->unk_F4 = vec2;
     view->unk_100 = arg3;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA890.s")
 s32 func_800AA890(View* view, Mtx* mtx) {
     MtxF mtxF;
 
@@ -264,11 +243,10 @@ s32 func_800AA890(View* view, Mtx* mtx) {
     Matrix_RotateZ(-view->unk_104.z, 1);
     Matrix_RotateY(-view->unk_104.y, 1);
     Matrix_RotateX(-view->unk_104.x, 1);
-    Matrix_ToMtx(mtx, "../z_view.c", 0x236);
+    Matrix_ToMtx(mtx, "../z_view.c", 566);
     return 1;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AAA50.s")
 void func_800AAA50(View* view, s32 arg1) {
     arg1 = (view->unk_120 & arg1) | arg1 >> 4;
     if (arg1 & 8) {
@@ -295,9 +273,9 @@ s32 func_800AAA9C(View* view) {
     MtxF mtxFv;
 
     gfxCtx = view->gfxCtx;
-    func_800C6AC4(gfxArr, gfxCtx, "../z_view.c", 0x254);
+    func_800C6AC4(gfxArr, gfxCtx, "../z_view.c", 596);
     viewport = Graph_Alloc(gfxCtx, sizeof(Viewport));
-    LogUtils_CheckNullPointer("vp", viewport, "../z_view.c", 0x259);
+    LogUtils_CheckNullPointer("vp", viewport, "../z_view.c", 601);
     func_800AA190(viewport, &view->viewport);
     view->unk_50 = *viewport;
     func_800AA550(view);
@@ -306,7 +284,7 @@ s32 func_800AAA9C(View* view) {
     gSPViewport(gfxCtx->polyXlu.p++, viewport);
 
     projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
-    LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 0x268);
+    LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 616);
     view->unk_E0 = projection;
     xlen = view->viewport.rightX - view->viewport.leftX;
     ylen = view->viewport.bottomY - view->viewport.topY;
@@ -346,7 +324,7 @@ s32 func_800AAA9C(View* view) {
     gSPMatrix(gfxCtx->polyXlu.p++, projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
 
     viewing = Graph_Alloc(gfxCtx, 0x40);
-    LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 0x29B);
+    LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 667);
     view->unk_E4 = viewing;
     if (view->eye.x == view->unk_34.x && view->eye.y == view->unk_34.y && view->eye.z == view->unk_34.z) {
         view->eye.x += 1.0f;
@@ -371,7 +349,7 @@ s32 func_800AAA9C(View* view) {
     gSPMatrix(gfxCtx->polyOpa.p++, viewing, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
     gSPMatrix(gfxCtx->polyXlu.p++, viewing, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_view.c", 0x2C7);
+    func_800C6B54(gfxArr, gfxCtx, "../z_view.c", 711);
     return 1;
 }
 #else
@@ -515,21 +493,20 @@ s32 func_800AB560(View* view) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AB560.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AB944.s")
 s32 func_800AB944(View* view) {
     Gfx* gfxArr[5];
 
-    func_800C6AC4(gfxArr, view->gfxCtx, "../z_view.c", 0x36E);
+    func_800C6AC4(gfxArr, view->gfxCtx, "../z_view.c", 878);
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
     func_80101E34(view->unk_E4, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y, view->unk_34.z,
                   view->unk_40.x, view->unk_40.y, view->unk_40.z);
 
-    func_800C6B54(gfxArr, view->gfxCtx, "../z_view.c", 0x376);
+    func_800C6B54(gfxArr, view->gfxCtx, "../z_view.c", 886);
     return 1;
 }
 
 #ifdef NON_MATCHING
-//saved register usage is wrong, relatively minor reorderings, regalloc
+// saved register usage is wrong, relatively minor reorderings, regalloc
 s32 func_800AB9EC(View* view, s32 arg1, Gfx** p) {
     Viewport* viewport;
     Mtx* projection;
@@ -598,11 +575,10 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** p) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AB9EC.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800ABE74.s")
 s32 func_800ABE74(f32 eyeX, f32 eyeY, f32 eyeZ) {
     s32 errorCode = 0;
 
-    if ((((eyeX * eyeX) + (eyeY * eyeY)) + (eyeZ * eyeZ)) > 1073676288.0f) {
+    if ((eyeX * eyeX) + (eyeY * eyeY) + (eyeZ * eyeZ) > 1073676288.0f) {
         errorCode = 3;
     } else {
         f32 absEyeX;
@@ -619,7 +595,7 @@ s32 func_800ABE74(f32 eyeX, f32 eyeY, f32 eyeZ) {
     }
     if (errorCode != 0) {
         osSyncPrintf("\x1b[31m");
-        //# EUC-JP: が大きすぎます | Is too large
+        // Is too large
         osSyncPrintf("eye が大きすぎます eye=[%8.3f %8.3f %8.3f] error=%d\n", eyeX, eyeY, eyeZ, errorCode);
         osSyncPrintf("\x1b[m");
     }
