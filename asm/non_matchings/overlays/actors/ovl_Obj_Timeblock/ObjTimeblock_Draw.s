@@ -19,7 +19,7 @@ glabel ObjTimeblock_Draw
 /* 00A3C 80BA09DC AFAA0044 */  sw      $t2, 0x0044($sp)           
 /* 00A40 80BA09E0 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
 /* 00A44 80BA09E4 240702FA */  addiu   $a3, $zero, 0x02FA         ## $a3 = 000002FA
-/* 00A48 80BA09E8 0C031AB1 */  jal     func_800C6AC4              
+/* 00A48 80BA09E8 0C031AB1 */  jal     Graph_OpenDisp              
 /* 00A4C 80BA09EC 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00A50 80BA09F0 8FAC004C */  lw      $t4, 0x004C($sp)           
 /* 00A54 80BA09F4 0C024F46 */  jal     func_80093D18              
@@ -68,7 +68,7 @@ glabel ObjTimeblock_Draw
 /* 00B00 80BA0AA0 8FAD004C */  lw      $t5, 0x004C($sp)           
 /* 00B04 80BA0AA4 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 00B08 80BA0AA8 24070304 */  addiu   $a3, $zero, 0x0304         ## $a3 = 00000304
-/* 00B0C 80BA0AAC 0C031AD5 */  jal     func_800C6B54              
+/* 00B0C 80BA0AAC 0C031AD5 */  jal     Graph_CloseDisp              
 /* 00B10 80BA0AB0 8DA50000 */  lw      $a1, 0x0000($t5)           ## 00000000
 .L80BA0AB4:
 /* 00B14 80BA0AB4 8FBF001C */  lw      $ra, 0x001C($sp)           

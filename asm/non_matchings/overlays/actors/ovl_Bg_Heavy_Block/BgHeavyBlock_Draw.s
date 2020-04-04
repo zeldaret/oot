@@ -11,7 +11,7 @@ glabel BgHeavyBlock_Draw
 /* 014A0 80884C30 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE0
 /* 014A4 80884C34 24070388 */  addiu   $a3, $zero, 0x0388         ## $a3 = 00000388
 /* 014A8 80884C38 AFA20044 */  sw      $v0, 0x0044($sp)           
-/* 014AC 80884C3C 0C031AB1 */  jal     func_800C6AC4              
+/* 014AC 80884C3C 0C031AB1 */  jal     Graph_OpenDisp              
 /* 014B0 80884C40 AFA50040 */  sw      $a1, 0x0040($sp)           
 /* 014B4 80884C44 8E030174 */  lw      $v1, 0x0174($s0)           ## 00000174
 /* 014B8 80884C48 3C0F8088 */  lui     $t7, %hi(func_808844D0)    ## $t7 = 80880000
@@ -100,7 +100,7 @@ glabel BgHeavyBlock_Draw
 /* 015FC 80884D8C 24C64F90 */  addiu   $a2, $a2, %lo(D_80884F90)  ## $a2 = 80884F90
 /* 01600 80884D90 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE0
 /* 01604 80884D94 240703A7 */  addiu   $a3, $zero, 0x03A7         ## $a3 = 000003A7
-/* 01608 80884D98 0C031AD5 */  jal     func_800C6B54              
+/* 01608 80884D98 0C031AD5 */  jal     Graph_CloseDisp              
 /* 0160C 80884D9C 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 /* 01610 80884DA0 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 01614 80884DA4 8FB00018 */  lw      $s0, 0x0018($sp)           

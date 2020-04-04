@@ -74,7 +74,7 @@ static void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, Glo
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_debug_display.c", 169);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_debug_display.c", 169);
 
     func_80094678(globalCtx->state.gfxCtx);
 
@@ -92,14 +92,14 @@ static void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, Glo
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_04004298);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_debug_display.c", 192);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_debug_display.c", 192);
 }
 
 static void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_debug_display.c", 211);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_debug_display.c", 211);
     func_8009435C(globalCtx->state.gfxCtx);
 
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, dispObj->color.r, dispObj->color.g, dispObj->color.b, dispObj->color.a);
@@ -113,5 +113,5 @@ static void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, Global
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, dlist);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_debug_display.c", 231);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_debug_display.c", 231);
 }

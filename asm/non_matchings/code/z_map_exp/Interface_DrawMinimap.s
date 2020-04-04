@@ -59,7 +59,7 @@ glabel Interface_DrawMinimap
 /* AF88A0 80081700 24C6D958 */  addiu $a2, %lo(D_8013D958) # addiu $a2, $a2, -0x26a8
 /* AF88A4 80081704 27A400EC */  addiu $a0, $sp, 0xec
 /* AF88A8 80081708 24070272 */  li    $a3, 626
-/* AF88AC 8008170C 0C031AB1 */  jal   func_800C6AC4
+/* AF88AC 8008170C 0C031AB1 */  jal   Graph_OpenDisp
 /* AF88B0 80081710 AFA500FC */   sw    $a1, 0xfc($sp)
 /* AF88B4 80081714 8FB80110 */  lw    $t8, 0x110($sp)
 /* AF88B8 80081718 3C190001 */  lui   $t9, 1
@@ -798,7 +798,7 @@ glabel L80081AA0
 /* AF93C4 80082224 24C6D988 */  addiu $a2, %lo(D_8013D988) # addiu $a2, $a2, -0x2678
 /* AF93C8 80082228 27A400EC */  addiu $a0, $sp, 0xec
 /* AF93CC 8008222C 2407030E */  li    $a3, 782
-/* AF93D0 80082230 0C031AD5 */  jal   func_800C6B54
+/* AF93D0 80082230 0C031AD5 */  jal   Graph_CloseDisp
 /* AF93D4 80082234 8DE50000 */   lw    $a1, ($t7)
 /* AF93D8 80082238 8FBF001C */  lw    $ra, 0x1c($sp)
 /* AF93DC 8008223C 27BD0110 */  addiu $sp, $sp, 0x110

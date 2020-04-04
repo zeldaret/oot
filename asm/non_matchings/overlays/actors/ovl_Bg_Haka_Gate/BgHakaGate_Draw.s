@@ -32,7 +32,7 @@ glabel BgHakaGate_Draw
 /* 00CF0 8087CAE0 24C6CD4C */  addiu   $a2, $a2, %lo(D_8087CD4C)  ## $a2 = 8087CD4C
 /* 00CF4 8087CAE4 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFA8
 /* 00CF8 8087CAE8 2407030D */  addiu   $a3, $zero, 0x030D         ## $a3 = 0000030D
-/* 00CFC 8087CAEC 0C031AB1 */  jal     func_800C6AC4              
+/* 00CFC 8087CAEC 0C031AB1 */  jal     Graph_OpenDisp              
 /* 00D00 8087CAF0 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 80880000
 /* 00D04 8087CAF4 0C034236 */  jal     Matrix_Get              
 /* 00D08 8087CAF8 27A4004C */  addiu   $a0, $sp, 0x004C           ## $a0 = FFFFFFBC
@@ -132,7 +132,7 @@ glabel BgHakaGate_Draw
 /* 00E80 8087CC70 24C6CD88 */  addiu   $a2, $a2, %lo(D_8087CD88)  ## $a2 = 8087CD88
 /* 00E84 8087CC74 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFA8
 /* 00E88 8087CC78 24070320 */  addiu   $a3, $zero, 0x0320         ## $a3 = 00000320
-/* 00E8C 8087CC7C 0C031AD5 */  jal     func_800C6B54              
+/* 00E8C 8087CC7C 0C031AD5 */  jal     Graph_CloseDisp              
 /* 00E90 8087CC80 8F250000 */  lw      $a1, 0x0000($t9)           ## 00000000
 /* 00E94 8087CC84 10000005 */  beq     $zero, $zero, .L8087CC9C   
 /* 00E98 8087CC88 8FA40090 */  lw      $a0, 0x0090($sp)           

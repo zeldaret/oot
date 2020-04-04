@@ -10,7 +10,7 @@ glabel EnBili_Draw
 /* 01C18 809C14B8 24C61710 */  addiu   $a2, $a2, %lo(D_809C1710)  ## $a2 = 809C1710
 /* 01C1C 809C14BC 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 01C20 809C14C0 240705F1 */  addiu   $a3, $zero, 0x05F1         ## $a3 = 000005F1
-/* 01C24 809C14C4 0C031AB1 */  jal     func_800C6AC4
+/* 01C24 809C14C4 0C031AB1 */  jal     Graph_OpenDisp
 /* 01C28 809C14C8 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 01C2C 809C14CC 8FAF005C */  lw      $t7, 0x005C($sp)
 /* 01C30 809C14D0 0C024F61 */  jal     func_80093D84
@@ -94,7 +94,7 @@ glabel EnBili_Draw
 /* 01D54 809C15F4 24C61720 */  addiu   $a2, $a2, %lo(D_809C1720)  ## $a2 = 809C1720
 /* 01D58 809C15F8 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 01D5C 809C15FC 24070610 */  addiu   $a3, $zero, 0x0610         ## $a3 = 00000610
-/* 01D60 809C1600 0C031AD5 */  jal     func_800C6B54
+/* 01D60 809C1600 0C031AD5 */  jal     Graph_CloseDisp
 /* 01D64 809C1604 8D250000 */  lw      $a1, 0x0000($t1)           ## 00000000
 /* 01D68 809C1608 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 01D6C 809C160C 8FB00024 */  lw      $s0, 0x0024($sp)

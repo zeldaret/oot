@@ -18,7 +18,7 @@ void Sample_Draw(SampleContext* this) {
     Gfx* gfxArr[4];
     Mtx* mtx;
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_sample.c", 62);
+    Graph_OpenDisp(gfxArr, gfxCtx, "../z_sample.c", 62);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
     gSPSegment(gfxCtx->polyOpa.p++, 0x01, this->staticSegment);
@@ -41,7 +41,7 @@ void Sample_Draw(SampleContext* this) {
                       PRIMITIVE);
     gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0x00, 0x00);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_sample.c", 111);
+    Graph_CloseDisp(gfxArr, gfxCtx, "../z_sample.c", 111);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_sample/Sample_Draw.s")

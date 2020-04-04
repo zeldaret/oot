@@ -472,7 +472,7 @@ static void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 264);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 264);
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
@@ -483,7 +483,7 @@ static void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl,
                                           skelAnime->dListCount, NULL, NULL, NULL, gfxCtx->polyXlu.p);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
 }
 
 static void func_80AF3394(EnRu2* this, GlobalContext* globalCtx) {
@@ -790,7 +790,7 @@ static void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2.c", 642);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2.c", 642);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(addr));
@@ -800,7 +800,7 @@ static void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
 
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
 }
 
 static void EnRu2_Draw(EnRu2* this, GlobalContext* globalCtx) {

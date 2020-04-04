@@ -23,7 +23,7 @@ glabel EnAnubiceFire_Draw
 /* 009A0 809B2F40 24C63290 */  addiu   $a2, $a2, %lo(D_809B3290)  ## $a2 = 809B3290
 /* 009A4 809B2F44 27A4009C */  addiu   $a0, $sp, 0x009C           ## $a0 = FFFFFFDC
 /* 009A8 809B2F48 240701F7 */  addiu   $a3, $zero, 0x01F7         ## $a3 = 000001F7
-/* 009AC 809B2F4C 0C031AB1 */  jal     func_800C6AC4              
+/* 009AC 809B2F4C 0C031AB1 */  jal     Graph_OpenDisp              
 /* 009B0 809B2F50 00A09825 */  or      $s3, $a1, $zero            ## $s3 = 00000000
 /* 009B4 809B2F54 0C024F61 */  jal     func_80093D84              
 /* 009B8 809B2F58 8EA40000 */  lw      $a0, 0x0000($s5)           ## 00000000
@@ -161,7 +161,7 @@ glabel EnAnubiceFire_Draw
 /* 00BB8 809B3158 24C632C0 */  addiu   $a2, $a2, %lo(D_809B32C0)  ## $a2 = 809B32C0
 /* 00BBC 809B315C 27A4009C */  addiu   $a0, $sp, 0x009C           ## $a0 = FFFFFFDC
 /* 00BC0 809B3160 8EA50000 */  lw      $a1, 0x0000($s5)           ## 00000000
-/* 00BC4 809B3164 0C031AD5 */  jal     func_800C6B54              
+/* 00BC4 809B3164 0C031AD5 */  jal     Graph_CloseDisp              
 /* 00BC8 809B3168 2407022C */  addiu   $a3, $zero, 0x022C         ## $a3 = 0000022C
 /* 00BCC 809B316C 8FBF006C */  lw      $ra, 0x006C($sp)           
 /* 00BD0 809B3170 D7B40018 */  ldc1    $f20, 0x0018($sp)          

@@ -18,7 +18,7 @@ glabel func_80079EFC
 /* AF10B4 80079F14 00A08025 */  move  $s0, $a1
 /* AF10B8 80079F18 24C6C8A0 */  addiu $a2, %lo(D_8013C8A0) # addiu $a2, $a2, -0x3760
 /* AF10BC 80079F1C 27A4004C */  addiu $a0, $sp, 0x4c
-/* AF10C0 80079F20 0C031AB1 */  jal   func_800C6AC4
+/* AF10C0 80079F20 0C031AB1 */  jal   Graph_OpenDisp
 /* AF10C4 80079F24 24070153 */   li    $a3, 339
 /* AF10C8 80079F28 8E0302C0 */  lw    $v1, 0x2c0($s0)
 /* AF10CC 80079F2C 3C04DB02 */  lui   $a0, 0xdb02
@@ -104,7 +104,7 @@ glabel func_80079EFC
 /* AF11FC 8007A05C 3C068014 */  lui   $a2, %hi(D_8013C8B0) # $a2, 0x8014
 /* AF1200 8007A060 AC640004 */  sw    $a0, 4($v1)
 /* AF1204 8007A064 27A4004C */  addiu $a0, $sp, 0x4c
-/* AF1208 8007A068 0C031AD5 */  jal   func_800C6B54
+/* AF1208 8007A068 0C031AD5 */  jal   Graph_CloseDisp
 /* AF120C 8007A06C 24C6C8B0 */   addiu $a2, %lo(D_8013C8B0) # addiu $a2, $a2, -0x3750
 /* AF1210 8007A070 8FBF001C */  lw    $ra, 0x1c($sp)
 /* AF1214 8007A074 8FB00014 */  lw    $s0, 0x14($sp)

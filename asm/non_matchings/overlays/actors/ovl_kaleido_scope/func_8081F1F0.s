@@ -10,10 +10,10 @@ glabel func_8081F1F0
 /* 0B9F0 8081F210 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE0
 /* 0B9F4 8081F214 240701F0 */  addiu   $a3, $zero, 0x01F0         ## $a3 = 000001F0
 /* 0B9F8 8081F218 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
-/* 0B9FC 8081F21C 0C031AB1 */  jal     func_800C6AC4              
+/* 0B9FC 8081F21C 0C031AB1 */  jal     Graph_OpenDisp              
 /* 0BA00 8081F220 AFAF004C */  sw      $t7, 0x004C($sp)           
 /* 0BA04 8081F224 8E0402C0 */  lw      $a0, 0x02C0($s0)           ## 000002C0
-/* 0BA08 8081F228 0C031B08 */  jal     func_800C6C20              
+/* 0BA08 8081F228 0C031B08 */  jal     Graph_GfxPlusOne              
 /* 0BA0C 8081F22C AFA40050 */  sw      $a0, 0x0050($sp)           
 /* 0BA10 8081F230 AFA20054 */  sw      $v0, 0x0054($sp)           
 /* 0BA14 8081F234 8E0301BC */  lw      $v1, 0x01BC($s0)           ## 000001BC
@@ -45,7 +45,7 @@ glabel func_8081F1F0
 /* 0BA7C 8081F29C AD200004 */  sw      $zero, 0x0004($t1)         ## 00000004
 /* 0BA80 8081F2A0 AD2B0000 */  sw      $t3, 0x0000($t1)           ## 00000000
 /* 0BA84 8081F2A4 8FA50054 */  lw      $a1, 0x0054($sp)           
-/* 0BA88 8081F2A8 0C031B0A */  jal     func_800C6C28              
+/* 0BA88 8081F2A8 0C031B0A */  jal     Graph_BranchDlist              
 /* 0BA8C 8081F2AC 8FA40050 */  lw      $a0, 0x0050($sp)           
 /* 0BA90 8081F2B0 8FAC0054 */  lw      $t4, 0x0054($sp)           
 /* 0BA94 8081F2B4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
@@ -59,7 +59,7 @@ glabel func_8081F1F0
 /* 0BAB4 8081F2D4 35AE0001 */  ori     $t6, $t5, 0x0001           ## $t6 = 00000001
 /* 0BAB8 8081F2D8 A46E0116 */  sh      $t6, 0x0116($v1)           ## 80160116
 /* 0BABC 8081F2DC 8FAF0058 */  lw      $t7, 0x0058($sp)           
-/* 0BAC0 8081F2E0 0C031AD5 */  jal     func_800C6B54              
+/* 0BAC0 8081F2E0 0C031AD5 */  jal     Graph_CloseDisp              
 /* 0BAC4 8081F2E4 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 /* 0BAC8 8081F2E8 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 0BACC 8081F2EC 8FB00020 */  lw      $s0, 0x0020($sp)           

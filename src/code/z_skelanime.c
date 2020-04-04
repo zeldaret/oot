@@ -39,7 +39,7 @@ void SkelAnime_LodDrawLimb(GlobalContext* globalCtx, s32 limbIndex, Skeleton* sk
     Gfx* gfx[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 773);
+    Graph_OpenDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 773);
     Matrix_Push();
     limbEntry = SEGMENTED_TO_VIRTUAL(skeleton->limbs[limbIndex]);
     limbIndex++;
@@ -80,7 +80,7 @@ void SkelAnime_LodDrawLimb(GlobalContext* globalCtx, s32 limbIndex, Skeleton* sk
                               appendDlistFunc, actor, dListIndex);
     }
 
-    func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 821);
+    Graph_CloseDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 821);
 }
 
 /*
@@ -104,7 +104,7 @@ void SkelAnime_LodDraw(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* acto
         return;
     }
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 849);
+    Graph_OpenDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 849);
     Matrix_Push();
 
     limbEntry = SEGMENTED_TO_VIRTUAL(skeleton->limbs[0]);
@@ -133,7 +133,7 @@ void SkelAnime_LodDraw(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* acto
     }
 
     Matrix_Pull();
-    func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 894);
+    Graph_CloseDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 894);
 }
 
 /*
@@ -169,10 +169,10 @@ void SkelAnime_LodDrawLimbSV(GlobalContext* globalCtx, s32 limbIndex, Skeleton* 
         if (dList[1] != NULL) {
             Matrix_ToMtx(*mtx, "../z_skelanime.c", 945);
             gfxCtx = globalCtx->state.gfxCtx;
-            func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 946);
+            Graph_OpenDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 946);
             gSPMatrix(gfxCtx->polyOpa.p++, *mtx, G_MTX_LOAD);
             gSPDisplayList(gfxCtx->polyOpa.p++, dList[1]);
-            func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 949);
+            Graph_CloseDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 949);
             (*mtx)++;
         } else if (dList[0] != NULL) {
             Matrix_ToMtx(*mtx, "../z_skelanime.c", 954);
@@ -221,7 +221,7 @@ void SkelAnime_LodDrawSV(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* ac
         return;
     }
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1000);
+    Graph_OpenDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1000);
     gSPSegment(gfxCtx->polyOpa.p++, 0xD, mtx);
     Matrix_Push();
 
@@ -258,7 +258,7 @@ void SkelAnime_LodDrawSV(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* ac
 
     Matrix_Pull();
 
-    func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1053);
+    Graph_CloseDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1053);
 }
 
 /*
@@ -276,7 +276,7 @@ void SkelAnime_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, Skeleton* skele
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1076);
+    Graph_OpenDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1076);
     Matrix_Push();
 
     limbEntry = SEGMENTED_TO_VIRTUAL(skeleton->limbs[limbIndex]);
@@ -316,7 +316,7 @@ void SkelAnime_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, Skeleton* skele
                            appendDlistFunc, actor);
     }
 
-    func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1121);
+    Graph_CloseDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1121);
 }
 
 void SkelAnime_Draw(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDrawTable,
@@ -338,7 +338,7 @@ void SkelAnime_Draw(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDr
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1148);
+    Graph_OpenDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1148);
     Matrix_Push();
     rootLimb = SEGMENTED_TO_VIRTUAL(skeleton->limbs[0]);
 
@@ -369,7 +369,7 @@ void SkelAnime_Draw(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDr
 
     Matrix_Pull();
 
-    func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1190);
+    Graph_CloseDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1190);
 }
 
 void SkelAnime_DrawLimbSV(GlobalContext* globalCtx, s32 limbIndex, Skeleton* skeleton, Vec3s* actorDrawTable,
@@ -383,7 +383,7 @@ void SkelAnime_DrawLimbSV(GlobalContext* globalCtx, s32 limbIndex, Skeleton* ske
     Gfx* gfx[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1214);
+    Graph_OpenDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1214);
     Matrix_Push();
 
     limbEntry = SEGMENTED_TO_VIRTUAL(skeleton->limbs[limbIndex]);
@@ -426,7 +426,7 @@ void SkelAnime_DrawLimbSV(GlobalContext* globalCtx, s32 limbIndex, Skeleton* ske
                              appendDlistFunc, actor, limbMatricies);
     }
 
-    func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1265);
+    Graph_CloseDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1265);
 }
 
 void SkelAnime_DrawSV(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDrawTable, s32 dListCount,
@@ -452,7 +452,7 @@ void SkelAnime_DrawSV(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actor
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1294);
+    Graph_OpenDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1294);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0xD, mtx);
 
@@ -494,7 +494,7 @@ void SkelAnime_DrawSV(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actor
     }
 
     Matrix_Pull();
-    func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1347);
+    Graph_CloseDisp(gfx, globalCtx->state.gfxCtx, "../z_skelanime.c", 1347);
 }
 
 /*

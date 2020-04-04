@@ -88,7 +88,7 @@ glabel OceffWipe4_Draw
 /* 00238 80BACE48 24C6DB80 */  addiu   $a2, $a2, %lo(D_80BADB80)  ## $a2 = 80BADB80
 /* 0023C 80BACE4C 27A40068 */  addiu   $a0, $sp, 0x0068           ## $a0 = FFFFFFB8
 /* 00240 80BACE50 2407013A */  addiu   $a3, $zero, 0x013A         ## $a3 = 0000013A
-/* 00244 80BACE54 0C031AB1 */  jal     func_800C6AC4              
+/* 00244 80BACE54 0C031AB1 */  jal     Graph_OpenDisp              
 /* 00248 80BACE58 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 0024C 80BACE5C 0C024F61 */  jal     func_80093D84              
 /* 00250 80BACE60 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -207,7 +207,7 @@ glabel OceffWipe4_Draw
 /* 0040C 80BAD01C 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 00410 80BAD020 24C6DBA8 */  addiu   $a2, $a2, %lo(D_80BADBA8)  ## $a2 = 80BADBA8
 /* 00414 80BAD024 27A40068 */  addiu   $a0, $sp, 0x0068           ## $a0 = FFFFFFB8
-/* 00418 80BAD028 0C031AD5 */  jal     func_800C6B54              
+/* 00418 80BAD028 0C031AD5 */  jal     Graph_CloseDisp              
 /* 0041C 80BAD02C 24070158 */  addiu   $a3, $zero, 0x0158         ## $a3 = 00000158
 /* 00420 80BAD030 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 00424 80BAD034 8FB00034 */  lw      $s0, 0x0034($sp)           

@@ -104,7 +104,7 @@ void BgGjyoBridge_Draw(BgGjyoBridge* this, GlobalContext* globalCtx) {
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 260);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 260);
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPSegment(gfxCtx->polyXlu.p++, 8,
@@ -120,5 +120,5 @@ void BgGjyoBridge_Draw(BgGjyoBridge* this, GlobalContext* globalCtx) {
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_06000600);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 285);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 285);
 }

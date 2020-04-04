@@ -126,14 +126,14 @@ static void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
 
     tempgfxCtx = globalCtx->state.gfxCtx;
     gfxCtx = tempgfxCtx;
-    func_800C6AC4(gfxArr, gfxCtx, "../z_bg_zg.c", 311);
+    Graph_OpenDisp(gfxArr, gfxCtx, "../z_bg_zg.c", 311);
 
     func_80093D18(gfxCtx);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_bg_zg.c", 315),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_06001080);
-    func_800C6B54(gfxArr, gfxCtx, "../z_bg_zg.c", 320);
+    Graph_CloseDisp(gfxArr, gfxCtx, "../z_bg_zg.c", 320);
 }
 
 static void BgZg_Draw(BgZg* this, GlobalContext* globalCtx) {

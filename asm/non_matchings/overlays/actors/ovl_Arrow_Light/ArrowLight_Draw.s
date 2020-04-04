@@ -30,7 +30,7 @@ glabel ArrowLight_Draw
 /* 005EC 8086A29C 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 /* 005F0 8086A2A0 AFA20084 */  sw      $v0, 0x0084($sp)
 /* 005F4 8086A2A4 27A40070 */  addiu   $a0, $sp, 0x0070           ## $a0 = FFFFFFD8
-/* 005F8 8086A2A8 0C031AB1 */  jal     func_800C6AC4
+/* 005F8 8086A2A8 0C031AB1 */  jal     Graph_OpenDisp
 /* 005FC 8086A2AC 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00600 8086A2B0 8FA20084 */  lw      $v0, 0x0084($sp)
 /* 00604 8086A2B4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
@@ -283,7 +283,7 @@ glabel ArrowLight_Draw
 /* 009D4 8086A684 24C6BB54 */  addiu   $a2, $a2, %lo(D_8086BB54)  ## $a2 = 8086BB54
 /* 009D8 8086A688 27A40070 */  addiu   $a0, $sp, 0x0070           ## $a0 = FFFFFFD8
 /* 009DC 8086A68C 24070298 */  addiu   $a3, $zero, 0x0298         ## $a3 = 00000298
-/* 009E0 8086A690 0C031AD5 */  jal     func_800C6B54
+/* 009E0 8086A690 0C031AD5 */  jal     Graph_CloseDisp
 /* 009E4 8086A694 8F050000 */  lw      $a1, 0x0000($t8)           ## 00000000
 .L8086A698:
 /* 009E8 8086A698 8FBF003C */  lw      $ra, 0x003C($sp)

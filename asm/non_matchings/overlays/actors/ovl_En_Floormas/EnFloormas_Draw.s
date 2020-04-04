@@ -10,7 +10,7 @@ glabel EnFloormas_Draw
 /* 02D64 80A1A274 24C6A514 */  addiu   $a2, $a2, %lo(D_80A1A514)  ## $a2 = 80A1A514
 /* 02D68 80A1A278 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 02D6C 80A1A27C 2407090E */  addiu   $a3, $zero, 0x090E         ## $a3 = 0000090E
-/* 02D70 80A1A280 0C031AB1 */  jal     func_800C6AC4
+/* 02D70 80A1A280 0C031AB1 */  jal     Graph_OpenDisp
 /* 02D74 80A1A284 AFA50048 */  sw      $a1, 0x0048($sp)
 /* 02D78 80A1A288 0C024F46 */  jal     func_80093D18
 /* 02D7C 80A1A28C 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -57,7 +57,7 @@ glabel EnFloormas_Draw
 /* 02E18 80A1A328 24C6A528 */  addiu   $a2, $a2, %lo(D_80A1A528)  ## $a2 = 80A1A528
 /* 02E1C 80A1A32C 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 02E20 80A1A330 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 02E24 80A1A334 0C031AD5 */  jal     func_800C6B54
+/* 02E24 80A1A334 0C031AD5 */  jal     Graph_CloseDisp
 /* 02E28 80A1A338 24070924 */  addiu   $a3, $zero, 0x0924         ## $a3 = 00000924
 /* 02E2C 80A1A33C 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 02E30 80A1A340 8FB00024 */  lw      $s0, 0x0024($sp)

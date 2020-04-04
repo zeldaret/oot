@@ -12,7 +12,7 @@ glabel EnDoor_Draw
 /* 00BC4 809FCD94 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
 /* 00BC8 809FCD98 24C6CF10 */  addiu   $a2, $a2, %lo(D_809FCF10)  ## $a2 = 809FCF10
 /* 00BCC 809FCD9C 2407038E */  addiu   $a3, $zero, 0x038E         ## $a3 = 0000038E
-/* 00BD0 809FCDA0 0C031AB1 */  jal     func_800C6AC4              
+/* 00BD0 809FCDA0 0C031AB1 */  jal     Graph_OpenDisp              
 /* 00BD4 809FCDA4 AFA50048 */  sw      $a1, 0x0048($sp)           
 /* 00BD8 809FCDA8 8FB90054 */  lw      $t9, 0x0054($sp)           
 /* 00BDC 809FCDAC 0C024F46 */  jal     func_80093D18              
@@ -63,7 +63,7 @@ glabel EnDoor_Draw
 /* 00C7C 809FCE4C 24C6CF20 */  addiu   $a2, $a2, %lo(D_809FCF20)  ## $a2 = 809FCF20
 /* 00C80 809FCE50 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 00C84 809FCE54 240703AD */  addiu   $a3, $zero, 0x03AD         ## $a3 = 000003AD
-/* 00C88 809FCE58 0C031AD5 */  jal     func_800C6B54              
+/* 00C88 809FCE58 0C031AD5 */  jal     Graph_CloseDisp              
 /* 00C8C 809FCE5C 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 .L809FCE60:
 /* 00C90 809FCE60 8FBF0024 */  lw      $ra, 0x0024($sp)           

@@ -338,7 +338,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment8));
@@ -347,7 +347,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
 }
 
 void DemoGo_Draw(DemoGo* this, GlobalContext* globalCtx) {

@@ -128,12 +128,12 @@ static void BgGateShutter_Draw(BgGateShutter* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 323);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 323);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_06001CD0);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 333);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 333);
 }

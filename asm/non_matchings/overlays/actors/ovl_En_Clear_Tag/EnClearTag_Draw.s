@@ -10,7 +10,7 @@ glabel EnClearTag_Draw
 /* 01470 809D4A20 24C6BFC0 */  addiu   $a2, $a2, %lo(D_809DBFC0)  ## $a2 = 809DBFC0
 /* 01474 809D4A24 27A40084 */  addiu   $a0, $sp, 0x0084           ## $a0 = FFFFFFE4
 /* 01478 809D4A28 240703D7 */  addiu   $a3, $zero, 0x03D7         ## $a3 = 000003D7
-/* 0147C 809D4A2C 0C031AB1 */  jal     func_800C6AC4              
+/* 0147C 809D4A2C 0C031AB1 */  jal     Graph_OpenDisp              
 /* 01480 809D4A30 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 01484 809D4A34 9224014D */  lbu     $a0, 0x014D($s1)           ## 0000014D
 /* 01488 809D4A38 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
@@ -387,7 +387,7 @@ glabel EnClearTag_Draw
 /* 01A2C 809D4FDC 24C6C038 */  addiu   $a2, $a2, %lo(D_809DC038)  ## $a2 = 809DC038
 /* 01A30 809D4FE0 27A40084 */  addiu   $a0, $sp, 0x0084           ## $a0 = FFFFFFE4
 /* 01A34 809D4FE4 2407045F */  addiu   $a3, $zero, 0x045F         ## $a3 = 0000045F
-/* 01A38 809D4FE8 0C031AD5 */  jal     func_800C6B54              
+/* 01A38 809D4FE8 0C031AD5 */  jal     Graph_CloseDisp              
 /* 01A3C 809D4FEC 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 01A40 809D4FF0 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 01A44 809D4FF4 8FB00014 */  lw      $s0, 0x0014($sp)           

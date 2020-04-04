@@ -40,7 +40,7 @@ glabel func_80981E84
 /* 048A4 80981F14 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFB4
 /* 048A8 80981F18 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 048AC 80981F1C 24070088 */  addiu   $a3, $zero, 0x0088         ## $a3 = 00000088
-/* 048B0 80981F20 0C031AB1 */  jal     func_800C6AC4              
+/* 048B0 80981F20 0C031AB1 */  jal     Graph_OpenDisp              
 /* 048B4 80981F24 E7A40040 */  swc1    $f4, 0x0040($sp)           
 /* 048B8 80981F28 0C01DE0D */  jal     Math_Coss
               ## coss?
@@ -115,7 +115,7 @@ glabel func_80981E84
 /* 049BC 8098202C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 049C0 80982030 240700A0 */  addiu   $a3, $zero, 0x00A0         ## $a3 = 000000A0
 /* 049C4 80982034 AC6E0004 */  sw      $t6, 0x0004($v1)           ## 00000004
-/* 049C8 80982038 0C031AD5 */  jal     func_800C6B54              
+/* 049C8 80982038 0C031AD5 */  jal     Graph_CloseDisp              
 /* 049CC 8098203C AC6D0000 */  sw      $t5, 0x0000($v1)           ## 00000000
 /* 049D0 80982040 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 049D4 80982044 8FB00018 */  lw      $s0, 0x0018($sp)           

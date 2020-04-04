@@ -19,7 +19,7 @@ glabel BossFd_Draw
 /* 0521C 808CFFDC 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFE4
 /* 05220 808CFFE0 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 05224 808CFFE4 24071079 */  addiu   $a3, $zero, 0x1079         ## $a3 = 00001079
-/* 05228 808CFFE8 0C031AB1 */  jal     func_800C6AC4              
+/* 05228 808CFFE8 0C031AB1 */  jal     Graph_OpenDisp              
 /* 0522C 808CFFEC 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 05230 808CFFF0 0C024F46 */  jal     func_80093D18              
 /* 05234 808CFFF4 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -50,7 +50,7 @@ glabel BossFd_Draw
 /* 05294 808D0054 24C61D7C */  addiu   $a2, $a2, %lo(D_808D1D7C)  ## $a2 = 808D1D7C
 /* 05298 808D0058 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 0529C 808D005C 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFE4
-/* 052A0 808D0060 0C031AD5 */  jal     func_800C6B54              
+/* 052A0 808D0060 0C031AD5 */  jal     Graph_CloseDisp              
 /* 052A4 808D0064 24071093 */  addiu   $a3, $zero, 0x1093         ## $a3 = 00001093
 .L808D0068:
 /* 052A8 808D0068 3C04808D */  lui     $a0, %hi(D_808D1D8C)       ## $a0 = 808D0000

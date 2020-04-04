@@ -56,7 +56,7 @@ glabel func_8099B33C
 /* 02C88 8099B408 46128102 */  mul.s   $f4, $f16, $f18
 /* 02C8C 8099B40C E7A40064 */  swc1    $f4, 0x0064($sp)
 /* 02C90 8099B410 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 02C94 8099B414 0C031AB1 */  jal     func_800C6AC4
+/* 02C94 8099B414 0C031AB1 */  jal     Graph_OpenDisp
 /* 02C98 8099B418 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 02C9C 8099B41C 0C024F61 */  jal     func_80093D84
 /* 02CA0 8099B420 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -170,7 +170,7 @@ glabel func_8099B33C
 /* 02E38 8099B5B8 24C6C658 */  addiu   $a2, $a2, %lo(D_8099C658)  ## $a2 = 8099C658
 /* 02E3C 8099B5BC 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 02E40 8099B5C0 27A40048 */  addiu   $a0, $sp, 0x0048           ## $a0 = FFFFFFD8
-/* 02E44 8099B5C4 0C031AD5 */  jal     func_800C6B54
+/* 02E44 8099B5C4 0C031AD5 */  jal     Graph_CloseDisp
 /* 02E48 8099B5C8 24070868 */  addiu   $a3, $zero, 0x0868         ## $a3 = 00000868
 /* 02E4C 8099B5CC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
 

@@ -769,7 +769,7 @@ void func_8001EF30(ActorEnItem00* this, GlobalContext* globalCtx) {
     s32 iconNb;
     Gfx* gfxArr[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1546);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1546);
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
@@ -789,7 +789,7 @@ void func_8001EF30(ActorEnItem00* this, GlobalContext* globalCtx) {
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_04042440);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1568);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1568);
 }
 
 /**
@@ -802,7 +802,7 @@ void func_8001F080(ActorEnItem00* this, GlobalContext* globalCtx) {
 
     iconNb = this->actor.params - 3;
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1594);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1594);
 
     gfxCtx->polyOpa.p = func_800BC8A0(globalCtx, gfxCtx->polyOpa.p);
 
@@ -820,7 +820,7 @@ void func_8001F080(ActorEnItem00* this, GlobalContext* globalCtx) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_0403F070);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1611);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1611);
 }
 
 /**
@@ -830,7 +830,7 @@ void func_8001F1F4(ActorEnItem00* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1623);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1623);
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
@@ -844,7 +844,7 @@ void func_8001F1F4(ActorEnItem00* this, GlobalContext* globalCtx) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_0403BCD8);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1647);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1647);
 }
 
 /**
@@ -854,7 +854,7 @@ void func_8001F334(ActorEnItem00* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1658);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1658);
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002ED80(&this->actor, globalCtx, 0);
@@ -862,7 +862,7 @@ void func_8001F334(ActorEnItem00* this, GlobalContext* globalCtx) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_0403B030);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1673);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1673);
 }
 
 /**

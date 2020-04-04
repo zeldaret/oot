@@ -77,12 +77,12 @@ static void BgSpot01Idosoko_Draw(BgSpot01Idosoko* this, GlobalContext* globalCtx
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 162);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 162);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 166),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_06003B20);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 171);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 171);
 }

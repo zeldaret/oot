@@ -77,10 +77,10 @@ static void BgPushbox_Draw(BgPushbox* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfxArr[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 263);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 263);
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 269),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_06000000);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 272);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 272);
 }

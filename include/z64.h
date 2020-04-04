@@ -235,16 +235,50 @@ typedef struct {
     /* 0x000C */ Gfx*   d;
 } TwoHeadGfxArena; // size = 0x10
 
-typedef struct {
-    /* 0x0000 */ char               unk_00[0x01B4];
+typedef struct OSScTask
+{
+    /* 0x00 */ struct OSScTask* next;
+    /* 0x04 */ u32            state;
+    /* 0x08 */ u32            flags;
+    /* 0x0C */ void*          framebuffer;
+    /* 0x10 */ OSTask         list;
+    /* 0x50 */ OSMesgQueue*   msgQ;
+    /* 0x54 */ OSMesg         msg;
+} OSScTask;
+
+typedef struct GraphicsContex
+{
+    /* 0x0000 */ Gfx* polyOpaBuffer;
+    /* 0x0004 */ Gfx* polyXluBuffer;
+    /* 0x0008 */ char unk_008[8];
+    /* 0x0010 */ Gfx* overlayBuffer;
+    /* 0x0014 */ u32 unk_014;
+    /* 0x0018 */ char unk_018[0x20];
+    /* 0x0038 */ OSMesg msgBuff[8];
+    /* 0x0058 */ OSMesgQueue* schedMsgQ;
+    /* 0x005C */ OSMesgQueue queue;
+    /* 0x0074 */ char unk_074[4];
+    /* 0x0078 */ OSScTask task; // size of OSScTask might be wrong
+    /* 0x00D0 */ char unk_0D0[0xE0];
+    /* 0x01B0 */ Gfx* workBuffer;
     /* 0x01B4 */ TwoHeadGfxArena    work;
-    /* 0x01C4 */ char               unk_1C4[0x00E4];
+    /* 0x01C4 */ char unk_01C4[0xC0];
+    /* 0x0284 */ OSViMode* viMode;
+    /* 0x0288 */ char unk_0288[0x20];
     /* 0x02A8 */ TwoHeadGfxArena    overlay;
     /* 0x02B8 */ TwoHeadGfxArena    polyOpa;
     /* 0x02C8 */ TwoHeadGfxArena    polyXlu;
-    /* 0x02D8 */ char               unk_2D8[0x0004];
-    /* 0x02DC */ UNK_TYPE           unk_2DC;
-} GraphicsContext;
+    /* 0x02D8 */ u32 gfxPoolIdx;
+    /* 0x02DC */ u16* curFrameBuffer;
+    /* 0x02E0 */ char unk_2E0[4];
+    /* 0x02E4 */ u32 viFeatures;
+    /* 0x02E8 */ s32 fbIdx;
+    /* 0x02EC */ void (*callback)(struct GraphicsContex*, u32);
+    /* 0x02F0 */ u32 callbackParam;
+    /* 0x02F4 */ f32 xScale;
+    /* 0x02F8 */ f32 yScale;
+    /* 0x02FC */ char unk_2FC[4];
+} GraphicsContext; // size = 0x300
 
 typedef struct {
     /* 0x00 */ union {
@@ -1325,5 +1359,51 @@ typedef struct {
     /* 0x1C */ s16 zoom;
     /* 0x20 */ f32 unk_20;
 } UnkQuakeCalcStruct; // size = 0x24
+
+typedef struct
+{
+    /* 0x00 */ u32 idx;
+    /* 0x04 */ void* ptr;
+} UcodeInfo; // size = 0x8
+
+typedef struct
+{
+    /* 0x00 */ u32 segments[NUM_SEGMENTS];
+    /* 0x40 */ u32 dl_stack[18];
+    /* 0x88 */ u32 dl_depth;
+    /* 0x8C */ u32 dl_cnt;
+    /* 0x90 */ u32 vtx_cnt;
+    /* 0x94 */ u32 spvtx_cnt;
+    /* 0x98 */ u32 tri1_cnt;
+    /* 0x9C */ u32 tri2_cnt;
+    /* 0xA0 */ u32 quad_cnt;
+    /* 0xA4 */ u32 line_cnt;
+    /* 0xA8 */ u32 loaducode_cnt;
+    /* 0xAC */ u32 pipeSyncRequired;
+    /* 0xB0 */ u32 tileSyncRequired;
+    /* 0xB4 */ u32 loadSyncRequired;
+    /* 0xB8 */ u32 sync_err;
+    /* 0xBC */ u32 enableLog;
+    /* 0xC0 */ u32 ucodeInfoIdx;
+    /* 0xC4 */ u32 ucodeInfoCount;
+    /* 0xC8 */ UcodeInfo* ucodeInfo;
+    /* 0xCC */ u32 modeH;
+    /* 0xD0 */ u32 modeL;
+    /* 0xD4 */ u32 geometryMode;
+} UcodeDisas; // size = 0xD8
+
+typedef struct
+{
+    /* 0x00 */ u16* fb1;
+    /* 0x04 */ u16* swapbuffer;
+    /* 0x08 */ OSViMode* viMode;
+    /* 0x0C */ u32 features;
+    /* 0x10 */ u8 unk_10;
+    /* 0x11 */ u8 updateRate;
+    /* 0x12 */ u8 updateRate2;
+    /* 0x13 */ u8 unk_13;
+    /* 0x14 */ f32 xScale;
+    /* 0x18 */ f32 yScale;
+} CfbInfo; // size = 0x1C
 
 #endif

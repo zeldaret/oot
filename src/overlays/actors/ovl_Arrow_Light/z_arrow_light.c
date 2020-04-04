@@ -204,7 +204,7 @@ void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx) {
         if (1) {}
         tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
         // clang-format off
-        gfxCtx = globalCtx->state.gfxCtx; func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_light.c", 598);
+        gfxCtx = globalCtx->state.gfxCtx; Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_light.c", 598);
         // clang-format on
         Matrix_Translate(tranform->posRot.pos.x, tranform->posRot.pos.y, tranform->posRot.pos.z, MTXMODE_NEW);
         Matrix_RotateY(tranform->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
@@ -241,6 +241,6 @@ void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx) {
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 4, 32, 1,
                                         511 - (stateFrames * 10) % 512, 511 - (stateFrames * 30) % 512, 8, 16));
         gSPDisplayList(gfxCtx->polyXlu.p++, vertexDL);
-        func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_light.c", 664);
+        Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_light.c", 664);
     }
 }

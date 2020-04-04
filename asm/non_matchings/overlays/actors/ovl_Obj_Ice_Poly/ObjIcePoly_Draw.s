@@ -10,7 +10,7 @@ glabel ObjIcePoly_Draw
 /* 0073C 80B9499C 24C64BB0 */  addiu   $a2, $a2, %lo(D_80B94BB0)  ## $a2 = 80B94BB0
 /* 00740 80B949A0 27A40054 */  addiu   $a0, $sp, 0x0054           ## $a0 = FFFFFFE4
 /* 00744 80B949A4 240701A5 */  addiu   $a3, $zero, 0x01A5         ## $a3 = 000001A5
-/* 00748 80B949A8 0C031AB1 */  jal     func_800C6AC4
+/* 00748 80B949A8 0C031AB1 */  jal     Graph_OpenDisp
 /* 0074C 80B949AC 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00750 80B949B0 0C024F61 */  jal     func_80093D84
 /* 00754 80B949B4 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -91,7 +91,7 @@ glabel ObjIcePoly_Draw
 /* 00880 80B94AE0 AE0D02D0 */  sw      $t5, 0x02D0($s0)           ## 000002D0
 /* 00884 80B94AE4 AC4F0004 */  sw      $t7, 0x0004($v0)           ## 00000004
 /* 00888 80B94AE8 AC4E0000 */  sw      $t6, 0x0000($v0)           ## 00000000
-/* 0088C 80B94AEC 0C031AD5 */  jal     func_800C6B54
+/* 0088C 80B94AEC 0C031AD5 */  jal     Graph_CloseDisp
 /* 00890 80B94AF0 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 00894 80B94AF4 8FBF003C */  lw      $ra, 0x003C($sp)
 /* 00898 80B94AF8 8FB00034 */  lw      $s0, 0x0034($sp)

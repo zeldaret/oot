@@ -172,13 +172,13 @@ static void BgSpot09Obj_Draw(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, dlists[thisx->params]);
     if (thisx->params == 3) {
         gfxCtx = globalCtx->state.gfxCtx;
-        func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 388);
+        Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 388);
         func_80093D84(globalCtx->state.gfxCtx);
 
         gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfxCtx->polyXlu.p++, &D_06008010);
 
-        func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 396);
+        Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 396);
     }
 }

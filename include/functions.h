@@ -1419,7 +1419,7 @@ s32 func_800BC56C(GlobalContext*, s16);
 // ? func_800BC5E0(?);
 void func_800BC88C(GlobalContext*);
 Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* a1);
-// ? func_800BC8EC(?);
+void func_800BC8EC(GlobalContext*);
 UNK_TYPE func_800BCA64(UNK_ARGS);
 // ? func_800BD314(?);
 // ? func_800BED40(?);
@@ -1529,22 +1529,23 @@ void* GameAlloc_Malloc(GameAlloc* this, u32 size);
 void GameAlloc_Free(GameAlloc* this, void* data);
 void GameAlloc_Cleanup(GameAlloc* this);
 void GameAlloc_Init(GameAlloc* this);
-// ? func_800C5850(?);
-// ? func_800C58BC(?);
-// ? func_800C5AB0(?);
-// ? func_800C5B14(?);
-// ? func_800C5C2C(?);
-// ? func_800C5D08(?);
-// ? func_800C5D94(?);
-// ? func_800C5DC0(?);
-// ? func_800C61D8(?);
+void Graph_FaultClient();
+void Graph_DisassembleUCode(void* arg0);
+void Graph_UCodeFaultClient(void* arg0);
+void* Graph_InitTHGA(GraphicsContext* gfxCtx);
+GameStateOverlay* Graph_GetNextGameState();
+void Graph_Ct(GraphicsContext* gfxCtx);
+void Graph_Dt(GraphicsContext* gfxCtx);
+void Graph_TaskSet00(GraphicsContext* gfxCtx);
+void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState);
 void Graph_ThreadEntry(void*);
 void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
-void func_800C6AC4(Gfx** a0, GraphicsContext* gfxCtx, char* file, s32 line);
-void func_800C6B54(Gfx** a0, GraphicsContext* gfxCtx, char* file, s32 line);
-Gfx* func_800C6C20(Gfx* a0);
-Gfx* func_800C6C28(Gfx* a0, Gfx* dlist); // branch dlist
-Gfx* func_800C6C3C(Gfx** a0, u32 size);
+void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
+void Graph_OpenDisp(Gfx** gfxArr, GraphicsContext* gfxCtx, const char* file, s32 line);
+void Graph_CloseDisp(Gfx** gfxArr, GraphicsContext* gfxCtx, const char* file, s32 line);
+Gfx* Graph_GfxPlusOne(Gfx* gfx);
+Gfx* Graph_BranchDlist(Gfx* gfx, Gfx* dst);
+void* Graph_DlistAlloc(Gfx** gfx, u32 size);
 ListAlloc* ListAlloc_Init(ListAlloc* this);
 void* ListAlloc_Alloc(ListAlloc* this, u32 size);
 void ListAlloc_Free(ListAlloc* this, void* data);
@@ -2455,6 +2456,12 @@ void func_80110F68(GlobalContext* globalCtx);
 void func_80112098(GlobalContext* globalCtx);
 
 void Title_Init(TitleContext*);
+void Title_Destroy(TitleContext* this);
+void func_80801E44(GameState*); // Select_Init
+void func_80801E0C(GameState*); // Select_Destroy
 void Opening_Init(OpeningContext* this);
+void Opening_Destroy(OpeningContext* this);
+void func_80811A20(GameState*); // FileChoose_Init
+void func_80811A18(GameState*); // FileChoose_Destroy
 
 #endif

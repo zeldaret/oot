@@ -468,7 +468,7 @@ static void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
     Gfx* gfxArr[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_dog.c", 972);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_dog.c", 972);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gDPPipeSync(gfxCtx->polyOpa.p++);
@@ -477,5 +477,5 @@ static void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
                      EnDog_Callback1, EnDog_Callback2, &this->actor);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
 }

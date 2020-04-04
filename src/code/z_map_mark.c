@@ -101,7 +101,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
     mapMarkData = &sLoadedMarkDataTable[dungeonId][interfaceCtx->roomNum][0];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_map_mark.c", 303);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_map_mark.c", 303);
 
     while (1) {
         if (mapMarkData->markType == -1) {
@@ -134,7 +134,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
         mapMarkData++;
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_map_mark.c", 339);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_map_mark.c", 339);
 }
 
 void MapMark_DrawConditionally(GlobalContext* globalCtx) {

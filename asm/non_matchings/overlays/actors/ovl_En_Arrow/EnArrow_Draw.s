@@ -101,7 +101,7 @@ glabel EnArrow_Draw
 /* 011BC 809B4ADC 44C9F800 */  ctc1    $t1, $31
 /* 011C0 809B4AE0 8D650000 */  lw      $a1, 0x0000($t3)           ## 00000000
 /* 011C4 809B4AE4 24070542 */  addiu   $a3, $zero, 0x0542         ## $a3 = 00000542
-/* 011C8 809B4AE8 0C031AB1 */  jal     func_800C6AC4
+/* 011C8 809B4AE8 0C031AB1 */  jal     Graph_OpenDisp
 /* 011CC 809B4AEC AFA50064 */  sw      $a1, 0x0064($sp)
 /* 011D0 809B4AF0 8FAC007C */  lw      $t4, 0x007C($sp)
 /* 011D4 809B4AF4 0C024F05 */  jal     func_80093C14
@@ -242,7 +242,7 @@ glabel EnArrow_Draw
 /* 013DC 809B4CFC 24C64F10 */  addiu   $a2, $a2, %lo(D_809B4F10)  ## $a2 = 809B4F10
 /* 013E0 809B4D00 27A40054 */  addiu   $a0, $sp, 0x0054           ## $a0 = FFFFFFDC
 /* 013E4 809B4D04 24070565 */  addiu   $a3, $zero, 0x0565         ## $a3 = 00000565
-/* 013E8 809B4D08 0C031AD5 */  jal     func_800C6B54
+/* 013E8 809B4D08 0C031AD5 */  jal     Graph_CloseDisp
 /* 013EC 809B4D0C 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 013F0 809B4D10 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L809B4D14:

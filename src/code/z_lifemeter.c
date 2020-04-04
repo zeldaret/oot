@@ -208,7 +208,7 @@ void Interface_DrawHealth(GlobalContext* globalCtx) {
     s32 ddHeartCountMinusOne = gSaveContext.defense_hearts - 1;
     Gfx* gfxArr[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_lifemeter.c", 353);
+    Graph_OpenDisp(gfxArr, gfxCtx, "../z_lifemeter.c", 353);
 
     if (!(gSaveContext.health % 0x10)) {
         fullHeartCount--;
@@ -379,7 +379,7 @@ void Interface_DrawHealth(GlobalContext* globalCtx) {
         }
     }
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_lifemeter.c", 606);
+    Graph_CloseDisp(gfxArr, gfxCtx, "../z_lifemeter.c", 606);
 }
 
 u32 Health_IsCritical(void);

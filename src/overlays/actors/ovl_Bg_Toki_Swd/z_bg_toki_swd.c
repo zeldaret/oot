@@ -282,7 +282,7 @@ static void BgTokiSwd_Draw(BgTokiSwd* this, GlobalContext* globalCtx) {
     state = &globalCtx->state;
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfxArr, state->gfxCtx, "../z_bg_toki_swd.c", 727);
+    Graph_OpenDisp(gfxArr, state->gfxCtx, "../z_bg_toki_swd.c", 727);
     func_80093D18(globalCtx->state.gfxCtx);
 
     func_8002EBCC(&this->actor, globalCtx, 0);
@@ -293,5 +293,5 @@ static void BgTokiSwd_Draw(BgTokiSwd* this, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_06001BD0);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 776);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 776);
 }

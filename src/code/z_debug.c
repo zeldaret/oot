@@ -223,10 +223,10 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     void* unk[2];
     Gfx* dlFrame[4]; // stores state of GfxCtx next ptrs
 
-    func_800C6AC4(&dlFrame, gfxCtx, "../z_debug.c", 628);
+    Graph_OpenDisp(&dlFrame, gfxCtx, "../z_debug.c", 628);
     GfxPrint_Ctor(&gfxPrint);
     sp78 = gfxCtx->polyOpa.p;
-    tempRet = func_800C6C20(gfxCtx->polyOpa.p);
+    tempRet = Graph_GfxPlusOne(gfxCtx->polyOpa.p);
     gSPDisplayList(gfxCtx->overlay.p++, tempRet);
     GfxPrint_Open(&gfxPrint, tempRet);
 
@@ -241,9 +241,9 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     D_8011E0B0 = 0;
     sp7C = GfxPrint_Close(&gfxPrint);
     gSPEndDisplayList(sp7C++);
-    func_800C6C28(sp78, sp7C);
+    Graph_BranchDlist(sp78, sp7C);
     gfxCtx->polyOpa.p = sp7C;
     if (0) {}
-    func_800C6B54(&dlFrame, gfxCtx, "../z_debug.c", 664);
+    Graph_CloseDisp(&dlFrame, gfxCtx, "../z_debug.c", 664);
     GfxPrint_Dtor(&gfxPrint);
 }

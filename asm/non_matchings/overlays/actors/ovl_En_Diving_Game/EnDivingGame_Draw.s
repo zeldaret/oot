@@ -11,7 +11,7 @@ glabel EnDivingGame_Draw
 /* 016F8 809EEF68 24C6F17C */  addiu   $a2, $a2, %lo(D_809EF17C)  ## $a2 = 809EF17C
 /* 016FC 809EEF6C 27A4004C */  addiu   $a0, $sp, 0x004C           ## $a0 = FFFFFFE4
 /* 01700 809EEF70 240704BC */  addiu   $a3, $zero, 0x04BC         ## $a3 = 000004BC
-/* 01704 809EEF74 0C031AB1 */  jal     func_800C6AC4
+/* 01704 809EEF74 0C031AB1 */  jal     Graph_OpenDisp
 /* 01708 809EEF78 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 0170C 809EEF7C 0C024F46 */  jal     func_80093D18
 /* 01710 809EEF80 8E440000 */  lw      $a0, 0x0000($s2)           ## 00000000
@@ -71,7 +71,7 @@ glabel EnDivingGame_Draw
 /* 017E8 809EF058 24C6F194 */  addiu   $a2, $a2, %lo(D_809EF194)  ## $a2 = 809EF194
 /* 017EC 809EF05C 27A4004C */  addiu   $a0, $sp, 0x004C           ## $a0 = FFFFFFE4
 /* 017F0 809EF060 8E450000 */  lw      $a1, 0x0000($s2)           ## 00000000
-/* 017F4 809EF064 0C031AD5 */  jal     func_800C6B54
+/* 017F4 809EF064 0C031AD5 */  jal     Graph_CloseDisp
 /* 017F8 809EF068 240704D0 */  addiu   $a3, $zero, 0x04D0         ## $a3 = 000004D0
 /* 017FC 809EF06C 8FBF0034 */  lw      $ra, 0x0034($sp)
 /* 01800 809EF070 8FB00028 */  lw      $s0, 0x0028($sp)

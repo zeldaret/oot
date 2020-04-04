@@ -41,7 +41,7 @@ void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
     Gfx* gfxArr[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 193);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 193);
 
     if (flags & 1) {
         func_800342EC(&D_801270A0, globalCtx);
@@ -71,7 +71,7 @@ void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
         polygonDlist++;
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 239);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 239);
 }
 
 #define SHAPE_SORT_MAX 64
@@ -110,7 +110,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     spB0 = NULL;
     spB4 = NULL;
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(sp5C, globalCtx->state.gfxCtx, "../z_room.c", 287);
+    Graph_OpenDisp(sp5C, globalCtx->state.gfxCtx, "../z_room.c", 287);
 
     if (flags & 1) {
         func_800342EC(&D_801270A0, globalCtx);
@@ -222,7 +222,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     iREG(88) = sp9C - 1;
 
-    func_800C6B54(sp5C, globalCtx->state.gfxCtx, "../z_room.c", 430);
+    Graph_CloseDisp(sp5C, globalCtx->state.gfxCtx, "../z_room.c", 430);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_80095D04.s")
@@ -353,7 +353,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     Gfx* gfxArr[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 628);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 628);
 
     camera = globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0];
     polygon1 = &room->mesh->polygon1;
@@ -399,7 +399,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
         gSPDisplayList(gfxCtx->polyXlu.p++, polygonDlist->xlu);
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 691);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 691);
 }
 
 typedef struct {
@@ -459,7 +459,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     Gfx* gfxArr[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 752);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 752);
 
     camera = globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0];
     sp98 = (camera->unk_142 ^ 25) == 0;
@@ -505,7 +505,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
         gSPDisplayList(gfxCtx->polyXlu.p++, polygonDlist->xlu);
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 819);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 819);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_80096B6C.s")

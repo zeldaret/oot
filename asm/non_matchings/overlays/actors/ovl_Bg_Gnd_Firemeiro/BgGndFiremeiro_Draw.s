@@ -9,7 +9,7 @@ glabel BgGndFiremeiro_Draw
 /* 00448 80879908 24C699E0 */  addiu   $a2, $a2, %lo(D_808799E0)  ## $a2 = 808799E0
 /* 0044C 8087990C 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFEC
 /* 00450 80879910 24070118 */  addiu   $a3, $zero, 0x0118         ## $a3 = 00000118
-/* 00454 80879914 0C031AB1 */  jal     func_800C6AC4              
+/* 00454 80879914 0C031AB1 */  jal     Graph_OpenDisp              
 /* 00458 80879918 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 0045C 8087991C 8FAF0044 */  lw      $t7, 0x0044($sp)           
 /* 00460 80879920 0C0250F2 */  jal     func_800943C8              
@@ -42,7 +42,7 @@ glabel BgGndFiremeiro_Draw
 /* 004CC 8087998C 24C69A10 */  addiu   $a2, $a2, %lo(D_80879A10)  ## $a2 = 80879A10
 /* 004D0 80879990 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFEC
 /* 004D4 80879994 2407011D */  addiu   $a3, $zero, 0x011D         ## $a3 = 0000011D
-/* 004D8 80879998 0C031AD5 */  jal     func_800C6B54              
+/* 004D8 80879998 0C031AD5 */  jal     Graph_CloseDisp              
 /* 004DC 8087999C 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 004E0 808799A0 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 004E4 808799A4 8FB00018 */  lw      $s0, 0x0018($sp)           

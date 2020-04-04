@@ -168,10 +168,10 @@ static void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx) {
     Gfx** dList = &D_05001390; // required for stack placement?
     Gfx* gfxArr[3];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_door_ana.c", 440);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_door_ana.c", 440);
     func_80093D84(globalCtx->state.gfxCtx);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_ana.c", 446),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyXlu.p++, dList);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_door_ana.c", 449);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_door_ana.c", 449);
 }

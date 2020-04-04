@@ -11,7 +11,7 @@ glabel BossDodongo_Draw
 /* 03B04 808C4C94 24C6A5DC */  addiu   $a2, $a2, %lo(D_808CA5DC)  ## $a2 = 808CA5DC
 /* 03B08 808C4C98 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
 /* 03B0C 808C4C9C 24070F52 */  addiu   $a3, $zero, 0x0F52         ## $a3 = 00000F52
-/* 03B10 808C4CA0 0C031AB1 */  jal     func_800C6AC4              
+/* 03B10 808C4CA0 0C031AB1 */  jal     Graph_OpenDisp              
 /* 03B14 808C4CA4 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 03B18 808C4CA8 0C024F46 */  jal     func_80093D18              
 /* 03B1C 808C4CAC 8E440000 */  lw      $a0, 0x0000($s2)           ## 00000000
@@ -192,7 +192,7 @@ glabel BossDodongo_Draw
 /* 03DA8 808C4F38 24C6A5F0 */  addiu   $a2, $a2, %lo(D_808CA5F0)  ## $a2 = 808CA5F0
 /* 03DAC 808C4F3C 8E450000 */  lw      $a1, 0x0000($s2)           ## 00000000
 /* 03DB0 808C4F40 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
-/* 03DB4 808C4F44 0C031AD5 */  jal     func_800C6B54              
+/* 03DB4 808C4F44 0C031AD5 */  jal     Graph_CloseDisp              
 /* 03DB8 808C4F48 24070F8D */  addiu   $a3, $zero, 0x0F8D         ## $a3 = 00000F8D
 /* 03DBC 808C4F4C 0C231B7A */  jal     func_808C6DE8              
 /* 03DC0 808C4F50 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000

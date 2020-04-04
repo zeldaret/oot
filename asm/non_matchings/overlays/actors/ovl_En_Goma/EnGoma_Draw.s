@@ -10,7 +10,7 @@ glabel EnGoma_Draw
 /* 02038 80A4AEF8 24C6B8A0 */  addiu   $a2, $a2, %lo(D_80A4B8A0)  ## $a2 = 80A4B8A0
 /* 0203C 80A4AEFC 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE0
 /* 02040 80A4AF00 240707F8 */  addiu   $a3, $zero, 0x07F8         ## $a3 = 000007F8
-/* 02044 80A4AF04 0C031AB1 */  jal     func_800C6AC4              
+/* 02044 80A4AF04 0C031AB1 */  jal     Graph_OpenDisp              
 /* 02048 80A4AF08 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 0204C 80A4AF0C 8FAF007C */  lw      $t7, 0x007C($sp)           
 /* 02050 80A4AF10 0C024F46 */  jal     func_80093D18              
@@ -309,7 +309,7 @@ glabel EnGoma_Draw
 /* 024C4 80A4B384 24C6B8E0 */  addiu   $a2, $a2, %lo(D_80A4B8E0)  ## $a2 = 80A4B8E0
 /* 024C8 80A4B388 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE0
 /* 024CC 80A4B38C 24070847 */  addiu   $a3, $zero, 0x0847         ## $a3 = 00000847
-/* 024D0 80A4B390 0C031AD5 */  jal     func_800C6B54              
+/* 024D0 80A4B390 0C031AD5 */  jal     Graph_CloseDisp              
 /* 024D4 80A4B394 8D650000 */  lw      $a1, 0x0000($t3)           ## 00000000
 /* 024D8 80A4B398 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 024DC 80A4B39C 8FB0001C */  lw      $s0, 0x001C($sp)           

@@ -9,7 +9,7 @@ glabel BgPoEvent_Draw
 /* 01828 808A7A38 24C67DB0 */  addiu   $a2, $a2, %lo(D_808A7DB0)  ## $a2 = 808A7DB0
 /* 0182C 808A7A3C 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFC0
 /* 01830 808A7A40 240705C9 */  addiu   $a3, $zero, 0x05C9         ## $a3 = 000005C9
-/* 01834 808A7A44 0C031AB1 */  jal     func_800C6AC4              
+/* 01834 808A7A44 0C031AB1 */  jal     Graph_OpenDisp              
 /* 01838 808A7A48 AFA50040 */  sw      $a1, 0x0040($sp)           
 /* 0183C 808A7A4C 8FAF0074 */  lw      $t7, 0x0074($sp)           
 /* 01840 808A7A50 0C024F46 */  jal     func_80093D18              
@@ -80,7 +80,7 @@ glabel BgPoEvent_Draw
 /* 01934 808A7B44 240705E4 */  addiu   $a3, $zero, 0x05E4         ## $a3 = 000005E4
 /* 01938 808A7B48 AC4B0004 */  sw      $t3, 0x0004($v0)           ## 00000004
 /* 0193C 808A7B4C 8FAC0074 */  lw      $t4, 0x0074($sp)           
-/* 01940 808A7B50 0C031AD5 */  jal     func_800C6B54              
+/* 01940 808A7B50 0C031AD5 */  jal     Graph_CloseDisp              
 /* 01944 808A7B54 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 01948 808A7B58 92020168 */  lbu     $v0, 0x0168($s0)           ## 00000168
 /* 0194C 808A7B5C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001

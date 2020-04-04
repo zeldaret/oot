@@ -10,7 +10,7 @@ glabel BgHidanCurtain_Draw
 /* 0086C 80885A0C 24C65CCC */  addiu   $a2, $a2, %lo(D_80885CCC)  ## $a2 = 80885CCC
 /* 00870 80885A10 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE8
 /* 00874 80885A14 240702AD */  addiu   $a3, $zero, 0x02AD         ## $a3 = 000002AD
-/* 00878 80885A18 0C031AB1 */  jal     func_800C6AC4              
+/* 00878 80885A18 0C031AB1 */  jal     Graph_OpenDisp              
 /* 0087C 80885A1C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00880 80885A20 0C024F61 */  jal     func_80093D84              
 /* 00884 80885A24 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -89,7 +89,7 @@ glabel BgHidanCurtain_Draw
 /* 009A8 80885B48 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 009AC 80885B4C 24C65CFC */  addiu   $a2, $a2, %lo(D_80885CFC)  ## $a2 = 80885CFC
 /* 009B0 80885B50 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE8
-/* 009B4 80885B54 0C031AD5 */  jal     func_800C6B54              
+/* 009B4 80885B54 0C031AD5 */  jal     Graph_CloseDisp              
 /* 009B8 80885B58 240702BE */  addiu   $a3, $zero, 0x02BE         ## $a3 = 000002BE
 /* 009BC 80885B5C 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 009C0 80885B60 8FB00034 */  lw      $s0, 0x0034($sp)           

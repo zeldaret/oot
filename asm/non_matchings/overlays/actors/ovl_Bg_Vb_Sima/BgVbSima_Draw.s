@@ -9,7 +9,7 @@ glabel BgVbSima_Draw
 /* 005E0 808BE340 24C6E420 */  addiu   $a2, $a2, %lo(D_808BE420)  ## $a2 = 808BE420
 /* 005E4 808BE344 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFEC
 /* 005E8 808BE348 2407011D */  addiu   $a3, $zero, 0x011D         ## $a3 = 0000011D
-/* 005EC 808BE34C 0C031AB1 */  jal     func_800C6AC4              
+/* 005EC 808BE34C 0C031AB1 */  jal     Graph_OpenDisp              
 /* 005F0 808BE350 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 005F4 808BE354 8FAF0044 */  lw      $t7, 0x0044($sp)           
 /* 005F8 808BE358 0C024F46 */  jal     func_80093D18              
@@ -42,7 +42,7 @@ glabel BgVbSima_Draw
 /* 00664 808BE3C4 24C6E448 */  addiu   $a2, $a2, %lo(D_808BE448)  ## $a2 = 808BE448
 /* 00668 808BE3C8 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFEC
 /* 0066C 808BE3CC 24070128 */  addiu   $a3, $zero, 0x0128         ## $a3 = 00000128
-/* 00670 808BE3D0 0C031AD5 */  jal     func_800C6B54              
+/* 00670 808BE3D0 0C031AD5 */  jal     Graph_CloseDisp              
 /* 00674 808BE3D4 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 00678 808BE3D8 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 0067C 808BE3DC 8FB00018 */  lw      $s0, 0x0018($sp)           

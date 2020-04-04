@@ -65,11 +65,11 @@ static void EnSceneChange_Draw(EnSceneChange* this, GlobalContext* globalCtx) {
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 290);
+    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 290);
 
     displayListHead = displayList;
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, displayListHead);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 386);
+    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 386);
 }

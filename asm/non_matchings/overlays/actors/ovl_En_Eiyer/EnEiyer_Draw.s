@@ -11,7 +11,7 @@ glabel EnEiyer_Draw
 /* 01860 80A01800 24C619D0 */  addiu   $a2, $a2, %lo(D_80A019D0)  ## $a2 = 80A019D0
 /* 01864 80A01804 27A40050 */  addiu   $a0, $sp, 0x0050           ## $a0 = FFFFFFE8
 /* 01868 80A01808 240705D6 */  addiu   $a3, $zero, 0x05D6         ## $a3 = 000005D6
-/* 0186C 80A0180C 0C031AB1 */  jal     func_800C6AC4
+/* 0186C 80A0180C 0C031AB1 */  jal     Graph_OpenDisp
 /* 01870 80A01810 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 01874 80A01814 8E2F0190 */  lw      $t7, 0x0190($s1)           ## 00000190
 /* 01878 80A01818 3C0E80A0 */  lui     $t6, %hi(func_80A012F4)    ## $t6 = 80A00000
@@ -85,7 +85,7 @@ glabel EnEiyer_Draw
 /* 01980 80A01920 24C619E0 */  addiu   $a2, $a2, %lo(D_80A019E0)  ## $a2 = 80A019E0
 /* 01984 80A01924 27A40050 */  addiu   $a0, $sp, 0x0050           ## $a0 = FFFFFFE8
 /* 01988 80A01928 8E450000 */  lw      $a1, 0x0000($s2)           ## 00000000
-/* 0198C 80A0192C 0C031AD5 */  jal     func_800C6B54
+/* 0198C 80A0192C 0C031AD5 */  jal     Graph_CloseDisp
 /* 01990 80A01930 24070605 */  addiu   $a3, $zero, 0x0605         ## $a3 = 00000605
 /* 01994 80A01934 8FBF0034 */  lw      $ra, 0x0034($sp)
 /* 01998 80A01938 8FB00028 */  lw      $s0, 0x0028($sp)
