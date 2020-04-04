@@ -39,13 +39,11 @@ void Locale_ResetRegion() {
 }
 
 u32 func_80001F48() {
-    PadMgr* padMgr = (PadMgr*)(u32)&gPadMgr; // cast required to match
-
     if (gCurrentRegion == REGION_NATIVE) {
         return 0;
     }
 
-    if (padMgr->valid_ctrlrs_mask & 4) {
+    if (gPadMgr.valid_ctrlrs_mask & 4) {
         return 0;
     }
 
@@ -53,13 +51,11 @@ u32 func_80001F48() {
 }
 
 u32 func_80001F8C() {
-    PadMgr* padMgr = (PadMgr*)(u32)&gPadMgr; // cast required to match
-
     if (gCurrentRegion == REGION_NATIVE) {
         return 0;
     }
 
-    if (padMgr->valid_ctrlrs_mask & 4) {
+    if (gPadMgr.valid_ctrlrs_mask & 4) {
         return 1;
     }
 

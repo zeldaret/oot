@@ -67,7 +67,7 @@ void padmgr_UnlockContData(PadMgr* padmgr) {
 #ifdef NON_MATCHING
 // regalloc and minor ordering differences
 void padmgr_RumbleControl(PadMgr* padmgr) {
-    static u32 D_8012D284 = 0;
+    static u32 errcnt = 0;
     static u32 D_8016A4F0;
     s32 temp;
     s32 tried_rumble_comm;
@@ -77,7 +77,7 @@ void padmgr_RumbleControl(PadMgr* padmgr) {
     s32 i;
 
     temp = 1;
-    ctrlrqueue = PadMgr_LockGetControllerQueue(padmgr);
+    ctrlrqueue = padmgr_LockSerialMesgQ(padmgr);
     tried_rumble_comm = 0;
 
     for (i = 0; i < 4; i++) {
@@ -156,7 +156,7 @@ void padmgr_RumbleControl(PadMgr* padmgr) {
                 padmgr->pak_type[ctrlr] = 2;
             } else if (var4 == 4) {
                 LogUtils_LogThreadId("../padmgr.c", 282);
-                osSyncPrintf("++errcnt = %d\n", ++D_8012D284);
+                osSyncPrintf("++errcnt = %d\n", ++errcnt);
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 osSyncPrintf("padmgr: %dコン: %s\n", ctrlr + 1, "コントローラパックの通信エラー");
                 osSyncPrintf(VT_RST);
@@ -165,10 +165,10 @@ void padmgr_RumbleControl(PadMgr* padmgr) {
     }
 
     D_8016A4F0++;
-    PadMgr_UnlockReleaseControllerQueue(padmgr, ctrlrqueue);
+    padmgr_UnlockSerialMesgQ(padmgr, ctrlrqueue);
 }
 #else
-u32 D_8012D284 = 0;
+u32 D_8012D284 = 0; //errcnt
 u32 D_8016A4F0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/padmgr/padmgr_RumbleControl.s")
 #endif
