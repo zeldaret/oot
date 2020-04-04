@@ -269,7 +269,7 @@ u32 Fault_WaitForInputImpl() {
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
 
-            kDown = curInput->padPressed;
+            kDown = curInput->pressed_diff.input.button;
 
             if (kDown == 0x20) {
                 sFaultStructPtr->faultActive = !sFaultStructPtr->faultActive;
@@ -582,7 +582,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
             count--;
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-            if (!~(curInput->padPressed | ~0x20)) {
+            if (!~(curInput->pressed_diff.input.button | ~0x20)) {
                 sFaultStructPtr->faultActive = false;
             }
         }
@@ -590,42 +590,42 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
         do {
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-        } while (curInput->padPressed == 0);
+        } while (curInput->pressed_diff.input.button == 0);
 
-        if (!~(curInput->padPressed | ~0x1000)) {
+        if (!~(curInput->pressed_diff.input.button | ~0x1000)) {
             return;
         }
 
-        if (!~(curInput->raw.pad | ~0x8000)) {
+        if (!~(curInput->current.input.button | ~0x8000)) {
             return;
         }
 
         off = 0x10;
-        if (!~(curInput->raw.pad | ~0x2000)) {
+        if (!~(curInput->current.input.button | ~0x2000)) {
             off = 0x100;
         }
-        if (!~(curInput->raw.pad | ~0x4000)) {
+        if (!~(curInput->current.input.button | ~0x4000)) {
             off <<= 8;
         }
-        if (!~(curInput->raw.pad | ~0x800)) {
+        if (!~(curInput->current.input.button | ~0x800)) {
             addr -= off;
         }
-        if (!~(curInput->raw.pad | ~0x400)) {
+        if (!~(curInput->current.input.button | ~0x400)) {
             addr += off;
         }
-        if (!~(curInput->raw.pad | ~0x8)) {
+        if (!~(curInput->current.input.button | ~0x8)) {
             addr = pc;
         }
-        if (!~(curInput->raw.pad | ~0x4)) {
+        if (!~(curInput->current.input.button | ~0x4)) {
             addr = sp;
         }
-        if (!~(curInput->raw.pad | ~0x2)) {
+        if (!~(curInput->current.input.button | ~0x2)) {
             addr = unk0;
         }
-        if (!~(curInput->raw.pad | ~0x1)) {
+        if (!~(curInput->current.input.button | ~0x1)) {
             addr = unk1;
         }
-        if (!~(curInput->raw.pad | ~0x20)) {
+        if (!~(curInput->current.input.button | ~0x20)) {
             break;
         }
     }

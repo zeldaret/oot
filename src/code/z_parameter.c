@@ -3992,13 +3992,13 @@ void Interface_Update(GlobalContext* globalCtx) {
     u16 action;
     Input* input = &globalCtx->state.input[2];
 
-    if (!~(input->padPressed | -0x201)) {
+    if (!~(input->pressed_diff.input.button | -0x201)) {
         gSaveContext.language = 0;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (!~(input->padPressed | -0x801)) {
+    } else if (!~(input->pressed_diff.input.button | -0x801)) {
         gSaveContext.language = 1;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (!~(input->padPressed | -0x101)) {
+    } else if (!~(input->pressed_diff.input.button | -0x101)) {
         gSaveContext.language = 2;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
     }
