@@ -1577,7 +1577,7 @@ void func_800CC8B4(Vec3f* a, Vec3f* b, Vec3f* c, float* nx, float* ny, float* nz
 // ? func_800CE084(?);
 // ? func_800CE15C(?);
 // ? func_800CE25C(?);
-// ? func_800CE3C0(?);
+void func_800CE3C0(UNK_TYPE* dest, Vec3f* vA, Vec3f* vB, Vec3f* vC);
 // ? func_800CE46C(?);
 // ? func_800CE4B8(?);
 // ? func_800CE600(?);

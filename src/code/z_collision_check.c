@@ -1448,7 +1448,6 @@ void func_8005EC6C(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     }
 }
 
-
 //Check ColliderCylinder to ColliderJntSph
 void func_8005EEE0(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
     ColliderCylinder* left = (ColliderCylinder*)l;
@@ -1580,7 +1579,48 @@ void func_8005F39C(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     }
 }
 
+extern UNK_TYPE D_8015E230;
+extern UNK_TYPE D_8015E268;
+#ifdef NON_MATCHING
+//Check ColliderJntSph to ColliderQuad
+//Regalloc issue with addition section
+void func_8005F5B0(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    ColliderJntSph* left = (ColliderJntSph*)l;
+    ColliderQuad* right = (ColliderQuad*)r;
+    Vec3f sp7C;
+    ColliderJntSphItem* lItem;
+    Vec3f sp6C;
+    Vec3f sp60;
+
+    if (left->count > 0 && left->list != NULL) {
+        if (func_8005DF50(&right->body) == 1) {
+            return;
+        }
+        func_800CE3C0(&D_8015E230, &right->dim.quad[2], &right->dim.quad[3], &right->dim.quad[1]);
+        func_800CE3C0(&D_8015E268, &right->dim.quad[1], &right->dim.quad[0], &right->dim.quad[2]);
+        for (lItem = left->list; lItem < left->list + left->count; lItem++) {
+            if (func_8005DF2C(&lItem->body) == 1) {
+                continue;
+            }
+            if (func_8005DF74(&lItem->body, &right->body) == 1) {
+                continue;
+            }
+            if (func_800CE934(&lItem->dim.posr, &D_8015E230, &sp7C) == 1 || func_800CE934(&lItem->dim.posr, &D_8015E268, &sp7C) == 1) {
+                Math_Vec3s_ToVec3f(&sp6C, &lItem->dim.posr.pos);
+
+                sp60.x = (right->dim.quad[2].x + right->dim.quad[3].x + right->dim.quad[1].x + right->dim.quad[0].x) * (1.0f / 4);//* 0.25f;
+                sp60.y = (right->dim.quad[2].y + right->dim.quad[3].y + right->dim.quad[1].y + right->dim.quad[0].y) * (1.0f / 4);//* 0.25f;
+                sp60.z = (right->dim.quad[2].z + right->dim.quad[3].z + right->dim.quad[1].z + right->dim.quad[0].z) * (1.0f / 4);//* 0.25f;
+                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp6C, &right->base, &right->body, &sp60, &sp7C);
+                return;
+            }
+        }
+    }
+}
+#else
+void func_8005F5B0(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005F5B0.s") 
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005F7D0.s") 
 
