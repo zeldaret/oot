@@ -143,8 +143,7 @@ void func_800C740C(PadMgr* padmgr) {
             } else if (var4 == 11) {
                 padmgr->unk_2AE[var3] = 2;
             } else if (var4 == 4) {
-                LogUtils_LogThreadId("../padmgr.c", 282);
-                osSyncPrintf("++errcnt = %d\n", ++D_8012D284);
+                LOG_VALUE("++errcnt", ++D_8012D284, "../padmgr.c", 282);
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 osSyncPrintf("padmgr: %dコン: %s\n", var3 + 1, "コントローラパックの通信エラー");
                 osSyncPrintf(VT_RST);

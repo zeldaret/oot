@@ -520,14 +520,10 @@ void SkelAnime_AnimateFrame(AnimationHeader* animationSeg, s32 currentFrame, s32
     for (i = 0; i < limbCount; i++, dst++, index++) {
         if ((dst == NULL) || (index == NULL) || (frameRotationValueTable == NULL) || (rotationValueTable == NULL)) {
             if (1) {} // Necessary to match.
-            LogUtils_LogThreadId("../z_skelanime.c", 1392);
-            osSyncPrintf("out = %08x\n", dst);
-            LogUtils_LogThreadId("../z_skelanime.c", 1393);
-            osSyncPrintf("ref_tbl = %08x\n", index);
-            LogUtils_LogThreadId("../z_skelanime.c", 1394);
-            osSyncPrintf("frame_tbl = %08x\n", frameRotationValueTable);
-            LogUtils_LogThreadId("../z_skelanime.c", 1395);
-            osSyncPrintf("tbl = %08x\n", rotationValueTable);
+            LOG_ADDRESS("out", dst, "../z_skelanime.c", 1392);
+            LOG_ADDRESS("ref_tbl", index, "../z_skelanime.c", 1393);
+            LOG_ADDRESS("frame_tbl", frameRotationValueTable, "../z_skelanime.c", 1394);
+            LOG_ADDRESS("tbl", rotationValueTable, "../z_skelanime.c", 1395);
         }
 
         dst->x = index->x >= limit ? frameRotationValueTable[index->x] : rotationValueTable[index->x];

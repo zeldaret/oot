@@ -39,4 +39,13 @@
             (curState)->init = newInit;                  \
             (curState)->size = sizeof(newStruct);
 
+#define LOG(exp, value, format, file, line) \
+     LogUtils_LogThreadId(file, line); \
+     osSyncPrintf(exp " = " format "\n", value);
+
+#define LOG_ADDRESS(exp, value, file, line) LOG(exp, value, "%08x", file, line)
+#define LOG_STRING(exp, value, file, line) LOG(exp, value, "%s", file, line)
+#define LOG_TIME(exp, value, file, line) LOG(exp, value, "%lld", file, line)
+#define LOG_VALUE(exp, value, file, line) LOG(exp, value, "%d", file, line)
+
 #endif

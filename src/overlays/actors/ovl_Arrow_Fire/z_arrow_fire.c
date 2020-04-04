@@ -55,9 +55,8 @@ void ArrowFire_Init(ArrowFire* this, GlobalContext* globalCtx) {
 
 void ArrowFire_Destroy(ArrowFire* this, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
-    LogUtils_LogThreadId("../z_arrow_fire.c", 421);
     // Translates to: ""Disappearance" = Disappearance"
-    osSyncPrintf("\"消滅\" = %s\n", "消滅");
+    LOG_STRING("\"消滅\"", "消滅", "../z_arrow_fire.c", 421);
 }
 
 void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx) {

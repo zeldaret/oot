@@ -47,8 +47,8 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
             }
     }
 
-    LogUtils_LogThreadId("../z_elf_message.c", 156);
-    osSyncPrintf("\"企画外 条件\" = %s\n", "企画外 条件"); // "Unplanned conditions"
+    // "Unplanned conditions"
+    LOG_STRING("\"企画外 条件\"", "企画外 条件", "../z_elf_message.c", 156);
     __assert("0", "../z_elf_message.c", 157);
 
     return false;
@@ -138,8 +138,8 @@ u16 ElfMessage_GetTextFromMsgs(ElfMessage* msg) {
             case 0xE0:
                 return msg->byte2 | 0x100;
             default:
-                LogUtils_LogThreadId("../z_elf_message.c", 281);
-                osSyncPrintf("\"企画外 条件\" = %s\n", "企画外 条件"); // "Unplanned conditions"
+                // "Unplanned conditions"
+                LOG_STRING("\"企画外 条件\"", "企画外 条件", "../z_elf_message.c", 281);
                 __assert("0", "../z_elf_message.c", 282);
         }
         msg++;

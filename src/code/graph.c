@@ -124,8 +124,7 @@ GameStateOverlay* Graph_GetNextGameState() {
         return &gGameStateOverlayTable[5];
     }
 
-    LogUtils_LogThreadId("../graph.c", 696);
-    osSyncPrintf("game_init_func = %08x\n", game_init_func);
+    LOG_ADDRESS("game_init_func", game_init_func, "../graph.c", 696);
     return NULL;
 }
 
