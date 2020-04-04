@@ -57,11 +57,11 @@ static ColliderCylinderInit colCylinderInit = {
     0x00, 0x01,       0x01, 0x00, 0x001E, 0x0028, 0x0000,     0x0000, 0x0000, 0x0000,
 };
 
-static Sub98Init4 sub98Init = { 
-    0x04, 
-    0x001E, 
-    0x0028, 
-    0x96, 
+static Sub98Init4 sub98Init = {
+    0x04,
+    0x001E,
+    0x0028,
+    0x96,
 };
 
 static ActorDamageChart damageChart = { {

@@ -7,11 +7,11 @@
 
 .section .data
 
+# temporary name, rename to something more appropriate when decompiled
+
 glabel gLetterTLUT
     .incbin "baserom.z64", 0xBA18E0, 0x80
 
 glabel gFontFF
     .incbin "baserom.z64", 0xBA1960, 0x430
 
-glabel D_8012ABF0
-    .incbin "baserom.z64", 0xBA1D90, 0x10
