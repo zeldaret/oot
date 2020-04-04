@@ -1502,7 +1502,52 @@ void func_8005EEE0(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005F17C.s")
+//Check ColliderJntSph to ColliderTris
+void func_8005F17C(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    ColliderJntSph* left = (ColliderJntSph*)l;
+    ColliderTris* right = (ColliderTris*)r;
+    ColliderJntSphItem* lItem;
+    ColliderTrisItem* rItem;
+    Vec3f sp6C;
+    Vec3f sp60;
+    Vec3f sp54;
+
+    if (left->count > 0 && left->list != NULL) {
+        if (right->count > 0 && right->list != NULL) {
+            for (lItem = left->list; lItem < left->list + left->count; lItem++) {
+                if (func_8005DF2C(&lItem->body) == 1) {
+                    continue;
+                }
+                for (rItem = right->list; rItem < right->list + right->count; rItem++) {
+                    if (func_8005DF50(&rItem->body) == 1) {
+                        continue;
+                    }
+                    if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
+                        continue;
+                    }
+                    if (func_800CE934(&lItem->dim.posr, &rItem->dim, &sp6C) == 1) {
+                        sp60.x = lItem->dim.posr.pos.x;
+                        sp60.y = lItem->dim.posr.pos.y;
+                        sp60.z = lItem->dim.posr.pos.z;
+                        sp54.x = (rItem->dim.poly[0].x + rItem->dim.poly[1].x + rItem->dim.poly[2].x) * (1.0f / 3); 
+                        sp54.y = (rItem->dim.poly[0].y + rItem->dim.poly[1].y + rItem->dim.poly[2].y) * (1.0f / 3); 
+                        sp54.z = (rItem->dim.poly[0].z + rItem->dim.poly[1].z + rItem->dim.poly[2].z) * (1.0f / 3); 
+                        func_8005E81C(globalCtx, &left->base, &lItem->body, &sp60, &right->base, &rItem->body, &sp54, &sp6C);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+}
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005F39C.s") 
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005F5B0.s") 
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005F7D0.s") 
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005FF90.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8006110C.s")
 
