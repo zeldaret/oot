@@ -1360,14 +1360,12 @@ typedef struct {
     /* 0x20 */ f32 unk_20;
 } UnkQuakeCalcStruct; // size = 0x24
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u32 idx;
     /* 0x04 */ void* ptr;
 } UcodeInfo; // size = 0x8
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u32 segments[NUM_SEGMENTS];
     /* 0x40 */ u32 dl_stack[18];
     /* 0x88 */ u32 dl_depth;
@@ -1392,8 +1390,7 @@ typedef struct
     /* 0xD4 */ u32 geometryMode;
 } UcodeDisas; // size = 0xD8
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u16* fb1;
     /* 0x04 */ u16* swapbuffer;
     /* 0x08 */ OSViMode* viMode;
