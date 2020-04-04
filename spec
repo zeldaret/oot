@@ -1400,8 +1400,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot05_Soko"
     include "build/src/overlays/actors/ovl_Bg_Spot05_Soko/z_bg_spot05_soko.o"
-    include "build/data/overlays/actors/z_bg_spot05_soko.data.o"
-    include "build/data/overlays/actors/z_bg_spot05_soko.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot05_Soko/z_bg_spot05_soko_reloc.o"
 endseg
 
 beginseg
@@ -3624,9 +3623,7 @@ endseg
 beginseg
     name "ovl_En_Tana"
     include "build/src/overlays/actors/ovl_En_Tana/z_en_tana.o"
-    include "build/data/overlays/actors/z_en_tana.data.o"
-    include "build/data/overlays/actors/z_en_tana.rodata.o"
-    include "build/data/overlays/actors/z_en_tana.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Tana/z_en_tana_reloc.o"
 endseg
 
 beginseg
@@ -4007,9 +4004,7 @@ endseg
 beginseg
     name "ovl_Obj_Comb"
     include "build/src/overlays/actors/ovl_Obj_Comb/z_obj_comb.o"
-    include "build/data/overlays/actors/z_obj_comb.data.o"
-    include "build/data/overlays/actors/z_obj_comb.rodata.o"
-    include "build/data/overlays/actors/z_obj_comb.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Comb/z_obj_comb_reloc.o"
 endseg
 
 beginseg

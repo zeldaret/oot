@@ -30,7 +30,7 @@ glabel EnZl1_Init
 /* 0007C 80B4ABBC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00080 80B4ABC0 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00084 80B4ABC4 E7A80010 */  swc1    $f8, 0x0010($sp)
-/* 00088 80B4ABC8 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00088 80B4ABC8 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 0008C 80B4ABCC E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00090 80B4ABD0 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
@@ -77,7 +77,7 @@ glabel EnZl1_Init
 /* 00120 80B4AC60 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 00124 80B4AC64 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00128 80B4AC68 E7B00010 */  swc1    $f16, 0x0010($sp)
-/* 0012C 80B4AC6C 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 0012C 80B4AC6C 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00130 80B4AC70 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00134 80B4AC74 3C0F80B5 */  lui     $t7, %hi(func_80B4BC78)    ## $t7 = 80B50000
@@ -142,7 +142,7 @@ glabel EnZl1_Init
 /* 001EC 80B4AD2C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 001F0 80B4AD30 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 001F4 80B4AD34 E7A40010 */  swc1    $f4, 0x0010($sp)
-/* 001F8 80B4AD38 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 001F8 80B4AD38 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 001FC 80B4AD3C E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00200 80B4AD40 3C1980B5 */  lui     $t9, %hi(func_80B4AF18)    ## $t9 = 80B50000
@@ -171,7 +171,7 @@ glabel EnZl1_Init
 /* 00250 80B4AD90 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 00254 80B4AD94 AFA00014 */  sw      $zero, 0x0014($sp)
 /* 00258 80B4AD98 E7A80010 */  swc1    $f8, 0x0010($sp)
-/* 0025C 80B4AD9C 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 0025C 80B4AD9C 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00260 80B4ADA0 E7AA0018 */  swc1    $f10, 0x0018($sp)
 /* 00264 80B4ADA4 3C0980B5 */  lui     $t1, %hi(func_80B4AF18)    ## $t1 = 80B50000

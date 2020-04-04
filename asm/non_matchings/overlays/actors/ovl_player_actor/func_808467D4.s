@@ -32,7 +32,7 @@ glabel func_808467D4
 /* 14638 80846848 260501B4 */  addiu   $a1, $s0, 0x01B4           ## $a1 = 000001B4
 /* 1463C 8084684C E7A0001C */  swc1    $f0, 0x001C($sp)
 /* 14640 80846850 E7A00014 */  swc1    $f0, 0x0014($sp)
-/* 14644 80846854 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 14644 80846854 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 14648 80846858 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 1464C 8084685C 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 14650 80846860 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
