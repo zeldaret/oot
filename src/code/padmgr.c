@@ -209,15 +209,11 @@ void padmgr_RumbleSetSingle(PadMgr* padmgr, u32 ctrlr, u32 rumble) {
 // 800A23CC in 1.0
 void padmgr_RumbleSet(PadMgr* padmgr, u8* ctrlr_rumbles)
 {
-    //This volatile nonsense is probably not what they wrote--
-    //padmgr_RumbleSetSingle above is never called and its symbol isn't exported,
-    //so it looks like that was probably inlined. But we couldn't get any of that
-    //to work or match. This, however, does match.
     s32 i;
     for(i=0; i<4; ++i){
-        *(volatile u8*)&padmgr->rumble_enable[i] = ctrlr_rumbles[i];
+        padmgr->rumble_enable[i] = ctrlr_rumbles[i];
     }
-    *(volatile u8*)&padmgr->rumble_on_frames = 0xF0;
+    padmgr->rumble_on_frames = 0xF0;
 }
 
 #if 0
@@ -312,7 +308,7 @@ void padmgr_HandleRetraceMsg(PadMgr *padmgr) {
 
     queue = padmgr_LockSerialMesgQ(padmgr);
     osContStartReadData(queue);
-    if (padmgr->unk_460 != NULL){
+    if (padmgr->unk_460){
         padmgr->unk_460(padmgr, padmgr->unk_464);
     }
     osRecvMesg(queue, NULL, OS_MESG_BLOCK);
@@ -343,18 +339,12 @@ void padmgr_HandleRetraceMsg(PadMgr *padmgr) {
     
     if (gFaultStruct.msgId){
         padmgr_RumbleStop(padmgr);
-        return;
-    }
-    if ((s32)(padmgr->rumble_off_frames) > 0){
-        padmgr->rumble_off_frames = *(volatile u8*)&padmgr->rumble_off_frames - 1;
+    }else if (padmgr->rumble_off_frames > 0){
+        --padmgr->rumble_off_frames;
         padmgr_RumbleStop(padmgr);
-        return;
-    }
-    if (padmgr->rumble_on_frames == 0){
+    }else if (padmgr->rumble_on_frames == 0){
         padmgr_RumbleStop(padmgr);
-        return;
-    }
-    if (!padmgr->prenmi_shutdown){
+    }else if (!padmgr->prenmi_shutdown){
         padmgr_RumbleControl(padmgr);
         --padmgr->rumble_on_frames;
     }

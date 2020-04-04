@@ -25,12 +25,12 @@ typedef struct {
     /* 0x02A9 */ u8 ncontrollers;
     /* 0x02AA */ u8 Key_switch[4]; //means the controller is connected
     /* 0x02AE */ u8 pak_type[4]; //1 if vibration pack, 2 if (maybe controller pack)?
-    /* 0x02B2 */ u8 rumble_enable[4];
+    /* 0x02B2 */ volatile u8 rumble_enable[4];
     /* 0x02B6 */ u8 rumble_counter[4]; //not clear exact meaning
     /* 0x02BA */ char unk_2BA[0x02]; //probably padding
     /* 0x02BC */ unk_controller_t unk_controller[4];
-    /* 0x045C */ u8 rumble_off_frames;
-    /* 0x045D */ u8 rumble_on_frames;
+    /* 0x045C */ volatile u8 rumble_off_frames;
+    /* 0x045D */ volatile u8 rumble_on_frames;
     /* 0x045E */ u8 prenmi_shutdown;
     /* 0x045F */ u8 unk_45F;
     /* 0x0460 */ void (*unk_460)(void* padmgr, u32 unk464);
