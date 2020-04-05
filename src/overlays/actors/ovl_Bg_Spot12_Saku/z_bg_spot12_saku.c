@@ -119,7 +119,7 @@ static void func_808B3714(BgSpot12Saku* this) {
     Actor* thisx = &this->dyna.actor;
 
     this->actionFunc = func_808B37AC;
-    thisx->scale.x = 0.00714285764843f;
+    thisx->scale.x = 0.001f / 0.14f;
     thisx->posRot.pos.x = thisx->initPosRot.pos.x - (Math_Sins(thisx->shape.rot.y + 0x4000) * 78.0f);
     thisx->posRot.pos.z = thisx->initPosRot.pos.z - (Math_Coss(thisx->shape.rot.y + 0x4000) * 78.0f);
 }
