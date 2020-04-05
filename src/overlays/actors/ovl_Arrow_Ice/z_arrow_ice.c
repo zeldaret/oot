@@ -56,7 +56,7 @@ void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx) {
 void ArrowIce_Destroy(ArrowIce* this, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
     // Translates to: ""Disappearance" = Disappearance"
-    LOG_STRING("\"消滅\"", "消滅", "../z_arrow_ice.c", 415);
+    LOG_STRING("消滅", "../z_arrow_ice.c", 415);
 }
 
 void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx) {

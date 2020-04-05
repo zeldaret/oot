@@ -1884,8 +1884,8 @@ s32 DmaMgr_SendRequestImpl(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk
             osSyncPrintf("%c", 7);
             osSyncPrintf(VT_FGCOL(RED));
             osSyncPrintf("dmaEntryMsgQが一杯です。キューサイズの再検討をおすすめします。");
-            LOG_VALUE("(sizeof(dmaEntryMsgBufs) / sizeof(dmaEntryMsgBufs[0]))", ARRAY_COUNT(sDmaMgrMsgs),
-                      "../z_std_dma.c", 952);
+            LOG_NUM("(sizeof(dmaEntryMsgBufs) / sizeof(dmaEntryMsgBufs[0]))", ARRAY_COUNT(sDmaMgrMsgs),
+                    "../z_std_dma.c", 952);
             osSyncPrintf(VT_RST);
         }
     }

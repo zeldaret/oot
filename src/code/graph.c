@@ -7,17 +7,17 @@
 #define GFXPOOL_HEAD_MAGIC 0x1234
 #define GFXPOOL_TAIL_MAGIC 0x5678
 
-OSTime sGraph_UpdateTime;
+OSTime sGraphUpdateTime;
 OSTime sGraphSetTaskTime;
 FaultClient sGraphFaultClient;
 CfbInfo sGraphCfbInfos[3];
 FaultClient sGraphUcodeFaultClient;
 
-UcodeInfo D_8012D230[3] = {
+UCodeInfo D_8012D230[3] = {
     { 1, D_80155F50 }, { 2, NULL }, { 3, D_801120C0 + 0xFB0 }, // D_80113070
 };
 
-UcodeInfo D_8012D248[3] = {
+UCodeInfo D_8012D248[3] = {
     { 1, D_80155F50 }, { 2, NULL }, { 3, D_801120C0 + 0xFB0 }, // D_80113070
 };
 
@@ -34,7 +34,7 @@ void Graph_FaultClient() {
 }
 
 void Graph_DisassembleUCode(void* arg0) {
-    UcodeDisas disassembler;
+    UCodeDisas disassembler;
 
     if (HREG(80) == 7 && HREG(81) != 0) {
         func_800D7F5C(&disassembler);
@@ -42,35 +42,34 @@ void Graph_DisassembleUCode(void* arg0) {
         func_800DAC80(&disassembler, 3, D_8012D230);
         func_800DAC90(&disassembler, D_80155F50);
         func_800D8400(&disassembler, arg0);
-        HREG(93) = disassembler.dl_cnt;
-        HREG(84) =
-            disassembler.tri2_cnt * 2 + disassembler.tri1_cnt + (disassembler.quad_cnt * 2) + disassembler.line_cnt;
-        HREG(85) = disassembler.vtx_cnt;
-        HREG(86) = disassembler.spvtx_cnt;
-        HREG(87) = disassembler.tri1_cnt;
-        HREG(88) = disassembler.tri2_cnt;
-        HREG(89) = disassembler.quad_cnt;
-        HREG(90) = disassembler.line_cnt;
-        HREG(91) = disassembler.sync_err;
-        HREG(92) = disassembler.loaducode_cnt;
+        HREG(93) = disassembler.dlCnt;
+        HREG(84) = disassembler.tri2Cnt * 2 + disassembler.tri1Cnt + (disassembler.quadCnt * 2) + disassembler.lineCnt;
+        HREG(85) = disassembler.vtxCnt;
+        HREG(86) = disassembler.spvtxCnt;
+        HREG(87) = disassembler.tri1Cnt;
+        HREG(88) = disassembler.tri2Cnt;
+        HREG(89) = disassembler.quadCnt;
+        HREG(90) = disassembler.lineCnt;
+        HREG(91) = disassembler.syncErr;
+        HREG(92) = disassembler.loaducodeCnt;
         if (HREG(82) == 1 || HREG(82) == 2) {
-            osSyncPrintf("vtx_cnt=%d\n", disassembler.vtx_cnt);
-            osSyncPrintf("spvtx_cnt=%d\n", disassembler.spvtx_cnt);
-            osSyncPrintf("tri1_cnt=%d\n", disassembler.tri1_cnt);
-            osSyncPrintf("tri2_cnt=%d\n", disassembler.tri2_cnt);
-            osSyncPrintf("quad_cnt=%d\n", disassembler.quad_cnt);
-            osSyncPrintf("line_cnt=%d\n", disassembler.line_cnt);
-            osSyncPrintf("sync_err=%d\n", disassembler.sync_err);
-            osSyncPrintf("loaducode_cnt=%d\n", disassembler.loaducode_cnt);
-            osSyncPrintf("dl_depth=%d\n", disassembler.dl_depth);
-            osSyncPrintf("dl_cnt=%d\n", disassembler.dl_cnt);
+            osSyncPrintf("vtx_cnt=%d\n", disassembler.vtxCnt);
+            osSyncPrintf("spvtx_cnt=%d\n", disassembler.spvtxCnt);
+            osSyncPrintf("tri1_cnt=%d\n", disassembler.tri1Cnt);
+            osSyncPrintf("tri2_cnt=%d\n", disassembler.tri2Cnt);
+            osSyncPrintf("quad_cnt=%d\n", disassembler.quadCnt);
+            osSyncPrintf("line_cnt=%d\n", disassembler.lineCnt);
+            osSyncPrintf("sync_err=%d\n", disassembler.syncErr);
+            osSyncPrintf("loaducode_cnt=%d\n", disassembler.loaducodeCnt);
+            osSyncPrintf("dl_depth=%d\n", disassembler.dlDepth);
+            osSyncPrintf("dl_cnt=%d\n", disassembler.dlCnt);
         }
         func_800D7FC4(&disassembler);
     }
 }
 
 void Graph_UCodeFaultClient(void* arg0) {
-    UcodeDisas disassembler;
+    UCodeDisas disassembler;
 
     func_800D7F5C(&disassembler);
     disassembler.enableLog = true;
@@ -102,33 +101,33 @@ void* Graph_InitTHGA(GraphicsContext* gfxCtx) {
 }
 
 GameStateOverlay* Graph_GetNextGameState() {
-    void* game_init_func;
+    void* gameStateInitFunc;
 
-    game_init_func = func_800C546C();
-    if (game_init_func == TitleSetup_Init) {
+    gameStateInitFunc = func_800C546C();
+    if (gameStateInitFunc == TitleSetup_Init) {
         return &gGameStateOverlayTable[0];
     }
-    if (game_init_func == func_80801E44) {
+    if (gameStateInitFunc == func_80801E44) {
         return &gGameStateOverlayTable[1];
     }
-    if (game_init_func == Title_Init) {
+    if (gameStateInitFunc == Title_Init) {
         return &gGameStateOverlayTable[2];
     }
-    if (game_init_func == func_800BCA64) {
+    if (gameStateInitFunc == func_800BCA64) {
         return &gGameStateOverlayTable[3];
     }
-    if (game_init_func == Opening_Init) {
+    if (gameStateInitFunc == Opening_Init) {
         return &gGameStateOverlayTable[4];
     }
-    if (game_init_func == func_80811A20) {
+    if (gameStateInitFunc == func_80811A20) {
         return &gGameStateOverlayTable[5];
     }
 
-    LOG_ADDRESS("game_init_func", game_init_func, "../graph.c", 696);
+    LOG_ADDRESS("game_init_func", gameStateInitFunc, "../graph.c", 696);
     return NULL;
 }
 
-void Graph_Ct(GraphicsContext* gfxCtx) {
+void Graph_Init(GraphicsContext* gfxCtx) {
     bzero(gfxCtx, sizeof(GraphicsContext));
     gfxCtx->gfxPoolIdx = 0;
     gfxCtx->fbIdx = 0;
@@ -141,7 +140,7 @@ void Graph_Ct(GraphicsContext* gfxCtx) {
     Fault_AddClient(&sGraphFaultClient, Graph_FaultClient, 0, 0);
 }
 
-void Graph_Dt(GraphicsContext* gfxCtx) {
+void Graph_Destroy(GraphicsContext* gfxCtx) {
     func_800D3210();
     Fault_RemoveClient(&sGraphFaultClient);
 }
@@ -377,10 +376,10 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     D_8016A560 = 0;
     D_8016A580 = 0;
 
-    if (sGraph_UpdateTime != 0) {
-        D_8016A548 = time - sGraph_UpdateTime;
+    if (sGraphUpdateTime != 0) {
+        D_8016A548 = time - sGraphUpdateTime;
     }
-    sGraph_UpdateTime = time;
+    sGraphUpdateTime = time;
 
     if (D_8012DBC0 && (!~(gameState->input[0].padPressed | ~Z_TRIG)) &&
         (!~(gameState->input[0].raw.pad | ~(L_TRIG | R_TRIG)))) {
@@ -412,7 +411,7 @@ void Graph_ThreadEntry(void* arg0) {
 
     // Start graphic thread execution
     osSyncPrintf("グラフィックスレッド実行開始\n");
-    Graph_Ct(&gfxCtx);
+    Graph_Init(&gfxCtx);
 
     while (nextOvl) {
         ovl = nextOvl;
@@ -443,7 +442,7 @@ void Graph_ThreadEntry(void* arg0) {
         SystemArena_FreeDebug(gameState, "../graph.c", 1227);
         Overlay_FreeGameState(ovl);
     }
-    Graph_Dt(&gfxCtx);
+    Graph_Destroy(&gfxCtx);
     // End of graphic thread execution
     osSyncPrintf("グラフィックスレッド実行終了\n");
 }

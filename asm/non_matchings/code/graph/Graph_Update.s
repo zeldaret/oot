@@ -482,10 +482,10 @@ glabel Graph_Update
 /* B3D8C8 800C6728 ACCA0000 */  sw    $t2, ($a2)
 /* B3D8CC 800C672C 240B0000 */  li    $t3, 0
 /* B3D8D0 800C6730 ACCB0004 */  sw    $t3, 4($a2)
-/* B3D8D4 800C6734 3C0C8016 */  lui   $t4, %hi(sGraph_UpdateTime) # $t4, 0x8016
-/* B3D8D8 800C6738 8D8C65D0 */  lw    $t4, %lo(sGraph_UpdateTime)($t4)
-/* B3D8DC 800C673C 3C0D8016 */  lui   $t5, %hi(sGraph_UpdateTime+4) # $t5, 0x8016
-/* B3D8E0 800C6740 8DAD65D4 */  lw    $t5, %lo(sGraph_UpdateTime+4)($t5)
+/* B3D8D4 800C6734 3C0C8016 */  lui   $t4, %hi(sGraphUpdateTime) # $t4, 0x8016
+/* B3D8D8 800C6738 8D8C65D0 */  lw    $t4, %lo(sGraphUpdateTime)($t4)
+/* B3D8DC 800C673C 3C0D8016 */  lui   $t5, %hi(sGraphUpdateTime+4) # $t5, 0x8016
+/* B3D8E0 800C6740 8DAD65D4 */  lw    $t5, %lo(sGraphUpdateTime+4)($t5)
 /* B3D8E4 800C6744 AFAC0020 */  sw    $t4, 0x20($sp)
 /* B3D8E8 800C6748 15800002 */  bnez  $t4, .L800C6754
 /* B3D8EC 800C674C AFAD0024 */   sw    $t5, 0x24($sp)
@@ -502,10 +502,10 @@ glabel Graph_Update
 .L800C6774:
 /* B3D914 800C6774 3C048013 */  lui   $a0, %hi(D_8012DBC0) # $a0, 0x8013
 /* B3D918 800C6778 8C84DBC0 */  lw    $a0, %lo(D_8012DBC0)($a0)
-/* B3D91C 800C677C 3C018016 */  lui   $at, %hi(sGraph_UpdateTime+4) # $at, 0x8016
-/* B3D920 800C6780 AC2265D0 */  sw    $v0, %lo(sGraph_UpdateTime)($at)
+/* B3D91C 800C677C 3C018016 */  lui   $at, %hi(sGraphUpdateTime+4) # $at, 0x8016
+/* B3D920 800C6780 AC2265D0 */  sw    $v0, %lo(sGraphUpdateTime)($at)
 /* B3D924 800C6784 10800015 */  beqz  $a0, .L800C67DC
-/* B3D928 800C6788 AC2365D4 */   sw    $v1, %lo(sGraph_UpdateTime+4)($at)
+/* B3D928 800C6788 AC2365D4 */   sw    $v1, %lo(sGraphUpdateTime+4)($at)
 /* B3D92C 800C678C 8FA200CC */  lw    $v0, 0xcc($sp)
 /* B3D930 800C6790 2401DFFF */  li    $at, -8193
 /* B3D934 800C6794 94580020 */  lhu   $t8, 0x20($v0)
