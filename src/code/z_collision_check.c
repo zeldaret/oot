@@ -919,11 +919,38 @@ s32 func_8005D1E0(GlobalContext* globalCtx, Collider* collision)
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D218.s")
+s32 func_8005D218(GlobalContext* globalCtx, ColliderQuad* quad, Vec3f* arg2) {
+    f32 temp;
+    Vec3f sp20;
+
+    if ((quad->body.toucherFlags & 4) == 0) {
+        return 1;
+    }
+    Math_Vec3s_ToVec3f(&sp20, &quad->dim.max);
+    temp = func_800CB650(&sp20, arg2);
+    if (temp < quad->dim.unk3C) {
+        quad->dim.unk3C = temp;
+        if (quad->body.unk18 != NULL) {
+            func_8005B784(globalCtx, quad->body.unk18);
+        }
+        if (quad->body.unk20 != NULL) {
+            func_8005B9E8(globalCtx, quad->body.unk20);
+        }
+        return 1;
+    }
+    return 0;
+}
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D2C4.s")
+
+s32 func_8005D324(UNK_TYPE arg0, UNK_TYPE arg1)
+{
+    return 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D334.s")
 
-s32 func_8005D3A4(GlobalContext* globalContext, UNK_PTR line);
+s32 func_8005D3A4(GlobalContext* globalCtx, UNK_PTR line);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D3A4.s")
 //s32 func_8005D3A4(s32 arg0, void* arg1) {
 //    arg1->unk18 = (u16)(arg1->unk18 & 0xFFFE);
@@ -1253,31 +1280,31 @@ typedef struct {
 
 extern D_8011DF40_s D_8011DF40[0x0E];
 
-void func_8005E604(GlobalContext* globalContext, Collider* left, ColliderBody* leftBody,
+void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftBody,
     Collider* right, ColliderBody* rightBody, Vec3f* arg5) {
 
     if ((rightBody->bumperFlags & 0x40) == 0) {
         if (((leftBody->toucherFlags & 0x20) != 0) || ((leftBody->toucherFlags & 0x40) == 0)) {
             if (right->actor != NULL) {
-                (*D_8011DF28[D_8011DF40[right->unk_14].unk00])(globalContext, right, arg5);
+                (*D_8011DF28[D_8011DF40[right->unk_14].unk00])(globalCtx, right, arg5);
             }
             if (right->actor != NULL) {
                 if (D_8011DF40[right->unk_14].unk01 == 3) {
-                    func_8005E2EC(globalContext, leftBody, right, arg5);
+                    func_8005E2EC(globalCtx, leftBody, right, arg5);
                     return;
                 }
                 else if (D_8011DF40[right->unk_14].unk01 == 4) {
                     if (left->actor == NULL) {
 
-                        func_80062CD4(globalContext, arg5);
+                        func_80062CD4(globalCtx, arg5);
                         Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                         return;
                     }
-                    func_80062E14(globalContext, arg5, &left->actor->unk_E4);
+                    func_80062E14(globalCtx, arg5, &left->actor->unk_E4);
                     return;
                 }
                 else if (D_8011DF40[right->unk_14].unk01 != 5) {
-                    func_80029CA4(globalContext, D_8011DF40[right->unk_14].unk01, arg5);
+                    func_80029CA4(globalCtx, D_8011DF40[right->unk_14].unk01, arg5);
                     if ((rightBody->bumperFlags & 0x20) == 0) {
                         func_8005E4F8(left, rightBody);
                         return;
@@ -1285,7 +1312,7 @@ void func_8005E604(GlobalContext* globalContext, Collider* left, ColliderBody* l
                 }
             }
             else {
-                func_80029CA4(globalContext, 0, arg5);
+                func_80029CA4(globalCtx, 0, arg5);
                 if (right->actor == NULL) {
                     Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     return;
@@ -1302,7 +1329,7 @@ void func_8005E800(Collider* left, Collider* right) {
 }
 
 //Set AT to AC collision
-s32 func_8005E81C(GlobalContext* globalContext,
+s32 func_8005E81C(GlobalContext* globalCtx,
     Collider* left, ColliderBody* leftBody, Vec3f* leftv,
     Collider* right, ColliderBody* rightBody, Vec3f* rightv, Vec3f* arg7) {
 
@@ -1339,7 +1366,7 @@ s32 func_8005E81C(GlobalContext* globalContext,
     }
     else {
         leftBody = (void*)leftBody;
-        func_8005E604(globalContext, left, leftBody, right, rightBody, arg7);
+        func_8005E604(globalCtx, left, leftBody, right, rightBody, arg7);
         leftBody->toucherFlags |= 0x40;
     }
     return 1;
@@ -1579,8 +1606,8 @@ void func_8005F39C(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     }
 }
 
-extern UNK_TYPE D_8015E230;
-extern UNK_TYPE D_8015E268;
+extern ColliderTrisItemDim D_8015E230;
+extern ColliderTrisItemDim D_8015E268;
 #ifdef NON_MATCHING
 //Check ColliderJntSph to ColliderQuad
 //Regalloc issue with addition section
@@ -1622,7 +1649,60 @@ void func_8005F5B0(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005F5B0.s") 
 #endif
 
+extern ColliderTrisItemDim D_8015E2A0;
+extern ColliderTrisItemDim D_8015E2D8;
+#ifdef NON_MATCHING
+//Check ColliderQuad to ColliderJntSph
+//Regalloc issue with addition section
+void func_8005F7D0(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    ColliderJntSph* right = (ColliderJntSph*)r;
+    Vec3f sp88;
+    ColliderQuad* left = (ColliderQuad*)l;
+    ColliderJntSphItem* rItem;
+    Vec3f sp74;
+    Vec3f sp68;
+
+    if (right->count > 0 && right->list!= NULL) {
+        if (func_8005DF2C(&left->body) != 1) {
+            func_800CE3C0(&D_8015E2A0, &left->dim.quad[2], &left->dim.quad[3], &left->dim.quad[1]);
+            func_800CE3C0(&D_8015E2D8, &left->dim.quad[2], &left->dim.quad[1], &left->dim.quad[0]);
+            for (rItem = right->list; rItem < right->list + right->count; rItem++) {
+                if (func_8005DF50(&rItem->body) == 1)
+                {
+                    continue;
+                }
+                if (func_8005DF74(&left->body, &rItem->body) == 1)
+                {
+                    continue;
+                }
+
+                if (func_800CE934(&rItem->dim.posr, &D_8015E2A0, &sp88) != 1 && func_800CE934(&rItem->dim.posr, &D_8015E2D8, &sp88) != 1)
+                {
+                    continue;
+                }
+                if (func_8005D218(globalCtx, left, &sp88) != 0) {
+                    sp68.x = rItem->dim.posr.pos.x;
+                    sp68.y = rItem->dim.posr.pos.y;
+                    sp68.z = rItem->dim.posr.pos.z;
+
+                    sp74.x = (left->dim.quad[2].x + left->dim.quad[3].x + left->dim.quad[1].x + left->dim.quad[0].x) * (1.0f / 4);//* 0.25f;
+                    sp74.y = (left->dim.quad[2].y + left->dim.quad[3].y + left->dim.quad[1].y + left->dim.quad[0].y) * (1.0f / 4);//* 0.25f;
+                    sp74.z = (left->dim.quad[2].z + left->dim.quad[3].z + left->dim.quad[1].z + left->dim.quad[0].z) * (1.0f / 4);//* 0.25f;
+                    func_8005E81C(globalCtx, &left->base, &left->body, &sp74, &right->base, &rItem->body, &sp68, &sp88); 
+                    if ((right->base.maskB & 0x40) == 0) {
+                        return;
+                    }
+                }
+            }
+        }
+    }
+}
+#else
+void func_8005F7D0(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005F7D0.s") 
+#endif // NON_MATCHING
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005FA30.s") 
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005FF90.s")
 
@@ -1855,7 +1935,7 @@ extern s16 D_8011E098;
 extern s16 D_8011E09A;
 
 #ifdef NON_MATCHING
-void func_80062E14(GlobalContext* globalContext, Vec3f* arg1, Vec3f* arg2) {
+void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
     s32 sp24;
     s32 x;
     s32 y;
@@ -1871,7 +1951,7 @@ void func_80062E14(GlobalContext* globalContext, Vec3f* arg1, Vec3f* arg2) {
     D_8011E06C = y;
     D_8011E06E = z;
 
-    Effect_Add(globalContext, &sp24, 3, 0, 1, &D_8011E068);
+    Effect_Add(globalCtx, &sp24, 3, 0, 1, &D_8011E068);
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 #else

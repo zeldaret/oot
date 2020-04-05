@@ -1541,7 +1541,7 @@ f32 func_800CA774(f32);
 // ? func_800CB594(?);
 // ? func_800CB600(?);
 // ? func_800CB628(?);
-// ? func_800CB650(?);
+f32 func_800CB650(Vec3f* arg0, Vec3f* arg1);
 // ? func_800CB678(?);
 // ? func_800CB698(?);
 // ? func_800CB7B4(?);
