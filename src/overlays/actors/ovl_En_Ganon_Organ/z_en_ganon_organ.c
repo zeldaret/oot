@@ -83,9 +83,7 @@ Gfx* func_80A280BC(GraphicsContext* gfxCtx, BossGanon* dorf) {
         if (1) {}
     } while (0);
     gDPSetEnvColor(displayListHead++, 0x19, 0x14, 0x00, dorf->organFadeTimer);
-    gDPSetRenderMode(displayListHead++,
-                     AA_EN | Z_CMP | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL | G_RM_FOG_SHADE_A,
-                     G_RM_AA_ZB_XLU_SURF2);
+    gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gSPEndDisplayList(displayListHead);
     return displayList;
 }
@@ -102,9 +100,7 @@ Gfx* func_80A28148(GraphicsContext* gfxCtx, BossGanon* dorf) {
         if (1) {}
     } while (0);
     gDPSetEnvColor(displayListHead++, 0x00, 0x00, 0x00, dorf->organFadeTimer);
-    gDPSetRenderMode(displayListHead++,
-                     AA_EN | Z_CMP | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL | G_RM_FOG_SHADE_A,
-                     G_RM_AA_ZB_XLU_SURF2);
+    gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gSPEndDisplayList(displayListHead);
     return displayList;
 }

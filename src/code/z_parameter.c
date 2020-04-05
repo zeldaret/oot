@@ -141,7 +141,7 @@ Gfx sSetupDL_80125A60[] = {
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_1PRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_CLD_SURF | G_RM_CLD_SURF2),
-    gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
+    gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PRIMITIVE),
     gsSPEndDisplayList(),
 };
 
@@ -2742,8 +2742,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     // B Button Color & Texture
     // Also loads the Item Button Texture reused by other buttons afterwards
     gDPPipeSync(gfxCtx->overlay.p++);
-    gDPSetCombineLERP(gfxCtx->overlay.p++, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0,
-                      TEXEL0, 0, PRIMITIVE, 0);
+    gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
     gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, R_B_BTN_COLOR(0), R_B_BTN_COLOR(1), R_B_BTN_COLOR(2),
                     interfaceCtx->bAlpha);
     gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x00, 0xFF);
@@ -2825,8 +2824,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
             }
 
             gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, R_C_BTN_COLOR(0), R_C_BTN_COLOR(1), R_C_BTN_COLOR(2), cUpAlpha);
-            gDPSetCombineLERP(gfxCtx->overlay.p++, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0,
-                              PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
+            gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             gSPTextureRectangle(gfxCtx->overlay.p++, R_C_UP_BTN_X << 2, R_C_UP_BTN_Y << 2, (R_C_UP_BTN_X + 16) << 2,
                                 (R_C_UP_BTN_Y + 16) << 2, G_TX_RENDERTILE, 0, 0, 2048, 2048);
             gDPPipeSync(gfxCtx->overlay.p++);
@@ -3282,8 +3280,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         gDPPipeSync(gfxCtx->overlay.p++);
         gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->bAlpha);
-        gDPSetCombineLERP(gfxCtx->overlay.p++, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                          0, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
         if (interfaceCtx->unk_1FA == 0) {
             // B Button Icon & possibly Ammo Count
@@ -3331,8 +3328,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         // C-Left Button Icon & Ammo Count
         if (gSaveContext.equips.button_items[1] < 0xF0) {
             gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->cLeftAlpha);
-            gDPSetCombineLERP(gfxCtx->overlay.p++, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0,
-                              PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
+            gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             Interface_DrawItemIconTexture(globalCtx, (void*)((u32)interfaceCtx->icon_itemSegment + 0x1000), 1);
             gDPPipeSync(gfxCtx->overlay.p++);
             gDPSetCombineLERP(gfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -3345,8 +3341,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         // C-Down Button Icon & Ammo Count
         if (gSaveContext.equips.button_items[2] < 0xF0) {
             gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->cDownAlpha);
-            gDPSetCombineLERP(gfxCtx->overlay.p++, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0,
-                              PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
+            gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             Interface_DrawItemIconTexture(globalCtx, (void*)((u32)interfaceCtx->icon_itemSegment + 0x2000), 2);
             gDPPipeSync(gfxCtx->overlay.p++);
             gDPSetCombineLERP(gfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -3359,8 +3354,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         // C-Right Button Icon & Ammo Count
         if (gSaveContext.equips.button_items[3] < 0xF0) {
             gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, interfaceCtx->cRightAlpha);
-            gDPSetCombineLERP(gfxCtx->overlay.p++, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0,
-                              PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
+            gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             Interface_DrawItemIconTexture(globalCtx, (void*)((u32)interfaceCtx->icon_itemSegment + 0x3000), 3);
             gDPPipeSync(gfxCtx->overlay.p++);
             gDPSetCombineLERP(gfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -3372,8 +3366,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         func_80094A14(globalCtx->state.gfxCtx);
         func_8008A8B8(globalCtx, R_A_BTN_Y, R_A_BTN_Y + 45, R_A_BTN_X, R_A_BTN_X + 45);
         gSPClearGeometryMode(gfxCtx->overlay.p++, G_CULL_BOTH);
-        gDPSetCombineLERP(gfxCtx->overlay.p++, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                          0, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, R_A_BTN_COLOR(0), R_A_BTN_COLOR(1), R_A_BTN_COLOR(2),
                         interfaceCtx->aAlpha);
         Interface_DrawActionButton(globalCtx);
@@ -3405,8 +3398,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             // Inventory Equip Effects
             gSPSegment(gfxCtx->overlay.p++, 0x08, pauseCtx->unk_128);
             func_80094A14(globalCtx->state.gfxCtx);
-            gDPSetCombineLERP(gfxCtx->overlay.p++, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0,
-                              PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
+            gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             gSPMatrix(gfxCtx->overlay.p++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
 
             pauseCtx->vtx_168[16].v.ob[0] = pauseCtx->vtx_168[18].v.ob[0] = pauseCtx->unk_254 / 10;
@@ -3524,8 +3516,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                 // Score Counter
                 gDPPipeSync(gfxCtx->overlay.p++);
-                gDPSetCombineLERP(gfxCtx->overlay.p++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE,
-                                  TEXEL0, 0, PRIMITIVE, 0);
+                gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
                 phi_s0 = 0;
                 phi_s1 = WREG(32) + 6 * 9;
@@ -3540,8 +3531,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 }
 
                 gDPPipeSync(gfxCtx->overlay.p++);
-                gDPSetCombineLERP(gfxCtx->overlay.p++, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0,
-                                  PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
+                gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             }
         }
 
@@ -3930,8 +3920,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                 // Timer Counter
                 gDPPipeSync(gfxCtx->overlay.p++);
-                gDPSetCombineLERP(gfxCtx->overlay.p++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE,
-                                  TEXEL0, 0, PRIMITIVE, 0);
+                gDPSetCombineMode(gfxCtx->overlay.p++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
                 if (gSaveContext.timer_1_state != 0) {
                     if ((gSaveContext.timer_1_value < 10) && (gSaveContext.timer_1_state < 11)) {
