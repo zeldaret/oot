@@ -271,7 +271,7 @@ typedef struct GraphicsContext {
     /* 0x02E0 */ char unk_2E0[0x04];
     /* 0x02E4 */ u32 viFeatures;
     /* 0x02E8 */ s32 fbIdx;
-    /* 0x02EC */ void (*callback)(struct GraphicsContex*, u32);
+    /* 0x02EC */ void (*callback)(struct GraphicsContext*, u32);
     /* 0x02F0 */ u32 callbackParam;
     /* 0x02F4 */ f32 xScale;
     /* 0x02F8 */ f32 yScale;
