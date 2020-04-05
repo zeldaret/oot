@@ -10,7 +10,7 @@ glabel EnHoll_Draw
 /* 00CD0 80A598E0 27A40028 */  addiu   $a0, $sp, 0x0028           ## $a0 = FFFFFFE0
 /* 00CD4 80A598E4 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
 /* 00CD8 80A598E8 24070325 */  addiu   $a3, $zero, 0x0325         ## $a3 = 00000325
-/* 00CDC 80A598EC 0C031AB1 */  jal     func_800C6AC4              
+/* 00CDC 80A598EC 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00CE0 80A598F0 AFA50038 */  sw      $a1, 0x0038($sp)           
 /* 00CE4 80A598F4 8FB90048 */  lw      $t9, 0x0048($sp)           
 /* 00CE8 80A598F8 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF
@@ -85,7 +85,7 @@ glabel EnHoll_Draw
 .L80A59A00:
 /* 00DF0 80A59A00 8FAF004C */  lw      $t7, 0x004C($sp)           
 /* 00DF4 80A59A04 2407033F */  addiu   $a3, $zero, 0x033F         ## $a3 = 0000033F
-/* 00DF8 80A59A08 0C031AD5 */  jal     func_800C6B54              
+/* 00DF8 80A59A08 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00DFC 80A59A0C 8DE50000 */  lw      $a1, 0x0000($t7)           ## FA000000
 .L80A59A10:
 /* 00E00 80A59A10 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -95,7 +95,7 @@ glabel func_80090D20
 /* B07F34 80090D94 3C068014 */  lui   $a2, %hi(D_8013E7FC)
 /* B07F38 80090D98 24C6E7FC */  addiu $a2, %lo(D_8013E7FC) # addiu $a2, $a2, -0x1804
 /* B07F3C 80090D9C 24070A49 */  li    $a3, 2633
-/* B07F40 80090DA0 0C031AB1 */  jal   func_800C6AC4
+/* B07F40 80090DA0 0C031AB1 */  jal   Graph_OpenDisps
 /* B07F44 80090DA4 AFA50120 */   sw    $a1, 0x120($sp)
 /* B07F48 80090DA8 C6040054 */  lwc1  $f4, 0x54($s0)
 /* B07F4C 80090DAC 44803000 */  mtc1  $zero, $f6
@@ -175,7 +175,7 @@ glabel func_80090D20
 /* B0806C 80090ECC AC580000 */  sw    $t8, ($v0)
 /* B08070 80090ED0 8FAA0190 */  lw    $t2, 0x190($sp)
 /* B08074 80090ED4 24070A60 */  li    $a3, 2656
-/* B08078 80090ED8 0C031AD5 */  jal   func_800C6B54
+/* B08078 80090ED8 0C031AD5 */  jal   Graph_CloseDisps
 /* B0807C 80090EDC 8D450000 */   lw    $a1, ($t2)
 /* B08080 80090EE0 10000072 */  b     .L800910AC
 /* B08084 80090EE4 C6000054 */   lwc1  $f0, 0x54($s0)
@@ -239,7 +239,7 @@ glabel func_80090D20
 /* B0815C 80090FBC AFA900E0 */  sw    $t1, 0xe0($sp)
 /* B08160 80090FC0 27A400CC */  addiu $a0, $sp, 0xcc
 /* B08164 80090FC4 24070A96 */  li    $a3, 2710
-/* B08168 80090FC8 0C031AB1 */  jal   func_800C6AC4
+/* B08168 80090FC8 0C031AB1 */  jal   Graph_OpenDisps
 /* B0816C 80090FCC AFA500DC */   sw    $a1, 0xdc($sp)
 /* B08170 80090FD0 8FA800DC */  lw    $t0, 0xdc($sp)
 /* B08174 80090FD4 8FA900E0 */  lw    $t1, 0xe0($sp)
@@ -293,7 +293,7 @@ glabel func_80090D20
 /* B08234 80091094 24070A9D */  li    $a3, 2717
 /* B08238 80091098 AC4E0004 */  sw    $t6, 4($v0)
 /* B0823C 8009109C 8FB80190 */  lw    $t8, 0x190($sp)
-/* B08240 800910A0 0C031AD5 */  jal   func_800C6B54
+/* B08240 800910A0 0C031AD5 */  jal   Graph_CloseDisps
 /* B08244 800910A4 8F050000 */   lw    $a1, ($t8)
 /* B08248 800910A8 C6000054 */  lwc1  $f0, 0x54($s0)
 .L800910AC:
@@ -416,7 +416,7 @@ glabel func_80090D20
 /* B08400 80091260 24C6E874 */  addiu $a2, %lo(D_8013E874) # addiu $a2, $a2, -0x178c
 /* B08404 80091264 27A4009C */  addiu $a0, $sp, 0x9c
 /* B08408 80091268 24070ADF */  li    $a3, 2783
-/* B0840C 8009126C 0C031AB1 */  jal   func_800C6AC4
+/* B0840C 8009126C 0C031AB1 */  jal   Graph_OpenDisps
 /* B08410 80091270 AFA500AC */   sw    $a1, 0xac($sp)
 /* B08414 80091274 0C034213 */  jal   Matrix_Push
 /* B08418 80091278 00000000 */   nop
@@ -525,7 +525,7 @@ glabel func_80090D20
 /* B085A0 80091400 24C6E89C */  addiu $a2, %lo(D_8013E89C) # addiu $a2, $a2, -0x1764
 /* B085A4 80091404 27A4009C */  addiu $a0, $sp, 0x9c
 /* B085A8 80091408 24070AF9 */  li    $a3, 2809
-/* B085AC 8009140C 0C031AD5 */  jal   func_800C6B54
+/* B085AC 8009140C 0C031AD5 */  jal   Graph_CloseDisps
 /* B085B0 80091410 8DC50000 */   lw    $a1, ($t6)
 /* B085B4 80091414 10000013 */  b     .L80091464
 /* B085B8 80091418 C6000054 */   lwc1  $f0, 0x54($s0)

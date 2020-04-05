@@ -2582,10 +2582,10 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s16 magicBarY;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 2650);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 2650);
 
     if (gSaveContext.magic_level != 0) {
         if (gSaveContext.health_capacity > 0xA0) {
@@ -2660,7 +2660,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
         }
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 2731);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 2731);
 }
 
 void func_80088AA0(s16 arg0) {
@@ -2700,9 +2700,9 @@ void func_80088B34(s16 arg0) {
 }
 
 void Interface_DrawActionLabel(GraphicsContext* gfxCtx, void* texture) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_parameter.c", 2820);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_parameter.c", 2820);
 
     gDPSetTextureImage(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, texture);
     gDPSetTile(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
@@ -2716,7 +2716,7 @@ void Interface_DrawActionLabel(GraphicsContext* gfxCtx, void* texture) {
 
     gSP1Quadrangle(gfxCtx->overlay.p++, 0, 2, 3, 1, 0);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_parameter.c", 2829);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_parameter.c", 2829);
 }
 
 u8* sCUpLabelTextures[] = { D_02002FC0, D_02002FC0, D_02002FC0 };
@@ -2733,11 +2733,11 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     s16 cUpAlpha;
     s32 pad;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 2900);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 2900);
 
     // B Button Color & Texture
     // Also loads the Item Button Texture reused by other buttons afterwards
@@ -2881,7 +2881,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
         }
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3071);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3071);
 }
 #else
 void Interface_DrawItemButtons(GlobalContext* globalCtx);
@@ -2890,10 +2890,10 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx);
 
 void Interface_DrawItemIconTexture(GlobalContext* globalCtx, void* texture, s16 button) {
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3079);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3079);
 
     gDPLoadTextureBlock(gfxCtx->overlay.p++, texture, G_IM_FMT_RGBA, G_IM_SIZ_32b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -2903,7 +2903,7 @@ void Interface_DrawItemIconTexture(GlobalContext* globalCtx, void* texture, s16 
                         (R_ITEM_ICON_Y(button) + R_ITEM_ICON_WIDTH(button)) << 2, G_TX_RENDERTILE, 0, 0,
                         R_ITEM_ICON_DD(button) * 2, R_ITEM_ICON_DD(button) * 2);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3094);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3094);
 }
 
 void Interface_DrawAmmoCount(GlobalContext* globalCtx, s16 button, s16 alpha) {
@@ -2911,10 +2911,10 @@ void Interface_DrawAmmoCount(GlobalContext* globalCtx, s16 button, s16 alpha) {
     s16 ammo;
     GraphicsContext* gfxCtx;
     s16 i;
-    Gfx* gfxArr[3];
+    Gfx* dispRefs[3];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3105);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3105);
 
     item = gSaveContext.equips.button_items[button];
 
@@ -2964,16 +2964,16 @@ void Interface_DrawAmmoCount(GlobalContext* globalCtx, s16 button, s16 alpha) {
                                            R_ITEM_AMMO_Y(button), 8, 8, 1024, 1024);
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3158);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3158);
 }
 
 void Interface_DrawActionButton(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3172);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3172);
 
     Matrix_Translate(0.0f, 0.0f, XREG(18) / 10.0f, MTXMODE_NEW);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
@@ -2991,7 +2991,7 @@ void Interface_DrawActionButton(GlobalContext* globalCtx) {
 
     gSP1Quadrangle(gfxCtx->overlay.p++, 0, 2, 3, 1, 0);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3187);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3187);
 }
 
 void Interface_InitVertices(GlobalContext* globalCtx) {
@@ -3149,11 +3149,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
     s16 phi_s0;
     s16 sp274;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
     s32 pad;
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3405);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3405);
 
     gSPSegment(gfxCtx->overlay.p++, 0x02, interfaceCtx->parameterSegment);
     gSPSegment(gfxCtx->overlay.p++, 0x07, interfaceCtx->do_actionSegment);
@@ -3968,7 +3968,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         gDPFillRectangle(gfxCtx->overlay.p++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 4269);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 4269);
 }
 #else
 s16 D_8015FFE0;

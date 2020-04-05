@@ -19,7 +19,7 @@ glabel BgSpot00Hanebasi_Draw
 /* 00E4C 808AA5CC 8D250000 */  lw      $a1, 0x0000($t1)           ## 00000000
 /* 00E50 808AA5D0 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFD4
 /* 00E54 808AA5D4 240702BA */  addiu   $a3, $zero, 0x02BA         ## $a3 = 000002BA
-/* 00E58 808AA5D8 0C031AB1 */  jal     func_800C6AC4              
+/* 00E58 808AA5D8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00E5C 808AA5DC AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 00E60 808AA5E0 8FAA0064 */  lw      $t2, 0x0064($sp)           
 /* 00E64 808AA5E4 0C024F46 */  jal     func_80093D18              
@@ -126,7 +126,7 @@ glabel BgSpot00Hanebasi_Draw
 /* 00FE4 808AA764 24C6A85C */  addiu   $a2, $a2, %lo(D_808AA85C)  ## $a2 = 808AA85C
 /* 00FE8 808AA768 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFD4
 /* 00FEC 808AA76C 240702DD */  addiu   $a3, $zero, 0x02DD         ## $a3 = 000002DD
-/* 00FF0 808AA770 0C031AD5 */  jal     func_800C6B54              
+/* 00FF0 808AA770 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00FF4 808AA774 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 00FF8 808AA778 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00FFC 808AA77C 8FB00018 */  lw      $s0, 0x0018($sp)           

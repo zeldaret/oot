@@ -9,7 +9,7 @@ glabel BgIngate_Draw
 /* 0029C 808929DC 24C62AB0 */  addiu   $a2, $a2, %lo(D_80892AB0)  ## $a2 = 80892AB0
 /* 002A0 808929E0 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFEC
 /* 002A4 808929E4 240700F0 */  addiu   $a3, $zero, 0x00F0         ## $a3 = 000000F0
-/* 002A8 808929E8 0C031AB1 */  jal     func_800C6AC4              
+/* 002A8 808929E8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 002AC 808929EC 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 002B0 808929F0 8FAF0044 */  lw      $t7, 0x0044($sp)           
 /* 002B4 808929F4 0C024F46 */  jal     func_80093D18              
@@ -42,7 +42,7 @@ glabel BgIngate_Draw
 /* 00320 80892A60 24C62AD8 */  addiu   $a2, $a2, %lo(D_80892AD8)  ## $a2 = 80892AD8
 /* 00324 80892A64 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFEC
 /* 00328 80892A68 240700FA */  addiu   $a3, $zero, 0x00FA         ## $a3 = 000000FA
-/* 0032C 80892A6C 0C031AD5 */  jal     func_800C6B54              
+/* 0032C 80892A6C 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00330 80892A70 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 00334 80892A74 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00338 80892A78 8FB00018 */  lw      $s0, 0x0018($sp)           

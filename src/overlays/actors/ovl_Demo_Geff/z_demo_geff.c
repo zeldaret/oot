@@ -72,9 +72,9 @@ static void DemoGeff_Init(DemoGeff* this, GlobalContext* globalCtx) {
 
 static void func_80977EA8(GlobalContext* globalCtx, u32 dlist) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_demo_geff.c", 181);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 181);
     func_80093D18(gfxCtx);
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_demo_geff.c", 183),
@@ -82,16 +82,16 @@ static void func_80977EA8(GlobalContext* globalCtx, u32 dlist) {
     gSPDisplayList(gfxCtx->polyOpa.p++, dlist);
     gSPPopMatrix(gfxCtx->polyOpa.p++, G_MTX_MODELVIEW);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_demo_geff.c", 188);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 188);
 }
 
 static void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 objBankIndex = this->objBankIndex;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_demo_geff.c", 204);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 204);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objBankIndex].segment);
@@ -99,7 +99,7 @@ static void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
     // Necessary to match
     if (!globalCtx) {}
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_demo_geff.c", 212);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 212);
 }
 
 static void func_80978030(DemoGeff* this, GlobalContext* globalCtx) {

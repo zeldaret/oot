@@ -10,7 +10,7 @@ glabel EnFireRock_Draw
 /* 00ED0 80A12AF0 24C62E58 */  addiu   $a2, $a2, %lo(D_80A12E58)  ## $a2 = 80A12E58
 /* 00ED4 80A12AF4 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFE4
 /* 00ED8 80A12AF8 240702EB */  addiu   $a3, $zero, 0x02EB         ## $a3 = 000002EB
-/* 00EDC 80A12AFC 0C031AB1 */  jal     func_800C6AC4              
+/* 00EDC 80A12AFC 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00EE0 80A12B00 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00EE4 80A12B04 C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024
 /* 00EE8 80A12B08 C6060170 */  lwc1    $f6, 0x0170($s0)           ## 00000170
@@ -97,7 +97,7 @@ glabel EnFireRock_Draw
 /* 0102C 80A12C4C 24C62E80 */  addiu   $a2, $a2, %lo(D_80A12E80)  ## $a2 = 80A12E80
 /* 01030 80A12C50 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFE4
 /* 01034 80A12C54 24070305 */  addiu   $a3, $zero, 0x0305         ## $a3 = 00000305
-/* 01038 80A12C58 0C031AD5 */  jal     func_800C6B54              
+/* 01038 80A12C58 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0103C 80A12C5C 8D050000 */  lw      $a1, 0x0000($t0)           ## 00000000
 /* 01040 80A12C60 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 01044 80A12C64 8FB00014 */  lw      $s0, 0x0014($sp)           

@@ -55,9 +55,8 @@ void ArrowLight_Init(ArrowLight* this, GlobalContext* globalCtx) {
 
 void ArrowLight_Destroy(ArrowLight* this, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
-    LogUtils_LogThreadId("../z_arrow_light.c", 403);
     // Translates to: ""Disappearance" = Disappearance"
-    osSyncPrintf("\"消滅\" = %s\n", "消滅");
+    LOG_STRING("消滅", "../z_arrow_light.c", 403);
 }
 
 void ArrowLight_Charge(ArrowLight* this, GlobalContext* globalCtx) {
@@ -194,7 +193,7 @@ void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     Actor* tranform;
     EnArrow* arrow;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     stateFrames = globalCtx->state.frames;
     arrow = this->actor.attachedA;
@@ -204,7 +203,7 @@ void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx) {
         if (1) {}
         tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
         // clang-format off
-        gfxCtx = globalCtx->state.gfxCtx; func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_light.c", 598);
+        gfxCtx = globalCtx->state.gfxCtx; Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_light.c", 598);
         // clang-format on
         Matrix_Translate(tranform->posRot.pos.x, tranform->posRot.pos.y, tranform->posRot.pos.z, MTXMODE_NEW);
         Matrix_RotateY(tranform->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
@@ -241,6 +240,6 @@ void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx) {
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 4, 32, 1,
                                         511 - (stateFrames * 10) % 512, 511 - (stateFrames * 30) % 512, 8, 16));
         gSPDisplayList(gfxCtx->polyXlu.p++, vertexDL);
-        func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_light.c", 664);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_light.c", 664);
     }
 }

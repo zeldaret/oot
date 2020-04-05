@@ -105,15 +105,15 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     s16 i;
     s16 alpha;
     s16 imageIdx;
-    Gfx* pgdl[4];
+    Gfx* dispRefs[4];
 
     /*
-     *  This assignment always occurs before a call to func_800C6AC4 which
+     *  This assignment always occurs before a call to Graph_OpenDisps which
      *  makes me suspect that they're inside a macro where the function call
-     *  is present only for debug builds. Same for func_800C6B54 most likely.
+     *  is present only for debug builds. Same for Graph_CloseDisps most likely.
      */
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(pgdl, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 114);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 114);
 
     gfxSetup = 0;
 
@@ -154,7 +154,7 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
         eff++;
     }
 
-    func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 154);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 154);
 }
 
 s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth, f32 yAccelMax) {
@@ -694,14 +694,14 @@ void EnTk_Update(EnTk* this, GlobalContext* globalCtx) {
 
 void func_80B1D200(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
-    Gfx* pgdl[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, D_0600ACE0);
 
-    func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
 }
 
 s32 func_80B1D278(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
@@ -748,14 +748,14 @@ void EnTk_Draw(EnTk* this, GlobalContext* globalCtx) {
 
     EnTk* thisAgain = this;
     GraphicsContext* gfxCtx;
-    Gfx* pgdl[4];
+    Gfx* dispRefs[4];
 
     Matrix_Push();
     EnTkEff_Draw(thisAgain, globalCtx);
     Matrix_Pull();
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1294);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1294);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
@@ -764,5 +764,5 @@ void EnTk_Draw(EnTk* this, GlobalContext* globalCtx) {
     SkelAnime_DrawSV(globalCtx, thisAgain->skelAnim.skeleton, thisAgain->skelAnim.actorDrawTbl,
                      thisAgain->skelAnim.dListCount, func_80B1D278, func_80B1D2E4, &thisAgain->actor);
 
-    func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
 }

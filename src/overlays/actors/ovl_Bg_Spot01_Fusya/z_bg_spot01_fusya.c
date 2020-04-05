@@ -84,14 +84,14 @@ static void BgSpot01Fusya_Update(BgSpot01Fusya* this, GlobalContext* globalCtx) 
 
 static void BgSpot01Fusya_Draw(BgSpot01Fusya* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 210);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 210);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 214),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_06000100);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 219);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 219);
 }

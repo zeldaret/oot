@@ -4,7 +4,7 @@ glabel Gfx_BranchTexScroll
 /* B0BF60 80094DC0 AFA5001C */  sw    $a1, 0x1c($sp)
 /* B0BF64 80094DC4 AFA60020 */  sw    $a2, 0x20($sp)
 /* B0BF68 80094DC8 AFA70024 */  sw    $a3, 0x24($sp)
-/* B0BF6C 80094DCC 0C031B0F */  jal   func_800C6C3C
+/* B0BF6C 80094DCC 0C031B0F */  jal   Graph_DlistAlloc
 /* B0BF70 80094DD0 24050018 */   li    $a1, 24
 /* B0BF74 80094DD4 8FA4001C */  lw    $a0, 0x1c($sp)
 /* B0BF78 80094DD8 8FA50020 */  lw    $a1, 0x20($sp)

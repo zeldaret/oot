@@ -10,7 +10,7 @@ glabel EnReeba_Draw
 /* 01714 80AE63E4 24C6665C */  addiu   $a2, $a2, %lo(D_80AE665C)  ## $a2 = 80AE665C
 /* 01718 80AE63E8 27A4006C */  addiu   $a0, $sp, 0x006C           ## $a0 = FFFFFFE4
 /* 0171C 80AE63EC 24070426 */  addiu   $a3, $zero, 0x0426         ## $a3 = 00000426
-/* 01720 80AE63F0 0C031AB1 */  jal     func_800C6AC4              
+/* 01720 80AE63F0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01724 80AE63F4 AFA5007C */  sw      $a1, 0x007C($sp)           
 /* 01728 80AE63F8 0C024F46 */  jal     func_80093D18              
 /* 0172C 80AE63FC 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -49,7 +49,7 @@ glabel EnReeba_Draw
 /* 017A4 80AE6474 24C6666C */  addiu   $a2, $a2, %lo(D_80AE666C)  ## $a2 = 80AE666C
 /* 017A8 80AE6478 27A4006C */  addiu   $a0, $sp, 0x006C           ## $a0 = FFFFFFE4
 /* 017AC 80AE647C 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 017B0 80AE6480 0C031AD5 */  jal     func_800C6B54              
+/* 017B0 80AE6480 0C031AD5 */  jal     Graph_CloseDisps              
 /* 017B4 80AE6484 24070440 */  addiu   $a3, $zero, 0x0440         ## $a3 = 00000440
 /* 017B8 80AE6488 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
 /* 017BC 80AE648C 8D8CFA90 */  lw      $t4, -0x0570($t4)          ## 8015FA90
