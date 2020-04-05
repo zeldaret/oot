@@ -593,7 +593,7 @@ s32 func_800ABE74(f32 eyeX, f32 eyeY, f32 eyeZ) {
         }
     }
     if (errorCode != 0) {
-        osSyncPrintf(VT_SGR("31"));
+        osSyncPrintf(VT_FGCOL(RED));
         // Is too large
         osSyncPrintf("eye が大きすぎます eye=[%8.3f %8.3f %8.3f] error=%d\n", eyeX, eyeY, eyeZ, errorCode);
         osSyncPrintf(VT_RST);
