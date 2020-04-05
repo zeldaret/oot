@@ -136,7 +136,7 @@ void func_800AA550(View* view) {
     s32 lry;
     GraphicsContext* gfxCtx;
     s32 temp_a0;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = view->gfxCtx;
     phi_v1 = func_800B38FC();
@@ -162,12 +162,12 @@ void func_800AA550(View* view) {
     if (lry > SCREEN_HEIGHT) {
         __assert("lry <= SCREEN_HT", "../z_view.c", 457);
     }
-    func_800C6AC4(gfxArr, gfxCtx, "../z_view.c", 459);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_view.c", 459);
     gDPPipeSync(gfxCtx->polyOpa.p++);
     gDPSetScissor(gfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, ulx, uly, lrx, lry);
     gDPPipeSync(gfxCtx->polyXlu.p++);
     gDPSetScissor(gfxCtx->polyXlu.p++, G_SC_NON_INTERLACE, ulx, uly, lrx, lry);
-    func_800C6B54(gfxArr, gfxCtx, "../z_view.c", 472);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_view.c", 472);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AA550.s")
@@ -266,7 +266,7 @@ s32 func_800AAA9C(View* view) {
     Viewport* viewport;
     Mtx* projection;
     MtxF* viewing;
-    Gfx* gfxArr[6];
+    Gfx* dispRefs[6];
     s32 xlen;
     GraphicsContext* gfxCtx;
     s32 i;
@@ -274,7 +274,7 @@ s32 func_800AAA9C(View* view) {
     MtxF mtxFv;
 
     gfxCtx = view->gfxCtx;
-    func_800C6AC4(gfxArr, gfxCtx, "../z_view.c", 596);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_view.c", 596);
     viewport = Graph_Alloc(gfxCtx, sizeof(Viewport));
     LogUtils_CheckNullPointer("vp", viewport, "../z_view.c", 601);
     func_800AA190(viewport, &view->viewport);
@@ -349,7 +349,7 @@ s32 func_800AAA9C(View* view) {
     gSPMatrix(gfxCtx->polyOpa.p++, viewing, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
     gSPMatrix(gfxCtx->polyXlu.p++, viewing, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_view.c", 711);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_view.c", 711);
     return 1;
 }
 #else
@@ -362,10 +362,10 @@ s32 func_800AB0A8(View* view) {
     s32 pad;
     s32 pad1;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[3];
+    Gfx* dispRefs[3];
 
     gfxCtx = view->gfxCtx;
-    func_800C6AC4(gfxArr, gfxCtx, "../z_view.c", 726);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_view.c", 726);
     viewport = Graph_Alloc(gfxCtx, sizeof(Viewport));
     LogUtils_CheckNullPointer("vp", viewport, "../z_view.c", 730);
     func_800AA190(viewport, &view->viewport);
@@ -388,7 +388,7 @@ s32 func_800AB0A8(View* view) {
     gSPMatrix(gfxCtx->polyOpa.p++, projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPMatrix(gfxCtx->polyXlu.p++, projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_view.c", 762);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_view.c", 762);
     return 1;
 }
 
@@ -399,11 +399,11 @@ s32 func_800AB2C4(View* view) {
     f32 pad;
     f32 pad1;
     Viewport* viewport;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
     GraphicsContext* gfxCtx;
 
     gfxCtx = view->gfxCtx;
-    func_800C6AC4(gfxArr, gfxCtx, "../z_view.c", 777);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_view.c", 777);
     viewport = Graph_Alloc(gfxCtx, sizeof(Viewport));
     LogUtils_CheckNullPointer("vp", viewport, "../z_view.c", 781);
     func_800AA190(viewport, &view->viewport);
@@ -424,7 +424,7 @@ s32 func_800AB2C4(View* view) {
 
     gSPMatrix(gfxCtx->overlay.p++, projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_view.c", 801);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_view.c", 801);
     return 1;
 }
 #else
@@ -442,11 +442,11 @@ s32 func_800AB560(View* view) {
     Viewport* viewport;
     Mtx* projection;
     MtxF* viewing;
-    Gfx* gfxArr[6];
+    Gfx* dispRefs[6];
     f32 aspect;
 
     gfxCtx = view->gfxCtx;
-    func_800C6AC4(gfxArr, gfxCtx, "../z_view.c", 816);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_view.c", 816);
 
     viewport = Graph_Alloc(gfxCtx, sizeof(Viewport));
     LogUtils_CheckNullPointer("vp", viewport, "../z_view.c", 821);
@@ -485,7 +485,7 @@ s32 func_800AB560(View* view) {
     view->unk_A0 = *viewing;
     gSPMatrix(gfxCtx->overlay.p++, viewing, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_view.c", 871);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_view.c", 871);
     return 1;
 }
 #else
@@ -493,14 +493,14 @@ s32 func_800AB560(View* view) {
 #endif
 
 s32 func_800AB944(View* view) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, view->gfxCtx, "../z_view.c", 878);
+    Graph_OpenDisps(dispRefs, view->gfxCtx, "../z_view.c", 878);
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
     func_80101E34(view->unk_E4, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y, view->unk_34.z,
                   view->unk_40.x, view->unk_40.y, view->unk_40.z);
 
-    func_800C6B54(gfxArr, view->gfxCtx, "../z_view.c", 886);
+    Graph_CloseDisps(dispRefs, view->gfxCtx, "../z_view.c", 886);
     return 1;
 }
 
