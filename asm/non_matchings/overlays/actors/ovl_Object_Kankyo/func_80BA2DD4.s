@@ -45,7 +45,7 @@ glabel func_80BA2DD4
 /* 003E0 80BA2E80 24010007 */  addiu   $at, $zero, 0x0007         ## $at = 00000007
 /* 003E4 80BA2E84 15A10041 */  bne     $t5, $at, .L80BA2F8C       
 /* 003E8 80BA2E88 2484164C */  addiu   $a0, $a0, 0x164C           ## $a0 = 0000164C
-/* 003EC 80BA2E8C 0C032D9E */  jal     func_800CB678              
+/* 003EC 80BA2E8C 0C032D9E */  jal     Math3D_Vec3f_DistXYZ              
 /* 003F0 80BA2E90 24A500E0 */  addiu   $a1, $a1, 0x00E0           ## $a1 = 000000E0
 /* 003F4 80BA2E94 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
 /* 003F8 80BA2E98 44815000 */  mtc1    $at, $f10                  ## $f10 = 30.00

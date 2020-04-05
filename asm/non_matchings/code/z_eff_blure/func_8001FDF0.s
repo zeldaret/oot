@@ -123,7 +123,7 @@ glabel func_8001FDF0
 /* A9712C 8001FF8C 46008482 */  mul.s $f18, $f16, $f0
 /* A97130 8001FF90 0C01DFB4 */  jal   Math_Vec3f_Diff
 /* A97134 8001FF94 E7B20168 */   swc1  $f18, 0x168($sp)
-/* A97138 8001FF98 0C032D8A */  jal   func_800CB628
+/* A97138 8001FF98 0C032D8A */  jal   Math3D_Vec3fMagnitude
 /* A9713C 8001FF9C 27A40154 */   addiu $a0, $sp, 0x154
 /* A97140 8001FFA0 3C018013 */  lui   $at, %hi(D_8013542C)
 /* A97144 8001FFA4 C424542C */  lwc1  $f4, %lo(D_8013542C)($at)

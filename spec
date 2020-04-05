@@ -441,7 +441,7 @@ beginseg
     include "build/asm/sys_math.o"
     include "build/data/sys_math.data.o"
     include "build/data/sys_math.rodata.o"
-    include "build/asm/sys_math3d.o"
+    include "build/src/code/sys_math3d.o"
     include "build/data/sys_math3d.data.o"
     include "build/data/sys_math3d.rodata.o"
     include "build/data/sys_math3d.bss.o"

@@ -1,0 +1,20 @@
+glabel func_800CDD18
+/* B44EB8 800CDD18 27BDFFD8 */  addiu $sp, $sp, -0x28
+/* B44EBC 800CDD1C 44876000 */  mtc1  $a3, $f12
+/* B44EC0 800CDD20 3C013F80 */  li    $at, 0x3F800000 # 0.000000
+/* B44EC4 800CDD24 44814000 */  mtc1  $at, $f8
+/* B44EC8 800CDD28 C7A40038 */  lwc1  $f4, 0x38($sp)
+/* B44ECC 800CDD2C C7A6003C */  lwc1  $f6, 0x3c($sp)
+/* B44ED0 800CDD30 C7AA0040 */  lwc1  $f10, 0x40($sp)
+/* B44ED4 800CDD34 AFBF0024 */  sw    $ra, 0x24($sp)
+/* B44ED8 800CDD38 44076000 */  mfc1  $a3, $f12
+/* B44EDC 800CDD3C E7A40010 */  swc1  $f4, 0x10($sp)
+/* B44EE0 800CDD40 E7A80018 */  swc1  $f8, 0x18($sp)
+/* B44EE4 800CDD44 E7A60014 */  swc1  $f6, 0x14($sp)
+/* B44EE8 800CDD48 0C033674 */  jal   func_800CD9D0
+/* B44EEC 800CDD4C E7AA001C */   swc1  $f10, 0x1c($sp)
+/* B44EF0 800CDD50 8FBF0024 */  lw    $ra, 0x24($sp)
+/* B44EF4 800CDD54 27BD0028 */  addiu $sp, $sp, 0x28
+/* B44EF8 800CDD58 03E00008 */  jr    $ra
+/* B44EFC 800CDD5C 00000000 */   nop   
+

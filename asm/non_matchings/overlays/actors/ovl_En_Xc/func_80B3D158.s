@@ -21,7 +21,7 @@ glabel func_80B3D158
 /* 00FC4 80B3D1A4 24842DB0 */  addiu   $a0, $a0, %lo(D_80B42DB0)  ## $a0 = 80B42DB0
 /* 00FC8 80B3D1A8 11E0002B */  beq     $t7, $zero, .L80B3D258     
 /* 00FCC 80B3D1AC 24C500E0 */  addiu   $a1, $a2, 0x00E0           ## $a1 = 000000E0
-/* 00FD0 80B3D1B0 0C032D9E */  jal     func_800CB678              
+/* 00FD0 80B3D1B0 0C032D9E */  jal     Math3D_Vec3f_DistXYZ              
 /* 00FD4 80B3D1B4 AFA60038 */  sw      $a2, 0x0038($sp)           
 /* 00FD8 80B3D1B8 3C0180B4 */  lui     $at, %hi(D_80B41DA0)       ## $at = 80B40000
 /* 00FDC 80B3D1BC C42E1DA0 */  lwc1    $f14, %lo(D_80B41DA0)($at) 

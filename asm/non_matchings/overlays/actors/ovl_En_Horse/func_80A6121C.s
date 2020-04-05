@@ -30,7 +30,7 @@ glabel func_80A6121C
 /* 05F9C 80A6128C 012B082A */  slt     $at, $t1, $t3              
 /* 05FA0 80A61290 54200011 */  bnel    $at, $zero, .L80A612D8     
 /* 05FA4 80A61294 C6080024 */  lwc1    $f8, 0x0024($s0)           ## 00000024
-/* 05FA8 80A61298 0C032D9E */  jal     func_800CB678              
+/* 05FA8 80A61298 0C032D9E */  jal     Math3D_Vec3f_DistXYZ              
 /* 05FAC 80A6129C 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
 /* 05FB0 80A612A0 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
 /* 05FB4 80A612A4 8D8CFA90 */  lw      $t4, -0x0570($t4)          ## 8015FA90

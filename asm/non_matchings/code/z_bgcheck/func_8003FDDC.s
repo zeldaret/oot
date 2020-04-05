@@ -235,9 +235,9 @@ glabel func_8003FDDC
 /* AB72F8 80040158 02603025 */  move  $a2, $s3
 /* AB72FC 8004015C 02402825 */  move  $a1, $s2
 /* AB7300 80040160 02202025 */  move  $a0, $s1
-/* AB7304 80040164 0C032E09 */  jal   func_800CB824
+/* AB7304 80040164 0C032E09 */  jal   Math3D_SurfaceNorm
 /* AB7308 80040168 27A700D4 */   addiu $a3, $sp, 0xd4
-/* AB730C 8004016C 0C032D8A */  jal   func_800CB628
+/* AB730C 8004016C 0C032D8A */  jal   Math3D_Vec3fMagnitude
 /* AB7310 80040170 27A400D4 */   addiu $a0, $sp, 0xd4
 /* AB7314 80040174 3C018014 */  lui   $at, %hi(D_80138FB0)
 /* AB7318 80040178 C42A8FB0 */  lwc1  $f10, %lo(D_80138FB0)($at)

@@ -12,7 +12,7 @@ glabel func_80A4CED8
 /* 01260 80A4CF00 10000009 */  beq     $zero, $zero, .L80A4CF28   
 /* 01264 80A4CF04 C48C01BC */  lwc1    $f12, 0x01BC($a0)          ## 000001BC
 .L80A4CF08:
-/* 01268 80A4CF08 0C032D9E */  jal     func_800CB678              
+/* 01268 80A4CF08 0C032D9E */  jal     Math3D_Vec3f_DistXYZ              
 /* 0126C 80A4CF0C 26040024 */  addiu   $a0, $s0, 0x0024           ## $a0 = 00000024
 /* 01270 80A4CF10 3C0180A5 */  lui     $at, %hi(D_80A4E080)       ## $at = 80A50000
 /* 01274 80A4CF14 C424E080 */  lwc1    $f4, %lo(D_80A4E080)($at)  
@@ -35,13 +35,13 @@ glabel func_80A4CED8
 /* 012B4 80A4CF54 3C0480A5 */  lui     $a0, %hi(D_80A4DEE4)       ## $a0 = 80A50000
 /* 012B8 80A4CF58 2484DEE4 */  addiu   $a0, $a0, %lo(D_80A4DEE4)  ## $a0 = 80A4DEE4
 /* 012BC 80A4CF5C 2605005C */  addiu   $a1, $s0, 0x005C           ## $a1 = 0000005C
-/* 012C0 80A4CF60 0C032DED */  jal     func_800CB7B4              
+/* 012C0 80A4CF60 0C032DED */  jal     Math3D_Vec3f_Cross              
 /* 012C4 80A4CF64 27A60080 */  addiu   $a2, $sp, 0x0080           ## $a2 = FFFFFFE8
 /* 012C8 80A4CF68 10000005 */  beq     $zero, $zero, .L80A4CF80   
 /* 012CC 80A4CF6C C7AC008C */  lwc1    $f12, 0x008C($sp)          
 .L80A4CF70:
 /* 012D0 80A4CF70 27A60080 */  addiu   $a2, $sp, 0x0080           ## $a2 = FFFFFFE8
-/* 012D4 80A4CF74 0C032DED */  jal     func_800CB7B4              
+/* 012D4 80A4CF74 0C032DED */  jal     Math3D_Vec3f_Cross              
 /* 012D8 80A4CF78 E7AC008C */  swc1    $f12, 0x008C($sp)          
 /* 012DC 80A4CF7C C7AC008C */  lwc1    $f12, 0x008C($sp)          
 .L80A4CF80:

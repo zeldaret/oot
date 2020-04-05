@@ -7,6 +7,8 @@ float fabsf(float f);
 #pragma intrinsic(fabsf)
 float sqrtf(float f);
 #pragma intrinsic(sqrtf)
+double sqrt(double d);
+#pragma intrinsic(sqrt)
 
 void cleararena(void);
 void bootproc(void);
@@ -1602,19 +1604,19 @@ f32 func_800CA774(f32);
 // ? func_800CAEE8(?);
 // ? func_800CAF5C(?);
 // ? func_800CAFA0(?);
-// ? func_800CAFEC(?);
-// ? func_800CB010(?);
+// ? Math3D_DotProduct(?);
+// ? Math3D_CalcDotProduct(?);
 // ? func_800CB1F8(?);
 // ? func_800CB338(?);
 // ? func_800CB55C(?);
 // ? func_800CB594(?);
-// ? func_800CB600(?);
-// ? func_800CB628(?);
+// ? Math3D_Vec3f_HadamardProduct(?);
+// ? Math3D_Vec3fMagnitude(?);
 // ? func_800CB650(?);
-// ? func_800CB678(?);
+// ? Math3D_Vec3f_DistXYZ(?);
 // ? func_800CB698(?);
-// ? func_800CB7B4(?);
-// ? func_800CB824(?);
+// ? Math3D_Vec3f_Cross(?);
+// ? Math3D_SurfaceNorm(?);
 // ? func_800CB88C(?);
 // ? func_800CB934(?);
 // ? func_800CBAE4(?);

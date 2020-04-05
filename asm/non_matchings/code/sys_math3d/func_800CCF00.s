@@ -1,0 +1,20 @@
+glabel func_800CCF00
+/* B440A0 800CCF00 27BDFFD8 */  addiu $sp, $sp, -0x28
+/* B440A4 800CCF04 44876000 */  mtc1  $a3, $f12
+/* B440A8 800CCF08 3C013F80 */  li    $at, 0x3F800000 # 0.000000
+/* B440AC 800CCF0C 44814000 */  mtc1  $at, $f8
+/* B440B0 800CCF10 C7A40038 */  lwc1  $f4, 0x38($sp)
+/* B440B4 800CCF14 C7A6003C */  lwc1  $f6, 0x3c($sp)
+/* B440B8 800CCF18 C7AA0040 */  lwc1  $f10, 0x40($sp)
+/* B440BC 800CCF1C AFBF0024 */  sw    $ra, 0x24($sp)
+/* B440C0 800CCF20 44076000 */  mfc1  $a3, $f12
+/* B440C4 800CCF24 E7A40010 */  swc1  $f4, 0x10($sp)
+/* B440C8 800CCF28 E7A80018 */  swc1  $f8, 0x18($sp)
+/* B440CC 800CCF2C E7A60014 */  swc1  $f6, 0x14($sp)
+/* B440D0 800CCF30 0C0332F9 */  jal   func_800CCBE4
+/* B440D4 800CCF34 E7AA001C */   swc1  $f10, 0x1c($sp)
+/* B440D8 800CCF38 8FBF0024 */  lw    $ra, 0x24($sp)
+/* B440DC 800CCF3C 27BD0028 */  addiu $sp, $sp, 0x28
+/* B440E0 800CCF40 03E00008 */  jr    $ra
+/* B440E4 800CCF44 00000000 */   nop   
+

@@ -551,9 +551,9 @@ glabel func_8003EE80
 /* AB6854 8003F6B4 44984000 */  mtc1  $t8, $f8
 /* AB6858 8003F6B8 00000000 */  nop   
 /* AB685C 8003F6BC 46804420 */  cvt.s.w $f16, $f8
-/* AB6860 8003F6C0 0C032E09 */  jal   func_800CB824
+/* AB6860 8003F6C0 0C032E09 */  jal   Math3D_SurfaceNorm
 /* AB6864 8003F6C4 E7B000C0 */   swc1  $f16, 0xc0($sp)
-/* AB6868 8003F6C8 0C032D8A */  jal   func_800CB628
+/* AB6868 8003F6C8 0C032D8A */  jal   Math3D_Vec3fMagnitude
 /* AB686C 8003F6CC 27A400AC */   addiu $a0, $sp, 0xac
 /* AB6870 8003F6D0 3C018014 */  lui   $at, %hi(D_80138FA4)
 /* AB6874 8003F6D4 C4248FA4 */  lwc1  $f4, %lo(D_80138FA4)($at)

@@ -52,7 +52,7 @@ glabel func_80B8EFF4
 /* 00634 80B8F0B4 0C01DFB4 */  jal     Math_Vec3f_Diff
               ## Vec3f_Sub
 /* 00638 80B8F0B8 27A60068 */  addiu   $a2, $sp, 0x0068           ## $a2 = FFFFFFF0
-/* 0063C 80B8F0BC 0C032D8A */  jal     func_800CB628              
+/* 0063C 80B8F0BC 0C032D8A */  jal     Math3D_Vec3fMagnitude              
 /* 00640 80B8F0C0 27A40068 */  addiu   $a0, $sp, 0x0068           ## $a0 = FFFFFFF0
 /* 00644 80B8F0C4 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
 /* 00648 80B8F0C8 44818000 */  mtc1    $at, $f16                  ## $f16 = 0.50
@@ -137,7 +137,7 @@ glabel func_80B8EFF4
 /* 0076C 80B8F1EC 8FA60054 */  lw      $a2, 0x0054($sp)           
 /* 00770 80B8F1F0 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFC8
 /* 00774 80B8F1F4 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFBC
-/* 00778 80B8F1F8 0C032C04 */  jal     func_800CB010              
+/* 00778 80B8F1F8 0C032C04 */  jal     Math3D_CalcDotProduct              
 /* 0077C 80B8F1FC 27A60030 */  addiu   $a2, $sp, 0x0030           ## $a2 = FFFFFFB8
 /* 00780 80B8F200 10400004 */  beq     $v0, $zero, .L80B8F214     
 /* 00784 80B8F204 C7A60030 */  lwc1    $f6, 0x0030($sp)           

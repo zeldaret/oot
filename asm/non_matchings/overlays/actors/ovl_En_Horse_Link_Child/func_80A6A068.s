@@ -85,12 +85,12 @@ glabel func_80A6A068
 /* 00DC0 80A6A190 11A00085 */  beq     $t5, $zero, .L80A6A3A8
 /* 00DC4 80A6A194 26040024 */  addiu   $a0, $s0, 0x0024           ## $a0 = 00000024
 /* 00DC8 80A6A198 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00DCC 80A6A19C 0C032D9E */  jal     func_800CB678
+/* 00DCC 80A6A19C 0C032D9E */  jal     Math3D_Vec3f_DistXYZ
 /* 00DD0 80A6A1A0 AFA7004C */  sw      $a3, 0x004C($sp)
 /* 00DD4 80A6A1A4 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 00DD8 80A6A1A8 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 00DDC 80A6A1AC E7A00044 */  swc1    $f0, 0x0044($sp)
-/* 00DE0 80A6A1B0 0C032D9E */  jal     func_800CB678
+/* 00DE0 80A6A1B0 0C032D9E */  jal     Math3D_Vec3f_DistXYZ
 /* 00DE4 80A6A1B4 24840024 */  addiu   $a0, $a0, 0x0024           ## $a0 = 00000024
 /* 00DE8 80A6A1B8 3C01437A */  lui     $at, 0x437A                ## $at = 437A0000
 /* 00DEC 80A6A1BC 44812000 */  mtc1    $at, $f4                   ## $f4 = 250.00

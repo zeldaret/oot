@@ -40,7 +40,7 @@ glabel func_800C04D8
 /* B376F4 800C0554 02202025 */  move  $a0, $s1
 /* B376F8 800C0558 8FA50034 */  lw    $a1, 0x34($sp)
 /* B376FC 800C055C 00621825 */  or    $v1, $v1, $v0
-/* B37700 800C0560 0C032D9E */  jal   func_800CB678
+/* B37700 800C0560 0C032D9E */  jal   Math3D_Vec3f_DistXYZ
 /* B37704 800C0564 AFA30024 */   sw    $v1, 0x24($sp)
 /* B37708 800C0568 8E020090 */  lw    $v0, 0x90($s0)
 /* B3770C 800C056C 8FA30024 */  lw    $v1, 0x24($sp)

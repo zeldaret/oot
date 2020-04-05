@@ -17,7 +17,7 @@ glabel func_80A69F5C
 /* 00BC4 80A69F94 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 00BC8 80A69F98 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00BCC 80A69F9C 24C40024 */  addiu   $a0, $a2, 0x0024           ## $a0 = 00000024
-/* 00BD0 80A69FA0 0C032D9E */  jal     func_800CB678              
+/* 00BD0 80A69FA0 0C032D9E */  jal     Math3D_Vec3f_DistXYZ              
 /* 00BD4 80A69FA4 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 00BD8 80A69FA8 3C01437A */  lui     $at, 0x437A                ## $at = 437A0000
 /* 00BDC 80A69FAC 44812000 */  mtc1    $at, $f4                   ## $f4 = 250.00

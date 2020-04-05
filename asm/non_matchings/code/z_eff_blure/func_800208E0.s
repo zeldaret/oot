@@ -47,17 +47,17 @@ glabel func_800208E0
 /* A97B18 80020978 2445000E */   addiu $a1, $v0, 0xe
 /* A97B1C 8002097C 27A40064 */  addiu $a0, $sp, 0x64
 /* A97B20 80020980 27A5004C */  addiu $a1, $sp, 0x4c
-/* A97B24 80020984 0C032C04 */  jal   func_800CB010
+/* A97B24 80020984 0C032C04 */  jal   Math3D_CalcDotProduct
 /* A97B28 80020988 27A60034 */   addiu $a2, $sp, 0x34
 /* A97B2C 8002098C 1440000B */  bnez  $v0, .L800209BC
 /* A97B30 80020990 27A40058 */   addiu $a0, $sp, 0x58
 /* A97B34 80020994 27A50040 */  addiu $a1, $sp, 0x40
-/* A97B38 80020998 0C032C04 */  jal   func_800CB010
+/* A97B38 80020998 0C032C04 */  jal   Math3D_CalcDotProduct
 /* A97B3C 8002099C 27A60030 */   addiu $a2, $sp, 0x30
 /* A97B40 800209A0 14400006 */  bnez  $v0, .L800209BC
 /* A97B44 800209A4 27A4004C */   addiu $a0, $sp, 0x4c
 /* A97B48 800209A8 27A50040 */  addiu $a1, $sp, 0x40
-/* A97B4C 800209AC 0C032C04 */  jal   func_800CB010
+/* A97B4C 800209AC 0C032C04 */  jal   Math3D_CalcDotProduct
 /* A97B50 800209B0 27A6002C */   addiu $a2, $sp, 0x2c
 /* A97B54 800209B4 10400006 */  beqz  $v0, .L800209D0
 /* A97B58 800209B8 3C01BF00 */   li    $at, 0xBF000000 # 0.000000

@@ -75,7 +75,7 @@ glabel func_809C5BA8
 /* 0049C 809C5CCC AC890008 */  sw      $t1, 0x0008($a0)           ## 00000008
 /* 004A0 809C5CD0 0C2716CE */  jal     func_809C5B38              
 /* 004A4 809C5CD4 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 004A8 809C5CD8 0C032D8A */  jal     func_800CB628              
+/* 004A8 809C5CD8 0C032D8A */  jal     Math3D_Vec3fMagnitude              
 /* 004AC 809C5CDC 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 004B0 809C5CE0 3C01809C */  lui     $at, %hi(D_809C6DE4)       ## $at = 809C0000
 /* 004B4 809C5CE4 C42A6DE4 */  lwc1    $f10, %lo(D_809C6DE4)($at) 

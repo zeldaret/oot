@@ -1,0 +1,16 @@
+glabel func_800CCA04
+/* B43BA4 800CCA04 C4840000 */  lwc1  $f4, ($a0)
+/* B43BA8 800CCA08 C4A60000 */  lwc1  $f6, ($a1)
+/* B43BAC 800CCA0C C48A0004 */  lwc1  $f10, 4($a0)
+/* B43BB0 800CCA10 C4B00004 */  lwc1  $f16, 4($a1)
+/* B43BB4 800CCA14 46062202 */  mul.s $f8, $f4, $f6
+/* B43BB8 800CCA18 C4860008 */  lwc1  $f6, 8($a0)
+/* B43BBC 800CCA1C 46105482 */  mul.s $f18, $f10, $f16
+/* B43BC0 800CCA20 C4AA0008 */  lwc1  $f10, 8($a1)
+/* B43BC4 800CCA24 460A3402 */  mul.s $f16, $f6, $f10
+/* B43BC8 800CCA28 46124100 */  add.s $f4, $f8, $f18
+/* B43BCC 800CCA2C C492000C */  lwc1  $f18, 0xc($a0)
+/* B43BD0 800CCA30 46102200 */  add.s $f8, $f4, $f16
+/* B43BD4 800CCA34 03E00008 */  jr    $ra
+/* B43BD8 800CCA38 46124000 */   add.s $f0, $f8, $f18
+

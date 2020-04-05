@@ -32,7 +32,7 @@ glabel func_808B0CE0
 /* 003E8 808B0D48 27A400C8 */  addiu   $a0, $sp, 0x00C8           ## $a0 = FFFFFFE0
 /* 003EC 808B0D4C 46062202 */  mul.s   $f8, $f4, $f6              
 /* 003F0 808B0D50 46085401 */  sub.s   $f16, $f10, $f8            
-/* 003F4 808B0D54 0C032D8A */  jal     func_800CB628              
+/* 003F4 808B0D54 0C032D8A */  jal     Math3D_Vec3fMagnitude              
 /* 003F8 808B0D58 E7B000CC */  swc1    $f16, 0x00CC($sp)          
 /* 003FC 808B0D5C 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float
@@ -209,7 +209,7 @@ glabel func_808B0CE0
 /* 00678 808B0FD8 3C04808B */  lui     $a0, %hi(D_808B16B0)       ## $a0 = 808B0000
 /* 0067C 808B0FDC 248416B0 */  addiu   $a0, $a0, %lo(D_808B16B0)  ## $a0 = 808B16B0
 /* 00680 808B0FE0 8FA50024 */  lw      $a1, 0x0024($sp)           
-/* 00684 808B0FE4 0C032BFB */  jal     func_800CAFEC              
+/* 00684 808B0FE4 0C032BFB */  jal     Math3D_DotProduct              
 /* 00688 808B0FE8 AFA7002C */  sw      $a3, 0x002C($sp)           
 /* 0068C 808B0FEC 0C03F4DA */  jal     Math_acosf
 /* 00690 808B0FF0 46000306 */  mov.s   $f12, $f0                  

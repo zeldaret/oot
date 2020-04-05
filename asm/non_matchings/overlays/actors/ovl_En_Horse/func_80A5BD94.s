@@ -80,7 +80,7 @@ glabel func_80A5BD94
 /* 00BC0 80A5BEB0 E7A60068 */  swc1    $f6, 0x0068($sp)           
 /* 00BC4 80A5BEB4 468084A0 */  cvt.s.w $f18, $f16                 
 /* 00BC8 80A5BEB8 E7AA006C */  swc1    $f10, 0x006C($sp)          
-/* 00BCC 80A5BEBC 0C032D9E */  jal     func_800CB678              
+/* 00BCC 80A5BEBC 0C032D9E */  jal     Math3D_Vec3f_DistXYZ              
 /* 00BD0 80A5BEC0 E7B20070 */  swc1    $f18, 0x0070($sp)          
 /* 00BD4 80A5BEC4 4600B03C */  c.lt.s  $f22, $f0                  
 /* 00BD8 80A5BEC8 46000506 */  mov.s   $f20, $f0                  

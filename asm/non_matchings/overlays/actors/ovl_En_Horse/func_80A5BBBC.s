@@ -20,7 +20,7 @@ glabel func_80A5BBBC
 /* 00914 80A5BC04 10000014 */  beq     $zero, $zero, .L80A5BC58   
 /* 00918 80A5BC08 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 .L80A5BC0C:
-/* 0091C 80A5BC0C 0C032D9E */  jal     func_800CB678              
+/* 0091C 80A5BC0C 0C032D9E */  jal     Math3D_Vec3f_DistXYZ              
 /* 00920 80A5BC10 8FA40038 */  lw      $a0, 0x0038($sp)           
 /* 00924 80A5BC14 E7A0001C */  swc1    $f0, 0x001C($sp)           
 /* 00928 80A5BC18 8FA40030 */  lw      $a0, 0x0030($sp)           

@@ -11,7 +11,7 @@ glabel func_80A686A8
 /* 0006C 80A686CC 27A60028 */  addiu   $a2, $sp, 0x0028           ## $a2 = FFFFFFF0
 /* 00070 80A686D0 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
 /* 00074 80A686D4 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00078 80A686D8 0C032D9E */  jal     func_800CB678              
+/* 00078 80A686D8 0C032D9E */  jal     Math3D_Vec3f_DistXYZ              
 /* 0007C 80A686DC 27A40028 */  addiu   $a0, $sp, 0x0028           ## $a0 = FFFFFFF0
 /* 00080 80A686E0 3C0143C8 */  lui     $at, 0x43C8                ## $at = 43C80000
 /* 00084 80A686E4 44812000 */  mtc1    $at, $f4                   ## $f4 = 400.00

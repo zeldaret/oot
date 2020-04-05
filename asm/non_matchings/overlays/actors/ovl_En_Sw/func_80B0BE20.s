@@ -60,7 +60,7 @@ glabel func_80B0BE20
 /* 00158 80B0BF08 AC890008 */  sw      $t1, 0x0008($a0)           ## 00000008
 /* 0015C 80B0BF0C 0C2C2F6C */  jal     func_80B0BDB0              
 /* 00160 80B0BF10 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 00164 80B0BF14 0C032D8A */  jal     func_800CB628              
+/* 00164 80B0BF14 0C032D8A */  jal     Math3D_Vec3fMagnitude              
 /* 00168 80B0BF18 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 0016C 80B0BF1C 3C0180B1 */  lui     $at, %hi(D_80B0F204)       ## $at = 80B10000
 /* 00170 80B0BF20 C424F204 */  lwc1    $f4, %lo(D_80B0F204)($at)  

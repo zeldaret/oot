@@ -4,7 +4,7 @@ glabel func_808B0C44
 /* 002EC 808B0C4C 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 002F0 808B0C50 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 002F4 808B0C54 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 002F8 808B0C58 0C032D8A */  jal     func_800CB628              
+/* 002F8 808B0C58 0C032D8A */  jal     Math3D_Vec3fMagnitude              
 /* 002FC 808B0C5C AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00300 808B0C60 3C01808B */  lui     $at, %hi(D_808B1880)       ## $at = 808B0000
 /* 00304 808B0C64 C4241880 */  lwc1    $f4, %lo(D_808B1880)($at)  
