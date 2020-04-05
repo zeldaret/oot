@@ -9,7 +9,7 @@ pipeline {
                 sh 'git submodule update --init --recursive'
                 sh 'cp -r /usr/local/etc/ido/ido7.1_compiler tools/ido7.1_compiler'
                 sh 'chmod +x -R tools/ido*'
-                sh 'make setup'
+                sh 'make -j`nproc` setup'
             }
         }
         stage('Build') {
