@@ -1702,9 +1702,64 @@ void func_8005F7D0(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005F7D0.s") 
 #endif // NON_MATCHING
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005FA30.s") 
+//Check ColliderCylinder to ColliderCylinder
+void func_8005FA30(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    ColliderCylinder* left = (ColliderCylinder*)l;
+    ColliderCylinder* right = (ColliderCylinder*)r;
+    f32 sp6C;
+    f32 sp68;
+    Vec3f sp5C;
+    Vec3f sp50;
+    Vec3f sp44;
+    f32 temp_f0;
+
+    if (left->dim.radius > 0 && left->dim.height > 0 && right->dim.radius > 0 && right->dim.height > 0) {
+        if (func_8005DF50(&right->body) != 1) {
+            //sp38 = temp_a0_2;
+            if (func_8005DF2C(&left->body) != 1) {
+                if (func_8005DF74(&left->body, &right->body) != 1) {
+                    if (func_800CFF34(&left->dim, &right->dim, &sp6C, &sp68) == 1) {
+                        Math_Vec3s_ToVec3f(&sp50, &left->dim.position);
+                        Math_Vec3s_ToVec3f(&sp44, &right->dim.position);
+                        if (!(fabsf(sp68) < 0.008f)) {
+                            temp_f0 = (f32)right->dim.radius / sp68;
+                            sp5C.y = ((f32)right->dim.position.y + (f32)right->dim.yShift) + ((f32)right->dim.height * 0.5f);
+                            sp5C.x = (((f32)left->dim.position.x - right->dim.position.x) * temp_f0) + right->dim.position.x;
+                            sp5C.z = (((f32)left->dim.position.z - right->dim.position.z) * temp_f0) + right->dim.position.z;
+                        }
+                        else {
+                            Math_Vec3s_ToVec3f(&sp5C, &right->dim.position);
+                        }
+                        func_8005E81C(globalCtx, &left->base, &left->body, &sp50, &right->base, &right->body, &sp44, &sp5C);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005FC04.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005FDCC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005FF90.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060204.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800604B0.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060704.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060994.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060C2C.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060EBC.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060F94.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061028.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8006110C.s")
 

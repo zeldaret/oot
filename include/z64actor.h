@@ -200,8 +200,8 @@ typedef struct Actor
 
 typedef enum
 {
+    COLTYPE_CYLINDER_GROUP = 0, //TODO: JntSphere
     COLTYPE_CYLINDER = 1,
-    COLTYPE_CYLINDER_GROUP = 0,
     COLTYPE_QUAD = 3,
     COLTYPE_TRIANGLE_GROUP = 2
 } ColliderType;
