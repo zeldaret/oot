@@ -240,7 +240,7 @@ s32 func_800AA890(View* view, Mtx* mtx) {
     Matrix_RotateX(view->unk_104.x, 1);
     Matrix_RotateY(view->unk_104.y, 1);
     Matrix_RotateZ(view->unk_104.z, 1);
-    Matrix_Scale(view->unk_110.x, view->unk_110.y, view->unk_110.z, 1);
+    Matrix_Scale(view->unk_110.x, view->unk_110.y, view->unk_110.z, MTXMODE_APPLY);
     Matrix_RotateZ(-view->unk_104.z, 1);
     Matrix_RotateY(-view->unk_104.y, 1);
     Matrix_RotateX(-view->unk_104.x, 1);
@@ -289,17 +289,16 @@ s32 func_800AAA9C(View* view) {
     view->unk_E0 = projection;
     xlen = view->viewport.rightX - view->viewport.leftX;
     ylen = view->viewport.bottomY - view->viewport.topY;
-    if ((u16)0xB == HREG(80)) {
-        if ((u16)0xB != HREG(94)) {
-            HREG(94) = (u16)0xB;
-            HREG(83) = (u16)0x3C;
-            HREG(84) = (u16)0x3415;
-            HREG(85) = (u16)0xA;
-            HREG(86) = (u16)0x3200;
-            HREG(87) = (u16)0x64;
+    if (HREG(80) == 0xB) {
+        if (HREG(94) != 0xB) {
+            HREG(94) = 0xB;
+            HREG(83) = 0x3C;
+            HREG(84) = 0x3415;
+            HREG(85) = 0xA;
+            HREG(86) = 0x3200;
+            HREG(87) = 0x64;
         }
-        guPerspective(projection, &view->unk_11C, (f32)HREG(83), (f32)HREG(84) / 10000.0f, (f32)HREG(85), (f32)HREG(86),
-                      (f32)HREG(87) / 100.0f);
+        guPerspective(projection, &view->unk_11C, HREG(83), HREG(84) / 10000.0f, HREG(85), HREG(86), HREG(87) / 100.0f);
     } else {
         guPerspective(projection, &view->unk_11C, view->fieldOfView, (f32)xlen / (f32)ylen, view->fogDistance,
                       view->zDepth, view->unk_24);
@@ -324,7 +323,7 @@ s32 func_800AAA9C(View* view) {
     gSPPerspNormalize(gfxCtx->polyXlu.p++, view->unk_11C);
     gSPMatrix(gfxCtx->polyXlu.p++, projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
 
-    viewing = Graph_Alloc(gfxCtx, 0x40);
+    viewing = Graph_Alloc(gfxCtx, sizeof(MtxF));
     LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 667);
     view->unk_E4 = viewing;
     if (view->eye.x == view->unk_34.x && view->eye.y == view->unk_34.y && view->eye.z == view->unk_34.z) {
@@ -337,7 +336,7 @@ s32 func_800AAA9C(View* view) {
                   view->unk_40.x, view->unk_40.y, view->unk_40.z);
     view->unk_A0 = *viewing;
 
-    if ((QREG(88) & 2) != 0) {
+    if (QREG(88) & 2) {
         Matrix_MtxToMtxF(view->unk_E4, &mtxFv);
         osSyncPrintf("viewing\n");
         for (i = 0; i < 4; i++) {
