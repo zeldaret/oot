@@ -41,8 +41,8 @@ static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_FC, 1000, ICHAIN_STOP),
 };
 
-extern UNK_PTR D_06002260;
-extern UNK_PTR D_0600238C;
+extern Gfx D_06002260[];
+extern UNK_TYPE D_0600238C;
 
 static void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, UNK_TYPE collision, DynaPolyMoveFlag flags) {
     Actor* thisx = &this->dyna.actor;
