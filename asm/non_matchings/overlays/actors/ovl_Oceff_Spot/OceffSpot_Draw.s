@@ -13,7 +13,7 @@ glabel OceffSpot_Draw
 /* 006A0 80BA6710 24C66F94 */  addiu   $a2, $a2, %lo(D_80BA6F94)  ## $a2 = 80BA6F94
 /* 006A4 80BA6714 27A40054 */  addiu   $a0, $sp, 0x0054           ## $a0 = FFFFFFE4
 /* 006A8 80BA6718 240701D2 */  addiu   $a3, $zero, 0x01D2         ## $a3 = 000001D2
-/* 006AC 80BA671C 0C031AB1 */  jal     Graph_OpenDisp              
+/* 006AC 80BA671C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 006B0 80BA6720 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 006B4 80BA6724 0C024F61 */  jal     func_80093D84              
 /* 006B8 80BA6728 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -78,7 +78,7 @@ glabel OceffSpot_Draw
 /* 007A4 80BA6814 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 007A8 80BA6818 24C66FBC */  addiu   $a2, $a2, %lo(D_80BA6FBC)  ## $a2 = 80BA6FBC
 /* 007AC 80BA681C 27A40054 */  addiu   $a0, $sp, 0x0054           ## $a0 = FFFFFFE4
-/* 007B0 80BA6820 0C031AD5 */  jal     Graph_CloseDisp              
+/* 007B0 80BA6820 0C031AD5 */  jal     Graph_CloseDisps              
 /* 007B4 80BA6824 240701E5 */  addiu   $a3, $zero, 0x01E5         ## $a3 = 000001E5
 /* 007B8 80BA6828 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 007BC 80BA682C 8FB00034 */  lw      $s0, 0x0034($sp)           

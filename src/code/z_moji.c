@@ -37,9 +37,9 @@ void func_8007B934(s32 arg0, s32 arg1) {
 }
 
 void func_8007B9A4(GraphicsContext* gfxCtx, u8 arg1) {
-    Gfx* gfxArr[7];
+    Gfx* dispRefs[7];
 
-    Graph_OpenDisp(gfxArr, gfxCtx, "../z_moji.c", 86);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_moji.c", 86);
 
     if ((u32)gLetterTLUT & 0xF) {
         osSyncPrintf("moji_tlut --> %X\n", gLetterTLUT);
@@ -54,14 +54,14 @@ void func_8007B9A4(GraphicsContext* gfxCtx, u8 arg1) {
                         (D_80120124 + 8) << 2, G_TX_RENDERTILE, (u16)(arg1 & 4) * 64, (u16)(arg1 >> 3) * 256, 1024,
                         1024);
 
-    Graph_CloseDisp(gfxArr, gfxCtx, "../z_moji.c", 123);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_moji.c", 123);
 }
 
 void func_8007BBA8(GraphicsContext* gfxCtx, u8* arg1) {
     s32 i;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    Graph_OpenDisp(gfxArr, gfxCtx, "../z_moji.c", 137);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_moji.c", 137);
 
     if ((u32)gFontFF & 0xF) {
         osSyncPrintf("font_ff --> %X\n", gFontFF);
@@ -108,5 +108,5 @@ void func_8007BBA8(GraphicsContext* gfxCtx, u8* arg1) {
         }
     }
 
-    Graph_CloseDisp(gfxArr, gfxCtx, "../z_moji.c", 181);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_moji.c", 181);
 }

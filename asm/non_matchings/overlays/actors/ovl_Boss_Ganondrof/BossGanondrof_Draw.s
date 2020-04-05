@@ -10,7 +10,7 @@ glabel BossGanondrof_Draw
 /* 04224 80914864 24C65370 */  addiu   $a2, $a2, %lo(D_80915370)  ## $a2 = 80915370
 /* 04228 80914868 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE0
 /* 0422C 8091486C 24070E84 */  addiu   $a3, $zero, 0x0E84         ## $a3 = 00000E84
-/* 04230 80914870 0C031AB1 */  jal     Graph_OpenDisp              
+/* 04230 80914870 0C031AB1 */  jal     Graph_OpenDisps              
 /* 04234 80914874 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 04238 80914878 3C048091 */  lui     $a0, %hi(D_80915388)       ## $a0 = 80910000
 /* 0423C 8091487C 24845388 */  addiu   $a0, $a0, %lo(D_80915388)  ## $a0 = 80915388
@@ -289,7 +289,7 @@ glabel BossGanondrof_Draw
 /* 0462C 80914C6C 24C653E4 */  addiu   $a2, $a2, %lo(D_809153E4)  ## $a2 = 809153E4
 /* 04630 80914C70 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE0
 /* 04634 80914C74 24070EE6 */  addiu   $a3, $zero, 0x0EE6         ## $a3 = 00000EE6
-/* 04638 80914C78 0C031AD5 */  jal     Graph_CloseDisp              
+/* 04638 80914C78 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0463C 80914C7C 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 04640 80914C80 3C048091 */  lui     $a0, %hi(D_809153FC)       ## $a0 = 80910000
 /* 04644 80914C84 248453FC */  addiu   $a0, $a0, %lo(D_809153FC)  ## $a0 = 809153FC

@@ -10,7 +10,7 @@ glabel BgMizuWater_Draw
 /* 00B08 808A03B8 24C605A8 */  addiu   $a2, $a2, %lo(D_808A05A8)  ## $a2 = 808A05A8
 /* 00B0C 808A03BC 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFE4
 /* 00B10 808A03C0 240702E2 */  addiu   $a3, $zero, 0x02E2         ## $a3 = 000002E2
-/* 00B14 808A03C4 0C031AB1 */  jal     Graph_OpenDisp              
+/* 00B14 808A03C4 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00B18 808A03C8 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00B1C 808A03CC 3C030001 */  lui     $v1, 0x0001                ## $v1 = 00010000
 /* 00B20 808A03D0 00711821 */  addu    $v1, $v1, $s1              
@@ -84,7 +84,7 @@ glabel BgMizuWater_Draw
 /* 00C30 808A04E0 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 00C34 808A04E4 24C605D8 */  addiu   $a2, $a2, %lo(D_808A05D8)  ## $a2 = 808A05D8
 /* 00C38 808A04E8 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFE4
-/* 00C3C 808A04EC 0C031AD5 */  jal     Graph_CloseDisp              
+/* 00C3C 808A04EC 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00C40 808A04F0 240702F4 */  addiu   $a3, $zero, 0x02F4         ## $a3 = 000002F4
 /* 00C44 808A04F4 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 00C48 808A04F8 8FB00034 */  lw      $s0, 0x0034($sp)           

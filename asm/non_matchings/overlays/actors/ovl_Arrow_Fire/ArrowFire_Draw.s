@@ -30,7 +30,7 @@ glabel ArrowFire_Draw
 /* 005EC 808662FC 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 /* 005F0 80866300 AFA20084 */  sw      $v0, 0x0084($sp)
 /* 005F4 80866304 27A40070 */  addiu   $a0, $sp, 0x0070           ## $a0 = FFFFFFD8
-/* 005F8 80866308 0C031AB1 */  jal     Graph_OpenDisp
+/* 005F8 80866308 0C031AB1 */  jal     Graph_OpenDisps
 /* 005FC 8086630C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00600 80866310 8FA20084 */  lw      $v0, 0x0084($sp)
 /* 00604 80866314 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
@@ -271,7 +271,7 @@ glabel ArrowFire_Draw
 /* 009A4 808666B4 24C67B84 */  addiu   $a2, $a2, %lo(D_80867B84)  ## $a2 = 80867B84
 /* 009A8 808666B8 27A40070 */  addiu   $a0, $sp, 0x0070           ## $a0 = FFFFFFD8
 /* 009AC 808666BC 240702AA */  addiu   $a3, $zero, 0x02AA         ## $a3 = 000002AA
-/* 009B0 808666C0 0C031AD5 */  jal     Graph_CloseDisp
+/* 009B0 808666C0 0C031AD5 */  jal     Graph_CloseDisps
 /* 009B4 808666C4 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 .L808666C8:
 /* 009B8 808666C8 8FBF003C */  lw      $ra, 0x003C($sp)

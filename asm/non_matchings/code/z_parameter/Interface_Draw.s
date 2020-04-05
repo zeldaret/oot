@@ -92,7 +92,7 @@ glabel Interface_Draw
 /* B01BB4 8008AA14 27A40260 */  addiu $a0, $sp, 0x260
 /* B01BB8 8008AA18 24C6E38C */  addiu $a2, %lo(D_8013E38C) # addiu $a2, $a2, -0x1c74
 /* B01BBC 8008AA1C 24070D4D */  li    $a3, 3405
-/* B01BC0 8008AA20 0C031AB1 */  jal   Graph_OpenDisp
+/* B01BC0 8008AA20 0C031AB1 */  jal   Graph_OpenDisps
 /* B01BC4 8008AA24 00A0A025 */   move  $s4, $a1
 /* B01BC8 8008AA28 8E8702B0 */  lw    $a3, 0x2b0($s4)
 /* B01BCC 8008AA2C 3C18DB06 */  lui   $t8, (0xDB060008 >> 16) # lui $t8, 0xdb06
@@ -3065,7 +3065,7 @@ glabel L8008D1EC
 /* B04780 8008D5E0 ACEA0000 */  sw    $t2, ($a3)
 .L8008D5E4:
 /* B04784 8008D5E4 8EE50000 */  lw    $a1, ($s7)
-/* B04788 8008D5E8 0C031AD5 */  jal   Graph_CloseDisp
+/* B04788 8008D5E8 0C031AD5 */  jal   Graph_CloseDisps
 /* B0478C 8008D5EC 240710AD */   li    $a3, 4269
 /* B04790 8008D5F0 8FBF004C */  lw    $ra, 0x4c($sp)
 /* B04794 8008D5F4 8FB0002C */  lw    $s0, 0x2c($sp)

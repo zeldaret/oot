@@ -10,7 +10,7 @@ glabel DoorGerudo_Draw
 /* 00488 80994A68 24C64B80 */  addiu   $a2, $a2, %lo(D_80994B80)  ## $a2 = 80994B80
 /* 0048C 80994A6C 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 00490 80994A70 24070169 */  addiu   $a3, $zero, 0x0169         ## $a3 = 00000169
-/* 00494 80994A74 0C031AB1 */  jal     Graph_OpenDisp              
+/* 00494 80994A74 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00498 80994A78 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 0049C 80994A7C 0C024F46 */  jal     func_80093D18              
 /* 004A0 80994A80 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -57,7 +57,7 @@ glabel DoorGerudo_Draw
 /* 00540 80994B20 24C64BA8 */  addiu   $a2, $a2, %lo(D_80994BA8)  ## $a2 = 80994BA8
 /* 00544 80994B24 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 00548 80994B28 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 0054C 80994B2C 0C031AD5 */  jal     Graph_CloseDisp              
+/* 0054C 80994B2C 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00550 80994B30 24070179 */  addiu   $a3, $zero, 0x0179         ## $a3 = 00000179
 /* 00554 80994B34 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00558 80994B38 8FB00014 */  lw      $s0, 0x0014($sp)           

@@ -157,7 +157,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     u32 temp;
     OSTime time;
     OSTask_t* task;
-    Gfx* gfxArr[3];
+    Gfx* dispRefs[3];
     OSScTask* scTask;
     CfbInfo* cfb;
 
@@ -219,9 +219,9 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->output_buff_size = gGfxSPTaskYieldBuffer; // ??
     task->data_ptr = gfxCtx->workBuffer;
 
-    Graph_OpenDisp(gfxArr, gfxCtx, "../graph.c", 828);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 828);
     task->data_size = (u32)gfxCtx->work.p - (u32)gfxCtx->workBuffer;
-    Graph_CloseDisp(gfxArr, gfxCtx, "../graph.c", 830);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 830);
 
     task->yield_data_ptr = gGfxSPTaskYieldBuffer;
     task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
@@ -264,40 +264,40 @@ u32 sGraphCfbInfoIdx = 0;
 #ifdef NON_MATCHING
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     u32 problem;     // 0xC4 -> 0xD4
-    Gfx* gfxArr[5];  // 0xB0 -> 0xC0
-    Gfx* gfxArr2[9]; // 0x8C -> 0x9C
-    Gfx* gfxArr3[9]; // 0x68 -> 0x78
+    Gfx* dispRefs[5];  // 0xB0 -> 0xC0
+    Gfx* dispRefs2[9]; // 0x8C -> 0x9C
+    Gfx* dispRefs3[9]; // 0x68 -> 0x78
     u64 time;
     GfxPool* pool; // 0x4C -> 0x6C
 
     gameState->unk_A0 = 0;
     Graph_InitTHGA(gfxCtx);
 
-    Graph_OpenDisp(gfxArr, gfxCtx, "../graph.c", 966);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../graph.c", 966);
     gDPNoOpString(gfxCtx->work.p++, "WORK_DISP 開始", 0);
     gDPNoOpString(gfxCtx->polyOpa.p++, "POLY_OPA_DISP 開始", 0);
     gDPNoOpString(gfxCtx->polyXlu.p++, "POLY_XLU_DISP 開始", 0);
     gDPNoOpString(gfxCtx->overlay.p++, "OVERLAY_DISP 開始", 0);
-    Graph_CloseDisp(gfxArr, gfxCtx, "../graph.c", 975);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 975);
 
     func_800C4A98(gameState); // Game_ReqPadData
     func_800C4AC8(gameState); // Game_SetGameFrame
 
-    Graph_OpenDisp(gfxArr2, gfxCtx, "../graph.c", 987);
+    Graph_OpenDisps(dispRefs2, gfxCtx, "../graph.c", 987);
     gDPNoOpString(gfxCtx->work.p++, "WORK_DISP 終了", 0);
     gDPNoOpString(gfxCtx->polyOpa.p++, "POLY_OPA_DISP 終了", 0);
     gDPNoOpString(gfxCtx->polyXlu.p++, "POLY_XLU_DISP 終了", 0);
     gDPNoOpString(gfxCtx->overlay.p++, "OVERLAY_DISP 終了", 0);
-    Graph_CloseDisp(gfxArr2, gfxCtx, "../graph.c", 996);
+    Graph_CloseDisps(dispRefs2, gfxCtx, "../graph.c", 996);
 
-    Graph_OpenDisp(gfxArr3, gfxCtx, "../graph.c", 999);
+    Graph_OpenDisps(dispRefs3, gfxCtx, "../graph.c", 999);
     gSPBranchList(gfxCtx->work.p++, gfxCtx->polyOpaBuffer);
     gSPBranchList(gfxCtx->polyOpa.p++, gfxCtx->polyXluBuffer);
     gSPBranchList(gfxCtx->polyXlu.p++, gfxCtx->overlayBuffer);
     gDPPipeSync(gfxCtx->overlay.p++);
     gDPFullSync(gfxCtx->overlay.p++);
     gSPEndDisplayList(gfxCtx->overlay.p++);
-    Graph_CloseDisp(gfxArr3, gfxCtx, "../graph.c", 1028);
+    Graph_CloseDisps(dispRefs3, gfxCtx, "../graph.c", 1028);
 
     if (HREG(80) == 10 && HREG(93) == 2) {
         HREG(80) = 7;
@@ -467,11 +467,11 @@ void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size) {
     return THGA_AllocEnd(&gfxCtx->polyOpa, ALIGN16(size));
 }
 
-void Graph_OpenDisp(Gfx** gfxArr, GraphicsContext* gfxCtx, const char* file, s32 line) {
+void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line) {
     if (HREG(80) == 7 && HREG(82) != 4) {
-        gfxArr[0] = gfxCtx->polyOpa.p;
-        gfxArr[1] = gfxCtx->polyXlu.p;
-        gfxArr[2] = gfxCtx->overlay.p;
+        dispRefs[0] = gfxCtx->polyOpa.p;
+        dispRefs[1] = gfxCtx->polyXlu.p;
+        dispRefs[2] = gfxCtx->overlay.p;
 
         gDPNoOpOpenDisp(gfxCtx->polyOpa.p++, file, line);
         gDPNoOpOpenDisp(gfxCtx->polyXlu.p++, file, line);
@@ -479,22 +479,22 @@ void Graph_OpenDisp(Gfx** gfxArr, GraphicsContext* gfxCtx, const char* file, s32
     }
 }
 
-void Graph_CloseDisp(Gfx** gfxArr, GraphicsContext* gfxCtx, const char* file, s32 line) {
+void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line) {
     if (HREG(80) == 7 && HREG(82) != 4) {
-        if (gfxArr[0] + 1 == gfxCtx->polyOpa.p) {
-            gfxCtx->polyOpa.p = gfxArr[0];
+        if (dispRefs[0] + 1 == gfxCtx->polyOpa.p) {
+            gfxCtx->polyOpa.p = dispRefs[0];
         } else {
             gDPNoOpCloseDisp(gfxCtx->polyOpa.p++, file, line);
         }
 
-        if (gfxArr[1] + 1 == gfxCtx->polyXlu.p) {
-            gfxCtx->polyXlu.p = gfxArr[1];
+        if (dispRefs[1] + 1 == gfxCtx->polyXlu.p) {
+            gfxCtx->polyXlu.p = dispRefs[1];
         } else {
             gDPNoOpCloseDisp(gfxCtx->polyXlu.p++, file, line);
         }
 
-        if (gfxArr[2] + 1 == gfxCtx->overlay.p) {
-            gfxCtx->overlay.p = gfxArr[2];
+        if (dispRefs[2] + 1 == gfxCtx->overlay.p) {
+            gfxCtx->overlay.p = dispRefs[2];
         } else {
             gDPNoOpCloseDisp(gfxCtx->overlay.p++, file, line);
         }

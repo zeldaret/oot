@@ -8,7 +8,7 @@ glabel EnDaikuKakariko_Draw
 /* 01038 809E5358 24C655E0 */  addiu   $a2, $a2, %lo(D_809E55E0)  ## $a2 = 809E55E0
 /* 0103C 809E535C 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 01040 809E5360 24070464 */  addiu   $a3, $zero, 0x0464         ## $a3 = 00000464
-/* 01044 809E5364 0C031AB1 */  jal     Graph_OpenDisp
+/* 01044 809E5364 0C031AB1 */  jal     Graph_OpenDisps
 /* 01048 809E5368 AFA50050 */  sw      $a1, 0x0050($sp)
 /* 0104C 809E536C 8FAF005C */  lw      $t7, 0x005C($sp)
 /* 01050 809E5370 0C024F46 */  jal     func_80093D18
@@ -81,7 +81,7 @@ glabel EnDaikuKakariko_Draw
 /* 0114C 809E546C 24C655FC */  addiu   $a2, $a2, %lo(D_809E55FC)  ## $a2 = 809E55FC
 /* 01150 809E5470 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 01154 809E5474 2407047F */  addiu   $a3, $zero, 0x047F         ## $a3 = 0000047F
-/* 01158 809E5478 0C031AD5 */  jal     Graph_CloseDisp
+/* 01158 809E5478 0C031AD5 */  jal     Graph_CloseDisps
 /* 0115C 809E547C 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 01160 809E5480 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 01164 809E5484 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000

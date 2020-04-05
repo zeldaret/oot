@@ -75,9 +75,9 @@ void Title_Draw(TitleContext* this) {
     Vec3f v2;
     char pad2[0x8];
     GraphicsContext* gfxCtx = this->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    Graph_OpenDisp(&gfxArr, this->state.gfxCtx, "../z_title.c", 395);
+    Graph_OpenDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 395);
 
     v3.x = 69;
     v3.y = 69;
@@ -124,17 +124,17 @@ void Title_Draw(TitleContext* this) {
 
     sTitleRotY += 300;
 
-    Graph_CloseDisp(&gfxArr, this->state.gfxCtx, "../z_title.c", 483);
+    Graph_CloseDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 483);
 }
 
 void Title_Update(TitleContext* this) {
     GraphicsContext* gfxCtx = this->state.gfxCtx;
     u32 pad;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
     u32 pad2;
     Gfx* gfx[2];
 
-    Graph_OpenDisp(&gfxArr, this->state.gfxCtx, "../z_title.c", 494);
+    Graph_OpenDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 494);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0, NULL);
     gSPSegment(gfxCtx->polyOpa.p++, 1, this->staticSegment);
@@ -154,7 +154,7 @@ void Title_Update(TitleContext* this) {
         SET_NEXT_GAMESTATE(&this->state, Opening_Init, OpeningContext);
     }
 
-    Graph_CloseDisp(&gfxArr, this->state.gfxCtx, "../z_title.c", 541);
+    Graph_CloseDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 541);
 }
 
 void Title_Destroy(TitleContext* this) {

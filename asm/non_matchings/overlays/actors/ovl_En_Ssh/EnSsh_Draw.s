@@ -13,7 +13,7 @@ glabel EnSsh_Draw
 /* 02074 80B042E4 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 02078 80B042E8 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFE4
 /* 0207C 80B042EC 2407091D */  addiu   $a3, $zero, 0x091D         ## $a3 = 0000091D
-/* 02080 80B042F0 0C031AB1 */  jal     Graph_OpenDisp              
+/* 02080 80B042F0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 02084 80B042F4 AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 02088 80B042F8 8FA80044 */  lw      $t0, 0x0044($sp)           
 /* 0208C 80B042FC 3C18DB06 */  lui     $t8, 0xDB06                ## $t8 = DB060000
@@ -45,7 +45,7 @@ glabel EnSsh_Draw
 /* 020F4 80B04364 8FB90054 */  lw      $t9, 0x0054($sp)           
 /* 020F8 80B04368 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFE4
 /* 020FC 80B0436C 24070920 */  addiu   $a3, $zero, 0x0920         ## $a3 = 00000920
-/* 02100 80B04370 0C031AD5 */  jal     Graph_CloseDisp              
+/* 02100 80B04370 0C031AD5 */  jal     Graph_CloseDisps              
 /* 02104 80B04374 8F250000 */  lw      $a1, 0x0000($t9)           ## 00000000
 /* 02108 80B04378 3C0980B0 */  lui     $t1, %hi(func_80B04280)    ## $t1 = 80B00000
 /* 0210C 80B0437C 25294280 */  addiu   $t1, $t1, %lo(func_80B04280) ## $t1 = 80B04280

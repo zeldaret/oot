@@ -10,7 +10,7 @@ glabel EfcErupc_Draw
 /* 00320 8099CFD0 24C6D790 */  addiu   $a2, $a2, %lo(D_8099D790)  ## $a2 = 8099D790
 /* 00324 8099CFD4 27A40074 */  addiu   $a0, $sp, 0x0074           ## $a0 = FFFFFFE4
 /* 00328 8099CFD8 2407011A */  addiu   $a3, $zero, 0x011A         ## $a3 = 0000011A
-/* 0032C 8099CFDC 0C031AB1 */  jal     Graph_OpenDisp              
+/* 0032C 8099CFDC 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00330 8099CFE0 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00334 8099CFE4 0C024F61 */  jal     func_80093D84              
 /* 00338 8099CFE8 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -216,7 +216,7 @@ glabel EfcErupc_Draw
 /* 00650 8099D300 AC580000 */  sw      $t8, 0x0000($v0)           ## 00000000
 /* 00654 8099D304 AC590004 */  sw      $t9, 0x0004($v0)           ## 00000004
 .L8099D308:
-/* 00658 8099D308 0C031AD5 */  jal     Graph_CloseDisp              
+/* 00658 8099D308 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0065C 8099D30C 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 00660 8099D310 8FA40090 */  lw      $a0, 0x0090($sp)           
 /* 00664 8099D314 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000

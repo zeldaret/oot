@@ -97,10 +97,10 @@ static void BgMjin_Draw(BgMjin* this, GlobalContext* globalCtx) {
     s32 objBankIndex;
     u32 dlist;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
     s32 pad;
 
-    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
     if (this->dyna.actor.params != 0) {
         objBankIndex = Object_GetIndex(&globalCtx->objectCtx, objectTbl[this->dyna.actor.params - 1]);
         if (objBankIndex >= 0) {
@@ -115,5 +115,5 @@ static void BgMjin_Draw(BgMjin* this, GlobalContext* globalCtx) {
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 285),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, dlist);
-    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_mjin.c", 288);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_mjin.c", 288);
 }

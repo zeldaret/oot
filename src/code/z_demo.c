@@ -1867,7 +1867,7 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     Gfx* displayList;
     Gfx* prevDisplayList;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     if (0) {} // Necessary to match
 
@@ -1876,7 +1876,7 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 
         if (BREG(0) != 0) {
             gfxCtx = globalCtx->state.gfxCtx;
-            Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_demo.c", 4101);
+            Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo.c", 4101);
 
             prevDisplayList = gfxCtx->polyOpa.p;
             displayList = Graph_GfxPlusOne(gfxCtx->polyOpa.p);
@@ -1886,7 +1886,7 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
             Graph_BranchDlist(prevDisplayList, displayList);
             gfxCtx->polyOpa.p = displayList;
 
-            Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_demo.c", 4108);
+            Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo.c", 4108);
         }
 
         csCtx->frames++;

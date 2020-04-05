@@ -37,7 +37,7 @@ glabel EnZo_Draw
 /* 020AC 80B622CC 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 020B0 80B622D0 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 020B4 80B622D4 240703F0 */  addiu   $a3, $zero, 0x03F0         ## $a3 = 000003F0
-/* 020B8 80B622D8 0C031AB1 */  jal     Graph_OpenDisp              
+/* 020B8 80B622D8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 020BC 80B622DC AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 020C0 80B622E0 3C01437F */  lui     $at, 0x437F                ## $at = 437F0000
 /* 020C4 80B622E4 44814000 */  mtc1    $at, $f8                   ## $f8 = 255.00
@@ -125,7 +125,7 @@ glabel EnZo_Draw
 /* 02204 80B62424 24C62684 */  addiu   $a2, $a2, %lo(D_80B62684)  ## $a2 = 80B62684
 /* 02208 80B62428 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFDC
 /* 0220C 80B6242C 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 02210 80B62430 0C031AD5 */  jal     Graph_CloseDisp              
+/* 02210 80B62430 0C031AD5 */  jal     Graph_CloseDisps              
 /* 02214 80B62434 24070401 */  addiu   $a3, $zero, 0x0401         ## $a3 = 00000401
 /* 02218 80B62438 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80B6243C:

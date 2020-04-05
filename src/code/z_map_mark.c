@@ -86,7 +86,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
     s32 rectLeft;
     s32 rectTop;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     dungeonId = gSaveContext.dungeon_index;
     interfaceCtx = &globalCtx->interfaceCtx;
@@ -101,7 +101,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
     mapMarkData = &sLoadedMarkDataTable[dungeonId][interfaceCtx->roomNum][0];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_map_mark.c", 303);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_map_mark.c", 303);
 
     while (1) {
         if (mapMarkData->markType == -1) {
@@ -134,7 +134,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
         mapMarkData++;
     }
 
-    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_map_mark.c", 339);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_map_mark.c", 339);
 }
 
 void MapMark_DrawConditionally(GlobalContext* globalCtx) {

@@ -59,17 +59,17 @@ static void EnSceneChange_Draw(EnSceneChange* this, GlobalContext* globalCtx) {
     s32 pad1[0x2];
     Gfx* displayListHead;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     displayList = Graph_Alloc(globalCtx->state.gfxCtx, 0x3C0);
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 290);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 290);
 
     displayListHead = displayList;
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, displayListHead);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 386);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 386);
 }

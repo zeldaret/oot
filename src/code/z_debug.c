@@ -221,9 +221,9 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     void* unk2[6];
     GfxPrint gfxPrint;
     void* unk[2];
-    Gfx* dlFrame[4]; // stores state of GfxCtx next ptrs
+    Gfx* dispRefs[4]; // stores state of GfxCtx next ptrs
 
-    Graph_OpenDisp(&dlFrame, gfxCtx, "../z_debug.c", 628);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_debug.c", 628);
     GfxPrint_Ctor(&gfxPrint);
     sp78 = gfxCtx->polyOpa.p;
     tempRet = Graph_GfxPlusOne(gfxCtx->polyOpa.p);
@@ -244,6 +244,6 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     Graph_BranchDlist(sp78, sp7C);
     gfxCtx->polyOpa.p = sp7C;
     if (0) {}
-    Graph_CloseDisp(&dlFrame, gfxCtx, "../z_debug.c", 664);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_debug.c", 664);
     GfxPrint_Dtor(&gfxPrint);
 }

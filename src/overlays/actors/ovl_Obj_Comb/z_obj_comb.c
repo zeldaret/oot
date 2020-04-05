@@ -183,11 +183,11 @@ void ObjComb_Update(ObjComb* this, GlobalContext* globalCtx) {
 void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx) {
     s32 pad;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_obj_comb.c", 369);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_comb.c", 369);
     func_80093D18(globalCtx->state.gfxCtx);
 
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (118.0f * this->actor.scale.y),
@@ -204,5 +204,5 @@ void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx) {
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_050095B0);
 
     func_800628A4(0, &this->collider);
-    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
 }

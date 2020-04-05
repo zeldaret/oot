@@ -214,7 +214,7 @@ glabel Graph_TaskSet00
 /* B3D220 800C6080 27A40048 */  addiu $a0, $sp, 0x48
 /* B3D224 800C6084 02202825 */  move  $a1, $s1
 /* B3D228 800C6088 2407033C */  li    $a3, 828
-/* B3D22C 800C608C 0C031AB1 */  jal   Graph_OpenDisp
+/* B3D22C 800C608C 0C031AB1 */  jal   Graph_OpenDisps
 /* B3D230 800C6090 AE0A0030 */   sw    $t2, 0x30($s0)
 /* B3D234 800C6094 8E2B01BC */  lw    $t3, 0x1bc($s1)
 /* B3D238 800C6098 8E2901B0 */  lw    $t1, 0x1b0($s1)
@@ -224,7 +224,7 @@ glabel Graph_TaskSet00
 /* B3D248 800C60A8 AE0C0034 */  sw    $t4, 0x34($s0)
 /* B3D24C 800C60AC 27A40048 */  addiu $a0, $sp, 0x48
 /* B3D250 800C60B0 02202825 */  move  $a1, $s1
-/* B3D254 800C60B4 0C031AD5 */  jal   Graph_CloseDisp
+/* B3D254 800C60B4 0C031AD5 */  jal   Graph_CloseDisps
 /* B3D258 800C60B8 2407033E */   li    $a3, 830
 /* B3D25C 800C60BC 3C0D801B */  lui   $t5, %hi(gGfxSPTaskYieldBuffer) # $t5, 0x801b
 /* B3D260 800C60C0 25AD31C0 */  addiu $t5, %lo(gGfxSPTaskYieldBuffer) # addiu $t5, $t5, 0x31c0

@@ -9,7 +9,7 @@ glabel EnZl1_Draw
 /* 01938 80B4C478 24C6E720 */  addiu   $a2, $a2, %lo(D_80B4E720)  ## $a2 = 80B4E720
 /* 0193C 80B4C47C 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 01940 80B4C480 240707DB */  addiu   $a3, $zero, 0x07DB         ## $a3 = 000007DB
-/* 01944 80B4C484 0C031AB1 */  jal     Graph_OpenDisp
+/* 01944 80B4C484 0C031AB1 */  jal     Graph_OpenDisps
 /* 01948 80B4C488 AFA50050 */  sw      $a1, 0x0050($sp)
 /* 0194C 80B4C48C 8FA80050 */  lw      $t0, 0x0050($sp)
 /* 01950 80B4C490 3C18DB06 */  lui     $t8, 0xDB06                ## $t8 = DB060000
@@ -85,7 +85,7 @@ glabel EnZl1_Draw
 /* 01A68 80B4C5A8 24C6E730 */  addiu   $a2, $a2, %lo(D_80B4E730)  ## $a2 = 80B4E730
 /* 01A6C 80B4C5AC 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 01A70 80B4C5B0 240707FE */  addiu   $a3, $zero, 0x07FE         ## $a3 = 000007FE
-/* 01A74 80B4C5B4 0C031AD5 */  jal     Graph_CloseDisp
+/* 01A74 80B4C5B4 0C031AD5 */  jal     Graph_CloseDisps
 /* 01A78 80B4C5B8 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 01A7C 80B4C5BC 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 01A80 80B4C5C0 8FB00028 */  lw      $s0, 0x0028($sp)

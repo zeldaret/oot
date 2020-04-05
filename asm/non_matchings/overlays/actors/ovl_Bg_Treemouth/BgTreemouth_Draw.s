@@ -10,7 +10,7 @@ glabel BgTreemouth_Draw
 /* 0073C 808BCC3C A7A90042 */  sh      $t1, 0x0042($sp)           
 /* 00740 808BCC40 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFE4
 /* 00744 808BCC44 2407037D */  addiu   $a3, $zero, 0x037D         ## $a3 = 0000037D
-/* 00748 808BCC48 0C031AB1 */  jal     Graph_OpenDisp              
+/* 00748 808BCC48 0C031AB1 */  jal     Graph_OpenDisps              
 /* 0074C 808BCC4C AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 00750 808BCC50 8FAF004C */  lw      $t7, 0x004C($sp)           
 /* 00754 808BCC54 0C024F46 */  jal     func_80093D18              
@@ -128,7 +128,7 @@ glabel BgTreemouth_Draw
 /* 008F8 808BCDF8 24C6DA08 */  addiu   $a2, $a2, %lo(D_808BDA08)  ## $a2 = 808BDA08
 /* 008FC 808BCDFC 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFE4
 /* 00900 808BCE00 240703A9 */  addiu   $a3, $zero, 0x03A9         ## $a3 = 000003A9
-/* 00904 808BCE04 0C031AD5 */  jal     Graph_CloseDisp              
+/* 00904 808BCE04 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00908 808BCE08 8F050000 */  lw      $a1, 0x0000($t8)           ## 00000000
 /* 0090C 808BCE0C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00910 808BCE10 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000

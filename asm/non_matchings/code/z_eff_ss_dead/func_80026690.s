@@ -25,7 +25,7 @@ glabel func_80026690
 /* A9D854 800266B4 24C65638 */  addiu $a2, %lo(D_80135638) # addiu $a2, $a2, 0x5638
 /* A9D858 800266B8 27A40038 */  addiu $a0, $sp, 0x38
 /* A9D85C 800266BC 240700B2 */  li    $a3, 178
-/* A9D860 800266C0 0C031AB1 */  jal   Graph_OpenDisp
+/* A9D860 800266C0 0C031AB1 */  jal   Graph_OpenDisps
 /* A9D864 800266C4 AFA50048 */   sw    $a1, 0x48($sp)
 /* A9D868 800266C8 87B80066 */  lh    $t8, 0x66($sp)
 /* A9D86C 800266CC 34198000 */  li    $t9, 32768
@@ -130,7 +130,7 @@ glabel func_80026690
 .L8002683C:
 /* A9D9DC 8002683C AD0502D0 */  sw    $a1, 0x2d0($t0)
 /* A9D9E0 80026840 8FB90058 */  lw    $t9, 0x58($sp)
-/* A9D9E4 80026844 0C031AD5 */  jal   Graph_CloseDisp
+/* A9D9E4 80026844 0C031AD5 */  jal   Graph_CloseDisps
 /* A9D9E8 80026848 8F250000 */   lw    $a1, ($t9)
 /* A9D9EC 8002684C 8FBF001C */  lw    $ra, 0x1c($sp)
 /* A9D9F0 80026850 8FB00018 */  lw    $s0, 0x18($sp)

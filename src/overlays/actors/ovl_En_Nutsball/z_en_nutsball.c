@@ -136,9 +136,9 @@ static void EnNutsball_Update(EnNutsball* this, GlobalContext* globalCtx) {
 
 static void EnNutsball_Draw(EnNutsball* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_nutsball.c", 327);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nutsball.c", 327);
 
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
@@ -147,5 +147,5 @@ static void EnNutsball_Draw(EnNutsball* this, GlobalContext* globalCtx) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, dListTbl[this->actor.params]);
 
-    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_en_nutsball.c", 337);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nutsball.c", 337);
 }

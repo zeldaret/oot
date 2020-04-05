@@ -10,7 +10,7 @@ glabel BgMenkuriEye_Draw
 /* 00290 8089BF00 24C6C0D0 */  addiu   $a2, $a2, %lo(D_8089C0D0)  ## $a2 = 8089C0D0
 /* 00294 8089BF04 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
 /* 00298 8089BF08 24070124 */  addiu   $a3, $zero, 0x0124         ## $a3 = 00000124
-/* 0029C 8089BF0C 0C031AB1 */  jal     Graph_OpenDisp
+/* 0029C 8089BF0C 0C031AB1 */  jal     Graph_OpenDisps
 /* 002A0 8089BF10 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 002A4 8089BF14 8FAF005C */  lw      $t7, 0x005C($sp)
 /* 002A8 8089BF18 0C024F61 */  jal     func_80093D84
@@ -94,7 +94,7 @@ glabel BgMenkuriEye_Draw
 /* 003D0 8089C040 24C6C100 */  addiu   $a2, $a2, %lo(D_8089C100)  ## $a2 = 8089C100
 /* 003D4 8089C044 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
 /* 003D8 8089C048 2407014F */  addiu   $a3, $zero, 0x014F         ## $a3 = 0000014F
-/* 003DC 8089C04C 0C031AD5 */  jal     Graph_CloseDisp
+/* 003DC 8089C04C 0C031AD5 */  jal     Graph_CloseDisps
 /* 003E0 8089C050 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 003E4 8089C054 8FBF001C */  lw      $ra, 0x001C($sp)
 /* 003E8 8089C058 8FB00014 */  lw      $s0, 0x0014($sp)

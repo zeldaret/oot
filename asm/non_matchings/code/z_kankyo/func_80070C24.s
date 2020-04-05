@@ -236,7 +236,7 @@ glabel func_80070C24
 /* AE8114 80070F74 8F250000 */  lw    $a1, ($t9)
 /* AE8118 80070F78 E7AE0088 */  swc1  $f14, 0x88($sp)
 /* AE811C 80070F7C AFAA007C */  sw    $t2, 0x7c($sp)
-/* AE8120 80070F80 0C031AB1 */  jal   Graph_OpenDisp
+/* AE8120 80070F80 0C031AB1 */  jal   Graph_OpenDisps
 /* AE8124 80070F84 AFA5006C */   sw    $a1, 0x6c($sp)
 /* AE8128 80070F88 8FAF006C */  lw    $t7, 0x6c($sp)
 /* AE812C 80070F8C 8DE402C0 */  lw    $a0, 0x2c0($t7)
@@ -283,7 +283,7 @@ glabel func_80070C24
 /* AE81D0 80071030 27A4005C */  addiu $a0, $sp, 0x5c
 /* AE81D4 80071034 2407069A */  li    $a3, 1690
 /* AE81D8 80071038 AFAA007C */  sw    $t2, 0x7c($sp)
-/* AE81DC 8007103C 0C031AD5 */  jal   Graph_CloseDisp
+/* AE81DC 8007103C 0C031AD5 */  jal   Graph_CloseDisps
 /* AE81E0 80071040 E7AE0088 */   swc1  $f14, 0x88($sp)
 /* AE81E4 80071044 3C0B8016 */  lui   $t3, %hi(gGameInfo) # $t3, 0x8016
 /* AE81E8 80071048 3C0D8016 */  lui   $t5, %hi(gSaveContext) # $t5, 0x8016

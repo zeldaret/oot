@@ -10,7 +10,7 @@ glabel BgMizuMovebg_Draw
 /* 00C20 8089E850 24C6EBC0 */  addiu   $a2, $a2, %lo(D_8089EBC0)  ## $a2 = 8089EBC0
 /* 00C24 8089E854 27A40070 */  addiu   $a0, $sp, 0x0070           ## $a0 = FFFFFFE0
 /* 00C28 8089E858 240702F2 */  addiu   $a3, $zero, 0x02F2         ## $a3 = 000002F2
-/* 00C2C 8089E85C 0C031AB1 */  jal     Graph_OpenDisp              
+/* 00C2C 8089E85C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00C30 8089E860 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00C34 8089E864 3C0E0001 */  lui     $t6, 0x0001                ## $t6 = 00010000
 /* 00C38 8089E868 01D17021 */  addu    $t6, $t6, $s1              
@@ -181,7 +181,7 @@ glabel BgMizuMovebg_Draw
 /* 00ECC 8089EAFC 8F280180 */  lw      $t0, 0x0180($t9)           ## 00000180
 /* 00ED0 8089EB00 AC480004 */  sw      $t0, 0x0004($v0)           ## 00000004
 .L8089EB04:
-/* 00ED4 8089EB04 0C031AD5 */  jal     Graph_CloseDisp              
+/* 00ED4 8089EB04 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00ED8 8089EB08 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 00EDC 8089EB0C 8FBF004C */  lw      $ra, 0x004C($sp)           
 /* 00EE0 8089EB10 8FB00044 */  lw      $s0, 0x0044($sp)           

@@ -19,7 +19,7 @@ glabel EnNiwGirl_Draw
 /* 0090C 80AB988C 24C69AEC */  addiu   $a2, $a2, %lo(D_80AB9AEC)  ## $a2 = 80AB9AEC
 /* 00910 80AB9890 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFD8
 /* 00914 80AB9894 2407023D */  addiu   $a3, $zero, 0x023D         ## $a3 = 0000023D
-/* 00918 80AB9898 0C031AB1 */  jal     Graph_OpenDisp
+/* 00918 80AB9898 0C031AB1 */  jal     Graph_OpenDisps
 /* 0091C 80AB989C AFA50048 */  sw      $a1, 0x0048($sp)
 /* 00920 80AB98A0 0C024F46 */  jal     func_80093D18
 /* 00924 80AB98A4 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -67,7 +67,7 @@ glabel EnNiwGirl_Draw
 /* 009CC 80AB994C 24C69B00 */  addiu   $a2, $a2, %lo(D_80AB9B00)  ## $a2 = 80AB9B00
 /* 009D0 80AB9950 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFD8
 /* 009D4 80AB9954 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 009D8 80AB9958 0C031AD5 */  jal     Graph_CloseDisp
+/* 009D8 80AB9958 0C031AD5 */  jal     Graph_CloseDisps
 /* 009DC 80AB995C 24070250 */  addiu   $a3, $zero, 0x0250         ## $a3 = 00000250
 /* 009E0 80AB9960 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 009E4 80AB9964 8FB00024 */  lw      $s0, 0x0024($sp)

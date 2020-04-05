@@ -9,7 +9,7 @@ glabel func_809E89E4
 /* 03230 809E8A00 24C690B8 */  addiu   $a2, $a2, %lo(D_809E90B8)  ## $a2 = 809E90B8
 /* 03234 809E8A04 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFEC
 /* 03238 809E8A08 24070A13 */  addiu   $a3, $zero, 0x0A13         ## $a3 = 00000A13
-/* 0323C 809E8A0C 0C031AB1 */  jal     Graph_OpenDisp
+/* 0323C 809E8A0C 0C031AB1 */  jal     Graph_OpenDisps
 /* 03240 809E8A10 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 03244 809E8A14 8FA20040 */  lw      $v0, 0x0040($sp)
 /* 03248 809E8A18 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
@@ -53,7 +53,7 @@ glabel func_809E89E4
 /* 032E0 809E8AB0 24C690E0 */  addiu   $a2, $a2, %lo(D_809E90E0)  ## $a2 = 809E90E0
 /* 032E4 809E8AB4 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFEC
 /* 032E8 809E8AB8 24070A24 */  addiu   $a3, $zero, 0x0A24         ## $a3 = 00000A24
-/* 032EC 809E8ABC 0C031AD5 */  jal     Graph_CloseDisp
+/* 032EC 809E8ABC 0C031AD5 */  jal     Graph_CloseDisps
 /* 032F0 809E8AC0 8D650000 */  lw      $a1, 0x0000($t3)           ## 00000000
 /* 032F4 809E8AC4 8FBF001C */  lw      $ra, 0x001C($sp)
 /* 032F8 809E8AC8 8FB00018 */  lw      $s0, 0x0018($sp)

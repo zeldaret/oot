@@ -139,7 +139,7 @@ glabel Graph_Update
 /* B3D398 800C61F8 24C652A4 */  addiu $a2, %lo(D_801452A4) # addiu $a2, $a2, 0x52a4
 /* B3D39C 800C61FC 27A400B0 */  addiu $a0, $sp, 0xb0
 /* B3D3A0 800C6200 02002825 */  move  $a1, $s0
-/* B3D3A4 800C6204 0C031AB1 */  jal   Graph_OpenDisp
+/* B3D3A4 800C6204 0C031AB1 */  jal   Graph_OpenDisps
 /* B3D3A8 800C6208 240703C6 */   li    $a3, 966
 /* B3D3AC 800C620C 8E0201BC */  lw    $v0, 0x1bc($s0)
 /* B3D3B0 800C6210 3C188014 */  lui   $t8, %hi(D_801452B0) # $t8, 0x8014
@@ -174,7 +174,7 @@ glabel Graph_Update
 /* B3D424 800C6284 02002825 */  move  $a1, $s0
 /* B3D428 800C6288 240703CF */  li    $a3, 975
 /* B3D42C 800C628C AC4D0004 */  sw    $t5, 4($v0)
-/* B3D430 800C6290 0C031AD5 */  jal   Graph_CloseDisp
+/* B3D430 800C6290 0C031AD5 */  jal   Graph_CloseDisps
 /* B3D434 800C6294 AC480000 */   sw    $t0, ($v0)
 /* B3D438 800C6298 0C0312A6 */  jal   func_800C4A98
 /* B3D43C 800C629C 8FA400CC */   lw    $a0, 0xcc($sp)
@@ -184,7 +184,7 @@ glabel Graph_Update
 /* B3D44C 800C62AC 24C65308 */  addiu $a2, %lo(D_80145308) # addiu $a2, $a2, 0x5308
 /* B3D450 800C62B0 27A4008C */  addiu $a0, $sp, 0x8c
 /* B3D454 800C62B4 02002825 */  move  $a1, $s0
-/* B3D458 800C62B8 0C031AB1 */  jal   Graph_OpenDisp
+/* B3D458 800C62B8 0C031AB1 */  jal   Graph_OpenDisps
 /* B3D45C 800C62BC 240703DB */   li    $a3, 987
 /* B3D460 800C62C0 8E0201BC */  lw    $v0, 0x1bc($s0)
 /* B3D464 800C62C4 3C0F8014 */  lui   $t7, %hi(D_80145314) # $t7, 0x8014
@@ -219,13 +219,13 @@ glabel Graph_Update
 /* B3D4D8 800C6338 02002825 */  move  $a1, $s0
 /* B3D4DC 800C633C 240703E4 */  li    $a3, 996
 /* B3D4E0 800C6340 AC4C0004 */  sw    $t4, 4($v0)
-/* B3D4E4 800C6344 0C031AD5 */  jal   Graph_CloseDisp
+/* B3D4E4 800C6344 0C031AD5 */  jal   Graph_CloseDisps
 /* B3D4E8 800C6348 AC480000 */   sw    $t0, ($v0)
 /* B3D4EC 800C634C 3C068014 */  lui   $a2, %hi(D_8014536C) # $a2, 0x8014
 /* B3D4F0 800C6350 24C6536C */  addiu $a2, %lo(D_8014536C) # addiu $a2, $a2, 0x536c
 /* B3D4F4 800C6354 27A40068 */  addiu $a0, $sp, 0x68
 /* B3D4F8 800C6358 02002825 */  move  $a1, $s0
-/* B3D4FC 800C635C 0C031AB1 */  jal   Graph_OpenDisp
+/* B3D4FC 800C635C 0C031AB1 */  jal   Graph_OpenDisps
 /* B3D500 800C6360 240703E7 */   li    $a3, 999
 /* B3D504 800C6364 8E0201BC */  lw    $v0, 0x1bc($s0)
 /* B3D508 800C6368 3C04DE01 */  lui   $a0, 0xde01
@@ -268,7 +268,7 @@ glabel Graph_Update
 /* B3D59C 800C63FC 244E0008 */  addiu $t6, $v0, 8
 /* B3D5A0 800C6400 AE0E02B0 */  sw    $t6, 0x2b0($s0)
 /* B3D5A4 800C6404 AC400004 */  sw    $zero, 4($v0)
-/* B3D5A8 800C6408 0C031AD5 */  jal   Graph_CloseDisp
+/* B3D5A8 800C6408 0C031AD5 */  jal   Graph_CloseDisps
 /* B3D5AC 800C640C AC4F0000 */   sw    $t7, ($v0)
 /* B3D5B0 800C6410 3C088016 */  lui   $t0, %hi(gGameInfo) # $t0, 0x8016
 /* B3D5B4 800C6414 2508FA90 */  addiu $t0, %lo(gGameInfo) # addiu $t0, $t0, -0x570

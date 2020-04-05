@@ -19,7 +19,7 @@ glabel Interface_DrawItemButtons
 /* AFFE78 80088CD8 8C850000 */  lw    $a1, ($a0)
 /* AFFE7C 80088CDC 27A40130 */  addiu $a0, $sp, 0x130
 /* AFFE80 80088CE0 24070B54 */  li    $a3, 2900
-/* AFFE84 80088CE4 0C031AB1 */  jal   Graph_OpenDisp
+/* AFFE84 80088CE4 0C031AB1 */  jal   Graph_OpenDisps
 /* AFFE88 80088CE8 AFA50140 */   sw    $a1, 0x140($sp)
 /* AFFE8C 80088CEC 8FAA0140 */  lw    $t2, 0x140($sp)
 /* AFFE90 80088CF0 3C19E700 */  lui   $t9, 0xe700
@@ -931,7 +931,7 @@ glabel Interface_DrawItemButtons
 /* B00C7C 80089ADC 24C6E2EC */  addiu $a2, %lo(D_8013E2EC) # addiu $a2, $a2, -0x1d14
 /* B00C80 80089AE0 27A40130 */  addiu $a0, $sp, 0x130
 /* B00C84 80089AE4 24070BFF */  li    $a3, 3071
-/* B00C88 80089AE8 0C031AD5 */  jal   Graph_CloseDisp
+/* B00C88 80089AE8 0C031AD5 */  jal   Graph_CloseDisps
 /* B00C8C 80089AEC 8DC50000 */   lw    $a1, ($t6)
 /* B00C90 80089AF0 8FBF002C */  lw    $ra, 0x2c($sp)
 /* B00C94 80089AF4 27BD0158 */  addiu $sp, $sp, 0x158

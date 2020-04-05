@@ -10,7 +10,7 @@ glabel EnIceHono_Draw
 /* 00E3C 80A73E2C 24C640D8 */  addiu   $a2, $a2, %lo(D_80A740D8)  ## $a2 = 80A740D8
 /* 00E40 80A73E30 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFE4
 /* 00E44 80A73E34 240702B7 */  addiu   $a3, $zero, 0x02B7         ## $a3 = 000002B7
-/* 00E48 80A73E38 0C031AB1 */  jal     Graph_OpenDisp              
+/* 00E48 80A73E38 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00E4C 80A73E3C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00E50 80A73E40 0C024F61 */  jal     func_80093D84              
 /* 00E54 80A73E44 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -113,7 +113,7 @@ glabel EnIceHono_Draw
 /* 00FD8 80A73FC8 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 00FDC 80A73FCC 24C64100 */  addiu   $a2, $a2, %lo(D_80A74100)  ## $a2 = 80A74100
 /* 00FE0 80A73FD0 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFE4
-/* 00FE4 80A73FD4 0C031AD5 */  jal     Graph_CloseDisp              
+/* 00FE4 80A73FD4 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00FE8 80A73FD8 240702D2 */  addiu   $a3, $zero, 0x02D2         ## $a3 = 000002D2
 /* 00FEC 80A73FDC 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 00FF0 80A73FE0 8FB00034 */  lw      $s0, 0x0034($sp)           

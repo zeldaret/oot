@@ -193,7 +193,7 @@ void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx) {
     u32 stateFrames;
     GraphicsContext* gfxCtx;
     EnArrow* arrow;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     stateFrames = globalCtx->state.frames;
     arrow = this->actor.attachedA;
@@ -203,7 +203,7 @@ void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx) {
         if (1) {}
         tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
         // clang-format off
-        gfxCtx = globalCtx->state.gfxCtx; Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 610);
+        gfxCtx = globalCtx->state.gfxCtx; Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 610);
         // clang-format on
         Matrix_Translate(tranform->posRot.pos.x, tranform->posRot.pos.y, tranform->posRot.pos.z, MTXMODE_NEW);
         Matrix_RotateY(tranform->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
@@ -240,6 +240,6 @@ void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx) {
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 128, 32, 1,
                                         511 - (stateFrames * 10) % 512, 511 - (stateFrames * 10) % 512, 4, 16));
         gSPDisplayList(gfxCtx->polyXlu.p++, vertexDL);
-        Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 676);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 676);
     }
 }

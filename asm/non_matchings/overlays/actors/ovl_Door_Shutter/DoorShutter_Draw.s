@@ -31,7 +31,7 @@ glabel DoorShutter_Draw
 /* 018B0 80997B50 24C6832C */  addiu   $a2, $a2, %lo(D_8099832C)  ## $a2 = 8099832C
 /* 018B4 80997B54 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFDC
 /* 018B8 80997B58 24070800 */  addiu   $a3, $zero, 0x0800         ## $a3 = 00000800
-/* 018BC 80997B5C 0C031AB1 */  jal     Graph_OpenDisp              
+/* 018BC 80997B5C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 018C0 80997B60 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 018C4 80997B64 8FAC0084 */  lw      $t4, 0x0084($sp)           
 /* 018C8 80997B68 0C024F46 */  jal     func_80093D18              
@@ -356,7 +356,7 @@ glabel DoorShutter_Draw
 /* 01D74 80998014 24C6837C */  addiu   $a2, $a2, %lo(D_8099837C)  ## $a2 = 8099837C
 /* 01D78 80998018 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFDC
 /* 01D7C 8099801C 24070857 */  addiu   $a3, $zero, 0x0857         ## $a3 = 00000857
-/* 01D80 80998020 0C031AD5 */  jal     Graph_CloseDisp              
+/* 01D80 80998020 0C031AD5 */  jal     Graph_CloseDisps              
 /* 01D84 80998024 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 01D88 80998028 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L8099802C:

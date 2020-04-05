@@ -9,7 +9,7 @@ glabel BgHakaShip_Draw
 /* 006D0 8087F7D0 24C6FAF8 */  addiu   $a2, $a2, %lo(D_8087FAF8)  ## $a2 = 8087FAF8
 /* 006D4 8087F7D4 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFE4
 /* 006D8 8087F7D8 24070210 */  addiu   $a3, $zero, 0x0210         ## $a3 = 00000210
-/* 006DC 8087F7DC 0C031AB1 */  jal     Graph_OpenDisp              
+/* 006DC 8087F7DC 0C031AB1 */  jal     Graph_OpenDisps              
 /* 006E0 8087F7E0 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 006E4 8087F7E4 8FAF007C */  lw      $t7, 0x007C($sp)           
 /* 006E8 8087F7E8 0C024F46 */  jal     func_80093D18              
@@ -148,7 +148,7 @@ glabel BgHakaShip_Draw
 /* 008F4 8087F9F4 24C6FB5C */  addiu   $a2, $a2, %lo(D_8087FB5C)  ## $a2 = 8087FB5C
 /* 008F8 8087F9F8 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFE4
 /* 008FC 8087F9FC 24070238 */  addiu   $a3, $zero, 0x0238         ## $a3 = 00000238
-/* 00900 8087FA00 0C031AD5 */  jal     Graph_CloseDisp              
+/* 00900 8087FA00 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00904 8087FA04 8DA50000 */  lw      $a1, 0x0000($t5)           ## 00000000
 /* 00908 8087FA08 8FA30078 */  lw      $v1, 0x0078($sp)           
 /* 0090C 8087FA0C 3C0E8088 */  lui     $t6, %hi(func_8087F364)    ## $t6 = 80880000

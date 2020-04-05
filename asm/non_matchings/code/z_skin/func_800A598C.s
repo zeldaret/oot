@@ -38,7 +38,7 @@ glabel func_800A598C
 /* B1CB84 800A59E4 24C60680 */  addiu $a2, %lo(D_80140680) # addiu $a2, $a2, 0x680
 /* B1CB88 800A59E8 240700FE */  li    $a3, 254
 /* B1CB8C 800A59EC 8FA50118 */  lw    $a1, 0x118($sp)
-/* B1CB90 800A59F0 0C031AB1 */  jal   Graph_OpenDisp
+/* B1CB90 800A59F0 0C031AB1 */  jal   Graph_OpenDisps
 /* B1CB94 800A59F4 27A400B8 */   addiu $a0, $sp, 0xb8
 /* B1CB98 800A59F8 8E0E0000 */  lw    $t6, ($s0)
 /* B1CB9C 800A59FC 3C0A8016 */  lui   $t2, %hi(gSegments) # $t2, 0x8016
@@ -297,7 +297,7 @@ glabel func_800A598C
 /* B1CF70 800A5DD0 A1B80000 */   sb    $t8, ($t5)
 /* B1CF74 800A5DD4 A1A00000 */  sb    $zero, ($t5)
 .L800A5DD8:
-/* B1CF78 800A5DD8 0C031AD5 */  jal   Graph_CloseDisp
+/* B1CF78 800A5DD8 0C031AD5 */  jal   Graph_CloseDisps
 /* B1CF7C 800A5DDC 24070158 */   li    $a3, 344
 /* B1CF80 800A5DE0 8FBF0074 */  lw    $ra, 0x74($sp)
 /* B1CF84 800A5DE4 D7B40020 */  ldc1  $f20, 0x20($sp)

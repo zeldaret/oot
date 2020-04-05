@@ -38,10 +38,10 @@ void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
     PolygonType0* polygon0;
     PolygonDlist* polygonDlist;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 193);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 193);
 
     if (flags & 1) {
         func_800342EC(&D_801270A0, globalCtx);
@@ -71,7 +71,7 @@ void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
         polygonDlist++;
     }
 
-    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 239);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 239);
 }
 
 #define SHAPE_SORT_MAX 64
@@ -105,12 +105,12 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     f32 temp_f0;
     f32 temp_f2;
     GraphicsContext* gfxCtx;
-    Gfx* sp5C[4];
+    Gfx* dispRefs[4];
 
     spB0 = NULL;
     spB4 = NULL;
     gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisp(sp5C, globalCtx->state.gfxCtx, "../z_room.c", 287);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 287);
 
     if (flags & 1) {
         func_800342EC(&D_801270A0, globalCtx);
@@ -222,7 +222,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     iREG(88) = sp9C - 1;
 
-    Graph_CloseDisp(sp5C, globalCtx->state.gfxCtx, "../z_room.c", 430);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 430);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_80095D04.s")
@@ -350,10 +350,10 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     u32 sp94;
     u32 sp90;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 628);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 628);
 
     camera = globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0];
     polygon1 = &room->mesh->polygon1;
@@ -399,7 +399,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
         gSPDisplayList(gfxCtx->polyXlu.p++, polygonDlist->xlu);
     }
 
-    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 691);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 691);
 }
 
 typedef struct {
@@ -456,10 +456,10 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     u32 sp90;
     u32 sp8C;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 752);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 752);
 
     camera = globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0];
     sp98 = (camera->unk_142 ^ 25) == 0;
@@ -505,7 +505,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
         gSPDisplayList(gfxCtx->polyXlu.p++, polygonDlist->xlu);
     }
 
-    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 819);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 819);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_80096B6C.s")

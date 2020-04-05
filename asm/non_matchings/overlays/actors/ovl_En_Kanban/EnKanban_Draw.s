@@ -16,7 +16,7 @@ glabel EnKanban_Draw
 /* 01C1C 80A93BBC 24C6504C */  addiu   $a2, $a2, %lo(D_80A9504C)  ## $a2 = 80A9504C
 /* 01C20 80A93BC0 27A40078 */  addiu   $a0, $sp, 0x0078           ## $a0 = FFFFFFD8
 /* 01C24 80A93BC4 2407067B */  addiu   $a3, $zero, 0x067B         ## $a3 = 0000067B
-/* 01C28 80A93BC8 0C031AB1 */  jal     Graph_OpenDisp              
+/* 01C28 80A93BC8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01C2C 80A93BCC 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 01C30 80A93BD0 8FB800A4 */  lw      $t8, 0x00A4($sp)           
 /* 01C34 80A93BD4 0C024F46 */  jal     func_80093D18              
@@ -583,7 +583,7 @@ glabel EnKanban_Draw
 /* 0249C 80A9443C 24C650B0 */  addiu   $a2, $a2, %lo(D_80A950B0)  ## $a2 = 80A950B0
 /* 024A0 80A94440 27A40078 */  addiu   $a0, $sp, 0x0078           ## $a0 = FFFFFFD8
 /* 024A4 80A94444 24070741 */  addiu   $a3, $zero, 0x0741         ## $a3 = 00000741
-/* 024A8 80A94448 0C031AD5 */  jal     Graph_CloseDisp              
+/* 024A8 80A94448 0C031AD5 */  jal     Graph_CloseDisps              
 /* 024AC 80A9444C 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 /* 024B0 80A94450 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 024B4 80A94454 8FB00014 */  lw      $s0, 0x0014($sp)           

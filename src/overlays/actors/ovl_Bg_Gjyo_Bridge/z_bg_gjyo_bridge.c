@@ -100,11 +100,11 @@ void BgGjyoBridge_Update(BgGjyoBridge* this, GlobalContext* globalCtx) {
 void BgGjyoBridge_Draw(BgGjyoBridge* this, GlobalContext* globalCtx) {
     s32 pad;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    Graph_OpenDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 260);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 260);
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPSegment(gfxCtx->polyXlu.p++, 8,
@@ -120,5 +120,5 @@ void BgGjyoBridge_Draw(BgGjyoBridge* this, GlobalContext* globalCtx) {
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_06000600);
 
-    Graph_CloseDisp(gfxArr, globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 285);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 285);
 }

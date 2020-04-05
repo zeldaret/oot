@@ -15,7 +15,7 @@ glabel BossGanon2_Draw
 /* 089E0 80905920 24C6D9BC */  addiu   $a2, $a2, %lo(D_8090D9BC)  ## $a2 = 8090D9BC
 /* 089E4 80905924 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE0
 /* 089E8 80905928 240716D0 */  addiu   $a3, $zero, 0x16D0         ## $a3 = 000016D0
-/* 089EC 8090592C 0C031AB1 */  jal     Graph_OpenDisp
+/* 089EC 8090592C 0C031AB1 */  jal     Graph_OpenDisps
 /* 089F0 80905930 AFA50068 */  sw      $a1, 0x0068($sp)
 /* 089F4 80905934 0C024F46 */  jal     func_80093D18
 /* 089F8 80905938 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -303,7 +303,7 @@ glabel BossGanon2_Draw
 /* 08E38 80905D78 24C6D9E4 */  addiu   $a2, $a2, %lo(D_8090D9E4)  ## $a2 = 8090D9E4
 /* 08E3C 80905D7C 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE0
 /* 08E40 80905D80 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 08E44 80905D84 0C031AD5 */  jal     Graph_CloseDisp
+/* 08E44 80905D84 0C031AD5 */  jal     Graph_CloseDisps
 /* 08E48 80905D88 2407175F */  addiu   $a3, $zero, 0x175F         ## $a3 = 0000175F
 /* 08E4C 80905D8C 0C24183A */  jal     func_809060E8
 /* 08E50 80905D90 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
