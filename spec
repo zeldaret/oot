@@ -1463,9 +1463,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot12_Saku"
     include "build/src/overlays/actors/ovl_Bg_Spot12_Saku/z_bg_spot12_saku.o"
-    include "build/data/overlays/actors/z_bg_spot12_saku.data.o"
-    include "build/data/overlays/actors/z_bg_spot12_saku.rodata.o"
-    include "build/data/overlays/actors/z_bg_spot12_saku.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot12_Saku/z_bg_spot12_saku_reloc.o"
 endseg
 
 beginseg
