@@ -13,16 +13,6 @@
 #define OS_SC_RCP_MASK          0x0003
 #define OS_SC_TYPE_MASK         0x0007
 
-typedef struct OSScTask {
-    /* 0x00 */ struct OSScTask* next;
-    /* 0x04 */ u32            state;
-    /* 0x08 */ u32            flags;
-    /* 0x0C */ void*          framebuffer;
-    /* 0x10 */ OSTask         list;
-    /* 0x50 */ OSMesgQueue*   msgQ;
-    /* 0x54 */ OSMesg         msg;
-} OSScTask;
-
 typedef struct {
     /* 0x00 */ char     unk_00[0x12];
     /* 0x12 */ s8       unk_12;

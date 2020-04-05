@@ -9,7 +9,7 @@ glabel DemoTreLgt_Draw
 /* 0060C 80993CCC 24C63E2C */  addiu   $a2, $a2, %lo(D_80993E2C)  ## $a2 = 80993E2C
 /* 00610 80993CD0 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
 /* 00614 80993CD4 240701CD */  addiu   $a3, $zero, 0x01CD         ## $a3 = 000001CD
-/* 00618 80993CD8 0C031AB1 */  jal     func_800C6AC4              
+/* 00618 80993CD8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 0061C 80993CDC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00620 80993CE0 8FAF0058 */  lw      $t7, 0x0058($sp)           
 /* 00624 80993CE4 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
@@ -39,7 +39,7 @@ glabel DemoTreLgt_Draw
 /* 00684 80993D44 24C63E40 */  addiu   $a2, $a2, %lo(D_80993E40)  ## $a2 = 80993E40
 /* 00688 80993D48 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
 /* 0068C 80993D4C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00690 80993D50 0C031AD5 */  jal     func_800C6B54              
+/* 00690 80993D50 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00694 80993D54 240701DC */  addiu   $a3, $zero, 0x01DC         ## $a3 = 000001DC
 /* 00698 80993D58 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L80993D5C:

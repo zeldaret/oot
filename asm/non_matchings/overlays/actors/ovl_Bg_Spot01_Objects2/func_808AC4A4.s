@@ -8,7 +8,7 @@ glabel func_808AC4A4
 /* 0037C 808AC4BC 31CF0007 */  andi    $t7, $t6, 0x0007           ## $t7 = 00000000
 /* 00380 808AC4C0 000FC080 */  sll     $t8, $t7,  2               
 /* 00384 808AC4C4 00B82821 */  addu    $a1, $a1, $t8              
-/* 00388 808AC4C8 0C00D498 */  jal     Draw_DListOpa
+/* 00388 808AC4C8 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 0038C 808AC4CC 8CA5C510 */  lw      $a1, %lo(D_808AC510)($a1)  
 /* 00390 808AC4D0 8FBF0014 */  lw      $ra, 0x0014($sp)           

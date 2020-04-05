@@ -16,7 +16,7 @@ glabel BossGanon_Draw
 /* 0A49C 808E0D0C 24C67C58 */  addiu   $a2, $a2, %lo(D_808F7C58)  ## $a2 = 808F7C58
 /* 0A4A0 808E0D10 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE0
 /* 0A4A4 808E0D14 240723B2 */  addiu   $a3, $zero, 0x23B2         ## $a3 = 000023B2
-/* 0A4A8 808E0D18 0C031AB1 */  jal     func_800C6AC4
+/* 0A4A8 808E0D18 0C031AB1 */  jal     Graph_OpenDisps
 /* 0A4AC 808E0D1C 00A09025 */  or      $s2, $a1, $zero            ## $s2 = 00000000
 /* 0A4B0 808E0D20 0C024F46 */  jal     func_80093D18
 /* 0A4B4 808E0D24 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -34,7 +34,7 @@ glabel BossGanon_Draw
 /* 0A4E4 808E0D54 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 0A4E8 808E0D58 240500FF */  addiu   $a1, $zero, 0x00FF         ## $a1 = 000000FF
 /* 0A4EC 808E0D5C 24060032 */  addiu   $a2, $zero, 0x0032         ## $a2 = 00000032
-/* 0A4F0 808E0D60 0C024CDC */  jal     func_80093370
+/* 0A4F0 808E0D60 0C024CDC */  jal     Gfx_SetFog
 /* 0A4F4 808E0D64 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0A4F8 808E0D68 AE4202C0 */  sw      $v0, 0x02C0($s2)           ## 000002C0
 /* 0A4FC 808E0D6C 8E4302D0 */  lw      $v1, 0x02D0($s2)           ## 000002D0
@@ -150,7 +150,7 @@ glabel BossGanon_Draw
 /* 0A6B0 808E0F20 24C67C6C */  addiu   $a2, $a2, %lo(D_808F7C6C)  ## $a2 = 808F7C6C
 /* 0A6B4 808E0F24 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE0
 /* 0A6B8 808E0F28 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 0A6BC 808E0F2C 0C031AD5 */  jal     func_800C6B54
+/* 0A6BC 808E0F2C 0C031AD5 */  jal     Graph_CloseDisps
 /* 0A6C0 808E0F30 240724B1 */  addiu   $a3, $zero, 0x24B1         ## $a3 = 000024B1
 /* 0A6C4 808E0F34 8FBF0034 */  lw      $ra, 0x0034($sp)
 /* 0A6C8 808E0F38 8FB00028 */  lw      $s0, 0x0028($sp)

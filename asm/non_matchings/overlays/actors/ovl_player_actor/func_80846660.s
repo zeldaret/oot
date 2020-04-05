@@ -37,7 +37,7 @@ glabel func_80846660
 /* 144D4 808466E4 E7A0001C */  swc1    $f0, 0x001C($sp)
 /* 144D8 808466E8 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 144DC 808466EC 34E7AAAB */  ori     $a3, $a3, 0xAAAB           ## $a3 = 3F2AAAAB
-/* 144E0 808466F0 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 144E0 808466F0 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 144E4 808466F4 E7A40014 */  swc1    $f4, 0x0014($sp)
 /* 144E8 808466F8 3C014448 */  lui     $at, 0x4448                ## $at = 44480000
 /* 144EC 808466FC 44814000 */  mtc1    $at, $f8                   ## $f8 = 800.00

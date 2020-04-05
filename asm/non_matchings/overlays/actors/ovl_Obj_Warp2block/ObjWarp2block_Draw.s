@@ -17,7 +17,7 @@ glabel ObjWarp2block_Draw
 /* 00940 80BA2730 24C6294C */  addiu   $a2, $a2, %lo(D_80BA294C)  ## $a2 = 80BA294C
 /* 00944 80BA2734 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 00948 80BA2738 24070248 */  addiu   $a3, $zero, 0x0248         ## $a3 = 00000248
-/* 0094C 80BA273C 0C031AB1 */  jal     func_800C6AC4              
+/* 0094C 80BA273C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00950 80BA2740 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00954 80BA2744 8FAB004C */  lw      $t3, 0x004C($sp)           
 /* 00958 80BA2748 0C024F46 */  jal     func_80093D18              
@@ -66,7 +66,7 @@ glabel ObjWarp2block_Draw
 /* 00A04 80BA27F4 8FAC004C */  lw      $t4, 0x004C($sp)           
 /* 00A08 80BA27F8 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 00A0C 80BA27FC 24070252 */  addiu   $a3, $zero, 0x0252         ## $a3 = 00000252
-/* 00A10 80BA2800 0C031AD5 */  jal     func_800C6B54              
+/* 00A10 80BA2800 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00A14 80BA2804 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 00A18 80BA2808 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00A1C 80BA280C 8FB00018 */  lw      $s0, 0x0018($sp)           

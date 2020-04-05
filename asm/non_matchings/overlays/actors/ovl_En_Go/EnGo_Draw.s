@@ -10,7 +10,7 @@ glabel EnGo_Draw
 /* 02EE8 80A41458 24C61C60 */  addiu   $a2, $a2, %lo(D_80A41C60)  ## $a2 = 80A41C60
 /* 02EEC 80A4145C 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 02EF0 80A41460 240709AF */  addiu   $a3, $zero, 0x09AF         ## $a3 = 000009AF
-/* 02EF4 80A41464 0C031AB1 */  jal     func_800C6AC4
+/* 02EF4 80A41464 0C031AB1 */  jal     Graph_OpenDisps
 /* 02EF8 80A41468 AFA50050 */  sw      $a1, 0x0050($sp)
 /* 02EFC 80A4146C 0C2905AA */  jal     func_80A416A8
 /* 02F00 80A41470 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -108,7 +108,7 @@ glabel EnGo_Draw
 /* 03060 80A415D0 24C61C70 */  addiu   $a2, $a2, %lo(D_80A41C70)  ## $a2 = 80A41C70
 /* 03064 80A415D4 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 03068 80A415D8 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 0306C 80A415DC 0C031AD5 */  jal     func_800C6B54
+/* 0306C 80A415DC 0C031AD5 */  jal     Graph_CloseDisps
 /* 03070 80A415E0 240709DD */  addiu   $a3, $zero, 0x09DD         ## $a3 = 000009DD
 /* 03074 80A415E4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03078 80A415E8 0C2905ED */  jal     func_80A417B4

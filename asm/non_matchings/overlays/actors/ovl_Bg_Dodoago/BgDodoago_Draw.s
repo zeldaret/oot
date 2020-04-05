@@ -9,7 +9,7 @@ glabel BgDodoago_Draw
 /* 00A5C 8087245C 24C62650 */  addiu   $a2, $a2, %lo(D_80872650)  ## $a2 = 80872650
 /* 00A60 80872460 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFEC
 /* 00A64 80872464 240702A0 */  addiu   $a3, $zero, 0x02A0         ## $a3 = 000002A0
-/* 00A68 80872468 0C031AB1 */  jal     func_800C6AC4              
+/* 00A68 80872468 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00A6C 8087246C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00A70 80872470 0C00D6D3 */  jal     Flags_GetEventChkInf
               
@@ -47,7 +47,7 @@ glabel BgDodoago_Draw
 /* 00AEC 808724EC 24C62678 */  addiu   $a2, $a2, %lo(D_80872678)  ## $a2 = 80872678
 /* 00AF0 808724F0 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFEC
 /* 00AF4 808724F4 240702A9 */  addiu   $a3, $zero, 0x02A9         ## $a3 = 000002A9
-/* 00AF8 808724F8 0C031AD5 */  jal     func_800C6B54              
+/* 00AF8 808724F8 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00AFC 808724FC 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 00B00 80872500 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00B04 80872504 8FB00018 */  lw      $s0, 0x0018($sp)           

@@ -37,7 +37,7 @@ glabel func_80843AE8
 /* 11960 80843B70 260501B4 */  addiu   $a1, $s0, 0x01B4           ## $a1 = 000001B4
 /* 11964 80843B74 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 11968 80843B78 E7AA001C */  swc1    $f10, 0x001C($sp)
-/* 1196C 80843B7C 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 1196C 80843B7C 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 11970 80843B80 E7A40010 */  swc1    $f4, 0x0010($sp)
 /* 11974 80843B84 10000014 */  beq     $zero, $zero, .L80843BD8
 /* 11978 80843B88 240A0140 */  addiu   $t2, $zero, 0x0140         ## $t2 = 00000140
@@ -59,7 +59,7 @@ glabel func_80843AE8
 /* 119B0 80843BC0 260501B4 */  addiu   $a1, $s0, 0x01B4           ## $a1 = 000001B4
 /* 119B4 80843BC4 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 119B8 80843BC8 E7B00010 */  swc1    $f16, 0x0010($sp)
-/* 119BC 80843BCC 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 119BC 80843BCC 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 119C0 80843BD0 E7A6001C */  swc1    $f6, 0x001C($sp)
 /* 119C4 80843BD4 240A0140 */  addiu   $t2, $zero, 0x0140         ## $t2 = 00000140
 .L80843BD8:

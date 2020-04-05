@@ -282,10 +282,10 @@ static void EnBoom_Draw(EnBoom* this, GlobalContext* globalCtx) {
     Vec3f mtxDest1;
     Vec3f mtxDest2;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_boom.c", 567);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_boom.c", 567);
     Matrix_RotateY(this->actor.posRot.rot.y * 0.0000958738f, MTXMODE_APPLY);
     Matrix_RotateZ(0.7669904f, MTXMODE_APPLY);
     Matrix_RotateX(this->actor.posRot.rot.x * 0.0000958738f, MTXMODE_APPLY);
@@ -303,5 +303,5 @@ static void EnBoom_Draw(EnBoom* this, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_0400C808);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_boom.c", 604);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_boom.c", 604);
 }

@@ -10,7 +10,7 @@ glabel EnHintnuts_Draw
 /* 01790 80A58990 8FB80020 */  lw      $t8, 0x0020($sp)           
 /* 01794 80A58994 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 01798 80A58998 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 0179C 80A5899C 0C00D498 */  jal     Draw_DListOpa
+/* 0179C 80A5899C 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 017A0 80A589A0 24A514E0 */  addiu   $a1, $a1, 0x14E0           ## $a1 = 060014E0
 /* 017A4 80A589A4 10000009 */  beq     $zero, $zero, .L80A589CC   

@@ -13,6 +13,7 @@
 #include <z64item.h>
 #include <z64animation.h>
 #include <z64dma.h>
+#include <z64vec.h>
 #include <bgm.h>
 #include <sfx.h>
 #include <color.h>
@@ -234,14 +235,48 @@ typedef struct {
     /* 0x000C */ Gfx*   d;
 } TwoHeadGfxArena; // size = 0x10
 
-typedef struct {
-    /* 0x0000 */ char               unk_00[0x01B4];
+typedef struct OSScTask {
+    /* 0x00 */ struct OSScTask* next;
+    /* 0x04 */ u32            state;
+    /* 0x08 */ u32            flags;
+    /* 0x0C */ void*          framebuffer;
+    /* 0x10 */ OSTask         list;
+    /* 0x50 */ OSMesgQueue*   msgQ;
+    /* 0x54 */ OSMesg         msg;
+} OSScTask;
+
+typedef struct GraphicsContext {
+    /* 0x0000 */ Gfx* polyOpaBuffer;
+    /* 0x0004 */ Gfx* polyXluBuffer;
+    /* 0x0008 */ char unk_008[0x08];
+    /* 0x0010 */ Gfx* overlayBuffer;
+    /* 0x0014 */ u32 unk_014;
+    /* 0x0018 */ char unk_018[0x20];
+    /* 0x0038 */ OSMesg msgBuff[0x08];
+    /* 0x0058 */ OSMesgQueue* schedMsgQ;
+    /* 0x005C */ OSMesgQueue queue;
+    /* 0x0074 */ char unk_074[0x04];
+    /* 0x0078 */ OSScTask task; // size of OSScTask might be wrong
+    /* 0x00D0 */ char unk_0D0[0xE0];
+    /* 0x01B0 */ Gfx* workBuffer;
     /* 0x01B4 */ TwoHeadGfxArena    work;
-    /* 0x01C4 */ char               unk_1C4[0x00E4];
+    /* 0x01C4 */ char unk_01C4[0xC0];
+    /* 0x0284 */ OSViMode* viMode;
+    /* 0x0288 */ char unk_0288[0x20];
     /* 0x02A8 */ TwoHeadGfxArena    overlay;
     /* 0x02B8 */ TwoHeadGfxArena    polyOpa;
     /* 0x02C8 */ TwoHeadGfxArena    polyXlu;
-} GraphicsContext;
+    /* 0x02D8 */ u32 gfxPoolIdx;
+    /* 0x02DC */ u16* curFrameBuffer;
+    /* 0x02E0 */ char unk_2E0[0x04];
+    /* 0x02E4 */ u32 viFeatures;
+    /* 0x02E8 */ s32 fbIdx;
+    /* 0x02EC */ void (*callback)(struct GraphicsContext*, u32);
+    /* 0x02F0 */ u32 callbackParam;
+    /* 0x02F4 */ f32 xScale;
+    /* 0x02F8 */ f32 yScale;
+    /* 0x02FC */ char unk_2FC[0x04];
+} GraphicsContext; // size = 0x300
 
 typedef struct {
     /* 0x00 */ union {
@@ -284,11 +319,49 @@ typedef struct {
 } Input; // size = 0x18
 
 typedef struct {
-    /* 0x0000 */ char   unk_00[0x28];
+   /* 0x0000 */ s16 unk_0;
+   /* 0x0002 */ s16 unk_2;
+   /* 0x0004 */ u16 unk_4;
+   /* 0x0004 */ u16 unk_6;
+   /* 0x0008 */ s16 unk_8;
+   /* 0x000A */ s16 unk_A;
+   /* 0x000C */ u16 unk_C;
+   /* 0x000E */ u16 unk_E;
+} UnkViewStruct; // size = 0x10, probably a viewport in disguise
+
+typedef struct {
+   /* 0x0000 */ s32 topY;       // uly (upper left y)
+   /* 0x0004 */ s32 bottomY;    // lry (lower right y)
+   /* 0x0008 */ s32 leftX;      // ulx (upper left x)
+   /* 0x000C */ s32 rightX;     // lrx (lower right x)
+} Viewport; // size = 0x10
+
+typedef struct {
+    /* 0x0000 */ s32    magic; // string literal "VIEW" / 0x56494557
+    /* 0x0004 */ GraphicsContext* gfxCtx;
+    /* 0x0008 */ Viewport viewport;
+    /* 0x0018 */ f32    fieldOfView; // fovy
+    /* 0x001C */ f32    fogDistance; // near
+    /* 0x0020 */ f32    zDepth;      // far
+    /* 0x0024 */ f32    unk_24;      // scale
     /* 0x0028 */ Vec3f  eye;
-    /* 0x0034 */ char   unk_34[0xEC];
-    /* 0x0120 */ u32    unk_120;
-    /* 0x0124 */ char   unk_124[4];
+    /* 0x0034 */ Vec3f  unk_34;
+    /* 0x0040 */ Vec3f  unk_40;
+    /* 0x004C */ char   unk_4C[0x04];
+    /* 0x0050 */ Viewport unk_50;
+    /* 0x0060 */ Mtx    unk_60;
+    /* 0x00A0 */ MtxF   unk_A0;
+    /* 0x00E0 */ Mtx*   unk_E0;
+    /* 0x00E4 */ MtxF*  unk_E4;
+    /* 0x00E8 */ Vec3f  unk_E8;
+    /* 0x00F4 */ Vec3f  unk_F4;
+    /* 0x0100 */ f32    unk_100;
+    /* 0x0104 */ Vec3f  unk_104;
+    /* 0x0110 */ Vec3f  unk_110;
+    /* 0x011C */ u16    unk_11C; // normal
+    /* 0x011E */ u16    unk_11E;
+    /* 0x0120 */ s32    unk_120;
+    /* 0x0124 */ s32    unk_124;
 } View; // size = 0x128
 
 typedef struct {
@@ -801,6 +874,13 @@ typedef struct
     /* 0x00A8 */ View view;
 } SampleContext;
 
+typedef struct {
+    /* 0x00 */ u8 byte0;
+    /* 0x01 */ u8 byte1;
+    /* 0x02 */ u8 byte2;
+    /* 0x03 */ u8 byte3;
+} ElfMessage; // size = 0x4
+
 // Global Context (dbg ram start: 80212020)
 typedef struct GlobalContext {
     /* 0x00000 */ GameState state;
@@ -902,7 +982,7 @@ typedef struct GlobalContext {
     /* 0x11E00 */ EntranceEntry* setupEntranceList;
     /* 0x11E04 */ UNK_PTR setupExitList;
     /* 0x11E08 */ Path* setupPathList;
-    /* 0x11E0C */ UNK_PTR naviMsgSegment;
+    /* 0x11E0C */ ElfMessage* cUpElfMsgs;
     /* 0x11E10 */ char unk_11E10[0x4];
     /* 0x11E14 */ u8 skyboxId;
     /* 0x11E15 */ s8 sceneLoadFlag; // "fade_direction"
@@ -1276,5 +1356,87 @@ typedef struct {
     /* 0x08 */ OSTime duration;
     /* 0x10 */ OSTime resetTime;
 } PreNmiBuff; // size = 0x18 (actually osAppNmiBuffer is 0x40 bytes large but the rest is unused)
+
+typedef struct {
+    /* 0x00 */ s16 unk_00;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+} SubQuakeRequest14;
+
+typedef struct {
+    /* 0x00 */ s16 randIdx;
+    /* 0x02 */ s16 countdownMax;
+    /* 0x04 */ Camera* cam;
+    /* 0x08 */ u32 callbackIdx;
+    /* 0x0C */ s16 y;
+    /* 0x0E */ s16 x;
+    /* 0x10 */ s16 zoom;
+    /* 0x12 */ s16 rotZ;
+    /* 0x14 */ SubQuakeRequest14 unk_14;
+    /* 0x1A */ s16 speed;
+    /* 0x1C */ s16 unk_1C;
+    /* 0x1E */ s16 countdown;
+    /* 0x20 */ s16 camPtrIdx;
+} QuakeRequest; // size = 0x24
+
+typedef struct {
+    /* 0x00 */ Vec3f vec1;
+    /* 0x0C */ Vec3f vec2;
+    /* 0x18 */ s16 rotZ;
+    /* 0x1A */ s16 unk_1A;
+    /* 0x1C */ s16 zoom;
+} ShakeInfo; // size = 0x1E
+
+typedef struct {
+    /* 0x00 */ Vec3f vec1;
+    /* 0x0C */ Vec3f vec2;
+    /* 0x18 */ s16 rotZ;
+    /* 0x1A */ s16 unk_1A;
+    /* 0x1C */ s16 zoom;
+    /* 0x20 */ f32 unk_20;
+} UnkQuakeCalcStruct; // size = 0x24
+
+typedef struct {
+    /* 0x00 */ u32 idx;
+    /* 0x04 */ void* ptr;
+} UCodeInfo; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ u32 segments[NUM_SEGMENTS];
+    /* 0x40 */ u32 dlStack[18];
+    /* 0x88 */ u32 dlDepth;
+    /* 0x8C */ u32 dlCnt;
+    /* 0x90 */ u32 vtxCnt;
+    /* 0x94 */ u32 spvtxCnt;
+    /* 0x98 */ u32 tri1Cnt;
+    /* 0x9C */ u32 tri2Cnt;
+    /* 0xA0 */ u32 quadCnt;
+    /* 0xA4 */ u32 lineCnt;
+    /* 0xA8 */ u32 loaducodeCnt;
+    /* 0xAC */ u32 pipeSyncRequired;
+    /* 0xB0 */ u32 tileSyncRequired;
+    /* 0xB4 */ u32 loadSyncRequired;
+    /* 0xB8 */ u32 syncErr;
+    /* 0xBC */ u32 enableLog;
+    /* 0xC0 */ u32 ucodeInfoIdx;
+    /* 0xC4 */ u32 ucodeInfoCount;
+    /* 0xC8 */ UCodeInfo* ucodeInfo;
+    /* 0xCC */ u32 modeH;
+    /* 0xD0 */ u32 modeL;
+    /* 0xD4 */ u32 geometryMode;
+} UCodeDisas; // size = 0xD8
+
+typedef struct {
+    /* 0x00 */ u16* fb1;
+    /* 0x04 */ u16* swapbuffer;
+    /* 0x08 */ OSViMode* viMode;
+    /* 0x0C */ u32 features;
+    /* 0x10 */ u8 unk_10;
+    /* 0x11 */ u8 updateRate;
+    /* 0x12 */ u8 updateRate2;
+    /* 0x13 */ u8 unk_13;
+    /* 0x14 */ f32 xScale;
+    /* 0x18 */ f32 yScale;
+} CfbInfo; // size = 0x1C
 
 #endif

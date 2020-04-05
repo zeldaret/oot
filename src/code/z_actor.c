@@ -14,16 +14,16 @@ void func_8002B200(Actor* actor, LightMapper* lightMapper, GlobalContext* global
     f32 temp2;
     MtxF sp60;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     if (actor->floorPoly != NULL) {
         temp1 = actor->posRot.pos.y - actor->unk_80;
 
         if (temp1 >= -50.0f && temp1 < 500.0f) {
             gfxCtx = globalCtx->state.gfxCtx;
-            func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 1553);
+            Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 1553);
 
-            gfxCtx->polyOpa.p = func_80093774(gfxCtx->polyOpa.p, 0x2C);
+            gfxCtx->polyOpa.p = Gfx_CallSetupDL(gfxCtx->polyOpa.p, 0x2C);
 
             gDPSetCombineLERP(gfxCtx->polyOpa.p++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0,
                               0, COMBINED);
@@ -52,7 +52,7 @@ void func_8002B200(Actor* actor, LightMapper* lightMapper, GlobalContext* global
                       G_MTX_MODELVIEW | G_MTX_LOAD);
             gSPDisplayList(gfxCtx->polyOpa.p++, dlist);
 
-            func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 1594);
+            Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 1594);
         }
     }
 }
@@ -74,9 +74,9 @@ void ActorShadow_DrawFunc_Squiggly(Actor* actor, LightMapper* lightMapper, Globa
 void func_8002B66C(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32 sp58;
-    Gfx* gfxArr[7];
+    Gfx* dispRefs[7];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 1661);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 1661);
 
     gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0, 0, 0,
                     (u32)(((arg3 * 0.00005f) > 1.0f ? 1.0f : (arg3 * 0.00005f)) * arg4) & 0xFF);
@@ -92,7 +92,7 @@ void func_8002B66C(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3,
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_04048180);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 1693);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 1693);
 }
 
 #ifdef NON_MATCHING
@@ -103,7 +103,7 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, Globa
     f32 spE0[2];
     s32 i;
     f32* spAC;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
     f32 temp_10;
     u8 temp_14;
     f32 temp_f0;
@@ -139,9 +139,9 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, Globa
         temp_s6 -= 2;
 
         gfxCtx = globalCtx->state.gfxCtx;
-        func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 1741);
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 1741);
 
-        gfxCtx->polyOpa.p = func_80093774(gfxCtx->polyOpa.p, 0x2C);
+        gfxCtx->polyOpa.p = Gfx_CallSetupDL(gfxCtx->polyOpa.p, 0x2C);
         actor->shape.unk_15 = 0;
 
         for (i = 0; i < 2; i++) {
@@ -209,7 +209,7 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, Globa
             actor->shape.unk_15 = ((spE0[0] + temp_f0) < (spE0[1] - temp_f0)) ? 2 : 1;
         }
 
-        func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 1831);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 1831);
     }
 }
 #else
@@ -316,7 +316,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
     Actor* actor;
     Player* player;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
     TargetContextEntry* entry;
     s16 spCE;
     f32 temp1;
@@ -331,7 +331,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
     actor = targetCtx->targetedActor;
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 2029);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 2029);
 
     if (targetCtx->unk_48 != 0) {
         player = PLAYER;
@@ -374,7 +374,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         func_8002BE64(targetCtx, targetCtx->unk_4C, spBC.x, spBC.y, spBC.z);
 
         if ((!(player->stateFlags1 & 0x40)) || (actor != player->unk_664)) {
-            gfxCtx->overlay.p = func_80093774(gfxCtx->overlay.p, 0x39);
+            gfxCtx->overlay.p = Gfx_CallSetupDL(gfxCtx->overlay.p, 0x39);
 
             for (spB0 = 0, spAC = targetCtx->unk_4C; spB0 < spB8; spB0++) {
                 entry = &targetCtx->arr_50[spAC];
@@ -418,7 +418,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
     if ((actor != NULL) && !(actor->flags & 0x8000000)) {
         NaviColor* naviColor = &sNaviColorList[actor->type];
 
-        gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 0x7);
+        gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x7);
 
         Matrix_Translate(actor->posRot2.pos.x, actor->posRot2.pos.y + (actor->unk_4C * actor->scale.y) + 17.0f,
                          actor->posRot2.pos.z, MTXMODE_NEW);
@@ -431,7 +431,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         gSPDisplayList(gfxCtx->polyXlu.p++, &D_0400CB70);
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 2158);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 2158);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_8002C124.s")
@@ -736,7 +736,7 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     s32 spB4;
     s32 spB0;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     if (titleCtx->unk_C != 0) {
         spCC = titleCtx->unk_8;
@@ -746,7 +746,7 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
         sp38 = spCC * 2;
 
         gfxCtx = globalCtx->state.gfxCtx;
-        func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 2824);
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 2824);
 
         spB0 = spCC * spC8 * gSaveContext.language;
         spC8 = (spCC * spC8 > 0x1000) ? 0x1000 / spCC : spC8;
@@ -777,7 +777,7 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
                                 G_TX_RENDERTILE, 0, 0, 1024, 1024);
         }
 
-        func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 2880);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 2880);
     }
 }
 
@@ -1331,22 +1331,22 @@ Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* 
 
 Hilite* func_8002EABC(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx) {
     Hilite* hilite;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_actor.c", 4306);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_actor.c", 4306);
     gfxCtx->polyOpa.p = func_8002E830(object, eye, lightDir, gfxCtx, gfxCtx->polyOpa.p, &hilite);
-    func_800C6B54(gfxArr, gfxCtx, "../z_actor.c", 4313);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_actor.c", 4313);
 
     return hilite;
 }
 
 Hilite* func_8002EB44(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx) {
     Hilite* hilite;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_actor.c", 4332);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_actor.c", 4332);
     gfxCtx->polyXlu.p = func_8002E830(object, eye, lightDir, gfxCtx, gfxCtx->polyXlu.p, &hilite);
-    func_800C6B54(gfxArr, gfxCtx, "../z_actor.c", 4339);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_actor.c", 4339);
 
     return hilite;
 }
@@ -1357,7 +1357,7 @@ void func_8002EBCC(Actor* actor, GlobalContext* globalCtx, s32 flag) {
     Gfx* displayListHead;
     Gfx* displayList;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     lightDir.x = globalCtx->unk_10A4E;
     lightDir.y = globalCtx->unk_10A4F;
@@ -1375,13 +1375,13 @@ void func_8002EBCC(Actor* actor, GlobalContext* globalCtx, s32 flag) {
         displayListHead = displayList;
 
         gfxCtx = globalCtx->state.gfxCtx;
-        func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 4384);
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 4384);
 
         gDPSetHilite1Tile(displayListHead++, 1, hilite, 0x10, 0x10);
         gSPEndDisplayList(displayListHead);
         gSPSegment(gfxCtx->polyOpa.p++, 0x07, displayList);
 
-        func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 4394);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 4394);
     }
 }
 
@@ -1391,7 +1391,7 @@ void func_8002ED80(Actor* actor, GlobalContext* globalCtx, s32 flag) {
     Gfx* displayListHead;
     Gfx* displayList;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     lightDir.x = globalCtx->unk_10A4E;
     lightDir.y = globalCtx->unk_10A4F;
@@ -1404,13 +1404,13 @@ void func_8002ED80(Actor* actor, GlobalContext* globalCtx, s32 flag) {
         displayListHead = displayList;
 
         gfxCtx = globalCtx->state.gfxCtx;
-        func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 4429);
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 4429);
 
         gDPSetHilite1Tile(displayListHead++, 1, hilite, 0x10, 0x10);
         gSPEndDisplayList(displayListHead);
         gSPSegment(gfxCtx->polyXlu.p++, 0x07, displayList);
 
-        func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 4439);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 4439);
     }
 }
 
@@ -1807,7 +1807,7 @@ Color_RGB8 D_80116064 = { 0x64, 0xC8, 0x00 };
 // this also doesn't generate a few useless struct copies
 void func_8002FBAC(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[6];
+    Gfx* dispRefs[6];
     Vec3f lightPos;
     f32 spD8;
     f32 spD4;
@@ -1830,7 +1830,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 5308);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 5308);
 
     if (gSaveContext.respawn[RESPAWN_MODE_TOP].data != 0) {
         if (LINK_IS_ADULT) {
@@ -1926,7 +1926,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
         if ((globalCtx->csCtx.state == 0) &&
             (gSaveContext.respawn[RESPAWN_MODE_TOP].entrance_index == gSaveContext.entrance_index) &&
             (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].room_index)) {
-            gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 0x19);
+            gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x19);
 
             Matrix_Translate(gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x,
                              gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8,
@@ -1962,7 +1962,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
         Lights_InitType0PositionalLight(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF,
                                         500.0f * spD4);
 
-        func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 5474);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 5474);
     }
 }
 #else
@@ -2192,13 +2192,13 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     LightMapper* lightMapper;
     GraphicsContext* gfxCtx;
     Camera* camera;
-    Gfx* gfxArr[3];
+    Gfx* dispRefs[3];
 
     Fault_AddClient(&faultClient, Actor_FaultPrint, actor, "Actor_draw");
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 6035);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 6035);
 
     lightMapper = Lights_CreateMapper(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
 
@@ -2253,7 +2253,7 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
         actor->shape.shadowDrawFunc(actor, lightMapper, globalCtx);
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 6119);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 6119);
 
     Fault_RemoveClient(&faultClient);
 }
@@ -2273,9 +2273,9 @@ void func_80030ED8(Actor* actor) {
 }
 
 void func_80030FA8(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_actor.c", 6161);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_actor.c", 6161);
 
     gDPLoadTextureBlock(gfxCtx->polyXlu.p++, &D_0401E370, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_MIRROR | G_TX_CLAMP,
                         G_TX_MIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD);
@@ -2284,21 +2284,21 @@ void func_80030FA8(GraphicsContext* gfxCtx) {
     gSPTextureRectangle(gfxCtx->polyXlu.p++, 0, 0, 1280, 960, G_TX_RENDERTILE, 2240, 1600, 576, 597);
     gDPPipeSync(gfxCtx->polyXlu.p++);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_actor.c", 6183);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_actor.c", 6183);
 }
 
 void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invisibleActors) {
     Actor** invisibleActor;
     GraphicsContext* gfxCtx;
     s32 i;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_actor.c", 6197);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_actor.c", 6197);
 
     // Translates to: "MAGIC LENS START"
-    gDma1p(gfxCtx->polyOpa.p++, G_NOOP, "魔法のメガネ START", 0, 2);
+    gDPNoOpString(gfxCtx->polyOpa.p++, "魔法のメガネ START", 0);
 
     gDPPipeSync(gfxCtx->polyXlu.p++);
 
@@ -2326,21 +2326,21 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
     func_80030FA8(gfxCtx);
 
     // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY START"
-    gDma1p(gfxCtx->polyOpa.p++, G_NOOP, "魔法のメガネ 見えないＡcｔｏｒ表示 START", nbInvisibleActors, 2);
+    gDPNoOpString(gfxCtx->polyOpa.p++, "魔法のメガネ 見えないＡcｔｏｒ表示 START", nbInvisibleActors);
 
     invisibleActor = &invisibleActors[0];
     for (i = 0; i < nbInvisibleActors; i++) {
         // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY"
-        gDma1p(gfxCtx->polyOpa.p++, G_NOOP, "魔法のメガネ 見えないＡcｔｏｒ表示", i, 2);
+        gDPNoOpString(gfxCtx->polyOpa.p++, "魔法のメガネ 見えないＡcｔｏｒ表示", i);
         Actor_Draw(globalCtx, *(invisibleActor++));
     }
 
     // Translates to: "MAGIC LENS INVISIBLE ACTOR DISPLAY END"
-    gDma1p(gfxCtx->polyOpa.p++, G_NOOP, "魔法のメガネ 見えないＡcｔｏｒ表示 END", nbInvisibleActors, 2);
+    gDPNoOpString(gfxCtx->polyOpa.p++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", nbInvisibleActors);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors != 0) {
         // Translates to: "BLUE SPECTACLES (EXTERIOR)"
-        gDma1p(gfxCtx->polyOpa.p++, G_NOOP, "青い眼鏡(外側)", 0, 2);
+        gDPNoOpString(gfxCtx->polyOpa.p++, "青い眼鏡(外側)", 0);
 
         gDPPipeSync(gfxCtx->polyXlu.p++);
 
@@ -2354,13 +2354,13 @@ void func_8003115C(GlobalContext* globalCtx, s32 nbInvisibleActors, Actor** invi
         func_80030FA8(gfxCtx);
 
         // Translates to: "BLUE SPECTACLES (EXTERIOR)"
-        gDma1p(gfxCtx->polyOpa.p++, G_NOOP, "青い眼鏡(外側)", 1, 2);
+        gDPNoOpString(gfxCtx->polyOpa.p++, "青い眼鏡(外側)", 1);
     }
 
     // Translates to: "MAGIC LENS END"
-    gDma1p(gfxCtx->polyOpa.p++, G_NOOP, "魔法のメガネ END", 0, 2);
+    gDPNoOpString(gfxCtx->polyOpa.p++, "魔法のメガネ END", 0);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_actor.c", 6284);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_actor.c", 6284);
 }
 
 s32 func_800314B0(GlobalContext* globalCtx, Actor* actor) {
@@ -2388,7 +2388,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     ActorListEntry* actorListEntry;
     GraphicsContext* gfxCtx;
     s32 i;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
     Actor* actor;
     ActorOverlay* overlayEntry;
     char* actorName;
@@ -2396,7 +2396,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     gfxCtx = globalCtx->state.gfxCtx;
     invisibleActorCounter = 0;
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 6336);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 6336);
 
     actorListEntry = &actorCtx->actorList[0];
 
@@ -2406,8 +2406,8 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
             overlayEntry = actor->overlayEntry;
             actorName = overlayEntry->name != NULL ? overlayEntry->name : "";
 
-            gDma1p(gfxCtx->polyOpa.p++, G_NOOP, actorName, i, 2);
-            gDma1p(gfxCtx->polyXlu.p++, G_NOOP, actorName, i, 2);
+            gDPNoOpString(gfxCtx->polyOpa.p++, actorName, i);
+            gDPNoOpString(gfxCtx->polyXlu.p++, actorName, i);
 
             HREG(66) = i;
 
@@ -2485,7 +2485,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
         func_8005D62C(globalCtx, &globalCtx->sub_11E60);
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 6563);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 6563);
 }
 
 void func_80031A28(GlobalContext* globalCtx, ActorContext* actorCtx) {
@@ -3483,13 +3483,13 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
     Vec3f sp50;
     CollisionPoly* sp4C;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8120);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 8120);
 
     if (0) {} // Necessary to match
 
-    gfxCtx->polyOpa.p = func_80093774(gfxCtx->polyOpa.p, 0x2C);
+    gfxCtx->polyOpa.p = Gfx_CallSetupDL(gfxCtx->polyOpa.p, 0x2C);
 
     gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0x00, 0x00, 0x00, alpha);
 
@@ -3512,21 +3512,21 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_04049210);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8155);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 8155);
 }
 
 void func_80033DB8(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
-    s16 var = func_80092F88(&globalCtx->cameraCtx.activeCameras[0], 3);
-    func_80092DAC(var, 20000);
-    func_80092E70(var, arg1, 0, 0, 0);
-    func_80092DF0(var, arg2);
+    s16 var = Quake_Add(&globalCtx->cameraCtx.activeCameras[0], 3);
+    Quake_SetSpeed(var, 20000);
+    Quake_SetQuakeValues(var, arg1, 0, 0, 0);
+    Quake_SetCountdown(var, arg2);
 }
 
 void func_80033E1C(GlobalContext* globalCtx, s16 arg1, s16 arg2, s16 arg3) {
-    s16 var = func_80092F88(&globalCtx->cameraCtx.activeCameras[0], 3);
-    func_80092DAC(var, arg3);
-    func_80092E70(var, arg1, 0, 0, 0);
-    func_80092DF0(var, arg2);
+    s16 var = Quake_Add(&globalCtx->cameraCtx.activeCameras[0], 3);
+    Quake_SetSpeed(var, arg3);
+    Quake_SetQuakeValues(var, arg1, 0, 0, 0);
+    Quake_SetCountdown(var, arg2);
 }
 
 void func_80033E88(Actor* actor, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
@@ -3572,13 +3572,13 @@ void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2) {
     f32 temp2;
     f32 temp3;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     entry = &D_801160DC[arg2];
     var = entry->unk_10;
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8265);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 8265);
 
     Matrix_Translate(0.0f, entry->unk_08, 500.0f, MTXMODE_APPLY);
     Matrix_Get(&spB0);
@@ -3615,7 +3615,7 @@ void func_80033F54(GlobalContext* globalCtx, s32 arg1, s32 arg2) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, entry->unk_18);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8319);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 8319);
 }
 
 void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1) {
@@ -3887,9 +3887,9 @@ Gfx* func_80034B54(GraphicsContext* gfxCtx) {
 void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, SkelAnime_LimbUpdateMatrix2 unkFunc1,
                    SkelAnime_LimbAppendDlist2 unkFunc2, Actor* actor, s16 alpha) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8831);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 8831);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
@@ -3901,15 +3901,15 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, SkelAnime_Lim
     gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl,
                                           skelAnime->dListCount, unkFunc1, unkFunc2, actor, gfxCtx->polyOpa.p);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8860);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 8860);
 }
 
 void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, SkelAnime_LimbUpdateMatrix2 unkFunc1,
                    SkelAnime_LimbAppendDlist2 unkFunc2, Actor* actor, s16 alpha) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8876);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 8876);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
@@ -3920,7 +3920,7 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, SkelAnime_Lim
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl,
                                           skelAnime->dListCount, unkFunc1, unkFunc2, actor, gfxCtx->polyXlu.p);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_actor.c", 8904);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 8904);
 }
 
 s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
@@ -3955,8 +3955,8 @@ void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2) 
         frameCount = SkelAnime_GetFrameCount(arg1->animation);
     }
 
-    SkelAnime_ChangeAnimation(skelAnime, arg1->animation, arg1->playbackSpeed, arg1->unk_08, frameCount, arg1->unk_10,
-                              arg1->transitionRate);
+    SkelAnime_ChangeAnim(skelAnime, arg1->animation, arg1->playbackSpeed, arg1->unk_08, frameCount, arg1->unk_10,
+                         arg1->transitionRate);
 }
 
 void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3) {

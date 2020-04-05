@@ -4,7 +4,7 @@ glabel BgSpot15Rrbox_Draw
 /* 00C00 808B4560 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00C04 808B4564 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00C08 808B4568 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00C0C 808B456C 0C00D498 */  jal     Draw_DListOpa
+/* 00C0C 808B456C 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00C10 808B4570 24A50180 */  addiu   $a1, $a1, 0x0180           ## $a1 = 06000180
 /* 00C14 808B4574 8FBF0014 */  lw      $ra, 0x0014($sp)           

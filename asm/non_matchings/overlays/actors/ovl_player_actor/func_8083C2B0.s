@@ -103,7 +103,7 @@ glabel func_8083C2B0
 /* 0A218 8083C428 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 0A21C 8083C42C E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 0A220 8083C430 E7A00014 */  swc1    $f0, 0x0014($sp)
-/* 0A224 8083C434 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 0A224 8083C434 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 0A228 8083C438 E7AA001C */  swc1    $f10, 0x001C($sp)
 /* 0A22C 8083C43C 0C023A74 */  jal     func_8008E9D0
 /* 0A230 8083C440 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

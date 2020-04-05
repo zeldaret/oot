@@ -8,14 +8,14 @@ glabel BgRelayObjects_Draw
 /* 00658 808A94A8 00000000 */  nop
 /* 0065C 808A94AC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00660 808A94B0 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00664 808A94B4 0C00D498 */  jal     Draw_DListOpa
+/* 00664 808A94B4 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00668 808A94B8 24A51AB0 */  addiu   $a1, $a1, 0x1AB0           ## $a1 = 06001AB0
 /* 0066C 808A94BC 10000005 */  beq     $zero, $zero, .L808A94D4   
 /* 00670 808A94C0 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L808A94C4:
 /* 00674 808A94C4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00678 808A94C8 0C00D498 */  jal     Draw_DListOpa
+/* 00678 808A94C8 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 0067C 808A94CC 24A501A0 */  addiu   $a1, $a1, 0x01A0           ## $a1 = 060001A0
 /* 00680 808A94D0 8FBF0014 */  lw      $ra, 0x0014($sp)           

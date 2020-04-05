@@ -331,9 +331,9 @@ void En_A_Obj_Update(ActorEnAObj* this, GlobalContext* globalCtx) {
 void En_A_Obj_Draw(ActorEnAObj* this, GlobalContext* globalCtx) {
     s32 type = this->actor.params;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_a_keep.c", 701);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_a_keep.c", 701);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
@@ -349,5 +349,5 @@ void En_A_Obj_Draw(ActorEnAObj* this, GlobalContext* globalCtx) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, D_80115484[type]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_a_keep.c", 715);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_a_keep.c", 715);
 }

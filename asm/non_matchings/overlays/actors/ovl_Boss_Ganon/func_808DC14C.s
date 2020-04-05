@@ -33,7 +33,7 @@ glabel func_808DC14C
 /* 0594C 808DC1BC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 05950 808DC1C0 24A59A14 */  addiu   $a1, $a1, 0x9A14           ## $a1 = 06009A14
 /* 05954 808DC1C4 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 05958 808DC1C8 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 05958 808DC1C8 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 0595C 808DC1CC 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 .L808DC1D0:
 /* 05960 808DC1D0 3C014140 */  lui     $at, 0x4140                ## $at = 41400000
@@ -127,7 +127,7 @@ glabel func_808DC14C
 /* 05AA0 808DC310 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 05AA4 808DC314 00084880 */  sll     $t1, $t0,  2
 /* 05AA8 808DC318 00A92821 */  addu    $a1, $a1, $t1
-/* 05AAC 808DC31C 0C029490 */  jal     func_800A5240
+/* 05AAC 808DC31C 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 05AB0 808DC320 8CA54D38 */  lw      $a1, %lo(D_808E4D38)($a1)
 /* 05AB4 808DC324 87AA004E */  lh      $t2, 0x004E($sp)
 /* 05AB8 808DC328 3C0C808E */  lui     $t4, %hi(D_808E4D40)       ## $t4 = 808E0000

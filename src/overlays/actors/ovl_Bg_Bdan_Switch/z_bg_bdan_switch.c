@@ -532,7 +532,7 @@ static void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, UNK_TYPE
     func_800D1694(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (this->actor.shape.unk_08 * this->unk_1D0),
                   this->actor.posRot.pos.z, &this->actor.shape.rot);
     Matrix_Scale(this->unk_1D4, this->unk_1D0, this->unk_1D4, MTXMODE_APPLY);
-    Draw_DListOpa(globalCtx, arg2);
+    Gfx_DrawDListOpa(globalCtx, arg2);
 }
 
 static void BgBdanSwitch_Draw(BgBdanSwitch* this, GlobalContext* globalCtx) {

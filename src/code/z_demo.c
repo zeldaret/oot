@@ -272,15 +272,15 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 16:
             if (sp3F != 0) {
-                D_8015FCCA = func_80092F88(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 6);
-                func_80092DAC(D_8015FCCA, 0x7FFF);
-                func_80092E70(D_8015FCCA, 4, 0, 1000, 0);
-                func_80092DF0(D_8015FCCA, 800);
+                D_8015FCCA = Quake_Add(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 6);
+                Quake_SetSpeed(D_8015FCCA, 0x7FFF);
+                Quake_SetQuakeValues(D_8015FCCA, 4, 0, 1000, 0);
+                Quake_SetCountdown(D_8015FCCA, 800);
             }
             break;
         case 17:
             if (sp3F != 0) {
-                func_80092FAC(D_8015FCCA);
+                Quake_RemoveFromIdx(D_8015FCCA);
             }
             break;
         case 18:
@@ -1867,7 +1867,7 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     Gfx* displayList;
     Gfx* prevDisplayList;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     if (0) {} // Necessary to match
 
@@ -1876,17 +1876,17 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 
         if (BREG(0) != 0) {
             gfxCtx = globalCtx->state.gfxCtx;
-            func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_demo.c", 4101);
+            Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo.c", 4101);
 
             prevDisplayList = gfxCtx->polyOpa.p;
-            displayList = func_800C6C20(gfxCtx->polyOpa.p);
+            displayList = Graph_GfxPlusOne(gfxCtx->polyOpa.p);
             gSPDisplayList(gfxCtx->overlay.p++, displayList);
             Cutscene_DrawDebugInfo(globalCtx, &displayList, csCtx);
             gSPEndDisplayList(displayList++);
-            func_800C6C28(prevDisplayList, displayList);
+            Graph_BranchDlist(prevDisplayList, displayList);
             gfxCtx->polyOpa.p = displayList;
 
-            func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_demo.c", 4108);
+            Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo.c", 4108);
         }
 
         csCtx->frames++;

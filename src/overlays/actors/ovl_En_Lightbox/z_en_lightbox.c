@@ -109,5 +109,5 @@ static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx) {
 }
 
 static void EnLightbox_Draw(EnLightbox* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_06000B70);
+    Gfx_DrawDListOpa(globalCtx, &D_06000B70);
 }

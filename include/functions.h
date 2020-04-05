@@ -403,8 +403,8 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, SkelAnime_Lim
                    SkelAnime_LimbAppendDlist2 unkFunc2, Actor* actor, s16 alpha);
 void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2);
 void Actor_Noop(Actor* actor, GlobalContext* globalCtx);
-void Draw_DListOpa(GlobalContext* globalCtx, u32 dlist);
-void Draw_DListXlu(GlobalContext* globalCtx, u32 dlist);
+void Gfx_DrawDListOpa(GlobalContext* globalCtx, u32 dlist);
+void Gfx_DrawDListXlu(GlobalContext* globalCtx, u32 dlist);
 Actor* Actor_FindNearby(GlobalContext* globalCtx, Actor* refActor, s16 actorId, u8 actorType, f32 range);
 s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s16 arg4, s16 arg5);
 void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3);
@@ -690,6 +690,7 @@ s32 func_8005BA74(UNK_TYPE, UNK_TYPE);
 // ? func_8005BB8C(?);
 // ? func_8005BBB0(?);
 // ? func_8005BBD4(?);
+void func_8005C050(GlobalContext* globalCtx, Collider* collision, Actor* actor, UNK_TYPE arg3, UNK_TYPE arg4);
 // ? func_8005C2BC(?);
 s32 func_8005C318(GlobalContext* globalCtx, ColliderDimensions* dim);
 s32 func_8005C328(GlobalContext* globalCtx, ColliderDimensions* dest, ColliderDimensions* src);
@@ -756,8 +757,8 @@ s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, SubGlobalContext11E60* 
 // ? func_80061C98(?);
 // ? func_80061E48(?);
 // ? func_80061E8C(?);
-void func_80061ED4(SubActorStruct98* sub98, ActorDamageChart* damageChart, SubActor98Init* subActor98Init);
-void func_80061EFC(SubActorStruct98* sub98, ActorDamageChart* damageChart, SubActor98Init* subActor98Init);
+void func_80061ED4(SubActorStruct98* sub98, ActorDamageChart* damageChart, Sub98Init4* sub98Init);
+void func_80061EFC(SubActorStruct98* sub98, ActorDamageChart* damageChart, Sub98Init4* sub98Init);
 // ? func_80061F64(?);
 // ? func_800622E4(?);
 // ? func_80062530(?);
@@ -796,10 +797,8 @@ void func_800694A0(GlobalContext* globalCtx, s16 drawId);
 // ? func_8006BA00(?);
 // ? func_8006BA30(?);
 void Audio_PlaySoundAtPosition(GlobalContext* globalCtx, Vec3f* pos2, s32 radius, u16 sfxId);
-// ? func_8006BBC0(?);
-// ? func_8006BE88(?);
-// ? func_8006BF1C(?);
-// ? func_8006C0FC(?);
+u16 ElfMessage_GetSariaText(GlobalContext* globalCtx);
+u16 ElfMessage_GetCUpText(GlobalContext* globalCtx);
 u16 Text_GetFaceReaction(GlobalContext* globalCtx, u32 reactionSet);
 // ? func_8006C3A0(?);
 // ? func_8006C3D0(?);
@@ -1056,56 +1055,65 @@ u8 func_80090480(GlobalContext* globalCtx, Collider* collider, UNK_PTR a2, Vec3f
 // ? func_80091880(?);
 // ? func_80091A24(?);
 void PreNMI_Init(PreNMIContext* prenmiCtx);
-// ? func_80092500(?);
-// ? func_80092584(?);
-// ? func_80092AB8(?);
-// ? func_80092B48(?);
-// ? func_80092BFC(?);
-// ? func_80092C20(?);
-void func_80092DAC(s16, s16);
-void func_80092DF0(s16, s16);
-// ? func_80092E3C(?);
-void func_80092E70(s16, s16, UNK_TYPE, UNK_TYPE, UNK_TYPE);
-// ? func_80092F38(?);
-s16 func_80092F88(Camera*, UNK_TYPE);
-// ? func_80092FAC(?);
-// ? func_80092FF0(?);
-// ? func_80093370(?);
-// ? func_80093708(?);
-// ? func_8009373C(?);
-Gfx* func_80093774(Gfx* a0, u32 a1);
-// ? func_800937C0(?);
-// ? func_80093808(?);
-// ? func_800938B4(?);
-// ? func_8009398C(?);
-// ? func_80093AD0(?);
+Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, struct_80045714* arg2);
+void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x);
+s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake);
+s16 Quake_Callback2(QuakeRequest* req, ShakeInfo* shake);
+s16 Quake_Callback3(QuakeRequest* req, ShakeInfo* shake);
+s16 Quake_Callback4(QuakeRequest* req, ShakeInfo* shake);
+s16 Quake_Callback5(QuakeRequest* req, ShakeInfo* shake);
+s16 Quake_Callback6(QuakeRequest* req, ShakeInfo* shake);
+s16 Quake_GetFreeIndex();
+QuakeRequest* Quake_AddImpl(Camera* cam, u32 callbackIdx);
+void Quake_Remove(QuakeRequest* req);
+QuakeRequest* Quake_GetRequest(s16 idx);
+QuakeRequest* Quake_SetValue(s16 idx, s16 valueType, s16 value);
+u32 Quake_SetSpeed(s16 idx, s16 value);
+u32 Quake_SetCountdown(s16 idx, s16 value);
+s16 Quake_GetCountdown(s16 idx);
+u32 Quake_SetQuakeValues(s16 idx, s16 y, s16 x, s16 zoom, s16 rotZ);
+u32 Quake_SetUnkValues(s16 idx, s16 arg1, SubQuakeRequest14 arg2);
+void Quake_Init();
+s16 Quake_Add(Camera* cam, u32 callbackIdx);
+u32 Quake_RemoveFromIdx(s16 idx);
+s16 Quake_Calc(Camera* camera, UnkQuakeCalcStruct* camData);
+Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 n, s32 f);
+Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 n, s32 f);
+Gfx* Gfx_SetFog2(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 n, s32 f);
+Gfx* Gfx_CallSetupDL(Gfx* gfx, u32 i);
+Gfx* func_800937C0(Gfx* gfx);
+Gfx* func_80093808(Gfx* gfx);
+void func_800938B4(GraphicsContext* gfxCtx);
+void func_8009398C(GraphicsContext* gfxCtx);
+void func_80093AD0(GraphicsContext* gfxCtx);
 void func_80093BA8(GraphicsContext* gfxCtx);
-// ? func_80093C80(?);
+void func_80093C80(GlobalContext* globalCtx);
 void func_80093D18(GraphicsContext* gfxCtx);
 void func_80093D84(GraphicsContext* gfxCtx);
-// ? func_80093F34(?);
-// ? func_80093F58(?);
+Gfx* func_80093F34(Gfx* gfx);
+Gfx* func_80093F58(Gfx* gfx);
 void func_80094044(GraphicsContext* gfxCtx);
-// ? func_800940B0(?);
-// ? func_800942F0(?);
-// ? func_8009435C(?);
-// ? func_800944A0(?);
-// ? func_80094520(?);
-// ? func_8009457C(?);
-// ? func_800945A0(?);
-// ? func_80094678(?);
-Gfx* func_800946E4(Gfx* a0);
-// ? func_800947AC(?);
-// ? func_80094A14(?);
-// ? func_80094C50(?);
-// ? func_80094DB8(?);
+void func_800940B0(GraphicsContext* gfxCtx);
+void func_800942F0(GraphicsContext* gfxCtx);
+void func_8009435C(GraphicsContext* gfxCtx);
+Gfx* func_800944A0(Gfx* gfx);
+void func_80094520(GraphicsContext* gfxCtx);
+void func_8009457C(Gfx** gfxp);
+void func_800945A0(GraphicsContext* gfxCtx);
+void func_80094678(GraphicsContext* gfxCtx);
+Gfx* func_800946E4(Gfx* gfx);
+Gfx* func_800947AC(Gfx* gfx);
+void func_80094A14(GraphicsContext* gfxCtx);
+void func_80094C50(GraphicsContext* gfxCtx);
+void Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height);
 Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y);
-Gfx* Draw_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
-Gfx* Draw_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
-                       u32 y2, s32 width2, s32 height2);
-Gfx* Draw_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
-                               u32 x2, u32 y2, s32 width2, s32 height2, s32 red, s32 green, s32 blue, s32 alpha);
-// ? func_80095248(?);
+Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
+Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
+                      u32 y2, s32 width2, s32 height2);
+Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
+                              u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
+void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b);
+void func_80095974(GraphicsContext* gfxCtx);
 void func_80095AA0(GlobalContext* globalCtx, Room* room, UNK_TYPE arg2, UNK_TYPE arg3);
 // ? func_8009638C(?);
 void func_80096FD4(GlobalContext* globalCtx, Room* room);
@@ -1136,12 +1144,12 @@ void Scene_Draw(GlobalContext* globalCtx);
 void SkelAnime_LodDraw(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDrawTable,
                        SkelAnime_LimbUpdateMatrix updateMtxFunc, SkelAnime_LimbAppendDlist appendDlistFunc,
                        Actor* actor, s32 dListIndex);
-void SkelAnime_LodDrawSV(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDrawTable, s32 limbCount,
+void SkelAnime_LodDrawSV(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDrawTable, s32 dListCount,
                          SkelAnime_LimbUpdateMatrix updateMtxFunc, SkelAnime_LimbAppendDlist appendDlistFunc,
                          Actor* actor, s32 dListIndex);
 void SkelAnime_Draw(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDrawTable,
                     SkelAnime_LimbUpdateMatrix updateMtxFunc, SkelAnime_LimbAppendDlist appendDlistFunc, Actor* actor);
-void SkelAnime_DrawSV(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDrawTable, s32 limbCount,
+void SkelAnime_DrawSV(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDrawTable, s32 dListCount,
                       SkelAnime_LimbUpdateMatrix updateMtxFunc, SkelAnime_LimbAppendDlist appendDlistFunc,
                       Actor* actor);
 s16 SkelAnime_GetFrameCount(GenericAnimationHeader* animationSeg);
@@ -1151,7 +1159,7 @@ Gfx* SkelAnime_Draw2(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorD
 Gfx* SkelAnime_DrawSV2(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* actorDrawTable, s32 dListCount,
                        SkelAnime_LimbUpdateMatrix2 updateMtxFunc, SkelAnime_LimbAppendDlist2 appendDlistFunc,
                        Actor* actor, Gfx* gfx);
-void func_800A2E70(s32, Vec3s*, Vec3s*, Vec3s*, f32);
+void SkelAnime_InterpolateVec3s(s32, Vec3s*, Vec3s*, Vec3s*, f32);
 void SkelAnime_AnimationCtxReset(AnimationContext* animationCtx);
 void func_800A32F4(GlobalContext* globalCtx);
 void func_800A3310(GlobalContext* globalCtx);
@@ -1167,28 +1175,31 @@ void SkelAnime_InitLinkAnimetion(GlobalContext* globalCtx, SkelAnime* skelAnime,
                                  LinkAnimetionEntry* linkAnimetionEntrySeg, s32 flags, Vec3s* actorDrawTbl, Vec3s* arg6,
                                  s32 limbBufCount);
 void func_800A3B8C(SkelAnime* skelAnime);
-void func_800A3BC0(GlobalContext* globalCtx, SkelAnime* skelAnime);
+s32 func_800A3BC0(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void func_800A3C9C(GlobalContext* globalCtx, SkelAnime* skelAnime);
-void func_800A3EE8(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 arg2);
-void SkelAnime_LinkChangeAnimation(GlobalContext* globalCtx, SkelAnime* skelAnime,
-                                   LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed, f32 arg4,
-                                   f32 frameCount, u8 arg6, f32 arg7);
-void func_800A407C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg);
-void func_800A40DC(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
-                   f32 playbackSpeed);
-void func_800A4140(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg);
-void func_800A419C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
-                   f32 playbackSpeed);
+void SkelAnime_SetTransition(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 transitionRate);
+void SkelAnime_ChangeLinkAnim(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
+                              f32 playbackSpeed, f32 frame, f32 frameCount, u8 arg6, f32 transitionRate);
+void SkelAnime_ChangeLinkAnimDefaultStop(GlobalContext* globalCtx, SkelAnime* skelAnime,
+                                         LinkAnimetionEntry* linkAnimetionEntrySeg);
+void SkelAnime_ChangeLinkAnimPlaybackStop(GlobalContext* globalCtx, SkelAnime* skelAnime,
+                                          LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed);
+void SkelAnime_ChangeLinkAnimDefaultRepeat(GlobalContext* globalCtx, SkelAnime* skelAnime,
+                                           LinkAnimetionEntry* linkAnimetionEntrySeg);
+void SkelAnime_ChangeLinkAnimPlaybackRepeat(GlobalContext* globalCtx, SkelAnime* skelAnime,
+                                            LinkAnimetionEntry* linkAnimetionEntrySeg, f32 playbackSpeed);
 void func_800A41FC(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void func_800A425C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
                    f32 frame);
 void func_800A42A0(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
                    f32 frame);
 void func_800A42E4(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 frame);
-void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 frame,
-                   LinkAnimetionEntry* linkAnimetionEntrySeg2, f32 arg5, f32 arg6, Vec3s* arg7);
-void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg, f32 frame,
-                   LinkAnimetionEntry* linkAnimetionEntrySeg2, f32 arg5, f32 arg6, Vec3s* arg7);
+void func_800A431C(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
+                   f32 transitionFrame, LinkAnimetionEntry* linkAnimetionEntrySeg2, f32 frame, f32 transitionRate,
+                   Vec3s* actorDrawTable);
+void func_800A43B8(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimetionEntry* linkAnimetionEntrySeg,
+                   f32 transitionFrame, LinkAnimetionEntry* linkAnimetionEntrySeg2, f32 frame, f32 transitionRate,
+                   Vec3s* arg7);
 s32 func_800A4530(SkelAnime* skelAnime, f32 arg1);
 void SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                     AnimationHeader* animationseg, Vec3s* actorDrawTable, Vec3s* arg5, s32 limbCount);
@@ -1197,17 +1208,17 @@ void SkelAnime_InitSV(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHe
 void SkelAnime_InitSkin(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
                         AnimationHeader* animationseg);
 s32 SkelAnime_FrameUpdateMatrix(SkelAnime* skelAnime);
-void SkelAnime_ChangeAnimationImpl(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 frame,
-                                   f32 frameCount, u8 unk1, f32 transitionRate, s8 unk2);
-void SkelAnime_ChangeAnimation(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 unk0,
-                               f32 frameCount, u8 unk1, f32 transitionRate);
-void func_800A51E8(SkelAnime* skelAnime, AnimationHeader* animationseg);
-void func_800A5240(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 transitionRate);
-void func_800A529C(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed);
-void SkelAnime_ChangeAnimationDefault(SkelAnime* skelAnime, AnimationHeader* animationseg);
-void SkelAnime_ChangeAnimationTransitionRate(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 transitionRate);
-void SkelAnime_ChangeAnimationPlaybackSpeed(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed);
-void func_800A5408(SkelAnime* skelAnime);
+void SkelAnime_ChangeAnimImpl(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 frame,
+                              f32 frameCount, u8 unk1, f32 transitionRate, s8 unk2);
+void SkelAnime_ChangeAnim(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed, f32 unk0,
+                          f32 frameCount, u8 unk1, f32 transitionRate);
+void SkelAnime_ChangeAnimDefaultStop(SkelAnime* skelAnime, AnimationHeader* animationseg);
+void SkelAnime_ChangeAnimTransitionStop(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 transitionRate);
+void SkelAnime_ChangeAnimPlaybackStop(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed);
+void SkelAnime_ChangeAnimDefaultRepeat(SkelAnime* skelAnime, AnimationHeader* animationseg);
+void SkelAnime_ChangeAnimTransitionRepeat(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 transitionRate);
+void SkelAnime_ChangeAnimPlaybackRepeat(SkelAnime* skelAnime, AnimationHeader* animationseg, f32 playbackSpeed);
+void SkelAnime_AnimReverse(SkelAnime* skelAnime);
 void func_800A5428(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src, u8* index);
 void func_800A54FC(SkelAnime* skelAnime, Vec3f* pos, s16 angle);
 s32 func_800A56C8(SkelAnime* skelAnime, f32 arg1);
@@ -1252,27 +1263,36 @@ u32 func_800AA148();
 void func_800AA15C();
 void func_800AA16C();
 void func_800AA178(u32);
-// ? func_800AA190(?);
+void func_800AA190(UnkViewStruct* arg0, Viewport* viewport);
+View* func_800AA1F8(GraphicsContext* gfxCtx);
+void func_800AA250(View* view);
 void func_800AA278(View*, GraphicsContext*);
-// ? func_800AA358(?);
-// ? func_800AA43C(?);
-void func_800AA460(View*, f32, f32, f32);
-// ? func_800AA4FC(?);
-// ? func_800AA550(?);
-void func_800AA76C(View*, f32, f32, f32);
-void func_800AA78C(View*, f32, f32, f32);
-void func_800AA7AC(View*, f32);
-// ? func_800AA7B8(?);
-// ? func_800AA814(?);
-// ? func_800AA890(?);
-// ? func_800AAA50(?);
-// ? func_800AAA9C(?);
-// ? func_800AB0A8(?);
-// ? func_800AB2C4(?);
-// ? func_800AB560(?);
-// ? func_800AB944(?);
+void func_800AA358(View* view, Vec3f* vec1, Vec3f* vec2, Vec3f* vec3);
+void func_800AA3F0(View* view, Vec3f* vec1, Vec3f* vec2, Vec3f* vec3);
+void func_800AA43C(View* view, f32 arg1);
+void func_800AA454(View* view, f32* arg1);
+void func_800AA460(View* view, f32 fieldOfView, f32 fogDistance, f32 zDepth);
+void func_800AA48C(View* view, f32* fieldOfView, f32* fogDistance, f32* zDepth);
+void func_800AA4A8(View* view, f32 fieldOfView, f32 fogDistance, f32 zDepth);
+void func_800AA4E0(View* view, f32* fieldOfView, f32* fogDistance, f32* zDepth);
+void func_800AA4FC(View* view, Viewport* viewport);
+void func_800AA52C(View* view, Viewport* viewport);
+void func_800AA550(View* view);
+void func_800AA76C(View* view, f32 arg1, f32 arg2, f32 arg3);
+void func_800AA78C(View* view, f32 arg1, f32 arg2, f32 arg3);
+void func_800AA7AC(View* view, f32 arg1);
+void func_800AA7B8(View* view);
+void func_800AA814(View* view);
+void func_800AA840(View* view, Vec3f vec1, Vec3f vec2, f32 arg3);
+s32 func_800AA890(View* view, Mtx* mtx);
+void func_800AAA50(View* view, s32 arg1);
+s32 func_800AAA9C(View* view);
+s32 func_800AB0A8(View* view);
+s32 func_800AB2C4(View* view);
+s32 func_800AB560(View* view);
+s32 func_800AB944(View* view);
 // ? func_800AB9EC(?);
-void func_800ABE74(f32, f32, f32);
+s32 func_800ABE74(f32 eyeX, f32 eyeY, f32 eyeZ);
 // ? func_800AC030(?);
 // ? func_800AC2F4(?);
 // ? func_800AC89C(?);
@@ -1408,7 +1428,7 @@ s32 func_800BC56C(GlobalContext*, s16);
 // ? func_800BC5E0(?);
 void func_800BC88C(GlobalContext*);
 Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* a1);
-// ? func_800BC8EC(?);
+void func_800BC8EC(GlobalContext*);
 UNK_TYPE func_800BCA64(UNK_ARGS);
 // ? func_800BD314(?);
 // ? func_800BED40(?);
@@ -1518,22 +1538,23 @@ void* GameAlloc_Malloc(GameAlloc* this, u32 size);
 void GameAlloc_Free(GameAlloc* this, void* data);
 void GameAlloc_Cleanup(GameAlloc* this);
 void GameAlloc_Init(GameAlloc* this);
-// ? func_800C5850(?);
-// ? func_800C58BC(?);
-// ? func_800C5AB0(?);
-// ? func_800C5B14(?);
-// ? func_800C5C2C(?);
-// ? func_800C5D08(?);
-// ? func_800C5D94(?);
-// ? func_800C5DC0(?);
-// ? func_800C61D8(?);
+void Graph_FaultClient();
+void Graph_DisassembleUCode(void* arg0);
+void Graph_UCodeFaultClient(void* arg0);
+void* Graph_InitTHGA(GraphicsContext* gfxCtx);
+GameStateOverlay* Graph_GetNextGameState();
+void Graph_Init(GraphicsContext* gfxCtx);
+void Graph_Destroy(GraphicsContext* gfxCtx);
+void Graph_TaskSet00(GraphicsContext* gfxCtx);
+void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState);
 void Graph_ThreadEntry(void*);
 void* Graph_Alloc(GraphicsContext* gfxCtx, size_t size);
-void func_800C6AC4(Gfx** a0, GraphicsContext* gfxCtx, char* file, s32 line);
-void func_800C6B54(Gfx** a0, GraphicsContext* gfxCtx, char* file, s32 line);
-Gfx* func_800C6C20(Gfx* a0);
-Gfx* func_800C6C28(Gfx* a0, Gfx* dlist); // branch dlist
-// ? func_800C6C3C(?);
+void* Graph_Alloc2(GraphicsContext* gfxCtx, size_t size);
+void Graph_OpenDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line);
+void Graph_CloseDisps(Gfx** dispRefs, GraphicsContext* gfxCtx, const char* file, s32 line);
+Gfx* Graph_GfxPlusOne(Gfx* gfx);
+Gfx* Graph_BranchDlist(Gfx* gfx, Gfx* dst);
+void* Graph_DlistAlloc(Gfx** gfx, u32 size);
 ListAlloc* ListAlloc_Init(ListAlloc* this);
 void* ListAlloc_Alloc(ListAlloc* this, u32 size);
 void ListAlloc_Free(ListAlloc* this, void* data);
@@ -2332,7 +2353,7 @@ s16 sins(u16);
 // ? func_80101AA4(?);
 // ? func_80101B40(?);
 // ? func_80101B90(?);
-// ? func_80101E34(?);
+void func_80101E34(MtxF*, f32, f32, f32, f32, f32, f32, f32, f32, f32);
 // ? func_80101EB0(?);
 // ? func_801021E4(?);
 // ? osStopTimer(?);
@@ -2366,7 +2387,7 @@ void osDpSetStatus(u32 status);
 // ? func_801041E0(?);
 // ? func_801043B8(?);
 // ? func_80104450(?);
-// ? func_801045A4(?);
+void func_801045A4(Mtx*, f32, f32, f32, f32, f32, f32, f32);
 f32 cosf(f32);
 s16 coss(u16);
 void osViSetEvent(OSMesgQueue* mq, OSMesg m, u32 retraceCount);
@@ -2444,6 +2465,12 @@ void func_80110F68(GlobalContext* globalCtx);
 void func_80112098(GlobalContext* globalCtx);
 
 void Title_Init(TitleContext*);
+void Title_Destroy(TitleContext* this);
+void func_80801E44(GameState*); // Select_Init
+void func_80801E0C(GameState*); // Select_Destroy
 void Opening_Init(OpeningContext* this);
+void Opening_Destroy(OpeningContext* this);
+void func_80811A20(GameState*); // FileChoose_Init
+void func_80811A18(GameState*); // FileChoose_Destroy
 
 #endif

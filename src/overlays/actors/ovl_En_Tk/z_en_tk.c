@@ -1,15 +1,10 @@
-#include <ultra64.h>
-#include <global.h>
-#include "z_en_tk.h"
+/*
+ * File: z_en_tk.c
+ * Overlay: ovl_En_Tk
+ * Description: Dampe NPC from "Dampe's Heart-Pounding Gravedigging Tour"
+ */
 
-typedef struct {
-    /* 0x0000 */ u8 health; /* SubActorStruct98.health */
-    /* 0x0002 */ s16 h_2;   /* SubActorStruct98.unk_10 */
-    /* 0x0004 */ s16 h_4;   /* SubActorStruct98.unk_12 */
-    /* 0x0006 */ s16 h_6;   /* SubActorStruct98.unk_14 */
-    /* 0x0008 */ u8 mass;   /* SubActorStruct98.mass */
-    /* 0x000A */
-} EnTk_SubActorStruct98Init;
+#include "z_en_tk.h"
 
 #define ROOM 0x00
 #define FLAGS 0x00000009
@@ -110,15 +105,15 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     s16 i;
     s16 alpha;
     s16 imageIdx;
-    Gfx* pgdl[4];
+    Gfx* dispRefs[4];
 
     /*
-     *  This assignment always occurs before a call to func_800C6AC4 which
+     *  This assignment always occurs before a call to Graph_OpenDisps which
      *  makes me suspect that they're inside a macro where the function call
-     *  is present only for debug builds. Same for func_800C6B54 most likely.
+     *  is present only for debug builds. Same for Graph_CloseDisps most likely.
      */
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(pgdl, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 114);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 114);
 
     gfxSetup = 0;
 
@@ -135,7 +130,7 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(this->eff); i++) {
         if (eff->active != 0) {
             if (gfxSetup == 0) {
-                gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 0);
+                gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0);
                 gSPDisplayList(gfxCtx->polyXlu.p++, D_0600BC90);
                 gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x64, 0x3C, 0x14, 0x00);
                 gfxSetup = 1;
@@ -159,7 +154,7 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
         eff++;
     }
 
-    func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 154);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 154);
 }
 
 s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth, f32 yAccelMax) {
@@ -181,15 +176,14 @@ static ColliderCylinderInit D_80B1D508 = {
     0x00, 0x00,       0x01, 0x00, 0x001E, 0x0034, 0x0000,     0x0000, 0x0000, 0x0000,
 };
 
-static EnTk_SubActorStruct98Init D_80B1D534 = {
+static Sub98Init5 D_80B1D534 = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
 void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06002F84;
 
-    SkelAnime_ChangeAnimation(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
-                              -10.f);
+    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0, -10.f);
 
     this->actionCountdown = Math_Rand_S16Offset(60, 60);
     this->actor.speedXZ = 0.f;
@@ -198,8 +192,7 @@ void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001FA8;
 
-    SkelAnime_ChangeAnimation(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
-                              -10.f);
+    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0, -10.f);
 
     this->actionCountdown = Math_Rand_S16Offset(240, 240);
 }
@@ -207,8 +200,7 @@ void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_DigAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001144;
 
-    SkelAnime_ChangeAnimation(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06001144.genericHeader), 0,
-                              -10.f);
+    SkelAnime_ChangeAnim(&this->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06001144.genericHeader), 0, -10.f);
 
     if (EnTk_CheckNextSpot(this, globalCtx) >= 0) {
         this->validDigHere = 1;
@@ -509,8 +501,8 @@ void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
     ActorShape_Init(&thisAgain->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.f);
 
     SkelAnime_InitSV(globalCtx, &thisAgain->skelAnim, &D_0600BE40, NULL, thisAgain->hz_22A, thisAgain->hz_296, 18);
-    SkelAnime_ChangeAnimation(&thisAgain->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader),
-                              0, 0.f);
+    SkelAnime_ChangeAnim(&thisAgain->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
+                         0.f);
 
     ActorCollider_AllocCylinder(globalCtx, &thisAgain->collider);
     ActorCollider_InitCylinder(globalCtx, &thisAgain->collider, &thisAgain->actor, &D_80B1D508);
@@ -702,14 +694,14 @@ void EnTk_Update(EnTk* this, GlobalContext* globalCtx) {
 
 void func_80B1D200(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
-    Gfx* pgdl[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, D_0600ACE0);
 
-    func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
 }
 
 s32 func_80B1D278(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
@@ -756,14 +748,14 @@ void EnTk_Draw(EnTk* this, GlobalContext* globalCtx) {
 
     EnTk* thisAgain = this;
     GraphicsContext* gfxCtx;
-    Gfx* pgdl[4];
+    Gfx* dispRefs[4];
 
     Matrix_Push();
     EnTkEff_Draw(thisAgain, globalCtx);
     Matrix_Pull();
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1294);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1294);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
@@ -772,5 +764,5 @@ void EnTk_Draw(EnTk* this, GlobalContext* globalCtx) {
     SkelAnime_DrawSV(globalCtx, thisAgain->skelAnim.skeleton, thisAgain->skelAnim.actorDrawTbl,
                      thisAgain->skelAnim.dListCount, func_80B1D278, func_80B1D2E4, &thisAgain->actor);
 
-    func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
 }

@@ -13,7 +13,7 @@ glabel BgSpot18Basket_Draw
 /* 00E10 808B8520 24040001 */  addiu   $a0, $zero, 0x0001         ## $a0 = 00000001
 /* 00E14 808B8524 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00E18 808B8528 24A518B0 */  addiu   $a1, $a1, 0x18B0           ## $a1 = 060018B0
-/* 00E1C 808B852C 0C00D498 */  jal     Draw_DListOpa
+/* 00E1C 808B852C 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00E20 808B8530 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 00E24 808B8534 8FBF0014 */  lw      $ra, 0x0014($sp)           

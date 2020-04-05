@@ -76,8 +76,8 @@ static void Update(ActorSpot00Break* this, GlobalContext* globalCtx) {
 
 static void Draw(ActorSpot00Break* this, GlobalContext* globalCtx) {
     if (this->actor.params == 1) {
-        Draw_DListOpa(globalCtx, &D_06000980);
+        Gfx_DrawDListOpa(globalCtx, &D_06000980);
     } else {
-        Draw_DListOpa(globalCtx, &D_06000440);
+        Gfx_DrawDListOpa(globalCtx, &D_06000440);
     }
 }

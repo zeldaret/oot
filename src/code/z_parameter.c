@@ -1109,8 +1109,8 @@ void Interface_SetSceneRestrictions(GlobalContext* globalCtx) {
     } while (sRestrictionFlags[i].scene != 0xFF);
 }
 
-Gfx* Draw_TextureIA8(Gfx* displayListHead, void* texture, s16 textureWidth, s16 textureHeight, s16 rectLeft,
-                     s16 rectTop, s16 rectWidth, s16 rectHeight, u16 dsdx, u16 dtdy) {
+Gfx* Gfx_TextureIA8(Gfx* displayListHead, void* texture, s16 textureWidth, s16 textureHeight, s16 rectLeft, s16 rectTop,
+                    s16 rectWidth, s16 rectHeight, u16 dsdx, u16 dtdy) {
     gDPLoadTextureBlock(displayListHead++, texture, G_IM_FMT_IA, G_IM_SIZ_8b, textureWidth, textureHeight, 0,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
@@ -1121,8 +1121,8 @@ Gfx* Draw_TextureIA8(Gfx* displayListHead, void* texture, s16 textureWidth, s16 
     return displayListHead;
 }
 
-Gfx* Draw_TextureI8(Gfx* displayListHead, void* texture, s16 textureWidth, s16 textureHeight, s16 rectLeft, s16 rectTop,
-                    s16 rectWidth, s16 rectHeight, u16 dsdx, u16 dtdy) {
+Gfx* Gfx_TextureI8(Gfx* displayListHead, void* texture, s16 textureWidth, s16 textureHeight, s16 rectLeft, s16 rectTop,
+                   s16 rectWidth, s16 rectHeight, u16 dsdx, u16 dtdy) {
     gDPLoadTextureBlock(displayListHead++, texture, G_IM_FMT_I, G_IM_SIZ_8b, textureWidth, textureHeight, 0,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
@@ -2582,10 +2582,10 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s16 magicBarY;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 2650);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 2650);
 
     if (gSaveContext.magic_level != 0) {
         if (gSaveContext.health_capacity > 0xA0) {
@@ -2601,10 +2601,10 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
         gDPSetEnvColor(gfxCtx->overlay.p++, 0x64, 0x32, 0x32, 0xFF);
 
         gfxCtx->overlay.p =
-            Draw_TextureIA8(gfxCtx->overlay.p, D_020038C0, 8, 16, R_MAGIC_BAR_X, magicBarY, 8, 16, 1024, 1024);
+            Gfx_TextureIA8(gfxCtx->overlay.p, D_020038C0, 8, 16, R_MAGIC_BAR_X, magicBarY, 8, 16, 1024, 1024);
 
-        gfxCtx->overlay.p = Draw_TextureIA8(gfxCtx->overlay.p, D_02003940, 24, 16, R_MAGIC_BAR_X + 8, magicBarY,
-                                            gSaveContext.unk_13F4, 16, 1024, 1024);
+        gfxCtx->overlay.p = Gfx_TextureIA8(gfxCtx->overlay.p, D_02003940, 24, 16, R_MAGIC_BAR_X + 8, magicBarY,
+                                           gSaveContext.unk_13F4, 16, 1024, 1024);
 
         gDPSetTextureImage(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, D_020038C0);
         gDPSetTile(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
@@ -2660,7 +2660,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
         }
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 2731);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 2731);
 }
 
 void func_80088AA0(s16 arg0) {
@@ -2700,9 +2700,9 @@ void func_80088B34(s16 arg0) {
 }
 
 void Interface_DrawActionLabel(GraphicsContext* gfxCtx, void* texture) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_parameter.c", 2820);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_parameter.c", 2820);
 
     gDPSetTextureImage(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, texture);
     gDPSetTile(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
@@ -2716,7 +2716,7 @@ void Interface_DrawActionLabel(GraphicsContext* gfxCtx, void* texture) {
 
     gSP1Quadrangle(gfxCtx->overlay.p++, 0, 2, 3, 1, 0);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_parameter.c", 2829);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_parameter.c", 2829);
 }
 
 u8* sCUpLabelTextures[] = { D_02002FC0, D_02002FC0, D_02002FC0 };
@@ -2733,11 +2733,11 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     s16 cUpAlpha;
     s32 pad;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 2900);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 2900);
 
     // B Button Color & Texture
     // Also loads the Item Button Texture reused by other buttons afterwards
@@ -2748,8 +2748,8 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
                     interfaceCtx->bAlpha);
     gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x00, 0xFF);
     gfxCtx->overlay.p =
-        Draw_TextureIA8(gfxCtx->overlay.p, &D_02000A00[0], 32, 32, R_ITEM_BTN_X(0), R_ITEM_BTN_Y(0),
-                        R_ITEM_BTN_WIDTH(0), R_ITEM_BTN_WIDTH(0), R_ITEM_BTN_DD(0) * 2, R_ITEM_BTN_DD(0) * 2);
+        Gfx_TextureIA8(gfxCtx->overlay.p, &D_02000A00[0], 32, 32, R_ITEM_BTN_X(0), R_ITEM_BTN_Y(0), R_ITEM_BTN_WIDTH(0),
+                       R_ITEM_BTN_WIDTH(0), R_ITEM_BTN_DD(0) * 2, R_ITEM_BTN_DD(0) * 2);
 
     // C-Left Button Color & Texture
     gDPPipeSync(gfxCtx->overlay.p++);
@@ -2876,12 +2876,12 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
             }
 
             gfxCtx->overlay.p =
-                Draw_TextureIA8(gfxCtx->overlay.p, &D_02000A00[i + 1], 0x20, 0x20, R_ITEM_BTN_X(i), R_ITEM_BTN_Y(i),
-                                R_ITEM_BTN_WIDTH(i), R_ITEM_BTN_WIDTH(i), R_ITEM_BTN_DD(i) * 2, R_ITEM_BTN_DD(i) * 2);
+                Gfx_TextureIA8(gfxCtx->overlay.p, &D_02000A00[i + 1], 0x20, 0x20, R_ITEM_BTN_X(i), R_ITEM_BTN_Y(i),
+                               R_ITEM_BTN_WIDTH(i), R_ITEM_BTN_WIDTH(i), R_ITEM_BTN_DD(i) * 2, R_ITEM_BTN_DD(i) * 2);
         }
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3071);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3071);
 }
 #else
 void Interface_DrawItemButtons(GlobalContext* globalCtx);
@@ -2890,10 +2890,10 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx);
 
 void Interface_DrawItemIconTexture(GlobalContext* globalCtx, void* texture, s16 button) {
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3079);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3079);
 
     gDPLoadTextureBlock(gfxCtx->overlay.p++, texture, G_IM_FMT_RGBA, G_IM_SIZ_32b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -2903,7 +2903,7 @@ void Interface_DrawItemIconTexture(GlobalContext* globalCtx, void* texture, s16 
                         (R_ITEM_ICON_Y(button) + R_ITEM_ICON_WIDTH(button)) << 2, G_TX_RENDERTILE, 0, 0,
                         R_ITEM_ICON_DD(button) * 2, R_ITEM_ICON_DD(button) * 2);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3094);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3094);
 }
 
 void Interface_DrawAmmoCount(GlobalContext* globalCtx, s16 button, s16 alpha) {
@@ -2911,10 +2911,10 @@ void Interface_DrawAmmoCount(GlobalContext* globalCtx, s16 button, s16 alpha) {
     s16 ammo;
     GraphicsContext* gfxCtx;
     s16 i;
-    Gfx* gfxArr[3];
+    Gfx* dispRefs[3];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3105);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3105);
 
     item = gSaveContext.equips.button_items[button];
 
@@ -2956,24 +2956,24 @@ void Interface_DrawAmmoCount(GlobalContext* globalCtx, s16 button, s16 alpha) {
         }
 
         if (i != 0) {
-            gfxCtx->overlay.p = Draw_TextureIA8(gfxCtx->overlay.p, &D_020035C0[i], 8, 8, R_ITEM_AMMO_X(button),
-                                                R_ITEM_AMMO_Y(button), 8, 8, 1024, 1024);
+            gfxCtx->overlay.p = Gfx_TextureIA8(gfxCtx->overlay.p, &D_020035C0[i], 8, 8, R_ITEM_AMMO_X(button),
+                                               R_ITEM_AMMO_Y(button), 8, 8, 1024, 1024);
         }
 
-        gfxCtx->overlay.p = Draw_TextureIA8(gfxCtx->overlay.p, &D_020035C0[ammo], 8, 8, R_ITEM_AMMO_X(button) + 6,
-                                            R_ITEM_AMMO_Y(button), 8, 8, 1024, 1024);
+        gfxCtx->overlay.p = Gfx_TextureIA8(gfxCtx->overlay.p, &D_020035C0[ammo], 8, 8, R_ITEM_AMMO_X(button) + 6,
+                                           R_ITEM_AMMO_Y(button), 8, 8, 1024, 1024);
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3158);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3158);
 }
 
 void Interface_DrawActionButton(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3172);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3172);
 
     Matrix_Translate(0.0f, 0.0f, XREG(18) / 10.0f, MTXMODE_NEW);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
@@ -2991,7 +2991,7 @@ void Interface_DrawActionButton(GlobalContext* globalCtx) {
 
     gSP1Quadrangle(gfxCtx->overlay.p++, 0, 2, 3, 1, 0);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3187);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3187);
 }
 
 void Interface_InitVertices(GlobalContext* globalCtx) {
@@ -3149,11 +3149,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
     s16 phi_s0;
     s16 sp274;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
     s32 pad;
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 3405);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 3405);
 
     gSPSegment(gfxCtx->overlay.p++, 0x02, interfaceCtx->parameterSegment);
     gSPSegment(gfxCtx->overlay.p++, 0x07, interfaceCtx->do_actionSegment);
@@ -3170,7 +3170,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         // Rupee Icon
         gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xC8, 0xFF, 0x64, interfaceCtx->magicAlpha);
         gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x50, 0x00, 0xFF);
-        gfxCtx->overlay.p = Draw_TextureIA8(gfxCtx->overlay.p, D_02001F00, 16, 16, 26, 206, 16, 16, 1024, 1024);
+        gfxCtx->overlay.p = Gfx_TextureIA8(gfxCtx->overlay.p, D_02001F00, 16, 16, 26, 206, 16, 16, 1024, 1024);
 
         switch (globalCtx->sceneNum) {
             case SCENE_BMORI1:
@@ -3193,7 +3193,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xC8, 0xE6, 0xFF, interfaceCtx->magicAlpha);
                     gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x14, 0xFF);
                     gfxCtx->overlay.p =
-                        Draw_TextureIA8(gfxCtx->overlay.p, D_02001E00, 16, 16, 26, 190, 16, 16, 1024, 1024);
+                        Gfx_TextureIA8(gfxCtx->overlay.p, D_02001E00, 16, 16, 26, 190, 16, 16, 1024, 1024);
 
                     // Small Key Counter
                     gDPPipeSync(gfxCtx->overlay.p++);
@@ -3212,13 +3212,13 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     phi_s2 = 42;
                     if (interfaceCtx->counterDigits[2] != 0) {
                         gfxCtx->overlay.p =
-                            Draw_TextureI8(gfxCtx->overlay.p, &D_02003040[interfaceCtx->counterDigits[2]], 8, 16,
-                                           phi_s2, 190, 8, 16, 1024, 1024);
+                            Gfx_TextureI8(gfxCtx->overlay.p, &D_02003040[interfaceCtx->counterDigits[2]], 8, 16, phi_s2,
+                                          190, 8, 16, 1024, 1024);
                         phi_s2 = 50;
                     }
 
-                    gfxCtx->overlay.p = Draw_TextureI8(gfxCtx->overlay.p, &D_02003040[interfaceCtx->counterDigits[3]],
-                                                       8, 16, phi_s2, 190, 8, 16, 1024, 1024);
+                    gfxCtx->overlay.p = Gfx_TextureI8(gfxCtx->overlay.p, &D_02003040[interfaceCtx->counterDigits[3]], 8,
+                                                      16, phi_s2, 190, 8, 16, 1024, 1024);
                 }
 
                 phi_s2 = 42;
@@ -3265,8 +3265,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
         phi_s1 = sRupeeDigitsCount[CUR_UPG_VALUE(UPG_WALLET)];
 
         for (phi_s3 = 0; phi_s3 < phi_s1; phi_s3++, phi_s0++, phi_s2 += 8) {
-            gfxCtx->overlay.p = Draw_TextureI8(gfxCtx->overlay.p, &D_02003040[interfaceCtx->counterDigits[phi_s0]], 8,
-                                               16, phi_s2, 206, 8, 16, 1024, 1024);
+            gfxCtx->overlay.p = Gfx_TextureI8(gfxCtx->overlay.p, &D_02003040[interfaceCtx->counterDigits[phi_s0]], 8,
+                                              16, phi_s2, 206, 8, 16, 1024, 1024);
         }
 
         Interface_DrawMagicBar(globalCtx);
@@ -3532,8 +3532,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 for (phi_s3 = 0; phi_s3 < 4; phi_s3++) {
                     if (sHBAScoreDigits[phi_s3] != 0 || (phi_s0 != 0) || (phi_s3 >= 3)) {
                         gfxCtx->overlay.p =
-                            Draw_TextureI8(gfxCtx->overlay.p, &D_02003040[sHBAScoreDigits[phi_s3]], 8, 16, phi_s1,
-                                           ZREG(15) - 2, sDigitWidth[0], VREG(42), VREG(43) * 2, VREG(43) * 2);
+                            Gfx_TextureI8(gfxCtx->overlay.p, &D_02003040[sHBAScoreDigits[phi_s3]], 8, 16, phi_s1,
+                                          ZREG(15) - 2, sDigitWidth[0], VREG(42), VREG(43) * 2, VREG(43) * 2);
                         phi_s1 += 9;
                         phi_s0++;
                     }
@@ -3925,8 +3925,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 gDPPipeSync(gfxCtx->overlay.p++);
                 gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
                 gDPSetEnvColor(gfxCtx->overlay.p++, 0x00, 0x00, 0x00, 0x00);
-                gfxCtx->overlay.p = Draw_TextureIA8(gfxCtx->overlay.p, D_02002000, 16, 16, gSaveContext.timer_x[sp274],
-                                                    gSaveContext.timer_y[sp274] + 2, 16, 16, 1024, 1024);
+                gfxCtx->overlay.p = Gfx_TextureIA8(gfxCtx->overlay.p, D_02002000, 16, 16, gSaveContext.timer_x[sp274],
+                                                   gSaveContext.timer_y[sp274] + 2, 16, 16, 1024, 1024);
 
                 // Timer Counter
                 gDPPipeSync(gfxCtx->overlay.p++);
@@ -3948,10 +3948,10 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 }
 
                 for (phi_s3 = 0; phi_s3 < 5; phi_s3++) {
-                    gfxCtx->overlay.p = Draw_TextureI8(gfxCtx->overlay.p, &D_02003040[sTimerDigits[phi_s3]], 8, 16,
-                                                       gSaveContext.timer_x[sp274] + sTimerDigitLeftPos[phi_s3],
-                                                       gSaveContext.timer_y[sp274], sDigitWidth[phi_s3], VREG(42),
-                                                       VREG(43) * 2, VREG(43) * 2);
+                    gfxCtx->overlay.p = Gfx_TextureI8(gfxCtx->overlay.p, &D_02003040[sTimerDigits[phi_s3]], 8, 16,
+                                                      gSaveContext.timer_x[sp274] + sTimerDigitLeftPos[phi_s3],
+                                                      gSaveContext.timer_y[sp274], sDigitWidth[phi_s3], VREG(42),
+                                                      VREG(43) * 2, VREG(43) * 2);
                 }
             }
         }
@@ -3968,7 +3968,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         gDPFillRectangle(gfxCtx->overlay.p++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_parameter.c", 4269);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_parameter.c", 4269);
 }
 #else
 s16 D_8015FFE0;

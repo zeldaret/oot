@@ -11,7 +11,7 @@ glabel func_809A41DC
 /* 000E0 809A4200 24C645A0 */  addiu   $a2, $a2, %lo(D_809A45A0)  ## $a2 = 809A45A0
 /* 000E4 809A4204 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFD8
 /* 000E8 809A4208 24070095 */  addiu   $a3, $zero, 0x0095         ## $a3 = 00000095
-/* 000EC 809A420C 0C031AB1 */  jal     func_800C6AC4              
+/* 000EC 809A420C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 000F0 809A4210 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 000F4 809A4214 862F005C */  lh      $t7, 0x005C($s1)           ## 0000005C
 /* 000F8 809A4218 3C01809A */  lui     $at, %hi(D_809A45DC)       ## $at = 809A0000
@@ -114,7 +114,7 @@ glabel func_809A41DC
 /* 0027C 809A439C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00280 809A43A0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00284 809A43A4 AFA20050 */  sw      $v0, 0x0050($sp)           
-/* 00288 809A43A8 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00288 809A43A8 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0028C 809A43AC 3066007F */  andi    $a2, $v1, 0x007F           ## $a2 = 00000000
 /* 00290 809A43B0 8FA80050 */  lw      $t0, 0x0050($sp)           
 /* 00294 809A43B4 3C18FA00 */  lui     $t8, 0xFA00                ## $t8 = FA000000
@@ -188,7 +188,7 @@ glabel func_809A41DC
 /* 00398 809A44B8 AC590000 */  sw      $t9, 0x0000($v0)           ## 00000000
 /* 0039C 809A44BC 8E290038 */  lw      $t1, 0x0038($s1)           ## 00000038
 /* 003A0 809A44C0 240700BA */  addiu   $a3, $zero, 0x00BA         ## $a3 = 000000BA
-/* 003A4 809A44C4 0C031AD5 */  jal     func_800C6B54              
+/* 003A4 809A44C4 0C031AD5 */  jal     Graph_CloseDisps              
 /* 003A8 809A44C8 AC490004 */  sw      $t1, 0x0004($v0)           ## 00000004
 /* 003AC 809A44CC 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 003B0 809A44D0 8FB00034 */  lw      $s0, 0x0034($sp)           

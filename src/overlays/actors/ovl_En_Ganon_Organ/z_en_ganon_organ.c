@@ -113,11 +113,11 @@ void EnGanonOrgan_Draw(EnGanonOrgan* this, GlobalContext* globalCtx) {
     BossGanon* dorf;
     u32 pad;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[3];
+    Gfx* dispRefs[3];
 
     dorf = (BossGanon*)this->actor.attachedA;
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(&gfxArr, globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 205);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 205);
     osSyncPrintf("ORGAN DRAW  1\n");
     func_80093D18(globalCtx->state.gfxCtx);
     if ((this->actor.params == 1) && (dorf->organFadeTimer != 0xff)) {
@@ -134,5 +134,5 @@ void EnGanonOrgan_Draw(EnGanonOrgan* this, GlobalContext* globalCtx) {
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_80A2CCA8);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_80A2EAB0);
     osSyncPrintf("ORGAN DRAW  2\n");
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 230);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 230);
 }

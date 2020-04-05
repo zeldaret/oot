@@ -72,7 +72,7 @@ glabel EnMm_Init
 /* 00224 80AAD994 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00228 80AAD998 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 0022C 80AAD99C AFA80014 */  sw      $t0, 0x0014($sp)
-/* 00230 80AAD9A0 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00230 80AAD9A0 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00234 80AAD9A4 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 00238 80AAD9A8 3C01BF80 */  lui     $at, 0xBF80                ## $at = BF800000

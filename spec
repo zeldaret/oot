@@ -314,12 +314,11 @@ beginseg
     include "build/src/code/z_draw.o"
     include "build/asm/code_8006BA00.o"
     include "build/src/code/z_elf_message.o"
-    include "build/data/z_elf_message.data.o"
     include "build/src/code/z_face_reaction.o"
     include "build/src/code/code_8006C3A0.o"
     include "build/src/code/code_8006C510.o"
     include "build/src/code/z_fcurve_data_skelanime.o"
-    include "build/data/z_game_dlftbls.data.o"
+    include "build/src/code/z_game_dlftbls.o"
     include "build/src/code/z_horse.o"
     include "build/src/code/z_jpeg.o"
     include "build/data/z_jpeg.data.o"
@@ -354,12 +353,8 @@ beginseg
     include "build/data/z_player_lib.data.o"
     include "build/data/z_player_lib.bss.o"
     include "build/src/code/z_prenmi.o"
-    include "build/asm/z_quake.o"
-    include "build/data/z_quake.data.o"
-    include "build/data/z_quake.rodata.o"
-    include "build/data/z_quake.bss.o"
+    include "build/src/code/z_quake.o"
     include "build/src/code/z_rcp.o"
-    include "build/data/z_rcp.data.o"
     include "build/src/code/z_room.o"
     include "build/src/code/z_sample.o"
     include "build/src/code/code_80097A00.o"
@@ -377,8 +372,8 @@ beginseg
     include "build/src/code/code_800A9D40.o"
     include "build/src/code/code_800A9F30.o"
     include "build/data/code_800A9F30.bss.o"
+    include "build/data/z_text.data.o"
     include "build/src/code/z_view.o"
-    include "build/data/z_view.data.o"
     include "build/src/code/z_vimode.o"
     include "build/src/code/code_800ACE70.o"
     include "build/src/code/z_vismono.o"
@@ -430,10 +425,7 @@ beginseg
     include "build/data/game.rodata.o"
     include "build/data/game.bss.o"
     include "build/src/code/gamealloc.o"
-    include "build/asm/graph.o"
-    include "build/data/graph.data.o"
-    include "build/data/graph.rodata.o"
-    include "build/data/graph.bss.o"
+    include "build/src/code/graph.o"
     include "build/src/code/listalloc.o"
     include "build/src/code/main.o"
     include "build/src/code/padmgr.o"
@@ -457,9 +449,7 @@ beginseg
     include "build/data/sys_ucode.data.o"
     include "build/asm/code_800D2E30.o"
     include "build/data/code_800D2E30.data.o"
-    include "build/asm/code_800D31A0.o"
-    include "build/data/code_800D31A0.data.o"
-    include "build/data/code_800D31A0.rodata.o"
+    include "build/src/code/code_800D31A0.o"
     include "build/src/code/irqmgr.o"
     include "build/src/code/debug_malloc.o"
     include "build/src/code/fault.o"
@@ -677,25 +667,19 @@ endseg
 beginseg
     name "ovl_Arrow_Fire"
     include "build/src/overlays/actors/ovl_Arrow_Fire/z_arrow_fire.o"
-    include "build/data/overlays/actors/z_arrow_fire.data.o"
-    include "build/data/overlays/actors/z_arrow_fire.rodata.o"
-    include "build/data/overlays/actors/z_arrow_fire.reloc.o"
+    include "build/src/overlays/actors/ovl_Arrow_Fire/z_arrow_fire_reloc.o"
 endseg
 
 beginseg
     name "ovl_Arrow_Ice"
     include "build/src/overlays/actors/ovl_Arrow_Ice/z_arrow_ice.o"
-    include "build/data/overlays/actors/z_arrow_ice.data.o"
-    include "build/data/overlays/actors/z_arrow_ice.rodata.o"
-    include "build/data/overlays/actors/z_arrow_ice.reloc.o"
+    include "build/src/overlays/actors/ovl_Arrow_Ice/z_arrow_ice_reloc.o"
 endseg
 
 beginseg
     name "ovl_Arrow_Light"
     include "build/src/overlays/actors/ovl_Arrow_Light/z_arrow_light.o"
-    include "build/data/overlays/actors/z_arrow_light.data.o"
-    include "build/data/overlays/actors/z_arrow_light.rodata.o"
-    include "build/data/overlays/actors/z_arrow_light.reloc.o"
+    include "build/src/overlays/actors/ovl_Arrow_Light/z_arrow_light_reloc.o"
 endseg
 
 beginseg
@@ -1413,8 +1397,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot05_Soko"
     include "build/src/overlays/actors/ovl_Bg_Spot05_Soko/z_bg_spot05_soko.o"
-    include "build/data/overlays/actors/z_bg_spot05_soko.data.o"
-    include "build/data/overlays/actors/z_bg_spot05_soko.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot05_Soko/z_bg_spot05_soko_reloc.o"
 endseg
 
 beginseg
@@ -1480,9 +1463,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot12_Saku"
     include "build/src/overlays/actors/ovl_Bg_Spot12_Saku/z_bg_spot12_saku.o"
-    include "build/data/overlays/actors/z_bg_spot12_saku.data.o"
-    include "build/data/overlays/actors/z_bg_spot12_saku.rodata.o"
-    include "build/data/overlays/actors/z_bg_spot12_saku.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot12_Saku/z_bg_spot12_saku_reloc.o"
 endseg
 
 beginseg
@@ -3637,9 +3618,7 @@ endseg
 beginseg
     name "ovl_En_Tana"
     include "build/src/overlays/actors/ovl_En_Tana/z_en_tana.o"
-    include "build/data/overlays/actors/z_en_tana.data.o"
-    include "build/data/overlays/actors/z_en_tana.rodata.o"
-    include "build/data/overlays/actors/z_en_tana.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Tana/z_en_tana_reloc.o"
 endseg
 
 beginseg
@@ -4020,9 +3999,7 @@ endseg
 beginseg
     name "ovl_Obj_Comb"
     include "build/src/overlays/actors/ovl_Obj_Comb/z_obj_comb.o"
-    include "build/data/overlays/actors/z_obj_comb.data.o"
-    include "build/data/overlays/actors/z_obj_comb.rodata.o"
-    include "build/data/overlays/actors/z_obj_comb.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Comb/z_obj_comb_reloc.o"
 endseg
 
 beginseg

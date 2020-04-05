@@ -12,7 +12,7 @@ glabel BgMenkuriNisekabe_Draw
 /* 00090 8089C3C0 3C05808A */  lui     $a1, %hi(D_8089C430)       ## $a1 = 808A0000
 /* 00094 8089C3C4 0002C080 */  sll     $t8, $v0,  2               
 /* 00098 8089C3C8 00B82821 */  addu    $a1, $a1, $t8              
-/* 0009C 8089C3CC 0C00D4C9 */  jal     Draw_DListXlu
+/* 0009C 8089C3CC 0C00D4C9 */  jal     Gfx_DrawDListXlu
               
 /* 000A0 8089C3D0 8CA5C430 */  lw      $a1, %lo(D_8089C430)($a1)  
 /* 000A4 8089C3D4 10000008 */  beq     $zero, $zero, .L8089C3F8   
@@ -22,7 +22,7 @@ glabel BgMenkuriNisekabe_Draw
 /* 000B0 8089C3E0 3C05808A */  lui     $a1, %hi(D_8089C430)       ## $a1 = 808A0000
 /* 000B4 8089C3E4 00B92821 */  addu    $a1, $a1, $t9              
 /* 000B8 8089C3E8 8CA5C430 */  lw      $a1, %lo(D_8089C430)($a1)  
-/* 000BC 8089C3EC 0C00D498 */  jal     Draw_DListOpa
+/* 000BC 8089C3EC 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 000C0 8089C3F0 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 000C4 8089C3F4 8FBF0014 */  lw      $ra, 0x0014($sp)           

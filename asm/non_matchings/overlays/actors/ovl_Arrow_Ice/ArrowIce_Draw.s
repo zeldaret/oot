@@ -30,7 +30,7 @@ glabel ArrowIce_Draw
 /* 005EC 808682BC 8F050000 */  lw      $a1, 0x0000($t8)           ## 00000000
 /* 005F0 808682C0 AFA2008C */  sw      $v0, 0x008C($sp)
 /* 005F4 808682C4 27A40070 */  addiu   $a0, $sp, 0x0070           ## $a0 = FFFFFFD8
-/* 005F8 808682C8 0C031AB1 */  jal     func_800C6AC4
+/* 005F8 808682C8 0C031AB1 */  jal     Graph_OpenDisps
 /* 005FC 808682CC 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00600 808682D0 8FA2008C */  lw      $v0, 0x008C($sp)
 /* 00604 808682D4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
@@ -262,7 +262,7 @@ glabel ArrowIce_Draw
 /* 00980 80868650 AFAD0028 */  sw      $t5, 0x0028($sp)
 /* 00984 80868654 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00988 80868658 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 0098C 8086865C 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 0098C 8086865C 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 00990 80868660 AFA2004C */  sw      $v0, 0x004C($sp)
 /* 00994 80868664 8FA8004C */  lw      $t0, 0x004C($sp)
 /* 00998 80868668 3C188087 */  lui     $t8, %hi(D_80869A20)       ## $t8 = 80870000
@@ -279,7 +279,7 @@ glabel ArrowIce_Draw
 /* 009C4 80868694 24C69B64 */  addiu   $a2, $a2, %lo(D_80869B64)  ## $a2 = 80869B64
 /* 009C8 80868698 27A40070 */  addiu   $a0, $sp, 0x0070           ## $a0 = FFFFFFD8
 /* 009CC 8086869C 240702A4 */  addiu   $a3, $zero, 0x02A4         ## $a3 = 000002A4
-/* 009D0 808686A0 0C031AD5 */  jal     func_800C6B54
+/* 009D0 808686A0 0C031AD5 */  jal     Graph_CloseDisps
 /* 009D4 808686A4 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 .L808686A8:
 /* 009D8 808686A8 8FBF003C */  lw      $ra, 0x003C($sp)
