@@ -1,10 +1,11 @@
 #include <ultra64.h>
 #include <global.h>
+#include <vt.h>
 
 volatile u32 D_8012ABF0 = 1;
 
-// TODO replace UNK_VIEW_STRUCT with Viewport and match with that instead
-void func_800AA190(UNK_VIEW_STRUCT* arg0, Viewport* viewport) {
+// TODO replace UnkViewStruct with Viewport and match with that instead
+void func_800AA190(UnkViewStruct* arg0, Viewport* viewport) {
     s32 xLen;
     s32 yLen;
 
@@ -21,12 +22,12 @@ void func_800AA190(UNK_VIEW_STRUCT* arg0, Viewport* viewport) {
 }
 
 View* func_800AA1F8(GraphicsContext* gfxCtx) {
-    View* allocated = SystemArena_MallocDebug(sizeof(View), "../z_view.c", 285);
-    if (allocated != NULL) {
-        func_80106860(allocated, 0, sizeof(View)); // TODO prototype this
-        func_800AA278(allocated, gfxCtx);
+    View* view = SystemArena_MallocDebug(sizeof(View), "../z_view.c", 285);
+    if (view != NULL) {
+        func_80106860(view, 0, sizeof(View)); // TODO prototype this
+        func_800AA278(view, gfxCtx);
     }
-    return allocated;
+    return view;
 }
 
 void func_800AA250(View* view) {
@@ -39,7 +40,7 @@ void func_800AA278(View* view, GraphicsContext* gfxCtx) {
     view->viewport.bottomY = 240;
     view->viewport.leftX = 0;
     view->viewport.rightX = 320;
-    view->viewStart = 0x56494557; //"VIEW"
+    view->magic = 0x56494557; //"VIEW"
     view->eye.x = 0.0f;
     view->eye.y = 0.0f;
     view->unk_24 = 1.0f;
@@ -303,7 +304,7 @@ s32 func_800AAA9C(View* view) {
         guPerspective(projection, &view->unk_11C, view->fieldOfView, (f32)xlen / (f32)ylen, view->fogDistance,
                       view->zDepth, view->unk_24);
     }
-    if ((QREG(88) & 1) != 0) {
+    if (QREG(88) & 1) {
         osSyncPrintf("fovy %f near %f far %f scale %f aspect %f normal %08x\n", view->fieldOfView, view->fogDistance,
                      view->zDepth, view->unk_24, (f32)xlen / (f32)ylen, view->unk_11C);
         Matrix_MtxToMtxF(projection, &mtxF);
@@ -356,7 +357,6 @@ s32 func_800AAA9C(View* view) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AAA9C.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_view/func_800AB0A8.s")
 s32 func_800AB0A8(View* view) {
     Viewport* viewport;
     Mtx* projection;
@@ -594,10 +594,10 @@ s32 func_800ABE74(f32 eyeX, f32 eyeY, f32 eyeZ) {
         }
     }
     if (errorCode != 0) {
-        osSyncPrintf("\x1b[31m");
+        osSyncPrintf(VT_SGR("31"));
         // Is too large
         osSyncPrintf("eye が大きすぎます eye=[%8.3f %8.3f %8.3f] error=%d\n", eyeX, eyeY, eyeZ, errorCode);
-        osSyncPrintf("\x1b[m");
+        osSyncPrintf(VT_RST);
     }
     return errorCode;
 }

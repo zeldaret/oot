@@ -286,8 +286,7 @@ typedef struct {
     /* 0x16 */ char     unk_16[0x02];
 } Input; // size = 0x18
 
-typedef struct
-{
+typedef struct {
    /* 0x0000 */ s16 unk_0;
    /* 0x0002 */ s16 unk_2;
    /* 0x0004 */ u16 unk_4;
@@ -296,25 +295,23 @@ typedef struct
    /* 0x000A */ s16 unk_A;
    /* 0x000C */ u16 unk_C;
    /* 0x000E */ u16 unk_E;
-} UNK_VIEW_STRUCT; // size = 0x10, probably a viewport in disguise
+} UnkViewStruct; // size = 0x10, probably a viewport in disguise
 
-typedef struct
-{
-   /* 0x0000 */ s32 topY;       //uly (upper left y)
-   /* 0x0004 */ s32 bottomY;    //lry (lower right y)
-   /* 0x0008 */ s32 leftX;      //ulx (upper left x)
-   /* 0x000C */ s32 rightX;     //lrx (lower right x)
+typedef struct {
+   /* 0x0000 */ s32 topY;       // uly (upper left y)
+   /* 0x0004 */ s32 bottomY;    // lry (lower right y)
+   /* 0x0008 */ s32 leftX;      // ulx (upper left x)
+   /* 0x000C */ s32 rightX;     // lrx (lower right x)
 } Viewport; // size = 0x10
 
-typedef struct
-{
-    /* 0x0000 */ s32    viewStart; //string literal "VIEW" / 0x56494557
+typedef struct {
+    /* 0x0000 */ s32    magic; // string literal "VIEW" / 0x56494557
     /* 0x0004 */ GraphicsContext* gfxCtx;
     /* 0x0008 */ Viewport viewport;
-    /* 0x0018 */ f32    fieldOfView; //fovy
-    /* 0x001C */ f32    fogDistance; //near
-    /* 0x0020 */ f32    zDepth;      //far
-    /* 0x0024 */ f32    unk_24;      //scale
+    /* 0x0018 */ f32    fieldOfView; // fovy
+    /* 0x001C */ f32    fogDistance; // near
+    /* 0x0020 */ f32    zDepth;      // far
+    /* 0x0024 */ f32    unk_24;      // scale
     /* 0x0028 */ Vec3f  eye;
     /* 0x0034 */ Vec3f  unk_34;
     /* 0x0040 */ Vec3f  unk_40;
@@ -329,7 +326,7 @@ typedef struct
     /* 0x0100 */ f32    unk_100;
     /* 0x0104 */ Vec3f  unk_104;
     /* 0x0110 */ Vec3f  unk_110;
-    /* 0x011C */ u16    unk_11C; //normal
+    /* 0x011C */ u16    unk_11C; // normal
     /* 0x011E */ u16    unk_11E;
     /* 0x0120 */ s32    unk_120;
     /* 0x0124 */ s32    unk_124;

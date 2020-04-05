@@ -1263,7 +1263,7 @@ u32 func_800AA148();
 void func_800AA15C();
 void func_800AA16C();
 void func_800AA178(u32);
-void func_800AA190(UNK_VIEW_STRUCT* arg0, Viewport* viewport);
+void func_800AA190(UnkViewStruct* arg0, Viewport* viewport);
 View* func_800AA1F8(GraphicsContext* gfxCtx);
 void func_800AA250(View* view);
 void func_800AA278(View*, GraphicsContext*);
