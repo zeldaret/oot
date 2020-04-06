@@ -1,5 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
+#include <PR/os_cont.h>
 
 u16 D_8011E1C0 = 0;
 u16 D_8011E1C4 = 0;
@@ -95,19 +96,17 @@ void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// minor ordering and regalloc differences
 void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
-    CutsceneStateHandler handler;
+    Input* pad1 = &globalCtx->state.input[0];
 
-    if (!~(globalCtx->state.input[0].padPressed | -0x201) && (csCtx->state == CS_STATE_IDLE) &&
+    if (!~(pad1->padPressed | ~L_JPAD) && (csCtx->state == CS_STATE_IDLE) &&
         (gSaveContext.scene_setup_index >= 4)) {
         D_8015FCC8 = 0;
         gSaveContext.cutscene_index = 0xFFFD;
         gSaveContext.cutscene_trigger = 1;
     }
 
-    if (!~(globalCtx->state.input[0].padPressed | -0x801) && (csCtx->state == CS_STATE_IDLE) &&
+    if (!~(pad1->padPressed | ~U_JPAD) && (csCtx->state == CS_STATE_IDLE) &&
         (gSaveContext.scene_setup_index >= 4) && (D_8011D394 == 0)) {
         D_8015FCC8 = 1;
         gSaveContext.cutscene_index = 0xFFFD;
@@ -127,13 +126,9 @@ void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 
     if (gSaveContext.cutscene_index >= 0xFFF0) {
         func_80068ECC(globalCtx, csCtx);
-        handler = sCsStateHandlers2[csCtx->state];
-        handler(globalCtx, csCtx);
+        sCsStateHandlers2[csCtx->state](globalCtx, csCtx);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_demo/func_800645A0.s")
-#endif
 
 void func_80064720(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 }
@@ -164,8 +159,6 @@ void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 }
 
 // Command 3: Misc. Actions
-#ifdef NON_MATCHING
-// regalloc and minor ordering differences
 void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
     Player* player = PLAYER;
     f32 temp;
@@ -195,6 +188,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 func_800F6D58(0xF, 0, 0);
                 func_800753C4(globalCtx, 3);
+                if (1) {}
                 D_8015FD70 = 1;
             }
             break;
@@ -320,7 +314,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 25:
             gSaveContext.day_time += 30;
-            if ((gSaveContext.day_time & 0xFFFF) > 0xCAAA) {
+            if ((gSaveContext.day_time) > 0xCAAA) {
                 gSaveContext.day_time = 0xCAAA;
             }
             break;
@@ -384,9 +378,6 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_demo/func_80064824.s")
-#endif
 
 // Command 4: Set Environment Lighting
 void Cutscene_Command_SetLighting(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdEnvLighting* cmd) {
@@ -433,8 +424,6 @@ void Cutscene_Command_09(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmd
 }
 
 // Command 0x8C: Set Time of Day & Environment Time
-#ifdef NON_MATCHING
-// regalloc differences
 void func_80065134(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdDayTime* cmd) {
     s16 temp1;
     s16 temp2;
@@ -442,12 +431,11 @@ void func_80065134(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdDayTim
     if (csCtx->frames == cmd->startFrame) {
         temp1 = (cmd->hour * 60.0f) / 0.021972656f;
         temp2 = (cmd->minute + 1) / 0.021972656f;
-        gSaveContext.environment_time = gSaveContext.day_time = temp1 + temp2;
+        
+        gSaveContext.day_time = temp1 + temp2;
+        gSaveContext.environment_time = temp1 + temp2;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_demo/func_80065134.s")
-#endif
 
 // Command 0x3E8: Code Execution (& Terminates Cutscene?)
 void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
