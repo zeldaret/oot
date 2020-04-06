@@ -1669,7 +1669,6 @@ void func_8005F7D0(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
                 {
                     continue;
                 }
-
                 if (func_800CE934(&rItem->dim.posr, &D_8015E2A0, &sp88) != 1 && func_800CE934(&rItem->dim.posr, &D_8015E2D8, &sp88) != 1)
                 {
                     continue;
@@ -1923,11 +1922,198 @@ void func_800604B0(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060704.s")
+extern Vec3f D_8015E430;
+extern ColliderTrisItemDim D_8015E440;
+extern ColliderTrisItemDim D_8015E478; 
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060994.s")
+//Check ColliderTris to ColliderQuad
+void func_80060704(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    ColliderTris* left = (ColliderTris*)l;
+    ColliderQuad* right = (ColliderQuad*)r;
+    ColliderTrisItem* lItem;
+    Vec3f sp68;
+    Vec3f sp5C;
 
+    if (left->count > 0 && left->list != NULL) {
+        if (func_8005DF50(&right->body) != 1) {
+            func_800CE3C0(&D_8015E440, &right->dim.quad[2], &right->dim.quad[3], &right->dim.quad[1]);
+            func_800CE3C0(&D_8015E478, &right->dim.quad[1], &right->dim.quad[0], &right->dim.quad[2]);
+            for (lItem = left->list; lItem < left->list + left->count; lItem++) {
+                if (func_8005DF2C(&lItem->body) == 1) {
+                    continue;
+                }
+                if (func_8005DF74(&lItem->body, &right->body) == 1) {
+                    continue;
+                }
+                if (func_800D0104(&D_8015E440, &lItem->dim, &D_8015E430) == 1
+                    || func_800D0104(&D_8015E478, &lItem->dim, &D_8015E430) == 1) {
+                    sp68.x = (lItem->dim.poly[0].x + lItem->dim.poly[1].x + lItem->dim.poly[2].x) * (1.0f / 3);
+                    sp68.y = (lItem->dim.poly[0].y + lItem->dim.poly[1].y + lItem->dim.poly[2].y) * (1.0f / 3);
+                    sp68.z = (lItem->dim.poly[0].z + lItem->dim.poly[1].z + lItem->dim.poly[2].z) * (1.0f / 3);
+                    sp5C.x = (right->dim.quad[0].x + (right->dim.quad[1].x + (right->dim.quad[3].x + right->dim.quad[2].x))) * (1.0f / 4);
+                    sp5C.y = (right->dim.quad[0].y + (right->dim.quad[1].y + (right->dim.quad[3].y + right->dim.quad[2].y))) * (1.0f / 4);
+                    sp5C.z = (right->dim.quad[0].z + (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) * (1.0f / 4);
+                    func_8005E81C(globalCtx, &left->base, &lItem->body, &sp68, &right->base, &right->body, &sp5C, &D_8015E430);
+                    return;
+                }
+            }
+        }
+    }
+}
+
+extern Vec3f D_8015E4B0;
+extern ColliderTrisItemDim D_8015E4C0;
+extern ColliderTrisItemDim D_8015E4F8;
+
+//Check ColliderQuad to ColliderTris
+void func_80060994(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    ColliderQuad* left = (ColliderQuad*)l;
+    ColliderTris* right = (ColliderTris*)r;
+    ColliderTrisItem* rItem;
+    Vec3f sp68;
+    Vec3f sp5C;
+
+    if (right->count > 0 && right->list != NULL) {
+        if (func_8005DF2C(&left->body) != 1) {
+            func_800CE3C0(&D_8015E4C0, &left->dim.quad[2], &left->dim.quad[3], &left->dim.quad[1]);
+            func_800CE3C0(&D_8015E4F8, &left->dim.quad[1], &left->dim.quad[0], &left->dim.quad[2]);
+            for (rItem = right->list; rItem < right->list + right->count; rItem++) {
+                if (func_8005DF50(&rItem->body) == 1) {
+                    continue;
+                }
+                if (func_8005DF74(&left->body, &rItem->body) == 1) {
+                    continue;
+                }
+                if (func_800D0104(&D_8015E4C0, &rItem->dim, &D_8015E4B0) == 1
+                    || func_800D0104(&D_8015E4F8, &rItem->dim, &D_8015E4B0) == 1) {
+                    if (func_8005D218(globalCtx, left, &D_8015E4B0) != 0) {
+                        sp5C.x = (rItem->dim.poly[0].x + rItem->dim.poly[1].x + rItem->dim.poly[2].x) * (1.0f / 3);
+                        sp5C.y = (rItem->dim.poly[0].y + rItem->dim.poly[1].y + rItem->dim.poly[2].y) * (1.0f / 3);
+                        sp5C.z = (rItem->dim.poly[0].z + rItem->dim.poly[1].z + rItem->dim.poly[2].z) * (1.0f / 3);
+                        sp68.x = (left->dim.quad[0].x + (left->dim.quad[1].x + (left->dim.quad[3].x + left->dim.quad[2].x))) * (1.0f / 4);
+                        sp68.y = (left->dim.quad[0].y + (left->dim.quad[1].y + (left->dim.quad[3].y + left->dim.quad[2].y))) * (1.0f / 4);
+                        sp68.z = (left->dim.quad[0].z + (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) * (1.0f / 4);
+                        func_8005E81C(globalCtx, &left->base, &left->body, &sp68, &right->base, &rItem->body, &sp5C, &D_8015E4B0);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+}
+
+extern ColliderTrisItemDim D_8015E530[2];
+//extern ColliderTrisItemDim D_8015E564;
+extern Vec3f D_8015E598;
+extern ColliderTrisItemDim D_8015E5A8[2];
+//extern ColliderTrisItemDim D_8015E5DC;
+
+#ifdef NON_MATCHING
+//Check ColliderQuad to ColliderQuad
+//needs data migration
+void func_80060C2C(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    ColliderQuad* left = (ColliderQuad*)l;
+    ColliderQuad* right = (ColliderQuad*)r;
+    Vec3f sp6C;
+    Vec3f sp60;
+    s32 sp5C;
+    s32 sp50;
+    //f32* temp_a3;
+    //f32* temp_t7;
+    //s32 temp_a0;
+    //s32 temp_a0_2;
+    //s32 temp_ret;
+    //s32 temp_ret_2;
+    //s32 temp_ret_3;
+    //s32 temp_ret_4;
+    //s32 temp_ret_5;
+    //s32 temp_s0;
+    //s32 temp_s0_2;
+    //s32 temp_s1;
+    //s32 temp_s1_2;
+    //void* temp_s0_3;
+    //void* temp_s2;
+    ColliderTrisItemDim* phi_s0;
+    ColliderTrisItemDim* phi_s2;
+    //s32 phi_return;
+
+    //temp_a0 = arg2 + 0x18;
+    //sp5C = temp_a0;
+    //temp_ret = ;
+    //temp_a0_2 = arg3 + 0x18;
+    //phi_return = temp_ret;
+    if (func_8005DF2C(&left->body) == 1) {
+        return;
+    }
+    //sp50 = temp_a0_2;
+    //temp_ret_2 = func_8005DF50(temp_a0_2);
+    //phi_return = temp_ret_2;
+    if (func_8005DF50(&right->body) == 1) {
+        return;
+    }
+    //temp_ret_3 = func_8005DF74(sp5C, sp50);
+    //phi_return = temp_ret_3;
+    if (func_8005DF74(&left->body, &right->body) == 1) {
+        return;
+    }
+    //temp_s0 = arg2 + 0x58; 
+    //temp_s1 = arg2 + 0x4C;
+    func_800CE3C0(&D_8015E5A8[0], &left->dim.quad[2], &left->dim.quad[3], &left->dim.quad[1]);
+    func_800CE3C0(&D_8015E5A8[1], &left->dim.quad[2], &left->dim.quad[1], &left->dim.quad[0]);
+    //temp_s0_2 = arg3 + 0x58;
+    //temp_s1_2 = arg3 + 0x4C;
+    func_800CE3C0(&D_8015E530[0], &right->dim.quad[2], &right->dim.quad[3], &right->dim.quad[1]);
+    func_800CE3C0(&D_8015E530[1], &right->dim.quad[2], &right->dim.quad[1], &right->dim.quad[0]);
+    for (phi_s2 = &D_8015E530; phi_s2 != D_8015E530 + 2; phi_s2++) {
+        //phi_s2 = &D_8015E530;
+    //loop_4:
+        for (phi_s0 = &D_8015E5A8; phi_s0 != D_8015E5A8 + 2; phi_s0++) {
+            //    phi_s0 = &D_8015E5A8;
+            //loop_5:
+                //temp_ret_4 = func_800D0104(phi_s0, phi_s2, &D_8015E598);
+                //phi_return = temp_ret_4;
+            if (func_800D0104(phi_s0, phi_s2, &D_8015E598) == 1) {
+                //temp_ret_5 = func_8005D218(arg0, arg2, &D_8015E598);
+                //phi_return = temp_ret_5;
+                if (func_8005D218(globalCtx, left, &D_8015E598) != 0) {
+                    //temp_t7 = &sp60;
+                    //temp_a3 = &sp6C;
+                    //sp6C = (((arg2->unk58 + arg2->unk64) + arg2->unk4C) + arg2->unk40) * 0.25f;
+                    //sp70 = (((arg2->unk5C + arg2->unk68) + arg2->unk50) + arg2->unk44) * 0.25f;
+                    //sp74 = (((arg2->unk60 + arg2->unk6C) + arg2->unk54) + arg2->unk48) * 0.25f;
+                    sp6C.x = (right->dim.quad[0].x + (right->dim.quad[1].x + (right->dim.quad[3].x + right->dim.quad[2].x))) * (1.0f / 4);
+                    sp6C.y = (right->dim.quad[0].y + (right->dim.quad[1].y + (right->dim.quad[3].y + right->dim.quad[2].y))) * (1.0f / 4);
+                    sp6C.z = (right->dim.quad[0].z + (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) * (1.0f / 4);
+                    //sp60 = (((arg3->unk58 + arg3->unk64) + arg3->unk4C) + arg3->unk40) * 0.25f;
+                    //sp64 = (((arg3->unk5C + arg3->unk68) + arg3->unk50) + arg3->unk44) * 0.25f;
+                    //sp68 = (((arg3->unk60 + arg3->unk6C) + arg3->unk54) + arg3->unk48) * 0.25f;
+                    sp60.x = (left->dim.quad[0].x + (left->dim.quad[1].x + (left->dim.quad[3].x + left->dim.quad[2].x))) * (1.0f / 4);
+                    sp60.y = (left->dim.quad[0].y + (left->dim.quad[1].y + (left->dim.quad[3].y + left->dim.quad[2].y))) * (1.0f / 4);
+                    sp60.z = (left->dim.quad[0].z + (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) * (1.0f / 4);
+                    func_8005E81C(globalCtx, &left->base, &left->body, &sp6C, &right->base, &right->body, &sp60, &D_8015E598);
+                    return;
+                }
+            }
+            //temp_s0_3 = phi_s0 + 0x34;
+            //phi_s0 = temp_s0_3;
+            //if (temp_s0_3 != &D_8015E610) {
+            //    goto loop_5;
+            //}
+            //temp_s2 = phi_s2 + 0x34;
+            //phi_s2 = temp_s2;
+            //if (temp_s2 != &D_8015E598) {
+            //    goto loop_4;
+            //}
+        }
+    }
+    //return phi_return;
+}
+#else
+//Check ColliderQuad to ColliderQuad
+void func_80060C2C(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060C2C.s")
+#endif // NON_MATCHING
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060EBC.s")
 
