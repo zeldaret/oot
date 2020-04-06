@@ -3,6 +3,8 @@
 
 #include <z64vec.h>
 
+#define VEC3F(V,X,Y,Z) V.x=X;V.y=Y;V.z=Z
+
 typedef struct {
     s16 x, y, z, w;
 } Vec4s;
@@ -30,6 +32,11 @@ typedef struct {
     f32 yShift;
     Vec3f pos;
 } Cylinderf;
+
+typedef struct {
+    Vec3f a;
+    Vec3f b;
+} unk_800CAB94;
 
 void func_800CAF5C(Vec3f *arg0, Vec3f *arg1, f32 arg2, Vec3f *arg3);
 void func_800CAFA0(Vec3f* arg0, Vec3f* arg1, f32 arg2, Vec3f* arg3);
@@ -102,6 +109,12 @@ s32 func_800D0560(Vec4s *arg0, f32 arg1, f32 arg2);
 void func_800D05D0(s32 arg0, s32 arg1);
 void func_800D05DC(s32 arg0, s32 arg1);
 s32 func_800CE934(Vec4s *arg0, TriNorm *arg1, Vec3f *arg2);
-f32 func_800CB338(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, TriNorm *arg3, f32 arg4);
+s32 func_800CB338(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, TriNorm *arg3, f32 arg4);
 s32 func_800CE600(Vec4s *arg0, TriNorm *arg1);
+void func_800CACAC(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 *arg7, f32 *arg8);
+void func_800CAB94(unk_800CAB94 *arg0, Vec3f *arg1, Vec3f *arg2);
+s32 func_800CAD08(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, unk_800CAB94 *arg8);
+s32 func_800CA7D0(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, Vec3f* arg8, Vec3f* arg9, Vec3f* argA);
+s32 func_800CAEE8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, Vec3f* arg8, Vec3f* arg9);
+s32 func_800CB1F8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
 #endif

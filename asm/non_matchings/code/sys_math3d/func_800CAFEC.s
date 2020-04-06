@@ -7,5 +7,5 @@ glabel Math3D_DotProduct
 /* B421A0 800CB000 C7A0001C */  lwc1  $f0, 0x1c($sp)
 /* B421A4 800CB004 27BD0020 */  addiu $sp, $sp, 0x20
 /* B421A8 800CB008 03E00008 */  jr    $ra
-/* B421AC 800CB00C 00000000 */   nop   
+/* B421AC 800CB00C 00000000 */   nop
 

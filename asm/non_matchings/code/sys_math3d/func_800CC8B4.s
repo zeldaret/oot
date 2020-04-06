@@ -26,7 +26,7 @@ glabel func_800CC8B4
 /* B43AB4 800CC914 46000404 */  sqrt.s $f16, $f0
 /* B43AB8 800CC918 46008005 */  abs.s $f0, $f16
 /* B43ABC 800CC91C 4606003C */  c.lt.s $f0, $f6
-/* B43AC0 800CC920 00000000 */  nop   
+/* B43AC0 800CC920 00000000 */  nop
 /* B43AC4 800CC924 4503001F */  bc1tl .L800CC9A4
 /* B43AC8 800CC928 44800000 */   mtc1  $zero, $f0
 /* B43ACC 800CC92C 44814000 */  mtc1  $at, $f8
@@ -69,5 +69,5 @@ glabel func_800CC8B4
 /* B43B58 800CC9B8 8FBF0014 */  lw    $ra, 0x14($sp)
 /* B43B5C 800CC9BC 27BD0018 */  addiu $sp, $sp, 0x18
 /* B43B60 800CC9C0 03E00008 */  jr    $ra
-/* B43B64 800CC9C4 00000000 */   nop   
+/* B43B64 800CC9C4 00000000 */   nop
 

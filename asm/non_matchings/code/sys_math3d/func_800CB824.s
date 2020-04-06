@@ -24,5 +24,5 @@ glabel Math3D_SurfaceNorm
 /* B42A1C 800CB87C 8FBF0014 */  lw    $ra, 0x14($sp)
 /* B42A20 800CB880 27BD0018 */  addiu $sp, $sp, 0x18
 /* B42A24 800CB884 03E00008 */  jr    $ra
-/* B42A28 800CB888 00000000 */   nop   
+/* B42A28 800CB888 00000000 */   nop
 

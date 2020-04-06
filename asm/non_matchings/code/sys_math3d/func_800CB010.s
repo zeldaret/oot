@@ -17,7 +17,7 @@ glabel Math3D_CalcDotProduct
 /* B421EC 800CB04C 8FAE0028 */  lw    $t6, 0x28($sp)
 /* B421F0 800CB050 46006005 */  abs.s $f0, $f12
 /* B421F4 800CB054 4606003C */  c.lt.s $f0, $f6
-/* B421F8 800CB058 00000000 */  nop   
+/* B421F8 800CB058 00000000 */  nop
 /* B421FC 800CB05C 45020006 */  bc1fl .L800CB078
 /* B42200 800CB060 C4EA0000 */   lwc1  $f10, ($a3)
 /* B42204 800CB064 44804000 */  mtc1  $zero, $f8
@@ -44,5 +44,5 @@ glabel Math3D_CalcDotProduct
 /* B42250 800CB0B0 8FBF0014 */  lw    $ra, 0x14($sp)
 /* B42254 800CB0B4 27BD0020 */  addiu $sp, $sp, 0x20
 /* B42258 800CB0B8 03E00008 */  jr    $ra
-/* B4225C 800CB0BC 00000000 */   nop   
+/* B4225C 800CB0BC 00000000 */   nop
 

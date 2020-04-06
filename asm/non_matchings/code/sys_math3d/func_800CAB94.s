@@ -13,7 +13,7 @@ glabel func_800CAB94
 /* B41D60 800CABC0 46000005 */  abs.s $f0, $f0
 /* B41D64 800CABC4 3C048014 */  lui   $a0, %hi(D_801463D0) # $a0, 0x8014
 /* B41D68 800CABC8 4604003C */  c.lt.s $f0, $f4
-/* B41D6C 800CABCC 00000000 */  nop   
+/* B41D6C 800CABCC 00000000 */  nop
 /* B41D70 800CABD0 45020010 */  bc1fl .L800CAC14
 /* B41D74 800CABD4 8FA3002C */   lw    $v1, 0x2c($sp)
 /* B41D78 800CABD8 0C00084C */  jal   osSyncPrintf
@@ -69,5 +69,5 @@ glabel func_800CAB94
 /* B41E3C 800CAC9C 8FB00018 */  lw    $s0, 0x18($sp)
 /* B41E40 800CACA0 27BD0028 */  addiu $sp, $sp, 0x28
 /* B41E44 800CACA4 03E00008 */  jr    $ra
-/* B41E48 800CACA8 00000000 */   nop   
+/* B41E48 800CACA8 00000000 */   nop
 

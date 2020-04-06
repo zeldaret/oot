@@ -4,14 +4,14 @@ glabel func_800CB698
 /* B42840 800CB6A0 848E0000 */  lh    $t6, ($a0)
 /* B42844 800CB6A4 C4A80000 */  lwc1  $f8, ($a1)
 /* B42848 800CB6A8 448E2000 */  mtc1  $t6, $f4
-/* B4284C 800CB6AC 00000000 */  nop   
+/* B4284C 800CB6AC 00000000 */  nop
 /* B42850 800CB6B0 468021A0 */  cvt.s.w $f6, $f4
 /* B42854 800CB6B4 46083281 */  sub.s $f10, $f6, $f8
 /* B42858 800CB6B8 E7AA001C */  swc1  $f10, 0x1c($sp)
 /* B4285C 800CB6BC 848F0002 */  lh    $t7, 2($a0)
 /* B42860 800CB6C0 C4A40004 */  lwc1  $f4, 4($a1)
 /* B42864 800CB6C4 448F8000 */  mtc1  $t7, $f16
-/* B42868 800CB6C8 00000000 */  nop   
+/* B42868 800CB6C8 00000000 */  nop
 /* B4286C 800CB6CC 468084A0 */  cvt.s.w $f18, $f16
 /* B42870 800CB6D0 46049181 */  sub.s $f6, $f18, $f4
 /* B42874 800CB6D4 E7A60020 */  swc1  $f6, 0x20($sp)
@@ -19,7 +19,7 @@ glabel func_800CB698
 /* B4287C 800CB6DC C4B00008 */  lwc1  $f16, 8($a1)
 /* B42880 800CB6E0 27A4001C */  addiu $a0, $sp, 0x1c
 /* B42884 800CB6E4 44984000 */  mtc1  $t8, $f8
-/* B42888 800CB6E8 00000000 */  nop   
+/* B42888 800CB6E8 00000000 */  nop
 /* B4288C 800CB6EC 468042A0 */  cvt.s.w $f10, $f8
 /* B42890 800CB6F0 46105481 */  sub.s $f18, $f10, $f16
 /* B42894 800CB6F4 0C032D8A */  jal   Math3D_Vec3fMagnitude
@@ -27,5 +27,5 @@ glabel func_800CB698
 /* B4289C 800CB6FC 8FBF0014 */  lw    $ra, 0x14($sp)
 /* B428A0 800CB700 27BD0028 */  addiu $sp, $sp, 0x28
 /* B428A4 800CB704 03E00008 */  jr    $ra
-/* B428A8 800CB708 00000000 */   nop   
+/* B428A8 800CB708 00000000 */   nop
 
