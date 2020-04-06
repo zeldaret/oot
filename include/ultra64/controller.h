@@ -64,6 +64,10 @@ typedef union
     };
 } PIF_mempak_wr_t;
 
+typedef struct {
+    u8 data[0x20];
+} PIF_mempak_data_t;
+
 typedef union
 {
     u8 bytes[0x40];

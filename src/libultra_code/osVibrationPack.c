@@ -83,7 +83,7 @@ s32 osProbeVibrationPack(OSMesgQueue* ctrlrqueue, unk_controller_t* unk_controll
     if (ret != 0) {
         return ret;
     }
-    ret = func_80105F40(ctrlrqueue, ctrlridx, 0x400, &sp24);
+    ret = osReadMempak(ctrlrqueue, ctrlridx, 0x400, &sp24);
     ret = ret;
     if (ret == 2) {
         ret = 4; //"Controller pack communication error"
@@ -101,7 +101,7 @@ s32 osProbeVibrationPack(OSMesgQueue* ctrlrqueue, unk_controller_t* unk_controll
     if (ret != 0) {
         return ret;
     }
-    ret = func_80105F40(ctrlrqueue, ctrlridx, 0x400, &sp24);
+    ret = osReadMempak(ctrlrqueue, ctrlridx, 0x400, &sp24);
     if (ret == 2) {
         ret = 4; //"Controller pack communication error"
     }

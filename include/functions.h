@@ -2382,7 +2382,7 @@ void func_80104D00(u8 a0);
 // ? osAiGetLength(?);
 // ? func_80105C20(?);
 // ? func_80105CF0(?);
-// ? func_80105F40(?);
+// s32 osReadMempak(OSMesgQueue* ctrlrqueue, u32 ctrlridx, s16 addr, PIF_mempak_data_t* data)
 // ? func_80106170(?);
 // ? func_80106240(?);
 u32 __osSpGetStatus();
