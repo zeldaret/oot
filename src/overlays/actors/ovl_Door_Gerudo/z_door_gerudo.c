@@ -1,6 +1,6 @@
 #include "z_door_gerudo.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void DoorGerudo_Init(DoorGerudo* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void DoorGerudo_Update(DoorGerudo* this, GlobalContext* globalCtx);
 void DoorGerudo_Draw(DoorGerudo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Door_Gerudo_InitVars =
-{
+const ActorInit Door_Gerudo_InitVars = {
     ACTOR_DOOR_GERUDO,
     ACTORTYPE_ITEMACTION,
     ROOM,

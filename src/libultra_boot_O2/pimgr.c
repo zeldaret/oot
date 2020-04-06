@@ -1,6 +1,6 @@
 #include <global.h>
 
-OSMgrArgs __osPiDevMgr =  {0};
+OSMgrArgs __osPiDevMgr = { 0 };
 
 OSPiHandle __Dom1SpeedParam;
 OSPiHandle __Dom2SpeedParam;
@@ -11,31 +11,27 @@ OSMesg piEventBuf[2];
 OSThread __osThreadSave;
 
 OSPiHandle* __osPiTable = NULL;
-OSPiHandle* __osCurrentHandle[] =
-{
+OSPiHandle* __osCurrentHandle[] = {
     &__Dom1SpeedParam,
     &__Dom2SpeedParam,
 };
 
-
-void osCreatePiManager(OSPri pri, OSMesgQueue *cmdQ, OSMesg *cmdBuf, s32 cmdMsgCnt)
-{
+void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQ, OSMesg* cmdBuf, s32 cmdMsgCnt) {
     u32 int_disabled;
     OSPri newPri;
     OSPri currentPri;
 
-    if (!__osPiDevMgr.initialized)
-    {
+    if (!__osPiDevMgr.initialized) {
         osCreateMesgQueue(cmdQ, cmdBuf, cmdMsgCnt);
         osCreateMesgQueue(&piEventQueue, piEventBuf, 1);
-        if (!__osPiAccessQueueEnabled)
+        if (!__osPiAccessQueueEnabled) {
             __osPiCreateAccessQueue();
+        }
 
         osSetEventMesg(OS_EVENT_PI, &piEventQueue, (OSMesg)0x22222222);
         newPri = -1;
         currentPri = osGetThreadPri(NULL);
-        if (currentPri < pri)
-        {
+        if (currentPri < pri) {
             newPri = currentPri;
             osSetThreadPri(NULL, pri);
         }
@@ -49,12 +45,13 @@ void osCreatePiManager(OSPri pri, OSMesgQueue *cmdQ, OSMesg *cmdBuf, s32 cmdMsgC
         __osPiDevMgr.piDmaCallback = __osPiRawStartDma;
         __osPiDevMgr.epiDmaCallback = __osEPiRawStartDma;
 
-        osCreateThread(&piThread, 0, __osDevMgrMain, (void *)&__osPiDevMgr, piStackThread + sizeof(piStackThread), pri);
+        osCreateThread(&piThread, 0, __osDevMgrMain, (void*)&__osPiDevMgr, piStackThread + sizeof(piStackThread), pri);
         osStartThread(&piThread);
 
         __osRestoreInt(int_disabled);
 
-        if (newPri != -1)
+        if (newPri != -1) {
             osSetThreadPri(NULL, newPri);
+        }
     }
 }

@@ -1,6 +1,6 @@
 #include "z_en_rl.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnRl_Init(EnRl* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnRl_Update(EnRl* this, GlobalContext* globalCtx);
 void EnRl_Draw(EnRl* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Rl_InitVars =
-{
+const ActorInit En_Rl_InitVars = {
     ACTOR_EN_RL,
     ACTORTYPE_NPC,
     ROOM,

@@ -411,11 +411,11 @@ glabel func_800C46EC
 /* B3B89C 800C46FC AFA50084 */  sw    $a1, 0x84($sp)
 /* B3B8A0 800C4700 24C64D50 */  addiu $a2, %lo(D_80144D50) # addiu $a2, $a2, 0x4d50
 /* B3B8A4 800C4704 27A40064 */  addiu $a0, $sp, 0x64
-/* B3B8A8 800C4708 0C031AB1 */  jal   func_800C6AC4
+/* B3B8A8 800C4708 0C031AB1 */  jal   Graph_OpenDisps
 /* B3B8AC 800C470C 240702EA */   li    $a3, 746
 /* B3B8B0 800C4710 8FAE0084 */  lw    $t6, 0x84($sp)
 /* B3B8B4 800C4714 8DC402C0 */  lw    $a0, 0x2c0($t6)
-/* B3B8B8 800C4718 0C031B08 */  jal   func_800C6C20
+/* B3B8B8 800C4718 0C031B08 */  jal   Graph_GfxPlusOne
 /* B3B8BC 800C471C AFA40078 */   sw    $a0, 0x78($sp)
 /* B3B8C0 800C4720 8FAF0084 */  lw    $t7, 0x84($sp)
 /* B3B8C4 800C4724 AFA2007C */  sw    $v0, 0x7c($sp)
@@ -497,7 +497,7 @@ glabel func_800C46EC
 /* B3B9E4 800C4844 AD200004 */  sw    $zero, 4($t1)
 /* B3B9E8 800C4848 AD2B0000 */  sw    $t3, ($t1)
 /* B3B9EC 800C484C 8FA5007C */  lw    $a1, 0x7c($sp)
-/* B3B9F0 800C4850 0C031B0A */  jal   func_800C6C28
+/* B3B9F0 800C4850 0C031B0A */  jal   Graph_BranchDlist
 /* B3B9F4 800C4854 8FA40078 */   lw    $a0, 0x78($sp)
 /* B3B9F8 800C4858 8FAC007C */  lw    $t4, 0x7c($sp)
 /* B3B9FC 800C485C 8FAD0084 */  lw    $t5, 0x84($sp)
@@ -506,7 +506,7 @@ glabel func_800C46EC
 /* B3BA08 800C4868 ADAC02C0 */  sw    $t4, 0x2c0($t5)
 /* B3BA0C 800C486C 8FA50084 */  lw    $a1, 0x84($sp)
 /* B3BA10 800C4870 27A40064 */  addiu $a0, $sp, 0x64
-/* B3BA14 800C4874 0C031AD5 */  jal   func_800C6B54
+/* B3BA14 800C4874 0C031AD5 */  jal   Graph_CloseDisps
 /* B3BA18 800C4878 24070320 */   li    $a3, 800
 /* B3BA1C 800C487C 0C018F5F */  jal   func_80063D7C
 /* B3BA20 800C4880 8FA40084 */   lw    $a0, 0x84($sp)
@@ -538,7 +538,7 @@ glabel func_800C48CC
 /* B3BA7C 800C48DC 24C64D98 */  addiu $a2, %lo(D_80144D98) # addiu $a2, $a2, 0x4d98
 /* B3BA80 800C48E0 AFA50058 */  sw    $a1, 0x58($sp)
 /* B3BA84 800C48E4 27A40044 */  addiu $a0, $sp, 0x44
-/* B3BA88 800C48E8 0C031AB1 */  jal   func_800C6AC4
+/* B3BA88 800C48E8 0C031AB1 */  jal   Graph_OpenDisps
 /* B3BA8C 800C48EC 2407032E */   li    $a3, 814
 /* B3BA90 800C48F0 8FA50058 */  lw    $a1, 0x58($sp)
 /* B3BA94 800C48F4 3C06DB06 */  lui   $a2, 0xdb06
@@ -599,7 +599,7 @@ glabel func_800C48CC
 /* B3BB70 800C49D0 ACB802B0 */  sw    $t8, 0x2b0($a1)
 /* B3BB74 800C49D4 AC440004 */  sw    $a0, 4($v0)
 /* B3BB78 800C49D8 27A40044 */  addiu $a0, $sp, 0x44
-/* B3BB7C 800C49DC 0C031AD5 */  jal   func_800C6B54
+/* B3BB7C 800C49DC 0C031AD5 */  jal   Graph_CloseDisps
 /* B3BB80 800C49E0 AC480000 */   sw    $t0, ($v0)
 /* B3BB84 800C49E4 8FBF0014 */  lw    $ra, 0x14($sp)
 /* B3BB88 800C49E8 27BD0058 */  addiu $sp, $sp, 0x58
@@ -615,11 +615,11 @@ glabel func_800C49F4
 /* B3BBA8 800C4A08 24C64DB0 */  addiu $a2, %lo(D_80144DB0) # addiu $a2, $a2, 0x4db0
 /* B3BBAC 800C4A0C 02002825 */  move  $a1, $s0
 /* B3BBB0 800C4A10 27A4002C */  addiu $a0, $sp, 0x2c
-/* B3BBB4 800C4A14 0C031AB1 */  jal   func_800C6AC4
+/* B3BBB4 800C4A14 0C031AB1 */  jal   Graph_OpenDisps
 /* B3BBB8 800C4A18 2407034E */   li    $a3, 846
 /* B3BBBC 800C4A1C 8E0602C0 */  lw    $a2, 0x2c0($s0)
 /* B3BBC0 800C4A20 00C02025 */  move  $a0, $a2
-/* B3BBC4 800C4A24 0C031B08 */  jal   func_800C6C20
+/* B3BBC4 800C4A24 0C031B08 */  jal   Graph_GfxPlusOne
 /* B3BBC8 800C4A28 AFA60040 */   sw    $a2, 0x40($sp)
 /* B3BBCC 800C4A2C 8E0402B0 */  lw    $a0, 0x2b0($s0)
 /* B3BBD0 800C4A30 8FA60040 */  lw    $a2, 0x40($sp)
@@ -633,7 +633,7 @@ glabel func_800C49F4
 /* B3BBF0 800C4A50 AC400004 */  sw    $zero, 4($v0)
 /* B3BBF4 800C4A54 24450008 */  addiu $a1, $v0, 8
 /* B3BBF8 800C4A58 AFA50044 */  sw    $a1, 0x44($sp)
-/* B3BBFC 800C4A5C 0C031B0A */  jal   func_800C6C28
+/* B3BBFC 800C4A5C 0C031B0A */  jal   Graph_BranchDlist
 /* B3BC00 800C4A60 00C02025 */   move  $a0, $a2
 /* B3BC04 800C4A64 8FA50044 */  lw    $a1, 0x44($sp)
 /* B3BC08 800C4A68 3C068014 */  lui   $a2, %hi(D_80144DBC) # $a2, 0x8014
@@ -641,7 +641,7 @@ glabel func_800C49F4
 /* B3BC10 800C4A70 AE0502C0 */  sw    $a1, 0x2c0($s0)
 /* B3BC14 800C4A74 02002825 */  move  $a1, $s0
 /* B3BC18 800C4A78 27A4002C */  addiu $a0, $sp, 0x2c
-/* B3BC1C 800C4A7C 0C031AD5 */  jal   func_800C6B54
+/* B3BC1C 800C4A7C 0C031AD5 */  jal   Graph_CloseDisps
 /* B3BC20 800C4A80 24070361 */   li    $a3, 865
 /* B3BC24 800C4A84 8FBF001C */  lw    $ra, 0x1c($sp)
 /* B3BC28 800C4A88 8FB00018 */  lw    $s0, 0x18($sp)

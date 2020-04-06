@@ -1,6 +1,6 @@
 #include "z_en_wf.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnWf_Init(EnWf* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnWf_Update(EnWf* this, GlobalContext* globalCtx);
 void EnWf_Draw(EnWf* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Wf_InitVars =
-{
+const ActorInit En_Wf_InitVars = {
     ACTOR_EN_WF,
     ACTORTYPE_ENEMY,
     ROOM,

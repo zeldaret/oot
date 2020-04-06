@@ -1,16 +1,39 @@
+/*
+ * File: z_bg_zg.c
+ * Overlay: ovl_Bg_Zg
+ * Description: Metal bars (Ganon's Castle)
+ */
+
 #include "z_bg_zg.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void BgZg_Init(BgZg* this, GlobalContext* globalCtx);
-void BgZg_Destroy(BgZg* this, GlobalContext* globalCtx);
-void BgZg_Update(BgZg* this, GlobalContext* globalCtx);
-void BgZg_Draw(BgZg* this, GlobalContext* globalCtx);
+static void BgZg_Init(BgZg* this, GlobalContext* globalCtx);
+static void BgZg_Destroy(BgZg* this, GlobalContext* globalCtx);
+static void BgZg_Update(BgZg* this, GlobalContext* globalCtx);
+static void BgZg_Draw(BgZg* this, GlobalContext* globalCtx);
+static void func_808C0C50(BgZg* this);
+static s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx);
+static s32 func_808C0CC8(BgZg* this);
+static void func_808C0CD4(BgZg* this, GlobalContext* globalCtx);
+static void func_808C0D08(BgZg* this, GlobalContext* globalCtx);
+static void func_808C0EEC(BgZg* this, GlobalContext* globalCtx);
 
-/*
-const ActorInit Bg_Zg_InitVars =
-{
+static const ActorFunc actionFuncs[] = {
+    (ActorFunc)func_808C0CD4,
+    (ActorFunc)func_808C0D08,
+};
+
+static InitChainEntry initChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
+};
+
+static const ActorFunc drawFuncs[] = {
+    (ActorFunc)func_808C0EEC,
+};
+
+const ActorInit Bg_Zg_InitVars = {
     ACTOR_BG_ZG,
     ACTORTYPE_NPC,
     ROOM,
@@ -22,23 +45,104 @@ const ActorInit Bg_Zg_InitVars =
     (ActorFunc)BgZg_Update,
     (ActorFunc)BgZg_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Zg/BgZg_Destroy.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Zg/func_808C0C50.s")
+extern u32 D_06001080;
+extern u32 D_060011D4;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Zg/func_808C0C98.s")
+static void BgZg_Destroy(BgZg* this, GlobalContext* globalCtx) {
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Zg/func_808C0CC8.s")
+static void func_808C0C50(BgZg* this) {
+    Audio_PlaySoundGeneral(NA_SE_EV_METALDOOR_OPEN, &this->dyna.actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Zg/func_808C0CD4.s")
+static s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx) {
+    Actor* thisx = &this->dyna.actor;
+    s32 flag = (thisx->params >> 8) & 0xFF;
+    return Flags_GetSwitch(globalCtx, flag);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Zg/func_808C0D08.s")
+static s32 func_808C0CC8(BgZg* this) {
+    s32 flag = this->dyna.actor.params & 0xFF;
+    return flag;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Zg/BgZg_Update.s")
+static void func_808C0CD4(BgZg* this, GlobalContext* globalCtx) {
+    if (func_808C0C98(this, globalCtx) != 0) {
+        this->action = 1;
+        func_808C0C50(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Zg/BgZg_Init.s")
+static void func_808C0D08(BgZg* this, GlobalContext* globalCtx) {
+    Actor* thisx = &this->dyna.actor;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Zg/func_808C0EEC.s")
+    thisx->posRot.pos.y += (kREG(16) + 20.0f) * 1.2f;
+    if ((((kREG(17) + 200.0f) * 1.2f) + thisx->initPosRot.pos.y) <= thisx->posRot.pos.y) {
+        Actor_Kill(thisx);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Zg/BgZg_Draw.s")
+static void BgZg_Update(BgZg* this, GlobalContext* globalCtx) {
+    s32 action = this->action;
+
+    if (((action < 0) || (1 < action)) || (actionFuncs[action] == NULL)) {
+        // Translates to: "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
+        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+    } else {
+        actionFuncs[action](&this->dyna.actor, globalCtx);
+    }
+}
+
+static void BgZg_Init(BgZg* this, GlobalContext* globalCtx) {
+    s32 sp20[2];
+    Actor* thisx = &this->dyna.actor;
+    u32 local_c;
+
+    Actor_ProcessInitChain(thisx, initChain);
+    DynaPolyInfo_SetActorMove(thisx, DPM_UNK);
+    local_c = 0;
+    DynaPolyInfo_Alloc(&D_060011D4, &local_c);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    if ((func_808C0CC8(this) == 8) || (func_808C0CC8(this) == 9)) {
+        thisx->scale.x = thisx->scale.x * 1.3f;
+        thisx->scale.z = thisx->scale.z * 1.3f;
+        thisx->scale.y = thisx->scale.y * 1.2f;
+    }
+
+    this->action = 0;
+    this->drawConfig = 0;
+    if (func_808C0C98(this, globalCtx) != 0) {
+        Actor_Kill(thisx);
+    }
+}
+
+static void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
+
+    GraphicsContext* gfxCtx;
+    GraphicsContext* tempgfxCtx; // oddly needs this to match
+    Gfx* dispRefs[4];
+
+    tempgfxCtx = globalCtx->state.gfxCtx;
+    gfxCtx = tempgfxCtx;
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_bg_zg.c", 311);
+
+    func_80093D18(gfxCtx);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_bg_zg.c", 315),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06001080);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_bg_zg.c", 320);
+}
+
+static void BgZg_Draw(BgZg* this, GlobalContext* globalCtx) {
+    s32 action = this->drawConfig;
+
+    if (((action < 0) || (action > 0)) || drawFuncs[action] == NULL) {
+        // Translates to: "Drawing mode is wrong !!!!!!!!!!!!!!!!!!!!!!!!!"
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+    } else {
+        drawFuncs[action](this, globalCtx);
+    }
+}

@@ -1,6 +1,6 @@
 #include "z_en_goroiwa.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnGoroiwa_Init(EnGoroiwa* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnGoroiwa_Update(EnGoroiwa* this, GlobalContext* globalCtx);
 void EnGoroiwa_Draw(EnGoroiwa* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Goroiwa_InitVars =
-{
+const ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
     ACTORTYPE_PROP,
     ROOM,

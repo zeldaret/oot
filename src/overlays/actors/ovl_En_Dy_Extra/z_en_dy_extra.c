@@ -1,6 +1,6 @@
 #include "z_en_dy_extra.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnDyExtra_Init(EnDyExtra* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnDyExtra_Update(EnDyExtra* this, GlobalContext* globalCtx);
 void EnDyExtra_Draw(EnDyExtra* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dy_Extra_InitVars =
-{
+const ActorInit En_Dy_Extra_InitVars = {
     ACTOR_EN_DY_EXTRA,
     ACTORTYPE_PROP,
     ROOM,

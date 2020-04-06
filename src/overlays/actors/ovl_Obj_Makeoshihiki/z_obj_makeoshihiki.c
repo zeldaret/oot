@@ -1,14 +1,13 @@
 #include "z_obj_makeoshihiki.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000020
 
 void ObjMakeoshihiki_Init(ObjMakeoshihiki* this, GlobalContext* globalCtx);
 void ObjMakeoshihiki_Draw(ObjMakeoshihiki* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Makeoshihiki_InitVars =
-{
+const ActorInit Obj_Makeoshihiki_InitVars = {
     ACTOR_OBJ_MAKEOSHIHIKI,
     ACTORTYPE_PROP,
     ROOM,

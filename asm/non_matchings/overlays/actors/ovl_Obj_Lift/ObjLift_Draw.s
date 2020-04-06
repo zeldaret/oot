@@ -4,7 +4,7 @@ glabel ObjLift_Draw
 /* 008AC 80B9697C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 008B0 80B96980 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 008B4 80B96984 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 008B8 80B96988 0C00D498 */  jal     Draw_DListOpa
+/* 008B8 80B96988 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 008BC 80B9698C 24A50140 */  addiu   $a1, $a1, 0x0140           ## $a1 = 06000140
 /* 008C0 80B96990 8FBF0014 */  lw      $ra, 0x0014($sp)           

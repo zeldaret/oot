@@ -19,7 +19,7 @@ glabel func_8081D398
 /* 09BBC 8081D3DC 24C6FA28 */  addiu   $a2, $a2, %lo(D_8082FA28)  ## $a2 = 8082FA28
 /* 09BC0 8081D3E0 AFB60284 */  sw      $s6, 0x0284($sp)           
 /* 09BC4 8081D3E4 27A40260 */  addiu   $a0, $sp, 0x0260           ## $a0 = FFFFFFD8
-/* 09BC8 8081D3E8 0C031AB1 */  jal     func_800C6AC4              
+/* 09BC8 8081D3E8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 09BCC 8081D3EC 2407022C */  addiu   $a3, $zero, 0x022C         ## $a3 = 0000022C
 /* 09BD0 8081D3F0 96CE01D4 */  lhu     $t6, 0x01D4($s6)           ## 000001D4
 /* 09BD4 8081D3F4 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
@@ -620,13 +620,13 @@ glabel func_8081D398
 /* 0A4BC 8081DCDC 8FB101CC */  lw      $s1, 0x01CC($sp)           
 /* 0A4C0 8081DCE0 26390008 */  addiu   $t9, $s1, 0x0008           ## $t9 = 0C000008
 /* 0A4C4 8081DCE4 AFB901CC */  sw      $t9, 0x01CC($sp)           
-/* 0A4C8 8081DCE8 0C034B88 */  jal     func_800D2E20              
+/* 0A4C8 8081DCE8 0C034B88 */  jal     SysUcode_GetUcodeData              
 /* 0A4CC 8081DCEC AE320000 */  sw      $s2, 0x0000($s1)           ## 0C000000
 /* 0A4D0 8081DCF0 AE220004 */  sw      $v0, 0x0004($s1)           ## 0C000004
 /* 0A4D4 8081DCF4 8FB101CC */  lw      $s1, 0x01CC($sp)           
 /* 0A4D8 8081DCF8 262E0008 */  addiu   $t6, $s1, 0x0008           ## $t6 = 0C000008
 /* 0A4DC 8081DCFC AFAE01CC */  sw      $t6, 0x01CC($sp)           
-/* 0A4E0 8081DD00 0C034B85 */  jal     func_800D2E14              
+/* 0A4E0 8081DD00 0C034B85 */  jal     SysUcode_GetUcode              
 /* 0A4E4 8081DD04 AE330000 */  sw      $s3, 0x0000($s1)           ## 0C000000
 /* 0A4E8 8081DD08 AE220004 */  sw      $v0, 0x0004($s1)           ## 0C000004
 /* 0A4EC 8081DD0C 8FB801CC */  lw      $t8, 0x01CC($sp)           
@@ -1897,7 +1897,7 @@ glabel func_8081D398
 /* 0B78C 8081EFAC ACC00004 */  sw      $zero, 0x0004($a2)         ## 00000004
 /* 0B790 8081EFB0 ACC30000 */  sw      $v1, 0x0000($a2)           ## 00000000
 /* 0B794 8081EFB4 3C068083 */  lui     $a2, %hi(D_8082FA40)       ## $a2 = 80830000
-/* 0B798 8081EFB8 0C031AD5 */  jal     func_800C6B54              
+/* 0B798 8081EFB8 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0B79C 8081EFBC 24C6FA40 */  addiu   $a2, $a2, %lo(D_8082FA40)  ## $a2 = 8082FA40
 /* 0B7A0 8081EFC0 8FBF005C */  lw      $ra, 0x005C($sp)           
 /* 0B7A4 8081EFC4 8FB00038 */  lw      $s0, 0x0038($sp)           

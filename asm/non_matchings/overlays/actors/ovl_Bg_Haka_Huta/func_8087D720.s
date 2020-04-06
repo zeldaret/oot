@@ -17,22 +17,22 @@ glabel func_8087D720
 /* 0079C 8087D75C 00194080 */  sll     $t0, $t9,  2               
 /* 007A0 8087D760 00A84821 */  addu    $t1, $a1, $t0              
 /* 007A4 8087D764 8D240790 */  lw      $a0, 0x0790($t1)           ## 00000790
-/* 007A8 8087D768 0C024BE2 */  jal     func_80092F88              
+/* 007A8 8087D768 0C024BE2 */  jal     Quake_Add              
 /* 007AC 8087D76C 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
 /* 007B0 8087D770 00022400 */  sll     $a0, $v0, 16               
 /* 007B4 8087D774 AFA20030 */  sw      $v0, 0x0030($sp)           
 /* 007B8 8087D778 00042403 */  sra     $a0, $a0, 16               
-/* 007BC 8087D77C 0C024B6B */  jal     func_80092DAC              
+/* 007BC 8087D77C 0C024B6B */  jal     Quake_SetSpeed              
 /* 007C0 8087D780 24057530 */  addiu   $a1, $zero, 0x7530         ## $a1 = 00007530
 /* 007C4 8087D784 87A40032 */  lh      $a0, 0x0032($sp)           
 /* 007C8 8087D788 24050004 */  addiu   $a1, $zero, 0x0004         ## $a1 = 00000004
 /* 007CC 8087D78C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 007D0 8087D790 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 007D4 8087D794 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 007D8 8087D798 0C024B9C */  jal     func_80092E70              
+/* 007D8 8087D798 0C024B9C */  jal     Quake_SetQuakeValues              
 /* 007DC 8087D79C AFA4002C */  sw      $a0, 0x002C($sp)           
 /* 007E0 8087D7A0 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 007E4 8087D7A4 0C024B7C */  jal     func_80092DF0              
+/* 007E4 8087D7A4 0C024B7C */  jal     Quake_SetCountdown              
 /* 007E8 8087D7A8 24050002 */  addiu   $a1, $zero, 0x0002         ## $a1 = 00000002
 /* 007EC 8087D7AC 10000007 */  beq     $zero, $zero, .L8087D7CC   
 /* 007F0 8087D7B0 86030168 */  lh      $v1, 0x0168($s0)           ## 00000168

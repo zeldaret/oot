@@ -17,7 +17,7 @@ glabel ArmsHook_Draw
 /* 0096C 8086586C AFA20084 */  sw      $v0, 0x0084($sp)           
 /* 00970 80865870 24C65BC0 */  addiu   $a2, $a2, %lo(D_80865BC0)  ## $a2 = 80865BC0
 /* 00974 80865874 24070352 */  addiu   $a3, $zero, 0x0352         ## $a3 = 00000352
-/* 00978 80865878 0C031AB1 */  jal     func_800C6AC4              
+/* 00978 80865878 0C031AB1 */  jal     Graph_OpenDisps              
 /* 0097C 8086587C AFA50054 */  sw      $a1, 0x0054($sp)           
 /* 00980 80865880 8E190214 */  lw      $t9, 0x0214($s0)           ## 00000214
 /* 00984 80865884 3C088086 */  lui     $t0, %hi(func_8086518C)    ## $t0 = 80860000
@@ -110,14 +110,14 @@ glabel ArmsHook_Draw
 /* 00AD0 808659D0 46062080 */  add.s   $f2, $f4, $f6              
 /* 00AD4 808659D4 46001004 */  sqrt.s  $f0, $f2                   
 /* 00AD8 808659D8 E7A20058 */  swc1    $f2, 0x0058($sp)           
-/* 00ADC 808659DC 0C03F494 */  jal     func_800FD250              
+/* 00ADC 808659DC 0C03F494 */  jal     Math_atan2f              
 /* 00AE0 808659E0 E7A0005C */  swc1    $f0, 0x005C($sp)           
 /* 00AE4 808659E4 46000306 */  mov.s   $f12, $f0                  
 /* 00AE8 808659E8 0C034348 */  jal     Matrix_RotateY              
 /* 00AEC 808659EC 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 00AF0 808659F0 C7A2007C */  lwc1    $f2, 0x007C($sp)           
 /* 00AF4 808659F4 C7AE005C */  lwc1    $f14, 0x005C($sp)          
-/* 00AF8 808659F8 0C03F494 */  jal     func_800FD250              
+/* 00AF8 808659F8 0C03F494 */  jal     Math_atan2f              
 /* 00AFC 808659FC 46001307 */  neg.s   $f12, $f2                  
 /* 00B00 80865A00 46000306 */  mov.s   $f12, $f0                  
 /* 00B04 80865A04 0C0342DC */  jal     Matrix_RotateX              
@@ -166,7 +166,7 @@ glabel ArmsHook_Draw
 /* 00BB0 80865AB0 24C65BFC */  addiu   $a2, $a2, %lo(D_80865BFC)  ## $a2 = 80865BFC
 /* 00BB4 80865AB4 27A40044 */  addiu   $a0, $sp, 0x0044           ## $a0 = FFFFFFB4
 /* 00BB8 80865AB8 24070391 */  addiu   $a3, $zero, 0x0391         ## $a3 = 00000391
-/* 00BBC 80865ABC 0C031AD5 */  jal     func_800C6B54              
+/* 00BBC 80865ABC 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00BC0 80865AC0 8F050000 */  lw      $a1, 0x0000($t8)           ## 00000000
 .L80865AC4:
 /* 00BC4 80865AC4 8FBF0024 */  lw      $ra, 0x0024($sp)           

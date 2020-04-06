@@ -21,7 +21,7 @@ glabel BgGndSoulmeiro_Draw
 /* 00654 8087B414 AFA80044 */  sw      $t0, 0x0044($sp)           
 /* 00658 8087B418 24C6B590 */  addiu   $a2, $a2, %lo(D_8087B590)  ## $a2 = 8087B590
 /* 0065C 8087B41C 2407018E */  addiu   $a3, $zero, 0x018E         ## $a3 = 0000018E
-/* 00660 8087B420 0C031AB1 */  jal     func_800C6AC4              
+/* 00660 8087B420 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00664 8087B424 AFA50040 */  sw      $a1, 0x0040($sp)           
 /* 00668 8087B428 0C024F61 */  jal     func_80093D84              
 /* 0066C 8087B42C 8E040000 */  lw      $a0, 0x0000($s0)           ## 00000000
@@ -58,7 +58,7 @@ glabel BgGndSoulmeiro_Draw
 /* 006E8 8087B4A8 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 006EC 8087B4AC AC4B0004 */  sw      $t3, 0x0004($v0)           ## 00000004
 /* 006F0 8087B4B0 8E050000 */  lw      $a1, 0x0000($s0)           ## 00000000
-/* 006F4 8087B4B4 0C031AD5 */  jal     func_800C6B54              
+/* 006F4 8087B4B4 0C031AD5 */  jal     Graph_CloseDisps              
 /* 006F8 8087B4B8 24070193 */  addiu   $a3, $zero, 0x0193         ## $a3 = 00000193
 /* 006FC 8087B4BC 1000000E */  beq     $zero, $zero, .L8087B4F8   
 /* 00700 8087B4C0 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -66,7 +66,7 @@ glabel BgGndSoulmeiro_Draw
 /* 00704 8087B4C4 00086080 */  sll     $t4, $t0,  2               
 /* 00708 8087B4C8 3C058088 */  lui     $a1, %hi(D_8087B578)       ## $a1 = 80880000
 /* 0070C 8087B4CC 00AC2821 */  addu    $a1, $a1, $t4              
-/* 00710 8087B4D0 0C00D4C9 */  jal     Draw_DListXlu
+/* 00710 8087B4D0 0C00D4C9 */  jal     Gfx_DrawDListXlu
               
 /* 00714 8087B4D4 8CA5B578 */  lw      $a1, %lo(D_8087B578)($a1)  
 /* 00718 8087B4D8 10000007 */  beq     $zero, $zero, .L8087B4F8   
@@ -75,7 +75,7 @@ glabel BgGndSoulmeiro_Draw
 /* 00720 8087B4E0 00086880 */  sll     $t5, $t0,  2               
 /* 00724 8087B4E4 3C058088 */  lui     $a1, %hi(D_8087B578)       ## $a1 = 80880000
 /* 00728 8087B4E8 00AD2821 */  addu    $a1, $a1, $t5              
-/* 0072C 8087B4EC 0C00D498 */  jal     Draw_DListOpa
+/* 0072C 8087B4EC 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00730 8087B4F0 8CA5B578 */  lw      $a1, %lo(D_8087B578)($a1)  
 /* 00734 8087B4F4 8FBF001C */  lw      $ra, 0x001C($sp)           

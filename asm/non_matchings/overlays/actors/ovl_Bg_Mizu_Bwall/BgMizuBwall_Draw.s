@@ -10,7 +10,7 @@ glabel BgMizuBwall_Draw
 /* 00F4C 8089D3CC 24C6DA14 */  addiu   $a2, $a2, %lo(D_8089DA14)  ## $a2 = 8089DA14
 /* 00F50 8089D3D0 27A40070 */  addiu   $a0, $sp, 0x0070           ## $a0 = FFFFFFE0
 /* 00F54 8089D3D4 24070447 */  addiu   $a3, $zero, 0x0447         ## $a3 = 00000447
-/* 00F58 8089D3D8 0C031AB1 */  jal     func_800C6AC4              
+/* 00F58 8089D3D8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00F5C 8089D3DC 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00F60 8089D3E0 3C0E0001 */  lui     $t6, 0x0001                ## $t6 = 00010000
 /* 00F64 8089D3E4 01D17021 */  addu    $t6, $t6, $s1              
@@ -47,7 +47,7 @@ glabel BgMizuBwall_Draw
 /* 00FE0 8089D460 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00FE4 8089D464 AFA2006C */  sw      $v0, 0x006C($sp)           
 /* 00FE8 8089D468 AFA60054 */  sw      $a2, 0x0054($sp)           
-/* 00FEC 8089D46C 0C02541A */  jal     Draw_TwoTexScrollEnvColor              
+/* 00FEC 8089D46C 0C02541A */  jal     Gfx_TwoTexScrollEnvColor              
 /* 00FF0 8089D470 AFAD0038 */  sw      $t5, 0x0038($sp)           
 /* 00FF4 8089D474 8FA3006C */  lw      $v1, 0x006C($sp)           
 /* 00FF8 8089D478 3C0FDB06 */  lui     $t7, 0xDB06                ## $t7 = DB060000
@@ -79,7 +79,7 @@ glabel BgMizuBwall_Draw
 /* 01060 8089D4E0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 01064 8089D4E4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01068 8089D4E8 AFA20068 */  sw      $v0, 0x0068($sp)           
-/* 0106C 8089D4EC 0C02541A */  jal     Draw_TwoTexScrollEnvColor              
+/* 0106C 8089D4EC 0C02541A */  jal     Gfx_TwoTexScrollEnvColor              
 /* 01070 8089D4F0 AFAC0038 */  sw      $t4, 0x0038($sp)           
 /* 01074 8089D4F4 8FA30068 */  lw      $v1, 0x0068($sp)           
 /* 01078 8089D4F8 3C0EDB06 */  lui     $t6, 0xDB06                ## $t6 = DB060000
@@ -111,7 +111,7 @@ glabel BgMizuBwall_Draw
 /* 010E0 8089D560 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 010E4 8089D564 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 010E8 8089D568 AFA20064 */  sw      $v0, 0x0064($sp)           
-/* 010EC 8089D56C 0C02541A */  jal     Draw_TwoTexScrollEnvColor              
+/* 010EC 8089D56C 0C02541A */  jal     Gfx_TwoTexScrollEnvColor              
 /* 010F0 8089D570 AFAB0038 */  sw      $t3, 0x0038($sp)           
 /* 010F4 8089D574 8FA30064 */  lw      $v1, 0x0064($sp)           
 /* 010F8 8089D578 3C0DDB06 */  lui     $t5, 0xDB06                ## $t5 = DB060000
@@ -146,7 +146,7 @@ glabel BgMizuBwall_Draw
 /* 0116C 8089D5EC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 01170 8089D5F0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01174 8089D5F4 AFA20060 */  sw      $v0, 0x0060($sp)           
-/* 01178 8089D5F8 0C02541A */  jal     Draw_TwoTexScrollEnvColor              
+/* 01178 8089D5F8 0C02541A */  jal     Gfx_TwoTexScrollEnvColor              
 /* 0117C 8089D5FC AFAA0038 */  sw      $t2, 0x0038($sp)           
 /* 01180 8089D600 8FA30060 */  lw      $v1, 0x0060($sp)           
 /* 01184 8089D604 3C0CDA38 */  lui     $t4, 0xDA38                ## $t4 = DA380000
@@ -181,7 +181,7 @@ glabel BgMizuBwall_Draw
 /* 011F8 8089D678 8F2802B8 */  lw      $t0, 0x02B8($t9)           ## 000002B8
 /* 011FC 8089D67C AC480004 */  sw      $t0, 0x0004($v0)           ## 00000004
 .L8089D680:
-/* 01200 8089D680 0C031AD5 */  jal     func_800C6B54              
+/* 01200 8089D680 0C031AD5 */  jal     Graph_CloseDisps              
 /* 01204 8089D684 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 01208 8089D688 8FBF004C */  lw      $ra, 0x004C($sp)           
 /* 0120C 8089D68C 8FB00044 */  lw      $s0, 0x0044($sp)           

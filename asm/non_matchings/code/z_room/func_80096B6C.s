@@ -33,7 +33,7 @@ glabel func_80096B6C
 /* B0DD2C 80096B8C 24C6F0FC */  addiu $a2, %lo(D_8013F0FC) # addiu $a2, $a2, -0xf04
 /* B0DD30 80096B90 27A40078 */  addiu $a0, $sp, 0x78
 /* B0DD34 80096B94 240702F0 */  li    $a3, 752
-/* B0DD38 80096B98 0C031AB1 */  jal   func_800C6AC4
+/* B0DD38 80096B98 0C031AB1 */  jal   Graph_OpenDisps
 /* B0DD3C 80096B9C 00A08025 */   move  $s0, $a1
 /* B0DD40 80096BA0 8FA500B0 */  lw    $a1, 0xb0($sp)
 /* B0DD44 80096BA4 8FAC00B4 */  lw    $t4, 0xb4($sp)
@@ -224,7 +224,7 @@ glabel func_80096B6C
 /* B0E010 80096E70 AE0A02C0 */  sw    $t2, 0x2c0($s0)
 /* B0E014 80096E74 AF2B0000 */  sw    $t3, ($t9)
 /* B0E018 80096E78 AFB90058 */  sw    $t9, 0x58($sp)
-/* B0E01C 80096E7C 0C034B88 */  jal   func_800D2E20
+/* B0E01C 80096E7C 0C034B88 */  jal   SysUcode_GetUcodeData
 /* B0E020 80096E80 AFA80048 */   sw    $t0, 0x48($sp)
 /* B0E024 80096E84 8FA40058 */  lw    $a0, 0x58($sp)
 /* B0E028 80096E88 3C0DDD00 */  lui   $t5, (0xDD0007FF >> 16) # lui $t5, 0xdd00
@@ -234,7 +234,7 @@ glabel func_80096B6C
 /* B0E038 80096E98 246C0008 */  addiu $t4, $v1, 8
 /* B0E03C 80096E9C AE0C02C0 */  sw    $t4, 0x2c0($s0)
 /* B0E040 80096EA0 AC6D0000 */  sw    $t5, ($v1)
-/* B0E044 80096EA4 0C034B85 */  jal   func_800D2E14
+/* B0E044 80096EA4 0C034B85 */  jal   SysUcode_GetUcode
 /* B0E048 80096EA8 AFA30058 */   sw    $v1, 0x58($sp)
 /* B0E04C 80096EAC 8FA40058 */  lw    $a0, 0x58($sp)
 /* B0E050 80096EB0 8FA80048 */  lw    $t0, 0x48($sp)
@@ -279,7 +279,7 @@ glabel func_80096B6C
 /* B0E0E4 80096F44 24C6F108 */  addiu $a2, %lo(D_8013F108) # addiu $a2, $a2, -0xef8
 /* B0E0E8 80096F48 27A40078 */  addiu $a0, $sp, 0x78
 /* B0E0EC 80096F4C 24070333 */  li    $a3, 819
-/* B0E0F0 80096F50 0C031AD5 */  jal   func_800C6B54
+/* B0E0F0 80096F50 0C031AD5 */  jal   Graph_CloseDisps
 /* B0E0F4 80096F54 8F250000 */   lw    $a1, ($t9)
 /* B0E0F8 80096F58 8FBF003C */  lw    $ra, 0x3c($sp)
 /* B0E0FC 80096F5C 8FB00038 */  lw    $s0, 0x38($sp)

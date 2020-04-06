@@ -11,7 +11,7 @@ glabel func_80AEFDC0
 /* 051D4 80AEFDE4 35CF0009 */  ori     $t7, $t6, 0x0009           ## $t7 = 00000009
 /* 051D8 80AEFDE8 ACCF0004 */  sw      $t7, 0x0004($a2)           ## 00000004
 /* 051DC 80AEFDEC AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 051E0 80AEFDF0 0C01B0D8 */  jal     func_8006C360              
+/* 051E0 80AEFDF0 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 051E4 80AEFDF4 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 051E8 80AEFDF8 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 051EC 80AEFDFC 3058FFFF */  andi    $t8, $v0, 0xFFFF           ## $t8 = 00000000

@@ -1,6 +1,6 @@
 #include "z_en_vm.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000011
 
 void EnVm_Init(EnVm* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnVm_Update(EnVm* this, GlobalContext* globalCtx);
 void EnVm_Draw(EnVm* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Vm_InitVars =
-{
+const ActorInit En_Vm_InitVars = {
     ACTOR_EN_VM,
     ACTORTYPE_ENEMY,
     ROOM,

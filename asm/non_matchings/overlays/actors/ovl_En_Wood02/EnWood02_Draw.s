@@ -9,7 +9,7 @@ glabel EnWood02_Draw
 /* 00CC0 80B3BC30 24C6BFA0 */  addiu   $a2, $a2, %lo(D_80B3BFA0)  ## $a2 = 80B3BFA0
 /* 00CC4 80B3BC34 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFDC
 /* 00CC8 80B3BC38 24070307 */  addiu   $a3, $zero, 0x0307         ## $a3 = 00000307
-/* 00CCC 80B3BC3C 0C031AB1 */  jal     func_800C6AC4              
+/* 00CCC 80B3BC3C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00CD0 80B3BC40 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00CD4 80B3BC44 8FAF0060 */  lw      $t7, 0x0060($sp)           
 /* 00CD8 80B3BC48 24010008 */  addiu   $at, $zero, 0x0008         ## $at = 00000008
@@ -82,7 +82,7 @@ glabel EnWood02_Draw
 /* 00DCC 80B3BD3C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00DD0 80B3BD40 AC790004 */  sw      $t9, 0x0004($v1)           ## 00000004
 /* 00DD4 80B3BD44 8FA40064 */  lw      $a0, 0x0064($sp)           
-/* 00DD8 80B3BD48 0C00D498 */  jal     Draw_DListOpa
+/* 00DD8 80B3BD48 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00DDC 80B3BD4C 24A50700 */  addiu   $a1, $a1, 0x0700           ## $a1 = 06000700
 /* 00DE0 80B3BD50 10000058 */  beq     $zero, $zero, .L80B3BEB4   
@@ -102,7 +102,7 @@ glabel EnWood02_Draw
 /* 00E14 80B3BD84 8CA5BF54 */  lw      $a1, %lo(D_80B3BF54)($a1)  
 /* 00E18 80B3BD88 A3A60053 */  sb      $a2, 0x0053($sp)           
 /* 00E1C 80B3BD8C A3A70052 */  sb      $a3, 0x0052($sp)           
-/* 00E20 80B3BD90 0C00D498 */  jal     Draw_DListOpa
+/* 00E20 80B3BD90 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00E24 80B3BD94 A3A80051 */  sb      $t0, 0x0051($sp)           
 /* 00E28 80B3BD98 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
@@ -182,7 +182,7 @@ glabel EnWood02_Draw
 /* 00F48 80B3BEB8 24C6BFDC */  addiu   $a2, $a2, %lo(D_80B3BFDC)  ## $a2 = 80B3BFDC
 /* 00F4C 80B3BEBC 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFDC
 /* 00F50 80B3BEC0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00F54 80B3BEC4 0C031AD5 */  jal     func_800C6B54              
+/* 00F54 80B3BEC4 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00F58 80B3BEC8 24070348 */  addiu   $a3, $zero, 0x0348         ## $a3 = 00000348
 /* 00F5C 80B3BECC 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00F60 80B3BED0 8FB00018 */  lw      $s0, 0x0018($sp)           

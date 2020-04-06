@@ -83,7 +83,7 @@ glabel func_80091738
 /* B089F4 80091854 AFA30014 */  sw    $v1, 0x14($sp)
 /* B089F8 80091858 AFA30018 */  sw    $v1, 0x18($sp)
 /* B089FC 8009185C 8FA40048 */  lw    $a0, 0x48($sp)
-/* B08A00 80091860 0C028E6B */  jal   func_800A39AC
+/* B08A00 80091860 0C028E6B */  jal   SkelAnime_InitLinkAnimetion
 /* B08A04 80091864 8FA50050 */   lw    $a1, 0x50($sp)
 /* B08A08 80091868 8FBF002C */  lw    $ra, 0x2c($sp)
 /* B08A0C 8009186C 34018890 */  li    $at, 34960

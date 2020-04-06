@@ -1,6 +1,6 @@
 #include "z_bg_haka.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHaka_Init(BgHaka* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgHaka_Update(BgHaka* this, GlobalContext* globalCtx);
 void BgHaka_Draw(BgHaka* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Haka_InitVars =
-{
+const ActorInit Bg_Haka_InitVars = {
     ACTOR_BG_HAKA,
     ACTORTYPE_BG,
     ROOM,

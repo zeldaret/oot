@@ -1,6 +1,6 @@
 #include "z_bg_gnd_soulmeiro.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgGndSoulmeiro_Init(BgGndSoulmeiro* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgGndSoulmeiro_Update(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 void BgGndSoulmeiro_Draw(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Gnd_Soulmeiro_InitVars =
-{
+const ActorInit Bg_Gnd_Soulmeiro_InitVars = {
     ACTOR_BG_GND_SOULMEIRO,
     ACTORTYPE_PROP,
     ROOM,

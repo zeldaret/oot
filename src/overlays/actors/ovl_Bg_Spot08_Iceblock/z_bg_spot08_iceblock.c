@@ -1,6 +1,6 @@
 #include "z_bg_spot08_iceblock.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgSpot08Iceblock_Init(BgSpot08Iceblock* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgSpot08Iceblock_Update(BgSpot08Iceblock* this, GlobalContext* globalCtx);
 void BgSpot08Iceblock_Draw(BgSpot08Iceblock* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot08_Iceblock_InitVars =
-{
+const ActorInit Bg_Spot08_Iceblock_InitVars = {
     ACTOR_BG_SPOT08_ICEBLOCK,
     ACTORTYPE_BG,
     ROOM,

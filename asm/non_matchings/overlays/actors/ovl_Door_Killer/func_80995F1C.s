@@ -20,7 +20,7 @@ glabel func_80995F1C
 /* 01310 80995F60 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 01314 80995F64 00037880 */  sll     $t7, $v1,  2               
 /* 01318 80995F68 00AF2821 */  addu    $a1, $a1, $t7              
-/* 0131C 80995F6C 0C00D498 */  jal     Draw_DListOpa
+/* 0131C 80995F6C 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 01320 80995F70 8CA56048 */  lw      $a1, %lo(D_80996048)($a1)  
 /* 01324 80995F74 8FBF0014 */  lw      $ra, 0x0014($sp)           

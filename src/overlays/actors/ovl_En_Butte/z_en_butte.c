@@ -1,6 +1,6 @@
 #include "z_en_butte.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnButte_Init(EnButte* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnButte_Update(EnButte* this, GlobalContext* globalCtx);
 void EnButte_Draw(EnButte* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Butte_InitVars =
-{
+const ActorInit En_Butte_InitVars = {
     ACTOR_EN_BUTTE,
     ACTORTYPE_ITEMACTION,
     ROOM,

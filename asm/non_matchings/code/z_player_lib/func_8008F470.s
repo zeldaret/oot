@@ -27,7 +27,7 @@ glabel func_8008F470
 /* B0664C 8008F4AC 24C6E770 */  addiu $a2, %lo(D_8013E770) # addiu $a2, $a2, -0x1890
 /* B06650 8008F4B0 27A40068 */  addiu $a0, $sp, 0x68
 /* B06654 8008F4B4 240706B9 */  li    $a3, 1721
-/* B06658 8008F4B8 0C031AB1 */  jal   func_800C6AC4
+/* B06658 8008F4B8 0C031AB1 */  jal   Graph_OpenDisps
 /* B0665C 8008F4BC AFA50078 */   sw    $a1, 0x78($sp)
 /* B06660 8008F4C0 8FA90080 */  lw    $t1, 0x80($sp)
 /* B06664 8008F4C4 8FA80078 */  lw    $t0, 0x78($sp)
@@ -125,7 +125,7 @@ glabel func_8008F470
 /* B067CC 8008F62C AFA2001C */  sw    $v0, 0x1c($sp)
 /* B067D0 8008F630 AFAF0018 */  sw    $t7, 0x18($sp)
 /* B067D4 8008F634 AFAC0014 */  sw    $t4, 0x14($sp)
-/* B067D8 8008F638 0C02841B */  jal   func_800A106C
+/* B067D8 8008F638 0C02841B */  jal   SkelAnime_LodDrawSV
 /* B067DC 8008F63C AFAD0010 */   sw    $t5, 0x10($sp)
 /* B067E0 8008F640 8FA200A8 */  lw    $v0, 0xa8($sp)
 /* B067E4 8008F644 3C0E8009 */  lui   $t6, %hi(func_800902F0) # $t6, 0x8009
@@ -145,7 +145,7 @@ glabel func_8008F470
 /* B0681C 8008F67C 3C0C8012 */  lui   $t4, %hi(gUpgradeMasks+8) # $t4, 0x8012
 /* B06820 8008F680 3C0E8012 */  lui   $t6, %hi(gUpgradeShifts+2) # $t6, 0x8012
 /* B06824 8008F684 17000066 */  bnez  $t8, .L8008F820
-/* B06828 8008F688 00000000 */   nop   
+/* B06828 8008F688 00000000 */   nop
 /* B0682C 8008F68C 8C4D00A0 */  lw    $t5, 0xa0($v0)
 /* B06830 8008F690 8D8C71B8 */  lw    $t4, %lo(gUpgradeMasks+8)($t4)
 /* B06834 8008F694 91CE71F6 */  lbu   $t6, %lo(gUpgradeShifts+2)($t6)
@@ -272,10 +272,10 @@ glabel func_8008F470
 /* B069F8 8008F858 24C6E784 */  addiu $a2, %lo(D_8013E784) # addiu $a2, $a2, -0x187c
 /* B069FC 8008F85C 27A40068 */  addiu $a0, $sp, 0x68
 /* B06A00 8008F860 2407070B */  li    $a3, 1803
-/* B06A04 8008F864 0C031AD5 */  jal   func_800C6B54
+/* B06A04 8008F864 0C031AD5 */  jal   Graph_CloseDisps
 /* B06A08 8008F868 8F050000 */   lw    $a1, ($t8)
 /* B06A0C 8008F86C 8FBF0024 */  lw    $ra, 0x24($sp)
 /* B06A10 8008F870 27BD0088 */  addiu $sp, $sp, 0x88
 /* B06A14 8008F874 03E00008 */  jr    $ra
-/* B06A18 8008F878 00000000 */   nop   
+/* B06A18 8008F878 00000000 */   nop
 

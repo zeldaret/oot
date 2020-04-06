@@ -19,7 +19,7 @@ glabel func_80B6D688
 /* 03D2C 80B6D6CC AFB000E8 */  sw      $s0, 0x00E8($sp)           
 /* 03D30 80B6D6D0 27A40098 */  addiu   $a0, $sp, 0x0098           ## $a0 = FFFFFFB0
 /* 03D34 80B6D6D4 24070CD7 */  addiu   $a3, $zero, 0x0CD7         ## $a3 = 00000CD7
-/* 03D38 80B6D6D8 0C031AB1 */  jal     func_800C6AC4              
+/* 03D38 80B6D6D8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 03D3C 80B6D6DC 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 03D40 80B6D6E0 8FB900E8 */  lw      $t9, 0x00E8($sp)           
 /* 03D44 80B6D6E4 0C024F46 */  jal     func_80093D18              
@@ -269,7 +269,7 @@ glabel func_80B6D688
 /* 040F8 80B6DA98 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 .L80B6DA9C:
 /* 040FC 80B6DA9C 8E2402D0 */  lw      $a0, 0x02D0($s1)           ## 000002D0
-/* 04100 80B6DAA0 0C024DDD */  jal     func_80093774              
+/* 04100 80B6DAA0 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 04104 80B6DAA4 24050014 */  addiu   $a1, $zero, 0x0014         ## $a1 = 00000014
 /* 04108 80B6DAA8 AE2202D0 */  sw      $v0, 0x02D0($s1)           ## 000002D0
 /* 0410C 80B6DAAC 244F0008 */  addiu   $t7, $v0, 0x0008           ## $t7 = 00000008
@@ -317,7 +317,7 @@ glabel func_80B6D688
 /* 041B0 80B6DB50 E7AC006C */  swc1    $f12, 0x006C($sp)          
 /* 041B4 80B6DB54 46062381 */  sub.s   $f14, $f4, $f6             
 /* 041B8 80B6DB58 E7AA0068 */  swc1    $f10, 0x0068($sp)          
-/* 041BC 80B6DB5C 0C03F494 */  jal     func_800FD250              
+/* 041BC 80B6DB5C 0C03F494 */  jal     Math_atan2f              
 /* 041C0 80B6DB60 E7AE0064 */  swc1    $f14, 0x0064($sp)          
 /* 041C4 80B6DB64 C7B2006C */  lwc1    $f18, 0x006C($sp)          
 /* 041C8 80B6DB68 C7A80064 */  lwc1    $f8, 0x0064($sp)           
@@ -328,7 +328,7 @@ glabel func_80B6D688
 /* 041DC 80B6DB7C E7A20030 */  swc1    $f2, 0x0030($sp)           
 /* 041E0 80B6DB80 46101000 */  add.s   $f0, $f2, $f16             
 /* 041E4 80B6DB84 E7B0002C */  swc1    $f16, 0x002C($sp)          
-/* 041E8 80B6DB88 0C03F494 */  jal     func_800FD250              
+/* 041E8 80B6DB88 0C03F494 */  jal     Math_atan2f              
 /* 041EC 80B6DB8C 46000384 */  sqrt.s  $f14, $f0                  
 /* 041F0 80B6DB90 C7B20068 */  lwc1    $f18, 0x0068($sp)          
 /* 041F4 80B6DB94 C7A20030 */  lwc1    $f2, 0x0030($sp)           
@@ -424,7 +424,7 @@ glabel func_80B6D688
 /* 04354 80B6DCF4 E7AC004C */  swc1    $f12, 0x004C($sp)          
 /* 04358 80B6DCF8 AFA2002C */  sw      $v0, 0x002C($sp)           
 /* 0435C 80B6DCFC 46083381 */  sub.s   $f14, $f6, $f8             
-/* 04360 80B6DD00 0C03F494 */  jal     func_800FD250              
+/* 04360 80B6DD00 0C03F494 */  jal     Math_atan2f              
 /* 04364 80B6DD04 E7AE0044 */  swc1    $f14, 0x0044($sp)          
 /* 04368 80B6DD08 C7B2004C */  lwc1    $f18, 0x004C($sp)          
 /* 0436C 80B6DD0C C7AA0044 */  lwc1    $f10, 0x0044($sp)          
@@ -435,7 +435,7 @@ glabel func_80B6D688
 /* 04380 80B6DD20 E7A20028 */  swc1    $f2, 0x0028($sp)           
 /* 04384 80B6DD24 46101000 */  add.s   $f0, $f2, $f16             
 /* 04388 80B6DD28 E7B00024 */  swc1    $f16, 0x0024($sp)          
-/* 0438C 80B6DD2C 0C03F494 */  jal     func_800FD250              
+/* 0438C 80B6DD2C 0C03F494 */  jal     Math_atan2f              
 /* 04390 80B6DD30 46000384 */  sqrt.s  $f14, $f0                  
 /* 04394 80B6DD34 C7B20048 */  lwc1    $f18, 0x0048($sp)          
 /* 04398 80B6DD38 C7A20028 */  lwc1    $f2, 0x0028($sp)           
@@ -560,7 +560,7 @@ glabel func_80B6D688
 /* 04568 80B6DF08 24C6B1B0 */  addiu   $a2, $a2, %lo(D_80B7B1B0)  ## $a2 = 80B7B1B0
 /* 0456C 80B6DF0C 27A40098 */  addiu   $a0, $sp, 0x0098           ## $a0 = FFFFFFB0
 /* 04570 80B6DF10 24070DAC */  addiu   $a3, $zero, 0x0DAC         ## $a3 = 00000DAC
-/* 04574 80B6DF14 0C031AD5 */  jal     func_800C6B54              
+/* 04574 80B6DF14 0C031AD5 */  jal     Graph_CloseDisps              
 /* 04578 80B6DF18 8D450000 */  lw      $a1, 0x0000($t2)           ## 00000000
 /* 0457C 80B6DF1C 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 04580 80B6DF20 8FB00014 */  lw      $s0, 0x0014($sp)           

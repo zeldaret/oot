@@ -33,7 +33,7 @@ glabel func_800907E4
 /* B079BC 8009081C E7A4004C */   swc1  $f4, 0x4c($sp)
 .L80090820:
 /* B079C0 80090820 44813000 */  mtc1  $at, $f6
-/* B079C4 80090824 00000000 */  nop   
+/* B079C4 80090824 00000000 */  nop
 /* B079C8 80090828 E7A6004C */  swc1  $f6, 0x4c($sp)
 .L8009082C:
 /* B079CC 8009082C 8FAF0050 */  lw    $t7, 0x50($sp)
@@ -41,7 +41,7 @@ glabel func_800907E4
 /* B079D4 80090834 24C6E798 */  addiu $a2, %lo(D_8013E798) # addiu $a2, $a2, -0x1868
 /* B079D8 80090838 8DE50000 */  lw    $a1, ($t7)
 /* B079DC 8009083C 24070961 */  li    $a3, 2401
-/* B079E0 80090840 0C031AB1 */  jal   func_800C6AC4
+/* B079E0 80090840 0C031AB1 */  jal   Graph_OpenDisps
 /* B079E4 80090844 AFA50048 */   sw    $a1, 0x48($sp)
 /* B079E8 80090848 8E1801B0 */  lw    $t8, 0x1b0($s0)
 /* B079EC 8009084C 3C018000 */  lui   $at, 0x8000
@@ -93,7 +93,7 @@ glabel func_800907E4
 /* B07AA4 80090904 46062200 */  add.s $f8, $f4, $f6
 /* B07AA8 80090908 44064000 */  mfc1  $a2, $f8
 /* B07AAC 8009090C 0C034261 */  jal   Matrix_Translate
-/* B07AB0 80090910 00000000 */   nop   
+/* B07AB0 80090910 00000000 */   nop
 /* B07AB4 80090914 8FAF0050 */  lw    $t7, 0x50($sp)
 /* B07AB8 80090918 3C050001 */  lui   $a1, 1
 /* B07ABC 8009091C 00002025 */  move  $a0, $zero
@@ -108,7 +108,7 @@ glabel func_800907E4
 /* B07AE0 80090940 00A12821 */  addu  $a1, $a1, $at
 /* B07AE4 80090944 000528C0 */  sll   $a1, $a1, 3
 /* B07AE8 80090948 00052C00 */  sll   $a1, $a1, 0x10
-/* B07AEC 8009094C 0C034421 */  jal   Matrix_RotateXYZ
+/* B07AEC 8009094C 0C034421 */  jal   Matrix_RotateZYX
 /* B07AF0 80090950 00052C03 */   sra   $a1, $a1, 0x10
 /* B07AF4 80090954 3C018014 */  lui   $at, %hi(D_8013E930)
 /* B07AF8 80090958 C42CE930 */  lwc1  $f12, %lo(D_8013E930)($at)
@@ -127,11 +127,11 @@ glabel func_800907E4
 /* B07B2C 8009098C 24C6E7AC */  addiu $a2, %lo(D_8013E7AC) # addiu $a2, $a2, -0x1854
 /* B07B30 80090990 27A40038 */  addiu $a0, $sp, 0x38
 /* B07B34 80090994 24070975 */  li    $a3, 2421
-/* B07B38 80090998 0C031AD5 */  jal   func_800C6B54
+/* B07B38 80090998 0C031AD5 */  jal   Graph_CloseDisps
 /* B07B3C 8009099C 8F050000 */   lw    $a1, ($t8)
 /* B07B40 800909A0 8FBF001C */  lw    $ra, 0x1c($sp)
 /* B07B44 800909A4 8FB00018 */  lw    $s0, 0x18($sp)
 /* B07B48 800909A8 27BD0050 */  addiu $sp, $sp, 0x50
 /* B07B4C 800909AC 03E00008 */  jr    $ra
-/* B07B50 800909B0 00000000 */   nop   
+/* B07B50 800909B0 00000000 */   nop
 

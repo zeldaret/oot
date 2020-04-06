@@ -1,6 +1,6 @@
 #include "z_door_warp1.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void DoorWarp1_Init(DoorWarp1* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void DoorWarp1_Update(DoorWarp1* this, GlobalContext* globalCtx);
 void DoorWarp1_Draw(DoorWarp1* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Door_Warp1_InitVars =
-{
+const ActorInit Door_Warp1_InitVars = {
     ACTOR_DOOR_WARP1,
     ACTORTYPE_ITEMACTION,
     ROOM,
@@ -96,4 +95,3 @@ const ActorInit Door_Warp1_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B5EC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_Draw.s")
-

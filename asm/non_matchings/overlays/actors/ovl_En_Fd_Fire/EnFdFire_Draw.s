@@ -42,7 +42,7 @@ glabel EnFdFire_Draw
 /* 007D0 80A0EC80 24C6F0F0 */  addiu   $a2, $a2, %lo(D_80A0F0F0)  ## $a2 = 80A0F0F0
 /* 007D4 80A0EC84 27A4006C */  addiu   $a0, $sp, 0x006C           ## $a0 = FFFFFFAC
 /* 007D8 80A0EC88 2407023C */  addiu   $a3, $zero, 0x023C         ## $a3 = 0000023C
-/* 007DC 80A0EC8C 0C031AB1 */  jal     func_800C6AC4              
+/* 007DC 80A0EC8C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 007E0 80A0EC90 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 007E4 80A0EC94 8FA200C0 */  lw      $v0, 0x00C0($sp)           
 /* 007E8 80A0EC98 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
@@ -194,7 +194,7 @@ glabel EnFdFire_Draw
 /* 00A1C 80A0EECC AFA20064 */  sw      $v0, 0x0064($sp)           
 /* 00A20 80A0EED0 00005812 */  mflo    $t3                        
 /* 00A24 80A0EED4 AFAB0020 */  sw      $t3, 0x0020($sp)           
-/* 00A28 80A0EED8 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00A28 80A0EED8 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00A2C 80A0EEDC 00000000 */  nop
 /* 00A30 80A0EEE0 8FA30064 */  lw      $v1, 0x0064($sp)           
 /* 00A34 80A0EEE4 3C0FFA00 */  lui     $t7, 0xFA00                ## $t7 = FA000000
@@ -263,7 +263,7 @@ glabel EnFdFire_Draw
 /* 00B30 80A0EFE0 AE0C02D0 */  sw      $t4, 0x02D0($s0)           ## 000002D0
 /* 00B34 80A0EFE4 AC4E0004 */  sw      $t6, 0x0004($v0)           ## 00000004
 /* 00B38 80A0EFE8 AC590000 */  sw      $t9, 0x0000($v0)           ## 00000000
-/* 00B3C 80A0EFEC 0C031AD5 */  jal     func_800C6B54              
+/* 00B3C 80A0EFEC 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00B40 80A0EFF0 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 00B44 80A0EFF4 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 00B48 80A0EFF8 8FB00034 */  lw      $s0, 0x0034($sp)           

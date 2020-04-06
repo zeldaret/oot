@@ -1,6 +1,6 @@
 #include "z_bg_hidan_dalm.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHidanDalm_Init(BgHidanDalm* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgHidanDalm_Update(BgHidanDalm* this, GlobalContext* globalCtx);
 void BgHidanDalm_Draw(BgHidanDalm* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Dalm_InitVars =
-{
+const ActorInit Bg_Hidan_Dalm_InitVars = {
     ACTOR_BG_HIDAN_DALM,
     ACTORTYPE_BG,
     ROOM,
@@ -36,6 +35,3 @@ const ActorInit Bg_Hidan_Dalm_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Dalm/func_808862D8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Dalm/BgHidanDalm_Draw.s")
-
-
-

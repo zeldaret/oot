@@ -1,6 +1,6 @@
 #include "z_bg_jya_zurerukabe.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgJyaZurerukabe_Init(BgJyaZurerukabe* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void BgJyaZurerukabe_Update(BgJyaZurerukabe* this, GlobalContext* globalCtx);
 void BgJyaZurerukabe_Draw(BgJyaZurerukabe* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Zurerukabe_InitVars =
-{
+const ActorInit Bg_Jya_Zurerukabe_InitVars = {
     ACTOR_BG_JYA_ZURERUKABE,
     ACTORTYPE_BG,
     ROOM,

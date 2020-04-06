@@ -1,6 +1,6 @@
 #include "z_en_dekubaba.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnDekubaba_Init(EnDekubaba* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnDekubaba_Update(EnDekubaba* this, GlobalContext* globalCtx);
 void EnDekubaba_Draw(EnDekubaba* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dekubaba_InitVars =
-{
+const ActorInit En_Dekubaba_InitVars = {
     ACTOR_EN_DEKUBABA,
     ACTORTYPE_ENEMY,
     ROOM,

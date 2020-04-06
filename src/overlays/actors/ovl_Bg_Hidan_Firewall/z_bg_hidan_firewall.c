@@ -6,7 +6,7 @@
 
 #include "z_bg_hidan_firewall.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000000
 
 const ActorInit Bg_Hidan_Firewall_InitVars =

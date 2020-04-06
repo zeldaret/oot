@@ -1,6 +1,6 @@
 #include "z_mir_ray.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void MirRay_Init(MirRay* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void MirRay_Update(MirRay* this, GlobalContext* globalCtx);
 void MirRay_Draw(MirRay* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Mir_Ray_InitVars =
-{
+const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
     ACTORTYPE_ITEMACTION,
     ROOM,

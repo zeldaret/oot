@@ -1,6 +1,6 @@
 #include "z_en_mm2.h"
 
-#define ROOM  0x00
+#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnMm2_Init(EnMm2* this, GlobalContext* globalCtx);
@@ -9,8 +9,7 @@ void EnMm2_Update(EnMm2* this, GlobalContext* globalCtx);
 void EnMm2_Draw(EnMm2* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Mm2_InitVars =
-{
+const ActorInit En_Mm2_InitVars = {
     ACTOR_EN_MM2,
     ACTORTYPE_NPC,
     ROOM,

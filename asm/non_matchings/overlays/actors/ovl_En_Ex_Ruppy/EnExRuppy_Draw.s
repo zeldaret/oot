@@ -12,7 +12,7 @@ glabel EnExRuppy_Draw
 /* 00DF4 80A0B204 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
 /* 00DF8 80A0B208 24C6B4D0 */  addiu   $a2, $a2, %lo(D_80A0B4D0)  ## $a2 = 80A0B4D0
 /* 00DFC 80A0B20C 24070306 */  addiu   $a3, $zero, 0x0306         ## $a3 = 00000306
-/* 00E00 80A0B210 0C031AB1 */  jal     func_800C6AC4              
+/* 00E00 80A0B210 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00E04 80A0B214 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00E08 80A0B218 0C024F46 */  jal     func_80093D18              
 /* 00E0C 80A0B21C 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -71,7 +71,7 @@ glabel EnExRuppy_Draw
 /* 00EE0 80A0B2F0 AC4C0004 */  sw      $t4, 0x0004($v0)           ## 00000004
 /* 00EE4 80A0B2F4 AC4B0000 */  sw      $t3, 0x0000($v0)           ## 00000000
 /* 00EE8 80A0B2F8 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 00EEC 80A0B2FC 0C031AD5 */  jal     func_800C6B54              
+/* 00EEC 80A0B2FC 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00EF0 80A0B300 24070310 */  addiu   $a3, $zero, 0x0310         ## $a3 = 00000310
 .L80A0B304:
 /* 00EF4 80A0B304 8FBF001C */  lw      $ra, 0x001C($sp)           

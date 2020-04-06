@@ -11,7 +11,7 @@ glabel BgHakaGate_Draw
 /* 00CA4 8087CA94 17010006 */  bne     $t8, $at, .L8087CAB0       
 /* 00CA8 8087CA98 8FB90094 */  lw      $t9, 0x0094($sp)           
 /* 00CAC 8087CA9C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 00CB0 8087CAA0 0C00D4C9 */  jal     Draw_DListXlu
+/* 00CB0 8087CAA0 0C00D4C9 */  jal     Gfx_DrawDListXlu
               
 /* 00CB4 8087CAA4 24A5F1B0 */  addiu   $a1, $a1, 0xF1B0           ## $a1 = 0600F1B0
 /* 00CB8 8087CAA8 1000007C */  beq     $zero, $zero, .L8087CC9C   
@@ -32,7 +32,7 @@ glabel BgHakaGate_Draw
 /* 00CF0 8087CAE0 24C6CD4C */  addiu   $a2, $a2, %lo(D_8087CD4C)  ## $a2 = 8087CD4C
 /* 00CF4 8087CAE4 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFA8
 /* 00CF8 8087CAE8 2407030D */  addiu   $a3, $zero, 0x030D         ## $a3 = 0000030D
-/* 00CFC 8087CAEC 0C031AB1 */  jal     func_800C6AC4              
+/* 00CFC 8087CAEC 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00D00 8087CAF0 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 80880000
 /* 00D04 8087CAF4 0C034236 */  jal     Matrix_Get              
 /* 00D08 8087CAF8 27A4004C */  addiu   $a0, $sp, 0x004C           ## $a0 = FFFFFFBC
@@ -132,13 +132,13 @@ glabel BgHakaGate_Draw
 /* 00E80 8087CC70 24C6CD88 */  addiu   $a2, $a2, %lo(D_8087CD88)  ## $a2 = 8087CD88
 /* 00E84 8087CC74 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFA8
 /* 00E88 8087CC78 24070320 */  addiu   $a3, $zero, 0x0320         ## $a3 = 00000320
-/* 00E8C 8087CC7C 0C031AD5 */  jal     func_800C6B54              
+/* 00E8C 8087CC7C 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00E90 8087CC80 8F250000 */  lw      $a1, 0x0000($t9)           ## 00000000
 /* 00E94 8087CC84 10000005 */  beq     $zero, $zero, .L8087CC9C   
 /* 00E98 8087CC88 8FA40090 */  lw      $a0, 0x0090($sp)           
 .L8087CC8C:
 /* 00E9C 8087CC8C 00A82821 */  addu    $a1, $a1, $t0              
-/* 00EA0 8087CC90 0C00D498 */  jal     Draw_DListOpa
+/* 00EA0 8087CC90 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00EA4 8087CC94 8CA5CD00 */  lw      $a1, %lo(D_8087CD00)($a1)  
 /* 00EA8 8087CC98 8FA40090 */  lw      $a0, 0x0090($sp)           
