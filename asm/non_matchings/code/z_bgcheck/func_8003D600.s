@@ -1,3 +1,15 @@
+.rdata
+glabel D_801389C0
+    .asciz "../z_bgcheck.c"
+    .balign 4
+
+glabel D_801389D0
+    .asciz "こいつ,pself_actor->name %d\n"
+    .balign 4
+# This one
+
+# Needs splitting
+.text
 glabel func_8003D600
 /* AB47A0 8003D600 27BDFFA8 */  addiu $sp, $sp, -0x58
 /* AB47A4 8003D604 8FAF0070 */  lw    $t7, 0x70($sp)
@@ -16,7 +28,7 @@ glabel func_8003D600
 /* AB47D8 8003D638 00E08025 */  move  $s0, $a3
 /* AB47DC 8003D63C 24061456 */  li    $a2, 5206
 /* AB47E0 8003D640 24A589C0 */  addiu $a1, %lo(D_801389C0) # addiu $a1, $a1, -0x7640
-/* AB47E4 8003D644 0C00E180 */  jal   func_80038600
+/* AB47E4 8003D644 0C00E180 */  jal   T_BGCheck_PosErrorCheck
 /* AB47E8 8003D648 00E02025 */   move  $a0, $a3
 /* AB47EC 8003D64C 24010001 */  li    $at, 1
 /* AB47F0 8003D650 14410006 */  bne   $v0, $at, .L8003D66C

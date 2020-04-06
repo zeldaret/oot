@@ -1,3 +1,18 @@
+.rdata
+glabel D_801388F4
+    .asciz "\x1B[43;30m"
+    .balign 4
+
+glabel D_80138900
+    .asciz "T_BGCheck_getBGDataInfo():そのbg_actor_indexは使われておりません。index=%d\n"
+    .balign 4
+# bg_actor_index is unused.
+
+glabel D_8013894C
+    .asciz "\x1B[m"
+    .balign 4
+    
+.text
 glabel T_BGCheck_getBGDataInfo
 /* AB3664 8003C4C4 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AB3668 8003C4C8 24010032 */  li    $at, 50

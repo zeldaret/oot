@@ -1,4 +1,44 @@
-glabel DynaPolyInfo_Free
+.rdata
+glabel D_80138C48
+    .asciz "\x1B[32m"
+    .balign 4
+
+glabel D_80138C50
+    .asciz "DynaPolyInfo_delReserve():index %d\n"
+    .balign 4
+
+glabel D_80138C74
+    .asciz "\x1B[m"
+    .balign 4
+    
+glabel D_80138C78
+    .asciz "\x1B[32m"
+    .balign 4
+
+glabel D_80138C80
+    .asciz "DynaPolyInfo_delReserve():削除されているはずの(?)\nインデックス(== -1)のため,処理を中止します。\n"
+    .balign 4
+# The index that should have been deleted (?) was (== -1), processing aborted.
+
+glabel D_80138CE0
+    .asciz "\x1B[m"
+    .balign 4
+
+glabel D_80138CE4
+    .asciz "\x1B[31m"
+    .balign 4
+
+glabel D_80138CEC
+    .asciz "DynaPolyInfo_delReserve():確保していない／出来なかったインデックスの解放のため、処理を中止します。index == %d\n"
+    .balign 4
+# Unable to deallocate index / index unallocated, processing aborted.
+
+glabel D_80138D5C
+    .asciz "\x1B[m"
+    .balign 4
+
+.text
+glabel DynaPolyInfo_delReserve
 /* AB5EF8 8003ED58 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* AB5EFC 8003ED5C AFA40020 */  sw    $a0, 0x20($sp)
 /* AB5F00 8003ED60 AFBF001C */  sw    $ra, 0x1c($sp)

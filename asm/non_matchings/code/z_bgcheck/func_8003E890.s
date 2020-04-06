@@ -1,3 +1,13 @@
+.rdata
+glabel D_80138B9C
+    .asciz "ptbl->pbuf != NULL"
+    .balign 4
+
+glabel D_80138BB0
+    .asciz "../z_bgcheck.c"
+    .balign 4
+    
+.text
 glabel func_8003E890
 /* AB5A30 8003E890 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AB5A34 8003E894 AFA5001C */  sw    $a1, 0x1c($sp)
@@ -7,7 +17,7 @@ glabel func_8003E890
 /* AB5A44 8003E8A4 00A62823 */  subu  $a1, $a1, $a2
 /* AB5A48 8003E8A8 00052840 */  sll   $a1, $a1, 1
 /* AB5A4C 8003E8AC 2406FFFE */  li    $a2, -2
-/* AB5A50 8003E8B0 0C030EDC */  jal   THA_AllocEndAlign
+/* AB5A50 8003E8B0 0C030EDC */  jal   func_800C3B70
 /* AB5A54 8003E8B4 24840074 */   addiu $a0, $a0, 0x74
 /* AB5A58 8003E8B8 8FAE001C */  lw    $t6, 0x1c($sp)
 /* AB5A5C 8003E8BC 3C048014 */  lui   $a0, %hi(D_80138B9C) # $a0, 0x8014

@@ -1,3 +1,33 @@
+.rdata
+glabel D_80138A80
+    .asciz "this->short_slist_node_tbl != NULL"
+    .balign 4
+    
+glabel D_80138AA4
+    .asciz "../z_bgcheck.c"
+    .balign 4
+
+glabel D_80138AB4
+    .asciz "../z_bgcheck.c"
+    .balign 4
+    
+glabel D_80138AC4
+    .asciz "this->polygon_check != NULL"
+    .balign 4
+
+glabel D_80138AE0
+    .asciz "../z_bgcheck.c"
+    .balign 4
+
+glabel D_80138AF0
+    .asciz "this->short_slist_node_last_index < this->short_slist_node_size"
+    .balign 4
+
+glabel D_80138B30
+    .asciz "../z_bgcheck.c"
+    .balign 4
+    
+.text
 glabel func_8003E3AC
 /* AB554C 8003E3AC 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AB5550 8003E3B0 AFBF0014 */  sw    $ra, 0x14($sp)
@@ -12,7 +42,7 @@ glabel func_8003E3AC
 /* AB5574 8003E3D4 8FA50020 */  lw    $a1, 0x20($sp)
 /* AB5578 8003E3D8 8FA40018 */  lw    $a0, 0x18($sp)
 /* AB557C 8003E3DC 00052880 */  sll   $a1, $a1, 2
-/* AB5580 8003E3E0 0C030EDC */  jal   THA_AllocEndAlign
+/* AB5580 8003E3E0 0C030EDC */  jal   func_800C3B70
 /* AB5584 8003E3E4 24840074 */   addiu $a0, $a0, 0x74
 /* AB5588 8003E3E8 8FB9001C */  lw    $t9, 0x1c($sp)
 /* AB558C 8003E3EC 3C048014 */  lui   $a0, %hi(D_80138A80) # $a0, 0x8014

@@ -1,4 +1,32 @@
-glabel func_8003F984
+.rdata
+glabel D_80138E90
+    .asciz "\x1B[32m"
+    .balign 4
+
+glabel D_80138E98
+    .asciz "DynaPolyInfo_setup():削除 index=%d\n"
+    .balign 4
+# Deleted index=%d
+
+glabel D_80138EBC
+    .asciz "\x1B[m"
+    .balign 4
+
+glabel D_80138EC0
+    .asciz "\x1B[32m"
+    .balign 4
+
+glabel D_80138EC8
+    .asciz "DynaPolyInfo_setup():削除 index=%d\n"
+    .balign 4
+# Deleted index=%d
+
+glabel D_80138EEC
+    .asciz "\x1B[m"
+    .balign 4
+    
+.text
+glabel DynaPolyInfo_setup
 /* AB6B24 8003F984 27BDFF98 */  addiu $sp, $sp, -0x68
 /* AB6B28 8003F988 AFB50034 */  sw    $s5, 0x34($sp)
 /* AB6B2C 8003F98C 0080A825 */  move  $s5, $a0
@@ -104,7 +132,7 @@ glabel func_8003F984
 /* AB6CA8 8003FB08 11A00004 */  beqz  $t5, .L8003FB1C
 /* AB6CAC 8003FB0C 02403025 */   move  $a2, $s2
 /* AB6CB0 8003FB10 02203825 */  move  $a3, $s1
-/* AB6CB4 8003FB14 0C00FBA0 */  jal   func_8003EE80
+/* AB6CB4 8003FB14 0C00FBA0 */  jal   DynaPolyInfo_expandSRT
 /* AB6CB8 8003FB18 AFB30010 */   sw    $s3, 0x10($sp)
 .L8003FB1C:
 /* AB6CBC 8003FB1C 26520001 */  addiu $s2, $s2, 1

@@ -1,3 +1,34 @@
+.rdata
+glabel D_80138EF0
+    .asciz "!IS_ZERO(ac_size)"
+    .balign 4
+
+glabel D_80138F04
+    .asciz "../z_bgcheck.c"
+    .balign 4
+
+glabel D_80138F14
+    .asciz "!IS_ZERO(ac_size)"
+    .balign 4
+
+glabel D_80138F28
+    .asciz "../z_bgcheck.c"
+    .balign 4
+
+.late_rodata
+glabel D_80138FB4
+    .float 0.008
+    
+glabel D_80138FB8
+    .float 0.4
+
+glabel D_80138FBC
+    .float 0.008
+
+glabel D_80138FC0
+    .float 0.4
+    
+.text
 glabel func_80040284
 /* AB7424 80040284 27BDFF28 */  addiu $sp, $sp, -0xd8
 /* AB7428 80040288 AFBF0064 */  sw    $ra, 0x64($sp)

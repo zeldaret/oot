@@ -1,4 +1,31 @@
-glabel DynaPolyInfo_RegisterActor
+.rdata
+glabel D_80138BC0
+    .asciz "\x1B[31m"
+    .balign 4
+
+glabel D_80138BC8
+    .asciz "DynaPolyInfo_setActor():ダイナミックポリゴン 空きインデックスはありません\n"
+    .balign 4
+# Dynamic polygon - No free index
+
+glabel D_80138C14
+    .asciz "\x1B[m"
+    .balign 4
+    
+glabel D_80138C18
+    .asciz "\x1B[32m"
+    .balign 4
+    
+glabel D_80138C20
+    .asciz "DynaPolyInfo_setActor():index %d\n"
+    .balign 4
+    
+glabel D_80138C44
+    .asciz "\x1B[m"
+    .balign 4
+    
+.text
+glabel DynaPolyInfo_setActor
 /* AB5C14 8003EA74 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* AB5C18 8003EA78 AFB00018 */  sw    $s0, 0x18($sp)
 /* AB5C1C 8003EA7C AFA40030 */  sw    $a0, 0x30($sp)

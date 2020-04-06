@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_80138F50
+    .float 0.00003051851
+
+glabel D_80138F54
+    .float 0.00003051851
+
+glabel D_80138F58
+    .float 0.008
+    
+.text
 glabel func_800390A0
 /* AB0240 800390A0 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* AB0244 800390A4 AFBF0024 */  sw    $ra, 0x24($sp)

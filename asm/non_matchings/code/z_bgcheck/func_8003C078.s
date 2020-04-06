@@ -1,3 +1,52 @@
+.rdata
+# \x2F -> /
+glabel D_801387CC
+    .asciz "\x2F*---------------- BGCheck バッファーメモリサイズ -------------*\x2F\n"
+    .balign 4
+# /*---------------- BGCheck Buffer Memory Size -------------*/\n
+
+glabel D_80138810
+    .asciz "\x2F* BGCheck LonLonサイズ %dbyte *\x2F\n"
+    .balign 4
+# /* BGCheck LonLon Size %dbyte */\n
+
+glabel D_80138834
+    .asciz "\x2F* BGCheck ミニサイズ %dbyte *\x2F\n"
+    .balign 4
+# /* BGCheck Mini Size %dbyte */\n
+
+glabel D_80138858
+    .asciz "\x2F* BGCheck Spot用サイズ %dbyte *\x2F\n"
+    .balign 4
+# /* BGCheck Spot Size %dbyte */\n
+
+glabel D_8013887C
+    .asciz "\x2F* BGCheck ノーマルサイズ %dbyte  *\x2F\n"
+    .balign 4
+# /* BGCheck Normal Size %dbyte  */\n
+    
+glabel D_801388A4
+    .asciz "../z_bgcheck.c"
+    .balign 4
+    
+glabel D_801388B4
+    .asciz "../z_bgcheck.c"
+    .balign 4
+
+glabel D_801388C4
+    .asciz "\x1B[32m"
+    .balign 4
+
+glabel D_801388CC
+    .asciz "\x2F*---結局 BG使用サイズ %dbyte---*\x2F\n"
+    .balign 4
+# /*---Resulting BG usage size %dbyte---*/\n
+
+glabel D_801388F0
+    .asciz "\x1B[m"
+    .balign 4
+
+.text
 glabel func_8003C078
 /* AB3218 8003C078 27BDFFA8 */  addiu $sp, $sp, -0x58
 /* AB321C 8003C07C AFB00020 */  sw    $s0, 0x20($sp)
@@ -139,7 +188,7 @@ glabel func_8003C078
 /* AB3414 8003C274 00000000 */  nop   
 /* AB3418 8003C278 01CF0019 */  multu $t6, $t7
 /* AB341C 8003C27C 00002812 */  mflo  $a1
-/* AB3420 8003C280 0C030EDC */  jal   THA_AllocEndAlign
+/* AB3420 8003C280 0C030EDC */  jal   func_800C3B70
 /* AB3424 8003C284 00000000 */   nop   
 /* AB3428 8003C288 14400005 */  bnez  $v0, .L8003C2A0
 /* AB342C 8003C28C AE020040 */   sw    $v0, 0x40($s0)

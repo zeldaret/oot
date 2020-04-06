@@ -1,4 +1,53 @@
-glabel func_8003EE80
+.rdata
+glabel D_80138D60
+    .asciz "\x1B[31m"
+    .balign 4
+
+glabel D_80138D68
+    .asciz "DynaPolyInfo_expandSRT():polygon over %dが%dを越えるとダメ\n"
+    .balign 4
+# Polygon over %d can't be over %d
+
+glabel D_80138DA4
+    .asciz "\x1B[31m"
+    .balign 4
+
+glabel D_80138DAC
+    .asciz "DynaPolyInfo_expandSRT():vertex over %dが%dを越えるとダメ\n"
+    .balign 4
+# Vertex over %d can't be over %d
+
+glabel D_80138DE8
+    .asciz "pdyna_poly_info->poly_num >= *pstart_poly_index + pbgdata->poly_num"
+    .balign 4
+
+glabel D_80138E2C
+    .asciz "../z_bgcheck.c"
+    .balign 4
+
+glabel D_80138E3C
+    .asciz "pdyna_poly_info->vert_num >= *pstart_vert_index + pbgdata->vtx_num"
+    .balign 4
+
+glabel D_80138E80
+    .asciz "../z_bgcheck.c"
+    .balign 4
+
+.late_rodata
+glabel D_80138F9C
+    .float 1.1
+
+glabel D_80138FA0
+    .float 32767
+
+glabel D_80138FA4
+    .float 0.008
+
+glabel D_80138FA8
+    .float -0.8  
+  
+.text
+glabel DynaPolyInfo_expandSRT
 /* AB6020 8003EE80 27BDFE98 */  addiu $sp, $sp, -0x168
 /* AB6024 8003EE84 8FAF0178 */  lw    $t7, 0x178($sp)
 /* AB6028 8003EE88 00067080 */  sll   $t6, $a2, 2
@@ -265,7 +314,7 @@ glabel func_8003EE80
 /* AB6400 8003F260 01B60019 */  multu $t5, $s6
 /* AB6404 8003F264 00007012 */  mflo  $t6
 /* AB6408 8003F268 01CF2021 */  addu  $a0, $t6, $t7
-/* AB640C 8003F26C 0C00E23A */  jal   func_800388E8
+/* AB640C 8003F26C 0C00E23A */  jal   T_BGCheck_Vec3fToVec3s
 /* AB6410 8003F270 00000000 */   nop   
 /* AB6414 8003F274 16600006 */  bnez  $s3, .L8003F290
 /* AB6418 8003F278 C7A80088 */   lwc1  $f8, 0x88($sp)

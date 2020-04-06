@@ -1,3 +1,13 @@
+.rdata
+glabel D_80138B40
+    .asciz "new_index < this->short_slist_node_size"
+    .balign 4
+
+glabel D_80138B68
+    .asciz "../z_bgcheck.c"
+    .balign 4
+
+.text
 glabel func_8003E4DC
 /* AB567C 8003E4DC 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* AB5680 8003E4E0 AFBF0014 */  sw    $ra, 0x14($sp)

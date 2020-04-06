@@ -1,3 +1,43 @@
+.rdata
+glabel D_80138980
+    .asciz "../z_bgcheck.c"
+    .balign 4
+    
+glabel D_80138990
+    .asciz "../z_bgcheck.c"
+    .balign 4
+    
+glabel D_801389A0
+    .asciz "こいつ,pself_actor->name %d\n"
+    .balign 4
+# This one
+
+# Needs splitting
+.late_rodata
+glabel D_80138F78
+    .float 0.00003051851
+    
+glabel D_80138F7C
+    .float 0.00003051851
+
+glabel D_80138F80
+    .float 0.00003051851
+
+glabel D_80138F84
+    .float 0.00003051851
+
+glabel D_80138F88
+    .float 0.00003051851
+
+glabel D_80138F8C
+    .float 0.008
+
+glabel D_80138F90
+    .float 0.00003051851
+
+glabel D_80138F94
+    .float 0.008
+.text
 glabel func_8003CDD4
 /* AB3F74 8003CDD4 27BDFF20 */  addiu $sp, $sp, -0xe0
 /* AB3F78 8003CDD8 8FAF00FC */  lw    $t7, 0xfc($sp)
@@ -37,14 +77,14 @@ glabel func_8003CDD4
 /* AB4000 8003CE60 C5880008 */  lwc1  $f8, 8($t4)
 /* AB4004 8003CE64 AFA700EC */  sw    $a3, 0xec($sp)
 /* AB4008 8003CE68 46083281 */  sub.s $f10, $f6, $f8
-/* AB400C 8003CE6C 0C00E180 */  jal   func_80038600
+/* AB400C 8003CE6C 0C00E180 */  jal   T_BGCheck_PosErrorCheck
 /* AB4010 8003CE70 E7AA00C4 */   swc1  $f10, 0xc4($sp)
 /* AB4014 8003CE74 24010001 */  li    $at, 1
 /* AB4018 8003CE78 10410008 */  beq   $v0, $at, .L8003CE9C
 /* AB401C 8003CE7C 8FA400F0 */   lw    $a0, 0xf0($sp)
 /* AB4020 8003CE80 3C058014 */  lui   $a1, %hi(D_80138990)
 /* AB4024 8003CE84 24A58990 */  addiu $a1, %lo(D_80138990) # addiu $a1, $a1, -0x7670
-/* AB4028 8003CE88 0C00E180 */  jal   func_80038600
+/* AB4028 8003CE88 0C00E180 */  jal   T_BGCheck_PosErrorCheck
 /* AB402C 8003CE8C 240612E0 */   li    $a2, 4832
 /* AB4030 8003CE90 24010001 */  li    $at, 1
 /* AB4034 8003CE94 54410009 */  bnel  $v0, $at, .L8003CEBC
