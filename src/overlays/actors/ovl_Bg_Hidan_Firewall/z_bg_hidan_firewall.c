@@ -67,12 +67,12 @@ void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx) {
 
     f32 scale;
 
-    scale = 0.119999997318f;
+    scale = 0.12f;
     this->actor.scale.x = scale;
     this->actor.scale.z = scale;
 
-    scale = 0.00999999977648f;
-    this->actor.scale.y = 0.00999999977648f;
+    scale = 0.01f;
+    this->actor.scale.y = 0.01f;
 
     this->unk_150 = 0;
 
@@ -98,10 +98,8 @@ s32 BgHidanFirewall_Proximity(BgHidanFirewall* this, GlobalContext* globalCtx) {
     player = PLAYER;
     func_8002DBD0(&this->actor, &distance, &player->actor.posRot.pos);
 
-    if (fabsf(distance.x) < 100.0f) {
-        if (fabsf(distance.z) < 120.0f) {
-            return 1;
-        }
+    if (fabsf(distance.x) < 100.0f && fabsf(distance.z) < 120.0f) {
+        return 1;
     }
     return 0;
 }
@@ -128,7 +126,7 @@ void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx) {
     if (BgHidanFirewall_Proximity(this, globalCtx) != 0) {
         Math_ApproxF(&this->actor.scale.y, 0.1f, 0.024999999f);
     } else {
-        if (Math_ApproxF(&this->actor.scale.y, 0.00999999977648f, 0.00999999977648f) != 0) {
+        if (Math_ApproxF(&this->actor.scale.y, 0.01f, 0.01f) != 0) {
             this->actor.draw = NULL;
             this->actionFunc = (ActorFunc)BgHidanFirewall_Wait;
         } else {
