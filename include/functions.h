@@ -1593,7 +1593,7 @@ s32 func_800CFCAC(PosRadius* a, PosRadius* b, f32* unk, f32* dist);
 s32 func_800CFDA4(PosRadius* a, ColliderCylinderDim* b, f32* unk, f32* dist);
 // ? func_800CFF14(?);
 s32 func_800CFF34(ColliderCylinderDim* arg0, ColliderCylinderDim* arg1, f32* arg2, f32* arg3);
-// ? func_800D0104(?);
+s32 func_800D0104(ColliderTrisItemDim* a, ColliderTrisItemDim* b, Vec3f* result);
 // ? func_800D0480(?);
 // ? func_800D04F0(?);
 // ? func_800D0560(?);
