@@ -1838,8 +1838,52 @@ void func_8005FF90(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     }
 }
 
+extern ColliderTrisItemDim D_8015E3A0;
+extern ColliderTrisItemDim D_8015E3D8;
+extern Vec3f D_8015E410;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060204.s")
+//Check ColliderQuad to ColliderCylinder
+void func_80060204(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    ColliderQuad* left = (ColliderQuad*)l;
+    ColliderCylinder* right = (ColliderCylinder*)r;
+    Vec3f sp64;
+    Vec3f sp58;
+    Vec3f sp4C;
+    Vec3f sp40;
+
+    if (right->dim.height > 0) {
+        if (right->dim.radius > 0) {
+            if (func_8005DF50(&right->body) != 1) {
+                if (func_8005DF2C(&left->body) != 1) {
+                    if (func_8005DF74(&left->body, &right->body) != 1) {
+                        func_800CE3C0(&D_8015E3A0, &left->dim.quad[2], &left->dim.quad[3], &left->dim.quad[1]);
+                        func_800CE3C0(&D_8015E3D8, &left->dim.quad[2], &left->dim.quad[1], &left->dim.quad[0]);
+                        if (func_800CF7D0(&right->dim, &D_8015E3A0, &D_8015E410) == 1) {
+                            if (func_8005D218(globalCtx, left, &D_8015E410) != 0) {
+                                sp64.x = (left->dim.quad[0].x + (left->dim.quad[1].x + (left->dim.quad[3].x + left->dim.quad[2].x))) * (1.0f / 4);
+                                sp64.y = (left->dim.quad[0].y + (left->dim.quad[1].y + (left->dim.quad[3].y + left->dim.quad[2].y))) * (1.0f / 4);
+                                sp64.z = (left->dim.quad[0].z + (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) * (1.0f / 4);
+                                Math_Vec3s_ToVec3f(&sp58, &right->dim.position);
+                                func_8005E81C(globalCtx, &left->base, &left->body, &sp64, &right->base, &right->body, &sp58, &D_8015E410);
+                                return;
+                            }
+                        }
+                        if (func_800CF7D0(&right->dim, &D_8015E3D8, &D_8015E410) == 1) {
+                            if (func_8005D218(globalCtx, left, &D_8015E410) != 0) {
+                                sp4C.x = (left->dim.quad[0].x + (left->dim.quad[1].x + (left->dim.quad[3].x + left->dim.quad[2].x))) * (1.0f / 4);
+                                sp4C.y = (left->dim.quad[0].y + (left->dim.quad[1].y + (left->dim.quad[3].y + left->dim.quad[2].y))) * (1.0f / 4);
+                                sp4C.z = (left->dim.quad[0].z + (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) * (1.0f / 4);
+                                Math_Vec3s_ToVec3f(&sp40, &right->dim.position);
+                                func_8005E81C(globalCtx, &left->base, &left->body, &sp4C, &right->base, &right->body, &sp40, &D_8015E410);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800604B0.s")
 
