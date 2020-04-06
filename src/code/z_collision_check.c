@@ -1771,7 +1771,40 @@ void func_8005FC04(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005FDCC.s")
+extern Vec3f D_8015E310;
+
+//Check ColliderTris to ColliderCylinder
+void func_8005FDCC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    ColliderTris* left = (ColliderTris*)l;
+    ColliderCylinder* right = (ColliderCylinder*)r;
+    ColliderTrisItem* lItem;
+    Vec3f sp60;
+    Vec3f sp54;
+
+    if (right->dim.radius > 0 && right->dim.height > 0
+        && left->count > 0 && left->list != NULL) {
+        if (func_8005DF50(&right->body) == 1) {
+            return;
+        }
+        for (lItem = left->list; lItem < left->list + left->count; lItem++) {
+            if (func_8005DF2C(&lItem->body) == 1) {
+                continue;
+            }
+            if (func_8005DF74(&lItem->body, &right->body) == 1) {
+                continue;
+            }
+
+            if (func_800CF7D0(&right->dim, &lItem->dim, &D_8015E310) == 1) {
+                sp60.x = (lItem->dim.poly[0].x + lItem->dim.poly[1].x + lItem->dim.poly[2].x) * (1.0f / 3);
+                sp60.y = (lItem->dim.poly[0].y + lItem->dim.poly[1].y + lItem->dim.poly[2].y) * (1.0f / 3);
+                sp60.z = (lItem->dim.poly[0].z + lItem->dim.poly[1].z + lItem->dim.poly[2].z) * (1.0f / 3);
+                Math_Vec3s_ToVec3f(&sp54, &right->dim.position);
+                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp60, &right->base, &right->body, &sp54, &D_8015E310);
+                return;
+            }
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005FF90.s")
 
