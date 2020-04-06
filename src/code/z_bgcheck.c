@@ -165,7 +165,7 @@ void func_800389D4(CollisionPoly *a, f32 *b, f32 *c, f32 *d)
     *d = a->norm.z * (1.f / 32767);
 }
 
-// Regalloc
+// Regalloc, stack
 #ifdef NON_MATCHING
 void func_80038A28(CollisionPoly *a, f32 b, f32 c, f32 d, MtxF *e)
 {
@@ -206,11 +206,11 @@ void func_80038A28(CollisionPoly *a, f32 b, f32 c, f32 d, MtxF *e)
         e->yx = sp3C;
         e->yy = sp38;
         e->yz = sp34;
+        e->zx = 0.0f;
         e->zy = phi_f12;
         e->zz = phi_f14;
         e->xw = 0.0f;
         e->yw = 0.0f;
-        e->zx = 0.0f;
         e->zw = 0.0f;
         e->wx = b;
         e->wy = c;
