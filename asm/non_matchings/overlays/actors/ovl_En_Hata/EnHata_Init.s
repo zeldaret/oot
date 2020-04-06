@@ -53,7 +53,7 @@ glabel EnHata_Init
 /* 000B4 80A50E04 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 000B8 80A50E08 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000BC 80A50E0C 8FA7003C */  lw      $a3, 0x003C($sp)
-/* 000C0 80A50E10 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 000C0 80A50E10 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 000C4 80A50E14 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 000C8 80A50E18 3C0143FA */  lui     $at, 0x43FA                ## $at = 43FA0000

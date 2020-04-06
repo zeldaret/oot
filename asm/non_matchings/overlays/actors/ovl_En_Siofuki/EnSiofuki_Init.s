@@ -37,7 +37,7 @@ glabel EnSiofuki_Init
 /* 00074 80AFBBF4 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00078 80AFBBF8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0007C 80AFBBFC 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 00080 80AFBC00 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00080 80AFBC00 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00084 80AFBC04 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00088 80AFBC08 9603001C */  lhu     $v1, 0x001C($s0)           ## 0000001C

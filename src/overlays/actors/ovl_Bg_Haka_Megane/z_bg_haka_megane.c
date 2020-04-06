@@ -67,7 +67,7 @@ static void BgHakaMegane_Init(BgHakaMegane* this, GlobalContext* globalCtx) {
 }
 
 static void BgHakaMegane_Destroy(BgHakaMegane* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
@@ -84,7 +84,7 @@ static void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
             if (collision != 0) {
                 DynaPolyInfo_Alloc(collision, &localC);
                 this->dyna.dynaPolyId =
-                    DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+                    DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
             }
         } else {
             this->actionFunc = (ActorFunc)func_8087DC64;

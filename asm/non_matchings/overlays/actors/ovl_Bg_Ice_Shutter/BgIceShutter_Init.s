@@ -27,7 +27,7 @@ glabel BgIceShutter_Init
 /* 000E4 80891BA4 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000E8 80891BA8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000EC 80891BAC 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 000F0 80891BB0 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 000F0 80891BB0 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 000F4 80891BB4 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 000F8 80891BB8 8FA30028 */  lw      $v1, 0x0028($sp)           

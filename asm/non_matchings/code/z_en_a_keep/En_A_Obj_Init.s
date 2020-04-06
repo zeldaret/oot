@@ -242,7 +242,7 @@ glabel L8001D128
 /* A9431C 8001D17C 8FA4003C */  lw    $a0, 0x3c($sp)
 /* A94320 8001D180 02003025 */  move  $a2, $s0
 /* A94324 8001D184 8FA70034 */  lw    $a3, 0x34($sp)
-/* A94328 8001D188 0C00FA9D */  jal   DynaPolyInfo_RegisterActor
+/* A94328 8001D188 0C00FA9D */  jal   DynaPolyInfo_setActor
 /* A9432C 8001D18C 24850810 */   addiu $a1, $a0, 0x810
 /* A94330 8001D190 AE02014C */  sw    $v0, 0x14c($s0)
 .L8001D194:

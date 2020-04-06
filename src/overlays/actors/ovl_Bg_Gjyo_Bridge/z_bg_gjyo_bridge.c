@@ -52,7 +52,7 @@ void BgGjyoBridge_Init(BgGjyoBridge* this, GlobalContext* globalCtx) {
 
     dynaCollisionContext = &globalCtx->colCtx.dyna;
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, dynaCollisionContext, this, local_c);
+    this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, dynaCollisionContext, this, local_c);
 
     if (gSaveContext.event_chk_inf[4] & 0x2000) {
         this->actionFunc = func_808787A4;
@@ -64,7 +64,7 @@ void BgGjyoBridge_Init(BgGjyoBridge* this, GlobalContext* globalCtx) {
 }
 
 void BgGjyoBridge_Destroy(BgGjyoBridge* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_808787A4(BgGjyoBridge* this, GlobalContext* globalCtx) {

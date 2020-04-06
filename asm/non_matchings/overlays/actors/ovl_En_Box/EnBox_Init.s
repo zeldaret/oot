@@ -38,7 +38,7 @@ glabel EnBox_Init
 /* 00114 809C8ED4 AFA50030 */  sw      $a1, 0x0030($sp)
 /* 00118 809C8ED8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0011C 809C8EDC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00120 809C8EE0 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00120 809C8EE0 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00124 809C8EE4 8FA70048 */  lw      $a3, 0x0048($sp)
 /* 00128 809C8EE8 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

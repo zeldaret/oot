@@ -31,7 +31,7 @@ glabel EnBrob_Init
 /* 0006C 809CAB7C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00070 809CAB80 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00074 809CAB84 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00078 809CAB88 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00078 809CAB88 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 0007C 809CAB8C 8FA70034 */  lw      $a3, 0x0034($sp)
 /* 00080 809CAB90 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

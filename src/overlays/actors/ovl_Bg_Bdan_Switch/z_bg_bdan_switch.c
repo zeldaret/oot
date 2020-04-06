@@ -129,7 +129,7 @@ static void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, u32 coll
 
     DynaPolyInfo_SetActorMove(&this->actor, flag);
     DynaPolyInfo_Alloc(collision, &local_c);
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
+    this->dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
     if (this->dynaPolyId == 0x32) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_bdan_switch.c", 325,
                      this->actor.id, this->actor.params);
@@ -235,7 +235,7 @@ static void BgBdanSwitch_Destroy(BgBdanSwitch* this, GlobalContext* globalCtx) {
         case BLUE:
         case YELLOW_HEAVY:
         case YELLOW:
-            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+            DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:

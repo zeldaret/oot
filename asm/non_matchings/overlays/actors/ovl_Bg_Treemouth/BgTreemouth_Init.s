@@ -21,7 +21,7 @@ glabel BgTreemouth_Init
 /* 00048 808BC548 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 0004C 808BC54C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00050 808BC550 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 00054 808BC554 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00054 808BC554 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00058 808BC558 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 0005C 808BC55C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

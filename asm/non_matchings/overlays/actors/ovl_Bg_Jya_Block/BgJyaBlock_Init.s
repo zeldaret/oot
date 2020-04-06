@@ -16,7 +16,7 @@ glabel BgJyaBlock_Init
 /* 00030 808941D0 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00034 808941D4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00038 808941D8 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 0003C 808941DC 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 0003C 808941DC 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00040 808941E0 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00044 808941E4 3C058089 */  lui     $a1, %hi(D_80894400)       ## $a1 = 80890000

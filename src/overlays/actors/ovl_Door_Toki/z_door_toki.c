@@ -40,11 +40,11 @@ static void Init(ActorDoorToki* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, initChain);
     DynaPolyInfo_SetActorMove(&this->actor, 0);
     DynaPolyInfo_Alloc(&DOOR_TOKI_COLLISION_DATA, &sp1C);
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
+    this->dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
 }
 
 static void Destroy(ActorDoorToki* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
 static void Update(ActorDoorToki* this, GlobalContext* globalCtx) {

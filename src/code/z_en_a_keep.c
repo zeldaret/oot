@@ -161,7 +161,7 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
 
     if (this->dynaPolyId != -1) {
         DynaPolyInfo_Alloc(D_8011546C[this->dynaPolyId], &sp34);
-        this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp34);
+        this->dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp34);
     }
 }
 #else
@@ -171,7 +171,7 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
 void En_A_Obj_Destroy(ActorEnAObj* this, GlobalContext* globalCtx) {
     ColliderCylinderMain* cylinderCollider = &this->cylinderCollider;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 
     switch (this->actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:

@@ -60,7 +60,7 @@ static void Init(ActorSpot00Break* this, GlobalContext* globalCtx) {
         DynaPolyInfo_Alloc(&D_06000908, &local_c);
     }
 
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
+    this->dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
 
     if (LINK_IS_CHILD) {
         Actor_Kill(&this->actor);
@@ -68,7 +68,7 @@ static void Init(ActorSpot00Break* this, GlobalContext* globalCtx) {
 }
 
 static void Destroy(ActorSpot00Break* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
 static void Update(ActorSpot00Break* this, GlobalContext* globalCtx) {

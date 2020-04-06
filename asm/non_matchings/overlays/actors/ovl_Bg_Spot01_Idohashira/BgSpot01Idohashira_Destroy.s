@@ -5,7 +5,7 @@ glabel BgSpot01Idohashira_Destroy
 /* 00420 808AB100 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00424 808AB104 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00428 808AB108 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 0042C 808AB10C 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 0042C 808AB10C 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00430 808AB110 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00434 808AB114 8FBF0014 */  lw      $ra, 0x0014($sp)           

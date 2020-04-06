@@ -34,7 +34,7 @@ glabel BgMizuShutter_Init
 /* 00074 8089EEC4 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00078 8089EEC8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0007C 8089EECC 8FA70030 */  lw      $a3, 0x0030($sp)           
-/* 00080 8089EED0 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00080 8089EED0 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00084 8089EED4 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00088 8089EED8 9603001C */  lhu     $v1, 0x001C($s0)           ## 0000001C

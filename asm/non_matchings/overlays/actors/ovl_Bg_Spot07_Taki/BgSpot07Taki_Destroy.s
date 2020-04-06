@@ -5,7 +5,7 @@ glabel BgSpot07Taki_Destroy
 /* 000B4 808AFCE4 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 000B8 808AFCE8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 000BC 808AFCEC 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 000C0 808AFCF0 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 000C0 808AFCF0 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 000C4 808AFCF4 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 000C8 808AFCF8 8FBF0014 */  lw      $ra, 0x0014($sp)           

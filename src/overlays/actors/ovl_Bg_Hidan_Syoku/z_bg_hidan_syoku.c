@@ -58,13 +58,13 @@ static void Init(ActorHidanSyoku* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, initChain);
     DynaPolyInfo_SetActorMove(&this->actor, 1);
     DynaPolyInfo_Alloc(&D_0600E568, &local_c);
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
+    this->dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
     this->updateFunc = &func_8088F4B8;
     this->actor.initPosRot.pos.y += 540.0f;
 }
 
 static void Destroy(ActorHidanSyoku* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
 static void func_8088F47C(ActorHidanSyoku* this) {

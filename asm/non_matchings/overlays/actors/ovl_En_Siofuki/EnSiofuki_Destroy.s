@@ -5,7 +5,7 @@ glabel EnSiofuki_Destroy
 /* 00224 80AFBDA4 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00228 80AFBDA8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0022C 80AFBDAC 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00230 80AFBDB0 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00230 80AFBDB0 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00234 80AFBDB4 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00238 80AFBDB8 8FBF0014 */  lw      $ra, 0x0014($sp)           

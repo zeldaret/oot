@@ -5,7 +5,7 @@ glabel BgHakaMeganeBG_Destroy
 /* 001A4 8087DFD4 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 001A8 8087DFD8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 001AC 8087DFDC 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 001B0 8087DFE0 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 001B0 8087DFE0 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 001B4 8087DFE4 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 001B8 8087DFE8 8FBF0014 */  lw      $ra, 0x0014($sp)           

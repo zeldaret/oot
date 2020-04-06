@@ -41,7 +41,7 @@ void BgSpot15Saku_Init(BgSpot15Saku* this, GlobalContext* globalCtx) {
 
     DynaPolyInfo_SetActorMove(thisx, 0);
     DynaPolyInfo_Alloc(&D_060004D0, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
     thisx->scale.x = 0.1f;
     thisx->scale.y = 0.1f;
     thisx->scale.z = 0.1f;
@@ -55,7 +55,7 @@ void BgSpot15Saku_Init(BgSpot15Saku* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Saku_Destroy(BgSpot15Saku* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {

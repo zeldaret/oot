@@ -19,7 +19,7 @@ glabel ObjTimeblock_Init
 /* 001B0 80BA0150 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 001B4 80BA0154 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 001B8 80BA0158 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 001BC 80BA015C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 001BC 80BA015C 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 001C0 80BA0160 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 001C4 80BA0164 3C0580BA */  lui     $a1, %hi(D_80BA0B28)       ## $a1 = 80BA0000

@@ -22,7 +22,7 @@ glabel BgHidanDalm_Init
 /* 00044 80885E64 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00048 80885E68 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 0004C 80885E6C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00050 80885E70 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00050 80885E70 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00054 80885E74 8FA7002C */  lw      $a3, 0x002C($sp)           
 /* 00058 80885E78 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

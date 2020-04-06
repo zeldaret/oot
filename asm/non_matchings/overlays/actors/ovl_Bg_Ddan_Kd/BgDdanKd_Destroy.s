@@ -7,7 +7,7 @@ glabel BgDdanKd_Destroy
 /* 00110 80871200 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00114 80871204 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00118 80871208 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 0011C 8087120C 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 0011C 8087120C 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00120 80871210 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00124 80871214 8FA50018 */  lw      $a1, 0x0018($sp)           

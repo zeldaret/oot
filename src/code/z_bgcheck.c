@@ -25,6 +25,15 @@ typedef struct {
     Vec3f unk_34;
 } struct_8003ADC8;
 
+extern Vec3f D_8015BC30[3];
+extern Vec3f D_8015BC58[3];
+extern Vec3f D_8015BC80[3];
+extern Vec3f D_8015BCA8[3];
+
+extern s16 D_8015BD08[4];
+extern Vec3f D_8015BD10[3];
+extern Vec3f D_8015BD34[3];
+
 s32 T_BGCheck_PosErrorCheck(Vec3f *pos, char fileName[], s32 lineNo)
 {
     if ((pos->x >= 32760.f) || (pos->x <= -32760.f) || 
@@ -81,7 +90,8 @@ void func_800387FC(s32 unused, struct_8003880C *b)
 
 void func_8003880C(Actor *a, struct_8003880C *psst, s32 c)
 {
-    psst->tbl = func_800C3B70(&a->wallPoly, c * 4, -2); // this is actually a substruct that begins at wallPoly
+    // Todo: tidy up types here (the arg is a struct that begins at wallpoly)
+    psst->tbl = (substruct_8003880C**)THA_AllocEndAlign((TwoHeadArena*)(&a->wallPoly), c * 4, -2);
     
     if (psst->tbl == NULL)
         __assert("psst->tbl != NULL", "../z_bgcheck.c", 0x713);
@@ -157,7 +167,7 @@ void func_800389D4(CollisionPoly *a, f32 *b, f32 *c, f32 *d)
 
 // Regalloc
 #ifdef NON_MATCHING
-void func_80038A28(CollisionPoly *a, f32 b, f32 c, f32 d, Vec3f e[])
+void func_80038A28(CollisionPoly *a, f32 b, f32 c, f32 d, MtxF *e)
 {
     f32 sp3C;
     f32 sp38;
@@ -190,22 +200,22 @@ void func_80038A28(CollisionPoly *a, f32 b, f32 c, f32 d, Vec3f e[])
                 phi_f2 = 0.0f;
             }
         }
-        e[0].x = phi_f2;
-        e[0].y = (-sp3C) * phi_f14;
-        e[0].z = sp3C * phi_f12;
-        e[1].y = sp3C;
-        e[1].z = sp38;
-        e[2].x = sp34;
-        e[3].x = phi_f12;
-        e[3].y = phi_f14;
-        e[1].x = 0.0f;
-        e[2].y = 0.0f;
-        e[2].z = 0.0f;
-        e[3].z = 0.0f;
-        e[4].x = b;
-        e[4].y = c;
-        e[4].z = d;
-        e[5].x = 1.0f;
+        e->xx = phi_f2;
+        e->xy = (-sp3C) * phi_f14;
+        e->xz = sp3C * phi_f12;
+        e->yx = sp3C;
+        e->yy = sp38;
+        e->yz = sp34;
+        e->zy = phi_f12;
+        e->zz = phi_f14;
+        e->xw = 0.0f;
+        e->yw = 0.0f;
+        e->zx = 0.0f;
+        e->zw = 0.0f;
+        e->wx = b;
+        e->wy = c;
+        e->wz = d;
+        e->ww = 1.0f;
     }
 }
 #else
@@ -320,7 +330,7 @@ void func_8003937C(CollisionPoly *a, Vec3s b[], Vec3f *c, f32 d)
 
     func_80038BE0(a, b, D_8015BD10);
     func_800389D4(a, &D_8015BD34[0], &D_8015BD34[1], &D_8015BD34[2]);
-    D_8015BD40 = a->dist;
+    D_8015BD34[1].x = a->dist;
     D_8015BD08[0] = c->x;
     D_8015BD08[1] = c->y;
     D_8015BD08[2] = c->z;

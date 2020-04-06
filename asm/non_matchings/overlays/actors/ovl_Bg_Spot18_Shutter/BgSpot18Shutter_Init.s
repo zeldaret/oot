@@ -110,7 +110,7 @@ glabel BgSpot18Shutter_Init
 /* 00180 808B9550 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00184 808B9554 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00188 808B9558 8FA70028 */  lw      $a3, 0x0028($sp)           
-/* 0018C 808B955C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 0018C 808B955C 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00190 808B9560 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00194 808B9564 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

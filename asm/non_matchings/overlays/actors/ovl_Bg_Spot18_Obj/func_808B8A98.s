@@ -20,7 +20,7 @@ glabel func_808B8A98
 /* 001C8 808B8AD8 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 001CC 808B8ADC 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 001D0 808B8AE0 8FA7001C */  lw      $a3, 0x001C($sp)           
-/* 001D4 808B8AE4 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 001D4 808B8AE4 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 001D8 808B8AE8 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 001DC 808B8AEC 8FA80028 */  lw      $t0, 0x0028($sp)           

@@ -20,7 +20,7 @@ glabel BgSstFloor_Init
 /* 0003C 808B994C 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00040 808B9950 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 00044 808B9954 8FA7001C */  lw      $a3, 0x001C($sp)           
-/* 00048 808B9958 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00048 808B9958 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 0004C 808B995C 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00050 808B9960 8FAE0028 */  lw      $t6, 0x0028($sp)           

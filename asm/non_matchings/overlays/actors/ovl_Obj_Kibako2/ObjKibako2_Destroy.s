@@ -12,7 +12,7 @@ glabel ObjKibako2_Destroy
 /* 00408 80B95DD8 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 0040C 80B95DDC 8FAE0018 */  lw      $t6, 0x0018($sp)           
 /* 00410 80B95DE0 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 00414 80B95DE4 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00414 80B95DE4 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00418 80B95DE8 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 0041C 80B95DEC 8FBF0014 */  lw      $ra, 0x0014($sp)           

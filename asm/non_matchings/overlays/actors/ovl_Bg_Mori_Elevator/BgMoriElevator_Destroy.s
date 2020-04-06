@@ -13,7 +13,7 @@ glabel BgMoriElevator_Destroy
 /* 002D4 808A1AD4 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 002D8 808A1AD8 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 002DC 808A1ADC 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 002E0 808A1AE0 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 002E0 808A1AE0 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 002E4 808A1AE4 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 /* 002E8 808A1AE8 3C01808A */  lui     $at, %hi(D_808A2210)       ## $at = 808A0000

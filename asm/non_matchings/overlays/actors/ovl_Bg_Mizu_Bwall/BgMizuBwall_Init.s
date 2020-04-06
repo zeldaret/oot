@@ -46,7 +46,7 @@ glabel BgMizuBwall_Init
 /* 000F0 8089C570 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000810
 /* 000F4 8089C574 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 000F8 8089C578 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 000FC 8089C57C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 000FC 8089C57C 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00100 8089C580 8FA701B4 */  lw      $a3, 0x01B4($sp)           
 /* 00104 8089C584 9643001C */  lhu     $v1, 0x001C($s2)           ## 0000001C

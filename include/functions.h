@@ -516,9 +516,9 @@ s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u3
 // ? func_8003E9A0(?);
 void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, u32 dynaPolyId);
 void func_8003EC50(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, u32 dynaPolyId);
-u32 DynaPolyInfo_RegisterActor(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, Actor* actor, u32 arg3);
+u32 DynaPolyInfo_setActor(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, Actor* actor, u32 arg3);
 DynaPolyActor* DynaPolyInfo_GetActor(CollisionContext* colCtx, u32 dynaPolyId);
-void DynaPolyInfo_Free(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, u32 dynaPolyId);
+void DynaPolyInfo_delReserve(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, u32 dynaPolyId);
 // ? func_8003EE80(?);
 // ? func_8003F8EC(?);
 // ? func_8003F984(?);

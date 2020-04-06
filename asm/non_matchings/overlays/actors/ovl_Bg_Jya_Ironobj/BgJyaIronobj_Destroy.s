@@ -12,7 +12,7 @@ glabel BgJyaIronobj_Destroy
 /* 00A14 808992B4 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00A18 808992B8 8FAE0018 */  lw      $t6, 0x0018($sp)           
 /* 00A1C 808992BC 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 00A20 808992C0 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00A20 808992C0 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00A24 808992C4 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00A28 808992C8 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -24,7 +24,7 @@ glabel ObjKibako2_Init
 /* 00370 80B95D40 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00374 80B95D44 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00378 80B95D48 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 0037C 80B95D4C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 0037C 80B95D4C 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00380 80B95D50 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00384 80B95D54 A60000B4 */  sh      $zero, 0x00B4($s0)         ## 000000B4

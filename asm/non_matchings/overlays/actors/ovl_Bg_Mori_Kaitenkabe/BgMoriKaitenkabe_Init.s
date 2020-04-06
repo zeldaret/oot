@@ -27,7 +27,7 @@ glabel BgMoriKaitenkabe_Init
 /* 000C4 808A4E84 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000C8 808A4E88 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000CC 808A4E8C 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 000D0 808A4E90 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 000D0 808A4E90 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 000D4 808A4E94 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 000D8 808A4E98 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

@@ -30,7 +30,7 @@ glabel EnGb_Init
 /* 00094 80A2F214 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00098 80A2F218 26650810 */  addiu   $a1, $s3, 0x0810           ## $a1 = 00000810
 /* 0009C 80A2F21C 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 000A0 80A2F220 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 000A0 80A2F220 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 000A4 80A2F224 8FA70084 */  lw      $a3, 0x0084($sp)
 /* 000A8 80A2F228 AE42014C */  sw      $v0, 0x014C($s2)           ## 0000014C

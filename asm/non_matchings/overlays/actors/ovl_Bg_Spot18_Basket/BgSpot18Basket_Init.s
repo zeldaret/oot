@@ -20,7 +20,7 @@ glabel BgSpot18Basket_Init
 /* 0025C 808B796C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00260 808B7970 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00264 808B7974 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00268 808B7978 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00268 808B7978 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 0026C 808B797C 8FA70044 */  lw      $a3, 0x0044($sp)           
 /* 00270 808B7980 3C05808C */  lui     $a1, %hi(D_808B85D4)       ## $a1 = 808C0000

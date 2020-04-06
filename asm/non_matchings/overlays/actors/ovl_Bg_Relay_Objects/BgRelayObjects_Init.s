@@ -154,7 +154,7 @@ glabel BgRelayObjects_Init
 .L808A9064:
 /* 00214 808A9064 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00218 808A9068 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 0021C 808A906C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 0021C 808A906C 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00220 808A9070 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00224 808A9074 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

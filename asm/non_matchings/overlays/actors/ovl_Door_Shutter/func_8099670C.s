@@ -48,7 +48,7 @@ glabel func_8099670C
 /* 0050C 809967AC 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00510 809967B0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00514 809967B4 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 00518 809967B8 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00518 809967B8 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 0051C 809967BC 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00520 809967C0 9209016A */  lbu     $t1, 0x016A($s0)           ## 0000016A

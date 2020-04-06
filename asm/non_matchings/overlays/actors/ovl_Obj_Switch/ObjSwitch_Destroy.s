@@ -13,7 +13,7 @@ glabel ObjSwitch_Destroy
 .L80B9D9D0:
 /* 007C0 80B9D9D0 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 /* 007C4 80B9D9D4 AFA70018 */  sw      $a3, 0x0018($sp)           
-/* 007C8 80B9D9D8 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 007C8 80B9D9D8 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 007CC 80B9D9DC 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 007D0 80B9D9E0 8FA70018 */  lw      $a3, 0x0018($sp)           

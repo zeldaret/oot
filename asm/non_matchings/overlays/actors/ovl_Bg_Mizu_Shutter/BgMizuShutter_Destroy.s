@@ -5,7 +5,7 @@ glabel BgMizuShutter_Destroy
 /* 00268 8089F0B8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0026C 8089F0BC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00270 8089F0C0 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00274 8089F0C4 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00274 8089F0C4 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00278 8089F0C8 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 0027C 8089F0CC 8FBF0014 */  lw      $ra, 0x0014($sp)           

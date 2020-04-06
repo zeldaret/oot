@@ -83,7 +83,7 @@ glabel EnAm_Init
 /* 0024C 809AE16C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00250 809AE170 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00254 809AE174 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00258 809AE178 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00258 809AE178 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 0025C 809AE17C 8FA70044 */  lw      $a3, 0x0044($sp)           
 /* 00260 809AE180 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

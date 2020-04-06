@@ -33,7 +33,7 @@ glabel BgSpot00Hanebasi_Init
 .L808A97E8:
 /* 00068 808A97E8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0006C 808A97EC 8FA70058 */  lw      $a3, 0x0058($sp)           
-/* 00070 808A97F0 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00070 808A97F0 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00074 808A97F4 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00078 808A97F8 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C

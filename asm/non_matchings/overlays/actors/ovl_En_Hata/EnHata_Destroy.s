@@ -8,7 +8,7 @@ glabel EnHata_Destroy
 /* 00154 80A50EA4 8FA4001C */  lw      $a0, 0x001C($sp)
 /* 00158 80A50EA8 8FAE0018 */  lw      $t6, 0x0018($sp)
 /* 0015C 80A50EAC 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 00160 80A50EB0 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00160 80A50EB0 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00164 80A50EB4 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00168 80A50EB8 8FBF0014 */  lw      $ra, 0x0014($sp)

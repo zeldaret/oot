@@ -9,7 +9,7 @@ glabel func_8086EAC0
 /* 0030C 8086EADC 11C00009 */  beq     $t6, $zero, .L8086EB04     
 /* 00310 8086EAE0 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00314 8086EAE4 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
-/* 00318 8086EAE8 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00318 8086EAE8 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 0031C 8086EAEC AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 00320 8086EAF0 8FA70018 */  lw      $a3, 0x0018($sp)           

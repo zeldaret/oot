@@ -5,7 +5,7 @@ glabel BgMoriBigst_Destroy
 /* 001F8 808A0DB8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 001FC 808A0DBC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00200 808A0DC0 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00204 808A0DC4 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00204 808A0DC4 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00208 808A0DC8 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 0020C 808A0DCC 8FBF0014 */  lw      $ra, 0x0014($sp)           

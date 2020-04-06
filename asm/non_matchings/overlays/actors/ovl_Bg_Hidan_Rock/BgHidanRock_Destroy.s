@@ -7,7 +7,7 @@ glabel BgHidanRock_Destroy
 /* 0018C 8088B20C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00190 8088B210 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00194 8088B214 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 00198 8088B218 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00198 8088B218 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 0019C 8088B21C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 001A0 8088B220 8FA50018 */  lw      $a1, 0x0018($sp)           

@@ -48,11 +48,11 @@ static void Init(ActorMenkuriKaiten* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, initChain);
     DynaPolyInfo_SetActorMove(&this->actor, 3);
     DynaPolyInfo_Alloc(&D_060042D8, &local_c);
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
+    this->dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
 }
 
 static void Destroy(ActorMenkuriKaiten* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
 static void Update(ActorMenkuriKaiten* this, GlobalContext* globalCtx) {

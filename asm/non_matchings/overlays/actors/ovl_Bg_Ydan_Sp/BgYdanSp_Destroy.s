@@ -7,7 +7,7 @@ glabel BgYdanSp_Destroy
 /* 003F8 808BF808 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 003FC 808BF80C 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00400 808BF810 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 00404 808BF814 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00404 808BF814 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00408 808BF818 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 0040C 808BF81C 8FA50018 */  lw      $a1, 0x0018($sp)           

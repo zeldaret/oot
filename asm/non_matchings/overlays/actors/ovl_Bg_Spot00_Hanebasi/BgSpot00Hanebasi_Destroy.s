@@ -7,7 +7,7 @@ glabel BgSpot00Hanebasi_Destroy
 /* 00420 808A9BA0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00424 808A9BA4 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00428 808A9BA8 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 0042C 808A9BAC 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 0042C 808A9BAC 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00430 808A9BB0 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00434 808A9BB4 8FA20018 */  lw      $v0, 0x0018($sp)           

@@ -15,7 +15,7 @@ glabel BgJyaLift_Destroy
 /* 00154 80899CF4 3C01808A */  lui     $at, %hi(D_8089A020)       ## $at = 808A0000
 /* 00158 80899CF8 A420A020 */  sh      $zero, %lo(D_8089A020)($at) 
 /* 0015C 80899CFC 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 00160 80899D00 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00160 80899D00 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00164 80899D04 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 .L80899D08:

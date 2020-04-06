@@ -7,7 +7,7 @@ glabel EnAm_Destroy
 /* 0030C 809AE22C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00310 809AE230 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00314 809AE234 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 00318 809AE238 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00318 809AE238 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 0031C 809AE23C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00320 809AE240 8FA50018 */  lw      $a1, 0x0018($sp)           

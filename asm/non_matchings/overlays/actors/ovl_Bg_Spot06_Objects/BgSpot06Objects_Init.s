@@ -47,7 +47,7 @@ glabel BgSpot06Objects_Init
 /* 000A0 808AE820 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 000A4 808AE824 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000A8 808AE828 8FA70034 */  lw      $a3, 0x0034($sp)           
-/* 000AC 808AE82C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 000AC 808AE82C 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 000B0 808AE830 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 000B4 808AE834 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
@@ -252,7 +252,7 @@ glabel BgSpot06Objects_Init
 /* 00388 808AEB08 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 0038C 808AEB0C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00390 808AEB10 8FA70034 */  lw      $a3, 0x0034($sp)           
-/* 00394 808AEB14 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00394 808AEB14 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00398 808AEB18 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 0039C 808AEB1C 3C0A808B */  lui     $t2, %hi(func_808AEE00)    ## $t2 = 808B0000

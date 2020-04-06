@@ -7,7 +7,7 @@ glabel BgDodoago_Destroy
 /* 0029C 80871C9C AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 002A0 80871CA0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 002A4 80871CA4 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 002A8 80871CA8 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 002A8 80871CA8 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 002AC 80871CAC 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 002B0 80871CB0 8FA50020 */  lw      $a1, 0x0020($sp)           

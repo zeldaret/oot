@@ -51,7 +51,7 @@ glabel BgYdanMaruta_Init
 /* 000B4 808BEDF4 8FA4007C */  lw      $a0, 0x007C($sp)           
 /* 000B8 808BEDF8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000BC 808BEDFC 8FA7003C */  lw      $a3, 0x003C($sp)           
-/* 000C0 808BEE00 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 000C0 808BEE00 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 000C4 808BEE04 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 000C8 808BEE08 3C01C38C */  lui     $at, 0xC38C                ## $at = C38C0000

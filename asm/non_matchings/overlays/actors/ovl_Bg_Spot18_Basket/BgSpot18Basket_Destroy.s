@@ -7,7 +7,7 @@ glabel BgSpot18Basket_Destroy
 /* 003A8 808B7AB8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 003AC 808B7ABC 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 003B0 808B7AC0 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 003B4 808B7AC4 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 003B4 808B7AC4 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 003B8 808B7AC8 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 003BC 808B7ACC 8FA50018 */  lw      $a1, 0x0018($sp)           

@@ -5,7 +5,7 @@ glabel BgTreemouth_Destroy
 /* 00138 808BC638 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0013C 808BC63C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00140 808BC640 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00144 808BC644 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00144 808BC644 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00148 808BC648 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 0014C 808BC64C 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -22,7 +22,10 @@ typedef struct {
 } PosRot; // size = 0x14
 
 typedef struct {
-    /* 0x00 */ char   unk_00[0x8];
+    /* 0x00 */ char   unk_00[2];
+    /* 0x02 */ u16    unk_02;
+    /* 0x04 */ u16    unk_04;
+    /* 0x06 */ u16    unk_06;
     /* 0x08 */ Vec3s  norm;  // Normal vector
     /* 0x0E */ s16    dist;  // Plane distance from origin
 } CollisionPoly; // size = 0x10

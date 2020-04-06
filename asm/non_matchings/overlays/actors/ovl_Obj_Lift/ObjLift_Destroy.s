@@ -5,7 +5,7 @@ glabel ObjLift_Destroy
 /* 00428 80B964F8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0042C 80B964FC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00430 80B96500 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00434 80B96504 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00434 80B96504 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00438 80B96508 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 0043C 80B9650C 8FBF0014 */  lw      $ra, 0x0014($sp)           

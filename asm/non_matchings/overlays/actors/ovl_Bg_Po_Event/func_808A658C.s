@@ -17,7 +17,7 @@ glabel func_808A658C
 /* 003B4 808A65C4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 003B8 808A65C8 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 003BC 808A65CC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 003C0 808A65D0 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 003C0 808A65D0 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 003C4 808A65D4 8FA70058 */  lw      $a3, 0x0058($sp)           
 /* 003C8 808A65D8 92030168 */  lbu     $v1, 0x0168($s0)           ## 00000168

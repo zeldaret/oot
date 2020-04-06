@@ -43,7 +43,7 @@ glabel func_8087DB24
 /* 0017C 8087DBBC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00180 8087DBC0 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00184 8087DBC4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00188 8087DBC8 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00188 8087DBC8 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 0018C 8087DBCC 8FA70024 */  lw      $a3, 0x0024($sp)           
 /* 00190 8087DBD0 10000002 */  beq     $zero, $zero, .L8087DBDC   

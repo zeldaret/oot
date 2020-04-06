@@ -66,7 +66,7 @@ glabel ObjWarp2block_Init
 /* 0063C 80BA242C 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00640 80BA2430 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00644 80BA2434 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 00648 80BA2438 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00648 80BA2438 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 0064C 80BA243C 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00650 80BA2440 10000003 */  beq     $zero, $zero, .L80BA2450   

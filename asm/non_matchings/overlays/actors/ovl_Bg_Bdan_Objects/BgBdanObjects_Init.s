@@ -171,7 +171,7 @@ glabel BgBdanObjects_Init
 /* 00338 8086BFD8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0033C 8086BFDC 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00340 8086BFE0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00344 8086BFE4 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00344 8086BFE4 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00348 8086BFE8 8FA70044 */  lw      $a3, 0x0044($sp)           
 /* 0034C 8086BFEC AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

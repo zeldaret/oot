@@ -54,7 +54,7 @@ glabel L808AC368
 /* 00238 808AC378 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0023C 808AC37C 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00240 808AC380 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00244 808AC384 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00244 808AC384 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00248 808AC388 8FA70054 */  lw      $a3, 0x0054($sp)           
 /* 0024C 808AC38C 1000002E */  beq     $zero, $zero, .L808AC448   
@@ -68,7 +68,7 @@ glabel L808AC394
 /* 00264 808AC3A4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00268 808AC3A8 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 0026C 808AC3AC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00270 808AC3B0 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00270 808AC3B0 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00274 808AC3B4 8FA70054 */  lw      $a3, 0x0054($sp)           
 /* 00278 808AC3B8 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

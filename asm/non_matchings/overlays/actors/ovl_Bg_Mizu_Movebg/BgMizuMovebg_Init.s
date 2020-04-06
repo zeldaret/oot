@@ -39,7 +39,7 @@ glabel BgMizuMovebg_Init
 /* 000F0 8089DD20 8FA4006C */  lw      $a0, 0x006C($sp)           
 /* 000F4 8089DD24 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000F8 8089DD28 8FA70054 */  lw      $a3, 0x0054($sp)           
-/* 000FC 8089DD2C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 000FC 8089DD2C 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00100 8089DD30 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00104 8089DD34 9608001C */  lhu     $t0, 0x001C($s0)           ## 0000001C

@@ -11,7 +11,7 @@ glabel BgHakaTrap_Destroy
 /* 002C0 8087FF60 1040000D */  beq     $v0, $zero, .L8087FF98     
 /* 002C4 8087FF64 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 002C8 8087FF68 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 002CC 8087FF6C 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 002CC 8087FF6C 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 002D0 8087FF70 8E06014C */  lw      $a2, 0x014C($s0)           ## 0000014C
 /* 002D4 8087FF74 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C

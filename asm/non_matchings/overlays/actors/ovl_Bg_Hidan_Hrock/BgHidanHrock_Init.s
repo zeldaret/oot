@@ -203,7 +203,7 @@ glabel BgHidanHrock_Init
 .L80889410:
 /* 002E0 80889410 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 002E4 80889414 8FA70070 */  lw      $a3, 0x0070($sp)           
-/* 002E8 80889418 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 002E8 80889418 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 002EC 8088941C 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 002F0 80889420 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

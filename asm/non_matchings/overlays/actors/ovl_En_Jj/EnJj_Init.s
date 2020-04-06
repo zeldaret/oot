@@ -102,7 +102,7 @@ glabel EnJj_Init
 /* 00178 80A87978 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0017C 80A8797C 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00180 80A87980 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00184 80A87984 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00184 80A87984 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00188 80A87988 8FA7004C */  lw      $a3, 0x004C($sp)
 /* 0018C 80A8798C AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
@@ -134,7 +134,7 @@ glabel EnJj_Init
 /* 001E0 80A879E0 AFA50044 */  sw      $a1, 0x0044($sp)
 /* 001E4 80A879E4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001E8 80A879E8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 001EC 80A879EC 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 001EC 80A879EC 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 001F0 80A879F0 8FA7004C */  lw      $a3, 0x004C($sp)
 /* 001F4 80A879F4 8FA50044 */  lw      $a1, 0x0044($sp)
@@ -165,7 +165,7 @@ glabel EnJj_Init
 /* 00248 80A87A48 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0024C 80A87A4C 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00250 80A87A50 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00254 80A87A54 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00254 80A87A54 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00258 80A87A58 8FA7004C */  lw      $a3, 0x004C($sp)
 /* 0025C 80A87A5C 3C0C80A8 */  lui     $t4, %hi(func_80A87F44)    ## $t4 = 80A80000

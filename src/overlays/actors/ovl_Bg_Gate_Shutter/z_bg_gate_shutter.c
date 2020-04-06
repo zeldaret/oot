@@ -44,7 +44,7 @@ static void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx) {
 
     DynaPolyInfo_SetActorMove(thisx, 0);
     DynaPolyInfo_Alloc(&D_06001DA8, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
     this->somePosX = thisx->posRot.pos.x;
     this->somePosY = thisx->posRot.pos.y;
     this->somePosZ = thisx->posRot.pos.z;
@@ -63,7 +63,7 @@ static void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx) {
 }
 
 static void BgGateShutter_Destroy(BgGateShutter* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {

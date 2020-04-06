@@ -5,7 +5,7 @@ glabel BgMizuMovebg_Destroy
 /* 00434 8089E064 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00438 8089E068 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0043C 8089E06C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00440 8089E070 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00440 8089E070 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00444 8089E074 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00448 8089E078 8FA20018 */  lw      $v0, 0x0018($sp)           

@@ -27,7 +27,7 @@ glabel BgBowlWall_Init
 .L8086F1B4:
 /* 00054 8086F1B4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00058 8086F1B8 8FA70028 */  lw      $a3, 0x0028($sp)           
-/* 0005C 8086F1BC 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 0005C 8086F1BC 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00060 8086F1C0 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00064 8086F1C4 8E180024 */  lw      $t8, 0x0024($s0)           ## 00000024

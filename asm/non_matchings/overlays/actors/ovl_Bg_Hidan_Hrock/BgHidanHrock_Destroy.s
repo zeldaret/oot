@@ -7,7 +7,7 @@ glabel BgHidanHrock_Destroy
 /* 00340 80889470 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00344 80889474 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00348 80889478 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 0034C 8088947C 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 0034C 8088947C 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00350 80889480 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00354 80889484 8FA50018 */  lw      $a1, 0x0018($sp)           

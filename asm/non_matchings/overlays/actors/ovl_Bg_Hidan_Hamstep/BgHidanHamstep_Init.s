@@ -89,7 +89,7 @@ glabel BgHidanHamstep_Init
 .L80888314:
 /* 002D4 80888314 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 002D8 80888318 8FA7006C */  lw      $a3, 0x006C($sp)           
-/* 002DC 8088831C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 002DC 8088831C 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 002E0 80888320 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 002E4 80888324 8605001C */  lh      $a1, 0x001C($s0)           ## 0000001C

@@ -28,7 +28,7 @@ glabel BgJyaIronobj_Init
 /* 009BC 8089925C 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 009C0 80899260 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 009C4 80899264 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 009C8 80899268 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 009C8 80899268 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 009CC 8089926C 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 009D0 80899270 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

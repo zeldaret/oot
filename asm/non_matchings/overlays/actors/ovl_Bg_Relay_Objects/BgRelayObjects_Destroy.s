@@ -5,7 +5,7 @@ glabel BgRelayObjects_Destroy
 /* 00248 808A9098 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0024C 808A909C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00250 808A90A0 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00254 808A90A4 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00254 808A90A4 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00258 808A90A8 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 0025C 808A90AC 8FAF0018 */  lw      $t7, 0x0018($sp)           

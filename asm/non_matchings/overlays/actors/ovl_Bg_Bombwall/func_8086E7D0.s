@@ -15,7 +15,7 @@ glabel func_8086E7D0
 /* 0002C 8086E7FC 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00030 8086E800 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 00034 8086E804 8FA7001C */  lw      $a3, 0x001C($sp)           
-/* 00038 8086E808 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00038 8086E808 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 0003C 8086E80C 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00040 8086E810 8FAE0028 */  lw      $t6, 0x0028($sp)           

@@ -97,7 +97,7 @@ glabel BgMoriRakkatenjo_Init
 /* 00148 808A56B8 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 0014C 808A56BC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00150 808A56C0 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 00154 808A56C4 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00154 808A56C4 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00158 808A56C8 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 0015C 808A56CC AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

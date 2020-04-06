@@ -60,7 +60,7 @@ static void func_80899740(BgJyaKanaami* this, GlobalContext* globalCtx, u32 coll
 
     DynaPolyInfo_SetActorMove(&this->actor, flag);
     DynaPolyInfo_Alloc(collision, &local_c);
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
+    this->dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
     if (this->dynaPolyId == 0x32) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_kanaami.c", 145,
                      this->actor.id, this->actor.params);
@@ -79,7 +79,7 @@ static void BgJyaKanaami_Init(BgJyaKanaami* this, GlobalContext* globalCtx) {
 }
 
 static void BgJyaKanaami_Destroy(BgJyaKanaami* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
 static void func_80899880(BgJyaKanaami* this) {

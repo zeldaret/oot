@@ -16,7 +16,7 @@ glabel BgPoEvent_Destroy
 /* 00670 808A6880 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 .L808A6884:
 /* 00674 808A6884 AFA70018 */  sw      $a3, 0x0018($sp)           
-/* 00678 808A6888 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00678 808A6888 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 0067C 808A688C 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00680 808A6890 8FA70018 */  lw      $a3, 0x0018($sp)           

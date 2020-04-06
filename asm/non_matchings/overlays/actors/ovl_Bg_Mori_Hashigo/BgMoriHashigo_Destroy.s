@@ -8,7 +8,7 @@ glabel BgMoriHashigo_Destroy
 /* 003D8 808A2938 14400006 */  bne     $v0, $zero, .L808A2954     
 /* 003DC 808A293C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 003E0 808A2940 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
-/* 003E4 808A2944 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 003E4 808A2944 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 003E8 808A2948 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 003EC 808A294C 8FA70018 */  lw      $a3, 0x0018($sp)           

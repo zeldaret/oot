@@ -49,7 +49,7 @@ glabel BgHidanKousi_Init
 /* 000A4 80889A04 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000A8 80889A08 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000AC 80889A0C 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 000B0 80889A10 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 000B0 80889A10 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 000B4 80889A14 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 000B8 80889A18 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C

@@ -6,7 +6,7 @@ glabel BgBdanObjects_Destroy
 /* 00374 8086C014 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 /* 00378 8086C018 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0037C 8086C01C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00380 8086C020 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00380 8086C020 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 00384 8086C024 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 00388 8086C028 8FA70018 */  lw      $a3, 0x0018($sp)           

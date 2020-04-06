@@ -37,7 +37,7 @@ glabel BgIceTurara_Init
 /* 00074 80891F94 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00078 80891F98 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0007C 80891F9C 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 00080 80891FA0 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00080 80891FA0 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00084 80891FA4 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00088 80891FA8 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C

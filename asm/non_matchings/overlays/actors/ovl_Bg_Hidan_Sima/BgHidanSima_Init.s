@@ -32,7 +32,7 @@ glabel BgHidanSima_Init
 .L8088E434:
 /* 00064 8088E434 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00068 8088E438 8FA70034 */  lw      $a3, 0x0034($sp)           
-/* 0006C 8088E43C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 0006C 8088E43C 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00070 8088E440 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00074 8088E444 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

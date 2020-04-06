@@ -5,7 +5,7 @@ glabel BgSpot17Bakudankabe_Destroy
 /* 003CC 808B6F8C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 003D0 808B6F90 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 003D4 808B6F94 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 003D8 808B6F98 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 003D8 808B6F98 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 003DC 808B6F9C 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 003E0 808B6FA0 8FBF0014 */  lw      $ra, 0x0014($sp)           

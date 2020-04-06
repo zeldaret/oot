@@ -37,7 +37,7 @@ glabel BgGndFiremeiro_Init
 /* 0007C 8087953C 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00080 80879540 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00084 80879544 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 00088 80879548 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00088 80879548 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 0008C 8087954C 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00090 80879550 3C198088 */  lui     $t9, %hi(func_80879808)    ## $t9 = 80880000

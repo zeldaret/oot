@@ -21,7 +21,7 @@ glabel BgHidanRsekizou_Init
 /* 00040 8088C240 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00044 8088C244 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00048 8088C248 8FA70030 */  lw      $a3, 0x0030($sp)           
-/* 0004C 8088C24C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 0004C 8088C24C 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00050 8088C250 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00054 8088C254 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

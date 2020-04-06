@@ -21,7 +21,7 @@ glabel BgSpot01Idohashira_Init
 /* 0094C 808AB62C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00950 808AB630 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00954 808AB634 8FA70028 */  lw      $a3, 0x0028($sp)           
-/* 00958 808AB638 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00958 808AB638 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 0095C 808AB63C 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00960 808AB640 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000

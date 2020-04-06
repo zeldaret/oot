@@ -22,7 +22,7 @@ glabel BgDodoago_Init
 /* 0016C 80871B6C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00170 80871B70 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00174 80871B74 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00178 80871B78 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00178 80871B78 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 0017C 80871B7C 8FA7002C */  lw      $a3, 0x002C($sp)           
 /* 00180 80871B80 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

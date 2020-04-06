@@ -86,7 +86,7 @@ glabel BgYdanHasi_Init
 /* 00130 808BE630 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00134 808BE634 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00138 808BE638 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 0013C 808BE63C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 0013C 808BE63C 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00140 808BE640 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00144 808BE644 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

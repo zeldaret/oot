@@ -70,11 +70,11 @@ static void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx) {
             thisx->flags |= 0x10;
         }
     }
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
+    this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
 }
 
 static void BgSpot05Soko_Destroy(BgSpot05Soko* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx) {

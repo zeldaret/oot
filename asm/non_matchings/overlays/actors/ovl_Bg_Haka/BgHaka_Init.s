@@ -21,7 +21,7 @@ glabel BgHaka_Init
 /* 00040 8087B6F0 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00044 8087B6F4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00048 8087B6F8 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 0004C 8087B6FC 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 0004C 8087B6FC 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00050 8087B700 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00054 8087B704 3C0E8088 */  lui     $t6, %hi(func_8087B7E8)    ## $t6 = 80880000

@@ -49,7 +49,7 @@ static void Init(ActorBgUmajump* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, initChain);
     DynaPolyInfo_SetActorMove(&this->actor, DPM_UNK);
     DynaPolyInfo_Alloc(&D_06001438, &sp24);
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp24);
+    this->dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp24);
 
     if (this->actor.params == 1) {
         if ((!Flags_GetEventChkInf(0x18)) && (DREG(1) == 0)) {
@@ -61,7 +61,7 @@ static void Init(ActorBgUmajump* this, GlobalContext* globalCtx) {
 }
 
 static void Destroy(ActorBgUmajump* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
 static void Update(ActorBgUmajump* this, GlobalContext* globalCtx) {

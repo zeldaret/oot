@@ -86,7 +86,7 @@ glabel BgHidanSekizou_Init
 /* 004E8 8088D3A8 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 004EC 8088D3AC 8FA70040 */  lw      $a3, 0x0040($sp)           
 /* 004F0 8088D3B0 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00000000
-/* 004F4 8088D3B4 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 004F4 8088D3B4 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 004F8 8088D3B8 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 004FC 8088D3BC 3C068089 */  lui     $a2, %hi(D_8088E268)       ## $a2 = 80890000

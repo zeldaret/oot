@@ -50,12 +50,12 @@ static void BgMizuUzu_Init(BgMizuUzu* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, initChain);
     DynaPolyInfo_SetActorMove(thisx, 0);
     DynaPolyInfo_Alloc(&D_060074EC, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
     this->actionFunc = func_8089F788;
 }
 
 static void BgMizuUzu_Destroy(BgMizuUzu* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx) {

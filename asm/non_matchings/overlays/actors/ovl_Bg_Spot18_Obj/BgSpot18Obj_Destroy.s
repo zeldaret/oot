@@ -5,7 +5,7 @@ glabel BgSpot18Obj_Destroy
 /* 0048C 808B8D9C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00490 808B8DA0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00494 808B8DA4 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00498 808B8DA8 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00498 808B8DA8 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 0049C 808B8DAC 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 004A0 808B8DB0 8FBF0014 */  lw      $ra, 0x0014($sp)           

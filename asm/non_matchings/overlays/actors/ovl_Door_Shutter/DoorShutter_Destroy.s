@@ -6,7 +6,7 @@ glabel DoorShutter_Destroy
 /* 0040C 809966AC 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 /* 00410 809966B0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00414 809966B4 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00418 809966B8 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 00418 809966B8 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 0041C 809966BC AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 00420 809966C0 8FA70018 */  lw      $a3, 0x0018($sp)           

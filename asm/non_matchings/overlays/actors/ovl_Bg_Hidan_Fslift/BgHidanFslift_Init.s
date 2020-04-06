@@ -21,7 +21,7 @@ glabel BgHidanFslift_Init
 /* 00040 80886E80 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 00044 80886E84 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00048 80886E88 8FA70044 */  lw      $a3, 0x0044($sp)           
-/* 0004C 80886E8C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 0004C 80886E8C 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00050 80886E90 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00054 80886E94 C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024

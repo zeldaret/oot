@@ -5,7 +5,7 @@ glabel BgBreakwall_Destroy
 /* 001BC 8086FD9C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 001C0 8086FDA0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 001C4 8086FDA4 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 001C8 8086FDA8 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 001C8 8086FDA8 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 001CC 8086FDAC 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 001D0 8086FDB0 8FBF0014 */  lw      $ra, 0x0014($sp)           

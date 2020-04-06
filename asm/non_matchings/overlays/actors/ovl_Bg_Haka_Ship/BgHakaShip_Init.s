@@ -45,7 +45,7 @@ glabel BgHakaShip_Init
 /* 00094 8087F194 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 00098 8087F198 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0009C 8087F19C 8FA70044 */  lw      $a3, 0x0044($sp)           
-/* 000A0 8087F1A0 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 000A0 8087F1A0 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 000A4 8087F1A4 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 000A8 8087F1A8 860D00B6 */  lh      $t5, 0x00B6($s0)           ## 000000B6

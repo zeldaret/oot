@@ -163,7 +163,7 @@ glabel BgHakaTrap_Init
 /* 00244 8087FEE4 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00248 8087FEE8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0024C 8087FEEC 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 00250 8087FEF0 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00250 8087FEF0 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00254 8087FEF4 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00258 8087FEF8 10000006 */  beq     $zero, $zero, .L8087FF14   

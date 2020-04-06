@@ -97,7 +97,7 @@ glabel BgHidanRock_Init
 .L8088B1CC:
 /* 0014C 8088B1CC 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00150 8088B1D0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00154 8088B1D4 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
+/* 00154 8088B1D4 0C00FA9D */  jal     DynaPolyInfo_setActor
               ## DynaPolyInfo_setActor
 /* 00158 8088B1D8 8FA70024 */  lw      $a3, 0x0024($sp)           
 /* 0015C 8088B1DC AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

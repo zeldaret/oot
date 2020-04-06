@@ -5,7 +5,7 @@ glabel EnJsjutan_Destroy
 /* 0009C 80A8983C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 000A0 80A89840 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 000A4 80A89844 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 000A8 80A89848 0C00FB56 */  jal     DynaPolyInfo_Free
+/* 000A8 80A89848 0C00FB56 */  jal     DynaPolyInfo_delReserve
               ## DynaPolyInfo_delReserve
 /* 000AC 80A8984C 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 000B0 80A89850 8FBF0014 */  lw      $ra, 0x0014($sp)           
