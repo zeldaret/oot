@@ -17,6 +17,20 @@ typedef struct {
     f32 normalDist;
 } TriNorm;
 
+typedef struct {
+    s16 radius;
+    s16 height;
+    s16 yShift;
+    Vec3s pos;
+} Cylinder16;
+
+typedef struct {
+    f32 radius;
+    f32 height;
+    f32 yShift;
+    Vec3f pos;
+} Cylinderf;
+
 void func_800CAF5C(Vec3f *arg0, Vec3f *arg1, f32 arg2, Vec3f *arg3);
 void func_800CAFA0(Vec3f* arg0, Vec3f* arg1, f32 arg2, Vec3f* arg3);
 f32 Math3D_DotProduct(Vec3f* vec1, Vec3f* vec2);
@@ -71,23 +85,23 @@ s32 func_800CE084(f32 arg0, f32 arg1, Vec3f *arg2, Vec3f *arg3, Vec3f *arg4);
 s32 func_800CE15C(f32 arg0, f32 arg1, f32 arg2, f32 arg3, Vec3f* arg4, Vec3f *arg5, Vec3f *arg6, s32 arg7);
 s32 func_800CE25C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, Vec3f* arg7, Vec3f *arg8, Vec3f *arg9, s32 argA);
 void func_800CE3C0(TriNorm* tri, Vec3f *va, Vec3f *vb, Vec3f *vc);
-s32 func_800CE46C(Vec3s *arg0, Vec3f* arg1);
+s32 func_800CE46C(Vec4s *arg0, Vec3f* arg1);
 s32 func_800CE4B8(f32 param_1, f32 param_2, f32 param_3, f32 param_4, f32 param_5,f32 param_6, f32 *param_7);
-void func_800CE800(Vec4s *arg0, Vec3f *arg1, Vec3f *arg2);
+void func_800CE800(Vec4s *arg0, TriNorm *arg1, Vec3f *arg2);
 s32 func_800CFC4C(Vec3f* arg0, Vec3f* arg1);
 s32 func_800CFC6C(Vec4s* arg0, Vec4s* arg1);
 s32 func_800CFC8C(Vec4s* arg0, Vec4s* arg1, f32* arg2);
 s32 func_800CFCAC(Vec4s *arg0, Vec4s *arg1, f32 *arg2, f32 *arg3);
 s32 func_800CFDA4(s16 *arg0, s16 *arg1, f32 *arg2, f32 *arg3);
 s32 func_800CFD84(s16* arg0, s16* arg1, f32* arg2);
-s32 func_800CFDA4(s16 *arg0, s16 *arg1, f32 *arg2, f32 *arg3);
-s32 func_800CFF14(Vec3s* arg0, Vec3s* arg1, f32* arg2);
-s32 func_800CFF34(Vec3s *arg0, Vec3s *arg1, f32 *arg2, f32 *arg3);
+s32 func_800CFF14(Cylinder16* arg0, Cylinder16* arg1, f32* arg2);
+s32 func_800CFF34(Cylinder16 *arg0, Cylinder16 *arg1, f32 *arg2, f32 *arg3);
 s32 func_800D0480(Vec4s *arg0, f32 arg1, f32 arg2);
 s32 func_800D04F0(Vec4s *arg0, f32 arg1, f32 arg2);
 s32 func_800D0560(Vec4s *arg0, f32 arg1, f32 arg2);
 void func_800D05D0(s32 arg0, s32 arg1);
 void func_800D05DC(s32 arg0, s32 arg1);
-
-
+s32 func_800CE934(Vec4s *arg0, TriNorm *arg1, Vec3f *arg2);
+f32 func_800CB338(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, TriNorm *arg3, f32 arg4);
+s32 func_800CE600(Vec4s *arg0, TriNorm *arg1);
 #endif

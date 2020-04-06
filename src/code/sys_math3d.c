@@ -2,6 +2,7 @@
 #include <global.h>
 #include <vt.h>
 #include <sys_math3d.h>
+#define NON_MATCHING
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CA7D0.s")
 
@@ -102,31 +103,35 @@ f32 func_800CB5D8(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
 }
 
 f32 Math3D_Vec3f_HadamardProduct(Vec3f *vec) {
-    return (vec->x * vec->x) + (vec->y * vec->y) + (vec->z * vec->z);
+    return SQ(vec->x) + SQ(vec->y) + SQ(vec->z);
 }
 
 f32 Math3D_Vec3fMagnitude(Vec3f* vec) {
      return sqrt(Math3D_Vec3f_HadamardProduct(vec));
 }
 
-f32 func_800CB650(Vec3f* arg0, Vec3f* arg1) {
-    Vec3f sp1C;
+f32 func_800CB650(Vec3f* a, Vec3f* b) {
+    Vec3f diff;
 
-    Math_Vec3f_Diff(arg0, arg1, &sp1C);
-    return Math3D_Vec3f_HadamardProduct(&sp1C);
+    Math_Vec3f_Diff(a, b, &diff);
+    return Math3D_Vec3f_HadamardProduct(&diff);
 }
 
-f32 Math3D_Vec3f_DistXYZ(Vec3f* arg0, Vec3f* arg1) {
-    return Math_Vec3f_DistXYZ(arg0, arg1);
+f32 Math3D_Vec3f_DistXYZ(Vec3f* a, Vec3f* b) {
+    return Math_Vec3f_DistXYZ(a, b);
 }
 
-f32 func_800CB698(Vec3s *arg0, Vec3f *arg1) {
-    Vec3f vec;
+/*
+ * Calculates the magnitude of the vector produced from
+ * a - b.
+*/
+f32 func_800CB698(Vec3s *a, Vec3f *b) {
+    Vec3f diff;
 
-    vec.x = arg0->x - arg1->x;
-    vec.y = arg0->y - arg1->y;
-    vec.z = arg0->z - arg1->z;
-    return Math3D_Vec3fMagnitude(&vec);
+    diff.x = a->x - b->x;
+    diff.y = a->y - b->y;
+    diff.z = a->z - b->z;
+    return Math3D_Vec3fMagnitude(&diff);
 }
 
 f32 func_800CB70C(Vec3f *arg0, Vec3f *arg1, f32 arg2, f32 arg3) {
@@ -850,82 +855,155 @@ void func_800CE3C0(TriNorm* tri, Vec3f *va, Vec3f *vb, Vec3f *vc) {
     func_800CC8B4(va, vb, vc, &tri->unitNormal.x, &tri->unitNormal.y, &tri->unitNormal.z, &tri->normalDist);
 }
 
-s32 func_800CE46C(Vec3s *arg0, Vec3f* arg1) {
+s32 func_800CE46C(Vec4s *arg0, Vec3f* arg1) {
 
-    if (func_800CB698(arg0, arg1) < (f32) arg0[1].x) {
+    if (func_800CB698(arg0, arg1) < arg0->w) {
         return 1;
     }
     return 0;
 }
 
-extern f32 D_8016A6B8;
-extern f32 D_8016A6BC;
-#ifdef NON_MATCHING
-s32 func_800CE4B8(f32 param_1,f32 param_2,f32 param_3,f32 param_4,f32 param_5,
-                 f32 param_6,f32 *param_7)
+#pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CE4B8.s")
 
-{
-  s32 iVar1;
-  f32 fVar2;
-  f32 fVar3;
-  f32 fVar4;
-  f32 f1;
-  f32 f2;
-  
-  f1 = param_6 - param_4; // 8
-  f2 = param_5 - param_3; // 20 c
-  iVar1 = 0;
-  fVar4 = SQ(f2) + SQ(f1);
-  if (fabsf(fVar4) < 0.008f) {
-    *param_7 = 0.0f;
-    return 0;
-  }
-  else {
-    fVar3 = (param_2 - param_4) * f1;
-    fVar2 = ((param_1 - param_3) * f2 + fVar3) / fVar4;
-    if ((0.0f <= fVar2) && (fVar2 <= 1.0f)) {
-      iVar1 = 1;
+#ifdef NON_MATCHING
+s32 func_800CE600(Vec4s *arg0, TriNorm *arg1) {
+    f32 temp_f2;
+    f32 temp_f0_2;
+    Vec3f v;
+    static Vec3f D_8016A6C8;
+
+    if ((func_800CE46C(arg0, &arg1->vtx[0]) != 0) || (func_800CE46C(arg0, &arg1->vtx[1]) != 0)) {
+        return 1;
     }
-    D_8016A6B8 = f2 * fVar2 + param_3;
-    D_8016A6BC = f1 * fVar2 + param_4;
-    *param_7 = (D_8016A6B8 - param_1) * (D_8016A6B8 - param_1) +
-               (D_8016A6BC - param_2) * (D_8016A6BC - param_2);
-  }
-  return iVar1;
+
+    temp_f2 = SQ((arg1->vtx[1].x - arg1->vtx[0].x)) + SQ((arg1->vtx[1].y - arg1->vtx[0].y)) + SQ((arg1->vtx[1].z - arg1->vtx[0].z));
+    if (0.008f < fabsf(temp_f2)) {
+        return 0;
+    }
+
+    v.x = arg0->x;
+    v.y = arg0->y;
+    v.z = arg0->z;
+
+    temp_f0_2 = ((((v.x - arg1->vtx[0].x) * (arg1->vtx[1].x - arg1->vtx[0].x)) + ((v.y - arg1->vtx[0].y) * (arg1->vtx[1].y - arg1->vtx[0].y))) + ((v.z - arg1->vtx[0].z) * (arg1->vtx[1].z - arg1->vtx[0].z))) / temp_f2;
+    if ((temp_f0_2 < 0.0f) || (1.0f < temp_f0_2)) {
+        return 0;
+    }
+
+    D_8016A6C8.x = ((arg1->vtx[1].x - arg1->vtx[0].x) * temp_f0_2) + arg1->vtx[0].x;
+    D_8016A6C8.y = ((arg1->vtx[1].y - arg1->vtx[0].y) * temp_f0_2) + arg1->vtx[0].y;
+    D_8016A6C8.z = ((arg1->vtx[1].z - arg1->vtx[0].z) * temp_f0_2) + arg1->vtx[0].x;
+
+    if ((SQ(D_8016A6C8.x - v.x) + SQ(D_8016A6C8.y - v.y) + SQ(D_8016A6C8.z - v.z)) <= SQ((f32)arg0->w)) {
+        return 1;
+    }
+    return 0;
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CE4B8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CE600.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CE600.s")
-extern f32 D_8016A6D8;
-extern f32 D_8016A6E0;
-extern f32 D_8016A6E8;
-extern f32 D_8016A6F0;
 #ifdef NON_MATCHING
-void func_800CE800(Vec4s *arg0, Vec3f *arg1, Vec3f *arg2) {
+void func_800CE800(Vec4s *arg0, TriNorm *arg1, Vec3f *arg2) {
+// one regalloc
+    static Vec3f D_8016A6D8;
+    static Vec3f D_8016A6E8;
     f32 temp_ret;
 
-    D_8016A6D8 = (f32) ((arg1[1].x + arg1->x) * 0.5f);
-    D_8016A6D8 = (f32) ((arg1[1].y + arg1->y) * 0.5f);
-    D_8016A6E0 = (f32) ((arg1[1].z + arg1->z) * 0.5f);
-    D_8016A6E8 = (f32) arg0->x;
-    D_8016A6E8 = (f32) arg0->y;
-    D_8016A6F0 = (f32) arg0->z;
+    D_8016A6D8.x = ((arg1->vtx[0].x + arg1->vtx[1].x) * 0.5f);
+    D_8016A6D8.y = ((arg1->vtx[0].y + arg1->vtx[1].y) * 0.5f);
+    D_8016A6D8.z = ((arg1->vtx[0].z + arg1->vtx[1].z) * 0.5f);
+    D_8016A6E8.x = arg0->x;
+    D_8016A6E8.y = arg0->y;
+    D_8016A6E8.z = arg0->z;
     temp_ret = Math3D_Vec3f_DistXYZ(&D_8016A6D8, &D_8016A6E8);
     if (fabsf(temp_ret) < 0.008f) {
-        arg2->x = (f32) D_8016A6E8;
-        arg2->y = (f32) D_8016A6E8;
-        arg2->z = (f32) D_8016A6F0;
+        arg2->x = D_8016A6E8.x;
+        arg2->y = D_8016A6E8.y;
+        arg2->z = D_8016A6E8.z;
         return;
     }
-    func_800CAFA0(&D_8016A6E8, &D_8016A6D8, (f32) arg0->y / temp_ret, arg2);
+    func_800CAFA0(&D_8016A6E8, &D_8016A6D8, arg0->w / temp_ret, arg2);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CE800.s")
 #endif
 
+#ifdef NON_MATCHING
+s32 func_800CE934(Vec4s *arg0, TriNorm *arg1, Vec3f *arg2) {
+    f32 temp_f16;
+    f32 temp_f18;
+    f32 temp_f2;
+    f32 temp_ret;
+    static TriNorm D_8016A6F8;
+
+    D_8016A6F8.vtx[2].x = arg0->x;
+    D_8016A6F8.vtx[2].y = arg0->y;
+    D_8016A6F8.vtx[2].z = arg0->z;
+
+    if (func_800CB338(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], &D_8016A6F8.vtx[2], arg0->w) == 0) {
+        return 0;
+    }
+    temp_ret = func_800CCA3C(arg1->unitNormal.x, arg1->unitNormal.y, arg1->unitNormal.z, arg1->normalDist, &D_8016A6F8.vtx[2]);
+    
+    if (arg0->w < temp_ret) {
+        return 0;
+    }
+    D_8016A6F8.vtx[0] = arg1->vtx[0];
+    D_8016A6F8.vtx[1] = arg1->vtx[1];
+    if (func_800CE600(arg0, &D_8016A6F8) != 0) {
+        func_800CE800(arg0, arg1, arg2);
+        return 1;
+    }
+    D_8016A6F8.vtx[0] = arg1->vtx[1];
+    D_8016A6F8.vtx[1] = arg1->vtx[2];
+    if (func_800CE600(arg0, &D_8016A6F8) != 0) {
+        func_800CE800(arg0, arg1, arg2);
+        return 1;
+    }
+    D_8016A6F8.vtx[0] = arg1->vtx[2];
+    D_8016A6F8.vtx[1] = arg1->vtx[0];
+    if (func_800CE600(arg0, &D_8016A6F8) != 0) {
+        func_800CE800(arg0, arg1, arg2);
+        return 1;
+    }
+    temp_f2 = arg1->unitNormal.x * temp_ret;
+    temp_f16 = arg1->unitNormal.y * temp_ret;
+    temp_f18 = arg1->unitNormal.z * temp_ret;
+    if (0.0f < func_800CC9C8(arg1->unitNormal.x, arg1->unitNormal.y, arg1->unitNormal.z, arg1->normalDist, &D_8016A6F8.vtx[2])) {
+        
+        D_8016A6F8.unitNormal.x = D_8016A6F8.vtx[2].x - temp_f2;
+        D_8016A6F8.unitNormal.y = D_8016A6F8.vtx[2].y - temp_f16;
+        D_8016A6F8.unitNormal.z = D_8016A6F8.vtx[2].z - temp_f18;
+    } else {
+
+        D_8016A6F8.unitNormal.x = D_8016A6F8.vtx[2].x + temp_f2;
+        D_8016A6F8.unitNormal.y = D_8016A6F8.vtx[2].y + temp_f16;
+        D_8016A6F8.unitNormal.z = D_8016A6F8.vtx[2].z + temp_f18;
+    }
+    if (0.5f < fabsf(arg1->unitNormal.y)) {
+        if (func_800CCF00(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2],D_8016A6F8.unitNormal.z, D_8016A6F8.unitNormal.x, 0.0f, arg1->unitNormal.y) != 0) {
+            func_800CE800(arg0, arg1, arg2);
+            return 1;
+        }
+    } else {
+        if (0.5f < fabsf(arg1->unitNormal.x)) {
+            if (func_800CD668(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A6F8.unitNormal.y, D_8016A6F8.unitNormal.z, 0.0f, arg1->unitNormal.x) != 0) {
+                func_800CE800(arg0, arg1, arg2);
+                return 1;
+            }
+        } else {
+            if (func_800CDD18(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A6F8.unitNormal.x, D_8016A6F8.unitNormal.y, 0.0f, arg1->unitNormal.z) != 0) {
+                func_800CE800(arg0, arg1, arg2);
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CE934.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CED50.s")
 
@@ -973,181 +1051,55 @@ s32 func_800CFCAC(Vec4s *arg0, Vec4s *arg1, f32 *arg2, f32 *arg3) {
     *arg2 = 0.0f;
     return 0;
 }
-s32 func_800CFDA4(s16 *arg0, s16 *arg1, f32 *arg2, f32 *arg3);
+
 s32 func_800CFD84(s16* arg0, s16* arg1, f32* arg2) {
     f32 sp1C;
 
     return func_800CFDA4(arg0, arg1, arg2, &sp1C);
 }
 
-f32 D_8016A77C;
-f32 D_8016A784;
-f32 D_8016A770;
-f32 D_8016A768;
-f32 D_8016A764;
-
-#ifdef NON_MATCHING
-s32 func_800CFDA4(s16 *arg0, s16 *arg1, f32 *arg2, f32 *arg3) {
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f12;
-    f32 temp_f14;
-    f32 temp_f16;
-    f32 temp_f2;
-
-    if (arg0[3] <= 0 || arg1[0] <= 0) {
-        return 0;
-    }
-    temp_f2 = (f32) arg0[3];
-    D_8016A77C = (f32) arg0[1];
-    D_8016A784 = temp_f2;
-    D_8016A770 = (f32) arg1[4];
-    D_8016A768 = (f32) arg1[2];
-    D_8016A764 = (f32) arg1[1];
-    temp_f12 = (f32) arg0[0] - (f32) arg1[3];
-    temp_f14 = (f32) arg0[2] - (f32) arg1[5];
-    temp_f16 = temp_f2 + (f32) arg1[0];
-    temp_f0 = sqrtf((temp_f12 * temp_f12) + (temp_f14 * temp_f14));
-    *arg3 = temp_f0;
-    if (temp_f16 < temp_f0) {
-        return 0;
-    }
-    temp_f0_2 = D_8016A770 + D_8016A768;
-    if (temp_f0_2 <= (D_8016A77C + D_8016A784)) {
-        if ((D_8016A77C - D_8016A784) <= (temp_f0_2 + D_8016A764)) {
-            *arg2 = (f32) (temp_f16 - *arg3);
-            return 1;
-        }
-    }
-    return 0;
-}
-#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CFDA4.s")
-#endif
 
-s32 func_800CFF14(Vec3s* arg0, Vec3s* arg1, f32* arg2) {
+s32 func_800CFF14(Cylinder16* arg0, Cylinder16* arg1, f32* arg2) {
     f32 sp1C;
 
     func_800CFF34(arg0, arg1, arg2, &sp1C);
 }
 
-Vec3f D_8016A788;
-Vec3f D_8016A7A0;
-Vec3f D_8016A794;
-Vec3f D_8016A7AC;
+s32 func_800CFF34(Cylinder16 *ca, Cylinder16 *cb, f32 *arg2, f32 *arg3) {
+    static Cylinderf caf;
+    static Cylinderf cbf;
 
-#ifdef NON_MATCHING
-s32 func_800CFF34(Vec3s *arg0, Vec3s *arg1, f32 *arg2, f32 *arg3) {
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f12;
-    f32 temp_f14;
-    f32 temp_f2;
-    f32 temp_f2_2;
-
-    Math_Vec3s_ToVec3f(&D_8016A794, &arg0[1]);
-    D_8016A788.x = (f32) arg0->x;
-    D_8016A788.z = (f32) arg0->z;
-    D_8016A788.y = (f32) arg0->y;
-    Math_Vec3s_ToVec3f(&D_8016A7AC, &arg1[1]);
-    D_8016A7A0.x = (f32) arg1->x;
-    D_8016A7A0.z = (f32) arg1->z;
-    D_8016A7A0.y = (f32) arg1->y;
-    temp_f2 = D_8016A794.x - D_8016A7AC.y;
-    temp_f12 = D_8016A794.z - D_8016A7AC.z;
-    temp_f0 = sqrtf((temp_f2 * temp_f2) + (temp_f12 * temp_f12));
-    *arg3 = temp_f0;
-    temp_f14 = D_8016A788.x + D_8016A7A0.x;
-    if (temp_f14 < temp_f0) {
+    Math_Vec3s_ToVec3f(&caf.pos, &ca->pos);
+    caf.radius = ca->radius;
+    caf.yShift = ca->yShift;
+    caf.height = ca->height;
+    Math_Vec3s_ToVec3f(&cbf.pos, &cb->pos);
+    cbf.radius = cb->radius;
+    cbf.yShift = cb->yShift;
+    cbf.height = cb->height;
+    *arg3 = sqrtf(SQ(caf.pos.x - cbf.pos.x) + SQ(caf.pos.z - cbf.pos.z));
+    if ((caf.radius + cbf.radius) < *arg3) {
         return 0;
     }
-    temp_f0_2 = D_8016A794.y + D_8016A788.z;
-    temp_f2_2 = D_8016A7AC.y + D_8016A7A0.z;
-
-    if ((temp_f0_2 + D_8016A788.y) < temp_f2_2 || ((temp_f2_2 + D_8016A7A0.y) < temp_f0_2)) {
+    if (((caf.pos.y + caf.yShift) + caf.height) < (cbf.pos.y + cbf.yShift) || 
+        (((cbf.pos.y + cbf.yShift) + cbf.height) < (caf.pos.y + caf.yShift))) {
         return 0;
     }
-    
-    *arg2 = temp_f14 - *arg3;
+
+    *arg2 = caf.radius + cbf.radius - *arg3;
     return 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CFF34.s")
-#endif
 
-#ifdef NON_MATCHING/*
-s32 func_800D0104(void *arg0, void *arg1, s32 arg2) {
-    f32 sp5C;
-    f32 sp58;
-    s32 sp50;
-    s32 sp4C;
-    s32 sp48;
-    s32 sp44;
-    s32 sp40;
-    f32 temp_ret;
-    f32 temp_ret_2;
-    s32 temp_a0;
-    s32 temp_a0_2;
-    s32 temp_a1;
-    s32 temp_a1_2;
-    s32 temp_a1_3;
-    s32 temp_a1_4;
-
-    temp_a0 = arg0 + 0x24;
-    sp50 = temp_a0;
-    temp_a1 = arg1 + 0xC;
-    sp5C = func_800CCA04(temp_a0);
-    sp4C = temp_a1;
-    temp_a1_2 = arg1 + 0x18;
-    sp48 = temp_a1_2;
-    sp58 = func_800CCA04(temp_a0, temp_a1);
-    temp_ret = func_800CCA04(temp_a0, temp_a1_2);
-    if (((0.0f < sp5C) && (0.0f < sp58) && (0.0f < temp_ret)) || ((sp5C < 0.0f) && (sp58 < 0.0f) && (temp_ret < 0.0f))) {
-        return 0;
-    }
-    temp_a0_2 = arg1 + 0x24;
-    sp50 = temp_a0_2;
-    temp_a1_3 = arg0 + 0xC;
-    sp5C = func_800CCA04(sp58, sp5C, temp_a0_2, arg0);
-    sp44 = temp_a1_3;
-    temp_a1_4 = arg0 + 0x18;
-    sp40 = temp_a1_4;
-    sp58 = func_800CCA04(temp_a0_2, temp_a1_3);
-    temp_ret_2 = func_800CCA04(temp_a0_2, temp_a1_4);
-    if ((0.0f < sp5C && (0.0f < sp58) && (0.0f < temp_ret_2)) || ((sp5C < 0.0f) && (sp58 < 0.0f) && (temp_ret_2 < 0.0f))) {
-        return 0;
-    }
-    if (func_800CE25C(sp58, arg1, sp4C, sp48, arg1->unk24, (f32) arg1->unk28, (f32) arg1->unk2C, (f32) arg1->unk30, arg0, sp44, arg2, 0) != 0) {
-        return 1;
-    }
-    if (func_800CE25C(arg1, sp4C, sp48, arg1->unk24, (f32) arg1->unk28, (f32) arg1->unk2C, (f32) arg1->unk30, sp44, sp40, arg2, 0) != 0) {
-        return 1;
-    }
-    if (func_800CE25C(arg1, sp4C, sp48, arg1->unk24, (f32) arg1->unk28, (f32) arg1->unk2C, (f32) arg1->unk30, sp40, arg0, arg2, 0) != 0) {
-        return 1;
-    }
-    if (func_800CE25C(arg0, sp44, sp40, arg0->unk24, (f32) arg0->unk28, (f32) arg0->unk2C, (f32) arg0->unk30, arg1, sp4C, arg2, 0) == 1) {
-        return 1;
-    }
-    if (func_800CE25C(arg0, sp44, sp40, arg0->unk24, (f32) arg0->unk28, (f32) arg0->unk2C, (f32) arg0->unk30, sp4C, sp48, arg2, 0) == 1) {
-        return 1;
-    }
-    if (func_800CE25C(arg0, sp44, sp40, arg0->unk24, (f32) arg0->unk28, (f32) arg0->unk2C, (f32) arg0->unk30, sp48, arg1, arg2, 0) == 1) {
-        return 1;
-    }
-    return 0;
-}*/
-#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800D0104.s")
-#endif
 
 s32 func_800D0480(Vec4s *arg0, f32 arg1, f32 arg2) {
     f32 temp_f0;
     f32 temp_f2;
 
-    temp_f0 = (f32) arg0->x - arg1;
-    temp_f2 = (f32) arg0->z - arg2;
-    if (((temp_f0 * temp_f0) + (temp_f2 * temp_f2)) <= (f32) (arg0->w * arg0->w)) {
+    temp_f0 = arg0->x - arg1;
+    temp_f2 = arg0->z - arg2;
+    if ((SQ(temp_f0) + SQ(temp_f2)) <= SQ(arg0->w) ) {
         return 1;
     }
     return 0;
@@ -1157,9 +1109,9 @@ s32 func_800D04F0(Vec4s *arg0, f32 arg1, f32 arg2) {
     f32 temp_f0;
     f32 temp_f2;
 
-    temp_f0 = (f32) arg0->x - arg1;
-    temp_f2 = (f32) arg0->y - arg2;
-    if (((temp_f0 * temp_f0) + (temp_f2 * temp_f2)) <= (f32) (arg0->w * arg0->w)) {
+    temp_f0 = arg0->x - arg1;
+    temp_f2 = arg0->y - arg2;
+    if ((SQ(temp_f0) + SQ(temp_f2)) <= SQ(arg0->w)) {
         return 1;
     }
     return 0;
@@ -1169,9 +1121,9 @@ s32 func_800D0560(Vec4s *arg0, f32 arg1, f32 arg2) {
     f32 temp_f0;
     f32 temp_f2;
 
-    temp_f0 = (f32) arg0->y - arg1;
-    temp_f2 = (f32) arg0->z - arg2;
-    if (((temp_f0 * temp_f0) + (temp_f2 * temp_f2)) <= (f32) (arg0->w * arg0->w)) {
+    temp_f0 = arg0->y - arg1;
+    temp_f2 = arg0->z - arg2;
+    if ((SQ(temp_f0) + SQ(temp_f2)) <= SQ(arg0->w)) {
         return 1;
     }
     return 0;
