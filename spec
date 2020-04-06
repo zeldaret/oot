@@ -963,8 +963,6 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Firewall"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Firewall/z_bg_hidan_firewall.o"
-    include "build/data/overlays/actors/z_bg_hidan_firewall.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_firewall.rodata.o"
     include "build/data/overlays/actors/z_bg_hidan_firewall.reloc.o"
 endseg
 

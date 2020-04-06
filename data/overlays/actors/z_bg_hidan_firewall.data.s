@@ -7,12 +7,12 @@
 
 .section .data
 
-#glabel Bg_Hidan_Firewall_InitVars
-# .word 0x000C0100, 0x00000000, 0x002C0000, 0x000001A0
-#.word BgHidanFirewall_Init
-#.word BgHidanFirewall_Destroy
-#.word BgHidanFirewall_Update
-#.word 0x00000000
+glabel Bg_Hidan_Firewall_InitVars
+ .word 0x000C0100, 0x00000000, 0x002C0000, 0x000001A0
+.word BgHidanFirewall_Init
+.word BgHidanFirewall_Destroy
+.word BgHidanFirewall_Update
+.word 0x00000000
 glabel D_80886CD0
  .word 0x0A110009, 0x20010000, 0x00000000, 0x20000000, 0x01040000, 0xFFCFFFFF, 0x00000000, 0x19000100, 0x001E0053, 0x00000000, 0x00000000
 glabel D_80886CFC

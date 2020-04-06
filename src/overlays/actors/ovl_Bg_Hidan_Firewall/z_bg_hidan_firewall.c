@@ -1,41 +1,13 @@
+/*
+ * File: z_bg_hidan_firewall.c
+ * Overlay: ovl_Bg_Hidan_Firewall
+ * Description: Proximity Flame Wall
+*/
+
 #include "z_bg_hidan_firewall.h"
 
 #define ROOM  0x00
 #define FLAGS 0x00000000
-
-// static ColliderCylinderInit cylinderInitData =
-// {
-//     0x0A, 0x11, 0x00, 0x09,
-//     0x20, 0x01, 0x00, 0x00,
-//     0x00, 0x00, 0x00, 0x00,
-//     0x20000000,
-//     0x01, 0x04, 0x00, 0x00,
-//     0xFFCFFFFF,
-//     0x00, 0x00, 0x00, 0x00,
-//     0x19, 0x00, 0x01, 0x00,
-//     0x001E,
-//     0x0053,
-//     0x00000000000000000000,
-// };
-
-// static SubActor98Init actor98InitData =
-// {
-//     0x01, 0x0050, 0x0064, 0xFF,
-// };
-
-// u32 D_80886D04[] = {
-//     0x06015D20, 
-//     0x06016120, 
-//     0x06016520, 
-//     0x06016920, 
-//     0x06016D20, 
-//     0x06017120, 
-//     0x06017520, 
-//     0x06017920, 
-//     0x00000000, 
-//     0x00000000, 
-//     0x00000000,
-// };
 
 const ActorInit Bg_Hidan_Firewall_InitVars =
 {
@@ -51,25 +23,59 @@ const ActorInit Bg_Hidan_Firewall_InitVars =
     NULL,
 };
 
+static ColliderCylinderInit cylinderInitData =
+{
+    0x0A, 0x11, 0x00, 0x09,
+    0x20, 0x01, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x20000000,
+    0x01, 0x04, 0x00, 0x00,
+    0xFFCFFFFF,
+    0x00, 0x00, 0x00, 0x00,
+    0x19, 0x00, 0x01, 0x00,
+    0x001E,
+    0x0053,
+    0x00000000000000000000,
+};
+
+static SubActor98Init actor98InitData =
+{
+    0x01, 0x0050, 0x0064, 0xFF,
+};
+
+u32 D_80886D04[] = {
+    0x06015D20, 
+    0x06016120, 
+    0x06016520, 
+    0x06016920, 
+    0x06016D20, 
+    0x06017120, 
+    0x06017520, 
+    0x06017920, 
+    0x00000000, 
+    0x00000000, 
+    0x00000000,
+};
+
 void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx){
   
     f32 scale;
     
-    scale = D_80886D84;
+    scale = 0.119999997318f;
     this->actor.scale.x = scale;
     this->actor.scale.z = scale;
 
-    scale = D_80886D88;
-    this->actor.scale.y = D_80886D88;
+    scale = 0.00999999977648f;
+    this->actor.scale.y = 0.00999999977648f;
 
     this->unk_150 = 0;
 
     ActorCollider_AllocCylinder(globalCtx, &this->collider);
-    ActorCollider_InitCylinder(globalCtx, &this->collider, &this->actor, &D_80886CD0);
+    ActorCollider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
 
     this->collider.dim.position.y = this->actor.posRot.pos.y;
 
-    func_80061ED4(&this->actor.sub_98, NULL, &D_80886CFC);
+    func_80061ED4(&this->actor.sub_98, NULL, &actor98InitData);
     
     this->actionFunc = BgHidanFirewall_Wait;
     return;
@@ -129,7 +135,7 @@ void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx)
         Math_ApproxF(&this->actor.scale.y, 0.1f, 0.024999999f);
         return;
     }
-    if (Math_ApproxF(&this->actor.scale.y, D_80886D8C, D_80886D8C) != 0)
+    if (Math_ApproxF(&this->actor.scale.y, 0.00999999977648f, 0.00999999977648f) != 0)    
     {
         this->actor.draw = NULL;
         this->actionFunc = BgHidanFirewall_Wait;
@@ -140,7 +146,7 @@ void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx)
     }
 }
 
-void func_80886898(BgHidanFirewall* this, GlobalContext* globalCtx)
+void BgHidanFirewall_Collide(BgHidanFirewall* this, GlobalContext* globalCtx)
 {
     s16 phi_a3;
 
@@ -155,7 +161,7 @@ void func_80886898(BgHidanFirewall* this, GlobalContext* globalCtx)
     func_8002F71C(globalCtx, this, 5.0f, phi_a3, 1.0f);
 }
 
-void func_808868FC(BgHidanFirewall* this, GlobalContext* globalCtx)
+void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* globalCtx)
 {
     Player* player;
     Vec3f sp30;
@@ -201,8 +207,8 @@ void func_808868FC(BgHidanFirewall* this, GlobalContext* globalCtx)
     }
     sp28 = Math_Sins(this->actor.shape.rot.y); 
     temp_ret = Math_Coss(this->actor.shape.rot.y);
-    this->collider.dim.position.x = ((this->actor.posRot.pos.x + (sp30.x * temp_ret)) + (sp30.z * sp28));
-    this->collider.dim.position.z = ((this->actor.posRot.pos.z - (sp30.x * sp28)) + (sp30.z * temp_ret));
+    this->collider.dim.position.x = this->actor.posRot.pos.x + sp30.x * temp_ret + sp30.z * sp28;
+    this->collider.dim.position.z = this->actor.posRot.pos.z - sp30.x * sp28 + sp30.z * temp_ret;
 }
 
 void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx)
@@ -215,13 +221,13 @@ void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx)
     if (this->collider.base.colliderFlags & 2)
     {
         this->collider.base.colliderFlags &= ~2;
-        func_80886898(this, globalCtx);
+        BgHidanFirewall_Collide(this, globalCtx);
     }
 
     this->actionFunc(this, globalCtx);
     if (this->actionFunc == BgHidanFirewall_Erupt)
     {
-        func_808868FC(this, globalCtx);
+        BgHidanFirewall_ColliderFollowPlayer(this, globalCtx);
         Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, &this->collider);
         Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
         func_8002F974(&this->actor, 0x2034);
@@ -239,7 +245,7 @@ void BgHidanFirewall_Draw(BgHidanFirewall* this, GlobalContext* globalCtx)
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(&gfx, globalCtx->state.gfxCtx, &D_80886D30, 0x1C0);
+    func_800C6AC4(&gfx, globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 0x1C0);
     gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 0x14);
 
     temp = &D_80886D04;
@@ -247,9 +253,8 @@ void BgHidanFirewall_Draw(BgHidanFirewall* this, GlobalContext* globalCtx)
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(temp[this->unk_150]));
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x01, 0xFF, 0xFF, 0x00, 0x96);
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0xFF);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, &D_80886D4C, 0x1CA), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 0x1CA), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_0600DA80);
 
-
-    func_800C6B54(&gfx, globalCtx->state.gfxCtx, &D_80886D68, 0x1CF);
+    func_800C6B54(&gfx, globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 0x1CF);
 }
