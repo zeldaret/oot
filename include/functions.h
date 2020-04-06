@@ -1577,7 +1577,7 @@ void func_800CC8B4(Vec3f* a, Vec3f* b, Vec3f* c, float* nx, float* ny, float* nz
 // ? func_800CE084(?);
 // ? func_800CE15C(?);
 // ? func_800CE25C(?);
-void func_800CE3C0(UNK_TYPE* dest, Vec3f* vA, Vec3f* vB, Vec3f* vC);
+void func_800CE3C0(ColliderTrisItemDim* dest, Vec3f* vA, Vec3f* vB, Vec3f* vC);
 // ? func_800CE46C(?);
 // ? func_800CE4B8(?);
 // ? func_800CE600(?);
@@ -1585,7 +1585,7 @@ void func_800CE3C0(UNK_TYPE* dest, Vec3f* vA, Vec3f* vB, Vec3f* vC);
 s32 func_800CE934(PosRadius* a, ColliderTrisItemDim* b, Vec3f* unk);
 // ? func_800CED50(?);
 // ? func_800CEE0C(?);
-// ? func_800CF7D0(?);
+s32 func_800CF7D0(ColliderCylinderDim* arg0, ColliderTrisItemDim* arg1, Vec3f* arg2);
 // ? func_800CFC6C(?);
 // ? func_800CFC8C(?);
 s32 func_800CFCAC(PosRadius* a, PosRadius* b, f32* unk, f32* dist);
