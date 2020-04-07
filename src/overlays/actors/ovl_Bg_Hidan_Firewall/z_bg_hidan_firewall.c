@@ -11,7 +11,7 @@
 
 void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Destroy(BgHidanFirewall* this, GlobalContext* globalCtx);
-s32 BgHidanFirewall_Proximity(BgHidanFirewall* this, GlobalContext* globalCtx);
+s32 BgHidanFirewall_CheckProximity(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Wait(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Countdown(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx);
@@ -20,7 +20,7 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* 
 void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Draw(BgHidanFirewall* this, GlobalContext* globalCtx);
 
-extern Gfx D_0600DA80;
+extern Gfx D_0600DA80[];
 
 const ActorInit Bg_Hidan_Firewall_InitVars = {
     ACTOR_BG_HIDAN_FIREWALL,
@@ -45,7 +45,7 @@ static ColliderCylinderInit cylinderInitData = {
     0x00, 0x00, 0x00, 0x00, 
     0x19, 0x00, 0x01, 0x00,
     0x001E, 0x0053,
-    0x00000000000000000000,
+    0x0000,
 };
 
 static Sub98Init4 actor98InitData = {
@@ -91,7 +91,7 @@ void BgHidanFirewall_Destroy(BgHidanFirewall* this, GlobalContext* globalCtx) {
     ActorCollider_FreeCylinder(globalCtx, &this->collider);
 }
 
-s32 BgHidanFirewall_Proximity(BgHidanFirewall* this, GlobalContext* globalCtx) {
+s32 BgHidanFirewall_CheckProximity(BgHidanFirewall* this, GlobalContext* globalCtx) {
     Player* player;
     Vec3f distance;
 
@@ -105,7 +105,7 @@ s32 BgHidanFirewall_Proximity(BgHidanFirewall* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanFirewall_Wait(BgHidanFirewall* this, GlobalContext* globalCtx) {
-    if (BgHidanFirewall_Proximity(this, globalCtx) != 0) {
+    if (BgHidanFirewall_CheckProximity(this, globalCtx) != 0) {
         this->actor.draw = BgHidanFirewall_Draw;
         this->actor.params = 5;
         this->actionFunc = (ActorFunc)BgHidanFirewall_Countdown;
@@ -123,7 +123,7 @@ void BgHidanFirewall_Countdown(BgHidanFirewall* this, GlobalContext* globalCtx) 
 }
 
 void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx) {
-    if (BgHidanFirewall_Proximity(this, globalCtx) != 0) {
+    if (BgHidanFirewall_CheckProximity(this, globalCtx) != 0) {
         Math_ApproxF(&this->actor.scale.y, 0.1f, 0.01f/0.4f);
     } else {
         if (Math_ApproxF(&this->actor.scale.y, 0.01f, 0.01f) != 0) {
@@ -143,7 +143,7 @@ void BgHidanFirewall_Collide(BgHidanFirewall* this, GlobalContext* globalCtx) {
     } else {
         phi_a3 = this->actor.shape.rot.y + 0x8000;
     }
-    func_8002F71C(globalCtx, this, 5.0f, phi_a3, 1.0f);
+    func_8002F71C(globalCtx, &this->actor, 5.0f, phi_a3, 1.0f);
 }
 
 void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* globalCtx) {
@@ -214,14 +214,14 @@ void BgHidanFirewall_Draw(BgHidanFirewall* this, GlobalContext* globalCtx) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 448);
     gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x14);
 
-    temp = &D_80886D04;
+    temp = D_80886D04;
 
     gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(temp[this->unk_150]));
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x01, 0xFF, 0xFF, 0x00, 0x96);
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0xFF);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 458),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, &D_0600DA80);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_0600DA80);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 463);
 }
