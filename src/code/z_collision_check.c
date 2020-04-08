@@ -341,7 +341,7 @@ s32 func_8005BE50(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, 
 
     func_8005B6EC(globalCtx, &dest->base, actor, &src->base);
     dest->count = src->count;
-    dest->list = ZeldaArena_MallocDebug(src->count * sizeof(ColliderJntSphItem), "../z_collision_check.c", 0x5D2);
+    dest->list = ZeldaArena_MallocDebug(src->count * sizeof(ColliderJntSphItem), "../z_collision_check.c", 1490);
 
     if (dest->list == NULL) {
         dest->count = 0;
@@ -941,21 +941,38 @@ s32 func_8005D218(GlobalContext* globalCtx, ColliderQuad* quad, Vec3f* arg2) {
     return 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D2C4.s")
+//possibly arg0 globalctx
+s32 func_8005D2C4(UNK_TYPE arg0, OcLine_s* arg1) {
+    static Vec3f init = { 0, 0, 0 };
+    Vec3f sp1C;
+
+    sp1C = init;
+    Math_Vec3f_Copy(&arg1->a, &sp1C);
+    Math_Vec3f_Copy(&arg1->b, &sp1C);
+    return 1;
+}
 
 s32 func_8005D324(UNK_TYPE arg0, UNK_TYPE arg1)
 {
     return 1;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D334.s")
+s32 func_8005D334(UNK_TYPE arg0, OcLine_s* arg1, Vec3f* arg2, Vec3f* arg3) {
+    Math_Vec3f_Copy(&arg1->a, arg2);
+    Math_Vec3f_Copy(&arg1->b, arg3);
+    return 1;
+}
 
-s32 func_8005D3A4(GlobalContext* globalCtx, UNK_PTR line);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D3A4.s")
-//s32 func_8005D3A4(s32 arg0, void* arg1) {
-//    arg1->unk18 = (u16)(arg1->unk18 & 0xFFFE);
-//    return 1;
-//}
+s32 func_8005D378(UNK_TYPE arg0, OcLine_s* arg1, OcLine_s* arg2) {
+    arg1->unk18 = arg2->unk18;
+    func_8005D334(arg0, arg1, &arg2->a, &arg2->b);
+    return 1;
+}
+
+s32 func_8005D3A4(GlobalContext* globalCtx, OcLine_s* line) {
+    line->unk18 &= 0xFFFE;
+    return 1;
+}
 
 void func_8005D40C(GlobalContext* globalCtx, CollisionCheckContext* check);
 void func_8005D3BC(GlobalContext* globalCtx, CollisionCheckContext* check) {
@@ -974,6 +991,8 @@ void func_8005D400(UNK_TYPE arg0, UNK_TYPE arg1)
 //Initialize CollisionCheckContext 
 void func_8005D40C(GlobalContext* globalCtx, CollisionCheckContext* check) {
     Collider** c;
+    OcLine_s** d;
+    
 
     if ((check->unk2 & 1) == 0) {
         check->colAtCount = 0;
@@ -992,8 +1011,8 @@ void func_8005D40C(GlobalContext* globalCtx, CollisionCheckContext* check) {
             *c = NULL;
         }
 
-        for (c = check->colOcLine; c < check->colOcLine + 3; c++) {
-            *c = NULL;
+        for (d = check->colOcLine; d < check->colOcLine + 3; d++) {
+            *d = NULL;
         }
     }
 }
@@ -1165,7 +1184,7 @@ s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, CollisionCheckContext* 
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DD5C.s")
 
-s32 func_8005DE9C(GlobalContext* globalCtx, CollisionCheckContext* check, UNK_PTR collider) {
+s32 func_8005DE9C(GlobalContext* globalCtx, CollisionCheckContext* check, OcLine_s* collider) {
     s32 index;
 
     if (func_800C0D28(globalCtx) == 1) {
@@ -1180,7 +1199,6 @@ s32 func_8005DE9C(GlobalContext* globalCtx, CollisionCheckContext* check, UNK_PT
     check->colOcLine[check->colOcLineCount++] = collider;
     return index;
 }
-
 
 s32 func_8005DF2C(ColliderBody* body) {
     if ((body->toucherFlags & 1) == 0) {
@@ -2375,6 +2393,14 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
 
 #ifdef NON_MATCHING
 //Incomplete, possibly not using the same logic
+//F12 = (f32)Dark Link + A8(0x98 + 0x10)
+//F14 = (f32)Dark Link + AA(0x98 + 0x12)
+//A2 = f32 unk
+//A3 = Vec3f * Dark Link
+//SP + 0x10 = Vec3f * Deku Nut
+//SP + 0x14 = Vec3f * SP + 0xA8
+//SP + 0x18 = UNK * SP + 0x90
+//SP + 0x1C = UNK * SP + 0x84
 s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* arg3,
     Vec3f* arg4, Vec3f* arg5, Vec3f* arg6, Vec3f* arg7) {
     //sp -0x78

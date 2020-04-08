@@ -426,6 +426,13 @@ typedef struct {
 
 typedef struct
 {
+    Vec3f a;
+    Vec3f b;
+    u16 unk18;
+} OcLine_s;
+
+typedef struct
+{
     /* 0x00 */ Actor* actor;
     /* 0x04 */ char unk_04[0x10];
     /* 0x14 */ Vec3f scale1;

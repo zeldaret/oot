@@ -785,7 +785,7 @@ typedef struct
     /* 0x1C0 */ s32 colOcCount;
     /* 0x1C4 */ Collider* colOc[50];
     /* 0x28C */ s32 colOcLineCount;
-    /* 0x290 */ Collider* colOcLine[3];
+    /* 0x290 */ OcLine_s* colOcLine[3];
 
 } CollisionCheckContext; // size = 0x29C SubGlobalContext11E60
 
