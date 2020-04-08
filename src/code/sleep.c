@@ -24,5 +24,5 @@ void Sleep_Msec(u32 ms) {
 }
 
 void Sleep_Sec(u32 sec) {
-    Sleep_Cycles((sec * OS_CPU_COUNTER));
+    Sleep_Cycles(sec * OS_CPU_COUNTER);
 }
