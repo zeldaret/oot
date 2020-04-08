@@ -105,6 +105,7 @@ void func_800CAFA0(Vec3f* arg0, Vec3f* arg1, f32 arg2, Vec3f* arg3) {
     Math_Vec3f_Diff(arg1, arg0, &sp1C);
     func_800CAF5C(arg0, &sp1C, arg2, arg3);
 }
+
 f32 Math3D_DotProduct(Vec3f* vec1, Vec3f* vec2) {
     f32 ret;
 
@@ -159,7 +160,74 @@ s32 func_800CB198(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
 /**********************************************************************/
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CB1F8.s")
 
+#ifdef NON_MATCHING
+/*
+ * Math3D_TriInSphere
+ * Checks if a tringle defined by `v0`, `v1`, and `v2` lies within a spehere
+ * centered at `center` and has radius `radius`.  Returns 1 if any vertex of the
+ * triangle lies within the sphere, or 0 otherwise.
+*/
+s32 func_800CB338(Vec3f *v0, Vec3f *v1, Vec3f *v2, Vec3f *center, f32 radius) {
+    f32 minX;
+    f32 maxX;
+    f32 minY;
+    f32 maxY;
+    f32 minZ;
+    f32 maxZ;
+
+    if(v1->x < v0->x){
+        minX = v1->x;
+        maxX = v0->x;
+    } else if (v0->x < v1->x){
+        minX = v0->x;
+        maxX = v1->x;
+    }
+
+    if(v1->y < v0->y){
+        minY = v1->y;
+        maxY = v0->y;
+    } else if (v0->y < v1->y){
+        minY = v0->y;
+        maxY = v1->y;
+    }
+
+    if(v1->z < v0->z){
+        minZ = v1->z;
+        maxZ = v0->z;
+    } else if (v0->z < v1->z){
+        minZ = v0->z;
+        maxZ = v1->z;
+    }
+
+    if(v2->x < minX){
+        minX = v2->x;
+    } else if(maxX < v2->x){
+        maxX = v2->x;
+    }
+
+    if(v2->y < minY){
+        minY = v2->y;
+    } else if(maxY < v2->y){
+        maxY = v2->y;
+    }
+
+    if(v2->z < minZ){
+        minZ = v2->z;
+    } else if(maxZ < v2->z){
+        maxZ = v2->z;
+    }
+
+    if(((minX - radius) <= center->x) && (center->x <= (maxX + radius)) &&
+       ((minY - radius) <= center->y) && (center->y <= (maxY + radius)) &&
+       ((minZ - radius) <= center->z) && (center->z <= (maxZ + radius))){
+        return 1;
+    }
+
+    return 0;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CB338.s")
+#endif
 /**********************************************************************/
 
 f32 func_800CB55C(f32 arg0, f32 arg1) {
@@ -198,8 +266,8 @@ f32 Math3D_Vec3f_DistXYZ(Vec3f* a, Vec3f* b) {
 }
 
 /*
- * Calculates the magnitude of the vector produced from
- * a - b.
+ * Math3D_DistXYZ16toF
+ * Calculates the distance between `a` and `b`.
 */
 f32 func_800CB698(Vec3s *a, Vec3f *b) {
     Vec3f diff;
@@ -228,6 +296,11 @@ void Math3D_Vec3f_Cross(Vec3f *a, Vec3f *b, Vec3f *ret) {
     ret->z = (a->x * b->y) - (a->y * b->x);
 }
 
+/*
+ * Math3D_SurfaceNorm
+ * Calculates the normal vector to a surface with sides `vb` - `va` and `vc` - `va`
+ * outputs the normal to `normal`
+*/
 void Math3D_SurfaceNorm(Vec3f* va, Vec3f* vb, Vec3f* vc, Vec3f* normal) {
     static Vec3f abDiff;
     static Vec3f acDiff;
@@ -593,60 +666,79 @@ void func_800CC824(Vec3f *arg0, s16 arg1, f32 *arg2, f32 *arg3, f32 *arg4) {
     *arg4 = -((*arg2 * arg0->x) + (*arg3 * arg0->z));
 }
 
-void func_800CC8B4(Vec3f *va, Vec3f* vb, Vec3f* vc, f32 *nx, f32 *ny, f32 *nz, f32 *nd) {
-    f32 temp_f16;
+/*
+ * Math3D_CalcPlaneNormal
+ * Calculates the normal vector to plane defined by verticies `va`, `vb`, and `vc`
+ * ||norm|| =
+*/
+void func_800CC8B4(Vec3f *va, Vec3f* vb, Vec3f* vc, f32 *nx, f32 *ny, f32 *nz, f32 *plane) {
+    f32 normMagnitude;
     f32 t;
-    static Vec3f surfaceNormal;
+    static Vec3f normal;
 
-    Math3D_SurfaceNorm(va, vb, vc, &surfaceNormal);
-    temp_f16 = sqrtf(SQ(surfaceNormal.x) + SQ(surfaceNormal.y) + SQ(surfaceNormal.z));
-    if (!(fabsf(temp_f16) < 0.008f)) {
-        t = 1.0f / temp_f16;
-        *nx = surfaceNormal.x * t;
-        *ny = surfaceNormal.y * t;
-        *nz = surfaceNormal.z * t;
-        *nd = -((*nx * va->x) + (*ny * va->y) + (*nz * va->z));
+    Math3D_SurfaceNorm(va, vb, vc, &normal);
+    normMagnitude = sqrtf(SQ(normal.x) + SQ(normal.y) + SQ(normal.z));
+    if (!(fabsf(normMagnitude) < 0.008f)) {
+        t = 1.0f / normMagnitude;
+        *nx = normal.x * t;
+        *ny = normal.y * t;
+        *nz = normal.z * t;
+        *plane = -((*nx * va->x) + (*ny * va->y) + (*nz * va->z));
     } else {
-        *nd = 0.0f;
+        *plane = 0.0f;
         *nz = 0.0f;
         *ny = 0.0f;
         *nx = 0.0f;
     }
 }
 
-f32 func_800CC9C8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, Vec3f *arg4) {
-    return (arg4->x * arg0) + (arg1 * arg4->y) + (arg2 * arg4->z) + arg3;
+f32 func_800CC9C8(f32 nx, f32 ny, f32 nz, f32 plane, Vec3f *v) {
+    return (v->x * nx) + (ny * v->y) + (nz * v->z) + plane;
 }
 
-f32 func_800CCA04(Vec4f *arg0, Vec4f *arg1) {
-    return ((arg0->x * arg1->x) + (arg0->y * arg1->y) + (arg0->z * arg1->z)) + arg0->w;
+f32 func_800CCA04(Vec4f *nv, Vec3f *v) {
+    return ((nv->x * v->x) + (nv->y * v->y) + (nv->z * v->z)) + nv->w;
 }
 
 // Math3D_UDistPlaneToPos
-f32 func_800CCA3C(f32 x, f32 y, f32 z, f32 arg3, Vec3f* norm) {
+f32 func_800CCA3C(f32 nx, f32 ny, f32 nz, f32 plane, Vec3f* v) {
 
-    if (fabsf(sqrtf(SQ(x) + SQ(y) + SQ(z))) < 0.008f) {
+    if (fabsf(sqrtf(SQ(nx) + SQ(ny) + SQ(nz))) < 0.008f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        osSyncPrintf("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", x, y, z); //Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f
+        osSyncPrintf("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz); //Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f
         osSyncPrintf(VT_RST);
         return 0.0f;
     }
-    return fabsf(func_800CCB0C(x, y, z, arg3, norm));
+    return fabsf(func_800CCB0C(nx, ny, nz, plane, v));
 }
 
-//Math3D_DistPlaneToPos
-f32 func_800CCB0C(f32 x, f32 y, f32 z, f32 arg3, Vec3f* norm) {
+/*
+ * Math3D_DistPlaneToPos
+ * nx(x) + ny(y) + nz(z) - d / sqrt(nx^2 + ny^2 + nz^2)
+*/
+f32 func_800CCB0C(f32 nx, f32 ny, f32 nz, f32 plane, Vec3f* v) {
     f32 normMagnitude;
 
-    normMagnitude = sqrtf(SQ(x) + SQ(y) + SQ(z));
+    normMagnitude = sqrtf(SQ(nx) + SQ(ny) + SQ(nz));
     if (fabsf(normMagnitude) < 0.008f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        osSyncPrintf("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", x, y, z); //Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f
+        osSyncPrintf("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz); //Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f
         osSyncPrintf(VT_RST);
         return 0.0f;
     }
-    return func_800CC9C8(x, y, z, arg3, norm) / normMagnitude;
+    return func_800CC9C8(nx, ny, nz, plane, v) / normMagnitude;
 }
+
+/*
+ * arg0 v0
+ * arg1 v1
+ * arg2 v2
+ * arg3 z
+ * arg4 x
+ * arg5 300.0f
+ * arg6 1.0f
+ * arg7 ny
+*/
 
 s32 func_800CCBE4(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     f32 temp_f6;
@@ -658,6 +750,7 @@ s32 func_800CCBE4(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, f32 arg3, f32 arg4, f32
     if (func_800CB1F8(arg0->z, arg0->x, arg1->z, arg1->x, (f32) arg2->z, (f32) arg2->x, arg3, arg4, arg6) == 0) {
         return 0;
     }
+
     sq6 = SQ(arg6);
     if (((SQ(arg0->z - arg3) + SQ(arg0->x - arg4)) < sq6) ||
         ((SQ(arg1->z - arg3) + SQ(arg1->x - arg4)) < sq6) ||
@@ -736,27 +829,42 @@ s32 func_800CD0F0(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
     return 0;
 }
 
-s32 func_800CD168(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 *arg9, f32 argA, f32 argB) {
+/*
+ * arg0 = vtx0
+ * arg1 = vtx1
+ * arg2 = vtx2
+ * arg3 = nx
+ * arg4 = ny
+ * arg5 = nz
+ * arg6 = nd
+ * arg7 = zpos
+ * arg8 = xpos
+ * arg9 = retf
+ * argA = cylBottom
+ * argB = cylTop
+*/
+
+s32 func_800CD168(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 nd, f32 cylZ, f32 cylX, f32 *arg9, f32 cylBottom, f32 cylTop) {
     f32 sp3C;
     f32 temp_ret;
-    Vec3f sp2C;
+    Vec3f cylPos;
 
 
-    if (fabsf(arg4) < 0.008f) {
+    if (fabsf(ny) < 0.008f) {
         return 0;
     }
-    sp2C.x = arg8;
-    sp2C.y = argA;
-    sp2C.z = arg7;
-    sp3C = func_800CC9C8(arg3, arg4, arg5, arg6, &sp2C);
-    sp2C.y = argB;
-    temp_ret = func_800CC9C8(arg3, arg4, arg5, arg6, &sp2C);
+
+    VEC3F(cylPos, cylX, cylBottom, cylZ);
+
+    sp3C = func_800CC9C8(nx, ny, nz, nd, &cylPos);
+    cylPos.y = cylTop;
+    temp_ret = func_800CC9C8(nx, ny, nz, nd, &cylPos);
     if (((0.0f < sp3C) && (0.0f < temp_ret)) || ((sp3C < 0.0f) && (temp_ret < 0.0f))) {
         return 0;
     }
 
-    if (func_800CCBE4(arg0, arg1, arg2, arg7, arg8, 300.0f, 1.0f, arg4) != 0) {
-        *arg9 = (f32) ((((-arg3 * arg8) - (arg5 * arg7)) - arg6) / arg4);
+    if (func_800CCBE4(v0, v1, v2, cylZ, cylX, 300.0f, 1.0f, ny) != 0) {
+        *arg9 = (f32) ((((-nx * cylX) - (nz * cylZ)) - nd) / ny);
         return 1;
     }
     return 0;
@@ -955,17 +1063,25 @@ s32 func_800CE25C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
     return 0;
 }
 
-// some kind of triangle normal ?
+/*
+ * Math3D_TriNorm
+ * Creates a TriNorm output to `tri`, and calculates the normal vector and plane from vertices
+ * `va`, `vb`, and `vc`
+*/
 void func_800CE3C0(TriNorm* tri, Vec3f *va, Vec3f *vb, Vec3f *vc) {
     tri->vtx[0] = *va;
     tri->vtx[1] = *vb;
     tri->vtx[2] = *vc;
-    func_800CC8B4(va, vb, vc, &tri->unitNormal.x, &tri->unitNormal.y, &tri->unitNormal.z, &tri->normalDist);
+    func_800CC8B4(va, vb, vc, &tri->normal.x, &tri->normal.y, &tri->normal.z, &tri->plane);
 }
 
-s32 func_800CE46C(Vec4s *arg0, Vec3f* arg1) {
+/*
+ * Math3D_PointInSphere
+ * Determines if point `point` lies within `sphere`
+*/
+s32 func_800CE46C(Sphere16 *sphere, Vec3f* point) {
 
-    if (func_800CB698(arg0, arg1) < arg0->w) {
+    if (func_800CB698(&sphere->center, point) < sphere->radius) {
         return 1;
     }
     return 0;
@@ -974,7 +1090,7 @@ s32 func_800CE46C(Vec4s *arg0, Vec3f* arg1) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CE4B8.s")
 
 #ifdef NON_MATCHING
-s32 func_800CE600(Vec4s *arg0, TriNorm *arg1) {
+s32 func_800CE600(Sphere16 *arg0, TriNorm *arg1) {
 //reg/stack alloc
     f32 temp_f0_2;
     f32 temp_f2;
@@ -993,9 +1109,9 @@ s32 func_800CE600(Vec4s *arg0, TriNorm *arg1) {
         if (fabsf(temp_f2) < 0.008f) {
             return 0;
         }
-        t.x = arg0->x;
-        t.y = arg0->y;
-        t.z = arg0->z;
+        t.x = arg0->center.x;
+        t.y = arg0->center.y;
+        t.z = arg0->center.z;
         temp_f0_2 = ((((t.x - arg1->vtx[0].x) * t2.x) + ((t.y - arg1->vtx[0].y) * t2.y)) + ((t.z - arg1->vtx[0].z) * t2.z)) / temp_f2;
         if ((temp_f0_2 < 0.0f) || (1.0f < temp_f0_2)) {
             return 0;
@@ -1005,7 +1121,7 @@ s32 func_800CE600(Vec4s *arg0, TriNorm *arg1) {
         D_8016A6C8.y = (t2.y * temp_f0_2) + arg1->vtx[0].y;
         D_8016A6C8.z = (t2.z * temp_f0_2) + arg1->vtx[0].z;
 
-        if (SQ(D_8016A6C8.x - t.x) + SQ(D_8016A6C8.y - t.y) + SQ(D_8016A6C8.z - t.z) <= SQ((f32)arg0->w)) {
+        if (SQ(D_8016A6C8.x - t.x) + SQ(D_8016A6C8.y - t.y) + SQ(D_8016A6C8.z - t.z) <= SQ((f32)arg0->radius)) {
             return 1;
         }
 
@@ -1039,32 +1155,35 @@ void func_800CE800(Vec4s *arg0, TriNorm *arg1, Vec3f *arg2) {
     func_800CAFA0(&D_8016A6E8, &D_8016A6D8, fw, arg2);
 }
 
-s32 func_800CE934(Vec4s *arg0, TriNorm *arg1, Vec3f *arg2) {
-    f32 fw;
+s32 func_800CE934(Sphere16 *arg0, TriNorm *arg1, Vec3f *arg2) {
+    f32 radius;
     f32 nx;
     f32 ny;
     f32 nz;
-    f32 temp_ret;
+    f32 planeDist;
 
     static Vec3f D_8016A6F8;
     static Vec3f D_8016A704;
     static Vec3f D_8016A710;
     static Vec3f D_8016A720;
 
-    D_8016A710.x = arg0->x;
-    D_8016A710.y = arg0->y;
-    D_8016A710.z = arg0->z;
-    fw = arg0->w;
+    D_8016A710.x = arg0->center.x;
+    D_8016A710.y = arg0->center.y;
+    D_8016A710.z = arg0->center.z;
+    radius = arg0->radius;
 
-    if (func_800CB338(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], &D_8016A710, fw) == 0) {
+    if (func_800CB338(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], &D_8016A710, radius) == 0) {
         return 0;
     }
-    temp_ret = func_800CCA3C(arg1->unitNormal.x, arg1->unitNormal.y, arg1->unitNormal.z, arg1->normalDist, &D_8016A710);
-    if (fw < temp_ret) {
+
+    planeDist = func_800CCA3C(arg1->normal.x, arg1->normal.y, arg1->normal.z, arg1->plane, &D_8016A710);
+    if (radius < planeDist) {
         return 0;
     }
+
     D_8016A6F8 = arg1->vtx[0];
     D_8016A704 = arg1->vtx[1];
+
     if (func_800CE600(arg0, &D_8016A6F8) != 0) {
         func_800CE800(arg0, arg1, arg2);
         return 1;
@@ -1082,11 +1201,11 @@ s32 func_800CE934(Vec4s *arg0, TriNorm *arg1, Vec3f *arg2) {
         return 1;
     }
 
-    nx = arg1->unitNormal.x * temp_ret;
-    ny = arg1->unitNormal.y * temp_ret;
-    nz = arg1->unitNormal.z * temp_ret;
+    nx = arg1->normal.x * planeDist;
+    ny = arg1->normal.y * planeDist;
+    nz = arg1->normal.z * planeDist;
 
-    if (0.0f < func_800CC9C8(arg1->unitNormal.x, arg1->unitNormal.y, arg1->unitNormal.z, arg1->normalDist, &D_8016A710)) {
+    if (0.0f < func_800CC9C8(arg1->normal.x, arg1->normal.y, arg1->normal.z, arg1->plane, &D_8016A710)) {
         D_8016A720.x = D_8016A710.x - nx;
         D_8016A720.y = D_8016A710.y - ny;
         D_8016A720.z = D_8016A710.z - nz;
@@ -1096,29 +1215,475 @@ s32 func_800CE934(Vec4s *arg0, TriNorm *arg1, Vec3f *arg2) {
         D_8016A720.z = D_8016A710.z + nz;
     }
 
-    if (0.5f < fabsf(arg1->unitNormal.y)){
-        if(func_800CCF00(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A720.z, (f32) D_8016A720.x, 0.0f, (f32) arg1->unitNormal.y) != 0) {
+    if (0.5f < fabsf(arg1->normal.y)){
+        if(func_800CCF00(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A720.z, (f32) D_8016A720.x, 0.0f, (f32) arg1->normal.y) != 0) {
             func_800CE800(arg0, arg1, arg2);
             return 1;
         }
-    } else if(0.5f < fabsf(arg1->unitNormal.x)) {
-        if(func_800CD668(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A720.y, (f32) D_8016A720.z, 0.0f, (f32) arg1->unitNormal.x) != 0) {
+    } else if(0.5f < fabsf(arg1->normal.x)) {
+        if(func_800CD668(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A720.y, (f32) D_8016A720.z, 0.0f, (f32) arg1->normal.x) != 0) {
             func_800CE800(arg0, arg1, arg2);
             return 1;
         }
-    } else if(func_800CDD18(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A720.x, (f32) D_8016A720.y, 0.0f, arg1->unitNormal.z) != 0) {
+    } else if(func_800CDD18(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A720.x, (f32) D_8016A720.y, 0.0f, arg1->normal.z) != 0) {
         func_800CE800(arg0, arg1, arg2);
         return 1;
     }
     return 0;
 }
 
+#ifdef NON_MATCHING
+f32 func_800CED50(Cylinder16 *arg0, Vec3f *arg1) {
+    f32 temp_f0;
+    f32 temp_f12;
+    f32 temp_f2;
+    f32 phi_return;
+
+    temp_f0 = (f32) arg0->pos.x - arg1->x;
+    temp_f2 = (f32) arg0->pos.z - arg1->z;
+    temp_f12 = (f32) arg0->pos.y + (f32) arg0->yShift;
+    phi_return = temp_f0;
+    if (((temp_f0 * temp_f0) + (temp_f2 * temp_f2)) < (f32) (arg0->radius * arg0->radius)) {
+        phi_return = arg1->y;
+        if (temp_f12 < arg1->y) {
+            phi_return = arg1->y;
+            if (arg1->y < ((f32) arg0->height + temp_f12)) {
+                return 1;
+            }
+        }
+    }
+    return phi_return;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CED50.s")
+#endif
 
-// Big
+#ifdef NON_MATCHING
+/*
+ * arg0 cylinder
+ * arg1 vtx
+ * arg2 vtx arg1/arg2 line?
+ * arg3 ???
+ * arg4 ???
+*/
+s32 func_800CEE0C(Cylinder16 *arg0, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, void *arg4) {
+    f32 spF4;
+    f32 spF0;
+    f32 spEC;
+    f32 spE8;
+    f32 spE4;
+    f32 spE0;
+    f32 spD4;
+    f32 spD0;
+    f32 spCC;
+    f32 spB8;
+    s32 sp9C;
+    f32 sp98;
+    f32 sp94;
+    f32 sp90;
+    f32 sp8C;
+    f32 sp88;
+    f32 sp84;
+    f32 sp80;
+    f32 sp7C;
+    f32 sp78;
+    f32 sp74;
+    f32 sp70;
+    f32 sp6C;
+    s32 sp68;
+    f32 sp4C;
+    f32 sp2C;
+    f32 sp28;
+    f32 sp24;
+    f32 sp20;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f0_3;
+    f32 temp_f0_4;
+    f32 temp_f0_5;
+    f32 temp_f0_6;
+    f32 temp_f10;
+    f32 temp_f12;
+    f32 temp_f12_2;
+    f32 temp_f14;
+    f32 temp_f14_2;
+    f32 temp_f14_3;
+    f32 temp_f16;
+    f32 temp_f16_2;
+    f32 temp_f18;
+    f32 temp_f2;
+    f32 temp_f2_2;
+    f32 temp_f2_3;
+    f32 temp_f2_4;
+    f32 temp_f2_5;
+    f32 temp_f2_6;
+    f32 temp_f2_7;
+    s32 temp_a0_2;
+    s32 temp_t0;
+    s32 temp_v0;
+    s32 temp_v1;
+    void *temp_a0;
+    void *temp_a1;
+    void *temp_s0;
+    void *temp_t2;
+    s32 phi_a1;
+    s32 phi_a1_2;
+    f32 phi_f2;
+    s32 phi_v0;
+    s32 phi_v0_2;
+    s32 phi_v1;
+    s32 phi_v1_2;
+    s32 phi_a2;
+    s32 phi_a1_3;
+    s32 phi_a2_2;
+    s32 phi_a1_4;
+    s32 phi_v0_3;
+    s32 phi_t0;
+    s32 phi_v1_3;
+    s32 phi_v1_4;
+    s32 phi_a2_3;
+    s32 phi_a2_4;
+    s32 phi_t0_2;
+    s32 phi_v1_5;
+    s32 phi_t0_3;
+
+    sp9C = 0;
+    if (func_800CED50(arg0, arg1) != 0) {
+        sp9C = sp9C;
+        if (func_800CED50(arg0, arg2) != 0) {
+            arg3->x = (s32) arg1->x;
+            arg3->y = (s32) arg1->y;
+            arg3->z = (s32) arg1->z;
+            arg4->unk0 = (s32) arg2->x;
+            arg4->unk4 = (s32) arg2->y;
+            arg4->unk8 = (s32) arg2->z;
+            return 2;
+        }
+    }
+    temp_a0 = &spE0;
+    temp_a1 = &spEC;
+    spEC = (f32) (arg1->x - (f32) arg0->pos.x);
+    spF0 = (f32) ((arg1->y - (f32) arg0->pos.y) - (f32) arg0->yShift);
+    spF4 = (f32) (arg1->z - (f32) arg0->pos.z);
+    spE0 = (f32) (arg2->x - (f32) arg0->pos.x);
+    spE4 = (f32) ((arg2->y - (f32) arg0->pos.y) - (f32) arg0->yShift);
+    sp9C = (s32) sp9C;
+    spE8 = (f32) (arg2->z - (f32) arg0->pos.z);
+    Math_Vec3f_Diff(temp_a0, temp_a1, &spD4, arg2);
+    temp_t0 = sp9C;
+    temp_f14 = (f32) (arg0->radius * arg0->radius);
+    phi_t0_2 = temp_t0;
+    if (!(fabsf(spD8) < D_80146544)) {
+        temp_f0 = -spF0 / spD8;
+        phi_t0_3 = temp_t0;
+        if (0.0f <= temp_f0) {
+            phi_t0_3 = temp_t0;
+            if (temp_f0 <= 1.0f) {
+                temp_f2 = (spD4 * temp_f0) + spEC;
+                temp_f12 = (spDC * temp_f0) + spF4;
+                phi_t0_3 = temp_t0;
+                if (((temp_f2 * temp_f2) + (temp_f12 * temp_f12)) < temp_f14) {
+                    sp6C = (f32) ((f32) arg0->pos.x + temp_f2);
+                    sp70 = (f32) ((f32) arg0->pos.y + (f32) arg0->yShift);
+                    sp74 = (f32) ((f32) arg0->pos.z + temp_f12);
+                    phi_t0_3 = 1;
+                }
+            }
+        }
+        temp_f10 = ((f32) arg0->height - spF0) / spD8;
+        spD0 = temp_f10;
+        phi_t0_2 = phi_t0_3;
+        if (0.0f <= temp_f10) {
+            phi_t0_2 = phi_t0_3;
+            if (temp_f10 <= 1.0f) {
+                temp_f0_2 = (spD4 * temp_f10) + spEC;
+                temp_f2_2 = (spDC * temp_f10) + spF4;
+                phi_t0_2 = phi_t0_3;
+                if (((temp_f0_2 * temp_f0_2) + (temp_f2_2 * temp_f2_2)) < temp_f14) {
+                    sp78 = (f32) ((f32) arg0->pos.x + temp_f0_2);
+                    sp7C = (f32) (((f32) arg0->pos.y + (f32) arg0->yShift) + (f32) arg0->height);
+                    sp80 = (f32) ((f32) arg0->pos.z + temp_f2_2);
+                    phi_t0_2 = phi_t0_3 | 2;
+                }
+            }
+        }
+    }
+    sp20 = spEC;
+    sp24 = spF4;
+    temp_f16 = ((spEC * spEC) + (spF4 * spF4)) - temp_f14;
+    spB8 = temp_f16;
+    temp_f12_2 = (spD4 * spD4) + (spDC * spDC);
+    temp_f18 = temp_f12_2 + temp_f12_2;
+    if (!(fabsf(temp_f18) < D_80146548)) {
+        temp_f2_3 = (spD4 * sp20) + (spDC * sp24);
+        temp_f14_2 = temp_f2_3 + temp_f2_3;
+        temp_f0_3 = temp_f14_2 * temp_f14_2;
+        temp_f16_2 = (4.0f * temp_f12_2) * spB8;
+        if (temp_f0_3 < temp_f16_2) {
+            return 0;
+        }
+        temp_f2_4 = temp_f0_3 - temp_f16_2;
+        temp_f0_4 = sqrtf(temp_f2_4);
+        phi_a1 = 0;
+        if (0.0f < temp_f2_4) {
+            phi_a1 = 1;
+        }
+        temp_f2_5 = (temp_f0_4 - temp_f14_2) / temp_f18;
+        spD0 = temp_f2_5;
+        if (phi_a1 == 1) {
+            spCC = (f32) ((-temp_f14_2 - temp_f0_4) / temp_f18);
+        }
+        phi_a1_2 = phi_a1;
+        phi_f2 = temp_f2_5;
+    } else {
+        temp_f2_6 = (spD4 * spEC) + (spDC * spF4);
+        temp_f14_3 = temp_f2_6 + temp_f2_6;
+        if (fabsf(temp_f14_3) < D_8014654C) {
+            return 0;
+        }
+        temp_f2_7 = -temp_f16 / temp_f14_3;
+        spD0 = temp_f2_7;
+        phi_a1_2 = 0;
+        phi_f2 = temp_f2_7;
+        phi_a2_4 = 1;
+    }
+    if (phi_a1_2 == 0) {
+        if (phi_f2 < 0.0f) {
+block_26:
+            return 0;
+        }
+        phi_a2 = phi_a2_4;
+        phi_a1_3 = phi_a1_2;
+        if (1.0f < phi_f2) {
+            goto block_26;
+        }
+    } else {
+        phi_v0 = 0;
+        if (phi_f2 < 0.0f) {
+            phi_v0 = 1;
+        }
+        phi_v1 = phi_v0;
+        if (phi_v0 == 0) {
+            phi_v1 = 0;
+            if (1.0f < phi_f2) {
+                phi_v1 = 1;
+            }
+        }
+        temp_a0_2 = phi_v1;
+        phi_v0_2 = 0;
+        if (spCC < 0.0f) {
+            phi_v0_2 = 1;
+        }
+        phi_v1_2 = phi_v0_2;
+        if (phi_v0_2 == 0) {
+            phi_v1_2 = 0;
+            if (1.0f < spCC) {
+                phi_v1_2 = 1;
+            }
+        }
+        if (temp_a0_2 != 0) {
+            if (phi_v1_2 != 0) {
+                return 0;
+            }
+        }
+        phi_a2_3 = phi_a2_4;
+        if (temp_a0_2 != 0) {
+            phi_a2_3 = 0;
+        }
+        phi_a2 = phi_a2_3;
+        phi_a1_3 = phi_a1_2;
+        if (phi_v1_2 != 0) {
+            phi_a2 = phi_a2_3;
+            phi_a1_3 = 0;
+        }
+    }
+    phi_a2_2 = phi_a2;
+    if (phi_a2 == 1) {
+        temp_f0_5 = (phi_f2 * spD8) + spF0;
+        if ((temp_f0_5 < 0.0f) || ((f32) arg0->height < temp_f0_5)) {
+            phi_a2_2 = 0;
+        } else {
+
+        }
+    }
+    phi_a1_4 = phi_a1_3;
+    if (phi_a1_3 == 1) {
+        temp_f0_6 = (spCC * spD8) + spF0;
+        if ((temp_f0_6 < 0.0f) || ((f32) arg0->height < temp_f0_6)) {
+            phi_a1_4 = 0;
+        } else {
+
+        }
+    }
+    if (phi_a2_2 == 0) {
+        if (phi_a1_4 == 0) {
+            return 0;
+        }
+    }
+    if ((phi_a2_2 == 1) && (phi_a1_4 == 1)) {
+        sp24 = spD4;
+        sp84 = (f32) (((phi_f2 * spD4) + spEC) + (f32) arg0->pos.x);
+        sp20 = spEC;
+        sp28 = spD8;
+        sp88 = (f32) ((((phi_f2 * spD8) + spF0) + (f32) arg0->pos.y) + (f32) arg0->yShift);
+        sp2C = spF0;
+        sp8C = (f32) (((phi_f2 * spDC) + spF4) + (f32) arg0->pos.z);
+        sp90 = (f32) (((spCC * spD4) + sp20) + (f32) arg0->pos.x);
+        sp94 = (f32) ((((spCC * sp28) + spF0) + (f32) arg0->pos.y) + (f32) arg0->yShift);
+        sp98 = (f32) (((spCC * spDC) + spF4) + (f32) arg0->pos.z);
+        phi_t0 = (phi_t0_2 | 4) | 8;
+    } else {
+        if (phi_a2_2 == 1) {
+            sp84 = (f32) (((phi_f2 * spD4) + spEC) + (f32) arg0->pos.x);
+            sp88 = (f32) ((((phi_f2 * spD8) + spF0) + (f32) arg0->pos.y) + (f32) arg0->yShift);
+            sp8C = (f32) (((phi_f2 * spDC) + spF4) + (f32) arg0->pos.z);
+            phi_t0 = phi_t0_2 | 4;
+        } else {
+            phi_t0 = phi_t0_2;
+            if (phi_a1_4 == 1) {
+                sp84 = (f32) (((spCC * spD4) + spEC) + (f32) arg0->pos.x);
+                sp88 = (f32) ((((spCC * spD8) + spF0) + (f32) arg0->pos.y) + (f32) arg0->yShift);
+                sp8C = (f32) (((spCC * spDC) + spF4) + (f32) arg0->pos.z);
+                phi_t0 = phi_t0_2 | 4;
+            }
+        }
+    }
+    phi_v0_3 = 0;
+    phi_v1_3 = 0;
+loop_63:
+    phi_v1_5 = phi_v1_3;
+    if (((1 << phi_v0_3) & phi_t0) != 0) {
+        if (phi_v1_3 == 0) {
+            temp_t2 = &sp6C + (phi_v0_3 * 0xC);
+            arg3->x = (s32) temp_t2->unk0;
+            arg3->y = (s32) temp_t2->unk4;
+            arg3->z = (s32) temp_t2->unk8;
+block_70:
+            phi_v1_5 = phi_v1_3 + 1;
+block_71:
+            temp_v0 = phi_v0_3 + 1;
+            phi_v0_3 = temp_v0;
+            phi_v1_3 = phi_v1_5;
+            phi_v1_4 = phi_v1_5;
+            if (temp_v0 != 4) {
+                goto loop_63;
+            }
+        } else {
+            if (phi_v1_3 == 1) {
+                temp_s0 = (((phi_v0_3 * 4) - phi_v0_3) * 4) + &sp6C;
+                sp68 = (s32) phi_v1_3;
+                sp4C = func_800CB650(arg3, arg1);
+                temp_v1 = phi_v1_3;
+                if (sp4C < func_800CB650(arg3, temp_s0)) {
+                    arg4->unk0 = (s32) temp_s0->unk0;
+                    arg4->unk4 = (s32) temp_s0->unk4;
+                    arg4->unk8 = (s32) temp_s0->unk8;
+                    phi_v1_4 = temp_v1;
+                } else {
+                    arg4->unk0 = (s32) arg3->x;
+                    arg4->unk4 = (s32) arg3->y;
+                    arg4->unk8 = (s32) arg3->z;
+                    arg3->x = (s32) temp_s0->unk0;
+                    arg3->y = (s32) temp_s0->unk4;
+                    arg3->z = (s32) temp_s0->unk8;
+                    phi_v1_4 = temp_v1;
+                }
+            } else {
+                goto block_70;
+            }
+        }
+    } else {
+        goto block_71;
+    }
+    return phi_v1_4;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CEE0C.s")
+#endif
 
+#ifdef NON_MATCHING
+// Checks if a triangle is within a cylinder16?
+s32 func_800CF7D0(Cylinder16 *arg0, TriNorm *arg1, Vec3f *arg2) {
+    f32 sp8C;
+    Vec3f sp6C;
+    Vec3f sp60;
+    Vec3f sp54;
+    f32 cylBottom;
+    f32 cylTop;
+    f32 temp_f14_2;
+    f32 temp_f2;
+    f32 temp_ret;
+    f32 phi_f2;
+    static Vec3f D_80146550;
+    static Vec4s D_8016A730;
+    static Vec4s D_8016A738;
+    static Vec3f D_8016A740;
+    static Vec3f D_8016A750;
+
+    cylBottom = arg0->pos.y + arg0->yShift;
+    cylTop = arg0->height + cylBottom;
+
+    // If all of the verticies are below or all of the verticies are above the cylinder.
+    if (((arg1->vtx[0].y < cylBottom) && (arg1->vtx[1].y < cylBottom) && (arg1->vtx[2].y < cylBottom)) ||
+        ((arg1->vtx[0].y > cylTop) && (arg1->vtx[0].y > cylTop) && (arg1->vtx[0].y > cylTop))) {
+        return 0;
+    }
+
+    if (func_800CEE0C(arg0, &arg1->vtx[0], &arg1->vtx[1], &D_8016A740, &D_8016A750) != 0) {
+        *arg2 = D_8016A740;
+        phi_f2 = func_800CB650(&D_8016A740, &arg1->vtx[0]);
+    }
+
+    if (func_800CEE0C(arg0, &arg1->vtx[2], &arg1->vtx[1], &D_8016A740, &D_8016A750) != 0) {
+        temp_ret = func_800CB650(&D_8016A740, &arg1->vtx[2]);
+        if (temp_ret < phi_f2) {
+            *arg2 = D_8016A740;
+            phi_f2 = temp_ret;
+        }
+    }
+
+    if (func_800CEE0C(arg0, &arg1->vtx[0], &arg1->vtx[2], &D_8016A740, &D_8016A750) != 0) {
+        temp_ret = func_800CB650(&D_8016A740, &arg1->vtx[0]);
+        if (temp_ret < phi_f2) {
+            *arg2 = D_8016A740;
+            phi_f2 = temp_ret;
+        }
+    }
+    // what is 1.e38f ?
+    if (phi_f2 != 1.e38f) {
+        return 1;
+    }
+    if (func_800CD168(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], arg1->normal.x, arg1->normal.y, arg1->normal.z, arg1->plane, arg0->pos.z, arg0->pos.x, &sp8C, cylBottom, cylTop) != 0) {
+        VEC3F(sp6C, arg0->pos.x, sp8C, arg0->pos.z);
+        VEC3F(sp60, ((arg1->vtx[1].x + arg1->vtx[0].x) * 0.5f),
+                    ((arg1->vtx[1].y + arg1->vtx[0].y) * 0.5f),
+                    ((arg1->vtx[1].z + arg1->vtx[0].z) * 0.5f));
+
+        Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
+        temp_f14_2 = sqrtf((sp54.x * sp54.x) + (sp54.z * sp54.z));
+        if ((fabsf(temp_f14_2) < 0.008f)) {
+            Math_Vec3f_Copy(arg2, &sp60);
+            return 1;
+        }
+        func_800CAF5C(&sp6C, &sp54, (f32) arg0->radius / temp_f14_2, arg2);
+        return 1;
+
+    }
+
+    D_8016A730.x = D_8016A738.x = arg0->pos.x;
+    D_8016A730.z = D_8016A738.z = arg0->pos.z;
+    D_8016A730.w = D_8016A738.w = arg0->radius;
+    D_8016A730.y = cylTop;
+    D_8016A738.y = cylBottom;
+
+    if ((func_800CE934(&D_8016A730, arg1, arg2) != 0) || (func_800CE934(&D_8016A738, arg1, arg2) != 0)) {
+        return 1;
+    }
+    return 0;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CF7D0.s")
+#endif
 
 s32 func_800CFC4C(Vec3f* arg0, Vec3f* arg1) {
     Vec3s sp1C;
@@ -1138,20 +1703,18 @@ s32 func_800CFC8C(Vec4s* arg0, Vec4s* arg1, f32* arg2) {
     return func_800CFCAC(arg0, arg1, arg2, &sp1C);
 }
 
-s32 func_800CFCAC(Vec4s *arg0, Vec4s *arg1, f32 *arg2, f32 *arg3) {
+s32 func_800CFCAC(Vec4s *arg0, Vec4s *arg1, f32 *arg2, f32 *dist) {
+    f32 x;
     f32 y;
     f32 z;
-    f32 temp_f16;
-    f32 x;
 
     x = (f32)arg0->x - (f32)arg1->x;
     y = (f32)arg0->y - (f32)arg1->y;
     z = (f32)arg0->z - (f32)arg1->z;
 
-    temp_f16 = sqrt(SQ(x) + SQ(y) + SQ(z));
+    *dist = sqrt(SQ(x) + SQ(y) + SQ(z));
 
-    *arg3 = temp_f16;
-    *arg2 = (((f32)arg0->w + (f32)arg1->w) - temp_f16);
+    *arg2 = (((f32)arg0->w + (f32)arg1->w) - *dist);
     if (0.008f < *arg2) {
         return 1;
     }
@@ -1168,34 +1731,45 @@ s32 func_800CFD84(s16* arg0, s16* arg1, f32* arg2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CFDA4.s")
 
-s32 func_800CFF14(Cylinder16* arg0, Cylinder16* arg1, f32* arg2) {
-    f32 sp1C;
+/*
+ * Math3D_CylinderOutCylinder
+ * returns 1 if cylinder `ca` is outside cylinder `cb`.
+ * Sets `deadSpace` to the mininum space between the cylinders not occupied by the other.
+*/
+s32 func_800CFF14(Cylinder16* ca, Cylinder16* cb, f32* deadSpace) {
+    f32 xzDist;
 
-    func_800CFF34(arg0, arg1, arg2, &sp1C);
+    func_800CFF34(ca, cb, deadSpace, &xzDist);
 }
 
-s32 func_800CFF34(Cylinder16 *ca, Cylinder16 *cb, f32 *arg2, f32 *arg3) {
+/*
+ * Math3D_CylinderOutCylinderDist
+ * returns 1 if cylinder `ca` is outside cylinder `cb`.
+ * Sets `xzDist` to the xz distance between the centers of the cylinders.
+ * Sets `deadSpace` to the mininum space between the cylinders not occupied by the other.
+*/
+// Math3D_CylinderOutCylinderDist
+s32 func_800CFF34(Cylinder16 *ca, Cylinder16 *cb, f32 *deadSpace, f32 *xzDist) {
     static Cylinderf caf;
     static Cylinderf cbf;
 
-    Math_Vec3s_ToVec3f(&caf.pos, &ca->pos);
-    caf.radius = ca->radius;
-    caf.yShift = ca->yShift;
-    caf.height = ca->height;
-    Math_Vec3s_ToVec3f(&cbf.pos, &cb->pos);
-    cbf.radius = cb->radius;
-    cbf.yShift = cb->yShift;
-    cbf.height = cb->height;
-    *arg3 = sqrtf(SQ(caf.pos.x - cbf.pos.x) + SQ(caf.pos.z - cbf.pos.z));
-    if ((caf.radius + cbf.radius) < *arg3) {
+    CYL16TOF(ca,caf);
+    CYL16TOF(cb,cbf);
+
+    *xzDist = sqrtf(SQ(caf.pos.x - cbf.pos.x) + SQ(caf.pos.z - cbf.pos.z));
+
+    // The combined radix are within the xz distance
+    if ((caf.radius + cbf.radius) < *xzDist) {
         return 0;
     }
+
+    // top of ca < bottom of cb or top of cb < bottom of ca
     if (((caf.pos.y + caf.yShift) + caf.height) < (cbf.pos.y + cbf.yShift) ||
         (((cbf.pos.y + cbf.yShift) + cbf.height) < (caf.pos.y + caf.yShift))) {
         return 0;
     }
 
-    *arg2 = caf.radius + cbf.radius - *arg3;
+    *deadSpace = caf.radius + cbf.radius - *xzDist;
     return 1;
 }
 

@@ -4,10 +4,23 @@
 #include <z64vec.h>
 
 #define VEC3F(V,X,Y,Z) V.x=X;V.y=Y;V.z=Z
-
+#define CYL16TOF(c,cf) Math_Vec3s_ToVec3f(&cf.pos, &c->pos); \
+                        cf.radius = c->radius; \
+                        cf.yShift = c->yShift; \
+                        cf.height = c->height
 typedef struct {
     s16 x, y, z, w;
 } Vec4s;
+
+typedef struct {
+    Vec3s center;
+    s16 radius;
+} Sphere16;
+
+typedef struct {
+    Vec3f center;
+    Vec3f radius;
+} Spheref;
 
 typedef struct {
     f32 x, y, z, w;
@@ -15,8 +28,8 @@ typedef struct {
 
 typedef struct {
     Vec3f vtx[3];
-    Vec3f unitNormal;
-    f32 normalDist;
+    Vec3f normal;
+    f32 plane;
 } TriNorm;
 
 typedef struct {
@@ -66,7 +79,7 @@ s32 func_800CC6D8(Vec3s *arg0, Vec3s *arg1, Vec3s *arg2, Vec3s *arg3);
 void func_800CC824(Vec3f *arg0, s16 arg1, f32 *arg2, f32 *arg3, f32 *arg4);
 void func_800CC8B4(Vec3f *va, Vec3f* vb, Vec3f* vc, f32 *nx, f32 *ny, f32 *nz, f32 *nd);
 f32 func_800CC9C8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, Vec3f *arg4);
-f32 func_800CCA04(Vec4f *arg0, Vec4f *arg1);
+f32 func_800CCA04(Vec4f *arg0, Vec3f *arg1);
 f32 func_800CCA3C(f32 x, f32 y, f32 z, f32 arg3, Vec3f* norm);
 f32 func_800CCB0C(f32 x, f32 y, f32 z, f32 arg3, Vec3f* norm);
 s32 func_800CCF00(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);
@@ -92,7 +105,7 @@ s32 func_800CE084(f32 arg0, f32 arg1, Vec3f *arg2, Vec3f *arg3, Vec3f *arg4);
 s32 func_800CE15C(f32 arg0, f32 arg1, f32 arg2, f32 arg3, Vec3f* arg4, Vec3f *arg5, Vec3f *arg6, s32 arg7);
 s32 func_800CE25C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, Vec3f* arg7, Vec3f *arg8, Vec3f *arg9, s32 argA);
 void func_800CE3C0(TriNorm* tri, Vec3f *va, Vec3f *vb, Vec3f *vc);
-s32 func_800CE46C(Vec4s *arg0, Vec3f* arg1);
+s32 func_800CE46C(Sphere16 *arg0, Vec3f* arg1);
 s32 func_800CE4B8(f32 param_1, f32 param_2, f32 param_3, f32 param_4, f32 param_5,f32 param_6, f32 *param_7);
 void func_800CE800(Vec4s *arg0, TriNorm *arg1, Vec3f *arg2);
 s32 func_800CFC4C(Vec3f* arg0, Vec3f* arg1);
@@ -108,13 +121,14 @@ s32 func_800D04F0(Vec4s *arg0, f32 arg1, f32 arg2);
 s32 func_800D0560(Vec4s *arg0, f32 arg1, f32 arg2);
 void func_800D05D0(s32 arg0, s32 arg1);
 void func_800D05DC(s32 arg0, s32 arg1);
-s32 func_800CE934(Vec4s *arg0, TriNorm *arg1, Vec3f *arg2);
-s32 func_800CB338(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, TriNorm *arg3, f32 arg4);
-s32 func_800CE600(Vec4s *arg0, TriNorm *arg1);
+s32 func_800CE934(Sphere16 *arg0, TriNorm *arg1, Vec3f *arg2);
+s32 func_800CB338(Vec3f *v0, Vec3f *v1, Vec3f *v2, Vec3f *norm, f32 arg4);
+s32 func_800CE600(Sphere16 *arg0, TriNorm *arg1);
 void func_800CACAC(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 *arg7, f32 *arg8);
 void func_800CAB94(unk_800CAB94 *arg0, Vec3f *arg1, Vec3f *arg2);
 s32 func_800CAD08(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, unk_800CAB94 *arg8);
 s32 func_800CA7D0(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, Vec3f* arg8, Vec3f* arg9, Vec3f* argA);
 s32 func_800CAEE8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, Vec3f* arg8, Vec3f* arg9);
 s32 func_800CB1F8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
+s32 func_800CEE0C(Cylinder16 *arg0, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, Vec3f *arg4);
 #endif
