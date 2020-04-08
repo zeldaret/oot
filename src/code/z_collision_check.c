@@ -2373,8 +2373,240 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062E14.s")
 #endif // NON_MATCHING
 
+#ifdef NON_MATCHING
+//Incomplete, possibly not using the same logic
+s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* arg3,
+    Vec3f* arg4, Vec3f* arg5, Vec3f* arg6, Vec3f* arg7) {
+    //sp -0x78
+
+    Vec3f sp6C;
+    Vec3f sp60;
+    Vec3f sp54;
+    f32 sp50;
+    f32 sp4C;
+    f32 sp38;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f0_3;
+    f32 temp_f0_4;
+    f32 temp_f12_2;
+    f32 temp_f14_2;
+    f32 temp_f14_3;
+    f32 temp_f16_2;
+    f32 temp_f2; //ok
+    s32 phi_v0;
+    s32 phi_v1;
+    s32 phi_v0_3;
+    s32 phi_a1;
+    s32 phi_a2;
+    s32 phi_v1_2;
+
+    sp6C.x = arg4->x - arg3->x;
+    sp6C.y = (arg4->y - arg3->y) - arg2; //temp_f14 
+    sp6C.z = arg4->z - arg3->z;
+
+    sp60.x = arg5->x - arg3->x;
+    sp60.y = (arg5->y - arg3->y) - arg2; //temp_f6
+    sp60.z = arg5->z - arg3->z;
 
 
+    sp54.x = sp60.x - sp6C.x; // temp_f16;
+    //sp18 = sp60.y - sp6C.y; // temp_f8;
+    sp54.y = sp60.y - sp6C.y; //sp18; // temp_f8; 
+    sp54.z = sp60.z - sp6C.z;// temp_f18;
+
+    phi_v0 = 0;
+
+    if (0.0f < sp6C.y) { //ada12c:    bc1f    0xada138 ~>
+        phi_v0 = 1;
+    }
+    if (phi_v0 != 0) { //ada138:    beqzl   v0,0xada188 ~>
+        if (sp6C.y < actor_ac_98_12) {
+            if (sqrtf((sp6C.x * sp6C.x) + (sp6C.z * sp6C.z)) < actor_ac_98_10) {
+                return 3;
+            }
+        }
+    }
+
+    phi_v1 = 0;
+    if (0.0f < sp60.y) {
+        phi_v1 = 1;
+    }
+    if (phi_v1 != 0) {
+        if (sp60.y < actor_ac_98_12) {
+            if (sqrtf((sp60.x * sp60.x) + (sp60.z * sp60.z)) < actor_ac_98_10) {
+                return 3;
+            }
+        }
+    }
+
+    sp38 = ((sp6C.x * sp6C.x) + (sp6C.z * sp6C.z)) - (actor_ac_98_10 * actor_ac_98_10);// temp_f12;
+    temp_f2 = (sp54.x * sp54.x) + (sp54.z * sp54.z);
+    if (!(fabsf(temp_f2) < 0.008f)) { //ada23c:    bc1t    0xada2f0 ~>
+        temp_f14_2 = ((sp54.x + sp54.x) * sp6C.x) + ((sp54.z + sp54.z) * sp6C.z);
+        temp_f0 = temp_f14_2 * temp_f14_2;
+        temp_f12_2 = (4.0f * temp_f2) * sp38;
+        if (temp_f0 < temp_f12_2) { //ada280:    bc1f    0xada290 ~>
+            return 0;
+        }
+        temp_f16_2 = temp_f0 - temp_f12_2;
+        temp_f0_2 = sqrtf(temp_f16_2);
+        if (0.0f < temp_f16_2) {
+            phi_v0_3 = 1;
+        }
+        else {
+            phi_v0_3 = 0;
+        }
+
+        sp50 = (temp_f0_2 - temp_f14_2) / (temp_f2 + temp_f2);// temp_f16_3;
+        if (phi_v0_3 == 1) {
+            sp4C = (-temp_f14_2 - temp_f0_2) / (temp_f2 + temp_f2);
+        }
+    }
+    else { //0xada2f0
+        temp_f14_3 = ((sp54.x + sp54.x) * sp6C.x) + ((sp54.z + sp54.z) * sp6C.z);
+        if (!(fabsf(temp_f14_3) < 0.008f)) { //ada324
+            phi_v0_3 = 0;
+            sp50 = -sp38 / temp_f14_3;
+            phi_v1_2 = 1;
+        } //ada340:    b       0xada468
+        else {
+            if (sp38 <= 0.0f) { //ada358:    bc1f    0xada460 
+                if (phi_v0 != 0) //ada360:    beqz    v0,0xada388 ~>
+                {
+                    phi_v0 = 0;
+                    if (sp6C.y < actor_ac_98_12) {
+                        phi_v0 = 1;
+                    }
+                }
+                if (phi_v1 != 0) {
+                    phi_v1 = 0;
+                    if (sp60.y < actor_ac_98_12) {
+                        phi_v1 = 1;
+                    }
+                }
+                if (phi_v0 != 0) { //ada3b4
+                    if (phi_v1 != 0) { //ada3bc
+                        *arg6 = sp6C;
+                        *arg7 = sp60;
+                        return 2;
+                    }
+                }
+                //ada408
+                if (phi_v0 != 0) {
+                    *arg6 = sp6C;
+                    return 1;
+                }
+                //ada434
+                if (phi_v1 != 0) {
+                    *arg6 = sp60;
+                    return 1;
+                }
+            }
+            return 0;
+        }
+    }
+    //ada468 800632C8
+    if (phi_v0_3 == 0) { //ada468:    bnezl   v0,0xada4a4 ~>
+        if (sp50 < 0.0f || 1.0f < sp50) {
+            return 0;
+        }
+    }
+    else { //ada4a4
+        phi_a1 = 0;
+        if (sp50 < 0.0f) {
+            phi_a1 = 1;
+        }
+        if (phi_a1 == 0) {
+            phi_a1 = 0;
+            if (1.0f < sp50) {
+                phi_a1 = 1;
+            }
+        }
+        phi_a2 = 0;
+        if (sp4C < 0.0f) {
+            phi_a2 = 1;
+        }
+        if (phi_a2 == 0) {
+            phi_a2 = 0;
+            if (1.0f < sp4C) {
+                phi_a2 = 1;
+            }
+        }
+        if (phi_a1 != 0) {
+            if (phi_a2 != 0) {
+                return 0;
+            }
+        }
+        if (phi_a1 != 0) {
+            phi_v1_2 = 0;
+        }
+        if (phi_a2 != 0) {
+            phi_v0_3 = 0;
+        }
+    }
+    if (phi_v1_2 == 1) {
+        temp_f0_3 = (sp50 * sp54.y) + sp6C.y;
+        if ((temp_f0_3 < 0.0f) || (actor_ac_98_12 < temp_f0_3)) {
+            phi_v1_2 = 0;
+        }
+    }
+    if (phi_v0_3 == 1) {
+        temp_f0_4 = (sp4C * sp54.y) + sp6C.y;
+        if ((temp_f0_4 < 0.0f) || (actor_ac_98_12 < temp_f0_4)) {
+            phi_v0_3 = 0;
+        }
+    }
+    if (phi_v1_2 == 0 && phi_v0_3 == 0) {
+        return 0;
+    }
+    if (phi_v1_2 == 1) {
+        if (phi_v0_3 == 1) {
+            arg6->x = (f32)(((sp50 * sp54.x) + sp6C.x) + arg3->x);
+            arg6->y = (f32)(((sp50 * sp54.y) + sp6C.y) + arg3->y);
+            arg6->z = (f32)(((sp50 * sp54.z) + sp6C.z) + arg3->z);
+            arg7->x = (f32)(((sp4C * sp54.x) + sp6C.x) + arg3->x);
+            arg7->y = (f32)(((sp4C * sp54.y) + sp6C.y) + arg3->y);
+            arg7->z = (f32)(((sp4C * sp54.z) + sp6C.z) + arg3->z);
+            return 2;
+        }
+    }
+    if (phi_v1_2 == 1) {
+        arg6->x = (f32)(((sp50 * sp54.x) + sp6C.x) + arg3->x);
+        arg6->y = (f32)(((sp50 * sp54.y) + sp6C.y) + arg3->y);
+        arg6->z = (f32)(((sp50 * sp54.z) + sp6C.z) + arg3->z);
+        return 1;
+    }
+    if (phi_v0_3 == 1) { //ada700
+        arg6->x = (f32)(((sp4C * sp54.x) + sp6C.x) + arg3->x);
+        arg6->y = (f32)(((sp4C * sp54.y) + sp6C.y) + arg3->y);
+        arg6->z = (f32)(((sp4C * sp54.z) + sp6C.z) + arg3->z);
+        return 1;
+    }
+    return 1;
+}
+#else 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062ECC.s")
+#endif // NON_MATCHING
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800635D0.s")
+s32 func_800635D0(s32 arg0) {
+    s32 result;
+
+    result = 0;
+    if ((arg0 & 0x00400100) != 0) {
+        result = 1;
+    }
+    else if ((arg0 & 0x03000242) != 0) {
+        result = 2;
+    }
+    else  if ((arg0 & 0x48800400) != 0) {
+        result = 4;
+    }
+    else if ((arg0 << 5) < 0) {
+
+        result = 8;
+    }
+
+    KREG(7) = result;
+    return result;
+}
