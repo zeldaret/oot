@@ -216,8 +216,8 @@ typedef enum
 {
     COLTYPE_CYLINDER_GROUP = 0, //TODO: JntSphere
     COLTYPE_CYLINDER = 1,
-    COLTYPE_QUAD = 3,
-    COLTYPE_TRIANGLE_GROUP = 2
+    COLTYPE_TRIANGLE_GROUP = 2,
+    COLTYPE_QUAD = 3
 } ColliderType;
 
 typedef struct

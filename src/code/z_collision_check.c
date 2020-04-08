@@ -2255,14 +2255,77 @@ void func_80060C2C(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060C2C.s")
 #endif // NON_MATCHING
 
+//D_8011DF5C ColliderJntSph
+void func_80060EBC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+    ColliderJntSph* col = (ColliderJntSph*)collider;
+    ColliderJntSphItem* item;
+    Vec3f sp24;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060EBC.s")
+    for (item = col->list; item < col->list + col->count; item++) {
+        if ((item->body.bumperFlags & 0x80) != 0) {
+            if (item->body.colliding != 0) {
+                if ((item->body.colliding->toucherFlags & 0x40) == 0) {
+                    Math_Vec3s_ToVec3f(&sp24, &item->body.bumper.unk_06);
+                    func_8005E604(globalCtx, item->body.colBuf, item->body.colliding, &col->base, &item->body, &sp24);
+                    item->body.colliding->toucherFlags |= 0x40;
+                    return;
+                }
+            }
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80060F94.s")
+//D_8011DF5C ColliderCylinder
+void func_80060F94(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+    ColliderCylinder* item = (ColliderCylinder*)collider;
+    Vec3f sp28;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061028.s")
+    if ((item->body.bumperFlags & 0x80) != 0) {
+        if (item->body.colliding != 0) {
+            if ((item->body.colliding->toucherFlags & 0x40) == 0) {
+                Math_Vec3s_ToVec3f(&sp28, &item->body.bumper.unk_06);
+                func_8005E604(globalCtx, item->body.colBuf, item->body.colliding, &item->base, &item->body, &sp28);
+                item->body.colliding->toucherFlags |= 0x40;
+            }
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8006110C.s")
+//D_8011DF5C ColliderTris
+void func_80061028(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+    ColliderTris* col = (ColliderTris*)collider;
+    ColliderTrisItem* item;
+    Vec3f sp24;
+
+    for (item = col->list; item < col->list + col->count; item++) {
+        if ((item->body.bumperFlags & 0x80) != 0) {
+            if (item->body.colliding != 0) {
+                if ((item->body.colliding->toucherFlags & 0x40) == 0) {
+                    Math_Vec3s_ToVec3f(&sp24, &item->body.bumper.unk_06);
+                    func_8005E604(globalCtx, item->body.colBuf, item->body.colliding, &col->base, &item->body, &sp24);
+                    item->body.colliding->toucherFlags |= 0x40;
+                    return;
+                }
+            }
+        }
+    }
+}
+
+//D_8011DF5C ColliderQuad
+void func_8006110C(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+    ColliderQuad* item = (ColliderQuad*)collider;
+    Vec3f sp28;
+
+    if ((item->body.bumperFlags & 0x80) != 0) {
+        if (item->body.colliding != 0) {
+            if ((item->body.colliding->toucherFlags & 0x40) == 0) {
+                Math_Vec3s_ToVec3f(&sp28, &item->body.bumper.unk_06);
+                func_8005E604(globalCtx, item->body.colBuf, item->body.colliding, &item->base, &item->body, &sp28);
+                item->body.colliding->toucherFlags |= 0x40;
+            }
+        }
+    }
+}
 
 extern void (*D_8011DF5C[])(GlobalContext*, CollisionCheckContext*, Collider*);
 void func_800611A0(GlobalContext* globalCtx, CollisionCheckContext* check) {
