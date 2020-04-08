@@ -322,7 +322,7 @@ s32 EnAni_UpdateMtxFunc(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     EnAni* temp;
 
     temp = enAni;
-    if (limbIndex == 0xf) {
+    if (limbIndex == 15) {
         rot->x += temp->unk_29C.y;
         rot->z += temp->unk_29C.x;
     }
@@ -330,7 +330,7 @@ s32 EnAni_UpdateMtxFunc(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnAni_LimbAppendDList(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnAni* enAni) {
-    if (limbIndex == 0xf) {
+    if (limbIndex == 15) {
         Matrix_MultVec3f(&EnAniVec, &enAni->actor.posRot2.pos);
     }
 }
