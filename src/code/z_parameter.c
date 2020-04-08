@@ -1,6 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 #include <vt.h>
+#include <PR/os_cont.h>
 
 typedef struct {
     /* 0x00 */ u8 scene;
@@ -3981,13 +3982,13 @@ void Interface_Update(GlobalContext* globalCtx) {
     u16 action;
     Input* input = &globalCtx->state.input[2];
 
-    if (!~(input->padPressed | -0x201)) {
+    if (!~(input->padPressed | ~L_JPAD)) {
         gSaveContext.language = 0;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (!~(input->padPressed | -0x801)) {
+    } else if (!~(input->padPressed | ~U_JPAD)) {
         gSaveContext.language = 1;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
-    } else if (!~(input->padPressed | -0x101)) {
+    } else if (!~(input->padPressed | ~R_JPAD)) {
         gSaveContext.language = 2;
         osSyncPrintf("J_N=%x J_N=%x\n", gSaveContext.language, &gSaveContext.language);
     }
