@@ -562,7 +562,7 @@ static void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     MtxF mf;
     GraphicsContext* gfxCtx;
     f32 xzScale;
-    Gfx* gfx[3];
+    Gfx* dispRefs[3];
 
     if ((this->actor.floorPoly == NULL) ||
         ((this->timer >= 0x51) && (this->actionFunc != (ActorFunc)&EnWallmas_Stun))) {
@@ -570,7 +570,7 @@ static void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     }
 
     // clang-format off
-    gfxCtx = globalCtx->state.gfxCtx; func_800C6AC4(gfx, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1386);
+    gfxCtx = globalCtx->state.gfxCtx; Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1386);
     // clang-format on
 
     func_80094044(globalCtx->state.gfxCtx);
@@ -591,7 +591,7 @@ static void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1421), G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_04049210);
-    func_800C6B54(gfx, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1426);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1426);
 }
 
 static s32 EnWallMas_UpdatePos(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -610,12 +610,12 @@ static s32 EnWallMas_UpdatePos(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 
 static void EnWallmas_DrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
     GraphicsContext* gfxCtx;
-    Gfx* gfx[4];
+    Gfx* dispRefs[4];
 
     if (limbIndex == 2) {
         gfxCtx = globalCtx->state.gfxCtx;
 
-        func_800C6AC4(&gfx, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1478);
+        Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1478);
         Matrix_Push();
         Matrix_Translate(1600.0f, -700.0f, -1700.0f, MTXMODE_APPLY);
         Matrix_RotateY(DEGREE_60_RAD, MTXMODE_APPLY);
@@ -626,7 +626,7 @@ static void EnWallmas_DrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
         gSPDisplayList(gfxCtx->polyOpa.p++, D_06008688);
 
         Matrix_Pull();
-        func_800C6B54(&gfx, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1495);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1495);
     }
 }
 

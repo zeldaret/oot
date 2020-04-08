@@ -10,7 +10,7 @@ glabel BgSpot01Idomizu_Draw
 /* 00198 808ABC78 24C6BDC0 */  addiu   $a2, $a2, %lo(D_808ABDC0)  ## $a2 = 808ABDC0
 /* 0019C 808ABC7C 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE8
 /* 001A0 808ABC80 240700E4 */  addiu   $a3, $zero, 0x00E4         ## $a3 = 000000E4
-/* 001A4 808ABC84 0C031AB1 */  jal     func_800C6AC4              
+/* 001A4 808ABC84 0C031AB1 */  jal     Graph_OpenDisps              
 /* 001A8 808ABC88 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 001AC 808ABC8C 0C024F61 */  jal     func_80093D84              
 /* 001B0 808ABC90 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -69,7 +69,7 @@ glabel BgSpot01Idomizu_Draw
 /* 00284 808ABD64 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 00288 808ABD68 24C6BDF8 */  addiu   $a2, $a2, %lo(D_808ABDF8)  ## $a2 = 808ABDF8
 /* 0028C 808ABD6C 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE8
-/* 00290 808ABD70 0C031AD5 */  jal     func_800C6B54              
+/* 00290 808ABD70 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00294 808ABD74 240700F4 */  addiu   $a3, $zero, 0x00F4         ## $a3 = 000000F4
 /* 00298 808ABD78 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 0029C 808ABD7C 8FB00034 */  lw      $s0, 0x0034($sp)           

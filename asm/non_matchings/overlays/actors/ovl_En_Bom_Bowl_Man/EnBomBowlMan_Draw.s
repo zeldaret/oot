@@ -9,7 +9,7 @@ glabel EnBomBowlMan_Draw
 /* 012D8 809C4908 24C64C44 */  addiu   $a2, $a2, %lo(D_809C4C44)  ## $a2 = 809C4C44
 /* 012DC 809C490C 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 012E0 809C4910 2407038B */  addiu   $a3, $zero, 0x038B         ## $a3 = 0000038B
-/* 012E4 809C4914 0C031AB1 */  jal     func_800C6AC4
+/* 012E4 809C4914 0C031AB1 */  jal     Graph_OpenDisps
 /* 012E8 809C4918 AFA50048 */  sw      $a1, 0x0048($sp)
 /* 012EC 809C491C 8FAF0054 */  lw      $t7, 0x0054($sp)
 /* 012F0 809C4920 0C024F46 */  jal     func_80093D18
@@ -54,7 +54,7 @@ glabel EnBomBowlMan_Draw
 /* 0138C 809C49BC 24C64C5C */  addiu   $a2, $a2, %lo(D_809C4C5C)  ## $a2 = 809C4C5C
 /* 01390 809C49C0 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 01394 809C49C4 2407039B */  addiu   $a3, $zero, 0x039B         ## $a3 = 0000039B
-/* 01398 809C49C8 0C031AD5 */  jal     func_800C6B54
+/* 01398 809C49C8 0C031AD5 */  jal     Graph_CloseDisps
 /* 0139C 809C49CC 8D050000 */  lw      $a1, 0x0000($t0)           ## 00000000
 /* 013A0 809C49D0 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 013A4 809C49D4 8FB00028 */  lw      $s0, 0x0028($sp)

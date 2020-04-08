@@ -26,7 +26,7 @@ static void Opening_Update(OpeningContext* this) {
     func_80803C5C(this);
 }
 
-static void Opening_Destroy(OpeningContext* this) {
+void Opening_Destroy(OpeningContext* this) {
 }
 
 void Opening_Init(OpeningContext* this) {

@@ -10,7 +10,7 @@ glabel BgBowlWall_Draw
 /* 00784 8086F8E4 24C6FAD4 */  addiu   $a2, $a2, %lo(D_8086FAD4)  ## $a2 = 8086FAD4
 /* 00788 8086F8E8 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE0
 /* 0078C 8086F8EC 240701B9 */  addiu   $a3, $zero, 0x01B9         ## $a3 = 000001B9
-/* 00790 8086F8F0 0C031AB1 */  jal     func_800C6AC4              
+/* 00790 8086F8F0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00794 8086F8F4 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00798 8086F8F8 0C024F61 */  jal     func_80093D84              
 /* 0079C 8086F8FC 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -79,7 +79,7 @@ glabel BgBowlWall_Draw
 /* 00894 8086F9F4 AC4A0004 */  sw      $t2, 0x0004($v0)           ## 00000004
 /* 00898 8086F9F8 AC490000 */  sw      $t1, 0x0000($v0)           ## 00000000
 .L8086F9FC:
-/* 0089C 8086F9FC 0C031AD5 */  jal     func_800C6B54              
+/* 0089C 8086F9FC 0C031AD5 */  jal     Graph_CloseDisps              
 /* 008A0 8086FA00 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 008A4 8086FA04 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 008A8 8086FA08 8FB0001C */  lw      $s0, 0x001C($sp)           

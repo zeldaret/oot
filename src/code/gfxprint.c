@@ -152,7 +152,7 @@ void GfxPrint_InitDlist(GfxPrint* this) {
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_IA16 | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_XLU_SURF | G_RM_XLU_SURF2);
-    gDPSetCombineLERP(this->dlist++, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0);
+    gDPSetCombineMode(this->dlist++, G_CC_DECALRGBA, G_CC_DECALRGBA);
 
     gDPSetTextureImage(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_4b_LOAD_BLOCK, 1, sGfxPrintFontData);
     gDPSetTile(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_4b_LOAD_BLOCK, 0, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
@@ -232,14 +232,12 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
             gDPSetTextureLUT(this->dlist++, G_TT_RGBA16);
             gDPSetCycleType(this->dlist++, G_CYC_2CYCLE);
             gDPSetRenderMode(this->dlist++, G_RM_OPA_CI, G_RM_XLU_SURF2);
-            gDPSetCombineLERP(this->dlist++, TEXEL0, 0, TEXEL1, 0, TEXEL0, 0, TEXEL1, 0, 0, 0, 0, COMBINED, 0, 0, 0,
-                              COMBINED);
+            gDPSetCombineMode(this->dlist++, G_CC_INTERFERENCE, G_CC_PASS2);
         } else {
             gDPSetTextureLUT(this->dlist++, G_TT_IA16);
             gDPSetCycleType(this->dlist++, G_CYC_1CYCLE);
             gDPSetRenderMode(this->dlist++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
-            gDPSetCombineLERP(this->dlist++, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0,
-                              TEXEL0);
+            gDPSetCombineMode(this->dlist++, G_CC_MODULATEIDECALA_PRIM, G_CC_MODULATEIDECALA_PRIM);
         }
     }
 

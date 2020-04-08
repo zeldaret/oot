@@ -93,7 +93,7 @@ glabel func_808D4F94
 /* 02A74 808D50E4 AFA90060 */  sw      $t1, 0x0060($sp)           
 /* 02A78 808D50E8 27A4004C */  addiu   $a0, $sp, 0x004C           ## $a0 = FFFFFFE4
 /* 02A7C 808D50EC 24070875 */  addiu   $a3, $zero, 0x0875         ## $a3 = 00000875
-/* 02A80 808D50F0 0C031AB1 */  jal     func_800C6AC4              
+/* 02A80 808D50F0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 02A84 808D50F4 AFA5005C */  sw      $a1, 0x005C($sp)           
 /* 02A88 808D50F8 8FA8005C */  lw      $t0, 0x005C($sp)           
 /* 02A8C 808D50FC 8FA90060 */  lw      $t1, 0x0060($sp)           
@@ -121,7 +121,7 @@ glabel func_808D4F94
 /* 02AE4 808D5154 0301C825 */  or      $t9, $t8, $at              ## $t9 = FFFFFF00
 /* 02AE8 808D5158 AC790004 */  sw      $t9, 0x0004($v1)           ## 00000004
 /* 02AEC 808D515C 8FAA0068 */  lw      $t2, 0x0068($sp)           
-/* 02AF0 808D5160 0C031AD5 */  jal     func_800C6B54              
+/* 02AF0 808D5160 0C031AD5 */  jal     Graph_CloseDisps              
 /* 02AF4 808D5164 8D450000 */  lw      $a1, 0x0000($t2)           ## 00000008
 /* 02AF8 808D5168 10000025 */  beq     $zero, $zero, .L808D5200   
 /* 02AFC 808D516C 00000000 */  nop
@@ -132,7 +132,7 @@ glabel func_808D4F94
 /* 02B0C 808D517C AFA90060 */  sw      $t1, 0x0060($sp)           
 /* 02B10 808D5180 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFC8
 /* 02B14 808D5184 2407087E */  addiu   $a3, $zero, 0x087E         ## $a3 = 0000087E
-/* 02B18 808D5188 0C031AB1 */  jal     func_800C6AC4              
+/* 02B18 808D5188 0C031AB1 */  jal     Graph_OpenDisps              
 /* 02B1C 808D518C AFA50040 */  sw      $a1, 0x0040($sp)           
 /* 02B20 808D5190 8FA80040 */  lw      $t0, 0x0040($sp)           
 /* 02B24 808D5194 8FA90060 */  lw      $t1, 0x0060($sp)           
@@ -160,7 +160,7 @@ glabel func_808D4F94
 /* 02B7C 808D51EC 01816825 */  or      $t5, $t4, $at              ## $t5 = FFFFFF00
 /* 02B80 808D51F0 AC6D0004 */  sw      $t5, 0x0004($v1)           ## 00000004
 /* 02B84 808D51F4 8FAE0068 */  lw      $t6, 0x0068($sp)           
-/* 02B88 808D51F8 0C031AD5 */  jal     func_800C6B54              
+/* 02B88 808D51F8 0C031AD5 */  jal     Graph_CloseDisps              
 /* 02B8C 808D51FC 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000008
 .L808D5200:
 /* 02B90 808D5200 1A000004 */  blez    $s0, .L808D5214            

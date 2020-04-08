@@ -318,7 +318,7 @@ beginseg
     include "build/src/code/code_8006C3A0.o"
     include "build/src/code/code_8006C510.o"
     include "build/src/code/z_fcurve_data_skelanime.o"
-    include "build/data/z_game_dlftbls.data.o"
+    include "build/src/code/z_game_dlftbls.o"
     include "build/src/code/z_horse.o"
     include "build/src/code/z_jpeg.o"
     include "build/data/z_jpeg.data.o"
@@ -372,8 +372,8 @@ beginseg
     include "build/src/code/code_800A9D40.o"
     include "build/src/code/code_800A9F30.o"
     include "build/data/code_800A9F30.bss.o"
+    include "build/data/z_text.data.o"
     include "build/src/code/z_view.o"
-    include "build/data/z_view.data.o"
     include "build/src/code/z_vimode.o"
     include "build/src/code/code_800ACE70.o"
     include "build/src/code/z_vismono.o"
@@ -425,10 +425,7 @@ beginseg
     include "build/data/game.rodata.o"
     include "build/data/game.bss.o"
     include "build/src/code/gamealloc.o"
-    include "build/asm/graph.o"
-    include "build/data/graph.data.o"
-    include "build/data/graph.rodata.o"
-    include "build/data/graph.bss.o"
+    include "build/src/code/graph.o"
     include "build/src/code/listalloc.o"
     include "build/src/code/main.o"
     include "build/src/code/padmgr.o"
@@ -933,9 +930,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Firewall"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Firewall/z_bg_hidan_firewall.o"
-    include "build/data/overlays/actors/z_bg_hidan_firewall.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_firewall.rodata.o"
-    include "build/data/overlays/actors/z_bg_hidan_firewall.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Firewall/z_bg_hidan_firewall_reloc.o"
 endseg
 
 beginseg
@@ -1466,9 +1461,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot12_Saku"
     include "build/src/overlays/actors/ovl_Bg_Spot12_Saku/z_bg_spot12_saku.o"
-    include "build/data/overlays/actors/z_bg_spot12_saku.data.o"
-    include "build/data/overlays/actors/z_bg_spot12_saku.rodata.o"
-    include "build/data/overlays/actors/z_bg_spot12_saku.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot12_Saku/z_bg_spot12_saku_reloc.o"
 endseg
 
 beginseg

@@ -9,7 +9,7 @@ glabel BgHakaWater_Draw
 /* 003E0 808820E0 24C624C0 */  addiu   $a2, $a2, %lo(D_808824C0)  ## $a2 = 808824C0
 /* 003E4 808820E4 27A4006C */  addiu   $a0, $sp, 0x006C           ## $a0 = FFFFFFDC
 /* 003E8 808820E8 2407011F */  addiu   $a3, $zero, 0x011F         ## $a3 = 0000011F
-/* 003EC 808820EC 0C031AB1 */  jal     func_800C6AC4              
+/* 003EC 808820EC 0C031AB1 */  jal     Graph_OpenDisps              
 /* 003F0 808820F0 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 003F4 808820F4 8FAF0094 */  lw      $t7, 0x0094($sp)           
 /* 003F8 808820F8 0C024F61 */  jal     func_80093D84              
@@ -244,7 +244,7 @@ glabel BgHakaWater_Draw
 /* 00768 80882468 24C62508 */  addiu   $a2, $a2, %lo(D_80882508)  ## $a2 = 80882508
 /* 0076C 8088246C 27A4006C */  addiu   $a0, $sp, 0x006C           ## $a0 = FFFFFFDC
 /* 00770 80882470 2407014C */  addiu   $a3, $zero, 0x014C         ## $a3 = 0000014C
-/* 00774 80882474 0C031AD5 */  jal     func_800C6B54              
+/* 00774 80882474 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00778 80882478 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 0077C 8088247C 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 00780 80882480 8FB00038 */  lw      $s0, 0x0038($sp)           
