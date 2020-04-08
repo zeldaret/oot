@@ -1,3 +1,24 @@
+.rdata
+
+glabel D_808B7654
+    .asciz "../z_bg_spot17_funen.c"
+    .balign 4
+
+glabel D_808B766C
+    .asciz "../z_bg_spot17_funen.c"
+    .balign 4
+
+glabel D_808B7684
+    .asciz "../z_bg_spot17_funen.c"
+    .balign 4
+
+.late_rodata
+
+glabel D_808B769C
+ .word 0x38C90FDB
+
+.text
+
 glabel func_808B7478
 /* 00078 808B7478 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 0007C 808B747C AFB10038 */  sw      $s1, 0x0038($sp)           
