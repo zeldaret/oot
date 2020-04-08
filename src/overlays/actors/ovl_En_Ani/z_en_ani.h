@@ -8,10 +8,8 @@ typedef struct {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinderMain collider;
     /* 0x0198 */ SkelAnime skelAnime;
-    /* 0x01DC */ u8 unk_1DC;
-    /* 0x01DD */ char unk_1DD[0x5F];
-    /* 0x023C */ u16 unk_23C;
-    /* 0x023E */ char unk_23E[0x5E];
+    /* 0x01DC */ Vec3s actorDrawTable[16];
+    /* 0x023C */ Vec3s transitionDrawTable[16];
     /* 0x029C */ Vec3s unk_29C;
     /* 0x02A2 */ Vec3s unk_2A2;
     /* 0x02A8 */ u16 unk_2A8;

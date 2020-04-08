@@ -12,7 +12,7 @@
 void EnAni_SetupAction(EnAni* this, ActorFunc actionFunc);
 void EnAni_Init(EnAni* this, GlobalContext* globalCtx);
 void EnAni_Destroy(EnAni* this, GlobalContext* globalCtx);
-s32  EnAni_SetText(EnAni* this, GlobalContext* globalCtx, u16 textId);
+s32 EnAni_SetText(EnAni* this, GlobalContext* globalCtx, u16 textId);
 void func_809B04F0(EnAni* this, GlobalContext* globalCtx);
 void func_809B0524(EnAni* this, GlobalContext* globalCtx);
 void func_809B0558(EnAni* this, GlobalContext* globalCtx);
@@ -24,7 +24,7 @@ void func_809B0994(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A28(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A6C(EnAni* this, GlobalContext* globalCtx);
 void EnAni_Update(EnAni* this, GlobalContext* globalCtx);
-s32  EnAni_UpdateMtxFunc(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnAni* enAni);
+s32 EnAni_UpdateMtxFunc(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnAni* enAni);
 void EnAni_LimbAppendDList(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnAni* enAni);
 void EnAni_Draw(EnAni* this, GlobalContext* globalCtx);
 
@@ -47,7 +47,7 @@ const ActorInit En_Ani_InitVars = {
 };
 
 static ColliderCylinderInit cylinderInitData = {
-    0x0A, 0x00, 0x11, 0x39, 
+    0x0A, 0x00, 0x11, 0x39,
     0x10, 0x01, 0x00, 0x00, 
     0x00, 0x00, 0x00, 0x00,   
     0x00000000, 
@@ -73,7 +73,6 @@ UNK_PTR D_809B0F80[] = {
     0x06000408,
     0x06001518,
     0x06001D18,
-    0x00000000,
 };
 
 void EnAni_SetupAction(EnAni* this, ActorFunc actionFunc) {
@@ -87,7 +86,8 @@ void EnAni_Init(EnAni* this, GlobalContext* globalCtx) {
     anim = &D_060076EC;
     Actor_ProcessInitChain(&this->actor, initChain);
     ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, anim, &this->unk_1DC, &this->unk_23C, 0x10);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, anim, this->actorDrawTable, this->transitionDrawTable,
+                     0x10);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, anim);
     ActorCollider_AllocCylinder(globalCtx, &this->collider);
     ActorCollider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
@@ -130,7 +130,7 @@ void func_809B0524(EnAni* this, GlobalContext* globalCtx) {
 
 void func_809B0558(EnAni* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx) != 0) {
-        this->actor.attachedA = 0;
+        this->actor.attachedA = NULL;
         if (LINK_IS_CHILD) {
             EnAni_SetupAction(this, func_809B04F0);
         } else {
@@ -151,7 +151,7 @@ void func_809B05F0(EnAni* this, GlobalContext* globalCtx) {
 
 void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
     u16 textId;
-    s16 rotDiff;
+    s16 yawDiff;
     u16 textId2;
 
     textId2 = Text_GetFaceReaction(globalCtx, 0xA);
@@ -164,7 +164,7 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
                                                             // "...all I can do is look at Death Mountain."
     }
 
-    rotDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         if (this->actor.textId == 0x5056) { // "To get a good view..."
             EnAni_SetupAction(this, func_809B04F0);
@@ -173,24 +173,24 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
         } else {
             EnAni_SetupAction(this, func_809B04F0);
         }
-    } else if (rotDiff >= -0x36AF && rotDiff < 0 && this->actor.xzDistanceFromLink < 150.0f 
-                                                    && -80.0f < this->actor.yDistanceFromLink) {
+    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistanceFromLink < 150.0f &&
+               -80.0f < this->actor.yDistanceFromLink) {
         if ((gSaveContext.item_get_inf[1] & 0x20) != 0) {
             EnAni_SetText(this, globalCtx, 0x5056); // "To get a good view..."
         } else {
             EnAni_SetText(this, globalCtx, 0x5055); // "...I'll give you this as a memento."
         }
-    } else if (rotDiff >= -0x3E7 && rotDiff < 0x36B0 && this->actor.xzDistanceFromLink < 350.0f) {
+    } else if (yawDiff >= -0x3E7 && yawDiff < 0x36B0 && this->actor.xzDistanceFromLink < 350.0f) {
         EnAni_SetText(this, globalCtx, textId);
     }
 }
 
 void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
     s16 pad;
-    s16 rotDiff;
+    s16 yawDiff;
     u16 textId;
 
-    rotDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+    yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         if (this->actor.textId == 0x5056) { // "To get a good view..."
             EnAni_SetupAction(this, func_809B0524);
@@ -199,14 +199,14 @@ void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
         } else {
             EnAni_SetupAction(this, func_809B0524);
         }
-    } else if (rotDiff >= -0x36AF && rotDiff < 0 && this->actor.xzDistanceFromLink < 150.0f 
-                                                    && -80.0f < this->actor.yDistanceFromLink) {
+    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistanceFromLink < 150.0f &&
+               -80.0f < this->actor.yDistanceFromLink) {
         if ((gSaveContext.item_get_inf[1] & 0x20) != 0) {
             EnAni_SetText(this, globalCtx, 0x5056); // "To get a good view..."
         } else {
             EnAni_SetText(this, globalCtx, 0x5055); // "...I'll give you this as a memento."
         }
-    } else if (rotDiff >= -0x3E7 && rotDiff < 0x36B0 && this->actor.xzDistanceFromLink < 350.0f) {
+    } else if (yawDiff >= -0x3E7 && yawDiff < 0x36B0 && this->actor.xzDistanceFromLink < 350.0f) {
         if ((gSaveContext.event_chk_inf[2] & 0x8000) == 0) {
             textId = 0x5052; // "...Something is happening on Death Mountain!"
         } else {
@@ -310,7 +310,7 @@ void EnAni_Update(EnAni* this, GlobalContext* globalCtx) {
     }
 
     if (phi_v0 == 0) {
-        this->unk_2AE = Math_Rand_S16Offset(0x3c, 0x3c);
+        this->unk_2AE = Math_Rand_S16Offset(60, 60);
     }
     this->unk_2AC = this->unk_2AE;
     if (this->unk_2AC >= 3) {
@@ -344,12 +344,12 @@ void EnAni_Draw(EnAni* this, GlobalContext* globalCtx) {
     temp = D_809B0F80;
     gfxCtx = globalCtx->state.gfxCtx;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ani.c", 0x2CF);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ani.c", 719);
     func_800943C8(globalCtx->state.gfxCtx);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(temp[this->unk_2AC]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
                      EnAni_UpdateMtxFunc, EnAni_LimbAppendDList, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ani.c", 0x2E0);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ani.c", 736);
 }
