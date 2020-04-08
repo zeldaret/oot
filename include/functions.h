@@ -191,7 +191,7 @@ GlobalContext* func_80026B00(void);
 // ? func_80026B0C(?);
 // ? func_80026C1C(?);
 // ? func_80026C2C(?);
-void Effect_Add(GlobalContext* gctx, s32* a, s32 b, u8 c, u8 d, u8* d2);
+void Effect_Add(GlobalContext* gctx, s32* a, s32 b, u8 c, u8 d, Effect_Add_arg2_s* d2);
 // ? func_80026E74(?);
 // ? func_80026F70(?);
 // ? func_8002709C(?);
@@ -231,7 +231,7 @@ void Effect_SpawnFragment(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* b
 // ? func_80029568(?);
 // ? func_80029724(?);
 // ? func_8002993C(?);
-// ? func_800299AC(?);
+void func_800299AC(GlobalContext* globalCtx, Vec3f* v);
 // ? func_80029C50(?);
 void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos); //arg a1 is not s32, this will not OK func_8005E604
 // ? func_80029F44(?);
@@ -750,8 +750,8 @@ void func_80061ED4(SubActorStruct98 *sub98, ActorDamageChart *damageChart, SubAc
 // ? func_800626B0(?);
 void ActorCollider_Cylinder_Update(Actor* actor, ColliderCylinder* collision);
 // ? func_80062734(?);
-// ? func_80062A28(?);
-// ? func_80062B80(?);
+void func_80062A28(GlobalContext*, Vec3f*);
+void func_80062B80(GlobalContext*, Vec3f*);
 // ? func_80062CD4(?);
 void func_80062D60(GlobalContext*, Vec3f*);
 // ? func_80062DAC(?);

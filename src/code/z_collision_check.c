@@ -1,6 +1,12 @@
 #include <ultra64.h>
 #include <global.h>
 
+//.bss
+//UNK_TYPE D_8015CF00;
+//UNK_TYPE D_8015CF04;
+//f32 D_8015CF08;
+//UNK_TYPE D_8015CF0C;
+
 void func_8005B2AC(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
 
 //draw red poly
@@ -1225,7 +1231,124 @@ void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 
 }
 
+#ifdef NON_MATCHING
+//.bss problems
+void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+    s32 sp24;
+    static Effect_Add_arg2_s D_8015D8A0;
+
+    D_8015D8A0.unk000.x = (s32)v->x;
+    D_8015D8A0.unk000.y = (s32)v->y;
+    D_8015D8A0.unk000.z = (s32)v->z;
+    D_8015D8A0.unk494 = 5;
+    D_8015D8A0.unk498 = 5;
+    D_8015D8A0.unk49C[0] = (u8)0xA;
+    D_8015D8A0.unk49C[1] = (u8)0xA;
+    D_8015D8A0.unk49C[2] = (u8)0xC8;
+    D_8015D8A0.unk49C[3] = (u8)0xFF;
+    D_8015D8A0.unk49C[4] = (u8)0;
+    D_8015D8A0.unk49C[5] = (u8)0;
+    D_8015D8A0.unk49C[6] = (u8)0x80;
+    D_8015D8A0.unk49C[7] = (u8)0xFF;
+    D_8015D8A0.unk49C[8] = (u8)0;
+    D_8015D8A0.unk49C[9] = (u8)0;
+    D_8015D8A0.unk49C[10] = (u8)0x80;
+    D_8015D8A0.unk49C[11] = (u8)0xFF;
+    D_8015D8A0.unk49C[12] = (u8)0;
+    D_8015D8A0.unk49C[13] = (u8)0;
+    D_8015D8A0.unk49C[14] = (u8)0x80;
+    D_8015D8A0.unk49C[15] = (u8)0xFF;
+    D_8015D8A0.unk49C[16] = (u8)0;
+    D_8015D8A0.unk49C[17] = (u8)0;
+    D_8015D8A0.unk49C[18] = (u8)0x20;
+    D_8015D8A0.unk49C[19] = (u8)0;
+    D_8015D8A0.unk49C[20] = (u8)0;
+    D_8015D8A0.unk49C[21] = (u8)0;
+    D_8015D8A0.unk49C[22] = (u8)0x20;
+    D_8015D8A0.unk49C[23] = (u8)0;
+    D_8015D8A0.unk49C[24] = (u8)0;
+    D_8015D8A0.unk49C[25] = (u8)0;
+    D_8015D8A0.unk49C[26] = (u8)0x40;
+    D_8015D8A0.unk49C[27] = (u8)0;
+    D_8015D8A0.unk49C[28] = (u8)0;
+    D_8015D8A0.unk49C[29] = (u8)0;
+    D_8015D8A0.unk49C[30] = (u8)0x40;
+    D_8015D8A0.unk49C[31] = (u8)0;
+    D_8015D8A0.unk4BC = 0;
+    D_8015D8A0.unk4C0 = 16;
+    D_8015D8A0.unk48C = 8.0f;
+    D_8015D8A0.unk490 = -1.0f;
+    Effect_Add(globalCtx,  &sp24, 0, 0, 1, &D_8015D8A0);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DFAC.s")
+#endif // NON_MATCHING
+
+#ifdef NON_MATCHING
+//.bss problems
+void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+    s32 sp24;
+    static Effect_Add_arg2_s D_8015DD68;
+    //D_8015DD68
+    D_8015DD68.unk000.x = (s32)v->x;
+    D_8015DD68.unk000.y = (s32)v->y;
+    D_8015DD68.unk000.z = (s32)v->z;
+    D_8015DD68.unk494 = 5;
+    D_8015DD68.unk498 = 5;
+    D_8015DD68.unk49C[0] = (u8)0xA;
+    D_8015DD68.unk49C[1] = (u8)0xC8;
+    D_8015DD68.unk49C[2] = (u8)0xA;
+    D_8015DD68.unk49C[3] = (u8)0xFF;
+    D_8015DD68.unk49C[4] = (u8)0;
+    D_8015DD68.unk49C[5] = (u8)0x80;
+    D_8015DD68.unk49C[6] = (u8)0;
+    D_8015DD68.unk49C[7] = (u8)0xFF;
+    D_8015DD68.unk49C[8] = (u8)0;
+    D_8015DD68.unk49C[9] = (u8)0x80;
+    D_8015DD68.unk49C[10] = (u8)0;
+    D_8015DD68.unk49C[11] = (u8)0xFF;
+    D_8015DD68.unk49C[12] = (u8)0;
+    D_8015DD68.unk49C[13] = (u8)0x80;
+    D_8015DD68.unk49C[14] = (u8)0;
+    D_8015DD68.unk49C[15] = (u8)0xFF;
+    D_8015DD68.unk49C[16] = (u8)0;
+    D_8015DD68.unk49C[17] = (u8)0x20;
+    D_8015DD68.unk49C[18] = (u8)0;
+    D_8015DD68.unk49C[19] = (u8)0;
+    D_8015DD68.unk49C[20] = (u8)0;
+    D_8015DD68.unk49C[21] = (u8)0x20;
+    D_8015DD68.unk49C[22] = (u8)0;
+    D_8015DD68.unk49C[23] = (u8)0;
+    D_8015DD68.unk49C[24] = (u8)0;
+    D_8015DD68.unk49C[25] = (u8)0x40;
+    D_8015DD68.unk49C[26] = (u8)0;
+    D_8015DD68.unk49C[27] = (u8)0;
+    D_8015DD68.unk49C[28] = (u8)0;
+    D_8015DD68.unk49C[29] = (u8)0x40;
+    D_8015DD68.unk49C[30] = (u8)0;
+    D_8015DD68.unk49C[31] = (u8)0;
+    D_8015DD68.unk4BC = 0;
+    D_8015DD68.unk4C0 = 16;
+    D_8015DD68.unk48C = 8.0f;
+    D_8015DD68.unk490 = -1.0f;
+    Effect_Add(globalCtx, &sp24, 0, 0, 1, &D_8015DD68);
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E10C.s")
+#endif //NON_MATCHING
+
+void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+    func_800299AC(globalCtx, v);
+    func_80062B80(globalCtx, v);
+}
+
+void func_8005E2A4(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+    func_80062A28(globalCtx, v);
+}
+
+void func_8005E2C8(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+    func_80062A28(globalCtx, v);
+}
 
 void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* arg1, Collider* arg2, Vec3f* arg3) {
     s32 temp_v0;
@@ -2347,9 +2470,111 @@ void func_8006268C(GlobalContext* arg0, CollisionCheckContext* arg1, UNK_TYPE ar
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800628A4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062A28.s")
+#ifdef NON_MATCHING
+//.bss section problems
+void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
+    s32 sp24;
+    static Effect_Add_arg2_s D_8015CF10;
 
+    D_8015CF10.unk000.x = (s32)v->x;
+    D_8015CF10.unk000.y = (s32)v->y;
+    D_8015CF10.unk000.z = (s32)v->z;
+    D_8015CF10.unk494 = 5;
+    D_8015CF10.unk498 = 5;
+    D_8015CF10.unk49C[0] = (u8)0x80;
+    D_8015CF10.unk49C[1] = (u8)0;
+    D_8015CF10.unk49C[2] = (u8)0x40;
+    D_8015CF10.unk49C[3] = (u8)0xFF;
+    D_8015CF10.unk49C[4] = (u8)0x80;
+    D_8015CF10.unk49C[5] = (u8)0;
+    D_8015CF10.unk49C[6] = (u8)0x40;
+    D_8015CF10.unk49C[7] = (u8)0xFF;
+    D_8015CF10.unk49C[8] = (u8)0xFF;
+    D_8015CF10.unk49C[9] = (u8)0x80;
+    D_8015CF10.unk49C[10] = (u8)0;
+    D_8015CF10.unk49C[11] = (u8)0xFF;
+    D_8015CF10.unk49C[12] = (u8)0xFF;
+    D_8015CF10.unk49C[13] = (u8)0x80;
+    D_8015CF10.unk49C[14] = (u8)0;
+    D_8015CF10.unk49C[15] = (u8)0xFF;
+    D_8015CF10.unk49C[16] = (u8)0x40;
+    D_8015CF10.unk49C[17] = (u8)0;
+    D_8015CF10.unk49C[18] = (u8)0x20;
+    D_8015CF10.unk49C[19] = (u8)0;
+    D_8015CF10.unk49C[20] = (u8)0x40;
+    D_8015CF10.unk49C[21] = (u8)0;
+    D_8015CF10.unk49C[22] = (u8)0x20;
+    D_8015CF10.unk49C[23] = (u8)0;
+    D_8015CF10.unk49C[24] = (u8)0x80;
+    D_8015CF10.unk49C[25] = (u8)0;
+    D_8015CF10.unk49C[26] = (u8)0x40;
+    D_8015CF10.unk49C[27] = (u8)0;
+    D_8015CF10.unk49C[28] = (u8)0x80;
+    D_8015CF10.unk49C[29] = (u8)0;
+    D_8015CF10.unk49C[30] = (u8)0x40;
+    D_8015CF10.unk49C[31] = (u8)0;
+    D_8015CF10.unk4BC = 0;
+    D_8015CF10.unk4C0 = 16;
+    D_8015CF10.unk48C = 8.0f;
+    D_8015CF10.unk490 = -1.0f;
+    Effect_Add(globalCtx, &sp24, 0, 0, 1, &D_8015CF10);
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062A28.s")
+#endif //NON_MATCHING
+
+#ifdef NON_MATCHING
+//.bss section problems
+void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
+    s32 sp24;
+    static Effect_Add_arg2_s D_8015D3D8;
+
+    D_8015D3D8.unk000.x = (s32)v->x;
+    D_8015D3D8.unk000.y = (s32)v->y;
+    D_8015D3D8.unk000.z = (s32)v->z;
+    D_8015D3D8.unk494 = 5;
+    D_8015D3D8.unk498 = 5;
+    D_8015D3D8.unk49C[0] = (u8)0xFF;
+    D_8015D3D8.unk49C[1] = (u8)0xFF;
+    D_8015D3D8.unk49C[2] = (u8)0xFF;
+    D_8015D3D8.unk49C[3] = (u8)0xFF;
+    D_8015D3D8.unk49C[4] = (u8)0x64;
+    D_8015D3D8.unk49C[5] = (u8)0x64;
+    D_8015D3D8.unk49C[6] = (u8)0x64;
+    D_8015D3D8.unk49C[7] = (u8)0x64;
+    D_8015D3D8.unk49C[8] = (u8)0x64;
+    D_8015D3D8.unk49C[9] = (u8)0x64;
+    D_8015D3D8.unk49C[10] = (u8)0x64;
+    D_8015D3D8.unk49C[11] = (u8)0x64;
+    D_8015D3D8.unk49C[12] = (u8)0x64;
+    D_8015D3D8.unk49C[13] = (u8)0x64;
+    D_8015D3D8.unk49C[14] = (u8)0x64;
+    D_8015D3D8.unk49C[15] = (u8)0x64;
+    D_8015D3D8.unk49C[16] = (u8)0x32;
+    D_8015D3D8.unk49C[17] = (u8)0x32;
+    D_8015D3D8.unk49C[18] = (u8)0x32;
+    D_8015D3D8.unk49C[19] = (u8)0x32;
+    D_8015D3D8.unk49C[20] = (u8)0x32;
+    D_8015D3D8.unk49C[21] = (u8)0x32;
+    D_8015D3D8.unk49C[22] = (u8)0x32;
+    D_8015D3D8.unk49C[23] = (u8)0x32;
+    D_8015D3D8.unk49C[24] = (u8)0x32;
+    D_8015D3D8.unk49C[25] = (u8)0x32;
+    D_8015D3D8.unk49C[26] = (u8)0x32;
+    D_8015D3D8.unk49C[27] = (u8)0x32;
+    D_8015D3D8.unk49C[28] = (u8)0;
+    D_8015D3D8.unk49C[29] = (u8)0;
+    D_8015D3D8.unk49C[30] = (u8)0;
+    D_8015D3D8.unk49C[31] = (u8)0;
+    D_8015D3D8.unk4BC = 0;
+    D_8015D3D8.unk4C0 = 16;
+    D_8015D3D8.unk48C = 8.0f;
+    D_8015D3D8.unk490 = -1.0f;
+    Effect_Add(globalCtx, &sp24, 0, 0, 1, &D_8015D3D8);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062B80.s")
+#endif // NON_MATCHING
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062CD4.s")
 
