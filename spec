@@ -737,7 +737,6 @@ beginseg
     name "ovl_Bg_Ddan_Kd"
     include "build/src/overlays/actors/ovl_Bg_Ddan_Kd/z_bg_ddan_kd.o"
     include "build/data/overlays/actors/z_bg_ddan_kd.data.o"
-    include "build/data/overlays/actors/z_bg_ddan_kd.rodata.o"
     include "build/data/overlays/actors/z_bg_ddan_kd.reloc.o"
 endseg
 
@@ -745,7 +744,6 @@ beginseg
     name "ovl_Bg_Dodoago"
     include "build/src/overlays/actors/ovl_Bg_Dodoago/z_bg_dodoago.o"
     include "build/data/overlays/actors/z_bg_dodoago.data.o"
-    include "build/data/overlays/actors/z_bg_dodoago.rodata.o"
     include "build/data/overlays/actors/z_bg_dodoago.bss.o"
     include "build/data/overlays/actors/z_bg_dodoago.reloc.o"
 endseg
@@ -754,7 +752,6 @@ beginseg
     name "ovl_Bg_Dy_Yoseizo"
     include "build/src/overlays/actors/ovl_Bg_Dy_Yoseizo/z_bg_dy_yoseizo.o"
     include "build/data/overlays/actors/z_bg_dy_yoseizo.data.o"
-    include "build/data/overlays/actors/z_bg_dy_yoseizo.rodata.o"
     include "build/data/overlays/actors/z_bg_dy_yoseizo.reloc.o"
 endseg
 
@@ -762,7 +759,6 @@ beginseg
     name "ovl_Bg_Ganon_Otyuka"
     include "build/src/overlays/actors/ovl_Bg_Ganon_Otyuka/z_bg_ganon_otyuka.o"
     include "build/data/overlays/actors/z_bg_ganon_otyuka.data.o"
-    include "build/data/overlays/actors/z_bg_ganon_otyuka.rodata.o"
     include "build/data/overlays/actors/z_bg_ganon_otyuka.reloc.o"
 endseg
 
@@ -782,7 +778,6 @@ beginseg
     name "ovl_Bg_Gnd_Darkmeiro"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Darkmeiro/z_bg_gnd_darkmeiro.o"
     include "build/data/overlays/actors/z_bg_gnd_darkmeiro.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_darkmeiro.rodata.o"
     include "build/data/overlays/actors/z_bg_gnd_darkmeiro.reloc.o"
 endseg
 
@@ -790,7 +785,6 @@ beginseg
     name "ovl_Bg_Gnd_Firemeiro"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Firemeiro/z_bg_gnd_firemeiro.o"
     include "build/data/overlays/actors/z_bg_gnd_firemeiro.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_firemeiro.rodata.o"
     include "build/data/overlays/actors/z_bg_gnd_firemeiro.reloc.o"
 endseg
 
@@ -813,7 +807,6 @@ beginseg
     name "ovl_Bg_Gnd_Soulmeiro"
     include "build/src/overlays/actors/ovl_Bg_Gnd_Soulmeiro/z_bg_gnd_soulmeiro.o"
     include "build/data/overlays/actors/z_bg_gnd_soulmeiro.data.o"
-    include "build/data/overlays/actors/z_bg_gnd_soulmeiro.rodata.o"
     include "build/data/overlays/actors/z_bg_gnd_soulmeiro.reloc.o"
 endseg
 
@@ -821,7 +814,6 @@ beginseg
     name "ovl_Bg_Haka"
     include "build/src/overlays/actors/ovl_Bg_Haka/z_bg_haka.o"
     include "build/data/overlays/actors/z_bg_haka.data.o"
-    include "build/data/overlays/actors/z_bg_haka.rodata.o"
     include "build/data/overlays/actors/z_bg_haka.reloc.o"
 endseg
 
@@ -829,7 +821,6 @@ beginseg
     name "ovl_Bg_Haka_Gate"
     include "build/src/overlays/actors/ovl_Bg_Haka_Gate/z_bg_haka_gate.o"
     include "build/data/overlays/actors/z_bg_haka_gate.data.o"
-    include "build/data/overlays/actors/z_bg_haka_gate.rodata.o"
     include "build/data/overlays/actors/z_bg_haka_gate.bss.o"
     include "build/data/overlays/actors/z_bg_haka_gate.reloc.o"
 endseg
@@ -838,7 +829,6 @@ beginseg
     name "ovl_Bg_Haka_Huta"
     include "build/src/overlays/actors/ovl_Bg_Haka_Huta/z_bg_haka_huta.o"
     include "build/data/overlays/actors/z_bg_haka_huta.data.o"
-    include "build/data/overlays/actors/z_bg_haka_huta.rodata.o"
     include "build/data/overlays/actors/z_bg_haka_huta.reloc.o"
 endseg
 
@@ -852,7 +842,6 @@ beginseg
     name "ovl_Bg_Haka_MeganeBG"
     include "build/src/overlays/actors/ovl_Bg_Haka_MeganeBG/z_bg_haka_meganebg.o"
     include "build/data/overlays/actors/z_bg_haka_meganebg.data.o"
-    include "build/data/overlays/actors/z_bg_haka_meganebg.rodata.o"
     include "build/data/overlays/actors/z_bg_haka_meganebg.reloc.o"
 endseg
 

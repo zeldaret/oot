@@ -5,8 +5,12 @@
 #include <global.h>
 
 typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x7C];
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ Actor* unk_164; // pointer to bombflower actor
+    /* 0x0168 */ char unk_168[0x4];
+    /* 0x016C */ Vec3f unk_16C;
+    /* 0x0178 */ ColliderCylinderMain collider;
+    /* 0x01C4 */ ActorFunc actionFunc;
 } BgDdanKd; // size = 0x01C8
 
 extern const ActorInit Bg_Ddan_Kd_InitVars;

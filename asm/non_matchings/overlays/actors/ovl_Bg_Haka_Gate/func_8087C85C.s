@@ -1,3 +1,26 @@
+.rdata
+
+glabel D_8087CD10
+    .asciz "../z_bg_haka_gate.c"
+    .balign 4
+
+glabel D_8087CD24
+    .asciz "../z_bg_haka_gate.c"
+    .balign 4
+
+glabel D_8087CD38
+    .asciz "../z_bg_haka_gate.c"
+    .balign 4
+
+.late_rodata
+
+glabel D_8087CDA4
+ .float 9.58738e-5
+glabel D_8087CDA8
+ .float 1.0e-5
+
+	
+.text
 glabel func_8087C85C
 /* 00A6C 8087C85C 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00A70 8087C860 AFBF003C */  sw      $ra, 0x003C($sp)           

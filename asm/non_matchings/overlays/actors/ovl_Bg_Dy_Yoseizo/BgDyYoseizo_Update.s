@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_808756B4
+ .word 0x45EA6000
+
+.text
 glabel BgDyYoseizo_Update
 /* 02120 80874950 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 02124 80874954 AFBF002C */  sw      $ra, 0x002C($sp)           

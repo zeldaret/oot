@@ -1,3 +1,21 @@
+.rdata
+
+glabel D_80875638
+
+    .asciz "../z_bg_dy_yoseizo.c"
+    .balign 4
+
+glabel D_80875650
+
+    .asciz "../z_bg_dy_yoseizo.c"
+    .balign 4
+
+glabel D_80875668
+
+    .asciz "../z_bg_dy_yoseizo.c"
+    .balign 4
+
+.text
 glabel func_808751A0
 /* 02970 808751A0 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 02974 808751A4 AFBF0044 */  sw      $ra, 0x0044($sp)           

@@ -1,7 +1,7 @@
 /*
  * File: z_bg_spot15_saku.c
  * Overlay: ovl_Bg_Spot15_Saku
- * Description:
+ * Description: Hyrule Castle Gate
  */
 
 #include "z_bg_spot15_saku.h"

@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_ddan_jd.c
+ * Overlay: ovl_Bg_Ddan_Jd
+ * Description: Rising stone platform (Dodongo's Cavern)
+ */
+
 #include "z_bg_ddan_jd.h"
 
 #define ROOM 0x00
@@ -7,6 +13,9 @@ void BgDdanJd_Init(BgDdanJd* this, GlobalContext* globalCtx);
 void BgDdanJd_Destroy(BgDdanJd* this, GlobalContext* globalCtx);
 void BgDdanJd_Update(BgDdanJd* this, GlobalContext* globalCtx);
 void BgDdanJd_Draw(BgDdanJd* this, GlobalContext* globalCtx);
+void func_80870B88(BgDdanJd* this, GlobalContext* globalCtx);
+void func_80870D2C(BgDdanJd* this, GlobalContext* globalCtx);
+void func_80870F00(BgDdanJd* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Ddan_Jd_InitVars = {

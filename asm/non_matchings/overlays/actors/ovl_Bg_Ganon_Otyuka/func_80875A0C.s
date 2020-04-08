@@ -1,3 +1,23 @@
+.rdata
+
+glabel D_80877EE4
+ .asciz "OTC O 1\n"
+ .balign 4
+
+glabel D_80877EF0
+ .asciz "OTC O 2\n"
+ .balign 4
+
+glabel D_80877EFC
+ .asciz "OTC O 3\n"
+ .balign 4
+
+.late_rodata
+
+glabel D_80877F9C
+ .float 4900.0
+
+.text
 glabel func_80875A0C
 /* 000EC 80875A0C 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 000F0 80875A10 AFBF003C */  sw      $ra, 0x003C($sp)           

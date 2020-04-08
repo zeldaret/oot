@@ -1,3 +1,21 @@
+.rdata
+
+glabel D_80872650
+
+    .asciz "../z_bg_dodoago.c"
+    .balign 4
+
+glabel D_80872664
+
+    .asciz "../z_bg_dodoago.c"
+    .balign 4
+
+glabel D_80872678
+
+    .asciz "../z_bg_dodoago.c"
+    .balign 4
+
+.text
 glabel BgDodoago_Draw
 /* 00A40 80872440 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00A44 80872444 AFBF001C */  sw      $ra, 0x001C($sp)           

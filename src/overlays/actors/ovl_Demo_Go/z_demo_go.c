@@ -1,7 +1,7 @@
 /*
  * File: z_demo_go.c
  * Overlay: Demo_Go
- * Description:
+ * Description: Gorons (Cutscene)
  */
 
 #include "z_demo_go.h"

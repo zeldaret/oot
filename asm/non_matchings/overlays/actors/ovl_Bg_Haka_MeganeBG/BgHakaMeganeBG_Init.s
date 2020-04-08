@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_8087E420
+ .float 3000.0
+
+.text
 glabel BgHakaMeganeBG_Init
 /* 00000 8087DE30 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 8087DE34 AFA50034 */  sw      $a1, 0x0034($sp)           

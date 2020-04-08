@@ -6,7 +6,9 @@
 
 typedef struct {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x54];
+    /* 0x014C */ ColliderCylinderMain collider;
+    /* 0x0198 */ char unk_198[0x4];
+    /* 0x019C */ ActorFunc actionFunc;
 } BgGndSoulmeiro; // size = 0x01A0
 
 extern const ActorInit Bg_Gnd_Soulmeiro_InitVars;

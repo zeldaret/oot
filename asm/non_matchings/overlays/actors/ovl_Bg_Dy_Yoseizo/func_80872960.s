@@ -1,3 +1,17 @@
+.late_rodata
+
+glabel D_80875680
+ .word 0x3C23D70A
+glabel D_80875684
+ .word 0x455AC000
+glabel D_80875688
+ .word 0x3ECCCCCD
+glabel D_8087568C
+ .word 0x3E4CCCCD
+glabel D_80875690
+ .word 0x3DCCCCCD
+
+.text
 glabel func_80872960
 /* 00130 80872960 27BDFF30 */  addiu   $sp, $sp, 0xFF30           ## $sp = FFFFFF30
 /* 00134 80872964 3C0F8087 */  lui     $t7, %hi(D_808754A4)       ## $t7 = 80870000

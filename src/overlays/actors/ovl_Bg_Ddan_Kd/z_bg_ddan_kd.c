@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_ddan_kd.c
+ * Overlay: ovl_Bg_Ddan_Kd
+ * Description: Stone stairs in Dodongo's Cavern
+ */
+
 #include "z_bg_ddan_kd.h"
 
 #define ROOM 0x00
@@ -7,6 +13,10 @@ void BgDdanKd_Init(BgDdanKd* this, GlobalContext* globalCtx);
 void BgDdanKd_Destroy(BgDdanKd* this, GlobalContext* globalCtx);
 void BgDdanKd_Update(BgDdanKd* this, GlobalContext* globalCtx);
 void BgDdanKd_Draw(BgDdanKd* this, GlobalContext* globalCtx);
+void BgDdanKd_SetupAction(BgDdanKd* this, ActorFunc actionFunc);
+void func_80871234(BgDdanKd* this, GlobalContext* globalCtx);
+void func_80873164(BgDdanKd* this, GlobalContext* globalCtx);
+void func_80871838(BgDdanKd* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Ddan_Kd_InitVars = {
@@ -22,7 +32,7 @@ const ActorInit Bg_Ddan_Kd_InitVars = {
     (ActorFunc)BgDdanKd_Draw,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Kd/func_808710F0.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Kd/BgDdanKd_SetupAction.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Kd/BgDdanKd_Init.s")
 

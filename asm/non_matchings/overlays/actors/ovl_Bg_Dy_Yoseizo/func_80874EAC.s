@@ -1,3 +1,21 @@
+.late_rodata
+
+glabel D_808756BC
+ .word 0x459C4000
+
+ glabel D_808756C0
+ .word 0x3F666666
+
+ glabel D_808756C4
+ .word 0x453B8000
+
+ glabel D_808756C8
+ .word 0x40490FDB ## pi
+
+ glabel D_808756CC
+ .word 0x40490FDB ## pi
+ 
+ .text
 glabel func_80874EAC
 /* 0267C 80874EAC 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 02680 80874EB0 F7BE0040 */  sdc1    $f30, 0x0040($sp)          

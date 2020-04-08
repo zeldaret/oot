@@ -1,3 +1,28 @@
+.rdata
+
+glabel D_80877F08
+
+    .asciz "MODE DOWN\n"
+    .balign 4
+
+glabel D_80877F14
+
+    .asciz "MODE DOWN END\n"
+    .balign 4
+
+.late_rodata
+
+glabel D_80877FA0
+ .float -750.0
+
+glabel D_80877FA4
+ .float 0.1
+
+glabel D_80877FA8
+ .float -750.0
+
+
+.text
 glabel func_80875C88
 /* 00368 80875C88 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 0036C 80875C8C AFB10040 */  sw      $s1, 0x0040($sp)           

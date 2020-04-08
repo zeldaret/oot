@@ -1,3 +1,14 @@
+.rdata
+
+glabel D_808793E0
+    .asciz "../z_bg_gnd_darkmeiro.c"
+    .balign 4
+
+glabel D_808793F8
+    .asciz "../z_bg_gnd_darkmeiro.c"
+    .balign 4
+
+.text
 glabel func_808791E8
 /* 005B8 808791E8 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 005BC 808791EC AFBF001C */  sw      $ra, 0x001C($sp)           

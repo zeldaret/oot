@@ -7,6 +7,10 @@ void BgHakaMeganeBG_Init(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 void BgHakaMeganeBG_Destroy(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 void BgHakaMeganeBG_Update(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 void BgHakaMeganeBG_Draw(BgHakaMeganeBG* this, GlobalContext* globalCtx);
+void func_8087E258(BgHakaMeganeBG* this, GlobalContext* globalCtx);
+void func_8087E288(BgHakaMeganeBG* this, GlobalContext* globalCtx);
+void func_8087E2D8(BgHakaMeganeBG* this, GlobalContext* globalCtx);
+void func_8087E34C(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Haka_MeganeBG_InitVars = {

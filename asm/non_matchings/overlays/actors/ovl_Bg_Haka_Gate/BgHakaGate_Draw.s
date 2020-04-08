@@ -1,3 +1,30 @@
+.rdata
+
+glabel D_8087CD4C
+    .asciz "../z_bg_haka_gate.c"
+    .balign 4
+
+glabel D_8087CD60
+    .asciz "../z_bg_haka_gate.c"
+    .balign 4
+
+glabel D_8087CD74
+    .asciz "../z_bg_haka_gate.c"
+    .balign 4
+
+glabel D_8087CD88
+    .asciz "../z_bg_haka_gate.c"
+    .balign 4
+	
+.late_rodata
+
+glabel D_8087CDAC
+ .float 9.58738E-5
+ 
+glabel D_8087CDB0
+ .float 9.58738E-5
+ 
+.text
 glabel BgHakaGate_Draw
 /* 00C80 8087CA70 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00C84 8087CA74 AFBF001C */  sw      $ra, 0x001C($sp)           

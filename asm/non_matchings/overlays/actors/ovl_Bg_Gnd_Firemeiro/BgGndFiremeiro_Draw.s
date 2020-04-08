@@ -1,3 +1,18 @@
+.rdata
+
+glabel D_808799E0
+    .asciz "../z_bg_gnd_firemeiro.c"
+    .balign 4
+
+glabel D_808799F8
+    .asciz "../z_bg_gnd_firemeiro.c"
+    .balign 4
+
+glabel D_80879A10
+    .asciz "../z_bg_gnd_firemeiro.c"
+    .balign 4
+
+.text
 glabel BgGndFiremeiro_Draw
 /* 0042C 808798EC 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00430 808798F0 AFBF001C */  sw      $ra, 0x001C($sp)           
