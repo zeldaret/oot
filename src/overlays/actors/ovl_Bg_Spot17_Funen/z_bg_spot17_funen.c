@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_spot17_funen
+ * Overlay: ovl_Bg_Spot17_Funen
+ * Description: Crater Smoke Cone
+ */
+
 #include "z_bg_spot17_funen.h"
 
 #define ROOM 0x00
@@ -6,6 +12,8 @@
 void BgSpot17Funen_Init(BgSpot17Funen* this, GlobalContext* globalCtx);
 void BgSpot17Funen_Destroy(BgSpot17Funen* this, GlobalContext* globalCtx);
 void BgSpot17Funen_Update(BgSpot17Funen* this, GlobalContext* globalCtx);
+void func_808B746C(BgSpot17Funen* this, GlobalContext* globalCtx);
+void func_808B7478(BgSpot17Funen* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot17_Funen_InitVars = {

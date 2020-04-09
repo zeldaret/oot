@@ -1,3 +1,9 @@
+/*
+ * File: z_oceff_wipe4.c
+ * Overlay: ovl_Oceff_Wipe4
+ * Description: Song of Time effect
+ */
+
 #include "z_oceff_wipe4.h"
 
 #define ROOM 0x00

@@ -7,6 +7,10 @@ void EnSi_Init(EnSi* this, GlobalContext* globalCtx);
 void EnSi_Destroy(EnSi* this, GlobalContext* globalCtx);
 void EnSi_Update(EnSi* this, GlobalContext* globalCtx);
 void EnSi_Draw(EnSi* this, GlobalContext* globalCtx);
+s32 func_80AFB748(EnSi* this, GlobalContext* globalCtx);
+void func_80AFB768(EnSi* this, GlobalContext* globalCtx);
+void func_80AFB89C(EnSi* this, GlobalContext* globalCtx);
+void func_80AFB950(EnSi* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Si_InitVars = {

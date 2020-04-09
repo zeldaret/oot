@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_jya_block.c
+ * Overlay: ovl_Bg_Jya_Block
+ * Description: Silver Block (Child Link)
+ */
+
 #include "z_bg_jya_block.h"
 
 #define ROOM 0x00

@@ -1,3 +1,18 @@
+.rdata
+
+glabel D_80993600
+    .asciz "../z_demo_shd.c"
+    .balign 4
+
+glabel D_80993610
+    .asciz "../z_demo_shd.c"
+    .balign 4
+
+glabel D_80993620
+    .asciz "../z_demo_shd.c"
+    .balign 4
+
+.text
 glabel DemoShd_Draw
 /* 001E8 80991418 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 001EC 8099141C AFBF003C */  sw      $ra, 0x003C($sp)           

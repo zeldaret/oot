@@ -1041,7 +1041,6 @@ beginseg
     name "ovl_Bg_Ingate"
     include "build/src/overlays/actors/ovl_Bg_Ingate/z_bg_ingate.o"
     include "build/data/overlays/actors/z_bg_ingate.data.o"
-    include "build/data/overlays/actors/z_bg_ingate.rodata.o"
     include "build/data/overlays/actors/z_bg_ingate.reloc.o"
 endseg
 
@@ -1071,7 +1070,6 @@ beginseg
     name "ovl_Bg_Jya_Block"
     include "build/src/overlays/actors/ovl_Bg_Jya_Block/z_bg_jya_block.o"
     include "build/data/overlays/actors/z_bg_jya_block.data.o"
-    include "build/data/overlays/actors/z_bg_jya_block.rodata.o"
     include "build/data/overlays/actors/z_bg_jya_block.reloc.o"
 endseg
 
@@ -1157,7 +1155,6 @@ beginseg
     name "ovl_Bg_Menkuri_Eye"
     include "build/src/overlays/actors/ovl_Bg_Menkuri_Eye/z_bg_menkuri_eye.o"
     include "build/data/overlays/actors/z_bg_menkuri_eye.data.o"
-    include "build/data/overlays/actors/z_bg_menkuri_eye.rodata.o"
     include "build/data/overlays/actors/z_bg_menkuri_eye.bss.o"
     include "build/data/overlays/actors/z_bg_menkuri_eye.reloc.o"
 endseg
@@ -1347,7 +1344,6 @@ beginseg
     name "ovl_Bg_Spot01_Idomizu"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Idomizu/z_bg_spot01_idomizu.o"
     include "build/data/overlays/actors/z_bg_spot01_idomizu.data.o"
-    include "build/data/overlays/actors/z_bg_spot01_idomizu.rodata.o"
     include "build/data/overlays/actors/z_bg_spot01_idomizu.reloc.o"
 endseg
 
@@ -1361,7 +1357,6 @@ beginseg
     name "ovl_Bg_Spot01_Objects2"
     include "build/src/overlays/actors/ovl_Bg_Spot01_Objects2/z_bg_spot01_objects2.o"
     include "build/data/overlays/actors/z_bg_spot01_objects2.data.o"
-    include "build/data/overlays/actors/z_bg_spot01_objects2.rodata.o"
     include "build/data/overlays/actors/z_bg_spot01_objects2.reloc.o"
 endseg
 
@@ -1495,7 +1490,6 @@ beginseg
     name "ovl_Bg_Spot17_Funen"
     include "build/src/overlays/actors/ovl_Bg_Spot17_Funen/z_bg_spot17_funen.o"
     include "build/data/overlays/actors/z_bg_spot17_funen.data.o"
-    include "build/data/overlays/actors/z_bg_spot17_funen.rodata.o"
     include "build/data/overlays/actors/z_bg_spot17_funen.reloc.o"
 endseg
 
@@ -1808,7 +1802,6 @@ beginseg
     name "ovl_Demo_Shd"
     include "build/src/overlays/actors/ovl_Demo_Shd/z_demo_shd.o"
     include "build/data/overlays/actors/z_demo_shd.data.o"
-    include "build/data/overlays/actors/z_demo_shd.rodata.o"
     include "build/data/overlays/actors/z_demo_shd.reloc.o"
 endseg
 
@@ -3517,7 +3510,6 @@ beginseg
     name "ovl_En_Skjneedle"
     include "build/src/overlays/actors/ovl_En_Skjneedle/z_en_skjneedle.o"
     include "build/data/overlays/actors/z_en_skjneedle.data.o"
-    include "build/data/overlays/actors/z_en_skjneedle.rodata.o"
     include "build/data/overlays/actors/z_en_skjneedle.reloc.o"
 endseg
 
@@ -3897,7 +3889,6 @@ beginseg
     name "ovl_Item_B_Heart"
     include "build/src/overlays/actors/ovl_Item_B_Heart/z_item_b_heart.o"
     include "build/data/overlays/actors/z_item_b_heart.data.o"
-    include "build/data/overlays/actors/z_item_b_heart.rodata.o"
     include "build/data/overlays/actors/z_item_b_heart.reloc.o"
 endseg
 
@@ -4076,7 +4067,6 @@ beginseg
     name "ovl_Obj_Makeoshihiki"
     include "build/src/overlays/actors/ovl_Obj_Makeoshihiki/z_obj_makeoshihiki.o"
     include "build/data/overlays/actors/z_obj_makeoshihiki.data.o"
-    include "build/data/overlays/actors/z_obj_makeoshihiki.rodata.o"
     include "build/data/overlays/actors/z_obj_makeoshihiki.reloc.o"
 endseg
 
@@ -4195,7 +4185,6 @@ beginseg
     name "ovl_Oceff_Wipe2"
     include "build/src/overlays/actors/ovl_Oceff_Wipe2/z_oceff_wipe2.o"
     include "build/data/overlays/actors/z_oceff_wipe2.data.o"
-    include "build/data/overlays/actors/z_oceff_wipe2.rodata.o"
     include "build/data/overlays/actors/z_oceff_wipe2.reloc.o"
 endseg
 
@@ -4203,7 +4192,6 @@ beginseg
     name "ovl_Oceff_Wipe3"
     include "build/src/overlays/actors/ovl_Oceff_Wipe3/z_oceff_wipe3.o"
     include "build/data/overlays/actors/z_oceff_wipe3.data.o"
-    include "build/data/overlays/actors/z_oceff_wipe3.rodata.o"
     include "build/data/overlays/actors/z_oceff_wipe3.reloc.o"
 endseg
 
@@ -4211,7 +4199,6 @@ beginseg
     name "ovl_Oceff_Wipe4"
     include "build/src/overlays/actors/ovl_Oceff_Wipe4/z_oceff_wipe4.o"
     include "build/data/overlays/actors/z_oceff_wipe4.data.o"
-    include "build/data/overlays/actors/z_oceff_wipe4.rodata.o"
     include "build/data/overlays/actors/z_oceff_wipe4.reloc.o"
 endseg
 

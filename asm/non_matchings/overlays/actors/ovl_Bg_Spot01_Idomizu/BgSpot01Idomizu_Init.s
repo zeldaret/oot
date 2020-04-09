@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_808ABE14
+ .float -550.0
+
+.text
 glabel BgSpot01Idomizu_Init
 /* 00000 808ABAE0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00004 808ABAE4 AFA5001C */  sw      $a1, 0x001C($sp)           

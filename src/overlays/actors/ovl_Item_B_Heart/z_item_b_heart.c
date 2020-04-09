@@ -1,3 +1,9 @@
+/*
+ * File: z_item_b_heart.c
+ * Overlay: ovl_Item_B_Heart
+ * Description: Heart Container
+ */
+
 #include "z_item_b_heart.h"
 
 #define ROOM 0x00

@@ -1,3 +1,9 @@
+/*
+ * File: z_oceff_wipe2.c
+ * Overlay: ovl_Oceff_Wipe2
+ * Description: Epona's Song Effect
+ */
+
 #include "z_oceff_wipe2.h"
 
 #define ROOM 0x00

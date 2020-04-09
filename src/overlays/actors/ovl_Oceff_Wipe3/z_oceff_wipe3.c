@@ -1,3 +1,9 @@
+/*
+ * File: z_oceff_wipe3.c
+ * Overlay: ovl_Oceff_Wipe3
+ * Description: Saria's Song Effect
+ */
+
 #include "z_oceff_wipe3.h"
 
 #define ROOM 0x00

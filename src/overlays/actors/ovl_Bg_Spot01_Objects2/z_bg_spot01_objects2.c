@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_spot01_objects2.c
+ * Overlay: ovl_Bg_Spot01_Objects2
+ * Description: Kakariko Village Set Pieces
+ */
+
 #include "z_bg_spot01_objects2.h"
 
 #define ROOM 0x00
@@ -6,6 +12,10 @@
 void BgSpot01Objects2_Init(BgSpot01Objects2* this, GlobalContext* globalCtx);
 void BgSpot01Objects2_Destroy(BgSpot01Objects2* this, GlobalContext* globalCtx);
 void BgSpot01Objects2_Update(BgSpot01Objects2* this, GlobalContext* globalCtx);
+// func_808AC22C
+void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx);
+void func_808AC474(BgSpot01Objects2* this, GlobalContext* globalCtx);
+void func_808AC4A4(BgSpot01Objects2* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot01_Objects2_InitVars = {

@@ -1,3 +1,29 @@
+.rdata
+
+glabel D_80BADB80
+    .asciz "../z_oceff_wipe4.c"
+    .balign 4
+
+glabel D_80BADB94
+    .asciz "../z_oceff_wipe4.c"
+    .balign 4
+
+glabel D_80BADBA8
+    .asciz "../z_oceff_wipe4.c"
+    .balign 4
+
+.late_rodata
+
+glabel D_80BADBBC
+ .float 1330.0
+
+glabel D_80BADBC0
+ .float 1330.0
+
+glabel D_80BADBC4
+ .float 0.1
+
+.text
 glabel OceffWipe4_Draw
 /* 000F4 80BACD04 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 000F8 80BACD08 AFBF003C */  sw      $ra, 0x003C($sp)           

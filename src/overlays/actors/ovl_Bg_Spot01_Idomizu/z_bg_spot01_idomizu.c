@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_spot01_idomizu.c
+ * Overlay: ovl_Bg_Spot01_Idomizu
+ * Description: Kakariko Village Well Water
+ */
+
 #include "z_bg_spot01_idomizu.h"
 
 #define ROOM 0x00
@@ -7,6 +13,7 @@ void BgSpot01Idomizu_Init(BgSpot01Idomizu* this, GlobalContext* globalCtx);
 void BgSpot01Idomizu_Destroy(BgSpot01Idomizu* this, GlobalContext* globalCtx);
 void BgSpot01Idomizu_Update(BgSpot01Idomizu* this, GlobalContext* globalCtx);
 void BgSpot01Idomizu_Draw(BgSpot01Idomizu* this, GlobalContext* globalCtx);
+void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot01_Idomizu_InitVars = {

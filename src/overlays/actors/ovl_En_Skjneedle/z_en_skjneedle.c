@@ -1,3 +1,9 @@
+/*
+ * File: z_en_skjneedle.c
+ * Overlay: ovl_En_Skjneedle
+ * Description: Skullkid Needle Attack
+ */
+
 #include "z_en_skjneedle.h"
 
 #define ROOM 0x00

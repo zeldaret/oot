@@ -1,3 +1,10 @@
+.rdata
+
+glabel D_80BACAC0
+    .asciz "[36m WIPE2 arg_data = %d\n[m"
+    .balign 4
+
+.text
 glabel OceffWipe3_Init
 /* 00000 80BAB3F0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00004 80BAB3F4 AFA5001C */  sw      $a1, 0x001C($sp)           

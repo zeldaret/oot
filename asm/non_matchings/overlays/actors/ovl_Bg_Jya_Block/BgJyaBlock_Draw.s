@@ -1,3 +1,18 @@
+.rdata
+
+glabel D_80894410
+    .asciz "../z_bg_jya_block.c"
+    .balign 4
+
+glabel D_80894424
+    .asciz "../z_bg_jya_block.c"
+    .balign 4
+
+glabel D_80894438
+    .asciz "../z_bg_jya_block.c"
+    .balign 4
+
+.text
 glabel BgJyaBlock_Draw
 /* 00104 808942A4 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00108 808942A8 AFBF001C */  sw      $ra, 0x001C($sp)           

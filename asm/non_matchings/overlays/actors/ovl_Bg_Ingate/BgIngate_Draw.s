@@ -1,3 +1,20 @@
+.rdata
+
+glabel D_80892AB0
+
+    .asciz "../z_bg_ingate.c"
+    .balign 4
+
+glabel D_80892AC4
+
+    .asciz "../z_bg_ingate.c"
+    .balign 4
+
+glabel D_80892AD8
+	.asciz "../z_bg_ingate.c"
+    .balign 4
+
+.text
 glabel BgIngate_Draw
 /* 00280 808929C0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00284 808929C4 AFBF001C */  sw      $ra, 0x001C($sp)           

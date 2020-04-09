@@ -1,3 +1,10 @@
+.rdata
+
+glabel D_808AC56C
+	.asciz "-----バンク切り換え成功！！\n"
+	.balign 4
+
+.text
 glabel func_808AC2BC
 /* 0017C 808AC2BC 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00180 808AC2C0 AFB00034 */  sw      $s0, 0x0034($sp)           

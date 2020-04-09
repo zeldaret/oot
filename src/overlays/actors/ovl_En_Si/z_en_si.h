@@ -6,7 +6,9 @@
 
 typedef struct {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x54];
+    /* 0x014C */ ActorFunc actionFunc;
+    /* 0x0150 */ ColliderCylinderMain collider;
+    /* 0x019C */ char unk_19C[0x4];
 } EnSi; // size = 0x01A0
 
 extern const ActorInit En_Si_InitVars;

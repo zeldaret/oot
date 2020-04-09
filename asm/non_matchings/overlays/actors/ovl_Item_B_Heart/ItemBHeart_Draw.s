@@ -1,3 +1,22 @@
+.rdata
+
+glabel D_80B85540
+    .asciz "../z_item_b_heart.c"
+    .balign 4
+
+glabel D_80B85554
+    .asciz "../z_item_b_heart.c"
+    .balign 4
+
+glabel D_80B85568
+    .asciz "../z_item_b_heart.c"
+    .balign 4
+
+glabel D_80B8557C
+    .asciz "../z_item_b_heart.c"
+    .balign 4
+
+.text
 glabel ItemBHeart_Draw
 /* 00204 80B85354 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00208 80B85358 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,9 @@
+/*
+ * File: z_demo_shd.c
+ * Overlay: Demo_Shd
+ * Description: Bongo Bongo's Shadow
+ */
+
 #include "z_demo_shd.h"
 
 #define ROOM 0x00
@@ -7,6 +13,8 @@ void DemoShd_Init(DemoShd* this, GlobalContext* globalCtx);
 void DemoShd_Destroy(DemoShd* this, GlobalContext* globalCtx);
 void DemoShd_Update(DemoShd* this, GlobalContext* globalCtx);
 void DemoShd_Draw(DemoShd* this, GlobalContext* globalCtx);
+void DemoShd_SetupAction(DemoShd* this, ActorFunc actionFunc);
+void func_80991298(DemoShd* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Demo_Shd_InitVars = {
@@ -22,7 +30,8 @@ const ActorInit Demo_Shd_InitVars = {
     (ActorFunc)DemoShd_Draw,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Shd/func_80991230.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Shd/DemoShd_SetupAction.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Shd/DemoShd_Init.s")
 
