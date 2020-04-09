@@ -98,7 +98,6 @@ void LogUtils_CheckValidPointer(const char* exp, void* ptr0, const char* file, s
     }
 }
 
-// there's probalby a macro like this : MACRO(exp) LogUtils_LogThreadId(__FILE__, __LINE__); osSyncPrintf(exp)
 void LogUtils_LogThreadId(const char* name, s32 line) {
     osSyncPrintf("<%d %s %d>", osGetThreadId(NULL), name, line);
 }

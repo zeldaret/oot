@@ -30,15 +30,11 @@ void KaleidoScopeCall_Init(GlobalContext* globalCtx) {
     osSyncPrintf("カレイド・スコープ入れ替え コンストラクト \n");
     sKaleidoScopeUpdateFunc = KaleidoManager_GetRamAddr(func_80826CB4);
     sKaleidoScopeDrawFunc = KaleidoManager_GetRamAddr(func_808262B8);
-    // Note : the line numbers suggests there was a macro (see logutils.c)
-    LogUtils_LogThreadId("../z_kaleido_scope_call.c", 98);
-    osSyncPrintf("kaleido_scope_move = %08x\n", func_80826CB4);
-    LogUtils_LogThreadId("../z_kaleido_scope_call.c", 99);
-    osSyncPrintf("kaleido_scope_move_func = %08x\n", sKaleidoScopeUpdateFunc);
-    LogUtils_LogThreadId("../z_kaleido_scope_call.c", 100);
-    osSyncPrintf("kaleido_scope_draw = %08x\n", func_808262B8);
-    LogUtils_LogThreadId("../z_kaleido_scope_call.c", 101);
-    osSyncPrintf("kaleido_scope_draw_func = %08x\n", sKaleidoScopeDrawFunc);
+
+    LOG_ADDRESS("kaleido_scope_move", func_80826CB4, "../z_kaleido_scope_call.c", 98);
+    LOG_ADDRESS("kaleido_scope_move_func", sKaleidoScopeUpdateFunc, "../z_kaleido_scope_call.c", 99);
+    LOG_ADDRESS("kaleido_scope_draw", func_808262B8, "../z_kaleido_scope_call.c", 100);
+    LOG_ADDRESS("kaleido_scope_draw_func", sKaleidoScopeDrawFunc, "../z_kaleido_scope_call.c", 101);
     func_8006ECF4(globalCtx);
 }
 

@@ -15,7 +15,7 @@ glabel MagicFire_Draw
 /* 00538 80B892A8 8FBF0034 */  lw      $ra, 0x0034($sp)           
 /* 0053C 80B892AC 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
 /* 00540 80B892B0 240702AA */  addiu   $a3, $zero, 0x02AA         ## $a3 = 000002AA
-/* 00544 80B892B4 0C031AB1 */  jal     func_800C6AC4              
+/* 00544 80B892B4 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00548 80B892B8 AFA500A4 */  sw      $a1, 0x00A4($sp)           
 /* 0054C 80B892BC 8FA300A4 */  lw      $v1, 0x00A4($sp)           
 /* 00550 80B892C0 0C024DF0 */  jal     func_800937C0              
@@ -356,7 +356,7 @@ glabel MagicFire_Draw
 /* 00A74 80B897E4 24C6AFE8 */  addiu   $a2, $a2, %lo(D_80B8AFE8)  ## $a2 = 80B8AFE8
 /* 00A78 80B897E8 27A40094 */  addiu   $a0, $sp, 0x0094           ## $a0 = FFFFFFD4
 /* 00A7C 80B897EC 240702EE */  addiu   $a3, $zero, 0x02EE         ## $a3 = 000002EE
-/* 00A80 80B897F0 0C031AD5 */  jal     func_800C6B54              
+/* 00A80 80B897F0 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00A84 80B897F4 8F250000 */  lw      $a1, 0x0000($t9)           ## 00000000
 /* 00A88 80B897F8 8FAE00C0 */  lw      $t6, 0x00C0($sp)           
 /* 00A8C 80B897FC 3C01437F */  lui     $at, 0x437F                ## $at = 437F0000

@@ -4482,6 +4482,16 @@ _DW({									\
 #define	gDPNoOpTag(pkt, tag)	gDPParam(pkt, G_NOOP, tag)
 #define	gsDPNoOpTag(tag)	gsDPParam(G_NOOP, tag)
 
+#define gDPNoOpHere(pkt, file, line)		gDma1p(pkt, G_NOOP, file, line, 1)
+#define gDPNoOpString(pkt, data, n)			gDma1p(pkt, G_NOOP, data, n, 2)
+#define gDPNoOpWord(pkt, data, n)			gDma1p(pkt, G_NOOP, data, n, 3)
+#define gDPNoOpFloat(pkt, data, n)			gDma1p(pkt, G_NOOP, data, n, 4)
+#define gDPNoOpQuiet(pkt)					gDma1p(pkt, G_NOOP, 0, 0, 5)
+#define gDPNoOpVerbose(pkt, n)				gDma1p(pkt, G_NOOP, 0, n, 5)
+#define gDPNoOpCallBack(pkt, callback)		gDma1p(pkt, G_NOOP, callback, 0, 6)
+#define gDPNoOpOpenDisp(pkt, file, line) 	gDma1p(pkt, G_NOOP, file, line, 7)
+#define gDPNoOpCloseDisp(pkt, file, line) 	gDma1p(pkt, G_NOOP, file, line, 8)
+
 #endif
 
 /* Private macro to wrap other macros in do {...} while (0) */

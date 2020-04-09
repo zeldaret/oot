@@ -46,7 +46,7 @@ glabel func_809811AC
 /* 03BE4 80981254 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFA8
 /* 03BE8 80981258 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 03BEC 8098125C 240700D9 */  addiu   $a3, $zero, 0x00D9         ## $a3 = 000000D9
-/* 03BF0 80981260 0C031AB1 */  jal     func_800C6AC4              
+/* 03BF0 80981260 0C031AB1 */  jal     Graph_OpenDisps              
 /* 03BF4 80981264 E7A40044 */  swc1    $f4, 0x0044($sp)           
 /* 03BF8 80981268 0C01DE0D */  jal     Math_Coss
               ## coss?
@@ -136,7 +136,7 @@ glabel func_809811AC
 /* 03D34 809813A4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 03D38 809813A8 240700F6 */  addiu   $a3, $zero, 0x00F6         ## $a3 = 000000F6
 /* 03D3C 809813AC AC590004 */  sw      $t9, 0x0004($v0)           ## 00000004
-/* 03D40 809813B0 0C031AD5 */  jal     func_800C6B54              
+/* 03D40 809813B0 0C031AD5 */  jal     Graph_CloseDisps              
 /* 03D44 809813B4 AC580000 */  sw      $t8, 0x0000($v0)           ## 00000000
 /* 03D48 809813B8 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L809813BC:

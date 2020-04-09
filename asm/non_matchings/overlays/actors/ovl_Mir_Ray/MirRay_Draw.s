@@ -37,7 +37,7 @@ glabel MirRay_Draw
 /* 01120 80B8E170 8FBF0034 */  lw      $ra, 0x0034($sp)           
 /* 01124 80B8E174 8E850000 */  lw      $a1, 0x0000($s4)           ## 00000000
 /* 01128 80B8E178 240703C6 */  addiu   $a3, $zero, 0x03C6         ## $a3 = 000003C6
-/* 0112C 80B8E17C 0C031AB1 */  jal     func_800C6AC4              
+/* 0112C 80B8E17C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01130 80B8E180 00A09025 */  or      $s2, $a1, $zero            ## $s2 = 00000000
 /* 01134 80B8E184 0C024F61 */  jal     func_80093D84              
 /* 01138 80B8E188 8E840000 */  lw      $a0, 0x0000($s4)           ## 00000000
@@ -193,7 +193,7 @@ glabel MirRay_Draw
 /* 0137C 80B8E3CC 24C6E914 */  addiu   $a2, $a2, %lo(D_80B8E914)  ## $a2 = 80B8E914
 /* 01380 80B8E3D0 8E850000 */  lw      $a1, 0x0000($s4)           ## 00000000
 /* 01384 80B8E3D4 27A40064 */  addiu   $a0, $sp, 0x0064           ## $a0 = FFFFFDE4
-/* 01388 80B8E3D8 0C031AD5 */  jal     func_800C6B54              
+/* 01388 80B8E3D8 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0138C 80B8E3DC 24070403 */  addiu   $a3, $zero, 0x0403         ## $a3 = 00000403
 .L80B8E3E0:
 /* 01390 80B8E3E0 8FBF0034 */  lw      $ra, 0x0034($sp)           

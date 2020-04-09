@@ -31,7 +31,7 @@ glabel EnFd_Draw
 /* 019D0 80A0D090 240706D7 */  addiu   $a3, $zero, 0x06D7         ## $a3 = 000006D7
 /* 019D4 80A0D094 AFAD007C */  sw      $t5, 0x007C($sp)
 /* 019D8 80A0D098 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
-/* 019DC 80A0D09C 0C031AB1 */  jal     func_800C6AC4
+/* 019DC 80A0D09C 0C031AB1 */  jal     Graph_OpenDisps
 /* 019E0 80A0D0A0 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 019E4 80A0D0A4 0C034213 */  jal     Matrix_Push
 /* 019E8 80A0D0A8 00000000 */  nop
@@ -256,7 +256,7 @@ glabel EnFd_Draw
 /* 01D24 80A0D3E4 24C6E130 */  addiu   $a2, $a2, %lo(D_80A0E130)  ## $a2 = 80A0E130
 /* 01D28 80A0D3E8 27A40064 */  addiu   $a0, $sp, 0x0064           ## $a0 = FFFFFFC4
 /* 01D2C 80A0D3EC 2407071E */  addiu   $a3, $zero, 0x071E         ## $a3 = 0000071E
-/* 01D30 80A0D3F0 0C031AD5 */  jal     func_800C6B54
+/* 01D30 80A0D3F0 0C031AD5 */  jal     Graph_CloseDisps
 /* 01D34 80A0D3F4 8D050000 */  lw      $a1, 0x0000($t0)           ## 00000000
 /* 01D38 80A0D3F8 8FBF003C */  lw      $ra, 0x003C($sp)
 /* 01D3C 80A0D3FC 8FB00034 */  lw      $s0, 0x0034($sp)
