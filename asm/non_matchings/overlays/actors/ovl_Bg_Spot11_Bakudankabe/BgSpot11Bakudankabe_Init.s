@@ -1,3 +1,10 @@
+.rdata
+
+glabel D_808B2750
+    .asciz "(spot11 爆弾壁)(arg_data 0x%04x)\n"
+    .balign 4
+
+.text
 glabel BgSpot11Bakudankabe_Init
 /* 003AC 808B252C 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 003B0 808B2530 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_80881040
+ .float 0.1
+
+.text
 glabel BgHakaTrap_Init
 /* 00000 8087FCA0 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 8087FCA4 AFA5003C */  sw      $a1, 0x003C($sp)           

@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_808987D8
+ .float 65535.0
+
+.text
 glabel BgJyaHaheniron_Init
 /* 00280 80898340 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00284 80898344 AFA50024 */  sw      $a1, 0x0024($sp)           

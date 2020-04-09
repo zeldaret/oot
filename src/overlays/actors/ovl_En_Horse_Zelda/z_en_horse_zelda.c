@@ -1,3 +1,9 @@
+/*
+ * File: z_en_horse_zelda.c
+ * Overlay: ovl_En_Horse_Zelda
+ * Description: Zelda's Horse
+ */
+
 #include "z_en_horse_zelda.h"
 
 #define ROOM 0x00

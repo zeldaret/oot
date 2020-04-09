@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_80A5126C
+ .float 1.1
+
+.text
 glabel EnHata_Draw
 /* 00428 80A51178 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0042C 80A5117C AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,9 @@
+/*
+ * File: z_en_fu.c
+ * Overlay: ovl_En_Fu
+ * Description: Windmill Man
+ */
+
 #include "z_en_fu.h"
 
 #define ROOM 0x00

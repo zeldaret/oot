@@ -23,7 +23,7 @@ glabel func_8086318C
 /* 03B88 808631D8 46022180 */  add.s   $f6, $f4, $f2              
 /* 03B8C 808631DC 4600320D */  trunc.w.s $f8, $f6                   
 /* 03B90 808631E0 440F4000 */  mfc1    $t7, $f8                   
-/* 03B94 808631E4 0C217D94 */  jal     func_8085F650              
+/* 03B94 808631E4 0C217D94 */  jal     EnTest_SetupAction              
 /* 03B98 808631E8 AE0F07E8 */  sw      $t7, 0x07E8($s0)           ## 000007E8
 /* 03B9C 808631EC 260407F0 */  addiu   $a0, $s0, 0x07F0           ## $a0 = 000007F0
 /* 03BA0 808631F0 2405003C */  addiu   $a1, $zero, 0x003C         ## $a1 = 0000003C

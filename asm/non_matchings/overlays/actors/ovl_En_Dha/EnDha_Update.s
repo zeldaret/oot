@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_809ED788
+ .float 10000.0
+
+.text
 glabel EnDha_Update
 /* 00AEC 809ED36C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00AF0 809ED370 AFBF0024 */  sw      $ra, 0x0024($sp)           

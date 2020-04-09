@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_mure2.c
+ * Overlay: ovl_Obj_Mure2
+ * Description: Rock/Bush groups
+ */
+
 #include "z_obj_mure2.h"
 
 #define ROOM 0x00

@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_spot11_bakudankabe.c
+ * Overlay: ovl_Bg_Spot11_Bakudankabe
+ * Description: Destructible Wall (Desert Colossus)
+ */
+
 #include "z_bg_spot11_bakudankabe.h"
 
 #define ROOM 0x00

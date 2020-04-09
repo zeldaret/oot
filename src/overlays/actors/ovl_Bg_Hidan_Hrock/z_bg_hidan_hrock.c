@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_hidan_hrock.c
+ * Overlay: ovl_Bg_Hidan_Hrock
+ * Description: Huge stone spike platform (Fire Temple)
+ */
+
 #include "z_bg_hidan_hrock.h"
 
 #define ROOM 0x00

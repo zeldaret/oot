@@ -1,3 +1,9 @@
+/*
+ * File: z_en_dekunuts.c
+ * Overlay: ovl_En_Dekunuts
+ * Description: Mad Scrub
+ */
+
 #include "z_en_dekunuts.h"
 
 #define ROOM 0x00

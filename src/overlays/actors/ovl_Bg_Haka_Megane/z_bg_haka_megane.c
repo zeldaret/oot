@@ -1,7 +1,7 @@
 /*
  * File: z_bg_haka_megane.c
  * Overlay: ovl_Bg_Haka_Megane
- * Description:
+ * Description: Shadow Temple Fake Walls
  */
 
 #include "z_bg_haka_megane.h"

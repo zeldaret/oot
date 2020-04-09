@@ -1,3 +1,22 @@
+.rdata
+
+glabel D_80BA28E0
+    .asciz "\x1B[41;37m"
+    .balign 4
+
+glabel D_80BA28EC
+    .asciz "Error : 時のブロック(ワープ２)が対でセットされていません(%s %d)\n"
+    .balign 4
+
+glabel D_80BA2930
+    .asciz "../z_obj_warp2block.c"
+    .balign 4
+
+glabel D_80BA2948
+    .asciz "\x1B[m"
+    .balign 4
+
+.text
 glabel func_80BA24F8
 /* 00708 80BA24F8 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0070C 80BA24FC AFBF001C */  sw      $ra, 0x001C($sp)           

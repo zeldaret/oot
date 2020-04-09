@@ -1,3 +1,14 @@
+.rdata
+
+glabel D_80A1E470
+    .asciz "../z_en_fu.c"
+    .balign 4
+
+glabel D_80A1E480
+    .asciz "../z_en_fu.c"
+    .balign 4
+
+.text
 glabel EnFu_Draw
 /* 00A9C 80A1E2AC 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00AA0 80A1E2B0 AFBF002C */  sw      $ra, 0x002C($sp)

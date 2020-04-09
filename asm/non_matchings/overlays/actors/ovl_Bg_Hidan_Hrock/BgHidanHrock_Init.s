@@ -1,3 +1,11 @@
+.late_rodata
+
+glabel D_808898C0
+ .float 3000.0
+glabel D_808898C4
+ .float 3000.0
+
+.text
 glabel BgHidanHrock_Init
 /* 00000 80889130 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 00004 80889134 AFA500B4 */  sw      $a1, 0x00B4($sp)           

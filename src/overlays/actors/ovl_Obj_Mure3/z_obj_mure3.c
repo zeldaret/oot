@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_mure3.c
+ * Overlay: ovl_Obj_Mure3
+ * Description: Tower of Rupees
+ */
+
 #include "z_obj_mure3.h"
 
 #define ROOM 0x00

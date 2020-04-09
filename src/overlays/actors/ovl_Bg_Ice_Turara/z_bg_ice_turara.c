@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_ice_turara.c
+ * Overlay: ovl_Bg_Ice_Turara
+ * Description: Icicles
+ */
+
 #include "z_bg_ice_turara.h"
 
 #define ROOM 0x00

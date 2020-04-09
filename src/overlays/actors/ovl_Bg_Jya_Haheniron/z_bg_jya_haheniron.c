@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_jya_haheniron
+ * Overlay: ovl_Bg_Jya_Haheniron
+ * Description: Chunks of Iron Knucle Chair and Pillar
+ */
+
 #include "z_bg_jya_haheniron.h"
 
 #define ROOM 0x00

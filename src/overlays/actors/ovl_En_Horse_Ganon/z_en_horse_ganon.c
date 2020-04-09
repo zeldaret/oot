@@ -1,3 +1,9 @@
+/*
+ * File: z_en_horse_ganon.c
+ * Overlay: ovl_En_Horse_Ganon
+ * Description: Ganondorf's Horse
+ */
+
 #include "z_en_horse_ganon.h"
 
 #define ROOM 0x00

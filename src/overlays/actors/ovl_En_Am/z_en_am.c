@@ -1,3 +1,9 @@
+/*
+ * File: z_en_am.c
+ * Overlay: ovl_En_Am
+ * Description: Armos Statue
+ */
+
 #include "z_en_am.h"
 
 #define ROOM 0x00

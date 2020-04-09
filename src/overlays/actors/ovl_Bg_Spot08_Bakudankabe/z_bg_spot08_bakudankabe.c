@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_spot08_bakudankabe
+ * Overlay: ovl_Bg_Spot08_Bakudankabe
+ * Description: Destructible Wall (Zora's Fountain)
+ */
+
 #include "z_bg_spot08_bakudankabe.h"
 
 #define ROOM 0x00

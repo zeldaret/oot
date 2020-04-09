@@ -1,3 +1,9 @@
+/*
+ * File: z_en_dha.c
+ * Overlay: ovl_En_Dha
+ * Description: Dead Hand's Hand
+ */
+
 #include "z_en_dha.h"
 
 #define ROOM 0x00

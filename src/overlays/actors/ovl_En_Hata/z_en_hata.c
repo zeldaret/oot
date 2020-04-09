@@ -1,3 +1,9 @@
+/*
+ * File: z_en_hata.c
+ * Overlay: ovl_En_Hata
+ * Description: Wooden post with red cloth
+ */
+
 #include "z_en_hata.h"
 
 #define ROOM 0x00

@@ -6,7 +6,8 @@
 
 typedef struct {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x8];
+    /* 0x014C */ ActorFunc actionFunc;
+    /* 0x0150 */ char unk_150[0x4];
 } BgHakaWater; // size = 0x0154
 
 extern const ActorInit Bg_Haka_Water_InitVars;

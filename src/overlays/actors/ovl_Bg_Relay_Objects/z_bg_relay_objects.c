@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_relay_objects.c
+ * Overlay: ovl_Bg_Relay_Objects
+ * Description: Windmill Setpieces
+ */
+
 #include "z_bg_relay_objects.h"
 
 #define ROOM 0x00

@@ -1,3 +1,9 @@
+/*
+ * File: z_en_river_sound.c
+ * Overlay: ovl_En_River_Sound
+ * Description: Ambient Sound Effects
+ */
+
 #include "z_en_river_sound.h"
 
 #define ROOM 0x00

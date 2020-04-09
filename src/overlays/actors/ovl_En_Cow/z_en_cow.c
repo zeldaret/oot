@@ -1,3 +1,9 @@
+/*
+ * File: z_en_cow.c
+ * Overlay: ovl_En_Cow
+ * Description: Cow
+ */
+
 #include "z_en_cow.h"
 
 #define ROOM 0x00

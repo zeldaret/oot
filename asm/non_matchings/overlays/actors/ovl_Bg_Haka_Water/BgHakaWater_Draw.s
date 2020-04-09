@@ -1,3 +1,30 @@
+.rdata
+
+glabel D_808824C0
+    .asciz "../z_bg_haka_water.c"
+    .balign 4
+
+glabel D_808824D8
+    .asciz "../z_bg_haka_water.c"
+    .balign 4
+
+glabel D_808824F0
+    .asciz "../z_bg_haka_water.c"
+    .balign 4
+
+glabel D_80882508
+    .asciz "../z_bg_haka_water.c"
+    .balign 4
+
+.late_rodata
+glabel D_80882520
+ .float 0.765
+glabel D_80882524
+ .float 0.1
+glabel D_80882528
+ .float 5.1
+
+.text
 glabel BgHakaWater_Draw
 /* 003C4 808820C4 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 003C8 808820C8 AFBF003C */  sw      $ra, 0x003C($sp)           

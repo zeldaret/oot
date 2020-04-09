@@ -1,3 +1,9 @@
+/*
+ * File: z_en_mk.c
+ * Overlay: ovl_En_Mk
+ * Description: Lakeside Professor
+ */
+
 #include "z_en_mk.h"
 
 #define ROOM 0x00

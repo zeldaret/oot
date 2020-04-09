@@ -1,3 +1,9 @@
+/*
+ * File: z_en_door.c
+ * Overlay: ovl_En_Door
+ * Description: Door
+ */
+
 #include "z_en_door.h"
 
 #define ROOM 0x00

@@ -1,3 +1,27 @@
+.rdata
+
+glabel D_80881BD0
+    .asciz "../z_bg_haka_tubo.c"
+    .balign 4
+
+glabel D_80881BE4
+    .asciz "../z_bg_haka_tubo.c"
+    .balign 4
+
+glabel D_80881BF8
+    .asciz "../z_bg_haka_tubo.c"
+    .balign 4
+
+.late_rodata
+
+glabel D_80881C24
+ .float 9.58738E-5
+glabel D_80881C28
+ .float 0.07
+glabel D_80881C2C
+ .float 0.04
+ 
+.text
 glabel func_80881904
 /* 006B4 80881904 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 006B8 80881908 AFBF003C */  sw      $ra, 0x003C($sp)           

@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_hamishi.c
+ * Overlay: ovl_Obj_Hamishi
+ * Description: Bronze Boulder
+ */
+
 #include "z_obj_hamishi.h"
 
 #define ROOM 0x00

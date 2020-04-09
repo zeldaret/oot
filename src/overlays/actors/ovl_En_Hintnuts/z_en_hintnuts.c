@@ -1,3 +1,9 @@
+/*
+ * File: z_en_hintnuts.c
+ * Overlay: ovl_En_Hintnuts
+ * Description: Hint Deku Scrubs (Deku Tree)
+ */
+
 #include "z_en_hintnuts.h"
 
 #define ROOM 0x00

@@ -1,3 +1,9 @@
+/*
+ * File: z_en_jj.c
+ * Overlay: ovl_En_Jj
+ * Description: Lord Jabu-Jabu
+ */
+
 #include "z_en_jj.h"
 
 #define ROOM 0x00

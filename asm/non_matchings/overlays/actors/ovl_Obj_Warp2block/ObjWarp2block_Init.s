@@ -1,3 +1,10 @@
+.rdata
+
+glabel D_80BA28A0
+    .asciz "時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n"
+    .balign 4
+
+.text
 glabel ObjWarp2block_Init
 /* 00558 80BA2348 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0055C 80BA234C AFBF001C */  sw      $ra, 0x001C($sp)           

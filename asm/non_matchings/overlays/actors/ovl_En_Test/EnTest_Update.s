@@ -1,3 +1,13 @@
+.late_rodata
+
+glabel jtbl_808647E4
+.word L808638F4
+.word L808637D4
+.word L80863848
+.word L80863870
+.word L80863884
+
+.text
 glabel EnTest_Update
 /* 04044 80863694 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 04048 80863698 AFBF002C */  sw      $ra, 0x002C($sp)

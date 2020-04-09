@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_haka_water.c
+ * Overlay: ovl_Bg_Haka_Water
+ * Description: Bottom of the Well water level changer
+ */
+
 #include "z_bg_haka_water.h"
 
 #define ROOM 0x00
@@ -7,6 +13,9 @@ void BgHakaWater_Init(BgHakaWater* this, GlobalContext* globalCtx);
 void BgHakaWater_Destroy(BgHakaWater* this, GlobalContext* globalCtx);
 void BgHakaWater_Update(BgHakaWater* this, GlobalContext* globalCtx);
 void BgHakaWater_Draw(BgHakaWater* this, GlobalContext* globalCtx);
+// ? func_80881D94(BgHakaWater* this, GlobalContext* globalCtx) // not entirely sure on this one
+void func_80881EDC(BgHakaWater* this, GlobalContext* globalCtx);
+void func_80881F98(BgHakaWater* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Haka_Water_InitVars = {
@@ -22,6 +31,7 @@ const ActorInit Bg_Haka_Water_InitVars = {
     (ActorFunc)BgHakaWater_Draw,
 };
 */
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Water/BgHakaWater_Init.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Water/BgHakaWater_Destroy.s")
