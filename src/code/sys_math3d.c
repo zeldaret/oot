@@ -254,6 +254,7 @@ f32 Math3D_Vec3fMagnitude(Vec3f* vec) {
      return sqrt(Math3D_Vec3f_HadamardProduct(vec));
 }
 
+
 f32 func_800CB650(Vec3f* a, Vec3f* b) {
     Vec3f diff;
 
@@ -849,7 +850,6 @@ s32 func_800CD168(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 n
     f32 temp_ret;
     Vec3f cylPos;
 
-
     if (fabsf(ny) < 0.008f) {
         return 0;
     }
@@ -1232,31 +1232,28 @@ s32 func_800CE934(Sphere16 *arg0, TriNorm *arg1, Vec3f *arg2) {
     return 0;
 }
 
-#ifdef NON_MATCHING
-f32 func_800CED50(Cylinder16 *arg0, Vec3f *arg1) {
-    f32 temp_f0;
-    f32 temp_f12;
-    f32 temp_f2;
-    f32 phi_return;
+/*
+ * Math3D_PointInCyl
+ * Checks if point `point` is within cylinder `cyl`
+ * Returns 1 if the point is inside the cylinder, 0 otherwise.
+*/
+s32 func_800CED50(Cylinder16 *cyl, Vec3f *point) {
+    f32 bottom;
+    f32 top;
+    f32 x;
+    f32 z;
 
-    temp_f0 = (f32) arg0->pos.x - arg1->x;
-    temp_f2 = (f32) arg0->pos.z - arg1->z;
-    temp_f12 = (f32) arg0->pos.y + (f32) arg0->yShift;
-    phi_return = temp_f0;
-    if (((temp_f0 * temp_f0) + (temp_f2 * temp_f2)) < (f32) (arg0->radius * arg0->radius)) {
-        phi_return = arg1->y;
-        if (temp_f12 < arg1->y) {
-            phi_return = arg1->y;
-            if (arg1->y < ((f32) arg0->height + temp_f12)) {
-                return 1;
-            }
-        }
+    x = cyl->pos.x - point->x;
+    z = cyl->pos.z - point->z;
+    bottom = (f32)cyl->pos.y + cyl->yShift;
+    top = cyl->height + bottom;
+    
+    if ((SQ(x) + SQ(z)) < SQ(cyl->radius) && (bottom < point->y) && (point->y < top)) {
+        return 1;
+    } else { 
+        return 0;
     }
-    return phi_return;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CED50.s")
-#endif
 
 #ifdef NON_MATCHING
 /*
@@ -1266,14 +1263,10 @@ f32 func_800CED50(Cylinder16 *arg0, Vec3f *arg1) {
  * arg3 ???
  * arg4 ???
 */
-s32 func_800CEE0C(Cylinder16 *arg0, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, void *arg4) {
-    f32 spF4;
-    f32 spF0;
-    f32 spEC;
-    f32 spE8;
-    f32 spE4;
-    f32 spE0;
-    f32 spD4;
+s32 func_800CEE0C(Cylinder16 *arg0, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, Vec3f *arg4) {
+    Vec3f spEC;
+    Vec3f spE0;
+    Vec3f spD4;
     f32 spD0;
     f32 spCC;
     f32 spB8;
@@ -1322,10 +1315,10 @@ s32 func_800CEE0C(Cylinder16 *arg0, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, void 
     s32 temp_t0;
     s32 temp_v0;
     s32 temp_v1;
-    void *temp_a0;
-    void *temp_a1;
-    void *temp_s0;
-    void *temp_t2;
+    Vec3f *temp_a0;
+    Vec3f *temp_a1;
+    Vec3f *temp_s0;
+    Vec3f *temp_t2;
     s32 phi_a1;
     s32 phi_a1_2;
     f32 phi_f2;
@@ -1346,41 +1339,43 @@ s32 func_800CEE0C(Cylinder16 *arg0, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, void 
     s32 phi_t0_2;
     s32 phi_v1_5;
     s32 phi_t0_3;
-
+    Vec3f sp6C2[4];
+/*
+ * arg0 cylinder
+ * arg1 vtx
+ * arg2 vtx arg1/arg2 line?
+ * arg3 ???
+ * arg4 ???
+*/
     sp9C = 0;
-    if (func_800CED50(arg0, arg1) != 0) {
-        sp9C = sp9C;
-        if (func_800CED50(arg0, arg2) != 0) {
-            arg3->x = (s32) arg1->x;
-            arg3->y = (s32) arg1->y;
-            arg3->z = (s32) arg1->z;
-            arg4->unk0 = (s32) arg2->x;
-            arg4->unk4 = (s32) arg2->y;
-            arg4->unk8 = (s32) arg2->z;
-            return 2;
-        }
+    // if vtx1 and v12 are inside the cylinder return 2;
+    if (func_800CED50(arg0, arg1) != 0 && func_800CED50(arg0, arg2) != 0) {
+        *arg3 = *arg1;
+        *arg4 = *arg2;
+        return 2;
     }
+
     temp_a0 = &spE0;
     temp_a1 = &spEC;
-    spEC = (f32) (arg1->x - (f32) arg0->pos.x);
-    spF0 = (f32) ((arg1->y - (f32) arg0->pos.y) - (f32) arg0->yShift);
-    spF4 = (f32) (arg1->z - (f32) arg0->pos.z);
-    spE0 = (f32) (arg2->x - (f32) arg0->pos.x);
-    spE4 = (f32) ((arg2->y - (f32) arg0->pos.y) - (f32) arg0->yShift);
+    spEC.x = (f32) (arg1->x - (f32) arg0->pos.x);
+    spEC.y = (f32) ((arg1->y - (f32) arg0->pos.y) - (f32) arg0->yShift);
+    spEC.z = (f32) (arg1->z - (f32) arg0->pos.z);
+    spE0.x = (f32) (arg2->x - (f32) arg0->pos.x);
+    spE0.y = (f32) ((arg2->y - (f32) arg0->pos.y) - (f32) arg0->yShift);
     sp9C = (s32) sp9C;
-    spE8 = (f32) (arg2->z - (f32) arg0->pos.z);
-    Math_Vec3f_Diff(temp_a0, temp_a1, &spD4, arg2);
+    spE0.z = (f32) (arg2->z - (f32) arg0->pos.z);
+    Math_Vec3f_Diff(temp_a0, temp_a1, &spD4);
     temp_t0 = sp9C;
     temp_f14 = (f32) (arg0->radius * arg0->radius);
     phi_t0_2 = temp_t0;
-    if (!(fabsf(spD8) < D_80146544)) {
-        temp_f0 = -spF0 / spD8;
+    if (!(fabsf(spD4.y) < 0.008f)) {
+        temp_f0 = -spEC.y / spD4.y;
         phi_t0_3 = temp_t0;
         if (0.0f <= temp_f0) {
             phi_t0_3 = temp_t0;
             if (temp_f0 <= 1.0f) {
-                temp_f2 = (spD4 * temp_f0) + spEC;
-                temp_f12 = (spDC * temp_f0) + spF4;
+                temp_f2 = (spD4.x * temp_f0) + spEC.x;
+                temp_f12 = (spD4.z * temp_f0) + spEC.z;
                 phi_t0_3 = temp_t0;
                 if (((temp_f2 * temp_f2) + (temp_f12 * temp_f12)) < temp_f14) {
                     sp6C = (f32) ((f32) arg0->pos.x + temp_f2);
@@ -1390,14 +1385,14 @@ s32 func_800CEE0C(Cylinder16 *arg0, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, void 
                 }
             }
         }
-        temp_f10 = ((f32) arg0->height - spF0) / spD8;
+        temp_f10 = ((f32) arg0->height - spEC.y) / spD4.y;
         spD0 = temp_f10;
         phi_t0_2 = phi_t0_3;
         if (0.0f <= temp_f10) {
             phi_t0_2 = phi_t0_3;
             if (temp_f10 <= 1.0f) {
-                temp_f0_2 = (spD4 * temp_f10) + spEC;
-                temp_f2_2 = (spDC * temp_f10) + spF4;
+                temp_f0_2 = (spD4.x * temp_f10) + spEC.x;
+                temp_f2_2 = (spD4.z * temp_f10) + spEC.z;
                 phi_t0_2 = phi_t0_3;
                 if (((temp_f0_2 * temp_f0_2) + (temp_f2_2 * temp_f2_2)) < temp_f14) {
                     sp78 = (f32) ((f32) arg0->pos.x + temp_f0_2);
@@ -1408,14 +1403,14 @@ s32 func_800CEE0C(Cylinder16 *arg0, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, void 
             }
         }
     }
-    sp20 = spEC;
-    sp24 = spF4;
-    temp_f16 = ((spEC * spEC) + (spF4 * spF4)) - temp_f14;
+    sp20 = spEC.x;
+    sp24 = spEC.z;
+    temp_f16 = ((spEC.x * spEC.x) + (spEC.z * spEC.z)) - temp_f14;
     spB8 = temp_f16;
-    temp_f12_2 = (spD4 * spD4) + (spDC * spDC);
+    temp_f12_2 = (spD4.x * spD4.x) + (spD4.z * spD4.z);
     temp_f18 = temp_f12_2 + temp_f12_2;
-    if (!(fabsf(temp_f18) < D_80146548)) {
-        temp_f2_3 = (spD4 * sp20) + (spDC * sp24);
+    if (!(fabsf(temp_f18) < 0.008f)) {
+        temp_f2_3 = (spD4.x * sp20) + (spD4.z * sp24);
         temp_f14_2 = temp_f2_3 + temp_f2_3;
         temp_f0_3 = temp_f14_2 * temp_f14_2;
         temp_f16_2 = (4.0f * temp_f12_2) * spB8;
@@ -1436,9 +1431,9 @@ s32 func_800CEE0C(Cylinder16 *arg0, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, void 
         phi_a1_2 = phi_a1;
         phi_f2 = temp_f2_5;
     } else {
-        temp_f2_6 = (spD4 * spEC) + (spDC * spF4);
+        temp_f2_6 = (spD4.x * spEC.x) + (spD4.z * spEC.z);
         temp_f14_3 = temp_f2_6 + temp_f2_6;
-        if (fabsf(temp_f14_3) < D_8014654C) {
+        if (fabsf(temp_f14_3) < 0.008f) {
             return 0;
         }
         temp_f2_7 = -temp_f16 / temp_f14_3;
@@ -1447,59 +1442,55 @@ s32 func_800CEE0C(Cylinder16 *arg0, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, void 
         phi_f2 = temp_f2_7;
         phi_a2_4 = 1;
     }
-    if (phi_a1_2 == 0) {
-        if (phi_f2 < 0.0f) {
-block_26:
+
+    if (((phi_a1_2 == 0) && (phi_f2 < 0.0f)) || (1.0f < phi_f2)) {
+        return 0;
+    }
+
+    phi_a2 = phi_a2_4;
+        phi_a1_3 = phi_a1_2;
+
+    phi_v0 = 0;
+    if (phi_f2 < 0.0f) {
+        phi_v0 = 1;
+    }
+    phi_v1 = phi_v0;
+    if (phi_v0 == 0) {
+        phi_v1 = 0;
+        if (1.0f < phi_f2) {
+            phi_v1 = 1;
+        }
+    }
+    temp_a0_2 = phi_v1;
+    phi_v0_2 = 0;
+    if (spCC < 0.0f) {
+        phi_v0_2 = 1;
+    }
+    phi_v1_2 = phi_v0_2;
+    if (phi_v0_2 == 0) {
+        phi_v1_2 = 0;
+        if (1.0f < spCC) {
+            phi_v1_2 = 1;
+        }
+    }
+    if (temp_a0_2 != 0) {
+        if (phi_v1_2 != 0) {
             return 0;
         }
-        phi_a2 = phi_a2_4;
-        phi_a1_3 = phi_a1_2;
-        if (1.0f < phi_f2) {
-            goto block_26;
-        }
-    } else {
-        phi_v0 = 0;
-        if (phi_f2 < 0.0f) {
-            phi_v0 = 1;
-        }
-        phi_v1 = phi_v0;
-        if (phi_v0 == 0) {
-            phi_v1 = 0;
-            if (1.0f < phi_f2) {
-                phi_v1 = 1;
-            }
-        }
-        temp_a0_2 = phi_v1;
-        phi_v0_2 = 0;
-        if (spCC < 0.0f) {
-            phi_v0_2 = 1;
-        }
-        phi_v1_2 = phi_v0_2;
-        if (phi_v0_2 == 0) {
-            phi_v1_2 = 0;
-            if (1.0f < spCC) {
-                phi_v1_2 = 1;
-            }
-        }
-        if (temp_a0_2 != 0) {
-            if (phi_v1_2 != 0) {
-                return 0;
-            }
-        }
-        phi_a2_3 = phi_a2_4;
-        if (temp_a0_2 != 0) {
-            phi_a2_3 = 0;
-        }
+    }
+    phi_a2_3 = phi_a2_4;
+    if (temp_a0_2 != 0) {
+        phi_a2_3 = 0;
+    }
+    phi_a2 = phi_a2_3;
+    phi_a1_3 = phi_a1_2;
+    if (phi_v1_2 != 0) {
         phi_a2 = phi_a2_3;
-        phi_a1_3 = phi_a1_2;
-        if (phi_v1_2 != 0) {
-            phi_a2 = phi_a2_3;
-            phi_a1_3 = 0;
-        }
+        phi_a1_3 = 0;
     }
     phi_a2_2 = phi_a2;
     if (phi_a2 == 1) {
-        temp_f0_5 = (phi_f2 * spD8) + spF0;
+        temp_f0_5 = (phi_f2 * spD4.y) + spEC.y;
         if ((temp_f0_5 < 0.0f) || ((f32) arg0->height < temp_f0_5)) {
             phi_a2_2 = 0;
         } else {
@@ -1508,7 +1499,7 @@ block_26:
     }
     phi_a1_4 = phi_a1_3;
     if (phi_a1_3 == 1) {
-        temp_f0_6 = (spCC * spD8) + spF0;
+        temp_f0_6 = (spCC * spD4.y) + spEC.y;
         if ((temp_f0_6 < 0.0f) || ((f32) arg0->height < temp_f0_6)) {
             phi_a1_4 = 0;
         } else {
@@ -1521,43 +1512,67 @@ block_26:
         }
     }
     if ((phi_a2_2 == 1) && (phi_a1_4 == 1)) {
-        sp24 = spD4;
-        sp84 = (f32) (((phi_f2 * spD4) + spEC) + (f32) arg0->pos.x);
-        sp20 = spEC;
-        sp28 = spD8;
-        sp88 = (f32) ((((phi_f2 * spD8) + spF0) + (f32) arg0->pos.y) + (f32) arg0->yShift);
-        sp2C = spF0;
-        sp8C = (f32) (((phi_f2 * spDC) + spF4) + (f32) arg0->pos.z);
-        sp90 = (f32) (((spCC * spD4) + sp20) + (f32) arg0->pos.x);
-        sp94 = (f32) ((((spCC * sp28) + spF0) + (f32) arg0->pos.y) + (f32) arg0->yShift);
-        sp98 = (f32) (((spCC * spDC) + spF4) + (f32) arg0->pos.z);
+        sp24 = spD4.x;
+        sp84 = (f32) (((phi_f2 * spD4.x) + spEC.x) + (f32) arg0->pos.x);
+        sp20 = spEC.x;
+        sp28 = spD4.y;
+        sp88 = (f32) ((((phi_f2 * spD4.y) + spEC.y) + (f32) arg0->pos.y) + (f32) arg0->yShift);
+        sp2C = spEC.y;
+        sp8C = (f32) (((phi_f2 * spD4.z) + spEC.z) + (f32) arg0->pos.z);
+        sp90 = (f32) (((spCC * spD4.x) + sp20) + (f32) arg0->pos.x);
+        sp94 = (f32) ((((spCC * sp28) + spEC.y) + (f32) arg0->pos.y) + (f32) arg0->yShift);
+        sp98 = (f32) (((spCC * spD4.z) + spEC.z) + (f32) arg0->pos.z);
         phi_t0 = (phi_t0_2 | 4) | 8;
     } else {
         if (phi_a2_2 == 1) {
-            sp84 = (f32) (((phi_f2 * spD4) + spEC) + (f32) arg0->pos.x);
-            sp88 = (f32) ((((phi_f2 * spD8) + spF0) + (f32) arg0->pos.y) + (f32) arg0->yShift);
-            sp8C = (f32) (((phi_f2 * spDC) + spF4) + (f32) arg0->pos.z);
+            sp84 = (f32) (((phi_f2 * spD4.x) + spEC.x) + (f32) arg0->pos.x);
+            sp88 = (f32) ((((phi_f2 * spD4.y) + spEC.y) + (f32) arg0->pos.y) + (f32) arg0->yShift);
+            sp8C = (f32) (((phi_f2 * spD4.z) + spEC.z) + (f32) arg0->pos.z);
             phi_t0 = phi_t0_2 | 4;
         } else {
             phi_t0 = phi_t0_2;
             if (phi_a1_4 == 1) {
-                sp84 = (f32) (((spCC * spD4) + spEC) + (f32) arg0->pos.x);
-                sp88 = (f32) ((((spCC * spD8) + spF0) + (f32) arg0->pos.y) + (f32) arg0->yShift);
-                sp8C = (f32) (((spCC * spDC) + spF4) + (f32) arg0->pos.z);
+                sp84 = (f32) (((spCC * spD4.x) + spEC.x) + (f32) arg0->pos.x);
+                sp88 = (f32) ((((spCC * spD4.y) + spEC.y) + (f32) arg0->pos.y) + (f32) arg0->yShift);
+                sp8C = (f32) (((spCC * spD4.z) + spEC.z) + (f32) arg0->pos.z);
                 phi_t0 = phi_t0_2 | 4;
             }
         }
     }
+
     phi_v0_3 = 0;
     phi_v1_3 = 0;
+    
+    do {
+        if((1 << phi_v0_3) & phi_t0){
+            if(phi_v1_3 == 0){
+                *arg3 = sp6C2[phi_v0_3];
+            }else {
+                if(phi_v1_3 == 1){
+                    temp_s0 = &sp6C2[phi_v0_3];
+                    if(func_800CB650(arg3, arg1) <= func_800CB650(arg3, temp_s0)){
+                        *arg4 = *arg3;
+                        *arg3 = *temp_s0;
+                        return 1;
+                    } else {
+                        *arg4 = *temp_s0;
+                        return 1;
+                    }
+                }
+            }
+            phi_v1_3++;
+        }
+        phi_v0_3++;
+    } while (phi_v0_3 != 4);
+
+    return phi_v1_3;
+/*
 loop_63:
     phi_v1_5 = phi_v1_3;
     if (((1 << phi_v0_3) & phi_t0) != 0) {
         if (phi_v1_3 == 0) {
             temp_t2 = &sp6C + (phi_v0_3 * 0xC);
-            arg3->x = (s32) temp_t2->unk0;
-            arg3->y = (s32) temp_t2->unk4;
-            arg3->z = (s32) temp_t2->unk8;
+            *arg3 = *temp_t2;
 block_70:
             phi_v1_5 = phi_v1_3 + 1;
 block_71:
@@ -1572,20 +1587,13 @@ block_71:
             if (phi_v1_3 == 1) {
                 temp_s0 = (((phi_v0_3 * 4) - phi_v0_3) * 4) + &sp6C;
                 sp68 = (s32) phi_v1_3;
-                sp4C = func_800CB650(arg3, arg1);
                 temp_v1 = phi_v1_3;
-                if (sp4C < func_800CB650(arg3, temp_s0)) {
-                    arg4->unk0 = (s32) temp_s0->unk0;
-                    arg4->unk4 = (s32) temp_s0->unk4;
-                    arg4->unk8 = (s32) temp_s0->unk8;
+                if (func_800CB650(arg3, arg1) < func_800CB650(arg3, temp_s0)) {
+                    *arg4 = *temp_s0;
                     phi_v1_4 = temp_v1;
                 } else {
-                    arg4->unk0 = (s32) arg3->x;
-                    arg4->unk4 = (s32) arg3->y;
-                    arg4->unk8 = (s32) arg3->z;
-                    arg3->x = (s32) temp_s0->unk0;
-                    arg3->y = (s32) temp_s0->unk4;
-                    arg3->z = (s32) temp_s0->unk8;
+                    *arg4 = *arg3;
+                    *arg3 = *temp_s0;
                     phi_v1_4 = temp_v1;
                 }
             } else {
@@ -1596,6 +1604,7 @@ block_71:
         goto block_71;
     }
     return phi_v1_4;
+*/
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CEE0C.s")
@@ -1604,6 +1613,7 @@ block_71:
 #ifdef NON_MATCHING
 // Checks if a triangle is within a cylinder16?
 s32 func_800CF7D0(Cylinder16 *arg0, TriNorm *arg1, Vec3f *arg2) {
+    char pad[4];
     f32 sp8C;
     Vec3f sp6C;
     Vec3f sp60;
@@ -1614,24 +1624,26 @@ s32 func_800CF7D0(Cylinder16 *arg0, TriNorm *arg1, Vec3f *arg2) {
     f32 temp_f2;
     f32 temp_ret;
     f32 phi_f2;
+
     static Vec3f D_80146550;
     static Vec4s D_8016A730;
     static Vec4s D_8016A738;
     static Vec3f D_8016A740;
     static Vec3f D_8016A750;
 
-    cylBottom = arg0->pos.y + arg0->yShift;
+    cylBottom = (f32)arg0->pos.y + arg0->yShift;
     cylTop = arg0->height + cylBottom;
 
     // If all of the verticies are below or all of the verticies are above the cylinder.
+
     if (((arg1->vtx[0].y < cylBottom) && (arg1->vtx[1].y < cylBottom) && (arg1->vtx[2].y < cylBottom)) ||
-        ((arg1->vtx[0].y > cylTop) && (arg1->vtx[0].y > cylTop) && (arg1->vtx[0].y > cylTop))) {
+        ((cylTop < arg1->vtx[0].y) && (cylTop < arg1->vtx[1].y) && (cylTop < arg1->vtx[2].y))) {
         return 0;
     }
 
     if (func_800CEE0C(arg0, &arg1->vtx[0], &arg1->vtx[1], &D_8016A740, &D_8016A750) != 0) {
-        *arg2 = D_8016A740;
         phi_f2 = func_800CB650(&D_8016A740, &arg1->vtx[0]);
+        *arg2 = D_8016A740;
     }
 
     if (func_800CEE0C(arg0, &arg1->vtx[2], &arg1->vtx[1], &D_8016A740, &D_8016A750) != 0) {
@@ -1653,6 +1665,7 @@ s32 func_800CF7D0(Cylinder16 *arg0, TriNorm *arg1, Vec3f *arg2) {
     if (phi_f2 != 1.e38f) {
         return 1;
     }
+    
     if (func_800CD168(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], arg1->normal.x, arg1->normal.y, arg1->normal.z, arg1->plane, arg0->pos.z, arg0->pos.x, &sp8C, cylBottom, cylTop) != 0) {
         VEC3F(sp6C, arg0->pos.x, sp8C, arg0->pos.z);
         VEC3F(sp60, ((arg1->vtx[1].x + arg1->vtx[0].x) * 0.5f),
@@ -1661,10 +1674,12 @@ s32 func_800CF7D0(Cylinder16 *arg0, TriNorm *arg1, Vec3f *arg2) {
 
         Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
         temp_f14_2 = sqrtf((sp54.x * sp54.x) + (sp54.z * sp54.z));
-        if ((fabsf(temp_f14_2) < 0.008f)) {
+
+        if (fabsf(temp_f14_2) < 0.008f) {
             Math_Vec3f_Copy(arg2, &sp60);
             return 1;
         }
+
         func_800CAF5C(&sp6C, &sp54, (f32) arg0->radius / temp_f14_2, arg2);
         return 1;
 
@@ -1686,6 +1701,7 @@ s32 func_800CF7D0(Cylinder16 *arg0, TriNorm *arg1, Vec3f *arg2) {
 #endif
 
 s32 func_800CFC4C(Vec3f* arg0, Vec3f* arg1) {
+    char pad[4];
     Vec3s sp1C;
 
     return func_800CF7D0(arg0, arg1, &sp1C);
