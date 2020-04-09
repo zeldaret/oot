@@ -64,9 +64,7 @@ static InitChainEntry initChain[] = {
 };
 
 static Vec3f EnAniVec = {
-    800.0f,
-    500.0f,
-    0.0f,
+    800.0f, 500.0f, 0.0f
 };
 
 UNK_PTR D_809B0F80[] = {
@@ -136,7 +134,7 @@ void func_809B0558(EnAni* this, GlobalContext* globalCtx) {
         } else {
             EnAni_SetupAction(this, func_809B0524);
         }
-        gSaveContext.item_get_inf[1] = gSaveContext.item_get_inf[1] | 0x20;
+        gSaveContext.item_get_inf[1] |= 0x20;
         return;
     }
     func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);
@@ -175,7 +173,7 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
         }
     } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistanceFromLink < 150.0f &&
                -80.0f < this->actor.yDistanceFromLink) {
-        if ((gSaveContext.item_get_inf[1] & 0x20) != 0) {
+        if (gSaveContext.item_get_inf[1] & 0x20) {
             EnAni_SetText(this, globalCtx, 0x5056); // "To get a good view..."
         } else {
             EnAni_SetText(this, globalCtx, 0x5055); // "...I'll give you this as a memento."
@@ -252,7 +250,6 @@ void func_809B0A6C(EnAni* this, GlobalContext* globalCtx) {
 
 void EnAni_Update(EnAni* this, GlobalContext* globalCtx) {
     ColliderCylinderMain* collider;
-    u32 phi_v0;
     u32 pad;
     u32 pad2;
 
@@ -261,7 +258,7 @@ void EnAni_Update(EnAni* this, GlobalContext* globalCtx) {
     Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, collider);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.actorActions[0] != 0)) {
+    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.actorActions[0] != NULL)) {
         switch (this->unk_2AA) {
             case 0:
                 func_809B0A6C(this, globalCtx);
@@ -280,7 +277,7 @@ void EnAni_Update(EnAni* this, GlobalContext* globalCtx) {
                 break;
         }
 
-        if (globalCtx->csCtx.frames == 0x64) {
+        if (globalCtx->csCtx.frames == 100) {
             func_800788CC(NA_SE_IT_EARTHQUAKE);
         }
     } else {
@@ -290,7 +287,7 @@ void EnAni_Update(EnAni* this, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
     }
 
-    if ((this->unk_2A8 & 1) != 0) {
+    if (this->unk_2A8 & 1) {
         func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.posRot2.pos);
         this->unk_2A2.z = 0;
         this->unk_2A2.y = this->unk_2A2.z;
@@ -302,14 +299,7 @@ void EnAni_Update(EnAni* this, GlobalContext* globalCtx) {
         Math_SmoothScaleMaxMinS(&this->unk_2A2.y, 0, 6, 6200, 100);
     }
 
-    if (this->unk_2AE == 0) {
-        phi_v0 = 0;
-    } else {
-        this->unk_2AE -= 1;
-        phi_v0 = this->unk_2AE;
-    }
-
-    if (phi_v0 == 0) {
+    if (DECR(this->unk_2AE) == 0) {
         this->unk_2AE = Math_Rand_S16Offset(60, 60);
     }
     this->unk_2AC = this->unk_2AE;

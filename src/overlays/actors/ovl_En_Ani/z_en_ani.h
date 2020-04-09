@@ -19,4 +19,6 @@ typedef struct {
     /* 0x02B0 */ ActorFunc actionFunc;
 } EnAni; // size = 0x02B4
 
+extern const ActorInit En_Ani_InitVars;
+
 #endif
