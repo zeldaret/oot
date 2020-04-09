@@ -7,6 +7,20 @@ void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx);
 void BgBdanObjects_Destroy(BgBdanObjects* this, GlobalContext* globalCtx);
 void BgBdanObjects_Update(BgBdanObjects* this, GlobalContext* globalCtx);
 void BgBdanObjects_Draw(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C1A0(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C55C(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C618(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C6EC(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C7D0(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C868(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C9A8(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C9F0(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086CABC(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086CB10(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Bdan_Objects_InitVars = {

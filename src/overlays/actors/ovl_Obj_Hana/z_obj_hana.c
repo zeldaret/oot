@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_hana.c
+ * Overlay: Obj_Hana
+ * Description: Grave Flower
+ */
+
 #include "z_obj_hana.h"
 
 #define ROOM 0x00

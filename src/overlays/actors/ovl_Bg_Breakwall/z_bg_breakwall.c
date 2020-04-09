@@ -6,6 +6,11 @@
 void BgBreakwall_Init(BgBreakwall* this, GlobalContext* globalCtx);
 void BgBreakwall_Destroy(BgBreakwall* this, GlobalContext* globalCtx);
 void BgBreakwall_Update(BgBreakwall* this, GlobalContext* globalCtx);
+void BgBreakwall_SetupAction(BgBreakwall* this, ActorFunc actionFunc);
+void func_80870290(BgBreakwall* this, GlobalContext* globalCtx);
+void func_80870394(BgBreakwall* this, GlobalContext* globalCtx);
+void func_80870564(BgBreakwall* this, GlobalContext* globalCtx);
+void func_808705D8(BgBreakwall* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Breakwall_InitVars = {
@@ -21,7 +26,7 @@ const ActorInit Bg_Breakwall_InitVars = {
     NULL,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Breakwall/func_8086FBE0.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Breakwall/BgBreakwall_SetupAction.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Breakwall/BgBreakwall_Init.s")
 

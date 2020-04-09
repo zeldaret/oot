@@ -7,6 +7,11 @@ void BgBowlWall_Init(BgBowlWall* this, GlobalContext* globalCtx);
 void BgBowlWall_Destroy(BgBowlWall* this, GlobalContext* globalCtx);
 void BgBowlWall_Update(BgBowlWall* this, GlobalContext* globalCtx);
 void BgBowlWall_Draw(BgBowlWall* this, GlobalContext* globalCtx);
+void func_8086F260(BgBowlWall* this, GlobalContext* globalCtx);
+void func_8086F440(BgBowlWall* this, GlobalContext* globalCtx);
+void func_8086F464(BgBowlWall* this, GlobalContext* globalCtx);
+void func_8086F718(BgBowlWall* this, GlobalContext* globalCtx);
+void func_8086F7F8(BgBowlWall* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Bowl_Wall_InitVars = {
