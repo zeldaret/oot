@@ -1083,49 +1083,37 @@ s32 Actor_CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* 
     return index;
 }
 
-#ifdef NON_MATCHING
 //CollisionCheck_setAT_SAC()
 s32 func_8005D8AC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider, s32 index) {
-    s32 result;
 
-    if (collider->type >= 4) {
+    if (!(collider->type < 4)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3037);
     }
-    //index = (s32)index;
-    result = index;
     if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
-    //index = temp_a3;
     (*&D_8011DEF8[collider->type])(globalCtx, collider);
-    if (collider->actor != NULL) {
-        if (collider->actor->update == NULL) {
-            return -1;
-        }
+    if (collider->actor != NULL && collider->actor->update == NULL) {
+        return -1;
     }
     if (check->unk2 & 1) {
-        if (index >= check->colAtCount) {
+        if (!(index < check->colAtCount)) {
             osSyncPrintf("CollisionCheck_setAT_SAC():全データ数より大きいところに登録しようとしている。\n");
             //EUC-JP: 全データ数より大きいところに登録しようとしている。 | You are trying to register a location that is larger than the total number of data.
             return -1;
         }
-        result = index;
         check->colAt[index] = collider;
     }
     else {
-        if (check->colAtCount >= 50) {
+        if (!(check->colAtCount < 50)) {
             osSyncPrintf("CollisionCheck_setAT():インデックスがオーバーして追加不能\n");
             return -1;
         }
-        result = check->colAtCount;
+        index = check->colAtCount;
         check->colAt[check->colAtCount++] = collider;
     }
-    return result;
+    return index;
 }
-
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D8AC.s")
-#endif // DEBUG
 
 s32 Actor_CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
     s32 index;
@@ -1156,7 +1144,38 @@ s32 Actor_CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* 
     return index;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DB04.s")
+//CollisionCheck_setAC_SAC()
+s32 func_8005DB04(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider, s32 index) {
+
+    if (!(collider->type < 4)) {
+        __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3153);
+    }
+    if (func_800C0D28(globalCtx) == 1) {
+        return -1;
+    }
+    (*&D_8011DF08[collider->type])(globalCtx, collider);
+    if (collider->actor != NULL && collider->actor->update == NULL) {
+        return -1;
+    }
+    if (check->unk2 & 1) {
+        if (!(index < check->colAcCount)) {
+            osSyncPrintf("CollisionCheck_setAC_SAC():全データ数より大きいところに登録しようとしている。\n");
+            //EUC-JP: 全データ数より大きいところに登録しようとしている。| You are trying to register a location that is larger than the total number of data.
+            return -1;
+        }
+        check->colAc[index] = collider;
+    }
+    else {
+        if (!(check->colAcCount < 60)) {
+            osSyncPrintf("CollisionCheck_setAC():インデックスがオーバして追加不能\n");
+            //EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
+            return -1;
+        }
+        index = check->colAcCount;
+        check->colAc[check->colAcCount++] = collider;
+    }
+    return index;
+}
 
 //TODO: rename to CollisionCheck_SetOC()
 s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
@@ -1188,8 +1207,41 @@ s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, CollisionCheckContext* 
     return index;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DD5C.s")
+//CollisionCheck_setOC_SAC()
+s32 func_8005DD5C(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider, s32 index) {
 
+    if (func_800C0D28(globalCtx) == 1) {
+        return -1;
+    }
+    if (!(collider->type < 4)) {
+        __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3274);
+    }
+    (*&D_8011DF18[collider->type])(globalCtx, collider);
+    if (collider->actor != NULL && collider->actor->update == NULL) {
+        return -1;
+    }
+    if (check->unk2 & 1) {
+        if (!(index < check->colOcCount)) {
+            osSyncPrintf("CollisionCheck_setOC_SAC():全データ数より大きいところに登録しようとしている。\n");
+            //EUC-JP: 全データ数より大きいところに登録しようとしている。| You are trying to register a location that is larger than the total number of data.
+            return -1;
+        }
+        //BUG: Should be colOc
+        check->colAt[index] = collider;
+    }
+    else {
+        if (!(check->colOcCount < 50)) {
+            osSyncPrintf("CollisionCheck_setOC():インデックスがオーバして追加不能\n");
+            //EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
+            return -1;
+        }
+        index = check->colOcCount;
+        check->colOc[check->colOcCount++] = collider;
+    }
+    return index;
+}
+
+//CollisionCheck_setOCLine()
 s32 func_8005DE9C(GlobalContext* globalCtx, CollisionCheckContext* check, OcLine_s* collider) {
     s32 index;
 
