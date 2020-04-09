@@ -156,9 +156,7 @@ static Gfx textureDL[] = {
                        G_TX_MIRROR | G_TX_WRAP, 5, 6, 13, 14),
     gsDPSetCombineLERP(TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, TEXEL1, 0, ENVIRONMENT, TEXEL0, PRIMITIVE, ENVIRONMENT,
                        COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0),
-    gsDPSetRenderMode(Z_CMP | IM_RD | CVG_DST_SAVE | ZMODE_XLU | FORCE_BL |
-                          GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1),
-                      G_RM_ZB_CLD_SURF2),
+    gsDPSetRenderMode(G_RM_PASS, G_RM_ZB_CLD_SURF2),
     gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
     gsSPSetGeometryMode(G_LIGHTING),
     gsSPEndDisplayList(),

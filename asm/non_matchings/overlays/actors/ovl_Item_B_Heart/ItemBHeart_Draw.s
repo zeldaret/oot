@@ -11,7 +11,7 @@ glabel ItemBHeart_Draw
 /* 00228 80B85378 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE0
 /* 0022C 80B8537C A3A00057 */  sb      $zero, 0x0057($sp)         
 /* 00230 80B85380 240701FA */  addiu   $a3, $zero, 0x01FA         ## $a3 = 000001FA
-/* 00234 80B85384 0C031AB1 */  jal     func_800C6AC4              
+/* 00234 80B85384 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00238 80B85388 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 0023C 80B8538C 8FA50064 */  lw      $a1, 0x0064($sp)           
 /* 00240 80B85390 93A80057 */  lbu     $t0, 0x0057($sp)           
@@ -108,7 +108,7 @@ glabel ItemBHeart_Draw
 /* 00398 80B854E8 24C6557C */  addiu   $a2, $a2, %lo(D_80B8557C)  ## $a2 = 80B8557C
 /* 0039C 80B854EC 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE0
 /* 003A0 80B854F0 24070231 */  addiu   $a3, $zero, 0x0231         ## $a3 = 00000231
-/* 003A4 80B854F4 0C031AD5 */  jal     func_800C6B54              
+/* 003A4 80B854F4 0C031AD5 */  jal     Graph_CloseDisps              
 /* 003A8 80B854F8 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 003AC 80B854FC 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 003B0 80B85500 8FB00014 */  lw      $s0, 0x0014($sp)           

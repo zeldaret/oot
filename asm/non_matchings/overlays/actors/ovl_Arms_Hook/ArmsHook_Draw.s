@@ -17,7 +17,7 @@ glabel ArmsHook_Draw
 /* 0096C 8086586C AFA20084 */  sw      $v0, 0x0084($sp)           
 /* 00970 80865870 24C65BC0 */  addiu   $a2, $a2, %lo(D_80865BC0)  ## $a2 = 80865BC0
 /* 00974 80865874 24070352 */  addiu   $a3, $zero, 0x0352         ## $a3 = 00000352
-/* 00978 80865878 0C031AB1 */  jal     func_800C6AC4              
+/* 00978 80865878 0C031AB1 */  jal     Graph_OpenDisps              
 /* 0097C 8086587C AFA50054 */  sw      $a1, 0x0054($sp)           
 /* 00980 80865880 8E190214 */  lw      $t9, 0x0214($s0)           ## 00000214
 /* 00984 80865884 3C088086 */  lui     $t0, %hi(func_8086518C)    ## $t0 = 80860000
@@ -166,7 +166,7 @@ glabel ArmsHook_Draw
 /* 00BB0 80865AB0 24C65BFC */  addiu   $a2, $a2, %lo(D_80865BFC)  ## $a2 = 80865BFC
 /* 00BB4 80865AB4 27A40044 */  addiu   $a0, $sp, 0x0044           ## $a0 = FFFFFFB4
 /* 00BB8 80865AB8 24070391 */  addiu   $a3, $zero, 0x0391         ## $a3 = 00000391
-/* 00BBC 80865ABC 0C031AD5 */  jal     func_800C6B54              
+/* 00BBC 80865ABC 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00BC0 80865AC0 8F050000 */  lw      $a1, 0x0000($t8)           ## 00000000
 .L80865AC4:
 /* 00BC4 80865AC4 8FBF0024 */  lw      $ra, 0x0024($sp)           

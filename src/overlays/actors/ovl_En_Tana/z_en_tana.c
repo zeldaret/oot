@@ -69,28 +69,28 @@ static void func_80B17FC4(EnTana* this, GlobalContext* globalCtx) {
 
     Actor* thisx = &this->actor;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_tana.c", 148);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 148);
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 152),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, dListTbl[thisx->params]);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_tana.c", 157);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 157);
 }
 
 static void func_80B1809C(EnTana* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_tana.c", 163);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 163);
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(dListTbl2[thisx->params]));
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 169),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, dListTbl[thisx->params]);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_tana.c", 174);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 174);
 }

@@ -9,7 +9,7 @@ glabel BgHidanHamstep_Draw
 /* 00C44 80888C84 24C68F84 */  addiu   $a2, $a2, %lo(D_80888F84)  ## $a2 = 80888F84
 /* 00C48 80888C88 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFEC
 /* 00C4C 80888C8C 2407030E */  addiu   $a3, $zero, 0x030E         ## $a3 = 0000030E
-/* 00C50 80888C90 0C031AB1 */  jal     func_800C6AC4              
+/* 00C50 80888C90 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00C54 80888C94 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00C58 80888C98 8FAF004C */  lw      $t7, 0x004C($sp)           
 /* 00C5C 80888C9C 0C024F46 */  jal     func_80093D18              
@@ -58,7 +58,7 @@ glabel BgHidanHamstep_Draw
 .L80888D44:
 /* 00D04 80888D44 8FA8004C */  lw      $t0, 0x004C($sp)           
 /* 00D08 80888D48 2407031C */  addiu   $a3, $zero, 0x031C         ## $a3 = 0000031C
-/* 00D0C 80888D4C 0C031AD5 */  jal     func_800C6B54              
+/* 00D0C 80888D4C 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00D10 80888D50 8D050000 */  lw      $a1, 0x0000($t0)           ## 00000000
 /* 00D14 80888D54 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00D18 80888D58 8FB00018 */  lw      $s0, 0x0018($sp)           

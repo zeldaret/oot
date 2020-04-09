@@ -92,14 +92,14 @@ void BgSpot15Saku_Update(BgSpot15Saku* this, GlobalContext* globalCtx) {
 
 void BgSpot15Saku_Draw(BgSpot15Saku* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 259);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 259);
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_060003C0);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
 }
