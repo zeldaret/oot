@@ -99,11 +99,13 @@ void func_800CAF5C(Vec3f *arg0, Vec3f *arg1, f32 arg2, Vec3f *arg3) {
     arg3->z = (arg1->z * arg2) + arg0->z;
 }
 
-void func_800CAFA0(Vec3f* arg0, Vec3f* arg1, f32 arg2, Vec3f* arg3) {
-    Vec3f sp1C;
+//func_800CAFA0(&sphereCenter, &centroid, fw, ret);
+// centroid - scenter
+void func_800CAFA0(Vec3f* v0, Vec3f* v1, f32 arg2, Vec3f* ret) {
+    Vec3f diff;
 
-    Math_Vec3f_Diff(arg1, arg0, &sp1C);
-    func_800CAF5C(arg0, &sp1C, arg2, arg3);
+    Math_Vec3f_Diff(v1, v0, &diff);
+    func_800CAF5C(v0, &diff, arg2, ret);
 }
 
 f32 Math3D_DotProduct(Vec3f* vec1, Vec3f* vec2) {
@@ -254,7 +256,8 @@ f32 Math3D_Vec3fMagnitude(Vec3f* vec) {
      return sqrt(Math3D_Vec3f_HadamardProduct(vec));
 }
 
-
+/*
+ *
 f32 func_800CB650(Vec3f* a, Vec3f* b) {
     Vec3f diff;
 
@@ -262,6 +265,10 @@ f32 func_800CB650(Vec3f* a, Vec3f* b) {
     return Math3D_Vec3f_HadamardProduct(&diff);
 }
 
+/*
+ * Math3D_Vec3f_DistXYZ
+ * Calculates the distance between points `a` and `b`
+*/
 f32 Math3D_Vec3f_DistXYZ(Vec3f* a, Vec3f* b) {
     return Math_Vec3f_DistXYZ(a, b);
 }
@@ -398,38 +405,38 @@ s32 func_800CB934(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CB934.s")
 #endif
 
-s32 func_800CBAE4(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2) {
+s32 func_800CBAE4(Vec3f *v0, Vec3f *v1, Vec3f *v2) {
     s32 ret = 0;
 
-    if ((arg2->x + arg2->y + arg2->z) < (arg0->x + arg0->y + arg0->z)) {
+    if ((v2->x + v2->y + v2->z) < (v0->x + v0->y + v0->z)) {
         ret = 0x01;
     }
 
-    if ((-arg1->x + arg2->y + arg2->z) < (-arg0->x + arg0->y + arg0->z)) {
+    if ((-v1->x + v2->y + v2->z) < (-v0->x + v0->y + v0->z)) {
         ret |= 0x02;
     }
 
-    if ((-arg1->x + arg2->y - arg1->z) < (-arg0->x + arg0->y - arg0->z)) {
+    if ((-v1->x + v2->y - v1->z) < (-v0->x + v0->y - v0->z)) {
         ret |= 0x04;
     }
 
-    if ((arg2->x + arg2->y - arg1->z) < (arg0->x + arg0->y - arg0->z)) {
+    if ((v2->x + v2->y - v1->z) < (v0->x + v0->y - v0->z)) {
         ret |= 0x08;
     }
 
-    if ((arg2->x - arg1->y + arg2->z) < (arg0->x - arg0->y + arg0->z)) {
+    if ((v2->x - v1->y + v2->z) < (v0->x - v0->y + v0->z)) {
         ret |= 0x10;
     }
 
-    if ((-arg1->x - arg1->y + arg2->z) < (-arg0->x - arg0->y + arg0->z)) {
+    if ((-v1->x - v1->y + v2->z) < (-v0->x - v0->y + v0->z)) {
         ret |= 0x20;
     }
 
-    if ((-arg1->x - arg1->y + arg2->z) < (-arg0->x - arg0->y + arg0->z)) {
+    if ((-v1->x - v1->y + v2->z) < (-v0->x - v0->y + v0->z)) {
         ret |= 0x40;
     }
 
-    if ((-arg1->x - arg1->y - arg1->z) < (-arg0->x - arg0->y - arg0->z)) {
+    if ((-v1->x - v1->y - v1->z) < (-v0->x - v0->y - v0->z)) {
         ret |= 0x80;
     }
     return ret;
@@ -661,18 +668,19 @@ s32 func_800CC6D8(Vec3s *arg0, Vec3s *arg1, Vec3s *arg2, Vec3s *arg3) {
     return func_800CBC60(&vec1, &vec2, &vec3, &vec4);
 }
 
-void func_800CC824(Vec3f *arg0, s16 arg1, f32 *arg2, f32 *arg3, f32 *arg4) {
-    *arg2 = Math_Sins(arg1) * 32767.0f;
-    *arg3 = Math_Coss(arg1) * 32767.0f;
+void func_800CC824(Vec3f *arg0, s16 angle, f32 *arg2, f32 *arg3, f32 *arg4) {
+    *arg2 = Math_Sins(angle) * 32767.0f;
+    *arg3 = Math_Coss(angle) * 32767.0f;
     *arg4 = -((*arg2 * arg0->x) + (*arg3 * arg0->z));
 }
 
 /*
- * Math3D_CalcPlaneNormal
- * Calculates the normal vector to plane defined by verticies `va`, `vb`, and `vc`
- * ||norm|| =
+ * Math3D_DefinePlane
+ * Defines a plane from verticies `va`, `vb`, and `vc`.  Normal components are output to
+ * `nx`, `ny`, and `nz`.  Distance from the origin is output to `originDist`
+ * Satisifes the plane equation NxVx + NyVy + NzVz + D = 0
 */
-void func_800CC8B4(Vec3f *va, Vec3f* vb, Vec3f* vc, f32 *nx, f32 *ny, f32 *nz, f32 *plane) {
+void func_800CC8B4(Vec3f *va, Vec3f* vb, Vec3f* vc, f32 *nx, f32 *ny, f32 *nz, f32 *originDist) {
     f32 normMagnitude;
     f32 t;
     static Vec3f normal;
@@ -684,25 +692,38 @@ void func_800CC8B4(Vec3f *va, Vec3f* vb, Vec3f* vc, f32 *nx, f32 *ny, f32 *nz, f
         *nx = normal.x * t;
         *ny = normal.y * t;
         *nz = normal.z * t;
-        *plane = -((*nx * va->x) + (*ny * va->y) + (*nz * va->z));
+        *originDist = -((*nx * va->x) + (*ny * va->y) + (*nz * va->z));
     } else {
-        *plane = 0.0f;
+        *originDist = 0.0f;
         *nz = 0.0f;
         *ny = 0.0f;
         *nx = 0.0f;
     }
 }
 
-f32 func_800CC9C8(f32 nx, f32 ny, f32 nz, f32 plane, Vec3f *v) {
-    return (v->x * nx) + (ny * v->y) + (nz * v->z) + plane;
+/*
+ * Math3D_PointDistToPlaneNumer
+ * Probably can get a better name.
+ * Returns the numerator of the point distance to a plane equation
+*/
+f32 func_800CC9C8(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f *v) {
+    return (v->x * nx) + (ny * v->y) + (nz * v->z) + originDist;
 }
 
-f32 func_800CCA04(Vec4f *nv, Vec3f *v) {
-    return ((nv->x * v->x) + (nv->y * v->y) + (nv->z * v->z)) + nv->w;
+/*
+ * Math3D_PointDistToPlanePlaneNumer
+ * Same as above, uses the Plane struct to define nx, ny, nz, and originDist
+*/
+f32 func_800CCA04(Plane *plane, Vec3f *v) {
+    return ((plane->normal.x * v->x) + (plane->normal.y * v->y) + (plane->normal.z * v->z)) + plane->originDist;
 }
 
-// Math3D_UDistPlaneToPos
-f32 func_800CCA3C(f32 nx, f32 ny, f32 nz, f32 plane, Vec3f* v) {
+/*
+ * Math3D_UDistPlaneToPos
+ * Calculates the absolute distance from a point `p` to the plane defined as
+ * `nx`, `ny`, `nz`, and `originDist`
+*/
+f32 func_800CCA3C(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 
     if (fabsf(sqrtf(SQ(nx) + SQ(ny) + SQ(nz))) < 0.008f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
@@ -710,14 +731,15 @@ f32 func_800CCA3C(f32 nx, f32 ny, f32 nz, f32 plane, Vec3f* v) {
         osSyncPrintf(VT_RST);
         return 0.0f;
     }
-    return fabsf(func_800CCB0C(nx, ny, nz, plane, v));
+    return fabsf(func_800CCB0C(nx, ny, nz, originDist, p));
 }
 
 /*
  * Math3D_DistPlaneToPos
- * nx(x) + ny(y) + nz(z) - d / sqrt(nx^2 + ny^2 + nz^2)
+ * Calculates the signed distance from a point `p` to a plane defined as
+ * `nx`, `ny`, `nz`, and `originDist`
 */
-f32 func_800CCB0C(f32 nx, f32 ny, f32 nz, f32 plane, Vec3f* v) {
+f32 func_800CCB0C(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
     f32 normMagnitude;
 
     normMagnitude = sqrtf(SQ(nx) + SQ(ny) + SQ(nz));
@@ -727,61 +749,50 @@ f32 func_800CCB0C(f32 nx, f32 ny, f32 nz, f32 plane, Vec3f* v) {
         osSyncPrintf(VT_RST);
         return 0.0f;
     }
-    return func_800CC9C8(nx, ny, nz, plane, v) / normMagnitude;
+    return func_800CC9C8(nx, ny, nz, originDist, p) / normMagnitude;
 }
 
-/*
- * arg0 v0
- * arg1 v1
- * arg2 v2
- * arg3 z
- * arg4 x
- * arg5 300.0f
- * arg6 1.0f
- * arg7 ny
-*/
-
-s32 func_800CCBE4(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+s32 func_800CCBE4(Vec3f *v0, Vec3f *v1, Vec3f *v2, f32 z, f32 x, f32 arg5, f32 arg6, f32 ny) {
     f32 temp_f6;
     f32 temp_f10;
     f32 temp_f8;
     f32 sp60;
     f32 sq6;
 
-    if (func_800CB1F8(arg0->z, arg0->x, arg1->z, arg1->x, (f32) arg2->z, (f32) arg2->x, arg3, arg4, arg6) == 0) {
+    if (func_800CB1F8(v0->z, v0->x, v1->z, v1->x, v2->z, v2->x, z, x, arg6) == 0) {
         return 0;
     }
 
     sq6 = SQ(arg6);
-    if (((SQ(arg0->z - arg3) + SQ(arg0->x - arg4)) < sq6) ||
-        ((SQ(arg1->z - arg3) + SQ(arg1->x - arg4)) < sq6) ||
-        ((SQ(arg2->z - arg3) + SQ(arg2->x - arg4)) < sq6)) {
+    if (((SQ(v0->z - z) + SQ(v0->x - x)) < sq6) ||
+        ((SQ(v1->z - z) + SQ(v1->x - x)) < sq6) ||
+        ((SQ(v2->z - z) + SQ(v2->x - x)) < sq6)) {
 
         return 1;
     }
 
 
-    temp_f6 = ((arg0->z - arg3) * (arg1->x - arg4)) - ((arg0->x - arg4) * (arg1->z - arg3));
-    temp_f10 = ((arg1->z - arg3) * (arg2->x - arg4)) - ((arg1->x - arg4) * (arg2->z - arg3));
-    temp_f8 = ((arg2->z - arg3) * (arg0->x - arg4)) - ((arg2->x - arg4) * (arg0->z - arg3));
+    temp_f6 = ((v0->z - z) * (v1->x - x)) - ((v0->x - x) * (v1->z - z));
+    temp_f10 = ((v1->z - z) * (v2->x - x)) - ((v1->x - x) * (v2->z - z));
+    temp_f8 = ((v2->z - z) * (v0->x - x)) - ((v2->x - x) * (v0->z - z));
 
     if(((temp_f6 <= arg5) && (temp_f10 <= arg5) && (temp_f8 <= arg5)) ||
         ((-arg5 <= temp_f6) && (-arg5 <= temp_f10) && (-arg5 <= temp_f8))){
         return 1;
     }
-    if (0.5f < fabsf(arg7)) {
-        if (func_800CE4B8(arg3, arg4, arg0->z, arg0->x, arg1->z, arg1->x, &sp60) != 0) {
+    if (0.5f < fabsf(ny)) {
+        if (func_800CE4B8(z, x, v0->z, v0->x, v1->z, v1->x, &sp60) != 0) {
             if (sp60 < sq6) {
                 return 1;
             }
         }
 
-        if (func_800CE4B8(arg3, arg4, arg1->z, arg1->x, arg2->z, arg2->x, &sp60) != 0) {
+        if (func_800CE4B8(z, x, v1->z, v1->x, v2->z, v2->x, &sp60) != 0) {
             if (sp60 < sq6) {
                 return 1;
             }
         }
-        if (func_800CE4B8(arg3, arg4, arg2->z, arg2->x, arg0->z, arg0->x, &sp60) != 0) {
+        if (func_800CE4B8(z, x, v2->z, v2->x, v0->z, v0->x, &sp60) != 0) {
             if (sp60 < sq6) {
                 return 1;
             }
@@ -790,64 +801,56 @@ s32 func_800CCBE4(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, f32 arg3, f32 arg4, f32
     return 0;
 }
 
-s32 func_800CCF00(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
-    return func_800CCBE4(arg0, arg1, arg2, arg3, arg4, arg5, 1.0f, arg6);
+s32 func_800CCF00(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x, f32 arg5, f32 ny) {
+    return func_800CCBE4(v0, v1, v2, z, x, arg5, 1.0f, ny);
 }
 
-s32 func_800CCF48(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4) {
-    func_800CCBE4(arg0, arg1, arg2, arg3, arg4, 300.0f, 1.0f, 0.6f);
+s32 func_800CCF48(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x) {
+    return func_800CCBE4(v0, v1, v2, z, x, 300.0f, 1.0f, 0.6f);
 }
 
-s32 func_800CCF98(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 normMagnitude, f32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 *pointDist, f32 argA) {
+s32 func_800CCF98(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 arg3, f32 normMagnitude, f32 arg5, f32 arg6, f32 z, f32 x, f32 *pointDist, f32 argA) {
     if (fabsf(normMagnitude) < 0.008f) {
         return 0;
     }
-    if (func_800CCBE4(arg0, arg1, arg2, arg7, arg8, 300.0f, argA, normMagnitude) != 0) {
-        *pointDist = (f32) ((((-arg3 * arg8) - (arg5 * arg7)) - arg6) / normMagnitude);
+    if (func_800CCBE4(v0, v1, v2, z, x, 300.0f, argA, normMagnitude) != 0) {
+        *pointDist = (f32) ((((-arg3 * x) - (arg5 * z)) - arg6) / normMagnitude);
         return 1;
     }
     return 0;
 }
 
-s32 func_800CD044(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 *arg9, f32 argA) {
-    if (fabsf(arg4) < 0.008f) {
+s32 func_800CD044(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 arg3, f32 ny, f32 arg5, f32 arg6, f32 z, f32 x, f32 *arg9, f32 argA) {
+    if (fabsf(ny) < 0.008f) {
         return 0;
     }
-    if (func_800CCBE4(arg0, arg1, arg2, arg7, arg8, 0.0f, argA, arg4) != 0) {
-        *arg9 = (f32) ((((-arg3 * arg8) - (arg5 * arg7)) - arg6) / arg4);
+    if (func_800CCBE4(v0, v1, v2, z, x, 0.0f, argA, ny) != 0) {
+        *arg9 = (f32) ((((-arg3 * x) - (arg5 * z)) - arg6) / ny);
         return 1;
     }
     return 0;
 }
 
-s32 func_800CD0F0(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5) {
-    if (fabsf(arg3) < 0.008f) {
+s32 func_800CD0F0(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 ny, f32 z, f32 x) {
+    if (fabsf(ny) < 0.008f) {
         return 0;
     }
-    if (func_800CCBE4(arg0, arg1, arg2, arg4, arg5, 300.0f, 1.0f, arg3) != 0) {
+    if (func_800CCBE4(v0, v1, v2, z, x, 300.0f, 1.0f, ny) != 0) {
         return 1;
     }
     return 0;
 }
 
 /*
- * arg0 = vtx0
- * arg1 = vtx1
- * arg2 = vtx2
- * arg3 = nx
- * arg4 = ny
- * arg5 = nz
- * arg6 = nd
- * arg7 = zpos
- * arg8 = xpos
- * arg9 = retf
- * argA = cylBottom
- * argB = cylTop
+ * Math3D_TriVtxCylTouching
+ * Determines if the Triangle defined by verticies `v0`, `v1`, and `v2` with normal vector
+ * `nx`, `ny`, and `nz` is touching the cylinder defined by the center `cylZ`, `cylX` and top
+ * y componets `cylBottom` and `cylTop` are touching. The y component which they are touching is 
+ * output to `yIntercept`, returns 1 if any part of the triangle is touching the cylinder.
 */
-
-s32 func_800CD168(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 nd, f32 cylZ, f32 cylX, f32 *arg9, f32 cylBottom, f32 cylTop) {
-    f32 sp3C;
-    f32 temp_ret;
+s32 func_800CD168(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, f32 cylZ, f32 cylX, f32 *yIntercept, f32 cylBottom, f32 cylTop) {
+    f32 bottomDist;
+    f32 topDist;
     Vec3f cylPos;
 
     if (fabsf(ny) < 0.008f) {
@@ -856,25 +859,25 @@ s32 func_800CD168(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 n
 
     VEC3F(cylPos, cylX, cylBottom, cylZ);
 
-    sp3C = func_800CC9C8(nx, ny, nz, nd, &cylPos);
+    bottomDist = func_800CC9C8(nx, ny, nz, originDist, &cylPos);
     cylPos.y = cylTop;
-    temp_ret = func_800CC9C8(nx, ny, nz, nd, &cylPos);
-    if (((0.0f < sp3C) && (0.0f < temp_ret)) || ((sp3C < 0.0f) && (temp_ret < 0.0f))) {
+    topDist = func_800CC9C8(nx, ny, nz, originDist, &cylPos);
+    if (((bottomDist > 0.0f) && (topDist > 0.0f)) || ((bottomDist < 0.0f) && (topDist < 0.0f))) {
         return 0;
     }
 
     if (func_800CCBE4(v0, v1, v2, cylZ, cylX, 300.0f, 1.0f, ny) != 0) {
-        *arg9 = (f32) ((((-nx * cylX) - (nz * cylZ)) - nd) / ny);
+        *yIntercept = (((-nx * cylX) - (nz * cylZ)) - originDist) / ny;
         return 1;
     }
     return 0;
 }
 
-s32 func_800CD2D8(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f *arg3, f32 arg4, f32 arg5, f32 arg6) {
-    if (fabsf(arg3->y) < 0.008f) {
+s32 func_800CD2D8(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane *plane, f32 z, f32 x, f32 arg6) {
+    if (fabsf(plane->normal.y) < 0.008f) {
         return 0;
     }
-    if (func_800CCBE4(arg0, arg1, arg2, arg4, arg5, 0.0f, arg6, arg3->y) != 0) {
+    if (func_800CCBE4(v0, v1, v2, z, x, 0.0f, arg6, plane->normal.y) != 0) {
         return 1;
     }
     return 0;
@@ -1072,7 +1075,7 @@ void func_800CE3C0(TriNorm* tri, Vec3f *va, Vec3f *vb, Vec3f *vc) {
     tri->vtx[0] = *va;
     tri->vtx[1] = *vb;
     tri->vtx[2] = *vc;
-    func_800CC8B4(va, vb, vc, &tri->normal.x, &tri->normal.y, &tri->normal.z, &tri->plane);
+    func_800CC8B4(va, vb, vc, &tri->normal.x, &tri->normal.y, &tri->normal.z, &tri->originDist);
 }
 
 /*
@@ -1087,7 +1090,45 @@ s32 func_800CE46C(Sphere16 *sphere, Vec3f* point) {
     return 0;
 }
 
+#ifdef NON_MATCHING
+s32 func_800CE4B8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 *arg6) {
+    f32 sp20;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    f32 temp_f10_2;
+    f32 temp_f12;
+    f32 temp_f14;
+    f32 temp_f16;
+    f32 temp_f2;
+    f32 temp_f8;
+    s32 ret = 0;
+    static Vec3f D_8016A6B8;
+
+
+    temp_f16 = SQ(arg4 - arg2) + SQ(arg5 - arg3);
+    if (fabsf(temp_f16) < 0.008f) {
+        *arg6 = 0.0f;
+        return 0;
+    }
+    temp_f0 = (((arg0 - arg2) * (arg4 - arg2)) + ((arg1 - arg3) * (arg5 - arg3))) / temp_f16;
+    if (0.0f <= temp_f0) {
+        if (temp_f0 <= 1.0f) {
+            ret = 1;
+        }
+    }
+    temp_f14 = (((arg0 - arg2) * (arg4 - arg2)) + ((arg1 - arg3) * (arg5 - arg3))) / temp_f16;
+    temp_f8 = ((arg4 - arg2) * temp_f14) + arg2;
+    D_8016A6B8.x = temp_f8;
+    temp_f10_2 = ((arg5 - arg3) * temp_f14) + arg3;
+    temp_f0_2 = temp_f8 - arg0;
+    D_8016A6B8.z = temp_f10_2;
+    temp_f12 = temp_f10_2 - arg1;
+    *arg6 = (f32) ((temp_f0_2 * temp_f0_2) + (temp_f12 * temp_f12));
+    return ret;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CE4B8.s")
+#endif
 
 #ifdef NON_MATCHING
 s32 func_800CE600(Sphere16 *arg0, TriNorm *arg1) {
@@ -1098,7 +1139,7 @@ s32 func_800CE600(Sphere16 *arg0, TriNorm *arg1) {
     Vec3f t2;
     static Vec3f D_8016A6C8;
 
-    if ((func_800CE46C(arg0, arg1) != 0) || (func_800CE46C(arg0, &arg1->vtx[1]) != 0)) {
+    if ((func_800CE46C(arg0, &arg1->vtx[0]) != 0) || (func_800CE46C(arg0, &arg1->vtx[1]) != 0)) {
         return 1;
     } else {
         t2.x = arg1->vtx[1].x - arg1->vtx[0].x;
@@ -1132,27 +1173,27 @@ s32 func_800CE600(Sphere16 *arg0, TriNorm *arg1) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CE600.s")
 #endif
 
-void func_800CE800(Vec4s *arg0, TriNorm *arg1, Vec3f *arg2) {
-    static Vec3f D_8016A6D8;
-    static Vec3f D_8016A6E8;
-    f32 temp_ret;
+void func_800CE800(Sphere16 *sphere, TriNorm *tri, Vec3f *ret) {
+    static Vec3f centroid;
+    static Vec3f sphereCenter;
+    f32 dist;
     f32 fw;
 
-    D_8016A6D8.x = ((arg1->vtx[0].x + arg1->vtx[1].x) * 0.5f);
-    D_8016A6D8.y = ((arg1->vtx[0].y + arg1->vtx[1].y) * 0.5f);
-    D_8016A6D8.z = ((arg1->vtx[0].z + arg1->vtx[1].z) * 0.5f);
-    D_8016A6E8.x = arg0->x;
-    D_8016A6E8.y = arg0->y;
-    D_8016A6E8.z = arg0->z;
-    temp_ret = Math3D_Vec3f_DistXYZ(&D_8016A6D8, &D_8016A6E8);
-    if (fabsf(temp_ret) < 0.008f) {
-        arg2->x = D_8016A6E8.x;
-        arg2->y = D_8016A6E8.y;
-        arg2->z = D_8016A6E8.z;
+    centroid.x = ((tri->vtx[0].x + tri->vtx[1].x) * 0.5f);
+    centroid.y = ((tri->vtx[0].y + tri->vtx[1].y) * 0.5f);
+    centroid.z = ((tri->vtx[0].z + tri->vtx[1].z) * 0.5f);
+    sphereCenter.x = sphere->center.x;
+    sphereCenter.y = sphere->center.y;
+    sphereCenter.z = sphere->center.z;
+    dist = Math3D_Vec3f_DistXYZ(&centroid, &sphereCenter);
+    if (fabsf(dist) < 0.008f) {
+        ret->x = sphereCenter.x;
+        ret->y = sphereCenter.y;
+        ret->z = sphereCenter.z;
         return;
     }
-    fw = (arg0->w / temp_ret);
-    func_800CAFA0(&D_8016A6E8, &D_8016A6D8, fw, arg2);
+    fw = sphere->radius / dist;
+    func_800CAFA0(&sphereCenter, &centroid, fw, ret);
 }
 
 s32 func_800CE934(Sphere16 *arg0, TriNorm *arg1, Vec3f *arg2) {
@@ -1176,7 +1217,7 @@ s32 func_800CE934(Sphere16 *arg0, TriNorm *arg1, Vec3f *arg2) {
         return 0;
     }
 
-    planeDist = func_800CCA3C(arg1->normal.x, arg1->normal.y, arg1->normal.z, arg1->plane, &D_8016A710);
+    planeDist = func_800CCA3C(arg1->normal.x, arg1->normal.y, arg1->normal.z, arg1->originDist, &D_8016A710);
     if (radius < planeDist) {
         return 0;
     }
@@ -1205,7 +1246,7 @@ s32 func_800CE934(Sphere16 *arg0, TriNorm *arg1, Vec3f *arg2) {
     ny = arg1->normal.y * planeDist;
     nz = arg1->normal.z * planeDist;
 
-    if (0.0f < func_800CC9C8(arg1->normal.x, arg1->normal.y, arg1->normal.z, arg1->plane, &D_8016A710)) {
+    if (0.0f < func_800CC9C8(arg1->normal.x, arg1->normal.y, arg1->normal.z, arg1->originDist, &D_8016A710)) {
         D_8016A720.x = D_8016A710.x - nx;
         D_8016A720.y = D_8016A710.y - ny;
         D_8016A720.z = D_8016A710.z - nz;
@@ -1247,10 +1288,10 @@ s32 func_800CED50(Cylinder16 *cyl, Vec3f *point) {
     z = cyl->pos.z - point->z;
     bottom = (f32)cyl->pos.y + cyl->yShift;
     top = cyl->height + bottom;
-    
+
     if ((SQ(x) + SQ(z)) < SQ(cyl->radius) && (bottom < point->y) && (point->y < top)) {
         return 1;
-    } else { 
+    } else {
         return 0;
     }
 }
@@ -1542,7 +1583,7 @@ s32 func_800CEE0C(Cylinder16 *arg0, Vec3f *arg1, Vec3f *arg2, Vec3f *arg3, Vec3f
 
     phi_v0_3 = 0;
     phi_v1_3 = 0;
-    
+
     do {
         if((1 << phi_v0_3) & phi_t0){
             if(phi_v1_3 == 0){
@@ -1610,54 +1651,58 @@ block_71:
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CEE0C.s")
 #endif
 
-#ifdef NON_MATCHING
-// Checks if a triangle is within a cylinder16?
-s32 func_800CF7D0(Cylinder16 *arg0, TriNorm *arg1, Vec3f *arg2) {
-    char pad[4];
+/* Math3D_CylTriTouchingIntersect
+ * Determines if `cyl` and `tri` are touching.  The point of intersection
+ * is placed in `intersect` Returns 1 if they are touching, 0 otherwise.
+*/
+s32 func_800CF7D0(Cylinder16 *cyl, TriNorm *tri, Vec3f *intersect) {
+
     f32 sp8C;
+    f32 cylTop;
+    f32 cylBottom;
+
+    f32 phi_f2;
+    f32 t;
+    f32 temp_ret;
     Vec3f sp6C;
     Vec3f sp60;
     Vec3f sp54;
-    f32 cylBottom;
-    f32 cylTop;
     f32 temp_f14_2;
     f32 temp_f2;
-    f32 temp_ret;
-    f32 phi_f2;
 
     static Vec3f D_80146550;
-    static Vec4s D_8016A730;
-    static Vec4s D_8016A738;
+    static Sphere16 topSphere;
+    static Sphere16 bottomSphere;
     static Vec3f D_8016A740;
     static Vec3f D_8016A750;
 
-    cylBottom = (f32)arg0->pos.y + arg0->yShift;
-    cylTop = arg0->height + cylBottom;
+    cylBottom = (f32)cyl->pos.y + cyl->yShift;
+    cylTop = cyl->height + cylBottom;
 
     // If all of the verticies are below or all of the verticies are above the cylinder.
 
-    if (((arg1->vtx[0].y < cylBottom) && (arg1->vtx[1].y < cylBottom) && (arg1->vtx[2].y < cylBottom)) ||
-        ((cylTop < arg1->vtx[0].y) && (cylTop < arg1->vtx[1].y) && (cylTop < arg1->vtx[2].y))) {
+    if (((tri->vtx[0].y < cylBottom) && (tri->vtx[1].y < cylBottom) && (tri->vtx[2].y < cylBottom)) ||
+        ((cylTop < tri->vtx[0].y) && (cylTop < tri->vtx[1].y) && (cylTop < tri->vtx[2].y))) {
         return 0;
     }
-
-    if (func_800CEE0C(arg0, &arg1->vtx[0], &arg1->vtx[1], &D_8016A740, &D_8016A750) != 0) {
-        phi_f2 = func_800CB650(&D_8016A740, &arg1->vtx[0]);
-        *arg2 = D_8016A740;
+    phi_f2 = D_80146550.x;
+    if (func_800CEE0C(cyl, &tri->vtx[0], &tri->vtx[1], &D_8016A740, &D_8016A750) != 0) {
+        phi_f2 = func_800CB650(&D_8016A740, &tri->vtx[0]);
+        *intersect = D_8016A740;
     }
 
-    if (func_800CEE0C(arg0, &arg1->vtx[2], &arg1->vtx[1], &D_8016A740, &D_8016A750) != 0) {
-        temp_ret = func_800CB650(&D_8016A740, &arg1->vtx[2]);
+    if (func_800CEE0C(cyl, &tri->vtx[2], &tri->vtx[1], &D_8016A740, &D_8016A750) != 0) {
+        temp_ret = func_800CB650(&D_8016A740, &tri->vtx[2]);
         if (temp_ret < phi_f2) {
-            *arg2 = D_8016A740;
+            *intersect = D_8016A740;
             phi_f2 = temp_ret;
         }
     }
 
-    if (func_800CEE0C(arg0, &arg1->vtx[0], &arg1->vtx[2], &D_8016A740, &D_8016A750) != 0) {
-        temp_ret = func_800CB650(&D_8016A740, &arg1->vtx[0]);
+    if (func_800CEE0C(cyl, &tri->vtx[0], &tri->vtx[2], &D_8016A740, &D_8016A750) != 0) {
+        temp_ret = func_800CB650(&D_8016A740, &tri->vtx[0]);
         if (temp_ret < phi_f2) {
-            *arg2 = D_8016A740;
+            *intersect = D_8016A740;
             phi_f2 = temp_ret;
         }
     }
@@ -1665,88 +1710,138 @@ s32 func_800CF7D0(Cylinder16 *arg0, TriNorm *arg1, Vec3f *arg2) {
     if (phi_f2 != 1.e38f) {
         return 1;
     }
-    
-    if (func_800CD168(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], arg1->normal.x, arg1->normal.y, arg1->normal.z, arg1->plane, arg0->pos.z, arg0->pos.x, &sp8C, cylBottom, cylTop) != 0) {
-        VEC3F(sp6C, arg0->pos.x, sp8C, arg0->pos.z);
-        VEC3F(sp60, ((arg1->vtx[1].x + arg1->vtx[0].x) * 0.5f),
-                    ((arg1->vtx[1].y + arg1->vtx[0].y) * 0.5f),
-                    ((arg1->vtx[1].z + arg1->vtx[0].z) * 0.5f));
+
+    if (func_800CD168(&tri->vtx[0], &tri->vtx[1], &tri->vtx[2], tri->normal.x, tri->normal.y, tri->normal.z, tri->originDist, cyl->pos.z, cyl->pos.x, &sp8C, cylBottom, cylTop) != 0) {
+        VEC3F(sp6C, cyl->pos.x, sp8C, cyl->pos.z);
+        VEC3F(sp60, ((tri->vtx[0].x + tri->vtx[1].x) * 0.5f),
+                    ((tri->vtx[0].y + tri->vtx[1].y) * 0.5f),
+                    ((tri->vtx[0].z + tri->vtx[1].z) * 0.5f));
 
         Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
         temp_f14_2 = sqrtf((sp54.x * sp54.x) + (sp54.z * sp54.z));
 
         if (fabsf(temp_f14_2) < 0.008f) {
-            Math_Vec3f_Copy(arg2, &sp60);
+            Math_Vec3f_Copy(intersect, &sp60);
             return 1;
         }
-
-        func_800CAF5C(&sp6C, &sp54, (f32) arg0->radius / temp_f14_2, arg2);
+        t = cyl->radius / temp_f14_2;
+        func_800CAF5C(&sp6C, &sp54, t, intersect);
         return 1;
 
     }
 
-    D_8016A730.x = D_8016A738.x = arg0->pos.x;
-    D_8016A730.z = D_8016A738.z = arg0->pos.z;
-    D_8016A730.w = D_8016A738.w = arg0->radius;
-    D_8016A730.y = cylTop;
-    D_8016A738.y = cylBottom;
+    topSphere.center.x = bottomSphere.center.x = cyl->pos.x;
+    topSphere.center.z = bottomSphere.center.z = cyl->pos.z;
+    topSphere.center.y = cylTop;
+    bottomSphere.center.y = cylBottom;
+    topSphere.radius = bottomSphere.radius = cyl->radius;
 
-    if ((func_800CE934(&D_8016A730, arg1, arg2) != 0) || (func_800CE934(&D_8016A738, arg1, arg2) != 0)) {
+
+    if ((func_800CE934(&topSphere, tri, intersect) != 0) || (func_800CE934(&bottomSphere, tri, intersect) != 0)) {
         return 1;
     }
+    return 0;
+}
+
+/*
+ * Math3D_CylTriTouching
+ * Returns 1 if `cyl` and `tri` and touching
+*/
+s32 func_800CFC4C(Cylinder16* cyl, TriNorm* tri) {
+    char pad[4];
+    Vec3s intersect;
+
+    return func_800CF7D0(cyl, tri, &intersect);
+}
+
+/*
+ * Math3D_SpheresTouching
+ * Deteremines if two spheres are touching.  Returns 1 if their closest surface point
+ * is within 0.008f units. 0 otherwise.
+*/
+s32 func_800CFC6C(Sphere16* sphereA, Sphere16* sphereB) {
+    f32 surfaceDist;
+
+    return func_800CFC8C(sphereA, sphereB, &surfaceDist);
+}
+
+/*
+ * Math3D_SpheresTouchingSurface
+ * Determines if two spheres are within 0.008 units of each other.  The distance from
+ * the closest point on the surface is placed in `surfaceDist`  Returns 1 if the surfaces
+ * are not touching.  Returns 0 otherwise.
+*/
+s32 func_800CFC8C(Sphere16* sphereA, Sphere16* sphereB, f32* surfaceDist) {
+    f32 centerDist;
+
+    return func_800CFCAC(sphereA, sphereB, surfaceDist, &centerDist);
+}
+
+/*
+ * Math3D_SpheresTouchingSurfaceCenter
+ * Determines if two spheres are within 0.008f units of each other.  The distance from
+ * the centers is placed in `centerDist` and the closest distance to their surfaces is placed 
+ * in `surfaceDist` Returns 1 if the surfaces are not touching.  Returns 0 otherwise.
+*/
+s32 func_800CFCAC(Sphere16 *sphereA, Sphere16 *sphereB, f32 *surfaceDist, f32 *centerDist) {
+    Vec3f diff;
+
+    diff.x = (f32)sphereA->center.x - (f32)sphereB->center.x;
+    diff.y = (f32)sphereA->center.y - (f32)sphereB->center.y;
+    diff.z = (f32)sphereA->center.z - (f32)sphereB->center.z;
+
+    *centerDist = sqrt(SQ(diff.x) + SQ(diff.y) + SQ(diff.z));
+
+    *surfaceDist = (((f32)sphereA->radius + (f32)sphereB->radius) - *centerDist);
+    if (0.008f < *surfaceDist) {
+        return 1;
+    }
+
+    *surfaceDist = 0.0f;
+    return 0;
+}
+
+s32 func_800CFD84(Sphere16* sph, Cylinder16* cyl, f32* surfaceDist) {
+    f32 centerDist;
+
+    return func_800CFDA4(sph, cyl, surfaceDist, &centerDist);
+}
+
+#ifdef NON_MATCHING
+s32 func_800CFDA4(Sphere16 *sph, Cylinder16 *cyl, f32 *surfaceDist, f32 *centerDist) {
+    f32 yOffset;
+    f32 radix;
+
+    static Cylinderf cylf;
+    static Spheref sphf;
+
+    if (sph->radius <= 0 || cyl->radius <= 0) {
+        return 0;
+    }
+    sphf.radius = sph->radius;
+    sphf.center.y = sph->center.y;
+
+    cylf.pos.y = cyl->pos.y;
+    cylf.yShift = cyl->yShift;
+    cylf.height = cyl->height;
+
+    *centerDist = sqrtf(SQ((f32)sph->center.x - cyl->pos.x) + SQ((f32)sph->center.z - cyl->pos.z));
+    radix = sphf.radius + cyl->radius;
+    if (radix < *centerDist) {
+        return 0;
+    }
+
+    yOffset = cylf.pos.y + cylf.yShift;
+    if (yOffset <= (sphf.center.y + sphf.radius) && ((sphf.center.y - sphf.radius) <= (yOffset + cylf.height))) {
+        *surfaceDist = radix - *centerDist;
+        return 1;
+    }
+
     return 0;
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CF7D0.s")
-#endif
-
-s32 func_800CFC4C(Vec3f* arg0, Vec3f* arg1) {
-    char pad[4];
-    Vec3s sp1C;
-
-    return func_800CF7D0(arg0, arg1, &sp1C);
-}
-
-s32 func_800CFC6C(Vec4s* arg0, Vec4s* arg1) {
-    f32 sp1C;
-
-    return func_800CFC8C(arg0, arg1, &sp1C);
-}
-
-s32 func_800CFC8C(Vec4s* arg0, Vec4s* arg1, f32* arg2) {
-    f32 sp1C;
-
-    return func_800CFCAC(arg0, arg1, arg2, &sp1C);
-}
-
-s32 func_800CFCAC(Vec4s *arg0, Vec4s *arg1, f32 *arg2, f32 *dist) {
-    f32 x;
-    f32 y;
-    f32 z;
-
-    x = (f32)arg0->x - (f32)arg1->x;
-    y = (f32)arg0->y - (f32)arg1->y;
-    z = (f32)arg0->z - (f32)arg1->z;
-
-    *dist = sqrt(SQ(x) + SQ(y) + SQ(z));
-
-    *arg2 = (((f32)arg0->w + (f32)arg1->w) - *dist);
-    if (0.008f < *arg2) {
-        return 1;
-    }
-
-    *arg2 = 0.0f;
-    return 0;
-}
-
-s32 func_800CFD84(s16* arg0, s16* arg1, f32* arg2) {
-    f32 sp1C;
-
-    return func_800CFDA4(arg0, arg1, arg2, &sp1C);
-}
-
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CFDA4.s")
-
+#endif
 /*
  * Math3D_CylinderOutCylinder
  * returns 1 if cylinder `ca` is outside cylinder `cb`.
@@ -1791,37 +1886,37 @@ s32 func_800CFF34(Cylinder16 *ca, Cylinder16 *cb, f32 *deadSpace, f32 *xzDist) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800D0104.s")
 
-s32 func_800D0480(Vec4s *arg0, f32 arg1, f32 arg2) {
+s32 func_800D0480(Sphere16 *arg0, f32 arg1, f32 arg2) {
     f32 temp_f0;
     f32 temp_f2;
 
-    temp_f0 = arg0->x - arg1;
-    temp_f2 = arg0->z - arg2;
-    if ((SQ(temp_f0) + SQ(temp_f2)) <= SQ(arg0->w) ) {
+    temp_f0 = arg0->center.x - arg1;
+    temp_f2 = arg0->center.z - arg2;
+    if ((SQ(temp_f0) + SQ(temp_f2)) <= SQ(arg0->radius) ) {
         return 1;
     }
     return 0;
 }
 
-s32 func_800D04F0(Vec4s *arg0, f32 arg1, f32 arg2) {
+s32 func_800D04F0(Sphere16 *arg0, f32 arg1, f32 arg2) {
     f32 temp_f0;
     f32 temp_f2;
 
-    temp_f0 = arg0->x - arg1;
-    temp_f2 = arg0->y - arg2;
-    if ((SQ(temp_f0) + SQ(temp_f2)) <= SQ(arg0->w)) {
+    temp_f0 = arg0->center.x - arg1;
+    temp_f2 = arg0->center.y - arg2;
+    if ((SQ(temp_f0) + SQ(temp_f2)) <= SQ(arg0->radius)) {
         return 1;
     }
     return 0;
 }
 
-s32 func_800D0560(Vec4s *arg0, f32 arg1, f32 arg2) {
+s32 func_800D0560(Sphere16 *arg0, f32 arg1, f32 arg2) {
     f32 temp_f0;
     f32 temp_f2;
 
-    temp_f0 = arg0->y - arg1;
-    temp_f2 = arg0->z - arg2;
-    if ((SQ(temp_f0) + SQ(temp_f2)) <= SQ(arg0->w)) {
+    temp_f0 = arg0->center.y - arg1;
+    temp_f2 = arg0->center.z - arg2;
+    if ((SQ(temp_f0) + SQ(temp_f2)) <= SQ(arg0->radius)) {
         return 1;
     }
     return 0;
