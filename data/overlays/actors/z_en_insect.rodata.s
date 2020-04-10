@@ -20,7 +20,9 @@ glabel D_80A7DF70
     .balign 4
 
 glabel D_80A7DF80
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A7DF84
     .asciz "[43;30m"
     .balign 4
@@ -34,7 +36,9 @@ glabel D_80A7DFB8
     .balign 4
 
 glabel D_80A7DFC8
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A7DFCC
  .word 0x3DCCCCCD
 glabel D_80A7DFD0

@@ -20,7 +20,9 @@ glabel D_80A87414
     .balign 4
 
 glabel D_80A87424
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A87428
     .asciz "../z_en_ishi.c"
     .balign 4

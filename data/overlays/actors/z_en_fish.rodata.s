@@ -20,7 +20,9 @@ glabel D_80A170D4
     .balign 4
 
 glabel D_80A170E8
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A170EC
     .asciz "Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n"
     .balign 4

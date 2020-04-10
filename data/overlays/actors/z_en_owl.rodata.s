@@ -36,7 +36,9 @@ glabel D_80ACD6EC
 glabel D_80ACD6F8
  .word 0xCCA4B4B0, 0xC0AEA4CE, 0xA5D5A5AF, 0xA5EDA5A6, 0xCCA4B4B0, 0xC0AEA4CE, 0xA5D5A5AF, 0xA5EDA5A6, 0xCCA4B4B0, 0xC0AEA4CE, 0xA5D5A5AF, 0xA5EDA5A6, 0x0A000000
 glabel D_80ACD72C
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80ACD730
     .asciz "[36m Actor_Environment_sw = %d\n[m"
     .balign 4
@@ -50,7 +52,9 @@ glabel D_80ACD75C
     .balign 4
 
 glabel D_80ACD76C
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80ACD770
     .asciz "[36m"
     .balign 4
@@ -60,7 +64,9 @@ glabel D_80ACD778
     .balign 4
 
 glabel D_80ACD794
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80ACD798
  .word 0x30000000
 glabel D_80ACD79C

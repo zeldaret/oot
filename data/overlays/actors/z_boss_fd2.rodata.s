@@ -68,7 +68,9 @@ glabel D_808D6384
     .balign 4
 
 glabel D_808D6394
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_808D6398
     .asciz "hp %d\n"
     .balign 4

@@ -28,7 +28,9 @@ glabel D_80895810
     .balign 4
 
 glabel D_80895828
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_8089582C
     .asciz "(jya 爆弾で破壊岩)(arg_data 0x%04x)\n"
     .balign 4

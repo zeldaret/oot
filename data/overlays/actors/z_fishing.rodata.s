@@ -176,7 +176,9 @@ glabel D_80B7B2C0
     .balign 4
 
 glabel D_80B7B2D0
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80B7B2D4
     .asciz "HI_SCORE = %x\n"
     .balign 4

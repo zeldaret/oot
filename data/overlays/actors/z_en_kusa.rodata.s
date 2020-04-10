@@ -20,7 +20,9 @@ glabel D_80A9C2C4
     .balign 4
 
 glabel D_80A9C2D4
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A9C2D8
     .asciz "Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n"
     .balign 4

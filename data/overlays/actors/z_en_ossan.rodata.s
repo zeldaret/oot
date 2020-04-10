@@ -38,7 +38,9 @@ glabel D_80AC8FAC
     .balign 4
 
 glabel D_80AC8FD0
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80AC8FD4
  .word 0x30000000
 glabel D_80AC8FD8
@@ -54,7 +56,9 @@ glabel D_80AC8FF4
     .balign 4
 
 glabel D_80AC900C
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80AC9010
  .word 0x30000000
 glabel D_80AC9014
@@ -70,7 +74,9 @@ glabel D_80AC9030
     .balign 4
 
 glabel D_80AC904C
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80AC9050
  .word 0x30000000
 glabel D_80AC9054
@@ -190,7 +196,9 @@ glabel D_80AC9330
 glabel D_80AC933C
  .word 0xA1FAA1FA, 0xA1FA20B7, 0xD9B9F0A1, 0xAAA1AA20, 0xC3AAA4AC, 0xA4CAA4A4, 0xA4E8A1AA, 0xA1AA20A1, 0xFAA1FAA1, 0xFA0A0000
 glabel D_80AC9364
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80AC9368
     .asciz "[33m◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇[m\n"
     .balign 4

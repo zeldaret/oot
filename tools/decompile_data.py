@@ -29,8 +29,7 @@ def try_text(text_bytes):
         text = text.replace("\\x00", "")
         text = text.replace("\n", "\\n")
         text = text.replace("\"", "\\\"")
-        ret = "    .asciz \"" + text + "\"\n    .balign 4\n"
-        return ret
+        return text
 
 
 def is_zeros(stuff):
@@ -53,7 +52,7 @@ def word_convert(byte_string):
     if byte_array[0] == 63 and byte_array[-1] == 45:
         return byte_string
     if data == '0A0A0000':
-        return "    .asciz \"" + "\\n\\n" + "\"\n    .balign 4\n"
+        return "\\n\\n"
     if len(words) > 1 and not is_zeros(words[1:]):
         res = try_text(byte_array)
         if res is not None:
@@ -67,7 +66,7 @@ def handle_match(match):
     ret = word_convert(in_str)
     if ret == in_str:
         return match.group()
-    return ret
+    return "    .asciz \"" + ret + "\"\n    .balign 4\n"
 
 
 def process_data_file(file_path):

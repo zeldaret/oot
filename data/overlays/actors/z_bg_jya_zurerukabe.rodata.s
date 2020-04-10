@@ -32,7 +32,9 @@ glabel D_8089BAF0
     .balign 4
 
 glabel D_8089BB0C
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_8089BB10
     .asciz "(jya ずれる壁)(arg_data 0x%04x)\n"
     .balign 4

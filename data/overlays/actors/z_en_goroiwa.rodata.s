@@ -48,7 +48,9 @@ glabel D_80A4E04C
     .balign 4
 
 glabel D_80A4E060
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A4E064
  .word 0x3A83126F
 glabel D_80A4E068

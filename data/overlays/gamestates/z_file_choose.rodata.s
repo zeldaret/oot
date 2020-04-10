@@ -84,7 +84,9 @@ glabel D_80812C40
     .balign 4
 
 glabel D_80812C5C
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80812C60
  .word 0xBDAACEBB, 0x0A000000
 glabel D_80812C68
@@ -190,7 +192,9 @@ glabel D_80812EBC
     .balign 4
 
 glabel D_80812EE0
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80812EE4
     .asciz "../z_file_choose.c"
     .balign 4

@@ -12,7 +12,9 @@ glabel D_80A94FE0
     .balign 4
 
 glabel D_80A94FF4
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A94FF8
     .asciz " WAT  Y  = %f\n"
     .balign 4
@@ -34,7 +36,9 @@ glabel D_80A95034
     .balign 4
 
 glabel D_80A95048
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A9504C
     .asciz "../z_en_kanban.c"
     .balign 4

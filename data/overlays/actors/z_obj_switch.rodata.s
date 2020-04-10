@@ -28,7 +28,9 @@ glabel D_80B9EE78
     .balign 4
 
 glabel D_80B9EE8C
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80B9EE90
     .asciz "(Dungeon switch)(arg_data 0x%04x)\n"
     .balign 4

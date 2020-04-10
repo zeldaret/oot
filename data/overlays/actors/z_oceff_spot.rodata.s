@@ -16,7 +16,9 @@ glabel D_80BA6F48
     .balign 4
 
 glabel D_80BA6F68
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80BA6F6C
     .asciz "[33m"
     .balign 4
@@ -26,7 +28,9 @@ glabel D_80BA6F74
     .balign 4
 
 glabel D_80BA6F90
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80BA6F94
     .asciz "../z_oceff_spot.c"
     .balign 4

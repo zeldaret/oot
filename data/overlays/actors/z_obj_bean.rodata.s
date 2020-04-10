@@ -28,7 +28,9 @@ glabel D_80B90F48
     .balign 4
 
 glabel D_80B90F58
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80B90F5C
     .asciz "[41;37m"
     .balign 4
@@ -42,7 +44,9 @@ glabel D_80B90F94
     .balign 4
 
 glabel D_80B90FA4
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80B90FA8
     .asciz "(魔法の豆の木リフト)(arg_data 0x%04x)\n"
     .balign 4
@@ -54,7 +58,9 @@ glabel D_80B90FD0
 glabel D_80B90FD8
  .word 0xC7CFA4C8, 0xC6A6A4CE, 0xCCDAA5EA, 0xA5D5A5C8, 0xBED7C6CD, 0xA1AAA1AA, 0xA1AA0A00
 glabel D_80B90FF4
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80B90FF8
  .word 0x41EFFFFF
 glabel D_80B90FFC

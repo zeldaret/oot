@@ -28,7 +28,9 @@ glabel D_808975F4
     .balign 4
 
 glabel D_80897608
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_8089760C
     .asciz "(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n"
     .balign 4

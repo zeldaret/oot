@@ -32,7 +32,9 @@ glabel D_809269C0
     .balign 4
 
 glabel D_809269E0
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_809269E4
     .asciz "CORE mode = <%d>\n"
     .balign 4

@@ -18,7 +18,9 @@ glabel D_80A50BDC
     .balign 4
 
 glabel D_80A50BEC
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A50BF0
  .word 0x30000000
 glabel D_80A50BF4
