@@ -232,163 +232,321 @@ glabel D_80B7B334
     .balign 4
 
 glabel D_80B7B344
- .word 0x3FCCCCCD
+    .float 1.6
+    .balign 4
+
 glabel D_80B7B348
- .word 0x46EC7A00
+    .float 30269.0
+    .balign 4
+
 glabel D_80B7B34C
- .word 0x46ECC600
+    .float 30307.0
+    .balign 4
+
 glabel D_80B7B350
- .word 0x46ECE600
+    .float 30323.0
+    .balign 4
+
 glabel D_80B7B354
- .word 0x3B23D70A
+    .float 0.0025
+    .balign 4
+
 glabel D_80B7B358
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80B7B35C
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B360
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B364
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_80B7B368
- .word 0x40C90FDB
+    .float 6.28318548203
+    .balign 4
+
 glabel D_80B7B36C
- .word 0x3DA3D70A
+    .float 0.08
+    .balign 4
+
 glabel D_80B7B370
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B374
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_80B7B378
- .word 0x40133333
+    .float 2.3
+    .balign 4
+
 glabel D_80B7B37C
- .word 0x40933333
+    .float 4.6
+    .balign 4
+
 glabel D_80B7B380
- .word 0x44758000
+    .float 982.0
+    .balign 4
+
 glabel D_80B7B384
- .word 0x409FFFEB
+    .float 4.99998998642
+    .balign 4
+
 glabel D_80B7B388
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80B7B38C
- .word 0x40FFFFEB
+    .float 7.99998998642
+    .balign 4
+
 glabel D_80B7B390
- .word 0x3F3AE148
+    .float 0.73
+    .balign 4
+
 glabel D_80B7B394
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80B7B398
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B39C
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B3A0
- .word 0x494EA400
+    .float 846400.0
+    .balign 4
+
 glabel D_80B7B3A4
- .word 0x3DE147AE
+    .float 0.11
+    .balign 4
+
 glabel D_80B7B3A8
- .word 0x3C23D70B
+    .float 0.0100000007078
+    .balign 4
+
 glabel D_80B7B3AC
- .word 0x3E16872B
+    .float 0.147
+    .balign 4
+
 glabel D_80B7B3B0
- .word 0x3B03126F
+    .float 0.002
+    .balign 4
+
 glabel D_80B7B3B4
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B3B8
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B3BC
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B3C0
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B3C4
- .word 0xC49C4000
+    .float -1250.0
+    .balign 4
+
 glabel D_80B7B3C8
- .word 0x3FC90FDB
+    .float 1.57079637051
+    .balign 4
+
 glabel D_80B7B3CC
- .word 0x44278000
+    .float 670.0
+    .balign 4
+
 glabel D_80B7B3D0
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_80B7B3D4
- .word 0x3F7851EC
+    .float 0.97
+    .balign 4
+
 glabel D_80B7B3D8
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80B7B3DC
- .word 0x3E999999
+    .float 0.299999982119
+    .balign 4
+
 glabel D_80B7B3E0
- .word 0x494EA400
+    .float 846400.0
+    .balign 4
+
 glabel D_80B7B3E4
- .word 0x3DE147AE
+    .float 0.11
+    .balign 4
+
 glabel D_80B7B3E8
- .word 0x3E16872B
+    .float 0.147
+    .balign 4
+
 glabel D_80B7B3EC
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80B7B3F0
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_80B7B3F4
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B7B3F8
- .word 0x3B83126E
+    .float 0.00399999972433
+    .balign 4
+
 glabel D_80B7B3FC
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B400
- .word 0x3FC90FDB
+    .float 1.57079637051
+    .balign 4
+
 glabel D_80B7B404
- .word 0xC49C4000
+    .float -1250.0
+    .balign 4
+
 glabel D_80B7B408
- .word 0x3FC90FDB
+    .float 1.57079637051
+    .balign 4
+
 glabel D_80B7B40C
- .word 0x3F59999A
+    .float 0.85
+    .balign 4
+
 glabel D_80B7B410
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80B7B414
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B418
- .word 0x3D23D70A
+    .float 0.04
+    .balign 4
+
 glabel D_80B7B41C
- .word 0x3D23D70A
+    .float 0.04
+    .balign 4
+
 glabel D_80B7B420
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80B7B424
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B428
- .word 0x3B83126E
+    .float 0.00399999972433
+    .balign 4
+
 glabel D_80B7B42C
- .word 0x3FC90FDB
+    .float 1.57079637051
+    .balign 4
+
 glabel D_80B7B430
- .word 0x3FC90FDB
+    .float 1.57079637051
+    .balign 4
+
 glabel D_80B7B434
- .word 0xC4548000
+    .float -850.0
+    .balign 4
+
 glabel D_80B7B438
- .word 0x45034000
+    .float 2100.0
+    .balign 4
+
 glabel D_80B7B43C
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80B7B440
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80B7B444
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_80B7B448
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_80B7B44C
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_80B7B450
- .word 0xBC23D70A
+    .float -0.01
+    .balign 4
+
 glabel D_80B7B454
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80B7B458
- .word 0x3CCCCCCD
+    .float 0.025
+    .balign 4
+
 glabel D_80B7B45C
- .word 0xBCF5C28F
+    .float -0.03
+    .balign 4
+
 glabel D_80B7B460
- .word 0x3FE1307A
+    .float 1.75929188728
+    .balign 4
+
 glabel D_80B7B464
- .word 0x3FA4DEEC
+    .float 1.28805303574
+    .balign 4
+
 glabel D_80B7B468
- .word 0xBF20D97B
+    .float -0.628318488598
+    .balign 4
+
 glabel D_80B7B46C
- .word 0x3EF1463A
+    .float 0.471238911152
+    .balign 4
+
 glabel D_80B7B470
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80B7B474
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B478
- .word 0x3F333334
+    .float 0.700000047684
+    .balign 4
+
 glabel D_80B7B47C
- .word 0x407FEF9E
+    .float 3.99900007248
+    .balign 4
+
 glabel jtbl_80B7B480
 .word L80B6EE24
 .word L80B6F0C4
@@ -397,133 +555,261 @@ glabel jtbl_80B7B480
 .word L80B70890
 .word L80B709D0
 glabel D_80B7B498
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B49C
- .word 0x3FF33333
+    .float 1.9
+    .balign 4
+
 glabel D_80B7B4A0
- .word 0x3F666666
+    .float 0.9
+    .balign 4
+
 glabel D_80B7B4A4
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B4A8
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B4AC
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80B7B4B0
- .word 0x494EA400
+    .float 846400.0
+    .balign 4
+
 glabel D_80B7B4B4
- .word 0x44A8C000
+    .float 1350.0
+    .balign 4
+
 glabel D_80B7B4B8
- .word 0x44898000
+    .float 1100.0
+    .balign 4
+
 glabel D_80B7B4BC
- .word 0x3DE147AE
+    .float 0.11
+    .balign 4
+
 glabel D_80B7B4C0
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B7B4C4
- .word 0x40C8F5C3
+    .float 6.28
+    .balign 4
+
 glabel D_80B7B4C8
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_80B7B4CC
- .word 0x3CCCCCCD
+    .float 0.025
+    .balign 4
+
 glabel D_80B7B4D0
- .word 0x48742400
+    .float 250000.0
+    .balign 4
+
 glabel D_80B7B4D4
- .word 0xBF060A92
+    .float -0.523598790169
+    .balign 4
+
 glabel D_80B7B4D8
- .word 0x494EA400
+    .float 846400.0
+    .balign 4
+
 glabel D_80B7B4DC
- .word 0x3C888889
+    .float 0.0166666675359
+    .balign 4
+
 glabel D_80B7B4E0
- .word 0x3C888889
+    .float 0.0166666675359
+    .balign 4
+
 glabel D_80B7B4E4
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B4E8
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B4EC
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B7B4F0
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80B7B4F4
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B4F8
- .word 0x3FFFDF3B
+    .float 1.99899995327
+    .balign 4
+
 glabel D_80B7B4FC
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B500
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B7B504
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B508
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B50C
- .word 0x3DE147AE
+    .float 0.11
+    .balign 4
+
 glabel D_80B7B510
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B514
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B518
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B51C
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B520
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B524
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B7B528
- .word 0x494EA400
+    .float 846400.0
+    .balign 4
+
 glabel D_80B7B52C
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B530
- .word 0x3A031270
+    .float 0.000500000081956
+    .balign 4
+
 glabel D_80B7B534
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80B7B538
- .word 0x40C8F5C3
+    .float 6.28
+    .balign 4
+
 glabel D_80B7B53C
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_80B7B540
- .word 0x3CCCCCCD
+    .float 0.025
+    .balign 4
+
 glabel D_80B7B544
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B548
- .word 0x40C8F5C3
+    .float 6.28
+    .balign 4
+
 glabel D_80B7B54C
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_80B7B550
- .word 0x3CCCCCCD
+    .float 0.025
+    .balign 4
+
 glabel D_80B7B554
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B558
- .word 0x471C4000
+    .float 40000.0
+    .balign 4
+
 glabel D_80B7B55C
- .word 0x45992000
+    .float 4900.0
+    .balign 4
+
 glabel D_80B7B560
- .word 0x461C4000
+    .float 10000.0
+    .balign 4
+
 glabel D_80B7B564
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_80B7B568
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B56C
- .word 0x448FC000
+    .float 1150.0
+    .balign 4
+
 glabel D_80B7B570
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B574
- .word 0x3727C5AC
+    .float 9.99999974738e-06
+    .balign 4
+
 glabel D_80B7B578
- .word 0xBF99999A
+    .float -1.2
+    .balign 4
+
 glabel D_80B7B57C
- .word 0x3FCCCCCD
+    .float 1.6
+    .balign 4
+
 glabel D_80B7B580
- .word 0x358637BD
+    .float 9.99999997475e-07
+    .balign 4
+
 glabel D_80B7B584
- .word 0x3F8CCCCD
+    .float 1.1
+    .balign 4
+
 glabel D_80B7B588
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80B7B58C
- .word 0x40066666
+    .float 2.1
+    .balign 4
+
 glabel D_80B7B590
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80B7B594
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel jtbl_80B7B598
 .word L80B72860
 .word L80B75278
@@ -563,207 +849,409 @@ glabel jtbl_80B7B598
 .word L80B71ED8
 .word L80B71FA8
 glabel D_80B7B62C
- .word 0x44A28000
+    .float 1300.0
+    .balign 4
+
 glabel D_80B7B630
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_80B7B634
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_80B7B638
- .word 0x451C4000
+    .float 2500.0
+    .balign 4
+
 glabel D_80B7B63C
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_80B7B640
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B644
- .word 0x43A6AAAB
+    .float 333.333343506
+    .balign 4
+
 glabel D_80B7B648
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80B7B64C
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80B7B650
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80B7B654
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_80B7B658
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80B7B65C
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_80B7B660
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_80B7B664
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B668
- .word 0x3BA3D70A
+    .float 0.005
+    .balign 4
+
 glabel D_80B7B66C
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80B7B670
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80B7B674
- .word 0x3C03126F
+    .float 0.008
+    .balign 4
+
 glabel D_80B7B678
- .word 0x453B8000
+    .float 3000.0
+    .balign 4
+
 glabel D_80B7B67C
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B680
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_80B7B684
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_80B7B688
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80B7B68C
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80B7B690
- .word 0x453B8000
+    .float 3000.0
+    .balign 4
+
 glabel D_80B7B694
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80B7B698
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80B7B69C
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80B7B6A0
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80B7B6A4
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80B7B6A8
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80B7B6AC
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80B7B6B0
- .word 0x3FAAAAA8
+    .float 1.33333301544
+    .balign 4
+
 glabel D_80B7B6B4
- .word 0x3FD9999A
+    .float 1.7
+    .balign 4
+
 glabel D_80B7B6B8
- .word 0x45DAC000
+    .float 7000.0
+    .balign 4
+
 glabel D_80B7B6BC
- .word 0x4016CBE4
+    .float 2.35619449615
+    .balign 4
+
 glabel D_80B7B6C0
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B6C4
- .word 0x49095440
+    .float 562500.0
+    .balign 4
+
 glabel D_80B7B6C8
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B6CC
- .word 0x3FCCCCCD
+    .float 1.6
+    .balign 4
+
 glabel D_80B7B6D0
- .word 0x45BB8000
+    .float 6000.0
+    .balign 4
+
 glabel D_80B7B6D4
- .word 0x3FB33333
+    .float 1.4
+    .balign 4
+
 glabel D_80B7B6D8
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80B7B6DC
- .word 0x3C134ACB
+    .float 0.00899
+    .balign 4
+
 glabel D_80B7B6E0
- .word 0x3C134ACB
+    .float 0.00899
+    .balign 4
+
 glabel D_80B7B6E4
- .word 0x3FB33333
+    .float 1.4
+    .balign 4
+
 glabel D_80B7B6E8
- .word 0x458CA000
+    .float 4500.0
+    .balign 4
+
 glabel D_80B7B6EC
- .word 0x3C134ACB
+    .float 0.00899
+    .balign 4
+
 glabel D_80B7B6F0
- .word 0x3FA66666
+    .float 1.3
+    .balign 4
+
 glabel D_80B7B6F4
- .word 0x3C134ACB
+    .float 0.00899
+    .balign 4
+
 glabel D_80B7B6F8
- .word 0x3FB33333
+    .float 1.4
+    .balign 4
+
 glabel D_80B7B6FC
- .word 0x3FA66666
+    .float 1.3
+    .balign 4
+
 glabel D_80B7B700
- .word 0xBF4CCCCD
+    .float -0.8
+    .balign 4
+
 glabel D_80B7B704
- .word 0xBF666666
+    .float -0.9
+    .balign 4
+
 glabel D_80B7B708
- .word 0xBF59999A
+    .float -0.85
+    .balign 4
+
 glabel D_80B7B70C
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B710
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80B7B714
- .word 0x453B8000
+    .float 3000.0
+    .balign 4
+
 glabel D_80B7B718
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80B7B71C
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B720
- .word 0x3FFEB852
+    .float 1.99000000954
+    .balign 4
+
 glabel D_80B7B724
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80B7B728
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80B7B72C
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80B7B730
- .word 0x404CCCCD
+    .float 3.2
+    .balign 4
+
 glabel D_80B7B734
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B738
- .word 0xBB449BA6
+    .float -0.003
+    .balign 4
+
 glabel D_80B7B73C
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80B7B740
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80B7B744
- .word 0x3BA3D70A
+    .float 0.005
+    .balign 4
+
 glabel D_80B7B748
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_80B7B74C
- .word 0x3D99999A
+    .float 0.075
+    .balign 4
+
 glabel D_80B7B750
- .word 0x3D0F5C29
+    .float 0.035
+    .balign 4
+
 glabel D_80B7B754
- .word 0x3D23D70A
+    .float 0.04
+    .balign 4
+
 glabel D_80B7B758
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B75C
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B760
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B764
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80B7B768
- .word 0x3FC90FDB
+    .float 1.57079637051
+    .balign 4
+
 glabel D_80B7B76C
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80B7B770
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80B7B774
- .word 0xBFC90FDB
+    .float -1.57079637051
+    .balign 4
+
 glabel D_80B7B778
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B7B77C
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_80B7B780
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80B7B784
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80B7B788
- .word 0x451C4000
+    .float 2500.0
+    .balign 4
+
 glabel D_80B7B78C
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B790
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80B7B794
- .word 0x451C4000
+    .float 2500.0
+    .balign 4
+
 glabel D_80B7B798
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B79C
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80B7B7A0
- .word 0x451C4000
+    .float 2500.0
+    .balign 4
+
 glabel D_80B7B7A4
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B7A8
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80B7B7AC
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80B7B7B0
- .word 0xB8D1B717
+    .float -9.99999974738e-05
+    .balign 4
+
 glabel D_80B7B7B4
- .word 0x3B59E83E
+    .float 0.003325
+    .balign 4
+
 glabel D_80B7B7B8
- .word 0x3B9BA5E3
+    .float 0.00475
+    .balign 4
+
 glabel D_80B7B7BC
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel jtbl_80B7B7C0
 .word L80B7743C
 .word L80B77558
@@ -791,15 +1279,25 @@ glabel jtbl_80B7B7C0
 .word L80B7819C
 .word L80B781EC
 glabel D_80B7B824
- .word 0x407FEF9E
+    .float 3.99900007248
+    .balign 4
+
 glabel D_80B7B828
- .word 0x407FEF9E
+    .float 3.99900007248
+    .balign 4
+
 glabel D_80B7B82C
- .word 0x494EA400
+    .float 846400.0
+    .balign 4
+
 glabel D_80B7B830
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B834
- .word 0x3AC49BA6
+    .float 0.0015
+    .balign 4
+
 glabel jtbl_80B7B838
 .word L80B7955C
 .word L80B78890
@@ -825,49 +1323,95 @@ glabel jtbl_80B7B838
 .word L80B79158
 .word L80B791B0
 glabel D_80B7B894
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B7B898
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B89C
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80B7B8A0
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B7B8A4
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B7B8A8
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80B7B8AC
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80B7B8B0
- .word 0x3A031270
+    .float 0.000500000081956
+    .balign 4
+
 glabel D_80B7B8B4
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B7B8B8
- .word 0x40C8F5C3
+    .float 6.28
+    .balign 4
+
 glabel D_80B7B8BC
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80B7B8C0
- .word 0x3CA3D70B
+    .float 0.0200000014156
+    .balign 4
+
 glabel D_80B7B8C4
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80B7B8C8
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_80B7B8CC
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80B7B8D0
- .word 0x4316199A
+    .float 150.1
+    .balign 4
+
 glabel D_80B7B8D4
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_80B7B8D8
- .word 0x3FD5DCA8
+    .float 1.67079639435
+    .balign 4
+
 glabel D_80B7B8DC
- .word 0xB8C90FDB
+    .float -9.58738019108e-05
+    .balign 4
+
 glabel D_80B7B8E0
- .word 0x3B6BEDFA
+    .float 0.0036
+    .balign 4
+
 glabel D_80B7B8E4
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_80B7B8E8
- .word 0x3DA3D70A
+    .float 0.08
+    .balign 4
+
 glabel D_80B7B8EC
- .word 0x3DF5C28F
+    .float 0.12
+    .balign 4
+
 
