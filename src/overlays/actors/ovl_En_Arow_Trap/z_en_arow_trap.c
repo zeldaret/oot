@@ -4,15 +4,7 @@
  * Description: An unused trap that reflects arrows.
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
-
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ u32 unk_14C;
-    /* 0x0150 */ u32 attackTimer;
-} ActorEnArowTrap; // size = 0x0154
+#include "z_en_arow_trap.h"
 
 #define FLAGS 0x00000010
 

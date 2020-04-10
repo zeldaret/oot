@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_haka_zou.c
+ * Overlay: ovl_Bg_Haka_Zou
+ * Description: Statue and Wall (Shadow Temple)
+ */
+
 #include "z_bg_haka_zou.h"
 
 #define FLAGS 0x00000010

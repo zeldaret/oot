@@ -1,3 +1,9 @@
+/*
+ * File: z_en_anubice_fire.c
+ * Overlay: ovl_En_Anubice_Fire
+ * Description: Anubis Fire Attack
+ */
+
 #include "z_en_anubice_fire.h"
 
 #define FLAGS 0x00000010

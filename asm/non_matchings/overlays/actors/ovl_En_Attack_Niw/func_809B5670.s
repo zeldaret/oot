@@ -1,16 +1,15 @@
 .late_rodata
-glabel D_809B61D8
-    .float 3000.0
-    .balign 4
 
+glabel D_809B61D8
+ .float 3000.0
 glabel D_809B61DC
- .word 0xBE4CCCCD
+ .float -0.2
 glabel D_809B61E0
- .word 0xBE4CCCCD
+ .float -0.2
 glabel D_809B61E4
- .word 0xC61C4000
+ .float -10000
 glabel D_809B61E8
- .word 0xC53B8000
+ .float -3000
 
 .text
 glabel func_809B5670

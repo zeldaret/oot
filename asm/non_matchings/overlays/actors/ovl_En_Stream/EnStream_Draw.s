@@ -1,3 +1,18 @@
+.rdata
+
+glabel D_80B0BCD0
+    .asciz "../z_en_stream.c"
+    .balign 4
+
+glabel D_80B0BCE4
+    .asciz "../z_en_stream.c"
+    .balign 4
+
+glabel D_80B0BCF8
+    .asciz "../z_en_stream.c"
+    .balign 4
+
+.text
 glabel EnStream_Draw
 /* 003AC 80B0BB4C 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 003B0 80B0BB50 3C0E0001 */  lui     $t6, 0x0001                ## $t6 = 00010000

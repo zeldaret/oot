@@ -1,9 +1,7 @@
 .late_rodata
+
 glabel D_809B2438
-    .float 3.14159274101
-    .balign 4
-
-
+ .float 3.1415927
 
 .text
 glabel EnAnubice_Update

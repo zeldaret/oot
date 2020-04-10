@@ -1,6 +1,7 @@
 .late_rodata
+
 glabel D_809B6190
- .word 0x476A6000
+ .float 60000.0
 
 .text
 glabel EnAttackNiw_Init

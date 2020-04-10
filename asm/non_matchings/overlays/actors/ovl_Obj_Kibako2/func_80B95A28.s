@@ -8,12 +8,9 @@ glabel D_80B9603C
     .balign 4
 
 glabel D_80B96040
-    .float 0.05
-    .balign 4
-
+ .float 0.05
 glabel D_80B96044
-    .float 0.7
-    .balign 4
+ .float 0.7
 
 .text
 glabel func_80B95A28

@@ -1,3 +1,13 @@
+.late_rodata
+
+glabel jtbl_809BBC6C
+.word L809B882C
+.word L809B8858
+.word L809B8764
+.word L809B872C
+.word L809B86E4
+
+.text
 glabel EnBb_Init
 /* 00280 809B8560 27BDFE18 */  addiu   $sp, $sp, 0xFE18           ## $sp = FFFFFE18
 /* 00284 809B8564 AFA501EC */  sw      $a1, 0x01EC($sp)           

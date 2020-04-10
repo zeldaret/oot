@@ -1,11 +1,9 @@
 .late_rodata
+
 glabel D_80AA5F30
-    .float 0.8
-    .balign 4
-
+ .float 0.8
 glabel D_80AA5F34
- .word 0x4019999A, 0x00000000, 0x00000000
-
+ .float 2.4
 
 .text
 glabel EnMag_Update

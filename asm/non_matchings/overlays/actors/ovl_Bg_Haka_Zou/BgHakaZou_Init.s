@@ -1,3 +1,13 @@
+.late_rodata
+
+glabel D_80883660
+ .float 0.005
+glabel D_80883664
+ .float 0.025
+glabel D_80883668
+ .float 3000
+
+.text
 glabel BgHakaZou_Init
 /* 00000 808825C0 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 808825C4 AFA5003C */  sw      $a1, 0x003C($sp)           

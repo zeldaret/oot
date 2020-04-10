@@ -8,8 +8,9 @@ glabel D_809B2344
     .balign 4
 
 .late_rodata
+
 glabel D_809B241C
- .word 0xC5843000
+ .float -4230.0
 
 .text
 glabel EnAnubice_Init

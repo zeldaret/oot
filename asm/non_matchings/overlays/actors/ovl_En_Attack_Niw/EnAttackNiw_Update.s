@@ -1,9 +1,7 @@
 .late_rodata
+
 glabel D_809B61F4
-    .float 5000.0
-    .balign 4
-
-
+ .float 5000.0
 
 .text
 glabel EnAttackNiw_Update

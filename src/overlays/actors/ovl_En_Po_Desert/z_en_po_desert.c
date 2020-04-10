@@ -1,3 +1,9 @@
+/*
+ * File: z_en_po_desert.c
+ * Overlay: ovl_En_Po_Desert
+ * Description: Guide Poe (Haunted Wasteland)
+ */
+
 #include "z_en_po_desert.h"
 
 #define FLAGS 0x00001090

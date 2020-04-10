@@ -1,4 +1,5 @@
 .rdata
+
 glabel D_80AA5F10
     .asciz "../z_en_mag.c"
     .balign 4

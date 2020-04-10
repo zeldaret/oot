@@ -1,3 +1,9 @@
+/*
+ * File: z_oceff_wipe.c
+ * Overlay: ovl_Oceff_Wipe
+ * Description: Zelda's Lullaby Effect
+ */
+
 #include "z_oceff_wipe.h"
 
 #define FLAGS 0x02000010

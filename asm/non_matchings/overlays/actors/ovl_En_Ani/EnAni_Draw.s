@@ -1,3 +1,14 @@
+.rdata
+
+glabel D_809B0F90
+    .asciz "../z_en_ani.c"
+    .balign 4
+
+glabel D_809B0FA0
+    .asciz "../z_en_ani.c"
+    .balign 4
+
+.text
 glabel EnAni_Draw
 /* 00AA4 809B0E14 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00AA8 809B0E18 AFBF002C */  sw      $ra, 0x002C($sp)

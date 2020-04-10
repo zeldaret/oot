@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_bombwall.c
+ * Overlay: ovl_Bg_Bombwall
+ * Description: 2D Bombable Wall
+ */
+
 #include "z_bg_bombwall.h"
 
 #define FLAGS 0x00400000

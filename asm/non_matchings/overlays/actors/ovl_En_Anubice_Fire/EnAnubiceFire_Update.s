@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_809B32E8
+ .float 0.6
+
+.text
 glabel EnAnubiceFire_Update
 /* 00754 809B2CF4 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00758 809B2CF8 AFB00020 */  sw      $s0, 0x0020($sp)           

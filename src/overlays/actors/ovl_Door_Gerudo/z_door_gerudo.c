@@ -1,3 +1,9 @@
+/*
+ * File: z_door_gerudo.c
+ * Overlay: ovl_Door_Gerudo
+ * Description: Metal grate door
+ */
+
 #include "z_door_gerudo.h"
 
 #define FLAGS 0x00000000

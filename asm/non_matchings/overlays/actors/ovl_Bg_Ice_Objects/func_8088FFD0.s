@@ -1,7 +1,7 @@
 .late_rodata
-glabel D_80890538
- .word 0x44AD6000, 0x00000000
 
+glabel D_80890538
+ .float 1387.0
 
 .text
 glabel func_8088FFD0

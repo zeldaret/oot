@@ -15,11 +15,9 @@ glabel D_80994BA8
     .balign 4
 
 .late_rodata
+
 glabel D_80994BC0
-    .float 0.01
-    .balign 4
-
-
+ .float 0.01
 
 .text
 glabel DoorGerudo_Draw

@@ -1,3 +1,9 @@
+/*
+ * File: z_en_anubice.c
+ * Overlay: ovl_En_Anubice
+ * Description: Anubis Body
+ */
+
 #include "z_en_anubice.h"
 
 #define FLAGS 0x00000015

@@ -1,3 +1,26 @@
+.rdata
+
+glabel D_808B0210
+
+    .asciz "../z_bg_spot07_taki.c"
+    .balign 4
+
+glabel D_808B0228
+
+    .asciz "../z_bg_spot07_taki.c"
+    .balign 4
+
+glabel D_808B0240
+
+    .asciz "../z_bg_spot07_taki.c"
+    .balign 4
+
+glabel D_808B0258
+
+    .asciz "../z_bg_spot07_taki.c"
+    .balign 4
+
+.text
 glabel BgSpot07Taki_Draw
 /* 00108 808AFD38 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 0010C 808AFD3C AFBF003C */  sw      $ra, 0x003C($sp)           

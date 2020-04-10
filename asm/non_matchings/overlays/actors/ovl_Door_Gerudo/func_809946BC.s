@@ -1,6 +1,7 @@
 .late_rodata
+
 glabel D_80994BBC
- .word 0x7F7FFFFF
+ .word 0x7F7FFFFF # might be a float?
 
 .text
 glabel func_809946BC

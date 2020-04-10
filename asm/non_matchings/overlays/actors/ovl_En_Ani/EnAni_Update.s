@@ -1,3 +1,13 @@
+.late_rodata
+
+glabel jtbl_809B0FB0
+.word L809B0BC0
+.word L809B0BD4
+.word L809B0BE8
+.word L809B0BFC
+.word L809B0C10
+
+.text
 glabel EnAni_Update
 /* 007A8 809B0B18 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 007AC 809B0B1C AFB00024 */  sw      $s0, 0x0024($sp)           

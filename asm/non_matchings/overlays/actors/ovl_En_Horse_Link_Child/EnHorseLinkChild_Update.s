@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_80A6AFF4
+ .float 0.025
+
+.text
 glabel EnHorseLinkChild_Update
 /* 016D8 80A6AAA8 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 016DC 80A6AAAC AFB0001C */  sw      $s0, 0x001C($sp)           

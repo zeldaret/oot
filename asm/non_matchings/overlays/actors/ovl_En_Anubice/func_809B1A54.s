@@ -1,15 +1,13 @@
 .late_rodata
-glabel D_809B2428
- .word 0xC62BE000
-glabel D_809B242C
- .word 0xC53B8000
-glabel D_809B2430
-    .float 3.14159274101
-    .balign 4
 
+glabel D_809B2428
+ .float -11000.0
+glabel D_809B242C
+ .float -3000.0
+glabel D_809B2430
+ .float 3.1415927 # pi
 glabel D_809B2434
-    .float 3.14159274101
-    .balign 4
+ .float 3.1415927 # pi
 
 .text
 glabel func_809B1A54

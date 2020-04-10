@@ -186,7 +186,7 @@ def word_convert(byte_string):
     if len(words) == 1 or is_zeros(words[1:]):
         res = try_float(words[0].strip())
         if res is not None:
-            return "    .float " + res + "\n    .balign 4\n"
+            return "    .float " + res + "\n"
 
     return byte_string
 

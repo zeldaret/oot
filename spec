@@ -706,7 +706,6 @@ beginseg
     name "ovl_Bg_Bombwall"
     include "build/src/overlays/actors/ovl_Bg_Bombwall/z_bg_bombwall.o"
     include "build/data/overlays/actors/z_bg_bombwall.data.o"
-    include "build/data/overlays/actors/z_bg_bombwall.rodata.o"
     include "build/data/overlays/actors/z_bg_bombwall.reloc.o"
 endseg
 
@@ -883,7 +882,6 @@ beginseg
     name "ovl_Bg_Haka_Zou"
     include "build/src/overlays/actors/ovl_Bg_Haka_Zou/z_bg_haka_zou.o"
     include "build/data/overlays/actors/z_bg_haka_zou.data.o"
-    include "build/data/overlays/actors/z_bg_haka_zou.rodata.o"
     include "build/data/overlays/actors/z_bg_haka_zou.reloc.o"
 endseg
 
@@ -1116,7 +1114,6 @@ beginseg
     name "ovl_Bg_Jya_Lift"
     include "build/src/overlays/actors/ovl_Bg_Jya_Lift/z_bg_jya_lift.o"
     include "build/data/overlays/actors/z_bg_jya_lift.data.o"
-    include "build/data/overlays/actors/z_bg_jya_lift.rodata.o"
     include "build/data/overlays/actors/z_bg_jya_lift.reloc.o"
 endseg
 
@@ -1374,7 +1371,6 @@ beginseg
     name "ovl_Bg_Spot07_Taki"
     include "build/src/overlays/actors/ovl_Bg_Spot07_Taki/z_bg_spot07_taki.o"
     include "build/data/overlays/actors/z_bg_spot07_taki.data.o"
-    include "build/data/overlays/actors/z_bg_spot07_taki.rodata.o"
     include "build/data/overlays/actors/z_bg_spot07_taki.reloc.o"
 endseg
 
@@ -2153,7 +2149,6 @@ beginseg
     name "ovl_En_Ani"
     include "build/src/overlays/actors/ovl_En_Ani/z_en_ani.o"
     include "build/data/overlays/actors/z_en_ani.data.o"
-    include "build/data/overlays/actors/z_en_ani.rodata.o"
     include "build/data/overlays/actors/z_en_ani.reloc.o"
 endseg
 
@@ -2168,7 +2163,6 @@ beginseg
     name "ovl_En_Anubice_Fire"
     include "build/src/overlays/actors/ovl_En_Anubice_Fire/z_en_anubice_fire.o"
     include "build/data/overlays/actors/z_en_anubice_fire.data.o"
-    include "build/data/overlays/actors/z_en_anubice_fire.rodata.o"
     include "build/data/overlays/actors/z_en_anubice_fire.reloc.o"
 endseg
 
@@ -2188,7 +2182,6 @@ beginseg
     name "ovl_En_Arrow"
     include "build/src/overlays/actors/ovl_En_Arrow/z_en_arrow.o"
     include "build/data/overlays/actors/z_en_arrow.data.o"
-    include "build/data/overlays/actors/z_en_arrow.rodata.o"
     include "build/data/overlays/actors/z_en_arrow.reloc.o"
 endseg
 
@@ -2203,7 +2196,6 @@ beginseg
     name "ovl_En_Ba"
     include "build/src/overlays/actors/ovl_En_Ba/z_en_ba.o"
     include "build/data/overlays/actors/z_en_ba.data.o"
-    include "build/data/overlays/actors/z_en_ba.rodata.o"
     include "build/data/overlays/actors/z_en_ba.reloc.o"
 endseg
 
@@ -2211,7 +2203,6 @@ beginseg
     name "ovl_En_Bb"
     include "build/src/overlays/actors/ovl_En_Bb/z_en_bb.o"
     include "build/data/overlays/actors/z_en_bb.data.o"
-    include "build/data/overlays/actors/z_en_bb.rodata.o"
     include "build/data/overlays/actors/z_en_bb.reloc.o"
 endseg
 
@@ -2311,7 +2302,6 @@ beginseg
     name "ovl_En_Brob"
     include "build/src/overlays/actors/ovl_En_Brob/z_en_brob.o"
     include "build/data/overlays/actors/z_en_brob.data.o"
-    include "build/data/overlays/actors/z_en_brob.rodata.o"
     include "build/data/overlays/actors/z_en_brob.reloc.o"
 endseg
 
@@ -2876,7 +2866,6 @@ beginseg
     name "ovl_En_Horse_Link_Child"
     include "build/src/overlays/actors/ovl_En_Horse_Link_Child/z_en_horse_link_child.o"
     include "build/data/overlays/actors/z_en_horse_link_child.data.o"
-    include "build/data/overlays/actors/z_en_horse_link_child.rodata.o"
     include "build/data/overlays/actors/z_en_horse_link_child.reloc.o"
 endseg
 
@@ -3277,7 +3266,6 @@ beginseg
     name "ovl_En_Po_Desert"
     include "build/src/overlays/actors/ovl_En_Po_Desert/z_en_po_desert.o"
     include "build/data/overlays/actors/z_en_po_desert.data.o"
-    include "build/data/overlays/actors/z_en_po_desert.rodata.o"
     include "build/data/overlays/actors/z_en_po_desert.reloc.o"
 endseg
 
@@ -3476,7 +3464,6 @@ beginseg
     name "ovl_En_Stream"
     include "build/src/overlays/actors/ovl_En_Stream/z_en_stream.o"
     include "build/data/overlays/actors/z_en_stream.data.o"
-    include "build/data/overlays/actors/z_en_stream.rodata.o"
     include "build/data/overlays/actors/z_en_stream.reloc.o"
 endseg
 
@@ -3598,7 +3585,6 @@ beginseg
     name "ovl_En_Trap"
     include "build/src/overlays/actors/ovl_En_Trap/z_en_trap.o"
     include "build/data/overlays/actors/z_en_trap.data.o"
-    include "build/data/overlays/actors/z_en_trap.rodata.o"
     include "build/data/overlays/actors/z_en_trap.reloc.o"
 endseg
 
@@ -4095,7 +4081,6 @@ beginseg
     name "ovl_Oceff_Wipe"
     include "build/src/overlays/actors/ovl_Oceff_Wipe/z_oceff_wipe.o"
     include "build/data/overlays/actors/z_oceff_wipe.data.o"
-    include "build/data/overlays/actors/z_oceff_wipe.rodata.o"
     include "build/data/overlays/actors/z_oceff_wipe.reloc.o"
 endseg
 

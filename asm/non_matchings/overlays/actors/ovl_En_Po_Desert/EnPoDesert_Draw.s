@@ -1,3 +1,14 @@
+.rdata
+
+glabel D_80AD3A04
+    .asciz "../z_en_po_desert.c"
+    .balign 4
+
+glabel D_80AD3A18
+    .asciz "../z_en_po_desert.c"
+    .balign 4
+
+.text
 glabel EnPoDesert_Draw
 /* 00B44 80AD37F4 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00B48 80AD37F8 AFB20030 */  sw      $s2, 0x0030($sp)
