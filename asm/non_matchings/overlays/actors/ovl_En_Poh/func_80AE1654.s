@@ -17,7 +17,9 @@ glabel D_80AE1C20
 
 .late_rodata
 glabel D_80AE1C70
- .word 0x38C90FDB, 0x00000000, 0x00000000, 0x00000000
+    .float 9.58738019108e-05
+    .balign 4
+
 
 
 .text

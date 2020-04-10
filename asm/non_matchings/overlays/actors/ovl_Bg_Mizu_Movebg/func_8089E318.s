@@ -12,7 +12,9 @@ glabel D_8089EC7C
 glabel D_8089EC80
  .word 0x42E66667
 glabel D_8089EC84
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 
 .text
 glabel func_8089E318

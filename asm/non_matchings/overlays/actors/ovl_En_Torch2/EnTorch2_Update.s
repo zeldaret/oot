@@ -18,7 +18,9 @@ glabel D_80B1FA6C
     .balign 4
 
 glabel D_80B1FA70
- .word 0x3C23D70A, 0x00000000, 0x00000000, 0x00000000
+    .float 0.01
+    .balign 4
+
 
 .text
 glabel EnTorch2_Update

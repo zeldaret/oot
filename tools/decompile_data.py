@@ -7,6 +7,7 @@ import sys
 script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = script_dir + "/../"
 data_dir = root_dir + "data/"
+asm_dir = root_dir + "asm/"
 
 floats = {}
 floats["0x3F800000"] = "1.0"
@@ -213,11 +214,11 @@ def process_data_file(file_path):
 
 def main():
     i = 0
-    for root, dirs, files in os.walk(data_dir):
+    for root, dirs, files in os.walk(asm_dir):
         for file in files:
-            if i == 1:
-                return
-            if file.endswith(".rodata.s"):
+            #if i == 10:
+            #    return
+            if file.endswith(".s"):
                 path = os.path.join(root, file)
                 if process_data_file(path):
                     print("Processed " + path)

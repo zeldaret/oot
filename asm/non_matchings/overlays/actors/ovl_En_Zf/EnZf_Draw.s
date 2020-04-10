@@ -9,7 +9,9 @@ glabel D_80B4A320
 
 .late_rodata
 glabel D_80B4A444
- .word 0x3FB33333, 0x00000000, 0x00000000
+    .float 1.4
+    .balign 4
+
 
 .text
 glabel EnZf_Draw

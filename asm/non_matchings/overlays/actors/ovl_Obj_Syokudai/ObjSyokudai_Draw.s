@@ -17,9 +17,13 @@ glabel D_80B9FECC
 
 .late_rodata
 glabel D_80B9FEE0
- .word 0x3B30F27C
+    .float 0.0027
+    .balign 4
+
 glabel D_80B9FEE4
- .word 0x38C90FDB, 0x00000000, 0x00000000
+    .float 9.58738019108e-05
+    .balign 4
+
 
 .text
 glabel ObjSyokudai_Draw

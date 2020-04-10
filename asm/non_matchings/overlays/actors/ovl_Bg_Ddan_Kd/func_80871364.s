@@ -4,7 +4,9 @@ glabel D_8087192C
  .word 0x3BF5C28F
 
 glabel D_80871930
- .word 0x3F19999A, 0x00000000, 0x00000000, 0x00000000
+    .float 0.6
+    .balign 4
+
  
 .text
 glabel func_80871364

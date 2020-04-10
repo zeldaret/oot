@@ -13,7 +13,9 @@ glabel D_8089EC28
 glabel D_8089EC30
  .word 0x405CCCCC, 0xCCCCCCCC
 glabel D_8089EC38
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 
 .text
 glabel BgMizuMovebg_Init

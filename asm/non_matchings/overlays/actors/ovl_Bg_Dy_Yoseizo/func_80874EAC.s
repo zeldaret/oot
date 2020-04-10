@@ -1,13 +1,19 @@
 .late_rodata
 
 glabel D_808756BC
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 
  glabel D_808756C0
- .word 0x3F666666
+    .float 0.9
+    .balign 4
+
 
  glabel D_808756C4
- .word 0x453B8000
+    .float 3000.0
+    .balign 4
+
 
  glabel D_808756C8
  .word 0x40490FDB ## pi

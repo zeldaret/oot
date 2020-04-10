@@ -17,19 +17,29 @@ glabel D_80B65288
 
 .late_rodata
 glabel D_80B65428
- .word 0x3FA66666
+    .float 1.3
+    .balign 4
+
 glabel D_80B6542C
  .word 0x454FD000
 glabel D_80B65430
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80B65434
- .word 0x3FA66666
+    .float 1.3
+    .balign 4
+
 glabel D_80B65438
  .word 0x454FD000
 glabel D_80B6543C
- .word 0x3B03126F
+    .float 0.002
+    .balign 4
+
 glabel D_80B65440
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 
 .text
 glabel func_80B63D84
