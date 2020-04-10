@@ -12,7 +12,9 @@ glabel D_8098C870
     .balign 4
 
 glabel D_8098C880
- .word 0x30000000
+    .asciz "0"
+    .balign 4
+
 glabel D_8098C884
     .asciz "../z_demo_kankyo.c"
     .balign 4

@@ -12,7 +12,9 @@ glabel D_80B0B4C0
     .balign 4
 
 glabel D_80B0B4DC
- .word 0xB6E2A5B9, 0xA5BFA5EB, 0xB2B020A4, 0xDEA4C020, 0xBFCDB4D6, 0xA4CBCCE1, 0xA4ECA4CA, 0xA4A4200A, 0x00000000
+    .asciz "金スタル屋 まだ 人間に戻れない \n"
+    .balign 4
+
 glabel D_80B0B500
     .asciz "[34m金スタル屋 まだ 人間に戻れない \n[m"
     .balign 4
@@ -22,7 +24,9 @@ glabel D_80B0B52C
     .balign 4
 
 glabel D_80B0B53C
- .word 0x30000000
+    .asciz "0"
+    .balign 4
+
 glabel D_80B0B540
     .asciz "../z_en_sth.c"
     .balign 4
