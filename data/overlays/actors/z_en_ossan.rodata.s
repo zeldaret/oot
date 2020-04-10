@@ -362,18 +362,32 @@ glabel jtbl_80AC95E4
 .word L80AC5BB8
 .word L80AC5BB8
 glabel D_80AC9604
- .word 0x3F59999A
+    .float 0.85
+    .balign 4
+
 glabel D_80AC9608
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_80AC960C
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80AC9610
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80AC9614
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80AC9618
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80AC961C
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 
 

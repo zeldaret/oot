@@ -54,23 +54,41 @@ glabel D_80AD7228
 glabel D_80AD723C
  .word 0x3C656042
 glabel D_80AD7240
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80AD7244
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_80AD7248
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80AD724C
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80AD7250
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80AD7254
- .word 0x453B8000
+    .float 3000.0
+    .balign 4
+
 glabel D_80AD7258
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80AD725C
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_80AD7260
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80AD7264
  .word 0x3BE56042
 glabel D_80AD7268
@@ -90,11 +108,15 @@ glabel D_80AD7280
 glabel D_80AD7284
  .word 0x47A60400
 glabel D_80AD7288
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80AD728C
  .word 0x3B449BA6
 glabel D_80AD7290
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_80AD7294
  .word 0x3A6BEDFB
 glabel D_80AD7298
@@ -102,7 +124,9 @@ glabel D_80AD7298
 glabel D_80AD729C
  .word 0x41855555
 glabel D_80AD72A0
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80AD72A4
  .word 0x3F48C8C9
 glabel D_80AD72A8

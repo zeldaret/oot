@@ -24,9 +24,13 @@ glabel D_80AFB55C
 glabel D_80AFB560
  .word 0x3DEF0069
 glabel D_80AFB564
- .word 0x3FD9999A
+    .float 1.7
+    .balign 4
+
 glabel D_80AFB568
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_80AFB56C
  .word 0x3E2AB368
 

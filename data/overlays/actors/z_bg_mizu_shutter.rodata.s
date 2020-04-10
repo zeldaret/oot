@@ -20,24 +20,44 @@ glabel D_8089F5B0
     .balign 4
 
 glabel D_8089F5C8
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_8089F5CC
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_8089F5D0
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_8089F5D4
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_8089F5D8
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_8089F5DC
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_8089F5E0
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_8089F5E4
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_8089F5E8
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_8089F5EC
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 
 

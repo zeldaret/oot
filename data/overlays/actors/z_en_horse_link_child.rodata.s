@@ -18,7 +18,9 @@ glabel D_80A6AFCC
 glabel D_80A6AFE8
  .word 0x3EAAAAAB
 glabel D_80A6AFEC
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A6AFF0
  .word 0x3F350481
 glabel D_80A6AFF4

@@ -35,11 +35,17 @@ glabel jtbl_80AA2910
 .word L80AA1AD0
 .word L80AA1AD0
 glabel D_80AA2938
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80AA293C
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80AA2940
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80AA2944
  .word 0x40490FDB, 0x00000000, 0x00000000
 

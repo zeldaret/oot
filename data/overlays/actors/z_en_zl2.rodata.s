@@ -106,7 +106,9 @@ glabel D_80B52BCC
 glabel D_80B52BD0
  .word 0x4474C000
 glabel D_80B52BD4
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80B52BD8
  .word 0x4622F983
 glabel jtbl_80B52BDC

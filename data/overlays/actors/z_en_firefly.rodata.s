@@ -24,19 +24,29 @@ glabel D_80A1501C
     .balign 4
 
 glabel D_80A15030
- .word 0x3F59999A
+    .float 0.85
+    .balign 4
+
 glabel D_80A15034
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_80A15038
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80A1503C
  .word 0x4708B800
 glabel D_80A15040
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80A15044
  .word 0x3EB33333
 glabel D_80A15048
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_80A1504C
  .word 0x450FC000
 

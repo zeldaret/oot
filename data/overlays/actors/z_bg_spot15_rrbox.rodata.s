@@ -30,15 +30,21 @@ glabel D_808B46DC
     .balign 4
 
 glabel D_808B46F4
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_808B46F8
  .word 0x44688000
 glabel D_808B46FC
  .word 0xBA83126F
 glabel D_808B4700
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_808B4704
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_808B4708
  .word 0xC6F9EC00
 glabel D_808B470C

@@ -30,15 +30,25 @@ glabel D_809E55FC
 glabel D_809E5618
  .word 0x4622F983
 glabel D_809E561C
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_809E5620
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_809E5624
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_809E5628
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_809E562C
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_809E5630
  .word 0x38C90FDB, 0x00000000, 0x00000000, 0x00000000
 

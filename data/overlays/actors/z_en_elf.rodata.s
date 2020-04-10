@@ -54,13 +54,19 @@ glabel D_80A06178
 glabel D_80A0617C
  .word 0x46FFFE00
 glabel D_80A06180
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A06184
  .word 0x3F733333
 glabel D_80A06188
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80A0618C
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80A06190
  .word 0x46FFFE00
 glabel jtbl_80A06194
@@ -77,65 +83,115 @@ glabel D_80A061B4
 glabel D_80A061B8
  .word 0x413FD70A
 glabel D_80A061BC
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A061C0
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80A061C4
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80A061C8
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80A061CC
- .word 0x3C03126F
+    .float 0.008
+    .balign 4
+
 glabel D_80A061D0
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80A061D4
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_80A061D8
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80A061DC
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A061E0
- .word 0x3C03126F
+    .float 0.008
+    .balign 4
+
 glabel D_80A061E4
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80A061E8
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80A061EC
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_80A061F0
  .word 0x3EB33333
 glabel D_80A061F4
  .word 0x3C4A4588
 glabel D_80A061F8
- .word 0x3C03126F
+    .float 0.008
+    .balign 4
+
 glabel D_80A061FC
  .word 0x3D088889
 glabel D_80A06200
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80A06204
- .word 0x3C03126F
+    .float 0.008
+    .balign 4
+
 glabel D_80A06208
- .word 0x3C03126F
+    .float 0.008
+    .balign 4
+
 glabel D_80A0620C
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_80A06210
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A06214
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_80A06218
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A0621C
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A06220
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A06224
  .word 0x38A7C5AD
 glabel D_80A06228
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A0622C
  .word 0x38A7C5AD
 glabel D_80A06230
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80A06234
  .word 0x3C449BA6
 glabel D_80A06238

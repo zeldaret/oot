@@ -40,15 +40,21 @@ glabel jtbl_808918C0
 glabel D_808918D4
  .word 0x3D8F5C29
 glabel D_808918D8
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_808918DC
  .word 0x3D8F5C29
 glabel D_808918E0
  .word 0x3E0F5C29
 glabel D_808918E4
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_808918E8
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_808918EC
  .word 0x38D1B717
 glabel jtbl_808918F0

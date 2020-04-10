@@ -46,13 +46,21 @@ glabel D_80BA6FBC
 glabel D_80BA6FD0
  .word 0x4019999A
 glabel D_80BA6FD4
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80BA6FD8
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80BA6FDC
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80BA6FE0
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80BA6FE4
  .word 0x3ED70A3D
 glabel D_80BA6FE8

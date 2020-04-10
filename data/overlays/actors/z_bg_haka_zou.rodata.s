@@ -8,13 +8,21 @@
 .section .rodata
 
 glabel D_80883660
- .word 0x3BA3D70A
+    .float 0.005
+    .balign 4
+
 glabel D_80883664
- .word 0x3CCCCCCD
+    .float 0.025
+    .balign 4
+
 glabel D_80883668
- .word 0x453B8000
+    .float 3000.0
+    .balign 4
+
 glabel D_8088366C
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_80883670
  .word 0xBF19999A
 glabel D_80883674

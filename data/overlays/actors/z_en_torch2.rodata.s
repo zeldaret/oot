@@ -16,17 +16,27 @@ glabel D_80B1FA44
     .balign 4
 
 glabel D_80B1FA58
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B1FA5C
  .word 0x44188000
 glabel D_80B1FA60
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80B1FA64
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_80B1FA68
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80B1FA6C
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_80B1FA70
  .word 0x3C23D70A, 0x00000000, 0x00000000, 0x00000000
 

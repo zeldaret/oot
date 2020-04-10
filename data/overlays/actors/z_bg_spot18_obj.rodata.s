@@ -40,7 +40,9 @@ glabel D_808B925C
     .balign 4
 
 glabel D_808B9280
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_808B9284
  .word 0xBA83126F, 0x00000000, 0x00000000
 

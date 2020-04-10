@@ -26,7 +26,9 @@ glabel D_8086CE40
 glabel D_8086CE44
  .word 0xC54E4000
 glabel D_8086CE48
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_8086CE4C
  .word 0xC48D4000
 glabel D_8086CE50
@@ -36,9 +38,13 @@ glabel D_8086CE54
 glabel D_8086CE58
  .word 0x44714000
 glabel D_8086CE5C
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_8086CE60
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_8086CE64
  .word 0x3C490FDB
 glabel D_8086CE68

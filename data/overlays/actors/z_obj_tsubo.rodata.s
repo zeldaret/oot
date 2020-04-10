@@ -24,14 +24,24 @@ glabel D_80BA1C34
 glabel D_80BA1C58
  .word 0x3E6B851F
 glabel D_80BA1C5C
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80BA1C60
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_80BA1C64
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80BA1C68
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80BA1C6C
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 
 

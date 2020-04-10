@@ -36,7 +36,9 @@ glabel D_809B23FC
     .balign 4
 
 glabel D_809B2410
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_809B2414
  .word 0x4622F983
 glabel D_809B2418
@@ -52,9 +54,13 @@ glabel D_809B2428
 glabel D_809B242C
  .word 0xC53B8000
 glabel D_809B2430
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_809B2434
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_809B2438
  .word 0x40490FDB, 0x00000000
 

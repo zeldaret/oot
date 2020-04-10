@@ -79,17 +79,27 @@ glabel jtbl_80A7BABC
 .word L80A7A2B0
 .word L80A7A2D8
 glabel D_80A7BADC
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80A7BAE0
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_80A7BAE4
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A7BAE8
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A7BAEC
  .word 0xC4BB8000
 glabel D_80A7BAF0
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A7BAF4
  .word 0x40490FDB, 0x00000000, 0x00000000
 

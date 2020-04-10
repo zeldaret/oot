@@ -12,17 +12,27 @@ glabel D_80B958A0
     .balign 4
 
 glabel D_80B958C8
- .word 0xBF99999A
+    .float -1.2
+    .balign 4
+
 glabel D_80B958CC
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B958D0
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B958D4
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_80B958D8
  .word 0x3E3851EC
 glabel D_80B958DC
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B958E0
  .word 0x3DCCCCCD, 0x00000000, 0x00000000, 0x00000000
 

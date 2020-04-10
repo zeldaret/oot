@@ -40,7 +40,9 @@ glabel D_80A3E41C
     .balign 4
 
 glabel D_80A3E42C
- .word 0x461C4000
+    .float 10000.0
+    .balign 4
+
 glabel D_80A3E430
  .word 0x461C4000, 0x00000000, 0x00000000, 0x00000000
 

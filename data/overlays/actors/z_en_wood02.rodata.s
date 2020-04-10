@@ -50,9 +50,13 @@ glabel jtbl_80B3BFF0
 .word L80B3B470
 .word L80B3B470
 glabel D_80B3C054
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_80B3C058
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_80B3C05C
  .word 0xC0466666
 glabel D_80B3C060

@@ -61,7 +61,9 @@ glabel jtbl_808B623C
 .word L808B50DC
 .word L808B50DC
 glabel D_808B6254
- .word 0x3FA66666
+    .float 1.3
+    .balign 4
+
 glabel D_808B6258
  .word 0x44C56000
 glabel D_808B625C

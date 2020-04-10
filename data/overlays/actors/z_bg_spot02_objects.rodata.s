@@ -38,19 +38,31 @@ glabel jtbl_808AD968
 .word L808AC824
 .word L808AC87C
 glabel D_808AD97C
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_808AD980
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_808AD984
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_808AD988
  .word 0x3BB400B9
 glabel D_808AD98C
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_808AD990
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_808AD994
- .word 0x3F666666
+    .float 0.9
+    .balign 4
+
 glabel D_808AD998
  .word 0x3DCCCCCD, 0x00000000
 

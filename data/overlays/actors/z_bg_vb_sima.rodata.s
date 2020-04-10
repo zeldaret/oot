@@ -20,13 +20,19 @@ glabel D_808BE448
     .balign 4
 
 glabel D_808BE45C
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_808BE460
  .word 0x3EA8F5C3
 glabel D_808BE464
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_808BE468
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_808BE46C
  .word 0xBE99999A
 

@@ -24,13 +24,21 @@ glabel D_80B22B70
     .balign 4
 
 glabel D_80B22B80
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B22B84
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B22B88
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B22B8C
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80B22B90
  .word 0x3E99999A, 0x00000000, 0x00000000, 0x00000000
 

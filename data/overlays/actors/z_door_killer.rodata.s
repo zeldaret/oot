@@ -46,9 +46,13 @@ glabel D_809960D4
 glabel D_809960D8
  .word 0x3F7AE148
 glabel D_809960DC
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809960E0
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel jtbl_809960E4
 .word L80995DD8
 .word L80995DF4

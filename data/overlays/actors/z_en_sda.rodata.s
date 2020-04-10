@@ -64,13 +64,21 @@ glabel D_80AFA4E0
     .balign 4
 
 glabel D_80AFA4F0
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80AFA4F4
- .word 0xBF99999A
+    .float -1.2
+    .balign 4
+
 glabel D_80AFA4F8
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80AFA4FC
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80AFA500
  .word 0x3F19999A, 0x00000000, 0x00000000, 0x00000000
 

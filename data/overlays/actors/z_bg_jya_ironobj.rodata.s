@@ -32,17 +32,25 @@ glabel D_808995EC
     .balign 4
 
 glabel D_80899600
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80899604
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80899608
  .word 0x3D042108
 glabel D_8089960C
  .word 0x3E851EB8
 glabel D_80899610
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80899614
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80899618
  .word 0x3D042108
 glabel D_8089961C

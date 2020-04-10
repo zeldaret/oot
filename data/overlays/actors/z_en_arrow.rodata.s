@@ -39,17 +39,25 @@ glabel jtbl_809B4F20
 .word L809B3C70
 .word L809B3C3C
 glabel D_809B4F48
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_809B4F4C
- .word 0x3D23D70A
+    .float 0.04
+    .balign 4
+
 glabel D_809B4F50
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_809B4F54
  .word 0x40E66667
 glabel D_809B4F58
  .word 0xBECCCCCD
 glabel D_809B4F5C
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_809B4F60
  .word 0x38C90FDB, 0x00000000, 0x00000000, 0x00000000
 

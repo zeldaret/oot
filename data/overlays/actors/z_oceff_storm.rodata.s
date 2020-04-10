@@ -28,11 +28,17 @@ glabel D_80BA8C70
     .balign 4
 
 glabel D_80BA8C84
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80BA8C88
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80BA8C8C
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80BA8C90
  .word 0x3C23D70A, 0x00000000, 0x00000000, 0x00000000
 

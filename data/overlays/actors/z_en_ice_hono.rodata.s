@@ -52,29 +52,45 @@ glabel D_80A7413C
 glabel D_80A74140
  .word 0x455AC000
 glabel D_80A74144
- .word 0x45BB8000
+    .float 6000.0
+    .balign 4
+
 glabel D_80A74148
- .word 0x3BA3D70A
+    .float 0.005
+    .balign 4
+
 glabel D_80A7414C
  .word 0x3B83126F
 glabel D_80A74150
- .word 0x3FCCCCCD
+    .float 1.6
+    .balign 4
+
 glabel D_80A74154
- .word 0x3BA3D70A
+    .float 0.005
+    .balign 4
+
 glabel D_80A74158
  .word 0x3B449BA6
 glabel D_80A7415C
  .word 0x3F2AC083
 glabel D_80A74160
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80A74164
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80A74168
  .word 0x3ED9999A
 glabel D_80A7416C
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_80A74170
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A74174
  .word 0x38C90FDB, 0x00000000, 0x00000000
 

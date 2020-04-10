@@ -16,15 +16,21 @@ glabel D_80B045E0
     .balign 4
 
 glabel D_80B045F0
- .word 0x3D23D70A
+    .float 0.04
+    .balign 4
+
 glabel D_80B045F4
- .word 0x461C4000
+    .float 10000.0
+    .balign 4
+
 glabel D_80B045F8
  .word 0x3E2AAAAB
 glabel D_80B045FC
  .word 0x43360B61
 glabel D_80B04600
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80B04604
  .word 0x40490FDB, 0x00000000, 0x00000000
 

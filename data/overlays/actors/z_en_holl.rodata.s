@@ -22,10 +22,14 @@ glabel D_80A59B10
 glabel D_80A59B20
  .word 0x44174000
 glabel D_80A59B24
- .word 0x3FD9999A
+    .float 1.7
+    .balign 4
+
 glabel D_80A59B28
  .word 0x40BCCCCD
 glabel D_80A59B2C
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 
 

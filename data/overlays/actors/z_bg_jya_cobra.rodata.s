@@ -72,19 +72,29 @@ glabel D_808976E8
     .balign 4
 
 glabel D_808976FC
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80897700
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80897704
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80897708
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_8089770C
  .word 0x3EAE147B
 glabel D_80897710
  .word 0x3EAE147B
 glabel D_80897714
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80897718
  .word 0x3EAE147B
 glabel D_8089771C
@@ -92,19 +102,31 @@ glabel D_8089771C
 glabel D_80897720
  .word 0x3F490FDB
 glabel D_80897724
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80897728
- .word 0x3F666666
+    .float 0.9
+    .balign 4
+
 glabel D_8089772C
  .word 0x3F23D70A
 glabel D_80897730
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80897734
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80897738
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_8089773C
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80897740
  .word 0x3DCCCCCD, 0x00000000, 0x00000000, 0x00000000
 

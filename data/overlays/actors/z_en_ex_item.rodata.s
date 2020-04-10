@@ -99,7 +99,9 @@ glabel jtbl_80A0A084
 .word L80A08FC4
 .word L80A08FD0
 glabel D_80A0A0D4
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel jtbl_80A0A0D8
 .word L80A0912C
 .word L80A09190
@@ -124,7 +126,9 @@ glabel jtbl_80A0A0D8
 glabel D_80A0A128
  .word 0x3EB33333
 glabel D_80A0A12C
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel jtbl_80A0A130
 .word L80A09B04
 .word L80A09B14

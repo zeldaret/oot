@@ -36,7 +36,9 @@ glabel D_80AD8DD8
     .balign 4
 
 glabel D_80AD8DEC
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_80AD8DF0
  .word 0x44D98000
 glabel D_80AD8DF4
@@ -44,14 +46,24 @@ glabel D_80AD8DF4
 glabel D_80AD8DF8
  .word 0x4502A000
 glabel D_80AD8DFC
- .word 0x3FB33333
+    .float 1.4
+    .balign 4
+
 glabel D_80AD8E00
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80AD8E04
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80AD8E08
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80AD8E0C
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 
 

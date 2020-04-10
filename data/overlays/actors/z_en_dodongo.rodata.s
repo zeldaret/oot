@@ -8,41 +8,75 @@
 .section .rodata
 
 glabel D_809FAB60
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_809FAB64
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809FAB68
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_809FAB6C
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809FAB70
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_809FAB74
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_809FAB78
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809FAB7C
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_809FAB80
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809FAB84
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_809FAB88
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_809FAB8C
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809FAB90
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_809FAB94
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809FAB98
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_809FAB9C
  .word 0xBDCCCCCD
 glabel D_809FABA0
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_809FABA4
- .word 0x3DA3D70A
+    .float 0.08
+    .balign 4
+
 glabel D_809FABA8
  .word 0x45ABE000
 glabel jtbl_809FABAC

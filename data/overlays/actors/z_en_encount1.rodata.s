@@ -100,7 +100,9 @@ glabel D_80A0782C
     .balign 4
 
 glabel D_80A0785C
- .word 0x44A28000
+    .float 1300.0
+    .balign 4
+
 glabel D_80A07860
  .word 0x407F5C29
 glabel D_80A07864

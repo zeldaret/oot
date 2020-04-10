@@ -26,7 +26,9 @@ glabel D_8088E2E8
 glabel D_8088E300
  .word 0x3E124925
 glabel D_8088E304
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_8088E308
  .word 0x3F333333, 0x00000000
 

@@ -10,7 +10,9 @@
 glabel D_80897FC0
  .word 0x432F4CEB
 glabel D_80897FC4
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80897FC8
  .word 0x44B74000
 glabel D_80897FCC
@@ -30,6 +32,8 @@ glabel D_80897FE4
 glabel D_80897FE8
  .word 0x44AE2000
 glabel D_80897FEC
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 
 

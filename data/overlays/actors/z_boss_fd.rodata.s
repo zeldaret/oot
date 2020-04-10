@@ -153,39 +153,69 @@ glabel jtbl_808D1E50
 .word L808CBF44
 .word L808CC140
 glabel D_808D1E68
- .word 0x461C4000
+    .float 10000.0
+    .balign 4
+
 glabel D_808D1E6C
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_808D1E70
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_808D1E74
  .word 0x3BA3D70A, 0x3DCCCCCD
 glabel D_808D1E7C
  .word 0x3A831270
 glabel D_808D1E80
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_808D1E84
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_808D1E88
- .word 0x3BA3D70A
+    .float 0.005
+    .balign 4
+
 glabel D_808D1E8C
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_808D1E90
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_808D1E94
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_808D1E98
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_808D1E9C
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_808D1EA0
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_808D1EA4
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_808D1EA8
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_808D1EAC
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_808D1EB0
  .word 0x42AB1EB8, 0x3DCCCCCD
 glabel jtbl_808D1EB8
@@ -204,43 +234,71 @@ glabel jtbl_808D1ED0
 glabel D_808D1EE4
  .word 0x410E6666
 glabel D_808D1EE8
- .word 0x461C4000
+    .float 10000.0
+    .balign 4
+
 glabel D_808D1EEC
- .word 0x453B8000
+    .float 3000.0
+    .balign 4
+
 glabel D_808D1EF0
- .word 0x461C4000
+    .float 10000.0
+    .balign 4
+
 glabel D_808D1EF4
  .word 0xC68FA000
 glabel D_808D1EF8
  .word 0x4515C000
 glabel D_808D1EFC
- .word 0x461C4000
+    .float 10000.0
+    .balign 4
+
 glabel D_808D1F00
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_808D1F04
  .word 0x42C7CCCD
 glabel D_808D1F08
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_808D1F0C
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_808D1F10
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_808D1F14
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_808D1F18
  .word 0x45AEE000
 glabel D_808D1F1C
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_808D1F20
  .word 0x45ABC000
 glabel D_808D1F24
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_808D1F28
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_808D1F2C
- .word 0x44BB8000
+    .float 1500.0
+    .balign 4
+
 glabel D_808D1F30
- .word 0x453B8000
+    .float 3000.0
+    .balign 4
+
 glabel D_808D1F34
  .word 0x45098000
 glabel D_808D1F38
@@ -254,7 +312,9 @@ glabel D_808D1F44
 glabel D_808D1F48
  .word 0x410E6666
 glabel D_808D1F4C
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_808D1F50
  .word 0x3F0CCCCD
 glabel D_808D1F54
@@ -262,70 +322,122 @@ glabel D_808D1F54
 glabel D_808D1F58
  .word 0x3E570A3D
 glabel D_808D1F5C
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_808D1F60
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_808D1F64
- .word 0x45BB8000
+    .float 6000.0
+    .balign 4
+
 glabel D_808D1F68
- .word 0x44A28000
+    .float 1300.0
+    .balign 4
+
 glabel D_808D1F6C
  .word 0xBE99999A
 glabel D_808D1F70
  .word 0xBE99999A
 glabel D_808D1F74
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_808D1F78
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_808D1F7C
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_808D1F80
- .word 0x40C90FDB
+    .float 6.28318548203
+    .balign 4
+
 glabel D_808D1F84
- .word 0x40C90FDB
+    .float 6.28318548203
+    .balign 4
+
 glabel D_808D1F88
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_808D1F8C
  .word 0x410E6666
 glabel D_808D1F90
  .word 0x41EF3333
 glabel D_808D1F94
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_808D1F98
  .word 0x3F0CCCCD
 glabel D_808D1F9C
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_808D1FA0
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_808D1FA4
- .word 0x3DA3D70A
+    .float 0.08
+    .balign 4
+
 glabel D_808D1FA8
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_808D1FAC
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_808D1FB0
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_808D1FB4
  .word 0x3A51B717
 glabel D_808D1FB8
- .word 0xBFC90FDB
+    .float -1.57079637051
+    .balign 4
+
 glabel D_808D1FBC
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_808D1FC0
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_808D1FC4
- .word 0x45DAC000
+    .float 7000.0
+    .balign 4
+
 glabel D_808D1FC8
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_808D1FCC
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_808D1FD0
- .word 0x3FC90FDB
+    .float 1.57079637051
+    .balign 4
+
 glabel D_808D1FD4
  .word 0xC0490FDB
 glabel D_808D1FD8
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_808D1FDC
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 
 

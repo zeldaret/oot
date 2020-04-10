@@ -22,7 +22,9 @@ glabel D_80B33B1C
 glabel D_80B33B20
  .word 0x3EAAA64C
 glabel D_80B33B24
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B33B28
  .word 0x3DA0D97C
 glabel D_80B33B2C

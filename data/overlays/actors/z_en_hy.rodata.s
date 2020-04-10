@@ -174,17 +174,29 @@ glabel jtbl_80A72A34
 .word L80A710BC
 .word L80A710BC
 glabel D_80A72A88
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80A72A8C
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80A72A90
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A72A94
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A72A98
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A72A9C
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel jtbl_80A72AA0
 .word L80A71D08
 .word L80A71D08

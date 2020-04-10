@@ -22,23 +22,41 @@ glabel D_80B24424
     .balign 4
 
 glabel D_80B24434
- .word 0x3F666666
+    .float 0.9
+    .balign 4
+
 glabel D_80B24438
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B2443C
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B24440
- .word 0x3F666666
+    .float 0.9
+    .balign 4
+
 glabel D_80B24444
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80B24448
- .word 0x3B03126F
+    .float 0.002
+    .balign 4
+
 glabel D_80B2444C
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B24450
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B24454
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B24458
  .word 0x3DCCCCCD, 0x00000000
 

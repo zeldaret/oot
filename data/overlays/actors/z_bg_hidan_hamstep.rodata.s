@@ -52,7 +52,9 @@ glabel D_80888FB4
     .balign 4
 
 glabel D_80888FCC
- .word 0xBF99999A
+    .float -1.2
+    .balign 4
+
 glabel D_80888FD0
  .word 0xBE75C28F
 glabel D_80888FD4

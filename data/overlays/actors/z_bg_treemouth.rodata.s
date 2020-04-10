@@ -20,7 +20,9 @@ glabel D_808BDA08
     .balign 4
 
 glabel D_808BDA1C
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_808BDA20
  .word 0x4490C000
 glabel D_808BDA24
@@ -32,11 +34,17 @@ glabel D_808BDA2C
 glabel D_808BDA30
  .word 0xC5073000
 glabel D_808BDA34
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_808BDA38
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_808BDA3C
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_808BDA40
  .word 0x456F3000
 glabel D_808BDA44

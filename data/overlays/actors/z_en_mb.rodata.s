@@ -20,13 +20,21 @@ glabel D_80AA9E80
 glabel D_80AA9E84
  .word 0x44228000
 glabel D_80AA9E88
- .word 0x3D23D70A
+    .float 0.04
+    .balign 4
+
 glabel D_80AA9E8C
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_80AA9E90
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80AA9E94
- .word 0x458CA000
+    .float 4500.0
+    .balign 4
+
 glabel D_80AA9E98
  .word 0xC5898000
 glabel D_80AA9E9C

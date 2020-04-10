@@ -206,8 +206,8 @@ def main():
     i = 0
     for root, dirs, files in os.walk(data_dir):
         for file in files:
-            if i == 10:
-                return
+            #if i == 10:
+            #    return
             if file.endswith(".rodata.s"):
                 path = os.path.join(root, file)
                 if process_data_file(path):

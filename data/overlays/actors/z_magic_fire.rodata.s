@@ -22,11 +22,17 @@ glabel D_80B8AFE8
 glabel D_80B8AFFC
  .word 0x43A28000
 glabel D_80B8B000
- .word 0x3DA3D70A
+    .float 0.08
+    .balign 4
+
 glabel D_80B8B004
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80B8B008
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80B8B00C
  .word 0x3D89AE40
 glabel D_80B8B010

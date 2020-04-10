@@ -104,19 +104,33 @@ glabel jtbl_80ACD830
 .word L80ACBBC8
 .word L80ACBBE4
 glabel D_80ACD844
- .word 0x45BB8000
+    .float 6000.0
+    .balign 4
+
 glabel D_80ACD848
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80ACD84C
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80ACD850
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80ACD854
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80ACD858
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80ACD85C
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80ACD860
  .word 0x459C4000, 0x00000000, 0x00000000, 0x00000000
 

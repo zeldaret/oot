@@ -44,11 +44,17 @@ glabel D_808BAD40
     .balign 4
 
 glabel D_808BAD58
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_808BAD5C
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_808BAD60
- .word 0x3CCCCCCD
+    .float 0.025
+    .balign 4
+
 glabel D_808BAD64
  .word 0x3EA3D70A
 glabel D_808BAD68

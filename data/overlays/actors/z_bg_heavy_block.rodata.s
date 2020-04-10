@@ -38,7 +38,9 @@ glabel D_80884F90
 glabel D_80884FA8
  .word 0xBF19999A
 glabel D_80884FAC
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel jtbl_80884FB0
 .word L80883BF8
 .word L80883B2C

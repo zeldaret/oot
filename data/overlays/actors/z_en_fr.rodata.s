@@ -110,7 +110,9 @@ glabel D_80A1D28C
 glabel D_80A1D290
  .word 0xC61C3C00
 glabel D_80A1D294
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A1D298
  .word 0x4622F983
 glabel D_80A1D29C

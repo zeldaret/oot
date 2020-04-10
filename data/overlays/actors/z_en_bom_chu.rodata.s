@@ -22,7 +22,9 @@ glabel D_809C6DC8
 glabel D_809C6DDC
  .word 0x38000100
 glabel D_809C6DE0
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_809C6DE4
  .word 0x3A83126F, 0x00000000, 0x00000000
 

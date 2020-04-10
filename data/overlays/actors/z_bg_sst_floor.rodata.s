@@ -24,7 +24,9 @@ glabel D_808B9E7C
 glabel D_808B9E80
  .word 0x3B3B3EE7
 glabel D_808B9E84
- .word 0x3FC90FDB
+    .float 1.57079637051
+    .balign 4
+
 glabel D_808B9E88
  .word 0xBB23D70A, 0x00000000
 

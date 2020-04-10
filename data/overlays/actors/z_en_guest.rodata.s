@@ -46,11 +46,17 @@ glabel D_80A50C34
     .balign 4
 
 glabel D_80A50C44
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A50C48
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A50C4C
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A50C50
  .word 0x40490FDB, 0x00000000, 0x00000000, 0x00000000
 
