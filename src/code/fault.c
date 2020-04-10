@@ -2,6 +2,7 @@
 #include <global.h>
 #include <alloca.h>
 #include <vt.h>
+#include <PR/os_cont.h>
 
 // data
 const char* sExceptionNames[] = {
@@ -42,7 +43,7 @@ FaultThreadStruct gFaultStruct;
 
 void Fault_SleepImpl(u32 duration) {
     u64 value = (duration * OS_CPU_COUNTER) / 1000ull;
-    func_800FF3A0(value);
+    Sleep_Cycles(value);
 }
 
 void Fault_ClientProcessThread(FaultClientContext* ctx) {
@@ -582,7 +583,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
             count--;
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-            if (!~(curInput->padPressed | ~0x20)) {
+            if (!~(curInput->padPressed | ~L_TRIG)) {
                 sFaultStructPtr->faultActive = false;
             }
         }
@@ -592,40 +593,40 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
             Fault_UpdatePadImpl();
         } while (curInput->padPressed == 0);
 
-        if (!~(curInput->padPressed | ~0x1000)) {
+        if (!~(curInput->padPressed | ~START_BUTTON)) {
             return;
         }
 
-        if (!~(curInput->raw.pad | ~0x8000)) {
+        if (!~(curInput->raw.pad | ~A_BUTTON)) {
             return;
         }
 
         off = 0x10;
-        if (!~(curInput->raw.pad | ~0x2000)) {
+        if (!~(curInput->raw.pad | ~Z_TRIG)) {
             off = 0x100;
         }
-        if (!~(curInput->raw.pad | ~0x4000)) {
+        if (!~(curInput->raw.pad | ~B_BUTTON)) {
             off <<= 8;
         }
-        if (!~(curInput->raw.pad | ~0x800)) {
+        if (!~(curInput->raw.pad | ~U_JPAD)) {
             addr -= off;
         }
-        if (!~(curInput->raw.pad | ~0x400)) {
+        if (!~(curInput->raw.pad | ~D_JPAD)) {
             addr += off;
         }
-        if (!~(curInput->raw.pad | ~0x8)) {
+        if (!~(curInput->raw.pad | ~U_CBUTTONS)) {
             addr = pc;
         }
-        if (!~(curInput->raw.pad | ~0x4)) {
+        if (!~(curInput->raw.pad | ~D_CBUTTONS)) {
             addr = sp;
         }
-        if (!~(curInput->raw.pad | ~0x2)) {
+        if (!~(curInput->raw.pad | ~L_CBUTTONS)) {
             addr = unk0;
         }
-        if (!~(curInput->raw.pad | ~0x1)) {
+        if (!~(curInput->raw.pad | ~R_CBUTTONS)) {
             addr = unk1;
         }
-        if (!~(curInput->raw.pad | ~0x20)) {
+        if (!~(curInput->raw.pad | ~L_TRIG)) {
             break;
         }
     }

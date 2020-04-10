@@ -233,7 +233,7 @@ void PadMgr_Run(PadMgr* padmgr) {
     while (bVar2 == 0) {
         if ((D_8012D280 > 2) && (padmgr->queue3.validCount == 0)) {
             // EUC-JP: コントローラスレッドイベント待ち | Waiting for controller thread event
-            osSyncPrintf("コントローラスレッドイベント待ち %lld\n", (osGetTime() * 64) / 3000);
+            osSyncPrintf("コントローラスレッドイベント待ち %lld\n", OS_CYCLES_TO_USEC(osGetTime()));
         }
 
         osRecvMesg(&padmgr->queue3, &mesg, OS_MESG_BLOCK);
@@ -242,13 +242,13 @@ void PadMgr_Run(PadMgr* padmgr) {
         switch (*mesg) {
             case OS_SC_RETRACE_MSG:
                 if (D_8012D280 > 2) {
-                    osSyncPrintf("padmgr_HandleRetraceMsg START %lld\n", (osGetTime() * 64) / 3000);
+                    osSyncPrintf("padmgr_HandleRetraceMsg START %lld\n", OS_CYCLES_TO_USEC(osGetTime()));
                 }
 
                 func_800C7C14(padmgr);
 
                 if (D_8012D280 > 2) {
-                    osSyncPrintf("padmgr_HandleRetraceMsg END   %lld\n", (osGetTime() * 64) / 3000);
+                    osSyncPrintf("padmgr_HandleRetraceMsg END   %lld\n", OS_CYCLES_TO_USEC(osGetTime()));
                 }
 
                 break;
