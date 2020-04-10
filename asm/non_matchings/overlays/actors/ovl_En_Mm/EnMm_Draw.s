@@ -1,3 +1,31 @@
+.rdata
+glabel D_80AAEC00
+    .asciz "../z_en_mm.c"
+    .balign 4
+
+glabel D_80AAEC10
+    .asciz "../z_en_mm.c"
+    .balign 4
+
+glabel D_80AAEC20
+    .asciz "../z_en_mm.c"
+    .balign 4
+
+glabel D_80AAEC30
+    .asciz "../z_en_mm.c"
+    .balign 4
+
+glabel D_80AAEC40
+    .asciz "../z_en_mm.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AAEC88
+ .word 0xC4966000
+glabel D_80AAEC8C
+ .word 0xC4966000
+
+.text
 glabel EnMm_Draw
 /* 00F3C 80AAE6AC 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00F40 80AAE6B0 AFB10028 */  sw      $s1, 0x0028($sp)

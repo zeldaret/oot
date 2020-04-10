@@ -1,3 +1,33 @@
+.rdata
+glabel D_809C4B2C
+    .asciz "[31m☆ game_play->bomchu_game_flag ☆ %d\n[m"
+    .balign 4
+
+glabel D_809C4B5C
+    .asciz "[31m☆ 壁１の状態どう？ ☆ %d\n[m"
+    .balign 4
+
+glabel D_809C4B80
+    .asciz "[31m☆ 壁２の状態どう？ ☆ %d\n[m"
+    .balign 4
+
+glabel D_809C4BA4
+    .asciz "[31m☆ 穴情報	     ☆ %d\n[m"
+    .balign 4
+
+glabel D_809C4BC4
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809C4BC8
+    .asciz "[35m☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809C4BFC
+    .asciz "[35m☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_809C3DC4
 /* 00794 809C3DC4 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00798 809C3DC8 AFB00018 */  sw      $s0, 0x0018($sp)           

@@ -1,3 +1,13 @@
+.rdata
+glabel D_809C4C44
+    .asciz "../z_en_bom_bowl_man.c"
+    .balign 4
+
+glabel D_809C4C5C
+    .asciz "../z_en_bom_bowl_man.c"
+    .balign 4
+
+.text
 glabel EnBomBowlMan_Draw
 /* 012BC 809C48EC 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 012C0 809C48F0 AFBF002C */  sw      $ra, 0x002C($sp)

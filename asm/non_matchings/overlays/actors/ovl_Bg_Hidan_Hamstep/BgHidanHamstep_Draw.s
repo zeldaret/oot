@@ -1,3 +1,17 @@
+.rdata
+glabel D_80888F84
+    .asciz "../z_bg_hidan_hamstep.c"
+    .balign 4
+
+glabel D_80888F9C
+    .asciz "../z_bg_hidan_hamstep.c"
+    .balign 4
+
+glabel D_80888FB4
+    .asciz "../z_bg_hidan_hamstep.c"
+    .balign 4
+
+.text
 glabel BgHidanHamstep_Draw
 /* 00C28 80888C68 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00C2C 80888C6C AFBF001C */  sw      $ra, 0x001C($sp)           

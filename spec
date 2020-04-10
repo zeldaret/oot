@@ -935,7 +935,6 @@ beginseg
     name "ovl_Bg_Hidan_Hamstep"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Hamstep/z_bg_hidan_hamstep.o"
     include "build/data/overlays/actors/z_bg_hidan_hamstep.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_hamstep.rodata.o"
     include "build/data/overlays/actors/z_bg_hidan_hamstep.reloc.o"
 endseg
 
@@ -1003,7 +1002,6 @@ beginseg
     name "ovl_Bg_Ice_Objects"
     include "build/src/overlays/actors/ovl_Bg_Ice_Objects/z_bg_ice_objects.o"
     include "build/data/overlays/actors/z_bg_ice_objects.data.o"
-    include "build/data/overlays/actors/z_bg_ice_objects.rodata.o"
     include "build/data/overlays/actors/z_bg_ice_objects.reloc.o"
 endseg
 
@@ -2277,7 +2275,6 @@ beginseg
     name "ovl_En_Bom_Bowl_Man"
     include "build/src/overlays/actors/ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.o"
     include "build/data/overlays/actors/z_en_bom_bowl_man.data.o"
-    include "build/data/overlays/actors/z_en_bom_bowl_man.rodata.o"
     include "build/data/overlays/actors/z_en_bom_bowl_man.reloc.o"
 endseg
 
@@ -2498,7 +2495,6 @@ beginseg
     name "ovl_En_Dodongo"
     include "build/src/overlays/actors/ovl_En_Dodongo/z_en_dodongo.o"
     include "build/data/overlays/actors/z_en_dodongo.data.o"
-    include "build/data/overlays/actors/z_en_dodongo.rodata.o"
     include "build/data/overlays/actors/z_en_dodongo.reloc.o"
 endseg
 
@@ -3071,7 +3067,6 @@ beginseg
     name "ovl_En_Light"
     include "build/src/overlays/actors/ovl_En_Light/z_en_light.o"
     include "build/data/overlays/actors/z_en_light.data.o"
-    include "build/data/overlays/actors/z_en_light.rodata.o"
     include "build/data/overlays/actors/z_en_light.reloc.o"
 endseg
 
@@ -3115,7 +3110,6 @@ beginseg
     name "ovl_En_Ma3"
     include "build/src/overlays/actors/ovl_En_Ma3/z_en_ma3.o"
     include "build/data/overlays/actors/z_en_ma3.data.o"
-    include "build/data/overlays/actors/z_en_ma3.rodata.o"
     include "build/data/overlays/actors/z_en_ma3.reloc.o"
 endseg
 
@@ -3153,7 +3147,6 @@ beginseg
     name "ovl_En_Mm"
     include "build/src/overlays/actors/ovl_En_Mm/z_en_mm.o"
     include "build/data/overlays/actors/z_en_mm.data.o"
-    include "build/data/overlays/actors/z_en_mm.rodata.o"
     include "build/data/overlays/actors/z_en_mm.reloc.o"
 endseg
 
@@ -3329,7 +3322,6 @@ beginseg
     name "ovl_En_Poh"
     include "build/src/overlays/actors/ovl_En_Poh/z_en_poh.o"
     include "build/data/overlays/actors/z_en_poh.data.o"
-    include "build/data/overlays/actors/z_en_poh.rodata.o"
     include "build/data/overlays/actors/z_en_poh.reloc.o"
 endseg
 

@@ -1,3 +1,9 @@
+.rdata
+glabel D_809C4C2C
+    .asciz "[33m☆ わー ☆ %d\n[m"
+    .balign 4
+
+.text
 glabel func_809C4664
 /* 01034 809C4664 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 01038 809C4668 AFBF001C */  sw      $ra, 0x001C($sp)           
