@@ -1,3 +1,56 @@
+.rdata
+glabel D_80926A80
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+glabel D_80926A90
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+glabel D_80926AA0
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+glabel D_80926AB0
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+glabel D_80926AC0
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+.late_rodata
+glabel D_80926E98
+    .float 0.8
+    .balign 4
+
+glabel D_80926E9C
+ .word 0x3E6B851F
+glabel D_80926EA0
+    .float 0.01
+    .balign 4
+
+glabel D_80926EA4
+    .float 0.1
+    .balign 4
+
+glabel D_80926EA8
+ .word 0x3F533333
+glabel D_80926EAC
+ .word 0x3F966666
+glabel D_80926EB0
+    .float 0.1
+    .balign 4
+
+glabel D_80926EB4
+    .float 1.57079637051
+    .balign 4
+
+glabel D_80926EB8
+    .float 0.05
+    .balign 4
+
+.text
 glabel func_80924228
 /* 08728 80924228 27BDFF18 */  addiu   $sp, $sp, 0xFF18           ## $sp = FFFFFF18
 /* 0872C 8092422C AFBF003C */  sw      $ra, 0x003C($sp)           

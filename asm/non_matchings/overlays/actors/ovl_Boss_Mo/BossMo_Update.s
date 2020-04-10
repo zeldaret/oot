@@ -1,3 +1,28 @@
+.rdata
+glabel D_809269F8
+    .asciz "MO : Move mode = <%d>\n"
+    .balign 4
+
+.late_rodata
+glabel D_80926E58
+ .word 0x463B8000
+glabel D_80926E5C
+ .word 0x469C4000
+glabel D_80926E60
+ .word 0x3F2AA64C
+glabel D_80926E64
+    .float 6.28318548203
+    .balign 4
+
+glabel D_80926E68
+    .float 0.05
+    .balign 4
+
+glabel D_80926E6C
+    .float 0.2
+    .balign 4
+
+.text
 glabel BossMo_Update
 /* 07474 80922F74 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 07478 80922F78 AFB30038 */  sw      $s3, 0x0038($sp)           

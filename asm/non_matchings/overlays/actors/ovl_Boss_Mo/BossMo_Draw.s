@@ -1,3 +1,13 @@
+.rdata
+glabel D_80926AD0
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+glabel D_80926AE0
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+.text
 glabel BossMo_Draw
 /* 09008 80924B08 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 0900C 80924B0C AFBF003C */  sw      $ra, 0x003C($sp)           
