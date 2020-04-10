@@ -2461,11 +2461,59 @@ s32 func_8006146C(u8 unk) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8006199C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061BF4.s")
+s32 func_80061BF4(Collider* collider) {
+    if ((collider->maskA & 1) == 0) {
+        return 1;
+    }
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061C18.s")
+s32 func_80061C18(Collider* arg0, Collider* arg1) {
+    if (((arg0->maskA & arg1->maskB) & 0x38) == 0
+        || ((arg0->maskB & arg1->maskA) & 0x38) == 0
+        || ((arg0->maskB & 2) != 0 && (arg1->maskB & 4) != 0)
+        || ((arg1->maskB & 2) != 0 && (arg0->maskB & 4) != 0)) {
+        return 1;
+    }
+    if (arg0->actor == arg1->actor) {
+        return 1;
+    }
+    return 0;
+}
 
+extern void (*D_8011DFAC[4][4])(GlobalContext*, CollisionCheckContext*, Collider*, Collider*);
+
+#ifdef NON_MATCHING
+//Logically equivalent, regalloc issues
+//CollisionCheck_OC()
+void func_80061C98(GlobalContext* globalCtx, CollisionCheckContext* check) {
+    Collider** phi_s2;
+    Collider** phi_s0;
+    Collider** new_var;
+    Collider** new_var2;
+
+    for (phi_s2 = check->colOc; phi_s2 < check->colOc + check->colOcCount; phi_s2++) {
+        if (*phi_s2 == NULL || func_80061BF4(*phi_s2) == 1) {
+            continue;
+        }
+        new_var = phi_s2;
+        for (phi_s0 = phi_s2 + 1; phi_s0 < check->colOc + check->colOcCount; phi_s0++) {
+            if (*phi_s0 == NULL || func_80061BF4(*phi_s0) == 1 || func_80061C18(*phi_s2, *phi_s0) == 1) {
+                continue;
+            }
+            new_var2 = phi_s0;
+            if (D_8011DFAC[(*new_var)->type][(*new_var2)->type] == NULL) {
+                osSyncPrintf("CollisionCheck_OC():未対応 %d, %d\n", (*new_var)->type, (*new_var2)->type);
+                //EUC-JP: 未対応 | Not compatible
+                continue;
+            }
+            (*D_8011DFAC[(*phi_s2)->type][(*new_var2)->type])(globalCtx, check, *new_var, *new_var2);
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061C98.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061E48.s")
 
