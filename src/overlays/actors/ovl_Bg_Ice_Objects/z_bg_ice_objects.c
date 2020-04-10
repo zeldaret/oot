@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_ice_objects.c
+ * Overlay: ovl_Bg_Ice_Objects
+ * Description: Movable Ice Block.
+ */
+
 #include "z_bg_ice_objects.h"
 
 #define FLAGS 0x00000000

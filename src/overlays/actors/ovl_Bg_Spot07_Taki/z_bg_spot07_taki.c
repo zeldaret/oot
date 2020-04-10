@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_spot07_taki.c
+ * Overlay: ovl_Bg_Spot07_Taki
+ * Description: Zora's Domain Waterfall and Ice
+ */
+
 #include "z_bg_spot07_taki.h"
 
 #define FLAGS 0x00000030

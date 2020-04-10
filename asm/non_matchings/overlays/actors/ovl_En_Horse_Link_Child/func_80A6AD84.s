@@ -1,3 +1,14 @@
+.rdata
+
+glabel D_80A6AFB0
+    .asciz "../z_en_horse_link_child.c"
+    .balign 4
+
+glabel D_80A6AFCC
+    .asciz "../z_en_horse_link_child.c"
+    .balign 4
+
+.text
 glabel func_80A6AD84
 /* 019B4 80A6AD84 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 019B8 80A6AD88 AFBF0014 */  sw      $ra, 0x0014($sp)           

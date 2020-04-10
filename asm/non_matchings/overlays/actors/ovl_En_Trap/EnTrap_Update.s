@@ -1,3 +1,23 @@
+.late_rodata
+
+glabel D_80B25860
+ .float 1.8
+glabel D_80B25864
+ .float 1.8
+glabel D_80B25868
+ .float 1.8
+glabel D_80B2586C
+ .float 65535.0
+glabel D_80B25870
+ .float 65535.0
+glabel D_80B25874
+ .float 65535.0
+glabel D_80B25878
+ .float 65535.0
+glabel D_80B2587C
+ .float 65535.0
+
+.text
 glabel EnTrap_Update
 /* 003E0 80B24A40 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 003E4 80B24A44 AFBF003C */  sw      $ra, 0x003C($sp)           

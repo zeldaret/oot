@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_80B0BD0C
+ .float 0.01
+
+.text
 glabel EnStream_Init
 /* 00008 80B0B7A8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0000C 80B0B7AC AFBF0014 */  sw      $ra, 0x0014($sp)           

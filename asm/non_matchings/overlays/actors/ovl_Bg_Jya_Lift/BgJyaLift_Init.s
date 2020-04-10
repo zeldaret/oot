@@ -1,3 +1,10 @@
+.rdata
+
+glabel D_8089A060
+    .asciz "女神リフト CT\n"
+    .balign 4
+
+.text
 glabel BgJyaLift_Init
 /* 00058 80899BF8 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0005C 80899BFC AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,10 @@
+.rdata
+
+glabel D_80AD39F0
+    .asciz "../z_en_po_desert.c"
+    .balign 4
+
+.text
 glabel func_80AD3594
 /* 008E4 80AD3594 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 008E8 80AD3598 24010007 */  addiu   $at, $zero, 0x0007         ## $at = 00000007

@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_80A6AFF0
+ .float 0.70709997 # cos(pi / 4)
+
+.text
 glabel func_80A6A5A4
 /* 011D4 80A6A5A4 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 011D8 80A6A5A8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
