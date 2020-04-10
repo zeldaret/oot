@@ -1,3 +1,9 @@
+/*
+ * File: z_en_ge3.c
+ * Overlay: ovl_En_Ge3
+ * Description: Gerudo giving you membership card
+ */
+
 #include "z_en_ge3.h"
 
 #define ROOM 0x00

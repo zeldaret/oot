@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_kibako2.c
+ * Overlay: ovl_Obj_Kibako2
+ * Description: Large crate
+ */
+
 #include "z_obj_kibako2.h"
 
 #define ROOM 0x00

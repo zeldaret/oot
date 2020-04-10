@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_80B94BEC
+ .float 0.0125
+
+.text
 glabel func_80B946A0
 /* 00440 80B946A0 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 00444 80B946A4 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

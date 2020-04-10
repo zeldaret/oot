@@ -1362,7 +1362,6 @@ beginseg
     name "ovl_Bg_Spot03_Taki"
     include "build/src/overlays/actors/ovl_Bg_Spot03_Taki/z_bg_spot03_taki.o"
     include "build/data/overlays/actors/z_bg_spot03_taki.data.o"
-    include "build/data/overlays/actors/z_bg_spot03_taki.rodata.o"
     include "build/data/overlays/actors/z_bg_spot03_taki.reloc.o"
 endseg
 
@@ -2741,7 +2740,6 @@ beginseg
     name "ovl_En_Ge3"
     include "build/src/overlays/actors/ovl_En_Ge3/z_en_ge3.o"
     include "build/data/overlays/actors/z_en_ge3.data.o"
-    include "build/data/overlays/actors/z_en_ge3.rodata.o"
     include "build/data/overlays/actors/z_en_ge3.reloc.o"
 endseg
 
@@ -2891,7 +2889,6 @@ beginseg
     name "ovl_En_Horse_Game_Check"
     include "build/src/overlays/actors/ovl_En_Horse_Game_Check/z_en_horse_game_check.o"
     include "build/data/overlays/actors/z_en_horse_game_check.data.o"
-    include "build/data/overlays/actors/z_en_horse_game_check.rodata.o"
     include "build/data/overlays/actors/z_en_horse_game_check.reloc.o"
 endseg
 
@@ -2937,7 +2934,6 @@ beginseg
     name "ovl_En_Hs2"
     include "build/src/overlays/actors/ovl_En_Hs2/z_en_hs2.o"
     include "build/data/overlays/actors/z_en_hs2.data.o"
-    include "build/data/overlays/actors/z_en_hs2.rodata.o"
     include "build/data/overlays/actors/z_en_hs2.reloc.o"
 endseg
 
@@ -3782,7 +3778,6 @@ beginseg
     name "ovl_En_Yukabyun"
     include "build/src/overlays/actors/ovl_En_Yukabyun/z_en_yukabyun.o"
     include "build/data/overlays/actors/z_en_yukabyun.data.o"
-    include "build/data/overlays/actors/z_en_yukabyun.rodata.o"
     include "build/data/overlays/actors/z_en_yukabyun.reloc.o"
 endseg
 
@@ -3959,7 +3954,6 @@ beginseg
     name "ovl_Obj_Dekujr"
     include "build/src/overlays/actors/ovl_Obj_Dekujr/z_obj_dekujr.o"
     include "build/data/overlays/actors/z_obj_dekujr.data.o"
-    include "build/data/overlays/actors/z_obj_dekujr.rodata.o"
     include "build/data/overlays/actors/z_obj_dekujr.reloc.o"
 endseg
 
@@ -3995,7 +3989,6 @@ beginseg
     name "ovl_Obj_Ice_Poly"
     include "build/src/overlays/actors/ovl_Obj_Ice_Poly/z_obj_ice_poly.o"
     include "build/data/overlays/actors/z_obj_ice_poly.data.o"
-    include "build/data/overlays/actors/z_obj_ice_poly.rodata.o"
     include "build/data/overlays/actors/z_obj_ice_poly.reloc.o"
 endseg
 
@@ -4011,7 +4004,6 @@ beginseg
     name "ovl_Obj_Kibako2"
     include "build/src/overlays/actors/ovl_Obj_Kibako2/z_obj_kibako2.o"
     include "build/data/overlays/actors/z_obj_kibako2.data.o"
-    include "build/data/overlays/actors/z_obj_kibako2.rodata.o"
     include "build/data/overlays/actors/z_obj_kibako2.reloc.o"
 endseg
 

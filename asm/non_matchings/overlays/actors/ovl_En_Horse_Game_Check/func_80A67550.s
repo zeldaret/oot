@@ -1,3 +1,14 @@
+.rdata
+
+glabel D_80A68530
+    .asciz "../z_en_horse_game_check.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A68570
+ .float -1650.0
+
+.text
 glabel func_80A67550
 /* 00000 80A67550 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 80A67554 AFB00030 */  sw      $s0, 0x0030($sp)           

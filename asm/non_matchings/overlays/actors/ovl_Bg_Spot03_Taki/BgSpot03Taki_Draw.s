@@ -1,3 +1,18 @@
+.rdata
+
+glabel D_808AE3C0
+    .asciz "../z_bg_spot03_taki.c"
+    .balign 4
+
+glabel D_808AE3D8
+    .asciz "../z_bg_spot03_taki.c"
+    .balign 4
+
+glabel D_808AE3F0
+    .asciz "../z_bg_spot03_taki.c"
+    .balign 4
+
+.text
 glabel BgSpot03Taki_Draw
 /* 00604 808AE0E4 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 00608 808AE0E8 AFBF003C */  sw      $ra, 0x003C($sp)           

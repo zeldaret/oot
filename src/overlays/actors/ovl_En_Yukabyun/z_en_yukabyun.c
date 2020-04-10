@@ -1,3 +1,9 @@
+/*
+ * File: z_en_yukabyun.c
+ * Overlay: ovl_En_Yukabyun
+ * Description: Flying floor tile
+ */
+
 #include "z_en_yukabyun.h"
 
 #define ROOM 0x00

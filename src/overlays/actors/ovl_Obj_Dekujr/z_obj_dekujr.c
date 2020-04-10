@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_dekujr.c
+ * Overlay: ovl_Obj_Dekujr
+ * Description: Deku Tree Sprout
+ */
+
 #include "z_obj_dekujr.h"
 
 #define ROOM 0x00

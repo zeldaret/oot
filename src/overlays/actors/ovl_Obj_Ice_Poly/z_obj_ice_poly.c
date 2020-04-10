@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_ice_poly.c
+ * Overlay: ovl_Obj_Ice_Poly
+ * Description: Ice / Frozen Actors
+ */
+
 #include "z_obj_ice_poly.h"
 
 #define ROOM 0x00

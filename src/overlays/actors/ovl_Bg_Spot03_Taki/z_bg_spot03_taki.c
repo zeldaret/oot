@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_spot03_taki.c
+ * Overlay: ovl_Bg_Spot03_Taki
+ * Description: Zora's River Waterfall
+ */
+
 #include "z_bg_spot03_taki.h"
 
 #define ROOM 0x00
