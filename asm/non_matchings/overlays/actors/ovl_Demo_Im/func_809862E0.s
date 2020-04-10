@@ -1,3 +1,21 @@
+.rdata
+glabel D_80988894
+    .asciz "Demo_Im_Ocarina_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_809889E0
+.word L80986340
+.word L80986350
+.word L80986394
+.word L80986394
+.word L80986394
+.word L80986394
+.word L80986364
+.word L80986374
+.word L80986384
+
+.text
 glabel func_809862E0
 /* 01700 809862E0 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 01704 809862E4 AFB00018 */  sw      $s0, 0x0018($sp)           

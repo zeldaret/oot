@@ -1,3 +1,14 @@
+.late_rodata
+glabel jtbl_809960E4
+.word L80995DD8
+.word L80995DF4
+.word L80995DF4
+.word L80995DF4
+.word L80995DF4
+.word 0x00000000, 0x00000000
+
+
+.text
 glabel func_80995D6C
 /* 0111C 80995D6C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 01120 80995D70 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

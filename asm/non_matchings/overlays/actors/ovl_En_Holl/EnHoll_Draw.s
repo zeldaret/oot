@@ -1,3 +1,24 @@
+.rdata
+glabel D_80A59AF0
+    .asciz "../z_en_holl.c"
+    .balign 4
+
+glabel D_80A59B00
+    .asciz "../z_en_holl.c"
+    .balign 4
+
+glabel D_80A59B10
+    .asciz "../z_en_holl.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A59B2C
+    .float 3.14159274101
+    .balign 4
+
+
+
+.text
 glabel EnHoll_Draw
 /* 00CB0 80A598C0 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00CB4 80A598C4 AFBF0014 */  sw      $ra, 0x0014($sp)           

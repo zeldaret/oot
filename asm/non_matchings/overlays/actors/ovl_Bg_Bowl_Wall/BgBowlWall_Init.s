@@ -1,3 +1,14 @@
+.rdata
+glabel D_8086FA90
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_8086FA94
+
+    .asciz "[32m ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel BgBowlWall_Init
 /* 00000 8086F160 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 8086F164 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,17 @@
+.rdata
+glabel D_8097C020
+    .asciz "../z_demo_gj.c"
+    .balign 4
+
+glabel D_8097C030
+    .asciz "../z_demo_gj.c"
+    .balign 4
+
+glabel D_8097C040
+    .asciz "../z_demo_gj.c"
+    .balign 4
+
+.text
 glabel func_8097911C
 /* 007EC 8097911C 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 007F0 80979120 AFBF001C */  sw      $ra, 0x001C($sp)

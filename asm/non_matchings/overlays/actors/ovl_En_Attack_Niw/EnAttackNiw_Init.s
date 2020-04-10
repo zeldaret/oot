@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809B6190
+ .word 0x476A6000
+
+.text
 glabel EnAttackNiw_Init
 /* 00000 809B5100 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 809B5104 AFA50034 */  sw      $a1, 0x0034($sp)
