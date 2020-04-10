@@ -1,13 +1,19 @@
 .late_rodata
-
 glabel D_80B96038
- .float 0.2
+    .float 0.2
+    .balign 4
+
 glabel D_80B9603C
- .float 0.2
+    .float 0.2
+    .balign 4
+
 glabel D_80B96040
- .float 5.0000001e-2
+    .float 0.05
+    .balign 4
+
 glabel D_80B96044
- .float 6.9999999e-1
+    .float 0.7
+    .balign 4
 
 .text
 glabel func_80B95A28
