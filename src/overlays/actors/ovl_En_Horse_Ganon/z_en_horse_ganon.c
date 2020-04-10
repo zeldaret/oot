@@ -13,16 +13,23 @@ void EnHorseGanon_Destroy(EnHorseGanon* this, GlobalContext* globalCtx);
 void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx);
 void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx);
 
+// these two definitions stolen from krim's z_skin branch
+typedef struct {
+    char unk_00[4];
+    MtxF unk_04;
+} unk_struct_800A6408;
+void func_800A6408(unk_struct_800A6408* arg0, s32 arg1, Vec3f* arg2, Vec3f* arg3);
+
 // internal functions
 void func_80A68AC4(EnHorseGanon* this);
 void func_80A68870(EnHorseGanon* this); // can be removed once this function matches
-void func_80A686A8(EnHorseGanon* this, s32 unknown); // can be removed once this function matches
+void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx); // can be removed once this function matches
 void func_80A68B20(EnHorseGanon* this); // can be removed once this function matches
+void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, unk_struct_800A6408* struct_800A6408);
 
 // external functions
-void func_80A68FA8();
 void func_800A6888(GlobalContext*, s32*); // not exactly sure on 2nd arg type
-void func_8005BCC8(GlobalContext*, u32*); // not exactly sure on 2nd arg type
+void func_8005BCC8(GlobalContext*, s32*); // not exactly sure on 2nd arg type
 void func_800A6330(Actor* this, GlobalContext* globalCtx, s32*, void (fn)(), s32); // not exactly sure on most of these
 
 const ActorInit En_Horse_Ganon_InitVars = {
@@ -56,22 +63,63 @@ extern UNK_PTR D_06018668;
 extern UNK_PTR D_06004AA4;
 extern s32 D_80A692B8;
 extern void (*D_80A692C4[3])();
+extern s8* D_80A69248;
+extern u8 D_80A6924E; // this should be a pointer but that changes how the address is loaded
 
 // the rest are padding
 const f32 D_80A692D0[] = { 10430.3779297f, 0.0f, 0.0f, 0.0f };
 
-s16* func_80A68660(EnHorseGanon* this, u32 offset, f32* floatArray)
+void func_80A68660(void* unkPTR, u32 offset, Vec3f* vec)
 {
-    s16* temp = (s16*) ((u8*)this + offset * 8);
+    Vec3s* temp = (Vec3s*) ((u64*)unkPTR + offset);
 
-    floatArray[0] = (f32)temp[0];
-    floatArray[1] = (f32)temp[1];
-    floatArray[2] = (f32)temp[2];
-
-    return temp;
+    vec->x = (f32)temp->x;
+    vec->y = (f32)temp->y;
+    vec->z = (f32)temp->z;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A686A8.s")
+void func_80A686A8(EnHorseGanon *this, GlobalContext* globalCtx) {
+    Vec3f* tempPos;
+    Vec3f vec;
+    s16 y;
+
+    func_80A68660(&D_80A69248, this->unk_1ec, &vec);
+    if (Math3D_Vec3f_DistXYZ(&vec, &this->actor.posRot.pos) <= 400.0f) {
+        this->unk_1ec += 1;
+        if (this->unk_1ec >= 14) {
+            this->unk_1ec = 0;
+            func_80A68660(&D_80A69248, 0, &vec);
+        }
+    }
+
+    tempPos = &this->actor.posRot.pos;
+    y = Math_Vec3f_Yaw(tempPos, &vec) - this->actor.posRot.rot.y;
+    if (y >= 301) {
+        this->actor.posRot.rot.y += 300;
+    } else {
+        if (y < -300) {
+            this->actor.posRot.rot.y -= 300;
+        } else {
+            this->actor.posRot.rot.y += y;
+        }
+    }
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+
+    if (func_8002DB8C(&this->actor, globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first) <= 300.0f) {
+        if (this->actor.speedXZ < 12.0f) {
+            this->actor.speedXZ += 1.0f;
+            return;
+        }
+        this->actor.speedXZ -= 1.0f;
+        return;
+    }
+
+    if (this->actor.speedXZ < (f32) (&D_80A6924E)[this->unk_1ec * 8]) {
+        this->actor.speedXZ += 0.5f;
+        return;
+    }
+    this->actor.speedXZ -= 0.5f;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68870.s")
 /*void func_80A68870(EnHorseGanon* this)
@@ -141,14 +189,14 @@ void func_80A68AF0(EnHorseGanon* this, s32 unused)
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68B20.s")
 
-void func_80A68DB0(EnHorseGanon* this, s32 unknown)
+void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx)
 {
     if (this->unk_150 == 2)
     {
         func_80A68870(this);
     }
 
-    func_80A686A8(this, unknown);
+    func_80A686A8(this, globalCtx);
 
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0)
     {
@@ -190,7 +238,36 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx)
 //     Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68FA8.s")
+void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, unk_struct_800A6408* struct_800A6408)
+{
+    Vec3f sp4C;
+    Vec3f sp40;
+    s32 phi_s0 = 0;
+    s32 loops = 0;
+    unk_struct_80A68FA8* temp_v0;
+
+    if (this->unk_260 > 0)
+    {
+        do {
+            sp4C.x = this->unk_264[phi_s0].unk_028.x;
+            sp4C.y = this->unk_264[phi_s0].unk_028.y;
+            sp4C.z = this->unk_264[phi_s0].unk_028.z;
+
+            func_800A6408(struct_800A6408, this->unk_264[phi_s0].unk_03C, &sp4C, &sp40);
+
+            this->unk_264[phi_s0].unk_030.x = (s16) sp40.x;
+            this->unk_264[phi_s0].unk_030.y = (s16) sp40.y;
+            this->unk_264[phi_s0].unk_030.z = (s16) sp40.z;
+
+            temp_v0 = &this->unk_264[phi_s0];
+            temp_v0->unk_036 = (s16) (temp_v0->unk_038 * (f32)temp_v0->unk_02E);
+
+            phi_s0 += 1;
+            loops += 1;
+        } while (loops < this->unk_260);
+    }
+    CollisionCheck_SetOC(globalCtx, &globalCtx->sub_11E60, &this->unk_248);
+}
 
 void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx)
 {
