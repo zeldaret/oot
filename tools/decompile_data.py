@@ -156,6 +156,14 @@ def try_float(word):
         return floats[word]
     return None
 
+def quick_convert(words_string):
+    words = words_string.split(",")
+    byte_array = b""
+    for word in words:
+        data = word.strip()[2:]
+        byte_array += bytearray.fromhex(data)
+    return byte_array.decode("EUC-JP")
+
 def word_convert(byte_string):
     try:
         words = byte_string.split(",")
