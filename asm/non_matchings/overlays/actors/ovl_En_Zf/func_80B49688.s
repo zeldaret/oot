@@ -1,3 +1,47 @@
+.late_rodata
+glabel jtbl_80B4A3A4
+.word L80B4985C
+.word L80B49864
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B4988C
+.word L80B498A0
+.word L80B49874
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B4987C
+.word L80B498A0
+.word L80B4986C
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B49894
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B4989C
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B498A0
+.word L80B49884
+
+.text
 glabel func_80B49688
 /* 05638 80B49688 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 0563C 80B4968C AFB10020 */  sw      $s1, 0x0020($sp)           

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A5B0A8
+    .asciz "../z_en_honotrap.c"
+    .balign 4
+
+glabel D_80A5B0BC
+    .asciz "../z_en_honotrap.c"
+    .balign 4
+
+glabel D_80A5B0D0
+    .asciz "../z_en_honotrap.c"
+    .balign 4
+
+.text
 glabel func_80A5ABFC
 /* 00FCC 80A5ABFC 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00FD0 80A5AC00 AFBF001C */  sw      $ra, 0x001C($sp)           

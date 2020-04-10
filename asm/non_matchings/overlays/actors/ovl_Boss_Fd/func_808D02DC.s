@@ -1,3 +1,36 @@
+.rdata
+glabel D_808D1DAC
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1DBC
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1DCC
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+.late_rodata
+glabel D_808D1FA8
+    .float 0.1
+    .balign 4
+
+glabel D_808D1FAC
+    .float 0.01
+    .balign 4
+
+glabel D_808D1FB0
+    .float 0.7
+    .balign 4
+
+glabel D_808D1FB4
+ .word 0x3A51B717
+glabel D_808D1FB8
+    .float -1.57079637051
+    .balign 4
+
+.text
 glabel func_808D02DC
 /* 0551C 808D02DC 27BDFE98 */  addiu   $sp, $sp, 0xFE98           ## $sp = FFFFFE98
 /* 05520 808D02E0 AFB60060 */  sw      $s6, 0x0060($sp)           

@@ -1,3 +1,26 @@
+.late_rodata
+glabel D_80B1FA5C
+ .word 0x44188000
+glabel D_80B1FA60
+    .float 1.2
+    .balign 4
+
+glabel D_80B1FA64
+    .float 0.6
+    .balign 4
+
+glabel D_80B1FA68
+    .float 1.2
+    .balign 4
+
+glabel D_80B1FA6C
+    .float 0.6
+    .balign 4
+
+glabel D_80B1FA70
+ .word 0x3C23D70A, 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel EnTorch2_Update
 /* 00444 80B1DDC4 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00448 80B1DDC8 AFBF0024 */  sw      $ra, 0x0024($sp)           

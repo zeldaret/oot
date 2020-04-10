@@ -1,3 +1,53 @@
+.rdata
+glabel D_8089D870
+    .asciz "Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_8089D8AC
+    .asciz "../z_bg_mizu_bwall.c"
+    .balign 4
+
+glabel D_8089D8C4
+    .asciz "Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_8089D900
+    .asciz "../z_bg_mizu_bwall.c"
+    .balign 4
+
+glabel D_8089D918
+    .asciz "Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_8089D954
+    .asciz "../z_bg_mizu_bwall.c"
+    .balign 4
+
+glabel D_8089D96C
+    .asciz "Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_8089D9A8
+    .asciz "../z_bg_mizu_bwall.c"
+    .balign 4
+
+glabel D_8089D9C0
+    .asciz "Error : コリジョンデータセット失敗(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_8089D9FC
+    .asciz "../z_bg_mizu_bwall.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8089DA5C
+.word L8089C5B0
+.word L8089C740
+.word L8089C8D4
+.word L8089CA5C
+.word L8089CBF0
+
+.text
 glabel BgMizuBwall_Init
 /* 0004C 8089C4CC 27BDFE40 */  addiu   $sp, $sp, 0xFE40           ## $sp = FFFFFE40
 /* 00050 8089C4D0 AFB00038 */  sw      $s0, 0x0038($sp)           

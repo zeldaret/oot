@@ -1,3 +1,17 @@
+.rdata
+glabel D_8089DA14
+    .asciz "../z_bg_mizu_bwall.c"
+    .balign 4
+
+glabel D_8089DA2C
+    .asciz "../z_bg_mizu_bwall.c"
+    .balign 4
+
+glabel D_8089DA44
+    .asciz "../z_bg_mizu_bwall.c"
+    .balign 4
+
+.text
 glabel BgMizuBwall_Draw
 /* 00F2C 8089D3AC 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00F30 8089D3B0 AFB10048 */  sw      $s1, 0x0048($sp)           
