@@ -473,7 +473,7 @@ typedef enum {
  *   00000008 uuuussss eeeeUUUU
  *   size = 0xC
  **/
-#define CMD_08(unk, startFrame, endFrame) \
+#define CMD_08(unk, startFrame, endFrame, unused) \
     CS_CMD_08, \
     (s32)(((unk & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
     (s32)(((endFrame & 0xFFFF) << 16) | (unused & 0xFFFF))
@@ -965,10 +965,10 @@ typedef enum {
 
 /**
  * ARGS
- *   CutsceneTerminatorDestination dest, s16 startFrame, s16 endFrame
+ *   CutsceneTerminatorDestination dest (d), s16 startFrame (s), s16 endFrame (e)
  * FORMAT
  *   Capital U is Unused
- *   000003E8 00000001 xxxxyyyy zzzzUUUU
+ *   000003E8 00000001 ddddssss eeeeUUUU
  *   size = 0x10
  **/
 #define CS_TERMINATOR(dest, startFrame, endFrame, unused) \
@@ -976,6 +976,6 @@ typedef enum {
     (s32)(((dest & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
     (s32)(((endFrame & 0xFFFF) << 16) | (unused & 0xFFFF))
 
-#define END_CUTSCENE 0xFFFFFFFF
+#define END_CUTSCENE 0xFFFFFFFF, 0x00000000
 
 #endif
