@@ -1,3 +1,9 @@
+/*
+ * File: z_en_ani.c
+ * Overlay: ovl_En_Ani
+ * Description: Kakariko Village Rooftop Man
+ */
+
 #include "z_en_ani.h"
 
 #define ROOM 0x00

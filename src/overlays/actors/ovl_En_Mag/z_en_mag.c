@@ -1,3 +1,9 @@
+/*
+ * File: z_en_mag.c
+ * Overlay: ovl_En_Mag
+ * Description: Title Screen Actor
+ */
+
 #include "z_en_mag.h"
 
 #define ROOM 0x00

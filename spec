@@ -885,7 +885,6 @@ beginseg
     name "ovl_Bg_Haka_Zou"
     include "build/src/overlays/actors/ovl_Bg_Haka_Zou/z_bg_haka_zou.o"
     include "build/data/overlays/actors/z_bg_haka_zou.data.o"
-    include "build/data/overlays/actors/z_bg_haka_zou.rodata.o"
     include "build/data/overlays/actors/z_bg_haka_zou.reloc.o"
 endseg
 
@@ -2175,7 +2174,6 @@ beginseg
     name "ovl_En_Ani"
     include "build/src/overlays/actors/ovl_En_Ani/z_en_ani.o"
     include "build/data/overlays/actors/z_en_ani.data.o"
-    include "build/data/overlays/actors/z_en_ani.rodata.o"
     include "build/data/overlays/actors/z_en_ani.reloc.o"
 endseg
 
@@ -3137,7 +3135,6 @@ beginseg
     name "ovl_En_Mag"
     include "build/src/overlays/actors/ovl_En_Mag/z_en_mag.o"
     include "build/data/overlays/actors/z_en_mag.data.o"
-    include "build/data/overlays/actors/z_en_mag.rodata.o"
     include "build/data/overlays/actors/z_en_mag.reloc.o"
 endseg
 
