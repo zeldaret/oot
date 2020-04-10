@@ -114,7 +114,7 @@ void func_8006390C(Input* input) {
     s32 i;
 
     regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
-    dpad = input->raw.pad & 0xF00;
+    dpad = input->raw.pad & (U_JPAD | L_JPAD | R_JPAD | D_JPAD);
     if (!~(input->raw.pad | ~L_TRIG) || !~(input->raw.pad | ~R_TRIG) || !~(input->raw.pad | ~START_BUTTON)) {
         input_combo = inputCombos;
         for (i = 0; i < REG_GROUPS; i++) {
