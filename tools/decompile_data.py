@@ -208,7 +208,7 @@ def main():
         for file in files:
             if i == 10:
                 return
-            if "z_fishing.rodata.s" == file and file.endswith(".rodata.s"):
+            if file.endswith(".rodata.s"):
                 path = os.path.join(root, file)
                 if process_data_file(path):
                     print("Processed " + path)

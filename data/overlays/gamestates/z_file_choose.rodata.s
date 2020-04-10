@@ -110,9 +110,13 @@ glabel D_80812CC8
     .balign 4
 
 glabel D_80812CE0
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80812CE4
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80812CE8
  .word 0x3ECCCCCD, 0x00000000
 glabel D_80812CF0
