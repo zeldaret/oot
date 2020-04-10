@@ -1,3 +1,37 @@
+.rdata
+glabel D_80B6525C
+    .asciz "KABE NO 1 = %d\n"
+    .balign 4
+
+glabel D_80B6526C
+    .asciz "KABE NO 2 = %d\n"
+    .balign 4
+
+glabel D_80B6527C
+    .asciz "XP1  = %f\n"
+    .balign 4
+
+glabel D_80B65288
+    .asciz "ZP1  = %f\n"
+    .balign 4
+
+.late_rodata
+glabel D_80B65428
+ .word 0x3FA66666
+glabel D_80B6542C
+ .word 0x454FD000
+glabel D_80B65430
+ .word 0x3C23D70A
+glabel D_80B65434
+ .word 0x3FA66666
+glabel D_80B65438
+ .word 0x454FD000
+glabel D_80B6543C
+ .word 0x3B03126F
+glabel D_80B65440
+ .word 0x3A83126F
+
+.text
 glabel func_80B63D84
 /* 013C4 80B63D84 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 013C8 80B63D88 3C0F80B6 */  lui     $t7, %hi(D_80B65204)       ## $t7 = 80B60000

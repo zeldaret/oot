@@ -6,7 +6,6 @@
 
 #include "z_bg_ganon_otyuka.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgGanonOtyuka_Init(BgGanonOtyuka* this, GlobalContext* globalCtx);
@@ -21,7 +20,6 @@ void func_808760DC(BgGanonOtyuka* this, GlobalContext* globalCtx);
 const ActorInit Bg_Ganon_Otyuka_InitVars = {
     ACTOR_BG_GANON_OTYUKA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GANON,
     sizeof(BgGanonOtyuka),

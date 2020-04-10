@@ -6,7 +6,6 @@
 
 #include "z_bg_spot09_obj.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void BgSpot09Obj_Init(BgSpot09Obj* this, GlobalContext* globalCtx);
@@ -21,7 +20,6 @@ static s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot09_Obj_InitVars = {
     ACTOR_BG_SPOT09_OBJ,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT09_OBJ,
     sizeof(BgSpot09Obj),

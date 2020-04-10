@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B65378
+    .asciz "../z_en_fhg.c"
+    .balign 4
+
+glabel D_80B65388
+    .asciz "../z_en_fhg.c"
+    .balign 4
+
+.text
 glabel EnfHG_Draw
 /* 024E4 80B64EA4 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 024E8 80B64EA8 AFBF0034 */  sw      $ra, 0x0034($sp)           

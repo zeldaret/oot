@@ -12,7 +12,6 @@ typedef struct {
     /* 0x0000 */ Actor actor;
 } ActorEnVase; // size = 0x014C
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void Init(ActorEnVase* this, GlobalContext* globalCtx);
@@ -20,10 +19,8 @@ static void Destroy(ActorEnVase* this, GlobalContext* globalCtx);
 static void Draw(ActorEnVase* this, GlobalContext* globalCtx);
 
 const ActorInit En_Vase_InitVars = {
-    ACTOR_EN_VASE,   ACTORTYPE_PROP,     ROOM,
-    FLAGS,           OBJECT_VASE,        sizeof(ActorEnVase),
-    (ActorFunc)Init, (ActorFunc)Destroy, (ActorFunc)Actor_Noop,
-    (ActorFunc)Draw,
+    ACTOR_EN_VASE,      ACTORTYPE_PROP,        FLAGS,           OBJECT_VASE, sizeof(ActorEnVase), (ActorFunc)Init,
+    (ActorFunc)Destroy, (ActorFunc)Actor_Noop, (ActorFunc)Draw,
 };
 
 extern u32 DL_VASE;

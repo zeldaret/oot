@@ -1,3 +1,15 @@
+.late_rodata
+glabel D_808B2EB8
+ .word 0x3DF5C28F
+glabel D_808B2EBC
+ .word 0x3CA3D70A
+glabel D_808B2EC0
+ .word 0x3E99999A
+glabel D_808B2EC4
+ .word 0x409CCCCD, 0x00000000, 0x00000000
+
+
+.text
 glabel BgSpot11Oasis_Update
 /* 002D4 808B2AC4 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 002D8 808B2AC8 AFB00020 */  sw      $s0, 0x0020($sp)           

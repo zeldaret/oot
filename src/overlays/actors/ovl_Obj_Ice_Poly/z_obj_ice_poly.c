@@ -6,7 +6,6 @@
 
 #include "z_obj_ice_poly.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ObjIcePoly_Init(ObjIcePoly* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ void ObjIcePoly_Draw(ObjIcePoly* this, GlobalContext* globalCtx);
 const ActorInit Obj_Ice_Poly_InitVars = {
     ACTOR_OBJ_ICE_POLY,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjIcePoly),

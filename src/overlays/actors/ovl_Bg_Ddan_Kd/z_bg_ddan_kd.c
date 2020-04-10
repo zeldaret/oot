@@ -6,7 +6,6 @@
 
 #include "z_bg_ddan_kd.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgDdanKd_Init(BgDdanKd* this, GlobalContext* globalCtx);
@@ -22,7 +21,6 @@ void func_80871838(BgDdanKd* this, GlobalContext* globalCtx);
 const ActorInit Bg_Ddan_Kd_InitVars = {
     ACTOR_BG_DDAN_KD,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_DDAN_OBJECTS,
     sizeof(BgDdanKd),

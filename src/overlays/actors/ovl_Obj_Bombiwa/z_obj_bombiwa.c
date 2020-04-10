@@ -6,7 +6,6 @@
 
 #include "z_obj_bombiwa.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx);
@@ -20,7 +19,6 @@ static void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx);
 const ActorInit Obj_Bombiwa_InitVars = {
     ACTOR_OBJ_BOMBIWA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_BOMBIWA,
     sizeof(ObjBombiwa),

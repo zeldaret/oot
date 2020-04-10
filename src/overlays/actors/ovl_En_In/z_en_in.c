@@ -1,6 +1,5 @@
 #include "z_en_in.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnIn_Init(EnIn* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnIn_Draw(EnIn* this, GlobalContext* globalCtx);
 const ActorInit En_In_InitVars = {
     ACTOR_EN_IN,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_IN,
     sizeof(EnIn),

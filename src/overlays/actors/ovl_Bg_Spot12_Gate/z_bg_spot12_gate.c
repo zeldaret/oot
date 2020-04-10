@@ -6,7 +6,6 @@
 
 #include "z_bg_spot12_gate.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void BgSpot12Gate_Init(BgSpot12Gate* this, GlobalContext* globalCtx);
@@ -26,7 +25,6 @@ static void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot12_Gate_InitVars = {
     ACTOR_BG_SPOT12_GATE,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT12_OBJ,
     sizeof(BgSpot12Gate),

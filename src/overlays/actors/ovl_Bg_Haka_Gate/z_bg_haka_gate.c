@@ -6,7 +6,6 @@
 
 #include "z_bg_haka_gate.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHakaGate_Init(BgHakaGate* this, GlobalContext* globalCtx);
@@ -29,7 +28,6 @@ void func_8087C85C(BgHakaGate* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_Gate_InitVars = {
     ACTOR_BG_HAKA_GATE,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaGate),

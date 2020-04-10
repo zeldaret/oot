@@ -1,6 +1,5 @@
 #include "z_en_go.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000039
 
 void EnGo_Init(EnGo* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnGo_Draw(EnGo* this, GlobalContext* globalCtx);
 const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(EnGo),

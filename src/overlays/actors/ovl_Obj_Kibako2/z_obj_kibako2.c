@@ -6,7 +6,6 @@
 
 #include "z_obj_kibako2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ObjKibako2_Init(ObjKibako2* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ void ObjKibako2_Draw(ObjKibako2* this, GlobalContext* globalCtx);
 const ActorInit Obj_Kibako2_InitVars = {
     ACTOR_OBJ_KIBAKO2,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_KIBAKO2,
     sizeof(ObjKibako2),

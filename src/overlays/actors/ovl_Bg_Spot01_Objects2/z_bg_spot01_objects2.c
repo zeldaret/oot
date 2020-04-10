@@ -6,7 +6,6 @@
 
 #include "z_bg_spot01_objects2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgSpot01Objects2_Init(BgSpot01Objects2* this, GlobalContext* globalCtx);
@@ -21,7 +20,6 @@ void func_808AC4A4(BgSpot01Objects2* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot01_Objects2_InitVars = {
     ACTOR_BG_SPOT01_OBJECTS2,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgSpot01Objects2),

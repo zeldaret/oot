@@ -1,3 +1,9 @@
+.rdata
+glabel D_80AC0454
+    .asciz "[31m☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+.text
 glabel func_80ABEF2C
 /* 0020C 80ABEF2C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00210 80ABEF30 AFBF001C */  sw      $ra, 0x001C($sp)           

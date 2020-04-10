@@ -1,6 +1,5 @@
 #include "z_en_ani.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnAni_Init(EnAni* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnAni_Draw(EnAni* this, GlobalContext* globalCtx);
 const ActorInit En_Ani_InitVars = {
     ACTOR_EN_ANI,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_ANI,
     sizeof(EnAni),

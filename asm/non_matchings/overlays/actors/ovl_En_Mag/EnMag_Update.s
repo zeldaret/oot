@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80AA5F30
+ .word 0x3F4CCCCD
+glabel D_80AA5F34
+ .word 0x4019999A, 0x00000000, 0x00000000
+
+
+.text
 glabel EnMag_Update
 /* 002A0 80AA3DA0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
 /* 002A4 80AA3DA4 8DCEF9B4 */  lw      $t6, -0x064C($t6)          ## 8015F9B4

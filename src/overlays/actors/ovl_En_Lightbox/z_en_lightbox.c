@@ -6,7 +6,6 @@
 
 #include "z_en_lightbox.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx);
@@ -17,7 +16,6 @@ static void EnLightbox_Draw(EnLightbox* this, GlobalContext* globalCtx);
 const ActorInit En_Lightbox_InitVars = {
     ACTOR_EN_LIGHTBOX,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_LIGHTBOX,
     sizeof(EnLightbox),

@@ -6,7 +6,6 @@
 
 #include "z_bg_hidan_firewall.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx);
@@ -25,7 +24,6 @@ extern Gfx D_0600DA80[];
 const ActorInit Bg_Hidan_Firewall_InitVars = {
     ACTOR_BG_HIDAN_FIREWALL,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanFirewall),

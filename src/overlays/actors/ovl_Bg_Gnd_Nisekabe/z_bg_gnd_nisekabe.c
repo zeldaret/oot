@@ -6,7 +6,6 @@
 
 #include "z_bg_gnd_nisekabe.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void BgGndNisekabe_Init(BgGndNisekabe* this, GlobalContext* globalCtx);
@@ -17,7 +16,6 @@ static void BgGndNisekabe_Draw(BgGndNisekabe* this, GlobalContext* globalCtx);
 const ActorInit Bg_Gnd_Nisekabe_InitVars = {
     ACTOR_BG_GND_NISEKABE,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndNisekabe),

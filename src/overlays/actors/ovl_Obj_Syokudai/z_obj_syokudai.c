@@ -1,6 +1,5 @@
 #include "z_obj_syokudai.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000410
 
 void ObjSyokudai_Init(ObjSyokudai* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void ObjSyokudai_Draw(ObjSyokudai* this, GlobalContext* globalCtx);
 const ActorInit Obj_Syokudai_InitVars = {
     ACTOR_OBJ_SYOKUDAI,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_SYOKUDAI,
     sizeof(ObjSyokudai),

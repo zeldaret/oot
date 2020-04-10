@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80BA6F40
- .word 0x1B5B3333, 0x6D000000
+    .asciz "[33m"
+    .balign 4
+
 glabel D_80BA6F48
     .asciz "z_oceff_spot  太陽の歌フラグ\n"
     .balign 4
@@ -16,7 +18,9 @@ glabel D_80BA6F48
 glabel D_80BA6F68
  .word 0x1B5B6D00
 glabel D_80BA6F6C
- .word 0x1B5B3333, 0x6D000000
+    .asciz "[33m"
+    .balign 4
+
 glabel D_80BA6F74
     .asciz "z_oceff_spot  オカリナ終了\n"
     .balign 4

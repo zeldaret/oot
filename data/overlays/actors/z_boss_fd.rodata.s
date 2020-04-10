@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_808D1C30
- .word 0x4D4F4445, 0x2025640A, 0x00000000
+    .asciz "MODE %d\n"
+    .balign 4
+
 glabel D_808D1C3C
     .asciz "WAY_SPD X = %f\n"
     .balign 4
@@ -86,7 +88,9 @@ glabel D_808D1D7C
     .balign 4
 
 glabel D_808D1D8C
- .word 0x46442044, 0x52415720, 0x454E440A, 0x00000000
+    .asciz "FD DRAW END\n"
+    .balign 4
+
 glabel D_808D1D9C
     .asciz "FD DRAW END2\n"
     .balign 4
@@ -126,7 +130,9 @@ glabel D_808D1E18
 glabel D_808D1E1C
  .word 0x4248430A, 0x00000000
 glabel D_808D1E24
- .word 0x42484345, 0x0A000000
+    .asciz "BHCE\n"
+    .balign 4
+
 glabel D_808D1E2C
  .word 0x534B0A00
 glabel D_808D1E30

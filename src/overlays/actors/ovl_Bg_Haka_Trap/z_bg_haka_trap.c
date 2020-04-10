@@ -6,7 +6,6 @@
 
 #include "z_bg_haka_trap.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHakaTrap_Init(BgHakaTrap* this, GlobalContext* globalCtx);
@@ -31,7 +30,6 @@ void func_80880C0C(BgHakaTrap* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_Trap_InitVars = {
     ACTOR_BG_HAKA_TRAP,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaTrap),

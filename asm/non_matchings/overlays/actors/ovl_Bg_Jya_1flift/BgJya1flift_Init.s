@@ -1,3 +1,9 @@
+.rdata
+glabel D_808931A8
+    .asciz "(１Ｆリフト)(flag %d)(room %d)\n"
+    .balign 4
+
+.text
 glabel BgJya1flift_Init
 /* 000E0 80892C40 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 000E4 80892C44 AFA50024 */  sw      $a1, 0x0024($sp)           

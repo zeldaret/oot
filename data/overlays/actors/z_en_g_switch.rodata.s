@@ -16,7 +16,9 @@ glabel D_80A237B0
     .balign 4
 
 glabel D_80A237E0
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A237E4
     .asciz "[32m☆☆☆☆☆ 親スイッチ発生 ☆☆☆☆☆ %x\n[m"
     .balign 4
@@ -30,13 +32,17 @@ glabel D_80A23818
 .balign 4
 
 glabel D_80A2384C
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A23850
     .asciz "[32m☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n[m"
     .balign 4
 
 glabel D_80A23890
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A23894
     .asciz "[32m☆☆☆☆☆ 子スイッチ発生 ☆☆☆☆☆ %x\n[m"
     .balign 4
@@ -48,7 +54,9 @@ glabel D_80A238C8
     .balign 4
 
 glabel D_80A23908
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A2390C
     .asciz "[32m☆☆☆☆☆ やぶさめぶち抜き壷 ☆☆☆☆☆ \n[m"
     .balign 4

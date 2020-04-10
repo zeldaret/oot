@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80A7DF40
- .word 0x1B5B3433, 0x3B33306D, 0x00000000
+    .asciz "[43;30m"
+    .balign 4
+
 glabel D_80A7DF4C
     .asciz "warning:目標 Actor が NULL (%s %d)\n"
     .balign 4
@@ -20,7 +22,9 @@ glabel D_80A7DF70
 glabel D_80A7DF80
  .word 0x1B5B6D00
 glabel D_80A7DF84
- .word 0x1B5B3433, 0x3B33306D, 0x00000000
+    .asciz "[43;30m"
+    .balign 4
+
 glabel D_80A7DF90
     .asciz "BG 抜け？ Actor_delete します(%s %d)\n"
     .balign 4

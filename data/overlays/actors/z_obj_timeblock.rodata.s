@@ -28,6 +28,8 @@ glabel D_80BA0C18
     .balign 4
 
 glabel D_80BA0C30
- .word 0x2E2E2F7A, 0x5F6F626A, 0x5F74696D, 0x65626C6F, 0x636B2E63, 0x00000000, 0x00000000, 0x00000000
+    .asciz "../z_obj_timeblock.c"
+    .balign 4
 
+.align 4
 

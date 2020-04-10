@@ -16,7 +16,6 @@ typedef struct {
     /* 0x015C */ f32 unk_15C;
 } BgSpot01Fusya; // size = 0x0160
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void BgSpot01Fusya_Init(BgSpot01Fusya* this, GlobalContext* globalCtx);
@@ -29,7 +28,6 @@ static void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot01_Fusya_InitVars = {
     ACTOR_BG_SPOT01_FUSYA,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT01_OBJECTS,
     sizeof(BgSpot01Fusya),

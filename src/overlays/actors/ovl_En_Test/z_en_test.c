@@ -1,6 +1,5 @@
 #include "z_en_test.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnTest_Init(EnTest* this, GlobalContext* globalCtx);
@@ -42,7 +41,6 @@ void func_80863CC4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 const ActorInit En_Test_InitVars = {
     ACTOR_EN_TEST,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_SK2,
     sizeof(EnTest),

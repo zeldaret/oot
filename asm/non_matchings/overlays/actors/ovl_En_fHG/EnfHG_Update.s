@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_80B65454
+ .word 0x44BB8000, 0x00000000, 0x00000000
+
+
+.text
 glabel EnfHG_Update
 /* 02340 80B64D00 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 02344 80B64D04 AFBF001C */  sw      $ra, 0x001C($sp)           

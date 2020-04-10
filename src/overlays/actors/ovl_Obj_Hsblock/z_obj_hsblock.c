@@ -1,6 +1,5 @@
 #include "z_obj_hsblock.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ObjHsblock_Init(ObjHsblock* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void ObjHsblock_Draw(ObjHsblock* this, GlobalContext* globalCtx);
 const ActorInit Obj_Hsblock_InitVars = {
     ACTOR_OBJ_HSBLOCK,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_D_HSBLOCK,
     sizeof(ObjHsblock),

@@ -12,7 +12,6 @@ typedef struct {
     /* 0x0164 */ ActorFunc actionFunc;
 } BgMizuUzu; // size = 0x0168
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void BgMizuUzu_Init(BgMizuUzu* this, GlobalContext* globalCtx);
@@ -23,7 +22,6 @@ static void BgMizuUzu_Draw(BgMizuUzu* this, GlobalContext* globalCtx);
 const ActorInit Bg_Mizu_Uzu_InitVars = {
     ACTOR_BG_MIZU_UZU,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuUzu),

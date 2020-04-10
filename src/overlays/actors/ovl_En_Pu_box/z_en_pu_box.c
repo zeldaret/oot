@@ -6,7 +6,6 @@
 
 #include "z_en_pu_box.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void EnPubox_Init(EnPubox* this, GlobalContext* globalCtx);
@@ -17,7 +16,6 @@ static void EnPubox_Draw(EnPubox* this, GlobalContext* globalCtx);
 const ActorInit En_Pu_box_InitVars = {
     ACTOR_EN_PU_BOX,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_PU_BOX,
     sizeof(EnPubox),

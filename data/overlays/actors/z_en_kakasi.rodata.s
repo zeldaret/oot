@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80A8FE30
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A8FE34
     .asciz "[33m☆☆☆☆☆ Ｌｅｔ’ｓ ＤＡＮＣＥ！ ☆☆☆☆☆ %f\n[m"
     .balign 4
@@ -22,7 +24,9 @@ glabel D_80A8FE98
     .balign 4
 
 glabel D_80A8FEB8
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A8FEBC
     .asciz "[33m☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n[m"
     .balign 4

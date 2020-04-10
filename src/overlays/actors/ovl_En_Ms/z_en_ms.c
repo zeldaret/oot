@@ -19,7 +19,6 @@ typedef struct {
     /* 0x024C */ s16 activeTimer;
 } EnMs; // size = 0x0250
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 static void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx);
@@ -35,7 +34,6 @@ static void EnMs_Draw(EnMs* this, GlobalContext* globalCtx);
 const ActorInit En_Ms_InitVars = {
     ACTOR_EN_MS,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_MS,
     sizeof(EnMs),

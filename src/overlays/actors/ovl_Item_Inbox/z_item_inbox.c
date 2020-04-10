@@ -13,7 +13,6 @@ typedef struct {
     /* 0x014C */ ActorFunc updateFunc;
 } ActorItemInbox; // size = 0x0154
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 static void Init(ActorItemInbox* this, GlobalContext* globalCtx);
@@ -23,16 +22,9 @@ static void Update(ActorItemInbox* this, GlobalContext* globalCtx);
 static void Draw(ActorItemInbox* this, GlobalContext* globalCtx);
 
 const ActorInit Item_Inbox_InitVars = {
-    ACTOR_ITEM_INBOX,
-    ACTORTYPE_NPC,
-    ROOM,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ActorItemInbox),
-    (ActorFunc)Init,
-    (ActorFunc)Destroy,
-    (ActorFunc)Update,
-    (ActorFunc)Draw,
+    ACTOR_ITEM_INBOX,     ACTORTYPE_NPC,          FLAGS,
+    OBJECT_GAMEPLAY_KEEP, sizeof(ActorItemInbox), (ActorFunc)Init,
+    (ActorFunc)Destroy,   (ActorFunc)Update,      (ActorFunc)Draw,
 };
 
 static void Init(ActorItemInbox* this, GlobalContext* globalCtx) {

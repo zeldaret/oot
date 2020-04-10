@@ -1,6 +1,5 @@
 #include "z_bg_spot07_taki.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgSpot07Taki_Init(BgSpot07Taki* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgSpot07Taki_Draw(BgSpot07Taki* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot07_Taki_InitVars = {
     ACTOR_BG_SPOT07_TAKI,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT07_OBJECT,
     sizeof(BgSpot07Taki),

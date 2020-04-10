@@ -16,7 +16,6 @@ typedef struct {
     /* 0x0150 */ char unk_150[0x14];
 } ActorMenkuriKaiten; // size = 0x0164
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 static void Init(ActorMenkuriKaiten* this, GlobalContext* globalCtx);
@@ -27,7 +26,6 @@ static void Draw(ActorMenkuriKaiten* this, GlobalContext* globalCtx);
 const ActorInit Bg_Menkuri_Kaiten_InitVars = {
     ACTOR_BG_MENKURI_KAITEN,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_MENKURI_OBJECTS,
     sizeof(ActorMenkuriKaiten),

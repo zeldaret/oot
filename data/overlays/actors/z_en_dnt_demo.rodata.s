@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_809F16B0
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_809F16B4
     .asciz "[32m☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n[m"
     .balign 4
@@ -52,7 +54,9 @@ glabel D_809F183C
     .balign 4
 
 glabel D_809F186C
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_809F1870
     .asciz "[32m☆☆☆☆☆ 各インデックス１ ☆☆☆☆☆ %d\n[m"
     .balign 4
@@ -76,7 +80,9 @@ glabel D_809F1944
     .balign 4
 
 glabel D_809F1978
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_809F197C
  .word 0x457D2000
 glabel jtbl_809F1980

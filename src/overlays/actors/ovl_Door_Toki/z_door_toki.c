@@ -14,7 +14,6 @@ typedef struct {
     /* 0x0150 */ u8 unk_150[0x18];
 } ActorDoorToki; // size = 0x0168
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void Init(ActorDoorToki* this, GlobalContext* globalCtx);
@@ -22,7 +21,7 @@ static void Destroy(ActorDoorToki* this, GlobalContext* globalCtx);
 static void Update(ActorDoorToki* this, GlobalContext* globalCtx);
 
 const ActorInit Door_Toki_InitVars = {
-    ACTOR_DOOR_TOKI,    ACTORTYPE_BG,      ROOM, FLAGS, OBJECT_TOKI_OBJECTS, sizeof(ActorDoorToki), (ActorFunc)Init,
+    ACTOR_DOOR_TOKI,    ACTORTYPE_BG,      FLAGS, OBJECT_TOKI_OBJECTS, sizeof(ActorDoorToki), (ActorFunc)Init,
     (ActorFunc)Destroy, (ActorFunc)Update, NULL,
 };
 

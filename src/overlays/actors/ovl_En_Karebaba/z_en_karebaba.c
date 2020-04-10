@@ -1,6 +1,5 @@
 #include "z_en_karebaba.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnKarebaba_Init(EnKarebaba* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnKarebaba_Draw(EnKarebaba* this, GlobalContext* globalCtx);
 const ActorInit En_Karebaba_InitVars = {
     ACTOR_EN_KAREBABA,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_DEKUBABA,
     sizeof(EnKarebaba),

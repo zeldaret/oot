@@ -1,6 +1,5 @@
 #include "z_bg_spot00_hanebasi.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgSpot00Hanebasi_Init(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgSpot00Hanebasi_Draw(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot00_Hanebasi_InitVars = {
     ACTOR_BG_SPOT00_HANEBASI,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT00_OBJECTS,
     sizeof(BgSpot00Hanebasi),

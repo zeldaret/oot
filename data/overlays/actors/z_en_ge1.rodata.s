@@ -44,6 +44,8 @@ glabel D_80A328A8
     .balign 4
 
 glabel D_80A328B8
- .word 0x2E2E2F7A, 0x5F656E5F, 0x6765312E, 0x63000000, 0x00000000, 0x00000000
+    .asciz "../z_en_ge1.c"
+    .balign 4
 
 
+.align 4

@@ -1,3 +1,17 @@
+.rdata
+glabel D_808B2E70
+    .asciz "../z_bg_spot11_oasis.c"
+    .balign 4
+
+glabel D_808B2E88
+    .asciz "../z_bg_spot11_oasis.c"
+    .balign 4
+
+glabel D_808B2EA0
+    .asciz "../z_bg_spot11_oasis.c"
+    .balign 4
+
+.text
 glabel func_808B2CA8
 /* 004B8 808B2CA8 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 004BC 808B2CAC 3C0E0001 */  lui     $t6, 0x0001                ## $t6 = 00010000

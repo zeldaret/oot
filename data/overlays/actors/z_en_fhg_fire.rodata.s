@@ -32,7 +32,9 @@ glabel D_80A11890
     .balign 4
 
 glabel D_80A118A0
- .word 0x464C4153, 0x48202121, 0x0A000000
+    .asciz "FLASH !!\n"
+    .balign 4
+
 glabel D_80A118AC
     .asciz "F_FIRE_MODE %d\n"
     .balign 4
@@ -54,9 +56,13 @@ glabel D_80A118F0
     .balign 4
 
 glabel D_80A11910
- .word 0x45464320, 0x310A0000
+    .asciz "EFC 1\n"
+    .balign 4
+
 glabel D_80A11918
- .word 0x45464320, 0x320A0000
+    .asciz "EFC 2\n"
+    .balign 4
+
 glabel D_80A11920
     .asciz "../z_en_fhg_fire.c"
     .balign 4

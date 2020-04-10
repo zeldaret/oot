@@ -1,3 +1,15 @@
+.rdata
+glabel D_80B65324
+    .asciz "REVISE !!\n"
+    .balign 4
+
+.late_rodata
+glabel D_80B65444
+ .word 0x3FA66666
+glabel D_80B65448
+ .word 0x454FD000
+
+.text
 glabel func_80B6476C
 /* 01DAC 80B6476C 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 01DB0 80B64770 AFB00040 */  sw      $s0, 0x0040($sp)

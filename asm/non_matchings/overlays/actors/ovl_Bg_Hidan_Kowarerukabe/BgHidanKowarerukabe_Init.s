@@ -1,3 +1,17 @@
+.rdata
+glabel D_8088AE90
+    .asciz "Error : 炎の神殿 壊れる壁 の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_8088AEE0
+    .asciz "../z_bg_hidan_kowarerukabe.c"
+    .balign 4
+
+glabel D_8088AF00
+    .asciz "(hidan 爆弾で壊れる 壁 床)(arg_data 0x%04x)\n"
+    .balign 4
+
+.text
 glabel BgHidanKowarerukabe_Init
 /* 00158 8088A178 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0015C 8088A17C AFBF001C */  sw      $ra, 0x001C($sp)           

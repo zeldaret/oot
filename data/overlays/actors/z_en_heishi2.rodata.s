@@ -8,19 +8,25 @@
 .section .rodata
 
 glabel D_80A54F40
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A54F44
     .asciz "[35m ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n[m"
     .balign 4
 
 glabel D_80A54F7C
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A54F80
     .asciz "[32m ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n[m"
     .balign 4
 
 glabel D_80A54FB4
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A54FB8
     .asciz "[32m ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n[m"
     .balign 4

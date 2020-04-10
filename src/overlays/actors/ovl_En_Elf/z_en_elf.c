@@ -1,6 +1,5 @@
 #include "z_en_elf.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000030
 
 void EnElf_Init(EnElf* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnElf_Draw(EnElf* this, GlobalContext* globalCtx);
 const ActorInit En_Elf_InitVars = {
     ACTOR_EN_ELF,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnElf),

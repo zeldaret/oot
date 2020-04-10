@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_808B6A30
- .word 0x1B5B3336, 0x6D25661B, 0x5B6D0A00
+    .asciz "[36m%f[m\n"
+    .balign 4
+
 glabel D_808B6A3C
     .asciz "(ｓｐｏｔ１６ ドーナツ雲)(arg_data 0x%04x)\n"
     .balign 4

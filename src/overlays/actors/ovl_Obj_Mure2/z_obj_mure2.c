@@ -6,7 +6,6 @@
 
 #include "z_obj_mure2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ObjMure2_Init(ObjMure2* this, GlobalContext* globalCtx);
@@ -16,7 +15,6 @@ void ObjMure2_Update(ObjMure2* this, GlobalContext* globalCtx);
 const ActorInit Obj_Mure2_InitVars = {
     ACTOR_OBJ_MURE2,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjMure2),

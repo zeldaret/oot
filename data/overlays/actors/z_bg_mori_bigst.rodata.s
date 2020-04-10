@@ -22,7 +22,9 @@ glabel D_808A1558
 glabel D_808A15A4
  .word 0xA1DAA5D3, 0xA5C3A5B0, 0xA5B9A5BF, 0xA5EBA5D5, 0xA5A9A5B9, 0xB8B0B7BF, 0xC5B7B0E6, 0xA1DB20A5, 0xD0A5F3A5, 0xAFB4EDB8, 0xB1A1AA0A, 0x00000000
 glabel D_808A15D4
- .word 0x25732025, 0x640A0000
+    .asciz "%s %d\n"
+    .balign 4
+
 glabel D_808A15DC
     .asciz "../z_bg_mori_bigst.c"
     .balign 4

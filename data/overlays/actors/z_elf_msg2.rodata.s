@@ -52,6 +52,8 @@ glabel D_809ADDF4
     .balign 4
 
 glabel D_809ADE04
- .word 0x2E2E2F7A, 0x5F656C66, 0x5F6D7367, 0x322E6300, 0x00000000, 0x00000000, 0x00000000
+    .asciz "../z_elf_msg2.c"
+    .balign 4
 
+.align 4
 

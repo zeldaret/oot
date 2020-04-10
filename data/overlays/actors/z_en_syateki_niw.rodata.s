@@ -8,13 +8,17 @@
 .section .rodata
 
 glabel D_80B136E0
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B136E4
     .asciz "[32m☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n[m"
     .balign 4
 
 glabel D_80B13710
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B13714
     .asciz "[32m☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n[m"
     .balign 4

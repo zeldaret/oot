@@ -12,25 +12,33 @@ glabel D_80888EA0
 glabel D_80888ED4
  .word 0xA1DAA5CF, 0xA5F3A5DE, 0xA1BCA5B9, 0xA5C6A5C3, 0xA5D7A1DB, 0x20C2ADBE, 0xECBBBAA4, 0xECA4CAA4, 0xA4A1AAA1, 0xAA0A0000
 glabel D_80888EFC
- .word 0x25732025, 0x640A0000
+    .asciz "%s %d\n"
+    .balign 4
+
 glabel D_80888F04
     .asciz "../z_bg_hidan_hamstep.c"
     .balign 4
 
 glabel D_80888F1C
- .word 0x41282564, 0x290A0000
+    .asciz "A(%d)\n"
+    .balign 4
+
 glabel D_80888F24
     .asciz "【ハンマーステップ】 arg_data おかしい (arg_data = %d)"
     .balign 4
 
 glabel D_80888F5C
- .word 0x25732025, 0x640A0000
+    .asciz "%s %d\n"
+    .balign 4
+
 glabel D_80888F64
     .asciz "../z_bg_hidan_hamstep.c"
     .balign 4
 
 glabel D_80888F7C
- .word 0x42282564, 0x290A0000
+    .asciz "B(%d)\n"
+    .balign 4
+
 glabel D_80888F84
     .asciz "../z_bg_hidan_hamstep.c"
     .balign 4

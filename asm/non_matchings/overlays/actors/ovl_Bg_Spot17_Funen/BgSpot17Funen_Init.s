@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_808B7630
     .asciz "spot17 obj. 噴煙 (arg_data 0x%04x)\n"
     .balign 4

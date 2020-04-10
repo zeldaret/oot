@@ -6,7 +6,6 @@
 
 #include "z_bg_gnd_soulmeiro.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgGndSoulmeiro_Init(BgGndSoulmeiro* this, GlobalContext* globalCtx);
@@ -22,7 +21,6 @@ void func_8087B350(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 const ActorInit Bg_Gnd_Soulmeiro_InitVars = {
     ACTOR_BG_GND_SOULMEIRO,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndSoulmeiro),

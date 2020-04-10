@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_808B85F0
- .word 0x1B5B3331, 0x6D000000
+    .asciz "[31m"
+    .balign 4
+
 glabel D_808B85F8
     .asciz "Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n"
     .balign 4

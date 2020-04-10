@@ -30,7 +30,9 @@ glabel D_80AC8F80
 glabel D_80AC8F90
  .word 0xA4AACCCC, 0xB2B02020, 0x20202020, 0x00000000
 glabel D_80AC8FA0
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80AC8FAC
     .asciz "引数がおかしいよ(arg_data=%d)！！\n"
     .balign 4
@@ -44,7 +46,9 @@ glabel D_80AC8FD8
     .balign 4
 
 glabel D_80AC8FE8
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80AC8FF4
     .asciz "バンクが無いよ！！(%s)\n"
     .balign 4
@@ -58,7 +62,9 @@ glabel D_80AC9014
     .balign 4
 
 glabel D_80AC9024
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80AC9030
     .asciz "予備バンクが無いよ！！(%s)\n"
     .balign 4
@@ -178,7 +184,9 @@ glabel D_80AC930C
     .balign 4
 
 glabel D_80AC9330
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80AC933C
  .word 0xA1FAA1FA, 0xA1FA20B7, 0xD9B9F0A1, 0xAAA1AA20, 0xC3AAA4AC, 0xA4CAA4A4, 0xA4E8A1AA, 0xA1AA20A1, 0xFAA1FAA1, 0xFA0A0000
 glabel D_80AC9364

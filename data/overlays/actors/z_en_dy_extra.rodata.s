@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_809FFC70
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_809FFC74
     .asciz "[33m☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n[m"
     .balign 4

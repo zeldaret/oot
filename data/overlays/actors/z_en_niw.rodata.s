@@ -28,9 +28,13 @@ glabel D_80AB87A4
 .balign 4
 
 glabel D_80AB87D4
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80AB87D8
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80AB87DC
     .asciz "[32m ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n[m"
     .balign 4
@@ -98,9 +102,13 @@ glabel D_80AB89B8
 .balign 4
 
 glabel D_80AB89E8
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80AB89EC
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80AB89F0
     .asciz "[33m☆☆☆☆☆ ぶくぶく ☆☆☆☆☆ \n[m"
     .balign 4
@@ -108,7 +116,9 @@ glabel D_80AB89F0
 .balign 4
 
 glabel D_80AB8A1C
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80AB8A20
     .asciz "../z_en_niw.c"
     .balign 4

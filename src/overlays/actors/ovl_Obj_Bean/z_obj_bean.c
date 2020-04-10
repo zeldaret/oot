@@ -1,6 +1,5 @@
 #include "z_obj_bean.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00400000
 
 void ObjBean_Init(ObjBean* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void ObjBean_Draw(ObjBean* this, GlobalContext* globalCtx);
 const ActorInit Obj_Bean_InitVars = {
     ACTOR_OBJ_BEAN,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_MAMENOKI,
     sizeof(ObjBean),

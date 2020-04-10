@@ -12,7 +12,9 @@ glabel D_80B17DE0
     .balign 4
 
 glabel D_80B17E10
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B17E14
     .asciz "[35m☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n[m"
     .balign 4

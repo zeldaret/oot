@@ -15,7 +15,6 @@ typedef struct {
     /* 0x152  */ s16 unk_152;
 } ObjMakekinsuta; // size = 0x0154
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void ObjMakekinsuta_Init(ObjMakekinsuta* this, GlobalContext* globalCtx);
@@ -26,7 +25,6 @@ static void func_80B983D4(ObjMakekinsuta* this, GlobalContext* globalCtx);
 const ActorInit Obj_Makekinsuta_InitVars = {
     ACTOR_OBJ_MAKEKINSUTA,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjMakekinsuta),

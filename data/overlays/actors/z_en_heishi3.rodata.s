@@ -16,6 +16,8 @@ glabel D_80A55FC4
     .balign 4
 
 glabel D_80A55FEC
- .word 0x1B5B3332, 0x6DA1F9A1, 0xF9A1F9A1, 0xF9A1F920, 0xC8AFB8AB, 0xA1AA20A1, 0xF9A1F9A1, 0xF9A1F9A1, 0xF9200A1B, 0x5B6D0000, 0x00000000, 0x00000000, 0x00000000
+    .asciz "[32m☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n[m"
+    .balign 4
 
+.align 4
 

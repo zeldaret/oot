@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B39CE4
+    .asciz "[32m ☆☆☆☆☆ まだコドモなの！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B39D18
+    .asciz "[33m ☆☆☆☆☆ アダルトなの。。。 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B39D4C
+    .asciz "[35m ☆☆☆☆☆ はずれ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_80B395F0
 /* 00500 80B395F0 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00504 80B395F4 AFB0002C */  sw      $s0, 0x002C($sp)           

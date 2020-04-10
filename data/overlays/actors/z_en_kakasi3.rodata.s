@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80A91D60
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A91D64
     .asciz "[33m☆☆☆☆☆ おーボヌール ☆☆☆☆☆ \n[m"
     .balign 4
@@ -18,13 +20,17 @@ glabel D_80A91D94
     .balign 4
 
 glabel D_80A91DC0
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A91DC4
     .asciz "[36m☆☆☆☆☆ これで、他の奴もＯＫ！だ！ ☆☆☆☆☆ %d\n[m"
     .balign 4
 
 glabel D_80A91E04
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A91E08
     .asciz "[33m☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n[m"
     .balign 4

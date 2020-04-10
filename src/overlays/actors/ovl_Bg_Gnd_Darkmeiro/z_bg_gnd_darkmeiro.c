@@ -6,7 +6,6 @@
 
 #include "z_bg_gnd_darkmeiro.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void func_80878C30(BgGndDarkmeiro* this, GlobalContext* globalCtx);
@@ -25,7 +24,6 @@ void func_80879334(BgGndDarkmeiro* this, GlobalContext* globalCtx);
 const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
     ACTOR_BG_GND_DARKMEIRO,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndDarkmeiro),
