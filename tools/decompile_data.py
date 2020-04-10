@@ -51,9 +51,9 @@ def is_zeros(stuff):
     return True
 
 
-def try_float(bytes):
-    if bytes[0] in floats:
-        return floats[bytes[0]]
+def try_float(word):
+    if word in floats:
+        return floats[word]
     return None
 
 def word_convert(byte_string):
@@ -75,7 +75,7 @@ def word_convert(byte_string):
         if res is not None:
             return "    .asciz \"" + res + "\"\n    .balign 4\n"
     if len(words) == 1 or is_zeros(words[1:]):
-        res = try_float(byte_array)
+        res = try_float(word.strip())
         if res is not None:
             return "    .float \"" + res + "\"\n    .balign 4\n"
 
@@ -109,7 +109,7 @@ def main():
         for file in files:
             if i == 10:
                 return
-            if file.endswith(".rodata.s"):
+            if "z_fishing.rodata.s" == file and file.endswith(".rodata.s"):
                 path = os.path.join(root, file)
                 if process_data_file(path):
                     print("Processed " + path)

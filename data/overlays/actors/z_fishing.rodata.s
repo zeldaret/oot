@@ -168,9 +168,33 @@ glabel D_80B7B270
     .balign 4
 
 glabel D_80B7B280
- .word 0x2E2E2F7A, 0x5F666973, 0x68696E67, 0x2E630000, 0x1B5B3332, 0x6D000000, 0x1B5B3333, 0x6D000000, 0x706C6179, 0x73202578, 0x0A000000, 0x79732025, 0x780A0000, 0x1B5B6D00
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B290
+    .asciz "\x1b[32m"
+    .balign 4
+
+glabel D_80B7B298
+    .asciz "\x1b[33m"
+    .balign 4
+
+glabel D_80B7B2A0
+    .asciz "plays %x\n"
+    .balign 4
+
+glabel D_80B7B2AC
+    .asciz "ys %x\n"
+    .balign 4
+
+glabel D_80B7B2B4
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80B7B2B8
- .word 0x1B5B3332, 0x6D000000
+    .asciz "\x1b[32m"
+    .balign 4
+
 glabel D_80B7B2C0
     .asciz "zelda_time %x\n"
     .balign 4
