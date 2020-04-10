@@ -8,6 +8,18 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = script_dir + "/../"
 data_dir = root_dir + "data/"
 
+floats = {}
+floats["0x3F800000"] = "1.0"
+floats["0x46EC7A00"] = "30269.0"
+floats["0x46ECC600"] = "30307.0"
+floats["0x46ECE600"] = "30323.0"
+floats["0x3B23D70A"] = "0.0025"
+floats["0x3D4CCCCD"] = "0.05"
+floats["0x3DCCCCCD"] = "0.1"
+floats["0x451C4000"] = "2500.0"
+floats["0x453B8000"] = "3000.0"
+floats["0x44BB8000"] = "1500.0"
+
 
 def try_text(text_bytes):
     bad_bytes = 0
@@ -39,6 +51,11 @@ def is_zeros(stuff):
     return True
 
 
+def try_float(bytes):
+    if bytes[0] in floats:
+        return floats[bytes[0]]
+    return None
+
 def word_convert(byte_string):
     try:
         words = byte_string.split(",")
@@ -56,7 +73,11 @@ def word_convert(byte_string):
     if len(words) > 1 and not is_zeros(words[1:]):
         res = try_text(byte_array)
         if res is not None:
-            return res
+            return "    .asciz \"" + res + "\"\n    .balign 4\n"
+    if len(words) == 1 or is_zeros(words[1:]):
+        res = try_float(byte_array)
+        if res is not None:
+            return "    .float \"" + res + "\"\n    .balign 4\n"
 
     return byte_string
 
@@ -66,7 +87,7 @@ def handle_match(match):
     ret = word_convert(in_str)
     if ret == in_str:
         return match.group()
-    return "    .asciz \"" + ret + "\"\n    .balign 4\n"
+    return ret
 
 
 def process_data_file(file_path):

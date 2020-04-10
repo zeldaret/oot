@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80A50BB0
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80A50BBC
     .asciz "%s[%d] : バンクが無いよ！！\n"
     .balign 4
