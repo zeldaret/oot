@@ -2169,7 +2169,6 @@ beginseg
     name "ovl_En_Anubice"
     include "build/src/overlays/actors/ovl_En_Anubice/z_en_anubice.o"
     include "build/data/overlays/actors/z_en_anubice.data.o"
-    include "build/data/overlays/actors/z_en_anubice.rodata.o"
     include "build/data/overlays/actors/z_en_anubice.reloc.o"
 endseg
 
@@ -2177,7 +2176,6 @@ beginseg
     name "ovl_En_Anubice_Fire"
     include "build/src/overlays/actors/ovl_En_Anubice_Fire/z_en_anubice_fire.o"
     include "build/data/overlays/actors/z_en_anubice_fire.data.o"
-    include "build/data/overlays/actors/z_en_anubice_fire.rodata.o"
     include "build/data/overlays/actors/z_en_anubice_fire.reloc.o"
 endseg
 
@@ -2197,7 +2195,6 @@ beginseg
     name "ovl_En_Arrow"
     include "build/src/overlays/actors/ovl_En_Arrow/z_en_arrow.o"
     include "build/data/overlays/actors/z_en_arrow.data.o"
-    include "build/data/overlays/actors/z_en_arrow.rodata.o"
     include "build/data/overlays/actors/z_en_arrow.reloc.o"
 endseg
 
@@ -2205,7 +2202,6 @@ beginseg
     name "ovl_En_Attack_Niw"
     include "build/src/overlays/actors/ovl_En_Attack_Niw/z_en_attack_niw.o"
     include "build/data/overlays/actors/z_en_attack_niw.data.o"
-    include "build/data/overlays/actors/z_en_attack_niw.rodata.o"
     include "build/data/overlays/actors/z_en_attack_niw.reloc.o"
 endseg
 
@@ -2213,7 +2209,6 @@ beginseg
     name "ovl_En_Ba"
     include "build/src/overlays/actors/ovl_En_Ba/z_en_ba.o"
     include "build/data/overlays/actors/z_en_ba.data.o"
-    include "build/data/overlays/actors/z_en_ba.rodata.o"
     include "build/data/overlays/actors/z_en_ba.reloc.o"
 endseg
 
@@ -2221,7 +2216,6 @@ beginseg
     name "ovl_En_Bb"
     include "build/src/overlays/actors/ovl_En_Bb/z_en_bb.o"
     include "build/data/overlays/actors/z_en_bb.data.o"
-    include "build/data/overlays/actors/z_en_bb.rodata.o"
     include "build/data/overlays/actors/z_en_bb.reloc.o"
 endseg
 

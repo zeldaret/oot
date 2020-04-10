@@ -1,3 +1,14 @@
+.rdata
+
+glabel D_809B4EB0
+    .asciz "../z_en_arrow.c"
+    .balign 4
+
+glabel D_809B4EC0
+    .asciz "this->at_info.cl_elem.at_btl_info.at_type = %x\n"
+    .balign 4
+
+.text
 glabel EnArrow_Init
 /* 00008 809B3928 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0000C 809B392C AFA5003C */  sw      $a1, 0x003C($sp)           

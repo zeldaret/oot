@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_809B61F4
+ .float 5000.0
+
+.text
 glabel EnAttackNiw_Update
 /* 00BD4 809B5CD4 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00BD8 809B5CD8 AFBF0024 */  sw      $ra, 0x0024($sp)           

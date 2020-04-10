@@ -1,3 +1,9 @@
+.late_rodata
+
+glabel D_809B2438
+ .float 3.1415927
+
+.text
 glabel EnAnubice_Update
 /* 00BE8 809B1D08 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00BEC 809B1D0C 3C0E809B */  lui     $t6, %hi(func_809B1984)    ## $t6 = 809B0000

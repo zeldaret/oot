@@ -1,3 +1,25 @@
+.rdata
+
+glabel D_809B4EF0
+    .asciz "../z_en_arrow.c"
+    .balign 4
+
+glabel D_809B4F00
+    .asciz "../z_en_arrow.c"
+    .balign 4
+
+glabel D_809B4F10
+    .asciz "../z_en_arrow.c"
+    .balign 4
+
+.late_rodata
+
+glabel D_809B4F5C
+ .float 0.0000958738
+glabel D_809B4F60
+ .float 0.0000958738
+
+.text
 glabel EnArrow_Draw
 /* 01048 809B4968 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 0104C 809B496C AFBF002C */  sw      $ra, 0x002C($sp)

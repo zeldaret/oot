@@ -1,3 +1,17 @@
+.late_rodata
+
+glabel D_809B61D8
+ .float 3000.0
+glabel D_809B61DC
+ .float -0.2
+glabel D_809B61E0
+ .float -0.2
+glabel D_809B61E4
+ .float -10000
+glabel D_809B61E8
+ .float -3000
+
+.text
 glabel func_809B5670
 /* 00570 809B5670 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00574 809B5674 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

@@ -1,3 +1,9 @@
+/*
+ * File: z_en_ba.c
+ * Overlay: ovl_En_Ba
+ * Description: Tentacle from inside Lord Jabu-Jabu
+ */
+
 #include "z_en_ba.h"
 
 #define FLAGS 0x00000015
