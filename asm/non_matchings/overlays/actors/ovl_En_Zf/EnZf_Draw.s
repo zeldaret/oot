@@ -1,3 +1,19 @@
+.rdata
+glabel D_80B4A310
+    .asciz "../z_en_zf.c"
+    .balign 4
+
+glabel D_80B4A320
+    .asciz "../z_en_zf.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B4A444
+    .float 1.4
+    .balign 4
+
+
+.text
 glabel EnZf_Draw
 /* 05888 80B498D8 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 0588C 80B498DC AFBF003C */  sw      $ra, 0x003C($sp)

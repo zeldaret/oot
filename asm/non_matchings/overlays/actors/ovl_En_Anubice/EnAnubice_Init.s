@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_809B2340
     .asciz "\n\n"
     .balign 4

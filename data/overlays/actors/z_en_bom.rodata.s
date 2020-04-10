@@ -24,17 +24,27 @@ glabel D_809C3500
     .balign 4
 
 glabel D_809C3510
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_809C3514
  .word 0xBE99999A
 glabel D_809C3518
- .word 0xBF99999A
+    .float -1.2
+    .balign 4
+
 glabel D_809C351C
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_809C3520
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_809C3524
- .word 0x3B03126F
+    .float 0.002
+    .balign 4
+
 glabel D_809C3528
  .word 0x3C23D70A, 0x00000000
 

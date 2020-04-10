@@ -1,3 +1,13 @@
+.rdata
+glabel D_8097BF90
+    .asciz "Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n"
+    .balign 4
+
+glabel D_8097BFC0
+    .asciz "Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n"
+    .balign 4
+
+.text
 glabel func_80978EE4
 /* 005B4 80978EE4 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 005B8 80978EE8 AFBF0014 */  sw      $ra, 0x0014($sp)           

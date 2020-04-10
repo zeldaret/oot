@@ -1,3 +1,13 @@
+.rdata
+glabel D_80996080
+    .asciz "../z_door_killer.c"
+    .balign 4
+
+glabel D_80996094
+    .asciz "../z_door_killer.c"
+    .balign 4
+
+.text
 glabel func_80995E40
 /* 011F0 80995E40 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 011F4 80995E44 AFBF0014 */  sw      $ra, 0x0014($sp)           

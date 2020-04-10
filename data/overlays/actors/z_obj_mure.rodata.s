@@ -92,17 +92,29 @@ glabel D_80B99D28
     .balign 4
 
 glabel D_80B99D38
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B99D3C
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B99D40
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80B99D44
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B99D48
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_80B99D4C
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80B99D50
  .word 0x3F333333, 0x00000000, 0x00000000, 0x00000000
 

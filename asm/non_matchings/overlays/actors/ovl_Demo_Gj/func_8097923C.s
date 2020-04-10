@@ -1,3 +1,49 @@
+.rdata
+glabel D_8097C050
+    .asciz "[31mDemo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8097C1AC
+.word L80979288
+.word L80979320
+.word L809793B8
+.word L80979450
+.word L809794E8
+.word L80979580
+.word L80979618
+glabel D_8097C1C8
+    .float 0.01
+    .balign 4
+
+glabel D_8097C1CC
+    .float 0.01
+    .balign 4
+
+glabel D_8097C1D0
+    .float 0.01
+    .balign 4
+
+glabel D_8097C1D4
+    .float 0.01
+    .balign 4
+
+glabel D_8097C1D8
+    .float 0.01
+    .balign 4
+
+glabel D_8097C1DC
+    .float 0.01
+    .balign 4
+
+glabel D_8097C1E0
+    .float 0.01
+    .balign 4
+
+glabel D_8097C1E4
+ .word 0x4487C000
+
+.text
 glabel func_8097923C
 /* 0090C 8097923C 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00910 80979240 AFBF0024 */  sw      $ra, 0x0024($sp)           

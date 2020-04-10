@@ -124,7 +124,9 @@ glabel D_80A552F0
 glabel D_80A552F4
  .word 0xC486E000
 glabel D_80A552F8
- .word 0x45DAC000
+    .float 7000.0
+    .balign 4
+
 glabel D_80A552FC
  .word 0xC40E8000
 glabel D_80A55300

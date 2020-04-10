@@ -1,3 +1,33 @@
+.rdata
+glabel D_808D1CEC
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1CFC
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1D0C
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1D1C
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1D2C
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1D3C
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1D4C
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+.text
 glabel func_808CF898
 /* 04AD8 808CF898 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 04ADC 808CF89C AFBF0044 */  sw      $ra, 0x0044($sp)           

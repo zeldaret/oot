@@ -66,13 +66,21 @@ glabel jtbl_80AAC55C
 glabel D_80AAC584
  .word 0x4622F983
 glabel D_80AAC588
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80AAC58C
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80AAC590
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80AAC594
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80AAC598
  .word 0x40490FDB, 0x00000000
 

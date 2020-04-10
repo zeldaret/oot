@@ -56,6 +56,8 @@ glabel D_80B8E934
 glabel D_80B8E938
  .word 0x38000100
 glabel D_80B8E93C
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 
 

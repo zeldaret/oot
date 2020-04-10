@@ -8,27 +8,47 @@
 .section .rodata
 
 glabel D_809E16F0
- .word 0x3F59999A
+    .float 0.85
+    .balign 4
+
 glabel D_809E16F4
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_809E16F8
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_809E16FC
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809E1700
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809E1704
- .word 0x461C4000
+    .float 10000.0
+    .balign 4
+
 glabel D_809E1708
  .word 0x3BC49BA6
 glabel D_809E170C
- .word 0x3B03126F
+    .float 0.002
+    .balign 4
+
 glabel D_809E1710
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_809E1714
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_809E1718
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809E171C
  .word 0x3F490FDB
 glabel D_809E1720

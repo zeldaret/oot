@@ -34,19 +34,29 @@ glabel D_8089B288
 glabel D_8089B2A0
  .word 0x3EE66666
 glabel D_8089B2A4
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_8089B2A8
- .word 0x3D23D70A
+    .float 0.04
+    .balign 4
+
 glabel D_8089B2AC
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_8089B2B0
  .word 0x3D89374C
 glabel D_8089B2B4
  .word 0x3F7EB852
 glabel D_8089B2B8
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_8089B2BC
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_8089B2C0
  .word 0x3DCCCCCD, 0x00000000, 0x00000000, 0x00000000
 

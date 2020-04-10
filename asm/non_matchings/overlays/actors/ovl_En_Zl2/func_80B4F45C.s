@@ -1,3 +1,49 @@
+.rdata
+glabel D_80B52900
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52910
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52920
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52930
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52940
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52950
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52960
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B52BB4
+ .word 0xC47EC000
+glabel D_80B52BB8
+ .word 0x43E98000
+glabel D_80B52BBC
+ .word 0x43848000
+glabel D_80B52BC0
+ .word 0xC3D58000
+glabel D_80B52BC4
+ .word 0x43E98000
+glabel D_80B52BC8
+ .word 0x43848000
+glabel D_80B52BCC
+ .word 0xC3D58000
+
+.text
 glabel func_80B4F45C
 /* 00ACC 80B4F45C 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00AD0 80B4F460 2401000E */  addiu   $at, $zero, 0x000E         ## $at = 0000000E

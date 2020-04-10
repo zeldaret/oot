@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80994B80
 
     .asciz "../z_door_gerudo.c"

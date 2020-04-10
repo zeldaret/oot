@@ -1,3 +1,20 @@
+.rdata
+glabel D_8086FAD4
+
+    .asciz "../z_bg_bowl_wall.c"
+    .balign 4
+
+glabel D_8086FAE8
+
+    .asciz "../z_bg_bowl_wall.c"
+    .balign 4
+
+glabel D_8086FAFC
+
+    .asciz "../z_bg_bowl_wall.c"
+    .balign 4
+
+.text
 glabel BgBowlWall_Draw
 /* 00764 8086F8C4 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00768 8086F8C8 AFB10020 */  sw      $s1, 0x0020($sp)           

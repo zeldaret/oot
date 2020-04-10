@@ -1,3 +1,28 @@
+.rdata
+glabel D_80A9E8C0
+    .asciz "../z_en_light.c"
+    .balign 4
+
+glabel D_80A9E8D0
+    .asciz "../z_en_light.c"
+    .balign 4
+
+glabel D_80A9E8E0
+    .asciz "../z_en_light.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A9E910
+    .float 9.58738019108e-05
+    .balign 4
+
+glabel D_80A9E914
+    .float 3.14159274101
+    .balign 4
+
+
+
+.text
 glabel EnLight_Draw
 /* 0096C 80A9E4AC 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00970 80A9E4B0 AFBF003C */  sw      $ra, 0x003C($sp)           

@@ -1,3 +1,65 @@
+.late_rodata
+glabel D_809FAB60
+    .float 0.02
+    .balign 4
+
+glabel D_809FAB64
+    .float 0.1
+    .balign 4
+
+glabel D_809FAB68
+    .float 0.15
+    .balign 4
+
+glabel D_809FAB6C
+    .float 0.1
+    .balign 4
+
+glabel D_809FAB70
+    .float 0.15
+    .balign 4
+
+glabel D_809FAB74
+    .float 0.02
+    .balign 4
+
+glabel D_809FAB78
+    .float 0.1
+    .balign 4
+
+glabel D_809FAB7C
+    .float 0.15
+    .balign 4
+
+glabel D_809FAB80
+    .float 0.1
+    .balign 4
+
+glabel D_809FAB84
+    .float 0.15
+    .balign 4
+
+glabel D_809FAB88
+    .float 0.02
+    .balign 4
+
+glabel D_809FAB8C
+    .float 0.1
+    .balign 4
+
+glabel D_809FAB90
+    .float 0.15
+    .balign 4
+
+glabel D_809FAB94
+    .float 0.1
+    .balign 4
+
+glabel D_809FAB98
+    .float 0.15
+    .balign 4
+
+.text
 glabel func_809F8258
 /* 00008 809F8258 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 0000C 809F825C 3C0F80A0 */  lui     $t7, %hi(D_809FA9FC)       ## $t7 = 80A00000

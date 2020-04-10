@@ -9,7 +9,9 @@ glabel D_80B6533C
 
 .late_rodata
 glabel D_80B6544C
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80B65450
  .word 0x40BFAE14
 

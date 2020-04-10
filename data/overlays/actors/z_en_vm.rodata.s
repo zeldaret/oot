@@ -32,30 +32,48 @@ glabel D_80B2EBFC
     .balign 4
 
 glabel D_80B2EC0C
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_80B2EC10
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B2EC14
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B2EC18
  .word 0xC59C4000
 glabel D_80B2EC1C
- .word 0x459C4000
+    .float 5000.0
+    .balign 4
+
 glabel D_80B2EC20
  .word 0x477FFF00
 glabel D_80B2EC24
  .word 0x45CB2000
 glabel D_80B2EC28
- .word 0x461C4000
+    .float 10000.0
+    .balign 4
+
 glabel D_80B2EC2C
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80B2EC30
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80B2EC34
  .word 0x46FFFE00
 glabel D_80B2EC38
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B2EC3C
- .word 0x3AC49BA6
+    .float 0.0015
+    .balign 4
+
 
 

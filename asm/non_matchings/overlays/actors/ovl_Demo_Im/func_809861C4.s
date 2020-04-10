@@ -1,3 +1,9 @@
+.rdata
+glabel D_80988858
+    .asciz "Demo_Im_Ocarina_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_809861C4
 /* 015E4 809861C4 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 015E8 809861C8 AFB00028 */  sw      $s0, 0x0028($sp)

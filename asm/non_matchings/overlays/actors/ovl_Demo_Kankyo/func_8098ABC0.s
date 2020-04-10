@@ -1,3 +1,31 @@
+.rdata
+glabel D_8098C9D8
+    .asciz "../z_demo_kankyo.c"
+    .balign 4
+
+glabel D_8098C9EC
+    .asciz "../z_demo_kankyo.c"
+    .balign 4
+
+glabel D_8098CA00
+    .asciz "../z_demo_kankyo.c"
+    .balign 4
+
+.late_rodata
+glabel D_8098CB44
+    .float 0.2
+    .balign 4
+
+glabel D_8098CB48
+    .float 0.2
+    .balign 4
+
+glabel D_8098CB4C
+ .word 0x3C9374BC
+glabel D_8098CB50
+ .word 0x3C8EFA35
+
+.text
 glabel func_8098ABC0
 /* 01D40 8098ABC0 27BDFF08 */  addiu   $sp, $sp, 0xFF08           ## $sp = FFFFFF08
 /* 01D44 8098ABC4 AFBF006C */  sw      $ra, 0x006C($sp)           

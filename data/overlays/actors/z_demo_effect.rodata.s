@@ -239,55 +239,87 @@ glabel jtbl_80976CC0
 glabel D_80976CDC
  .word 0xBDCCCCCD
 glabel D_80976CE0
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80976CE4
- .word 0x3FD9999A
+    .float 1.7
+    .balign 4
+
 glabel D_80976CE8
  .word 0x3AAEC33E
 glabel D_80976CEC
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80976CF0
  .word 0x3E0F5C29
 glabel D_80976CF4
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_80976CF8
- .word 0xBCF5C28F
+    .float -0.03
+    .balign 4
+
 glabel D_80976CFC
- .word 0x3F666666
+    .float 0.9
+    .balign 4
+
 glabel D_80976D00
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80976D04
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80976D08
  .word 0x3E6B851F
 glabel D_80976D0C
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80976D10
  .word 0x4001EB85
 glabel D_80976D14
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80976D18
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80976D1C
- .word 0x3BA3D70A
+    .float 0.005
+    .balign 4
+
 glabel D_80976D20
  .word 0x3F866666
 glabel D_80976D24
  .word 0x3E6B851F
 glabel D_80976D28
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_80976D2C
  .word 0x3C8EFA35
 glabel D_80976D30
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80976D34
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80976D38
  .word 0x4622F983
 glabel D_80976D3C
  .word 0xBDCCCCCD
 glabel D_80976D40
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80976D44
  .word 0x3E449809
 glabel D_80976D48
@@ -301,23 +333,35 @@ glabel D_80976D54
 glabel D_80976D58
  .word 0x3C8EFA35
 glabel D_80976D5C
- .word 0x3FC90FDB
+    .float 1.57079637051
+    .balign 4
+
 glabel D_80976D60
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_80976D64
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80976D68
  .word 0x3C8EFA35
 glabel D_80976D6C
  .word 0x3C8EFA35
 glabel D_80976D70
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80976D74
  .word 0x4019999A
 glabel D_80976D78
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80976D7C
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_80976D80
  .word 0x4622F983
 glabel D_80976D84

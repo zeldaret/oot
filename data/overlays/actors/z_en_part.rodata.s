@@ -40,25 +40,39 @@ glabel jtbl_80ACF244
 glabel D_80ACF280
  .word 0xBE99999A
 glabel D_80ACF284
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80ACF288
  .word 0xBF19999A
 glabel D_80ACF28C
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_80ACF290
  .word 0xBF19999A
 glabel D_80ACF294
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_80ACF298
  .word 0xBF19999A
 glabel D_80ACF29C
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80ACF2A0
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel D_80ACF2A4
- .word 0xBF99999A
+    .float -1.2
+    .balign 4
+
 glabel D_80ACF2A8
- .word 0x3E19999A
+    .float 0.15
+    .balign 4
+
 glabel jtbl_80ACF2AC
 .word L80ACE2AC
 .word L80ACE56C

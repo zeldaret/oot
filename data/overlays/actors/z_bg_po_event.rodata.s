@@ -28,13 +28,21 @@ glabel D_808A7DF4
 glabel D_808A7DF8
  .word 0x44504000
 glabel D_808A7DFC
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_808A7E00
  .word 0x44504000
 glabel D_808A7E04
- .word 0x3B23D70A
+    .float 0.0025
+    .balign 4
+
 glabel D_808A7E08
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_808A7E0C
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 

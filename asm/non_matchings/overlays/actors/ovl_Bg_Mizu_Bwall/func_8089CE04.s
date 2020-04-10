@@ -1,3 +1,15 @@
+.late_rodata
+glabel D_8089DA70
+ .word 0x43DE8000
+glabel D_8089DA74
+ .word 0x43DE8000
+glabel D_8089DA78
+ .word 0x443F4000
+glabel D_8089DA7C
+ .word 0xC450C000
+
+
+.text
 glabel func_8089CE04
 /* 00984 8089CE04 8CAE07C0 */  lw      $t6, 0x07C0($a1)           ## 000007C0
 /* 00988 8089CE08 3C01C170 */  lui     $at, 0xC170                ## $at = C1700000

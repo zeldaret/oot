@@ -1,3 +1,24 @@
+.rdata
+glabel D_80A5B0E4
+    .asciz "../z_en_honotrap.c"
+    .balign 4
+
+glabel D_80A5B0F8
+    .asciz "../z_en_honotrap.c"
+    .balign 4
+
+glabel D_80A5B10C
+    .asciz "../z_en_honotrap.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A5B144
+    .float 9.58738019108e-05
+    .balign 4
+
+
+
+.text
 glabel func_80A5AD28
 /* 010F8 80A5AD28 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 010FC 80A5AD2C AFB20040 */  sw      $s2, 0x0040($sp)           

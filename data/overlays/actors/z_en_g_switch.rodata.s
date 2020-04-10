@@ -130,17 +130,25 @@ glabel D_80A23B04
 glabel D_80A23B08
  .word 0x3EE66666
 glabel D_80A23B0C
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80A23B10
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A23B14
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_80A23B18
  .word 0x464B2000
 glabel D_80A23B1C
  .word 0x477FFF00
 glabel D_80A23B20
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80A23B24
  .word 0x461C4000, 0x00000000, 0x00000000
 

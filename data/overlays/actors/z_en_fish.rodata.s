@@ -20,7 +20,9 @@ glabel D_80A170D4
     .balign 4
 
 glabel D_80A170E8
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A170EC
     .asciz "Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n"
     .balign 4
@@ -44,51 +46,93 @@ glabel D_80A17194
 glabel D_80A17198
  .word 0x477FFF80
 glabel D_80A1719C
- .word 0x3FB33333
+    .float 1.4
+    .balign 4
+
 glabel D_80A171A0
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80A171A4
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80A171A8
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80A171AC
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80A171B0
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80A171B4
  .word 0xC6F9EC00
 glabel D_80A171B8
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80A171BC
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A171C0
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80A171C4
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A171C8
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A171CC
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80A171D0
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A171D4
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_80A171D8
  .word 0x3F7B645A
 glabel D_80A171DC
- .word 0x3F99999A
+    .float 1.2
+    .balign 4
+
 glabel D_80A171E0
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A171E4
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80A171E8
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80A171EC
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80A171F0
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80A171F4
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80A171F8
  .word 0x3A83126F, 0x00000000
 

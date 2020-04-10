@@ -64,17 +64,25 @@ glabel jtbl_80A12E94
 .word L80A11CF4
 .word L80A11D14
 glabel D_80A12EB0
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_80A12EB4
  .word 0x477FFF00
 glabel D_80A12EB8
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_80A12EBC
  .word 0x477FFF00
 glabel D_80A12EC0
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80A12EC4
- .word 0xBF99999A
+    .float -1.2
+    .balign 4
+
 glabel D_80A12EC8
  .word 0x477FFF00
 glabel D_80A12ECC
@@ -84,7 +92,9 @@ glabel D_80A12ED0
 glabel D_80A12ED4
  .word 0xC5728000
 glabel D_80A12ED8
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_80A12EDC
  .word 0xBE99999A
 glabel D_80A12EE0

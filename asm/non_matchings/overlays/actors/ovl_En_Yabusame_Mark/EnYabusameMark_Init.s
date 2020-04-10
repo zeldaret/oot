@@ -1,3 +1,25 @@
+.rdata
+glabel D_80B43680
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B43684
+    .asciz "[32m☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80B436B4
+    .asciz "[32m☆☆☆☆☆ 種類インデックス 	   ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80B436EC
+    .asciz "[35m☆☆☆☆☆ 種類       ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80B4371C
+    .asciz "[36m☆☆☆☆☆ さらに分類 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel EnYabusameMark_Init
 /* 00028 80B42DE8 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0002C 80B42DEC AFB00018 */  sw      $s0, 0x0018($sp)           

@@ -34,7 +34,9 @@ glabel D_809EF194
     .balign 4
 
 glabel D_809EF1AC
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_809EF1B0
  .word 0x3C54FDF3
 glabel D_809EF1B4
@@ -42,7 +44,9 @@ glabel D_809EF1B4
 glabel D_809EF1B8
  .word 0x455AC000
 glabel D_809EF1BC
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809EF1C0
  .word 0x3D23D70A, 0x00000000, 0x00000000, 0x00000000
 

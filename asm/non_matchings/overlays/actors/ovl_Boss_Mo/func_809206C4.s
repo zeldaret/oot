@@ -1,3 +1,64 @@
+.late_rodata
+glabel jtbl_80926D50
+.word L80920734
+.word L80920CB0
+.word L80920D48
+.word L80920D8C
+.word L80920DFC
+.word L8092107C
+glabel D_80926D68
+    .float 0.005
+    .balign 4
+
+glabel D_80926D6C
+ .word 0x3C75C28F
+glabel D_80926D70
+ .word 0x3C75C28F
+glabel D_80926D74
+    .float 0.005
+    .balign 4
+
+glabel D_80926D78
+    .float 0.002
+    .balign 4
+
+glabel D_80926D7C
+    .float 0.08
+    .balign 4
+
+glabel D_80926D80
+ .word 0x3E051EB8
+glabel D_80926D84
+    .float 0.05
+    .balign 4
+
+glabel D_80926D88
+    .float 0.02
+    .balign 4
+
+glabel D_80926D8C
+    .float 0.2
+    .balign 4
+
+glabel D_80926D90
+    .float 3000.0
+    .balign 4
+
+glabel D_80926D94
+    .float 2500.0
+    .balign 4
+
+glabel D_80926D98
+    .float 0.05
+    .balign 4
+
+glabel D_80926D9C
+ .word 0x406CCCCE
+glabel D_80926DA0
+    .float 0.02
+    .balign 4
+
+.text
 glabel func_809206C4
 /* 04BC4 809206C4 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 04BC8 809206C8 AFB10020 */  sw      $s1, 0x0020($sp)           

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B52B38
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52B48
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+.text
 glabel func_80B523C8
 /* 03A38 80B523C8 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 03A3C 80B523CC AFBF002C */  sw      $ra, 0x002C($sp)

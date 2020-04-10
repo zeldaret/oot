@@ -112,17 +112,25 @@ glabel D_80A52C00
     .balign 4
 
 glabel D_80A52C28
- .word 0x3FFEB852
+    .float 1.99000000954
+    .balign 4
+
 glabel D_80A52C2C
  .word 0x4622F983
 glabel D_80A52C30
- .word 0x3FFEB852
+    .float 1.99000000954
+    .balign 4
+
 glabel D_80A52C34
- .word 0x3FFEB852
+    .float 1.99000000954
+    .balign 4
+
 glabel D_80A52C38
  .word 0x44098000
 glabel D_80A52C3C
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A52C40
  .word 0xC079999A, 0x00000000, 0x00000000, 0x00000000
 

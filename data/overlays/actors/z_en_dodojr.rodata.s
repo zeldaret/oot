@@ -10,17 +10,29 @@
 glabel D_809F7F70
  .word 0x40266666
 glabel D_809F7F74
- .word 0xBF4CCCCD
+    .float -0.8
+    .balign 4
+
 glabel D_809F7F78
- .word 0xBF4CCCCD
+    .float -0.8
+    .balign 4
+
 glabel D_809F7F7C
- .word 0xBF4CCCCD
+    .float -0.8
+    .balign 4
+
 glabel D_809F7F80
- .word 0xBF4CCCCD
+    .float -0.8
+    .balign 4
+
 glabel D_809F7F84
- .word 0xBF4CCCCD
+    .float -0.8
+    .balign 4
+
 glabel D_809F7F88
- .word 0xBF4CCCCD
+    .float -0.8
+    .balign 4
+
 glabel D_809F7F8C
  .word 0x40266666
 glabel D_809F7F90

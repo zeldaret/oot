@@ -1,3 +1,25 @@
+.late_rodata
+glabel jtbl_8098CAE4
+.word L809899F8
+.word L809899F8
+.word L80989AA8
+.word L80989AA8
+.word L80989AA8
+.word L80989AA8
+.word L80989AA8
+.word L80989ABC
+.word L80989B1C
+.word L80989B1C
+.word L80989B1C
+.word L80989B1C
+.word L80989B1C
+.word L80989AD0
+.word L80989AE4
+.word L80989AF8
+.word L80989AF8
+.word L80989B0C
+
+.text
 glabel DemoKankyo_Draw
 /* 00B2C 809899AC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00B30 809899B0 AFBF001C */  sw      $ra, 0x001C($sp)           

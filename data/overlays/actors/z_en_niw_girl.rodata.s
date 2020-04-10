@@ -44,7 +44,9 @@ glabel D_80AB9B00
     .balign 4
 
 glabel D_80AB9B14
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80AB9B18
  .word 0x4622F983
 glabel jtbl_80AB9B1C

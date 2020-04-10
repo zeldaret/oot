@@ -132,7 +132,9 @@ glabel D_80A789B0
     .balign 4
 
 glabel D_80A789E0
- .word 0x3F666666
+    .float 0.9
+    .balign 4
+
 glabel jtbl_80A789E4
 .word L80A775FC
 .word L80A77818

@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_809B23D4
     .asciz "../z_en_anubice.c"
     .balign 4

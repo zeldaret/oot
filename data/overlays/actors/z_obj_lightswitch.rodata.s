@@ -20,7 +20,9 @@ glabel D_80B97FCC
     .balign 4
 
 glabel D_80B97FE4
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80B97FE8
     .asciz "(光スイッチ)(arg_data 0x%04x)\n"
     .balign 4

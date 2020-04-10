@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A9E8F0
+ .word 0x38D1B717, 0x00000000
+
+.text
 glabel EnLight_Init
 /* 00000 80A9DB40 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
 /* 00004 80A9DB44 8DCEF9BC */  lw      $t6, -0x0644($t6)          ## 8015F9BC

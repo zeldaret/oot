@@ -122,7 +122,9 @@ glabel D_80A3D010
     .balign 4
 
 glabel D_80A3D034
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A3D038
  .word 0x30000000
 glabel D_80A3D03C
@@ -138,7 +140,9 @@ glabel D_80A3D058
     .balign 4
 
 glabel D_80A3D070
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A3D074
  .word 0x30000000
 glabel D_80A3D078

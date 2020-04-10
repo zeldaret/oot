@@ -20,13 +20,19 @@ glabel D_809CCED8
     .balign 4
 
 glabel D_809CCEEC
- .word 0x3DA3D70A
+    .float 0.08
+    .balign 4
+
 glabel D_809CCEF0
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809CCEF4
  .word 0x3DAAAAAB
 glabel D_809CCEF8
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_809CCEFC
  .word 0x38000100
 glabel D_809CCF00
@@ -44,6 +50,8 @@ glabel D_809CCF14
 glabel D_809CCF18
  .word 0x3C8EFA35
 glabel D_809CCF1C
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 
 

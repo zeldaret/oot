@@ -1,3 +1,17 @@
+.rdata
+glabel D_809C4AC0
+    .asciz "[32m☆ もー 肩こっちゃうよねぇ〜 		 ☆ \n[m"
+    .balign 4
+
+glabel D_809C4AF0
+    .asciz "[32m☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n[m"
+    .balign 4
+
+.late_rodata
+glabel D_809C4C74
+ .word 0x409FAE14
+
+.text
 glabel EnBomBowlMan_Init
 /* 00000 809C3630 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00004 809C3634 AFBE0050 */  sw      $s8, 0x0050($sp)

@@ -36,15 +36,23 @@ glabel D_80B16F3C
     .balign 4
 
 glabel D_80B16F4C
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80B16F50
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_80B16F54
  .word 0x4483A000
 glabel D_80B16F58
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80B16F5C
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_80B16F60
  .word 0x3CF5C28F, 0x00000000, 0x00000000, 0x00000000
 

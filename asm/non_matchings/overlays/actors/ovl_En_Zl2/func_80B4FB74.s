@@ -1,3 +1,16 @@
+.rdata
+glabel D_80B52970
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B52BD0
+ .word 0x4474C000
+glabel D_80B52BD4
+    .float 1.2
+    .balign 4
+
+.text
 glabel func_80B4FB74
 /* 011E4 80B4FB74 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 011E8 80B4FB78 2401000A */  addiu   $at, $zero, 0x000A         ## $at = 0000000A

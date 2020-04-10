@@ -1,3 +1,26 @@
+.rdata
+glabel D_80888EA0
+    .asciz "◯◯◯炎の神殿オブジェクト【ハンマーステップ】出現\n"
+    .balign 4
+
+glabel D_80888ED4
+    .asciz "【ハンマーステップ】 足場産れない！！\n"
+    .balign 4
+
+glabel D_80888EFC
+    .asciz "%s %d\n"
+    .balign 4
+
+glabel D_80888F04
+    .asciz "../z_bg_hidan_hamstep.c"
+    .balign 4
+
+.late_rodata
+glabel D_80888FCC
+    .float -1.2
+    .balign 4
+
+.text
 glabel BgHidanHamstep_Init
 /* 00198 808881D8 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 0019C 808881DC AFBF002C */  sw      $ra, 0x002C($sp)           

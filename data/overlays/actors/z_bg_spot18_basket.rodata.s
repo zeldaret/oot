@@ -20,9 +20,13 @@ glabel D_808B8620
     .balign 4
 
 glabel D_808B8638
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_808B863C
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_808B8640
  .word 0x3A1D4952
 glabel D_808B8644

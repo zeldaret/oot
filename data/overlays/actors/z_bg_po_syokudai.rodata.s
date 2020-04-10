@@ -26,11 +26,17 @@ glabel D_808A8A18
 glabel D_808A8A30
  .word 0xC4C3C000
 glabel D_808A8A34
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_808A8A38
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_808A8A3C
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_808A8A40
  .word 0x3B30F27C, 0x00000000, 0x00000000, 0x00000000
 

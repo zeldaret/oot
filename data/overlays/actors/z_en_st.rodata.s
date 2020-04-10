@@ -16,13 +16,21 @@ glabel D_80B07210
     .balign 4
 
 glabel D_80B07220
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B07224
- .word 0x3FB33333
+    .float 1.4
+    .balign 4
+
 glabel D_80B07228
- .word 0x3D23D70A
+    .float 0.04
+    .balign 4
+
 glabel D_80B0722C
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_80B07230
  .word 0x3EEEEEEF
 glabel D_80B07234

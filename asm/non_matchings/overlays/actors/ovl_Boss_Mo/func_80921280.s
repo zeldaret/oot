@@ -1,3 +1,41 @@
+.rdata
+glabel D_80926940
+    .asciz "[33m"
+    .balign 4
+
+glabel D_80926948
+    .asciz "Core_Damage_check START\n"
+    .balign 4
+
+glabel D_80926964
+    .asciz "Core_Damage_check 当り！！\n"
+    .balign 4
+
+glabel D_80926980
+    .asciz "Core_Damage_check 当り 2 ！！\n"
+    .balign 4
+
+glabel D_809269A0
+    .asciz "Core_Damage_check 剣 当り！！\n"
+    .balign 4
+
+glabel D_809269C0
+    .asciz "Core_Damage_check 終わり ！！\n"
+    .balign 4
+
+glabel D_809269E0
+    .asciz "\x1b[m"
+    .balign 4
+
+.late_rodata
+glabel D_80926DA4
+    .float 0.08
+    .balign 4
+
+glabel D_80926DA8
+ .word 0x3E051EB8
+
+.text
 glabel func_80921280
 /* 05780 80921280 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 05784 80921284 AFB10030 */  sw      $s1, 0x0030($sp)           

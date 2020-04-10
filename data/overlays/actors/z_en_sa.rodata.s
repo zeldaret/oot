@@ -44,12 +44,20 @@ glabel jtbl_80AF74F4
 glabel D_80AF750C
  .word 0xC50AC000
 glabel D_80AF7510
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80AF7514
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80AF7518
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80AF751C
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 
 

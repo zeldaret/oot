@@ -20,21 +20,33 @@ glabel D_80A27EB0
     .balign 4
 
 glabel D_80A27EC8
- .word 0x40C90FDB
+    .float 6.28318548203
+    .balign 4
+
 glabel D_80A27ECC
  .word 0x407F5C29
 glabel D_80A27ED0
  .word 0x413E6666
 glabel D_80A27ED4
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A27ED8
- .word 0x40C90FDB
+    .float 6.28318548203
+    .balign 4
+
 glabel D_80A27EDC
- .word 0x40066666
+    .float 2.1
+    .balign 4
+
 glabel D_80A27EE0
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A27EE4
- .word 0x3FC90FDB
+    .float 1.57079637051
+    .balign 4
+
 glabel D_80A27EE8
  .word 0x40490FDB, 0x00000000
 

@@ -20,7 +20,9 @@ glabel D_80B96A70
     .balign 4
 
 glabel D_80B96A94
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80B96A98
  .word 0x477FFF80
 glabel D_80B96A9C

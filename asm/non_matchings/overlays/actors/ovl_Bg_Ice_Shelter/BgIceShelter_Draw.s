@@ -1,3 +1,27 @@
+.rdata
+glabel D_80891878
+    .asciz "../z_bg_ice_shelter.c"
+    .balign 4
+
+glabel D_80891890
+    .asciz "../z_bg_ice_shelter.c"
+    .balign 4
+
+glabel D_808918A8
+    .asciz "../z_bg_ice_shelter.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_808918F0
+.word L808914C8
+.word L808914C8
+.word L80891568
+.word L80891680
+.word L808914C8
+.word 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel BgIceShelter_Draw
 /* 00C7C 808913BC 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 00C80 808913C0 AFB10038 */  sw      $s1, 0x0038($sp)           

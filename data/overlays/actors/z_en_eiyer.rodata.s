@@ -22,13 +22,19 @@ glabel D_80A019F4
 glabel D_80A019F8
  .word 0x3E858150
 glabel D_80A019FC
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80A01A00
  .word 0x3DA0D97C
 glabel D_80A01A04
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80A01A08
- .word 0x3F8CCCCD
+    .float 1.1
+    .balign 4
+
 glabel D_80A01A0C
  .word 0x3F20D97C
 glabel D_80A01A10

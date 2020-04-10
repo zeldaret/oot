@@ -38,6 +38,8 @@ glabel D_8088F2B0
 glabel D_8088F2B8
  .word 0x3E20D97C
 glabel D_8088F2BC
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 
 

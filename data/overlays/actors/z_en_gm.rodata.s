@@ -22,7 +22,9 @@ glabel D_80A3E3C0
 glabel D_80A3E3CC
  .word 0xA5E2A5C7, 0xA5EB20A5, 0xD0A5F3A5, 0xAFA4ACCC, 0xB5A4A4A4, 0xE8A1AAA1, 0xAAA1CAC3, 0xE6A5B4A5, 0xEDA5F3A1, 0xCB0A0000
 glabel D_80A3E3F4
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A3E3F8
  .word 0x30000000
 glabel D_80A3E3FC
@@ -38,7 +40,9 @@ glabel D_80A3E41C
     .balign 4
 
 glabel D_80A3E42C
- .word 0x461C4000
+    .float 10000.0
+    .balign 4
+
 glabel D_80A3E430
  .word 0x461C4000, 0x00000000, 0x00000000, 0x00000000
 

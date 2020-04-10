@@ -20,7 +20,9 @@ glabel D_80A87414
     .balign 4
 
 glabel D_80A87424
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A87428
     .asciz "../z_en_ishi.c"
     .balign 4
@@ -34,23 +36,41 @@ glabel D_80A87448
     .balign 4
 
 glabel D_80A87458
- .word 0xBF4CCCCD
+    .float -0.8
+    .balign 4
+
 glabel D_80A8745C
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80A87460
- .word 0xBF666666
+    .float -0.9
+    .balign 4
+
 glabel D_80A87464
- .word 0x3F666666
+    .float 0.9
+    .balign 4
+
 glabel D_80A87468
- .word 0xBF4CCCCD
+    .float -0.8
+    .balign 4
+
 glabel D_80A8746C
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80A87470
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_80A87474
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80A87478
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80A8747C
  .word 0x477FFF00
 

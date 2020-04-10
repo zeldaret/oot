@@ -113,11 +113,17 @@ glabel jtbl_80B5FCE0
 .word L80B5DFA8
 .word L80B5DFD0
 glabel D_80B5FD04
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B5FD08
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B5FD0C
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80B5FD10
  .word 0x40490FDB, 0x00000000, 0x00000000, 0x00000000
 

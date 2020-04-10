@@ -25,11 +25,17 @@ glabel D_80870998
 glabel D_808709AC
  .word 0x455AC000
 glabel D_808709B0
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_808709B4
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_808709B8
- .word 0x453B8000
+    .float 3000.0
+    .balign 4
+
 glabel D_808709BC
  .word 0x40CCCCCD
 

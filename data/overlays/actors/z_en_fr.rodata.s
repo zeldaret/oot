@@ -20,7 +20,9 @@ glabel D_80A1D144
     .balign 4
 
 glabel D_80A1D154
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A1D158
  .word 0x30000000
 glabel D_80A1D15C
@@ -40,7 +42,9 @@ glabel D_80A1D198
     .balign 4
 
 glabel D_80A1D1A8
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A1D1AC
  .word 0x30000000
 glabel D_80A1D1B0
@@ -60,7 +64,9 @@ glabel D_80A1D1E8
     .balign 4
 
 glabel D_80A1D1F8
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A1D1FC
     .asciz "[41;37m"
     .balign 4
@@ -74,7 +80,9 @@ glabel D_80A1D224
     .balign 4
 
 glabel D_80A1D234
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80A1D238
     .asciz "../z_en_fr.c"
     .balign 4
@@ -102,7 +110,9 @@ glabel D_80A1D28C
 glabel D_80A1D290
  .word 0xC61C3C00
 glabel D_80A1D294
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A1D298
  .word 0x4622F983
 glabel D_80A1D29C

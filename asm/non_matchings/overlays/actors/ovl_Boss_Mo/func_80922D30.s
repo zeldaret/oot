@@ -1,3 +1,9 @@
+.rdata
+glabel D_809269E4
+    .asciz "CORE mode = <%d>\n"
+    .balign 4
+
+.text
 glabel func_80922D30
 /* 07230 80922D30 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 07234 80922D34 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,32 @@
+.rdata
+glabel D_8097C120
+    .asciz "[31mDemo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8097C234
+.word L8097BC98
+.word L8097BD48
+.word L8097BD48
+.word L8097BD48
+.word L8097BCA8
+.word L8097BCB8
+.word L8097BCC8
+.word L8097BCD8
+.word L8097BCE8
+.word L8097BCF8
+.word L8097BD08
+.word L8097BD48
+.word L8097BD18
+.word L8097BD28
+.word L8097BD48
+.word L8097BD48
+.word L8097BD48
+.word L8097BD48
+.word L8097BD38
+
+
+.text
 glabel DemoGj_Init
 /* 03328 8097BC58 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0332C 8097BC5C AFBF0014 */  sw      $ra, 0x0014($sp)           

@@ -60,13 +60,19 @@ glabel D_809CA8F8
 glabel D_809CA8FC
  .word 0x387BA882
 glabel D_809CA900
- .word 0x3E99999A
+    .float 0.3
+    .balign 4
+
 glabel D_809CA904
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_809CA908
  .word 0x3FE66666
 glabel D_809CA90C
- .word 0x3FCCCCCD
+    .float 1.6
+    .balign 4
+
 glabel D_809CA910
  .word 0x3FE66666, 0x00000000, 0x00000000, 0x00000000
 

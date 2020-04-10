@@ -1,3 +1,31 @@
+.rdata
+glabel D_80B9FE90
+    .asciz "../z_obj_syokudai.c"
+    .balign 4
+
+glabel D_80B9FEA4
+    .asciz "../z_obj_syokudai.c"
+    .balign 4
+
+glabel D_80B9FEB8
+    .asciz "../z_obj_syokudai.c"
+    .balign 4
+
+glabel D_80B9FECC
+    .asciz "../z_obj_syokudai.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B9FEE0
+    .float 0.0027
+    .balign 4
+
+glabel D_80B9FEE4
+    .float 9.58738019108e-05
+    .balign 4
+
+
+.text
 glabel ObjSyokudai_Draw
 /* 00834 80B9FAE4 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00838 80B9FAE8 AFBF0044 */  sw      $ra, 0x0044($sp)           

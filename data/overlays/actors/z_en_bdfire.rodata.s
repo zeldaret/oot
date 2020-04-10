@@ -26,11 +26,15 @@ glabel D_809BCB60
 glabel D_809BCB74
  .word 0x40333333
 glabel D_809BCB78
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_809BCB7C
  .word 0x3F666667
 glabel D_809BCB80
- .word 0x3F19999A
+    .float 0.6
+    .balign 4
+
 glabel D_809BCB84
  .word 0x40866667
 glabel D_809BCB88

@@ -52,12 +52,20 @@ glabel D_809AD5E0
     .balign 4
 
 glabel D_809AD5F0
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_809AD5F4
- .word 0x3D23D70A
+    .float 0.04
+    .balign 4
+
 glabel D_809AD5F8
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_809AD5FC
- .word 0x3D23D70A
+    .float 0.04
+    .balign 4
+
 
 

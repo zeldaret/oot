@@ -32,9 +32,13 @@ glabel D_808B7350
     .balign 4
 
 glabel D_808B7370
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_808B7374
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_808B7378
  .word 0x44228000, 0x00000000
 

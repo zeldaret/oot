@@ -28,8 +28,12 @@ glabel D_8088CE10
 glabel D_8088CE14
  .word 0x3EAAAAAB
 glabel D_8088CE18
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 glabel D_8088CE1C
- .word 0x3F333333
+    .float 0.7
+    .balign 4
+
 
 

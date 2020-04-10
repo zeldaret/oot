@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_80B4A330
+    .float 10000.0
+    .balign 4
+
+.text
 glabel EnZf_Destroy
 /* 005D4 80B44624 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 005D8 80B44628 AFBF0024 */  sw      $ra, 0x0024($sp)           
