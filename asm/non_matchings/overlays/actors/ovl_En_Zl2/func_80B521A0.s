@@ -1,3 +1,9 @@
+.rdata
+glabel D_80B52A74
+    .asciz "[31mEn_Zl2_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel func_80B521A0
 /* 03810 80B521A0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 03814 80B521A4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_809B2428
+ .word 0xC62BE000
+glabel D_809B242C
+ .word 0xC53B8000
+glabel D_809B2430
+    .float 3.14159274101
+    .balign 4
+
+glabel D_809B2434
+    .float 3.14159274101
+    .balign 4
+
+.text
 glabel func_809B1A54
 /* 00934 809B1A54 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00938 809B1A58 3C0F809B */  lui     $t7, %hi(D_809B231C)       ## $t7 = 809B0000

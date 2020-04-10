@@ -1546,7 +1546,6 @@ beginseg
     name "ovl_Bg_Ydan_Hasi"
     include "build/src/overlays/actors/ovl_Bg_Ydan_Hasi/z_bg_ydan_hasi.o"
     include "build/data/overlays/actors/z_bg_ydan_hasi.data.o"
-    include "build/data/overlays/actors/z_bg_ydan_hasi.rodata.o"
     include "build/data/overlays/actors/z_bg_ydan_hasi.reloc.o"
 endseg
 
@@ -1749,7 +1748,6 @@ beginseg
     name "ovl_Demo_Kankyo"
     include "build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo.o"
     include "build/data/overlays/actors/z_demo_kankyo.data.o"
-    include "build/data/overlays/actors/z_demo_kankyo.rodata.o"
     include "build/data/overlays/actors/z_demo_kankyo.bss.o"
     include "build/data/overlays/actors/z_demo_kankyo.reloc.o"
 endseg
@@ -1794,7 +1792,6 @@ beginseg
     name "ovl_Door_Gerudo"
     include "build/src/overlays/actors/ovl_Door_Gerudo/z_door_gerudo.o"
     include "build/data/overlays/actors/z_door_gerudo.data.o"
-    include "build/data/overlays/actors/z_door_gerudo.rodata.o"
     include "build/data/overlays/actors/z_door_gerudo.reloc.o"
 endseg
 
@@ -2164,7 +2161,6 @@ beginseg
     name "ovl_En_Anubice"
     include "build/src/overlays/actors/ovl_En_Anubice/z_en_anubice.o"
     include "build/data/overlays/actors/z_en_anubice.data.o"
-    include "build/data/overlays/actors/z_en_anubice.rodata.o"
     include "build/data/overlays/actors/z_en_anubice.reloc.o"
 endseg
 
@@ -2830,7 +2826,6 @@ beginseg
     name "ovl_En_Heishi4"
     include "build/src/overlays/actors/ovl_En_Heishi4/z_en_heishi4.o"
     include "build/data/overlays/actors/z_en_heishi4.data.o"
-    include "build/data/overlays/actors/z_en_heishi4.rodata.o"
     include "build/data/overlays/actors/z_en_heishi4.reloc.o"
 endseg
 
@@ -3474,7 +3469,6 @@ beginseg
     name "ovl_En_Sth"
     include "build/src/overlays/actors/ovl_En_Sth/z_en_sth.o"
     include "build/data/overlays/actors/z_en_sth.data.o"
-    include "build/data/overlays/actors/z_en_sth.rodata.o"
     include "build/data/overlays/actors/z_en_sth.reloc.o"
 endseg
 
@@ -3737,7 +3731,6 @@ beginseg
     name "ovl_En_Yabusame_Mark"
     include "build/src/overlays/actors/ovl_En_Yabusame_Mark/z_en_yabusame_mark.o"
     include "build/data/overlays/actors/z_en_yabusame_mark.data.o"
-    include "build/data/overlays/actors/z_en_yabusame_mark.rodata.o"
     include "build/data/overlays/actors/z_en_yabusame_mark.reloc.o"
 endseg
 
@@ -3768,7 +3761,6 @@ beginseg
     name "ovl_En_Zl2"
     include "build/src/overlays/actors/ovl_En_Zl2/z_en_zl2.o"
     include "build/data/overlays/actors/z_en_zl2.data.o"
-    include "build/data/overlays/actors/z_en_zl2.rodata.o"
     include "build/data/overlays/actors/z_en_zl2.reloc.o"
 endseg
 

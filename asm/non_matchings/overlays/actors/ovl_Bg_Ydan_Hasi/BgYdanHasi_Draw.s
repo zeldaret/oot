@@ -1,3 +1,17 @@
+.rdata
+glabel D_808BEC30
+    .asciz "../z_bg_ydan_hasi.c"
+    .balign 4
+
+glabel D_808BEC44
+    .asciz "../z_bg_ydan_hasi.c"
+    .balign 4
+
+glabel D_808BEC58
+    .asciz "../z_bg_ydan_hasi.c"
+    .balign 4
+
+.text
 glabel BgYdanHasi_Draw
 /* 00590 808BEA90 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00594 808BEA94 AFBF003C */  sw      $ra, 0x003C($sp)           

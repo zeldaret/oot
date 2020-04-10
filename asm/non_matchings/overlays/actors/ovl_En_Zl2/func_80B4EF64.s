@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B52BB0
+ .word 0x455AC000
+
+.text
 glabel func_80B4EF64
 /* 005D4 80B4EF64 24080002 */  addiu   $t0, $zero, 0x0002         ## $t0 = 00000002
 /* 005D8 80B4EF68 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000

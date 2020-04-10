@@ -1,3 +1,13 @@
+.rdata
+glabel D_809B2374
+    .asciz "[32m☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809B23A4
+    .asciz "[33m☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+.text
 glabel func_809B142C
 /* 0030C 809B142C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00310 809B1430 AFBF0034 */  sw      $ra, 0x0034($sp)           
