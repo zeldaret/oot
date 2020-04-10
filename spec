@@ -4074,7 +4074,6 @@ beginseg
     name "ovl_Obj_Syokudai"
     include "build/src/overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.o"
     include "build/data/overlays/actors/z_obj_syokudai.data.o"
-    include "build/data/overlays/actors/z_obj_syokudai.rodata.o"
     include "build/data/overlays/actors/z_obj_syokudai.bss.o"
     include "build/data/overlays/actors/z_obj_syokudai.reloc.o"
 endseg

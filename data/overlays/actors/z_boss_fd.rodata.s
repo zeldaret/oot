@@ -112,11 +112,17 @@ glabel D_808D1DDC
     .balign 4
 
 glabel D_808D1DEC
- .word 0x4C480A00
+    .asciz "LH\n"
+    .balign 4
+
 glabel D_808D1DF0
- .word 0x52480A00
+    .asciz "RH\n"
+    .balign 4
+
 glabel D_808D1DF4
- .word 0x42440A00
+    .asciz "BD\n"
+    .balign 4
+
 glabel D_808D1DF8
     .asciz "../z_boss_fd.c"
     .balign 4
@@ -126,17 +132,25 @@ glabel D_808D1E08
     .balign 4
 
 glabel D_808D1E18
- .word 0x42480A00
+    .asciz "BH\n"
+    .balign 4
+
 glabel D_808D1E1C
- .word 0x4248430A, 0x00000000
+    .asciz "BHC\n"
+    .balign 4
+
 glabel D_808D1E24
     .asciz "BHCE\n"
     .balign 4
 
 glabel D_808D1E2C
- .word 0x534B0A00
+    .asciz "SK\n"
+    .balign 4
+
 glabel D_808D1E30
- .word 0x454E440A, 0x00000000
+    .asciz "END\n"
+    .balign 4
+
 glabel D_808D1E38
     .asciz "../z_boss_fd.c"
     .balign 4

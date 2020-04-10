@@ -119,6 +119,7 @@ floats["0x3FD5DCA8"] = "1.67079639435"
 floats["0xB8C90FDB"] = "-9.58738019108e-05"
 floats["0x3B6BEDFA"] = "0.0036"
 floats["0x3DF5C28F"] = "0.12"
+floats["0x3B30F27C"] = "0.0027"
 
 def try_text(text_bytes):
     bad_bytes = 0
@@ -174,7 +175,7 @@ def word_convert(byte_string):
         if res is not None:
             return "    .asciz \"" + res + "\"\n    .balign 4\n"
     if len(words) == 1 or is_zeros(words[1:]):
-        res = try_float(word.strip())
+        res = try_float(words[0].strip())
         if res is not None:
             return "    .float " + res + "\n    .balign 4\n"
 
@@ -206,8 +207,8 @@ def main():
     i = 0
     for root, dirs, files in os.walk(data_dir):
         for file in files:
-            #if i == 10:
-            #    return
+            if i == 1:
+                return
             if file.endswith(".rodata.s"):
                 path = os.path.join(root, file)
                 if process_data_file(path):
