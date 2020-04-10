@@ -1,6 +1,5 @@
 #include "z_bg_hidan_kowarerukabe.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHidanKowarerukabe_Init(BgHidanKowarerukabe* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgHidanKowarerukabe_Draw(BgHidanKowarerukabe* this, GlobalContext* globalCt
 const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     ACTOR_BG_HIDAN_KOWARERUKABE,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanKowarerukabe),

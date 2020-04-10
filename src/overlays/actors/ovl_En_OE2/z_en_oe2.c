@@ -14,7 +14,6 @@ typedef struct {
     /* 0x0190 */ ActorFunc updateFunc;
 } ActorEnOE2; // size = 0x0194
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 static void func_80ABE6A0(ActorEnOE2* this, ActorFunc func);
@@ -25,10 +24,8 @@ static void Update(ActorEnOE2* this, GlobalContext* globalCtx);
 static void Draw(ActorEnOE2* this, GlobalContext* globalCtx);
 
 const ActorInit En_OE2_InitVars = {
-    ACTOR_EN_OE2,    ACTORTYPE_NPC,      ROOM,
-    FLAGS,           OBJECT_OE2,         sizeof(ActorEnOE2),
-    (ActorFunc)Init, (ActorFunc)Destroy, (ActorFunc)Update,
-    (ActorFunc)Draw,
+    ACTOR_EN_OE2,       ACTORTYPE_NPC,     FLAGS,           OBJECT_OE2, sizeof(ActorEnOE2), (ActorFunc)Init,
+    (ActorFunc)Destroy, (ActorFunc)Update, (ActorFunc)Draw,
 };
 
 static void func_80ABE6A0(ActorEnOE2* this, ActorFunc func) {

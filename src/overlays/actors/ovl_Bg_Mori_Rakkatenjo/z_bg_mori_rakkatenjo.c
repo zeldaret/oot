@@ -1,6 +1,5 @@
 #include "z_bg_mori_rakkatenjo.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgMoriRakkatenjo_Init(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
@@ -11,7 +10,6 @@ void BgMoriRakkatenjo_Update(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
 const ActorInit Bg_Mori_Rakkatenjo_InitVars = {
     ACTOR_BG_MORI_RAKKATENJO,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_MORI_OBJECTS,
     sizeof(BgMoriRakkatenjo),

@@ -1,6 +1,5 @@
 #include "z_bg_breakwall.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgBreakwall_Init(BgBreakwall* this, GlobalContext* globalCtx);
@@ -16,7 +15,6 @@ void func_808705D8(BgBreakwall* this, GlobalContext* globalCtx);
 const ActorInit Bg_Breakwall_InitVars = {
     ACTOR_BG_BREAKWALL,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgBreakwall),

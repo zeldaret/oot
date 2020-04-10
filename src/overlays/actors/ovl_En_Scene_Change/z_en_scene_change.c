@@ -12,7 +12,6 @@ typedef struct {
     /* 0x014C */ ActorFunc updateFunc;
 } EnSceneChange; // size = 0x0150
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void EnSceneChange_Init(EnSceneChange* this, GlobalContext* globalCtx);
@@ -25,7 +24,6 @@ static void func_80AF8CAC(EnSceneChange* this, GlobalContext* globalCtx);
 const ActorInit En_Scene_Change_InitVars = {
     ACTOR_EN_SCENE_CHANGE,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_JJ,
     sizeof(EnSceneChange),

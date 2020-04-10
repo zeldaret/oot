@@ -1,6 +1,5 @@
 #include "z_en_ma2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000039
 
 void EnMa2_Init(EnMa2* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnMa2_Draw(EnMa2* this, GlobalContext* globalCtx);
 const ActorInit En_Ma2_InitVars = {
     ACTOR_EN_MA2,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_MA2,
     sizeof(EnMa2),

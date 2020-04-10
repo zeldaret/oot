@@ -8,7 +8,6 @@
 
 #include <vt.h>
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void BgBomGuard_Init(BgBomGuard* this, GlobalContext* globalCtx);
@@ -20,7 +19,6 @@ static void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx);
 const ActorInit Bg_Bom_Guard_InitVars = {
     ACTOR_BG_BOM_GUARD,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_BOWL,
     sizeof(BgBomGuard),

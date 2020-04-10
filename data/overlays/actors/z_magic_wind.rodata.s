@@ -26,7 +26,9 @@ glabel D_80B8CE10
     .balign 4
 
 glabel D_80B8CE24
- .word 0x22BEC3CC, 0xC722203D, 0x2025730A, 0x00000000
+    .asciz "\"消滅\" = %s\n"
+    .balign 4
+
 glabel D_80B8CE34
  .word 0xBEC3CCC7, 0x00000000
 glabel D_80B8CE3C

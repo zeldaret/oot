@@ -6,7 +6,6 @@
 
 #include "z_bg_mjin.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void BgMjin_SetupAction(BgMjin* this, ActorFunc actionFunc);
@@ -20,7 +19,6 @@ static void BgMjin_Draw(BgMjin* this, GlobalContext* globalCtx);
 const ActorInit Bg_Mjin_InitVars = {
     ACTOR_BG_MJIN,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgMjin),

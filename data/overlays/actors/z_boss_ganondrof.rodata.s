@@ -16,13 +16,21 @@ glabel D_80915150
     .balign 4
 
 glabel D_80915188
- .word 0x52554E20, 0x310A0000
+    .asciz "RUN 1\n"
+    .balign 4
+
 glabel D_80915190
- .word 0x52554E20, 0x320A0000
+    .asciz "RUN 2\n"
+    .balign 4
+
 glabel D_80915198
- .word 0x52554E20, 0x330A0000
+    .asciz "RUN 3\n"
+    .balign 4
+
 glabel D_809151A0
- .word 0x52554E20, 0x340A0000
+    .asciz "RUN 4\n"
+    .balign 4
+
 glabel D_809151A8
     .asciz "this->fwork[GND_END_FRAME] = %d\n"
     .balign 4
@@ -72,11 +80,15 @@ glabel D_80915324
     .balign 4
 
 glabel D_8091534C
- .word 0x4D4F5645, 0x20454E44, 0x0A000000
+    .asciz "MOVE END\n"
+    .balign 4
+
 glabel D_80915358
  .word 0x4620310A, 0x00000000
 glabel D_80915360
- .word 0x46203135, 0x0A000000
+    .asciz "F 15\n"
+    .balign 4
+
 glabel D_80915368
  .word 0x4620320A, 0x00000000
 glabel D_80915370
@@ -84,27 +96,37 @@ glabel D_80915370
     .balign 4
 
 glabel D_80915388
- .word 0x4D4F5645, 0x2050203D, 0x2025780A, 0x00000000
+    .asciz "MOVE P = %x\n"
+    .balign 4
+
 glabel D_80915398
     .asciz "STOP TIMER = %d ==============\n"
     .balign 4
 
 glabel D_809153B8
- .word 0x59502025, 0x660A0000
+    .asciz "YP %f\n"
+    .balign 4
+
 glabel D_809153C0
- .word 0x44524157, 0x2031310A, 0x00000000
+    .asciz "DRAW 11\n"
+    .balign 4
+
 glabel D_809153CC
     .asciz "EYE_COL %d\n"
     .balign 4
 
 glabel D_809153D8
- .word 0x44524157, 0x2032320A, 0x00000000
+    .asciz "DRAW 22\n"
+    .balign 4
+
 glabel D_809153E4
     .asciz "../z_boss_ganondrof.c"
     .balign 4
 
 glabel D_809153FC
- .word 0x44524157, 0x20454E44, 0x2025640A, 0x00000000
+    .asciz "DRAW END %d\n"
+    .balign 4
+
 glabel D_8091540C
  .word 0xC54F3000
 glabel D_80915410

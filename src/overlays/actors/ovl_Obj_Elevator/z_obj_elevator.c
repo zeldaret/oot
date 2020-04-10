@@ -6,7 +6,6 @@
 
 #include "z_obj_elevator.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 #define SIZE_PARAM 1
@@ -24,7 +23,6 @@ static void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx);
 const ActorInit Obj_Elevator_InitVars = {
     ACTOR_OBJ_ELEVATOR,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_D_ELEVATOR,
     sizeof(ObjElevator),

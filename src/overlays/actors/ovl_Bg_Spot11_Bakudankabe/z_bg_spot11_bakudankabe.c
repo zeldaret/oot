@@ -6,7 +6,6 @@
 
 #include "z_bg_spot11_bakudankabe.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgSpot11Bakudankabe_Init(BgSpot11Bakudankabe* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ void BgSpot11Bakudankabe_Draw(BgSpot11Bakudankabe* this, GlobalContext* globalCt
 const ActorInit Bg_Spot11_Bakudankabe_InitVars = {
     ACTOR_BG_SPOT11_BAKUDANKABE,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT11_OBJ,
     sizeof(BgSpot11Bakudankabe),

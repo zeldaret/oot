@@ -1,6 +1,5 @@
 #include "z_bg_jya_goroiwa.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgJyaGoroiwa_Init(BgJyaGoroiwa* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgJyaGoroiwa_Draw(BgJyaGoroiwa* this, GlobalContext* globalCtx);
 const ActorInit Bg_Jya_Goroiwa_InitVars = {
     ACTOR_BG_JYA_GOROIWA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GOROIWA,
     sizeof(BgJyaGoroiwa),

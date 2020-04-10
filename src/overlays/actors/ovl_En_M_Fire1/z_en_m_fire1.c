@@ -14,7 +14,6 @@ typedef struct {
     /* 0x0198 */ f32 unk_0198;
 } ActorMFire; // size = 0x019C
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void Init(ActorMFire* this, GlobalContext* globalCtx);
@@ -22,7 +21,7 @@ static void Destroy(ActorMFire* this, GlobalContext* globalCtx);
 static void Update(ActorMFire* this, GlobalContext* globalCtx);
 
 const ActorInit En_M_Fire1_InitVars = {
-    ACTOR_EN_M_FIRE1,   ACTORTYPE_MISC,    ROOM, FLAGS, OBJECT_GAMEPLAY_KEEP, sizeof(ActorMFire), (ActorFunc)Init,
+    ACTOR_EN_M_FIRE1,   ACTORTYPE_MISC,    FLAGS, OBJECT_GAMEPLAY_KEEP, sizeof(ActorMFire), (ActorFunc)Init,
     (ActorFunc)Destroy, (ActorFunc)Update, NULL,
 };
 

@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80B97F90
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80B97F9C
     .asciz "押引ブロック発生失敗(%s %d)(arg_data 0x%04x)\n"
     .balign 4

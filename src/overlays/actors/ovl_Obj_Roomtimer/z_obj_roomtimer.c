@@ -14,7 +14,6 @@ typedef struct {
     /* 0x0150 */ u32 switchFlag;
 } ActorRoomTimer; // size = 0x0154
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void Init(ActorRoomTimer* this, GlobalContext* globalCtx);
@@ -24,16 +23,9 @@ static void func_80B9D054(ActorRoomTimer* this, GlobalContext* globalCtx);
 static void func_80B9D0B0(ActorRoomTimer* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Roomtimer_InitVars = {
-    ACTOR_OBJ_ROOMTIMER,
-    ACTORTYPE_ENEMY,
-    ROOM,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ActorRoomTimer),
-    (ActorFunc)Init,
-    (ActorFunc)Destroy,
-    (ActorFunc)Update,
-    (ActorFunc)NULL,
+    ACTOR_OBJ_ROOMTIMER,  ACTORTYPE_ENEMY,        FLAGS,
+    OBJECT_GAMEPLAY_KEEP, sizeof(ActorRoomTimer), (ActorFunc)Init,
+    (ActorFunc)Destroy,   (ActorFunc)Update,      (ActorFunc)NULL,
 };
 
 static void Init(ActorRoomTimer* this, GlobalContext* globalCtx) {

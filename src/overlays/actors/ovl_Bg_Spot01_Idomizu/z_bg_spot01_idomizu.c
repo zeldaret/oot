@@ -6,7 +6,6 @@
 
 #include "z_bg_spot01_idomizu.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000020
 
 void BgSpot01Idomizu_Init(BgSpot01Idomizu* this, GlobalContext* globalCtx);
@@ -19,7 +18,6 @@ void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot01_Idomizu_InitVars = {
     ACTOR_BG_SPOT01_IDOMIZU,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT01_OBJECTS,
     sizeof(BgSpot01Idomizu),

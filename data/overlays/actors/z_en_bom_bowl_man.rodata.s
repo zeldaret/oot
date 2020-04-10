@@ -32,7 +32,9 @@ glabel D_809C4BA4
     .balign 4
 
 glabel D_809C4BC4
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_809C4BC8
     .asciz "[35m☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n[m"
     .balign 4

@@ -12,7 +12,6 @@ typedef struct {
     /* 0x0164 */ ActorFunc actionFunc;
 } BgSpot01Idosoko; // size = 0x0168
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void BgSpot01Idosoko_Init(BgSpot01Idosoko* this, GlobalContext* globalCtx);
@@ -25,7 +24,6 @@ static void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot01_Idosoko_InitVars = {
     ACTOR_BG_SPOT01_IDOSOKO,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT01_MATOYA,
     sizeof(BgSpot01Idosoko),

@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80B116A0
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B116A4
     .asciz "[32m☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n[m"
     .balign 4
@@ -26,6 +28,8 @@ glabel D_80B11748
     .balign 4
 
 glabel D_80B11774
- .word 0x1B5B3334, 0x6DBAC6C4, 0xA9C0EFA4, 0xC0A4BCA1, 0xAAA5D9A5, 0xA4A5D3A1, 0xBCA1AA1B, 0x5B6D0A00, 0x00000000, 0x00000000, 0x00000000
+    .asciz "[34m再挑戦だぜ！ベイビー！[m\n"
+    .balign 4
 
+.align 4
 

@@ -1,6 +1,5 @@
 #include "z_en_tite.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnTite_Init(EnTite* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnTite_Draw(EnTite* this, GlobalContext* globalCtx);
 const ActorInit En_Tite_InitVars = {
     ACTOR_EN_TITE,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_TITE,
     sizeof(EnTite),

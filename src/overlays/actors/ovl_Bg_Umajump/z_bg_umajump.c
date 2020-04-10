@@ -14,7 +14,6 @@ typedef struct {
     /* 0x0150 */ char unk_150[0x14];
 } ActorBgUmajump; // size = 0x0164
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void Init(ActorBgUmajump* this, GlobalContext* globalCtx);
@@ -23,16 +22,8 @@ static void Update(ActorBgUmajump* this, GlobalContext* globalCtx);
 static void Draw(ActorBgUmajump* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Umajump_InitVars = {
-    ACTOR_BG_UMAJUMP,
-    ACTORTYPE_PROP,
-    ROOM,
-    FLAGS,
-    OBJECT_UMAJUMP,
-    sizeof(ActorBgUmajump),
-    (ActorFunc)Init,
-    (ActorFunc)Destroy,
-    (ActorFunc)Update,
-    (ActorFunc)Draw,
+    ACTOR_BG_UMAJUMP,   ACTORTYPE_PROP,    FLAGS,           OBJECT_UMAJUMP, sizeof(ActorBgUmajump), (ActorFunc)Init,
+    (ActorFunc)Destroy, (ActorFunc)Update, (ActorFunc)Draw,
 };
 
 extern D_06001438; // segmented address: 0x06001438

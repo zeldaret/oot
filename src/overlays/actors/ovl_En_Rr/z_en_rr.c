@@ -1,6 +1,5 @@
 #include "z_en_rr.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000435
 
 void EnRr_Init(EnRr* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnRr_Draw(EnRr* this, GlobalContext* globalCtx);
 const ActorInit En_Rr_InitVars = {
     ACTOR_EN_RR,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_RR,
     sizeof(EnRr),

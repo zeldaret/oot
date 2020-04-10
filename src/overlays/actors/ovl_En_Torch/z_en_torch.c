@@ -12,14 +12,20 @@ typedef struct {
     /* 0x0000 */ Actor actor;
 } ActorEnTorch; // size = 0x014C
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void Init(ActorEnTorch* this, GlobalContext* globalCtx);
 
 const ActorInit En_Torch_InitVars = {
-    ACTOR_EN_TORCH,       ACTORTYPE_ITEMACTION, ROOM, FLAGS, OBJECT_GAMEPLAY_KEEP,
-    sizeof(ActorEnTorch), (ActorFunc)Init,      NULL, NULL,  NULL,
+    ACTOR_EN_TORCH,
+    ACTORTYPE_ITEMACTION,
+    FLAGS,
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(ActorEnTorch),
+    (ActorFunc)Init,
+    NULL,
+    NULL,
+    NULL,
 };
 
 static u8 sChestContents[] = {

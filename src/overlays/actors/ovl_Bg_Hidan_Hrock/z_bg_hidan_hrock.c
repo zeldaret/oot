@@ -6,7 +6,6 @@
 
 #include "z_bg_hidan_hrock.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHidanHrock_Init(BgHidanHrock* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ void BgHidanHrock_Draw(BgHidanHrock* this, GlobalContext* globalCtx);
 const ActorInit Bg_Hidan_Hrock_InitVars = {
     ACTOR_BG_HIDAN_HROCK,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanHrock),

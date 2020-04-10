@@ -8,14 +8,18 @@
 .section .rodata
 
 glabel D_8086FA90
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_8086FA94
 
     .asciz "[32m ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n[m"
     .balign 4
 
 glabel D_8086FAD0
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_8086FAD4
 
     .asciz "../z_bg_bowl_wall.c"

@@ -6,7 +6,6 @@
 
 #include "z_en_fu.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000019
 
 void EnFu_Init(EnFu* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ void EnFu_Draw(EnFu* this, GlobalContext* globalCtx);
 const ActorInit En_Fu_InitVars = {
     ACTOR_EN_FU,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_FU,
     sizeof(EnFu),

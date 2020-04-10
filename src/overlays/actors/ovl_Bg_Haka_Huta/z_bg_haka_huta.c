@@ -1,6 +1,5 @@
 #include "z_bg_haka_huta.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgHakaHuta_Init(BgHakaHuta* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ void func_8087D8C0(BgHakaHuta* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_Huta_InitVars = {
     ACTOR_BG_HAKA_HUTA,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HAKACH_OBJECTS,
     sizeof(BgHakaHuta),

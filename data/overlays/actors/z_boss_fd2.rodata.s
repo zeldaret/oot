@@ -20,35 +20,59 @@ glabel D_808D62E8
     .balign 4
 
 glabel D_808D62FC
- .word 0x55502031, 0x2E35200A, 0x00000000
+    .asciz "UP 1.5 \n"
+    .balign 4
+
 glabel D_808D6308
- .word 0x55502074, 0x696D6520, 0x2564200A, 0x00000000
+    .asciz "UP time %d \n"
+    .balign 4
+
 glabel D_808D6318
- .word 0x504C2074, 0x696D6520, 0x2578200A, 0x00000000
+    .asciz "PL time %x \n"
+    .balign 4
+
 glabel D_808D6328
- .word 0x4D542074, 0x696D6520, 0x2578200A, 0x00000000
+    .asciz "MT time %x \n"
+    .balign 4
+
 glabel D_808D6338
- .word 0x55502031, 0x2E36200A, 0x00000000
+    .asciz "UP 1.6 \n"
+    .balign 4
+
 glabel D_808D6344
- .word 0x55502031, 0x2E37200A, 0x00000000
+    .asciz "UP 1.7 \n"
+    .balign 4
+
 glabel D_808D6350
- .word 0x55502032, 0x0A000000
+    .asciz "UP 2\n"
+    .balign 4
+
 glabel D_808D6358
     .asciz "UP INIT 1\n"
     .balign 4
 
 glabel D_808D6364
- .word 0x53573120, 0x3D202564, 0x0A000000
+    .asciz "SW1 = %d\n"
+    .balign 4
+
 glabel D_808D6370
- .word 0x53573220, 0x3D202564, 0x0A000000
+    .asciz "SW2 = %d\n"
+    .balign 4
+
 glabel D_808D637C
- .word 0x1B5B3332, 0x6D000000
+    .asciz "[32m"
+    .balign 4
+
 glabel D_808D6384
- .word 0x64616D61, 0x67652020, 0x2025640A, 0x00000000
+    .asciz "damage   %d\n"
+    .balign 4
+
 glabel D_808D6394
  .word 0x1B5B6D00
 glabel D_808D6398
- .word 0x68702025, 0x640A0000
+    .asciz "hp %d\n"
+    .balign 4
+
 glabel D_808D63A0
     .asciz "FD2 move start \n"
     .balign 4

@@ -6,7 +6,6 @@
 
 #include "z_demo_shd.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void DemoShd_Init(DemoShd* this, GlobalContext* globalCtx);
@@ -20,7 +19,6 @@ void func_80991298(DemoShd* this, GlobalContext* globalCtx);
 const ActorInit Demo_Shd_InitVars = {
     ACTOR_DEMO_SHD,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoShd),

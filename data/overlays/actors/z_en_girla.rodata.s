@@ -114,7 +114,9 @@ glabel D_80A3CFF0
 .balign 4
 
 glabel D_80A3D004
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80A3D010
     .asciz "引数がおかしいよ(arg_data=%d)！！\n"
     .balign 4
@@ -128,7 +130,9 @@ glabel D_80A3D03C
     .balign 4
 
 glabel D_80A3D04C
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80A3D058
     .asciz "バンクが無いよ！！(%s)\n"
     .balign 4
@@ -148,7 +152,9 @@ glabel D_80A3D088
 .balign 4
 
 glabel D_80A3D09C
- .word 0x25732825, 0x3264290A, 0x00000000
+    .asciz "%s(%2d)\n"
+    .balign 4
+
 glabel jtbl_80A3D0A8
 .word L80A3A780
 .word L80A3A8C4

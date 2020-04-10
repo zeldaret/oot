@@ -8,7 +8,6 @@
 
 #include <vt.h>
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void EnRu2_Init(EnRu2* this, GlobalContext* globalCtx);
@@ -76,7 +75,6 @@ static ActorFunc D_80AF510C[] = {
 const ActorInit En_Ru2_InitVars = {
     ACTOR_EN_RU2,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_RU2,
     sizeof(EnRu2),

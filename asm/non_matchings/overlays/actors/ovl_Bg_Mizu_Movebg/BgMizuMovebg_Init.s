@@ -1,3 +1,21 @@
+.late_rodata
+glabel jtbl_8089EC08
+.word L8089DD64
+.word L8089DDC8
+.word L8089DE2C
+.word L8089DE90
+.word L8089DED0
+.word L8089DED0
+.word L8089DED0
+.word L8089DF24
+glabel D_8089EC28
+ .word 0x44318000, 0x00000000
+glabel D_8089EC30
+ .word 0x405CCCCC, 0xCCCCCCCC
+glabel D_8089EC38
+ .word 0x38C90FDB
+
+.text
 glabel BgMizuMovebg_Init
 /* 00068 8089DC98 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 0006C 8089DC9C AFBF003C */  sw      $ra, 0x003C($sp)           

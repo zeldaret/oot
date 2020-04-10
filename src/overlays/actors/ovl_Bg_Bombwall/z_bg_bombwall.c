@@ -1,6 +1,5 @@
 #include "z_bg_bombwall.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00400000
 
 void BgBombwall_Init(BgBombwall* this, GlobalContext* globalCtx);
@@ -20,7 +19,6 @@ void func_8086EE94(BgBombwall* this, GlobalContext* globalCtx);
 const ActorInit Bg_Bombwall_InitVars = {
     ACTOR_BG_BOMBWALL,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(BgBombwall),

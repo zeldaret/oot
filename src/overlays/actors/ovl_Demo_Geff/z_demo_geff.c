@@ -8,7 +8,6 @@
 
 #include <vt.h>
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 static void DemoGeff_Init(DemoGeff* this, GlobalContext* globalCtx);
@@ -45,7 +44,6 @@ ActorFunc drawFuncs[] = {
 const ActorInit Demo_Geff_InitVars = {
     ACTOR_DEMO_GEFF,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_GEFF,
     sizeof(DemoGeff),

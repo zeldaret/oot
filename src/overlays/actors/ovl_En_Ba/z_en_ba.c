@@ -1,6 +1,5 @@
 #include "z_en_ba.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnBa_Init(EnBa* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnBa_Draw(EnBa* this, GlobalContext* globalCtx);
 const ActorInit En_Ba_InitVars = {
     ACTOR_EN_BA,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_BXA,
     sizeof(EnBa),

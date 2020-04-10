@@ -6,7 +6,6 @@
 
 #include "z_bg_spot00_break.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void BgSpot00Break_Init(BgSpot00Break* this, GlobalContext* globalCtx);
@@ -17,7 +16,6 @@ static void BgSpot00Break_Draw(BgSpot00Break* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot00_Break_InitVars = {
     ACTOR_BG_SPOT00_BREAK,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_SPOT00_BREAK,
     sizeof(BgSpot00Break),

@@ -16,7 +16,9 @@ glabel D_808975B0
     .balign 4
 
 glabel D_808975C4
- .word 0x1B5B3331, 0x6D000000
+    .asciz "[31m"
+    .balign 4
+
 glabel D_808975CC
     .asciz "Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n"
     .balign 4

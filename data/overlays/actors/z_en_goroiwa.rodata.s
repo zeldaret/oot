@@ -40,7 +40,9 @@ glabel D_80A4E00C
     .balign 4
 
 glabel D_80A4E044
- .word 0x1B5B3336, 0x6D000000
+    .asciz "[36m"
+    .balign 4
+
 glabel D_80A4E04C
     .asciz "Player ぶっ飛ばし\n"
     .balign 4

@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80926940
- .word 0x1B5B3333, 0x6D000000
+    .asciz "[33m"
+    .balign 4
+
 glabel D_80926948
     .asciz "Core_Damage_check START\n"
     .balign 4

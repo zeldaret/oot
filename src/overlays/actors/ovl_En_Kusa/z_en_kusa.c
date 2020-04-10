@@ -1,6 +1,5 @@
 #include "z_en_kusa.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00800010
 
 void EnKusa_Init(EnKusa* this, GlobalContext* globalCtx);
@@ -11,7 +10,6 @@ void EnKusa_Update(EnKusa* this, GlobalContext* globalCtx);
 const ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnKusa),

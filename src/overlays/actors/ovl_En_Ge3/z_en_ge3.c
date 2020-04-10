@@ -6,7 +6,6 @@
 
 #include "z_en_ge3.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnGe3_Init(EnGe3* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ void EnGe3_Draw(EnGe3* this, GlobalContext* globalCtx);
 const ActorInit En_Ge3_InitVars = {
     ACTOR_EN_GE3,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_GELDB,
     sizeof(EnGe3),

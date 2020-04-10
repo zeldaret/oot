@@ -8,13 +8,17 @@
 .section .rodata
 
 glabel D_809F5EB0
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_809F5EB4
     .asciz "[32m☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n[m"
     .balign 4
 
 glabel D_809F5EE8
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_809F5EEC
     .asciz "[32m☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n[m"
     .balign 4

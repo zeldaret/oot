@@ -6,7 +6,6 @@
 
 #include "z_en_boom.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 static void EnBoom_SetupAction(EnBoom* this, ActorFunc* actionFunc);
@@ -19,7 +18,6 @@ static void EnBoom_Draw(EnBoom* this, GlobalContext* globalCtx);
 const ActorInit En_Boom_InitVars = {
     ACTOR_EN_BOOM,
     ACTORTYPE_MISC,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBoom),

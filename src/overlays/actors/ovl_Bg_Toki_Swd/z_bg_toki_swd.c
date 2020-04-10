@@ -6,7 +6,6 @@
 
 #include "z_bg_toki_swd.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx);
@@ -153,7 +152,6 @@ static u32 D_808BBD90[] = {
 const ActorInit Bg_Toki_Swd_InitVars = {
     ACTOR_BG_TOKI_SWD,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_TOKI_OBJECTS,
     sizeof(BgTokiSwd),

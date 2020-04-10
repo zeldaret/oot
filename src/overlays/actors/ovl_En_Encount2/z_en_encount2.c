@@ -1,6 +1,5 @@
 #include "z_en_encount2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnEncount2_Init(EnEncount2* this, GlobalContext* globalCtx);
@@ -11,7 +10,6 @@ void EnEncount2_Draw(EnEncount2* this, GlobalContext* globalCtx);
 const ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_EFC_STAR_FIELD,
     sizeof(EnEncount2),

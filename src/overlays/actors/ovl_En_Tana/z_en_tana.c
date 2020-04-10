@@ -6,7 +6,6 @@
 
 #include "z_en_tana.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 static void EnTana_Init(EnTana* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ static void func_80B1809C(EnTana* this, GlobalContext* globalCtx);
 const ActorInit En_Tana_InitVars = {
     ACTOR_EN_TANA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_SHOP_DUNGEN,
     sizeof(EnTana),

@@ -24,6 +24,7 @@ glabel D_80AAFBE8
     .balign 4
 
 glabel D_80AAFBF8
- .word 0x2E2E2F7A, 0x5F656E5F, 0x6D6D322E, 0x63000000, 0x00000000, 0x00000000
+    .asciz "../z_en_mm2.c"
+    .balign 4
 
-
+.align 4

@@ -32,7 +32,6 @@ typedef void (*ActorFunc)(struct Actor*, struct GlobalContext*);
 typedef struct {
     /* 0x00 */ s16 id;
     /* 0x02 */ u8  type; // Classifies actor and determines when actor will execute
-    /* 0x03 */ u8  room; // Room instance was spawned in. If value set to FF in rom, instance does not despawn when swapping rooms
     /* 0x04 */ u32 flags;
     /* 0x08 */ s16 objectId;
     /* 0x0C */ u32 instanceSize;

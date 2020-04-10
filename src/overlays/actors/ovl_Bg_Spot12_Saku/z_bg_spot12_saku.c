@@ -6,7 +6,6 @@
 
 #include "z_bg_spot12_saku.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void BgSpot12Saku_Init(BgSpot12Saku* this, GlobalContext* globalCtx);
@@ -24,7 +23,6 @@ static void func_808B37AC(BgSpot12Saku* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot12_Saku_InitVars = {
     ACTOR_BG_SPOT12_SAKU,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT12_OBJ,
     sizeof(BgSpot12Saku),

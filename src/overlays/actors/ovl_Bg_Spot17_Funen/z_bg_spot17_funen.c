@@ -6,7 +6,6 @@
 
 #include "z_bg_spot17_funen.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgSpot17Funen_Init(BgSpot17Funen* this, GlobalContext* globalCtx);
@@ -19,7 +18,6 @@ void func_808B7478(BgSpot17Funen* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot17_Funen_InitVars = {
     ACTOR_BG_SPOT17_FUNEN,
     ACTORTYPE_SWITCH,
-    ROOM,
     FLAGS,
     OBJECT_SPOT17_OBJ,
     sizeof(BgSpot17Funen),

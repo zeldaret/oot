@@ -16,7 +16,9 @@ glabel D_808957B0
     .balign 4
 
 glabel D_808957C8
- .word 0x1B5B3433, 0x3B33306D, 0x00000000
+    .asciz "[43;30m"
+    .balign 4
+
 glabel D_808957D4
     .asciz "Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n"
     .balign 4

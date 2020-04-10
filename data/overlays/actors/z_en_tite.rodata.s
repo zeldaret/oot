@@ -8,13 +8,17 @@
 .section .rodata
 
 glabel D_80B1B6F0
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B1B6F4
     .asciz "[32m☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n[m"
     .balign 4
 
 glabel D_80B1B720
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B1B724
     .asciz "../z_en_tite.c"
     .balign 4

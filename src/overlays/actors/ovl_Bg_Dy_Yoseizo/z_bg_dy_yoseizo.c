@@ -6,7 +6,6 @@
 
 #include "z_bg_dy_yoseizo.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000030
 
 void BgDyYoseizo_Init(BgDyYoseizo* this, GlobalContext* globalCtx);
@@ -39,7 +38,6 @@ void func_808751A0(BgDyYoseizo* this, GlobalContext* globalCtx);
 const ActorInit Bg_Dy_Yoseizo_InitVars = {
     ACTOR_BG_DY_YOSEIZO,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_DY_OBJ,
     sizeof(BgDyYoseizo),

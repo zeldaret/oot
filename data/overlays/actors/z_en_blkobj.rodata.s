@@ -24,6 +24,8 @@ glabel D_809C25EC
     .balign 4
 
 glabel D_809C2600
- .word 0x2E2E2F7A, 0x5F656E5F, 0x626C6B6F, 0x626A2E63, 0x00000000, 0x00000000, 0x00000000, 0x00000000
+    .asciz "../z_en_blkobj.c"
+    .balign 4
 
+.align 4
 

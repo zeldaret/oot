@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_809BCB30
- .word 0x504F5745, 0x520A0000
+    .asciz "POWER\n"
+    .balign 4
+
 glabel D_809BCB38
     .asciz "../z_en_bdfire.c"
     .balign 4

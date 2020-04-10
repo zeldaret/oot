@@ -6,7 +6,6 @@
 
 #include "z_bg_hidan_fslift.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void BgHidanFslift_Init(BgHidanFslift* this, GlobalContext* globalCtx);
@@ -24,7 +23,6 @@ extern u32 D_0600E1E8;
 const ActorInit Bg_Hidan_Fslift_InitVars = {
     ACTOR_BG_HIDAN_FSLIFT,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanFslift),

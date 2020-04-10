@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80A9C2A0
- .word 0x1B5B3433, 0x3B33306D, 0x00000000
+    .asciz "[43;30m"
+    .balign 4
+
 glabel D_80A9C2AC
     .asciz "地面に付着失敗(%s %d)\n"
     .balign 4

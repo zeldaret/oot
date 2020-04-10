@@ -12,7 +12,6 @@ typedef struct {
     /* 0x0000 */ Actor actor;
 } ActorObjBlockstop; // size = 0x014C
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void Init(ActorObjBlockstop* this, GlobalContext* globalCtx);
@@ -20,16 +19,8 @@ static void Destroy(ActorObjBlockstop* this, GlobalContext* globalCtx);
 static void Update(ActorObjBlockstop* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Blockstop_InitVars = {
-    ACTOR_OBJ_BLOCKSTOP,
-    ACTORTYPE_PROP,
-    ROOM,
-    FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
-    sizeof(ActorObjBlockstop),
-    (ActorFunc)Init,
-    (ActorFunc)Destroy,
-    (ActorFunc)Update,
-    NULL,
+    ACTOR_OBJ_BLOCKSTOP, ACTORTYPE_PROP,    FLAGS, OBJECT_GAMEPLAY_KEEP, sizeof(ActorObjBlockstop), (ActorFunc)Init,
+    (ActorFunc)Destroy,  (ActorFunc)Update, NULL,
 };
 
 static void Init(ActorObjBlockstop* this, GlobalContext* globalCtx) {

@@ -6,7 +6,6 @@
 
 #include "z_bg_ddan_jd.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgDdanJd_Init(BgDdanJd* this, GlobalContext* globalCtx);
@@ -21,7 +20,6 @@ void func_80870F00(BgDdanJd* this, GlobalContext* globalCtx);
 const ActorInit Bg_Ddan_Jd_InitVars = {
     ACTOR_BG_DDAN_JD,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_DDAN_OBJECTS,
     sizeof(BgDdanJd),

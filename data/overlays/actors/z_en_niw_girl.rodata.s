@@ -16,9 +16,13 @@ glabel D_80AB9A34
     .balign 4
 
 glabel D_80AB9A70
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80AB9A74
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80AB9A78
     .asciz "[32m☆☆☆☆☆ なぜか、セットできむぅあせん ☆☆☆☆☆ %d\n[m"
     .balign 4
@@ -28,7 +32,9 @@ glabel D_80AB9AB8
     .balign 4
 
 glabel D_80AB9AE8
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80AB9AEC
     .asciz "../z_en_niw_girl.c"
     .balign 4

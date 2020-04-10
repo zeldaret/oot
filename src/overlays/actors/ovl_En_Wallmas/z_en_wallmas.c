@@ -6,7 +6,6 @@
 
 #include "z_en_wallmas.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000015
 
 #define TIMER_SCALE ((f32)OS_CLOCK_RATE / 10000000000)
@@ -41,7 +40,6 @@ static void EnWallmas_Draw(EnWallmas* this, GlobalContext* globalCtx);
 const ActorInit En_Wallmas_InitVars = {
     ACTOR_EN_WALLMAS,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_WALLMASTER,
     sizeof(EnWallmas),

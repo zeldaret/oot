@@ -6,7 +6,6 @@
 
 #include "z_bg_relay_objects.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgRelayObjects_Init(BgRelayObjects* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ void BgRelayObjects_Draw(BgRelayObjects* this, GlobalContext* globalCtx);
 const ActorInit Bg_Relay_Objects_InitVars = {
     ACTOR_BG_RELAY_OBJECTS,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_RELAY_OBJECTS,
     sizeof(BgRelayObjects),

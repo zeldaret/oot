@@ -1,6 +1,5 @@
 #include "z_en_dns.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnDns_Init(EnDns* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnDns_Draw(EnDns* this, GlobalContext* globalCtx);
 const ActorInit En_Dns_InitVars = {
     ACTOR_EN_DNS,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SHOPNUTS,
     sizeof(EnDns),

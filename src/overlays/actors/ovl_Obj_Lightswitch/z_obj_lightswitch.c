@@ -1,6 +1,5 @@
 #include "z_obj_lightswitch.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ObjLightswitch_Init(ObjLightswitch* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void ObjLightswitch_Draw(ObjLightswitch* this, GlobalContext* globalCtx);
 const ActorInit Obj_Lightswitch_InitVars = {
     ACTOR_OBJ_LIGHTSWITCH,
     ACTORTYPE_SWITCH,
-    ROOM,
     FLAGS,
     OBJECT_LIGHTSWITCH,
     sizeof(ObjLightswitch),

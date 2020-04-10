@@ -12,7 +12,9 @@ glabel D_808A0580
     .balign 4
 
 glabel D_808A059C
- .word 0x25782025, 0x78202578, 0x0A000000
+    .asciz "%x %x %x\n"
+    .balign 4
+
 glabel D_808A05A8
     .asciz "../z_bg_mizu_water.c"
     .balign 4

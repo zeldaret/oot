@@ -12,13 +12,17 @@ glabel D_80ABB420
     .balign 4
 
 glabel D_80ABB458
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80ABB45C
     .asciz "[32m☆ 鶏柵内ＧＥＴ！☆ %x\n[m"
     .balign 4
 
 glabel D_80ABB47C
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80ABB480
     .asciz "[33m☆☆☆☆☆ ねぇちゃん選択	 ☆☆☆☆ %d\n[m"
     .balign 4
@@ -44,7 +48,9 @@ glabel D_80ABB588
     .balign 4
 
 glabel D_80ABB5C0
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80ABB5C4
     .asciz "[36m☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n[m"
     .balign 4
@@ -54,7 +60,9 @@ glabel D_80ABB5F0
     .balign 4
 
 glabel D_80ABB61C
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80ABB620
     .asciz "[32m☆☆☆☆☆ ハート ☆☆☆☆☆ %d\n[m"
     .balign 4
@@ -64,7 +72,9 @@ glabel D_80ABB64C
     .balign 4
 
 glabel D_80ABB678
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80ABB67C
     .asciz "[32m☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n[m"
     .balign 4

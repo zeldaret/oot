@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_80990F38
+ .word 0x42A6AAAB, 0x00000000
+
+
+.text
 glabel func_8098E944
 /* 004E4 8098E944 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 004E8 8098E948 3C018099 */  lui     $at, %hi(D_80990F38)       ## $at = 80990000

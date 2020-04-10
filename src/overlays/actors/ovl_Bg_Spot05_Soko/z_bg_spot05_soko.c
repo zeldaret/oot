@@ -6,7 +6,6 @@
 
 #include "z_bg_spot05_soko.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx);
@@ -23,7 +22,6 @@ extern Gfx* D_06000918;
 const ActorInit Bg_Spot05_Soko_InitVars = {
     ACTOR_BG_SPOT05_SOKO,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_SPOT05_OBJECTS,
     sizeof(BgSpot05Soko),

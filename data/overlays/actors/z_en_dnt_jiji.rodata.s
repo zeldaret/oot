@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_809F2FE0
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_809F2FE4
     .asciz "[33m☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n[m"
     .balign 4

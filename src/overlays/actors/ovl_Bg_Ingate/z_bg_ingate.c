@@ -6,7 +6,6 @@
 
 #include "z_bg_ingate.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgIngate_Init(BgIngate* this, GlobalContext* globalCtx);
@@ -21,7 +20,6 @@ void func_80892990(BgIngate* this, GlobalContext* globalCtx);
 const ActorInit Bg_Ingate_InitVars = {
     ACTOR_BG_INGATE,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_INGATE,
     sizeof(BgIngate),

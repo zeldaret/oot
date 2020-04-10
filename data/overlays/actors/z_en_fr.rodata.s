@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80A1D110
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80A1D11C
     .asciz "%s[%d] : 引数が間違っている！！(%d)\n"
     .balign 4
@@ -26,7 +28,9 @@ glabel D_80A1D15C
     .balign 4
 
 glabel D_80A1D16C
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80A1D178
     .asciz "%s[%d] : バンクが無いよ！！\n"
     .balign 4
@@ -44,7 +48,9 @@ glabel D_80A1D1B0
     .balign 4
 
 glabel D_80A1D1C0
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80A1D1CC
     .asciz "%s[%d]カエルがいない！？\n"
     .balign 4
@@ -56,7 +62,9 @@ glabel D_80A1D1E8
 glabel D_80A1D1F8
  .word 0x1B5B6D00
 glabel D_80A1D1FC
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80A1D208
     .asciz "%s[%d]カエルがいない！？\n"
     .balign 4

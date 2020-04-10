@@ -14,7 +14,6 @@ typedef struct {
     /* 0x0150 */ u32 unk_150[0x5];
 } ActorSpot18Futa; // size = 0x0154
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void Init(ActorSpot18Futa* this, GlobalContext* globalCtx);
@@ -23,16 +22,9 @@ static void Update(ActorSpot18Futa* this, GlobalContext* globalCtx);
 static void Draw(ActorSpot18Futa* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot18_Futa_InitVars = {
-    ACTOR_BG_SPOT18_FUTA,
-    ACTORTYPE_PROP,
-    ROOM,
-    FLAGS,
-    OBJECT_SPOT18_OBJ,
-    sizeof(ActorSpot18Futa),
-    (ActorFunc)Init,
-    (ActorFunc)Destroy,
-    (ActorFunc)Update,
-    (ActorFunc)Draw,
+    ACTOR_BG_SPOT18_FUTA, ACTORTYPE_PROP,          FLAGS,
+    OBJECT_SPOT18_OBJ,    sizeof(ActorSpot18Futa), (ActorFunc)Init,
+    (ActorFunc)Destroy,   (ActorFunc)Update,       (ActorFunc)Draw,
 };
 
 static InitChainEntry initChain[] = {
