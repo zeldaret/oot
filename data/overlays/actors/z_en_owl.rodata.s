@@ -26,7 +26,9 @@ glabel D_80ACD6C4
 glabel D_80ACD6D4
  .word 0xA5D5A5AF, 0xA5EDA5A6, 0xC2E0C8F2, 0x0A000000
 glabel D_80ACD6E4
- .word 0x1B5B3336, 0x6D000000
+    .asciz "[36m"
+    .balign 4
+
 glabel D_80ACD6EC
     .asciz "no = %d  \n"
     .balign 4
@@ -40,7 +42,9 @@ glabel D_80ACD730
     .balign 4
 
 glabel D_80ACD754
- .word 0x1B5B3336, 0x6D000000
+    .asciz "[36m"
+    .balign 4
+
 glabel D_80ACD75C
     .asciz "%dのフクロウ\n"
     .balign 4
@@ -48,7 +52,9 @@ glabel D_80ACD75C
 glabel D_80ACD76C
  .word 0x1B5B6D00
 glabel D_80ACD770
- .word 0x1B5B3336, 0x6D000000
+    .asciz "[36m"
+    .balign 4
+
 glabel D_80ACD778
     .asciz "SPOT 06 の デモがはしった\n"
     .balign 4

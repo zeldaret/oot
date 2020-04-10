@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B65294
+    .asciz "STANDBY !!\n"
+    .balign 4
+
+glabel D_80B652A0
+    .asciz "XP2  = %f\n"
+    .balign 4
+
+glabel D_80B652AC
+    .asciz "ZP2  = %f\n"
+    .balign 4
+
+glabel D_80B652B8
+    .asciz "arg_data ------------------------------------>%d\n"
+    .balign 4
+
+.text
 glabel func_80B6404C
 /* 0168C 80B6404C 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 01690 80B64050 AFB00038 */  sw      $s0, 0x0038($sp)

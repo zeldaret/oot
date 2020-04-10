@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80B85DA0
- .word 0x6E6F203D, 0x2025640A, 0x00000000
+    .asciz "no = %d\n"
+    .balign 4
+
 glabel D_80B85DAC
     .asciz "bank_ID = %d\n"
     .balign 4

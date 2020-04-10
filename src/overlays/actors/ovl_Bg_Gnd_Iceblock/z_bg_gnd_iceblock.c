@@ -6,7 +6,6 @@
 
 #include "z_bg_gnd_iceblock.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgGndIceblock_Init(BgGndIceblock* this, GlobalContext* globalCtx);
@@ -22,7 +21,6 @@ void func_8087A39C(BgGndIceblock* this, GlobalContext* globalCtx);
 const ActorInit Bg_Gnd_Iceblock_InitVars = {
     ACTOR_BG_GND_ICEBLOCK,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndIceblock),

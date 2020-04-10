@@ -56,7 +56,6 @@ typedef struct {
     /* 0x01DD */ char unk_1DD[0x3];
 } BgBdanSwitch; // size = 0x01E0
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void BgBdanSwitch_Init(BgBdanSwitch* this, GlobalContext* globalCtx);
@@ -95,7 +94,6 @@ static void func_8086DDC0(BgBdanSwitch* this, GlobalContext* globalCtx);
 const ActorInit Bg_Bdan_Switch_InitVars = {
     ACTOR_BG_BDAN_SWITCH,
     ACTORTYPE_SWITCH,
-    ROOM,
     FLAGS,
     OBJECT_BDAN_OBJECTS,
     sizeof(BgBdanSwitch),

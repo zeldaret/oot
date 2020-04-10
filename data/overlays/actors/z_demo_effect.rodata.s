@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80976880
- .word 0x1B5B3336, 0x6D206E6F, 0x203D2025, 0x640A1B5B, 0x6D000000
+    .asciz "[36m no = %d\n[m"
+    .balign 4
+
 glabel D_80976894
     .asciz "[36m bank_ID = %d\n[m"
     .balign 4

@@ -14,7 +14,6 @@ typedef struct {
     /* 0x0164 */ void (*updateFunc)(Actor*);
 } BgJyaAmishutter; // size = 0x0168
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void BgJyaAmishutter_Init(BgJyaAmishutter* this, GlobalContext* globalCtx);
@@ -34,7 +33,6 @@ static void func_8089350C(BgJyaAmishutter* this);
 const ActorInit Bg_Jya_Amishutter_InitVars = {
     ACTOR_BG_JYA_AMISHUTTER,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaAmishutter),

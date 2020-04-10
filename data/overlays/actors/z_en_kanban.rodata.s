@@ -8,33 +8,57 @@
 .section .rodata
 
 glabel D_80A94FE0
- .word 0x4B414E42, 0x414E2041, 0x52472020, 0x20202578, 0x0A000000
+    .asciz "KANBAN ARG    %x\n"
+    .balign 4
+
 glabel D_80A94FF4
  .word 0x1B5B6D00
 glabel D_80A94FF8
- .word 0x20574154, 0x20205920, 0x203D2025, 0x660A0000
+    .asciz " WAT  Y  = %f\n"
+    .balign 4
+
 glabel D_80A95008
- .word 0x20504F53, 0x20205920, 0x203D2025, 0x660A0000
+    .asciz " POS  Y  = %f\n"
+    .balign 4
+
 glabel D_80A95018
- .word 0x2047524F, 0x554E4420, 0x5920203D, 0x2025660A, 0x00000000
+    .asciz " GROUND Y  = %f\n"
+    .balign 4
+
 glabel D_80A9502C
- .word 0x1B5B3332, 0x6D000000
+    .asciz "[32m"
+    .balign 4
+
 glabel D_80A95034
- .word 0x4F434152, 0x494E415F, 0x4D4F4445, 0x2025640A, 0x00000000
+    .asciz "OCARINA_MODE %d\n"
+    .balign 4
+
 glabel D_80A95048
  .word 0x1B5B6D00
 glabel D_80A9504C
- .word 0x2E2E2F7A, 0x5F656E5F, 0x6B616E62, 0x616E2E63, 0x00000000
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
 glabel D_80A95060
- .word 0x2E2E2F7A, 0x5F656E5F, 0x6B616E62, 0x616E2E63, 0x00000000
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
 glabel D_80A95074
- .word 0x2E2E2F7A, 0x5F656E5F, 0x6B616E62, 0x616E2E63, 0x00000000
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
 glabel D_80A95088
- .word 0x2E2E2F7A, 0x5F656E5F, 0x6B616E62, 0x616E2E63, 0x00000000
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
 glabel D_80A9509C
- .word 0x2E2E2F7A, 0x5F656E5F, 0x6B616E62, 0x616E2E63, 0x00000000
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
 glabel D_80A950B0
- .word 0x2E2E2F7A, 0x5F656E5F, 0x6B616E62, 0x616E2E63, 0x00000000
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
 glabel D_80A950C4
  .word 0x38000100
 glabel jtbl_80A950C8

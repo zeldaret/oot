@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80A07490
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A07494
     .asciz "[32m☆☆☆☆☆ 入力エラーデッス！ ☆☆☆☆☆ \n[m"
     .balign 4
@@ -30,9 +32,13 @@ glabel D_80A07564
     .balign 4
 
 glabel D_80A07598
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A0759C
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A075A0
     .asciz "[32m☆☆☆☆☆ 敵発生ゾーンでた！ ☆☆☆☆☆ %x\n[m"
     .balign 4
@@ -54,7 +60,9 @@ glabel D_80A07670
     .balign 4
 
 glabel D_80A076A8
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A076AC
     .asciz "[32m☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n[m"
     .balign 4

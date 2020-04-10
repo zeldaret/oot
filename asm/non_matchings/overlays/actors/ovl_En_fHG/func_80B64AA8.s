@@ -1,3 +1,19 @@
+.rdata
+glabel D_80B65330
+    .asciz "KABE IN !!\n"
+    .balign 4
+
+glabel D_80B6533C
+    .asciz "ac1 = %x `````````````````````````````````````````````````\n"
+    .balign 4
+
+.late_rodata
+glabel D_80B6544C
+ .word 0x3A83126F
+glabel D_80B65450
+ .word 0x40BFAE14
+
+.text
 glabel func_80B64AA8
 /* 020E8 80B64AA8 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 020EC 80B64AAC AFB10040 */  sw      $s1, 0x0040($sp)           

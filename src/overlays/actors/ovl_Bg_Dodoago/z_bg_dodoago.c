@@ -6,7 +6,6 @@
 
 #include "z_bg_dodoago.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgDodoago_Init(BgDodoago* this, GlobalContext* globalCtx);
@@ -24,7 +23,6 @@ void func_80872288(BgDodoago* this, GlobalContext* globalCtx);
 const ActorInit Bg_Dodoago_InitVars = {
     ACTOR_BG_DODOAGO,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_DDAN_OBJECTS,
     sizeof(BgDodoago),

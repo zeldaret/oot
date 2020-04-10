@@ -1,6 +1,5 @@
 #include "z_bg_haka_meganebg.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHakaMeganeBG_Init(BgHakaMeganeBG* this, GlobalContext* globalCtx);
@@ -16,7 +15,6 @@ void func_8087E34C(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_MeganeBG_InitVars = {
     ACTOR_BG_HAKA_MEGANEBG,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaMeganeBG),

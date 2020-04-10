@@ -14,7 +14,6 @@ typedef struct {
     /* 0x0150 */ ColliderCylinderMain cylinderCollider;
 } ActorIt; // size = 0x019C
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void Init(ActorIt* this, GlobalContext* globalCtx);
@@ -31,10 +30,8 @@ static u8 damageTblInitData[] = {
 };
 
 const ActorInit En_It_InitVars = {
-    ACTOR_EN_IT,     ACTORTYPE_PROP,       ROOM,
-    FLAGS,           OBJECT_GAMEPLAY_KEEP, sizeof(ActorIt),
-    (ActorFunc)Init, (ActorFunc)Destroy,   (ActorFunc)Update,
-    (ActorFunc)NULL,
+    ACTOR_EN_IT,        ACTORTYPE_PROP,    FLAGS,           OBJECT_GAMEPLAY_KEEP, sizeof(ActorIt), (ActorFunc)Init,
+    (ActorFunc)Destroy, (ActorFunc)Update, (ActorFunc)NULL,
 };
 
 static void Init(ActorIt* this, GlobalContext* globalCtx) {

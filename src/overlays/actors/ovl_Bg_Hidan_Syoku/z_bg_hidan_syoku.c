@@ -20,7 +20,6 @@ typedef struct {
     /* 0x016A */ s16 unk_16A;
 } ActorHidanSyoku; // size = 0x016C
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void Init(ActorHidanSyoku* this, GlobalContext* globalCtx);
@@ -34,7 +33,6 @@ static void Draw(ActorHidanSyoku* this, GlobalContext* globalCtx);
 const ActorInit Bg_Hidan_Syoku_InitVars = {
     ACTOR_BG_HIDAN_SYOKU,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(ActorHidanSyoku),

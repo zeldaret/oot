@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80AFA430
- .word 0x53444120, 0x4D4F5645, 0x0A000000
+    .asciz "SDA MOVE\n"
+    .balign 4
+
 glabel D_80AFA43C
     .asciz "SDA MOVE END\n"
     .balign 4
@@ -42,7 +44,9 @@ glabel D_80AFA498
     .balign 4
 
 glabel D_80AFA4A8
- .word 0x53444120, 0x4420310A, 0x00000000
+    .asciz "SDA D 1\n"
+    .balign 4
+
 glabel D_80AFA4B4
     .asciz "../z_en_sda.c"
     .balign 4
@@ -52,7 +56,9 @@ glabel D_80AFA4C4
     .balign 4
 
 glabel D_80AFA4D4
- .word 0x53444120, 0x4420320A, 0x00000000
+    .asciz "SDA D 2\n"
+    .balign 4
+
 glabel D_80AFA4E0
     .asciz "../z_en_sda.c"
     .balign 4

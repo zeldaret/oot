@@ -1,6 +1,5 @@
 #include "z_bg_bdan_objects.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx);
@@ -26,7 +25,6 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx);
 const ActorInit Bg_Bdan_Objects_InitVars = {
     ACTOR_BG_BDAN_OBJECTS,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_BDAN_OBJECTS,
     sizeof(BgBdanObjects),

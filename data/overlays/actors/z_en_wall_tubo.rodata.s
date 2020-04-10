@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80B2F370
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B2F374
     .asciz "[33m☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n[m"
     .balign 4

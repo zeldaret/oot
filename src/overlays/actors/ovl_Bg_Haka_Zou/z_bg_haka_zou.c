@@ -6,7 +6,6 @@
 
 #include "z_bg_haka_zou.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgHakaZou_Init(BgHakaZou* this, GlobalContext* globalCtx);
@@ -17,7 +16,6 @@ void BgHakaZou_Update(BgHakaZou* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_Zou_InitVars = {
     ACTOR_BG_HAKA_ZOU,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgHakaZou),

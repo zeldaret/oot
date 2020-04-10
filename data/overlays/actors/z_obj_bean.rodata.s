@@ -16,7 +16,9 @@ glabel D_80B90F00
     .balign 4
 
 glabel D_80B90F10
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80B90F1C
     .asciz "パスデータが無い？(%s %d)(arg_data %xH)\n"
     .balign 4
@@ -28,7 +30,9 @@ glabel D_80B90F48
 glabel D_80B90F58
  .word 0x1B5B6D00
 glabel D_80B90F5C
- .word 0x1B5B3431, 0x3B33376D, 0x00000000
+    .asciz "[41;37m"
+    .balign 4
+
 glabel D_80B90F68
     .asciz "パスデータ数が不正(%s %d)(arg_data %xH)\n"
     .balign 4
@@ -44,7 +48,9 @@ glabel D_80B90FA8
     .balign 4
 
 glabel D_80B90FD0
- .word 0x1B5B3336, 0x6D000000
+    .asciz "[36m"
+    .balign 4
+
 glabel D_80B90FD8
  .word 0xC7CFA4C8, 0xC6A6A4CE, 0xCCDAA5EA, 0xA5D5A5C8, 0xBED7C6CD, 0xA1AAA1AA, 0xA1AA0A00
 glabel D_80B90FF4

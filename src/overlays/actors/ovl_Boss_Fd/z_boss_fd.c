@@ -1,6 +1,5 @@
 #include "z_boss_fd.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void BossFd_Init(BossFd* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BossFd_Draw(BossFd* this, GlobalContext* globalCtx);
 const ActorInit Boss_Fd_InitVars = {
     ACTOR_BOSS_FD,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_FD,
     sizeof(BossFd),

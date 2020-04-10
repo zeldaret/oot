@@ -6,7 +6,6 @@
 
 #include "z_en_dog.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void EnDog_Init(EnDog* this, GlobalContext* globalCtx);
@@ -24,7 +23,6 @@ static void EnDog_Wait(EnDog* this, GlobalContext* globalCtx);
 const ActorInit En_Dog_InitVars = {
     ACTOR_EN_DOG,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_DOG,
     sizeof(EnDog),

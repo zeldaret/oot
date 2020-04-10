@@ -6,7 +6,6 @@
 
 #include "z_door_ana.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000000
 
 static void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx);
@@ -23,7 +22,6 @@ static void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx);
 const ActorInit Door_Ana_InitVars = {
     ACTOR_DOOR_ANA,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(DoorAna),

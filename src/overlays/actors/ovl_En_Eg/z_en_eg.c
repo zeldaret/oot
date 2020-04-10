@@ -14,7 +14,6 @@ typedef struct {
     /* 0x014C */ s32 funcIndex;
 } ActorEg; // size = 0x0154
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void PlayVoidOutSFX();
@@ -30,10 +29,8 @@ static const ActorFunc funcTbl[] = {
 };
 
 const ActorInit En_Eg_InitVars = {
-    ACTOR_EN_EG,     ACTORTYPE_ITEMACTION, ROOM,
-    FLAGS,           OBJECT_ZL2,           sizeof(ActorEg),
-    (ActorFunc)Init, (ActorFunc)Destroy,   (ActorFunc)Update,
-    (ActorFunc)Draw,
+    ACTOR_EN_EG,        ACTORTYPE_ITEMACTION, FLAGS,           OBJECT_ZL2, sizeof(ActorEg), (ActorFunc)Init,
+    (ActorFunc)Destroy, (ActorFunc)Update,    (ActorFunc)Draw,
 };
 
 static void PlayVoidOutSFX() {

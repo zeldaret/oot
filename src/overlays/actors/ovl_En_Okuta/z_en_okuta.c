@@ -1,6 +1,5 @@
 #include "z_en_okuta.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnOkuta_Init(EnOkuta* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnOkuta_Draw(EnOkuta* this, GlobalContext* globalCtx);
 const ActorInit En_Okuta_InitVars = {
     ACTOR_EN_OKUTA,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_OKUTA,
     sizeof(EnOkuta),

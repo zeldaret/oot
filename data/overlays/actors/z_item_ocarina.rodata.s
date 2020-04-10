@@ -12,7 +12,9 @@ glabel D_80B86810
     .balign 4
 
 glabel D_80B86824
- .word 0x6E6F203D, 0x2025640A, 0x00000000
+    .asciz "no = %d\n"
+    .balign 4
+
 glabel D_80B86830
  .word 0x44866000
 glabel D_80B86834

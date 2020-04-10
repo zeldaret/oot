@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_809D3180
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_809D3184
     .asciz "[32m☆☆☆☆☆ 宝発生(部屋はどれ？) %d\n[m"
     .balign 4
@@ -26,7 +28,9 @@ glabel D_809D3204
     .balign 4
 
 glabel D_809D3230
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_809D3234
     .asciz "[33m☆☆☆☆☆ 中央宝発生(ＧＲＥＡＴ) ☆☆☆☆☆ %x\n[m"
     .balign 4
@@ -48,7 +52,9 @@ glabel D_809D3308
     .balign 4
 
 glabel D_809D332C
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_809D3330
     .asciz "[36m☆☆☆☆☆ 右宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n[m"
     .balign 4
@@ -66,7 +72,9 @@ glabel D_809D33C8
     .balign 4
 
 glabel D_809D33EC
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_809D33F0
     .asciz "[32m☆☆☆☆☆ 右宝開く ☆☆☆☆☆ %d\n[m"
     .balign 4

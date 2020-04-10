@@ -12,7 +12,9 @@ glabel D_80996060
     .balign 4
 
 glabel D_80996070
- .word 0x73746174, 0x7573203D, 0x2025640A, 0x00000000
+    .asciz "status = %d\n"
+    .balign 4
+
 glabel D_80996080
     .asciz "../z_door_killer.c"
     .balign 4

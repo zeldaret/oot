@@ -6,7 +6,6 @@
 
 #include "z_bg_jya_kanaami.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void BgJyaKanaami_Init(BgJyaKanaami* this, GlobalContext* globalCtx);
@@ -23,7 +22,6 @@ static void func_80899A08(BgJyaKanaami* this);
 const ActorInit Bg_Jya_Kanaami_InitVars = {
     ACTOR_BG_JYA_KANAAMI,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaKanaami),

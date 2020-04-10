@@ -56,7 +56,9 @@ glabel D_80A52AFC
     .balign 4
 
 glabel D_80A52B18
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A52B1C
     .asciz "[31m 種類  %d\n[m"
     .balign 4
@@ -78,7 +80,9 @@ glabel D_80A52B6C
     .balign 4
 
 glabel D_80A52B80
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A52B84
     .asciz "[32m 種類  %d\n[m"
     .balign 4
@@ -96,7 +100,9 @@ glabel D_80A52BC0
     .balign 4
 
 glabel D_80A52BD4
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A52BD8
     .asciz "[32m☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n[m"
     .balign 4

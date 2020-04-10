@@ -6,7 +6,6 @@
 
 #include "z_bg_zg.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void BgZg_Init(BgZg* this, GlobalContext* globalCtx);
@@ -36,7 +35,6 @@ static const ActorFunc drawFuncs[] = {
 const ActorInit Bg_Zg_InitVars = {
     ACTOR_BG_ZG,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_ZG,
     sizeof(BgZg),

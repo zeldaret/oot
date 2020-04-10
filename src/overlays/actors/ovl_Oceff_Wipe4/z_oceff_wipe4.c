@@ -6,7 +6,6 @@
 
 #include "z_oceff_wipe4.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void OceffWipe4_Init(OceffWipe4* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ void OceffWipe4_Draw(OceffWipe4* this, GlobalContext* globalCtx);
 const ActorInit Oceff_Wipe4_InitVars = {
     ACTOR_OCEFF_WIPE4,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffWipe4),

@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_809E55A0
- .word 0x3C25643E, 0x0A000000
+    .asciz "<%d>\n"
+    .balign 4
+
 glabel D_809E55A8
     .asciz "../z_en_daiku_kakariko.c"
     .balign 4

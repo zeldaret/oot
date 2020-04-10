@@ -6,7 +6,6 @@
 
 #include "z_bg_menkuri_nisekabe.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void BgMenkuriNisekabe_Init(BgMenkuriNisekabe* this, GlobalContext* globalCtx);
@@ -17,7 +16,6 @@ static void BgMenkuriNisekabe_Draw(BgMenkuriNisekabe* this, GlobalContext* globa
 const ActorInit Bg_Menkuri_Nisekabe_InitVars = {
     ACTOR_BG_MENKURI_NISEKABE,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_MENKURI_OBJECTS,
     sizeof(BgMenkuriNisekabe),

@@ -1,6 +1,5 @@
 #include "z_bg_spot18_obj.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgSpot18Obj_Init(BgSpot18Obj* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgSpot18Obj_Draw(BgSpot18Obj* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot18_Obj_InitVars = {
     ACTOR_BG_SPOT18_OBJ,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Obj),

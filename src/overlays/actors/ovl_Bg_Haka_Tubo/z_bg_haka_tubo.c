@@ -6,7 +6,6 @@
 
 #include "z_bg_haka_tubo.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgHakaTubo_Init(BgHakaTubo* this, GlobalContext* globalCtx);
@@ -21,7 +20,6 @@ void func_80881904(BgHakaTubo* this, GlobalContext* globalCtx);
 const ActorInit Bg_Haka_Tubo_InitVars = {
     ACTOR_BG_HAKA_TUBO,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaTubo),

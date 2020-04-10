@@ -12,13 +12,17 @@ glabel D_80AE65F0
     .balign 4
 
 glabel D_80AE6624
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80AE6628
     .asciz "[32m☆☆☆☆☆ 何匹ＤＥＡＤ？ ☆☆☆☆☆%d\n[m"
     .balign 4
 
 glabel D_80AE6658
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80AE665C
     .asciz "../z_en_reeba.c"
     .balign 4

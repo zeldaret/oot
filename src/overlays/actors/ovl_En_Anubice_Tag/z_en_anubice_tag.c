@@ -28,7 +28,6 @@ typedef struct {
     /* 0x0154 */ f32 triggerRange;
 } EnAnubiceTag; // size = 0x0158
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx);
@@ -41,7 +40,6 @@ static void EnAnubiceTag_Draw(EnAnubiceTag* this, GlobalContext* globalCtx);
 const ActorInit En_Anubice_Tag_InitVars = {
     ACTOR_EN_ANUBICE_TAG,
     ACTORTYPE_SWITCH,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnAnubiceTag),

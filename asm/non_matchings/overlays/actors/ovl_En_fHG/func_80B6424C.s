@@ -1,3 +1,25 @@
+.rdata
+glabel D_80B652EC
+    .asciz "KABE OUT !!\n"
+    .balign 4
+
+glabel D_80B652FC
+    .asciz "SPD X %f\n"
+    .balign 4
+
+glabel D_80B65308
+    .asciz "SPD Z %f\n"
+    .balign 4
+
+glabel D_80B65314
+    .asciz "X=%f\n"
+    .balign 4
+
+glabel D_80B6531C
+    .asciz "Z=%f\n"
+    .balign 4
+
+.text
 glabel func_80B6424C
 /* 0188C 80B6424C 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 01890 80B64250 AFB00038 */  sw      $s0, 0x0038($sp)

@@ -6,7 +6,6 @@
 
 #include "z_obj_hana.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ObjHana_Init(ObjHana* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ void ObjHana_Draw(ObjHana* this, GlobalContext* globalCtx);
 const ActorInit Obj_Hana_InitVars = {
     ACTOR_OBJ_HANA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjHana),

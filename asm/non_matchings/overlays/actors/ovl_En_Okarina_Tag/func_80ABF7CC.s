@@ -1,3 +1,9 @@
+.rdata
+glabel D_80AC04D0
+    .asciz "[35m☆☆☆☆☆ 開けゴマゴマゴマ！ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel func_80ABF7CC
 /* 00AAC 80ABF7CC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00AB0 80ABF7D0 AFA40020 */  sw      $a0, 0x0020($sp)           

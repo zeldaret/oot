@@ -8,7 +8,6 @@
 
 #include <vt.h>
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx);
@@ -24,7 +23,6 @@ static void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx);
 const ActorInit Bg_Gate_Shutter_InitVars = {
     ACTOR_BG_GATE_SHUTTER,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_SPOT01_MATOYAB,
     sizeof(BgGateShutter),

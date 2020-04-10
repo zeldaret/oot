@@ -6,7 +6,6 @@
 
 #include "z_en_hintnuts.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnHintnuts_Init(EnHintnuts* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ void EnHintnuts_Draw(EnHintnuts* this, GlobalContext* globalCtx);
 const ActorInit En_Hintnuts_InitVars = {
     ACTOR_EN_HINTNUTS,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_HINTNUTS,
     sizeof(EnHintnuts),

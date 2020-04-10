@@ -15,7 +15,6 @@ typedef struct {
     /* 0x0150 */ ActorFunc actionFunc;
 } EnOkarinaEffect; // size = 0x0154
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 static void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* newActionFunc);
@@ -28,7 +27,6 @@ static void EnOkarinaEffect_Update(EnOkarinaEffect* this, GlobalContext* globalC
 const ActorInit En_Okarina_Effect_InitVars = {
     ACTOR_EN_OKARINA_EFFECT,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnOkarinaEffect),

@@ -20,13 +20,17 @@ glabel D_80A12D54
     .balign 4
 
 glabel D_80A12D90
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A12D94
     .asciz "[32m☆☆☆☆☆ 発生数回復 ☆☆☆☆☆%d\n[m"
     .balign 4
 
 glabel D_80A12DC0
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A12DC4
     .asciz "[33m☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n[m"
     .balign 4

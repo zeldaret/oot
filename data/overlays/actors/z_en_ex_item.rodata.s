@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80A09E10
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A09E14
     .asciz "[32m☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n[m"
     .balign 4

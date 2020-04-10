@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80A56F30
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A56F34
     .asciz "[32m ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n[m"
     .balign 4
@@ -22,7 +24,9 @@ glabel D_80A56FA0
     .balign 4
 
 glabel D_80A56FD8
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A56FDC
     .asciz "[32m ☆☆☆☆☆ ぎゃぁ！オトナだー ☆☆☆☆☆ \n[m"
     .balign 4

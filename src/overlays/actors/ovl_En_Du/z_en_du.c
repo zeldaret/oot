@@ -1,6 +1,5 @@
 #include "z_en_du.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000009
 
 void EnDu_Init(EnDu* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnDu_Draw(EnDu* this, GlobalContext* globalCtx);
 const ActorInit En_Du_InitVars = {
     ACTOR_EN_DU,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_DU,
     sizeof(EnDu),

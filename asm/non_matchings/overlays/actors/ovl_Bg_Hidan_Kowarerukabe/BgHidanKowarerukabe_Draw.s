@@ -1,3 +1,17 @@
+.rdata
+glabel D_8088AF30
+    .asciz "../z_bg_hidan_kowarerukabe.c"
+    .balign 4
+
+glabel D_8088AF50
+    .asciz "../z_bg_hidan_kowarerukabe.c"
+    .balign 4
+
+glabel D_8088AF70
+    .asciz "../z_bg_hidan_kowarerukabe.c"
+    .balign 4
+
+.text
 glabel BgHidanKowarerukabe_Draw
 /* 00CDC 8088ACFC 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00CE0 8088AD00 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,6 +1,5 @@
 #include "z_arms_hook.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void ArmsHook_Init(ArmsHook* this, GlobalContext* globalCtx);
@@ -14,7 +13,6 @@ void func_80864FC4(ArmsHook* this, GlobalContext* globalCtx);
 const ActorInit Arms_Hook_InitVars = {
     ACTOR_ARMS_HOOK,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_LINK_BOY,
     sizeof(ArmsHook),

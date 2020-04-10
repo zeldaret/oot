@@ -1,6 +1,5 @@
 #include "z_fishing.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void Fishing_Init(Fishing* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void Fishing_Draw(Fishing* this, GlobalContext* globalCtx);
 const ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_FISH,
     sizeof(Fishing),

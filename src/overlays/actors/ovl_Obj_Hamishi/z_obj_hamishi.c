@@ -6,7 +6,6 @@
 
 #include "z_obj_hamishi.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ObjHamishi_Init(ObjHamishi* this, GlobalContext* globalCtx);
@@ -18,7 +17,6 @@ void ObjHamishi_Draw(ObjHamishi* this, GlobalContext* globalCtx);
 const ActorInit Obj_Hamishi_InitVars = {
     ACTOR_OBJ_HAMISHI,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjHamishi),

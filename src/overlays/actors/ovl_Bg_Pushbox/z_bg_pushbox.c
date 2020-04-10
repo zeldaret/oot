@@ -6,7 +6,6 @@
 
 #include "z_bg_pushbox.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 static void func_808A8AE0(BgPushbox* this, ActorFunc actionFunc);
@@ -19,7 +18,6 @@ static void BgPushbox_Draw(BgPushbox* this, GlobalContext* globalCtx);
 const ActorInit Bg_Pushbox_InitVars = {
     ACTOR_BG_PUSHBOX,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(BgPushbox),

@@ -1,6 +1,5 @@
 #include "z_shot_sun.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void ShotSun_Init(ShotSun* this, GlobalContext* globalCtx);
@@ -11,7 +10,6 @@ void ShotSun_Update(ShotSun* this, GlobalContext* globalCtx);
 const ActorInit Shot_Sun_InitVars = {
     ACTOR_SHOT_SUN,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ShotSun),

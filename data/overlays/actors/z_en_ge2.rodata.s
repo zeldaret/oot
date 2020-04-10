@@ -26,6 +26,8 @@ glabel D_80A3441C
     .balign 4
 
 glabel D_80A3442C
- .word 0x2E2E2F7A, 0x5F656E5F, 0x6765322E, 0x63000000, 0x00000000
+    .asciz "../z_en_ge2.c"
+    .balign 4
 
+.align 4
 

@@ -1,6 +1,5 @@
 #include "z_en_bdfire.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnBdfire_Init(EnBdfire* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnBdfire_Draw(EnBdfire* this, GlobalContext* globalCtx);
 const ActorInit En_Bdfire_InitVars = {
     ACTOR_PLAYER,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_KINGDODONGO,
     sizeof(EnBdfire),

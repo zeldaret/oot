@@ -8,13 +8,19 @@
 .section .rodata
 
 glabel D_80B3A8F0
- .word 0x0A0A0000
+
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B3A8F4
     .asciz "[32m☆☆☆☆☆ 透明メッセージ君 ☆☆☆☆☆ %x\n[m"
     .balign 4
 
 glabel D_80B3A928
- .word 0x0A0A0000
+
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B3A92C
     .asciz "[33m☆☆☆☆☆ 元は？       ☆☆☆☆☆ %d\n[m"
     .balign 4
@@ -28,11 +34,20 @@ glabel D_80B3A98C
     .balign 4
 
 glabel D_80B3A9BC
- .word 0x0A0A0000
+
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B3A9C0
- .word 0x0A0A0000
+
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B3A9C4
- .word 0x0A0A0000
+
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B3A9C8
     .asciz "[32m☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n[m"
     .balign 4
@@ -42,7 +57,10 @@ glabel D_80B3AA08
     .balign 4
 
 glabel D_80B3AA3C
- .word 0x0A0A0000
+
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B3AA40
     .asciz "[32m☆☆☆☆☆ 透明メッセージ君せっと %x\n[m"
     .balign 4
@@ -92,7 +110,10 @@ glabel D_80B3AC18
     .balign 4
 
 glabel D_80B3AC38
- .word 0x0A0A0000
+
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B3AC3C
     .asciz "[32m☆☆☆☆☆ 透明メッセージ君せっと %x\n[m"
     .balign 4
@@ -122,9 +143,15 @@ glabel D_80B3AD5C
     .balign 4
 
 glabel D_80B3AD84
- .word 0x0A0A0000
+
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B3AD88
- .word 0x0A0A0000
+
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B3AD8C
     .asciz "[35m ☆☆ 強制 ☆☆ \n[m"
     .balign 4
@@ -134,6 +161,9 @@ glabel D_80B3ADA8
     .balign 4
 
 glabel D_80B3ADDC
- .word 0x0A0A0000
+
+    .asciz "\n\n"
+    .balign 4
+
 
 

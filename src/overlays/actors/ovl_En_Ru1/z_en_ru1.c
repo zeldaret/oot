@@ -1,6 +1,5 @@
 #include "z_en_ru1.h"
 
-#define ROOM 0x00
 #define FLAGS 0x04000011
 
 void EnRu1_Init(EnRu1* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnRu1_Draw(EnRu1* this, GlobalContext* globalCtx);
 const ActorInit En_Ru1_InitVars = {
     ACTOR_EN_RU1,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_RU1,
     sizeof(EnRu1),

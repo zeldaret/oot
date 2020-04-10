@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80B43680
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B43684
     .asciz "[32m☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n[m"
     .balign 4
@@ -26,7 +28,9 @@ glabel D_80B4371C
     .balign 4
 
 glabel D_80B4374C
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80B43750
     .asciz "[32m☆☆☆☆☆ posＸ ☆☆☆☆☆ %f\n[m"
     .balign 4

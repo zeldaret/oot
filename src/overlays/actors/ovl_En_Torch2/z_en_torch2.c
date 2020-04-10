@@ -1,6 +1,5 @@
 #include "z_en_torch2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void EnTorch2_Init(EnTorch2* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnTorch2_Draw(EnTorch2* this, GlobalContext* globalCtx);
 const ActorInit En_Torch2_InitVars = {
     ACTOR_EN_TORCH2,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_TORCH2,
     sizeof(EnTorch2),

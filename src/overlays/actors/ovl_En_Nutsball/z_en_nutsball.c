@@ -6,7 +6,6 @@
 
 #include "z_en_nutsball.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx);
@@ -19,7 +18,6 @@ static void EnNutsball_Draw(EnNutsball* this, GlobalContext* globalCtx);
 const ActorInit En_Nutsball_InitVars = {
     ACTOR_EN_NUTSBALL,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnNutsball),

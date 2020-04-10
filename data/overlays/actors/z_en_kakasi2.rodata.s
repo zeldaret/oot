@@ -8,7 +8,9 @@
 .section .rodata
 
 glabel D_80A909F0
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A909F4
     .asciz "[32m☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n[m"
     .balign 4
@@ -38,7 +40,9 @@ glabel D_80A90B14
     .balign 4
 
 glabel D_80A90B44
- .word 0x0A0A0000
+    .asciz "\n\n"
+    .balign 4
+
 glabel D_80A90B48
     .asciz "[32m☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n[m"
     .balign 4
