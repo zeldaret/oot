@@ -441,7 +441,18 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ char    unk_00[0x50];
+    /* 0x00 */ char unk_00[0x72];
+    /* 0x28 */ s16  unk_72;
+} StaticCollisionContextInner2; // size = 0x50
+
+typedef struct {
+    /* 0x00 */ char    unk_00[0x28];
+    /* 0x28 */ StaticCollisionContextInner2* unk_28;
+} StaticCollisionContextInner; // size = 0x50
+
+typedef struct {
+    /* 0x00 */ StaticCollisionContextInner* unk_00;
+    /* 0x04 */ char                         unk_04[0x4C];
 } StaticCollisionContext; // size = 0x50
 
 typedef struct {
