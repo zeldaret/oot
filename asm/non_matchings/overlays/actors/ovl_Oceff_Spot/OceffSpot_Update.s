@@ -1,3 +1,15 @@
+.late_rodata
+glabel D_80BA6FE0
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80BA6FE4
+ .word 0x3ED70A3D
+glabel D_80BA6FE8
+ .word 0x3F666666, 0x00000000
+
+
+.text
 glabel OceffSpot_Update
 /* 003A0 80BA6410 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 003A4 80BA6414 AFBF002C */  sw      $ra, 0x002C($sp)           

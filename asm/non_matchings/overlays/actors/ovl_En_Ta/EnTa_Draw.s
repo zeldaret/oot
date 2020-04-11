@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B16F2C
+    .asciz "../z_en_ta.c"
+    .balign 4
+
+glabel D_80B16F3C
+    .asciz "../z_en_ta.c"
+    .balign 4
+
+.text
 glabel EnTa_Draw
 /* 03240 80B16CE0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 03244 80B16CE4 AFBF002C */  sw      $ra, 0x002C($sp)

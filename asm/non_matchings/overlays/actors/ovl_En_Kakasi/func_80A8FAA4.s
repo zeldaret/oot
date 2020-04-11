@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A8FE98
+    .asciz "game_play->message.msg_mode=%d\n"
+    .balign 4
+
+.text
 glabel func_80A8FAA4
 /* 00934 80A8FAA4 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00938 80A8FAA8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

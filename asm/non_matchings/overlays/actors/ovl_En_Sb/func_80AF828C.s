@@ -1,3 +1,12 @@
+.late_rodata
+glabel jtbl_80AF8AA4
+.word L80AF82B0
+.word func_80AF82F0
+.word func_80AF832C
+.word func_80AF8368
+.word func_80AF8388
+
+.text
 glabel func_80AF828C
 /* 00A9C 80AF828C 948E01FA */  lhu     $t6, 0x01FA($a0)           ## 000001FA
 /* 00AA0 80AF8290 2DC10005 */  sltiu   $at, $t6, 0x0005           

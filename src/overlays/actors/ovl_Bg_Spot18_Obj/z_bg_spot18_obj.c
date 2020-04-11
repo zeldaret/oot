@@ -63,3 +63,4 @@ const ActorInit Bg_Spot18_Obj_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Obj/BgSpot18Obj_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot18_Obj/BgSpot18Obj_Draw.s")
+

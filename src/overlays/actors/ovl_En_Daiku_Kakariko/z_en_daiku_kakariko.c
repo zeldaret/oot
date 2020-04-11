@@ -45,3 +45,4 @@ const ActorInit En_Daiku_Kakariko_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Daiku_Kakariko/func_809E5288.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Daiku_Kakariko/EnDaikuKakariko_Draw.s")
+

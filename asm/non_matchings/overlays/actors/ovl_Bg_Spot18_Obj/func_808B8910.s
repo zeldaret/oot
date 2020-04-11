@@ -1,3 +1,33 @@
+.rdata
+glabel D_808B9150
+    .asciz "Error : リンク年齢不詳 (%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_808B9184
+    .asciz "../z_bg_spot18_obj.c"
+    .balign 4
+
+glabel D_808B919C
+    .asciz "出現しない Object (0x%04x)\n"
+    .balign 4
+
+glabel D_808B91B8
+    .asciz "Error : Obj出現判定が設定されていない(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_808B91F8
+    .asciz "../z_bg_spot18_obj.c"
+    .balign 4
+
+glabel D_808B9210
+    .asciz "Error : Obj出現判定失敗(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_808B9244
+    .asciz "../z_bg_spot18_obj.c"
+    .balign 4
+
+.text
 glabel func_808B8910
 /* 00000 808B8910 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
 /* 00004 808B8914 8C63E664 */  lw      $v1, -0x199C($v1)          ## 8015E664

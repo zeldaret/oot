@@ -1,3 +1,9 @@
+.rdata
+glabel D_808B4678
+    .asciz "(spot15 ロンロン木箱)(arg_data 0x%04x)\n"
+    .balign 4
+
+.text
 glabel BgSpot15Rrbox_Init
 /* 00234 808B3B94 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00238 808B3B98 AFBF001C */  sw      $ra, 0x001C($sp)           

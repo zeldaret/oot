@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8086CE38
+ .word 0x43838000
+
+.text
 glabel BgBdanObjects_Init
 /* 000E4 8086BD84 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 000E8 8086BD88 AFB10038 */  sw      $s1, 0x0038($sp)           

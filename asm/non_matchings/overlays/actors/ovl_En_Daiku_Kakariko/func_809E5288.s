@@ -1,3 +1,13 @@
+.rdata
+glabel D_809E55A8
+    .asciz "../z_en_daiku_kakariko.c"
+    .balign 4
+
+glabel D_809E55C4
+    .asciz "../z_en_daiku_kakariko.c"
+    .balign 4
+
+.text
 glabel func_809E5288
 /* 00F68 809E5288 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00F6C 809E528C AFBF0014 */  sw      $ra, 0x0014($sp)           

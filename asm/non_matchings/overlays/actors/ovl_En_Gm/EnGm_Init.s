@@ -1,3 +1,33 @@
+.rdata
+glabel D_80A3E390
+    .asciz "\x1B[32m%s[%d] : 中ゴロン[%d]\x1B[m\n"
+    .balign 4
+
+glabel D_80A3E3B0
+    .asciz "../z_en_gm.c"
+    .balign 4
+
+glabel D_80A3E3C0
+    .asciz "\x1B[41;37m"
+    .balign 4
+
+glabel D_80A3E3CC
+    .asciz "モデル バンクが無いよ！！（中ゴロン）\n"
+    .balign 4
+
+glabel D_80A3E3F4
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80A3E3F8
+    .asciz "0"
+    .balign 4
+
+glabel D_80A3E3FC
+    .asciz "../z_en_gm.c"
+    .balign 4
+
+.text
 glabel EnGm_Init
 /* 00000 80A3D6E0 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00004 80A3D6E4 AFA50024 */  sw      $a1, 0x0024($sp)           

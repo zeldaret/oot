@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B8CDB0
+    .asciz "Magic_Wind_Actor_ct():コンストラクト失敗\n"
+    .balign 4
+
+glabel D_80B8CDDC
+    .asciz "../z_magic_wind.c"
+    .balign 4
+
+glabel D_80B8CDF0
+    .asciz "\"表示開始\" = %s\n"
+    .balign 4
+
+glabel D_80B8CE04
+    .asciz "表示開始"
+    .balign 4
+
+.text
 glabel MagicWind_Init
 /* 00008 80B8B108 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0000C 80B8B10C AFB00020 */  sw      $s0, 0x0020($sp)           

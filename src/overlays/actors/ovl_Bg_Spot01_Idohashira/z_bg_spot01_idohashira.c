@@ -65,3 +65,4 @@ const ActorInit Bg_Spot01_Idohashira_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idohashira/func_808AB700.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot01_Idohashira/BgSpot01Idohashira_Draw.s")
+

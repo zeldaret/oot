@@ -1,3 +1,30 @@
+.rdata
+glabel D_80A50C04
+    .asciz "../z_en_guest.c"
+    .balign 4
+
+glabel D_80A50C14
+    .asciz "../z_en_guest.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A50C44
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80A50C48
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80A50C4C
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80A50C50
+ .word 0x40490FDB, 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel func_80A50774
 /* 00554 80A50774 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00558 80A50778 AFA40048 */  sw      $a0, 0x0048($sp)           

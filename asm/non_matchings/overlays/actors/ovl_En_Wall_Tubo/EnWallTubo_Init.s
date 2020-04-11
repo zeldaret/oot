@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B2F370
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B2F374
+    .asciz "[33m☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel EnWallTubo_Init
 /* 00000 80B2EDF0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00004 80B2EDF4 AFA40018 */  sw      $a0, 0x0018($sp)           

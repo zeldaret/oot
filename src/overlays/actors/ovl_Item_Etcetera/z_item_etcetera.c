@@ -44,3 +44,4 @@ const ActorInit Item_Etcetera_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/func_80B85C64.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Etcetera/func_80B85CB8.s")
+

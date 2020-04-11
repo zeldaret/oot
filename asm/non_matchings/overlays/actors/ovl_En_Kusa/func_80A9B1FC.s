@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80A9C320
+ .word 0x3DF5C290
+glabel D_80A9C324
+ .word 0x3E23D70B
+
+.text
 glabel func_80A9B1FC
 /* 0025C 80A9B1FC 3C0180AA */  lui     $at, %hi(D_80A9C320)       ## $at = 80AA0000
 /* 00260 80A9B200 C420C320 */  lwc1    $f0, %lo(D_80A9C320)($at)  

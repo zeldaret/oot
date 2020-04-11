@@ -1,3 +1,9 @@
+.rdata
+glabel D_808B925C
+    .asciz "Spot18 Object [arg_data : 0x%04x]\n"
+    .balign 4
+
+.text
 glabel BgSpot18Obj_Init
 /* 0040C 808B8D1C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00410 808B8D20 AFB00018 */  sw      $s0, 0x0018($sp)           

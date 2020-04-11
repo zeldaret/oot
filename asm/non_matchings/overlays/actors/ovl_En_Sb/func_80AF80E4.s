@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AF8A74
+    .asciz "\x1B[31m攻撃終了！！\x1B[m\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AF8AA0
+    .float -0.35
+
+.text
 glabel func_80AF80E4
 /* 008F4 80AF80E4 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 008F8 80AF80E8 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A91D94
+    .asciz "[35m☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A91DC0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A91DC4
+    .asciz "[36m☆☆☆☆☆ これで、他の奴もＯＫ！だ！ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel func_80A918E4
 /* 00BC4 80A918E4 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00BC8 80A918E8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000

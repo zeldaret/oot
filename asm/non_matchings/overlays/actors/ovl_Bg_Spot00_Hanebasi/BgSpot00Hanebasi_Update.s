@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_808AA884
+ .word 0x44D48000
+glabel D_808AA888
+ .word 0x3B3B3EE7
+
+.text
 glabel BgSpot00Hanebasi_Update
 /* 0082C 808A9FAC 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00830 808A9FB0 AFBF001C */  sw      $ra, 0x001C($sp)           

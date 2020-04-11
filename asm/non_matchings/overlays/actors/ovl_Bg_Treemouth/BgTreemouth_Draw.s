@@ -1,3 +1,21 @@
+.rdata
+glabel D_808BD9E0
+    .asciz "../z_bg_treemouth.c"
+    .balign 4
+
+glabel D_808BD9F4
+    .asciz "../z_bg_treemouth.c"
+    .balign 4
+
+glabel D_808BDA08
+    .asciz "../z_bg_treemouth.c"
+    .balign 4
+
+.late_rodata
+glabel D_808BDA54
+    .float 0.1
+
+.text
 glabel BgTreemouth_Draw
 /* 0071C 808BCC1C 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00720 808BCC20 AFBF0014 */  sw      $ra, 0x0014($sp)           

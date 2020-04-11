@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A8FE70
+    .asciz "[34m☆☆☆☆☆ 終り？ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_80A8F8D0
 /* 00760 80A8F8D0 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00764 80A8F8D4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

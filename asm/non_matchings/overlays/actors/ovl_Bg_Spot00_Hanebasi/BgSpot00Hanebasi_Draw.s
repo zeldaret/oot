@@ -1,3 +1,17 @@
+.rdata
+glabel D_808AA824
+    .asciz "../z_bg_spot00_hanebasi.c"
+    .balign 4
+
+glabel D_808AA840
+    .asciz "../z_bg_spot00_hanebasi.c"
+    .balign 4
+
+glabel D_808AA85C
+    .asciz "../z_bg_spot00_hanebasi.c"
+    .balign 4
+
+.text
 glabel BgSpot00Hanebasi_Draw
 /* 00E08 808AA588 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00E0C 808AA58C 3C0F808B */  lui     $t7, %hi(D_808AA7C4)       ## $t7 = 808B0000

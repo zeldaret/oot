@@ -38,3 +38,4 @@ const ActorInit En_Guest_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Guest/func_80A50774.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Guest/func_80A509D4.s")
+

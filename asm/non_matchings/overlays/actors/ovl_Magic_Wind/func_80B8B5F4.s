@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B8CE70
+    .asciz "../z_magic_wind.c"
+    .balign 4
+
+glabel D_80B8CE84
+    .asciz "../z_magic_wind.c"
+    .balign 4
+
+.text
 glabel func_80B8B5F4
 /* 004F4 80B8B5F4 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 004F8 80B8B5F8 AFBF003C */  sw      $ra, 0x003C($sp)           

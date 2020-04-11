@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809E5618
+ .word 0x4622F983
+
+.text
 glabel func_809E4BC4
 /* 008A4 809E4BC4 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 008A8 809E4BC8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

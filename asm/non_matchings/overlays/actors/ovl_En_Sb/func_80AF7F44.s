@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AF8A60
+    .asciz "アタァ〜ック！！\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AF8A98
+    .float -0.35
+
+.text
 glabel func_80AF7F44
 /* 00754 80AF7F44 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00758 80AF7F48 AFBF0024 */  sw      $ra, 0x0024($sp)           

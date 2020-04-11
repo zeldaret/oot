@@ -37,3 +37,4 @@ const ActorInit Bg_Jya_Ironobj_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Ironobj/BgJyaIronobj_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Ironobj/BgJyaIronobj_Draw.s")
+

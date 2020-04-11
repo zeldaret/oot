@@ -1,3 +1,25 @@
+.rdata
+glabel D_80B2F3A0
+    .asciz "\x1B[32m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1B[m"
+    .balign 4
+
+glabel D_80B2F3CC
+    .asciz "\x1B[33m☆☆☆☆ やった原！ ☆☆☆☆☆ \n\x1B[m"
+    .balign 4
+
+glabel D_80B2F3F8
+    .asciz "[34m☆☆☆☆ やった原！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B2F424
+    .asciz "[35m☆☆☆☆ やった原！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B2F450
+    .asciz "[36m☆☆☆☆ やった原！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_80B2F0B8
 /* 002C8 80B2F0B8 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 002CC 80B2F0BC 3C0F80B3 */  lui     $t7, %hi(D_80B2F358)       ## $t7 = 80B30000

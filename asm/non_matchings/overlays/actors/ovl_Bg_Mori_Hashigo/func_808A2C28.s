@@ -1,3 +1,19 @@
+.rdata
+glabel D_808A2F28
+    .asciz "../z_bg_mori_hashigo.c"
+    .balign 4
+
+glabel D_808A2F40
+    .asciz "../z_bg_mori_hashigo.c"
+    .balign 4
+
+glabel D_808A2F58
+    .asciz "../z_bg_mori_hashigo.c"
+    .balign 4
+
+
+
+.text
 glabel func_808A2C28
 /* 006C8 808A2C28 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 006CC 808A2C2C AFBF0014 */  sw      $ra, 0x0014($sp)           

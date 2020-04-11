@@ -1,3 +1,20 @@
+.late_rodata
+glabel D_80A8FEE8
+ .word 0x412FD70A
+glabel D_80A8FEEC
+ .word 0x409FAE14
+glabel D_80A8FEF0
+ .word 0x403F5C29
+glabel jtbl_80A8FEF4
+.word L80A8F3D8
+.word L80A8F408
+.word L80A8F424
+.word L80A8F444
+.word L80A8F464
+.word 0x00000000, 0x00000000
+
+
+.text
 glabel func_80A8F320
 /* 001B0 80A8F320 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 001B4 80A8F324 AFA60030 */  sw      $a2, 0x0030($sp)           

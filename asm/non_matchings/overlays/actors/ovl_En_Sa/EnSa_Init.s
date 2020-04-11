@@ -1,3 +1,13 @@
+.late_rodata
+glabel jtbl_80AF74F4
+.word L80AF637C
+.word L80AF62B4
+.word L80AF627C
+.word L80AF6350
+.word L80AF62DC
+.word L80AF6298
+
+.text
 glabel EnSa_Init
 /* 00C50 80AF61B0 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00C54 80AF61B4 AFB00034 */  sw      $s0, 0x0034($sp)

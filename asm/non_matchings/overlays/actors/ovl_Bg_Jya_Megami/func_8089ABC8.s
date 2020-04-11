@@ -1,3 +1,17 @@
+.rdata
+glabel D_8089B210
+    .asciz "../z_bg_jya_megami.c"
+    .balign 4
+
+glabel D_8089B228
+    .asciz "../z_bg_jya_megami.c"
+    .balign 4
+
+glabel D_8089B240
+    .asciz "../z_bg_jya_megami.c"
+    .balign 4
+
+.text
 glabel func_8089ABC8
 /* 00A98 8089ABC8 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00A9C 8089ABCC AFBF001C */  sw      $ra, 0x001C($sp)           

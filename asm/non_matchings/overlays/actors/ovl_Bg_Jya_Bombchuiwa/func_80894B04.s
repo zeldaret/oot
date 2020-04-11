@@ -1,3 +1,17 @@
+.rdata
+glabel D_80894FF4
+    .asciz "../z_bg_jya_bombchuiwa.c"
+    .balign 4
+
+glabel D_80895010
+    .asciz "../z_bg_jya_bombchuiwa.c"
+    .balign 4
+
+glabel D_8089502C
+    .asciz "../z_bg_jya_bombchuiwa.c"
+    .balign 4
+
+.text
 glabel func_80894B04
 /* 00664 80894B04 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00668 80894B08 AFBF001C */  sw      $ra, 0x001C($sp)           

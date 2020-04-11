@@ -1,3 +1,17 @@
+.rdata
+glabel D_808AB938
+    .asciz "../z_bg_spot01_idohashira.c"
+    .balign 4
+
+glabel D_808AB954
+    .asciz "../z_bg_spot01_idohashira.c"
+    .balign 4
+
+glabel D_808AB970
+    .asciz "../z_bg_spot01_idohashira.c"
+    .balign 4
+
+.text
 glabel func_808AB700
 /* 00A20 808AB700 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00A24 808AB704 AFBF001C */  sw      $ra, 0x001C($sp)           

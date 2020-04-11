@@ -1,3 +1,9 @@
+.rdata
+glabel D_808AB8FC
+    .asciz "[31mメインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel BgSpot01Idohashira_Update
 /* 008B0 808AB590 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 008B4 808AB594 AFBF0014 */  sw      $ra, 0x0014($sp)           

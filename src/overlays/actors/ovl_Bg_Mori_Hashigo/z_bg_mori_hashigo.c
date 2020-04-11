@@ -54,3 +54,4 @@ const ActorInit Bg_Mori_Hashigo_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashigo/BgMoriHashigo_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashigo/func_808A2C28.s")
+

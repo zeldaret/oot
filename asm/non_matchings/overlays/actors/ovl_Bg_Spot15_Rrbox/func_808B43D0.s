@@ -1,3 +1,24 @@
+.rdata
+glabel D_808B46A0
+    .asciz "Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_808B46DC
+    .asciz "../z_bg_spot15_rrbox.c"
+    .balign 4
+
+.late_rodata
+glabel D_808B4704
+    .float 0.001
+    .balign 4
+
+glabel D_808B4708
+ .word 0xC6F9EC00
+glabel D_808B470C
+ .word 0xBA83126F
+
+
+.text
 glabel func_808B43D0
 /* 00A70 808B43D0 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00A74 808B43D4 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B8CE3C
+    .asciz "../z_magic_wind.c"
+    .balign 4
+
+glabel D_80B8CE50
+    .asciz "\"表示開始\" = %s\n"
+    .balign 4
+
+glabel D_80B8CE64
+    .asciz "表示開始"
+    .balign 4
+
+.text
 glabel func_80B8B3C8
 /* 002C8 80B8B3C8 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 002CC 80B8B3CC AFBF0014 */  sw      $ra, 0x0014($sp)           

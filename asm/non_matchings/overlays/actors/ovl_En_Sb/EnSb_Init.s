@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80AF8A8C
+    .float -0.35
+
+.text
 glabel EnSb_Init
 /* 00000 80AF77F0 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 80AF77F4 AFA5003C */  sw      $a1, 0x003C($sp)

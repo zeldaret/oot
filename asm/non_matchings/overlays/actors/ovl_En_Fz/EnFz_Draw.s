@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A21C60
+    .asciz "../z_en_fz.c"
+    .balign 4
+
+glabel D_80A21C70
+    .asciz "../z_en_fz.c"
+    .balign 4
+
+glabel D_80A21C80
+    .asciz "../z_en_fz.c"
+    .balign 4
+
+.text
 glabel EnFz_Draw
 /* 0148C 80A2124C 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 01490 80A21250 AFBF003C */  sw      $ra, 0x003C($sp)           

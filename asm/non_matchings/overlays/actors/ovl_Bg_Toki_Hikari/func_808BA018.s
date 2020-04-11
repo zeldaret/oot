@@ -1,3 +1,21 @@
+.rdata
+glabel D_808BAC80
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+glabel D_808BAC98
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+glabel D_808BACB0
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+glabel D_808BACC8
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+.text
 glabel func_808BA018
 /* 00118 808BA018 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 0011C 808BA01C AFB10020 */  sw      $s1, 0x0020($sp)           

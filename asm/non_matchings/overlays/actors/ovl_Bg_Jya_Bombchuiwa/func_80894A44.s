@@ -1,3 +1,13 @@
+.rdata
+glabel D_80894FA0
+    .asciz "Ｅｒｒｏｒ : Mir_Ray 発生失敗(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80894FD8
+    .asciz "../z_bg_jya_bombchuiwa.c"
+    .balign 4
+
+.text
 glabel func_80894A44
 /* 005A4 80894A44 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 005A8 80894A48 3C014319 */  lui     $at, 0x4319                ## $at = 43190000

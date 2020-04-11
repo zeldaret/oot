@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B8CE10
+    .asciz "../z_magic_wind.c"
+    .balign 4
+
+glabel D_80B8CE24
+    .asciz "\"消滅\" = %s\n"
+    .balign 4
+
+glabel D_80B8CE34
+    .asciz "消滅"
+    .balign 4
+
+.text
 glabel MagicWind_Destroy
 /* 00150 80B8B250 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00154 80B8B254 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000

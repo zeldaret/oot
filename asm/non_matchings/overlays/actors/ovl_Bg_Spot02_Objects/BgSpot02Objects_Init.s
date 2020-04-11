@@ -1,3 +1,12 @@
+.late_rodata
+glabel jtbl_808AD968
+.word L808AC6BC
+.word L808AC6BC
+.word L808AC6BC
+.word L808AC824
+.word L808AC87C
+
+.text
 glabel BgSpot02Objects_Init
 /* 00000 808AC660 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 808AC664 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A327C0
+    .asciz "[36m谷底 ゲルド 撤退 \n[m"
+    .balign 4
+
+glabel D_80A327DC
+    .asciz "[36mやぶさめ ゲルド EVENT_INF(0) = %x\n[m"
+    .balign 4
+
+.text
 glabel EnGe1_Init
 /* 00000 80A30970 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00004 80A30974 AFB00028 */  sw      $s0, 0x0028($sp)

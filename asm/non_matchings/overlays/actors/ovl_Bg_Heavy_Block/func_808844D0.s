@@ -1,3 +1,17 @@
+.rdata
+glabel D_80884F08
+    .asciz "../z_bg_heavy_block.c"
+    .balign 4
+
+glabel D_80884F20
+    .asciz "\"NA_SE_PL_PULL_UP_BIGROCK\" = %s\n"
+    .balign 4
+
+glabel D_80884F44
+    .asciz "NA_SE_PL_PULL_UP_BIGROCK"
+    .balign 4
+
+.text
 glabel func_808844D0
 /* 00D40 808844D0 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00D44 808844D4 AFBF002C */  sw      $ra, 0x002C($sp)           

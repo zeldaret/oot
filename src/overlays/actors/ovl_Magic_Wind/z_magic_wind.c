@@ -43,3 +43,4 @@ const ActorInit Magic_Wind_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Wind/func_80B8B5F4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Magic_Wind/MagicWind_Draw.s")
+

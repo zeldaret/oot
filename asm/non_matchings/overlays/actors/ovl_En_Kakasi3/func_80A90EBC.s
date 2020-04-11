@@ -1,3 +1,20 @@
+.late_rodata
+glabel D_80A91E34
+ .word 0x412FD70A
+glabel D_80A91E38
+ .word 0x409FAE14
+glabel D_80A91E3C
+ .word 0x403F5C29
+glabel jtbl_80A91E40
+.word L80A90F68
+.word L80A90F98
+.word L80A90FB4
+.word L80A90FD4
+.word L80A90FF4
+.word 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel func_80A90EBC
 /* 0019C 80A90EBC 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 001A0 80A90EC0 3C020001 */  lui     $v0, 0x0001                ## $v0 = 00010000

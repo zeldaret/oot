@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_80AF7510
+    .float 3.14159274101
+
+glabel D_80AF7514
+    .float 3.14159274101
+
+glabel D_80AF7518
+    .float 3.14159274101
+
+glabel D_80AF751C
+    .float 3.14159274101
+
+.text
 glabel func_80AF6D6C
 /* 0180C 80AF6D6C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 01810 80AF6D70 24010010 */  addiu   $at, $zero, 0x0010         ## $at = 00000010

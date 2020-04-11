@@ -1,3 +1,24 @@
+.rdata
+glabel D_809EC680
+    .asciz "../z_en_dh.c"
+    .balign 4
+
+glabel D_809EC690
+    .asciz "../z_en_dh.c"
+    .balign 4
+
+glabel D_809EC6A0
+    .asciz "../z_en_dh.c"
+    .balign 4
+
+.late_rodata
+glabel D_809EC6EC
+    .float 0.01
+    .balign 4
+
+
+
+.text
 glabel EnDh_Draw
 /* 014F0 809EC230 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 014F4 809EC234 AFB20040 */  sw      $s2, 0x0040($sp)

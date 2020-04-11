@@ -1,3 +1,10 @@
+.rdata
+glabel D_8086CDF4
+
+    .asciz "Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_8086BD10
 /* 00070 8086BD10 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00074 8086BD14 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001

@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80BA6FD0
+ .word 0x4019999A
+glabel D_80BA6FD4
+    .float 0.3
+    .balign 4
+
+.text
 glabel OceffSpot_Init
 /* 00008 80BA6078 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0000C 80BA607C AFA50044 */  sw      $a1, 0x0044($sp)           

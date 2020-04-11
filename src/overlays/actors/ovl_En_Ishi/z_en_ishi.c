@@ -63,3 +63,4 @@ const ActorInit En_Ishi_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/func_80A7F8CC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ishi/EnIshi_Draw.s")
+

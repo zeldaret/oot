@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80B85E5C
+ .float -0.05
+glabel D_80B85E60
+ .float -0.025
+
+.text
 glabel func_80B8598C
 /* 0039C 80B8598C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 003A0 80B85990 3C014040 */  lui     $at, 0x4040                ## $at = 40400000

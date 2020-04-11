@@ -35,3 +35,4 @@ const ActorInit Bg_Mizu_Shutter_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mizu_Shutter/BgMizuShutter_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mizu_Shutter/BgMizuShutter_Draw.s")
+

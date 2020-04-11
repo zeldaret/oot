@@ -69,3 +69,6 @@ const ActorInit En_Sb_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sb/func_80AF8828.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sb/EnSb_Draw.s")
+
+
+
