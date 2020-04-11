@@ -103,7 +103,7 @@ glabel func_80105CF0
 .L80105E3C:
 /* B7CFDC 80105E3C 8FB80044 */  lw    $t8, 0x44($sp)
 /* B7CFE0 80105E40 A2180004 */  sb    $t8, 4($s0)
-/* B7CFE4 80105E44 0C04185C */  jal   func_80106170
+/* B7CFE4 80105E44 0C04185C */  jal   osMempakAddrCRC
 /* B7CFE8 80105E48 97A40072 */   lhu   $a0, 0x72($sp)
 /* B7CFEC 80105E4C 8FB90040 */  lw    $t9, 0x40($sp)
 /* B7CFF0 80105E50 26050006 */  addiu $a1, $s0, 6

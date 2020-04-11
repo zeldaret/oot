@@ -79,7 +79,7 @@ glabel osReadMempak
 .L8010605C:
 /* B7D1FC 8010605C 8FB80044 */  lw    $t8, 0x44($sp)
 /* B7D200 80106060 30A4FFFF */  andi  $a0, $a1, 0xffff
-/* B7D204 80106064 0C04185C */  jal   func_80106170
+/* B7D204 80106064 0C04185C */  jal   osMempakAddrCRC
 /* B7D208 80106068 A2180004 */   sb    $t8, 4($s0)
 /* B7D20C 8010606C 8FB90040 */  lw    $t9, 0x40($sp)
 /* B7D210 80106070 24040001 */  li    $a0, 1

@@ -51,8 +51,8 @@ void osSetUpMempakWrite(s32 ctrlridx, pif_data_buffer_t* buf) {
     mempakwr.hdr.bytes_send = 0x23;
     mempakwr.hdr.status_hi_bytes_rec_lo = 1;
     mempakwr.hdr.command = 3; // write mempak
-    mempakwr.data[0] = 0xC0;
-    mempakwr.data[1] = (u8)(func_80106170(0x600) | 0xC000); // yes, this is correct
+    mempakwr.data[0] = 0xC0; //(0x600 >> 3)
+    mempakwr.data[1] = (u8)(osMempakAddrCRC(0x600) | 0xC000); // (0x600 << 5)
     if (ctrlridx != 0) {
         for (i = 0; i < ctrlridx; ++i) {
             *buf_ptr++ = 0;

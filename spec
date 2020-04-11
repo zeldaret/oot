@@ -571,7 +571,7 @@ beginseg
     include "build/asm/code_80105CF0.o"
     include "build/data/code_80105CF0.data.o"
     include "build/src/code/osReadMempak.o"
-    include "build/asm/code_80106170.o"
+    include "build/src/code/osMempakAddrCRC.o"
     include "build/asm/osSetTimer.o"
     include "build/src/libultra_code/__osSpGetStatus.o"
     include "build/src/libultra_code/__osSpSetStatus.o"

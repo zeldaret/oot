@@ -3,11 +3,19 @@
 
 #include <ultra64/controller.h> 
 
-#if 1
+#ifdef NON_MATCHING
 
 extern pif_data_buffer_t pifMempakBuf;
 
-
+/*
+Minor reorderings
+addr is accessed from the stack with lhu instructions, implying it's unsigned.
+However changing its declaration to u16 adds additional instructions when storing
+it on the stack in the first place. Also tried making it a 32-bit struct where
+the second 16 bits was a u16, that potentially got farther but still added
+additional instructions. As is below was the closest to match despite `lh`
+instead of `lhu`.
+*/
 s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, s16 addr, PIF_mempak_data_t* data)
 {
     s32 ret;
@@ -21,8 +29,8 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, s16 addr, PIF_mempak_dat
             bufptr = &pifMempakBuf;
             _osCont_lastPollType = (u8)2U;
             D_80134D20 = ctrlridx;
-            for(i = 0; i < ctrlridx; bufptr++, i++){
-                *bufptr = 0;
+            for(i = 0; i < ctrlridx; i++){
+                *bufptr++ = 0;
             }
             pifMempakBuf.status_control = 1;
             ((PIF_header_t*)bufptr)->slot_type = (u8)0xff;
@@ -36,7 +44,7 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, s16 addr, PIF_mempak_dat
             bufptr = (u8*)&pifMempakBuf + ctrlridx;
         }
         bufptr[4] = addr >> 3; //send byte 1
-        bufptr[5] = (s8) (func_80106170(addr) | (addr << 5)); //send byte 2
+        bufptr[5] = (s8) (osMempakAddrCRC(addr) | (addr << 5)); //send byte 2
         __osSiRawStartDma(1, &pifMempakBuf);
         osRecvMesg(ctrlrqueue, 0, 1);
         __osSiRawStartDma(0, &pifMempakBuf);
@@ -55,7 +63,7 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, s16 addr, PIF_mempak_dat
             ret = 1; //Error
         }
         if(ret != 4) break;
-    }while(read_try_count-- >= 0);
+    }while(0 <= read_try_count--);
     __osSiRelAccess();
     return ret;
 }
