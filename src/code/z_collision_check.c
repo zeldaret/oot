@@ -1583,32 +1583,35 @@ void func_8005E9C0(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     right = (ColliderJntSph*)r;
     if (left->count > 0 && left->list != NULL && right->count > 0 && right->list != NULL) {
         for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-            if (func_8005DF2C(&lItem->body) != 1) {
-                for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-                    if (func_8005DF50(&rItem->body) != 1) {
-                        if (func_8005DF74(&lItem->body, &rItem->body) != 1) {
-                            if (func_800CFCAC(&lItem->dim.posr, &rItem->dim.posr, &sp8C, &sp88) == 1) {
-                                sp6C.x = lItem->dim.posr.pos.x;
-                                sp6C.y = lItem->dim.posr.pos.y;
-                                sp6C.z = lItem->dim.posr.pos.z;
-                                sp60.x = rItem->dim.posr.pos.x;
-                                sp60.y = rItem->dim.posr.pos.y;
-                                sp60.z = rItem->dim.posr.pos.z;
-                                if (!(fabsf(sp88) < 0.008f)) {
-                                    temp_f0 = rItem->dim.posr.radius / sp88;
-                                    sp78.x = (((sp6C.x - sp60.x) * temp_f0) + sp60.x);
-                                    sp78.y = (((sp6C.y - sp60.y) * temp_f0) + sp60.y);
-                                    sp78.z = (((sp6C.z - sp60.z) * temp_f0) + sp60.z);
-                                }
-                                else {
-                                    Math_Vec3f_Copy(&sp78, &sp6C);
-                                }
-                                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp6C, &right->base, &rItem->body, &sp60, &sp78);
-                                if ((right->base.maskB & 0x40) == 0) {
-                                    return;
-                                }
-                            }
-                        }
+            if (func_8005DF2C(&lItem->body) == 1) {
+                continue;
+            }
+            for (rItem = right->list; rItem < right->list + right->count; rItem++) {
+                if (func_8005DF50(&rItem->body) == 1) {
+                    continue;
+                }
+                if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
+                    continue;
+                }
+                if (func_800CFCAC(&lItem->dim.posr, &rItem->dim.posr, &sp8C, &sp88) == 1) {
+                    sp6C.x = lItem->dim.posr.pos.x;
+                    sp6C.y = lItem->dim.posr.pos.y;
+                    sp6C.z = lItem->dim.posr.pos.z;
+                    sp60.x = rItem->dim.posr.pos.x;
+                    sp60.y = rItem->dim.posr.pos.y;
+                    sp60.z = rItem->dim.posr.pos.z;
+                    if (!(fabsf(sp88) < 0.008f)) {
+                        temp_f0 = rItem->dim.posr.radius / sp88;
+                        sp78.x = (((sp6C.x - sp60.x) * temp_f0) + sp60.x);
+                        sp78.y = (((sp6C.y - sp60.y) * temp_f0) + sp60.y);
+                        sp78.z = (((sp6C.z - sp60.z) * temp_f0) + sp60.z);
+                    }
+                    else {
+                        Math_Vec3f_Copy(&sp78, &sp6C);
+                    }
+                    func_8005E81C(globalCtx, &left->base, &lItem->body, &sp6C, &right->base, &rItem->body, &sp60, &sp78);
+                    if ((right->base.maskB & 0x40) == 0) {
+                        return;
                     }
                 }
             }
@@ -1897,7 +1900,6 @@ void func_8005FA30(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
 
     if (left->dim.radius > 0 && left->dim.height > 0 && right->dim.radius > 0 && right->dim.height > 0) {
         if (func_8005DF50(&right->body) != 1) {
-            //sp38 = temp_a0_2;
             if (func_8005DF2C(&left->body) != 1) {
                 if (func_8005DF74(&left->body, &right->body) != 1) {
                     if (func_800CFF34(&left->dim, &right->dim, &sp6C, &sp68) == 1) {
@@ -2447,6 +2449,7 @@ void func_8006139C(GlobalContext* globalCtx, CollisionCheckContext* check) {
     }
 }
 
+//Get mass type
 s32 func_8006146C(u8 unk) {
     if (unk == 0xFF) {
         return 0;
@@ -2457,7 +2460,153 @@ s32 func_8006146C(u8 unk) {
     return 2;
 }
 
+#ifdef NON_MATCHING
+//SetOC collision, perform elastic collision
+//Regalloc issues, possibly logic issues too
+void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv,
+    Collider* right, ColliderBody* rightBody, Vec3f* rightv, f32 arg6) {
+    f32 temp_f0;
+    f32 leftDisplacementFactor;
+    f32 rightDisplacementFactor;
+    f32 xzDist; //sp40
+    f32 leftMass;
+    f32 rightMass; //sp38
+    f32 totalMass; //sp34
+    f32 inverseTotalMass;
+    f32 xDelta;
+    f32 zDelta;
+    Actor* leftActor; //sp24
+    Actor* rightActor; //sp20
+    s32 rightMassType;
+    s32 leftMassType; //sp18
+
+    leftActor = left->actor;
+    rightActor = right->actor;
+    left->maskA |= 2;
+    left->oc = rightActor;
+    leftBody->flags2 |= 2;
+    if ((right->maskB & 8) != 0) {
+        left->maskB |= 1;
+    }
+    right->oc = leftActor;
+    right->maskA |= 2;
+    rightBody->flags2 |= 2;
+    if ((left->maskB & 8) != 0) {
+        right->maskB |= 1;
+    }
+    if (leftActor == NULL
+        || rightActor == NULL
+        || (left->maskA & 4) != 0
+        || (right->maskA & 4) != 0) {
+        return;
+    }
+    leftMassType = func_8006146C(leftActor->sub_98.mass);
+    rightMassType = func_8006146C(rightActor->sub_98.mass);
+    leftMass = leftActor->sub_98.mass; //ad8734:    bgez    t2,0xad8748
+    rightMass = rightActor->sub_98.mass; //ad8754:    bgez    t3,0xad8768
+    totalMass = leftMass + rightMass;
+    if (fabsf(totalMass) < 0.008f) { //ad8790:    bc1fl   0xad87b0 ~>
+        leftMass = 1.0f;
+        rightMass = 1.0f;
+        totalMass = 2.0f;
+    }
+    //leftMass = leftv->x;
+    xDelta = rightv->x - leftv->x;
+    zDelta = rightv->z - leftv->z;
+    xzDist = sqrtf(xDelta * xDelta + zDelta * zDelta);
+    //ad87e0
+    if (leftMassType == 0) { //ad87e4:    bnez    v1,0xad8804 ~>
+        if (rightMassType == 0) { //ad87ec:    beqz    v0,0xad8964 ~>
+            return;
+        }
+        else {
+            leftDisplacementFactor = 0.0f;
+            rightDisplacementFactor = 1.0f;
+            //ad87fc:    b       0xad888c ~>
+        }
+    }
+    else if (leftMassType == 1) { //ad8804:    bne     v1,a0,0xad884c ~>
+        if (rightMassType == 0) { //ad880c:    bnez    v0,0xad8824 ~>
+            leftDisplacementFactor = 1.0f;
+            rightDisplacementFactor = 0.0f;
+        }
+        else if (rightMassType == 1) { //ad8824:    bne     v0,a0,0xad883c ~>
+            leftDisplacementFactor = 0.5f;
+            rightDisplacementFactor = 0.5f;
+            //block_26:
+        }
+        else {
+            leftDisplacementFactor = 0.0f;
+            rightDisplacementFactor = 1.0f;
+            //ad8844:    b       0xad888c ~>
+        }
+    }
+    else {
+        if (rightMassType == 2) { //ad884c:    bne     v0,at,0xad8878 ~>
+            inverseTotalMass = 1.0f / totalMass;
+            leftDisplacementFactor = rightMass * inverseTotalMass;
+            rightDisplacementFactor = leftMass * inverseTotalMass;
+            //ad8870:    b       0xad8888 ~>
+        }
+        else {
+            leftDisplacementFactor = 1.0f;
+            rightDisplacementFactor = 0.0f;
+        }
+    }
+
+    if (!(fabsf(xzDist) < 0.008f)) { //ad88a4:    bc1tl   0xad8910 ~>
+        temp_f0 = arg6 / xzDist;
+        xDelta *= temp_f0;
+        zDelta *= temp_f0;
+        leftActor->sub_98.displacement.x += -xDelta * leftDisplacementFactor;
+        leftActor->sub_98.displacement.z += -zDelta * leftDisplacementFactor;
+        rightActor->sub_98.displacement.x += xDelta * rightDisplacementFactor;
+        rightActor->sub_98.displacement.z += zDelta * rightDisplacementFactor;
+    }
+    else if (!(arg6 == 0.0f)) {
+        leftActor->sub_98.displacement.x += -arg6 * leftDisplacementFactor;
+        rightActor->sub_98.displacement.x += arg6 * rightDisplacementFactor;
+    }
+    else {
+        leftActor->sub_98.displacement.x -= leftDisplacementFactor;
+        rightActor->sub_98.displacement.x += rightDisplacementFactor;
+    }
+}
+
+#else
+void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv,
+    Collider* right, ColliderBody* rightBody, Vec3f* rightv, f32 arg6);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800614A4.s")
+#endif // NON_MATCHING
+
+//8011DFAC Check ColliderJntSph to ColliderJntSph
+void func_800617D4(GlobalContext* globalCtx, CollisionCheckContext* check,  Collider* l, Collider* r) {
+    ColliderJntSph* left = (ColliderJntSph*)l;
+    ColliderJntSph* right = (ColliderJntSph*)r;
+    ColliderJntSphItem* lItem;
+    ColliderJntSphItem* rItem;
+    f32 sp74;
+    Vec3f sp68;
+    Vec3f sp5C;
+
+    if (left->count > 0 && left->list != NULL && right->count > 0 && right->list != NULL) {
+        for (lItem = left->list; lItem < left->list + left->count; lItem++) {
+            if ((lItem->body.flags2 & 1) == 0) {
+                continue;
+            }
+            for (rItem = right->list; rItem < right->list + right->count; rItem++) {
+                if ((rItem->body.flags2 & 1) == 0) {
+                    continue;
+                }
+                if (func_800CFC8C(&lItem->dim.posr, &rItem->dim.posr, &sp74) == 1) {
+                    Math_Vec3s_ToVec3f(&sp68, &lItem->dim.posr.pos);
+                    Math_Vec3s_ToVec3f(&sp5C, &rItem->dim.posr.pos);
+                    func_800614A4(&left->base, &lItem->body, &sp68, &right->base, &rItem->body, &sp5C, sp74);
+                }
+            }
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8006199C.s")
 
