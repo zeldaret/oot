@@ -28,8 +28,31 @@ void func_800A9F6C(f32 a, u8 b, u8 c, u8 d) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800A9F30/func_800AA000.s")
-// this function is very similar to the one above but has a loop in it I can't figure out
+void func_800AA000(float a, u8 b, u8 c, u8 d) {
+    s32 temp1;
+    s32 temp2;
+    s32 i;
+    if (1000000.0f < a) {
+        temp1 = 1000;
+    } else {
+        temp1 = sqrtf(a);
+    }
+
+    if (temp1 < 1000 && b != 0 && d != 0) {
+        temp2 = b - (temp1 * 255) / 1000;
+
+        for (i = 0; i != 0x40; i++) {
+            if (D_80160FD0[i + 4] == 0) {
+                if (temp2 > 0) {
+                    D_80160FD0[i + 0x04] = temp2;
+                    D_80160FD0[i + 0x44] = c;
+                    D_80160FD0[i + 0x84] = d;
+                }
+                break;
+            }
+        }
+    }
+}
 
 void func_800AA0B4(void) {
     func_800D3140(&D_80160FD0);
