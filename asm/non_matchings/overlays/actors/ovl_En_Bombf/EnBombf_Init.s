@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_809C8350
+    .float 10000.0
+    .balign 4
+
+glabel D_809C8354
+ .word 0x46F23000
+
+.text
 glabel EnBombf_Init
 /* 00008 809C6F68 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0000C 809C6F6C AFB10020 */  sw      $s1, 0x0020($sp)           

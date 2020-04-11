@@ -41,3 +41,4 @@ const ActorInit En_Bombf_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bombf/func_809C7F24.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bombf/EnBombf_Draw.s")
+

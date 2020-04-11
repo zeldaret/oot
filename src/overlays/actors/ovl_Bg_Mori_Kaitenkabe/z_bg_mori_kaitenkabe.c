@@ -38,3 +38,4 @@ const ActorInit Bg_Mori_Kaitenkabe_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Kaitenkabe/BgMoriKaitenkabe_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Kaitenkabe/func_808A52AC.s")
+

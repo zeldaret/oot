@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AFE0E0
+    .asciz "../z_en_skb.c"
+    .balign 4
+
+glabel D_80AFE0F0
+    .asciz "../z_en_skb.c"
+    .balign 4
+
+.text
 glabel func_80AFDD30
 /* 01390 80AFDD30 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 01394 80AFDD34 2401000B */  addiu   $at, $zero, 0x000B         ## $at = 0000000B

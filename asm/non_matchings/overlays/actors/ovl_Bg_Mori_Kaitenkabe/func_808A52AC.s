@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A545C
+    .asciz "../z_bg_mori_kaitenkabe.c"
+    .balign 4
+
+glabel D_808A5478
+    .asciz "../z_bg_mori_kaitenkabe.c"
+    .balign 4
+
+glabel D_808A5494
+    .asciz "../z_bg_mori_kaitenkabe.c"
+    .balign 4
+
+.text
 glabel func_808A52AC
 /* 004EC 808A52AC 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 004F0 808A52B0 AFB10018 */  sw      $s1, 0x0018($sp)           

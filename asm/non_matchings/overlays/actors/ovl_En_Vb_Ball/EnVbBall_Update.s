@@ -1,3 +1,13 @@
+.late_rodata
+glabel D_80B2A0F8
+ .word 0x44D48000
+glabel D_80B2A0FC
+ .word 0x43CCCCCD
+glabel D_80B2A100
+ .word 0x4622F983, 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel EnVbBall_Update
 /* 00614 80B295B4 27BDFEF0 */  addiu   $sp, $sp, 0xFEF0           ## $sp = FFFFFEF0
 /* 00618 80B295B8 AFBF0064 */  sw      $ra, 0x0064($sp)           

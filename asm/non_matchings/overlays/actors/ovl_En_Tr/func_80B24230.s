@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_80B24458
+ .word 0x3DCCCCCD, 0x00000000
+
+
+.text
 glabel func_80B24230
 /* 01540 80B24230 00067080 */  sll     $t6, $a2,  2               
 /* 01544 80B24234 00AE7821 */  addu    $t7, $a1, $t6              

@@ -43,3 +43,4 @@ const ActorInit En_Siofuki_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Siofuki/EnSiofuki_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Siofuki/EnSiofuki_Draw.s")
+

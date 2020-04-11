@@ -55,3 +55,4 @@ const ActorInit Demo_Ext_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_80977950.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/DemoExt_Draw.s")
+

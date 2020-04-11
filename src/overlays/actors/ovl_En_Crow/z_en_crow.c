@@ -57,3 +57,4 @@ const ActorInit En_Crow_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Crow/func_809E1520.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Crow/EnCrow_Draw.s")
+

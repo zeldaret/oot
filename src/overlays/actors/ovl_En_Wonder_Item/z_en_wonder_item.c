@@ -40,3 +40,4 @@ const ActorInit En_Wonder_Item_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wonder_Item/func_80B38B78.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wonder_Item/EnWonderItem_Update.s")
+

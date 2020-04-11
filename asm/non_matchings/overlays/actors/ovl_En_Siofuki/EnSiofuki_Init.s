@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_80AFC85C
+ .word 0xC5BD5000
+glabel D_80AFC860
+    .float 0.1
+    .balign 4
+
+glabel D_80AFC864
+ .word 0x3F13FA15
+
+.text
 glabel EnSiofuki_Init
 /* 00000 80AFBB80 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 80AFBB84 AFBF001C */  sw      $ra, 0x001C($sp)           

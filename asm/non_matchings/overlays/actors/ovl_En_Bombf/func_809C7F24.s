@@ -1,3 +1,9 @@
+.rdata
+glabel D_809C8300
+    .asciz "../z_en_bombf.c"
+    .balign 4
+
+.text
 glabel func_809C7F24
 /* 00FC4 809C7F24 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00FC8 809C7F28 AFBF0014 */  sw      $ra, 0x0014($sp)           

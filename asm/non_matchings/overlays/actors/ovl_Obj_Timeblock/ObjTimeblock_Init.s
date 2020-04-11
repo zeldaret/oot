@@ -1,3 +1,9 @@
+.rdata
+glabel D_80BA0B50
+    .asciz "時のブロック (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n"
+    .balign 4
+
+.text
 glabel ObjTimeblock_Init
 /* 00174 80BA0114 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00178 80BA0118 AFBF0024 */  sw      $ra, 0x0024($sp)           

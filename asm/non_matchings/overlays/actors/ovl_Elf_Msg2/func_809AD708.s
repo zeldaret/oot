@@ -1,3 +1,41 @@
+.rdata
+glabel D_809ADD40
+    .asciz "../z_elf_msg2.c"
+    .balign 4
+
+glabel D_809ADD50
+    .asciz "\"共倒れ\" = %s\n"
+    .balign 4
+
+glabel D_809ADD60
+    .asciz "共倒れ"
+    .balign 4
+
+glabel D_809ADD68
+    .asciz "../z_elf_msg2.c"
+    .balign 4
+
+glabel D_809ADD78
+    .asciz "\"共倒れ２\" = %s\n"
+    .balign 4
+
+glabel D_809ADD8C
+    .asciz "共倒れ２"
+    .balign 4
+
+glabel D_809ADD98
+    .asciz "../z_elf_msg2.c"
+    .balign 4
+
+glabel D_809ADDA8
+    .asciz "\"共倒れ\" = %s\n"
+    .balign 4
+
+glabel D_809ADDB8
+    .asciz "共倒れ"
+    .balign 4
+
+.text
 glabel func_809AD708
 /* 00008 809AD708 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0000C 809AD70C AFBF0014 */  sw      $ra, 0x0014($sp)           

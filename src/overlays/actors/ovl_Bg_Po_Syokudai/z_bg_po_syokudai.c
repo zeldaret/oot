@@ -27,3 +27,4 @@ const ActorInit Bg_Po_Syokudai_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Syokudai/BgPoSyokudai_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Syokudai/BgPoSyokudai_Draw.s")
+

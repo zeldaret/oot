@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AA28D0
+    .asciz "../z_en_ma2.c"
+    .balign 4
+
+glabel D_80AA28E0
+    .asciz "../z_en_ma2.c"
+    .balign 4
+
+.text
 glabel func_80AA2590
 /* 00BF0 80AA2590 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00BF4 80AA2594 3C0F80AA */  lui     $t7, %hi(D_80AA28A8)       ## $t7 = 80AA0000

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B24414
+    .asciz "../z_en_tr.c"
+    .balign 4
+
+glabel D_80B24424
+    .asciz "../z_en_tr.c"
+    .balign 4
+
+.text
 glabel EnTr_Draw
 /* 011B4 80B23EA4 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 011B8 80B23EA8 AFBF002C */  sw      $ra, 0x002C($sp)

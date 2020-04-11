@@ -63,3 +63,4 @@ const ActorInit Bg_Po_Event_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Event/BgPoEvent_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Po_Event/BgPoEvent_Draw.s")
+

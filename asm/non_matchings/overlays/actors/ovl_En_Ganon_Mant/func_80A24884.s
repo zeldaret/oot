@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A27E80
+    .asciz "../z_en_ganon_mant.c"
+    .balign 4
+
+glabel D_80A27E98
+    .asciz "../z_en_ganon_mant.c"
+    .balign 4
+
+glabel D_80A27EB0
+    .asciz "../z_en_ganon_mant.c"
+    .balign 4
+
+.text
 glabel func_80A24884
 /* 00B24 80A24884 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00B28 80A24888 AFBF001C */  sw      $ra, 0x001C($sp)           

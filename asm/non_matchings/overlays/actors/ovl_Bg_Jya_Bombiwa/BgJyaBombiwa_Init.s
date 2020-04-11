@@ -1,3 +1,25 @@
+.rdata
+glabel D_808957C8
+    .asciz "[43;30m"
+    .balign 4
+
+glabel D_808957D4
+    .asciz "Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n"
+    .balign 4
+
+glabel D_80895810
+    .asciz "../z_bg_jya_bombiwa.c"
+    .balign 4
+
+glabel D_80895828
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_8089582C
+    .asciz "(jya 爆弾で破壊岩)(arg_data 0x%04x)\n"
+    .balign 4
+
+.text
 glabel BgJyaBombiwa_Init
 /* 000DC 8089527C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 000E0 80895280 AFBF001C */  sw      $ra, 0x001C($sp)           

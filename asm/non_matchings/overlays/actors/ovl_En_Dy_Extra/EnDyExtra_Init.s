@@ -1,3 +1,23 @@
+.rdata
+glabel D_809FFC70
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809FFC74
+    .asciz "[33m☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.late_rodata
+glabel D_809FFCE0
+    .float 0.025
+    .balign 4
+
+glabel D_809FFCE4
+ .word 0x3D1FBE77
+glabel D_809FFCE8
+ .word 0xBE4CCCCD
+
+.text
 glabel EnDyExtra_Init
 /* 0000C 809FF6FC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00010 809FF700 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000

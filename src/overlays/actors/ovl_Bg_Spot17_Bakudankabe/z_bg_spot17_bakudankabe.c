@@ -29,3 +29,4 @@ const ActorInit Bg_Spot17_Bakudankabe_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bakudankabe/BgSpot17Bakudankabe_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot17_Bakudankabe/BgSpot17Bakudankabe_Draw.s")
+

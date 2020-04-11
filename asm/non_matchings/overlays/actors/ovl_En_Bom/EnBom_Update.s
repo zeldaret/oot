@@ -1,3 +1,25 @@
+.late_rodata
+glabel D_809C3518
+    .float -1.2
+    .balign 4
+
+glabel D_809C351C
+    .float 0.2
+    .balign 4
+
+glabel D_809C3520
+    .float 0.2
+    .balign 4
+
+glabel D_809C3524
+    .float 0.002
+    .balign 4
+
+glabel D_809C3528
+ .word 0x3C23D70A, 0x00000000
+
+
+.text
 glabel EnBom_Update
 /* 004B8 809C2B88 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 004BC 809C2B8C 3C0F809C */  lui     $t7, %hi(D_809C349C)       ## $t7 = 809C0000

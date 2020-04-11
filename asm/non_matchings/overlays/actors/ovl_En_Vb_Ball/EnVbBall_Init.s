@@ -1,3 +1,24 @@
+.late_rodata
+glabel D_80B2A0E0
+    .float -0.8
+    .balign 4
+
+glabel D_80B2A0E4
+    .float 10000.0
+    .balign 4
+
+glabel D_80B2A0E8
+    .float 3000.0
+    .balign 4
+
+glabel D_80B2A0EC
+    .float 5000.0
+    .balign 4
+
+glabel D_80B2A0F0
+ .word 0xC51C4000
+
+.text
 glabel EnVbBall_Init
 /* 00000 80B28FA0 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 80B28FA4 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,9 @@
+.rdata
+glabel D_80977CE4
+    .asciz "[31mメインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel DemoExt_Update
 /* 00558 809778E8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0055C 809778EC AFBF0014 */  sw      $ra, 0x0014($sp)           

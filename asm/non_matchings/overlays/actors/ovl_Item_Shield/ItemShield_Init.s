@@ -1,3 +1,9 @@
+.rdata
+glabel D_80B87280
+    .asciz "[32mItem_Shild %d \n[m"
+    .balign 4
+
+.text
 glabel ItemShield_Init
 /* 00008 80B86928 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0000C 80B8692C AFBF0034 */  sw      $ra, 0x0034($sp)           

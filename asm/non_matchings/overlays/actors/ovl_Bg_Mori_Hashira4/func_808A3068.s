@@ -1,3 +1,15 @@
+.rdata
+glabel D_808A35E0
+    .asciz "Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+.balign 4
+
+glabel D_808A3620
+    .asciz "../z_bg_mori_hashira4.c"
+    .balign 4
+
+.text
 glabel func_808A3068
 /* 00008 808A3068 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0000C 808A306C AFBF0024 */  sw      $ra, 0x0024($sp)           

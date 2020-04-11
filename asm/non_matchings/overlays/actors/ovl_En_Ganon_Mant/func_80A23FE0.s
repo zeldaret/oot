@@ -1,3 +1,21 @@
+.late_rodata
+glabel D_80A27ED4
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80A27ED8
+    .float 6.28318548203
+    .balign 4
+
+glabel D_80A27EDC
+    .float 2.1
+    .balign 4
+
+glabel D_80A27EE0
+    .float 3.14159274101
+    .balign 4
+
+.text
 glabel func_80A23FE0
 /* 00280 80A23FE0 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 00284 80A23FE4 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00

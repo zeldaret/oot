@@ -211,3 +211,4 @@ const ActorInit Demo_Du_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BF60.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/DemoDu_Draw.s")
+

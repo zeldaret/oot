@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A0F12C
+ .word 0xBF19999A
+
+.text
 glabel EnFdFire_Init
 /* 0012C 80A0E5DC 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00130 80A0E5E0 AFBF001C */  sw      $ra, 0x001C($sp)           

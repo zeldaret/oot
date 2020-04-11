@@ -1,3 +1,17 @@
+.rdata
+glabel D_80885CCC
+    .asciz "../z_bg_hidan_curtain.c"
+    .balign 4
+
+glabel D_80885CE4
+    .asciz "../z_bg_hidan_curtain.c"
+    .balign 4
+
+glabel D_80885CFC
+    .asciz "../z_bg_hidan_curtain.c"
+    .balign 4
+    
+.text
 glabel BgHidanCurtain_Draw
 /* 0084C 808859EC 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 00850 808859F0 AFB10038 */  sw      $s1, 0x0038($sp)           

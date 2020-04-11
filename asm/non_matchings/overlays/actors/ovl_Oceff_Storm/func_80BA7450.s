@@ -1,3 +1,13 @@
+.rdata
+glabel D_80BA8C20
+    .asciz "../z_oceff_storm.c"
+    .balign 4
+
+glabel D_80BA8C34
+    .asciz "../z_oceff_storm.c"
+    .balign 4
+
+.text
 glabel func_80BA7450
 /* 00370 80BA7450 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00374 80BA7454 AFBF0034 */  sw      $ra, 0x0034($sp)           

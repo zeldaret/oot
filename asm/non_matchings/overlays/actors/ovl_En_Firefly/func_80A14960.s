@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_80A1504C
+ .word 0x450FC000
+
+
+.text
 glabel func_80A14960
 /* 018F0 80A14960 8FAF0014 */  lw      $t7, 0x0014($sp)           
 /* 018F4 80A14964 3C0E80A1 */  lui     $t6, %hi(func_80A14E28)    ## $t6 = 80A10000

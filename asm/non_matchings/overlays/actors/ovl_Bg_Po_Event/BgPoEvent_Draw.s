@@ -1,3 +1,33 @@
+.rdata
+glabel D_808A7DB0
+    .asciz "../z_bg_po_event.c"
+    .balign 4
+
+glabel D_808A7DC4
+    .asciz "../z_bg_po_event.c"
+    .balign 4
+
+glabel D_808A7DD8
+    .asciz "../z_bg_po_event.c"
+    .balign 4
+
+.late_rodata
+glabel D_808A7E00
+ .word 0x44504000
+glabel D_808A7E04
+    .float 0.0025
+    .balign 4
+
+glabel D_808A7E08
+    .float 0.3
+    .balign 4
+
+glabel D_808A7E0C
+    .float 0.4
+    .balign 4
+
+
+.text
 glabel BgPoEvent_Draw
 /* 0180C 808A7A1C 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 01810 808A7A20 AFBF001C */  sw      $ra, 0x001C($sp)           

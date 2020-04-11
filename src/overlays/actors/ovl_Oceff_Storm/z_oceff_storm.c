@@ -35,3 +35,4 @@ const ActorInit Oceff_Storm_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Oceff_Storm/func_80BA7450.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Oceff_Storm/OceffStorm_Draw.s")
+

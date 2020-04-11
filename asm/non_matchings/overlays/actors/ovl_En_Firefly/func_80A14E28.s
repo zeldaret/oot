@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A15008
+    .asciz "../z_en_firefly.c"
+    .balign 4
+
+glabel D_80A1501C
+    .asciz "../z_en_firefly.c"
+    .balign 4
+
+.text
 glabel func_80A14E28
 /* 01DB8 80A14E28 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 01DBC 80A14E2C AFBF002C */  sw      $ra, 0x002C($sp)

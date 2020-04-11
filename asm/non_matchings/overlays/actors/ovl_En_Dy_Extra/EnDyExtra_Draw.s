@@ -1,3 +1,17 @@
+.rdata
+glabel D_809FFCA4
+    .asciz "../z_en_dy_extra.c"
+    .balign 4
+
+glabel D_809FFCB8
+    .asciz "../z_en_dy_extra.c"
+    .balign 4
+
+glabel D_809FFCCC
+    .asciz "../z_en_dy_extra.c"
+    .balign 4
+
+.text
 glabel EnDyExtra_Draw
 /* 00274 809FF964 3C070602 */  lui     $a3, 0x0602                ## $a3 = 06020000
 /* 00278 809FF968 24E7BFB0 */  addiu   $a3, $a3, 0xBFB0           ## $a3 = 0601BFB0

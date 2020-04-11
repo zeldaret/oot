@@ -1,3 +1,17 @@
+.rdata
+glabel D_8099D7E0
+    .asciz "../z_efc_erupc.c"
+    .balign 4
+
+glabel D_8099D7F4
+    .asciz "../z_efc_erupc.c"
+    .balign 4
+
+glabel D_8099D808
+    .asciz "../z_efc_erupc.c"
+    .balign 4
+
+.text
 glabel func_8099D334
 /* 00684 8099D334 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00688 8099D338 AFBF0044 */  sw      $ra, 0x0044($sp)           

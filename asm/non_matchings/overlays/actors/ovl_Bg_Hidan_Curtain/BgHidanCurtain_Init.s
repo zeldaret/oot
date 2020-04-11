@@ -1,3 +1,25 @@
+.rdata
+glabel D_80885BF0
+    .asciz "Curtain (arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80885C0C
+    .asciz "Error : object のタイプが設定されていない(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80885C50
+    .asciz "../z_bg_hidan_curtain.c"
+    .balign 4
+
+glabel D_80885C68
+    .asciz "Warning : object のセーブビットが設定されていない(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80885CB4
+    .asciz "../z_bg_hidan_curtain.c"
+    .balign 4
+
+.text
 glabel BgHidanCurtain_Init
 /* 00000 808851A0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 808851A4 AFB00018 */  sw      $s0, 0x0018($sp)           

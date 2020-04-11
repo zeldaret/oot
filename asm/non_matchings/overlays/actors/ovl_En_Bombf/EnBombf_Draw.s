@@ -1,3 +1,21 @@
+.rdata
+glabel D_809C8310
+    .asciz "../z_en_bombf.c"
+    .balign 4
+
+glabel D_809C8320
+    .asciz "../z_en_bombf.c"
+    .balign 4
+
+glabel D_809C8330
+    .asciz "../z_en_bombf.c"
+    .balign 4
+
+glabel D_809C8340
+    .asciz "../z_en_bombf.c"
+    .balign 4
+
+.text
 glabel EnBombf_Draw
 /* 01054 809C7FB4 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 01058 809C7FB8 AFBF001C */  sw      $ra, 0x001C($sp)           
