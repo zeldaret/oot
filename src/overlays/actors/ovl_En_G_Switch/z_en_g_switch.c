@@ -50,3 +50,4 @@ const ActorInit En_G_Switch_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_G_Switch/func_80A23314.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_G_Switch/func_80A234D4.s")
+

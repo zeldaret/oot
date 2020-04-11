@@ -1,3 +1,17 @@
+.rdata
+glabel D_80976A00
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976A14
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976A28
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+.text
 glabel func_80974EB4
 /* 03F64 80974EB4 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 03F68 80974EB8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

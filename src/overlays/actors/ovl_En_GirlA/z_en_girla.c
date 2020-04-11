@@ -154,3 +154,5 @@ const ActorInit En_GirlA_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_GirlA/func_80A3C498.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_GirlA/func_80A3C4D4.s")
+
+

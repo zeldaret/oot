@@ -1,3 +1,22 @@
+.rdata
+glabel D_80976ADC
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976AF0
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976B04
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+.late_rodata
+glabel D_80976D70
+    .float 9.58738019108e-05
+    .balign 4
+
+.text
 glabel func_8097571C
 /* 047CC 8097571C 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 047D0 80975720 AFB10018 */  sw      $s1, 0x0018($sp)           

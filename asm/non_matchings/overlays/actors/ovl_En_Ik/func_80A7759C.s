@@ -1,3 +1,51 @@
+.rdata
+glabel D_80A78728
+    .asciz "../z_en_ik_inAwake.c"
+    .balign 4
+
+glabel D_80A78740
+    .asciz "../z_en_ik_inAwake.c"
+    .balign 4
+
+glabel D_80A78758
+    .asciz "../z_en_ik_inAwake.c"
+    .balign 4
+
+glabel D_80A78770
+    .asciz "../z_en_ik_inAwake.c"
+    .balign 4
+
+glabel D_80A78788
+    .asciz "../z_en_ik_inAwake.c"
+    .balign 4
+
+glabel D_80A787A0
+    .asciz "../z_en_ik_inAwake.c"
+    .balign 4
+
+glabel D_80A787B8
+    .asciz "../z_en_ik_inAwake.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A789E4
+.word L80A775FC
+.word L80A77818
+.word L80A77818
+.word L80A77818
+.word L80A77818
+.word L80A77818
+.word L80A77818
+.word L80A77818
+.word L80A77818
+.word L80A77674
+.word L80A77818
+.word L80A776D0
+.word L80A77818
+.word L80A7772C
+.word L80A777A4
+
+.text
 glabel func_80A7759C
 /* 0328C 80A7759C 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 03290 80A775A0 AFBF001C */  sw      $ra, 0x001C($sp)           

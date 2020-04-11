@@ -1,3 +1,9 @@
+.rdata
+glabel D_80AC90A0
+    .asciz "\x1b[33m★★★ 会話開始！！ ★★★\x1b[m\n"
+    .balign 4
+
+.text
 glabel func_80AC3B18
 /* 00E78 80AC3B18 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00E7C 80AC3B1C AFBF0014 */  sw      $ra, 0x0014($sp)           

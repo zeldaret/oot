@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80AC960C
+    .float 0.05
+
+glabel D_80AC9610
+    .float 0.05
+
+.text
 glabel func_80AC66F4
 /* 03A54 80AC66F4 908E0250 */  lbu     $t6, 0x0250($a0)           ## 00000250
 /* 03A58 80AC66F8 C480024C */  lwc1    $f0, 0x024C($a0)           ## 0000024C

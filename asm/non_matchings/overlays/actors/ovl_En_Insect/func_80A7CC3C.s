@@ -1,3 +1,28 @@
+.late_rodata
+glabel D_80A7E014
+    .float 0.001
+    .balign 4
+
+glabel D_80A7E018
+ .word 0x3951B717
+glabel D_80A7E01C
+    .float 0.8
+    .balign 4
+
+glabel D_80A7E020
+    .float 0.1
+    .balign 4
+
+glabel D_80A7E024
+ .word 0xBF19999A
+glabel D_80A7E028
+    .float 0.6
+    .balign 4
+
+glabel D_80A7E02C
+ .word 0xBF19999A
+
+.text
 glabel func_80A7CC3C
 /* 00E1C 80A7CC3C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00E20 80A7CC40 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8

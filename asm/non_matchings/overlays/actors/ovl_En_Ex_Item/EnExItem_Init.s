@@ -1,3 +1,50 @@
+.rdata
+glabel D_80A09E10
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A09E14
+    .asciz "\x1b[32m☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n\x1b[m"
+    .balign 4
+
+glabel D_80A09E48
+    .asciz "\x1b[33m☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n\x1b[m"
+    .balign 4
+
+glabel D_80A09E7C
+    .asciz "なにみの？ %d\n"
+    .balign 4
+
+glabel D_80A09E8C
+    .asciz "\x1b[35m バンクおかしいしぞ！%d\n\x1b[m\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A0A084
+.word L80A08F58
+.word L80A08F64
+.word L80A08F70
+.word L80A08F7C
+.word L80A08F88
+.word L80A08F58
+.word L80A08F64
+.word L80A08F70
+.word L80A08F7C
+.word L80A08F88
+.word L80A08F88
+.word L80A08F88
+.word L80A08F88
+.word L80A08F88
+.word L80A08F88
+.word L80A08F94
+.word L80A08FC4
+.word L80A08FC4
+.word L80A08FC4
+.word L80A08FD0
+glabel D_80A0A0D4
+    .float 0.05
+
+.text
 glabel EnExItem_Init
 /* 0000C 80A08EAC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00010 80A08EB0 AFBF001C */  sw      $ra, 0x001C($sp)           

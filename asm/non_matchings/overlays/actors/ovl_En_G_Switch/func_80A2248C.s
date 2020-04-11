@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A23980
+    .asciz "[32m☆☆☆☆☆ 音？ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A239A8
+    .asciz "[32m☆☆☆☆☆ 時はまさに世紀末〜  ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A239E0
+    .asciz "[32m☆☆☆☆☆ らすとぉ！          ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_80A2248C
 /* 005CC 80A2248C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 005D0 80A22490 AFBF001C */  sw      $ra, 0x001C($sp)           

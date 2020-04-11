@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A23A8C
+    .asciz "../z_en_g_switch.c"
+    .balign 4
+
+glabel D_80A23AA0
+    .asciz "../z_en_g_switch.c"
+    .balign 4
+
+glabel D_80A23AB4
+    .asciz "../z_en_g_switch.c"
+    .balign 4
+
+.text
 glabel func_80A230A8
 /* 011E8 80A230A8 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 011EC 80A230AC AFBF001C */  sw      $ra, 0x001C($sp)           

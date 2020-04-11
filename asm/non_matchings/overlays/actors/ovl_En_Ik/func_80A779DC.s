@@ -1,3 +1,19 @@
+.rdata
+glabel D_80A78800
+    .asciz "En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A78A20
+.word L80A77A44
+.word L80A77A54
+.word L80A77A68
+.word L80A77A78
+.word L80A77A8C
+.word L80A77AA0
+.word L80A77AB4
+
+.text
 glabel func_80A779DC
 /* 036CC 80A779DC 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 036D0 80A779E0 AFB00018 */  sw      $s0, 0x0018($sp)           

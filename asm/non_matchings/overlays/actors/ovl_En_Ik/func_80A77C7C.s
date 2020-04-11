@@ -1,3 +1,53 @@
+.rdata
+glabel D_80A7887C
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A78898
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A788B4
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A788D0
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A788EC
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A78908
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A78924
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A78A3C
+.word L80A77CDC
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77D38
+.word L80A77EA4
+.word L80A77D94
+.word L80A77EA4
+.word L80A77DF0
+.word L80A77E4C
+.word 0x00000000
+
+.text
 glabel func_80A77C7C
 /* 0396C 80A77C7C 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 03970 80A77C80 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,24 @@
+.rdata
+glabel D_80AC92B8
+    .asciz "%s[%d]:\x1b[32mズーム中！！\x1b[m\n"
+    .balign 4
+
+glabel D_80AC92D8
+    .asciz "../z_en_oB1.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80AC95E4
+.word L80AC5B5C
+.word L80AC5B74
+.word L80AC5B8C
+.word L80AC5BA4
+.word L80AC5BB8
+.word L80AC5BB8
+.word L80AC5BB8
+.word L80AC5BB8
+
+.text
 glabel func_80AC5A28
 /* 02D88 80AC5A28 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 02D8C 80AC5A2C AFB00014 */  sw      $s0, 0x0014($sp)           

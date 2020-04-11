@@ -1,3 +1,20 @@
+.late_rodata
+.late_rodata_alignment 8
+glabel jtbl_80A3D0A8
+.word L80A3A780
+.word L80A3A8C4
+.word L80A3A8C4
+.word L80A3A8C4
+.word func_80A3A858
+.word func_80A3A87C
+.word func_80A3A8A0
+.word func_80A3A7A4
+.word func_80A3A7C8
+.word func_80A3A7EC
+.word func_80A3A810
+.word func_80A3A834
+
+.text
 glabel func_80A3A758
 /* 00008 80A3A758 848E001C */  lh      $t6, 0x001C($a0)           ## 0000001C
 /* 0000C 80A3A75C 25CFFFEF */  addiu   $t7, $t6, 0xFFEF           ## $t7 = FFFFFFEF

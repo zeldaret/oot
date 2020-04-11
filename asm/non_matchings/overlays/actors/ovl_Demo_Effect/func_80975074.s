@@ -1,3 +1,31 @@
+.rdata
+glabel D_80976A3C
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976A50
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976A64
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976A78
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+.late_rodata
+glabel D_80976D58
+    .float 0.017453292
+
+glabel D_80976D5C
+    .float 1.57079637051
+
+glabel D_80976D60
+    .float 0.03
+
+.text
 glabel func_80975074
 /* 04124 80975074 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 04128 80975078 3C0F0001 */  lui     $t7, 0x0001                ## $t7 = 00010000

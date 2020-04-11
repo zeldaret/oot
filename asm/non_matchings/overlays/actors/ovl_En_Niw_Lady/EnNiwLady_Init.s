@@ -1,3 +1,13 @@
+.rdata
+glabel D_80ABB420
+    .asciz "[32m☆☆☆☆☆ ねぇちゃんうっふん ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80ABB458
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel EnNiwLady_Init
 /* 00000 80AB9C40 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 80AB9C44 AFB00018 */  sw      $s0, 0x0018($sp)           

@@ -8,117 +8,213 @@
 .section .rodata
 
 glabel D_80A3CCD0
- .word 0xA5C7A5AF, 0xA4CEBCC2, 0xA1DF3520, 0x20200000
-glabel D_80A3CCE0
- .word 0xCCF0A1DF, 0x33302020, 0x20202020, 0x20200000
-glabel D_80A3CCF0
- .word 0xCCF0A1DF, 0x35302020, 0x20202020, 0x20200000
-glabel D_80A3CD00
- .word 0xC7FAC3C6, 0xA1DF3520, 0x20202020, 0x20200000
-glabel D_80A3CD10
- .word 0xA5C7A5AF, 0xA4CEBCC2, 0xA1DF3130, 0x20200000
-glabel D_80A3CD20
- .word 0xA5C7A5AF, 0xA4CECBC0, 0x20202020, 0x20200000
-glabel D_80A3CD30
- .word 0xC7FAC3C6, 0xA1DF3130, 0x20202020, 0x20200000
-glabel D_80A3CD40
- .word 0xA4B5A4AB, 0xA4CA2020, 0x20202020, 0x20200000
-glabel D_80A3CD50
- .word 0xC0D6A5AF, 0xA5B9A5EA, 0x20202020, 0x20200000
-glabel D_80A3CD60
- .word 0xCED0A5AF, 0xA5B9A5EA, 0x20202020, 0x20200000
-glabel D_80A3CD70
- .word 0xC0C4A5AF, 0xA5B9A5EA, 0x20202020, 0x20200000
-glabel D_80A3CD80
- .word 0xB5F0BFCD, 0xA4CEA5CA, 0xA5A4A5D5, 0x20200000
-glabel D_80A3CD90
- .word 0xA5CFA5A4, 0xA5EAA5A2, 0xA4CEBDE2, 0x20200000
-glabel D_80A3CDA0
- .word 0xA5C7A5AF, 0xA4CEBDE2, 0x20202020, 0x20200000
-glabel D_80A3CDB0
- .word 0xA5B4A5ED, 0xA5F3A4CE, 0xC9FE2020, 0x20200000
-glabel D_80A3CDC0
- .word 0xA5BEA8A1, 0xA5E9A4CE, 0xC9FE2020, 0x20200000
-glabel D_80A3CDD0
- .word 0xB2F3C9FC, 0xA4CEA5CF, 0xA1BCA5C8, 0x20200000
-glabel D_80A3CDE0
- .word 0xA5EDA5F3, 0xA5EDA5F3, 0xB5EDC6FD, 0x20200000
-glabel D_80A3CDF0
- .word 0xB7DCA4CE, 0xCDF12020, 0x20202020, 0x20200000
-glabel D_80A3CE00
- .word 0xA5A4A5F3, 0xA5B4A1BC, 0xB5EDC6FD, 0x20200000
-glabel D_80A3CE10
- .word 0xA5A4A5F3, 0xA5B4A1BC, 0xCDF12020, 0x20200000
-glabel D_80A3CE20
- .word 0xA4E2A4C0, 0xA4A8C0D0, 0x20202020, 0x20200000
-glabel D_80A3CE30
- .word 0xC2E7BFCD, 0xA4CEBAE2, 0xC9DB2020, 0x20200000
-glabel D_80A3CE40
- .word 0xA5CFA1BC, 0xA5C8A4CE, 0xB7E7CAD2, 0x20200000
-glabel D_80A3CE50
- .word 0xA5DCA5E0, 0xA5C1A5E5, 0xA5A62020, 0x20200000
-glabel D_80A3CE60
- .word 0xA5DCA5E0, 0xA5C1A5E5, 0xA5A62020, 0x20200000
-glabel D_80A3CE70
- .word 0xA5DCA5E0, 0xA5C1A5E5, 0xA5A62020, 0x20200000
-glabel D_80A3CE80
- .word 0xA5DCA5E0, 0xA5C1A5E5, 0xA5A62020, 0x20200000
-glabel D_80A3CE90
- .word 0xA5DCA5E0, 0xA5C1A5E5, 0xA5A62020, 0x20200000
-glabel D_80A3CEA0
- .word 0xA5C7A5AF, 0xA4CEA5BF, 0xA5CD2020, 0x20200000
-glabel D_80A3CEB0
- .word 0xA5ADA1BC, 0xA5BFA5F3, 0xA4CEA4AA, 0xCCCC0000
-glabel D_80A3CEC0
- .word 0xA4B3A4EF, 0xA4BDA4CA, 0xA4AACCCC, 0x20200000
-glabel D_80A3CED0
- .word 0xA5C9A5AF, 0xA5EDA4CE, 0xA4AACCCC, 0x20200000
-glabel D_80A3CEE0
- .word 0xA5A6A5B5, 0xA5AEA4BA, 0xA4ADA4F3, 0x20200000
-glabel D_80A3CEF0
- .word 0xA4DEA4B3, 0xA4C8A4CE, 0xB2BECCCC, 0x20200000
-glabel D_80A3CF00
- .word 0xA5BEA1BC, 0xA5E9A4CE, 0xA4AACCCC, 0x20200000
-glabel D_80A3CF10
- .word 0xA5B4A5ED, 0xA5F3A4CE, 0xA4AACCCC, 0x20200000
-glabel D_80A3CF20
- .word 0xA5B2A5EB, 0xA5C9A4CE, 0xA4AACCCC, 0x20200000
-glabel D_80A3CF30
- .word 0xA3D3A3CF, 0xA3CCA3C4, 0xA3CFA3D5, 0xA3D40000
-glabel D_80A3CF40
- .word 0xB1EA2020, 0x20202020, 0x20202020, 0x20200000
-glabel D_80A3CF50
- .word 0xC3EE2020, 0x20202020, 0x20202020, 0x20200000
-glabel D_80A3CF60
- .word 0xA5C1A5E7, 0xA5A6A5C1, 0xA5E72020, 0x20200000
-glabel D_80A3CF70
- .word 0xA5DDA5A6, 0x20202020, 0x20202020, 0x20200000
-glabel D_80A3CF80
- .word 0xCDC5C0BA, 0xA4CEBAB2, 0x20202020, 0x20200000
-glabel D_80A3CF90
- .word 0xCCF0A1DF, 0x31302020, 0x20202020, 0x20200000
-glabel D_80A3CFA0
- .word 0xC7FAC3C6, 0xA1DF3230, 0x20202020, 0x20200000
-glabel D_80A3CFB0
- .word 0xC7FAC3C6, 0xA1DF3330, 0x20202020, 0x20200000
-glabel D_80A3CFC0
- .word 0xC7FAC3C6, 0xA1DF3520, 0x20202020, 0x20200000
-glabel D_80A3CFD0
- .word 0xC0D6A5AF, 0xA5B9A5EA, 0x20202020, 0x20200000
-glabel D_80A3CFE0
- .word 0xC0D6A5AF, 0xA5B9A5EA, 0x20202020, 0x20200000
-glabel D_80A3CFF0
-    .asciz "%s(%2d)初期設定\n"
+    .asciz "デクの実×5   " # Deku Fruit * 5
     .balign 4
 
-.balign 4
+glabel D_80A3CCE0
+    .asciz "矢×30        " # Arrow * 30
+    .balign 4
+
+glabel D_80A3CCF0
+    .asciz "矢×50        " # Arrow * 50
+    .balign 4
+
+glabel D_80A3CD00
+    .asciz "爆弾×5       " # Bomb * 5
+    .balign 4
+
+glabel D_80A3CD10
+    .asciz "デクの実×10  " # Deku fruit * 10
+    .balign 4
+
+glabel D_80A3CD20
+    .asciz "デクの棒      " # Deku stick
+    .balign 4
+
+glabel D_80A3CD30
+    .asciz "爆弾×10      " # Bomb * 10
+    .balign 4
+
+glabel D_80A3CD40
+    .asciz "さかな        " # Fish
+    .balign 4
+
+glabel D_80A3CD50
+    .asciz "赤クスリ      " # Red potion
+    .balign 4
+
+glabel D_80A3CD60
+    .asciz "緑クスリ      " # Green potion
+    .balign 4
+
+glabel D_80A3CD70
+    .asciz "青クスリ      " # Blue potion
+    .balign 4
+
+glabel D_80A3CD80
+    .asciz "巨人のナイフ  " # Giant knife
+    .balign 4
+
+glabel D_80A3CD90
+    .asciz "ハイリアの盾  " # Hylian Shield
+    .balign 4
+
+glabel D_80A3CDA0
+    .asciz "デクの盾      " # Deku shield
+    .balign 4
+
+glabel D_80A3CDB0
+    .asciz "ゴロンの服    " # Goron tunic
+    .balign 4
+
+glabel D_80A3CDC0
+    .asciz "ゾ─ラの服    " # Zora's Tunic
+    .balign 4
+
+glabel D_80A3CDD0
+    .asciz "回復のハート  " # Healing heart
+    .balign 4
+
+glabel D_80A3CDE0
+    .asciz "ロンロン牛乳  " # Lonlon milk
+    .balign 4
+
+glabel D_80A3CDF0
+    .asciz "鶏の卵        " # Chicken eggs
+    .balign 4
+
+glabel D_80A3CE00
+    .asciz "インゴー牛乳  " # Ingo milk
+    .balign 4
+
+glabel D_80A3CE10
+    .asciz "インゴー卵    " # Ingo egg
+    .balign 4
+
+glabel D_80A3CE20
+    .asciz "もだえ石      " # Stone of agony
+    .balign 4
+
+glabel D_80A3CE30
+    .asciz "大人の財布    " # Adult wallet
+    .balign 4
+
+glabel D_80A3CE40
+    .asciz "ハートの欠片  " # Piece of heart
+    .balign 4
+
+glabel D_80A3CE50
+    .asciz "ボムチュウ    " # Bombchu
+    .balign 4
+
+glabel D_80A3CE60
+    .asciz "ボムチュウ    " # Bombchu
+    .balign 4
+
+glabel D_80A3CE70
+    .asciz "ボムチュウ    " # Bombchu
+    .balign 4
+
+glabel D_80A3CE80
+    .asciz "ボムチュウ    " # Bombchu
+    .balign 4
+
+glabel D_80A3CE90
+    .asciz "ボムチュウ    " # Bombchu
+    .balign 4
+glabel D_80A3CEA0
+    .asciz "デクのタネ    " # Deku seed
+    .balign 4
+
+glabel D_80A3CEB0
+    .asciz "キータンのお面" # Mask of Keaton
+    .balign 4
+
+glabel D_80A3CEC0
+    .asciz "こわそなお面  " # Spooky mask
+    .balign 4
+
+glabel D_80A3CED0
+    .asciz "ドクロのお面  " # Skull mask
+    .balign 4
+
+glabel D_80A3CEE0
+    .asciz "ウサギずきん  " # Bunny hood
+    .balign 4
+
+glabel D_80A3CEF0
+    .asciz "まことの仮面  " # Makoto's Mask / Mask of Truth
+    .balign 4
+
+glabel D_80A3CF00
+    .asciz "ゾーラのお面  " # Zora Mask
+    .balign 4
+
+glabel D_80A3CF10
+    .asciz "ゴロンのお面  " # Goron Mask
+    .balign 4
+
+glabel D_80A3CF20
+    .asciz "ゲルドのお面  " # Gerudo Mask
+    .balign 4
+glabel D_80A3CF30
+    .asciz "ＳＯＬＤＯＵＴ"
+    .balign 4
+
+glabel D_80A3CF40
+    .asciz "炎            " # Fire
+    .balign 4
+
+glabel D_80A3CF50
+    .asciz "虫            " # Bug
+    .balign 4
+
+glabel D_80A3CF60
+    .asciz "チョウチョ    " # Butterfly
+    .balign 4
+
+glabel D_80A3CF70
+    .asciz "ポウ          " # Poe
+    .balign 4
+
+glabel D_80A3CF80
+    .asciz "妖精の魂      " # Fairy spirit
+    .balign 4
+
+glabel D_80A3CF90
+    .asciz "矢×10        " # Arrows * 10
+    .balign 4
+
+glabel D_80A3CFA0
+    .asciz "爆弾×20      " # Bombs * 20
+    .balign 4
+
+glabel D_80A3CFB0
+    .asciz "爆弾×30      " # Bombs * 30
+    .balign 4
+
+glabel D_80A3CFC0
+    .asciz "爆弾×5       " # Bombs * 5
+    .balign 4
+
+glabel D_80A3CFD0
+    .asciz "赤クスリ      " # Red potion
+    .balign 4
+
+glabel D_80A3CFE0
+    .asciz "赤クスリ      " # Red potion
+    .balign 4
+
+glabel D_80A3CFF0
+    .asciz "%s(%2d)初期設定\n" # %s(%2d) Default Settings
+    .balign 4
 
 glabel D_80A3D004
-    .asciz "[41;37m"
+    .asciz "\x1b[41;37m"
     .balign 4
 
 glabel D_80A3D010
-    .asciz "引数がおかしいよ(arg_data=%d)！！\n"
+    .asciz "引数がおかしいよ(arg_data=%d)！！\n" # Something's off with the argument (arg_data=%d)!!
     .balign 4
 
 glabel D_80A3D034
@@ -126,17 +222,19 @@ glabel D_80A3D034
     .balign 4
 
 glabel D_80A3D038
- .word 0x30000000
+    .asciz "0"
+    .balign 4
+
 glabel D_80A3D03C
     .asciz "../z_en_girlA.c"
     .balign 4
 
 glabel D_80A3D04C
-    .asciz "[41;37m"
+    .asciz "\x1b[41;37m"
     .balign 4
 
 glabel D_80A3D058
-    .asciz "バンクが無いよ！！(%s)\n"
+    .asciz "バンクが無いよ！！(%s)\n" # No such bank!! (%s)
     .balign 4
 
 glabel D_80A3D070
@@ -144,19 +242,19 @@ glabel D_80A3D070
     .balign 4
 
 glabel D_80A3D074
- .word 0x30000000
+    .asciz "0"
+    .balign 4
+
 glabel D_80A3D078
     .asciz "../z_en_girlA.c"
     .balign 4
 
 glabel D_80A3D088
-    .asciz "%s(%2d)初期設定\n"
+    .asciz "%s(%2d)初期設定\n" # %s(%2d) Default Settings
     .balign 4
 
-.balign 4
-
 glabel D_80A3D09C
-    .asciz "%s(%2d)\n"
+    .asciz "%s(%2d)\n" # %s(%2d)
     .balign 4
 
 glabel jtbl_80A3D0A8
@@ -179,7 +277,7 @@ glabel jtbl_80A3D0D8
 .word L80A3BB2C
 .word L80A3BB3C
 glabel D_80A3D0EC
- .word 0x40FCCCCD
+    .float 7.9
 glabel jtbl_80A3D0F0
 .word L80A3BD18
 .word L80A3BD30
@@ -205,6 +303,6 @@ glabel jtbl_80A3D124
 .word L80A3C218
 .word L80A3C23C
 glabel D_80A3D144
- .word 0x3C8EFA35, 0x00000000, 0x00000000
+    .float 0.017453292
 
 

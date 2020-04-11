@@ -1,3 +1,15 @@
+.late_rodata
+glabel D_80A7DFD0
+ .word 0xBE4CCCCD
+glabel D_80A7DFD4
+    .float 0.3
+    .balign 4
+
+glabel D_80A7DFD8
+    .float 0.4
+    .balign 4
+
+.text
 glabel EnInsect_Init
 /* 002CC 80A7C0EC 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 002D0 80A7C0F0 AFB3003C */  sw      $s3, 0x003C($sp)           

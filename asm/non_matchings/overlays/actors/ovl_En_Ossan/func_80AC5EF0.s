@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AC92E8
+    .asciz "\x1b[33m★★★ 続けるよ！！ ★★★\x1b[m\n"
+    .balign 4
+
+glabel D_80AC930C
+    .asciz "\x1b[33m★★★ やめるよ！！ ★★★\x1b[m\n"
+    .balign 4
+
+.text
 glabel func_80AC5EF0
 /* 03250 80AC5EF0 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 03254 80AC5EF4 AFB10018 */  sw      $s1, 0x0018($sp)           

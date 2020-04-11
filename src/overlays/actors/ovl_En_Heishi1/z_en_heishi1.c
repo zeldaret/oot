@@ -53,3 +53,4 @@ const ActorInit En_Heishi1_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi1/func_80A5263C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi1/EnHeishi1_Draw.s")
+

@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A52BD8
+    .asciz "[32m☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_80A52290
 /* 00FC0 80A52290 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00FC4 80A52294 AFB00018 */  sw      $s0, 0x0018($sp)           

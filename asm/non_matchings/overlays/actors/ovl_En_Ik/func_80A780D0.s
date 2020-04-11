@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A789B0
+    .asciz "En_Ik_inConfrontion_Init : %d !!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_80A780D0
 /* 03DC0 80A780D0 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 03DC4 80A780D4 AFBF001C */  sw      $ra, 0x001C($sp)           

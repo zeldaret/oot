@@ -1,3 +1,9 @@
+.rdata
+glabel D_80ABB67C
+    .asciz "[32m☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_80ABA778
 /* 00B38 80ABA778 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00B3C 80ABA77C AFA5001C */  sw      $a1, 0x001C($sp)           

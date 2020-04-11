@@ -1,3 +1,37 @@
+.late_rodata
+glabel jtbl_80ABB744
+.word L80AB9E34
+.word L80AB9E34
+.word L80AB9E34
+.word L80AB9E34
+.word L80AB9E34
+.word L80AB9E34
+.word L80AB9E34
+.word L80AB9E80
+.word L80AB9E34
+.word L80AB9DE8
+.word L80AB9DE4
+.word L80AB9F14
+.word L80AB9F14
+.word L80AB9F14
+.word L80AB9F14
+.word L80AB9F14
+.word L80AB9F14
+.word L80AB9F14
+.word L80AB9F14
+.word L80AB9F14
+.word L80AB9E80
+.word L80AB9E34
+.word L80AB9E34
+.word L80AB9E80
+.word L80AB9E34
+.word L80AB9E80
+.word L80AB9E80
+.word L80AB9E80
+.word L80AB9E80
+.word L80AB9E34
+
+.text
 glabel func_80AB9D60
 /* 00120 80AB9D60 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00124 80AB9D64 AFA40028 */  sw      $a0, 0x0028($sp)

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AC9178
+    .asciz "\n\x1b[33m初めて手にいれた！！\x1b[m\n\n"
+    .balign 4
+
+glabel D_80AC9198
+    .asciz "\x1b[33m持ち上げ開始！！\x1b[m\n\n"
+    .balign 4
+
+.text
 glabel func_80AC4EC8
 /* 02228 80AC4EC8 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0222C 80AC4ECC AFBF0024 */  sw      $ra, 0x0024($sp)           

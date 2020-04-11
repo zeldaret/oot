@@ -1,3 +1,9 @@
+.rdata
+glabel D_809768DC
+    .asciz "\x1b[36m 転送終了 move_wait \x1b[m"
+    .balign 4
+
+.text
 glabel func_80971960
 /* 00A10 80971960 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00A14 80971964 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8

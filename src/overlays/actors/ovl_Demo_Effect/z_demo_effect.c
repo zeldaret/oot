@@ -136,3 +136,4 @@ const ActorInit Demo_Effect_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Effect/func_8097670C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Effect/func_809767B0.s")
+

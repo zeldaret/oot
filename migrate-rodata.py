@@ -196,6 +196,8 @@ Processes each individual file
 def process_file(filename, identifier, delete_rodata):
     folder_path = "asm" + sep + "non_matchings" + sep + ("code" + sep if identifier=="code" else "overlays" + sep + identifier.lower() + sep + "ovl_") + filename + sep 
     rodata_path = "data" + sep + (sep if identifier=="code" else "overlays" + sep + identifier.lower() + sep + "z_") + filename.lower() + ".rodata.s"
+    if filename == "player":
+        folder_path = "asm" + sep + "non_matchings" + sep + "overlays" + sep + "actors" + sep + "ovl_player_actor" + sep
     print("ASM at: " + folder_path)
     print("Data at: " + rodata_path)
     if not exists(folder_path):
@@ -289,12 +291,14 @@ Enter 'q' to the code or overlay question to quit.""")
 
 #run(False)
 #bigs = ["Boss_Ganon", "Boss_Ganondrof","En_Wf", "Door_Warp1",]
-ovls = ["En_Rr"]
+ovls = ["player"]
 
 for i, ovl in enumerate(ovls):
     if i == 10:
         break
     process_files(ovl, "actors", "Delete", True)
     command = "echo >> src/overlays/actors/ovl_" + ovls[i] + "/z_" + ovls[i].lower() + ".c"
+    if ovls[0] == "player":
+        command = "echo >> src/overlays/actors/ovl_player_actor/z_player.c"
     os.system(command) # purpose of this is to "modify" each C file in order to prevent undefined symbol errors.
                        # the new line will be removed by format.sh

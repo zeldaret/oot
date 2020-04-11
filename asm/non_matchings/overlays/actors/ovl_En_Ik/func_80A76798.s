@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A786F8
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A78710
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+.text
 glabel func_80A76798
 /* 02488 80A76798 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 0248C 80A7679C AFB10028 */  sw      $s1, 0x0028($sp)

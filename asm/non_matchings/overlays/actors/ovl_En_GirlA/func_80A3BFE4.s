@@ -1,3 +1,20 @@
+.rdata
+glabel D_80A3D09C
+    .asciz "%s(%2d)\n" # %s(%2d)
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A3D124
+.word L80A3C05C
+.word L80A3C0AC
+.word L80A3C0FC
+.word L80A3C14C
+.word L80A3C19C
+.word L80A3C1F4
+.word L80A3C218
+.word L80A3C23C
+
+.text
 glabel func_80A3BFE4
 /* 01894 80A3BFE4 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 01898 80A3BFE8 AFB00018 */  sw      $s0, 0x0018($sp)           
