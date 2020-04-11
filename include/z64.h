@@ -441,18 +441,8 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ char unk_00[0x72];
-    /* 0x28 */ s16  unk_72;
-} StaticCollisionContextInner2; // size = 0x50
-
-typedef struct {
-    /* 0x00 */ char    unk_00[0x28];
-    /* 0x28 */ StaticCollisionContextInner2* unk_28;
-} StaticCollisionContextInner; // size = 0x50
-
-typedef struct {
-    /* 0x00 */ StaticCollisionContextInner* unk_00;
-    /* 0x04 */ char                         unk_04[0x4C];
+    /* 0x00 */ CollisionHeader* unk_00;
+    /* 0x04 */ char             unk_04[0x4C];
 } StaticCollisionContext; // size = 0x50
 
 typedef struct {
@@ -1129,16 +1119,21 @@ typedef struct DebugDispObject {
 } DebugDispObject; // size = 0x2C
 
 typedef struct {
-    /* 0x00 */ Vec3s colAbsMin;
-    /* 0x06 */ Vec3s colAbsMax;
-    /* 0x0C */ s16   nbVertices;
-    /* 0x10 */ void* vertexArray;
-    /* 0x14 */ s16   nbPolygons;
-    /* 0x18 */ void* polygonArray;
-    /* 0x1C */ void* polygonTypes;
-    /* 0x20 */ void* cameraData;
-    /* 0x24 */ s16   nbWaterBoxes;
-    /* 0x28 */ void* waterBoxes;
+    /* 0x00 */ char unk_00[0x72];
+    /* 0x72 */ s16  unk_72;
+} WaterBoxes;
+
+typedef struct {
+    /* 0x00 */ Vec3s       colAbsMin;
+    /* 0x06 */ Vec3s       colAbsMax;
+    /* 0x0C */ s16         nbVertices;
+    /* 0x10 */ void*       vertexArray;
+    /* 0x14 */ s16         nbPolygons;
+    /* 0x18 */ void*       polygonArray;
+    /* 0x1C */ void*       polygonTypes;
+    /* 0x20 */ void*       cameraData;
+    /* 0x24 */ s16         nbWaterBoxes;
+    /* 0x28 */ WaterBoxes* waterBoxes;
 } CollisionHeader;
 
 typedef enum {
