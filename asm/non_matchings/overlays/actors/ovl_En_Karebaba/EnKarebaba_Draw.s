@@ -35,7 +35,8 @@ glabel D_80A96B6C
     .balign 4
 
 glabel D_80A96B70
- .word 0x38C90FDB, 0x00000000, 0x00000000, 0x00000000
+    .float 9.58738019108e-05
+
 
 
 .text

@@ -1,3 +1,17 @@
+.rdata
+glabel D_808CA5DC
+    .asciz "../z_boss_dodongo.c"
+    .balign 4
+
+glabel D_808CA5F0
+    .asciz "../z_boss_dodongo.c"
+    .balign 4
+
+.late_rodata
+glabel D_808CA740
+ .word 0x40490FD0
+
+.text
 glabel BossDodongo_Draw
 /* 03AE0 808C4C70 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 03AE4 808C4C74 AFB20030 */  sw      $s2, 0x0030($sp)           

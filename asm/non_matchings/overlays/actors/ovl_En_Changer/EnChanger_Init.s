@@ -73,7 +73,8 @@ glabel D_809D3448
 glabel D_809D344C
  .word 0xC51C4000
 glabel D_809D3450
- .word 0x3FFEB852, 0x00000000, 0x00000000, 0x00000000
+    .float 1.99000000954
+
 
 
 .text

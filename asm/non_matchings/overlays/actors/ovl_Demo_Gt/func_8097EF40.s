@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_80982AC0
+    .float 679.0
+
+glabel D_80982AC4
+    .float 1700.0
+
+glabel D_80982AC8
+    .float 679.0
+
+glabel D_80982ACC
+    .float 1700.0
+
+.text
 glabel func_8097EF40
 /* 018D0 8097EF40 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 018D4 8097EF44 3C0F8098 */  lui     $t7, %hi(D_809825FC)       ## $t7 = 80980000

@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_8090DBAC
+    .float 40000.0
+    .balign 4
+
+.text
 glabel func_808FFA24
 /* 02AE4 808FFA24 8CA21C64 */  lw      $v0, 0x1C64($a1)           ## 00001C64
 /* 02AE8 808FFA28 3C018091 */  lui     $at, %hi(D_8090DBAC)       ## $at = 80910000

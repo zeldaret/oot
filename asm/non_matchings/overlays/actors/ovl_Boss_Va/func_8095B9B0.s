@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_8095C930
+    .float 0.3
+    .balign 4
+
+glabel D_8095C934
+    .float 0.01
+    .balign 4
+
+glabel D_8095C938
+    .float 0.9
+    .balign 4
+
+.text
 glabel func_8095B9B0
 /* 0C6F0 8095B9B0 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0C6F4 8095B9B4 3C0F8096 */  lui     $t7, %hi(D_8095C368)       ## $t7 = 80960000

@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_80855394
+    .float 0.1
+    .balign 4
+
+.text
 glabel func_8083CA9C
 /* 0A88C 8083CA9C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
 /* 0A890 8083CAA0 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660

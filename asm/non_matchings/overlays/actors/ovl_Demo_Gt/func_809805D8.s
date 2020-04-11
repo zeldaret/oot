@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80982AF0
+    .float 550.0
+
+.text
 glabel func_809805D8
 /* 02F68 809805D8 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 02F6C 809805DC 3C0F8098 */  lui     $t7, %hi(D_80982694)       ## $t7 = 80980000

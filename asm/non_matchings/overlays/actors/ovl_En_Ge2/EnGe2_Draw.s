@@ -1,3 +1,14 @@
+.rdata
+glabel D_80A3441C
+    .asciz "../z_en_ge2.c"
+    .balign 4
+
+glabel D_80A3442C
+    .asciz "../z_en_ge2.c"
+    .balign 4
+
+
+.text
 glabel EnGe2_Draw
 /* 01610 80A341E0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 01614 80A341E4 AFB10028 */  sw      $s1, 0x0028($sp)

@@ -1,3 +1,26 @@
+.late_rodata
+glabel jtbl_8090DBBC
+.word L80900904
+.word L809009A8
+.word L80900AFC
+.word L80900E4C
+.word L80900E4C
+.word L80900E4C
+.word L80900E4C
+.word L80900E4C
+.word L80900E4C
+.word L80900E4C
+.word L80900C88
+.word L80900CE4
+glabel D_8090DBEC
+    .float 3.14159274101
+    .balign 4
+
+glabel D_8090DBF0
+    .float 0.3
+    .balign 4
+
+.text
 glabel func_80900890
 /* 03950 80900890 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 03954 80900894 AFB00014 */  sw      $s0, 0x0014($sp)

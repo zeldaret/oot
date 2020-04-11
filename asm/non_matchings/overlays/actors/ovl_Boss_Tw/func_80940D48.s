@@ -1,3 +1,37 @@
+.rdata
+glabel D_8094AA60
+    .asciz "OooooooooooooooooooooooooooooooooCC\n"
+    .balign 4
+
+.late_rodata
+glabel D_8094B020
+    .float 0.3
+    .balign 4
+
+glabel D_8094B024
+    .float 0.4
+    .balign 4
+
+glabel jtbl_8094B028
+.word L80941618
+.word L80941470
+.word L80941494
+.word L809414CC
+.word L80941534
+.word L80941574
+.word L809415E4
+glabel D_8094B044
+    .float 0.03
+    .balign 4
+
+glabel D_8094B048
+    .float 0.05
+    .balign 4
+
+glabel D_8094B04C
+ .word 0x3F733333
+
+.text
 glabel func_80940D48
 /* 08078 80940D48 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 0807C 80940D4C AFBF0044 */  sw      $ra, 0x0044($sp)           

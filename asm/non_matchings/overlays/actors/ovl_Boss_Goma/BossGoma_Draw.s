@@ -1,3 +1,13 @@
+.rdata
+glabel D_8091B4B4
+    .asciz "../z_boss_goma.c"
+    .balign 4
+
+glabel D_8091B4C8
+    .asciz "../z_boss_goma.c"
+    .balign 4
+
+.text
 glabel BossGoma_Draw
 /* 05280 8091AC90 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 05284 8091AC94 AFB00020 */  sw      $s0, 0x0020($sp)           

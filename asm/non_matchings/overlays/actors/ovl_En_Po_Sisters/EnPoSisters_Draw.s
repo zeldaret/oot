@@ -19,13 +19,16 @@ glabel D_80ADD870
 glabel D_80ADD8A8
  .word 0x3BB78035
 glabel D_80ADD8AC
- .word 0x3B30F27C
+    .float 0.0027
+
 glabel D_80ADD8B0
- .word 0x3B30F27C
+    .float 0.0027
+
 glabel D_80ADD8B4
  .word 0x3B656042
 glabel D_80ADD8B8
- .word 0x3B30F27C
+    .float 0.0027
+
 glabel D_80ADD8BC
     .float 0.8
     .balign 4

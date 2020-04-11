@@ -82,3 +82,5 @@ const ActorInit En_Ge2_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge2/EnGe2_Draw.s")
 
+
+

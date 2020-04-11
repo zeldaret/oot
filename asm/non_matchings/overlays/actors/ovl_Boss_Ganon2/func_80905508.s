@@ -1,3 +1,17 @@
+.rdata
+glabel D_8090D944
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+glabel D_8090D958
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+glabel D_8090D96C
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+.text
 glabel func_80905508
 /* 085C8 80905508 3C0E8090 */  lui     $t6, %hi(D_80907144)       ## $t6 = 80900000
 /* 085CC 8090550C 25CE7144 */  addiu   $t6, $t6, %lo(D_80907144)  ## $t6 = 80907144

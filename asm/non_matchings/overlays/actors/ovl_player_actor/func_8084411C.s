@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_80855450
+    .float -1.2
+    .balign 4
+
+.text
 glabel func_8084411C
 /* 11F0C 8084411C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
 /* 11F10 80844120 81CEFA13 */  lb      $t6, -0x05ED($t6)          ## 8015FA13

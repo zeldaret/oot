@@ -4,7 +4,8 @@ glabel D_80B07230
 glabel D_80B07234
  .word 0x43360B61
 glabel D_80B07238
- .word 0x38C90FDB, 0x00000000
+    .float 9.58738019108e-05
+
 
 
 .text

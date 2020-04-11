@@ -243,3 +243,4 @@ const ActorInit Demo_Gt_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/func_8098254C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gt/DemoGt_Draw.s")
+

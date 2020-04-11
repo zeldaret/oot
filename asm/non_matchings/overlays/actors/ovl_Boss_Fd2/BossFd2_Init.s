@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_808D6478
+    .float -850.0
+    .balign 4
+
+.text
 glabel BossFd2_Init
 /* 00430 808D2AA0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00434 808D2AA4 AFA50044 */  sw      $a1, 0x0044($sp)

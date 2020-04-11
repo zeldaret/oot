@@ -12,7 +12,8 @@ glabel D_809C8364
     .balign 4
 
 glabel D_809C8368
- .word 0x3C23D70A, 0x00000000
+    .float 0.01
+
 
 
 .text

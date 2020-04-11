@@ -1,3 +1,68 @@
+.late_rodata
+glabel D_808CA6D8
+    .float 0.1
+    .balign 4
+
+glabel D_808CA6DC
+    .float 1.9
+    .balign 4
+
+glabel D_808CA6E0
+    .float 1.7
+    .balign 4
+
+glabel D_808CA6E4
+    .float 1.4
+    .balign 4
+
+glabel D_808CA6E8
+    .float 1.9
+    .balign 4
+
+glabel D_808CA6EC
+    .float 1.1
+    .balign 4
+
+glabel D_808CA6F0
+    .float 1.9
+    .balign 4
+
+glabel D_808CA6F4
+    .float 6.28
+    .balign 4
+
+glabel D_808CA6F8
+ .word 0xC45E8000
+glabel D_808CA6FC
+ .word 0xC4BE7852
+glabel D_808CA700
+ .word 0xC54E8000
+glabel D_808CA704
+    .float 6.28
+    .balign 4
+
+glabel D_808CA708
+ .word 0xC45E8000
+glabel D_808CA70C
+ .word 0xC4BE7852
+glabel D_808CA710
+ .word 0xC54E8000
+glabel D_808CA714
+    .float 0.4
+    .balign 4
+
+glabel D_808CA718
+    .float 6.28
+    .balign 4
+
+glabel D_808CA71C
+ .word 0xC45E8000
+glabel D_808CA720
+ .word 0xC4BD3852
+glabel D_808CA724
+ .word 0xC54E8000
+
+.text
 glabel BossDodongo_Update
 /* 02970 808C3B00 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 02974 808C3B04 AFBF002C */  sw      $ra, 0x002C($sp)           

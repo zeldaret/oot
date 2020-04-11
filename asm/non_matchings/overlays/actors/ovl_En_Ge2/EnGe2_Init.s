@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A343D0
+    .asciz "0"
+    .balign 4
+
+glabel D_80A343D4
+    .asciz "../z_en_ge2.c"
+    .balign 4
+
+.text
 glabel EnGe2_Init
 /* 000A4 80A32C74 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 000A8 80A32C78 AFB00028 */  sw      $s0, 0x0028($sp)

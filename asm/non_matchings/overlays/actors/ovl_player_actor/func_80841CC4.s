@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_8085543C
+ .word 0x462AA800
+glabel D_80855440
+ .word 0x3A1D4952
+
+.text
 glabel func_80841CC4
 /* 0FAB4 80841CC4 3C028085 */  lui     $v0, %hi(D_80853610)       ## $v0 = 80850000
 /* 0FAB8 80841CC8 84423610 */  lh      $v0, %lo(D_80853610)($v0)  

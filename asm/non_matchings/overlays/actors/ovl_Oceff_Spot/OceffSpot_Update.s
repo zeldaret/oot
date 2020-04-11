@@ -6,7 +6,8 @@ glabel D_80BA6FE0
 glabel D_80BA6FE4
  .word 0x3ED70A3D
 glabel D_80BA6FE8
- .word 0x3F666666, 0x00000000
+    .float 0.9
+
 
 
 .text

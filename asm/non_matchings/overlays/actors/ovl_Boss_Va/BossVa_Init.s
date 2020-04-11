@@ -1,3 +1,50 @@
+.late_rodata
+glabel jtbl_8095C58C
+.word L8094FEC4
+.word L8094FF00
+.word L8094FF00
+.word L8094FF00
+.word L8094FF30
+.word L8094FF30
+.word L8094FF30
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF90
+.word L8094FF60
+.word L8094FF60
+.word L8094FF60
+.word L8094FFD8
+glabel jtbl_8095C5E0
+.word L80950024
+.word L809504C4
+.word L809504C4
+.word L809504C4
+.word L80950538
+.word L80950538
+.word L80950538
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L809505C4
+.word L8095059C
+.word L8095059C
+.word L8095059C
+.word L809505B0
+
+.text
 glabel BossVa_Init
 /* 00B9C 8094FE5C 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00BA0 8094FE60 AFB40048 */  sw      $s4, 0x0048($sp)

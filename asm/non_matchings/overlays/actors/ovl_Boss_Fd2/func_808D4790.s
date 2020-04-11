@@ -1,3 +1,21 @@
+.rdata
+glabel D_808D637C
+    .asciz "[32m"
+    .balign 4
+
+glabel D_808D6384
+    .asciz "damage   %d\n"
+    .balign 4
+
+glabel D_808D6394
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_808D6398
+    .asciz "hp %d\n"
+    .balign 4
+
+.text
 glabel func_808D4790
 /* 02120 808D4790 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 02124 808D4794 AFBF003C */  sw      $ra, 0x003C($sp)           

@@ -17,7 +17,8 @@ glabel D_80AD7228
 
 .late_rodata
 glabel D_80AD72A8
- .word 0x38C90FDB, 0x00000000
+    .float 9.58738019108e-05
+
 
 .text
 glabel func_80AD6C4C

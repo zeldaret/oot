@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_8094B014
+    .float 0.3
+    .balign 4
+
+glabel D_8094B018
+    .float 0.4
+    .balign 4
+
+glabel D_8094B01C
+    .float 0.4
+    .balign 4
+
+.text
 glabel BossTw_Update
 /* 07A04 809406D4 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 07A08 809406D8 AFBF004C */  sw      $ra, 0x004C($sp)           

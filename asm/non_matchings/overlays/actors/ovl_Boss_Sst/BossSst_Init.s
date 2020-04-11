@@ -1,3 +1,13 @@
+.late_rodata
+glabel D_80937990
+ .word 0xC4228000
+glabel D_80937994
+ .word 0xC4228000
+glabel D_80937998
+    .float 5000.0
+    .balign 4
+
+.text
 glabel BossSst_Init
 /* 00000 8092C5D0 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00004 8092C5D4 AFB10030 */  sw      $s1, 0x0030($sp)

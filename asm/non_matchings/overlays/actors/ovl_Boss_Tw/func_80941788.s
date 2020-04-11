@@ -1,3 +1,21 @@
+.rdata
+glabel D_8094AA88
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AA98
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AAA8
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AAB8
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+.text
 glabel func_80941788
 /* 08AB8 80941788 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 08ABC 8094178C AFB10018 */  sw      $s1, 0x0018($sp)           

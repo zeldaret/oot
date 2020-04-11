@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80982A78
+    .float 0.1
+
+glabel D_80982A7C
+    .float 0.7
+
+.text
 glabel func_8097DAC8
 /* 00458 8097DAC8 27BDFF30 */  addiu   $sp, $sp, 0xFF30           ## $sp = FFFFFF30
 /* 0045C 8097DACC 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00

@@ -4,7 +4,8 @@ glabel D_80B99D4C
     .balign 4
 
 glabel D_80B99D50
- .word 0x3F333333, 0x00000000, 0x00000000, 0x00000000
+    .float 0.7
+
 
 
 .text

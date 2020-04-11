@@ -1,3 +1,17 @@
+.rdata
+glabel D_808CA604
+    .asciz "../z_boss_dodongo.c"
+    .balign 4
+
+glabel D_808CA618
+    .asciz "../z_boss_dodongo.c"
+    .balign 4
+
+glabel D_808CA62C
+    .asciz "../z_boss_dodongo.c"
+    .balign 4
+
+.text
 glabel func_808C6DE8
 /* 05C58 808C6DE8 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 05C5C 808C6DEC AFB00020 */  sw      $s0, 0x0020($sp)           

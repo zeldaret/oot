@@ -1,3 +1,21 @@
+.rdata
+glabel D_8095C430
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C440
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C450
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C460
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+.text
 glabel func_80958FFC
 /* 09D3C 80958FFC 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 09D40 80959000 AFBF003C */  sw      $ra, 0x003C($sp)           

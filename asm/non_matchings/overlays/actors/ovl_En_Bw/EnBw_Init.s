@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_809D15A0
+    .float 0.6
+    .balign 4
+
+.text
 glabel EnBw_Init
 /* 00008 809CE6E8 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0000C 809CE6EC AFA5003C */  sw      $a1, 0x003C($sp)           

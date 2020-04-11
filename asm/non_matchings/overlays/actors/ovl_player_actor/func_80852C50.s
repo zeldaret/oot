@@ -1,3 +1,9 @@
+.rdata
+glabel D_8085532C
+    .asciz "TOOL MODE=%d\n"
+    .balign 4
+
+.text
 glabel func_80852C50
 /* 20A40 80852C50 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 20A44 80852C54 AFBF001C */  sw      $ra, 0x001C($sp)           

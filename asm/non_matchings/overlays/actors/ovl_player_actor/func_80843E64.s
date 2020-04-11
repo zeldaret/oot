@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_8085544C
+    .float 0.1
+    .balign 4
+
+.text
 glabel func_80843E64
 /* 11C54 80843E64 3C028085 */  lui     $v0, %hi(D_808535E4)       ## $v0 = 80850000
 /* 11C58 80843E68 8C4235E4 */  lw      $v0, %lo(D_808535E4)($v0)  

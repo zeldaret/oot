@@ -1,3 +1,13 @@
+.rdata
+glabel D_808D6364
+    .asciz "SW1 = %d\n"
+    .balign 4
+
+glabel D_808D6370
+    .asciz "SW2 = %d\n"
+    .balign 4
+
+.text
 glabel func_808D3140
 /* 00AD0 808D3140 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00AD4 808D3144 AFB00020 */  sw      $s0, 0x0020($sp)

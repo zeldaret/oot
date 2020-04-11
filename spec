@@ -640,7 +640,6 @@ beginseg
     name "ovl_player_actor"
     include "build/src/overlays/actors/ovl_player_actor/z_player.o"
     include "build/data/overlays/actors/z_player.data.o"
-    include "build/data/overlays/actors/z_player.rodata.o"
     include "build/data/overlays/actors/z_player.bss.o"
     include "build/data/overlays/actors/z_player.reloc.o"
 endseg
@@ -1528,7 +1527,6 @@ beginseg
     name "ovl_Boss_Dodongo"
     include "build/src/overlays/actors/ovl_Boss_Dodongo/z_boss_dodongo.o"
     include "build/data/overlays/actors/z_boss_dodongo.data.o"
-    include "build/data/overlays/actors/z_boss_dodongo.rodata.o"
     include "build/data/overlays/actors/z_boss_dodongo.reloc.o"
 endseg
 
@@ -1543,7 +1541,6 @@ beginseg
     name "ovl_Boss_Fd2"
     include "build/src/overlays/actors/ovl_Boss_Fd2/z_boss_fd2.o"
     include "build/data/overlays/actors/z_boss_fd2.data.o"
-    include "build/data/overlays/actors/z_boss_fd2.rodata.o"
     include "build/data/overlays/actors/z_boss_fd2.reloc.o"
 endseg
 
@@ -1560,7 +1557,6 @@ beginseg
     name "ovl_Boss_Ganon2"
     include "build/src/overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.o"
     include "build/data/overlays/actors/z_boss_ganon2.data.o"
-    include "build/data/overlays/actors/z_boss_ganon2.rodata.o"
     include "build/data/overlays/actors/z_boss_ganon2.bss.o"
     include "build/data/overlays/actors/z_boss_ganon2.reloc.o"
 endseg
@@ -1577,7 +1573,6 @@ beginseg
     name "ovl_Boss_Goma"
     include "build/src/overlays/actors/ovl_Boss_Goma/z_boss_goma.o"
     include "build/data/overlays/actors/z_boss_goma.data.o"
-    include "build/data/overlays/actors/z_boss_goma.rodata.o"
     include "build/data/overlays/actors/z_boss_goma.reloc.o"
 endseg
 
@@ -1593,7 +1588,6 @@ beginseg
     name "ovl_Boss_Sst"
     include "build/src/overlays/actors/ovl_Boss_Sst/z_boss_sst.o"
     include "build/data/overlays/actors/z_boss_sst.data.o"
-    include "build/data/overlays/actors/z_boss_sst.rodata.o"
     include "build/data/overlays/actors/z_boss_sst.bss.o"
     include "build/data/overlays/actors/z_boss_sst.reloc.o"
 endseg
@@ -1602,7 +1596,6 @@ beginseg
     name "ovl_Boss_Tw"
     include "build/src/overlays/actors/ovl_Boss_Tw/z_boss_tw.o"
     include "build/data/overlays/actors/z_boss_tw.data.o"
-    include "build/data/overlays/actors/z_boss_tw.rodata.o"
     include "build/data/overlays/actors/z_boss_tw.bss.o"
     include "build/data/overlays/actors/z_boss_tw.reloc.o"
 endseg
@@ -1611,7 +1604,6 @@ beginseg
     name "ovl_Boss_Va"
     include "build/src/overlays/actors/ovl_Boss_Va/z_boss_va.o"
     include "build/data/overlays/actors/z_boss_va.data.o"
-    include "build/data/overlays/actors/z_boss_va.rodata.o"
     include "build/data/overlays/actors/z_boss_va.bss.o"
     include "build/data/overlays/actors/z_boss_va.reloc.o"
 endseg
@@ -1620,7 +1612,6 @@ beginseg
     name "ovl_Demo_6K"
     include "build/src/overlays/actors/ovl_Demo_6K/z_demo_6k.o"
     include "build/data/overlays/actors/z_demo_6k.data.o"
-    include "build/data/overlays/actors/z_demo_6k.rodata.o"
     include "build/data/overlays/actors/z_demo_6k.reloc.o"
 endseg
 
@@ -1675,7 +1666,6 @@ beginseg
     name "ovl_Demo_Gt"
     include "build/src/overlays/actors/ovl_Demo_Gt/z_demo_gt.o"
     include "build/data/overlays/actors/z_demo_gt.data.o"
-    include "build/data/overlays/actors/z_demo_gt.rodata.o"
     include "build/data/overlays/actors/z_demo_gt.reloc.o"
 endseg
 
@@ -2261,7 +2251,6 @@ beginseg
     name "ovl_En_Bw"
     include "build/src/overlays/actors/ovl_En_Bw/z_en_bw.o"
     include "build/data/overlays/actors/z_en_bw.data.o"
-    include "build/data/overlays/actors/z_en_bw.rodata.o"
     include "build/data/overlays/actors/z_en_bw.reloc.o"
 endseg
 
@@ -2599,7 +2588,6 @@ beginseg
     name "ovl_En_Ge2"
     include "build/src/overlays/actors/ovl_En_Ge2/z_en_ge2.o"
     include "build/data/overlays/actors/z_en_ge2.data.o"
-    include "build/data/overlays/actors/z_en_ge2.rodata.o"
     include "build/data/overlays/actors/z_en_ge2.reloc.o"
 endseg
 
@@ -2791,7 +2779,6 @@ beginseg
     name "ovl_En_Hy"
     include "build/src/overlays/actors/ovl_En_Hy/z_en_hy.o"
     include "build/data/overlays/actors/z_en_hy.data.o"
-    include "build/data/overlays/actors/z_en_hy.rodata.o"
     include "build/data/overlays/actors/z_en_hy.reloc.o"
 endseg
 

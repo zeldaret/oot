@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_8095C770
+    .float 0.6
+    .balign 4
+
+.text
 glabel func_80955940
 /* 06680 80955940 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 06684 80955944 3C01425C */  lui     $at, 0x425C                ## $at = 425C0000

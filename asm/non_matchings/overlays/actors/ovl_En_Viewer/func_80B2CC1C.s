@@ -2,7 +2,8 @@
 glabel D_80B2D1C4
  .word 0xC61C4000
 glabel D_80B2D1C8
- .word 0x40490FDB, 0x00000000
+    .float 3.14159274101
+
 
 .text
 glabel func_80B2CC1C

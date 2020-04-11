@@ -1,3 +1,17 @@
+.rdata
+glabel D_808D62D0
+    .asciz "UP INIT 1\n"
+    .balign 4
+
+glabel D_808D62DC
+    .asciz "UP INIT 2\n"
+    .balign 4
+
+.late_rodata
+glabel D_808D647C
+ .word 0x410E6666
+
+.text
 glabel func_808D2BD0
 /* 00560 808D2BD0 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00564 808D2BD4 AFBF001C */  sw      $ra, 0x001C($sp)

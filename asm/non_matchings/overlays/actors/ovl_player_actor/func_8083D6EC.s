@@ -1,3 +1,28 @@
+.late_rodata
+glabel D_80855398
+    .float 1300.0
+    .balign 4
+
+glabel D_8085539C
+    .float 0.3
+    .balign 4
+
+glabel D_808553A0
+ .word 0x469C4000
+glabel D_808553A4
+    .float 0.02
+    .balign 4
+
+glabel D_808553A8
+ .word 0x3B83126F
+glabel D_808553AC
+    .float 0.2
+    .balign 4
+
+glabel D_808553B0
+ .word 0x3E051EB8
+
+.text
 glabel func_8083D6EC
 /* 0B4DC 8083D6EC 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 0B4E0 8083D6F0 3C01C1A0 */  lui     $at, 0xC1A0                ## $at = C1A00000

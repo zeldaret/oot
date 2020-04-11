@@ -1,3 +1,9 @@
+.rdata
+glabel D_808D63A0
+    .asciz "FD2 move start \n"
+    .balign 4
+
+.text
 glabel BossFd2_Update
 /* 02764 808D4DD4 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 02768 808D4DD8 AFB00014 */  sw      $s0, 0x0014($sp)           

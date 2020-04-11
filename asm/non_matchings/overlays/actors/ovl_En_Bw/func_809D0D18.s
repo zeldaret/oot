@@ -1,3 +1,27 @@
+.rdata
+glabel D_809D1560
+    .asciz "../z_en_bw.c"
+    .balign 4
+
+.late_rodata
+glabel D_809D16B4
+ .word 0x3DEB851F
+glabel D_809D16B8
+ .word 0x3E051EB8
+glabel D_809D16BC
+    .float 0.1
+    .balign 4
+
+glabel D_809D16C0
+    .float 0.1
+    .balign 4
+
+glabel D_809D16C4
+ .word 0x3E051EB8
+glabel D_809D16C8
+ .word 0x3DEB851F
+
+.text
 glabel func_809D0D18
 /* 02638 809D0D18 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 0263C 809D0D1C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001

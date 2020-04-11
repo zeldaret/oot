@@ -1,3 +1,27 @@
+.late_rodata
+glabel D_8094AEF4
+ .word 0xBE99999A
+glabel D_8094AEF8
+    .float 0.0025
+    .balign 4
+
+glabel D_8094AEFC
+    .float 0.0025
+    .balign 4
+
+glabel D_8094AF00
+    .float 10000.0
+    .balign 4
+
+glabel D_8094AF04
+    .float 10000.0
+    .balign 4
+
+glabel D_8094AF08
+    .float 3.14159274101
+    .balign 4
+
+.text
 glabel func_8093B1AC
 /* 024DC 8093B1AC 27BDFEB0 */  addiu   $sp, $sp, 0xFEB0           ## $sp = FFFFFEB0
 /* 024E0 8093B1B0 AFBF0064 */  sw      $ra, 0x0064($sp)

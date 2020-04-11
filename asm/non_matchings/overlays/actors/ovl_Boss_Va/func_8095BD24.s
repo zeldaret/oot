@@ -1,3 +1,37 @@
+.rdata
+glabel D_8095C530
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C540
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C550
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+.late_rodata
+glabel D_8095C940
+    .float 3.14159274101
+    .balign 4
+
+glabel D_8095C944
+    .float 0.1
+    .balign 4
+
+glabel D_8095C948
+    .float 0.01
+    .balign 4
+
+glabel D_8095C94C
+    .float 0.1
+    .balign 4
+
+glabel D_8095C950
+ .word 0x3F490FDB, 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel func_8095BD24
 /* 0CA64 8095BD24 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 0CA68 8095BD28 AFB00038 */  sw      $s0, 0x0038($sp)           

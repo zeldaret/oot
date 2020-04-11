@@ -303,3 +303,4 @@ const ActorInit Boss_Sst_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Sst/func_809360FC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Sst/func_8093639C.s")
+

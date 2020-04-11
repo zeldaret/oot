@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80855354
+ .word 0x3F2AAAAB
+
+.text
 glabel func_80833064
 /* 00E54 80833064 3C018085 */  lui     $at, %hi(D_80855354)       ## $at = 80850000
 /* 00E58 80833068 C4245354 */  lwc1    $f4, %lo(D_80855354)($at)  

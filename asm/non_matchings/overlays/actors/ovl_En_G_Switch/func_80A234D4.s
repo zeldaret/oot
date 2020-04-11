@@ -13,7 +13,8 @@ glabel D_80A23AF0
 
 .late_rodata
 glabel D_80A23B24
- .word 0x461C4000, 0x00000000, 0x00000000
+    .float 10000.0
+
 
 
 .text

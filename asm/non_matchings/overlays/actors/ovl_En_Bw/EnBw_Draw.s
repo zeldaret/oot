@@ -1,3 +1,35 @@
+.rdata
+glabel D_809D1570
+    .asciz "../z_en_bw.c"
+    .balign 4
+
+glabel D_809D1580
+    .asciz "../z_en_bw.c"
+    .balign 4
+
+glabel D_809D1590
+    .asciz "../z_en_bw.c"
+    .balign 4
+
+.late_rodata
+glabel D_809D16CC
+ .word 0x48B71B00
+glabel D_809D16D0
+ .word 0x48127C00
+glabel D_809D16D4
+ .word 0x49064700
+glabel D_809D16D8
+ .word 0x3C54FDF4
+glabel D_809D16DC
+    .float 0.01
+    .balign 4
+
+glabel D_809D16E0
+    .float 1.3
+
+
+
+.text
 glabel EnBw_Draw
 /* 02858 809D0F38 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 0285C 809D0F3C 3C0F809D */  lui     $t7, %hi(D_809D1554)       ## $t7 = 809D0000

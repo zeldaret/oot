@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_808554FC
+    .float 0.8
+    .balign 4
+
+glabel D_80855500
+    .float 0.02
+    .balign 4
+
+glabel D_80855504
+    .float 0.05
+    .balign 4
+
+.text
 glabel func_8084AEEC
 /* 18CDC 8084AEEC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 18CE0 8084AEF0 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000

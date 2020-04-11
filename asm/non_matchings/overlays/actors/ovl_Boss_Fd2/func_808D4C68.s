@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_808D64BC
+    .float 0.3
+    .balign 4
+
+glabel D_808D64C0
+    .float 6000.0
+    .balign 4
+
+glabel D_808D64C4
+    .float 1300.0
+    .balign 4
+
+.text
 glabel func_808D4C68
 /* 025F8 808D4C68 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 025FC 808D4C6C 3C0F808D */  lui     $t7, %hi(D_808D6200)       ## $t7 = 808D0000

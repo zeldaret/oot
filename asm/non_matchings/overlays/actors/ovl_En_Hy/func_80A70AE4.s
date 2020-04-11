@@ -1,3 +1,34 @@
+.late_rodata
+.late_rodata_alignment 4
+glabel D_80A729CC
+ .word func_80A70CD8
+.word func_80A70CD8
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word func_80A70C44
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word func_80A70C08
+.word L80A70D40
+.word func_80A70BAC
+
+.text
 glabel func_80A70AE4
 /* 01534 80A70AE4 84A300A4 */  lh      $v1, 0x00A4($a1)           ## 000000A4
 /* 01538 80A70AE8 28610038 */  slti    $at, $v1, 0x0038           

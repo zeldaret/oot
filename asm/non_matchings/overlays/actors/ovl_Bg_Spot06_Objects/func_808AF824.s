@@ -4,7 +4,8 @@ glabel D_808AFA38
 glabel D_808AFA3C
  .word 0x38D1B717
 glabel D_808AFA40
- .word 0x3A83126F, 0x00000000, 0x00000000, 0x00000000
+    .float 0.001
+
 
 
 .text

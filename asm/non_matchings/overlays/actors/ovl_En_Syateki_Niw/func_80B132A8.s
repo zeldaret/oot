@@ -8,7 +8,8 @@ glabel D_80B13834
     .balign 4
 
 glabel D_80B13838
- .word 0x3E4CCCCD, 0x00000000
+    .float 0.2
+
 
 
 .text

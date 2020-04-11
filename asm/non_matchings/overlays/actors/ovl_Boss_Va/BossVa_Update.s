@@ -1,3 +1,35 @@
+.late_rodata
+glabel jtbl_8095C7C0
+.word L80957DA8
+.word L80957F50
+.word L80957F50
+.word L80957F50
+.word L80957F50
+.word L80957F50
+.word L80957F50
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957E74
+.word L80957F50
+glabel D_8095C814
+ .word 0x3E75C28F
+glabel D_8095C818
+ .word 0x3F428F5C
+glabel D_8095C81C
+    .float 0.2
+    .balign 4
+
+.text
 glabel BossVa_Update
 /* 08A9C 80957D5C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 08AA0 80957D60 AFBF0014 */  sw      $ra, 0x0014($sp)           

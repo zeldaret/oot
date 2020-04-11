@@ -3,6 +3,7 @@
 import os
 import re
 import sys
+import struct
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = script_dir + "/../"
@@ -155,9 +156,12 @@ def is_zeros(stuff):
 
 
 def try_float(word):
-    if word in floats:
+    if (word in floats):
         return floats[word]
-    return None
+    if (word[:3] == "0x3") or (word[:3] == "0x4") or \
+        (word[:3] == "0xB") or (word[:3] == "0xC"):
+        return struct.unpack('!f', bytes.fromhex(word[2:10]))[0]
+
 
 def quick_convert(words_string):
     words = words_string.split(",")
@@ -186,7 +190,7 @@ def word_convert(byte_string):
         if res is not None:
             return "    .asciz \"" + res + "\"\n    .balign 4\n"
     if len(words) == 1 or is_zeros(words[1:]):
-        res = try_float(words[0].strip())
+        res = str(try_float(words[0].strip()))
         if res is not None:
             return "    .float " + res + "\n"
 
@@ -227,4 +231,4 @@ def main():
                     i += 1
 
 
-main()
+#main()

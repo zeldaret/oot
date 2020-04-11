@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80982B24
+    .float 0.001
+
+glabel D_80982B28
+    .float 0.048
+
+.text
 glabel func_809815FC
 /* 03F8C 809815FC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
 /* 03F90 80981600 8C63FA90 */  lw      $v1, -0x0570($v1)          ## 8015FA90

@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808CA640
+ .word 0x3E490FDB
+
+.text
 glabel func_808C1554
 /* 003C4 808C1554 44862000 */  mtc1    $a2, $f4                   ## $f4 = 0.00
 /* 003C8 808C1558 3C014248 */  lui     $at, 0x4248                ## $at = 42480000

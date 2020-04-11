@@ -1,3 +1,13 @@
+.rdata
+glabel D_80969424
+    .asciz "\x1b[36m  NA_SE_EN_GANON_FIRE_DEMO\n\x1b[m"
+    .balign 4
+
+.late_rodata
+glabel D_80969630
+    .float 0.03
+
+.text
 glabel func_80967DBC
 /* 0146C 80967DBC 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 01470 80967DC0 AFBF002C */  sw      $ra, 0x002C($sp)           

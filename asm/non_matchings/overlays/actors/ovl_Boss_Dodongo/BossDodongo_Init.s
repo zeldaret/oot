@@ -1,3 +1,24 @@
+.late_rodata
+glabel D_808CA644
+ .word 0x4478C000
+glabel D_808CA648
+ .word 0x460FC000
+glabel D_808CA64C
+ .word 0xC45E8000
+glabel D_808CA650
+ .word 0xC4BE7852
+glabel D_808CA654
+ .word 0xC54E8000
+glabel D_808CA658
+ .word 0xC4BE7852
+glabel D_808CA65C
+ .word 0xC54E8000
+glabel D_808CA660
+ .word 0xC4BE7852
+glabel D_808CA664
+ .word 0xC54E8000
+
+.text
 glabel BossDodongo_Init
 /* 007E0 808C1970 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 007E4 808C1974 AFB30040 */  sw      $s3, 0x0040($sp)

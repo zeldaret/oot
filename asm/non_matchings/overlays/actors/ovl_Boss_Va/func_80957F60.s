@@ -1,3 +1,18 @@
+.rdata
+glabel D_8095C3B0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C3C0
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+.late_rodata
+glabel D_8095C820
+    .float -1.57079637051
+    .balign 4
+
+.text
 glabel func_80957F60
 /* 08CA0 80957F60 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 08CA4 80957F64 AFBF0034 */  sw      $ra, 0x0034($sp)           

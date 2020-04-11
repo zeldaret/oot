@@ -1,3 +1,24 @@
+.late_rodata
+glabel D_8095C6E4
+ .word 0x463B8000
+glabel D_8095C6E8
+    .float 0.1
+    .balign 4
+
+glabel D_8095C6EC
+    .float 0.1
+    .balign 4
+
+glabel D_8095C6F0
+    .float 0.05
+    .balign 4
+
+glabel D_8095C6F4
+ .word 0x45AAA000
+glabel D_8095C6F8
+ .word 0x3983126F
+
+.text
 glabel func_80952858
 /* 03598 80952858 3C188096 */  lui     $t8, %hi(D_809668D1)       ## $t8 = 80960000
 /* 0359C 8095285C 931868D1 */  lbu     $t8, %lo(D_809668D1)($t8)  

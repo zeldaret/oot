@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_808553CC
+    .float 1.1
+    .balign 4
+
+.text
 glabel func_8083EAF0
 /* 0C8E0 8083EAF0 10A00012 */  beq     $a1, $zero, .L8083EB3C     
 /* 0C8E4 8083EAF4 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001

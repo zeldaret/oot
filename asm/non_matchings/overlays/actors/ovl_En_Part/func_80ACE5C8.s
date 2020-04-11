@@ -2,7 +2,8 @@
 glabel D_80ACF2E4
  .word 0x44228000
 glabel D_80ACF2E8
- .word 0x3D23D70A, 0x00000000
+    .float 0.04
+
 
 
 .text

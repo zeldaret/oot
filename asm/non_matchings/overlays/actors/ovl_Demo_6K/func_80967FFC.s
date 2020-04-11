@@ -1,3 +1,24 @@
+.rdata
+glabel D_80969448
+    .asciz "../z_demo_6k.c"
+    .balign 4
+
+glabel D_80969458
+    .asciz "../z_demo_6k.c"
+    .balign 4
+
+glabel D_80969468
+    .asciz "../z_demo_6k.c"
+    .balign 4
+
+.late_rodata
+glabel D_8096963C
+    .float -1.57079637051
+
+glabel D_80969640
+    .float 1.0471976
+
+.text
 glabel func_80967FFC
 /* 016AC 80967FFC 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 016B0 80968000 AFBF0064 */  sw      $ra, 0x0064($sp)           

@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808553EC
+ .word 0x38000100
+
+.text
 glabel func_8083F0C8
 /* 0CEB8 8083F0C8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
 /* 0CEBC 8083F0CC 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664

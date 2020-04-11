@@ -1,3 +1,26 @@
+.rdata
+glabel D_80A72810
+    .asciz "../z_en_hy.c"
+    .balign 4
+
+glabel D_80A72820
+    .asciz "../z_en_hy.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A72A90
+    .float 3.14159274101
+
+glabel D_80A72A94
+    .float 3.14159274101
+
+glabel D_80A72A98
+    .float 3.14159274101
+
+glabel D_80A72A9C
+    .float 3.14159274101
+
+.text
 glabel func_80A716B8
 /* 02108 80A716B8 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 0210C 80A716BC AFBF0014 */  sw      $ra, 0x0014($sp)           

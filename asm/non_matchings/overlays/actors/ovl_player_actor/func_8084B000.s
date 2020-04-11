@@ -1,3 +1,15 @@
+.late_rodata
+glabel D_80855508
+ .word 0xBDCCCCCD
+glabel D_8085550C
+ .word 0xBE4CCCCD
+glabel D_80855510
+ .word 0xBE99999A
+glabel D_80855514
+    .float 0.1
+    .balign 4
+
+.text
 glabel func_8084B000
 /* 18DF0 8084B000 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
 /* 18DF4 8084B004 C4800060 */  lwc1    $f0, 0x0060($a0)           ## 00000060

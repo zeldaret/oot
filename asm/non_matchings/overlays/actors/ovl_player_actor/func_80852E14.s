@@ -1,3 +1,9 @@
+.rdata
+glabel D_8085533C
+    .asciz "DEMO MODE=%d\n"
+    .balign 4
+
+.text
 glabel func_80852E14
 /* 20C04 80852E14 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 20C08 80852E18 AFBF001C */  sw      $ra, 0x001C($sp)           

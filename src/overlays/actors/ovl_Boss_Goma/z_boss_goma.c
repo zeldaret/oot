@@ -131,3 +131,4 @@ const ActorInit Boss_Goma_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Goma/BossGoma_Draw.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Goma/func_8091ADA8.s")
+

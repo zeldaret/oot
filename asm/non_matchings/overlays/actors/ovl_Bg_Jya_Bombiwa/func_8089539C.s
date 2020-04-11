@@ -2,7 +2,8 @@
 glabel D_80895854
  .word 0x3FE66666
 glabel D_80895858
- .word 0x3ECCCCCD, 0x00000000
+    .float 0.4
+
 
 
 .text

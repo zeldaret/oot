@@ -1,3 +1,24 @@
+.rdata
+glabel D_8090D908
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+glabel D_8090D91C
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+glabel D_8090D930
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+.late_rodata
+glabel D_8090DD48
+ .word 0x3E6EEEED
+glabel D_8090DD4C
+    .float 6.28318548203
+    .balign 4
+
+.text
 glabel func_8090523C
 /* 082FC 8090523C 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 08300 80905240 AFBF006C */  sw      $ra, 0x006C($sp)           

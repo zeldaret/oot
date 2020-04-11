@@ -1,3 +1,18 @@
+.rdata
+glabel D_809378F0
+    .asciz "../z_boss_sst.c"
+    .balign 4
+
+glabel D_80937900
+    .asciz "../z_boss_sst.c"
+    .balign 4
+
+.late_rodata
+glabel D_80937A18
+    .float 0.02
+    .balign 4
+
+.text
 glabel BossSst_Draw
 /* 08098 80934668 27BDFF38 */  addiu   $sp, $sp, 0xFF38           ## $sp = FFFFFF38
 /* 0809C 8093466C AFBF005C */  sw      $ra, 0x005C($sp)

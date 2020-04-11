@@ -1,3 +1,91 @@
+.late_rodata
+glabel jtbl_8094AF2C
+.word L8093D670
+.word L8093D7EC
+.word L8093D988
+.word L8093DAB8
+.word L8093DC4C
+.word L8093ECEC
+.word L8093ECEC
+.word L8093ECEC
+.word L8093ECEC
+.word L8093ECEC
+.word L8093E130
+.word L8093E258
+.word L8093E3E8
+.word L8093ECEC
+.word L8093ECEC
+.word L8093ECEC
+.word L8093ECEC
+.word L8093ECEC
+.word L8093ECEC
+.word L8093ECEC
+.word L8093E854
+glabel D_8094AF80
+ .word 0x46AFC800
+glabel D_8094AF84
+ .word 0x44048000
+glabel D_8094AF88
+    .float 0.05
+    .balign 4
+
+glabel D_8094AF8C
+    .float 0.05
+    .balign 4
+
+glabel D_8094AF90
+    .float 0.2
+    .balign 4
+
+glabel D_8094AF94
+ .word 0x44048000
+glabel D_8094AF98
+ .word 0x43848000
+glabel D_8094AF9C
+    .float 0.1
+    .balign 4
+
+glabel D_8094AFA0
+    .float 0.05
+    .balign 4
+
+glabel D_8094AFA4
+    .float 10000.0
+    .balign 4
+
+glabel D_8094AFA8
+ .word 0x3CCCCCCC
+glabel D_8094AFAC
+    .float 0.2
+    .balign 4
+
+glabel D_8094AFB0
+ .word 0xC4048000
+glabel D_8094AFB4
+ .word 0x43848000
+glabel D_8094AFB8
+    .float 0.1
+    .balign 4
+
+glabel D_8094AFBC
+    .float 0.05
+    .balign 4
+
+glabel D_8094AFC0
+    .float 10000.0
+    .balign 4
+
+glabel D_8094AFC4
+ .word 0x3CCCCCCC
+glabel D_8094AFC8
+    .float -1.57079637051
+    .balign 4
+
+glabel D_8094AFCC
+    .float 3.14159274101
+    .balign 4
+
+.text
 glabel func_8093D5C0
 /* 048F0 8093D5C0 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 048F4 8093D5C4 AFBF0034 */  sw      $ra, 0x0034($sp)

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A343E4
+    .asciz "\x1b[32m発見!!!!!!!!!!!!\n\x1b[m"
+    .balign 4
+
+glabel D_80A34400
+    .asciz "\x1b[32m発見!!!!!!!!!!!!\n\x1b[m"
+    .balign 4
+
+.text
 glabel EnGe2_Update
 /* 01264 80A33E34 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 01268 80A33E38 AFBF0024 */  sw      $ra, 0x0024($sp)           

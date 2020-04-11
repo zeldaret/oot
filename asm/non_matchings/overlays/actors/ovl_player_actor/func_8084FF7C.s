@@ -1,3 +1,13 @@
+.late_rodata
+glabel D_80855544
+    .float 0.3
+    .balign 4
+
+glabel D_80855548
+    .float 9.99999974738e-06
+    .balign 4
+
+.text
 glabel func_8084FF7C
 /* 1DD6C 8084FF7C C482085C */  lwc1    $f2, 0x085C($a0)           ## 0000085C
 /* 1DD70 8084FF80 C4840858 */  lwc1    $f4, 0x0858($a0)           ## 00000858

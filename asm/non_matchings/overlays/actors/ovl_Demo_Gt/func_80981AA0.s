@@ -1,3 +1,21 @@
+.rdata
+glabel D_809828E8
+    .asciz "../z_demo_gt_part4_3.c"
+    .balign 4
+
+glabel D_80982900
+    .asciz "../z_demo_gt_part4_3.c"
+    .balign 4
+
+glabel D_80982918
+    .asciz "../z_demo_gt_part4_3.c"
+    .balign 4
+
+.late_rodata
+glabel D_80982B38
+    .float 9.58738019108e-05
+
+.text
 glabel func_80981AA0
 /* 04430 80981AA0 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 04434 80981AA4 AFBF001C */  sw      $ra, 0x001C($sp)           
