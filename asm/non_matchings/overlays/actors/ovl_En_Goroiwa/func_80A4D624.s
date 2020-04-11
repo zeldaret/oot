@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A4E044
+    .asciz "[36m"
+    .balign 4
+
+glabel D_80A4E04C
+    .asciz "Player ぶっ飛ばし\n"
+    .balign 4
+
+glabel D_80A4E060
+    .asciz "\x1b[m"
+    .balign 4
+
+.text
 glabel func_80A4D624
 /* 01984 80A4D624 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 01988 80A4D628 AFBF0024 */  sw      $ra, 0x0024($sp)           

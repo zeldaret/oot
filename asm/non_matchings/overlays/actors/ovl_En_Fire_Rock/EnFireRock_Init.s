@@ -1,3 +1,49 @@
+.rdata
+glabel D_80A12D00
+    .asciz "[33m☆☆☆☆☆ 天井待ち岩 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A12D2C
+    .asciz "[33m☆☆☆☆☆ 床岩 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A12D54
+    .asciz "[33m☆☆☆☆☆ そんな岩はねぇ！ERR!!!!!! ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A12E94
+.word L80A11D9C
+.word L80A11E70
+.word L80A11F50
+.word L80A11DD8
+.word L80A12008
+.word L80A11CF4
+.word L80A11D14
+glabel D_80A12EB0
+    .float 0.02
+    .balign 4
+
+glabel D_80A12EB4
+ .word 0x477FFF00
+glabel D_80A12EB8
+    .float 0.02
+    .balign 4
+
+glabel D_80A12EBC
+ .word 0x477FFF00
+glabel D_80A12EC0
+    .float 0.01
+    .balign 4
+
+glabel D_80A12EC4
+    .float -1.2
+    .balign 4
+
+glabel D_80A12EC8
+ .word 0x477FFF00
+
+.text
 glabel EnFireRock_Init
 /* 00000 80A11C20 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 80A11C24 AFBF001C */  sw      $ra, 0x001C($sp)           

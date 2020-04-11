@@ -1,3 +1,9 @@
+.rdata
+glabel D_809F3090
+    .asciz "\x1B[33m☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n\x1B[m"
+    .balign 4
+
+.text
 glabel EnDntJiji_Update
 /* 01128 809F2C08 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0112C 809F2C0C AFA5003C */  sw      $a1, 0x003C($sp)           

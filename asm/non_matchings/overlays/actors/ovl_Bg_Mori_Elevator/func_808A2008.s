@@ -1,3 +1,13 @@
+.late_rodata
+glabel D_808A23D0
+    .float 0.3
+    .balign 4
+
+glabel D_808A23D4
+ .word 0x3A83126F, 0x00000000, 0x00000000
+
+
+.text
 glabel func_808A2008
 /* 00808 808A2008 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 0080C 808A200C 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00

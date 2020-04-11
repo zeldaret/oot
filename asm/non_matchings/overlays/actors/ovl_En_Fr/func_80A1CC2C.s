@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A1D238
+    .asciz "../z_en_fr.c"
+    .balign 4
+
+glabel D_80A1D248
+    .asciz "../z_en_fr.c"
+    .balign 4
+
+glabel D_80A1D258
+    .asciz "../z_en_fr.c"
+    .balign 4
+
+.text
 glabel func_80A1CC2C
 /* 0228C 80A1CC2C 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 02290 80A1CC30 24010007 */  addiu   $at, $zero, 0x0007         ## $at = 00000007

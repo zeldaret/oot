@@ -1,3 +1,18 @@
+.rdata
+glabel D_80A0E120
+    .asciz "../z_en_fd.c"
+    .balign 4
+
+glabel D_80A0E130
+    .asciz "../z_en_fd.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A0E1D8
+    .float 0.9
+    .balign 4
+
+.text
 glabel EnFd_Draw
 /* 0195C 80A0D01C 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 01960 80A0D020 3C0F80A1 */  lui     $t7, %hi(D_80A0E0D0)       ## $t7 = 80A10000

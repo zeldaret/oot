@@ -1,3 +1,42 @@
+.rdata
+glabel D_80B289C0
+    .asciz "../z_en_vali.c"
+    .balign 4
+
+glabel D_80B289D0
+    .asciz "../z_en_vali.c"
+    .balign 4
+
+glabel D_80B289E0
+    .asciz "../z_en_vali.c"
+    .balign 4
+
+glabel D_80B289F0
+    .asciz "../z_en_vali.c"
+    .balign 4
+
+glabel D_80B28A00
+    .asciz "../z_en_vali.c"
+    .balign 4
+
+glabel D_80B28A10
+    .asciz "../z_en_vali.c"
+    .balign 4
+
+glabel D_80B28A20
+    .asciz "../z_en_vali.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B28AEC
+    .float 9.58738019108e-05
+    .balign 4
+
+glabel D_80B28AF0
+ .word 0x448B4000, 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel func_80B28344
 /* 01C94 80B28344 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 01C98 80B28348 3C0F80B3 */  lui     $t7, %hi(D_80B28988)       ## $t7 = 80B30000

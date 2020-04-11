@@ -1,3 +1,22 @@
+.rdata
+glabel D_80AE6624
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AE6628
+    .asciz "[32m☆☆☆☆☆ 何匹ＤＥＡＤ？ ☆☆☆☆☆%d\n[m"
+    .balign 4
+
+glabel D_80AE6658
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AE66A0
+    .float 0.01
+    .balign 4
+
+.text
 glabel func_80AE5C38
 /* 00F68 80AE5C38 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00F6C 80AE5C3C 3C0F80AE */  lui     $t7, %hi(D_80AE65CC)       ## $t7 = 80AE0000

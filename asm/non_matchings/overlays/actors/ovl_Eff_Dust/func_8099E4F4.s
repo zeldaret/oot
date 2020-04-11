@@ -1,3 +1,17 @@
+.rdata
+glabel D_8099EB80
+    .asciz "../z_eff_dust.c"
+    .balign 4
+
+glabel D_8099EB90
+    .asciz "../z_eff_dust.c"
+    .balign 4
+
+glabel D_8099EBA0
+    .asciz "../z_eff_dust.c"
+    .balign 4
+
+.text
 glabel func_8099E4F4
 /* 00C24 8099E4F4 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 00C28 8099E4F8 AFBF004C */  sw      $ra, 0x004C($sp)           

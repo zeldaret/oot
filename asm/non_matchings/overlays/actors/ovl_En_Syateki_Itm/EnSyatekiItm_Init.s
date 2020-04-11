@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B103E0
+    .asciz "[32m☆☆☆☆☆ エラー原 ☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B10408
+    .asciz "[33m☆☆☆☆☆ エラー原セカンド ☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel EnSyatekiItm_Init
 /* 00000 80B0F6B0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00004 80B0F6B4 3C01430C */  lui     $at, 0x430C                ## $at = 430C0000

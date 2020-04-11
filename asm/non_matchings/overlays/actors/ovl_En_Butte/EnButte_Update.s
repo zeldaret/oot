@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_809CE4C8
+ .word 0x459C4000, 0x00000000
+
+
+.text
 glabel EnButte_Update
 /* 010AC 809CE11C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 010B0 809CE120 AFBF001C */  sw      $ra, 0x001C($sp)           

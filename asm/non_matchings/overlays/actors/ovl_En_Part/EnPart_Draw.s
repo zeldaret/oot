@@ -1,3 +1,17 @@
+.rdata
+glabel D_80ACF210
+    .asciz "../z_en_part.c"
+    .balign 4
+
+glabel D_80ACF220
+    .asciz "../z_en_part.c"
+    .balign 4
+
+glabel D_80ACF230
+    .asciz "../z_en_part.c"
+    .balign 4
+
+.text
 glabel EnPart_Draw
 /* 00DAC 80ACEB7C 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 00DB0 80ACEB80 AFBF002C */  sw      $ra, 0x002C($sp)           

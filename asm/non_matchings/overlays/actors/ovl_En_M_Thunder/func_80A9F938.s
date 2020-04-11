@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_80AA0508
+    .float 0.1
+    .balign 4
+
+.text
 glabel func_80A9F938
 /* 00958 80A9F938 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 0095C 80A9F93C 948E01C4 */  lhu     $t6, 0x01C4($a0)           ## 000001C4

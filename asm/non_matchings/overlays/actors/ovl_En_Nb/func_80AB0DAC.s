@@ -1,3 +1,17 @@
+.rdata
+glabel D_80AB4F90
+    .asciz "En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n"
+    .balign 4
+
+glabel D_80AB4FD4
+    .asciz "En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AB5200
+ .word 0x4622F983
+
+.text
 glabel func_80AB0DAC
 /* 0001C 80AB0DAC 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00020 80AB0DB0 3C070001 */  lui     $a3, 0x0001                ## $a3 = 00010000

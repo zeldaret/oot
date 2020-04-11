@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A11840
+    .asciz "yari hikari ct 1\n"
+    .balign 4
+
+glabel D_80A11854
+    .asciz "yari hikari ct 2\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A119C4
+ .word 0x3E051EB8
+glabel D_80A119C8
+ .word 0x4622F983
+glabel D_80A119CC
+ .word 0x4622F983
+
+.text
 glabel EnFhgFire_Init
 /* 00008 80A0F268 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 0000C 80A0F26C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

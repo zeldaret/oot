@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A236C
+    .asciz "../z_bg_mori_elevator.c"
+    .balign 4
+
+glabel D_808A2384
+    .asciz "../z_bg_mori_elevator.c"
+    .balign 4
+
+glabel D_808A239C
+    .asciz "../z_bg_mori_elevator.c"
+    .balign 4
+
+.text
 glabel func_808A210C
 /* 0090C 808A210C 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00910 808A2110 AFB10018 */  sw      $s1, 0x0018($sp)           

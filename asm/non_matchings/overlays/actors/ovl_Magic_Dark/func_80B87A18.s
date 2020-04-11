@@ -1,3 +1,26 @@
+.rdata
+glabel D_80B88B20
+    .asciz "../z_magic_dark.c"
+    .balign 4
+
+glabel D_80B88B34
+    .asciz "../z_magic_dark.c"
+    .balign 4
+
+glabel D_80B88B48
+    .asciz "../z_magic_dark.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B88BF4
+    .float 9.58738019108e-05
+    .balign 4
+
+glabel D_80B88BF8
+    .float 0.6
+    .balign 4
+
+.text
 glabel func_80B87A18
 /* 00648 80B87A18 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 0064C 80B87A1C 3C0E0001 */  lui     $t6, 0x0001                ## $t6 = 00010000

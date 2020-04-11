@@ -1,3 +1,9 @@
+.rdata
+glabel D_80AB5134
+    .asciz "En_Nb_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_80AB3320
 /* 02590 80AB3320 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 02594 80AB3324 AFA40020 */  sw      $a0, 0x0020($sp)           

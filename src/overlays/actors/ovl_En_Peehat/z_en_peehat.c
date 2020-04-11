@@ -99,3 +99,4 @@ const ActorInit En_Peehat_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Peehat/func_80AD2438.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Peehat/EnPeehat_Draw.s")
+

@@ -1,3 +1,15 @@
+.rdata
+glabel D_80A740A0
+    .asciz "(ice 炎)(arg_data 0x%04x)\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A7412C
+ .word 0x477FFF80
+glabel D_80A74130
+ .word 0x477FFF80
+
+.text
 glabel EnIceHono_Init
 /* 00238 80A73228 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0023C 80A7322C AFBF002C */  sw      $ra, 0x002C($sp)           

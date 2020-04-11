@@ -1,3 +1,30 @@
+.rdata
+glabel D_809CE420
+    .asciz "../z_en_choo.c"
+    .balign 4
+
+glabel D_809CE430
+    .asciz "../z_en_choo.c"
+    .balign 4
+
+glabel D_809CE440
+    .asciz "../z_en_choo.c"
+    .balign 4
+
+.late_rodata
+glabel D_809CE480
+    .float 9.58738019108e-05
+    .balign 4
+
+glabel D_809CE484
+    .float 9.58738019108e-05
+    .balign 4
+
+glabel D_809CE488
+    .float 9.58738019108e-05
+    .balign 4
+
+.text
 glabel func_809CD144
 /* 000D4 809CD144 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 000D8 809CD148 AFBF001C */  sw      $ra, 0x001C($sp)           

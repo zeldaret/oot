@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A3A200
+    .asciz "../z_en_geldB.c"
+    .balign 4
+
+glabel D_80A3A210
+    .asciz "../z_en_geldB.c"
+    .balign 4
+
+.text
 glabel EnGeldB_Draw
 /* 04788 80A39A98 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 0478C 80A39A9C AFBF004C */  sw      $ra, 0x004C($sp)

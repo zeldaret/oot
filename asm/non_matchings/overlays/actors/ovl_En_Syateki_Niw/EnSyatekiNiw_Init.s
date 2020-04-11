@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B136E0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B136E4
+    .asciz "[32m☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B13710
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B13714
+    .asciz "[32m☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel EnSyatekiNiw_Init
 /* 00000 80B118F0 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 80B118F4 AFA5003C */  sw      $a1, 0x003C($sp)

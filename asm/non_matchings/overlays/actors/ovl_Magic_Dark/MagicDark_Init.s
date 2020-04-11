@@ -1,3 +1,21 @@
+.late_rodata
+glabel D_80B88BAC
+    .float 0.4
+    .balign 4
+
+glabel D_80B88BB0
+    .float 0.6
+    .balign 4
+
+glabel D_80B88BB4
+    .float 1.6
+    .balign 4
+
+glabel D_80B88BB8
+    .float 0.8
+    .balign 4
+
+.text
 glabel MagicDark_Init
 /* 00000 80B873D0 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
 /* 00004 80B873D4 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660

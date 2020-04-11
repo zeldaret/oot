@@ -1,3 +1,9 @@
+.rdata
+glabel D_80AB5050
+    .asciz "En_Nb_Kidnap_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_80AB22CC
 /* 0153C 80AB22CC 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 01540 80AB22D0 AFB00018 */  sw      $s0, 0x0018($sp)           

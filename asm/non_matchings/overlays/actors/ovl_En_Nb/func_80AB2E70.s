@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AB50C4
+    .asciz "../z_en_nb_inConfrontion.c"
+    .balign 4
+
+glabel D_80AB50E0
+    .asciz "../z_en_nb_inConfrontion.c"
+    .balign 4
+
+.text
 glabel func_80AB2E70
 /* 020E0 80AB2E70 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 020E4 80AB2E74 AFBF0024 */  sw      $ra, 0x0024($sp)

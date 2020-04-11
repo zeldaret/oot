@@ -1,3 +1,26 @@
+.rdata
+glabel D_80B2D148
+    .asciz "../z_en_viewer.c"
+    .balign 4
+
+glabel D_80B2D15C
+    .asciz "../z_en_viewer.c"
+    .balign 4
+
+glabel D_80B2D170
+    .asciz "../z_en_viewer.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B2D1BC
+    .float 0.1
+    .balign 4
+
+glabel D_80B2D1C0
+    .float 0.01
+    .balign 4
+
+.text
 glabel func_80B2C8AC
 /* 026AC 80B2C8AC 27BDFF30 */  addiu   $sp, $sp, 0xFF30           ## $sp = FFFFFF30
 /* 026B0 80B2C8B0 AFB40068 */  sw      $s4, 0x0068($sp)           

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80897648
+    .asciz "../z_bg_jya_cobra.c"
+    .balign 4
+
+glabel D_8089765C
+    .asciz "../z_bg_jya_cobra.c"
+    .balign 4
+
+glabel D_80897670
+    .asciz "../z_bg_jya_cobra.c"
+    .balign 4
+
+.text
 glabel func_80896CB4
 /* 013C4 80896CB4 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 013C8 80896CB8 AFBF001C */  sw      $ra, 0x001C($sp)           

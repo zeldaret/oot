@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B99AB0
+    .asciz "Error : カリングの設定がされていません。(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80B99AF4
+    .asciz "../z_obj_mure.c"
+    .balign 4
+
+.text
 glabel func_80B98AA0
 /* 00000 80B98AA0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00004 80B98AA4 AFBF0014 */  sw      $ra, 0x0014($sp)           

@@ -1,3 +1,42 @@
+.rdata
+glabel D_80B0F1A0
+    .asciz "../z_en_sw.c"
+    .balign 4
+
+glabel D_80B0F1B0
+    .asciz "../z_en_sw.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B0F24C
+.word L80B0ECAC
+.word L80B0EC9C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC2C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC4C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC3C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC7C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC6C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC1C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC5C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC8C
+
+.text
 glabel func_80B0EAC4
 /* 02D14 80B0EAC4 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 02D18 80B0EAC8 3C0F80B1 */  lui     $t7, %hi(D_80B0F150)       ## $t7 = 80B10000

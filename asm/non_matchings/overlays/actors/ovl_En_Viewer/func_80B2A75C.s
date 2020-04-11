@@ -1,3 +1,25 @@
+.late_rodata
+glabel D_80B2D184
+    .float 10000.0
+    .balign 4
+
+glabel D_80B2D188
+ .word 0x44994000
+glabel jtbl_80B2D18C
+.word L80B2AC10
+.word L80B2AC38
+.word L80B2AC60
+.word L80B2AC8C
+.word L80B2ACB4
+.word L80B2ACE0
+.word L80B2AD0C
+.word L80B2AD44
+glabel D_80B2D1AC
+ .word 0x45228000
+glabel D_80B2D1B0
+ .word 0x44FE6000
+
+.text
 glabel func_80B2A75C
 /* 0055C 80B2A75C 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00560 80B2A760 AFBF003C */  sw      $ra, 0x003C($sp)

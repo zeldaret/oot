@@ -1,3 +1,13 @@
+.late_rodata
+glabel D_80A0E1B8
+    .float 0.01
+    .balign 4
+
+glabel D_80A0E1BC
+    .float 0.01
+    .balign 4
+
+.text
 glabel func_80A0C3A0
 /* 00CE0 80A0C3A0 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00CE4 80A0C3A4 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000

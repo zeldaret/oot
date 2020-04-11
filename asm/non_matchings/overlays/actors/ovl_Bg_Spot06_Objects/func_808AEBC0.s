@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_808AF9FC
+    .float 0.05
+    .balign 4
+
+glabel D_808AFA00
+ .word 0x3E333333
+
+.text
 glabel func_808AEBC0
 /* 00440 808AEBC0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00444 808AEBC4 3C0F0001 */  lui     $t7, 0x0001                ## $t7 = 00010000

@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80A1D28C
+ .word 0x38D1B717
+glabel D_80A1D290
+ .word 0xC61C3C00
+
+.text
 glabel EnFr_Update
 /* 002A4 80A1AC44 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 002A8 80A1AC48 AFB00024 */  sw      $s0, 0x0024($sp)

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B5FB80
+    .asciz "../z_en_zl4.c"
+    .balign 4
+
+glabel D_80B5FB90
+    .asciz "../z_en_zl4.c"
+    .balign 4
+
+.text
 glabel EnZl4_Draw
 /* 02D9C 80B5E54C 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 02DA0 80B5E550 3C0F80B6 */  lui     $t7, %hi(D_80B5FB48)       ## $t7 = 80B60000

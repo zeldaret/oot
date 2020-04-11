@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_809E918C
+    .float -0.8
+    .balign 4
+
+.text
 glabel func_809E6170
 /* 009A0 809E6170 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 009A4 809E6174 A48001C6 */  sh      $zero, 0x01C6($a0)         ## 000001C6

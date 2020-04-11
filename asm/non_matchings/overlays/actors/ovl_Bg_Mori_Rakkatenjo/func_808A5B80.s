@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808A607C
+ .word 0x43C98000
+
+.text
 glabel func_808A5B80
 /* 00610 808A5B80 3C0E808A */  lui     $t6, %hi(func_808A5BA4)    ## $t6 = 808A0000
 /* 00614 808A5B84 25CE5BA4 */  addiu   $t6, $t6, %lo(func_808A5BA4) ## $t6 = 808A5BA4

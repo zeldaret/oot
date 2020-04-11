@@ -1,3 +1,17 @@
+.rdata
+glabel D_808AF994
+    .asciz "../z_bg_spot06_objects.c"
+    .balign 4
+
+glabel D_808AF9B0
+    .asciz "../z_bg_spot06_objects.c"
+    .balign 4
+
+glabel D_808AF9CC
+    .asciz "../z_bg_spot06_objects.c"
+    .balign 4
+
+.text
 glabel func_808AF524
 /* 00DA4 808AF524 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 00DA8 808AF528 AFB20040 */  sw      $s2, 0x0040($sp)           

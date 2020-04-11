@@ -1,3 +1,33 @@
+.rdata
+glabel D_80AD7160
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+glabel D_80AD7174
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+glabel D_80AD7188
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AD7284
+ .word 0x47A60400
+glabel D_80AD7288
+    .float 9.58738019108e-05
+    .balign 4
+
+glabel D_80AD728C
+ .word 0x3B449BA6
+glabel D_80AD7290
+    .float 0.7
+    .balign 4
+
+glabel D_80AD7294
+ .word 0x3A6BEDFB
+
+.text
 glabel func_80AD5E8C
 /* 0238C 80AD5E8C 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 02390 80AD5E90 AFBF0044 */  sw      $ra, 0x0044($sp)           

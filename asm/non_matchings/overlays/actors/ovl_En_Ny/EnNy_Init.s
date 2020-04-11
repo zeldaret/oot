@@ -1,3 +1,21 @@
+.rdata
+glabel D_80ABE3E0
+    .asciz "ニュウ イニシャル[ %d ] ！！\n"
+    .balign 4
+
+glabel D_80ABE400
+    .asciz "ダミーニュウ イニシャル[ %d ] ！！\n"
+    .balign 4
+
+glabel D_80ABE424
+    .asciz "En_Ny_actor_move2[ %x ] ！！\n"
+    .balign 4
+
+.late_rodata
+glabel D_80ABE4B4
+ .word 0xBECCCCCD
+
+.text
 glabel EnNy_Init
 /* 00000 80ABCBB0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 80ABCBB4 AFA50034 */  sw      $a1, 0x0034($sp)           

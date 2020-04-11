@@ -1,3 +1,22 @@
+.rdata
+glabel D_80AC28D0
+    .asciz "../z_en_okuta.c"
+    .balign 4
+
+glabel D_80AC28E0
+    .asciz "../z_en_okuta.c"
+    .balign 4
+
+glabel D_80AC28F0
+    .asciz "../z_en_okuta.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AC2988
+ .word 0x38C90FDB, 0x00000000
+
+
+.text
 glabel EnOkuta_Draw
 /* 02074 80AC26D4 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 02078 80AC26D8 AFB00020 */  sw      $s0, 0x0020($sp)           

@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80ABE4D0
+ .word 0x3FAA3D71
+
+.text
 glabel EnNy_Update
 /* 008EC 80ABD49C 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 008F0 80ABD4A0 AFBF003C */  sw      $ra, 0x003C($sp)           

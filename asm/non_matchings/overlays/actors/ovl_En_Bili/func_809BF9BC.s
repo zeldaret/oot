@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_809C1730
+    .float 0.7
+    .balign 4
+
+.text
 glabel func_809BF9BC
 /* 0011C 809BF9BC 3C01809C */  lui     $at, %hi(D_809C1730)       ## $at = 809C0000
 /* 00120 809BF9C0 C4241730 */  lwc1    $f4, %lo(D_809C1730)($at)  

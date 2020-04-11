@@ -1,3 +1,21 @@
+.rdata
+glabel D_80ABE444
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+glabel D_80ABE454
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+glabel D_80ABE464
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+glabel D_80ABE474
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+.text
 glabel EnNy_Draw
 /* 01174 80ABDD24 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 01178 80ABDD28 AFBF002C */  sw      $ra, 0x002C($sp)           

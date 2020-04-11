@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_80AD2908
+ .word 0x45834000
+glabel D_80AD290C
+ .word 0x3BC49BA6
+glabel D_80AD2910
+ .word 0x3B449BA6
+
+.text
 glabel EnPeehat_Init
 /* 00008 80ACF4A8 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0000C 80ACF4AC AFB10028 */  sw      $s1, 0x0028($sp)           

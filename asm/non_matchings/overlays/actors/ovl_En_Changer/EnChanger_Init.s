@@ -1,3 +1,82 @@
+.rdata
+glabel D_809D3180
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809D3184
+    .asciz "[32m☆☆☆☆☆ 宝発生(部屋はどれ？) %d\n[m"
+    .balign 4
+
+glabel D_809D31B0
+    .asciz "[32m☆☆☆☆☆ ビットは？ 	     %x\n[m"
+    .balign 4
+
+glabel D_809D31D8
+    .asciz "[32m☆☆☆☆☆ セーブＢＩＴは？     %x\n[m"
+    .balign 4
+
+glabel D_809D3204
+    .asciz "[32m☆☆☆☆☆ もう、ゾンビ？	     %d\n[m"
+    .balign 4
+
+glabel D_809D3230
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809D3234
+    .asciz "[33m☆☆☆☆☆ 中央宝発生(ＧＲＥＡＴ) ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_809D3270
+    .asciz "[35m☆☆☆☆☆ 左宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_809D32B4
+    .asciz "[35m☆☆☆☆☆ 部屋番号は？  %x\n[m"
+    .balign 4
+
+glabel D_809D32DC
+    .asciz "[35m☆☆☆☆☆ ビットはなぁに？  %x\n[m"
+    .balign 4
+
+glabel D_809D3308
+    .asciz "[35m☆☆☆☆☆ すけすけ君？ %x\n[m"
+    .balign 4
+
+glabel D_809D332C
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809D3330
+    .asciz "[36m☆☆☆☆☆ 右宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_809D3374
+    .asciz "[36m☆☆☆☆☆ 部屋番号は？  %d\n[m"
+    .balign 4
+
+glabel D_809D339C
+    .asciz "[36m☆☆☆☆☆ ビットはなぁに？  %x\n[m"
+    .balign 4
+
+glabel D_809D33C8
+    .asciz "[36m☆☆☆☆☆ すけすけ君？ %x\n[m"
+    .balign 4
+
+glabel D_809D33EC
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_809D3448
+ .word 0xC51C4000
+glabel D_809D344C
+ .word 0xC51C4000
+glabel D_809D3450
+ .word 0x3FFEB852, 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel EnChanger_Init
 /* 0000C 809D269C 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00010 809D26A0 AFB20040 */  sw      $s2, 0x0040($sp)           

@@ -1,3 +1,19 @@
+.rdata
+glabel D_80B0F1C0
+    .asciz "../z_en_sw.c"
+    .balign 4
+
+glabel D_80B0F1D0
+    .asciz "../z_en_sw.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B0F2B4
+ .word 0x4633B000
+glabel D_80B0F2B8
+ .word 0x4633B000
+
+.text
 glabel func_80B0EDB8
 /* 03008 80B0EDB8 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 0300C 80B0EDBC AFBF0024 */  sw      $ra, 0x0024($sp)           

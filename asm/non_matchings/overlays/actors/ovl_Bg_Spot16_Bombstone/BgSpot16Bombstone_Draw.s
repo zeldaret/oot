@@ -1,3 +1,17 @@
+.rdata
+glabel D_808B61E4
+    .asciz "../z_bg_spot16_bombstone.c"
+    .balign 4
+
+glabel D_808B6200
+    .asciz "../z_bg_spot16_bombstone.c"
+    .balign 4
+
+glabel D_808B621C
+    .asciz "../z_bg_spot16_bombstone.c"
+    .balign 4
+
+.text
 glabel BgSpot16Bombstone_Draw
 /* 01068 808B5C98 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0106C 808B5C9C AFB10018 */  sw      $s1, 0x0018($sp)           

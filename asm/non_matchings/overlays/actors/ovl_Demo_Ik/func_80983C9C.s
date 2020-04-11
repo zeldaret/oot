@@ -1,3 +1,13 @@
+.rdata
+glabel D_80984844
+    .asciz "../z_demo_ik_inArmer.c"
+    .balign 4
+
+glabel D_8098485C
+    .asciz "../z_demo_ik_inArmer.c"
+    .balign 4
+
+.text
 glabel func_80983C9C
 /* 0099C 80983C9C 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 009A0 80983CA0 AFBF002C */  sw      $ra, 0x002C($sp)           

@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_80B0F2BC
+ .word 0xBFB2B8C2
+
+
+.text
 glabel EnSw_Draw
 /* 03160 80B0EF10 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 03164 80B0EF14 3C0E80B1 */  lui     $t6, %hi(D_80B0F198)       ## $t6 = 80B10000

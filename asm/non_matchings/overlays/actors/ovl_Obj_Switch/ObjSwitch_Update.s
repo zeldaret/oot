@@ -1,3 +1,14 @@
+.late_rodata
+glabel jtbl_80B9EF80
+.word L80B9E684
+.word L80B9E684
+.word L80B9E690
+.word L80B9E6C0
+.word L80B9E6C0
+.word 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel ObjSwitch_Update
 /* 013FC 80B9E60C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 01400 80B9E610 AFBF001C */  sw      $ra, 0x001C($sp)           

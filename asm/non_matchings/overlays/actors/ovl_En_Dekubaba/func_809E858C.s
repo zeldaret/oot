@@ -1,3 +1,22 @@
+.rdata
+glabel D_809E9040
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+glabel D_809E9054
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+glabel D_809E9068
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+.late_rodata
+glabel D_809E91C8
+    .float 0.01
+    .balign 4
+
+.text
 glabel func_809E858C
 /* 02DBC 809E858C 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 02DC0 809E8590 AFBF001C */  sw      $ra, 0x001C($sp)

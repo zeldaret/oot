@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B2CFF0
+    .asciz "bank_ID >= 0"
+    .balign 4
+
+glabel D_80B2D000
+    .asciz "../z_en_viewer.c"
+    .balign 4
+
+glabel D_80B2D014
+    .asciz "this->anime_bank_ID >= 0"
+    .balign 4
+
+glabel D_80B2D030
+    .asciz "../z_en_viewer.c"
+    .balign 4
+
+.text
 glabel func_80B2A570
 /* 00370 80B2A570 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00374 80B2A574 AFBF001C */  sw      $ra, 0x001C($sp)           

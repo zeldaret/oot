@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A5FF8
+    .asciz "../z_bg_mori_rakkatenjo.c"
+    .balign 4
+
+glabel D_808A6014
+    .asciz "../z_bg_mori_rakkatenjo.c"
+    .balign 4
+
+glabel D_808A6030
+    .asciz "../z_bg_mori_rakkatenjo.c"
+    .balign 4
+
+.text
 glabel func_808A5D60
 /* 007F0 808A5D60 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 007F4 808A5D64 AFB10018 */  sw      $s1, 0x0018($sp)           

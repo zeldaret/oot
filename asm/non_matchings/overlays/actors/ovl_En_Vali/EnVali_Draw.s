@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B28A30
+    .asciz "../z_en_vali.c"
+    .balign 4
+
+glabel D_80B28A40
+    .asciz "../z_en_vali.c"
+    .balign 4
+
+.text
 glabel EnVali_Draw
 /* 02068 80B28718 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 0206C 80B2871C AFB1002C */  sw      $s1, 0x002C($sp)

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B90FD0
+    .asciz "\x1b[36m"
+    .balign 4
+
+glabel D_80B90FD8
+    .asciz "馬と豆の木リフト衝突！！！\n"
+    .balign 4
+
+glabel D_80B90FF4
+    .asciz "\x1b[m"
+    .balign 4
+
+.text
 glabel ObjBean_Update
 /* 02048 80B90AC8 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0204C 80B90ACC AFBF001C */  sw      $ra, 0x001C($sp)           

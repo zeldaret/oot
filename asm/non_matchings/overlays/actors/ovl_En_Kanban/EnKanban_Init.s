@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A94FE0
+    .asciz "KANBAN ARG    %x\n"
+    .balign 4
+
+.text
 glabel EnKanban_Init
 /* 000B8 80A92058 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 000BC 80A9205C AFA50034 */  sw      $a1, 0x0034($sp)           

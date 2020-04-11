@@ -1,3 +1,9 @@
+.rdata
+glabel D_80984874
+    .asciz "Demo_Ik_inFace_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_80984048
 /* 00D48 80984048 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00D4C 8098404C AFB00018 */  sw      $s0, 0x0018($sp)           

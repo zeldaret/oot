@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_80B88BD0
+    .float 0.2
+    .balign 4
+
+glabel D_80B88BD4
+ .word 0x44548000
+
+.text
 glabel func_80B8772C
 /* 0035C 80B8772C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00360 80B87730 00811021 */  addu    $v0, $a0, $at              

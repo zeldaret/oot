@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80A17194
+ .float 65535.5
+glabel D_80A17198
+ .float 65535.5
+
+.text
 glabel EnFish_Init
 /* 001E8 80A15468 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 001EC 80A1546C AFBF002C */  sw      $ra, 0x002C($sp)

@@ -1,3 +1,44 @@
+.rdata
+glabel D_809DBFA0
+    .asciz "DEMO_MODE %d\n"
+    .balign 4
+
+glabel D_809DBFB0
+    .asciz "CAMERA_NO %d\n"
+    .balign 4
+
+.late_rodata
+glabel D_809DC0EC
+    .float 6.28318548203
+    .balign 4
+
+glabel D_809DC0F0
+ .word 0x4622F983
+glabel D_809DC0F4
+ .word 0x4622F983
+glabel D_809DC0F8
+    .float 0.2
+    .balign 4
+
+glabel D_809DC0FC
+ .word 0x3FD33333
+glabel D_809DC100
+    .float 0.3
+    .balign 4
+
+glabel D_809DC104
+    .float 0.3
+    .balign 4
+
+glabel D_809DC108
+    .float 0.15
+    .balign 4
+
+glabel D_809DC10C
+    .float 0.075
+    .balign 4
+
+.text
 glabel EnClearTag_Update
 /* 00688 809D3C38 27BDFF38 */  addiu   $sp, $sp, 0xFF38           ## $sp = FFFFFF38
 /* 0068C 809D3C3C AFBF0034 */  sw      $ra, 0x0034($sp)           

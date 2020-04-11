@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80AD2958
+ .word 0x3F866666
+
+.text
 glabel EnPeehat_Update
 /* 02924 80AD1DC4 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 02928 80AD1DC8 AFBF004C */  sw      $ra, 0x004C($sp)           

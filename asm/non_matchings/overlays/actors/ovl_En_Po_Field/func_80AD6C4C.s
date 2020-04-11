@@ -1,3 +1,25 @@
+.rdata
+glabel D_80AD71EC
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+glabel D_80AD7200
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+glabel D_80AD7214
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+glabel D_80AD7228
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AD72A8
+ .word 0x38C90FDB, 0x00000000
+
+.text
 glabel func_80AD6C4C
 /* 0314C 80AD6C4C 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 03150 80AD6C50 AFBF0044 */  sw      $ra, 0x0044($sp)           

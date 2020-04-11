@@ -1,3 +1,22 @@
+.rdata
+glabel D_80A7B9D0
+    .asciz "message_check->(%d[%x])\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A7BA6C
+.word L80A795B4
+.word L80A795B4
+.word L80A79564
+.word L80A795B4
+.word L80A79578
+.word L80A79598
+.word L80A795B4
+.word L80A795B4
+.word L80A795B4
+.word L80A795B4
+
+.text
 glabel func_80A79500
 /* 00550 80A79500 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00554 80A79504 AFA40020 */  sw      $a0, 0x0020($sp)           

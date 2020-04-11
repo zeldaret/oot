@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B37B20
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B37B24
+    .asciz "[32m☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n[m"
+    .balign 4
+
+glabel D_80B37B50
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel EnWf_Destroy
 /* 00238 80B33EE8 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 0023C 80B33EEC AFB00018 */  sw      $s0, 0x0018($sp)           

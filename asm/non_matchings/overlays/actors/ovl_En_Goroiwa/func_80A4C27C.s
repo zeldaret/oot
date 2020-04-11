@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A4DF30
+    .asciz "Error : レールデータ不正(点が重なっている)"
+    .balign 4
+
+glabel D_80A4DF5C
+    .asciz "(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80A4DF78
+    .asciz "../z_en_gr.c"
+    .balign 4
+
+.text
 glabel func_80A4C27C
 /* 005DC 80A4C27C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 005E0 80A4C280 AFBF0014 */  sw      $ra, 0x0014($sp)           

@@ -1,3 +1,32 @@
+.rdata
+glabel D_80AD28CC
+    .asciz "../z_en_peehat.c"
+    .balign 4
+
+glabel D_80AD28E0
+    .asciz "../z_en_peehat.c"
+    .balign 4
+
+glabel D_80AD28F4
+    .asciz "../z_en_peehat.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AD2974
+ .word 0x3EB33333
+glabel D_80AD2978
+    .float 3.2
+    .balign 4
+
+glabel D_80AD297C
+    .float 0.2
+    .balign 4
+
+glabel D_80AD2980
+ .word 0x3E99999A, 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel func_80AD2438
 /* 02F98 80AD2438 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 02F9C 80AD243C 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004

@@ -1,3 +1,13 @@
+.rdata
+glabel D_809F5F94
+    .asciz "../z_en_dnt_nomal.c"
+    .balign 4
+
+glabel D_809F5FA8
+    .asciz "../z_en_dnt_nomal.c"
+    .balign 4
+
+.text
 glabel func_809F58E4
 /* 02624 809F58E4 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 02628 809F58E8 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001

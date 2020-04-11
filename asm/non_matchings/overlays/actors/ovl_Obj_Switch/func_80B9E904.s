@@ -1,3 +1,29 @@
+.rdata
+glabel D_80B9EEF0
+    .asciz "../z_obj_switch.c"
+    .balign 4
+
+glabel D_80B9EF04
+    .asciz "../z_obj_switch.c"
+    .balign 4
+
+glabel D_80B9EF18
+    .asciz "../z_obj_switch.c"
+    .balign 4
+
+glabel D_80B9EF2C
+    .asciz "../z_obj_switch.c"
+    .balign 4
+
+glabel D_80B9EF40
+    .asciz "../z_obj_switch.c"
+    .balign 4
+
+glabel D_80B9EF54
+    .asciz "../z_obj_switch.c"
+    .balign 4
+
+.text
 glabel func_80B9E904
 /* 016F4 80B9E904 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 016F8 80B9E908 AFBF003C */  sw      $ra, 0x003C($sp)           

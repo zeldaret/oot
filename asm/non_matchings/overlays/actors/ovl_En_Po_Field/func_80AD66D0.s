@@ -1,3 +1,17 @@
+.rdata
+glabel D_80AD719C
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AD72A0
+    .float 0.01
+    .balign 4
+
+glabel D_80AD72A4
+ .word 0x3F48C8C9
+
+.text
 glabel func_80AD66D0
 /* 02BD0 80AD66D0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 02BD4 80AD66D4 AFB00028 */  sw      $s0, 0x0028($sp)           

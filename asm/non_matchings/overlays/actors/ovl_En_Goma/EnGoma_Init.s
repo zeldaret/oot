@@ -1,3 +1,41 @@
+.late_rodata
+glabel D_80A4B8F0
+ .word 0xBFA66666
+glabel D_80A4B8F4
+    .float 2.3
+    .balign 4
+
+glabel D_80A4B8F8
+    .float 0.005
+    .balign 4
+
+glabel D_80A4B8FC
+    .float 0.01
+    .balign 4
+
+glabel D_80A4B900
+    .float 0.005
+    .balign 4
+
+glabel D_80A4B904
+    .float 0.01
+    .balign 4
+
+glabel D_80A4B908
+    .float 0.005
+    .balign 4
+
+glabel D_80A4B90C
+    .float 0.01
+    .balign 4
+
+glabel D_80A4B910
+ .word 0xC4BB8000
+glabel D_80A4B914
+    .float 1500.0
+    .balign 4
+
+.text
 glabel EnGoma_Init
 /* 00000 80A48EC0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00004 80A48EC4 AFBF002C */  sw      $ra, 0x002C($sp)

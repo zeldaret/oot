@@ -1,3 +1,32 @@
+.rdata
+glabel D_80B88B5C
+    .asciz "../z_magic_dark.c"
+    .balign 4
+
+glabel D_80B88B70
+    .asciz "../z_magic_dark.c"
+    .balign 4
+
+glabel D_80B88B84
+    .asciz "../z_magic_dark.c"
+    .balign 4
+
+glabel D_80B88B98
+    .asciz "../z_magic_dark.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B88BFC
+    .float 1.4
+    .balign 4
+
+glabel D_80B88C00
+ .word 0x3DC90FDB
+glabel D_80B88C04
+ .word 0x3DC90FDB, 0x00000000, 0x00000000
+
+
+.text
 glabel MagicDark_Draw
 /* 008EC 80B87CBC 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 008F0 80B87CC0 AFBF0024 */  sw      $ra, 0x0024($sp)           

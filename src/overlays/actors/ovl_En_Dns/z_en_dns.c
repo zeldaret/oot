@@ -79,3 +79,4 @@ const ActorInit En_Dns_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dns/EnDns_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dns/EnDns_Draw.s")
+

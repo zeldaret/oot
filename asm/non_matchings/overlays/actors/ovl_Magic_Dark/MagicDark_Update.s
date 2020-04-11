@@ -1,3 +1,27 @@
+.late_rodata
+glabel D_80B88BD8
+ .word 0x3CB60B61
+glabel D_80B88BDC
+ .word 0x3DAAAAAA
+glabel D_80B88BE0
+ .word 0x38D1B717
+glabel D_80B88BE4
+    .float 0.9
+    .balign 4
+
+glabel D_80B88BE8
+    .float 0.2
+    .balign 4
+
+glabel D_80B88BEC
+    .float 1.6
+    .balign 4
+
+glabel D_80B88BF0
+    .float 0.8
+    .balign 4
+
+.text
 glabel MagicDark_Update
 /* 004A8 80B87878 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 004AC 80B8787C AFBF0024 */  sw      $ra, 0x0024($sp)           

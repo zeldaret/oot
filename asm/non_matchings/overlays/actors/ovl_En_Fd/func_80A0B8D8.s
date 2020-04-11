@@ -1,3 +1,21 @@
+.late_rodata
+glabel D_80A0E1A4
+    .float 0.2
+    .balign 4
+
+glabel D_80A0E1A8
+    .float 0.3
+    .balign 4
+
+glabel D_80A0E1AC
+    .float 0.6
+    .balign 4
+
+glabel D_80A0E1B0
+    .float 0.2
+    .balign 4
+
+.text
 glabel func_80A0B8D8
 /* 00218 80A0B8D8 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0021C 80A0B8DC 3C0F80A1 */  lui     $t7, %hi(D_80A0E064)       ## $t7 = 80A10000

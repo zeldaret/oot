@@ -1,3 +1,70 @@
+.rdata
+glabel D_80A4B8A0
+    .asciz "../z_en_goma.c"
+    .balign 4
+
+glabel D_80A4B8B0
+    .asciz "../z_en_goma.c"
+    .balign 4
+
+glabel D_80A4B8C0
+    .asciz "../z_en_goma.c"
+    .balign 4
+
+glabel D_80A4B8D0
+    .asciz "../z_en_goma.c"
+    .balign 4
+
+glabel D_80A4B8E0
+    .asciz "../z_en_goma.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A4B94C
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80A4B950
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80A4B954
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80A4B958
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80A4B95C
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80A4B960
+ .word 0x40490E56
+glabel D_80A4B964
+ .word 0x41FF3333
+glabel D_80A4B968
+    .float 0.15
+    .balign 4
+
+glabel D_80A4B96C
+    .float 0.1
+    .balign 4
+
+glabel D_80A4B970
+ .word 0x3F733333
+glabel D_80A4B974
+ .word 0x3F866666
+glabel D_80A4B978
+    .float 0.1
+    .balign 4
+
+glabel D_80A4B97C
+    .float 0.15
+    .balign 4
+
+.text
 glabel EnGoma_Draw
 /* 02018 80A4AED8 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 0201C 80A4AEDC AFBF0024 */  sw      $ra, 0x0024($sp)           

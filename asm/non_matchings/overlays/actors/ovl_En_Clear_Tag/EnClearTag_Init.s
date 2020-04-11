@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_809DC0E4
+    .float 0.4
+    .balign 4
+
+.text
 glabel EnClearTag_Init
 /* 0040C 809D39BC 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00410 809D39C0 AFB10018 */  sw      $s1, 0x0018($sp)           

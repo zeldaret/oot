@@ -53,3 +53,4 @@ const ActorInit En_Ice_Hono_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ice_Hono/EnIceHono_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ice_Hono/EnIceHono_Draw.s")
+

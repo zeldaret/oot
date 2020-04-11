@@ -1,3 +1,35 @@
+.late_rodata
+glabel D_80B28A74
+ .word 0x3EA0D97C
+glabel D_80B28A78
+    .float 0.2
+    .balign 4
+
+glabel D_80B28A7C
+ .word 0x3EA0D97C
+glabel D_80B28A80
+ .word 0x3E75C28F
+glabel D_80B28A84
+ .word 0x3E051EB8
+glabel D_80B28A88
+ .word 0x3D80ADFD
+glabel D_80B28A8C
+ .word 0x3E75C28F
+glabel D_80B28A90
+ .word 0x3E051EB8
+glabel D_80B28A94
+ .word 0x3EA0D97C
+glabel D_80B28A98
+    .float 0.08
+    .balign 4
+
+glabel D_80B28A9C
+ .word 0x3DA0D97C
+glabel D_80B28AA0
+    .float 0.2
+    .balign 4
+
+.text
 glabel func_80B27C1C
 /* 0156C 80B27C1C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 01570 80B27C20 AFBF001C */  sw      $ra, 0x001C($sp)           

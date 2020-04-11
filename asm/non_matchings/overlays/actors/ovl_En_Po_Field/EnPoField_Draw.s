@@ -1,3 +1,17 @@
+.rdata
+glabel D_80AD71B0
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+glabel D_80AD71C4
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+glabel D_80AD71D8
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+.text
 glabel EnPoField_Draw
 /* 02DE4 80AD68E4 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 02DE8 80AD68E8 AFBF0034 */  sw      $ra, 0x0034($sp)

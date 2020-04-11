@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_80A4B940
+    .float 9.99999997475e-07
+    .balign 4
+
+glabel D_80A4B944
+    .float 9.99999997475e-07
+    .balign 4
+
+glabel D_80A4B948
+    .float 9.99999997475e-07
+    .balign 4
+
+.text
 glabel EnGoma_Update
 /* 01BB4 80A4AA74 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 01BB8 80A4AA78 AFBF0024 */  sw      $ra, 0x0024($sp)           

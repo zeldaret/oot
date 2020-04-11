@@ -85,3 +85,4 @@ const ActorInit En_Bili_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C13A8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/EnBili_Draw.s")
+

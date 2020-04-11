@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80A7BA94
+ .word 0x448A6000
+glabel D_80A7BA98
+ .word 0xC569C000
+
+.text
 glabel EnIn_Init
 /* 00EBC 80A79E6C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00EC0 80A79E70 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0

@@ -63,3 +63,4 @@ const ActorInit Bg_Spot08_Iceblock_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot08_Iceblock/BgSpot08Iceblock_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot08_Iceblock/BgSpot08Iceblock_Draw.s")
+

@@ -1,3 +1,9 @@
+.late_rodata
+glabel D_80B0F23C
+    .float 0.1
+    .balign 4
+
+.text
 glabel func_80B0E314
 /* 02564 80B0E314 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 02568 80B0E318 3C0180B1 */  lui     $at, %hi(D_80B0F23C)       ## $at = 80B10000

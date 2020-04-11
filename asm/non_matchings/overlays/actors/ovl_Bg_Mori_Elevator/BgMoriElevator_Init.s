@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A2250
+    .asciz "Error : 森の神殿 obj elevator バンク危険！(%s %d)\n"
+    .balign 4
+
+glabel D_808A2284
+    .asciz "../z_bg_mori_elevator.c"
+    .balign 4
+
+glabel D_808A229C
+    .asciz "森の神殿 elevator CT\n"
+    .balign 4
+
+.text
 glabel BgMoriElevator_Init
 /* 00184 808A1984 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00188 808A1988 3C0E808A */  lui     $t6, %hi(D_808A2210)       ## $t6 = 808A0000

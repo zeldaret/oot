@@ -1,3 +1,26 @@
+.rdata
+glabel D_80ABE484
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+glabel D_80ABE494
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+glabel D_80ABE4A4
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+.late_rodata
+glabel D_80ABE4E4
+    .float 0.04
+    .balign 4
+
+glabel D_80ABE4E8
+ .word 0x3ECCCCCD, 0x00000000
+
+
+.text
 glabel func_80ABE040
 /* 01490 80ABE040 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 01494 80ABE044 AFBF0064 */  sw      $ra, 0x0064($sp)           

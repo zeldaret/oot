@@ -1,3 +1,21 @@
+.late_rodata
+glabel D_80B5FD04
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80B5FD08
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80B5FD0C
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80B5FD10
+ .word 0x40490FDB, 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel func_80B5E364
 /* 02BB4 80B5E364 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 02BB8 80B5E368 24010011 */  addiu   $at, $zero, 0x0011         ## $at = 00000011

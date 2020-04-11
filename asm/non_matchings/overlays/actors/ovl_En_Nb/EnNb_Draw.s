@@ -1,3 +1,9 @@
+.rdata
+glabel D_80AB51C8
+    .asciz "[31m描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel EnNb_Draw
 /* 034F0 80AB4280 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 034F4 80AB4284 AFBF0014 */  sw      $ra, 0x0014($sp)           

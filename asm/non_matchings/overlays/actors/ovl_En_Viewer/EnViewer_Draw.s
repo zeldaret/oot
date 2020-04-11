@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B2D120
+    .asciz "../z_en_viewer.c"
+    .balign 4
+
+glabel D_80B2D134
+    .asciz "../z_en_viewer.c"
+    .balign 4
+
+.text
 glabel EnViewer_Draw
 /* 02078 80B2C278 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0207C 80B2C27C AFB10018 */  sw      $s1, 0x0018($sp)           

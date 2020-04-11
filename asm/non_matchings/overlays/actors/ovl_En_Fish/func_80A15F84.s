@@ -1,3 +1,27 @@
+.rdata
+glabel D_80A170A0
+    .asciz "\x1B[43;30m"
+    .balign 4
+
+glabel D_80A170AC
+    .asciz "BG 抜け？ Actor_delete します(%s %d)\n"
+    .balign 4
+
+glabel D_80A170D4
+    .asciz "../z_en_sakana.c"
+    .balign 4
+    
+glabel D_80A170E8
+    .asciz "\x1b[m"
+    .balign 4
+.late_rodata
+glabel D_80A171B0
+    .float 0.1
+
+glabel D_80A171B4
+    .float -31990.0
+
+.text
 glabel func_80A15F84
 /* 00D04 80A15F84 3C0180A1 */  lui     $at, %hi(D_80A171B0)       ## $at = 80A10000
 /* 00D08 80A15F88 C42271B0 */  lwc1    $f2, %lo(D_80A171B0)($at)  

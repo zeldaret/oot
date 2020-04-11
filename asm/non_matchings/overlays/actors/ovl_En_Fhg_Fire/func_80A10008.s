@@ -1,3 +1,23 @@
+.rdata
+glabel D_80A11880
+    .asciz "yari hikari 1\n"
+    .balign 4
+
+glabel D_80A11890
+    .asciz "yari hikari 2\n"
+    .balign 4
+
+glabel D_80A118A0
+    .asciz "FLASH !!\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A119D4
+ .word 0x469C4000
+glabel D_80A119D8
+ .word 0xBDA3D70A
+
+.text
 glabel func_80A10008
 /* 00DA8 80A10008 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00DAC 80A1000C AFB10038 */  sw      $s1, 0x0038($sp)           

@@ -1,3 +1,48 @@
+.rdata
+glabel D_809F3020
+    .asciz "実 \n"
+    .balign 4
+glabel D_809F3028
+    .asciz "実 \n"
+    .balign 4
+glabel D_809F3030
+    .asciz "実 \n"
+    .balign 4
+glabel D_809F3038
+    .asciz "実 \n"
+    .balign 4
+glabel D_809F3040
+    .asciz "実 \n"
+    .balign 4
+glabel D_809F3048
+    .asciz "実 \n"
+    .balign 4
+glabel D_809F3050
+    .asciz "実 \n"
+    .balign 4
+glabel D_809F3058
+    .asciz "実 \n"
+    .balign 4
+glabel D_809F3060
+    .asciz "棒 \n"
+    .balign 4
+glabel D_809F3068
+    .asciz "棒 \n"
+    .balign 4
+glabel D_809F3070
+    .asciz "棒 \n"
+    .balign 4
+glabel D_809F3078
+    .asciz "棒 \n"
+    .balign 4
+glabel D_809F3080
+    .asciz "棒 \n"
+    .balign 4
+glabel D_809F3088
+    .asciz "棒 \n"
+    .balign 4
+
+.text
 glabel func_809F2720
 /* 00C40 809F2720 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00C44 809F2724 AFB00018 */  sw      $s0, 0x0018($sp)           

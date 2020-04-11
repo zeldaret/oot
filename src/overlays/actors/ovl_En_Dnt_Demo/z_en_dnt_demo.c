@@ -30,3 +30,4 @@ const ActorInit En_Dnt_Demo_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Demo/func_809F1374.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Demo/EnDntDemo_Update.s")
+

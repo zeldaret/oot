@@ -1,3 +1,14 @@
+.late_rodata
+glabel jtbl_80AB5244
+.word L80AB3F64
+.word L80AB3F78
+.word L80AB3F8C
+.word L80AB3FA0
+.word L80AB3FB4
+.word 0x00000000, 0x00000000
+
+
+.text
 glabel EnNb_Init
 /* 0313C 80AB3ECC 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 03140 80AB3ED0 AFB10028 */  sw      $s1, 0x0028($sp)

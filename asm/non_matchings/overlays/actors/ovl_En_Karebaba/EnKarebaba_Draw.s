@@ -1,3 +1,44 @@
+.rdata
+glabel D_80A96ACC
+    .asciz "../z_en_karebaba.c"
+    .balign 4
+
+glabel D_80A96AE0
+    .asciz "../z_en_karebaba.c"
+    .balign 4
+
+glabel D_80A96AF4
+    .asciz "../z_en_karebaba.c"
+    .balign 4
+
+glabel D_80A96B08
+    .asciz "../z_en_karebaba.c"
+    .balign 4
+
+glabel D_80A96B1C
+    .asciz "../z_en_karebaba.c"
+    .balign 4
+
+glabel D_80A96B30
+    .asciz "../z_en_karebaba.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A96B64
+ .word 0x3A03126F
+glabel D_80A96B68
+    .float 0.01
+    .balign 4
+
+glabel D_80A96B6C
+    .float 0.01
+    .balign 4
+
+glabel D_80A96B70
+ .word 0x38C90FDB, 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel EnKarebaba_Draw
 /* 01228 80A96578 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 0122C 80A9657C AFB40038 */  sw      $s4, 0x0038($sp)
