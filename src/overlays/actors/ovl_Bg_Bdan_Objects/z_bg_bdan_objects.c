@@ -123,7 +123,7 @@ static void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
             if (BgBdanObjects_GetContactRu1(this, 4)) {
                 if (Actor_SpawnAttached(&globalCtx->actorCtx, this, globalCtx, 0xC6, thisx->initPosRot.pos.x,
                                         thisx->initPosRot.pos.y, thisx->initPosRot.pos.z, 0,
-                                        thisx->shape.rot.y + 0x8000, 0, 3)) {
+                                        thisx->shape.rot.y + 0x8000, 0, 3) != NULL) {
                     thisx->attachedB->posRot.pos.z = thisx->attachedB->initPosRot.pos.z + 263.0f;
                 }
                 thisx->posRot.rot.y = 0;
