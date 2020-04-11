@@ -121,7 +121,7 @@ floats["0xB8C90FDB"] = "-9.58738019108e-05"
 floats["0x3B6BEDFA"] = "0.0036"
 floats["0x3DF5C28F"] = "0.12"
 floats["0x3B30F27C"] = "0.0027"
-floats["0x43838000"] = "263.0"
+
 def try_text(text_bytes):
     bad_bytes = 0
     for byte in text_bytes:
@@ -201,7 +201,6 @@ def handle_match(match):
 
 def process_data_file(file_path):
     with open(file_path) as f:
-        print("Path: ", file_path)
         file_text = f.read()
 
     new_file_text = re.sub(" \\.word 0x.*", handle_match, file_text)
