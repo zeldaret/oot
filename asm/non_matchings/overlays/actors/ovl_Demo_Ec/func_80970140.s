@@ -1,3 +1,9 @@
+.rdata
+glabel D_8097075C
+    .asciz "\x1B[31mDemo_Ec_main_bank:バンクを読めない arg_data = %d!\n\x1B[m"
+    .balign 4
+
+.text
 glabel func_80970140
 /* 02C90 80970140 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 02C94 80970144 AFBF001C */  sw      $ra, 0x001C($sp)           

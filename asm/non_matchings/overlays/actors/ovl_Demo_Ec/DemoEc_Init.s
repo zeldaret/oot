@@ -1,3 +1,9 @@
+.rdata
+glabel D_80970630
+    .asciz "\x1B[31mDemo_Ec_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n\x1B[m"
+    .balign 4
+
+.text
 glabel DemoEc_Init
 /* 00020 8096D4D0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00024 8096D4D4 AFBF0014 */  sw      $ra, 0x0014($sp)           

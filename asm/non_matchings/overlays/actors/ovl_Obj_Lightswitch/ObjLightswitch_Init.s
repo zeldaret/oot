@@ -1,3 +1,25 @@
+.rdata
+glabel D_80B97F90
+    .asciz "[41;37m"
+    .balign 4
+
+glabel D_80B97F9C
+    .asciz "押引ブロック発生失敗(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80B97FCC
+    .asciz "../z_obj_lightswitch.c"
+    .balign 4
+
+glabel D_80B97FE4
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80B97FE8
+    .asciz "(光スイッチ)(arg_data 0x%04x)\n"
+    .balign 4
+
+.text
 glabel ObjLightswitch_Init
 /* 00408 80B96FA8 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0040C 80B96FAC AFB00038 */  sw      $s0, 0x0038($sp)           

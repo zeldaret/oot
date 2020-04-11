@@ -1,3 +1,25 @@
+.rdata
+glabel D_80B98080
+    .asciz "../z_obj_lightswitch.c"
+    .balign 4
+
+glabel D_80B98098
+    .asciz "../z_obj_lightswitch.c"
+    .balign 4
+
+glabel D_80B980B0
+    .asciz "../z_obj_lightswitch.c"
+    .balign 4
+
+glabel D_80B980C8
+    .asciz "../z_obj_lightswitch.c"
+    .balign 4
+
+glabel D_80B980E0
+    .asciz "../z_obj_lightswitch.c"
+    .balign 4
+
+.text
 glabel func_80B97B50
 /* 00FB0 80B97B50 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00FB4 80B97B54 AFBF001C */  sw      $ra, 0x001C($sp)           

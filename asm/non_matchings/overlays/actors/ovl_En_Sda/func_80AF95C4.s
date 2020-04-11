@@ -1,3 +1,38 @@
+.rdata
+glabel D_80AFA468
+    .asciz "SDA CONT \n"
+    .balign 4
+
+glabel D_80AFA474
+    .asciz "SDA CONT 2\n"
+    .balign 4
+
+glabel D_80AFA480
+    .asciz "SDA CONT 3\n"
+    .balign 4
+
+glabel D_80AFA48C
+    .asciz "SDA CONT 4\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AFA4F0
+    .float 1.2
+    .balign 4
+
+glabel D_80AFA4F4
+    .float -1.2
+    .balign 4
+
+glabel D_80AFA4F8
+    .float 3.14159274101
+    .balign 4
+
+glabel D_80AFA4FC
+    .float 3.14159274101
+    .balign 4
+
+.text
 glabel func_80AF95C4
 /* 007A4 80AF95C4 27BDFE50 */  addiu   $sp, $sp, 0xFE50           ## $sp = FFFFFE50
 /* 007A8 80AF95C8 AFB60040 */  sw      $s6, 0x0040($sp)           

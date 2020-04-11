@@ -1,3 +1,18 @@
+.rdata
+glabel D_80ADD810
+    .asciz "../z_en_po_sisters.c"
+    .balign 4
+
+.late_rodata
+glabel D_80ADD8A0
+    .float 0.3
+    .balign 4
+
+glabel D_80ADD8A4
+    .float 0.7
+    .balign 4
+
+.text
 glabel func_80ADC970
 /* 039E0 80ADC970 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 039E4 80ADC974 AFB00028 */  sw      $s0, 0x0028($sp)           

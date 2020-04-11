@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AFA44C
+    .asciz "SDA DRAW \n"
+    .balign 4
+
+glabel D_80AFA458
+    .asciz "SDA DRAW END\n"
+    .balign 4
+
+.text
 glabel EnSda_Draw
 /* 00090 80AF8EB0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00094 80AF8EB4 AFBF001C */  sw      $ra, 0x001C($sp)           

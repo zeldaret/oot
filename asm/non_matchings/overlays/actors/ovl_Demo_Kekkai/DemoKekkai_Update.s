@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8098E2C0
+ .float 0.99
+
+.text
 glabel DemoKekkai_Update
 /* 00620 8098D5F0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00624 8098D5F4 AFBF002C */  sw      $ra, 0x002C($sp)           

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80893FD4
+    .asciz "Error : Mir Ray 発生失敗 (%s %d)\n"
+    .balign 4
+
+glabel D_80893FF8
+    .asciz "../z_bg_jya_bigmirror.c"
+    .balign 4
+
+.text
 glabel func_8089399C
 /* 002BC 8089399C 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 002C0 808939A0 AFB20038 */  sw      $s2, 0x0038($sp)           

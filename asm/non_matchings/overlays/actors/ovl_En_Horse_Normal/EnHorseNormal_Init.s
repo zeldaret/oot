@@ -1,3 +1,18 @@
+.late_rodata
+glabel D_80A6D5B0
+ .word 0xC4368000
+glabel D_80A6D5B4
+ .word 0xC4898000
+glabel D_80A6D5B8
+ .word 0xC4924000
+glabel D_80A6D5BC
+ .word 0x4567B000
+glabel D_80A6D5C0
+ .word 0x44B0A000
+glabel D_80A6D5C4
+ .word 0xC4264000
+
+.text
 glabel EnHorseNormal_Init
 /* 00180 80A6B3D0 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00184 80A6B3D4 AFA5003C */  sw      $a1, 0x003C($sp)

@@ -1,3 +1,25 @@
+.rdata
+glabel D_80B8E8E4
+    .asciz "../z_mir_ray.c"
+    .balign 4
+
+glabel D_80B8E8F4
+    .asciz "../z_mir_ray.c"
+    .balign 4
+
+glabel D_80B8E904
+    .asciz "../z_mir_ray.c"
+    .balign 4
+
+glabel D_80B8E914
+    .asciz "../z_mir_ray.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B8E93C
+    .float 0.01
+
+.text
 glabel MirRay_Draw
 /* 01094 80B8E0E4 27BDFD80 */  addiu   $sp, $sp, 0xFD80           ## $sp = FFFFFD80
 /* 01098 80B8E0E8 F7B40018 */  sdc1    $f20, 0x0018($sp)          

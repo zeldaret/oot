@@ -1,3 +1,46 @@
+.rdata
+glabel D_8099832C
+    .asciz "../z_door_shutter.c"
+    .balign 4
+
+glabel D_80998340
+    .asciz "../z_door_shutter.c"
+    .balign 4
+
+glabel D_80998354
+    .asciz "../z_door_shutter.c"
+    .balign 4
+
+glabel D_80998368
+    .asciz "../z_door_shutter.c"
+    .balign 4
+
+glabel D_8099837C
+    .asciz "../z_door_shutter.c"
+    .balign 4
+
+.late_rodata
+glabel D_809983A4
+    .float 0.01
+    .balign 4
+
+glabel D_809983A8
+    .float 3.14159274101
+    .balign 4
+
+glabel D_809983AC
+    .float 3.14159274101
+    .balign 4
+
+glabel D_809983B0
+    .float 0.01
+    .balign 4
+
+glabel D_809983B4
+ .word 0x3C23D70A, 0x00000000, 0x00000000
+
+
+.text
 glabel DoorShutter_Draw
 /* 01840 80997AE0 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 01844 80997AE4 AFBF001C */  sw      $ra, 0x001C($sp)           

@@ -1,3 +1,9 @@
+.rdata
+glabel D_8097071C
+    .asciz "\x1B[31m Demo_Ec_main_init:初期化処理がおかしいarg_data = %d!\n\x1B[m"
+    .balign 4
+
+.text
 glabel func_809700DC
 /* 02C2C 809700DC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 02C30 809700E0 AFBF0014 */  sw      $ra, 0x0014($sp)           

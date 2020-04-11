@@ -61,3 +61,4 @@ const ActorInit En_Horse_Normal_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/func_80A6CC88.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Normal/EnHorseNormal_Draw.s")
+

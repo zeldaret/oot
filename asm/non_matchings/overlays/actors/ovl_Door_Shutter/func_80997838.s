@@ -1,3 +1,21 @@
+.rdata
+glabel D_80998318
+    .asciz "../z_door_shutter.c"
+    .balign 4
+
+.late_rodata
+glabel D_80998394
+    .float 0.01
+    .balign 4
+
+glabel D_80998398
+ .word 0x44542148
+glabel D_8099839C
+ .word 0x3F490FDB
+glabel D_809983A0
+ .word 0x44777C29
+
+.text
 glabel func_80997838
 /* 01598 80997838 27BDFF38 */  addiu   $sp, $sp, 0xFF38           ## $sp = FFFFFF38
 /* 0159C 8099783C AFBF006C */  sw      $ra, 0x006C($sp)           

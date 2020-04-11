@@ -1,3 +1,36 @@
+.rdata
+glabel D_80A6D560
+    .asciz "../z_en_horse_normal.c"
+    .balign 4
+
+glabel D_80A6D578
+    .asciz "../z_en_horse_normal.c"
+    .balign 4
+
+glabel D_80A6D590
+    .asciz "../z_en_horse_normal.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A6D5E8
+ .word 0x43B18000
+glabel D_80A6D5EC
+ .word 0xC4368000
+glabel D_80A6D5F0
+ .word 0xC4898000
+glabel D_80A6D5F4
+ .word 0xC4924000
+glabel D_80A6D5F8
+    .float 0.01
+    .balign 4
+
+glabel D_80A6D5FC
+    .float 9.58738019108e-05
+    .balign 4
+
+
+
+.text
 glabel EnHorseNormal_Draw
 /* 01C1C 80A6CE6C 27BDFF30 */  addiu   $sp, $sp, 0xFF30           ## $sp = FFFFFF30
 /* 01C20 80A6CE70 AFB10030 */  sw      $s1, 0x0030($sp)           

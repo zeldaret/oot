@@ -1,3 +1,13 @@
+.rdata
+glabel D_809CA8D0
+    .asciz "../z_en_box.c"
+    .balign 4
+
+glabel D_809CA8E0
+    .asciz "../z_en_box.c"
+    .balign 4
+
+.text
 glabel EnBox_Draw
 /* 017D0 809CA590 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 017D4 809CA594 AFBF002C */  sw      $ra, 0x002C($sp)

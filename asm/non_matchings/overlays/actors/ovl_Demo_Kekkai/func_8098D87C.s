@@ -1,3 +1,17 @@
+.rdata
+glabel D_8098E1D0
+    .asciz "../z_demo_kekkai.c"
+    .balign 4
+
+glabel D_8098E1E4
+    .asciz "\"当ったよ\" = %s\n"
+    .balign 4
+
+glabel D_8098E1F8
+    .asciz "当ったよ"
+    .balign 4
+
+.text
 glabel func_8098D87C
 /* 008AC 8098D87C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 008B0 8098D880 AFBF0024 */  sw      $ra, 0x0024($sp)           

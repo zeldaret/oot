@@ -37,3 +37,4 @@ const ActorInit Bg_Jya_Bigmirror_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Bigmirror/func_80893C68.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Bigmirror/BgJyaBigmirror_Draw.s")
+

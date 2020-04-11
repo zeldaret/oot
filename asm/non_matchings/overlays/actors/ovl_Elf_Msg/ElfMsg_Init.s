@@ -1,3 +1,30 @@
+.rdata
+glabel D_809AD550
+    .asciz "[36m\nエルフ タグ 消える条件 %d[m\n"
+    .balign 4
+
+glabel D_809AD574
+    .asciz "[36m\nthisx->shape.angle.sy = %d\n[m"
+    .balign 4
+
+glabel D_809AD59C
+    .asciz "[36m\nエルフ タグ 出現条件 %d[m\n"
+    .balign 4
+
+.late_rodata
+glabel D_809AD5F0
+    .float 0.4
+
+glabel D_809AD5F4
+    .float 0.04
+
+glabel D_809AD5F8
+    .float 0.4
+
+glabel D_809AD5FC
+    .float 0.04
+
+.text
 glabel ElfMsg_Init
 /* 0015C 809ACC7C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00160 809ACC80 AFB00018 */  sw      $s0, 0x0018($sp)           

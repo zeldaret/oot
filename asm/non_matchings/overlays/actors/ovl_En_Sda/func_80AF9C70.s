@@ -1,3 +1,33 @@
+.rdata
+glabel D_80AFA498
+    .asciz "../z_en_sda.c"
+    .balign 4
+
+glabel D_80AFA4A8
+    .asciz "SDA D 1\n"
+    .balign 4
+
+glabel D_80AFA4B4
+    .asciz "../z_en_sda.c"
+    .balign 4
+
+glabel D_80AFA4C4
+    .asciz "../z_en_sda.c"
+    .balign 4
+
+glabel D_80AFA4D4
+    .asciz "SDA D 2\n"
+    .balign 4
+
+glabel D_80AFA4E0
+    .asciz "../z_en_sda.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AFA500
+ .word 0x3F19999A, 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel func_80AF9C70
 /* 00E50 80AF9C70 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 00E54 80AF9C74 AFBF0034 */  sw      $ra, 0x0034($sp)           

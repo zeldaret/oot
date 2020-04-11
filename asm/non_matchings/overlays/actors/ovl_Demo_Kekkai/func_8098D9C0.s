@@ -1,3 +1,21 @@
+.rdata
+glabel D_8098E204
+    .asciz "../z_demo_kekkai.c"
+    .balign 4
+
+glabel D_8098E218
+    .asciz "../z_demo_kekkai.c"
+    .balign 4
+
+glabel D_8098E22C
+    .asciz "../z_demo_kekkai.c"
+    .balign 4
+
+glabel D_8098E240
+    .asciz "../z_demo_kekkai.c"
+    .balign 4
+
+.text
 glabel func_8098D9C0
 /* 009F0 8098D9C0 27BDFEE0 */  addiu   $sp, $sp, 0xFEE0           ## $sp = FFFFFEE0
 /* 009F4 8098D9C4 3C0F0001 */  lui     $t7, 0x0001                ## $t7 = 00010000

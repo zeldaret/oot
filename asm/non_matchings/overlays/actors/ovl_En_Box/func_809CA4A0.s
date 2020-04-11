@@ -1,3 +1,13 @@
+.rdata
+glabel D_809CA890
+    .asciz "gfxp != NULL"
+    .balign 4
+
+glabel D_809CA8A0
+    .asciz "../z_en_box.c"
+    .balign 4
+
+.text
 glabel func_809CA4A0
 /* 016E0 809CA4A0 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 016E4 809CA4A4 AFBF0014 */  sw      $ra, 0x0014($sp)           

@@ -63,3 +63,4 @@ const ActorInit Obj_Lightswitch_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Lightswitch/func_80B97B50.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Lightswitch/ObjLightswitch_Draw.s")
+

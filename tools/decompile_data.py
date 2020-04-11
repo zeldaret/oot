@@ -121,7 +121,9 @@ floats["0xB8C90FDB"] = "-9.58738019108e-05"
 floats["0x3B6BEDFA"] = "0.0036"
 floats["0x3DF5C28F"] = "0.12"
 floats["0x3B30F27C"] = "0.0027"
-
+floats["0xC3E28000"] = "-453.0"
+floats["0xC4DC2000"] = "-1761.0"
+floats["0x449FC000"] = "1278.0"
 def try_text(text_bytes):
     bad_bytes = 0
     for byte in text_bytes:

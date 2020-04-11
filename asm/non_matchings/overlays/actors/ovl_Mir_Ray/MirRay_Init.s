@@ -1,3 +1,43 @@
+.rdata
+
+glabel D_80B8E850
+    .asciz "反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+glabel D_80B8E880
+    .asciz "../z_mir_ray.c"
+    .balign 4
+
+glabel D_80B8E890
+    .asciz "this->actor.arg_data = %d\n"
+    .balign 4
+
+glabel D_80B8E8AC
+    .asciz "../z_mir_ray.c"
+    .balign 4
+
+glabel D_80B8E8BC
+    .asciz "\"反射光 発生失敗\" = %s\n"
+    .balign 4
+
+
+glabel D_80B8E8D4
+    .asciz "反射光 発生失敗"
+    .balign 4
+
+.late_rodata
+glabel D_80B8E924
+    .float 758.0
+glabel D_80B8E928
+    .float -939.0
+glabel D_80B8E92C
+    .float -1690.0
+glabel D_80B8E930
+    .float 938.0
+glabel D_80B8E934
+    .float 921.0
+
+.text
 glabel MirRay_Init
 /* 00260 80B8D2B0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00264 80B8D2B4 AFBF002C */  sw      $ra, 0x002C($sp)           

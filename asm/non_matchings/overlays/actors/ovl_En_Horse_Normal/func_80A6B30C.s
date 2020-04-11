@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80A6D5A8
+ .word 0x3EAAAAAB
+glabel D_80A6D5AC
+    .float 0.2
+    .balign 4
+
+.text
 glabel func_80A6B30C
 /* 000BC 80A6B30C 8C820150 */  lw      $v0, 0x0150($a0)           ## 00000150
 /* 000C0 80A6B310 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
