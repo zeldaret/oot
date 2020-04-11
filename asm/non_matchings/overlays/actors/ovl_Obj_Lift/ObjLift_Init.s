@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B96A70
+    .asciz "(Dungeon Lift)(arg_data 0x%04x)\n"
+    .balign 4
+
+.late_rodata
+glabel D_80B96A98
+ .word 0x477FFF80
+glabel D_80B96A9C
+ .word 0x477FFF80
+glabel D_80B96AA0
+ .word 0x477FFF80
+
+.text
 glabel ObjLift_Init
 /* 00314 80B963E4 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00318 80B963E8 AFBF001C */  sw      $ra, 0x001C($sp)           

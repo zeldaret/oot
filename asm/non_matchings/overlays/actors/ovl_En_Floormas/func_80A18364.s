@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A1A57C
+ .word 0x3B83126F
+
+.text
 glabel func_80A18364
 /* 00E54 80A18364 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 00E58 80A18368 44812000 */  mtc1    $at, $f4                   ## $f4 = 20.00

@@ -1,3 +1,13 @@
+.late_rodata
+glabel D_80A1A5B4
+    .float 3000.0
+    .balign 4
+
+glabel D_80A1A5B8
+    .float 2500.0
+    .balign 4
+
+.text
 glabel EnFloormas_Update
 /* 029B4 80A19EC4 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 029B8 80A19EC8 AFBF0024 */  sw      $ra, 0x0024($sp)           

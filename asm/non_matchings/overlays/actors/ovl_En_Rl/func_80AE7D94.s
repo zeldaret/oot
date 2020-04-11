@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AE8200
+    .asciz "../z_en_rl_inKenjyanomaDemo02.c"
+    .balign 4
+
+glabel D_80AE8220
+    .asciz "../z_en_rl_inKenjyanomaDemo02.c"
+    .balign 4
+
+.text
 glabel func_80AE7D94
 /* 00AE4 80AE7D94 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00AE8 80AE7D98 AFBF002C */  sw      $ra, 0x002C($sp)

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80889E90
+    .asciz "◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n"
+    .balign 4
+
+glabel D_80889ED0
+    .asciz "arg_data おかしい 【格子】\n"
+    .balign 4
+
+.text
 glabel BgHidanKousi_Init
 /* 00008 80889968 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0000C 8088996C AFBF001C */  sw      $ra, 0x001C($sp)           

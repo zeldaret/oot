@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B4E720
+    .asciz "../z_en_girlB.c"
+    .balign 4
+
+glabel D_80B4E730
+    .asciz "../z_en_girlB.c"
+    .balign 4
+
+.text
 glabel EnZl1_Draw
 /* 0191C 80B4C45C 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 01920 80B4C460 AFBF002C */  sw      $ra, 0x002C($sp)

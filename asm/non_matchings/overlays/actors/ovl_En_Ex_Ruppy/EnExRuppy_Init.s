@@ -1,3 +1,50 @@
+.rdata
+glabel D_80A0B3D0
+    .asciz "[32m☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80A0B400
+    .asciz "[32m☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A0B430
+    .asciz "[32m☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A0B50C
+.word L80A0A478
+.word L80A0A634
+.word L80A0A634
+.word L80A0A6E0
+.word L80A0A7AC
+glabel D_80A0B520
+    .float 0.01
+    .balign 4
+
+glabel D_80A0B524
+ .word 0x4348FD71
+glabel D_80A0B528
+    .float 0.02
+    .balign 4
+
+glabel D_80A0B52C
+    .float 0.02
+    .balign 4
+
+glabel D_80A0B530
+ .word 0x407F5C29
+glabel D_80A0B534
+    .float 0.02
+    .balign 4
+
+glabel D_80A0B538
+ .word 0x41F7EB85
+glabel D_80A0B53C
+    .float 0.01
+    .balign 4
+
+.text
 glabel EnExRuppy_Init
 /* 00000 80A0A410 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00004 80A0A414 AFBF001C */  sw      $ra, 0x001C($sp)           

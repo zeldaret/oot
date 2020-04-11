@@ -1,3 +1,17 @@
+.rdata
+glabel D_80889EEC
+    .asciz "../z_bg_hidan_kousi.c"
+    .balign 4
+
+glabel D_80889F04
+    .asciz "../z_bg_hidan_kousi.c"
+    .balign 4
+
+glabel D_80889F1C
+    .asciz "../z_bg_hidan_kousi.c"
+    .balign 4
+
+.text
 glabel BgHidanKousi_Draw
 /* 003F8 80889D58 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 003FC 80889D5C AFBF001C */  sw      $ra, 0x001C($sp)           

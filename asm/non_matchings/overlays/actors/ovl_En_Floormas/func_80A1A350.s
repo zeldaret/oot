@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A1A53C
+    .asciz "../z_en_floormas.c"
+    .balign 4
+
+glabel D_80A1A550
+    .asciz "../z_en_floormas.c"
+    .balign 4
+
+.text
 glabel func_80A1A350
 /* 02E40 80A1A350 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 02E44 80A1A354 AFB10028 */  sw      $s1, 0x0028($sp)

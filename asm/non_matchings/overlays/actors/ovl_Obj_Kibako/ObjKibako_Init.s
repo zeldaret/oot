@@ -1,3 +1,14 @@
+.rdata
+glabel D_80B958A0
+    .asciz "(dungeon keep 木箱)(arg_data 0x%04x)\n"
+    .balign 4
+
+.late_rodata
+glabel D_80B958C8
+    .float -1.2
+    .balign 4
+
+.text
 glabel ObjKibako_Init
 /* 000EC 80B94D8C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 000F0 80B94D90 AFA50024 */  sw      $a1, 0x0024($sp)           

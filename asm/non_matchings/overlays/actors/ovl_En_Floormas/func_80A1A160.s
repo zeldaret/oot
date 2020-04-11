@@ -1,3 +1,16 @@
+.rdata
+glabel D_80A1A500
+    .asciz "../z_en_floormas.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A1A5BC
+ .word 0x3F860A92
+glabel D_80A1A5C0
+ .word 0x3E860A92, 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel func_80A1A160
 /* 02C50 80A1A160 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 02C54 80A1A164 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002

@@ -1,3 +1,26 @@
+.rdata
+glabel D_808B85F0
+    .asciz "[31m"
+    .balign 4
+
+glabel D_808B85F8
+    .asciz "Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n"
+    .balign 4
+
+glabel D_808B8620
+    .asciz "../z_bg_spot18_basket.c"
+    .balign 4
+
+glabel D_808B8638
+    .asciz "\x1b[m"
+    .balign 4
+
+.late_rodata
+glabel D_808B863C
+    .float 0.01
+    .balign 4
+
+.text
 glabel BgSpot18Basket_Init
 /* 0021C 808B792C 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00220 808B7930 AFB10038 */  sw      $s1, 0x0038($sp)           

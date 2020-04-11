@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80897FC0
+ .word 0x432F4CEB
+
+.text
 glabel func_80897A2C
 /* 000BC 80897A2C C4840024 */  lwc1    $f4, 0x0024($a0)           ## 00000024
 /* 000C0 80897A30 C4860100 */  lwc1    $f6, 0x0100($a0)           ## 00000100

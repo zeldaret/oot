@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A1A570
+ .word 0xBE19999A
+
+.text
 glabel func_80A17B10
 /* 00600 80A17B10 240E0019 */  addiu   $t6, $zero, 0x0019         ## $t6 = 00000019
 /* 00604 80A17B14 A48E0194 */  sh      $t6, 0x0194($a0)           ## 00000194

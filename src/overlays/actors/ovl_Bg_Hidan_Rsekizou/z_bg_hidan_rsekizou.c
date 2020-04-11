@@ -29,3 +29,4 @@ const ActorInit Bg_Hidan_Rsekizou_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rsekizou/func_8088C70C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rsekizou/BgHidanRsekizou_Draw.s")
+

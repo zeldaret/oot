@@ -1,3 +1,22 @@
+.late_rodata
+glabel D_80B8AFFC
+ .word 0x43A28000
+glabel D_80B8B000
+    .float 0.08
+    .balign 4
+
+glabel D_80B8B004
+    .float 0.001
+    .balign 4
+
+glabel D_80B8B008
+    .float 0.05
+    .balign 4
+
+glabel D_80B8B00C
+ .word 0x3D89AE40
+
+.text
 glabel MagicFire_Update
 /* 00170 80B88EE0 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00174 80B88EE4 AFBF0024 */  sw      $ra, 0x0024($sp)           

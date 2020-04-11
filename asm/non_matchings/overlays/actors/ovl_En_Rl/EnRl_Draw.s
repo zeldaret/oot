@@ -1,3 +1,9 @@
+.rdata
+glabel D_80AE829C
+    .asciz "[31m描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel EnRl_Draw
 /* 00E90 80AE8140 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00E94 80AE8144 AFBF0014 */  sw      $ra, 0x0014($sp)           

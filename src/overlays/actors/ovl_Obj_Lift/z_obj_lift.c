@@ -45,3 +45,4 @@ const ActorInit Obj_Lift_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Lift/ObjLift_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Lift/ObjLift_Draw.s")
+

@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_80B7B554
+    .float 3.14159274101
+
+glabel D_80B7B558
+    .float 40000.0
+
+glabel D_80B7B55C
+    .float 4900.0
+
+glabel D_80B7B560
+    .float 10000.0
+
+.text
 glabel func_80B70ED4
 /* 07534 80B70ED4 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 07538 80B70ED8 3C0380B8 */  lui     $v1, %hi(D_80B7E0B8)       ## $v1 = 80B80000

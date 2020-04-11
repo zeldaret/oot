@@ -1,3 +1,24 @@
+.rdata
+glabel D_80B7B0A0
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B0B0
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B0C0
+    .asciz "../z_fishing.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B7B3CC
+    .float 670.0
+
+glabel D_80B7B3D0
+    .float 0.02
+
+.text
 glabel func_80B6C134
 /* 02794 80B6C134 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 02798 80B6C138 AFBF003C */  sw      $ra, 0x003C($sp)           

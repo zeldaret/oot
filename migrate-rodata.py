@@ -289,7 +289,7 @@ Enter 'q' to the code or overlay question to quit.""")
 
 #run(False)
 #bigs = ["Boss_Ganon", "Boss_Ganondrof","En_Wf", "Door_Warp1",]
-ovls = [ "Bg_Hidan_Sekizou"]
+ovls = [ "Fishing"]
 
 for i, ovl in enumerate(ovls):
     if i == 10:

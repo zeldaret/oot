@@ -37,3 +37,5 @@ const ActorInit Demo_Tre_Lgt_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Tre_Lgt/func_80993B2C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Tre_Lgt/DemoTreLgt_Draw.s")
+
+

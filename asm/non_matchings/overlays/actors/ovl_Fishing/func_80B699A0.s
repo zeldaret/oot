@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B7B344
+    .float 1.6
+
+.text
 glabel func_80B699A0
 /* 00000 80B699A0 C4C40000 */  lwc1    $f4, 0x0000($a2)           ## 00000000
 /* 00004 80B699A4 8CB8001C */  lw      $t8, 0x001C($a1)           ## 0000001C

@@ -43,3 +43,4 @@ const ActorInit En_Toryo_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Toryo/func_80B20B04.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Toryo/func_80B20B94.s")
+

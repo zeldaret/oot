@@ -1,3 +1,33 @@
+.rdata
+glabel D_80B7B200
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B210
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B220
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B230
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B240
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B250
+    .asciz "../z_fishing.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B7B784
+    .float 9.58738019108e-05
+
+.text
 glabel func_80B76474
 /* 0CAD4 80B76474 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 0CAD8 80B76478 AFBF003C */  sw      $ra, 0x003C($sp)           

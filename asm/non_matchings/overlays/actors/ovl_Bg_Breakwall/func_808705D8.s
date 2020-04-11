@@ -1,3 +1,20 @@
+.rdata
+glabel D_80870970
+
+    .asciz "../z_bg_breakwall.c"
+    .balign 4
+
+glabel D_80870984
+
+    .asciz "../z_bg_breakwall.c"
+    .balign 4
+
+glabel D_80870998
+
+    .asciz "../z_bg_breakwall.c"
+    .balign 4
+
+.text
 glabel func_808705D8
 /* 009F8 808705D8 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 009FC 808705DC AFBF0034 */  sw      $ra, 0x0034($sp)           

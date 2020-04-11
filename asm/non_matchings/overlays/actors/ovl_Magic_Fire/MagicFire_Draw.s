@@ -1,3 +1,22 @@
+.rdata
+glabel D_80B8AFC0
+    .asciz "../z_magic_fire.c"
+    .balign 4
+
+glabel D_80B8AFD4
+    .asciz "../z_magic_fire.c"
+    .balign 4
+
+glabel D_80B8AFE8
+    .asciz "../z_magic_fire.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B8B010
+ .word 0x3E19999A, 0x00000000, 0x00000000, 0x00000000
+
+
+.text
 glabel MagicFire_Draw
 /* 00504 80B89274 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 00508 80B89278 3C0F0001 */  lui     $t7, 0x0001                ## $t7 = 00010000

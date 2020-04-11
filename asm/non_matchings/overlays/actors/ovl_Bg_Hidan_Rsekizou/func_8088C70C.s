@@ -1,3 +1,24 @@
+.rdata
+glabel D_8088CDA0
+    .asciz "../z_bg_hidan_rsekizou.c"
+    .balign 4
+
+.late_rodata
+glabel D_8088CE10
+ .word 0x3E124925
+glabel D_8088CE14
+ .word 0x3EAAAAAB
+glabel D_8088CE18
+    .float 0.7
+    .balign 4
+
+glabel D_8088CE1C
+    .float 0.7
+    .balign 4
+
+
+
+.text
 glabel func_8088C70C
 /* 0050C 8088C70C 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00510 8088C710 AFBF001C */  sw      $ra, 0x001C($sp)           
