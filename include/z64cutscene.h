@@ -92,8 +92,8 @@ typedef enum {
     CS_CMD_CAMERA_FOCUS = 0x0002,
     CS_CMD_MISC = 0x0003,
     CS_CMD_SET_LIGHTING = 0x0004,
-    CS_CMD_CAMERA_POS_LINK = 0x0005,
-    CS_CMD_CAMERA_FOCUS_LINK = 0x0006,
+    CS_CMD_CAMERA_POS_PLAYER = 0x0005,
+    CS_CMD_CAMERA_FOCUS_PLAYER = 0x0006,
     CS_CMD_07 = 0x0007,
     CS_CMD_08 = 0x0008,
     CS_CMD_09 = 0x0009,
@@ -273,6 +273,40 @@ typedef enum {
     /* 0x0077 */ ZELDAS_COURTYARD_RECEIVE_LETTER
 } CutsceneTerminatorDestination;
 
+
+
+/**
+ * Command base
+ * Packs four bytes into a word
+ */
+#define CMD_BBBB(a, b, c, d) (_SHIFTL(a, 24, 8) | _SHIFTL(b, 16, 8) | _SHIFTL(c, 8, 8) | _SHIFTL(d, 0, 8))
+
+/**
+ * Command base
+ * Packs two bytes and a halfword into a word
+ */
+#define CMD_BBH(a, b, c) (_SHIFTL(a, 24, 8) | _SHIFTL(b, 16, 8) | _SHIFTL(c, 0, 16))
+
+/**
+ * Command base
+ * Packs a halfword and two bytes into a word
+ */
+#define CMD_HBB(a, b, c) (_SHIFTL(a, 16, 16) | _SHIFTL(c, 8, 8) | _SHIFTL(d, 0, 8))
+
+/**
+ * Command base
+ * Packs two halfwords into a word
+ */
+#define CMD_HH(a, b) (_SHIFTL(a, 16, 16) | _SHIFTL(b, 0, 16))
+
+/**
+ * Command base
+ * Packs a word into a word (consistency)
+ */
+#define CMD_W(a) (a)
+
+
+
 /**
  * ARGS
  *   s32 totalEntries (e), s32 endFrame (n)
@@ -280,20 +314,18 @@ typedef enum {
  *   eeeeeeee nnnnnnnn
  *   size = 0x8
  **/
-#define BEGIN_CUTSCENE(totalEntries, endFrame) totalEntries, endFrame
+#define CS_BEGIN_CUTSCENE(totalEntries, endFrame) CMD_W(totalEntries), CMD_W(endFrame)
 
 /**
  * ARGS
  *   s16 unk (u), s16 startFrame (s), s16 endFrame (e)
  * FORMAT
- *   Capital U is Unused
+ *   Capital U is Unused , may be consistently useful
  *   00000001 uuuussss eeeeUUUU
  *   size = 0xC
  **/
-#define CAMERA_POSITIONS(unk, startFrame, endFrame, unused) \
-    CS_CMD_CAMERA_POS, \
-    (s32)(((unk & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_CAM_POS_LIST(unk, startFrame, endFrame, unused) \
+    CS_CMD_CAMERA_POS, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
 
 /**
  * ARGS
@@ -304,24 +336,19 @@ typedef enum {
  *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
  *   size = 0x10
  **/
-#define CAMERA_POSITION_ENTRY(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    (s32)(((continueFlag & 0xFF) << 24) | ((roll & 0xFF) << 16) | (frame & 0xFFFF)), \
-    viewAngle, \
-    (s32)(((xPos & 0xFFFF) << 16) | (yPos & 0xFFFF)), \
-    (s32)(((zPos & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_CAM_POS(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
  *   s16 unk (u), s16 startFrame (s), s16 endFrame (e)
  * FORMAT
- *   Capital U is Unused
+ *   Capital U is Unused , may be consistently useful
  *   00000002 uuuussss eeeeUUUU
  *   size = 0xC
  **/
-#define CAMERA_FOCUS_POINTS(unk, startFrame, endFrame, unused) \
-    CS_CMD_CAMERA_FOCUS, \
-    (s32)(((unk & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_CAM_FOCUS_POINT_LIST(unk, startFrame, endFrame, unused) \
+    CS_CMD_CAMERA_FOCUS, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
 
 /**
  * ARGS
@@ -332,11 +359,8 @@ typedef enum {
  *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
  *   size = 0x10
  **/
-#define CAMERA_FOCUS_POINT_ENTRY(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    (s32)(((continueFlag & 0xFF) << 24) | ((roll & 0xFF) << 16) | (frame & 0xFFFF)), \
-    viewAngle, \
-    (s32)(((xPos & 0xFFFF) << 16) | (yPos & 0xFFFF)), \
-    (s32)(((zPos & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_CAM_FOCUS_POINT(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -345,7 +369,7 @@ typedef enum {
  *   00000003 eeeeeeee
  *   size = 0x8
  **/
-#define MISC(entries) CS_CMD_MISC, entries
+#define CS_MISC_LIST(entries) CS_CMD_MISC, CMD_W(entries)
 
 /**
  * ARGS
@@ -355,10 +379,10 @@ typedef enum {
  *   uuuussss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU
  *   size = 0x30
  **/
-#define MISC_ENTRY(unk, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
-    (s32)(((unk & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused0 & 0xFFFF)), \
-    unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10
+#define CS_MISC(unk, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
+    CMD_HH(unk, startFrame), CMD_HH(endFrame, unused0), \
+    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
+    CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
 
 /**
  * ARGS
@@ -367,7 +391,7 @@ typedef enum {
  *   00000004 eeeeeeee
  *   size = 0x8
  **/
-#define SET_LIGHTING(entries) CS_CMD_SET_LIGHTING, entries
+#define CS_LIGHTING_LIST(entries) CS_CMD_SET_LIGHTING, CMD_W(entries)
 
 /**
  * ARGS
@@ -377,23 +401,21 @@ typedef enum {
  *   uummssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU
  *   size = 0x30
  **/
-#define SET_LIGHTING_ENTRY(unk, setting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
-    (s32)(((unk & 0xFF) << 24) | ((setting & 0xFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused0 & 0xFFFF)), \
-    unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10
+#define CS_LIGHTING(unk, setting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
+    CMD_BBH(unk, setting, startFrame), CMD_HH(endFrame, unused0), \
+    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
+    CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
 
 /**
  * ARGS
  *   s16 unk (u), s16 startFrame (s), s16 endFrame (e)
  * FORMAT
- *   Capital U is Unused
+ *   Capital U is Unused , may be consistently useful
  *   00000005 uuuussss eeeeUUUU
  *   size = 0xC
  **/
-#define CAMERA_LINK_POSITIONS(unk, startFrame, endFrame, unused) \
-    CS_CMD_CAMERA_POS_LINK, \
-    (s32)(((unk & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_CAM_POS_PLAYER_LIST(unk, startFrame, endFrame, unused) \
+    CS_CMD_CAMERA_POS_PLAYER, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
 
 /**
  * ARGS
@@ -404,23 +426,19 @@ typedef enum {
  *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
  *   size = 0x10
  **/
-#define CAMERA_LINK_POSITION_ENTRY(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    (s32)(((continueFlag & 0xFF) << 24) | ((roll & 0xFF) << 16) | (frame & 0xFFFF)), \
-    viewAngle, \
-    (s32)(((xPos & 0xFFFF) << 16) | (yPos & 0xFFFF)), \
-    (s32)(((zPos & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_CAM_POS_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
  *   s16 unk (u), s16 startFrame (s), s16 endFrame (e)
  * FORMAT
- *   Capital U is Unused
+ *   Capital U is Unused , may be consistently useful
  *   00000006 uuuussss eeeeUUUU
  *   size = 0xC
  **/
-#define CAMERA_LINK_FOCUS_POINTS(unk, startFrame, endFrame, unused) \
-    CS_CMD_CAMERA_FOCUS_LINK, (s32)(((unk & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_CAM_FOCUS_POINT_PLAYER_LIST(unk, startFrame, endFrame, unused) \
+    CS_CMD_CAMERA_FOCUS_PLAYER, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
 
 /**
  * ARGS
@@ -431,11 +449,8 @@ typedef enum {
  *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
  *   size = 0x10
  **/
-#define CAMERA_LINK_FOCUS_POINT_ENTRY(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    (s32)(((continueFlag & 0xFF) << 24) | ((roll & 0xFF) << 16) | (frame & 0xFFFF)), \
-    viewAngle, \
-    (s32)(((xPos & 0xFFFF) << 16) | (yPos & 0xFFFF)), \
-    (s32)(((zPos & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_CAM_FOCUS_POINT_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -445,10 +460,8 @@ typedef enum {
  *   00000007 uuuussss eeeeUUUU
  *   size = 0xC
  **/
-#define CMD_07(unk, startFrame, endFrame, unused) \
-    CS_CMD_07, \
-    (s32)(((unk & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_CMD_07_LIST(unk, startFrame, endFrame, unused) \
+    CS_CMD_07, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
 
 /**
  * ARGS
@@ -459,11 +472,8 @@ typedef enum {
  *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
  *   size = 0x10
  **/
-#define CMD_07_ENTRY(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    (s32)(((continueFlag & 0xFF) << 24) | ((roll & 0xFF) << 16) | (frame & 0xFFFF)), \
-    viewAngle, \
-    (s32)(((xPos & 0xFFFF) << 16) | (yPos & 0xFFFF)), \
-    (s32)(((zPos & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_CMD_07(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -473,10 +483,8 @@ typedef enum {
  *   00000008 uuuussss eeeeUUUU
  *   size = 0xC
  **/
-#define CMD_08(unk, startFrame, endFrame, unused) \
-    CS_CMD_08, \
-    (s32)(((unk & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_CMD_08_LIST(unk, startFrame, endFrame, unused) \
+    CS_CMD_08, CMD_HH(unk, startFrame), CMD_HH(endFrame, unused)
 
 /**
  * ARGS
@@ -487,11 +495,8 @@ typedef enum {
  *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
  *   size = 0x10
  **/
-#define CMD_08_ENTRY(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    (s32)(((continueFlag & 0xFF) << 24) | ((roll & 0xFF) << 16) | (frame & 0xFFFF)), \
-    viewAngle, \
-    (s32)(((xPos & 0xFFFF) << 16) | (yPos & 0xFFFF)), \
-    (s32)(((zPos & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_CMD_08(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -500,7 +505,7 @@ typedef enum {
  *   00000009 eeeeeeee
  *   size = 0x8
  **/
-#define CMD_09(entries) CS_CMD_09, entries
+#define CS_CMD_09_LIST(entries) CS_CMD_09, CMD_W(entries)
 
 /**
  * ARGS
@@ -510,10 +515,8 @@ typedef enum {
  *   uuuussss eeeevvww xxUUUUUU
  *   size = 0xC
  **/
-#define CMD_09_ENTRY(unk, startFrame, endFrame, unk2, unk3, unk4, unused0, unused1) \
-    (s32)(((unk & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | ((unk2 & 0xFF) << 8) | (unk3 & 0xFF)), \
-    (s32)(((unk4 & 0xFF) << 24) | ((unused0 & 0xFF) << 16) | (unused1 & 0xFFFF))
+#define CS_CMD_09(unk, startFrame, endFrame, unk2, unk3, unk4, unused0, unused1) \
+    CMD_HH(unk, startFrame), CMD_HBB(endFrame, unk2, unk3), CMD_BBH(unk4, unused0, unused1)
 
 /**
  * ARGS
@@ -522,7 +525,7 @@ typedef enum {
  *   cccccccc eeeeeeee
  *   size = 0x8
  **/
-#define UNK_CS_DATA(cmdType, entries) cmdType, entries
+#define CS_UNK_DATA_LIST(cmdType, entries) CMD_W(cmdType), CMD_W(entries)
 
 /**
  * ARGS
@@ -532,34 +535,9 @@ typedef enum {
  *   aaaaaaaa bbbbbbbb cccccccc dddddddd eeeeeeee ffffffff gggggggg hhhhhhhh iiiiiiii jjjjjjjj kkkkkkkk llllllll
  *   size = 0x30
  **/
-#define UNK_CS_DATA_ENTRY(unk1, unk2, unk3, unk4, unk5, unk6, unk7, unk8, unk9, unk10, unk11, unk12) \
-    unk1, unk2, unk3, unk4, unk5, unk6, unk7, unk8, unk9, unk10, unk11, unk12
-
-/**
- * ARGS
- *   s32 entries (e)
- * FORMAT
- *   0000000N eeeeeeee
- *   size = 0x8
- **/
-#define SET_ACTOR_ACTION_N(N, entries) N, entries
-
-/**
- * ARGS
- *   s16 actorAnim (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (l),    s32 startY (m),     s32 startZ (n),
- *   s32 endX (x),      s32 endY (y),       s32 endZ (z),
- *   f32 normX (i),     f32 normY (j),      f32 normZ (k),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
- *   size = 0x30
- **/
-#define SET_ACTOR_ACTION_N_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    (s32)(((actorAnim & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (rotX & 0xFFFF)), \
-    (s32)(((rotY & 0xFFFF) << 16) | (rotZ & 0xFFFF)), \
-    startX, startY, startZ, endX, endY, endZ, normX, normY, normZ
+#define CS_UNK_DATA(unk1, unk2, unk3, unk4, unk5, unk6, unk7, unk8, unk9, unk10, unk11, unk12) \
+    CMD_W(unk1), CMD_W(unk2), CMD_W(unk3), CMD_W(unk4), CMD_W(unk5), CMD_W(unk6), \
+    CMD_W(unk7), CMD_W(unk8), CMD_W(unk9), CMD_W(unk10), CMD_W(unk11), CMD_W(unk12)
 
 /**
  * ARGS
@@ -568,7 +546,7 @@ typedef enum {
  *   cccccccc eeeeeeee
  *   size = 0x8
  **/
-#define SET_ACTOR_ACTION_0(cmdType, entries) SET_ACTOR_ACTION_N(cmdType, entries)
+#define CS_ACTOR_ACTION_LIST(cmdType, entries) CMD_W(cmdType), CMD_W(entries)
 
 /**
  * ARGS
@@ -581,238 +559,11 @@ typedef enum {
  *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
  *   size = 0x30
  **/
-#define SET_ACTOR_ACTION_0_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    SET_ACTOR_ACTION_N_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
-
-/**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
- **/
-#define SET_ACTOR_ACTION_1(cmdType, entries) SET_ACTOR_ACTION_N(cmdType, entries)
-
-/**
- * ARGS
- *   s16 actorAnim (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (l),    s32 startY (m),     s32 startZ (n),
- *   s32 endX (x),      s32 endY (y),       s32 endZ (z),
- *   f32 normX (i),     f32 normY (j),      f32 normZ (k),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
- *   size = 0x30
- **/
-#define SET_ACTOR_ACTION_1_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    SET_ACTOR_ACTION_N_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
-
-/**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
- **/
-#define SET_ACTOR_ACTION_2(cmdType, entries) SET_ACTOR_ACTION_N(cmdType, entries)
-
-/**
- * ARGS
- *   s16 actorAnim (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (l),    s32 startY (m),     s32 startZ (n),
- *   s32 endX (x),      s32 endY (y),       s32 endZ (z),
- *   f32 normX (i),     f32 normY (j),      f32 normZ (k),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
- *   size = 0x30
- **/
-#define SET_ACTOR_ACTION_2_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    SET_ACTOR_ACTION_N_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
-
-/**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
- **/
-#define SET_ACTOR_ACTION_3(cmdType, entries) SET_ACTOR_ACTION_N(cmdType, entries)
-
-/**
- * ARGS
- *   s16 actorAnim (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (l),    s32 startY (m),     s32 startZ (n),
- *   s32 endX (x),      s32 endY (y),       s32 endZ (z),
- *   f32 normX (i),     f32 normY (j),      f32 normZ (k),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
- *   size = 0x30
- **/
-#define SET_ACTOR_ACTION_3_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    SET_ACTOR_ACTION_N_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
-
-/**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
- **/
-#define SET_ACTOR_ACTION_4(cmdType, entries) SET_ACTOR_ACTION_N(cmdType, entries)
-
-/**
- * ARGS
- *   s16 actorAnim (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (l),    s32 startY (m),     s32 startZ (n),
- *   s32 endX (x),      s32 endY (y),       s32 endZ (z),
- *   f32 normX (i),     f32 normY (j),      f32 normZ (k),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
- *   size = 0x30
- **/
-#define SET_ACTOR_ACTION_4_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    SET_ACTOR_ACTION_N_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
-
-/**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
- **/
-#define SET_ACTOR_ACTION_5(cmdType, entries) SET_ACTOR_ACTION_N(cmdType, entries)
-
-/**
- * ARGS
- *   s16 actorAnim (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (l),    s32 startY (m),     s32 startZ (n),
- *   s32 endX (x),      s32 endY (y),       s32 endZ (z),
- *   f32 normX (i),     f32 normY (j),      f32 normZ (k),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
- *   size = 0x30
- **/
-#define SET_ACTOR_ACTION_5_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    SET_ACTOR_ACTION_N_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
-
-/**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
- **/
-#define SET_ACTOR_ACTION_6(cmdType, entries) SET_ACTOR_ACTION_N(cmdType, entries)
-
-/**
- * ARGS
- *   s16 actorAnim (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (l),    s32 startY (m),     s32 startZ (n),
- *   s32 endX (x),      s32 endY (y),       s32 endZ (z),
- *   f32 normX (i),     f32 normY (j),      f32 normZ (k),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
- *   size = 0x30
- **/
-#define SET_ACTOR_ACTION_6_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    SET_ACTOR_ACTION_N_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
-
-/**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
- **/
-#define SET_ACTOR_ACTION_7(cmdType, entries) SET_ACTOR_ACTION_N(cmdType, entries)
-
-/**
- * ARGS
- *   s16 actorAnim (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (l),    s32 startY (m),     s32 startZ (n),
- *   s32 endX (x),      s32 endY (y),       s32 endZ (z),
- *   f32 normX (i),     f32 normY (j),      f32 normZ (k),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
- *   size = 0x30
- **/
-#define SET_ACTOR_ACTION_7_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    SET_ACTOR_ACTION_N_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
-
-/**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
- **/
-#define SET_ACTOR_ACTION_8(cmdType, entries) SET_ACTOR_ACTION_N(cmdType, entries)
-
-/**
- * ARGS
- *   s16 actorAnim (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (l),    s32 startY (m),     s32 startZ (n),
- *   s32 endX (x),      s32 endY (y),       s32 endZ (z),
- *   f32 normX (i),     f32 normY (j),      f32 normZ (k),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
- *   size = 0x30
- **/
-#define SET_ACTOR_ACTION_8_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    SET_ACTOR_ACTION_N_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
-
-/**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
- **/
-#define SET_ACTOR_ACTION_9(cmdType, entries) SET_ACTOR_ACTION_N(cmdType, entries)
-
-/**
- * ARGS
- *   s16 actorAnim (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (l),    s32 startY (m),     s32 startZ (n),
- *   s32 endX (x),      s32 endY (y),       s32 endZ (z),
- *   f32 normX (i),     f32 normY (j),      f32 normZ (k),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
- *   size = 0x30
- **/
-#define SET_ACTOR_ACTION_9_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    SET_ACTOR_ACTION_N_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
-
-/**
- * ARGS
- *   s32 cmdType (c), s32 entries (e)
- * FORMAT
- *   cccccccc eeeeeeee
- *   size = 0x8
- **/
-#define SET_ACTOR_ACTION_10(cmdType, entries) SET_ACTOR_ACTION_N(cmdType, entries)
-
-/**
- * ARGS
- *   s16 actorAnim (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (l),    s32 startY (m),     s32 startZ (n),
- *   s32 endX (x),      s32 endY (y),       s32 endZ (z),
- *   f32 normX (i),     f32 normY (j),      f32 normZ (k),
- * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
- *   size = 0x30
- **/
-#define SET_ACTOR_ACTION_10_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    SET_ACTOR_ACTION_N_ENTRY(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ)
+#define CS_ACTOR_ACTION(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
+    CMD_HH(actorAnim, startFrame), CMD_HH(endFrame, rotX), CMD_HH(rotY, rotZ), \
+    CMD_W(startX), CMD_W(startY), CMD_W(startZ), \
+    CMD_W(endX), CMD_W(endY), CMD_W(endZ), \
+    CMD_W(normX), CMD_W(normY), CMD_W(normZ)
 
 /**
  * ARGS
@@ -821,25 +572,7 @@ typedef enum {
  *   00000013 eeeeeeee
  *   size = 0x8
  **/
-#define TEXTBOX(entries) CS_CMD_TEXTBOX, entries
-
-/**
- * INTERNAL USE ONLY, use TEXTBOX_NO_TEXT, TEXTBOX_DISPLAY_TEXT and 
- * TEXTBOX_LEARN_SONG instead
- **/
-#define TEXTBOX_ENTRY(messageId, startFrame, endFrame, type, topOptionBranch, bottomOptionBranch) \
-    (s32)(((messageId & 0xFFFF) << 16) | (startFrame & 0xFFFF)), (s32)(((endFrame & 0xFFFF) << 16) | (type & 0xFFFF)), \
-    (s32)(((topOptionBranch & 0xFFFF) << 16) | (bottomOptionBranch & 0xFFFF))
-
-/**
- * ARGS
- *   s16 startFrame (s), s16 endFrame (e)
- * FORMAT
- *   FFFFssss eeeeFFFF FFFFFFFF
- *   size = 0xC
- **/
-#define TEXTBOX_NO_TEXT(startFrame, endFrame) \
-    TEXTBOX_ENTRY(0xFFFF, startFrame, endFrame, 0xFFFF, 0xFFFF, 0xFFFF)
+#define CS_TEXTBOX_LIST(entries) CS_CMD_TEXTBOX, CMD_W(entries)
 
 /**
  * ARGS
@@ -849,8 +582,18 @@ typedef enum {
  *   iiiissss eeeeoooo yyyynnnn
  *   size = 0xC
  **/
-#define TEXTBOX_DISPLAY_TEXT(messageId, startFrame, endFrame, type, topOptionBranch, bottomOptionBranch) \
-    TEXTBOX_ENTRY(messageId, startFrame, endFrame, type, topOptionBranch, bottomOptionBranch)
+#define CS_TEXTBOX_DISPLAY_TEXT(messageId, startFrame, endFrame, type, topOptionBranch, bottomOptionBranch) \
+    CMD_HH(messageId, startFrame), CMD_HH(endFrame, type), CMD_HH(topOptionBranch, bottomOptionBranch)
+
+/**
+ * ARGS
+ *   s16 startFrame (s), s16 endFrame (e)
+ * FORMAT
+ *   FFFFssss eeeeFFFF FFFFFFFF
+ *   size = 0xC
+ **/
+#define CS_TEXTBOX_NO_TEXT(startFrame, endFrame) \
+    CS_TEXTBOX_DISPLAY_TEXT(0xFFFF, startFrame, endFrame, 0xFFFF, 0xFFFF, 0xFFFF)
 
 /**
  * ARGS
@@ -859,8 +602,8 @@ typedef enum {
  *   oooossss eeee0002 iiiiFFFF
  *   size = 0xC
  **/
-#define TEXTBOX_LEARN_SONG(ocarinaSongAction, startFrame, endFrame, messageId) \
-    TEXTBOX_ENTRY(ocarinaSongAction, startFrame, endFrame, 0x0002, messageId, 0xFFFF)
+#define CS_TEXTBOX_LEARN_SONG(ocarinaSongAction, startFrame, endFrame, messageId) \
+    CS_TEXTBOX_DISPLAY_TEXT(ocarinaSongAction, startFrame, endFrame, 0x0002, messageId, 0xFFFF)
 
 /**
  * ARGS
@@ -870,10 +613,8 @@ typedef enum {
  *   0000002D 00000001 ttttssss eeeeUUUU
  *   size = 0x10
  **/
-#define SCENE_TRANS_FX(transitionType, startFrame, endFrame, unused) \
-    CS_CMD_SCENE_TRANS_FX, 0x00000001, \
-    (s32)(((transitionType & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused & 0xFFFF))
+#define CS_SCENE_TRANS_FX(transitionType, startFrame, endFrame, unused) \
+    CS_CMD_SCENE_TRANS_FX, 0x00000001, CMD_HH(transitionType, startFrame), CMD_HH(endFrame, unused)
 
 /**
  * ARGS
@@ -882,7 +623,7 @@ typedef enum {
  *   00000056 eeeeeeee
  *   size = 0x8
  **/
-#define PLAY_BGM(entries) CS_CMD_PLAYBGM, entries
+#define CS_PLAY_BGM_LIST(entries) CS_CMD_PLAYBGM, CMD_W(entries)
 
 /**
  * ARGS
@@ -892,10 +633,10 @@ typedef enum {
  *   uuqqssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU
  *   size = 0x30
  **/
-#define PLAY_BGM_ENTRY(unk, sequence, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
-    (s32)(((unk & 0xFFFF) << 24) | ((sequence & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused0 & 0xFFFF)), \
-    unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10
+#define CS_PLAY_BGM(unk, sequence, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
+    CMD_BBH(unk, sequence, startFrame), CMD_HH(endFrame, unused0), \
+    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
+    CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
 
 /**
  * ARGS
@@ -904,7 +645,7 @@ typedef enum {
  *   00000057 eeeeeeee
  *   size = 0x8
  **/
-#define STOP_BGM(entries) CS_CMD_STOPBGM, entries
+#define CS_STOP_BGM_LIST(entries) CS_CMD_STOPBGM, CMD_W(entries)
 
 /**
  * ARGS
@@ -914,10 +655,10 @@ typedef enum {
  *   uuqqssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU
  *   size = 0x30
  **/
-#define STOP_BGM_ENTRY(unk, sequence, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
-    (s32)(((unk & 0xFF) << 24) | ((sequence & 0xFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused0 & 0xFFFF)), \
-    unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10
+#define CS_STOP_BGM(unk, sequence, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
+    CMD_BBH(unk, sequence, startFrame), CMD_HH(endFrame, unused0), \
+    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
+    CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
 
 /**
  * ARGS
@@ -926,7 +667,7 @@ typedef enum {
  *   0000007C eeeeeeee
  *   size = 0x8
  **/
-#define FADE_BGM(entries) CS_CMD_FADEBGM, entries
+#define CS_FADE_BGM_LIST(entries) CS_CMD_FADEBGM, entries
 
 /**
  * ARGS
@@ -936,10 +677,10 @@ typedef enum {
  *   ttttssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU
  *   size = 0x30
  **/
-#define FADE_BGM_ENTRY(fadeType, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
-    (s32)(((fadeType & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused0 & 0xFFFF)), \
-    unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10
+#define CS_FADE_BGM(fadeType, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
+    CMD_HH(fadeType, startFrame), CMD_HH(endFrame, unused0), \
+    CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
+    CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
 
 /**
  * ARGS
@@ -948,7 +689,7 @@ typedef enum {
  *   0000008C eeeeeeee
  *   size = 0x8
  **/
-#define SET_TIME(entries) CS_CMD_SETTIME, entries
+#define CS_TIME_LIST(entries) CS_CMD_SETTIME, CMD_W(entries)
 
 /**
  * ARGS
@@ -958,24 +699,22 @@ typedef enum {
  *   uuuussss eeeehhmm UUUUUUUU
  *   size = 0xC
  **/
-#define SET_TIME_ENTRY(unk, startFrame, endFrame, hour, min, unused) \
-    (s32)(((unk & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | ((hour & 0xFF) << 8) | (min & 0xFF)), \
-    unused
+#define CS_TIME(unk, startFrame, endFrame, hour, min, unused) \
+    CMD_HH(unk, startFrame), \
+    CMD_HBB(endFrame, hour, min), \
+    CMD_W(unused)
 
 /**
  * ARGS
  *   CutsceneTerminatorDestination dest (d), s16 startFrame (s), s16 endFrame (e)
  * FORMAT
- *   Capital U is Unused
+ *   Capital U is Unused , may be endFrame duplicate
  *   000003E8 00000001 ddddssss eeeeUUUU
  *   size = 0x10
  **/
 #define CS_TERMINATOR(dest, startFrame, endFrame, unused) \
-    CS_CMD_TERMINATOR, 0x00000001, \
-    (s32)(((dest & 0xFFFF) << 16) | (startFrame & 0xFFFF)), \
-    (s32)(((endFrame & 0xFFFF) << 16) | (unused & 0xFFFF))
+    CS_CMD_TERMINATOR, 0x00000001, CMD_HH(dest, startFrame), CMD_HH(endFrame, unused)
 
-#define END_CUTSCENE 0xFFFFFFFF, 0x00000000
+#define CS_END() 0xFFFFFFFF, 0x00000000
 
 #endif
