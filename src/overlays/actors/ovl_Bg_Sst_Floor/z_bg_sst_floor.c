@@ -27,3 +27,4 @@ const ActorInit Bg_Sst_Floor_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Sst_Floor/BgSstFloor_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Sst_Floor/BgSstFloor_Draw.s")
+

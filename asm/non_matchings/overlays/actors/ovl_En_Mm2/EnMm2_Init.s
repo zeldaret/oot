@@ -1,3 +1,9 @@
+.rdata
+glabel D_80AAFB80
+    .asciz "[36m マラソン 開始されていない \n[m\n"
+    .balign 4
+
+.text
 glabel EnMm2_Init
 /* 001EC 80AAF03C 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 001F0 80AAF040 AFA50044 */  sw      $a1, 0x0044($sp)

@@ -1,3 +1,9 @@
+/*
+ * File: z_en_heishi3.c
+ * Overlay: ovl_En_Heishi3
+ * Description: Hyrule Castle Guard
+ */
+
 #include "z_en_heishi3.h"
 
 #define FLAGS 0x00000000

@@ -1,3 +1,17 @@
+.rdata
+glabel D_809C25D8
+    .asciz "../z_en_blkobj.c"
+    .balign 4
+
+glabel D_809C25EC
+    .asciz "../z_en_blkobj.c"
+    .balign 4
+
+glabel D_809C2600
+    .asciz "../z_en_blkobj.c"
+    .balign 4
+
+.text
 glabel EnBlkobj_Draw
 /* 00398 809C23F8 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 0039C 809C23FC AFB10038 */  sw      $s1, 0x0038($sp)           

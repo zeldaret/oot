@@ -1,3 +1,33 @@
+.late_rodata
+glabel D_80A669C4
+    .float 0.6
+    .balign 4
+
+glabel D_80A669C8
+    .float 0.7
+    .balign 4
+
+glabel D_80A669CC
+    .float 0.7
+    .balign 4
+
+glabel D_80A669D0
+    .float 0.7
+    .balign 4
+
+glabel D_80A669D4
+    .float 0.7
+    .balign 4
+
+glabel D_80A669D8
+ .word 0x3D70F0F1
+glabel D_80A669DC
+    .float 0.04
+    .balign 4
+
+
+
+.text
 glabel func_80A65108
 /* 09E18 80A65108 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 09E1C 80A6510C 3C0F80A6 */  lui     $t7, %hi(D_80A667A0)       ## $t7 = 80A60000

@@ -1,3 +1,18 @@
+.late_rodata
+.late_rodata_alignment 8
+glabel jtbl_80AB0C90
+.word L80AB05FC
+.word L80AB05FC
+.word L80AB0604
+.word L80AB05FC
+.word L80AB05FC
+.word L80AB05FC
+.word L80AB05FC
+.word L80AB05FC
+.word L80AB05FC
+.word L80AB05FC
+
+.text
 glabel func_80AB05C4
 /* 001A4 80AB05C4 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 001A8 80AB05C8 AFBF0014 */  sw      $ra, 0x0014($sp)           

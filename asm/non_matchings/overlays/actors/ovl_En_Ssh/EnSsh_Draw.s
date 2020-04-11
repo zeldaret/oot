@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B045D0
+    .asciz "../z_en_ssh.c"
+    .balign 4
+
+glabel D_80B045E0
+    .asciz "../z_en_ssh.c"
+    .balign 4
+
+.text
 glabel EnSsh_Draw
 /* 02048 80B042B8 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0204C 80B042BC AFBF0024 */  sw      $ra, 0x0024($sp)           

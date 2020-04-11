@@ -20,11 +20,10 @@ void func_808805C0(BgHakaTrap* this, GlobalContext* globalCtx);
 void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx);
 void func_808808F4(BgHakaTrap* this, GlobalContext* globalCtx);
 void func_808809B0(BgHakaTrap* this, GlobalContext* globalCtx);
-//void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2); most likely correct, but not 100% sure
+// void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2); most likely correct, but not 100% sure
 void func_80880AE8(BgHakaTrap* this, GlobalContext* globalCtx);
 void func_80880C0C(BgHakaTrap* this, GlobalContext* globalCtx);
 // func_80880D68
-
 
 /*
 const ActorInit Bg_Haka_Trap_InitVars = {

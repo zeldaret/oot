@@ -1,3 +1,9 @@
+/*
+ * File: z_en_blkobj.c
+ * Overlay: ovl_En_Blkobj
+ * Description: Dark Link's Illusion Room
+ */
+
 #include "z_en_blkobj.h"
 
 #define FLAGS 0x00000030

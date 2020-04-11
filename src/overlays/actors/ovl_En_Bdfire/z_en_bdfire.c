@@ -1,3 +1,9 @@
+/*
+ * File: z_en_bdfire.c
+ * Overlay: ovl_En_Bdfire
+ * Description: King Dodongo's Fire
+ */
+
 #include "z_en_bdfire.h"
 
 #define FLAGS 0x00000030

@@ -43,3 +43,4 @@ const ActorInit Item_Ocarina_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Ocarina/ItemOcarina_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Item_Ocarina/ItemOcarina_Draw.s")
+

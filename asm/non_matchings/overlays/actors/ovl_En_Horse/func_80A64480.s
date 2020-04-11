@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80A669B4
+ .word 0x43F00001
+glabel D_80A669B8
+ .word 0x44E38000
+
+.text
 glabel func_80A64480
 /* 09190 80A64480 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 09194 80A64484 8C8E0208 */  lw      $t6, 0x0208($a0)           ## 00000208

@@ -1,3 +1,23 @@
+.late_rodata
+glabel D_808BE45C
+    .float 0.4
+    .balign 4
+
+glabel D_808BE460
+ .word 0x3EA8F5C3
+glabel D_808BE464
+    .float 0.05
+    .balign 4
+
+glabel D_808BE468
+    .float 0.05
+    .balign 4
+
+glabel D_808BE46C
+ .word 0xBE99999A
+
+
+.text
 glabel BgVbSima_Update
 /* 00164 808BDEC4 27BDFF10 */  addiu   $sp, $sp, 0xFF10           ## $sp = FFFFFF10
 /* 00168 808BDEC8 AFBF007C */  sw      $ra, 0x007C($sp)           

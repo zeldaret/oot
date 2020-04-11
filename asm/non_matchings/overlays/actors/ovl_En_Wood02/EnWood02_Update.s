@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B3C060
+ .word 0x477FFF00, 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel EnWood02_Update
 /* 007B0 80B3B720 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 007B4 80B3B724 AFBF003C */  sw      $ra, 0x003C($sp)           

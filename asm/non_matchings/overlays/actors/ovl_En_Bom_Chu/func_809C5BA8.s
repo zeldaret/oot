@@ -1,3 +1,15 @@
+.late_rodata
+glabel D_809C6DDC
+ .word 0x38000100
+glabel D_809C6DE0
+    .float 0.001
+    .balign 4
+
+glabel D_809C6DE4
+ .word 0x3A83126F, 0x00000000, 0x00000000
+
+
+.text
 glabel func_809C5BA8
 /* 00378 809C5BA8 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 0037C 809C5BAC 3C01809C */  lui     $at, %hi(D_809C6DDC)       ## $at = 809C0000

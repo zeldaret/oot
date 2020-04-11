@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A6EE10
+    .asciz "[36m ヒヨコの店(大人の時) \n[m"
+    .balign 4
+
+glabel D_80A6EE30
+    .asciz "[36m ヒヨコ屋閉店 \n[m"
+    .balign 4
+
+glabel D_80A6EE48
+    .asciz "[36m ヒヨコの店(子人の時) \n[m"
+    .balign 4
+
+.text
 glabel EnHs_Init
 /* 00008 80A6E3A8 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0000C 80A6E3AC AFB00028 */  sw      $s0, 0x0028($sp)

@@ -1,3 +1,20 @@
+.rdata
+glabel D_809BCB30
+    .asciz "POWER\n"
+    .balign 4
+
+.late_rodata
+glabel D_809BCB88
+ .word 0xC4ADC000
+glabel D_809BCB8C
+ .word 0xC52F4000
+glabel D_809BCB90
+ .word 0xC56DC000
+glabel D_809BCB94
+ .word 0x40866667, 0x00000000, 0x00000000
+
+
+.text
 glabel func_809BC598
 /* 00568 809BC598 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0056C 809BC59C AFBF0024 */  sw      $ra, 0x0024($sp)           

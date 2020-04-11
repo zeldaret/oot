@@ -1,3 +1,13 @@
+.late_rodata
+glabel D_809D25B0
+    .float 0.01
+    .balign 4
+
+glabel D_809D25B4
+    .float 0.03
+    .balign 4
+
+.text
 glabel EnBx_Init
 /* 00000 809D1AE0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00004 809D1AE4 3C0E809D */  lui     $t6, %hi(D_809D250C)       ## $t6 = 809D0000

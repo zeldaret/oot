@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_80A668E0
+ .word 0x46FFFE00
+glabel D_80A668E4
+ .word 0x46FFFE00
+glabel D_80A668E8
+ .word 0xC6FFFE00
+glabel D_80A668EC
+ .word 0x46FFFE00
+glabel D_80A668F0
+    .float 0.3
+    .balign 4
+
+.text
 glabel func_80A5F890
 /* 045A0 80A5F890 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 045A4 80A5F894 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000

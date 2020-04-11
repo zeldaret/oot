@@ -1,3 +1,15 @@
+.rdata
+glabel D_80B17E40
+    .asciz "../z_en_takara_man.c"
+    .balign 4
+
+glabel D_80B17E58
+    .asciz "../z_en_takara_man.c"
+    .balign 4
+
+
+
+.text
 glabel EnTakaraMan_Draw
 /* 00750 80B17CB0 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00754 80B17CB4 AFBF002C */  sw      $ra, 0x002C($sp)

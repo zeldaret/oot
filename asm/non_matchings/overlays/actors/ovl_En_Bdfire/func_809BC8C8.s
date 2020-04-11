@@ -1,3 +1,17 @@
+.rdata
+glabel D_809BCB38
+    .asciz "../z_en_bdfire.c"
+    .balign 4
+
+glabel D_809BCB4C
+    .asciz "../z_en_bdfire.c"
+    .balign 4
+
+glabel D_809BCB60
+    .asciz "../z_en_bdfire.c"
+    .balign 4
+
+.text
 glabel func_809BC8C8
 /* 00898 809BC8C8 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 0089C 809BC8CC AFBF001C */  sw      $ra, 0x001C($sp)           

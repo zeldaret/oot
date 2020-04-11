@@ -4,7 +4,6 @@
  * Description: Eye platform eye switches
  */
 
-
 #include "z_bg_menkuri_eye.h"
 
 #define FLAGS 0x00000020

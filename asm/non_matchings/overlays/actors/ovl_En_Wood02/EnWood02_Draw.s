@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B3BFA0
+    .asciz "../z_en_wood02.c"
+    .balign 4
+
+glabel D_80B3BFB4
+    .asciz "../z_en_wood02.c"
+    .balign 4
+
+glabel D_80B3BFC8
+    .asciz "../z_en_wood02.c"
+    .balign 4
+
+glabel D_80B3BFDC
+    .asciz "../z_en_wood02.c"
+    .balign 4
+
+.text
 glabel EnWood02_Draw
 /* 00CA4 80B3BC14 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00CA8 80B3BC18 AFBF001C */  sw      $ra, 0x001C($sp)           

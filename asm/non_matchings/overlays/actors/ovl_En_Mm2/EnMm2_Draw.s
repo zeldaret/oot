@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AAFBE8
+    .asciz "../z_en_mm2.c"
+    .balign 4
+
+glabel D_80AAFBF8
+    .asciz "../z_en_mm2.c"
+    .balign 4
+
+.text
 glabel EnMm2_Draw
 /* 00A88 80AAF8D8 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00A8C 80AAF8DC AFBF002C */  sw      $ra, 0x002C($sp)

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80886D30
+    .asciz "../z_bg_hidan_firewall.c"
+    .balign 4
+
+glabel D_80886D4C
+    .asciz "../z_bg_hidan_firewall.c"
+    .balign 4
+
+glabel D_80886D68
+    .asciz "../z_bg_hidan_firewall.c"
+    .balign 4
+
+.text
 glabel func_80886B34
 /* 004D4 80886B34 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 004D8 80886B38 AFBF001C */  sw      $ra, 0x001C($sp)           

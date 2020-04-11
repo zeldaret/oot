@@ -111,3 +111,4 @@ const ActorInit En_Ssh_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ssh/func_80B04280.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ssh/EnSsh_Draw.s")
+

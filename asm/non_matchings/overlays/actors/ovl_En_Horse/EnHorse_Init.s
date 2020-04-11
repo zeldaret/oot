@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A66800
+    .asciz "this->race.rider != NULL"
+    .balign 4
+
+glabel D_80A6681C
+    .asciz "../z_en_horse.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A6687C
+ .word 0x41411EB8
+
+.text
 glabel EnHorse_Init
 /* 00DE0 80A5C0D0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00DE4 80A5C0D4 AFB10030 */  sw      $s1, 0x0030($sp)

@@ -1,3 +1,13 @@
+.rdata
+glabel D_809C25B0
+    .asciz "../z_en_blkobj.c"
+    .balign 4
+
+glabel D_809C25C4
+    .asciz "../z_en_blkobj.c"
+    .balign 4
+
+.text
 glabel func_809C2324
 /* 002C4 809C2324 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 002C8 809C2328 AFBF0014 */  sw      $ra, 0x0014($sp)           

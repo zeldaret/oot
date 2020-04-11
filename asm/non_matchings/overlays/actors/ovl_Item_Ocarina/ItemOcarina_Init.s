@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B86810
+    .asciz "../z_item_ocarina.c"
+    .balign 4
+
+glabel D_80B86824
+    .asciz "no = %d\n"
+    .balign 4
+
+.text
 glabel ItemOcarina_Init
 /* 00008 80B86138 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0000C 80B8613C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

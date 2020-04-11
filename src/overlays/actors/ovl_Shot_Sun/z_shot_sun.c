@@ -32,3 +32,4 @@ const ActorInit Shot_Sun_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/func_80BAE05C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Shot_Sun/ShotSun_Update.s")
+

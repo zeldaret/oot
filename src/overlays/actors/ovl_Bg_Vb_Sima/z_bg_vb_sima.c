@@ -29,3 +29,4 @@ const ActorInit Bg_Vb_Sima_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Vb_Sima/BgVbSima_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Vb_Sima/BgVbSima_Draw.s")
+

@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80886D84
+    .float 0.12
+
+glabel D_80886D88
+    .float 0.01
+
+.text
 glabel BgHidanFirewall_Init
 /* 00000 80886660 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00004 80886664 3C018088 */  lui     $at, %hi(D_80886D84)       ## $at = 80880000

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B33AF0
+    .asciz "../z_en_weiyer.c"
+    .balign 4
+
+glabel D_80B33B04
+    .asciz "../z_en_weiyer.c"
+    .balign 4
+
+.text
 glabel EnWeiyer_Draw
 /* 01670 80B33900 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 01674 80B33904 AFB20030 */  sw      $s2, 0x0030($sp)

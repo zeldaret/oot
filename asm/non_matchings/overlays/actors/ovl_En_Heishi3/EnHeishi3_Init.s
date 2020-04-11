@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A55F90
+    .asciz "[32m☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel EnHeishi3_Init
 /* 00000 80A55640 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 80A55644 3C0180A5 */  lui     $at, %hi(D_80A55F40)       ## $at = 80A50000
