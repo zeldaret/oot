@@ -232,7 +232,7 @@ static void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx) {
                             this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y + 140.0f,
                             this->dyna.actor.posRot.pos.z, 0, this->dyna.actor.shape.rot.y + 0x8000, 0, 0);
         BgBdanObjects_SetContactRu1(this, 4);
-        this->unk_16A = (u16)0xA;
+        this->unk_16A = 0xA;
         this->actionFunc = (ActorFunc)func_8086C55C;
         func_8005B1A4(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0]);
     }
