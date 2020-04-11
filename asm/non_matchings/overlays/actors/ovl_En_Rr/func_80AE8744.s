@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80AEA890
+    .float 2500.0
+
+.text
 glabel func_80AE8744
 /* 00304 80AE8744 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00308 80AE8748 A0800370 */  sb      $zero, 0x0370($a0)         ## 00000370

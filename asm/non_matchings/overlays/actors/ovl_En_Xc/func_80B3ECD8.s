@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80B4223C
+    .float 0.01
+
+glabel D_80B42240
+    .float 1.2
+
+.text
 glabel func_80B3ECD8
 /* 02AF8 80B3ECD8 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 02AFC 80B3ECDC 44813000 */  mtc1    $at, $f6                   ## $f6 = 1.00

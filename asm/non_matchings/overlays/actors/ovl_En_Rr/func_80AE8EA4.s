@@ -1,3 +1,35 @@
+.rdata
+glabel D_80AEA79C
+    .asciz "\x1b[32mカキン(%d)！！\x1b[m\n"
+    .balign 4
+
+glabel D_80AEA7B4
+    .asciz "\x1b[31mいてっ( %d : LIFE %d : DAMAGE %d : %x )！！\x1b[m\n"
+    .balign 4
+
+glabel D_80AEA7EC
+    .asciz "\x1b[32mキャッチ(%d)！！\x1b[m\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80AEA8B4
+.word L80AE9170
+.word L80AE9094
+.word L80AE90DC
+.word L80AE912C
+.word L80AE91A8
+.word L80AE91A8
+.word L80AE91A8
+.word L80AE91A8
+.word L80AE91A8
+.word L80AE91A8
+.word L80AE8FD4
+.word L80AE8FD8
+.word L80AE8FE0
+.word L80AE8FE8
+.word L80AE8FF0
+
+.text
 glabel func_80AE8EA4
 /* 00A64 80AE8EA4 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00A68 80AE8EA8 AFBF0024 */  sw      $ra, 0x0024($sp)           

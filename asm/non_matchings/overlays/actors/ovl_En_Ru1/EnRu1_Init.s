@@ -1,3 +1,23 @@
+.rdata
+glabel D_80AF1AFC
+    .asciz "該当 arge_data = %d 無し\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80AF1C60
+.word L80AF01A4
+.word L80AF01B8
+.word L80AF01CC
+.word L80AF01E0
+.word L80AF01F4
+.word L80AF0208
+.word L80AF021C
+.word L80AF0244
+.word L80AF0244
+.word L80AF0244
+.word L80AF0230
+
+.text
 glabel EnRu1_Init
 /* 05500 80AF0110 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 05504 80AF0114 AFB10028 */  sw      $s1, 0x0028($sp)

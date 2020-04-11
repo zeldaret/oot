@@ -1,3 +1,9 @@
+.rdata
+glabel D_80AF1B18
+    .asciz "\x1b[31m首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m"
+    .balign 4
+
+.text
 glabel func_80AF02E8
 /* 056D8 80AF02E8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 056DC 80AF02EC 8FAE002C */  lw      $t6, 0x002C($sp)           

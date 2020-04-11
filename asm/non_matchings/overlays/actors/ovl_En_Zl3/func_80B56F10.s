@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B5A7A0
+    .asciz "En_Zl3_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n"
+    .balign 4
+
+glabel D_80B5A7E4
+    .asciz "En_Zl3_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_80B56F10
 /* 03B60 80B56F10 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 03B64 80B56F14 3C030001 */  lui     $v1, 0x0001                ## $v1 = 00010000

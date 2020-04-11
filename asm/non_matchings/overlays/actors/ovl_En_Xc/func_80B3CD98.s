@@ -1,3 +1,12 @@
+.rdata
+glabel D_80B41FB0
+    .asciz "ブーツを取った!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+glabel D_80B41FD4
+    .asciz "はやくブーツを取るべし!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_80B3CD98
 /* 00BB8 80B3CD98 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00BBC 80B3CD9C AFBF0014 */  sw      $ra, 0x0014($sp)           

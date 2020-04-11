@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80AEA8AC
+    .float 2500.0
+
+glabel D_80AEA8B0
+    .float 0.15
+
+.text
 glabel func_80AE8D9C
 /* 0095C 80AE8D9C 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
 /* 00960 80AE8DA0 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000

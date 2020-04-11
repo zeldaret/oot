@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80AF1BEC
+    .float 83.333336
+
+.text
 glabel func_80AECE04
 /* 021F4 80AECE04 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 021F8 80AECE08 3C0180AF */  lui     $at, %hi(D_80AF1BEC)       ## $at = 80AF0000

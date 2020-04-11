@@ -1,3 +1,27 @@
+.rdata
+glabel D_80B5A764
+    .asciz "En_Zl3_inFinal2_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B5AB48
+.word L80B56544
+.word L80B56554
+.word L80B56564
+.word L80B56574
+.word L80B56584
+.word L80B56594
+.word L80B565A4
+.word L80B565B4
+.word L80B565C4
+.word L80B565D4
+.word L80B565E4
+.word L80B565F4
+.word L80B56604
+.word L80B56614
+.word L80B56624
+
+.text
 glabel func_80B564A8
 /* 030F8 80B564A8 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 030FC 80B564AC AFBF001C */  sw      $ra, 0x001C($sp)           

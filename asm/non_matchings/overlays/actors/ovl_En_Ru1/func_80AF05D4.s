@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AF1B74
+    .asciz "../z_en_ru1.c"
+    .balign 4
+
+glabel D_80AF1B84
+    .asciz "../z_en_ru1.c"
+    .balign 4
+
+.text
 glabel func_80AF05D4
 /* 059C4 80AF05D4 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 059C8 80AF05D8 AFBF002C */  sw      $ra, 0x002C($sp)

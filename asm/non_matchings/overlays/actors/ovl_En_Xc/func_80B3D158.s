@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B42000
+
+    .asciz "MAX speed = %f\n"
+    .balign 4
+
+.late_rodata
+glabel D_80B42204
+ .word 0x40E1E2B0
+glabel D_80B42208
+    .float 0.4
+    .balign 4
+
+glabel D_80B4220C
+    .float 0.6
+    .balign 4
+
+.text
 glabel func_80B3D158
 /* 00F78 80B3D158 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
 /* 00F7C 80B3D15C 8DCEF9C0 */  lw      $t6, -0x0640($t6)          ## 8015F9C0

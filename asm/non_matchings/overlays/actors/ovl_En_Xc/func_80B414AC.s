@@ -1,3 +1,15 @@
+.rdata
+glabel D_80B420F0
+
+    .asciz "../z_en_oA2_inStalker.c"
+    .balign 4
+
+glabel D_80B42108
+
+    .asciz "../z_en_oA2_inStalker.c"
+    .balign 4
+
+.text
 glabel func_80B414AC
 /* 052CC 80B414AC 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 052D0 80B414B0 AFBF002C */  sw      $ra, 0x002C($sp)

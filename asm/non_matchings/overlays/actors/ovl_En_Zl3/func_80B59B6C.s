@@ -1,3 +1,9 @@
+.rdata
+glabel D_80B5A8CC
+    .asciz "[31m En_Oa3 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel func_80B59B6C
 /* 067BC 80B59B6C 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 067C0 80B59B70 AFBF0024 */  sw      $ra, 0x0024($sp)           

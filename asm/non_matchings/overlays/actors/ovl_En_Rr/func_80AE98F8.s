@@ -1,3 +1,20 @@
+.rdata
+glabel D_80AEA808
+    .asciz "\x1b[32m「%s」が出た！！\x1b[m\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AEA918
+    .float 0.003
+glabel jtbl_80AEA91C
+.word L80AE9B4C
+.word L80AE9AD4
+.word L80AE9AEC
+.word L80AE9B04
+.word L80AE9B1C
+.word L80AE9B34
+
+.text
 glabel func_80AE98F8
 /* 014B8 80AE98F8 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 014BC 80AE98FC AFBF005C */  sw      $ra, 0x005C($sp)           

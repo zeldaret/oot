@@ -1,3 +1,21 @@
+.rdata
+glabel D_80AEA838
+    .asciz "../z_en_rr.c"
+    .balign 4
+
+glabel D_80AEA848
+    .asciz "../z_en_rr.c"
+    .balign 4
+
+glabel D_80AEA858
+    .asciz "../z_en_rr.c"
+    .balign 4
+
+glabel D_80AEA868
+    .asciz "../z_en_rr.c"
+    .balign 4
+
+.text
 glabel EnRr_Draw
 /* 01D94 80AEA1D4 27BDFF38 */  addiu   $sp, $sp, 0xFF38           ## $sp = FFFFFF38
 /* 01D98 80AEA1D8 AFB30054 */  sw      $s3, 0x0054($sp)
