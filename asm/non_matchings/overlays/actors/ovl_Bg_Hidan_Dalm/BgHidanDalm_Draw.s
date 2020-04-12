@@ -9,7 +9,7 @@ glabel BgHidanDalm_Draw
 /* 00600 80886420 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00604 80886424 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00608 80886428 24A5BBF0 */  addiu   $a1, $a1, 0xBBF0           ## $a1 = 0600BBF0
-/* 0060C 8088642C 0C00D498 */  jal     Draw_DListOpa
+/* 0060C 8088642C 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00610 80886430 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00614 80886434 10000006 */  beq     $zero, $zero, .L80886450   
@@ -17,7 +17,7 @@ glabel BgHidanDalm_Draw
 .L8088643C:
 /* 0061C 8088643C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00620 80886440 24A5BDF0 */  addiu   $a1, $a1, 0xBDF0           ## $a1 = 0600BDF0
-/* 00624 80886444 0C00D498 */  jal     Draw_DListOpa
+/* 00624 80886444 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00628 80886448 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 0062C 8088644C 8FA60018 */  lw      $a2, 0x0018($sp)           

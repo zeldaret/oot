@@ -132,5 +132,5 @@ static void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx) {
 }
 
 static void ObjBombiwa_Draw(ObjBombiwa* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_060009E0);
+    Gfx_DrawDListOpa(globalCtx, &D_060009E0);
 }

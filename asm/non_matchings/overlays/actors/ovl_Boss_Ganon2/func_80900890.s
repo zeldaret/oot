@@ -412,7 +412,7 @@ glabel L80900E4C
 /* 03F64 80900EA4 8FA4002C */  lw      $a0, 0x002C($sp)
 /* 03F68 80900EA8 3C050603 */  lui     $a1, 0x0603                ## $a1 = 06030000
 /* 03F6C 80900EAC 24A54278 */  addiu   $a1, $a1, 0x4278           ## $a1 = 06034278
-/* 03F70 80900EB0 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 03F70 80900EB0 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 03F74 80900EB4 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 03F78 80900EB8 240B0001 */  addiu   $t3, $zero, 0x0001         ## $t3 = 00000001
 /* 03F7C 80900EBC 1000004F */  beq     $zero, $zero, .L80900FFC
@@ -456,7 +456,7 @@ glabel L80900E4C
 /* 04004 80900F44 00000000 */  nop
 /* 04008 80900F48 4502002D */  bc1fl   .L80901000
 /* 0400C 80900F4C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
-/* 04010 80900F50 0C029490 */  jal     func_800A5240
+/* 04010 80900F50 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 04014 80900F54 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 04018 80900F58 0C028800 */  jal     SkelAnime_GetFrameCount
 

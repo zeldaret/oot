@@ -260,8 +260,8 @@ void func_8009883C(GlobalContext* globalCtx, SceneCmd* cmd) {
         gSegments[5] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
     }
 
-    if (cmd->specialFiles.naviMsgNum != 0) {
-        globalCtx->naviMsgSegment = func_800BFE5C(globalCtx, &sNaviMsgFiles[cmd->specialFiles.naviMsgNum - 1]);
+    if (cmd->specialFiles.cUpElfMsgNum != 0) {
+        globalCtx->cUpElfMsgs = func_800BFE5C(globalCtx, &sNaviMsgFiles[cmd->specialFiles.cUpElfMsgNum - 1]);
     }
 }
 

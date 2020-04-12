@@ -4,7 +4,7 @@ glabel BgIceObjects_Draw
 /* 00C50 80890460 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00C54 80890464 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00C58 80890468 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00C5C 8089046C 0C00D498 */  jal     Draw_DListOpa
+/* 00C5C 8089046C 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00C60 80890470 24A50190 */  addiu   $a1, $a1, 0x0190           ## $a1 = 06000190
 /* 00C64 80890474 8FBF0014 */  lw      $ra, 0x0014($sp)           

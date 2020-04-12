@@ -299,7 +299,7 @@ glabel func_800B31D0
 /* B2A3D0 800B3230 AD4C0000 */  sw    $t4, ($t2)
 /* B2A3D4 800B3234 8E06000C */  lw    $a2, 0xc($s0)
 /* B2A3D8 800B3238 8E050008 */  lw    $a1, 8($s0)
-/* B2A3DC 800B323C 0C02536E */  jal   func_80094DB8
+/* B2A3DC 800B323C 0C02536E */  jal   Gfx_BranchTexScroll
 /* B2A3E0 800B3240 AFAD0010 */   sw    $t5, 0x10($sp)
 /* B2A3E4 800B3244 8FAE007C */  lw    $t6, 0x7c($sp)
 /* B2A3E8 800B3248 3C18DB06 */  lui   $t8, (0xDB060024 >> 16) # lui $t8, 0xdb06

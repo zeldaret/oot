@@ -86,7 +86,7 @@ glabel func_8083BF50
 /* 09E78 8083C088 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 09E7C 8083C08C E7B00014 */  swc1    $f16, 0x0014($sp)
 /* 09E80 8083C090 AFA80018 */  sw      $t0, 0x0018($sp)
-/* 09E84 8083C094 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 09E84 8083C094 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 09E88 8083C098 E7B2001C */  swc1    $f18, 0x001C($sp)
 /* 09E8C 8083C09C 860900B6 */  lh      $t1, 0x00B6($s0)           ## 000000B6
 /* 09E90 8083C0A0 A609083C */  sh      $t1, 0x083C($s0)           ## 0000083C

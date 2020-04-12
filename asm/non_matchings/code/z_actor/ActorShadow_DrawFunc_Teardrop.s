@@ -141,10 +141,10 @@ glabel ActorShadow_DrawFunc_Teardrop
 /* AA2C1C 8002BA7C 8E850000 */  lw    $a1, ($s4)
 /* AA2C20 8002BA80 240706CD */  li    $a3, 1741
 /* AA2C24 8002BA84 26D6FFFE */  addiu $s6, $s6, -2
-/* AA2C28 8002BA88 0C031AB1 */  jal   func_800C6AC4
+/* AA2C28 8002BA88 0C031AB1 */  jal   Graph_OpenDisps
 /* AA2C2C 8002BA8C 00A08025 */   move  $s0, $a1
 /* AA2C30 8002BA90 8E0402C0 */  lw    $a0, 0x2c0($s0)
-/* AA2C34 8002BA94 0C024DDD */  jal   func_80093774
+/* AA2C34 8002BA94 0C024DDD */  jal   Gfx_CallSetupDL
 /* AA2C38 8002BA98 2405002C */   li    $a1, 44
 /* AA2C3C 8002BA9C 3C014248 */  li    $at, 0x42480000 # 0.000000
 /* AA2C40 8002BAA0 4481E000 */  mtc1  $at, $f28
@@ -340,7 +340,7 @@ glabel ActorShadow_DrawFunc_Teardrop
 .L8002BD5C:
 /* AA2EFC 8002BD5C 8E850000 */  lw    $a1, ($s4)
 .L8002BD60:
-/* AA2F00 8002BD60 0C031AD5 */  jal   func_800C6B54
+/* AA2F00 8002BD60 0C031AD5 */  jal   Graph_CloseDisps
 /* AA2F04 8002BD64 24070727 */   li    $a3, 1831
 .L8002BD68:
 /* AA2F08 8002BD68 8FBF007C */  lw    $ra, 0x7c($sp)

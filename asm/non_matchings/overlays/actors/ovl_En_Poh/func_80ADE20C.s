@@ -10,12 +10,12 @@ glabel func_80ADE20C
 /* 004DC 80ADE22C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 004E0 80ADE230 24A501A8 */  addiu   $a1, $a1, 0x01A8           ## $a1 = 060001A8
 /* 004E4 80ADE234 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 004E8 80ADE238 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 004E8 80ADE238 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 004EC 80ADE23C 3C06C0C0 */  lui     $a2, 0xC0C0                ## $a2 = C0C00000
 /* 004F0 80ADE240 10000004 */  beq     $zero, $zero, .L80ADE254
 /* 004F4 80ADE244 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 .L80ADE248:
-/* 004F8 80ADE248 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 004F8 80ADE248 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 004FC 80ADE24C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 00500 80ADE250 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 .L80ADE254:

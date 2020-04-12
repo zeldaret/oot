@@ -168,7 +168,7 @@ static ColliderCylinderInit colliderInit = {
     0x00, 0x00, 0xFFCFFFFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0000, 0x0001, 0x0000, 0x000A, 0x0046,     0x0000,
 };
 
-static SubActor98Init subActor98Init = {
+static Sub98Init4 sub98Init = {
     0x0A,
     0x0023,
     0x0064,
@@ -202,7 +202,7 @@ static void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx) {
     ActorCollider_AllocCylinder(globalCtx, collision);
     ActorCollider_InitCylinder(globalCtx, collision, thisx, &colliderInit);
     ActorCollider_Cylinder_Update(thisx, collision);
-    func_80061ED4(&thisx->sub_98, 0, &subActor98Init);
+    func_80061ED4(&thisx->sub_98, 0, &sub98Init);
 }
 
 static void BgTokiSwd_Destroy(BgTokiSwd* this, GlobalContext* globalCtx) {
@@ -278,20 +278,20 @@ static void BgTokiSwd_Draw(BgTokiSwd* this, GlobalContext* globalCtx) {
     s32 pad[4];
     GameState* state;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
     state = &globalCtx->state;
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfxArr, state->gfxCtx, "../z_bg_toki_swd.c", 727);
+    Graph_OpenDisps(dispRefs, state->gfxCtx, "../z_bg_toki_swd.c", 727);
     func_80093D18(globalCtx->state.gfxCtx);
 
     func_8002EBCC(&this->actor, globalCtx, 0);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x08,
-               Draw_TexScroll(globalCtx->state.gfxCtx, 0, -(globalCtx->gameplayFrames % 0x80), 32, 32));
+               Gfx_TexScroll(globalCtx->state.gfxCtx, 0, -(globalCtx->gameplayFrames % 0x80), 32, 32));
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 742),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_06001BD0);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 776);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 776);
 }

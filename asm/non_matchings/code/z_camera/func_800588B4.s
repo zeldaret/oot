@@ -213,7 +213,7 @@ glabel func_800588B4
 /* ACFD30 80058B90 856C02F6 */  lh    $t4, 0x2f6($t3)
 /* ACFD34 80058B94 5180000A */  beql  $t4, $zero, .L80058BC0
 /* ACFD38 80058B98 8FB9002C */   lw    $t9, 0x2c($sp)
-/* ACFD3C 80058B9C 0C024BEB */  jal   func_80092FAC
+/* ACFD3C 80058B9C 0C024BEB */  jal   Quake_RemoveFromIdx
 /* ACFD40 80058BA0 85A40000 */   lh    $a0, ($t5)
 /* ACFD44 80058BA4 8FAF002C */  lw    $t7, 0x2c($sp)
 /* ACFD48 80058BA8 240EFFFF */  li    $t6, -1
@@ -227,31 +227,31 @@ glabel func_800588B4
 /* ACFD64 80058BC4 87240000 */  lh    $a0, ($t9)
 /* ACFD68 80058BC8 50810006 */  beql  $a0, $at, .L80058BE4
 /* ACFD6C 80058BCC 02002025 */   move  $a0, $s0
-/* ACFD70 80058BD0 0C024B8F */  jal   func_80092E3C
+/* ACFD70 80058BD0 0C024B8F */  jal   Quake_GetCountdown
 /* ACFD74 80058BD4 00000000 */   nop   
 /* ACFD78 80058BD8 2401000A */  li    $at, 10
 /* ACFD7C 80058BDC 14410015 */  bne   $v0, $at, .L80058C34
 /* ACFD80 80058BE0 02002025 */   move  $a0, $s0
 .L80058BE4:
-/* ACFD84 80058BE4 0C024BE2 */  jal   func_80092F88
+/* ACFD84 80058BE4 0C024BE2 */  jal   Quake_Add
 /* ACFD88 80058BE8 24050005 */   li    $a1, 5
 /* ACFD8C 80058BEC 8FA8002C */  lw    $t0, 0x2c($sp)
 /* ACFD90 80058BF0 10400010 */  beqz  $v0, .L80058C34
 /* ACFD94 80058BF4 A5020000 */   sh    $v0, ($t0)
 /* ACFD98 80058BF8 8FA9002C */  lw    $t1, 0x2c($sp)
 /* ACFD9C 80058BFC 24050226 */  li    $a1, 550
-/* ACFDA0 80058C00 0C024B6B */  jal   func_80092DAC
+/* ACFDA0 80058C00 0C024B6B */  jal   Quake_SetSpeed
 /* ACFDA4 80058C04 85240000 */   lh    $a0, ($t1)
 /* ACFDA8 80058C08 8FAA002C */  lw    $t2, 0x2c($sp)
 /* ACFDAC 80058C0C 24050001 */  li    $a1, 1
 /* ACFDB0 80058C10 24060001 */  li    $a2, 1
 /* ACFDB4 80058C14 85440000 */  lh    $a0, ($t2)
 /* ACFDB8 80058C18 AFA00010 */  sw    $zero, 0x10($sp)
-/* ACFDBC 80058C1C 0C024B9C */  jal   func_80092E70
+/* ACFDBC 80058C1C 0C024B9C */  jal   Quake_SetQuakeValues
 /* ACFDC0 80058C20 240700B4 */   li    $a3, 180
 /* ACFDC4 80058C24 8FAB002C */  lw    $t3, 0x2c($sp)
 /* ACFDC8 80058C28 240503E8 */  li    $a1, 1000
-/* ACFDCC 80058C2C 0C024B7C */  jal   func_80092DF0
+/* ACFDCC 80058C2C 0C024B7C */  jal   Quake_SetCountdown
 /* ACFDD0 80058C30 85640000 */   lh    $a0, ($t3)
 .L80058C34:
 /* ACFDD4 80058C34 86020150 */  lh    $v0, 0x150($s0)
@@ -295,7 +295,7 @@ glabel func_800588B4
 /* ACFE60 80058CC0 85C40000 */  lh    $a0, ($t6)
 /* ACFE64 80058CC4 50800004 */  beql  $a0, $zero, .L80058CD8
 /* ACFE68 80058CC8 A6000150 */   sh    $zero, 0x150($s0)
-/* ACFE6C 80058CCC 0C024BEB */  jal   func_80092FAC
+/* ACFE6C 80058CCC 0C024BEB */  jal   Quake_RemoveFromIdx
 /* ACFE70 80058CD0 00000000 */   nop   
 /* ACFE74 80058CD4 A6000150 */  sh    $zero, 0x150($s0)
 .L80058CD8:

@@ -9,7 +9,7 @@ glabel EnFirefly_Draw
 /* 01CEC 80A14D5C 24C64FE0 */  addiu   $a2, $a2, %lo(D_80A14FE0)  ## $a2 = 80A14FE0
 /* 01CF0 80A14D60 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 01CF4 80A14D64 240706C5 */  addiu   $a3, $zero, 0x06C5         ## $a3 = 000006C5
-/* 01CF8 80A14D68 0C031AB1 */  jal     func_800C6AC4
+/* 01CF8 80A14D68 0C031AB1 */  jal     Graph_OpenDisps
 /* 01CFC 80A14D6C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 01D00 80A14D70 8FAF005C */  lw      $t7, 0x005C($sp)
 /* 01D04 80A14D74 0C024F46 */  jal     func_80093D18
@@ -52,7 +52,7 @@ glabel EnFirefly_Draw
 /* 01D90 80A14E00 24C64FF4 */  addiu   $a2, $a2, %lo(D_80A14FF4)  ## $a2 = 80A14FF4
 /* 01D94 80A14E04 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 01D98 80A14E08 240706E3 */  addiu   $a3, $zero, 0x06E3         ## $a3 = 000006E3
-/* 01D9C 80A14E0C 0C031AD5 */  jal     func_800C6B54
+/* 01D9C 80A14E0C 0C031AD5 */  jal     Graph_CloseDisps
 /* 01DA0 80A14E10 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 /* 01DA4 80A14E14 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 01DA8 80A14E18 8FB00028 */  lw      $s0, 0x0028($sp)

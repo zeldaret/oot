@@ -9,10 +9,10 @@ glabel EnMag_Draw
 /* 022F0 80AA5DF0 24C65F10 */  addiu   $a2, $a2, %lo(D_80AA5F10)  ## $a2 = 80AA5F10
 /* 022F4 80AA5DF4 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE0
 /* 022F8 80AA5DF8 2407047F */  addiu   $a3, $zero, 0x047F         ## $a3 = 0000047F
-/* 022FC 80AA5DFC 0C031AB1 */  jal     func_800C6AC4              
+/* 022FC 80AA5DFC 0C031AB1 */  jal     Graph_OpenDisps              
 /* 02300 80AA5E00 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 02304 80AA5E04 8E0402C0 */  lw      $a0, 0x02C0($s0)           ## 000002C0
-/* 02308 80AA5E08 0C031B08 */  jal     func_800C6C20              
+/* 02308 80AA5E08 0C031B08 */  jal     Graph_GfxPlusOne              
 /* 0230C 80AA5E0C AFA40044 */  sw      $a0, 0x0044($sp)           
 /* 02310 80AA5E10 AFA20048 */  sw      $v0, 0x0048($sp)           
 /* 02314 80AA5E14 8E0302B0 */  lw      $v1, 0x02B0($s0)           ## 000002B0
@@ -33,7 +33,7 @@ glabel EnMag_Draw
 /* 02350 80AA5E50 AD000004 */  sw      $zero, 0x0004($t0)         ## 00000004
 /* 02354 80AA5E54 AD0A0000 */  sw      $t2, 0x0000($t0)           ## 00000000
 /* 02358 80AA5E58 8FA50048 */  lw      $a1, 0x0048($sp)           
-/* 0235C 80AA5E5C 0C031B0A */  jal     func_800C6C28              
+/* 0235C 80AA5E5C 0C031B0A */  jal     Graph_BranchDlist              
 /* 02360 80AA5E60 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 02364 80AA5E64 8FAB0048 */  lw      $t3, 0x0048($sp)           
 /* 02368 80AA5E68 3C0680AA */  lui     $a2, %hi(D_80AA5F20)       ## $a2 = 80AA0000
@@ -42,7 +42,7 @@ glabel EnMag_Draw
 /* 02374 80AA5E74 8FAC0054 */  lw      $t4, 0x0054($sp)           
 /* 02378 80AA5E78 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE0
 /* 0237C 80AA5E7C 24070489 */  addiu   $a3, $zero, 0x0489         ## $a3 = 00000489
-/* 02380 80AA5E80 0C031AD5 */  jal     func_800C6B54              
+/* 02380 80AA5E80 0C031AD5 */  jal     Graph_CloseDisps              
 /* 02384 80AA5E84 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 02388 80AA5E88 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 0238C 80AA5E8C 8FB00018 */  lw      $s0, 0x0018($sp)           

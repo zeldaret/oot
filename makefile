@@ -129,6 +129,12 @@ build/undefined_syms.txt: undefined_syms.txt
 clean:
 	$(RM) $(ROM) $(ELF) -r build
 
+setup:
+	git submodule update --init --recursive
+	make -C tools
+	python3 fixbaserom.py
+	python3 extract_baserom.py
+	python3 extract_assets.py
 
 #### Various Recipes ####
 

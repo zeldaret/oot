@@ -45,7 +45,7 @@ glabel EnMm2_Init
 /* 0028C 80AAF0DC E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00290 80AAF0E0 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 00294 80AAF0E4 AFB90014 */  sw      $t9, 0x0014($sp)
-/* 00298 80AAF0E8 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00298 80AAF0E8 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 0029C 80AAF0EC E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 002A0 80AAF0F0 24080002 */  addiu   $t0, $zero, 0x0002         ## $t0 = 00000002

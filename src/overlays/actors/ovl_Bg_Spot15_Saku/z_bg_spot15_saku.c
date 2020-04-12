@@ -58,20 +58,12 @@ void BgSpot15Saku_Destroy(BgSpot15Saku* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {
-    void* temp = this->unk_168;
-    void* temp2 = this->unk_16C;
-
-    if ((temp != NULL || temp2 != NULL) && !(gSaveContext.inf_table[7] & 2)) {
+    if (this->unk_168 && !(gSaveContext.inf_table[7] & 2)) {
         this->unk_17C = 2;
         this->actionFunc = func_808B4978;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Saku/func_808B4930.s")
-#endif
 
 void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
@@ -86,18 +78,12 @@ void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// single regalloc difference
 void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx) {
-    if (this->unk_17C == 0) {
-        this->unk_168 = 0 & 0xFFFFFFFFFFFFFFFF;
-        this->unk_16C = 0 & 0xFFFFFFFFFFFFFFFF;
+    if (!this->unk_17C) {
+        this->unk_168 = 0;
         this->actionFunc = func_808B4930;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot15_Saku/func_808B4A04.s")
-#endif
 
 void BgSpot15Saku_Update(BgSpot15Saku* this, GlobalContext* globalCtx) {
     DECR(this->unk_17C);
@@ -106,14 +92,14 @@ void BgSpot15Saku_Update(BgSpot15Saku* this, GlobalContext* globalCtx) {
 
 void BgSpot15Saku_Draw(BgSpot15Saku* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 259);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 259);
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_060003C0);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
 }

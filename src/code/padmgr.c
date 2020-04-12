@@ -155,8 +155,7 @@ void padmgr_RumbleControl(PadMgr* padmgr) {
             } else if (var4 == 11) {
                 padmgr->pak_type[ctrlr] = 2;
             } else if (var4 == 4) {
-                LogUtils_LogThreadId("../padmgr.c", 282);
-                osSyncPrintf("++errcnt = %d\n", ++errcnt);
+                LOG_NUM("++errcnt", ++errcnt, "../padmgr.c", 282);
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 osSyncPrintf("padmgr: %dコン: %s\n", ctrlr + 1, "コントローラパックの通信エラー");
                 osSyncPrintf(VT_RST);
@@ -415,7 +414,7 @@ void padmgr_MainProc(PadMgr* padmgr) {
     while (!exit){
         if ((D_8012D280 > 2) && (padmgr->queue3.validCount == 0)) {
             // EUC-JP: コントローラスレッドイベント待ち | Waiting for controller thread event
-            osSyncPrintf("コントローラスレッドイベント待ち %lld\n", (osGetTime() * 64) / 3000);
+            osSyncPrintf("コントローラスレッドイベント待ち %lld\n", OS_CYCLES_TO_USEC(osGetTime()));
         }
 
         osRecvMesg(&padmgr->queue3, &mesg, OS_MESG_BLOCK);
@@ -424,13 +423,13 @@ void padmgr_MainProc(PadMgr* padmgr) {
         switch (*mesg){
             case OS_SC_RETRACE_MSG:
                 if (D_8012D280 > 2) {
-                    osSyncPrintf("padmgr_HandleRetraceMsg START %lld\n", (osGetTime() * 64) / 3000);
+                    osSyncPrintf("padmgr_HandleRetraceMsg START %lld\n", OS_CYCLES_TO_USEC(osGetTime()));
                 }
                 
                 padmgr_HandleRetraceMsg(padmgr);
 
                 if (D_8012D280 > 2) {
-                    osSyncPrintf("padmgr_HandleRetraceMsg END   %lld\n", (osGetTime() * 64) / 3000);
+                    osSyncPrintf("padmgr_HandleRetraceMsg END   %lld\n", OS_CYCLES_TO_USEC(osGetTime()));
                 }
                 
                 break;

@@ -15,10 +15,10 @@ void Sample_Draw(SampleContext* this) {
     u32 pad;
     GraphicsContext* gfxCtx = this->state.gfxCtx;
     View* view = &this->view;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
     Mtx* mtx;
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_sample.c", 62);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_sample.c", 62);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x00, NULL);
     gSPSegment(gfxCtx->polyOpa.p++, 0x01, this->staticSegment);
@@ -32,16 +32,15 @@ void Sample_Draw(SampleContext* this) {
     func_80103D58(mtx, SREG(37), SREG(38), SREG(39), 1.0f, SREG(40), SREG(41), SREG(42));
     gSPMatrix(gfxCtx->polyOpa.p++, mtx, G_MTX_LOAD);
 
-    gfxCtx->polyOpa.p = func_80093708(gfxCtx->polyOpa.p, 0xFF, 0xFF, 0xFF, 0, 0, 0);
+    gfxCtx->polyOpa.p = Gfx_SetFog2(gfxCtx->polyOpa.p, 0xFF, 0xFF, 0xFF, 0, 0, 0);
     func_80093D18(gfxCtx);
 
     gDPSetCycleType(gfxCtx->polyOpa.p++, G_CYC_1CYCLE);
     gDPSetRenderMode(gfxCtx->polyOpa.p++, G_RM_AA_ZB_OPA_SURF, G_RM_AA_ZB_OPA_SURF2);
-    gDPSetCombineLERP(gfxCtx->polyOpa.p++, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0,
-                      PRIMITIVE);
+    gDPSetCombineMode(gfxCtx->polyOpa.p++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
     gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0xFF, 0xFF, 0x00, 0x00);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_sample.c", 111);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_sample.c", 111);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_sample/Sample_Draw.s")

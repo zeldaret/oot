@@ -16,7 +16,7 @@ glabel DemoKekkai_Draw
 /* 00F88 8098DF58 3319FFFF */  andi    $t9, $t8, 0xFFFF           ## $t9 = 00000000
 /* 00F8C 8098DF5C AFB9006C */  sw      $t9, 0x006C($sp)           
 /* 00F90 8098DF60 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
-/* 00F94 8098DF64 0C031AB1 */  jal     func_800C6AC4              
+/* 00F94 8098DF64 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00F98 8098DF68 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00F9C 8098DF6C 0C024F61 */  jal     func_80093D84              
 /* 00FA0 8098DF70 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -67,7 +67,7 @@ glabel DemoKekkai_Draw
 /* 01054 8098E024 AFAB0028 */  sw      $t3, 0x0028($sp)           
 /* 01058 8098E028 AFA70020 */  sw      $a3, 0x0020($sp)           
 /* 0105C 8098E02C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 01060 8098E030 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 01060 8098E030 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 01064 8098E034 AFA2004C */  sw      $v0, 0x004C($sp)           
 /* 01068 8098E038 8FA3004C */  lw      $v1, 0x004C($sp)           
 /* 0106C 8098E03C 3C0E0600 */  lui     $t6, 0x0600                ## $t6 = 06000000
@@ -83,7 +83,7 @@ glabel DemoKekkai_Draw
 /* 01094 8098E064 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 01098 8098E068 24C6E27C */  addiu   $a2, $a2, %lo(D_8098E27C)  ## $a2 = 8098E27C
 /* 0109C 8098E06C 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE0
-/* 010A0 8098E070 0C031AD5 */  jal     func_800C6B54              
+/* 010A0 8098E070 0C031AD5 */  jal     Graph_CloseDisps              
 /* 010A4 8098E074 240702D2 */  addiu   $a3, $zero, 0x02D2         ## $a3 = 000002D2
 /* 010A8 8098E078 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 010AC 8098E07C 8FB00034 */  lw      $s0, 0x0034($sp)           

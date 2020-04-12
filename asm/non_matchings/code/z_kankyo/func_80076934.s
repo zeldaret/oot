@@ -591,7 +591,7 @@ glabel func_80076934
 /* AEE330 80077190 A3AB00A2 */  sb    $t3, 0xa2($sp)
 /* AEE334 80077194 A3AA00A1 */  sb    $t2, 0xa1($sp)
 /* AEE338 80077198 A3A900A0 */  sb    $t1, 0xa0($sp)
-/* AEE33C 8007719C 0C031AB1 */  jal   func_800C6AC4
+/* AEE33C 8007719C 0C031AB1 */  jal   Graph_OpenDisps
 /* AEE340 800771A0 AFA5008C */   sw    $a1, 0x8c($sp)
 /* AEE344 800771A4 8FA3008C */  lw    $v1, 0x8c($sp)
 /* AEE348 800771A8 0C024FCD */  jal   func_80093F34
@@ -681,7 +681,7 @@ glabel func_80076934
 /* AEE498 800772F8 AFA3008C */  sw    $v1, 0x8c($sp)
 /* AEE49C 800772FC E7AE0098 */  swc1  $f14, 0x98($sp)
 /* AEE4A0 80077300 AFA20068 */  sw    $v0, 0x68($sp)
-/* AEE4A4 80077304 0C0253D0 */  jal   Draw_TwoTexScroll
+/* AEE4A4 80077304 0C0253D0 */  jal   Gfx_TwoTexScroll
 /* AEE4A8 80077308 30C60FFF */   andi  $a2, $a2, 0xfff
 /* AEE4AC 8007730C 8FA80068 */  lw    $t0, 0x68($sp)
 /* AEE4B0 80077310 8FA3008C */  lw    $v1, 0x8c($sp)
@@ -708,7 +708,7 @@ glabel func_80076934
 /* AEE504 80077364 8F250000 */  lw    $a1, ($t9)
 /* AEE508 80077368 27A4007C */  addiu $a0, $sp, 0x7c
 /* AEE50C 8007736C 24070FE4 */  li    $a3, 4068
-/* AEE510 80077370 0C031AD5 */  jal   func_800C6B54
+/* AEE510 80077370 0C031AD5 */  jal   Graph_CloseDisps
 /* AEE514 80077374 E7AE0098 */   swc1  $f14, 0x98($sp)
 /* AEE518 80077378 C7AE0098 */  lwc1  $f14, 0x98($sp)
 /* AEE51C 8007737C 3C028016 */  lui   $v0, %hi(D_8015FDB0) # $v0, 0x8016

@@ -23,7 +23,7 @@ glabel func_80AD9F90
 .L80AD9FE0:
 /* 01050 80AD9FE0 24C4014C */  addiu   $a0, $a2, 0x014C           ## $a0 = 0000014C
 /* 01054 80AD9FE4 24A50D40 */  addiu   $a1, $a1, 0x0D40           ## $a1 = 06000D40
-/* 01058 80AD9FE8 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 01058 80AD9FE8 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 0105C 80AD9FEC AFA60018 */  sw      $a2, 0x0018($sp)
 /* 01060 80AD9FF0 8FA60018 */  lw      $a2, 0x0018($sp)
 /* 01064 80AD9FF4 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000

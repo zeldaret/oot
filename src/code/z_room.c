@@ -13,12 +13,12 @@ Gfx D_801270B0[] = {
     gsDPPipeSync(),
     gsSPClearGeometryMode(G_ZBUFFER | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_FILL | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
-    gsDPSetScissor(G_SC_NON_INTERLACE, 0, 0, 320, 240),
+    gsDPSetScissor(G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
     gsSPClipRatio(FRUSTRATIO_1),
     gsSPEndDisplayList(),
 };
@@ -38,10 +38,10 @@ void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
     PolygonType0* polygon0;
     PolygonDlist* polygonDlist;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 193);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 193);
 
     if (flags & 1) {
         func_800342EC(&D_801270A0, globalCtx);
@@ -71,7 +71,7 @@ void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
         polygonDlist++;
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 239);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 239);
 }
 
 #define SHAPE_SORT_MAX 64
@@ -105,12 +105,12 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     f32 temp_f0;
     f32 temp_f2;
     GraphicsContext* gfxCtx;
-    Gfx* sp5C[4];
+    Gfx* dispRefs[4];
 
     spB0 = NULL;
     spB4 = NULL;
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(sp5C, globalCtx->state.gfxCtx, "../z_room.c", 287);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 287);
 
     if (flags & 1) {
         func_800342EC(&D_801270A0, globalCtx);
@@ -222,7 +222,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     iREG(88) = sp9C - 1;
 
-    func_800C6B54(sp5C, globalCtx->state.gfxCtx, "../z_room.c", 430);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 430);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_80095D04.s")
@@ -230,11 +230,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
 
 #define JPEG_MARKER 0xFFD8FFE0
 
-#ifdef NON_MATCHING
-// long multiplication by 64 doesn't quite match
 s32 func_80096238(void* data) {
-    OSTime timeBefore;
-    OSTime timeAfter;
     OSTime time;
 
     if (*(u32*)data == JPEG_MARKER) {
@@ -245,13 +241,12 @@ s32 func_80096238(void* data) {
         // Translates to: "WORK BUFFER ADDRESS (Z BUFFER) %08x"
         osSyncPrintf("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
 
-        timeBefore = osGetTime();
+        time = osGetTime();
         if (!func_8006E418(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
-            timeAfter = osGetTime();
-            time = ((timeAfter - timeBefore) * 64) / 3000;
+            time = osGetTime() - time;
 
             // Translates to: "SUCCESS... I THINK. time = %6.3f ms"
-            osSyncPrintf("成功…だと思う。 time = %6.3f ms \n", (f64)(time / 1000.0f));
+            osSyncPrintf("成功…だと思う。 time = %6.3f ms \n", (f64)(OS_CYCLES_TO_USEC(time) / 1000.0f));
             // Translates to: "WRITING BACK TO ORIGINAL ADDRESS FROM WORK BUFFER."
             osSyncPrintf("ワークバッファから元のアドレスに書き戻します。\n");
             // Translates to: "IF THE ORIGINAL BUFFER SIZE ISN'T AT LEAST 150KB, IT WILL BE OUT OF CONTROL."
@@ -266,9 +261,6 @@ s32 func_80096238(void* data) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_80096238.s")
-#endif
 
 #ifdef NON_MATCHING
 // pointer arithmetic doesn't quite match
@@ -308,9 +300,7 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
         bg->b.frameW = width * 4;
         bg->b.frameH = height * 4;
         func_80104B00(bg);
-        gDPSetOtherMode(displayListHead++,
-                        mode0 | G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE |
-                            G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
+        gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_COPY | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
         gSPBgRectCopy(displayListHead++, bg);
     } else {
@@ -319,14 +309,12 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
         bg->s.scaleW = 1024;
         bg->s.scaleH = 1024;
         bg->s.imageYorig = bg->b.imageY;
-        gDPSetOtherMode(displayListHead++,
-                        mode0 | G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE |
-                            G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
+        gDPSetOtherMode(displayListHead++, mode0 | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PIXEL | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA | ALPHA_CVG_SEL |
                             GBL_c1(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA) |
                             GBL_c2(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_BL, G_BL_1MA));
         gDPSetCombineLERP(displayListHead++, 0, 0, 0, TEXEL0, 0, 0, 0, 1, 0, 0, 0, TEXEL0, 0, 0, 0, 1);
-        gSPObjRenderMode(displayListHead++, 0x0C); // unknown object render mode?
+        gSPObjRenderMode(displayListHead++, G_OBJRM_ANTIALIAS | G_OBJRM_BILERP);
         gSPBgRect1Cyc(displayListHead++, bg);
     }
 
@@ -350,10 +338,10 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     u32 sp94;
     u32 sp90;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 628);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 628);
 
     camera = globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0];
     polygon1 = &room->mesh->polygon1;
@@ -399,7 +387,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
         gSPDisplayList(gfxCtx->polyXlu.p++, polygonDlist->xlu);
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 691);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 691);
 }
 
 typedef struct {
@@ -456,10 +444,10 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     u32 sp90;
     u32 sp8C;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 752);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 752);
 
     camera = globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0];
     sp98 = (camera->unk_142 ^ 25) == 0;
@@ -505,7 +493,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
         gSPDisplayList(gfxCtx->polyXlu.p++, polygonDlist->xlu);
     }
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_room.c", 819);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 819);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_80096B6C.s")
@@ -558,8 +546,8 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
         j = 0;
         roomList = globalCtx->roomList;
         transitionActor = &globalCtx->transitionActorList[0];
-        LogUtils_LogThreadId("../z_room.c", 912);
-        osSyncPrintf("game_play->room_rom_address.num = %d\n", globalCtx->nbRooms);
+        LOG_NUM("game_play->room_rom_address.num", globalCtx->nbRooms, "../z_room.c", 912);
+
         for (j = 0; j < globalCtx->nbTransitionActors; j++) {
             frontRoom = transitionActor->frontRoom;
             backRoom = transitionActor->backRoom;

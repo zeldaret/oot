@@ -67,7 +67,7 @@ glabel BossVa_Draw
 /* 0A00C 809592CC 24C6C470 */  addiu   $a2, $a2, %lo(D_8095C470)  ## $a2 = 8095C470
 /* 0A010 809592D0 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFF8C
 /* 0A014 809592D4 240711BE */  addiu   $a3, $zero, 0x11BE         ## $a3 = 000011BE
-/* 0A018 809592D8 0C031AB1 */  jal     func_800C6AC4
+/* 0A018 809592D8 0C031AB1 */  jal     Graph_OpenDisps
 /* 0A01C 809592DC AFA5006C */  sw      $a1, 0x006C($sp)
 /* 0A020 809592E0 0C024F46 */  jal     func_80093D18
 /* 0A024 809592E4 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -146,7 +146,7 @@ glabel L80959318
 /* 0A134 809593F4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0A138 809593F8 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 0A13C 809593FC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 0A140 80959400 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 0A140 80959400 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 0A144 80959404 AFA20058 */  sw      $v0, 0x0058($sp)
 /* 0A148 80959408 8FA30058 */  lw      $v1, 0x0058($sp)
 /* 0A14C 8095940C 8FA8004C */  lw      $t0, 0x004C($sp)
@@ -182,7 +182,7 @@ glabel L80959318
 /* 0A1C4 80959484 AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 0A1C8 80959488 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0A1CC 8095948C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 0A1D0 80959490 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 0A1D0 80959490 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 0A1D4 80959494 AFA20054 */  sw      $v0, 0x0054($sp)
 /* 0A1D8 80959498 8FA90054 */  lw      $t1, 0x0054($sp)
 /* 0A1DC 8095949C 3C0A8096 */  lui     $t2, %hi(func_80958150)    ## $t2 = 80960000
@@ -407,7 +407,7 @@ glabel L8095978C
 /* 0A50C 809597CC 24C6C480 */  addiu   $a2, $a2, %lo(D_8095C480)  ## $a2 = 8095C480
 /* 0A510 809597D0 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFF8C
 /* 0A514 809597D4 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 0A518 809597D8 0C031AD5 */  jal     func_800C6B54
+/* 0A518 809597D8 0C031AD5 */  jal     Graph_CloseDisps
 /* 0A51C 809597DC 24071241 */  addiu   $a3, $zero, 0x1241         ## $a3 = 00001241
 /* 0A520 809597E0 8FBF003C */  lw      $ra, 0x003C($sp)
 /* 0A524 809597E4 8FB00034 */  lw      $s0, 0x0034($sp)

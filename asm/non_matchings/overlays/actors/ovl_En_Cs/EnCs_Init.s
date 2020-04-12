@@ -77,7 +77,7 @@ glabel EnCs_Init
 /* 00234 809E1AE4 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00238 809E1AE8 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 0023C 809E1AEC AFA90014 */  sw      $t1, 0x0014($sp)
-/* 00240 809E1AF0 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00240 809E1AF0 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00244 809E1AF4 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 00248 809E1AF8 860B001C */  lh      $t3, 0x001C($s0)           ## 0000001C

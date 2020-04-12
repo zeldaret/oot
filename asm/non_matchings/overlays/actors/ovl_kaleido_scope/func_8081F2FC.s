@@ -1,7 +1,7 @@
 glabel func_8081F2FC
 /* 0BADC 8081F2FC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0BAE0 8081F300 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 0BAE4 8081F304 0C03FD2B */  jal     func_800FF4AC              
+/* 0BAE4 8081F304 0C03FD2B */  jal     Sleep_Msec              
 /* 0BAE8 8081F308 24040032 */  addiu   $a0, $zero, 0x0032         ## $a0 = 00000032
 /* 0BAEC 8081F30C 3C048083 */  lui     $a0, %hi(D_808321B0)       ## $a0 = 80830000
 /* 0BAF0 8081F310 0C030DDC */  jal     func_800C3770              

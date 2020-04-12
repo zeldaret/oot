@@ -10,7 +10,7 @@ glabel func_80AE1148
 /* 03418 80AE1168 24C61BC0 */  addiu   $a2, $a2, %lo(D_80AE1BC0)  ## $a2 = 80AE1BC0
 /* 0341C 80AE116C 27A40078 */  addiu   $a0, $sp, 0x0078           ## $a0 = FFFFFFE0
 /* 03420 80AE1170 24070A86 */  addiu   $a3, $zero, 0x0A86         ## $a3 = 00000A86
-/* 03424 80AE1174 0C031AB1 */  jal     func_800C6AC4
+/* 03424 80AE1174 0C031AB1 */  jal     Graph_OpenDisps
 /* 03428 80AE1178 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 0342C 80AE117C 0C2B819F */  jal     func_80AE067C
 /* 03430 80AE1180 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
@@ -56,7 +56,7 @@ glabel func_80AE1148
 /* 034C4 80AE1214 8DA40000 */  lw      $a0, 0x0000($t5)           ## 00000000
 /* 034C8 80AE1218 AFA20074 */  sw      $v0, 0x0074($sp)
 /* 034CC 80AE121C AFA8008C */  sw      $t0, 0x008C($sp)
-/* 034D0 80AE1220 0C025474 */  jal     func_800951D0
+/* 034D0 80AE1220 0C025474 */  jal     Gfx_EnvColor
 /* 034D4 80AE1224 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 034D8 80AE1228 8FA30074 */  lw      $v1, 0x0074($sp)
 /* 034DC 80AE122C 8FA8008C */  lw      $t0, 0x008C($sp)
@@ -76,7 +76,7 @@ glabel func_80AE1148
 /* 03514 80AE1264 8F240000 */  lw      $a0, 0x0000($t9)           ## 00000000
 /* 03518 80AE1268 AFA8008C */  sw      $t0, 0x008C($sp)
 /* 0351C 80AE126C AFA20070 */  sw      $v0, 0x0070($sp)
-/* 03520 80AE1270 0C025474 */  jal     func_800951D0
+/* 03520 80AE1270 0C025474 */  jal     Gfx_EnvColor
 /* 03524 80AE1274 AFAA0010 */  sw      $t2, 0x0010($sp)
 /* 03528 80AE1278 8FA30070 */  lw      $v1, 0x0070($sp)
 /* 0352C 80AE127C 8FA8008C */  lw      $t0, 0x008C($sp)
@@ -94,7 +94,7 @@ glabel func_80AE1148
 /* 0355C 80AE12AC 91050000 */  lbu     $a1, 0x0000($t0)           ## 00000000
 /* 03560 80AE12B0 8DA40000 */  lw      $a0, 0x0000($t5)           ## 00000000
 /* 03564 80AE12B4 AFA2006C */  sw      $v0, 0x006C($sp)
-/* 03568 80AE12B8 0C025474 */  jal     func_800951D0
+/* 03568 80AE12B8 0C025474 */  jal     Gfx_EnvColor
 /* 0356C 80AE12BC AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 03570 80AE12C0 8FA3006C */  lw      $v1, 0x006C($sp)
 /* 03574 80AE12C4 3C18DB06 */  lui     $t8, 0xDB06                ## $t8 = DB060000
@@ -145,7 +145,7 @@ glabel func_80AE1148
 /* 03624 80AE1374 8F240000 */  lw      $a0, 0x0000($t9)           ## 00000000
 /* 03628 80AE1378 AFA20064 */  sw      $v0, 0x0064($sp)
 /* 0362C 80AE137C AFA8008C */  sw      $t0, 0x008C($sp)
-/* 03630 80AE1380 0C025474 */  jal     func_800951D0
+/* 03630 80AE1380 0C025474 */  jal     Gfx_EnvColor
 /* 03634 80AE1384 AFAA0010 */  sw      $t2, 0x0010($sp)
 /* 03638 80AE1388 8FA30064 */  lw      $v1, 0x0064($sp)
 /* 0363C 80AE138C 8FA8008C */  lw      $t0, 0x008C($sp)
@@ -165,7 +165,7 @@ glabel func_80AE1148
 /* 03674 80AE13C4 8DA40000 */  lw      $a0, 0x0000($t5)           ## 00000000
 /* 03678 80AE13C8 AFA8008C */  sw      $t0, 0x008C($sp)
 /* 0367C 80AE13CC AFA20060 */  sw      $v0, 0x0060($sp)
-/* 03680 80AE13D0 0C025474 */  jal     func_800951D0
+/* 03680 80AE13D0 0C025474 */  jal     Gfx_EnvColor
 /* 03684 80AE13D4 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 03688 80AE13D8 8FA30060 */  lw      $v1, 0x0060($sp)
 /* 0368C 80AE13DC 8FA8008C */  lw      $t0, 0x008C($sp)
@@ -183,7 +183,7 @@ glabel func_80AE1148
 /* 036BC 80AE140C 91050000 */  lbu     $a1, 0x0000($t0)           ## 00000000
 /* 036C0 80AE1410 8D440000 */  lw      $a0, 0x0000($t2)           ## 00000000
 /* 036C4 80AE1414 AFA2005C */  sw      $v0, 0x005C($sp)
-/* 036C8 80AE1418 0C025474 */  jal     func_800951D0
+/* 036C8 80AE1418 0C025474 */  jal     Gfx_EnvColor
 /* 036CC 80AE141C AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 036D0 80AE1420 8FA3005C */  lw      $v1, 0x005C($sp)
 /* 036D4 80AE1424 3C0DDB06 */  lui     $t5, 0xDB06                ## $t5 = DB060000
@@ -299,7 +299,7 @@ glabel func_80AE1148
 /* 03888 80AE15D8 AC440000 */  sw      $a0, 0x0000($v0)           ## 00000000
 /* 0388C 80AE15DC 8FAE009C */  lw      $t6, 0x009C($sp)
 /* 03890 80AE15E0 27A40078 */  addiu   $a0, $sp, 0x0078           ## $a0 = FFFFFFE0
-/* 03894 80AE15E4 0C031AD5 */  jal     func_800C6B54
+/* 03894 80AE15E4 0C031AD5 */  jal     Graph_CloseDisps
 /* 03898 80AE15E8 8DC50000 */  lw      $a1, 0x0000($t6)           ## FB000000
 /* 0389C 80AE15EC 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 038A0 80AE15F0 8FB00024 */  lw      $s0, 0x0024($sp)

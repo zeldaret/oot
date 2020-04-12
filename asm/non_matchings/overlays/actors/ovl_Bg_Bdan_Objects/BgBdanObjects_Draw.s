@@ -37,7 +37,7 @@ glabel BgBdanObjects_Draw
 /* 01068 8086CD08 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 0106C 8086CD0C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 01070 8086CD10 24A538E8 */  addiu   $a1, $a1, 0x38E8           ## $a1 = 060038E8
-/* 01074 8086CD14 0C00D4C9 */  jal     Draw_DListXlu
+/* 01074 8086CD14 0C00D4C9 */  jal     Gfx_DrawDListXlu
               
 /* 01078 8086CD18 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 0107C 8086CD1C 10000007 */  beq     $zero, $zero, .L8086CD3C   
@@ -46,7 +46,7 @@ glabel BgBdanObjects_Draw
 /* 01084 8086CD24 0002C080 */  sll     $t8, $v0,  2               
 /* 01088 8086CD28 3C058087 */  lui     $a1, %hi(D_8086CDA0)       ## $a1 = 80870000
 /* 0108C 8086CD2C 00B82821 */  addu    $a1, $a1, $t8              
-/* 01090 8086CD30 0C00D498 */  jal     Draw_DListOpa
+/* 01090 8086CD30 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 01094 8086CD34 8CA5CDA0 */  lw      $a1, %lo(D_8086CDA0)($a1)  
 /* 01098 8086CD38 8FBF0014 */  lw      $ra, 0x0014($sp)           

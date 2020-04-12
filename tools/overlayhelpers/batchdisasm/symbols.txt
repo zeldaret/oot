@@ -47,8 +47,8 @@ func_80033748 Actor_ChangeType
 func_80033940 Actor_SetTextWithPrefix
 func_80033EF8 Math_Rand_ZeroFloat
 func_80033F20 Math_Rand_CenteredFloat
-func_80035260 Draw_DListOpa
-func_80035324 Draw_DListXlu
+func_80035260 Gfx_DrawDListOpa
+func_80035324 Gfx_DrawDListXlu
 func_800353F4 Actor_FindNearby
 func_80035628 Actor_ApplyDamage
 func_80035B4C Flags_GetEventChkInf
@@ -112,7 +112,7 @@ func_800A15C8 SkelAnime_Draw
 func_800A2000 SkelAnime_GetFrameCount
 func_800A457C SkelAnime_Init
 func_800A49FC SkelAnime_FrameUpdateMatrix
-func_800A51A0 SkelAnime_ChangeAnimation
+func_800A51A0 SkelAnime_ChangeAnim
 func_800C5484 Game_Alloc
 func_800C69CC Graph_Alloc
 func_800D0664 atan2s

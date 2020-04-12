@@ -248,8 +248,8 @@ void func_8097CEEC(DemoGo* this, GlobalContext* globalCtx) {
 void func_8097CF20(DemoGo* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
     AnimationHeader* animation = &D_060029A8;
     if (arg2 != 0) {
-        SkelAnime_ChangeAnimation(&this->skelAnime, animation, 1.0f, 0.0f,
-                                  SkelAnime_GetFrameCount(&animation->genericHeader), 0, -8.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&animation->genericHeader), 0, -8.0f);
         this->action = 5;
         this->unk_19C = 0.0f;
     }
@@ -321,8 +321,8 @@ void DemoGo_Init(DemoGo* this, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
-    SkelAnime_ChangeAnimation(&this->skelAnime, animation, 1.0f, 0.0f,
-                              SkelAnime_GetFrameCount(&animation->genericHeader), 2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(&animation->genericHeader), 2,
+                         0.0f);
     this->action = 0;
 }
 
@@ -336,9 +336,9 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     void* srcSegment8 = D_8097D440[temp];
     void* srcSegment9 = &D_0600E680;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment8));
@@ -347,7 +347,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
 }
 
 void DemoGo_Draw(DemoGo* this, GlobalContext* globalCtx) {

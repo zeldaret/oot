@@ -53,8 +53,8 @@ static void Draw(BgMenkuriNisekabe* this, GlobalContext* globalCtx) {
     u32 index = this->actor.params & 0xFF;
 
     if ((this->actor.flags & 0x80) == 0x80) {
-        Draw_DListXlu(globalCtx, segmentAddr[index]);
+        Gfx_DrawDListXlu(globalCtx, segmentAddr[index]);
     } else {
-        Draw_DListOpa(globalCtx, segmentAddr[index]);
+        Gfx_DrawDListOpa(globalCtx, segmentAddr[index]);
     }
 }
