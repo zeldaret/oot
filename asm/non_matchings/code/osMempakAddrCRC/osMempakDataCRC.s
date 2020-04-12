@@ -1,4 +1,4 @@
-glabel func_80106240
+glabel osMempakDataCRC
 /* B7D3E0 80106240 00802825 */  move  $a1, $a0
 /* B7D3E4 80106244 00001825 */  move  $v1, $zero
 /* B7D3E8 80106248 24020020 */  li    $v0, 32

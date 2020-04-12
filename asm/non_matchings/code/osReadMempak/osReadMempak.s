@@ -104,7 +104,7 @@ glabel osReadMempak
 /* B7D25C 801060BC 00099903 */  sra   $s3, $t1, 4
 /* B7D260 801060C0 56600014 */  bnezl $s3, .L80106114
 /* B7D264 801060C4 24130001 */   li    $s3, 1
-/* B7D268 801060C8 0C041890 */  jal   func_80106240
+/* B7D268 801060C8 0C041890 */  jal   osMempakDataCRC
 /* B7D26C 801060CC 02402025 */   move  $a0, $s2
 /* B7D270 801060D0 920B0026 */  lbu   $t3, 0x26($s0)
 /* B7D274 801060D4 02402025 */  move  $a0, $s2

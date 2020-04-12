@@ -51,7 +51,7 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, s16 addr, PIF_mempak_dat
         osRecvMesg(ctrlrqueue, 0, 1);
         ret = (((PIF_header_t*)bufptr)->status_hi_bytes_rec_lo & 0xc0) >> 4;
         if(ret == 0){
-            if(func_80106240(bufptr + 6) != bufptr[0x26]){
+            if(osMempakDataCRC(bufptr + 6) != bufptr[0x26]){
                 ret = func_80101910(ctrlrqueue, ctrlridx);
                 if(ret == 0){
                     ret = 4; //Retry

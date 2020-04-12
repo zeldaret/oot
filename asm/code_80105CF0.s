@@ -115,7 +115,7 @@ glabel func_80105CF0
 /* B7D008 80105E68 24040001 */  li    $a0, 1
 /* B7D00C 80105E6C 0C0404FC */  jal   __osSiRawStartDma /*(s32 dir, void *addr)*/
 /* B7D010 80105E70 02602825 */   move  $a1, $s3
-/* B7D014 80105E74 0C041890 */  jal   func_80106240
+/* B7D014 80105E74 0C041890 */  jal   osMempakDataCRC
 /* B7D018 80105E78 8FA40074 */   lw    $a0, 0x74($sp)
 /* B7D01C 80105E7C 305200FF */  andi  $s2, $v0, 0xff
 /* B7D020 80105E80 02A02025 */  move  $a0, $s5

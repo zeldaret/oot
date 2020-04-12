@@ -2383,8 +2383,8 @@ void func_80104D00(u8 a0);
 // ? func_80105C20(?);
 // ? func_80105CF0(?);
 // s32 osReadMempak(OSMesgQueue* ctrlrqueue, u32 ctrlridx, s16 addr, PIF_mempak_data_t* data)
-// s32 osMempakAddrCRC(u16 addr);
-// ? func_80106240(?);
+s32 osMempakAddrCRC(u16 addr);
+s32 osMempakDataCRC(u8 *data);
 u32 __osSpGetStatus();
 void __osSpSetStatus(u32 status);
 // ? osWritebackDCacheAll(?);

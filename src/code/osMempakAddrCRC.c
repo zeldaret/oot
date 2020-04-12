@@ -20,23 +20,28 @@ s32 osMempakAddrCRC(u16 addr)
     u32 ret = 0;
     u32 bit = 0x400U;
     s32 i;
-    while(bit != 0){
-        ret <<= 1;
+    
+    for(bit = 0x400u; bit; bit /= 2){
+        s32 tempret = ret * 2;
         if (addr & bit) {
             if(ret & 0x20){
-                ret ^= 0x14;
+                ret = tempret ^ 0x14;
             }else{
-                ++ret;
+                ret = tempret + 1;
             }
         }else{
-            if(ret & 0x20) ret ^= 0x15;
+            ret = tempret ^ 0x15;
+            if(tempret & 0x20){
+                ret = tempret;
+            }
         }
-        bit >>= 1;
     }
     for(i=0; i<5; ++i){
         s32 temp2 = ret << 1;
-        if((temp2 & 0x20) != 0) temp2 = temp2 ^ 0x15;
         ret = temp2;
+        if((temp2 & 0x20) != 0){
+            ret = temp2 ^ 0x15;
+        }
     }
     return ret & 0x1f;
 }
@@ -47,40 +52,37 @@ s32 osMempakAddrCRC(u16 addr)
 
 
 #ifdef NON_MATCHING
+//Same problems here. Regalloc implies temp_t6 and temp_t3 were compiler
+//temporaries, not hardcoded. But with just using ret, unable to get the
+//correct moves.
 
-s32 func_80106240(u8 *data)
+s32 osMempakDataCRC(u8 *data)
 {
-    s32 temp_t3;
-    s32 temp_t6;
-    u32 bit;
     s32 ret;
+    u32 bit;
     u32 byte;
+    u8* data2 = data;
     
     ret = 0;
-    byte = 0x20U;
-    while(byte != 0){
-        bit = 0x80U;
-        while(bit != 0){
-            temp_t6 = ret * 2;
-            if ((*data & bit) != 0) {
+    for(byte = 0x20U; byte; --byte, ++data2){
+        for(bit = 0x80U; bit; bit /= 2){
+            s32 temp_t6 = ret * 2;
+            if ((*data2 & bit) != 0) {
                 if ((temp_t6 & 0x100) != 0) {
                     ret = temp_t6 ^ 0x84;
                 }else{
                     ret = temp_t6 + 1;
                 }
             }else{
-                ret = temp_t6;
+                ret = temp_t6 ^ 0x85;
                 if ((temp_t6 & 0x100) != 0){
-                    ret = temp_t6 ^ 0x85;
+                    ret = temp_t6;
                 }
             }
-            bit = bit / 2;
         }
-        --byte;
-        ++data;
     }
     do{
-        temp_t3 = ret * 2;
+        s32 temp_t3 = ret * 2;
         ret = temp_t3;
         if ((temp_t3 & 0x100) != 0){
             ret = temp_t3 ^ 0x85;
@@ -92,5 +94,5 @@ s32 func_80106240(u8 *data)
 
 
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/osMempakAddrCRC/func_80106240.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/osMempakAddrCRC/osMempakDataCRC.s")
 #endif
