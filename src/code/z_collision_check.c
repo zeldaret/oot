@@ -2743,11 +2743,47 @@ void func_80061C98(GlobalContext* globalCtx, CollisionCheckContext* check) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800622E4.s")
 
-extern s32 (*D_8011E018[4])(GlobalContext*, CollisionCheckContext*, Collider*, UNK_TYPE*, UNK_TYPE*);
+extern Line D_8015E610;
+//CollisionCheck_generalLineOcCheck ColliderJntSph 
+s32 func_800623A4(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider, Vec3f* arg3, Vec3f* arg4) {
+    ColliderJntSph* jntSph = (ColliderJntSph*)collider;
+    ColliderJntSphItem* item;
+    s32 phi_s0;
+    for (phi_s0 = 0; phi_s0 < jntSph->count; phi_s0++) {
+        item = &jntSph->list[phi_s0];
+        if ((item->body.flags2 & 1) == 0) {
+            continue;
+        }
+        else {
+            D_8015E610.a = *arg3;
+            D_8015E610.b = *arg4;
+            if (func_800CE600(&item->dim.posr, &D_8015E610) == 1) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+extern Vec3f D_8015E628;
+extern Vec3f D_8015E638;
+//CollisionCheck_generalLineOcCheck ColliderCylinder 
+s32 func_800624BC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider, Vec3f* arg3, Vec3f* arg4) {
+    ColliderCylinder* cylinder = (ColliderCylinder*)collider;
+    if ((cylinder->body.flags2 & 1) == 0) {
+        return 0;
+    }
+    if (func_800CEE0C(&cylinder->dim, arg3, arg4, &D_8015E628, &D_8015E638) != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+extern s32 (*D_8011E018[4])(GlobalContext*, CollisionCheckContext*, Collider*, Vec3f*, Vec3f*);
 //CollisionCheck_generalLineOcCheck()
-s32 func_80062530(GlobalContext* globalCtx, CollisionCheckContext* check, UNK_TYPE* camera_3C, UNK_TYPE* arg3, Actor** arg4, s32 arg5) {
+s32 func_80062530(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f* camera_3C, Vec3f* arg3, Actor** arg4, s32 arg5) {
     Collider* collider;
-    s32(*t)(GlobalContext*, CollisionCheckContext*, Collider*, UNK_TYPE*, UNK_TYPE*);
+    s32(*t)(GlobalContext*, CollisionCheckContext*, Collider*, Vec3f*, Vec3f*);
     Collider** c;
     s32 i;
     s32 test;
@@ -2787,12 +2823,11 @@ s32 func_80062530(GlobalContext* globalCtx, CollisionCheckContext* check, UNK_TY
     return result;
 }
 
-s32 func_8006268C(GlobalContext* globalCtx, CollisionCheckContext* check, UNK_TYPE* arg2, UNK_TYPE* arg3) {
+s32 func_8006268C(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f* arg2, Vec3f* arg3) {
     func_80062530(globalCtx, check, arg2, arg3, NULL, 0);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800626B0.s")
-s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* check, UNK_TYPE* camera_3C, UNK_TYPE* arg3, Actor** arg4, s32 arg5) {
+s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f* camera_3C, Vec3f* arg3, Actor** arg4, s32 arg5) {
     func_80062530(globalCtx, check, camera_3C, arg3, arg4, arg5);
 }
 

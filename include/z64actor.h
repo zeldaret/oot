@@ -445,6 +445,11 @@ typedef struct
     u16 unk18;
 } OcLine_s;
 
+typedef struct {
+    Vec3f a;
+    Vec3f b;
+} Line;
+
 typedef struct
 {
     /* 0x00 */ Actor* actor;
