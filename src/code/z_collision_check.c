@@ -2608,7 +2608,66 @@ void func_800617D4(GlobalContext* globalCtx, CollisionCheckContext* check,  Coll
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8006199C.s")
+//8011DFAC Check ColliderJntSph to ColliderCylinder
+void func_8006199C(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    ColliderJntSph* left = (ColliderJntSph*)l;
+    ColliderCylinder* right = (ColliderCylinder*)r;
+    ColliderJntSphItem* lItem;
+    f32 sp78;
+    Vec3f sp6C;
+    Vec3f sp60;
+
+    if (left->count > 0 && left->list != NULL) {
+        if ((right->base.maskA & 1) == 0) {
+            return;
+        }
+        if ((right->body.flags2 & 1) == 0) {
+            return;
+        }
+        for (lItem = left->list; lItem < left->list + left->count; lItem++) {
+            if ((lItem->body.flags2 & 1) == 0) {
+                continue;
+            }
+            if (func_800CFD84(&lItem->dim.posr, &right->dim, &sp78) == 1) {
+                Math_Vec3s_ToVec3f(&sp6C, &lItem->dim.posr.pos);
+                Math_Vec3s_ToVec3f(&sp60, &right->dim.position);
+                func_800614A4(&left->base, &lItem->body, &sp6C, &right->base, &right->body, &sp60, sp78);
+            }
+        }
+    }
+}
+
+//8011DFAC Check ColliderCylinder to ColliderJntSph
+void func_80061AF8(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    func_8006199C(globalCtx, check, r, l);
+}
+
+//8011DFAC Check ColliderCylinder to ColliderCylinder
+void func_80061B24(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
+    ColliderCylinder* left = (ColliderCylinder*)l;
+    ColliderCylinder* right = (ColliderCylinder*)r;
+    f32 sp4C;
+    Vec3f sp40;
+    Vec3f sp34;
+
+    if ((left->base.maskA & 1) == 0) {
+        return;
+    }
+    if ((right->base.maskA & 1) == 0) {
+        return;
+    }
+    if ((left->body.flags2 & 1) == 0) {
+        return;
+    }
+    if ((right->body.flags2 & 1) == 0) {
+        return;
+    }
+    if (func_800CFF14(&left->dim, &right->dim, &sp4C) == 1) {
+        Math_Vec3s_ToVec3f(&sp40, &left->dim.position);
+        Math_Vec3s_ToVec3f(&sp34, &right->dim.position);
+        func_800614A4(&left->base, &left->body, &sp40, &right->base, &right->body, &sp34, sp4C);
+    }
+}
 
 s32 func_80061BF4(Collider* collider) {
     if ((collider->maskA & 1) == 0) {

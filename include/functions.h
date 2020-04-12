@@ -1589,9 +1589,9 @@ s32 func_800CF7D0(ColliderCylinderDim* arg0, ColliderTrisItemDim* arg1, Vec3f* a
 // ? func_800CFC6C(?);
 s32 func_800CFC8C(PosRadius* sphereA, PosRadius* sphereB, f32* surfaceDist);
 s32 func_800CFCAC(PosRadius* a, PosRadius* b, f32* surfaceDist, f32* centerDist);
-// ? func_800CFD84(?);
+s32 func_800CFD84(PosRadius* sph, ColliderCylinderDim* cyl, f32* surfaceDist);
 s32 func_800CFDA4(PosRadius* a, ColliderCylinderDim* b, f32* unk, f32* dist);
-// ? func_800CFF14(?);
+s32 func_800CFF14(ColliderCylinderDim* arg0, ColliderCylinderDim* arg1, f32* arg2);
 s32 func_800CFF34(ColliderCylinderDim* arg0, ColliderCylinderDim* arg1, f32* arg2, f32* arg3);
 s32 func_800D0104(ColliderTrisItemDim* a, ColliderTrisItemDim* b, Vec3f* result);
 // ? func_800D0480(?);
