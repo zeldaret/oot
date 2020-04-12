@@ -2741,7 +2741,22 @@ void func_80061C98(GlobalContext* globalCtx, CollisionCheckContext* check) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061F64.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800622E4.s")
+extern s32(*D_8011E008[4])(GlobalContext*, CollisionCheckContext*, Collider*);
+void func_800622E4(GlobalContext* globalCtx, CollisionCheckContext* check) {
+    Collider* collider;
+    s32 i;
+
+    for (i = 0; i < check->colAcCount; i++) {
+        collider = check->colAc[i];
+        if (collider == 0) {
+            continue;
+        }
+        if ((collider->collideFlags & 0x40) != 0) {
+            continue;
+        }
+        (*D_8011E008[collider->type])(globalCtx, check, collider);
+    }
+}
 
 extern Line D_8015E610;
 //CollisionCheck_generalLineOcCheck ColliderJntSph 
