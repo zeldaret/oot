@@ -2743,95 +2743,58 @@ void func_80061C98(GlobalContext* globalCtx, CollisionCheckContext* check) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800622E4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062530.s")
-/*
-s32 func_80062530(s32 arg0, void* arg1, UNK_TYPE arg2, UNK_TYPE arg3, void* arg4, s32 arg5) {
-    s32 temp_ret;
-    s32 temp_s4;
-    s32 temp_v0;
-    void* temp_a2;
-    void* temp_s1;
-    void* temp_s1_2;
-    void* temp_v0_2;
-    void* phi_s1;
-    void* phi_v1;
-    s32 phi_v0;
-    s32 phi_a1;
-    s32 phi_s4;
-    s32 phi_s4_2;
-    s32 phi_s4_3;
+extern s32 (*D_8011E018[4])(GlobalContext*, CollisionCheckContext*, Collider*, UNK_TYPE*, UNK_TYPE*);
+//CollisionCheck_generalLineOcCheck()
+s32 func_80062530(GlobalContext* globalCtx, CollisionCheckContext* check, UNK_TYPE* camera_3C, UNK_TYPE* arg3, Actor** arg4, s32 arg5) {
+    Collider* collider;
+    s32(*t)(GlobalContext*, CollisionCheckContext*, Collider*, UNK_TYPE*, UNK_TYPE*);
+    Collider** c;
+    s32 i;
+    s32 test;
+    s32 result;
 
-    temp_s1 = arg1 + 0x1C4;
-    phi_s4 = 0;
-    if (temp_s1 < (u32)((arg1 + (arg1->unk1C0 * 4)) + 0x1C4)) {
-        phi_s1 = temp_s1;
-        phi_s4_3 = 0;
-    loop_2:
-        phi_s4_2 = phi_s4_3;
-        if (func_80061BF4(*phi_s1) != 1) {
-            phi_a1 = 0;
-            if (arg5 > 0) {
-                phi_v1 = arg4;
-                phi_v0 = 0;
-            loop_5:
-                temp_v0 = phi_v0 + 1;
-                if ((*phi_s1)->unk0 == *phi_v1) {
-                    phi_a1 = 1;
-                }
-                else {
-                    phi_v1 = phi_v1 + 4;
-                    phi_v0 = temp_v0;
-                    phi_a1 = 0;
-                    if (temp_v0 != arg5) {
-                        goto loop_5;
-                    }
-                }
+    result = 0;
+    for (c = check->colOc; c < check->colOc + check->colOcCount; c++) {
+        if (func_80061BF4(*c) == 1) {
+            continue;
+        }
+        test = 0;
+        for (i = 0; i < arg5; i++)
+        {
+            if ((*c)->actor == arg4[i])
+            {
+                test = 1;
+                break;
             }
-            phi_s4_2 = phi_s4_3;
-            if (phi_a1 != 1) {
-                temp_a2 = *phi_s1;
-                temp_v0_2 = &D_8011E018 + (temp_a2->unk15 * 4);
-                if (*temp_v0_2 == 0) {
-                    osSyncPrintf("CollisionCheck_generalLineOcCheck():未対応 %dタイプ\n", temp_a2->unk15, temp_a2, arg2);
-                    //EUC-JP: 未対応 %dタイプ | %d's type is not supported
-                    phi_s4_2 = phi_s4_3;
-                block_13:
-                    temp_s1_2 = phi_s1 + 4;
-                    phi_s1 = temp_s1_2;
-                    phi_s4 = phi_s4_2;
-                    phi_s4_3 = phi_s4_2;
-                    if (temp_s1_2 < (u32)((arg1 + (arg1->unk1C0 * 4)) + 0x1C4)) {
-                        goto loop_2;
-                    }
-                }
-                else {
-                    temp_ret = *temp_v0_2(arg0, arg1, temp_a2, arg2, arg3);
-                    temp_s4 = temp_ret;
-                    phi_s4 = temp_s4;
-                    phi_s4_2 = temp_s4;
-                    if (temp_ret == 0) {
-                    block_12:
-                        goto block_13;
-                    }
-                }
-            }
-            else {
-                goto block_12;
-            }
+        }
+        if (test == 1) {
+            continue;
+        }
+        collider = *c;
+        t = D_8011E018[collider->type];
+        if (t == NULL) {
+            osSyncPrintf("CollisionCheck_generalLineOcCheck():未対応 %dタイプ\n", collider->type);
+            //EUC-JP: 未対応 %dタイプ | %d's type is not supported
         }
         else {
-            goto block_12;
+            result = (*t)(globalCtx, check, collider, camera_3C, arg3);
+            if (result != 0) {
+
+                break;
+            }
         }
     }
-    return phi_s4;
-}
-*/
-
-void func_8006268C(GlobalContext* arg0, CollisionCheckContext* arg1, UNK_TYPE arg2, UNK_TYPE arg3) {
-    func_80062530(arg0, arg1, arg2, arg3, 0, 0);
+    return result;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800626B0.s")
+s32 func_8006268C(GlobalContext* globalCtx, CollisionCheckContext* check, UNK_TYPE* arg2, UNK_TYPE* arg3) {
+    func_80062530(globalCtx, check, arg2, arg3, NULL, 0);
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800626B0.s")
+s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* check, UNK_TYPE* camera_3C, UNK_TYPE* arg3, Actor** arg4, s32 arg5) {
+    func_80062530(globalCtx, check, camera_3C, arg3, arg4, arg5);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800626DC.s")
 
