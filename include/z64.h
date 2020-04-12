@@ -441,7 +441,7 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ CollisionHeader* unk_00;
+    /* 0x00 */ CollisionHeader* colHeader;
     /* 0x04 */ char             unk_04[0x4C];
 } StaticCollisionContext; // size = 0x50
 
