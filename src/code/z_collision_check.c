@@ -2739,9 +2739,77 @@ void func_80061C98(GlobalContext* globalCtx, CollisionCheckContext* check) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061EFC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061F64.s")
+void func_80061F64(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider, ColliderBody* body) {
+    ActorDamageChart* tbl;
+    u32 flags;
+    s32 i;
+    f32 damage;
+    int tblLookup;
 
-extern s32(*D_8011E008[4])(GlobalContext*, CollisionCheckContext*, Collider*);
+    if (collider->actor == NULL || !(collider->collideFlags & 2)) {
+        return;
+    }
+    if (!(body->bumperFlags & 2)|| (body->bumperFlags & 0x10)) {
+        return;
+    }
+    if (body->colliding == NULL) {
+        __assert("pclobj_elem->ac_hit_elem != NULL", "../z_collision_check.c", 6493);
+    }
+    tbl = collider->actor->sub_98.damageChart;
+    if (tbl == NULL) { 
+        damage = (f32)body->colliding->toucher.damage - (f32)body->bumper.unk_05;
+        if (damage < 0) {
+            damage = 0;
+        }
+    }
+    else {
+        for (i = 0, flags = body->colliding->toucher.flags; i != 0x20; i++, flags >>= 1) {
+            if (flags == 1) {
+                break;
+            }
+        }
+
+        tblLookup = tbl->table[i];
+        damage = tblLookup & 0xF;
+        collider->actor->sub_98.damageEffect = tblLookup >> 4 & 0xF;
+    }
+    if (!(collider->collideFlags & 4)) { 
+        collider->actor->sub_98.damage = (u32)(collider->actor->sub_98.damage + damage);
+    }
+}
+
+void func_8006216C(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+    ColliderJntSph* jntSph = (ColliderJntSph*)collider;
+    s32 i;
+
+    if (!(jntSph->count > 0) || jntSph->list == NULL) {
+        return;
+    }
+    for (i = 0; i < jntSph->count; i++) {
+        func_80061F64(globalCtx, check, &jntSph->base, &jntSph->list[i].body);
+    }
+}
+
+void func_80062210(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+    ColliderCylinder* cylinder = (ColliderCylinder*)collider;
+    func_80061F64(globalCtx, check, &cylinder->base, &cylinder->body);
+}
+
+void func_80062230(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+    ColliderTris* tris = (ColliderTris*)collider;
+    s32 i;
+
+    for (i = 0; i < tris->count; i++) {
+        func_80061F64(globalCtx, check, collider, &tris->list[i].body);
+    }
+}
+
+void func_800622C4(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+    ColliderQuad* quad = (ColliderQuad*)collider;
+    func_80061F64(globalCtx, check, &quad->base, &quad->body);
+}
+
+extern void(*D_8011E008[4])(GlobalContext*, CollisionCheckContext*, Collider*);
 void func_800622E4(GlobalContext* globalCtx, CollisionCheckContext* check) {
     Collider* collider;
     s32 i;

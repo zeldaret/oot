@@ -84,11 +84,7 @@ typedef struct
 
 typedef struct
 {
-    struct
-    {
-        char damage : 4;
-        char effect : 4;
-    } attack[32];
+    u8 table[32];
 } ActorDamageChart;
 
 typedef struct
@@ -267,7 +263,7 @@ typedef struct ColliderBody
     /* 0x18 */ Collider* unk18; //left
     /* 0x1C */ Collider* colBuf; //right
     /* 0x20 */ struct ColliderBody* unk20; //left
-    /* 0x24 */ struct ColliderBody* colliding; //right
+    /* 0x24 */ struct ColliderBody* colliding; //right //ac_hit_elem
 } ColliderBody; // size = 0x28
 
 typedef struct
