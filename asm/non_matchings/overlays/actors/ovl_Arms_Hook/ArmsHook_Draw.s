@@ -17,12 +17,11 @@ glabel D_80865BFC
 
 .late_rodata
 glabel D_80865C14
-    .float 0.014999999664723873
+    .float 0.015
 
 
 glabel D_80865C18
     .float 0.01
-    .balign 4
 
 .text
 glabel ArmsHook_Draw
