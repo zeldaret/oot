@@ -443,24 +443,15 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
 
     if ((gSaveContext.game_mode != 0) && (gSaveContext.game_mode != 3) && (globalCtx->sceneNum != SCENE_SPOT00) &&
         (csCtx->frames > 20) &&
-<<<<<<< HEAD
-        (!~(globalCtx->state.input[0].pressed_diff.input.button | 0xFFFF7FFF) || !~(globalCtx->state.input[0].pressed_diff.input.button | -0x4001) ||
-         !~(globalCtx->state.input[0].pressed_diff.input.button | -0x1001)) &&
-=======
-        (!~(globalCtx->state.input[0].padPressed | ~A_BUTTON) || !~(globalCtx->state.input[0].padPressed | ~B_BUTTON) ||
-         !~(globalCtx->state.input[0].padPressed | ~START_BUTTON)) &&
->>>>>>> upstream/master
+        (!~(globalCtx->state.input[0].pressed_diff.input.button | ~A_BUTTON) || !~(globalCtx->state.input[0].pressed_diff.input.button | ~B_BUTTON) ||
+         !~(globalCtx->state.input[0].pressed_diff.input.button | ~START_BUTTON)) &&
         (gSaveContext.file_num != 0xFEDC) && (globalCtx->sceneLoadFlag == 0)) {
         Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         temp = 1;
     }
 
     if ((csCtx->frames == cmd->startFrame) || (temp != 0) ||
-<<<<<<< HEAD
-        ((csCtx->frames > 20) && (!~(globalCtx->state.input[0].pressed_diff.input.button | -0x1001)) &&
-=======
-        ((csCtx->frames > 20) && (!~(globalCtx->state.input[0].padPressed | ~START_BUTTON)) &&
->>>>>>> upstream/master
+        ((csCtx->frames > 20) && (!~(globalCtx->state.input[0].pressed_diff.input.button | ~START_BUTTON)) &&
          (gSaveContext.file_num != 0xFEDC))) {
         csCtx->state = CS_STATE_UNSKIPPABLE_EXEC;
         func_800F68BC(0);
@@ -1532,11 +1523,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
         return;
     }
 
-<<<<<<< HEAD
-    if (!~(globalCtx->state.input[0].pressed_diff.input.button | -0x101)) {
-=======
-    if (!~(globalCtx->state.input[0].padPressed | ~R_JPAD)) {
->>>>>>> upstream/master
+    if (!~(globalCtx->state.input[0].pressed_diff.input.button | ~R_JPAD)) {
         csCtx->state = CS_STATE_UNSKIPPABLE_INIT;
         return;
     }
