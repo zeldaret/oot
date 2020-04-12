@@ -35,4 +35,3 @@ const ActorInit Oceff_Spot_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Oceff_Spot/OceffSpot_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Oceff_Spot/OceffSpot_Draw.s")
-

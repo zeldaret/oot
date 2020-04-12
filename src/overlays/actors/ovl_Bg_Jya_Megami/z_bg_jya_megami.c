@@ -47,4 +47,3 @@ const ActorInit Bg_Jya_Megami_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Megami/func_8089AD48.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Megami/BgJyaMegami_Draw.s")
-

@@ -211,4 +211,3 @@ void BgHidanFirewall_Draw(BgHidanFirewall* this, GlobalContext* globalCtx) {
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 463);
 }
-

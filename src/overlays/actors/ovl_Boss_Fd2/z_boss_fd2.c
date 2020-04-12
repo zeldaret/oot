@@ -85,4 +85,3 @@ const ActorInit Boss_Fd2_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Fd2/func_808D58E0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Fd2/BossFd2_Draw.s")
-

@@ -161,4 +161,3 @@ const ActorInit En_Ta_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/func_80B16CA0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ta/EnTa_Draw.s")
-

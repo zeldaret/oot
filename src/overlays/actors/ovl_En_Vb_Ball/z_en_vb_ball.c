@@ -39,4 +39,3 @@ const ActorInit En_Vb_Ball_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vb_Ball/EnVbBall_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Vb_Ball/EnVbBall_Draw.s")
-

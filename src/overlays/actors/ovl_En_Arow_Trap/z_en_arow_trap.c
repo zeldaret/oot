@@ -13,8 +13,15 @@ void EnArowTrap_Destroy(EnArowTrap* this, GlobalContext* globalCtx);
 void EnArowTrap_Update(EnArowTrap* this, GlobalContext* globalCtx);
 
 const ActorInit En_Arow_Trap_InitVars = {
-    ACTOR_EN_AROW_TRAP, ACTORTYPE_PROP,    FLAGS, OBJECT_GAMEPLAY_KEEP, sizeof(EnArowTrap), (ActorFunc)EnArowTrap_Init,
-    (ActorFunc)EnArowTrap_Destroy, (ActorFunc)EnArowTrap_Update, NULL,
+    ACTOR_EN_AROW_TRAP,
+    ACTORTYPE_PROP,
+    FLAGS,
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(EnArowTrap),
+    (ActorFunc)EnArowTrap_Init,
+    (ActorFunc)EnArowTrap_Destroy,
+    (ActorFunc)EnArowTrap_Update,
+    NULL,
 };
 
 void EnArowTrap_Init(EnArowTrap* this, GlobalContext* globalCtx) {

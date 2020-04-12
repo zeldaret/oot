@@ -4,7 +4,6 @@
  * Description: Torch
  */
 
-
 #include "z_obj_syokudai.h"
 
 #define FLAGS 0x00000410

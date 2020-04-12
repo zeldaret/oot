@@ -41,4 +41,3 @@ const ActorInit Bg_Hidan_Sima_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/func_8088EB54.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/BgHidanSima_Draw.s")
-

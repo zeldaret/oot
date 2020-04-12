@@ -22,8 +22,15 @@ static u8 damageTblInitData[] = {
 };
 
 const ActorInit En_It_InitVars = {
-    ACTOR_EN_IT,        ACTORTYPE_PROP,    FLAGS,           OBJECT_GAMEPLAY_KEEP, sizeof(EnIt), (ActorFunc)EnIt_Init,
-    (ActorFunc)EnIt_Destroy, (ActorFunc)EnIt_Update, (ActorFunc)NULL,
+    ACTOR_EN_IT,
+    ACTORTYPE_PROP,
+    FLAGS,
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(EnIt),
+    (ActorFunc)EnIt_Init,
+    (ActorFunc)EnIt_Destroy,
+    (ActorFunc)EnIt_Update,
+    (ActorFunc)NULL,
 };
 
 void EnIt_Init(EnIt* this, GlobalContext* globalCtx) {

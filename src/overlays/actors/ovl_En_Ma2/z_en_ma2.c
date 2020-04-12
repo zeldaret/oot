@@ -55,4 +55,3 @@ const ActorInit En_Ma2_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma2/func_80AA2590.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma2/EnMa2_Draw.s")
-

@@ -39,4 +39,3 @@ const ActorInit Elf_Msg_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg/ElfMsg_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Elf_Msg/ElfMsg_Draw.s")
-

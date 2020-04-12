@@ -47,4 +47,3 @@ const ActorInit Bg_Jya_Bombchuiwa_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Bombchuiwa/func_80894BC8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Bombchuiwa/BgJyaBombchuiwa_Draw.s")
-

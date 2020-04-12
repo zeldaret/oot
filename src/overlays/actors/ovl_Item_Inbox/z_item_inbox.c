@@ -15,9 +15,15 @@ void ItemInbox_Update(ItemInbox* this, GlobalContext* globalCtx);
 void ItemInbox_Draw(ItemInbox* this, GlobalContext* globalCtx);
 
 const ActorInit Item_Inbox_InitVars = {
-    ACTOR_ITEM_INBOX,     ACTORTYPE_NPC,          FLAGS,
-    OBJECT_GAMEPLAY_KEEP, sizeof(ItemInbox), (ActorFunc)ItemInbox_Init,
-    (ActorFunc)ItemInbox_Destroy,   (ActorFunc)ItemInbox_Update,      (ActorFunc)ItemInbox_Draw,
+    ACTOR_ITEM_INBOX,
+    ACTORTYPE_NPC,
+    FLAGS,
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(ItemInbox),
+    (ActorFunc)ItemInbox_Init,
+    (ActorFunc)ItemInbox_Destroy,
+    (ActorFunc)ItemInbox_Update,
+    (ActorFunc)ItemInbox_Draw,
 };
 
 void ItemInbox_Init(ItemInbox* this, GlobalContext* globalCtx) {

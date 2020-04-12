@@ -35,4 +35,3 @@ const ActorInit Bg_Mizu_Water_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mizu_Water/BgMizuWater_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mizu_Water/BgMizuWater_Draw.s")
-

@@ -13,8 +13,15 @@ void EnMFire1_Destroy(EnMFire1* this, GlobalContext* globalCtx);
 void EnMFire1_Update(EnMFire1* this, GlobalContext* globalCtx);
 
 const ActorInit En_M_Fire1_InitVars = {
-    ACTOR_EN_M_FIRE1,   ACTORTYPE_MISC,    FLAGS, OBJECT_GAMEPLAY_KEEP, sizeof(EnMFire1), (ActorFunc)EnMFire1_Init,
-    (ActorFunc)EnMFire1_Destroy, (ActorFunc)EnMFire1_Update, NULL,
+    ACTOR_EN_M_FIRE1,
+    ACTORTYPE_MISC,
+    FLAGS,
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(EnMFire1),
+    (ActorFunc)EnMFire1_Init,
+    (ActorFunc)EnMFire1_Destroy,
+    (ActorFunc)EnMFire1_Update,
+    NULL,
 };
 
 static ColliderCylinderInit cylinderInitData = {

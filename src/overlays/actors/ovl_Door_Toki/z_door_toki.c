@@ -13,8 +13,15 @@ void DoorToki_Destroy(DoorToki* this, GlobalContext* globalCtx);
 void DoorToki_Update(DoorToki* this, GlobalContext* globalCtx);
 
 const ActorInit Door_Toki_InitVars = {
-    ACTOR_DOOR_TOKI,    ACTORTYPE_BG,      FLAGS, OBJECT_TOKI_OBJECTS, sizeof(DoorToki), (ActorFunc)DoorToki_Init,
-    (ActorFunc)DoorToki_Destroy, (ActorFunc)DoorToki_Update, NULL,
+    ACTOR_DOOR_TOKI,
+    ACTORTYPE_BG,
+    FLAGS,
+    OBJECT_TOKI_OBJECTS,
+    sizeof(DoorToki),
+    (ActorFunc)DoorToki_Init,
+    (ActorFunc)DoorToki_Destroy,
+    (ActorFunc)DoorToki_Update,
+    NULL,
 };
 
 // This has to be defined in the linker to produce a proper lui addiu pair

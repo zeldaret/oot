@@ -45,4 +45,3 @@ const ActorInit Bg_Spot02_Objects_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot02_Objects/func_808AD3D4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Spot02_Objects/func_808AD450.s")
-

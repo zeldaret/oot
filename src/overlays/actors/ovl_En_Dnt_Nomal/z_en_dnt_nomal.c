@@ -96,4 +96,3 @@ const ActorInit En_Dnt_Nomal_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Nomal/func_809F5A6C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dnt_Nomal/func_809F5C98.s")
-

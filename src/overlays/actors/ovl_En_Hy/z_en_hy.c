@@ -87,4 +87,3 @@ const ActorInit En_Hy_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Hy/func_80A71BBC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Hy/EnHy_Draw.s")
-

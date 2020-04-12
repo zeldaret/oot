@@ -21,15 +21,15 @@ typedef struct {
 
 #define FLAGS 0x00000009
 
-static void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx);
-static void EnMs_Init(EnMs* this, GlobalContext* globalCtx);
-static void EnMs_Destroy(EnMs* this, GlobalContext* globalCtx);
-static void EnMs_Wait(EnMs* this, GlobalContext* globalCtx);
-static void EnMs_Talk(EnMs* this, GlobalContext* globalCtx);
-static void EnMs_Sell(EnMs* this, GlobalContext* globalCtx);
-static void EnMs_TalkAfterBuy(EnMs* this, GlobalContext* globalCtx);
-static void EnMs_Update(EnMs* this, GlobalContext* globalCtx);
-static void EnMs_Draw(EnMs* this, GlobalContext* globalCtx);
+void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx);
+void EnMs_Init(EnMs* this, GlobalContext* globalCtx);
+void EnMs_Destroy(EnMs* this, GlobalContext* globalCtx);
+void EnMs_Wait(EnMs* this, GlobalContext* globalCtx);
+void EnMs_Talk(EnMs* this, GlobalContext* globalCtx);
+void EnMs_Sell(EnMs* this, GlobalContext* globalCtx);
+void EnMs_TalkAfterBuy(EnMs* this, GlobalContext* globalCtx);
+void EnMs_Update(EnMs* this, GlobalContext* globalCtx);
+void EnMs_Draw(EnMs* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ms_InitVars = {
     ACTOR_EN_MS,
@@ -64,7 +64,7 @@ static InitChainEntry initChain[] = {
 extern AnimationHeader D_060005EC;
 extern SkeletonHeader D_06003DC0;
 
-static void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx) {
+void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx) {
     this->actor.textId = Text_GetFaceReaction(globalCtx, 0x1B);
     if (this->actor.textId == 0) {
         if (BEANS_BOUGHT >= 10) {
@@ -75,7 +75,7 @@ static void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx) {
     }
 }
 
-static void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
+void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
     s32 pad1;
     s32 pad2;
 
@@ -101,12 +101,12 @@ static void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
     this->actionFunc = EnMs_Wait;
 }
 
-static void EnMs_Destroy(EnMs* this, GlobalContext* globalCtx) {
+void EnMs_Destroy(EnMs* this, GlobalContext* globalCtx) {
     ColliderCylinderMain* collider = &this->collider;
     ActorCollider_FreeCylinder(globalCtx, collider);
 }
 
-static void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
+void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
     s16 unkAngle;
 
     unkAngle = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
@@ -121,7 +121,7 @@ static void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
     }
 }
 
-static void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
+void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
     u8 dialogState;
 
     dialogState = func_8010BDBC(&globalCtx->msgCtx);
@@ -149,7 +149,7 @@ static void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
     }
 }
 
-static void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
+void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx) != 0) { // if attached is set
         Rupees_ChangeBy(-prices[BEANS_BOUGHT]);        // decrease ruppees
         this->actor.attachedA = NULL;
@@ -159,7 +159,7 @@ static void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
     func_8002F434(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
 }
 
-static void EnMs_TalkAfterBuy(EnMs* this, GlobalContext* globalCtx) {
+void EnMs_TalkAfterBuy(EnMs* this, GlobalContext* globalCtx) {
     // if dialog state is 6 and player responded to textbox
     if ((func_8010BDBC(&globalCtx->msgCtx)) == 6 && (func_80106BC8(globalCtx) != 0)) {
         func_8010B720(globalCtx, 0x406C);
@@ -167,7 +167,7 @@ static void EnMs_TalkAfterBuy(EnMs* this, GlobalContext* globalCtx) {
     }
 }
 
-static void EnMs_Update(EnMs* this, GlobalContext* globalCtx) {
+void EnMs_Update(EnMs* this, GlobalContext* globalCtx) {
     s32 pad1;
     s32 pad2;
 

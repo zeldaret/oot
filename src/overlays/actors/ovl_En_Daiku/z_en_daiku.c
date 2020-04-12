@@ -55,4 +55,3 @@ const ActorInit En_Daiku_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Daiku/func_809E3EF8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Daiku/func_809E3F7C.s")
-

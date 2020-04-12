@@ -592,8 +592,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1426);
 }
 
-s32 EnWallMas_UpdatePos(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               Actor* actor) {
+s32 EnWallMas_UpdatePos(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
     EnWallmas* this = (EnWallmas*)actor;
     if (limbIndex == 1) {
         if (this->actionFunc != (ActorFunc)EnWallmas_TakePlayer) {

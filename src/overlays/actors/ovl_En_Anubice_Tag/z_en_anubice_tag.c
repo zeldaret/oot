@@ -8,12 +8,12 @@
 
 #define FLAGS 0x00000010
 
-static void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx);
-static void EnAnubiceTag_Destroy(EnAnubiceTag* this, GlobalContext* globalCtx);
-static void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
-static void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
-static void EnAnubiceTag_Update(EnAnubiceTag* this, GlobalContext* globalCtx);
-static void EnAnubiceTag_Draw(EnAnubiceTag* this, GlobalContext* globalCtx);
+void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx);
+void EnAnubiceTag_Destroy(EnAnubiceTag* this, GlobalContext* globalCtx);
+void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
+void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
+void EnAnubiceTag_Update(EnAnubiceTag* this, GlobalContext* globalCtx);
+void EnAnubiceTag_Draw(EnAnubiceTag* this, GlobalContext* globalCtx);
 
 const ActorInit En_Anubice_Tag_InitVars = {
     ACTOR_EN_ANUBICE_TAG,
@@ -27,7 +27,7 @@ const ActorInit En_Anubice_Tag_InitVars = {
     (ActorFunc)EnAnubiceTag_Draw,
 };
 
-static void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     //"Anubis control tag generated"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
@@ -41,10 +41,10 @@ static void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx) {
     this->actionFunc = &EnAnubiceTag_SpawnAnubis;
 }
 
-static void EnAnubiceTag_Destroy(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_Destroy(EnAnubiceTag* this, GlobalContext* globalCtx) {
 }
 
-static void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
     this->anubis =
         Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ANUBICE, this->actor.posRot.pos.x,
                             this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.rotTowardsLinkY, 0, 0);
@@ -54,7 +54,7 @@ static void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCt
     }
 }
 
-static void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
     EnAnubice* anubis;
     Vec3f offset;
 
@@ -92,11 +92,11 @@ static void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalC
     }
 }
 
-static void EnAnubiceTag_Update(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_Update(EnAnubiceTag* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-static void EnAnubiceTag_Draw(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_Draw(EnAnubiceTag* this, GlobalContext* globalCtx) {
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,

@@ -127,4 +127,3 @@ const ActorInit En_Floormas_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Floormas/EnFloormas_Draw.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Floormas/func_80A1A350.s")
-

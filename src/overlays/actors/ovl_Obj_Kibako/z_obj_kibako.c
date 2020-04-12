@@ -55,4 +55,3 @@ const ActorInit Obj_Kibako_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako/ObjKibako_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Kibako/ObjKibako_Draw.s")
-

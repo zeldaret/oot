@@ -13,8 +13,15 @@ void ObjBlockstop_Destroy(ObjBlockstop* this, GlobalContext* globalCtx);
 void ObjBlockstop_Update(ObjBlockstop* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Blockstop_InitVars = {
-    ACTOR_OBJ_BLOCKSTOP, ACTORTYPE_PROP,    FLAGS, OBJECT_GAMEPLAY_KEEP, sizeof(ObjBlockstop), (ActorFunc)ObjBlockstop_Init,
-    (ActorFunc)ObjBlockstop_Destroy,  (ActorFunc)ObjBlockstop_Update, NULL,
+    ACTOR_OBJ_BLOCKSTOP,
+    ACTORTYPE_PROP,
+    FLAGS,
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(ObjBlockstop),
+    (ActorFunc)ObjBlockstop_Init,
+    (ActorFunc)ObjBlockstop_Destroy,
+    (ActorFunc)ObjBlockstop_Update,
+    NULL,
 };
 
 void ObjBlockstop_Init(ObjBlockstop* this, GlobalContext* globalCtx) {

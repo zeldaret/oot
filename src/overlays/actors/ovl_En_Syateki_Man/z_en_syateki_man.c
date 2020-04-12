@@ -57,5 +57,3 @@ const ActorInit En_Syateki_Man_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Man/EnSyatekiMan_Draw.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Syateki_Man/func_80B1156C.s")
-
-

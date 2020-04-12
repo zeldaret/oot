@@ -15,9 +15,15 @@ void func_80B9D054(ObjRoomtimer* this, GlobalContext* globalCtx);
 void func_80B9D0B0(ObjRoomtimer* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Roomtimer_InitVars = {
-    ACTOR_OBJ_ROOMTIMER,  ACTORTYPE_ENEMY,        FLAGS,
-    OBJECT_GAMEPLAY_KEEP, sizeof(ObjRoomtimer), (ActorFunc)ObjRoomtimer_Init,
-    (ActorFunc)ObjRoomtimer_Destroy,   (ActorFunc)ObjRoomtimer_Update,      (ActorFunc)NULL,
+    ACTOR_OBJ_ROOMTIMER,
+    ACTORTYPE_ENEMY,
+    FLAGS,
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(ObjRoomtimer),
+    (ActorFunc)ObjRoomtimer_Init,
+    (ActorFunc)ObjRoomtimer_Destroy,
+    (ActorFunc)ObjRoomtimer_Update,
+    (ActorFunc)NULL,
 };
 
 void ObjRoomtimer_Init(ObjRoomtimer* this, GlobalContext* globalCtx) {

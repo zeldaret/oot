@@ -1,7 +1,7 @@
 /*
  * File: z_object_kankyo.c
  * Overlay: ovl_Object_Kankyo
- * Description: Environmental Effects   
+ * Description: Environmental Effects
  */
 
 #include "z_object_kankyo.h"

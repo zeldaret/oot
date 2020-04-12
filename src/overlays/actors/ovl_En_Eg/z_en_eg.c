@@ -21,8 +21,15 @@ static const ActorFunc funcTbl[] = {
 };
 
 const ActorInit En_Eg_InitVars = {
-    ACTOR_EN_EG,        ACTORTYPE_ITEMACTION, FLAGS,           OBJECT_ZL2, sizeof(EnEg), (ActorFunc)EnEg_Init,
-    (ActorFunc)EnEg_Destroy, (ActorFunc)EnEg_Update,    (ActorFunc)EnEg_Draw,
+    ACTOR_EN_EG,
+    ACTORTYPE_ITEMACTION,
+    FLAGS,
+    OBJECT_ZL2,
+    sizeof(EnEg),
+    (ActorFunc)EnEg_Init,
+    (ActorFunc)EnEg_Destroy,
+    (ActorFunc)EnEg_Update,
+    (ActorFunc)EnEg_Draw,
 };
 
 void PlayVoidOutSFX() {

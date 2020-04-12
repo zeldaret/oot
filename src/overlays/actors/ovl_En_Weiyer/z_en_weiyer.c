@@ -81,4 +81,3 @@ const ActorInit En_Weiyer_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Weiyer/func_80B338D4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Weiyer/EnWeiyer_Draw.s")
-

@@ -57,4 +57,3 @@ const ActorInit En_Butte_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Butte/EnButte_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Butte/EnButte_Draw.s")
-

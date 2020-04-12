@@ -85,4 +85,3 @@ const ActorInit Bg_Bdan_Objects_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Bdan_Objects/BgBdanObjects_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Bdan_Objects/BgBdanObjects_Draw.s")
-

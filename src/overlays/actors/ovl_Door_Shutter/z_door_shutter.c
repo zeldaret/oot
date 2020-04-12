@@ -77,4 +77,3 @@ const ActorInit Door_Shutter_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/DoorShutter_Draw.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_8099803C.s")
-

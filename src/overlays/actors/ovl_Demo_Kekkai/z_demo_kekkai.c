@@ -39,4 +39,3 @@ const ActorInit Demo_Kekkai_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Kekkai/func_8098D9C0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Kekkai/DemoKekkai_Draw.s")
-

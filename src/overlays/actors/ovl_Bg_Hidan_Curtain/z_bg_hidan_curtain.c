@@ -41,5 +41,3 @@ const ActorInit Bg_Hidan_Curtain_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Curtain/BgHidanCurtain_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Curtain/BgHidanCurtain_Draw.s")
-
-

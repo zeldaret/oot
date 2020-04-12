@@ -43,4 +43,3 @@ const ActorInit Bg_Ydan_Sp_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ydan_Sp/BgYdanSp_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ydan_Sp/BgYdanSp_Draw.s")
-

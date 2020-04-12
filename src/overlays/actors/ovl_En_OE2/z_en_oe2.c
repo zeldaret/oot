@@ -16,8 +16,15 @@ void EnOE2_Update(EnOE2* this, GlobalContext* globalCtx);
 void EnOE2_Draw(EnOE2* this, GlobalContext* globalCtx);
 
 const ActorInit En_OE2_InitVars = {
-    ACTOR_EN_OE2,       ACTORTYPE_NPC,     FLAGS,           OBJECT_OE2, sizeof(EnOE2), (ActorFunc)EnOE2_Init,
-    (ActorFunc)EnOE2_Destroy, (ActorFunc)EnOE2_Update, (ActorFunc)EnOE2_Draw,
+    ACTOR_EN_OE2,
+    ACTORTYPE_NPC,
+    FLAGS,
+    OBJECT_OE2,
+    sizeof(EnOE2),
+    (ActorFunc)EnOE2_Init,
+    (ActorFunc)EnOE2_Destroy,
+    (ActorFunc)EnOE2_Update,
+    (ActorFunc)EnOE2_Draw,
 };
 
 void EnOE2_SetupAction(EnOE2* this, ActorFunc actionFunc) {

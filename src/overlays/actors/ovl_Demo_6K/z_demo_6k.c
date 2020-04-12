@@ -72,4 +72,3 @@ const ActorInit Demo_6K_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_6K/func_80968FB0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_6K/func_809691BC.s")
-

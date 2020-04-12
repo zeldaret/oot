@@ -14,9 +14,15 @@ void BgSpot18Futa_Update(BgSpot18Futa* this, GlobalContext* globalCtx);
 void BgSpot18Futa_Draw(BgSpot18Futa* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot18_Futa_InitVars = {
-    ACTOR_BG_SPOT18_FUTA, ACTORTYPE_PROP,          FLAGS,
-    OBJECT_SPOT18_OBJ,    sizeof(BgSpot18Futa), (ActorFunc)BgSpot18Futa_Init,
-    (ActorFunc)BgSpot18Futa_Destroy,   (ActorFunc)BgSpot18Futa_Update,       (ActorFunc)BgSpot18Futa_Draw,
+    ACTOR_BG_SPOT18_FUTA,
+    ACTORTYPE_PROP,
+    FLAGS,
+    OBJECT_SPOT18_OBJ,
+    sizeof(BgSpot18Futa),
+    (ActorFunc)BgSpot18Futa_Init,
+    (ActorFunc)BgSpot18Futa_Destroy,
+    (ActorFunc)BgSpot18Futa_Update,
+    (ActorFunc)BgSpot18Futa_Draw,
 };
 
 static InitChainEntry initChain[] = {

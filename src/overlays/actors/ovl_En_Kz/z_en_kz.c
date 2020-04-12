@@ -63,4 +63,3 @@ const ActorInit En_Kz_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9D744.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/EnKz_Draw.s")
-

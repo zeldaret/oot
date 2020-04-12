@@ -39,4 +39,3 @@ const ActorInit Bg_Jya_Zurerukabe_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Zurerukabe/BgJyaZurerukabe_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Zurerukabe/BgJyaZurerukabe_Draw.s")
-

@@ -54,4 +54,3 @@ const ActorInit Bg_Mori_Bigst_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/BgMoriBigst_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Bigst/func_808A13B4.s")
-

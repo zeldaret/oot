@@ -61,4 +61,3 @@ const ActorInit En_Zl1_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4C400.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/EnZl1_Draw.s")
-

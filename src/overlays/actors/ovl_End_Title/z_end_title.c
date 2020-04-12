@@ -35,4 +35,3 @@ const ActorInit End_Title_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_End_Title/EndTitle_Draw.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_End_Title/func_80B65DA8.s")
-

@@ -13,8 +13,15 @@ void EnVase_Destroy(EnVase* this, GlobalContext* globalCtx);
 void EnVase_Draw(EnVase* this, GlobalContext* globalCtx);
 
 const ActorInit En_Vase_InitVars = {
-    ACTOR_EN_VASE,      ACTORTYPE_PROP,        FLAGS,           OBJECT_VASE, sizeof(EnVase), (ActorFunc)EnVase_Init,
-    (ActorFunc)EnVase_Destroy, (ActorFunc)Actor_Noop, (ActorFunc)EnVase_Draw,
+    ACTOR_EN_VASE,
+    ACTORTYPE_PROP,
+    FLAGS,
+    OBJECT_VASE,
+    sizeof(EnVase),
+    (ActorFunc)EnVase_Init,
+    (ActorFunc)EnVase_Destroy,
+    (ActorFunc)Actor_Noop,
+    (ActorFunc)EnVase_Draw,
 };
 
 extern u32 DL_VASE;

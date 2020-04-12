@@ -14,8 +14,15 @@ void BgUmaJump_Update(BgUmaJump* this, GlobalContext* globalCtx);
 void BgUmaJump_Draw(BgUmaJump* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Umajump_InitVars = {
-    ACTOR_BG_UMAJUMP,   ACTORTYPE_PROP,    FLAGS,           OBJECT_UMAJUMP, sizeof(BgUmaJump), (ActorFunc)BgUmaJump_Init,
-    (ActorFunc)BgUmaJump_Destroy, (ActorFunc)BgUmaJump_Update, (ActorFunc)BgUmaJump_Draw,
+    ACTOR_BG_UMAJUMP,
+    ACTORTYPE_PROP,
+    FLAGS,
+    OBJECT_UMAJUMP,
+    sizeof(BgUmaJump),
+    (ActorFunc)BgUmaJump_Init,
+    (ActorFunc)BgUmaJump_Destroy,
+    (ActorFunc)BgUmaJump_Update,
+    (ActorFunc)BgUmaJump_Draw,
 };
 
 extern D_06001438; // segmented address: 0x06001438

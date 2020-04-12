@@ -61,4 +61,3 @@ const ActorInit En_Bubble_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bubble/EnBubble_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bubble/EnBubble_Draw.s")
-

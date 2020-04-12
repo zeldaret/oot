@@ -50,4 +50,3 @@ const ActorInit Bg_Mori_Rakkatenjo_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Rakkatenjo/BgMoriRakkatenjo_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Rakkatenjo/func_808A5D60.s")
-

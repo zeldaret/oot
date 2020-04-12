@@ -42,4 +42,3 @@ const ActorInit Bg_Mori_Hashira4_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/BgMoriHashira4_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mori_Hashira4/func_808A3484.s")
-

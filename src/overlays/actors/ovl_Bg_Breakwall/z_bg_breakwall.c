@@ -47,4 +47,3 @@ const ActorInit Bg_Breakwall_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Breakwall/BgBreakwall_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Breakwall/func_808705D8.s")
-

@@ -99,4 +99,3 @@ const ActorInit Demo_Ik_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ik/DemoIk_Draw.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ik/DemoIk_Init.s")
-

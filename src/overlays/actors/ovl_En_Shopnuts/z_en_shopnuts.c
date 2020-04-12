@@ -57,4 +57,3 @@ const ActorInit En_Shopnuts_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Shopnuts/func_80AFB290.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Shopnuts/EnShopnuts_Draw.s")
-

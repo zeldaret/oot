@@ -117,4 +117,3 @@ const ActorInit Fishing_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B7A140.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Fishing/func_80B7A278.s")
-

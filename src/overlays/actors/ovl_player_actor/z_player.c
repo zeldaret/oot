@@ -1,7 +1,7 @@
 /*
  * File: z_player.c
  * Overlay: ovl_player_actor
- * Description: Link   
+ * Description: Link
  */
 
 #include <ultra64.h>
@@ -1100,4 +1100,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_808530E0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_80853148.s")
-

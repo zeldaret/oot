@@ -157,4 +157,3 @@ const ActorInit En_Owl_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACD2CC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/func_80ACD4D4.s")
-

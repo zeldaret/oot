@@ -51,4 +51,3 @@ const ActorInit En_Gs_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Gs/EnGs_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Gs/EnGs_Draw.s")
-

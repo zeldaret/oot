@@ -8,17 +8,17 @@
 
 #define FLAGS 0x00000000
 
-static void EnDog_Init(EnDog* this, GlobalContext* globalCtx);
-static void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx);
-static void EnDog_Update(EnDog* this, GlobalContext* globalCtx);
-static void EnDog_Draw(EnDog* this, GlobalContext* globalCtx);
+void EnDog_Init(EnDog* this, GlobalContext* globalCtx);
+void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx);
+void EnDog_Update(EnDog* this, GlobalContext* globalCtx);
+void EnDog_Draw(EnDog* this, GlobalContext* globalCtx);
 
-static void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx);
-static void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx);
-static void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx);
-static void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx);
-static void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx);
-static void EnDog_Wait(EnDog* this, GlobalContext* globalCtx);
+void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx);
+void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx);
+void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx);
+void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx);
+void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx);
+void EnDog_Wait(EnDog* this, GlobalContext* globalCtx);
 
 const ActorInit En_Dog_InitVars = {
     ACTOR_EN_DOG,
@@ -78,7 +78,7 @@ extern AnimationHeader D_06001368;
 extern AnimationHeader D_06000D78;
 extern AnimationHeader D_06000278;
 
-static void EnDog_PlayWalkSFX(EnDog* this) {
+void EnDog_PlayWalkSFX(EnDog* this) {
     AnimationHeader* walk = &D_06001368;
     if (this->skelAnime.animCurrentSeg == walk) {
         if ((this->skelAnime.animCurrentFrame == 1.0f) || (this->skelAnime.animCurrentFrame == 7.0f)) {
@@ -87,7 +87,7 @@ static void EnDog_PlayWalkSFX(EnDog* this) {
     }
 }
 
-static void EnDog_PlayRunSFX(EnDog* this) {
+void EnDog_PlayRunSFX(EnDog* this) {
     AnimationHeader* run = &D_06000D78;
     if (this->skelAnime.animCurrentSeg == run) {
         if ((this->skelAnime.animCurrentFrame == 2.0f) || (this->skelAnime.animCurrentFrame == 4.0f)) {
@@ -96,7 +96,7 @@ static void EnDog_PlayRunSFX(EnDog* this) {
     }
 }
 
-static void EnDog_PlayBarkSFX(EnDog* this) {
+void EnDog_PlayBarkSFX(EnDog* this) {
     AnimationHeader* bark = &D_06000278;
     if (this->skelAnime.animCurrentSeg == bark) {
         if ((this->skelAnime.animCurrentFrame == 13.0f) || (this->skelAnime.animCurrentFrame == 19.0f)) {
@@ -105,7 +105,7 @@ static void EnDog_PlayBarkSFX(EnDog* this) {
     }
 }
 
-static s32 EnDog_PlayAnimAndSFX(EnDog* this) {
+s32 EnDog_PlayAnimAndSFX(EnDog* this) {
     s32 animation;
 
     if (this->behavior != this->nextBehavior) {
@@ -214,7 +214,7 @@ static EnDog_UpdateWaypoint(EnDog* this, GlobalContext* globalCtx) {
     return 1;
 }
 
-static s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
+s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
     s16 targetYaw;
     f32 waypointDistSq;
 
@@ -228,7 +228,7 @@ static s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
     }
 }
 
-static void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
+void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime;
     s16 followingDog;
     ColliderCylinderMain* collider;
@@ -287,12 +287,12 @@ static void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
     }
 }
 
-static void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx) {
+void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx) {
     ColliderCylinderMain* collider = &this->collider;
     ActorCollider_FreeCylinder(globalCtx, collider);
 }
 
-static void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
+void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
     s16ArrEntry behaviors[] = { DOG_SIT, DOG_BOW, DOG_BARK };
     s16ArrEntry unused[] = { 40, 80, 20 };
     f32 speed;
@@ -330,7 +330,7 @@ static void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
     }
 }
 
-static void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx) {
+void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx) {
     if (EnDog_CanFollow(this, globalCtx) == 1) {
         this->actionFunc = EnDog_FollowLink;
     }
@@ -351,7 +351,7 @@ static void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 0.4f, 1.0f, 0.0f);
 }
 
-static void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
+void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
     f32 speed;
 
     if (gSaveContext.dogParams == 0) {
@@ -388,7 +388,7 @@ static void EnDog_FollowLink(EnDog* this, GlobalContext* globalCtx) {
     }
 }
 
-static void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx) {
+void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistanceFromLink < 200.0f) {
         Math_SmoothScaleMaxF(&this->actor.speedXZ, 4.0f, 0.6f, 1.0f);
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, (this->actor.rotTowardsLinkY ^ 0x8000), 10, 1000, 1);
@@ -398,7 +398,7 @@ static void EnDog_RunAway(EnDog* this, GlobalContext* globalCtx) {
     this->actor.shape.rot = this->actor.posRot.rot;
 }
 
-static void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx) {
+void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx) {
     s16 rotTowardLink;
     s16 prevRotY;
     f32 absAngleDiff;
@@ -428,7 +428,7 @@ static void EnDog_FaceLink(EnDog* this, GlobalContext* globalCtx) {
     this->actor.shape.rot = this->actor.posRot.rot;
 }
 
-static void EnDog_Wait(EnDog* this, GlobalContext* globalCtx) {
+void EnDog_Wait(EnDog* this, GlobalContext* globalCtx) {
     this->unusedAngle = (this->actor.rotTowardsLinkY - this->actor.shape.rot.y);
 
     // If another dog is following Link and he gets within 200 units of waiting dog, run away
@@ -438,7 +438,7 @@ static void EnDog_Wait(EnDog* this, GlobalContext* globalCtx) {
     }
 }
 
-static void EnDog_Update(EnDog* this, GlobalContext* globalCtx) {
+void EnDog_Update(EnDog* this, GlobalContext* globalCtx) {
     s32 pad1;
     s32 pad2;
 
@@ -456,10 +456,10 @@ static UNK_TYPE EnDog_Callback1(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     return 0;
 }
 
-static void EnDog_Callback2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+void EnDog_Callback2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
 }
 
-static void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
+void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
     s32 pad;
     Color_RGBA8 colors[] = { { 0xFF, 0xFF, 0xC8, 0x00 }, { 0x96, 0x64, 0x32, 0x00 } };
     GraphicsContext* gfxCtx;

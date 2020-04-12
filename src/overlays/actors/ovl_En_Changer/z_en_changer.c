@@ -30,4 +30,3 @@ const ActorInit En_Changer_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Changer/func_809D2F74.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Changer/EnChanger_Update.s")
-

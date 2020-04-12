@@ -31,4 +31,3 @@ const ActorInit En_Dy_Extra_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dy_Extra/EnDyExtra_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dy_Extra/EnDyExtra_Draw.s")
-

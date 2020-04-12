@@ -66,4 +66,3 @@ const ActorInit En_Weather_Tag_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Weather_Tag/func_80B31CC0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Weather_Tag/EnWeatherTag_Update.s")
-
