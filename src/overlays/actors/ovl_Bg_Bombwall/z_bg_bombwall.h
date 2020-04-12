@@ -6,8 +6,7 @@
 
 typedef struct {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ ColliderCylinderMain collider;
-    /* 0x01B0 */ char unk_1B0[0xE8];
+    /* 0x0164 */ char unk_164[0x134];
     /* 0x0298 */ ActorFunc actionFunc;
     /* 0x029C */ char unk_29C[0x8];
 } BgBombwall; // size = 0x02A4

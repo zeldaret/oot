@@ -6,7 +6,7 @@
 
 typedef struct {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ColliderCylinderMain collider;
+    /* 0x014C */ char unk_14C[0x4C];
 } ObjHana; // size = 0x0198
 
 extern const ActorInit Obj_Hana_InitVars;

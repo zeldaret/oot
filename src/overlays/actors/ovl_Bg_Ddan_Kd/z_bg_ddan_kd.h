@@ -7,9 +7,7 @@
 typedef struct {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ Actor* unk_164; // pointer to bombflower actor
-    /* 0x0168 */ char unk_168[0x4];
-    /* 0x016C */ Vec3f unk_16C;
-    /* 0x0178 */ ColliderCylinderMain collider;
+    /* 0x0168 */ char unk_168[0x5C];
     /* 0x01C4 */ ActorFunc actionFunc;
 } BgDdanKd; // size = 0x01C8
 

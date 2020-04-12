@@ -7,9 +7,7 @@
 typedef struct {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ActorFunc actionFunc;
-    /* 0x0168 */ char unk_168[0x4];
-    /* 0x016C */ ColliderCylinderMain collider_16C;
-    /* 0x01B8 */ ColliderCylinderMain collider_1B8;
+    /* 0x0168 */ char unk_168[0x9C];
 } BgHakaTubo; // size = 0x0204
 
 extern const ActorInit Bg_Haka_Tubo_InitVars;
