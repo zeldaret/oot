@@ -107,7 +107,7 @@ static void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
     thisx->params &= 0xFF;
     if (thisx->params == 2) {
         thisx->flags |= 0x30;
-        globalCtx->colCtx.stat.unk_00->unk_28->unk_72 = thisx->posRot.pos.y;
+        globalCtx->colCtx.stat.colHeader->waterBoxes[7].unk_02 = thisx->posRot.pos.y;
         this->actionFunc = (ActorFunc)func_8086C9A8;
         return;
     }
@@ -393,7 +393,7 @@ static void func_8086C9F0(BgBdanObjects* this, GlobalContext* globalCtx) {
         }
         func_8002F948(this, 0x205E);
     }
-    globalCtx->colCtx.stat.unk_00->unk_28->unk_72 = this->dyna.actor.posRot.pos.y;
+    globalCtx->colCtx.stat.colHeader->waterBoxes[7].unk_02 = this->dyna.actor.posRot.pos.y;
 }
 
 static void func_8086CABC(BgBdanObjects* this, GlobalContext* globalCtx) {
