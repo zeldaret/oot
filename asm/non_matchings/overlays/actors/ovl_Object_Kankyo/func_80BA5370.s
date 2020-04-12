@@ -17,7 +17,7 @@ glabel func_80BA5370
 /* 02908 80BA53A8 A0CE1659 */  sb      $t6, 0x1659($a2)           ## 00001659
 /* 0290C 80BA53AC 24A553CC */  addiu   $a1, $a1, %lo(func_80BA53CC) ## $a1 = 80BA53CC
 /* 02910 80BA53B0 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
-/* 02914 80BA53B4 0C2E8AA8 */  jal     func_80BA2AA0              
+/* 02914 80BA53B4 0C2E8AA8 */  jal     ObjectKankyo_SetupAction              
 /* 02918 80BA53B8 A0CF001E */  sb      $t7, 0x001E($a2)           ## 0000001E
 .L80BA53BC:
 /* 0291C 80BA53BC 8FBF0014 */  lw      $ra, 0x0014($sp)           

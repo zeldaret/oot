@@ -1,3 +1,9 @@
+/*
+ * File: z_end_title.c
+ * Overlay: ovl_End_Title
+ * Description: "The End" message
+ */
+
 #include "z_end_title.h"
 
 #define FLAGS 0x00000030

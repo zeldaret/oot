@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_kibako.c
+ * Overlay: ovl_Obj_Kibako
+ * Description: Small, Liftable Crate
+ */
+
 #include "z_obj_kibako.h"
 
 #define FLAGS 0x04000010

@@ -1,3 +1,9 @@
+/*
+ * File: z_item_ocarina.c
+ * Overlay: ovl_Item_Ocarina
+ * Description: Ocarina of Time
+ */
+
 #include "z_item_ocarina.h"
 
 #define FLAGS 0x00000010

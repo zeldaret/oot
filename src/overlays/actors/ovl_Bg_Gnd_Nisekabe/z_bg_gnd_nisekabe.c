@@ -8,10 +8,10 @@
 
 #define FLAGS 0x00000010
 
-static void BgGndNisekabe_Init(BgGndNisekabe* this, GlobalContext* globalCtx);
-static void BgGndNisekabe_Destroy(BgGndNisekabe* this, GlobalContext* globalCtx);
-static void BgGndNisekabe_Update(BgGndNisekabe* this, GlobalContext* globalCtx);
-static void BgGndNisekabe_Draw(BgGndNisekabe* this, GlobalContext* globalCtx);
+void BgGndNisekabe_Init(BgGndNisekabe* this, GlobalContext* globalCtx);
+void BgGndNisekabe_Destroy(BgGndNisekabe* this, GlobalContext* globalCtx);
+void BgGndNisekabe_Update(BgGndNisekabe* this, GlobalContext* globalCtx);
+void BgGndNisekabe_Draw(BgGndNisekabe* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Gnd_Nisekabe_InitVars = {
     ACTOR_BG_GND_NISEKABE,
@@ -27,15 +27,15 @@ const ActorInit Bg_Gnd_Nisekabe_InitVars = {
 
 static u32 segmentAddr[] = { 0x06009230, 0x0600A390, 0x0600B4A0 };
 
-static void BgGndNisekabe_Init(BgGndNisekabe* this, GlobalContext* globalCtx) {
+void BgGndNisekabe_Init(BgGndNisekabe* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.1);
     this->actor.unk_F4 = 3000.0;
 }
 
-static void BgGndNisekabe_Destroy(BgGndNisekabe* this, GlobalContext* globalCtx) {
+void BgGndNisekabe_Destroy(BgGndNisekabe* this, GlobalContext* globalCtx) {
 }
 
-static void BgGndNisekabe_Update(BgGndNisekabe* this, GlobalContext* globalCtx) {
+void BgGndNisekabe_Update(BgGndNisekabe* this, GlobalContext* globalCtx) {
     if (globalCtx->actorCtx.unk_03 != 0) {
         this->actor.flags |= 0x80;
     } else {
@@ -43,7 +43,7 @@ static void BgGndNisekabe_Update(BgGndNisekabe* this, GlobalContext* globalCtx) 
     }
 }
 
-static void BgGndNisekabe_Draw(BgGndNisekabe* this, GlobalContext* globalCtx) {
+void BgGndNisekabe_Draw(BgGndNisekabe* this, GlobalContext* globalCtx) {
     u32 index = this->actor.params & 0xFF;
 
     if ((this->actor.flags & 0x80) == 0x80) {

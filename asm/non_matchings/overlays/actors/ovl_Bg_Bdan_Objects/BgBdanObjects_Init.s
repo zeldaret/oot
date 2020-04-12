@@ -1,6 +1,8 @@
 .late_rodata
+
 glabel D_8086CE38
- .word 0x43838000
+    .float 263.0
+
 
 .text
 glabel BgBdanObjects_Init

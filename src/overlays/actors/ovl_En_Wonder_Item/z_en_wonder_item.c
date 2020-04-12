@@ -1,3 +1,9 @@
+/*
+ * File: z_en_wonder_item.c
+ * Overlay: ovl_En_Wonder_Item
+ * Description: Invisible Collectable; Used in MQ to create "Cow" switches
+ */
+
 #include "z_en_wonder_item.h"
 
 #define FLAGS 0x00000000

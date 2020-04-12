@@ -1,3 +1,9 @@
+/*
+ * File: z_en_wonder_talk.c
+ * Overlay: ovl_En_Wonder_Talk
+ * Description: Checkable spot (Green Navi)
+ */
+
 #include "z_en_wonder_talk.h"
 
 #define FLAGS 0x08000009

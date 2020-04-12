@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_hsblock.c
+ * Overlay: ovl_Obj_Hsblock
+ * Description: Stone Hookshot Target
+ */
+
 #include "z_obj_hsblock.h"
 
 #define FLAGS 0x00000000

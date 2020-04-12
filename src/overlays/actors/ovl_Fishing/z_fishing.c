@@ -1,3 +1,9 @@
+/*
+ * File: z_fishing.c
+ * Overlay: ovl_Fishing
+ * Description: Fishing Pond man and Fish
+ */
+
 #include "z_fishing.h"
 
 #define FLAGS 0x00000010

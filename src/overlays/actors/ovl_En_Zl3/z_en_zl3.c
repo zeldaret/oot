@@ -1,3 +1,9 @@
+/*
+ * File: z_en_zl3.c
+ * Overlay: ovl_En_Zl3
+ * Description: Adult Zelda
+ */
+
 #include "z_en_zl3.h"
 
 #define FLAGS 0x00000010

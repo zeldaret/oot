@@ -16,10 +16,10 @@ glabel D_808756BC
 
 
  glabel D_808756C8
- .word 0x40490FDB ## pi
+    .float 3.14159274101
 
  glabel D_808756CC
- .word 0x40490FDB ## pi
+    .float 3.14159274101
  
  .text
 glabel func_80874EAC

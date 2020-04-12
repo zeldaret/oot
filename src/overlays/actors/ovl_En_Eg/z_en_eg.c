@@ -4,24 +4,16 @@
  * Description: Zelda's Path in Ganon Castle Escape?
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
-#include <vt.h>
-
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ s32 funcIndex;
-} ActorEg; // size = 0x0154
+#include "z_en_eg.h"
 
 #define FLAGS 0x00000010
 
-static void PlayVoidOutSFX();
-static void Init(ActorEg* this, GlobalContext* globalCtx);
-static void Destroy(ActorEg* this, GlobalContext* globalCtx);
-static void func_809FFDC8(ActorEg* this, GlobalContext* globalCtx);
-static void Update(ActorEg* this, GlobalContext* globalCtx);
-static void Draw(ActorEg* this, GlobalContext* globalCtx);
+void EnEg_PlayVoidOutSFX();
+void EnEg_Init(EnEg* this, GlobalContext* globalCtx);
+void EnEg_Destroy(EnEg* this, GlobalContext* globalCtx);
+void func_809FFDC8(EnEg* this, GlobalContext* globalCtx);
+void EnEg_Update(EnEg* this, GlobalContext* globalCtx);
+void EnEg_Draw(EnEg* this, GlobalContext* globalCtx);
 
 static bool hasVoidedOut = false;
 static const ActorFunc funcTbl[] = {
@@ -29,22 +21,22 @@ static const ActorFunc funcTbl[] = {
 };
 
 const ActorInit En_Eg_InitVars = {
-    ACTOR_EN_EG,        ACTORTYPE_ITEMACTION, FLAGS,           OBJECT_ZL2, sizeof(ActorEg), (ActorFunc)Init,
-    (ActorFunc)Destroy, (ActorFunc)Update,    (ActorFunc)Draw,
+    ACTOR_EN_EG,        ACTORTYPE_ITEMACTION, FLAGS,           OBJECT_ZL2, sizeof(EnEg), (ActorFunc)EnEg_Init,
+    (ActorFunc)EnEg_Destroy, (ActorFunc)EnEg_Update,    (ActorFunc)EnEg_Draw,
 };
 
-static void PlayVoidOutSFX() {
+void PlayVoidOutSFX() {
     func_800788CC(NA_SE_OC_ABYSS);
 }
 
-static void Destroy(ActorEg* this, GlobalContext* globalCtx) {
+void EnEg_Destroy(EnEg* this, GlobalContext* globalCtx) {
 }
 
-static void Init(ActorEg* this, GlobalContext* globalCtx) {
+void EnEg_Init(EnEg* this, GlobalContext* globalCtx) {
     this->funcIndex = 0;
 }
 
-static void func_809FFDC8(ActorEg* this, GlobalContext* globalCtx) {
+void func_809FFDC8(EnEg* this, GlobalContext* globalCtx) {
     if (!hasVoidedOut && (gSaveContext.timer_2_value < 1) && Flags_GetSwitch(globalCtx, 0x36) && (kREG(0) == 0)) {
         // Void the player out
         func_800C0C88(globalCtx);
@@ -56,7 +48,7 @@ static void func_809FFDC8(ActorEg* this, GlobalContext* globalCtx) {
     }
 }
 
-static void Update(ActorEg* this, GlobalContext* globalCtx) {
+void EnEg_Update(EnEg* this, GlobalContext* globalCtx) {
     s32 funcIndex = this->funcIndex;
 
     if (((funcIndex < 0) || (0 < funcIndex)) || (funcTbl[funcIndex] == NULL)) {
@@ -67,5 +59,5 @@ static void Update(ActorEg* this, GlobalContext* globalCtx) {
     }
 }
 
-static void Draw(ActorEg* this, GlobalContext* globalCtx) {
+void EnEg_Draw(EnEg* this, GlobalContext* globalCtx) {
 }

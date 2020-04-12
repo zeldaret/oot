@@ -1,13 +1,12 @@
 .late_rodata
 
 glabel D_8087192C
- .word 0x3BF5C28F
+    .float 0.007499999832361937
 
 glabel D_80871930
     .float 0.6
     .balign 4
 
- 
 .text
 glabel func_80871364
 /* 00274 80871364 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98

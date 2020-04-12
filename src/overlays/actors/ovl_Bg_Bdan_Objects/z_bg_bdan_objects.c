@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_bdan_objects.c
+ * Overlay: Bg_Bdan_Objects
+ * Description: Lord Jabu-Jabu Objects
+ */
+
 #include "z_bg_bdan_objects.h"
 
 #define FLAGS 0x00000010

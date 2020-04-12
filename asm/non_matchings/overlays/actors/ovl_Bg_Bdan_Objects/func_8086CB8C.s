@@ -1,6 +1,7 @@
 .late_rodata
 glabel D_8086CE6C
- .word 0x3D80ADFD
+    .float 0.06283185631036758
+
 
 
 .text

@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_bowl_wall.c
+ * Overlay: Bg_Bowl_Wall
+ * Description: Bombchu Bowling Alley Wall
+ */
+
 #include "z_bg_bowl_wall.h"
 
 #define FLAGS 0x00000030

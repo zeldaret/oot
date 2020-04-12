@@ -1,3 +1,9 @@
+/*
+ * File: z_en_wood02.c
+ * Overlay: ovl_En_Wood02
+ * Description: Trees & Bushes
+ */
+
 #include "z_en_wood02.h"
 
 #define FLAGS 0x00000000

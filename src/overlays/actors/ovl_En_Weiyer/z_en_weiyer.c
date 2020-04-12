@@ -1,3 +1,9 @@
+/*
+ * File: z_en_weiyer.c
+ * Overlay: ovl_En_Weiyer
+ * Description: Stinger (Water)
+ */
+
 #include "z_en_weiyer.h"
 
 #define FLAGS 0x00000005

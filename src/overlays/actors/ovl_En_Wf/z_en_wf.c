@@ -1,3 +1,9 @@
+/*
+ * File: z_en_wf.c
+ * Overlay: ovl_En_Wf
+ * Description: Wolfos
+ */
+
 #include "z_en_wf.h"
 
 #define FLAGS 0x00000015

@@ -4,25 +4,17 @@
  * Description: Manages collision for the Door of Time.
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
-
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ u32 dynaPolyId;
-    /* 0x0150 */ u8 unk_150[0x18];
-} ActorDoorToki; // size = 0x0168
+#include "z_door_toki.h"
 
 #define FLAGS 0x00000000
 
-static void Init(ActorDoorToki* this, GlobalContext* globalCtx);
-static void Destroy(ActorDoorToki* this, GlobalContext* globalCtx);
-static void Update(ActorDoorToki* this, GlobalContext* globalCtx);
+void DoorToki_Init(DoorToki* this, GlobalContext* globalCtx);
+void DoorToki_Destroy(DoorToki* this, GlobalContext* globalCtx);
+void DoorToki_Update(DoorToki* this, GlobalContext* globalCtx);
 
 const ActorInit Door_Toki_InitVars = {
-    ACTOR_DOOR_TOKI,    ACTORTYPE_BG,      FLAGS, OBJECT_TOKI_OBJECTS, sizeof(ActorDoorToki), (ActorFunc)Init,
-    (ActorFunc)Destroy, (ActorFunc)Update, NULL,
+    ACTOR_DOOR_TOKI,    ACTORTYPE_BG,      FLAGS, OBJECT_TOKI_OBJECTS, sizeof(DoorToki), (ActorFunc)DoorToki_Init,
+    (ActorFunc)DoorToki_Destroy, (ActorFunc)DoorToki_Update, NULL,
 };
 
 // This has to be defined in the linker to produce a proper lui addiu pair
@@ -32,7 +24,7 @@ static InitChainEntry initChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-static void Init(ActorDoorToki* this, GlobalContext* globalCtx) {
+void DoorToki_Init(DoorToki* this, GlobalContext* globalCtx) {
     s32 pad[2];
     u32 sp1C = 0;
 
@@ -42,11 +34,11 @@ static void Init(ActorDoorToki* this, GlobalContext* globalCtx) {
     this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
 }
 
-static void Destroy(ActorDoorToki* this, GlobalContext* globalCtx) {
+void DoorToki_Destroy(DoorToki* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
-static void Update(ActorDoorToki* this, GlobalContext* globalCtx) {
+void DoorToki_Update(DoorToki* this, GlobalContext* globalCtx) {
     if (gSaveContext.event_chk_inf[4] & 0x800) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
     } else {

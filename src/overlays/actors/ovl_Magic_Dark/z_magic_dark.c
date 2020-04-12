@@ -1,3 +1,9 @@
+/*
+ * File: z_magic_dark.c
+ * Overlay: ovl_Magic_Dark
+ * Description: Nayru's Love
+ */
+
 #include "z_magic_dark.h"
 
 #define FLAGS 0x02000010

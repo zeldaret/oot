@@ -1,3 +1,9 @@
+/*
+ * File: z_en_vb_ball.c
+ * Overlay: ovl_En_Vb_Ball
+ * Description: Volvagia's Rocks
+ */
+
 #include "z_en_vb_ball.h"
 
 #define FLAGS 0x00000030

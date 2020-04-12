@@ -1,3 +1,9 @@
+/*
+ * File: z_en_tr.c
+ * Overlay: ovl_En_Tr
+ * Description: Koume and Kotake
+ */
+
 #include "z_en_tr.h"
 
 #define FLAGS 0x00000010

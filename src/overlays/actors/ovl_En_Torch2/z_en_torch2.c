@@ -1,3 +1,9 @@
+/*
+ * File: z_en_torch2.c
+ * Overlay: ovl_En_Torch2
+ * Description: Dark Link
+ */
+
 #include "z_en_torch2.h"
 
 #define FLAGS 0x00000035

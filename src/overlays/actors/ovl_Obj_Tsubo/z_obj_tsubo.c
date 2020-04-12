@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_tsubo.c
+ * Overlay: ovl_Obj_Tsubo
+ * Description: Breakable pot 
+ */
+
 #include "z_obj_tsubo.h"
 
 #define FLAGS 0x00800010

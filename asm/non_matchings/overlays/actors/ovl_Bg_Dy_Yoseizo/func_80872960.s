@@ -5,7 +5,8 @@ glabel D_80875680
     .balign 4
 
 glabel D_80875684
- .word 0x455AC000
+    .float 3500.0
+
 glabel D_80875688
     .float 0.4
     .balign 4

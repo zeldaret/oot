@@ -1,3 +1,9 @@
+/*
+ * File: z_en_zf.c
+ * Overlay: ovl_En_Zf
+ * Description: Lizalfos and Dinolfos
+ */
+
 #include "z_en_zf.h"
 
 #define FLAGS 0x00000015

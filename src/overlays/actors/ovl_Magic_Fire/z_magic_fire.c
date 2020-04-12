@@ -1,3 +1,9 @@
+/*
+ * File: z_magic_fire.c
+ * Overlay: ovl_Magic_Fire
+ * Description: Din's Fire
+ */
+
 #include "z_magic_fire.h"
 
 #define FLAGS 0x02000010

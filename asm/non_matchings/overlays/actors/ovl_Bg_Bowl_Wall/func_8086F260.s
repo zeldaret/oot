@@ -5,7 +5,8 @@ glabel D_8086FAD0
 
 .late_rodata
 glabel D_8086FB10
- .word 0x403F5C29, 0x00000000, 0x00000000, 0x00000000
+    .float 2.990000009536743
+
 
 
 .text

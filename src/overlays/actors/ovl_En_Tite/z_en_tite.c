@@ -1,3 +1,9 @@
+/*
+ * File: z_en_tite.c
+ * Overlay: ovl_En_Tite
+ * Description: Tektite
+ */
+
 #include "z_en_tite.h"
 
 #define FLAGS 0x00000015

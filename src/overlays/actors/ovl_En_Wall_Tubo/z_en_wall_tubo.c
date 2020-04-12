@@ -1,3 +1,9 @@
+/*
+ * File: z_en_wall_tubo.c
+ * Overlay: ovl_En_Wall_Tubo
+ * Description: Bombchu Bowling Alley Wall 2
+ */
+
 #include "z_en_wall_tubo.h"
 
 #define FLAGS 0x00000010

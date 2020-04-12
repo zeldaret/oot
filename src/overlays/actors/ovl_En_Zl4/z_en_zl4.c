@@ -1,3 +1,9 @@
+/*
+ * File: z_en_zl4.c
+ * Overlay: ovl_En_Zl4
+ * Description: Child Princess Zelda
+ */
+
 #include "z_en_zl4.h"
 
 #define FLAGS 0x00000019

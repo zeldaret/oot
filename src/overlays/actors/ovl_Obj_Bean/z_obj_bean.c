@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_bean.c
+ * Overlay: ovl_Obj_Bean
+ * Description: Bean plant spot
+ */
+
 #include "z_obj_bean.h"
 
 #define FLAGS 0x00400000

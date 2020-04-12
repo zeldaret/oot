@@ -4,23 +4,14 @@
  * Description: Skulltula Sprouting from Bean Spot.
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
-
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc actionFunc;
-    /* 0x150  */ s16 unk_150;
-    /* 0x152  */ s16 unk_152;
-} ObjMakekinsuta; // size = 0x0154
+#include "z_obj_makekinsuta.h"
 
 #define FLAGS 0x00000010
 
-static void ObjMakekinsuta_Init(ObjMakekinsuta* this, GlobalContext* globalCtx);
-static void ObjMakekinsuta_Update(ObjMakekinsuta* this, GlobalContext* globalCtx);
-static void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx);
-static void func_80B983D4(ObjMakekinsuta* this, GlobalContext* globalCtx);
+void ObjMakekinsuta_Init(ObjMakekinsuta* this, GlobalContext* globalCtx);
+void ObjMakekinsuta_Update(ObjMakekinsuta* this, GlobalContext* globalCtx);
+void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx);
+void func_80B983D4(ObjMakekinsuta* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Makekinsuta_InitVars = {
     ACTOR_OBJ_MAKEKINSUTA,
@@ -34,7 +25,7 @@ const ActorInit Obj_Makekinsuta_InitVars = {
     NULL,
 };
 
-static void ObjMakekinsuta_Init(ObjMakekinsuta* this, GlobalContext* globalCtx) {
+void ObjMakekinsuta_Init(ObjMakekinsuta* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x6000) == 0x4000) {
         osSyncPrintf(VT_FGCOL(BLUE));
         // Translation: Gold Star Enemy(arg_data %x)
@@ -49,7 +40,7 @@ static void ObjMakekinsuta_Init(ObjMakekinsuta* this, GlobalContext* globalCtx) 
     this->actionFunc = func_80B98320;
 }
 
-static void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx) {
+void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx) {
     if (this->unk_152 != 0) {
         if (this->unk_150 >= 0x3C && !func_8002DEEC(PLAYER)) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SW, this->actor.posRot.pos.x,
@@ -64,9 +55,9 @@ static void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx) {
     this->unk_150 = 0;
 }
 
-static void func_80B983D4(ObjMakekinsuta* this, GlobalContext* globalCtx) {
+void func_80B983D4(ObjMakekinsuta* this, GlobalContext* globalCtx) {
 }
 
-static void ObjMakekinsuta_Update(ObjMakekinsuta* this, GlobalContext* globalCtx) {
+void ObjMakekinsuta_Update(ObjMakekinsuta* this, GlobalContext* globalCtx) {
     this->actionFunc(&this->actor, globalCtx);
 }

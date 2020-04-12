@@ -1,3 +1,9 @@
+/*
+ * File: z_en_yabusame_mark.c
+ * Overlay: ovl_En_Yabusame_Mark
+ * Description: Horseback Archery Target (arrow hitbox)
+ */
+
 #include "z_en_yabusame_mark.h"
 
 #define FLAGS 0x00000000

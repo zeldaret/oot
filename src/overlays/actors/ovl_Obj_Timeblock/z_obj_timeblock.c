@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_timeblock.c
+ * Overlay: ovl_Obj_Timeblock
+ * Description: Song of Time Block
+ */
+
 #include "z_obj_timeblock.h"
 
 #define FLAGS 0x0A000011

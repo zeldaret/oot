@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_breakwall.c
+ * Overlay: Bg_Breakwall
+ * Description: Bombable Wall
+ */
+
 #include "z_bg_breakwall.h"
 
 #define FLAGS 0x00000010

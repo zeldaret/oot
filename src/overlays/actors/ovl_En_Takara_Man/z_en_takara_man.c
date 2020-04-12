@@ -1,3 +1,9 @@
+/*
+ * File: z_en_takara_man.c
+ * Overlay: ovl_En_Takara_Man
+ * Description: Treasure Chest Game Man
+ */
+
 #include "z_en_takara_man.h"
 
 #define FLAGS 0x08000039

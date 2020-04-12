@@ -1,3 +1,9 @@
+/*
+ * File: z_en_zo.c
+ * Overlay: ovl_En_Zo
+ * Description: Zora
+ */
+
 #include "z_en_zo.h"
 
 #define FLAGS 0x00000009

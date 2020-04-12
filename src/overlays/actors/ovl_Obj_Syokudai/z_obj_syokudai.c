@@ -1,3 +1,10 @@
+/*
+ * File: z_obj_syokudai.c
+ * Overlay: ovl_Obj_Syokudai
+ * Description: Torch
+ */
+
+
 #include "z_obj_syokudai.h"
 
 #define FLAGS 0x00000410

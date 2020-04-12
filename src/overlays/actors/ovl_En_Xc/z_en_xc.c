@@ -1,3 +1,9 @@
+/*
+ * File: z_en_xc.c
+ * Overlay: ovl_En_Xc
+ * Description: Sheik
+ */
+
 #include "z_en_xc.h"
 
 #define FLAGS 0x00000010

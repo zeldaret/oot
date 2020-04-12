@@ -1,3 +1,9 @@
+/*
+ * File: z_en_vali.c
+ * Overlay: ovl_En_Vali
+ * Description: Bari (Big Jellyfish)
+ */
+
 #include "z_en_vali.h"
 
 #define FLAGS 0x00001015

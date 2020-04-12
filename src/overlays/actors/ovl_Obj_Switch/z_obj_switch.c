@@ -1,3 +1,9 @@
+/*
+ * File: z_obj_switch.c
+ * Overlay: ovl_Obj_Switch
+ * Description: Switches
+ */
+
 #include "z_obj_switch.h"
 
 #define FLAGS 0x00000010

@@ -8,14 +8,14 @@
 
 #define FLAGS 0x000000B0
 
-static void BgHakaMegane_Init(BgHakaMegane* this, GlobalContext* globalCtx);
-static void BgHakaMegane_Destroy(BgHakaMegane* this, GlobalContext* globalCtx);
-static void BgHakaMegane_Update(BgHakaMegane* this, GlobalContext* globalCtx);
+void BgHakaMegane_Init(BgHakaMegane* this, GlobalContext* globalCtx);
+void BgHakaMegane_Destroy(BgHakaMegane* this, GlobalContext* globalCtx);
+void BgHakaMegane_Update(BgHakaMegane* this, GlobalContext* globalCtx);
 
-static void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx);
-static void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx);
-static void func_8087DC64(BgHakaMegane* this, GlobalContext* globalCtx);
-static void func_8087DC94(BgHakaMegane* this, GlobalContext* globalCtx);
+void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx);
+void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx);
+void func_8087DC64(BgHakaMegane* this, GlobalContext* globalCtx);
+void func_8087DC94(BgHakaMegane* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Haka_Megane_InitVars = {
     ACTOR_BG_HAKA_MEGANE,
@@ -45,7 +45,7 @@ static UNK_TYPE dlists[] = {
 
 extern UNK_TYPE D_06001250;
 
-static void BgHakaMegane_Init(BgHakaMegane* this, GlobalContext* globalCtx) {
+void BgHakaMegane_Init(BgHakaMegane* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     Actor_ProcessInitChain(thisx, initChain);
@@ -64,11 +64,11 @@ static void BgHakaMegane_Init(BgHakaMegane* this, GlobalContext* globalCtx) {
     }
 }
 
-static void BgHakaMegane_Destroy(BgHakaMegane* this, GlobalContext* globalCtx) {
+void BgHakaMegane_Destroy(BgHakaMegane* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
+void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
     s32 localC;
     UNK_TYPE collision;
 
@@ -90,7 +90,7 @@ static void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx) {
+void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     if (globalCtx->actorCtx.unk_03 != 0) {
         thisx->flags |= 0x80;
@@ -101,14 +101,14 @@ static void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8087DC64(BgHakaMegane* this, GlobalContext* globalCtx) {
+void func_8087DC64(BgHakaMegane* this, GlobalContext* globalCtx) {
 }
 
-static void BgHakaMegane_Update(BgHakaMegane* this, GlobalContext* globalCtx) {
+void BgHakaMegane_Update(BgHakaMegane* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-static void func_8087DC94(BgHakaMegane* this, GlobalContext* globalCtx) {
+void func_8087DC94(BgHakaMegane* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if ((thisx->flags & 0x80) == 0x80) {

@@ -4,25 +4,19 @@
  * Description: Spawns a chest with the appropriate contents then unloads. Used in grottos.
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
-
-typedef struct {
-    /* 0x0000 */ Actor actor;
-} ActorEnTorch; // size = 0x014C
+#include "z_en_torch.h"
 
 #define FLAGS 0x00000000
 
-static void Init(ActorEnTorch* this, GlobalContext* globalCtx);
+void EnTorch_Init(EnTorch* this, GlobalContext* globalCtx);
 
 const ActorInit En_Torch_InitVars = {
     ACTOR_EN_TORCH,
     ACTORTYPE_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
-    sizeof(ActorEnTorch),
-    (ActorFunc)Init,
+    sizeof(EnTorch),
+    (ActorFunc)EnTorch_Init,
     NULL,
     NULL,
     NULL,
@@ -32,7 +26,7 @@ static u8 sChestContents[] = {
     GI_RUPEE_BLUE, GI_RUPEE_RED, GI_RUPEE_GOLD, GI_BOMBS_20, GI_BOMBS_1, GI_BOMBS_1, GI_BOMBS_1, GI_BOMBS_1,
 };
 
-static void Init(ActorEnTorch* this, GlobalContext* globalCtx) {
+void EnTorch_Init(EnTorch* this, GlobalContext* globalCtx) {
     s8 returnData = gSaveContext.respawn[RESPAWN_MODE_RETURN].data;
 
     /* Spawn chest with desired contents.

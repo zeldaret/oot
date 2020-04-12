@@ -17,12 +17,12 @@ glabel D_80865BFC
 
 .late_rodata
 glabel D_80865C14
- .word 0x3C75C28F
+    .float 0.014999999664723873
+
+
 glabel D_80865C18
     .float 0.01
     .balign 4
-
-
 
 .text
 glabel ArmsHook_Draw

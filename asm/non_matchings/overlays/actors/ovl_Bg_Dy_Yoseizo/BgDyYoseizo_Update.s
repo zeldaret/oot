@@ -1,7 +1,8 @@
 .late_rodata
 
 glabel D_808756B4
- .word 0x45EA6000
+    .float 7500.0
+
 
 .text
 glabel BgDyYoseizo_Update

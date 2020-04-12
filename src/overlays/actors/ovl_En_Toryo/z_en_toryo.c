@@ -1,3 +1,9 @@
+/*
+ * File: z_en_tory.c
+ * Overlay: ovl_En_Toryo
+ * Description: Boss Carpenter
+ */
+
 #include "z_en_toryo.h"
 
 #define FLAGS 0x00000009

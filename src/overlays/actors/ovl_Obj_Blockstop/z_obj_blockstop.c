@@ -4,26 +4,20 @@
  * Description: Stops blocks and sets relevant flags when the block is in position.
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
-
-typedef struct {
-    /* 0x0000 */ Actor actor;
-} ActorObjBlockstop; // size = 0x014C
+#include "z_obj_blockstop.h"
 
 #define FLAGS 0x00000000
 
-static void Init(ActorObjBlockstop* this, GlobalContext* globalCtx);
-static void Destroy(ActorObjBlockstop* this, GlobalContext* globalCtx);
-static void Update(ActorObjBlockstop* this, GlobalContext* globalCtx);
+void ObjBlockstop_Init(ObjBlockstop* this, GlobalContext* globalCtx);
+void ObjBlockstop_Destroy(ObjBlockstop* this, GlobalContext* globalCtx);
+void ObjBlockstop_Update(ObjBlockstop* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Blockstop_InitVars = {
-    ACTOR_OBJ_BLOCKSTOP, ACTORTYPE_PROP,    FLAGS, OBJECT_GAMEPLAY_KEEP, sizeof(ActorObjBlockstop), (ActorFunc)Init,
-    (ActorFunc)Destroy,  (ActorFunc)Update, NULL,
+    ACTOR_OBJ_BLOCKSTOP, ACTORTYPE_PROP,    FLAGS, OBJECT_GAMEPLAY_KEEP, sizeof(ObjBlockstop), (ActorFunc)ObjBlockstop_Init,
+    (ActorFunc)ObjBlockstop_Destroy,  (ActorFunc)ObjBlockstop_Update, NULL,
 };
 
-static void Init(ActorObjBlockstop* this, GlobalContext* globalCtx) {
+void ObjBlockstop_Init(ObjBlockstop* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         Actor_Kill(&this->actor);
     } else {
@@ -31,10 +25,10 @@ static void Init(ActorObjBlockstop* this, GlobalContext* globalCtx) {
     }
 }
 
-static void Destroy(ActorObjBlockstop* this, GlobalContext* globalCtx) {
+void ObjBlockstop_Destroy(ObjBlockstop* this, GlobalContext* globalCtx) {
 }
 
-static void Update(ActorObjBlockstop* this, GlobalContext* globalCtx) {
+void ObjBlockstop_Update(ObjBlockstop* this, GlobalContext* globalCtx) {
     DynaPolyActor* dynaActor;
     s32 pad;
     Vec3f sp4C;

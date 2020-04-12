@@ -1,10 +1,13 @@
 .late_rodata
 glabel D_8086CE4C
- .word 0xC48D4000
+    .float -1130.0
+
 glabel D_8086CE50
- .word 0xC4802000
+    .float -1025.0
+
 glabel D_8086CE54
- .word 0xC55AC000
+    .float -3500.0
+
 
 .text
 glabel func_8086C3D8

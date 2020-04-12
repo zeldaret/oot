@@ -1,3 +1,9 @@
+/*
+ * File: z_item_shield.c
+ * Overlay: ovl_Item_Shield
+ * Description: Deku Shield
+ */
+
 #include "z_item_shield.h"
 
 #define FLAGS 0x00000010
