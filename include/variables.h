@@ -3814,7 +3814,7 @@ extern Arena gSystemArena;
 //extern OSMesgQueue _osContMesgQueue;
 //extern OSMesg _osContMesgBuff[4];
 //extern ? D_80175860;
-//extern ? pifMempakBuf;
+extern pif_data_buffer_t pifMempakBuf;
 //extern ? D_801759A0;
 //extern ? D_801759A4;
 //extern ? D_801759A8;

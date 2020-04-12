@@ -1,37 +1,22 @@
 #include <ultra64.h>
 #include <global.h>
 
-#include <ultra64/controller.h> 
+#include <ultra64/controller.h>
 
-#ifdef NON_MATCHING
-
-extern pif_data_buffer_t pifMempakBuf;
-
-/*
-Minor reorderings
-addr is accessed from the stack with lhu instructions, implying it's unsigned.
-However changing its declaration to u16 adds additional instructions when storing
-it on the stack in the first place. Also tried making it a 32-bit struct where
-the second 16 bits was a u16, that potentially got farther but still added
-additional instructions. As is below was the closest to match despite `lh`
-instead of `lhu`.
-*/
-s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, s16 addr, PIF_mempak_data_t* data)
+s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, PIF_mempak_data_t* data)
 {
     s32 ret;
-    u8 *bufptr;
     s32 i;
+    u8 *bufptr;
     s32 read_try_count = 2;
     
     __osSiGetAccess();
     do{
         if ((_osCont_lastPollType != 2) || (ctrlridx != D_80134D20)) {
-            bufptr = &pifMempakBuf;
+            bufptr = &pifMempakBuf.bytes[0];
             _osCont_lastPollType = (u8)2U;
             D_80134D20 = ctrlridx;
-            for(i = 0; i < ctrlridx; i++){
-                *bufptr++ = 0;
-            }
+            for(i = 0; i < ctrlridx; i++) *bufptr++ = 0;
             pifMempakBuf.status_control = 1;
             ((PIF_header_t*)bufptr)->slot_type = (u8)0xff;
             ((PIF_header_t*)bufptr)->bytes_send = (u8)3;
@@ -41,7 +26,7 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, s16 addr, PIF_mempak_dat
             bufptr[0x26] = (u8)0xff; //last byte of receive
             bufptr[0x27] = (u8)0xfe; //End of commands
         }else{
-            bufptr = (u8*)&pifMempakBuf + ctrlridx;
+            bufptr = &pifMempakBuf.bytes[ctrlridx];
         }
         bufptr[4] = addr >> 3; //send byte 1
         bufptr[5] = (s8) (osMempakAddrCRC(addr) | (addr << 5)); //send byte 2
@@ -50,12 +35,11 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, s16 addr, PIF_mempak_dat
         __osSiRawStartDma(0, &pifMempakBuf);
         osRecvMesg(ctrlrqueue, 0, 1);
         ret = (((PIF_header_t*)bufptr)->status_hi_bytes_rec_lo & 0xc0) >> 4;
-        if(ret == 0){
-            if(osMempakDataCRC(bufptr + 6) != bufptr[0x26]){
+        if(!ret){
+            if(bufptr[0x26] != osMempakDataCRC(bufptr + 6)){
                 ret = func_80101910(ctrlrqueue, ctrlridx);
-                if(ret == 0){
-                    ret = 4; //Retry
-                }
+                if(ret) break;
+                ret = 4; //Retry
             }else{
                 bcopy(bufptr + 6, data, 0x20);
             }
@@ -67,7 +51,3 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, s16 addr, PIF_mempak_dat
     __osSiRelAccess();
     return ret;
 }
-
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/osReadMempak/osReadMempak.s")
-#endif
