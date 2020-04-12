@@ -65,7 +65,7 @@ glabel D_8013C0A4
     .balign 4
 
 .text
-glabel func_8006E418
+glabel Jpeg_Decode
 /* AE55B8 8006E418 27BDFD30 */  addiu $sp, $sp, -0x2d0
 /* AE55BC 8006E41C AFBF003C */  sw    $ra, 0x3c($sp)
 /* AE55C0 8006E420 AFB70038 */  sw    $s7, 0x38($sp)
@@ -133,7 +133,7 @@ glabel func_8006E418
 /* AE56B4 8006E514 00000000 */   nop   
 /* AE56B8 8006E518 AFB602BC */  sw    $s6, 0x2bc($sp)
 /* AE56BC 8006E51C 02202025 */  move  $a0, $s1
-/* AE56C0 8006E520 0C01B83B */  jal   func_8006E0EC
+/* AE56C0 8006E520 0C01B83B */  jal   Jpeg_ParseMarkers
 /* AE56C4 8006E524 27A50208 */   addiu $a1, $sp, 0x208
 /* AE56C8 8006E528 0C001A78 */  jal   osGetTime
 /* AE56CC 8006E52C 00000000 */   nop   
@@ -402,7 +402,7 @@ glabel func_8006E418
 /* AE5ABC 8006E91C 10000016 */  b     .L8006E978
 /* AE5AC0 8006E920 26B50004 */   addiu $s5, $s5, 4
 .L8006E924:
-/* AE5AC4 8006E924 0C01B78C */  jal   func_8006DE30
+/* AE5AC4 8006E924 0C01B78C */  jal   Jpeg_SendTask
 /* AE5AC8 8006E928 27A40208 */   addiu $a0, $sp, 0x208
 /* AE5ACC 8006E92C 8FA40040 */  lw    $a0, 0x40($sp)
 /* AE5AD0 8006E930 0C001880 */  jal   osInvalDCache
@@ -413,7 +413,7 @@ glabel func_8006E418
 /* AE5AE0 8006E940 02202025 */  move  $a0, $s1
 /* AE5AE4 8006E944 02E02825 */  move  $a1, $s7
 /* AE5AE8 8006E948 02403025 */  move  $a2, $s2
-/* AE5AEC 8006E94C 0C01B7DA */  jal   func_8006DF68
+/* AE5AEC 8006E94C 0C01B7DA */  jal   Jpeg_CopyToZbuffer
 /* AE5AF0 8006E950 02603825 */   move  $a3, $s3
 /* AE5AF4 8006E954 26520001 */  addiu $s2, $s2, 1
 /* AE5AF8 8006E958 2A410014 */  slti  $at, $s2, 0x14

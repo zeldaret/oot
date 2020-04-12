@@ -58,7 +58,7 @@ glabel func_80096238
 /* B0D440 800962A0 34E78000 */  ori   $a3, (0x00018000 & 0xFFFF) # ori $a3, $a3, 0x8000
 /* B0D444 800962A4 24C6B1C0 */  addiu $a2, %lo(gGfxSPTaskOutputBuffer) # addiu $a2, $a2, -0x4e40
 /* B0D448 800962A8 24A559C0 */  addiu $a1, %lo(D_801759C0) # addiu $a1, $a1, 0x59c0
-/* B0D44C 800962AC 0C01B906 */  jal   func_8006E418
+/* B0D44C 800962AC 0C01B906 */  jal   Jpeg_Decode
 /* B0D450 800962B0 8FA40020 */   lw    $a0, 0x20($sp)
 /* B0D454 800962B4 1440002E */  bnez  $v0, .L80096370
 /* B0D458 800962B8 3C048014 */   lui   $a0, %hi(D_8013F080)
