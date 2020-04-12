@@ -6,7 +6,6 @@ glabel D_80B2A0FC
 glabel D_80B2A100
  .word 0x4622F983, 0x00000000, 0x00000000, 0x00000000
 
-
 .text
 glabel EnVbBall_Update
 /* 00614 80B295B4 27BDFEF0 */  addiu   $sp, $sp, 0xFEF0           ## $sp = FFFFFEF0
@@ -563,5 +562,3 @@ glabel EnVbBall_Update
 /* 00DD4 80B29D74 8FB50060 */  lw      $s5, 0x0060($sp)           
 /* 00DD8 80B29D78 03E00008 */  jr      $ra                        
 /* 00DDC 80B29D7C 27BD0110 */  addiu   $sp, $sp, 0x0110           ## $sp = 00000000
-
-

@@ -74,5 +74,3 @@ glabel func_80AE8D9C
 /* 00A58 80AE8E98 25EF9D1C */  addiu   $t7, $t7, %lo(func_80AE9D1C) ## $t7 = 80AE9D1C
 /* 00A5C 80AE8E9C 03E00008 */  jr      $ra                        
 /* 00A60 80AE8EA0 AC8F014C */  sw      $t7, 0x014C($a0)           ## 0000014C
-
-

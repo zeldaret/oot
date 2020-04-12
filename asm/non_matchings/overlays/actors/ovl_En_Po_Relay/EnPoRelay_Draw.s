@@ -71,4 +71,3 @@ glabel EnPoRelay_Draw
 /* 014E4 80AD8C24 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 014E8 80AD8C28 03E00008 */  jr      $ra
 /* 014EC 80AD8C2C 00000000 */  nop
-

@@ -70,5 +70,3 @@ glabel EnKakasi3_Init
 /* 000FC 80A90E1C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00100 80A90E20 03E00008 */  jr      $ra
 /* 00104 80A90E24 00000000 */  nop
-
-

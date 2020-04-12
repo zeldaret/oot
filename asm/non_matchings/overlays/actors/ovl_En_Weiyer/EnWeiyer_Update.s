@@ -103,5 +103,3 @@ glabel EnWeiyer_Update
 /* 01638 80B338C8 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 0163C 80B338CC 03E00008 */  jr      $ra                        
 /* 01640 80B338D0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

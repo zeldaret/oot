@@ -74,4 +74,3 @@ glabel BgHidanKowarerukabe_Draw
 /* 00DC4 8088ADE4 00000000 */  nop
 /* 00DC8 8088ADE8 00000000 */  nop
 /* 00DCC 8088ADEC 00000000 */  nop
-

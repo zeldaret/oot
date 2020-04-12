@@ -75,5 +75,3 @@ glabel EnFdFire_Init
 /* 00228 80A0E6D8 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0022C 80A0E6DC 03E00008 */  jr      $ra                        
 /* 00230 80A0E6E0 00000000 */  nop
-
-

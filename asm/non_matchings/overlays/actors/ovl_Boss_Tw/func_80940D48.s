@@ -6,11 +6,9 @@ glabel D_8094AA60
 .late_rodata
 glabel D_8094B020
     .float 0.3
-    .balign 4
 
 glabel D_8094B024
     .float 0.4
-    .balign 4
 
 glabel jtbl_8094B028
 .word L80941618
@@ -22,11 +20,9 @@ glabel jtbl_8094B028
 .word L809415E4
 glabel D_8094B044
     .float 0.03
-    .balign 4
 
 glabel D_8094B048
     .float 0.05
-    .balign 4
 
 glabel D_8094B04C
  .word 0x3F733333
@@ -715,5 +711,3 @@ glabel L80941618
 /* 089F4 809416C4 8FB30040 */  lw      $s3, 0x0040($sp)           
 /* 089F8 809416C8 03E00008 */  jr      $ra                        
 /* 089FC 809416CC 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
-
-

@@ -212,5 +212,3 @@ glabel ObjBean_Init
 /* 01248 80B8FCC8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0124C 80B8FCCC 03E00008 */  jr      $ra                        
 /* 01250 80B8FCD0 00000000 */  nop
-
-

@@ -118,5 +118,3 @@ glabel ObjMure_Init
 /* 001D0 80B98C70 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 001D4 80B98C74 03E00008 */  jr      $ra                        
 /* 001D8 80B98C78 00000000 */  nop
-
-

@@ -10,8 +10,6 @@ glabel D_80B4A320
 .late_rodata
 glabel D_80B4A444
     .float 1.4
-    .balign 4
-
 
 .text
 glabel EnZf_Draw
@@ -180,5 +178,3 @@ glabel EnZf_Draw
 /* 05B04 80B49B54 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 05B08 80B49B58 03E00008 */  jr      $ra
 /* 05B0C 80B49B5C 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

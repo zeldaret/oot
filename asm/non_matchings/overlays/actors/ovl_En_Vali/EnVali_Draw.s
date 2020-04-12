@@ -101,4 +101,3 @@ glabel EnVali_Draw
 /* 021C4 80B28874 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 021C8 80B28878 03E00008 */  jr      $ra
 /* 021CC 80B2887C 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
-

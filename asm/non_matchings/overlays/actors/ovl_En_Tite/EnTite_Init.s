@@ -89,5 +89,3 @@ glabel EnTite_Init
 /* 00150 80B18BD0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00154 80B18BD4 03E00008 */  jr      $ra                        
 /* 00158 80B18BD8 00000000 */  nop
-
-

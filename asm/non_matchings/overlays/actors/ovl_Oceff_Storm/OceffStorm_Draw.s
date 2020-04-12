@@ -156,4 +156,3 @@ glabel OceffStorm_Draw
 /* 00784 80BA7864 00000000 */  nop
 /* 00788 80BA7868 00000000 */  nop
 /* 0078C 80BA786C 00000000 */  nop
-

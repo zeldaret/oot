@@ -82,5 +82,3 @@ glabel EnNiwLady_Init
 /* 000EC 80AB9D2C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 000F0 80AB9D30 03E00008 */  jr      $ra                        
 /* 000F4 80AB9D34 00000000 */  nop
-
-

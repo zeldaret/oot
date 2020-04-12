@@ -1,7 +1,6 @@
 .late_rodata
-
 glabel D_809ED784
- .float -12000.0
+    .float -12000.0
 
 .text
 glabel func_809ED0C4
@@ -124,5 +123,3 @@ glabel func_809ED0C4
 /* 009F0 809ED270 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 009F4 809ED274 03E00008 */  jr      $ra                        
 /* 009F8 809ED278 00000000 */  nop
-
-

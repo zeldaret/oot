@@ -52,5 +52,3 @@ glabel ElfMsg_Update
 /* 00564 809AD084 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00568 809AD088 03E00008 */  jr      $ra                        
 /* 0056C 809AD08C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

@@ -132,5 +132,3 @@ glabel ItemOcarina_Init
 /* 001A4 80B862D4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 001A8 80B862D8 03E00008 */  jr      $ra                        
 /* 001AC 80B862DC 00000000 */  nop
-
-

@@ -26,12 +26,9 @@ glabel D_808C0A54
 .late_rodata
 glabel D_808C0A90
     .float 0.1
-    .balign 4
 
 glabel D_808C0A94
     .float 0.1
-
-
 
 .text
 glabel BgYdanSp_Draw
@@ -250,4 +247,3 @@ glabel BgYdanSp_Draw
 /* 014F4 808C0904 8FB40030 */  lw      $s4, 0x0030($sp)
 /* 014F8 808C0908 03E00008 */  jr      $ra
 /* 014FC 808C090C 27BD00C0 */  addiu   $sp, $sp, 0x00C0           ## $sp = 00000000
-

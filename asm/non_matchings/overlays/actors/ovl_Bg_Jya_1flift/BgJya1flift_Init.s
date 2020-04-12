@@ -86,5 +86,3 @@ glabel BgJya1flift_Init
 /* 001F0 80892D50 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 001F4 80892D54 03E00008 */  jr      $ra                        
 /* 001F8 80892D58 00000000 */  nop
-
-

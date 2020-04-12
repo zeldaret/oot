@@ -24,4 +24,3 @@ glabel BgYdanMaruta_Draw
 /* 00594 808BF2D4 03E00008 */  jr      $ra                        
 /* 00598 808BF2D8 00000000 */  nop
 /* 0059C 808BF2DC 00000000 */  nop
-

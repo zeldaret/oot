@@ -4,7 +4,6 @@ glabel D_80B3AA08
     .balign 4
 
 glabel D_80B3AA3C
-
     .asciz "\n\n"
     .balign 4
 
@@ -230,5 +229,3 @@ glabel func_80B3A15C
 /* 004F8 80B3A3C8 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 004FC 80B3A3CC 03E00008 */  jr      $ra                        
 /* 00500 80B3A3D0 00000000 */  nop
-
-

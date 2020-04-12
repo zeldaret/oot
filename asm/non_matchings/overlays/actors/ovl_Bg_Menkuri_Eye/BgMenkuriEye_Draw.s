@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_8089C0D0
     .asciz "../z_bg_menkuri_eye.c"
     .balign 4
@@ -118,4 +117,3 @@ glabel BgMenkuriEye_Draw
 /* 003F4 8089C064 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 003F8 8089C068 00000000 */  nop
 /* 003FC 8089C06C 00000000 */  nop
-

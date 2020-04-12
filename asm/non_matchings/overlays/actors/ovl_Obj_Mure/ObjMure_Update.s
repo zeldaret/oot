@@ -14,4 +14,3 @@ glabel ObjMure_Update
 /* 00F84 80B99A24 03E00008 */  jr      $ra                        
 /* 00F88 80B99A28 00000000 */  nop
 /* 00F8C 80B99A2C 00000000 */  nop
-

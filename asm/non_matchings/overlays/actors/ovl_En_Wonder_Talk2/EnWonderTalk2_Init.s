@@ -1,6 +1,5 @@
 .rdata
 glabel D_80B3A8F0
-
     .asciz "\n\n"
     .balign 4
 
@@ -9,7 +8,6 @@ glabel D_80B3A8F4
     .balign 4
 
 glabel D_80B3A928
-
     .asciz "\n\n"
     .balign 4
 
@@ -26,17 +24,14 @@ glabel D_80B3A98C
     .balign 4
 
 glabel D_80B3A9BC
-
     .asciz "\n\n"
     .balign 4
 
 glabel D_80B3A9C0
-
     .asciz "\n\n"
     .balign 4
 
 glabel D_80B3A9C4
-
     .asciz "\n\n"
     .balign 4
 
@@ -210,5 +205,3 @@ glabel EnWonderTalk2_Init
 /* 00230 80B3A100 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00234 80B3A104 03E00008 */  jr      $ra                        
 /* 00238 80B3A108 00000000 */  nop
-
-

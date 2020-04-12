@@ -5,4 +5,3 @@ glabel EnHorseGameCheck_Draw
 /* 00EC4 80A68414 00000000 */  nop
 /* 00EC8 80A68418 00000000 */  nop
 /* 00ECC 80A6841C 00000000 */  nop
-

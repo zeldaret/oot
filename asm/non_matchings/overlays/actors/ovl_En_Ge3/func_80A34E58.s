@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80A351E0
     .asciz "../z_en_ge3.c"
     .balign 4
@@ -126,5 +125,3 @@ glabel func_80A34E58
 /* 009D8 80A34FF8 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 009DC 80A34FFC 03E00008 */  jr      $ra                        
 /* 009E0 80A35000 00000000 */  nop
-
-

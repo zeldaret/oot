@@ -74,5 +74,3 @@ glabel EnMk_Init
 /* 0010C 80AACA0C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00110 80AACA10 03E00008 */  jr      $ra
 /* 00114 80AACA14 00000000 */  nop
-
-

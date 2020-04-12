@@ -102,5 +102,3 @@ glabel BgHidanFwbig_Update
 /* 008D4 80887BC4 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 008D8 80887BC8 03E00008 */  jr      $ra                        
 /* 008DC 80887BCC 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

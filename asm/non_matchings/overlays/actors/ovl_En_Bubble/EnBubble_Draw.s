@@ -18,9 +18,6 @@ glabel D_809CCF18
  .word 0x3C8EFA35
 glabel D_809CCF1C
     .float 0.2
-    .balign 4
-
-
 
 .text
 glabel EnBubble_Draw
@@ -174,4 +171,3 @@ glabel EnBubble_Draw
 /* 01204 809CCE04 00000000 */  nop
 /* 01208 809CCE08 00000000 */  nop
 /* 0120C 809CCE0C 00000000 */  nop
-

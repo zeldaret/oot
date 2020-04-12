@@ -15,8 +15,6 @@ glabel D_80B8AFE8
 glabel D_80B8B010
     .float 0.15
 
-
-
 .text
 glabel MagicFire_Draw
 /* 00504 80B89274 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
@@ -439,4 +437,3 @@ glabel MagicFire_Draw
 /* 00B64 80B898D4 03E00008 */  jr      $ra                        
 /* 00B68 80B898D8 00000000 */  nop
 /* 00B6C 80B898DC 00000000 */  nop
-

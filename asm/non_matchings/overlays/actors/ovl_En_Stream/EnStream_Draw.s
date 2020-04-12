@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80B0BCD0
     .asciz "../z_en_stream.c"
     .balign 4
@@ -99,4 +98,3 @@ glabel EnStream_Draw
 /* 004F4 80B0BC94 03E00008 */  jr      $ra                        
 /* 004F8 80B0BC98 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 004FC 80B0BC9C 00000000 */  nop
-

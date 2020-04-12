@@ -41,5 +41,3 @@ glabel BgTokiHikari_Init
 /* 00080 808B9F80 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00084 808B9F84 03E00008 */  jr      $ra                        
 /* 00088 808B9F88 00000000 */  nop
-
-

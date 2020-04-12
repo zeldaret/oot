@@ -90,5 +90,3 @@ glabel BgHakaShip_Init
 /* 00134 8087F234 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00138 8087F238 03E00008 */  jr      $ra                        
 /* 0013C 8087F23C 00000000 */  nop
-
-

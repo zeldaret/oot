@@ -142,5 +142,3 @@ glabel EnDntDemo_Init
 /* 001B8 809F0A98 8FB00038 */  lw      $s0, 0x0038($sp)           
 /* 001BC 809F0A9C 03E00008 */  jr      $ra                        
 /* 001C0 809F0AA0 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

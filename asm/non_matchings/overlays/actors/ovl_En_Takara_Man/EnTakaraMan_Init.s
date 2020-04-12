@@ -113,5 +113,3 @@ glabel EnTakaraMan_Init
 /* 00174 80B176D4 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00178 80B176D8 03E00008 */  jr      $ra
 /* 0017C 80B176DC 00000000 */  nop
-
-

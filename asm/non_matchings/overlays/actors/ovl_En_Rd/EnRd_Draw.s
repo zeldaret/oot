@@ -153,4 +153,3 @@ glabel EnRd_Draw
 /* 02494 80AE4894 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 02498 80AE4898 03E00008 */  jr      $ra
 /* 0249C 80AE489C 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-

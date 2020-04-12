@@ -1,12 +1,9 @@
 .rdata
-
 glabel D_8086F040
-
     .asciz "Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n"
     .balign 4
 
 glabel D_8086F074
-
     .asciz "../z_bg_bombwall.c"
     .balign 4
 
@@ -49,5 +46,3 @@ glabel func_8086E7D0
 /* 00074 8086E844 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00078 8086E848 03E00008 */  jr      $ra                        
 /* 0007C 8086E84C 00000000 */  nop
-
-

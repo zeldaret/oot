@@ -8,5 +8,3 @@ glabel EnSiofuki_Update
 /* 00A0C 80AFC58C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00A10 80AFC590 03E00008 */  jr      $ra                        
 /* 00A14 80AFC594 00000000 */  nop
-
-

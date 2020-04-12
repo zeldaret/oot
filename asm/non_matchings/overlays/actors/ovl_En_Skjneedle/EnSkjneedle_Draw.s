@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80B021C0
     .asciz "../z_en_skj_needle.c"
     .balign 4
@@ -67,4 +66,3 @@ glabel EnSkjneedle_Draw
 /* 002A4 80B02154 00000000 */  nop
 /* 002A8 80B02158 00000000 */  nop
 /* 002AC 80B0215C 00000000 */  nop
-

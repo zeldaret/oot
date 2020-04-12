@@ -200,4 +200,3 @@ glabel EnfHG_Draw
 /* 027A4 80B65164 8FB20030 */  lw      $s2, 0x0030($sp)           
 /* 027A8 80B65168 03E00008 */  jr      $ra                        
 /* 027AC 80B6516C 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-

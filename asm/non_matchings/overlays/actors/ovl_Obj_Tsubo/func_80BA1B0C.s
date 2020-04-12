@@ -17,4 +17,3 @@ glabel func_80BA1B0C
 /* 00DE4 80BA1B44 03E00008 */  jr      $ra                        
 /* 00DE8 80BA1B48 00000000 */  nop
 /* 00DEC 80BA1B4C 00000000 */  nop
-

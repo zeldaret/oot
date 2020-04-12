@@ -143,5 +143,3 @@ glabel EnIn_Update
 /* 02364 80A7B314 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 02368 80A7B318 03E00008 */  jr      $ra                        
 /* 0236C 80A7B31C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

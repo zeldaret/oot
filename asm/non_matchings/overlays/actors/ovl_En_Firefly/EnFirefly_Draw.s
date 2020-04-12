@@ -69,5 +69,3 @@ glabel EnFirefly_Draw
 /* 01DAC 80A14E1C 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 01DB0 80A14E20 03E00008 */  jr      $ra
 /* 01DB4 80A14E24 00000000 */  nop
-
-

@@ -133,5 +133,3 @@ glabel EnYabusameMark_Init
 /* 001A8 80B42F68 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 001AC 80B42F6C 03E00008 */  jr      $ra                        
 /* 001B0 80B42F70 00000000 */  nop
-
-

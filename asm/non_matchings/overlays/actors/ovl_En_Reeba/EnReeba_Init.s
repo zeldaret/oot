@@ -6,7 +6,6 @@ glabel D_80AE65F0
 .late_rodata
 glabel D_80AE667C
     .float 0.04
-    .balign 4
 
 glabel D_80AE6680
  .word 0xC6D6D800
@@ -150,5 +149,3 @@ glabel EnReeba_Init
 /* 001F0 80AE4EC0 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 001F4 80AE4EC4 03E00008 */  jr      $ra                        
 /* 001F8 80AE4EC8 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

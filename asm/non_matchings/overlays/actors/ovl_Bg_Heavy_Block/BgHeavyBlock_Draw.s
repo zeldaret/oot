@@ -121,5 +121,3 @@ glabel BgHeavyBlock_Draw
 /* 01618 80884DA8 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 0161C 80884DAC 03E00008 */  jr      $ra                        
 /* 01620 80884DB0 00000000 */  nop
-
-

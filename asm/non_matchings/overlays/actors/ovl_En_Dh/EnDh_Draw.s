@@ -14,9 +14,6 @@ glabel D_809EC6A0
 .late_rodata
 glabel D_809EC6EC
     .float 0.01
-    .balign 4
-
-
 
 .text
 glabel EnDh_Draw
@@ -246,4 +243,3 @@ glabel EnDh_Draw
 /* 01854 809EC594 8FB20040 */  lw      $s2, 0x0040($sp)
 /* 01858 809EC598 03E00008 */  jr      $ra
 /* 0185C 809EC59C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-

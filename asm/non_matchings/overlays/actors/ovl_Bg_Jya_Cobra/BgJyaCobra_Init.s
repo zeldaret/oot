@@ -83,5 +83,3 @@ glabel BgJyaCobra_Init
 /* 00FEC 808968DC 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00FF0 808968E0 03E00008 */  jr      $ra                        
 /* 00FF4 808968E4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

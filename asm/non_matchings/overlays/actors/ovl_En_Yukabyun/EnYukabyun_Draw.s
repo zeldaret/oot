@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80B43F70
     .asciz "../z_en_yukabyun.c"
     .balign 4
@@ -90,4 +89,3 @@ glabel EnYukabyun_Draw
 /* 00544 80B43F04 03E00008 */  jr      $ra                        
 /* 00548 80B43F08 00000000 */  nop
 /* 0054C 80B43F0C 00000000 */  nop
-

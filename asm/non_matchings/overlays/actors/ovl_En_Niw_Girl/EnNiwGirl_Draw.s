@@ -87,4 +87,3 @@ glabel EnNiwGirl_Draw
 /* 009F4 80AB9974 00000000 */  nop
 /* 009F8 80AB9978 00000000 */  nop
 /* 009FC 80AB997C 00000000 */  nop
-

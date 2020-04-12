@@ -78,5 +78,3 @@ glabel EnGuest_Init
 /* 000A8 80A502C8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000AC 80A502CC 03E00008 */  jr      $ra                        
 /* 000B0 80A502D0 00000000 */  nop
-
-

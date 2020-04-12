@@ -6,21 +6,17 @@ glabel D_80A740BC
 .late_rodata
 glabel D_80A74160
     .float 0.1
-    .balign 4
 
 glabel D_80A74164
     .float 0.05
-    .balign 4
 
 glabel D_80A74168
  .word 0x3ED9999A
 glabel D_80A7416C
     .float 0.7
-    .balign 4
 
 glabel D_80A74170
     .float 0.2
-    .balign 4
 
 .text
 glabel EnIceHono_Update
@@ -157,5 +153,3 @@ glabel EnIceHono_Update
 /* 00E10 80A73E00 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00E14 80A73E04 03E00008 */  jr      $ra                        
 /* 00E18 80A73E08 00000000 */  nop
-
-

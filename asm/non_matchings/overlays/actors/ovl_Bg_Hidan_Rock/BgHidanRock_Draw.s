@@ -61,4 +61,3 @@ glabel BgHidanRock_Draw
 /* 00ED4 8088BF54 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00ED8 8088BF58 03E00008 */  jr      $ra                        
 /* 00EDC 8088BF5C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-

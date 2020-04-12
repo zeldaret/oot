@@ -75,8 +75,6 @@ glabel D_809D344C
 glabel D_809D3450
     .float 1.99000000954
 
-
-
 .text
 glabel EnChanger_Init
 /* 0000C 809D269C 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
@@ -521,5 +519,3 @@ glabel EnChanger_Init
 /* 00630 809D2CC0 8FB20040 */  lw      $s2, 0x0040($sp)           
 /* 00634 809D2CC4 03E00008 */  jr      $ra                        
 /* 00638 809D2CC8 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

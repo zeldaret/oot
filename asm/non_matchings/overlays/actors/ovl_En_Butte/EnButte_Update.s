@@ -2,8 +2,6 @@
 glabel D_809CE4C8
     .float 5000.0
 
-
-
 .text
 glabel EnButte_Update
 /* 010AC 809CE11C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
@@ -95,5 +93,3 @@ glabel EnButte_Update
 /* 011E0 809CE250 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 011E4 809CE254 03E00008 */  jr      $ra                        
 /* 011E8 809CE258 00000000 */  nop
-
-

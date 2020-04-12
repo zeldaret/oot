@@ -5,11 +5,9 @@ glabel D_80ABE4C4
  .word 0xBECCCCCD
 glabel D_80ABE4C8
     .float 0.4
-    .balign 4
 
 glabel D_80ABE4CC
     .float 0.4
-    .balign 4
 
 .text
 glabel func_80ABD3B8
@@ -77,5 +75,3 @@ glabel func_80ABD3B8
 .L80ABD494:
 /* 008E4 80ABD494 03E00008 */  jr      $ra                        
 /* 008E8 80ABD498 00000000 */  nop
-
-

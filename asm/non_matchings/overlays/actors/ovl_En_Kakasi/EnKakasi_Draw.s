@@ -48,4 +48,3 @@ glabel EnKakasi_Draw
 /* 00C64 80A8FDD4 00000000 */  nop
 /* 00C68 80A8FDD8 00000000 */  nop
 /* 00C6C 80A8FDDC 00000000 */  nop
-

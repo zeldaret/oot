@@ -692,5 +692,3 @@ glabel Fishing_Init
 /* 01510 80B6AEB0 8FB30050 */  lw      $s3, 0x0050($sp)
 /* 01514 80B6AEB4 03E00008 */  jr      $ra
 /* 01518 80B6AEB8 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

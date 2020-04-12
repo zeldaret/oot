@@ -107,4 +107,3 @@ glabel EnMa3_Draw
 /* 00D44 80AA37E4 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 00D48 80AA37E8 00000000 */  nop
 /* 00D4C 80AA37EC 00000000 */  nop
-

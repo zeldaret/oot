@@ -18,7 +18,6 @@ glabel D_808B8638
 .late_rodata
 glabel D_808B863C
     .float 0.01
-    .balign 4
 
 .text
 glabel BgSpot18Basket_Init
@@ -129,5 +128,3 @@ glabel BgSpot18Basket_Init
 /* 00388 808B7A98 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 0038C 808B7A9C 03E00008 */  jr      $ra                        
 /* 00390 808B7AA0 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

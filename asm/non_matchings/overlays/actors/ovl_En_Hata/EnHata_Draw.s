@@ -1,7 +1,6 @@
 .late_rodata
-
 glabel D_80A5126C
- .float 1.1
+    .float 1.1
 
 .text
 glabel EnHata_Draw
@@ -36,4 +35,3 @@ glabel EnHata_Draw
 /* 00494 80A511E4 00000000 */  nop
 /* 00498 80A511E8 00000000 */  nop
 /* 0049C 80A511EC 00000000 */  nop
-

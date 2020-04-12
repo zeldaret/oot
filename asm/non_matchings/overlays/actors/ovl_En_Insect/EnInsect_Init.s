@@ -3,11 +3,9 @@ glabel D_80A7DFD0
  .word 0xBE4CCCCD
 glabel D_80A7DFD4
     .float 0.3
-    .balign 4
 
 glabel D_80A7DFD8
     .float 0.4
-    .balign 4
 
 .text
 glabel EnInsect_Init
@@ -173,5 +171,3 @@ glabel EnInsect_Init
 /* 00508 80A7C328 8FB40040 */  lw      $s4, 0x0040($sp)           
 /* 0050C 80A7C32C 03E00008 */  jr      $ra                        
 /* 00510 80A7C330 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

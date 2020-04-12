@@ -99,4 +99,3 @@ glabel ObjHsblock_Draw
 /* 00534 80B94094 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00538 80B94098 03E00008 */  jr      $ra                        
 /* 0053C 80B9409C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-

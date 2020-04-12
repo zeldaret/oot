@@ -39,5 +39,3 @@ glabel BgSpot18Obj_Init
 /* 00474 808B8D84 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00478 808B8D88 03E00008 */  jr      $ra                        
 /* 0047C 808B8D8C 00000000 */  nop
-
-

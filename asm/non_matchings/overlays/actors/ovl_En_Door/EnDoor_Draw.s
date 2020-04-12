@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_809FCF10
     .asciz "../z_en_door.c"
     .balign 4
@@ -85,4 +84,3 @@ glabel EnDoor_Draw
 /* 00CA4 809FCE74 00000000 */  nop
 /* 00CA8 809FCE78 00000000 */  nop
 /* 00CAC 809FCE7C 00000000 */  nop
-

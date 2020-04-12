@@ -153,5 +153,3 @@ glabel EnDntJiji_Update
 /* 01314 809F2DF4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 01318 809F2DF8 03E00008 */  jr      $ra                        
 /* 0131C 809F2DFC 00000000 */  nop
-
-

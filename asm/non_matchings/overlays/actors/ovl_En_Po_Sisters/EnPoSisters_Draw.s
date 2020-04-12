@@ -31,15 +31,12 @@ glabel D_80ADD8B8
 
 glabel D_80ADD8BC
     .float 0.8
-    .balign 4
 
 glabel D_80ADD8C0
     .float 0.025
-    .balign 4
 
 glabel D_80ADD8C4
  .word 0x3BE56042, 0x00000000, 0x00000000
-
 
 .text
 glabel EnPoSisters_Draw
@@ -493,4 +490,3 @@ glabel EnPoSisters_Draw
 /* 04754 80ADD6E4 03E00008 */  jr      $ra
 /* 04758 80ADD6E8 27BD00F8 */  addiu   $sp, $sp, 0x00F8           ## $sp = 00000000
 /* 0475C 80ADD6EC 00000000 */  nop
-

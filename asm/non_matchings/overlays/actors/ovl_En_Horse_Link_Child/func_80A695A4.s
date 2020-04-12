@@ -1,9 +1,8 @@
 .late_rodata
-
 glabel D_80A6AFE8
- .float 0.33333334
+    .float 0.33333334
 glabel D_80A6AFEC
- .float 0.20
+    .float 0.20
 
 .text
 glabel func_80A695A4
@@ -59,5 +58,3 @@ glabel func_80A695A4
 /* 0028C 80A6965C C422AF64 */  lwc1    $f2, %lo(D_80A6AF64)($at)  
 /* 00290 80A69660 03E00008 */  jr      $ra                        
 /* 00294 80A69664 46001006 */  mov.s   $f0, $f2                   
-
-

@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80A1E470
     .asciz "../z_en_fu.c"
     .balign 4
@@ -95,4 +94,3 @@ glabel EnFu_Draw
 /* 00BE4 80A1E3F4 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 00BE8 80A1E3F8 03E00008 */  jr      $ra
 /* 00BEC 80A1E3FC 00000000 */  nop
-

@@ -307,4 +307,3 @@ glabel EnJsjutan_Draw
 /* 012C4 80A8AA64 03E00008 */  jr      $ra                        
 /* 012C8 80A8AA68 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
 /* 012CC 80A8AA6C 00000000 */  nop
-

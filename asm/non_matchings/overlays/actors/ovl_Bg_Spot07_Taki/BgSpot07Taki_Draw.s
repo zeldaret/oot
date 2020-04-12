@@ -1,22 +1,17 @@
 .rdata
-
 glabel D_808B0210
-
     .asciz "../z_bg_spot07_taki.c"
     .balign 4
 
 glabel D_808B0228
-
     .asciz "../z_bg_spot07_taki.c"
     .balign 4
 
 glabel D_808B0240
-
     .asciz "../z_bg_spot07_taki.c"
     .balign 4
 
 glabel D_808B0258
-
     .asciz "../z_bg_spot07_taki.c"
     .balign 4
 
@@ -326,4 +321,3 @@ glabel BgSpot07Taki_Draw
 /* 005A4 808B01D4 00000000 */  nop
 /* 005A8 808B01D8 00000000 */  nop
 /* 005AC 808B01DC 00000000 */  nop
-

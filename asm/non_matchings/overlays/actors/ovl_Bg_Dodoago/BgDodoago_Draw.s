@@ -1,17 +1,13 @@
 .rdata
-
 glabel D_80872650
-
     .asciz "../z_bg_dodoago.c"
     .balign 4
 
 glabel D_80872664
-
     .asciz "../z_bg_dodoago.c"
     .balign 4
 
 glabel D_80872678
-
     .asciz "../z_bg_dodoago.c"
     .balign 4
 
@@ -75,4 +71,3 @@ glabel BgDodoago_Draw
 /* 00B14 80872514 00000000 */  nop
 /* 00B18 80872518 00000000 */  nop
 /* 00B1C 8087251C 00000000 */  nop
-

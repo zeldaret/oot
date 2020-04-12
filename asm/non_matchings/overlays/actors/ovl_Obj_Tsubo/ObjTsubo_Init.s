@@ -83,5 +83,3 @@ glabel ObjTsubo_Init
 /* 00278 80BA0FD8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0027C 80BA0FDC 03E00008 */  jr      $ra                        
 /* 00280 80BA0FE0 00000000 */  nop
-
-

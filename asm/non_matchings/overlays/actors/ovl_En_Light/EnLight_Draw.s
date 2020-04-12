@@ -14,13 +14,9 @@ glabel D_80A9E8E0
 .late_rodata
 glabel D_80A9E910
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_80A9E914
     .float 3.14159274101
-    .balign 4
-
-
 
 .text
 glabel EnLight_Draw
@@ -248,4 +244,3 @@ glabel EnLight_Draw
 /* 00CD4 80A9E814 00000000 */  nop
 /* 00CD8 80A9E818 00000000 */  nop
 /* 00CDC 80A9E81C 00000000 */  nop
-

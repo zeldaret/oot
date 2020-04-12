@@ -87,5 +87,3 @@ glabel L80A1C2A0
 .L80A1C33C:
 /* 0199C 80A1C33C 03E00008 */  jr      $ra                        
 /* 019A0 80A1C340 27BD0008 */  addiu   $sp, $sp, 0x0008           ## $sp = 00000000
-
-

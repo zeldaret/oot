@@ -32,5 +32,3 @@ glabel DemoSa_Update
 /* 01940 8098FDA0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01944 8098FDA4 03E00008 */  jr      $ra                        
 /* 01948 8098FDA8 00000000 */  nop
-
-

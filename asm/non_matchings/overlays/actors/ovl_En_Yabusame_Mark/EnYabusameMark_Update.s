@@ -109,4 +109,3 @@ glabel EnYabusameMark_Update
 /* 00724 80B434E4 00000000 */  nop
 /* 00728 80B434E8 00000000 */  nop
 /* 0072C 80B434EC 00000000 */  nop
-

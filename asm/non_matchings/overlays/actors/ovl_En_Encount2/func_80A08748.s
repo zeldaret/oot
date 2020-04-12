@@ -1,15 +1,12 @@
 .late_rodata
 glabel D_80A08D70
     .float 0.8
-    .balign 4
 
 glabel D_80A08D74
     .float 0.3
-    .balign 4
 
 glabel D_80A08D78
     .float 1500.0
-    .balign 4
 
 .text
 glabel func_80A08748
@@ -141,5 +138,3 @@ glabel func_80A08748
 /* 00F80 80A08910 8FB40058 */  lw      $s4, 0x0058($sp)           
 /* 00F84 80A08914 03E00008 */  jr      $ra                        
 /* 00F88 80A08918 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-

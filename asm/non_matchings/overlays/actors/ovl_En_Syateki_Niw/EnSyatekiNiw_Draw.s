@@ -43,5 +43,3 @@ glabel EnSyatekiNiw_Draw
 /* 018BC 80B131AC 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 018C0 80B131B0 03E00008 */  jr      $ra
 /* 018C4 80B131B4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

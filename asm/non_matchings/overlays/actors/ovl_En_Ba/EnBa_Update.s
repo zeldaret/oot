@@ -59,5 +59,3 @@ glabel EnBa_Update
 /* 018CC 809B7C1C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 018D0 809B7C20 03E00008 */  jr      $ra                        
 /* 018D4 809B7C24 00000000 */  nop
-
-

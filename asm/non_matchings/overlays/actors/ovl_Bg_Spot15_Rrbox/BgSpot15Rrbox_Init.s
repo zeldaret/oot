@@ -64,5 +64,3 @@ glabel BgSpot15Rrbox_Init
 /* 00300 808B3C60 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00304 808B3C64 03E00008 */  jr      $ra                        
 /* 00308 808B3C68 00000000 */  nop
-
-

@@ -14,19 +14,15 @@ glabel jtbl_8095C778
 .word L80956D68
 glabel D_8095C7A8
     .float 0.15
-    .balign 4
 
 glabel D_8095C7AC
     .float 0.15
-    .balign 4
 
 glabel D_8095C7B0
     .float 0.15
-    .balign 4
 
 glabel D_8095C7B4
     .float 0.1
-    .balign 4
 
 .text
 glabel func_809568E0
@@ -413,5 +409,3 @@ glabel L80956D88
 /* 07B6C 80956E2C 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 07B70 80956E30 03E00008 */  jr      $ra                        
 /* 07B74 80956E34 00000000 */  nop
-
-

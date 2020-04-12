@@ -139,5 +139,3 @@ glabel EnCs_Draw
 /* 00EC8 809E2778 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 00ECC 809E277C 03E00008 */  jr      $ra
 /* 00ED0 809E2780 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

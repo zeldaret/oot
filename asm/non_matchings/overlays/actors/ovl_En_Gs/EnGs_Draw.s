@@ -18,35 +18,27 @@ glabel D_80A4FE80
 .late_rodata
 glabel D_80A4FF38
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_80A4FF3C
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_80A4FF40
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_80A4FF44
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_80A4FF48
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_80A4FF4C
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_80A4FF50
     .float 0.05
-    .balign 4
 
 glabel D_80A4FF54
  .word 0xBD4CCCCD, 0x00000000, 0x00000000
-
 
 .text
 glabel EnGs_Draw
@@ -309,4 +301,3 @@ glabel EnGs_Draw
 /* 01A54 80A4FD74 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 01A58 80A4FD78 03E00008 */  jr      $ra                        
 /* 01A5C 80A4FD7C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-

@@ -43,7 +43,6 @@ glabel D_80B43890
 glabel D_80B438B8
  .word 0x0A0A0000, 0x00000000
 
-
 .text
 glabel func_80B42F74
 /* 001B4 80B42F74 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
@@ -311,5 +310,3 @@ glabel func_80B42F74
 /* 00578 80B43338 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 0057C 80B4333C 03E00008 */  jr      $ra                        
 /* 00580 80B43340 00000000 */  nop
-
-

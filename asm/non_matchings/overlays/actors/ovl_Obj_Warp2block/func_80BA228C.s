@@ -32,5 +32,3 @@ glabel func_80BA228C
 .L80BA22FC:
 /* 0050C 80BA22FC 03E00008 */  jr      $ra                        
 /* 00510 80BA2300 00000000 */  nop
-
-

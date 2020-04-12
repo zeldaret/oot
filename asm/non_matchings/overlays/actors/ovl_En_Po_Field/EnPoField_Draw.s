@@ -213,5 +213,3 @@ glabel EnPoField_Draw
 /* 030E8 80AD6BE8 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 030EC 80AD6BEC 03E00008 */  jr      $ra
 /* 030F0 80AD6BF0 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

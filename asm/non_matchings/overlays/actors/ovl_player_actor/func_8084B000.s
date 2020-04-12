@@ -7,7 +7,6 @@ glabel D_80855510
  .word 0xBE99999A
 glabel D_80855514
     .float 0.1
-    .balign 4
 
 .text
 glabel func_8084B000
@@ -109,5 +108,3 @@ glabel func_8084B000
 .L8084B150:
 /* 18F40 8084B150 03E00008 */  jr      $ra                        
 /* 18F44 8084B154 E482006C */  swc1    $f2, 0x006C($a0)           ## 0000006C
-
-

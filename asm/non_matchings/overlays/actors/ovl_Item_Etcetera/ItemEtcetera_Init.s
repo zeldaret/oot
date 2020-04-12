@@ -16,7 +16,6 @@ glabel D_80B85DC0
     .balign 4
 
 .late_rodata
-
 glabel jtbl_80B85E24
 .word L80B85710
 .word L80B857B0
@@ -166,5 +165,3 @@ glabel L80B857B0
 /* 001C8 80B857B8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 001CC 80B857BC 03E00008 */  jr      $ra                        
 /* 001D0 80B857C0 00000000 */  nop
-
-

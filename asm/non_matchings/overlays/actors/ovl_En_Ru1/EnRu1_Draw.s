@@ -32,4 +32,3 @@ glabel EnRu1_Draw
 /* 05BE4 80AF07F4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 05BE8 80AF07F8 03E00008 */  jr      $ra                        
 /* 05BEC 80AF07FC 00000000 */  nop
-

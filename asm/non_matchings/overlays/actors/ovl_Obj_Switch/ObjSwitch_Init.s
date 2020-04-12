@@ -233,5 +233,3 @@ glabel ObjSwitch_Init
 /* 00788 80B9D998 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 0078C 80B9D99C 03E00008 */  jr      $ra                        
 /* 00790 80B9D9A0 00000000 */  nop
-
-

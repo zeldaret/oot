@@ -5,11 +5,9 @@ glabel D_808918E0
  .word 0x3E0F5C29
 glabel D_808918E4
     .float 0.2
-    .balign 4
 
 glabel D_808918E8
     .float 0.8
-    .balign 4
 
 .text
 glabel func_80890E00
@@ -177,5 +175,3 @@ glabel func_80890E00
 /* 00918 80891058 8FBE0078 */  lw      $s8, 0x0078($sp)           
 /* 0091C 8089105C 03E00008 */  jr      $ra                        
 /* 00920 80891060 27BD00D8 */  addiu   $sp, $sp, 0x00D8           ## $sp = 00000000
-
-

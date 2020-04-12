@@ -190,4 +190,3 @@ glabel EnDyExtra_Draw
 /* 00524 809FFC14 00000000 */  nop
 /* 00528 809FFC18 00000000 */  nop
 /* 0052C 809FFC1C 00000000 */  nop
-

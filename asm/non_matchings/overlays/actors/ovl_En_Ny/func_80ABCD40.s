@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_80ABE4B8
     .float 0.7
-    .balign 4
 
 glabel D_80ABE4BC
  .word 0x40333333
@@ -27,5 +26,3 @@ glabel func_80ABCD40
 /* 001C8 80ABCD78 46004282 */  mul.s   $f10, $f8, $f0             
 /* 001CC 80ABCD7C 03E00008 */  jr      $ra                        
 /* 001D0 80ABCD80 E48A01E8 */  swc1    $f10, 0x01E8($a0)          ## 000001E8
-
-

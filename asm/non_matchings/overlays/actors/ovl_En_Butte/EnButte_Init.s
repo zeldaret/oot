@@ -120,5 +120,3 @@ glabel EnButte_Init
 /* 004C8 809CD538 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 004CC 809CD53C 03E00008 */  jr      $ra
 /* 004D0 809CD540 00000000 */  nop
-
-

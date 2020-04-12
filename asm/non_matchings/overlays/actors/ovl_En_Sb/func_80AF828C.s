@@ -34,5 +34,3 @@ glabel L80AF82B0
 /* 00AF4 80AF82E4 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 00AF8 80AF82E8 03E00008 */  jr      $ra                        
 /* 00AFC 80AF82EC 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
-
-

@@ -149,5 +149,3 @@ glabel EnDivingGame_Update
 /* 0153C 809EEDAC 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 01540 809EEDB0 03E00008 */  jr      $ra                        
 /* 01544 809EEDB4 00000000 */  nop
-
-

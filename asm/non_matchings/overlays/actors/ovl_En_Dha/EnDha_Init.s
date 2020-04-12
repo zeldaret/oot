@@ -71,5 +71,3 @@ glabel EnDha_Init
 /* 00114 809EC994 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00118 809EC998 03E00008 */  jr      $ra
 /* 0011C 809EC99C 00000000 */  nop
-
-

@@ -1,6 +1,5 @@
 .rdata
 glabel D_80B420B8
-
     .asciz "En_Oa2_Stalker_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
     .balign 4
 
@@ -131,5 +130,3 @@ glabel L80B40FCC
 /* 04E14 80B40FF4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 04E18 80B40FF8 03E00008 */  jr      $ra                        
 /* 04E1C 80B40FFC 00000000 */  nop
-
-

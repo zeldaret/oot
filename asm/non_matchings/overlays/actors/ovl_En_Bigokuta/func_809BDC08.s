@@ -5,11 +5,9 @@ glabel D_809BF550
  .word 0x43838000
 glabel D_809BF554
     .float 1.1
-    .balign 4
 
 glabel D_809BF558
     .float 0.6
-    .balign 4
 
 .text
 glabel func_809BDC08
@@ -237,5 +235,3 @@ glabel func_809BDC08
 /* 012C8 809BDF28 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 012CC 809BDF2C 03E00008 */  jr      $ra                        
 /* 012D0 809BDF30 00000000 */  nop
-
-

@@ -171,4 +171,3 @@ glabel EnVbBall_Draw
 /* 01034 80B29FD4 03E00008 */  jr      $ra                        
 /* 01038 80B29FD8 00000000 */  nop
 /* 0103C 80B29FDC 00000000 */  nop
-

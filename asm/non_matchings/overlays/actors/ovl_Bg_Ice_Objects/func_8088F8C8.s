@@ -1,9 +1,8 @@
 .late_rodata
-
 glabel D_80890520
- .float -1260.0
+    .float -1260.0
 glabel D_80890524
- .float -1780.0
+    .float -1780.0
 
 .text
 glabel func_8088F8C8
@@ -348,5 +347,3 @@ glabel func_8088F8C8
 /* 0052C 8088FD3C E4920168 */  swc1    $f18, 0x0168($a0)          ## 00000168
 /* 00530 8088FD40 03E00008 */  jr      $ra                        
 /* 00534 8088FD44 00000000 */  nop
-
-

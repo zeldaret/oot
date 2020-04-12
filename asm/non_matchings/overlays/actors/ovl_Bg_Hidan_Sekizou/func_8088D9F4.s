@@ -8,12 +8,9 @@ glabel D_8088E300
  .word 0x3E124925
 glabel D_8088E304
     .float 0.7
-    .balign 4
 
 glabel D_8088E308
     .float 0.7
-
-
 
 .text
 glabel func_8088D9F4
@@ -172,5 +169,3 @@ glabel func_8088D9F4
 /* 00D84 8088DC44 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000008
 /* 00D88 8088DC48 03E00008 */  jr      $ra                        
 /* 00D8C 8088DC4C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

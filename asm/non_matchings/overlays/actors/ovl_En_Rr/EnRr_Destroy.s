@@ -17,5 +17,3 @@ glabel EnRr_Destroy
 /* 001D0 80AE8610 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001D4 80AE8614 03E00008 */  jr      $ra                        
 /* 001D8 80AE8618 00000000 */  nop
-
-

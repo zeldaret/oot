@@ -101,5 +101,3 @@ glabel BgDodoago_Init
 /* 0027C 80871C7C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00280 80871C80 03E00008 */  jr      $ra                        
 /* 00284 80871C84 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

@@ -22,4 +22,3 @@ glabel EnHorseGanon_Draw
 /* 00B24 80A69184 00000000 */  nop
 /* 00B28 80A69188 00000000 */  nop
 /* 00B2C 80A6918C 00000000 */  nop
-

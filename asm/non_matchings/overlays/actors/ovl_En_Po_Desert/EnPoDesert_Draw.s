@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80AD3A04
     .asciz "../z_en_po_desert.c"
     .balign 4
@@ -111,4 +110,3 @@ glabel EnPoDesert_Draw
 /* 00CC4 80AD3974 00000000 */  nop
 /* 00CC8 80AD3978 00000000 */  nop
 /* 00CCC 80AD397C 00000000 */  nop
-

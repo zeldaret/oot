@@ -82,4 +82,3 @@ glabel BgHidanHamstep_Draw
 /* 00D28 80888D68 00000000 */  nop
 .L80888D6C:
 /* 00D2C 80888D6C 00000000 */  nop
-

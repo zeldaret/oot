@@ -32,5 +32,3 @@ glabel DemoExt_Update
 /* 005A8 80977938 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 005AC 8097793C 03E00008 */  jr      $ra                        
 /* 005B0 80977940 00000000 */  nop
-
-

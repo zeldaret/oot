@@ -73,5 +73,3 @@ glabel EnWonderTalk_Init
 /* 000D0 80B391C0 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 000D4 80B391C4 03E00008 */  jr      $ra                        
 /* 000D8 80B391C8 00000000 */  nop
-
-

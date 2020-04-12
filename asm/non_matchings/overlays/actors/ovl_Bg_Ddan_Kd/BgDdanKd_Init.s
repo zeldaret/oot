@@ -69,5 +69,3 @@ glabel BgDdanKd_Init
 /* 000F0 808711E0 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 000F4 808711E4 03E00008 */  jr      $ra                        
 /* 000F8 808711E8 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

@@ -208,5 +208,3 @@ glabel EnFr_Update
 /* 00590 80A1AF30 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 00594 80A1AF34 03E00008 */  jr      $ra
 /* 00598 80A1AF38 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

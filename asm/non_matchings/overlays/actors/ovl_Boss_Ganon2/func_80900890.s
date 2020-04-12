@@ -14,11 +14,9 @@ glabel jtbl_8090DBBC
 .word L80900CE4
 glabel D_8090DBEC
     .float 3.14159274101
-    .balign 4
 
 glabel D_8090DBF0
     .float 0.3
-    .balign 4
 
 .text
 glabel func_80900890
@@ -539,5 +537,3 @@ glabel L80900E4C
 /* 040D4 80901014 8FB10018 */  lw      $s1, 0x0018($sp)
 /* 040D8 80901018 03E00008 */  jr      $ra
 /* 040DC 8090101C 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
-
-

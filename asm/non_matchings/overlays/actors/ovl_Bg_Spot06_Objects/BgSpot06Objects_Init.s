@@ -292,5 +292,3 @@ glabel BgSpot06Objects_Init
 /* 003D0 808AEB50 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 003D4 808AEB54 03E00008 */  jr      $ra                        
 /* 003D8 808AEB58 00000000 */  nop
-
-

@@ -16,16 +16,12 @@ glabel D_808A7E00
  .word 0x44504000
 glabel D_808A7E04
     .float 0.0025
-    .balign 4
 
 glabel D_808A7E08
     .float 0.3
-    .balign 4
 
 glabel D_808A7E0C
     .float 0.4
-    .balign 4
-
 
 .text
 glabel BgPoEvent_Draw
@@ -204,4 +200,3 @@ glabel BgPoEvent_Draw
 /* 01A94 808A7CA4 00000000 */  nop
 /* 01A98 808A7CA8 00000000 */  nop
 /* 01A9C 808A7CAC 00000000 */  nop
-

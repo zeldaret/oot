@@ -71,4 +71,3 @@ glabel BgHidanKousi_Draw
 /* 004D4 80889E34 00000000 */  nop
 /* 004D8 80889E38 00000000 */  nop
 /* 004DC 80889E3C 00000000 */  nop
-

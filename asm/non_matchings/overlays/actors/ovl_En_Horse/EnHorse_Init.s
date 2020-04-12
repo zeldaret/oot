@@ -543,5 +543,3 @@ glabel EnHorse_Init
 /* 0151C 80A5C80C 8FB10030 */  lw      $s1, 0x0030($sp)
 /* 01520 80A5C810 03E00008 */  jr      $ra
 /* 01524 80A5C814 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

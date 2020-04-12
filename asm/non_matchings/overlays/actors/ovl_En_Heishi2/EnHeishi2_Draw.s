@@ -17,7 +17,6 @@ glabel D_80A552FC
 glabel D_80A55300
  .word 0x3F9C61AA, 0x00000000, 0x00000000, 0x00000000
 
-
 .text
 glabel EnHeishi2_Draw
 /* 01E8C 80A54D2C 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
@@ -136,4 +135,3 @@ glabel EnHeishi2_Draw
 /* 02044 80A54EE4 03E00008 */  jr      $ra                        
 /* 02048 80A54EE8 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 0204C 80A54EEC 00000000 */  nop
-

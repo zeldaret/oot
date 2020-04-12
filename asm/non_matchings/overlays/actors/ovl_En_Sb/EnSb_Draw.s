@@ -81,4 +81,3 @@ glabel EnSb_Draw
 /* 011B4 80AF89A4 03E00008 */  jr      $ra
 /* 011B8 80AF89A8 00000000 */  nop
 /* 011BC 80AF89AC 00000000 */  nop
-

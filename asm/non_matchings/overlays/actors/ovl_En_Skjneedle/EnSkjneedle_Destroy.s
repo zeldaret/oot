@@ -10,5 +10,3 @@ glabel EnSkjneedle_Destroy
 /* 000B0 80B01F60 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000B4 80B01F64 03E00008 */  jr      $ra                        
 /* 000B8 80B01F68 00000000 */  nop
-
-

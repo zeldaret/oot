@@ -75,7 +75,6 @@ glabel jtbl_80B32054
 .word L80B3128C
 .word 0x00000000, 0x00000000, 0x00000000
 
-
 .text
 glabel EnWeatherTag_Init
 /* 00014 80B31034 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
@@ -281,5 +280,3 @@ glabel L80B3128C
 /* 0029C 80B312BC 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 002A0 80B312C0 03E00008 */  jr      $ra                        
 /* 002A4 80B312C4 00000000 */  nop
-
-

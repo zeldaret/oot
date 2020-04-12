@@ -1,15 +1,12 @@
 .late_rodata
 glabel D_8094B1FC
     .float 30269.0
-    .balign 4
 
 glabel D_8094B200
     .float 30307.0
-    .balign 4
 
 glabel D_8094B204
     .float 30323.0
-    .balign 4
 
 .text
 glabel func_80948544
@@ -88,5 +85,3 @@ glabel func_80948544
 .L80948660:
 /* 0F990 80948660 03E00008 */  jr      $ra                        
 /* 0F994 80948664 46001005 */  abs.s   $f0, $f2                   
-
-

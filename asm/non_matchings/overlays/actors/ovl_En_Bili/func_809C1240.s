@@ -3,11 +3,9 @@ glabel D_809C17D0
  .word 0x3EC90FDB
 glabel D_809C17D4
     .float 0.3
-    .balign 4
 
 glabel D_809C17D8
     .float 0.7
-    .balign 4
 
 glabel D_809C17DC
  .word 0x3EA0D97C
@@ -23,11 +21,9 @@ glabel D_809C17F0
  .word 0x3D920D28
 glabel D_809C17F4
     .float 0.4
-    .balign 4
 
 glabel D_809C17F8
  .word 0x3F051EB8, 0x00000000
-
 
 .text
 glabel func_809C1240
@@ -128,5 +124,3 @@ glabel func_809C1240
 /* 01AFC 809C139C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01B00 809C13A0 03E00008 */  jr      $ra                        
 /* 01B04 809C13A4 00000000 */  nop
-
-

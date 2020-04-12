@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80A88D10
     .asciz "../z_en_jj.c"
     .balign 4
@@ -9,9 +8,8 @@ glabel D_80A88D20
     .balign 4
 
 .late_rodata
-
 glabel D_80A88D34
- .float 0.076624215
+    .float 0.076624215
 
 .text
 glabel EnJj_Draw
@@ -96,4 +94,3 @@ glabel EnJj_Draw
 /* 00934 80A88134 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 00938 80A88138 03E00008 */  jr      $ra
 /* 0093C 80A8813C 00000000 */  nop
-

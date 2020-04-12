@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_8089A060
     .asciz "女神リフト CT\n"
     .balign 4
@@ -65,5 +64,3 @@ glabel BgJyaLift_Init
 /* 00118 80899CB8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0011C 80899CBC 03E00008 */  jr      $ra                        
 /* 00120 80899CC0 00000000 */  nop
-
-

@@ -95,4 +95,3 @@ glabel EnExRuppy_Draw
 /* 00F04 80A0B314 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00F08 80A0B318 00000000 */  nop
 /* 00F0C 80A0B31C 00000000 */  nop
-

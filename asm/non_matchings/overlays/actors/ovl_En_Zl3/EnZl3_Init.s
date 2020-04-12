@@ -69,5 +69,3 @@ glabel EnZl3_Init
 /* 06BB8 80B59F68 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 06BBC 80B59F6C 03E00008 */  jr      $ra
 /* 06BC0 80B59F70 00000000 */  nop
-
-

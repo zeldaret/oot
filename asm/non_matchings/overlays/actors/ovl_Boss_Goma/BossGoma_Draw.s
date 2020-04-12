@@ -82,5 +82,3 @@ glabel BossGoma_Draw
 /* 0538C 8091AD9C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 05390 8091ADA0 03E00008 */  jr      $ra                        
 /* 05394 8091ADA4 00000000 */  nop
-
-

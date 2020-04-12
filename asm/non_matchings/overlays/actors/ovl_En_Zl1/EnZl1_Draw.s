@@ -102,4 +102,3 @@ glabel EnZl1_Draw
 /* 01A84 80B4C5C4 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 01A88 80B4C5C8 03E00008 */  jr      $ra
 /* 01A8C 80B4C5CC 00000000 */  nop
-

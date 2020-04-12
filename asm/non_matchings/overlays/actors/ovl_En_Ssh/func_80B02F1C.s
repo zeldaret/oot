@@ -5,7 +5,6 @@ glabel D_80B045FC
  .word 0x43360B61
 glabel D_80B04600
     .float 9.58738019108e-05
-    .balign 4
 
 .text
 glabel func_80B02F1C
@@ -95,5 +94,3 @@ glabel func_80B02F1C
 /* 00DE4 80B03054 8FB00020 */  lw      $s0, 0x0020($sp)           
 /* 00DE8 80B03058 03E00008 */  jr      $ra                        
 /* 00DEC 80B0305C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

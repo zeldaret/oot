@@ -51,7 +51,6 @@ glabel D_80ABB61C
 glabel D_80ABB7BC
  .word 0x44C94000
 
-
 .text
 glabel func_80ABA244
 /* 00604 80ABA244 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
@@ -347,5 +346,3 @@ glabel func_80ABA244
 /* 00A08 80ABA648 8FB30020 */  lw      $s3, 0x0020($sp)           
 /* 00A0C 80ABA64C 03E00008 */  jr      $ra                        
 /* 00A10 80ABA650 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

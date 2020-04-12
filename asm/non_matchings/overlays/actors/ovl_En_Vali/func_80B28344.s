@@ -30,11 +30,9 @@ glabel D_80B28A20
 .late_rodata
 glabel D_80B28AEC
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_80B28AF0
  .word 0x448B4000, 0x00000000, 0x00000000, 0x00000000
-
 
 .text
 glabel func_80B28344
@@ -285,5 +283,3 @@ glabel func_80B28344
 /* 0205C 80B2870C 27BD00C0 */  addiu   $sp, $sp, 0x00C0           ## $sp = 00000000
 /* 02060 80B28710 03E00008 */  jr      $ra                        
 /* 02064 80B28714 00000000 */  nop
-
-

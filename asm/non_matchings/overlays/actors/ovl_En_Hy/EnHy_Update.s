@@ -58,5 +58,3 @@ glabel EnHy_Update
 /* 020FC 80A716AC 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 02100 80A716B0 03E00008 */  jr      $ra                        
 /* 02104 80A716B4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

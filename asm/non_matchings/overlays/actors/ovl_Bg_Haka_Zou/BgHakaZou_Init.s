@@ -1,11 +1,10 @@
 .late_rodata
-
 glabel D_80883660
- .float 0.005
+    .float 0.005
 glabel D_80883664
- .float 0.025
+    .float 0.025
 glabel D_80883668
- .float 3000
+    .float 3000
 
 .text
 glabel BgHakaZou_Init
@@ -223,5 +222,3 @@ glabel BgHakaZou_Init
 /* 002D8 80882898 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 002DC 8088289C 03E00008 */  jr      $ra                        
 /* 002E0 808828A0 00000000 */  nop
-
-

@@ -1,12 +1,9 @@
 .rdata
-
 glabel D_80864700
-
     .asciz "../z_en_test.c"
     .balign 4
 
 glabel D_80864710
-
     .asciz "../z_en_test.c"
     .balign 4
 
@@ -151,5 +148,3 @@ glabel func_80863AB8
 /* 04668 80863CB8 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 0466C 80863CBC 03E00008 */  jr      $ra                        
 /* 04670 80863CC0 00000000 */  nop
-
-

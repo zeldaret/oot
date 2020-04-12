@@ -17,4 +17,3 @@ glabel BgHidanHrock_Draw
 /* 006C4 808897F4 00000000 */  nop
 /* 006C8 808897F8 00000000 */  nop
 /* 006CC 808897FC 00000000 */  nop
-

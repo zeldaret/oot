@@ -14,21 +14,17 @@ glabel D_80A0F118
 .late_rodata
 glabel D_80A0F138
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_80A0F13C
  .word 0x3C8EFA35
 glabel D_80A0F140
     .float 0.001
-    .balign 4
 
 glabel D_80A0F144
     .float 0.1
-    .balign 4
 
 glabel D_80A0F148
  .word 0xBE199999, 0x00000000
-
 
 .text
 glabel EnFdFire_Draw
@@ -305,4 +301,3 @@ glabel EnFdFire_Draw
 /* 00B54 80A0F004 27BD00C0 */  addiu   $sp, $sp, 0x00C0           ## $sp = 00000000
 /* 00B58 80A0F008 00000000 */  nop
 /* 00B5C 80A0F00C 00000000 */  nop
-

@@ -1,5 +1,4 @@
 .late_rodata
-
 glabel jtbl_809B0FB0
 .word L809B0BC0
 .word L809B0BD4
@@ -192,5 +191,3 @@ glabel L809B0C10
 /* 00A14 809B0D84 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 00A18 809B0D88 03E00008 */  jr      $ra                        
 /* 00A1C 809B0D8C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

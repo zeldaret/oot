@@ -110,4 +110,3 @@ glabel BgHidanCurtain_Draw
 /* 009C4 80885B64 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 009C8 80885B68 03E00008 */  jr      $ra                        
 /* 009CC 80885B6C 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-

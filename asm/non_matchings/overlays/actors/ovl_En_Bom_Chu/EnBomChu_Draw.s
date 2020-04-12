@@ -249,4 +249,3 @@ glabel EnBomChu_Draw
 /* 014D4 809C6D04 00000000 */  nop
 /* 014D8 809C6D08 00000000 */  nop
 /* 014DC 809C6D0C 00000000 */  nop
-

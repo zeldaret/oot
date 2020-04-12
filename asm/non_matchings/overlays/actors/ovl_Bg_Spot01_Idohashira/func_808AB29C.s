@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_808AB9CC
     .float 1100.0
-    .balign 4
 
 .text
 glabel func_808AB29C
@@ -91,5 +90,3 @@ glabel func_808AB29C
 /* 006FC 808AB3DC 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00700 808AB3E0 03E00008 */  jr      $ra                        
 /* 00704 808AB3E4 00000000 */  nop
-
-

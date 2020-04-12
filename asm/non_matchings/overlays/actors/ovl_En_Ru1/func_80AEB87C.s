@@ -7,5 +7,3 @@ glabel func_80AEB87C
 /* 00C80 80AEB890 460C5402 */  mul.s   $f16, $f10, $f12           
 /* 00C84 80AEB894 03E00008 */  jr      $ra                        
 /* 00C88 80AEB898 46028000 */  add.s   $f0, $f16, $f2             
-
-

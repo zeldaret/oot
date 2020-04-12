@@ -170,4 +170,3 @@ glabel BgSpot17Bakudankabe_Draw
 /* 006B4 808B7274 00000000 */  nop
 /* 006B8 808B7278 00000000 */  nop
 /* 006BC 808B727C 00000000 */  nop
-

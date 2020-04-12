@@ -11,5 +11,3 @@ glabel func_80AECE04
 /* 02204 80AECE14 46062200 */  add.s   $f8, $f4, $f6              
 /* 02208 80AECE18 03E00008 */  jr      $ra                        
 /* 0220C 80AECE1C E48800BC */  swc1    $f8, 0x00BC($a0)           ## 000000BC
-
-

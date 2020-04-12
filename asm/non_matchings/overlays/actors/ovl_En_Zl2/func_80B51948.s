@@ -28,7 +28,6 @@ glabel jtbl_80B52C18
 .word L80B51A20
 .word 0x00000000
 
-
 .text
 glabel func_80B51948
 /* 02FB8 80B51948 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
@@ -114,5 +113,3 @@ glabel L80B51A34
 /* 030C0 80B51A50 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 030C4 80B51A54 03E00008 */  jr      $ra                        
 /* 030C8 80B51A58 00000000 */  nop
-
-

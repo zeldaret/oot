@@ -1,6 +1,5 @@
 .rdata
 glabel D_80B42000
-
     .asciz "MAX speed = %f\n"
     .balign 4
 
@@ -9,11 +8,9 @@ glabel D_80B42204
  .word 0x40E1E2B0
 glabel D_80B42208
     .float 0.4
-    .balign 4
 
 glabel D_80B4220C
     .float 0.6
-    .balign 4
 
 .text
 glabel func_80B3D158
@@ -103,5 +100,3 @@ glabel func_80B3D158
 /* 010AC 80B3D28C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 010B0 80B3D290 03E00008 */  jr      $ra                        
 /* 010B4 80B3D294 00000000 */  nop
-
-

@@ -16,13 +16,11 @@ glabel D_808D64CC
  .word 0xC4638000
 glabel D_808D64D0
     .float 1.57079637051
-    .balign 4
 
 glabel D_808D64D4
  .word 0x3A6BEDFA
 glabel D_808D64D8
     .float 0.01
-    .balign 4
 
 .text
 glabel func_808D52CC
@@ -436,5 +434,3 @@ glabel func_808D52CC
 /* 03264 808D58D4 8FBE0068 */  lw      $s8, 0x0068($sp)           
 /* 03268 808D58D8 03E00008 */  jr      $ra                        
 /* 0326C 808D58DC 27BD0160 */  addiu   $sp, $sp, 0x0160           ## $sp = 00000000
-
-

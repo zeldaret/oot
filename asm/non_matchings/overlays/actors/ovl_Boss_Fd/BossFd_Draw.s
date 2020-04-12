@@ -92,5 +92,3 @@ glabel BossFd_Draw
 /* 052D8 808D0098 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 052DC 808D009C 03E00008 */  jr      $ra                        
 /* 052E0 808D00A0 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

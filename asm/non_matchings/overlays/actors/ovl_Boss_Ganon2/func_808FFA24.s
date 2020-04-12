@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_8090DBAC
     .float 40000.0
-    .balign 4
 
 .text
 glabel func_808FFA24
@@ -51,5 +50,3 @@ glabel func_808FFA24
 /* 02B7C 808FFABC 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 02B80 808FFAC0 03E00008 */  jr      $ra                        
 /* 02B84 808FFAC4 00000000 */  nop
-
-

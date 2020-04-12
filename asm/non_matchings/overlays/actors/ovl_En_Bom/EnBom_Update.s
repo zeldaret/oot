@@ -1,24 +1,18 @@
 .late_rodata
 glabel D_809C3518
     .float -1.2
-    .balign 4
 
 glabel D_809C351C
     .float 0.2
-    .balign 4
 
 glabel D_809C3520
     .float 0.2
-    .balign 4
 
 glabel D_809C3524
     .float 0.002
-    .balign 4
 
 glabel D_809C3528
     .float 0.01
-
-
 
 .text
 glabel EnBom_Update
@@ -480,5 +474,3 @@ glabel EnBom_Update
 /* 00B3C 809C320C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
 /* 00B40 809C3210 03E00008 */  jr      $ra                        
 /* 00B44 809C3214 00000000 */  nop
-
-

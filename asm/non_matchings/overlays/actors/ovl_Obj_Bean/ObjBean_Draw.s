@@ -45,4 +45,3 @@ glabel ObjBean_Draw
 /* 023A4 80B90E24 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 023A8 80B90E28 03E00008 */  jr      $ra                        
 /* 023AC 80B90E2C 00000000 */  nop
-

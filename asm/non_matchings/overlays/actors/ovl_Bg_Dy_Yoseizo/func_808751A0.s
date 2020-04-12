@@ -1,17 +1,13 @@
 .rdata
-
 glabel D_80875638
-
     .asciz "../z_bg_dy_yoseizo.c"
     .balign 4
 
 glabel D_80875650
-
     .asciz "../z_bg_dy_yoseizo.c"
     .balign 4
 
 glabel D_80875668
-
     .asciz "../z_bg_dy_yoseizo.c"
     .balign 4
 
@@ -188,4 +184,3 @@ glabel func_808751A0
 /* 02C04 80875434 27BD00A0 */  addiu   $sp, $sp, 0x00A0           ## $sp = 00000000
 /* 02C08 80875438 00000000 */  nop
 /* 02C0C 8087543C 00000000 */  nop
-

@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80BA28A0
     .asciz "時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n"
     .balign 4
@@ -97,5 +96,3 @@ glabel ObjWarp2block_Init
 /* 0068C 80BA247C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00690 80BA2480 03E00008 */  jr      $ra                        
 /* 00694 80BA2484 00000000 */  nop
-
-

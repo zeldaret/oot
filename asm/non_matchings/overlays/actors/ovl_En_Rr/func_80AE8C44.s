@@ -52,5 +52,3 @@ glabel func_80AE8C44
 /* 008AC 80AE8CEC E4620240 */  swc1    $f2, 0x0240($v1)           ## 00000240
 /* 008B0 80AE8CF0 03E00008 */  jr      $ra                        
 /* 008B4 80AE8CF4 AC8F014C */  sw      $t7, 0x014C($a0)           ## 0000014C
-
-

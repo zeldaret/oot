@@ -103,4 +103,3 @@ glabel EnWeiyer_Draw
 /* 017D4 80B33A64 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 017D8 80B33A68 03E00008 */  jr      $ra
 /* 017DC 80B33A6C 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
-

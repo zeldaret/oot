@@ -172,5 +172,3 @@ glabel Fishing_Draw
 /* 0C67C 80B7601C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0C680 80B76020 03E00008 */  jr      $ra
 /* 0C684 80B76024 00000000 */  nop
-
-

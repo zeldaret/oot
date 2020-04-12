@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_809D15A0
     .float 0.6
-    .balign 4
 
 .text
 glabel EnBw_Init
@@ -98,5 +97,3 @@ glabel EnBw_Init
 /* 00158 809CE838 AC4B0000 */  sw      $t3, 0x0000($v0)           ## 809D14C8
 /* 0015C 809CE83C 03E00008 */  jr      $ra                        
 /* 00160 809CE840 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

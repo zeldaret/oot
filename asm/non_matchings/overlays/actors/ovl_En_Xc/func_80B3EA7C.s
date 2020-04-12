@@ -1,11 +1,9 @@
 .rdata
 glabel D_80B42040
-
     .asciz "../z_en_oA2_inSpot05.c"
     .balign 4
 
 glabel D_80B42058
-
     .asciz "../z_en_oA2_inSpot05.c"
     .balign 4
 
@@ -104,5 +102,3 @@ glabel func_80B3EA7C
 /* 02A04 80B3EBE4 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 02A08 80B3EBE8 03E00008 */  jr      $ra
 /* 02A0C 80B3EBEC 00000000 */  nop
-
-

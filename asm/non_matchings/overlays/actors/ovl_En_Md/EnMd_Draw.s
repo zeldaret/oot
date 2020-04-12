@@ -112,4 +112,3 @@ glabel EnMd_Draw
 /* 02094 80AAC2E4 03E00008 */  jr      $ra                        
 /* 02098 80AAC2E8 00000000 */  nop
 /* 0209C 80AAC2EC 00000000 */  nop
-

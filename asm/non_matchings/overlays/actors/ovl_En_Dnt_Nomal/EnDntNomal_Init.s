@@ -136,5 +136,3 @@ glabel EnDntNomal_Init
 /* 0016C 809F342C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00170 809F3430 03E00008 */  jr      $ra                        
 /* 00174 809F3434 00000000 */  nop
-
-

@@ -14,9 +14,6 @@ glabel D_80A59B10
 .late_rodata
 glabel D_80A59B2C
     .float 3.14159274101
-    .balign 4
-
-
 
 .text
 glabel EnHoll_Draw
@@ -113,4 +110,3 @@ glabel EnHoll_Draw
 /* 00E04 80A59A14 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00E08 80A59A18 03E00008 */  jr      $ra                        
 /* 00E0C 80A59A1C 00000000 */  nop
-

@@ -228,5 +228,3 @@ glabel MirRay_Draw
 /* 013A8 80B8E3F8 8FB40030 */  lw      $s4, 0x0030($sp)           
 /* 013AC 80B8E3FC 03E00008 */  jr      $ra                        
 /* 013B0 80B8E400 27BD0280 */  addiu   $sp, $sp, 0x0280           ## $sp = 00000000
-
-

@@ -18,7 +18,6 @@ glabel D_80AA04CC
 .late_rodata
 glabel D_80AA0514
     .float 0.02
-    .balign 4
 
 glabel D_80AA0518
  .word 0xBF333333
@@ -26,7 +25,6 @@ glabel D_80AA051C
  .word 0xBF19999A
 glabel D_80AA0520
     .float -1.2
-    .balign 4
 
 glabel D_80AA0524
  .word 0xBFE66666
@@ -34,9 +32,6 @@ glabel D_80AA0528
  .word 0xBFB33333
 glabel D_80AA052C
     .float 0.85
-    .balign 4
-
-
 
 .text
 glabel EnMThunder_Draw
@@ -512,4 +507,3 @@ glabel EnMThunder_Draw
 /* 01414 80AA03F4 03E00008 */  jr      $ra                        
 /* 01418 80AA03F8 00000000 */  nop
 /* 0141C 80AA03FC 00000000 */  nop
-

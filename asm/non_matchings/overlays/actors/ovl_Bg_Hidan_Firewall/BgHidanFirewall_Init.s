@@ -49,5 +49,3 @@ glabel BgHidanFirewall_Init
 /* 00094 808866F4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00098 808866F8 03E00008 */  jr      $ra                        
 /* 0009C 808866FC 00000000 */  nop
-
-

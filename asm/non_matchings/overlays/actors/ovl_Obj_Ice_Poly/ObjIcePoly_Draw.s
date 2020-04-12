@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80B94BB0
     .asciz "../z_obj_ice_poly.c"
     .balign 4
@@ -115,4 +114,3 @@ glabel ObjIcePoly_Draw
 /* 008A4 80B94B04 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 008A8 80B94B08 00000000 */  nop
 /* 008AC 80B94B0C 00000000 */  nop
-

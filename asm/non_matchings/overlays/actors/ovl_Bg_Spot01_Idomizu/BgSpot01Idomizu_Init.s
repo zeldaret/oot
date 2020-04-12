@@ -1,7 +1,6 @@
 .late_rodata
-
 glabel D_808ABE14
- .float -550.0
+    .float -550.0
 
 .text
 glabel BgSpot01Idomizu_Init
@@ -48,5 +47,3 @@ glabel BgSpot01Idomizu_Init
 /* 0008C 808ABB6C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00090 808ABB70 03E00008 */  jr      $ra                        
 /* 00094 808ABB74 00000000 */  nop
-
-

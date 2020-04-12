@@ -19,7 +19,6 @@ glabel D_80AD7228
 glabel D_80AD72A8
     .float 9.58738019108e-05
 
-
 .text
 glabel func_80AD6C4C
 /* 0314C 80AD6C4C 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
@@ -286,4 +285,3 @@ glabel func_80AD6C4C
 /* 03554 80AD7054 03E00008 */  jr      $ra                        
 /* 03558 80AD7058 27BD00A0 */  addiu   $sp, $sp, 0x00A0           ## $sp = 00000000
 /* 0355C 80AD705C 00000000 */  nop
-

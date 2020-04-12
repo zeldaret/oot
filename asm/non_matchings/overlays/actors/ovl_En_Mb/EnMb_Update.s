@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_80AA9E94
     .float 4500.0
-    .balign 4
 
 glabel D_80AA9E98
  .word 0xC5898000
@@ -139,5 +138,3 @@ glabel EnMb_Update
 /* 03814 80AA9864 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 03818 80AA9868 03E00008 */  jr      $ra                        
 /* 0381C 80AA986C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

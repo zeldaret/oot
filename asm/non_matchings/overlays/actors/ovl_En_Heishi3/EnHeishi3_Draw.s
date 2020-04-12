@@ -21,4 +21,3 @@ glabel EnHeishi3_Draw
 /* 008F4 80A55F34 00000000 */  nop
 /* 008F8 80A55F38 00000000 */  nop
 /* 008FC 80A55F3C 00000000 */  nop
-

@@ -38,5 +38,3 @@ glabel BgHakaTrap_Destroy
 /* 00314 8087FFB4 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00318 8087FFB8 03E00008 */  jr      $ra                        
 /* 0031C 8087FFBC 00000000 */  nop
-
-

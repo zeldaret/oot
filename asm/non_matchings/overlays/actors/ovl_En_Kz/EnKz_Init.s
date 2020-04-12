@@ -106,5 +106,3 @@ glabel EnKz_Init
 /* 00B3C 80A9D08C 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 00B40 80A9D090 03E00008 */  jr      $ra
 /* 00B44 80A9D094 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

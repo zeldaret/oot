@@ -9,5 +9,3 @@ glabel EnNy_Destroy
 /* 00184 80ABCD34 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00188 80ABCD38 03E00008 */  jr      $ra                        
 /* 0018C 80ABCD3C 00000000 */  nop
-
-

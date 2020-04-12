@@ -100,5 +100,3 @@ glabel BgMoriElevator_Init
 /* 002A0 808A1AA0 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 002A4 808A1AA4 03E00008 */  jr      $ra                        
 /* 002A8 808A1AA8 00000000 */  nop
-
-

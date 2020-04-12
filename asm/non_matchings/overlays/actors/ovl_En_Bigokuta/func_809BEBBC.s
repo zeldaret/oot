@@ -28,7 +28,6 @@ glabel D_809BF574
  .word 0x40D6BCA2
 glabel D_809BF578
     .float 0.2
-    .balign 4
 
 glabel D_809BF57C
  .word 0x3DAAAAAB
@@ -374,5 +373,3 @@ glabel func_809BEBBC
 /* 02440 809BF0A0 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 02444 809BF0A4 03E00008 */  jr      $ra                        
 /* 02448 809BF0A8 00000000 */  nop
-
-

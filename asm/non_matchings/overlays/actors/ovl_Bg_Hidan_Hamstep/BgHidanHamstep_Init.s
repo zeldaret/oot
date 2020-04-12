@@ -18,7 +18,6 @@ glabel D_80888F04
 .late_rodata
 glabel D_80888FCC
     .float -1.2
-    .balign 4
 
 .text
 glabel BgHidanHamstep_Init
@@ -211,5 +210,3 @@ glabel BgHidanHamstep_Init
 /* 00428 80888468 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 0042C 8088846C 03E00008 */  jr      $ra                        
 /* 00430 80888470 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

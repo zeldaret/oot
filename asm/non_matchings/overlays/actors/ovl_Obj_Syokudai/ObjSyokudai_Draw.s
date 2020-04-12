@@ -18,12 +18,9 @@ glabel D_80B9FECC
 .late_rodata
 glabel D_80B9FEE0
     .float 0.0027
-    .balign 4
 
 glabel D_80B9FEE4
     .float 9.58738019108e-05
-    .balign 4
-
 
 .text
 glabel ObjSyokudai_Draw
@@ -225,4 +222,3 @@ glabel ObjSyokudai_Draw
 /* 00B34 80B9FDE4 8FB20040 */  lw      $s2, 0x0040($sp)           
 /* 00B38 80B9FDE8 03E00008 */  jr      $ra                        
 /* 00B3C 80B9FDEC 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-

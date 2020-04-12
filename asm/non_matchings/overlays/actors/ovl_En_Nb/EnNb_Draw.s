@@ -33,4 +33,3 @@ glabel EnNb_Draw
 /* 03544 80AB42D4 03E00008 */  jr      $ra                        
 /* 03548 80AB42D8 00000000 */  nop
 /* 0354C 80AB42DC 00000000 */  nop
-

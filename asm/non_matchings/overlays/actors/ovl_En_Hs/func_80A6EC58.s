@@ -7,7 +7,6 @@ glabel jtbl_80A6EE68
 .word func_80A6ECE8
 .word 0x00000000
 
-
 .text
 glabel func_80A6EC58
 /* 008B8 80A6EC58 24AEFFF7 */  addiu   $t6, $a1, 0xFFF7           ## $t6 = FFFFFFF7
@@ -37,5 +36,3 @@ glabel L80A6ECB0
 /* 00910 80A6ECB0 ACC00000 */  sw      $zero, 0x0000($a2)         ## 00000000
 /* 00914 80A6ECB4 03E00008 */  jr      $ra                        
 /* 00918 80A6ECB8 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
-
-

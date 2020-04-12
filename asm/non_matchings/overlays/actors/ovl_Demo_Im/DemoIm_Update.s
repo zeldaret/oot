@@ -32,5 +32,3 @@ glabel DemoIm_Update
 /* 027E0 809873C0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 027E4 809873C4 03E00008 */  jr      $ra                        
 /* 027E8 809873C8 00000000 */  nop
-
-

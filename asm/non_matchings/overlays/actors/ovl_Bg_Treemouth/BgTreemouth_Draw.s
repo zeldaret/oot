@@ -153,4 +153,3 @@ glabel BgTreemouth_Draw
 /* 00914 808BCE14 03E00008 */  jr      $ra                        
 /* 00918 808BCE18 00000000 */  nop
 /* 0091C 808BCE1C 00000000 */  nop
-

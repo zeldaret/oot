@@ -35,4 +35,3 @@ glabel BgSpot01Idohashira_Draw
 /* 00B44 808AB824 00000000 */  nop
 /* 00B48 808AB828 00000000 */  nop
 /* 00B4C 808AB82C 00000000 */  nop
-

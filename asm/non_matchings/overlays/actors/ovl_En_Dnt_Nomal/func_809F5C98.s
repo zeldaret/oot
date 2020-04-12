@@ -14,9 +14,6 @@ glabel D_809F6020
 .late_rodata
 glabel D_809F608C
     .float 0.01
-    .balign 4
-
-
 
 .text
 glabel func_809F5C98
@@ -91,4 +88,3 @@ glabel func_809F5C98
 /* 02AE4 809F5DA4 03E00008 */  jr      $ra                        
 /* 02AE8 809F5DA8 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 02AEC 809F5DAC 00000000 */  nop
-

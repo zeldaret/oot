@@ -37,5 +37,3 @@ glabel MagicWind_Destroy
 /* 0019C 80B8B29C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001A0 80B8B2A0 03E00008 */  jr      $ra                        
 /* 001A4 80B8B2A4 00000000 */  nop
-
-

@@ -69,5 +69,3 @@ glabel BgHidanSima_Update
 /* 00778 8088EB48 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0077C 8088EB4C 03E00008 */  jr      $ra                        
 /* 00780 8088EB50 00000000 */  nop
-
-

@@ -5,7 +5,6 @@ glabel D_808C0A6C
  .word 0x3C088889
 glabel D_808C0A70
     .float 0.7
-    .balign 4
 
 .text
 glabel func_808BF97C
@@ -204,5 +203,3 @@ glabel func_808BF97C
 /* 00834 808BFC44 8FBE0098 */  lw      $s8, 0x0098($sp)           
 /* 00838 808BFC48 03E00008 */  jr      $ra                        
 /* 0083C 808BFC4C 27BD00D8 */  addiu   $sp, $sp, 0x00D8           ## $sp = 00000000
-
-

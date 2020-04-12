@@ -5,7 +5,6 @@ glabel D_808B9E80
  .word 0x3B3B3EE7
 glabel D_808B9E84
     .float 1.57079637051
-    .balign 4
 
 .text
 glabel BgSstFloor_Update
@@ -245,5 +244,3 @@ glabel BgSstFloor_Update
 /* 003F8 808B9D08 8FB20020 */  lw      $s2, 0x0020($sp)           
 /* 003FC 808B9D0C 03E00008 */  jr      $ra                        
 /* 00400 808B9D10 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

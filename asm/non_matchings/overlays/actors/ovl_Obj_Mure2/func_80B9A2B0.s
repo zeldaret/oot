@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80B9A880
     .asciz "Warning : 既に子供がいる(%s %d)(arg_data 0x%04x)\n"
     .balign 4
@@ -115,5 +114,3 @@ glabel func_80B9A2B0
 /* 004EC 80B9A42C 8FBE0050 */  lw      $s8, 0x0050($sp)           
 /* 004F0 80B9A430 03E00008 */  jr      $ra                        
 /* 004F4 80B9A434 27BD0108 */  addiu   $sp, $sp, 0x0108           ## $sp = 00000000
-
-

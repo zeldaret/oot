@@ -142,5 +142,3 @@ glabel EnBomBowlMan_Init
 /* 001D8 809C3808 8FB00030 */  lw      $s0, 0x0030($sp)
 /* 001DC 809C380C 03E00008 */  jr      $ra
 /* 001E0 809C3810 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

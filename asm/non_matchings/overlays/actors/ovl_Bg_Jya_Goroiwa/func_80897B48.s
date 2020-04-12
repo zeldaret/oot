@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_80897FC4
     .float 0.01
-    .balign 4
 
 glabel D_80897FC8
  .word 0x44B74000
@@ -202,5 +201,3 @@ glabel func_80897B48
 /* 00460 80897DD0 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00464 80897DD4 03E00008 */  jr      $ra                        
 /* 00468 80897DD8 00000000 */  nop
-
-

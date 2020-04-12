@@ -472,5 +472,3 @@ glabel BossTw_Draw
 /* 0AC74 80943944 8FB20040 */  lw      $s2, 0x0040($sp)
 /* 0AC78 80943948 03E00008 */  jr      $ra
 /* 0AC7C 8094394C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

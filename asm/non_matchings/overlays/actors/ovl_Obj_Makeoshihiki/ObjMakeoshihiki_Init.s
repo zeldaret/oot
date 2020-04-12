@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80B98970
 	.asciz "\x1B[41;37m"
 	.balign 4
@@ -151,5 +150,3 @@ glabel ObjMakeoshihiki_Init
 /* 001B0 80B986C0 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 001B4 80B986C4 03E00008 */  jr      $ra                        
 /* 001B8 80B986C8 00000000 */  nop
-
-

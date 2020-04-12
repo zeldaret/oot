@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80A6AFB0
     .asciz "../z_en_horse_link_child.c"
     .balign 4
@@ -68,5 +67,3 @@ glabel func_80A6AD84
 /* 01A8C 80A6AE5C 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 01A90 80A6AE60 03E00008 */  jr      $ra                        
 /* 01A94 80A6AE64 00000000 */  nop
-
-

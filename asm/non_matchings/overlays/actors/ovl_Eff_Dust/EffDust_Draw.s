@@ -8,4 +8,3 @@ glabel EffDust_Draw
 /* 01264 8099EB34 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01268 8099EB38 03E00008 */  jr      $ra                        
 /* 0126C 8099EB3C 00000000 */  nop
-

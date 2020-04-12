@@ -115,5 +115,3 @@ glabel EnNy_Init
 /* 0015C 80ABCD0C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00160 80ABCD10 03E00008 */  jr      $ra                        
 /* 00164 80ABCD14 00000000 */  nop
-
-

@@ -1,5 +1,4 @@
 .late_rodata
-
 glabel jtbl_808647E4
 .word L808638F4
 .word L808637D4
@@ -311,5 +310,3 @@ glabel L808638F4
 /* 0445C 80863AAC 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 04460 80863AB0 03E00008 */  jr      $ra
 /* 04464 80863AB4 00000000 */  nop
-
-

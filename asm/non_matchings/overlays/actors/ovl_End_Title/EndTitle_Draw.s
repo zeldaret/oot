@@ -25,7 +25,6 @@ glabel D_80B698DC
 glabel D_80B698E0
  .word 0x3E93431D, 0x00000000, 0x00000000, 0x00000000
 
-
 .text
 glabel EndTitle_Draw
 /* 00048 80B65768 27BDFF00 */  addiu   $sp, $sp, 0xFF00           ## $sp = FFFFFF00
@@ -433,5 +432,3 @@ glabel EndTitle_Draw
 /* 0067C 80B65D9C 27BD0100 */  addiu   $sp, $sp, 0x0100           ## $sp = 00000000
 /* 00680 80B65DA0 03E00008 */  jr      $ra                        
 /* 00684 80B65DA4 00000000 */  nop
-
-

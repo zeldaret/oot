@@ -14,31 +14,24 @@ glabel jtbl_8097C1E8
 .word L80979DE0
 glabel D_8097C204
     .float 0.01
-    .balign 4
 
 glabel D_8097C208
     .float 0.01
-    .balign 4
 
 glabel D_8097C20C
     .float 0.01
-    .balign 4
 
 glabel D_8097C210
     .float 0.01
-    .balign 4
 
 glabel D_8097C214
     .float 0.01
-    .balign 4
 
 glabel D_8097C218
     .float 0.01
-    .balign 4
 
 glabel D_8097C21C
     .float 0.01
-    .balign 4
 
 glabel D_8097C220
  .word 0x4622F983
@@ -524,5 +517,3 @@ glabel L80979DE0
 /* 01660 80979F90 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 01664 80979F94 03E00008 */  jr      $ra                        
 /* 01668 80979F98 00000000 */  nop
-
-

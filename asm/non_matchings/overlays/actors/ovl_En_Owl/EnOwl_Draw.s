@@ -73,5 +73,3 @@ glabel EnOwl_Draw
 /* 0318C 80ACD0AC 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 03190 80ACD0B0 03E00008 */  jr      $ra
 /* 03194 80ACD0B4 00000000 */  nop
-
-

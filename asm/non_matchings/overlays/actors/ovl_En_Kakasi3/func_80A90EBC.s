@@ -13,7 +13,6 @@ glabel jtbl_80A91E40
 .word L80A90FF4
 .word 0x00000000, 0x00000000, 0x00000000
 
-
 .text
 glabel func_80A90EBC
 /* 0019C 80A90EBC 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
@@ -249,5 +248,3 @@ glabel L80A90FF4
 /* 004C4 80A911E4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 004C8 80A911E8 03E00008 */  jr      $ra                        
 /* 004CC 80A911EC 00000000 */  nop
-
-

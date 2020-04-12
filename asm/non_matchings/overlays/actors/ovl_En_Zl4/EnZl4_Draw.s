@@ -142,4 +142,3 @@ glabel EnZl4_Draw
 /* 02FA4 80B5E754 03E00008 */  jr      $ra
 /* 02FA8 80B5E758 00000000 */  nop
 /* 02FAC 80B5E75C 00000000 */  nop
-

@@ -3,15 +3,12 @@ glabel D_8095C6E4
  .word 0x463B8000
 glabel D_8095C6E8
     .float 0.1
-    .balign 4
 
 glabel D_8095C6EC
     .float 0.1
-    .balign 4
 
 glabel D_8095C6F0
     .float 0.05
-    .balign 4
 
 glabel D_8095C6F4
  .word 0x45AAA000
@@ -797,5 +794,3 @@ glabel func_80952858
 /* 04090 80953350 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 04094 80953354 03E00008 */  jr      $ra                        
 /* 04098 80953358 00000000 */  nop
-
-

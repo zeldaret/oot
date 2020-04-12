@@ -85,5 +85,3 @@ glabel func_80A70AE4
 .L80A70BA4:
 /* 015F4 80A70BA4 03E00008 */  jr      $ra                        
 /* 015F8 80A70BA8 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
-
-

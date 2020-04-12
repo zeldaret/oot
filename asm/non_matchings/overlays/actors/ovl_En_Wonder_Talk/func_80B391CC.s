@@ -52,7 +52,6 @@ glabel jtbl_80B39D78
 .word L80B393B8
 .word 0x00000000
 
-
 .text
 glabel func_80B391CC
 /* 000DC 80B391CC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
@@ -235,5 +234,3 @@ glabel L80B393B8
 /* 00340 80B39430 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00344 80B39434 03E00008 */  jr      $ra                        
 /* 00348 80B39438 00000000 */  nop
-
-

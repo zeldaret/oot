@@ -213,5 +213,3 @@ glabel BossDodongo_Init
 /* 00AAC 808C1C3C 8FB00034 */  lw      $s0, 0x0034($sp)
 /* 00AB0 808C1C40 03E00008 */  jr      $ra
 /* 00AB4 808C1C44 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-

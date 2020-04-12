@@ -3,15 +3,12 @@ glabel D_80B8AFFC
  .word 0x43A28000
 glabel D_80B8B000
     .float 0.08
-    .balign 4
 
 glabel D_80B8B004
     .float 0.001
-    .balign 4
 
 glabel D_80B8B008
     .float 0.05
-    .balign 4
 
 glabel D_80B8B00C
  .word 0x3D89AE40
@@ -277,5 +274,3 @@ glabel MagicFire_Update
 /* 004F8 80B89268 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 004FC 80B8926C 03E00008 */  jr      $ra                        
 /* 00500 80B89270 00000000 */  nop
-
-

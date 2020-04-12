@@ -7,7 +7,6 @@ glabel jtbl_80AE6684
 .word L80AE51E8
 glabel D_80AE6698
     .float 0.15
-    .balign 4
 
 .text
 glabel func_80AE5054
@@ -161,5 +160,3 @@ glabel L80AE51E8
 /* 00594 80AE5264 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00598 80AE5268 03E00008 */  jr      $ra                        
 /* 0059C 80AE526C 00000000 */  nop
-
-

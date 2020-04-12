@@ -27,4 +27,3 @@ glabel EnHonotrap_Draw
 /* 01324 80A5AF54 00000000 */  nop
 /* 01328 80A5AF58 00000000 */  nop
 /* 0132C 80A5AF5C 00000000 */  nop
-

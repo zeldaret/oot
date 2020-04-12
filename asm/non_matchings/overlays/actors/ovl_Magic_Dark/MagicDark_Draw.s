@@ -18,13 +18,11 @@ glabel D_80B88B98
 .late_rodata
 glabel D_80B88BFC
     .float 1.4
-    .balign 4
 
 glabel D_80B88C00
  .word 0x3DC90FDB
 glabel D_80B88C04
  .word 0x3DC90FDB, 0x00000000, 0x00000000
-
 
 .text
 glabel MagicDark_Draw
@@ -295,4 +293,3 @@ glabel MagicDark_Draw
 /* 00CE4 80B880B4 00000000 */  nop
 /* 00CE8 80B880B8 00000000 */  nop
 /* 00CEC 80B880BC 00000000 */  nop
-

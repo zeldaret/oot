@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80BADB80
     .asciz "../z_oceff_wipe4.c"
     .balign 4
@@ -13,15 +12,14 @@ glabel D_80BADBA8
     .balign 4
 
 .late_rodata
-
 glabel D_80BADBBC
- .float 1330.0
+    .float 1330.0
 
 glabel D_80BADBC0
- .float 1330.0
+    .float 1330.0
 
 glabel D_80BADBC4
- .float 0.1
+    .float 0.1
 
 .text
 glabel OceffWipe4_Draw
@@ -243,4 +241,3 @@ glabel OceffWipe4_Draw
 /* 00434 80BAD044 00000000 */  nop
 /* 00438 80BAD048 00000000 */  nop
 /* 0043C 80BAD04C 00000000 */  nop
-

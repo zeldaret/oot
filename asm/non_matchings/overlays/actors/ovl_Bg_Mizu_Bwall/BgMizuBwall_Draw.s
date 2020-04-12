@@ -203,4 +203,3 @@ glabel BgMizuBwall_Draw
 /* 01214 8089D694 03E00008 */  jr      $ra                        
 /* 01218 8089D698 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
 /* 0121C 8089D69C 00000000 */  nop
-

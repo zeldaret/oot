@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_808799E0
     .asciz "../z_bg_gnd_firemeiro.c"
     .balign 4
@@ -67,4 +66,3 @@ glabel BgGndFiremeiro_Draw
 /* 004F4 808799B4 00000000 */  nop
 /* 004F8 808799B8 00000000 */  nop
 /* 004FC 808799BC 00000000 */  nop
-

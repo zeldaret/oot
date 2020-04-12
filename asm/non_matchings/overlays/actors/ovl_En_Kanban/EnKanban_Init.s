@@ -91,5 +91,3 @@ glabel EnKanban_Init
 /* 001E0 80A92180 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 001E4 80A92184 03E00008 */  jr      $ra                        
 /* 001E8 80A92188 00000000 */  nop
-
-

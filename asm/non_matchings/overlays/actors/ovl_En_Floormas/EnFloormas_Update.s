@@ -1,11 +1,9 @@
 .late_rodata
 glabel D_80A1A5B4
     .float 3000.0
-    .balign 4
 
 glabel D_80A1A5B8
     .float 2500.0
-    .balign 4
 
 .text
 glabel EnFloormas_Update
@@ -179,5 +177,3 @@ glabel EnFloormas_Update
 /* 02C0C 80A1A11C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 02C10 80A1A120 03E00008 */  jr      $ra                        
 /* 02C14 80A1A124 00000000 */  nop
-
-

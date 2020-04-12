@@ -224,5 +224,3 @@ glabel L80BA2D98
 /* 002FC 80BA2D9C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00300 80BA2DA0 03E00008 */  jr      $ra                        
 /* 00304 80BA2DA4 00000000 */  nop
-
-

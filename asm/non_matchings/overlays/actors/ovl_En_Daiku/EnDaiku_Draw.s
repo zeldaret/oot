@@ -97,5 +97,3 @@ glabel EnDaiku_Draw
 /* 013BC 809E3EEC 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 013C0 809E3EF0 03E00008 */  jr      $ra
 /* 013C4 809E3EF4 00000000 */  nop
-
-

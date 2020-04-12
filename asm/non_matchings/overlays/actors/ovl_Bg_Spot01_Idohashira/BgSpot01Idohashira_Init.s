@@ -2,8 +2,6 @@
 glabel D_808AB9D0
     .float 1100.0
 
-
-
 .text
 glabel BgSpot01Idohashira_Init
 /* 0090C 808AB5EC 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
@@ -87,5 +85,3 @@ glabel BgSpot01Idohashira_Init
 /* 00A14 808AB6F4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00A18 808AB6F8 03E00008 */  jr      $ra                        
 /* 00A1C 808AB6FC 00000000 */  nop
-
-

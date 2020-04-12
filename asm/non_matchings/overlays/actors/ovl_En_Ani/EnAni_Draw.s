@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_809B0F90
     .asciz "../z_en_ani.c"
     .balign 4
@@ -77,4 +76,3 @@ glabel EnAni_Draw
 /* 00BA4 809B0F14 00000000 */  nop
 /* 00BA8 809B0F18 00000000 */  nop
 /* 00BAC 809B0F1C 00000000 */  nop
-

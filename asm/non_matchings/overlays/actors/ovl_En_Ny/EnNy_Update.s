@@ -182,5 +182,3 @@ glabel EnNy_Update
 /* 00B6C 80ABD71C 8FB30038 */  lw      $s3, 0x0038($sp)           
 /* 00B70 80ABD720 03E00008 */  jr      $ra                        
 /* 00B74 80ABD724 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

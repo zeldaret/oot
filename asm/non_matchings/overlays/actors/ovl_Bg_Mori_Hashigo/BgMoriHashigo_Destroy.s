@@ -24,5 +24,3 @@ glabel BgMoriHashigo_Destroy
 /* 0040C 808A296C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00410 808A2970 03E00008 */  jr      $ra                        
 /* 00414 808A2974 00000000 */  nop
-
-

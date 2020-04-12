@@ -3,33 +3,26 @@ glabel D_80A8E484
  .word 0x45ABE000
 glabel D_80A8E488
     .float 3000.0
-    .balign 4
 
 glabel D_80A8E48C
  .word 0x453B8000, 0x453B8000
 glabel D_80A8E494
     .float 2500.0
-    .balign 4
 
 glabel D_80A8E498
     .float 1500.0
-    .balign 4
 
 glabel D_80A8E49C
     .float 0.01
-    .balign 4
 
 glabel D_80A8E4A0
     .float 3000.0
-    .balign 4
 
 glabel D_80A8E4A4
     .float 1500.0
-    .balign 4
 
 glabel D_80A8E4A8
     .float 0.01
-    .balign 4
 
 glabel D_80A8E4AC
  .word 0x3B343958
@@ -777,5 +770,3 @@ glabel func_80A89A6C
 /* 00D94 80A8A534 8FB40058 */  lw      $s4, 0x0058($sp)           
 /* 00D98 80A8A538 03E00008 */  jr      $ra                        
 /* 00D9C 80A8A53C 27BD0128 */  addiu   $sp, $sp, 0x0128           ## $sp = 00000000
-
-

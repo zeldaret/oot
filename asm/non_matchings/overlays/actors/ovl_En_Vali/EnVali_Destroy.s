@@ -20,5 +20,3 @@ glabel EnVali_Destroy
 /* 001BC 80B2686C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001C0 80B26870 03E00008 */  jr      $ra                        
 /* 001C4 80B26874 00000000 */  nop
-
-

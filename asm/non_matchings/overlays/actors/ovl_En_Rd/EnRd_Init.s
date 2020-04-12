@@ -133,5 +133,3 @@ glabel EnRd_Init
 /* 001E4 80AE25E4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 001E8 80AE25E8 03E00008 */  jr      $ra
 /* 001EC 80AE25EC 00000000 */  nop
-
-

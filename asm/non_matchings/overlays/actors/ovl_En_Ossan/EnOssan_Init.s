@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80AC8EF0
     .asciz "コキリの店  "
     .balign 4
@@ -304,5 +303,3 @@ glabel EnOssan_Init
 /* 00A60 80AC3700 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00A64 80AC3704 03E00008 */  jr      $ra                        
 /* 00A68 80AC3708 00000000 */  nop
-
-

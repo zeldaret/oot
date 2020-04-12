@@ -17,5 +17,3 @@ glabel ObjWarp2block_Destroy
 /* 006CC 80BA24BC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 006D0 80BA24C0 03E00008 */  jr      $ra                        
 /* 006D4 80BA24C4 00000000 */  nop
-
-

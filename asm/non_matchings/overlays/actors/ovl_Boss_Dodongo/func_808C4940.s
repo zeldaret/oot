@@ -18,11 +18,9 @@ glabel D_808CA72C
  .word 0x3E051EB8
 glabel D_808CA730
     .float 0.1
-    .balign 4
 
 glabel D_808CA734
     .float 0.1
-    .balign 4
 
 glabel D_808CA738
  .word 0x3E051EB8
@@ -184,5 +182,3 @@ glabel func_808C4940
 /* 039F4 808C4B84 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 039F8 808C4B88 03E00008 */  jr      $ra
 /* 039FC 808C4B8C 00000000 */  nop
-
-

@@ -15,7 +15,6 @@ glabel D_80ACD6A4
     .asciz "フクロウ退避\n"
     .balign 4
 
-
 glabel D_80ACD6B4
     .asciz "フクロウ退避\n"
     .balign 4
@@ -394,5 +393,3 @@ glabel L80ACA2DC
 /* 00464 80ACA384 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00468 80ACA388 03E00008 */  jr      $ra
 /* 0046C 80ACA38C 00000000 */  nop
-
-

@@ -167,4 +167,3 @@ glabel EnBox_Draw
 /* 01A14 809CA7D4 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 01A18 809CA7D8 03E00008 */  jr      $ra
 /* 01A1C 809CA7DC 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-

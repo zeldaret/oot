@@ -20,5 +20,3 @@ glabel EnHorseZelda_Destroy
 /* 003A0 80A6DC70 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 003A4 80A6DC74 03E00008 */  jr      $ra                        
 /* 003A8 80A6DC78 00000000 */  nop
-
-

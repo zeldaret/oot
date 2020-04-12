@@ -361,5 +361,3 @@ glabel EnHorseNormal_Init
 /* 00660 80A6B8B0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00664 80A6B8B4 03E00008 */  jr      $ra
 /* 00668 80A6B8B8 00000000 */  nop
-
-

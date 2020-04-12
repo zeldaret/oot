@@ -78,5 +78,3 @@ glabel BgMoriKaitenkabe_Init
 /* 00140 808A4F00 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00144 808A4F04 03E00008 */  jr      $ra                        
 /* 00148 808A4F08 00000000 */  nop
-
-

@@ -22,12 +22,9 @@ glabel D_809D16D8
  .word 0x3C54FDF4
 glabel D_809D16DC
     .float 0.01
-    .balign 4
 
 glabel D_809D16E0
     .float 1.3
-
-
 
 .text
 glabel EnBw_Draw
@@ -353,4 +350,3 @@ glabel EnBw_Draw
 /* 02D44 809D1424 8FB20040 */  lw      $s2, 0x0040($sp)
 /* 02D48 809D1428 03E00008 */  jr      $ra
 /* 02D4C 809D142C 27BD00B8 */  addiu   $sp, $sp, 0x00B8           ## $sp = 00000000
-

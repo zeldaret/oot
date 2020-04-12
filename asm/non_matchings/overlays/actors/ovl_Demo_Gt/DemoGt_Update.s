@@ -34,5 +34,3 @@ glabel DemoGt_Update
 /* 04DF8 80982468 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 04DFC 8098246C 03E00008 */  jr      $ra                        
 /* 04E00 80982470 00000000 */  nop
-
-

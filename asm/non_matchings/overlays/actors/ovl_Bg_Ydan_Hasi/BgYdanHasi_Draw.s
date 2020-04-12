@@ -109,4 +109,3 @@ glabel BgYdanHasi_Draw
 /* 006F4 808BEBF4 00000000 */  nop
 /* 006F8 808BEBF8 00000000 */  nop
 /* 006FC 808BEBFC 00000000 */  nop
-

@@ -34,4 +34,3 @@ glabel DemoGj_Draw
 /* 034A4 8097BDD4 00000000 */  nop
 /* 034A8 8097BDD8 00000000 */  nop
 /* 034AC 8097BDDC 00000000 */  nop
-

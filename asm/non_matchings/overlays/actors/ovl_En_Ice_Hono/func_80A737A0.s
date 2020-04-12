@@ -5,7 +5,6 @@ glabel D_80A74140
  .word 0x455AC000
 glabel D_80A74144
     .float 6000.0
-    .balign 4
 
 .text
 glabel func_80A737A0
@@ -180,5 +179,3 @@ glabel func_80A737A0
 /* 00A00 80A739F0 8FB40048 */  lw      $s4, 0x0048($sp)           
 /* 00A04 80A739F4 03E00008 */  jr      $ra                        
 /* 00A08 80A739F8 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

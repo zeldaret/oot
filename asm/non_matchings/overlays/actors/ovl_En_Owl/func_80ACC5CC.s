@@ -25,5 +25,3 @@ glabel func_80ACC5CC
 .L80ACC61C:
 /* 026FC 80ACC61C 03E00008 */  jr      $ra                        
 /* 02700 80ACC620 00000000 */  nop
-
-

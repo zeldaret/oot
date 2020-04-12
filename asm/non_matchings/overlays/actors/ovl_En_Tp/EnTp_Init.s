@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_80B22B80
     .float 0.3
-    .balign 4
 
 .text
 glabel EnTp_Init
@@ -173,5 +172,3 @@ glabel EnTp_Init
 /* 00270 80B21050 8FBE0068 */  lw      $s8, 0x0068($sp)           
 /* 00274 80B21054 03E00008 */  jr      $ra                        
 /* 00278 80B21058 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-
-

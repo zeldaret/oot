@@ -362,5 +362,3 @@ glabel EnWood02_Update
 /* 00C98 80B3BC08 8FB20038 */  lw      $s2, 0x0038($sp)           
 /* 00C9C 80B3BC0C 03E00008 */  jr      $ra                        
 /* 00CA0 80B3BC10 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

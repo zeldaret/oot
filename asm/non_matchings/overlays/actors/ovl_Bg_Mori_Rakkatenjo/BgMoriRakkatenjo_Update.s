@@ -74,5 +74,3 @@ glabel BgMoriRakkatenjo_Update
 /* 007E4 808A5D54 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 007E8 808A5D58 03E00008 */  jr      $ra                        
 /* 007EC 808A5D5C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

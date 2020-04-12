@@ -242,5 +242,3 @@ glabel EnTp_Update
 /* 019C0 80B227A0 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 019C4 80B227A4 03E00008 */  jr      $ra                        
 /* 019C8 80B227A8 00000000 */  nop
-
-

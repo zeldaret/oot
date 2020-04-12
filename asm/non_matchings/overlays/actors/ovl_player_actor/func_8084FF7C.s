@@ -1,11 +1,9 @@
 .late_rodata
 glabel D_80855544
     .float 0.3
-    .balign 4
 
 glabel D_80855548
     .float 9.99999974738e-06
-    .balign 4
 
 .text
 glabel func_8084FF7C
@@ -57,5 +55,3 @@ glabel func_8084FF7C
 .L80850024:
 /* 1DE14 80850024 03E00008 */  jr      $ra                        
 /* 1DE18 80850028 00000000 */  nop
-
-

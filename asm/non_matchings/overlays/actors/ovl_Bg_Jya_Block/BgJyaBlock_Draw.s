@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80894410
     .asciz "../z_bg_jya_block.c"
     .balign 4
@@ -93,4 +92,3 @@ glabel BgJyaBlock_Draw
 /* 00234 808943D4 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00238 808943D8 03E00008 */  jr      $ra                        
 /* 0023C 808943DC 00000000 */  nop
-

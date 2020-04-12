@@ -112,4 +112,3 @@ glabel EnBili_Draw
 /* 01D74 809C1614 03E00008 */  jr      $ra
 /* 01D78 809C1618 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 01D7C 809C161C 00000000 */  nop
-

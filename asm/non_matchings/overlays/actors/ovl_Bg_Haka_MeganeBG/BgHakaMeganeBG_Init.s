@@ -1,7 +1,6 @@
 .late_rodata
-
 glabel D_8087E420
- .float 3000.0
+    .float 3000.0
 
 .text
 glabel BgHakaMeganeBG_Init
@@ -121,5 +120,3 @@ glabel BgHakaMeganeBG_Init
 /* 0018C 8087DFBC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00190 8087DFC0 03E00008 */  jr      $ra                        
 /* 00194 8087DFC4 00000000 */  nop
-
-

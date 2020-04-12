@@ -85,5 +85,3 @@ glabel EnViewer_Draw
 /* 0218C 80B2C38C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 02190 80B2C390 03E00008 */  jr      $ra                        
 /* 02194 80B2C394 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

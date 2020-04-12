@@ -1,7 +1,6 @@
 .late_rodata
-
 glabel D_80881040
- .float 0.1
+    .float 0.1
 
 .text
 glabel BgHakaTrap_Init
@@ -191,5 +190,3 @@ glabel BgHakaTrap_Init
 /* 00290 8087FF30 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00294 8087FF34 03E00008 */  jr      $ra                        
 /* 00298 8087FF38 00000000 */  nop
-
-

@@ -100,5 +100,3 @@ glabel EnHs_Update
 /* 008AC 80A6EC4C 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 008B0 80A6EC50 03E00008 */  jr      $ra                        
 /* 008B4 80A6EC54 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

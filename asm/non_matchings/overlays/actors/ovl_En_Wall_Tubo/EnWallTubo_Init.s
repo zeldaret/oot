@@ -35,5 +35,3 @@ glabel EnWallTubo_Init
 /* 00054 80B2EE44 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00058 80B2EE48 03E00008 */  jr      $ra                        
 /* 0005C 80B2EE4C 00000000 */  nop
-
-

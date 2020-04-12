@@ -1,5 +1,4 @@
 .late_rodata
-
 glabel jtbl_80864720
 .word L8085FA00
 .word L8085FA00
@@ -120,5 +119,3 @@ glabel L8085FA98
 /* 00454 8085FAA4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00458 8085FAA8 03E00008 */  jr      $ra                        
 /* 0045C 8085FAAC 00000000 */  nop
-
-

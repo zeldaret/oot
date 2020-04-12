@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80BA9AC0
     .asciz "[36m WIPE arg_data = %d\n[m"
     .balign 4
@@ -36,5 +35,3 @@ glabel OceffWipe_Init
 /* 00064 80BA8DF4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00068 80BA8DF8 03E00008 */  jr      $ra                        
 /* 0006C 80BA8DFC 00000000 */  nop
-
-

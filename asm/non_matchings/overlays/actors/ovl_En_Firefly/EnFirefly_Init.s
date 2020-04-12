@@ -139,5 +139,3 @@ glabel EnFirefly_Init
 /* 00250 80A132C0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00254 80A132C4 03E00008 */  jr      $ra                        
 /* 00258 80A132C8 00000000 */  nop
-
-

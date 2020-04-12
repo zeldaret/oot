@@ -8,9 +8,8 @@ glabel D_809B2344
     .balign 4
 
 .late_rodata
-
 glabel D_809B241C
- .float -4230.0
+    .float -4230.0
 
 .text
 glabel EnAnubice_Init
@@ -97,5 +96,3 @@ glabel EnAnubice_Init
 /* 002A8 809B13C8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 002AC 809B13CC 03E00008 */  jr      $ra                        
 /* 002B0 809B13D0 00000000 */  nop
-
-

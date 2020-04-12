@@ -6,8 +6,6 @@ glabel D_808AFA3C
 glabel D_808AFA40
     .float 0.001
 
-
-
 .text
 glabel func_808AF824
 /* 010A4 808AF824 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
@@ -72,4 +70,3 @@ glabel func_808AF824
 /* 01184 808AF904 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 01188 808AF908 03E00008 */  jr      $ra                        
 /* 0118C 808AF90C 00000000 */  nop
-

@@ -18,11 +18,9 @@ glabel D_80AD2960
  .word 0x3E051EB8
 glabel D_80AD2964
     .float 0.1
-    .balign 4
 
 glabel D_80AD2968
     .float 0.1
-    .balign 4
 
 glabel D_80AD296C
  .word 0x3E051EB8
@@ -168,5 +166,3 @@ glabel func_80AD2224
 /* 02F8C 80AD242C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 02F90 80AD2430 03E00008 */  jr      $ra                        
 /* 02F94 80AD2434 00000000 */  nop
-
-

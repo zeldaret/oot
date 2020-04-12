@@ -32,5 +32,3 @@ glabel EnIk_Update
 /* 038DC 80A77BEC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 038E0 80A77BF0 03E00008 */  jr      $ra                        
 /* 038E4 80A77BF4 00000000 */  nop
-
-

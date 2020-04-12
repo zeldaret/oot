@@ -252,5 +252,3 @@ glabel EnGeldB_Draw
 /* 04B10 80A39E20 8FB40048 */  lw      $s4, 0x0048($sp)
 /* 04B14 80A39E24 03E00008 */  jr      $ra
 /* 04B18 80A39E28 27BD00D8 */  addiu   $sp, $sp, 0x00D8           ## $sp = 00000000
-
-

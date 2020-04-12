@@ -4,7 +4,6 @@ glabel D_809E41C0
 glabel D_809E41C4
  .word 0x41A70A3D, 0x00000000, 0x00000000
 
-
 .text
 glabel func_809E3A8C
 /* 00F5C 809E3A8C 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
@@ -146,5 +145,3 @@ glabel func_809E3A8C
 /* 01158 809E3C88 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 0115C 809E3C8C 03E00008 */  jr      $ra                        
 /* 01160 809E3C90 00000000 */  nop
-
-

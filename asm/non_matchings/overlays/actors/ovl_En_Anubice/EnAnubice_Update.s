@@ -1,7 +1,6 @@
 .late_rodata
-
 glabel D_809B2438
- .float 3.1415927
+    .float 3.1415927
 
 .text
 glabel EnAnubice_Update
@@ -284,5 +283,3 @@ glabel EnAnubice_Update
 /* 00FD8 809B20F8 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 00FDC 809B20FC 03E00008 */  jr      $ra                        
 /* 00FE0 809B2100 00000000 */  nop
-
-

@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_809C8350
     .float 10000.0
-    .balign 4
 
 glabel D_809C8354
  .word 0x46F23000
@@ -136,5 +135,3 @@ glabel EnBombf_Init
 /* 001D4 809C7134 8FB0001C */  lw      $s0, 0x001C($sp)           
 /* 001D8 809C7138 03E00008 */  jr      $ra                        
 /* 001DC 809C713C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

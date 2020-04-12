@@ -2,7 +2,6 @@
 glabel D_80990F38
  .word 0x42A6AAAB, 0x00000000
 
-
 .text
 glabel func_8098E944
 /* 004E4 8098E944 AFA50004 */  sw      $a1, 0x0004($sp)           
@@ -12,5 +11,3 @@ glabel func_8098E944
 /* 004F4 8098E954 46062200 */  add.s   $f8, $f4, $f6              
 /* 004F8 8098E958 03E00008 */  jr      $ra                        
 /* 004FC 8098E95C E48800BC */  swc1    $f8, 0x00BC($a0)           ## 000000BC
-
-

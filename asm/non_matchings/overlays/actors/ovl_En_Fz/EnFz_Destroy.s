@@ -22,5 +22,3 @@ glabel EnFz_Destroy
 /* 001C0 80A1FF80 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001C4 80A1FF84 03E00008 */  jr      $ra                        
 /* 001C8 80A1FF88 00000000 */  nop
-
-

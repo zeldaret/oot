@@ -29,5 +29,3 @@ glabel BgPoSyokudai_Destroy
 /* 00300 808A83B0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00304 808A83B4 03E00008 */  jr      $ra                        
 /* 00308 808A83B8 00000000 */  nop
-
-

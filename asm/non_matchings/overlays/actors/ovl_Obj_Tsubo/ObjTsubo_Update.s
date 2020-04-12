@@ -8,5 +8,3 @@ glabel ObjTsubo_Update
 /* 00DA0 80BA1B00 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00DA4 80BA1B04 03E00008 */  jr      $ra                        
 /* 00DA8 80BA1B08 00000000 */  nop
-
-

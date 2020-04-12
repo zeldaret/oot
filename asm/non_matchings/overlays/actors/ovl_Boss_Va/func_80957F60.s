@@ -10,7 +10,6 @@ glabel D_8095C3C0
 .late_rodata
 glabel D_8095C820
     .float -1.57079637051
-    .balign 4
 
 .text
 glabel func_80957F60
@@ -145,5 +144,3 @@ glabel func_80957F60
 /* 08E84 80958144 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 08E88 80958148 03E00008 */  jr      $ra                        
 /* 08E8C 8095814C 00000000 */  nop
-
-

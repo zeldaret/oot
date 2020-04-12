@@ -30,5 +30,3 @@ glabel func_8080BF6C
 .L8080BFDC:
 /* 0829C 8080BFDC 03E00008 */  jr      $ra                        
 /* 082A0 8080BFE0 00000000 */  nop
-
-

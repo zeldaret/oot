@@ -4,7 +4,6 @@ glabel D_80B3AC18
     .balign 4
 
 glabel D_80B3AC38
-
     .asciz "\n\n"
     .balign 4
 
@@ -37,12 +36,10 @@ glabel D_80B3AD5C
     .balign 4
 
 glabel D_80B3AD84
-
     .asciz "\n\n"
     .balign 4
 
 glabel D_80B3AD88
-
     .asciz "\n\n"
     .balign 4
 
@@ -55,11 +52,8 @@ glabel D_80B3ADA8
     .balign 4
 
 glabel D_80B3ADDC
-
     .asciz "\n\n"
     .balign 4
-
-
 
 .text
 glabel func_80B3A4F8
@@ -246,5 +240,3 @@ glabel func_80B3A4F8
 /* 00894 80B3A764 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00898 80B3A768 03E00008 */  jr      $ra                        
 /* 0089C 80B3A76C 00000000 */  nop
-
-

@@ -14,5 +14,3 @@ glabel func_80B8EF44
 /* 004F4 80B8EF74 A48B01F0 */  sh      $t3, 0x01F0($a0)           ## 000001F0
 /* 004F8 80B8EF78 03E00008 */  jr      $ra                        
 /* 004FC 80B8EF7C A48C01F4 */  sh      $t4, 0x01F4($a0)           ## 000001F4
-
-

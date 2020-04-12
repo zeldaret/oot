@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_808B7654
     .asciz "../z_bg_spot17_funen.c"
     .balign 4
@@ -13,9 +12,8 @@ glabel D_808B7684
     .balign 4
 
 .late_rodata
-
 glabel D_808B769C
- .float 9.58738E-5
+    .float 9.58738E-5
 
 .text
 glabel func_808B7478
@@ -117,4 +115,3 @@ glabel func_808B7478
 /* 001F4 808B75F4 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 001F8 808B75F8 03E00008 */  jr      $ra                        
 /* 001FC 808B75FC 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-

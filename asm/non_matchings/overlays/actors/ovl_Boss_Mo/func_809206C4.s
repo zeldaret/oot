@@ -8,7 +8,6 @@ glabel jtbl_80926D50
 .word L8092107C
 glabel D_80926D68
     .float 0.005
-    .balign 4
 
 glabel D_80926D6C
  .word 0x3C75C28F
@@ -16,47 +15,37 @@ glabel D_80926D70
  .word 0x3C75C28F
 glabel D_80926D74
     .float 0.005
-    .balign 4
 
 glabel D_80926D78
     .float 0.002
-    .balign 4
 
 glabel D_80926D7C
     .float 0.08
-    .balign 4
 
 glabel D_80926D80
  .word 0x3E051EB8
 glabel D_80926D84
     .float 0.05
-    .balign 4
 
 glabel D_80926D88
     .float 0.02
-    .balign 4
 
 glabel D_80926D8C
     .float 0.2
-    .balign 4
 
 glabel D_80926D90
     .float 3000.0
-    .balign 4
 
 glabel D_80926D94
     .float 2500.0
-    .balign 4
 
 glabel D_80926D98
     .float 0.05
-    .balign 4
 
 glabel D_80926D9C
  .word 0x406CCCCE
 glabel D_80926DA0
     .float 0.02
-    .balign 4
 
 .text
 glabel func_809206C4
@@ -873,5 +862,3 @@ glabel L8092107C
 /* 05774 80921274 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 05778 80921278 03E00008 */  jr      $ra                        
 /* 0577C 8092127C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

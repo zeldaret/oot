@@ -22,23 +22,19 @@ glabel jtbl_80A12E94
 .word L80A11D14
 glabel D_80A12EB0
     .float 0.02
-    .balign 4
 
 glabel D_80A12EB4
  .word 0x477FFF00
 glabel D_80A12EB8
     .float 0.02
-    .balign 4
 
 glabel D_80A12EBC
  .word 0x477FFF00
 glabel D_80A12EC0
     .float 0.01
-    .balign 4
 
 glabel D_80A12EC4
     .float -1.2
-    .balign 4
 
 glabel D_80A12EC8
  .word 0x477FFF00
@@ -347,5 +343,3 @@ glabel L80A12008
 /* 00404 80A12024 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00408 80A12028 03E00008 */  jr      $ra                        
 /* 0040C 80A1202C 00000000 */  nop
-
-

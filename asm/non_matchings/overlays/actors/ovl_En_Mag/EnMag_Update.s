@@ -1,9 +1,8 @@
 .late_rodata
-
 glabel D_80AA5F30
- .float 0.8
+    .float 0.8
 glabel D_80AA5F34
- .float 2.4
+    .float 2.4
 
 .text
 glabel EnMag_Update
@@ -469,5 +468,3 @@ glabel EnMag_Update
 /* 00970 80AA4470 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00974 80AA4474 03E00008 */  jr      $ra                        
 /* 00978 80AA4478 00000000 */  nop
-
-

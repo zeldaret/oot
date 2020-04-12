@@ -582,5 +582,3 @@ glabel func_80B53B64
 /* 00FA4 80B54354 01D87821 */  addu    $t7, $t6, $t8              
 /* 00FA8 80B54358 03E00008 */  jr      $ra                        
 /* 00FAC 80B5435C A5F902BC */  sh      $t9, 0x02BC($t7)           ## 000002BC
-
-

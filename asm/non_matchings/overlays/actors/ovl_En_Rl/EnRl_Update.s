@@ -32,5 +32,3 @@ glabel EnRl_Update
 /* 00CAC 80AE7F5C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00CB0 80AE7F60 03E00008 */  jr      $ra                        
 /* 00CB4 80AE7F64 00000000 */  nop
-
-

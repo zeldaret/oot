@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_808D1F4C
     .float 0.05
-    .balign 4
 
 glabel D_808D1F50
  .word 0x3F0CCCCD
@@ -11,19 +10,15 @@ glabel D_808D1F58
  .word 0x3E570A3D
 glabel D_808D1F5C
     .float 0.01
-    .balign 4
 
 glabel D_808D1F60
     .float 0.3
-    .balign 4
 
 glabel D_808D1F64
     .float 6000.0
-    .balign 4
 
 glabel D_808D1F68
     .float 1300.0
-    .balign 4
 
 glabel D_808D1F6C
  .word 0xBE99999A
@@ -31,23 +26,18 @@ glabel D_808D1F70
  .word 0xBE99999A
 glabel D_808D1F74
     .float 0.4
-    .balign 4
 
 glabel D_808D1F78
     .float 3.14159274101
-    .balign 4
 
 glabel D_808D1F7C
     .float 0.3
-    .balign 4
 
 glabel D_808D1F80
     .float 6.28318548203
-    .balign 4
 
 glabel D_808D1F84
     .float 6.28318548203
-    .balign 4
 
 .text
 glabel func_808CE01C
@@ -893,5 +883,3 @@ glabel func_808CE01C
 /* 03E68 808CEC28 8FB20060 */  lw      $s2, 0x0060($sp)           
 /* 03E6C 808CEC2C 03E00008 */  jr      $ra                        
 /* 03E70 808CEC30 27BD0108 */  addiu   $sp, $sp, 0x0108           ## $sp = 00000000
-
-

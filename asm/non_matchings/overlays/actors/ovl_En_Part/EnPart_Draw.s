@@ -410,4 +410,3 @@ glabel EnPart_Draw
 /* 013B4 80ACF184 03E00008 */  jr      $ra                        
 /* 013B8 80ACF188 00000000 */  nop
 /* 013BC 80ACF18C 00000000 */  nop
-

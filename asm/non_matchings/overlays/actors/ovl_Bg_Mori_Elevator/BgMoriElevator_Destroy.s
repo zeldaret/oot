@@ -29,5 +29,3 @@ glabel BgMoriElevator_Destroy
 /* 002F4 808A1AF4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002F8 808A1AF8 03E00008 */  jr      $ra                        
 /* 002FC 808A1AFC 00000000 */  nop
-
-

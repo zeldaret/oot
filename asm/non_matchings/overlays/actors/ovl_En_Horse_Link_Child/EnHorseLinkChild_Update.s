@@ -1,7 +1,6 @@
 .late_rodata
-
 glabel D_80A6AFF4
- .float 0.025
+    .float 0.025
 
 .text
 glabel EnHorseLinkChild_Update
@@ -98,5 +97,3 @@ glabel EnHorseLinkChild_Update
 /* 0181C 80A6ABEC 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 01820 80A6ABF0 03E00008 */  jr      $ra                        
 /* 01824 80A6ABF4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

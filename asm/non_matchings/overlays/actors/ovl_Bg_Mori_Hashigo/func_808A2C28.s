@@ -11,8 +11,6 @@ glabel D_808A2F58
     .asciz "../z_bg_mori_hashigo.c"
     .balign 4
 
-
-
 .text
 glabel func_808A2C28
 /* 006C8 808A2C28 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
@@ -105,4 +103,3 @@ glabel func_808A2C28
 /* 00814 808A2D74 00000000 */  nop
 /* 00818 808A2D78 00000000 */  nop
 /* 0081C 808A2D7C 00000000 */  nop
-

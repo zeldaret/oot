@@ -1,12 +1,9 @@
 .rdata
-
 glabel D_80892AB0
-
     .asciz "../z_bg_ingate.c"
     .balign 4
 
 glabel D_80892AC4
-
     .asciz "../z_bg_ingate.c"
     .balign 4
 
@@ -68,4 +65,3 @@ glabel BgIngate_Draw
 /* 00344 80892A84 00000000 */  nop
 /* 00348 80892A88 00000000 */  nop
 /* 0034C 80892A8C 00000000 */  nop
-
