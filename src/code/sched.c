@@ -35,7 +35,7 @@ void func_800C8910(SchedContext* sc) {
         osSpTaskYield();
 
         if (D_8012D290 != 0) {
-            osSyncPrintf("%08d:osSpTaskYield\n", (u32)((osGetTime() * 64) / 3000));
+            osSyncPrintf("%08d:osSpTaskYield\n", (u32)(OS_CYCLES_TO_USEC(osGetTime())));
         }
     }
 }
