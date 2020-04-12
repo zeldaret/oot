@@ -18,20 +18,15 @@ glabel D_808A8A18
 .late_rodata
 glabel D_808A8A34
     .float 0.3
-    .balign 4
 
 glabel D_808A8A38
     .float 0.7
-    .balign 4
 
 glabel D_808A8A3C
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_808A8A40
     .float 0.0027
-
-
 
 .text
 glabel BgPoSyokudai_Draw
@@ -378,4 +373,3 @@ glabel BgPoSyokudai_Draw
 /* 008A4 808A8954 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 008A8 808A8958 03E00008 */  jr      $ra                        
 /* 008AC 808A895C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-

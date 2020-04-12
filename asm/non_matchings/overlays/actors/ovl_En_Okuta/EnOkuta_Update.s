@@ -247,5 +247,3 @@ glabel EnOkuta_Update
 /* 01CE4 80AC2344 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 01CE8 80AC2348 03E00008 */  jr      $ra                        
 /* 01CEC 80AC234C 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

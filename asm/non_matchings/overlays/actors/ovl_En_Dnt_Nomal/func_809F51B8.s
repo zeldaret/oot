@@ -3,11 +3,9 @@ glabel D_809F605C
  .word 0x4622F983
 glabel D_809F6060
     .float 3.14159274101
-    .balign 4
 
 glabel D_809F6064
     .float 3.14159274101
-    .balign 4
 
 .text
 glabel func_809F51B8
@@ -199,5 +197,3 @@ glabel func_809F51B8
 /* 021AC 809F546C 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 021B0 809F5470 03E00008 */  jr      $ra                        
 /* 021B4 809F5474 00000000 */  nop
-
-

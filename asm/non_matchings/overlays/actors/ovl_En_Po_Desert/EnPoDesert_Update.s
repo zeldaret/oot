@@ -67,5 +67,3 @@ glabel EnPoDesert_Update
 /* 00848 80AD34F8 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 0084C 80AD34FC 03E00008 */  jr      $ra                        
 /* 00850 80AD3500 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

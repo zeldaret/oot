@@ -13,5 +13,3 @@ glabel MagicDark_Destroy
 /* 00108 80B874D8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0010C 80B874DC 03E00008 */  jr      $ra                        
 /* 00110 80B874E0 00000000 */  nop
-
-

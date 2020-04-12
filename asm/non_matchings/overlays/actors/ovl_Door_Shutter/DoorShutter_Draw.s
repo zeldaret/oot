@@ -22,24 +22,18 @@ glabel D_8099837C
 .late_rodata
 glabel D_809983A4
     .float 0.01
-    .balign 4
 
 glabel D_809983A8
     .float 3.14159274101
-    .balign 4
 
 glabel D_809983AC
     .float 3.14159274101
-    .balign 4
 
 glabel D_809983B0
     .float 0.01
-    .balign 4
 
 glabel D_809983B4
     .float 0.01
-
-
 
 .text
 glabel DoorShutter_Draw
@@ -408,5 +402,3 @@ glabel DoorShutter_Draw
 /* 01D90 80998030 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 01D94 80998034 03E00008 */  jr      $ra                        
 /* 01D98 80998038 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

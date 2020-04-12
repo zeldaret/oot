@@ -22,7 +22,6 @@ glabel D_808A5F90
 .late_rodata
 glabel D_808A604C
     .float 0.001
-    .balign 4
 
 glabel D_808A6050
  .word 0x44F8E000
@@ -145,5 +144,3 @@ glabel BgMoriRakkatenjo_Init
 /* 00178 808A56E8 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0017C 808A56EC 03E00008 */  jr      $ra                        
 /* 00180 808A56F0 00000000 */  nop
-
-

@@ -1,10 +1,10 @@
 .late_rodata
 glabel D_80B91028
- .float 6372.0
+    .float 6372.0
 glabel D_80B9102C
- .float 0.17434467
+    .float 0.17434467
 glabel D_80B91030
- .float 0.12207746
+    .float 0.12207746
 
 .text
 glabel func_80B8F59C
@@ -61,5 +61,3 @@ glabel func_80B8F59C
 /* 00BD0 80B8F650 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00BD4 80B8F654 03E00008 */  jr      $ra                        
 /* 00BD8 80B8F658 00000000 */  nop
-
-

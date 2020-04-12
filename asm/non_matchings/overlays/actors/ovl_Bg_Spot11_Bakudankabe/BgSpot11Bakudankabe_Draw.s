@@ -11,4 +11,3 @@ glabel BgSpot11Bakudankabe_Draw
 /* 00554 808B26D4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00558 808B26D8 03E00008 */  jr      $ra                        
 /* 0055C 808B26DC 00000000 */  nop
-

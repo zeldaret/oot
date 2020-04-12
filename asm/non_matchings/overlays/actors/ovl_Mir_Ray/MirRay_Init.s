@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80B8E850
     .asciz "反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
     .balign 4
@@ -19,7 +18,6 @@ glabel D_80B8E8AC
 glabel D_80B8E8BC
     .asciz "\"反射光 発生失敗\" = %s\n"
     .balign 4
-
 
 glabel D_80B8E8D4
     .asciz "反射光 発生失敗"
@@ -236,5 +234,3 @@ glabel MirRay_Init
 /* 00530 80B8D580 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 00534 80B8D584 03E00008 */  jr      $ra                        
 /* 00538 80B8D588 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

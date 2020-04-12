@@ -78,5 +78,3 @@ glabel EnDntJiji_Init
 /* 000F0 809F1BD0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 000F4 809F1BD4 03E00008 */  jr      $ra                        
 /* 000F8 809F1BD8 00000000 */  nop
-
-

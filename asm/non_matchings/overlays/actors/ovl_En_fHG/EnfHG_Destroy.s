@@ -29,5 +29,3 @@ glabel EnfHG_Destroy
 /* 00138 80B62AF8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0013C 80B62AFC 03E00008 */  jr      $ra                        
 /* 00140 80B62B00 00000000 */  nop
-
-

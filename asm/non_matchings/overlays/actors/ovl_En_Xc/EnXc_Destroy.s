@@ -10,5 +10,3 @@ glabel EnXc_Destroy
 /* 000AC 80B3C28C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000B0 80B3C290 03E00008 */  jr      $ra                        
 /* 000B4 80B3C294 00000000 */  nop
-
-

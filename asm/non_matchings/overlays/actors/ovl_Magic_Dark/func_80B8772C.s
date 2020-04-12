@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_80B88BD0
     .float 0.2
-    .balign 4
 
 glabel D_80B88BD4
  .word 0x44548000
@@ -99,5 +98,3 @@ glabel func_80B8772C
 .L80B87870:
 /* 004A0 80B87870 03E00008 */  jr      $ra                        
 /* 004A4 80B87874 00000000 */  nop
-
-

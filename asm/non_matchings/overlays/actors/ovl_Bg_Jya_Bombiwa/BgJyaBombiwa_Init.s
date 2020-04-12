@@ -85,5 +85,3 @@ glabel BgJyaBombiwa_Init
 /* 001A8 80895348 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 001AC 8089534C 03E00008 */  jr      $ra                        
 /* 001B0 80895350 00000000 */  nop
-
-

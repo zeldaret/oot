@@ -14,7 +14,6 @@ glabel D_809EF120
 .late_rodata
 glabel D_809EF1AC
     .float 0.01
-    .balign 4
 
 glabel D_809EF1B0
  .word 0x3C54FDF3
@@ -108,5 +107,3 @@ glabel EnDivingGame_Init
 /* 00128 809ED998 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 0012C 809ED99C 03E00008 */  jr      $ra
 /* 00130 809ED9A0 00000000 */  nop
-
-

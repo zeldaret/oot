@@ -10,17 +10,14 @@ glabel jtbl_80B1378C
 .word L80B11C5C
 glabel D_80B137A4
     .float 7000.0
-    .balign 4
 
 glabel D_80B137A8
     .float 7000.0
-    .balign 4
 
 glabel D_80B137AC
  .word 0x46C35000
 glabel D_80B137B0
     .float 6000.0
-    .balign 4
 
 glabel D_80B137B4
  .word 0xC61C4000
@@ -28,17 +25,14 @@ glabel D_80B137B8
  .word 0xC61C4000
 glabel D_80B137BC
     .float 10000.0
-    .balign 4
 
 glabel D_80B137C0
     .float 3000.0
-    .balign 4
 
 glabel D_80B137C4
  .word 0x465AC000
 glabel D_80B137C8
     .float 10000.0
-    .balign 4
 
 .text
 glabel func_80B11A94
@@ -283,5 +277,3 @@ glabel L80B11C5C
 /* 004F0 80B11DE0 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 004F4 80B11DE4 03E00008 */  jr      $ra                        
 /* 004F8 80B11DE8 00000000 */  nop
-
-

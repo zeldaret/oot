@@ -18,5 +18,3 @@ glabel BgJyaZurerukabe_Destroy
 /* 00368 8089B7A8 00390821 */  addu    $at, $at, $t9              
 /* 0036C 8089B7AC 03E00008 */  jr      $ra                        
 /* 00370 8089B7B0 E424B9C0 */  swc1    $f4, %lo(D_8089B9C0)($at)  
-
-

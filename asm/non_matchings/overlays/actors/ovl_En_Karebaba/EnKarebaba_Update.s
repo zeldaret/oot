@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_80A96B5C
     .float 0.01
-    .balign 4
 
 .text
 glabel EnKarebaba_Update
@@ -123,5 +122,3 @@ glabel EnKarebaba_Update
 /* 010F0 80A96440 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 010F4 80A96444 03E00008 */  jr      $ra                        
 /* 010F8 80A96448 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

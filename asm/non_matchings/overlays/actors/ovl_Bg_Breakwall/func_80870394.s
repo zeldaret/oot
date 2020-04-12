@@ -2,8 +2,6 @@
 glabel D_808709BC
     .float 6.400000095367432
 
-
-
 .text
 glabel func_80870394
 /* 007B4 80870394 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
@@ -139,5 +137,3 @@ glabel func_80870394
 /* 00978 80870558 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 0097C 8087055C 03E00008 */  jr      $ra                        
 /* 00980 80870560 00000000 */  nop
-
-

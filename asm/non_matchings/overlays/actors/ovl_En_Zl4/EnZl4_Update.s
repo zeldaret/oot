@@ -46,5 +46,3 @@ glabel EnZl4_Update
 /* 02BA8 80B5E358 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 02BAC 80B5E35C 03E00008 */  jr      $ra                        
 /* 02BB0 80B5E360 00000000 */  nop
-
-

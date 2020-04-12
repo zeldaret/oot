@@ -165,5 +165,3 @@ glabel EnMag_Init
 /* 00288 80AA3D88 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0028C 80AA3D8C 03E00008 */  jr      $ra                        
 /* 00290 80AA3D90 00000000 */  nop
-
-

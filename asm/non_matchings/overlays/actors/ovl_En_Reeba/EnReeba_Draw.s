@@ -119,4 +119,3 @@ glabel EnReeba_Draw
 /* 01884 80AE6554 8FB10048 */  lw      $s1, 0x0048($sp)           
 /* 01888 80AE6558 03E00008 */  jr      $ra                        
 /* 0188C 80AE655C 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
-

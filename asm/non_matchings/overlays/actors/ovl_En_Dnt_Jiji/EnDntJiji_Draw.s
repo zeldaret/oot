@@ -113,4 +113,3 @@ glabel EnDntJiji_Draw
 /* 01494 809F2F74 03E00008 */  jr      $ra                        
 /* 01498 809F2F78 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 0149C 809F2F7C 00000000 */  nop
-

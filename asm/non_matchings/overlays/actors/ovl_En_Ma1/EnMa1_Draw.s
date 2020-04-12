@@ -105,4 +105,3 @@ glabel EnMa1_Draw
 /* 00F84 80AA1614 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 00F88 80AA1618 03E00008 */  jr      $ra
 /* 00F8C 80AA161C 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
-

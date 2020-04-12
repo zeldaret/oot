@@ -64,5 +64,3 @@ glabel EnSyatekiMan_Init
 /* 000C0 80B10930 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 000C4 80B10934 03E00008 */  jr      $ra
 /* 000C8 80B10938 00000000 */  nop
-
-

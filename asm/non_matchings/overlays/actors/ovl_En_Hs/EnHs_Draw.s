@@ -22,4 +22,3 @@ glabel EnHs_Draw
 /* 00A04 80A6EDA4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00A08 80A6EDA8 03E00008 */  jr      $ra
 /* 00A0C 80A6EDAC 00000000 */  nop
-

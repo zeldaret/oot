@@ -1,20 +1,15 @@
 .late_rodata
 glabel D_809FF488
     .float 3.14159274101
-    .balign 4
 
 glabel D_809FF48C
     .float 3.14159274101
-    .balign 4
 
 glabel D_809FF490
     .float 3.14159274101
-    .balign 4
 
 glabel D_809FF494
     .float 3.14159274101
-
-
 
 .text
 glabel func_809FEEA4
@@ -113,5 +108,3 @@ glabel func_809FEEA4
 /* 013DC 809FF00C 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 013E0 809FF010 03E00008 */  jr      $ra                        
 /* 013E4 809FF014 00000000 */  nop
-
-

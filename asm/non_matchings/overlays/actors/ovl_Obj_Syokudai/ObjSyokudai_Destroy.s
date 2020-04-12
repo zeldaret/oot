@@ -23,5 +23,3 @@ glabel ObjSyokudai_Destroy
 /* 00208 80B9F4B8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0020C 80B9F4BC 03E00008 */  jr      $ra                        
 /* 00210 80B9F4C0 00000000 */  nop
-
-

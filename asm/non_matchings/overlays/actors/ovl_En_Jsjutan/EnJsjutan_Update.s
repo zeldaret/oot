@@ -55,5 +55,3 @@ glabel EnJsjutan_Update
 /* 00E6C 80A8A60C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00E70 80A8A610 03E00008 */  jr      $ra                        
 /* 00E74 80A8A614 00000000 */  nop
-
-

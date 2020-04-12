@@ -38,5 +38,3 @@ glabel BossGanondrof_Destroy
 /* 00734 80910D74 8FB10018 */  lw      $s1, 0x0018($sp)
 /* 00738 80910D78 03E00008 */  jr      $ra
 /* 0073C 80910D7C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

@@ -1,11 +1,10 @@
 .late_rodata
-
 glabel D_80A51260
- .float 550.0
+    .float 550.0
 glabel D_80A51264
- .float 2200.0
+    .float 2200.0
 glabel D_80A51268
- .float 65535.0
+    .float 65535.0
  
 .text
 glabel EnHata_Init
@@ -96,5 +95,3 @@ glabel EnHata_Init
 /* 00130 80A50E80 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00134 80A50E84 03E00008 */  jr      $ra
 /* 00138 80A50E88 00000000 */  nop
-
-

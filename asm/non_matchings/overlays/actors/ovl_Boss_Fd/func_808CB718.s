@@ -41,15 +41,12 @@ glabel jtbl_808D1E50
 .word L808CC140
 glabel D_808D1E68
     .float 10000.0
-    .balign 4
 
 glabel D_808D1E6C
     .float 0.05
-    .balign 4
 
 glabel D_808D1E70
     .float 0.1
-    .balign 4
 
 glabel D_808D1E74
  .word 0x3BA3D70A, 0x3DCCCCCD
@@ -57,51 +54,39 @@ glabel D_808D1E7C
  .word 0x3A831270
 glabel D_808D1E80
     .float 0.2
-    .balign 4
 
 glabel D_808D1E84
     .float 0.02
-    .balign 4
 
 glabel D_808D1E88
     .float 0.005
-    .balign 4
 
 glabel D_808D1E8C
     .float 0.1
-    .balign 4
 
 glabel D_808D1E90
     .float 0.1
-    .balign 4
 
 glabel D_808D1E94
     .float 0.1
-    .balign 4
 
 glabel D_808D1E98
     .float 0.1
-    .balign 4
 
 glabel D_808D1E9C
     .float 0.1
-    .balign 4
 
 glabel D_808D1EA0
     .float 0.1
-    .balign 4
 
 glabel D_808D1EA4
     .float 0.05
-    .balign 4
 
 glabel D_808D1EA8
     .float 0.05
-    .balign 4
 
 glabel D_808D1EAC
     .float 0.05
-    .balign 4
 
 glabel D_808D1EB0
  .word 0x42AB1EB8, 0x3DCCCCCD
@@ -122,15 +107,12 @@ glabel D_808D1EE4
  .word 0x410E6666
 glabel D_808D1EE8
     .float 10000.0
-    .balign 4
 
 glabel D_808D1EEC
     .float 3000.0
-    .balign 4
 
 glabel D_808D1EF0
     .float 10000.0
-    .balign 4
 
 glabel D_808D1EF4
  .word 0xC68FA000
@@ -138,53 +120,42 @@ glabel D_808D1EF8
  .word 0x4515C000
 glabel D_808D1EFC
     .float 10000.0
-    .balign 4
 
 glabel D_808D1F00
     .float 0.4
-    .balign 4
 
 glabel D_808D1F04
  .word 0x42C7CCCD
 glabel D_808D1F08
     .float 0.03
-    .balign 4
 
 glabel D_808D1F0C
     .float 0.3
-    .balign 4
 
 glabel D_808D1F10
     .float 0.03
-    .balign 4
 
 glabel D_808D1F14
     .float 3.14159274101
-    .balign 4
 
 glabel D_808D1F18
  .word 0x45AEE000
 glabel D_808D1F1C
     .float 0.3
-    .balign 4
 
 glabel D_808D1F20
  .word 0x45ABC000
 glabel D_808D1F24
     .float 0.3
-    .balign 4
 
 glabel D_808D1F28
     .float 0.3
-    .balign 4
 
 glabel D_808D1F2C
     .float 1500.0
-    .balign 4
 
 glabel D_808D1F30
     .float 3000.0
-    .balign 4
 
 glabel D_808D1F34
  .word 0x45098000
@@ -2900,5 +2871,3 @@ glabel L808CD598
 /* 03064 808CDE24 8FB60078 */  lw      $s6, 0x0078($sp)           
 /* 03068 808CDE28 03E00008 */  jr      $ra                        
 /* 0306C 808CDE2C 27BD01D0 */  addiu   $sp, $sp, 0x01D0           ## $sp = 00000000
-
-

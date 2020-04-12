@@ -139,5 +139,3 @@ glabel BgSpot16Doughnut_Draw
 /* 0048C 808B68CC 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 00490 808B68D0 03E00008 */  jr      $ra                        
 /* 00494 808B68D4 00000000 */  nop
-
-

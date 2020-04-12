@@ -30,5 +30,3 @@ glabel Fishing_Destroy
 /* 0157C 80B6AF1C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01580 80B6AF20 03E00008 */  jr      $ra
 /* 01584 80B6AF24 00000000 */  nop
-
-

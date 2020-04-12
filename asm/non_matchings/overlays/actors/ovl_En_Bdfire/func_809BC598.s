@@ -13,7 +13,6 @@ glabel D_809BCB90
 glabel D_809BCB94
  .word 0x40866667, 0x00000000, 0x00000000
 
-
 .text
 glabel func_809BC598
 /* 00568 809BC598 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
@@ -226,5 +225,3 @@ glabel func_809BC598
 /* 00850 809BC880 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00854 809BC884 03E00008 */  jr      $ra                        
 /* 00858 809BC888 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

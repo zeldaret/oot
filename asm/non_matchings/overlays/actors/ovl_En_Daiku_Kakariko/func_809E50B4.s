@@ -6,28 +6,21 @@ glabel D_809E55A0
 .late_rodata
 glabel D_809E561C
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_809E5620
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_809E5624
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_809E5628
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_809E562C
     .float 9.58738019108e-05
-    .balign 4
 
 glabel D_809E5630
     .float 9.58738019108e-05
-
-
 
 .text
 glabel func_809E50B4
@@ -154,5 +147,3 @@ glabel func_809E50B4
 /* 00F5C 809E527C 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 00F60 809E5280 03E00008 */  jr      $ra                        
 /* 00F64 809E5284 00000000 */  nop
-
-

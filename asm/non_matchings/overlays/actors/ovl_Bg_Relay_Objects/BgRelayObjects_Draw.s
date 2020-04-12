@@ -23,4 +23,3 @@ glabel BgRelayObjects_Draw
 /* 00684 808A94D4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00688 808A94D8 03E00008 */  jr      $ra                        
 /* 0068C 808A94DC 00000000 */  nop
-

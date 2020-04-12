@@ -1,21 +1,17 @@
 .late_rodata
 glabel D_808BE45C
     .float 0.4
-    .balign 4
 
 glabel D_808BE460
  .word 0x3EA8F5C3
 glabel D_808BE464
     .float 0.05
-    .balign 4
 
 glabel D_808BE468
     .float 0.05
-    .balign 4
 
 glabel D_808BE46C
  .word 0xBE99999A
-
 
 .text
 glabel BgVbSima_Update
@@ -328,5 +324,3 @@ glabel BgVbSima_Update
 /* 005B8 808BE318 8FB70078 */  lw      $s7, 0x0078($sp)           
 /* 005BC 808BE31C 03E00008 */  jr      $ra                        
 /* 005C0 808BE320 27BD00F0 */  addiu   $sp, $sp, 0x00F0           ## $sp = 00000000
-
-

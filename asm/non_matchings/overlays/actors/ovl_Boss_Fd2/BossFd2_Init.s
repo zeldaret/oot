@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_808D6478
     .float -850.0
-    .balign 4
 
 .text
 glabel BossFd2_Init
@@ -72,5 +71,3 @@ glabel BossFd2_Init
 /* 0051C 808D2B8C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00520 808D2B90 03E00008 */  jr      $ra
 /* 00524 808D2B94 00000000 */  nop
-
-

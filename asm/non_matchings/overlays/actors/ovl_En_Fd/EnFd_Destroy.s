@@ -9,5 +9,3 @@ glabel EnFd_Destroy
 /* 00C44 80A0C304 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00C48 80A0C308 03E00008 */  jr      $ra                        
 /* 00C4C 80A0C30C 00000000 */  nop
-
-

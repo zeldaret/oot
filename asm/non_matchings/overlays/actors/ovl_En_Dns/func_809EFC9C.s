@@ -6,7 +6,6 @@ glabel jtbl_809F06F0
 .word L809EFD70
 .word L809EFD8C
 
-
 .text
 glabel func_809EFC9C
 /* 0094C 809EFC9C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
@@ -94,5 +93,3 @@ glabel L809EFD8C
 /* 00A74 809EFDC4 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00A78 809EFDC8 03E00008 */  jr      $ra                        
 /* 00A7C 809EFDCC 00000000 */  nop
-
-

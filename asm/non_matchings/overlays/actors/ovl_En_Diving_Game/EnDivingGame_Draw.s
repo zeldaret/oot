@@ -92,4 +92,3 @@ glabel EnDivingGame_Draw
 /* 01814 809EF084 00000000 */  nop
 /* 01818 809EF088 00000000 */  nop
 /* 0181C 809EF08C 00000000 */  nop
-

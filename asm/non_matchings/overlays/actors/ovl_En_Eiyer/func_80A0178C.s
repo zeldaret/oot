@@ -2,8 +2,6 @@
 glabel D_80A01A10
     .float 2500.0
 
-
-
 .text
 glabel func_80A0178C
 /* 017EC 80A0178C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
@@ -28,5 +26,3 @@ glabel func_80A0178C
 .L80A017D4:
 /* 01834 80A017D4 03E00008 */  jr      $ra                        
 /* 01838 80A017D8 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
-
-

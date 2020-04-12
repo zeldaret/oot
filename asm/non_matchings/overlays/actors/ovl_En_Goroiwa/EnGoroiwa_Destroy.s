@@ -9,5 +9,3 @@ glabel EnGoroiwa_Destroy
 /* 01934 80A4D5D4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01938 80A4D5D8 03E00008 */  jr      $ra                        
 /* 0193C 80A4D5DC 00000000 */  nop
-
-

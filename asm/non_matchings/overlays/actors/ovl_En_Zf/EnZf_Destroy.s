@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_80B4A330
     .float 10000.0
-    .balign 4
 
 .text
 glabel EnZf_Destroy
@@ -42,5 +41,3 @@ glabel EnZf_Destroy
 /* 0064C 80B4469C 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00650 80B446A0 03E00008 */  jr      $ra                        
 /* 00654 80B446A4 00000000 */  nop
-
-

@@ -1,15 +1,14 @@
 .late_rodata
-
 glabel D_80A58A50
- .float 0.0833
+    .float 0.0833
 glabel D_80A58A54
- .float 0.1167
+    .float 0.1167
 glabel D_80A58A58
- .float 1.7
+    .float 1.7
 glabel D_80A58A5C
- .float 0.7
+    .float 0.7
 glabel D_80A58A60
- .float 0.1667
+    .float 0.1667
 
 .text
 glabel func_80A58838
@@ -97,5 +96,3 @@ glabel func_80A58838
 /* 01764 80A58964 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01768 80A58968 03E00008 */  jr      $ra                        
 /* 0176C 80A5896C 00000000 */  nop
-
-

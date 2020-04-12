@@ -83,5 +83,3 @@ glabel EnMu_Update
 /* 00478 80AB0898 8FB0001C */  lw      $s0, 0x001C($sp)           
 /* 0047C 80AB089C 03E00008 */  jr      $ra                        
 /* 00480 80AB08A0 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

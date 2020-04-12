@@ -1,15 +1,12 @@
 .late_rodata
 glabel D_80926B6C
     .float 0.0025
-    .balign 4
 
 glabel D_80926B70
     .float 0.05
-    .balign 4
 
 glabel D_80926B74
     .float 0.1
-    .balign 4
 
 .text
 glabel func_8091BD38
@@ -90,5 +87,3 @@ glabel func_8091BD38
 .L8091BE54:
 /* 00354 8091BE54 03E00008 */  jr      $ra                        
 /* 00358 8091BE58 00000000 */  nop
-
-

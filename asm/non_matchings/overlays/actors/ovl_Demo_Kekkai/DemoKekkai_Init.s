@@ -8,9 +8,9 @@ glabel jtbl_8098E290
 .word L8098D148
 .word L8098D148
 glabel D_8098E2AC
- .float 6100.0
+    .float 6100.0
 glabel D_8098E2B0
- .float 5000.0
+    .float 5000.0
 
 .text
 glabel DemoKekkai_Init
@@ -167,5 +167,3 @@ glabel L8098D148
 /* 00264 8098D234 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00268 8098D238 03E00008 */  jr      $ra                        
 /* 0026C 8098D23C 00000000 */  nop
-
-

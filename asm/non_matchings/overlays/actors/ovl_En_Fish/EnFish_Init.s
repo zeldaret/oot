@@ -1,8 +1,8 @@
 .late_rodata
 glabel D_80A17194
- .float 65535.5
+    .float 65535.5
 glabel D_80A17198
- .float 65535.5
+    .float 65535.5
 
 .text
 glabel EnFish_Init
@@ -93,5 +93,3 @@ glabel EnFish_Init
 /* 0031C 80A1559C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00320 80A155A0 03E00008 */  jr      $ra
 /* 00324 80A155A4 00000000 */  nop
-
-

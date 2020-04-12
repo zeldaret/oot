@@ -106,5 +106,3 @@ glabel MagicWind_Init
 /* 00144 80B8B244 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00148 80B8B248 03E00008 */  jr      $ra                        
 /* 0014C 80B8B24C 00000000 */  nop
-
-

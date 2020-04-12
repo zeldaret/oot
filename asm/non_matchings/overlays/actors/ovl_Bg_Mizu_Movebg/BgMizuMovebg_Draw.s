@@ -202,4 +202,3 @@ glabel BgMizuMovebg_Draw
 /* 00EE4 8089EB14 8FB10048 */  lw      $s1, 0x0048($sp)           
 /* 00EE8 8089EB18 03E00008 */  jr      $ra                        
 /* 00EEC 8089EB1C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-

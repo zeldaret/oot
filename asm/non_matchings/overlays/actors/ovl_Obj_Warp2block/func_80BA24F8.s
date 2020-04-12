@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80BA28E0
     .asciz "\x1B[41;37m"
     .balign 4
@@ -94,5 +93,3 @@ glabel func_80BA24F8
 /* 00804 80BA25F4 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00808 80BA25F8 03E00008 */  jr      $ra                        
 /* 0080C 80BA25FC 00000000 */  nop
-
-

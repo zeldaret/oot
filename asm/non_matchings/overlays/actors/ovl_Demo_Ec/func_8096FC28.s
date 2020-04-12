@@ -32,5 +32,3 @@ glabel func_8096FC28
 .L8096FCA0:
 /* 027F0 8096FCA0 03E00008 */  jr      $ra                        
 /* 027F4 8096FCA4 00000000 */  nop
-
-

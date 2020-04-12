@@ -155,4 +155,3 @@ glabel BgHidanRsekizou_Draw
 /* 00A54 8088CC54 00000000 */  nop
 /* 00A58 8088CC58 00000000 */  nop
 /* 00A5C 8088CC5C 00000000 */  nop
-

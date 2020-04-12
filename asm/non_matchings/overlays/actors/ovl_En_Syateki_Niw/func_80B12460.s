@@ -9,7 +9,6 @@ glabel jtbl_80B137E4
 .word L80B12798
 glabel D_80B13800
     .float 5000.0
-    .balign 4
 
 glabel D_80B13804
  .word 0xC59C4000
@@ -17,13 +16,11 @@ glabel D_80B13808
  .word 0xBE99999A
 glabel D_80B1380C
     .float 10000.0
-    .balign 4
 
 glabel D_80B13810
  .word 0x465AC000
 glabel D_80B13814
     .float 5000.0
-    .balign 4
 
 glabel D_80B13818
  .word 0x4622F983
@@ -336,5 +333,3 @@ glabel L80B12798
 /* 00FDC 80B128CC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00FE0 80B128D0 03E00008 */  jr      $ra                        
 /* 00FE4 80B128D4 00000000 */  nop
-
-

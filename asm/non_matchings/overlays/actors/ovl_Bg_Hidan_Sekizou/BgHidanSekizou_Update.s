@@ -90,5 +90,3 @@ glabel BgHidanSekizou_Update
 /* 00B28 8088D9E8 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00B2C 8088D9EC 03E00008 */  jr      $ra                        
 /* 00B30 8088D9F0 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

@@ -116,5 +116,3 @@ glabel BgIceShelter_Init
 /* 003B8 80890AF8 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 003BC 80890AFC 03E00008 */  jr      $ra                        
 /* 003C0 80890B00 00000000 */  nop
-
-

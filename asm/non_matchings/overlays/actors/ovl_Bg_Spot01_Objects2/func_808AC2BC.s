@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_808AC56C
 	.asciz "-----バンク切り換え成功！！\n"
 	.balign 4
@@ -129,5 +128,3 @@ glabel L808AC448
 /* 00328 808AC468 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 0032C 808AC46C 03E00008 */  jr      $ra                        
 /* 00330 808AC470 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

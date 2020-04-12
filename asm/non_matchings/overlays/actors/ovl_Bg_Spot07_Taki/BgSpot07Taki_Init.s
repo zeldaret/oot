@@ -49,5 +49,3 @@ glabel BgSpot07Taki_Init
 /* 0009C 808AFCCC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 000A0 808AFCD0 03E00008 */  jr      $ra                        
 /* 000A4 808AFCD4 00000000 */  nop
-
-

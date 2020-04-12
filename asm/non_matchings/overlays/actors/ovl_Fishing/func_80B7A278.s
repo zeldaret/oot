@@ -25,7 +25,6 @@ glabel D_80B7B8E8
 glabel D_80B7B8EC
     .float 0.12
 
-
 .text
 glabel func_80B7A278
 /* 108D8 80B7A278 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
@@ -277,4 +276,3 @@ glabel func_80B7A278
 /* 10C84 80B7A624 00000000 */  nop
 /* 10C88 80B7A628 00000000 */  nop
 /* 10C8C 80B7A62C 00000000 */  nop
-

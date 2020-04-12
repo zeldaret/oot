@@ -64,5 +64,3 @@ glabel func_80AEC40C
 /* 018B0 80AEC4C0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 018B4 80AEC4C4 03E00008 */  jr      $ra                        
 /* 018B8 80AEC4C8 00000000 */  nop
-
-

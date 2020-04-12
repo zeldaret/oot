@@ -114,5 +114,3 @@ glabel EnSyatekiItm_Init
 /* 00170 80B0F820 8FB70050 */  lw      $s7, 0x0050($sp)           
 /* 00174 80B0F824 03E00008 */  jr      $ra                        
 /* 00178 80B0F828 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

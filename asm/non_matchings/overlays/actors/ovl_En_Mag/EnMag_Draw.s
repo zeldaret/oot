@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80AA5F10
     .asciz "../z_en_mag.c"
     .balign 4
@@ -61,4 +60,3 @@ glabel EnMag_Draw
 /* 02394 80AA5E94 03E00008 */  jr      $ra                        
 /* 02398 80AA5E98 00000000 */  nop
 /* 0239C 80AA5E9C 00000000 */  nop
-

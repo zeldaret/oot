@@ -29,5 +29,3 @@ glabel EnDyExtra_Update
 /* 00268 809FF958 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0026C 809FF95C 03E00008 */  jr      $ra                        
 /* 00270 809FF960 00000000 */  nop
-
-

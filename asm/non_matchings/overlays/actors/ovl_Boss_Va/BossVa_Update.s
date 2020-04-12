@@ -27,7 +27,6 @@ glabel D_8095C818
  .word 0x3F428F5C
 glabel D_8095C81C
     .float 0.2
-    .balign 4
 
 .text
 glabel BossVa_Update
@@ -172,5 +171,3 @@ glabel L80957F50
 /* 08C94 80957F54 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 08C98 80957F58 03E00008 */  jr      $ra                        
 /* 08C9C 80957F5C 00000000 */  nop
-
-

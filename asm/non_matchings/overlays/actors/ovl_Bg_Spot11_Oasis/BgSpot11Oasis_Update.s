@@ -1,19 +1,15 @@
 .late_rodata
 glabel D_808B2EB8
     .float 0.12
-    .balign 4
 
 glabel D_808B2EBC
     .float 0.02
-    .balign 4
 
 glabel D_808B2EC0
     .float 0.3
-    .balign 4
 
 glabel D_808B2EC4
  .word 0x409CCCCD, 0x00000000, 0x00000000
-
 
 .text
 glabel BgSpot11Oasis_Update
@@ -150,5 +146,3 @@ glabel BgSpot11Oasis_Update
 /* 004AC 808B2C9C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 004B0 808B2CA0 03E00008 */  jr      $ra                        
 /* 004B4 808B2CA4 00000000 */  nop
-
-

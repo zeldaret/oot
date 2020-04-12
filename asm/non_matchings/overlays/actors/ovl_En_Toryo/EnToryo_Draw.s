@@ -22,5 +22,3 @@ glabel EnToryo_Draw
 /* 00988 80B20AF8 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 0098C 80B20AFC 03E00008 */  jr      $ra
 /* 00990 80B20B00 00000000 */  nop
-
-

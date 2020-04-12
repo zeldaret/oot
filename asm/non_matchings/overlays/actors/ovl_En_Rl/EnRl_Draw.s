@@ -33,4 +33,3 @@ glabel EnRl_Draw
 /* 00EE4 80AE8194 03E00008 */  jr      $ra                        
 /* 00EE8 80AE8198 00000000 */  nop
 /* 00EEC 80AE819C 00000000 */  nop
-

@@ -73,5 +73,3 @@ glabel EnTg_Update
 /* 00398 80B186F8 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 0039C 80B186FC 03E00008 */  jr      $ra                        
 /* 003A0 80B18700 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

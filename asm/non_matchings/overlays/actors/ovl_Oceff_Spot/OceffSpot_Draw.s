@@ -100,4 +100,3 @@ glabel OceffSpot_Draw
 /* 007C4 80BA6834 03E00008 */  jr      $ra                        
 /* 007C8 80BA6838 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 007CC 80BA683C 00000000 */  nop
-

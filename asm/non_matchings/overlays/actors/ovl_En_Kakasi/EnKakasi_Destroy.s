@@ -10,5 +10,3 @@ glabel EnKakasi_Destroy
 /* 0001C 80A8F18C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00020 80A8F190 03E00008 */  jr      $ra                        
 /* 00024 80A8F194 00000000 */  nop
-
-

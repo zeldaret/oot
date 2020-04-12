@@ -59,5 +59,3 @@ glabel EnRiverSound_Init
 /* 000C4 80AE69F4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000C8 80AE69F8 03E00008 */  jr      $ra                        
 /* 000CC 80AE69FC 00000000 */  nop
-
-

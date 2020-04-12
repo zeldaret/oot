@@ -16,5 +16,3 @@ glabel EnDivingGame_Destroy
 /* 00164 809ED9D4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00168 809ED9D8 03E00008 */  jr      $ra                        
 /* 0016C 809ED9DC 00000000 */  nop
-
-

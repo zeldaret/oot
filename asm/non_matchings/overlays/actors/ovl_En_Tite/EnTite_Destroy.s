@@ -50,5 +50,3 @@ glabel EnTite_Destroy
 /* 001D0 80B18C50 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 001D4 80B18C54 03E00008 */  jr      $ra                        
 /* 001D8 80B18C58 00000000 */  nop
-
-

@@ -10,5 +10,3 @@ glabel ObjTsubo_Destroy
 /* 002A0 80BA1000 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002A4 80BA1004 03E00008 */  jr      $ra                        
 /* 002A8 80BA1008 00000000 */  nop
-
-

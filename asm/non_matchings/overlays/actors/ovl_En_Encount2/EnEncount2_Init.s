@@ -72,5 +72,3 @@ glabel EnEncount2_Init
 /* 000B0 80A07A40 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 000B4 80A07A44 03E00008 */  jr      $ra                        
 /* 000B8 80A07A48 00000000 */  nop
-
-

@@ -20,5 +20,3 @@ glabel DemoEffect_Destroy
 /* 00A04 80971954 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00A08 80971958 03E00008 */  jr      $ra                        
 /* 00A0C 8097195C 00000000 */  nop
-
-

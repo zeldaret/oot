@@ -9,7 +9,6 @@ glabel D_80A1A5BC
 glabel D_80A1A5C0
  .word 0x3E860A92, 0x00000000, 0x00000000, 0x00000000
 
-
 .text
 glabel func_80A1A160
 /* 02C50 80A1A160 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
@@ -74,5 +73,3 @@ glabel func_80A1A160
 /* 02D38 80A1A248 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 02D3C 80A1A24C 03E00008 */  jr      $ra                        
 /* 02D40 80A1A250 00000000 */  nop
-
-

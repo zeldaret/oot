@@ -8,5 +8,3 @@ glabel BgYdanSp_Update
 /* 011AC 808C05BC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 011B0 808C05C0 03E00008 */  jr      $ra                        
 /* 011B4 808C05C4 00000000 */  nop
-
-

@@ -32,5 +32,3 @@ glabel EnRu1_Update
 /* 054F4 80AF0104 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 054F8 80AF0108 03E00008 */  jr      $ra                        
 /* 054FC 80AF010C 00000000 */  nop
-
-

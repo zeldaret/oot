@@ -7,7 +7,6 @@ glabel jtbl_809C4C78
 .word L809C44C8
 .word 0x00000000
 
-
 .text
 glabel func_809C441C
 /* 00DEC 809C441C 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
@@ -172,5 +171,3 @@ glabel L809C44C8
 /* 01028 809C4658 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 0102C 809C465C 03E00008 */  jr      $ra                        
 /* 01030 809C4660 00000000 */  nop
-
-

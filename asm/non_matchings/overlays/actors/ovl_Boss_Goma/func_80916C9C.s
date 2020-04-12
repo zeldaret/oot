@@ -29,19 +29,15 @@ glabel D_8091B518
  .word 0x40490E56
 glabel D_8091B51C
     .float 0.7
-    .balign 4
 
 glabel D_8091B520
     .float 0.1
-    .balign 4
 
 glabel D_8091B524
     .float 0.1
-    .balign 4
 
 glabel D_8091B528
     .float 0.1
-    .balign 4
 
 .text
 glabel func_80916C9C
@@ -1227,5 +1223,3 @@ glabel L80917D68
 /* 0237C 80917D8C 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 02380 80917D90 03E00008 */  jr      $ra
 /* 02384 80917D94 00000000 */  nop
-
-

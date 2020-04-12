@@ -37,39 +37,31 @@ glabel jtbl_80A950C8
 .word L80A93920
 glabel D_80A950E0
     .float 3.14159274101
-    .balign 4
 
 glabel D_80A950E4
  .word 0xBE99999A
 glabel D_80A950E8
     .float 0.7
-    .balign 4
 
 glabel D_80A950EC
     .float 0.1
-    .balign 4
 
 glabel D_80A950F0
     .float 2500.0
-    .balign 4
 
 glabel D_80A950F4
     .float 10000.0
-    .balign 4
 
 glabel D_80A950F8
     .float 0.05
-    .balign 4
 
 glabel D_80A950FC
     .float 0.05
-    .balign 4
 
 glabel D_80A95100
  .word 0x4622F983
 glabel D_80A95104
     .float 3.14159274101
-    .balign 4
 
 .text
 glabel EnKanban_Update
@@ -1860,5 +1852,3 @@ glabel L80A93920
 /* 01BDC 80A93B7C 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 01BE0 80A93B80 03E00008 */  jr      $ra                        
 /* 01BE4 80A93B84 27BD0100 */  addiu   $sp, $sp, 0x0100           ## $sp = 00000000
-
-

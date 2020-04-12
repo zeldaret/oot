@@ -119,5 +119,3 @@ glabel ElfMsg_Init
 /* 00294 809ACDB4 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00298 809ACDB8 03E00008 */  jr      $ra                        
 /* 0029C 809ACDBC 00000000 */  nop
-
-

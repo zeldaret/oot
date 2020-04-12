@@ -12,15 +12,12 @@ glabel jtbl_8099EBE0
 .word L8099DAA8
 glabel D_8099EBF4
     .float 0.8
-    .balign 4
 
 glabel D_8099EBF8
     .float 0.1
-    .balign 4
 
 glabel D_8099EBFC
     .float 0.8
-    .balign 4
 
 .text
 glabel EffDust_Init
@@ -145,5 +142,3 @@ glabel L8099DAA8
 /* 00240 8099DB10 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00244 8099DB14 03E00008 */  jr      $ra                        
 /* 00248 8099DB18 00000000 */  nop
-
-

@@ -73,5 +73,3 @@ glabel EnMm2_Draw
 /* 00B7C 80AAF9CC 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00B80 80AAF9D0 03E00008 */  jr      $ra
 /* 00B84 80AAF9D4 00000000 */  nop
-
-

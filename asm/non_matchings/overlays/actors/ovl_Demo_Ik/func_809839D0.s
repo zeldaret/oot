@@ -15,7 +15,6 @@ glabel jtbl_809849E0
 .word L80983A88
 .word 0x00000000, 0x00000000
 
-
 .text
 glabel func_809839D0
 /* 006D0 809839D0 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
@@ -81,5 +80,3 @@ glabel L80983A88
 /* 00798 80983A98 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 0079C 80983A9C 03E00008 */  jr      $ra                        
 /* 007A0 80983AA0 00000000 */  nop
-
-

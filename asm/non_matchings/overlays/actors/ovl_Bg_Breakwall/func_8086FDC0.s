@@ -4,15 +4,12 @@ glabel D_808709AC
 
 glabel D_808709B0
     .float 0.001
-    .balign 4
 
 glabel D_808709B4
     .float 0.6
-    .balign 4
 
 glabel D_808709B8
     .float 3000.0
-    .balign 4
 
 .text
 glabel func_8086FDC0
@@ -349,5 +346,3 @@ glabel func_8086FDC0
 /* 006A4 80870284 8FBE0080 */  lw      $s8, 0x0080($sp)
 /* 006A8 80870288 03E00008 */  jr      $ra
 /* 006AC 8087028C 27BD01F8 */  addiu   $sp, $sp, 0x01F8           ## $sp = 00000000
-
-

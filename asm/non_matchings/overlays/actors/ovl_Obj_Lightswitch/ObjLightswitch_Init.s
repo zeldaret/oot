@@ -156,5 +156,3 @@ glabel ObjLightswitch_Init
 /* 005D4 80B97174 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 005D8 80B97178 03E00008 */  jr      $ra                        
 /* 005DC 80B9717C 00000000 */  nop
-
-

@@ -82,5 +82,3 @@ glabel BgMoriHashigo_Init
 /* 003B4 808A2914 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 003B8 808A2918 03E00008 */  jr      $ra                        
 /* 003BC 808A291C 00000000 */  nop
-
-

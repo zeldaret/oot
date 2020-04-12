@@ -2,7 +2,6 @@
 glabel D_80B0F2BC
  .word 0xBFB2B8C2
 
-
 .text
 glabel EnSw_Draw
 /* 03160 80B0EF10 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
@@ -78,4 +77,3 @@ glabel EnSw_Draw
 /* 03264 80B0F014 03E00008 */  jr      $ra                        
 /* 03268 80B0F018 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 0326C 80B0F01C 00000000 */  nop
-

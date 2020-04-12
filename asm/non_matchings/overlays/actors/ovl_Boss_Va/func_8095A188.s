@@ -48,7 +48,6 @@ glabel D_8095C8C8
  .word 0x40490FF9
 glabel D_8095C8CC
     .float 1.57079637051
-    .balign 4
 
 glabel D_8095C8D0
  .word 0x3DEB851F
@@ -56,11 +55,9 @@ glabel D_8095C8D4
  .word 0x3E051EB8
 glabel D_8095C8D8
     .float 0.1
-    .balign 4
 
 glabel D_8095C8DC
     .float 0.1
-    .balign 4
 
 glabel D_8095C8E0
  .word 0x3E051EB8
@@ -70,7 +67,6 @@ glabel D_8095C8E8
  .word 0x40490FF9
 glabel D_8095C8EC
     .float 0.02
-    .balign 4
 
 glabel D_8095C8F0
  .word 0x40490FF9
@@ -1045,5 +1041,3 @@ glabel func_8095A188
 /* 0BD5C 8095B01C 8FBE0040 */  lw      $s8, 0x0040($sp)
 /* 0BD60 8095B020 03E00008 */  jr      $ra
 /* 0BD64 8095B024 27BD0148 */  addiu   $sp, $sp, 0x0148           ## $sp = 00000000
-
-

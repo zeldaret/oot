@@ -72,5 +72,3 @@ glabel EnWf_Destroy
 /* 002F4 80B33FA4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 002F8 80B33FA8 03E00008 */  jr      $ra                        
 /* 002FC 80B33FAC 00000000 */  nop
-
-

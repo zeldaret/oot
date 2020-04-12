@@ -76,5 +76,3 @@ glabel BossGanon2_Init
 /* 00540 808FD480 8FB00024 */  lw      $s0, 0x0024($sp)
 /* 00544 808FD484 03E00008 */  jr      $ra
 /* 00548 808FD488 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

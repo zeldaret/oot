@@ -32,5 +32,3 @@ glabel EnNb_Update
 /* 03130 80AB3EC0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 03134 80AB3EC4 03E00008 */  jr      $ra                        
 /* 03138 80AB3EC8 00000000 */  nop
-
-

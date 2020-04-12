@@ -91,4 +91,3 @@ glabel ElfMsg2_Draw
 /* 00504 809ADC04 00000000 */  nop
 /* 00508 809ADC08 00000000 */  nop
 /* 0050C 809ADC0C 00000000 */  nop
-

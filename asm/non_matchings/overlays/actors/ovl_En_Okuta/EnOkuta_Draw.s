@@ -15,8 +15,6 @@ glabel D_80AC28F0
 glabel D_80AC2988
     .float 9.58738019108e-05
 
-
-
 .text
 glabel EnOkuta_Draw
 /* 02074 80AC26D4 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
@@ -97,4 +95,3 @@ glabel EnOkuta_Draw
 /* 02194 80AC27F4 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 02198 80AC27F8 03E00008 */  jr      $ra                        
 /* 0219C 80AC27FC 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-

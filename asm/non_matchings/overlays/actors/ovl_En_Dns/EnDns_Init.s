@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_809F0560
     .asciz "デクの実売り            "
     .balign 4
@@ -171,5 +170,3 @@ glabel EnDns_Init
 /* 00198 809EF4E8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 0019C 809EF4EC 03E00008 */  jr      $ra
 /* 001A0 809EF4F0 00000000 */  nop
-
-

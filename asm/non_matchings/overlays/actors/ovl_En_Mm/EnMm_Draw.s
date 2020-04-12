@@ -210,5 +210,3 @@ glabel EnMm_Draw
 /* 01200 80AAE970 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 01204 80AAE974 03E00008 */  jr      $ra
 /* 01208 80AAE978 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

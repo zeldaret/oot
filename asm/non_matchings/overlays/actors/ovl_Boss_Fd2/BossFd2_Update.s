@@ -129,5 +129,3 @@ glabel BossFd2_Update
 /* 02918 808D4F88 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 0291C 808D4F8C 03E00008 */  jr      $ra                        
 /* 02920 808D4F90 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

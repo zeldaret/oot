@@ -112,5 +112,3 @@ glabel ItemShield_Init
 /* 00174 80B86A94 8FB40030 */  lw      $s4, 0x0030($sp)           
 /* 00178 80B86A98 03E00008 */  jr      $ra                        
 /* 0017C 80B86A9C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

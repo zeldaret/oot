@@ -117,5 +117,3 @@ glabel EnFu_Update
 /* 008F4 80A1E104 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 008F8 80A1E108 03E00008 */  jr      $ra
 /* 008FC 80A1E10C 00000000 */  nop
-
-

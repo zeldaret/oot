@@ -1,7 +1,6 @@
 .late_rodata
-
 glabel D_80B0BD0C
- .float 0.01
+    .float 0.01
 
 .text
 glabel EnStream_Init
@@ -33,5 +32,3 @@ glabel EnStream_Init
 /* 00064 80B0B804 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00068 80B0B808 03E00008 */  jr      $ra                        
 /* 0006C 80B0B80C 00000000 */  nop
-
-

@@ -23,4 +23,3 @@ glabel EnSi_Draw
 /* 00414 80AFBAA4 00000000 */  nop
 /* 00418 80AFBAA8 00000000 */  nop
 /* 0041C 80AFBAAC 00000000 */  nop
-

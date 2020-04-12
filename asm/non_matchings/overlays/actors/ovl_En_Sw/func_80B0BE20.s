@@ -3,7 +3,6 @@ glabel D_80B0F200
  .word 0x38000100
 glabel D_80B0F204
     .float 0.001
-    .balign 4
 
 .text
 glabel func_80B0BE20
@@ -137,5 +136,3 @@ glabel func_80B0BE20
 /* 00264 80B0C014 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00268 80B0C018 03E00008 */  jr      $ra                        
 /* 0026C 80B0C01C 00000000 */  nop
-
-

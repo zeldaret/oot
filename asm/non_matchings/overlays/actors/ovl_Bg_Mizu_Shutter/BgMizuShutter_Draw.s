@@ -68,4 +68,3 @@ glabel BgMizuShutter_Draw
 /* 006C4 8089F514 03E00008 */  jr      $ra                        
 /* 006C8 8089F518 00000000 */  nop
 /* 006CC 8089F51C 00000000 */  nop
-

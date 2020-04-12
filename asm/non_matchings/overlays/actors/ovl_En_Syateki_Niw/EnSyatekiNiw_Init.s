@@ -125,5 +125,3 @@ glabel EnSyatekiNiw_Init
 /* 00170 80B11A60 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00174 80B11A64 03E00008 */  jr      $ra
 /* 00178 80B11A68 00000000 */  nop
-
-

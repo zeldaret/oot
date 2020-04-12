@@ -29,7 +29,6 @@ glabel jtbl_80A72AA0
 .word L80A71D08
 .word L80A71D08
 
-
 .text
 glabel EnHy_Draw
 /* 02678 80A71C28 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
@@ -198,4 +197,3 @@ glabel L80A71E38
 /* 028E4 80A71E94 00000000 */  nop
 /* 028E8 80A71E98 00000000 */  nop
 /* 028EC 80A71E9C 00000000 */  nop
-

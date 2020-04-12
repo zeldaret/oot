@@ -8,5 +8,3 @@ glabel BgIngate_Update
 /* 00274 808929B4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00278 808929B8 03E00008 */  jr      $ra                        
 /* 0027C 808929BC 00000000 */  nop
-
-

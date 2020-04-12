@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80881BD0
     .asciz "../z_bg_haka_tubo.c"
     .balign 4
@@ -13,13 +12,12 @@ glabel D_80881BF8
     .balign 4
 
 .late_rodata
-
 glabel D_80881C24
- .float 9.58738E-5
+    .float 9.58738E-5
 glabel D_80881C28
- .float 0.07
+    .float 0.07
 glabel D_80881C2C
- .float 0.04
+    .float 0.04
  
 .text
 glabel func_80881904
@@ -149,5 +147,3 @@ glabel func_80881904
 /* 008A0 80881AF0 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 008A4 80881AF4 03E00008 */  jr      $ra                        
 /* 008A8 80881AF8 00000000 */  nop
-
-

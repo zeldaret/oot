@@ -1,11 +1,9 @@
 .late_rodata
 glabel D_80A21CC0
     .float 0.6
-    .balign 4
 
 glabel D_80A21CC4
     .float 0.3
-    .balign 4
 
 .text
 glabel func_80A20100
@@ -147,5 +145,3 @@ glabel func_80A20100
 glabel L80A202F4
 /* 00534 80A202F4 03E00008 */  jr      $ra                        
 /* 00538 80A202F8 AFA40000 */  sw      $a0, 0x0000($sp)           
-
-

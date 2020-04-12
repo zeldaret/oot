@@ -93,5 +93,3 @@ glabel EnKakasi3_Update
 /* 00F8C 80A91CAC 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00F90 80A91CB0 03E00008 */  jr      $ra                        
 /* 00F94 80A91CB4 00000000 */  nop
-
-

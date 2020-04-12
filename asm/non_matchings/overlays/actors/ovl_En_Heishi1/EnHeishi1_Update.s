@@ -8,11 +8,9 @@ glabel D_80A52C38
  .word 0x44098000
 glabel D_80A52C3C
     .float 3.14159274101
-    .balign 4
 
 glabel D_80A52C40
  .word 0xC079999A, 0x00000000, 0x00000000, 0x00000000
-
 
 .text
 glabel EnHeishi1_Update
@@ -227,5 +225,3 @@ glabel EnHeishi1_Update
 /* 01360 80A52630 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 01364 80A52634 03E00008 */  jr      $ra                        
 /* 01368 80A52638 00000000 */  nop
-
-

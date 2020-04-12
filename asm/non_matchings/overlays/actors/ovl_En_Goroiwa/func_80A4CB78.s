@@ -3,11 +3,9 @@ glabel D_80A4E074
  .word 0xBE99999A
 glabel D_80A4E078
     .float 0.3
-    .balign 4
 
 glabel D_80A4E07C
     .float 0.2
-    .balign 4
 
 .text
 glabel func_80A4CB78
@@ -237,5 +235,3 @@ glabel func_80A4CB78
 /* 0122C 80A4CECC 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 01230 80A4CED0 03E00008 */  jr      $ra                        
 /* 01234 80A4CED4 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
-
-

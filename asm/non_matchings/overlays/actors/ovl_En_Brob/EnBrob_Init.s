@@ -1,11 +1,10 @@
 .late_rodata
-
 glabel D_809CBAC0
- .float 0.033333335
+    .float 0.033333335
 glabel D_809CBAC4
- .float 0.06666667
+    .float 0.06666667
 glabel D_809CBAC8
- .float 12000.0
+    .float 12000.0
 
 .text
 glabel EnBrob_Init
@@ -177,5 +176,3 @@ glabel EnBrob_Init
 /* 00268 809CAD78 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 0026C 809CAD7C 03E00008 */  jr      $ra
 /* 00270 809CAD80 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

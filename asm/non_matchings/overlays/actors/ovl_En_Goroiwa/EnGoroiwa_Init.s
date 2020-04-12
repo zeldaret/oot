@@ -135,5 +135,3 @@ glabel EnGoroiwa_Init
 /* 0190C 80A4D5AC 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 01910 80A4D5B0 03E00008 */  jr      $ra                        
 /* 01914 80A4D5B4 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

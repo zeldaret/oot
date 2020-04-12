@@ -94,4 +94,3 @@ glabel EnWonderItem_Update
 /* 00CD4 80B38D34 00000000 */  nop
 /* 00CD8 80B38D38 00000000 */  nop
 /* 00CDC 80B38D3C 00000000 */  nop
-

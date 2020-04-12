@@ -1,12 +1,11 @@
 .rdata
-
 glabel D_80A68530
     .asciz "../z_en_horse_game_check.c"
     .balign 4
 
 .late_rodata
 glabel D_80A68570
- .float -1650.0
+    .float -1650.0
 
 .text
 glabel func_80A67550
@@ -59,5 +58,3 @@ glabel func_80A67550
 /* 000AC 80A675FC 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 000B0 80A67600 03E00008 */  jr      $ra                        
 /* 000B4 80A67604 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
-
-

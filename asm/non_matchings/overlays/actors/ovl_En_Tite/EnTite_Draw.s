@@ -224,4 +224,3 @@ glabel EnTite_Draw
 /* 02B24 80B1B5A4 00000000 */  nop
 /* 02B28 80B1B5A8 00000000 */  nop
 /* 02B2C 80B1B5AC 00000000 */  nop
-

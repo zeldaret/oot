@@ -161,5 +161,3 @@ glabel EnGe2_Init
 /* 002C8 80A32E98 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 002CC 80A32E9C 03E00008 */  jr      $ra
 /* 002D0 80A32EA0 00000000 */  nop
-
-

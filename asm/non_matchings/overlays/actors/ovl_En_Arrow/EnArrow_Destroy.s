@@ -35,5 +35,3 @@ glabel EnArrow_Destroy
 /* 002A8 809B3BC8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 002AC 809B3BCC 03E00008 */  jr      $ra
 /* 002B0 809B3BD0 00000000 */  nop
-
-

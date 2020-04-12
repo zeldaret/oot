@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80AEA720
     .asciz "タイプ７  "
     .balign 4
@@ -177,5 +176,3 @@ glabel func_80AE8968
 /* 0072C 80AE8B6C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00730 80AE8B70 03E00008 */  jr      $ra                        
 /* 00734 80AE8B74 00000000 */  nop
-
-

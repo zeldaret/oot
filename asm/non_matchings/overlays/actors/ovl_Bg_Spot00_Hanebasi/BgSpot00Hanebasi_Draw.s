@@ -148,4 +148,3 @@ glabel BgSpot00Hanebasi_Draw
 /* 01004 808AA784 03E00008 */  jr      $ra                        
 /* 01008 808AA788 00000000 */  nop
 /* 0100C 808AA78C 00000000 */  nop
-

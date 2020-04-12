@@ -137,5 +137,3 @@ glabel EnLight_Init
 /* 001D4 80A9DD14 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 001D8 80A9DD18 03E00008 */  jr      $ra                        
 /* 001DC 80A9DD1C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

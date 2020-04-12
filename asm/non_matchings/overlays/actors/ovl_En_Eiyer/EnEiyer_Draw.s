@@ -104,4 +104,3 @@ glabel EnEiyer_Draw
 /* 019A4 80A01944 03E00008 */  jr      $ra
 /* 019A8 80A01948 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 019AC 80A0194C 00000000 */  nop
-

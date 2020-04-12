@@ -25,7 +25,6 @@ glabel jtbl_8097C234
 .word L8097BD48
 .word L8097BD38
 
-
 .text
 glabel DemoGj_Init
 /* 03328 8097BC58 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
@@ -114,5 +113,3 @@ glabel L8097BD48
 /* 03434 8097BD64 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 03438 8097BD68 03E00008 */  jr      $ra                        
 /* 0343C 8097BD6C 00000000 */  nop
-
-

@@ -151,5 +151,3 @@ glabel BgMoriHineri_Init
 /* 001F0 808A39C0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 001F4 808A39C4 03E00008 */  jr      $ra                        
 /* 001F8 808A39C8 00000000 */  nop
-
-

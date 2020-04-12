@@ -168,4 +168,3 @@ glabel BossFd2_Draw
 /* 03934 808D5FA4 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 03938 808D5FA8 00000000 */  nop
 /* 0393C 808D5FAC 00000000 */  nop
-

@@ -5,5 +5,3 @@ glabel func_80A1F52C
 /* 00F98 80A1F538 AFA7000C */  sw      $a3, 0x000C($sp)           
 /* 00F9C 80A1F53C 03E00008 */  jr      $ra                        
 /* 00FA0 80A1F540 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
-
-

@@ -34,5 +34,3 @@ glabel func_80A44C68
 .L80A44CDC:
 /* 01FAC 80A44CDC 03E00008 */  jr      $ra                        
 /* 01FB0 80A44CE0 00000000 */  nop
-
-

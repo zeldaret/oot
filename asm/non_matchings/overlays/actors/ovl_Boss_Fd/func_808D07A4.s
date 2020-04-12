@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_808D1FBC
     .float 0.1
-    .balign 4
 
 .text
 glabel func_808D07A4
@@ -77,5 +76,3 @@ glabel func_808D07A4
 .L808D089C:
 /* 05ADC 808D089C 03E00008 */  jr      $ra                        
 /* 05AE0 808D08A0 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
-
-

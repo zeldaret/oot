@@ -3,7 +3,6 @@ glabel D_80A66854
  .word 0x47AFC800
 glabel D_80A66858
     .float 0.8
-    .balign 4
 
 glabel D_80A6685C
  .word 0x3EF0A3D7
@@ -11,11 +10,9 @@ glabel D_80A66860
  .word 0x3EF0A3D7
 glabel D_80A66864
     .float 0.4
-    .balign 4
 
 glabel D_80A66868
     .float 0.4
-    .balign 4
 
 .text
 glabel func_80A5B61C
@@ -274,5 +271,3 @@ glabel func_80A5B61C
 /* 006CC 80A5B9BC 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 006D0 80A5B9C0 03E00008 */  jr      $ra                        
 /* 006D4 80A5B9C4 00000000 */  nop
-
-

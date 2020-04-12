@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_808AE3C0
     .asciz "../z_bg_spot03_taki.c"
     .balign 4
@@ -189,4 +188,3 @@ glabel BgSpot03Taki_Draw
 /* 008A4 808AE384 00000000 */  nop
 /* 008A8 808AE388 00000000 */  nop
 /* 008AC 808AE38C 00000000 */  nop
-

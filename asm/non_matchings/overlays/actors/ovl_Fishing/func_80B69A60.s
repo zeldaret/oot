@@ -85,5 +85,3 @@ glabel func_80B69A60
 .L80B69B7C:
 /* 001DC 80B69B7C 03E00008 */  jr      $ra                        
 /* 001E0 80B69B80 46001005 */  abs.s   $f0, $f2                   
-
-

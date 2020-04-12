@@ -187,5 +187,3 @@ glabel BgPoSyokudai_Init
 /* 00290 808A8340 8FB0002C */  lw      $s0, 0x002C($sp)           
 /* 00294 808A8344 03E00008 */  jr      $ra                        
 /* 00298 808A8348 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

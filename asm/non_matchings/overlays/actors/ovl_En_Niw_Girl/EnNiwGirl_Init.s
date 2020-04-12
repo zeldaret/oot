@@ -30,7 +30,6 @@ glabel D_80AB9AE8
 .late_rodata
 glabel D_80AB9B14
     .float 3.14159274101
-    .balign 4
 
 .text
 glabel EnNiwGirl_Init
@@ -176,5 +175,3 @@ glabel EnNiwGirl_Init
 /* 001F4 80AB9174 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 001F8 80AB9178 03E00008 */  jr      $ra
 /* 001FC 80AB917C 00000000 */  nop
-
-

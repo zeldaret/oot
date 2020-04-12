@@ -10,7 +10,6 @@ glabel D_809FFC74
 .late_rodata
 glabel D_809FFCE0
     .float 0.025
-    .balign 4
 
 glabel D_809FFCE4
  .word 0x3D1FBE77
@@ -65,5 +64,3 @@ glabel EnDyExtra_Init
 /* 000B0 809FF7A0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000B4 809FF7A4 03E00008 */  jr      $ra                        
 /* 000B8 809FF7A8 00000000 */  nop
-
-

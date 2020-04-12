@@ -8,5 +8,3 @@ glabel BgMoriHineri_Update
 /* 0077C 808A3F4C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00780 808A3F50 03E00008 */  jr      $ra                        
 /* 00784 808A3F54 00000000 */  nop
-
-

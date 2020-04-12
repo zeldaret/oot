@@ -34,4 +34,3 @@ glabel EnDodojr_Draw
 /* 01AC4 809F7E84 00000000 */  nop
 /* 01AC8 809F7E88 00000000 */  nop
 /* 01ACC 809F7E8C 00000000 */  nop
-

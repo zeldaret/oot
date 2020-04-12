@@ -19,7 +19,6 @@ glabel D_80865BFC
 glabel D_80865C14
     .float 0.015
 
-
 glabel D_80865C18
     .float 0.01
 
@@ -203,4 +202,3 @@ glabel ArmsHook_Draw
 /* 00BD4 80865AD4 00000000 */  nop
 /* 00BD8 80865AD8 00000000 */  nop
 /* 00BDC 80865ADC 00000000 */  nop
-

@@ -3,11 +3,9 @@ glabel D_80855410
  .word 0x409CCCCD
 glabel D_80855414
     .float 0.4
-    .balign 4
 
 glabel D_80855418
     .float 0.1
-    .balign 4
 
 .text
 glabel func_80840DE4
@@ -242,5 +240,3 @@ glabel func_80840DE4
 /* 0EF1C 8084112C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 0EF20 80841130 03E00008 */  jr      $ra                        
 /* 0EF24 80841134 00000000 */  nop
-
-

@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80BA294C
     .asciz "../z_obj_warp2block.c"
     .balign 4
@@ -89,4 +88,3 @@ glabel ObjWarp2block_Draw
 /* 00A24 80BA2814 03E00008 */  jr      $ra                        
 /* 00A28 80BA2818 00000000 */  nop
 /* 00A2C 80BA281C 00000000 */  nop
-

@@ -3,7 +3,6 @@ glabel D_80BA6FD0
  .word 0x4019999A
 glabel D_80BA6FD4
     .float 0.3
-    .balign 4
 
 .text
 glabel OceffSpot_Init
@@ -100,5 +99,3 @@ glabel OceffSpot_Init
 /* 00154 80BA61C4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00158 80BA61C8 03E00008 */  jr      $ra                        
 /* 0015C 80BA61CC 00000000 */  nop
-
-

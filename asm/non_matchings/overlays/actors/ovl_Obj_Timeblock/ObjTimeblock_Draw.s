@@ -92,4 +92,3 @@ glabel ObjTimeblock_Draw
 /* 00B24 80BA0AC4 00000000 */  nop
 /* 00B28 80BA0AC8 00000000 */  nop
 /* 00B2C 80BA0ACC 00000000 */  nop
-

@@ -329,5 +329,3 @@ glabel L80ACE56C
 /* 007DC 80ACE5AC 8FB40060 */  lw      $s4, 0x0060($sp)           
 /* 007E0 80ACE5B0 03E00008 */  jr      $ra                        
 /* 007E4 80ACE5B4 27BD00A8 */  addiu   $sp, $sp, 0x00A8           ## $sp = 00000000
-
-

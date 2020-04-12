@@ -192,5 +192,3 @@ glabel EnZl1_Init
 /* 00294 80B4ADD4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00298 80B4ADD8 03E00008 */  jr      $ra
 /* 0029C 80B4ADDC 00000000 */  nop
-
-

@@ -23,5 +23,3 @@ glabel BgSpot17Funen_Init
 /* 00034 808B7434 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00038 808B7438 03E00008 */  jr      $ra                        
 /* 0003C 808B743C 00000000 */  nop
-
-

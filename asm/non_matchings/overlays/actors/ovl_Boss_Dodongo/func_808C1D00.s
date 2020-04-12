@@ -23,23 +23,19 @@ glabel D_808CA698
  .word 0xC52F4000
 glabel D_808CA69C
     .float 0.05
-    .balign 4
 
 glabel D_808CA6A0
     .float 0.1
-    .balign 4
 
 glabel D_808CA6A4
  .word 0x40490E56
 glabel D_808CA6A8
     .float 0.7
-    .balign 4
 
 glabel D_808CA6AC
  .word 0x40490E56
 glabel D_808CA6B0
     .float 0.7
-    .balign 4
 
 .text
 glabel func_808C1D00
@@ -838,5 +834,3 @@ glabel L808C23A8
 /* 016E0 808C2870 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 016E4 808C2874 03E00008 */  jr      $ra
 /* 016E8 808C2878 00000000 */  nop
-
-

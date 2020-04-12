@@ -1,5 +1,4 @@
 .late_rodata
-
 glabel D_80994BBC
  .word 0x7F7FFFFF # might be a float?
 
@@ -44,5 +43,3 @@ glabel func_809946BC
 .L80994748:
 /* 00168 80994748 03E00008 */  jr      $ra                        
 /* 0016C 8099474C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

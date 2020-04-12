@@ -1,7 +1,6 @@
 .late_rodata
-
 glabel D_80883678
- .float 0.04
+    .float 0.04
 
 .text
 glabel func_808834D8
@@ -46,5 +45,3 @@ glabel func_808834D8
 .L80883560:
 /* 00FA0 80883560 03E00008 */  jr      $ra                        
 /* 00FA4 80883564 00000000 */  nop
-
-

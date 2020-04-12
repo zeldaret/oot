@@ -1,20 +1,15 @@
 .late_rodata
 glabel D_80AA17AC
     .float 3.14159274101
-    .balign 4
 
 glabel D_80AA17B0
     .float 3.14159274101
-    .balign 4
 
 glabel D_80AA17B4
     .float 3.14159274101
-    .balign 4
 
 glabel D_80AA17B8
     .float 3.14159274101
-
-
 
 .text
 glabel func_80AA12BC
@@ -121,5 +116,3 @@ glabel func_80AA12BC
 /* 00DAC 80AA143C 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 00DB0 80AA1440 03E00008 */  jr      $ra                        
 /* 00DB4 80AA1444 00000000 */  nop
-
-

@@ -221,5 +221,3 @@ glabel EnNy_Draw
 /* 01484 80ABE034 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 01488 80ABE038 03E00008 */  jr      $ra                        
 /* 0148C 80ABE03C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

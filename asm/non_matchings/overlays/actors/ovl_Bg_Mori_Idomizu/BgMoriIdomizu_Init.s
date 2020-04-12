@@ -14,11 +14,9 @@ glabel D_808A4C88
 .late_rodata
 glabel D_808A4CF4
     .float 1.1
-    .balign 4
 
 glabel D_808A4CF8
  .word 0xC4E38000, 0x00000000
-
 
 .text
 glabel BgMoriIdomizu_Init
@@ -116,5 +114,3 @@ glabel BgMoriIdomizu_Init
 /* 0016C 808A47AC 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00170 808A47B0 03E00008 */  jr      $ra                        
 /* 00174 808A47B4 00000000 */  nop
-
-

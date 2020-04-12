@@ -1,6 +1,6 @@
 .late_rodata
 glabel D_8098E2C0
- .float 0.99
+    .float 0.99
 
 .text
 glabel DemoKekkai_Update
@@ -87,5 +87,3 @@ glabel DemoKekkai_Update
 /* 00740 8098D710 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 00744 8098D714 03E00008 */  jr      $ra                        
 /* 00748 8098D718 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

@@ -1,19 +1,15 @@
 .late_rodata
 glabel D_80B2A0E0
     .float -0.8
-    .balign 4
 
 glabel D_80B2A0E4
     .float 10000.0
-    .balign 4
 
 glabel D_80B2A0E8
     .float 3000.0
-    .balign 4
 
 glabel D_80B2A0EC
     .float 5000.0
-    .balign 4
 
 glabel D_80B2A0F0
  .word 0xC51C4000
@@ -128,5 +124,3 @@ glabel EnVbBall_Init
 /* 00174 80B29114 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00178 80B29118 03E00008 */  jr      $ra                        
 /* 0017C 80B2911C 00000000 */  nop
-
-

@@ -7,5 +7,3 @@ glabel EnEncount2_Draw
 /* 00CF8 80A08688 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00CFC 80A0868C 03E00008 */  jr      $ra                        
 /* 00D00 80A08690 00000000 */  nop
-
-

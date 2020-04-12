@@ -217,5 +217,3 @@ glabel EnGe1_Init
 /* 002CC 80A30C3C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 002D0 80A30C40 03E00008 */  jr      $ra
 /* 002D4 80A30C44 00000000 */  nop
-
-

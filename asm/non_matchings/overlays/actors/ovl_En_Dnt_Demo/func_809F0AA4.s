@@ -56,7 +56,6 @@ glabel D_809F1978
     .balign 4
 
 .late_rodata
-
 glabel jtbl_809F1980
 .word L809F0E1C
 .word L809F0D50
@@ -67,10 +66,9 @@ glabel jtbl_809F1980
 .word L809F0E1C
 .word L809F0D80
 glabel D_809F19A0
- .float 8.99
+    .float 8.99
 glabel D_809F19A4
- .float 7.99
-
+    .float 7.99
 
 .text
 glabel func_809F0AA4
@@ -535,5 +533,3 @@ glabel L809F0E1C
 /* 00814 809F10F4 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 00818 809F10F8 03E00008 */  jr      $ra                        
 /* 0081C 809F10FC 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

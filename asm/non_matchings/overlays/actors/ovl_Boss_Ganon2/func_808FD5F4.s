@@ -44,7 +44,6 @@ glabel D_8090DB40
  .word 0x4487C000
 glabel D_8090DB44
     .float 1500.0
-    .balign 4
 
 glabel D_8090DB48
  .word 0x4487C000
@@ -76,7 +75,6 @@ glabel D_8090DB7C
  .word 0x447C4000
 glabel D_8090DB80
     .float 7000.0
-    .balign 4
 
 glabel D_8090DB84
  .word 0x448A4000
@@ -90,7 +88,6 @@ glabel D_8090DB94
  .word 0x44896000
 glabel D_8090DB98
     .float 0.8
-    .balign 4
 
 glabel D_8090DB9C
  .word 0x44896000
@@ -2460,5 +2457,3 @@ glabel L808FF810
 /* 0294C 808FF88C 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 02950 808FF890 03E00008 */  jr      $ra
 /* 02954 808FF894 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

@@ -8,5 +8,3 @@ glabel BgRelayObjects_Update
 /* 00634 808A9484 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00638 808A9488 03E00008 */  jr      $ra                        
 /* 0063C 808A948C 00000000 */  nop
-
-

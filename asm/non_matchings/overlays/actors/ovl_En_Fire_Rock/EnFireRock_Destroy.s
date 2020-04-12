@@ -58,5 +58,3 @@ glabel EnFireRock_Destroy
 /* 004A0 80A120C0 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 004A4 80A120C4 03E00008 */  jr      $ra                        
 /* 004A8 80A120C8 00000000 */  nop
-
-

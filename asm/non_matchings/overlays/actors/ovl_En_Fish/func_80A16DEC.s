@@ -8,7 +8,6 @@ glabel D_80A171F4
 glabel D_80A171F8
     .float 0.001
 
-
 .text
 glabel func_80A16DEC
 /* 01B6C 80A16DEC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
@@ -92,5 +91,3 @@ glabel func_80A16DEC
 /* 01C74 80A16EF4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01C78 80A16EF8 03E00008 */  jr      $ra                        
 /* 01C7C 80A16EFC 00000000 */  nop
-
-

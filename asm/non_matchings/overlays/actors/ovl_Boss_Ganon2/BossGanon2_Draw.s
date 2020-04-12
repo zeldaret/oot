@@ -326,5 +326,3 @@ glabel BossGanon2_Draw
 /* 08E5C 80905D9C 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 08E60 80905DA0 03E00008 */  jr      $ra
 /* 08E64 80905DA4 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

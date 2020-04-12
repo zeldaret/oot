@@ -64,5 +64,3 @@ glabel EnSb_Init
 /* 000D8 80AF78C8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 000DC 80AF78CC 03E00008 */  jr      $ra
 /* 000E0 80AF78D0 00000000 */  nop
-
-

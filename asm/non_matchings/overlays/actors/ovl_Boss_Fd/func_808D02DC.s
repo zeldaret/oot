@@ -14,21 +14,17 @@ glabel D_808D1DCC
 .late_rodata
 glabel D_808D1FA8
     .float 0.1
-    .balign 4
 
 glabel D_808D1FAC
     .float 0.01
-    .balign 4
 
 glabel D_808D1FB0
     .float 0.7
-    .balign 4
 
 glabel D_808D1FB4
  .word 0x3A51B717
 glabel D_808D1FB8
     .float -1.57079637051
-    .balign 4
 
 .text
 glabel func_808D02DC
@@ -348,5 +344,3 @@ glabel func_808D02DC
 /* 059D8 808D0798 8FBE0068 */  lw      $s8, 0x0068($sp)           
 /* 059DC 808D079C 03E00008 */  jr      $ra                        
 /* 059E0 808D07A0 27BD0168 */  addiu   $sp, $sp, 0x0168           ## $sp = 00000000
-
-

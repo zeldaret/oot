@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80ACD7AC
     .asciz "フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
     .balign 4
@@ -555,5 +554,3 @@ glabel EnOwl_Update
 /* 02ED4 80ACCDF4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 02ED8 80ACCDF8 03E00008 */  jr      $ra                        
 /* 02EDC 80ACCDFC 00000000 */  nop
-
-

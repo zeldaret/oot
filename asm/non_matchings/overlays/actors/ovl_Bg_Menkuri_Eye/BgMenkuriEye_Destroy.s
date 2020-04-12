@@ -9,5 +9,3 @@ glabel BgMenkuriEye_Destroy
 /* 000F4 8089BD64 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000F8 8089BD68 03E00008 */  jr      $ra                        
 /* 000FC 8089BD6C 00000000 */  nop
-
-

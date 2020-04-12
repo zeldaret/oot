@@ -245,5 +245,3 @@ glabel BgHidanRsekizou_Update
 /* 00500 8088C700 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00504 8088C704 03E00008 */  jr      $ra                        
 /* 00508 8088C708 00000000 */  nop
-
-

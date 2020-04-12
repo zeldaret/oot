@@ -1,6 +1,6 @@
 .late_rodata
 glabel D_80AF1BE4
- .float 265.0
+    .float 265.0
 
 .text
 glabel func_80AEC5FC
@@ -27,5 +27,3 @@ glabel func_80AEC5FC
 .L80AEC648:
 /* 01A38 80AEC648 03E00008 */  jr      $ra                        
 /* 01A3C 80AEC64C 00000000 */  nop
-
-

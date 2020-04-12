@@ -12,5 +12,3 @@ glabel BgVbSima_Destroy
 /* 0008C 808BDDEC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00090 808BDDF0 03E00008 */  jr      $ra                        
 /* 00094 808BDDF4 00000000 */  nop
-
-

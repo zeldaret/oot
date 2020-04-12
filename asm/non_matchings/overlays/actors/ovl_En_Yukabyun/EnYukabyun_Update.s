@@ -115,5 +115,3 @@ glabel EnYukabyun_Update
 /* 00414 80B43DD4 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00418 80B43DD8 03E00008 */  jr      $ra                        
 /* 0041C 80B43DDC 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

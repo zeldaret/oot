@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_809D163C
     .float 0.001
-    .balign 4
 
 glabel D_809D1640
  .word 0x3C54FDF4
@@ -9,7 +8,6 @@ glabel D_809D1644
  .word 0x3B656041
 glabel D_809D1648
     .float 0.001
-    .balign 4
 
 glabel D_809D164C
  .word 0x3CC8B439
@@ -17,7 +15,6 @@ glabel D_809D1650
  .word 0x3C54FDF4
 glabel D_809D1654
     .float 0.001
-    .balign 4
 
 glabel D_809D1658
  .word 0x3C54FDF4
@@ -173,5 +170,3 @@ glabel func_809CF984
 /* 014BC 809CFB9C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 014C0 809CFBA0 03E00008 */  jr      $ra                        
 /* 014C4 809CFBA4 00000000 */  nop
-
-

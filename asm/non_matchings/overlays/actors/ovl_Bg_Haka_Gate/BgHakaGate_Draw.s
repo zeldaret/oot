@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_8087CD4C
     .asciz "../z_bg_haka_gate.c"
     .balign 4
@@ -17,12 +16,11 @@ glabel D_8087CD88
     .balign 4
 	
 .late_rodata
-
 glabel D_8087CDAC
- .float 9.58738E-5
+    .float 9.58738E-5
  
 glabel D_8087CDB0
- .float 9.58738E-5
+    .float 9.58738E-5
  
 .text
 glabel BgHakaGate_Draw
@@ -184,4 +182,3 @@ glabel BgHakaGate_Draw
 /* 00ED4 8087CCC4 00000000 */  nop
 /* 00ED8 8087CCC8 00000000 */  nop
 /* 00EDC 8087CCCC 00000000 */  nop
-

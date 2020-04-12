@@ -10,7 +10,6 @@ glabel D_80A0E130
 .late_rodata
 glabel D_80A0E1D8
     .float 0.9
-    .balign 4
 
 .text
 glabel EnFd_Draw
@@ -278,5 +277,3 @@ glabel EnFd_Draw
 /* 01D40 80A0D400 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 01D44 80A0D404 03E00008 */  jr      $ra
 /* 01D48 80A0D408 27BD00A0 */  addiu   $sp, $sp, 0x00A0           ## $sp = 00000000
-
-

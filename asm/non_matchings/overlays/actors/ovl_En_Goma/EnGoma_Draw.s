@@ -22,23 +22,18 @@ glabel D_80A4B8E0
 .late_rodata
 glabel D_80A4B94C
     .float 3.14159274101
-    .balign 4
 
 glabel D_80A4B950
     .float 3.14159274101
-    .balign 4
 
 glabel D_80A4B954
     .float 3.14159274101
-    .balign 4
 
 glabel D_80A4B958
     .float 3.14159274101
-    .balign 4
 
 glabel D_80A4B95C
     .float 3.14159274101
-    .balign 4
 
 glabel D_80A4B960
  .word 0x40490E56
@@ -46,11 +41,9 @@ glabel D_80A4B964
  .word 0x41FF3333
 glabel D_80A4B968
     .float 0.15
-    .balign 4
 
 glabel D_80A4B96C
     .float 0.1
-    .balign 4
 
 glabel D_80A4B970
  .word 0x3F733333
@@ -58,11 +51,9 @@ glabel D_80A4B974
  .word 0x3F866666
 glabel D_80A4B978
     .float 0.1
-    .balign 4
 
 glabel D_80A4B97C
     .float 0.15
-    .balign 4
 
 .text
 glabel EnGoma_Draw
@@ -383,5 +374,3 @@ glabel EnGoma_Draw
 /* 024E0 80A4B3A0 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 024E4 80A4B3A4 03E00008 */  jr      $ra                        
 /* 024E8 80A4B3A8 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

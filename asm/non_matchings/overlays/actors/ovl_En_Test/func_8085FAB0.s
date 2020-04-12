@@ -1,5 +1,4 @@
 .late_rodata
-
 glabel jtbl_8086474C
 .word L8085FBBC
 .word L8085FBCC
@@ -13,7 +12,7 @@ glabel jtbl_8086474C
 .word L8085FBE0
 
 glabel D_80864774
- .float 0.2
+    .float 0.2
 
 .text
 glabel func_8085FAB0
@@ -237,5 +236,3 @@ glabel L8085FBE0
 /* 00774 8085FDC4 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00778 8085FDC8 03E00008 */  jr      $ra                        
 /* 0077C 8085FDCC 00000000 */  nop
-
-

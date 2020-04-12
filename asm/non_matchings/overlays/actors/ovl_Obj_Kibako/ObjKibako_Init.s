@@ -6,7 +6,6 @@ glabel D_80B958A0
 .late_rodata
 glabel D_80B958C8
     .float -1.2
-    .balign 4
 
 .text
 glabel ObjKibako_Init
@@ -45,5 +44,3 @@ glabel ObjKibako_Init
 /* 00164 80B94E04 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00168 80B94E08 03E00008 */  jr      $ra                        
 /* 0016C 80B94E0C 00000000 */  nop
-
-

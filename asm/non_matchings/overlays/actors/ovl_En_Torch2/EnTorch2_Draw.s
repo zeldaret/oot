@@ -129,4 +129,3 @@ glabel EnTorch2_Draw
 /* 02044 80B1F9C4 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 02048 80B1F9C8 03E00008 */  jr      $ra
 /* 0204C 80B1F9CC 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-

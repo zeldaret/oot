@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_809B8130
     .asciz "../z_en_ba.c"
     .balign 4
@@ -299,4 +298,3 @@ glabel EnBa_Draw
 /* 01D04 809B8054 8FB60058 */  lw      $s6, 0x0058($sp)
 /* 01D08 809B8058 03E00008 */  jr      $ra
 /* 01D0C 809B805C 27BD00C0 */  addiu   $sp, $sp, 0x00C0           ## $sp = 00000000
-

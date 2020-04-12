@@ -18,28 +18,22 @@ glabel D_80B65288
 .late_rodata
 glabel D_80B65428
     .float 1.3
-    .balign 4
 
 glabel D_80B6542C
  .word 0x454FD000
 glabel D_80B65430
     .float 0.01
-    .balign 4
 
 glabel D_80B65434
     .float 1.3
-    .balign 4
 
 glabel D_80B65438
  .word 0x454FD000
 glabel D_80B6543C
     .float 0.002
-    .balign 4
 
 glabel D_80B65440
     .float 0.001
-    .balign 4
-
 
 .text
 glabel func_80B63D84
@@ -230,5 +224,3 @@ glabel func_80B63D84
 /* 01680 80B64040 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 01684 80B64044 03E00008 */  jr      $ra
 /* 01688 80B64048 00000000 */  nop
-
-

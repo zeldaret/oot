@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80A3CCD0
     .asciz "デクの実×5   " # Deku Fruit * 5
     .balign 4
@@ -346,5 +345,3 @@ glabel func_80A3A8D0
 /* 002CC 80A3AA1C 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 002D0 80A3AA20 03E00008 */  jr      $ra                        
 /* 002D4 80A3AA24 00000000 */  nop
-
-

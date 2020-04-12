@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_8087CD10
     .asciz "../z_bg_haka_gate.c"
     .balign 4
@@ -13,11 +12,10 @@ glabel D_8087CD38
     .balign 4
 
 .late_rodata
-
 glabel D_8087CDA4
- .float 9.58738e-5
+    .float 9.58738e-5
 glabel D_8087CDA8
- .float 1.0e-5
+    .float 1.0e-5
 
 	
 .text
@@ -156,5 +154,3 @@ glabel func_8087C85C
 /* 00C74 8087CA64 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 00C78 8087CA68 03E00008 */  jr      $ra                        
 /* 00C7C 8087CA6C 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

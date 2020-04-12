@@ -15,7 +15,6 @@ glabel D_808B9E68
 glabel D_808B9E88
  .word 0xBB23D70A, 0x00000000
 
-
 .text
 glabel BgSstFloor_Draw
 /* 00404 808B9D14 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
@@ -81,4 +80,3 @@ glabel BgSstFloor_Draw
 /* 004F4 808B9E04 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 004F8 808B9E08 03E00008 */  jr      $ra                        
 /* 004FC 808B9E0C 00000000 */  nop
-

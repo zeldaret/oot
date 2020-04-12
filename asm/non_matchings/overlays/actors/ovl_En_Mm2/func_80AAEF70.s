@@ -60,5 +60,3 @@ glabel func_80AAEF70
 /* 001E0 80AAF030 A44B13FC */  sh      $t3, 0x13FC($v0)           ## 8015FA5C
 /* 001E4 80AAF034 03E00008 */  jr      $ra                        
 /* 001E8 80AAF038 00000000 */  nop
-
-

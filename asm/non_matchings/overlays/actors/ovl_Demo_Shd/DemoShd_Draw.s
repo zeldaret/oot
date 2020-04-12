@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80993600
     .asciz "../z_demo_shd.c"
     .balign 4
@@ -162,4 +161,3 @@ glabel DemoShd_Draw
 /* 00424 80991654 00000000 */  nop
 /* 00428 80991658 00000000 */  nop
 /* 0042C 8099165C 00000000 */  nop
-

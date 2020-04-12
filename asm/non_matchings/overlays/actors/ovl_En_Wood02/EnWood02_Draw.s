@@ -207,4 +207,3 @@ glabel EnWood02_Draw
 /* 00F64 80B3BED4 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 00F68 80B3BED8 03E00008 */  jr      $ra                        
 /* 00F6C 80B3BEDC 00000000 */  nop
-

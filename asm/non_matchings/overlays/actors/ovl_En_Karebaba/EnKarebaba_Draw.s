@@ -28,16 +28,12 @@ glabel D_80A96B64
  .word 0x3A03126F
 glabel D_80A96B68
     .float 0.01
-    .balign 4
 
 glabel D_80A96B6C
     .float 0.01
-    .balign 4
 
 glabel D_80A96B70
     .float 9.58738019108e-05
-
-
 
 .text
 glabel EnKarebaba_Draw
@@ -335,4 +331,3 @@ glabel EnKarebaba_Draw
 /* 01674 80A969C4 03E00008 */  jr      $ra
 /* 01678 80A969C8 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
 /* 0167C 80A969CC 00000000 */  nop
-

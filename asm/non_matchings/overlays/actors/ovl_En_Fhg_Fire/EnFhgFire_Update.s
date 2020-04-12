@@ -21,5 +21,3 @@ glabel EnFhgFire_Update
 /* 01ECC 80A1112C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01ED0 80A11130 03E00008 */  jr      $ra                        
 /* 01ED4 80A11134 00000000 */  nop
-
-

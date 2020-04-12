@@ -22,19 +22,14 @@ glabel D_80B2EBFC
 .late_rodata
 glabel D_80B2EC30
     .float 0.8
-    .balign 4
 
 glabel D_80B2EC34
  .word 0x46FFFE00
 glabel D_80B2EC38
     .float 0.1
-    .balign 4
 
 glabel D_80B2EC3C
     .float 0.0015
-    .balign 4
-
-
 
 .text
 glabel EnVm_Draw
@@ -290,4 +285,3 @@ glabel EnVm_Draw
 /* 01594 80B2E9F4 03E00008 */  jr      $ra
 /* 01598 80B2E9F8 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
 /* 0159C 80B2E9FC 00000000 */  nop
-

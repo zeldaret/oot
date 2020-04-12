@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_808BEC6C
     .float 0.15
-    .balign 4
 
 .text
 glabel BgYdanHasi_Init
@@ -103,5 +102,3 @@ glabel BgYdanHasi_Init
 /* 00154 808BE654 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00158 808BE658 03E00008 */  jr      $ra                        
 /* 0015C 808BE65C 00000000 */  nop
-
-

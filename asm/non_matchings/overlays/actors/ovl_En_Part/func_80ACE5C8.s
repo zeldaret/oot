@@ -4,8 +4,6 @@ glabel D_80ACF2E4
 glabel D_80ACF2E8
     .float 0.04
 
-
-
 .text
 glabel func_80ACE5C8
 /* 007F8 80ACE5C8 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
@@ -153,5 +151,3 @@ glabel func_80ACE5C8
 /* 00A0C 80ACE7DC 8FB10030 */  lw      $s1, 0x0030($sp)           
 /* 00A10 80ACE7E0 03E00008 */  jr      $ra                        
 /* 00A14 80ACE7E4 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-

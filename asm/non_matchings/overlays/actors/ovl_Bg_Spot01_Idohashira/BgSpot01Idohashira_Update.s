@@ -32,5 +32,3 @@ glabel BgSpot01Idohashira_Update
 /* 00900 808AB5E0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00904 808AB5E4 03E00008 */  jr      $ra                        
 /* 00908 808AB5E8 00000000 */  nop
-
-

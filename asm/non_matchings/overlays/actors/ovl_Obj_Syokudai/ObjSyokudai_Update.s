@@ -436,5 +436,3 @@ glabel ObjSyokudai_Update
 /* 00828 80B9FAD8 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 0082C 80B9FADC 03E00008 */  jr      $ra                        
 /* 00830 80B9FAE0 00000000 */  nop
-
-

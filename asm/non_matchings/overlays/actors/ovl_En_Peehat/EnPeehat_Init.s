@@ -174,5 +174,3 @@ glabel EnPeehat_Init
 /* 00268 80ACF708 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 0026C 80ACF70C 03E00008 */  jr      $ra                        
 /* 00270 80ACF710 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

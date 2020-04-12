@@ -13,7 +13,6 @@ glabel D_80B7B568
 glabel D_80B7B56C
     .float 1150.0
 
-
 glabel D_80B7B570
     .float 0.1
 
@@ -5269,5 +5268,3 @@ glabel L80B75278
 /* 0C200 80B75BA0 8FB10030 */  lw      $s1, 0x0030($sp)
 /* 0C204 80B75BA4 03E00008 */  jr      $ra
 /* 0C208 80B75BA8 27BD0138 */  addiu   $sp, $sp, 0x0138           ## $sp = 00000000
-
-

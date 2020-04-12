@@ -87,4 +87,3 @@ glabel EnEncount1_Update
 /* 00D24 80A07444 00000000 */  nop
 /* 00D28 80A07448 00000000 */  nop
 /* 00D2C 80A0744C 00000000 */  nop
-

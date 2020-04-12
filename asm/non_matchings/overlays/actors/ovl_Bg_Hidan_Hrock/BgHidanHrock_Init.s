@@ -1,9 +1,8 @@
 .late_rodata
-
 glabel D_808898C0
- .float 3000.0
+    .float 3000.0
 glabel D_808898C4
- .float 3000.0
+    .float 3000.0
 
 .text
 glabel BgHidanHrock_Init
@@ -229,5 +228,3 @@ glabel BgHidanHrock_Init
 /* 00320 80889450 D7B40020 */  ldc1    $f20, 0x0020($sp)          
 /* 00324 80889454 03E00008 */  jr      $ra                        
 /* 00328 80889458 27BD00B0 */  addiu   $sp, $sp, 0x00B0           ## $sp = 00000000
-
-

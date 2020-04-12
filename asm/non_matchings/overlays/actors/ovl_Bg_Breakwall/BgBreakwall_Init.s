@@ -121,5 +121,3 @@ glabel BgBreakwall_Init
 /* 001A4 8086FD84 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 001A8 8086FD88 03E00008 */  jr      $ra                        
 /* 001AC 8086FD8C 00000000 */  nop
-
-

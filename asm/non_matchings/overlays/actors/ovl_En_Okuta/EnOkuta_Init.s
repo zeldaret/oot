@@ -144,5 +144,3 @@ glabel EnOkuta_Init
 /* 001FC 80AC085C 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 00200 80AC0860 03E00008 */  jr      $ra                        
 /* 00204 80AC0864 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

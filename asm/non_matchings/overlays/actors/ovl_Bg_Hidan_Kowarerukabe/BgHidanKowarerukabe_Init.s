@@ -76,5 +76,3 @@ glabel BgHidanKowarerukabe_Init
 /* 0021C 8088A23C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00220 8088A240 03E00008 */  jr      $ra                        
 /* 00224 8088A244 00000000 */  nop
-
-

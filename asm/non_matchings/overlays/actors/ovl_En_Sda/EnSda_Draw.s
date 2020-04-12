@@ -58,5 +58,3 @@ glabel EnSda_Draw
 /* 00134 80AF8F54 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00138 80AF8F58 03E00008 */  jr      $ra                        
 /* 0013C 80AF8F5C 00000000 */  nop
-
-

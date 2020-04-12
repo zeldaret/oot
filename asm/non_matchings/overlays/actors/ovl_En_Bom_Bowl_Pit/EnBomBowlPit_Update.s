@@ -18,4 +18,3 @@ glabel EnBomBowlPit_Update
 /* 00894 809C56D4 00000000 */  nop
 /* 00898 809C56D8 00000000 */  nop
 /* 0089C 809C56DC 00000000 */  nop
-

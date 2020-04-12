@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80B937B0
     .asciz "../z_obj_hamishi.c"
     .balign 4
@@ -72,4 +71,3 @@ glabel ObjHamishi_Draw
 /* 00794 80B93724 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00798 80B93728 03E00008 */  jr      $ra                        
 /* 0079C 80B9372C 00000000 */  nop
-

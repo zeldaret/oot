@@ -8,7 +8,6 @@ glabel D_8089DA78
 glabel D_8089DA7C
  .word 0xC450C000
 
-
 .text
 glabel func_8089CE04
 /* 00984 8089CE04 8CAE07C0 */  lw      $t6, 0x07C0($a1)           ## 000007C0
@@ -114,5 +113,3 @@ glabel func_8089CE04
 /* 00AF8 8089CF78 8C8F02A8 */  lw      $t7, 0x02A8($a0)           ## 000002A8
 /* 00AFC 8089CF7C 03E00008 */  jr      $ra                        
 /* 00B00 8089CF80 AC8F02AC */  sw      $t7, 0x02AC($a0)           ## 000002AC
-
-

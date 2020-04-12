@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_808B2750
     .asciz "(spot11 爆弾壁)(arg_data 0x%04x)\n"
     .balign 4
@@ -57,5 +56,3 @@ glabel BgSpot11Bakudankabe_Init
 /* 00448 808B25C8 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0044C 808B25CC 03E00008 */  jr      $ra                        
 /* 00450 808B25D0 00000000 */  nop
-
-

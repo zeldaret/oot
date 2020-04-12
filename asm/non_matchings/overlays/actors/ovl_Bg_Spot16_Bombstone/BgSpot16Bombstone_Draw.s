@@ -93,4 +93,3 @@ glabel BgSpot16Bombstone_Draw
 /* 01194 808B5DC4 00000000 */  nop
 /* 01198 808B5DC8 00000000 */  nop
 /* 0119C 808B5DCC 00000000 */  nop
-

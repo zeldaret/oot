@@ -18,12 +18,9 @@ glabel D_809E916C
 .late_rodata
 glabel D_809E91D4
     .float 0.01
-    .balign 4
 
 glabel D_809E91D8
     .float 9.58738019108e-05
-
-
 
 .text
 glabel EnDekubaba_Draw
@@ -184,4 +181,3 @@ glabel EnDekubaba_Draw
 /* 036C4 809E8E94 03E00008 */  jr      $ra                        
 /* 036C8 809E8E98 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 036CC 809E8E9C 00000000 */  nop
-

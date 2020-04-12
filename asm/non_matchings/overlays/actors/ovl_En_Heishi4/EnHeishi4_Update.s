@@ -93,5 +93,3 @@ glabel EnHeishi4_Update
 /* 00D38 80A56E08 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00D3C 80A56E0C 03E00008 */  jr      $ra                        
 /* 00D40 80A56E10 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

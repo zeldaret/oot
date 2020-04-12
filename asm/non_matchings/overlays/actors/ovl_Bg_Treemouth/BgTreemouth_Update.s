@@ -1,10 +1,10 @@
 .late_rodata
 glabel D_808BDA48
- .float 4029.0
+    .float 4029.0
 glabel D_808BDA4C
- .float -399.0
+    .float -399.0
 glabel D_808BDA50
- .float -1255.0
+    .float -1255.0
 
 .text
 glabel BgTreemouth_Update
@@ -41,5 +41,3 @@ glabel BgTreemouth_Update
 /* 00710 808BCC10 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00714 808BCC14 03E00008 */  jr      $ra                        
 /* 00718 808BCC18 00000000 */  nop
-
-

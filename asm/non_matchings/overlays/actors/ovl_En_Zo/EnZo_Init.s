@@ -139,5 +139,3 @@ glabel EnZo_Init
 /* 016B8 80B618D8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 016BC 80B618DC 03E00008 */  jr      $ra
 /* 016C0 80B618E0 00000000 */  nop
-
-

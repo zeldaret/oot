@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_809DC0E4
     .float 0.4
-    .balign 4
 
 .text
 glabel EnClearTag_Init
@@ -128,5 +127,3 @@ glabel EnClearTag_Init
 /* 005C4 809D3B74 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 005C8 809D3B78 03E00008 */  jr      $ra                        
 /* 005CC 809D3B7C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

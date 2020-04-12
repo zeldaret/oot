@@ -115,5 +115,3 @@ glabel EnRr_Init
 /* 00190 80AE85D0 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00194 80AE85D4 03E00008 */  jr      $ra                        
 /* 00198 80AE85D8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

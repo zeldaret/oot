@@ -1,11 +1,9 @@
 .late_rodata
 glabel D_80B4222C
     .float 0.01
-    .balign 4
 
 glabel D_80B42230
     .float 1.2
-    .balign 4
 
 .text
 glabel func_80B3D990
@@ -38,5 +36,3 @@ glabel func_80B3D990
 .L80B3D9F8:
 /* 01818 80B3D9F8 03E00008 */  jr      $ra                        
 /* 0181C 80B3D9FC 00000000 */  nop
-
-

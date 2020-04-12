@@ -109,4 +109,3 @@ glabel BgHidanSima_Draw
 /* 00DA4 8088F174 00000000 */  nop
 /* 00DA8 8088F178 00000000 */  nop
 /* 00DAC 8088F17C 00000000 */  nop
-

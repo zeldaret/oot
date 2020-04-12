@@ -42,5 +42,3 @@ glabel EnSda_Update
 /* 00084 80AF8EA4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00088 80AF8EA8 03E00008 */  jr      $ra                        
 /* 0008C 80AF8EAC 00000000 */  nop
-
-

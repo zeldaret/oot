@@ -38,7 +38,6 @@ glabel D_80A7E06C
  .word 0x3F7FBE77
 glabel D_80A7E070
     .float 1.1
-    .balign 4
 
 glabel D_80A7E074
  .word 0x3D8F5C29
@@ -46,27 +45,22 @@ glabel D_80A7E078
  .word 0x3F7FBE77
 glabel D_80A7E07C
     .float 0.6
-    .balign 4
 
 glabel D_80A7E080
  .word 0x3D8F5C29
 glabel D_80A7E084
     .float 0.1
-    .balign 4
 
 glabel D_80A7E088
     .float 0.8
-    .balign 4
 
 glabel D_80A7E08C
     .float 1.3
-    .balign 4
 
 glabel D_80A7E090
  .word 0x477FFF00
 glabel D_80A7E094
     .float 0.01
-    .balign 4
 
 glabel D_80A7E098
  .word 0x3A51B717
@@ -74,19 +68,15 @@ glabel D_80A7E09C
  .word 0x3E0F5C29
 glabel D_80A7E0A0
     .float 0.12
-    .balign 4
 
 glabel D_80A7E0A4
     .float 1.3
-    .balign 4
 
 glabel D_80A7E0A8
     .float 1.9
-    .balign 4
 
 glabel D_80A7E0AC
  .word 0xC6F9EC00
-
 
 .text
 glabel func_80A7D460
@@ -643,5 +633,3 @@ glabel func_80A7D460
 /* 01DD4 80A7DBF4 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 01DD8 80A7DBF8 03E00008 */  jr      $ra                        
 /* 01DDC 80A7DBFC 00000000 */  nop
-
-

@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_808824C0
     .asciz "../z_bg_haka_water.c"
     .balign 4
@@ -18,11 +17,11 @@ glabel D_80882508
 
 .late_rodata
 glabel D_80882520
- .float 0.765
+    .float 0.765
 glabel D_80882524
- .float 0.1
+    .float 0.1
 glabel D_80882528
- .float 5.1
+    .float 5.1
 
 .text
 glabel BgHakaWater_Draw
@@ -278,4 +277,3 @@ glabel BgHakaWater_Draw
 /* 00784 80882484 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
 /* 00788 80882488 03E00008 */  jr      $ra                        
 /* 0078C 8088248C 00000000 */  nop
-

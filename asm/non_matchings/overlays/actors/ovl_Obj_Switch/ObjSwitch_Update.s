@@ -7,7 +7,6 @@ glabel jtbl_80B9EF80
 .word L80B9E6C0
 .word 0x00000000, 0x00000000, 0x00000000
 
-
 .text
 glabel ObjSwitch_Update
 /* 013FC 80B9E60C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
@@ -101,5 +100,3 @@ glabel L80B9E6C0
 /* 0152C 80B9E73C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 01530 80B9E740 03E00008 */  jr      $ra                        
 /* 01534 80B9E744 00000000 */  nop
-
-

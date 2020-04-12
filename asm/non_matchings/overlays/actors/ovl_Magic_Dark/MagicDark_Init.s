@@ -1,19 +1,15 @@
 .late_rodata
 glabel D_80B88BAC
     .float 0.4
-    .balign 4
 
 glabel D_80B88BB0
     .float 0.6
-    .balign 4
 
 glabel D_80B88BB4
     .float 1.6
-    .balign 4
 
 glabel D_80B88BB8
     .float 0.8
-    .balign 4
 
 .text
 glabel MagicDark_Init
@@ -78,5 +74,3 @@ glabel MagicDark_Init
 /* 000D4 80B874A4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000D8 80B874A8 03E00008 */  jr      $ra                        
 /* 000DC 80B874AC 00000000 */  nop
-
-

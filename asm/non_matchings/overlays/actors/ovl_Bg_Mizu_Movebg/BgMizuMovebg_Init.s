@@ -14,8 +14,6 @@ glabel D_8089EC30
  .word 0x405CCCCC, 0xCCCCCCCC
 glabel D_8089EC38
     .float 9.58738019108e-05
-    .balign 4
-
 
 .text
 glabel BgMizuMovebg_Init
@@ -280,5 +278,3 @@ glabel L8089DF24
 /* 0041C 8089E04C 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 00420 8089E050 03E00008 */  jr      $ra                        
 /* 00424 8089E054 00000000 */  nop
-
-

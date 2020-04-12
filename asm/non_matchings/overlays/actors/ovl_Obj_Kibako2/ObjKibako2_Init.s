@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80B96010
     .asciz "木箱(据置)(arg %04xH)(item %04xH %d)\n"
     .balign 4
@@ -59,5 +58,3 @@ glabel ObjKibako2_Init
 /* 003D8 80B95DA8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 003DC 80B95DAC 03E00008 */  jr      $ra                        
 /* 003E0 80B95DB0 00000000 */  nop
-
-

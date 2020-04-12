@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_809C1730
     .float 0.7
-    .balign 4
 
 .text
 glabel func_809BF9BC
@@ -27,5 +26,3 @@ glabel func_809BF9BC
 /* 00168 809BFA08 E480006C */  swc1    $f0, 0x006C($a0)           ## 0000006C
 /* 0016C 809BFA0C 03E00008 */  jr      $ra                        
 /* 00170 809BFA10 E4800060 */  swc1    $f0, 0x0060($a0)           ## 00000060
-
-

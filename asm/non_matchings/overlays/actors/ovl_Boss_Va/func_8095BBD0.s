@@ -1,7 +1,6 @@
 .late_rodata
 glabel D_8095C93C
     .float 0.01
-    .balign 4
 
 .text
 glabel func_8095BBD0
@@ -94,5 +93,3 @@ glabel func_8095BBD0
 /* 0CA58 8095BD18 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 0CA5C 8095BD1C 03E00008 */  jr      $ra                        
 /* 0CA60 8095BD20 00000000 */  nop
-
-

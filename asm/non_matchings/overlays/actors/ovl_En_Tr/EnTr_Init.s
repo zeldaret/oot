@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80B24400
     .asciz "0"
     .balign 4
@@ -107,5 +106,3 @@ glabel EnTr_Init
 /* 00164 80B22E54 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 00168 80B22E58 03E00008 */  jr      $ra
 /* 0016C 80B22E5C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

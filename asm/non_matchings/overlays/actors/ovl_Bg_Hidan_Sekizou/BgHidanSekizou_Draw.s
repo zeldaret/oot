@@ -178,4 +178,3 @@ glabel BgHidanSekizou_Draw
 /* 01294 8088E154 8FB40030 */  lw      $s4, 0x0030($sp)           
 /* 01298 8088E158 03E00008 */  jr      $ra                        
 /* 0129C 8088E15C 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
-

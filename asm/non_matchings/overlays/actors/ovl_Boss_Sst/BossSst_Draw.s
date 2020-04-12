@@ -10,7 +10,6 @@ glabel D_80937900
 .late_rodata
 glabel D_80937A18
     .float 0.02
-    .balign 4
 
 .text
 glabel BossSst_Draw
@@ -271,5 +270,3 @@ glabel BossSst_Draw
 /* 08468 80934A38 8FBE0058 */  lw      $s8, 0x0058($sp)
 /* 0846C 80934A3C 03E00008 */  jr      $ra
 /* 08470 80934A40 27BD00C8 */  addiu   $sp, $sp, 0x00C8           ## $sp = 00000000
-
-

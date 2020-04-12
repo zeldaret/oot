@@ -16,5 +16,3 @@ glabel func_808FD5C4
 /* 006A8 808FD5E8 C424DAB0 */  lwc1    $f4, %lo(D_8090DAB0)($at)  
 /* 006AC 808FD5EC 03E00008 */  jr      $ra                        
 /* 006B0 808FD5F0 E4840028 */  swc1    $f4, 0x0028($a0)           ## 00000028
-
-

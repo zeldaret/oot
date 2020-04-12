@@ -26,5 +26,3 @@ glabel OceffStorm_Update
 /* 00364 80BA7444 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00368 80BA7448 03E00008 */  jr      $ra                        
 /* 0036C 80BA744C 00000000 */  nop
-
-
