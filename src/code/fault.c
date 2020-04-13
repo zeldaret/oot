@@ -33,11 +33,11 @@ const char* sExceptionNames[] = {
 };
 
 // bss
-FaultThreadStruct* sFaultStructPtr;
-u8 sFaultIsWaitingForInput;
-char sFaultStack[0x600];
-char sFaultThreadInfo[0x20];
-FaultThreadStruct gFaultStruct;
+extern FaultThreadStruct* sFaultStructPtr;
+extern u8 sFaultIsWaitingForInput;
+extern char sFaultStack[0x600];
+extern StackEntry sFaultThreadInfo;
+extern FaultThreadStruct gFaultStruct;
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/pad_800D3F10.s")
 
@@ -804,8 +804,8 @@ void Fault_Start(void) {
     sFaultStructPtr->faultActive = false;
     gFaultStruct.faultHandlerEnabled = true;
     osCreateMesgQueue(&sFaultStructPtr->queue, &sFaultStructPtr->msg, 1);
-    StackCheck_Init(sFaultThreadInfo, &sFaultStack, sFaultStack + sizeof(sFaultStack), 0, 0x100, "fault");
-    osCreateThread(&sFaultStructPtr->thread, 2, &Fault_ThreadEntry, 0, sFaultThreadInfo, 0x7f);
+    StackCheck_Init(&sFaultThreadInfo, &sFaultStack, sFaultStack + sizeof(sFaultStack), 0, 0x100, "fault");
+    osCreateThread(&sFaultStructPtr->thread, 2, &Fault_ThreadEntry, 0, sFaultStack + sizeof(sFaultStack), 0x7f);
     osStartThread(&sFaultStructPtr->thread);
 }
 

@@ -58,8 +58,8 @@ FaultDrawer sFaultDrawerDefault = {
 // clang-format on
 
 // bss
-FaultDrawer sFaultDrawerStruct;
-char D_8016B6C0[0x20]; //? unused
+extern FaultDrawer sFaultDrawerStruct;
+extern char D_8016B6C0[0x20]; // ? unused
 
 void FaultDrawer_SetOsSyncPrintfEnabled(u32 enabled) {
     sFaultDrawerStruct.osSyncPrintfEnabled = enabled;

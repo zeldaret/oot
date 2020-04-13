@@ -186,11 +186,11 @@ glabel Graph_TaskSet00
 /* B3D1B0 800C6010 AE090000 */  sw    $t1, ($s0)
 /* B3D1B4 800C6014 0C034B7C */  jal   SysUcode_GetUCodeBoot
 /* B3D1B8 800C6018 AE0C0004 */   sw    $t4, 4($s0)
-/* B3D1BC 800C601C 0C034B7F */  jal   SysUcode_GetUcodeBootSize
+/* B3D1BC 800C601C 0C034B7F */  jal   SysUcode_GetUCodeBootSize
 /* B3D1C0 800C6020 AE020008 */   sw    $v0, 8($s0)
-/* B3D1C4 800C6024 0C034B85 */  jal   SysUcode_GetUcode
+/* B3D1C4 800C6024 0C034B85 */  jal   SysUcode_GetUCode
 /* B3D1C8 800C6028 AE02000C */   sw    $v0, 0xc($s0)
-/* B3D1CC 800C602C 0C034B88 */  jal   SysUcode_GetUcodeData
+/* B3D1CC 800C602C 0C034B88 */  jal   SysUcode_GetUCodeData
 /* B3D1D0 800C6030 AE020010 */   sw    $v0, 0x10($s0)
 /* B3D1D4 800C6034 3C0F801B */  lui   $t7, %hi(gGfxSPTaskStack) # $t7, 0x801b
 /* B3D1D8 800C6038 3C19801A */  lui   $t9, %hi(gGfxSPTaskOutputBuffer) # $t9, 0x801a
