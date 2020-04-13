@@ -2914,19 +2914,37 @@ s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f*
     func_80062530(globalCtx, check, camera_3C, arg3, arg4, arg5);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800626DC.s")
+void ActorCollider_Cylinder_Update(Actor* actor, ColliderCylinder* collider) {
+    collider->dim.position.x = (s32)actor->posRot.pos.x;
+    collider->dim.position.y = (s32)actor->posRot.pos.y;
+    collider->dim.position.z = (s32)actor->posRot.pos.z;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062734.s")
+//Set ColliderCylinder position
+void func_80062718(ColliderCylinder* collider, Vec3s* pos) {
+    collider->dim.position.x = pos->x;
+    collider->dim.position.y = pos->y;
+    collider->dim.position.z = pos->z;
+}
+
+//Set ColliderQuad vertices
+void func_80062734(ColliderQuad* collider, Vec3f* a, Vec3f* b, Vec3f* c, Vec3f* d) {
+    Math_Vec3f_Copy(&collider->dim.quad[2], c);
+    Math_Vec3f_Copy(&collider->dim.quad[3], d);
+    Math_Vec3f_Copy(&collider->dim.quad[0], a);
+    Math_Vec3f_Copy(&collider->dim.quad[1], b);
+    func_8005CEDC(&collider->dim);
+}
 
 //Set ColliderTrisItem at index
-void func_800627A0(ColliderTris* tris, s32 index, Vec3f* a, Vec3f* b, Vec3f* c) {
+void func_800627A0(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f* c) {
     ColliderTrisItem* item;
     f32 sp40;
     f32 sp3C;
     f32 sp38;
     f32 sp34;
 
-    item = &tris->list[index];
+    item = &collider->list[index];
     Math_Vec3f_Copy(&item->dim.poly[0], a);
     Math_Vec3f_Copy(&item->dim.poly[1], b);
     Math_Vec3f_Copy(&item->dim.poly[2], c);
