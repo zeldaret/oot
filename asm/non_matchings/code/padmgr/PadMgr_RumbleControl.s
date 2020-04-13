@@ -152,7 +152,7 @@ glabel D_80145ABC
     .balign 4
 
 .text
-glabel padmgr_RumbleControl
+glabel PadMgr_RumbleControl
 /* B3E5AC 800C740C 27BDFFB8 */  addiu $sp, $sp, -0x48
 /* B3E5B0 800C7410 AFBF0034 */  sw    $ra, 0x34($sp)
 /* B3E5B4 800C7414 AFB40028 */  sw    $s4, 0x28($sp)
@@ -162,7 +162,7 @@ glabel padmgr_RumbleControl
 /* B3E5C4 800C7424 AFB30024 */  sw    $s3, 0x24($sp)
 /* B3E5C8 800C7428 AFB20020 */  sw    $s2, 0x20($sp)
 /* B3E5CC 800C742C AFB1001C */  sw    $s1, 0x1c($sp)
-/* B3E5D0 800C7430 0C031C94 */  jal   padmgr_LockSerialMesgQ
+/* B3E5D0 800C7430 0C031C94 */  jal   PadMgr_LockSerialMesgQueue
 /* B3E5D4 800C7434 AFB00018 */   sw    $s0, 0x18($sp)
 /* B3E5D8 800C7438 AFA2003C */  sw    $v0, 0x3c($sp)
 /* B3E5DC 800C743C 0000A825 */  move  $s5, $zero
@@ -411,7 +411,7 @@ glabel padmgr_RumbleControl
 /* B3E97C 800C77DC 02802025 */  move  $a0, $s4
 /* B3E980 800C77E0 252A0001 */  addiu $t2, $t1, 1
 /* B3E984 800C77E4 AC2AA4F0 */  sw    $t2, %lo(D_8016A4F0)($at)
-/* B3E988 800C77E8 0C031CBF */  jal   padmgr_UnlockSerialMesgQ
+/* B3E988 800C77E8 0C031CBF */  jal   PadMgr_UnlockSerialMesgQueue
 /* B3E98C 800C77EC 8FA5003C */   lw    $a1, 0x3c($sp)
 /* B3E990 800C77F0 8FBF0034 */  lw    $ra, 0x34($sp)
 /* B3E994 800C77F4 8FB00018 */  lw    $s0, 0x18($sp)

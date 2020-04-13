@@ -20,7 +20,7 @@ Absent: padmgr_isConnectedController     padmgr.o
 
 s32 D_8012D280 = 1;
 
-OSMesgQueue* padmgr_LockSerialMesgQ(PadMgr* padmgr) {
+OSMesgQueue* PadMgr_LockSerialMesgQueue(PadMgr* padmgr) {
     OSMesgQueue* ctrlrqueue = NULL;
 
     if (D_8012D280 > 2) {
@@ -40,7 +40,7 @@ OSMesgQueue* padmgr_LockSerialMesgQ(PadMgr* padmgr) {
     return ctrlrqueue;
 }
 
-void padmgr_UnlockSerialMesgQ(PadMgr* padmgr, OSMesgQueue* ctrlrqueue) {
+void PadMgr_UnlockSerialMesgQueue(PadMgr* padmgr, OSMesgQueue* ctrlrqueue) {
     if (D_8012D280 > 2) {
         // EUC-JP: ロック解除します | Unlock
         osSyncPrintf("%2d %d serialMsgQロック解除します   %08x %08x %08x\n", osGetThreadId(NULL),
@@ -56,17 +56,17 @@ void padmgr_UnlockSerialMesgQ(PadMgr* padmgr, OSMesgQueue* ctrlrqueue) {
     }
 }
 
-void padmgr_LockContData(PadMgr* padmgr) {
+void PadMgr_LockPadData(PadMgr* padmgr) {
     osRecvMesg(&padmgr->queue2, NULL, OS_MESG_BLOCK);
 }
 
-void padmgr_UnlockContData(PadMgr* padmgr) {
+void PadMgr_UnlockPadData(PadMgr* padmgr) {
     osSendMesg(&padmgr->queue2, NULL, OS_MESG_BLOCK);
 }
 
 #ifdef NON_MATCHING
 // regalloc and minor ordering differences
-void padmgr_RumbleControl(PadMgr* padmgr) {
+void PadMgr_RumbleControl(PadMgr* padmgr) {
     static u32 errcnt = 0;
     static u32 D_8016A4F0;
     s32 temp;
@@ -77,7 +77,7 @@ void padmgr_RumbleControl(PadMgr* padmgr) {
     s32 i;
 
     temp = 1;
-    ctrlrqueue = padmgr_LockSerialMesgQ(padmgr);
+    ctrlrqueue = PadMgr_LockSerialMesgQueue(padmgr);
     tried_rumble_comm = 0;
 
     for (i = 0; i < 4; i++) {
@@ -164,21 +164,21 @@ void padmgr_RumbleControl(PadMgr* padmgr) {
     }
 
     D_8016A4F0++;
-    padmgr_UnlockSerialMesgQ(padmgr, ctrlrqueue);
+    PadMgr_UnlockSerialMesgQueue(padmgr, ctrlrqueue);
 }
 #else
 u32 D_8012D284 = 0; //errcnt
 u32 D_8016A4F0;
-#pragma GLOBAL_ASM("asm/non_matchings/code/padmgr/padmgr_RumbleControl.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/padmgr/PadMgr_RumbleControl.s")
 #endif
 
 
 //func_800A2300 in 1.0
-void padmgr_RumbleStop(PadMgr* padmgr){
+void PadMgr_RumbleStop(PadMgr* padmgr){
     s32 i;
     OSMesgQueue* ctrlrqueue;
 
-    ctrlrqueue = padmgr_LockSerialMesgQ(padmgr);
+    ctrlrqueue = PadMgr_LockSerialMesgQueue(padmgr);
 
     for (i = 0; i < 4; i++) {
         if (osProbeVibrationPack(ctrlrqueue, &padmgr->unk_controller[i], i) == 0) {
@@ -193,20 +193,20 @@ void padmgr_RumbleStop(PadMgr* padmgr){
         }
     }
 
-    padmgr_UnlockSerialMesgQ(padmgr, ctrlrqueue);
+    PadMgr_UnlockSerialMesgQueue(padmgr, ctrlrqueue);
 }
 
-void padmgr_RumbleReset(PadMgr* padmgr) {
+void PadMgr_RumbleReset(PadMgr* padmgr) {
     padmgr->rumble_off_frames = 3;
 }
 
-void padmgr_RumbleSetSingle(PadMgr* padmgr, u32 ctrlr, u32 rumble) {
+void PadMgr_RumbleSetSingle(PadMgr* padmgr, u32 ctrlr, u32 rumble) {
     padmgr->rumble_enable[ctrlr] = rumble;
     padmgr->rumble_on_frames = 0xF0;
 }
 
 // 800A23CC in 1.0
-void padmgr_RumbleSet(PadMgr* padmgr, u8* ctrlr_rumbles)
+void PadMgr_RumbleSet(PadMgr* padmgr, u8* ctrlr_rumbles)
 {
     s32 i;
     for(i=0; i<4; ++i){
@@ -216,7 +216,7 @@ void padmgr_RumbleSet(PadMgr* padmgr, u8* ctrlr_rumbles)
 }
 
 #if 0
-void func_800C7974(PadMgr* padmgr) {
+void PadMgr_ProcessInputs(PadMgr* padmgr) {
     /*
     void *sp34;
     s32 temp_s1;
@@ -237,10 +237,10 @@ void func_800C7974(PadMgr* padmgr) {
     PadState* padnow1; //name from debug string
     s32 i;
 
-    padmgr_LockContData(padmgr);
+    PadMgr_LockPadData(padmgr);
     input = padmgr->inputs; //s0
     padnow1 = padmgr->pads; //s3
-    for(i=0; i<padmgr->ncontrollers; ++i, ++input, ++padnow1){ //TODO with an extra if (padmgr->ncontrollers > 0)
+    for(i=0; i<padmgr->ncontrollers; ++i, ++input, ++padnow1){
         input->prev.input = input->current.input;
         input->prev.status = input->current.status;
         temp_v0 = phi_s3->unk4;
@@ -284,28 +284,24 @@ void func_800C7974(PadMgr* padmgr) {
             osSyncPrintf(&D_80145BC0, padnow1->errno); //"padnow1->errno = %x\n"
             Fault_AddHungupAndCrash(&D_80145BD8, 0x18d); //"../padmgr.c"
         }
-        
-        temp_v1_2 = phi_s0->unk6;
-        temp_a1 = phi_s0->unk0;
-        temp_v0_5 = temp_v1_2 ^ temp_a1;
-        phi_s0->unkC = (u16) (phi_s0->unkC | (temp_v0_5 & temp_a1));
-        phi_s0->unk12 = (u16) (phi_s0->unk12 | (temp_v0_5 & temp_v1_2));
-        func_800FCC6C(phi_s0, temp_a1);
-        phi_s0->unkE = (s8) (phi_s0->unkE + (phi_s0->unk2 - phi_s0->unk8));
-        phi_s0->unkF = (s8) (phi_s0->unkF + (phi_s0->unk3 - phi_s0->unk9));
+        input->pressed_diff.input.button = input->current.input.button & (input->prev.input.button ^ input->current.input.button);
+        input->released_adj.input.button = input->prev.input.button & (input->prev.input.button ^ input->current.input.button);
+        func_800FCC6C(input);
+        input->pressed_diff.input.x = (input->current.input.x - input->prev.input.x) + input->pressed_diff.input.x;
+        input->pressed_diff.input.y = (input->current.input.y - input->prev.input.y) + input->pressed_diff.input.y;
     }
-    padmgr_UnlockContData(arg0);
+    PadMgr_UnlockPadData(arg0);
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/padmgr/func_800C7974.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/padmgr/PadMgr_ProcessInputs.s")
 #endif
 
-void padmgr_HandleRetraceMsg(PadMgr *padmgr) {
+void PadMgr_HandleRetraceMsg(PadMgr *padmgr) {
     OSMesgQueue *queue; //s1
     u32 i;
     u32 mask;
 
-    queue = padmgr_LockSerialMesgQ(padmgr);
+    queue = PadMgr_LockSerialMesgQueue(padmgr);
     osContStartReadData(queue);
     if (padmgr->unk_460){
         padmgr->unk_460(padmgr, padmgr->unk_464);
@@ -315,11 +311,11 @@ void padmgr_HandleRetraceMsg(PadMgr *padmgr) {
     if (padmgr->prenmi_shutdown){
         bzero(&padmgr->pads[0], 0x18);
     }
-    func_800C7974(padmgr);
+    PadMgr_ProcessInputs(padmgr);
     func_80103210(queue);
     osRecvMesg(queue, NULL, OS_MESG_BLOCK);
     func_8010328C(padmgr);
-    padmgr_UnlockSerialMesgQ(padmgr, queue);
+    PadMgr_UnlockSerialMesgQueue(padmgr, queue);
     
     mask = 0; //s2
     for(i=0; i-4!=0; ++i){ //s1
@@ -337,33 +333,33 @@ void padmgr_HandleRetraceMsg(PadMgr *padmgr) {
     padmgr->valid_ctrlrs_mask = mask;
     
     if (gFaultStruct.msgId){
-        padmgr_RumbleStop(padmgr);
+        PadMgr_RumbleStop(padmgr);
     }else if (padmgr->rumble_off_frames > 0){
         --padmgr->rumble_off_frames;
-        padmgr_RumbleStop(padmgr);
+        PadMgr_RumbleStop(padmgr);
     }else if (padmgr->rumble_on_frames == 0){
-        padmgr_RumbleStop(padmgr);
+        PadMgr_RumbleStop(padmgr);
     }else if (!padmgr->prenmi_shutdown){
-        padmgr_RumbleControl(padmgr);
+        PadMgr_RumbleControl(padmgr);
         --padmgr->rumble_on_frames;
     }
 }
 
-void padmgr_HandlePreNMI(PadMgr* padmgr) {
+void PadMgr_HandlePreNMI(PadMgr* padmgr) {
     osSyncPrintf("padmgr_HandlePreNMI()\n");
     padmgr->prenmi_shutdown = 1;
-    padmgr_RumbleReset(padmgr);
+    PadMgr_RumbleReset(padmgr);
 }
 
 #ifdef NON_MATCHING
 //Regalloc differences
-void padmgr_RequestPadData(PadMgr *padmgr, Input *inputs, s32 mode)
+void PadMgr_RequestPadData(PadMgr *padmgr, Input *inputs, s32 mode)
 {
     u32 i;
     Input *pm_inputs;
     Input *newin;
 
-    padmgr_LockContData(padmgr);
+    PadMgr_LockPadData(padmgr);
     pm_inputs = padmgr->inputs;
     newin = inputs;
     for(i=0; i<4; ++i){
@@ -374,14 +370,6 @@ void padmgr_RequestPadData(PadMgr *padmgr, Input *inputs, s32 mode)
             pm_inputs->pressed_diff.input.y = 0;
             pm_inputs->released_adj.input.button = 0;
         }else{
-            newin->prev = newin->current;
-            newin->current = pm_inputs->current;
-            newin->pressed_diff.input.button = newin->current.input.button & (newin->prev.input.button ^ newin->current.input.button);
-            newin->released_adj.input.button = newin->prev.input.button & (newin->prev.input.button ^ newin->current.input.button);
-            func_800FCC6C(newin);
-            newin->pressed_diff.input.x = (newin->current.input.x - newin->prev.input.x) + newin->pressed_diff.input.x;
-            newin->pressed_diff.input.y = (newin->current.input.y - newin->prev.input.y) + newin->pressed_diff.input.y;
-            /*
             //Correct instructions, wrong regalloc
             newin->prev = newin->current;
             newin->current = pm_inputs->current;
@@ -390,19 +378,18 @@ void padmgr_RequestPadData(PadMgr *padmgr, Input *inputs, s32 mode)
             func_800FCC6C(newin);
             newin->pressed_diff.input.x = (newin->current.input.x - newin->prev.input.x) + newin->pressed_diff.input.x;
             newin->pressed_diff.input.y = (newin->current.input.y - newin->prev.input.y) + newin->pressed_diff.input.y;
-            */
         }
         ++pm_inputs;
         ++newin;
     }
-    padmgr_UnlockContData(padmgr);
+    PadMgr_UnlockPadData(padmgr);
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/padmgr/padmgr_RequestPadData.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/padmgr/PadMgr_RequestPadData.s")
 #endif
 
 //800A2918 in 1.0
-void padmgr_MainProc(PadMgr* padmgr) {
+void PadMgr_MainProc(PadMgr* padmgr) {
     s16* mesg;
     s32 exit;
 
@@ -426,7 +413,7 @@ void padmgr_MainProc(PadMgr* padmgr) {
                     osSyncPrintf("padmgr_HandleRetraceMsg START %lld\n", OS_CYCLES_TO_USEC(osGetTime()));
                 }
                 
-                padmgr_HandleRetraceMsg(padmgr);
+                PadMgr_HandleRetraceMsg(padmgr);
 
                 if (D_8012D280 > 2) {
                     osSyncPrintf("padmgr_HandleRetraceMsg END   %lld\n", OS_CYCLES_TO_USEC(osGetTime()));
@@ -434,7 +421,7 @@ void padmgr_MainProc(PadMgr* padmgr) {
                 
                 break;
             case OS_SC_PRE_NMI_MSG:
-                padmgr_HandlePreNMI(padmgr);
+                PadMgr_HandlePreNMI(padmgr);
                 break;
             case OS_SC_NMI_MSG:
                 exit = 1;
@@ -448,7 +435,7 @@ void padmgr_MainProc(PadMgr* padmgr) {
 }
 
 //func_800A2A14 in 1.0
-void padmgr_Init(PadMgr* padmgr, OSMesgQueue* ctrlrqueue, UNK_TYPE arg2, OSId id, OSPri priority, void* stack)
+void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* ctrlrqueue, UNK_TYPE arg2, OSId id, OSPri priority, void* stack)
 {
     // EUC-JP: パッドマネージャ作成 | Create pad manager
     osSyncPrintf("パッドマネージャ作成 padmgr_Create()\n");
@@ -458,14 +445,14 @@ void padmgr_Init(PadMgr* padmgr, OSMesgQueue* ctrlrqueue, UNK_TYPE arg2, OSId id
     osCreateMesgQueue(&padmgr->queue3, padmgr->msgbuf3, 4);
     IrqMgr_AddClient(padmgr->unk_78, &padmgr->unk_70, &padmgr->queue3);
     osCreateMesgQueue(&padmgr->queue1, padmgr->msgbuf1, 1);
-    padmgr_UnlockSerialMesgQ(padmgr, ctrlrqueue);
+    PadMgr_UnlockSerialMesgQueue(padmgr, ctrlrqueue);
     osCreateMesgQueue(&padmgr->queue2, padmgr->msgbuf2, 1);
-    padmgr_UnlockContData(padmgr);
+    PadMgr_UnlockPadData(padmgr);
     func_800FCD40(ctrlrqueue, &padmgr->valid_ctrlrs_mask, padmgr);
 
     padmgr->ncontrollers = 4;
     func_80104D00(padmgr->ncontrollers);
 
-    osCreateThread(&padmgr->thread, id, padmgr_MainProc, padmgr, stack, priority);
+    osCreateThread(&padmgr->thread, id, PadMgr_MainProc, padmgr, stack, priority);
     osStartThread(&padmgr->thread);
 }

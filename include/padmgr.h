@@ -22,7 +22,7 @@ typedef struct {
     /* 0x0230 */ Input inputs[4]; //0x18 each = 0x60 total
     /* 0x0290 */ PadState pads[4]; //0x6 each = 0x18 total
     /* 0x02A8 */ volatile u8 valid_ctrlrs_mask;
-    /* 0x02A9 */ u8 ncontrollers;
+    /* 0x02A9 */ s8 ncontrollers;
     /* 0x02AA */ u8 Key_switch[4]; //means the controller is connected
     /* 0x02AE */ u8 pak_type[4]; //1 if vibration pack, 2 if (maybe controller pack)?
     /* 0x02B2 */ volatile u8 rumble_enable[4];

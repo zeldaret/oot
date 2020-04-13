@@ -7,7 +7,7 @@ extern PadMgr gPadMgr;
 
 void func_800A9F30(s32 a, s32 b) {
     func_800D2E30(&D_80160FD0);
-    padmgr_RumbleSet(a, &D_80160FD0);
+    PadMgr_RumbleSet(a, &D_80160FD0);
 }
 
 void func_800A9F6C(f32 a, u8 b, u8 c, u8 d) {
