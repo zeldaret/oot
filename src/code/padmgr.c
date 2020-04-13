@@ -7,15 +7,15 @@
 #include <padmgr.h>
 
 /*
-Absent: padmgr_force_stop_ON     padmgr.o 
-Absent: padmgr_force_stop_OFF     padmgr.o 
-padmgr_PakConnectCheck     padmgr.o 
-padmgr_HandleDoneReadPadMsg     padmgr.o 
-padmgr_ConnectCheck     padmgr.o 
-Absent: padmgr_RequestPadData_NonLock     padmgr.o 
-Absent: padmgr_ClearPadData     padmgr.o 
-Absent: padmgr_Create     padmgr.o 
-Absent: padmgr_isConnectedController     padmgr.o 
+Absent: padmgr_force_stop_ON     padmgr.o
+Absent: padmgr_force_stop_OFF     padmgr.o
+padmgr_PakConnectCheck     padmgr.o
+padmgr_HandleDoneReadPadMsg     padmgr.o
+padmgr_ConnectCheck     padmgr.o
+Absent: padmgr_RequestPadData_NonLock     padmgr.o
+Absent: padmgr_ClearPadData     padmgr.o
+Absent: padmgr_Create     padmgr.o
+Absent: padmgr_isConnectedController     padmgr.o
 */
 
 s32 D_8012D280 = 1;
@@ -90,7 +90,7 @@ void PadMgr_RumbleControl(PadMgr* padmgr) {
                             osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック ぶるぶるぶるぶる");
                             osSyncPrintf(VT_RST);
 
-                            if (osSetVibration(&padmgr->unk_controller[i], temp) != 0) {
+                            if (osSetRumble(&padmgr->unk_controller[i], temp) != 0) {
                                 padmgr->pakType[i] = 0;
                                 osSyncPrintf(VT_FGCOL(YELLOW));
                                 osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックで通信エラーが発生しました");
@@ -107,7 +107,7 @@ void PadMgr_RumbleControl(PadMgr* padmgr) {
                             osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止");
                             osSyncPrintf(VT_RST);
 
-                            if (osSetVibration(&padmgr->unk_controller[i], 0) != 0) {
+                            if (osSetRumble(&padmgr->unk_controller[i], 0) != 0) {
                                 padmgr->pakType[i] = 0;
                                 osSyncPrintf(VT_FGCOL(YELLOW));
                                 osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックで通信エラーが発生しました");
@@ -142,13 +142,14 @@ void PadMgr_RumbleControl(PadMgr* padmgr) {
     if (!triedRumbleComm) {
         ctrlr = D_8016A4F0 % 4;
 
-        if ((padmgr->ctrlrIsConnected[ctrlr] != 0) && (padmgr->pad_status[ctrlr].status & 1) && (padmgr->pakType[ctrlr] != 1)) {
-            var4 = osProbeVibrationPack(ctrlrqueue, &padmgr->unk_controller[ctrlr], ctrlr);
+        if ((padmgr->ctrlrIsConnected[ctrlr] != 0) && (padmgr->pad_status[ctrlr].status & 1) &&
+            (padmgr->pakType[ctrlr] != 1)) {
+            var4 = osProbeRumblePak(ctrlrqueue, &padmgr->unk_controller[ctrlr], ctrlr);
 
             if (var4 == 0) {
                 padmgr->pakType[ctrlr] = 1;
-                osSetVibration(&padmgr->unk_controller[ctrlr], 1);
-                osSetVibration(&padmgr->unk_controller[ctrlr], 0);
+                osSetRumble(&padmgr->unk_controller[ctrlr], 1);
+                osSetRumble(&padmgr->unk_controller[ctrlr], 0);
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 osSyncPrintf("padmgr: %dコン: %s\n", ctrlr + 1, "振動パックを認識しました");
                 osSyncPrintf(VT_RST);
@@ -167,21 +168,20 @@ void PadMgr_RumbleControl(PadMgr* padmgr) {
     PadMgr_UnlockSerialMesgQueue(padmgr, ctrlrqueue);
 }
 #else
-u32 D_8012D284 = 0; //errcnt
+u32 D_8012D284 = 0; // errcnt
 u32 D_8016A4F0;
 #pragma GLOBAL_ASM("asm/non_matchings/code/padmgr/PadMgr_RumbleControl.s")
 #endif
 
-
-//func_800A2300 in 1.0
-void PadMgr_RumbleStop(PadMgr* padmgr){
+// func_800A2300 in 1.0
+void PadMgr_RumbleStop(PadMgr* padmgr) {
     s32 i;
     OSMesgQueue* ctrlrqueue;
 
     ctrlrqueue = PadMgr_LockSerialMesgQueue(padmgr);
 
     for (i = 0; i < 4; i++) {
-        if (osProbeVibrationPack(ctrlrqueue, &padmgr->unk_controller[i], i) == 0) {
+        if (osProbeRumblePak(ctrlrqueue, &padmgr->unk_controller[i], i) == 0) {
             if ((gFaultStruct.msgId == 0) && (padmgr->rumbleOnFrames != 0)) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 // EUC-JP: コン | 'Con'? , EUC-JP:  振動パック 停止 | Stop vibration pack
@@ -189,7 +189,7 @@ void PadMgr_RumbleStop(PadMgr* padmgr){
                 osSyncPrintf(VT_RST);
             }
 
-            osSetVibration(&padmgr->unk_controller[i], 0);
+            osSetRumble(&padmgr->unk_controller[i], 0);
         }
     }
 
@@ -206,10 +206,9 @@ void PadMgr_RumbleSetSingle(PadMgr* padmgr, u32 ctrlr, u32 rumble) {
 }
 
 // 800A23CC in 1.0
-void PadMgr_RumbleSet(PadMgr* padmgr, u8* ctrlr_rumbles)
-{
+void PadMgr_RumbleSet(PadMgr* padmgr, u8* ctrlr_rumbles) {
     s32 i;
-    for(i=0; i<4; ++i){
+    for (i = 0; i < 4; ++i) {
         padmgr->rumbleEnable[i] = ctrlr_rumbles[i];
     }
     padmgr->rumbleOnFrames = 0xF0;
@@ -296,19 +295,19 @@ void PadMgr_ProcessInputs(PadMgr* padmgr) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/padmgr/PadMgr_ProcessInputs.s")
 #endif
 
-void PadMgr_HandleRetraceMsg(PadMgr *padmgr) {
-    OSMesgQueue *queue; //s1
+void PadMgr_HandleRetraceMsg(PadMgr* padmgr) {
+    OSMesgQueue* queue; // s1
     u32 i;
     u32 mask;
 
     queue = PadMgr_LockSerialMesgQueue(padmgr);
     osContStartReadData(queue);
-    if (padmgr->retraceCallback){
+    if (padmgr->retraceCallback) {
         padmgr->retraceCallback(padmgr, padmgr->retraceCallbackValue);
     }
     osRecvMesg(queue, NULL, OS_MESG_BLOCK);
     osContGetReadData(&padmgr->pads[0]);
-    if (padmgr->preNMIShutdown){
+    if (padmgr->preNMIShutdown) {
         bzero(&padmgr->pads[0], 0x18);
     }
     PadMgr_ProcessInputs(padmgr);
@@ -316,30 +315,30 @@ void PadMgr_HandleRetraceMsg(PadMgr *padmgr) {
     osRecvMesg(queue, NULL, OS_MESG_BLOCK);
     func_8010328C(padmgr);
     PadMgr_UnlockSerialMesgQueue(padmgr, queue);
-    
-    mask = 0; //s2
-    for(i=0; i-4!=0; ++i){ //s1
-        if(padmgr->pad_status[i].errno == 0){
-            if(padmgr->pad_status[i].type - 5 == 0){
+
+    mask = 0;                      // s2
+    for (i = 0; i - 4 != 0; ++i) { // s1
+        if (padmgr->pad_status[i].errno == 0) {
+            if (padmgr->pad_status[i].type - 5 == 0) {
                 mask |= 1 << i;
-            }else{
+            } else {
                 LogUtils_LogThreadId("../padmgr.c", 0x1ca);
                 osSyncPrintf("this->pad_status[i].type = %x\n", padmgr->pad_status[i].type);
-                //EUC-JP: 知らない種類のコントローラが接続されています | An unknown type of controller is connected
+                // EUC-JP: 知らない種類のコントローラが接続されています | An unknown type of controller is connected
                 osSyncPrintf("知らない種類のコントローラが接続されています\n");
             }
         }
     }
     padmgr->validCtrlrsMask = mask;
-    
-    if (gFaultStruct.msgId){
+
+    if (gFaultStruct.msgId) {
         PadMgr_RumbleStop(padmgr);
-    }else if (padmgr->rumbleOffFrames > 0){
+    } else if (padmgr->rumbleOffFrames > 0) {
         --padmgr->rumbleOffFrames;
         PadMgr_RumbleStop(padmgr);
-    }else if (padmgr->rumbleOnFrames == 0){
+    } else if (padmgr->rumbleOnFrames == 0) {
         PadMgr_RumbleStop(padmgr);
-    }else if (!padmgr->preNMIShutdown){
+    } else if (!padmgr->preNMIShutdown) {
         PadMgr_RumbleControl(padmgr);
         --padmgr->rumbleOnFrames;
     }
@@ -352,29 +351,30 @@ void PadMgr_HandlePreNMI(PadMgr* padmgr) {
 }
 
 #ifdef NON_MATCHING
-//Regalloc differences
-void PadMgr_RequestPadData(PadMgr *padmgr, Input *inputs, s32 mode)
-{
+// Regalloc differences
+void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode) {
     u32 i;
-    Input *pm_inputs;
-    Input *newin;
+    Input* pm_inputs;
+    Input* newin;
 
     PadMgr_LockPadData(padmgr);
     pm_inputs = padmgr->inputs;
     newin = inputs;
-    for(i=0; i<4; ++i){
-        if(mode){
+    for (i = 0; i < 4; ++i) {
+        if (mode) {
             *newin = *pm_inputs;
             pm_inputs->pressed_diff.input.button = 0;
             pm_inputs->pressed_diff.input.x = 0;
             pm_inputs->pressed_diff.input.y = 0;
             pm_inputs->released_adj.input.button = 0;
-        }else{
-            //Correct instructions, wrong regalloc
+        } else {
+            // Correct instructions, wrong regalloc
             newin->prev = newin->current;
             newin->current = pm_inputs->current;
-            newin->pressed_diff.input.button = newin->current.input.button & (newin->prev.input.button ^ newin->current.input.button);
-            newin->released_adj.input.button = newin->prev.input.button & (newin->prev.input.button ^ newin->current.input.button);
+            newin->pressed_diff.input.button =
+                newin->current.input.button & (newin->prev.input.button ^ newin->current.input.button);
+            newin->released_adj.input.button =
+                newin->prev.input.button & (newin->prev.input.button ^ newin->current.input.button);
             func_800FCC6C(newin);
             newin->pressed_diff.input.x = (newin->current.input.x - newin->prev.input.x) + newin->pressed_diff.input.x;
             newin->pressed_diff.input.y = (newin->current.input.y - newin->prev.input.y) + newin->pressed_diff.input.y;
@@ -388,7 +388,7 @@ void PadMgr_RequestPadData(PadMgr *padmgr, Input *inputs, s32 mode)
 #pragma GLOBAL_ASM("asm/non_matchings/code/padmgr/PadMgr_RequestPadData.s")
 #endif
 
-//800A2918 in 1.0
+// 800A2918 in 1.0
 void PadMgr_MainProc(PadMgr* padmgr) {
     s16* mesg;
     s32 exit;
@@ -398,7 +398,7 @@ void PadMgr_MainProc(PadMgr* padmgr) {
     osSyncPrintf("コントローラスレッド実行開始\n");
     exit = 0;
 
-    while (!exit){
+    while (!exit) {
         if ((D_8012D280 > 2) && (padmgr->queue3.validCount == 0)) {
             // EUC-JP: コントローラスレッドイベント待ち | Waiting for controller thread event
             osSyncPrintf("コントローラスレッドイベント待ち %lld\n", OS_CYCLES_TO_USEC(osGetTime()));
@@ -407,18 +407,18 @@ void PadMgr_MainProc(PadMgr* padmgr) {
         osRecvMesg(&padmgr->queue3, &mesg, OS_MESG_BLOCK);
         LogUtils_CheckNullPointer("msg", mesg, "../padmgr.c", 563);
 
-        switch (*mesg){
+        switch (*mesg) {
             case OS_SC_RETRACE_MSG:
                 if (D_8012D280 > 2) {
                     osSyncPrintf("padmgr_HandleRetraceMsg START %lld\n", OS_CYCLES_TO_USEC(osGetTime()));
                 }
-                
+
                 PadMgr_HandleRetraceMsg(padmgr);
 
                 if (D_8012D280 > 2) {
                     osSyncPrintf("padmgr_HandleRetraceMsg END   %lld\n", OS_CYCLES_TO_USEC(osGetTime()));
                 }
-                
+
                 break;
             case OS_SC_PRE_NMI_MSG:
                 PadMgr_HandlePreNMI(padmgr);
@@ -434,9 +434,8 @@ void PadMgr_MainProc(PadMgr* padmgr) {
     osSyncPrintf("コントローラスレッド実行終了\n");
 }
 
-//func_800A2A14 in 1.0
-void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* ctrlrqueue, UNK_TYPE arg2, OSId id, OSPri priority, void* stack)
-{
+// func_800A2A14 in 1.0
+void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* ctrlrqueue, UNK_TYPE arg2, OSId id, OSPri priority, void* stack) {
     // EUC-JP: パッドマネージャ作成 | Create pad manager
     osSyncPrintf("パッドマネージャ作成 padmgr_Create()\n");
     bzero(padmgr, sizeof(PadMgr));

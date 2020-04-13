@@ -101,9 +101,9 @@ extern u32 gOsContInitialized; // = 0
 extern OSMesgQueue _osContMesgQueue;
 extern OSMesg _osContMesgBuff[4];
 
-extern s32 osSetVibration(unk_controller_t *arg0, u32 vibrate);
+extern s32 osSetRumble(unk_controller_t *arg0, u32 vibrate);
 extern void osSetUpMempakWrite(s32 ctrlridx, pif_data_buffer_t* buf);
-extern s32 osProbeVibrationPack(OSMesgQueue* ctrlrqueue, unk_controller_t *unk_controller, u32 ctrlridx);
+extern s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, unk_controller_t *unk_controller, u32 ctrlridx);
 extern void __osSiCreateAccessQueue();
 extern void __osSiGetAccess();
 extern void __osSiRelAccess();

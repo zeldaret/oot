@@ -513,7 +513,7 @@ beginseg
     include "build/data/code_80100290.data.o"
     include "build/data/code_80100290.rodata.o"
     include "build/data/code_80100290.bss.o"
-    include "build/src/libultra_code/osVibrationPack.o"
+    include "build/src/libultra_code/osRumblePak.o"
     include "build/src/libultra_code/__osSiCreateAccessQueue.o"
     include "build/src/libultra_code/osContInit.o"
     include "build/src/libultra_code/osContStartReadData.o"

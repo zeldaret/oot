@@ -6,7 +6,7 @@
 pif_data_buffer_t osPifBuffers[4];
 
 // func_800CF990 in 1.0
-s32 osSetVibration(unk_controller_t* arg0, u32 vibrate) {
+s32 osSetRumble(unk_controller_t* arg0, u32 vibrate) {
     s32 i;
     s32 ret;
     u8* buf;
@@ -50,8 +50,8 @@ void osSetUpMempakWrite(s32 ctrlridx, pif_data_buffer_t* buf) {
     mempakwr.hdr.slot_type = 0xFF;
     mempakwr.hdr.bytes_send = 0x23;
     mempakwr.hdr.status_hi_bytes_rec_lo = 1;
-    mempakwr.hdr.command = 3; // write mempak
-    mempakwr.data[0] = 0xC0; //(0x600 >> 3)
+    mempakwr.hdr.command = 3;                                 // write mempak
+    mempakwr.data[0] = 0xC0;                                  //(0x600 >> 3)
     mempakwr.data[1] = (u8)(osMempakAddrCRC(0x600) | 0xC000); // (0x600 << 5)
     if (ctrlridx != 0) {
         for (i = 0; i < ctrlridx; ++i) {
@@ -67,7 +67,7 @@ typedef struct {
     u8 unk[0x20];
 } unk_sp24_t;
 
-s32 osProbeVibrationPack(OSMesgQueue* ctrlrqueue, unk_controller_t* unk_controller, u32 ctrlridx) {
+s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, unk_controller_t* unk_controller, u32 ctrlridx) {
     s32 ret;
     unk_sp24_t sp24;
 
@@ -92,7 +92,7 @@ s32 osProbeVibrationPack(OSMesgQueue* ctrlrqueue, unk_controller_t* unk_controll
         return ret;
     }
     if (sp24.unk[0x1F] == 0xfe) {
-        return 0xb; // possibly controller pack? (Some other valid return value other than vibration pack)
+        return 0xb; // possibly controller pack? (Some other valid return value other than rumble pak)
     }
     ret = func_80104C80(unk_controller, 0x80);
     if (ret == 2) {
@@ -109,11 +109,11 @@ s32 osProbeVibrationPack(OSMesgQueue* ctrlrqueue, unk_controller_t* unk_controll
         return ret;
     }
     if (sp24.unk[0x1F] != 0x80) {
-        return 0xb; // possibly controller pack? (Some other valid return value other than vibration pack)
+        return 0xb; // possibly controller pack? (Some other valid return value other than rumble pak)
     }
     if ((unk_controller->unk0 & 8) == 0) {
         osSetUpMempakWrite(ctrlridx, &osPifBuffers[ctrlridx]);
     }
     unk_controller->unk0 = 8;
-    return 0; //"Recognized vibration pack"
+    return 0; //"Recognized rumble pak"
 }

@@ -115,10 +115,12 @@ void func_8006390C(Input* input) {
 
     regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
     dpad = input->current.input.button & (U_JPAD | L_JPAD | R_JPAD | D_JPAD);
-    if (!~(input->current.input.button | ~L_TRIG) || !~(input->current.input.button | ~R_TRIG) || !~(input->current.input.button | ~START_BUTTON)) {
+    if (!~(input->current.input.button | ~L_TRIG) || !~(input->current.input.button | ~R_TRIG) ||
+        !~(input->current.input.button | ~START_BUTTON)) {
         input_combo = inputCombos;
         for (i = 0; i < REG_GROUPS; i++) {
-            if (~(~input_combo->push | input->current.input.button) || ~(~input_combo->held | input->pressed_diff.input.button)) {
+            if (~(~input_combo->push | input->current.input.button) ||
+                ~(~input_combo->held | input->pressed_diff.input.button)) {
                 input_combo++;
             } else {
                 break;
@@ -157,7 +159,9 @@ void func_8006390C(Input* input) {
                 increment = (dpad & R_JPAD)
                                 ? (!~(input->current.input.button | ~(A_BUTTON | B_BUTTON))
                                        ? 1000
-                                       : !~(input->current.input.button | ~A_BUTTON) ? 100 : !~(input->current.input.button | ~B_BUTTON) ? 10 : 1)
+                                       : !~(input->current.input.button | ~A_BUTTON)
+                                             ? 100
+                                             : !~(input->current.input.button | ~B_BUTTON) ? 10 : 1)
                                 : (dpad & L_JPAD) ? (!~(input->current.input.button | ~(A_BUTTON | B_BUTTON))
                                                          ? -1000
                                                          : !~(input->current.input.button | ~A_BUTTON)
