@@ -9,12 +9,12 @@
 #define ROOM 0x00
 #define FLAGS 0x00000030
 
-static void BgSpot17Funen_Init(BgSpot17Funen* this, GlobalContext* globalCtx);
-static void BgSpot17Funen_Destroy(BgSpot17Funen* this, GlobalContext* globalCtx);
-static void BgSpot17Funen_Update(BgSpot17Funen* this, GlobalContext* globalCtx);
+void BgSpot17Funen_Init(BgSpot17Funen* this, GlobalContext* globalCtx);
+void BgSpot17Funen_Destroy(BgSpot17Funen* this, GlobalContext* globalCtx);
+void BgSpot17Funen_Update(BgSpot17Funen* this, GlobalContext* globalCtx);
 
-static void func_808B7478(BgSpot17Funen* this, GlobalContext* globalCtx);
-static void func_808B746C(BgSpot17Funen* this, GlobalContext* globalCtx);
+void func_808B7478(BgSpot17Funen* this, GlobalContext* globalCtx);
+void func_808B746C(BgSpot17Funen* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot17_Funen_InitVars = {
     ACTOR_BG_SPOT17_FUNEN,
@@ -35,23 +35,23 @@ static InitChainEntry initChain[] = {
 
 extern Gfx D_06000B40[];
 
-static void BgSpot17Funen_Init(BgSpot17Funen* this, GlobalContext* globalCtx) {
+void BgSpot17Funen_Init(BgSpot17Funen* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, initChain);
     osSyncPrintf("spot17 obj. 噴煙 (arg_data 0x%04x)\n", this->actor.params);
 }
 
-static void BgSpot17Funen_Destroy(BgSpot17Funen* this, GlobalContext* globalCtx) {
+void BgSpot17Funen_Destroy(BgSpot17Funen* this, GlobalContext* globalCtx) {
 }
 
-static void BgSpot17Funen_Update(BgSpot17Funen* this, GlobalContext* globalCtx) {
+void BgSpot17Funen_Update(BgSpot17Funen* this, GlobalContext* globalCtx) {
     this->actor.draw = (ActorFunc)func_808B7478;
     this->actor.update = (ActorFunc)func_808B746C;
 }
 
-static void func_808B746C(BgSpot17Funen* this, GlobalContext* globalCtx) {
+void func_808B746C(BgSpot17Funen* this, GlobalContext* globalCtx) {
 }
 
-static void func_808B7478(BgSpot17Funen* this, GlobalContext* globalCtx) {
+void func_808B7478(BgSpot17Funen* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[5];
 
