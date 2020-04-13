@@ -36,7 +36,7 @@ glabel func_800B1DBC
 /* B28F7C 800B1DDC 3C048014 */  lui   $a0, %hi(D_80142F58) # $a0, 0x8014
 /* B28F80 800B1DE0 0C00084C */  jal   osSyncPrintf
 /* B28F84 800B1DE4 24842F58 */   addiu $a0, %lo(D_80142F58) # addiu $a0, $a0, 0x2f58
-/* B28F88 800B1DE8 0C03FD2B */  jal   func_800FF4AC
+/* B28F88 800B1DE8 0C03FD2B */  jal   Sleep_Msec
 /* B28F8C 800B1DEC 24040064 */   li    $a0, 100
 /* B28F90 800B1DF0 8E04000C */  lw    $a0, 0xc($s0)
 /* B28F94 800B1DF4 3C058014 */  lui   $a1, %hi(D_80142F68) # $a1, 0x8014

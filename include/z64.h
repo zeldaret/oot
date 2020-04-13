@@ -441,7 +441,27 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ char    unk_00[0x50];
+    /* 0x00 */ char unk_00[0x2];
+    /* 0x02 */ s16  unk_02;
+    /* 0x04 */ char unk_04[0xC];
+} WaterBox; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ Vec3s     colAbsMin;
+    /* 0x06 */ Vec3s     colAbsMax;
+    /* 0x0C */ s16       nbVertices;
+    /* 0x10 */ void*     vertexArray;
+    /* 0x14 */ s16       nbPolygons;
+    /* 0x18 */ void*     polygonArray;
+    /* 0x1C */ void*     polygonTypes;
+    /* 0x20 */ void*     cameraData;
+    /* 0x24 */ s16       nbWaterBoxes;
+    /* 0x28 */ WaterBox* waterBoxes;
+} CollisionHeader;
+
+typedef struct {
+    /* 0x00 */ CollisionHeader* colHeader;
+    /* 0x04 */ char             unk_04[0x4C];
 } StaticCollisionContext; // size = 0x50
 
 typedef struct {
@@ -1116,19 +1136,6 @@ typedef struct DebugDispObject {
     /* 0x24 */ s16   type;
     /* 0x28 */ struct DebugDispObject* next;
 } DebugDispObject; // size = 0x2C
-
-typedef struct {
-    /* 0x00 */ Vec3s colAbsMin;
-    /* 0x06 */ Vec3s colAbsMax;
-    /* 0x0C */ s16   nbVertices;
-    /* 0x10 */ void* vertexArray;
-    /* 0x14 */ s16   nbPolygons;
-    /* 0x18 */ void* polygonArray;
-    /* 0x1C */ void* polygonTypes;
-    /* 0x20 */ void* cameraData;
-    /* 0x24 */ s16   nbWaterBoxes;
-    /* 0x28 */ void* waterBoxes;
-} CollisionHeader;
 
 typedef enum {
     MTXMODE_NEW,  // generates a new matrix

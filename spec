@@ -502,7 +502,9 @@ beginseg
     include "build/data/code_800FD970.data.o"
     include "build/data/code_800FD970.bss.o"
     include "build/src/code/__osMalloc.o"
-    include "build/asm/code_800FF340.o"
+    include "build/src/code/printutils.o"
+    include "build/src/code/sleep.o"
+    include "build/asm/code_800FF540.o"
     include "build/asm/code_800FFA50.o"
     include "build/data/code_800FFA50.bss.o"
     include "build/asm/code_80100040.o"
@@ -685,9 +687,7 @@ endseg
 beginseg
     name "ovl_Bg_Bdan_Objects"
     include "build/src/overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.o"
-    include "build/data/overlays/actors/z_bg_bdan_objects.data.o"
-    include "build/data/overlays/actors/z_bg_bdan_objects.rodata.o"
-    include "build/data/overlays/actors/z_bg_bdan_objects.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects_reloc.o"
 endseg
 
 beginseg
@@ -2202,9 +2202,7 @@ endseg
 beginseg
     name "ovl_En_Ani"
     include "build/src/overlays/actors/ovl_En_Ani/z_en_ani.o"
-    include "build/data/overlays/actors/z_en_ani.data.o"
-    include "build/data/overlays/actors/z_en_ani.rodata.o"
-    include "build/data/overlays/actors/z_en_ani.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ani/z_en_ani_reloc.o"
 endseg
 
 beginseg

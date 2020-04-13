@@ -230,11 +230,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
 
 #define JPEG_MARKER 0xFFD8FFE0
 
-#ifdef NON_MATCHING
-// long multiplication by 64 doesn't quite match
 s32 func_80096238(void* data) {
-    OSTime timeBefore;
-    OSTime timeAfter;
     OSTime time;
 
     if (*(u32*)data == JPEG_MARKER) {
@@ -245,13 +241,12 @@ s32 func_80096238(void* data) {
         // Translates to: "WORK BUFFER ADDRESS (Z BUFFER) %08x"
         osSyncPrintf("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
 
-        timeBefore = osGetTime();
+        time = osGetTime();
         if (!func_8006E418(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
-            timeAfter = osGetTime();
-            time = ((timeAfter - timeBefore) * 64) / 3000;
+            time = osGetTime() - time;
 
             // Translates to: "SUCCESS... I THINK. time = %6.3f ms"
-            osSyncPrintf("成功…だと思う。 time = %6.3f ms \n", (f64)(time / 1000.0f));
+            osSyncPrintf("成功…だと思う。 time = %6.3f ms \n", (f64)(OS_CYCLES_TO_USEC(time) / 1000.0f));
             // Translates to: "WRITING BACK TO ORIGINAL ADDRESS FROM WORK BUFFER."
             osSyncPrintf("ワークバッファから元のアドレスに書き戻します。\n");
             // Translates to: "IF THE ORIGINAL BUFFER SIZE ISN'T AT LEAST 150KB, IT WILL BE OUT OF CONTROL."
@@ -266,9 +261,6 @@ s32 func_80096238(void* data) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_room/func_80096238.s")
-#endif
 
 #ifdef NON_MATCHING
 // pointer arithmetic doesn't quite match

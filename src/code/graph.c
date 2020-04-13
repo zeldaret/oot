@@ -263,7 +263,7 @@ u32 sGraphCfbInfoIdx = 0;
 // Very close to matching, stack usage
 #ifdef NON_MATCHING
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
-    u32 problem;     // 0xC4 -> 0xD4
+    u32 problem;       // 0xC4 -> 0xD4
     Gfx* dispRefs[5];  // 0xB0 -> 0xC0
     Gfx* dispRefs2[9]; // 0x8C -> 0x9C
     Gfx* dispRefs3[9]; // 0x68 -> 0x78
