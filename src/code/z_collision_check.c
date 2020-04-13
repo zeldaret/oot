@@ -1287,7 +1287,7 @@ void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 //.bss problems
 void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     s32 sp24;
-    static Effect_Add_arg2_s D_8015D8A0;
+    static EffSparkParams D_8015D8A0;
 
     D_8015D8A0.unk000.x = (s32)v->x;
     D_8015D8A0.unk000.y = (s32)v->y;
@@ -1340,7 +1340,7 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 //.bss problems
 void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     s32 sp24;
-    static Effect_Add_arg2_s D_8015DD68;
+    static EffSparkParams D_8015DD68;
     //D_8015DD68
     D_8015DD68.unk000.x = (s32)v->x;
     D_8015DD68.unk000.y = (s32)v->y;
@@ -2990,7 +2990,7 @@ void func_800628A4(s32 arg0, ColliderJntSph* collider) {
 //.bss section problems
 void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
     s32 sp24;
-    static Effect_Add_arg2_s D_8015CF10;
+    static EffSparkParams D_8015CF10;
 
     D_8015CF10.unk000.x = (s32)v->x;
     D_8015CF10.unk000.y = (s32)v->y;
@@ -3043,7 +3043,7 @@ void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
 //.bss section problems
 void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
     s32 sp24;
-    static Effect_Add_arg2_s D_8015D3D8;
+    static EffSparkParams D_8015D3D8;
 
     D_8015D3D8.unk000.x = (s32)v->x;
     D_8015D3D8.unk000.y = (s32)v->y;
@@ -3092,21 +3092,41 @@ void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062B80.s")
 #endif // NON_MATCHING
 
+extern EffShieldParticleInit D_8011E028;
+#ifdef NON_MATCHING
+void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
+    s32 sp24;
+    s32 x;
+    s32 y;
+    s32 z;
+    
+    x = v->x;
+    D_8011E028.position.x = x;
+    y = v->y;
+    D_8011E028.position.y = y;
+    z = v->z;
+    D_8011E028.position.z = z;
+    D_8011E028.lightParams.posX = x;
+    D_8011E028.lightParams.posY = y;
+    D_8011E028.lightParams.posZ = z;
+    Effect_Add(globalCtx, &sp24, 3, 0, 1, &D_8011E028);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062CD4.s")
+#endif // NON_MATCHING
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062D60.s")
+void func_80062D60(GlobalContext* globalCtx, Vec3f* v) {
+    func_80062CD4(globalCtx, v);
+    Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_REFLECT_SW, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062DAC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062DF4.s")
+void func_80062DF4(GlobalContext* globalCtx, Vec3f* v) {
+    func_80062D60(globalCtx, v);
+}
 
-extern u8 D_8011E068;
-extern s16 D_8011E06A;
-extern s16 D_8011E06C;
-extern s16 D_8011E06E;
-extern s16 D_8011E096;
-extern s16 D_8011E098;
-extern s16 D_8011E09A;
+extern EffShieldParticleInit D_8011E068;
 
 #ifdef NON_MATCHING
 void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
@@ -3116,14 +3136,14 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
     s32 z;
 
     x = arg1->x;
-    D_8011E096 = x;
+    D_8011E068.lightParams.posX = x;
     y = arg1->y;
-    D_8011E098 = y;
+    D_8011E068.lightParams.posY = y;
     z = arg1->z;
-    D_8011E09A = z;
-    D_8011E06A = x;
-    D_8011E06C = y;
-    D_8011E06E = z;
+    D_8011E068.lightParams.posZ = z;
+    D_8011E068.position.x = x;
+    D_8011E068.position.y = y;
+    D_8011E068.position.z = z;
 
     Effect_Add(globalCtx, &sp24, 3, 0, 1, &D_8011E068);
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);

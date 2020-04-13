@@ -194,20 +194,6 @@ typedef struct Actor
     /* From here on, the structure and size varies for each actor */
 } Actor; // size = 0x14C
 
-typedef struct
-{
-    Vec3s unk000;
-    char unk010[0x486];
-    f32 unk48C;
-    f32 unk490;
-    s32 unk494;
-    s32 unk498;
-    u8 unk49C[32];
-    s32 unk4BC;
-    s32 unk4C0;
-    s32 unk4C4; //possibly padding?
-} Effect_Add_arg2_s; //Size 0x4C4 or 8
-
 typedef enum
 {
     COLTYPE_CYLINDER_GROUP = 0, //TODO: JntSphere
