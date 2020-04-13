@@ -2918,7 +2918,30 @@ s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f*
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062734.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800627A0.s")
+//Set ColliderTrisItem at index
+void func_800627A0(ColliderTris* tris, s32 index, Vec3f* a, Vec3f* b, Vec3f* c) {
+    ColliderTrisItem* item;
+    f32 sp40;
+    f32 sp3C;
+    f32 sp38;
+    f32 sp34;
+
+    item = &tris->list[index];
+    Math_Vec3f_Copy(&item->dim.poly[0], a);
+    Math_Vec3f_Copy(&item->dim.poly[1], b);
+    Math_Vec3f_Copy(&item->dim.poly[2], c);
+    func_800CC8B4(a, b, c, &sp40, &sp3C, &sp38, &sp34);
+    item->dim.unitNormal.x = sp40;
+    item->dim.unitNormal.y = sp3C;
+    item->dim.unitNormal.z = sp38;
+    item->dim.normalDist = sp34;
+} 
+
+//Set ColliderTrisItem at index
+void func_8006285C(GlobalContext* globalCtx, ColliderTris *collider, s32 index, ColliderTrisItemDimInit* init) {
+    ColliderTrisItem* item = &collider->list[index];
+    func_8005C608(globalCtx, &item->dim, init);
+}
 
 #ifdef NON_MATCHING
 //Codegen OK, .bss section problems
