@@ -95,6 +95,14 @@ typedef struct
     /* 0x06 */ u8 mass;
 } SubActor98Init;
 
+typedef struct {
+    /* 0x00 */ u8 health;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ s16 unk_06;
+    /* 0x08 */ u8 mass;
+}SubActor98Init_2;
+
 typedef struct
 {
     /* 0x00 */ ActorDamageChart* damageChart;  // For actors which contain a damage chart (example: Stalfos)...

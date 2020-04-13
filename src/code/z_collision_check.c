@@ -2723,21 +2723,49 @@ void func_80061C98(GlobalContext* globalCtx, CollisionCheckContext* check) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061C98.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061E48.s")
+extern SubActorStruct98 D_8011DFEC;
+void func_80061E48(SubActorStruct98* arg0) {
+    //static SubActorStruct98 init = { 0, {0, 0, 0}, 10, 10, 0, 50, 8, 0, 0, 0, 0 };
+    *arg0 = D_8011DFEC;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061E8C.s")
+void func_80061E8C(SubActorStruct98* arg0) {
+    arg0->damage = 0;
+    arg0->damageEffect = 0;
+    arg0->impactEffect = 0;
+    arg0->unk_1B = 0;
+    arg0->displacement.z = 0.0f;
+    arg0->displacement.y = 0.0f;
+    arg0->displacement.x = 0.0f;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061ED4.s")
-//func_80061ED4 a1 = ActorDamageChart
-//void func_80061ED4(void* arg0, ? 32 arg1, void* arg2) {
-//    arg0->unk0 = arg1;
-//    arg0->unk17 = (u8)arg2->unk0;
-//    arg0->unk10 = (s16)arg2->unk2;
-//    arg0->unk12 = (s16)arg2->unk4;
-//    arg0->unk16 = (u8)arg2->unk6;
-//}
+void func_80061EB0(SubActorStruct98* arg0, SubActor98Init* arg1) {
+    arg0->health = arg1->health;
+    arg0->unk_10 = arg1->unk_02;
+    arg0->unk_12 = arg1->unk_04;
+    arg0->mass = arg1->mass;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061EFC.s")
+void func_80061ED4(SubActorStruct98* arg0, ActorDamageChart* arg1, SubActor98Init* arg2) {
+    arg0->health = arg2->health;
+    arg0->damageChart = arg1;
+    arg0->unk_10 = arg2->unk_02;
+    arg0->unk_12 = arg2->unk_04;
+    arg0->mass = arg2->mass;
+}
+
+void func_80061EFC(SubActorStruct98* arg0, ActorDamageChart* arg1, SubActor98Init_2* arg2) {
+    arg0->health = arg2->health;
+    arg0->damageChart = arg1;
+    arg0->unk_10 = arg2->unk_02;
+    arg0->unk_12 = arg2->unk_04;
+    arg0->unk_14 = arg2->unk_06;
+    arg0->mass = arg2->mass;
+}
+
+void func_80061F2C(SubActorStruct98* arg0, s32 arg1, SubActor98Init_2* arg2) {
+    func_80061EFC(arg0, CollisionBtlTbl_Get(arg1), arg2);
+}
 
 void func_80061F64(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider, ColliderBody* body) {
     ActorDamageChart* tbl;
@@ -3120,7 +3148,10 @@ void func_80062D60(GlobalContext* globalCtx, Vec3f* v) {
     Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_REFLECT_SW, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062DAC.s")
+void func_80062DAC(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
+    func_80062CD4(globalCtx, v);
+    Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_REFLECT_SW, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+}
 
 void func_80062DF4(GlobalContext* globalCtx, Vec3f* v) {
     func_80062D60(globalCtx, v);
