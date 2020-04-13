@@ -1050,9 +1050,76 @@ void func_8005E2C8(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
 void (*D_8011DF28[])(GlobalContext*, Collider*, Vec3f*) = {
     func_8005DF9C, func_8005DFAC, func_8005E10C, func_8005E26C, func_8005E2A4, func_8005E2C8 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D4DC.s")
+//Draw Collider
+void func_8005D4DC(GlobalContext* globalCtx, Collider* collider) {
+    ColliderJntSph* jntSph;
+    ColliderCylinder* cylinder;
+    ColliderTris* tris;
+    ColliderTrisItem* trisItem;
+    ColliderQuad* quad;
+    s32 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D62C.s")
+    if (collider == NULL) {
+        return;
+    }
+    switch (collider->type) {
+    case COLTYPE_JNTSPH:
+        jntSph = (ColliderJntSph*)collider;
+        for (i = 0; i < jntSph->count; i++) {
+            func_800D05D0(globalCtx, &jntSph->list[i].dim.posr);
+        }
+        break;
+    case COLTYPE_CYLINDER:
+        cylinder = (ColliderCylinder*)collider;
+        func_800D05DC(globalCtx, &cylinder->dim);
+        break;
+    case COLTYPE_TRIS:
+        tris = (ColliderTris*)collider;
+        for (i = 0; i < tris->count; i++) {
+            trisItem = &tris->list[i];
+            func_8005B280(globalCtx->state.gfxCtx, &trisItem->dim.poly[0], &trisItem->dim.poly[1], &trisItem->dim.poly[2]);
+        }
+        break;
+    case COLTYPE_QUAD:
+        quad = (ColliderQuad*)collider;
+        func_8005B280(globalCtx->state.gfxCtx, &quad->dim.quad[2], &quad->dim.quad[3], &quad->dim.quad[1]);
+        func_8005B280(globalCtx->state.gfxCtx, &quad->dim.quad[1], &quad->dim.quad[0], &quad->dim.quad[2]);
+        break;
+    }
+}
+
+//CollisionCheck Draw
+void func_8005D62C(GlobalContext* globalCtx, CollisionCheckContext* check) {
+    Collider* collider;
+    s32 i;
+
+    if (AREG(15)) {
+        if (AREG(21)) {
+            for (i = 0; i < check->colAtCount; i++) {
+                func_8005D4DC(globalCtx, check->colAt[i]);
+            }
+        }
+        if (AREG(22)) {
+            for (i = 0; i < check->colAcCount; i++) {
+                func_8005D4DC(globalCtx, check->colAc[i]);
+            }
+        }
+        if (AREG(23)) {
+            for (i = 0; i < check->colOcCount; i++) {
+                collider = check->colOc[i];
+                if ((collider->maskA & 1)) {
+                    func_8005D4DC(globalCtx, collider);
+                }
+            }
+        }
+        if (AREG(24)) {
+            func_80042C3C(globalCtx, &globalCtx->colCtx);
+        }
+        if (AREG(25)) {
+            func_80042FC4(globalCtx, &globalCtx->colCtx);
+        }
+    }
+}
 
 s32 Actor_CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
     s32 index;
