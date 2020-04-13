@@ -37,7 +37,7 @@ u32 Jpeg_SendTask(JpegContext* ctx) {
     };
     // clang-format on
 
-    JPEGWork* workBuf = ctx->workBuf;
+    JpegWork* workBuf = ctx->workBuf;
     u32 pad[2];
 
     workBuf->taskData.unk_00 = PHYSICAL_TO_VIRTUAL(&workBuf->unk_6C0);
@@ -95,11 +95,12 @@ void Jpeg_CopyToZbuffer(u16* src, u16* zbuffer, s32 x, s32 y) {
 }
 
 u16 Jpeg_GetU16(u8* ptr) {
-    if (((u32)ptr & 1) == 0) // if the address is aligned to 2
-    {
+    if (((u32)ptr & 1) == 0) { // if the address is aligned to 2
         return *(u16*)ptr;
     }
-    return *(u16*)(ptr - 1) << 8 | (*(u16*)(ptr + 1) >> 8); // ?? it's exactly like *(16*)ptr
+    else {
+        return *(u16*)(ptr - 1) << 8 | (*(u16*)(ptr + 1) >> 8); // ?? it's exactly like *(16*)ptr
+    }
 }
 
 void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
@@ -208,7 +209,7 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
 // the time diff isn't correct, workBuff->unk_6C0 is kept in a temp register instead of being stored in the stack and
 // regalloc differences
 #ifdef NON_MATCHING
-s32 Jpeg_Decode(void* data, u16* zbuffer, JPEGWork* workBuff, u32 workSize) {
+s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     s32 y;
     s32 x;
     u32 j;
@@ -224,7 +225,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JPEGWork* workBuff, u32 workSize) {
 
     time = osGetTime();
     if (workSize <
-        sizeof(JPEGWork)) { // (?) I guess MB_SIZE=0x180, PROC_OF_MBS=5 which means unk_6C0 is not a part of JPEGWork
+        sizeof(JpegWork)) { // (?) I guess MB_SIZE=0x180, PROC_OF_MBS=5 which means unk_6C0 is not a part of JpegWork
         __assert("worksize >= sizeof(JPEGWork) + MB_SIZE * (PROC_OF_MBS - 1)", "../z_jpeg.c", 527);
     }
 

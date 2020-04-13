@@ -1472,7 +1472,7 @@ typedef struct {
     /* 0x3A0 */ u8 codesLenghts[0x110];
     /* 0x4B0 */ u16 codes[0x108];
     /* 0x6C0 */ u16 unk_6C0[4][0x180];
-} JPEGWork; // size = 0x12C0
+} JpegWork; // size = 0x12C0
 
 typedef struct {
     /* 0x00 */ void* imageData;
@@ -1494,7 +1494,7 @@ typedef struct {
     /* 0x88 */ char unk_88[0x10];
     /* 0x98 */ OSMesgQueue mq;
     /* 0xB0 */ OSMesg msg;
-    /* 0xB4 */ JPEGWork* workBuf;
+    /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 
 #endif
