@@ -48,10 +48,10 @@ print("Patching header...")
 strippedContent[0x3E] = 0x50
 
 # Check to see if the ROM is a "vanilla" Debug ROM
-md5Hash = hashlib.md5(bytearray(strippedContent)).hexdigest()
+md5Hash = hashlib.md5(bytes(strippedContent)).hexdigest()
 
 if (str(md5Hash) != "f0b7f35375f9cc8ca1b2d59d78e35405"):
-    print("Error: Expected a hash of f0b7f35375f9cc8ca1b2d59d78e35405 but got " + str(md5Hash) + ". The baserom is probably not \"vanilla\"")
+    print("Error: Expected a hash of f0b7f35375f9cc8ca1b2d59d78e35405 but got " + str(md5Hash) + ". The baserom has probably been tampered, find a new one")
     sys.exit(1)
 
 # Write out our new ROM
