@@ -303,7 +303,6 @@ beginseg
     include "build/src/code/z_collision_btltbls.o"
     include "build/data/z_collision_btltbls.data.o"
     include "build/src/code/z_collision_check.o"
-    include "build/data/z_collision_check.data.o"
     include "build/data/z_collision_check.bss.o"
     include "build/src/code/z_common_data.o"
     include "build/data/z_common_data.bss.o"

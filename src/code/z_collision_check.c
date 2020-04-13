@@ -1033,23 +1033,6 @@ void func_8005D4C8(GlobalContext* globalCtx, CollisionCheckContext* check) {
     check->unk2 &= ~1;
 }
 
-s32(*D_8011DEF8[])(GlobalContext*, Collider*) = {
-    func_8005C124, func_8005C508, func_8005CC98, func_8005D160 };
-s32(*D_8011DF08[])(GlobalContext*, Collider*) = {
-    func_8005C1AC, func_8005C540, func_8005CD34, func_8005D1A8 };
-s32(*D_8011DF18[])(GlobalContext*, Collider*) = {
-    func_8005C234, func_8005C578, func_8005CDD0, func_8005D1E0 };
-
-void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
-void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
-void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
-void func_8005E26C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
-void func_8005E2A4(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
-void func_8005E2C8(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
-
-void (*D_8011DF28[])(GlobalContext*, Collider*, Vec3f*) = {
-    func_8005DF9C, func_8005DFAC, func_8005E10C, func_8005E26C, func_8005E2A4, func_8005E2C8 };
-
 //Draw Collider
 void func_8005D4DC(GlobalContext* globalCtx, Collider* collider) {
     ColliderJntSph* jntSph;
@@ -1121,6 +1104,9 @@ void func_8005D62C(GlobalContext* globalCtx, CollisionCheckContext* check) {
     }
 }
 
+s32(*D_8011DEF8[])(GlobalContext*, Collider*) = {
+    func_8005C124, func_8005C508, func_8005CC98, func_8005D160 };
+
 s32 Actor_CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
     s32 index;
 
@@ -1181,6 +1167,9 @@ s32 func_8005D8AC(GlobalContext* globalCtx, CollisionCheckContext* check, Collid
     }
     return index;
 }
+
+s32(*D_8011DF08[])(GlobalContext*, Collider*) = {
+    func_8005C1AC, func_8005C540, func_8005CD34, func_8005D1A8 };
 
 s32 Actor_CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
     s32 index;
@@ -1243,6 +1232,9 @@ s32 func_8005DB04(GlobalContext* globalCtx, CollisionCheckContext* check, Collid
     }
     return index;
 }
+
+s32(*D_8011DF18[])(GlobalContext*, Collider*) = {
+    func_8005C234, func_8005C578, func_8005CDD0, func_8005D1E0 };
 
 //TODO: rename to CollisionCheck_SetOC()
 s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
@@ -1356,50 +1348,51 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     s32 sp24;
     static EffSparkParams D_8015D8A0;
 
-    D_8015D8A0.unk000.x = (s32)v->x;
-    D_8015D8A0.unk000.y = (s32)v->y;
-    D_8015D8A0.unk000.z = (s32)v->z;
-    D_8015D8A0.unk494 = 5;
-    D_8015D8A0.unk498 = 5;
-    D_8015D8A0.unk49C[0] = (u8)0xA;
-    D_8015D8A0.unk49C[1] = (u8)0xA;
-    D_8015D8A0.unk49C[2] = (u8)0xC8;
-    D_8015D8A0.unk49C[3] = (u8)0xFF;
-    D_8015D8A0.unk49C[4] = (u8)0;
-    D_8015D8A0.unk49C[5] = (u8)0;
-    D_8015D8A0.unk49C[6] = (u8)0x80;
-    D_8015D8A0.unk49C[7] = (u8)0xFF;
-    D_8015D8A0.unk49C[8] = (u8)0;
-    D_8015D8A0.unk49C[9] = (u8)0;
-    D_8015D8A0.unk49C[10] = (u8)0x80;
-    D_8015D8A0.unk49C[11] = (u8)0xFF;
-    D_8015D8A0.unk49C[12] = (u8)0;
-    D_8015D8A0.unk49C[13] = (u8)0;
-    D_8015D8A0.unk49C[14] = (u8)0x80;
-    D_8015D8A0.unk49C[15] = (u8)0xFF;
-    D_8015D8A0.unk49C[16] = (u8)0;
-    D_8015D8A0.unk49C[17] = (u8)0;
-    D_8015D8A0.unk49C[18] = (u8)0x20;
-    D_8015D8A0.unk49C[19] = (u8)0;
-    D_8015D8A0.unk49C[20] = (u8)0;
-    D_8015D8A0.unk49C[21] = (u8)0;
-    D_8015D8A0.unk49C[22] = (u8)0x20;
-    D_8015D8A0.unk49C[23] = (u8)0;
-    D_8015D8A0.unk49C[24] = (u8)0;
-    D_8015D8A0.unk49C[25] = (u8)0;
-    D_8015D8A0.unk49C[26] = (u8)0x40;
-    D_8015D8A0.unk49C[27] = (u8)0;
-    D_8015D8A0.unk49C[28] = (u8)0;
-    D_8015D8A0.unk49C[29] = (u8)0;
-    D_8015D8A0.unk49C[30] = (u8)0x40;
-    D_8015D8A0.unk49C[31] = (u8)0;
-    D_8015D8A0.unk4BC = 0;
-    D_8015D8A0.unk4C0 = 16;
-    D_8015D8A0.unk48C = 8.0f;
-    D_8015D8A0.unk490 = -1.0f;
+    D_8015D8A0.position.x = (s32)v->x;
+    D_8015D8A0.position.y = (s32)v->y;
+    D_8015D8A0.position.z = (s32)v->z;
+    D_8015D8A0.particleFactor1 = 5;
+    D_8015D8A0.particleFactor2 = 5;
+    D_8015D8A0.colorStart[0].r = (u8)0xA;
+    D_8015D8A0.colorStart[0].g = (u8)0xA;
+    D_8015D8A0.colorStart[0].b = (u8)0xC8;
+    D_8015D8A0.colorStart[0].a = (u8)0xFF;
+    D_8015D8A0.colorStart[1].r = (u8)0;
+    D_8015D8A0.colorStart[1].g = (u8)0;
+    D_8015D8A0.colorStart[1].b = (u8)0x80;
+    D_8015D8A0.colorStart[1].a = (u8)0xFF;
+    D_8015D8A0.colorStart[2].r = (u8)0;
+    D_8015D8A0.colorStart[2].g = (u8)0;
+    D_8015D8A0.colorStart[2].b = (u8)0x80;
+    D_8015D8A0.colorStart[2].a = (u8)0xFF;
+    D_8015D8A0.colorStart[3].r = (u8)0;
+    D_8015D8A0.colorStart[3].g = (u8)0;
+    D_8015D8A0.colorStart[3].b = (u8)0x80;
+    D_8015D8A0.colorStart[3].a = (u8)0xFF;
+    D_8015D8A0.colorEnd[0].r = (u8)0;
+    D_8015D8A0.colorEnd[0].g = (u8)0;
+    D_8015D8A0.colorEnd[0].b = (u8)0x20;
+    D_8015D8A0.colorEnd[0].a = (u8)0;
+    D_8015D8A0.colorEnd[1].r = (u8)0;
+    D_8015D8A0.colorEnd[1].g = (u8)0;
+    D_8015D8A0.colorEnd[1].b = (u8)0x20;
+    D_8015D8A0.colorEnd[1].a = (u8)0;
+    D_8015D8A0.colorEnd[2].r = (u8)0;
+    D_8015D8A0.colorEnd[2].g = (u8)0;
+    D_8015D8A0.colorEnd[2].b = (u8)0x40;
+    D_8015D8A0.colorEnd[2].a = (u8)0;
+    D_8015D8A0.colorEnd[3].r = (u8)0;
+    D_8015D8A0.colorEnd[3].g = (u8)0;
+    D_8015D8A0.colorEnd[3].b = (u8)0x40;
+    D_8015D8A0.colorEnd[3].a = (u8)0;
+    D_8015D8A0.age = 0;
+    D_8015D8A0.duration = 16;
+    D_8015D8A0.velocity = 8.0f;
+    D_8015D8A0.gravity = -1.0f;
     Effect_Add(globalCtx,  &sp24, 0, 0, 1, &D_8015D8A0);
 }
 #else
+void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005DFAC.s")
 #endif // NON_MATCHING
 
@@ -1409,50 +1402,51 @@ void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     s32 sp24;
     static EffSparkParams D_8015DD68;
     //D_8015DD68
-    D_8015DD68.unk000.x = (s32)v->x;
-    D_8015DD68.unk000.y = (s32)v->y;
-    D_8015DD68.unk000.z = (s32)v->z;
-    D_8015DD68.unk494 = 5;
-    D_8015DD68.unk498 = 5;
-    D_8015DD68.unk49C[0] = (u8)0xA;
-    D_8015DD68.unk49C[1] = (u8)0xC8;
-    D_8015DD68.unk49C[2] = (u8)0xA;
-    D_8015DD68.unk49C[3] = (u8)0xFF;
-    D_8015DD68.unk49C[4] = (u8)0;
-    D_8015DD68.unk49C[5] = (u8)0x80;
-    D_8015DD68.unk49C[6] = (u8)0;
-    D_8015DD68.unk49C[7] = (u8)0xFF;
-    D_8015DD68.unk49C[8] = (u8)0;
-    D_8015DD68.unk49C[9] = (u8)0x80;
-    D_8015DD68.unk49C[10] = (u8)0;
-    D_8015DD68.unk49C[11] = (u8)0xFF;
-    D_8015DD68.unk49C[12] = (u8)0;
-    D_8015DD68.unk49C[13] = (u8)0x80;
-    D_8015DD68.unk49C[14] = (u8)0;
-    D_8015DD68.unk49C[15] = (u8)0xFF;
-    D_8015DD68.unk49C[16] = (u8)0;
-    D_8015DD68.unk49C[17] = (u8)0x20;
-    D_8015DD68.unk49C[18] = (u8)0;
-    D_8015DD68.unk49C[19] = (u8)0;
-    D_8015DD68.unk49C[20] = (u8)0;
-    D_8015DD68.unk49C[21] = (u8)0x20;
-    D_8015DD68.unk49C[22] = (u8)0;
-    D_8015DD68.unk49C[23] = (u8)0;
-    D_8015DD68.unk49C[24] = (u8)0;
-    D_8015DD68.unk49C[25] = (u8)0x40;
-    D_8015DD68.unk49C[26] = (u8)0;
-    D_8015DD68.unk49C[27] = (u8)0;
-    D_8015DD68.unk49C[28] = (u8)0;
-    D_8015DD68.unk49C[29] = (u8)0x40;
-    D_8015DD68.unk49C[30] = (u8)0;
-    D_8015DD68.unk49C[31] = (u8)0;
-    D_8015DD68.unk4BC = 0;
-    D_8015DD68.unk4C0 = 16;
-    D_8015DD68.unk48C = 8.0f;
-    D_8015DD68.unk490 = -1.0f;
+    D_8015DD68.position.x = (s32)v->x;
+    D_8015DD68.position.y = (s32)v->y;
+    D_8015DD68.position.z = (s32)v->z;
+    D_8015DD68.particleFactor1 = 5;
+    D_8015DD68.particleFactor2 = 5;
+    D_8015DD68.colorStart[0].r = (u8)0xA;
+    D_8015DD68.colorStart[0].g = (u8)0xC8;
+    D_8015DD68.colorStart[0].b = (u8)0xA;
+    D_8015DD68.colorStart[0].a = (u8)0xFF;
+    D_8015DD68.colorStart[1].r = (u8)0;
+    D_8015DD68.colorStart[1].g = (u8)0x80;
+    D_8015DD68.colorStart[1].b = (u8)0;
+    D_8015DD68.colorStart[1].a = (u8)0xFF;
+    D_8015DD68.colorStart[2].r = (u8)0;
+    D_8015DD68.colorStart[2].g = (u8)0x80;
+    D_8015DD68.colorStart[2].b = (u8)0;
+    D_8015DD68.colorStart[2].a = (u8)0xFF;
+    D_8015DD68.colorStart[3].r = (u8)0;
+    D_8015DD68.colorStart[3].g = (u8)0x80;
+    D_8015DD68.colorStart[3].b = (u8)0;
+    D_8015DD68.colorStart[3].a = (u8)0xFF;
+    D_8015DD68.colorEnd[0].r = (u8)0;
+    D_8015DD68.colorEnd[0].g = (u8)0x20;
+    D_8015DD68.colorEnd[0].b = (u8)0;
+    D_8015DD68.colorEnd[0].a = (u8)0;
+    D_8015DD68.colorEnd[1].r = (u8)0;
+    D_8015DD68.colorEnd[1].g = (u8)0x20;
+    D_8015DD68.colorEnd[1].b = (u8)0;
+    D_8015DD68.colorEnd[1].a = (u8)0;
+    D_8015DD68.colorEnd[2].r = (u8)0;
+    D_8015DD68.colorEnd[2].g = (u8)0x40;
+    D_8015DD68.colorEnd[2].b = (u8)0;
+    D_8015DD68.colorEnd[2].a = (u8)0;
+    D_8015DD68.colorEnd[3].r = (u8)0;
+    D_8015DD68.colorEnd[3].g = (u8)0x40;
+    D_8015DD68.colorEnd[3].b = (u8)0;
+    D_8015DD68.colorEnd[3].a = (u8)0;
+    D_8015DD68.age = 0;
+    D_8015DD68.duration = 16;
+    D_8015DD68.velocity = 8.0f;
+    D_8015DD68.gravity = -1.0f;
     Effect_Add(globalCtx, &sp24, 0, 0, 1, &D_8015DD68);
 }
 #else
+void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005E10C.s")
 #endif //NON_MATCHING
 
@@ -1538,10 +1532,33 @@ typedef struct {
     u8 unk01;
 } D_8011DF40_s;
 
-extern D_8011DF40_s D_8011DF40[0x0E];
 
 void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftBody,
     Collider* right, ColliderBody* rightBody, Vec3f* arg5) {
+
+    static void (*D_8011DF28[])(GlobalContext*, Collider*, Vec3f*) = {
+        func_8005DF9C, func_8005DFAC, func_8005E10C, func_8005E26C, func_8005E2A4, func_8005E2C8 };
+
+    static D_8011DF40_s D_8011DF40[0x0E] = {
+        {1, 0},
+        {0, 1},
+        {2, 1},
+        {0, 0},
+
+        {3, 5},
+        {0, 2},
+        {2, 0},
+        {4, 0},
+
+        {1, 2},
+        {0, 3},
+        {0, 5},
+        {0, 3},
+
+        {0, 3},
+        {0, 4},
+    };
+
 
     if ((rightBody->bumperFlags & 0x40) == 0) {
         if (((leftBody->toucherFlags & 0x20) != 0) || ((leftBody->toucherFlags & 0x40) == 0)) {
@@ -2448,10 +2465,13 @@ void func_8006110C(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     }
 }
 
-extern void (*D_8011DF5C[])(GlobalContext*, CollisionCheckContext*, Collider*);
 void func_800611A0(GlobalContext* globalCtx, CollisionCheckContext* check) {
     Collider** col;
     Collider* temp;
+
+    static void (*D_8011DF5C[4])(GlobalContext*, CollisionCheckContext*, Collider*) = {
+            func_80060EBC, func_80060F94, func_80061028, func_8006110C
+    };
 
     for (col = check->colAc; col < check->colAc + check->colAcCount; col++) {
         temp = *col;
@@ -2465,10 +2485,16 @@ void func_800611A0(GlobalContext* globalCtx, CollisionCheckContext* check) {
     }
 }
 
-extern void (*D_8011DF6C[4][4])(GlobalContext*, CollisionCheckContext*, Collider*, Collider*);
 void func_80061274(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
     Collider** col;
     Collider* temp;
+
+    static void (*D_8011DF6C[4][4])(GlobalContext*, CollisionCheckContext*, Collider*, Collider*) = {
+    {func_8005E9C0, func_8005EC6C, func_8005F17C, func_8005F5B0},
+    {func_8005EEE0, func_8005FA30, func_8005FC04, func_8005FF90},
+    {func_8005F39C, func_8005FDCC, func_800604B0, func_80060704},
+    {func_8005F7D0, func_80060204, func_80060994, func_80060C2C}
+    };
 
     for (col = check->colAc; col < check->colAc + check->colAcCount; col++) {
         temp = *col;
@@ -2756,7 +2782,12 @@ s32 func_80061C18(Collider* arg0, Collider* arg1) {
     return 0;
 }
 
-extern void (*D_8011DFAC[4][4])(GlobalContext*, CollisionCheckContext*, Collider*, Collider*);
+void (*D_8011DFAC[4][4])(GlobalContext*, CollisionCheckContext*, Collider*, Collider*) = {
+    {func_800617D4, func_8006199C, NULL, NULL},
+    {func_80061AF8, func_80061B24, NULL, NULL},
+    {NULL, NULL, NULL, NULL},
+    {NULL, NULL, NULL, NULL}
+};
 
 #ifdef NON_MATCHING
 //Logically equivalent, regalloc issues
@@ -2790,10 +2821,10 @@ void func_80061C98(GlobalContext* globalCtx, CollisionCheckContext* check) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80061C98.s")
 #endif
 
-extern SubActorStruct98 D_8011DFEC;
+//Initialize SubActorStruct98
 void func_80061E48(SubActorStruct98* arg0) {
-    //static SubActorStruct98 init = { 0, {0, 0, 0}, 10, 10, 0, 50, 8, 0, 0, 0, 0 };
-    *arg0 = D_8011DFEC;
+    static SubActorStruct98 init = { 0, {0, 0, 0}, 10, 10, 0, 50, 8, 0, 0, 0, 0 };
+    *arg0 = init;
 }
 
 void func_80061E8C(SubActorStruct98* arg0) {
@@ -2904,10 +2935,13 @@ void func_800622C4(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     func_80061F64(globalCtx, check, &quad->base, &quad->body);
 }
 
-extern void(*D_8011E008[4])(GlobalContext*, CollisionCheckContext*, Collider*);
 void func_800622E4(GlobalContext* globalCtx, CollisionCheckContext* check) {
     Collider* collider;
     s32 i;
+
+    static void(*D_8011E008[4])(GlobalContext*, CollisionCheckContext*, Collider*) = {
+        func_8006216C, func_80062210, func_80062230, func_800622C4
+    };
 
     for (i = 0; i < check->colAcCount; i++) {
         collider = check->colAc[i];
@@ -2957,7 +2991,6 @@ s32 func_800624BC(GlobalContext* globalCtx, CollisionCheckContext* check, Collid
     return 0;
 }
 
-extern s32 (*D_8011E018[4])(GlobalContext*, CollisionCheckContext*, Collider*, Vec3f*, Vec3f*);
 //CollisionCheck_generalLineOcCheck()
 s32 func_80062530(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f* camera_3C, Vec3f* arg3, Actor** arg4, s32 arg5) {
     Collider* collider;
@@ -2966,6 +2999,10 @@ s32 func_80062530(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f*
     s32 i;
     s32 test;
     s32 result;
+
+    static s32(*D_8011E018[4])(GlobalContext*, CollisionCheckContext*, Collider*, Vec3f*, Vec3f*) = {
+        func_800623A4, func_800624BC, NULL, NULL
+    };
 
     result = 0;
     for (c = check->colOc; c < check->colOc + check->colOcCount; c++) {
@@ -3087,47 +3124,47 @@ void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
     s32 sp24;
     static EffSparkParams D_8015CF10;
 
-    D_8015CF10.unk000.x = (s32)v->x;
-    D_8015CF10.unk000.y = (s32)v->y;
-    D_8015CF10.unk000.z = (s32)v->z;
-    D_8015CF10.unk494 = 5;
-    D_8015CF10.unk498 = 5;
-    D_8015CF10.unk49C[0] = (u8)0x80;
-    D_8015CF10.unk49C[1] = (u8)0;
-    D_8015CF10.unk49C[2] = (u8)0x40;
-    D_8015CF10.unk49C[3] = (u8)0xFF;
-    D_8015CF10.unk49C[4] = (u8)0x80;
-    D_8015CF10.unk49C[5] = (u8)0;
-    D_8015CF10.unk49C[6] = (u8)0x40;
-    D_8015CF10.unk49C[7] = (u8)0xFF;
-    D_8015CF10.unk49C[8] = (u8)0xFF;
-    D_8015CF10.unk49C[9] = (u8)0x80;
-    D_8015CF10.unk49C[10] = (u8)0;
-    D_8015CF10.unk49C[11] = (u8)0xFF;
-    D_8015CF10.unk49C[12] = (u8)0xFF;
-    D_8015CF10.unk49C[13] = (u8)0x80;
-    D_8015CF10.unk49C[14] = (u8)0;
-    D_8015CF10.unk49C[15] = (u8)0xFF;
-    D_8015CF10.unk49C[16] = (u8)0x40;
-    D_8015CF10.unk49C[17] = (u8)0;
-    D_8015CF10.unk49C[18] = (u8)0x20;
-    D_8015CF10.unk49C[19] = (u8)0;
-    D_8015CF10.unk49C[20] = (u8)0x40;
-    D_8015CF10.unk49C[21] = (u8)0;
-    D_8015CF10.unk49C[22] = (u8)0x20;
-    D_8015CF10.unk49C[23] = (u8)0;
-    D_8015CF10.unk49C[24] = (u8)0x80;
-    D_8015CF10.unk49C[25] = (u8)0;
-    D_8015CF10.unk49C[26] = (u8)0x40;
-    D_8015CF10.unk49C[27] = (u8)0;
-    D_8015CF10.unk49C[28] = (u8)0x80;
-    D_8015CF10.unk49C[29] = (u8)0;
-    D_8015CF10.unk49C[30] = (u8)0x40;
-    D_8015CF10.unk49C[31] = (u8)0;
-    D_8015CF10.unk4BC = 0;
-    D_8015CF10.unk4C0 = 16;
-    D_8015CF10.unk48C = 8.0f;
-    D_8015CF10.unk490 = -1.0f;
+    D_8015CF10.position.x = (s32)v->x;
+    D_8015CF10.position.y = (s32)v->y;
+    D_8015CF10.position.z = (s32)v->z;
+    D_8015CF10.particleFactor1 = 5;
+    D_8015CF10.particleFactor2 = 5;
+    D_8015CF10.colorStart[0].r = (u8)0x80;
+    D_8015CF10.colorStart[0].g = (u8)0;
+    D_8015CF10.colorStart[0].b = (u8)0x40;
+    D_8015CF10.colorStart[0].a = (u8)0xFF;
+    D_8015CF10.colorStart[1].r = (u8)0x80;
+    D_8015CF10.colorStart[1].g = (u8)0;
+    D_8015CF10.colorStart[1].b = (u8)0x40;
+    D_8015CF10.colorStart[1].a = (u8)0xFF;
+    D_8015CF10.colorStart[2].r = (u8)0xFF;
+    D_8015CF10.colorStart[2].g = (u8)0x80;
+    D_8015CF10.colorStart[2].b = (u8)0;
+    D_8015CF10.colorStart[2].a = (u8)0xFF;
+    D_8015CF10.colorStart[3].r = (u8)0xFF;
+    D_8015CF10.colorStart[3].g = (u8)0x80;
+    D_8015CF10.colorStart[3].b = (u8)0;
+    D_8015CF10.colorStart[3].a = (u8)0xFF;
+    D_8015CF10.colorEnd[0].r = (u8)0x40;
+    D_8015CF10.colorEnd[0].g = (u8)0;
+    D_8015CF10.colorEnd[0].b = (u8)0x20;
+    D_8015CF10.colorEnd[0].a = (u8)0;
+    D_8015CF10.colorEnd[1].r = (u8)0x40;
+    D_8015CF10.colorEnd[1].g = (u8)0;
+    D_8015CF10.colorEnd[1].b = (u8)0x20;
+    D_8015CF10.colorEnd[1].a = (u8)0;
+    D_8015CF10.colorEnd[2].r = (u8)0x80;
+    D_8015CF10.colorEnd[2].g = (u8)0;
+    D_8015CF10.colorEnd[2].b = (u8)0x40;
+    D_8015CF10.colorEnd[2].a = (u8)0;
+    D_8015CF10.colorEnd[3].r = (u8)0x80;
+    D_8015CF10.colorEnd[3].g = (u8)0;
+    D_8015CF10.colorEnd[3].b = (u8)0x40;
+    D_8015CF10.colorEnd[3].a = (u8)0;
+    D_8015CF10.age = 0;
+    D_8015CF10.duration = 16;
+    D_8015CF10.velocity = 8.0f;
+    D_8015CF10.gravity = -1.0f;
     Effect_Add(globalCtx, &sp24, 0, 0, 1, &D_8015CF10);
 }
 #else
@@ -3140,75 +3177,72 @@ void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
     s32 sp24;
     static EffSparkParams D_8015D3D8;
 
-    D_8015D3D8.unk000.x = (s32)v->x;
-    D_8015D3D8.unk000.y = (s32)v->y;
-    D_8015D3D8.unk000.z = (s32)v->z;
-    D_8015D3D8.unk494 = 5;
-    D_8015D3D8.unk498 = 5;
-    D_8015D3D8.unk49C[0] = (u8)0xFF;
-    D_8015D3D8.unk49C[1] = (u8)0xFF;
-    D_8015D3D8.unk49C[2] = (u8)0xFF;
-    D_8015D3D8.unk49C[3] = (u8)0xFF;
-    D_8015D3D8.unk49C[4] = (u8)0x64;
-    D_8015D3D8.unk49C[5] = (u8)0x64;
-    D_8015D3D8.unk49C[6] = (u8)0x64;
-    D_8015D3D8.unk49C[7] = (u8)0x64;
-    D_8015D3D8.unk49C[8] = (u8)0x64;
-    D_8015D3D8.unk49C[9] = (u8)0x64;
-    D_8015D3D8.unk49C[10] = (u8)0x64;
-    D_8015D3D8.unk49C[11] = (u8)0x64;
-    D_8015D3D8.unk49C[12] = (u8)0x64;
-    D_8015D3D8.unk49C[13] = (u8)0x64;
-    D_8015D3D8.unk49C[14] = (u8)0x64;
-    D_8015D3D8.unk49C[15] = (u8)0x64;
-    D_8015D3D8.unk49C[16] = (u8)0x32;
-    D_8015D3D8.unk49C[17] = (u8)0x32;
-    D_8015D3D8.unk49C[18] = (u8)0x32;
-    D_8015D3D8.unk49C[19] = (u8)0x32;
-    D_8015D3D8.unk49C[20] = (u8)0x32;
-    D_8015D3D8.unk49C[21] = (u8)0x32;
-    D_8015D3D8.unk49C[22] = (u8)0x32;
-    D_8015D3D8.unk49C[23] = (u8)0x32;
-    D_8015D3D8.unk49C[24] = (u8)0x32;
-    D_8015D3D8.unk49C[25] = (u8)0x32;
-    D_8015D3D8.unk49C[26] = (u8)0x32;
-    D_8015D3D8.unk49C[27] = (u8)0x32;
-    D_8015D3D8.unk49C[28] = (u8)0;
-    D_8015D3D8.unk49C[29] = (u8)0;
-    D_8015D3D8.unk49C[30] = (u8)0;
-    D_8015D3D8.unk49C[31] = (u8)0;
-    D_8015D3D8.unk4BC = 0;
-    D_8015D3D8.unk4C0 = 16;
-    D_8015D3D8.unk48C = 8.0f;
-    D_8015D3D8.unk490 = -1.0f;
+    D_8015D3D8.position.x = (s32)v->x;
+    D_8015D3D8.position.y = (s32)v->y;
+    D_8015D3D8.position.z = (s32)v->z;
+    D_8015D3D8.particleFactor1 = 5;
+    D_8015D3D8.particleFactor2 = 5;
+    D_8015D3D8.colorStart[0].r = (u8)0xFF;
+    D_8015D3D8.colorStart[0].g = (u8)0xFF;
+    D_8015D3D8.colorStart[0].b = (u8)0xFF;
+    D_8015D3D8.colorStart[0].a = (u8)0xFF;
+    D_8015D3D8.colorStart[1].r = (u8)0x64;
+    D_8015D3D8.colorStart[1].g = (u8)0x64;
+    D_8015D3D8.colorStart[1].b = (u8)0x64;
+    D_8015D3D8.colorStart[1].a = (u8)0x64;
+    D_8015D3D8.colorStart[2].r = (u8)0x64;
+    D_8015D3D8.colorStart[2].g = (u8)0x64;
+    D_8015D3D8.colorStart[2].b = (u8)0x64;
+    D_8015D3D8.colorStart[2].a = (u8)0x64;
+    D_8015D3D8.colorStart[3].r = (u8)0x64;
+    D_8015D3D8.colorStart[3].g = (u8)0x64;
+    D_8015D3D8.colorStart[3].b = (u8)0x64;
+    D_8015D3D8.colorStart[3].a = (u8)0x64;
+    D_8015D3D8.colorEnd[0].r = (u8)0x32;
+    D_8015D3D8.colorEnd[0].g = (u8)0x32;
+    D_8015D3D8.colorEnd[0].b = (u8)0x32;
+    D_8015D3D8.colorEnd[0].a = (u8)0x32;
+    D_8015D3D8.colorEnd[1].r = (u8)0x32;
+    D_8015D3D8.colorEnd[1].g = (u8)0x32;
+    D_8015D3D8.colorEnd[1].b = (u8)0x32;
+    D_8015D3D8.colorEnd[1].a = (u8)0x32;
+    D_8015D3D8.colorEnd[2].r = (u8)0x32;
+    D_8015D3D8.colorEnd[2].g = (u8)0x32;
+    D_8015D3D8.colorEnd[2].b = (u8)0x32;
+    D_8015D3D8.colorEnd[2].a = (u8)0x32;
+    D_8015D3D8.colorEnd[3].r = (u8)0;
+    D_8015D3D8.colorEnd[3].g = (u8)0;
+    D_8015D3D8.colorEnd[3].b = (u8)0;
+    D_8015D3D8.colorEnd[3].a = (u8)0;
+    D_8015D3D8.age = 0;
+    D_8015D3D8.duration = 16;
+    D_8015D3D8.velocity = 8.0f;
+    D_8015D3D8.gravity = -1.0f;
     Effect_Add(globalCtx, &sp24, 0, 0, 1, &D_8015D3D8);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062B80.s")
 #endif // NON_MATCHING
 
-extern EffShieldParticleInit D_8011E028;
-#ifdef NON_MATCHING
 void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
     s32 sp24;
-    s32 x;
-    s32 y;
-    s32 z;
+    static EffShieldParticleInit init = {
+            16, {0, 0, 0},
+            {0x00, 0xC8, 0xFF, 0xFF }, {0xFF, 0xFF, 0xFF, 0xFF},
+            {0xFF, 0xFF, 0x80, 0xFF }, {0xFF, 0xFF, 0x00, 0xFF},
+            {0xFF, 0x40, 0x00, 0xC8 }, {0xFF, 0x00, 0x00, 0xFF},
+            2.1f, 35.0f, 30.0f, 8,
+            {0, 0, 0, 0x00, 0x80, 0xFF, 0x00, 300}, 1
+    };
     
-    x = v->x;
-    D_8011E028.position.x = x;
-    y = v->y;
-    D_8011E028.position.y = y;
-    z = v->z;
-    D_8011E028.position.z = z;
-    D_8011E028.lightParams.posX = x;
-    D_8011E028.lightParams.posY = y;
-    D_8011E028.lightParams.posZ = z;
-    Effect_Add(globalCtx, &sp24, 3, 0, 1, &D_8011E028);
+    init.position.x = (s32)v->x;
+    init.position.y = (s32)v->y;
+    init.position.z = (s32)v->z;
+    init.lightParams.posX = init.position.x;
+    init.lightParams.posY = init.position.y;
+    init.lightParams.posZ = init.position.z;
+    Effect_Add(globalCtx, &sp24, 3, 0, 1, &init);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062CD4.s")
-#endif // NON_MATCHING
 
 void func_80062D60(GlobalContext* globalCtx, Vec3f* v) {
     func_80062CD4(globalCtx, v);
@@ -3224,31 +3258,27 @@ void func_80062DF4(GlobalContext* globalCtx, Vec3f* v) {
     func_80062D60(globalCtx, v);
 }
 
-extern EffShieldParticleInit D_8011E068;
-
-#ifdef NON_MATCHING
-void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2) {
+void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
     s32 sp24;
-    s32 x;
-    s32 y;
-    s32 z;
+    static EffShieldParticleInit init = {
+        16, {0, 0, 0},
+        {0x00, 0xC8, 0xFF, 0xFF }, {0xFF, 0xFF, 0xFF, 0xFF},
+        {0xFF, 0xFF, 0x80, 0xFF }, {0xFF, 0xFF, 0x00, 0xFF},
+        {0xFF, 0x40, 0x00, 0xC8 }, {0xFF, 0x00, 0x00, 0xFF},
+        2.1f, 35.0f, 30.0f, 8,
+        {0, 0, 0, 0x00, 0x80, 0xFF, 0x00, 300}, 0
+    };
+    
+    init.position.x = (s32)v->x;
+    init.position.y = (s32)v->y;
+    init.position.z = (s32)v->z;
+    init.lightParams.posX = init.position.x;
+    init.lightParams.posY = init.position.y;
+    init.lightParams.posZ = init.position.z;
 
-    x = arg1->x;
-    D_8011E068.lightParams.posX = x;
-    y = arg1->y;
-    D_8011E068.lightParams.posY = y;
-    z = arg1->z;
-    D_8011E068.lightParams.posZ = z;
-    D_8011E068.position.x = x;
-    D_8011E068.position.y = y;
-    D_8011E068.position.z = z;
-
-    Effect_Add(globalCtx, &sp24, 3, 0, 1, &D_8011E068);
+    Effect_Add(globalCtx, &sp24, 3, 0, 1, &init);
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062E14.s")
-#endif // NON_MATCHING
 
 #ifdef NON_MATCHING
 //Incomplete, possibly not using the same logic
