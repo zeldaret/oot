@@ -241,7 +241,7 @@ typedef struct
 {
     /* 0x00 */ s32 flags; /* Collision Exclusion Mask */
     /* 0x04 */ u8 effect; /* Damage Effect (Knockback, Fire, etc.) */
-    /* 0x05 */ u8 unk_05;
+    /* 0x05 */ u8 unk_05; // damage resistance 
     /* 0x06 */ Vec3s unk_06;
 } ColliderBump; // size = 0x0C
 
@@ -327,28 +327,21 @@ typedef struct {
 } ColliderCylinderInit_Actor; // size = 0x2C
 
 typedef struct {
-    s16 unk_00;
-    s16 unk_02;
-    s16 unk_04;
-    s16 unk_06;
-} ColliderJntSphDimUnk; //size = 0x08
-
-typedef struct {
     Vec3s pos;
     s16 radius;
 } PosRadius;
 
 typedef struct {
-    /* 0x00 */ ColliderJntSphDimUnk unk_00;
+    /* 0x00 */ PosRadius unk_00; //model space displacement
     /* 0x08 */ PosRadius posr;
-    /* 0x10 */ float unk_10;
-    /* 0x14 */ s8 unk_14;
+    /* 0x10 */ float scale; //factor to transform model space to world space
+    /* 0x14 */ u8 unk_14;
 } ColliderJntSphItemDim; //size = 0x18
 
 typedef struct {
     u8 unk_00;
-    ColliderJntSphDimUnk unk_02;
-    s16 unk_0A;
+    PosRadius unk_02;
+    s16 scale;
 } ColliderJntSphItemDimInit; //size = 0x0C
 
 typedef struct {

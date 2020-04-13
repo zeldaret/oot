@@ -220,7 +220,7 @@ s32 func_8005BA74(GlobalContext* globalCtx, ColliderJntSphItemDim* item)
 s32 func_8005BA84(GlobalContext* globalCtx, ColliderJntSphItemDim* dest, ColliderJntSphItemDimInit* src) {
     dest->unk_14 = src->unk_00;
     dest->unk_00 = src->unk_02;
-    dest->unk_10 = src->unk_0A * 0.01f;
+    dest->scale = src->scale * 0.01f;
     return 1;
 }
 
@@ -2920,7 +2920,30 @@ s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f*
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800627A0.s")
 
+#ifdef NON_MATCHING
+//Codegen OK, .bss section problems
+void func_800628A4(s32 arg0, ColliderJntSph* collider) {
+    s32 phi_s3;
+
+    static Vec3f D_8015CF00;
+    static Vec3f D_8015E648;
+
+    for (phi_s3 = 0; phi_s3 < collider->count; phi_s3++) {
+        if (arg0 == collider->list[phi_s3].dim.unk_14) {
+            D_8015E648.x = collider->list[phi_s3].dim.unk_00.pos.x;
+            D_8015E648.y = collider->list[phi_s3].dim.unk_00.pos.y;
+            D_8015E648.z = collider->list[phi_s3].dim.unk_00.pos.z;
+            Matrix_MultVec3f(&D_8015E648, &D_8015CF00);
+            collider->list[phi_s3].dim.posr.pos.x = (s32)D_8015CF00.x;
+            collider->list[phi_s3].dim.posr.pos.y = (s32)D_8015CF00.y;
+            collider->list[phi_s3].dim.posr.pos.z = (s32)D_8015CF00.z;
+            collider->list[phi_s3].dim.posr.radius = (s32)((f32)collider->list[phi_s3].dim.unk_00.radius * collider->list[phi_s3].dim.scale);
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800628A4.s")
+#endif //NON_MATCHING
 
 #ifdef NON_MATCHING
 //.bss section problems
