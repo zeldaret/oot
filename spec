@@ -1506,9 +1506,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot17_Funen"
     include "build/src/overlays/actors/ovl_Bg_Spot17_Funen/z_bg_spot17_funen.o"
-    include "build/data/overlays/actors/z_bg_spot17_funen.data.o"
-    include "build/data/overlays/actors/z_bg_spot17_funen.rodata.o"
-    include "build/data/overlays/actors/z_bg_spot17_funen.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot17_Funen/z_bg_spot17_funen_reloc.o"
 endseg
 
 beginseg
