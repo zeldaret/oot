@@ -35,8 +35,8 @@ void func_800A9F6C(f32 a, u8 b, u8 c, u8 d) {
 void func_800AA0B4(void) {
     func_800D3140(&D_80160FD0);
 
-    gPadMgr.unk_460 = func_800A9F30;
-    gPadMgr.unk_464 = 0;
+    gPadMgr.retraceCallback = func_800A9F30;
+    gPadMgr.retraceCallbackValue = 0;
 
     if (0) {} // Necessary to match
 }
@@ -44,16 +44,16 @@ void func_800AA0B4(void) {
 void func_800AA0F0(void) {
     PadMgr* padmgr = &gPadMgr;
 
-    if (((void*)padmgr->unk_460 == (void*)func_800A9F30) && (padmgr->unk_464 == 0)) {
-        padmgr->unk_460 = NULL;
-        padmgr->unk_464 = 0;
+    if (((void*)padmgr->retraceCallback == (void*)func_800A9F30) && (padmgr->retraceCallbackValue == 0)) {
+        padmgr->retraceCallback = NULL;
+        padmgr->retraceCallbackValue = 0;
     }
 
     func_800D3178(&D_80160FD0);
 }
 
 u32 func_800AA148(void) {
-    return ((gPadMgr.pak_type[0] ^ 1) == 0);
+    return ((gPadMgr.pakType[0] ^ 1) == 0);
 }
 
 void func_800AA15C(void) {

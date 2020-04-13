@@ -43,7 +43,7 @@ u32 func_80001F48() {
         return 0;
     }
 
-    if (gPadMgr.valid_ctrlrs_mask & 4) {
+    if (gPadMgr.validCtrlrsMask & 4) {
         return 0;
     }
 
@@ -55,7 +55,7 @@ u32 func_80001F8C() {
         return 0;
     }
 
-    if (gPadMgr.valid_ctrlrs_mask & 4) {
+    if (gPadMgr.validCtrlrsMask & 4) {
         return 1;
     }
 

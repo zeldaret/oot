@@ -21,20 +21,20 @@ typedef struct {
     /* 0x0080 */ OSThread thread;
     /* 0x0230 */ Input inputs[4]; //0x18 each = 0x60 total
     /* 0x0290 */ PadState pads[4]; //0x6 each = 0x18 total
-    /* 0x02A8 */ volatile u8 valid_ctrlrs_mask;
+    /* 0x02A8 */ volatile u8 validCtrlrsMask;
     /* 0x02A9 */ s8 ncontrollers;
-    /* 0x02AA */ u8 Key_switch[4]; //means the controller is connected
-    /* 0x02AE */ u8 pak_type[4]; //1 if vibration pack, 2 if (maybe controller pack)?
-    /* 0x02B2 */ volatile u8 rumble_enable[4];
-    /* 0x02B6 */ u8 rumble_counter[4]; //not clear exact meaning
+    /* 0x02AA */ u8 ctrlrIsConnected[4]; //Key_switch in original code
+    /* 0x02AE */ u8 pakType[4]; //1 if rumble pack, 2 if mempak?
+    /* 0x02B2 */ volatile u8 rumbleEnable[4];
+    /* 0x02B6 */ u8 rumbleCounter[4]; //not clear exact meaning
     /* 0x02BA */ char unk_2BA[0x02]; //probably padding
     /* 0x02BC */ unk_controller_t unk_controller[4];
-    /* 0x045C */ volatile u8 rumble_off_frames;
-    /* 0x045D */ volatile u8 rumble_on_frames;
-    /* 0x045E */ u8 prenmi_shutdown;
-    /* 0x045F */ u8 unk_45F;
-    /* 0x0460 */ void (*unk_460)(void* padmgr, u32 unk464);
-    /* 0x0464 */ u32 unk_464;
+    /* 0x045C */ volatile u8 rumbleOffFrames;
+    /* 0x045D */ volatile u8 rumbleOnFrames;
+    /* 0x045E */ u8 preNMIShutdown;
+    /* 0x045F */ u8 unk_45F; //probably padding
+    /* 0x0460 */ void (*retraceCallback)(void* padmgr, u32 unk464);
+    /* 0x0464 */ u32 retraceCallbackValue;
 } PadMgr; // size = 0x468
 
 

@@ -14,7 +14,7 @@ void func_800D31A0() {
 }
 
 void func_800D31F0() {
-    D_8012DBC0 = (gPadMgr.valid_ctrlrs_mask & 2) != 0;
+    D_8012DBC0 = (gPadMgr.validCtrlrsMask & 2) != 0;
 }
 
 void func_800D3210() {
