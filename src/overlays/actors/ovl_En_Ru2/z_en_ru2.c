@@ -759,7 +759,7 @@ static void EnRu2_Update(EnRu2* this, GlobalContext* globalCtx) {
 static void EnRu2_Init(EnRu2* this, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     func_80AF2550(this, globalCtx);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600C700, NULL, &this->unk_190, &this->unk_21A, 0x17);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600C700, NULL, &this->actorDrawTable, &this->transitionDrawTable, 23);
 
     switch (func_80AF26A0(this)) {
         case 2:

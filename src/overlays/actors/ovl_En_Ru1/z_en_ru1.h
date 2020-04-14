@@ -10,10 +10,8 @@
 typedef struct {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s unk_190;
-    /* 0x0196 */ char unk_196[0x60];
-    /* 0x01F6 */ Vec3s unk_1F6;
-    /* 0x01FC */ char unk_1FC[0x60];
+    /* 0x0190 */ Vec3s actorDrawTable[17];
+    /* 0x01F6 */ Vec3s transitionDrawTable[17];
     /* 0x025C */ s16 unk_25C;
     /* 0x025E */ char unk_25E[0x2];
     /* 0x0260 */ s16 unk_260;

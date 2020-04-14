@@ -2272,7 +2272,7 @@ void EnRu1_Init(EnRu1* this, GlobalContext* globalCtx) {
     u32 temp_ret;
 
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06012700, NULL, &this->unk_190, &this->unk_1F6, 0x11);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06012700, NULL, &this->actorDrawTable, &this->transitionDrawTable, 17);
     func_80AEAD20(this, globalCtx);
     switch (func_80AEADF0(this)) {
         case 0:
