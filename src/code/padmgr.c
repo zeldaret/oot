@@ -6,18 +6,6 @@
 #include <ultra64/controller.h>
 #include <padmgr.h>
 
-/*
-Absent: padmgr_force_stop_ON     padmgr.o
-Absent: padmgr_force_stop_OFF     padmgr.o
-padmgr_PakConnectCheck     padmgr.o
-padmgr_HandleDoneReadPadMsg     padmgr.o
-padmgr_ConnectCheck     padmgr.o
-Absent: padmgr_RequestPadData_NonLock     padmgr.o
-Absent: padmgr_ClearPadData     padmgr.o
-Absent: padmgr_Create     padmgr.o
-Absent: padmgr_isConnectedController     padmgr.o
-*/
-
 s32 D_8012D280 = 1;
 
 OSMesgQueue* PadMgr_LockSerialMesgQueue(PadMgr* padmgr) {
@@ -206,10 +194,10 @@ void PadMgr_RumbleSetSingle(PadMgr* padmgr, u32 ctrlr, u32 rumble) {
 }
 
 // 800A23CC in 1.0
-void PadMgr_RumbleSet(PadMgr* padmgr, u8* ctrlr_rumbles) {
+void PadMgr_RumbleSet(PadMgr* padmgr, u8* ctrlrRumbles) {
     s32 i;
     for (i = 0; i < 4; ++i) {
-        padmgr->rumbleEnable[i] = ctrlr_rumbles[i];
+        padmgr->rumbleEnable[i] = ctrlrRumbles[i];
     }
     padmgr->rumbleOnFrames = 0xF0;
 }
@@ -316,8 +304,8 @@ void PadMgr_HandleRetraceMsg(PadMgr* padmgr) {
     func_8010328C(padmgr);
     PadMgr_UnlockSerialMesgQueue(padmgr, queue);
 
-    mask = 0;                      // s2
-    for (i = 0; i - 4 != 0; ++i) { // s1
+    mask = 0;
+    for (i = 0; i - 4 != 0; ++i) {
         if (padmgr->pad_status[i].errno == 0) {
             if (padmgr->pad_status[i].type - 5 == 0) {
                 mask |= 1 << i;
@@ -354,32 +342,30 @@ void PadMgr_HandlePreNMI(PadMgr* padmgr) {
 // Regalloc differences
 void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode) {
     u32 i;
-    Input* pm_inputs;
+    Input* pmInputs;
     Input* newin;
 
     PadMgr_LockPadData(padmgr);
-    pm_inputs = padmgr->inputs;
+    pmInputs = padmgr->inputs;
     newin = inputs;
     for (i = 0; i < 4; ++i) {
         if (mode) {
-            *newin = *pm_inputs;
-            pm_inputs->press.in.button = 0;
-            pm_inputs->press.in.x = 0;
-            pm_inputs->press.in.y = 0;
-            pm_inputs->rel.in.button = 0;
+            *newin = *pmInputs;
+            pmInputs->press.in.button = 0;
+            pmInputs->press.in.x = 0;
+            pmInputs->press.in.y = 0;
+            pmInputs->rel.in.button = 0;
         } else {
             // Correct instructions, wrong regalloc
             newin->prev = newin->cur;
-            newin->cur = pm_inputs->cur;
-            newin->press.in.button =
-                newin->cur.in.button & (newin->prev.in.button ^ newin->cur.in.button);
-            newin->rel.in.button =
-                newin->prev.in.button & (newin->prev.in.button ^ newin->cur.in.button);
+            newin->cur = pmInputs->cur;
+            newin->press.in.button = newin->cur.in.button & (newin->prev.in.button ^ newin->cur.in.button);
+            newin->rel.in.button = newin->prev.in.button & (newin->prev.in.button ^ newin->cur.in.button);
             func_800FCC6C(newin);
             newin->press.in.x = (newin->cur.in.x - newin->prev.in.x) + newin->press.in.x;
             newin->press.in.y = (newin->cur.in.y - newin->prev.in.y) + newin->press.in.y;
         }
-        ++pm_inputs;
+        ++pmInputs;
         ++newin;
     }
     PadMgr_UnlockPadData(padmgr);

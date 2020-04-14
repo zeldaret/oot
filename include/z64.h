@@ -281,9 +281,9 @@ typedef struct GraphicsContext {
 
 typedef struct {
     PadInput in;
-    union{
+    union {
         u16 status;
-        struct{
+        struct {
             u8 errno;
             u8 statusLo;
         };
@@ -294,26 +294,23 @@ typedef struct
 {
     /* 0x00 */ PadState cur;
     /* 0x06 */ PadState prev;
-    /* 0x0C */ PadState press; //X/Y store delta from last frame
-    /* 0x12 */ PadState rel; //X/Y store adjusted
+    /* 0x0C */ PadState press; // X/Y store delta from last frame
+    /* 0x12 */ PadState rel; // X/Y store adjusted
+    /* The old version of this struct is:
+    RawInput raw;
+    u16      status;
+    RawInput rawPrev;
+    u16      statusPrev;
+    u16      padPressed;
+    s8       xDiff;
+    s8       yDiff;
+    char     unk_10[0x02];
+    u16      padReleased;
+    s8       xAdjusted;
+    s8       yAdjusted;
+    char     unk_16[0x02];
+    */
 } Input; // size = 0x18
-
-#if 0
-typedef struct {
-    /* 0x00 */ RawInput raw;
-    /* 0x04 */ u16      status;
-    /* 0x06 */ RawInput rawPrev;
-    /* 0x0A */ u16      statusPrev;
-    /* 0x0C */ u16      padPressed;
-    /* 0x0E */ s8       xDiff;
-    /* 0x0F */ s8       yDiff;
-    /* 0x10 */ char     unk_10[0x02];
-    /* 0x12 */ u16      padReleased;
-    /* 0x14 */ s8       xAdjusted;
-    /* 0x15 */ s8       yAdjusted;
-    /* 0x16 */ char     unk_16[0x02];
-} Input; // size = 0x18
-#endif
 
 typedef struct {
    /* 0x0000 */ s16 unk_0;

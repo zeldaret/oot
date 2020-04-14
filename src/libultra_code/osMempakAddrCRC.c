@@ -9,10 +9,10 @@
 u8 osMempakAddrCRC(u16 addr) {
     u32 addr32 = addr;
     u32 ret = 0;
-    u32 bit = 0x400U;
+    u32 bit;
     s32 i;
 
-    for (bit = 0x400u; bit; bit /= 2) {
+    for (bit = 0x400; bit; bit /= 2) {
         ret *= 2;
         if (addr32 & bit) {
             if (ret & 0x20) {
@@ -41,8 +41,8 @@ u8 osMempakDataCRC(u8* data) {
     u32 byte;
 
     ret = 0;
-    for (byte = 0x20U; byte; --byte, ++data) {
-        for (bit = 0x80U; bit; bit /= 2) {
+    for (byte = 0x20; byte; --byte, ++data) {
+        for (bit = 0x80; bit; bit /= 2) {
             ret *= 2;
             if ((*data & bit) != 0) {
                 if ((ret & 0x100) != 0) {

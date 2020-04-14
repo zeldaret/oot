@@ -13,20 +13,20 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, PIF_mempak_dat
     do {
         if ((_osCont_lastPollType != 2) || (ctrlridx != D_80134D20)) {
             bufptr = &pifMempakBuf.bytes[0];
-            _osCont_lastPollType = (u8)2U;
+            _osCont_lastPollType = 2;
             D_80134D20 = ctrlridx;
             // clang-format off
-            // whitespace memes - only matches on same line
+            // NOLINTNEXTLINE
             for (i = 0; i < ctrlridx; i++) *bufptr++ = 0;
             // clang-format on
             pifMempakBuf.status_control = 1;
-            ((PIF_header_t*)bufptr)->slot_type = (u8)0xff;
-            ((PIF_header_t*)bufptr)->bytes_send = (u8)3;
-            ((PIF_header_t*)bufptr)->status_hi_bytes_rec_lo = (u8)0x21;
-            ((PIF_header_t*)bufptr)->command = (u8)2; // read mempak; send byte 0
+            ((PIF_header_t*)bufptr)->slot_type = 0xff;
+            ((PIF_header_t*)bufptr)->bytes_send = 3;
+            ((PIF_header_t*)bufptr)->status_hi_bytes_rec_lo = 0x21;
+            ((PIF_header_t*)bufptr)->command = 2; // read mempak; send byte 0
             // Received bytes are 6-26 inclusive
-            bufptr[0x26] = (u8)0xff; // last byte of receive
-            bufptr[0x27] = (u8)0xfe; // End of commands
+            bufptr[0x26] = 0xff; // last byte of receive
+            bufptr[0x27] = 0xfe; // End of commands
         } else {
             bufptr = &pifMempakBuf.bytes[ctrlridx];
         }
