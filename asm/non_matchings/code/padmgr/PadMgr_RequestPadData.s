@@ -1,4 +1,4 @@
-glabel func_800C7E08
+glabel PadMgr_RequestPadData
 /* B3EFA8 800C7E08 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* B3EFAC 800C7E0C AFBF002C */  sw    $ra, 0x2c($sp)
 /* B3EFB0 800C7E10 AFB40028 */  sw    $s4, 0x28($sp)
@@ -8,7 +8,7 @@ glabel func_800C7E08
 /* B3EFC0 800C7E20 AFB20020 */  sw    $s2, 0x20($sp)
 /* B3EFC4 800C7E24 AFB1001C */  sw    $s1, 0x1c($sp)
 /* B3EFC8 800C7E28 AFB00018 */  sw    $s0, 0x18($sp)
-/* B3EFCC 800C7E2C 0C031CEF */  jal   PadMgr_Lock2
+/* B3EFCC 800C7E2C 0C031CEF */  jal   PadMgr_LockPadData
 /* B3EFD0 800C7E30 AFA40030 */   sw    $a0, 0x30($sp)
 /* B3EFD4 800C7E34 8FB10030 */  lw    $s1, 0x30($sp)
 /* B3EFD8 800C7E38 02608025 */  move  $s0, $s3
@@ -86,7 +86,7 @@ glabel func_800C7E08
 /* B3F0EC 800C7F4C 26310018 */  addiu $s1, $s1, 0x18
 /* B3F0F0 800C7F50 1653FFBD */  bne   $s2, $s3, .L800C7E48
 /* B3F0F4 800C7F54 26100018 */   addiu $s0, $s0, 0x18
-/* B3F0F8 800C7F58 0C031CF9 */  jal   PadMgr_Unlock2
+/* B3F0F8 800C7F58 0C031CF9 */  jal   PadMgr_UnlockPadData
 /* B3F0FC 800C7F5C 8FA40030 */   lw    $a0, 0x30($sp)
 /* B3F100 800C7F60 8FBF002C */  lw    $ra, 0x2c($sp)
 /* B3F104 800C7F64 8FB00018 */  lw    $s0, 0x18($sp)

@@ -152,7 +152,7 @@ glabel D_80145ABC
     .balign 4
 
 .text
-glabel func_800C740C
+glabel PadMgr_RumbleControl
 /* B3E5AC 800C740C 27BDFFB8 */  addiu $sp, $sp, -0x48
 /* B3E5B0 800C7410 AFBF0034 */  sw    $ra, 0x34($sp)
 /* B3E5B4 800C7414 AFB40028 */  sw    $s4, 0x28($sp)
@@ -162,7 +162,7 @@ glabel func_800C740C
 /* B3E5C4 800C7424 AFB30024 */  sw    $s3, 0x24($sp)
 /* B3E5C8 800C7428 AFB20020 */  sw    $s2, 0x20($sp)
 /* B3E5CC 800C742C AFB1001C */  sw    $s1, 0x1c($sp)
-/* B3E5D0 800C7430 0C031C94 */  jal   PadMgr_LockGetControllerQueue
+/* B3E5D0 800C7430 0C031C94 */  jal   PadMgr_LockSerialMesgQueue
 /* B3E5D4 800C7434 AFB00018 */   sw    $s0, 0x18($sp)
 /* B3E5D8 800C7438 AFA2003C */  sw    $v0, 0x3c($sp)
 /* B3E5DC 800C743C 0000A825 */  move  $s5, $zero
@@ -210,7 +210,7 @@ glabel func_800C740C
 /* B3E680 800C74E0 0C00084C */  jal   osSyncPrintf
 /* B3E684 800C74E4 248458CC */   addiu $a0, %lo(D_801458CC) # addiu $a0, $a0, 0x58cc
 /* B3E688 800C74E8 02402025 */  move  $a0, $s2
-/* B3E68C 800C74EC 0C0401E0 */  jal   osSetVibration
+/* B3E68C 800C74EC 0C0401E0 */  jal   osSetRumble
 /* B3E690 800C74F0 02C02825 */   move  $a1, $s6
 /* B3E694 800C74F4 10400010 */  beqz  $v0, .L800C7538
 /* B3E698 800C74F8 240D0003 */   li    $t5, 3
@@ -257,7 +257,7 @@ glabel func_800C740C
 /* B3E734 800C7594 0C00084C */  jal   osSyncPrintf
 /* B3E738 800C7598 24845944 */   addiu $a0, %lo(D_80145944) # addiu $a0, $a0, 0x5944
 /* B3E73C 800C759C 02402025 */  move  $a0, $s2
-/* B3E740 800C75A0 0C0401E0 */  jal   osSetVibration
+/* B3E740 800C75A0 0C0401E0 */  jal   osSetRumble
 /* B3E744 800C75A4 00002825 */   move  $a1, $zero
 /* B3E748 800C75A8 1040000F */  beqz  $v0, .L800C75E8
 /* B3E74C 800C75AC 3C048014 */   lui   $a0, %hi(D_80145948) # $a0, 0x8014
@@ -344,7 +344,7 @@ glabel func_800C740C
 /* B3E87C 800C76DC 028E9021 */  addu  $s2, $s4, $t6
 /* B3E880 800C76E0 265202BC */  addiu $s2, $s2, 0x2bc
 /* B3E884 800C76E4 02402825 */  move  $a1, $s2
-/* B3E888 800C76E8 0C04027D */  jal   osProbeVibrationPack
+/* B3E888 800C76E8 0C04027D */  jal   osProbeRumblePak
 /* B3E88C 800C76EC 00403025 */   move  $a2, $v0
 /* B3E890 800C76F0 14400018 */  bnez  $v0, .L800C7754
 /* B3E894 800C76F4 2401000B */   li    $at, 11
@@ -352,10 +352,10 @@ glabel func_800C740C
 /* B3E89C 800C76FC 0293C021 */  addu  $t8, $s4, $s3
 /* B3E8A0 800C7700 A30F02AE */  sb    $t7, 0x2ae($t8)
 /* B3E8A4 800C7704 02402025 */  move  $a0, $s2
-/* B3E8A8 800C7708 0C0401E0 */  jal   osSetVibration
+/* B3E8A8 800C7708 0C0401E0 */  jal   osSetRumble
 /* B3E8AC 800C770C 24050001 */   li    $a1, 1
 /* B3E8B0 800C7710 02402025 */  move  $a0, $s2
-/* B3E8B4 800C7714 0C0401E0 */  jal   osSetVibration
+/* B3E8B4 800C7714 0C0401E0 */  jal   osSetRumble
 /* B3E8B8 800C7718 00002825 */   move  $a1, $zero
 /* B3E8BC 800C771C 3C048014 */  lui   $a0, %hi(D_80145A28) # $a0, 0x8014
 /* B3E8C0 800C7720 0C00084C */  jal   osSyncPrintf
@@ -411,7 +411,7 @@ glabel func_800C740C
 /* B3E97C 800C77DC 02802025 */  move  $a0, $s4
 /* B3E980 800C77E0 252A0001 */  addiu $t2, $t1, 1
 /* B3E984 800C77E4 AC2AA4F0 */  sw    $t2, %lo(D_8016A4F0)($at)
-/* B3E988 800C77E8 0C031CBF */  jal   PadMgr_UnlockReleaseControllerQueue
+/* B3E988 800C77E8 0C031CBF */  jal   PadMgr_UnlockSerialMesgQueue
 /* B3E98C 800C77EC 8FA5003C */   lw    $a1, 0x3c($sp)
 /* B3E990 800C77F0 8FBF0034 */  lw    $ra, 0x34($sp)
 /* B3E994 800C77F4 8FB00018 */  lw    $s0, 0x18($sp)

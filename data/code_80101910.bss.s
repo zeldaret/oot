@@ -7,5 +7,5 @@
 
 .section .bss
 
-glabel D_80175960
+glabel pifMempakBuf
     .space 0x40

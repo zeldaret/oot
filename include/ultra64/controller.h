@@ -2,10 +2,36 @@
 #define _ULTRA64_CONTROLLER_H_
 
 #include <ultra64.h>
-#include <global.h>
 
 #include <PR/os_cont.h>
 #include <PR/os_message.h>
+
+typedef struct
+{
+    /* 0x00 */ union{
+        u16 button;
+        struct{
+            u16 a   : 1;
+            u16 b   : 1;
+            u16 z   : 1;
+            u16 s   : 1;
+            u16 du  : 1;
+            u16 dd  : 1;
+            u16 dl  : 1;
+            u16 dr  : 1;
+            u16 illegal_h : 1;
+            u16 illegal_l : 1;
+            u16 l   : 1;
+            u16 r   : 1;
+            u16 cu  : 1;
+            u16 cd  : 1;
+            u16 cl  : 1;
+            u16 cr  : 1;
+        };
+    };
+    /* 0x02 */ s8  x;
+    /* 0x03 */ s8  y;
+} PadInput; // size = 0x4
 
 typedef struct
 {
@@ -19,11 +45,7 @@ typedef struct
 {
     PIF_header_t hdr;
     union{
-        struct{
-            u16 button;
-            s8 rawStickX;
-            s8 rawStickY;
-        };
+        PadInput input;
         struct{
             u8 ctl_type_lo;
             u8 ctl_type_hi;
@@ -41,6 +63,10 @@ typedef union
         u8 data[0x23]; //Yes, really 0x23 bytes of data
     };
 } PIF_mempak_wr_t;
+
+typedef struct {
+    u8 data[0x20];
+} PIF_mempak_data_t;
 
 typedef union
 {
@@ -75,9 +101,9 @@ extern u32 gOsContInitialized; // = 0
 extern OSMesgQueue _osContMesgQueue;
 extern OSMesg _osContMesgBuff[4];
 
-extern s32 osSetVibration(unk_controller_t *arg0, u32 vibrate);
+extern s32 osSetRumble(unk_controller_t *arg0, u32 vibrate);
 extern void osSetUpMempakWrite(s32 ctrlridx, pif_data_buffer_t* buf);
-extern s32 osProbeVibrationPack(OSMesgQueue* ctrlrqueue, unk_controller_t *unk_controller, u32 ctrlridx);
+extern s32 osProbeRumblePak(OSMesgQueue* ctrlrqueue, unk_controller_t *unk_controller, u32 ctrlridx);
 extern void __osSiCreateAccessQueue();
 extern void __osSiGetAccess();
 extern void __osSiRelAccess();
