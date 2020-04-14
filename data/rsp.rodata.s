@@ -25,4 +25,10 @@ glabel D_80155C70
     .incbin "baserom.z64", 0xBCCE10, 0x2E0
 
 glabel D_80155F50
-    .incbin "baserom.z64", 0xBCD0F0, 0x1E40
+    .incbin "baserom.z64", 0xBCD0F0, 0x1630
+
+glabel D_80157580
+    .incbin "baserom.z64", 0xBCE720, 0x7B0
+
+glabel D_80157D30
+    .incbin "baserom.z64", 0xBCEED0, 0x60

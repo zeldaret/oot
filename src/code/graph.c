@@ -13,13 +13,19 @@ FaultClient sGraphFaultClient;
 CfbInfo sGraphCfbInfos[3];
 FaultClient sGraphUcodeFaultClient;
 
+// clang-format off
 UCodeInfo D_8012D230[3] = {
-    { 1, D_80155F50 }, { 2, NULL }, { 3, D_801120C0 + 0xFB0 }, // D_80113070
+    { 1, D_80155F50 },
+    { 2, NULL },
+    { 3, D_80113070 },
 };
 
 UCodeInfo D_8012D248[3] = {
-    { 1, D_80155F50 }, { 2, NULL }, { 3, D_801120C0 + 0xFB0 }, // D_80113070
+    { 1, D_80155F50 },
+    { 2, NULL },
+    { 3, D_80113070 },
 };
+// clang-format on
 
 void Graph_FaultClient() {
     void* nextFb;
@@ -208,9 +214,9 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->type = M_GFXTASK;
     task->flags = OS_SC_DRAM_DLIST;
     task->ucode_boot = SysUcode_GetUCodeBoot();
-    task->ucode_boot_size = SysUcode_GetUcodeBootSize();
-    task->ucode = SysUcode_GetUcode();
-    task->ucode_data = SysUcode_GetUcodeData();
+    task->ucode_boot_size = SysUcode_GetUCodeBootSize();
+    task->ucode = SysUcode_GetUCode();
+    task->ucode_data = SysUcode_GetUCodeData();
     task->ucode_size = 0x1000;
     task->ucode_data_size = 0x800;
     task->dram_stack = gGfxSPTaskStack;

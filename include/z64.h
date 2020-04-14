@@ -1143,71 +1143,71 @@ typedef enum {
 } MatrixMode;
 
 typedef struct FaultClient {
-    struct FaultClient* next;
-    u32 callback;
-    u32 param1;
-    u32 param2;
-} FaultClient;
+    /* 0x00 */ struct FaultClient* next;
+    /* 0x04 */ u32 callback;
+    /* 0x08 */ u32 param1;
+    /* 0x0C */ u32 param2;
+} FaultClient; // size = 0x10
 
 typedef struct FaultAddrConvClient {
-    struct FaultAddrConvClient* next;
-    u32 callback;
-    u32 param;
-} FaultAddrConvClient;
+    /* 0x00 */ struct FaultAddrConvClient* next;
+    /* 0x04 */ u32 callback;
+    /* 0x08 */ u32 param;
+} FaultAddrConvClient; // size = 0xC
 
 
 typedef struct {
-    u32 (*callback)(u32, u32);
-    u32 param0;
-    u32 param1;
-    u32 ret;
-    OSMesgQueue* queue;
-    OSMesg msg;
-} FaultClientContext;
+    /* 0x00 */ u32 (*callback)(u32, u32);
+    /* 0x04 */ u32 param0;
+    /* 0x08 */ u32 param1;
+    /* 0x0C */ u32 ret;
+    /* 0x10 */ OSMesgQueue* queue;
+    /* 0x14 */ OSMesg msg;
+} FaultClientContext; // size = 0x18
 
 typedef struct FaultThreadStruct {
-    OSThread thread;
-    u8 unk_1B0[0x600];
-    OSMesgQueue queue;
-    OSMesg msg;
-    u8 exitDebugger;
-    u8 msgId;
-    u8 faultHandlerEnabled;
-    u8 faultActive;
-    OSThread* faultedThread;
-    void(*padCallback)(Input*);
-    FaultClient* clients;
-    FaultAddrConvClient* addrConvClients;
-    u8 unk_7E0[4];
-    Input padInput;
-    u16 colors[36];
-    void* fb;
-    u32 currClientThreadSp;
-    u8 unk_84C[4];
-} FaultThreadStruct;
+    /* 0x000 */ OSThread thread;
+    /* 0x1B0 */ u8 unk_1B0[0x600];
+    /* 0x7B0 */ OSMesgQueue queue;
+    /* 0x7C8 */ OSMesg msg;
+    /* 0x7CC */ u8 exitDebugger;
+    /* 0x7CD */ u8 msgId;
+    /* 0x7CE */ u8 faultHandlerEnabled;
+    /* 0x7CF */ u8 faultActive;
+    /* 0x7D0 */ OSThread* faultedThread;
+    /* 0x7D4 */ void(*padCallback)(Input*);
+    /* 0x7D8 */ FaultClient* clients;
+    /* 0x7DC */ FaultAddrConvClient* addrConvClients;
+    /* 0x7E0 */ u8 unk_7E0[4];
+    /* 0x7E4 */ Input padInput;
+    /* 0x7FC */ u16 colors[36];
+    /* 0x844 */ void* fb;
+    /* 0x848 */ u32 currClientThreadSp;
+    /* 0x84C */ u8 unk_84C[4];
+} FaultThreadStruct; // size = 0x850
 
 typedef struct {
-    u16* fb;
-    u16 w;
-    u16 h;
-    u16 yStart;
-    u16 yEnd;
-    u16 xStart;
-    u16 xEnd;
-    u16 foreColor;
-    u16 backColor;
-    u16 cursorX;
-    u16 cursorY;
-    u32* fontData;
-    u8 charW;
-    u8 charH;
-    s8 charWPad;
-    s8 charHPad;
-    u16 printColors[10];
-    u8 escCode; // bool
-    u8 osSyncPrintfEnabled;
-    void(*inputCallback)();
-} FaultDrawer;
+    /* 0x00 */ u16* fb;
+    /* 0x04 */ u16 w;
+    /* 0x08 */ u16 h;
+    /* 0x0A */ u16 yStart;
+    /* 0x0C */ u16 yEnd;
+    /* 0x0E */ u16 xStart;
+    /* 0x10 */ u16 xEnd;
+    /* 0x12 */ u16 foreColor;
+    /* 0x14 */ u16 backColor;
+    /* 0x14 */ u16 cursorX;
+    /* 0x16 */ u16 cursorY;
+    /* 0x18 */ u32* fontData;
+    /* 0x1C */ u8 charW;
+    /* 0x1D */ u8 charH;
+    /* 0x1E */ s8 charWPad;
+    /* 0x1F */ s8 charHPad;
+    /* 0x20 */ u16 printColors[10];
+    /* 0x34 */ u8 escCode; // bool
+    /* 0x35 */ u8 osSyncPrintfEnabled;
+    /* 0x38 */ void(*inputCallback)();
+} FaultDrawer; // size = 0x3C
 
 typedef struct GfxPrint {
     /* 0x00 */ struct GfxPrint*(*callback)(struct GfxPrint*, const char*, size_t);
@@ -1255,9 +1255,9 @@ typedef struct {
 } ISVDbg;
 
 typedef struct {
-    char name[0x18];
-    u32 mediaFormat;
-    union {
+    /* 0x00 */ char name[0x18];
+    /* 0x18 */ u32 mediaFormat;
+    /* 0x1C */ union {
         struct {
             u16 cartId;
             u8 countryCode;
@@ -1265,15 +1265,15 @@ typedef struct {
         };
         u32 regionInfo;
     };
-} LocaleCartInfo;
+} LocaleCartInfo; // size = 0x20
 
 typedef struct {
-    char magic[4]; // Yaz0
-    u32 decSize;
-    u32 compInfoOffset; // only used in yaz0_old.c
-    u32 uncompDataOffset; // only used in yaz0_old.c
-    u32 data[1];
-} Yaz0Header;
+    /* 0x00 */ char magic[4]; // Yaz0
+    /* 0x04 */ u32 decSize;
+    /* 0x08 */ u32 compInfoOffset; // only used in yaz0_old.c
+    /* 0x0C */ u32 uncompDataOffset; // only used in yaz0_old.c
+    /* 0x10 */ u32 data[1];
+} Yaz0Header; // size = 0x10 ("data" is not part of the header)
 
 #define OS_SC_RETRACE_MSG       1
 #define OS_SC_DONE_MSG          2
@@ -1281,13 +1281,13 @@ typedef struct {
 #define OS_SC_PRE_NMI_MSG       4
 
 typedef struct {
-    short type;
-    char  misc[30];
-} OSScMsg;
+    /* 0x00 */ s16 type;
+    /* 0x02 */ char  misc[0x1E];
+} OSScMsg; // size = 0x20
 
 typedef struct IrqMgrClient {
-    struct IrqMgrClient* prev;
-    OSMesgQueue* queue;
+    /* 0x00 */ struct IrqMgrClient* prev;
+    /* 0x04 */ OSMesgQueue* queue;
 } IrqMgrClient;
 
 typedef struct {
@@ -1445,5 +1445,56 @@ typedef struct {
     /* 0x14 */ f32 xScale;
     /* 0x18 */ f32 yScale;
 } CfbInfo; // size = 0x1C
+
+typedef struct {
+    /* 0x00 */ u16 table[8*8];
+} JpegQuantizationTable; // size = 0x80
+
+typedef struct {
+    /* 0x00 */ u8 codeOffs[16];
+    /* 0x10 */ u16 codesA[16];
+    /* 0x30 */ u16 codesB[16];
+    /* 0x50 */ u8* symbols;
+} JpegHuffmanTable; // size = 0x54
+
+typedef struct {
+    /* 0x00 */ u32 unk_00;
+    /* 0x04 */ u32 unk_04;
+    /* 0x08 */ u32 unk_08;
+    /* 0x0C */ u32 qTablePtrs[3];
+    /* 0x18 */ char unk_18[0x8];
+} JpegTaskData; // size = 0x20
+
+typedef struct {
+    /* 0x000 */ JpegTaskData taskData;
+    /* 0x020 */ char yieldData[0x200];
+    /* 0x220 */ JpegQuantizationTable qTables[3];
+    /* 0x3A0 */ u8 codesLenghts[0x110];
+    /* 0x4B0 */ u16 codes[0x108];
+    /* 0x6C0 */ u16 unk_6C0[4][0x180];
+} JpegWork; // size = 0x12C0
+
+typedef struct {
+    /* 0x00 */ void* imageData;
+    /* 0x04 */ u8 unk_04;
+    /* 0x05 */ u8 unk_05;
+    /* 0x08 */ JpegHuffmanTable* hTablePtrs[4];
+    /* 0x18 */ u8 unk_18;
+} JpegDecoder; // size = 0x1C
+
+typedef struct {
+    /* 0x00 */ u8 dqtCount;
+    /* 0x04 */ u8* dqtPtr[3];
+    /* 0x10 */ u8 dhtCount;
+    /* 0x14 */ u8* dhtPtr[4];
+    /* 0x24 */ void* imageData;
+    /* 0x28 */ u32 unk_28; // 0 if Y V0 is 0 and 2 if Y V0 is 2
+    /* 0x2C */ char unk_2C[4];
+    /* 0x30 */ OSScTask scTask;
+    /* 0x88 */ char unk_88[0x10];
+    /* 0x98 */ OSMesgQueue mq;
+    /* 0xB0 */ OSMesg msg;
+    /* 0xB4 */ JpegWork* workBuf;
+} JpegContext; // size = 0xB8
 
 #endif
