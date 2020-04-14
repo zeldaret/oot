@@ -83,5 +83,3 @@ glabel func_80B4EE38
 /* 005C8 80B4EF58 008A5821 */  addu    $t3, $a0, $t2              
 /* 005CC 80B4EF5C 03E00008 */  jr      $ra                        
 /* 005D0 80B4EF60 A565020C */  sh      $a1, 0x020C($t3)           ## 0000020C
-
-

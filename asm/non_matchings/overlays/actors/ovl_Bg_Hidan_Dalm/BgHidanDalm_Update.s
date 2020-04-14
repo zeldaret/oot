@@ -23,5 +23,3 @@ glabel BgHidanDalm_Update
 /* 004AC 808862CC 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 004B0 808862D0 03E00008 */  jr      $ra                        
 /* 004B4 808862D4 00000000 */  nop
-
-

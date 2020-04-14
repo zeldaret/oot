@@ -1,3 +1,9 @@
+.rdata
+glabel D_808B60A0
+    .asciz "Spot16 obj 爆弾石 破壊済み\n"
+    .balign 4
+
+.text
 glabel func_808B4D9C
 /* 0016C 808B4D9C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00170 808B4DA0 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -54,5 +60,3 @@ glabel func_808B4D9C
 /* 0021C 808B4E4C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00220 808B4E50 03E00008 */  jr      $ra                        
 /* 00224 808B4E54 00000000 */  nop
-
-

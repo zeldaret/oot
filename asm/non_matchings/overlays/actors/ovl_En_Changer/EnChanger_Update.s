@@ -49,4 +49,3 @@ glabel EnChanger_Update
 /* 009E4 809D3074 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 009E8 809D3078 03E00008 */  jr      $ra                        
 /* 009EC 809D307C 00000000 */  nop
-

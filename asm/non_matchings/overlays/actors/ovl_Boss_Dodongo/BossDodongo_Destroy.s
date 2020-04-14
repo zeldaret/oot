@@ -13,5 +13,3 @@ glabel BossDodongo_Destroy
 /* 00AE4 808C1C74 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00AE8 808C1C78 03E00008 */  jr      $ra
 /* 00AEC 808C1C7C 00000000 */  nop
-
-

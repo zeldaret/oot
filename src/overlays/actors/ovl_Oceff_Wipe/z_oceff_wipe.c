@@ -1,6 +1,11 @@
+/*
+ * File: z_oceff_wipe.c
+ * Overlay: ovl_Oceff_Wipe
+ * Description: Zelda's Lullaby Effect
+ */
+
 #include "z_oceff_wipe.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void OceffWipe_Init(OceffWipe* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void OceffWipe_Draw(OceffWipe* this, GlobalContext* globalCtx);
 const ActorInit Oceff_Wipe_InitVars = {
     ACTOR_OCEFF_WIPE,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffWipe),

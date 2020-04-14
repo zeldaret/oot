@@ -1,3 +1,17 @@
+.rdata
+glabel D_808D6444
+    .asciz "../z_boss_fd2.c"
+    .balign 4
+
+glabel D_808D6454
+    .asciz "FD2 draw start \n"
+    .balign 4
+
+glabel D_808D6468
+    .asciz "../z_boss_fd2.c"
+    .balign 4
+
+.text
 glabel BossFd2_Draw
 /* 036E0 808D5D50 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 036E4 808D5D54 AFB20040 */  sw      $s2, 0x0040($sp)
@@ -154,4 +168,3 @@ glabel BossFd2_Draw
 /* 03934 808D5FA4 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 03938 808D5FA8 00000000 */  nop
 /* 0393C 808D5FAC 00000000 */  nop
-

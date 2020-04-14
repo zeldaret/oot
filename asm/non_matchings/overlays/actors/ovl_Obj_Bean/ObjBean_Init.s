@@ -1,3 +1,41 @@
+.rdata
+glabel D_80B90F10
+    .asciz "\x1b[41;37m"
+    .balign 4
+
+glabel D_80B90F1C
+    .asciz "パスデータが無い？(%s %d)(arg_data %xH)\n"
+    .balign 4
+
+glabel D_80B90F48
+    .asciz "../z_obj_bean.c"
+    .balign 4
+
+glabel D_80B90F58
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80B90F5C
+    .asciz "[41;37m"
+    .balign 4
+
+glabel D_80B90F68
+    .asciz "パスデータ数が不正(%s %d)(arg_data %xH)\n"
+    .balign 4
+
+glabel D_80B90F94
+    .asciz "../z_obj_bean.c"
+    .balign 4
+
+glabel D_80B90FA4
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80B90FA8
+    .asciz "(魔法の豆の木リフト)(arg_data 0x%04x)\n"
+    .balign 4
+
+.text
 glabel ObjBean_Init
 /* 00FFC 80B8FA7C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 01000 80B8FA80 AFA50024 */  sw      $a1, 0x0024($sp)           
@@ -174,5 +212,3 @@ glabel ObjBean_Init
 /* 01248 80B8FCC8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0124C 80B8FCCC 03E00008 */  jr      $ra                        
 /* 01250 80B8FCD0 00000000 */  nop
-
-

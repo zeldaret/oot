@@ -49,5 +49,3 @@ glabel EnBlkobj_Init
 /* 000AC 809C210C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 000B0 809C2110 03E00008 */  jr      $ra                        
 /* 000B4 809C2114 00000000 */  nop
-
-

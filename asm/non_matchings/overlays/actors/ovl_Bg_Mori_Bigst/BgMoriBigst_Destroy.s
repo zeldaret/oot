@@ -12,5 +12,3 @@ glabel BgMoriBigst_Destroy
 /* 00210 808A0DD0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00214 808A0DD4 03E00008 */  jr      $ra                        
 /* 00218 808A0DD8 00000000 */  nop
-
-

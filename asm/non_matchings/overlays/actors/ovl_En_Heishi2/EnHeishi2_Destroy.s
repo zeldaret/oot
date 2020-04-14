@@ -18,5 +18,3 @@ glabel EnHeishi2_Destroy
 /* 00320 80A531C0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00324 80A531C4 03E00008 */  jr      $ra                        
 /* 00328 80A531C8 00000000 */  nop
-
-

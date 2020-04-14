@@ -23,4 +23,3 @@ glabel EnDha_Draw
 /* 00DA4 809ED624 03E00008 */  jr      $ra
 /* 00DA8 809ED628 00000000 */  nop
 /* 00DAC 809ED62C 00000000 */  nop
-

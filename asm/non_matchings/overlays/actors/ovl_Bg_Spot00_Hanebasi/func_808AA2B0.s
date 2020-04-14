@@ -1,3 +1,29 @@
+.rdata
+glabel D_808AA7D0
+    .asciz "../z_bg_spot00_hanebasi.c"
+    .balign 4
+
+glabel D_808AA7EC
+    .asciz "../z_bg_spot00_hanebasi.c"
+    .balign 4
+
+glabel D_808AA808
+    .asciz "../z_bg_spot00_hanebasi.c"
+    .balign 4
+
+.late_rodata
+glabel D_808AA88C
+    .float 0.008
+
+glabel D_808AA890
+ .word 0x3583126F
+glabel D_808AA894
+    .float 9.58738019108e-05
+
+glabel D_808AA898
+ .word 0x442C8000, 0x00000000
+
+.text
 glabel func_808AA2B0
 /* 00B30 808AA2B0 27BDFF30 */  addiu   $sp, $sp, 0xFF30           ## $sp = FFFFFF30
 /* 00B34 808AA2B4 AFB3006C */  sw      $s3, 0x006C($sp)           
@@ -186,5 +212,3 @@ glabel func_808AA2B0
 /* 00DFC 808AA57C 8FBE0080 */  lw      $s8, 0x0080($sp)           
 /* 00E00 808AA580 03E00008 */  jr      $ra                        
 /* 00E04 808AA584 27BD00D0 */  addiu   $sp, $sp, 0x00D0           ## $sp = 00000000
-
-

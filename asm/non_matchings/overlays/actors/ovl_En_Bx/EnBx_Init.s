@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_809D25B0
+    .float 0.01
+
+glabel D_809D25B4
+    .float 0.03
+
+.text
 glabel EnBx_Init
 /* 00000 809D1AE0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00004 809D1AE4 3C0E809D */  lui     $t6, %hi(D_809D250C)       ## $t6 = 809D0000
@@ -137,5 +145,3 @@ glabel EnBx_Init
 /* 001F8 809D1CD8 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 001FC 809D1CDC 03E00008 */  jr      $ra                        
 /* 00200 809D1CE0 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

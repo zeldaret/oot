@@ -1,6 +1,5 @@
 #include "z_en_bombf.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000011
 
 void EnBombf_Init(EnBombf* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnBombf_Draw(EnBombf* this, GlobalContext* globalCtx);
 const ActorInit En_Bombf_InitVars = {
     ACTOR_EN_BOMBF,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_BOMBF,
     sizeof(EnBombf),

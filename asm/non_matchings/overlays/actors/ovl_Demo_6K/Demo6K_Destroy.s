@@ -12,5 +12,3 @@ glabel Demo6K_Destroy
 /* 00454 80966DA4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00458 80966DA8 03E00008 */  jr      $ra                        
 /* 0045C 80966DAC 00000000 */  nop
-
-

@@ -14,5 +14,3 @@ glabel EnMa2_Destroy
 /* 0066C 80AA200C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00670 80AA2010 03E00008 */  jr      $ra
 /* 00674 80AA2014 00000000 */  nop
-
-

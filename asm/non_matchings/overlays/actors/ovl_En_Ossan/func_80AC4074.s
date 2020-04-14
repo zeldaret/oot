@@ -1,3 +1,19 @@
+.rdata
+glabel D_80AC90C4
+    .asciz "「スティック左右で品物みてくれ！」\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80AC94FC
+.word L80AC4198
+.word L80AC4198
+.word L80AC4198
+.word L80AC4198
+.word L80AC4184
+.word L80AC41AC
+.word L80AC4168
+
+.text
 glabel func_80AC4074
 /* 013D4 80AC4074 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 013D8 80AC4078 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -117,5 +133,3 @@ glabel L80AC41AC
 /* 01574 80AC4214 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 01578 80AC4218 03E00008 */  jr      $ra                        
 /* 0157C 80AC421C 00000000 */  nop
-
-

@@ -8,5 +8,3 @@ glabel DoorKiller_Update
 /* 011E4 80995E34 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 011E8 80995E38 03E00008 */  jr      $ra                        
 /* 011EC 80995E3C 00000000 */  nop
-
-

@@ -15,4 +15,3 @@ glabel BgJyaIronobj_Draw
 /* 00BD4 80899474 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00BD8 80899478 03E00008 */  jr      $ra                        
 /* 00BDC 8089947C 00000000 */  nop
-

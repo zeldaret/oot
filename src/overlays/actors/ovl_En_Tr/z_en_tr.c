@@ -1,6 +1,11 @@
+/*
+ * File: z_en_tr.c
+ * Overlay: ovl_En_Tr
+ * Description: Koume and Kotake
+ */
+
 #include "z_en_tr.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnTr_Init(EnTr* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnTr_Draw(EnTr* this, GlobalContext* globalCtx);
 const ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_TR,
     sizeof(EnTr),

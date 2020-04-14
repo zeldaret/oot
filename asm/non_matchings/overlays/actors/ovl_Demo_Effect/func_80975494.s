@@ -1,3 +1,31 @@
+.rdata
+glabel D_80976A8C
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976AA0
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976AB4
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976AC8
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+.late_rodata
+glabel D_80976D64
+    .float 0.05
+
+glabel D_80976D68
+    .float 0.017453292
+
+glabel D_80976D6C
+    .float 0.017453292
+
+.text
 glabel func_80975494
 /* 04544 80975494 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 04548 80975498 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -164,5 +192,3 @@ glabel func_80975494
 /* 047C0 80975710 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 047C4 80975714 03E00008 */  jr      $ra                        
 /* 047C8 80975718 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
-
-

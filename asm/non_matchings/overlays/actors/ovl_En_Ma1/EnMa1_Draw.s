@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AA16E0
+    .asciz "../z_en_ma1.c"
+    .balign 4
+
+glabel D_80AA16F0
+    .asciz "../z_en_ma1.c"
+    .balign 4
+
+.text
 glabel EnMa1_Draw
 /* 00E14 80AA14A4 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00E18 80AA14A8 AFB20030 */  sw      $s2, 0x0030($sp)
@@ -95,4 +105,3 @@ glabel EnMa1_Draw
 /* 00F84 80AA1614 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 00F88 80AA1618 03E00008 */  jr      $ra
 /* 00F8C 80AA161C 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
-

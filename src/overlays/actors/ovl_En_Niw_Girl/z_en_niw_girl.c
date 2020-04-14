@@ -1,6 +1,5 @@
 #include "z_en_niw_girl.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnNiwGirl_Init(EnNiwGirl* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnNiwGirl_Draw(EnNiwGirl* this, GlobalContext* globalCtx);
 const ActorInit En_Niw_Girl_InitVars = {
     ACTOR_EN_NIW_GIRL,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_GR,
     sizeof(EnNiwGirl),

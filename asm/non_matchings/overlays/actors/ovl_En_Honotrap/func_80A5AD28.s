@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A5B0E4
+    .asciz "../z_en_honotrap.c"
+    .balign 4
+
+glabel D_80A5B0F8
+    .asciz "../z_en_honotrap.c"
+    .balign 4
+
+glabel D_80A5B10C
+    .asciz "../z_en_honotrap.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A5B144
+    .float 9.58738019108e-05
+
+.text
 glabel func_80A5AD28
 /* 010F8 80A5AD28 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 010FC 80A5AD2C AFB20040 */  sw      $s2, 0x0040($sp)           
@@ -116,5 +134,3 @@ glabel func_80A5AD28
 /* 012C0 80A5AEF0 8FB20040 */  lw      $s2, 0x0040($sp)           
 /* 012C4 80A5AEF4 03E00008 */  jr      $ra                        
 /* 012C8 80A5AEF8 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

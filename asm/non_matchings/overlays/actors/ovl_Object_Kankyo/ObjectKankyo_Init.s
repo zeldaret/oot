@@ -33,7 +33,7 @@ glabel L80BA2B10
 /* 0007C 80BA2B1C 3C0580BA */  lui     $a1, %hi(func_80BA2DD4)    ## $a1 = 80BA0000
 /* 00080 80BA2B20 15000007 */  bne     $t0, $zero, .L80BA2B40     
 /* 00084 80BA2B24 00000000 */  nop
-/* 00088 80BA2B28 0C2E8AA8 */  jal     func_80BA2AA0              
+/* 00088 80BA2B28 0C2E8AA8 */  jal     ObjectKankyo_SetupAction              
 /* 0008C 80BA2B2C 24A52DD4 */  addiu   $a1, $a1, %lo(func_80BA2DD4) ## $a1 = 80BA2DD4
 /* 00090 80BA2B30 24090001 */  addiu   $t1, $zero, 0x0001         ## $t1 = 00000001
 /* 00094 80BA2B34 3C0180BA */  lui     $at, %hi(D_80BA5940)       ## $at = 80BA0000
@@ -52,7 +52,7 @@ glabel L80BA2B50
 /* 000BC 80BA2B5C 3C0580BA */  lui     $a1, %hi(func_80BA2DC8)    ## $a1 = 80BA0000
 /* 000C0 80BA2B60 15400007 */  bne     $t2, $zero, .L80BA2B80     
 /* 000C4 80BA2B64 00000000 */  nop
-/* 000C8 80BA2B68 0C2E8AA8 */  jal     func_80BA2AA0              
+/* 000C8 80BA2B68 0C2E8AA8 */  jal     ObjectKankyo_SetupAction              
 /* 000CC 80BA2B6C 24A52DC8 */  addiu   $a1, $a1, %lo(func_80BA2DC8) ## $a1 = 80BA2DC8
 /* 000D0 80BA2B70 240B0001 */  addiu   $t3, $zero, 0x0001         ## $t3 = 00000001
 /* 000D4 80BA2B74 3C0180BA */  lui     $at, %hi(D_80BA5940)       ## $at = 80BA0000
@@ -67,7 +67,7 @@ glabel L80BA2B50
 glabel L80BA2B90
 /* 000F0 80BA2B90 3C0580BA */  lui     $a1, %hi(func_80BA4914)    ## $a1 = 80BA0000
 /* 000F4 80BA2B94 24A54914 */  addiu   $a1, $a1, %lo(func_80BA4914) ## $a1 = 80BA4914
-/* 000F8 80BA2B98 0C2E8AA8 */  jal     func_80BA2AA0              
+/* 000F8 80BA2B98 0C2E8AA8 */  jal     ObjectKankyo_SetupAction              
 /* 000FC 80BA2B9C 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 00100 80BA2BA0 1000007E */  beq     $zero, $zero, .L80BA2D9C   
 /* 00104 80BA2BA4 8FBF0014 */  lw      $ra, 0x0014($sp)           
@@ -84,7 +84,7 @@ glabel L80BA2BA8
 /* 00128 80BA2BC8 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 0012C 80BA2BCC 3C0580BA */  lui     $a1, %hi(func_80BA4BFC)    ## $a1 = 80BA0000
 /* 00130 80BA2BD0 24A54BFC */  addiu   $a1, $a1, %lo(func_80BA4BFC) ## $a1 = 80BA4BFC
-/* 00134 80BA2BD4 0C2E8AA8 */  jal     func_80BA2AA0              
+/* 00134 80BA2BD4 0C2E8AA8 */  jal     ObjectKankyo_SetupAction              
 /* 00138 80BA2BD8 A0801659 */  sb      $zero, 0x1659($a0)         ## 00001659
 /* 0013C 80BA2BDC 1000006F */  beq     $zero, $zero, .L80BA2D9C   
 /* 00140 80BA2BE0 8FBF0014 */  lw      $ra, 0x0014($sp)           
@@ -215,7 +215,7 @@ glabel L80BA2BE4
 /* 002E8 80BA2D88 00000000 */  nop
 /* 002EC 80BA2D8C E4C00334 */  swc1    $f0, 0x0334($a2)           ## 00000334
 .L80BA2D90:
-/* 002F0 80BA2D90 0C2E8AA8 */  jal     func_80BA2AA0              
+/* 002F0 80BA2D90 0C2E8AA8 */  jal     ObjectKankyo_SetupAction              
 /* 002F4 80BA2D94 A0C01659 */  sb      $zero, 0x1659($a2)         ## 00001659
 glabel L80BA2D98
 .L80BA2D98:
@@ -224,5 +224,3 @@ glabel L80BA2D98
 /* 002FC 80BA2D9C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00300 80BA2DA0 03E00008 */  jr      $ra                        
 /* 00304 80BA2DA4 00000000 */  nop
-
-

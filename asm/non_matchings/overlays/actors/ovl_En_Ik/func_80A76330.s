@@ -1,3 +1,33 @@
+.rdata
+glabel D_80A78650
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A78668
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A78680
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A78698
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A786B0
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A786C8
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A786E0
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+.text
 glabel func_80A76330
 /* 02020 80A76330 27BDFF00 */  addiu   $sp, $sp, 0xFF00           ## $sp = FFFFFF00
 /* 02024 80A76334 AFB00024 */  sw      $s0, 0x0024($sp)           
@@ -294,5 +324,3 @@ glabel func_80A76330
 /* 0247C 80A7678C 8FB50038 */  lw      $s5, 0x0038($sp)           
 /* 02480 80A76790 03E00008 */  jr      $ra                        
 /* 02484 80A76794 27BD0100 */  addiu   $sp, $sp, 0x0100           ## $sp = 00000000
-
-

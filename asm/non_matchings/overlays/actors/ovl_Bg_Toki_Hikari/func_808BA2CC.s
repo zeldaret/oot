@@ -1,3 +1,31 @@
+.rdata
+glabel D_808BACE0
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+glabel D_808BACF8
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+glabel D_808BAD10
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+glabel D_808BAD28
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+glabel D_808BAD40
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+.late_rodata
+glabel D_808BAD64
+    .float 0.32
+glabel D_808BAD68
+    .float 3.1415927
+
+.text
 glabel func_808BA2CC
 /* 003CC 808BA2CC 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 003D0 808BA2D0 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -638,4 +666,3 @@ glabel func_808BA2CC
 /* 00D44 808BAC44 27BD00A8 */  addiu   $sp, $sp, 0x00A8           ## $sp = 00000000
 /* 00D48 808BAC48 03E00008 */  jr      $ra                        
 /* 00D4C 808BAC4C 00000000 */  nop
-

@@ -10,5 +10,3 @@ glabel EnNiwLady_Destroy
 /* 00114 80AB9D54 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00118 80AB9D58 03E00008 */  jr      $ra                        
 /* 0011C 80AB9D5C 00000000 */  nop
-
-

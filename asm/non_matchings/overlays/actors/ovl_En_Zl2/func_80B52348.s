@@ -1,3 +1,9 @@
+.rdata
+glabel D_80B52AF8
+    .asciz "[31m描画前処理モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel func_80B52348
 /* 039B8 80B52348 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 039BC 80B5234C 8FAE003C */  lw      $t6, 0x003C($sp)           
@@ -32,5 +38,3 @@ glabel func_80B52348
 /* 03A20 80B523B0 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 03A24 80B523B4 03E00008 */  jr      $ra                        
 /* 03A28 80B523B8 00000000 */  nop
-
-

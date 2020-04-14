@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A14FE0
+    .asciz "../z_en_firefly.c"
+    .balign 4
+
+glabel D_80A14FF4
+    .asciz "../z_en_firefly.c"
+    .balign 4
+
+.text
 glabel EnFirefly_Draw
 /* 01CD0 80A14D40 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 01CD4 80A14D44 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -59,5 +69,3 @@ glabel EnFirefly_Draw
 /* 01DAC 80A14E1C 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 01DB0 80A14E20 03E00008 */  jr      $ra
 /* 01DB4 80A14E24 00000000 */  nop
-
-

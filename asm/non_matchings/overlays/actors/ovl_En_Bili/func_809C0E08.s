@@ -1,3 +1,47 @@
+.late_rodata
+glabel D_809C1754
+ .word 0x3F060B41
+glabel D_809C1758
+ .word 0x3E851EB8
+glabel D_809C175C
+ .word 0x3EC90FDB
+glabel D_809C1760
+    .float 0.15
+
+glabel D_809C1764
+    .float 0.85
+
+glabel D_809C1768
+ .word 0x3EA0D97C
+glabel D_809C176C
+    .float 0.3
+
+glabel D_809C1770
+    .float 0.2
+
+glabel D_809C1774
+    .float 0.8
+
+glabel D_809C1778
+ .word 0x3D920D28
+glabel D_809C177C
+ .word 0x3E9EB852
+glabel D_809C1780
+    .float 0.4
+
+glabel D_809C1784
+ .word 0x3EA0D97C
+glabel D_809C1788
+    .float 0.08
+
+glabel D_809C178C
+ .word 0x3EC90FDB
+glabel D_809C1790
+ .word 0x3E051EB8
+glabel D_809C1794
+ .word 0x3F5EB852
+
+.text
 glabel func_809C0E08
 /* 01568 809C0E08 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0156C 809C0E0C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -146,5 +190,3 @@ glabel func_809C0E08
 /* 01774 809C1014 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 01778 809C1018 03E00008 */  jr      $ra                        
 /* 0177C 809C101C 00000000 */  nop
-
-

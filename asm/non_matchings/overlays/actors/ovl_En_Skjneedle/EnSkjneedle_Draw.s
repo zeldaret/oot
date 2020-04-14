@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B021C0
+    .asciz "../z_en_skj_needle.c"
+    .balign 4
+
+glabel D_80B021D8
+    .asciz "../z_en_skj_needle.c"
+    .balign 4
+
+glabel D_80B021F0
+    .asciz "../z_en_skj_needle.c"
+    .balign 4
+
+.text
 glabel EnSkjneedle_Draw
 /* 001DC 80B0208C 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 001E0 80B02090 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -52,4 +66,3 @@ glabel EnSkjneedle_Draw
 /* 002A4 80B02154 00000000 */  nop
 /* 002A8 80B02158 00000000 */  nop
 /* 002AC 80B0215C 00000000 */  nop
-

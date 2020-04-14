@@ -1,3 +1,17 @@
+.rdata
+glabel D_809CE450
+    .asciz "(field keep 蝶)(%x)(arg_data 0x%04x)\n"
+    .balign 4
+
+.late_rodata
+glabel D_809CE48C
+ .word 0x477FFF00
+glabel D_809CE490
+ .word 0x477FFF00
+glabel D_809CE494
+ .word 0x477FFF00
+
+.text
 glabel EnButte_Init
 /* 0034C 809CD3BC 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00350 809CD3C0 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -106,5 +120,3 @@ glabel EnButte_Init
 /* 004C8 809CD538 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 004CC 809CD53C 03E00008 */  jr      $ra
 /* 004D0 809CD540 00000000 */  nop
-
-

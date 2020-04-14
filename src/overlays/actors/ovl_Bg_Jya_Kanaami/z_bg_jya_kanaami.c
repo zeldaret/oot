@@ -4,36 +4,24 @@
  * Description: Climbable Metal Grating (Fire Temple)
  */
 
-#include <ultra64.h>
-#include <global.h>
+#include "z_bg_jya_kanaami.h"
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ u32 dynaPolyId;
-    /* 0x014C */ char unk_150[0x14];
-    /* 0x0164 */ ActorFunc updateFunc;
-    /* 0x0168 */ s16 unk_168;
-    /* 0x016A */ s16 unk_16A;
-} BgJyaKanaami; // size = 0x016C
-
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void BgJyaKanaami_Init(BgJyaKanaami* this, GlobalContext* globalCtx);
-static void BgJyaKanaami_Destroy(BgJyaKanaami* this, GlobalContext* globalCtx);
-static void BgJyaKanaami_Update(BgJyaKanaami* this, GlobalContext* globalCtx);
-static void BgJyaKanaami_Draw(BgJyaKanaami* this, GlobalContext* globalCtx);
+void BgJyaKanaami_Init(BgJyaKanaami* this, GlobalContext* globalCtx);
+void BgJyaKanaami_Destroy(BgJyaKanaami* this, GlobalContext* globalCtx);
+void BgJyaKanaami_Update(BgJyaKanaami* this, GlobalContext* globalCtx);
+void BgJyaKanaami_Draw(BgJyaKanaami* this, GlobalContext* globalCtx);
 
-static void func_80899880(BgJyaKanaami* this);
-static void func_80899894(BgJyaKanaami* this, GlobalContext* globalCtx);
-static void func_8089993C(BgJyaKanaami* this);
-static void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx);
-static void func_80899A08(BgJyaKanaami* this);
+void func_80899880(BgJyaKanaami* this);
+void func_80899894(BgJyaKanaami* this, GlobalContext* globalCtx);
+void func_8089993C(BgJyaKanaami* this);
+void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx);
+void func_80899A08(BgJyaKanaami* this);
 
 const ActorInit Bg_Jya_Kanaami_InitVars = {
     ACTOR_BG_JYA_KANAAMI,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaKanaami),
@@ -53,7 +41,7 @@ static InitChainEntry initChain[] = {
 extern u32 D_0600F000;
 extern u32 D_0600F208;
 
-static void func_80899740(BgJyaKanaami* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
+void func_80899740(BgJyaKanaami* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
     s32 pad;
     s32 local_c = 0;
     s32 pad2;
@@ -67,7 +55,7 @@ static void func_80899740(BgJyaKanaami* this, GlobalContext* globalCtx, u32 coll
     }
 }
 
-static void BgJyaKanaami_Init(BgJyaKanaami* this, GlobalContext* globalCtx) {
+void BgJyaKanaami_Init(BgJyaKanaami* this, GlobalContext* globalCtx) {
     func_80899740(this, globalCtx, &D_0600F208, 0);
     Actor_ProcessInitChain(&this->actor, initChain);
     if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F)) {
@@ -78,16 +66,16 @@ static void BgJyaKanaami_Init(BgJyaKanaami* this, GlobalContext* globalCtx) {
     osSyncPrintf("(jya 金網)(arg_data 0x%04x)\n", this->actor.params);
 }
 
-static void BgJyaKanaami_Destroy(BgJyaKanaami* this, GlobalContext* globalCtx) {
+void BgJyaKanaami_Destroy(BgJyaKanaami* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
-static void func_80899880(BgJyaKanaami* this) {
+void func_80899880(BgJyaKanaami* this) {
     this->updateFunc = func_80899894;
     this->unk_16A = 0;
 }
 
-static void func_80899894(BgJyaKanaami* this, GlobalContext* globalCtx) {
+void func_80899894(BgJyaKanaami* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F) || this->unk_16A > 0) {
         if (this->actor.posRot.pos.x > -1000.0f && this->unk_16A == 0) {
             func_800800F8(globalCtx, 0xD7A, -0x63, &this->actor, 0);
@@ -99,12 +87,12 @@ static void func_80899894(BgJyaKanaami* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8089993C(BgJyaKanaami* this) {
+void func_8089993C(BgJyaKanaami* this) {
     this->updateFunc = func_80899950;
     this->unk_168 = 0;
 }
 
-static void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
+void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 var;
     this->unk_168 += 0x20;
@@ -118,18 +106,18 @@ static void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80899A08(BgJyaKanaami* this) {
+void func_80899A08(BgJyaKanaami* this) {
     this->updateFunc = 0;
     this->actor.posRot.rot.x = 0x4000;
 }
 
-static void BgJyaKanaami_Update(BgJyaKanaami* this, GlobalContext* globalCtx) {
+void BgJyaKanaami_Update(BgJyaKanaami* this, GlobalContext* globalCtx) {
     if (this->updateFunc) {
         this->updateFunc(this, globalCtx);
     }
     this->actor.shape.rot.x = this->actor.posRot.rot.x;
 }
 
-static void BgJyaKanaami_Draw(BgJyaKanaami* this, GlobalContext* globalCtx) {
+void BgJyaKanaami_Draw(BgJyaKanaami* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_0600F000);
 }

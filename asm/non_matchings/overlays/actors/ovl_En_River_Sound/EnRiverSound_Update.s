@@ -127,5 +127,3 @@ glabel EnRiverSound_Update
 /* 0074C 80AE707C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00750 80AE7080 03E00008 */  jr      $ra                        
 /* 00754 80AE7084 00000000 */  nop
-
-

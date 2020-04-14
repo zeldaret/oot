@@ -1,6 +1,5 @@
 #include "z_en_sa.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000019
 
 void EnSa_Init(EnSa* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnSa_Draw(EnSa* this, GlobalContext* globalCtx);
 const ActorInit En_Sa_InitVars = {
     ACTOR_EN_SA,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_SA,
     sizeof(EnSa),

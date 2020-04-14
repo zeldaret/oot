@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AA5F10
+    .asciz "../z_en_mag.c"
+    .balign 4
+
+glabel D_80AA5F20
+    .asciz "../z_en_mag.c"
+    .balign 4
+
+.text
 glabel EnMag_Draw
 /* 022D4 80AA5DD4 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 022D8 80AA5DD8 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -50,4 +60,3 @@ glabel EnMag_Draw
 /* 02394 80AA5E94 03E00008 */  jr      $ra                        
 /* 02398 80AA5E98 00000000 */  nop
 /* 0239C 80AA5E9C 00000000 */  nop
-

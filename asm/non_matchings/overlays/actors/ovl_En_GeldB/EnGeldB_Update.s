@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A3A270
+    .float 0.1
+
+.text
 glabel EnGeldB_Update
 /* 04194 80A394A4 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 04198 80A394A8 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -135,5 +140,3 @@ glabel EnGeldB_Update
 /* 0436C 80A3967C 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 04370 80A39680 03E00008 */  jr      $ra                        
 /* 04374 80A39684 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

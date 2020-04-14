@@ -160,13 +160,21 @@ glabel jtbl_80A9A9AC
 .word L80A98F6C
 .word L80A98F7C
 glabel D_80A9A9C0
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80A9A9C4
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A9A9C8
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A9A9CC
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel D_80A9A9D0
  .word 0x40490FDB, 0x00000000, 0x00000000, 0x00000000
 

@@ -65,5 +65,3 @@ glabel ObjDekujr_Update
 /* 00428 80B92848 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0042C 80B9284C 03E00008 */  jr      $ra                        
 /* 00430 80B92850 00000000 */  nop
-
-

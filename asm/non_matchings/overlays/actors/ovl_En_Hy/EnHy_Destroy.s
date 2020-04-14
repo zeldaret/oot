@@ -10,5 +10,3 @@ glabel EnHy_Destroy
 /* 01878 80A70E28 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0187C 80A70E2C 03E00008 */  jr      $ra                        
 /* 01880 80A70E30 00000000 */  nop
-
-

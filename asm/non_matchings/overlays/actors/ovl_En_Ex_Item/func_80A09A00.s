@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A0A01C
+    .asciz "\x1b[32m☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n\x1b[m"
+    .balign 4
+
+.text
 glabel func_80A09A00
 /* 00B60 80A09A00 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00B64 80A09A04 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -29,5 +35,3 @@ glabel func_80A09A00
 /* 00BBC 80A09A5C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00BC0 80A09A60 03E00008 */  jr      $ra                        
 /* 00BC4 80A09A64 00000000 */  nop
-
-

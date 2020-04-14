@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A12DF4
+    .asciz "[33m☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_80A125B8
 /* 00998 80A125B8 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 0099C 80A125BC AFBF004C */  sw      $ra, 0x004C($sp)           
@@ -103,5 +109,3 @@ glabel func_80A125B8
 /* 00B04 80A12724 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 00B08 80A12728 03E00008 */  jr      $ra                        
 /* 00B0C 80A1272C 00000000 */  nop
-
-

@@ -1,6 +1,5 @@
 #include "z_demo_sa.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void DemoSa_Init(DemoSa* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void DemoSa_Draw(DemoSa* this, GlobalContext* globalCtx);
 const ActorInit Demo_Sa_InitVars = {
     ACTOR_DEMO_SA,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_SA,
     sizeof(DemoSa),

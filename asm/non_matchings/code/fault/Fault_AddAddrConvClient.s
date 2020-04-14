@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80146DD4
     .asciz "\x1b[41;37mfault_AddressConverterAddClient: %08x は既にリスト中にある\n\x1b[m"
     .balign 4

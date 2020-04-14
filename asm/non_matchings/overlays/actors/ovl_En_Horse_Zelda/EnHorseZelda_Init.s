@@ -86,5 +86,3 @@ glabel EnHorseZelda_Init
 /* 00350 80A6DC20 8FB10020 */  lw      $s1, 0x0020($sp)
 /* 00354 80A6DC24 03E00008 */  jr      $ra
 /* 00358 80A6DC28 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

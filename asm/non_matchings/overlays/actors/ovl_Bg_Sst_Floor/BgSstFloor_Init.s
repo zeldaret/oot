@@ -29,5 +29,3 @@ glabel BgSstFloor_Init
 /* 0005C 808B996C 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00060 808B9970 03E00008 */  jr      $ra                        
 /* 00064 808B9974 00000000 */  nop
-
-

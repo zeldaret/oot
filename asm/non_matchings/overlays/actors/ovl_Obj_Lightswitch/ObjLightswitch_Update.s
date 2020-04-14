@@ -62,5 +62,3 @@ glabel ObjLightswitch_Update
 /* 00C24 80B977C4 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00C28 80B977C8 03E00008 */  jr      $ra                        
 /* 00C2C 80B977CC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

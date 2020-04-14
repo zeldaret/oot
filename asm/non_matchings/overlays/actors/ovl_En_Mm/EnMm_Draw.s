@@ -1,3 +1,31 @@
+.rdata
+glabel D_80AAEC00
+    .asciz "../z_en_mm.c"
+    .balign 4
+
+glabel D_80AAEC10
+    .asciz "../z_en_mm.c"
+    .balign 4
+
+glabel D_80AAEC20
+    .asciz "../z_en_mm.c"
+    .balign 4
+
+glabel D_80AAEC30
+    .asciz "../z_en_mm.c"
+    .balign 4
+
+glabel D_80AAEC40
+    .asciz "../z_en_mm.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AAEC88
+ .word 0xC4966000
+glabel D_80AAEC8C
+ .word 0xC4966000
+
+.text
 glabel EnMm_Draw
 /* 00F3C 80AAE6AC 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00F40 80AAE6B0 AFB10028 */  sw      $s1, 0x0028($sp)
@@ -182,5 +210,3 @@ glabel EnMm_Draw
 /* 01200 80AAE970 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 01204 80AAE974 03E00008 */  jr      $ra
 /* 01208 80AAE978 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

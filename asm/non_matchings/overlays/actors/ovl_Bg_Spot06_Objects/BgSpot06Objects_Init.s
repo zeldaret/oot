@@ -1,3 +1,21 @@
+.rdata
+glabel D_808AF970
+    .asciz "spot06 obj nthisx->arg_data=[%d]"
+    .balign 4
+
+.late_rodata
+glabel D_808AF9E8
+ .word 0xC4F92000
+glabel D_808AF9EC
+ .word 0xC4A42000
+glabel D_808AF9F0
+ .word 0xC42A4000
+glabel D_808AF9F4
+ .word 0xC42A4000
+glabel D_808AF9F8
+ .word 0xC4A42000
+
+.text
 glabel BgSpot06Objects_Init
 /* 00000 808AE780 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00004 808AE784 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -274,5 +292,3 @@ glabel BgSpot06Objects_Init
 /* 003D0 808AEB50 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 003D4 808AEB54 03E00008 */  jr      $ra                        
 /* 003D8 808AEB58 00000000 */  nop
-
-

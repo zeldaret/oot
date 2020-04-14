@@ -15,5 +15,3 @@ glabel EnHorseGameCheck_Update
 /* 00EAC 80A683FC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00EB0 80A68400 03E00008 */  jr      $ra                        
 /* 00EB4 80A68404 00000000 */  nop
-
-

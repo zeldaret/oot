@@ -1,3 +1,13 @@
+.rdata
+glabel D_80864700
+    .asciz "../z_en_test.c"
+    .balign 4
+
+glabel D_80864710
+    .asciz "../z_en_test.c"
+    .balign 4
+
+.text
 glabel func_80863AB8
 /* 04468 80863AB8 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 0446C 80863ABC 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
@@ -138,5 +148,3 @@ glabel func_80863AB8
 /* 04668 80863CB8 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 0466C 80863CBC 03E00008 */  jr      $ra                        
 /* 04670 80863CC0 00000000 */  nop
-
-

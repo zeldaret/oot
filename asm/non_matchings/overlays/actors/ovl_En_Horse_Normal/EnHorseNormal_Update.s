@@ -90,5 +90,3 @@ glabel EnHorseNormal_Update
 /* 018A0 80A6CAF0 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 018A4 80A6CAF4 03E00008 */  jr      $ra                        
 /* 018A8 80A6CAF8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

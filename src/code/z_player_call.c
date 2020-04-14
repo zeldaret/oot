@@ -18,7 +18,6 @@ void PlayerCall_Draw(Player* player, GlobalContext* globalCtx);
 const ActorInit Player_InitVars = {
     ACTOR_PLAYER,
     ACTORTYPE_PLAYER,
-    0,
     0x6000035,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(Player),

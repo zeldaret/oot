@@ -104,5 +104,3 @@ glabel EnNwc_Init
 /* 008BC 80ABC99C 8FB50040 */  lw      $s5, 0x0040($sp)           
 /* 008C0 80ABC9A0 03E00008 */  jr      $ra                        
 /* 008C4 80ABC9A4 27BD02A0 */  addiu   $sp, $sp, 0x02A0           ## $sp = 00000000
-
-

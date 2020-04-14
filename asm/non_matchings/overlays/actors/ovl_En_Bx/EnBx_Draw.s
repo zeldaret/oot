@@ -1,3 +1,27 @@
+.rdata
+glabel D_809D2570
+    .asciz "../z_en_bx.c"
+    .balign 4
+
+glabel D_809D2580
+    .asciz "../z_en_bx.c"
+    .balign 4
+
+glabel D_809D2590
+    .asciz "../z_en_bx.c"
+    .balign 4
+
+glabel D_809D25A0
+    .asciz "../z_en_bx.c"
+    .balign 4
+
+.late_rodata
+glabel D_809D25B8
+ .word 0x3BF5C28F
+glabel D_809D25BC
+ .word 0x3C75C28F
+
+.text
 glabel EnBx_Draw
 /* 0061C 809D20FC 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 00620 809D2100 AFB2004C */  sw      $s2, 0x004C($sp)
@@ -226,4 +250,3 @@ glabel EnBx_Draw
 /* 00984 809D2464 03E00008 */  jr      $ra
 /* 00988 809D2468 27BD00B0 */  addiu   $sp, $sp, 0x00B0           ## $sp = 00000000
 /* 0098C 809D246C 00000000 */  nop
-

@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_80A27ED4
+    .float 3.14159274101
+
+glabel D_80A27ED8
+    .float 6.28318548203
+
+glabel D_80A27EDC
+    .float 2.1
+
+glabel D_80A27EE0
+    .float 3.14159274101
+
+.text
 glabel func_80A23FE0
 /* 00280 80A23FE0 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 00284 80A23FE4 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
@@ -394,5 +408,3 @@ glabel func_80A23FE0
 /* 00838 80A24598 D7B40018 */  ldc1    $f20, 0x0018($sp)          
 /* 0083C 80A2459C 03E00008 */  jr      $ra                        
 /* 00840 80A245A0 27BD00E0 */  addiu   $sp, $sp, 0x00E0           ## $sp = 00000000
-
-

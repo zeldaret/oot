@@ -20,5 +20,3 @@ glabel BgSpot16Bombstone_Destroy
 /* 0056C 808B519C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00570 808B51A0 03E00008 */  jr      $ra                        
 /* 00574 808B51A4 00000000 */  nop
-
-

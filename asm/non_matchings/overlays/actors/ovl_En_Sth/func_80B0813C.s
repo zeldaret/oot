@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B0B550
+    .asciz "../z_en_sth.c"
+    .balign 4
+
+glabel D_80B0B560
+    .asciz "../z_en_sth.c"
+    .balign 4
+
+.text
 glabel func_80B0813C
 /* 00BFC 80B0813C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00C00 80B08140 2401000F */  addiu   $at, $zero, 0x000F         ## $at = 0000000F
@@ -45,5 +55,3 @@ glabel func_80B0813C
 /* 00CA0 80B081E0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00CA4 80B081E4 03E00008 */  jr      $ra                        
 /* 00CA8 80B081E8 00000000 */  nop
-
-

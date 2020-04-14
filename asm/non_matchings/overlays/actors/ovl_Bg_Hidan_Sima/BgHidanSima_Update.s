@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8088F2B8
+ .word 0x3E20D97C
+
+.text
 glabel BgHidanSima_Update
 /* 0069C 8088EA6C 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 006A0 8088EA70 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -64,5 +69,3 @@ glabel BgHidanSima_Update
 /* 00778 8088EB48 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0077C 8088EB4C 03E00008 */  jr      $ra                        
 /* 00780 8088EB50 00000000 */  nop
-
-

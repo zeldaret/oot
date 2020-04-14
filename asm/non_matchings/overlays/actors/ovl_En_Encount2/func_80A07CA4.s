@@ -1,3 +1,44 @@
+.rdata
+glabel D_80A08C1C
+    .asciz "[32m☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n[m"
+    .balign 4
+
+glabel D_80A08C4C
+    .asciz "[32m☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n[m"
+    .balign 4
+
+glabel D_80A08C7C
+    .asciz "[32m☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n[m"
+    .balign 4
+
+glabel D_80A08CAC
+    .asciz "[32m☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n[m"
+    .balign 4
+
+glabel D_80A08CDC
+    .asciz "[32m☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n\n[m"
+    .balign 4
+
+.late_rodata
+glabel D_80A08D54
+    .float 1500.0
+
+glabel D_80A08D58
+ .word 0xC4A14000
+glabel D_80A08D5C
+ .word 0xC5714000
+glabel D_80A08D60
+    .float 0.005
+
+glabel D_80A08D64
+ .word 0x3BE56042
+glabel D_80A08D68
+    .float 1.99000000954
+
+glabel D_80A08D6C
+ .word 0x407F5C29
+
+.text
 glabel func_80A07CA4
 /* 00314 80A07CA4 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 00318 80A07CA8 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -426,5 +467,3 @@ glabel func_80A07CA4
 /* 0090C 80A0829C 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
 /* 00910 80A082A0 03E00008 */  jr      $ra                        
 /* 00914 80A082A4 00000000 */  nop
-
-

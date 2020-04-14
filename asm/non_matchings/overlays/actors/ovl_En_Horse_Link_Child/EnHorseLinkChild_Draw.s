@@ -21,4 +21,3 @@ glabel EnHorseLinkChild_Draw
 /* 01AE4 80A6AEB4 03E00008 */  jr      $ra                        
 /* 01AE8 80A6AEB8 00000000 */  nop
 /* 01AEC 80A6AEBC 00000000 */  nop
-

@@ -154,5 +154,3 @@ glabel EnDekubaba_Init
 /* 00234 809E5A04 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00238 809E5A08 03E00008 */  jr      $ra                        
 /* 0023C 809E5A0C 00000000 */  nop
-
-

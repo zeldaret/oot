@@ -1,3 +1,17 @@
+.rdata
+glabel D_8088F250
+    .asciz "../z_bg_hidan_sima.c"
+    .balign 4
+
+glabel D_8088F268
+    .asciz "../z_bg_hidan_sima.c"
+    .balign 4
+
+glabel D_8088F280
+    .asciz "../z_bg_hidan_sima.c"
+    .balign 4
+
+.text
 glabel BgHidanSima_Draw
 /* 00C38 8088F008 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00C3C 8088F00C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -95,4 +109,3 @@ glabel BgHidanSima_Draw
 /* 00DA4 8088F174 00000000 */  nop
 /* 00DA8 8088F178 00000000 */  nop
 /* 00DAC 8088F17C 00000000 */  nop
-

@@ -1,47 +1,46 @@
 /*
  * File: z_en_ru2.c
  * Overlay: En_Ru2
- * Description:
+ * Description: Adult Ruto
  */
 
 #include "z_en_ru2.h"
 
 #include <vt.h>
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void EnRu2_Init(EnRu2* this, GlobalContext* globalCtx);
-static void EnRu2_Destroy(EnRu2* this, GlobalContext* globalCtx);
-static void EnRu2_Update(EnRu2* this, GlobalContext* globalCtx);
-static void EnRu2_Draw(EnRu2* this, GlobalContext* globalCtx);
+void EnRu2_Init(EnRu2* this, GlobalContext* globalCtx);
+void EnRu2_Destroy(EnRu2* this, GlobalContext* globalCtx);
+void EnRu2_Update(EnRu2* this, GlobalContext* globalCtx);
+void EnRu2_Draw(EnRu2* this, GlobalContext* globalCtx);
 
-static void func_80AF2CB4(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF2CD4(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF2CF4(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF2D2C(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF2D6C(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF2DAC(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF2DEC(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF3144(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF3174(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF31C8(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF3604(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF3624(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF366C(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF36AC(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF3BC8(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF3C04(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF3C64(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF3CB8(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF3D0C(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF3D60(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF2CB4(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF2CD4(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF2CF4(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF2D2C(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF2D6C(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF2DAC(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF2DEC(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF3144(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF3174(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF31C8(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF3604(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF3624(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF366C(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF36AC(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF3BC8(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF3C04(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF3C64(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF3CB8(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF3D0C(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF3D60(EnRu2* this, GlobalContext* globalCtx);
 
-static void func_80AF3F14(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx);
-static void func_80AF321C(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF3F14(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF321C(EnRu2* this, GlobalContext* globalCtx);
 
-static void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx);
+void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit D_80AF40E0 = {
     0x0A, 0x00,       0x09, 0x00, 0x01,   0x00,   0x00,       0x00,   0x00,   0x00,   0x00,
@@ -76,7 +75,6 @@ static ActorFunc D_80AF510C[] = {
 const ActorInit En_Ru2_InitVars = {
     ACTOR_EN_RU2,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_RU2,
     sizeof(EnRu2),
@@ -95,13 +93,13 @@ extern AnimationHeader* D_0600E630;
 extern AnimationHeader* D_0600F03C;
 extern AnimationHeader* D_0600F8B8;
 
-static void func_80AF2550(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2550(EnRu2* this, GlobalContext* globalCtx) {
     EnRu2* thisLocal = this;
     ActorCollider_AllocCylinder(globalCtx, &thisLocal->collider);
     func_8005C450(globalCtx, &thisLocal->collider, &this->actor, &D_80AF40E0);
 }
 
-static void func_80AF259C(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF259C(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad;
     ColliderCylinderMain* collider = &this->collider;
     Actor* thisx = &this->actor;
@@ -111,12 +109,12 @@ static void func_80AF259C(EnRu2* this, GlobalContext* globalCtx) {
     Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, collider);
 }
 
-static void EnRu2_Destroy(EnRu2* this, GlobalContext* globalCtx) {
+void EnRu2_Destroy(EnRu2* this, GlobalContext* globalCtx) {
     ColliderCylinderMain* collider = &this->collider;
     ActorCollider_FreeCylinder(globalCtx, collider);
 }
 
-static void func_80AF2608(EnRu2* this) {
+void func_80AF2608(EnRu2* this) {
     s32 pad[3];
     s16* unk_2A6 = &this->unk_2A6;
     s16* unk_2A4 = &this->unk_2A4;
@@ -141,7 +139,7 @@ s32 func_80AF26A0(EnRu2* this) {
     return params & 0xFF;
 }
 
-static void func_80AF26AC(EnRu2* this) {
+void func_80AF26AC(EnRu2* this) {
     this->action = 7;
     this->drawConfig = 0;
     this->unk_2B4 = 0;
@@ -150,7 +148,7 @@ static void func_80AF26AC(EnRu2* this) {
     this->unk_2B0 = 0.0f;
 }
 
-static void func_80AF26D0(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF26D0(EnRu2* this, GlobalContext* globalCtx) {
     s32 one; // Needed to match
     if (globalCtx->csCtx.state == 0) {
         if (D_80AF4118 != 0) {
@@ -168,7 +166,7 @@ static void func_80AF26D0(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80AF2744(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2744(EnRu2* this, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 4);
 }
 
@@ -201,7 +199,7 @@ s32 func_80AF281C(EnRu2* this, GlobalContext* globalCtx, u16 arg2, s32 actorActi
     return 0;
 }
 
-static void func_80AF2868(EnRu2* this, GlobalContext* globalCtx, u32 actorActionIdx) {
+void func_80AF2868(EnRu2* this, GlobalContext* globalCtx, u32 actorActionIdx) {
     CsCmdActorAction* csCmdActorAction = func_80AF27AC(globalCtx, actorActionIdx);
     s16 newRotY;
     Actor* thisx = &this->actor;
@@ -216,7 +214,7 @@ static void func_80AF2868(EnRu2* this, GlobalContext* globalCtx, u32 actorAction
     }
 }
 
-static void func_80AF28E8(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
+void func_80AF28E8(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
     f32 frameCount = SkelAnime_GetFrameCount(&animation->genericHeader);
     f32 playbackSpeed;
     f32 unk0;
@@ -235,16 +233,16 @@ static void func_80AF28E8(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 
     SkelAnime_ChangeAnim(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
 }
 
-static void func_80AF2978(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2978(EnRu2* this, GlobalContext* globalCtx) {
     this->actor.shape.unk_08 += 83.333336f;
 }
 
-static void func_80AF2994(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2994(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF28E8(this, &D_06000DE8, 0, 0.0f, 0);
     this->actor.shape.unk_08 = -10000.0f;
 }
 
-static void func_80AF29DC(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF29DC(EnRu2* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     f32 posX = thisx->posRot.pos.x;
     f32 posY = thisx->posRot.pos.y;
@@ -252,7 +250,7 @@ static void func_80AF29DC(EnRu2* this, GlobalContext* globalCtx) {
     Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
-static void func_80AF2A38(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2A38(EnRu2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 posX = player->actor.posRot.pos.x;
     f32 posY = player->actor.posRot.pos.y + 50.0f;
@@ -263,7 +261,7 @@ static void func_80AF2A38(EnRu2* this, GlobalContext* globalCtx) {
     Item_Give(globalCtx, ITEM_MEDALLION_WATER);
 }
 
-static void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad[2];
     Player* player;
     s16 temp;
@@ -280,7 +278,7 @@ static void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80AF2B44(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2B44(EnRu2* this, GlobalContext* globalCtx) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
     CsCmdActorAction* csCmdActorAction;
     if (csCtx->state != 0) {
@@ -293,14 +291,14 @@ static void func_80AF2B44(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80AF2B94(EnRu2* this) {
+void func_80AF2B94(EnRu2* this) {
     if (this->actor.shape.unk_08 >= 0.0f) {
         this->action = 3;
         this->actor.shape.unk_08 = 0.0f;
     }
 }
 
-static void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
     AnimationHeader* animation = &D_0600D3DC;
     CsCmdActorAction* csCmdActorAction;
     if (globalCtx->csCtx.state != 0) {
@@ -312,13 +310,13 @@ static void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80AF2C54(EnRu2* this, UNK_TYPE arg1) {
+void func_80AF2C54(EnRu2* this, UNK_TYPE arg1) {
     if (arg1 != 0) {
         this->action = 5;
     }
 }
 
-static void func_80AF2C68(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2C68(EnRu2* this, GlobalContext* globalCtx) {
     CsCmdActorAction* csCmdActorAction;
     if (globalCtx->csCtx.state != 0) {
         csCmdActorAction = globalCtx->csCtx.actorActions[6];
@@ -329,29 +327,29 @@ static void func_80AF2C68(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80AF2CB4(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2CB4(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2AB4(this, globalCtx);
 }
 
-static void func_80AF2CD4(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2CD4(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2B44(this, globalCtx);
 }
 
-static void func_80AF2CF4(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2CF4(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2978(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
     func_80AF2608(this);
     func_80AF2B94(this);
 }
 
-static void func_80AF2D2C(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2D2C(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
     func_80AF2608(this);
     func_80AF2BC0(this, globalCtx);
 }
 
-static void func_80AF2D6C(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2D6C(EnRu2* this, GlobalContext* globalCtx) {
     UNK_TYPE something;
 
     func_80AF2744(this, globalCtx);
@@ -360,35 +358,35 @@ static void func_80AF2D6C(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2C54(this, something);
 }
 
-static void func_80AF2DAC(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2DAC(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
     func_80AF2608(this);
     func_80AF2C68(this, globalCtx);
 }
 
-static void func_80AF2DEC(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2DEC(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
     func_80AF2608(this);
 }
 
-static void func_80AF2E1C(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2E1C(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF28E8(this, &D_060004CC, 2, 0.0f, 0);
     this->action = 7;
     this->actor.shape.unk_14 = 0;
 }
 
-static void func_80AF2E64() {
+void func_80AF2E64() {
     func_800788CC(NA_SE_SY_WHITE_OUT_T);
 }
 
-static void func_80AF2E84(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2E84(EnRu2* this, GlobalContext* globalCtx) {
     Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
                         kREG(19) + 24.0f + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 8);
 }
 
-static void func_80AF2F04(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2F04(EnRu2* this, GlobalContext* globalCtx) {
     if (func_80AF27D0(this, globalCtx, 4, 3)) {
         this->action = 8;
         this->drawConfig = 2;
@@ -399,7 +397,7 @@ static void func_80AF2F04(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80AF2F58(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF2F58(EnRu2* this, GlobalContext* globalCtx) {
     f32* unk_2B0 = &this->unk_2B0;
     s32 something;
 
@@ -429,7 +427,7 @@ static void func_80AF2F58(EnRu2* this, GlobalContext* globalCtx) {
     this->actor.shape.unk_14 = something;
 }
 
-static void func_80AF30AC(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF30AC(EnRu2* this, GlobalContext* globalCtx) {
     if (func_80AF281C(this, globalCtx, 4, 3)) {
         this->action = 8;
         this->drawConfig = 2;
@@ -443,12 +441,12 @@ static void func_80AF30AC(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80AF3144(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3144(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2F04(this, globalCtx);
     func_80AF26D0(this, globalCtx);
 }
 
-static void func_80AF3174(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3174(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
     func_80AF2608(this);
@@ -456,7 +454,7 @@ static void func_80AF3174(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF26D0(this, globalCtx);
 }
 
-static void func_80AF31C8(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF31C8(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
     func_80AF2608(this);
@@ -464,7 +462,7 @@ static void func_80AF31C8(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF26D0(this, globalCtx);
 }
 
-static void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 temp = this->unk_2A4;
     UNK_PTR addr = D_80AF410C[temp];
@@ -486,14 +484,14 @@ static void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
 }
 
-static void func_80AF3394(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3394(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF28E8(this, &D_0600E630, 0, 0.0f, 0);
     this->action = 10;
     this->drawConfig = 0;
     this->actor.shape.unk_14 = 0;
 }
 
-static void func_80AF33E0(EnRu2* this) {
+void func_80AF33E0(EnRu2* this) {
     f32* unk_2B0 = &this->unk_2B0;
     f32 temp_f0;
     s32 temp_f18;
@@ -511,31 +509,31 @@ static void func_80AF33E0(EnRu2* this) {
     }
 }
 
-static void func_80AF346C(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF346C(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2868(this, globalCtx, 3);
     this->action = 11;
     this->drawConfig = 2;
 }
 
-static void func_80AF34A4(EnRu2* this) {
+void func_80AF34A4(EnRu2* this) {
     if (this->unk_2B0 >= kREG(17) + 10.0f) {
         this->action = 12;
         this->drawConfig = 1;
     }
 }
 
-static void func_80AF34F0(EnRu2* this) {
+void func_80AF34F0(EnRu2* this) {
     func_80AF28E8(this, &D_0600DCAC, 2, 0.0f, 0);
     this->action = 13;
 }
 
-static void func_80AF3530(EnRu2* this, UNK_TYPE arg1) {
+void func_80AF3530(EnRu2* this, UNK_TYPE arg1) {
     if (arg1 != 0) {
         func_80AF28E8(this, &D_0600F03C, 0, 0.0f, 0);
     }
 }
 
-static void func_80AF3564(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3564(EnRu2* this, GlobalContext* globalCtx) {
     CsCmdActorAction* csCmdActorAction = func_80AF27AC(globalCtx, 3);
     s32 action;
     s32 unk_2BC;
@@ -560,11 +558,11 @@ static void func_80AF3564(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80AF3604(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3604(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF3564(this, globalCtx);
 }
 
-static void func_80AF3624(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3624(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
     func_80AF2608(this);
@@ -572,14 +570,14 @@ static void func_80AF3624(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF34A4(this);
 }
 
-static void func_80AF366C(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF366C(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
     func_80AF2608(this);
     func_80AF3564(this, globalCtx);
 }
 
-static void func_80AF36AC(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF36AC(EnRu2* this, GlobalContext* globalCtx) {
     UNK_TYPE something;
 
     func_80AF2744(this, globalCtx);
@@ -588,7 +586,7 @@ static void func_80AF36AC(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF3530(this, something);
 }
 
-static void func_80AF36EC(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF36EC(EnRu2* this, GlobalContext* globalCtx) {
     Flags_SetSwitch(globalCtx, func_80AF2690(this));
 }
 
@@ -596,7 +594,7 @@ s32 func_80AF3718(EnRu2* this, GlobalContext* globalCtx) {
     return Flags_GetSwitch(globalCtx, func_80AF2690(this));
 }
 
-static void func_80AF3744(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3744(EnRu2* this, GlobalContext* globalCtx) {
     if (func_80AF3718(this, globalCtx)) {
         Actor_Kill(&this->actor);
     } else {
@@ -606,11 +604,11 @@ static void func_80AF3744(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80AF37AC() {
+void func_80AF37AC() {
     func_800F5C64(0x51);
 }
 
-static void func_80AF37CC(EnRu2* this) {
+void func_80AF37CC(EnRu2* this) {
     f32 funcFloat;
     this->unk_2C0 += 1;
     funcFloat = func_8006F9BC((kREG(2) + 0x96) & 0xFFFF, 0, this->unk_2C0, 8, 0);
@@ -627,19 +625,19 @@ s32 func_80AF383C(EnRu2* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-static void func_80AF3878(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3878(EnRu2* this, GlobalContext* globalCtx) {
     if (func_80AF383C(this, globalCtx) && !func_800BFC84(globalCtx)) {
         this->action = 16;
         func_800800F8(globalCtx, 0xC3A, -0x63, &this->actor, 0);
     }
 }
 
-static void func_80AF38D0(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF38D0(EnRu2* this, GlobalContext* globalCtx) {
     this->action = 16;
     func_800800F8(globalCtx, 0xC3A, -0x63, &this->actor, 0);
 }
 
-static void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
     f32* unk_2C4 = &this->unk_2C4;
     *unk_2C4 += 1.0f;
     if (*unk_2C4 == kREG(6) + 40.0f) {
@@ -651,7 +649,7 @@ static void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad;
     MessageContext* msgCtx;
     s32 pad2;
@@ -684,7 +682,7 @@ static void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80AF3ADC(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3ADC(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C4 += 1.0f;
     if (this->unk_2C4 > kREG(5) + 100.0f) {
         func_80AF28E8(this, &D_0600F8B8, 0, -12.0f, 0);
@@ -693,19 +691,19 @@ static void func_80AF3ADC(EnRu2* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80AF3B74(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3B74(EnRu2* this, GlobalContext* globalCtx) {
     if (this->unk_2C0 > (((u16)(kREG(3) + 0x28)) + ((u16)(kREG(2) + 0x96)) & 0xFFFF)) {
         Actor_Kill(&this->actor);
     }
 }
 
-static void func_80AF3BC8(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3BC8(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF3878(this, globalCtx);
     Actor_SetHeight(&this->actor, 50.0f);
     func_80AF259C(this, globalCtx);
 }
 
-static void func_80AF3C04(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3C04(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
     func_80AF259C(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
@@ -714,7 +712,7 @@ static void func_80AF3C04(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF38D0(this, globalCtx);
 }
 
-static void func_80AF3C64(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3C64(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
     func_80AF2608(this);
@@ -722,7 +720,7 @@ static void func_80AF3C64(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF390C(this, globalCtx);
 }
 
-static void func_80AF3CB8(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3CB8(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
     func_80AF2608(this);
@@ -730,7 +728,7 @@ static void func_80AF3CB8(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF39DC(this, globalCtx);
 }
 
-static void func_80AF3D0C(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3D0C(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF2744(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
     func_80AF2608(this);
@@ -738,7 +736,7 @@ static void func_80AF3D0C(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF3ADC(this, globalCtx);
 }
 
-static void func_80AF3D60(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3D60(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF37CC(this);
     func_80AF2744(this, globalCtx);
     EnRu2_FrameUpdateMatrix(this);
@@ -747,7 +745,7 @@ static void func_80AF3D60(EnRu2* this, GlobalContext* globalCtx) {
     func_80AF3B74(this, globalCtx);
 }
 
-static void EnRu2_Update(EnRu2* this, GlobalContext* globalCtx) {
+void EnRu2_Update(EnRu2* this, GlobalContext* globalCtx) {
     if (this->action < 0 || this->action >= 20 || D_80AF50BC[this->action] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
@@ -755,7 +753,7 @@ static void EnRu2_Update(EnRu2* this, GlobalContext* globalCtx) {
     D_80AF50BC[this->action](this, globalCtx);
 }
 
-static void EnRu2_Init(EnRu2* this, GlobalContext* globalCtx) {
+void EnRu2_Init(EnRu2* this, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     func_80AF2550(this, globalCtx);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600C700, NULL, &this->unk_190, &this->unk_21A, 0x17);
@@ -779,10 +777,10 @@ static void EnRu2_Init(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C3 = 3;
 }
 
-static void func_80AF3F14(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3F14(EnRu2* this, GlobalContext* globalCtx) {
 }
 
-static void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
+void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 temp = this->unk_2A4;
     UNK_PTR addr = D_80AF410C[temp];
@@ -803,7 +801,7 @@ static void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
 }
 
-static void EnRu2_Draw(EnRu2* this, GlobalContext* globalCtx) {
+void EnRu2_Draw(EnRu2* this, GlobalContext* globalCtx) {
     if (this->drawConfig < 0 || this->drawConfig >= 3 || D_80AF510C[this->drawConfig] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

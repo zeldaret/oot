@@ -1,3 +1,33 @@
+.rdata
+glabel D_808552A0
+    .asciz "../z_player.c"
+    .balign 4
+
+glabel D_808552B0
+    .asciz "../z_player.c"
+    .balign 4
+
+glabel D_808552C0
+    .asciz "../z_player.c"
+    .balign 4
+
+glabel D_808552D0
+    .asciz "../z_player.c"
+    .balign 4
+
+glabel D_808552E0
+    .asciz "../z_player.c"
+    .balign 4
+
+.late_rodata
+glabel D_808554DC
+ .word 0xC4966000
+glabel D_808554E0
+ .word 0xC4966000
+glabel D_808554E4
+ .word 0x3DE38E39
+
+.text
 glabel func_8084A0E8
 /* 17ED8 8084A0E8 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 17EDC 8084A0EC AFB00034 */  sw      $s0, 0x0034($sp)           
@@ -319,5 +349,3 @@ glabel func_8084A0E8
 /* 183A8 8084A5B8 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 183AC 8084A5BC 03E00008 */  jr      $ra                        
 /* 183B0 8084A5C0 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

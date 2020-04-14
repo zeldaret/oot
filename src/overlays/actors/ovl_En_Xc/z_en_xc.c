@@ -1,6 +1,11 @@
+/*
+ * File: z_en_xc.c
+ * Overlay: ovl_En_Xc
+ * Description: Sheik
+ */
+
 #include "z_en_xc.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnXc_Init(EnXc* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnXc_Draw(EnXc* this, GlobalContext* globalCtx);
 const ActorInit En_Xc_InitVars = {
     ACTOR_EN_XC,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_XC,
     sizeof(EnXc),

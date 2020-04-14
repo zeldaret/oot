@@ -1,3 +1,37 @@
+.rdata
+glabel D_80AB99F0
+    .asciz "[32m☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AB9A34
+    .asciz "[33m☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AB9A70
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AB9A74
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AB9A78
+    .asciz "[32m☆☆☆☆☆ なぜか、セットできむぅあせん ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AB9AB8
+    .asciz "[33m☆☆☆☆☆ んんがくく ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AB9AE8
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AB9B14
+    .float 3.14159274101
+
+.text
 glabel EnNiwGirl_Init
 /* 00000 80AB8F80 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00004 80AB8F84 AFB00038 */  sw      $s0, 0x0038($sp)
@@ -141,5 +175,3 @@ glabel EnNiwGirl_Init
 /* 001F4 80AB9174 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 001F8 80AB9178 03E00008 */  jr      $ra
 /* 001FC 80AB917C 00000000 */  nop
-
-

@@ -12,5 +12,3 @@ glabel EnStream_Update
 /* 003A0 80B0BB40 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 003A4 80B0BB44 03E00008 */  jr      $ra                        
 /* 003A8 80B0BB48 00000000 */  nop
-
-

@@ -1,6 +1,11 @@
+/*
+ * File: z_en_tory.c
+ * Overlay: ovl_En_Toryo
+ * Description: Boss Carpenter
+ */
+
 #include "z_en_toryo.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnToryo_Init(EnToryo* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnToryo_Draw(EnToryo* this, GlobalContext* globalCtx);
 const ActorInit En_Toryo_InitVars = {
     ACTOR_EN_TORYO,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_TORYO,
     sizeof(EnToryo),

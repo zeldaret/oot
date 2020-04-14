@@ -1,3 +1,13 @@
+.rdata
+glabel D_80879410
+    .asciz "../z_bg_gnd_darkmeiro.c"
+    .balign 4
+	
+glabel D_80879428
+    .asciz "../z_bg_gnd_darkmeiro.c"
+    .balign 4
+
+.text
 glabel func_80879334
 /* 00704 80879334 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00708 80879338 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -35,4 +45,3 @@ glabel func_80879334
 /* 00784 808793B4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00788 808793B8 03E00008 */  jr      $ra                        
 /* 0078C 808793BC 00000000 */  nop
-

@@ -23,4 +23,3 @@ glabel EnSt_Draw
 /* 026A4 80B06F34 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 026A8 80B06F38 03E00008 */  jr      $ra                        
 /* 026AC 80B06F3C 00000000 */  nop
-

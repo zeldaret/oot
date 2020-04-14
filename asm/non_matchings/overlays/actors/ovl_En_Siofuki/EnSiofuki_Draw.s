@@ -1,3 +1,17 @@
+.rdata
+glabel D_80AFC820
+    .asciz "../z_en_siofuki.c"
+    .balign 4
+
+glabel D_80AFC834
+    .asciz "../z_en_siofuki.c"
+    .balign 4
+
+glabel D_80AFC848
+    .asciz "../z_en_siofuki.c"
+    .balign 4
+
+.text
 glabel EnSiofuki_Draw
 /* 00A18 80AFC598 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00A1C 80AFC59C 3C0F0001 */  lui     $t7, 0x0001                ## $t7 = 00010000
@@ -152,4 +166,3 @@ glabel EnSiofuki_Draw
 /* 00C64 80AFC7E4 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 00C68 80AFC7E8 00000000 */  nop
 /* 00C6C 80AFC7EC 00000000 */  nop
-

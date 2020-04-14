@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A787D0
+    .asciz "../z_en_ik_inAwake.c"
+    .balign 4
+
+glabel D_80A787E8
+    .asciz "../z_en_ik_inAwake.c"
+    .balign 4
+
+.text
 glabel func_80A77844
 /* 03534 80A77844 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 03538 80A77848 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -101,5 +111,3 @@ glabel func_80A77844
 /* 036C0 80A779D0 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 036C4 80A779D4 03E00008 */  jr      $ra
 /* 036C8 80A779D8 00000000 */  nop
-
-

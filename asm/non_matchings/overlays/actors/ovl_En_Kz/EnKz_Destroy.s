@@ -10,5 +10,3 @@ glabel EnKz_Destroy
 /* 00B64 80A9D0B4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00B68 80A9D0B8 03E00008 */  jr      $ra                        
 /* 00B6C 80A9D0BC 00000000 */  nop
-
-

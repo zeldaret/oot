@@ -1,3 +1,13 @@
+.rdata
+glabel D_80ABB71C
+    .asciz "../z_en_niw_lady.c"
+    .balign 4
+
+glabel D_80ABB730
+    .asciz "../z_en_niw_lady.c"
+    .balign 4
+
+.text
 glabel func_80ABB228
 /* 015E8 80ABB228 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 015EC 80ABB22C AFB10028 */  sw      $s1, 0x0028($sp)
@@ -86,4 +96,3 @@ glabel func_80ABB228
 /* 01734 80ABB374 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 01738 80ABB378 00000000 */  nop
 /* 0173C 80ABB37C 00000000 */  nop
-

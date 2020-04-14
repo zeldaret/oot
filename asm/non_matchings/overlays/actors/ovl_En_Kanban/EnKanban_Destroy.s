@@ -14,5 +14,3 @@ glabel EnKanban_Destroy
 /* 00214 80A921B4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00218 80A921B8 03E00008 */  jr      $ra                        
 /* 0021C 80A921BC 00000000 */  nop
-
-

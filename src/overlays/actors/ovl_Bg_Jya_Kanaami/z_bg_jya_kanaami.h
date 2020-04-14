@@ -1,0 +1,16 @@
+#ifndef _Z_BG_JYA_KANAAMI_H_
+#define _Z_BG_JYA_KANAAMI_H_
+
+#include <ultra64.h>
+#include <global.h>
+
+typedef struct {
+    /* 0x0000 */ Actor actor;
+    /* 0x014C */ u32 dynaPolyId;
+    /* 0x014C */ char unk_150[0x14];
+    /* 0x0164 */ ActorFunc updateFunc;
+    /* 0x0168 */ s16 unk_168;
+    /* 0x016A */ s16 unk_16A;
+} BgJyaKanaami; // size = 0x016C
+
+#endif

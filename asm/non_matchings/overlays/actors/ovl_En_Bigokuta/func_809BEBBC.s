@@ -1,3 +1,38 @@
+.rdata
+glabel D_809BF4B0
+    .asciz "../z_en_bigokuta.c"
+    .balign 4
+
+glabel D_809BF4C4
+    .asciz "../z_en_bigokuta.c"
+    .balign 4
+
+glabel D_809BF4D8
+    .asciz "../z_en_bigokuta.c"
+    .balign 4
+
+glabel D_809BF4EC
+    .asciz "../z_en_bigokuta.c"
+    .balign 4
+
+.late_rodata
+glabel D_809BF564
+ .word 0x3EC90FDB
+glabel D_809BF568
+ .word 0x3E490FDB
+glabel D_809BF56C
+ .word 0x3F490FDB
+glabel D_809BF570
+ .word 0x3EC90FDB
+glabel D_809BF574
+ .word 0x40D6BCA2
+glabel D_809BF578
+    .float 0.2
+
+glabel D_809BF57C
+ .word 0x3DAAAAAB
+
+.text
 glabel func_809BEBBC
 /* 01F5C 809BEBBC 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 01F60 809BEBC0 2401000F */  addiu   $at, $zero, 0x000F         ## $at = 0000000F
@@ -338,5 +373,3 @@ glabel func_809BEBBC
 /* 02440 809BF0A0 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 02444 809BF0A4 03E00008 */  jr      $ra                        
 /* 02448 809BF0A8 00000000 */  nop
-
-

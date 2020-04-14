@@ -6,17 +6,16 @@
 
 #include "z_bg_toki_swd.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx);
-static void BgTokiSwd_Destroy(BgTokiSwd* this, GlobalContext* globalCtx);
-static void BgTokiSwd_Update(BgTokiSwd* this, GlobalContext* globalCtx);
-static void BgTokiSwd_Draw(BgTokiSwd* this, GlobalContext* globalCtx);
-static void BgTokiSwd_SetupAction(BgTokiSwd* this, ActorFunc actionFunc);
-static void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx);
-static void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx);
-static void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx);
+void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx);
+void BgTokiSwd_Destroy(BgTokiSwd* this, GlobalContext* globalCtx);
+void BgTokiSwd_Update(BgTokiSwd* this, GlobalContext* globalCtx);
+void BgTokiSwd_Draw(BgTokiSwd* this, GlobalContext* globalCtx);
+void BgTokiSwd_SetupAction(BgTokiSwd* this, ActorFunc actionFunc);
+void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx);
+void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx);
+void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx);
 
 extern u32 D_06001BD0;
 
@@ -153,7 +152,6 @@ static u32 D_808BBD90[] = {
 const ActorInit Bg_Toki_Swd_InitVars = {
     ACTOR_BG_TOKI_SWD,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_TOKI_OBJECTS,
     sizeof(BgTokiSwd),
@@ -179,11 +177,11 @@ static InitChainEntry initChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x19, ICHAIN_STOP),
 };
 
-static void BgTokiSwd_SetupAction(BgTokiSwd* this, ActorFunc actionFunc) {
+void BgTokiSwd_SetupAction(BgTokiSwd* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-static void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx) {
+void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx) {
     ColliderCylinderMain* collision;
     Actor* thisx = &this->actor;
 
@@ -205,12 +203,12 @@ static void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx) {
     func_80061ED4(&thisx->sub_98, 0, &sub98Init);
 }
 
-static void BgTokiSwd_Destroy(BgTokiSwd* this, GlobalContext* globalCtx) {
+void BgTokiSwd_Destroy(BgTokiSwd* this, GlobalContext* globalCtx) {
     ColliderCylinderMain* collider = &this->collider;
     ActorCollider_FreeCylinder(globalCtx, collider);
 }
 
-static void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
+void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
     if (((gSaveContext.event_chk_inf[4] & 0x8000) == 0) && (gSaveContext.scene_setup_index < 4) &&
         (func_8002E12C(&this->actor, 800.0f, 0x7530) != 0) && (func_800BFC84(globalCtx) == 0)) {
         gSaveContext.event_chk_inf[4] |= 0x8000;
@@ -245,7 +243,7 @@ static void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx) {
+void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx) {
     Player* player;
 
     // if attached is set, sword has been pulled/placed from the pedestal
@@ -263,18 +261,18 @@ static void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx) {
+void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx) {
     if ((func_8006C4A4(globalCtx, 1) != 0) && (globalCtx->unk_11D30[0] < 0xFF)) {
         globalCtx->unk_11D30[0] += 5;
     }
 }
 
-static void BgTokiSwd_Update(BgTokiSwd* this, GlobalContext* globalCtx) {
+void BgTokiSwd_Update(BgTokiSwd* this, GlobalContext* globalCtx) {
     this->actionFunc(&this->actor, globalCtx);
     Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
 }
 
-static void BgTokiSwd_Draw(BgTokiSwd* this, GlobalContext* globalCtx) {
+void BgTokiSwd_Draw(BgTokiSwd* this, GlobalContext* globalCtx) {
     s32 pad[4];
     GameState* state;
     GraphicsContext* gfxCtx;

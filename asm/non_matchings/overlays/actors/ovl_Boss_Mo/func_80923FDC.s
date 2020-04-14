@@ -1,3 +1,17 @@
+.rdata
+glabel D_80926A50
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+glabel D_80926A60
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+glabel D_80926A70
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+.text
 glabel func_80923FDC
 /* 084DC 80923FDC 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 084E0 80923FE0 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -146,5 +160,3 @@ glabel func_80923FDC
 /* 0871C 8092421C 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 08720 80924220 03E00008 */  jr      $ra                        
 /* 08724 80924224 00000000 */  nop
-
-

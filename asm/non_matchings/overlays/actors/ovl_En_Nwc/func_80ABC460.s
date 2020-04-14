@@ -1,3 +1,28 @@
+.rdata
+glabel D_80ABCAC0
+    .asciz "../z_en_nwc.c"
+    .balign 4
+
+glabel D_80ABCAD0
+    .asciz "../z_en_nwc.c"
+    .balign 4
+
+glabel D_80ABCAE0
+    .asciz "../z_en_nwc.c"
+    .balign 4
+
+glabel D_80ABCAF0
+    .asciz "../z_en_nwc.c"
+    .balign 4
+
+.late_rodata
+glabel D_80ABCB08
+    .float 0.01
+
+glabel D_80ABCB0C
+    .float 9.58738019108e-05
+
+.text
 glabel func_80ABC460
 /* 00380 80ABC460 27BDFF00 */  addiu   $sp, $sp, 0xFF00           ## $sp = FFFFFF00
 /* 00384 80ABC464 AFBF004C */  sw      $ra, 0x004C($sp)           
@@ -245,5 +270,3 @@ glabel func_80ABC460
 /* 00730 80ABC810 8FBE0048 */  lw      $s8, 0x0048($sp)           
 /* 00734 80ABC814 03E00008 */  jr      $ra                        
 /* 00738 80ABC818 27BD0100 */  addiu   $sp, $sp, 0x0100           ## $sp = 00000000
-
-

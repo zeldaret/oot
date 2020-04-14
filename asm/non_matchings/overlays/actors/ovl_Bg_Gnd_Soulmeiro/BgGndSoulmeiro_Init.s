@@ -94,5 +94,3 @@ glabel BgGndSoulmeiro_Init
 /* 00134 8087AEF4 8FB10030 */  lw      $s1, 0x0030($sp)           
 /* 00138 8087AEF8 03E00008 */  jr      $ra                        
 /* 0013C 8087AEFC 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

@@ -1,3 +1,17 @@
+.rdata
+glabel D_809E90B8
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+glabel D_809E90CC
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+glabel D_809E90E0
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+.text
 glabel func_809E89E4
 /* 03214 809E89E4 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 03218 809E89E8 AFBF001C */  sw      $ra, 0x001C($sp)
@@ -60,5 +74,3 @@ glabel func_809E89E4
 /* 032FC 809E8ACC 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 03300 809E8AD0 03E00008 */  jr      $ra
 /* 03304 809E8AD4 00000000 */  nop
-
-

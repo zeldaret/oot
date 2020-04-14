@@ -180,5 +180,3 @@ glabel BgHakaSgami_Init
 /* 00298 8087E778 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 0029C 8087E77C 03E00008 */  jr      $ra                        
 /* 002A0 8087E780 27BD01D8 */  addiu   $sp, $sp, 0x01D8           ## $sp = 00000000
-
-

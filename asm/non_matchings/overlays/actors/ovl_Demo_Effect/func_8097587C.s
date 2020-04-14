@@ -1,3 +1,17 @@
+.rdata
+glabel D_80976B18
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976B2C
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976B40
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+.text
 glabel func_8097587C
 /* 0492C 8097587C 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 04930 80975880 3C0E0001 */  lui     $t6, 0x0001                ## $t6 = 00010000
@@ -111,5 +125,3 @@ glabel func_8097587C
 /* 04AE0 80975A30 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 04AE4 80975A34 03E00008 */  jr      $ra                        
 /* 04AE8 80975A38 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

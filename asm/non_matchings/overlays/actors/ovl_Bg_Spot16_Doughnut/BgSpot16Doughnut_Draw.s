@@ -1,3 +1,17 @@
+.rdata
+glabel D_808B6A68
+    .asciz "../z_bg_spot16_doughnut.c"
+    .balign 4
+
+glabel D_808B6A84
+    .asciz "../z_bg_spot16_doughnut.c"
+    .balign 4
+
+glabel D_808B6AA0
+    .asciz "../z_bg_spot16_doughnut.c"
+    .balign 4
+
+.text
 glabel BgSpot16Doughnut_Draw
 /* 002A8 808B66E8 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 002AC 808B66EC 3C0F0001 */  lui     $t7, 0x0001                ## $t7 = 00010000
@@ -125,5 +139,3 @@ glabel BgSpot16Doughnut_Draw
 /* 0048C 808B68CC 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 00490 808B68D0 03E00008 */  jr      $ra                        
 /* 00494 808B68D4 00000000 */  nop
-
-

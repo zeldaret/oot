@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B22B40
+    .asciz "../z_en_tp.c"
+    .balign 4
+
+glabel D_80B22B50
+    .asciz "../z_en_tp.c"
+    .balign 4
+
+glabel D_80B22B60
+    .asciz "../z_en_tp.c"
+    .balign 4
+
+glabel D_80B22B70
+    .asciz "../z_en_tp.c"
+    .balign 4
+
+.text
 glabel EnTp_Draw
 /* 019CC 80B227AC 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 019D0 80B227B0 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -181,4 +199,3 @@ glabel EnTp_Draw
 /* 01C84 80B22A64 00000000 */  nop
 /* 01C88 80B22A68 00000000 */  nop
 /* 01C8C 80B22A6C 00000000 */  nop
-

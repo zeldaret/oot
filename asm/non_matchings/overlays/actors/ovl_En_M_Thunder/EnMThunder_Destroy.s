@@ -29,5 +29,3 @@ glabel EnMThunder_Destroy
 /* 00328 80A9F308 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0032C 80A9F30C 03E00008 */  jr      $ra                        
 /* 00330 80A9F310 00000000 */  nop
-
-

@@ -8,5 +8,3 @@ glabel ObjectKankyo_Update
 /* 01164 80BA3C04 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01168 80BA3C08 03E00008 */  jr      $ra                        
 /* 0116C 80BA3C0C 00000000 */  nop
-
-

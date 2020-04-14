@@ -5,8 +5,9 @@
 #include <global.h>
 
 typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0xA4];
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ char unk_164[0x88];
+    /* 0x01EC */ ActorFunc actionFunc;
 } BgBreakwall; // size = 0x01F0
 
 extern const ActorInit Bg_Breakwall_InitVars;

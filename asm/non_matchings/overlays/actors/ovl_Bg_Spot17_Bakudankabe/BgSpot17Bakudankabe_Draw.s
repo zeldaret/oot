@@ -1,3 +1,29 @@
+.rdata
+glabel D_808B72B0
+    .asciz "../z_bg_spot17_bakudankabe.c"
+    .balign 4
+
+glabel D_808B72D0
+    .asciz "../z_bg_spot17_bakudankabe.c"
+    .balign 4
+
+glabel D_808B72F0
+    .asciz "../z_bg_spot17_bakudankabe.c"
+    .balign 4
+
+glabel D_808B7310
+    .asciz "../z_bg_spot17_bakudankabe.c"
+    .balign 4
+
+glabel D_808B7330
+    .asciz "../z_bg_spot17_bakudankabe.c"
+    .balign 4
+
+glabel D_808B7350
+    .asciz "../z_bg_spot17_bakudankabe.c"
+    .balign 4
+
+.text
 glabel BgSpot17Bakudankabe_Draw
 /* 00484 808B7044 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00488 808B7048 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -144,4 +170,3 @@ glabel BgSpot17Bakudankabe_Draw
 /* 006B4 808B7274 00000000 */  nop
 /* 006B8 808B7278 00000000 */  nop
 /* 006BC 808B727C 00000000 */  nop
-

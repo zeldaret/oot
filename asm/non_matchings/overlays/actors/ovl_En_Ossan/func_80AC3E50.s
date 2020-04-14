@@ -37,5 +37,3 @@ glabel func_80AC3E50
 /* 0122C 80AC3ECC 240200FF */  addiu   $v0, $zero, 0x00FF         ## $v0 = 000000FF
 /* 01230 80AC3ED0 03E00008 */  jr      $ra                        
 /* 01234 80AC3ED4 00000000 */  nop
-
-

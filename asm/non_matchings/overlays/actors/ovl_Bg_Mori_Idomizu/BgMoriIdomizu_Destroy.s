@@ -8,5 +8,3 @@ glabel BgMoriIdomizu_Destroy
 .L808A47D0:
 /* 00190 808A47D0 03E00008 */  jr      $ra                        
 /* 00194 808A47D4 00000000 */  nop
-
-

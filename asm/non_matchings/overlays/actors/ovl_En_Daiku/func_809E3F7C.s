@@ -1,3 +1,13 @@
+.rdata
+glabel D_809E4190
+    .asciz "../z_en_daiku.c"
+    .balign 4
+
+glabel D_809E41A0
+    .asciz "../z_en_daiku.c"
+    .balign 4
+
+.text
 glabel func_809E3F7C
 /* 0144C 809E3F7C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 01450 809E3F80 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -49,4 +59,3 @@ glabel func_809E3F7C
 /* 01504 809E4034 00000000 */  nop
 /* 01508 809E4038 00000000 */  nop
 /* 0150C 809E403C 00000000 */  nop
-

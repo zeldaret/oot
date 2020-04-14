@@ -27,5 +27,3 @@ glabel EnPoField_Destroy
 /* 0025C 80AD3D5C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00260 80AD3D60 03E00008 */  jr      $ra                        
 /* 00264 80AD3D64 00000000 */  nop
-
-

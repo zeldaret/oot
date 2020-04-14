@@ -1,6 +1,5 @@
 #include "z_en_po_field.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00001035
 
 void EnPoField_Init(EnPoField* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnPoField_Draw(EnPoField* this, GlobalContext* globalCtx);
 const ActorInit En_Po_Field_InitVars = {
     ACTOR_EN_PO_FIELD,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_PO_FIELD,
     sizeof(EnPoField),

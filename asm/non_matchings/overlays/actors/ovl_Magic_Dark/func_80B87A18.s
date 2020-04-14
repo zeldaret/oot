@@ -1,3 +1,24 @@
+.rdata
+glabel D_80B88B20
+    .asciz "../z_magic_dark.c"
+    .balign 4
+
+glabel D_80B88B34
+    .asciz "../z_magic_dark.c"
+    .balign 4
+
+glabel D_80B88B48
+    .asciz "../z_magic_dark.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B88BF4
+    .float 9.58738019108e-05
+
+glabel D_80B88BF8
+    .float 0.6
+
+.text
 glabel func_80B87A18
 /* 00648 80B87A18 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 0064C 80B87A1C 3C0E0001 */  lui     $t6, 0x0001                ## $t6 = 00010000
@@ -172,5 +193,3 @@ glabel func_80B87A18
 /* 008E0 80B87CB0 8FB20040 */  lw      $s2, 0x0040($sp)           
 /* 008E4 80B87CB4 03E00008 */  jr      $ra                        
 /* 008E8 80B87CB8 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

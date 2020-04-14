@@ -60,5 +60,3 @@ glabel EnPart_Update
 /* 00CE4 80ACEAB4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00CE8 80ACEAB8 03E00008 */  jr      $ra                        
 /* 00CEC 80ACEABC 00000000 */  nop
-
-

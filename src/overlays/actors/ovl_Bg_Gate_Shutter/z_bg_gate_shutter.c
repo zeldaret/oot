@@ -8,23 +8,21 @@
 
 #include <vt.h>
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx);
-static void BgGateShutter_Destroy(BgGateShutter* this, GlobalContext* globalCtx);
-static void BgGateShutter_Update(BgGateShutter* this, GlobalContext* globalCtx);
-static void BgGateShutter_Draw(BgGateShutter* this, GlobalContext* globalCtx);
+void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx);
+void BgGateShutter_Destroy(BgGateShutter* this, GlobalContext* globalCtx);
+void BgGateShutter_Update(BgGateShutter* this, GlobalContext* globalCtx);
+void BgGateShutter_Draw(BgGateShutter* this, GlobalContext* globalCtx);
 
-static void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx);
-static void func_80878300(BgGateShutter* this, GlobalContext* globalCtx);
-static void func_808783AC(BgGateShutter* this, GlobalContext* globalCtx);
-static void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx);
+void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx);
+void func_80878300(BgGateShutter* this, GlobalContext* globalCtx);
+void func_808783AC(BgGateShutter* this, GlobalContext* globalCtx);
+void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Gate_Shutter_InitVars = {
     ACTOR_BG_GATE_SHUTTER,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_SPOT01_MATOYAB,
     sizeof(BgGateShutter),
@@ -37,7 +35,7 @@ const ActorInit Bg_Gate_Shutter_InitVars = {
 extern UNK_TYPE D_06001CD0;
 extern UNK_TYPE D_06001DA8;
 
-static void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx) {
+void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx) {
     s32 pad[2];
     Actor* thisx = &this->dyna.actor;
     s32 local_c = 0;
@@ -62,11 +60,11 @@ static void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx) {
     this->actionFunc = (ActorFunc)func_8087828C;
 }
 
-static void BgGateShutter_Destroy(BgGateShutter* this, GlobalContext* globalCtx) {
+void BgGateShutter_Destroy(BgGateShutter* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {
+void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {
     if (this->unk_168 == 1 && !(gSaveContext.inf_table[7] & 0x40)) {
         this->unk_178 = 2;
         this->actionFunc = (ActorFunc)func_80878300;
@@ -79,7 +77,7 @@ static void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80878300(BgGateShutter* this, GlobalContext* globalCtx) {
+void func_80878300(BgGateShutter* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->unk_178 == 0) {
@@ -94,14 +92,14 @@ static void func_80878300(BgGateShutter* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_808783AC(BgGateShutter* this, GlobalContext* globalCtx) {
+void func_808783AC(BgGateShutter* this, GlobalContext* globalCtx) {
     if (this->unk_178 == 0) {
         this->unk_168 = 0;
         this->actionFunc = (ActorFunc)func_8087828C;
     }
 }
 
-static void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
+void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->unk_178 == 0) {
@@ -117,14 +115,14 @@ static void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
     }
 }
 
-static void BgGateShutter_Update(BgGateShutter* this, GlobalContext* globalCtx) {
+void BgGateShutter_Update(BgGateShutter* this, GlobalContext* globalCtx) {
     if (this->unk_178 != 0) {
         this->unk_178 -= 1;
     }
     this->actionFunc(this, globalCtx);
 }
 
-static void BgGateShutter_Draw(BgGateShutter* this, GlobalContext* globalCtx) {
+void BgGateShutter_Draw(BgGateShutter* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 

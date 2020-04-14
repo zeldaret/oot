@@ -1,3 +1,13 @@
+.rdata
+glabel D_809CA870
+    .asciz "gfxp != NULL"
+    .balign 4
+
+glabel D_809CA880
+    .asciz "../z_en_box.c"
+    .balign 4
+
+.text
 glabel func_809CA448
 /* 01688 809CA448 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0168C 809CA44C AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -24,5 +34,3 @@ glabel func_809CA448
 /* 016D4 809CA494 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 016D8 809CA498 03E00008 */  jr      $ra                        
 /* 016DC 809CA49C 00000000 */  nop
-
-

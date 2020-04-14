@@ -14,4 +14,3 @@ glabel EnGoroiwa_Draw
 /* 021B4 80A4DE54 00000000 */  nop
 /* 021B8 80A4DE58 00000000 */  nop
 /* 021BC 80A4DE5C 00000000 */  nop
-

@@ -152,5 +152,3 @@ glabel EnWf_Init
 /* 0022C 80B33EDC 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 00230 80B33EE0 03E00008 */  jr      $ra
 /* 00234 80B33EE4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

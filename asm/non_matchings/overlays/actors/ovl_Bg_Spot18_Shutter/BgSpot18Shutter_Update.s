@@ -8,5 +8,3 @@ glabel BgSpot18Shutter_Update
 /* 00440 808B9810 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00444 808B9814 03E00008 */  jr      $ra                        
 /* 00448 808B9818 00000000 */  nop
-
-

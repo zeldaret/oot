@@ -11,4 +11,3 @@ glabel BgJyaGoroiwa_Draw
 /* 005D4 80897F44 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 005D8 80897F48 03E00008 */  jr      $ra                        
 /* 005DC 80897F4C 00000000 */  nop
-

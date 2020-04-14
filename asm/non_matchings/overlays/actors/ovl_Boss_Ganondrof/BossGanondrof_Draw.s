@@ -304,4 +304,3 @@ glabel BossGanondrof_Draw
 /* 04664 80914CA4 00000000 */  nop
 /* 04668 80914CA8 00000000 */  nop
 /* 0466C 80914CAC 00000000 */  nop
-

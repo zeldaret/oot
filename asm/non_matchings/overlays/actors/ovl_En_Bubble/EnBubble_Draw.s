@@ -1,3 +1,25 @@
+.rdata
+glabel D_809CCEB0
+    .asciz "../z_en_bubble.c"
+    .balign 4
+
+glabel D_809CCEC4
+    .asciz "../z_en_bubble.c"
+    .balign 4
+
+glabel D_809CCED8
+    .asciz "../z_en_bubble.c"
+    .balign 4
+
+.late_rodata
+glabel D_809CCF14
+ .word 0x3C8EFA35
+glabel D_809CCF18
+ .word 0x3C8EFA35
+glabel D_809CCF1C
+    .float 0.2
+
+.text
 glabel EnBubble_Draw
 /* 00FD0 809CCBD0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00FD4 809CCBD4 AFB10020 */  sw      $s1, 0x0020($sp)           
@@ -149,4 +171,3 @@ glabel EnBubble_Draw
 /* 01204 809CCE04 00000000 */  nop
 /* 01208 809CCE08 00000000 */  nop
 /* 0120C 809CCE0C 00000000 */  nop
-

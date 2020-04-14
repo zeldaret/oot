@@ -88,5 +88,3 @@ glabel EnShopnuts_Init
 /* 0012C 80AFA84C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00130 80AFA850 03E00008 */  jr      $ra
 /* 00134 80AFA854 00000000 */  nop
-
-

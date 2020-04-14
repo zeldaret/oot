@@ -1,3 +1,37 @@
+.rdata
+glabel D_8095C470
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+glabel D_8095C480
+    .asciz "../z_boss_va.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8095C840
+.word L80959318
+.word L809594D0
+.word L809594D0
+.word L809594D0
+.word L80959510
+.word L80959510
+.word L80959510
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959578
+.word L80959550
+.word L80959550
+.word L80959550
+.word L8095978C
+
+.text
 glabel BossVa_Draw
 /* 09F08 809591C8 27BDFF30 */  addiu   $sp, $sp, 0xFF30           ## $sp = FFFFFF30
 /* 09F0C 809591CC 3C0F8096 */  lui     $t7, %hi(D_8095C2AC)       ## $t7 = 80960000
@@ -414,5 +448,3 @@ glabel L8095978C
 /* 0A528 809597E8 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 0A52C 809597EC 03E00008 */  jr      $ra
 /* 0A530 809597F0 27BD00D0 */  addiu   $sp, $sp, 0x00D0           ## $sp = 00000000
-
-

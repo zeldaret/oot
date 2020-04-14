@@ -28,5 +28,3 @@ glabel BossGanon_Destroy
 /* 00F20 808D7790 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00F24 808D7794 03E00008 */  jr      $ra
 /* 00F28 808D7798 00000000 */  nop
-
-

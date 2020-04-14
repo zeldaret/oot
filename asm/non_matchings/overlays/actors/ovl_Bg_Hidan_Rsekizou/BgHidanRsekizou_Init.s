@@ -68,5 +68,3 @@ glabel BgHidanRsekizou_Init
 /* 000F8 8088C2F8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 000FC 8088C2FC 03E00008 */  jr      $ra                        
 /* 00100 8088C300 00000000 */  nop
-
-

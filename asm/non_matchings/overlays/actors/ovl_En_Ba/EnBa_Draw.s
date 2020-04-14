@@ -1,3 +1,25 @@
+.rdata
+glabel D_809B8130
+    .asciz "../z_en_ba.c"
+    .balign 4
+
+glabel D_809B8140
+    .asciz "../z_en_ba.c"
+    .balign 4
+
+glabel D_809B8150
+    .asciz "../z_en_ba.c"
+    .balign 4
+
+glabel D_809B8160
+    .asciz "../z_en_ba.c"
+    .balign 4
+
+glabel D_809B8170
+    .asciz "../z_en_ba.c"
+    .balign 4
+
+.text
 glabel EnBa_Draw
 /* 018D8 809B7C28 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 018DC 809B7C2C AFB20048 */  sw      $s2, 0x0048($sp)
@@ -276,4 +298,3 @@ glabel EnBa_Draw
 /* 01D04 809B8054 8FB60058 */  lw      $s6, 0x0058($sp)
 /* 01D08 809B8058 03E00008 */  jr      $ra
 /* 01D0C 809B805C 27BD00C0 */  addiu   $sp, $sp, 0x00C0           ## $sp = 00000000
-

@@ -1,3 +1,25 @@
+.rdata
+glabel D_80AD8D60
+    .asciz "../z_en_po_relay.c"
+    .balign 4
+
+glabel D_80AD8D74
+    .asciz "../z_en_po_relay.c"
+    .balign 4
+
+glabel D_80AD8D88
+    .asciz "../z_en_po_relay.c"
+    .balign 4
+
+glabel D_80AD8D9C
+    .asciz "../z_en_po_relay.c"
+    .balign 4
+
+glabel D_80AD8DB0
+    .asciz "../z_en_po_relay.c"
+    .balign 4
+
+.text
 glabel func_80AD88D0
 /* 01190 80AD88D0 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 01194 80AD88D4 2401000E */  addiu   $at, $zero, 0x000E         ## $at = 0000000E
@@ -158,5 +180,3 @@ glabel func_80AD88D0
 /* 013EC 80AD8B2C 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 013F0 80AD8B30 03E00008 */  jr      $ra                        
 /* 013F4 80AD8B34 00000000 */  nop
-
-

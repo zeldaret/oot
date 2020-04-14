@@ -1,3 +1,13 @@
+.rdata
+glabel D_809FCF10
+    .asciz "../z_en_door.c"
+    .balign 4
+
+glabel D_809FCF20
+    .asciz "../z_en_door.c"
+    .balign 4
+
+.text
 glabel EnDoor_Draw
 /* 00B9C 809FCD6C 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00BA0 809FCD70 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -74,4 +84,3 @@ glabel EnDoor_Draw
 /* 00CA4 809FCE74 00000000 */  nop
 /* 00CA8 809FCE78 00000000 */  nop
 /* 00CAC 809FCE7C 00000000 */  nop
-

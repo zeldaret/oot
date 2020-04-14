@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AB50FC
+    .asciz "../z_en_nb_inConfrontion.c"
+    .balign 4
+
+glabel D_80AB5118
+    .asciz "../z_en_nb_inConfrontion.c"
+    .balign 4
+
+.text
 glabel func_80AB2FE4
 /* 02254 80AB2FE4 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 02258 80AB2FE8 AFBF0024 */  sw      $ra, 0x0024($sp)
@@ -90,5 +100,3 @@ glabel func_80AB2FE4
 /* 023B4 80AB3144 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 023B8 80AB3148 03E00008 */  jr      $ra
 /* 023BC 80AB314C 00000000 */  nop
-
-

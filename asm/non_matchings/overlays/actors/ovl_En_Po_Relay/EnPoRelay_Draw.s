@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AD8DC4
+    .asciz "../z_en_po_relay.c"
+    .balign 4
+
+glabel D_80AD8DD8
+    .asciz "../z_en_po_relay.c"
+    .balign 4
+
+.text
 glabel EnPoRelay_Draw
 /* 013F8 80AD8B38 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 013FC 80AD8B3C AFBF002C */  sw      $ra, 0x002C($sp)
@@ -61,4 +71,3 @@ glabel EnPoRelay_Draw
 /* 014E4 80AD8C24 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 014E8 80AD8C28 03E00008 */  jr      $ra
 /* 014EC 80AD8C2C 00000000 */  nop
-

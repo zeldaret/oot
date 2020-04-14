@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B1FA30
+    .asciz "../z_en_torch2.c"
+    .balign 4
+
+glabel D_80B1FA44
+    .asciz "../z_en_torch2.c"
+    .balign 4
+
+.text
 glabel EnTorch2_Draw
 /* 01E78 80B1F7F8 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 01E7C 80B1F7FC AFB20030 */  sw      $s2, 0x0030($sp)
@@ -119,4 +129,3 @@ glabel EnTorch2_Draw
 /* 02044 80B1F9C4 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 02048 80B1F9C8 03E00008 */  jr      $ra
 /* 0204C 80B1F9CC 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-

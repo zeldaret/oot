@@ -6,24 +6,22 @@
 
 #include "z_door_ana.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000000
 
-static void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx);
-static void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx);
-static void DoorAna_Update(DoorAna* this, GlobalContext* globalCtx);
-static void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Update(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx);
 
-static void DoorAna_SetupAction(DoorAna* this, ActorFunc func);
+void DoorAna_SetupAction(DoorAna* this, ActorFunc func);
 
-static void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx);
-static void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx);
-static void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx);
 
 const ActorInit Door_Ana_InitVars = {
     ACTOR_DOOR_ANA,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(DoorAna),
@@ -50,11 +48,11 @@ static s16 entrances[] = {
 extern Gfx* D_05001390;
 
 // sets current actionFunc to be ran on next update call
-static void DoorAna_SetupAction(DoorAna* this, ActorFunc func) {
+void DoorAna_SetupAction(DoorAna* this, ActorFunc func) {
     this->actionFunc = func;
 }
 
-static void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx) {
     ColliderCylinderMain* collider;
 
     this->actor.shape.rot.z = 0;
@@ -77,7 +75,7 @@ static void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx) {
     this->actor.unk_1F = 0;
 }
 
-static void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx) {
     // free collider if it has one
     if ((this->actor.params & 0x200) != 0) {
         ActorCollider_FreeCylinder(globalCtx, &this->collider);
@@ -85,7 +83,7 @@ static void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx) {
 }
 
 // update routine for grottos that are currently "hidden"/unopened
-static void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
     bool openGrotto = false;
     if ((this->actor.params & 0x200) == 0) {
         // opening with song of storms
@@ -113,7 +111,7 @@ static void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
 }
 
 // update routine for grottos that are open
-static void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
     Player* player;
     s32 destinationIdx;
 
@@ -146,7 +144,7 @@ static void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
 }
 
 // update function for after the player has triggered the grotto
-static void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx) {
     Player* player;
 
     if (this->actor.yDistanceFromLink <= 0.0f && 15.0f < this->actor.xzDistanceFromLink) {
@@ -156,14 +154,14 @@ static void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx) {
     }
 }
 
-static void DoorAna_Update(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Update(DoorAna* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     // changes the grottos facing angle based on camera angle
     this->actor.shape.rot.y =
         func_8005A9F4(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0]) + 0x8000;
 }
 
-static void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx** dList = &D_05001390; // required for stack placement?
     Gfx* dispRefs[3];

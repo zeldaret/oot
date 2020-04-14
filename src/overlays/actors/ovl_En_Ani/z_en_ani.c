@@ -6,7 +6,6 @@
 
 #include "z_en_ani.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnAni_SetupAction(EnAni* this, ActorFunc actionFunc);
@@ -36,7 +35,6 @@ extern AnimationHeader D_060076EC;
 const ActorInit En_Ani_InitVars = {
     ACTOR_EN_ANI,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_ANI,
     sizeof(EnAni),

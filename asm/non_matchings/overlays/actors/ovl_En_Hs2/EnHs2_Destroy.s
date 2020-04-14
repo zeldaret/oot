@@ -10,5 +10,3 @@ glabel EnHs2_Destroy
 /* 00108 80A6F0A8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0010C 80A6F0AC 03E00008 */  jr      $ra                        
 /* 00110 80A6F0B0 00000000 */  nop
-
-

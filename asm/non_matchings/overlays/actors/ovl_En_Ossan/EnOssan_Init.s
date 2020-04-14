@@ -1,3 +1,109 @@
+.rdata
+glabel D_80AC8EF0
+    .asciz "コキリの店  "
+    .balign 4
+
+glabel D_80AC8F00
+    .asciz "薬屋        "
+    .balign 4
+
+glabel D_80AC8F10
+    .asciz "夜の店      "
+    .balign 4
+
+glabel D_80AC8F20
+    .asciz "路地裏の店  "
+    .balign 4
+
+glabel D_80AC8F30
+    .asciz "盾の店      "
+    .balign 4
+
+glabel D_80AC8F40
+    .asciz "大人の店    "
+    .balign 4
+
+glabel D_80AC8F50
+    .asciz "タロンの店  "
+    .balign 4
+
+glabel D_80AC8F60
+    .asciz "ゾーラの店  "
+    .balign 4
+
+glabel D_80AC8F70
+    .asciz "ゴロン夜の店"
+    .balign 4
+
+glabel D_80AC8F80
+    .asciz "インゴーの店"
+    .balign 4
+
+glabel D_80AC8F90
+    .asciz "お面屋      "
+    .balign 4
+
+glabel D_80AC8FA0
+    .asciz "\x1b[41;37m"
+    .balign 4
+
+glabel D_80AC8FAC
+    .asciz "引数がおかしいよ(arg_data=%d)！！\n"
+    .balign 4
+
+glabel D_80AC8FD0
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80AC8FD4
+    .asciz "0"
+    .balign 4
+
+glabel D_80AC8FD8
+    .asciz "../z_en_oB1.c"
+    .balign 4
+
+glabel D_80AC8FE8
+    .asciz "\x1b[41;37m"
+    .balign 4
+
+glabel D_80AC8FF4
+    .asciz "バンクが無いよ！！(%s)\n"
+    .balign 4
+
+glabel D_80AC900C
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80AC9010
+    .asciz "0"
+    .balign 4
+
+glabel D_80AC9014
+    .asciz "../z_en_oB1.c"
+    .balign 4
+
+glabel D_80AC9024
+    .asciz "[41;37m"
+    .balign 4
+
+glabel D_80AC9030
+    .asciz "予備バンクが無いよ！！(%s)\n"
+    .balign 4
+
+glabel D_80AC904C
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80AC9050
+    .asciz "0"
+    .balign 4
+
+glabel D_80AC9054
+    .asciz "../z_en_oB1.c"
+    .balign 4
+
+.text
 glabel EnOssan_Init
 /* 007D0 80AC3470 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 007D4 80AC3474 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -197,5 +303,3 @@ glabel EnOssan_Init
 /* 00A60 80AC3700 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00A64 80AC3704 03E00008 */  jr      $ra                        
 /* 00A68 80AC3708 00000000 */  nop
-
-

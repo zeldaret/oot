@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AB9AEC
+    .asciz "../z_en_niw_girl.c"
+    .balign 4
+
+glabel D_80AB9B00
+    .asciz "../z_en_niw_girl.c"
+    .balign 4
+
+.text
 glabel EnNiwGirl_Draw
 /* 008C8 80AB9848 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 008CC 80AB984C 3C0F80AC */  lui     $t7, %hi(D_80AB99CC)       ## $t7 = 80AC0000
@@ -77,4 +87,3 @@ glabel EnNiwGirl_Draw
 /* 009F4 80AB9974 00000000 */  nop
 /* 009F8 80AB9978 00000000 */  nop
 /* 009FC 80AB997C 00000000 */  nop
-

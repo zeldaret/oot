@@ -1,3 +1,28 @@
+.rdata
+glabel D_809BF500
+    .asciz "../z_en_bigokuta.c"
+    .balign 4
+
+glabel D_809BF514
+    .asciz "../z_en_bigokuta.c"
+    .balign 4
+
+.late_rodata
+glabel D_809BF580
+    .float 6.28318548203
+
+glabel D_809BF584
+    .float 6.28318548203
+
+glabel D_809BF588
+ .word 0x3F4A3D70
+glabel D_809BF58C
+    .float 1.3
+
+glabel D_809BF590
+ .word 0x45F17A2F, 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel EnBigokuta_Draw
 /* 0244C 809BF0AC 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 02450 809BF0B0 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -201,4 +226,3 @@ glabel EnBigokuta_Draw
 /* 02734 809BF394 00000000 */  nop
 /* 02738 809BF398 00000000 */  nop
 /* 0273C 809BF39C 00000000 */  nop
-

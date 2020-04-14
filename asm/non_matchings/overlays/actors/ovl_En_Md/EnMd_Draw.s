@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AAC4B0
+    .asciz "../z_en_md.c"
+    .balign 4
+
+glabel D_80AAC4C0
+    .asciz "../z_en_md.c"
+    .balign 4
+
+.text
 glabel EnMd_Draw
 /* 01F10 80AAC160 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 01F14 80AAC164 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -102,4 +112,3 @@ glabel EnMd_Draw
 /* 02094 80AAC2E4 03E00008 */  jr      $ra                        
 /* 02098 80AAC2E8 00000000 */  nop
 /* 0209C 80AAC2EC 00000000 */  nop
-

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A87428
+    .asciz "../z_en_ishi.c"
+    .balign 4
+
+glabel D_80A87438
+    .asciz "../z_en_ishi.c"
+    .balign 4
+
+glabel D_80A87448
+    .asciz "../z_en_ishi.c"
+    .balign 4
+
+.text
 glabel func_80A7F8CC
 /* 0146C 80A7F8CC 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 01470 80A7F8D0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -56,5 +70,3 @@ glabel func_80A7F8CC
 /* 01544 80A7F9A4 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 01548 80A7F9A8 03E00008 */  jr      $ra                        
 /* 0154C 80A7F9AC 00000000 */  nop
-
-

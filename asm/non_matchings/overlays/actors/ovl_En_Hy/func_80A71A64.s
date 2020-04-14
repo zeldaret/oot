@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A72830
+    .asciz "../z_en_hy.c"
+    .balign 4
+
+glabel D_80A72840
+    .asciz "../z_en_hy.c"
+    .balign 4
+
+.text
 glabel func_80A71A64
 /* 024B4 80A71A64 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 024B8 80A71A68 3C0F80A7 */  lui     $t7, %hi(D_80A72800)       ## $t7 = 80A70000
@@ -88,5 +98,3 @@ glabel func_80A71A64
 /* 02600 80A71BB0 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 02604 80A71BB4 03E00008 */  jr      $ra                        
 /* 02608 80A71BB8 00000000 */  nop
-
-

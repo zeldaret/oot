@@ -1,3 +1,17 @@
+.rdata
+glabel D_80BA1BF0
+    .asciz "Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n"
+    .balign 4
+
+glabel D_80BA1C20
+    .asciz "../z_obj_tsubo.c"
+    .balign 4
+
+glabel D_80BA1C34
+    .asciz "(dungeon keep 壷)(arg_data 0x%04x)\n"
+    .balign 4
+
+.text
 glabel ObjTsubo_Init
 /* 00190 80BA0EF0 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00194 80BA0EF4 AFA50024 */  sw      $a1, 0x0024($sp)           
@@ -69,5 +83,3 @@ glabel ObjTsubo_Init
 /* 00278 80BA0FD8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0027C 80BA0FDC 03E00008 */  jr      $ra                        
 /* 00280 80BA0FE0 00000000 */  nop
-
-

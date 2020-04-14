@@ -1,3 +1,44 @@
+.rdata
+glabel D_8097C098
+    .asciz "[31mDemo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8097C1E8
+.word L809798D0
+.word L809799A8
+.word L80979A80
+.word L80979B58
+.word L80979C30
+.word L80979D08
+.word L80979DE0
+glabel D_8097C204
+    .float 0.01
+
+glabel D_8097C208
+    .float 0.01
+
+glabel D_8097C20C
+    .float 0.01
+
+glabel D_8097C210
+    .float 0.01
+
+glabel D_8097C214
+    .float 0.01
+
+glabel D_8097C218
+    .float 0.01
+
+glabel D_8097C21C
+    .float 0.01
+
+glabel D_8097C220
+ .word 0x4622F983
+glabel D_8097C224
+ .word 0x4622F983
+
+.text
 glabel func_80979860
 /* 00F30 80979860 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00F34 80979864 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -476,5 +517,3 @@ glabel L80979DE0
 /* 01660 80979F90 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 01664 80979F94 03E00008 */  jr      $ra                        
 /* 01668 80979F98 00000000 */  nop
-
-

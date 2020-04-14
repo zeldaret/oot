@@ -1,3 +1,33 @@
+.rdata
+glabel D_808CA5A0
+    .asciz "../z_boss_dodongo.c"
+    .balign 4
+
+glabel D_808CA5B4
+    .asciz "../z_boss_dodongo.c"
+    .balign 4
+
+glabel D_808CA5C8
+    .asciz "../z_boss_dodongo.c"
+    .balign 4
+
+.late_rodata
+glabel D_808CA728
+ .word 0x3DEB851F
+glabel D_808CA72C
+ .word 0x3E051EB8
+glabel D_808CA730
+    .float 0.1
+
+glabel D_808CA734
+    .float 0.1
+
+glabel D_808CA738
+ .word 0x3E051EB8
+glabel D_808CA73C
+ .word 0x3DEB851F
+
+.text
 glabel func_808C4940
 /* 037B0 808C4940 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 037B4 808C4944 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
@@ -152,5 +182,3 @@ glabel func_808C4940
 /* 039F4 808C4B84 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 039F8 808C4B88 03E00008 */  jr      $ra
 /* 039FC 808C4B8C 00000000 */  nop
-
-

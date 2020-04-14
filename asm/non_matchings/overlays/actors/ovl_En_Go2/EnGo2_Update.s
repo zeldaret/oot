@@ -70,5 +70,3 @@ glabel EnGo2_Update
 /* 04C74 80A479A4 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 04C78 80A479A8 03E00008 */  jr      $ra                        
 /* 04C7C 80A479AC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

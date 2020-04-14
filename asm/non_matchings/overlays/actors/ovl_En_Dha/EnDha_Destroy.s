@@ -9,5 +9,3 @@ glabel EnDha_Destroy
 /* 0013C 809EC9BC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00140 809EC9C0 03E00008 */  jr      $ra                        
 /* 00144 809EC9C4 00000000 */  nop
-
-

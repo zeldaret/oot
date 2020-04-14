@@ -8,5 +8,3 @@ glabel ItemOcarina_Update
 /* 00670 80B867A0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00674 80B867A4 03E00008 */  jr      $ra                        
 /* 00678 80B867A8 00000000 */  nop
-
-

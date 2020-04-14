@@ -1,3 +1,17 @@
+.rdata
+glabel D_8099D7E0
+    .asciz "../z_efc_erupc.c"
+    .balign 4
+
+glabel D_8099D7F4
+    .asciz "../z_efc_erupc.c"
+    .balign 4
+
+glabel D_8099D808
+    .asciz "../z_efc_erupc.c"
+    .balign 4
+
+.text
 glabel func_8099D334
 /* 00684 8099D334 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00688 8099D338 AFBF0044 */  sw      $ra, 0x0044($sp)           
@@ -127,5 +141,3 @@ glabel func_8099D334
 /* 00870 8099D520 8FBE0040 */  lw      $s8, 0x0040($sp)           
 /* 00874 8099D524 03E00008 */  jr      $ra                        
 /* 00878 8099D528 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

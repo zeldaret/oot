@@ -10,5 +10,3 @@ glabel EnGe3_Destroy
 /* 001C8 80A347E8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001CC 80A347EC 03E00008 */  jr      $ra                        
 /* 001D0 80A347F0 00000000 */  nop
-
-

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80BA294C
+    .asciz "../z_obj_warp2block.c"
+    .balign 4
+
+glabel D_80BA2964
+    .asciz "../z_obj_warp2block.c"
+    .balign 4
+
+glabel D_80BA297C
+    .asciz "../z_obj_warp2block.c"
+    .balign 4
+
+.text
 glabel ObjWarp2block_Draw
 /* 00904 80BA26F4 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00908 80BA26F8 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -74,4 +88,3 @@ glabel ObjWarp2block_Draw
 /* 00A24 80BA2814 03E00008 */  jr      $ra                        
 /* 00A28 80BA2818 00000000 */  nop
 /* 00A2C 80BA281C 00000000 */  nop
-

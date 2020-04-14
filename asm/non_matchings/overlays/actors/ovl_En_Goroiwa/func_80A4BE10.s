@@ -17,5 +17,3 @@ glabel func_80A4BE10
 /* 001A8 80A4BE48 A528116C */  sh      $t0, 0x116C($t1)           ## 8016116C
 /* 001AC 80A4BE4C 03E00008 */  jr      $ra                        
 /* 001B0 80A4BE50 00000000 */  nop
-
-

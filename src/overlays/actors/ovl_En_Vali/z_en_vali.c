@@ -1,6 +1,11 @@
+/*
+ * File: z_en_vali.c
+ * Overlay: ovl_En_Vali
+ * Description: Bari (Big Jellyfish)
+ */
+
 #include "z_en_vali.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00001015
 
 void EnVali_Init(EnVali* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnVali_Draw(EnVali* this, GlobalContext* globalCtx);
 const ActorInit En_Vali_InitVars = {
     ACTOR_EN_VALI,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_VALI,
     sizeof(EnVali),

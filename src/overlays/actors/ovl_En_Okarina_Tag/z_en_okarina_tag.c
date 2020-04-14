@@ -1,6 +1,5 @@
 #include "z_en_okarina_tag.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void EnOkarinaTag_Init(EnOkarinaTag* this, GlobalContext* globalCtx);
@@ -11,7 +10,6 @@ void EnOkarinaTag_Update(EnOkarinaTag* this, GlobalContext* globalCtx);
 const ActorInit En_Okarina_Tag_InitVars = {
     ACTOR_EN_OKARINA_TAG,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnOkarinaTag),
