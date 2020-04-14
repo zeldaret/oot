@@ -147,7 +147,7 @@ s32 func_8005B884(GlobalContext* globalCtx, ColliderBody* body) {
     static ColliderBody init = {
         { 0, 0, 0 },
         { (s32)0xFFCFFFFF, 0, 0, {0, 0, 0} },
-        0, 0, 0, 0, 0, NULL, 0, NULL,
+        0, 0, 0, 0, NULL, NULL, NULL, NULL,
     };
     *body = init;
     func_8005B7C0(globalCtx, &body->toucher);
@@ -308,7 +308,7 @@ s32 func_8005BCC8(GlobalContext* globalCtx, ColliderJntSph* collider) {
     return 1;
 }
 
-//ClObjJntSph?
+//ClObjJntSph
 s32 func_8005BD50(GlobalContext* globalCtx, ColliderJntSph* dest, ColliderJntSphInit_Actor* src) {
     ColliderJntSphItem* destNext;
     ColliderJntSphItemInit* srcNext;
@@ -929,7 +929,7 @@ s32 func_8005D218(GlobalContext* globalCtx, ColliderQuad* quad, Vec3f* arg2) {
     f32 temp;
     Vec3f sp20;
 
-    if ((quad->body.toucherFlags & 4) == 0) {
+    if (!(quad->body.toucherFlags & 4)) {
         return 1;
     }
     Math_Vec3s_ToVec3f(&sp20, &quad->dim.max);
@@ -998,9 +998,8 @@ void func_8005D400(UNK_TYPE arg0, UNK_TYPE arg1)
 void func_8005D40C(GlobalContext* globalCtx, CollisionCheckContext* check) {
     Collider** c;
     OcLine_s** d;
-    
 
-    if ((check->unk2 & 1) == 0) {
+    if (!(check->unk2 & 1)) {
         check->colAtCount = 0;
         check->colAcCount = 0;
         check->colOcCount = 0;
@@ -1318,21 +1317,21 @@ s32 func_8005DE9C(GlobalContext* globalCtx, CollisionCheckContext* check, OcLine
 }
 
 s32 func_8005DF2C(ColliderBody* body) {
-    if ((body->toucherFlags & 1) == 0) {
+    if (!(body->toucherFlags & 1)) {
         return 1;
     }
     return 0;
 }
 
 s32 func_8005DF50(ColliderBody* body) {
-    if ((body->bumperFlags & 1) == 0) {
+    if (!(body->bumperFlags & 1)) {
         return 1;
     }
     return 0;
 }
 
 s32 func_8005DF74(ColliderBody* left, ColliderBody* right) {
-    if ((left->toucher.flags & right->bumper.flags) == 0) {
+    if (!(left->toucher.flags & right->bumper.flags)) {
         return 1;
     }
     return 0;
@@ -1463,49 +1462,47 @@ void func_8005E2C8(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     func_80062A28(globalCtx, v);
 }
 
-void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* arg1, Collider* arg2, Vec3f* arg3) {
-    s32 temp_v0;
+void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collider* collider, Vec3f* arg3) {
+    s32 flags;
 
-    temp_v0 = arg1->toucherFlags & 0x18;
-    if (temp_v0 == 0) {
-        if (arg2->unk_14 != 9) {
-            func_80029CA4(globalCtx, 0, arg3);
-            if (arg2->actor == NULL) {
-                Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                return;
-            }
-            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &arg2->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            return;
-        }
-    }
-    if (temp_v0 == 0) {
-        func_80029CA4(globalCtx, 3, arg3);
-        if (arg2->actor == NULL) {
-            func_80062D60(globalCtx, arg3);
-            return;
-        }
-        func_80062DAC(globalCtx, arg3, &arg2->actor->unk_E4);
-        return;
-    }
-    if (temp_v0 == 8) {
+    flags = colliderBody->toucherFlags & 0x18;
+    if (flags == 0 && collider->unk_14 != 9) {
         func_80029CA4(globalCtx, 0, arg3);
-        if (arg2->actor == NULL) {
+        if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
         }
-        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &arg2->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         return;
     }
-    if (temp_v0 == 0x10) {
+    if (flags == 0) {
+        func_80029CA4(globalCtx, 3, arg3);
+        if (collider->actor == NULL) {
+            func_80062D60(globalCtx, arg3);
+            return;
+        }
+        func_80062DAC(globalCtx, arg3, &collider->actor->unk_E4);
+        return;
+    }
+    if (flags == 8) {
+        func_80029CA4(globalCtx, 0, arg3);
+        if (collider->actor == NULL) {
+            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            return;
+        }
+        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &collider->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        return;
+    }
+    if (flags == 0x10) {
         func_80029CA4(globalCtx, 1, arg3);
-        if (arg2->actor == NULL) {
+        if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             return;
         }
-        Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &arg2->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &collider->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         return;
     }
-} 
+}
 
 s32 func_8005E4F8(Collider* left, ColliderBody* rightBody) {
     if (left->actor != NULL) {
@@ -1559,44 +1556,45 @@ void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftB
         {0, 4},
     };
 
+    if (rightBody->bumperFlags & 0x40) {
+        return;
+    }
+    if (!(leftBody->toucherFlags & 0x20) && leftBody->toucherFlags & 0x40) {
+        return;
+    }
+    if (right->actor != NULL) {
+        (*D_8011DF28[D_8011DF40[right->unk_14].unk00])(globalCtx, right, arg5);
+    }
+    if (right->actor != NULL) {
+        if (D_8011DF40[right->unk_14].unk01 == 3) {
+            func_8005E2EC(globalCtx, leftBody, right, arg5);
+            return;
+        }
+        else if (D_8011DF40[right->unk_14].unk01 == 4) {
+            if (left->actor == NULL) {
 
-    if ((rightBody->bumperFlags & 0x40) == 0) {
-        if (((leftBody->toucherFlags & 0x20) != 0) || ((leftBody->toucherFlags & 0x40) == 0)) {
-            if (right->actor != NULL) {
-                (*D_8011DF28[D_8011DF40[right->unk_14].unk00])(globalCtx, right, arg5);
+                func_80062CD4(globalCtx, arg5);
+                Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                return;
             }
-            if (right->actor != NULL) {
-                if (D_8011DF40[right->unk_14].unk01 == 3) {
-                    func_8005E2EC(globalCtx, leftBody, right, arg5);
-                    return;
-                }
-                else if (D_8011DF40[right->unk_14].unk01 == 4) {
-                    if (left->actor == NULL) {
-
-                        func_80062CD4(globalCtx, arg5);
-                        Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                        return;
-                    }
-                    func_80062E14(globalCtx, arg5, &left->actor->unk_E4);
-                    return;
-                }
-                else if (D_8011DF40[right->unk_14].unk01 != 5) {
-                    func_80029CA4(globalCtx, D_8011DF40[right->unk_14].unk01, arg5);
-                    if ((rightBody->bumperFlags & 0x20) == 0) {
-                        func_8005E4F8(left, rightBody);
-                        return;
-                    }
-                }
-            }
-            else {
-                func_80029CA4(globalCtx, 0, arg5);
-                if (right->actor == NULL) {
-                    Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                    return;
-                }
-                Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &right->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            func_80062E14(globalCtx, arg5, &left->actor->unk_E4);
+            return;
+        }
+        else if (D_8011DF40[right->unk_14].unk01 != 5) {
+            func_80029CA4(globalCtx, D_8011DF40[right->unk_14].unk01, arg5);
+            if ((rightBody->bumperFlags & 0x20) == 0) {
+                func_8005E4F8(left, rightBody);
+                return;
             }
         }
+    }
+    else {
+        func_80029CA4(globalCtx, 0, arg5);
+        if (right->actor == NULL) {
+            Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            return;
+        }
+        Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &right->actor->unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
 }
 
@@ -1610,14 +1608,10 @@ s32 func_8005E81C(GlobalContext* globalCtx,
     Collider* left, ColliderBody* leftBody, Vec3f* leftv,
     Collider* right, ColliderBody* rightBody, Vec3f* rightv, Vec3f* arg7) {
 
-    if ((right->collideFlags & 4) != 0) {
-        if (left->actor != NULL) {
-            if (right->actor != NULL) {
-                func_8005E800(left, right);
-            }
-        }
+    if (right->collideFlags & 4 && left->actor != NULL && right->actor != NULL) {
+        func_8005E800(left, right);
     }
-    if ((rightBody->bumperFlags & 8) == 0) {
+    if (!(rightBody->bumperFlags & 8)) {
         left->colliderFlags |= 2;
         left->at = right->actor;
         leftBody->unk18 = right;
@@ -1633,22 +1627,23 @@ s32 func_8005E81C(GlobalContext* globalCtx,
     rightBody->colliding = leftBody;
     rightBody->bumperFlags |= 2;
     if (right->actor != NULL) {
-        right->actor->sub_98.unk_1B = (u8)leftBody->toucher.effect;
+        right->actor->sub_98.unk_1B = leftBody->toucher.effect;
     }
     rightBody->bumper.unk_06.x = (s16)arg7->x;
     rightBody->bumper.unk_06.y = (s16)arg7->y;
     rightBody->bumper.unk_06.z = (s16)arg7->z;
-    if (((((leftBody->toucherFlags & 0x20) == 0) && (right->unk_14 != 9)) && (right->unk_14 != 0xB)) && (right->unk_14 != 0xC)) {
+    if (!(leftBody->toucherFlags & 0x20) 
+        && right->unk_14 != 9 
+        && right->unk_14 != 0xB
+        && right->unk_14 != 0xC) {
         rightBody->bumperFlags |= 0x80;
     }
     else {
-        leftBody = (void*)leftBody;
         func_8005E604(globalCtx, left, leftBody, right, rightBody, arg7);
         leftBody->toucherFlags |= 0x40;
     }
     return 1;
 }
-
 
 //Check ColliderJntSph to ColliderJntSph
 void func_8005E9C0(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
@@ -1665,38 +1660,39 @@ void func_8005E9C0(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
 
     left = (ColliderJntSph*)l;
     right = (ColliderJntSph*)r;
-    if (left->count > 0 && left->list != NULL && right->count > 0 && right->list != NULL) {
-        for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-            if (func_8005DF2C(&lItem->body) == 1) {
+    if (left->count <= 0 || left->list == NULL || right->count <= 0 || right->list == NULL) {
+        return;
+    }
+    for (lItem = left->list; lItem < left->list + left->count; lItem++) {
+        if (func_8005DF2C(&lItem->body) == 1) {
+            continue;
+        }
+        for (rItem = right->list; rItem < right->list + right->count; rItem++) {
+            if (func_8005DF50(&rItem->body) == 1) {
                 continue;
             }
-            for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-                if (func_8005DF50(&rItem->body) == 1) {
-                    continue;
+            if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
+                continue;
+            }
+            if (func_800CFCAC(&lItem->dim.posr, &rItem->dim.posr, &sp8C, &sp88) == 1) {
+                sp6C.x = lItem->dim.posr.pos.x;
+                sp6C.y = lItem->dim.posr.pos.y;
+                sp6C.z = lItem->dim.posr.pos.z;
+                sp60.x = rItem->dim.posr.pos.x;
+                sp60.y = rItem->dim.posr.pos.y;
+                sp60.z = rItem->dim.posr.pos.z;
+                if (!(fabsf(sp88) < 0.008f)) {
+                    temp_f0 = rItem->dim.posr.radius / sp88;
+                    sp78.x = (((sp6C.x - sp60.x) * temp_f0) + sp60.x);
+                    sp78.y = (((sp6C.y - sp60.y) * temp_f0) + sp60.y);
+                    sp78.z = (((sp6C.z - sp60.z) * temp_f0) + sp60.z);
                 }
-                if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
-                    continue;
+                else {
+                    Math_Vec3f_Copy(&sp78, &sp6C);
                 }
-                if (func_800CFCAC(&lItem->dim.posr, &rItem->dim.posr, &sp8C, &sp88) == 1) {
-                    sp6C.x = lItem->dim.posr.pos.x;
-                    sp6C.y = lItem->dim.posr.pos.y;
-                    sp6C.z = lItem->dim.posr.pos.z;
-                    sp60.x = rItem->dim.posr.pos.x;
-                    sp60.y = rItem->dim.posr.pos.y;
-                    sp60.z = rItem->dim.posr.pos.z;
-                    if (!(fabsf(sp88) < 0.008f)) {
-                        temp_f0 = rItem->dim.posr.radius / sp88;
-                        sp78.x = (((sp6C.x - sp60.x) * temp_f0) + sp60.x);
-                        sp78.y = (((sp6C.y - sp60.y) * temp_f0) + sp60.y);
-                        sp78.z = (((sp6C.z - sp60.z) * temp_f0) + sp60.z);
-                    }
-                    else {
-                        Math_Vec3f_Copy(&sp78, &sp6C);
-                    }
-                    func_8005E81C(globalCtx, &left->base, &lItem->body, &sp6C, &right->base, &rItem->body, &sp60, &sp78);
-                    if ((right->base.maskB & 0x40) == 0) {
-                        return;
-                    }
+                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp6C, &right->base, &rItem->body, &sp60, &sp78);
+                if (!(right->base.maskB & 0x40)) {
+                    return;
                 }
             }
         }
@@ -1704,7 +1700,7 @@ void func_8005E9C0(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
 }
 
 //Check ColliderJntSph to ColliderCylinder 
-void func_8005EC6C(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) { 
+void func_8005EC6C(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* l, Collider* r) {
 
     ColliderJntSph* left = (ColliderJntSph*)l;
     ColliderCylinder* right = (ColliderCylinder*)r;
@@ -1716,41 +1712,42 @@ void func_8005EC6C(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     Vec3f sp58;
     f32 temp_f0;
 
-    if (left->count > 0 && left->list != NULL && right->dim.radius > 0 && right->dim.height > 0) {
-        if (func_8005DF50(&right->body) == 1) {
-            return;
+    if (left->count <= 0 || left->list == NULL || right->dim.radius <= 0 || right->dim.height <= 0) {
+        return;
+    }
+    if (func_8005DF50(&right->body) == 1) {
+        return;
+    }
+    for (lItem = left->list; lItem < left->list + left->count; lItem++) {
+        if (func_8005DF2C(&lItem->body) == 1) {
+            continue;
         }
-        for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-            if (func_8005DF2C(&lItem->body) == 1) {
-                continue;
-            }
-            if (func_8005DF74(&lItem->body, &right->body) == 1) {
-                continue;
-            }
-            if (func_800CFDA4(&lItem->dim.posr, &right->dim, &sp80, &sp7C) != 0) {
-                sp64.x = lItem->dim.posr.pos.x;
-                sp64.y = lItem->dim.posr.pos.y;
-                sp64.z = lItem->dim.posr.pos.z;
-                sp58.x = right->dim.position.x;
-                sp58.y = right->dim.position.y;
-                sp58.z = right->dim.position.z;
-                if (!(fabsf(sp7C) < 0.008f)) {
-                    temp_f0 = right->dim.radius / sp7C;
-                    if (temp_f0 <= 1.0f) {
-                        sp70.x = ((sp64.x - sp58.x) * temp_f0) + sp58.x;
-                        sp70.y = ((sp64.y - sp58.y) * temp_f0) + sp58.y;
-                        sp70.z = ((sp64.z - sp58.z) * temp_f0) + sp58.z;
-                    }
-                    else {
-                        Math_Vec3f_Copy(&sp70, &sp64);
-                    }
+        if (func_8005DF74(&lItem->body, &right->body) == 1) {
+            continue;
+        }
+        if (func_800CFDA4(&lItem->dim.posr, &right->dim, &sp80, &sp7C) != 0) {
+            sp64.x = lItem->dim.posr.pos.x;
+            sp64.y = lItem->dim.posr.pos.y;
+            sp64.z = lItem->dim.posr.pos.z;
+            sp58.x = right->dim.position.x;
+            sp58.y = right->dim.position.y;
+            sp58.z = right->dim.position.z;
+            if (!(fabsf(sp7C) < 0.008f)) {
+                temp_f0 = right->dim.radius / sp7C;
+                if (temp_f0 <= 1.0f) {
+                    sp70.x = ((sp64.x - sp58.x) * temp_f0) + sp58.x;
+                    sp70.y = ((sp64.y - sp58.y) * temp_f0) + sp58.y;
+                    sp70.z = ((sp64.z - sp58.z) * temp_f0) + sp58.z;
                 }
                 else {
                     Math_Vec3f_Copy(&sp70, &sp64);
                 }
-                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp64, &right->base, &right->body, &sp58, &sp70);
-                return;
             }
+            else {
+                Math_Vec3f_Copy(&sp70, &sp64);
+            }
+            func_8005E81C(globalCtx, &left->base, &lItem->body, &sp64, &right->base, &right->body, &sp58, &sp70);
+            return;
         }
     }
 }
@@ -1767,42 +1764,43 @@ void func_8005EEE0(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     Vec3f sp70;
     f32 temp_f0;
 
-    if (right->count > 0 && right->list != 0 && left->dim.radius > 0 && left->dim.height > 0) {
-        if (func_8005DF2C(&left->body) == 1) {
-            return;
+    if (right->count <= 0 || right->list == NULL || left->dim.radius <= 0 || left->dim.height <= 0) {
+        return;
+    }
+    if (func_8005DF2C(&left->body) == 1) {
+        return;
+    }
+    for (rItem = right->list; rItem < right->list + right->count; rItem++) {
+        if (func_8005DF50(&rItem->body) == 1) {
+            continue;
         }
-        for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-            if (func_8005DF50(&rItem->body) == 1) {
-                continue;
-            }
-            if (func_8005DF74(&left->body, &rItem->body) == 1) {
-                continue;
-            }
-            if (func_800CFDA4(&rItem->dim.posr, &left->dim, &sp9C, &sp98) != 0) {
-                sp7C.x = left->dim.position.x;
-                sp7C.y = left->dim.position.y;
-                sp7C.z = left->dim.position.z;
-                sp70.x = rItem->dim.posr.pos.x;
-                sp70.y = rItem->dim.posr.pos.y;
-                sp70.z = rItem->dim.posr.pos.z;
-                if (!(fabsf(sp98) < 0.008f)) {
-                    temp_f0 = (f32)rItem->dim.posr.radius / sp98;
-                    if (temp_f0 <= 1.0f) {
-                        sp88.x = ((sp7C.x - sp70.x) * temp_f0) + sp70.x;
-                        sp88.y = ((sp7C.y - sp70.y) * temp_f0) + sp70.y;
-                        sp88.z = ((sp7C.z - sp70.z) * temp_f0) + sp70.z;
-                    }
-                    else {
-                        Math_Vec3f_Copy(&sp88, &sp7C);
-                    }
+        if (func_8005DF74(&left->body, &rItem->body) == 1) {
+            continue;
+        }
+        if (func_800CFDA4(&rItem->dim.posr, &left->dim, &sp9C, &sp98) != 0) {
+            sp7C.x = left->dim.position.x;
+            sp7C.y = left->dim.position.y;
+            sp7C.z = left->dim.position.z;
+            sp70.x = rItem->dim.posr.pos.x;
+            sp70.y = rItem->dim.posr.pos.y;
+            sp70.z = rItem->dim.posr.pos.z;
+            if (!(fabsf(sp98) < 0.008f)) {
+                temp_f0 = (f32)rItem->dim.posr.radius / sp98;
+                if (temp_f0 <= 1.0f) {
+                    sp88.x = ((sp7C.x - sp70.x) * temp_f0) + sp70.x;
+                    sp88.y = ((sp7C.y - sp70.y) * temp_f0) + sp70.y;
+                    sp88.z = ((sp7C.z - sp70.z) * temp_f0) + sp70.z;
                 }
                 else {
                     Math_Vec3f_Copy(&sp88, &sp7C);
                 }
-                func_8005E81C(globalCtx, &left->base, &left->body, &sp7C, &right->base, &rItem->body, &sp70, &sp88);
-                if ((right->base.maskB & 0x40) == 0) {
-                    break;
-                }
+            }
+            else {
+                Math_Vec3f_Copy(&sp88, &sp7C);
+            }
+            func_8005E81C(globalCtx, &left->base, &left->body, &sp7C, &right->base, &rItem->body, &sp70, &sp88);
+            if (!(right->base.maskB & 0x40)) {
+                break;
             }
         }
     }
@@ -1818,30 +1816,29 @@ void func_8005F17C(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     Vec3f sp60;
     Vec3f sp54;
 
-    if (left->count > 0 && left->list != NULL) {
-        if (right->count > 0 && right->list != NULL) {
-            for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-                if (func_8005DF2C(&lItem->body) == 1) {
-                    continue;
-                }
-                for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-                    if (func_8005DF50(&rItem->body) == 1) {
-                        continue;
-                    }
-                    if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
-                        continue;
-                    }
-                    if (func_800CE934(&lItem->dim.posr, &rItem->dim, &sp6C) == 1) {
-                        sp60.x = lItem->dim.posr.pos.x;
-                        sp60.y = lItem->dim.posr.pos.y;
-                        sp60.z = lItem->dim.posr.pos.z;
-                        sp54.x = (rItem->dim.poly[0].x + rItem->dim.poly[1].x + rItem->dim.poly[2].x) * (1.0f / 3); 
-                        sp54.y = (rItem->dim.poly[0].y + rItem->dim.poly[1].y + rItem->dim.poly[2].y) * (1.0f / 3); 
-                        sp54.z = (rItem->dim.poly[0].z + rItem->dim.poly[1].z + rItem->dim.poly[2].z) * (1.0f / 3); 
-                        func_8005E81C(globalCtx, &left->base, &lItem->body, &sp60, &right->base, &rItem->body, &sp54, &sp6C);
-                        return;
-                    }
-                }
+    if (left->count <= 0 || left->list == NULL || right->count <= 0 || right->list == NULL) {
+        return;
+    }
+    for (lItem = left->list; lItem < left->list + left->count; lItem++) {
+        if (func_8005DF2C(&lItem->body) == 1) {
+            continue;
+        }
+        for (rItem = right->list; rItem < right->list + right->count; rItem++) {
+            if (func_8005DF50(&rItem->body) == 1) {
+                continue;
+            }
+            if (func_8005DF74(&lItem->body, &rItem->body) == 1) {
+                continue;
+            }
+            if (func_800CE934(&lItem->dim.posr, &rItem->dim, &sp6C) == 1) {
+                sp60.x = lItem->dim.posr.pos.x;
+                sp60.y = lItem->dim.posr.pos.y;
+                sp60.z = lItem->dim.posr.pos.z;
+                sp54.x = (rItem->dim.poly[0].x + rItem->dim.poly[1].x + rItem->dim.poly[2].x) * (1.0f / 3);
+                sp54.y = (rItem->dim.poly[0].y + rItem->dim.poly[1].y + rItem->dim.poly[2].y) * (1.0f / 3);
+                sp54.z = (rItem->dim.poly[0].z + rItem->dim.poly[1].z + rItem->dim.poly[2].z) * (1.0f / 3);
+                func_8005E81C(globalCtx, &left->base, &lItem->body, &sp60, &right->base, &rItem->body, &sp54, &sp6C);
+                return;
             }
         }
     }
@@ -1876,7 +1873,7 @@ void func_8005F39C(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
                         sp70.y = (lItem->dim.poly[0].y + lItem->dim.poly[1].y + lItem->dim.poly[2].y) * (1.0f / 3);
                         sp70.z = (lItem->dim.poly[0].z + lItem->dim.poly[1].z + lItem->dim.poly[2].z) * (1.0f / 3);
                         func_8005E81C(globalCtx, &left->base, &lItem->body, &sp70, &right->base, &rItem->body, &sp64, &sp7C);
-                        if ((right->base.maskB & 0x40) == 0) {
+                        if (!(right->base.maskB & 0x40)) {
                             return;
                         }
                     }
@@ -1982,27 +1979,31 @@ void func_8005FA30(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     Vec3f sp44;
     f32 temp_f0;
 
-    if (left->dim.radius > 0 && left->dim.height > 0 && right->dim.radius > 0 && right->dim.height > 0) {
-        if (func_8005DF50(&right->body) != 1) {
-            if (func_8005DF2C(&left->body) != 1) {
-                if (func_8005DF74(&left->body, &right->body) != 1) {
-                    if (func_800CFF34(&left->dim, &right->dim, &sp6C, &sp68) == 1) {
-                        Math_Vec3s_ToVec3f(&sp50, &left->dim.position);
-                        Math_Vec3s_ToVec3f(&sp44, &right->dim.position);
-                        if (!(fabsf(sp68) < 0.008f)) {
-                            temp_f0 = (f32)right->dim.radius / sp68;
-                            sp5C.y = ((f32)right->dim.position.y + (f32)right->dim.yShift) + ((f32)right->dim.height * 0.5f);
-                            sp5C.x = (((f32)left->dim.position.x - right->dim.position.x) * temp_f0) + right->dim.position.x;
-                            sp5C.z = (((f32)left->dim.position.z - right->dim.position.z) * temp_f0) + right->dim.position.z;
-                        }
-                        else {
-                            Math_Vec3s_ToVec3f(&sp5C, &right->dim.position);
-                        }
-                        func_8005E81C(globalCtx, &left->base, &left->body, &sp50, &right->base, &right->body, &sp44, &sp5C);
-                    }
-                }
-            }
+    if (left->dim.radius <= 0 || left->dim.height <= 0 || right->dim.radius <= 0 || right->dim.height <= 0) {
+        return;
+    }
+    if (func_8005DF50(&right->body) == 1) {
+        return;
+    }
+    if (func_8005DF2C(&left->body) == 1) {
+        return;
+    }
+    if (func_8005DF74(&left->body, &right->body) == 1) {
+        return;
+    }
+    if (func_800CFF34(&left->dim, &right->dim, &sp6C, &sp68) == 1) {
+        Math_Vec3s_ToVec3f(&sp50, &left->dim.position);
+        Math_Vec3s_ToVec3f(&sp44, &right->dim.position);
+        if (!(fabsf(sp68) < 0.008f)) {
+            temp_f0 = (f32)right->dim.radius / sp68;
+            sp5C.y = (f32)right->dim.position.y + (f32)right->dim.yShift + (f32)right->dim.height * 0.5f;
+            sp5C.x = ((f32)left->dim.position.x - right->dim.position.x) * temp_f0 + right->dim.position.x;
+            sp5C.z = ((f32)left->dim.position.z - right->dim.position.z) * temp_f0 + right->dim.position.z;
         }
+        else {
+            Math_Vec3s_ToVec3f(&sp5C, &right->dim.position);
+        }
+        func_8005E81C(globalCtx, &left->base, &left->body, &sp50, &right->base, &right->body, &sp44, &sp5C);
     }
 }
 
@@ -2087,32 +2088,31 @@ void func_8005FF90(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     Vec3f sp4C;
     Vec3f sp40;
 
-    if (left->dim.height > 0) {
-        if (left->dim.radius > 0) {
-            if (func_8005DF2C(&left->body) != 1) {
-                if (func_8005DF50(&right->body) != 1) {
-                    if (func_8005DF74(&left->body, &right->body) != 1) {
-                        func_800CE3C0(&D_8015E320, &right->dim.quad[2], &right->dim.quad[3], &right->dim.quad[1]);
-                        func_800CE3C0(&D_8015E358, &right->dim.quad[1], &right->dim.quad[0], &right->dim.quad[2]);
-                        if (func_800CF7D0(&left->dim, &D_8015E320, &D_8015E390) == 1) {
-                            Math_Vec3s_ToVec3f(&sp64, &left->dim.position);
-                            sp58.x = (right->dim.quad[0].x + (right->dim.quad[1].x + (right->dim.quad[3].x + right->dim.quad[2].x))) * 0.25f;
-                            sp58.y = (right->dim.quad[0].y + (right->dim.quad[1].y + (right->dim.quad[3].y + right->dim.quad[2].y))) * 0.25f;
-                            sp58.z = (right->dim.quad[0].z + (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) * 0.25f;
-                            func_8005E81C(globalCtx, &left->base, &left->body, &sp64, &right->base, &right->body, &sp58, &D_8015E390);
-                            return;
-                        }
-                        if (func_800CF7D0(&left->dim, &D_8015E358, &D_8015E390) == 1) {
-                            Math_Vec3s_ToVec3f(&sp4C, &left->dim.position);
-                            sp40.x = (right->dim.quad[0].x + (right->dim.quad[1].x + (right->dim.quad[3].x + right->dim.quad[2].x))) * (1.0f / 4);
-                            sp40.y = (right->dim.quad[0].y + (right->dim.quad[1].y + (right->dim.quad[3].y + right->dim.quad[2].y))) * (1.0f / 4);
-                            sp40.z = (right->dim.quad[0].z + (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) * (1.0f / 4);
-                            func_8005E81C(globalCtx, &left->base, &left->body, &sp4C, &right->base, &right->body, &sp40, &D_8015E390);
-                        }
-                    }
-                }
-            }
-        }
+    if (left->dim.height <= 0 || left->dim.radius <= 0) {
+        return;
+    }
+    if (func_8005DF2C(&left->body) == 1 || func_8005DF50(&right->body) == 1) {
+        return;
+    }
+    if (func_8005DF74(&left->body, &right->body) == 1) {
+        return;
+    }
+    func_800CE3C0(&D_8015E320, &right->dim.quad[2], &right->dim.quad[3], &right->dim.quad[1]);
+    func_800CE3C0(&D_8015E358, &right->dim.quad[1], &right->dim.quad[0], &right->dim.quad[2]);
+    if (func_800CF7D0(&left->dim, &D_8015E320, &D_8015E390) == 1) {
+        Math_Vec3s_ToVec3f(&sp64, &left->dim.position);
+        sp58.x = (right->dim.quad[0].x + (right->dim.quad[1].x + (right->dim.quad[3].x + right->dim.quad[2].x))) * 0.25f;
+        sp58.y = (right->dim.quad[0].y + (right->dim.quad[1].y + (right->dim.quad[3].y + right->dim.quad[2].y))) * 0.25f;
+        sp58.z = (right->dim.quad[0].z + (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) * 0.25f;
+        func_8005E81C(globalCtx, &left->base, &left->body, &sp64, &right->base, &right->body, &sp58, &D_8015E390);
+        return;
+    }
+    if (func_800CF7D0(&left->dim, &D_8015E358, &D_8015E390) == 1) {
+        Math_Vec3s_ToVec3f(&sp4C, &left->dim.position);
+        sp40.x = (right->dim.quad[0].x + (right->dim.quad[1].x + (right->dim.quad[3].x + right->dim.quad[2].x))) * (1.0f / 4);
+        sp40.y = (right->dim.quad[0].y + (right->dim.quad[1].y + (right->dim.quad[3].y + right->dim.quad[2].y))) * (1.0f / 4);
+        sp40.z = (right->dim.quad[0].z + (right->dim.quad[1].z + (right->dim.quad[3].z + right->dim.quad[2].z))) * (1.0f / 4);
+        func_8005E81C(globalCtx, &left->base, &left->body, &sp4C, &right->base, &right->body, &sp40, &D_8015E390);
     }
 }
 
@@ -2129,35 +2129,34 @@ void func_80060204(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     Vec3f sp4C;
     Vec3f sp40;
 
-    if (right->dim.height > 0) {
-        if (right->dim.radius > 0) {
-            if (func_8005DF50(&right->body) != 1) {
-                if (func_8005DF2C(&left->body) != 1) {
-                    if (func_8005DF74(&left->body, &right->body) != 1) {
-                        func_800CE3C0(&D_8015E3A0, &left->dim.quad[2], &left->dim.quad[3], &left->dim.quad[1]);
-                        func_800CE3C0(&D_8015E3D8, &left->dim.quad[2], &left->dim.quad[1], &left->dim.quad[0]);
-                        if (func_800CF7D0(&right->dim, &D_8015E3A0, &D_8015E410) == 1) {
-                            if (func_8005D218(globalCtx, left, &D_8015E410) != 0) {
-                                sp64.x = (left->dim.quad[0].x + (left->dim.quad[1].x + (left->dim.quad[3].x + left->dim.quad[2].x))) * (1.0f / 4);
-                                sp64.y = (left->dim.quad[0].y + (left->dim.quad[1].y + (left->dim.quad[3].y + left->dim.quad[2].y))) * (1.0f / 4);
-                                sp64.z = (left->dim.quad[0].z + (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) * (1.0f / 4);
-                                Math_Vec3s_ToVec3f(&sp58, &right->dim.position);
-                                func_8005E81C(globalCtx, &left->base, &left->body, &sp64, &right->base, &right->body, &sp58, &D_8015E410);
-                                return;
-                            }
-                        }
-                        if (func_800CF7D0(&right->dim, &D_8015E3D8, &D_8015E410) == 1) {
-                            if (func_8005D218(globalCtx, left, &D_8015E410) != 0) {
-                                sp4C.x = (left->dim.quad[0].x + (left->dim.quad[1].x + (left->dim.quad[3].x + left->dim.quad[2].x))) * (1.0f / 4);
-                                sp4C.y = (left->dim.quad[0].y + (left->dim.quad[1].y + (left->dim.quad[3].y + left->dim.quad[2].y))) * (1.0f / 4);
-                                sp4C.z = (left->dim.quad[0].z + (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) * (1.0f / 4);
-                                Math_Vec3s_ToVec3f(&sp40, &right->dim.position);
-                                func_8005E81C(globalCtx, &left->base, &left->body, &sp4C, &right->base, &right->body, &sp40, &D_8015E410);
-                            }
-                        }
-                    }
-                }
-            }
+    if (right->dim.height <= 0 || right->dim.radius <= 0) {
+        return;
+    }
+    if (func_8005DF50(&right->body) == 1 || func_8005DF2C(&left->body) == 1) {
+        return;
+    }
+    if (func_8005DF74(&left->body, &right->body) == 1) {
+        return;
+    }
+    func_800CE3C0(&D_8015E3A0, &left->dim.quad[2], &left->dim.quad[3], &left->dim.quad[1]);
+    func_800CE3C0(&D_8015E3D8, &left->dim.quad[2], &left->dim.quad[1], &left->dim.quad[0]);
+    if (func_800CF7D0(&right->dim, &D_8015E3A0, &D_8015E410) == 1) {
+        if (func_8005D218(globalCtx, left, &D_8015E410) != 0) {
+            sp64.x = (left->dim.quad[0].x + (left->dim.quad[1].x + (left->dim.quad[3].x + left->dim.quad[2].x))) * (1.0f / 4);
+            sp64.y = (left->dim.quad[0].y + (left->dim.quad[1].y + (left->dim.quad[3].y + left->dim.quad[2].y))) * (1.0f / 4);
+            sp64.z = (left->dim.quad[0].z + (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) * (1.0f / 4);
+            Math_Vec3s_ToVec3f(&sp58, &right->dim.position);
+            func_8005E81C(globalCtx, &left->base, &left->body, &sp64, &right->base, &right->body, &sp58, &D_8015E410);
+            return;
+        }
+    }
+    if (func_800CF7D0(&right->dim, &D_8015E3D8, &D_8015E410) == 1) {
+        if (func_8005D218(globalCtx, left, &D_8015E410) != 0) {
+            sp4C.x = (left->dim.quad[0].x + (left->dim.quad[1].x + (left->dim.quad[3].x + left->dim.quad[2].x))) * (1.0f / 4);
+            sp4C.y = (left->dim.quad[0].y + (left->dim.quad[1].y + (left->dim.quad[3].y + left->dim.quad[2].y))) * (1.0f / 4);
+            sp4C.z = (left->dim.quad[0].z + (left->dim.quad[1].z + (left->dim.quad[3].z + left->dim.quad[2].z))) * (1.0f / 4);
+            Math_Vec3s_ToVec3f(&sp40, &right->dim.position);
+            func_8005E81C(globalCtx, &left->base, &left->body, &sp4C, &right->base, &right->body, &sp40, &D_8015E410);
         }
     }
 }
@@ -2332,9 +2331,9 @@ void func_80060EBC(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     Vec3f sp24;
 
     for (item = col->list; item < col->list + col->count; item++) {
-        if ((item->body.bumperFlags & 0x80) != 0) {
-            if (item->body.colliding != 0) {
-                if ((item->body.colliding->toucherFlags & 0x40) == 0) {
+        if (item->body.bumperFlags & 0x80) {
+            if (item->body.colliding != NULL) {
+                if (!(item->body.colliding->toucherFlags & 0x40)) {
                     Math_Vec3s_ToVec3f(&sp24, &item->body.bumper.unk_06);
                     func_8005E604(globalCtx, item->body.colBuf, item->body.colliding, &col->base, &item->body, &sp24);
                     item->body.colliding->toucherFlags |= 0x40;
@@ -2350,9 +2349,9 @@ void func_80060F94(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     ColliderCylinder* item = (ColliderCylinder*)collider;
     Vec3f sp28;
 
-    if ((item->body.bumperFlags & 0x80) != 0) {
-        if (item->body.colliding != 0) {
-            if ((item->body.colliding->toucherFlags & 0x40) == 0) {
+    if (item->body.bumperFlags & 0x80) {
+        if (item->body.colliding != NULL) {
+            if (!(item->body.colliding->toucherFlags & 0x40)) {
                 Math_Vec3s_ToVec3f(&sp28, &item->body.bumper.unk_06);
                 func_8005E604(globalCtx, item->body.colBuf, item->body.colliding, &item->base, &item->body, &sp28);
                 item->body.colliding->toucherFlags |= 0x40;
@@ -2368,9 +2367,9 @@ void func_80061028(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     Vec3f sp24;
 
     for (item = col->list; item < col->list + col->count; item++) {
-        if ((item->body.bumperFlags & 0x80) != 0) {
-            if (item->body.colliding != 0) {
-                if ((item->body.colliding->toucherFlags & 0x40) == 0) {
+        if (item->body.bumperFlags & 0x80) {
+            if (item->body.colliding != NULL) {
+                if (!(item->body.colliding->toucherFlags & 0x40)) {
                     Math_Vec3s_ToVec3f(&sp24, &item->body.bumper.unk_06);
                     func_8005E604(globalCtx, item->body.colBuf, item->body.colliding, &col->base, &item->body, &sp24);
                     item->body.colliding->toucherFlags |= 0x40;
@@ -2386,9 +2385,9 @@ void func_8006110C(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     ColliderQuad* item = (ColliderQuad*)collider;
     Vec3f sp28;
 
-    if ((item->body.bumperFlags & 0x80) != 0) {
-        if (item->body.colliding != 0) {
-            if ((item->body.colliding->toucherFlags & 0x40) == 0) {
+    if (item->body.bumperFlags & 0x80) {
+        if (item->body.colliding != NULL) {
+            if (!(item->body.colliding->toucherFlags & 0x40)) {
                 Math_Vec3s_ToVec3f(&sp28, &item->body.bumper.unk_06);
                 func_8005E604(globalCtx, item->body.colBuf, item->body.colliding, &item->base, &item->body, &sp28);
                 item->body.colliding->toucherFlags |= 0x40;
@@ -2475,11 +2474,11 @@ void func_8006139C(GlobalContext* globalCtx, CollisionCheckContext* check) {
 }
 
 //Get mass type
-s32 func_8006146C(u8 unk) {
-    if (unk == 0xFF) {
+s32 func_8006146C(u8 mass) {
+    if (mass == 0xFF) {
         return 0;
     }
-    if (unk == 0xFE) {
+    if (mass == 0xFE) {
         return 1;
     }
     return 2;
@@ -2616,11 +2615,11 @@ void func_800617D4(GlobalContext* globalCtx, CollisionCheckContext* check,  Coll
 
     if (left->count > 0 && left->list != NULL && right->count > 0 && right->list != NULL) {
         for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-            if ((lItem->body.flags2 & 1) == 0) {
+            if (!(lItem->body.flags2 & 1)) {
                 continue;
             }
             for (rItem = right->list; rItem < right->list + right->count; rItem++) {
-                if ((rItem->body.flags2 & 1) == 0) {
+                if (!(rItem->body.flags2 & 1)) {
                     continue;
                 }
                 if (func_800CFC8C(&lItem->dim.posr, &rItem->dim.posr, &sp74) == 1) {
@@ -2643,14 +2642,14 @@ void func_8006199C(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     Vec3f sp60;
 
     if (left->count > 0 && left->list != NULL) {
-        if ((right->base.maskA & 1) == 0) {
+        if (!(right->base.maskA & 1)) {
             return;
         }
-        if ((right->body.flags2 & 1) == 0) {
+        if (!(right->body.flags2 & 1)) {
             return;
         }
         for (lItem = left->list; lItem < left->list + left->count; lItem++) {
-            if ((lItem->body.flags2 & 1) == 0) {
+            if (!(lItem->body.flags2 & 1)) {
                 continue;
             }
             if (func_800CFD84(&lItem->dim.posr, &right->dim, &sp78) == 1) {
@@ -2675,16 +2674,10 @@ void func_80061B24(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     Vec3f sp40;
     Vec3f sp34;
 
-    if ((left->base.maskA & 1) == 0) {
+    if (!(left->base.maskA & 1) || !(right->base.maskA & 1)) {
         return;
     }
-    if ((right->base.maskA & 1) == 0) {
-        return;
-    }
-    if ((left->body.flags2 & 1) == 0) {
-        return;
-    }
-    if ((right->body.flags2 & 1) == 0) {
+    if (!(left->body.flags2 & 1) || !(right->body.flags2 & 1)) {
         return;
     }
     if (func_800CFF14(&left->dim, &right->dim, &sp4C) == 1) {
@@ -2695,17 +2688,17 @@ void func_80061B24(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
 }
 
 s32 func_80061BF4(Collider* collider) {
-    if ((collider->maskA & 1) == 0) {
+    if (!(collider->maskA & 1)) {
         return 1;
     }
     return 0;
 }
 
 s32 func_80061C18(Collider* arg0, Collider* arg1) {
-    if (((arg0->maskA & arg1->maskB) & 0x38) == 0
-        || ((arg0->maskB & arg1->maskA) & 0x38) == 0
-        || ((arg0->maskB & 2) != 0 && (arg1->maskB & 4) != 0)
-        || ((arg1->maskB & 2) != 0 && (arg0->maskB & 4) != 0)) {
+    if (!((arg0->maskA & arg1->maskB) & 0x38)
+        || !((arg0->maskB & arg1->maskA) & 0x38)
+        || ((arg0->maskB & 2) && (arg1->maskB & 4))
+        || ((arg1->maskB & 2) && (arg0->maskB & 4))) {
         return 1;
     }
     if (arg0->actor == arg1->actor) {
@@ -2807,14 +2800,14 @@ void func_80061F64(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
     if (collider->actor == NULL || !(collider->collideFlags & 2)) {
         return;
     }
-    if (!(body->bumperFlags & 2)|| (body->bumperFlags & 0x10)) {
+    if (!(body->bumperFlags & 2) || (body->bumperFlags & 0x10)) {
         return;
     }
     if (body->colliding == NULL) {
         __assert("pclobj_elem->ac_hit_elem != NULL", "../z_collision_check.c", 6493);
     }
     tbl = collider->actor->sub_98.damageChart;
-    if (tbl == NULL) { 
+    if (tbl == NULL) {
         damage = (f32)body->colliding->toucher.damage - (f32)body->bumper.unk_05;
         if (damage < 0) {
             damage = 0;
@@ -2831,7 +2824,7 @@ void func_80061F64(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
         damage = tblLookup & 0xF;
         collider->actor->sub_98.damageEffect = tblLookup >> 4 & 0xF;
     }
-    if (!(collider->collideFlags & 4)) { 
+    if (!(collider->collideFlags & 4)) {
         collider->actor->sub_98.damage = (u32)(collider->actor->sub_98.damage + damage);
     }
 }
@@ -2895,15 +2888,13 @@ s32 func_800623A4(GlobalContext* globalCtx, CollisionCheckContext* check, Collid
     s32 phi_s0;
     for (phi_s0 = 0; phi_s0 < jntSph->count; phi_s0++) {
         item = &jntSph->list[phi_s0];
-        if ((item->body.flags2 & 1) == 0) {
+        if (!(item->body.flags2 & 1)) {
             continue;
         }
-        else {
-            D_8015E610.a = *arg3;
-            D_8015E610.b = *arg4;
-            if (func_800CE600(&item->dim.posr, &D_8015E610) == 1) {
-                return 1;
-            }
+        D_8015E610.a = *arg3;
+        D_8015E610.b = *arg4;
+        if (func_800CE600(&item->dim.posr, &D_8015E610) == 1) {
+            return 1;
         }
     }
     return 0;
@@ -2914,7 +2905,7 @@ extern Vec3f D_8015E638;
 //CollisionCheck_generalLineOcCheck ColliderCylinder 
 s32 func_800624BC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider, Vec3f* arg3, Vec3f* arg4) {
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
-    if ((cylinder->body.flags2 & 1) == 0) {
+    if (!(cylinder->body.flags2 & 1)) {
         return 0;
     }
     if (func_800CEE0C(&cylinder->dim, arg3, arg4, &D_8015E628, &D_8015E638) != 0) {
@@ -2962,7 +2953,6 @@ s32 func_80062530(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f*
         else {
             result = (*t)(globalCtx, check, collider, camera_3C, arg3);
             if (result != 0) {
-
                 break;
             }
         }
