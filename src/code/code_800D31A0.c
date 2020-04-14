@@ -1,5 +1,4 @@
 #include <global.h>
-#include <padmgr.h>
 #include <vt.h>
 
 extern PadMgr gPadMgr;

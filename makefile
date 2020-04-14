@@ -179,7 +179,9 @@ build/src/%.o: src/%.c
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 
-build/src/libultra_code/%.o: CC := $(CC_OLD)
+# This line is redundant because of the asm_processor line below, but keeping it here because
+# it is one of the directories that has to be compiled with CC_OLD.
+# build/src/libultra_code/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
 

@@ -4,7 +4,6 @@
 
 #include <PR/os_cont.h>
 #include <ultra64/controller.h>
-#include <padmgr.h>
 
 s32 D_8012D280 = 1;
 
@@ -421,7 +420,7 @@ void PadMgr_MainProc(PadMgr* padmgr) {
 }
 
 // func_800A2A14 in 1.0
-void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* ctrlrqueue, UNK_TYPE arg2, OSId id, OSPri priority, void* stack) {
+void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* siIntMsgQ, UNK_TYPE arg2, OSId id, OSPri priority, void* stack) {
     // EUC-JP: パッドマネージャ作成 | Create pad manager
     osSyncPrintf("パッドマネージャ作成 padmgr_Create()\n");
     bzero(padmgr, sizeof(PadMgr));
@@ -430,10 +429,10 @@ void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* ctrlrqueue, UNK_TYPE arg2, OSId id
     osCreateMesgQueue(&padmgr->queue3, padmgr->msgbuf3, 4);
     IrqMgr_AddClient(padmgr->unk_78, &padmgr->unk_70, &padmgr->queue3);
     osCreateMesgQueue(&padmgr->queue1, padmgr->msgbuf1, 1);
-    PadMgr_UnlockSerialMesgQueue(padmgr, ctrlrqueue);
+    PadMgr_UnlockSerialMesgQueue(padmgr, siIntMsgQ);
     osCreateMesgQueue(&padmgr->queue2, padmgr->msgbuf2, 1);
     PadMgr_UnlockPadData(padmgr);
-    func_800FCD40(ctrlrqueue, &padmgr->validCtrlrsMask, padmgr);
+    func_800FCD40(siIntMsgQ, &padmgr->validCtrlrsMask, padmgr);
 
     padmgr->ncontrollers = 4;
     func_80104D00(padmgr->ncontrollers);

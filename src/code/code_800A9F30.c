@@ -1,6 +1,5 @@
 #include <ultra64.h>
 #include <global.h>
-#include <padmgr.h>
 
 extern u8 D_80160FD0[];
 extern PadMgr gPadMgr;

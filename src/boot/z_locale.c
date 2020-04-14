@@ -1,7 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
 #include <vt.h>
-#include <padmgr.h>
 
 u32 gCurrentRegion = 0;
 LocaleCartInfo sCartInfo;
