@@ -240,13 +240,13 @@ void PadMgr_ProcessInputs(PadMgr* padmgr) {
     input = padmgr->inputs; //s0
     padnow1 = padmgr->pads; //s3
     for(i=0; i<padmgr->ncontrollers; ++i, ++input, ++padnow1){
-        input->prev.input = input->current.input;
-        input->prev.status = input->current.status;
+        input->prev.in = input->cur.in;
+        input->prev.status = input->cur.status;
         temp_v0 = phi_s3->unk4;
         switch(padnow1->errno){
         case 0:
-            input->current.input = padnow1->input;
-            input->current.status = padnow1->status;
+            input->cur.in = padnow1->input;
+            input->cur.status = padnow1->status;
             if (padmgr->ctrlrIsConnected[i] == 0) {
                 padmgr->ctrlrIsConnected[i] = 1;
                 osSyncPrintf(&D_80145AF0); //"\x1b[33m"
@@ -255,8 +255,8 @@ void PadMgr_ProcessInputs(PadMgr* padmgr) {
             }
             break;
         case 4:
-            input->current.input = input->prev.input;
-            input->current.status = input->prev.status;
+            input->cur.in = input->prev.in;
+            input->cur.status = input->prev.status;
             LogUtils_LogThreadId(&D_80145B20, 0x17c); //"../padmgr.c"
             osSyncPrintf(&D_80145B2C, padmgr->ctrlrIsConnected[i]); //"this->ctrlrIsConnected[i] = %d\n"
             osSyncPrintf(&D_80145B48); //"\x1b[33m"
@@ -264,11 +264,11 @@ void PadMgr_ProcessInputs(PadMgr* padmgr) {
             osSyncPrintf(&D_80145B80); //"\x1b[m"
             break;
         case 8:
-            input->current.input.button = 0;
-            input->current.input.x = 0;
-            input->current.input.y = 0;
+            input->cur.in.button = 0;
+            input->cur.in.x = 0;
+            input->cur.in.y = 0;
             temp_v0_2 = arg0 + phi_s2;
-            input->current.errno = padnow1->errno;
+            input->cur.errno = padnow1->errno;
             if (temp_v0_2->ctrlrIsConnected != 0){
                 temp_v0_2->ctrlrIsConnected = 0;
                 temp_v0_2->pakType = 0;
@@ -283,11 +283,11 @@ void PadMgr_ProcessInputs(PadMgr* padmgr) {
             osSyncPrintf(&D_80145BC0, padnow1->errno); //"padnow1->errno = %x\n"
             Fault_AddHungupAndCrash(&D_80145BD8, 0x18d); //"../padmgr.c"
         }
-        input->pressed_diff.input.button = input->current.input.button & (input->prev.input.button ^ input->current.input.button);
-        input->released_adj.input.button = input->prev.input.button & (input->prev.input.button ^ input->current.input.button);
+        input->press.in.button = input->cur.in.button & (input->prev.in.button ^ input->cur.in.button);
+        input->rel.in.button = input->prev.in.button & (input->prev.in.button ^ input->cur.in.button);
         func_800FCC6C(input);
-        input->pressed_diff.input.x = (input->current.input.x - input->prev.input.x) + input->pressed_diff.input.x;
-        input->pressed_diff.input.y = (input->current.input.y - input->prev.input.y) + input->pressed_diff.input.y;
+        input->press.in.x = (input->cur.in.x - input->prev.in.x) + input->press.in.x;
+        input->press.in.y = (input->cur.in.y - input->prev.in.y) + input->press.in.y;
     }
     PadMgr_UnlockPadData(arg0);
 }
@@ -363,21 +363,21 @@ void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode) {
     for (i = 0; i < 4; ++i) {
         if (mode) {
             *newin = *pm_inputs;
-            pm_inputs->pressed_diff.input.button = 0;
-            pm_inputs->pressed_diff.input.x = 0;
-            pm_inputs->pressed_diff.input.y = 0;
-            pm_inputs->released_adj.input.button = 0;
+            pm_inputs->press.in.button = 0;
+            pm_inputs->press.in.x = 0;
+            pm_inputs->press.in.y = 0;
+            pm_inputs->rel.in.button = 0;
         } else {
             // Correct instructions, wrong regalloc
-            newin->prev = newin->current;
-            newin->current = pm_inputs->current;
-            newin->pressed_diff.input.button =
-                newin->current.input.button & (newin->prev.input.button ^ newin->current.input.button);
-            newin->released_adj.input.button =
-                newin->prev.input.button & (newin->prev.input.button ^ newin->current.input.button);
+            newin->prev = newin->cur;
+            newin->cur = pm_inputs->cur;
+            newin->press.in.button =
+                newin->cur.in.button & (newin->prev.in.button ^ newin->cur.in.button);
+            newin->rel.in.button =
+                newin->prev.in.button & (newin->prev.in.button ^ newin->cur.in.button);
             func_800FCC6C(newin);
-            newin->pressed_diff.input.x = (newin->current.input.x - newin->prev.input.x) + newin->pressed_diff.input.x;
-            newin->pressed_diff.input.y = (newin->current.input.y - newin->prev.input.y) + newin->pressed_diff.input.y;
+            newin->press.in.x = (newin->cur.in.x - newin->prev.in.x) + newin->press.in.x;
+            newin->press.in.y = (newin->cur.in.y - newin->prev.in.y) + newin->press.in.y;
         }
         ++pm_inputs;
         ++newin;

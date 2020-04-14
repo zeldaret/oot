@@ -280,22 +280,22 @@ typedef struct GraphicsContext {
 } GraphicsContext; // size = 0x300
 
 typedef struct {
-    PadInput input;
+    PadInput in;
     union{
         u16 status;
         struct{
             u8 errno;
-            u8 status_lo;
+            u8 statusLo;
         };
     };
 } PadState;
 
 typedef struct
 {
-    /* 0x00 */ PadState current;
+    /* 0x00 */ PadState cur;
     /* 0x06 */ PadState prev;
-    /* 0x0C */ PadState pressed_diff;
-    /* 0x12 */ PadState released_adj;
+    /* 0x0C */ PadState press; //X/Y store delta from last frame
+    /* 0x12 */ PadState rel; //X/Y store adjusted
 } Input; // size = 0x18
 
 #if 0
