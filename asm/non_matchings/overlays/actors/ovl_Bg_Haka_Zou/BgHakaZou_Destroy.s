@@ -22,5 +22,3 @@ glabel BgHakaZou_Destroy
 /* 00328 808828E8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0032C 808828EC 03E00008 */  jr      $ra                        
 /* 00330 808828F0 00000000 */  nop
-
-

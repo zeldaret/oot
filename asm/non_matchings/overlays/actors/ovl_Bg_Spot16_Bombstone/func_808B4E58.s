@@ -1,3 +1,17 @@
+.rdata
+glabel D_808B60BC
+    .asciz "Error : バンク危険！(arg_data 0x%04x)(%s %d)\n"
+    .balign 4
+
+glabel D_808B60EC
+    .asciz "../z_bg_spot16_bombstone.c"
+    .balign 4
+
+.late_rodata
+glabel D_808B6238
+ .word 0x3ADA740E
+
+.text
 glabel func_808B4E58
 /* 00228 808B4E58 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0022C 808B4E5C AFA50034 */  sw      $a1, 0x0034($sp)           
@@ -139,5 +153,3 @@ glabel func_808B4E58
 /* 0042C 808B505C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00430 808B5060 03E00008 */  jr      $ra                        
 /* 00434 808B5064 00000000 */  nop
-
-

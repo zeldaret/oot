@@ -1,3 +1,17 @@
+.rdata
+glabel D_809B23D4
+    .asciz "../z_en_anubice.c"
+    .balign 4
+
+glabel D_809B23E8
+    .asciz "../z_en_anubice.c"
+    .balign 4
+
+glabel D_809B23FC
+    .asciz "../z_en_anubice.c"
+    .balign 4
+
+.text
 glabel func_809B2150
 /* 01030 809B2150 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 01034 809B2154 3C0F809B */  lui     $t7, %hi(D_809B2334)       ## $t7 = 809B0000
@@ -65,5 +79,3 @@ glabel func_809B2150
 /* 01128 809B2248 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 0112C 809B224C 03E00008 */  jr      $ra                        
 /* 01130 809B2250 00000000 */  nop
-
-

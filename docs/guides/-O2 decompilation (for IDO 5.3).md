@@ -245,6 +245,8 @@ Conditions like `if (glob.singleBitField)` are sometimes (but not always) emitte
 
 Copying a struct generates reorderings compared to copying each data member separately. It might also copy padding data (?), and if the size is 3 (mod 4) it may also generate `lwr`/`swr` instructions (like array initialization).
 
+Sometimes, copying small structs with members that fit nicely into primitive types will use normal `lw`, `lh`, etc. instructions. But, usually copying larger structs will use `lwl`/`lwr` instructions, regardless of the internal data. Also, regalloc for struct copying is different between IDO V5.3 and V7.1. If this is the only non-matching in your function, try the other compiler.
+
 ### Register allocation
 
 TODO: we really need to figure this out.

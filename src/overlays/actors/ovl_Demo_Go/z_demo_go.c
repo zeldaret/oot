@@ -1,14 +1,13 @@
 /*
  * File: z_demo_go.c
  * Overlay: Demo_Go
- * Description:
+ * Description: Gorons (Cutscene)
  */
 
 #include "z_demo_go.h"
 
 #include <vt.h>
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void DemoGo_Init(DemoGo* this, GlobalContext* globalCtx);
@@ -41,7 +40,6 @@ ActorFunc D_8097D468[] = {
 const ActorInit Demo_Go_InitVars = {
     ACTOR_DEMO_GO,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(DemoGo),

@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80AFE108
+    .float 0.1
+
+glabel D_80AFE10C
+    .float 0.01
+
+.text
 glabel EnSkb_Init
 /* 001B8 80AFCB58 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 001BC 80AFCB5C AFA50044 */  sw      $a1, 0x0044($sp)           
@@ -112,5 +120,3 @@ glabel EnSkb_Init
 /* 00360 80AFCD00 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00364 80AFCD04 03E00008 */  jr      $ra                        
 /* 00368 80AFCD08 00000000 */  nop
-
-

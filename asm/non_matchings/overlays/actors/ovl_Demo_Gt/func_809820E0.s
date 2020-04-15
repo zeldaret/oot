@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80982B48
+    .float 0.001
+
+glabel D_80982B4C
+    .float 0.048
+
+.text
 glabel func_809820E0
 /* 04A70 809820E0 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
 /* 04A74 809820E4 24C6FA90 */  addiu   $a2, $a2, 0xFA90           ## $a2 = 8015FA90
@@ -42,5 +50,3 @@ glabel func_809820E0
 .L80982180:
 /* 04B10 80982180 03E00008 */  jr      $ra                        
 /* 04B14 80982184 00000000 */  nop
-
-

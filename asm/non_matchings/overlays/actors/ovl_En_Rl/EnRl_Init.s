@@ -28,5 +28,3 @@ glabel EnRl_Init
 /* 00D14 80AE7FC4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00D18 80AE7FC8 03E00008 */  jr      $ra                        
 /* 00D1C 80AE7FCC 00000000 */  nop
-
-

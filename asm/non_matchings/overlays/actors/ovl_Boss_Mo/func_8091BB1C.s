@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_80926B60
+    .float 30269.0
+
+glabel D_80926B64
+    .float 30307.0
+
+glabel D_80926B68
+    .float 30323.0
+
+.text
 glabel func_8091BB1C
 /* 0001C 8091BB1C 3C028093 */  lui     $v0, %hi(D_8092C5C0)       ## $v0 = 80930000
 /* 00020 8091BB20 2442C5C0 */  addiu   $v0, $v0, %lo(D_8092C5C0)  ## $v0 = 8092C5C0
@@ -74,5 +85,3 @@ glabel func_8091BB1C
 .L8091BC38:
 /* 00138 8091BC38 03E00008 */  jr      $ra                        
 /* 0013C 8091BC3C 46001005 */  abs.s   $f0, $f2                   
-
-

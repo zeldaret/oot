@@ -7,7 +7,6 @@
 #include "z_arrow_light.h"
 #include "../ovl_En_Arrow/z_en_arrow.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void ArrowLight_Init(ArrowLight* this, GlobalContext* globalCtx);
@@ -24,7 +23,6 @@ void ArrowLight_Hit(ArrowLight* this, GlobalContext* globalCtx);
 const ActorInit Arrow_Light_InitVars = {
     ACTOR_ARROW_LIGHT,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ArrowLight),

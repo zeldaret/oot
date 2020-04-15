@@ -6,27 +6,25 @@
 
 #include "z_bg_spot12_gate.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void BgSpot12Gate_Init(BgSpot12Gate* this, GlobalContext* globalCtx);
-static void BgSpot12Gate_Destroy(BgSpot12Gate* this, GlobalContext* globalCtx);
-static void BgSpot12Gate_Update(BgSpot12Gate* this, GlobalContext* globalCtx);
-static void BgSpot12Gate_Draw(BgSpot12Gate* this, GlobalContext* globalCtx);
+void BgSpot12Gate_Init(BgSpot12Gate* this, GlobalContext* globalCtx);
+void BgSpot12Gate_Destroy(BgSpot12Gate* this, GlobalContext* globalCtx);
+void BgSpot12Gate_Update(BgSpot12Gate* this, GlobalContext* globalCtx);
+void BgSpot12Gate_Draw(BgSpot12Gate* this, GlobalContext* globalCtx);
 
-static void func_808B30C0(BgSpot12Gate* this);
-static void func_808B30D8(BgSpot12Gate* this, GlobalContext* globalCtx);
-static void func_808B3134(BgSpot12Gate* this);
-static void func_808B314C(BgSpot12Gate* this, GlobalContext* globalCtx);
-static void func_808B317C(BgSpot12Gate* this);
-static void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx);
-static void func_808B3274(BgSpot12Gate* this);
-static void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx);
+void func_808B30C0(BgSpot12Gate* this);
+void func_808B30D8(BgSpot12Gate* this, GlobalContext* globalCtx);
+void func_808B3134(BgSpot12Gate* this);
+void func_808B314C(BgSpot12Gate* this, GlobalContext* globalCtx);
+void func_808B317C(BgSpot12Gate* this);
+void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx);
+void func_808B3274(BgSpot12Gate* this);
+void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot12_Gate_InitVars = {
     ACTOR_BG_SPOT12_GATE,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT12_OBJ,
     sizeof(BgSpot12Gate),
@@ -46,7 +44,7 @@ static InitChainEntry initChain[] = {
 extern UNK_TYPE D_06001080;
 extern UNK_TYPE D_060011EC;
 
-static void func_808B2F90(BgSpot12Gate* this, GlobalContext* globalCtx, UNK_TYPE collision, DynaPolyMoveFlag flags) {
+void func_808B2F90(BgSpot12Gate* this, GlobalContext* globalCtx, UNK_TYPE collision, DynaPolyMoveFlag flags) {
     Actor* thisx = &this->dyna.actor;
     s32 localC = 0;
     s32 pad[2];
@@ -60,7 +58,7 @@ static void func_808B2F90(BgSpot12Gate* this, GlobalContext* globalCtx, UNK_TYPE
     }
 }
 
-static void BgSpot12Gate_Init(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void BgSpot12Gate_Init(BgSpot12Gate* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     func_808B2F90(this, globalCtx, &D_060011EC, 0);
@@ -73,18 +71,18 @@ static void BgSpot12Gate_Init(BgSpot12Gate* this, GlobalContext* globalCtx) {
     }
 }
 
-static void BgSpot12Gate_Destroy(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void BgSpot12Gate_Destroy(BgSpot12Gate* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void func_808B30C0(BgSpot12Gate* this) {
+void func_808B30C0(BgSpot12Gate* this) {
     Actor* thisx = &this->dyna.actor;
 
     this->actionFunc = (ActorFunc)func_808B30D8;
     thisx->posRot.pos.y = thisx->initPosRot.pos.y;
 }
 
-static void func_808B30D8(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void func_808B30D8(BgSpot12Gate* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
@@ -93,22 +91,22 @@ static void func_808B30D8(BgSpot12Gate* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_808B3134(BgSpot12Gate* this) {
+void func_808B3134(BgSpot12Gate* this) {
     this->actionFunc = (ActorFunc)func_808B314C;
     this->unk_168 = 0x28;
 }
 
-static void func_808B314C(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void func_808B314C(BgSpot12Gate* this, GlobalContext* globalCtx) {
     if (this->unk_168 <= 0) {
         func_808B317C(this);
     }
 }
 
-static void func_808B317C(BgSpot12Gate* this) {
+void func_808B317C(BgSpot12Gate* this) {
     this->actionFunc = (ActorFunc)func_808B318C;
 }
 
-static void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     s32 var;
 
@@ -125,23 +123,23 @@ static void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_808B3274(BgSpot12Gate* this) {
+void func_808B3274(BgSpot12Gate* this) {
     Actor* thisx = &this->dyna.actor;
 
     this->actionFunc = (ActorFunc)func_808B3298;
     thisx->posRot.pos.y = thisx->initPosRot.pos.y + 200.0f;
 }
 
-static void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx) {
 }
 
-static void BgSpot12Gate_Update(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void BgSpot12Gate_Update(BgSpot12Gate* this, GlobalContext* globalCtx) {
     if (this->unk_168 > 0) {
         this->unk_168 -= 1;
     }
     this->actionFunc(this, globalCtx);
 }
 
-static void BgSpot12Gate_Draw(BgSpot12Gate* this, GlobalContext* globalCtx) {
+void BgSpot12Gate_Draw(BgSpot12Gate* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_06001080);
 }

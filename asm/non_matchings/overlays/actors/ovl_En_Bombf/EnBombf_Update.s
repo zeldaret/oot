@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_809C835C
+    .float 0.7
+
+glabel D_809C8360
+    .float 0.2
+
+glabel D_809C8364
+    .float 0.002
+
+glabel D_809C8368
+    .float 0.01
+
+.text
 glabel EnBombf_Update
 /* 00818 809C7778 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 0081C 809C777C 3C0F809D */  lui     $t7, %hi(D_809C82C0)       ## $t7 = 809D0000
@@ -534,5 +548,3 @@ glabel EnBombf_Update
 /* 00FB8 809C7F18 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
 /* 00FBC 809C7F1C 03E00008 */  jr      $ra                        
 /* 00FC0 809C7F20 00000000 */  nop
-
-

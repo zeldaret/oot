@@ -1,3 +1,17 @@
+.rdata
+glabel D_80887F00
+    .asciz "../z_bg_hidan_fwbig.c"
+    .balign 4
+
+glabel D_80887F18
+    .asciz "../z_bg_hidan_fwbig.c"
+    .balign 4
+
+glabel D_80887F30
+    .asciz "../z_bg_hidan_fwbig.c"
+    .balign 4
+
+.text
 glabel BgHidanFwbig_Draw
 /* 008E0 80887BD0 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 008E4 80887BD4 AFB10038 */  sw      $s1, 0x0038($sp)           
@@ -186,4 +200,3 @@ glabel BgHidanFwbig_Draw
 /* 00BB4 80887EA4 03E00008 */  jr      $ra                        
 /* 00BB8 80887EA8 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 00BBC 80887EAC 00000000 */  nop
-

@@ -1,6 +1,11 @@
+/*
+ * File: z_obj_mure3.c
+ * Overlay: ovl_Obj_Mure3
+ * Description: Tower of Rupees
+ */
+
 #include "z_obj_mure3.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ObjMure3_Init(ObjMure3* this, GlobalContext* globalCtx);
@@ -11,7 +16,6 @@ void ObjMure3_Update(ObjMure3* this, GlobalContext* globalCtx);
 const ActorInit Obj_Mure3_InitVars = {
     ACTOR_OBJ_MURE3,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjMure3),

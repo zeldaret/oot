@@ -21,5 +21,3 @@ glabel EnSkb_Destroy
 /* 003B4 80AFCD54 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 003B8 80AFCD58 03E00008 */  jr      $ra                        
 /* 003BC 80AFCD5C 00000000 */  nop
-
-

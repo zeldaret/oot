@@ -46,5 +46,3 @@ glabel DemoDu_Init
 /* 02478 8096BF48 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0247C 8096BF4C 03E00008 */  jr      $ra                        
 /* 02480 8096BF50 00000000 */  nop
-
-

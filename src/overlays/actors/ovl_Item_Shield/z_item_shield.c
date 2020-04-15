@@ -1,6 +1,11 @@
+/*
+ * File: z_item_shield.c
+ * Overlay: ovl_Item_Shield
+ * Description: Deku Shield
+ */
+
 #include "z_item_shield.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ItemShield_Init(ItemShield* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void ItemShield_Draw(ItemShield* this, GlobalContext* globalCtx);
 const ActorInit Item_Shield_InitVars = {
     ACTOR_ITEM_SHIELD,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_LINK_CHILD,
     sizeof(ItemShield),

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B5A994
+    .asciz "ゼルダ姫のEn_Zl3_Actor_ct通すよ!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+glabel D_80B5A9D0
+    .asciz "ゼルダ姫のEn_Zl3_Actor_ctは通った!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel EnZl3_Init
 /* 06AEC 80B59E9C 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 06AF0 80B59EA0 AFB00028 */  sw      $s0, 0x0028($sp)
@@ -59,5 +69,3 @@ glabel EnZl3_Init
 /* 06BB8 80B59F68 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 06BBC 80B59F6C 03E00008 */  jr      $ra
 /* 06BC0 80B59F70 00000000 */  nop
-
-

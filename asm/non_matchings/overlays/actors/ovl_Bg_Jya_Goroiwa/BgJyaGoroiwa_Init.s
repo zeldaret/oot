@@ -37,5 +37,3 @@ glabel BgJyaGoroiwa_Init
 /* 00178 80897AE8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0017C 80897AEC 03E00008 */  jr      $ra                        
 /* 00180 80897AF0 00000000 */  nop
-
-

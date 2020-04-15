@@ -16,6 +16,8 @@ glabel D_809AC0A8
     .balign 4
 
 glabel D_809AC0C0
- .word 0x2E2E2F7A, 0x5F656666, 0x5F73735F, 0x73696275, 0x6B69322E, 0x63000000, 0x00000000, 0x00000000
+    .asciz "../z_eff_ss_sibuki2.c"
+    .balign 4
 
+.align 4
 

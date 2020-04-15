@@ -10,5 +10,3 @@ glabel EnSa_Destroy
 /* 00EDC 80AF643C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00EE0 80AF6440 03E00008 */  jr      $ra                        
 /* 00EE4 80AF6444 00000000 */  nop
-
-

@@ -1,6 +1,5 @@
 #include "z_en_bili.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00005005
 
 void EnBili_Init(EnBili* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnBili_Draw(EnBili* this, GlobalContext* globalCtx);
 const ActorInit En_Bili_InitVars = {
     ACTOR_EN_BILI,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_BL,
     sizeof(EnBili),

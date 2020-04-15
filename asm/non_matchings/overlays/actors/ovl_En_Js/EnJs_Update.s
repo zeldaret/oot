@@ -181,5 +181,3 @@ glabel EnJs_Update
 /* 007A4 80A895B4 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 007A8 80A895B8 03E00008 */  jr      $ra                        
 /* 007AC 80A895BC 00000000 */  nop
-
-

@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A2EB0
+    .asciz "Error : バンク危険！(arg_data 0x%04x)(%s %d)\n"
+    .balign 4
+
+glabel D_808A2EE0
+    .asciz "../z_bg_mori_hashigo.c"
+    .balign 4
+
+glabel D_808A2EF8
+    .asciz "(森の神殿 梯子とその留め金)(arg_data 0x%04x)\n"
+    .balign 4
+
+.text
 glabel BgMoriHashigo_Init
 /* 002D8 808A2838 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 002DC 808A283C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -68,5 +82,3 @@ glabel BgMoriHashigo_Init
 /* 003B4 808A2914 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 003B8 808A2918 03E00008 */  jr      $ra                        
 /* 003BC 808A291C 00000000 */  nop
-
-

@@ -1,3 +1,12 @@
+.rdata
+glabel D_80B41F50
+    .asciz "水のセレナーデ シーク誕生!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+glabel D_80B41F80
+    .asciz "水のセレナーデ シーク消滅!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_80B3CD00
 /* 00B20 80B3CD00 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
 /* 00B24 80B3CD04 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
@@ -42,5 +51,3 @@ glabel func_80B3CD00
 /* 00BAC 80B3CD8C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00BB0 80B3CD90 03E00008 */  jr      $ra                        
 /* 00BB4 80B3CD94 00000000 */  nop
-
-

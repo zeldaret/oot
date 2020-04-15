@@ -156,5 +156,3 @@ glabel EnTuboTrap_HandleImpact
 /* 00830 80B26120 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00834 80B26124 03E00008 */  jr      $ra                        
 /* 00838 80B26128 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

@@ -1,3 +1,17 @@
+.rdata
+glabel D_8088BFF0
+    .asciz "../z_bg_hidan_rock.c"
+    .balign 4
+
+glabel D_8088C008
+    .asciz "../z_bg_hidan_rock.c"
+    .balign 4
+
+glabel D_8088C020
+    .asciz "../z_bg_hidan_rock.c"
+    .balign 4
+
+.text
 glabel func_8088BC40
 /* 00BC0 8088BC40 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00BC4 8088BC44 AFBF001C */  sw      $ra, 0x001C($sp)
@@ -146,5 +160,3 @@ glabel func_8088BC40
 /* 00DF8 8088BE78 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 00DFC 8088BE7C 03E00008 */  jr      $ra
 /* 00E00 8088BE80 00000000 */  nop
-
-

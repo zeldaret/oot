@@ -22,5 +22,3 @@ glabel BgHidanRock_Destroy
 /* 001C0 8088B240 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001C4 8088B244 03E00008 */  jr      $ra                        
 /* 001C8 8088B248 00000000 */  nop
-
-

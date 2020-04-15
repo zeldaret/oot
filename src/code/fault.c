@@ -250,7 +250,7 @@ void Fault_Sleep(u32 duration) {
 
 void Fault_PadCallback(Input* input) {
     // BUG: this function is not called correctly and thus will crash from reading a bad pointer at 0x800C7E4C
-    func_800C7E08(input, 0);
+    PadMgr_RequestPadData(input, 0);
 }
 
 void Fault_UpdatePadImpl() {
@@ -270,7 +270,7 @@ u32 Fault_WaitForInputImpl() {
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
 
-            kDown = curInput->padPressed;
+            kDown = curInput->press.in.button;
 
             if (kDown == 0x20) {
                 sFaultStructPtr->faultActive = !sFaultStructPtr->faultActive;
@@ -583,7 +583,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
             count--;
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-            if (!~(curInput->padPressed | ~L_TRIG)) {
+            if (!~(curInput->press.in.button | ~L_TRIG)) {
                 sFaultStructPtr->faultActive = false;
             }
         }
@@ -591,42 +591,42 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
         do {
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-        } while (curInput->padPressed == 0);
+        } while (curInput->press.in.button == 0);
 
-        if (!~(curInput->padPressed | ~START_BUTTON)) {
+        if (!~(curInput->press.in.button | ~START_BUTTON)) {
             return;
         }
 
-        if (!~(curInput->raw.pad | ~A_BUTTON)) {
+        if (!~(curInput->cur.in.button | ~A_BUTTON)) {
             return;
         }
 
         off = 0x10;
-        if (!~(curInput->raw.pad | ~Z_TRIG)) {
+        if (!~(curInput->cur.in.button | ~Z_TRIG)) {
             off = 0x100;
         }
-        if (!~(curInput->raw.pad | ~B_BUTTON)) {
+        if (!~(curInput->cur.in.button | ~B_BUTTON)) {
             off <<= 8;
         }
-        if (!~(curInput->raw.pad | ~U_JPAD)) {
+        if (!~(curInput->cur.in.button | ~U_JPAD)) {
             addr -= off;
         }
-        if (!~(curInput->raw.pad | ~D_JPAD)) {
+        if (!~(curInput->cur.in.button | ~D_JPAD)) {
             addr += off;
         }
-        if (!~(curInput->raw.pad | ~U_CBUTTONS)) {
+        if (!~(curInput->cur.in.button | ~U_CBUTTONS)) {
             addr = pc;
         }
-        if (!~(curInput->raw.pad | ~D_CBUTTONS)) {
+        if (!~(curInput->cur.in.button | ~D_CBUTTONS)) {
             addr = sp;
         }
-        if (!~(curInput->raw.pad | ~L_CBUTTONS)) {
+        if (!~(curInput->cur.in.button | ~L_CBUTTONS)) {
             addr = unk0;
         }
-        if (!~(curInput->raw.pad | ~R_CBUTTONS)) {
+        if (!~(curInput->cur.in.button | ~R_CBUTTONS)) {
             addr = unk1;
         }
-        if (!~(curInput->raw.pad | ~L_TRIG)) {
+        if (!~(curInput->cur.in.button | ~L_TRIG)) {
             break;
         }
     }

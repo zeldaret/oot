@@ -1,3 +1,13 @@
+.rdata
+glabel D_809982F0
+    .asciz "FHG SAKU START !!\n"
+    .balign 4
+
+glabel D_80998304
+    .asciz "FHG SAKU END !!\n"
+    .balign 4
+
+.text
 glabel func_80997744
 /* 014A4 80997744 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 014A8 80997748 AFA40020 */  sw      $a0, 0x0020($sp)           
@@ -45,5 +55,3 @@ glabel func_80997744
 /* 01538 809977D8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0153C 809977DC 03E00008 */  jr      $ra                        
 /* 01540 809977E0 00000000 */  nop
-
-

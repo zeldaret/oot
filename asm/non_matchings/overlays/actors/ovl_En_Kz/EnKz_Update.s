@@ -52,5 +52,3 @@ glabel EnKz_Update
 /* 01114 80A9D664 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 01118 80A9D668 03E00008 */  jr      $ra                        
 /* 0111C 80A9D66C 00000000 */  nop
-
-

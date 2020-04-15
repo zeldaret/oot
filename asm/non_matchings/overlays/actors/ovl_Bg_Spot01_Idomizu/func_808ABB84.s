@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808ABE18
+    .float -550.0
+
+.text
 glabel func_808ABB84
 /* 000A4 808ABB84 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
 /* 000A8 808ABB88 95CEF540 */  lhu     $t6, -0x0AC0($t6)          ## 8015F540
@@ -47,5 +52,3 @@ glabel func_808ABB84
 /* 00148 808ABC28 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 0014C 808ABC2C 03E00008 */  jr      $ra                        
 /* 00150 808ABC30 00000000 */  nop
-
-

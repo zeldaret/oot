@@ -146,5 +146,3 @@ glabel EnFloormas_Init
 /* 00204 80A17714 8FB10030 */  lw      $s1, 0x0030($sp)
 /* 00208 80A17718 03E00008 */  jr      $ra
 /* 0020C 80A1771C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

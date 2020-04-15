@@ -1,3 +1,76 @@
+.rdata
+glabel D_809F1758
+    .asciz "[31m☆☆☆☆☆ げらげら ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F1784
+    .asciz "[32m☆☆☆☆☆ 特別！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F17AC
+    .asciz "[32m☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F17DC
+    .asciz "[33m☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F180C
+    .asciz "[35m☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F183C
+    .asciz "[36m☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F186C
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809F1870
+    .asciz "[32m☆☆☆☆☆ 各インデックス１ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809F18A4
+    .asciz "[32m☆☆☆☆☆ 各インデックス２ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809F18D8
+    .asciz "[32m☆☆☆☆☆ 各インデックス３ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809F190C
+    .asciz "\n"
+    .balign 4
+
+glabel D_809F1910
+    .asciz "[33m☆☆☆☆☆ どういう評価？  ☆☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809F1944
+    .asciz "[35m☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809F1978
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_809F1980
+.word L809F0E1C
+.word L809F0D50
+.word L809F0E1C
+.word L809F0E1C
+.word L809F0E1C
+.word L809F0E1C
+.word L809F0E1C
+.word L809F0D80
+glabel D_809F19A0
+    .float 8.99
+glabel D_809F19A4
+    .float 7.99
+
+.text
 glabel func_809F0AA4
 /* 001C4 809F0AA4 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 001C8 809F0AA8 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -460,5 +533,3 @@ glabel L809F0E1C
 /* 00814 809F10F4 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 00818 809F10F8 03E00008 */  jr      $ra                        
 /* 0081C 809F10FC 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

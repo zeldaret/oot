@@ -39,5 +39,3 @@ glabel EnJsjutan_Init
 /* 00084 80A89824 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00088 80A89828 03E00008 */  jr      $ra                        
 /* 0008C 80A8982C 00000000 */  nop
-
-

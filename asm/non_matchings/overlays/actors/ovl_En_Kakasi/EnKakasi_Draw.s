@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A8FEB8
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A8FEBC
+    .asciz "[33m☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel EnKakasi_Draw
 /* 00BE0 80A8FD50 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00BE4 80A8FD54 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
@@ -38,4 +48,3 @@ glabel EnKakasi_Draw
 /* 00C64 80A8FDD4 00000000 */  nop
 /* 00C68 80A8FDD8 00000000 */  nop
 /* 00C6C 80A8FDDC 00000000 */  nop
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B37B54
+    .asciz "../z_en_wf.c"
+    .balign 4
+
+glabel D_80B37B64
+    .asciz "../z_en_wf.c"
+    .balign 4
+
+.text
 glabel EnWf_Draw
 /* 0398C 80B3763C 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 03990 80B37640 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -129,5 +139,3 @@ glabel EnWf_Draw
 /* 03B74 80B37824 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 03B78 80B37828 03E00008 */  jr      $ra
 /* 03B7C 80B3782C 00000000 */  nop
-
-

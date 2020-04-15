@@ -107,5 +107,3 @@ glabel BgHidanRock_Init
 /* 0016C 8088B1EC 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 00170 8088B1F0 03E00008 */  jr      $ra                        
 /* 00174 8088B1F4 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

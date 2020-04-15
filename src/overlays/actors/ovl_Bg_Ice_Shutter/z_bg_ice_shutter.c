@@ -1,6 +1,11 @@
+/*
+ * File: z_bg_ice_shutter.c
+ * Overlay: ovl_Bg_Ice_Shutter
+ * Description: 2D Ice Bars
+ */
+
 #include "z_bg_ice_shutter.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgIceShutter_Init(BgIceShutter* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void BgIceShutter_Draw(BgIceShutter* this, GlobalContext* globalCtx);
 const ActorInit Bg_Ice_Shutter_InitVars = {
     ACTOR_BG_ICE_SHUTTER,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_ICE_OBJECTS,
     sizeof(BgIceShutter),

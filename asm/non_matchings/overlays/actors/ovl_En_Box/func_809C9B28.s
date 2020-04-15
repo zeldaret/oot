@@ -1,3 +1,9 @@
+.rdata
+glabel D_809CA830
+    .asciz "Actor_Environment_Tbox_On() %d\n"
+    .balign 4
+
+.text
 glabel func_809C9B28
 /* 00D68 809C9B28 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00D6C 809C9B2C AFBF003C */  sw      $ra, 0x003C($sp)
@@ -159,5 +165,3 @@ glabel func_809C9B28
 /* 00FA4 809C9D64 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 00FA8 809C9D68 03E00008 */  jr      $ra
 /* 00FAC 809C9D6C 00000000 */  nop
-
-

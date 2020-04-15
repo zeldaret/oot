@@ -1,6 +1,5 @@
 #include "z_bg_po_syokudai.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgPoSyokudai_Init(BgPoSyokudai* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgPoSyokudai_Draw(BgPoSyokudai* this, GlobalContext* globalCtx);
 const ActorInit Bg_Po_Syokudai_InitVars = {
     ACTOR_BG_PO_SYOKUDAI,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_SYOKUDAI,
     sizeof(BgPoSyokudai),

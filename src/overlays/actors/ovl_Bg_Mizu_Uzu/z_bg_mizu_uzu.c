@@ -4,26 +4,18 @@
  * Description: Water Noise
  */
 
-#include <ultra64.h>
-#include <global.h>
+#include "z_bg_mizu_uzu.h"
 
-typedef struct {
-    /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ ActorFunc actionFunc;
-} BgMizuUzu; // size = 0x0168
-
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void BgMizuUzu_Init(BgMizuUzu* this, GlobalContext* globalCtx);
-static void BgMizuUzu_Destroy(BgMizuUzu* this, GlobalContext* globalCtx);
-static void BgMizuUzu_Update(BgMizuUzu* this, GlobalContext* globalCtx);
-static void BgMizuUzu_Draw(BgMizuUzu* this, GlobalContext* globalCtx);
+void BgMizuUzu_Init(BgMizuUzu* this, GlobalContext* globalCtx);
+void BgMizuUzu_Destroy(BgMizuUzu* this, GlobalContext* globalCtx);
+void BgMizuUzu_Update(BgMizuUzu* this, GlobalContext* globalCtx);
+void BgMizuUzu_Draw(BgMizuUzu* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Mizu_Uzu_InitVars = {
     ACTOR_BG_MIZU_UZU,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuUzu),
@@ -41,9 +33,9 @@ static InitChainEntry initChain[] = {
 
 extern u32 D_060074EC;
 
-static void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx);
+void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx);
 
-static void BgMizuUzu_Init(BgMizuUzu* this, GlobalContext* globalCtx) {
+void BgMizuUzu_Init(BgMizuUzu* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 local_c = 0;
     Actor* thisx = &this->dyna.actor;
@@ -54,11 +46,11 @@ static void BgMizuUzu_Init(BgMizuUzu* this, GlobalContext* globalCtx) {
     this->actionFunc = func_8089F788;
 }
 
-static void BgMizuUzu_Destroy(BgMizuUzu* this, GlobalContext* globalCtx) {
+void BgMizuUzu_Destroy(BgMizuUzu* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx) {
+void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     if (PLAYER->currentBoots == 1) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
@@ -69,9 +61,9 @@ static void func_8089F788(BgMizuUzu* this, GlobalContext* globalCtx) {
     thisx->shape.rot.y += 0x1C0;
 }
 
-static void BgMizuUzu_Update(BgMizuUzu* this, GlobalContext* globalCtx) {
+void BgMizuUzu_Update(BgMizuUzu* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-static void BgMizuUzu_Draw(BgMizuUzu* this, GlobalContext* globalCtx) {
+void BgMizuUzu_Draw(BgMizuUzu* this, GlobalContext* globalCtx) {
 }

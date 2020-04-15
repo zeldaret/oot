@@ -1,6 +1,11 @@
+/*
+ * File: z_magic_wind.c
+ * Overlay: ovl_Magic_Wind
+ * Description: Farore's Wind
+ */
+
 #include "z_magic_wind.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void MagicWind_Init(MagicWind* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void MagicWind_Draw(MagicWind* this, GlobalContext* globalCtx);
 const ActorInit Magic_Wind_InitVars = {
     ACTOR_MAGIC_WIND,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(MagicWind),

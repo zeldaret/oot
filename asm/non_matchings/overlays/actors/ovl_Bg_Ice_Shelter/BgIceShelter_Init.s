@@ -1,3 +1,9 @@
+.rdata
+glabel D_80891858
+    .asciz "(ice shelter)(arg_data 0x%04x)\n"
+    .balign 4
+
+.text
 glabel BgIceShelter_Init
 /* 00240 80890980 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00244 80890984 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -110,5 +116,3 @@ glabel BgIceShelter_Init
 /* 003B8 80890AF8 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 003BC 80890AFC 03E00008 */  jr      $ra                        
 /* 003C0 80890B00 00000000 */  nop
-
-

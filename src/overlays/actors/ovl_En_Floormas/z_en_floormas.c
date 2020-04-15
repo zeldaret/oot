@@ -1,6 +1,5 @@
 #include "z_en_floormas.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000405
 
 void EnFloormas_Init(EnFloormas* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnFloormas_Draw(EnFloormas* this, GlobalContext* globalCtx);
 const ActorInit En_Floormas_InitVars = {
     ACTOR_EN_FLOORMAS,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_WALLMASTER,
     sizeof(EnFloormas),

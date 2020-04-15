@@ -1,6 +1,5 @@
 #include "z_boss_ganon2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void BossGanon2_Init(BossGanon2* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BossGanon2_Draw(BossGanon2* this, GlobalContext* globalCtx);
 const ActorInit Boss_Ganon2_InitVars = {
     ACTOR_BOSS_GANON2,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_GANON2,
     sizeof(BossGanon2),

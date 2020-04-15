@@ -1,3 +1,66 @@
+.rdata
+glabel D_80B65220
+    .asciz "TIME %d-------------------------------------------------\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B6539C
+.word L80B62BD0
+.word L80B62CA4
+.word L80B62E10
+.word L80B62EFC
+.word L80B630A4
+.word L80B6320C
+.word L80B632DC
+.word L80B63670
+.word L80B63988
+.word L80B63C0C
+.word L80B63D54
+.word L80B63D54
+.word L80B63D54
+.word L80B63D54
+.word L80B63D54
+.word L80B62C2C
+glabel D_80B653DC
+ .word 0xC54F3000
+glabel D_80B653E0
+ .word 0xC53B8000
+glabel D_80B653E4
+ .word 0xC53BF000
+glabel D_80B653E8
+ .word 0x40BFAE14
+glabel D_80B653EC
+ .word 0xC5458000
+glabel D_80B653F0
+ .word 0xC5449000
+glabel D_80B653F4
+ .word 0xC53B8000
+glabel D_80B653F8
+ .word 0xC53BF000
+glabel D_80B653FC
+ .word 0xC5485000
+glabel D_80B65400
+ .word 0xC558E000
+glabel D_80B65404
+ .word 0xC54DA000
+glabel D_80B65408
+ .word 0xC5534000
+glabel D_80B6540C
+ .word 0xC5467000
+glabel D_80B65410
+ .word 0xC5467000
+glabel D_80B65414
+ .word 0xC548F000
+glabel D_80B65418
+ .word 0xC5363800
+glabel D_80B6541C
+ .word 0xC5363800
+glabel D_80B65420
+ .word 0xC5363800
+glabel D_80B65424
+ .word 0xC548F000
+
+.text
 glabel func_80B62B6C
 /* 001AC 80B62B6C 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 001B0 80B62B70 AFBF003C */  sw      $ra, 0x003C($sp)
@@ -1272,5 +1335,3 @@ glabel L80B63D54
 /* 013B8 80B63D78 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 013BC 80B63D7C 03E00008 */  jr      $ra
 /* 013C0 80B63D80 00000000 */  nop
-
-

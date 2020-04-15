@@ -1,3 +1,13 @@
+.rdata
+glabel D_808A22CC
+    .asciz "Error : 森の神殿 obj elevator 部屋設定が危険(%s %d)\n"
+    .balign 4
+
+glabel D_808A2304
+    .asciz "../z_bg_mori_elevator.c"
+    .balign 4
+
+.text
 glabel func_808A1B70
 /* 00370 808A1B70 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00374 808A1B74 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -54,5 +64,3 @@ glabel func_808A1B70
 /* 00424 808A1C24 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00428 808A1C28 03E00008 */  jr      $ra                        
 /* 0042C 808A1C2C 00000000 */  nop
-
-

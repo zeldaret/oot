@@ -29,5 +29,3 @@ glabel EnInsect_Destroy
 /* 00574 80A7C394 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00578 80A7C398 03E00008 */  jr      $ra                        
 /* 0057C 80A7C39C 00000000 */  nop
-
-

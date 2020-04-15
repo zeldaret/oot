@@ -1,3 +1,17 @@
+.rdata
+glabel D_809ADDE4
+    .asciz "../z_elf_msg2.c"
+    .balign 4
+
+glabel D_809ADDF4
+    .asciz "../z_elf_msg2.c"
+    .balign 4
+
+glabel D_809ADE04
+    .asciz "../z_elf_msg2.c"
+    .balign 4
+
+.text
 glabel ElfMsg2_Draw
 /* 003DC 809ADADC 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 003E0 809ADAE0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -77,4 +91,3 @@ glabel ElfMsg2_Draw
 /* 00504 809ADC04 00000000 */  nop
 /* 00508 809ADC08 00000000 */  nop
 /* 0050C 809ADC0C 00000000 */  nop
-

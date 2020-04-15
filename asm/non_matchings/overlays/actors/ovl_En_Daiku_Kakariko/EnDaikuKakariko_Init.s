@@ -236,5 +236,3 @@ glabel EnDaikuKakariko_Init
 /* 003F8 809E4718 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 003FC 809E471C 03E00008 */  jr      $ra
 /* 00400 809E4720 00000000 */  nop
-
-

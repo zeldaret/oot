@@ -6,19 +6,17 @@
 
 #include "z_en_tana.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
-static void EnTana_Init(EnTana* this, GlobalContext* globalCtx);
-static void EnTana_Destroy(EnTana* this, GlobalContext* globalCtx);
-static void EnTana_Update(EnTana* this, GlobalContext* globalCtx);
-static void func_80B17FC4(EnTana* this, GlobalContext* globalCtx);
-static void func_80B1809C(EnTana* this, GlobalContext* globalCtx);
+void EnTana_Init(EnTana* this, GlobalContext* globalCtx);
+void EnTana_Destroy(EnTana* this, GlobalContext* globalCtx);
+void EnTana_Update(EnTana* this, GlobalContext* globalCtx);
+void func_80B17FC4(EnTana* this, GlobalContext* globalCtx);
+void func_80B1809C(EnTana* this, GlobalContext* globalCtx);
 
 const ActorInit En_Tana_InitVars = {
     ACTOR_EN_TANA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_SHOP_DUNGEN,
     sizeof(EnTana),
@@ -51,7 +49,7 @@ static Gfx* dListTbl2[] = {
     0x06001608,
 };
 
-static void EnTana_Init(EnTana* this, GlobalContext* globalCtx) {
+void EnTana_Init(EnTana* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     osSyncPrintf("☆☆☆ %s ☆☆☆\n", shelfTypes[thisx->params]);
     Actor_SetScale(thisx, 1.0f);
@@ -59,13 +57,13 @@ static void EnTana_Init(EnTana* this, GlobalContext* globalCtx) {
     thisx->draw = drawFuncs[thisx->params];
 }
 
-static void EnTana_Destroy(EnTana* this, GlobalContext* globalCtx) {
+void EnTana_Destroy(EnTana* this, GlobalContext* globalCtx) {
 }
 
-static void EnTana_Update(EnTana* this, GlobalContext* globalCtx) {
+void EnTana_Update(EnTana* this, GlobalContext* globalCtx) {
 }
 
-static void func_80B17FC4(EnTana* this, GlobalContext* globalCtx) {
+void func_80B17FC4(EnTana* this, GlobalContext* globalCtx) {
 
     Actor* thisx = &this->actor;
     GraphicsContext* gfxCtx;
@@ -80,7 +78,7 @@ static void func_80B17FC4(EnTana* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tana.c", 157);
 }
 
-static void func_80B1809C(EnTana* this, GlobalContext* globalCtx) {
+void func_80B1809C(EnTana* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];

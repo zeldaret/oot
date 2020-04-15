@@ -21,5 +21,3 @@ glabel EnElf_Destroy
 /* 00DE4 80A02A14 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00DE8 80A02A18 03E00008 */  jr      $ra                        
 /* 00DEC 80A02A1C 00000000 */  nop
-
-

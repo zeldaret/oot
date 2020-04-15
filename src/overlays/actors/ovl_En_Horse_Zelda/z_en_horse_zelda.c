@@ -1,6 +1,11 @@
+/*
+ * File: z_en_horse_zelda.c
+ * Overlay: ovl_En_Horse_Zelda
+ * Description: Zelda's Horse
+ */
+
 #include "z_en_horse_zelda.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnHorseZelda_Init(EnHorseZelda* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnHorseZelda_Draw(EnHorseZelda* this, GlobalContext* globalCtx);
 const ActorInit En_Horse_Zelda_InitVars = {
     ACTOR_EN_HORSE_ZELDA,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HORSE_ZELDA,
     sizeof(EnHorseZelda),

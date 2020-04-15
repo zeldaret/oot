@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80AA5F30
+    .float 0.8
+glabel D_80AA5F34
+    .float 2.4
+
+.text
 glabel EnMag_Update
 /* 002A0 80AA3DA0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
 /* 002A4 80AA3DA4 8DCEF9B4 */  lw      $t6, -0x064C($t6)          ## 8015F9B4
@@ -461,5 +468,3 @@ glabel EnMag_Update
 /* 00970 80AA4470 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00974 80AA4474 03E00008 */  jr      $ra                        
 /* 00978 80AA4478 00000000 */  nop
-
-

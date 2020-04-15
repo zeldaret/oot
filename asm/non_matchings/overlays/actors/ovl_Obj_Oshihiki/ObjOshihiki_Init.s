@@ -86,5 +86,3 @@ glabel ObjOshihiki_Init
 /* 0070C 80B9B88C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00710 80B9B890 03E00008 */  jr      $ra                        
 /* 00714 80B9B894 00000000 */  nop
-
-

@@ -86,4 +86,3 @@ glabel EnWonderTalk2_Update
 /* 009E4 80B3A8B4 03E00008 */  jr      $ra                        
 /* 009E8 80B3A8B8 00000000 */  nop
 /* 009EC 80B3A8BC 00000000 */  nop
-

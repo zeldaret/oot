@@ -52,5 +52,3 @@ glabel func_80B9FFA0
 /* 000AC 80BA004C 006E1026 */  xor     $v0, $v1, $t6              
 /* 000B0 80BA0050 03E00008 */  jr      $ra                        
 /* 000B4 80BA0054 00000000 */  nop
-
-

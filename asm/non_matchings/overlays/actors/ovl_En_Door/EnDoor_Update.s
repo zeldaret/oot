@@ -8,5 +8,3 @@ glabel EnDoor_Update
 /* 00A60 809FCC30 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00A64 809FCC34 03E00008 */  jr      $ra                        
 /* 00A68 809FCC38 00000000 */  nop
-
-

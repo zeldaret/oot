@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A545C
+    .asciz "../z_bg_mori_kaitenkabe.c"
+    .balign 4
+
+glabel D_808A5478
+    .asciz "../z_bg_mori_kaitenkabe.c"
+    .balign 4
+
+glabel D_808A5494
+    .asciz "../z_bg_mori_kaitenkabe.c"
+    .balign 4
+
+.text
 glabel func_808A52AC
 /* 004EC 808A52AC 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 004F0 808A52B0 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -64,4 +78,3 @@ glabel func_808A52AC
 /* 005E4 808A53A4 03E00008 */  jr      $ra                        
 /* 005E8 808A53A8 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 005EC 808A53AC 00000000 */  nop
-

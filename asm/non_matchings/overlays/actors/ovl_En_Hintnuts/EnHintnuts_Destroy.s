@@ -14,5 +14,3 @@ glabel EnHintnuts_Destroy
 /* 001C4 80A573C4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001C8 80A573C8 03E00008 */  jr      $ra                        
 /* 001CC 80A573CC 00000000 */  nop
-
-

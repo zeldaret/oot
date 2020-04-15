@@ -104,5 +104,3 @@ glabel EnDu_Update
 /* 01268 809FEE98 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 0126C 809FEE9C 03E00008 */  jr      $ra                        
 /* 01270 809FEEA0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

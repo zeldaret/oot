@@ -258,4 +258,3 @@ glabel EnKo_Draw
 /* 03324 80A9A0D4 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 03328 80A9A0D8 03E00008 */  jr      $ra                        
 /* 0332C 80A9A0DC 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
-

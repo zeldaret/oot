@@ -1,3 +1,25 @@
+.rdata
+glabel D_80B9EE54
+    .asciz "[31m"
+    .balign 4
+
+glabel D_80B9EE5C
+    .asciz "Error : 氷発生失敗 (%s %d)\n"
+    .balign 4
+
+glabel D_80B9EE78
+    .asciz "../z_obj_switch.c"
+    .balign 4
+
+glabel D_80B9EE8C
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80B9EE90
+    .asciz "(Dungeon switch)(arg_data 0x%04x)\n"
+    .balign 4
+
+.text
 glabel ObjSwitch_Init
 /* 004B4 80B9D6C4 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 004B8 80B9D6C8 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -211,5 +233,3 @@ glabel ObjSwitch_Init
 /* 00788 80B9D998 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 0078C 80B9D99C 03E00008 */  jr      $ra                        
 /* 00790 80B9D9A0 00000000 */  nop
-
-

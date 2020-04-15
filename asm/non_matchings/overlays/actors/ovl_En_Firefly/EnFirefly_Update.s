@@ -191,5 +191,3 @@ glabel EnFirefly_Update
 /* 018E4 80A14954 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 018E8 80A14958 03E00008 */  jr      $ra                        
 /* 018EC 80A1495C 00000000 */  nop
-
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A019D0
+    .asciz "../z_en_eiyer.c"
+    .balign 4
+
+glabel D_80A019E0
+    .asciz "../z_en_eiyer.c"
+    .balign 4
+
+.text
 glabel EnEiyer_Draw
 /* 0183C 80A017DC 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 01840 80A017E0 AFB20030 */  sw      $s2, 0x0030($sp)
@@ -94,4 +104,3 @@ glabel EnEiyer_Draw
 /* 019A4 80A01944 03E00008 */  jr      $ra
 /* 019A8 80A01948 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 019AC 80A0194C 00000000 */  nop
-

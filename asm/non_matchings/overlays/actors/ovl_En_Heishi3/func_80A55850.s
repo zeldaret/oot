@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A55FC4
+    .asciz "[32m☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_80A55850
 /* 00210 80A55850 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00214 80A55854 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -98,5 +104,3 @@ glabel func_80A55850
 /* 00368 80A559A8 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 0036C 80A559AC 03E00008 */  jr      $ra                        
 /* 00370 80A559B0 00000000 */  nop
-
-

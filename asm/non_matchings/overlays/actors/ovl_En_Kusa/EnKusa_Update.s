@@ -26,5 +26,3 @@ glabel EnKusa_Update
 /* 011B8 80A9C158 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 011BC 80A9C15C 03E00008 */  jr      $ra                        
 /* 011C0 80A9C160 00000000 */  nop
-
-

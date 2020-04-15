@@ -51,5 +51,3 @@ glabel EnGanonMant_Update
 /* 00B18 80A24878 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00B1C 80A2487C 03E00008 */  jr      $ra                        
 /* 00B20 80A24880 00000000 */  nop
-
-

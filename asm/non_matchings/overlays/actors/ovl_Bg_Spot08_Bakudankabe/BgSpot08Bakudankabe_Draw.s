@@ -25,4 +25,3 @@ glabel BgSpot08Bakudankabe_Draw
 /* 00534 808B0804 00000000 */  nop
 /* 00538 808B0808 00000000 */  nop
 /* 0053C 808B080C 00000000 */  nop
-

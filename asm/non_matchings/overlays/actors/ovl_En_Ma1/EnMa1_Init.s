@@ -99,5 +99,3 @@ glabel EnMa1_Init
 /* 006B4 80AA0D44 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 006B8 80AA0D48 03E00008 */  jr      $ra
 /* 006BC 80AA0D4C 00000000 */  nop
-
-

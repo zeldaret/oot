@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B4A310
+    .asciz "../z_en_zf.c"
+    .balign 4
+
+glabel D_80B4A320
+    .asciz "../z_en_zf.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B4A444
+    .float 1.4
+
+.text
 glabel EnZf_Draw
 /* 05888 80B498D8 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 0588C 80B498DC AFBF003C */  sw      $ra, 0x003C($sp)
@@ -164,5 +178,3 @@ glabel EnZf_Draw
 /* 05B04 80B49B54 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 05B08 80B49B58 03E00008 */  jr      $ra
 /* 05B0C 80B49B5C 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

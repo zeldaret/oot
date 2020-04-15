@@ -1,3 +1,49 @@
+.rdata
+glabel D_80B5A5A0
+    .asciz "../z_en_zl3.c"
+    .balign 4
+
+glabel D_80B5A5B0
+    .asciz "../z_en_zl3.c"
+    .balign 4
+
+glabel D_80B5A5C0
+    .asciz "../z_en_zl3.c"
+    .balign 4
+
+glabel D_80B5A5D0
+    .asciz "../z_en_zl3.c"
+    .balign 4
+
+glabel D_80B5A5E0
+    .asciz "../z_en_zl3.c"
+    .balign 4
+
+glabel D_80B5A5F0
+    .asciz "../z_en_zl3.c"
+    .balign 4
+
+glabel D_80B5A600
+    .asciz "../z_en_zl3.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B5AAEC
+ .word 0xC47EC000
+glabel D_80B5AAF0
+ .word 0x43E98000
+glabel D_80B5AAF4
+ .word 0x43848000
+glabel D_80B5AAF8
+ .word 0xC3D58000
+glabel D_80B5AAFC
+ .word 0x43E98000
+glabel D_80B5AB00
+ .word 0x43848000
+glabel D_80B5AB04
+ .word 0xC3D58000
+
+.text
 glabel func_80B5458C
 /* 011DC 80B5458C 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 011E0 80B54590 2401000E */  addiu   $at, $zero, 0x000E         ## $at = 0000000E
@@ -480,5 +526,3 @@ glabel func_80B5458C
 /* 0192C 80B54CDC 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 01930 80B54CE0 03E00008 */  jr      $ra
 /* 01934 80B54CE4 00000000 */  nop
-
-

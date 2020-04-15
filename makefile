@@ -179,12 +179,15 @@ build/src/%.o: src/%.c
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 
-build/src/libultra_code/%.o: CC := $(CC_OLD)
+# This line is redundant because of the asm_processor line below, but keeping it here because
+# it is one of the directories that has to be compiled with CC_OLD.
+# build/src/libultra_code/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
 
 build/src/boot/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+build/src/libultra_code/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 build/src/overlays/actors/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/overlays/effects/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/overlays/gamestates/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --

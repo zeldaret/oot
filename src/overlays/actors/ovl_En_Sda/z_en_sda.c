@@ -1,6 +1,5 @@
 #include "z_en_sda.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnSda_Init(EnSda* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnSda_Draw(EnSda* this, GlobalContext* globalCtx);
 const ActorInit En_Sda_InitVars = {
     ACTOR_EN_SDA,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnSda),

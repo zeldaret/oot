@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A9D970
+    .asciz "../z_en_kz.c"
+    .balign 4
+
+glabel D_80A9D980
+    .asciz "../z_en_kz.c"
+    .balign 4
+
+.text
 glabel EnKz_Draw
 /* 01250 80A9D7A0 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 01254 80A9D7A4 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -63,4 +73,3 @@ glabel EnKz_Draw
 /* 01344 80A9D894 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 01348 80A9D898 03E00008 */  jr      $ra
 /* 0134C 80A9D89C 00000000 */  nop
-

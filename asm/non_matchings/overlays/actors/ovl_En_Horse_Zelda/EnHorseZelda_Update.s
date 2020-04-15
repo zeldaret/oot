@@ -55,5 +55,3 @@ glabel EnHorseZelda_Update
 /* 006F8 80A6DFC8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 006FC 80A6DFCC 03E00008 */  jr      $ra                        
 /* 00700 80A6DFD0 00000000 */  nop
-
-

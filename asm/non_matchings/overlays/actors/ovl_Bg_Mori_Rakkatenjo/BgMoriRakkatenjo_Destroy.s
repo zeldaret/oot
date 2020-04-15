@@ -12,5 +12,3 @@ glabel BgMoriRakkatenjo_Destroy
 /* 001A8 808A5718 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001AC 808A571C 03E00008 */  jr      $ra                        
 /* 001B0 808A5720 00000000 */  nop
-
-

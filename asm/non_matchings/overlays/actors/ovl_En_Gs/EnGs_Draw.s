@@ -1,3 +1,46 @@
+.rdata
+glabel D_80A4FE50
+    .asciz "../z_en_gs.c"
+    .balign 4
+
+glabel D_80A4FE60
+    .asciz "../z_en_gs.c"
+    .balign 4
+
+glabel D_80A4FE70
+    .asciz "../z_en_gs.c"
+    .balign 4
+
+glabel D_80A4FE80
+    .asciz "../z_en_gs.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A4FF38
+    .float 9.58738019108e-05
+
+glabel D_80A4FF3C
+    .float 9.58738019108e-05
+
+glabel D_80A4FF40
+    .float 9.58738019108e-05
+
+glabel D_80A4FF44
+    .float 9.58738019108e-05
+
+glabel D_80A4FF48
+    .float 9.58738019108e-05
+
+glabel D_80A4FF4C
+    .float 9.58738019108e-05
+
+glabel D_80A4FF50
+    .float 0.05
+
+glabel D_80A4FF54
+ .word 0xBD4CCCCD, 0x00000000, 0x00000000
+
+.text
 glabel EnGs_Draw
 /* 01668 80A4F988 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 0166C 80A4F98C AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -258,4 +301,3 @@ glabel EnGs_Draw
 /* 01A54 80A4FD74 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 01A58 80A4FD78 03E00008 */  jr      $ra                        
 /* 01A5C 80A4FD7C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-

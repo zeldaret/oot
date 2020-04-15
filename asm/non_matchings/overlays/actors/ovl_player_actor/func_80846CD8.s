@@ -1,3 +1,9 @@
+.rdata
+glabel D_80855290
+    .asciz "../z_player.c"
+    .balign 4
+
+.text
 glabel func_80846CD8
 /* 14AC8 80846CD8 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 14ACC 80846CDC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -354,5 +360,3 @@ glabel func_80846CD8
 /* 14FD8 808471E8 8FB00028 */  lw      $s0, 0x0028($sp)           
 /* 14FDC 808471EC 03E00008 */  jr      $ra                        
 /* 14FE0 808471F0 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
-
-

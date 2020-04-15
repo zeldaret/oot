@@ -129,5 +129,3 @@ glabel EnTr_Update
 /* 01078 80B23D68 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 0107C 80B23D6C 03E00008 */  jr      $ra
 /* 01080 80B23D70 00000000 */  nop
-
-

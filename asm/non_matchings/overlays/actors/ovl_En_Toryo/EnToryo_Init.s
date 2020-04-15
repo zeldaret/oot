@@ -157,5 +157,3 @@ glabel EnToryo_Init
 /* 00234 80B203A4 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00238 80B203A8 03E00008 */  jr      $ra
 /* 0023C 80B203AC 00000000 */  nop
-
-

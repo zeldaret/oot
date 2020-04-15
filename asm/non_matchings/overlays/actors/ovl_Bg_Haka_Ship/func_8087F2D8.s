@@ -1,3 +1,9 @@
+.rdata
+glabel D_8087FAD0
+    .asciz "シーン 外輪船 ...  アァクション！！\n"
+    .balign 4
+
+.text
 glabel func_8087F2D8
 /* 001D8 8087F2D8 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 001DC 8087F2DC 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
@@ -38,5 +44,3 @@ glabel func_8087F2D8
 /* 00258 8087F358 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0025C 8087F35C 03E00008 */  jr      $ra                        
 /* 00260 8087F360 00000000 */  nop
-
-

@@ -19,5 +19,3 @@ glabel func_80B2EE5C
 .L80B2EE94:
 /* 000A4 80B2EE94 03E00008 */  jr      $ra                        
 /* 000A8 80B2EE98 AC8F014C */  sw      $t7, 0x014C($a0)           ## 0000014C
-
-

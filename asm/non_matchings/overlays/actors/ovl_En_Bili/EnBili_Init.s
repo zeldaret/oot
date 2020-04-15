@@ -67,5 +67,3 @@ glabel EnBili_Init
 /* 000E8 809BF988 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 000EC 809BF98C 03E00008 */  jr      $ra                        
 /* 000F0 809BF990 00000000 */  nop
-
-

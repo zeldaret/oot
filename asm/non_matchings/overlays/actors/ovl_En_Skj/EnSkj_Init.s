@@ -286,5 +286,3 @@ glabel EnSkj_Init
 /* 00608 80AFE8B8 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 0060C 80AFE8BC 03E00008 */  jr      $ra
 /* 00610 80AFE8C0 00000000 */  nop
-
-

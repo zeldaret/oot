@@ -387,8 +387,8 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     }
     sGraphUpdateTime = time;
 
-    if (D_8012DBC0 && (!~(gameState->input[0].padPressed | ~Z_TRIG)) &&
-        (!~(gameState->input[0].raw.pad | ~(L_TRIG | R_TRIG)))) {
+    if (D_8012DBC0 && (!~(gameState->input[0].press.in.button | ~Z_TRIG)) &&
+        (!~(gameState->input[0].cur.in.button | ~(L_TRIG | R_TRIG)))) {
         gSaveContext.game_mode = 0;
         SET_NEXT_GAMESTATE(gameState, func_80801E44, char[0x240]); // TODO : SelectContext
         gameState->running = false;

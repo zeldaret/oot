@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8094AEC4
+    .float 1.99000000954
+
+.text
 glabel BossTw_Init
 /* 009F0 809396C0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 009F4 809396C4 AFB10038 */  sw      $s1, 0x0038($sp)
@@ -562,5 +567,3 @@ glabel BossTw_Init
 /* 011FC 80939ECC 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 01200 80939ED0 03E00008 */  jr      $ra
 /* 01204 80939ED4 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

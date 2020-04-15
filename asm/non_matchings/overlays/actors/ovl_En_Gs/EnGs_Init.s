@@ -50,5 +50,3 @@ glabel EnGs_Init
 /* 000B4 80A4E3D4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 000B8 80A4E3D8 03E00008 */  jr      $ra                        
 /* 000BC 80A4E3DC 00000000 */  nop
-
-

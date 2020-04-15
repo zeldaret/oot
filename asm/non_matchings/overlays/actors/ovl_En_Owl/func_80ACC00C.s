@@ -1,3 +1,37 @@
+.rdata
+glabel D_80ACD754
+    .asciz "\x1B[36m"
+    .balign 4
+
+glabel D_80ACD75C
+    .asciz "%dのフクロウ\n"
+    .balign 4
+
+glabel D_80ACD76C
+    .asciz "\x1B[m"
+    .balign 4
+
+glabel D_80ACD770
+    .asciz "\x1B[36m"
+    .balign 4
+
+glabel D_80ACD778
+    .asciz "SPOT 06 の デモがはしった\n"
+    .balign 4
+
+glabel D_80ACD794
+    .asciz "\x1B[m"
+    .balign 4
+
+glabel D_80ACD798
+    .asciz "0"
+    .balign 4
+
+glabel D_80ACD79C
+    .asciz "../z_en_owl.c"
+    .balign 4
+
+.text
 glabel func_80ACC00C
 /* 020EC 80ACC00C 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 020F0 80ACC010 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -155,5 +189,3 @@ glabel func_80ACC00C
 /* 02310 80ACC230 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 02314 80ACC234 03E00008 */  jr      $ra                        
 /* 02318 80ACC238 00000000 */  nop
-
-

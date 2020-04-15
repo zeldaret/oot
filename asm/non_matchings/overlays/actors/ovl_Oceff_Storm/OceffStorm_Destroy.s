@@ -19,5 +19,3 @@ glabel OceffStorm_Destroy
 /* 00114 80BA71F4 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00118 80BA71F8 03E00008 */  jr      $ra                        
 /* 0011C 80BA71FC 00000000 */  nop
-
-

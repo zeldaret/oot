@@ -1,6 +1,11 @@
+/*
+ * File: z_en_vb_ball.c
+ * Overlay: ovl_En_Vb_Ball
+ * Description: Volvagia's Rocks
+ */
+
 #include "z_en_vb_ball.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnVbBall_Init(EnVbBall* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnVbBall_Draw(EnVbBall* this, GlobalContext* globalCtx);
 const ActorInit En_Vb_Ball_InitVars = {
     ACTOR_PLAYER,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_FD,
     sizeof(EnVbBall),

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80888F1C
+    .asciz "A(%d)\n"
+    .balign 4
+
+.late_rodata
+glabel D_80888FD0
+ .word 0xBE75C28F
+
+.text
 glabel func_80888860
 /* 00820 80888860 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00824 80888864 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -91,5 +101,3 @@ glabel func_80888860
 /* 0096C 808889AC 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00970 808889B0 03E00008 */  jr      $ra                        
 /* 00974 808889B4 00000000 */  nop
-
-

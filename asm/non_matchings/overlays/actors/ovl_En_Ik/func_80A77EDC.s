@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A78940
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A7895C
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+.text
 glabel func_80A77EDC
 /* 03BCC 80A77EDC 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 03BD0 80A77EE0 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -101,5 +111,3 @@ glabel func_80A77EDC
 /* 03D58 80A78068 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 03D5C 80A7806C 03E00008 */  jr      $ra
 /* 03D60 80A78070 00000000 */  nop
-
-

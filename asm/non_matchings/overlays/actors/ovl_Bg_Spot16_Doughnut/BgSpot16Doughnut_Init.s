@@ -1,3 +1,17 @@
+.rdata
+glabel D_808B6A30
+    .asciz "[36m%f[m\n"
+    .balign 4
+
+glabel D_808B6A3C
+    .asciz "(ｓｐｏｔ１６ ドーナツ雲)(arg_data 0x%04x)\n"
+    .balign 4
+
+.late_rodata
+glabel D_808B6B10
+ .word 0x38D1B717
+
+.text
 glabel BgSpot16Doughnut_Init
 /* 00000 808B6440 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00004 808B6444 AFA50024 */  sw      $a1, 0x0024($sp)           
@@ -120,5 +134,3 @@ glabel BgSpot16Doughnut_Init
 /* 00194 808B65D4 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00198 808B65D8 03E00008 */  jr      $ra                        
 /* 0019C 808B65DC 00000000 */  nop
-
-

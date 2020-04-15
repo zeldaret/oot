@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B2A090
+    .asciz "../z_en_vb_ball.c"
+    .balign 4
+
+glabel D_80B2A0A4
+    .asciz "../z_en_vb_ball.c"
+    .balign 4
+
+glabel D_80B2A0B8
+    .asciz "../z_en_vb_ball.c"
+    .balign 4
+
+glabel D_80B2A0CC
+    .asciz "../z_en_vb_ball.c"
+    .balign 4
+
+.text
 glabel EnVbBall_Draw
 /* 00DE0 80B29D80 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00DE4 80B29D84 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -153,4 +171,3 @@ glabel EnVbBall_Draw
 /* 01034 80B29FD4 03E00008 */  jr      $ra                        
 /* 01038 80B29FD8 00000000 */  nop
 /* 0103C 80B29FDC 00000000 */  nop
-

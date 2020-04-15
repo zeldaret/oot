@@ -15,5 +15,3 @@ glabel EnVbBall_Destroy
 /* 001AC 80B2914C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001B0 80B29150 03E00008 */  jr      $ra                        
 /* 001B4 80B29154 00000000 */  nop
-
-

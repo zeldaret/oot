@@ -48,4 +48,3 @@ glabel DemoTreLgt_Draw
 /* 006A4 80993D64 03E00008 */  jr      $ra                        
 /* 006A8 80993D68 00000000 */  nop
 /* 006AC 80993D6C 00000000 */  nop
-

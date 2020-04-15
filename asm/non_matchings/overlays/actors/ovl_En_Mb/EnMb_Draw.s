@@ -124,4 +124,3 @@ glabel EnMb_Draw
 /* 03B84 80AA9BD4 27BD00B8 */  addiu   $sp, $sp, 0x00B8           ## $sp = 00000000
 /* 03B88 80AA9BD8 00000000 */  nop
 /* 03B8C 80AA9BDC 00000000 */  nop
-

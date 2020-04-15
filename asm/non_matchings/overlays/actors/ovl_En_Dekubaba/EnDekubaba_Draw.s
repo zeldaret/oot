@@ -1,3 +1,28 @@
+.rdata
+glabel D_809E9130
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+glabel D_809E9144
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+glabel D_809E9158
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+glabel D_809E916C
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+.late_rodata
+glabel D_809E91D4
+    .float 0.01
+
+glabel D_809E91D8
+    .float 9.58738019108e-05
+
+.text
 glabel EnDekubaba_Draw
 /* 03478 809E8C48 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 0347C 809E8C4C AFB10020 */  sw      $s1, 0x0020($sp)           
@@ -156,4 +181,3 @@ glabel EnDekubaba_Draw
 /* 036C4 809E8E94 03E00008 */  jr      $ra                        
 /* 036C8 809E8E98 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 036CC 809E8E9C 00000000 */  nop
-

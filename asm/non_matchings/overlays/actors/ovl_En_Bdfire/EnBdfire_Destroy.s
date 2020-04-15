@@ -14,5 +14,3 @@ glabel EnBdfire_Destroy
 /* 00268 809BC298 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0026C 809BC29C 03E00008 */  jr      $ra                        
 /* 00270 809BC2A0 00000000 */  nop
-
-

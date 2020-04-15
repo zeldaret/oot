@@ -19,5 +19,3 @@ glabel OceffWipe_Destroy
 /* 000B0 80BA8E40 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 000B4 80BA8E44 03E00008 */  jr      $ra                        
 /* 000B8 80BA8E48 00000000 */  nop
-
-

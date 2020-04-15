@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A1A514
+    .asciz "../z_en_floormas.c"
+    .balign 4
+
+glabel D_80A1A528
+    .asciz "../z_en_floormas.c"
+    .balign 4
+
+.text
 glabel EnFloormas_Draw
 /* 02D44 80A1A254 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 02D48 80A1A258 AFB10028 */  sw      $s1, 0x0028($sp)
@@ -64,5 +74,3 @@ glabel EnFloormas_Draw
 /* 02E34 80A1A344 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 02E38 80A1A348 03E00008 */  jr      $ra
 /* 02E3C 80A1A34C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

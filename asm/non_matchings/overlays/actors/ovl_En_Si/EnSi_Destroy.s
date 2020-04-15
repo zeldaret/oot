@@ -10,5 +10,3 @@ glabel EnSi_Destroy
 /* 000AC 80AFB73C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000B0 80AFB740 03E00008 */  jr      $ra                        
 /* 000B4 80AFB744 00000000 */  nop
-
-

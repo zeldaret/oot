@@ -1,3 +1,17 @@
+.rdata
+glabel D_808ABDC0
+    .asciz "../z_bg_spot01_idomizu.c"
+    .balign 4
+
+glabel D_808ABDDC
+    .asciz "../z_bg_spot01_idomizu.c"
+    .balign 4
+
+glabel D_808ABDF8
+    .asciz "../z_bg_spot01_idomizu.c"
+    .balign 4
+
+.text
 glabel BgSpot01Idomizu_Draw
 /* 00178 808ABC58 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 0017C 808ABC5C AFB10038 */  sw      $s1, 0x0038($sp)           
@@ -77,4 +91,3 @@ glabel BgSpot01Idomizu_Draw
 /* 002A4 808ABD84 03E00008 */  jr      $ra                        
 /* 002A8 808ABD88 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 002AC 808ABD8C 00000000 */  nop
-

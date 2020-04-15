@@ -1,6 +1,5 @@
 #include "z_en_dodojr.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnDodojr_Init(EnDodojr* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnDodojr_Draw(EnDodojr* this, GlobalContext* globalCtx);
 const ActorInit En_Dodojr_InitVars = {
     ACTOR_EN_DODOJR,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_DODOJR,
     sizeof(EnDodojr),

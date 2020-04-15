@@ -17,4 +17,3 @@ glabel BgHakaTubo_Draw
 /* 008E4 80881B34 00000000 */  nop
 /* 008E8 80881B38 00000000 */  nop
 /* 008EC 80881B3C 00000000 */  nop
-

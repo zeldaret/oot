@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A873F0
+    .asciz "[43;30m"
+    .balign 4
+
+glabel D_80A873FC
+    .asciz "地面に付着失敗(%s %d)\n"
+    .balign 4
+
+glabel D_80A87414
+    .asciz "../z_en_ishi.c"
+    .balign 4
+
+glabel D_80A87424
+    .asciz "\x1b[m"
+    .balign 4
+
+.text
 glabel func_80A7E4D8
 /* 00078 80A7E4D8 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0007C 80A7E4DC AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -57,5 +75,3 @@ glabel func_80A7E4D8
 /* 0013C 80A7E59C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00140 80A7E5A0 03E00008 */  jr      $ra                        
 /* 00144 80A7E5A4 00000000 */  nop
-
-

@@ -1,3 +1,17 @@
+.rdata
+glabel D_8088F220
+    .asciz "../z_bg_hidan_sima.c"
+    .balign 4
+
+glabel D_8088F238
+    .asciz "../z_bg_hidan_sima.c"
+    .balign 4
+
+.late_rodata
+glabel D_8088F2BC
+    .float 0.4
+
+.text
 glabel func_8088EB54
 /* 00784 8088EB54 27BDFF18 */  addiu   $sp, $sp, 0xFF18           ## $sp = FFFFFF18
 /* 00788 8088EB58 AFB40040 */  sw      $s4, 0x0040($sp)           
@@ -316,5 +330,3 @@ glabel func_8088EB54
 /* 00C2C 8088EFFC D7B40018 */  ldc1    $f20, 0x0018($sp)          
 /* 00C30 8088F000 03E00008 */  jr      $ra                        
 /* 00C34 8088F004 27BD00E8 */  addiu   $sp, $sp, 0x00E8           ## $sp = 00000000
-
-

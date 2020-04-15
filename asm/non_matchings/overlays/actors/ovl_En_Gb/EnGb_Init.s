@@ -272,5 +272,3 @@ glabel EnGb_Init
 /* 00420 80A2F5A0 D7B40020 */  ldc1    $f20, 0x0020($sp)
 /* 00424 80A2F5A4 03E00008 */  jr      $ra
 /* 00428 80A2F5A8 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

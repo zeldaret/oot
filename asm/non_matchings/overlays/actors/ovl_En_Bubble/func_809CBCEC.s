@@ -8,5 +8,3 @@ glabel func_809CBCEC
 /* 00104 809CBD04 2402000C */  addiu   $v0, $zero, 0x000C         ## $v0 = 0000000C
 /* 00108 809CBD08 03E00008 */  jr      $ra                        
 /* 0010C 809CBD0C 00000000 */  nop
-
-

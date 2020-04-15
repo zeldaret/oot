@@ -1,3 +1,15 @@
+.rdata
+glabel D_809F5F68
+    .asciz "[36m☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.late_rodata
+glabel D_809F6034
+ .word 0x44A78000
+glabel D_809F6038
+ .word 0x44A78000
+
+.text
 glabel func_809F36CC
 /* 0040C 809F36CC 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00410 809F36D0 3C0F809F */  lui     $t7, %hi(D_809F5E70)       ## $t7 = 809F0000
@@ -192,5 +204,3 @@ glabel func_809F36CC
 /* 006EC 809F39AC 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 006F0 809F39B0 03E00008 */  jr      $ra                        
 /* 006F4 809F39B4 00000000 */  nop
-
-

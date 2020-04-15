@@ -1,42 +1,32 @@
 /*
  * File: z_obj_roomtimer.c
  * Overlay: ovl_Obj_Roomtimer
- * Description:
+ * Description: Timer
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
+#include "z_obj_roomtimer.h"
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc updateFunc;
-    /* 0x0150 */ u32 switchFlag;
-} ActorRoomTimer; // size = 0x0154
-
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void Init(ActorRoomTimer* this, GlobalContext* globalCtx);
-static void Destroy(ActorRoomTimer* this, GlobalContext* globalCtx);
-static void Update(ActorRoomTimer* this, GlobalContext* globalCtx);
-static void func_80B9D054(ActorRoomTimer* this, GlobalContext* globalCtx);
-static void func_80B9D0B0(ActorRoomTimer* this, GlobalContext* globalCtx);
+void ObjRoomtimer_Init(ObjRoomtimer* this, GlobalContext* globalCtx);
+void ObjRoomtimer_Destroy(ObjRoomtimer* this, GlobalContext* globalCtx);
+void ObjRoomtimer_Update(ObjRoomtimer* this, GlobalContext* globalCtx);
+void func_80B9D054(ObjRoomtimer* this, GlobalContext* globalCtx);
+void func_80B9D0B0(ObjRoomtimer* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Roomtimer_InitVars = {
     ACTOR_OBJ_ROOMTIMER,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
-    sizeof(ActorRoomTimer),
-    (ActorFunc)Init,
-    (ActorFunc)Destroy,
-    (ActorFunc)Update,
+    sizeof(ObjRoomtimer),
+    (ActorFunc)ObjRoomtimer_Init,
+    (ActorFunc)ObjRoomtimer_Destroy,
+    (ActorFunc)ObjRoomtimer_Update,
     (ActorFunc)NULL,
 };
 
-static void Init(ActorRoomTimer* this, GlobalContext* globalCtx) {
+void ObjRoomtimer_Init(ObjRoomtimer* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params;
 
     this->switchFlag = (params >> 10) & 0x3F;
@@ -54,7 +44,7 @@ static void Init(ActorRoomTimer* this, GlobalContext* globalCtx) {
     this->updateFunc = (ActorFunc)func_80B9D054;
 }
 
-static void Destroy(ActorRoomTimer* this, GlobalContext* globalCtx) {
+void ObjRoomtimer_Destroy(ObjRoomtimer* this, GlobalContext* globalCtx) {
     if (this->actor.params != 0x3FF) {
         if (gSaveContext.timer_1_value > 0) {
             gSaveContext.timer_1_state = 10;
@@ -62,7 +52,7 @@ static void Destroy(ActorRoomTimer* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80B9D054(ActorRoomTimer* this, GlobalContext* globalCtx) {
+void func_80B9D054(ObjRoomtimer* this, GlobalContext* globalCtx) {
     if (this->actor.params != 0x3FF) {
         func_80088B34(this->actor.params);
     }
@@ -71,7 +61,7 @@ static void func_80B9D054(ActorRoomTimer* this, GlobalContext* globalCtx) {
     this->updateFunc = (ActorFunc)func_80B9D0B0;
 }
 
-static void func_80B9D0B0(ActorRoomTimer* this, GlobalContext* globalCtx) {
+void func_80B9D0B0(ObjRoomtimer* this, GlobalContext* globalCtx) {
     if (Flags_GetTempClear(globalCtx, this->actor.room)) {
         if (this->actor.params != 0x3FF) {
             gSaveContext.timer_1_state = 10;
@@ -92,6 +82,6 @@ static void func_80B9D0B0(ActorRoomTimer* this, GlobalContext* globalCtx) {
     }
 }
 
-static void Update(ActorRoomTimer* this, GlobalContext* globalCtx) {
+void ObjRoomtimer_Update(ObjRoomtimer* this, GlobalContext* globalCtx) {
     this->updateFunc(this, globalCtx);
 }

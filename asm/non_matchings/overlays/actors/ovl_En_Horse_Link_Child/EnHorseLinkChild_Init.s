@@ -127,5 +127,3 @@ glabel EnHorseLinkChild_Init
 /* 00460 80A69830 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00464 80A69834 03E00008 */  jr      $ra
 /* 00468 80A69838 00000000 */  nop
-
-

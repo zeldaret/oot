@@ -4,6 +4,7 @@
 #include <ultra64.h>
 #include <ultra64/gbi.h>
 #include <ultra64/gs2dex.h>
+#include <ultra64/controller.h>
 #include <z64light.h>
 #include <z64actor.h>
 #include <z64object.h>
@@ -279,44 +280,66 @@ typedef struct GraphicsContext {
 } GraphicsContext; // size = 0x300
 
 typedef struct {
-    /* 0x00 */ union {
-        struct  {
-            u16 a   : 1;
-            u16 b   : 1;
-            u16 z   : 1;
-            u16 s   : 1;
-            u16 du  : 1;
-            u16 dd  : 1;
-            u16 dl  : 1;
-            u16 dr  : 1;
-            u16     : 2;
-            u16 l   : 1;
-            u16 r   : 1;
-            u16 cu  : 1;
-            u16 cd  : 1;
-            u16 cl  : 1;
-            u16 cr  : 1;
+    PadInput in;
+    union {
+        u16 status;
+        struct {
+            u8 errno;
+            u8 statusLo;
         };
-        u16        pad;
     };
-    /* 0x02 */ s8  x;
-    /* 0x03 */ s8  y;
-} RawInput; // size = 0x4
+} PadState;
+
+typedef struct
+{
+    /* 0x00 */ PadState cur;
+    /* 0x06 */ PadState prev;
+    /* 0x0C */ PadState press; // X/Y store delta from last frame
+    /* 0x12 */ PadState rel; // X/Y store adjusted
+    /* The old version of this struct is:
+    RawInput raw;
+    u16      status;
+    RawInput rawPrev;
+    u16      statusPrev;
+    u16      padPressed;
+    s8       xDiff;
+    s8       yDiff;
+    char     unk_10[0x02];
+    u16      padReleased;
+    s8       xAdjusted;
+    s8       yAdjusted;
+    char     unk_16[0x02];
+    */
+} Input; // size = 0x18
 
 typedef struct {
-    /* 0x00 */ RawInput raw;
-    /* 0x04 */ u16      status;
-    /* 0x06 */ RawInput rawPrev;
-    /* 0x0A */ u16      statusPrev;
-    /* 0x0C */ u16      padPressed;
-    /* 0x0E */ s8       xDiff;
-    /* 0x0F */ s8       yDiff;
-    /* 0x10 */ char     unk_10[0x02];
-    /* 0x12 */ u16      padReleased;
-    /* 0x14 */ s8       xAdjusted;
-    /* 0x15 */ s8       yAdjusted;
-    /* 0x16 */ char     unk_16[0x02];
-} Input; // size = 0x18
+    /* 0x0000 */ OSContStatus pad_status[4];
+    /* 0x0010 */ OSMesg msgbuf1[1];
+    /* 0x0014 */ OSMesg msgbuf2[1];
+    /* 0x0018 */ OSMesg msgbuf3[4];
+    /* 0x0028 */ OSMesgQueue queue1;
+    /* 0x0040 */ OSMesgQueue queue2;
+    /* 0x0058 */ OSMesgQueue queue3;
+    /* 0x0070 */ UNK_TYPE unk_70;
+    /* 0x0074 */ UNK_TYPE unk_74;
+    /* 0x0078 */ UNK_TYPE unk_78;
+    /* 0x007C */ UNK_TYPE unk_7C;
+    /* 0x0080 */ OSThread thread;
+    /* 0x0230 */ Input inputs[4]; // 0x18 each = 0x60 total
+    /* 0x0290 */ PadState pads[4]; // 0x6 each = 0x18 total
+    /* 0x02A8 */ volatile u8 validCtrlrsMask;
+    /* 0x02A9 */ s8 ncontrollers;
+    /* 0x02AA */ u8 ctrlrIsConnected[4]; // Key_switch in original code
+    /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
+    /* 0x02B2 */ volatile u8 rumbleEnable[4];
+    /* 0x02B6 */ u8 rumbleCounter[4]; // not clear exact meaning
+    /* 0x02BC */ unk_controller_t unk_controller[4];
+    /* 0x045C */ volatile u8 rumbleOffFrames;
+    /* 0x045D */ volatile u8 rumbleOnFrames;
+    /* 0x045E */ u8 preNMIShutdown;
+    /* 0x0460 */ void (*retraceCallback)(void* padmgr, u32 unk464);
+    /* 0x0464 */ u32 retraceCallbackValue;
+} PadMgr; // size = 0x468
 
 typedef struct {
    /* 0x0000 */ s16 unk_0;

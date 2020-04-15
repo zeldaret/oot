@@ -1,3 +1,44 @@
+.rdata
+glabel D_8094AE28
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AE38
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AE48
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AE58
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AE68
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AE78
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AE88
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AE98
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+.late_rodata
+glabel D_8094B208
+    .float 1.57079637051
+
+glabel D_8094B20C
+    .float 3.14159274101
+
+.text
 glabel func_80948668
 /* 0F998 80948668 27BDFE70 */  addiu   $sp, $sp, 0xFE70           ## $sp = FFFFFE70
 /* 0F99C 8094866C AFBF008C */  sw      $ra, 0x008C($sp)           
@@ -975,5 +1016,3 @@ glabel func_80948668
 /* 10854 80949524 8FBE0088 */  lw      $s8, 0x0088($sp)           
 /* 10858 80949528 03E00008 */  jr      $ra                        
 /* 1085C 8094952C 27BD0190 */  addiu   $sp, $sp, 0x0190           ## $sp = 00000000
-
-

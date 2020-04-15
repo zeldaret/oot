@@ -1,6 +1,5 @@
 #include "z_bg_jya_ironobj.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgJyaIronobj_Init(BgJyaIronobj* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgJyaIronobj_Draw(BgJyaIronobj* this, GlobalContext* globalCtx);
 const ActorInit Bg_Jya_Ironobj_InitVars = {
     ACTOR_BG_JYA_IRONOBJ,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_JYA_IRON,
     sizeof(BgJyaIronobj),

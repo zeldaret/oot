@@ -56,5 +56,3 @@ glabel DemoSa_Init
 /* 01A08 8098FE68 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 01A0C 8098FE6C 03E00008 */  jr      $ra                        
 /* 01A10 8098FE70 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

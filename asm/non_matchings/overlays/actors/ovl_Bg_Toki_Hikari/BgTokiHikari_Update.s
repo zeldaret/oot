@@ -8,5 +8,3 @@ glabel BgTokiHikari_Update
 /* 000BC 808B9FBC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000C0 808B9FC0 03E00008 */  jr      $ra                        
 /* 000C4 808B9FC4 00000000 */  nop
-
-

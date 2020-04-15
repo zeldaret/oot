@@ -1,3 +1,13 @@
+.rdata
+glabel D_809F2FE0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809F2FE4
+    .asciz "\x1B[33m☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n\x1B[m"
+    .balign 4
+
+.text
 glabel EnDntJiji_Init
 /* 00000 809F1AE0 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00004 809F1AE4 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
@@ -68,5 +78,3 @@ glabel EnDntJiji_Init
 /* 000F0 809F1BD0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 000F4 809F1BD4 03E00008 */  jr      $ra                        
 /* 000F8 809F1BD8 00000000 */  nop
-
-

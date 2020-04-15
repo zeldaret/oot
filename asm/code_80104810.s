@@ -27,8 +27,8 @@ glabel func_80104810
 /* B7B9E8 80104848 0C0402E8 */  jal   __osSiGetAccess
 /* B7B9EC 8010484C 24110003 */   li    $s1, 3
 /* B7B9F0 80104850 3C1E8017 */  lui   $fp, %hi(_osCont_numControllers) # $fp, 0x8017
-/* B7B9F4 80104854 3C138017 */  lui   $s3, %hi(D_80175960) # $s3, 0x8017
-/* B7B9F8 80104858 26735960 */  addiu $s3, %lo(D_80175960) # addiu $s3, $s3, 0x5960
+/* B7B9F4 80104854 3C138017 */  lui   $s3, %hi(pifMempakBuf) # $s3, 0x8017
+/* B7B9F8 80104858 26735960 */  addiu $s3, %lo(pifMempakBuf) # addiu $s3, $s3, 0x5960
 /* B7B9FC 8010485C 27DE5811 */  addiu $fp, %lo(_osCont_numControllers) # addiu $fp, $fp, 0x5811
 /* B7BA00 80104860 00008025 */  move  $s0, $zero
 /* B7BA04 80104864 27B70054 */  addiu $s7, $sp, 0x54
@@ -121,9 +121,9 @@ glabel func_80104810
 
 glabel func_8010499C
 /* B7BB3C 8010499C 27BDFFF0 */  addiu $sp, $sp, -0x10
-/* B7BB40 801049A0 3C058017 */  lui   $a1, %hi(D_80175960)
+/* B7BB40 801049A0 3C058017 */  lui   $a1, %hi(pifMempakBuf)
 /* B7BB44 801049A4 3C018017 */  lui   $at, %hi(_osCont_lastPollType) # $at, 0x8017
-/* B7BB48 801049A8 24A25960 */  addiu $v0, $a1, %lo(D_80175960)
+/* B7BB48 801049A8 24A25960 */  addiu $v0, $a1, %lo(pifMempakBuf)
 /* B7BB4C 801049AC AFA40010 */  sw    $a0, 0x10($sp)
 /* B7BB50 801049B0 A0245810 */  sb    $a0, %lo(_osCont_lastPollType)($at)
 /* B7BB54 801049B4 240F0001 */  li    $t7, 1
@@ -172,10 +172,10 @@ glabel func_80104A50
 /* B7BBF0 80104A50 3C078017 */  lui   $a3, %hi(_osCont_numControllers) # $a3, 0x8017
 /* B7BBF4 80104A54 24E75811 */  addiu $a3, %lo(_osCont_numControllers) # addiu $a3, $a3, 0x5811
 /* B7BBF8 80104A58 90EE0000 */  lbu   $t6, ($a3)
-/* B7BBFC 80104A5C 3C038017 */  lui   $v1, %hi(D_80175960) # $v1, 0x8017
+/* B7BBFC 80104A5C 3C038017 */  lui   $v1, %hi(pifMempakBuf) # $v1, 0x8017
 /* B7BC00 80104A60 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B7BC04 80104A64 00001025 */  move  $v0, $zero
-/* B7BC08 80104A68 24635960 */  addiu $v1, %lo(D_80175960) # addiu $v1, $v1, 0x5960
+/* B7BC08 80104A68 24635960 */  addiu $v1, %lo(pifMempakBuf) # addiu $v1, $v1, 0x5960
 /* B7BC0C 80104A6C 19C00020 */  blez  $t6, .L80104AF0
 /* B7BC10 80104A70 00003025 */   move  $a2, $zero
 /* B7BC14 80104A74 27A8000C */  addiu $t0, $sp, 0xc

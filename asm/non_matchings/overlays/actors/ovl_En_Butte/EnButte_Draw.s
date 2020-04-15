@@ -40,4 +40,3 @@ glabel EnButte_Draw
 /* 01274 809CE2E4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 01278 809CE2E8 03E00008 */  jr      $ra                        
 /* 0127C 809CE2EC 00000000 */  nop
-

@@ -47,8 +47,8 @@ glabel func_80105CF0
 /* B7CF10 80105D70 0010C940 */  sll   $t9, $s0, 5
 /* B7CF14 80105D74 3C178013 */  lui   $s7, %hi(D_80134D20) # $s7, 0x8013
 /* B7CF18 80105D78 3C168017 */  lui   $s6, %hi(_osCont_lastPollType) # $s6, 0x8017
-/* B7CF1C 80105D7C 3C138017 */  lui   $s3, %hi(D_80175960) # $s3, 0x8017
-/* B7CF20 80105D80 26735960 */  addiu $s3, %lo(D_80175960) # addiu $s3, $s3, 0x5960
+/* B7CF1C 80105D7C 3C138017 */  lui   $s3, %hi(pifMempakBuf) # $s3, 0x8017
+/* B7CF20 80105D80 26735960 */  addiu $s3, %lo(pifMempakBuf) # addiu $s3, $s3, 0x5960
 /* B7CF24 80105D84 26D65810 */  addiu $s6, %lo(_osCont_lastPollType) # addiu $s6, $s6, 0x5810
 /* B7CF28 80105D88 26F74D20 */  addiu $s7, %lo(D_80134D20) # addiu $s7, $s7, 0x4d20
 /* B7CF2C 80105D8C AFB90040 */  sw    $t9, 0x40($sp)
@@ -103,7 +103,7 @@ glabel func_80105CF0
 .L80105E3C:
 /* B7CFDC 80105E3C 8FB80044 */  lw    $t8, 0x44($sp)
 /* B7CFE0 80105E40 A2180004 */  sb    $t8, 4($s0)
-/* B7CFE4 80105E44 0C04185C */  jal   func_80106170
+/* B7CFE4 80105E44 0C04185C */  jal   osMempakAddrCRC
 /* B7CFE8 80105E48 97A40072 */   lhu   $a0, 0x72($sp)
 /* B7CFEC 80105E4C 8FB90040 */  lw    $t9, 0x40($sp)
 /* B7CFF0 80105E50 26050006 */  addiu $a1, $s0, 6
@@ -115,7 +115,7 @@ glabel func_80105CF0
 /* B7D008 80105E68 24040001 */  li    $a0, 1
 /* B7D00C 80105E6C 0C0404FC */  jal   __osSiRawStartDma /*(s32 dir, void *addr)*/
 /* B7D010 80105E70 02602825 */   move  $a1, $s3
-/* B7D014 80105E74 0C041890 */  jal   func_80106240
+/* B7D014 80105E74 0C041890 */  jal   osMempakDataCRC
 /* B7D018 80105E78 8FA40074 */   lw    $a0, 0x74($sp)
 /* B7D01C 80105E7C 305200FF */  andi  $s2, $v0, 0xff
 /* B7D020 80105E80 02A02025 */  move  $a0, $s5

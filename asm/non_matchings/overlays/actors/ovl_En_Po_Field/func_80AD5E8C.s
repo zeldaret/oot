@@ -1,3 +1,31 @@
+.rdata
+glabel D_80AD7160
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+glabel D_80AD7174
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+glabel D_80AD7188
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AD7284
+ .word 0x47A60400
+glabel D_80AD7288
+    .float 9.58738019108e-05
+
+glabel D_80AD728C
+ .word 0x3B449BA6
+glabel D_80AD7290
+    .float 0.7
+
+glabel D_80AD7294
+ .word 0x3A6BEDFB
+
+.text
 glabel func_80AD5E8C
 /* 0238C 80AD5E8C 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 02390 80AD5E90 AFBF0044 */  sw      $ra, 0x0044($sp)           
@@ -201,5 +229,3 @@ glabel func_80AD5E8C
 /* 02690 80AD6190 8FB20040 */  lw      $s2, 0x0040($sp)           
 /* 02694 80AD6194 03E00008 */  jr      $ra                        
 /* 02698 80AD6198 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
-
-

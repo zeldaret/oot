@@ -58,5 +58,3 @@ glabel EnTakaraMan_Update
 /* 006E0 80B17C40 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 006E4 80B17C44 03E00008 */  jr      $ra                        
 /* 006E8 80B17C48 00000000 */  nop
-
-

@@ -1,3 +1,52 @@
+.rdata
+glabel D_80A09EB0
+    .asciz "\x1b[32m☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\x1b[m"
+    .balign 4
+
+glabel D_80A09EDC
+    .asciz "\x1b[33m☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\x1b[m"
+    .balign 4
+
+glabel D_80A09F08
+    .asciz "\x1b[34m☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\x1b[m"
+    .balign 4
+
+glabel D_80A09F34
+    .asciz "\x1b[35m☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\x1b[m"
+    .balign 4
+
+glabel D_80A09F60
+    .asciz "\x1b[36m☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n\x1b[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A0A0D8
+.word L80A0912C
+.word L80A09190
+.word L80A091FC
+.word L80A09250
+.word L80A092B8
+.word L80A09128
+.word L80A0918C
+.word L80A091F8
+.word L80A09250
+.word L80A092B8
+.word L80A0932C
+.word L80A0932C
+.word L80A0932C
+.word L80A0932C
+.word L80A0932C
+.word L80A09424
+.word L80A093CC
+.word L80A093CC
+.word L80A093CC
+.word L80A093E8
+glabel D_80A0A128
+ .word 0x3EB33333
+glabel D_80A0A12C
+    .float 0.1
+
+.text
 glabel func_80A09054
 /* 001B4 80A09054 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 001B8 80A09058 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
@@ -276,5 +325,3 @@ glabel L80A09424
 /* 00588 80A09428 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0058C 80A0942C 03E00008 */  jr      $ra                        
 /* 00590 80A09430 00000000 */  nop
-
-

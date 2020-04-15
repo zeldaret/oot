@@ -1,3 +1,20 @@
+.late_rodata
+glabel D_80A171B8
+    .float 0.1
+
+glabel D_80A171BC
+    .float 0.2
+
+glabel D_80A171C0
+    .float 1.2
+
+glabel D_80A171C4
+    .float 0.2
+
+glabel D_80A171C8
+    .float 0.2
+
+.text
 glabel func_80A160BC
 /* 00E3C 80A160BC 3C01BF80 */  lui     $at, 0xBF80                ## $at = BF800000
 /* 00E40 80A160C0 44812000 */  mtc1    $at, $f4                   ## $f4 = -1.00
@@ -90,5 +107,3 @@ glabel func_80A160BC
 /* 00F74 80A161F4 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00F78 80A161F8 03E00008 */  jr      $ra                        
 /* 00F7C 80A161FC 00000000 */  nop
-
-

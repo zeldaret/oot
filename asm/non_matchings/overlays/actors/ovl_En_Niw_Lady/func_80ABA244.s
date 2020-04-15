@@ -1,3 +1,57 @@
+.rdata
+glabel D_80ABB45C
+    .asciz "[32m☆ 鶏柵内ＧＥＴ！☆ %x\n[m"
+    .balign 4
+
+glabel D_80ABB47C
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80ABB480
+    .asciz "[33m☆☆☆☆☆ ねぇちゃん選択	 ☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80ABB4B0
+    .asciz "[33m☆☆☆☆☆ ねぇちゃんハート     ☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80ABB4E8
+    .asciz "[33m☆☆☆☆☆ ねぇちゃん保存       ☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80ABB520
+    .asciz "[33m☆☆☆☆☆ ねぇちゃん今	 ☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80ABB550
+    .asciz "[32m☆☆☆☆☆ this->actor.talk_message ☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80ABB588
+    .asciz "[32m☆☆☆☆☆ this->message_end_code   ☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80ABB5C0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80ABB5C4
+    .asciz "[36m☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80ABB5F0
+    .asciz "[36m☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80ABB61C
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80ABB7BC
+ .word 0x44C94000
+
+.text
 glabel func_80ABA244
 /* 00604 80ABA244 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00608 80ABA248 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -292,5 +346,3 @@ glabel func_80ABA244
 /* 00A08 80ABA648 8FB30020 */  lw      $s3, 0x0020($sp)           
 /* 00A0C 80ABA64C 03E00008 */  jr      $ra                        
 /* 00A10 80ABA650 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

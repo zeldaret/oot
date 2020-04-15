@@ -1,3 +1,16 @@
+.late_rodata
+glabel D_809B61D8
+    .float 3000.0
+glabel D_809B61DC
+    .float -0.2
+glabel D_809B61E0
+    .float -0.2
+glabel D_809B61E4
+    .float -10000
+glabel D_809B61E8
+    .float -3000
+
+.text
 glabel func_809B5670
 /* 00570 809B5670 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00574 809B5674 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -218,5 +231,3 @@ glabel func_809B5670
 /* 008A4 809B59A4 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 008A8 809B59A8 03E00008 */  jr      $ra                        
 /* 008AC 809B59AC 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

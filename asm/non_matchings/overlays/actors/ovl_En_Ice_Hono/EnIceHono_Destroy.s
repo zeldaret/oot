@@ -25,5 +25,3 @@ glabel EnIceHono_Destroy
 /* 003EC 80A733DC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 003F0 80A733E0 03E00008 */  jr      $ra                        
 /* 003F4 80A733E4 00000000 */  nop
-
-

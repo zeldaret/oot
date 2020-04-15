@@ -1,3 +1,36 @@
+.rdata
+glabel D_808C09F0
+    .asciz "../z_bg_ydan_sp.c"
+    .balign 4
+
+glabel D_808C0A04
+    .asciz "../z_bg_ydan_sp.c"
+    .balign 4
+
+glabel D_808C0A18
+    .asciz "../z_bg_ydan_sp.c"
+    .balign 4
+
+glabel D_808C0A2C
+    .asciz "../z_bg_ydan_sp.c"
+    .balign 4
+
+glabel D_808C0A40
+    .asciz "../z_bg_ydan_sp.c"
+    .balign 4
+
+glabel D_808C0A54
+    .asciz "../z_bg_ydan_sp.c"
+    .balign 4
+
+.late_rodata
+glabel D_808C0A90
+    .float 0.1
+
+glabel D_808C0A94
+    .float 0.1
+
+.text
 glabel BgYdanSp_Draw
 /* 011B8 808C05C8 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 011BC 808C05CC AFB40030 */  sw      $s4, 0x0030($sp)
@@ -214,4 +247,3 @@ glabel BgYdanSp_Draw
 /* 014F4 808C0904 8FB40030 */  lw      $s4, 0x0030($sp)
 /* 014F8 808C0908 03E00008 */  jr      $ra
 /* 014FC 808C090C 27BD00C0 */  addiu   $sp, $sp, 0x00C0           ## $sp = 00000000
-
