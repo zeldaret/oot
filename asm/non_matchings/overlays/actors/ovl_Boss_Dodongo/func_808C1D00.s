@@ -48,7 +48,7 @@ glabel func_808C1D00
 /* 00B88 808C1D18 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00B8C 808C1D1C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00B90 808C1D20 AFA6007C */  sw      $a2, 0x007C($sp)
-/* 00B94 808C1D24 0C030129 */  jal     func_800C04A4
+/* 00B94 808C1D24 0C030129 */  jal     Gameplay_GetCamera
 /* 00B98 808C1D28 AFAE006C */  sw      $t6, 0x006C($sp)
 /* 00B9C 808C1D2C AFA20070 */  sw      $v0, 0x0070($sp)
 /* 00BA0 808C1D30 86030196 */  lh      $v1, 0x0196($s0)           ## 00000196
@@ -102,18 +102,18 @@ glabel L808C1DCC
 /* 00C4C 808C1DDC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00C50 808C1DE0 0C00B7D5 */  jal     func_8002DF54
 /* 00C54 808C1DE4 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 00C58 808C1DE8 0C03010E */  jal     func_800C0438
+/* 00C58 808C1DE8 0C03010E */  jal     Gameplay_ClearAllSubCameras
 /* 00C5C 808C1DEC 8FA4007C */  lw      $a0, 0x007C($sp)
-/* 00C60 808C1DF0 0C03008C */  jal     func_800C0230
+/* 00C60 808C1DF0 0C03008C */  jal     Gameplay_CreateSubCamera
 /* 00C64 808C1DF4 8FA4007C */  lw      $a0, 0x007C($sp)
 /* 00C68 808C1DF8 A60201B4 */  sh      $v0, 0x01B4($s0)           ## 000001B4
 /* 00C6C 808C1DFC 8FA4007C */  lw      $a0, 0x007C($sp)
 /* 00C70 808C1E00 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00C74 808C1E04 0C0300C5 */  jal     func_800C0314
+/* 00C74 808C1E04 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 00C78 808C1E08 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 00C7C 808C1E0C 8FA4007C */  lw      $a0, 0x007C($sp)
 /* 00C80 808C1E10 860501B4 */  lh      $a1, 0x01B4($s0)           ## 000001B4
-/* 00C84 808C1E14 0C0300C5 */  jal     func_800C0314
+/* 00C84 808C1E14 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 00C88 808C1E18 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 00C8C 808C1E1C 3C01808D */  lui     $at, %hi(D_808CA688)       ## $at = 808D0000
 /* 00C90 808C1E20 C420A688 */  lwc1    $f0, %lo(D_808CA688)($at)

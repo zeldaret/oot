@@ -32,7 +32,7 @@ glabel func_80999FE4
 /* 018D8 8099A058 3C05809A */  lui     $a1, %hi(D_8099CCA2)       ## $a1 = 809A0000
 /* 018DC 8099A05C 84A5CCA2 */  lh      $a1, %lo(D_8099CCA2)($a1)  
 /* 018E0 8099A060 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 018E4 8099A064 0C0300C5 */  jal     func_800C0314              
+/* 018E4 8099A064 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 018E8 8099A068 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 018EC 8099A06C 8FB80020 */  lw      $t8, 0x0020($sp)           
 /* 018F0 8099A070 240F0005 */  addiu   $t7, $zero, 0x0005         ## $t7 = 00000005

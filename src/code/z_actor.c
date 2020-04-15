@@ -699,10 +699,10 @@ void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx
 void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, u32 texture, s32 arg3, s32 arg4,
                              s32 arg5, s32 arg6, s32 arg7) {
     Scene* loadedScene = globalCtx->loadedScene;
-    u32 size = loadedScene->titleVromEnd - loadedScene->titleVromStart;
+    u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
 
     if ((size != 0) && (size <= 0x3000)) {
-        DmaMgr_SendRequest1(texture, loadedScene->titleVromStart, size, "../z_actor.c", 2765);
+        DmaMgr_SendRequest1(texture, loadedScene->titleFile.vromStart, size, "../z_actor.c", 2765);
     }
 
     titleCtx->texture = texture;
@@ -1042,7 +1042,7 @@ void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
 
 void func_8002DE74(GlobalContext* globalCtx, Player* player) {
     if ((globalCtx->roomCtx.curRoom.unk_03 != 4) && func_800C0CB8(globalCtx)) {
-        func_8005A77C(func_800C04A4(globalCtx, 0), 6);
+        func_8005A77C(Gameplay_GetCamera(globalCtx, 0), 6);
     }
 }
 
@@ -1056,8 +1056,8 @@ s32 func_8002DEEC(Player* player) {
     return (player->stateFlags1 & 0x20000080) || player->action;
 }
 
-void func_8002DF18(GlobalContext* globalCtx, ActorContext* actorCtx) {
-    func_8006DC68(globalCtx, actorCtx);
+void func_8002DF18(GlobalContext* globalCtx, Player* player) {
+    func_8006DC68(globalCtx, player);
 }
 
 u32 func_8002DF38(GlobalContext* globalCtx, Actor* actor, u8 newAction) {
@@ -1359,9 +1359,9 @@ void func_8002EBCC(Actor* actor, GlobalContext* globalCtx, s32 flag) {
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
-    lightDir.x = globalCtx->unk_10A4E;
-    lightDir.y = globalCtx->unk_10A4F;
-    lightDir.z = globalCtx->unk_10A50;
+    lightDir.x = globalCtx->envCtx.unk_2A;
+    lightDir.y = globalCtx->envCtx.unk_2B;
+    lightDir.z = globalCtx->envCtx.unk_2C;
 
     if (HREG(80) == 6) {
         osSyncPrintf("z_actor.c 3637 game_play->view.eye=[%f(%f) %f %f]\n", (f64)globalCtx->view.eye.x,
@@ -1393,9 +1393,9 @@ void func_8002ED80(Actor* actor, GlobalContext* globalCtx, s32 flag) {
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
-    lightDir.x = globalCtx->unk_10A4E;
-    lightDir.y = globalCtx->unk_10A4F;
-    lightDir.z = globalCtx->unk_10A50;
+    lightDir.x = globalCtx->envCtx.unk_2A;
+    lightDir.y = globalCtx->envCtx.unk_2B;
+    lightDir.z = globalCtx->envCtx.unk_2C;
 
     hilite = func_8002EB44(&actor->posRot.pos, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 
@@ -1770,15 +1770,15 @@ void func_8002FA60(GlobalContext* globalCtx) {
 
     if (gSaveContext.fw.set) {
         gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0x28;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = gSaveContext.fw.pos_x;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = gSaveContext.fw.pos_y;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = gSaveContext.fw.pos_z;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = gSaveContext.fw.pos.x;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = gSaveContext.fw.pos.y;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = gSaveContext.fw.pos.z;
         gSaveContext.respawn[RESPAWN_MODE_TOP].yaw = gSaveContext.fw.yaw;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].player_params = gSaveContext.fw.player_params;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].entrance_index = gSaveContext.fw.entrance_index;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].room_index = gSaveContext.fw.room_index;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].temp_swch_flags = gSaveContext.fw.temp_swch_flags;
-        gSaveContext.respawn[RESPAWN_MODE_TOP].temp_collect_flags = gSaveContext.fw.temp_collect_flags;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = gSaveContext.fw.playerParams;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex = gSaveContext.fw.entranceIndex;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex = gSaveContext.fw.roomIndex;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].tempSwchFlags = gSaveContext.fw.tempSwchFlags;
+        gSaveContext.respawn[RESPAWN_MODE_TOP].tempCollectFlags = gSaveContext.fw.tempCollectFlags;
     } else {
         gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
         gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = 0.0f;
@@ -1887,7 +1887,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
 
             if (D_8015BC18 == 0.0f) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP] = gSaveContext.respawn[RESPAWN_MODE_DOWN];
-                gSaveContext.respawn[RESPAWN_MODE_TOP].player_params = 0x06FF;
+                gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = 0x06FF;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0x28;
             }
 
@@ -1924,8 +1924,8 @@ void func_8002FBAC(GlobalContext* globalCtx) {
         }
 
         if ((globalCtx->csCtx.state == 0) &&
-            (gSaveContext.respawn[RESPAWN_MODE_TOP].entrance_index == gSaveContext.entrance_index) &&
-            (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].room_index)) {
+            (gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex == gSaveContext.entranceIndex) &&
+            (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex)) {
             gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x19);
 
             Matrix_Translate(gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x,
@@ -1980,12 +1980,13 @@ void func_800304B0(GlobalContext* globalCtx) {
     }
 }
 
+// Actor_InitContext
 void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry* actorEntry) {
     ActorOverlay* overlayEntry;
     SaveSceneFlags* saveSceneFlags;
     s32 i;
 
-    saveSceneFlags = &gSaveContext.scene_flags[globalCtx->sceneNum];
+    saveSceneFlags = &gSaveContext.sceneFlags[globalCtx->sceneNum];
 
     bzero(actorCtx, sizeof(*actorCtx));
 
@@ -2206,7 +2207,7 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     func_80079EFC(lightMapper, globalCtx->state.gfxCtx);
 
     if (actor->flags & 0x1000) {
-        camera = &globalCtx->cameraCtx.activeCameras[0];
+        camera = &globalCtx->cameras[0];
         func_800D1694(actor->posRot.pos.x + camera->unk_80.x,
                       actor->posRot.pos.y + (f32)((actor->shape.unk_08 * actor->scale.y) + camera->unk_80.y),
                       actor->posRot.pos.z + camera->unk_80.z, &actor->shape.rot);
@@ -2546,6 +2547,7 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
     globalCtx->msgCtx.unk_E3F4 = 0;
 }
 
+// Actor_CleanupContext
 void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx) {
     Actor* actor;
     s32 i;
@@ -2568,7 +2570,7 @@ void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx) {
         actorCtx->absoluteSpace = NULL;
     }
 
-    func_800C0A44(globalCtx);
+    Gameplay_SaveSceneFlags(globalCtx);
     func_80030488(globalCtx);
     ActorOverlayTable_Cleanup();
 }
@@ -2891,7 +2893,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
 
     if ((player != NULL) && (actor == player->unk_664)) {
         func_8008EDF0(player);
-        func_8005A444(func_800C04A4(globalCtx, func_800C030C(globalCtx)), 0);
+        func_8005A444(Gameplay_GetCamera(globalCtx, Gameplay_GetActiveCamId(globalCtx)), 0);
     }
 
     if (actor == actorCtx->targetCtx.arrowPointedActor) {
@@ -3516,14 +3518,14 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
 }
 
 void func_80033DB8(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
-    s16 var = Quake_Add(&globalCtx->cameraCtx.activeCameras[0], 3);
+    s16 var = Quake_Add(&globalCtx->cameras[0], 3);
     Quake_SetSpeed(var, 20000);
     Quake_SetQuakeValues(var, arg1, 0, 0, 0);
     Quake_SetCountdown(var, arg2);
 }
 
 void func_80033E1C(GlobalContext* globalCtx, s16 arg1, s16 arg2, s16 arg3) {
-    s16 var = Quake_Add(&globalCtx->cameraCtx.activeCameras[0], 3);
+    s16 var = Quake_Add(&globalCtx->cameras[0], 3);
     Quake_SetSpeed(var, arg3);
     Quake_SetQuakeValues(var, arg1, 0, 0, 0);
     Quake_SetCountdown(var, arg2);
@@ -3557,7 +3559,7 @@ typedef struct {
     /* 0x18 */ u32 unk_18;
 } struct_801160DC; // size = 0x1C
 
-struct_801160DC D_801160DC[3] = {
+struct_801160DC D_801160DC[] = {
     { 0.54f, 6000.0f, 5000.0f, 1.0f, 0.0f, 0x050011F0, 0x05001100 },
     { 0.644f, 12000.0f, 8000.0f, 1.0f, 0.0f, 0x06001530, 0x06001400 },
     { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, 0x050011F0, 0x05001100 },
@@ -3634,9 +3636,9 @@ void func_8003426C(Actor* actor, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx) {
     Vec3f lightDir;
 
-    lightDir.x = globalCtx->unk_10A4E;
-    lightDir.y = globalCtx->unk_10A4F;
-    lightDir.z = globalCtx->unk_10A50;
+    lightDir.x = globalCtx->envCtx.unk_2A;
+    lightDir.y = globalCtx->envCtx.unk_2B;
+    lightDir.z = globalCtx->envCtx.unk_2C;
 
     return func_8002EABC(object, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 }
@@ -3644,9 +3646,9 @@ Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx) {
 Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx) {
     Vec3f lightDir;
 
-    lightDir.x = globalCtx->unk_10A4E;
-    lightDir.y = globalCtx->unk_10A4F;
-    lightDir.z = globalCtx->unk_10A50;
+    lightDir.x = globalCtx->envCtx.unk_2A;
+    lightDir.y = globalCtx->envCtx.unk_2B;
+    lightDir.z = globalCtx->envCtx.unk_2C;
 
     return func_8002EB44(object, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 }
@@ -3712,7 +3714,7 @@ typedef struct {
     /* 0x14 */ s16 unk_14;
 } struct_80116130; // size = 0x18
 
-struct_80116130 D_80116130[13] = {
+struct_80116130 D_80116130[] = {
     { { 0x2AA8, 0xF1C8, 0x18E2, 0x1554, 0x0000, 0x0000, 1 }, 170.0f, 0x3FFC },
     { { 0x2AA8, 0xEAAC, 0x1554, 0x1554, 0xF8E4, 0x0E38, 1 }, 170.0f, 0x3FFC },
     { { 0x31C4, 0xE390, 0x0E38, 0x0E38, 0xF1C8, 0x071C, 1 }, 170.0f, 0x3FFC },
@@ -4233,28 +4235,28 @@ void func_80035B18(GlobalContext* globalCtx, Actor* actor, u16 textId) {
  * Tests if event_chk_inf flag is set.
  */
 s32 Flags_GetEventChkInf(s32 flag) {
-    return gSaveContext.event_chk_inf[flag >> 4] & (1 << (flag & 0xF));
+    return gSaveContext.eventChkInf[flag >> 4] & (1 << (flag & 0xF));
 }
 
 /**
  * Sets event_chk_inf flag.
  */
 void Flags_SetEventChkInf(s32 flag) {
-    gSaveContext.event_chk_inf[flag >> 4] |= (1 << (flag & 0xF));
+    gSaveContext.eventChkInf[flag >> 4] |= (1 << (flag & 0xF));
 }
 
 /**
- * Tests if inf_table flag is set.
+ * Tests if "inf_table flag is set.
  */
 s32 Flags_GetInfTable(s32 flag) {
-    return gSaveContext.inf_table[flag >> 4] & (1 << (flag & 0xF));
+    return gSaveContext.infTable[flag >> 4] & (1 << (flag & 0xF));
 }
 
 /**
- * Sets inf_table flag.
+ * Sets "inf_table" flag.
  */
 void Flags_SetInfTable(s32 flag) {
-    gSaveContext.inf_table[flag >> 4] |= (1 << (flag & 0xF));
+    gSaveContext.infTable[flag >> 4] |= (1 << (flag & 0xF));
 }
 
 u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
@@ -4551,7 +4553,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
                 retTextId = 0x7002;
             } else if (Flags_GetInfTable(0x6A)) {
                 retTextId = 0x7004;
-            } else if ((gSaveContext.day_time >= 0x4000) && (gSaveContext.day_time < 0xC556)) {
+            } else if ((gSaveContext.dayTime >= 0x4000) && (gSaveContext.dayTime < 0xC556)) {
                 retTextId = 0x7002;
             } else {
                 retTextId = 0x7003;
@@ -4956,7 +4958,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
                 }
             } else {
                 if (!Flags_GetEventChkInf(0x18)) {
-                    if (gSaveContext.night_flag) {
+                    if (gSaveContext.nightFlag) {
                         retTextId = 0x204E;
                     } else if (Flags_GetInfTable(0x9A)) {
                         retTextId = 0x2031;
@@ -5569,7 +5571,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
     actor->posRot2.pos = actor->posRot.pos;
     actor->posRot2.pos.y += arg4;
 
-    if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entrance_index == 0x00EE))) {
+    if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
         var = actor->rotTowardsLinkY - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
@@ -5578,7 +5580,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         }
     }
 
-    if (((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entrance_index == 0x00EE)) {
+    if (((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
         sp2C = globalCtx->view.eye;
     } else {
         sp2C = player->actor.posRot2.pos;
@@ -5598,7 +5600,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
 
     actor->posRot2.pos = arg4;
 
-    if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entrance_index == 0x00EE))) {
+    if (!(((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
         var = actor->rotTowardsLinkY - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
@@ -5607,7 +5609,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         }
     }
 
-    if (((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entrance_index == 0x00EE)) {
+    if (((globalCtx->csCtx.state != 0) || (D_8011D394 != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
         sp24 = globalCtx->view.eye;
     } else {
         sp24 = player->actor.posRot2.pos;

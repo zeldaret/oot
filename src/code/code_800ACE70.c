@@ -3,10 +3,7 @@
 typedef struct {
     /* 0x00 */ u32 type;
     /* 0x04 */ u32 setScissor;
-    /* 0x08 */ union {
-        Color_RGBA8 c;
-        u32 rgba;
-    } color;
+    /* 0x08 */ Color_RGBA8 color;
     /* 0x0C */ u32 unk_0C;
 } struct_801664F0;
 
@@ -60,10 +57,10 @@ Gfx D_8012AC58[] = {
 void func_800ACE70(struct_801664F0* this) {
     this->type = 0;
     this->setScissor = false;
-    this->color.c.r = 0xFF;
-    this->color.c.g = 0xFF;
-    this->color.c.b = 0xFF;
-    this->color.c.a = 0xFF;
+    this->color.r = 0xFF;
+    this->color.g = 0xFF;
+    this->color.b = 0xFF;
+    this->color.a = 0xFF;
 }
 
 // Destroy func

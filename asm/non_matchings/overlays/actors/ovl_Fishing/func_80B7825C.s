@@ -565,21 +565,21 @@ glabel func_80B7825C
 /* 0EEE8 80B78888 01200008 */  jr      $t1                        
 /* 0EEEC 80B7888C 00000000 */  nop
 glabel L80B78890
-/* 0EEF0 80B78890 0C03008C */  jal     func_800C0230              
+/* 0EEF0 80B78890 0C03008C */  jal     Gameplay_CreateSubCamera              
 /* 0EEF4 80B78894 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0EEF8 80B78898 3C0180B8 */  lui     $at, %hi(D_80B7FEC4)       ## $at = 80B80000
 /* 0EEFC 80B7889C A422FEC4 */  sh      $v0, %lo(D_80B7FEC4)($at)  
 /* 0EF00 80B788A0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0EF04 80B788A4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 0EF08 80B788A8 0C0300C5 */  jal     func_800C0314              
+/* 0EF08 80B788A8 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 0EF0C 80B788AC 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 0EF10 80B788B0 3C0580B8 */  lui     $a1, %hi(D_80B7FEC4)       ## $a1 = 80B80000
 /* 0EF14 80B788B4 84A5FEC4 */  lh      $a1, %lo(D_80B7FEC4)($a1)  
 /* 0EF18 80B788B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0EF1C 80B788BC 0C0300C5 */  jal     func_800C0314              
+/* 0EF1C 80B788BC 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 0EF20 80B788C0 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 0EF24 80B788C4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0EF28 80B788C8 0C030129 */  jal     func_800C04A4              
+/* 0EF28 80B788C8 0C030129 */  jal     Gameplay_GetCamera              
 /* 0EF2C 80B788CC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0EF30 80B788D0 C446005C */  lwc1    $f6, 0x005C($v0)           ## 0000005C
 /* 0EF34 80B788D4 3C0180B8 */  lui     $at, %hi(D_80B7FEA8)       ## $at = 80B80000
@@ -933,7 +933,7 @@ glabel L80B78930
 /* 0F444 80B78DE4 8FA800E4 */  lw      $t0, 0x00E4($sp)           
 glabel L80B78DE8
 /* 0F448 80B78DE8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0F44C 80B78DEC 0C030129 */  jal     func_800C04A4              
+/* 0F44C 80B78DEC 0C030129 */  jal     Gameplay_GetCamera              
 /* 0F450 80B78DF0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0F454 80B78DF4 3C0E80B8 */  lui     $t6, %hi(D_80B7FEA8)       ## $t6 = 80B80000
 /* 0F458 80B78DF8 25CEFEA8 */  addiu   $t6, $t6, %lo(D_80B7FEA8)  ## $t6 = 80B7FEA8
@@ -989,25 +989,25 @@ glabel L80B78EBC
 /* 0F51C 80B78EBC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0F520 80B78EC0 0C019148 */  jal     func_80064520              
 /* 0F524 80B78EC4 26051D64 */  addiu   $a1, $s0, 0x1D64           ## $a1 = 00001D64
-/* 0F528 80B78EC8 0C03008C */  jal     func_800C0230              
+/* 0F528 80B78EC8 0C03008C */  jal     Gameplay_CreateSubCamera              
 /* 0F52C 80B78ECC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0F530 80B78ED0 3C0180B8 */  lui     $at, %hi(D_80B7FEC4)       ## $at = 80B80000
 /* 0F534 80B78ED4 A422FEC4 */  sh      $v0, %lo(D_80B7FEC4)($at)  
 /* 0F538 80B78ED8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0F53C 80B78EDC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 0F540 80B78EE0 0C0300C5 */  jal     func_800C0314              
+/* 0F540 80B78EE0 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 0F544 80B78EE4 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 0F548 80B78EE8 3C0580B8 */  lui     $a1, %hi(D_80B7FEC4)       ## $a1 = 80B80000
 /* 0F54C 80B78EEC 84A5FEC4 */  lh      $a1, %lo(D_80B7FEC4)($a1)  
 /* 0F550 80B78EF0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0F554 80B78EF4 0C0300C5 */  jal     func_800C0314              
+/* 0F554 80B78EF4 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 0F558 80B78EF8 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 0F55C 80B78EFC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0F560 80B78F00 8FA50128 */  lw      $a1, 0x0128($sp)           
 /* 0F564 80B78F04 0C00B7D5 */  jal     func_8002DF54              
 /* 0F568 80B78F08 24060005 */  addiu   $a2, $zero, 0x0005         ## $a2 = 00000005
 /* 0F56C 80B78F0C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0F570 80B78F10 0C030129 */  jal     func_800C04A4              
+/* 0F570 80B78F10 0C030129 */  jal     Gameplay_GetCamera              
 /* 0F574 80B78F14 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0F578 80B78F18 C44A005C */  lwc1    $f10, 0x005C($v0)          ## 0000005C
 /* 0F57C 80B78F1C 3C0180B8 */  lui     $at, %hi(D_80B7FEA8)       ## $at = 80B80000
@@ -1050,7 +1050,7 @@ glabel L80B78F8C
 /* 0F60C 80B78FAC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0F610 80B78FB0 26191D64 */  addiu   $t9, $s0, 0x1D64           ## $t9 = 00001D64
 /* 0F614 80B78FB4 AFB90038 */  sw      $t9, 0x0038($sp)           
-/* 0F618 80B78FB8 0C030129 */  jal     func_800C04A4              
+/* 0F618 80B78FB8 0C030129 */  jal     Gameplay_GetCamera              
 /* 0F61C 80B78FBC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0F620 80B78FC0 3C0380B8 */  lui     $v1, %hi(D_80B7FEA8)       ## $v1 = 80B80000
 /* 0F624 80B78FC4 2463FEA8 */  addiu   $v1, $v1, %lo(D_80B7FEA8)  ## $v1 = 80B7FEA8
@@ -1106,25 +1106,25 @@ glabel L80B79084
 /* 0F6E4 80B79084 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0F6E8 80B79088 0C019148 */  jal     func_80064520              
 /* 0F6EC 80B7908C 26051D64 */  addiu   $a1, $s0, 0x1D64           ## $a1 = 00001D64
-/* 0F6F0 80B79090 0C03008C */  jal     func_800C0230              
+/* 0F6F0 80B79090 0C03008C */  jal     Gameplay_CreateSubCamera              
 /* 0F6F4 80B79094 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0F6F8 80B79098 3C0180B8 */  lui     $at, %hi(D_80B7FEC4)       ## $at = 80B80000
 /* 0F6FC 80B7909C A422FEC4 */  sh      $v0, %lo(D_80B7FEC4)($at)  
 /* 0F700 80B790A0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0F704 80B790A4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 0F708 80B790A8 0C0300C5 */  jal     func_800C0314              
+/* 0F708 80B790A8 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 0F70C 80B790AC 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 0F710 80B790B0 3C0580B8 */  lui     $a1, %hi(D_80B7FEC4)       ## $a1 = 80B80000
 /* 0F714 80B790B4 84A5FEC4 */  lh      $a1, %lo(D_80B7FEC4)($a1)  
 /* 0F718 80B790B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0F71C 80B790BC 0C0300C5 */  jal     func_800C0314              
+/* 0F71C 80B790BC 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 0F720 80B790C0 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 0F724 80B790C4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0F728 80B790C8 8FA50128 */  lw      $a1, 0x0128($sp)           
 /* 0F72C 80B790CC 0C00B7D5 */  jal     func_8002DF54              
 /* 0F730 80B790D0 24060005 */  addiu   $a2, $zero, 0x0005         ## $a2 = 00000005
 /* 0F734 80B790D4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0F738 80B790D8 0C030129 */  jal     func_800C04A4              
+/* 0F738 80B790D8 0C030129 */  jal     Gameplay_GetCamera              
 /* 0F73C 80B790DC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0F740 80B790E0 C44A005C */  lwc1    $f10, 0x005C($v0)          ## 0000005C
 /* 0F744 80B790E4 3C0380B8 */  lui     $v1, %hi(D_80B7FEA8)       ## $v1 = 80B80000
@@ -1357,7 +1357,7 @@ glabel L80B791B0
 /* 0FA98 80B79438 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0FA9C 80B7943C 10400046 */  beq     $v0, $zero, .L80B79558     
 /* 0FAA0 80B79440 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0FAA4 80B79444 0C030129 */  jal     func_800C04A4              
+/* 0FAA4 80B79444 0C030129 */  jal     Gameplay_GetCamera              
 /* 0FAA8 80B79448 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0FAAC 80B7944C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0FAB0 80B79450 0C041B33 */  jal     func_80106CCC              
@@ -1986,7 +1986,7 @@ glabel L80B7955C
 /* 1039C 80B79D3C 331900FF */  andi    $t9, $t8, 0x00FF           ## $t9 = 000000FF
 /* 103A0 80B79D40 5B20009A */  blezl   $t9, .L80B79FAC            
 /* 103A4 80B79D44 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
-/* 103A8 80B79D48 0C030129 */  jal     func_800C04A4              
+/* 103A8 80B79D48 0C030129 */  jal     Gameplay_GetCamera              
 /* 103AC 80B79D4C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 103B0 80B79D50 3C0180B8 */  lui     $at, %hi(D_80B7B8D8)       ## $at = 80B80000
 /* 103B4 80B79D54 C424B8D8 */  lwc1    $f4, %lo(D_80B7B8D8)($at)  

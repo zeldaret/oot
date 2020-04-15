@@ -19,8 +19,8 @@
 
 #define YEARS_CHILD 5
 #define YEARS_ADULT 17
-#define LINK_IS_CHILD (gSaveContext.link_age != 0)
-#define LINK_IS_ADULT (gSaveContext.link_age == 0)
+#define LINK_IS_CHILD (gSaveContext.linkAge != 0)
+#define LINK_IS_ADULT (gSaveContext.linkAge == 0)
 #define LINK_AGE_IN_YEARS (LINK_IS_CHILD ? YEARS_CHILD : YEARS_ADULT)
 
 #define SLOT(item) gItemSlots[item]
@@ -34,6 +34,8 @@
 #define CUR_UPG_VALUE(upg) ((s32)(gSaveContext.upgrades & gUpgradeMasks[upg]) >> gUpgradeShifts[upg])
 #define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
 #define CUR_CAPACITY(upg) CAPACITY(upg, CUR_UPG_VALUE(upg))
+
+#define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.questItems)
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
             (curState)->init = newInit;                  \

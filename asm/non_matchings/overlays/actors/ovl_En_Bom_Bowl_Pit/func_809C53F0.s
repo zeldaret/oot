@@ -31,11 +31,11 @@ glabel func_809C53F0
 /* 00618 809C5458 84C50152 */  lh      $a1, 0x0152($a2)           ## 00000152
 .L809C545C:
 /* 0061C 809C545C AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 00620 809C5460 0C0300E1 */  jal     func_800C0384              
+/* 00620 809C5460 0C0300E1 */  jal     Gameplay_ClearCamera              
 /* 00624 809C5464 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00628 809C5468 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 0062C 809C546C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00630 809C5470 0C0300C5 */  jal     func_800C0314              
+/* 00630 809C5470 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 00634 809C5474 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 00638 809C5478 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 0063C 809C547C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000

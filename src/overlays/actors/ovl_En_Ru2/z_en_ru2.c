@@ -266,11 +266,11 @@ void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx) {
     Player* player;
     s16 temp;
 
-    if (gSaveContext.chamber_cutscene_num == 2 && gSaveContext.scene_setup_index < 4) {
+    if (gSaveContext.chamberCutsceneNum == 2 && gSaveContext.sceneSetupIndex < 4) {
         player = PLAYER;
         this->action = 1;
         globalCtx->csCtx.segment = &D_80AF411C;
-        gSaveContext.cutscene_trigger = 2;
+        gSaveContext.cutsceneTrigger = 2;
         Item_Give(globalCtx, ITEM_MEDALLION_WATER);
         temp = this->actor.posRot.rot.y + 0x8000;
         player->actor.shape.rot.y = temp;
@@ -667,7 +667,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
             if (this->unk_2C2 % 6 == 3) {
                 player = PLAYER;
                 osSyncPrintf("うおりゃー！ \n");
-                func_8005B1A4(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0]);
+                func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
                 player->actor.posRot.pos.x = 820.0f;
                 player->actor.posRot.pos.y = 0.0f;
                 player->actor.posRot.pos.z = 180.0f;
@@ -678,7 +678,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C3 = dialogState;
     if (func_8010BDBC(msgCtx) == 2) {
         this->action = 18;
-        func_8005B1A4(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0]);
+        func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
     }
 }
 

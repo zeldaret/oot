@@ -45,7 +45,7 @@ static s16 entrances[] = {
 };
 
 // display list
-extern Gfx* D_05001390;
+extern Gfx D_05001390[];
 
 // sets current actionFunc to be ran on next update call
 void DoorAna_SetupAction(DoorAna* this, ActorFunc func) {
@@ -120,7 +120,7 @@ void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
         if ((this->actor.unk_1F != 0) && (globalCtx->sceneLoadFlag == 0) && (player->stateFlags1 & 0x80000000) &&
             (player->unk_84F == 0)) {
             destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;
-            func_800C0AF4(globalCtx, 1, 0x4FF);
+            Gameplay_SetupRespawnPoint(globalCtx, RESPAWN_MODE_RETURN, 0x4FF);
             gSaveContext.respawn[RESPAWN_MODE_RETURN].pos.y = this->actor.posRot.pos.y;
             gSaveContext.respawn[RESPAWN_MODE_RETURN].yaw = this->actor.initPosRot.rot.y;
             gSaveContext.respawn[RESPAWN_MODE_RETURN].data = this->actor.params & 0xFFFF;
@@ -157,19 +157,17 @@ void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx) {
 void DoorAna_Update(DoorAna* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     // changes the grottos facing angle based on camera angle
-    this->actor.shape.rot.y =
-        func_8005A9F4(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0]) + 0x8000;
+    this->actor.shape.rot.y = func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x8000;
 }
 
 void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx** dList = &D_05001390; // required for stack placement?
-    Gfx* dispRefs[3];
+    Gfx* dispRefs[4];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_door_ana.c", 440);
     func_80093D84(globalCtx->state.gfxCtx);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_ana.c", 446),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, dList);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_05001390);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_door_ana.c", 449);
 }

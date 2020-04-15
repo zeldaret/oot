@@ -44,7 +44,7 @@ void Object_InitBank(GlobalContext* globalCtx, ObjectContext* objectCtx) {
     if (globalCtx2->sceneNum == SCENE_SPOT00) {
         spaceSize = 1024000;
     } else if (globalCtx2->sceneNum == SCENE_GANON_DEMO) {
-        if (gSaveContext.scene_setup_index != 4) {
+        if (gSaveContext.sceneSetupIndex != 4) {
             spaceSize = 1177600;
         } else {
             spaceSize = 1024000;
@@ -203,9 +203,9 @@ void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
     s32 linkAge;
 
     globalCtx->linkActorEntry = linkEntry;
-    globalCtx->linkAgeOnLoad = gSaveContext.link_age;
+    globalCtx->linkAgeOnLoad = gSaveContext.linkAge;
 
-    linkAge = gSaveContext.link_age;
+    linkAge = gSaveContext.linkAge;
     linkObjectId = gLinkObjectIds[linkAge];
 
     gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
@@ -261,7 +261,7 @@ void func_8009883C(GlobalContext* globalCtx, SceneCmd* cmd) {
     }
 
     if (cmd->specialFiles.cUpElfMsgNum != 0) {
-        globalCtx->cUpElfMsgs = func_800BFE5C(globalCtx, &sNaviMsgFiles[cmd->specialFiles.cUpElfMsgNum - 1]);
+        globalCtx->cUpElfMsgs = Gameplay_LoadFile(globalCtx, &sNaviMsgFiles[cmd->specialFiles.cUpElfMsgNum - 1]);
     }
 }
 
@@ -362,21 +362,21 @@ void func_80098CBC(GlobalContext* globalCtx, u8* nbTransitionActors) {
 
 // Scene Command 0x0F: Light Setting List
 void func_80098CC8(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->nbLightSettings = cmd->lightSettingList.num;
-    globalCtx->lightSettingsList = SEGMENTED_TO_VIRTUAL(cmd->lightSettingList.segment);
+    globalCtx->envCtx.nbLightSettings = cmd->lightSettingList.num;
+    globalCtx->envCtx.lightSettingsList = SEGMENTED_TO_VIRTUAL(cmd->lightSettingList.segment);
 }
 
 // Scene Command 0x11: Skybox Settings
 void func_80098D1C(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->skyboxId = cmd->skyboxSettings.skyboxId;
-    globalCtx->gloomySky = globalCtx->unk_10A3C = cmd->skyboxSettings.unk_05;
-    globalCtx->unk_10A42 = cmd->skyboxSettings.unk_06;
+    globalCtx->envCtx.gloomySky = globalCtx->envCtx.unk_18 = cmd->skyboxSettings.unk_05;
+    globalCtx->envCtx.unk_1E = cmd->skyboxSettings.unk_06;
 }
 
 // Scene Command 0x12: Skybox Disables
 void func_80098D5C(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->skyDisabled = cmd->skyboxDisables.unk_04;
-    globalCtx->sunMoonDisabled = cmd->skyboxDisables.unk_05;
+    globalCtx->envCtx.skyDisabled = cmd->skyboxDisables.unk_04;
+    globalCtx->envCtx.sunMoonDisabled = cmd->skyboxDisables.unk_05;
 }
 
 // Scene Command 0x10: Time Settings
@@ -384,38 +384,38 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
     u32 dayTime;
 
     if ((cmd->timeSettings.hour != 0xFF) && (cmd->timeSettings.min != 0xFF)) {
-        gSaveContext.environment_time = gSaveContext.day_time =
+        gSaveContext.environmentTime = gSaveContext.dayTime =
             ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / 0.021972656f;
     }
 
     if (cmd->timeSettings.unk_06 != 0xFF) {
-        globalCtx->unk_10A26 = cmd->timeSettings.unk_06;
+        globalCtx->envCtx.unk_02 = cmd->timeSettings.unk_06;
     } else {
-        globalCtx->unk_10A26 = 0;
+        globalCtx->envCtx.unk_02 = 0;
     }
 
     if (gSaveContext.unk_1422 == 0) {
-        D_8011FB40 = globalCtx->unk_10A26;
+        D_8011FB40 = globalCtx->envCtx.unk_02;
     }
 
-    dayTime = gSaveContext.day_time;
-    globalCtx->unk_10A28 = -(Math_Sins(dayTime - 0x8000) * 120.0f) * 25.0f;
-    dayTime = gSaveContext.day_time;
-    globalCtx->unk_10A2C = (Math_Coss(dayTime - 0x8000) * 120.0f) * 25.0f;
-    dayTime = gSaveContext.day_time;
-    globalCtx->unk_10A30 = (Math_Coss(dayTime - 0x8000) * 20.0f) * 25.0f;
+    dayTime = gSaveContext.dayTime;
+    globalCtx->envCtx.unk_04.x = -(Math_Sins(dayTime - 0x8000) * 120.0f) * 25.0f;
+    dayTime = gSaveContext.dayTime;
+    globalCtx->envCtx.unk_04.y = (Math_Coss(dayTime - 0x8000) * 120.0f) * 25.0f;
+    dayTime = gSaveContext.dayTime;
+    globalCtx->envCtx.unk_04.z = (Math_Coss(dayTime - 0x8000) * 20.0f) * 25.0f;
 
-    if (((globalCtx->unk_10A26 == 0) && (gSaveContext.cutscene_index < 0xFFF0)) ||
-        (gSaveContext.entrance_index == 0x0604)) {
-        gSaveContext.environment_time = gSaveContext.day_time;
-        if ((gSaveContext.environment_time >= 0x2AAC) && (gSaveContext.environment_time < 0x4555)) {
-            gSaveContext.environment_time = 0x3556;
-        } else if ((gSaveContext.environment_time >= 0x4555) && (gSaveContext.environment_time < 0x5556)) {
-            gSaveContext.environment_time = 0x5556;
-        } else if ((gSaveContext.environment_time >= 0xAAAB) && (gSaveContext.environment_time < 0xB556)) {
-            gSaveContext.environment_time = 0xB556;
-        } else if ((gSaveContext.environment_time >= 0xC001) && (gSaveContext.environment_time < 0xCAAC)) {
-            gSaveContext.environment_time = 0xCAAC;
+    if (((globalCtx->envCtx.unk_02 == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
+        (gSaveContext.entranceIndex == 0x0604)) {
+        gSaveContext.environmentTime = gSaveContext.dayTime;
+        if ((gSaveContext.environmentTime >= 0x2AAC) && (gSaveContext.environmentTime < 0x4555)) {
+            gSaveContext.environmentTime = 0x3556;
+        } else if ((gSaveContext.environmentTime >= 0x4555) && (gSaveContext.environmentTime < 0x5556)) {
+            gSaveContext.environmentTime = 0x5556;
+        } else if ((gSaveContext.environmentTime >= 0xAAAB) && (gSaveContext.environmentTime < 0xB556)) {
+            gSaveContext.environmentTime = 0xB556;
+        } else if ((gSaveContext.environmentTime >= 0xC001) && (gSaveContext.environmentTime < 0xCAAC)) {
+            gSaveContext.environmentTime = 0xCAAC;
         }
     }
 }
@@ -426,10 +426,10 @@ void func_80099090(GlobalContext* globalCtx, SceneCmd* cmd) {
     s8 temp2 = cmd->windSettings.unk_05;
     s8 temp3 = cmd->windSettings.unk_06;
 
-    globalCtx->unk_10ACC = temp1;
-    globalCtx->unk_10ACE = temp2;
-    globalCtx->unk_10AD0 = temp3;
-    globalCtx->unk_10AD4 = cmd->windSettings.unk_07;
+    globalCtx->envCtx.unk_A8 = temp1;
+    globalCtx->envCtx.unk_AA = temp2;
+    globalCtx->envCtx.unk_AC = temp3;
+    globalCtx->envCtx.unk_B0 = cmd->windSettings.unk_07;
 }
 
 // Scene Command 0x13: Exit List
@@ -446,7 +446,7 @@ void func_80099140(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->soundCtx.musicSeq = cmd->soundSettings.musicSeq;
     globalCtx->soundCtx.nighttimeSFX = cmd->soundSettings.nighttimeSFX;
 
-    if (gSaveContext.seq_index == 0xFF) {
+    if (gSaveContext.seqIndex == 0xFF) {
         Audio_SetBGM(cmd->soundSettings.bgmId | 0xF0000000);
     }
 }
@@ -463,13 +463,13 @@ void func_800991A0(GlobalContext* globalCtx, SceneCmd* cmd) {
     SceneCmd** altHeaders;
     SceneCmd* altHeader;
 
-    osSyncPrintf("\n[ZU]sceneset age    =[%X]", gSaveContext.link_age);
-    osSyncPrintf("\n[ZU]sceneset time   =[%X]", gSaveContext.cutscene_index);
-    osSyncPrintf("\n[ZU]sceneset counter=[%X]", gSaveContext.scene_setup_index);
+    osSyncPrintf("\n[ZU]sceneset age    =[%X]", gSaveContext.linkAge);
+    osSyncPrintf("\n[ZU]sceneset time   =[%X]", gSaveContext.cutsceneIndex);
+    osSyncPrintf("\n[ZU]sceneset counter=[%X]", gSaveContext.sceneSetupIndex);
 
-    if (gSaveContext.scene_setup_index != 0) {
+    if (gSaveContext.sceneSetupIndex != 0) {
         altHeaders = SEGMENTED_TO_VIRTUAL(cmd->altHeaders.segment);
-        altHeader = altHeaders[gSaveContext.scene_setup_index - 1];
+        altHeader = altHeaders[gSaveContext.sceneSetupIndex - 1];
 
         if (altHeader != NULL) {
             Scene_ExecuteCommands(globalCtx, SEGMENTED_TO_VIRTUAL(altHeader));
@@ -478,9 +478,9 @@ void func_800991A0(GlobalContext* globalCtx, SceneCmd* cmd) {
             // Translates to: "COUGHH! THERE IS NO SPECIFIED DATAAAAA!"
             osSyncPrintf("\nげぼはっ！ 指定されたデータがないでええっす！");
 
-            if (gSaveContext.scene_setup_index == 3) {
+            if (gSaveContext.sceneSetupIndex == 3) {
                 altHeaders = SEGMENTED_TO_VIRTUAL(cmd->altHeaders.segment);
-                altHeader = altHeaders[gSaveContext.scene_setup_index - 2];
+                altHeader = altHeaders[gSaveContext.sceneSetupIndex - 2];
 
                 // Translates to: "USING ADULT DAY DATA THERE!"
                 osSyncPrintf("\nそこで、大人の昼データを使用するでええっす！！");
@@ -507,20 +507,20 @@ void func_8009934C(GlobalContext* globalCtx, SceneCmd* cmd) {
 // Scene Command 0x19: Misc. Settings (Camera & World Map Area)
 void func_800993C0(GlobalContext* globalCtx, SceneCmd* cmd) {
     YREG(15) = cmd->miscSettings.cameraMovement;
-    gSaveContext.world_map_area = cmd->miscSettings.area;
+    gSaveContext.worldMapArea = cmd->miscSettings.area;
 
     if ((globalCtx->sceneNum == SCENE_SHOP1) || (globalCtx->sceneNum == SCENE_SYATEKIJYOU)) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-            gSaveContext.world_map_area = 1;
+            gSaveContext.worldMapArea = 1;
         }
     }
 
     if (((globalCtx->sceneNum >= SCENE_SPOT00) && (globalCtx->sceneNum <= SCENE_GANON_TOU)) ||
         ((globalCtx->sceneNum >= SCENE_ENTRA) && (globalCtx->sceneNum <= SCENE_SHRINE_R))) {
-        if (gSaveContext.cutscene_index < 0xFFF0) {
-            gSaveContext.world_map_area_data |= gBitFlags[gSaveContext.world_map_area];
-            osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.world_map_area_data,
-                         gSaveContext.world_map_area);
+        if (gSaveContext.cutsceneIndex < 0xFFF0) {
+            gSaveContext.worldMapAreaData |= gBitFlags[gSaveContext.worldMapArea];
+            osSyncPrintf("０００  ａｒｅａ＿ａｒｒｉｖａｌ＝%x (%d)\n", gSaveContext.worldMapAreaData,
+                         gSaveContext.worldMapArea);
         }
     }
 }
