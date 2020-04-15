@@ -14,6 +14,7 @@
 #include <bgm.h>
 #include <sfx.h>
 #include <color.h>
+#include <z_collision_check.h>
 #include <ichain.h>
 #include <stdarg.h>
 #include <regs.h>
