@@ -306,12 +306,12 @@
  * ARGS
  *   s16 transitionType (t), s16 startFrame (s), s16 endFrame (e)
  * FORMAT
- *   Capital U is Unused , may be endFrame duplicate
+ *   Capital U is Unused , endFrame duplicate
  *   0000002D 00000001 ttttssss eeeeUUUU
  *   size = 0x10
  **/
-#define CS_SCENE_TRANS_FX(transitionType, startFrame, endFrame, unused) \
-    CS_CMD_SCENE_TRANS_FX, 0x00000001, CMD_HH(transitionType, startFrame), CMD_HH(endFrame, unused)
+#define CS_SCENE_TRANS_FX(transitionType, startFrame, endFrame) \
+    CS_CMD_SCENE_TRANS_FX, 0x00000001, CMD_HH(transitionType, startFrame), CMD_HH(endFrame, endFrame)
 
 /**
  * ARGS
@@ -405,13 +405,15 @@
  * ARGS
  *   CutsceneTerminatorDestination dest (d), s16 startFrame (s), s16 endFrame (e)
  * FORMAT
- *   Capital U is Unused , may be endFrame duplicate
+ *   Capital U is Unused , endFrame duplicate
  *   000003E8 00000001 ddddssss eeeeUUUU
  *   size = 0x10
  **/
-#define CS_TERMINATOR(dest, startFrame, endFrame, unused) \
-    CS_CMD_TERMINATOR, 0x00000001, CMD_HH(dest, startFrame), CMD_HH(endFrame, unused)
+#define CS_TERMINATOR(dest, startFrame, endFrame) \
+    CS_CMD_TERMINATOR, 0x00000001, CMD_HH(dest, startFrame), CMD_HH(endFrame, endFrame)
 
-#define CS_END() 0xFFFFFFFF, 0x00000000
+#define CS_END() 0xFFFFFFFF
+
+#define CS_PAD() 0x00000000
 
 #endif

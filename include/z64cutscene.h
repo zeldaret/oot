@@ -119,6 +119,9 @@ typedef enum {
     CS_CMD_END = 0xFFFF
 } CutsceneCmd;
 
+#define CS_CMD_CONTINUE 0x00
+#define CS_CMD_STOP 0xFF
+
 typedef enum {
     /* 0x0000 */ UNK_0,
     /* 0x0001 */ FREE_PLAY_OCARINA,
