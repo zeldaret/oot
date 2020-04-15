@@ -607,9 +607,11 @@ typedef struct {
     /* 0xE3E2 */ u16    unk_E3E2;
     /* 0xE3E4 */ u8     unk_E3E4;
     /* 0xE3E5 */ u8     choiceIndex;
-    /* 0xE3E6 */ char   unk_E3E6[0x08];
+    /* 0xE3E6 */ char   unk_E3E6[0x01];
+    /* 0xE3E7 */ u8     unk_E3E7;
+    /* 0xE3E8 */ char   unk_E3E8[0x6];
     /* 0xE3EE */ u16    unk_E3EE;
-    /* 0xE3EE */ u16    unk_E3F0;
+    /* 0xE3F0 */ u16    unk_E3F0;
     /* 0xE3F2 */ char   unk_E3F2[0x02];
     /* 0xE3F4 */ u16    unk_E3F4;
     /* 0xE3F6 */ char   unk_E3F6[0x16];
