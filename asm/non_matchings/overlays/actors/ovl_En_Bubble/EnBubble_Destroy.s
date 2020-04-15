@@ -9,5 +9,3 @@ glabel EnBubble_Destroy
 /* 00DA8 809CC9A8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00DAC 809CC9AC 03E00008 */  jr      $ra                        
 /* 00DB0 809CC9B0 00000000 */  nop
-
-

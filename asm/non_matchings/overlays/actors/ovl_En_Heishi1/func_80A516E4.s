@@ -1,3 +1,35 @@
+.rdata
+glabel D_80A52B1C
+    .asciz "[31m 種類  %d\n[m"
+    .balign 4
+
+glabel D_80A52B30
+    .asciz "[31m ぱす  %d\n[m"
+    .balign 4
+
+glabel D_80A52B44
+    .asciz "[31m 反転  %d\n[m"
+    .balign 4
+
+glabel D_80A52B58
+    .asciz "[31m 時間  %d\n[m"
+    .balign 4
+
+glabel D_80A52B6C
+    .asciz "[31m 点座  %d\n[m"
+    .balign 4
+
+glabel D_80A52B80
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A52C2C
+ .word 0x4622F983
+glabel D_80A52C30
+    .float 1.99000000954
+
+.text
 glabel func_80A516E4
 /* 00414 80A516E4 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00418 80A516E8 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -92,7 +124,7 @@ glabel func_80A516E4
 /* 00560 80A51830 46105301 */  sub.s   $f12, $f10, $f16           
 /* 00564 80A51834 46062381 */  sub.s   $f14, $f4, $f6             
 /* 00568 80A51838 E7AC003C */  swc1    $f12, 0x003C($sp)          
-/* 0056C 80A5183C 0C03F494 */  jal     func_800FD250              
+/* 0056C 80A5183C 0C03F494 */  jal     Math_atan2f              
 /* 00570 80A51840 E7AE0038 */  swc1    $f14, 0x0038($sp)          
 /* 00574 80A51844 3C0180A5 */  lui     $at, %hi(D_80A52C2C)       ## $at = 80A50000
 /* 00578 80A51848 C4282C2C */  lwc1    $f8, %lo(D_80A52C2C)($at)  
@@ -262,5 +294,3 @@ glabel func_80A516E4
 /* 007BC 80A51A8C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 007C0 80A51A90 03E00008 */  jr      $ra                        
 /* 007C4 80A51A94 00000000 */  nop
-
-

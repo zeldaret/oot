@@ -1,3 +1,20 @@
+.late_rodata
+glabel D_80B2A0E0
+    .float -0.8
+
+glabel D_80B2A0E4
+    .float 10000.0
+
+glabel D_80B2A0E8
+    .float 3000.0
+
+glabel D_80B2A0EC
+    .float 5000.0
+
+glabel D_80B2A0F0
+ .word 0xC51C4000
+
+.text
 glabel EnVbBall_Init
 /* 00000 80B28FA0 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 80B28FA4 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -21,7 +38,7 @@ glabel EnVbBall_Init
 /* 00044 80B28FE4 E600015C */  swc1    $f0, 0x015C($s0)           ## 0000015C
 /* 00048 80B28FE8 E6000158 */  swc1    $f0, 0x0158($s0)           ## 00000158
 /* 0004C 80B28FEC C60C0024 */  lwc1    $f12, 0x0024($s0)          ## 00000024
-/* 00050 80B28FF0 0C03F494 */  jal     func_800FD250              
+/* 00050 80B28FF0 0C03F494 */  jal     Math_atan2f              
 /* 00054 80B28FF4 C60E002C */  lwc1    $f14, 0x002C($s0)          ## 0000002C
 /* 00058 80B28FF8 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 0005C 80B28FFC 44816000 */  mtc1    $at, $f12                  ## $f12 = 3.00
@@ -107,5 +124,3 @@ glabel EnVbBall_Init
 /* 00174 80B29114 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00178 80B29118 03E00008 */  jr      $ra                        
 /* 0017C 80B2911C 00000000 */  nop
-
-

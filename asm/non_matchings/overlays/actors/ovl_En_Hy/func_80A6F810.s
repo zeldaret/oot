@@ -1,3 +1,28 @@
+.late_rodata
+glabel jtbl_80A72870
+.word L80A6F8A0
+.word L80A6F994
+.word L80A6F9FC
+.word L80A6FAB0
+.word L80A6FAFC
+.word L80A6FB48
+.word L80A6FB58
+.word L80A6FBA4
+.word L80A6FC1C
+.word L80A6FC84
+.word L80A6FD50
+.word L80A6FE1C
+.word L80A6FE68
+.word L80A6FED0
+.word L80A6FED8
+.word L80A6FEE0
+.word L80A6FEE8
+.word L80A6FEF0
+.word L80A6FF9C
+.word L80A70038
+.word L80A70040
+
+.text
 glabel func_80A6F810
 /* 00260 80A6F810 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00264 80A6F814 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -8,7 +33,7 @@ glabel func_80A6F810
 /* 00278 80A6F828 30A5007F */  andi    $a1, $a1, 0x007F           ## $a1 = 00000000
 /* 0027C 80A6F82C 24A50025 */  addiu   $a1, $a1, 0x0025           ## $a1 = 00000025
 /* 00280 80A6F830 AFA40020 */  sw      $a0, 0x0020($sp)           
-/* 00284 80A6F834 0C01B0D8 */  jal     func_8006C360              
+/* 00284 80A6F834 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00288 80A6F838 AFA3001C */  sw      $v1, 0x001C($sp)           
 /* 0028C 80A6F83C 8FA3001C */  lw      $v1, 0x001C($sp)           
 /* 00290 80A6F840 8FA40020 */  lw      $a0, 0x0020($sp)           
@@ -612,5 +637,3 @@ glabel L80A70040
 /* 00A9C 80A7004C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00AA0 80A70050 03E00008 */  jr      $ra                        
 /* 00AA4 80A70054 00000000 */  nop
-
-

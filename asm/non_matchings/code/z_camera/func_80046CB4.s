@@ -6,7 +6,7 @@ glabel D_80139E78
     .float 0.00003051851
     
 glabel D_80139E7C
-   .float 0.01
+    .float 0.01
 
 .text
 glabel func_80046CB4

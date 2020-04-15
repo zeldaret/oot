@@ -103,5 +103,3 @@ glabel EnCs_Update
 /* 00CD8 809E2588 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00CDC 809E258C 03E00008 */  jr      $ra                        
 /* 00CE0 809E2590 00000000 */  nop
-
-

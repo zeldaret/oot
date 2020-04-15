@@ -1,3 +1,40 @@
+.late_rodata
+glabel D_809D15C8
+    .float 0.1
+
+glabel D_809D15CC
+    .float 0.8
+
+glabel D_809D15D0
+    .float 0.1
+
+glabel D_809D15D4
+ .word 0x3B83126F
+glabel D_809D15D8
+ .word 0x3C54FDF4
+glabel D_809D15DC
+ .word 0x3B83126F
+glabel D_809D15E0
+ .word 0x3C54FDF4
+glabel D_809D15E4
+ .word 0x3B83126F
+glabel D_809D15E8
+ .word 0x3C54FDF4
+glabel D_809D15EC
+ .word 0x4622F983
+glabel jtbl_809D15F0
+.word L809CEEB0
+.word L809CEEC0
+.word L809CEF60
+.word L809CEF70
+.word L809CEF7C
+.word L809CEF8C
+.word L809CEF9C
+.word L809CEF98
+glabel D_809D1610
+ .word 0x4622F983
+
+.text
 glabel func_809CEA24
 /* 00344 809CEA24 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00348 809CEA28 AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -237,7 +274,7 @@ glabel func_809CEA24
 /* 006AC 809CED8C 44894000 */  mtc1    $t1, $f8                   ## $f8 = -0.00
 /* 006B0 809CED90 448A8000 */  mtc1    $t2, $f16                  ## $f16 = -0.00
 /* 006B4 809CED94 46804320 */  cvt.s.w $f12, $f8                  
-/* 006B8 809CED98 0C03F494 */  jal     func_800FD250              
+/* 006B8 809CED98 0C03F494 */  jal     Math_atan2f              
 /* 006BC 809CED9C 468083A0 */  cvt.s.w $f14, $f16                 
 /* 006C0 809CEDA0 3C01809D */  lui     $at, %hi(D_809D15EC)       ## $at = 809D0000
 /* 006C4 809CEDA4 C42A15EC */  lwc1    $f10, %lo(D_809D15EC)($at) 
@@ -512,7 +549,7 @@ glabel L809CEF9C
 /* 00A90 809CF170 44995000 */  mtc1    $t9, $f10                  ## $f10 = -0.00
 /* 00A94 809CF174 448A9000 */  mtc1    $t2, $f18                  ## $f18 = -0.00
 /* 00A98 809CF178 46805320 */  cvt.s.w $f12, $f10                 
-/* 00A9C 809CF17C 0C03F494 */  jal     func_800FD250              
+/* 00A9C 809CF17C 0C03F494 */  jal     Math_atan2f              
 /* 00AA0 809CF180 468093A0 */  cvt.s.w $f14, $f18                 
 /* 00AA4 809CF184 3C01809D */  lui     $at, %hi(D_809D1610)       ## $at = 809D0000
 /* 00AA8 809CF188 C4241610 */  lwc1    $f4, %lo(D_809D1610)($at)  
@@ -914,5 +951,3 @@ glabel L809CEF9C
 /* 01040 809CF720 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 01044 809CF724 03E00008 */  jr      $ra                        
 /* 01048 809CF728 00000000 */  nop
-
-

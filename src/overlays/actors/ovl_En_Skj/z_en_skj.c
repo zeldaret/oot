@@ -1,6 +1,5 @@
 #include "z_en_skj.h"
 
-#define ROOM  0x00
 #define FLAGS 0x02000015
 
 void EnSkj_Init(EnSkj* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnSkj_Update(EnSkj* this, GlobalContext* globalCtx);
 void EnSkj_Draw(EnSkj* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Skj_InitVars =
-{
+const ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_SKJ,
     sizeof(EnSkj),
@@ -212,4 +209,3 @@ const ActorInit En_Skj_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skj/func_80B014E4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skj/EnSkj_Draw.s")
-

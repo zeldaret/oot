@@ -1,3 +1,53 @@
+.rdata
+glabel D_80A7887C
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A78898
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A788B4
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A788D0
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A788EC
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A78908
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+glabel D_80A78924
+    .asciz "../z_en_ik_inConfrontion.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A78A3C
+.word L80A77CDC
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77EA4
+.word L80A77D38
+.word L80A77EA4
+.word L80A77D94
+.word L80A77EA4
+.word L80A77DF0
+.word L80A77E4C
+.word 0x00000000
+
+.text
 glabel func_80A77C7C
 /* 0396C 80A77C7C 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 03970 80A77C80 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -11,7 +61,7 @@ glabel func_80A77C7C
 /* 03990 80A77CA0 24C6887C */  addiu   $a2, $a2, %lo(D_80A7887C)  ## $a2 = 80A7887C
 /* 03994 80A77CA4 27A40050 */  addiu   $a0, $sp, 0x0050           ## $a0 = FFFFFFE8
 /* 03998 80A77CA8 2407023B */  addiu   $a3, $zero, 0x023B         ## $a3 = 0000023B
-/* 0399C 80A77CAC 0C031AB1 */  jal     func_800C6AC4              
+/* 0399C 80A77CAC 0C031AB1 */  jal     Graph_OpenDisps              
 /* 039A0 80A77CB0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 039A4 80A77CB4 8FAF006C */  lw      $t7, 0x006C($sp)           
 /* 039A8 80A77CB8 25F8FFF4 */  addiu   $t8, $t7, 0xFFF4           ## $t8 = FFFFFFF4
@@ -148,12 +198,10 @@ glabel L80A77EA4
 /* 03B98 80A77EA8 24C68924 */  addiu   $a2, $a2, %lo(D_80A78924)  ## $a2 = 80A78924
 /* 03B9C 80A77EAC 27A40050 */  addiu   $a0, $sp, 0x0050           ## $a0 = FFFFFFE8
 /* 03BA0 80A77EB0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 03BA4 80A77EB4 0C031AD5 */  jal     func_800C6B54              
+/* 03BA4 80A77EB4 0C031AD5 */  jal     Graph_CloseDisps              
 /* 03BA8 80A77EB8 2407025C */  addiu   $a3, $zero, 0x025C         ## $a3 = 0000025C
 /* 03BAC 80A77EBC 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 03BB0 80A77EC0 8FB00018 */  lw      $s0, 0x0018($sp)           
 /* 03BB4 80A77EC4 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 03BB8 80A77EC8 03E00008 */  jr      $ra                        
 /* 03BBC 80A77ECC 00000000 */  nop
-
-

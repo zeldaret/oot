@@ -1,3 +1,12 @@
+.late_rodata
+glabel jtbl_80A3D110
+.word L80A3BDE0
+.word L80A3BDFC
+.word L80A3BE18
+.word L80A3BE34
+.word L80A3BE50
+
+.text
 glabel func_80A3BD8C
 /* 0163C 80A3BD8C AFA40000 */  sw      $a0, 0x0000($sp)           
 /* 01640 80A3BD90 84A3001C */  lh      $v1, 0x001C($a1)           ## 0000001C
@@ -80,5 +89,3 @@ glabel L80A3BE50
 /* 01750 80A3BEA0 A4A001A8 */  sh      $zero, 0x01A8($a1)         ## 000001A8
 /* 01754 80A3BEA4 03E00008 */  jr      $ra                        
 /* 01758 80A3BEA8 ACAB0134 */  sw      $t3, 0x0134($a1)           ## 00000134
-
-

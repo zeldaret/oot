@@ -1,6 +1,11 @@
+/*
+ * File: z_en_tg.c
+ * Overlay: ovl_En_Tg
+ * Description: Honey & Darling
+ */
+
 #include "z_en_tg.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000009
 
 void EnTg_Init(EnTg* this, GlobalContext* globalCtx);
@@ -9,11 +14,9 @@ void EnTg_Update(EnTg* this, GlobalContext* globalCtx);
 void EnTg_Draw(EnTg* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Tg_InitVars =
-{
+const ActorInit En_Tg_InitVars = {
     ACTOR_EN_TG,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_MU,
     sizeof(EnTg),

@@ -8,5 +8,3 @@ glabel EnGm_Update
 /* 009A4 80A3E084 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 009A8 80A3E088 03E00008 */  jr      $ra                        
 /* 009AC 80A3E08C 00000000 */  nop
-
-

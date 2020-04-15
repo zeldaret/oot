@@ -137,5 +137,3 @@ glabel EnSkj_Update
 /* 026A8 80B00958 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 026AC 80B0095C 03E00008 */  jr      $ra                        
 /* 026B0 80B00960 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

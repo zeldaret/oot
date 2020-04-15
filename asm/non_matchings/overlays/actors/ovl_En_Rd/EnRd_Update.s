@@ -136,5 +136,3 @@ glabel EnRd_Update
 /* 020B8 80AE44B8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 020BC 80AE44BC 03E00008 */  jr      $ra                        
 /* 020C0 80AE44C0 00000000 */  nop
-
-

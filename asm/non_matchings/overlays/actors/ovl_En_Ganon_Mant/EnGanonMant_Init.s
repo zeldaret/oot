@@ -5,5 +5,3 @@ glabel EnGanonMant_Init
 /* 0000C 80A23D6C 01C17824 */  and     $t7, $t6, $at              
 /* 00010 80A23D70 03E00008 */  jr      $ra                        
 /* 00014 80A23D74 AC8F0004 */  sw      $t7, 0x0004($a0)           ## 00000004
-
-

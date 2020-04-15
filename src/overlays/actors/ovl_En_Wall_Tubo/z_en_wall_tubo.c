@@ -1,6 +1,11 @@
+/*
+ * File: z_en_wall_tubo.c
+ * Overlay: ovl_En_Wall_Tubo
+ * Description: Bombchu Bowling Alley Wall 2
+ */
+
 #include "z_en_wall_tubo.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000010
 
 void EnWallTubo_Init(EnWallTubo* this, GlobalContext* globalCtx);
@@ -8,11 +13,9 @@ void EnWallTubo_Destroy(EnWallTubo* this, GlobalContext* globalCtx);
 void EnWallTubo_Update(EnWallTubo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Wall_Tubo_InitVars =
-{
+const ActorInit En_Wall_Tubo_InitVars = {
     ACTOR_EN_WALL_TUBO,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWallTubo),

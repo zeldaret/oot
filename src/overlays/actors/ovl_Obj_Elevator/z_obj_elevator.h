@@ -4,8 +4,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct
-{
+typedef struct {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ActorFunc actionFunc;
     /* 0x0168 */ f32 unk_168;

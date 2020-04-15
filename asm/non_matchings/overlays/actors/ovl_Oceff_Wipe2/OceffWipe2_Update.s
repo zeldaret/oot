@@ -26,5 +26,3 @@ glabel OceffWipe2_Update
 /* 00110 80BA9CC0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00114 80BA9CC4 03E00008 */  jr      $ra                        
 /* 00118 80BA9CC8 00000000 */  nop
-
-

@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A059C
+    .asciz "%x %x %x\n"
+    .balign 4
+
+.late_rodata
+glabel D_808A062C
+ .word 0xC450C000
+glabel D_808A0630
+ .word 0x43DE8000
+glabel D_808A0634
+ .word 0x443F4000, 0x00000000, 0x00000000
+
+.text
 glabel BgMizuWater_Update
 /* 00924 808A01D4 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
 /* 00928 808A01D8 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
@@ -122,5 +136,3 @@ glabel BgMizuWater_Update
 /* 00ADC 808A038C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00AE0 808A0390 03E00008 */  jr      $ra                        
 /* 00AE4 808A0394 00000000 */  nop
-
-

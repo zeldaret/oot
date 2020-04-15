@@ -87,5 +87,3 @@ glabel EnShopnuts_Update
 /* 00B30 80AFB250 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00B34 80AFB254 03E00008 */  jr      $ra                        
 /* 00B38 80AFB258 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

@@ -1,3 +1,31 @@
+.rdata
+glabel D_80976A8C
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976AA0
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976AB4
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976AC8
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+.late_rodata
+glabel D_80976D64
+    .float 0.05
+
+glabel D_80976D68
+    .float 0.017453292
+
+glabel D_80976D6C
+    .float 0.017453292
+
+.text
 glabel func_80975494
 /* 04544 80975494 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 04548 80975498 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -10,7 +38,7 @@ glabel func_80975494
 /* 04564 809754B4 24C66A8C */  addiu   $a2, $a2, %lo(D_80976A8C)  ## $a2 = 80976A8C
 /* 04568 809754B8 27A40048 */  addiu   $a0, $sp, 0x0048           ## $a0 = FFFFFFE0
 /* 0456C 809754BC 24070B1A */  addiu   $a3, $zero, 0x0B1A         ## $a3 = 00000B1A
-/* 04570 809754C0 0C031AB1 */  jal     func_800C6AC4              
+/* 04570 809754C0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 04574 809754C4 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 04578 809754C8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0457C 809754CC 8FA5006C */  lw      $a1, 0x006C($sp)           
@@ -157,12 +185,10 @@ glabel func_80975494
 /* 047A4 809756F4 24C66AC8 */  addiu   $a2, $a2, %lo(D_80976AC8)  ## $a2 = 80976AC8
 /* 047A8 809756F8 27A40048 */  addiu   $a0, $sp, 0x0048           ## $a0 = FFFFFFE0
 /* 047AC 809756FC 24070B41 */  addiu   $a3, $zero, 0x0B41         ## $a3 = 00000B41
-/* 047B0 80975700 0C031AD5 */  jal     func_800C6B54              
+/* 047B0 80975700 0C031AD5 */  jal     Graph_CloseDisps              
 /* 047B4 80975704 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 047B8 80975708 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 047BC 8097570C 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 047C0 80975710 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 047C4 80975714 03E00008 */  jr      $ra                        
 /* 047C8 80975718 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
-
-

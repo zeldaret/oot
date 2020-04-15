@@ -150,5 +150,3 @@ glabel EnNiwGirl_Update
 /* 00858 80AB97D8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 0085C 80AB97DC 03E00008 */  jr      $ra                        
 /* 00860 80AB97E0 00000000 */  nop
-
-

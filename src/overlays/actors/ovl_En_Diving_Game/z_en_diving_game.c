@@ -1,6 +1,5 @@
 #include "z_en_diving_game.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000019
 
 void EnDivingGame_Init(EnDivingGame* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnDivingGame_Update(EnDivingGame* this, GlobalContext* globalCtx);
 void EnDivingGame_Draw(EnDivingGame* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Diving_Game_InitVars =
-{
+const ActorInit En_Diving_Game_InitVars = {
     ACTOR_EN_DIVING_GAME,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_ZO,
     sizeof(EnDivingGame),

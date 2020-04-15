@@ -32,16 +32,28 @@ glabel D_809A8084
     .balign 4
 
 glabel D_809A8098
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_809A809C
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_809A80A0
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_809A80A4
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_809A80A8
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_809A80AC
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 
 

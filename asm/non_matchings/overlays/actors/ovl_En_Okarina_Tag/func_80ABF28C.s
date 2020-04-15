@@ -1,3 +1,9 @@
+.rdata
+glabel D_80AC0484
+    .asciz "[32m☆☆☆☆☆ オカリナ透明君デモ開始チェックエラー原 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel func_80ABF28C
 /* 0056C 80ABF28C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00570 80ABF290 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -159,5 +165,3 @@ glabel func_80ABF28C
 /* 0079C 80ABF4BC 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 007A0 80ABF4C0 03E00008 */  jr      $ra                        
 /* 007A4 80ABF4C4 00000000 */  nop
-
-

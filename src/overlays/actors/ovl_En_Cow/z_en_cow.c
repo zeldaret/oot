@@ -1,6 +1,11 @@
+/*
+ * File: z_en_cow.c
+ * Overlay: ovl_En_Cow
+ * Description: Cow
+ */
+
 #include "z_en_cow.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000009
 
 void EnCow_Init(EnCow* this, GlobalContext* globalCtx);
@@ -9,11 +14,9 @@ void EnCow_Update(EnCow* this, GlobalContext* globalCtx);
 void EnCow_Draw(EnCow* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Cow_InitVars =
-{
+const ActorInit En_Cow_InitVars = {
     ACTOR_EN_COW,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_COW,
     sizeof(EnCow),

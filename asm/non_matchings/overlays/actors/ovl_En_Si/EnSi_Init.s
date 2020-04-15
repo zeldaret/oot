@@ -38,5 +38,3 @@ glabel EnSi_Init
 /* 00084 80AFB714 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00088 80AFB718 03E00008 */  jr      $ra                        
 /* 0008C 80AFB71C 00000000 */  nop
-
-

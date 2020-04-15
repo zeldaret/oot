@@ -11,5 +11,3 @@ glabel BgBombwall_Update
 /* 00718 8086EEE8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0071C 8086EEEC 03E00008 */  jr      $ra                        
 /* 00720 8086EEF0 00000000 */  nop
-
-

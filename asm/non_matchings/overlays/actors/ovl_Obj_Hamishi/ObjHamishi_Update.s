@@ -83,5 +83,3 @@ glabel ObjHamishi_Update
 /* 006AC 80B9363C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 006B0 80B93640 03E00008 */  jr      $ra                        
 /* 006B4 80B93644 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

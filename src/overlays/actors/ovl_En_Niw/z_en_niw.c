@@ -1,6 +1,5 @@
 #include "z_en_niw.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00800010
 
 void EnNiw_Init(EnNiw* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnNiw_Update(EnNiw* this, GlobalContext* globalCtx);
 void EnNiw_Draw(EnNiw* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Niw_InitVars =
-{
+const ActorInit En_Niw_InitVars = {
     ACTOR_EN_NIW,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_NIW,
     sizeof(EnNiw),

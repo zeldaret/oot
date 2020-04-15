@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B2A090
+    .asciz "../z_en_vb_ball.c"
+    .balign 4
+
+glabel D_80B2A0A4
+    .asciz "../z_en_vb_ball.c"
+    .balign 4
+
+glabel D_80B2A0B8
+    .asciz "../z_en_vb_ball.c"
+    .balign 4
+
+glabel D_80B2A0CC
+    .asciz "../z_en_vb_ball.c"
+    .balign 4
+
+.text
 glabel EnVbBall_Draw
 /* 00DE0 80B29D80 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00DE4 80B29D84 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -9,7 +27,7 @@ glabel EnVbBall_Draw
 /* 00DFC 80B29D9C 24C6A090 */  addiu   $a2, $a2, %lo(D_80B2A090)  ## $a2 = 80B2A090
 /* 00E00 80B29DA0 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
 /* 00E04 80B29DA4 2407025C */  addiu   $a3, $zero, 0x025C         ## $a3 = 0000025C
-/* 00E08 80B29DA8 0C031AB1 */  jal     func_800C6AC4              
+/* 00E08 80B29DA8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00E0C 80B29DAC 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00E10 80B29DB0 8FAF005C */  lw      $t7, 0x005C($sp)           
 /* 00E14 80B29DB4 0C024F46 */  jal     func_80093D18              
@@ -145,7 +163,7 @@ glabel EnVbBall_Draw
 /* 01014 80B29FB4 24C6A0CC */  addiu   $a2, $a2, %lo(D_80B2A0CC)  ## $a2 = 80B2A0CC
 /* 01018 80B29FB8 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
 /* 0101C 80B29FBC 24070278 */  addiu   $a3, $zero, 0x0278         ## $a3 = 00000278
-/* 01020 80B29FC0 0C031AD5 */  jal     func_800C6B54              
+/* 01020 80B29FC0 0C031AD5 */  jal     Graph_CloseDisps              
 /* 01024 80B29FC4 8D450000 */  lw      $a1, 0x0000($t2)           ## 00000000
 /* 01028 80B29FC8 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 0102C 80B29FCC 8FB00018 */  lw      $s0, 0x0018($sp)           
@@ -153,4 +171,3 @@ glabel EnVbBall_Draw
 /* 01034 80B29FD4 03E00008 */  jr      $ra                        
 /* 01038 80B29FD8 00000000 */  nop
 /* 0103C 80B29FDC 00000000 */  nop
-

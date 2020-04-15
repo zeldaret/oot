@@ -64,5 +64,3 @@ glabel BgJyaLift_Update
 /* 00440 80899FE0 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00444 80899FE4 03E00008 */  jr      $ra                        
 /* 00448 80899FE8 00000000 */  nop
-
-

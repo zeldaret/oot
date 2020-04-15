@@ -19,7 +19,7 @@ glabel Interface_DrawItemButtons
 /* AFFE78 80088CD8 8C850000 */  lw    $a1, ($a0)
 /* AFFE7C 80088CDC 27A40130 */  addiu $a0, $sp, 0x130
 /* AFFE80 80088CE0 24070B54 */  li    $a3, 2900
-/* AFFE84 80088CE4 0C031AB1 */  jal   func_800C6AC4
+/* AFFE84 80088CE4 0C031AB1 */  jal   Graph_OpenDisps
 /* AFFE88 80088CE8 AFA50140 */   sw    $a1, 0x140($sp)
 /* AFFE8C 80088CEC 8FAA0140 */  lw    $t2, 0x140($sp)
 /* AFFE90 80088CF0 3C19E700 */  lui   $t9, 0xe700
@@ -89,7 +89,7 @@ glabel Interface_DrawItemButtons
 /* AFFF90 80088DF0 00084040 */  sll   $t0, $t0, 1
 /* AFFF94 80088DF4 3108FFFF */  andi  $t0, $t0, 0xffff
 /* AFFF98 80088DF8 AFA80020 */  sw    $t0, 0x20($sp)
-/* AFFF9C 80088DFC 0C0210A6 */  jal   Draw_TextureIA8
+/* AFFF9C 80088DFC 0C0210A6 */  jal   Gfx_TextureIA8
 /* AFFFA0 80088E00 AFA80024 */   sw    $t0, 0x24($sp)
 /* AFFFA4 80088E04 8FAA0140 */  lw    $t2, 0x140($sp)
 /* AFFFA8 80088E08 8FAC003C */  lw    $t4, 0x3c($sp)
@@ -908,7 +908,7 @@ glabel Interface_DrawItemButtons
 /* B00C24 80089A84 3108FFFF */  andi  $t0, $t0, 0xffff
 /* B00C28 80089A88 AFA80020 */  sw    $t0, 0x20($sp)
 /* B00C2C 80089A8C AFA80024 */  sw    $t0, 0x24($sp)
-/* B00C30 80089A90 0C0210A6 */  jal   Draw_TextureIA8
+/* B00C30 80089A90 0C0210A6 */  jal   Gfx_TextureIA8
 /* B00C34 80089A94 A7A9014A */   sh    $t1, 0x14a($sp)
 /* B00C38 80089A98 8FAA0140 */  lw    $t2, 0x140($sp)
 /* B00C3C 80089A9C 87A9014A */  lh    $t1, 0x14a($sp)
@@ -931,7 +931,7 @@ glabel Interface_DrawItemButtons
 /* B00C7C 80089ADC 24C6E2EC */  addiu $a2, %lo(D_8013E2EC) # addiu $a2, $a2, -0x1d14
 /* B00C80 80089AE0 27A40130 */  addiu $a0, $sp, 0x130
 /* B00C84 80089AE4 24070BFF */  li    $a3, 3071
-/* B00C88 80089AE8 0C031AD5 */  jal   func_800C6B54
+/* B00C88 80089AE8 0C031AD5 */  jal   Graph_CloseDisps
 /* B00C8C 80089AEC 8DC50000 */   lw    $a1, ($t6)
 /* B00C90 80089AF0 8FBF002C */  lw    $ra, 0x2c($sp)
 /* B00C94 80089AF4 27BD0158 */  addiu $sp, $sp, 0x158

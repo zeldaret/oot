@@ -3,7 +3,7 @@ glabel func_80A79168
 /* 001BC 80A7916C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 001C0 80A79170 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 001C4 80A79174 24050019 */  addiu   $a1, $zero, 0x0019         ## $a1 = 00000019
-/* 001C8 80A79178 0C01B0D8 */  jal     func_8006C360              
+/* 001C8 80A79178 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 001CC 80A7917C AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 001D0 80A79180 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 001D4 80A79184 10400003 */  beq     $v0, $zero, .L80A79194     
@@ -28,5 +28,3 @@ glabel func_80A79168
 /* 00210 80A791C0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00214 80A791C4 03E00008 */  jr      $ra                        
 /* 00218 80A791C8 00000000 */  nop
-
-

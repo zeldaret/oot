@@ -39,5 +39,3 @@ glabel BgJyaIronobj_Init
 /* 009E4 80899284 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 009E8 80899288 03E00008 */  jr      $ra                        
 /* 009EC 8089928C 00000000 */  nop
-
-

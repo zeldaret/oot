@@ -1,3 +1,38 @@
+.rdata
+glabel D_809DBFA0
+    .asciz "DEMO_MODE %d\n"
+    .balign 4
+
+glabel D_809DBFB0
+    .asciz "CAMERA_NO %d\n"
+    .balign 4
+
+.late_rodata
+glabel D_809DC0EC
+    .float 6.28318548203
+
+glabel D_809DC0F0
+ .word 0x4622F983
+glabel D_809DC0F4
+ .word 0x4622F983
+glabel D_809DC0F8
+    .float 0.2
+
+glabel D_809DC0FC
+ .word 0x3FD33333
+glabel D_809DC100
+    .float 0.3
+
+glabel D_809DC104
+    .float 0.3
+
+glabel D_809DC108
+    .float 0.15
+
+glabel D_809DC10C
+    .float 0.075
+
+.text
 glabel EnClearTag_Update
 /* 00688 809D3C38 27BDFF38 */  addiu   $sp, $sp, 0xFF38           ## $sp = FFFFFF38
 /* 0068C 809D3C3C AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -315,7 +350,7 @@ glabel EnClearTag_Update
 .L809D409C:
 /* 00AEC 809D409C C7AC00B0 */  lwc1    $f12, 0x00B0($sp)          
 /* 00AF0 809D40A0 E7A2003C */  swc1    $f2, 0x003C($sp)           
-/* 00AF4 809D40A4 0C03F494 */  jal     func_800FD250              
+/* 00AF4 809D40A4 0C03F494 */  jal     Math_atan2f              
 /* 00AF8 809D40A8 E7B00038 */  swc1    $f16, 0x0038($sp)          
 /* 00AFC 809D40AC 3C01809E */  lui     $at, %hi(D_809DC0F0)       ## $at = 809E0000
 /* 00B00 809D40B0 C432C0F0 */  lwc1    $f18, %lo(D_809DC0F0)($at) 
@@ -329,7 +364,7 @@ glabel EnClearTag_Update
 /* 00B20 809D40D0 44103000 */  mfc1    $s0, $f6                   
 /* 00B24 809D40D4 00000000 */  nop
 /* 00B28 809D40D8 00108400 */  sll     $s0, $s0, 16               
-/* 00B2C 809D40DC 0C03F494 */  jal     func_800FD250              
+/* 00B2C 809D40DC 0C03F494 */  jal     Math_atan2f              
 /* 00B30 809D40E0 00108403 */  sra     $s0, $s0, 16               
 /* 00B34 809D40E4 3C01809E */  lui     $at, %hi(D_809DC0F4)       ## $at = 809E0000
 /* 00B38 809D40E8 C428C0F4 */  lwc1    $f8, %lo(D_809DC0F4)($at)  
@@ -985,5 +1020,3 @@ glabel EnClearTag_Update
 /* 01444 809D49F4 8FB10030 */  lw      $s1, 0x0030($sp)           
 /* 01448 809D49F8 03E00008 */  jr      $ra                        
 /* 0144C 809D49FC 27BD00C8 */  addiu   $sp, $sp, 0x00C8           ## $sp = 00000000
-
-

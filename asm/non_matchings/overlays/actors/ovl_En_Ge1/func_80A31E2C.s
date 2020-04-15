@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A32808
+    .asciz "../z_en_ge1.c"
+    .balign 4
+
+glabel D_80A32818
+    .asciz "z_common_data.yabusame_total = %d\n"
+    .balign 4
+
+glabel D_80A3283C
+    .asciz "../z_en_ge1.c"
+    .balign 4
+
+glabel D_80A3284C
+    .asciz "z_common_data.memory.information.room_inf[127][ 0 ] = %d\n"
+    .balign 4
+
+.text
 glabel func_80A31E2C
 /* 014BC 80A31E2C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 014C0 80A31E30 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -101,5 +119,3 @@ glabel func_80A31E2C
 /* 01620 80A31F90 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 01624 80A31F94 03E00008 */  jr      $ra                        
 /* 01628 80A31F98 00000000 */  nop
-
-

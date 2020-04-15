@@ -69,5 +69,3 @@ glabel EnSkjneedle_Update
 /* 001D0 80B02080 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 001D4 80B02084 03E00008 */  jr      $ra                        
 /* 001D8 80B02088 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

@@ -20,5 +20,3 @@ glabel EnViewer_Update
 /* 010E8 80B2B2E8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 010EC 80B2B2EC 03E00008 */  jr      $ra                        
 /* 010F0 80B2B2F0 00000000 */  nop
-
-

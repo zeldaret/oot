@@ -62,5 +62,3 @@ glabel EnFw_Update
 /* 00F80 80A1F520 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00F84 80A1F524 03E00008 */  jr      $ra                        
 /* 00F88 80A1F528 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

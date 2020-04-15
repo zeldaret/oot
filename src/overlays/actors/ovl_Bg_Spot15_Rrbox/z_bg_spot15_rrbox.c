@@ -1,6 +1,5 @@
 #include "z_bg_spot15_rrbox.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000000
 
 void BgSpot15Rrbox_Init(BgSpot15Rrbox* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void BgSpot15Rrbox_Update(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 void BgSpot15Rrbox_Draw(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Spot15_Rrbox_InitVars =
-{
+const ActorInit Bg_Spot15_Rrbox_InitVars = {
     ACTOR_BG_SPOT15_RRBOX,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT15_OBJ,
     sizeof(BgSpot15Rrbox),

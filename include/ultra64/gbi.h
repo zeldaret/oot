@@ -4201,7 +4201,7 @@ _DW({									\
 
 
 #define gDPSetScissorFrac(pkt, mode, ulx, uly, lrx, lry)		\
-{									\
+_DW({									\
 	Gfx *_g = (Gfx *)pkt;						\
 									\
 	_g->words.w0 = _SHIFTL(G_SETSCISSOR, 24, 8) |			\
@@ -4210,7 +4210,7 @@ _DW({									\
 	_g->words.w1 = _SHIFTL(mode, 24, 2) |				\
 		       _SHIFTL((int)((lrx)), 12, 12) | 			\
                        _SHIFTL((int)((lry)), 0, 12);			\
-}
+})
 
 #define gsDPSetScissor(mode, ulx, uly, lrx, lry)			\
 {									\
@@ -4481,6 +4481,16 @@ _DW({									\
 #define	gsDPNoOp()		gsDPNoParam(G_NOOP)
 #define	gDPNoOpTag(pkt, tag)	gDPParam(pkt, G_NOOP, tag)
 #define	gsDPNoOpTag(tag)	gsDPParam(G_NOOP, tag)
+
+#define gDPNoOpHere(pkt, file, line)		gDma1p(pkt, G_NOOP, file, line, 1)
+#define gDPNoOpString(pkt, data, n)			gDma1p(pkt, G_NOOP, data, n, 2)
+#define gDPNoOpWord(pkt, data, n)			gDma1p(pkt, G_NOOP, data, n, 3)
+#define gDPNoOpFloat(pkt, data, n)			gDma1p(pkt, G_NOOP, data, n, 4)
+#define gDPNoOpQuiet(pkt)					gDma1p(pkt, G_NOOP, 0, 0, 5)
+#define gDPNoOpVerbose(pkt, n)				gDma1p(pkt, G_NOOP, 0, n, 5)
+#define gDPNoOpCallBack(pkt, callback)		gDma1p(pkt, G_NOOP, callback, 0, 6)
+#define gDPNoOpOpenDisp(pkt, file, line) 	gDma1p(pkt, G_NOOP, file, line, 7)
+#define gDPNoOpCloseDisp(pkt, file, line) 	gDma1p(pkt, G_NOOP, file, line, 8)
 
 #endif
 

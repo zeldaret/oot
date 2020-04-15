@@ -18,5 +18,3 @@ glabel BgMizuBwall_Destroy
 /* 00978 8089CDF8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0097C 8089CDFC 03E00008 */  jr      $ra                        
 /* 00980 8089CE00 00000000 */  nop
-
-

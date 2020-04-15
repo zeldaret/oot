@@ -121,5 +121,3 @@ glabel EnDh_Update
 /* 01454 809EC194 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 01458 809EC198 03E00008 */  jr      $ra                        
 /* 0145C 809EC19C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

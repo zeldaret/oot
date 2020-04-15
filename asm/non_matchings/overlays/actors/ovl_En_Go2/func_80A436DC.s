@@ -14,5 +14,3 @@ glabel func_80A436DC
 .L80A4370C:
 /* 009DC 80A4370C 03E00008 */  jr      $ra                        
 /* 009E0 80A43710 3062FFFF */  andi    $v0, $v1, 0xFFFF           ## $v0 = 00003027
-
-

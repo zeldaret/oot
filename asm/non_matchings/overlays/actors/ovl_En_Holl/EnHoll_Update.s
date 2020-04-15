@@ -8,5 +8,3 @@ glabel EnHoll_Update
 /* 00CA4 80A598B4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00CA8 80A598B8 03E00008 */  jr      $ra                        
 /* 00CAC 80A598BC 00000000 */  nop
-
-

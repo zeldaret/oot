@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_80B2A0F8
+ .word 0x44D48000
+glabel D_80B2A0FC
+ .word 0x43CCCCCD
+glabel D_80B2A100
+ .word 0x4622F983, 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel EnVbBall_Update
 /* 00614 80B295B4 27BDFEF0 */  addiu   $sp, $sp, 0xFEF0           ## $sp = FFFFFEF0
 /* 00618 80B295B8 AFBF0064 */  sw      $ra, 0x0064($sp)           
@@ -242,7 +251,7 @@ glabel EnVbBall_Update
 /* 00980 80B29920 46004282 */  mul.s   $f10, $f8, $f0             
 /* 00984 80B29924 E60A0158 */  swc1    $f10, 0x0158($s0)          ## 00000158
 /* 00988 80B29928 C7AE00F4 */  lwc1    $f14, 0x00F4($sp)          
-/* 0098C 80B2992C 0C03F494 */  jal     func_800FD250              
+/* 0098C 80B2992C 0C03F494 */  jal     Math_atan2f              
 /* 00990 80B29930 C7AC00EC */  lwc1    $f12, 0x00EC($sp)          
 /* 00994 80B29934 3C0180B3 */  lui     $at, %hi(D_80B2A100)       ## $at = 80B30000
 /* 00998 80B29938 C430A100 */  lwc1    $f16, %lo(D_80B2A100)($at) 
@@ -553,5 +562,3 @@ glabel EnVbBall_Update
 /* 00DD4 80B29D74 8FB50060 */  lw      $s5, 0x0060($sp)           
 /* 00DD8 80B29D78 03E00008 */  jr      $ra                        
 /* 00DDC 80B29D7C 27BD0110 */  addiu   $sp, $sp, 0x0110           ## $sp = 00000000
-
-

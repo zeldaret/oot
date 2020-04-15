@@ -1,6 +1,5 @@
 #include "z_en_skb.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000015
 
 void EnSkb_Init(EnSkb* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnSkb_Update(EnSkb* this, GlobalContext* globalCtx);
 void EnSkb_Draw(EnSkb* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Skb_InitVars =
-{
+const ActorInit En_Skb_InitVars = {
     ACTOR_EN_SKB,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_SKB,
     sizeof(EnSkb),

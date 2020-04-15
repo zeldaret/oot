@@ -1,3 +1,17 @@
+.rdata
+glabel D_8098E1D0
+    .asciz "../z_demo_kekkai.c"
+    .balign 4
+
+glabel D_8098E1E4
+    .asciz "\"当ったよ\" = %s\n"
+    .balign 4
+
+glabel D_8098E1F8
+    .asciz "当ったよ"
+    .balign 4
+
+.text
 glabel func_8098D87C
 /* 008AC 8098D87C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 008B0 8098D880 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -87,5 +101,3 @@ glabel func_8098D87C
 /* 009E4 8098D9B4 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 009E8 8098D9B8 03E00008 */  jr      $ra                        
 /* 009EC 8098D9BC 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

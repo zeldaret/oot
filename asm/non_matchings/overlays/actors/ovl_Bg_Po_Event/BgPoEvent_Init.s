@@ -76,5 +76,3 @@ glabel BgPoEvent_Init
 /* 0062C 808A683C 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00630 808A6840 03E00008 */  jr      $ra                        
 /* 00634 808A6844 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

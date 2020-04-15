@@ -191,5 +191,3 @@ glabel EnReeba_Update
 /* 016E8 80AE63B8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 016EC 80AE63BC 03E00008 */  jr      $ra                        
 /* 016F0 80AE63C0 00000000 */  nop
-
-

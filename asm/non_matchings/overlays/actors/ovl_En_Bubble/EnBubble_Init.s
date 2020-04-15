@@ -68,5 +68,3 @@ glabel EnBubble_Init
 /* 00D80 809CC980 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00D84 809CC984 03E00008 */  jr      $ra                        
 /* 00D88 809CC988 00000000 */  nop
-
-

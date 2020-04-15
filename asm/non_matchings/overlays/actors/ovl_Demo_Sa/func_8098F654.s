@@ -1,3 +1,9 @@
+.rdata
+glabel D_80990E28
+    .asciz "Demo_Sa_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_8098F654
 /* 011F4 8098F654 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 011F8 8098F658 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -54,5 +60,3 @@ glabel func_8098F654
 /* 012A8 8098F708 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 012AC 8098F70C 03E00008 */  jr      $ra                        
 /* 012B0 8098F710 00000000 */  nop
-
-

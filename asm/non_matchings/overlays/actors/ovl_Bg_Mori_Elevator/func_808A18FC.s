@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808A23B4
+ .word 0x3DB851EC
+
+.text
 glabel func_808A18FC
 /* 000FC 808A18FC 44856000 */  mtc1    $a1, $f12                  ## $f12 = 0.00
 /* 00100 808A1900 3C01808A */  lui     $at, %hi(D_808A23B4)       ## $at = 808A0000
@@ -36,5 +41,3 @@ glabel func_808A18FC
 /* 00178 808A1978 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0017C 808A197C 03E00008 */  jr      $ra                        
 /* 00180 808A1980 00000000 */  nop
-
-

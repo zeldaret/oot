@@ -13,5 +13,3 @@ glabel EnAttackNiw_Destroy
 .L809B5260:
 /* 00160 809B5260 03E00008 */  jr      $ra                        
 /* 00164 809B5264 00000000 */  nop
-
-

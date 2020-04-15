@@ -26,8 +26,8 @@ OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
 CC         := $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bin/cc
 CC_OLD     := $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
 
-# Check code syntax with host compiler (TODO: define NON_MATCHING because the non-matching code is utterly broken)
-CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -D _LANGUAGE_C -I include -include stdarg.h
+# Check code syntax with host compiler
+CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -D _LANGUAGE_C -D NON_MATCHING -I include -include stdarg.h
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
@@ -129,6 +129,12 @@ build/undefined_syms.txt: undefined_syms.txt
 clean:
 	$(RM) $(ROM) $(ELF) -r build
 
+setup:
+	git submodule update --init --recursive
+	make -C tools
+	python3 fixbaserom.py
+	python3 extract_baserom.py
+	python3 extract_assets.py
 
 #### Various Recipes ####
 
@@ -157,10 +163,6 @@ build/assets/%.o: assets/%.c
 #	$(CC_CHECK) $^
 	$(OBJCOPY) -O binary $@ $@.bin
 
-#build/src/boot/%.o: src/boot/%.c
-#	$(CC) -c $(CFLAGS) $(OPTIMIZATION) -o $@ $^
-#	@$(OBJDUMP) -d $@ > $(@:.o=.s)
-
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(OPTIMIZATION) -o $@ $^
 	$(CC_CHECK) $^
@@ -177,12 +179,15 @@ build/src/%.o: src/%.c
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 
-build/src/libultra_code/%.o: CC := $(CC_OLD)
+# This line is redundant because of the asm_processor line below, but keeping it here because
+# it is one of the directories that has to be compiled with CC_OLD.
+# build/src/libultra_code/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
 
 build/src/boot/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+build/src/libultra_code/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 build/src/overlays/actors/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/overlays/effects/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/overlays/gamestates/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --

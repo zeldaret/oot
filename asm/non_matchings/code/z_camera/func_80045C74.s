@@ -138,7 +138,7 @@ glabel func_80045C74
 /* ABCFB4 80045E14 46045501 */   sub.s $f20, $f10, $f4
 /* ABCFB8 80045E18 4600A306 */  mov.s $f12, $f20
 /* ABCFBC 80045E1C 46000386 */  mov.s $f14, $f0
-/* ABCFC0 80045E20 0C03F494 */  jal   func_800FD250
+/* ABCFC0 80045E20 0C03F494 */  jal   Math_atan2f
 /* ABCFC4 80045E24 E7A00054 */   swc1  $f0, 0x54($sp)
 /* ABCFC8 80045E28 3C018014 */  lui   $at, %hi(D_80139E08)
 /* ABCFCC 80045E2C C4329E08 */  lwc1  $f18, %lo(D_80139E08)($at)
@@ -148,7 +148,7 @@ glabel func_80045C74
 /* ABCFDC 80045E3C 46083282 */  mul.s $f10, $f6, $f8
 /* ABCFE0 80045E40 00000000 */  nop   
 /* ABCFE4 80045E44 46125302 */  mul.s $f12, $f10, $f18
-/* ABCFE8 80045E48 0C03F3A0 */  jal   func_800FCE80
+/* ABCFE8 80045E48 0C03F3A0 */  jal   Math_tanf
 /* ABCFEC 80045E4C 00000000 */   nop   
 /* ABCFF0 80045E50 C7B00054 */  lwc1  $f16, 0x54($sp)
 /* ABCFF4 80045E54 8FA2008C */  lw    $v0, 0x8c($sp)
@@ -191,7 +191,7 @@ glabel func_80045C74
 /* ABD078 80045ED8 0C01F00A */  jal   func_8007C028
 /* ABD07C 80045EDC 46062501 */   sub.s $f20, $f4, $f6
 /* ABD080 80045EE0 4600A306 */  mov.s $f12, $f20
-/* ABD084 80045EE4 0C03F494 */  jal   func_800FD250
+/* ABD084 80045EE4 0C03F494 */  jal   Math_atan2f
 /* ABD088 80045EE8 46000386 */   mov.s $f14, $f0
 /* ABD08C 80045EEC 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* ABD090 80045EF0 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)

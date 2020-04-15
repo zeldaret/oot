@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80B20CD0
+ .word 0x46638C00
+glabel D_80B20CD4
+ .word 0xC6638C00, 0x00000000, 0x00000000
+
+.text
 glabel EnToryo_Update
 /* 00808 80B20978 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0080C 80B2097C AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -80,5 +87,3 @@ glabel EnToryo_Update
 /* 0092C 80B20A9C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00930 80B20AA0 03E00008 */  jr      $ra                        
 /* 00934 80B20AA4 00000000 */  nop
-
-

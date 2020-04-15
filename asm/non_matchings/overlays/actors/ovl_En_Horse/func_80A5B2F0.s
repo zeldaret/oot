@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A6684C
+ .word 0x414CCCCD
+
+.text
 glabel func_80A5B2F0
 /* 00000 80A5B2F0 84AE00A4 */  lh      $t6, 0x00A4($a1)           ## 000000A4
 /* 00004 80A5B2F4 2401005A */  addiu   $at, $zero, 0x005A         ## $at = 0000005A
@@ -94,5 +99,3 @@ glabel func_80A5B2F0
 /* 00154 80A5B444 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 00158 80A5B448 03E00008 */  jr      $ra                        
 /* 0015C 80A5B44C 00000000 */  nop
-
-

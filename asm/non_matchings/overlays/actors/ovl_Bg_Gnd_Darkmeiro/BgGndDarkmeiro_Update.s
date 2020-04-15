@@ -8,5 +8,3 @@ glabel BgGndDarkmeiro_Update
 /* 00580 808791B0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00584 808791B4 03E00008 */  jr      $ra                        
 /* 00588 808791B8 00000000 */  nop
-
-

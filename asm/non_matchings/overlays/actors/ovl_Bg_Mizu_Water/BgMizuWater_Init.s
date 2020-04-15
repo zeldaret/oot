@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A0580
+    .asciz "<コンストラクト>%x %x %x\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_808A05F0
+.word L8089FAB4
+.word L8089FCCC
+.word L8089FBFC
+.word L8089FC3C
+.word L8089FC84
+
+.text
 glabel BgMizuWater_Init
 /* 0018C 8089FA3C 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00190 8089FA40 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -198,5 +212,3 @@ glabel L8089FCCC
 /* 00430 8089FCE0 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 00434 8089FCE4 03E00008 */  jr      $ra                        
 /* 00438 8089FCE8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

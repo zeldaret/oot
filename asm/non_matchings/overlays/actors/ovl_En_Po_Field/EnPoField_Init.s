@@ -141,5 +141,3 @@ glabel EnPoField_Init
 /* 001FC 80AD3CFC 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 00200 80AD3D00 03E00008 */  jr      $ra                        
 /* 00204 80AD3D04 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

@@ -24,4 +24,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_sram/func_800A9CD4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_sram/func_800A9D28.s")
-

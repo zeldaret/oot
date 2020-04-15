@@ -1,3 +1,29 @@
+.rdata
+glabel D_80A50BB0
+    .asciz "[41;37m"
+    .balign 4
+
+glabel D_80A50BBC
+    .asciz "%s[%d] : バンクが無いよ！！\n"
+    .balign 4
+
+glabel D_80A50BDC
+    .asciz "../z_en_guest.c"
+    .balign 4
+
+glabel D_80A50BEC
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80A50BF0
+    .asciz "0"
+    .balign 4
+
+glabel D_80A50BF4
+    .asciz "../z_en_guest.c"
+    .balign 4
+
+.text
 glabel EnGuest_Init
 /* 00000 80A50220 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
 /* 00004 80A50224 95CEF566 */  lhu     $t6, -0x0A9A($t6)          ## 8015F566
@@ -52,5 +78,3 @@ glabel EnGuest_Init
 /* 000A8 80A502C8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000AC 80A502CC 03E00008 */  jr      $ra                        
 /* 000B0 80A502D0 00000000 */  nop
-
-

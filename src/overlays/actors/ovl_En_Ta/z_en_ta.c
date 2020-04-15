@@ -1,6 +1,11 @@
+/*
+ * File: z_en_ta.c
+ * Overlay: ovl_En_Ta
+ * Description: Talon
+ */
+
 #include "z_en_ta.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000009
 
 void EnTa_Init(EnTa* this, GlobalContext* globalCtx);
@@ -9,11 +14,9 @@ void EnTa_Update(EnTa* this, GlobalContext* globalCtx);
 void EnTa_Draw(EnTa* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ta_InitVars =
-{
+const ActorInit En_Ta_InitVars = {
     ACTOR_EN_TA,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_TA,
     sizeof(EnTa),

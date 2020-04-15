@@ -40,5 +40,3 @@ glabel BgJyaMegami_Init
 /* 00468 8089A598 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0046C 8089A59C 03E00008 */  jr      $ra                        
 /* 00470 8089A5A0 00000000 */  nop
-
-

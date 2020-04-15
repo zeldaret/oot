@@ -29,15 +29,13 @@ static void func_8006B54C(GlobalContext* globalCtx, s16 drawId);
 static void func_8006B6E4(GlobalContext* globalCtx, s16 drawId);
 static void func_8006B870(GlobalContext* globalCtx, s16 drawId);
 
-typedef struct
-{
-    /* 0x00 */ void    (*drawFunc)(GlobalContext*, s16);
-    /* 0x04 */ u32     dlists[8];
+typedef struct {
+    /* 0x00 */ void (*drawFunc)(GlobalContext*, s16);
+    /* 0x04 */ u32 dlists[8];
 } DrawItemTableEntry; // size = 0x24
 
 // TODO: use symbols for these dlists once objects are in C
-static DrawItemTableEntry sDrawItemTable[] =
-{
+static DrawItemTableEntry sDrawItemTable[] = {
     { func_8006AAA8, { 0x06000670, 0x06000750 } },
     { func_8006A9CC, { 0x06000800 } },
     { func_8006ABEC, { 0x06000A80, 0x06000AE0 } },
@@ -71,8 +69,10 @@ static DrawItemTableEntry sDrawItemTable[] =
     { func_8006A9CC, { 0x06000EE0 } },
     { func_8006A9CC, { 0x060009A0 } },
     { func_8006A9CC, { 0x06000B70 } },
-    { func_8006B870, { 0x06001850, 0x06001750, 0x06001790, 0x060019A0, 0x060017B0, 0x06001A28, 0x060017D0, 0x06001AD8 } },
-    { func_8006B870, { 0x06001850, 0x06001770, 0x060017F0, 0x060019A0, 0x06001810, 0x06001A28, 0x06001830, 0x06001AD8 } },
+    { func_8006B870,
+      { 0x06001850, 0x06001750, 0x06001790, 0x060019A0, 0x060017B0, 0x06001A28, 0x060017D0, 0x06001AD8 } },
+    { func_8006B870,
+      { 0x06001850, 0x06001770, 0x060017F0, 0x060019A0, 0x06001810, 0x06001A28, 0x06001830, 0x06001AD8 } },
     { func_8006A9CC, { 0x06000F60 } },
     { func_8006A9CC, { 0x06000340 } },
     { func_8006A9CC, { 0x06000B90 } },
@@ -161,512 +161,526 @@ static DrawItemTableEntry sDrawItemTable[] =
  * Draw "Get Item" Model
  * Calls the corresponding draw function for the given draw ID
  */
-void func_800694A0(GlobalContext* globalCtx, s16 drawId)
-{
+void func_800694A0(GlobalContext* globalCtx, s16 drawId) {
     sDrawItemTable[drawId].drawFunc(globalCtx, drawId);
 }
 
 // All remaining functions in this file are draw functions referenced in the table and called by the function above
 
-static void func_800694E4(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_800694E4(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 556);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 556);
 
     func_80093BA8(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 560), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 560),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 565);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 565);
 }
 
-static void func_800695C0(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_800695C0(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 572);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 572);
 
-    gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 5);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 576), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 5);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 576),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[0]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 581);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 581);
 }
 
-static void func_8006969C(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006969C(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 588);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 588);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 592), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 592),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx,
-                                 0, 0 * (globalCtx->state.frames * 0), 0 * (globalCtx->state.frames * 0), 16, 32,
-                                 1, 1 * (globalCtx->state.frames * 1), 1 * -(globalCtx->state.frames * 8), 16, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
+                                0 * (globalCtx->state.frames * 0), 16, 32, 1, 1 * (globalCtx->state.frames * 1),
+                                1 * -(globalCtx->state.frames * 8), 16, 32));
     Matrix_Push();
     Matrix_Translate(-8.0f, -2.0f, 0.0f, MTXMODE_APPLY);
     func_800D1FD4(&globalCtx->mf_11DA0);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 615), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 615),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
     Matrix_Pull();
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 621);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 621);
 }
 
-static void func_80069880(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_80069880(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 628);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 628);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 632), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 632),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 641), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 641),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx,
-                                 0, 0 * (globalCtx->state.frames * 0), 0 * (globalCtx->state.frames * 0), 16, 32,
-                                 1, 1 * (globalCtx->state.frames * 1), 1 * -(globalCtx->state.frames * 6), 16, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
+                                0 * (globalCtx->state.frames * 0), 16, 32, 1, 1 * (globalCtx->state.frames * 1),
+                                1 * -(globalCtx->state.frames * 6), 16, 32));
     Matrix_Push();
     func_800D1FD4(&globalCtx->mf_11DA0);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 656), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 656),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[3]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[2]);
     Matrix_Pull();
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 663);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 663);
 }
 
-static void func_80069AC8(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_80069AC8(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 670);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 670);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 674), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 674),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 683), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 683),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx,
-                                 0, 0 * (globalCtx->state.frames * 0), 0 * (globalCtx->state.frames * 0), 32, 32,
-                                 1, 1 * (globalCtx->state.frames * 1), 1 * -(globalCtx->state.frames * 6), 32, 32));
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
+                                0 * (globalCtx->state.frames * 0), 32, 32, 1, 1 * (globalCtx->state.frames * 1),
+                                1 * -(globalCtx->state.frames * 6), 32, 32));
     Matrix_Push();
     func_800D1FD4(&globalCtx->mf_11DA0);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 698), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 698),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[2]);
     Matrix_Pull();
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 704);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 704);
 }
 
-static void func_80069CF0(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_80069CF0(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 712);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 712);
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx,
-                                 0, 0 * (globalCtx->state.frames * 0) % 256, 1 * (globalCtx->state.frames * 2) % 256, 64, 64,
-                                 1, 0 * (globalCtx->state.frames * 0) % 128, 1 * (globalCtx->state.frames * 1) % 128, 32, 32));
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 723), G_MTX_MODELVIEW | G_MTX_LOAD);
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0) % 256,
+                                1 * (globalCtx->state.frames * 2) % 256, 64, 64, 1,
+                                0 * (globalCtx->state.frames * 0) % 128, 1 * (globalCtx->state.frames * 1) % 128, 32,
+                                32));
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 723),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 730), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 730),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
 
-
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 735);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 735);
 }
 
-static void func_80069EB0(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_80069EB0(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 742);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 742);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 746), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 746),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx,
-                                 0, 0 * (globalCtx->state.frames * 0), 1 * -(globalCtx->state.frames * 5), 32, 32,
-                                 1, 0 * (globalCtx->state.frames * 0), 0 * (globalCtx->state.frames * 0), 32, 64));
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 760), G_MTX_MODELVIEW | G_MTX_LOAD);
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
+                                1 * -(globalCtx->state.frames * 5), 32, 32, 1, 0 * (globalCtx->state.frames * 0),
+                                0 * (globalCtx->state.frames * 0), 32, 64));
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 760),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 765);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 765);
 }
 
-static void func_8006A060(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006A060(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 772);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 772);
 
     func_80093BA8(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 776), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 776),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[1]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 783);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 783);
 }
 
-static void func_8006A158(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006A158(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 811);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 811);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 815), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 815),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
-    gfxCtx->polyXlu.p = func_80093774(gfxCtx->polyXlu.p, 5);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 822), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 5);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 822),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 827);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 827);
 }
 
-static void func_8006A2A0(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006A2A0(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 834);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 834);
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx,
-                                 0, -1 * (globalCtx->state.frames * 1), 1 * (globalCtx->state.frames * 1), 32, 32,
-                                 1, -1 * (globalCtx->state.frames * 1), 1 * (globalCtx->state.frames * 1), 32, 32));
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 845), G_MTX_MODELVIEW | G_MTX_LOAD);
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -1 * (globalCtx->state.frames * 1),
+                                1 * (globalCtx->state.frames * 1), 32, 32, 1, -1 * (globalCtx->state.frames * 1),
+                                1 * (globalCtx->state.frames * 1), 32, 32));
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 845),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[1]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[2]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[3]);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 855), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 855),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[4]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[5]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 861);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 861);
 }
 
-static void func_8006A4B0(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006A4B0(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 868);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 868);
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx,
-                                 0, 1 * (globalCtx->state.frames * 1), 0 * (globalCtx->state.frames * 1), 32, 32,
-                                 1, 0 * (globalCtx->state.frames * 1), 0 * (globalCtx->state.frames * 1), 32, 32));
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 878), G_MTX_MODELVIEW | G_MTX_LOAD);
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 1 * (globalCtx->state.frames * 1),
+                                0 * (globalCtx->state.frames * 1), 32, 32, 1, 0 * (globalCtx->state.frames * 1),
+                                0 * (globalCtx->state.frames * 1), 32, 32));
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 878),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 883);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 883);
 }
 
-static void func_8006A5F0(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006A5F0(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 890);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 890);
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx,
-                                 0, 1 * (globalCtx->state.frames * 6), 1 * (globalCtx->state.frames * 6), 32, 32,
-                                 1, 1 * (globalCtx->state.frames * 6), 1 * (globalCtx->state.frames * 6), 32, 32));
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 901), G_MTX_MODELVIEW | G_MTX_LOAD);
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 1 * (globalCtx->state.frames * 6),
+                                1 * (globalCtx->state.frames * 6), 32, 32, 1, 1 * (globalCtx->state.frames * 6),
+                                1 * (globalCtx->state.frames * 6), 32, 32));
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 901),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 906);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 906);
 }
 
-static void func_8006A73C(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006A73C(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 913);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 913);
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx,
-                                 0, 0 * (globalCtx->state.frames * 1), 1 * -(globalCtx->state.frames * 3), 32, 32,
-                                 1, 0 * (globalCtx->state.frames * 1), 1 * -(globalCtx->state.frames * 2), 32, 32));
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 924), G_MTX_MODELVIEW | G_MTX_LOAD);
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 1),
+                                1 * -(globalCtx->state.frames * 3), 32, 32, 1, 0 * (globalCtx->state.frames * 1),
+                                1 * -(globalCtx->state.frames * 2), 32, 32));
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 924),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[0]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 929);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 929);
 }
 
-static void func_8006A88C(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006A88C(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 936);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 936);
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx,
-                                 0, 0 * (globalCtx->state.frames * 0), 1 * (globalCtx->state.frames * 1), 32, 32,
-                                 1, 0 * (globalCtx->state.frames * 0), 1 * (globalCtx->state.frames * 1), 32, 32));
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 947), G_MTX_MODELVIEW | G_MTX_LOAD);
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 * (globalCtx->state.frames * 0),
+                                1 * (globalCtx->state.frames * 1), 32, 32, 1, 0 * (globalCtx->state.frames * 0),
+                                1 * (globalCtx->state.frames * 1), 32, 32));
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 947),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[0]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 952);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 952);
 }
 
-static void func_8006A9CC(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006A9CC(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 959);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 959);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 963), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 963),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 968);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 968);
 }
 
-static void func_8006AAA8(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006AAA8(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 975);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 975);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 979), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 979),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 986), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 986),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 991);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 991);
 }
 
-static void func_8006ABEC(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006ABEC(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 998);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 998);
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1002), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1002),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[0]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1008);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1008);
 }
 
-static void func_8006ACE4(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006ACE4(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1015);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1015);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1019), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1019),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[1]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1027), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1027),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[2]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1032);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1032);
 }
 
-static void func_8006AE40(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006AE40(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1039);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1039);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1043), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1043),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1050), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1050),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[2]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1056);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1056);
 }
 
-static void func_8006AF9C(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006AF9C(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1063);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1063);
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx,
-                                 0, 1 * (globalCtx->state.frames * 2), 1 * -(globalCtx->state.frames * 6), 32, 32,
-                                 1, 1 * (globalCtx->state.frames * 1), -1 * (globalCtx->state.frames * 2), 32, 32));
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1074), G_MTX_MODELVIEW | G_MTX_LOAD);
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 1 * (globalCtx->state.frames * 2),
+                                1 * -(globalCtx->state.frames * 6), 32, 32, 1, 1 * (globalCtx->state.frames * 1),
+                                -1 * (globalCtx->state.frames * 2), 32, 32));
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1074),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[0]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[2]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1081);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1081);
 }
 
-static void func_8006B124(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006B124(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1088);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1088);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1092), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1092),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[1]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[2]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[3]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1100);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1100);
 }
 
-static void func_8006B24C(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006B24C(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1108);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1108);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1112), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1112),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[1]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1120), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1120),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[3]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[2]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1126);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1126);
 }
 
-static void func_8006B3C0(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006B3C0(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1133);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1133);
 
     Matrix_Scale(0.7f, 0.7f, 0.7f, MTXMODE_APPLY);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1140), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1140),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[1]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1148), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1148),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[3]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[2]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1154);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1154);
 }
 
-static void func_8006B54C(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006B54C(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1162);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1162);
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyXlu.p++, 0x08,
-               Draw_TwoTexScroll(globalCtx->state.gfxCtx,
-                                 0, 1 * (globalCtx->state.frames * 2), -1 * (globalCtx->state.frames * 2), 64, 64,
-                                 1, 1 * (globalCtx->state.frames * 4), 1 * -(globalCtx->state.frames * 4), 32, 32));
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1173), G_MTX_MODELVIEW | G_MTX_LOAD);
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 1 * (globalCtx->state.frames * 2),
+                                -1 * (globalCtx->state.frames * 2), 64, 64, 1, 1 * (globalCtx->state.frames * 4),
+                                1 * -(globalCtx->state.frames * 4), 32, 32));
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1173),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[2]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[3]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[1]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[0]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1181);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1181);
 }
 
-static void func_8006B6E4(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006B6E4(GlobalContext* globalCtx, s16 drawId) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1188);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1188);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1192), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1192),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[1]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1200), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1200),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[2]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[3]);
     gSPDisplayList(gfxCtx->polyXlu.p++, sDrawItemTable[drawId].dlists[4]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1207);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1207);
 }
 
-static void func_8006B870(GlobalContext* globalCtx, s16 drawId)
-{
+static void func_8006B870(GlobalContext* globalCtx, s16 drawId) {
     u32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1214);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1214);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1218), G_MTX_MODELVIEW | G_MTX_LOAD);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_draw.c", 1218),
+              G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[1]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[0]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[2]);
@@ -676,5 +690,5 @@ static void func_8006B870(GlobalContext* globalCtx, s16 drawId)
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[6]);
     gSPDisplayList(gfxCtx->polyOpa.p++, sDrawItemTable[drawId].dlists[7]);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_draw.c", 1230);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_draw.c", 1230);
 }

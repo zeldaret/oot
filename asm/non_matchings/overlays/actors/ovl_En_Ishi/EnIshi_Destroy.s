@@ -10,5 +10,3 @@ glabel EnIshi_Destroy
 /* 00C2C 80A7F08C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00C30 80A7F090 03E00008 */  jr      $ra                        
 /* 00C34 80A7F094 00000000 */  nop
-
-

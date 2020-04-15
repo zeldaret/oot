@@ -1,3 +1,9 @@
+.rdata
+glabel D_808AB8BC
+    .asciz "Bg_Spot01_Idohashira_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_808AB444
 /* 00764 808AB444 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00768 808AB448 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -55,5 +61,3 @@ glabel func_808AB444
 /* 00818 808AB4F8 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 0081C 808AB4FC 03E00008 */  jr      $ra                        
 /* 00820 808AB500 00000000 */  nop
-
-

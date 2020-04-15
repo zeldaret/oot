@@ -1,6 +1,5 @@
 #include "z_boss_tw.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000035
 
 void BossTw_Init(BossTw* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void BossTw_Update(BossTw* this, GlobalContext* globalCtx);
 void BossTw_Draw(BossTw* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Boss_Tw_InitVars =
-{
+const ActorInit Boss_Tw_InitVars = {
     ACTOR_BOSS_TW,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_TW,
     sizeof(BossTw),
@@ -202,4 +199,3 @@ const ActorInit Boss_Tw_InitVars =
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_8094A6D8.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_8094A740.s")
-

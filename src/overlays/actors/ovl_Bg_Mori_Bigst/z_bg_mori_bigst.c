@@ -1,6 +1,5 @@
 #include "z_bg_mori_bigst.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000010
 
 void BgMoriBigst_Init(BgMoriBigst* this, GlobalContext* globalCtx);
@@ -8,11 +7,9 @@ void BgMoriBigst_Destroy(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_Update(BgMoriBigst* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mori_Bigst_InitVars =
-{
+const ActorInit Bg_Mori_Bigst_InitVars = {
     ACTOR_BG_MORI_BIGST,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_MORI_OBJECTS,
     sizeof(BgMoriBigst),

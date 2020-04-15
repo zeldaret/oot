@@ -191,5 +191,3 @@ glabel EnMThunder_Init
 /* 002BC 80A9F29C 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 002C0 80A9F2A0 03E00008 */  jr      $ra                        
 /* 002C4 80A9F2A4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

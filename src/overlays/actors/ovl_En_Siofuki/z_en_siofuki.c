@@ -1,6 +1,5 @@
 #include "z_en_siofuki.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000030
 
 void EnSiofuki_Init(EnSiofuki* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnSiofuki_Update(EnSiofuki* this, GlobalContext* globalCtx);
 void EnSiofuki_Draw(EnSiofuki* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Siofuki_InitVars =
-{
+const ActorInit En_Siofuki_InitVars = {
     ACTOR_EN_SIOFUKI,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SIOFUKI,
     sizeof(EnSiofuki),

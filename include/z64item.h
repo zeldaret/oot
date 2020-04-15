@@ -1,16 +1,14 @@
 #ifndef _Z64ITEM_H_
 #define _Z64ITEM_H_
 
-typedef enum
-{
+typedef enum {
     /* 0x00 */ EQUIP_SWORD,
     /* 0x01 */ EQUIP_SHIELD,
     /* 0x02 */ EQUIP_TUNIC,
     /* 0x03 */ EQUIP_BOOTS
 } EquipmentType;
 
-typedef enum
-{
+typedef enum {
     /* 0x00 */ UPG_QUIVER,
     /* 0x01 */ UPG_BOMB_BAG,
     /* 0x02 */ UPG_STRENGTH,
@@ -21,8 +19,7 @@ typedef enum
     /* 0x07 */ UPG_NUTS
 } UpgradeType;
 
-typedef enum
-{
+typedef enum {
     /* 0x00 */ SLOT_STICK,
     /* 0x01 */ SLOT_NUT,
     /* 0x02 */ SLOT_BOMB,
@@ -50,8 +47,7 @@ typedef enum
     /* 0xFF */ SLOT_NONE = 0xFF
 } InventorySlot;
 
-typedef enum
-{
+typedef enum {
     /* 0x00 */ ITEM_STICK,
     /* 0x01 */ ITEM_NUT,
     /* 0x02 */ ITEM_BOMB,
@@ -212,8 +208,7 @@ typedef enum
 } ItemID;
 
 // Get Item result may vary depending on context (chest/shop/scrub/drop)
-typedef enum
-{
+typedef enum {
     /* 0x00 */ GI_INVALID, // Link picks up chest and it sends him flying upwards
     /* 0x01 */ GI_BOMBS_5,
     /* 0x02 */ GI_NUTS_5,
@@ -258,8 +253,8 @@ typedef enum
     /* 0x29 */ GI_SHIELD_DEKU,   // or blue rupee if you have the shield
     /* 0x2A */ GI_SHIELD_HYLIAN, // or blue rupee if you have the shield
     /* 0x2B */ GI_SHIELD_MIRROR,
-    /* 0x2C */ GI_TUNIC_GORON,   // or blue rupee if you have the tunic
-    /* 0x2D */ GI_TUNIC_ZORA, // or blue rupee if you have the tunic
+    /* 0x2C */ GI_TUNIC_GORON, // or blue rupee if you have the tunic
+    /* 0x2D */ GI_TUNIC_ZORA,  // or blue rupee if you have the tunic
     /* 0x2E */ GI_BOOTS_IRON,
     /* 0x2F */ GI_BOOTS_HOVER,
     /* 0x30 */ GI_QUIVER_40,

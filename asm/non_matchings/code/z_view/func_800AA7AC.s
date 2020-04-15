@@ -1,5 +1,0 @@
-glabel func_800AA7AC
-/* B2194C 800AA7AC 44856000 */  mtc1  $a1, $f12
-/* B21950 800AA7B0 03E00008 */  jr    $ra
-/* B21954 800AA7B4 E48C0100 */   swc1  $f12, 0x100($a0)
-

@@ -50,5 +50,3 @@ glabel BgSpot18Basket_Update
 /* 00DD8 808B84E8 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00DDC 808B84EC 03E00008 */  jr      $ra                        
 /* 00DE0 808B84F0 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

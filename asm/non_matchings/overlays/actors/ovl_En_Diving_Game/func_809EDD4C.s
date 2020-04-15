@@ -53,11 +53,11 @@ glabel func_809EDD4C
 /* 00594 809EDE04 10000030 */  beq     $zero, $zero, .L809EDEC8   
 /* 00598 809EDE08 AE080280 */  sw      $t0, 0x0280($s0)           ## 00000280
 .L809EDE0C:
-/* 0059C 809EDE0C 0C01B0D8 */  jal     func_8006C360              
+/* 0059C 809EDE0C 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 005A0 809EDE10 2405001D */  addiu   $a1, $zero, 0x001D         ## $a1 = 0000001D
 /* 005A4 809EDE14 10400007 */  beq     $v0, $zero, .L809EDE34     
 /* 005A8 809EDE18 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 005AC 809EDE1C 0C01B0D8 */  jal     func_8006C360              
+/* 005AC 809EDE1C 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 005B0 809EDE20 2405001D */  addiu   $a1, $zero, 0x001D         ## $a1 = 0000001D
 /* 005B4 809EDE24 24090006 */  addiu   $t1, $zero, 0x0006         ## $t1 = 00000006
 /* 005B8 809EDE28 A602010E */  sh      $v0, 0x010E($s0)           ## 0000010E
@@ -114,5 +114,3 @@ glabel func_809EDD4C
 /* 00660 809EDED0 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00664 809EDED4 03E00008 */  jr      $ra                        
 /* 00668 809EDED8 00000000 */  nop
-
-

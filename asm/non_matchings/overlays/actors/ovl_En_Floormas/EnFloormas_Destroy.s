@@ -10,5 +10,3 @@ glabel EnFloormas_Destroy
 /* 0022C 80A1773C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00230 80A17740 03E00008 */  jr      $ra                        
 /* 00234 80A17744 00000000 */  nop
-
-

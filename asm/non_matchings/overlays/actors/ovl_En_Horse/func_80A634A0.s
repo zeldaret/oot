@@ -1,3 +1,28 @@
+.late_rodata
+glabel D_80A6697C
+ .word 0xBE99999A
+glabel D_80A66980
+ .word 0x414CCCCD
+glabel D_80A66984
+ .word 0x4622F983
+glabel D_80A66988
+ .word 0x38000100
+glabel D_80A6698C
+ .word 0x38000100
+glabel D_80A66990
+ .word 0x38000100
+glabel D_80A66994
+ .word 0x3F51B3F3
+glabel D_80A66998
+ .word 0x38000100
+glabel D_80A6699C
+ .word 0x3F51B3F3
+glabel D_80A669A0
+ .word 0x415CCCCD
+glabel D_80A669A4
+ .word 0x415CCCCD
+
+.text
 glabel func_80A634A0
 /* 081B0 80A634A0 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 081B4 80A634A4 AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -227,7 +252,7 @@ glabel func_80A634A0
 /* 08500 80A637F0 448B5000 */  mtc1    $t3, $f10                  ## $f10 = 0.00
 /* 08504 80A637F4 448C2000 */  mtc1    $t4, $f4                   ## $f4 = 0.00
 /* 08508 80A637F8 46805320 */  cvt.s.w $f12, $f10                 
-/* 0850C 80A637FC 0C03F494 */  jal     func_800FD250              
+/* 0850C 80A637FC 0C03F494 */  jal     Math_atan2f              
 /* 08510 80A63800 468023A0 */  cvt.s.w $f14, $f4                  
 /* 08514 80A63804 3C0180A6 */  lui     $at, %hi(D_80A66984)       ## $at = 80A60000
 /* 08518 80A63808 C4326984 */  lwc1    $f18, %lo(D_80A66984)($at) 
@@ -752,5 +777,3 @@ glabel func_80A634A0
 /* 08CAC 80A63F9C 27BD00C0 */  addiu   $sp, $sp, 0x00C0           ## $sp = 00000000
 /* 08CB0 80A63FA0 03E00008 */  jr      $ra                        
 /* 08CB4 80A63FA4 00000000 */  nop
-
-

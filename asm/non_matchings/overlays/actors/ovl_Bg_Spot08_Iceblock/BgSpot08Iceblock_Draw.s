@@ -20,7 +20,7 @@ glabel BgSpot08Iceblock_Draw
 /* 00D0C 808B166C 25EF0DE0 */  addiu   $t7, $t7, 0x0DE0           ## $t7 = 06000DE0
 /* 00D10 808B1670 AFAF001C */  sw      $t7, 0x001C($sp)           
 .L808B1674:
-/* 00D14 808B1674 0C00D498 */  jal     Draw_DListOpa
+/* 00D14 808B1674 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00D18 808B1678 8FA5001C */  lw      $a1, 0x001C($sp)           
 /* 00D1C 808B167C 8FBF0014 */  lw      $ra, 0x0014($sp)           
@@ -28,4 +28,3 @@ glabel BgSpot08Iceblock_Draw
 /* 00D24 808B1684 03E00008 */  jr      $ra                        
 /* 00D28 808B1688 00000000 */  nop
 /* 00D2C 808B168C 00000000 */  nop
-

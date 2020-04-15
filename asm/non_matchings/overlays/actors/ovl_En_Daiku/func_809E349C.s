@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809E41B0
+ .word 0x4622F983
+
+.text
 glabel func_809E349C
 /* 0096C 809E349C 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00970 809E34A0 AFB00038 */  sw      $s0, 0x0038($sp)           
@@ -90,7 +95,7 @@ glabel func_809E349C
 /* 00AC8 809E35F8 460A4501 */  sub.s   $f20, $f8, $f10            
 /* 00ACC 809E35FC 46049581 */  sub.s   $f22, $f18, $f4            
 /* 00AD0 809E3600 4600A306 */  mov.s   $f12, $f20                 
-/* 00AD4 809E3604 0C03F494 */  jal     func_800FD250              
+/* 00AD4 809E3604 0C03F494 */  jal     Math_atan2f              
 /* 00AD8 809E3608 4600B386 */  mov.s   $f14, $f22                 
 /* 00ADC 809E360C 46180182 */  mul.s   $f6, $f0, $f24             
 /* 00AE0 809E3610 00000000 */  nop
@@ -132,5 +137,3 @@ glabel func_809E349C
 /* 00B68 809E3698 D7B40018 */  ldc1    $f20, 0x0018($sp)          
 /* 00B6C 809E369C 03E00008 */  jr      $ra                        
 /* 00B70 809E36A0 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

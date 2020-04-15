@@ -9,5 +9,3 @@ glabel EnDekubaba_Destroy
 /* 0025C 809E5A2C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00260 809E5A30 03E00008 */  jr      $ra                        
 /* 00264 809E5A34 00000000 */  nop
-
-

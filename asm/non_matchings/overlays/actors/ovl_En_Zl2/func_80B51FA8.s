@@ -1,3 +1,9 @@
+.rdata
+glabel D_80B529F4
+    .asciz "En_Zl2_inRunning_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_80B51FA8
 /* 03618 80B51FA8 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 0361C 80B51FAC AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -55,5 +61,3 @@ glabel func_80B51FA8
 /* 036CC 80B5205C 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 036D0 80B52060 03E00008 */  jr      $ra                        
 /* 036D4 80B52064 00000000 */  nop
-
-

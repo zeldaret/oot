@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80ABE4B8
+    .float 0.7
+
+glabel D_80ABE4BC
+ .word 0x40333333
+
+.text
 glabel func_80ABCD40
 /* 00190 80ABCD40 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 00194 80ABCD44 C4860084 */  lwc1    $f6, 0x0084($a0)           ## 00000084
@@ -18,5 +26,3 @@ glabel func_80ABCD40
 /* 001C8 80ABCD78 46004282 */  mul.s   $f10, $f8, $f0             
 /* 001CC 80ABCD7C 03E00008 */  jr      $ra                        
 /* 001D0 80ABCD80 E48A01E8 */  swc1    $f10, 0x01E8($a0)          ## 000001E8
-
-

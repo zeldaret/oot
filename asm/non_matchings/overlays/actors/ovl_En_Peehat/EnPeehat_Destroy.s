@@ -30,5 +30,3 @@ glabel EnPeehat_Destroy
 /* 002DC 80ACF77C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002E0 80ACF780 03E00008 */  jr      $ra                        
 /* 002E4 80ACF784 00000000 */  nop
-
-

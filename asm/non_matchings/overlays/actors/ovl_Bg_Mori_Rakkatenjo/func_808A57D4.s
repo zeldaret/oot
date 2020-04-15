@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_808A6068
+ .word 0x44DFE000
+glabel D_808A606C
+ .word 0x4508F000
+
+.text
 glabel func_808A57D4
 /* 00264 808A57D4 AFA40000 */  sw      $a0, 0x0000($sp)           
 /* 00268 808A57D8 8CA31C44 */  lw      $v1, 0x1C44($a1)           ## 00001C44
@@ -47,5 +54,3 @@ glabel func_808A57D4
 .L808A587C:
 /* 0030C 808A587C 03E00008 */  jr      $ra                        
 /* 00310 808A5880 00000000 */  nop
-
-

@@ -1,6 +1,5 @@
 #include "z_en_sb.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000005
 
 void EnSb_Init(EnSb* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnSb_Update(EnSb* this, GlobalContext* globalCtx);
 void EnSb_Draw(EnSb* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Sb_InitVars =
-{
+const ActorInit En_Sb_InitVars = {
     ACTOR_EN_SB,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_SB,
     sizeof(EnSb),

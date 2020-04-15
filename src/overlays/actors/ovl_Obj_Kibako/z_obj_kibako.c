@@ -1,6 +1,11 @@
+/*
+ * File: z_obj_kibako.c
+ * Overlay: ovl_Obj_Kibako
+ * Description: Small, Liftable Crate
+ */
+
 #include "z_obj_kibako.h"
 
-#define ROOM  0x00
 #define FLAGS 0x04000010
 
 void ObjKibako_Init(ObjKibako* this, GlobalContext* globalCtx);
@@ -9,11 +14,9 @@ void ObjKibako_Update(ObjKibako* this, GlobalContext* globalCtx);
 void ObjKibako_Draw(ObjKibako* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Kibako_InitVars =
-{
+const ActorInit Obj_Kibako_InitVars = {
     ACTOR_OBJ_KIBAKO,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjKibako),

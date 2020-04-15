@@ -1,3 +1,9 @@
+.rdata
+glabel D_8086F088
+    .asciz "(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n"
+    .balign 4
+
+.text
 glabel BgBombwall_Init
 /* 000CC 8086E89C 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 000D0 8086E8A0 AFB30044 */  sw      $s3, 0x0044($sp)           
@@ -146,5 +152,3 @@ glabel BgBombwall_Init
 /* 002E4 8086EAB4 8FBE0058 */  lw      $s8, 0x0058($sp)           
 /* 002E8 8086EAB8 03E00008 */  jr      $ra                        
 /* 002EC 8086EABC 27BD00B8 */  addiu   $sp, $sp, 0x00B8           ## $sp = 00000000
-
-

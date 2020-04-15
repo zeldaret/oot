@@ -50,5 +50,3 @@ glabel EnMd_Update
 /* 01C94 80AABEE4 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 01C98 80AABEE8 03E00008 */  jr      $ra                        
 /* 01C9C 80AABEEC 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

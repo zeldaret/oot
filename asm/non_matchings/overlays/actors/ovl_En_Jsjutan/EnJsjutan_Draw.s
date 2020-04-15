@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A8E430
+    .asciz "../z_en_jsjutan.c"
+    .balign 4
+
+glabel D_80A8E444
+    .asciz "../z_en_jsjutan.c"
+    .balign 4
+
+glabel D_80A8E458
+    .asciz "../z_en_jsjutan.c"
+    .balign 4
+
+glabel D_80A8E46C
+    .asciz "../z_en_jsjutan.c"
+    .balign 4
+
+.text
 glabel EnJsjutan_Draw
 /* 00E78 80A8A618 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 00E7C 80A8A61C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -12,7 +30,7 @@ glabel EnJsjutan_Draw
 /* 00EA0 80A8A640 27A40064 */  addiu   $a0, $sp, 0x0064           ## $a0 = FFFFFFDC
 /* 00EA4 80A8A644 240702BD */  addiu   $a3, $zero, 0x02BD         ## $a3 = 000002BD
 /* 00EA8 80A8A648 AFA20078 */  sw      $v0, 0x0078($sp)           
-/* 00EAC 80A8A64C 0C031AB1 */  jal     func_800C6AC4              
+/* 00EAC 80A8A64C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00EB0 80A8A650 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00EB4 80A8A654 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C
 /* 00EB8 80A8A658 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
@@ -281,7 +299,7 @@ glabel EnJsjutan_Draw
 /* 012A4 80A8AA44 24070337 */  addiu   $a3, $zero, 0x0337         ## $a3 = 00000337
 /* 012A8 80A8AA48 AC4D0004 */  sw      $t5, 0x0004($v0)           ## 00000004
 /* 012AC 80A8AA4C 8FAE008C */  lw      $t6, 0x008C($sp)           
-/* 012B0 80A8AA50 0C031AD5 */  jal     func_800C6B54              
+/* 012B0 80A8AA50 0C031AD5 */  jal     Graph_CloseDisps              
 /* 012B4 80A8AA54 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 012B8 80A8AA58 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 012BC 80A8AA5C 8FB00014 */  lw      $s0, 0x0014($sp)           
@@ -289,4 +307,3 @@ glabel EnJsjutan_Draw
 /* 012C4 80A8AA64 03E00008 */  jr      $ra                        
 /* 012C8 80A8AA68 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
 /* 012CC 80A8AA6C 00000000 */  nop
-

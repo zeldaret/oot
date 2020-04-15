@@ -24,5 +24,3 @@ glabel EnAm_Destroy
 /* 00344 809AE264 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00348 809AE268 03E00008 */  jr      $ra                        
 /* 0034C 809AE26C 00000000 */  nop
-
-

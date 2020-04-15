@@ -1,3 +1,23 @@
+.rdata
+glabel D_8090D908
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+glabel D_8090D91C
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+glabel D_8090D930
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+.late_rodata
+glabel D_8090DD48
+ .word 0x3E6EEEED
+glabel D_8090DD4C
+    .float 6.28318548203
+
+.text
 glabel func_8090523C
 /* 082FC 8090523C 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 08300 80905240 AFBF006C */  sw      $ra, 0x006C($sp)           
@@ -23,7 +43,7 @@ glabel func_8090523C
 /* 08350 80905290 24C6D908 */  addiu   $a2, $a2, %lo(D_8090D908)  ## $a2 = 8090D908
 /* 08354 80905294 27A400A4 */  addiu   $a0, $sp, 0x00A4           ## $a0 = FFFFFFE4
 /* 08358 80905298 2407162B */  addiu   $a3, $zero, 0x162B         ## $a3 = 0000162B
-/* 0835C 8090529C 0C031AB1 */  jal     func_800C6AC4              
+/* 0835C 8090529C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 08360 809052A0 00A09025 */  or      $s2, $a1, $zero            ## $s2 = 00000000
 /* 08364 809052A4 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 08368 809052A8 C606038C */  lwc1    $f6, 0x038C($s0)           ## 0000038C
@@ -163,7 +183,7 @@ glabel func_8090523C
 /* 0856C 809054AC 24C6D930 */  addiu   $a2, $a2, %lo(D_8090D930)  ## $a2 = 8090D930
 /* 08570 809054B0 27A400A4 */  addiu   $a0, $sp, 0x00A4           ## $a0 = FFFFFFE4
 /* 08574 809054B4 2407165D */  addiu   $a3, $zero, 0x165D         ## $a3 = 0000165D
-/* 08578 809054B8 0C031AD5 */  jal     func_800C6B54              
+/* 08578 809054B8 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0857C 809054BC 8D250000 */  lw      $a1, 0x0000($t1)           ## 00000000
 /* 08580 809054C0 8FBF006C */  lw      $ra, 0x006C($sp)           
 /* 08584 809054C4 D7B40018 */  ldc1    $f20, 0x0018($sp)          
@@ -183,5 +203,3 @@ glabel func_8090523C
 /* 085BC 809054FC 8FBE0068 */  lw      $s8, 0x0068($sp)           
 /* 085C0 80905500 03E00008 */  jr      $ra                        
 /* 085C4 80905504 27BD00C0 */  addiu   $sp, $sp, 0x00C0           ## $sp = 00000000
-
-

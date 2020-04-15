@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AAFBA8
+    .asciz "../z_en_mm2.c"
+    .balign 4
+
+glabel D_80AAFBB8
+    .asciz "((z_common_data.event_inf[1]) & (0x0001)) = %x\n"
+    .balign 4
+
+.text
 glabel func_80AAF668
 /* 00818 80AAF668 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0081C 80AAF66C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -81,5 +91,3 @@ glabel func_80AAF668
 /* 00934 80AAF784 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00938 80AAF788 03E00008 */  jr      $ra                        
 /* 0093C 80AAF78C 00000000 */  nop
-
-

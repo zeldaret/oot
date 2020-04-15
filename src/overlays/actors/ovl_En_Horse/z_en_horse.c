@@ -1,6 +1,5 @@
 #include "z_en_horse.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000010
 
 void EnHorse_Init(EnHorse* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnHorse_Update(EnHorse* this, GlobalContext* globalCtx);
 void EnHorse_Draw(EnHorse* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Horse_InitVars =
-{
+const ActorInit En_Horse_InitVars = {
     ACTOR_EN_HORSE,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HORSE,
     sizeof(EnHorse),

@@ -1,3 +1,33 @@
+.rdata
+glabel D_80BA6F40
+    .asciz "[33m"
+    .balign 4
+
+glabel D_80BA6F48
+    .asciz "z_oceff_spot  太陽の歌フラグ\n"
+    .balign 4
+
+glabel D_80BA6F68
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80BA6F6C
+    .asciz "[33m"
+    .balign 4
+
+glabel D_80BA6F74
+    .asciz "z_oceff_spot  オカリナ終了\n"
+    .balign 4
+
+glabel D_80BA6F90
+    .asciz "\x1b[m"
+    .balign 4
+
+.late_rodata
+glabel D_80BA6FD8
+    .float 0.05
+
+.text
 glabel func_80BA6260
 /* 001F0 80BA6260 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 001F4 80BA6264 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -80,5 +110,3 @@ glabel func_80BA6260
 /* 002F4 80BA6364 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002F8 80BA6368 03E00008 */  jr      $ra                        
 /* 002FC 80BA636C 00000000 */  nop
-
-

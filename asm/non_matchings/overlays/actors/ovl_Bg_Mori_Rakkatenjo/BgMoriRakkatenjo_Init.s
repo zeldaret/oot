@@ -1,3 +1,36 @@
+.rdata
+glabel D_808A5EA0
+    .asciz "森の神殿 obj. 落下天井 (home posY %f)\n"
+    .balign 4
+
+glabel D_808A5EC8
+    .asciz "Warning : セット位置が変更されています。プログラムを修正しましょう。\n"
+    .balign 4
+
+glabel D_808A5F10
+    .asciz "Warning : セット Angle が変更されています。プログラムを修正しましょう。\n"
+    .balign 4
+
+glabel D_808A5F5C
+    .asciz "Error : 森の神殿 obj 落下天井 バンク危険！(%s %d)\n"
+    .balign 4
+
+glabel D_808A5F90
+    .asciz "../z_bg_mori_rakkatenjo.c"
+    .balign 4
+
+.late_rodata
+glabel D_808A604C
+    .float 0.001
+
+glabel D_808A6050
+ .word 0x44F8E000
+glabel D_808A6054
+ .word 0x442AC000
+glabel D_808A6058
+ .word 0xC51D8000
+
+.text
 glabel BgMoriRakkatenjo_Init
 /* 00000 808A5570 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 808A5574 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -111,5 +144,3 @@ glabel BgMoriRakkatenjo_Init
 /* 00178 808A56E8 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0017C 808A56EC 03E00008 */  jr      $ra                        
 /* 00180 808A56F0 00000000 */  nop
-
-

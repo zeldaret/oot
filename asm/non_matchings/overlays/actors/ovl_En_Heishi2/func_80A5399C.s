@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A551C0
+    .asciz "[35m ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_80A5399C
 /* 00AFC 80A5399C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00B00 80A539A0 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -50,7 +56,7 @@ glabel func_80A5399C
 /* 00BA8 80A53A48 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 00BAC 80A53A4C 24050005 */  addiu   $a1, $zero, 0x0005         ## $a1 = 00000005
 /* 00BB0 80A53A50 A7A3001E */  sh      $v1, 0x001E($sp)           
-/* 00BB4 80A53A54 0C01B0D8 */  jal     func_8006C360              
+/* 00BB4 80A53A54 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00BB8 80A53A58 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 00BBC 80A53A5C 87A3001E */  lh      $v1, 0x001E($sp)           
 /* 00BC0 80A53A60 1040000D */  beq     $v0, $zero, .L80A53A98     
@@ -58,7 +64,7 @@ glabel func_80A5399C
 /* 00BC8 80A53A68 1460000B */  bne     $v1, $zero, .L80A53A98     
 /* 00BCC 80A53A6C 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 00BD0 80A53A70 24050005 */  addiu   $a1, $zero, 0x0005         ## $a1 = 00000005
-/* 00BD4 80A53A74 0C01B0D8 */  jal     func_8006C360              
+/* 00BD4 80A53A74 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00BD8 80A53A78 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 00BDC 80A53A7C 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 00BE0 80A53A80 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001
@@ -86,5 +92,3 @@ glabel func_80A5399C
 /* 00C28 80A53AC8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00C2C 80A53ACC 03E00008 */  jr      $ra                        
 /* 00C30 80A53AD0 00000000 */  nop
-
-

@@ -12,4 +12,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_vr_box/func_800AF218.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_vr_box/func_800B0E50.s")
-

@@ -30,5 +30,3 @@ glabel BgDodoago_Destroy
 /* 002E8 80871CE8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 002EC 80871CEC 03E00008 */  jr      $ra                        
 /* 002F0 80871CF0 00000000 */  nop
-
-

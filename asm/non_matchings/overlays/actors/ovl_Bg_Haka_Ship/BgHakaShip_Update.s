@@ -17,5 +17,3 @@ glabel BgHakaShip_Update
 /* 006A8 8087F7A8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 006AC 8087F7AC 03E00008 */  jr      $ra                        
 /* 006B0 8087F7B0 00000000 */  nop
-
-

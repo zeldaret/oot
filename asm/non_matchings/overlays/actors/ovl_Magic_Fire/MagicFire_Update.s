@@ -1,3 +1,19 @@
+.late_rodata
+glabel D_80B8AFFC
+ .word 0x43A28000
+glabel D_80B8B000
+    .float 0.08
+
+glabel D_80B8B004
+    .float 0.001
+
+glabel D_80B8B008
+    .float 0.05
+
+glabel D_80B8B00C
+ .word 0x3D89AE40
+
+.text
 glabel MagicFire_Update
 /* 00170 80B88EE0 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00174 80B88EE4 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -258,5 +274,3 @@ glabel MagicFire_Update
 /* 004F8 80B89268 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 004FC 80B8926C 03E00008 */  jr      $ra                        
 /* 00500 80B89270 00000000 */  nop
-
-

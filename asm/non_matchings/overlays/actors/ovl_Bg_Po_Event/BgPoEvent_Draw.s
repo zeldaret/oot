@@ -1,3 +1,29 @@
+.rdata
+glabel D_808A7DB0
+    .asciz "../z_bg_po_event.c"
+    .balign 4
+
+glabel D_808A7DC4
+    .asciz "../z_bg_po_event.c"
+    .balign 4
+
+glabel D_808A7DD8
+    .asciz "../z_bg_po_event.c"
+    .balign 4
+
+.late_rodata
+glabel D_808A7E00
+ .word 0x44504000
+glabel D_808A7E04
+    .float 0.0025
+
+glabel D_808A7E08
+    .float 0.3
+
+glabel D_808A7E0C
+    .float 0.4
+
+.text
 glabel BgPoEvent_Draw
 /* 0180C 808A7A1C 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 01810 808A7A20 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -9,7 +35,7 @@ glabel BgPoEvent_Draw
 /* 01828 808A7A38 24C67DB0 */  addiu   $a2, $a2, %lo(D_808A7DB0)  ## $a2 = 808A7DB0
 /* 0182C 808A7A3C 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFC0
 /* 01830 808A7A40 240705C9 */  addiu   $a3, $zero, 0x05C9         ## $a3 = 000005C9
-/* 01834 808A7A44 0C031AB1 */  jal     func_800C6AC4              
+/* 01834 808A7A44 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01838 808A7A48 AFA50040 */  sw      $a1, 0x0040($sp)           
 /* 0183C 808A7A4C 8FAF0074 */  lw      $t7, 0x0074($sp)           
 /* 01840 808A7A50 0C024F46 */  jal     func_80093D18              
@@ -80,7 +106,7 @@ glabel BgPoEvent_Draw
 /* 01934 808A7B44 240705E4 */  addiu   $a3, $zero, 0x05E4         ## $a3 = 000005E4
 /* 01938 808A7B48 AC4B0004 */  sw      $t3, 0x0004($v0)           ## 00000004
 /* 0193C 808A7B4C 8FAC0074 */  lw      $t4, 0x0074($sp)           
-/* 01940 808A7B50 0C031AD5 */  jal     func_800C6B54              
+/* 01940 808A7B50 0C031AD5 */  jal     Graph_CloseDisps              
 /* 01944 808A7B54 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 01948 808A7B58 92020168 */  lbu     $v0, 0x0168($s0)           ## 00000168
 /* 0194C 808A7B5C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
@@ -174,4 +200,3 @@ glabel BgPoEvent_Draw
 /* 01A94 808A7CA4 00000000 */  nop
 /* 01A98 808A7CA8 00000000 */  nop
 /* 01A9C 808A7CAC 00000000 */  nop
-

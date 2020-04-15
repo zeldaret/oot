@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A53E0
+    .asciz "◯◯◯森の神殿オブジェクト【回転壁(arg_data : 0x%04x)】出現 \n"
+    .balign 4
+
+glabel D_808A5420
+    .asciz "【回転壁】 バンク危険！(%s %d)\n"
+    .balign 4
+
+glabel D_808A5440
+    .asciz "../z_bg_mori_kaitenkabe.c"
+    .balign 4
+
+.text
 glabel BgMoriKaitenkabe_Init
 /* 00070 808A4E30 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00074 808A4E34 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -64,5 +78,3 @@ glabel BgMoriKaitenkabe_Init
 /* 00140 808A4F00 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00144 808A4F04 03E00008 */  jr      $ra                        
 /* 00148 808A4F08 00000000 */  nop
-
-

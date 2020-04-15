@@ -43,5 +43,3 @@ glabel func_809EF854
 .L809EF8EC:
 /* 0059C 809EF8EC 03E00008 */  jr      $ra                        
 /* 005A0 809EF8F0 00000000 */  nop
-
-

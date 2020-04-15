@@ -70,5 +70,3 @@ glabel ObjHana_Init
 /* 000EC 80B9394C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 000F0 80B93950 03E00008 */  jr      $ra                        
 /* 000F4 80B93954 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

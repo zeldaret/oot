@@ -1,6 +1,5 @@
 #include "z_en_rd.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000415
 
 void EnRd_Init(EnRd* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnRd_Update(EnRd* this, GlobalContext* globalCtx);
 void EnRd_Draw(EnRd* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Rd_InitVars =
-{
+const ActorInit En_Rd_InitVars = {
     ACTOR_EN_RD,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_RD,
     sizeof(EnRd),

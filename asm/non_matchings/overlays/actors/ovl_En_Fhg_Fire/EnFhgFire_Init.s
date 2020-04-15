@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A11840
+    .asciz "yari hikari ct 1\n"
+    .balign 4
+
+glabel D_80A11854
+    .asciz "yari hikari ct 2\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A119C4
+ .word 0x3E051EB8
+glabel D_80A119C8
+ .word 0x4622F983
+glabel D_80A119CC
+ .word 0x4622F983
+
+.text
 glabel EnFhgFire_Init
 /* 00008 80A0F268 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 0000C 80A0F26C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
@@ -219,7 +237,7 @@ glabel EnFhgFire_Init
 /* 00310 80A0F570 C452002C */  lwc1    $f18, 0x002C($v0)          ## 0000002C
 /* 00314 80A0F574 E7AC0048 */  swc1    $f12, 0x0048($sp)          
 /* 00318 80A0F578 46049381 */  sub.s   $f14, $f18, $f4            
-/* 0031C 80A0F57C 0C03F494 */  jal     func_800FD250              
+/* 0031C 80A0F57C 0C03F494 */  jal     Math_atan2f              
 /* 00320 80A0F580 E7AE0040 */  swc1    $f14, 0x0040($sp)          
 /* 00324 80A0F584 3C0180A1 */  lui     $at, %hi(D_80A119C8)       ## $at = 80A10000
 /* 00328 80A0F588 C42619C8 */  lwc1    $f6, %lo(D_80A119C8)($at)  
@@ -236,7 +254,7 @@ glabel EnFhgFire_Init
 /* 00354 80A0F5B4 00000000 */  nop
 /* 00358 80A0F5B8 A60D0032 */  sh      $t5, 0x0032($s0)           ## 00000032
 /* 0035C 80A0F5BC 46000384 */  sqrt.s  $f14, $f0                  
-/* 00360 80A0F5C0 0C03F494 */  jal     func_800FD250              
+/* 00360 80A0F5C0 0C03F494 */  jal     Math_atan2f              
 /* 00364 80A0F5C4 C7AC0044 */  lwc1    $f12, 0x0044($sp)          
 /* 00368 80A0F5C8 3C0180A1 */  lui     $at, %hi(D_80A119CC)       ## $at = 80A10000
 /* 0036C 80A0F5CC C42619CC */  lwc1    $f6, %lo(D_80A119CC)($at)  
@@ -291,5 +309,3 @@ glabel EnFhgFire_Init
 /* 00420 80A0F680 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 00424 80A0F684 03E00008 */  jr      $ra                        
 /* 00428 80A0F688 00000000 */  nop
-
-

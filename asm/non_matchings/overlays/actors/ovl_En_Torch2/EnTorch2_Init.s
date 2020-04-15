@@ -105,5 +105,3 @@ glabel EnTorch2_Init
 /* 0019C 80B1DB1C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 001A0 80B1DB20 03E00008 */  jr      $ra                        
 /* 001A4 80B1DB24 00000000 */  nop
-
-

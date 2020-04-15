@@ -1,3 +1,17 @@
+.rdata
+glabel D_80AB4F90
+    .asciz "En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n"
+    .balign 4
+
+glabel D_80AB4FD4
+    .asciz "En_Nb_Get_path_info レールデータが無い!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AB5200
+ .word 0x4622F983
+
+.text
 glabel func_80AB0DAC
 /* 0001C 80AB0DAC 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00020 80AB0DB0 3C070001 */  lui     $a3, 0x0001                ## $a3 = 00010000
@@ -62,7 +76,7 @@ glabel func_80AB0DAC
 /* 0010C 80AB0E9C 468084A0 */  cvt.s.w $f18, $f16                 
 /* 00110 80AB0EA0 E4D202F8 */  swc1    $f18, 0x02F8($a2)          ## 000002F8
 /* 00114 80AB0EA4 C4C802F8 */  lwc1    $f8, 0x02F8($a2)           ## 000002F8
-/* 00118 80AB0EA8 0C03F494 */  jal     func_800FD250              
+/* 00118 80AB0EA8 0C03F494 */  jal     Math_atan2f              
 /* 0011C 80AB0EAC 460A4381 */  sub.s   $f14, $f8, $f10            
 /* 00120 80AB0EB0 3C0180AB */  lui     $at, %hi(D_80AB5200)       ## $at = 80AB0000
 /* 00124 80AB0EB4 C4305200 */  lwc1    $f16, %lo(D_80AB5200)($at) 
@@ -89,5 +103,3 @@ glabel func_80AB0DAC
 /* 00168 80AB0EF8 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 0016C 80AB0EFC 03E00008 */  jr      $ra                        
 /* 00170 80AB0F00 00000000 */  nop
-
-

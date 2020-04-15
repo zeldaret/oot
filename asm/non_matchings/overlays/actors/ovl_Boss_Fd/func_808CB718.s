@@ -1,3 +1,174 @@
+.rdata
+glabel D_808D1C30
+    .asciz "MODE %d\n"
+    .balign 4
+
+glabel D_808D1C3C
+    .asciz "WAY_SPD X = %f\n"
+    .balign 4
+
+glabel D_808D1C4C
+    .asciz "WAY_SPD Y = %f\n"
+    .balign 4
+
+glabel D_808D1C5C
+    .asciz "WAY_SPD Z = %f\n"
+    .balign 4
+
+glabel D_808D1C6C
+    .asciz "this->timer[2] = %d\n"
+    .balign 4
+
+glabel D_808D1C84
+    .asciz "this->timer[5] = %d\n"
+    .balign 4
+
+glabel D_808D1C9C
+    .asciz "BGCHECKKKKKKKKKKKKKKKKKKKKKKK\n"
+    .balign 4
+
+.late_rodata
+glabel D_808D1E48
+ .word 0x44E08000
+glabel D_808D1E4C
+ .word 0x4622F983
+glabel jtbl_808D1E50
+.word L808CB988
+.word L808CBCD4
+.word L808CBCF8
+.word L808CBE20
+.word L808CBF44
+.word L808CC140
+glabel D_808D1E68
+    .float 10000.0
+
+glabel D_808D1E6C
+    .float 0.05
+
+glabel D_808D1E70
+    .float 0.1
+
+glabel D_808D1E74
+ .word 0x3BA3D70A, 0x3DCCCCCD
+glabel D_808D1E7C
+ .word 0x3A831270
+glabel D_808D1E80
+    .float 0.2
+
+glabel D_808D1E84
+    .float 0.02
+
+glabel D_808D1E88
+    .float 0.005
+
+glabel D_808D1E8C
+    .float 0.1
+
+glabel D_808D1E90
+    .float 0.1
+
+glabel D_808D1E94
+    .float 0.1
+
+glabel D_808D1E98
+    .float 0.1
+
+glabel D_808D1E9C
+    .float 0.1
+
+glabel D_808D1EA0
+    .float 0.1
+
+glabel D_808D1EA4
+    .float 0.05
+
+glabel D_808D1EA8
+    .float 0.05
+
+glabel D_808D1EAC
+    .float 0.05
+
+glabel D_808D1EB0
+ .word 0x42AB1EB8, 0x3DCCCCCD
+glabel jtbl_808D1EB8
+.word L808CCCF4
+.word L808CCDF0
+.word L808CD0E4
+.word L808CD154
+.word L808CD178
+.word L808CD3A8
+glabel jtbl_808D1ED0
+.word L808CD598
+.word L808CC6A4
+.word L808CC878
+.word L808CC91C
+.word L808CC944
+glabel D_808D1EE4
+ .word 0x410E6666
+glabel D_808D1EE8
+    .float 10000.0
+
+glabel D_808D1EEC
+    .float 3000.0
+
+glabel D_808D1EF0
+    .float 10000.0
+
+glabel D_808D1EF4
+ .word 0xC68FA000
+glabel D_808D1EF8
+ .word 0x4515C000
+glabel D_808D1EFC
+    .float 10000.0
+
+glabel D_808D1F00
+    .float 0.4
+
+glabel D_808D1F04
+ .word 0x42C7CCCD
+glabel D_808D1F08
+    .float 0.03
+
+glabel D_808D1F0C
+    .float 0.3
+
+glabel D_808D1F10
+    .float 0.03
+
+glabel D_808D1F14
+    .float 3.14159274101
+
+glabel D_808D1F18
+ .word 0x45AEE000
+glabel D_808D1F1C
+    .float 0.3
+
+glabel D_808D1F20
+ .word 0x45ABC000
+glabel D_808D1F24
+    .float 0.3
+
+glabel D_808D1F28
+    .float 0.3
+
+glabel D_808D1F2C
+    .float 1500.0
+
+glabel D_808D1F30
+    .float 3000.0
+
+glabel D_808D1F34
+ .word 0x45098000
+glabel D_808D1F38
+ .word 0x44D48000
+glabel D_808D1F3C
+ .word 0x44ED8000
+glabel D_808D1F40
+ .word 0xC53B8000
+glabel D_808D1F44
+ .word 0xC53B8000
+
+.text
 glabel func_808CB718
 /* 00958 808CB718 27BDFE30 */  addiu   $sp, $sp, 0xFE30           ## $sp = FFFFFE30
 /* 0095C 808CB71C AFB60078 */  sw      $s6, 0x0078($sp)           
@@ -95,7 +266,7 @@ glabel func_808CB718
 /* 00AB4 808CB874 4600A306 */  mov.s   $f12, $f20                 
 /* 00AB8 808CB878 460A0202 */  mul.s   $f8, $f0, $f10             
 /* 00ABC 808CB87C 4608B580 */  add.s   $f22, $f22, $f8            
-/* 00AC0 808CB880 0C03F494 */  jal     func_800FD250              
+/* 00AC0 808CB880 0C03F494 */  jal     Math_atan2f              
 /* 00AC4 808CB884 4600B386 */  mov.s   $f14, $f22                 
 /* 00AC8 808CB888 3C01808D */  lui     $at, %hi(D_808D1E4C)       ## $at = 808D0000
 /* 00ACC 808CB88C C4381E4C */  lwc1    $f24, %lo(D_808D1E4C)($at) 
@@ -117,7 +288,7 @@ glabel func_808CB718
 /* 00B0C 808CB8CC 00000000 */  nop
 /* 00B10 808CB8D0 46805220 */  cvt.s.w $f8, $f10                  
 /* 00B14 808CB8D4 E7AE0090 */  swc1    $f14, 0x0090($sp)          
-/* 00B18 808CB8D8 0C03F494 */  jal     func_800FD250              
+/* 00B18 808CB8D8 0C03F494 */  jal     Math_atan2f              
 /* 00B1C 808CB8DC E7A801B4 */  swc1    $f8, 0x01B4($sp)           
 /* 00B20 808CB8E0 46180102 */  mul.s   $f4, $f0, $f24             
 /* 00B24 808CB8E4 3C04808D */  lui     $a0, %hi(D_808D1C30)       ## $a0 = 808D0000
@@ -2700,5 +2871,3 @@ glabel L808CD598
 /* 03064 808CDE24 8FB60078 */  lw      $s6, 0x0078($sp)           
 /* 03068 808CDE28 03E00008 */  jr      $ra                        
 /* 0306C 808CDE2C 27BD01D0 */  addiu   $sp, $sp, 0x01D0           ## $sp = 00000000
-
-

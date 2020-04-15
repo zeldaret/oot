@@ -156,5 +156,3 @@ glabel EnPoSisters_Init
 /* 0023C 80AD91CC 8FB00024 */  lw      $s0, 0x0024($sp)           
 /* 00240 80AD91D0 03E00008 */  jr      $ra                        
 /* 00244 80AD91D4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

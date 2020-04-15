@@ -1,3 +1,21 @@
+.rdata
+glabel D_80AC9330
+    .asciz "\x1b[41;37m"
+    .balign 4
+
+glabel D_80AC933C
+    .asciz "★★★ 警告！！ 棚がないよ！！ ★★★\n"
+    .balign 4
+
+glabel D_80AC9364
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80AC9368
+    .asciz "\x1b[33m◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇\x1b[m\n"
+    .balign 4
+
+.text
 glabel func_80AC7094
 /* 043F4 80AC7094 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 043F8 80AC7098 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -197,5 +215,3 @@ glabel func_80AC7094
 /* 046D4 80AC7374 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 046D8 80AC7378 03E00008 */  jr      $ra                        
 /* 046DC 80AC737C 00000000 */  nop
-
-

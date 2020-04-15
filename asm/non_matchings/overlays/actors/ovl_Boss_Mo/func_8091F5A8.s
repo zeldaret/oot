@@ -1,3 +1,67 @@
+.late_rodata
+glabel jtbl_80926CEC
+.word L8091F61C
+.word L8091F7D0
+.word L8091F8F8
+.word L8091FF00
+.word L80920280
+glabel D_80926D00
+    .float 0.05
+
+glabel D_80926D04
+ .word 0x3E051EB8
+glabel D_80926D08
+ .word 0x4622F983
+glabel D_80926D0C
+ .word 0x4622F983
+glabel D_80926D10
+    .float 0.05
+
+glabel D_80926D14
+ .word 0x3E051EB8
+glabel D_80926D18
+    .float 0.1
+
+glabel D_80926D1C
+    .float 0.4
+
+glabel D_80926D20
+    .float 0.3
+
+glabel D_80926D24
+    .float 2500.0
+
+glabel D_80926D28
+    .float 2500.0
+
+glabel D_80926D2C
+    .float 0.1
+
+glabel D_80926D30
+    .float 0.01
+
+glabel D_80926D34
+    .float 0.001
+
+glabel D_80926D38
+    .float 0.1
+
+glabel D_80926D3C
+    .float 0.1
+
+glabel D_80926D40
+    .float 0.03
+
+glabel D_80926D44
+    .float 0.03
+
+glabel D_80926D48
+    .float 0.01
+
+glabel D_80926D4C
+    .float 0.03
+
+.text
 glabel func_8091F5A8
 /* 03AA8 8091F5A8 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 03AAC 8091F5AC AFB00028 */  sw      $s0, 0x0028($sp)           
@@ -292,7 +356,7 @@ glabel L8091F8F8
 /* 03EE4 8091F9E4 C60401DC */  lwc1    $f4, 0x01DC($s0)           ## 000001DC
 /* 03EE8 8091F9E8 E7AC0098 */  swc1    $f12, 0x0098($sp)          
 /* 03EEC 8091F9EC 46062381 */  sub.s   $f14, $f4, $f6             
-/* 03EF0 8091F9F0 0C03F494 */  jal     func_800FD250              
+/* 03EF0 8091F9F0 0C03F494 */  jal     Math_atan2f              
 /* 03EF4 8091F9F4 E7AE0090 */  swc1    $f14, 0x0090($sp)          
 /* 03EF8 8091F9F8 C7B00098 */  lwc1    $f16, 0x0098($sp)          
 /* 03EFC 8091F9FC C7B20090 */  lwc1    $f18, 0x0090($sp)          
@@ -302,7 +366,7 @@ glabel L8091F8F8
 /* 03F0C 8091FA0C 46129282 */  mul.s   $f10, $f18, $f18           
 /* 03F10 8091FA10 460A4100 */  add.s   $f4, $f8, $f10             
 /* 03F14 8091FA14 E7A4003C */  swc1    $f4, 0x003C($sp)           
-/* 03F18 8091FA18 0C03F494 */  jal     func_800FD250              
+/* 03F18 8091FA18 0C03F494 */  jal     Math_atan2f              
 /* 03F1C 8091FA1C 46002384 */  sqrt.s  $f14, $f4                  
 /* 03F20 8091FA20 3C018092 */  lui     $at, %hi(D_80926D08)       ## $at = 80920000
 /* 03F24 8091FA24 C7A20088 */  lwc1    $f2, 0x0088($sp)           
@@ -1166,5 +1230,3 @@ glabel L80920280
 /* 04BB8 809206B8 27BD00A0 */  addiu   $sp, $sp, 0x00A0           ## $sp = 00000000
 /* 04BBC 809206BC 03E00008 */  jr      $ra                        
 /* 04BC0 809206C0 00000000 */  nop
-
-

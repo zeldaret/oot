@@ -1,3 +1,13 @@
+.rdata
+glabel D_809D33F0
+    .asciz "[32m☆☆☆☆☆ 右宝開く ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809D341C
+    .asciz "[32m☆☆☆☆☆ 左宝開く ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel func_809D2D70
 /* 006E0 809D2D70 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 006E4 809D2D74 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -143,5 +153,3 @@ glabel func_809D2D70
 /* 008D8 809D2F68 8FB20038 */  lw      $s2, 0x0038($sp)           
 /* 008DC 809D2F6C 03E00008 */  jr      $ra                        
 /* 008E0 809D2F70 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

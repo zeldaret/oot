@@ -124,5 +124,3 @@ glabel ObjSyokudai_Init
 /* 001B4 80B9F464 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 001B8 80B9F468 03E00008 */  jr      $ra                        
 /* 001BC 80B9F46C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

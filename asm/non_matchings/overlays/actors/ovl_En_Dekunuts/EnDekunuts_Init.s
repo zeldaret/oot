@@ -99,5 +99,3 @@ glabel EnDekunuts_Init
 /* 0015C 809E96BC 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 00160 809E96C0 03E00008 */  jr      $ra                        
 /* 00164 809E96C4 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

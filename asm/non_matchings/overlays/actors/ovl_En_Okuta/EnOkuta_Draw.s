@@ -1,3 +1,21 @@
+.rdata
+glabel D_80AC28D0
+    .asciz "../z_en_okuta.c"
+    .balign 4
+
+glabel D_80AC28E0
+    .asciz "../z_en_okuta.c"
+    .balign 4
+
+glabel D_80AC28F0
+    .asciz "../z_en_okuta.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AC2988
+    .float 9.58738019108e-05
+
+.text
 glabel EnOkuta_Draw
 /* 02074 80AC26D4 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 02078 80AC26D8 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -27,7 +45,7 @@ glabel EnOkuta_Draw
 .L80AC2734:
 /* 020D4 80AC2734 8E450000 */  lw      $a1, 0x0000($s2)           ## 00000000
 /* 020D8 80AC2738 24070675 */  addiu   $a3, $zero, 0x0675         ## $a3 = 00000675
-/* 020DC 80AC273C 0C031AB1 */  jal     func_800C6AC4              
+/* 020DC 80AC273C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 020E0 80AC2740 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 020E4 80AC2744 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 020E8 80AC2748 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
@@ -68,7 +86,7 @@ glabel EnOkuta_Draw
 /* 02174 80AC27D4 8E450000 */  lw      $a1, 0x0000($s2)           ## 00000000
 /* 02178 80AC27D8 24C628F0 */  addiu   $a2, $a2, %lo(D_80AC28F0)  ## $a2 = 80AC28F0
 /* 0217C 80AC27DC 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
-/* 02180 80AC27E0 0C031AD5 */  jal     func_800C6B54              
+/* 02180 80AC27E0 0C031AD5 */  jal     Graph_CloseDisps              
 /* 02184 80AC27E4 2407067E */  addiu   $a3, $zero, 0x067E         ## $a3 = 0000067E
 /* 02188 80AC27E8 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L80AC27EC:
@@ -77,4 +95,3 @@ glabel EnOkuta_Draw
 /* 02194 80AC27F4 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 02198 80AC27F8 03E00008 */  jr      $ra                        
 /* 0219C 80AC27FC 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-

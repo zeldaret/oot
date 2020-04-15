@@ -55,5 +55,3 @@ glabel EnWeiyer_Init
 /* 000C0 80B32350 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 000C4 80B32354 03E00008 */  jr      $ra                        
 /* 000C8 80B32358 00000000 */  nop
-
-

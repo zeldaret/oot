@@ -1,3 +1,37 @@
+.rdata
+glabel D_80A54F40
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A54F44
+    .asciz "[35m ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A54F7C
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A54F80
+    .asciz "[32m ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A54FB4
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A54FB8
+    .asciz "[32m ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A54FF0
+    .asciz "[33m ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A55028
+    .asciz "[35m ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n[m"
+    .balign 4
+
+.text
 glabel EnHeishi2_Init
 /* 00000 80A52EA0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00004 80A52EA4 AFA50044 */  sw      $a1, 0x0044($sp)           
@@ -212,5 +246,3 @@ glabel EnHeishi2_Init
 /* 002E0 80A53180 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 002E4 80A53184 03E00008 */  jr      $ra                        
 /* 002E8 80A53188 00000000 */  nop
-
-

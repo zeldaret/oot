@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A077CC
+    .asciz "[32m☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n[m"
+    .balign 4
+
+glabel D_80A077FC
+    .asciz "[32m☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n[m"
+    .balign 4
+
+glabel D_80A0782C
+    .asciz "[32m☆☆☆☆☆ 発生できません！ ☆☆☆☆☆\n[m"
+    .balign 4
+
+.text
 glabel func_80A06E88
 /* 00768 80A06E88 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 0076C 80A06E8C AFBF0074 */  sw      $ra, 0x0074($sp)           
@@ -321,5 +335,3 @@ glabel func_80A06E88
 /* 00BDC 80A072FC 8FB60070 */  lw      $s6, 0x0070($sp)           
 /* 00BE0 80A07300 03E00008 */  jr      $ra                        
 /* 00BE4 80A07304 27BD00B8 */  addiu   $sp, $sp, 0x00B8           ## $sp = 00000000
-
-

@@ -13,5 +13,3 @@ glabel BgSpot16Bombstone_Update
 /* 0105C 808B5C8C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01060 808B5C90 03E00008 */  jr      $ra                        
 /* 01064 808B5C94 00000000 */  nop
-
-

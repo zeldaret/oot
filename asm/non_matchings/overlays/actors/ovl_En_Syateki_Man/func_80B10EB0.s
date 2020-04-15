@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B116E8
+    .asciz "[32m☆☆☆☆☆ Equip_Pachinko ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80B1171C
+    .asciz "[32m☆☆☆☆☆ Equip_Bow ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel func_80B10EB0
 /* 00640 80B10EB0 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00644 80B10EB4 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -191,5 +201,3 @@ glabel func_80B10EB0
 /* 008E8 80B11158 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 008EC 80B1115C 03E00008 */  jr      $ra                        
 /* 008F0 80B11160 00000000 */  nop
-
-

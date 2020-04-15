@@ -1,6 +1,5 @@
 #include "z_demo_effect.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000030
 
 void DemoEffect_Init(DemoEffect* this, GlobalContext* globalCtx);
@@ -8,11 +7,9 @@ void DemoEffect_Destroy(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_Update(DemoEffect* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_Effect_InitVars =
-{
+const ActorInit Demo_Effect_InitVars = {
     ACTOR_DEMO_EFFECT,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoEffect),
