@@ -304,7 +304,8 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     Gameplay_SpawnScene(globalCtx, spawnEntrance->scene, spawnEntrance->spawn);
     osSyncPrintf("\nSCENE_NO=%d COUNTER=%d\n", gSaveContext.entranceIndex, gSaveContext.sceneSetupIndex);
 
-    // When entering Gerudo Valley in the right setup, trigger the GC emulator the ending movie
+    // When entering Gerudo Valley in the right setup, trigger the GC emulator to play the ending movie.
+    // The emulator constantly checks whether PC is 0x81000000, so this works even though it's not a valid address.
     if ((gEntranceTable[gSaveContext.entranceIndex].scene == SCENE_SPOT09) && (gSaveContext.sceneSetupIndex == 6)) {
         osSyncPrintf("エンディングはじまるよー\n"); // "The ending starts"
         ((void (*)())0x81000000)();
@@ -314,6 +315,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     Cutscene_HandleEntranceTriggers(globalCtx);
     KaleidoScopeCall_Init(globalCtx);
     func_801109B0(globalCtx);
+
     if (gSaveContext.nextDayTime != 0xFFFF) {
         if (gSaveContext.nextDayTime == 0x8001) {
             gSaveContext.unk_14++;
@@ -379,7 +381,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     func_800304DC(globalCtx, &globalCtx->actorCtx, globalCtx->linkActorEntry);
 
     while (!func_800973FC(globalCtx, &globalCtx->roomCtx)) {
-        ;
+        ; // Empty Loop
     }
 
     player = PLAYER;
@@ -1039,7 +1041,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_play/Gameplay_Update.s")
 #endif
 
-void Gameplay_DrawOverlay(GlobalContext* globalCtx) {
+void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
     if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
         KaleidoScopeCall_Draw(globalCtx);
     }
@@ -1151,7 +1153,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             Gfx* sp88 = gfxCtx->polyOpa.p;
             func_800B2188(&D_801613B0, &sp88);
             gfxCtx->polyOpa.p = sp88;
-            goto Gameplay_Draw_DrawOverlay;
+            goto Gameplay_Draw_DrawOverlayElements;
         } else {
             func_800C0ED8(&globalCtx->preRenderCtx, 0x140, 0xF0, gfxCtx->curFrameBuffer, gZBuffer);
 
@@ -1167,7 +1169,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 Gfx* sp84 = gfxCtx->polyOpa.p;
                 func_800C24BC(&globalCtx->preRenderCtx, &sp84);
                 gfxCtx->polyOpa.p = sp84;
-                goto Gameplay_Draw_DrawOverlay;
+                goto Gameplay_Draw_DrawOverlayElements;
             } else {
                 s32 sp80;
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
@@ -1296,9 +1298,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                     globalCtx->preRenderCtx.unk_A3 = 2;
                     SREG(33) |= 1;
                 } else {
-                Gameplay_Draw_DrawOverlay:
+                Gameplay_Draw_DrawOverlayElements:
                     if ((HREG(80) != 10) || (HREG(89) != 0)) {
-                        Gameplay_DrawOverlay(globalCtx);
+                        Gameplay_DrawOverlayElements(globalCtx);
                     }
                 }
             }
