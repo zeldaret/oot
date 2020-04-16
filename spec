@@ -505,7 +505,7 @@ beginseg
     include "build/src/code/__osMalloc.o"
     include "build/src/code/printutils.o"
     include "build/src/code/sleep.o"
-    include "build/asm/code_800FF540.o"
+    include "build/src/code/jpegutils.o"
     include "build/asm/code_800FFA50.o"
     include "build/data/code_800FFA50.bss.o"
     include "build/asm/code_80100040.o"
