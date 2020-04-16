@@ -4,6 +4,7 @@
 QuakeRequest sQuakeRequest[4];
 s16 D_80126250 = 1;
 s16 sQuakeRequestCount = 0;
+
 s16 (*sQuakeCallbacks[])(QuakeRequest*, ShakeInfo*) = {
     NULL, Quake_Callback1, Quake_Callback2, Quake_Callback3, Quake_Callback4, Quake_Callback5, Quake_Callback6,
 };

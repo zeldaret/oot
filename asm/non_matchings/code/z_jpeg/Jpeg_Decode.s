@@ -182,35 +182,35 @@ glabel Jpeg_Decode
 .L8006E5D8:
 /* AE5778 8006E5D8 8FA4020C */  lw    $a0, 0x20c($sp)
 /* AE577C 8006E5DC 26C50220 */  addiu $a1, $s6, 0x220
-/* AE5780 8006E5E0 0C03FD50 */  jal   func_800FF540
+/* AE5780 8006E5E0 0C03FD50 */  jal   JpegUtils_ProcessQuantizationTable
 /* AE5784 8006E5E4 24060003 */   li    $a2, 3
 /* AE5788 8006E5E8 1000001D */  b     .L8006E660
 /* AE578C 8006E5EC 00000000 */   nop   
 .L8006E5F0:
 /* AE5790 8006E5F0 26C50220 */  addiu $a1, $s6, 0x220
-/* AE5794 8006E5F4 0C03FD50 */  jal   func_800FF540
+/* AE5794 8006E5F4 0C03FD50 */  jal   JpegUtils_ProcessQuantizationTable
 /* AE5798 8006E5F8 24060001 */   li    $a2, 1
 /* AE579C 8006E5FC 8FA40210 */  lw    $a0, 0x210($sp)
 /* AE57A0 8006E600 26C502A0 */  addiu $a1, $s6, 0x2a0
-/* AE57A4 8006E604 0C03FD50 */  jal   func_800FF540
+/* AE57A4 8006E604 0C03FD50 */  jal   JpegUtils_ProcessQuantizationTable
 /* AE57A8 8006E608 24060001 */   li    $a2, 1
 /* AE57AC 8006E60C 8FA40210 */  lw    $a0, 0x210($sp)
 /* AE57B0 8006E610 26C50320 */  addiu $a1, $s6, 0x320
-/* AE57B4 8006E614 0C03FD50 */  jal   func_800FF540
+/* AE57B4 8006E614 0C03FD50 */  jal   JpegUtils_ProcessQuantizationTable
 /* AE57B8 8006E618 24060001 */   li    $a2, 1
 /* AE57BC 8006E61C 10000010 */  b     .L8006E660
 /* AE57C0 8006E620 00000000 */   nop   
 .L8006E624:
 /* AE57C4 8006E624 26C50220 */  addiu $a1, $s6, 0x220
-/* AE57C8 8006E628 0C03FD50 */  jal   func_800FF540
+/* AE57C8 8006E628 0C03FD50 */  jal   JpegUtils_ProcessQuantizationTable
 /* AE57CC 8006E62C 24060001 */   li    $a2, 1
 /* AE57D0 8006E630 8FA40210 */  lw    $a0, 0x210($sp)
 /* AE57D4 8006E634 26C502A0 */  addiu $a1, $s6, 0x2a0
-/* AE57D8 8006E638 0C03FD50 */  jal   func_800FF540
+/* AE57D8 8006E638 0C03FD50 */  jal   JpegUtils_ProcessQuantizationTable
 /* AE57DC 8006E63C 24060001 */   li    $a2, 1
 /* AE57E0 8006E640 8FA40214 */  lw    $a0, 0x214($sp)
 /* AE57E4 8006E644 26C50320 */  addiu $a1, $s6, 0x320
-/* AE57E8 8006E648 0C03FD50 */  jal   func_800FF540
+/* AE57E8 8006E648 0C03FD50 */  jal   JpegUtils_ProcessQuantizationTable
 /* AE57EC 8006E64C 24060001 */   li    $a2, 1
 /* AE57F0 8006E650 10000003 */  b     .L8006E660
 /* AE57F4 8006E654 00000000 */   nop   
@@ -264,7 +264,7 @@ glabel Jpeg_Decode
 /* AE58AC 8006E70C 02802825 */  move  $a1, $s4
 /* AE58B0 8006E710 8FA4021C */  lw    $a0, 0x21c($sp)
 /* AE58B4 8006E714 26C603A0 */  addiu $a2, $s6, 0x3a0
-/* AE58B8 8006E718 0C03FDFF */  jal   func_800FF7FC
+/* AE58B8 8006E718 0C03FDFF */  jal   JpegUtils_ProcessHuffmanTable
 /* AE58BC 8006E71C 26C704B0 */   addiu $a3, $s6, 0x4b0
 /* AE58C0 8006E720 10400037 */  beqz  $v0, .L8006E800
 /* AE58C4 8006E724 3C048014 */   lui   $a0, %hi(D_8013BF98) # $a0, 0x8014
@@ -280,7 +280,7 @@ glabel Jpeg_Decode
 /* AE58E8 8006E748 02203825 */  move  $a3, $s1
 /* AE58EC 8006E74C 02003025 */  move  $a2, $s0
 /* AE58F0 8006E750 8FA4021C */  lw    $a0, 0x21c($sp)
-/* AE58F4 8006E754 0C03FDFF */  jal   func_800FF7FC
+/* AE58F4 8006E754 0C03FDFF */  jal   JpegUtils_ProcessHuffmanTable
 /* AE58F8 8006E758 02802825 */   move  $a1, $s4
 /* AE58FC 8006E75C 10400003 */  beqz  $v0, .L8006E76C
 /* AE5900 8006E760 3C048014 */   lui   $a0, %hi(D_8013BFBC) # $a0, 0x8014
@@ -292,7 +292,7 @@ glabel Jpeg_Decode
 /* AE5914 8006E774 8FA40220 */  lw    $a0, 0x220($sp)
 /* AE5918 8006E778 27A5010C */  addiu $a1, $sp, 0x10c
 /* AE591C 8006E77C 02003025 */  move  $a2, $s0
-/* AE5920 8006E780 0C03FDFF */  jal   func_800FF7FC
+/* AE5920 8006E780 0C03FDFF */  jal   JpegUtils_ProcessHuffmanTable
 /* AE5924 8006E784 02203825 */   move  $a3, $s1
 /* AE5928 8006E788 10400003 */  beqz  $v0, .L8006E798
 /* AE592C 8006E78C 3C048014 */   lui   $a0, %hi(D_8013BFE0) # $a0, 0x8014
@@ -304,7 +304,7 @@ glabel Jpeg_Decode
 /* AE5940 8006E7A0 8FA40224 */  lw    $a0, 0x224($sp)
 /* AE5944 8006E7A4 27A50160 */  addiu $a1, $sp, 0x160
 /* AE5948 8006E7A8 02003025 */  move  $a2, $s0
-/* AE594C 8006E7AC 0C03FDFF */  jal   func_800FF7FC
+/* AE594C 8006E7AC 0C03FDFF */  jal   JpegUtils_ProcessHuffmanTable
 /* AE5950 8006E7B0 02203825 */   move  $a3, $s1
 /* AE5954 8006E7B4 10400003 */  beqz  $v0, .L8006E7C4
 /* AE5958 8006E7B8 3C048014 */   lui   $a0, %hi(D_8013C004) # $a0, 0x8014
@@ -316,7 +316,7 @@ glabel Jpeg_Decode
 /* AE596C 8006E7CC 8FA40228 */  lw    $a0, 0x228($sp)
 /* AE5970 8006E7D0 27A501B4 */  addiu $a1, $sp, 0x1b4
 /* AE5974 8006E7D4 02003025 */  move  $a2, $s0
-/* AE5978 8006E7D8 0C03FDFF */  jal   func_800FF7FC
+/* AE5978 8006E7D8 0C03FDFF */  jal   JpegUtils_ProcessHuffmanTable
 /* AE597C 8006E7DC 02203825 */   move  $a3, $s1
 /* AE5980 8006E7E0 10400007 */  beqz  $v0, .L8006E800
 /* AE5984 8006E7E4 3C048014 */   lui   $a0, %hi(D_8013C028) # $a0, 0x8014

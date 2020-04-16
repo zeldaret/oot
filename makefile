@@ -107,6 +107,7 @@ build/src/code/fault.o: OPTIMIZATION := -O2 -g3
 build/src/code/fault_drawer.o: CFLAGS += -trapuv
 build/src/code/fault_drawer.o: OPTIMIZATION := -O2 -g3
 
+
 #### Main Targets ###
 
 compare: $(ROM)
@@ -191,6 +192,8 @@ build/src/libultra_code/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD
 build/src/overlays/actors/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/overlays/effects/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/overlays/gamestates/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+
+build/src/code/jpegutils.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 
 #build/assets/textures/%.o: assets/textures/%.zdata
 #	$(OBJCOPY) -I binary -O elf32-big $< $@

@@ -1480,6 +1480,13 @@ typedef struct {
     /* 0x50 */ u8* symbols;
 } JpegHuffmanTable; // size = 0x54
 
+// this struct might be unaccurate but it's not used outside jpegutils.c anyways
+typedef struct {
+    /* 0x000 */ u8 codeOffs[16];
+    /* 0x010 */ u16 dcCodes[120];
+    /* 0x100 */ u16 acCodes[256]; 
+} JpegHuffmanTableOld; // size = 0x300
+
 typedef struct {
     /* 0x00 */ u32 unk_00;
     /* 0x04 */ u32 unk_04;
@@ -1492,7 +1499,7 @@ typedef struct {
     /* 0x000 */ JpegTaskData taskData;
     /* 0x020 */ char yieldData[0x200];
     /* 0x220 */ JpegQuantizationTable qTables[3];
-    /* 0x3A0 */ u8 codesLenghts[0x110];
+    /* 0x3A0 */ u8 codesLengths[0x110];
     /* 0x4B0 */ u16 codes[0x108];
     /* 0x6C0 */ u16 unk_6C0[4][0x180];
 } JpegWork; // size = 0x12C0
