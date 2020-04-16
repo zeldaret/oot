@@ -68,6 +68,7 @@ glabel func_80AA0778
 /* 0012C 80AA07BC 01C00008 */  jr      $t6                        
 /* 00130 80AA07C0 00000000 */  nop
 glabel L80AA07C4
+.L80AA07C4:
 /* 00134 80AA07C4 8FAF0024 */  lw      $t7, 0x0024($sp)           
 /* 00138 80AA07C8 95F8010E */  lhu     $t8, 0x010E($t7)           ## 0000010E
 /* 0013C 80AA07CC 2719DFBF */  addiu   $t9, $t8, 0xDFBF           ## $t9 = FFFFDFBF
@@ -80,6 +81,7 @@ glabel L80AA07C4
 /* 00158 80AA07E8 03200008 */  jr      $t9                        
 /* 0015C 80AA07EC 00000000 */  nop
 glabel L80AA07F0
+.L80AA07F0:
 /* 00160 80AA07F0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
 /* 00164 80AA07F4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
 /* 00168 80AA07F8 94480F08 */  lhu     $t0, 0x0F08($v0)           ## 8015F568
@@ -91,6 +93,7 @@ glabel L80AA07F0
 /* 00180 80AA0810 10000027 */  beq     $zero, $zero, .L80AA08B0   
 /* 00184 80AA0814 A44B0ED6 */  sh      $t3, 0x0ED6($v0)           ## 8015F536
 glabel L80AA0818
+.L80AA0818:
 /* 00188 80AA0818 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
 /* 0018C 80AA081C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
 /* 00190 80AA0820 944C0ED6 */  lhu     $t4, 0x0ED6($v0)           ## 8015F536
@@ -99,6 +102,7 @@ glabel L80AA0818
 /* 0019C 80AA082C 10000020 */  beq     $zero, $zero, .L80AA08B0   
 /* 001A0 80AA0830 A44D0ED6 */  sh      $t5, 0x0ED6($v0)           ## 8015F536
 glabel L80AA0834
+.L80AA0834:
 /* 001A4 80AA0834 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
 /* 001A8 80AA0838 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
 /* 001AC 80AA083C 944E0F08 */  lhu     $t6, 0x0F08($v0)           ## 8015F568
@@ -107,6 +111,7 @@ glabel L80AA0834
 /* 001B8 80AA0848 10000019 */  beq     $zero, $zero, .L80AA08B0   
 /* 001BC 80AA084C A44F0F08 */  sh      $t7, 0x0F08($v0)           ## 8015F568
 glabel L80AA0850
+.L80AA0850:
 /* 001C0 80AA0850 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
 /* 001C4 80AA0854 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
 /* 001C8 80AA0858 94580ED6 */  lhu     $t8, 0x0ED6($v0)           ## 8015F536
@@ -115,6 +120,7 @@ glabel L80AA0850
 /* 001D4 80AA0864 10000012 */  beq     $zero, $zero, .L80AA08B0   
 /* 001D8 80AA0868 A4590ED6 */  sh      $t9, 0x0ED6($v0)           ## 8015F536
 glabel L80AA086C
+.L80AA086C:
 /* 001DC 80AA086C 10000010 */  beq     $zero, $zero, .L80AA08B0   
 /* 001E0 80AA0870 24030002 */  addiu   $v1, $zero, 0x0002         ## $v1 = 00000002
 glabel L80AA0874
@@ -122,6 +128,7 @@ glabel L80AA0874
 /* 001E4 80AA0874 1000000E */  beq     $zero, $zero, .L80AA08B0   
 /* 001E8 80AA0878 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 glabel L80AA087C
+.L80AA087C:
 /* 001EC 80AA087C 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 001F0 80AA0880 0C041AF2 */  jal     func_80106BC8              
 /* 001F4 80AA0884 A7A3001E */  sh      $v1, 0x001E($sp)           
@@ -130,6 +137,7 @@ glabel L80AA087C
 /* 00200 80AA0890 10000007 */  beq     $zero, $zero, .L80AA08B0   
 /* 00204 80AA0894 24030002 */  addiu   $v1, $zero, 0x0002         ## $v1 = 00000002
 glabel L80AA0898
+.L80AA0898:
 /* 00208 80AA0898 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 0020C 80AA089C 0C041AF2 */  jal     func_80106BC8              
 /* 00210 80AA08A0 A7A3001E */  sh      $v1, 0x001E($sp)           

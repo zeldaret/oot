@@ -7,10 +7,17 @@ void EnMa1_Destroy(EnMa1* this, GlobalContext* globalCtx);
 void EnMa1_Update(EnMa1* this, GlobalContext* globalCtx);
 void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx);
 
+u16 func_80AA0690(EnMa1* this, GlobalContext* globalCtx);
+s16 func_80AA0778(EnMa1* this, GlobalContext* globalCtx);
+
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx);
 void func_80AA0EA0(EnMa1* this, GlobalContext* globalCtx);
 void func_80AA0EFC(EnMa1* this, GlobalContext* globalCtx);
 void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx);
+void func_80AA106C(EnMa1* this, GlobalContext* globalCtx);
+void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx);
+void func_80AA1150(EnMa1* this, GlobalContext* globalCtx);
+void func_80AA11C8(EnMa1* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma1_InitVars = {
     ACTOR_EN_MA1,
@@ -34,10 +41,13 @@ Sub98Init5 D_80AA166C = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
-u32 D_80AA1678[] = {
-    0x06000820, 0x3F800000, 0x00000000, 0x00000000, 0x06000820, 0x3F800000, 0x00000000, 0xC1200000,
-    0x06008D64, 0x3F800000, 0x00000000, 0x00000000, 0x06008D64, 0x3F800000, 0x00000000, 0xC1200000,
+struct_D_80AA1678 D_80AA1678[] = {
+    {0x06000820, 1.0f, 0x00, 0.0f},
+    {0x06000820, 1.0f, 0x00, -10.0f},
+    {0x06008D64, 1.0f, 0x00, 0.0f},
+    {0x06008D64, 1.0f, 0x00, -10.0f},
 };
+
 u32 D_80AA16B8[] = {
     0x44480000,
     0x00000000,
@@ -59,19 +69,94 @@ extern AnimationHeader D_06000820;
 extern SkeletonHeader D_06008460;
 extern AnimationHeader D_06008D64;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA0690.s")
+u16 func_80AA0690(EnMa1 *this, GlobalContext *globalCtx) {
+    u16 temp_ret = Text_GetFaceReaction(this, 0x17);
+    if (temp_ret != 0) {
+        return temp_ret;
+    }
+    if (gBitFlags[13] & gSaveContext.quest_items) {
+        return 0x204A;
+    }
+    if (gSaveContext.event_chk_inf[1] & 0x40) {
+        return 0x2049;
+    }
+    if (gSaveContext.event_chk_inf[1] & 0x20) {
+        if ((gSaveContext.inf_table[8] & 0x20)) {
+            return 0x2049;
+        } else {
+            return 0x2048;
+        }
+    }
+    if (gSaveContext.event_chk_inf[1] & 0x10) {
+        return 0x2047;
+    }
+    if (gSaveContext.event_chk_inf[1] & 4) {
+        return 0x2044;
+    }
+    if (gSaveContext.inf_table[8] & 0x10) {
+        if (gSaveContext.inf_table[8] & 0x800) {
+            return 0x2043;
+        } else {
+            return 0x2042;
+        }
+    }
+    return 0x2041;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA0778.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA08C4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA0A0C.s")
+void func_80AA0A0C(EnMa1 *this) {
+    if (!DECR(this->unk_1E2)) {
+        this->unk_1E4 += 1;
+        if (this->unk_1E4 >= 3) {
+            this->unk_1E2 = Math_Rand_S16Offset(0x1E, 0x1E);
+            this->unk_1E4 = 0;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA0A84.s")
+void func_80AA0A84(EnMa1 *this, UNK_TYPE idx) {
+    f32 frameCount = SkelAnime_GetFrameCount(&D_80AA1678[idx].animation->genericHeader);
+
+    SkelAnime_ChangeAnim(&this->skelAnime, D_80AA1678[idx].animation, 1.0f, 0.0f, frameCount, D_80AA1678[idx].unk_08, D_80AA1678[idx].transitionRate);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA0AF4.s")
+/*
+void func_80AA0AF4(EnMa1 *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    s16 phi_a3 = 0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA0B74.s")
+    if (this->unk_1E8.unk_00 == 0) {
+        if (this->skelAnime.animCurrentSeg == &D_06008D64) {
+            phi_a3 = 1;
+        }
+    }
+
+    this->unk_1E8.unk_18 = player->actor.posRot.pos;
+    this->unk_1E8.unk_18.y -= -10.0f;
+
+    func_80034A14(&this->actor, &this->unk_1E8, 0, phi_a3);
+}*/
+
+void func_80AA0B74(EnMa1 *this) {
+    if (this->skelAnime.animCurrentSeg == &D_06008D64) {
+        if ((this->unk_1E8.unk_00 == 0)) {
+            if (this->unk_1E0 != 0) {
+                this->unk_1E0 = 0;
+                func_800F6584(0, this);
+                return;
+            }
+        } else {
+            if (this->unk_1E0 == 0) {
+                this->unk_1E0 = 1;
+                func_800F6584(1, this);
+            }
+        }
+    }
+}
 
 void EnMa1_Init(EnMa1* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -91,7 +176,7 @@ void EnMa1_Init(EnMa1* this, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.unk_1F = 6;
-    this->unk_1E8 = 0;
+    this->unk_1E8.unk_00 = 0;
     
     if ((!(gSaveContext.event_chk_inf[1] & 0x10)) || (gBitFlags[13] & gSaveContext.quest_items)) {
         this->actionFunc = (ActorFunc)func_80AA0D88;
@@ -108,7 +193,7 @@ void EnMa1_Destroy(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
-    if (this->unk_1E8 != 0) {
+    if (this->unk_1E8.unk_00 != 0) {
         if (this->skelAnime.animCurrentSeg != &D_06000820) {
             func_80AA0A84(this, 1);
         }
@@ -121,7 +206,7 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
     if ((globalCtx->sceneNum == 0x5F) && (gSaveContext.event_chk_inf[1] & 0x10)) {
         Actor_Kill(&this->actor);
     } else if ((!(gSaveContext.event_chk_inf[1] & 0x10)) || (gBitFlags[13] & gSaveContext.quest_items)) {
-        if (this->unk_1E8 == 2) {
+        if (this->unk_1E8.unk_00 == 2) {
             this->actionFunc = (ActorFunc)func_80AA0EA0;
             globalCtx->msgCtx.unk_E3E7 = 4;
             globalCtx->msgCtx.msgMode = 0x36;
@@ -130,7 +215,7 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA0EA0(EnMa1* this, GlobalContext* globalCtx) {
-    if (func_8002F410(this, globalCtx)) {
+    if (func_8002F410(&this->actor, globalCtx)) {
         this->actor.attachedA = NULL;
         this->actionFunc = (ActorFunc)func_80AA0EFC;
     } else {
@@ -139,25 +224,92 @@ void func_80AA0EA0(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA0EFC(EnMa1* this, GlobalContext* globalCtx) {
-    if (this->unk_1E8 == 3) {
-        this->unk_1E8 = 0;
+    if (this->unk_1E8.unk_00 == 3) {
+        this->unk_1E8.unk_00 = 0;
         this->actionFunc = (ActorFunc)func_80AA0D88;
         gSaveContext.event_chk_inf[1] |= 4;
         globalCtx->msgCtx.msgMode = 0x36;
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA0F44.s")
+void func_80AA0F44(EnMa1 *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA106C.s")
+    if (this->unk_1E8.unk_00 != 0) {
+        if (this->skelAnime.animCurrentSeg != &D_06000820) {
+            func_80AA0A84(this, 1);
+        }
+    } else {
+        if (this->skelAnime.animCurrentSeg != &D_06008D64) {
+            func_80AA0A84(this, 3);
+        }
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA10EC.s")
+    if (gSaveContext.event_chk_inf[1] & 0x40) {
+        if (player->stateFlags2 & 0x1000000) {
+            player->stateFlags2 |= 0x2000000;
+            player->unk_6A8 = &this->actor;
+            this->actor.textId = 0x2061;
+            func_8010B680(globalCtx, this->actor.textId, 0);
+            this->unk_1E8.unk_00 = 1;
+            this->actor.flags |= 0x10000;
+            this->actionFunc = (ActorFunc)func_80AA106C;
+            return;
+        }
+        if (this->actor.xzDistanceFromLink < (30.0f + (f32)this->collider.dim.radius)) {
+            player->stateFlags2 |= 0x800000;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA1150.s")
+void func_80AA106C(EnMa1 *this, GlobalContext *globalCtx) {
+    PLAYER->stateFlags2 |= 0x800000;
+    if (this->unk_1E8.unk_00 == 2) {
+        func_800ED858(2);
+        func_8010BD58(globalCtx, 9);
+        this->actor.flags &= 0xFFFEFFFF;
+        this->actionFunc = (ActorFunc)func_80AA10EC;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA11C8.s")
+void func_80AA10EC(EnMa1 *this, GlobalContext *globalCtx) {
+    PLAYER->stateFlags2 |= 0x800000;
+    if (func_8010BDBC(&globalCtx->msgCtx) == 7) {
+        func_8010BD58(globalCtx, 0x16);
+        this->actionFunc = (ActorFunc)func_80AA1150;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/EnMa1_Update.s")
+void func_80AA1150(EnMa1 *this, GlobalContext *globalCtx) {
+    PLAYER->stateFlags2 |= 0x800000;
+    if (globalCtx->msgCtx.unk_E3EE == 3) {
+        globalCtx->nextEntranceIndex = 0x157;
+        gSaveContext.next_cutscene_index = 0xFFF1;
+        globalCtx->fadeOutTransition = 0x2A;
+        globalCtx->sceneLoadFlag = 0x14;
+        this->actionFunc = (ActorFunc)func_80AA11C8;
+    }
+}
+
+void func_80AA11C8(EnMa1 *this, GlobalContext *globalCtx) {
+
+}
+
+void EnMa1_Update(EnMa1 *this, GlobalContext *globalCtx) {
+    ColliderCylinderMain* collider = &this->collider;
+    s32 pad;
+
+    ActorCollider_Cylinder_Update(this, collider);
+    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, collider);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    func_80AA0A0C(this);
+    this->actionFunc(this, globalCtx);
+    if (this->actionFunc != (ActorFunc)func_80AA11C8) {
+        func_800343CC(globalCtx, &this->actor, &this->unk_1E8, (f32) this->collider.dim.radius + 30.0f, func_80AA0690, func_80AA0778);
+    }
+    func_80AA0B74(this);
+    func_80AA0AF4(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA12BC.s")
 

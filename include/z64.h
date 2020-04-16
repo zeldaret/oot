@@ -1089,6 +1089,14 @@ typedef struct {
     /* 0x14 */ f32              transitionRate;
 } struct_80034EC0_Entry; // size = 0x18
 
+// Another animation related structure
+typedef struct {
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ f32              frameCount;
+    /* 0x08 */ u8               unk_08;
+    /* 0x0C */ f32              transitionRate;
+} struct_D_80AA1678; // size = 0x10
+
 typedef struct {
     /* 0x00 */ u32 unk_00;
     /* 0x04 */ u32(*init)(GlobalContext*, u32, LoadedParticleEntry*, void*);
@@ -1521,5 +1529,20 @@ typedef struct {
     /* 0xB0 */ OSMesg msg;
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
+
+typedef struct {
+    /* 0x00 */ s16 unk_00;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ s16 unk_06;
+    /* 0x08 */ s16 unk_08;
+    /* 0x0A */ s16 unk_0A;
+    /* 0x0C */ char unk_0C[0x2];
+    /* 0x0E */ s16 unk_0E;
+    /* 0x10 */ s16 unk_10;
+    /* 0x12 */ char unk_12[0x2];
+    /* 0x14 */ f32 unk_14;
+    /* 0x18 */ Vec3f unk_18;
+} struct_80034A14_arg1;
 
 #endif

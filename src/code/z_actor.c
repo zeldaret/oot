@@ -3688,21 +3688,6 @@ typedef struct {
     /* 0x06 */ s16 unk_06;
     /* 0x08 */ s16 unk_08;
     /* 0x0A */ s16 unk_0A;
-    /* 0x0C */ char unk_0C[0x2];
-    /* 0x0E */ s16 unk_0E;
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ char unk_12[0x2];
-    /* 0x14 */ f32 unk_14;
-    /* 0x18 */ Vec3f unk_18;
-} struct_80034A14_arg1;
-
-typedef struct {
-    /* 0x00 */ s16 unk_00;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-    /* 0x06 */ s16 unk_06;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ s16 unk_0A;
     /* 0x0C */ u8 unk_0C;
 } struct_80116130_0; // size = 0x10
 
