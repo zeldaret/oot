@@ -37,7 +37,7 @@ glabel EnSb_Init
 /* 00070 80AF7860 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 00074 80AF7864 24E789D0 */  addiu   $a3, $a3, %lo(D_80AF89D0)  ## $a3 = 80AF89D0
 /* 00078 80AF7868 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 0007C 80AF786C 0C017114 */  jal     func_8005C450
+/* 0007C 80AF786C 0C017114 */  jal     Collider_InitCylinder_Set3
 /* 00080 80AF7870 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00084 80AF7874 3C053BC4 */  lui     $a1, 0x3BC4                ## $a1 = 3BC40000
 /* 00088 80AF7878 A60001FC */  sh      $zero, 0x01FC($s0)         ## 000001FC

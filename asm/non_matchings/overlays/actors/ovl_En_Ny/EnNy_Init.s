@@ -41,7 +41,7 @@ glabel EnNy_Init
 /* 00050 80ABCC00 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 00054 80ABCC04 24E7E354 */  addiu   $a3, $a3, %lo(D_80ABE354)  ## $a3 = 80ABE354
 /* 00058 80ABCC08 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 0005C 80ABCC0C 0C017014 */  jal     func_8005C050              
+/* 0005C 80ABCC0C 0C017014 */  jal     Collider_InitJntSph              
 /* 00060 80ABCC10 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00064 80ABCC14 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
 /* 00068 80ABCC18 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC

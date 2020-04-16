@@ -44,7 +44,7 @@ glabel EnBb_Init
 /* 002FC 809B85DC AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 00300 809B85E0 24E7BB24 */  addiu   $a3, $a3, %lo(D_809BBB24)  ## $a3 = 809BBB24
 /* 00304 809B85E4 8FA401EC */  lw      $a0, 0x01EC($sp)           
-/* 00308 809B85E8 0C017014 */  jal     func_8005C050              
+/* 00308 809B85E8 0C017014 */  jal     Collider_InitJntSph              
 /* 0030C 809B85EC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00310 809B85F0 8609001C */  lh      $t1, 0x001C($s0)           ## 0000001C
 /* 00314 809B85F4 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C

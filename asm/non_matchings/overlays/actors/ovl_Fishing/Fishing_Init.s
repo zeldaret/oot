@@ -84,7 +84,7 @@ glabel Fishing_Init
 /* 00C70 80B6A610 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 00C74 80B6A614 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00C78 80B6A618 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 00C7C 80B6A61C 0C017014 */  jal     func_8005C050
+/* 00C7C 80B6A61C 0C017014 */  jal     Collider_InitJntSph
 /* 00C80 80B6A620 24650230 */  addiu   $a1, $v1, 0x0230           ## $a1 = 00000230
 /* 00C84 80B6A624 24090001 */  addiu   $t1, $zero, 0x0001         ## $t1 = 00000001
 /* 00C88 80B6A628 A649001C */  sh      $t1, 0x001C($s2)           ## 0000001C

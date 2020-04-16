@@ -75,13 +75,13 @@ glabel EnPeehat_Init
 /* 000F0 80ACF590 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000F4 80ACF594 260503AC */  addiu   $a1, $s0, 0x03AC           ## $a1 = 000003AC
 /* 000F8 80ACF598 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 000FC 80ACF59C 0C017406 */  jal     func_8005D018              
+/* 000FC 80ACF59C 0C017406 */  jal     Collider_AllocQuad              
 /* 00100 80ACF5A0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00104 80ACF5A4 3C0780AD */  lui     $a3, %hi(D_80AD27A0)       ## $a3 = 80AD0000
 /* 00108 80ACF5A8 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 0010C 80ACF5AC 24E727A0 */  addiu   $a3, $a3, %lo(D_80AD27A0)  ## $a3 = 80AD27A0
 /* 00110 80ACF5B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00114 80ACF5B4 0C017441 */  jal     func_8005D104              
+/* 00114 80ACF5B4 0C017441 */  jal     Collider_InitQuad              
 /* 00118 80ACF5B8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0011C 80ACF5BC 2605034C */  addiu   $a1, $s0, 0x034C           ## $a1 = 0000034C
 /* 00120 80ACF5C0 AFA50034 */  sw      $a1, 0x0034($sp)           
@@ -93,7 +93,7 @@ glabel EnPeehat_Init
 /* 00138 80ACF5D8 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 0013C 80ACF5DC 24E72790 */  addiu   $a3, $a3, %lo(D_80AD2790)  ## $a3 = 80AD2790
 /* 00140 80ACF5E0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00144 80ACF5E4 0C017014 */  jal     func_8005C050              
+/* 00144 80ACF5E4 0C017014 */  jal     Collider_InitJntSph              
 /* 00148 80ACF5E8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0014C 80ACF5EC 3C014439 */  lui     $at, 0x4439                ## $at = 44390000
 /* 00150 80ACF5F0 44813000 */  mtc1    $at, $f6                   ## $f6 = 740.00

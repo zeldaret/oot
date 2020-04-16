@@ -62,7 +62,7 @@ glabel EnButte_Init
 /* 003F4 809CD464 AFAA0010 */  sw      $t2, 0x0010($sp)
 /* 003F8 809CD468 24E7E314 */  addiu   $a3, $a3, %lo(D_809CE314)  ## $a3 = 809CE314
 /* 003FC 809CD46C 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 00400 809CD470 0C017014 */  jal     func_8005C050
+/* 00400 809CD470 0C017014 */  jal     Collider_InitJntSph
 /* 00404 809CD474 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00408 809CD478 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float

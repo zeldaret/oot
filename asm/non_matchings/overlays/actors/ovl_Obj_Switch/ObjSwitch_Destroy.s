@@ -34,12 +34,12 @@ glabel ObjSwitch_Destroy
 /* 00808 80B9DA18 10000008 */  beq     $zero, $zero, .L80B9DA3C   
 /* 0080C 80B9DA1C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80B9DA20:
-/* 00810 80B9DA20 0C017232 */  jal     func_8005C8C8              
+/* 00810 80B9DA20 0C017232 */  jal     Collider_DestroyTris              
 /* 00814 80B9DA24 24E50180 */  addiu   $a1, $a3, 0x0180           ## $a1 = 00000180
 /* 00818 80B9DA28 10000004 */  beq     $zero, $zero, .L80B9DA3C   
 /* 0081C 80B9DA2C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80B9DA30:
-/* 00820 80B9DA30 0C016F32 */  jal     func_8005BCC8              
+/* 00820 80B9DA30 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 00824 80B9DA34 24E50180 */  addiu   $a1, $a3, 0x0180           ## $a1 = 00000180
 /* 00828 80B9DA38 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80B9DA3C:

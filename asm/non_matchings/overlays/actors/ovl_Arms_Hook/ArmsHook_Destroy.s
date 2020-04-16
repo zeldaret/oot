@@ -11,7 +11,7 @@ glabel ArmsHook_Destroy
 /* 000A4 80864FA4 01C17824 */  and     $t7, $t6, $at              
 /* 000A8 80864FA8 AC4F0004 */  sw      $t7, 0x0004($v0)           ## 00000004
 .L80864FAC:
-/* 000AC 80864FAC 0C017418 */  jal     func_8005D060              
+/* 000AC 80864FAC 0C017418 */  jal     Collider_DestroyQuad              
 /* 000B0 80864FB0 24C5014C */  addiu   $a1, $a2, 0x014C           ## $a1 = 0000014C
 /* 000B4 80864FB4 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 000B8 80864FB8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

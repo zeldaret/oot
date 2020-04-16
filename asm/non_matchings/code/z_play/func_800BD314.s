@@ -1603,7 +1603,7 @@ glabel L800BE148
 /* B35664 800BE4C4 24050001 */   li    $a1, 1
 .L800BE4C8:
 /* B35668 800BE4C8 02002025 */  move  $a0, $s0
-/* B3566C 800BE4CC 0C018726 */  jal   func_80061C98
+/* B3566C 800BE4CC 0C018726 */  jal   CollisionCheck_OC
 /* B35670 800BE4D0 8FA50038 */   lw    $a1, 0x38($sp)
 /* B35674 800BE4D4 3C198016 */  lui   $t9, %hi(gGameInfo) # $t9, 0x8016
 /* B35678 800BE4D8 8F39FA90 */  lw    $t9, %lo(gGameInfo)($t9)

@@ -68,7 +68,7 @@ glabel EnSkb_Init
 /* 00294 80AFCC34 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 00298 80AFCC38 24E7E068 */  addiu   $a3, $a3, %lo(D_80AFE068)  ## $a3 = 80AFE068
 /* 0029C 80AFCC3C 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 002A0 80AFCC40 0C017014 */  jal     func_8005C050              
+/* 002A0 80AFCC40 0C017014 */  jal     Collider_InitJntSph              
 /* 002A4 80AFCC44 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 002A8 80AFCC48 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
 /* 002AC 80AFCC4C 3C0180B0 */  lui     $at, %hi(D_80AFE108)       ## $at = 80B00000

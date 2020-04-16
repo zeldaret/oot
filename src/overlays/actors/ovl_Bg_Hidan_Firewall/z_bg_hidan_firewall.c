@@ -75,7 +75,7 @@ void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx) {
 
 void BgHidanFirewall_Destroy(BgHidanFirewall* this, GlobalContext* globalCtx) {
     BgHidanFirewall* thing = this;
-    Collider_FreeCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 s32 BgHidanFirewall_CheckProximity(BgHidanFirewall* this, GlobalContext* globalCtx) {

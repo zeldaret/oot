@@ -51,7 +51,7 @@ glabel BgHidanHamstep_Init
 /* 001FC 8088823C 24E78DFC */  addiu   $a3, $a3, %lo(D_80888DFC)  ## $a3 = 80888DFC
 /* 00200 80888240 8FA4007C */  lw      $a0, 0x007C($sp)           
 /* 00204 80888244 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000164
-/* 00208 80888248 0C0172EB */  jal     func_8005CBAC              
+/* 00208 80888248 0C0172EB */  jal     Collider_InitTris              
 /* 0020C 8088824C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00210 80888250 00008825 */  or      $s1, $zero, $zero          ## $s1 = 00000000
 /* 00214 80888254 27A8006C */  addiu   $t0, $sp, 0x006C           ## $t0 = FFFFFFF4

@@ -288,7 +288,7 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
 
 void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
-    Collider_FreeCylinder(globalCtx, collider);
+    Collider_DestroyCylinder(globalCtx, collider);
 }
 
 void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {

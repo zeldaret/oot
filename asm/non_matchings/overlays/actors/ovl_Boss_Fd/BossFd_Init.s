@@ -105,7 +105,7 @@ glabel BossFd_Init
 /* 006B8 808CB478 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 006BC 808CB47C 24E7190C */  addiu   $a3, $a3, %lo(D_808D190C)  ## $a3 = 808D190C
 /* 006C0 808CB480 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 006C4 808CB484 0C017014 */  jal     func_8005C050              
+/* 006C4 808CB484 0C017014 */  jal     Collider_InitJntSph              
 /* 006C8 808CB488 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 006CC 808CB48C 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 006D0 808CB490 2404000C */  addiu   $a0, $zero, 0x000C         ## $a0 = 0000000C

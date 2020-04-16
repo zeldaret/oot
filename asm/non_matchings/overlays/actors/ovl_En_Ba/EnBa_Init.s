@@ -113,7 +113,7 @@ glabel EnBa_Init
 /* 001A8 809B64F8 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 001AC 809B64FC 24E780D4 */  addiu   $a3, $a3, %lo(D_809B80D4)  ## $a3 = 809B80D4
 /* 001B0 809B6500 8FA4004C */  lw      $a0, 0x004C($sp)           
-/* 001B4 809B6504 0C017014 */  jal     func_8005C050              
+/* 001B4 809B6504 0C017014 */  jal     Collider_InitJntSph              
 /* 001B8 809B6508 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 001BC 809B650C 10000008 */  beq     $zero, $zero, .L809B6530   
 /* 001C0 809B6510 8FBF0024 */  lw      $ra, 0x0024($sp)           

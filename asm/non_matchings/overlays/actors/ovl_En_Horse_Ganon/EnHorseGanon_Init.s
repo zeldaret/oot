@@ -72,7 +72,7 @@ glabel EnHorseGanon_Init
 /* 003D0 80A68A30 AFB80010 */  sw      $t8, 0x0010($sp)
 /* 003D4 80A68A34 24E79230 */  addiu   $a3, $a3, %lo(D_80A69230)  ## $a3 = 80A69230
 /* 003D8 80A68A38 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 003DC 80A68A3C 0C017014 */  jal     func_8005C050
+/* 003DC 80A68A3C 0C017014 */  jal     Collider_InitJntSph
 /* 003E0 80A68A40 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 003E4 80A68A44 3C0680A7 */  lui     $a2, %hi(D_80A69240)       ## $a2 = 80A70000
 /* 003E8 80A68A48 24C69240 */  addiu   $a2, $a2, %lo(D_80A69240)  ## $a2 = 80A69240

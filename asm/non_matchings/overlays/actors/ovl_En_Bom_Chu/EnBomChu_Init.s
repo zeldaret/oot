@@ -18,7 +18,7 @@ glabel EnBomChu_Init
 /* 0003C 809C586C AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 00040 809C5870 24E76D54 */  addiu   $a3, $a3, %lo(D_809C6D54)  ## $a3 = 809C6D54
 /* 00044 809C5874 8FA401DC */  lw      $a0, 0x01DC($sp)           
-/* 00048 809C5878 0C017014 */  jal     func_8005C050              
+/* 00048 809C5878 0C017014 */  jal     Collider_InitJntSph              
 /* 0004C 809C587C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00050 809C5880 8E0201A0 */  lw      $v0, 0x01A0($s0)           ## 000001A0
 /* 00054 809C5884 3C0A809C */  lui     $t2, %hi(D_809C6D6D)       ## $t2 = 809C0000

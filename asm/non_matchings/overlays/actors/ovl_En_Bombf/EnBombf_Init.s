@@ -43,7 +43,7 @@ glabel EnBombf_Init
 /* 00080 809C6FE0 24E782B0 */  addiu   $a3, $a3, %lo(D_809C82B0)  ## $a3 = 809C82B0
 /* 00084 809C6FE4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00088 809C6FE8 8FA50030 */  lw      $a1, 0x0030($sp)           
-/* 0008C 809C6FEC 0C017014 */  jal     func_8005C050              
+/* 0008C 809C6FEC 0C017014 */  jal     Collider_InitJntSph              
 /* 00090 809C6FF0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00094 809C6FF4 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
 /* 00098 809C6FF8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000

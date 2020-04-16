@@ -14,7 +14,7 @@ glabel func_8088A0B8
 /* 000C8 8088A0E8 24CE0184 */  addiu   $t6, $a2, 0x0184           ## $t6 = 00000184
 /* 000CC 8088A0EC AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 000D0 8088A0F0 24E7AE40 */  addiu   $a3, $a3, %lo(D_8088AE40)  ## $a3 = 8088AE40
-/* 000D4 8088A0F4 0C017014 */  jal     func_8005C050              
+/* 000D4 8088A0F4 0C017014 */  jal     Collider_InitJntSph              
 /* 000D8 8088A0F8 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 000DC 8088A0FC 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 000E0 8088A100 3C088089 */  lui     $t0, %hi(D_8088AE5C)       ## $t0 = 80890000

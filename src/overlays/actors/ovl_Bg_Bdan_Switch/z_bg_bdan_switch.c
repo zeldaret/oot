@@ -91,7 +91,7 @@ void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, u32 collision, 
 void func_8086D098(BgBdanSwitch* this, GlobalContext* globalCtx) {
     Actor* actor = &this->actor;
     func_8005BBF8(globalCtx, &this->collider);
-    func_8005C050(globalCtx, &this->collider, actor, &colliderInit, &this->colliderItems);
+    Collider_InitJntSph(globalCtx, &this->collider, actor, &colliderInit, &this->colliderItems);
 }
 
 void func_8086D0EC(BgBdanSwitch* this) {
@@ -191,7 +191,7 @@ void BgBdanSwitch_Destroy(BgBdanSwitch* this, GlobalContext* globalCtx) {
             break;
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
-            func_8005BCC8(globalCtx, &this->collider);
+            Collider_DestroyJntSph(globalCtx, &this->collider);
     }
 }
 

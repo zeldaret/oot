@@ -39,7 +39,7 @@ glabel EnFirefly_Init
 /* 000EC 80A1315C AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 000F0 80A13160 24E74F54 */  addiu   $a3, $a3, %lo(D_80A14F54)  ## $a3 = 80A14F54
 /* 000F4 80A13164 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 000F8 80A13168 0C017014 */  jal     func_8005C050              
+/* 000F8 80A13168 0C017014 */  jal     Collider_InitJntSph              
 /* 000FC 80A1316C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00100 80A13170 3C0580A1 */  lui     $a1, %hi(D_80A14F6C)       ## $a1 = 80A10000
 /* 00104 80A13174 3C0680A1 */  lui     $a2, %hi(D_80A14F64)       ## $a2 = 80A10000

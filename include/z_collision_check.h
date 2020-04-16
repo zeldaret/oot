@@ -1,6 +1,11 @@
 #ifndef _Z_COLLISION_CHECK_H_
 #define _Z_COLLISION_CHECK_H_
 
+#define COLLISION_CHECK_AT_MAX 50
+#define COLLISION_CHECK_AC_MAX 60
+#define COLLISION_CHECK_OC_MAX 50
+#define COLLISION_CHECK_OC_LINE_MAX 3
+
 // From z64.h
 struct Actor;
 

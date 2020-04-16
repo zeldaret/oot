@@ -22,7 +22,7 @@ glabel EnBubble_Init
 /* 00CD8 809CC8D8 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 00CDC 809CC8DC 24E7CE78 */  addiu   $a3, $a3, %lo(D_809CCE78)  ## $a3 = 809CCE78
 /* 00CE0 809CC8E0 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00CE4 809CC8E4 0C017014 */  jal     func_8005C050              
+/* 00CE4 809CC8E4 0C017014 */  jal     Collider_InitJntSph              
 /* 00CE8 809CC8E8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00CEC 809CC8EC 0C016C80 */  jal     CollisionBtlTbl_Get
               

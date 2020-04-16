@@ -206,7 +206,7 @@ void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx) {
 
 void BgTokiSwd_Destroy(BgTokiSwd* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
-    Collider_FreeCylinder(globalCtx, collider);
+    Collider_DestroyCylinder(globalCtx, collider);
 }
 
 void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {

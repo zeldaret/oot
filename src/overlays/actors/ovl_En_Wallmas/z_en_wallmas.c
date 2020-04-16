@@ -117,7 +117,7 @@ void EnWallmas_Init(EnWallmas* this, GlobalContext* globalCtx) {
 
 void EnWallmas_Destroy(EnWallmas* this, GlobalContext* globalCtx) {
     ColliderCylinder* col = &this->colCylinder;
-    Collider_FreeCylinder(globalCtx, col);
+    Collider_DestroyCylinder(globalCtx, col);
 }
 
 void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {

@@ -52,7 +52,7 @@ void EnTuboTrap_Init(EnTuboTrap* this, GlobalContext* globalCtx) {
 
 void EnTuboTrap_Destroy(EnTuboTrap* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
-    Collider_FreeCylinder(globalCtx, collider);
+    Collider_DestroyCylinder(globalCtx, collider);
 }
 
 void EnTuboTrap_DropCollectible(EnTuboTrap* this, GlobalContext* globalCtx) {

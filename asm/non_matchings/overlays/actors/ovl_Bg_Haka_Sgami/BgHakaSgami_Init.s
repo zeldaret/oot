@@ -31,7 +31,7 @@ glabel BgHakaSgami_Init
 /* 0006C 8087E54C AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 00070 8087E550 24E7EF50 */  addiu   $a3, $a3, %lo(D_8087EF50)  ## $a3 = 8087EF50
 /* 00074 8087E554 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00078 8087E558 0C0172EB */  jal     func_8005CBAC              
+/* 00078 8087E558 0C0172EB */  jal     Collider_InitTris              
 /* 0007C 8087E55C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00080 8087E560 2605015C */  addiu   $a1, $s0, 0x015C           ## $a1 = 0000015C
 /* 00084 8087E564 AFA50028 */  sw      $a1, 0x0028($sp)           

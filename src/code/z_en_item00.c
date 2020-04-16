@@ -302,7 +302,7 @@ void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx) {
 
 void En_Item00_Destroy(ActorEnItem00* this, GlobalContext* globalCtx) {
     ColliderCylinder* cylinderCollider = &this->cylinderCollider;
-    Collider_FreeCylinder(globalCtx, cylinderCollider);
+    Collider_DestroyCylinder(globalCtx, cylinderCollider);
 }
 
 void func_8001DFC8(ActorEnItem00* this, GlobalContext* globalCtx) {

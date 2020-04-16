@@ -257,7 +257,7 @@ glabel EnHorse_Init
 /* 0112C 80A5C41C AFB90010 */  sw      $t9, 0x0010($sp)
 /* 01130 80A5C420 24E75F28 */  addiu   $a3, $a3, %lo(D_80A65F28)  ## $a3 = 80A65F28
 /* 01134 80A5C424 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01138 80A5C428 0C017014 */  jal     func_8005C050
+/* 01138 80A5C428 0C017014 */  jal     Collider_InitJntSph
 /* 0113C 80A5C42C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 01140 80A5C430 0C016C80 */  jal     CollisionBtlTbl_Get
 

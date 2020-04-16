@@ -67,7 +67,7 @@ glabel EnTite_Init
 /* 000FC 80B18B7C AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 00100 80B18B80 24E7B5F4 */  addiu   $a3, $a3, %lo(D_80B1B5F4)  ## $a3 = 80B1B5F4
 /* 00104 80B18B84 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00108 80B18B88 0C017014 */  jal     func_8005C050              
+/* 00108 80B18B88 0C017014 */  jal     Collider_InitJntSph              
 /* 0010C 80B18B8C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00110 80B18B90 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C
 /* 00114 80B18B94 240E001D */  addiu   $t6, $zero, 0x001D         ## $t6 = 0000001D

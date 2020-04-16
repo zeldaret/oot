@@ -37,7 +37,7 @@ glabel func_80A59D70
 /* 001C0 80A59DF0 02803825 */  or      $a3, $s4, $zero            ## $a3 = 80A5AFF8
 /* 001C4 80A59DF4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 001C8 80A59DF8 02E02825 */  or      $a1, $s7, $zero            ## $a1 = 00000150
-/* 001CC 80A59DFC 0C0172EB */  jal     func_8005CBAC              
+/* 001CC 80A59DFC 0C0172EB */  jal     Collider_InitTris              
 /* 001D0 80A59E00 03C03025 */  or      $a2, $s8, $zero            ## $a2 = 00000000
 /* 001D4 80A59E04 00009025 */  or      $s2, $zero, $zero          ## $s2 = 00000000
 /* 001D8 80A59E08 27D30024 */  addiu   $s3, $s8, 0x0024           ## $s3 = 00000024

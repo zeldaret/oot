@@ -58,7 +58,7 @@ glabel EnDha_Init
 /* 000E0 809EC960 AFAD0010 */  sw      $t5, 0x0010($sp)
 /* 000E4 809EC964 24E7D724 */  addiu   $a3, $a3, %lo(D_809ED724)  ## $a3 = 809ED724
 /* 000E8 809EC968 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 000EC 809EC96C 0C017014 */  jal     func_8005C050
+/* 000EC 809EC96C 0C017014 */  jal     Collider_InitJntSph
 /* 000F0 809EC970 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000F4 809EC974 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
 /* 000F8 809EC978 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE

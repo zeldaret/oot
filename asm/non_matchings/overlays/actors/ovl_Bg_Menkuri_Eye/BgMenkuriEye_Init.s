@@ -18,7 +18,7 @@ glabel BgMenkuriEye_Init
 /* 0003C 8089BCAC AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 00040 8089BCB0 24E7C0B4 */  addiu   $a3, $a3, %lo(D_8089C0B4)  ## $a3 = 8089C0B4
 /* 00044 8089BCB4 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00048 8089BCB8 0C017014 */  jal     func_8005C050              
+/* 00048 8089BCB8 0C017014 */  jal     Collider_InitJntSph              
 /* 0004C 8089BCBC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00050 8089BCC0 C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024
 /* 00054 8089BCC4 8E19016C */  lw      $t9, 0x016C($s0)           ## 0000016C

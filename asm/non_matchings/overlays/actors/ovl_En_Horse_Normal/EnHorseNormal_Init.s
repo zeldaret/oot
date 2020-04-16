@@ -75,7 +75,7 @@ glabel EnHorseNormal_Init
 /* 00254 80A6B4A4 AFB80010 */  sw      $t8, 0x0010($sp)
 /* 00258 80A6B4A8 24E7D410 */  addiu   $a3, $a3, %lo(D_80A6D410)  ## $a3 = 80A6D410
 /* 0025C 80A6B4AC 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 00260 80A6B4B0 0C017014 */  jal     func_8005C050
+/* 00260 80A6B4B0 0C017014 */  jal     Collider_InitJntSph
 /* 00264 80A6B4B4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00268 80A6B4B8 260502D4 */  addiu   $a1, $s0, 0x02D4           ## $a1 = 000002D4
 /* 0026C 80A6B4BC AFA50028 */  sw      $a1, 0x0028($sp)

@@ -131,12 +131,12 @@ void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, &initChain);
     func_8005BBF8(globalCtx, &this->collider);
-    func_8005C050(globalCtx, &this->collider, this, &colliderInit, &this->colliderItems);
+    Collider_InitJntSph(globalCtx, &this->collider, this, &colliderInit, &this->colliderItems);
     ObjComb_SetWait(this);
 }
 
 void ObjComb_Destroy(ObjComb* this, GlobalContext* globalCtx) {
-    func_8005BCC8(globalCtx, &this->collider);
+    Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void ObjComb_SetWait(ObjComb* this) {

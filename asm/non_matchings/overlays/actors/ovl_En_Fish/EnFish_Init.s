@@ -40,7 +40,7 @@ glabel EnFish_Init
 /* 00260 80A154E0 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 00264 80A154E4 24E77040 */  addiu   $a3, $a3, %lo(D_80A17040)  ## $a3 = 80A17040
 /* 00268 80A154E8 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 0026C 80A154EC 0C017014 */  jal     func_8005C050
+/* 0026C 80A154EC 0C017014 */  jal     Collider_InitJntSph
 /* 00270 80A154F0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00274 80A154F4 24090032 */  addiu   $t1, $zero, 0x0032         ## $t1 = 00000032
 /* 00278 80A154F8 0C03F66B */  jal     Math_Rand_ZeroOne

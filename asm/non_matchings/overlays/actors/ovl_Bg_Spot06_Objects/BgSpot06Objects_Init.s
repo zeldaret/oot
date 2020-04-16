@@ -108,7 +108,7 @@ glabel BgSpot06Objects_Init
 /* 00138 808AE8B8 AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 0013C 808AE8BC 24E7F954 */  addiu   $a3, $a3, %lo(D_808AF954)  ## $a3 = 808AF954
 /* 00140 808AE8C0 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00144 808AE8C4 0C017014 */  jal     func_8005C050              
+/* 00144 808AE8C4 0C017014 */  jal     Collider_InitJntSph              
 /* 00148 808AE8C8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0014C 808AE8CC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
 /* 00150 808AE8D0 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660

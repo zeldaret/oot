@@ -53,7 +53,7 @@ void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx) {
 
 void EnNutsball_Destroy(EnNutsball* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
-    Collider_FreeCylinder(globalCtx, collider);
+    Collider_DestroyCylinder(globalCtx, collider);
 }
 
 void func_80ABBB34(EnNutsball* this, GlobalContext* globalCtx) {

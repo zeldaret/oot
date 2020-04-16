@@ -53,7 +53,7 @@ glabel EnTp_Init
 /* 000B8 80B20E98 24E72AB4 */  addiu   $a3, $a3, %lo(D_80B22AB4)  ## $a3 = 80B22AB4
 /* 000BC 80B20E9C 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
 /* 000C0 80B20EA0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000174
-/* 000C4 80B20EA4 0C017014 */  jal     func_8005C050              
+/* 000C4 80B20EA4 0C017014 */  jal     Collider_InitJntSph              
 /* 000C8 80B20EA8 02603025 */  or      $a2, $s3, $zero            ## $a2 = 00000000
 /* 000CC 80B20EAC 8663001C */  lh      $v1, 0x001C($s3)           ## 0000001C
 /* 000D0 80B20EB0 24090006 */  addiu   $t1, $zero, 0x0006         ## $t1 = 00000006

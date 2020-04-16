@@ -138,7 +138,7 @@ glabel L8089C5B0
 /* 00188 8089C608 02603825 */  or      $a3, $s3, $zero            ## $a3 = 8089D738
 /* 0018C 8089C60C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00190 8089C610 03C02825 */  or      $a1, $s8, $zero            ## $a1 = 00000164
-/* 00194 8089C614 0C0172EB */  jal     func_8005CBAC              
+/* 00194 8089C614 0C0172EB */  jal     Collider_InitTris              
 /* 00198 8089C618 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 /* 0019C 8089C61C 1440000B */  bne     $v0, $zero, .L8089C64C     
 /* 001A0 8089C620 3C04808A */  lui     $a0, %hi(D_8089D870)       ## $a0 = 808A0000
@@ -248,7 +248,7 @@ glabel L8089C740
 /* 00318 8089C798 02C03825 */  or      $a3, $s6, $zero            ## $a3 = 8089D784
 /* 0031C 8089C79C 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFFC0
 /* 00320 8089C7A0 03C02825 */  or      $a1, $s8, $zero            ## $a1 = 00000164
-/* 00324 8089C7A4 0C0172EB */  jal     func_8005CBAC              
+/* 00324 8089C7A4 0C0172EB */  jal     Collider_InitTris              
 /* 00328 8089C7A8 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 /* 0032C 8089C7AC 1440000B */  bne     $v0, $zero, .L8089C7DC     
 /* 00330 8089C7B0 3C04808A */  lui     $a0, %hi(D_8089D8C4)       ## $a0 = 808A0000
@@ -358,7 +358,7 @@ glabel L8089C8D4
 /* 004A8 8089C928 24E7D80C */  addiu   $a3, $a3, %lo(D_8089D80C)  ## $a3 = 8089D80C
 /* 004AC 8089C92C 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFF80
 /* 004B0 8089C930 03C02825 */  or      $a1, $s8, $zero            ## $a1 = 00000164
-/* 004B4 8089C934 0C0172EB */  jal     func_8005CBAC              
+/* 004B4 8089C934 0C0172EB */  jal     Collider_InitTris              
 /* 004B8 8089C938 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 /* 004BC 8089C93C 1440000B */  bne     $v0, $zero, .L8089C96C     
 /* 004C0 8089C940 3C04808A */  lui     $a0, %hi(D_8089D918)       ## $a0 = 808A0000
@@ -466,7 +466,7 @@ glabel L8089CA5C
 /* 00630 8089CAB0 24E7D81C */  addiu   $a3, $a3, %lo(D_8089D81C)  ## $a3 = 8089D81C
 /* 00634 8089CAB4 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFF40
 /* 00638 8089CAB8 03C02825 */  or      $a1, $s8, $zero            ## $a1 = 00000164
-/* 0063C 8089CABC 0C0172EB */  jal     func_8005CBAC              
+/* 0063C 8089CABC 0C0172EB */  jal     Collider_InitTris              
 /* 00640 8089CAC0 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 /* 00644 8089CAC4 1440000B */  bne     $v0, $zero, .L8089CAF4     
 /* 00648 8089CAC8 3C04808A */  lui     $a0, %hi(D_8089D96C)       ## $a0 = 808A0000
@@ -577,7 +577,7 @@ glabel L8089CBF0
 /* 007C4 8089CC44 24E7D81C */  addiu   $a3, $a3, %lo(D_8089D81C)  ## $a3 = 8089D81C
 /* 007C8 8089CC48 02002025 */  or      $a0, $s0, $zero            ## $a0 = FFFFFF00
 /* 007CC 8089CC4C 03C02825 */  or      $a1, $s8, $zero            ## $a1 = 00000164
-/* 007D0 8089CC50 0C0172EB */  jal     func_8005CBAC              
+/* 007D0 8089CC50 0C0172EB */  jal     Collider_InitTris              
 /* 007D4 8089CC54 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 /* 007D8 8089CC58 1440000B */  bne     $v0, $zero, .L8089CC88     
 /* 007DC 8089CC5C 3C04808A */  lui     $a0, %hi(D_8089D9C0)       ## $a0 = 808A0000

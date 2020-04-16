@@ -94,7 +94,7 @@ void EnAni_Init(EnAni* this, GlobalContext* globalCtx) {
 void EnAni_Destroy(EnAni* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
     collider = &this->collider;
-    Collider_FreeCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 s32 EnAni_SetText(EnAni* this, GlobalContext* globalCtx, u16 textId) {

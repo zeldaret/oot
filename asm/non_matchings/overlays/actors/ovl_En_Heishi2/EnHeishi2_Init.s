@@ -112,7 +112,7 @@ glabel EnHeishi2_Init
 /* 00114 80A52FB4 AE0C0278 */  sw      $t4, 0x0278($s0)           ## 00000278
 /* 00118 80A52FB8 A60F00B6 */  sh      $t7, 0x00B6($s0)           ## 000000B6
 /* 0011C 80A52FBC 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00120 80A52FC0 0C0170EB */  jal     Collider_FreeCylinder
+/* 00120 80A52FC0 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00124 80A52FC4 26050398 */  addiu   $a1, $s0, 0x0398           ## $a1 = 00000398
 /* 00128 80A52FC8 8FA40044 */  lw      $a0, 0x0044($sp)           
@@ -203,7 +203,7 @@ glabel EnHeishi2_Init
               
 /* 00258 80A530F8 24844F80 */  addiu   $a0, $a0, %lo(D_80A54F80)  ## $a0 = 80A54F80
 /* 0025C 80A530FC 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00260 80A53100 0C0170EB */  jal     Collider_FreeCylinder
+/* 00260 80A53100 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00264 80A53104 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 00268 80A53108 8E180004 */  lw      $t8, 0x0004($s0)           ## 00000004

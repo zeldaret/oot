@@ -17,7 +17,7 @@ glabel EnSkjneedle_Init
 /* 00034 80B01EE4 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00038 80B01EE8 24E72180 */  addiu   $a3, $a3, %lo(D_80B02180)  ## $a3 = 80B02180
 /* 0003C 80B01EEC 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00040 80B01EF0 0C017114 */  jal     func_8005C450              
+/* 00040 80B01EF0 0C017114 */  jal     Collider_InitCylinder_Set3              
 /* 00044 80B01EF4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00048 80B01EF8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
 /* 0004C 80B01EFC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC

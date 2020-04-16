@@ -57,7 +57,7 @@ glabel ObjDekujr_Init
 /* 000BC 80B924DC 24C62A00 */  addiu   $a2, $a2, %lo(D_80B92A00)  ## $a2 = 80B92A00
 /* 000C0 80B924E0 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 000C4 80B924E4 ACD00000 */  sw      $s0, 0x0000($a2)           ## 80B92A00
-/* 000C8 80B924E8 0C0170FD */  jal     func_8005C3F4              
+/* 000C8 80B924E8 0C0170FD */  jal     Collider_InitCylinder_Actor              
 /* 000CC 80B924EC 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000D0 80B924F0 240B00FF */  addiu   $t3, $zero, 0x00FF         ## $t3 = 000000FF
 /* 000D4 80B924F4 A20B00AE */  sb      $t3, 0x00AE($s0)           ## 000000AE

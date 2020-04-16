@@ -13,7 +13,7 @@ glabel func_80B533B0
 /* 00028 80B533D8 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 0002C 80B533DC 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 00030 80B533E0 24E7A410 */  addiu   $a3, $a3, %lo(D_80B5A410)  ## $a3 = 80B5A410
-/* 00034 80B533E4 0C017114 */  jal     func_8005C450              
+/* 00034 80B533E4 0C017114 */  jal     Collider_InitCylinder_Set3              
 /* 00038 80B533E8 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 0003C 80B533EC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00040 80B533F0 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000

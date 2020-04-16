@@ -43,7 +43,7 @@ glabel BgHidanHrock_Init
 /* 00084 808891B4 24E79898 */  addiu   $a3, $a3, %lo(D_80889898)  ## $a3 = 80889898
 /* 00088 808891B8 8FA400B4 */  lw      $a0, 0x00B4($sp)           
 /* 0008C 808891BC 03C02825 */  or      $a1, $s8, $zero            ## $a1 = 0000016C
-/* 00090 808891C0 0C0172EB */  jal     func_8005CBAC              
+/* 00090 808891C0 0C0172EB */  jal     Collider_InitTris              
 /* 00094 808891C4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00098 808891C8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0009C 808891CC 0C010D20 */  jal     DynaPolyInfo_SetActorMove

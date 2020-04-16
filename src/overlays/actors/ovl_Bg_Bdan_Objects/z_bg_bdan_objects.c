@@ -157,7 +157,7 @@ void BgBdanObjects_Destroy(BgBdanObjects* this, GlobalContext* globalCtx) {
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     if (thisx->params == 0) {
-        Collider_FreeCylinder(globalCtx, &this->collider);
+        Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
 

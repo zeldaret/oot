@@ -34,7 +34,7 @@ glabel BgYdanSp_Init
 /* 00078 808BF488 24E709A8 */  addiu   $a3, $a3, %lo(D_808C09A8)  ## $a3 = 808C09A8
 /* 0007C 808BF48C 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 00080 808BF490 8FA50030 */  lw      $a1, 0x0030($sp)           
-/* 00084 808BF494 0C0172EB */  jal     func_8005CBAC              
+/* 00084 808BF494 0C0172EB */  jal     Collider_InitTris              
 /* 00088 808BF498 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0008C 808BF49C 860D001C */  lh      $t5, 0x001C($s0)           ## 0000001C
 /* 00090 808BF4A0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000

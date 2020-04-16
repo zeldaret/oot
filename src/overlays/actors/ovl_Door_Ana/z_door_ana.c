@@ -78,7 +78,7 @@ void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx) {
 void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx) {
     // free collider if it has one
     if ((this->actor.params & 0x200) != 0) {
-        Collider_FreeCylinder(globalCtx, &this->collider);
+        Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
 
@@ -95,7 +95,7 @@ void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
         // bombing/hammering open a grotto
         if ((this->collider.base.acFlags & 2) != 0) {
             openGrotto = true;
-            Collider_FreeCylinder(globalCtx, &this->collider);
+            Collider_DestroyCylinder(globalCtx, &this->collider);
         } else {
             Collider_CylinderUpdate(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);

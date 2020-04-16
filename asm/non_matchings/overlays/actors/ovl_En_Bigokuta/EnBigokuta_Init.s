@@ -40,7 +40,7 @@ glabel EnBigokuta_Init
 /* 00080 809BCCE0 24E7F3F8 */  addiu   $a3, $a3, %lo(D_809BF3F8)  ## $a3 = 809BF3F8
 /* 00084 809BCCE4 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00088 809BCCE8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000028C
-/* 0008C 809BCCEC 0C017014 */  jal     func_8005C050
+/* 0008C 809BCCEC 0C017014 */  jal     Collider_InitJntSph
 /* 00090 809BCCF0 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 /* 00094 809BCCF4 8E4202A8 */  lw      $v0, 0x02A8($s2)           ## 000002A8
 /* 00098 809BCCF8 3C10809C */  lui     $s0, %hi(D_809BF408)       ## $s0 = 809C0000

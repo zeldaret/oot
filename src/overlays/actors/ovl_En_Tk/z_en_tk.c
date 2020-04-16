@@ -524,7 +524,7 @@ void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
 
 void EnTk_Destroy(EnTk* this, GlobalContext* globalCtx) {
     EnTk* thisAgain = this;
-    Collider_FreeCylinder(globalCtx, &thisAgain->collider);
+    Collider_DestroyCylinder(globalCtx, &thisAgain->collider);
 }
 
 void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {

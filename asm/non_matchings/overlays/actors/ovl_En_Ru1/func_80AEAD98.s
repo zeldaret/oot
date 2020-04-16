@@ -5,12 +5,12 @@ glabel func_80AEAD98
 /* 00194 80AEADA4 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00198 80AEADA8 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 0019C 80AEADAC AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 001A0 80AEADB0 0C0170EB */  jal     Collider_FreeCylinder
+/* 001A0 80AEADB0 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001A4 80AEADB4 24A502B4 */  addiu   $a1, $a1, 0x02B4           ## $a1 = 000002B4
 /* 001A8 80AEADB8 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 001AC 80AEADBC 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 001B0 80AEADC0 0C0170EB */  jal     Collider_FreeCylinder
+/* 001B0 80AEADC0 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001B4 80AEADC4 24A50300 */  addiu   $a1, $a1, 0x0300           ## $a1 = 00000300
 /* 001B8 80AEADC8 8FBF0014 */  lw      $ra, 0x0014($sp)           

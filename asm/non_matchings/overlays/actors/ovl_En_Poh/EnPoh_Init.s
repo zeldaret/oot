@@ -26,7 +26,7 @@ glabel EnPoh_Init
 /* 00058 80ADDDA8 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 0005C 80ADDDAC 24E71AC4 */  addiu   $a3, $a3, %lo(D_80AE1AC4)  ## $a3 = 80AE1AC4
 /* 00060 80ADDDB0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00064 80ADDDB4 0C017014 */  jal     func_8005C050              
+/* 00064 80ADDDB4 0C017014 */  jal     Collider_InitJntSph              
 /* 00068 80ADDDB8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0006C 80ADDDBC 8E0F0324 */  lw      $t7, 0x0324($s0)           ## 00000324
 /* 00070 80ADDDC0 260502BC */  addiu   $a1, $s0, 0x02BC           ## $a1 = 000002BC

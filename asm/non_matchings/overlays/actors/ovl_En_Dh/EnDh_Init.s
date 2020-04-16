@@ -74,7 +74,7 @@ glabel EnDh_Init
 /* 00110 809EAE50 AFB80010 */  sw      $t8, 0x0010($sp)
 /* 00114 809EAE54 24E7C610 */  addiu   $a3, $a3, %lo(D_809EC610)  ## $a3 = 809EC610
 /* 00118 809EAE58 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0011C 809EAE5C 0C017014 */  jal     func_8005C050
+/* 0011C 809EAE5C 0C017014 */  jal     Collider_InitJntSph
 /* 00120 809EAE60 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00124 809EAE64 0C27AC17 */  jal     func_809EB05C
 /* 00128 809EAE68 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

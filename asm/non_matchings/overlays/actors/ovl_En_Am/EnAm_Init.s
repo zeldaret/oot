@@ -104,13 +104,13 @@ glabel EnAm_Init
 /* 00290 809AE1B0 24E7FFAC */  addiu   $a3, $a3, %lo(D_809AFFAC)  ## $a3 = 809AFFAC
 /* 00294 809AE1B4 2605030C */  addiu   $a1, $s0, 0x030C           ## $a1 = 0000030C
 /* 00298 809AE1B8 AFA50038 */  sw      $a1, 0x0038($sp)           
-/* 0029C 809AE1BC 0C017406 */  jal     func_8005D018              
+/* 0029C 809AE1BC 0C017406 */  jal     Collider_AllocQuad              
 /* 002A0 809AE1C0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 002A4 809AE1C4 3C07809B */  lui     $a3, %hi(D_809AFFD8)       ## $a3 = 809B0000
 /* 002A8 809AE1C8 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 002AC 809AE1CC 24E7FFD8 */  addiu   $a3, $a3, %lo(D_809AFFD8)  ## $a3 = 809AFFD8
 /* 002B0 809AE1D0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 002B4 809AE1D4 0C017441 */  jal     func_8005D104              
+/* 002B4 809AE1D4 0C017441 */  jal     Collider_InitQuad              
 /* 002B8 809AE1D8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 002BC 809AE1DC 3C0C809B */  lui     $t4, %hi(D_809B0028)       ## $t4 = 809B0000
 /* 002C0 809AE1E0 240B0001 */  addiu   $t3, $zero, 0x0001         ## $t3 = 00000001

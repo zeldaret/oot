@@ -46,7 +46,7 @@ void EnMFire1_Init(EnMFire1* this, GlobalContext* globalCtx) {
 
 void EnMFire1_Destroy(EnMFire1* this, GlobalContext* globalCtx) {
     ColliderCylinder* capsule = &this->capsule;
-    Collider_FreeCylinder(globalCtx, capsule);
+    Collider_DestroyCylinder(globalCtx, capsule);
 }
 
 void EnMFire1_Update(EnMFire1* this, GlobalContext* globalCtx) {

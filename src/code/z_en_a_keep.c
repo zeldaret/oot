@@ -176,7 +176,7 @@ void En_A_Obj_Destroy(ActorEnAObj* this, GlobalContext* globalCtx) {
     switch (this->actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
-            Collider_FreeCylinder(globalCtx, cylinderCollider);
+            Collider_DestroyCylinder(globalCtx, cylinderCollider);
     }
 }
 

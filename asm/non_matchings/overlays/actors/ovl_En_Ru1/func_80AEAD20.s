@@ -13,7 +13,7 @@ glabel func_80AEAD20
 /* 00138 80AEAD48 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 0013C 80AEAD4C 24E70800 */  addiu   $a3, $a3, %lo(D_80AF0800)  ## $a3 = 80AF0800
 /* 00140 80AEAD50 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00144 80AEAD54 0C017114 */  jal     func_8005C450              
+/* 00144 80AEAD54 0C017114 */  jal     Collider_InitCylinder_Set3              
 /* 00148 80AEAD58 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0014C 80AEAD5C 26050300 */  addiu   $a1, $s0, 0x0300           ## $a1 = 00000300
 /* 00150 80AEAD60 AFA50020 */  sw      $a1, 0x0020($sp)           
@@ -24,7 +24,7 @@ glabel func_80AEAD20
 /* 00160 80AEAD70 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00164 80AEAD74 24E7082C */  addiu   $a3, $a3, %lo(D_80AF082C)  ## $a3 = 80AF082C
 /* 00168 80AEAD78 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 0016C 80AEAD7C 0C017114 */  jal     func_8005C450              
+/* 0016C 80AEAD7C 0C017114 */  jal     Collider_InitCylinder_Set3              
 /* 00170 80AEAD80 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00174 80AEAD84 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00178 80AEAD88 8FB00018 */  lw      $s0, 0x0018($sp)           

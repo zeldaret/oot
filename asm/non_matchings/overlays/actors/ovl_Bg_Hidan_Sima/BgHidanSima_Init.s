@@ -46,7 +46,7 @@ glabel BgHidanSima_Init
 /* 00094 8088E464 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 00098 8088E468 24E7F1E8 */  addiu   $a3, $a3, %lo(D_8088F1E8)  ## $a3 = 8088F1E8
 /* 0009C 8088E46C 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 000A0 8088E470 0C017014 */  jal     func_8005C050              
+/* 000A0 8088E470 0C017014 */  jal     Collider_InitJntSph              
 /* 000A4 8088E474 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000A8 8088E478 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 000AC 8088E47C 24040080 */  addiu   $a0, $zero, 0x0080         ## $a0 = 00000080

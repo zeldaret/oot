@@ -55,7 +55,7 @@ glabel EnWf_Init
 /* 000D4 80B33D84 AFB80010 */  sw      $t8, 0x0010($sp)
 /* 000D8 80B33D88 24E77A20 */  addiu   $a3, $a3, %lo(D_80B37A20)  ## $a3 = 80B37A20
 /* 000DC 80B33D8C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000E0 80B33D90 0C017014 */  jal     func_8005C050
+/* 000E0 80B33D90 0C017014 */  jal     Collider_InitJntSph
 /* 000E4 80B33D94 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000E8 80B33D98 26050424 */  addiu   $a1, $s0, 0x0424           ## $a1 = 00000424
 /* 000EC 80B33D9C AFA50034 */  sw      $a1, 0x0034($sp)

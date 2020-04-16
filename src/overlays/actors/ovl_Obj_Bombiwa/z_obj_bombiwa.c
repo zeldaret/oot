@@ -79,7 +79,7 @@ void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx) {
 }
 
 void ObjBombiwa_Destroy(ObjBombiwa* this, GlobalContext* globalCtx) {
-    Collider_FreeCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {

@@ -78,7 +78,7 @@ glabel EnGuest_Update
 /* 001F8 80A50418 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 001FC 80A5041C 24E70B70 */  addiu   $a3, $a3, %lo(D_80A50B70)  ## $a3 = 80A50B70
 /* 00200 80A50420 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00204 80A50424 0C017114 */  jal     func_8005C450
+/* 00204 80A50424 0C017114 */  jal     Collider_InitCylinder_Set3
 /* 00208 80A50428 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0020C 80A5042C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00210 80A50430 0C00B56E */  jal     Actor_SetHeight

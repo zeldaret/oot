@@ -68,7 +68,7 @@ glabel BgBombwall_Init
 /* 001A4 8086E974 02803825 */  or      $a3, $s4, $zero            ## $a3 = 8086EFD4
 /* 001A8 8086E978 8FA400BC */  lw      $a0, 0x00BC($sp)           
 /* 001AC 8086E97C 02E02825 */  or      $a1, $s7, $zero            ## $a1 = 00000164
-/* 001B0 8086E980 0C0172EB */  jal     func_8005CBAC              
+/* 001B0 8086E980 0C0172EB */  jal     Collider_InitTris              
 /* 001B4 8086E984 02603025 */  or      $a2, $s3, $zero            ## $a2 = 00000000
 /* 001B8 8086E988 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
 /* 001BC 8086E98C 4481A000 */  mtc1    $at, $f20                  ## $f20 = 2.00

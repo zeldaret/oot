@@ -46,7 +46,7 @@ void EnIt_Init(EnIt* this, GlobalContext* globalCtx) {
 void EnIt_Destroy(EnIt* this, GlobalContext* globalCtx) {
     EnIt* it = this;
 
-    Collider_FreeCylinder(globalCtx, &it->cylinderCollider);
+    Collider_DestroyCylinder(globalCtx, &it->cylinderCollider);
 }
 
 void EnIt_Update(EnIt* this, GlobalContext* globalCtx) {

@@ -14,7 +14,7 @@ glabel func_80B96BA0
 /* 00030 80B96BD0 24E77F44 */  addiu   $a3, $a3, %lo(D_80B97F44)  ## $a3 = 80B97F44
 /* 00034 80B96BD4 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00038 80B96BD8 8FA50028 */  lw      $a1, 0x0028($sp)           
-/* 0003C 80B96BDC 0C017014 */  jal     func_8005C050              
+/* 0003C 80B96BDC 0C017014 */  jal     Collider_InitJntSph              
 /* 00040 80B96BE0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00044 80B96BE4 C60400BC */  lwc1    $f4, 0x00BC($s0)           ## 000000BC
 /* 00048 80B96BE8 C6060054 */  lwc1    $f6, 0x0054($s0)           ## 00000054

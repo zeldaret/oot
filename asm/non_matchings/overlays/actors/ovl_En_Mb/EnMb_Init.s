@@ -55,17 +55,17 @@ glabel EnMb_Init
 /* 000A8 80AA60F8 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 000AC 80AA60FC 24E79CA4 */  addiu   $a3, $a3, %lo(D_80AA9CA4)  ## $a3 = 80AA9CA4
 /* 000B0 80AA6100 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000B4 80AA6104 0C0172EB */  jal     func_8005CBAC
+/* 000B4 80AA6104 0C0172EB */  jal     Collider_InitTris
 /* 000B8 80AA6108 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000BC 80AA610C 260503B4 */  addiu   $a1, $s0, 0x03B4           ## $a1 = 000003B4
 /* 000C0 80AA6110 AFA50038 */  sw      $a1, 0x0038($sp)
-/* 000C4 80AA6114 0C017406 */  jal     func_8005D018
+/* 000C4 80AA6114 0C017406 */  jal     Collider_AllocQuad
 /* 000C8 80AA6118 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 000CC 80AA611C 3C0780AB */  lui     $a3, %hi(D_80AA9CB4)       ## $a3 = 80AB0000
 /* 000D0 80AA6120 8FA50038 */  lw      $a1, 0x0038($sp)
 /* 000D4 80AA6124 24E79CB4 */  addiu   $a3, $a3, %lo(D_80AA9CB4)  ## $a3 = 80AA9CB4
 /* 000D8 80AA6128 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000DC 80AA612C 0C017441 */  jal     func_8005D104
+/* 000DC 80AA612C 0C017441 */  jal     Collider_InitQuad
 /* 000E0 80AA6130 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000E4 80AA6134 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C
 /* 000E8 80AA6138 2401FFFF */  addiu   $at, $zero, 0xFFFF         ## $at = FFFFFFFF

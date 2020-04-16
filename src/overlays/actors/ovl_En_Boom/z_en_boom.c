@@ -81,15 +81,15 @@ void EnBoom_Init(EnBoom* this, GlobalContext* globalCtx) {
 
     Effect_Add(globalCtx, &this->effect, 1, 0, 0, &trail);
 
-    func_8005D018(globalCtx, &this->collider);
-    func_8005D104(globalCtx, &this->collider, this, &col);
+    Collider_AllocQuad(globalCtx, &this->collider);
+    Collider_InitQuad(globalCtx, &this->collider, this, &col);
 
     EnBoom_SetupAction(this, &EnBoom_Fly);
 }
 
 void EnBoom_Destroy(EnBoom* this, GlobalContext* globalCtx) {
     func_8002709C(globalCtx, this->effect);
-    func_8005D060(globalCtx, &this->collider);
+    Collider_DestroyQuad(globalCtx, &this->collider);
 }
 
 void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {

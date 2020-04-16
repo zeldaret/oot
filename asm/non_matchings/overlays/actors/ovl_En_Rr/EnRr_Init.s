@@ -32,7 +32,7 @@ glabel EnRr_Init
 /* 0004C 80AE848C 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00050 80AE8490 24E7A658 */  addiu   $a3, $a3, %lo(D_80AEA658)  ## $a3 = 80AEA658
 /* 00054 80AE8494 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00058 80AE8498 0C017114 */  jal     func_8005C450              
+/* 00058 80AE8498 0C017114 */  jal     Collider_InitCylinder_Set3              
 /* 0005C 80AE849C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00060 80AE84A0 2605019C */  addiu   $a1, $s0, 0x019C           ## $a1 = 0000019C
 /* 00064 80AE84A4 AFA50024 */  sw      $a1, 0x0024($sp)           
@@ -43,7 +43,7 @@ glabel EnRr_Init
 /* 00074 80AE84B4 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00078 80AE84B8 24E7A684 */  addiu   $a3, $a3, %lo(D_80AEA684)  ## $a3 = 80AEA684
 /* 0007C 80AE84BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00080 80AE84C0 0C017114 */  jal     func_8005C450              
+/* 00080 80AE84C0 0C017114 */  jal     Collider_InitCylinder_Set3              
 /* 00084 80AE84C4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00088 80AE84C8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0008C 80AE84CC 0C00B56E */  jal     Actor_SetHeight
