@@ -57,13 +57,13 @@ glabel func_80845EF8
 /* 13DB8 80845FC8 02012821 */  addu    $a1, $s0, $at              
 .L80845FCC:
 /* 13DBC 80845FCC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 13DC0 80845FD0 0C030129 */  jal     func_800C04A4              
+/* 13DC0 80845FD0 0C030129 */  jal     Gameplay_GetCamera              
 /* 13DC4 80845FD4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 13DC8 80845FD8 0C016C69 */  jal     func_8005B1A4              
 /* 13DCC 80845FDC 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 13DD0 80845FE0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 13DD4 80845FE4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 13DD8 80845FE8 0C0302BD */  jal     func_800C0AF4              
+/* 13DD8 80845FE8 0C0302BD */  jal     Gameplay_SetupRespawnPoint              
 /* 13DDC 80845FEC 24060DFF */  addiu   $a2, $zero, 0x0DFF         ## $a2 = 00000DFF
 /* 13DE0 80845FF0 10000013 */  beq     $zero, $zero, .L80846040   
 /* 13DE4 80845FF4 8FBF001C */  lw      $ra, 0x001C($sp)           

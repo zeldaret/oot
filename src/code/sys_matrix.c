@@ -898,8 +898,11 @@ MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
             if (!(-32768.0f <= mf->mf[i][j]) || !(mf->mf[i][j] < 32768.0f)) {
-                osSyncPrintf("%s %d: [%s] =\n/ %12.6f %12.6f %12.6f %12.6f \\\n| %12.6f %12.6f %12.6f %12.6f |\n| "
-                             "%12.6f %12.6f %12.6f %12.6f |\n\\ %12.6f %12.6f %12.6f %12.6f /\n",
+                osSyncPrintf("%s %d: [%s] =\n"
+                             "/ %12.6f %12.6f %12.6f %12.6f \\\n"
+                             "| %12.6f %12.6f %12.6f %12.6f |\n"
+                             "| %12.6f %12.6f %12.6f %12.6f |\n"
+                             "\\ %12.6f %12.6f %12.6f %12.6f /\n",
                              file, line, "mf", mf->xx, mf->yx, mf->zx, mf->wx, mf->xy, mf->yy, mf->zy, mf->wy, mf->xz,
                              mf->yz, mf->zz, mf->wz, mf->xw, mf->yw, mf->zw, mf->ww);
                 Fault_AddHungupAndCrash(file, line);

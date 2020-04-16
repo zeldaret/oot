@@ -8,8 +8,8 @@ typedef struct {
 
 typedef void (*DebugDispObject_DrawFunc)(DebugDispObject*, u32, GlobalContext*);
 
-static void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, GlobalContext* globalCtx);
-static void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, GlobalContext* globalCtx);
+void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, GlobalContext* globalCtx);
+void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, GlobalContext* globalCtx);
 
 static DebugDispObject_DrawFunc sDebugObjectDrawFuncTable[] = {
     DebugDisplay_DrawSpriteI8,
@@ -70,7 +70,7 @@ void DebugDisplay_DrawObjects(GlobalContext* globalCtx) {
     }
 }
 
-static void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, GlobalContext* globalCtx) {
+void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
@@ -95,7 +95,7 @@ static void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, Glo
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_debug_display.c", 192);
 }
 
-static void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, GlobalContext* globalCtx) {
+void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 

@@ -25,7 +25,7 @@ glabel func_8083AD4C
 .L8083ADA0:
 /* 08B90 8083ADA0 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 08B94 8083ADA4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 08B98 8083ADA8 0C030129 */  jal     func_800C04A4              
+/* 08B98 8083ADA8 0C030129 */  jal     Gameplay_GetCamera              
 /* 08B9C 8083ADAC AFA3001C */  sw      $v1, 0x001C($sp)           
 /* 08BA0 8083ADB0 8FA3001C */  lw      $v1, 0x001C($sp)           
 /* 08BA4 8083ADB4 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000

@@ -19,7 +19,7 @@ glabel func_809F1CF4
 /* 00254 809F1D34 00000000 */  nop
 /* 00258 809F1D38 45020017 */  bc1fl   .L809F1D98                 
 /* 0025C 809F1D3C 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 00260 809F1D40 0C02FF21 */  jal     func_800BFC84              
+/* 00260 809F1D40 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 00264 809F1D44 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00268 809F1D48 14400012 */  bne     $v0, $zero, .L809F1D94     
 /* 0026C 809F1D4C 8FB9002C */  lw      $t9, 0x002C($sp)           

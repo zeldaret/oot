@@ -88,7 +88,7 @@ glabel func_80997220
 /* 010D0 80997370 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 010D4 80997374 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 010D8 80997378 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 010DC 8099737C 0C0302BD */  jal     func_800C0AF4              
+/* 010DC 8099737C 0C0302BD */  jal     Gameplay_SetupRespawnPoint              
 /* 010E0 80997380 24060EFF */  addiu   $a2, $zero, 0x0EFF         ## $a2 = 00000EFF
 .L80997384:
 /* 010E4 80997384 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00

@@ -46,7 +46,7 @@ void BgSpot15Saku_Init(BgSpot15Saku* this, GlobalContext* globalCtx) {
     this->unk_170 = thisx->posRot.pos.x;
     this->unk_174 = thisx->posRot.pos.y;
     this->unk_178 = thisx->posRot.pos.z;
-    if ((gSaveContext.inf_table[7] & 2) != 0) {
+    if ((gSaveContext.infTable[7] & 2) != 0) {
         thisx->posRot.pos.z = 2659.0f;
     }
     this->actionFunc = func_808B4930;
@@ -57,7 +57,7 @@ void BgSpot15Saku_Destroy(BgSpot15Saku* this, GlobalContext* globalCtx) {
 }
 
 void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {
-    if (this->unk_168 && !(gSaveContext.inf_table[7] & 2)) {
+    if (this->unk_168 && !(gSaveContext.infTable[7] & 2)) {
         this->unk_17C = 2;
         this->actionFunc = func_808B4978;
     }

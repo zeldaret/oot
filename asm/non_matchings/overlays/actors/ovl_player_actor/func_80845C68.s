@@ -5,7 +5,7 @@ glabel func_80845C68
 /* 13A64 80845C74 00A03825 */  or      $a3, $a1, $zero            ## $a3 = 00000000
 /* 13A68 80845C78 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 13A6C 80845C7C 24060DFF */  addiu   $a2, $zero, 0x0DFF         ## $a2 = 00000DFF
-/* 13A70 80845C80 0C0302BD */  jal     func_800C0AF4              
+/* 13A70 80845C80 0C0302BD */  jal     Gameplay_SetupRespawnPoint              
 /* 13A74 80845C84 AFA7001C */  sw      $a3, 0x001C($sp)           
 /* 13A78 80845C88 8FA7001C */  lw      $a3, 0x001C($sp)           
 .L80845C8C:

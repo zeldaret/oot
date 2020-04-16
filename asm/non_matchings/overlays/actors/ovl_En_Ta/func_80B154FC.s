@@ -174,7 +174,7 @@ glabel func_80B154FC
 .L80B15760:
 /* 01CC0 80B15760 54400036 */  bnel    $v0, $zero, .L80B1583C
 /* 01CC4 80B15764 963902E0 */  lhu     $t9, 0x02E0($s1)           ## 000002E0
-/* 01CC8 80B15768 0C02FF21 */  jal     func_800BFC84
+/* 01CC8 80B15768 0C02FF21 */  jal     Gameplay_InCsMode
 /* 01CCC 80B1576C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01CD0 80B15770 14400031 */  bne     $v0, $zero, .L80B15838
 /* 01CD4 80B15774 3C041000 */  lui     $a0, 0x1000                ## $a0 = 10000000
