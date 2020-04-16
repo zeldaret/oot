@@ -76,7 +76,7 @@ glabel BossFd2_Update
 /* 02858 808D4EC8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0285C 808D4ECC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02860 808D4ED0 8FA50028 */  lw      $a1, 0x0028($sp)           
-/* 02864 808D4ED4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02864 808D4ED4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02868 808D4ED8 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 0286C 808D4EDC 92180194 */  lbu     $t8, 0x0194($s0)           ## 00000194

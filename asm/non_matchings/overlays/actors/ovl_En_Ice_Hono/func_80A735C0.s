@@ -110,7 +110,7 @@ glabel func_80A735C0
 /* 00744 80A73734 440B2000 */  mfc1    $t3, $f4                   
 /* 00748 80A73738 440D8000 */  mfc1    $t5, $f16                  
 /* 0074C 80A7373C A62B019C */  sh      $t3, 0x019C($s1)           ## 0000019C
-/* 00750 80A73740 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00750 80A73740 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00754 80A73744 A62D019E */  sh      $t5, 0x019E($s1)           ## 0000019E
 /* 00758 80A73748 862E0152 */  lh      $t6, 0x0152($s1)           ## 00000152

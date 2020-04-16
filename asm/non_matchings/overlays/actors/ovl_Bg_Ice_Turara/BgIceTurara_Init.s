@@ -20,7 +20,7 @@ glabel BgIceTurara_Init
 /* 0003C 80891F5C 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 00040 80891F60 2605016C */  addiu   $a1, $s0, 0x016C           ## $a1 = 0000016C
 /* 00044 80891F64 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00048 80891F68 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00048 80891F68 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 0004C 80891F6C 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00050 80891F70 3C078089 */  lui     $a3, %hi(D_80892620)       ## $a3 = 80890000

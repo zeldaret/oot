@@ -109,7 +109,7 @@ glabel EnRd_Update
 /* 02060 80AE4460 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02064 80AE4464 00812821 */  addu    $a1, $a0, $at              
 /* 02068 80AE4468 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 0206C 80AE446C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0206C 80AE446C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02070 80AE4470 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 02074 80AE4474 9218031B */  lbu     $t8, 0x031B($s0)           ## 0000031B

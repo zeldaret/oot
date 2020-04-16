@@ -59,7 +59,7 @@ glabel EnSyatekiNiw_Init
 /* 00094 80B11984 A600029E */  sh      $zero, 0x029E($s0)         ## 0000029E
 /* 00098 80B11988 8FA4003C */  lw      $a0, 0x003C($sp)
 .L80B1198C:
-/* 0009C 80B1198C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0009C 80B1198C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 000A0 80B11990 AFA50030 */  sw      $a1, 0x0030($sp)
 /* 000A4 80B11994 3C0780B1 */  lui     $a3, %hi(D_80B13660)       ## $a3 = 80B10000

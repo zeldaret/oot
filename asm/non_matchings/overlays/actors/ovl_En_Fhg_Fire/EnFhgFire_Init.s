@@ -43,7 +43,7 @@ glabel EnFhgFire_Init
 /* 00060 80A0F2C0 5441000A */  bnel    $v0, $at, .L80A0F2EC       
 /* 00064 80A0F2C4 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
 .L80A0F2C8:
-/* 00068 80A0F2C8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00068 80A0F2C8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 0006C 80A0F2CC AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 00070 80A0F2D0 3C0780A1 */  lui     $a3, %hi(D_80A11790)       ## $a3 = 80A10000

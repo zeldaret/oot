@@ -6,7 +6,7 @@ glabel func_80B8EA80
 /* 00010 80B8EA90 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00014 80B8EA94 24C50168 */  addiu   $a1, $a2, 0x0168           ## $a1 = 00000168
 /* 00018 80B8EA98 AFA50018 */  sw      $a1, 0x0018($sp)           
-/* 0001C 80B8EA9C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0001C 80B8EA9C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00020 80B8EAA0 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 00024 80B8EAA4 3C0780B9 */  lui     $a3, %hi(D_80B90E54)       ## $a3 = 80B90000

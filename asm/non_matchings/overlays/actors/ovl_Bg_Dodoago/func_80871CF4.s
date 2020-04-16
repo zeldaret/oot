@@ -184,12 +184,12 @@ glabel func_80871CF4
 /* 00580 80871F80 8FB0002C */  lw      $s0, 0x002C($sp)           
 /* 00584 80871F84 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00588 80871F88 8FA60034 */  lw      $a2, 0x0034($sp)           
-/* 0058C 80871F8C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0058C 80871F8C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00590 80871F90 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00594 80871F94 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00598 80871F98 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 0059C 80871F9C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0059C 80871F9C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 005A0 80871FA0 8FA60030 */  lw      $a2, 0x0030($sp)           
 .L80871FA4:

@@ -43,7 +43,7 @@ glabel EnDodongo_Update
 /* 01D7C 809F9FCC 26060588 */  addiu   $a2, $s0, 0x0588           ## $a2 = 00000588
 /* 01D80 809F9FD0 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 01D84 809F9FD4 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 01D88 809F9FD8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01D88 809F9FD8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01D8C 809F9FDC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01D90 809F9FE0 8E030304 */  lw      $v1, 0x0304($s0)           ## 00000304

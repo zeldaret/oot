@@ -18,7 +18,7 @@ glabel EnMk_Update
 /* 009F8 80AAD2F8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 009FC 80AAD2FC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00A00 80AAD300 8FA60034 */  lw      $a2, 0x0034($sp)           
-/* 00A04 80AAD304 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00A04 80AAD304 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00A08 80AAD308 00812821 */  addu    $a1, $a0, $at              
 /* 00A0C 80AAD30C 0C00B638 */  jal     Actor_MoveForward

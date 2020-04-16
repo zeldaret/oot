@@ -94,7 +94,7 @@ glabel func_80A70E34
 /* 0198C 80A70F3C 01616021 */  addu    $t4, $t3, $at
 /* 01990 80A70F40 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
 /* 01994 80A70F44 AC2C6FC0 */  sw      $t4, 0x6FC0($at)           ## 80166FC0
-/* 01998 80A70F48 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 01998 80A70F48 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 0199C 80A70F4C AFA50030 */  sw      $a1, 0x0030($sp)
 /* 019A0 80A70F50 3C0780A7 */  lui     $a3, %hi(D_80A71EC0)       ## $a3 = 80A70000

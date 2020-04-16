@@ -118,7 +118,7 @@ glabel EnBili_Update
 /* 01538 809C0DD8 8FA5002C */  lw      $a1, 0x002C($sp)           
 .L809C0DDC:
 /* 0153C 809C0DDC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01540 809C0DE0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01540 809C0DE0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01544 809C0DE4 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01548 809C0DE8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

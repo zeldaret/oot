@@ -85,7 +85,7 @@ glabel BossMo_Init
 /* 006E8 8091C1E8 AFA60044 */  sw      $a2, 0x0044($sp)           
 /* 006EC 8091C1EC 260514FC */  addiu   $a1, $s0, 0x14FC           ## $a1 = 000014FC
 /* 006F0 8091C1F0 AFA50048 */  sw      $a1, 0x0048($sp)           
-/* 006F4 8091C1F4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 006F4 8091C1F4 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 006F8 8091C1F8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 006FC 8091C1FC 3C078092 */  lui     $a3, %hi(D_8092603C)       ## $a3 = 80920000

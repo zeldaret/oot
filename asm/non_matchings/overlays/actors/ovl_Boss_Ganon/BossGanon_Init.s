@@ -63,7 +63,7 @@ glabel BossGanon_Init
 /* 00A08 808D7278 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00A0C 808D727C 26050610 */  addiu   $a1, $s0, 0x0610           ## $a1 = 00000610
 /* 00A10 808D7280 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 00A14 808D7284 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00A14 808D7284 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00A18 808D7288 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00A1C 808D728C 3C07808E */  lui     $a3, %hi(D_808E4C00)       ## $a3 = 808E0000
@@ -220,7 +220,7 @@ glabel BossGanon_Init
 /* 00C40 808D74B0 A60A01B8 */  sh      $t2, 0x01B8($s0)           ## 000001B8
 /* 00C44 808D74B4 26050610 */  addiu   $a1, $s0, 0x0610           ## $a1 = 00000610
 /* 00C48 808D74B8 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 00C4C 808D74BC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00C4C 808D74BC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00C50 808D74C0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00C54 808D74C4 3C07808E */  lui     $a3, %hi(D_808E4C2C)       ## $a3 = 808E0000
@@ -383,7 +383,7 @@ glabel BossGanon_Init
 /* 00E88 808D76F8 A60F01B8 */  sh      $t7, 0x01B8($s0)           ## 000001B8
 /* 00E8C 808D76FC 26050610 */  addiu   $a1, $s0, 0x0610           ## $a1 = 00000610
 /* 00E90 808D7700 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 00E94 808D7704 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00E94 808D7704 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00E98 808D7708 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E9C 808D770C 3C07808E */  lui     $a3, %hi(D_808E4C2C)       ## $a3 = 808E0000

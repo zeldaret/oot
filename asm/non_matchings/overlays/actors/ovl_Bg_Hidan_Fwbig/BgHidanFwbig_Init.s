@@ -12,7 +12,7 @@ glabel BgHidanFwbig_Init
 /* 00024 80887314 AFAF0024 */  sw      $t7, 0x0024($sp)           
 /* 00028 80887318 26050154 */  addiu   $a1, $s0, 0x0154           ## $a1 = 00000154
 /* 0002C 8088731C AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00030 80887320 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00030 80887320 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00034 80887324 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00038 80887328 3C078088 */  lui     $a3, %hi(D_80887ED0)       ## $a3 = 80880000

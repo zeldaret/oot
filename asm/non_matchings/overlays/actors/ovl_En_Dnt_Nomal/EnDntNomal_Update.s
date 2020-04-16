@@ -205,7 +205,7 @@ glabel L809F57B0
 /* 025FC 809F58BC 11600004 */  beq     $t3, $zero, .L809F58D0     
 /* 02600 809F58C0 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02604 809F58C4 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
-/* 02608 809F58C8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02608 809F58C8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0260C 809F58CC 00812821 */  addu    $a1, $a0, $at              
 .L809F58D0:

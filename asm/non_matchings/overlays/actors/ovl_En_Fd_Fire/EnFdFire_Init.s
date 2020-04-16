@@ -20,7 +20,7 @@ glabel EnFdFire_Init
 /* 0015C 80A0E60C AFAF0024 */  sw      $t7, 0x0024($sp)           
 /* 00160 80A0E610 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 00164 80A0E614 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00168 80A0E618 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00168 80A0E618 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 0016C 80A0E61C 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00170 80A0E620 3C0780A1 */  lui     $a3, %hi(D_80A0F030)       ## $a3 = 80A10000

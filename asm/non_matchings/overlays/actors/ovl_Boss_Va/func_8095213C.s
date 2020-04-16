@@ -435,7 +435,7 @@ glabel func_8095213C
 /* 0344C 8095270C 02818821 */  addu    $s1, $s4, $at              
 /* 03450 80952710 02202825 */  or      $a1, $s1, $zero            ## $a1 = 8095C1D0
 /* 03454 80952714 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 03458 80952718 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 03458 80952718 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0345C 8095271C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 0000028C
 /* 03460 80952720 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000

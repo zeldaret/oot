@@ -25,8 +25,9 @@ const ActorInit En_M_Fire1_InitVars = {
 };
 
 static ColliderCylinderInit cylinderInitData = {
-    0x0A, 0x09, 0x00,       0x00, 0x08, 0x01, 0x00, 0x00, 0x02,   0x00,   0x00,   0x00,   0x00000001, 0x00,   0x00,
-    0x00, 0x00, 0xFFCFFFFF, 0x00, 0x00, 0x00, 0x00, 0x19, 0x0000, 0x0000, 0x0000, 0x00C8, 0x00C8,     0x0000,
+    { 0x0A, 0x09, 0x00, 0x00, 0x08, 0x01 }, 
+    { 0x02, { 0x00000001, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 },
+      0x19, 0x00, 0x00 }, { 0x00C8, 0x00C8, 0x0000, { 0, 0, 0 } }
 };
 
 void EnMFire1_Init(EnMFire1* this, GlobalContext* globalCtx) {
@@ -39,12 +40,12 @@ void EnMFire1_Init(EnMFire1* this, GlobalContext* globalCtx) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &thisLocal->actor, ACTORTYPE_ITEMACTION);
     }
 
-    ActorCollider_AllocCylinder(globalCtx, &thisLocal->capsule);
+    CollisionCheck_AllocCylinder(globalCtx, &thisLocal->capsule);
     ActorCollider_InitCylinder(globalCtx, &thisLocal->capsule, &thisLocal->actor, &cylinderInitData);
 }
 
 void EnMFire1_Destroy(EnMFire1* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* capsule = &this->capsule;
+    ColliderCylinder* capsule = &this->capsule;
     ActorCollider_FreeCylinder(globalCtx, capsule);
 }
 
@@ -56,6 +57,6 @@ void EnMFire1_Update(EnMFire1* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         ActorCollider_Cylinder_Update(&thisLocal->actor, &thisLocal->capsule);
-        Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, &thisLocal->capsule);
+        Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->collisionCheckCtx, &thisLocal->capsule);
     }
 }

@@ -33,7 +33,7 @@ glabel EnBili_Init
 /* 00070 809BF910 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00074 809BF914 260501D4 */  addiu   $a1, $s0, 0x01D4           ## $a1 = 000001D4
 /* 00078 809BF918 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 0007C 809BF91C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0007C 809BF91C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00080 809BF920 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00084 809BF924 3C07809C */  lui     $a3, %hi(D_809C1640)       ## $a3 = 809C0000

@@ -99,7 +99,7 @@ glabel EnBx_Init
 /* 00154 809D1C34 3C074240 */  lui     $a3, 0x4240                ## $a3 = 42400000
 /* 00158 809D1C38 260501CC */  addiu   $a1, $s0, 0x01CC           ## $a1 = 000001CC
 /* 0015C 809D1C3C AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00160 809D1C40 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00160 809D1C40 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00164 809D1C44 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00168 809D1C48 3C07809D */  lui     $a3, %hi(D_809D2490)       ## $a3 = 809D0000

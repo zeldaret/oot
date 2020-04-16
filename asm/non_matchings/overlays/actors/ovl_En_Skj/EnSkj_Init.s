@@ -185,7 +185,7 @@ glabel EnSkj_Init
 /* 004A0 80AFE750 A21800AF */  sb      $t8, 0x00AF($s0)           ## 000000AF
 /* 004A4 80AFE754 26050278 */  addiu   $a1, $s0, 0x0278           ## $a1 = 00000278
 /* 004A8 80AFE758 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 004AC 80AFE75C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 004AC 80AFE75C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 004B0 80AFE760 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 004B4 80AFE764 3C0780B0 */  lui     $a3, %hi(D_80B01678)       ## $a3 = 80B00000

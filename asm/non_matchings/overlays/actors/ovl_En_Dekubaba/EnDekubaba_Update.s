@@ -104,7 +104,7 @@ glabel EnDekubaba_Update
 /* 02D94 809E8564 10680004 */  beq     $v1, $t0, .L809E8578       
 /* 02D98 809E8568 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02D9C 809E856C 02212821 */  addu    $a1, $s1, $at              
-/* 02DA0 809E8570 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02DA0 809E8570 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02DA4 809E8574 26060238 */  addiu   $a2, $s0, 0x0238           ## $a2 = 00000238
 .L809E8578:

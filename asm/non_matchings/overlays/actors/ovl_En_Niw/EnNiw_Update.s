@@ -710,7 +710,7 @@ glabel EnNiw_Update
 /* 027B4 80AB7F34 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 027B8 80AB7F38 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 027BC 80AB7F3C 00812821 */  addu    $a1, $a0, $at              
-/* 027C0 80AB7F40 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 027C0 80AB7F40 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 027C4 80AB7F44 02003025 */  or      $a2, $s0, $zero            ## $a2 = 0000030C
 .L80AB7F48:

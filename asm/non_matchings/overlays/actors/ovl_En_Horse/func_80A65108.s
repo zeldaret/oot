@@ -755,7 +755,7 @@ glabel func_80A65108
 /* 0A8D8 80A65BC8 26060310 */  addiu   $a2, $s0, 0x0310           ## $a2 = 00000310
 /* 0A8DC 80A65BCC 00812821 */  addu    $a1, $a0, $at              
 /* 0A8E0 80A65BD0 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 0A8E4 80A65BD4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0A8E4 80A65BD4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0A8E8 80A65BD8 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 0A8EC 80A65BDC 8FA50024 */  lw      $a1, 0x0024($sp)           

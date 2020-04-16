@@ -45,7 +45,7 @@ glabel EnHs_Init
 /* 00078 80A6E418 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 0007C 80A6E41C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00080 80A6E420 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00084 80A6E424 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00084 80A6E424 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00088 80A6E428 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0008C 80A6E42C 3C0780A7 */  lui     $a3, %hi(D_80A6EDD0)       ## $a3 = 80A70000

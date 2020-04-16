@@ -494,7 +494,7 @@ s32 func_8005C328(GlobalContext* globalCtx, ColliderCylinderDim* dest, ColliderC
     return 1;
 }
 
-s32 ActorCollider_AllocCylinder(GlobalContext* globalCtx, ColliderCylinder* collision)
+s32 CollisionCheck_AllocCylinder(GlobalContext* globalCtx, ColliderCylinder* collision)
 {
     func_8005B65C(globalCtx, &collision->base);
     func_8005B884(globalCtx, &collision->body);
@@ -1234,8 +1234,7 @@ s32 func_8005DB04(GlobalContext* globalCtx, CollisionCheckContext* check, Collid
 s32(*D_8011DF18[])(GlobalContext*, Collider*) = {
     func_8005C234, func_8005C578, func_8005CDD0, func_8005D1E0 };
 
-//TODO: rename to CollisionCheck_SetOC()
-s32 Actor_CollisionCheck_SetOT(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
     s32 index;
 
     if (func_800C0D28(globalCtx) == 1) {
@@ -2918,8 +2917,7 @@ s32 func_800624BC(GlobalContext* globalCtx, CollisionCheckContext* check, Collid
     return 0;
 }
 
-//CollisionCheck_generalLineOcCheck()
-s32 func_80062530(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f* camera_3C, Vec3f* arg3, Actor** arg4, s32 arg5) {
+s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f* camera_3C, Vec3f* arg3, Actor** arg4, s32 arg5) {
     Collider* collider;
     s32(*t)(GlobalContext*, CollisionCheckContext*, Collider*, Vec3f*, Vec3f*);
     Collider** c;
@@ -2965,11 +2963,11 @@ s32 func_80062530(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f*
 }
 
 s32 func_8006268C(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f* arg2, Vec3f* arg3) {
-    func_80062530(globalCtx, check, arg2, arg3, NULL, 0);
+    CollisionCheck_GeneralLineOcCheck(globalCtx, check, arg2, arg3, NULL, 0);
 }
 
 s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f* camera_3C, Vec3f* arg3, Actor** arg4, s32 arg5) {
-    func_80062530(globalCtx, check, camera_3C, arg3, arg4, arg5);
+    CollisionCheck_GeneralLineOcCheck(globalCtx, check, camera_3C, arg3, arg4, arg5);
 }
 
 void ActorCollider_Cylinder_Update(Actor* actor, ColliderCylinder* collider) {

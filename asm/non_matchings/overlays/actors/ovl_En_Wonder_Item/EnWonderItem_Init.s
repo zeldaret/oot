@@ -152,7 +152,7 @@ glabel L80B383A4
 /* 0034C 80B383AC AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00350 80B383B0 332800FF */  andi    $t0, $t9, 0x00FF           ## $t0 = 00000000
 /* 00354 80B383B4 A7A80032 */  sh      $t0, 0x0032($sp)           
-/* 00358 80B383B8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00358 80B383B8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 0035C 80B383BC 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00360 80B383C0 3C0780B4 */  lui     $a3, %hi(D_80B38D40)       ## $a3 = 80B40000
@@ -232,7 +232,7 @@ glabel L80B384C0
 glabel L80B384D0
 /* 00470 80B384D0 26050180 */  addiu   $a1, $s0, 0x0180           ## $a1 = 00000180
 /* 00474 80B384D4 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 00478 80B384D8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00478 80B384D8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 0047C 80B384DC 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00480 80B384E0 3C0780B4 */  lui     $a3, %hi(D_80B38D40)       ## $a3 = 80B40000

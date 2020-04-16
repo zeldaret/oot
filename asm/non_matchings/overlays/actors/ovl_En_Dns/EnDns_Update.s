@@ -57,7 +57,7 @@ glabel EnDns_Update
 /* 00FF4 809F0344 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00FF8 809F0348 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00FFC 809F034C 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 01000 809F0350 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01000 809F0350 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01004 809F0354 00812821 */  addu    $a1, $a0, $at              
 .L809F0358:

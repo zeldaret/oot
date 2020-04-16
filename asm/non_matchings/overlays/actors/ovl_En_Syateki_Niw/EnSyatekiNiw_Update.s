@@ -236,7 +236,7 @@ glabel EnSyatekiNiw_Update
 /* 016B4 80B12FA4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 000002FC
 /* 016B8 80B12FA8 8FA50054 */  lw      $a1, 0x0054($sp)           
 /* 016BC 80B12FAC 8FA400AC */  lw      $a0, 0x00AC($sp)           
-/* 016C0 80B12FB0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 016C0 80B12FB0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 016C4 80B12FB4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 000002FC
 .L80B12FB8:

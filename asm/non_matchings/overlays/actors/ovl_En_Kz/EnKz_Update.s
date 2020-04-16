@@ -24,7 +24,7 @@ glabel EnKz_Update
 /* 010B4 80A9D604 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 010B8 80A9D608 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 010BC 80A9D60C 8FA60024 */  lw      $a2, 0x0024($sp)           
-/* 010C0 80A9D610 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 010C0 80A9D610 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 010C4 80A9D614 00812821 */  addu    $a1, $a0, $at              
 /* 010C8 80A9D618 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

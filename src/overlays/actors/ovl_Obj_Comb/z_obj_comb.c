@@ -30,15 +30,15 @@ const ActorInit Obj_Comb_InitVars = {
     (ActorFunc)ObjComb_Draw,
 };
 
-UNK_TYPE D_80B922E0[] = {
-    0x00000000, 0x00000000, 0x00000000, 0x4001FFFE, 0x00000000, 0x00010100, 0x00000000, 0x00000000, 0x000F0064,
+ColliderJntSphItemInit colliderItemsInit[1] = {
+    { 
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        { 0x00, { { 0, 0, 0 }, 15 }, 100 }
+    },
 };
 
-UNK_TYPE D_80B92304[] = {
-    0x0A000909,
-    0x20000000,
-    0x00000001,
-    &D_80B922E0,
+ColliderJntSphInit colliderInit = {
+    { 0x0A, 0x00, 0x09, 0x09, 0x20, 0x00 }, 1, &colliderItemsInit
 };
 
 static InitChainEntry initChain[] = {
@@ -133,7 +133,7 @@ void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, &initChain);
     func_8005BBF8(globalCtx, &this->collider);
-    func_8005C050(globalCtx, &this->collider, this, &D_80B92304, &this->colliderBody);
+    func_8005C050(globalCtx, &this->collider, this, &colliderInit, &this->colliderItems);
     ObjComb_SetWait(this);
 }
 
@@ -153,9 +153,9 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
         this->unk_1B0 = 0;
     }
 
-    if ((this->collider.collideFlags & 0x2) != 0) {
-        this->collider.collideFlags &= ~0x2;
-        toucherFlags = this->colliderBodyPtr->colliding->toucher.flags;
+    if ((this->collider.base.acFlags & 0x2) != 0) {
+        this->collider.base.acFlags &= ~0x2;
+        toucherFlags = this->collider.list->body.acHitItem->toucher.flags;
         if (toucherFlags & 0x4001F866) {
             this->unk_1B0 = 1500;
         } else {
@@ -164,11 +164,11 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
             Actor_Kill(this);
         }
     } else {
-        Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, &this->collider);
+        Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
     }
 
     if (this->actor.update != NULL) {
-        Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
     }
 }
 

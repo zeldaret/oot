@@ -68,7 +68,7 @@ glabel EnWf_Update
 /* 03634 80B372E4 26060304 */  addiu   $a2, $s0, 0x0304           ## $a2 = 00000304
 /* 03638 80B372E8 AFA60030 */  sw      $a2, 0x0030($sp)           
 /* 0363C 80B372EC AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 03640 80B372F0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 03640 80B372F0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 03644 80B372F4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 03648 80B372F8 8E0202D4 */  lw      $v0, 0x02D4($s0)           ## 000002D4

@@ -100,7 +100,7 @@ glabel BgHidanCurtain_Init
 /* 00100 808852A0 8F250004 */  lw      $a1, 0x0004($t9)           ## 00000004
 /* 00104 808852A4 26050158 */  addiu   $a1, $s0, 0x0158           ## $a1 = 00000158
 /* 00108 808852A8 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 0010C 808852AC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0010C 808852AC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00110 808852B0 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00114 808852B4 3C078088 */  lui     $a3, %hi(D_80885B70)       ## $a3 = 80880000

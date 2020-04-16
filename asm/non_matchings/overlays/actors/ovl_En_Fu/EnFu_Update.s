@@ -13,7 +13,7 @@ glabel EnFu_Update
 /* 00784 80A1DF94 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00788 80A1DF98 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 0078C 80A1DF9C 8FA60030 */  lw      $a2, 0x0030($sp)
-/* 00790 80A1DFA0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00790 80A1DFA0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00794 80A1DFA4 00812821 */  addu    $a1, $a0, $at
 /* 00798 80A1DFA8 0C00B638 */  jal     Actor_MoveForward

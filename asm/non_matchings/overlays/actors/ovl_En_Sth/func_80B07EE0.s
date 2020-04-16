@@ -13,7 +13,7 @@ glabel func_80B07EE0
 /* 009C8 80B07F08 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 009CC 80B07F0C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 009D0 80B07F10 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 009D4 80B07F14 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 009D4 80B07F14 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 009D8 80B07F18 00812821 */  addu    $a1, $a0, $at              
 /* 009DC 80B07F1C 0C00B638 */  jal     Actor_MoveForward

@@ -46,7 +46,7 @@ glabel func_80B94470
 /* 002B4 80B94514 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 002B8 80B94518 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 002BC 80B9451C 8FA50038 */  lw      $a1, 0x0038($sp)           
-/* 002C0 80B94520 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 002C0 80B94520 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 002C4 80B94524 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 002C8 80B94528 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

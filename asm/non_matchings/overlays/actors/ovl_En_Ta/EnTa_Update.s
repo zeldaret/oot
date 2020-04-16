@@ -13,7 +13,7 @@ glabel EnTa_Update
 /* 02F18 80B169B8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02F1C 80B169BC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02F20 80B169C0 8FA60034 */  lw      $a2, 0x0034($sp)           
-/* 02F24 80B169C4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02F24 80B169C4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02F28 80B169C8 00812821 */  addu    $a1, $a0, $at              
 /* 02F2C 80B169CC 0C00B638 */  jal     Actor_MoveForward

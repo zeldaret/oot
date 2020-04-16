@@ -48,7 +48,7 @@ glabel func_808B5950
 /* 00DCC 808B59FC 26260164 */  addiu   $a2, $s1, 0x0164           ## $a2 = 00000164
 /* 00DD0 808B5A00 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 00DD4 808B5A04 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00DD8 808B5A08 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00DD8 808B5A08 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00DDC 808B5A0C 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 00DE0 808B5A10 8FA6002C */  lw      $a2, 0x002C($sp)           

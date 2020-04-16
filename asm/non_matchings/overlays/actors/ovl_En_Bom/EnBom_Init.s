@@ -27,7 +27,7 @@ glabel EnBom_Init
 /* 00064 809C2734 A60801FA */  sh      $t0, 0x01FA($s0)           ## 000001FA
 /* 00068 809C2738 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0006C 809C273C AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 00070 809C2740 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00070 809C2740 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00074 809C2744 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00078 809C2748 26050198 */  addiu   $a1, $s0, 0x0198           ## $a1 = 00000198

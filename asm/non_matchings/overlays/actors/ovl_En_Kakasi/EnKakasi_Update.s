@@ -62,7 +62,7 @@ glabel EnKakasi_Update
 /* 00BB8 80A8FD28 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00BBC 80A8FD2C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00BC0 80A8FD30 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 00BC4 80A8FD34 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00BC4 80A8FD34 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00BC8 80A8FD38 00812821 */  addu    $a1, $a0, $at              
 /* 00BCC 80A8FD3C 8FBF0024 */  lw      $ra, 0x0024($sp)           

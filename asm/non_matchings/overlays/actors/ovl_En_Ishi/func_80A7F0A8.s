@@ -119,7 +119,7 @@ glabel func_80A7F0A8
 /* 00E00 80A7F260 00000000 */  nop
 /* 00E04 80A7F264 45020020 */  bc1fl   .L80A7F2E8                 
 /* 00E08 80A7F268 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 00E0C 80A7F26C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00E0C 80A7F26C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00E10 80A7F270 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 00E14 80A7F274 3C0142B4 */  lui     $at, 0x42B4                ## $at = 42B40000

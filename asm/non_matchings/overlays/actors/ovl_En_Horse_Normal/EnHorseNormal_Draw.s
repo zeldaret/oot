@@ -269,7 +269,7 @@ glabel EnHorseNormal_Draw
 /* 01FBC 80A6D20C C7A8006C */  lwc1    $f8, 0x006C($sp)           
 /* 01FC0 80A6D210 4600428D */  trunc.w.s $f10, $f8                  
 /* 01FC4 80A6D214 440A5000 */  mfc1    $t2, $f10                  
-/* 01FC8 80A6D218 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01FC8 80A6D218 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01FCC 80A6D21C A60A031E */  sh      $t2, 0x031E($s0)           ## 0000031E
 /* 01FD0 80A6D220 0C025011 */  jal     func_80094044              

@@ -69,7 +69,7 @@ glabel EnPoField_Init
 /* 000F8 80AD3BF8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000FC 80AD3BFC 26050244 */  addiu   $a1, $s0, 0x0244           ## $a1 = 00000244
 /* 00100 80AD3C00 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00104 80AD3C04 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00104 80AD3C04 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00108 80AD3C08 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0010C 80AD3C0C 3C0780AD */  lui     $a3, %hi(D_80AD7080)       ## $a3 = 80AD0000
@@ -81,7 +81,7 @@ glabel EnPoField_Init
 /* 00120 80AD3C20 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00124 80AD3C24 26050290 */  addiu   $a1, $s0, 0x0290           ## $a1 = 00000290
 /* 00128 80AD3C28 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 0012C 80AD3C2C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0012C 80AD3C2C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00130 80AD3C30 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00134 80AD3C34 3C0780AD */  lui     $a3, %hi(D_80AD70AC)       ## $a3 = 80AD0000

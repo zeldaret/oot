@@ -65,7 +65,7 @@ glabel BgJya1flift_Update
 /* 00510 80893070 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00514 80893074 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 00518 80893078 02212821 */  addu    $a1, $s1, $at              
-/* 0051C 8089307C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0051C 8089307C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00520 80893080 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00524 80893084 10000004 */  beq     $zero, $zero, .L80893098   

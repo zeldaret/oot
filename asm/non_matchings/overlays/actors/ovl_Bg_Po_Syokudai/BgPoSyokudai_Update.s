@@ -16,7 +16,7 @@ glabel BgPoSyokudai_Update
 /* 00340 808A83F0 AFA70034 */  sw      $a3, 0x0034($sp)           
 /* 00344 808A83F4 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00348 808A83F8 8FA60020 */  lw      $a2, 0x0020($sp)           
-/* 0034C 808A83FC 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0034C 808A83FC 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00350 808A8400 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00354 808A8404 8FA40034 */  lw      $a0, 0x0034($sp)           

@@ -73,7 +73,7 @@ glabel ObjHamishi_Update
 /* 00690 80B93620 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00694 80B93624 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00698 80B93628 8FA60020 */  lw      $a2, 0x0020($sp)           
-/* 0069C 80B9362C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0069C 80B9362C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 006A0 80B93630 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L80B93634:

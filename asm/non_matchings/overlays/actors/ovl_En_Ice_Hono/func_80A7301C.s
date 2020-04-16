@@ -22,7 +22,7 @@ glabel func_80A7301C
 /* 00070 80A73060 AE0F0004 */  sw      $t7, 0x0004($s0)           ## 00000004
 /* 00074 80A73064 2605015C */  addiu   $a1, $s0, 0x015C           ## $a1 = 0000015C
 /* 00078 80A73068 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 0007C 80A7306C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0007C 80A7306C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00080 80A73070 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00084 80A73074 3C0780A7 */  lui     $a3, %hi(D_80A74010)       ## $a3 = 80A70000

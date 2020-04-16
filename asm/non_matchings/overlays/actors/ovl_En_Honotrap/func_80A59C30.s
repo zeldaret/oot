@@ -24,7 +24,7 @@ glabel func_80A59C30
 /* 0004C 80A59C7C 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00000150
 /* 00050 80A59C80 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00054 80A59C84 8FA50024 */  lw      $a1, 0x0024($sp)           
-/* 00058 80A59C88 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00058 80A59C88 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0005C 80A59C8C 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00000150
 /* 00060 80A59C90 920E0240 */  lbu     $t6, 0x0240($s0)           ## 00000240

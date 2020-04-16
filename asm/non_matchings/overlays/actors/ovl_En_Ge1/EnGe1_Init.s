@@ -41,7 +41,7 @@ glabel EnGe1_Init
 /* 00070 80A309E0 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 00074 80A309E4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00078 80A309E8 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 0007C 80A309EC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0007C 80A309EC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00080 80A309F0 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00084 80A309F4 3C0780A3 */  lui     $a3, %hi(D_80A32770)       ## $a3 = 80A30000

@@ -62,7 +62,7 @@ glabel EnPoField_Update
 /* 02A80 80AD6580 02212821 */  addu    $a1, $s1, $at              
 /* 02A84 80AD6584 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 02A88 80AD6588 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 02A8C 80AD658C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02A8C 80AD658C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02A90 80AD6590 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 02A94 80AD6594 920A0255 */  lbu     $t2, 0x0255($s0)           ## 00000255

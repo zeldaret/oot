@@ -53,7 +53,7 @@ glabel EnNiwGirl_Init
 /* 00044 80AB8FC4 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 00048 80AB8FC8 26050288 */  addiu   $a1, $s0, 0x0288           ## $a1 = 00000288
 /* 0004C 80AB8FCC AFA50040 */  sw      $a1, 0x0040($sp)
-/* 00050 80AB8FD0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00050 80AB8FD0 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00054 80AB8FD4 8FA4006C */  lw      $a0, 0x006C($sp)
 /* 00058 80AB8FD8 3C0780AC */  lui     $a3, %hi(D_80AB99A0)       ## $a3 = 80AC0000

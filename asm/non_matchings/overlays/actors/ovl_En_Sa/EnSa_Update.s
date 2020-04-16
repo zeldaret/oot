@@ -14,7 +14,7 @@ glabel EnSa_Update
 /* 016AC 80AF6C0C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 016B0 80AF6C10 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 016B4 80AF6C14 02212821 */  addu    $a1, $s1, $at              
-/* 016B8 80AF6C18 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 016B8 80AF6C18 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 016BC 80AF6C1C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 016C0 80AF6C20 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

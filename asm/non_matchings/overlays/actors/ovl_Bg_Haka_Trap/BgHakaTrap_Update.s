@@ -34,7 +34,7 @@ glabel BgHakaTrap_Update
 /* 01058 80880CF8 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 0105C 80880CFC 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 01060 80880D00 8FA60020 */  lw      $a2, 0x0020($sp)           
-/* 01064 80880D04 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01064 80880D04 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01068 80880D08 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0106C 80880D0C 10000012 */  beq     $zero, $zero, .L80880D58   

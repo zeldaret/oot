@@ -95,7 +95,7 @@ glabel EnWeiyer_Update
 /* 01620 80B338B0 8FA5002C */  lw      $a1, 0x002C($sp)           
 .L80B338B4:
 /* 01624 80B338B4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01628 80B338B8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01628 80B338B8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0162C 80B338BC 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01630 80B338C0 8FBF0024 */  lw      $ra, 0x0024($sp)           

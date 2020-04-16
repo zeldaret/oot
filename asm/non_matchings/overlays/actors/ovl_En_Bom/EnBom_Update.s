@@ -415,7 +415,7 @@ glabel EnBom_Update
 /* 00A78 809C3148 11C00004 */  beq     $t6, $zero, .L809C315C     
 /* 00A7C 809C314C 8FA40094 */  lw      $a0, 0x0094($sp)           
 /* 00A80 809C3150 00812821 */  addu    $a1, $a0, $at              
-/* 00A84 809C3154 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00A84 809C3154 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00A88 809C3158 8FA60038 */  lw      $a2, 0x0038($sp)           
 .L809C315C:

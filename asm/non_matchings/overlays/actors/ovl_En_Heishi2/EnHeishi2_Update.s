@@ -82,7 +82,7 @@ glabel EnHeishi2_Update
 /* 01CF8 80A54B98 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01CFC 80A54B9C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01D00 80A54BA0 8FA60034 */  lw      $a2, 0x0034($sp)           
-/* 01D04 80A54BA4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01D04 80A54BA4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01D08 80A54BA8 00812821 */  addu    $a1, $a0, $at              
 .L80A54BAC:

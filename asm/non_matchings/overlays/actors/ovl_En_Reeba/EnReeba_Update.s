@@ -155,7 +155,7 @@ glabel EnReeba_Update
 /* 01670 80AE6340 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01674 80AE6344 00812821 */  addu    $a1, $a0, $at              
 /* 01678 80AE6348 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 0167C 80AE634C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0167C 80AE634C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01680 80AE6350 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01684 80AE6354 C60800BC */  lwc1    $f8, 0x00BC($s0)           ## 000000BC

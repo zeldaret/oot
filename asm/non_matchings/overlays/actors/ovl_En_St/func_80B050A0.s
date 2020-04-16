@@ -28,7 +28,7 @@ glabel func_80B050A0
 /* 00878 80B05108 ADD80014 */  sw      $t8, 0x0014($t6)           ## FFFFFFFC
 .L80B0510C:
 /* 0087C 80B0510C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 00880 80B05110 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00880 80B05110 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00884 80B05114 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000194
 /* 00888 80B05118 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000

@@ -191,7 +191,7 @@ glabel L8001D08C
 /* A94268 8001D0C8 E6060178 */   swc1  $f6, 0x178($s0)
 /* A9426C 8001D0CC 2605017C */  addiu $a1, $s0, 0x17c
 /* A94270 8001D0D0 AFA50024 */  sw    $a1, 0x24($sp)
-/* A94274 8001D0D4 0C0170D9 */  jal   ActorCollider_AllocCylinder
+/* A94274 8001D0D4 0C0170D9 */  jal   CollisionCheck_AllocCylinder
 /* A94278 8001D0D8 8FA4003C */   lw    $a0, 0x3c($sp)
 /* A9427C 8001D0DC 3C078011 */  lui   $a3, %hi(D_80115440) # $a3, 0x8011
 /* A94280 8001D0E0 8FA50024 */  lw    $a1, 0x24($sp)

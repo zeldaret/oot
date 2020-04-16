@@ -37,7 +37,7 @@ glabel EnSa_Init
 /* 00CB0 80AF6210 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00CB4 80AF6214 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00CB8 80AF6218 AFA50040 */  sw      $a1, 0x0040($sp)
-/* 00CBC 80AF621C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00CBC 80AF621C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00CC0 80AF6220 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00CC4 80AF6224 3C0780AF */  lui     $a3, %hi(D_80AF7260)       ## $a3 = 80AF0000

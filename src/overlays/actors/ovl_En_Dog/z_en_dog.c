@@ -33,13 +33,12 @@ const ActorInit En_Dog_InitVars = {
 };
 
 static ColliderCylinderInit cylinderInit = {
-    0x06,   0x00,   0x09,   0x39,   0x10,       0x01,   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00000000,
-    0x00,   0x00,   0x00,   0x00,   0xFFCFFFFF, 0x00,   0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x00,
-
-    0x0010, 0x0014, 0x0000, 0x0000, 0x0000,     0x0000,
+    { 0x06, 0x00, 0x09, 0x39, 0x10, 0x01 }, 
+    { 0x00, { 0x00000000, 0x00, 0x00}, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 0x0010, 0x0014, 0x0000, {0} },
 };
 
-static Sub98Init5 sub98Data = {
+static SubActor98Init_2 sub98Data = {
     0x00,   // health
     0x0000, // unk_10
     0x0000, // unk_12
@@ -165,8 +164,8 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
 }
 
 static s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx) {
-    if ((this->collider.base.collideFlags & 2)) {
-        this->collider.base.collideFlags &= ~2;
+    if ((this->collider.base.acFlags & 2)) {
+        this->collider.base.acFlags &= ~2;
         return 2;
     }
 
@@ -231,7 +230,7 @@ s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
 void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime;
     s16 followingDog;
-    ColliderCylinderMain* collider;
+    ColliderCylinder* collider;
 
     collider = &this->collider;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
@@ -249,7 +248,7 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
         return;
     }
 
-    ActorCollider_AllocCylinder(globalCtx, collider);
+    CollisionCheck_AllocCylinder(globalCtx, collider);
     ActorCollider_InitCylinder(globalCtx, collider, &this->actor, &cylinderInit);
     func_80061EFC(&this->actor.sub_98, 0, &sub98Data);
     Actor_SetScale(&this->actor, 0.0075f);
@@ -288,7 +287,7 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
 }
 
 void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* collider = &this->collider;
+    ColliderCylinder* collider = &this->collider;
     ActorCollider_FreeCylinder(globalCtx, collider);
 }
 
@@ -448,7 +447,7 @@ void EnDog_Update(EnDog* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
     ActorCollider_Cylinder_Update(&this->actor, &this->collider);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
 }
 
 static UNK_TYPE EnDog_Callback1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,

@@ -259,7 +259,7 @@ glabel L80AB5AF4
 /* 00374 80AB5AF4 2650030C */  addiu   $s0, $s2, 0x030C           ## $s0 = 0000030C
 .L80AB5AF8:
 /* 00378 80AB5AF8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000030C
-/* 0037C 80AB5AFC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0037C 80AB5AFC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00380 80AB5B00 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 00384 80AB5B04 8642001C */  lh      $v0, 0x001C($s2)           ## 0000001C

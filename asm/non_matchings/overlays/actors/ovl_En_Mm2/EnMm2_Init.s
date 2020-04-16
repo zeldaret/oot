@@ -58,7 +58,7 @@ glabel EnMm2_Init
 /* 002A4 80AAF0F4 AE0801F8 */  sw      $t0, 0x01F8($s0)           ## 000001F8
 /* 002A8 80AAF0F8 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 002AC 80AAF0FC AFA50030 */  sw      $a1, 0x0030($sp)
-/* 002B0 80AAF100 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 002B0 80AAF100 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 002B4 80AAF104 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 002B8 80AAF108 3C0780AB */  lui     $a3, %hi(D_80AAFAC0)       ## $a3 = 80AB0000

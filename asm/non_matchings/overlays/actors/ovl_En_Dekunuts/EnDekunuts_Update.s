@@ -52,7 +52,7 @@ glabel EnDekunuts_Update
 /* 01384 809EA8E4 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01388 809EA8E8 02212821 */  addu    $a1, $s1, $at              
 /* 0138C 809EA8EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01390 809EA8F0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01390 809EA8F0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01394 809EA8F4 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01398 809EA8F8 8E030190 */  lw      $v1, 0x0190($s0)           ## 00000190

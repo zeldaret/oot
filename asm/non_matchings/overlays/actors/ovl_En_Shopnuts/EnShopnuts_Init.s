@@ -30,7 +30,7 @@ glabel EnShopnuts_Init
 /* 00068 80AFA788 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0006C 80AFA78C 26050270 */  addiu   $a1, $s0, 0x0270           ## $a1 = 00000270
 /* 00070 80AFA790 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00074 80AFA794 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00074 80AFA794 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00078 80AFA798 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 0007C 80AFA79C 3C0780B0 */  lui     $a3, %hi(D_80AFB4E0)       ## $a3 = 80B00000

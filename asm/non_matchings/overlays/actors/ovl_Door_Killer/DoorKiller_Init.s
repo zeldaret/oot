@@ -112,7 +112,7 @@ glabel L80994D4C
 /* 0014C 80994D9C 265001C8 */  addiu   $s0, $s2, 0x01C8           ## $s0 = 000001C8
 /* 00150 80994DA0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000001C8
 /* 00154 80994DA4 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
-/* 00158 80994DA8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00158 80994DA8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 0015C 80994DAC A64D0198 */  sh      $t5, 0x0198($s2)           ## 00000198
 /* 00160 80994DB0 3C078099 */  lui     $a3, %hi(D_80995FB0)       ## $a3 = 80990000

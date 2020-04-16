@@ -144,7 +144,7 @@ glabel EnDntJiji_Update
 /* 012F8 809F2DD8 11000004 */  beq     $t0, $zero, .L809F2DEC     
 /* 012FC 809F2DDC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01300 809F2DE0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
-/* 01304 809F2DE4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01304 809F2DE4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01308 809F2DE8 00812821 */  addu    $a1, $a0, $at              
 .L809F2DEC:

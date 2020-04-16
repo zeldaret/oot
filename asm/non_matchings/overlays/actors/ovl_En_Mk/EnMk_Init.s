@@ -37,7 +37,7 @@ glabel EnMk_Init
 /* 00088 80AAC988 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 0008C 80AAC98C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00090 80AAC990 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00094 80AAC994 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00094 80AAC994 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00098 80AAC998 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0009C 80AAC99C 3C0780AB */  lui     $a3, %hi(D_80AAD620)       ## $a3 = 80AB0000

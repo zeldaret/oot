@@ -29,7 +29,7 @@ glabel BgSpot18Basket_Update
 /* 00D90 808B84A0 26060164 */  addiu   $a2, $s0, 0x0164           ## $a2 = 00000164
 /* 00D94 808B84A4 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 00D98 808B84A8 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00D9C 808B84AC 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00D9C 808B84AC 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00DA0 808B84B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00DA4 808B84B4 8E0B0204 */  lw      $t3, 0x0204($s0)           ## 00000204

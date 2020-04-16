@@ -24,7 +24,7 @@ glabel BgGndSoulmeiro_Init
 /* 00054 8087AE14 10000036 */  beq     $zero, $zero, .L8087AEF0   
 /* 00058 8087AE18 8FBF0034 */  lw      $ra, 0x0034($sp)           
 .L8087AE1C:
-/* 0005C 8087AE1C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0005C 8087AE1C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00060 8087AE20 AFA50038 */  sw      $a1, 0x0038($sp)           
 /* 00064 8087AE24 3C078088 */  lui     $a3, %hi(D_8087B530)       ## $a3 = 80880000

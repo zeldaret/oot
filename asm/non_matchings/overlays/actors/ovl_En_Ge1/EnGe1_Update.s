@@ -14,7 +14,7 @@ glabel EnGe1_Update
 /* 01928 80A32298 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 0192C 80A3229C 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01930 80A322A0 02212821 */  addu    $a1, $s1, $at              
-/* 01934 80A322A4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01934 80A322A4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01938 80A322A8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0193C 80A322AC 0C00B638 */  jal     Actor_MoveForward

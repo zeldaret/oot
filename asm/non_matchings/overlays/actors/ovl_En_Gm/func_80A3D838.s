@@ -63,7 +63,7 @@ glabel func_80A3D838
 /* 00240 80A3D920 AE0E0134 */  sw      $t6, 0x0134($s0)           ## 00000134
 /* 00244 80A3D924 26050270 */  addiu   $a1, $s0, 0x0270           ## $a1 = 00000270
 /* 00248 80A3D928 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 0024C 80A3D92C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0024C 80A3D92C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00250 80A3D930 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00254 80A3D934 3C0780A4 */  lui     $a3, %hi(D_80A3E350)       ## $a3 = 80A40000

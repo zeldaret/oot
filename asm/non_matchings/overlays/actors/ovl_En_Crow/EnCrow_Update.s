@@ -121,7 +121,7 @@ glabel EnCrow_Update
 /* 01198 809E13D8 11CF0004 */  beq     $t6, $t7, .L809E13EC       
 /* 0119C 809E13DC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 011A0 809E13E0 02212821 */  addu    $a1, $s1, $at              
-/* 011A4 809E13E4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 011A4 809E13E4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 011A8 809E13E8 26060238 */  addiu   $a2, $s0, 0x0238           ## $a2 = 00000238
 .L809E13EC:

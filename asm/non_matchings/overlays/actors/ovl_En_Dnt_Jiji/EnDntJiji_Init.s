@@ -38,7 +38,7 @@ glabel EnDntJiji_Init
 /* 00060 809F1B40 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00064 809F1B44 2605025C */  addiu   $a1, $s0, 0x025C           ## $a1 = 0000025C
 /* 00068 809F1B48 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 0006C 809F1B4C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0006C 809F1B4C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00070 809F1B50 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00074 809F1B54 3C07809F */  lui     $a3, %hi(D_809F2FA0)       ## $a3 = 809F0000

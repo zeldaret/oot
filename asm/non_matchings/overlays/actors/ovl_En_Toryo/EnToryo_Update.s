@@ -22,7 +22,7 @@ glabel EnToryo_Update
 /* 00838 80B209A8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0083C 80B209AC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00840 80B209B0 8FA60024 */  lw      $a2, 0x0024($sp)           
-/* 00844 80B209B4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00844 80B209B4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00848 80B209B8 00812821 */  addu    $a1, $a0, $at              
 /* 0084C 80B209BC 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190

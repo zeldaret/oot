@@ -224,7 +224,7 @@ glabel EnOkuta_Update
 /* 01C9C 80AC22FC 8FA50030 */  lw      $a1, 0x0030($sp)           
 .L80AC2300:
 /* 01CA0 80AC2300 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01CA4 80AC2304 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01CA4 80AC2304 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01CA8 80AC2308 8FA6002C */  lw      $a2, 0x002C($sp)           
 .L80AC230C:

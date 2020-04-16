@@ -152,7 +152,7 @@ glabel EnHeishi2_Init
 /* 001A4 80A53044 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 001A8 80A53048 26050398 */  addiu   $a1, $s0, 0x0398           ## $a1 = 00000398
 /* 001AC 80A5304C AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 001B0 80A53050 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001B0 80A53050 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 001B4 80A53054 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 001B8 80A53058 3C0780A5 */  lui     $a3, %hi(D_80A54F10)       ## $a3 = 80A50000

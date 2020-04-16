@@ -47,7 +47,7 @@ glabel EnSkjneedle_Update
 /* 00184 80B02034 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 00188 80B02038 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 0018C 80B0203C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00190 80B02040 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00190 80B02040 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00194 80B02044 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 00198 80B02048 0C00B638 */  jal     Actor_MoveForward

@@ -572,7 +572,7 @@ glabel L80A922CC
 /* 009D8 80A92978 02003025 */  or      $a2, $s0, $zero            ## $a2 = 000001A0
 /* 009DC 80A9297C 8FA50054 */  lw      $a1, 0x0054($sp)           
 /* 009E0 80A92980 8FA40104 */  lw      $a0, 0x0104($sp)           
-/* 009E4 80A92984 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 009E4 80A92984 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 009E8 80A92988 02003025 */  or      $a2, $s0, $zero            ## $a2 = 000001A0
 /* 009EC 80A9298C 3C0143FA */  lui     $at, 0x43FA                ## $at = 43FA0000

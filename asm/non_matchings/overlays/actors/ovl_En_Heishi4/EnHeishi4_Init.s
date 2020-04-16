@@ -101,7 +101,7 @@ glabel EnHeishi4_Init
 /* 0011C 80A561EC 260502BC */  addiu   $a1, $s0, 0x02BC           ## $a1 = 000002BC
 .L80A561F0:
 /* 00120 80A561F0 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00124 80A561F4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00124 80A561F4 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00128 80A561F8 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 0012C 80A561FC 3C0780A5 */  lui     $a3, %hi(D_80A56EF8)       ## $a3 = 80A50000

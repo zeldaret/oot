@@ -162,7 +162,7 @@ glabel EnBb_Update
 /* 031EC 809BB4CC AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 031F0 809BB4D0 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 031F4 809BB4D4 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 031F8 809BB4D8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 031F8 809BB4D8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 031FC 809BB4DC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L809BB4E0:

@@ -114,7 +114,7 @@ glabel EnZo_Update
 /* 01D6C 80B61F8C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01D70 80B61F90 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01D74 80B61F94 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 01D78 80B61F98 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01D78 80B61F98 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01D7C 80B61F9C 00812821 */  addu    $a1, $a0, $at              
 .L80B61FA0:

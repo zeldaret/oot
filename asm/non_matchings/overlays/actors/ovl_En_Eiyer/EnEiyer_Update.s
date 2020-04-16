@@ -120,7 +120,7 @@ glabel EnEiyer_Update
 /* 0176C 80A0170C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01770 80A01710 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01774 80A01714 00812821 */  addu    $a1, $a0, $at              
-/* 01778 80A01718 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01778 80A01718 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0177C 80A0171C 8FA6002C */  lw      $a2, 0x002C($sp)           
 .L80A01720:

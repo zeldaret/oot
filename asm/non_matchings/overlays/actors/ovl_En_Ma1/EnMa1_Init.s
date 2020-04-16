@@ -22,7 +22,7 @@ glabel EnMa1_Init
 /* 005A4 80AA0C34 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 005A8 80AA0C38 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 005AC 80AA0C3C AFA50030 */  sw      $a1, 0x0030($sp)
-/* 005B0 80AA0C40 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 005B0 80AA0C40 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 005B4 80AA0C44 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 005B8 80AA0C48 3C0780AA */  lui     $a3, %hi(D_80AA1640)       ## $a3 = 80AA0000

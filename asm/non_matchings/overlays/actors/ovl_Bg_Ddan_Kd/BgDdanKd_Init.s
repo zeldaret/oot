@@ -17,7 +17,7 @@ glabel BgDdanKd_Init
 /* 0003C 8087112C 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 00040 80871130 26050178 */  addiu   $a1, $s0, 0x0178           ## $a1 = 00000178
 /* 00044 80871134 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00048 80871138 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00048 80871138 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 0004C 8087113C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00050 80871140 3C078087 */  lui     $a3, %hi(D_808718C0)       ## $a3 = 80870000

@@ -35,7 +35,7 @@ glabel EnDaiku_Update
 /* 011D8 809E3D08 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 011DC 809E3D0C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 011E0 809E3D10 8FA60020 */  lw      $a2, 0x0020($sp)           
-/* 011E4 809E3D14 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 011E4 809E3D14 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 011E8 809E3D18 00812821 */  addu    $a1, $a0, $at              
 /* 011EC 809E3D1C 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190

@@ -314,7 +314,7 @@ glabel ObjSyokudai_Update
 /* 00678 80B9F928 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 0067C 80B9F92C 00812821 */  addu    $a1, $a0, $at              
 /* 00680 80B9F930 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00684 80B9F934 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00684 80B9F934 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00688 80B9F938 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 0068C 80B9F93C 8FA40084 */  lw      $a0, 0x0084($sp)           

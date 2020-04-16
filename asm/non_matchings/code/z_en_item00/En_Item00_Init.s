@@ -154,7 +154,7 @@ glabel En_Item00_Init
 /* A94B5C 8001D9BC E7A20034 */   swc1  $f2, 0x34($sp)
 /* A94B60 8001D9C0 26050160 */  addiu $a1, $s0, 0x160
 /* A94B64 8001D9C4 AFA50020 */  sw    $a1, 0x20($sp)
-/* A94B68 8001D9C8 0C0170D9 */  jal   ActorCollider_AllocCylinder
+/* A94B68 8001D9C8 0C0170D9 */  jal   CollisionCheck_AllocCylinder
 /* A94B6C 8001D9CC 8FA40044 */   lw    $a0, 0x44($sp)
 /* A94B70 8001D9D0 3C078011 */  lui   $a3, %hi(D_801154E0) # $a3, 0x8011
 /* A94B74 8001D9D4 8FA50020 */  lw    $a1, 0x20($sp)

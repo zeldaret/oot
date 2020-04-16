@@ -25,7 +25,7 @@ glabel BgHakaTrap_Init
 /* 00044 8087FCE4 13010086 */  beq     $t8, $at, .L8087FF00       
 /* 00048 8087FCE8 256B09B0 */  addiu   $t3, $t3, %lo(func_808809B0) ## $t3 = 808809B0
 /* 0004C 8087FCEC 26050178 */  addiu   $a1, $s0, 0x0178           ## $a1 = 00000178
-/* 00050 8087FCF0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00050 8087FCF0 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00054 8087FCF4 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 00058 8087FCF8 3C078088 */  lui     $a3, %hi(D_80880F54)       ## $a3 = 80880000

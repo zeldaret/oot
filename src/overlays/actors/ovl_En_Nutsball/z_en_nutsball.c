@@ -28,9 +28,9 @@ const ActorInit En_Nutsball_InitVars = {
 };
 
 static ColliderCylinderInit cylinderInitData = {
-    0x0A, 0x11,       0x09, 0x39, 0x20,   0x01,   0x00,       0x00,   0x00,   0x00,   0x00,
-    0x00, 0xFFCFFFFF, 0x00, 0x08, 0x00,   0x00,   0xFFCFFFFF, 0x00,   0x00,   0x00,   0x00,
-    0x11, 0x01,       0x01, 0x00, 0x000D, 0x000D, 0x0000,     0x0000, 0x0000, 0x0000,
+    { 0x0A, 0x11, 0x09, 0x39, 0x20, 0x01 },
+    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00, }, 0x11, 0x01, 0x01 },
+    { 0x000D, 0x000D, 0x0000, { 0 } },
 };
 
 static s16 objectTbl[] = { OBJECT_DEKUNUTS, OBJECT_HINTNUTS, OBJECT_SHOPNUTS, OBJECT_DNS, OBJECT_DNK };
@@ -40,7 +40,7 @@ void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx) {
     s32 pad[2];
 
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawFunc_Circle, 13.0f);
-    ActorCollider_AllocCylinder(globalCtx, &this->collider);
+    CollisionCheck_AllocCylinder(globalCtx, &this->collider);
     ActorCollider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
     this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, objectTbl[this->actor.params]);
 
@@ -52,7 +52,7 @@ void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx) {
 }
 
 void EnNutsball_Destroy(EnNutsball* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* collider = &this->collider;
+    ColliderCylinder* collider = &this->collider;
     ActorCollider_FreeCylinder(globalCtx, collider);
 }
 
@@ -80,15 +80,15 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
 
     this->actor.initPosRot.rot.z += 0x2AA8;
 
-    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.colliderFlags & 2) ||
-        (this->collider.base.collideFlags & 2) || (this->collider.base.maskA & 2)) {
+    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & 2) ||
+        (this->collider.base.acFlags & 2) || (this->collider.base.maskA & 2)) {
         // Checking if the player is using a shield that reflects projectiles
         // And if so, reflects the projectile on impact
         if ((player->currentShield == 1) || ((player->currentShield == 2) && LINK_IS_ADULT)) {
-            if ((this->collider.base.colliderFlags & 2) && (this->collider.base.colliderFlags & 0x10) &&
-                (this->collider.base.colliderFlags & 4)) {
-                this->collider.base.colliderFlags &= ~0x16;
-                this->collider.base.colliderFlags |= 0x08;
+            if ((this->collider.base.atFlags & 2) && (this->collider.base.atFlags & 0x10) &&
+                (this->collider.base.atFlags & 4)) {
+                this->collider.base.atFlags &= ~0x16;
+                this->collider.base.atFlags |= 0x08;
 
                 this->collider.body.toucher.flags = 2;
                 func_800D20CC(&player->mf_A20, &sp4C, 0);
@@ -126,9 +126,9 @@ void EnNutsball_Update(EnNutsball* this, GlobalContext* globalCtx) {
 
         nutsball->actor.flags |= 0x1000000;
 
-        Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, &nutsball->collider);
-        Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, &nutsball->collider);
-        Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &nutsball->collider);
+        Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->collisionCheckCtx, &nutsball->collider);
+        Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &nutsball->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &nutsball->collider);
     }
 }
 

@@ -45,7 +45,7 @@ glabel EnHorseGanon_Update
 /* 00920 80A68F80 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00924 80A68F84 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00928 80A68F88 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0092C 80A68F8C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0092C 80A68F8C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00930 80A68F90 00812821 */  addu    $a1, $a0, $at              
 /* 00934 80A68F94 8FBF0024 */  lw      $ra, 0x0024($sp)           

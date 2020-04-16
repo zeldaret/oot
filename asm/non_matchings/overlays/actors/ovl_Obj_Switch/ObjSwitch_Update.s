@@ -90,7 +90,7 @@ glabel L80B9E6C0
 /* 01510 80B9E720 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01514 80B9E724 02012821 */  addu    $a1, $s0, $at              
 /* 01518 80B9E728 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0151C 80B9E72C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0151C 80B9E72C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01520 80B9E730 24E60180 */  addiu   $a2, $a3, 0x0180           ## $a2 = 00000180
 .L80B9E734:

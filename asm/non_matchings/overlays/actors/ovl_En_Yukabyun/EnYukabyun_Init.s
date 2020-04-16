@@ -18,7 +18,7 @@ glabel EnYukabyun_Init
 /* 00038 80B439F8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0003C 80B439FC 26050154 */  addiu   $a1, $s0, 0x0154           ## $a1 = 00000154
 /* 00040 80B43A00 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00044 80B43A04 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00044 80B43A04 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00048 80B43A08 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 0004C 80B43A0C 3C0780B4 */  lui     $a3, %hi(D_80B43F30)       ## $a3 = 80B40000

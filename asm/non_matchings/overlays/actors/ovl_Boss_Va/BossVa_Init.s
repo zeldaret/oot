@@ -415,7 +415,7 @@ glabel L80950024
 /* 010F4 809503B4 2670028C */  addiu   $s0, $s3, 0x028C           ## $s0 = 0000028C
 /* 010F8 809503B8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000028C
 /* 010FC 809503BC 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 01100 809503C0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 01100 809503C0 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 01104 809503C4 E66001CC */  swc1    $f0, 0x01CC($s3)           ## 000001CC
 /* 01108 809503C8 3C078096 */  lui     $a3, %hi(D_8095BF60)       ## $a3 = 80960000

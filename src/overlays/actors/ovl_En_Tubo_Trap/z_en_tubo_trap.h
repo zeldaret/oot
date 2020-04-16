@@ -9,7 +9,7 @@ typedef struct {
     /* 0x014C */ ActorFunc actionFunc;
     /* 0x0150 */ f32 targetY;
     /* 0x0154 */ Vec3f originPos;
-    /* 0x0160 */ ColliderCylinderMain collider;
+    /* 0x0160 */ ColliderCylinder collider;
 } EnTuboTrap; // size = 0x01AC
 
 extern const ActorInit En_Tubo_Trap_InitVars;

@@ -28,7 +28,7 @@ glabel ObjHana_Init
 /* 00060 80B938C0 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00064 80B938C4 05200015 */  bltz    $t1, .L80B9391C            
 /* 00068 80B938C8 00000000 */  nop
-/* 0006C 80B938CC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0006C 80B938CC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00070 80B938D0 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00074 80B938D4 3C0780B9 */  lui     $a3, %hi(D_80B93A70)       ## $a3 = 80B90000

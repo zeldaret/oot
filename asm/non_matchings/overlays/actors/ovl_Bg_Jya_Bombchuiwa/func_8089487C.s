@@ -54,7 +54,7 @@ glabel func_8089487C
 /* 00498 80894938 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 0049C 8089493C 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 004A0 80894940 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 004A4 80894944 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 004A4 80894944 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 004A8 80894948 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 004AC 8089494C 8FBF0024 */  lw      $ra, 0x0024($sp)           

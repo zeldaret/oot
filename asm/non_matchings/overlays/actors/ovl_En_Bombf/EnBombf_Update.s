@@ -489,7 +489,7 @@ glabel EnBombf_Update
 /* 00EF4 809C7E54 11C00004 */  beq     $t6, $zero, .L809C7E68     
 /* 00EF8 809C7E58 8FA4009C */  lw      $a0, 0x009C($sp)           
 /* 00EFC 809C7E5C 00812821 */  addu    $a1, $a0, $at              
-/* 00F00 809C7E60 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00F00 809C7E60 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00F04 809C7E64 8FA6003C */  lw      $a2, 0x003C($sp)           
 .L809C7E68:

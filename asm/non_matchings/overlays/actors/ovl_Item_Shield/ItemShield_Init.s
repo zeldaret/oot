@@ -88,7 +88,7 @@ glabel ItemShield_Init
 /* 00120 80B86A40 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00124 80B86A44 2670014C */  addiu   $s0, $s3, 0x014C           ## $s0 = 0000014C
 /* 00128 80B86A48 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000014C
-/* 0012C 80B86A4C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0012C 80B86A4C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00130 80B86A50 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00134 80B86A54 3C0780B8 */  lui     $a3, %hi(D_80B871A0)       ## $a3 = 80B80000

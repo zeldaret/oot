@@ -35,7 +35,7 @@ glabel BgHakaSgami_Init
 /* 0007C 8087E55C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00080 8087E560 2605015C */  addiu   $a1, $s0, 0x015C           ## $a1 = 0000015C
 /* 00084 8087E564 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 00088 8087E568 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00088 8087E568 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 0008C 8087E56C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00090 8087E570 3C078088 */  lui     $a3, %hi(D_8087EF60)       ## $a3 = 80880000

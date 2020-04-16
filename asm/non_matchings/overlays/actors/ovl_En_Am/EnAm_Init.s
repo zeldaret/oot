@@ -42,12 +42,12 @@ glabel EnAm_Init
 /* 001BC 809AE0DC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 001C0 809AE0E0 26050274 */  addiu   $a1, $s0, 0x0274           ## $a1 = 00000274
 /* 001C4 809AE0E4 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 001C8 809AE0E8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001C8 809AE0E8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 001CC 809AE0EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001D0 809AE0F0 260502C0 */  addiu   $a1, $s0, 0x02C0           ## $a1 = 000002C0
 /* 001D4 809AE0F4 AFA50038 */  sw      $a1, 0x0038($sp)           
-/* 001D8 809AE0F8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001D8 809AE0F8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 001DC 809AE0FC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001E0 809AE100 3C07809B */  lui     $a3, %hi(D_809AFF80)       ## $a3 = 809B0000

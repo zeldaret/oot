@@ -6,7 +6,7 @@ glabel EnSi_Init
 /* 00010 80AFB6A0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00014 80AFB6A4 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00018 80AFB6A8 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
-/* 0001C 80AFB6AC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0001C 80AFB6AC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00020 80AFB6B0 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 00024 80AFB6B4 3C0780B0 */  lui     $a3, %hi(D_80AFBAB0)       ## $a3 = 80B00000

@@ -84,12 +84,12 @@ glabel BossGanondrof_Init
 /* 0055C 80910B9C 260504E0 */  addiu   $a1, $s0, 0x04E0           ## $a1 = 000004E0
 .L80910BA0:
 /* 00560 80910BA0 AFA50040 */  sw      $a1, 0x0040($sp)           
-/* 00564 80910BA4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00564 80910BA4 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00568 80910BA8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0056C 80910BAC 2605052C */  addiu   $a1, $s0, 0x052C           ## $a1 = 0000052C
 /* 00570 80910BB0 AFA50044 */  sw      $a1, 0x0044($sp)           
-/* 00574 80910BB4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00574 80910BB4 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00578 80910BB8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0057C 80910BBC 3C078091 */  lui     $a3, %hi(D_80914CD0)       ## $a3 = 80910000

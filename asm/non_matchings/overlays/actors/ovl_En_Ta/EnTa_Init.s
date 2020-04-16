@@ -49,7 +49,7 @@ glabel EnTa_Init
 /* 00148 80B13BE8 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 0014C 80B13BEC 26050264 */  addiu   $a1, $s0, 0x0264           ## $a1 = 00000264
 /* 00150 80B13BF0 AFA5003C */  sw      $a1, 0x003C($sp)
-/* 00154 80B13BF4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00154 80B13BF4 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00158 80B13BF8 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 0015C 80B13BFC 3C0780B1 */  lui     $a3, %hi(D_80B16E50)       ## $a3 = 80B10000

@@ -6,7 +6,7 @@ glabel EnAnubiceFire_Init
 /* 00010 809B25B0 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00014 809B25B4 24C501A8 */  addiu   $a1, $a2, 0x01A8           ## $a1 = 000001A8
 /* 00018 809B25B8 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 0001C 809B25BC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0001C 809B25BC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00020 809B25C0 AFA60028 */  sw      $a2, 0x0028($sp)           
 /* 00024 809B25C4 3C07809B */  lui     $a3, %hi(D_809B31E0)       ## $a3 = 809B0000

@@ -145,13 +145,13 @@ glabel EnPeehat_Update
 /* 02B18 80AD1FB8 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 02B1C 80AD1FBC 02818021 */  addu    $s0, $s4, $at              
 /* 02B20 80AD1FC0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 02B24 80AD1FC4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02B24 80AD1FC4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02B28 80AD1FC8 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000300
 /* 02B2C 80AD1FCC 2671034C */  addiu   $s1, $s3, 0x034C           ## $s1 = 0000034C
 /* 02B30 80AD1FD0 02203025 */  or      $a2, $s1, $zero            ## $a2 = 0000034C
 /* 02B34 80AD1FD4 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 02B38 80AD1FD8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02B38 80AD1FD8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02B3C 80AD1FDC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02B40 80AD1FE0 926C0114 */  lbu     $t4, 0x0114($s3)           ## 00000114

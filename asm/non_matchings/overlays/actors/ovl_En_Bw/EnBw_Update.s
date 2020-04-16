@@ -266,7 +266,7 @@ glabel EnBw_Update
 /* 02550 809D0C30 02212821 */  addu    $a1, $s1, $at              
 /* 02554 809D0C34 AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 02558 809D0C38 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0255C 809D0C3C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0255C 809D0C3C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02560 809D0C40 8FA60038 */  lw      $a2, 0x0038($sp)           
 /* 02564 809D0C44 92090220 */  lbu     $t1, 0x0220($s0)           ## 00000220

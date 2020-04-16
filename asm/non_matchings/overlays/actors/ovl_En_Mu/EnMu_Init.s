@@ -23,7 +23,7 @@ glabel EnMu_Init
 /* 0025C 80AB067C AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00260 80AB0680 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00264 80AB0684 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00268 80AB0688 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00268 80AB0688 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 0026C 80AB068C 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00270 80AB0690 3C0780AB */  lui     $a3, %hi(D_80AB0BD0)       ## $a3 = 80AB0000

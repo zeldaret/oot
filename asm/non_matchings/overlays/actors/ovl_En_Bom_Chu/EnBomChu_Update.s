@@ -105,7 +105,7 @@ glabel EnBomChu_Update
 /* 00F2C 809C675C 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 00F30 809C6760 13380003 */  beq     $t9, $t8, .L809C6770       
 /* 00F34 809C6764 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 00F38 809C6768 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00F38 809C6768 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00F3C 809C676C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L809C6770:

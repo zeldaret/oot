@@ -14,7 +14,7 @@ glabel func_80A3402C
 /* 01488 80A34058 02212821 */  addu    $a1, $s1, $at              
 /* 0148C 80A3405C AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 01490 80A34060 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01494 80A34064 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01494 80A34064 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01498 80A34068 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 0149C 80A3406C 3C014220 */  lui     $at, 0x4220                ## $at = 42200000

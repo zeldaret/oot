@@ -42,7 +42,7 @@ glabel EnDha_Update
 /* 00B6C 809ED3EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B70 809ED3F0 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 00B74 809ED3F4 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 00B78 809ED3F8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00B78 809ED3F8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00B7C 809ED3FC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B80 809ED400 8FBF0024 */  lw      $ra, 0x0024($sp)           

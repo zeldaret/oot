@@ -87,7 +87,7 @@ glabel EnGoroiwa_Update
 /* 02160 80A4DE00 1DA00004 */  bgtz    $t5, .L80A4DE14            
 /* 02164 80A4DE04 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02168 80A4DE08 02212821 */  addu    $a1, $s1, $at              
-/* 0216C 80A4DE0C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0216C 80A4DE0C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02170 80A4DE10 26060150 */  addiu   $a2, $s0, 0x0150           ## $a2 = 00000150
 .L80A4DE14:

@@ -141,7 +141,7 @@ glabel EnDivingGame_Update
 /* 01520 809EED90 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01524 809EED94 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01528 809EED98 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0152C 809EED9C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0152C 809EED9C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01530 809EEDA0 00812821 */  addu    $a1, $a0, $at              
 /* 01534 809EEDA4 8FBF0024 */  lw      $ra, 0x0024($sp)           

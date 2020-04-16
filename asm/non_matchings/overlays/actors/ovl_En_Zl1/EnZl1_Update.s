@@ -45,7 +45,7 @@ glabel EnZl1_Update
 /* 0177C 80B4C2BC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01780 80B4C2C0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01784 80B4C2C4 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 01788 80B4C2C8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01788 80B4C2C8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0178C 80B4C2CC 00812821 */  addu    $a1, $a0, $at              
 .L80B4C2D0:

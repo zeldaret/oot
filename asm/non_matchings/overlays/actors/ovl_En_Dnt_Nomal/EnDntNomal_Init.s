@@ -82,7 +82,7 @@ glabel EnDntNomal_Init
 /* 000C0 809F3380 24845EEC */  addiu   $a0, $a0, %lo(D_809F5EEC)  ## $a0 = 809F5EEC
 /* 000C4 809F3384 26050314 */  addiu   $a1, $s0, 0x0314           ## $a1 = 00000314
 /* 000C8 809F3388 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 000CC 809F338C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000CC 809F338C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 000D0 809F3390 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000D4 809F3394 3C07809F */  lui     $a3, %hi(D_809F5DD0)       ## $a3 = 809F0000

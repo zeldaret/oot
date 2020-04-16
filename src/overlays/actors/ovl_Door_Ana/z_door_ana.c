@@ -33,9 +33,9 @@ const ActorInit Door_Ana_InitVars = {
 
 // initial collision data
 static ColliderCylinderInit colliderInit = {
-    0x0A, 0x00,       0x09, 0x00, 0x00,   0x01,   0x00,       0x00,   0x02,   0x00,   0x00,
-    0x00, 0x00000000, 0x00, 0x00, 0x00,   0x00,   0x00000048, 0x00,   0x00,   0x00,   0x00,
-    0x00, 0x01,       0x00, 0x00, 0x0032, 0x000A, 0x0000,     0x0000, 0x0000, 0x0000,
+    { 0x0A, 0x00, 0x09, 0x00, 0x00, 0x01, },
+    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0x00000048, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    { 0x0032, 0x000A, 0x0000, { 0 } },
 };
 
 // array of entrance table entries to grotto destinations
@@ -53,7 +53,7 @@ void DoorAna_SetupAction(DoorAna* this, ActorFunc func) {
 }
 
 void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* collider;
+    ColliderCylinder* collider;
 
     this->actor.shape.rot.z = 0;
     this->actor.shape.rot.y = this->actor.shape.rot.z;
@@ -62,7 +62,7 @@ void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx) {
         // only allocate collider for grottos that need bombing/hammering open
         if ((this->actor.params & 0x200) != 0) {
             collider = &this->collider;
-            ActorCollider_AllocCylinder(globalCtx, collider);
+            CollisionCheck_AllocCylinder(globalCtx, collider);
             ActorCollider_InitCylinder(globalCtx, collider, &this->actor, &colliderInit);
         } else {
             this->actor.flags |= 0x10;
@@ -93,12 +93,12 @@ void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
         }
     } else {
         // bombing/hammering open a grotto
-        if ((this->collider.base.collideFlags & 2) != 0) {
+        if ((this->collider.base.acFlags & 2) != 0) {
             openGrotto = true;
             ActorCollider_FreeCylinder(globalCtx, &this->collider);
         } else {
             ActorCollider_Cylinder_Update(&this->actor, &this->collider);
-            Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, &this->collider);
+            Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
         }
     }
     // open the grotto

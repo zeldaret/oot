@@ -6,7 +6,7 @@ glabel func_8097895C
 /* 0003C 8097896C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00040 80978970 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 00044 80978974 AFA70024 */  sw      $a3, 0x0024($sp)           
-/* 00048 80978978 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00048 80978978 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 0004C 8097897C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
 /* 00050 80978980 8FA4001C */  lw      $a0, 0x001C($sp)           

@@ -133,7 +133,7 @@ glabel EnFd_Update
 /* 015D4 80A0CC94 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 015D8 80A0CC98 8FA6002C */  lw      $a2, 0x002C($sp)           
 .L80A0CC9C:
-/* 015DC 80A0CC9C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 015DC 80A0CC9C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 015E0 80A0CCA0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L80A0CCA4:

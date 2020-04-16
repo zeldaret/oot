@@ -50,24 +50,24 @@ const ActorInit En_Wallmas_InitVars = {
 };
 
 static ColliderCylinderInit colCylinderInit = {
-    0x00, 0x00,       0x09, 0x39, 0x10,   0x01,   0x00,       0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00000000, 0x00, 0x00, 0x00,   0x00,   0xFFCFFFFF, 0x00,   0x00,   0x00,   0x00,
-    0x00, 0x01,       0x01, 0x00, 0x001E, 0x0028, 0x0000,     0x0000, 0x0000, 0x0000,
+    { 0x00, 0x00, 0x09, 0x39, 0x10, 0x01 },
+    { 0x00, { 0x00000000, 0x00, 0x00, }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 0x001E, 0x0028, 0x0000, {0} },
 };
 
-static Sub98Init4 sub98Init = {
+static SubActor98Init sub98Init = {
     0x04,
     0x001E,
     0x0028,
     0x96,
 };
 
-static ActorDamageChart damageChart = { {
-    { 0x1, 0x0 }, { 0x0, 0x2 }, { 0x0, 0x1 }, { 0x0, 0x2 }, { 0x1, 0x0 }, { 0x0, 0x2 }, { 0x0, 0x2 }, { 0x1, 0x0 },
-    { 0x0, 0x1 }, { 0x0, 0x2 }, { 0x0, 0x4 }, { 0x2, 0x4 }, { 0x0, 0x2 }, { 0x4, 0x4 }, { 0x0, 0x4 }, { 0x0, 0x2 },
-    { 0x0, 0x2 }, { 0x2, 0x4 }, { 0x0, 0x0 }, { 0x4, 0x4 }, { 0x0, 0x0 }, { 0x0, 0x0 }, { 0x0, 0x1 }, { 0x0, 0x4 },
-    { 0x0, 0x2 }, { 0x0, 0x2 }, { 0x0, 0x8 }, { 0x0, 0x4 }, { 0x0, 0x0 }, { 0x0, 0x0 }, { 0x0, 0x4 }, { 0x0, 0x0 },
-} };
+static ActorDamageChart damageTable = { 
+    0x10, 0x02, 0x01, 0x02, 0x10, 0x02, 0x02, 0x10,
+    0x01, 0x02, 0x04, 0x24, 0x02, 0x44, 0x04, 0x02,
+    0x02, 0x24, 0x00, 0x44, 0x00, 0x00, 0x01, 0x04,
+    0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
+};
 
 static InitChainEntry initChain[3] = {
     ICHAIN_S8(naviEnemyId, 0x30, 1),
@@ -97,9 +97,9 @@ void EnWallmas_Init(EnWallmas* this, GlobalContext* globalCtx) {
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
                      0x19);
 
-    ActorCollider_AllocCylinder(globalCtx, &this->colCylinder);
+    CollisionCheck_AllocCylinder(globalCtx, &this->colCylinder);
     ActorCollider_InitCylinder(globalCtx, &this->colCylinder, &this->actor, &colCylinderInit);
-    func_80061ED4(&this->actor.sub_98, &damageChart, &sub98Init);
+    func_80061ED4(&this->actor.sub_98, &damageTable, &sub98Init);
     this2->switchFlag = (u8)(this2->actor.params >> 0x8);
     this->actor.params = this->actor.params & 0xFF;
 
@@ -118,7 +118,7 @@ void EnWallmas_Init(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_Destroy(EnWallmas* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* col = &this->colCylinder;
+    ColliderCylinder* col = &this->colCylinder;
     ActorCollider_FreeCylinder(globalCtx, col);
 }
 
@@ -194,7 +194,7 @@ void EnWallmas_ReturnToCeilingStart(EnWallmas* this) {
 
 void EnWallmas_TakeDamageStart(EnWallmas* this) {
     SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000590, -3.0f);
-    if ((this->colCylinder.body.colliding->toucher.flags & 0x1F824) != 0) {
+    if ((this->colCylinder.body.acHitItem->toucher.flags & 0x1F824) != 0) {
         this->actor.posRot.rot.y = this->colCylinder.base.ac->posRot.rot.y;
     } else {
         this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->colCylinder.base.ac) + 0x8000;
@@ -479,8 +479,8 @@ void EnWallmas_Stun(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
-    if ((this->colCylinder.base.collideFlags & 2) != 0) {
-        this->colCylinder.base.collideFlags &= ~2;
+    if ((this->colCylinder.base.acFlags & 2) != 0) {
+        this->colCylinder.base.acFlags &= ~2;
         func_80035650(&this->actor, &this->colCylinder.body, 1);
         if ((this->actor.sub_98.damageEffect != 0) || (this->actor.sub_98.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
@@ -538,11 +538,11 @@ void EnWallmas_Update(EnWallmas* this, GlobalContext* globalCtx) {
 
     if ((this2->actionFunc != (ActorFunc)&EnWallmas_Die) && (this2->actionFunc != (ActorFunc)&EnWallmas_Drop)) {
         ActorCollider_Cylinder_Update(&this2->actor, &this2->colCylinder);
-        Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this2->colCylinder);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this2->colCylinder);
 
         if ((this2->actionFunc != (ActorFunc)&EnWallmas_TakeDamage) && (this2->actor.bgCheckFlags & 1) != 0 &&
             (this2->actor.freeze == 0)) {
-            Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, &this2->colCylinder);
+            Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this2->colCylinder);
         }
     }
 

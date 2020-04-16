@@ -29,7 +29,7 @@ glabel EnVm_Init
 /* 0006C 80B2D4CC 00000000 */  nop
 /* 00070 80B2D4D0 26050268 */  addiu   $a1, $s0, 0x0268           ## $a1 = 00000268
 /* 00074 80B2D4D4 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00078 80B2D4D8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00078 80B2D4D8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 0007C 80B2D4DC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00080 80B2D4E0 3C0780B3 */  lui     $a3, %hi(D_80B2EA20)       ## $a3 = 80B30000

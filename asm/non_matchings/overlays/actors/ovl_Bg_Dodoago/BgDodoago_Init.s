@@ -55,17 +55,17 @@ glabel BgDodoago_Init
 /* 001E4 80871BE4 A4581D30 */  sh      $t8, 0x1D30($v0)           ## 00001D30
 .L80871BE8:
 /* 001E8 80871BE8 26050168 */  addiu   $a1, $s0, 0x0168           ## $a1 = 00000168
-/* 001EC 80871BEC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001EC 80871BEC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 001F0 80871BF0 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 001F4 80871BF4 260501B4 */  addiu   $a1, $s0, 0x01B4           ## $a1 = 000001B4
 /* 001F8 80871BF8 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 001FC 80871BFC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001FC 80871BFC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00200 80871C00 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00204 80871C04 26050200 */  addiu   $a1, $s0, 0x0200           ## $a1 = 00000200
 /* 00208 80871C08 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 0020C 80871C0C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0020C 80871C0C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00210 80871C10 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00214 80871C14 3C078087 */  lui     $a3, %hi(D_80872540)       ## $a3 = 80870000

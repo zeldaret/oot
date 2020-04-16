@@ -75,7 +75,7 @@ glabel EnVm_Update
 /* 00DDC 80B2E23C 02212821 */  addu    $a1, $s1, $at              
 /* 00DE0 80B2E240 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 00DE4 80B2E244 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00DE8 80B2E248 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00DE8 80B2E248 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00DEC 80B2E24C 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 00DF0 80B2E250 920F0114 */  lbu     $t7, 0x0114($s0)           ## 00000114

@@ -20,7 +20,7 @@ glabel BossSst_Init
 /* 00020 8092C5F0 24A5788C */  addiu   $a1, $a1, %lo(D_8093788C)  ## $a1 = 8093788C
 /* 00024 8092C5F4 260506B4 */  addiu   $a1, $s0, 0x06B4           ## $a1 = 000006B4
 /* 00028 8092C5F8 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 0002C 8092C5FC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0002C 8092C5FC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00030 8092C600 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00034 8092C604 260503D4 */  addiu   $a1, $s0, 0x03D4           ## $a1 = 000003D4

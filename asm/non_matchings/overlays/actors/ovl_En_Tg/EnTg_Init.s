@@ -23,7 +23,7 @@ glabel EnTg_Init
 /* 001A0 80B18500 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 001A4 80B18504 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 001A8 80B18508 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 001AC 80B1850C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001AC 80B1850C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 001B0 80B18510 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 001B4 80B18514 3C0780B2 */  lui     $a3, %hi(D_80B18910)       ## $a3 = 80B20000

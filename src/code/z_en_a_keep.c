@@ -32,7 +32,7 @@ typedef struct {
     /* 0x172 */ s16 unk_172;
     /* 0x174 */ s16 unk_174;
     /* 0x178 */ f32 unk_178;
-    /* 0x17C */ ColliderCylinderMain cylinderCollider;
+    /* 0x17C */ ColliderCylinder cylinderCollider;
 } ActorEnAObj; // size = 0x1C8
 
 void func_8001D204(ActorEnAObj* this, GlobalContext* globalCtx);
@@ -140,7 +140,7 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
             this->actor.unk_4C = 500.0f;
             this->unk_178 = 45.0f;
             func_8001D234(this, this->actor.params);
-            ActorCollider_AllocCylinder(globalCtx, &this->cylinderCollider);
+            CollisionCheck_AllocCylinder(globalCtx, &this->cylinderCollider);
             ActorCollider_InitCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_80115440);
             this->actor.sub_98.mass = 0xFF;
             this->actor.unk_1F = 0;
@@ -169,7 +169,7 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
 #endif
 
 void En_A_Obj_Destroy(ActorEnAObj* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* cylinderCollider = &this->cylinderCollider;
+    ColliderCylinder* cylinderCollider = &this->cylinderCollider;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 
@@ -303,7 +303,7 @@ void func_8001D608(ActorEnAObj* this, GlobalContext* globalCtx) {
 }
 
 void En_A_Obj_Update(ActorEnAObj* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* cylinderCollider;
+    ColliderCylinder* cylinderCollider;
 
     this->updateFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
@@ -324,7 +324,7 @@ void En_A_Obj_Update(ActorEnAObj* this, GlobalContext* globalCtx) {
         case A_OBJ_SIGNPOST_ARROW:
             cylinderCollider = &this->cylinderCollider;
             ActorCollider_Cylinder_Update(&this->actor, cylinderCollider);
-            Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, cylinderCollider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, cylinderCollider);
     }
 }
 

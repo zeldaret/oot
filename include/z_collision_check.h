@@ -108,7 +108,6 @@ typedef struct
     /* 0x14 */ u8 toucherFlags; /* Attack Toucher Flags */
     /* 0x15 */ u8 bumperFlags; /* Bumper Flags */
     /* 0x16 */ u8 bodyFlags2;
-    /* 0x17 */ u8 unk_1F; /* 00 */
 } ColliderBodyInit; // size = 0x18
 
 typedef struct {
@@ -237,7 +236,7 @@ typedef struct {
     /* 0x30 */ Vec3s dcMid;
     /* 0x36 */ Vec3s baMid; //bounding box min
     /* 0x3C */ f32 unk3C;
-} ColliderQuadDim;
+} ColliderQuadDim; // size = 0x40
 
 typedef struct {
     /* 0x00 */ Vec3f quad[4];
@@ -247,19 +246,19 @@ typedef struct {
     /* 0x00 */ Collider base;
     /* 0x18 */ ColliderBody body;
     /* 0x40 */ ColliderQuadDim dim;
-} ColliderQuad;
+} ColliderQuad; // size = 0x80
 
 typedef struct {
     /* 0x00 */ ColliderInit base;
     /* 0x18 */ ColliderBodyInit body;
-    /* 0x40 */ ColliderQuadDimInit dim;
-} ColliderQuadInit;
+    /* 0x30 */ ColliderQuadDimInit dim;
+} ColliderQuadInit; //size 0x60
 
 
 typedef struct {
     /* 0x00 */ ColliderInit_set3 base;
     /* 0x18 */ ColliderBodyInit body;
-    /* 0x40 */ ColliderQuadDimInit dim;
+    /* 0x30 */ ColliderQuadDimInit dim;
 } ColliderQuadInit_set3;
 
 typedef struct

@@ -259,7 +259,7 @@ glabel EnAnubice_Update
 /* 00F88 809B20A8 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00F8C 809B20AC 00812821 */  addu    $a1, $a0, $at              
 /* 00F90 809B20B0 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00F94 809B20B4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00F94 809B20B4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00F98 809B20B8 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 00F9C 809B20BC 860D0262 */  lh      $t5, 0x0262($s0)           ## 00000262

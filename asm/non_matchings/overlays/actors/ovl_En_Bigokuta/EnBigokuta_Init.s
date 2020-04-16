@@ -52,7 +52,7 @@ glabel EnBigokuta_Init
 /* 000B0 809BCD10 A4480036 */  sh      $t0, 0x0036($v0)           ## 00000036
 .L809BCD14:
 /* 000B4 809BCD14 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 000B8 809BCD18 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000B8 809BCD18 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 000BC 809BCD1C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 000002EC
 /* 000C0 809BCD20 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000

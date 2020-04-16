@@ -102,7 +102,7 @@ glabel EnYukabyun_Update
 /* 003EC 80B43DAC 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 003F0 80B43DB0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 003F4 80B43DB4 8FA5002C */  lw      $a1, 0x002C($sp)           
-/* 003F8 80B43DB8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 003F8 80B43DB8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 003FC 80B43DBC 8FA60028 */  lw      $a2, 0x0028($sp)           
 .L80B43DC0:

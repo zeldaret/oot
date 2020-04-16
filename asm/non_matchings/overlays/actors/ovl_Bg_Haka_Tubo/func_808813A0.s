@@ -164,7 +164,7 @@ glabel func_808813A0
 /* 00390 808815E0 8FA60040 */  lw      $a2, 0x0040($sp)           
 /* 00394 808815E4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00398 808815E8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 0039C 808815EC 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0039C 808815EC 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 003A0 808815F0 8FA60040 */  lw      $a2, 0x0040($sp)           
 .L808815F4:

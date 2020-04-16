@@ -27,7 +27,7 @@ glabel EnMd_Init
 /* 01460 80AAB6B0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01464 80AAB6B4 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 01468 80AAB6B8 AFA50040 */  sw      $a1, 0x0040($sp)
-/* 0146C 80AAB6BC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0146C 80AAB6BC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 01470 80AAB6C0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01474 80AAB6C4 3C0780AB */  lui     $a3, %hi(D_80AAC310)       ## $a3 = 80AB0000

@@ -31,7 +31,7 @@ glabel EnFu_Init
 /* 00070 80A1D880 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00074 80A1D884 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00078 80A1D888 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 0007C 80A1D88C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0007C 80A1D88C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00080 80A1D890 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00084 80A1D894 3C0780A2 */  lui     $a3, %hi(D_80A1E420)       ## $a3 = 80A20000

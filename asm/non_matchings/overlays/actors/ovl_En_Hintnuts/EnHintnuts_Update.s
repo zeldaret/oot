@@ -62,7 +62,7 @@ glabel EnHintnuts_Update
 /* 01590 80A58790 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01594 80A58794 02212821 */  addu    $a1, $s1, $at              
 /* 01598 80A58798 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0159C 80A5879C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0159C 80A5879C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 015A0 80A587A0 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 015A4 80A587A4 8E030190 */  lw      $v1, 0x0190($s0)           ## 00000190

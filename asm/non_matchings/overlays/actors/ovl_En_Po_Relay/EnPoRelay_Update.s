@@ -37,7 +37,7 @@ glabel EnPoRelay_Update
 /* 0111C 80AD885C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01120 80AD8860 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01124 80AD8864 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 01128 80AD8868 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01128 80AD8868 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0112C 80AD886C 00812821 */  addu    $a1, $a0, $at              
 /* 01130 80AD8870 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

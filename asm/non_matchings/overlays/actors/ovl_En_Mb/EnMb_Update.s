@@ -96,7 +96,7 @@ glabel EnMb_Update
 /* 0378C 80AA97DC 02212821 */  addu    $a1, $s1, $at              
 /* 03790 80AA97E0 AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 03794 80AA97E4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 03798 80AA97E8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 03798 80AA97E8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0379C 80AA97EC 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 037A0 80AA97F0 8E020320 */  lw      $v0, 0x0320($s0)           ## 00000320

@@ -6,7 +6,7 @@ glabel func_80AEAD20
 /* 00120 80AEAD30 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00124 80AEAD34 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00128 80AEAD38 260502B4 */  addiu   $a1, $s0, 0x02B4           ## $a1 = 000002B4
-/* 0012C 80AEAD3C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0012C 80AEAD3C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00130 80AEAD40 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 00134 80AEAD44 3C0780AF */  lui     $a3, %hi(D_80AF0800)       ## $a3 = 80AF0000
@@ -17,7 +17,7 @@ glabel func_80AEAD20
 /* 00148 80AEAD58 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0014C 80AEAD5C 26050300 */  addiu   $a1, $s0, 0x0300           ## $a1 = 00000300
 /* 00150 80AEAD60 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00154 80AEAD64 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00154 80AEAD64 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00158 80AEAD68 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 0015C 80AEAD6C 3C0780AF */  lui     $a3, %hi(D_80AF082C)       ## $a3 = 80AF0000

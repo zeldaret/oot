@@ -142,7 +142,7 @@ glabel EnFirefly_Update
 /* 0183C 80A148AC 8FA40044 */  lw      $a0, 0x0044($sp)           
 .L80A148B0:
 /* 01840 80A148B0 8FA50030 */  lw      $a1, 0x0030($sp)           
-/* 01844 80A148B4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01844 80A148B4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01848 80A148B8 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 0184C 80A148BC 0C01DE1C */  jal     Math_Sins

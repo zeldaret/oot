@@ -234,7 +234,7 @@ glabel EnTrap_Init
 /* 0034C 80B249AC 8F080008 */  lw      $t0, 0x0008($t8)           ## 00000008
 /* 00350 80B249B0 AE080040 */  sw      $t0, 0x0040($s0)           ## 00000040
 /* 00354 80B249B4 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00358 80B249B8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00358 80B249B8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 0035C 80B249BC 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 00360 80B249C0 3C0780B2 */  lui     $a3, %hi(D_80B25830)       ## $a3 = 80B20000

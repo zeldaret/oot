@@ -57,7 +57,7 @@ glabel EnKakasi2_Update
 /* 007B4 80A907C4 8FA60050 */  lw      $a2, 0x0050($sp)           
 /* 007B8 80A907C8 8FA50054 */  lw      $a1, 0x0054($sp)           
 /* 007BC 80A907CC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 007C0 80A907D0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 007C0 80A907D0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 007C4 80A907D4 8FA60050 */  lw      $a2, 0x0050($sp)           
 .L80A907D8:

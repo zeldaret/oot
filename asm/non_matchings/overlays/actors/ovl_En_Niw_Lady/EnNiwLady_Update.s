@@ -157,7 +157,7 @@ glabel EnNiwLady_Update
 /* 01438 80ABB078 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0143C 80ABB07C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01440 80ABB080 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 01444 80ABB084 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01444 80ABB084 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01448 80ABB088 00812821 */  addu    $a1, $a0, $at              
 /* 0144C 80ABB08C 8FBF0024 */  lw      $ra, 0x0024($sp)           

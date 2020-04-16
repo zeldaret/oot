@@ -20,7 +20,7 @@ glabel MagicFire_Init
 /* 00040 80B88DB0 E6040198 */  swc1    $f4, 0x0198($s0)           ## 00000198
 /* 00044 80B88DB4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00048 80B88DB8 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 0004C 80B88DBC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0004C 80B88DBC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00050 80B88DC0 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00054 80B88DC4 3C0780B9 */  lui     $a3, %hi(D_80B8AF50)       ## $a3 = 80B90000

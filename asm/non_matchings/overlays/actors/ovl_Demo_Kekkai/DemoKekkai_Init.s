@@ -31,7 +31,7 @@ glabel DemoKekkai_Init
 /* 00078 8098D048 A20E00AE */  sb      $t6, 0x00AE($s0)           ## 000000AE
 /* 0007C 8098D04C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00080 8098D050 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00084 8098D054 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00084 8098D054 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00088 8098D058 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 0008C 8098D05C 3C078099 */  lui     $a3, %hi(D_8098E0B0)       ## $a3 = 80990000
@@ -43,7 +43,7 @@ glabel DemoKekkai_Init
 /* 000A0 8098D070 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000A4 8098D074 26050198 */  addiu   $a1, $s0, 0x0198           ## $a1 = 00000198
 /* 000A8 8098D078 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 000AC 8098D07C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000AC 8098D07C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 000B0 8098D080 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000B4 8098D084 3C078099 */  lui     $a3, %hi(D_8098E0B0)       ## $a3 = 80990000

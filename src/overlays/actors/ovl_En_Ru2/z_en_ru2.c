@@ -42,10 +42,10 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx);
 
 void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx);
 
-static ColliderCylinderInit D_80AF40E0 = {
-    0x0A, 0x00,       0x09, 0x00, 0x01,   0x00,   0x00,       0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00000000, 0x00, 0x00, 0x00,   0x00,   0x00000080, 0x00,   0x00,   0x00,   0x00,
-    0x00, 0x01,       0x00, 0x00, 0x001E, 0x0064, 0x0000,     0x0000, 0x0000, 0x0000,
+static ColliderCylinderInit_set3 colliderInit = {
+    { 0x0A, 0x00, 0x09, 0x00, 0x01 },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000080, 0x00, 0x00 }, 0x00, 0x01, 0x00 }, 
+    { 0x001E, 0x0064, 0x0000, { 0 } },
 };
 
 static u32 D_80AF410C[] = {
@@ -95,22 +95,22 @@ extern AnimationHeader* D_0600F8B8;
 
 void func_80AF2550(EnRu2* this, GlobalContext* globalCtx) {
     EnRu2* thisLocal = this;
-    ActorCollider_AllocCylinder(globalCtx, &thisLocal->collider);
-    func_8005C450(globalCtx, &thisLocal->collider, &this->actor, &D_80AF40E0);
+    CollisionCheck_AllocCylinder(globalCtx, &thisLocal->collider);
+    func_8005C450(globalCtx, &thisLocal->collider, &this->actor, &colliderInit);
 }
 
 void func_80AF259C(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad;
-    ColliderCylinderMain* collider = &this->collider;
+    ColliderCylinder* collider = &this->collider;
     Actor* thisx = &this->actor;
     s32 pad2[2];
 
     ActorCollider_Cylinder_Update(thisx, collider);
-    Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, collider);
+    Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, collider);
 }
 
 void EnRu2_Destroy(EnRu2* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* collider = &this->collider;
+    ColliderCylinder* collider = &this->collider;
     ActorCollider_FreeCylinder(globalCtx, collider);
 }
 

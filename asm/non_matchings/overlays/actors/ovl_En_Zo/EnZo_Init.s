@@ -26,7 +26,7 @@ glabel EnZo_Init
 /* 01518 80B61738 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0151C 80B6173C 260501BC */  addiu   $a1, $s0, 0x01BC           ## $a1 = 000001BC
 /* 01520 80B61740 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 01524 80B61744 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 01524 80B61744 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 01528 80B61748 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0152C 80B6174C 3C0780B6 */  lui     $a3, %hi(D_80B6248C)       ## $a3 = 80B60000

@@ -83,7 +83,7 @@ glabel EnKarebaba_Update
 /* 01068 80A963B8 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 0106C 80A963BC 02212821 */  addu    $a1, $s1, $at              
 /* 01070 80A963C0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01074 80A963C4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01074 80A963C4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01078 80A963C8 260601F8 */  addiu   $a2, $s0, 0x01F8           ## $a2 = 000001F8
 /* 0107C 80A963CC 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

@@ -188,7 +188,7 @@ glabel EnWood02_Update
 /* 00A2C 80B3B99C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000158
 /* 00A30 80B3B9A0 8FA50044 */  lw      $a1, 0x0044($sp)           
 /* 00A34 80B3B9A4 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 00A38 80B3B9A8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00A38 80B3B9A8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00A3C 80B3B9AC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000158
 /* 00A40 80B3B9B0 1000006A */  beq     $zero, $zero, .L80B3BB5C   

@@ -95,7 +95,7 @@ glabel EnRd_Init
 .L80AE2568:
 /* 00168 80AE2568 26050320 */  addiu   $a1, $s0, 0x0320           ## $a1 = 00000320
 /* 0016C 80AE256C AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00170 80AE2570 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00170 80AE2570 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00174 80AE2574 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00178 80AE2578 3C0780AE */  lui     $a3, %hi(D_80AE48C0)       ## $a3 = 80AE0000

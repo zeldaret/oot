@@ -13,7 +13,7 @@ glabel ObjDekujr_Update
 /* 00370 80B92790 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00374 80B92794 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00378 80B92798 8FA60024 */  lw      $a2, 0x0024($sp)           
-/* 0037C 80B9279C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0037C 80B9279C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00380 80B927A0 00812821 */  addu    $a1, $a0, $at              
 /* 00384 80B927A4 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000

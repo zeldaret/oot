@@ -155,7 +155,7 @@ glabel EnKakasi2_Init
 /* 0019C 80A901AC AE0F0134 */  sw      $t7, 0x0134($s0)           ## 00000134
 /* 001A0 80A901B0 260501AC */  addiu   $a1, $s0, 0x01AC           ## $a1 = 000001AC
 /* 001A4 80A901B4 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 001A8 80A901B8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001A8 80A901B8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 001AC 80A901BC 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 001B0 80A901C0 3C0780A9 */  lui     $a3, %hi(D_80A909A0)       ## $a3 = 80A90000

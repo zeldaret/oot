@@ -172,12 +172,12 @@ glabel EnBrob_Update
 /* 00DC4 809CB8D4 AFAD0030 */  sw      $t5, 0x0030($sp)           
 /* 00DC8 809CB8D8 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 00DCC 809CB8DC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00DD0 809CB8E0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00DD0 809CB8E0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00DD4 809CB8E4 26060228 */  addiu   $a2, $s0, 0x0228           ## $a2 = 00000228
 /* 00DD8 809CB8E8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00DDC 809CB8EC 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 00DE0 809CB8F0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00DE0 809CB8F0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00DE4 809CB8F4 8FA60030 */  lw      $a2, 0x0030($sp)           
 .L809CB8F8:

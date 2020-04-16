@@ -103,7 +103,7 @@ glabel func_80BA15BC
 /* 009CC 80BA172C 00000000 */  nop
 /* 009D0 80BA1730 45020005 */  bc1fl   .L80BA1748                 
 /* 009D4 80BA1734 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
-/* 009D8 80BA1738 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 009D8 80BA1738 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 009DC 80BA173C 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 009E0 80BA1740 C6000090 */  lwc1    $f0, 0x0090($s0)           ## 00000090

@@ -31,7 +31,7 @@ glabel EnFloormas_Init
 /* 0006C 80A1757C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00070 80A17580 260502C8 */  addiu   $a1, $s0, 0x02C8           ## $a1 = 000002C8
 /* 00074 80A17584 AFA5003C */  sw      $a1, 0x003C($sp)
-/* 00078 80A17588 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00078 80A17588 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 0007C 80A1758C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00080 80A17590 3C0780A2 */  lui     $a3, %hi(D_80A1A470)       ## $a3 = 80A20000

@@ -28,7 +28,7 @@ glabel BgHakaTubo_Init
 /* 00058 808812A8 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 0005C 808812AC 2605016C */  addiu   $a1, $s0, 0x016C           ## $a1 = 0000016C
 /* 00060 808812B0 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00064 808812B4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00064 808812B4 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00068 808812B8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0006C 808812BC 3C078088 */  lui     $a3, %hi(D_80881B60)       ## $a3 = 80880000
@@ -40,7 +40,7 @@ glabel BgHakaTubo_Init
 /* 00080 808812D0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00084 808812D4 260501B8 */  addiu   $a1, $s0, 0x01B8           ## $a1 = 000001B8
 /* 00088 808812D8 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 0008C 808812DC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0008C 808812DC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00090 808812E0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00094 808812E4 3C078088 */  lui     $a3, %hi(D_80881B8C)       ## $a3 = 80880000

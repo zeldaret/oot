@@ -55,7 +55,7 @@ glabel EnHorseNormal_Init
 /* 0020C 80A6B45C E6060068 */  swc1    $f6, 0x0068($s0)           ## 00000068
 /* 00210 80A6B460 AE0F0040 */  sw      $t7, 0x0040($s0)           ## 00000040
 /* 00214 80A6B464 AFA50028 */  sw      $a1, 0x0028($sp)
-/* 00218 80A6B468 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00218 80A6B468 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 0021C 80A6B46C 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00220 80A6B470 3C0780A7 */  lui     $a3, %hi(D_80A6D394)       ## $a3 = 80A70000
@@ -79,7 +79,7 @@ glabel EnHorseNormal_Init
 /* 00264 80A6B4B4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00268 80A6B4B8 260502D4 */  addiu   $a1, $s0, 0x02D4           ## $a1 = 000002D4
 /* 0026C 80A6B4BC AFA50028 */  sw      $a1, 0x0028($sp)
-/* 00270 80A6B4C0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00270 80A6B4C0 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00274 80A6B4C4 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00278 80A6B4C8 3C0780A7 */  lui     $a3, %hi(D_80A6D3C0)       ## $a3 = 80A70000

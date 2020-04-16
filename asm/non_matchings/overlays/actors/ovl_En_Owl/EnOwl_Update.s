@@ -32,7 +32,7 @@ glabel EnOwl_Update
 /* 027A8 80ACC6C8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 027AC 80ACC6CC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 027B0 80ACC6D0 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 027B4 80ACC6D4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 027B4 80ACC6D4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 027B8 80ACC6D8 00812821 */  addu    $a1, $a0, $at              
 /* 027BC 80ACC6DC 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

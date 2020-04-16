@@ -14,7 +14,7 @@ glabel EnHs2_Update
 /* 0027C 80A6F21C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00280 80A6F220 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 00284 80A6F224 02212821 */  addu    $a1, $s1, $at              
-/* 00288 80A6F228 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00288 80A6F228 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0028C 80A6F22C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00290 80A6F230 0C00B638 */  jal     Actor_MoveForward

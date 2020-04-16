@@ -58,7 +58,7 @@ glabel func_80A79FB0
 /* 01080 80A7A030 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01084 80A7A034 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 01088 80A7A038 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 0108C 80A7A03C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0108C 80A7A03C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 01090 80A7A040 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 01094 80A7A044 3C0780A8 */  lui     $a3, %hi(D_80A7B840)       ## $a3 = 80A80000

@@ -75,7 +75,7 @@ glabel func_80AFB768
 /* 001E4 80AFB874 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 001E8 80AFB878 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001EC 80AFB87C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 001F0 80AFB880 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 001F0 80AFB880 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 001F4 80AFB884 8FA60028 */  lw      $a2, 0x0028($sp)           
 .L80AFB888:

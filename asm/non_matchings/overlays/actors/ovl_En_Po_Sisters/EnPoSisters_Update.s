@@ -154,7 +154,7 @@ glabel EnPoSisters_Update
 /* 03558 80ADC4E8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0355C 80ADC4EC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 03560 80ADC4F0 00812821 */  addu    $a1, $a0, $at              
-/* 03564 80ADC4F4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 03564 80ADC4F4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 03568 80ADC4F8 8FA60028 */  lw      $a2, 0x0028($sp)           
 .L80ADC4FC:

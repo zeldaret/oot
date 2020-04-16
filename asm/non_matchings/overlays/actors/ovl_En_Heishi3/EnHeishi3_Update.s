@@ -51,7 +51,7 @@ glabel EnHeishi3_Update
 /* 00820 80A55E60 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00824 80A55E64 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00828 80A55E68 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0082C 80A55E6C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0082C 80A55E6C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00830 80A55E70 00812821 */  addu    $a1, $a0, $at              
 /* 00834 80A55E74 8FBF0024 */  lw      $ra, 0x0024($sp)           

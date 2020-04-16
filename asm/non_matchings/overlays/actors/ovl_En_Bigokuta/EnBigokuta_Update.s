@@ -66,7 +66,7 @@ glabel EnBigokuta_Update
 .L809BEAC0:
 /* 01E60 809BEAC0 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01E64 809BEAC4 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
-/* 01E68 809BEAC8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01E68 809BEAC8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01E6C 809BEACC 02203025 */  or      $a2, $s1, $zero            ## $a2 = 000002EC
 /* 01E70 809BEAD0 2610004C */  addiu   $s0, $s0, 0x004C           ## $s0 = 00000098
@@ -103,7 +103,7 @@ glabel EnBigokuta_Update
 /* 01ED8 809BEB38 13200006 */  beq     $t9, $zero, .L809BEB54     
 /* 01EDC 809BEB3C 2686028C */  addiu   $a2, $s4, 0x028C           ## $a2 = 0000028C
 /* 01EE0 809BEB40 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 01EE4 809BEB44 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01EE4 809BEB44 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01EE8 809BEB48 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 01EEC 809BEB4C 10000005 */  beq     $zero, $zero, .L809BEB64   

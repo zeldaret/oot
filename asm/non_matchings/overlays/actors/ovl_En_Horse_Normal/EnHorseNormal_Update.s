@@ -70,7 +70,7 @@ glabel EnHorseNormal_Update
 /* 01858 80A6CAA8 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 0185C 80A6CAAC 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01860 80A6CAB0 02212821 */  addu    $a1, $s1, $at              
-/* 01864 80A6CAB4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01864 80A6CAB4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01868 80A6CAB8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0186C 80A6CABC 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00

@@ -2482,7 +2482,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     }
 
     if ((HREG(64) != 1) || (HREG(76) != 0)) {
-        func_8005D62C(globalCtx, &globalCtx->sub_11E60);
+        func_8005D62C(globalCtx, &globalCtx->collisionCheckCtx);
     }
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 6563);
@@ -2540,7 +2540,7 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
         }
     }
 
-    func_8005D40C(globalCtx, &globalCtx->sub_11E60);
+    func_8005D40C(globalCtx, &globalCtx->collisionCheckCtx);
     actorCtx->flags.tempClear = 0;
     actorCtx->flags.tempSwch &= 0xFFFFFF;
     globalCtx->msgCtx.unk_E3F4 = 0;
@@ -3259,8 +3259,8 @@ void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s1
 }
 
 Actor* func_80033640(GlobalContext* globalCtx, Collider* collider) {
-    if ((collider->collideFlags & 0x2) && (collider->ac->type == ACTORTYPE_EXPLOSIVES)) {
-        collider->collideFlags &= ~0x2;
+    if ((collider->acFlags & 0x2) && (collider->ac->type == ACTORTYPE_EXPLOSIVES)) {
+        collider->acFlags &= ~0x2;
         return collider->ac;
     }
 
@@ -4073,11 +4073,10 @@ void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1) {
     func_8003555C(globalCtx, arg1, &D_80116268, &D_80116274);
 }
 
-u8 func_800355E4(GlobalContext* globalCtx, ColliderCylinderInit* colCylinderInit) {
+u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
     Player* player = PLAYER;
 
-    if ((colCylinderInit->inner.toucherDamage & 0x08) && (player->swordState != 0) &&
-        (player->swordAnimation == 0x16)) {
+    if ((collider->acFlags & 0x08) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
         return 1;
     } else {
         return 0;
@@ -4095,26 +4094,26 @@ u8 Actor_ApplyDamage(Actor* actor) {
 }
 
 void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
-    if (colBody->colliding == NULL) {
+    if (colBody->acHitItem == NULL) {
         actor->unk_116 = 0x00;
-    } else if (freezeFlag && (colBody->colliding->toucher.flags & 0x10060000)) {
-        actor->freeze = colBody->colliding->toucher.damage;
+    } else if (freezeFlag && (colBody->acHitItem->toucher.flags & 0x10060000)) {
+        actor->freeze = colBody->acHitItem->toucher.damage;
         actor->unk_116 = 0x00;
-    } else if (colBody->colliding->toucher.flags & 0x0800) {
+    } else if (colBody->acHitItem->toucher.flags & 0x0800) {
         actor->unk_116 = 0x01;
-    } else if (colBody->colliding->toucher.flags & 0x1000) {
+    } else if (colBody->acHitItem->toucher.flags & 0x1000) {
         actor->unk_116 = 0x02;
-    } else if (colBody->colliding->toucher.flags & 0x4000) {
+    } else if (colBody->acHitItem->toucher.flags & 0x4000) {
         actor->unk_116 = 0x04;
-    } else if (colBody->colliding->toucher.flags & 0x8000) {
+    } else if (colBody->acHitItem->toucher.flags & 0x8000) {
         actor->unk_116 = 0x08;
-    } else if ((colBody->colliding->toucher.flags << 0xF) < 0) {
+    } else if ((colBody->acHitItem->toucher.flags << 0xF) < 0) {
         actor->unk_116 = 0x10;
-    } else if (colBody->colliding->toucher.flags & 0x2000) {
+    } else if (colBody->acHitItem->toucher.flags & 0x2000) {
         actor->unk_116 = 0x20;
-    } else if ((colBody->colliding->toucher.flags << 0xC) < 0) {
+    } else if ((colBody->acHitItem->toucher.flags << 0xC) < 0) {
         if (freezeFlag) {
-            actor->freeze = colBody->colliding->toucher.damage;
+            actor->freeze = colBody->acHitItem->toucher.damage;
         }
         actor->unk_116 = 0x40;
     } else {
@@ -4122,35 +4121,35 @@ void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
     }
 }
 
-void func_8003573C(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
+void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
     ColliderBody* curColBody;
     s32 flag;
     s32 i;
 
     actor->unk_116 = 0x00;
 
-    for (i = colBody->unk_18 - 1; i >= 0; i--) {
-        curColBody = &colBody->colBuf[i].c;
-        if (curColBody->colliding == NULL) {
+    for (i = jntSph->count - 1; i >= 0; i--) {
+        curColBody = &jntSph->list[i].body;
+        if (curColBody->acHitItem == NULL) {
             flag = 0x00;
-        } else if (freezeFlag && (curColBody->colliding->toucher.flags & 0x10060000)) {
-            actor->freeze = curColBody->colliding->toucher.damage;
+        } else if (freezeFlag && (curColBody->acHitItem->toucher.flags & 0x10060000)) {
+            actor->freeze = curColBody->acHitItem->toucher.damage;
             flag = 0x00;
-        } else if (curColBody->colliding->toucher.flags & 0x0800) {
+        } else if (curColBody->acHitItem->toucher.flags & 0x0800) {
             flag = 0x01;
-        } else if (curColBody->colliding->toucher.flags & 0x1000) {
+        } else if (curColBody->acHitItem->toucher.flags & 0x1000) {
             flag = 0x02;
-        } else if (curColBody->colliding->toucher.flags & 0x4000) {
+        } else if (curColBody->acHitItem->toucher.flags & 0x4000) {
             flag = 0x04;
-        } else if (curColBody->colliding->toucher.flags & 0x8000) {
+        } else if (curColBody->acHitItem->toucher.flags & 0x8000) {
             flag = 0x08;
-        } else if (curColBody->colliding->toucher.flags & 0x10000) {
+        } else if (curColBody->acHitItem->toucher.flags & 0x10000) {
             flag = 0x10;
-        } else if (curColBody->colliding->toucher.flags & 0x2000) {
+        } else if (curColBody->acHitItem->toucher.flags & 0x2000) {
             flag = 0x20;
-        } else if (curColBody->colliding->toucher.flags & 0x80000) {
+        } else if (curColBody->acHitItem->toucher.flags & 0x80000) {
             if (freezeFlag) {
-                actor->freeze = curColBody->colliding->toucher.damage;
+                actor->freeze = curColBody->acHitItem->toucher.damage;
             }
             flag = 0x40;
         } else {
@@ -4158,7 +4157,7 @@ void func_8003573C(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {
         }
         actor->unk_116 |= flag;
     }
-}
+} 
 
 void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3) {
     f32 dx = arg1->x - arg0->x;

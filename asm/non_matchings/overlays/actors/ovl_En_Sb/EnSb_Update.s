@@ -98,7 +98,7 @@ glabel EnSb_Update
 /* 01008 80AF87F8 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 0100C 80AF87FC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01010 80AF8800 8FA5002C */  lw      $a1, 0x002C($sp)           
-/* 01014 80AF8804 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01014 80AF8804 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01018 80AF8808 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 0101C 80AF880C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

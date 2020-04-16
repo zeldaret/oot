@@ -105,7 +105,7 @@ glabel EnDaiku_Init
 /* 00220 809E2D50 10000071 */  beq     $zero, $zero, .L809E2F18
 /* 00224 809E2D54 8FBF002C */  lw      $ra, 0x002C($sp)
 .L809E2D58:
-/* 00228 809E2D58 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00228 809E2D58 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 0022C 809E2D5C AFA50034 */  sw      $a1, 0x0034($sp)
 /* 00230 809E2D60 3C07809E */  lui     $a3, %hi(D_809E4060)       ## $a3 = 809E0000

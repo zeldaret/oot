@@ -40,7 +40,7 @@ glabel ObjIcePoly_Init
 /* 00088 80B942E8 46083280 */  add.s   $f10, $f6, $f8             
 /* 0008C 80B942EC E60A0028 */  swc1    $f10, 0x0028($s0)          ## 00000028
 /* 00090 80B942F0 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 00094 80B942F4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00094 80B942F4 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00098 80B942F8 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 0009C 80B942FC 3C0780B9 */  lui     $a3, %hi(D_80B94B30)       ## $a3 = 80B90000
@@ -52,7 +52,7 @@ glabel ObjIcePoly_Init
 /* 000B0 80B94310 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000B4 80B94314 260501A0 */  addiu   $a1, $s0, 0x01A0           ## $a1 = 000001A0
 /* 000B8 80B94318 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 000BC 80B9431C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000BC 80B9431C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 000C0 80B94320 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000C4 80B94324 3C0780B9 */  lui     $a3, %hi(D_80B94B5C)       ## $a3 = 80B90000

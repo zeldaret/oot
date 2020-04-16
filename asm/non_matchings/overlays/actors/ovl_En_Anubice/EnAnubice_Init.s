@@ -51,7 +51,7 @@ glabel EnAnubice_Init
 /* 00200 809B1320 A2190117 */  sb      $t9, 0x0117($s0)           ## 00000117
 /* 00204 809B1324 260502C8 */  addiu   $a1, $s0, 0x02C8           ## $a1 = 000002C8
 /* 00208 809B1328 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 0020C 809B132C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0020C 809B132C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00210 809B1330 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00214 809B1334 3C07809B */  lui     $a3, %hi(D_809B22D0)       ## $a3 = 809B0000

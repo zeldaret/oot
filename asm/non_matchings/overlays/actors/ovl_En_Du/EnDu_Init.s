@@ -23,7 +23,7 @@ glabel EnDu_Init
 /* 005CC 809FE1FC AFA00018 */  sw      $zero, 0x0018($sp)
 /* 005D0 809FE200 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 005D4 809FE204 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 005D8 809FE208 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 005D8 809FE208 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 005DC 809FE20C 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 005E0 809FE210 3C0780A0 */  lui     $a3, %hi(D_809FF230)       ## $a3 = 80A00000

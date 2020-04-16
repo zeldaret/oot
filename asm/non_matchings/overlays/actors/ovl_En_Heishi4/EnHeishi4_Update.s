@@ -85,7 +85,7 @@ glabel EnHeishi4_Update
 /* 00D1C 80A56DEC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00D20 80A56DF0 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 00D24 80A56DF4 02212821 */  addu    $a1, $s1, $at              
-/* 00D28 80A56DF8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00D28 80A56DF8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00D2C 80A56DFC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00D30 80A56E00 8FBF0024 */  lw      $ra, 0x0024($sp)           

@@ -41,7 +41,7 @@ glabel EnHintnuts_Init
 /* 0008C 80A5728C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00090 80A57290 26050214 */  addiu   $a1, $s0, 0x0214           ## $a1 = 00000214
 /* 00094 80A57294 AFA50044 */  sw      $a1, 0x0044($sp)           
-/* 00098 80A57298 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00098 80A57298 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 0009C 80A5729C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 000A0 80A572A0 3C0780A6 */  lui     $a3, %hi(D_80A58A00)       ## $a3 = 80A60000

@@ -10,7 +10,7 @@ glabel func_80890740
 /* 00020 80890760 31F80007 */  andi    $t8, $t7, 0x0007           ## $t8 = 00000000
 /* 00024 80890764 26050168 */  addiu   $a1, $s0, 0x0168           ## $a1 = 00000168
 /* 00028 80890768 AFB80030 */  sw      $t8, 0x0030($sp)           
-/* 0002C 8089076C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0002C 8089076C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00030 80890770 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 00034 80890774 3C078089 */  lui     $a3, %hi(D_8089170C)       ## $a3 = 80890000
@@ -48,7 +48,7 @@ glabel func_80890740
 /* 000A8 808907E8 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 000AC 808907EC 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000B0 808907F0 AFA30028 */  sw      $v1, 0x0028($sp)           
-/* 000B4 808907F4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000B4 808907F4 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 000B8 808907F8 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 000BC 808907FC 3C078089 */  lui     $a3, %hi(D_80891738)       ## $a3 = 80890000

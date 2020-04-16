@@ -17,7 +17,7 @@ glabel func_80B0368C
 /* 01454 80B036C4 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 01458 80B036C8 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 0145C 80B036CC 8FA60024 */  lw      $a2, 0x0024($sp)           
-/* 01460 80B036D0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01460 80B036D0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01464 80B036D4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01468 80B036D8 1000001A */  beq     $zero, $zero, .L80B03744   

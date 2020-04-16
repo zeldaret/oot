@@ -24,7 +24,7 @@ glabel EnIn_Update
 /* 021B0 80A7B160 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 021B4 80A7B164 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 021B8 80A7B168 02212821 */  addu    $a1, $s1, $at              
-/* 021BC 80A7B16C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 021BC 80A7B16C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 021C0 80A7B170 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 021C4 80A7B174 3C0F80A8 */  lui     $t7, %hi(func_80A7A304)    ## $t7 = 80A80000

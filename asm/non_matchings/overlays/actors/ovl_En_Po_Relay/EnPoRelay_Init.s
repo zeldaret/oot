@@ -31,7 +31,7 @@ glabel EnPoRelay_Init
 /* 0006C 80AD77AC 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00070 80AD77B0 26050290 */  addiu   $a1, $s0, 0x0290           ## $a1 = 00000290
 /* 00074 80AD77B4 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00078 80AD77B8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00078 80AD77B8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 0007C 80AD77BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00080 80AD77C0 3C0780AE */  lui     $a3, %hi(D_80AD8CF8)       ## $a3 = 80AE0000

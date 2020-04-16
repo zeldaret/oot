@@ -12,7 +12,7 @@ glabel EnClearTag_Init
 /* 00420 809D39D0 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00424 809D39D4 26250194 */  addiu   $a1, $s1, 0x0194           ## $a1 = 00000194
 /* 00428 809D39D8 AFB00014 */  sw      $s0, 0x0014($sp)           
-/* 0042C 809D39DC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0042C 809D39DC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00430 809D39E0 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 00434 809D39E4 862E001C */  lh      $t6, 0x001C($s1)           ## 0000001C

@@ -90,7 +90,7 @@ glabel EnZf_Init
 /* 003F0 80B44440 A60D00AA */  sh      $t5, 0x00AA($s0)           ## 000000AA
 /* 003F4 80B44444 26050418 */  addiu   $a1, $s0, 0x0418           ## $a1 = 00000418
 /* 003F8 80B44448 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 003FC 80B4444C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 003FC 80B4444C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00400 80B44450 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00404 80B44454 3C0780B5 */  lui     $a3, %hi(D_80B4A1D8)       ## $a3 = 80B50000

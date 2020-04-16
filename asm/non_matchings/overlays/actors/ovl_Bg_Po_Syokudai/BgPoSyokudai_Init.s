@@ -54,7 +54,7 @@ glabel BgPoSyokudai_Init
 /* 000B8 808A8168 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000BC 808A816C 26050164 */  addiu   $a1, $s0, 0x0164           ## $a1 = 00000164
 /* 000C0 808A8170 AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 000C4 808A8174 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000C4 808A8174 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 000C8 808A8178 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 000CC 808A817C 3C07808B */  lui     $a3, %hi(D_808A8960)       ## $a3 = 808B0000

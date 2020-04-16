@@ -42,7 +42,7 @@ glabel EnPoDesert_Update
 /* 007F0 80AD34A0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 007F4 80AD34A4 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 007F8 80AD34A8 02212821 */  addu    $a1, $s1, $at              
-/* 007FC 80AD34AC 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 007FC 80AD34AC 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00800 80AD34B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00804 80AD34B4 922F1C27 */  lbu     $t7, 0x1C27($s1)           ## 00001C27

@@ -1009,7 +1009,7 @@ glabel func_80848F9C
 /* 17B84 80849D94 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 17B88 80849D98 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 17B8C 80849D9C 00812821 */  addu    $a1, $a0, $at
-/* 17B90 80849DA0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 17B90 80849DA0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 17B94 80849DA4 8FA6002C */  lw      $a2, 0x002C($sp)
 /* 17B98 80849DA8 8E03067C */  lw      $v1, 0x067C($s0)           ## 0000067C

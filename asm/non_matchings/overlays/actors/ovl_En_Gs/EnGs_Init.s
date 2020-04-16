@@ -10,7 +10,7 @@ glabel EnGs_Init
 /* 0001C 80A4E33C 24A5FDF8 */  addiu   $a1, $a1, %lo(D_80A4FDF8)  ## $a1 = 80A4FDF8
 /* 00020 80A4E340 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00024 80A4E344 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00028 80A4E348 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00028 80A4E348 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 0002C 80A4E34C 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00030 80A4E350 3C0780A5 */  lui     $a3, %hi(D_80A4FDA0)       ## $a3 = 80A50000

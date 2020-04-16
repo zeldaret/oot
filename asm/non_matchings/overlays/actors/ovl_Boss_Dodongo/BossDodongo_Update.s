@@ -932,7 +932,7 @@ glabel BossDodongo_Update
 /* 035C4 808C4754 26260440 */  addiu   $a2, $s1, 0x0440           ## $a2 = 00000440
 /* 035C8 808C4758 00818021 */  addu    $s0, $a0, $at              
 /* 035CC 808C475C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000001
-/* 035D0 808C4760 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 035D0 808C4760 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 035D4 808C4764 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 035D8 808C4768 8E2F0190 */  lw      $t7, 0x0190($s1)           ## 00000190

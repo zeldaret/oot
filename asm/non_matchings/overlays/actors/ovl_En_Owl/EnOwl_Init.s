@@ -106,7 +106,7 @@ glabel EnOwl_Init
 /* 000A0 80AC9FC0 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 000A4 80AC9FC4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000A8 80AC9FC8 AFA50038 */  sw      $a1, 0x0038($sp)
-/* 000AC 80AC9FCC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000AC 80AC9FCC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 000B0 80AC9FD0 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 000B4 80AC9FD4 3C0780AD */  lui     $a3, %hi(D_80ACD5F0)       ## $a3 = 80AD0000

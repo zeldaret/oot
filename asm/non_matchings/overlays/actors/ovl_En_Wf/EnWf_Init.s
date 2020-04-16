@@ -59,7 +59,7 @@ glabel EnWf_Init
 /* 000E4 80B33D94 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000E8 80B33D98 26050424 */  addiu   $a1, $s0, 0x0424           ## $a1 = 00000424
 /* 000EC 80B33D9C AFA50034 */  sw      $a1, 0x0034($sp)
-/* 000F0 80B33DA0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000F0 80B33DA0 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 000F4 80B33DA4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 000F8 80B33DA8 3C0780B3 */  lui     $a3, %hi(D_80B37A30)       ## $a3 = 80B30000
@@ -71,7 +71,7 @@ glabel EnWf_Init
 /* 0010C 80B33DBC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00110 80B33DC0 26050470 */  addiu   $a1, $s0, 0x0470           ## $a1 = 00000470
 /* 00114 80B33DC4 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00118 80B33DC8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00118 80B33DC8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 0011C 80B33DCC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00120 80B33DD0 3C0780B3 */  lui     $a3, %hi(D_80B37A5C)       ## $a3 = 80B30000

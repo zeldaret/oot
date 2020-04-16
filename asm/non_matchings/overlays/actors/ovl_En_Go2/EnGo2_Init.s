@@ -26,7 +26,7 @@ glabel EnGo2_Init
 /* 037F8 80A46528 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 037FC 80A4652C 260501BC */  addiu   $a1, $s0, 0x01BC           ## $a1 = 000001BC
 /* 03800 80A46530 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 03804 80A46534 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 03804 80A46534 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 03808 80A46538 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0380C 80A4653C 3C0780A5 */  lui     $a3, %hi(D_80A48114)       ## $a3 = 80A50000

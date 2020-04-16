@@ -24,7 +24,7 @@ glabel EnKanban_Init
 /* 000F4 80A92094 35F80001 */  ori     $t8, $t7, 0x0001           ## $t8 = 00000001
 /* 000F8 80A92098 AE180004 */  sw      $t8, 0x0004($s0)           ## 00000004
 /* 000FC 80A9209C AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 00100 80A920A0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00100 80A920A0 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00104 80A920A4 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00108 80A920A8 3C0780A9 */  lui     $a3, %hi(D_80A94490)       ## $a3 = 80A90000

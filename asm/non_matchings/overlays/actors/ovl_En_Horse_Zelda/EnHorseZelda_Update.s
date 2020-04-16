@@ -47,7 +47,7 @@ glabel EnHorseZelda_Update
 /* 006DC 80A6DFAC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 006E0 80A6DFB0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 006E4 80A6DFB4 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 006E8 80A6DFB8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 006E8 80A6DFB8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 006EC 80A6DFBC 00812821 */  addu    $a1, $a0, $at              
 /* 006F0 80A6DFC0 8FBF0024 */  lw      $ra, 0x0024($sp)           

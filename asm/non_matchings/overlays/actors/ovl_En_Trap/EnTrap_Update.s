@@ -964,7 +964,7 @@ glabel EnTrap_Update
 /* 0112C 80B2578C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01130 80B25790 00812821 */  addu    $a1, $a0, $at              
 /* 01134 80B25794 AFA5004C */  sw      $a1, 0x004C($sp)           
-/* 01138 80B25798 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01138 80B25798 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0113C 80B2579C 8FA60048 */  lw      $a2, 0x0048($sp)           
 /* 01140 80B257A0 920D0114 */  lbu     $t5, 0x0114($s0)           ## 00000114

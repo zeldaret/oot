@@ -44,7 +44,7 @@ glabel func_80A90264
 /* 002D4 80A902E4 AC880134 */  sw      $t0, 0x0134($a0)           ## 00000134
 /* 002D8 80A902E8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 002DC 80A902EC 260501AC */  addiu   $a1, $s0, 0x01AC           ## $a1 = 000001AC
-/* 002E0 80A902F0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 002E0 80A902F0 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 002E4 80A902F4 AFA50030 */  sw      $a1, 0x0030($sp)
 /* 002E8 80A902F8 3C0780A9 */  lui     $a3, %hi(D_80A909A0)       ## $a3 = 80A90000
@@ -139,7 +139,7 @@ glabel func_80A90264
 /* 0042C 80A9043C AE180134 */  sw      $t8, 0x0134($s0)           ## 00000134
 /* 00430 80A90440 260501AC */  addiu   $a1, $s0, 0x01AC           ## $a1 = 000001AC
 /* 00434 80A90444 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00438 80A90448 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00438 80A90448 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 0043C 80A9044C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00440 80A90450 3C0780A9 */  lui     $a3, %hi(D_80A909A0)       ## $a3 = 80A90000

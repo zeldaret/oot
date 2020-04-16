@@ -28,7 +28,7 @@ glabel EnKz_Init
 /* 00A20 80A9CF70 00000000 */  nop
 /* 00A24 80A9CF74 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00A28 80A9CF78 AFA50040 */  sw      $a1, 0x0040($sp)
-/* 00A2C 80A9CF7C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00A2C 80A9CF7C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 00A30 80A9CF80 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00A34 80A9CF84 3C0780AA */  lui     $a3, %hi(D_80A9D8C0)       ## $a3 = 80AA0000

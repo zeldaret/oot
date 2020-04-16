@@ -67,7 +67,7 @@ glabel EnPoSisters_Init
 /* 000F0 80AD9080 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000F4 80AD9084 260502AC */  addiu   $a1, $s0, 0x02AC           ## $a1 = 000002AC
 /* 000F8 80AD9088 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 000FC 80AD908C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000FC 80AD908C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00100 80AD9090 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00104 80AD9094 3C0780AE */  lui     $a3, %hi(D_80ADD730)       ## $a3 = 80AE0000

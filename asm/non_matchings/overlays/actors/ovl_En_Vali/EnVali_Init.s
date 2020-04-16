@@ -54,7 +54,7 @@ glabel EnVali_Init
 /* 000C4 80B26774 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000C8 80B26778 260503FC */  addiu   $a1, $s0, 0x03FC           ## $a1 = 000003FC
 /* 000CC 80B2677C AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 000D0 80B26780 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000D0 80B26780 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 000D4 80B26784 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 000D8 80B26788 3C0780B3 */  lui     $a3, %hi(D_80B288F0)       ## $a3 = 80B30000

@@ -126,7 +126,7 @@ glabel BossSst_Update
 /* 07C0C 809341DC 13200004 */  beq     $t9, $zero, .L809341F0     
 /* 07C10 809341E0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 07C14 809341E4 02212821 */  addu    $a1, $s1, $at              
-/* 07C18 809341E8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 07C18 809341E8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 07C1C 809341EC 260603D4 */  addiu   $a2, $s0, 0x03D4           ## $a2 = 000003D4
 .L809341F0:

@@ -31,7 +31,7 @@ glabel EnWeiyer_Init
 /* 00068 80B322F8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0006C 80B322FC 26050284 */  addiu   $a1, $s0, 0x0284           ## $a1 = 00000284
 /* 00070 80B32300 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00074 80B32304 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00074 80B32304 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00078 80B32308 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 0007C 80B3230C 3C0780B3 */  lui     $a3, %hi(D_80B33A90)       ## $a3 = 80B30000

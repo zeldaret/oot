@@ -149,13 +149,13 @@ glabel EnRr_Update
 /* 01B18 80AE9F58 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01B1C 80AE9F5C 57200004 */  bnel    $t9, $zero, .L80AE9F70     
 /* 01B20 80AE9F60 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 01B24 80AE9F64 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01B24 80AE9F64 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01B28 80AE9F68 02603025 */  or      $a2, $s3, $zero            ## $a2 = 00000150
 /* 01B2C 80AE9F6C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 .L80AE9F70:
 /* 01B30 80AE9F70 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 01B34 80AE9F74 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01B34 80AE9F74 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01B38 80AE9F78 02403025 */  or      $a2, $s2, $zero            ## $a2 = 0000019C
 /* 01B3C 80AE9F7C 1000000E */  beq     $zero, $zero, .L80AE9FB8   

@@ -108,7 +108,7 @@ glabel EnJj_Init
 /* 0018C 80A8798C AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 00190 80A87990 260502B0 */  addiu   $a1, $s0, 0x02B0           ## $a1 = 000002B0
 /* 00194 80A87994 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 00198 80A87998 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00198 80A87998 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 0019C 80A8799C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001A0 80A879A0 3C0780A9 */  lui     $a3, %hi(D_80A88CB4)       ## $a3 = 80A90000

@@ -35,7 +35,7 @@ glabel EnCs_Init
 /* 00198 809E1A48 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0019C 809E1A4C 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 001A0 809E1A50 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 001A4 809E1A54 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001A4 809E1A54 0C0170D9 */  jal     CollisionCheck_AllocCylinder
 
 /* 001A8 809E1A58 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 001AC 809E1A5C 3C07809E */  lui     $a3, %hi(D_809E28C0)       ## $a3 = 809E0000

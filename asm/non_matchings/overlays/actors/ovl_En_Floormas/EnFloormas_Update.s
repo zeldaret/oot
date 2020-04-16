@@ -143,7 +143,7 @@ glabel EnFloormas_Update
 /* 02B9C 80A1A0AC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02BA0 80A1A0B0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02BA4 80A1A0B4 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 02BA8 80A1A0B8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02BA8 80A1A0B8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02BAC 80A1A0BC 00812821 */  addu    $a1, $a0, $at              
 .L80A1A0C0:

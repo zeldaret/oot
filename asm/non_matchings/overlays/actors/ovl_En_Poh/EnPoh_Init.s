@@ -50,7 +50,7 @@ glabel EnPoh_Init
 /* 000B8 80ADDE08 440D9000 */  mfc1    $t5, $f18                  
 /* 000BC 80ADDE0C 00000000 */  nop
 /* 000C0 80ADDE10 A5CD0034 */  sh      $t5, 0x0034($t6)           ## 00000034
-/* 000C4 80ADDE14 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000C4 80ADDE14 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 000C8 80ADDE18 AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 000CC 80ADDE1C 3C0780AE */  lui     $a3, %hi(D_80AE1A74)       ## $a3 = 80AE0000

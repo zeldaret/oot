@@ -58,7 +58,7 @@ glabel EnGeldB_Update
 /* 04254 80A39564 02212821 */  addu    $a1, $s1, $at              
 /* 04258 80A39568 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 0425C 80A3956C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 04260 80A39570 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 04260 80A39570 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 04264 80A39574 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 04268 80A39578 8E0202EC */  lw      $v0, 0x02EC($s0)           ## 000002EC

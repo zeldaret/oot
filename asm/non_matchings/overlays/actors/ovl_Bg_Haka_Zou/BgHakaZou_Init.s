@@ -122,7 +122,7 @@ glabel BgHakaZou_Init
 /* 00188 80882748 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 .L8088274C:
 /* 0018C 8088274C 2605016C */  addiu   $a1, $s0, 0x016C           ## $a1 = 0000016C
-/* 00190 80882750 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00190 80882750 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 00194 80882754 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 00198 80882758 3C078088 */  lui     $a3, %hi(D_808835F0)       ## $a3 = 80880000

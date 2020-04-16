@@ -104,7 +104,7 @@ glabel L80A4F8F8
 /* 01620 80A4F940 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 01624 80A4F944 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 01628 80A4F948 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0162C 80A4F94C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0162C 80A4F94C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01630 80A4F950 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 01634 80A4F954 8E190198 */  lw      $t9, 0x0198($s0)           ## 00000198

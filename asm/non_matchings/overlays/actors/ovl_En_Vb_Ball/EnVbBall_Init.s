@@ -61,7 +61,7 @@ glabel EnVbBall_Init
 /* 00094 80B29034 10000035 */  beq     $zero, $zero, .L80B2910C   
 /* 00098 80B29038 E608006C */  swc1    $f8, 0x006C($s0)           ## 0000006C
 .L80B2903C:
-/* 0009C 80B2903C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0009C 80B2903C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
               
 /* 000A0 80B29040 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 000A4 80B29044 3C0780B3 */  lui     $a3, %hi(D_80B2A000)       ## $a3 = 80B30000
