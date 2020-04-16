@@ -40,7 +40,7 @@ glabel func_8006EA30
 /* AE5C4C 8006EAAC 8FBF0024 */   lw    $ra, 0x24($sp)
 /* AE5C50 8006EAB0 AFA30028 */  sw    $v1, 0x28($sp)
 /* AE5C54 8006EAB4 AFA40038 */  sw    $a0, 0x38($sp)
-/* AE5C58 8006EAB8 0C02FF21 */  jal   func_800BFC84
+/* AE5C58 8006EAB8 0C02FF21 */  jal   Gameplay_InCsMode
 /* AE5C5C 8006EABC AFA8002C */   sw    $t0, 0x2c($sp)
 /* AE5C60 8006EAC0 3C068016 */  lui   $a2, %hi(gSaveContext) # $a2, 0x8016
 /* AE5C64 8006EAC4 24C6E660 */  addiu $a2, %lo(gSaveContext) # addiu $a2, $a2, -0x19a0

@@ -393,7 +393,7 @@ void Health_HandleCriticalAlarm(GlobalContext* globalCtx) {
             interfaceCtx->unk_22A = 0;
             interfaceCtx->unk_22C = 0;
             if (!func_8008E988(globalCtx) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
-                Health_IsCritical() && !func_800BFC84(globalCtx)) {
+                Health_IsCritical() && !Gameplay_InCsMode(globalCtx)) {
                 func_80078884(NA_SE_SY_HITPOINT_ALARM);
             }
         }

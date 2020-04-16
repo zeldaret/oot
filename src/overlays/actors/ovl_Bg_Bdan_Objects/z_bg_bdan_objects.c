@@ -185,7 +185,7 @@ void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (!func_800BFC84(globalCtx) && !BgBdanObjects_GetContactRu1(this, 0)) {
+    if (!Gameplay_InCsMode(globalCtx) && !BgBdanObjects_GetContactRu1(this, 0)) {
         this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + -79.0f;
     } else {
         this->dyna.actor.posRot.pos.y = (this->dyna.actor.initPosRot.pos.y + -79.0f) - 5.0f;

@@ -363,7 +363,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     func_800B3908();
     func_800B3538(&globalCtx->sub_1241C);
     func_800B37EC(&globalCtx->sub_1241C, 3);
-    func_800B37E4(&globalCtx->sub_1241C, 0xA0A0A0FF);
+    func_800B37E4(&globalCtx->sub_1241C, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
     func_800B34E0(&globalCtx->sub_1241C);
     func_800AD000(&D_80161498);
     D_801614B0.a = 0x00;
@@ -537,24 +537,24 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     if ((globalCtx->transitionCtx.unk_228 == 3) || (globalCtx->transitionCtx.unk_228 == 5) ||
                         (globalCtx->transitionCtx.unk_228 == 7) || (globalCtx->transitionCtx.unk_228 == 13) ||
                         (globalCtx->transitionCtx.unk_228 == 17)) {
-                        globalCtx->transitionCtx.unk_244(&globalCtx->transitionCtx, 0xA0A0A0FF);
-                        if (globalCtx->transitionCtx.unk_248 != 0) {
-                            globalCtx->transitionCtx.unk_248(&globalCtx->transitionCtx, 0xA0A0A0FF);
+                        globalCtx->transitionCtx.unk_244(&globalCtx->transitionCtx, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
+                        if (globalCtx->transitionCtx.unk_248 != NULL) {
+                            globalCtx->transitionCtx.unk_248(&globalCtx->transitionCtx, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
                         }
                     } else if (globalCtx->transitionCtx.unk_228 == 18) {
-                        globalCtx->transitionCtx.unk_244(&globalCtx->transitionCtx, 0x8C8C64FF);
-                        if (globalCtx->transitionCtx.unk_248 != 0) {
-                            globalCtx->transitionCtx.unk_248(&globalCtx->transitionCtx, 0x8C8C64FF);
+                        globalCtx->transitionCtx.unk_244(&globalCtx->transitionCtx, RGBA8(0x8C, 0x8C, 0x64, 0xFF));
+                        if (globalCtx->transitionCtx.unk_248 != NULL) {
+                            globalCtx->transitionCtx.unk_248(&globalCtx->transitionCtx, RGBA8(0x8C, 0x8C, 0x64, 0xFF));
                         }
                     } else if (globalCtx->transitionCtx.unk_228 == 19) {
-                        globalCtx->transitionCtx.unk_244(&globalCtx->transitionCtx, 0x46646EFF);
-                        if (globalCtx->transitionCtx.unk_248 != 0) {
-                            globalCtx->transitionCtx.unk_248(&globalCtx->transitionCtx, 0x46646EFF);
+                        globalCtx->transitionCtx.unk_244(&globalCtx->transitionCtx, RGBA8(0x46, 0x64, 0x6E, 0xFF));
+                        if (globalCtx->transitionCtx.unk_248 != NULL) {
+                            globalCtx->transitionCtx.unk_248(&globalCtx->transitionCtx, RGBA8(0x46, 0x64, 0x6E, 0xFF));
                         }
                     } else {
-                        globalCtx->transitionCtx.unk_244(&globalCtx->transitionCtx, 0);
-                        if (globalCtx->transitionCtx.unk_248 != 0) {
-                            globalCtx->transitionCtx.unk_248(&globalCtx->transitionCtx, 0);
+                        globalCtx->transitionCtx.unk_244(&globalCtx->transitionCtx, RGBA8(0x00, 0x00, 0x00, 0x00));
+                        if (globalCtx->transitionCtx.unk_248 != NULL) {
+                            globalCtx->transitionCtx.unk_248(&globalCtx->transitionCtx, RGBA8(0x00, 0x00, 0x00, 0x00));
                         }
                     }
 
@@ -769,13 +769,13 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
         }
 
-        if (1 && HREG(63) != 0) {
+        if (1 && HREG(63)) {
             LOG_NUM("1", 1, "../z_play.c", 3533);
         }
 
         temp = HREG(63);
-        if (1 && D_80161490 != 3) {
-            if (1 && temp != 0) {
+        if (1 && (D_80161490 != 3)) {
+            if (1 && temp) {
                 LOG_NUM("1", 1, "../z_play.c", 3542);
             }
 
@@ -783,30 +783,30 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 func_8006EA30(globalCtx);
             }
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3551);
             }
 
             sp80 = (globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0);
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3555);
             }
 
             SkelAnime_AnimationCtxReset(&globalCtx->animationCtx);
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3561);
             }
 
             Object_UpdateBank(&globalCtx->objectCtx);
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3577);
             }
 
             if ((sp80 == 0) && (IREG(72) == 0)) {
-                if (1 && HREG(63) != 0) {
+                if (1 && HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3580);
                 }
 
@@ -824,37 +824,37 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         globalCtx->envCtx.unk_E1 = 0;
                     }
                 } else {
-                    if (1 && HREG(63) != 0) {
+                    if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3606);
                     }
 
                     func_800973FC(globalCtx, &globalCtx->roomCtx);
 
-                    if (1 && HREG(63) != 0) {
+                    if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3612);
                     }
 
                     func_8006139C(globalCtx, &globalCtx->sub_11E60);
 
-                    if (1 && HREG(63) != 0) {
+                    if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3618);
                     }
 
                     func_80061C98(globalCtx, &globalCtx->sub_11E60);
 
-                    if (1 && HREG(63) != 0) {
+                    if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3624);
                     }
 
                     func_800622E4(globalCtx, &globalCtx->sub_11E60);
 
-                    if (1 && HREG(63) != 0) {
+                    if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3631);
                     }
 
                     func_8005D40C(globalCtx, &globalCtx->sub_11E60);
 
-                    if (1 && HREG(63) != 0) {
+                    if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3637);
                     }
 
@@ -862,31 +862,31 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         Actor_UpdateAll(globalCtx, &globalCtx->actorCtx);
                     }
 
-                    if (1 && HREG(63) != 0) {
+                    if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3643);
                     }
 
                     func_80064558(globalCtx, &globalCtx->csCtx);
 
-                    if (1 && HREG(63) != 0) {
+                    if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3648);
                     }
 
                     func_800645A0(globalCtx, &globalCtx->csCtx);
 
-                    if (1 && HREG(63) != 0) {
+                    if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3651);
                     }
 
                     func_80026F70(globalCtx);
 
-                    if (1 && HREG(63) != 0) {
+                    if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3657);
                     }
 
                     Effect_SS_UpdateAllParticles(globalCtx);
 
-                    if (1 && HREG(63) != 0) {
+                    if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3662);
                     }
                 }
@@ -894,29 +894,29 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 func_800AA178(0);
             }
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3672);
             }
 
             func_80095AA0(globalCtx, &globalCtx->roomCtx.curRoom, &input[1], 0);
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3675);
             }
 
             func_80095AA0(globalCtx, &globalCtx->roomCtx.prevRoom, &input[1], 1);
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3677);
             }
 
             if (globalCtx->unk_1242B != 0) {
                 if (!~(input[0].press.in.button | ~8)) {
                     if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
-                        // Translates to: "Changing viewpoint is prohibited during kaleidoscope"
+                        // Translates to: "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
-                    } else if (func_8008E988(globalCtx) != 0) {
-                        // Translates to: "Changing viewpoint is prohibited during the demo"
+                    } else if (func_8008E988(globalCtx)) {
+                        // Translates to: "Changing viewpoint is prohibited during the cutscene"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (YREG(15) == 0x10) {
                         Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -927,65 +927,65 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 func_800BC450(globalCtx);
             }
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3708);
             }
 
             func_800B1744(&globalCtx->skyboxCtx);
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3716);
             }
 
             if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
-                if (1 && HREG(63) != 0) {
+                if (1 && HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3721);
                 }
 
                 KaleidoScopeCall_Update(globalCtx);
             } else if (globalCtx->unk_10A20 != 0) {
-                if (1 && HREG(63) != 0) {
+                if (1 && HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3727);
                 }
 
                 func_801104C8(globalCtx);
             } else {
-                if (1 && HREG(63) != 0) {
+                if (1 && HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3733);
                 }
 
                 func_8010F6F0(globalCtx);
             }
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3737);
             }
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3742);
             }
 
             Interface_Update(globalCtx);
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3765);
             }
 
             func_800A390C(globalCtx, &globalCtx->animationCtx);
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3771);
             }
 
             func_8006BA30(globalCtx);
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3777);
             }
 
             func_800B39B8(R_UPDATE_RATE);
 
-            if (1 && HREG(63) != 0) {
+            if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3783);
             }
 
@@ -993,11 +993,11 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         }
     }
 
-    if (1 && HREG(63) != 0) {
+    if (1 && HREG(63)) {
         LOG_NUM("1", 1, "../z_play.c", 3799);
     }
 
-    if (1 && HREG(63) != 0) {
+    if (1 && HREG(63)) {
         LOG_NUM("1", 1, "../z_play.c", 3801);
     }
 
@@ -1008,13 +1008,13 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
         globalCtx->nextCamera = globalCtx->activeCamera;
 
-        if (1 && HREG(63) != 0) {
+        if (1 && HREG(63)) {
             LOG_NUM("1", 1, "../z_play.c", 3806);
         }
 
         for (i = 0, camIdx = globalCtx->nextCamera; i < 4; i++) {
             if ((i != camIdx) && (globalCtx->cameraPtrs[i] != NULL)) {
-                if (1 && HREG(63) != 0) {
+                if (1 && HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3809);
                 }
 
@@ -1025,12 +1025,12 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
         func_800591EC(&sp48, globalCtx->cameraPtrs[camIdx]);
 
-        if (1 && HREG(63) != 0) {
+        if (1 && HREG(63)) {
             LOG_NUM("1", 1, "../z_play.c", 3814);
         }
     }
 
-    if (1 && HREG(63) != 0) {
+    if (1 && HREG(63)) {
         LOG_NUM("1", 1, "../z_play.c", 3816);
     }
 
@@ -1330,7 +1330,7 @@ void Gameplay_Main(GlobalContext* globalCtx) {
 
     DebugDisplay_Init();
 
-    if (1 && HREG(63) != 0) {
+    if (1 && HREG(63)) {
         LOG_NUM("1", 1, "../z_play.c", 4556);
     }
 
@@ -1355,19 +1355,19 @@ void Gameplay_Main(GlobalContext* globalCtx) {
         Gameplay_Update(globalCtx);
     }
 
-    if (1 && HREG(63) != 0) {
+    if (1 && HREG(63)) {
         LOG_NUM("1", 1, "../z_play.c", 4583)
     }
 
     Gameplay_Draw(globalCtx);
 
-    if (1 && HREG(63) != 0) {
+    if (1 && HREG(63)) {
         LOG_NUM("1", 1, "../z_play.c", 4587);
     }
 }
 
 // original name: "Game_play_demo_mode_check"
-s32 func_800BFC84(GlobalContext* globalCtx) {
+s32 Gameplay_InCsMode(GlobalContext* globalCtx) {
     return (globalCtx->csCtx.state != 0) || func_8008E988(globalCtx);
 }
 
@@ -1386,11 +1386,11 @@ f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
     sp40 = func_8003CB30(globalCtx, &globalCtx->colCtx, &sp50, mf);
 
     if (sp40 > -32000.0f) {
-        sp3C = sp50.rot.x * 0.00003051851f;
-        sp38 = sp50.rot.y * 0.00003051851f;
-        sp34 = sp50.rot.z * 0.00003051851f;
+        sp3C = sp50.rot.x * (1.0f / 32767.0f);
+        sp38 = sp50.rot.y * (1.0f / 32767.0f);
+        sp34 = sp50.rot.z * (1.0f / 32767.0f);
 
-        temp_f0 = sqrtf(1.0f - (sp3C * sp3C));
+        temp_f0 = sqrtf(1.0f - SQ(sp3C));
 
         if (temp_f0 != 0.0f) {
             phi_f12 = sp38 * temp_f0;

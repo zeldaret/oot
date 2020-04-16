@@ -130,7 +130,7 @@ void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
             globalCtx->nextEntranceIndex = entrances[destinationIdx];
             DoorAna_SetupAction(this, (ActorFunc)&DoorAna_Update_Entering);
         } else {
-            if (func_8008E988(globalCtx) == 0 && !(player->stateFlags1 & 0x8800000) &&
+            if (!func_8008E988(globalCtx) && !(player->stateFlags1 & 0x8800000) &&
                 this->actor.xzDistanceFromLink <= 15.0f && -50.0f <= this->actor.yDistanceFromLink &&
                 this->actor.yDistanceFromLink <= 15.0f) {
                 player->stateFlags1 |= 0x80000000;

@@ -2497,7 +2497,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
         case 7:
             if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
                 (globalCtx->msgCtx.msgMode == 0) && (globalCtx->unk_10A20 == 0) && (globalCtx->sceneLoadFlag == 0) &&
-                (globalCtx->unk_1241B == 0) && !func_800BFC84(globalCtx)) {
+                (globalCtx->unk_1241B == 0) && !Gameplay_InCsMode(globalCtx)) {
                 if ((gSaveContext.magic == 0) || ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) ||
                     ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
@@ -3574,7 +3574,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (globalCtx->unk_10A20 == 0) &&
             (msgCtx->msgMode == 0) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
-            (globalCtx->unk_1241B == 0) && !func_800BFC84(globalCtx) && (gSaveContext.minigameState != 1) &&
+            (globalCtx->unk_1241B == 0) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
             (globalCtx->unk_11E5C < 2) &&
             !((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
             sp274 = 0;
@@ -4136,7 +4136,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     if ((gSaveContext.timer1State >= 3) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
         (msgCtx->msgMode == 0) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
-        (globalCtx->unk_1241B == 0) && !func_800BFC84(globalCtx)) {}
+        (globalCtx->unk_1241B == 0) && !Gameplay_InCsMode(globalCtx)) {}
 
     if (gSaveContext.rupeeAccumulator != 0) {
         if (gSaveContext.rupeeAccumulator > 0) {
@@ -4217,7 +4217,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == 0) &&
         (globalCtx->sceneLoadFlag == 0) && (globalCtx->unk_10A20 == 0) && (globalCtx->unk_1241B == 0) &&
-        ((globalCtx->csCtx.state == 0) || (func_8008E988(globalCtx) == 0))) {
+        ((globalCtx->csCtx.state == 0) || !func_8008E988(globalCtx))) {
         if ((gSaveContext.magicAcquired != 0) && (gSaveContext.magicLevel == 0)) {
             gSaveContext.magicLevel = gSaveContext.doubleMagic + 1;
             gSaveContext.unk_13F0 = 8;

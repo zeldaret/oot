@@ -1424,7 +1424,7 @@ Gfx* func_800BC8A0(GlobalContext* globalCtx, Gfx* gfx);
 void Gameplay_Destroy(GlobalContext* globalCtx);
 void Gameplay_Init(GlobalContext* globalCtx);
 void Gameplay_Main(GlobalContext* globalCtx);
-s32 func_800BFC84(GlobalContext* globalCtx);
+s32 Gameplay_InCsMode(GlobalContext* globalCtx);
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec);
 void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file);
 void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn);

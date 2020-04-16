@@ -9,7 +9,7 @@ glabel func_80AEC780
 /* 01B8C 80AEC79C 1040001B */  beq     $v0, $zero, .L80AEC80C     
 /* 01B90 80AEC7A0 8FA30018 */  lw      $v1, 0x0018($sp)           
 /* 01B94 80AEC7A4 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 01B98 80AEC7A8 0C02FF21 */  jal     func_800BFC84              
+/* 01B98 80AEC7A8 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 01B9C 80AEC7AC AFA30018 */  sw      $v1, 0x0018($sp)           
 /* 01BA0 80AEC7B0 14400016 */  bne     $v0, $zero, .L80AEC80C     
 /* 01BA4 80AEC7B4 8FA30018 */  lw      $v1, 0x0018($sp)           

@@ -141,9 +141,9 @@ typedef struct {
     /* 0x0E8C */ char         unk_E8C[0x0010];
     /* 0x0E9C */ u8           gsFlags[24];
     /* 0x0EB4 */ char         unk_EB4[0x0020];
-    /* 0x0ED4 */ u16          eventChkInf[14];
-    /* 0x0EF0 */ u16          itemGetInf[4];
-    /* 0x0EF8 */ u16          infTable[30];
+    /* 0x0ED4 */ u16          eventChkInf[14]; // "event_chk_inf"
+    /* 0x0EF0 */ u16          itemGetInf[4]; // "item_get_inf"
+    /* 0x0EF8 */ u16          infTable[30]; // "inf_table"
     /* 0x0F34 */ char         unk_F34[0x0004];
     /* 0x0F38 */ u32          worldMapAreaData; // "area_arrival"
     /* 0x0F3C */ char         unk_F3C[0x040C];
@@ -182,7 +182,7 @@ typedef struct {
     /* 0x13F4 */ s16          unk_13F4;
     /* 0x13F6 */ s16          unk_13F6;
     /* 0x13F8 */ s16          unk_13F8;
-    /* 0x13FA */ u16          eventInf[4];
+    /* 0x13FA */ u16          eventInf[4]; // "event_inf"
     /* 0x1402 */ u16          dungeonIndex;
     /* 0x1404 */ u16          minigameState;
     /* 0x1406 */ u16          minigameScore; // "yabusame_total"

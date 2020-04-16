@@ -33,7 +33,7 @@ glabel func_80B3CD98
 /* 00C10 80B3CDF0 00000000 */  nop
 /* 00C14 80B3CDF4 05800017 */  bltz    $t4, .L80B3CE54            
 /* 00C18 80B3CDF8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00C1C 80B3CDFC 0C02FF21 */  jal     func_800BFC84              
+/* 00C1C 80B3CDFC 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 00C20 80B3CE00 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00C24 80B3CE04 14400013 */  bne     $v0, $zero, .L80B3CE54     
 /* 00C28 80B3CE08 8FA4001C */  lw      $a0, 0x001C($sp)           

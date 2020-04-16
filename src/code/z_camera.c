@@ -738,7 +738,7 @@ s16 func_80046CB4(Camera* camera, s16 b, s16 c, f32 d, f32 e) {
     if (camera->unk_D8 > 0.001f) {
         temp = b - 0x7fff; // this is probably some kind of cast that I'm too stupid to know
         sp1C = c - temp;
-        phi_f14 = (s16)(sp1C - 0x7fff) * 0.00003051851f;
+        phi_f14 = (s16)(sp1C - 0x7fff) * (1.0f / 32767.0f);
     } else {
         temp = b - 0x7fff;
         sp1C = c - temp;
