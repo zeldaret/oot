@@ -55,16 +55,21 @@ const ActorInit En_Horse_Ganon_InitVars = {
 
 // static u32 D_80A69230[] = { 0x0A000939, 0x12000000, 0x00000001 };
 
-// static SubActor98Init subActor98Init = { 0x0A000023, 0x0064FE00 };
+// static Sub98Init4 subActor98Init = { 0x0A000023, 0x0064FE00 };
 
-extern UNK_PTR D_80A691C0;
-extern UNK_PTR D_80A691B0;
-extern UNK_PTR D_06018668;
+extern ColliderCylinderInit D_80A691E0;
+extern CollisionCheckInfo D_80A69240;
+extern InitChainEntry D_80A692C0;
+extern AnimationHeader* D_80A691C0;
+extern AnimationHeader* D_80A691B0;
+extern u32* D_80A69230;
+extern UNK_PTR D_06008668;
 extern UNK_PTR D_06004AA4;
 extern s32 D_80A692B8;
 extern void (*D_80A692C4[3])();
 extern s8* D_80A69248;
 extern u8 D_80A6924E; // this should be a pointer but that changes how the address is loaded
+extern f32* D_80A691C8;
 
 // the rest are padding
 const f32 D_80A692D0[] = { 10430.3779297f, 0.0f, 0.0f, 0.0f };
@@ -140,33 +145,32 @@ void func_80A686A8(EnHorseGanon *this, GlobalContext* globalCtx) {
     }
 }*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/EnHorseGanon_Init.s")
-// void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx)
-// {
-//     ColliderCylinderMain* collider = &this->collider;
+void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx)
+{
+    Collider* collider = &this->collider;
 
-//     Actor_ProcessInitChain(&this->actor, initChain);
-//     Actor_SetScale(&this->actor, 0.0115f);
+    Actor_ProcessInitChain(&this->actor, &D_80A692C0);
+    Actor_SetScale(&this->actor, 0.0115f);
 
-//     this->actor.gravity = -3.5f;
+    this->actor.gravity = -3.5f;
 
-//     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 20.0f);
-//     this->actor.speedXZ = 0.0f;
-//     this->actor.posRot2.pos = this->actor.posRot.pos;
-//     this->unk_14C = 0;
-//     this->actor.posRot2.pos.y += 70.0f;
-//     func_800A663C(globalCtx, &this->unk_154, &D_06018668, &D_06004AA4);
-//     this->unk_150 = 0;
-//     func_800A51E8(&this->skelAnime, D_80A691B0);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Squiggly, 20.0f);
+    this->actor.speedXZ = 0.0f;
+    this->actor.posRot2.pos = this->actor.posRot.pos;
+    this->unk_14C = 0;
+    this->actor.posRot2.pos.y += 70.0f;
+    func_800A663C(globalCtx, &this->unk_154, &D_06008668, &D_06004AA4);
+    this->animationIndex = 0;
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, D_80A691B0);
 
-//     ActorCollider_AllocCylinder(globalCtx, collider);
-//     ActorCollider_InitCylinder(globalCtx, collider, &this->actor, &colliderInit);
-//     func_8005BBF8(globalCtx, &this->unk_248);
-//     func_8005C050(globalCtx, &this->unk_248, this, &D_80A69230, &this->unk_268);
+    Collider_InitCylinder(globalCtx, collider);
+    Collider_SetCylinder(globalCtx, collider, &this->actor, &D_80A691E0);
+    Collider_InitJntSph(globalCtx, &this->unk_248);
+    Collider_SetJntSph(globalCtx, &this->unk_248, this, &D_80A69230, &this->unk_268);
 
-//     func_80061ED4(&this->actor.sub_98, 0, &subActor98Init);
-//     func_80A68AC4(this);
-// }
+    func_80061ED4(&this->actor.colChkInfo, 0, &D_80A69240);
+    func_80A68AC4(this);
+}
 
 void EnHorseGanon_Destroy(EnHorseGanon* this, GlobalContext* globalCtx)
 {
@@ -188,10 +192,58 @@ void func_80A68AF0(EnHorseGanon* this, s32 unused)
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68B20.s")
+// void func_80A68B20(EnHorseGanon *this) {
+//     s32 changeAnimation;
+//     f32 sp30;
+//     s32 sp34;
+//     EnHorseGanon *new_var;
+
+//     this->unk_14C = 1;
+//     if (this->actor.speedXZ <= 3.0f) {
+//         changeAnimation = 0;
+//         if (this->animationIndex != 2) {
+//             changeAnimation = 1;
+//         }
+//         this->animationIndex = 2;
+//     } else if (this->actor.speedXZ <= 6.0f) {
+//         changeAnimation = 0;
+//         if (this->animationIndex != 3) {
+//             changeAnimation = 1;
+//         }
+//         this->animationIndex = 3;
+//     } else {
+//         changeAnimation = 0;
+//         if (this->animationIndex != 4) {
+//             changeAnimation = 1;
+//         }
+//         this->animationIndex = 4;
+//     }
+
+//     if (this->animationIndex == 2) {
+//         sp30 = this->actor.speedXZ / 3.0f;
+//     } else if (this->animationIndex == 3) {
+//         sp34 = changeAnimation;
+//         sp30 = this->actor.speedXZ / 5.0f;
+//         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.unk_E4, 4, &D_801333E8, &D_801333E8, &D_801333E8);
+//     } else if (this->animationIndex == 4) {
+//         sp34 = changeAnimation;
+//         sp30 = this->actor.speedXZ / 7.0f;
+//         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.unk_E4, 4, &D_801333E8, &D_801333E8, &D_801333E8);
+//     } else {
+//         sp30 = 1.0f;
+//     }
+
+//     new_var = this;
+//     if (changeAnimation == 1) {
+//         SkelAnime_ChangeAnim(&this->skelAnime, &D_80A691B0[new_var->animationIndex], D_80A691C8[this->animationIndex] * 1.5f, 0, (f32) SkelAnime_GetFrameCount(&D_80A691B0[this->animationIndex]), 2, -3.0f);
+//         return;
+//     }
+//     SkelAnime_ChangeAnim(&this->skelAnime, &D_80A691B0[new_var->animationIndex], D_80A691C8[this->animationIndex] * sp30 * 1.5f, 0.0f, (f32) SkelAnime_GetFrameCount(&D_80A691B0[this->animationIndex]), 2, 0.0f);
+// }
 
 void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx)
 {
-    if (this->unk_150 == 2)
+    if (this->animationIndex == 2)
     {
         func_80A68870(this);
     }
@@ -226,8 +278,8 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx)
 // void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx)
 // // simply needs to store a0 in s0 a few instructions earlier
 // {
-//     u32 junk1;
-//     u32 junk2;
+//     u32 padding1;
+//     u32 padding2;
 
 //     D_80A692C4[this->unk_14C]();
 //     Actor_MoveForward(&this->actor);
@@ -266,7 +318,7 @@ void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, unk_struct_800A
             loops += 1;
         } while (loops < this->unk_260);
     }
-    CollisionCheck_SetOC(globalCtx, &globalCtx->sub_11E60, &this->unk_248);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_248);
 }
 
 void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx)
