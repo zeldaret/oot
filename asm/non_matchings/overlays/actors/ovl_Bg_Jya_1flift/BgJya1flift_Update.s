@@ -58,7 +58,7 @@ glabel BgJya1flift_Update
 /* 004F8 80893058 26060164 */  addiu   $a2, $s0, 0x0164           ## $a2 = 00000164
 /* 004FC 8089305C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000164
 /* 00500 80893060 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 00504 80893064 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00504 80893064 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00508 80893068 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0050C 8089306C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

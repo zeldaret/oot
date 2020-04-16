@@ -5,7 +5,7 @@ glabel EnBombf_Destroy
 /* 001EC 809C714C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 001F0 809C7150 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 001F4 809C7154 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 001F8 809C7158 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001F8 809C7158 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 001FC 809C715C 24A5014C */  addiu   $a1, $a1, 0x014C           ## $a1 = 0000014C
 /* 00200 809C7160 8FA50018 */  lw      $a1, 0x0018($sp)           

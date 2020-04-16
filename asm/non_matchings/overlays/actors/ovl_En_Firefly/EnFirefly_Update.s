@@ -110,7 +110,7 @@ glabel EnFirefly_Update
 /* 017D4 80A14844 57220004 */  bnel    $t9, $v0, .L80A14858       
 /* 017D8 80A14848 8FA40044 */  lw      $a0, 0x0044($sp)           
 .L80A1484C:
-/* 017DC 80A1484C 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 017DC 80A1484C 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 017E0 80A14850 26060314 */  addiu   $a2, $s0, 0x0314           ## $a2 = 00000314
 /* 017E4 80A14854 8FA40044 */  lw      $a0, 0x0044($sp)           
@@ -125,7 +125,7 @@ glabel EnFirefly_Update
 /* 01804 80A14874 01202825 */  or      $a1, $t1, $zero            ## $a1 = 00000000
 /* 01808 80A14878 5160000D */  beql    $t3, $zero, .L80A148B0     
 /* 0180C 80A1487C 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 01810 80A14880 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01810 80A14880 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01814 80A14884 01403025 */  or      $a2, $t2, $zero            ## $a2 = 00000314
 /* 01818 80A14888 860C00B6 */  lh      $t4, 0x00B6($s0)           ## 000000B6

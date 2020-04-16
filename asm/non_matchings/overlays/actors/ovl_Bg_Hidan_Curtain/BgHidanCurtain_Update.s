@@ -139,7 +139,7 @@ glabel BgHidanCurtain_Update
 /* 007B4 80885954 00000000 */  nop
 /* 007B8 80885958 A608019A */  sh      $t0, 0x019A($s0)           ## 0000019A
 /* 007BC 8088595C AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 007C0 80885960 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 007C0 80885960 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 007C4 80885964 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 007C8 80885968 8FA5002C */  lw      $a1, 0x002C($sp)           

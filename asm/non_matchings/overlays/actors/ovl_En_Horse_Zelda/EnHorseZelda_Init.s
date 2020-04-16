@@ -52,7 +52,7 @@ glabel EnHorseZelda_Init
 /* 002CC 80A6DB9C 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 002D0 80A6DBA0 260501FC */  addiu   $a1, $s0, 0x01FC           ## $a1 = 000001FC
 /* 002D4 80A6DBA4 AFA50028 */  sw      $a1, 0x0028($sp)
-/* 002D8 80A6DBA8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 002D8 80A6DBA8 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 002DC 80A6DBAC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 002E0 80A6DBB0 3C0780A7 */  lui     $a3, %hi(D_80A6E1D8)       ## $a3 = 80A70000

@@ -40,13 +40,13 @@ void EnMFire1_Init(EnMFire1* this, GlobalContext* globalCtx) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &thisLocal->actor, ACTORTYPE_ITEMACTION);
     }
 
-    CollisionCheck_AllocCylinder(globalCtx, &thisLocal->capsule);
-    ActorCollider_InitCylinder(globalCtx, &thisLocal->capsule, &thisLocal->actor, &cylinderInitData);
+    Collider_AllocCylinder(globalCtx, &thisLocal->capsule);
+    Collider_InitCylinder(globalCtx, &thisLocal->capsule, &thisLocal->actor, &cylinderInitData);
 }
 
 void EnMFire1_Destroy(EnMFire1* this, GlobalContext* globalCtx) {
     ColliderCylinder* capsule = &this->capsule;
-    ActorCollider_FreeCylinder(globalCtx, capsule);
+    Collider_FreeCylinder(globalCtx, capsule);
 }
 
 void EnMFire1_Update(EnMFire1* this, GlobalContext* globalCtx) {
@@ -56,7 +56,7 @@ void EnMFire1_Update(EnMFire1* this, GlobalContext* globalCtx) {
     if (Math_ApproxF(&thisLocal->unk_0198, 1.0, 0.2)) {
         Actor_Kill(&this->actor);
     } else {
-        ActorCollider_Cylinder_Update(&thisLocal->actor, &thisLocal->capsule);
-        Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->collisionCheckCtx, &thisLocal->capsule);
+        Collider_CylinderUpdate(&thisLocal->actor, &thisLocal->capsule);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->collisionCheckCtx, &thisLocal->capsule);
     }
 }

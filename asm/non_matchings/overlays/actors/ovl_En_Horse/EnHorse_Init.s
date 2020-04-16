@@ -225,26 +225,26 @@ glabel EnHorse_Init
 /* 010BC 80A5C3AC 26050278 */  addiu   $a1, $s0, 0x0278           ## $a1 = 00000278
 /* 010C0 80A5C3B0 E6100068 */  swc1    $f16, 0x0068($s0)          ## 00000068
 /* 010C4 80A5C3B4 AFA50040 */  sw      $a1, 0x0040($sp)
-/* 010C8 80A5C3B8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 010C8 80A5C3B8 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 010CC 80A5C3BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 010D0 80A5C3C0 3C0780A6 */  lui     $a3, %hi(D_80A65EAC)       ## $a3 = 80A60000
 /* 010D4 80A5C3C4 8FA50040 */  lw      $a1, 0x0040($sp)
 /* 010D8 80A5C3C8 24E75EAC */  addiu   $a3, $a3, %lo(D_80A65EAC)  ## $a3 = 80A65EAC
 /* 010DC 80A5C3CC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 010E0 80A5C3D0 0C01712B */  jal     ActorCollider_InitCylinder
+/* 010E0 80A5C3D0 0C01712B */  jal     Collider_InitCylinder
 
 /* 010E4 80A5C3D4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 010E8 80A5C3D8 260502C4 */  addiu   $a1, $s0, 0x02C4           ## $a1 = 000002C4
 /* 010EC 80A5C3DC AFA50040 */  sw      $a1, 0x0040($sp)
-/* 010F0 80A5C3E0 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 010F0 80A5C3E0 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 010F4 80A5C3E4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 010F8 80A5C3E8 3C0780A6 */  lui     $a3, %hi(D_80A65ED8)       ## $a3 = 80A60000
 /* 010FC 80A5C3EC 8FA50040 */  lw      $a1, 0x0040($sp)
 /* 01100 80A5C3F0 24E75ED8 */  addiu   $a3, $a3, %lo(D_80A65ED8)  ## $a3 = 80A65ED8
 /* 01104 80A5C3F4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01108 80A5C3F8 0C01712B */  jal     ActorCollider_InitCylinder
+/* 01108 80A5C3F8 0C01712B */  jal     Collider_InitCylinder
 
 /* 0110C 80A5C3FC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 01110 80A5C400 26050310 */  addiu   $a1, $s0, 0x0310           ## $a1 = 00000310

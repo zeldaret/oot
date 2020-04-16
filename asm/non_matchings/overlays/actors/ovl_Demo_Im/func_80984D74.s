@@ -4,7 +4,7 @@ glabel func_80984D74
 /* 0019C 80984D7C AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 001A0 80984D80 24860284 */  addiu   $a2, $a0, 0x0284           ## $a2 = 00000284
 /* 001A4 80984D84 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000284
-/* 001A8 80984D88 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 001A8 80984D88 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 001AC 80984D8C AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 001B0 80984D90 8FA40034 */  lw      $a0, 0x0034($sp)           

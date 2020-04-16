@@ -13,7 +13,7 @@ glabel BossMo_Destroy
 /* 009C0 8091C4C0 10000004 */  beq     $zero, $zero, .L8091C4D4   
 /* 009C4 8091C4C4 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L8091C4C8:
-/* 009C8 8091C4C8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 009C8 8091C4C8 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 009CC 8091C4CC 24C514FC */  addiu   $a1, $a2, 0x14FC           ## $a1 = 000014FC
 /* 009D0 8091C4D0 8FBF0014 */  lw      $ra, 0x0014($sp)           

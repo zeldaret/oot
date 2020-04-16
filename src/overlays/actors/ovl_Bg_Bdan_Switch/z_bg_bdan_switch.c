@@ -476,7 +476,7 @@ void BgBdanSwitch_Update(BgBdanSwitch* this, GlobalContext* globalCtx) {
     this->collider.base.acFlags &= 0xFFFD;
     this->unk_1DC = pad;
     this->collider.list[0].dim.unk_00.radius = this->unk_1D4 * 370.0f;
-    Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
 }
 

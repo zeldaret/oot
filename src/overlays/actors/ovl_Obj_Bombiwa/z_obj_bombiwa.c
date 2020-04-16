@@ -56,9 +56,9 @@ extern Gfx* D_060009E0; // dlist
 
 void ObjBombiwa_InitCollision(ObjBombiwa* this, GlobalContext* globalCtx) {
     ObjBombiwa* thisLocal = this;
-    CollisionCheck_AllocCylinder(globalCtx, &thisLocal->collider);
-    ActorCollider_InitCylinder(globalCtx, &thisLocal->collider, &thisLocal->actor, &colliderInit);
-    ActorCollider_Cylinder_Update(&thisLocal->actor, &thisLocal->collider);
+    Collider_AllocCylinder(globalCtx, &thisLocal->collider);
+    Collider_InitCylinder(globalCtx, &thisLocal->collider, &thisLocal->actor, &colliderInit);
+    Collider_CylinderUpdate(&thisLocal->actor, &thisLocal->collider);
 }
 
 void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx) {
@@ -79,7 +79,7 @@ void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx) {
 }
 
 void ObjBombiwa_Destroy(ObjBombiwa* this, GlobalContext* globalCtx) {
-    ActorCollider_FreeCylinder(globalCtx, &this->collider);
+    Collider_FreeCylinder(globalCtx, &this->collider);
 }
 
 void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
@@ -124,7 +124,7 @@ void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistanceFromLink < 800.0f) {
             collisionCheckCtx = &globalCtx->collisionCheckCtx;
             collider = &this->collider;
-            Actor_CollisionCheck_SetAC(globalCtx, collisionCheckCtx, collider);
+            CollisionCheck_SetAC(globalCtx, collisionCheckCtx, collider);
             CollisionCheck_SetOC(globalCtx, collisionCheckCtx, collider);
         }
     }

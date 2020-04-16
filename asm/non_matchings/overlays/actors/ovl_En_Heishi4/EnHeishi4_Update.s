@@ -78,7 +78,7 @@ glabel EnHeishi4_Update
 /* 00D04 80A56DD4 260602BC */  addiu   $a2, $s0, 0x02BC           ## $a2 = 000002BC
 /* 00D08 80A56DD8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 000002BC
 /* 00D0C 80A56DDC AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 00D10 80A56DE0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00D10 80A56DE0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00D14 80A56DE4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00D18 80A56DE8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

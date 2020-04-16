@@ -71,7 +71,7 @@ glabel EnGuest_Update
 /* 001E0 80A50400 AE0F0130 */  sw      $t7, 0x0130($s0)           ## 00000130
 /* 001E4 80A50404 26050254 */  addiu   $a1, $s0, 0x0254           ## $a1 = 00000254
 /* 001E8 80A50408 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 001EC 80A5040C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 001EC 80A5040C 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 001F0 80A50410 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001F4 80A50414 3C0780A5 */  lui     $a3, %hi(D_80A50B70)       ## $a3 = 80A50000

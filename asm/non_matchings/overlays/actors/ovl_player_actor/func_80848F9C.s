@@ -993,7 +993,7 @@ glabel func_80848F9C
 /* 17B4C 80849D5C 00000000 */  nop
 /* 17B50 80849D60 A60904DA */  sh      $t1, 0x04DA($s0)           ## 000004DA
 .L80849D64:
-/* 17B54 80849D64 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 17B54 80849D64 0C0189B7 */  jal     Collider_CylinderUpdate
 
 /* 17B58 80849D68 AFA5002C */  sw      $a1, 0x002C($sp)
 /* 17B5C 80849D6C 8E0B0680 */  lw      $t3, 0x0680($s0)           ## 00000680
@@ -1026,7 +1026,7 @@ glabel func_80848F9C
 /* 17BC0 80849DD0 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 17BC4 80849DD4 00812821 */  addu    $a1, $a0, $at
 /* 17BC8 80849DD8 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 17BCC 80849DDC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 17BCC 80849DDC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 17BD0 80849DE0 8FA6002C */  lw      $a2, 0x002C($sp)
 /* 17BD4 80849DE4 820A0A78 */  lb      $t2, 0x0A78($s0)           ## 00000A78
@@ -1034,7 +1034,7 @@ glabel func_80848F9C
 /* 17BDC 80849DEC 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 17BE0 80849DF0 05410003 */  bgez    $t2, .L80849E00
 /* 17BE4 80849DF4 00000000 */  nop
-/* 17BE8 80849DF8 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 17BE8 80849DF8 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 17BEC 80849DFC 8FA6002C */  lw      $a2, 0x002C($sp)
 .L80849E00:

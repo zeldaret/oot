@@ -228,12 +228,12 @@ glabel EnTorch2_Update
 /* 00750 80B1E0D0 00812821 */  addu    $a1, $a0, $at              
 /* 00754 80B1E0D4 AFA50038 */  sw      $a1, 0x0038($sp)           
 /* 00758 80B1E0D8 260604E4 */  addiu   $a2, $s0, 0x04E4           ## $a2 = 000004E4
-/* 0075C 80B1E0DC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0075C 80B1E0DC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00760 80B1E0E0 A7A8005A */  sh      $t0, 0x005A($sp)           
 /* 00764 80B1E0E4 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 00768 80B1E0E8 8FA50038 */  lw      $a1, 0x0038($sp)           
-/* 0076C 80B1E0EC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0076C 80B1E0EC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00770 80B1E0F0 26060564 */  addiu   $a2, $s0, 0x0564           ## $a2 = 00000564
 /* 00774 80B1E0F4 3C0780B2 */  lui     $a3, %hi(D_80B1F9F0)       ## $a3 = 80B20000

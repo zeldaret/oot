@@ -760,7 +760,7 @@ glabel func_80A65108
 /* 0A8E8 80A65BD8 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 0A8EC 80A65BDC 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 0A8F0 80A65BE0 8FA60020 */  lw      $a2, 0x0020($sp)           
-/* 0A8F4 80A65BE4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0A8F4 80A65BE4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 0A8F8 80A65BE8 8FA400AC */  lw      $a0, 0x00AC($sp)           
 /* 0A8FC 80A65BEC 8FBF001C */  lw      $ra, 0x001C($sp)           

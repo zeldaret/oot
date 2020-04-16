@@ -5,7 +5,7 @@ glabel EnPeehat_Destroy
 /* 00280 80ACF720 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00284 80ACF724 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00288 80ACF728 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 0028C 80ACF72C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0028C 80ACF72C 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 00290 80ACF730 24A50300 */  addiu   $a1, $a1, 0x0300           ## $a1 = 00000300
 /* 00294 80ACF734 8FA50018 */  lw      $a1, 0x0018($sp)           

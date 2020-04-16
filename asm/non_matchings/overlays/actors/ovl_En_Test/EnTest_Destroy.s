@@ -27,11 +27,11 @@ glabel EnTest_Destroy
 /* 002A8 8085F8F8 0C009C27 */  jal     func_8002709C              
 /* 002AC 8085F8FC 8E05080C */  lw      $a1, 0x080C($s0)           ## 0000080C
 /* 002B0 8085F900 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 002B4 8085F904 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002B4 8085F904 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 002B8 8085F908 260508DC */  addiu   $a1, $s0, 0x08DC           ## $a1 = 000008DC
 /* 002BC 8085F90C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 002C0 8085F910 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002C0 8085F910 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 002C4 8085F914 26050810 */  addiu   $a1, $s0, 0x0810           ## $a1 = 00000810
 /* 002C8 8085F918 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

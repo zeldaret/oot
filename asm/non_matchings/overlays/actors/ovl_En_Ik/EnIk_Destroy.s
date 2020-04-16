@@ -23,7 +23,7 @@ glabel EnIk_Destroy
 /* 0004C 80A7435C 24A503EC */  addiu   $a1, $a1, 0x03EC           ## $a1 = 000003EC
 /* 00050 80A74360 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00054 80A74364 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 00058 80A74368 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00058 80A74368 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 0005C 80A7436C 24A50320 */  addiu   $a1, $a1, 0x0320           ## $a1 = 00000320
 /* 00060 80A74370 8FA50020 */  lw      $a1, 0x0020($sp)           

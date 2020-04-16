@@ -28,13 +28,13 @@ glabel func_80B025C0
 /* 003B8 80B02628 ADD80014 */  sw      $t8, 0x0014($t6)           ## FFFFFFFC
 .L80B0262C:
 /* 003BC 80B0262C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 003C0 80B02630 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 003C0 80B02630 0C0170D9 */  jal     Collider_AllocCylinder
               
 /* 003C4 80B02634 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000002FC
 /* 003C8 80B02638 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 003CC 80B0263C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000002FC
 /* 003D0 80B02640 02603025 */  or      $a2, $s3, $zero            ## $a2 = 00000000
-/* 003D4 80B02644 0C01712B */  jal     ActorCollider_InitCylinder
+/* 003D4 80B02644 0C01712B */  jal     Collider_InitCylinder
               
 /* 003D8 80B02648 8E270000 */  lw      $a3, 0x0000($s1)           ## FFFFFFE8
 /* 003DC 80B0264C 26310004 */  addiu   $s1, $s1, 0x0004           ## $s1 = FFFFFFEC

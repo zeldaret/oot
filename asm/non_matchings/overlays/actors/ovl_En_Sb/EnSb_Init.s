@@ -30,7 +30,7 @@ glabel EnSb_Init
 /* 00058 80AF7848 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0005C 80AF784C 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00060 80AF7850 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00064 80AF7854 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 00064 80AF7854 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 00068 80AF7858 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 0006C 80AF785C 3C0780B0 */  lui     $a3, %hi(D_80AF89D0)       ## $a3 = 80B00000

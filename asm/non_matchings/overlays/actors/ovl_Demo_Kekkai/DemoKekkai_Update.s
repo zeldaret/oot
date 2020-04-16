@@ -42,7 +42,7 @@ glabel DemoKekkai_Update
 /* 006A4 8098D674 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 006A8 8098D678 AFA60030 */  sw      $a2, 0x0030($sp)           
 /* 006AC 8098D67C 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
-/* 006B0 8098D680 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 006B0 8098D680 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 006B4 8098D684 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 006B8 8098D688 8FA60030 */  lw      $a2, 0x0030($sp)           
@@ -53,7 +53,7 @@ glabel DemoKekkai_Update
 /* 006C8 8098D698 26060198 */  addiu   $a2, $s0, 0x0198           ## $a2 = 00000198
 /* 006CC 8098D69C AFA60030 */  sw      $a2, 0x0030($sp)           
 /* 006D0 8098D6A0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 006D4 8098D6A4 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 006D4 8098D6A4 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 006D8 8098D6A8 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 006DC 8098D6AC 8FA60030 */  lw      $a2, 0x0030($sp)           

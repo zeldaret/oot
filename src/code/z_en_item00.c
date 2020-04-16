@@ -93,8 +93,8 @@ void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx) {
     }
 
     Actor_ProcessInitChain(&this->actor, D_8011550C);
-    CollisionCheck_AllocCylinder(globalCtx, &this->cylinderCollider);
-    ActorCollider_InitCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_801154E0);
+    Collider_AllocCylinder(globalCtx, &this->cylinderCollider);
+    Collider_InitCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_801154E0);
 
     this->unk_158 = 1;
 
@@ -302,7 +302,7 @@ void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx) {
 
 void En_Item00_Destroy(ActorEnItem00* this, GlobalContext* globalCtx) {
     ColliderCylinder* cylinderCollider = &this->cylinderCollider;
-    ActorCollider_FreeCylinder(globalCtx, cylinderCollider);
+    Collider_FreeCylinder(globalCtx, cylinderCollider);
 }
 
 void func_8001DFC8(ActorEnItem00* this, GlobalContext* globalCtx) {
@@ -529,8 +529,8 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx) {
         }
     }
 
-    ActorCollider_Cylinder_Update(&this->actor, &this->cylinderCollider);
-    Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->cylinderCollider);
+    Collider_CylinderUpdate(&this->actor, &this->cylinderCollider);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->cylinderCollider);
 
     if ((this->actor.params == DROP_SHIELD_DEKU) || (this->actor.params == DROP_SHIELD_HYLIAN) ||
         (this->actor.params == DROP_TUNIC_ZORA) || (this->actor.params == DROP_TUNIC_GORON)) {

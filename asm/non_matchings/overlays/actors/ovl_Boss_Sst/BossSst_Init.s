@@ -20,7 +20,7 @@ glabel BossSst_Init
 /* 00020 8092C5F0 24A5788C */  addiu   $a1, $a1, %lo(D_8093788C)  ## $a1 = 8093788C
 /* 00024 8092C5F4 260506B4 */  addiu   $a1, $s0, 0x06B4           ## $a1 = 000006B4
 /* 00028 8092C5F8 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 0002C 8092C5FC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 0002C 8092C5FC 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 00030 8092C600 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00034 8092C604 260503D4 */  addiu   $a1, $s0, 0x03D4           ## $a1 = 000003D4
@@ -94,7 +94,7 @@ glabel BossSst_Init
 /* 00138 8092C708 24E777CC */  addiu   $a3, $a3, %lo(D_809377CC)  ## $a3 = 809377CC
 /* 0013C 8092C70C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00140 8092C710 8FA50044 */  lw      $a1, 0x0044($sp)
-/* 00144 8092C714 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00144 8092C714 0C01712B */  jal     Collider_InitCylinder
 
 /* 00148 8092C718 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0014C 8092C71C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
@@ -249,7 +249,7 @@ glabel BossSst_Init
 /* 0037C 8092C94C 24E777F8 */  addiu   $a3, $a3, %lo(D_809377F8)  ## $a3 = 809377F8
 /* 00380 8092C950 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00384 8092C954 8FA50044 */  lw      $a1, 0x0044($sp)
-/* 00388 8092C958 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00388 8092C958 0C01712B */  jal     Collider_InitCylinder
 
 /* 0038C 8092C95C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00390 8092C960 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C

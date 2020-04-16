@@ -6,7 +6,7 @@ glabel EnFu_Update
 /* 0076C 80A1DF7C AFA50044 */  sw      $a1, 0x0044($sp)
 /* 00770 80A1DF80 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 00774 80A1DF84 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
-/* 00778 80A1DF88 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00778 80A1DF88 0C0189B7 */  jal     Collider_CylinderUpdate
 
 /* 0077C 80A1DF8C AFA60030 */  sw      $a2, 0x0030($sp)
 /* 00780 80A1DF90 8FA40044 */  lw      $a0, 0x0044($sp)

@@ -12,7 +12,7 @@ glabel BgSpot16Bombstone_Destroy
 /* 00554 808B5184 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00558 808B5188 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 0055C 808B518C 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00560 808B5190 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00560 808B5190 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 00564 808B5194 24C501C4 */  addiu   $a1, $a2, 0x01C4           ## $a1 = 000001C4
 .L808B5198:

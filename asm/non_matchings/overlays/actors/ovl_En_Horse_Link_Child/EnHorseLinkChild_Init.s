@@ -52,7 +52,7 @@ glabel EnHorseLinkChild_Init
 /* 00354 80A69724 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 00358 80A69728 260501F4 */  addiu   $a1, $s0, 0x01F4           ## $a1 = 000001F4
 /* 0035C 80A6972C AFA50028 */  sw      $a1, 0x0028($sp)
-/* 00360 80A69730 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 00360 80A69730 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 00364 80A69734 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00368 80A69738 3C0780A7 */  lui     $a3, %hi(D_80A6AEF4)       ## $a3 = 80A70000

@@ -214,7 +214,7 @@ glabel func_80A7F514
 /* 013DC 80A7F83C 26060150 */  addiu   $a2, $s0, 0x0150           ## $a2 = 00000150
 /* 013E0 80A7F840 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000150
 /* 013E4 80A7F844 AFA60030 */  sw      $a2, 0x0030($sp)           
-/* 013E8 80A7F848 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 013E8 80A7F848 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 013EC 80A7F84C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 013F0 80A7F850 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

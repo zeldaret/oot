@@ -463,14 +463,14 @@ s32 func_8005C328(GlobalContext* globalCtx, ColliderCylinderDim* dest, ColliderC
     return 1;
 }
 
-s32 CollisionCheck_AllocCylinder(GlobalContext* globalCtx, ColliderCylinder* collision) {
+s32 Collider_AllocCylinder(GlobalContext* globalCtx, ColliderCylinder* collision) {
     func_8005B65C(globalCtx, &collision->base);
     func_8005B884(globalCtx, &collision->body);
     func_8005C2BC(globalCtx, &collision->dim);
     return 1;
 }
 
-s32 ActorCollider_FreeCylinder(GlobalContext* globalCtx, ColliderCylinder* collision) {
+s32 Collider_FreeCylinder(GlobalContext* globalCtx, ColliderCylinder* collision) {
     func_8005B6A0(globalCtx, &collision->base);
     func_8005B904(globalCtx, &collision->body);
     func_8005C318(globalCtx, &collision->dim);
@@ -496,8 +496,8 @@ s32 func_8005C450(GlobalContext* globalCtx, ColliderCylinder* collision, Actor* 
 
 // SetInit Cylinder maskB = src->maskB
 // 8005c4ac
-s32 ActorCollider_InitCylinder(GlobalContext* globalCtx, ColliderCylinder* collision, Actor* actor,
-                               ColliderCylinderInit* src) {
+s32 Collider_InitCylinder(GlobalContext* globalCtx, ColliderCylinder* collision, Actor* actor,
+                          ColliderCylinderInit* src) {
     func_8005B72C(globalCtx, &collision->base, actor, &src->base);
     func_8005B93C(globalCtx, &collision->body, &src->body);
     func_8005C328(globalCtx, &collision->dim, &src->dim);
@@ -1051,7 +1051,7 @@ void func_8005D62C(GlobalContext* globalCtx, CollisionCheckContext* check) {
 
 s32 (*D_8011DEF8[])(GlobalContext*, Collider*) = { func_8005C124, func_8005C508, func_8005CC98, func_8005D160 };
 
-s32 Actor_CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
     s32 index;
 
     if (func_800C0D28(globalCtx) == 1) {
@@ -1114,7 +1114,7 @@ s32 func_8005D8AC(GlobalContext* globalCtx, CollisionCheckContext* check, Collid
 
 s32 (*D_8011DF08[])(GlobalContext*, Collider*) = { func_8005C1AC, func_8005C540, func_8005CD34, func_8005D1A8 };
 
-s32 Actor_CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
+s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* check, Collider* collider) {
     s32 index;
 
     if (func_800C0D28(globalCtx) == 1) {
@@ -1242,7 +1242,7 @@ s32 func_8005DD5C(GlobalContext* globalCtx, CollisionCheckContext* check, Collid
 }
 
 // CollisionCheck_setOCLine()
-s32 func_8005DE9C(GlobalContext* globalCtx, CollisionCheckContext* check, OcLine_s* collider) {
+s32 CollisionCheck_SetOCLine(GlobalContext* globalCtx, CollisionCheckContext* check, OcLine_s* collider) {
     s32 index;
 
     if (func_800C0D28(globalCtx) == 1) {
@@ -2931,7 +2931,7 @@ s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* check, Vec3f*
     CollisionCheck_GeneralLineOcCheck(globalCtx, check, camera_3C, arg3, arg4, arg5);
 }
 
-void ActorCollider_Cylinder_Update(Actor* actor, ColliderCylinder* collider) {
+void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider) {
     collider->dim.position.x = (s32)actor->posRot.pos.x;
     collider->dim.position.y = (s32)actor->posRot.pos.y;
     collider->dim.position.z = (s32)actor->posRot.pos.z;

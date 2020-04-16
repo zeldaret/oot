@@ -40,7 +40,7 @@ glabel BgHidanSekizou_Update
 /* 00A84 8088D944 02212821 */  addu    $a1, $s1, $at              
 /* 00A88 8088D948 26060174 */  addiu   $a2, $s0, 0x0174           ## $a2 = 00000174
 /* 00A8C 8088D94C AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 00A90 8088D950 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00A90 8088D950 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00A94 8088D954 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00A98 8088D958 8FA50024 */  lw      $a1, 0x0024($sp)           
@@ -72,7 +72,7 @@ glabel BgHidanSekizou_Update
 .L8088D9B4:
 /* 00AF4 8088D9B4 26060174 */  addiu   $a2, $s0, 0x0174           ## $a2 = 00000174
 /* 00AF8 8088D9B8 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 00AFC 8088D9BC 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00AFC 8088D9BC 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00B00 8088D9C0 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00B04 8088D9C4 8FA50024 */  lw      $a1, 0x0024($sp)           

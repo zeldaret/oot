@@ -17,7 +17,7 @@ glabel EnKz_Update
 /* 0109C 80A9D5EC 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 010A0 80A9D5F0 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 010A4 80A9D5F4 AFA60024 */  sw      $a2, 0x0024($sp)           
-/* 010A8 80A9D5F8 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 010A8 80A9D5F8 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 010AC 80A9D5FC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 010B0 80A9D600 8FA40034 */  lw      $a0, 0x0034($sp)           

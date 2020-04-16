@@ -40,14 +40,14 @@ glabel func_8087B284
 /* 00550 8087B310 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 00554 8087B314 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
 /* 00558 8087B318 AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 0055C 8087B31C 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0055C 8087B31C 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00560 8087B320 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00564 8087B324 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00568 8087B328 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0056C 8087B32C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00570 8087B330 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 00574 8087B334 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00574 8087B334 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00578 8087B338 00812821 */  addu    $a1, $a0, $at              
 .L8087B33C:

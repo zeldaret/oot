@@ -10,7 +10,7 @@ glabel EnSkjneedle_Init
 /* 0001C 80B01ECC 24A521AC */  addiu   $a1, $a1, %lo(D_80B021AC)  ## $a1 = 80B021AC
 /* 00020 80B01ED0 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00024 80B01ED4 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00028 80B01ED8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 00028 80B01ED8 0C0170D9 */  jal     Collider_AllocCylinder
               
 /* 0002C 80B01EDC 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00030 80B01EE0 3C0780B0 */  lui     $a3, %hi(D_80B02180)       ## $a3 = 80B00000

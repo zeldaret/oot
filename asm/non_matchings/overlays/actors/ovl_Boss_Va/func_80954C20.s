@@ -671,12 +671,12 @@ glabel func_80954C20
 /* 0628C 8095554C 26060338 */  addiu   $a2, $s0, 0x0338           ## $a2 = 00000338
 /* 06290 80955550 00812821 */  addu    $a1, $a0, $at              
 /* 06294 80955554 AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 06298 80955558 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 06298 80955558 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 0629C 8095555C AFA60038 */  sw      $a2, 0x0038($sp)           
 /* 062A0 80955560 8FA5003C */  lw      $a1, 0x003C($sp)           
 /* 062A4 80955564 8FA60038 */  lw      $a2, 0x0038($sp)           
-/* 062A8 80955568 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 062A8 80955568 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 062AC 8095556C 8FA400AC */  lw      $a0, 0x00AC($sp)           
 /* 062B0 80955570 1000002D */  beq     $zero, $zero, .L80955628   

@@ -27,7 +27,7 @@ glabel BgHakaTrap_Destroy
 .L8087FF98:
 /* 002F8 8087FF98 8FA40024 */  lw      $a0, 0x0024($sp)           
 .L8087FF9C:
-/* 002FC 8087FF9C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002FC 8087FF9C 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 00300 8087FFA0 26050178 */  addiu   $a1, $s0, 0x0178           ## $a1 = 00000178
 .L8087FFA4:

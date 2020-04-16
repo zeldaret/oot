@@ -198,15 +198,15 @@ void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx) {
         globalCtx->unk_11D30[0] = 0xFF;
     }
 
-    CollisionCheck_AllocCylinder(globalCtx, collision);
-    ActorCollider_InitCylinder(globalCtx, collision, thisx, &colliderInit);
-    ActorCollider_Cylinder_Update(thisx, collision);
+    Collider_AllocCylinder(globalCtx, collision);
+    Collider_InitCylinder(globalCtx, collision, thisx, &colliderInit);
+    Collider_CylinderUpdate(thisx, collision);
     func_80061ED4(&thisx->sub_98, 0, &sub98Init);
 }
 
 void BgTokiSwd_Destroy(BgTokiSwd* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
-    ActorCollider_FreeCylinder(globalCtx, collider);
+    Collider_FreeCylinder(globalCtx, collider);
 }
 
 void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {

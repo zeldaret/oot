@@ -5,7 +5,7 @@ glabel EnHorseZelda_Destroy
 /* 00368 80A6DC38 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0036C 80A6DC3C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00370 80A6DC40 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 00374 80A6DC44 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00374 80A6DC44 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 00378 80A6DC48 24A501FC */  addiu   $a1, $a1, 0x01FC           ## $a1 = 000001FC
 /* 0037C 80A6DC4C 8FA50018 */  lw      $a1, 0x0018($sp)           

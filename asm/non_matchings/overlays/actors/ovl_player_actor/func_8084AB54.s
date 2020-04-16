@@ -9,7 +9,7 @@ glabel func_8084AB54
 /* 18960 8084AB70 0C009C27 */  jal     func_8002709C              
 /* 18964 8084AB74 8E050670 */  lw      $a1, 0x0670($s0)           ## 00000670
 /* 18968 8084AB78 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 1896C 8084AB7C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 1896C 8084AB7C 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 18970 8084AB80 26050498 */  addiu   $a1, $s0, 0x0498           ## $a1 = 00000498
 /* 18974 8084AB84 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

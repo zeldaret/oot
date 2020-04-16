@@ -62,8 +62,8 @@ void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx) {
         // only allocate collider for grottos that need bombing/hammering open
         if ((this->actor.params & 0x200) != 0) {
             collider = &this->collider;
-            CollisionCheck_AllocCylinder(globalCtx, collider);
-            ActorCollider_InitCylinder(globalCtx, collider, &this->actor, &colliderInit);
+            Collider_AllocCylinder(globalCtx, collider);
+            Collider_InitCylinder(globalCtx, collider, &this->actor, &colliderInit);
         } else {
             this->actor.flags |= 0x10;
         }
@@ -78,7 +78,7 @@ void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx) {
 void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx) {
     // free collider if it has one
     if ((this->actor.params & 0x200) != 0) {
-        ActorCollider_FreeCylinder(globalCtx, &this->collider);
+        Collider_FreeCylinder(globalCtx, &this->collider);
     }
 }
 
@@ -95,10 +95,10 @@ void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
         // bombing/hammering open a grotto
         if ((this->collider.base.acFlags & 2) != 0) {
             openGrotto = true;
-            ActorCollider_FreeCylinder(globalCtx, &this->collider);
+            Collider_FreeCylinder(globalCtx, &this->collider);
         } else {
-            ActorCollider_Cylinder_Update(&this->actor, &this->collider);
-            Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
+            Collider_CylinderUpdate(&this->actor, &this->collider);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
         }
     }
     // open the grotto

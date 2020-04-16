@@ -83,7 +83,7 @@ glabel func_80090480
 /* B07754 800905B4 3C010001 */  lui   $at, (0x00011E60 >> 16) # lui $at, 1
 /* B07758 800905B8 34211E60 */  ori   $at, (0x00011E60 & 0xFFFF) # ori $at, $at, 0x1e60
 /* B0775C 800905BC 02203025 */  move  $a2, $s1
-/* B07760 800905C0 0C0175E7 */  jal   Actor_CollisionCheck_SetAT
+/* B07760 800905C0 0C0175E7 */  jal   CollisionCheck_SetAT
 /* B07764 800905C4 00812821 */   addu  $a1, $a0, $at
 /* B07768 800905C8 8FA50038 */  lw    $a1, 0x38($sp)
 .L800905CC:

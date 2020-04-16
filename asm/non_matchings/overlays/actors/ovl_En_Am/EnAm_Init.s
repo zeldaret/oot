@@ -42,19 +42,19 @@ glabel EnAm_Init
 /* 001BC 809AE0DC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 001C0 809AE0E0 26050274 */  addiu   $a1, $s0, 0x0274           ## $a1 = 00000274
 /* 001C4 809AE0E4 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 001C8 809AE0E8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 001C8 809AE0E8 0C0170D9 */  jal     Collider_AllocCylinder
               
 /* 001CC 809AE0EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001D0 809AE0F0 260502C0 */  addiu   $a1, $s0, 0x02C0           ## $a1 = 000002C0
 /* 001D4 809AE0F4 AFA50038 */  sw      $a1, 0x0038($sp)           
-/* 001D8 809AE0F8 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 001D8 809AE0F8 0C0170D9 */  jal     Collider_AllocCylinder
               
 /* 001DC 809AE0FC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001E0 809AE100 3C07809B */  lui     $a3, %hi(D_809AFF80)       ## $a3 = 809B0000
 /* 001E4 809AE104 24E7FF80 */  addiu   $a3, $a3, %lo(D_809AFF80)  ## $a3 = 809AFF80
 /* 001E8 809AE108 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001EC 809AE10C 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 001F0 809AE110 0C01712B */  jal     ActorCollider_InitCylinder
+/* 001F0 809AE110 0C01712B */  jal     Collider_InitCylinder
               
 /* 001F4 809AE114 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 001F8 809AE118 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
@@ -68,7 +68,7 @@ glabel EnAm_Init
 /* 00218 809AE138 24E7FF80 */  addiu   $a3, $a3, %lo(D_809AFF80)  ## $a3 = 809AFF80
 /* 0021C 809AE13C 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 00220 809AE140 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00224 809AE144 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00224 809AE144 0C01712B */  jal     Collider_InitCylinder
               
 /* 00228 809AE148 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0022C 809AE14C 24090035 */  addiu   $t1, $zero, 0x0035         ## $t1 = 00000035
@@ -99,7 +99,7 @@ glabel EnAm_Init
 /* 00284 809AE1A4 240D00FE */  addiu   $t5, $zero, 0x00FE         ## $t5 = 000000FE
 .L809AE1A8:
 /* 00288 809AE1A8 3C07809B */  lui     $a3, %hi(D_809AFFAC)       ## $a3 = 809B0000
-/* 0028C 809AE1AC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0028C 809AE1AC 0C01712B */  jal     Collider_InitCylinder
               
 /* 00290 809AE1B0 24E7FFAC */  addiu   $a3, $a3, %lo(D_809AFFAC)  ## $a3 = 809AFFAC
 /* 00294 809AE1B4 2605030C */  addiu   $a1, $s0, 0x030C           ## $a1 = 0000030C

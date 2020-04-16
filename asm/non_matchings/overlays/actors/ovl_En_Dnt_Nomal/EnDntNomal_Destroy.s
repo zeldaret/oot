@@ -12,7 +12,7 @@ glabel EnDntNomal_Destroy
 /* 001A0 809F3460 10000004 */  beq     $zero, $zero, .L809F3474   
 /* 001A4 809F3464 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L809F3468:
-/* 001A8 809F3468 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001A8 809F3468 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 001AC 809F346C 24C50314 */  addiu   $a1, $a2, 0x0314           ## $a1 = 00000314
 /* 001B0 809F3470 8FBF0014 */  lw      $ra, 0x0014($sp)           

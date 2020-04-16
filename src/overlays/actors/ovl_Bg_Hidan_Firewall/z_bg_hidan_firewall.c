@@ -63,8 +63,8 @@ void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx) {
 
     this->unk_150 = 0;
 
-    CollisionCheck_AllocCylinder(globalCtx, &this->collider);
-    ActorCollider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_AllocCylinder(globalCtx, &this->collider);
+    Collider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
 
     this->collider.dim.position.y = this->actor.posRot.pos.y;
 
@@ -75,7 +75,7 @@ void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx) {
 
 void BgHidanFirewall_Destroy(BgHidanFirewall* this, GlobalContext* globalCtx) {
     BgHidanFirewall* thing = this;
-    ActorCollider_FreeCylinder(globalCtx, &this->collider);
+    Collider_FreeCylinder(globalCtx, &this->collider);
 }
 
 s32 BgHidanFirewall_CheckProximity(BgHidanFirewall* this, GlobalContext* globalCtx) {
@@ -184,7 +184,7 @@ void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     if (this->actionFunc == (ActorFunc)BgHidanFirewall_Erupt) {
         BgHidanFirewall_ColliderFollowPlayer(this, globalCtx);
-        Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
         func_8002F974(&this->actor, 0x2034);
     }

@@ -74,14 +74,14 @@ glabel func_8089107C
 /* 00A40 80891180 AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 00A44 80891184 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 00A48 80891188 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00A4C 8089118C 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00A4C 8089118C 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00A50 80891190 260601B4 */  addiu   $a2, $s0, 0x01B4           ## $a2 = 000001B4
 /* 00A54 80891194 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 00A58 80891198 8FA70024 */  lw      $a3, 0x0024($sp)           
 .L8089119C:
 /* 00A5C 8089119C 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00A60 808911A0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00A60 808911A0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00A64 808911A4 00E03025 */  or      $a2, $a3, $zero            ## $a2 = 00000000
 /* 00A68 808911A8 8FBF001C */  lw      $ra, 0x001C($sp)           

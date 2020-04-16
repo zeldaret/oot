@@ -77,8 +77,8 @@ void EnAni_Init(EnAni* this, GlobalContext* globalCtx) {
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, anim, this->actorDrawTable, this->transitionDrawTable,
                      0x10);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, anim);
-    CollisionCheck_AllocCylinder(globalCtx, &this->collider);
-    ActorCollider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_AllocCylinder(globalCtx, &this->collider);
+    Collider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
     this->actor.sub_98.mass = 0xFF;
     if (LINK_IS_CHILD) {
         EnAni_SetupAction(this, func_809B064C);
@@ -94,7 +94,7 @@ void EnAni_Init(EnAni* this, GlobalContext* globalCtx) {
 void EnAni_Destroy(EnAni* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
     collider = &this->collider;
-    ActorCollider_FreeCylinder(globalCtx, &this->collider);
+    Collider_FreeCylinder(globalCtx, &this->collider);
 }
 
 s32 EnAni_SetText(EnAni* this, GlobalContext* globalCtx, u16 textId) {
@@ -244,7 +244,7 @@ void EnAni_Update(EnAni* this, GlobalContext* globalCtx) {
     u32 pad2;
 
     collider = &this->collider;
-    ActorCollider_Cylinder_Update(&this->actor, collider);
+    Collider_CylinderUpdate(&this->actor, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, collider);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);

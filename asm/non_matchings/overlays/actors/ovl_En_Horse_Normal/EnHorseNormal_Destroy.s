@@ -9,12 +9,12 @@ glabel EnHorseNormal_Destroy
 /* 00688 80A6B8D8 24A50154 */  addiu   $a1, $a1, 0x0154           ## $a1 = 00000154
 /* 0068C 80A6B8DC 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00690 80A6B8E0 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00694 80A6B8E4 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00694 80A6B8E4 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 00698 80A6B8E8 24A50228 */  addiu   $a1, $a1, 0x0228           ## $a1 = 00000228
 /* 0069C 80A6B8EC 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 006A0 80A6B8F0 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 006A4 80A6B8F4 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 006A4 80A6B8F4 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 006A8 80A6B8F8 24A502D4 */  addiu   $a1, $a1, 0x02D4           ## $a1 = 000002D4
 /* 006AC 80A6B8FC 8FA50018 */  lw      $a1, 0x0018($sp)           

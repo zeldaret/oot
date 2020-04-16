@@ -52,7 +52,7 @@ glabel func_80B4AF18
 .L80B4AFD4:
 /* 00494 80B4AFD4 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 00498 80B4AFD8 AFA60034 */  sw      $a2, 0x0034($sp)           
-/* 0049C 80B4AFDC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0049C 80B4AFDC 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 004A0 80B4AFE0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 004A4 80B4AFE4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

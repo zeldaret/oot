@@ -64,26 +64,26 @@ glabel EnTest_Init
 /* 000F0 8085F740 26050810 */  addiu   $a1, $s0, 0x0810           ## $a1 = 00000810
 /* 000F4 8085F744 AE0D0040 */  sw      $t5, 0x0040($s0)           ## 00000040
 /* 000F8 8085F748 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 000FC 8085F74C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 000FC 8085F74C 0C0170D9 */  jal     Collider_AllocCylinder
               
 /* 00100 8085F750 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00104 8085F754 3C078086 */  lui     $a3, %hi(D_80864570)       ## $a3 = 80860000
 /* 00108 8085F758 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 0010C 8085F75C 24E74570 */  addiu   $a3, $a3, %lo(D_80864570)  ## $a3 = 80864570
 /* 00110 8085F760 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00114 8085F764 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00114 8085F764 0C01712B */  jal     Collider_InitCylinder
               
 /* 00118 8085F768 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0011C 8085F76C 260508DC */  addiu   $a1, $s0, 0x08DC           ## $a1 = 000008DC
 /* 00120 8085F770 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00124 8085F774 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 00124 8085F774 0C0170D9 */  jal     Collider_AllocCylinder
               
 /* 00128 8085F778 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0012C 8085F77C 3C078086 */  lui     $a3, %hi(D_8086459C)       ## $a3 = 80860000
 /* 00130 8085F780 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 00134 8085F784 24E7459C */  addiu   $a3, $a3, %lo(D_8086459C)  ## $a3 = 8086459C
 /* 00138 8085F788 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0013C 8085F78C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0013C 8085F78C 0C01712B */  jal     Collider_InitCylinder
               
 /* 00140 8085F790 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00144 8085F794 2605085C */  addiu   $a1, $s0, 0x085C           ## $a1 = 0000085C

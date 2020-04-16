@@ -6,7 +6,7 @@ glabel EnJs_Update
 /* 00538 80A89348 AFA5004C */  sw      $a1, 0x004C($sp)           
 /* 0053C 80A8934C 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 00540 80A89350 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
-/* 00544 80A89354 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00544 80A89354 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00548 80A89358 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 0054C 80A8935C 8FA4004C */  lw      $a0, 0x004C($sp)           

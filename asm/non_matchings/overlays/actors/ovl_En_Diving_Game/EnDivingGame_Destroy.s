@@ -9,7 +9,7 @@ glabel EnDivingGame_Destroy
 /* 00150 809ED9C0 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
 /* 00154 809ED9C4 A420FA2E */  sh      $zero, -0x05D2($at)        ## 8015FA2E
 .L809ED9C8:
-/* 00158 809ED9C8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00158 809ED9C8 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 0015C 809ED9CC 24C5034C */  addiu   $a1, $a2, 0x034C           ## $a1 = 0000034C
 /* 00160 809ED9D0 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -9,7 +9,7 @@ glabel EnMb_Destroy
 /* 00384 80AA63D4 24A50434 */  addiu   $a1, $a1, 0x0434           ## $a1 = 00000434
 /* 00388 80AA63D8 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 0038C 80AA63DC 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00390 80AA63E0 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00390 80AA63E0 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 00394 80AA63E4 24A50368 */  addiu   $a1, $a1, 0x0368           ## $a1 = 00000368
 /* 00398 80AA63E8 8FA50018 */  lw      $a1, 0x0018($sp)           

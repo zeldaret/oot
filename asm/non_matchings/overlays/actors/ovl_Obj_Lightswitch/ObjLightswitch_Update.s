@@ -53,7 +53,7 @@ glabel ObjLightswitch_Update
 /* 00C08 80B977A8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00C0C 80B977AC 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00C10 80B977B0 8FA60020 */  lw      $a2, 0x0020($sp)           
-/* 00C14 80B977B4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00C14 80B977B4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00C18 80B977B8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00C1C 80B977BC 8FBF001C */  lw      $ra, 0x001C($sp)           

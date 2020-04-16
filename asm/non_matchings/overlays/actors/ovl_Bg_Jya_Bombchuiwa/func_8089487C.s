@@ -49,7 +49,7 @@ glabel func_8089487C
 /* 00488 80894928 02212821 */  addu    $a1, $s1, $at              
 /* 0048C 8089492C 26060150 */  addiu   $a2, $s0, 0x0150           ## $a2 = 00000150
 /* 00490 80894930 AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 00494 80894934 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00494 80894934 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00498 80894938 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 0049C 8089493C 8FA5002C */  lw      $a1, 0x002C($sp)           

@@ -40,8 +40,8 @@ void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx) {
     s32 pad[2];
 
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawFunc_Circle, 13.0f);
-    CollisionCheck_AllocCylinder(globalCtx, &this->collider);
-    ActorCollider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_AllocCylinder(globalCtx, &this->collider);
+    Collider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
     this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, objectTbl[this->actor.params]);
 
     if (this->objBankIndex < 0) {
@@ -53,7 +53,7 @@ void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx) {
 
 void EnNutsball_Destroy(EnNutsball* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
-    ActorCollider_FreeCylinder(globalCtx, collider);
+    Collider_FreeCylinder(globalCtx, collider);
 }
 
 void func_80ABBB34(EnNutsball* this, GlobalContext* globalCtx) {
@@ -122,12 +122,12 @@ void EnNutsball_Update(EnNutsball* this, GlobalContext* globalCtx) {
 
         Actor_MoveForward(&nutsball->actor);
         func_8002E4B4(globalCtx, &nutsball->actor, 10, cylinderInitData.dim.radius, cylinderInitData.dim.height, 5);
-        ActorCollider_Cylinder_Update(&nutsball->actor, &nutsball->collider);
+        Collider_CylinderUpdate(&nutsball->actor, &nutsball->collider);
 
         nutsball->actor.flags |= 0x1000000;
 
-        Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->collisionCheckCtx, &nutsball->collider);
-        Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &nutsball->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->collisionCheckCtx, &nutsball->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &nutsball->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &nutsball->collider);
     }
 }

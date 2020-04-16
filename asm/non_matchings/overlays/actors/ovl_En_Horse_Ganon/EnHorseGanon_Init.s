@@ -52,14 +52,14 @@ glabel EnHorseGanon_Init
 /* 00388 80A689E8 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 0038C 80A689EC 260501FC */  addiu   $a1, $s0, 0x01FC           ## $a1 = 000001FC
 /* 00390 80A689F0 AFA50028 */  sw      $a1, 0x0028($sp)
-/* 00394 80A689F4 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 00394 80A689F4 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 00398 80A689F8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0039C 80A689FC 3C0780A7 */  lui     $a3, %hi(D_80A691E0)       ## $a3 = 80A70000
 /* 003A0 80A68A00 8FA50028 */  lw      $a1, 0x0028($sp)
 /* 003A4 80A68A04 24E791E0 */  addiu   $a3, $a3, %lo(D_80A691E0)  ## $a3 = 80A691E0
 /* 003A8 80A68A08 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 003AC 80A68A0C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 003AC 80A68A0C 0C01712B */  jal     Collider_InitCylinder
 
 /* 003B0 80A68A10 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 003B4 80A68A14 26050248 */  addiu   $a1, $s0, 0x0248           ## $a1 = 00000248

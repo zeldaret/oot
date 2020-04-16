@@ -69,7 +69,7 @@ glabel func_80A505CC
 /* 004A8 80A506C8 26060254 */  addiu   $a2, $s0, 0x0254           ## $a2 = 00000254
 /* 004AC 80A506CC 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000254
 /* 004B0 80A506D0 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 004B4 80A506D4 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 004B4 80A506D4 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 004B8 80A506D8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 004BC 80A506DC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

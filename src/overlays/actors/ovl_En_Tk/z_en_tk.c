@@ -502,8 +502,8 @@ void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&thisAgain->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
                          0.f);
 
-    CollisionCheck_AllocCylinder(globalCtx, &thisAgain->collider);
-    ActorCollider_InitCylinder(globalCtx, &thisAgain->collider, &thisAgain->actor, &D_80B1D508);
+    Collider_AllocCylinder(globalCtx, &thisAgain->collider);
+    Collider_InitCylinder(globalCtx, &thisAgain->collider, &thisAgain->actor, &D_80B1D508);
 
     func_80061EFC(&thisAgain->actor.sub_98, NULL, &D_80B1D534);
 
@@ -524,7 +524,7 @@ void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
 
 void EnTk_Destroy(EnTk* this, GlobalContext* globalCtx) {
     EnTk* thisAgain = this;
-    ActorCollider_FreeCylinder(globalCtx, &thisAgain->collider);
+    Collider_FreeCylinder(globalCtx, &thisAgain->collider);
 }
 
 void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
@@ -674,7 +674,7 @@ void EnTk_Update(EnTk* this, GlobalContext* globalCtx) {
     EnTk* thisAgain = this;
     ColliderCylinder* collider = &thisAgain->collider;
 
-    ActorCollider_Cylinder_Update(&thisAgain->actor, collider);
+    Collider_CylinderUpdate(&thisAgain->actor, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, collider);
 
     SkelAnime_FrameUpdateMatrix(&thisAgain->skelAnim);

@@ -12,7 +12,7 @@ glabel func_80B0368C
 /* 01444 80B036B4 00A12821 */  addu    $a1, $a1, $at              
 /* 01448 80B036B8 24E604C4 */  addiu   $a2, $a3, 0x04C4           ## $a2 = 000004C4
 /* 0144C 80B036BC AFA60024 */  sw      $a2, 0x0024($sp)           
-/* 01450 80B036C0 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 01450 80B036C0 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 01454 80B036C4 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 01458 80B036C8 8FA50028 */  lw      $a1, 0x0028($sp)           

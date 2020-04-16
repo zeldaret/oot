@@ -16,7 +16,7 @@ glabel EnSsh_Destroy
 /* 016B0 80B03920 241201C8 */  addiu   $s2, $zero, 0x01C8         ## $s2 = 000001C8
 .L80B03924:
 /* 016B4 80B03924 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 016B8 80B03928 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 016B8 80B03928 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 016BC 80B0392C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 000002FC
 /* 016C0 80B03930 2610004C */  addiu   $s0, $s0, 0x004C           ## $s0 = 0000004C

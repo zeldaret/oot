@@ -9,7 +9,7 @@ glabel EnBom_Destroy
 /* 00138 809C2808 24A50198 */  addiu   $a1, $a1, 0x0198           ## $a1 = 00000198
 /* 0013C 809C280C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00140 809C2810 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00144 809C2814 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00144 809C2814 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 00148 809C2818 24A5014C */  addiu   $a1, $a1, 0x014C           ## $a1 = 0000014C
 /* 0014C 809C281C 8FBF0014 */  lw      $ra, 0x0014($sp)           

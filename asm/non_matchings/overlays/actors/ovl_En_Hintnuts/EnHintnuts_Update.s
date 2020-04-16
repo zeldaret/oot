@@ -44,7 +44,7 @@ glabel EnHintnuts_Update
 /* 01558 80A58758 26050214 */  addiu   $a1, $s0, 0x0214           ## $a1 = 00000214
 .L80A5875C:
 /* 0155C 80A5875C AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 01560 80A58760 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 01560 80A58760 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 01564 80A58764 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01568 80A58768 920B0225 */  lbu     $t3, 0x0225($s0)           ## 00000225
@@ -54,7 +54,7 @@ glabel EnHintnuts_Update
 /* 01578 80A58778 11800004 */  beq     $t4, $zero, .L80A5878C     
 /* 0157C 80A5877C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01580 80A58780 02212821 */  addu    $a1, $s1, $at              
-/* 01584 80A58784 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01584 80A58784 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01588 80A58788 8FA60028 */  lw      $a2, 0x0028($sp)           
 .L80A5878C:

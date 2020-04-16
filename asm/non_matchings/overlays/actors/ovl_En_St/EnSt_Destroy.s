@@ -16,7 +16,7 @@ glabel EnSt_Destroy
 /* 01BD8 80B06468 241201C8 */  addiu   $s2, $zero, 0x01C8         ## $s2 = 000001C8
 .L80B0646C:
 /* 01BDC 80B0646C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 01BE0 80B06470 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 01BE0 80B06470 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 01BE4 80B06474 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000194
 /* 01BE8 80B06478 2610004C */  addiu   $s0, $s0, 0x004C           ## $s0 = 0000004C

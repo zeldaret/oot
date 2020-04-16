@@ -75,7 +75,7 @@ glabel EnHeishi2_Update
 /* 01CE0 80A54B80 26060398 */  addiu   $a2, $s0, 0x0398           ## $a2 = 00000398
 /* 01CE4 80A54B84 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000398
 /* 01CE8 80A54B88 AFA60034 */  sw      $a2, 0x0034($sp)           
-/* 01CEC 80A54B8C 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 01CEC 80A54B8C 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 01CF0 80A54B90 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01CF4 80A54B94 8FA4004C */  lw      $a0, 0x004C($sp)           

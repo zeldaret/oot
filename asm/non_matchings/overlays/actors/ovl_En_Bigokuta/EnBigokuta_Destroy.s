@@ -16,7 +16,7 @@ glabel EnBigokuta_Destroy
 /* 001A0 809BCE00 24140098 */  addiu   $s4, $zero, 0x0098         ## $s4 = 00000098
 .L809BCE04:
 /* 001A4 809BCE04 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 001A8 809BCE08 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001A8 809BCE08 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 001AC 809BCE0C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 000002EC
 /* 001B0 809BCE10 2610004C */  addiu   $s0, $s0, 0x004C           ## $s0 = 0000004C

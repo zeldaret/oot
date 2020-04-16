@@ -22,11 +22,11 @@ glabel EnWf_Destroy
 /* 00250 80B33F00 0C016F32 */  jal     func_8005BCC8              
 /* 00254 80B33F04 26050304 */  addiu   $a1, $s0, 0x0304           ## $a1 = 00000304
 /* 00258 80B33F08 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 0025C 80B33F0C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0025C 80B33F0C 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 00260 80B33F10 26050424 */  addiu   $a1, $s0, 0x0424           ## $a1 = 00000424
 /* 00264 80B33F14 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00268 80B33F18 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00268 80B33F18 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 0026C 80B33F1C 26050470 */  addiu   $a1, $s0, 0x0470           ## $a1 = 00000470
 /* 00270 80B33F20 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C

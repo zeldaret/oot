@@ -16,7 +16,7 @@ glabel EnPoh_Destroy
 /* 00378 80ADE0C8 24A50308 */  addiu   $a1, $a1, 0x0308           ## $a1 = 00000308
 /* 0037C 80ADE0CC 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00380 80ADE0D0 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00384 80ADE0D4 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00384 80ADE0D4 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 00388 80ADE0D8 24A502BC */  addiu   $a1, $a1, 0x02BC           ## $a1 = 000002BC
 /* 0038C 80ADE0DC 8FAF0018 */  lw      $t7, 0x0018($sp)           

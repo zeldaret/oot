@@ -5,7 +5,7 @@ glabel func_80AEAC54
 /* 00050 80AEAC60 24860300 */  addiu   $a2, $a0, 0x0300           ## $a2 = 00000300
 /* 00054 80AEAC64 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000300
 /* 00058 80AEAC68 AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 0005C 80AEAC6C 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0005C 80AEAC6C 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00060 80AEAC70 AFA40030 */  sw      $a0, 0x0030($sp)           
 /* 00064 80AEAC74 8FA40030 */  lw      $a0, 0x0030($sp)           

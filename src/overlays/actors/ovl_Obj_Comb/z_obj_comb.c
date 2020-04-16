@@ -162,7 +162,7 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
             Actor_Kill(this);
         }
     } else {
-        Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
     }
 
     if (this->actor.update != NULL) {

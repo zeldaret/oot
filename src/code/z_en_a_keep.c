@@ -140,8 +140,8 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
             this->actor.unk_4C = 500.0f;
             this->unk_178 = 45.0f;
             func_8001D234(this, this->actor.params);
-            CollisionCheck_AllocCylinder(globalCtx, &this->cylinderCollider);
-            ActorCollider_InitCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_80115440);
+            Collider_AllocCylinder(globalCtx, &this->cylinderCollider);
+            Collider_InitCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_80115440);
             this->actor.sub_98.mass = 0xFF;
             this->actor.unk_1F = 0;
             break;
@@ -176,7 +176,7 @@ void En_A_Obj_Destroy(ActorEnAObj* this, GlobalContext* globalCtx) {
     switch (this->actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
-            ActorCollider_FreeCylinder(globalCtx, cylinderCollider);
+            Collider_FreeCylinder(globalCtx, cylinderCollider);
     }
 }
 
@@ -323,7 +323,7 @@ void En_A_Obj_Update(ActorEnAObj* this, GlobalContext* globalCtx) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
             cylinderCollider = &this->cylinderCollider;
-            ActorCollider_Cylinder_Update(&this->actor, cylinderCollider);
+            Collider_CylinderUpdate(&this->actor, cylinderCollider);
             CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, cylinderCollider);
     }
 }

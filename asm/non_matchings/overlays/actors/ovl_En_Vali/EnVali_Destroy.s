@@ -13,7 +13,7 @@ glabel EnVali_Destroy
 /* 001A4 80B26854 24A5037C */  addiu   $a1, $a1, 0x037C           ## $a1 = 0000037C
 /* 001A8 80B26858 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 001AC 80B2685C 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 001B0 80B26860 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001B0 80B26860 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 001B4 80B26864 24A503FC */  addiu   $a1, $a1, 0x03FC           ## $a1 = 000003FC
 /* 001B8 80B26868 8FBF0014 */  lw      $ra, 0x0014($sp)           

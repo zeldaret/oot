@@ -52,13 +52,13 @@ glabel EnBigokuta_Init
 /* 000B0 809BCD10 A4480036 */  sh      $t0, 0x0036($v0)           ## 00000036
 .L809BCD14:
 /* 000B4 809BCD14 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 000B8 809BCD18 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 000B8 809BCD18 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 000BC 809BCD1C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 000002EC
 /* 000C0 809BCD20 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 000C4 809BCD24 02202825 */  or      $a1, $s1, $zero            ## $a1 = 000002EC
 /* 000C8 809BCD28 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 000CC 809BCD2C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000CC 809BCD2C 0C01712B */  jal     Collider_InitCylinder
 
 /* 000D0 809BCD30 02003825 */  or      $a3, $s0, $zero            ## $a3 = 809BF408
 /* 000D4 809BCD34 2610002C */  addiu   $s0, $s0, 0x002C           ## $s0 = 809BF434

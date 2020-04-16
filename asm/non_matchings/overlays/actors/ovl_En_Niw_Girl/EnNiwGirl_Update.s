@@ -135,7 +135,7 @@ glabel EnNiwGirl_Update
 /* 00824 80AB97A4 26060288 */  addiu   $a2, $s0, 0x0288           ## $a2 = 00000288
 /* 00828 80AB97A8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000288
 /* 0082C 80AB97AC AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 00830 80AB97B0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00830 80AB97B0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00834 80AB97B4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00838 80AB97B8 8FA4003C */  lw      $a0, 0x003C($sp)           

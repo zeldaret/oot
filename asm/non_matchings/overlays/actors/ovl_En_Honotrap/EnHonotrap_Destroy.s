@@ -12,7 +12,7 @@ glabel EnHonotrap_Destroy
 /* 00494 80A5A0C4 10000004 */  beq     $zero, $zero, .L80A5A0D8   
 /* 00498 80A5A0C8 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80A5A0CC:
-/* 0049C 80A5A0CC 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0049C 80A5A0CC 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 004A0 80A5A0D0 24C50150 */  addiu   $a1, $a2, 0x0150           ## $a1 = 00000150
 /* 004A4 80A5A0D4 8FBF0014 */  lw      $ra, 0x0014($sp)           

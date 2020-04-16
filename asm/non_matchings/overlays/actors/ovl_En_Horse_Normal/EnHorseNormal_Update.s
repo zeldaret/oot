@@ -63,7 +63,7 @@ glabel EnHorseNormal_Update
 /* 01840 80A6CA90 AE0A0040 */  sw      $t2, 0x0040($s0)           ## 00000040
 /* 01844 80A6CA94 AE0C020C */  sw      $t4, 0x020C($s0)           ## 0000020C
 /* 01848 80A6CA98 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 0184C 80A6CA9C 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0184C 80A6CA9C 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 01850 80A6CAA0 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000228
 /* 01854 80A6CAA4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

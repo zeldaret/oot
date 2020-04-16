@@ -133,7 +133,7 @@ glabel EnReeba_Update
 /* 01620 80AE62F0 46105480 */  add.s   $f18, $f10, $f16           
 /* 01624 80AE62F4 E612003C */  swc1    $f18, 0x003C($s0)          ## 0000003C
 .L80AE62F8:
-/* 01628 80AE62F8 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 01628 80AE62F8 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 0162C 80AE62FC AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 01630 80AE6300 3C01C42F */  lui     $at, 0xC42F                ## $at = C42F0000
@@ -168,7 +168,7 @@ glabel EnReeba_Update
 /* 016A0 80AE6370 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 016A4 80AE6374 4503000F */  bc1tl   .L80AE63B4                 
 /* 016A8 80AE6378 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 016AC 80AE637C 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 016AC 80AE637C 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 016B0 80AE6380 AFB90030 */  sw      $t9, 0x0030($sp)           
 /* 016B4 80AE6384 8E02026C */  lw      $v0, 0x026C($s0)           ## 0000026C
@@ -181,7 +181,7 @@ glabel EnReeba_Update
 /* 016D0 80AE63A0 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80AE63A4:
 /* 016D4 80AE63A4 8FA5002C */  lw      $a1, 0x002C($sp)           
-/* 016D8 80AE63A8 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 016D8 80AE63A8 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 016DC 80AE63AC 8FA60028 */  lw      $a2, 0x0028($sp)           
 .L80AE63B0:

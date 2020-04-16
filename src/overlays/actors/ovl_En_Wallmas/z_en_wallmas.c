@@ -95,8 +95,8 @@ void EnWallmas_Init(EnWallmas* this, GlobalContext* globalCtx) {
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
                      0x19);
 
-    CollisionCheck_AllocCylinder(globalCtx, &this->colCylinder);
-    ActorCollider_InitCylinder(globalCtx, &this->colCylinder, &this->actor, &colCylinderInit);
+    Collider_AllocCylinder(globalCtx, &this->colCylinder);
+    Collider_InitCylinder(globalCtx, &this->colCylinder, &this->actor, &colCylinderInit);
     func_80061ED4(&this->actor.sub_98, &damageTable, &sub98Init);
     this2->switchFlag = (u8)(this2->actor.params >> 0x8);
     this->actor.params = this->actor.params & 0xFF;
@@ -117,7 +117,7 @@ void EnWallmas_Init(EnWallmas* this, GlobalContext* globalCtx) {
 
 void EnWallmas_Destroy(EnWallmas* this, GlobalContext* globalCtx) {
     ColliderCylinder* col = &this->colCylinder;
-    ActorCollider_FreeCylinder(globalCtx, col);
+    Collider_FreeCylinder(globalCtx, col);
 }
 
 void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
@@ -535,12 +535,12 @@ void EnWallmas_Update(EnWallmas* this, GlobalContext* globalCtx) {
     }
 
     if ((this2->actionFunc != (ActorFunc)&EnWallmas_Die) && (this2->actionFunc != (ActorFunc)&EnWallmas_Drop)) {
-        ActorCollider_Cylinder_Update(&this2->actor, &this2->colCylinder);
+        Collider_CylinderUpdate(&this2->actor, &this2->colCylinder);
         CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this2->colCylinder);
 
         if ((this2->actionFunc != (ActorFunc)&EnWallmas_TakeDamage) && (this2->actor.bgCheckFlags & 1) != 0 &&
             (this2->actor.freeze == 0)) {
-            Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this2->colCylinder);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this2->colCylinder);
         }
     }
 

@@ -50,7 +50,7 @@ glabel ObjDekujr_Init
 /* 000A4 80B924C4 00000000 */  nop
 /* 000A8 80B924C8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000AC 80B924CC AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 000B0 80B924D0 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 000B0 80B924D0 0C0170D9 */  jal     Collider_AllocCylinder
               
 /* 000B4 80B924D4 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000B8 80B924D8 3C0680B9 */  lui     $a2, %hi(D_80B92A00)       ## $a2 = 80B90000

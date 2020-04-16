@@ -38,7 +38,7 @@ glabel EnHorseGanon_Update
 /* 00908 80A68F68 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 000001FC
 /* 0090C 80A68F6C E60A003C */  swc1    $f10, 0x003C($s0)          ## 0000003C
 /* 00910 80A68F70 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 00914 80A68F74 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00914 80A68F74 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00918 80A68F78 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0091C 80A68F7C 8FA4003C */  lw      $a0, 0x003C($sp)           

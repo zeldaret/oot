@@ -248,8 +248,8 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
         return;
     }
 
-    CollisionCheck_AllocCylinder(globalCtx, collider);
-    ActorCollider_InitCylinder(globalCtx, collider, &this->actor, &cylinderInit);
+    Collider_AllocCylinder(globalCtx, collider);
+    Collider_InitCylinder(globalCtx, collider, &this->actor, &cylinderInit);
     func_80061EFC(&this->actor.sub_98, 0, &sub98Data);
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
@@ -288,7 +288,7 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
 
 void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
-    ActorCollider_FreeCylinder(globalCtx, collider);
+    Collider_FreeCylinder(globalCtx, collider);
 }
 
 void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
@@ -446,7 +446,7 @@ void EnDog_Update(EnDog* this, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height * 0.5f, 0.0f, 5);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
-    ActorCollider_Cylinder_Update(&this->actor, &this->collider);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
 }
 

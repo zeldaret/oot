@@ -11,7 +11,7 @@ glabel EnTorch2_Destroy
 /* 001CC 80B1DB4C 0C03D6D6 */  jal     func_800F5B58              
 /* 001D0 80B1DB50 00000000 */  nop
 /* 001D4 80B1DB54 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 001D8 80B1DB58 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001D8 80B1DB58 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 001DC 80B1DB5C 26050498 */  addiu   $a1, $s0, 0x0498           ## $a1 = 00000498
 /* 001E0 80B1DB60 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

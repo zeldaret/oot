@@ -15,11 +15,11 @@ glabel EnHorse_Destroy
 /* 01558 80A5C848 0C029A22 */  jal     func_800A6888              
 /* 0155C 80A5C84C 26050160 */  addiu   $a1, $s0, 0x0160           ## $a1 = 00000160
 /* 01560 80A5C850 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 01564 80A5C854 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 01564 80A5C854 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 01568 80A5C858 26050278 */  addiu   $a1, $s0, 0x0278           ## $a1 = 00000278
 /* 0156C 80A5C85C 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 01570 80A5C860 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 01570 80A5C860 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 01574 80A5C864 260502C4 */  addiu   $a1, $s0, 0x02C4           ## $a1 = 000002C4
 /* 01578 80A5C868 8FA40024 */  lw      $a0, 0x0024($sp)           

@@ -16,14 +16,14 @@ glabel func_80A74398
 /* 000C0 80A743D0 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 000C4 80A743D4 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 000C8 80A743D8 26050320 */  addiu   $a1, $s0, 0x0320           ## $a1 = 00000320
-/* 000CC 80A743DC 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 000CC 80A743DC 0C0170D9 */  jal     Collider_AllocCylinder
               
 /* 000D0 80A743E0 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 000D4 80A743E4 3C0780A8 */  lui     $a3, %hi(D_80A78340)       ## $a3 = 80A80000
 /* 000D8 80A743E8 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 000DC 80A743EC 24E78340 */  addiu   $a3, $a3, %lo(D_80A78340)  ## $a3 = 80A78340
 /* 000E0 80A743F0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000E4 80A743F4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000E4 80A743F4 0C01712B */  jal     Collider_InitCylinder
               
 /* 000E8 80A743F8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000EC 80A743FC 260503EC */  addiu   $a1, $s0, 0x03EC           ## $a1 = 000003EC

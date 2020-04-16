@@ -55,14 +55,14 @@ glabel EnHorseNormal_Init
 /* 0020C 80A6B45C E6060068 */  swc1    $f6, 0x0068($s0)           ## 00000068
 /* 00210 80A6B460 AE0F0040 */  sw      $t7, 0x0040($s0)           ## 00000040
 /* 00214 80A6B464 AFA50028 */  sw      $a1, 0x0028($sp)
-/* 00218 80A6B468 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 00218 80A6B468 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 0021C 80A6B46C 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00220 80A6B470 3C0780A7 */  lui     $a3, %hi(D_80A6D394)       ## $a3 = 80A70000
 /* 00224 80A6B474 8FA50028 */  lw      $a1, 0x0028($sp)
 /* 00228 80A6B478 24E7D394 */  addiu   $a3, $a3, %lo(D_80A6D394)  ## $a3 = 80A6D394
 /* 0022C 80A6B47C 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 00230 80A6B480 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00230 80A6B480 0C01712B */  jal     Collider_InitCylinder
 
 /* 00234 80A6B484 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00238 80A6B488 26050274 */  addiu   $a1, $s0, 0x0274           ## $a1 = 00000274
@@ -79,14 +79,14 @@ glabel EnHorseNormal_Init
 /* 00264 80A6B4B4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00268 80A6B4B8 260502D4 */  addiu   $a1, $s0, 0x02D4           ## $a1 = 000002D4
 /* 0026C 80A6B4BC AFA50028 */  sw      $a1, 0x0028($sp)
-/* 00270 80A6B4C0 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 00270 80A6B4C0 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 00274 80A6B4C4 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00278 80A6B4C8 3C0780A7 */  lui     $a3, %hi(D_80A6D3C0)       ## $a3 = 80A70000
 /* 0027C 80A6B4CC 8FA50028 */  lw      $a1, 0x0028($sp)
 /* 00280 80A6B4D0 24E7D3C0 */  addiu   $a3, $a3, %lo(D_80A6D3C0)  ## $a3 = 80A6D3C0
 /* 00284 80A6B4D4 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 00288 80A6B4D8 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00288 80A6B4D8 0C01712B */  jal     Collider_InitCylinder
 
 /* 0028C 80A6B4DC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00290 80A6B4E0 3C0680A7 */  lui     $a2, %hi(D_80A6D420)       ## $a2 = 80A70000

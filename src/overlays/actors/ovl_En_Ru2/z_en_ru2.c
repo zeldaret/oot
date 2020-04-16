@@ -95,7 +95,7 @@ extern AnimationHeader* D_0600F8B8;
 
 void func_80AF2550(EnRu2* this, GlobalContext* globalCtx) {
     EnRu2* thisLocal = this;
-    CollisionCheck_AllocCylinder(globalCtx, &thisLocal->collider);
+    Collider_AllocCylinder(globalCtx, &thisLocal->collider);
     func_8005C450(globalCtx, &thisLocal->collider, &this->actor, &colliderInit);
 }
 
@@ -105,13 +105,13 @@ void func_80AF259C(EnRu2* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     s32 pad2[2];
 
-    ActorCollider_Cylinder_Update(thisx, collider);
-    Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, collider);
+    Collider_CylinderUpdate(thisx, collider);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, collider);
 }
 
 void EnRu2_Destroy(EnRu2* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
-    ActorCollider_FreeCylinder(globalCtx, collider);
+    Collider_FreeCylinder(globalCtx, collider);
 }
 
 void func_80AF2608(EnRu2* this) {

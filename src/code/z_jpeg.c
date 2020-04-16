@@ -97,8 +97,7 @@ void Jpeg_CopyToZbuffer(u16* src, u16* zbuffer, s32 x, s32 y) {
 u16 Jpeg_GetU16(u8* ptr) {
     if (((u32)ptr & 1) == 0) { // if the address is aligned to 2
         return *(u16*)ptr;
-    }
-    else {
+    } else {
         return *(u16*)(ptr - 1) << 8 | (*(u16*)(ptr + 1) >> 8); // ?? it's exactly like *(16*)ptr
     }
 }

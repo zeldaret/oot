@@ -22,14 +22,14 @@ glabel EnMa2_Init
 /* 004E8 80AA1E88 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 004EC 80AA1E8C 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 004F0 80AA1E90 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 004F4 80AA1E94 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 004F4 80AA1E94 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 004F8 80AA1E98 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 004FC 80AA1E9C 3C0780AA */  lui     $a3, %hi(D_80AA2820)       ## $a3 = 80AA0000
 /* 00500 80AA1EA0 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 00504 80AA1EA4 24E72820 */  addiu   $a3, $a3, %lo(D_80AA2820)  ## $a3 = 80AA2820
 /* 00508 80AA1EA8 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 0050C 80AA1EAC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0050C 80AA1EAC 0C01712B */  jal     Collider_InitCylinder
 
 /* 00510 80AA1EB0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00514 80AA1EB4 0C016C80 */  jal     CollisionBtlTbl_Get

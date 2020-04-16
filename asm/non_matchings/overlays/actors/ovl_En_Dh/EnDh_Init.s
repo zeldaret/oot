@@ -54,14 +54,14 @@ glabel EnDh_Init
 /* 000C8 809EAE08 01C17824 */  and     $t7, $t6, $at
 /* 000CC 809EAE0C AE0F0004 */  sw      $t7, 0x0004($s0)           ## 00000004
 /* 000D0 809EAE10 26050260 */  addiu   $a1, $s0, 0x0260           ## $a1 = 00000260
-/* 000D4 809EAE14 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 000D4 809EAE14 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 000D8 809EAE18 AFA50030 */  sw      $a1, 0x0030($sp)
 /* 000DC 809EAE1C 3C07809F */  lui     $a3, %hi(D_809EC5C0)       ## $a3 = 809F0000
 /* 000E0 809EAE20 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 000E4 809EAE24 24E7C5C0 */  addiu   $a3, $a3, %lo(D_809EC5C0)  ## $a3 = 809EC5C0
 /* 000E8 809EAE28 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000EC 809EAE2C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000EC 809EAE2C 0C01712B */  jal     Collider_InitCylinder
 
 /* 000F0 809EAE30 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000F4 809EAE34 260502AC */  addiu   $a1, $s0, 0x02AC           ## $a1 = 000002AC

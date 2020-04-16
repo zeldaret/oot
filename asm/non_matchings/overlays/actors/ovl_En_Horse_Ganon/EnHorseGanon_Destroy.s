@@ -9,7 +9,7 @@ glabel EnHorseGanon_Destroy
 /* 00430 80A68A90 24A50154 */  addiu   $a1, $a1, 0x0154           ## $a1 = 00000154
 /* 00434 80A68A94 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00438 80A68A98 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0043C 80A68A9C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0043C 80A68A9C 0C0170EB */  jal     Collider_FreeCylinder
               
 /* 00440 80A68AA0 24A501FC */  addiu   $a1, $a1, 0x01FC           ## $a1 = 000001FC
 /* 00444 80A68AA4 8FA50018 */  lw      $a1, 0x0018($sp)           

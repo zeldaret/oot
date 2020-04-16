@@ -7,7 +7,7 @@ glabel EnMa3_Update
 /* 007A8 80AA3248 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 007AC 80AA324C 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 007B0 80AA3250 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
-/* 007B4 80AA3254 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 007B4 80AA3254 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 007B8 80AA3258 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 007BC 80AA325C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

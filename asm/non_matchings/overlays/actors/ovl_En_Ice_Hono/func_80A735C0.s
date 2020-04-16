@@ -89,7 +89,7 @@ glabel func_80A735C0
 /* 006F4 80A736E4 00000000 */  nop
 /* 006F8 80A736E8 2630015C */  addiu   $s0, $s1, 0x015C           ## $s0 = 0000015C
 /* 006FC 80A736EC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000015C
-/* 00700 80A736F0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00700 80A736F0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00704 80A736F4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00708 80A736F8 3C01457A */  lui     $at, 0x457A                ## $at = 457A0000

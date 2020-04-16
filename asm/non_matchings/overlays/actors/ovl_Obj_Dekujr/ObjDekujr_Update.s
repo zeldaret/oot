@@ -6,7 +6,7 @@ glabel ObjDekujr_Update
 /* 00358 80B92778 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 0035C 80B9277C 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 00360 80B92780 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
-/* 00364 80B92784 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00364 80B92784 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00368 80B92788 AFA60024 */  sw      $a2, 0x0024($sp)           
 /* 0036C 80B9278C 8FA40034 */  lw      $a0, 0x0034($sp)           

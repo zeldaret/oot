@@ -116,7 +116,7 @@ glabel EnDns_Init
 /* 000D0 809EF420 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000D4 809EF424 2605026C */  addiu   $a1, $s0, 0x026C           ## $a1 = 0000026C
 /* 000D8 809EF428 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 000DC 809EF42C 0C0170D9 */  jal     CollisionCheck_AllocCylinder
+/* 000DC 809EF42C 0C0170D9 */  jal     Collider_AllocCylinder
 
 /* 000E0 809EF430 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 000E4 809EF434 3C07809F */  lui     $a3, %hi(D_809F03E0)       ## $a3 = 809F0000
