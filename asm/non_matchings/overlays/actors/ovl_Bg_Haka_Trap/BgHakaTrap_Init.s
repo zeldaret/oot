@@ -55,7 +55,7 @@ glabel BgHakaTrap_Init
 /* 000C0 8087FD60 1000006C */  beq     $zero, $zero, .L8087FF14   
 /* 000C4 8087FD64 AE0B0164 */  sw      $t3, 0x0164($s0)           ## 00000164
 .L8087FD68:
-/* 000C8 8087FD68 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 000C8 8087FD68 0C010D20 */  jal     func_80043480
               
 /* 000CC 8087FD6C 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 000D0 8087FD70 8E0C0004 */  lw      $t4, 0x0004($s0)           ## 00000004
@@ -66,7 +66,7 @@ glabel BgHakaTrap_Init
 /* 000E4 8087FD84 AE0D0004 */  sw      $t5, 0x0004($s0)           ## 00000004
 /* 000E8 8087FD88 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 000EC 8087FD8C 24849CD0 */  addiu   $a0, $a0, 0x9CD0           ## $a0 = 06009CD0
-/* 000F0 8087FD90 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 000F0 8087FD90 0C010620 */  jal     func_80041880
               
 /* 000F4 8087FD94 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
 /* 000F8 8087FD98 240E001E */  addiu   $t6, $zero, 0x001E         ## $t6 = 0000001E
@@ -115,7 +115,7 @@ glabel BgHakaTrap_Init
 /* 00198 8087FE38 1461000A */  bne     $v1, $at, .L8087FE64       
 /* 0019C 8087FE3C 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 001A0 8087FE40 248481D0 */  addiu   $a0, $a0, 0x81D0           ## $a0 = 060081D0
-/* 001A4 8087FE44 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 001A4 8087FE44 0C010620 */  jal     func_80041880
               
 /* 001A8 8087FE48 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
 /* 001AC 8087FE4C 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
@@ -132,7 +132,7 @@ glabel BgHakaTrap_Init
 /* 001D4 8087FE74 24848D10 */  addiu   $a0, $a0, 0x8D10           ## $a0 = 06008D10
 /* 001D8 8087FE78 46062200 */  add.s   $f8, $f4, $f6              
 /* 001DC 8087FE7C 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
-/* 001E0 8087FE80 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 001E0 8087FE80 0C010620 */  jal     func_80041880
               
 /* 001E4 8087FE84 E6080008 */  swc1    $f8, 0x0008($s0)           ## 00000008
 .L8087FE88:
@@ -163,8 +163,8 @@ glabel BgHakaTrap_Init
 /* 00244 8087FEE4 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00248 8087FEE8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0024C 8087FEEC 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 00250 8087FEF0 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 00250 8087FEF0 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 00254 8087FEF4 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00258 8087FEF8 10000006 */  beq     $zero, $zero, .L8087FF14   
 /* 0025C 8087FEFC AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

@@ -25,7 +25,7 @@ glabel D_80138C44
     .balign 4
     
 .text
-glabel DynaPolyInfo_setActor
+glabel func_8003EA74
 /* AB5C14 8003EA74 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* AB5C18 8003EA78 AFB00018 */  sw    $s0, 0x18($sp)
 /* AB5C1C 8003EA7C AFA40030 */  sw    $a0, 0x30($sp)

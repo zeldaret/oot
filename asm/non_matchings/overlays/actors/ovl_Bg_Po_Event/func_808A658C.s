@@ -11,14 +11,14 @@ glabel func_808A658C
 /* 003A0 808A65B0 AC8F0004 */  sw      $t7, 0x0004($a0)           ## 00000004
 /* 003A4 808A65B4 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 003A8 808A65B8 24847860 */  addiu   $a0, $a0, 0x7860           ## $a0 = 06007860
-/* 003AC 808A65BC 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 003AC 808A65BC 0C010620 */  jal     func_80041880
               
 /* 003B0 808A65C0 27A50058 */  addiu   $a1, $sp, 0x0058           ## $a1 = FFFFFFF8
 /* 003B4 808A65C4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 003B8 808A65C8 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 003BC 808A65CC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 003C0 808A65D0 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 003C0 808A65D0 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 003C4 808A65D4 8FA70058 */  lw      $a3, 0x0058($sp)           
 /* 003C8 808A65D8 92030168 */  lbu     $v1, 0x0168($s0)           ## 00000168
 /* 003CC 808A65DC AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

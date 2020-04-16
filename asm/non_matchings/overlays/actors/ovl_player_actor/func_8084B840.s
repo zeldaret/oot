@@ -9,8 +9,8 @@ glabel func_8084B840
 /* 1964C 8084B85C 10C1000A */  beq     $a2, $at, .L8084B888       
 /* 19650 8084B860 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 19654 8084B864 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
-/* 19658 8084B868 0C00FAE1 */  jal     DynaPolyInfo_GetActor
-              ## DynaPolyInfo_getActor
+/* 19658 8084B868 0C00FAE1 */  jal     func_8003EB84
+              ## func_8003EB84
 /* 1965C 8084B86C AFA7001C */  sw      $a3, 0x001C($sp)           
 /* 19660 8084B870 8FA7001C */  lw      $a3, 0x001C($sp)           
 /* 19664 8084B874 10400004 */  beq     $v0, $zero, .L8084B888     

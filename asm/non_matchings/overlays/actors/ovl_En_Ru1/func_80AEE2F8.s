@@ -10,8 +10,8 @@ glabel func_80AEE2F8
 /* 03708 80AEE318 24010032 */  addiu   $at, $zero, 0x0032         ## $at = 00000032
 /* 0370C 80AEE31C 10410014 */  beq     $v0, $at, .L80AEE370       
 /* 03710 80AEE320 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
-/* 03714 80AEE324 0C00FAE1 */  jal     DynaPolyInfo_GetActor
-              ## DynaPolyInfo_getActor
+/* 03714 80AEE324 0C00FAE1 */  jal     func_8003EB84
+              ## func_8003EB84
 /* 03718 80AEE328 24C407C0 */  addiu   $a0, $a2, 0x07C0           ## $a0 = 000007C0
 /* 0371C 80AEE32C 10400010 */  beq     $v0, $zero, .L80AEE370     
 /* 03720 80AEE330 00000000 */  nop

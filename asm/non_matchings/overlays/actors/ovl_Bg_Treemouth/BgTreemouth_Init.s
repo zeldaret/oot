@@ -10,19 +10,19 @@ glabel BgTreemouth_Init
               
 /* 00028 808BC528 24A5D9B0 */  addiu   $a1, $a1, %lo(D_808BD9B0)  ## $a1 = 808BD9B0
 /* 0002C 808BC52C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00030 808BC530 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00030 808BC530 0C010D20 */  jal     func_80043480
               
 /* 00034 808BC534 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00038 808BC538 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 0003C 808BC53C 24840E94 */  addiu   $a0, $a0, 0x0E94           ## $a0 = 06000E94
-/* 00040 808BC540 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00040 808BC540 0C010620 */  jal     func_80041880
               
 /* 00044 808BC544 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 00048 808BC548 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 0004C 808BC54C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00050 808BC550 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 00054 808BC554 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 00054 808BC554 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 00058 808BC558 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 0005C 808BC55C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00060 808BC560 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

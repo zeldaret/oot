@@ -237,7 +237,7 @@ static void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                 // Otherwise play a clank sound and keep collided set to bounce back.
                 if ((func_8002F9EC(globalCtx, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0) ||
                     ((hitDynaID != 0x32) &&
-                     ((hitActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, hitDynaID)) != NULL) &&
+                     ((hitActor = func_8003EB84(&globalCtx->colCtx, hitDynaID)) != NULL) &&
                      (hitActor->actor.id == ACTOR_BG_BDAN_OBJECTS) && (hitActor->actor.params == 0))) {
                     collided = 0;
                 } else {

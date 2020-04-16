@@ -99,9 +99,9 @@ static s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
     s32 pad[2];
 
     if (D_808B1F90[thisx->params] != 0) {
-        DynaPolyInfo_SetActorMove(thisx, 0);
-        DynaPolyInfo_Alloc(D_808B1F90[thisx->params], &localC);
-        this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
+        func_80043480(thisx, 0);
+        func_80041880(D_808B1F90[thisx->params], &localC);
+        this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
     }
     return 1;
 }
@@ -157,7 +157,7 @@ static void BgSpot09Obj_Destroy(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (thisx->params != 0) {
-        DynaPolyInfo_delReserve(globalCtx, dynaColCtx, this->dyna.dynaPolyId);
+        func_8003ED58(globalCtx, dynaColCtx, this->dyna.dynaPolyId);
     }
 }
 

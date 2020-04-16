@@ -26,7 +26,7 @@ glabel D_80138EEC
     .balign 4
     
 .text
-glabel DynaPolyInfo_setup
+glabel func_8003F984
 /* AB6B24 8003F984 27BDFF98 */  addiu $sp, $sp, -0x68
 /* AB6B28 8003F988 AFB50034 */  sw    $s5, 0x34($sp)
 /* AB6B2C 8003F98C 0080A825 */  move  $s5, $a0
@@ -99,7 +99,7 @@ glabel DynaPolyInfo_setup
 /* AB6C2C 8003FA8C 0C00084C */  jal   osSyncPrintf
 /* AB6C30 8003FA90 24848EEC */   addiu $a0, %lo(D_80138EEC) # addiu $a0, $a0, -0x7114
 /* AB6C34 8003FA94 02602025 */  move  $a0, $s3
-/* AB6C38 8003FA98 0C00FAE1 */  jal   DynaPolyInfo_GetActor
+/* AB6C38 8003FA98 0C00FAE1 */  jal   func_8003EB84
 /* AB6C3C 8003FA9C 02402825 */   move  $a1, $s2
 /* AB6C40 8003FAA0 10400024 */  beqz  $v0, .L8003FB34
 /* AB6C44 8003FAA4 2409FFFF */   li    $t1, -1
@@ -132,7 +132,7 @@ glabel DynaPolyInfo_setup
 /* AB6CA8 8003FB08 11A00004 */  beqz  $t5, .L8003FB1C
 /* AB6CAC 8003FB0C 02403025 */   move  $a2, $s2
 /* AB6CB0 8003FB10 02203825 */  move  $a3, $s1
-/* AB6CB4 8003FB14 0C00FBA0 */  jal   DynaPolyInfo_expandSRT
+/* AB6CB4 8003FB14 0C00FBA0 */  jal   func_8003EE80
 /* AB6CB8 8003FB18 AFB30010 */   sw    $s3, 0x10($sp)
 .L8003FB1C:
 /* AB6CBC 8003FB1C 26520001 */  addiu $s2, $s2, 1

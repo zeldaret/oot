@@ -4,7 +4,7 @@ glabel func_80041B80
 /* AB8D28 80041B88 AFA5001C */  sw    $a1, 0x1c($sp)
 /* AB8D2C 80041B8C AFA40018 */  sw    $a0, 0x18($sp)
 /* AB8D30 80041B90 AFA60020 */  sw    $a2, 0x20($sp)
-/* AB8D34 80041B94 0C00F131 */  jal   T_BGCheck_getBGDataInfo
+/* AB8D34 80041B94 0C00F131 */  jal   func_8003C4C4
 /* AB8D38 80041B98 00C02825 */   move  $a1, $a2
 /* AB8D3C 80041B9C 14400003 */  bnez  $v0, .L80041BAC
 /* AB8D40 80041BA0 3C048016 */   lui   $a0, %hi(gSegments) # $a0, 0x8016

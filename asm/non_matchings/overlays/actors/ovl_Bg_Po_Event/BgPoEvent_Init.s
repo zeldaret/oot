@@ -53,7 +53,7 @@ glabel BgPoEvent_Init
 /* 005E8 808A67F8 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L808A67FC:
 /* 005EC 808A67FC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 005F0 808A6800 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 005F0 808A6800 0C010D20 */  jal     func_80043480
               
 /* 005F4 808A6804 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 005F8 808A6808 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

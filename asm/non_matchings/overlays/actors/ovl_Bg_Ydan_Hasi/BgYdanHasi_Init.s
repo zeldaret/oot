@@ -22,7 +22,7 @@ glabel BgYdanHasi_Init
 /* 0004C 808BE54C 8D2A07C0 */  lw      $t2, 0x07C0($t1)           ## 000007C0
 /* 00050 808BE550 8D4B0028 */  lw      $t3, 0x0028($t2)           ## 00000028
 /* 00054 808BE554 256C0010 */  addiu   $t4, $t3, 0x0010           ## $t4 = 00000010
-/* 00058 808BE558 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00058 808BE558 0C010D20 */  jal     func_80043480
               
 /* 0005C 808BE55C AFAC0028 */  sw      $t4, 0x0028($sp)           
 /* 00060 808BE560 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
@@ -49,7 +49,7 @@ glabel BgYdanHasi_Init
 /* 000B0 808BE5B0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 000B4 808BE5B4 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 000B8 808BE5B8 24847798 */  addiu   $a0, $a0, 0x7798           ## $a0 = 06007798
-/* 000BC 808BE5BC 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 000BC 808BE5BC 0C010620 */  jal     func_80041880
               
 /* 000C0 808BE5C0 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
 /* 000C4 808BE5C4 3C01808C */  lui     $at, %hi(D_808BEC6C)       ## $at = 808C0000
@@ -71,7 +71,7 @@ glabel BgYdanHasi_Init
 /* 00104 808BE604 E6060028 */  swc1    $f6, 0x0028($s0)           ## 00000028
 .L808BE608:
 /* 00108 808BE608 24845780 */  addiu   $a0, $a0, 0x5780           ## $a0 = 00005780
-/* 0010C 808BE60C 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 0010C 808BE60C 0C010620 */  jal     func_80041880
               
 /* 00110 808BE610 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
 /* 00114 808BE614 3C0A808C */  lui     $t2, %hi(func_808BE930)    ## $t2 = 808C0000
@@ -86,8 +86,8 @@ glabel BgYdanHasi_Init
 /* 00130 808BE630 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00134 808BE634 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00138 808BE638 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 0013C 808BE63C 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 0013C 808BE63C 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 00140 808BE640 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00144 808BE644 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 .L808BE648:

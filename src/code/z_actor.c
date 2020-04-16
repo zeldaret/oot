@@ -2139,7 +2139,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
         }
 
         if (i == ACTORTYPE_BG) {
-            DynaPolyInfo_setup(globalCtx, &globalCtx->colCtx.dyna);
+            func_8003F984(globalCtx, &globalCtx->colCtx.dyna);
         }
     }
 

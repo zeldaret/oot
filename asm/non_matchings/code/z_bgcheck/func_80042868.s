@@ -45,7 +45,7 @@ glabel func_80042868
 /* AB9A9C 800428FC 01330019 */  multu $t1, $s3
 /* AB9AA0 80042900 00005012 */  mflo  $t2
 /* AB9AA4 80042904 014B2021 */  addu  $a0, $t2, $t3
-/* AB9AA8 80042908 0C00E22A */  jal   T_BGCheck_Vec3sToVec3f
+/* AB9AA8 80042908 0C00E22A */  jal   func_800388A8
 /* AB9AAC 8004290C 00000000 */   nop   
 /* AB9AB0 80042910 960C0004 */  lhu   $t4, 4($s0)
 /* AB9AB4 80042914 8E2F13F4 */  lw    $t7, 0x13f4($s1)
@@ -54,7 +54,7 @@ glabel func_80042868
 /* AB9AC0 80042920 01B30019 */  multu $t5, $s3
 /* AB9AC4 80042924 00007012 */  mflo  $t6
 /* AB9AC8 80042928 01CF2021 */  addu  $a0, $t6, $t7
-/* AB9ACC 8004292C 0C00E22A */  jal   T_BGCheck_Vec3sToVec3f
+/* AB9ACC 8004292C 0C00E22A */  jal   func_800388A8
 /* AB9AD0 80042930 00000000 */   nop   
 /* AB9AD4 80042934 96180006 */  lhu   $t8, 6($s0)
 /* AB9AD8 80042938 8E2813F4 */  lw    $t0, 0x13f4($s1)
@@ -62,7 +62,7 @@ glabel func_80042868
 /* AB9AE0 80042940 03130019 */  multu $t8, $s3
 /* AB9AE4 80042944 0000C812 */  mflo  $t9
 /* AB9AE8 80042948 03282021 */  addu  $a0, $t9, $t0
-/* AB9AEC 8004294C 0C00E22A */  jal   T_BGCheck_Vec3sToVec3f
+/* AB9AEC 8004294C 0C00E22A */  jal   func_800388A8
 /* AB9AF0 80042950 00000000 */   nop   
 /* AB9AF4 80042954 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* AB9AF8 80042958 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)

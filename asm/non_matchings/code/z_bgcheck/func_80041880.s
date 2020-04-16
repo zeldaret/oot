@@ -1,4 +1,4 @@
-glabel DynaPolyInfo_Alloc
+glabel func_80041880
 /* AB8A20 80041880 00047100 */  sll   $t6, $a0, 4
 /* AB8A24 80041884 000E7F02 */  srl   $t7, $t6, 0x1c
 /* AB8A28 80041888 000FC080 */  sll   $t8, $t7, 2

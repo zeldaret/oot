@@ -46,15 +46,15 @@ static void BgPushbox_Init(BgPushbox* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     Actor_ProcessInitChain(thisx, initChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06000350, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    func_80043480(&this->dyna, 0);
+    func_80041880(&D_06000350, &local_c);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     func_808A8AE0(this, &func_808A8BAC);
 }
 
 static void BgPushbox_Destroy(BgPushbox* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx) {

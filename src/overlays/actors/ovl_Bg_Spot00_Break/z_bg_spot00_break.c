@@ -52,15 +52,15 @@ static void Init(ActorSpot00Break* this, GlobalContext* globalCtx) {
     u32 local_c = 0;
 
     Actor_ProcessInitChain(&this->actor, initChain);
-    DynaPolyInfo_SetActorMove(&this->actor, 0);
+    func_80043480(&this->actor, 0);
 
     if (this->actor.params == 1) {
-        DynaPolyInfo_Alloc(&D_06000AF0, &local_c);
+        func_80041880(&D_06000AF0, &local_c);
     } else {
-        DynaPolyInfo_Alloc(&D_06000908, &local_c);
+        func_80041880(&D_06000908, &local_c);
     }
 
-    this->dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
+    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
 
     if (LINK_IS_CHILD) {
         Actor_Kill(&this->actor);
@@ -68,7 +68,7 @@ static void Init(ActorSpot00Break* this, GlobalContext* globalCtx) {
 }
 
 static void Destroy(ActorSpot00Break* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
 static void Update(ActorSpot00Break* this, GlobalContext* globalCtx) {

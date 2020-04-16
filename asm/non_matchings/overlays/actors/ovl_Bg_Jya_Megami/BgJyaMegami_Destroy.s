@@ -7,8 +7,8 @@ glabel BgJyaMegami_Destroy
 /* 00488 8089A5B8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0048C 8089A5BC 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00490 8089A5C0 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 00494 8089A5C4 0C00FB56 */  jal     DynaPolyInfo_delReserve
-              ## DynaPolyInfo_delReserve
+/* 00494 8089A5C4 0C00FB56 */  jal     func_8003ED58
+              ## func_8003ED58
 /* 00498 8089A5C8 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 0049C 8089A5CC 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 004A0 8089A5D0 8FA4001C */  lw      $a0, 0x001C($sp)           

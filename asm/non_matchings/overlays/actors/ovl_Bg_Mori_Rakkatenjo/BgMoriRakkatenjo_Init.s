@@ -5,7 +5,7 @@ glabel BgMoriRakkatenjo_Init
 /* 0000C 808A557C AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 00010 808A5580 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00014 808A5584 AFA00024 */  sw      $zero, 0x0024($sp)         
-/* 00018 808A5588 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00018 808A5588 0C010D20 */  jal     func_80043480
               
 /* 0001C 808A558C 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 00020 808A5590 C604000C */  lwc1    $f4, 0x000C($s0)           ## 0000000C
@@ -91,14 +91,14 @@ glabel BgMoriRakkatenjo_Init
 /* 00134 808A56A4 24A55E84 */  addiu   $a1, $a1, %lo(D_808A5E84)  ## $a1 = 00005E84
 /* 00138 808A56A8 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 0013C 808A56AC 248487AC */  addiu   $a0, $a0, 0x87AC           ## $a0 = 060087AC
-/* 00140 808A56B0 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00140 808A56B0 0C010620 */  jal     func_80041880
               
 /* 00144 808A56B4 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 00148 808A56B8 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 0014C 808A56BC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00150 808A56C0 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 00154 808A56C4 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 00154 808A56C4 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 00158 808A56C8 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 0015C 808A56CC AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 00160 808A56D0 0C229621 */  jal     func_808A5884              

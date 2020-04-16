@@ -47,9 +47,9 @@ static void BgHidanFslift_Init(BgHidanFslift* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     Actor_ProcessInitChain(thisx, initChain);
-    DynaPolyInfo_SetActorMove(thisx, 1);
-    DynaPolyInfo_Alloc(&D_0600E1E8, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    func_80043480(thisx, 1);
+    func_80041880(&D_0600E1E8, &local_c);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
     if (Actor_SpawnAttached(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK, thisx->posRot.pos.x,
                             thisx->posRot.pos.y + 40.0f, thisx->posRot.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
         Actor_Kill(thisx);
@@ -70,7 +70,7 @@ static void func_80886F24(BgHidanFslift* this) {
 }
 
 static void BgHidanFslift_Destroy(BgHidanFslift* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void func_80886FB4(BgHidanFslift* this) {

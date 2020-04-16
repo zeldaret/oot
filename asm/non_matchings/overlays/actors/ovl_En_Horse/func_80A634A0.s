@@ -296,8 +296,8 @@ glabel func_80A634A0
 .L80A638F4:
 /* 08604 80A638F4 8FA4003C */  lw      $a0, 0x003C($sp)           
 .L80A638F8:
-/* 08608 80A638F8 0C00FAE1 */  jal     DynaPolyInfo_GetActor
-              ## DynaPolyInfo_getActor
+/* 08608 80A638F8 0C00FAE1 */  jal     func_8003EB84
+              ## func_8003EB84
 /* 0860C 80A638FC 8FA50080 */  lw      $a1, 0x0080($sp)           
 /* 08610 80A63900 8E0301F0 */  lw      $v1, 0x01F0($s0)           ## 000001F0
 /* 08614 80A63904 00036140 */  sll     $t4, $v1,  5               

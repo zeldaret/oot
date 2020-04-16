@@ -9,7 +9,7 @@ glabel BgSpot18Shutter_Init
 /* 0001C 808B93EC 000E7A03 */  sra     $t7, $t6,  8               
 /* 00020 808B93F0 31F80001 */  andi    $t8, $t7, 0x0001           ## $t8 = 00000000
 /* 00024 808B93F4 AFB8002C */  sw      $t8, 0x002C($sp)           
-/* 00028 808B93F8 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00028 808B93F8 0C010D20 */  jal     func_80043480
               
 /* 0002C 808B93FC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00030 808B9400 3C05808C */  lui     $a1, %hi(D_808B9870)       ## $a1 = 808C0000
@@ -104,14 +104,14 @@ glabel BgSpot18Shutter_Init
 .L808B9540:
 /* 00170 808B9540 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 00174 808B9544 24840534 */  addiu   $a0, $a0, 0x0534           ## $a0 = 06000534
-/* 00178 808B9548 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00178 808B9548 0C010620 */  jal     func_80041880
               
 /* 0017C 808B954C 27A50028 */  addiu   $a1, $sp, 0x0028           ## $a1 = FFFFFFF0
 /* 00180 808B9550 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00184 808B9554 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00188 808B9558 8FA70028 */  lw      $a3, 0x0028($sp)           
-/* 0018C 808B955C 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 0018C 808B955C 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 00190 808B9560 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00194 808B9564 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 00198 808B9568 8FBF001C */  lw      $ra, 0x001C($sp)           

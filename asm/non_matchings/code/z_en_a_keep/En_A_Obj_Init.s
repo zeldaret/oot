@@ -237,12 +237,12 @@ glabel L8001D128
 /* A94308 8001D168 1041000A */  beq   $v0, $at, .L8001D194
 /* A9430C 8001D16C 0002C880 */   sll   $t9, $v0, 2
 /* A94310 8001D170 00992021 */  addu  $a0, $a0, $t9
-/* A94314 8001D174 0C010620 */  jal   DynaPolyInfo_Alloc
+/* A94314 8001D174 0C010620 */  jal   func_80041880
 /* A94318 8001D178 8C84546C */   lw    $a0, %lo(D_8011546C)($a0)
 /* A9431C 8001D17C 8FA4003C */  lw    $a0, 0x3c($sp)
 /* A94320 8001D180 02003025 */  move  $a2, $s0
 /* A94324 8001D184 8FA70034 */  lw    $a3, 0x34($sp)
-/* A94328 8001D188 0C00FA9D */  jal   DynaPolyInfo_setActor
+/* A94328 8001D188 0C00FA9D */  jal   func_8003EA74
 /* A9432C 8001D18C 24850810 */   addiu $a1, $a0, 0x810
 /* A94330 8001D190 AE02014C */  sw    $v0, 0x14c($s0)
 .L8001D194:

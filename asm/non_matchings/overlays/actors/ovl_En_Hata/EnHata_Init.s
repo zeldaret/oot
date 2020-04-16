@@ -42,19 +42,19 @@ glabel EnHata_Init
 
 /* 00094 80A50DE4 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00098 80A50DE8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0009C 80A50DEC 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 0009C 80A50DEC 0C010D20 */  jal     func_80043480
 
 /* 000A0 80A50DF0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 000A4 80A50DF4 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 000A8 80A50DF8 248400C0 */  addiu   $a0, $a0, 0x00C0           ## $a0 = 060000C0
-/* 000AC 80A50DFC 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 000AC 80A50DFC 0C010620 */  jal     func_80041880
 
 /* 000B0 80A50E00 27A5003C */  addiu   $a1, $sp, 0x003C           ## $a1 = FFFFFFF4
 /* 000B4 80A50E04 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 000B8 80A50E08 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000BC 80A50E0C 8FA7003C */  lw      $a3, 0x003C($sp)
-/* 000C0 80A50E10 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 000C0 80A50E10 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 000C4 80A50E14 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 000C8 80A50E18 3C0143FA */  lui     $at, 0x43FA                ## $at = 43FA0000
 /* 000CC 80A50E1C 44815000 */  mtc1    $at, $f10                  ## $f10 = 500.00

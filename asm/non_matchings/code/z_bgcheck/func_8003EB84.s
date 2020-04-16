@@ -1,4 +1,4 @@
-glabel DynaPolyInfo_GetActor
+glabel func_8003EB84
 /* AB5D24 8003EB84 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AB5D28 8003EB88 AFBF0014 */  sw    $ra, 0x14($sp)
 /* AB5D2C 8003EB8C AFA40018 */  sw    $a0, 0x18($sp)

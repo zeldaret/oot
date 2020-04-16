@@ -64,7 +64,7 @@ static void BgMjin_Init(BgMjin* this, GlobalContext* globalCtx) {
 }
 
 static void BgMjin_Destroy(BgMjin* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
@@ -76,11 +76,11 @@ static void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
         this->dyna.actor.flags &= ~0x10;
         this->dyna.actor.objBankIndex = this->objBankIndex;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-        DynaPolyInfo_SetActorMove(&this->dyna.actor, 0);
+        func_80043480(&this->dyna.actor, 0);
         collision = this->dyna.actor.params != 0 ? &D_06000658 : &D_06000330;
-        DynaPolyInfo_Alloc(collision, &local_c);
+        func_80041880(collision, &local_c);
         this->dyna.dynaPolyId =
-            DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
+            func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
         BgMjin_SetupAction(this, &func_808A0920);
         this->dyna.actor.draw = &BgMjin_Draw;
     }

@@ -11,7 +11,7 @@ glabel BgBdanObjects_Init
               
 /* 00108 8086BDA8 24A5CD9C */  addiu   $a1, $a1, %lo(D_8086CD9C)  ## $a1 = 8086CD9C
 /* 0010C 8086BDAC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00110 8086BDB0 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00110 8086BDB0 0C010D20 */  jal     func_80043480
               
 /* 00114 8086BDB4 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 00118 8086BDB8 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
@@ -42,7 +42,7 @@ glabel BgBdanObjects_Init
 /* 00178 8086BE18 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 0017C 8086BE1C 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 00180 8086BE20 24848CE0 */  addiu   $a0, $a0, 0x8CE0           ## $a0 = 06008CE0
-/* 00184 8086BE24 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00184 8086BE24 0C010620 */  jal     func_80041880
               
 /* 00188 8086BE28 27A50044 */  addiu   $a1, $sp, 0x0044           ## $a1 = FFFFFFF4
 /* 0018C 8086BE2C 2605016C */  addiu   $a1, $s0, 0x016C           ## $a1 = 0000016C
@@ -134,7 +134,7 @@ glabel BgBdanObjects_Init
 /* 002BC 8086BF5C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 002C0 8086BF60 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 002C4 8086BF64 24845048 */  addiu   $a0, $a0, 0x5048           ## $a0 = 06005048
-/* 002C8 8086BF68 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 002C8 8086BF68 0C010620 */  jal     func_80041880
               
 /* 002CC 8086BF6C 27A50044 */  addiu   $a1, $sp, 0x0044           ## $a1 = FFFFFFF4
 /* 002D0 8086BF70 3C0C8087 */  lui     $t4, %hi(func_8086C874)    ## $t4 = 80870000
@@ -146,7 +146,7 @@ glabel BgBdanObjects_Init
 /* 002E8 8086BF88 AE0C0164 */  sw      $t4, 0x0164($s0)           ## 00000164
 .L8086BF8C:
 /* 002EC 8086BF8C 24845580 */  addiu   $a0, $a0, 0x5580           ## $a0 = 00005580
-/* 002F0 8086BF90 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 002F0 8086BF90 0C010620 */  jal     func_80041880
               
 /* 002F4 8086BF94 27A50044 */  addiu   $a1, $sp, 0x0044           ## $a1 = FFFFFFF4
 /* 002F8 8086BF98 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
@@ -171,8 +171,8 @@ glabel BgBdanObjects_Init
 /* 00338 8086BFD8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0033C 8086BFDC 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00340 8086BFE0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00344 8086BFE4 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 00344 8086BFE4 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 00348 8086BFE8 8FA70044 */  lw      $a3, 0x0044($sp)           
 /* 0034C 8086BFEC AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 .L8086BFF0:

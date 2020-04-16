@@ -38,7 +38,7 @@ glabel D_80138D5C
     .balign 4
 
 .text
-glabel DynaPolyInfo_delReserve
+glabel func_8003ED58
 /* AB5EF8 8003ED58 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* AB5EFC 8003ED5C AFA40020 */  sw    $a0, 0x20($sp)
 /* AB5F00 8003ED60 AFBF001C */  sw    $ra, 0x1c($sp)
@@ -87,7 +87,7 @@ glabel DynaPolyInfo_delReserve
 /* AB5FA8 8003EE08 8FBF001C */   lw    $ra, 0x1c($sp)
 .L8003EE0C:
 /* AB5FAC 8003EE0C 248407C0 */  addiu $a0, $a0, 0x7c0
-/* AB5FB0 8003EE10 0C00FAE1 */  jal   DynaPolyInfo_GetActor
+/* AB5FB0 8003EE10 0C00FAE1 */  jal   func_8003EB84
 /* AB5FB4 8003EE14 02002825 */   move  $a1, $s0
 /* AB5FB8 8003EE18 1040000F */  beqz  $v0, .L8003EE58
 /* AB5FBC 8003EE1C 8FA40024 */   lw    $a0, 0x24($sp)

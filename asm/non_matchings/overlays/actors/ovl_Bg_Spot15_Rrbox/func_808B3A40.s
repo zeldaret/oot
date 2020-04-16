@@ -4,8 +4,8 @@ glabel func_808B3A40
 /* 000E8 808B3A48 8FAE0018 */  lw      $t6, 0x0018($sp)           
 /* 000EC 808B3A4C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 000F0 808B3A50 24A407C0 */  addiu   $a0, $a1, 0x07C0           ## $a0 = 000007C0
-/* 000F4 808B3A54 0C00FAE1 */  jal     DynaPolyInfo_GetActor
-              ## DynaPolyInfo_getActor
+/* 000F4 808B3A54 0C00FAE1 */  jal     func_8003EB84
+              ## func_8003EB84
 /* 000F8 808B3A58 8DC50180 */  lw      $a1, 0x0180($t6)           ## 00000180
 /* 000FC 808B3A5C 1040000E */  beq     $v0, $zero, .L808B3A98     
 /* 00100 808B3A60 8FA40018 */  lw      $a0, 0x0018($sp)           

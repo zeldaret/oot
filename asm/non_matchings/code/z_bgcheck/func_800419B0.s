@@ -3,7 +3,7 @@ glabel func_800419B0
 /* AB8B54 800419B4 AFBF0014 */  sw    $ra, 0x14($sp)
 /* AB8B58 800419B8 AFA5001C */  sw    $a1, 0x1c($sp)
 /* AB8B5C 800419BC AFA70024 */  sw    $a3, 0x24($sp)
-/* AB8B60 800419C0 0C00F131 */  jal   T_BGCheck_getBGDataInfo
+/* AB8B60 800419C0 0C00F131 */  jal   func_8003C4C4
 /* AB8B64 800419C4 00C02825 */   move  $a1, $a2
 /* AB8B68 800419C8 10400003 */  beqz  $v0, .L800419D8
 /* AB8B6C 800419CC 8FA4001C */   lw    $a0, 0x1c($sp)

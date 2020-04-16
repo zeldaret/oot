@@ -51,7 +51,7 @@ static void BgHakaMegane_Init(BgHakaMegane* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     Actor_ProcessInitChain(thisx, initChain);
-    DynaPolyInfo_SetActorMove(thisx, 0);
+    func_80043480(thisx, 0);
 
     if (thisx->params < 3) {
         this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKACH_OBJECTS);
@@ -67,7 +67,7 @@ static void BgHakaMegane_Init(BgHakaMegane* this, GlobalContext* globalCtx) {
 }
 
 static void BgHakaMegane_Destroy(BgHakaMegane* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
@@ -82,9 +82,9 @@ static void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
             this->actionFunc = (ActorFunc)func_8087DBF0;
             collision = collisions[this->dyna.actor.params];
             if (collision != 0) {
-                DynaPolyInfo_Alloc(collision, &localC);
+                func_80041880(collision, &localC);
                 this->dyna.dynaPolyId =
-                    DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
+                    func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
             }
         } else {
             this->actionFunc = (ActorFunc)func_8087DC64;

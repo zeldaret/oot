@@ -41,9 +41,9 @@ static void BgBomGuard_Init(BgBomGuard* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     s32 local_c = 0;
 
-    DynaPolyInfo_SetActorMove(&this->dyna.actor, 0);
-    DynaPolyInfo_Alloc(&D_06001C40, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    func_80043480(&this->dyna.actor, 0);
+    func_80041880(&D_06001C40, &local_c);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 透明ガード出現 ☆☆☆☆☆ \n" VT_RST);
@@ -56,7 +56,7 @@ static void BgBomGuard_Init(BgBomGuard* this, GlobalContext* globalCtx) {
 }
 
 static void BgBomGuard_Destroy(BgBomGuard* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {

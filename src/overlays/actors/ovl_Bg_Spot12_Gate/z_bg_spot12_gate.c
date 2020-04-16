@@ -51,9 +51,9 @@ static void func_808B2F90(BgSpot12Gate* this, GlobalContext* globalCtx, UNK_TYPE
     s32 localC = 0;
     s32 pad[2];
 
-    DynaPolyInfo_SetActorMove(thisx, flags);
-    DynaPolyInfo_Alloc(collision, &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
+    func_80043480(thisx, flags);
+    func_80041880(collision, &localC);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
     if (this->dyna.dynaPolyId == 0x32) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_gate.c", 145,
                      thisx->id, thisx->params);
@@ -74,7 +74,7 @@ static void BgSpot12Gate_Init(BgSpot12Gate* this, GlobalContext* globalCtx) {
 }
 
 static void BgSpot12Gate_Destroy(BgSpot12Gate* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void func_808B30C0(BgSpot12Gate* this) {

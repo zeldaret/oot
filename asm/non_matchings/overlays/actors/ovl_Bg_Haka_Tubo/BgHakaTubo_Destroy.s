@@ -7,8 +7,8 @@ glabel BgHakaTubo_Destroy
 /* 0010C 8088135C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00110 80881360 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00114 80881364 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 00118 80881368 0C00FB56 */  jal     DynaPolyInfo_delReserve
-              ## DynaPolyInfo_delReserve
+/* 00118 80881368 0C00FB56 */  jal     func_8003ED58
+              ## func_8003ED58
 /* 0011C 8088136C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00120 80881370 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00124 80881374 8FA4001C */  lw      $a0, 0x001C($sp)           

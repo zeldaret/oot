@@ -46,13 +46,13 @@ static void Init(ActorMenkuriKaiten* this, GlobalContext* globalCtx) {
     u32 local_c = 0;
 
     Actor_ProcessInitChain(&this->actor, initChain);
-    DynaPolyInfo_SetActorMove(&this->actor, 3);
-    DynaPolyInfo_Alloc(&D_060042D8, &local_c);
-    this->dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
+    func_80043480(&this->actor, 3);
+    func_80041880(&D_060042D8, &local_c);
+    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
 }
 
 static void Destroy(ActorMenkuriKaiten* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
 static void Update(ActorMenkuriKaiten* this, GlobalContext* globalCtx) {

@@ -14,8 +14,8 @@ glabel BgYdanMaruta_Destroy
 /* 00290 808BEFD0 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00294 808BEFD4 55C10004 */  bnel    $t6, $at, .L808BEFE8       
 /* 00298 808BEFD8 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 0029C 808BEFDC 0C00FB56 */  jal     DynaPolyInfo_delReserve
-              ## DynaPolyInfo_delReserve
+/* 0029C 808BEFDC 0C00FB56 */  jal     func_8003ED58
+              ## func_8003ED58
 /* 002A0 808BEFE0 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 /* 002A4 808BEFE4 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L808BEFE8:

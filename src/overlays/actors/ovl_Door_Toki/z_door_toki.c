@@ -38,13 +38,13 @@ static void Init(ActorDoorToki* this, GlobalContext* globalCtx) {
     u32 sp1C = 0;
 
     Actor_ProcessInitChain(&this->actor, initChain);
-    DynaPolyInfo_SetActorMove(&this->actor, 0);
-    DynaPolyInfo_Alloc(&DOOR_TOKI_COLLISION_DATA, &sp1C);
-    this->dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
+    func_80043480(&this->actor, 0);
+    func_80041880(&DOOR_TOKI_COLLISION_DATA, &sp1C);
+    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
 }
 
 static void Destroy(ActorDoorToki* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
 static void Update(ActorDoorToki* this, GlobalContext* globalCtx) {

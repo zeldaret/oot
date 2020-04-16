@@ -49,14 +49,14 @@ static void Init(ActorSpot18Futa* this, GlobalContext* globalCtx) {
     s32 pad[2];
     u32 sp1C = 0;
 
-    DynaPolyInfo_SetActorMove(&this->actor, 0);
-    DynaPolyInfo_Alloc(&DL_SPOT18_FUTA, &sp1C);
-    this->dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
+    func_80043480(&this->actor, 0);
+    func_80041880(&DL_SPOT18_FUTA, &sp1C);
+    this->dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
     Actor_ProcessInitChain(&this->actor, initChain);
 }
 
 static void Destroy(ActorSpot18Futa* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
 static void Update(ActorSpot18Futa* this, GlobalContext* globalCtx) {

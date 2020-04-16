@@ -55,9 +55,9 @@ static void func_80B92B08(ObjElevator* this, GlobalContext* globalCtx, u32 colli
     s16 pad2;
     Actor* thisx = &this->dyna.actor;
 
-    DynaPolyInfo_SetActorMove(thisx, flag);
-    DynaPolyInfo_Alloc(collision, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    func_80043480(thisx, flag);
+    func_80041880(collision, &local_c);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
     if (this->dyna.dynaPolyId == 0x32) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_elevator.c", 136,
                      thisx->id, thisx->params);
@@ -78,7 +78,7 @@ static void ObjElevator_Init(ObjElevator* this, GlobalContext* globalCtx) {
 }
 
 static void ObjElevator_Destroy(ObjElevator* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void func_80B92C5C(ObjElevator* this) {

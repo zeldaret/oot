@@ -56,14 +56,14 @@ glabel func_8003D7F0
 /* AB4A00 8003D860 24A589F0 */  addiu $a1, %lo(D_801389F0) # addiu $a1, $a1, -0x7610
 /* AB4A04 8003D864 00E02025 */  move  $a0, $a3
 /* AB4A08 8003D868 240614D6 */  li    $a2, 5334
-/* AB4A0C 8003D86C 0C00E180 */  jal   T_BGCheck_PosErrorCheck
+/* AB4A0C 8003D86C 0C00E180 */  jal   func_80038600
 /* AB4A10 8003D870 AF380000 */   sw    $t8, ($t9)
 /* AB4A14 8003D874 24010001 */  li    $at, 1
 /* AB4A18 8003D878 10410008 */  beq   $v0, $at, .L8003D89C
 /* AB4A1C 8003D87C 02002025 */   move  $a0, $s0
 /* AB4A20 8003D880 3C058014 */  lui   $a1, %hi(D_80138A00) # $a1, 0x8014
 /* AB4A24 8003D884 24A58A00 */  addiu $a1, %lo(D_80138A00) # addiu $a1, $a1, -0x7600
-/* AB4A28 8003D888 0C00E180 */  jal   T_BGCheck_PosErrorCheck
+/* AB4A28 8003D888 0C00E180 */  jal   func_80038600
 /* AB4A2C 8003D88C 240614D7 */   li    $a2, 5335
 /* AB4A30 8003D890 24010001 */  li    $at, 1
 /* AB4A34 8003D894 5441000E */  bnel  $v0, $at, .L8003D8D0

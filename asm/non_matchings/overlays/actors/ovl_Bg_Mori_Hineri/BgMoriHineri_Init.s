@@ -9,7 +9,7 @@ glabel BgMoriHineri_Init
               
 /* 0001C 808A37EC 24A54404 */  addiu   $a1, $a1, %lo(D_808A4404)  ## $a1 = 808A4404
 /* 00020 808A37F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00024 808A37F4 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00024 808A37F4 0C010D20 */  jal     func_80043480
               
 /* 00028 808A37F8 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 0002C 808A37FC 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C

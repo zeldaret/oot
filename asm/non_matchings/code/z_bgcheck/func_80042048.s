@@ -2,7 +2,7 @@ glabel func_80042048
 /* AB91E8 80042048 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AB91EC 8004204C AFBF0014 */  sw    $ra, 0x14($sp)
 /* AB91F0 80042050 AFA5001C */  sw    $a1, 0x1c($sp)
-/* AB91F4 80042054 0C00F131 */  jal   T_BGCheck_getBGDataInfo
+/* AB91F4 80042054 0C00F131 */  jal   func_8003C4C4
 /* AB91F8 80042058 00C02825 */   move  $a1, $a2
 /* AB91FC 8004205C 14400003 */  bnez  $v0, .L8004206C
 /* AB9200 80042060 8FBF0014 */   lw    $ra, 0x14($sp)

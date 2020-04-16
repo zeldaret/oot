@@ -10,7 +10,7 @@ glabel EnBlkobj_Init
               
 /* 0002C 809C208C 24A52580 */  addiu   $a1, $a1, %lo(D_809C2580)  ## $a1 = 809C2580
 /* 00030 809C2090 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00034 809C2094 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00034 809C2094 0C010D20 */  jal     func_80043480
               
 /* 00038 809C2098 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0003C 809C209C 8FA40034 */  lw      $a0, 0x0034($sp)           
@@ -29,14 +29,14 @@ glabel EnBlkobj_Init
 /* 0006C 809C20CC 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L809C20D0:
 /* 00070 809C20D0 24847564 */  addiu   $a0, $a0, 0x7564           ## $a0 = 00007564
-/* 00074 809C20D4 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00074 809C20D4 0C010620 */  jal     func_80041880
               
 /* 00078 809C20D8 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 0007C 809C20DC 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00080 809C20E0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00084 809C20E4 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 00088 809C20E8 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 00088 809C20E8 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 0008C 809C20EC 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00090 809C20F0 3C05809C */  lui     $a1, %hi(func_809C2148)    ## $a1 = 809C0000
 /* 00094 809C20F4 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

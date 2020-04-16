@@ -8,8 +8,8 @@ glabel func_80AEDB30
 /* 02F38 80AEDB48 51E00069 */  beql    $t7, $zero, .L80AEDCF0     
 /* 02F3C 80AEDB4C 94CF0088 */  lhu     $t7, 0x0088($a2)           ## 00000088
 /* 02F40 80AEDB50 90C5007D */  lbu     $a1, 0x007D($a2)           ## 0000007D
-/* 02F44 80AEDB54 0C00FAE1 */  jal     DynaPolyInfo_GetActor
-              ## DynaPolyInfo_getActor
+/* 02F44 80AEDB54 0C00FAE1 */  jal     func_8003EB84
+              ## func_8003EB84
 /* 02F48 80AEDB58 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 02F4C 80AEDB5C 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 02F50 80AEDB60 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00

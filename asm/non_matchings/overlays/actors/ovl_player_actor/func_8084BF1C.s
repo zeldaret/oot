@@ -101,8 +101,8 @@ glabel func_8084BF1C
 /* 19E6C 8084C07C 10A10013 */  beq     $a1, $at, .L8084C0CC
 /* 19E70 8084C080 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 19E74 8084C084 AFA80084 */  sw      $t0, 0x0084($sp)
-/* 19E78 8084C088 0C00FAE1 */  jal     DynaPolyInfo_GetActor
-              ## DynaPolyInfo_getActor
+/* 19E78 8084C088 0C00FAE1 */  jal     func_8003EB84
+              ## func_8003EB84
 /* 19E7C 8084C08C AFA90080 */  sw      $t1, 0x0080($sp)
 /* 19E80 8084C090 8FA80084 */  lw      $t0, 0x0084($sp)
 /* 19E84 8084C094 1040000D */  beq     $v0, $zero, .L8084C0CC

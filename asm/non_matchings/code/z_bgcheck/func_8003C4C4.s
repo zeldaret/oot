@@ -13,7 +13,7 @@ glabel D_8013894C
     .balign 4
     
 .text
-glabel T_BGCheck_getBGDataInfo
+glabel func_8003C4C4
 /* AB3664 8003C4C4 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AB3668 8003C4C8 24010032 */  li    $at, 50
 /* AB366C 8003C4CC 14A10003 */  bne   $a1, $at, .L8003C4DC

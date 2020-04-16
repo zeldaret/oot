@@ -5,8 +5,8 @@ glabel BgHidanKousi_Destroy
 /* 00148 80889AA8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0014C 80889AAC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00150 80889AB0 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00154 80889AB4 0C00FB56 */  jal     DynaPolyInfo_delReserve
-              ## DynaPolyInfo_delReserve
+/* 00154 80889AB4 0C00FB56 */  jal     func_8003ED58
+              ## func_8003ED58
 /* 00158 80889AB8 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 0015C 80889ABC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00160 80889AC0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

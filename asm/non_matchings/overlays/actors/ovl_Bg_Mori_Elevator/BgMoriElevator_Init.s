@@ -57,19 +57,19 @@ glabel BgMoriElevator_Init
               
 /* 00248 808A1A48 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0024C 808A1A4C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00250 808A1A50 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00250 808A1A50 0C010D20 */  jal     func_80043480
               
 /* 00254 808A1A54 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 00258 808A1A58 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 0025C 808A1A5C 248435F8 */  addiu   $a0, $a0, 0x35F8           ## $a0 = 060035F8
-/* 00260 808A1A60 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00260 808A1A60 0C010620 */  jal     func_80041880
               
 /* 00264 808A1A64 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 00268 808A1A68 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 0026C 808A1A6C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00270 808A1A70 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 00274 808A1A74 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 00274 808A1A74 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 00278 808A1A78 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 0027C 808A1A7C AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 00280 808A1A80 0C2286D8 */  jal     func_808A1B60              

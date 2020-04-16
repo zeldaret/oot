@@ -22,7 +22,7 @@ glabel func_8003E214
 /* AB53D4 8003E234 3C058014 */  lui   $a1, %hi(D_80138A50) # $a1, 0x8014
 /* AB53D8 8003E238 24A58A50 */  addiu $a1, %lo(D_80138A50) # addiu $a1, $a1, -0x75b0
 /* AB53DC 8003E23C 8FA40038 */  lw    $a0, 0x38($sp)
-/* AB53E0 8003E240 0C00E180 */  jal   T_BGCheck_PosErrorCheck
+/* AB53E0 8003E240 0C00E180 */  jal   func_80038600
 /* AB53E4 8003E244 240616DC */   li    $a2, 5852
 /* AB53E8 8003E248 24010001 */  li    $at, 1
 /* AB53EC 8003E24C 14410006 */  bne   $v0, $at, .L8003E268

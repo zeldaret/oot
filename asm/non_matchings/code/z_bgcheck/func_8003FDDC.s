@@ -132,7 +132,7 @@ glabel func_8003FDDC
 /* AB7150 8003FFB0 26730002 */   addiu $s3, $s3, 2
 /* AB7154 8003FFB4 8E190018 */  lw    $t9, 0x18($s0)
 /* AB7158 8003FFB8 00C02025 */  move  $a0, $a2
-/* AB715C 8003FFBC 0C00FAE1 */  jal   DynaPolyInfo_GetActor
+/* AB715C 8003FFBC 0C00FAE1 */  jal   func_8003EB84
 /* AB7160 8003FFC0 8F250000 */   lw    $a1, ($t9)
 /* AB7164 8003FFC4 3C01C6FA */  li    $at, 0xC6FA0000 # 0.000000
 /* AB7168 8003FFC8 44819000 */  mtc1  $at, $f18

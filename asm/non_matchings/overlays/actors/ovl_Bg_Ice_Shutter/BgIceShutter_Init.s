@@ -10,7 +10,7 @@ glabel BgIceShutter_Init
               
 /* 000AC 80891B6C 24A51EB0 */  addiu   $a1, $a1, %lo(D_80891EB0)  ## $a1 = 80891EB0
 /* 000B0 80891B70 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000B4 80891B74 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 000B4 80891B74 0C010D20 */  jal     func_80043480
               
 /* 000B8 80891B78 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 000BC 80891B7C 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
@@ -21,14 +21,14 @@ glabel BgIceShutter_Init
 /* 000D0 80891B90 AFAE0028 */  sw      $t6, 0x0028($sp)           
 /* 000D4 80891B94 31F800FF */  andi    $t8, $t7, 0x00FF           ## $t8 = 00000000
 /* 000D8 80891B98 A618001C */  sh      $t8, 0x001C($s0)           ## 0000001C
-/* 000DC 80891B9C 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 000DC 80891B9C 0C010620 */  jal     func_80041880
               
 /* 000E0 80891BA0 27A5002C */  addiu   $a1, $sp, 0x002C           ## $a1 = FFFFFFF4
 /* 000E4 80891BA4 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000E8 80891BA8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000EC 80891BAC 8FA7002C */  lw      $a3, 0x002C($sp)           
-/* 000F0 80891BB0 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 000F0 80891BB0 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 000F4 80891BB4 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 000F8 80891BB8 8FA30028 */  lw      $v1, 0x0028($sp)           
 /* 000FC 80891BBC 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002

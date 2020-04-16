@@ -15,8 +15,8 @@ glabel BgJya1flift_Destroy
 /* 0022C 80892D8C 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00230 80892D90 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 00234 80892D94 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 00238 80892D98 0C00FB56 */  jal     DynaPolyInfo_delReserve
-              ## DynaPolyInfo_delReserve
+/* 00238 80892D98 0C00FB56 */  jal     func_8003ED58
+              ## func_8003ED58
 /* 0023C 80892D9C 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 .L80892DA0:
 /* 00240 80892DA0 8FBF0014 */  lw      $ra, 0x0014($sp)           

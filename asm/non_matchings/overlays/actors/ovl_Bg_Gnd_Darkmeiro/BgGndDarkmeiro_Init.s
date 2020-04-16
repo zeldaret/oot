@@ -35,15 +35,15 @@ glabel BgGndDarkmeiro_Init
 /* 0010C 80878D3C AE190004 */  sw      $t9, 0x0004($s0)           ## 00000004
 .L80878D40:
 /* 00110 80878D40 2484C080 */  addiu   $a0, $a0, 0xC080           ## $a0 = 0600C080
-/* 00114 80878D44 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00114 80878D44 0C010620 */  jal     func_80041880
               
 /* 00118 80878D48 27A50030 */  addiu   $a1, $sp, 0x0030           ## $a1 = FFFFFFF8
 /* 0011C 80878D4C 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00120 80878D50 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 00124 80878D54 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00128 80878D58 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 0012C 80878D5C 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 0012C 80878D5C 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 00130 80878D60 8FA70030 */  lw      $a3, 0x0030($sp)           
 /* 00134 80878D64 8608001C */  lh      $t0, 0x001C($s0)           ## 0000001C
 /* 00138 80878D68 2401003F */  addiu   $at, $zero, 0x003F         ## $at = 0000003F

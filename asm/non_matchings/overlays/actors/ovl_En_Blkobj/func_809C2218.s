@@ -51,8 +51,8 @@ glabel func_809C2218
 /* 0026C 809C22CC AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 00270 809C22D0 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 00274 809C22D4 8E06014C */  lw      $a2, 0x014C($s0)           ## 0000014C
-/* 00278 809C22D8 0C00FB56 */  jal     DynaPolyInfo_delReserve
-              ## DynaPolyInfo_delReserve
+/* 00278 809C22D8 0C00FB56 */  jal     func_8003ED58
+              ## func_8003ED58
 /* 0027C 809C22DC 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 .L809C22E0:
 /* 00280 809C22E0 8FBF001C */  lw      $ra, 0x001C($sp)           

@@ -1,7 +1,8 @@
 #include <ultra64.h>
 #include <global.h>
 
-void DynaPolyInfo_SetActorMove(DynaPolyActor* dynaActor, DynaPolyMoveFlag flags) {
+// we previously had this named as DynaPolyInfo_SetActorMove
+void func_80043480(DynaPolyActor* dynaActor, DynaPolyMoveFlag flags) {
     dynaActor->dynaPolyId = -1;
     dynaActor->unk_15C = flags;
     dynaActor->unk_160 = 0;
@@ -22,7 +23,7 @@ void func_800434B8(DynaPolyActor* dynaActor) {
 }
 
 void func_800434C8(CollisionContext* colCtx, u32 floorPolySource) {
-    DynaPolyActor* dynaActor = DynaPolyInfo_GetActor(colCtx, floorPolySource);
+    DynaPolyActor* dynaActor = func_8003EB84(colCtx, floorPolySource);
 
     if (dynaActor != NULL) {
         func_800434B8(dynaActor);
@@ -34,7 +35,7 @@ void func_800434F8(DynaPolyActor* dynaActor) {
 }
 
 void func_80043508(CollisionContext* colCtx, u32 floorPolySource) {
-    DynaPolyActor* dynaActor = DynaPolyInfo_GetActor(colCtx, floorPolySource);
+    DynaPolyActor* dynaActor = func_8003EB84(colCtx, floorPolySource);
 
     if (dynaActor != NULL) {
         func_800434F8(dynaActor);

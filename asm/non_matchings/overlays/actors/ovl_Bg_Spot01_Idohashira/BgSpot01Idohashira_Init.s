@@ -9,20 +9,20 @@ glabel BgSpot01Idohashira_Init
               
 /* 00928 808AB608 24A5B840 */  addiu   $a1, $a1, %lo(D_808AB840)  ## $a1 = 808AB840
 /* 0092C 808AB60C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00930 808AB610 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00930 808AB610 0C010D20 */  jal     func_80043480
               
 /* 00934 808AB614 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00938 808AB618 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 0093C 808AB61C AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 00940 808AB620 2484075C */  addiu   $a0, $a0, 0x075C           ## $a0 = 0600075C
-/* 00944 808AB624 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00944 808AB624 0C010620 */  jal     func_80041880
               
 /* 00948 808AB628 27A50028 */  addiu   $a1, $sp, 0x0028           ## $a1 = FFFFFFF0
 /* 0094C 808AB62C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00950 808AB630 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00954 808AB634 8FA70028 */  lw      $a3, 0x0028($sp)           
-/* 00958 808AB638 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 00958 808AB638 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 0095C 808AB63C 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00960 808AB640 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
 /* 00964 808AB644 2484E660 */  addiu   $a0, $a0, 0xE660           ## $a0 = 8015E660

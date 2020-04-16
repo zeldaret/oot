@@ -9,8 +9,8 @@ glabel BgGndDarkmeiro_Destroy
 /* 002D4 80878F04 17010004 */  bne     $t8, $at, .L80878F18       
 /* 002D8 80878F08 8FB90018 */  lw      $t9, 0x0018($sp)           
 /* 002DC 80878F0C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 002E0 80878F10 0C00FB56 */  jal     DynaPolyInfo_delReserve
-              ## DynaPolyInfo_delReserve
+/* 002E0 80878F10 0C00FB56 */  jal     func_8003ED58
+              ## func_8003ED58
 /* 002E4 80878F14 8F26014C */  lw      $a2, 0x014C($t9)           ## 0000014C
 .L80878F18:
 /* 002E8 80878F18 8FBF0014 */  lw      $ra, 0x0014($sp)           

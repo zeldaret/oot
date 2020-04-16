@@ -2,7 +2,7 @@ glabel func_80041C10
 /* AB8DB0 80041C10 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AB8DB4 80041C14 AFBF0014 */  sw    $ra, 0x14($sp)
 /* AB8DB8 80041C18 AFA5001C */  sw    $a1, 0x1c($sp)
-/* AB8DBC 80041C1C 0C00F131 */  jal   T_BGCheck_getBGDataInfo
+/* AB8DBC 80041C1C 0C00F131 */  jal   func_8003C4C4
 /* AB8DC0 80041C20 00C02825 */   move  $a1, $a2
 /* AB8DC4 80041C24 14400003 */  bnez  $v0, .L80041C34
 /* AB8DC8 80041C28 8FBF0014 */   lw    $ra, 0x14($sp)

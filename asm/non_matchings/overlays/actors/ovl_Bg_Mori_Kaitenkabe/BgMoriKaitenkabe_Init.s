@@ -16,19 +16,19 @@ glabel BgMoriKaitenkabe_Init
               
 /* 000A4 808A4E64 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 000A8 808A4E68 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000AC 808A4E6C 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 000AC 808A4E6C 0C010D20 */  jal     func_80043480
               
 /* 000B0 808A4E70 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 000B4 808A4E74 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 000B8 808A4E78 248463B8 */  addiu   $a0, $a0, 0x63B8           ## $a0 = 060063B8
-/* 000BC 808A4E7C 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 000BC 808A4E7C 0C010620 */  jal     func_80041880
               
 /* 000C0 808A4E80 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 000C4 808A4E84 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000C8 808A4E88 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000CC 808A4E8C 8FA70024 */  lw      $a3, 0x0024($sp)           
-/* 000D0 808A4E90 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 000D0 808A4E90 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 000D4 808A4E94 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 000D8 808A4E98 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 000DC 808A4E9C 8FA40034 */  lw      $a0, 0x0034($sp)           

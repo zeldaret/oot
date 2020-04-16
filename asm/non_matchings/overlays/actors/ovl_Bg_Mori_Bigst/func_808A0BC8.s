@@ -6,18 +6,18 @@ glabel func_808A0BC8
 /* 00018 808A0BD8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0001C 808A0BDC AFA60040 */  sw      $a2, 0x0040($sp)           
 /* 00020 808A0BE0 AFA00030 */  sw      $zero, 0x0030($sp)         
-/* 00024 808A0BE4 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00024 808A0BE4 0C010D20 */  jal     func_80043480
               
 /* 00028 808A0BE8 00E02825 */  or      $a1, $a3, $zero            ## $a1 = 00000000
 /* 0002C 808A0BEC 8FA40040 */  lw      $a0, 0x0040($sp)           
-/* 00030 808A0BF0 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00030 808A0BF0 0C010620 */  jal     func_80041880
               
 /* 00034 808A0BF4 27A50030 */  addiu   $a1, $sp, 0x0030           ## $a1 = FFFFFFF8
 /* 00038 808A0BF8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 0003C 808A0BFC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00040 808A0C00 8FA70030 */  lw      $a3, 0x0030($sp)           
-/* 00044 808A0C04 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 00044 808A0C04 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 00048 808A0C08 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 0004C 808A0C0C 24010032 */  addiu   $at, $zero, 0x0032         ## $at = 00000032
 /* 00050 808A0C10 1441000A */  bne     $v0, $at, .L808A0C3C       

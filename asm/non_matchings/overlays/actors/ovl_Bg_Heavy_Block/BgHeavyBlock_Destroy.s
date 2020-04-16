@@ -11,8 +11,8 @@ glabel BgHeavyBlock_Destroy
 /* 004DC 80883C6C 10410004 */  beq     $v0, $at, .L80883C80       
 /* 004E0 80883C70 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 004E4 80883C74 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 004E8 80883C78 0C00FB56 */  jal     DynaPolyInfo_delReserve
-              ## DynaPolyInfo_delReserve
+/* 004E8 80883C78 0C00FB56 */  jal     func_8003ED58
+              ## func_8003ED58
 /* 004EC 80883C7C 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 .L80883C80:
 /* 004F0 80883C80 8FBF0014 */  lw      $ra, 0x0014($sp)           

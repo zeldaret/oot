@@ -37,14 +37,14 @@ glabel func_8087DB24
 /* 00168 8087DBA8 8C84DD54 */  lw      $a0, %lo(D_8087DD54)($a0)  
 /* 0016C 8087DBAC 5080000C */  beql    $a0, $zero, .L8087DBE0     
 /* 00170 8087DBB0 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 00174 8087DBB4 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00174 8087DBB4 0C010620 */  jal     func_80041880
               
 /* 00178 8087DBB8 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFFC
 /* 0017C 8087DBBC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00180 8087DBC0 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00184 8087DBC4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00188 8087DBC8 0C00FA9D */  jal     DynaPolyInfo_setActor
-              ## DynaPolyInfo_setActor
+/* 00188 8087DBC8 0C00FA9D */  jal     func_8003EA74
+              ## func_8003EA74
 /* 0018C 8087DBCC 8FA70024 */  lw      $a3, 0x0024($sp)           
 /* 00190 8087DBD0 10000002 */  beq     $zero, $zero, .L8087DBDC   
 /* 00194 8087DBD4 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C

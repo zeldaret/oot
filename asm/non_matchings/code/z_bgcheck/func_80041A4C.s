@@ -2,7 +2,7 @@ glabel func_80041A4C
 /* AB8BEC 80041A4C 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AB8BF0 80041A50 AFBF0014 */  sw    $ra, 0x14($sp)
 /* AB8BF4 80041A54 AFA5001C */  sw    $a1, 0x1c($sp)
-/* AB8BF8 80041A58 0C00F131 */  jal   T_BGCheck_getBGDataInfo
+/* AB8BF8 80041A58 0C00F131 */  jal   func_8003C4C4
 /* AB8BFC 80041A5C 00C02825 */   move  $a1, $a2
 /* AB8C00 80041A60 14400003 */  bnez  $v0, .L80041A70
 /* AB8C04 80041A64 00402825 */   move  $a1, $v0
@@ -25,7 +25,7 @@ glabel func_80041A4C
 /* AB8C3C 80041A9C AFA5001C */  sw    $a1, 0x1c($sp)
 /* AB8C40 80041AA0 AFA40018 */  sw    $a0, 0x18($sp)
 /* AB8C44 80041AA4 AFA60020 */  sw    $a2, 0x20($sp)
-/* AB8C48 80041AA8 0C00F131 */  jal   T_BGCheck_getBGDataInfo
+/* AB8C48 80041AA8 0C00F131 */  jal   func_8003C4C4
 /* AB8C4C 80041AAC 00C02825 */   move  $a1, $a2
 /* AB8C50 80041AB0 14400003 */  bnez  $v0, .L80041AC0
 /* AB8C54 80041AB4 3C048016 */   lui   $a0, %hi(gSegments) # $a0, 0x8016

@@ -18,7 +18,7 @@ void func_800432A0(CollisionContext* colCtx, u32 floorPolySource, Actor* actor) 
 
 void func_80043334(CollisionContext* colCtx, Actor* actor, u32 floorPolySource) {
     if (func_8003E934(floorPolySource) != 0) {
-        DynaPolyActor* dynaActor = DynaPolyInfo_GetActor(colCtx, floorPolySource);
+        DynaPolyActor* dynaActor = func_8003EB84(colCtx, floorPolySource);
         if (dynaActor != NULL) {
             func_800434A8(dynaActor);
 
@@ -41,7 +41,7 @@ s32 func_800433A4(CollisionContext* colCtx, u32 floorPolySource, Actor* actor) {
         return 0;
     }
 
-    dynaActor = DynaPolyInfo_GetActor(colCtx, floorPolySource);
+    dynaActor = func_8003EB84(colCtx, floorPolySource);
 
     if (dynaActor == NULL) {
         return 0;

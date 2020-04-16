@@ -54,10 +54,10 @@ func_80035628 Actor_ApplyDamage
 func_80035B4C Flags_GetEventChkInf
 func_80035B74 Flags_SetEventChkInf
 func_8003EA74 DynaPolyInfo_RegisterActor
-func_8003EB84 DynaPolyInfo_GetActor
+func_8003EB84 func_8003EB84
 func_8003ED58 DynaPolyInfo_Free
-func_80041880 DynaPolyInfo_Alloc
-func_80043480 DynaPolyInfo_SetActorMove
+func_80041880 func_80041880
+func_80043480 func_80043480
 func_8005AFD4 Camera_SetCameraData
 func_8005B200 CollisionBtlTbl_Get
 func_8005C364 ActorCollider_AllocCylinder

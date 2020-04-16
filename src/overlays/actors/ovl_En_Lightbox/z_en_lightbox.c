@@ -59,12 +59,12 @@ static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx) {
     this->dyna.unk_15C = 0;
     thisx->unk_1F = 0;
     thisx->gravity = -2.0f;
-    DynaPolyInfo_Alloc(&D_06001F10, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    func_80041880(&D_06001F10, &local_c);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 }
 
 static void EnLightbox_Destroy(EnLightbox* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx) {

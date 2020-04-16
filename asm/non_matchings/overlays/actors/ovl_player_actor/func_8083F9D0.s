@@ -26,8 +26,8 @@ glabel func_8083F9D0
 /* 0D81C 8083FA2C 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 0D820 8083FA30 10A10004 */  beq     $a1, $at, .L8083FA44       
 /* 0D824 8083FA34 8FA40020 */  lw      $a0, 0x0020($sp)           
-/* 0D828 8083FA38 0C00FAE1 */  jal     DynaPolyInfo_GetActor
-              ## DynaPolyInfo_getActor
+/* 0D828 8083FA38 0C00FAE1 */  jal     func_8003EB84
+              ## func_8003EB84
 /* 0D82C 8083FA3C 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 0D830 8083FA40 00401825 */  or      $v1, $v0, $zero            ## $v1 = 00000000
 .L8083FA44:

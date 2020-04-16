@@ -17,7 +17,7 @@ glabel func_8003F8EC
 /* AB6AC4 8003F924 31CF0001 */  andi  $t7, $t6, 1
 /* AB6AC8 8003F928 51E0000C */  beql  $t7, $zero, .L8003F95C
 /* AB6ACC 8003F92C 26100001 */   addiu $s0, $s0, 1
-/* AB6AD0 8003F930 0C00FAE1 */  jal   DynaPolyInfo_GetActor
+/* AB6AD0 8003F930 0C00FAE1 */  jal   func_8003EB84
 /* AB6AD4 8003F934 02002825 */   move  $a1, $s0
 /* AB6AD8 8003F938 50400008 */  beql  $v0, $zero, .L8003F95C
 /* AB6ADC 8003F93C 26100001 */   addiu $s0, $s0, 1

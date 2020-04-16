@@ -5,8 +5,8 @@ glabel DoorGerudo_Destroy
 /* 000B8 80994698 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 000BC 8099469C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 000C0 809946A0 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 000C4 809946A4 0C00FB56 */  jal     DynaPolyInfo_delReserve
-              ## DynaPolyInfo_delReserve
+/* 000C4 809946A4 0C00FB56 */  jal     func_8003ED58
+              ## func_8003ED58
 /* 000C8 809946A8 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 000CC 809946AC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 000D0 809946B0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

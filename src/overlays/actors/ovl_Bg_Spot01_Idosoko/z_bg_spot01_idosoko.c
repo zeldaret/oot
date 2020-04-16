@@ -49,10 +49,10 @@ static void BgSpot01Idosoko_Init(BgSpot01Idosoko* this, GlobalContext* globalCtx
     s32 pad[2];
     s32 local_c = 0;
     Actor* thisx = &this->dyna.actor;
-    DynaPolyInfo_SetActorMove(thisx, 1);
+    func_80043480(thisx, 1);
     Actor_ProcessInitChain(thisx, initChain);
-    DynaPolyInfo_Alloc(&D_06003C64, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_setActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    func_80041880(&D_06003C64, &local_c);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
     if (LINK_IS_CHILD) {
         Actor_Kill(thisx);
     } else {
@@ -61,7 +61,7 @@ static void BgSpot01Idosoko_Init(BgSpot01Idosoko* this, GlobalContext* globalCtx
 }
 
 static void BgSpot01Idosoko_Destroy(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
-    DynaPolyInfo_delReserve(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 static void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx) {

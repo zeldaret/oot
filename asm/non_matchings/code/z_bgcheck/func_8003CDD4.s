@@ -77,14 +77,14 @@ glabel func_8003CDD4
 /* AB4000 8003CE60 C5880008 */  lwc1  $f8, 8($t4)
 /* AB4004 8003CE64 AFA700EC */  sw    $a3, 0xec($sp)
 /* AB4008 8003CE68 46083281 */  sub.s $f10, $f6, $f8
-/* AB400C 8003CE6C 0C00E180 */  jal   T_BGCheck_PosErrorCheck
+/* AB400C 8003CE6C 0C00E180 */  jal   func_80038600
 /* AB4010 8003CE70 E7AA00C4 */   swc1  $f10, 0xc4($sp)
 /* AB4014 8003CE74 24010001 */  li    $at, 1
 /* AB4018 8003CE78 10410008 */  beq   $v0, $at, .L8003CE9C
 /* AB401C 8003CE7C 8FA400F0 */   lw    $a0, 0xf0($sp)
 /* AB4020 8003CE80 3C058014 */  lui   $a1, %hi(D_80138990)
 /* AB4024 8003CE84 24A58990 */  addiu $a1, %lo(D_80138990) # addiu $a1, $a1, -0x7670
-/* AB4028 8003CE88 0C00E180 */  jal   T_BGCheck_PosErrorCheck
+/* AB4028 8003CE88 0C00E180 */  jal   func_80038600
 /* AB402C 8003CE8C 240612E0 */   li    $a2, 4832
 /* AB4030 8003CE90 24010001 */  li    $at, 1
 /* AB4034 8003CE94 54410009 */  bnel  $v0, $at, .L8003CEBC
