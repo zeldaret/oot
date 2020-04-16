@@ -409,8 +409,6 @@ beginseg
     include "build/src/code/z_kaleido_manager.o"
     include "build/src/code/z_kaleido_scope_call.o"
     include "build/src/code/z_play.o"
-    include "build/data/z_play.data.o"
-    include "build/data/z_play.bss.o"
     include "build/asm/PreRender.o"
     include "build/data/PreRender.rodata.o"
     include "build/src/code/TwoHeadArena.o"

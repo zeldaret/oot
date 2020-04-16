@@ -14,11 +14,11 @@ glabel func_809E3954
 /* 00E34 809E3964 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00E38 809E3968 AFBF0034 */  sw      $ra, 0x0034($sp)           
 /* 00E3C 809E396C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00E40 809E3970 0C0300E1 */  jal     func_800C0384              
+/* 00E40 809E3970 0C0300E1 */  jal     Gameplay_ClearCamera              
 /* 00E44 809E3974 86050206 */  lh      $a1, 0x0206($s0)           ## 00000206
 /* 00E48 809E3978 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E4C 809E397C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00E50 809E3980 0C0300C5 */  jal     func_800C0314              
+/* 00E50 809E3980 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 00E54 809E3984 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 00E58 809E3988 AE0001FC */  sw      $zero, 0x01FC($s0)         ## 000001FC
 /* 00E5C 809E398C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000

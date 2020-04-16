@@ -16,7 +16,7 @@ glabel func_80AF683C
 /* 01300 80AF6860 00000000 */  nop
 /* 01304 80AF6864 4503001C */  bc1tl   .L80AF68D8                 
 /* 01308 80AF6868 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 0130C 80AF686C 0C02FF21 */  jal     func_800BFC84              
+/* 0130C 80AF686C 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 01310 80AF6870 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 01314 80AF6874 14400017 */  bne     $v0, $zero, .L80AF68D4     
 /* 01318 80AF6878 8FA5001C */  lw      $a1, 0x001C($sp)           

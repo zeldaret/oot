@@ -1588,7 +1588,7 @@ glabel func_8007C850
 .L8007D6EC:
 /* AF488C 8007D6EC 02402025 */  move  $a0, $s2
 /* AF4890 8007D6F0 00002825 */  move  $a1, $zero
-/* AF4894 8007D6F4 0C0300C5 */  jal   func_800C0314
+/* AF4894 8007D6F4 0C0300C5 */  jal   Gameplay_ChangeCameraStatus
 /* AF4898 8007D6F8 24060003 */   li    $a2, 3
 /* AF489C 8007D6FC 00152C00 */  sll   $a1, $s5, 0x10
 /* AF48A0 8007D700 00052C03 */  sra   $a1, $a1, 0x10

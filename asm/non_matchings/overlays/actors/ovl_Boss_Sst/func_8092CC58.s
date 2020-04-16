@@ -88,15 +88,15 @@ glabel func_8092CC58
 /* 007B0 8092CD80 3C058094 */  lui     $a1, %hi(D_80938CC4)       ## $a1 = 80940000
 /* 007B4 8092CD84 84A58CC4 */  lh      $a1, %lo(D_80938CC4)($a1)
 /* 007B8 8092CD88 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 007BC 8092CD8C 0C0300C5 */  jal     func_800C0314
+/* 007BC 8092CD8C 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 007C0 8092CD90 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 007C4 8092CD94 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 007C8 8092CD98 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 007CC 8092CD9C 0C0300C5 */  jal     func_800C0314
+/* 007CC 8092CD9C 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 007D0 8092CDA0 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 007D4 8092CDA4 3C058094 */  lui     $a1, %hi(D_80938CC4)       ## $a1 = 80940000
 /* 007D8 8092CDA8 84A58CC4 */  lh      $a1, %lo(D_80938CC4)($a1)
-/* 007DC 8092CDAC 0C0300E1 */  jal     func_800C0384
+/* 007DC 8092CDAC 0C0300E1 */  jal     Gameplay_ClearCamera
 /* 007E0 8092CDB0 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 007E4 8092CDB4 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
 /* 007E8 8092CDB8 24A5E660 */  addiu   $a1, $a1, 0xE660           ## $a1 = 8015E660

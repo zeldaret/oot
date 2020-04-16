@@ -12,7 +12,7 @@ glabel D_80139930
     .balign 4
 
 .text
-glabel func_80058354
+glabel Camera_ChangeStatus
 /* ACF4F4 80058354 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* ACF4F8 80058358 AFB40024 */  sw    $s4, 0x24($sp)
 /* ACF4FC 8005835C 3C148016 */  lui   $s4, %hi(gGameInfo) # $s4, 0x8016

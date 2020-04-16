@@ -13,7 +13,7 @@ glabel func_80834EB8
 /* 02CD0 80834EE0 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 02CD4 80834EE4 14400008 */  bne     $v0, $zero, .L80834F08     
 /* 02CD8 80834EE8 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 02CDC 80834EEC 0C030129 */  jal     func_800C04A4              
+/* 02CDC 80834EEC 0C030129 */  jal     Gameplay_GetCamera              
 /* 02CE0 80834EF0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 02CE4 80834EF4 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 02CE8 80834EF8 0C01691C */  jal     func_8005A470              

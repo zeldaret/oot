@@ -46,7 +46,7 @@ void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx) {
     this->somePosX = thisx->posRot.pos.x;
     this->somePosY = thisx->posRot.pos.y;
     this->somePosZ = thisx->posRot.pos.z;
-    if ((gSaveContext.inf_table[7] & 0x40) || (gSaveContext.event_chk_inf[4] & 0x20)) {
+    if ((gSaveContext.infTable[7] & 0x40) || (gSaveContext.eventChkInf[4] & 0x20)) {
         if (globalCtx->sceneNum == SCENE_SPOT01) {
             thisx->posRot.pos.x = -89.0f;
             thisx->posRot.pos.z = -1375.0f;
@@ -65,7 +65,7 @@ void BgGateShutter_Destroy(BgGateShutter* this, GlobalContext* globalCtx) {
 }
 
 void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {
-    if (this->unk_168 == 1 && !(gSaveContext.inf_table[7] & 0x40)) {
+    if (this->unk_168 == 1 && !(gSaveContext.infTable[7] & 0x40)) {
         this->unk_178 = 2;
         this->actionFunc = (ActorFunc)func_80878300;
     } else if (this->unk_168 == 2) {

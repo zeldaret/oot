@@ -7,7 +7,7 @@ glabel func_8099803C
 /* 01DB0 80998050 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 01DB4 80998054 00072C00 */  sll     $a1, $a3, 16               
 /* 01DB8 80998058 AFA60030 */  sw      $a2, 0x0030($sp)           
-/* 01DBC 8099805C 0C030129 */  jal     func_800C04A4              
+/* 01DBC 8099805C 0C030129 */  jal     Gameplay_GetCamera              
 /* 01DC0 80998060 00052C03 */  sra     $a1, $a1, 16               
 /* 01DC4 80998064 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 01DC8 80998068 0C024BE2 */  jal     Quake_Add              

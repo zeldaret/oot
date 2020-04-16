@@ -15,7 +15,7 @@ glabel func_8084EED8
 /* 1CCFC 8084EF0C 0C20F03A */  jal     func_8083C0E8              
 /* 1CD00 8084EF10 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 1CD04 8084EF14 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 1CD08 8084EF18 0C030129 */  jal     func_800C04A4              
+/* 1CD08 8084EF18 0C030129 */  jal     Gameplay_GetCamera              
 /* 1CD0C 8084EF1C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 1CD10 8084EF20 0C016C69 */  jal     func_8005B1A4              
 /* 1CD14 8084EF24 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
