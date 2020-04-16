@@ -269,7 +269,7 @@
  *   00000013 eeeeeeee
  *   size = 0x8
  **/
-#define CS_TEXTBOX_LIST(entries) CS_CMD_TEXTBOX, CMD_W(entries)
+#define CS_TEXT_LIST(entries) CS_CMD_TEXTBOX, CMD_W(entries)
 
 /**
  * ARGS
@@ -279,7 +279,7 @@
  *   iiiissss eeeeoooo yyyynnnn
  *   size = 0xC
  **/
-#define CS_TEXTBOX_DISPLAY_TEXT(messageId, startFrame, endFrame, type, topOptionBranch, bottomOptionBranch) \
+#define CS_TEXT_DISPLAY_TEXTBOX(messageId, startFrame, endFrame, type, topOptionBranch, bottomOptionBranch) \
     CMD_HH(messageId, startFrame), CMD_HH(endFrame, type), CMD_HH(topOptionBranch, bottomOptionBranch)
 
 /**
@@ -289,8 +289,8 @@
  *   FFFFssss eeeeFFFF FFFFFFFF
  *   size = 0xC
  **/
-#define CS_TEXTBOX_NO_TEXT(startFrame, endFrame) \
-    CS_TEXTBOX_DISPLAY_TEXT(0xFFFF, startFrame, endFrame, 0xFFFF, 0xFFFF, 0xFFFF)
+#define CS_TEXT_NONE(startFrame, endFrame) \
+    CS_TEXT_DISPLAY_TEXTBOX(0xFFFF, startFrame, endFrame, 0xFFFF, 0xFFFF, 0xFFFF)
 
 /**
  * ARGS
@@ -299,8 +299,8 @@
  *   oooossss eeee0002 iiiiFFFF
  *   size = 0xC
  **/
-#define CS_TEXTBOX_LEARN_SONG(ocarinaSongAction, startFrame, endFrame, messageId) \
-    CS_TEXTBOX_DISPLAY_TEXT(ocarinaSongAction, startFrame, endFrame, 0x0002, messageId, 0xFFFF)
+#define CS_TEXT_LEARN_SONG(ocarinaSongAction, startFrame, endFrame, messageId) \
+    CS_TEXT_DISPLAY_TEXTBOX(ocarinaSongAction, startFrame, endFrame, 0x0002, messageId, 0xFFFF)
 
 /**
  * ARGS

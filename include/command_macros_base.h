@@ -17,7 +17,7 @@
  * Command base
  * Packs a halfword and two bytes into a word
  */
-#define CMD_HBB(a, b, c) (_SHIFTL(a, 16, 16) | _SHIFTL(c, 8, 8) | _SHIFTL(d, 0, 8))
+#define CMD_HBB(a, b, c) (_SHIFTL(a, 16, 16) | _SHIFTL(b, 8, 8) | _SHIFTL(c, 0, 8))
 
 /**
  * Command base
