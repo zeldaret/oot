@@ -1,6 +1,5 @@
 #include "z_demo_kankyo.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void DemoKankyo_Init(DemoKankyo* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void DemoKankyo_Draw(DemoKankyo* this, GlobalContext* globalCtx);
 const ActorInit Demo_Kankyo_InitVars = {
     ACTOR_DEMO_KANKYO,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoKankyo),

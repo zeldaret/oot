@@ -1,3 +1,18 @@
+.rdata
+glabel D_8088E2A0
+    .asciz "../z_bg_hidan_sekizou.c"
+    .balign 4
+
+.late_rodata
+glabel D_8088E300
+ .word 0x3E124925
+glabel D_8088E304
+    .float 0.7
+
+glabel D_8088E308
+    .float 0.7
+
+.text
 glabel func_8088D9F4
 /* 00B34 8088D9F4 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00B38 8088D9F8 87AE0062 */  lh      $t6, 0x0062($sp)           
@@ -154,5 +169,3 @@ glabel func_8088D9F4
 /* 00D84 8088DC44 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000008
 /* 00D88 8088DC48 03E00008 */  jr      $ra                        
 /* 00D8C 8088DC4C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

@@ -6,18 +6,16 @@
 
 #include "z_en_lightbox.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx);
-static void EnLightbox_Destroy(EnLightbox* this, GlobalContext* globalCtx);
-static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx);
-static void EnLightbox_Draw(EnLightbox* this, GlobalContext* globalCtx);
+void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx);
+void EnLightbox_Destroy(EnLightbox* this, GlobalContext* globalCtx);
+void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx);
+void EnLightbox_Draw(EnLightbox* this, GlobalContext* globalCtx);
 
 const ActorInit En_Lightbox_InitVars = {
     ACTOR_EN_LIGHTBOX,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_LIGHTBOX,
     sizeof(EnLightbox),
@@ -30,7 +28,7 @@ const ActorInit En_Lightbox_InitVars = {
 extern u32 D_06000B70;
 extern u32 D_06001F10;
 
-static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx) {
+void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx) {
     u32 local_c = 0;
     Actor* thisx = &this->dyna.actor;
     s32 pad[4];
@@ -63,11 +61,11 @@ static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 }
 
-static void EnLightbox_Destroy(EnLightbox* this, GlobalContext* globalCtx) {
+void EnLightbox_Destroy(EnLightbox* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx) {
+void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->dyna.unk_162 != 0) {
@@ -108,6 +106,6 @@ static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx) {
     thisx->posRot2.pos = thisx->posRot.pos;
 }
 
-static void EnLightbox_Draw(EnLightbox* this, GlobalContext* globalCtx) {
+void EnLightbox_Draw(EnLightbox* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_06000B70);
 }

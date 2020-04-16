@@ -1,3 +1,27 @@
+.rdata
+glabel D_808AD8C0
+    .asciz "../z_bg_spot02_objects.c"
+    .balign 4
+
+glabel D_808AD8DC
+    .asciz "../z_bg_spot02_objects.c"
+    .balign 4
+
+glabel D_808AD8F8
+    .asciz "../z_bg_spot02_objects.c"
+    .balign 4
+
+.late_rodata
+glabel D_808AD97C
+    .float 9.58738019108e-05
+
+glabel D_808AD980
+    .float 9.58738019108e-05
+
+glabel D_808AD984
+    .float 9.58738019108e-05
+
+.text
 glabel func_808ACCB8
 /* 00658 808ACCB8 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 0065C 808ACCBC AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -479,5 +503,3 @@ glabel func_808ACCB8
 /* 00D68 808AD3C8 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00D6C 808AD3CC 03E00008 */  jr      $ra                        
 /* 00D70 808AD3D0 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

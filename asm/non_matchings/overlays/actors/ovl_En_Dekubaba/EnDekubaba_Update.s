@@ -113,5 +113,3 @@ glabel EnDekubaba_Update
 /* 02DB0 809E8580 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 02DB4 809E8584 03E00008 */  jr      $ra                        
 /* 02DB8 809E8588 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

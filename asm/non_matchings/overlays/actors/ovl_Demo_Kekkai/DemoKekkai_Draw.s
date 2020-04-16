@@ -1,3 +1,17 @@
+.rdata
+glabel D_8098E254
+    .asciz "../z_demo_kekkai.c"
+    .balign 4
+
+glabel D_8098E268
+    .asciz "../z_demo_kekkai.c"
+    .balign 4
+
+glabel D_8098E27C
+    .asciz "../z_demo_kekkai.c"
+    .balign 4
+
+.text
 glabel DemoKekkai_Draw
 /* 00F50 8098DF20 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00F54 8098DF24 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -91,4 +105,3 @@ glabel DemoKekkai_Draw
 /* 010B4 8098E084 03E00008 */  jr      $ra                        
 /* 010B8 8098E088 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 010BC 8098E08C 00000000 */  nop
-

@@ -15,5 +15,3 @@ glabel BgGndSoulmeiro_Destroy
 /* 0016C 8087AF2C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00170 8087AF30 03E00008 */  jr      $ra                        
 /* 00174 8087AF34 00000000 */  nop
-
-

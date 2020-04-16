@@ -1,6 +1,5 @@
 #include "z_en_bom_bowl_pit.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnBomBowlPit_Init(EnBomBowlPit* this, GlobalContext* globalCtx);
@@ -11,7 +10,6 @@ void EnBomBowlPit_Update(EnBomBowlPit* this, GlobalContext* globalCtx);
 const ActorInit En_Bom_Bowl_Pit_InitVars = {
     ACTOR_EN_BOM_BOWL_PIT,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBomBowlPit),

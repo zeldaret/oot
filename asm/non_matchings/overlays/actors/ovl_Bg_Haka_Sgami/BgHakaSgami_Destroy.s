@@ -24,5 +24,3 @@ glabel BgHakaSgami_Destroy
 /* 002F8 8087E7D8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002FC 8087E7DC 03E00008 */  jr      $ra                        
 /* 00300 8087E7E0 00000000 */  nop
-
-

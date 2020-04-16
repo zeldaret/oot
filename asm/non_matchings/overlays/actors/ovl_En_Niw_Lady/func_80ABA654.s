@@ -1,3 +1,17 @@
+.rdata
+glabel D_80ABB620
+    .asciz "[32m☆☆☆☆☆ ハート ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80ABB64C
+    .asciz "[33m☆☆☆☆☆ 爆弾   ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80ABB678
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel func_80ABA654
 /* 00A14 80ABA654 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00A18 80ABA658 AFB0001C */  sw      $s0, 0x001C($sp)           
@@ -79,5 +93,3 @@ glabel func_80ABA654
 /* 00B2C 80ABA76C 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00B30 80ABA770 03E00008 */  jr      $ra                        
 /* 00B34 80ABA774 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

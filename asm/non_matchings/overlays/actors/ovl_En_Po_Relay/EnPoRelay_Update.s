@@ -68,5 +68,3 @@ glabel EnPoRelay_Update
 /* 01184 80AD88C4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 01188 80AD88C8 03E00008 */  jr      $ra                        
 /* 0118C 80AD88CC 00000000 */  nop
-
-

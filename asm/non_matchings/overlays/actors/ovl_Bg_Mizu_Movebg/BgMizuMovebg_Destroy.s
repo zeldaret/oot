@@ -1,3 +1,12 @@
+.late_rodata
+glabel jtbl_8089EC3C
+.word L8089E0AC
+.word L8089E0AC
+.word L8089E0AC
+.word L8089E0AC
+.word L8089E0D4
+
+.text
 glabel BgMizuMovebg_Destroy
 /* 00428 8089E058 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0042C 8089E05C AFA40018 */  sw      $a0, 0x0018($sp)           
@@ -48,5 +57,3 @@ glabel L8089E0D4
 /* 004CC 8089E0FC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 004D0 8089E100 03E00008 */  jr      $ra                        
 /* 004D4 8089E104 00000000 */  nop
-
-

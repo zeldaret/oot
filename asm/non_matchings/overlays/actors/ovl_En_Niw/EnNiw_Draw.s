@@ -44,5 +44,3 @@ glabel EnNiw_Draw
 /* 029DC 80AB815C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 029E0 80AB8160 03E00008 */  jr      $ra
 /* 029E4 80AB8164 00000000 */  nop
-
-

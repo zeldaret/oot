@@ -1,3 +1,13 @@
+.rdata
+glabel D_809EF17C
+    .asciz "../z_en_diving_game.c"
+    .balign 4
+
+glabel D_809EF194
+    .asciz "../z_en_diving_game.c"
+    .balign 4
+
+.text
 glabel EnDivingGame_Draw
 /* 016D4 809EEF44 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 016D8 809EEF48 AFB20030 */  sw      $s2, 0x0030($sp)
@@ -82,4 +92,3 @@ glabel EnDivingGame_Draw
 /* 01814 809EF084 00000000 */  nop
 /* 01818 809EF088 00000000 */  nop
 /* 0181C 809EF08C 00000000 */  nop
-

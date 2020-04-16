@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B94154
+    .asciz "../z_obj_hsblock.c"
+    .balign 4
+
+glabel D_80B94168
+    .asciz "../z_obj_hsblock.c"
+    .balign 4
+
+glabel D_80B9417C
+    .asciz "../z_obj_hsblock.c"
+    .balign 4
+
+.text
 glabel ObjHsblock_Draw
 /* 003F0 80B93F50 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 003F4 80B93F54 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -85,4 +99,3 @@ glabel ObjHsblock_Draw
 /* 00534 80B94094 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00538 80B94098 03E00008 */  jr      $ra                        
 /* 0053C 80B9409C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-

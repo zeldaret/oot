@@ -30,5 +30,3 @@ glabel EnBigokuta_Destroy
 /* 001D0 809BCE30 8FB40028 */  lw      $s4, 0x0028($sp)           
 /* 001D4 809BCE34 03E00008 */  jr      $ra                        
 /* 001D8 809BCE38 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

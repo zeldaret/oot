@@ -87,5 +87,3 @@ glabel EnKarebaba_Init
 /* 00124 80A95474 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 00128 80A95478 03E00008 */  jr      $ra                        
 /* 0012C 80A9547C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

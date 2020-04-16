@@ -21,5 +21,3 @@ glabel EnGoma_Destroy
 /* 003C8 80A49288 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 003CC 80A4928C 03E00008 */  jr      $ra                        
 /* 003D0 80A49290 00000000 */  nop
-
-

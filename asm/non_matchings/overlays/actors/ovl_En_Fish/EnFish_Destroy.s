@@ -9,5 +9,3 @@ glabel EnFish_Destroy
 /* 00344 80A155C4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00348 80A155C8 03E00008 */  jr      $ra                        
 /* 0034C 80A155CC 00000000 */  nop
-
-

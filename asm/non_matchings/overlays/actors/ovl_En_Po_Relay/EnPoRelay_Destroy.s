@@ -19,5 +19,3 @@ glabel EnPoRelay_Destroy
 /* 001C0 80AD7900 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001C4 80AD7904 03E00008 */  jr      $ra                        
 /* 001C8 80AD7908 00000000 */  nop
-
-

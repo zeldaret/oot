@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B65378
+    .asciz "../z_en_fhg.c"
+    .balign 4
+
+glabel D_80B65388
+    .asciz "../z_en_fhg.c"
+    .balign 4
+
+.text
 glabel EnfHG_Draw
 /* 024E4 80B64EA4 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 024E8 80B64EA8 AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -190,4 +200,3 @@ glabel EnfHG_Draw
 /* 027A4 80B65164 8FB20030 */  lw      $s2, 0x0030($sp)           
 /* 027A8 80B65168 03E00008 */  jr      $ra                        
 /* 027AC 80B6516C 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-

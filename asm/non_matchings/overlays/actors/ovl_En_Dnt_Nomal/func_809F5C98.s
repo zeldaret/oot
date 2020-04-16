@@ -1,3 +1,21 @@
+.rdata
+glabel D_809F5FF8
+    .asciz "../z_en_dnt_nomal.c"
+    .balign 4
+
+glabel D_809F600C
+    .asciz "../z_en_dnt_nomal.c"
+    .balign 4
+
+glabel D_809F6020
+    .asciz "../z_en_dnt_nomal.c"
+    .balign 4
+
+.late_rodata
+glabel D_809F608C
+    .float 0.01
+
+.text
 glabel func_809F5C98
 /* 029D8 809F5C98 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 029DC 809F5C9C AFB20028 */  sw      $s2, 0x0028($sp)           
@@ -70,4 +88,3 @@ glabel func_809F5C98
 /* 02AE4 809F5DA4 03E00008 */  jr      $ra                        
 /* 02AE8 809F5DA8 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 02AEC 809F5DAC 00000000 */  nop
-

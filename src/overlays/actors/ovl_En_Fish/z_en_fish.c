@@ -1,6 +1,5 @@
 #include "z_en_fish.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnFish_Init(EnFish* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnFish_Draw(EnFish* this, GlobalContext* globalCtx);
 const ActorInit En_Fish_InitVars = {
     ACTOR_EN_FISH,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnFish),

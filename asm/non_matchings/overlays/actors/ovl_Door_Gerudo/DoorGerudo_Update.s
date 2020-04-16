@@ -8,5 +8,3 @@ glabel DoorGerudo_Update
 /* 0045C 80994A3C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00460 80994A40 03E00008 */  jr      $ra                        
 /* 00464 80994A44 00000000 */  nop
-
-

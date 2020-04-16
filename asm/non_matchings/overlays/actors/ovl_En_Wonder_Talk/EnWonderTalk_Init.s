@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B39970
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B39974
+    .asciz "[32m☆☆☆☆☆ 特殊会話くん ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80B399A4
+    .asciz "[32m☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel EnWonderTalk_Init
 /* 0000C 80B390FC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00010 80B39100 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -59,5 +73,3 @@ glabel EnWonderTalk_Init
 /* 000D0 80B391C0 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 000D4 80B391C4 03E00008 */  jr      $ra                        
 /* 000D8 80B391C8 00000000 */  nop
-
-

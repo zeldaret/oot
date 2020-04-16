@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808B7378
+ .word 0x44228000, 0x00000000
+
+.text
 glabel BgSpot17Bakudankabe_Update
 /* 003F0 808B6FB0 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 003F4 808B6FB4 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -41,5 +46,3 @@ glabel BgSpot17Bakudankabe_Update
 /* 00478 808B7038 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0047C 808B703C 03E00008 */  jr      $ra                        
 /* 00480 808B7040 00000000 */  nop
-
-

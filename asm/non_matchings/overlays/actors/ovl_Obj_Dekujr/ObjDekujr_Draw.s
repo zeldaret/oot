@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B92A40
+    .asciz "../z_obj_dekujr.c"
+    .balign 4
+
+glabel D_80B92A54
+    .asciz "../z_obj_dekujr.c"
+    .balign 4
+
+glabel D_80B92A68
+    .asciz "../z_obj_dekujr.c"
+    .balign 4
+
+glabel D_80B92A7C
+    .asciz "../z_obj_dekujr.c"
+    .balign 4
+
+.text
 glabel ObjDekujr_Draw
 /* 00434 80B92854 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 00438 80B92858 AFB10038 */  sw      $s1, 0x0038($sp)           
@@ -98,4 +116,3 @@ glabel ObjDekujr_Draw
 /* 005B4 80B929D4 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 005B8 80B929D8 03E00008 */  jr      $ra                        
 /* 005BC 80B929DC 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-

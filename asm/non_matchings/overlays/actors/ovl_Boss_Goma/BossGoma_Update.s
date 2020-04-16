@@ -129,5 +129,3 @@ glabel BossGoma_Update
 /* 04B44 8091A554 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 04B48 8091A558 03E00008 */  jr      $ra                        
 /* 04B4C 8091A55C 00000000 */  nop
-
-

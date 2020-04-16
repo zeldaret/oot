@@ -8,5 +8,3 @@ glabel BgMizuBwall_Update
 /* 00F20 8089D3A0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00F24 8089D3A4 03E00008 */  jr      $ra                        
 /* 00F28 8089D3A8 00000000 */  nop
-
-

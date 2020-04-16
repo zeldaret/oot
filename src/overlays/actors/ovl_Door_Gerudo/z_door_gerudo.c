@@ -1,6 +1,11 @@
+/*
+ * File: z_door_gerudo.c
+ * Overlay: ovl_Door_Gerudo
+ * Description: Metal grate door
+ */
+
 #include "z_door_gerudo.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void DoorGerudo_Init(DoorGerudo* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void DoorGerudo_Draw(DoorGerudo* this, GlobalContext* globalCtx);
 const ActorInit Door_Gerudo_InitVars = {
     ACTOR_DOOR_GERUDO,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_DOOR_GERUDO,
     sizeof(DoorGerudo),

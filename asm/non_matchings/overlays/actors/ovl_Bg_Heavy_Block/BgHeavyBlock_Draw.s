@@ -1,3 +1,17 @@
+.rdata
+glabel D_80884F60
+    .asciz "../z_bg_heavy_block.c"
+    .balign 4
+
+glabel D_80884F78
+    .asciz "../z_bg_heavy_block.c"
+    .balign 4
+
+glabel D_80884F90
+    .asciz "../z_bg_heavy_block.c"
+    .balign 4
+
+.text
 glabel BgHeavyBlock_Draw
 /* 0147C 80884C0C 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 01480 80884C10 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -107,5 +121,3 @@ glabel BgHeavyBlock_Draw
 /* 01618 80884DA8 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 0161C 80884DAC 03E00008 */  jr      $ra                        
 /* 01620 80884DB0 00000000 */  nop
-
-

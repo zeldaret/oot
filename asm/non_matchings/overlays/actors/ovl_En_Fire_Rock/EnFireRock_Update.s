@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A12E24
+    .asciz "[33m☆☆☆☆☆ シールド防御 Lv１ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.late_rodata
+glabel D_80A12EDC
+ .word 0xBE99999A
+
+.text
 glabel EnFireRock_Update
 /* 00BF4 80A12814 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00BF8 80A12818 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -195,5 +205,3 @@ glabel EnFireRock_Update
 /* 00EA4 80A12AC4 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00EA8 80A12AC8 03E00008 */  jr      $ra                        
 /* 00EAC 80A12ACC 00000000 */  nop
-
-

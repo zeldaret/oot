@@ -31,5 +31,3 @@ glabel EnReeba_Destroy
 /* 00264 80AE4F34 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00268 80AE4F38 03E00008 */  jr      $ra                        
 /* 0026C 80AE4F3C 00000000 */  nop
-
-

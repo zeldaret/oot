@@ -1,3 +1,39 @@
+.rdata
+glabel D_8090D9F8
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+glabel D_8090DA0C
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+glabel D_8090DA20
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+glabel D_8090DA34
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+glabel D_8090DA48
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+.late_rodata
+glabel D_8090DD80
+    .float 0.03
+
+glabel D_8090DD84
+ .word 0x3F20D97C
+glabel D_8090DD88
+    .float 1.57079637051
+
+glabel D_8090DD8C
+ .word 0x44894000
+glabel D_8090DD90
+ .word 0x4487C000
+
+.text
 glabel func_809060E8
 /* 091A8 809060E8 27BDFF30 */  addiu   $sp, $sp, 0xFF30           ## $sp = FFFFFF30
 /* 091AC 809060EC AFB40048 */  sw      $s4, 0x0048($sp)           
@@ -283,5 +319,3 @@ glabel func_809060E8
 /* 095EC 8090652C 8FBE0058 */  lw      $s8, 0x0058($sp)           
 /* 095F0 80906530 03E00008 */  jr      $ra                        
 /* 095F4 80906534 27BD00D0 */  addiu   $sp, $sp, 0x00D0           ## $sp = 00000000
-
-

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B17DE0
+    .asciz "[32m☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B17E10
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B17E14
+    .asciz "[35m☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+.text
 glabel EnTakaraMan_Init
 /* 0000C 80B1756C 3C0280B1 */  lui     $v0, %hi(D_80B17DD0)       ## $v0 = 80B10000
 /* 00010 80B17570 24427DD0 */  addiu   $v0, $v0, %lo(D_80B17DD0)  ## $v0 = 80B17DD0
@@ -99,5 +113,3 @@ glabel EnTakaraMan_Init
 /* 00174 80B176D4 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00178 80B176D8 03E00008 */  jr      $ra
 /* 0017C 80B176DC 00000000 */  nop
-
-

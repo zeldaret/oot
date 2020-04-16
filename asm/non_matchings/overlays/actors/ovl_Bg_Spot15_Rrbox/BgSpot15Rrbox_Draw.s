@@ -14,4 +14,3 @@ glabel BgSpot15Rrbox_Draw
 /* 00C24 808B4584 00000000 */  nop
 /* 00C28 808B4588 00000000 */  nop
 /* 00C2C 808B458C 00000000 */  nop
-

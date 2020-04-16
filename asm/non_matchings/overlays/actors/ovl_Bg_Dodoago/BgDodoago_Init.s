@@ -42,7 +42,7 @@ glabel BgDodoago_Init
 /* 001B0 80871BB0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001B4 80871BB4 3C058087 */  lui     $a1, %hi(func_8087227C)    ## $a1 = 80870000
 /* 001B8 80871BB8 24A5227C */  addiu   $a1, $a1, %lo(func_8087227C) ## $a1 = 8087227C
-/* 001BC 80871BBC 0C21C680 */  jal     func_80871A00              
+/* 001BC 80871BBC 0C21C680 */  jal     BgDodoago_SetupAction              
 /* 001C0 80871BC0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 001C4 80871BC4 240E1333 */  addiu   $t6, $zero, 0x1333         ## $t6 = 00001333
 /* 001C8 80871BC8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -91,7 +91,7 @@ glabel BgDodoago_Init
 /* 00258 80871C58 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0025C 80871C5C 3C058087 */  lui     $a1, %hi(func_80871CF4)    ## $a1 = 80870000
 /* 00260 80871C60 24A51CF4 */  addiu   $a1, $a1, %lo(func_80871CF4) ## $a1 = 80871CF4
-/* 00264 80871C64 0C21C680 */  jal     func_80871A00              
+/* 00264 80871C64 0C21C680 */  jal     BgDodoago_SetupAction              
 /* 00268 80871C68 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0026C 80871C6C 3C018087 */  lui     $at, %hi(D_808727C0)       ## $at = 80870000
 /* 00270 80871C70 A02027C0 */  sb      $zero, %lo(D_808727C0)($at) 
@@ -101,5 +101,3 @@ glabel BgDodoago_Init
 /* 0027C 80871C7C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00280 80871C80 03E00008 */  jr      $ra                        
 /* 00284 80871C84 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

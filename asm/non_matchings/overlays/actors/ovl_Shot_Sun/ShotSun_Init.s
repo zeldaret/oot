@@ -1,3 +1,9 @@
+.rdata
+glabel D_80BAE320
+    .asciz "%d ---- オカリナの秘密発生!!!!!!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel ShotSun_Init
 /* 00000 80BADCC0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 80BADCC4 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -56,5 +62,3 @@ glabel ShotSun_Init
 /* 000C0 80BADD80 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 000C4 80BADD84 03E00008 */  jr      $ra                        
 /* 000C8 80BADD88 00000000 */  nop
-
-

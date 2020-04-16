@@ -46,5 +46,3 @@ glabel MagicFire_Init
 /* 0009C 80B88E0C 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 000A0 80B88E10 03E00008 */  jr      $ra                        
 /* 000A4 80B88E14 00000000 */  nop
-
-

@@ -1,3 +1,20 @@
+.rdata
+glabel D_809F30B8
+    .asciz "../z_en_dnt_jiji.c"
+    .balign 4
+
+glabel D_809F30CC
+    .asciz "../z_en_dnt_jiji.c"
+    .balign 4
+
+glabel D_809F30E0
+    .asciz "../z_en_dnt_jiji.c"
+    .balign 4
+
+.late_rodata
+glabel D_809F30F8
+    .float 0.01
+.text
 glabel EnDntJiji_Draw
 /* 01320 809F2E00 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 01324 809F2E04 AFB20028 */  sw      $s2, 0x0028($sp)           
@@ -96,4 +113,3 @@ glabel EnDntJiji_Draw
 /* 01494 809F2F74 03E00008 */  jr      $ra                        
 /* 01498 809F2F78 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 0149C 809F2F7C 00000000 */  nop
-

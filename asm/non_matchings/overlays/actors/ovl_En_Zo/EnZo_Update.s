@@ -129,5 +129,3 @@ glabel EnZo_Update
 /* 01DA0 80B61FC0 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 01DA4 80B61FC4 03E00008 */  jr      $ra                        
 /* 01DA8 80B61FC8 00000000 */  nop
-
-

@@ -186,5 +186,3 @@ glabel EnPoSisters_Update
 /* 035C0 80ADC550 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 035C4 80ADC554 03E00008 */  jr      $ra                        
 /* 035C8 80ADC558 00000000 */  nop
-
-

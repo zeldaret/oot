@@ -1,3 +1,45 @@
+.rdata
+glabel D_8091B430
+    .asciz "MAKE CAMERA !!!   1   !!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8091B4DC
+.word L80916D30
+.word L80916E18
+.word L80916F0C
+.word L809171FC
+.word L80917318
+.word L80917520
+.word L80917D68
+.word L80917D68
+.word L80917D68
+.word L80917738
+glabel D_8091B504
+ .word 0x4324B852
+glabel D_8091B508
+ .word 0x43C6D70B
+glabel D_8091B50C
+ .word 0x4324B852
+glabel D_8091B510
+ .word 0x43C6D70B
+glabel D_8091B514
+ .word 0x3FE66666
+glabel D_8091B518
+ .word 0x40490E56
+glabel D_8091B51C
+    .float 0.7
+
+glabel D_8091B520
+    .float 0.1
+
+glabel D_8091B524
+    .float 0.1
+
+glabel D_8091B528
+    .float 0.1
+
+.text
 glabel func_80916C9C
 /* 0128C 80916C9C 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 01290 80916CA0 AFB00038 */  sw      $s0, 0x0038($sp)
@@ -1181,5 +1223,3 @@ glabel L80917D68
 /* 0237C 80917D8C 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 02380 80917D90 03E00008 */  jr      $ra
 /* 02384 80917D94 00000000 */  nop
-
-

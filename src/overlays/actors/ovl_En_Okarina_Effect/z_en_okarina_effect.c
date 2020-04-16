@@ -15,20 +15,18 @@ typedef struct {
     /* 0x0150 */ ActorFunc actionFunc;
 } EnOkarinaEffect; // size = 0x0154
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
-static void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* newActionFunc);
-static void EnOkarinaEffect_Init(EnOkarinaEffect* this, GlobalContext* globalCtx);
-static void EnOkarinaEffect_Destroy(EnOkarinaEffect* this, GlobalContext* globalCtx);
-static void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCtx);
-static void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx);
-static void EnOkarinaEffect_Update(EnOkarinaEffect* this, GlobalContext* globalCtx);
+void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* newActionFunc);
+void EnOkarinaEffect_Init(EnOkarinaEffect* this, GlobalContext* globalCtx);
+void EnOkarinaEffect_Destroy(EnOkarinaEffect* this, GlobalContext* globalCtx);
+void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCtx);
+void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx);
+void EnOkarinaEffect_Update(EnOkarinaEffect* this, GlobalContext* globalCtx);
 
 const ActorInit En_Okarina_Effect_InitVars = {
     ACTOR_EN_OKARINA_EFFECT,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnOkarinaEffect),
@@ -38,11 +36,11 @@ const ActorInit En_Okarina_Effect_InitVars = {
     NULL,
 };
 
-static void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* newActionFunc) {
+void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* newActionFunc) {
     this->actionFunc = newActionFunc;
 }
 
-static void EnOkarinaEffect_Destroy(EnOkarinaEffect* this, GlobalContext* globalCtx) {
+void EnOkarinaEffect_Destroy(EnOkarinaEffect* this, GlobalContext* globalCtx) {
     globalCtx->unk_10B16[0] = 0;
     if ((D_8011FB30 != 4) && (D_8011FB30 != 5) && (globalCtx->gloomySkyEvent == 1)) {
         globalCtx->gloomySkyEvent = 2; // end gloomy sky
@@ -51,7 +49,7 @@ static void EnOkarinaEffect_Destroy(EnOkarinaEffect* this, GlobalContext* global
     globalCtx->lightning = 2; // end lightning
 }
 
-static void EnOkarinaEffect_Init(EnOkarinaEffect* this, GlobalContext* globalCtx) {
+void EnOkarinaEffect_Init(EnOkarinaEffect* this, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     //"Ocarina Storm Effect"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ オカリナあらし効果ビカビカビカ〜 ☆☆☆☆☆ \n" VT_RST);
@@ -62,7 +60,7 @@ static void EnOkarinaEffect_Init(EnOkarinaEffect* this, GlobalContext* globalCtx
     EnOkarinaEffect_SetupAction(this, &EnOkarinaEffect_TriggerStorm);
 }
 
-static void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCtx) {
+void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCtx) {
     this->timer = 400;             // 20 seconds
     globalCtx->unk_10B16[0] = 20;  // rain intensity target
     globalCtx->gloomySkyEvent = 1; // start gloomy sky
@@ -74,7 +72,7 @@ static void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* g
     EnOkarinaEffect_SetupAction(this, &EnOkarinaEffect_ManageStorm);
 }
 
-static void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx) {
+void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx) {
     func_8006C438(globalCtx, 5); // clear bean grow env flag
     if (((globalCtx->pauseCtx.state == 0) && (globalCtx->unk_10A20 == 0) && (globalCtx->msgCtx.unk_E300 == 0) &&
          (func_800C0D28(globalCtx) == 0) && ((globalCtx->unk_1241B == 0) || (gSaveContext.game_mode != 0))) ||
@@ -115,7 +113,7 @@ static void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* gl
     }
 }
 
-static void EnOkarinaEffect_Update(EnOkarinaEffect* this, GlobalContext* globalCtx) {
+void EnOkarinaEffect_Update(EnOkarinaEffect* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,

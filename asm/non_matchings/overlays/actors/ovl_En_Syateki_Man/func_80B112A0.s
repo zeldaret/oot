@@ -1,3 +1,9 @@
+.rdata
+glabel D_80B11774
+    .asciz "[34m再挑戦だぜ！ベイビー！[m\n"
+    .balign 4
+
+.text
 glabel func_80B112A0
 /* 00A30 80B112A0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00A34 80B112A4 AFA5001C */  sw      $a1, 0x001C($sp)           
@@ -31,5 +37,3 @@ glabel func_80B112A0
 /* 00A94 80B11304 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00A98 80B11308 03E00008 */  jr      $ra                        
 /* 00A9C 80B1130C 00000000 */  nop
-
-

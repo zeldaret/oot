@@ -1,6 +1,5 @@
 #include "z_en_hy.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnHy_Init(EnHy* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnHy_Draw(EnHy* this, GlobalContext* globalCtx);
 const ActorInit En_Hy_InitVars = {
     ACTOR_EN_HY,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnHy),

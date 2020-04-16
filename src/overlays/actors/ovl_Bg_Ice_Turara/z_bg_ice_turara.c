@@ -1,6 +1,11 @@
+/*
+ * File: z_bg_ice_turara.c
+ * Overlay: ovl_Bg_Ice_Turara
+ * Description: Icicles
+ */
+
 #include "z_bg_ice_turara.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgIceTurara_Init(BgIceTurara* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void BgIceTurara_Draw(BgIceTurara* this, GlobalContext* globalCtx);
 const ActorInit Bg_Ice_Turara_InitVars = {
     ACTOR_BG_ICE_TURARA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_ICE_OBJECTS,
     sizeof(BgIceTurara),

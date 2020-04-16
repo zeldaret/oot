@@ -8,5 +8,3 @@ glabel BgSpot02Objects_Update
 /* 00590 808ACBF0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00594 808ACBF4 03E00008 */  jr      $ra                        
 /* 00598 808ACBF8 00000000 */  nop
-
-

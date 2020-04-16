@@ -1,3 +1,13 @@
+.rdata
+glabel D_809E55E0
+    .asciz "../z_en_daiku_kakariko.c"
+    .balign 4
+
+glabel D_809E55FC
+    .asciz "../z_en_daiku_kakariko.c"
+    .balign 4
+
+.text
 glabel EnDaikuKakariko_Draw
 /* 01020 809E5340 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 01024 809E5344 AFBF0024 */  sw      $ra, 0x0024($sp)
@@ -87,4 +97,3 @@ glabel EnDaikuKakariko_Draw
 /* 01164 809E5484 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 01168 809E5488 03E00008 */  jr      $ra
 /* 0116C 809E548C 00000000 */  nop
-

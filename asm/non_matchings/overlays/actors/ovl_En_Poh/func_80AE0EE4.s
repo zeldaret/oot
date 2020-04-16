@@ -1,3 +1,17 @@
+.rdata
+glabel D_80AE1B90
+    .asciz "../z_en_poh.c"
+    .balign 4
+
+glabel D_80AE1BA0
+    .asciz "../z_en_poh.c"
+    .balign 4
+
+glabel D_80AE1BB0
+    .asciz "../z_en_poh.c"
+    .balign 4
+
+.text
 glabel func_80AE0EE4
 /* 03194 80AE0EE4 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 03198 80AE0EE8 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -155,5 +169,3 @@ glabel func_80AE0EE4
 /* 033EC 80AE113C 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 033F0 80AE1140 03E00008 */  jr      $ra
 /* 033F4 80AE1144 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-
-

@@ -1,18 +1,29 @@
+/*
+ * File: z_bg_haka_ship.c
+ * Overlay: ovl_Bg_Haka_Ship
+ * Description: Shadow Temple Ship
+ */
+
 #include "z_bg_haka_ship.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgHakaShip_Init(BgHakaShip* this, GlobalContext* globalCtx);
 void BgHakaShip_Destroy(BgHakaShip* this, GlobalContext* globalCtx);
 void BgHakaShip_Update(BgHakaShip* this, GlobalContext* globalCtx);
 void BgHakaShip_Draw(BgHakaShip* this, GlobalContext* globalCtx);
+void func_8087F27C(BgHakaShip* this, GlobalContext* globalCtx);
+void func_8087F2D8(BgHakaShip* this, GlobalContext* globalCtx);
+void func_8087F364(BgHakaShip* this, GlobalContext* globalCtx);
+void func_8087F400(BgHakaShip* this, GlobalContext* globalCtx);
+void func_8087F5C8(BgHakaShip* this, GlobalContext* globalCtx);
+void func_8087F624(BgHakaShip* this, GlobalContext* globalCtx);
+void func_8087F6B4(BgHakaShip* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Haka_Ship_InitVars = {
     ACTOR_BG_HAKA_SHIP,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaShip),

@@ -1,3 +1,23 @@
+.rdata
+glabel D_80B42070
+    .asciz "../z_en_oA2_inMetamol.c"
+    .balign 4
+
+glabel D_80B42088
+    .asciz "../z_en_oA2_inMetamol.c"
+    .balign 4
+
+glabel D_80B420A0
+    .asciz "../z_en_oA2_inMetamol.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B42258
+ .word 0x458B6000
+glabel D_80B4225C
+ .word 0x4494C000
+
+.text
 glabel func_80B402C4
 /* 040E4 80B402C4 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 040E8 80B402C8 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -180,5 +200,3 @@ glabel func_80B402C4
 /* 043A4 80B40584 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 043A8 80B40588 03E00008 */  jr      $ra
 /* 043AC 80B4058C 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
-
-

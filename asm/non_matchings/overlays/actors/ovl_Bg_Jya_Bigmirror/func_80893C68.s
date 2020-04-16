@@ -1,3 +1,32 @@
+.rdata
+glabel D_80894030
+    .asciz "../z_bg_jya_bigmirror.c"
+    .balign 4
+
+glabel D_80894048
+    .asciz "../z_bg_jya_bigmirror.c"
+    .balign 4
+
+glabel D_80894060
+    .asciz "../z_bg_jya_bigmirror.c"
+    .balign 4
+
+glabel D_80894078
+    .asciz "../z_bg_jya_bigmirror.c"
+    .balign 4
+
+.late_rodata
+glabel D_80894090
+    .float 0.1
+
+glabel D_80894094
+ .word 0xBA4CCCCD
+glabel D_80894098
+ .word 0x3FB1F0A4
+glabel D_8089409C
+    .float 0.1
+
+.text
 glabel func_80893C68
 /* 00588 80893C68 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0058C 80893C6C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -124,5 +153,3 @@ glabel func_80893C68
 /* 00764 80893E44 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00768 80893E48 03E00008 */  jr      $ra                        
 /* 0076C 80893E4C 00000000 */  nop
-
-

@@ -53,5 +53,3 @@ glabel BgJyaBlock_Init
 /* 000A8 80894248 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 000AC 8089424C 03E00008 */  jr      $ra                        
 /* 000B0 80894250 00000000 */  nop
-
-

@@ -1,3 +1,35 @@
+.rdata
+glabel D_80877F24
+    .asciz "../z_bg_ganon_otyuka.c"
+    .balign 4
+
+glabel D_80877F3C
+    .asciz "../z_bg_ganon_otyuka.c"
+    .balign 4
+
+glabel D_80877F54
+    .asciz "../z_bg_ganon_otyuka.c"
+    .balign 4
+
+glabel D_80877F6C
+    .asciz "../z_bg_ganon_otyuka.c"
+    .balign 4
+
+glabel D_80877F84
+    .asciz "../z_bg_ganon_otyuka.c"
+    .balign 4
+
+.late_rodata
+glabel D_80877FAC
+    .float 3.1415927
+
+ glabel D_80877FB0
+    .float 3.1415927
+
+ glabel D_80877FB4
+    .float 0.3
+
+.text
 glabel BgGanonOtyuka_Draw
 /* 00810 80876130 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 00814 80876134 AFA400E0 */  sw      $a0, 0x00E0($sp)           
@@ -615,4 +647,3 @@ glabel BgGanonOtyuka_Draw
 /* 01114 80876A34 00000000 */  nop
 /* 01118 80876A38 00000000 */  nop
 /* 0111C 80876A3C 00000000 */  nop
-

@@ -12,5 +12,3 @@ glabel func_80AADA70
 .L80AADA98:
 /* 00328 80AADA98 03E00008 */  jr      $ra                        
 /* 0032C 80AADA9C 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000001
-
-

@@ -69,5 +69,3 @@ glabel EnGe3_Init
 /* 001A0 80A347C0 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 001A4 80A347C4 03E00008 */  jr      $ra
 /* 001A8 80A347C8 00000000 */  nop
-
-

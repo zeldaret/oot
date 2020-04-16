@@ -28,5 +28,3 @@ glabel EnTorch2_Destroy
 /* 0020C 80B1DB8C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00210 80B1DB90 03E00008 */  jr      $ra                        
 /* 00214 80B1DB94 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

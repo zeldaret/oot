@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80855544
+    .float 0.3
+
+glabel D_80855548
+    .float 9.99999974738e-06
+
+.text
 glabel func_8084FF7C
 /* 1DD6C 8084FF7C C482085C */  lwc1    $f2, 0x085C($a0)           ## 0000085C
 /* 1DD70 8084FF80 C4840858 */  lwc1    $f4, 0x0858($a0)           ## 00000858
@@ -47,5 +55,3 @@ glabel func_8084FF7C
 .L80850024:
 /* 1DE14 80850024 03E00008 */  jr      $ra                        
 /* 1DE18 80850028 00000000 */  nop
-
-

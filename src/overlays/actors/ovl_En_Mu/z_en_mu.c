@@ -1,6 +1,5 @@
 #include "z_en_mu.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnMu_Init(EnMu* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnMu_Draw(EnMu* this, GlobalContext* globalCtx);
 const ActorInit En_Mu_InitVars = {
     ACTOR_EN_MU,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_MU,
     sizeof(EnMu),

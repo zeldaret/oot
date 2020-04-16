@@ -60,5 +60,3 @@ glabel BgJyaGoroiwa_Update
 /* 005A8 80897F18 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 005AC 80897F1C 03E00008 */  jr      $ra                        
 /* 005B0 80897F20 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

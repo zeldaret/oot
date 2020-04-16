@@ -1,3 +1,17 @@
+.rdata
+glabel D_8088E2B8
+    .asciz "../z_bg_hidan_sekizou.c"
+    .balign 4
+
+glabel D_8088E2D0
+    .asciz "../z_bg_hidan_sekizou.c"
+    .balign 4
+
+glabel D_8088E2E8
+    .asciz "../z_bg_hidan_sekizou.c"
+    .balign 4
+
+.text
 glabel BgHidanSekizou_Draw
 /* 01028 8088DEE8 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 0102C 8088DEEC AFB40030 */  sw      $s4, 0x0030($sp)           
@@ -164,4 +178,3 @@ glabel BgHidanSekizou_Draw
 /* 01294 8088E154 8FB40030 */  lw      $s4, 0x0030($sp)           
 /* 01298 8088E158 03E00008 */  jr      $ra                        
 /* 0129C 8088E15C 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
-

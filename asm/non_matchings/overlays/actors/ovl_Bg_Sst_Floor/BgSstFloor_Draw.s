@@ -1,3 +1,21 @@
+.rdata
+glabel D_808B9E40
+    .asciz "../z_bg_sst_floor.c"
+    .balign 4
+
+glabel D_808B9E54
+    .asciz "../z_bg_sst_floor.c"
+    .balign 4
+
+glabel D_808B9E68
+    .asciz "../z_bg_sst_floor.c"
+    .balign 4
+
+.late_rodata
+glabel D_808B9E88
+ .word 0xBB23D70A, 0x00000000
+
+.text
 glabel BgSstFloor_Draw
 /* 00404 808B9D14 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00408 808B9D18 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -62,4 +80,3 @@ glabel BgSstFloor_Draw
 /* 004F4 808B9E04 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 004F8 808B9E08 03E00008 */  jr      $ra                        
 /* 004FC 808B9E0C 00000000 */  nop
-

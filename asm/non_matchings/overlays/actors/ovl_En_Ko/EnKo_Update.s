@@ -97,5 +97,3 @@ glabel EnKo_Update
 /* 02AA8 80A99858 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 02AAC 80A9985C 03E00008 */  jr      $ra                        
 /* 02AB0 80A99860 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

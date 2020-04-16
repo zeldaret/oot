@@ -8,5 +8,3 @@ glabel BgHidanHrock_Update
 /* 00680 808897B0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00684 808897B4 03E00008 */  jr      $ra                        
 /* 00688 808897B8 00000000 */  nop
-
-

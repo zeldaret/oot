@@ -1,6 +1,5 @@
 #include "z_bg_mizu_shutter.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgMizuShutter_Init(BgMizuShutter* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgMizuShutter_Draw(BgMizuShutter* this, GlobalContext* globalCtx);
 const ActorInit Bg_Mizu_Shutter_InitVars = {
     ACTOR_BG_MIZU_SHUTTER,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuShutter),

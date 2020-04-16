@@ -1,3 +1,26 @@
+.rdata
+glabel D_808B6108
+    .asciz "Error : arg_data おかしいな(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_808B6140
+    .asciz "../z_bg_spot16_bombstone.c"
+    .balign 4
+
+glabel D_808B615C
+    .asciz "Spot16 obj 爆弾石 (scaleX %f)(arg_data 0x%04x)\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_808B623C
+.word L808B50DC
+.word L808B50DC
+.word L808B50DC
+.word L808B50DC
+.word L808B50DC
+.word L808B50DC
+
+.text
 glabel BgSpot16Bombstone_Init
 /* 00438 808B5068 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 0043C 808B506C AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -70,5 +93,3 @@ glabel L808B50DC
 /* 00520 808B5150 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00524 808B5154 03E00008 */  jr      $ra                        
 /* 00528 808B5158 00000000 */  nop
-
-

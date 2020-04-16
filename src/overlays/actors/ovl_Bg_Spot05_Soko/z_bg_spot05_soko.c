@@ -6,16 +6,15 @@
 
 #include "z_bg_spot05_soko.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx);
-static void BgSpot05Soko_Destroy(BgSpot05Soko* this, GlobalContext* globalCtx);
-static void BgSpot05Soko_Update(BgSpot05Soko* this, GlobalContext* globalCtx);
-static void BgSpot05Soko_Draw(BgSpot05Soko* this, GlobalContext* globalCtx);
-static void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx);
-static void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx);
-static void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx);
+void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx);
+void BgSpot05Soko_Destroy(BgSpot05Soko* this, GlobalContext* globalCtx);
+void BgSpot05Soko_Update(BgSpot05Soko* this, GlobalContext* globalCtx);
+void BgSpot05Soko_Draw(BgSpot05Soko* this, GlobalContext* globalCtx);
+void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx);
+void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx);
+void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx);
 
 extern Gfx* D_060012C0;
 extern Gfx* D_06000918;
@@ -23,7 +22,6 @@ extern Gfx* D_06000918;
 const ActorInit Bg_Spot05_Soko_InitVars = {
     ACTOR_BG_SPOT05_SOKO,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_SPOT05_OBJECTS,
     sizeof(BgSpot05Soko),
@@ -42,7 +40,7 @@ static Gfx* dListTbl[] = {
     0x06001190,
 };
 
-static void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx) {
 
     Actor* thisx = &this->dyna.actor;
     u32 pad1;
@@ -73,14 +71,14 @@ static void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
 }
 
-static void BgSpot05Soko_Destroy(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void BgSpot05Soko_Destroy(BgSpot05Soko* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx) {
 }
 
-static void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 0x1E, NA_SE_EV_METALDOOR_CLOSE);
@@ -91,7 +89,7 @@ static void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     thisx->speedXZ *= 1.5f;
@@ -100,10 +98,10 @@ static void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
     }
 }
 
-static void BgSpot05Soko_Update(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void BgSpot05Soko_Update(BgSpot05Soko* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-static void BgSpot05Soko_Draw(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void BgSpot05Soko_Draw(BgSpot05Soko* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, dListTbl[this->dyna.actor.params]);
 }

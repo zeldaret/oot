@@ -1,3 +1,169 @@
+.late_rodata
+glabel D_80B7B47C
+    .float 3.99900007248
+
+glabel jtbl_80B7B480
+.word L80B6EE24
+.word L80B6F0C4
+.word L80B6F94C
+.word L80B6FA3C
+.word L80B70890
+.word L80B709D0
+glabel D_80B7B498
+    .float 3.14159274101
+
+glabel D_80B7B49C
+    .float 1.9
+
+glabel D_80B7B4A0
+    .float 0.9
+    
+
+glabel D_80B7B4A4
+    .float 3.14159274101
+    
+
+glabel D_80B7B4A8
+    .float 3.14159274101
+    
+
+glabel D_80B7B4AC
+    .float 0.001
+    
+
+glabel D_80B7B4B0
+    .float 846400.0
+    
+
+glabel D_80B7B4B4
+    .float 1350.0
+    
+
+glabel D_80B7B4B8
+    .float 1100.0
+    
+
+glabel D_80B7B4BC
+    .float 0.11
+    
+
+glabel D_80B7B4C0
+    .float 0.2
+    
+
+glabel D_80B7B4C4
+    .float 6.28
+    
+
+glabel D_80B7B4C8
+    .float 0.02
+    
+
+glabel D_80B7B4CC
+    .float 0.025
+    
+
+glabel D_80B7B4D0
+    .float 250000.0
+    
+
+glabel D_80B7B4D4
+    .float -0.523598790169
+    
+
+glabel D_80B7B4D8
+    .float 846400.0
+    
+
+glabel D_80B7B4DC
+    .float 0.0166666675359
+    
+
+glabel D_80B7B4E0
+    .float 0.0166666675359
+    
+
+glabel D_80B7B4E4
+    .float 0.3
+    
+
+glabel D_80B7B4E8
+    .float 0.3
+    
+
+glabel D_80B7B4EC
+    .float 0.2
+    
+
+glabel D_80B7B4F0
+    .float 0.8
+    
+
+glabel D_80B7B4F4
+    .float 0.1
+    
+
+glabel D_80B7B4F8
+    .float 1.99899995327
+    
+
+glabel D_80B7B4FC
+    .float 3.14159274101
+    
+
+glabel D_80B7B500
+    .float 0.2
+    
+
+glabel D_80B7B504
+    .float 3.14159274101
+    
+
+glabel D_80B7B508
+    .float 3.14159274101
+    
+
+glabel D_80B7B50C
+    .float 0.11
+    
+
+glabel D_80B7B510
+    .float 3.14159274101
+    
+
+glabel D_80B7B514
+    .float 3.14159274101
+    
+
+glabel D_80B7B518
+    .float 3.14159274101
+    
+
+glabel D_80B7B51C
+    .float 3.14159274101
+    
+
+glabel D_80B7B520
+    .float 3.14159274101
+    
+
+glabel D_80B7B524
+    .float 0.2
+    
+
+glabel D_80B7B528
+    .float 846400.0
+    
+
+glabel D_80B7B52C
+    .float 0.1
+    
+
+glabel D_80B7B530
+    .float 0.000500000081956
+    
+
+.text
 glabel func_80B6E9E0
 /* 05040 80B6E9E0 27BDFF18 */  addiu   $sp, $sp, 0xFF18           ## $sp = FFFFFF18
 /* 05044 80B6E9E4 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -2201,5 +2367,3 @@ glabel L80B709D0
 /* 07080 80B70A20 27BD00E8 */  addiu   $sp, $sp, 0x00E8           ## $sp = 00000000
 /* 07084 80B70A24 03E00008 */  jr      $ra                        
 /* 07088 80B70A28 00000000 */  nop
-
-

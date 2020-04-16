@@ -1,3 +1,59 @@
+.rdata
+glabel D_8091B464
+    .asciz "../z_boss_goma.c"
+    .balign 4
+
+glabel D_8091B478
+    .asciz "../z_boss_goma.c"
+    .balign 4
+
+glabel D_8091B48C
+    .asciz "../z_boss_goma.c"
+    .balign 4
+
+glabel D_8091B4A0
+    .asciz "../z_boss_goma.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8091B57C
+.word L8091A660
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A8F4
+.word L8091A8F4
+.word L8091A8F4
+.word L8091A8F4
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A774
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A78C
+.word L8091A9B8
+.word L8091A9B8
+.word L8091A7A4
+.word L8091A7CC
+
+.text
 glabel func_8091A560
 /* 04B50 8091A560 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 04B54 8091A564 AFBF0014 */  sw      $ra, 0x0014($sp)
@@ -308,5 +364,3 @@ glabel L8091A9B8
 /* 04FCC 8091A9DC 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 04FD0 8091A9E0 03E00008 */  jr      $ra
 /* 04FD4 8091A9E4 00000000 */  nop
-
-

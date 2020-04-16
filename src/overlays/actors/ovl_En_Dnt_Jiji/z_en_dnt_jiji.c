@@ -1,6 +1,5 @@
 #include "z_en_dnt_jiji.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnDntJiji_Init(EnDntJiji* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnDntJiji_Draw(EnDntJiji* this, GlobalContext* globalCtx);
 const ActorInit En_Dnt_Jiji_InitVars = {
     ACTOR_EN_DNT_JIJI,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_DNS,
     sizeof(EnDntJiji),

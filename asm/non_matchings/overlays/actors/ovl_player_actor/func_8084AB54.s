@@ -33,5 +33,3 @@ glabel func_8084AB54
 /* 189BC 8084ABCC 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 189C0 8084ABD0 03E00008 */  jr      $ra                        
 /* 189C4 8084ABD4 AC2EE664 */  sw      $t6, -0x199C($at)          ## 8015E664
-
-

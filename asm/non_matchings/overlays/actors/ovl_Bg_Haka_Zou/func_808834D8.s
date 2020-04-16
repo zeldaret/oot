@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80883678
+    .float 0.04
+
+.text
 glabel func_808834D8
 /* 00F18 808834D8 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 00F1C 808834DC 8482016A */  lh      $v0, 0x016A($a0)           ## 0000016A
@@ -40,5 +45,3 @@ glabel func_808834D8
 .L80883560:
 /* 00FA0 80883560 03E00008 */  jr      $ra                        
 /* 00FA4 80883564 00000000 */  nop
-
-

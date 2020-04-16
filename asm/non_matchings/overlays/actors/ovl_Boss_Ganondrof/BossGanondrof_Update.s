@@ -314,5 +314,3 @@ glabel BossGanondrof_Update
 /* 03C94 809142D4 8FB20030 */  lw      $s2, 0x0030($sp)           
 /* 03C98 809142D8 03E00008 */  jr      $ra                        
 /* 03C9C 809142DC 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

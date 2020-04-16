@@ -1,6 +1,11 @@
+/*
+ * File: z_en_horse_ganon.c
+ * Overlay: ovl_En_Horse_Ganon
+ * Description: Ganondorf's Horse
+ */
+
 #include "z_en_horse_ganon.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx);
 const ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HORSE_GANON,
     sizeof(EnHorseGanon),

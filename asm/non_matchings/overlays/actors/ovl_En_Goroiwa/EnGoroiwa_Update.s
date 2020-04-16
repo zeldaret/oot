@@ -97,5 +97,3 @@ glabel EnGoroiwa_Update
 /* 0217C 80A4DE1C 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 02180 80A4DE20 03E00008 */  jr      $ra                        
 /* 02184 80A4DE24 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

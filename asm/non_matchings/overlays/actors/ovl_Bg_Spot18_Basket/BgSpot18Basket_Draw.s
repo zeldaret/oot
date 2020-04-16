@@ -23,4 +23,3 @@ glabel BgSpot18Basket_Draw
 /* 00E34 808B8544 00000000 */  nop
 /* 00E38 808B8548 00000000 */  nop
 /* 00E3C 808B854C 00000000 */  nop
-

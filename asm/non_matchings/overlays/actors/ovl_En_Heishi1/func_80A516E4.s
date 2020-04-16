@@ -1,3 +1,35 @@
+.rdata
+glabel D_80A52B1C
+    .asciz "[31m 種類  %d\n[m"
+    .balign 4
+
+glabel D_80A52B30
+    .asciz "[31m ぱす  %d\n[m"
+    .balign 4
+
+glabel D_80A52B44
+    .asciz "[31m 反転  %d\n[m"
+    .balign 4
+
+glabel D_80A52B58
+    .asciz "[31m 時間  %d\n[m"
+    .balign 4
+
+glabel D_80A52B6C
+    .asciz "[31m 点座  %d\n[m"
+    .balign 4
+
+glabel D_80A52B80
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A52C2C
+ .word 0x4622F983
+glabel D_80A52C30
+    .float 1.99000000954
+
+.text
 glabel func_80A516E4
 /* 00414 80A516E4 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00418 80A516E8 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -262,5 +294,3 @@ glabel func_80A516E4
 /* 007BC 80A51A8C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 007C0 80A51A90 03E00008 */  jr      $ra                        
 /* 007C4 80A51A94 00000000 */  nop
-
-

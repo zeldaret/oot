@@ -6,25 +6,23 @@
 
 #include "z_obj_elevator.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 #define SIZE_PARAM 1
 
-static void ObjElevator_Init(ObjElevator* this, GlobalContext* globalCtx);
-static void ObjElevator_Destroy(ObjElevator* this, GlobalContext* globalCtx);
-static void ObjElevator_Update(ObjElevator* this, GlobalContext* globalCtx);
-static void ObjElevator_Draw(ObjElevator* this, GlobalContext* globalCtx);
+void ObjElevator_Init(ObjElevator* this, GlobalContext* globalCtx);
+void ObjElevator_Destroy(ObjElevator* this, GlobalContext* globalCtx);
+void ObjElevator_Update(ObjElevator* this, GlobalContext* globalCtx);
+void ObjElevator_Draw(ObjElevator* this, GlobalContext* globalCtx);
 
-static void func_80B92C5C(ObjElevator* this);
-static void func_80B92C80(ObjElevator* this, GlobalContext* globalCtx);
-static void func_80B92D20(ObjElevator* this);
-static void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx);
+void func_80B92C5C(ObjElevator* this);
+void func_80B92C80(ObjElevator* this, GlobalContext* globalCtx);
+void func_80B92D20(ObjElevator* this);
+void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Elevator_InitVars = {
     ACTOR_OBJ_ELEVATOR,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_D_ELEVATOR,
     sizeof(ObjElevator),
@@ -45,11 +43,11 @@ static f32 sizes[] = { 0.1f, 0.05f };
 extern u32 D_06000180;
 extern u32 D_06000360;
 
-static void ObjElevator_SetupAction(ObjElevator* this, ActorFunc actionFunc) {
+void ObjElevator_SetupAction(ObjElevator* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-static void func_80B92B08(ObjElevator* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
+void func_80B92B08(ObjElevator* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
     s16 pad1;
     u32 local_c = 0;
     s16 pad2;
@@ -64,7 +62,7 @@ static void func_80B92B08(ObjElevator* this, GlobalContext* globalCtx, u32 colli
     }
 }
 
-static void ObjElevator_Init(ObjElevator* this, GlobalContext* globalCtx) {
+void ObjElevator_Init(ObjElevator* this, GlobalContext* globalCtx) {
     f32 temp_f0;
     Actor* thisx = &this->dyna.actor;
 
@@ -77,15 +75,15 @@ static void ObjElevator_Init(ObjElevator* this, GlobalContext* globalCtx) {
     osSyncPrintf("(Dungeon Elevator)(arg_data 0x%04x)\n", thisx->params);
 }
 
-static void ObjElevator_Destroy(ObjElevator* this, GlobalContext* globalCtx) {
+void ObjElevator_Destroy(ObjElevator* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void func_80B92C5C(ObjElevator* this) {
+void func_80B92C5C(ObjElevator* this) {
     ObjElevator_SetupAction(this, func_80B92C80);
 }
 
-static void func_80B92C80(ObjElevator* this, GlobalContext* globalCtx) {
+void func_80B92C80(ObjElevator* this, GlobalContext* globalCtx) {
     f32 sub;
     Actor* thisx = &this->dyna.actor;
     if ((this->dyna.unk_160 & 2) && !(this->unk_170 & 2)) {
@@ -99,11 +97,11 @@ static void func_80B92C80(ObjElevator* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80B92D20(ObjElevator* this) {
+void func_80B92D20(ObjElevator* this) {
     ObjElevator_SetupAction(this, func_80B92D44);
 }
 
-static void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx) {
+void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     if (fabsf(Math_SmoothScaleMaxMinF(&thisx->posRot.pos.y, this->unk_168, 1.0f, this->unk_16C, 0.0f)) < 0.001f) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_FOOT_SWITCH);
@@ -113,13 +111,13 @@ static void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx) {
     }
 }
 
-static void ObjElevator_Update(ObjElevator* this, GlobalContext* globalCtx) {
+void ObjElevator_Update(ObjElevator* this, GlobalContext* globalCtx) {
     if (this->actionFunc) {
         this->actionFunc(this, globalCtx);
     }
     this->unk_170 = this->dyna.unk_160;
 }
 
-static void ObjElevator_Draw(ObjElevator* this, GlobalContext* globalCtx) {
+void ObjElevator_Draw(ObjElevator* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_06000180);
 }

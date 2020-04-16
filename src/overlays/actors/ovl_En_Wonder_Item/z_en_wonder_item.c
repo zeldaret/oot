@@ -1,6 +1,11 @@
+/*
+ * File: z_en_wonder_item.c
+ * Overlay: ovl_En_Wonder_Item
+ * Description: Invisible Collectable; Used in MQ to create "Cow" switches
+ */
+
 #include "z_en_wonder_item.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnWonderItem_Init(EnWonderItem* this, GlobalContext* globalCtx);
@@ -11,7 +16,6 @@ void EnWonderItem_Update(EnWonderItem* this, GlobalContext* globalCtx);
 const ActorInit En_Wonder_Item_InitVars = {
     ACTOR_EN_WONDER_ITEM,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWonderItem),

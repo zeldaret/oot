@@ -1,3 +1,17 @@
+.rdata
+glabel D_80AEA824
+    .asciz "0"
+    .balign 4
+
+glabel D_80AEA828
+    .asciz "../z_en_rr.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AEA934
+    .float 0.2
+
+.text
 glabel EnRr_Update
 /* 01944 80AE9D84 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 01948 80AE9D88 AFBF004C */  sw      $ra, 0x004C($sp)           
@@ -309,5 +323,3 @@ glabel EnRr_Update
 /* 01D88 80AEA1C8 8FB60048 */  lw      $s6, 0x0048($sp)           
 /* 01D8C 80AEA1CC 03E00008 */  jr      $ra                        
 /* 01D90 80AEA1D0 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

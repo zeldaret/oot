@@ -1,3 +1,16 @@
+.rdata
+glabel D_80AE65F0
+    .asciz "[33m☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+.late_rodata
+glabel D_80AE667C
+    .float 0.04
+
+glabel D_80AE6680
+ .word 0xC6D6D800
+
+.text
 glabel EnReeba_Init
 /* 00000 80AE4CD0 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00004 80AE4CD4 AFB00024 */  sw      $s0, 0x0024($sp)           
@@ -136,5 +149,3 @@ glabel EnReeba_Init
 /* 001F0 80AE4EC0 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 001F4 80AE4EC4 03E00008 */  jr      $ra                        
 /* 001F8 80AE4EC8 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

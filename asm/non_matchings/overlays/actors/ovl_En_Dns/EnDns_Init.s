@@ -1,3 +1,57 @@
+.rdata
+glabel D_809F0560
+    .asciz "デクの実売り            "
+    .balign 4
+
+glabel D_809F057C
+    .asciz "デクの棒売り            "
+    .balign 4
+
+glabel D_809F0598
+    .asciz "ハートの欠片売り        "
+    .balign 4
+
+glabel D_809F05B4
+    .asciz "デクの種売り            "
+    .balign 4
+
+glabel D_809F05D0
+    .asciz "デクの盾売り            "
+    .balign 4
+
+glabel D_809F05EC
+    .asciz "バクダン売り            "
+    .balign 4
+
+glabel D_809F0608
+    .asciz "矢売り                  "
+    .balign 4
+
+glabel D_809F0624
+    .asciz "赤のくすり売り          "
+    .balign 4
+
+glabel D_809F0640
+    .asciz "緑のくすり売り          "
+    .balign 4
+
+glabel D_809F065C
+    .asciz "デクの棒持てる数を増やす"
+    .balign 4
+
+glabel D_809F0678
+    .asciz "デクの実持てる数を増やす"
+    .balign 4
+
+glabel D_809F0694
+    .asciz "\x1B[31m引数エラー（売りナッツ）[ arg_data = %d ]\x1B[m\n"
+    .balign 4
+
+glabel D_809F06C8
+    .asciz "\x1B[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1B[m\n"
+    .balign 4
+
+.text
 glabel EnDns_Init
 /* 00000 809EF350 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00004 809EF354 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -116,5 +170,3 @@ glabel EnDns_Init
 /* 00198 809EF4E8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 0019C 809EF4EC 03E00008 */  jr      $ra
 /* 001A0 809EF4F0 00000000 */  nop
-
-

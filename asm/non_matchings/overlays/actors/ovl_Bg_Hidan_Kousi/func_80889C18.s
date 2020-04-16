@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80889F34
+    .float 0.2
+
+.text
 glabel func_80889C18
 /* 002B8 80889C18 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 002BC 80889C1C 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
@@ -17,7 +22,7 @@ glabel func_80889C18
 /* 002F4 80889C54 45000005 */  bc1f    .L80889C6C                 
 /* 002F8 80889C58 00000000 */  nop
 /* 002FC 80889C5C E4800068 */  swc1    $f0, 0x0068($a0)           ## 00000068
-/* 00300 80889C60 0C222658 */  jal     func_80889960              
+/* 00300 80889C60 0C222658 */  jal     BgHidanKousi_SetupAction              
 /* 00304 80889C64 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00308 80889C68 8FA40018 */  lw      $a0, 0x0018($sp)           
 .L80889C6C:
@@ -31,5 +36,3 @@ glabel func_80889C18
 /* 00324 80889C84 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00328 80889C88 03E00008 */  jr      $ra                        
 /* 0032C 80889C8C 00000000 */  nop
-
-

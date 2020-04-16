@@ -1,3 +1,12 @@
+.rdata
+glabel D_80AF1A64
+    .asciz "スイッチルトセット!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+glabel D_80AF1A90
+    .asciz "スイッチルトセットしない!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_80AEFF94
 /* 05384 80AEFF94 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
 /* 05388 80AEFF98 9442F580 */  lhu     $v0, -0x0A80($v0)          ## 8015F580
@@ -51,5 +60,3 @@ glabel func_80AEFF94
 /* 05434 80AF0044 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 05438 80AF0048 03E00008 */  jr      $ra                        
 /* 0543C 80AF004C 00000000 */  nop
-
-

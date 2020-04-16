@@ -16,4 +16,3 @@ glabel ObjHana_Draw
 /* 001E4 80B93A44 03E00008 */  jr      $ra                        
 /* 001E8 80B93A48 00000000 */  nop
 /* 001EC 80B93A4C 00000000 */  nop
-

@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A96B5C
+    .float 0.01
+
+.text
 glabel EnKarebaba_Update
 /* 00F50 80A962A0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00F54 80A962A4 AFB0001C */  sw      $s0, 0x001C($sp)           
@@ -117,5 +122,3 @@ glabel EnKarebaba_Update
 /* 010F0 80A96440 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 010F4 80A96444 03E00008 */  jr      $ra                        
 /* 010F8 80A96448 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

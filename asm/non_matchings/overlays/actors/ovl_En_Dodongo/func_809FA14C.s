@@ -1,3 +1,58 @@
+.late_rodata
+glabel jtbl_809FABAC
+.word L809FA2E4
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA338
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA40C
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA494
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4AC
+glabel jtbl_809FAC18
+.word L809FA4F0
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA504
+.word L809FA50C
+.word L809FA514
+.word L809FA51C
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA534
+.word L809FA524
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA53C
+.word L809FA52C
+
+.text
 glabel func_809FA14C
 /* 01EFC 809FA14C 27BDFE78 */  addiu   $sp, $sp, 0xFE78           ## $sp = FFFFFE78
 /* 01F00 809FA150 3C0E80A0 */  lui     $t6, %hi(D_809FAA9C)       ## $t6 = 80A00000
@@ -295,5 +350,3 @@ glabel L809FA540
 /* 0232C 809FA57C 8FB60038 */  lw      $s6, 0x0038($sp)           
 /* 02330 809FA580 03E00008 */  jr      $ra                        
 /* 02334 809FA584 27BD0188 */  addiu   $sp, $sp, 0x0188           ## $sp = 00000000
-
-

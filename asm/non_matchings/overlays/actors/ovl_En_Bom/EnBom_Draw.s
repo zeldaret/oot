@@ -1,3 +1,21 @@
+.rdata
+glabel D_809C34D0
+    .asciz "../z_en_bom.c"
+    .balign 4
+
+glabel D_809C34E0
+    .asciz "../z_en_bom.c"
+    .balign 4
+
+glabel D_809C34F0
+    .asciz "../z_en_bom.c"
+    .balign 4
+
+glabel D_809C3500
+    .asciz "../z_en_bom.c"
+    .balign 4
+
+.text
 glabel EnBom_Draw
 /* 00B48 809C3218 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00B4C 809C321C AFBF001C */  sw      $ra, 0x001C($sp)
@@ -126,4 +144,3 @@ glabel EnBom_Draw
 /* 00D34 809C3404 03E00008 */  jr      $ra
 /* 00D38 809C3408 00000000 */  nop
 /* 00D3C 809C340C 00000000 */  nop
-

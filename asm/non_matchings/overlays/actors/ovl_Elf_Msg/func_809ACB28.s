@@ -1,3 +1,29 @@
+.rdata
+glabel D_809AD500
+    .asciz "../z_elf_msg.c"
+    .balign 4
+
+glabel D_809AD510
+    .asciz "\"共倒れ\" = %s\n"
+    .balign 4
+
+glabel D_809AD520
+    .asciz "共倒れ"
+    .balign 4
+
+glabel D_809AD528
+    .asciz "../z_elf_msg.c"
+    .balign 4
+
+glabel D_809AD538
+    .asciz "\"共倒れ\" = %s\n"
+    .balign 4
+
+glabel D_809AD548
+    .asciz "共倒れ"
+    .balign 4
+
+.text
 glabel func_809ACB28
 /* 00008 809ACB28 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0000C 809ACB2C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -103,5 +129,3 @@ glabel func_809ACB28
 /* 00150 809ACC70 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00154 809ACC74 03E00008 */  jr      $ra                        
 /* 00158 809ACC78 00000000 */  nop
-
-

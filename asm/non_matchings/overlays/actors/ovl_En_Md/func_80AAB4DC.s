@@ -50,5 +50,3 @@ glabel func_80AAB4DC
 /* 01348 80AAB598 E492002C */  swc1    $f18, 0x002C($a0)          ## 0000002C
 /* 0134C 80AAB59C 03E00008 */  jr      $ra                        
 /* 01350 80AAB5A0 00000000 */  nop
-
-

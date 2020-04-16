@@ -1,3 +1,17 @@
+.rdata
+glabel D_80BA6F94
+    .asciz "../z_oceff_spot.c"
+    .balign 4
+
+glabel D_80BA6FA8
+    .asciz "../z_oceff_spot.c"
+    .balign 4
+
+glabel D_80BA6FBC
+    .asciz "../z_oceff_spot.c"
+    .balign 4
+
+.text
 glabel OceffSpot_Draw
 /* 00674 80BA66E4 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 00678 80BA66E8 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -86,4 +100,3 @@ glabel OceffSpot_Draw
 /* 007C4 80BA6834 03E00008 */  jr      $ra                        
 /* 007C8 80BA6838 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 007CC 80BA683C 00000000 */  nop
-

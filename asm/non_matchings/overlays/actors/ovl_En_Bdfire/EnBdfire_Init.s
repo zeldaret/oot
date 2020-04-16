@@ -1,3 +1,18 @@
+.late_rodata
+glabel D_809BCB74
+ .word 0x40333333
+glabel D_809BCB78
+    .float 0.8
+
+glabel D_809BCB7C
+ .word 0x3F666667
+glabel D_809BCB80
+    .float 0.6
+
+glabel D_809BCB84
+ .word 0x40866667
+
+.text
 glabel EnBdfire_Init
 /* 00010 809BC040 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00014 809BC044 AFA50044 */  sw      $a1, 0x0044($sp)           
@@ -146,5 +161,3 @@ glabel EnBdfire_Init
 /* 00230 809BC260 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00234 809BC264 03E00008 */  jr      $ra                        
 /* 00238 809BC268 00000000 */  nop
-
-

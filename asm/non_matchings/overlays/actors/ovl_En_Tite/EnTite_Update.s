@@ -269,5 +269,3 @@ glabel EnTite_Update
 /* 026EC 80B1B16C 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 026F0 80B1B170 03E00008 */  jr      $ra                        
 /* 026F4 80B1B174 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808B6254
+    .float 1.3
+
+.text
 glabel func_808B53A8
 /* 00778 808B53A8 27BDFF38 */  addiu   $sp, $sp, 0xFF38           ## $sp = FFFFFF38
 /* 0077C 808B53AC AFBF0094 */  sw      $ra, 0x0094($sp)           
@@ -167,5 +172,3 @@ glabel func_808B53A8
 /* 009E0 808B5610 8FB70090 */  lw      $s7, 0x0090($sp)           
 /* 009E4 808B5614 03E00008 */  jr      $ra                        
 /* 009E8 808B5618 27BD00C8 */  addiu   $sp, $sp, 0x00C8           ## $sp = 00000000
-
-

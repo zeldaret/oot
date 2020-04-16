@@ -12,5 +12,3 @@ glabel BgHidanKousi_Destroy
 /* 00160 80889AC0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00164 80889AC4 03E00008 */  jr      $ra                        
 /* 00168 80889AC8 00000000 */  nop
-
-

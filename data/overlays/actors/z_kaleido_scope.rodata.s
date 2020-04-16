@@ -340,7 +340,9 @@ glabel D_8082FC98
     .balign 4
 
 glabel D_8082FCC4
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_8082FCC8
     .asciz "../z_kaleido_scope_PAL.c"
     .balign 4
@@ -546,7 +548,9 @@ glabel D_808301FC
     .balign 4
 
 glabel D_80830210
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80830214
     .asciz "[33m"
     .balign 4
@@ -556,7 +560,9 @@ glabel D_8083021C
     .balign 4
 
 glabel D_80830238
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_8083023C
  .word 0x3F47AE14
 glabel D_80830240

@@ -40,5 +40,3 @@ glabel EnSkjneedle_Init
 /* 00088 80B01F38 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 0008C 80B01F3C 03E00008 */  jr      $ra                        
 /* 00090 80B01F40 00000000 */  nop
-
-

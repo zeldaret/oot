@@ -116,5 +116,3 @@ glabel BossGoma_Init
 /* 003DC 80915DEC 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 003E0 80915DF0 03E00008 */  jr      $ra
 /* 003E4 80915DF4 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

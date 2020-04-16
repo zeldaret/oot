@@ -316,5 +316,3 @@ glabel EnBox_Init
 /* 004F8 809C92B8 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 004FC 809C92BC 03E00008 */  jr      $ra
 /* 00500 809C92C0 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

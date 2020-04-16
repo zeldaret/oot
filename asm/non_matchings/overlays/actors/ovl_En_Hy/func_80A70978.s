@@ -1,3 +1,26 @@
+.late_rodata
+glabel jtbl_80A72980
+.word L80A709E4
+.word L80A70A00
+.word L80A709DC
+.word L80A709B8
+.word L80A70A00
+.word L80A70A00
+.word L80A70A00
+.word L80A709B8
+.word L80A70A00
+.word L80A709B8
+.word L80A709B8
+.word L80A70A00
+.word L80A709D4
+.word L80A70A00
+.word L80A70A00
+.word L80A70A00
+.word L80A70A00
+.word L80A709DC
+.word L80A709E4
+
+.text
 glabel func_80A70978
 /* 013C8 80A70978 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 013CC 80A7097C AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -102,5 +125,3 @@ glabel L80A70A00
 /* 01528 80A70AD8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 0152C 80A70ADC 03E00008 */  jr      $ra                        
 /* 01530 80A70AE0 00000000 */  nop
-
-

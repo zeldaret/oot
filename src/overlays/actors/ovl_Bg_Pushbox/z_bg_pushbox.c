@@ -6,20 +6,18 @@
 
 #include "z_bg_pushbox.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void func_808A8AE0(BgPushbox* this, ActorFunc actionFunc);
-static void BgPushbox_Init(BgPushbox* this, GlobalContext* globalCtx);
-static void BgPushbox_Destroy(BgPushbox* this, GlobalContext* globalCtx);
-static void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx);
-static void BgPushbox_Update(BgPushbox* this, GlobalContext* globalCtx);
-static void BgPushbox_Draw(BgPushbox* this, GlobalContext* globalCtx);
+void func_808A8AE0(BgPushbox* this, ActorFunc actionFunc);
+void BgPushbox_Init(BgPushbox* this, GlobalContext* globalCtx);
+void BgPushbox_Destroy(BgPushbox* this, GlobalContext* globalCtx);
+void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx);
+void BgPushbox_Update(BgPushbox* this, GlobalContext* globalCtx);
+void BgPushbox_Draw(BgPushbox* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Pushbox_InitVars = {
     ACTOR_BG_PUSHBOX,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(BgPushbox),
@@ -36,11 +34,11 @@ static InitChainEntry initChain[] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
 };
 
-static void func_808A8AE0(BgPushbox* this, ActorFunc actionFunc) {
+void func_808A8AE0(BgPushbox* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-static void BgPushbox_Init(BgPushbox* this, GlobalContext* globalCtx) {
+void BgPushbox_Init(BgPushbox* this, GlobalContext* globalCtx) {
     s32 pad[2];
     u32 local_c = 0;
     Actor* thisx = &this->dyna.actor;
@@ -53,11 +51,11 @@ static void BgPushbox_Init(BgPushbox* this, GlobalContext* globalCtx) {
     func_808A8AE0(this, &func_808A8BAC);
 }
 
-static void BgPushbox_Destroy(BgPushbox* this, GlobalContext* globalCtx) {
+void BgPushbox_Destroy(BgPushbox* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx) {
+void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     thisx->speedXZ += this->dyna.unk_150 * 0.2f;
@@ -68,12 +66,12 @@ static void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, thisx, 20.0f, 40.0f, 40.0f, 0x1D);
 }
 
-static void BgPushbox_Update(BgPushbox* this, GlobalContext* globalCtx) {
+void BgPushbox_Update(BgPushbox* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     func_8002DF90(this);
 }
 
-static void BgPushbox_Draw(BgPushbox* this, GlobalContext* globalCtx) {
+void BgPushbox_Draw(BgPushbox* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[5];
 

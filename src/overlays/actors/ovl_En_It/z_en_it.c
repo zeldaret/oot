@@ -4,22 +4,13 @@
  * Description: Dampe's Minigame digging spot hitboxes
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
+#include "z_en_it.h"
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ u32 unk_14C;
-    /* 0x0150 */ ColliderCylinderMain cylinderCollider;
-} ActorIt; // size = 0x019C
-
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void Init(ActorIt* this, GlobalContext* globalCtx);
-static void Destroy(ActorIt* this, GlobalContext* globalCtx);
-static void Update(ActorIt* this, GlobalContext* globalCtx);
+void EnIt_Init(EnIt* this, GlobalContext* globalCtx);
+void EnIt_Destroy(EnIt* this, GlobalContext* globalCtx);
+void EnIt_Update(EnIt* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit cylinderInitData = {
     0x0A, 0x00, 0x00,       0x05, 0x10, 0x01, 0x00, 0x00, 0x00,   0x00,   0x00,   0x00,   0x00000000, 0x00,   0x00,
@@ -31,14 +22,19 @@ static u8 damageTblInitData[] = {
 };
 
 const ActorInit En_It_InitVars = {
-    ACTOR_EN_IT,     ACTORTYPE_PROP,       ROOM,
-    FLAGS,           OBJECT_GAMEPLAY_KEEP, sizeof(ActorIt),
-    (ActorFunc)Init, (ActorFunc)Destroy,   (ActorFunc)Update,
+    ACTOR_EN_IT,
+    ACTORTYPE_PROP,
+    FLAGS,
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(EnIt),
+    (ActorFunc)EnIt_Init,
+    (ActorFunc)EnIt_Destroy,
+    (ActorFunc)EnIt_Update,
     (ActorFunc)NULL,
 };
 
-static void Init(ActorIt* this, GlobalContext* globalCtx) {
-    ActorIt* it = this;
+void EnIt_Init(EnIt* this, GlobalContext* globalCtx) {
+    EnIt* it = this;
 
     it->actor.params = 0x0D05;
     ActorCollider_AllocCylinder(globalCtx, &it->cylinderCollider);
@@ -46,15 +42,15 @@ static void Init(ActorIt* this, GlobalContext* globalCtx) {
     func_80061EFC(&it->actor.sub_98.damageChart, 0, &damageTblInitData); // Init Damage Chart
 }
 
-static void Destroy(ActorIt* this, GlobalContext* globalCtx) {
-    ActorIt* it = this;
+void EnIt_Destroy(EnIt* this, GlobalContext* globalCtx) {
+    EnIt* it = this;
 
     ActorCollider_FreeCylinder(globalCtx, &it->cylinderCollider);
 }
 
-static void Update(ActorIt* this, GlobalContext* globalCtx) {
+void EnIt_Update(EnIt* this, GlobalContext* globalCtx) {
     s32 pad;
-    ActorIt* it = this;
+    EnIt* it = this;
 
     ActorCollider_Cylinder_Update(&it->actor, &it->cylinderCollider);
     Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &it->cylinderCollider);

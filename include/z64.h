@@ -4,6 +4,7 @@
 #include <ultra64.h>
 #include <ultra64/gbi.h>
 #include <ultra64/gs2dex.h>
+#include <ultra64/controller.h>
 #include <z64light.h>
 #include <z64actor.h>
 #include <z64object.h>
@@ -279,44 +280,66 @@ typedef struct GraphicsContext {
 } GraphicsContext; // size = 0x300
 
 typedef struct {
-    /* 0x00 */ union {
-        struct  {
-            u16 a   : 1;
-            u16 b   : 1;
-            u16 z   : 1;
-            u16 s   : 1;
-            u16 du  : 1;
-            u16 dd  : 1;
-            u16 dl  : 1;
-            u16 dr  : 1;
-            u16     : 2;
-            u16 l   : 1;
-            u16 r   : 1;
-            u16 cu  : 1;
-            u16 cd  : 1;
-            u16 cl  : 1;
-            u16 cr  : 1;
+    PadInput in;
+    union {
+        u16 status;
+        struct {
+            u8 errno;
+            u8 statusLo;
         };
-        u16        pad;
     };
-    /* 0x02 */ s8  x;
-    /* 0x03 */ s8  y;
-} RawInput; // size = 0x4
+} PadState;
+
+typedef struct
+{
+    /* 0x00 */ PadState cur;
+    /* 0x06 */ PadState prev;
+    /* 0x0C */ PadState press; // X/Y store delta from last frame
+    /* 0x12 */ PadState rel; // X/Y store adjusted
+    /* The old version of this struct is:
+    RawInput raw;
+    u16      status;
+    RawInput rawPrev;
+    u16      statusPrev;
+    u16      padPressed;
+    s8       xDiff;
+    s8       yDiff;
+    char     unk_10[0x02];
+    u16      padReleased;
+    s8       xAdjusted;
+    s8       yAdjusted;
+    char     unk_16[0x02];
+    */
+} Input; // size = 0x18
 
 typedef struct {
-    /* 0x00 */ RawInput raw;
-    /* 0x04 */ u16      status;
-    /* 0x06 */ RawInput rawPrev;
-    /* 0x0A */ u16      statusPrev;
-    /* 0x0C */ u16      padPressed;
-    /* 0x0E */ s8       xDiff;
-    /* 0x0F */ s8       yDiff;
-    /* 0x10 */ char     unk_10[0x02];
-    /* 0x12 */ u16      padReleased;
-    /* 0x14 */ s8       xAdjusted;
-    /* 0x15 */ s8       yAdjusted;
-    /* 0x16 */ char     unk_16[0x02];
-} Input; // size = 0x18
+    /* 0x0000 */ OSContStatus pad_status[4];
+    /* 0x0010 */ OSMesg msgbuf1[1];
+    /* 0x0014 */ OSMesg msgbuf2[1];
+    /* 0x0018 */ OSMesg msgbuf3[4];
+    /* 0x0028 */ OSMesgQueue queue1;
+    /* 0x0040 */ OSMesgQueue queue2;
+    /* 0x0058 */ OSMesgQueue queue3;
+    /* 0x0070 */ UNK_TYPE unk_70;
+    /* 0x0074 */ UNK_TYPE unk_74;
+    /* 0x0078 */ UNK_TYPE unk_78;
+    /* 0x007C */ UNK_TYPE unk_7C;
+    /* 0x0080 */ OSThread thread;
+    /* 0x0230 */ Input inputs[4]; // 0x18 each = 0x60 total
+    /* 0x0290 */ PadState pads[4]; // 0x6 each = 0x18 total
+    /* 0x02A8 */ volatile u8 validCtrlrsMask;
+    /* 0x02A9 */ s8 ncontrollers;
+    /* 0x02AA */ u8 ctrlrIsConnected[4]; // Key_switch in original code
+    /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
+    /* 0x02B2 */ volatile u8 rumbleEnable[4];
+    /* 0x02B6 */ u8 rumbleCounter[4]; // not clear exact meaning
+    /* 0x02BC */ unk_controller_t unk_controller[4];
+    /* 0x045C */ volatile u8 rumbleOffFrames;
+    /* 0x045D */ volatile u8 rumbleOnFrames;
+    /* 0x045E */ u8 preNMIShutdown;
+    /* 0x0460 */ void (*retraceCallback)(void* padmgr, u32 unk464);
+    /* 0x0464 */ u32 retraceCallbackValue;
+} PadMgr; // size = 0x468
 
 typedef struct {
    /* 0x0000 */ s16 unk_0;
@@ -441,7 +464,27 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ char    unk_00[0x50];
+    /* 0x00 */ char unk_00[0x2];
+    /* 0x02 */ s16  unk_02;
+    /* 0x04 */ char unk_04[0xC];
+} WaterBox; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ Vec3s     colAbsMin;
+    /* 0x06 */ Vec3s     colAbsMax;
+    /* 0x0C */ s16       nbVertices;
+    /* 0x10 */ void*     vertexArray;
+    /* 0x14 */ s16       nbPolygons;
+    /* 0x18 */ void*     polygonArray;
+    /* 0x1C */ void*     polygonTypes;
+    /* 0x20 */ void*     cameraData;
+    /* 0x24 */ s16       nbWaterBoxes;
+    /* 0x28 */ WaterBox* waterBoxes;
+} CollisionHeader;
+
+typedef struct {
+    /* 0x00 */ CollisionHeader* colHeader;
+    /* 0x04 */ char             unk_04[0x4C];
 } StaticCollisionContext; // size = 0x50
 
 typedef struct {
@@ -1117,90 +1160,77 @@ typedef struct DebugDispObject {
     /* 0x28 */ struct DebugDispObject* next;
 } DebugDispObject; // size = 0x2C
 
-typedef struct {
-    /* 0x00 */ Vec3s colAbsMin;
-    /* 0x06 */ Vec3s colAbsMax;
-    /* 0x0C */ s16   nbVertices;
-    /* 0x10 */ void* vertexArray;
-    /* 0x14 */ s16   nbPolygons;
-    /* 0x18 */ void* polygonArray;
-    /* 0x1C */ void* polygonTypes;
-    /* 0x20 */ void* cameraData;
-    /* 0x24 */ s16   nbWaterBoxes;
-    /* 0x28 */ void* waterBoxes;
-} CollisionHeader;
-
 typedef enum {
     MTXMODE_NEW,  // generates a new matrix
     MTXMODE_APPLY // applies transformation to the current matrix
 } MatrixMode;
 
 typedef struct FaultClient {
-    struct FaultClient* next;
-    u32 callback;
-    u32 param1;
-    u32 param2;
-} FaultClient;
+    /* 0x00 */ struct FaultClient* next;
+    /* 0x04 */ u32 callback;
+    /* 0x08 */ u32 param1;
+    /* 0x0C */ u32 param2;
+} FaultClient; // size = 0x10
 
 typedef struct FaultAddrConvClient {
-    struct FaultAddrConvClient* next;
-    u32 callback;
-    u32 param;
-} FaultAddrConvClient;
+    /* 0x00 */ struct FaultAddrConvClient* next;
+    /* 0x04 */ u32 callback;
+    /* 0x08 */ u32 param;
+} FaultAddrConvClient; // size = 0xC
 
 
 typedef struct {
-    u32 (*callback)(u32, u32);
-    u32 param0;
-    u32 param1;
-    u32 ret;
-    OSMesgQueue* queue;
-    OSMesg msg;
-} FaultClientContext;
+    /* 0x00 */ u32 (*callback)(u32, u32);
+    /* 0x04 */ u32 param0;
+    /* 0x08 */ u32 param1;
+    /* 0x0C */ u32 ret;
+    /* 0x10 */ OSMesgQueue* queue;
+    /* 0x14 */ OSMesg msg;
+} FaultClientContext; // size = 0x18
 
 typedef struct FaultThreadStruct {
-    OSThread thread;
-    u8 unk_1B0[0x600];
-    OSMesgQueue queue;
-    OSMesg msg;
-    u8 exitDebugger;
-    u8 msgId;
-    u8 faultHandlerEnabled;
-    u8 faultActive;
-    OSThread* faultedThread;
-    void(*padCallback)(Input*);
-    FaultClient* clients;
-    FaultAddrConvClient* addrConvClients;
-    u8 unk_7E0[4];
-    Input padInput;
-    u16 colors[36];
-    void* fb;
-    u32 currClientThreadSp;
-    u8 unk_84C[4];
-} FaultThreadStruct;
+    /* 0x000 */ OSThread thread;
+    /* 0x1B0 */ u8 unk_1B0[0x600];
+    /* 0x7B0 */ OSMesgQueue queue;
+    /* 0x7C8 */ OSMesg msg;
+    /* 0x7CC */ u8 exitDebugger;
+    /* 0x7CD */ u8 msgId;
+    /* 0x7CE */ u8 faultHandlerEnabled;
+    /* 0x7CF */ u8 faultActive;
+    /* 0x7D0 */ OSThread* faultedThread;
+    /* 0x7D4 */ void(*padCallback)(Input*);
+    /* 0x7D8 */ FaultClient* clients;
+    /* 0x7DC */ FaultAddrConvClient* addrConvClients;
+    /* 0x7E0 */ u8 unk_7E0[4];
+    /* 0x7E4 */ Input padInput;
+    /* 0x7FC */ u16 colors[36];
+    /* 0x844 */ void* fb;
+    /* 0x848 */ u32 currClientThreadSp;
+    /* 0x84C */ u8 unk_84C[4];
+} FaultThreadStruct; // size = 0x850
 
 typedef struct {
-    u16* fb;
-    u16 w;
-    u16 h;
-    u16 yStart;
-    u16 yEnd;
-    u16 xStart;
-    u16 xEnd;
-    u16 foreColor;
-    u16 backColor;
-    u16 cursorX;
-    u16 cursorY;
-    u32* fontData;
-    u8 charW;
-    u8 charH;
-    s8 charWPad;
-    s8 charHPad;
-    u16 printColors[10];
-    u8 escCode; // bool
-    u8 osSyncPrintfEnabled;
-    void(*inputCallback)();
-} FaultDrawer;
+    /* 0x00 */ u16* fb;
+    /* 0x04 */ u16 w;
+    /* 0x08 */ u16 h;
+    /* 0x0A */ u16 yStart;
+    /* 0x0C */ u16 yEnd;
+    /* 0x0E */ u16 xStart;
+    /* 0x10 */ u16 xEnd;
+    /* 0x12 */ u16 foreColor;
+    /* 0x14 */ u16 backColor;
+    /* 0x14 */ u16 cursorX;
+    /* 0x16 */ u16 cursorY;
+    /* 0x18 */ u32* fontData;
+    /* 0x1C */ u8 charW;
+    /* 0x1D */ u8 charH;
+    /* 0x1E */ s8 charWPad;
+    /* 0x1F */ s8 charHPad;
+    /* 0x20 */ u16 printColors[10];
+    /* 0x34 */ u8 escCode; // bool
+    /* 0x35 */ u8 osSyncPrintfEnabled;
+    /* 0x38 */ void(*inputCallback)();
+} FaultDrawer; // size = 0x3C
 
 typedef struct GfxPrint {
     /* 0x00 */ struct GfxPrint*(*callback)(struct GfxPrint*, const char*, size_t);
@@ -1248,9 +1278,9 @@ typedef struct {
 } ISVDbg;
 
 typedef struct {
-    char name[0x18];
-    u32 mediaFormat;
-    union {
+    /* 0x00 */ char name[0x18];
+    /* 0x18 */ u32 mediaFormat;
+    /* 0x1C */ union {
         struct {
             u16 cartId;
             u8 countryCode;
@@ -1258,15 +1288,15 @@ typedef struct {
         };
         u32 regionInfo;
     };
-} LocaleCartInfo;
+} LocaleCartInfo; // size = 0x20
 
 typedef struct {
-    char magic[4]; // Yaz0
-    u32 decSize;
-    u32 compInfoOffset; // only used in yaz0_old.c
-    u32 uncompDataOffset; // only used in yaz0_old.c
-    u32 data[1];
-} Yaz0Header;
+    /* 0x00 */ char magic[4]; // Yaz0
+    /* 0x04 */ u32 decSize;
+    /* 0x08 */ u32 compInfoOffset; // only used in yaz0_old.c
+    /* 0x0C */ u32 uncompDataOffset; // only used in yaz0_old.c
+    /* 0x10 */ u32 data[1];
+} Yaz0Header; // size = 0x10 ("data" is not part of the header)
 
 #define OS_SC_RETRACE_MSG       1
 #define OS_SC_DONE_MSG          2
@@ -1274,13 +1304,13 @@ typedef struct {
 #define OS_SC_PRE_NMI_MSG       4
 
 typedef struct {
-    short type;
-    char  misc[30];
-} OSScMsg;
+    /* 0x00 */ s16 type;
+    /* 0x02 */ char  misc[0x1E];
+} OSScMsg; // size = 0x20
 
 typedef struct IrqMgrClient {
-    struct IrqMgrClient* prev;
-    OSMesgQueue* queue;
+    /* 0x00 */ struct IrqMgrClient* prev;
+    /* 0x04 */ OSMesgQueue* queue;
 } IrqMgrClient;
 
 typedef struct {
@@ -1438,5 +1468,56 @@ typedef struct {
     /* 0x14 */ f32 xScale;
     /* 0x18 */ f32 yScale;
 } CfbInfo; // size = 0x1C
+
+typedef struct {
+    /* 0x00 */ u16 table[8*8];
+} JpegQuantizationTable; // size = 0x80
+
+typedef struct {
+    /* 0x00 */ u8 codeOffs[16];
+    /* 0x10 */ u16 codesA[16];
+    /* 0x30 */ u16 codesB[16];
+    /* 0x50 */ u8* symbols;
+} JpegHuffmanTable; // size = 0x54
+
+typedef struct {
+    /* 0x00 */ u32 unk_00;
+    /* 0x04 */ u32 unk_04;
+    /* 0x08 */ u32 unk_08;
+    /* 0x0C */ u32 qTablePtrs[3];
+    /* 0x18 */ char unk_18[0x8];
+} JpegTaskData; // size = 0x20
+
+typedef struct {
+    /* 0x000 */ JpegTaskData taskData;
+    /* 0x020 */ char yieldData[0x200];
+    /* 0x220 */ JpegQuantizationTable qTables[3];
+    /* 0x3A0 */ u8 codesLenghts[0x110];
+    /* 0x4B0 */ u16 codes[0x108];
+    /* 0x6C0 */ u16 unk_6C0[4][0x180];
+} JpegWork; // size = 0x12C0
+
+typedef struct {
+    /* 0x00 */ void* imageData;
+    /* 0x04 */ u8 unk_04;
+    /* 0x05 */ u8 unk_05;
+    /* 0x08 */ JpegHuffmanTable* hTablePtrs[4];
+    /* 0x18 */ u8 unk_18;
+} JpegDecoder; // size = 0x1C
+
+typedef struct {
+    /* 0x00 */ u8 dqtCount;
+    /* 0x04 */ u8* dqtPtr[3];
+    /* 0x10 */ u8 dhtCount;
+    /* 0x14 */ u8* dhtPtr[4];
+    /* 0x24 */ void* imageData;
+    /* 0x28 */ u32 unk_28; // 0 if Y V0 is 0 and 2 if Y V0 is 2
+    /* 0x2C */ char unk_2C[4];
+    /* 0x30 */ OSScTask scTask;
+    /* 0x88 */ char unk_88[0x10];
+    /* 0x98 */ OSMesgQueue mq;
+    /* 0xB0 */ OSMesg msg;
+    /* 0xB4 */ JpegWork* workBuf;
+} JpegContext; // size = 0xB8
 
 #endif

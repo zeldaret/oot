@@ -33,5 +33,3 @@ glabel EnSt_Destroy
 /* 01C14 80B064A4 8FB40028 */  lw      $s4, 0x0028($sp)           
 /* 01C18 80B064A8 03E00008 */  jr      $ra                        
 /* 01C1C 80B064AC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

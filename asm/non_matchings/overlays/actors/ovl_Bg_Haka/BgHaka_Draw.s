@@ -1,3 +1,29 @@
+.rdata
+glabel D_8087BD00
+    .asciz "../z_bg_haka.c"
+    .balign 4
+
+glabel D_8087BD10
+    .asciz "../z_bg_haka.c"
+    .balign 4
+
+glabel D_8087BD20
+    .asciz "../z_bg_haka.c"
+    .balign 4
+
+glabel D_8087BD30
+    .asciz "../z_bg_haka.c"
+    .balign 4
+
+.late_rodata
+glabel D_8087BD40
+    .float 34.6
+glabel D_8087BD44
+    .float -112.8
+glabel D_8087BD48
+    .float 0.05
+
+.text
 glabel BgHaka_Draw
 /* 004D0 8087BB80 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 004D4 8087BB84 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -83,4 +109,3 @@ glabel BgHaka_Draw
 /* 00614 8087BCC4 03E00008 */  jr      $ra                        
 /* 00618 8087BCC8 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 0061C 8087BCCC 00000000 */  nop
-

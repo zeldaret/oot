@@ -1,3 +1,25 @@
+.rdata
+glabel D_80A12E58
+    .asciz "../z_en_fire_rock.c"
+    .balign 4
+
+glabel D_80A12E6C
+    .asciz "../z_en_fire_rock.c"
+    .balign 4
+
+glabel D_80A12E80
+    .asciz "../z_en_fire_rock.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A12EE0
+ .word 0x3C8EFA35
+glabel D_80A12EE4
+ .word 0x3C8EFA35
+glabel D_80A12EE8
+ .word 0x3C8EFA35, 0x00000000
+
+.text
 glabel EnFireRock_Draw
 /* 00EB0 80A12AD0 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00EB4 80A12AD4 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -107,4 +129,3 @@ glabel EnFireRock_Draw
 /* 01054 80A12C74 00000000 */  nop
 /* 01058 80A12C78 00000000 */  nop
 /* 0105C 80A12C7C 00000000 */  nop
-

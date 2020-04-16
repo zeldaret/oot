@@ -1,3 +1,21 @@
+.rdata
+glabel D_808A1558
+    .asciz "mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n"
+    .balign 4
+
+glabel D_808A15A4
+    .asciz "【ビッグスタルフォス鍵型天井】 バンク危険！\n"
+    .balign 4
+
+glabel D_808A15D4
+    .asciz "%s %d\n"
+    .balign 4
+
+glabel D_808A15DC
+    .asciz "../z_bg_mori_bigst.c"
+    .balign 4
+
+.text
 glabel BgMoriBigst_Init
 /* 00090 808A0C50 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00094 808A0C54 AFB00024 */  sw      $s0, 0x0024($sp)           
@@ -101,5 +119,3 @@ glabel BgMoriBigst_Init
 /* 001E0 808A0DA0 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 001E4 808A0DA4 03E00008 */  jr      $ra                        
 /* 001E8 808A0DA8 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

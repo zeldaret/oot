@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80AF1BE4
+    .float 265.0
+
+.text
 glabel func_80AEC5FC
 /* 019EC 80AEC5FC 8CA21C44 */  lw      $v0, 0x1C44($a1)           ## 00001C44
 /* 019F0 80AEC600 C480002C */  lwc1    $f0, 0x002C($a0)           ## 0000002C
@@ -22,5 +27,3 @@ glabel func_80AEC5FC
 .L80AEC648:
 /* 01A38 80AEC648 03E00008 */  jr      $ra                        
 /* 01A3C 80AEC64C 00000000 */  nop
-
-

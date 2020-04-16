@@ -1,3 +1,17 @@
+.rdata
+glabel D_8089F580
+    .asciz "../z_bg_mizu_shutter.c"
+    .balign 4
+
+glabel D_8089F598
+    .asciz "../z_bg_mizu_shutter.c"
+    .balign 4
+
+glabel D_8089F5B0
+    .asciz "../z_bg_mizu_shutter.c"
+    .balign 4
+
+.text
 glabel BgMizuShutter_Draw
 /* 005F8 8089F448 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 005FC 8089F44C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -54,4 +68,3 @@ glabel BgMizuShutter_Draw
 /* 006C4 8089F514 03E00008 */  jr      $ra                        
 /* 006C8 8089F518 00000000 */  nop
 /* 006CC 8089F51C 00000000 */  nop
-

@@ -17,5 +17,3 @@ glabel EnKarebaba_Destroy
 /* 00164 80A954B4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00168 80A954B8 03E00008 */  jr      $ra                        
 /* 0016C 80A954BC 00000000 */  nop
-
-

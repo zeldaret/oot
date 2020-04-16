@@ -64,5 +64,3 @@ glabel ObjHamishi_Init
 /* 00558 80B934E8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0055C 80B934EC 03E00008 */  jr      $ra                        
 /* 00560 80B934F0 00000000 */  nop
-
-

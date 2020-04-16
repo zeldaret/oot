@@ -1,3 +1,13 @@
+.rdata
+glabel D_809FF440
+    .asciz "../z_en_du.c"
+    .balign 4
+
+glabel D_809FF450
+    .asciz "../z_en_du.c"
+    .balign 4
+
+.text
 glabel EnDu_Draw
 /* 01444 809FF074 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 01448 809FF078 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -102,4 +112,3 @@ glabel EnDu_Draw
 /* 015D4 809FF204 00000000 */  nop
 /* 015D8 809FF208 00000000 */  nop
 /* 015DC 809FF20C 00000000 */  nop
-

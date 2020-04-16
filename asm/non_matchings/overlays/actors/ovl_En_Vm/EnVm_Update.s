@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B2EC24
+ .word 0x45CB2000
+
+.text
 glabel EnVm_Update
 /* 00CE8 80B2E148 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00CEC 80B2E14C AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -110,5 +115,3 @@ glabel EnVm_Update
 /* 00E6C 80B2E2CC 8FB00024 */  lw      $s0, 0x0024($sp)           
 /* 00E70 80B2E2D0 03E00008 */  jr      $ra                        
 /* 00E74 80B2E2D4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

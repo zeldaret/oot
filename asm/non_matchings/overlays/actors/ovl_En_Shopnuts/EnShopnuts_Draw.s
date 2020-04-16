@@ -20,4 +20,3 @@ glabel EnShopnuts_Draw
 /* 00D94 80AFB4B4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00D98 80AFB4B8 03E00008 */  jr      $ra
 /* 00D9C 80AFB4BC 00000000 */  nop
-

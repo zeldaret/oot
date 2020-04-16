@@ -6,7 +6,6 @@
 
 #include "z_en_tk.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx);
@@ -40,7 +39,6 @@ extern SkeletonHeader D_0600BE40;
 const ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_TK,
     sizeof(EnTk),

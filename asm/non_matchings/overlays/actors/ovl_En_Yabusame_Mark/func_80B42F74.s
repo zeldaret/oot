@@ -1,3 +1,49 @@
+.rdata
+glabel D_80B4374C
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B43750
+    .asciz "[32m☆☆☆☆☆ posＸ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B43778
+    .asciz "[32m☆☆☆☆☆ posＹ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B437A0
+    .asciz "[32m☆☆☆☆☆ posＺ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B437C8
+    .asciz "[33m☆☆☆☆☆ hitＸ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B437F0
+    .asciz "[33m☆☆☆☆☆ hitＹ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B43818
+    .asciz "[33m☆☆☆☆☆ hitＺ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B43840
+    .asciz "[35m☆☆☆☆☆ 小    ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B43868
+    .asciz "[35m☆☆☆☆☆ 大    ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B43890
+    .asciz "[35m☆☆☆☆☆ point ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.late_rodata
+glabel D_80B438B8
+ .word 0x0A0A0000, 0x00000000
+
+.text
 glabel func_80B42F74
 /* 001B4 80B42F74 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 001B8 80B42F78 3C0F80B4 */  lui     $t7, %hi(D_80B4365C)       ## $t7 = 80B40000
@@ -264,5 +310,3 @@ glabel func_80B42F74
 /* 00578 80B43338 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 0057C 80B4333C 03E00008 */  jr      $ra                        
 /* 00580 80B43340 00000000 */  nop
-
-

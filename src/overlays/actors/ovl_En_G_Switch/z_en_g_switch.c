@@ -1,6 +1,5 @@
 #include "z_en_g_switch.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnGSwitch_Init(EnGSwitch* this, GlobalContext* globalCtx);
@@ -11,7 +10,6 @@ void EnGSwitch_Update(EnGSwitch* this, GlobalContext* globalCtx);
 const ActorInit En_G_Switch_InitVars = {
     ACTOR_EN_G_SWITCH,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnGSwitch),

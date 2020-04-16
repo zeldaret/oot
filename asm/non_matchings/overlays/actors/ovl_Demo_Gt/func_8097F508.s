@@ -1,3 +1,21 @@
+.rdata
+glabel D_80982780
+    .asciz "../z_demo_gt_part1.c"
+    .balign 4
+
+glabel D_80982798
+    .asciz "../z_demo_gt_part1.c"
+    .balign 4
+
+glabel D_809827B0
+    .asciz "../z_demo_gt_part1.c"
+    .balign 4
+
+.late_rodata
+glabel D_80982AD8
+    .float 9.58738019108e-05
+
+.text
 glabel func_8097F508
 /* 01E98 8097F508 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 01E9C 8097F50C 3C0E0001 */  lui     $t6, 0x0001                ## $t6 = 00010000
@@ -261,5 +279,3 @@ glabel func_8097F508
 /* 02288 8097F8F8 27BD00D8 */  addiu   $sp, $sp, 0x00D8           ## $sp = 00000000
 /* 0228C 8097F8FC 03E00008 */  jr      $ra                        
 /* 02290 8097F900 00000000 */  nop
-
-

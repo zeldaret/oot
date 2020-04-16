@@ -1,3 +1,31 @@
+.rdata
+glabel D_80B38E10
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B38E14
+    .asciz "[32m☆☆☆☆☆ 不思議不思議まか不思議 	   ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80B38E54
+    .asciz "[32m☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B38ECC
+.word L80B382D8
+.word L80B38338
+.word L80B38388
+.word L80B383A4
+.word L80B3855C
+.word L80B38410
+.word L80B38470
+.word L80B384C0
+.word L80B384D0
+.word L80B38538
+.word 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel EnWonderItem_Init
 /* 0019C 80B381FC 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 001A0 80B38200 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -250,5 +278,3 @@ glabel L80B3855C
 /* 00504 80B38564 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00508 80B38568 03E00008 */  jr      $ra                        
 /* 0050C 80B3856C 00000000 */  nop
-
-

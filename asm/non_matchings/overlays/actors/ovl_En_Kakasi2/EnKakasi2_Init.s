@@ -1,3 +1,41 @@
+.rdata
+glabel D_80A909F0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A909F4
+    .asciz "[32m☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A90A24
+    .asciz "[33m☆☆☆☆☆ 元？(引数０) ☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A90A54
+    .asciz "[33m☆☆☆☆☆ 元？(Ｚアングル) ☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A90A84
+    .asciz "[33m☆☆☆☆☆ 補正座標Ｘ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A90AB4
+    .asciz "[33m☆☆☆☆☆ 補正座標Ｙ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A90AE4
+    .asciz "[33m☆☆☆☆☆ 補正座標Ｚ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A90B14
+    .asciz "[33m☆☆☆☆☆ SAVE       ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A90B44
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel EnKakasi2_Init
 /* 00000 80A90010 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00004 80A90014 AFB00028 */  sw      $s0, 0x0028($sp)
@@ -154,5 +192,3 @@ glabel EnKakasi2_Init
 /* 00220 80A90230 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00224 80A90234 03E00008 */  jr      $ra
 /* 00228 80A90238 00000000 */  nop
-
-

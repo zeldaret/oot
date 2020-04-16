@@ -6,5 +6,3 @@ glabel func_80AED6DC
 /* 02ADC 80AED6EC A0820285 */  sb      $v0, 0x0285($a0)           ## 00000285
 /* 02AE0 80AED6F0 03E00008 */  jr      $ra                        
 /* 02AE4 80AED6F4 E4840288 */  swc1    $f4, 0x0288($a0)           ## 00000288
-
-

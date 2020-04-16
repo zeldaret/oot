@@ -1,3 +1,21 @@
+.rdata
+glabel D_8099EBB0
+    .asciz "../z_eff_dust.c"
+    .balign 4
+
+glabel D_8099EBC0
+    .asciz "../z_eff_dust.c"
+    .balign 4
+
+glabel D_8099EBD0
+    .asciz "../z_eff_dust.c"
+    .balign 4
+
+.late_rodata
+glabel D_8099EC28
+    .float 0.85
+
+.text
 glabel func_8099E784
 /* 00EB4 8099E784 27BDFF30 */  addiu   $sp, $sp, 0xFF30           ## $sp = FFFFFF30
 /* 00EB8 8099E788 AFBF0064 */  sw      $ra, 0x0064($sp)           
@@ -236,5 +254,3 @@ glabel func_8099E784
 /* 01240 8099EB10 8FBE0060 */  lw      $s8, 0x0060($sp)           
 /* 01244 8099EB14 03E00008 */  jr      $ra                        
 /* 01248 8099EB18 27BD00D0 */  addiu   $sp, $sp, 0x00D0           ## $sp = 00000000
-
-

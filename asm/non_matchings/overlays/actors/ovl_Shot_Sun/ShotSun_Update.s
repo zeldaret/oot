@@ -11,4 +11,3 @@ glabel ShotSun_Update
 /* 00604 80BAE2C4 00000000 */  nop
 /* 00608 80BAE2C8 00000000 */  nop
 /* 0060C 80BAE2CC 00000000 */  nop
-

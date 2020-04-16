@@ -1,3 +1,17 @@
+.rdata
+glabel D_8090D9BC
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+glabel D_8090D9D0
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+glabel D_8090D9E4
+    .asciz "../z_boss_ganon2.c"
+    .balign 4
+
+.text
 glabel BossGanon2_Draw
 /* 089B0 809058F0 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 089B4 809058F4 AFB10028 */  sw      $s1, 0x0028($sp)
@@ -312,5 +326,3 @@ glabel BossGanon2_Draw
 /* 08E5C 80905D9C 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 08E60 80905DA0 03E00008 */  jr      $ra
 /* 08E64 80905DA4 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

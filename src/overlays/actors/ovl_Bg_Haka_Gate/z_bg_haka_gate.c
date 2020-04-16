@@ -1,18 +1,33 @@
+/*
+ * File: z_bg_haka_gate.c
+ * Overlay: ovl_Bg_Haka_Gate
+ * Description: Truth Spinner Puzzle (Shadow Temple)
+ */
+
 #include "z_bg_haka_gate.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHakaGate_Init(BgHakaGate* this, GlobalContext* globalCtx);
 void BgHakaGate_Destroy(BgHakaGate* this, GlobalContext* globalCtx);
 void BgHakaGate_Update(BgHakaGate* this, GlobalContext* globalCtx);
 void BgHakaGate_Draw(BgHakaGate* this, GlobalContext* globalCtx);
+void func_8087C114(BgHakaGate* this, GlobalContext* globalCtx);
+void func_8087C120(BgHakaGate* this, GlobalContext* globalCtx);
+void func_8087C158(BgHakaGate* this, GlobalContext* globalCtx);
+void func_8087C270(BgHakaGate* this, GlobalContext* globalCtx);
+void func_8087C454(BgHakaGate* this, GlobalContext* globalCtx);
+void func_8087C5D0(BgHakaGate* this, GlobalContext* globalCtx);
+void func_8087C65C(BgHakaGate* this, GlobalContext* globalCtx);
+void func_8087C6AC(BgHakaGate* this, GlobalContext* globalCtx);
+void func_8087C73C(BgHakaGate* this, GlobalContext* globalCtx);
+void func_8087C794(BgHakaGate* this, GlobalContext* globalCtx);
+void func_8087C85C(BgHakaGate* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Haka_Gate_InitVars = {
     ACTOR_BG_HAKA_GATE,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaGate),

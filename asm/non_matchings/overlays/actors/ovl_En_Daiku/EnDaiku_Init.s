@@ -232,5 +232,3 @@ glabel EnDaiku_Init
 /* 003EC 809E2F1C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 003F0 809E2F20 03E00008 */  jr      $ra
 /* 003F4 809E2F24 00000000 */  nop
-
-

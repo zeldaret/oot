@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AB0C70
+    .asciz "../z_en_mu.c"
+    .balign 4
+
+glabel D_80AB0C80
+    .asciz "../z_en_mu.c"
+    .balign 4
+
+.text
 glabel EnMu_Draw
 /* 005F4 80AB0A14 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 005F8 80AB0A18 AFB70044 */  sw      $s7, 0x0044($sp)
@@ -112,4 +122,3 @@ glabel EnMu_Draw
 /* 007A4 80AB0BC4 00000000 */  nop
 /* 007A8 80AB0BC8 00000000 */  nop
 /* 007AC 80AB0BCC 00000000 */  nop
-

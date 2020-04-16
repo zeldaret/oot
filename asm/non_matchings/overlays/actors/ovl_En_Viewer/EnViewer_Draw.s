@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B2D120
+    .asciz "../z_en_viewer.c"
+    .balign 4
+
+glabel D_80B2D134
+    .asciz "../z_en_viewer.c"
+    .balign 4
+
+.text
 glabel EnViewer_Draw
 /* 02078 80B2C278 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0207C 80B2C27C AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -75,5 +85,3 @@ glabel EnViewer_Draw
 /* 0218C 80B2C38C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 02190 80B2C390 03E00008 */  jr      $ra                        
 /* 02194 80B2C394 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

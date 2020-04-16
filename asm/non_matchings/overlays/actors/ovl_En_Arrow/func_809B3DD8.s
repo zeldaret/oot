@@ -139,5 +139,3 @@ glabel func_809B3DD8
 /* 006B0 809B3FD0 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 006B4 809B3FD4 03E00008 */  jr      $ra                        
 /* 006B8 809B3FD8 00000000 */  nop
-
-

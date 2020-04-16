@@ -35,4 +35,3 @@ glabel BgJyaBigmirror_Draw
 /* 007E4 80893EC4 03E00008 */  jr      $ra                        
 /* 007E8 80893EC8 00000000 */  nop
 /* 007EC 80893ECC 00000000 */  nop
-

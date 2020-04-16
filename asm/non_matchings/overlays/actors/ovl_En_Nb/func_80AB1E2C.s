@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AB5010
+    .asciz "../z_en_nb_inKenjyanomaDemo02.c"
+    .balign 4
+
+glabel D_80AB5030
+    .asciz "../z_en_nb_inKenjyanomaDemo02.c"
+    .balign 4
+
+.text
 glabel func_80AB1E2C
 /* 0109C 80AB1E2C 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 010A0 80AB1E30 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -93,5 +103,3 @@ glabel func_80AB1E2C
 /* 01208 80AB1F98 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 0120C 80AB1F9C 03E00008 */  jr      $ra
 /* 01210 80AB1FA0 00000000 */  nop
-
-

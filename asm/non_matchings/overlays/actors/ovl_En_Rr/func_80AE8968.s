@@ -1,3 +1,37 @@
+.rdata
+glabel D_80AEA720
+    .asciz "タイプ７  "
+    .balign 4
+glabel D_80AEA72C
+    .asciz "魔法の壷小"
+    .balign 4
+glabel D_80AEA738
+    .asciz "矢        "
+    .balign 4
+
+glabel D_80AEA744
+    .asciz "妖精      "
+    .balign 4
+
+glabel D_80AEA750
+    .asciz "20ルピー  "
+    .balign 4
+
+glabel D_80AEA75C
+    .asciz "50ルピー  "
+    .balign 4
+glabel D_80AEA768
+    .asciz "\x1b[33m%s[%d] : Rr_Catch_Cancel\x1b[m\n"
+    .balign 4
+
+glabel D_80AEA78C
+    .asciz "../z_en_rr.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AEA89C
+    .float 2500.0
+.text
 glabel func_80AE8968
 /* 00528 80AE8968 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0052C 80AE896C AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -142,5 +176,3 @@ glabel func_80AE8968
 /* 0072C 80AE8B6C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00730 80AE8B70 03E00008 */  jr      $ra                        
 /* 00734 80AE8B74 00000000 */  nop
-
-

@@ -1,3 +1,21 @@
+.rdata
+glabel D_808B7654
+    .asciz "../z_bg_spot17_funen.c"
+    .balign 4
+
+glabel D_808B766C
+    .asciz "../z_bg_spot17_funen.c"
+    .balign 4
+
+glabel D_808B7684
+    .asciz "../z_bg_spot17_funen.c"
+    .balign 4
+
+.late_rodata
+glabel D_808B769C
+    .float 9.58738E-5
+
+.text
 glabel func_808B7478
 /* 00078 808B7478 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 0007C 808B747C AFB10038 */  sw      $s1, 0x0038($sp)           
@@ -97,4 +115,3 @@ glabel func_808B7478
 /* 001F4 808B75F4 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 001F8 808B75F8 03E00008 */  jr      $ra                        
 /* 001FC 808B75FC 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-

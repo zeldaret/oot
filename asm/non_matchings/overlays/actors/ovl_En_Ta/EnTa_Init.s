@@ -1,3 +1,25 @@
+.rdata
+glabel D_80B16EA0
+    .asciz "[36m 追放タロン \n[m"
+    .balign 4
+
+glabel D_80B16EB8
+    .asciz "[36m 出戻りタロン \n[m"
+    .balign 4
+
+glabel D_80B16ED0
+    .asciz "[36m 夜はいない \n[m"
+    .balign 4
+
+glabel D_80B16EE8
+    .asciz "[36m その他のタロン \n[m"
+    .balign 4
+
+glabel D_80B16F04
+    .asciz "[36m ロンロン牧場の倉庫 の タロン\n[m"
+    .balign 4
+
+.text
 glabel EnTa_Init
 /* 000E8 80B13B88 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 000EC 80B13B8C AFB00030 */  sw      $s0, 0x0030($sp)
@@ -473,5 +495,3 @@ glabel EnTa_Init
 /* 0079C 80B1423C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 007A0 80B14240 03E00008 */  jr      $ra
 /* 007A4 80B14244 00000000 */  nop
-
-

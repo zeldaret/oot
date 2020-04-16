@@ -178,5 +178,3 @@ glabel func_80A0FD8C
 /* 00D9C 80A0FFFC 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
 /* 00DA0 80A10000 03E00008 */  jr      $ra                        
 /* 00DA4 80A10004 A420FD0C */  sh      $zero, -0x02F4($at)        ## 8015FD0C
-
-

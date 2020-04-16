@@ -1,6 +1,11 @@
+/*
+ * File: z_en_river_sound.c
+ * Overlay: ovl_En_River_Sound
+ * Description: Ambient Sound Effects
+ */
+
 #include "z_en_river_sound.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnRiverSound_Init(EnRiverSound* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnRiverSound_Draw(EnRiverSound* this, GlobalContext* globalCtx);
 const ActorInit En_River_Sound_InitVars = {
     ACTOR_EN_RIVER_SOUND,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnRiverSound),

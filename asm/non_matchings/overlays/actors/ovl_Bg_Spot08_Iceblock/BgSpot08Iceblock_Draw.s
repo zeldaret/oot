@@ -28,4 +28,3 @@ glabel BgSpot08Iceblock_Draw
 /* 00D24 808B1684 03E00008 */  jr      $ra                        
 /* 00D28 808B1688 00000000 */  nop
 /* 00D2C 808B168C 00000000 */  nop
-

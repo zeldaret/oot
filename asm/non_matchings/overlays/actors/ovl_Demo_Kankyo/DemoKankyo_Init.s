@@ -1,3 +1,40 @@
+.rdata
+glabel D_8098C870
+    .asciz "bank_ID = %d\n"
+    .balign 4
+
+glabel D_8098C880
+    .asciz "0"
+    .balign 4
+
+glabel D_8098C884
+    .asciz "../z_demo_kankyo.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8098CA50
+.word L80988F2C
+.word L80988F2C
+.word L80988FCC
+.word L80988FCC
+.word L80988FCC
+.word L80988FCC
+.word L80988FCC
+.word L8098906C
+.word L80989244
+.word L80989244
+.word L80989244
+.word L80989244
+.word L80989244
+.word L809890DC
+.word L8098916C
+.word L80989190
+.word L80989190
+.word L8098921C
+glabel D_8098CA98
+ .word 0x477FFF00
+
+.text
 glabel DemoKankyo_Init
 /* 00008 80988E88 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 0000C 80988E8C AFB30040 */  sw      $s3, 0x0040($sp)           
@@ -294,5 +331,3 @@ glabel L80989244
 /* 00410 80989290 8FB30040 */  lw      $s3, 0x0040($sp)           
 /* 00414 80989294 03E00008 */  jr      $ra                        
 /* 00418 80989298 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

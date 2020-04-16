@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A669BC
+    .float 0.025
+
+.text
 glabel EnHorse_Update
 /* 093BC 80A646AC 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 093C0 80A646B0 3C0F80A6 */  lui     $t7, %hi(D_80A66788)       ## $t7 = 80A60000
@@ -565,5 +570,3 @@ glabel EnHorse_Update
 /* 09BD8 80A64EC8 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 09BDC 80A64ECC 03E00008 */  jr      $ra                        
 /* 09BE0 80A64ED0 00000000 */  nop
-
-

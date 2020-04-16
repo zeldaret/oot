@@ -1,3 +1,17 @@
+.rdata
+glabel D_80BA0C00
+    .asciz "../z_obj_timeblock.c"
+    .balign 4
+
+glabel D_80BA0C18
+    .asciz "../z_obj_timeblock.c"
+    .balign 4
+
+glabel D_80BA0C30
+    .asciz "../z_obj_timeblock.c"
+    .balign 4
+
+.text
 glabel ObjTimeblock_Draw
 /* 009F8 80BA0998 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 009FC 80BA099C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -78,4 +92,3 @@ glabel ObjTimeblock_Draw
 /* 00B24 80BA0AC4 00000000 */  nop
 /* 00B28 80BA0AC8 00000000 */  nop
 /* 00B2C 80BA0ACC 00000000 */  nop
-

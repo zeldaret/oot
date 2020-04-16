@@ -1,3 +1,9 @@
+.rdata
+glabel D_808D6358
+    .asciz "UP INIT 1\n"
+    .balign 4
+
+.text
 glabel func_808D308C
 /* 00A1C 808D308C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00A20 808D3090 AFBF0014 */  sw      $ra, 0x0014($sp)
@@ -49,5 +55,3 @@ glabel func_808D308C
 /* 00AC4 808D3134 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00AC8 808D3138 03E00008 */  jr      $ra
 /* 00ACC 808D313C 00000000 */  nop
-
-

@@ -31,4 +31,3 @@ glabel EnHintnuts_Draw
 /* 017D4 80A589D4 00000000 */  nop
 /* 017D8 80A589D8 00000000 */  nop
 /* 017DC 80A589DC 00000000 */  nop
-

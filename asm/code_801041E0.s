@@ -57,7 +57,7 @@ glabel func_801041E0
 /* B7B420 80104280 01093021 */  addu  $a2, $t0, $t1
 /* B7B424 80104284 30CAFFFF */  andi  $t2, $a2, 0xffff
 /* B7B428 80104288 01403025 */  move  $a2, $t2
-/* B7B42C 8010428C 0C0417D0 */  jal   func_80105F40
+/* B7B42C 8010428C 0C0417D0 */  jal   osReadMempak
 /* B7B430 80104290 27A70048 */   addiu $a3, $sp, 0x48
 /* B7B434 80104294 10400003 */  beqz  $v0, .L801042A4
 /* B7B438 80104298 93B0004E */   lbu   $s0, 0x4e($sp)

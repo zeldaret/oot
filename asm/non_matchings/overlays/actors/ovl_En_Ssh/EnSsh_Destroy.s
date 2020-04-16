@@ -33,5 +33,3 @@ glabel EnSsh_Destroy
 /* 016EC 80B0395C 8FB40028 */  lw      $s4, 0x0028($sp)           
 /* 016F0 80B03960 03E00008 */  jr      $ra                        
 /* 016F4 80B03964 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

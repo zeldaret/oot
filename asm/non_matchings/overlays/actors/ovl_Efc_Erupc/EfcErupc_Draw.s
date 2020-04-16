@@ -1,3 +1,28 @@
+.rdata
+glabel D_8099D790
+    .asciz "../z_efc_erupc.c"
+    .balign 4
+
+glabel D_8099D7A4
+    .asciz "../z_efc_erupc.c"
+    .balign 4
+
+glabel D_8099D7B8
+    .asciz "../z_efc_erupc.c"
+    .balign 4
+
+glabel D_8099D7CC
+    .asciz "../z_efc_erupc.c"
+    .balign 4
+
+.late_rodata
+glabel D_8099D820
+    .float 0.8
+
+glabel D_8099D824
+ .word 0x4059999A, 0x00000000, 0x00000000
+
+.text
 glabel EfcErupc_Draw
 /* 00300 8099CFB0 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00304 8099CFB4 AFB10038 */  sw      $s1, 0x0038($sp)           
@@ -227,5 +252,3 @@ glabel EfcErupc_Draw
 /* 00678 8099D328 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 0067C 8099D32C 03E00008 */  jr      $ra                        
 /* 00680 8099D330 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-
