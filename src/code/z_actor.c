@@ -4157,7 +4157,7 @@ void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
         }
         actor->unk_116 |= flag;
     }
-} 
+}
 
 void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3) {
     f32 dx = arg1->x - arg0->x;

@@ -31,15 +31,13 @@ const ActorInit Obj_Comb_InitVars = {
 };
 
 ColliderJntSphItemInit colliderItemsInit[1] = {
-    { 
+    {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
-        { 0x00, { { 0, 0, 0 }, 15 }, 100 }
+        { 0x00, { { 0, 0, 0 }, 15 }, 100 },
     },
 };
 
-ColliderJntSphInit colliderInit = {
-    { 0x0A, 0x00, 0x09, 0x09, 0x20, 0x00 }, 1, &colliderItemsInit
-};
+ColliderJntSphInit colliderInit = { { 0x0A, 0x00, 0x09, 0x09, 0x20, 0x00 }, 1, &colliderItemsInit };
 
 static InitChainEntry initChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),

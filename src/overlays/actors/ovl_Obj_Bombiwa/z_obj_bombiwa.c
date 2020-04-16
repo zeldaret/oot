@@ -30,8 +30,8 @@ const ActorInit Obj_Bombiwa_InitVars = {
 
 static ColliderCylinderInit colliderInit = {
     { 0x0C, 0x00, 0x0D, 0x39, 0x20, 0x01 },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFFE, 0x00, 0x00, }, 0x00, 0x01, 0x01 },
-    { 0x0037, 0x0046, 0x0000, {0} },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC1FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 0x0037, 0x0046, 0x0000, { 0 } },
 };
 
 static SubActor98Init subActor98Init = {
@@ -111,8 +111,7 @@ void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
 
     if (func_80033684(globalCtx, &this->actor) != NULL ||
-        ((this->collider.base.acFlags & 2) != 0 &&
-         (this->collider.body.acHitItem->toucher.flags & 0x40000040) != 0)) {
+        ((this->collider.base.acFlags & 2) != 0 && (this->collider.body.acHitItem->toucher.flags & 0x40000040) != 0)) {
         ObjBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 80, NA_SE_EV_WALL_BROKEN);

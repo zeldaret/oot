@@ -64,9 +64,7 @@ static ColliderJntSphItemInit colliderItemsInit[] = {
     },
 };
 
-static ColliderJntSphInit colliderInit = {
-    { 0x0A, 0x00, 0x09, 0x39, 0x20, 0x00 }, 1, &colliderItemsInit
-};
+static ColliderJntSphInit colliderInit = { { 0x0A, 0x00, 0x09, 0x39, 0x20, 0x00 }, 1, &colliderItemsInit };
 
 static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_F4, 1400, ICHAIN_CONTINUE),
