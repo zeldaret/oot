@@ -3,7 +3,8 @@
 #include <vt.h>
 #include <sys_math3d.h>
 
-s32 func_800CA7D0(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, Vec3f* arg8, Vec3f* arg9, Vec3f* argA) {
+s32 func_800CA7D0(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, Vec3f* arg8,
+                  Vec3f* arg9, Vec3f* argA) {
     Vec3f sp34;
     static Linef D_8016A5A0;
     static Linef D_8016A5B8;
@@ -12,10 +13,8 @@ s32 func_800CA7D0(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f3
     }
     Math_Vec3f_Copy(&D_8016A5B8.a, &D_8016A5A0.a);
 
-    VEC3F(D_8016A5B8.b,
-         ((D_8016A5A0.b.x * 100.0f) + D_8016A5A0.a.x),
-         ((D_8016A5A0.b.y * 100.0f) + D_8016A5A0.a.y),
-         ((D_8016A5A0.b.z * 100.0f) + D_8016A5A0.a.z));
+    VEC3F(D_8016A5B8.b, ((D_8016A5A0.b.x * 100.0f) + D_8016A5A0.a.x), ((D_8016A5A0.b.y * 100.0f) + D_8016A5A0.a.y),
+          ((D_8016A5A0.b.z * 100.0f) + D_8016A5A0.a.z));
 
     if (!func_800CA8E8(&D_8016A5B8.a, &D_8016A5B8.b, arg8, arg9, argA, &sp34)) {
         return 0;
@@ -25,25 +24,28 @@ s32 func_800CA7D0(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f3
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CA8E8.s")
 
-void Math3D_LineVsPos(Linef *line, Vec3f *pos, Vec3f *ret) {
+void Math3D_LineVsPos(Linef* line, Vec3f* pos, Vec3f* ret) {
     f32 temp_ret;
     f32 temp_f0;
 
     temp_ret = Math3D_Vec3f_HadamardProduct(&line->b);
     if (fabsf(temp_ret) < 0.008f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n"); // Math3D_lineVsPosSuisenCross(): No straight line length
-        osSyncPrintf("cross = pos を返します。\n"); // "Returns cross = pos.
+        osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n"); // Math3D_lineVsPosSuisenCross(): No
+                                                                                // straight line length
+        osSyncPrintf("cross = pos を返します。\n");                             // "Returns cross = pos.
         osSyncPrintf(VT_RST);
         Math_Vec3f_Copy(ret, pos);
     }
-    temp_f0 = (((pos->x - line->a.x) * line->b.x) + ((pos->y - line->a.y) * line->b.y) + ((pos->z - line->a.z) * line->b.z)) / temp_ret;
+    temp_f0 =
+        (((pos->x - line->a.x) * line->b.x) + ((pos->y - line->a.y) * line->b.y) + ((pos->z - line->a.z) * line->b.z)) /
+        temp_ret;
     ret->x = (line->b.x * temp_f0) + line->a.x;
     ret->y = (line->b.y * temp_f0) + line->a.y;
     ret->z = (line->b.z * temp_f0) + line->a.z;
 }
 
-void func_800CACAC(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 *arg7, f32 *arg8) {
+void func_800CACAC(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32* arg7, f32* arg8) {
     *arg7 = ((arg1 * arg6) - (arg3 * arg5)) / arg4;
     *arg8 = ((arg2 * arg5) - (arg0 * arg6)) / arg4;
 }
@@ -56,8 +58,8 @@ s32 func_800CAD08(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f3
     f32 ay;
     f32 az;
 
-    VEC3F(sp60,arg0,arg1,arg2);
-    VEC3F(sp54,arg4,arg5,arg6);
+    VEC3F(sp60, arg0, arg1, arg2);
+    VEC3F(sp54, arg4, arg5, arg6);
 
     Math3D_Vec3f_Cross(&sp60, &sp54, &arg8->b);
 
@@ -82,7 +84,8 @@ s32 func_800CAD08(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f3
     return 1;
 }
 
-s32 func_800CAEE8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, Vec3f* arg8, Vec3f* arg9) {
+s32 func_800CAEE8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, Vec3f* arg8,
+                  Vec3f* arg9) {
     static Linef D_8016A5D0;
     if (func_800CAD08(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, &D_8016A5D0) == 0) {
         return 0;
@@ -91,7 +94,7 @@ s32 func_800CAEE8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f3
     return 1;
 }
 
-void func_800CAF5C(Vec3f *arg0, Vec3f *arg1, f32 arg2, Vec3f *arg3) {
+void func_800CAF5C(Vec3f* arg0, Vec3f* arg1, f32 arg2, Vec3f* arg3) {
     arg3->x = (arg1->x * arg2) + arg0->x;
     arg3->y = (arg1->y * arg2) + arg0->y;
     arg3->z = (arg1->z * arg2) + arg0->z;
@@ -111,7 +114,7 @@ f32 Math3D_DotProduct(Vec3f* vec1, Vec3f* vec2) {
     return ret;
 }
 
-s32 Math3D_CalcDotProduct(Vec3f *vec1, Vec3f *vec2, f32 *dst) {
+s32 Math3D_CalcDotProduct(Vec3f* vec1, Vec3f* vec2, f32* dst) {
     f32 magProduct;
 
     magProduct = Math3D_Vec3fMagnitude(vec1) * Math3D_Vec3fMagnitude(vec2);
@@ -123,7 +126,7 @@ s32 Math3D_CalcDotProduct(Vec3f *vec1, Vec3f *vec2, f32 *dst) {
     return 0;
 }
 
-void func_800CB0C0(Vec3f *vec1, Vec3f *vec2, Vec3f *ret) {
+void func_800CB0C0(Vec3f* vec1, Vec3f* vec2, Vec3f* ret) {
 
     f32 temp_f12;
     Vec3f negVec1;
@@ -137,7 +140,7 @@ void func_800CB0C0(Vec3f *vec1, Vec3f *vec2, Vec3f *ret) {
 
     dotProduct = Math3D_DotProduct(&negVec1, vec2);
 
-    temp_f2 =  vec2->x * dotProduct;
+    temp_f2 = vec2->x * dotProduct;
     temp_f12 = vec2->y * dotProduct;
     temp_f14 = vec2->z * dotProduct;
 
@@ -164,8 +167,8 @@ s32 func_800CB198(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
  * Checks if a tringle defined by `v0`, `v1`, and `v2` lies within a spehere
  * centered at `center` and has radius `radius`.  Returns 1 if any vertex of the
  * triangle lies within the sphere, or 0 otherwise.
-*/
-s32 func_800CB338(Vec3f *v0, Vec3f *v1, Vec3f *v2, Vec3f *center, f32 radius) {
+ */
+s32 func_800CB338(Vec3f* v0, Vec3f* v1, Vec3f* v2, Vec3f* center, f32 radius) {
     f32 minX;
     f32 maxX;
     f32 minY;
@@ -173,51 +176,50 @@ s32 func_800CB338(Vec3f *v0, Vec3f *v1, Vec3f *v2, Vec3f *center, f32 radius) {
     f32 minZ;
     f32 maxZ;
 
-    if(v1->x < v0->x){
+    if (v1->x < v0->x) {
         minX = v1->x;
         maxX = v0->x;
-    } else if (v0->x < v1->x){
+    } else if (v0->x < v1->x) {
         minX = v0->x;
         maxX = v1->x;
     }
 
-    if(v1->y < v0->y){
+    if (v1->y < v0->y) {
         minY = v1->y;
         maxY = v0->y;
-    } else if (v0->y < v1->y){
+    } else if (v0->y < v1->y) {
         minY = v0->y;
         maxY = v1->y;
     }
 
-    if(v1->z < v0->z){
+    if (v1->z < v0->z) {
         minZ = v1->z;
         maxZ = v0->z;
-    } else if (v0->z < v1->z){
+    } else if (v0->z < v1->z) {
         minZ = v0->z;
         maxZ = v1->z;
     }
 
-    if(v2->x < minX){
+    if (v2->x < minX) {
         minX = v2->x;
-    } else if(maxX < v2->x){
+    } else if (maxX < v2->x) {
         maxX = v2->x;
     }
 
-    if(v2->y < minY){
+    if (v2->y < minY) {
         minY = v2->y;
-    } else if(maxY < v2->y){
+    } else if (maxY < v2->y) {
         maxY = v2->y;
     }
 
-    if(v2->z < minZ){
+    if (v2->z < minZ) {
         minZ = v2->z;
-    } else if(maxZ < v2->z){
+    } else if (maxZ < v2->z) {
         maxZ = v2->z;
     }
 
-    if(((minX - radius) <= center->x) && (center->x <= (maxX + radius)) &&
-       ((minY - radius) <= center->y) && (center->y <= (maxY + radius)) &&
-       ((minZ - radius) <= center->z) && (center->z <= (maxZ + radius))){
+    if (((minX - radius) <= center->x) && (center->x <= (maxX + radius)) && ((minY - radius) <= center->y) &&
+        (center->y <= (maxY + radius)) && ((minZ - radius) <= center->z) && (center->z <= (maxZ + radius))) {
         return 1;
     }
 
@@ -244,12 +246,12 @@ f32 func_800CB5D8(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
     return sqrtf(func_800CB594(arg0, arg1, arg2, arg3));
 }
 
-f32 Math3D_Vec3f_HadamardProduct(Vec3f *vec) {
+f32 Math3D_Vec3f_HadamardProduct(Vec3f* vec) {
     return SQ(vec->x) + SQ(vec->y) + SQ(vec->z);
 }
 
 f32 Math3D_Vec3fMagnitude(Vec3f* vec) {
-     return sqrt(Math3D_Vec3f_HadamardProduct(vec));
+    return sqrt(Math3D_Vec3f_HadamardProduct(vec));
 }
 
 f32 func_800CB650(Vec3f* a, Vec3f* b) {
@@ -262,15 +264,15 @@ f32 func_800CB650(Vec3f* a, Vec3f* b) {
 /*
  * Math3D_Vec3f_DistXYZ
  * Calculates the distance between points `a` and `b`
-*/
+ */
 f32 Math3D_Vec3f_DistXYZ(Vec3f* a, Vec3f* b) {
     return Math_Vec3f_DistXYZ(a, b);
 }
 
 /*
  * Calculates the distance between `a` and `b`.
-*/
-f32 Math3D_DistXYZ16toF(Vec3s *a, Vec3f *b) {
+ */
+f32 Math3D_DistXYZ16toF(Vec3s* a, Vec3f* b) {
     Vec3f diff;
 
     diff.x = a->x - b->x;
@@ -279,19 +281,19 @@ f32 Math3D_DistXYZ16toF(Vec3s *a, Vec3f *b) {
     return Math3D_Vec3fMagnitude(&diff);
 }
 
-f32 func_800CB70C(Vec3f *arg0, Vec3f *arg1, f32 arg2, f32 arg3) {
+f32 func_800CB70C(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3) {
     return ((arg0->x - arg2) * (arg1->y - arg3)) - ((arg0->y - arg3) * (arg1->x - arg2));
 }
 
-f32 func_800CB744(Vec3f *arg0, Vec3f *arg1, f32 arg2, f32 arg3) {
+f32 func_800CB744(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3) {
     return ((arg0->y - arg2) * (arg1->z - arg3)) - ((arg0->z - arg3) * (arg1->y - arg2));
 }
 
-f32 func_800CB77C(Vec3f *arg0, Vec3f *arg1, f32 arg2, f32 arg3) {
+f32 func_800CB77C(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3) {
     return ((arg0->z - arg2) * (arg1->x - arg3)) - ((arg0->x - arg3) * (arg1->z - arg2));
 }
 
-void Math3D_Vec3f_Cross(Vec3f *a, Vec3f *b, Vec3f *ret) {
+void Math3D_Vec3f_Cross(Vec3f* a, Vec3f* b, Vec3f* ret) {
     ret->x = (a->y * b->z) - (a->z * b->y);
     ret->y = (a->z * b->x) - (a->x * b->z);
     ret->z = (a->x * b->y) - (a->y * b->x);
@@ -300,7 +302,7 @@ void Math3D_Vec3f_Cross(Vec3f *a, Vec3f *b, Vec3f *ret) {
 /*
  * Calculates the normal vector to a surface with sides `vb` - `va` and `vc` - `va`
  * outputs the normal to `normal`
-*/
+ */
 void Math3D_SurfaceNorm(Vec3f* va, Vec3f* vb, Vec3f* vc, Vec3f* normal) {
     static Vec3f abDiff;
     static Vec3f acDiff;
@@ -310,9 +312,8 @@ void Math3D_SurfaceNorm(Vec3f* va, Vec3f* vb, Vec3f* vc, Vec3f* normal) {
     Math3D_Vec3f_Cross(&abDiff, &acDiff, normal);
 }
 
-s32 func_800CB88C(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2) {
+s32 func_800CB88C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2) {
     s32 ret = 0;
-
 
     if (arg2->x < arg0->x) {
         ret = 1;
@@ -341,7 +342,7 @@ s32 func_800CB88C(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2) {
 }
 
 #ifdef NON_MATCHING
-s32 func_800CB934(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2) {
+s32 func_800CB934(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2) {
     s32 ret = 0;
 
     if ((arg2->y - arg1->x) < (arg0->y - arg0->x)) {
@@ -397,7 +398,7 @@ s32 func_800CB934(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math3d/func_800CB934.s")
 #endif
 
-s32 func_800CBAE4(Vec3f *v0, Vec3f *v1, Vec3f *v2) {
+s32 func_800CBAE4(Vec3f* v0, Vec3f* v1, Vec3f* v2) {
     s32 ret = 0;
 
     if ((v2->x + v2->y + v2->z) < (v0->x + v0->y + v0->z)) {
@@ -434,7 +435,7 @@ s32 func_800CBAE4(Vec3f *v0, Vec3f *v1, Vec3f *v2) {
     return ret;
 }
 
-s32 func_800CBC60(Vec3f *v0, Vec3f *v1, Vec3f *v2, Vec3f *v3) {
+s32 func_800CBC60(Vec3f* v0, Vec3f* v1, Vec3f* v2, Vec3f* v3) {
     s32 flags[2];
 
     static Vec3f D_8016A608;
@@ -468,149 +469,161 @@ s32 func_800CBC60(Vec3f *v0, Vec3f *v1, Vec3f *v2, Vec3f *v3) {
     if ((flags[0] & flags[1]) != 0) {
         return 0;
     }
-    D_8016A608.x =  v0->x;
-    D_8016A608.y =  v0->y;
-    D_8016A608.z =  v0->z;
-    D_8016A618.x =  v0->x;
-    D_8016A618.y =  v0->y;
-    D_8016A618.z =  v1->z;
-    D_8016A628.x =  v0->x;
-    D_8016A628.y =  v1->y;
-    D_8016A628.z =  v1->z;
-    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, -1.0f, 0.0f, 0.0f, v0->x, v2, v3, &D_8016A638, 0) != 0) {
+    D_8016A608.x = v0->x;
+    D_8016A608.y = v0->y;
+    D_8016A608.z = v0->z;
+    D_8016A618.x = v0->x;
+    D_8016A618.y = v0->y;
+    D_8016A618.z = v1->z;
+    D_8016A628.x = v0->x;
+    D_8016A628.y = v1->y;
+    D_8016A628.z = v1->z;
+    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, -1.0f, 0.0f, 0.0f, v0->x, v2, v3, &D_8016A638,
+                                0) != 0) {
         return 1;
     }
-    D_8016A608.x =  v0->x;
-    D_8016A608.y =  v0->y;
-    D_8016A608.z =  v0->z;
-    D_8016A618.x =  v0->x;
-    D_8016A618.y =  v1->y;
-    D_8016A618.z =  v1->z;
-    D_8016A628.x =  v0->x;
-    D_8016A628.y =  v1->y;
-    D_8016A628.z =  v0->z;
-    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, -1.0f, 0.0f, 0.0f, v0->x, v2, v3, &D_8016A638, 0) != 0) {
+    D_8016A608.x = v0->x;
+    D_8016A608.y = v0->y;
+    D_8016A608.z = v0->z;
+    D_8016A618.x = v0->x;
+    D_8016A618.y = v1->y;
+    D_8016A618.z = v1->z;
+    D_8016A628.x = v0->x;
+    D_8016A628.y = v1->y;
+    D_8016A628.z = v0->z;
+    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, -1.0f, 0.0f, 0.0f, v0->x, v2, v3, &D_8016A638,
+                                0) != 0) {
         return 1;
     }
-    D_8016A608.x =  v0->x;
-    D_8016A608.y =  v1->y;
-    D_8016A608.z =  v1->z;
-    D_8016A618.x =  v0->x;
-    D_8016A618.y =  v0->y;
-    D_8016A618.z =  v1->z;
-    D_8016A628.x =  v1->x;
-    D_8016A628.y =  v1->y;
-    D_8016A628.z =  v1->z;
-    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, 0.0f, 1.0f, -v1->z, v2, v3, &D_8016A638, 0) != 0) {
+    D_8016A608.x = v0->x;
+    D_8016A608.y = v1->y;
+    D_8016A608.z = v1->z;
+    D_8016A618.x = v0->x;
+    D_8016A618.y = v0->y;
+    D_8016A618.z = v1->z;
+    D_8016A628.x = v1->x;
+    D_8016A628.y = v1->y;
+    D_8016A628.z = v1->z;
+    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, 0.0f, 1.0f, -v1->z, v2, v3, &D_8016A638,
+                                0) != 0) {
         return 1;
     }
-    D_8016A608.x =  v1->x;
-    D_8016A608.y =  v1->y;
-    D_8016A608.z =  v1->z;
-    D_8016A618.x =  v0->x;
-    D_8016A618.y =  v0->y;
-    D_8016A618.z =  v1->z;
-    D_8016A628.x =  v1->x;
+    D_8016A608.x = v1->x;
+    D_8016A608.y = v1->y;
+    D_8016A608.z = v1->z;
+    D_8016A618.x = v0->x;
+    D_8016A618.y = v0->y;
+    D_8016A618.z = v1->z;
+    D_8016A628.x = v1->x;
     // POSSIBLE BUG?
-    D_8016A618.y =  v0->y;
-    D_8016A628.z =  v1->z;
-    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, 0.0f, 1.0f, -v1->z, v2, v3, &D_8016A638, 0) != 0) {
+    D_8016A618.y = v0->y;
+    D_8016A628.z = v1->z;
+    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, 0.0f, 1.0f, -v1->z, v2, v3, &D_8016A638,
+                                0) != 0) {
         return 1;
     }
-    D_8016A608.x =  v1->x;
-    D_8016A608.y =  v1->y;
-    D_8016A608.z =  v1->z;
-    D_8016A618.x =  v0->x;
-    D_8016A618.y =  v1->y;
-    D_8016A618.z =  v0->z;
-    D_8016A628.x =  v0->x;
-    D_8016A628.y =  v1->y;
-    D_8016A628.z =  v1->z;
-    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, 1.0f, 0.0f, -v1->y, v2, v3, &D_8016A638, 0) != 0) {
+    D_8016A608.x = v1->x;
+    D_8016A608.y = v1->y;
+    D_8016A608.z = v1->z;
+    D_8016A618.x = v0->x;
+    D_8016A618.y = v1->y;
+    D_8016A618.z = v0->z;
+    D_8016A628.x = v0->x;
+    D_8016A628.y = v1->y;
+    D_8016A628.z = v1->z;
+    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, 1.0f, 0.0f, -v1->y, v2, v3, &D_8016A638,
+                                0) != 0) {
         return 1;
     }
-    D_8016A608.x =  v1->x;
-    D_8016A608.y =  v1->y;
-    D_8016A608.z =  v1->z;
-    D_8016A618.x =  v1->x;
-    D_8016A618.y =  v1->y;
-    D_8016A618.z =  v0->z;
-    D_8016A628.x =  v0->x;
-    D_8016A628.y =  v1->y;
-    D_8016A628.z =  v0->z;
-    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, 1.0f, 0.0f, -v1->y, v2, v3, &D_8016A638, 0) != 0) {
+    D_8016A608.x = v1->x;
+    D_8016A608.y = v1->y;
+    D_8016A608.z = v1->z;
+    D_8016A618.x = v1->x;
+    D_8016A618.y = v1->y;
+    D_8016A618.z = v0->z;
+    D_8016A628.x = v0->x;
+    D_8016A628.y = v1->y;
+    D_8016A628.z = v0->z;
+    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, 1.0f, 0.0f, -v1->y, v2, v3, &D_8016A638,
+                                0) != 0) {
         return 1;
     }
-    D_8016A608.x =  v0->x;
-    D_8016A608.y =  v0->y;
-    D_8016A608.z =  v0->z;
-    D_8016A618.x =  v0->x;
-    D_8016A618.y =  v1->y;
-    D_8016A618.z =  v0->z;
-    D_8016A628.x =  v1->x;
-    D_8016A628.y =  v1->y;
-    D_8016A628.z =  v0->z;
-    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, 0.0f, -1.0f, v0->z, v2, v3, &D_8016A638, 0) != 0) {
+    D_8016A608.x = v0->x;
+    D_8016A608.y = v0->y;
+    D_8016A608.z = v0->z;
+    D_8016A618.x = v0->x;
+    D_8016A618.y = v1->y;
+    D_8016A618.z = v0->z;
+    D_8016A628.x = v1->x;
+    D_8016A628.y = v1->y;
+    D_8016A628.z = v0->z;
+    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, 0.0f, -1.0f, v0->z, v2, v3, &D_8016A638,
+                                0) != 0) {
         return 1;
     }
-    D_8016A608.x =  v0->x;
-    D_8016A608.y =  v0->y;
-    D_8016A608.z =  v0->z;
-    D_8016A618.x =  v1->x;
-    D_8016A618.y =  v1->y;
-    D_8016A618.z =  v0->z;
-    D_8016A628.x =  v1->x;
-    D_8016A628.y =  v0->y;
-    D_8016A628.z =  v0->z;
-    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, 0.0f, -1.0f, v0->z, v2, v3, &D_8016A638, 0) != 0) {
+    D_8016A608.x = v0->x;
+    D_8016A608.y = v0->y;
+    D_8016A608.z = v0->z;
+    D_8016A618.x = v1->x;
+    D_8016A618.y = v1->y;
+    D_8016A618.z = v0->z;
+    D_8016A628.x = v1->x;
+    D_8016A628.y = v0->y;
+    D_8016A628.z = v0->z;
+    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, 0.0f, -1.0f, v0->z, v2, v3, &D_8016A638,
+                                0) != 0) {
         return 1;
     }
-    D_8016A608.x =  v0->x;
-    D_8016A608.y =  v0->y;
-    D_8016A608.z =  v0->z;
-    D_8016A618.x =  v1->x;
-    D_8016A618.y =  v0->y;
-    D_8016A618.z =  v0->z;
-    D_8016A628.x =  v1->x;
-    D_8016A628.y =  v0->y;
-    D_8016A628.z =  v1->z;
-    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, -1.0f, 0.0f, v0->y, v2, v3, &D_8016A638, 0) != 0) {
+    D_8016A608.x = v0->x;
+    D_8016A608.y = v0->y;
+    D_8016A608.z = v0->z;
+    D_8016A618.x = v1->x;
+    D_8016A618.y = v0->y;
+    D_8016A618.z = v0->z;
+    D_8016A628.x = v1->x;
+    D_8016A628.y = v0->y;
+    D_8016A628.z = v1->z;
+    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, -1.0f, 0.0f, v0->y, v2, v3, &D_8016A638,
+                                0) != 0) {
         return 1;
     }
-    D_8016A608.x =  v0->x;
-    D_8016A608.y =  v0->y;
-    D_8016A608.z =  v0->z;
-    D_8016A618.x =  v1->x;
-    D_8016A618.y =  v0->y;
-    D_8016A618.z =  v1->z;
-    D_8016A628.x =  v0->x;
-    D_8016A628.y =  v0->y;
-    D_8016A628.z =  v1->z;
-    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, -1.0f, 0.0f, v0->y, v2, v3, &D_8016A638, 0) != 0) {
+    D_8016A608.x = v0->x;
+    D_8016A608.y = v0->y;
+    D_8016A608.z = v0->z;
+    D_8016A618.x = v1->x;
+    D_8016A618.y = v0->y;
+    D_8016A618.z = v1->z;
+    D_8016A628.x = v0->x;
+    D_8016A628.y = v0->y;
+    D_8016A628.z = v1->z;
+    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 0.0f, -1.0f, 0.0f, v0->y, v2, v3, &D_8016A638,
+                                0) != 0) {
         return 1;
     }
-    D_8016A608.x =  v1->x;
-    D_8016A608.y =  v1->y;
-    D_8016A608.z =  v1->z;
-    D_8016A618.x =  v1->x;
-    D_8016A618.y =  v0->y;
-    D_8016A618.z =  v0->z;
-    D_8016A628.x =  v1->x;
-    D_8016A628.y =  v1->y;
-    D_8016A628.z =  v0->z;
-    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 1.0f, 0.0f, 0.0f, -v1->x, v2, v3, &D_8016A638, 0) != 0) {
+    D_8016A608.x = v1->x;
+    D_8016A608.y = v1->y;
+    D_8016A608.z = v1->z;
+    D_8016A618.x = v1->x;
+    D_8016A618.y = v0->y;
+    D_8016A618.z = v0->z;
+    D_8016A628.x = v1->x;
+    D_8016A628.y = v1->y;
+    D_8016A628.z = v0->z;
+    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 1.0f, 0.0f, 0.0f, -v1->x, v2, v3, &D_8016A638,
+                                0) != 0) {
         return 1;
     }
-    D_8016A608.x =  v1->x;
-    D_8016A608.y =  v1->y;
-    D_8016A608.z =  v1->z;
-    D_8016A618.x =  v1->x;
-    D_8016A618.y =  v0->y;
-    D_8016A618.z =  v1->z;
-    D_8016A628.x =  v1->x;
-    D_8016A628.y =  v0->y;
-    D_8016A628.z =  v0->z;
-    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 1.0f, 0.0f, 0.0f, -v1->x, v2, v3, &D_8016A638, 0) != 0) {
+    D_8016A608.x = v1->x;
+    D_8016A608.y = v1->y;
+    D_8016A608.z = v1->z;
+    D_8016A618.x = v1->x;
+    D_8016A618.y = v0->y;
+    D_8016A618.z = v1->z;
+    D_8016A628.x = v1->x;
+    D_8016A628.y = v0->y;
+    D_8016A628.z = v0->z;
+    if (Math3D_TriLineIntersect(&D_8016A608, &D_8016A618, &D_8016A628, 1.0f, 0.0f, 0.0f, -v1->x, v2, v3, &D_8016A638,
+                                0) != 0) {
         return 1;
     }
 
@@ -618,7 +631,7 @@ s32 func_800CBC60(Vec3f *v0, Vec3f *v1, Vec3f *v2, Vec3f *v3) {
 }
 
 // Some type of quad detection?
-s32 func_800CC6D8(Vec3s *v0, Vec3s *v1, Vec3s *v2, Vec3s *v3) {
+s32 func_800CC6D8(Vec3s* v0, Vec3s* v1, Vec3s* v2, Vec3s* v3) {
     static Vec3f v0f;
     static Vec3f v1f;
     static Vec3f v2f;
@@ -639,8 +652,7 @@ s32 func_800CC6D8(Vec3s *v0, Vec3s *v1, Vec3s *v2, Vec3s *v3) {
     return func_800CBC60(&v0f, &v1f, &v2f, &v3f);
 }
 
-
-void func_800CC824(Vec3f *arg0, s16 angle, f32 *arg2, f32 *arg3, f32 *arg4) {
+void func_800CC824(Vec3f* arg0, s16 angle, f32* arg2, f32* arg3, f32* arg4) {
     *arg2 = Math_Sins(angle) * 32767.0f;
     *arg3 = Math_Coss(angle) * 32767.0f;
     *arg4 = -((*arg2 * arg0->x) + (*arg3 * arg0->z));
@@ -650,8 +662,8 @@ void func_800CC824(Vec3f *arg0, s16 angle, f32 *arg2, f32 *arg3, f32 *arg4) {
  * Defines a plane from verticies `va`, `vb`, and `vc`.  Normal components are output to
  * `nx`, `ny`, and `nz`.  Distance from the origin is output to `originDist`
  * Satisifes the plane equation NxVx + NyVy + NzVz + D = 0
-*/
-void func_800CC8B4(Vec3f *va, Vec3f* vb, Vec3f* vc, f32 *nx, f32 *ny, f32 *nz, f32 *originDist) {
+ */
+void func_800CC8B4(Vec3f* va, Vec3f* vb, Vec3f* vc, f32* nx, f32* ny, f32* nz, f32* originDist) {
     f32 normMagnitude;
     f32 t;
     static Vec3f normal;
@@ -674,27 +686,28 @@ void func_800CC8B4(Vec3f *va, Vec3f* vb, Vec3f* vc, f32 *nx, f32 *ny, f32 *nz, f
 
 /*
  * Returns the answer to the plane equation with elements specified by arguments.
-*/
-f32 Math3D_Planef(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f *v) {
+ */
+f32 Math3D_Planef(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* v) {
     return (v->x * nx) + (ny * v->y) + (nz * v->z) + originDist;
 }
 
 /*
  * Returns the answer to the plane equation
-*/
-f32 Math3D_Plane(Plane *plane, Vec3f *v) {
+ */
+f32 Math3D_Plane(Plane* plane, Vec3f* v) {
     return ((plane->normal.x * v->x) + (plane->normal.y * v->y) + (plane->normal.z * v->z)) + plane->originDist;
 }
 
 /*
  * Calculates the absolute distance from a point `p` to the plane defined as
  * `nx`, `ny`, `nz`, and `originDist`
-*/
+ */
 f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 
     if (fabsf(sqrtf(SQ(nx) + SQ(ny) + SQ(nz))) < 0.008f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        osSyncPrintf("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz); //Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f
+        osSyncPrintf("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny,
+                     nz); // Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f
         osSyncPrintf(VT_RST);
         return 0.0f;
     }
@@ -704,21 +717,22 @@ f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 /*
  * Calculates the signed distance from a point `p` to a plane defined as
  * `nx`, `ny`, `nz`, and `originDist`
-*/
+ */
 f32 Math3D_DistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
     f32 normMagnitude;
 
     normMagnitude = sqrtf(SQ(nx) + SQ(ny) + SQ(nz));
     if (fabsf(normMagnitude) < 0.008f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        osSyncPrintf("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz); //Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f
+        osSyncPrintf("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny,
+                     nz); // Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f
         osSyncPrintf(VT_RST);
         return 0.0f;
     }
     return Math3D_Planef(nx, ny, nz, originDist, p) / normMagnitude;
 }
 
-s32 func_800CCBE4(Vec3f *v0, Vec3f *v1, Vec3f *v2, f32 z, f32 x, f32 arg5, f32 arg6, f32 ny) {
+s32 func_800CCBE4(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x, f32 arg5, f32 arg6, f32 ny) {
     f32 temp_f6;
     f32 temp_f10;
     f32 temp_f8;
@@ -730,20 +744,18 @@ s32 func_800CCBE4(Vec3f *v0, Vec3f *v1, Vec3f *v2, f32 z, f32 x, f32 arg5, f32 a
     }
 
     sq6 = SQ(arg6);
-    if (((SQ(v0->z - z) + SQ(v0->x - x)) < sq6) ||
-        ((SQ(v1->z - z) + SQ(v1->x - x)) < sq6) ||
+    if (((SQ(v0->z - z) + SQ(v0->x - x)) < sq6) || ((SQ(v1->z - z) + SQ(v1->x - x)) < sq6) ||
         ((SQ(v2->z - z) + SQ(v2->x - x)) < sq6)) {
 
         return 1;
     }
 
-
     temp_f6 = ((v0->z - z) * (v1->x - x)) - ((v0->x - x) * (v1->z - z));
     temp_f10 = ((v1->z - z) * (v2->x - x)) - ((v1->x - x) * (v2->z - z));
     temp_f8 = ((v2->z - z) * (v0->x - x)) - ((v2->x - x) * (v0->z - z));
 
-    if(((temp_f6 <= arg5) && (temp_f10 <= arg5) && (temp_f8 <= arg5)) ||
-        ((-arg5 <= temp_f6) && (-arg5 <= temp_f10) && (-arg5 <= temp_f8))){
+    if (((temp_f6 <= arg5) && (temp_f10 <= arg5) && (temp_f8 <= arg5)) ||
+        ((-arg5 <= temp_f6) && (-arg5 <= temp_f10) && (-arg5 <= temp_f8))) {
         return 1;
     }
     if (0.5f < fabsf(ny)) {
@@ -775,23 +787,25 @@ s32 func_800CCF48(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x) {
     return func_800CCBE4(v0, v1, v2, z, x, 300.0f, 1.0f, 0.6f);
 }
 
-s32 func_800CCF98(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 arg3, f32 normMagnitude, f32 arg5, f32 arg6, f32 z, f32 x, f32 *pointDist, f32 argA) {
+s32 func_800CCF98(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 arg3, f32 normMagnitude, f32 arg5, f32 arg6, f32 z, f32 x,
+                  f32* pointDist, f32 argA) {
     if (fabsf(normMagnitude) < 0.008f) {
         return 0;
     }
     if (func_800CCBE4(v0, v1, v2, z, x, 300.0f, argA, normMagnitude) != 0) {
-        *pointDist = (f32) ((((-arg3 * x) - (arg5 * z)) - arg6) / normMagnitude);
+        *pointDist = (f32)((((-arg3 * x) - (arg5 * z)) - arg6) / normMagnitude);
         return 1;
     }
     return 0;
 }
 
-s32 func_800CD044(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 arg3, f32 ny, f32 arg5, f32 arg6, f32 z, f32 x, f32 *arg9, f32 argA) {
+s32 func_800CD044(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 arg3, f32 ny, f32 arg5, f32 arg6, f32 z, f32 x, f32* arg9,
+                  f32 argA) {
     if (fabsf(ny) < 0.008f) {
         return 0;
     }
     if (func_800CCBE4(v0, v1, v2, z, x, 0.0f, argA, ny) != 0) {
-        *arg9 = (f32) ((((-arg3 * x) - (arg5 * z)) - arg6) / ny);
+        *arg9 = (f32)((((-arg3 * x) - (arg5 * z)) - arg6) / ny);
         return 1;
     }
     return 0;
@@ -812,8 +826,9 @@ s32 func_800CD0F0(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 ny, f32 z, f32 x) {
  * `nx`, `ny`, and `nz` is touching the cylinder defined by the center `cylZ`, `cylX` and top
  * y componets `cylBottom` and `cylTop` are touching. The y component which they are touching is
  * output to `yIntercept`, returns 1 if any part of the triangle is touching the cylinder.
-*/
-s32 Math3D_TriVtxCylTouching(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, f32 cylZ, f32 cylX, f32 *yIntercept, f32 cylBottom, f32 cylTop) {
+ */
+s32 Math3D_TriVtxCylTouching(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, f32 cylZ,
+                             f32 cylX, f32* yIntercept, f32 cylBottom, f32 cylTop) {
     f32 bottomDist;
     f32 topDist;
     Vec3f cylPos;
@@ -838,7 +853,7 @@ s32 Math3D_TriVtxCylTouching(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f3
     return 0;
 }
 
-s32 func_800CD2D8(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane *plane, f32 z, f32 x, f32 arg6) {
+s32 func_800CD2D8(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 z, f32 x, f32 arg6) {
     if (fabsf(plane->normal.y) < 0.008f) {
         return 0;
     }
@@ -848,7 +863,7 @@ s32 func_800CD2D8(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane *plane, f32 z, f32 x, f
     return 0;
 }
 
-s32 func_800CD34C(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+s32 func_800CD34C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     f32 temp_f6;
     f32 temp_f10;
     f32 temp_f8;
@@ -860,7 +875,8 @@ s32 func_800CD34C(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, f32 arg3, f32 arg4, f32
     }
 
     sq6 = SQ(arg6);
-    if (((SQ(arg0->y - arg3) + SQ(arg0->z - arg4)) < sq6) || ((SQ(arg1->y - arg3) + SQ(arg1->z - arg4)) < sq6) || ((SQ(arg2->y - arg3) + SQ(arg2->z - arg4)) < sq6)) {
+    if (((SQ(arg0->y - arg3) + SQ(arg0->z - arg4)) < sq6) || ((SQ(arg1->y - arg3) + SQ(arg1->z - arg4)) < sq6) ||
+        ((SQ(arg2->y - arg3) + SQ(arg2->z - arg4)) < sq6)) {
         return 1;
     }
 
@@ -868,10 +884,10 @@ s32 func_800CD34C(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, f32 arg3, f32 arg4, f32
     temp_f10 = ((arg1->y - arg3) * (arg2->z - arg4)) - ((arg1->z - arg4) * (arg2->y - arg3));
     temp_f8 = ((arg2->y - arg3) * (arg0->z - arg4)) - ((arg2->z - arg4) * (arg0->y - arg3));
 
-    if (((temp_f6 <= arg5) && (temp_f10 <= arg5) && (temp_f8 <= arg5)) || ((-arg5 <= temp_f6) && (-arg5 <= temp_f10) && (-arg5 <= temp_f8))) {
+    if (((temp_f6 <= arg5) && (temp_f10 <= arg5) && (temp_f8 <= arg5)) ||
+        ((-arg5 <= temp_f6) && (-arg5 <= temp_f10) && (-arg5 <= temp_f8))) {
         return 1;
     }
-
 
     if (0.5f < fabsf(arg7)) {
 
@@ -900,13 +916,14 @@ s32 func_800CD668(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
     return func_800CD34C(arg0, arg1, arg2, arg3, arg4, arg5, 1.0f, arg6);
 }
 
-s32 func_800CD6B0(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 *arg9) {
+s32 func_800CD6B0(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
+                  f32* arg9) {
     if (fabsf(arg3) < 0.008f) {
         return 0;
     }
     arg3 = arg3;
     if (func_800CD34C(arg0, arg1, arg2, arg7, arg8, 300.0f, 1.0f, arg3) != 0) {
-        *arg9 = (f32) ((((-arg4 * arg7) - (arg5 * arg8)) - arg6) / arg3);
+        *arg9 = (f32)((((-arg4 * arg7) - (arg5 * arg8)) - arg6) / arg3);
         return 1;
     }
     return 0;
@@ -922,7 +939,8 @@ s32 func_800CD760(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 y, f32 z) {
     return 0;
 }
 
-s32 func_800CD7D8(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 *arg9, f32 argA, f32 argB) {
+s32 func_800CD7D8(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
+                  f32* arg9, f32 argA, f32 argB) {
     f32 sp34;
     f32 temp_ret;
     Vec3f* vec;
@@ -948,7 +966,7 @@ s32 func_800CD7D8(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
     return 0;
 }
 
-s32 func_800CD95C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 *arg3, f32 arg4, f32 arg5, f32 arg6) {
+s32 func_800CD95C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32* arg3, f32 arg4, f32 arg5, f32 arg6) {
     if (fabsf(*arg3) < 0.008f) {
         return 0;
     }
@@ -958,7 +976,7 @@ s32 func_800CD95C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 *arg3, f32 arg4, f3
     return 0;
 }
 
-s32 func_800CD9D0(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+s32 func_800CD9D0(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     f32 temp_f4;
     f32 temp_f8;
     f32 temp_f10;
@@ -969,8 +987,7 @@ s32 func_800CD9D0(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, f32 arg3, f32 arg4, f32
         return 0;
     }
     sq6 = SQ(arg6);
-    if (((SQ(arg3 - arg0->x) + SQ(arg4 - arg0->y)) < sq6) ||
-        ((SQ(arg3 - arg1->x) + SQ(arg4 - arg1->y)) < sq6) ||
+    if (((SQ(arg3 - arg0->x) + SQ(arg4 - arg0->y)) < sq6) || ((SQ(arg3 - arg1->x) + SQ(arg4 - arg1->y)) < sq6) ||
         ((SQ(arg3 - arg2->x) + SQ(arg4 - arg2->y)) < sq6)) {
         return 1;
     }
@@ -984,7 +1001,7 @@ s32 func_800CD9D0(Vec3f *arg0, Vec3f *arg1, Vec3f *arg2, f32 arg3, f32 arg4, f32
         return 1;
     }
 
-    if (fabsf(arg7) > 0.5f){
+    if (fabsf(arg7) > 0.5f) {
 
         if (func_800CE4B8(arg3, arg4, arg0->x, arg0->y, arg1->x, arg1->y, &sp78) && (sp78 < sq6)) {
             return 1;
@@ -1006,12 +1023,13 @@ s32 func_800CDD18(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
     return func_800CD9D0(arg0, arg1, arg2, arg3, arg4, arg5, 1.0f, arg6);
 }
 
-s32 func_800CDD60(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 *arg9) {
+s32 func_800CDD60(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
+                  f32* arg9) {
     if (fabsf(arg5) < 0.008f) {
         return 0;
     }
     if (func_800CD9D0(arg0, arg1, arg2, arg7, arg8, 300.0f, 1.0f, arg5) != 0) {
-        *arg9 = (f32) ((((-arg3 * arg7) - (arg4 * arg8)) - arg6) / arg5);
+        *arg9 = (f32)((((-arg3 * arg7) - (arg4 * arg8)) - arg6) / arg5);
         return 1;
     }
     return 0;
@@ -1027,7 +1045,8 @@ s32 func_800CDE10(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nz, f32 x, f32 y) {
     return 0;
 }
 
-s32 func_800CDE88(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 *arg9, f32 argA, f32 argB) {
+s32 func_800CDE88(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
+                  f32* arg9, f32 argA, f32 argB) {
     f32 sp2C;
     f32 temp_ret;
     static Vec3f D_8016A6A8;
@@ -1052,7 +1071,7 @@ s32 func_800CDE88(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
     return 0;
 }
 
-s32 func_800CE010(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f *arg3, f32 arg4, f32 arg5, f32 arg6) {
+s32 func_800CE010(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, f32 arg6) {
     if (fabsf(arg3->z) < 0.008f) {
         return 0;
     }
@@ -1062,7 +1081,7 @@ s32 func_800CE010(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f *arg3, f32 arg4, 
     return 0;
 }
 
-s32 func_800CE084(f32 pointADist, f32 pointBDist, Vec3f *pointA, Vec3f *pointB, Vec3f *intersect) {
+s32 func_800CE084(f32 pointADist, f32 pointBDist, Vec3f* pointA, Vec3f* pointB, Vec3f* intersect) {
     f32 temp_f2;
 
     temp_f2 = pointADist - pointBDist;
@@ -1074,14 +1093,15 @@ s32 func_800CE084(f32 pointADist, f32 pointBDist, Vec3f *pointA, Vec3f *pointB, 
     if (pointADist == 0.0f) {
         *intersect = *pointA;
     } else if (pointBDist == 0.0f) {
-            *intersect = *pointB;
+        *intersect = *pointB;
     } else {
         func_800CAFA0(pointA, pointB, pointADist / temp_f2, intersect);
     }
     return 1;
 }
 
-s32 func_800CE15C(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA, Vec3f *linePointB, Vec3f *intersect, s32 arg7) {
+s32 func_800CE15C(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA, Vec3f* linePointB, Vec3f* intersect,
+                  s32 arg7) {
     f32 pointADist;
     f32 pointBDist;
 
@@ -1106,8 +1126,9 @@ s32 func_800CE15C(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA, Vec
  * vertices `v0`, `v1`, and `v2` with normal vector `nx`, `ny`, and `nz` with plane distance from origin
  * `originDist` Outputs the intersection point at to `intersect`
  * Returns 1 if the line intersects with the triangle, 0 otherwise
-*/
-s32 Math3D_TriLineIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA, Vec3f *linePointB, Vec3f *intersect, s32 argA) {
+ */
+s32 Math3D_TriLineIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA,
+                            Vec3f* linePointB, Vec3f* intersect, s32 argA) {
 
     if (!func_800CE15C(nx, ny, nz, originDist, linePointA, linePointB, intersect, argA)) {
         return 0;
@@ -1126,8 +1147,8 @@ s32 Math3D_TriLineIntersect(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 nx, f32 ny, f32
 /*
  * Creates a TriNorm output to `tri`, and calculates the normal vector and plane from vertices
  * `va`, `vb`, and `vc`
-*/
-void Math3D_TriNorm(TriNorm* tri, Vec3f *va, Vec3f *vb, Vec3f *vc) {
+ */
+void Math3D_TriNorm(TriNorm* tri, Vec3f* va, Vec3f* vb, Vec3f* vc) {
     tri->vtx[0] = *va;
     tri->vtx[1] = *vb;
     tri->vtx[2] = *vc;
@@ -1136,8 +1157,8 @@ void Math3D_TriNorm(TriNorm* tri, Vec3f *va, Vec3f *vb, Vec3f *vc) {
 
 /*
  * Determines if point `point` lies within `sphere`
-*/
-s32 Math3D_PointInSphere(Sphere16 *sphere, Vec3f* point) {
+ */
+s32 Math3D_PointInSphere(Sphere16* sphere, Vec3f* point) {
 
     if (Math3D_DistXYZ16toF(&sphere->center, point) < sphere->radius) {
         return 1;
@@ -1145,7 +1166,7 @@ s32 Math3D_PointInSphere(Sphere16 *sphere, Vec3f* point) {
     return 0;
 }
 
-s32 func_800CE4B8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 *arg6) {
+s32 func_800CE4B8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32* arg6) {
     f32 temp_f0;
     f32 temp_f2;
     f32 temp_f16;
@@ -1169,11 +1190,11 @@ s32 func_800CE4B8(f32 arg0, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f3
     }
     D_8016A6B8.x = (temp_f2 * temp_f0) + arg2;
     D_8016A6B8.y = (temp_f18 * temp_f0) + arg3;
-    *arg6 = (f32) (SQ(D_8016A6B8.x - arg0) + SQ(D_8016A6B8.y - arg1));
+    *arg6 = (f32)(SQ(D_8016A6B8.x - arg0) + SQ(D_8016A6B8.y - arg1));
     return ret;
 }
 
-s32 func_800CE600(Sphere16 *arg0, Linef *arg1) {
+s32 func_800CE600(Sphere16* arg0, Linef* arg1) {
     Vec3f t2;
     f32 temp_f0_2;
     f32 temp_f2;
@@ -1190,7 +1211,9 @@ s32 func_800CE600(Sphere16 *arg0, Linef *arg1) {
         if (fabsf(temp_f2) < 0.008f) {
             return 0;
         }
-        temp_f0_2 = ((((arg0->center.x - arg1->a.x) * t2.x) + ((arg0->center.y - arg1->a.y) * t2.y)) + ((arg0->center.z - arg1->a.z) * t2.z)) / temp_f2;
+        temp_f0_2 = ((((arg0->center.x - arg1->a.x) * t2.x) + ((arg0->center.y - arg1->a.y) * t2.y)) +
+                     ((arg0->center.z - arg1->a.z) * t2.z)) /
+                    temp_f2;
         if ((temp_f0_2 < 0.0f) || (1.0f < temp_f0_2)) {
             return 0;
         }
@@ -1199,15 +1222,15 @@ s32 func_800CE600(Sphere16 *arg0, Linef *arg1) {
         D_8016A6C8.y = (t2.y * temp_f0_2) + arg1->a.y;
         D_8016A6C8.z = (t2.z * temp_f0_2) + arg1->a.z;
 
-        if (SQ(D_8016A6C8.x - arg0->center.x) + SQ(D_8016A6C8.y - arg0->center.y) + SQ(D_8016A6C8.z - arg0->center.z) <= SQ((f32)arg0->radius)) {
+        if (SQ(D_8016A6C8.x - arg0->center.x) + SQ(D_8016A6C8.y - arg0->center.y) + SQ(D_8016A6C8.z - arg0->center.z) <=
+            SQ((f32)arg0->radius)) {
             return 1;
         }
-
     }
     return 0;
 }
 
-void func_800CE800(Sphere16 *sphere, TriNorm *tri, Vec3f *ret) {
+void func_800CE800(Sphere16* sphere, TriNorm* tri, Vec3f* ret) {
     static Vec3f centroid;
     static Vec3f sphereCenter;
     f32 dist;
@@ -1230,7 +1253,7 @@ void func_800CE800(Sphere16 *sphere, TriNorm *tri, Vec3f *ret) {
     func_800CAFA0(&sphereCenter, &centroid, fw, ret);
 }
 
-s32 func_800CE934(Sphere16 *arg0, TriNorm *arg1, Vec3f *arg2) {
+s32 func_800CE934(Sphere16* arg0, TriNorm* arg1, Vec3f* arg2) {
     f32 radius;
     f32 nx;
     f32 ny;
@@ -1250,7 +1273,8 @@ s32 func_800CE934(Sphere16 *arg0, TriNorm *arg1, Vec3f *arg2) {
         return 0;
     }
 
-    planeDist = Math3D_UDistPlaneToPos(arg1->plane.normal.x, arg1->plane.normal.y, arg1->plane.normal.z, arg1->plane.originDist, &D_8016A710);
+    planeDist = Math3D_UDistPlaneToPos(arg1->plane.normal.x, arg1->plane.normal.y, arg1->plane.normal.z,
+                                       arg1->plane.originDist, &D_8016A710);
     if (radius < planeDist) {
         return 0;
     }
@@ -1279,7 +1303,8 @@ s32 func_800CE934(Sphere16 *arg0, TriNorm *arg1, Vec3f *arg2) {
     ny = arg1->plane.normal.y * planeDist;
     nz = arg1->plane.normal.z * planeDist;
 
-    if (0.0f < Math3D_Planef(arg1->plane.normal.x, arg1->plane.normal.y, arg1->plane.normal.z, arg1->plane.originDist, &D_8016A710)) {
+    if (0.0f < Math3D_Planef(arg1->plane.normal.x, arg1->plane.normal.y, arg1->plane.normal.z, arg1->plane.originDist,
+                             &D_8016A710)) {
         D_8016A720.x = D_8016A710.x - nx;
         D_8016A720.y = D_8016A710.y - ny;
         D_8016A720.z = D_8016A710.z - nz;
@@ -1289,17 +1314,20 @@ s32 func_800CE934(Sphere16 *arg0, TriNorm *arg1, Vec3f *arg2) {
         D_8016A720.z = D_8016A710.z + nz;
     }
 
-    if (0.5f < fabsf(arg1->plane.normal.y)){
-        if(func_800CCF00(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A720.z, D_8016A720.x, 0.0f, arg1->plane.normal.y) != 0) {
+    if (0.5f < fabsf(arg1->plane.normal.y)) {
+        if (func_800CCF00(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A720.z, D_8016A720.x, 0.0f,
+                          arg1->plane.normal.y) != 0) {
             func_800CE800(arg0, arg1, arg2);
             return 1;
         }
-    } else if(0.5f < fabsf(arg1->plane.normal.x)) {
-        if(func_800CD668(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A720.y, D_8016A720.z, 0.0f, arg1->plane.normal.x) != 0) {
+    } else if (0.5f < fabsf(arg1->plane.normal.x)) {
+        if (func_800CD668(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A720.y, D_8016A720.z, 0.0f,
+                          arg1->plane.normal.x) != 0) {
             func_800CE800(arg0, arg1, arg2);
             return 1;
         }
-    } else if(func_800CDD18(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A720.x, D_8016A720.y, 0.0f, arg1->plane.normal.z) != 0) {
+    } else if (func_800CDD18(&arg1->vtx[0], &arg1->vtx[1], &arg1->vtx[2], D_8016A720.x, D_8016A720.y, 0.0f,
+                             arg1->plane.normal.z) != 0) {
         func_800CE800(arg0, arg1, arg2);
         return 1;
     }
@@ -1309,8 +1337,8 @@ s32 func_800CE934(Sphere16 *arg0, TriNorm *arg1, Vec3f *arg2) {
 /*
  * Checks if point `point` is within cylinder `cyl`
  * Returns 1 if the point is inside the cylinder, 0 otherwise.
-*/
-s32 Math3D_PointInCyl(Cylinder16 *cyl, Vec3f *point) {
+ */
+s32 Math3D_PointInCyl(Cylinder16* cyl, Vec3f* point) {
     f32 bottom;
     f32 top;
     f32 x;
@@ -1333,8 +1361,8 @@ s32 Math3D_PointInCyl(Cylinder16 *cyl, Vec3f *point) {
 /*
  * Determines if `cyl` and `tri` are touching.  The point of intersection
  * is placed in `intersect` Returns 1 if they are touching, 0 otherwise.
-*/
-s32 Math3D_CylTriTouchingIntersect(Cylinder16 *cyl, TriNorm *tri, Vec3f *intersect) {
+ */
+s32 Math3D_CylTriTouchingIntersect(Cylinder16* cyl, TriNorm* tri, Vec3f* intersect) {
 
     f32 sp8C;
     f32 cylTop;
@@ -1389,11 +1417,12 @@ s32 Math3D_CylTriTouchingIntersect(Cylinder16 *cyl, TriNorm *tri, Vec3f *interse
         return 1;
     }
 
-    if (Math3D_TriVtxCylTouching(&tri->vtx[0], &tri->vtx[1], &tri->vtx[2], tri->plane.normal.x, tri->plane.normal.y, tri->plane.normal.z, tri->plane.originDist, cyl->pos.z, cyl->pos.x, &sp8C, cylBottom, cylTop) != 0) {
+    if (Math3D_TriVtxCylTouching(&tri->vtx[0], &tri->vtx[1], &tri->vtx[2], tri->plane.normal.x, tri->plane.normal.y,
+                                 tri->plane.normal.z, tri->plane.originDist, cyl->pos.z, cyl->pos.x, &sp8C, cylBottom,
+                                 cylTop) != 0) {
         VEC3F(sp6C, cyl->pos.x, sp8C, cyl->pos.z);
-        VEC3F(sp60, ((tri->vtx[0].x + tri->vtx[1].x) * 0.5f),
-                    ((tri->vtx[0].y + tri->vtx[1].y) * 0.5f),
-                    ((tri->vtx[0].z + tri->vtx[1].z) * 0.5f));
+        VEC3F(sp60, ((tri->vtx[0].x + tri->vtx[1].x) * 0.5f), ((tri->vtx[0].y + tri->vtx[1].y) * 0.5f),
+              ((tri->vtx[0].z + tri->vtx[1].z) * 0.5f));
 
         Math_Vec3f_Diff(&sp60, &sp6C, &sp54);
         temp_f14_2 = sqrtf((sp54.x * sp54.x) + (sp54.z * sp54.z));
@@ -1405,7 +1434,6 @@ s32 Math3D_CylTriTouchingIntersect(Cylinder16 *cyl, TriNorm *tri, Vec3f *interse
         t = cyl->radius / temp_f14_2;
         func_800CAF5C(&sp6C, &sp54, t, intersect);
         return 1;
-
     }
 
     topSphere.center.x = bottomSphere.center.x = cyl->pos.x;
@@ -1413,7 +1441,6 @@ s32 Math3D_CylTriTouchingIntersect(Cylinder16 *cyl, TriNorm *tri, Vec3f *interse
     topSphere.center.y = cylTop;
     bottomSphere.center.y = cylBottom;
     topSphere.radius = bottomSphere.radius = cyl->radius;
-
 
     if ((func_800CE934(&topSphere, tri, intersect) != 0) || (func_800CE934(&bottomSphere, tri, intersect) != 0)) {
         return 1;
@@ -1423,7 +1450,7 @@ s32 Math3D_CylTriTouchingIntersect(Cylinder16 *cyl, TriNorm *tri, Vec3f *interse
 
 /*
  * Returns 1 if `cyl` and `tri` and touching
-*/
+ */
 s32 Math3D_CylTriTouching(Cylinder16* cyl, TriNorm* tri) {
     Vec3f intersect;
 
@@ -1433,7 +1460,7 @@ s32 Math3D_CylTriTouching(Cylinder16* cyl, TriNorm* tri) {
 /*
  * Deteremines if two spheres are touching.  Returns 1 if their closest surface point
  * is within 0.008f units. 0 otherwise.
-*/
+ */
 s32 Math3D_SpheresTouching(Sphere16* sphereA, Sphere16* sphereB) {
     f32 surfaceDist;
 
@@ -1444,7 +1471,7 @@ s32 Math3D_SpheresTouching(Sphere16* sphereA, Sphere16* sphereB) {
  * Determines if two spheres are within 0.008 units of each other.  The distance from
  * the closest point on the surface is placed in `surfaceDist`  Returns 1 if the surfaces
  * are not touching.  Returns 0 otherwise.
-*/
+ */
 s32 Math3D_SpheresTouchingSurface(Sphere16* sphereA, Sphere16* sphereB, f32* surfaceDist) {
     f32 centerDist;
 
@@ -1455,8 +1482,8 @@ s32 Math3D_SpheresTouchingSurface(Sphere16* sphereA, Sphere16* sphereB, f32* sur
  * Determines if two spheres are within 0.008f units of each other.  The distance from
  * the centers is placed in `centerDist` and the closest distance to their surfaces is placed
  * in `surfaceDist` Returns 1 if the surfaces are not touching.  Returns 0 otherwise.
-*/
-s32 Math3D_SpheresTouchingSurfaceCenter(Sphere16 *sphereA, Sphere16 *sphereB, f32 *surfaceDist, f32 *centerDist) {
+ */
+s32 Math3D_SpheresTouchingSurfaceCenter(Sphere16* sphereA, Sphere16* sphereB, f32* surfaceDist, f32* centerDist) {
     Vec3f diff;
 
     diff.x = (f32)sphereA->center.x - (f32)sphereB->center.x;
@@ -1480,7 +1507,7 @@ s32 func_800CFD84(Sphere16* sph, Cylinder16* cyl, f32* surfaceDist) {
     return func_800CFDA4(sph, cyl, surfaceDist, &centerDist);
 }
 
-s32 func_800CFDA4(Sphere16 *sph, Cylinder16 *cyl, f32 *surfaceDist, f32 *centerDist) {
+s32 func_800CFDA4(Sphere16* sph, Cylinder16* cyl, f32* surfaceDist, f32* centerDist) {
     f32 x;
     f32 z;
     f32 rad;
@@ -1500,9 +1527,9 @@ s32 func_800CFDA4(Sphere16 *sph, Cylinder16 *cyl, f32 *surfaceDist, f32 *centerD
     cylf.pos.y = cyl->pos.y;
     cylf.yShift = cyl->yShift;
     cylf.height = cyl->height;
-    x = (f32) sph->center.x - cyl->pos.x;
-    z = (f32) sph->center.z - cyl->pos.z;
-    rad = (f32) sph->radius + cyl->radius;
+    x = (f32)sph->center.x - cyl->pos.x;
+    z = (f32)sph->center.z - cyl->pos.z;
+    rad = (f32)sph->radius + cyl->radius;
     *centerDist = sqrtf(SQ(x) + SQ(z));
     if (rad < *centerDist) {
         return 0;
@@ -1523,7 +1550,7 @@ s32 func_800CFDA4(Sphere16 *sph, Cylinder16 *cyl, f32 *surfaceDist, f32 *centerD
 /*
  * returns 1 if cylinder `ca` is outside cylinder `cb`.
  * Sets `deadSpace` to the mininum space between the cylinders not occupied by the other.
-*/
+ */
 s32 Math3D_CylinderOutCylinder(Cylinder16* ca, Cylinder16* cb, f32* deadSpace) {
     f32 xzDist;
 
@@ -1534,13 +1561,13 @@ s32 Math3D_CylinderOutCylinder(Cylinder16* ca, Cylinder16* cb, f32* deadSpace) {
  * returns 1 if cylinder `ca` is outside cylinder `cb`.
  * Sets `xzDist` to the xz distance between the centers of the cylinders.
  * Sets `deadSpace` to the mininum space between the cylinders not occupied by the other.
-*/
-s32 Math3D_CylinderOutCylinderDist(Cylinder16 *ca, Cylinder16 *cb, f32 *deadSpace, f32 *xzDist) {
+ */
+s32 Math3D_CylinderOutCylinderDist(Cylinder16* ca, Cylinder16* cb, f32* deadSpace, f32* xzDist) {
     static Cylinderf caf;
     static Cylinderf cbf;
 
-    CYL16TOF(ca,caf);
-    CYL16TOF(cb,cbf);
+    CYL16TOF(ca, caf);
+    CYL16TOF(cb, cbf);
 
     *xzDist = sqrtf(SQ(caf.pos.x - cbf.pos.x) + SQ(caf.pos.z - cbf.pos.z));
 
@@ -1559,15 +1586,13 @@ s32 Math3D_CylinderOutCylinderDist(Cylinder16 *ca, Cylinder16 *cb, f32 *deadSpac
     return 1;
 }
 
-
-
 /*
  * Determines if triangle `ta` intersects with triangle `tb` the point of
  * intersection is output to `intersect.
  * Returns 1 is the triangles intersect, 0 otherwise
-*/
+ */
 
-s32 Math3D_TrisIntersect(TriNorm *ta, TriNorm *tb, Vec3f *intersect) {
+s32 Math3D_TrisIntersect(TriNorm* ta, TriNorm* tb, Vec3f* intersect) {
     f32 dist0;
     f32 dist1;
     f32 dist2;
@@ -1576,7 +1601,8 @@ s32 Math3D_TrisIntersect(TriNorm *ta, TriNorm *tb, Vec3f *intersect) {
     dist1 = Math3D_Plane(&ta->plane, &tb->vtx[1]);
     dist2 = Math3D_Plane(&ta->plane, &tb->vtx[2]);
 
-    if (((dist0 > 0.0f) && (dist1 > 0.0f) && (dist2 > 0.0f)) || (((dist0 < 0.0f) && (dist1 < 0.0f)) && (dist2 < 0.0f))) {
+    if (((dist0 > 0.0f) && (dist1 > 0.0f) && (dist2 > 0.0f)) ||
+        (((dist0 < 0.0f) && (dist1 < 0.0f)) && (dist2 < 0.0f))) {
         return 0;
     }
 
@@ -1584,44 +1610,57 @@ s32 Math3D_TrisIntersect(TriNorm *ta, TriNorm *tb, Vec3f *intersect) {
     dist1 = Math3D_Plane(&tb->plane, &ta->vtx[1]);
     dist2 = Math3D_Plane(&tb->plane, &ta->vtx[2]);
 
-    if ((((dist0 > 0.0f) && (dist1 > 0.0f)) && (dist2 > 0.0f)) || ((dist0 < 0.0f) && (dist1 < 0.0f) && (dist2 < 0.0f))) {
+    if ((((dist0 > 0.0f) && (dist1 > 0.0f)) && (dist2 > 0.0f)) ||
+        ((dist0 < 0.0f) && (dist1 < 0.0f) && (dist2 < 0.0f))) {
         return 0;
     }
 
-    if (Math3D_TriLineIntersect(&tb->vtx[0], &tb->vtx[1], &tb->vtx[2], tb->plane.normal.x, tb->plane.normal.y, tb->plane.normal.z, tb->plane.originDist, &ta->vtx[0], &ta->vtx[1], intersect, 0) != 0) {
+    if (Math3D_TriLineIntersect(&tb->vtx[0], &tb->vtx[1], &tb->vtx[2], tb->plane.normal.x, tb->plane.normal.y,
+                                tb->plane.normal.z, tb->plane.originDist, &ta->vtx[0], &ta->vtx[1], intersect,
+                                0) != 0) {
         return 1;
     }
-    if (Math3D_TriLineIntersect(&tb->vtx[0], &tb->vtx[1], &tb->vtx[2], tb->plane.normal.x, tb->plane.normal.y, tb->plane.normal.z, tb->plane.originDist, &ta->vtx[1], &ta->vtx[2], intersect, 0) != 0) {
+    if (Math3D_TriLineIntersect(&tb->vtx[0], &tb->vtx[1], &tb->vtx[2], tb->plane.normal.x, tb->plane.normal.y,
+                                tb->plane.normal.z, tb->plane.originDist, &ta->vtx[1], &ta->vtx[2], intersect,
+                                0) != 0) {
         return 1;
     }
-    if (Math3D_TriLineIntersect(&tb->vtx[0], &tb->vtx[1], &tb->vtx[2], tb->plane.normal.x, tb->plane.normal.y, tb->plane.normal.z, tb->plane.originDist, &ta->vtx[2], &ta->vtx[0], intersect, 0) != 0) {
+    if (Math3D_TriLineIntersect(&tb->vtx[0], &tb->vtx[1], &tb->vtx[2], tb->plane.normal.x, tb->plane.normal.y,
+                                tb->plane.normal.z, tb->plane.originDist, &ta->vtx[2], &ta->vtx[0], intersect,
+                                0) != 0) {
         return 1;
     }
-    if (Math3D_TriLineIntersect(&ta->vtx[0], &ta->vtx[1], &ta->vtx[2], ta->plane.normal.x, ta->plane.normal.y, ta->plane.normal.z, ta->plane.originDist, &tb->vtx[0], &tb->vtx[1], intersect, 0) == 1) {
+    if (Math3D_TriLineIntersect(&ta->vtx[0], &ta->vtx[1], &ta->vtx[2], ta->plane.normal.x, ta->plane.normal.y,
+                                ta->plane.normal.z, ta->plane.originDist, &tb->vtx[0], &tb->vtx[1], intersect,
+                                0) == 1) {
         return 1;
     }
-    if (Math3D_TriLineIntersect(&ta->vtx[0], &ta->vtx[1], &ta->vtx[2], ta->plane.normal.x, ta->plane.normal.y, ta->plane.normal.z, ta->plane.originDist, &tb->vtx[1], &tb->vtx[2], intersect, 0) == 1) {
+    if (Math3D_TriLineIntersect(&ta->vtx[0], &ta->vtx[1], &ta->vtx[2], ta->plane.normal.x, ta->plane.normal.y,
+                                ta->plane.normal.z, ta->plane.originDist, &tb->vtx[1], &tb->vtx[2], intersect,
+                                0) == 1) {
         return 1;
     }
-    if (Math3D_TriLineIntersect(&ta->vtx[0], &ta->vtx[1], &ta->vtx[2], ta->plane.normal.x, ta->plane.normal.y, ta->plane.normal.z, ta->plane.originDist, &tb->vtx[2], &tb->vtx[0], intersect, 0) == 1) {
+    if (Math3D_TriLineIntersect(&ta->vtx[0], &ta->vtx[1], &ta->vtx[2], ta->plane.normal.x, ta->plane.normal.y,
+                                ta->plane.normal.z, ta->plane.originDist, &tb->vtx[2], &tb->vtx[0], intersect,
+                                0) == 1) {
         return 1;
     }
     return 0;
 }
 
-s32 func_800D0480(Sphere16 *arg0, f32 arg1, f32 arg2) {
+s32 func_800D0480(Sphere16* arg0, f32 arg1, f32 arg2) {
     f32 temp_f0;
     f32 temp_f2;
 
     temp_f0 = arg0->center.x - arg1;
     temp_f2 = arg0->center.z - arg2;
-    if ((SQ(temp_f0) + SQ(temp_f2)) <= SQ(arg0->radius) ) {
+    if ((SQ(temp_f0) + SQ(temp_f2)) <= SQ(arg0->radius)) {
         return 1;
     }
     return 0;
 }
 
-s32 func_800D04F0(Sphere16 *arg0, f32 arg1, f32 arg2) {
+s32 func_800D04F0(Sphere16* arg0, f32 arg1, f32 arg2) {
     f32 temp_f0;
     f32 temp_f2;
 
@@ -1633,7 +1672,7 @@ s32 func_800D04F0(Sphere16 *arg0, f32 arg1, f32 arg2) {
     return 0;
 }
 
-s32 func_800D0560(Sphere16 *arg0, f32 arg1, f32 arg2) {
+s32 func_800D0560(Sphere16* arg0, f32 arg1, f32 arg2) {
     f32 temp_f0;
     f32 temp_f2;
 
@@ -1646,10 +1685,7 @@ s32 func_800D0560(Sphere16 *arg0, f32 arg1, f32 arg2) {
 }
 
 void func_800D05D0(s32 arg0, s32 arg1) {
-
 }
 
 void func_800D05DC(s32 arg0, s32 arg1) {
-
 }
-
