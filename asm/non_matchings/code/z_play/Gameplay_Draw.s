@@ -852,7 +852,7 @@ glabel Gameplay_Draw
 /* B36BC0 800BFA20 51200004 */  beql  $t1, $zero, .L800BFA34
 /* B36BC4 800BFA24 8E1901DC */   lw    $t9, 0x1dc($s0)
 .L800BFA28:
-/* B36BC8 800BFA28 0C02FB50 */  jal   Gameplay_DrawOverlay
+/* B36BC8 800BFA28 0C02FB50 */  jal   Gameplay_DrawOverlayElements
 /* B36BCC 800BFA2C 02002025 */   move  $a0, $s0
 .L800BFA30:
 /* B36BD0 800BFA30 8E1901DC */  lw    $t9, 0x1dc($s0)
