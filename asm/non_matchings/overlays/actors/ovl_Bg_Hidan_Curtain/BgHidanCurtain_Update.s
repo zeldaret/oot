@@ -181,5 +181,3 @@ glabel BgHidanCurtain_Update
 /* 00840 808859E0 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00844 808859E4 03E00008 */  jr      $ra                        
 /* 00848 808859E8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

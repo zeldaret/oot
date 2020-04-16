@@ -222,5 +222,3 @@ glabel EnZf_Init
 /* 005C8 80B44618 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 005CC 80B4461C 03E00008 */  jr      $ra                        
 /* 005D0 80B44620 27BD01F8 */  addiu   $sp, $sp, 0x01F8           ## $sp = 00000000
-
-

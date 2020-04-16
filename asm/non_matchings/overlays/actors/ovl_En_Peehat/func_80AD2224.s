@@ -1,3 +1,33 @@
+.rdata
+glabel D_80AD2890
+    .asciz "../z_en_peehat.c"
+    .balign 4
+
+glabel D_80AD28A4
+    .asciz "../z_en_peehat.c"
+    .balign 4
+
+glabel D_80AD28B8
+    .asciz "../z_en_peehat.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AD295C
+ .word 0x3DEB851F
+glabel D_80AD2960
+ .word 0x3E051EB8
+glabel D_80AD2964
+    .float 0.1
+
+glabel D_80AD2968
+    .float 0.1
+
+glabel D_80AD296C
+ .word 0x3E051EB8
+glabel D_80AD2970
+ .word 0x3DEB851F
+
+.text
 glabel func_80AD2224
 /* 02D84 80AD2224 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 02D88 80AD2228 AFA70054 */  sw      $a3, 0x0054($sp)           
@@ -136,5 +166,3 @@ glabel func_80AD2224
 /* 02F8C 80AD242C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 02F90 80AD2430 03E00008 */  jr      $ra                        
 /* 02F94 80AD2434 00000000 */  nop
-
-

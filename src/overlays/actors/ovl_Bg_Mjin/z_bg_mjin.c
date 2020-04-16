@@ -6,21 +6,19 @@
 
 #include "z_bg_mjin.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void BgMjin_SetupAction(BgMjin* this, ActorFunc actionFunc);
-static void BgMjin_Init(BgMjin* this, GlobalContext* globalCtx);
-static void BgMjin_Destroy(BgMjin* this, GlobalContext* globalCtx);
-static void func_808A0850(BgMjin* this, GlobalContext* globalCtx);
-static void func_808A0920(BgMjin* this, GlobalContext* globalCtx);
-static void BgMjin_Update(BgMjin* this, GlobalContext* globalCtx);
-static void BgMjin_Draw(BgMjin* this, GlobalContext* globalCtx);
+void BgMjin_SetupAction(BgMjin* this, ActorFunc actionFunc);
+void BgMjin_Init(BgMjin* this, GlobalContext* globalCtx);
+void BgMjin_Destroy(BgMjin* this, GlobalContext* globalCtx);
+void func_808A0850(BgMjin* this, GlobalContext* globalCtx);
+void func_808A0920(BgMjin* this, GlobalContext* globalCtx);
+void BgMjin_Update(BgMjin* this, GlobalContext* globalCtx);
+void BgMjin_Draw(BgMjin* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Mjin_InitVars = {
     ACTOR_BG_MJIN,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgMjin),
@@ -45,11 +43,11 @@ static InitChainEntry initChain[] = {
 static s16 objectTbl[] = { OBJECT_MJIN_FLASH, OBJECT_MJIN_DARK, OBJECT_MJIN_FLAME,
                            OBJECT_MJIN_ICE,   OBJECT_MJIN_SOUL, OBJECT_MJIN_WIND };
 
-static void BgMjin_SetupAction(BgMjin* this, ActorFunc actionFunc) {
+void BgMjin_SetupAction(BgMjin* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-static void BgMjin_Init(BgMjin* this, GlobalContext* globalCtx) {
+void BgMjin_Init(BgMjin* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     s8 objBankIndex;
 
@@ -63,11 +61,11 @@ static void BgMjin_Init(BgMjin* this, GlobalContext* globalCtx) {
     }
 }
 
-static void BgMjin_Destroy(BgMjin* this, GlobalContext* globalCtx) {
+void BgMjin_Destroy(BgMjin* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
+void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
     u32 local_c;
     u32 collision;
 
@@ -86,14 +84,14 @@ static void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_808A0920(BgMjin* this, GlobalContext* globalCtx) {
+void func_808A0920(BgMjin* this, GlobalContext* globalCtx) {
 }
 
-static void BgMjin_Update(BgMjin* this, GlobalContext* globalCtx) {
+void BgMjin_Update(BgMjin* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-static void BgMjin_Draw(BgMjin* this, GlobalContext* globalCtx) {
+void BgMjin_Draw(BgMjin* this, GlobalContext* globalCtx) {
     s32 objBankIndex;
     u32 dlist;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;

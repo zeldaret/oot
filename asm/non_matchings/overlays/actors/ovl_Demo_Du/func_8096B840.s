@@ -1,3 +1,13 @@
+.rdata
+glabel D_8096CFD0
+    .asciz "../z_demo_du_inKenjyanomaDemo02.c"
+    .balign 4
+
+glabel D_8096CFF4
+    .asciz "../z_demo_du_inKenjyanomaDemo02.c"
+    .balign 4
+
+.text
 glabel func_8096B840
 /* 01D70 8096B840 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 01D74 8096B844 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -122,5 +132,3 @@ glabel func_8096B840
 /* 01F50 8096BA20 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 01F54 8096BA24 03E00008 */  jr      $ra
 /* 01F58 8096BA28 00000000 */  nop
-
-

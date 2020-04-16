@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A7BA0C
+    .asciz "../z_en_in.c"
+    .balign 4
+
+glabel D_80A7BA1C
+    .asciz "../z_en_in.c"
+    .balign 4
+
+.text
 glabel EnIn_Draw
 /* 02704 80A7B6B4 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 02708 80A7B6B8 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -91,4 +101,3 @@ glabel EnIn_Draw
 /* 02864 80A7B814 00000000 */  nop
 /* 02868 80A7B818 00000000 */  nop
 /* 0286C 80A7B81C 00000000 */  nop
-

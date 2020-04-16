@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A55258
+    .asciz "../z_en_heishi2.c"
+    .balign 4
+
+glabel D_80A5526C
+    .asciz "../z_en_heishi2.c"
+    .balign 4
+
+glabel D_80A55280
+    .asciz "../z_en_heishi2.c"
+    .balign 4
+
+.text
 glabel func_80A54C6C
 /* 01DCC 80A54C6C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 01DD0 80A54C70 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -47,5 +61,3 @@ glabel func_80A54C6C
 /* 01E80 80A54D20 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 01E84 80A54D24 03E00008 */  jr      $ra                        
 /* 01E88 80A54D28 00000000 */  nop
-
-

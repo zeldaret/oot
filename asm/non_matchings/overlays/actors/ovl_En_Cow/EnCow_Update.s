@@ -185,5 +185,3 @@ glabel EnCow_Update
 /* 0108C 809DFE8C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 01090 809DFE90 03E00008 */  jr      $ra
 /* 01094 809DFE94 00000000 */  nop
-
-

@@ -1,3 +1,378 @@
+.rdata
+glabel D_80B7B1F0
+    .asciz "HIT FISH %dcm\n"
+    
+
+.late_rodata
+glabel D_80B7B564
+    .float 0.15
+
+glabel D_80B7B568
+    .float 0.3
+
+glabel D_80B7B56C
+    .float 1150.0
+
+glabel D_80B7B570
+    .float 0.1
+
+glabel D_80B7B574
+    .float 9.99999974738e-06
+
+glabel D_80B7B578
+    .float -1.2
+
+glabel D_80B7B57C
+    .float 1.6
+
+glabel D_80B7B580
+    .float 9.99999997475e-07
+    
+glabel D_80B7B584
+    .float 1.1
+    
+glabel D_80B7B588
+    .float 0.8
+    
+glabel D_80B7B58C
+    .float 2.1
+    
+glabel D_80B7B590
+    .float 0.4
+    
+glabel D_80B7B594
+    .float 0.6
+
+glabel jtbl_80B7B598
+.word L80B72860
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B75278
+.word L80B73684
+.word L80B7260C
+.word L80B723E8
+.word L80B72144
+.word L80B72260
+.word L80B72928
+.word L80B73004
+.word L80B7320C
+.word L80B738A0
+.word L80B748A0
+.word L80B74FF0
+.word L80B75278
+.word L80B75278
+.word L80B71ED8
+.word L80B71FA8
+glabel D_80B7B62C
+    .float 1300.0
+    
+glabel D_80B7B630
+    .float 0.02
+    
+glabel D_80B7B634
+    .float 0.03
+    
+
+glabel D_80B7B638
+    .float 2500.0
+    
+
+glabel D_80B7B63C
+    .float 1500.0
+    
+
+glabel D_80B7B640
+    .float 0.3
+    
+
+glabel D_80B7B644
+    .float 333.333343506
+    
+
+glabel D_80B7B648
+    .float 0.4
+    
+
+glabel D_80B7B64C
+    .float 1.2
+    
+
+glabel D_80B7B650
+    .float 0.8
+    
+
+glabel D_80B7B654
+    .float 1500.0
+    
+
+glabel D_80B7B658
+    .float 0.4
+    
+
+glabel D_80B7B65C
+    .float 0.6
+    
+
+glabel D_80B7B660
+    .float 0.7
+    
+
+glabel D_80B7B664
+    .float 0.1
+    
+
+glabel D_80B7B668
+    .float 0.005
+    
+
+glabel D_80B7B66C
+    .float 0.01
+    
+
+glabel D_80B7B670
+    .float 0.05
+    
+
+glabel D_80B7B674
+    .float 0.008
+    
+
+glabel D_80B7B678
+    .float 3000.0
+    
+
+glabel D_80B7B67C
+    .float 0.3
+    
+
+glabel D_80B7B680
+    .float 0.6
+    
+
+glabel D_80B7B684
+    .float 0.03
+    
+
+glabel D_80B7B688
+    .float 1.2
+    
+
+glabel D_80B7B68C
+    .float 5000.0
+    
+
+glabel D_80B7B690
+    .float 3000.0
+    
+
+glabel D_80B7B694
+    .float 0.8
+    
+
+glabel D_80B7B698
+    .float 1.2
+    
+
+glabel D_80B7B69C
+    .float 5000.0
+    
+
+glabel D_80B7B6A0
+    .float 1.2
+    
+
+glabel D_80B7B6A4
+    .float 5000.0
+    
+
+glabel D_80B7B6A8
+    .float 1.2
+    
+
+glabel D_80B7B6AC
+    .float 5000.0
+    
+
+glabel D_80B7B6B0
+    .float 1.33333301544
+    
+
+glabel D_80B7B6B4
+    .float 1.7
+    
+
+glabel D_80B7B6B8
+    .float 7000.0
+    
+
+glabel D_80B7B6BC
+    .float 2.35619449615
+    
+
+glabel D_80B7B6C0
+    .float 3.14159274101
+    
+
+glabel D_80B7B6C4
+    .float 562500.0
+    
+
+glabel D_80B7B6C8
+    .float 0.1
+    
+
+glabel D_80B7B6CC
+    .float 1.6
+    
+
+glabel D_80B7B6D0
+    .float 6000.0
+    
+
+glabel D_80B7B6D4
+    .float 1.4
+    
+
+glabel D_80B7B6D8
+    .float 5000.0
+    
+
+glabel D_80B7B6DC
+    .float 0.00899
+    
+
+glabel D_80B7B6E0
+    .float 0.00899
+    
+
+glabel D_80B7B6E4
+    .float 1.4
+    
+
+glabel D_80B7B6E8
+    .float 4500.0
+    
+
+glabel D_80B7B6EC
+    .float 0.00899
+    
+
+glabel D_80B7B6F0
+    .float 1.3
+    
+
+glabel D_80B7B6F4
+    .float 0.00899
+    
+
+glabel D_80B7B6F8
+    .float 1.4
+    
+
+glabel D_80B7B6FC
+    .float 1.3
+    
+
+glabel D_80B7B700
+    .float -0.8
+    
+
+glabel D_80B7B704
+    .float -0.9
+    
+
+glabel D_80B7B708
+    .float -0.85
+    
+
+glabel D_80B7B70C
+    .float 0.1
+    
+
+glabel D_80B7B710
+    .float 0.05
+    
+
+glabel D_80B7B714
+    .float 3000.0
+    
+
+glabel D_80B7B718
+    .float 5000.0
+    
+
+glabel D_80B7B71C
+    .float 3.14159274101
+    
+
+glabel D_80B7B720
+    .float 1.99000000954
+    
+
+glabel D_80B7B724
+    .float 5000.0
+    
+
+glabel D_80B7B728
+    .float 5000.0
+    
+
+glabel D_80B7B72C
+    .float 5000.0
+    
+
+glabel D_80B7B730
+    .float 3.2
+    
+
+glabel D_80B7B734
+    .float 0.1
+    
+
+glabel D_80B7B738
+    .float -0.003
+    
+glabel D_80B7B73C
+    .float 5000.0
+    
+glabel D_80B7B740
+    .float 5000.0
+    
+glabel D_80B7B744
+    .float 0.005
+    
+glabel D_80B7B748
+    .float 0.15
+
+glabel D_80B7B74C
+    .float 0.075
+    
+glabel D_80B7B750
+    .float 0.035
+    
+glabel D_80B7B754
+    .float 0.04
+    
+
+.text
 glabel Fishing_Update
 /* 07C54 80B715F4 27BDFEC8 */  addiu   $sp, $sp, 0xFEC8           ## $sp = FFFFFEC8
 /* 07C58 80B715F8 240E000A */  addiu   $t6, $zero, 0x000A         ## $t6 = 0000000A
@@ -4893,5 +5268,3 @@ glabel L80B75278
 /* 0C200 80B75BA0 8FB10030 */  lw      $s1, 0x0030($sp)
 /* 0C204 80B75BA4 03E00008 */  jr      $ra
 /* 0C208 80B75BA8 27BD0138 */  addiu   $sp, $sp, 0x0138           ## $sp = 00000000
-
-

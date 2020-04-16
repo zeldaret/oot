@@ -119,5 +119,3 @@ glabel BgSpot18Shutter_Init
 /* 001A0 808B9570 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 001A4 808B9574 03E00008 */  jr      $ra                        
 /* 001A8 808B9578 00000000 */  nop
-
-

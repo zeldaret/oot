@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B2EC0C
+    .float 0.6
+
+.text
 glabel func_80B2D9D8
 /* 00578 80B2D9D8 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 0057C 80B2D9DC 44810000 */  mtc1    $at, $f0                   ## $f0 = 3.00
@@ -41,5 +46,3 @@ glabel func_80B2D9D8
 /* 00610 80B2DA70 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00614 80B2DA74 03E00008 */  jr      $ra
 /* 00618 80B2DA78 00000000 */  nop
-
-

@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_80B7B354
+    .float 0.0025
+
+glabel D_80B7B358
+    .float 0.05
+
+glabel D_80B7B35C
+    .float 0.1
+
+.text
 glabel func_80B69C2C
 /* 0028C 80B69C2C 44876000 */  mtc1    $a3, $f12                  ## $f12 = 0.00
 /* 00290 80B69C30 1080000E */  beq     $a0, $zero, .L80B69C6C     
@@ -91,5 +102,3 @@ glabel func_80B69C2C
 .L80B69D80:
 /* 003E0 80B69D80 03E00008 */  jr      $ra                        
 /* 003E4 80B69D84 00000000 */  nop
-
-

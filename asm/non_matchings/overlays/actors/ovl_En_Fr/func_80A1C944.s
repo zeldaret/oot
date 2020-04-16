@@ -1,3 +1,37 @@
+.rdata
+glabel D_80A1D1C0
+    .asciz "[41;37m"
+    .balign 4
+
+glabel D_80A1D1CC
+    .asciz "%s[%d]カエルがいない！？\n"
+    .balign 4
+
+glabel D_80A1D1E8
+    .asciz "../z_en_fr.c"
+    .balign 4
+
+glabel D_80A1D1F8
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80A1D1FC
+    .asciz "[41;37m"
+    .balign 4
+
+glabel D_80A1D208
+    .asciz "%s[%d]カエルがいない！？\n"
+    .balign 4
+
+glabel D_80A1D224
+    .asciz "../z_en_fr.c"
+    .balign 4
+
+glabel D_80A1D234
+    .asciz "\x1b[m"
+    .balign 4
+
+.text
 glabel func_80A1C944
 /* 01FA4 80A1C944 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 01FA8 80A1C948 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -104,5 +138,3 @@ glabel func_80A1C944
 /* 02100 80A1CAA0 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 02104 80A1CAA4 03E00008 */  jr      $ra                        
 /* 02108 80A1CAA8 00000000 */  nop
-
-

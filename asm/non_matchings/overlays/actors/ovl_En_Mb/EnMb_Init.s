@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_80AA9E70
+ .word 0x44DAC000
+glabel D_80AA9E74
+ .word 0x44318000
+glabel D_80AA9E78
+ .word 0x44DAC000
+
+.text
 glabel EnMb_Init
 /* 00008 80AA6058 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0000C 80AA605C AFBF002C */  sw      $ra, 0x002C($sp)
@@ -230,5 +239,3 @@ glabel EnMb_Init
 /* 0035C 80AA63AC 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 00360 80AA63B0 03E00008 */  jr      $ra
 /* 00364 80AA63B4 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

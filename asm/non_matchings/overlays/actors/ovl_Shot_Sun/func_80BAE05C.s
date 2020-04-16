@@ -1,3 +1,17 @@
+.rdata
+glabel D_80BAE34C
+    .asciz "[36mSHOT_SUN HIT!!!!!!!\n[m"
+    .balign 4
+
+.late_rodata
+glabel D_80BAE370
+ .word 0x45E2E800
+glabel D_80BAE374
+ .word 0x45E2E800
+glabel D_80BAE378
+ .word 0x3E2AAAAB, 0x00000000
+
+.text
 glabel func_80BAE05C
 /* 0039C 80BAE05C 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 003A0 80BAE060 AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -154,5 +168,3 @@ glabel func_80BAE05C
 /* 005D4 80BAE294 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 005D8 80BAE298 03E00008 */  jr      $ra                        
 /* 005DC 80BAE29C 00000000 */  nop
-
-

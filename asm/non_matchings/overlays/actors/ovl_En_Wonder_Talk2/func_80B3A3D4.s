@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B3ABC0
+    .asciz "[35m☆☆☆☆☆ わー %d\n[m"
+    .balign 4
+
+glabel D_80B3ABDC
+    .asciz "[35m☆☆☆☆☆ (強制)セーブしたよ！おもいっきり！ %x\n[m"
+    .balign 4
+
+.text
 glabel func_80B3A3D4
 /* 00504 80B3A3D4 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00508 80B3A3D8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
@@ -82,5 +92,3 @@ glabel func_80B3A3D4
 /* 0061C 80B3A4EC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00620 80B3A4F0 03E00008 */  jr      $ra                        
 /* 00624 80B3A4F4 00000000 */  nop
-
-

@@ -94,4 +94,3 @@ glabel EnRiverSound_Draw
 /* 00894 80AE71C4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00898 80AE71C8 03E00008 */  jr      $ra                        
 /* 0089C 80AE71CC 00000000 */  nop
-

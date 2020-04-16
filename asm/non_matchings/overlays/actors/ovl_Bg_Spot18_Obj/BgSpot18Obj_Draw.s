@@ -15,4 +15,3 @@ glabel BgSpot18Obj_Draw
 /* 007B4 808B90C4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 007B8 808B90C8 03E00008 */  jr      $ra                        
 /* 007BC 808B90CC 00000000 */  nop
-

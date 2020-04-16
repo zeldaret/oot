@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809B6190
+    .float 60000.0
+
+.text
 glabel EnAttackNiw_Init
 /* 00000 809B5100 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 809B5104 AFA50034 */  sw      $a1, 0x0034($sp)
@@ -85,5 +90,3 @@ glabel EnAttackNiw_Init
 /* 00128 809B5228 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0012C 809B522C 03E00008 */  jr      $ra
 /* 00130 809B5230 00000000 */  nop
-
-

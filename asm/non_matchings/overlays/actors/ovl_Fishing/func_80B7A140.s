@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B7B2E4
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B2F4
+    .asciz "../z_fishing.c"
+    .balign 4
+
+.text
 glabel func_80B7A140
 /* 107A0 80B7A140 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 107A4 80B7A144 24010008 */  addiu   $at, $zero, 0x0008         ## $at = 00000008
@@ -80,5 +90,3 @@ glabel func_80B7A140
 /* 108CC 80B7A26C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 108D0 80B7A270 03E00008 */  jr      $ra                        
 /* 108D4 80B7A274 00000000 */  nop
-
-

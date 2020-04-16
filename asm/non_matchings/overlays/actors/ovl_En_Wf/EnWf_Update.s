@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B37BD0
+    .float 0.2
+
+.text
 glabel EnWf_Update
 /* 03558 80B37208 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0355C 80B3720C AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -167,5 +172,3 @@ glabel EnWf_Update
 /* 03798 80B37448 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 0379C 80B3744C 03E00008 */  jr      $ra                        
 /* 037A0 80B37450 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

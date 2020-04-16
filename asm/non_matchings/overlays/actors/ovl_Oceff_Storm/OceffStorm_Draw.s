@@ -1,3 +1,17 @@
+.rdata
+glabel D_80BA8C48
+    .asciz "../z_oceff_storm.c"
+    .balign 4
+
+glabel D_80BA8C5C
+    .asciz "../z_oceff_storm.c"
+    .balign 4
+
+glabel D_80BA8C70
+    .asciz "../z_oceff_storm.c"
+    .balign 4
+
+.text
 glabel OceffStorm_Draw
 /* 00554 80BA7634 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 00558 80BA7638 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -142,4 +156,3 @@ glabel OceffStorm_Draw
 /* 00784 80BA7864 00000000 */  nop
 /* 00788 80BA7868 00000000 */  nop
 /* 0078C 80BA786C 00000000 */  nop
-

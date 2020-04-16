@@ -10,5 +10,3 @@ glabel EnToryo_Destroy
 /* 0025C 80B203CC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00260 80B203D0 03E00008 */  jr      $ra                        
 /* 00264 80B203D4 00000000 */  nop
-
-

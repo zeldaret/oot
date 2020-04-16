@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_801472D0
     .asciz    "SP       PC       (VPC)"
     .balign 4

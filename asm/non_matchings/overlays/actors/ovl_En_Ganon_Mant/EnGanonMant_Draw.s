@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80A27EE4
+    .float 1.57079637051
+
+glabel D_80A27EE8
+    .float 3.14159274101
+
+.text
 glabel EnGanonMant_Draw
 /* 00C6C 80A249CC 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 00C70 80A249D0 AFBF0074 */  sw      $ra, 0x0074($sp)           
@@ -214,4 +222,3 @@ glabel EnGanonMant_Draw
 /* 00F94 80A24CF4 27BD00D8 */  addiu   $sp, $sp, 0x00D8           ## $sp = 00000000
 /* 00F98 80A24CF8 00000000 */  nop
 /* 00F9C 80A24CFC 00000000 */  nop
-

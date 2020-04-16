@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B87298
+    .asciz "../z_item_shield.c"
+    .balign 4
+
+glabel D_80B872AC
+    .asciz "../z_item_shield.c"
+    .balign 4
+
+glabel D_80B872C0
+    .asciz "../z_item_shield.c"
+    .balign 4
+
+.text
 glabel ItemShield_Draw
 /* 00778 80B87098 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 0077C 80B8709C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -66,4 +80,3 @@ glabel ItemShield_Draw
 /* 00874 80B87194 00000000 */  nop
 /* 00878 80B87198 00000000 */  nop
 /* 0087C 80B8719C 00000000 */  nop
-

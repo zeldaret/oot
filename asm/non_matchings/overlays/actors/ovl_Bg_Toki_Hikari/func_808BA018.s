@@ -1,3 +1,21 @@
+.rdata
+glabel D_808BAC80
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+glabel D_808BAC98
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+glabel D_808BACB0
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+glabel D_808BACC8
+    .asciz "../z_bg_toki_hikari.c"
+    .balign 4
+
+.text
 glabel func_808BA018
 /* 00118 808BA018 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 0011C 808BA01C AFB10020 */  sw      $s1, 0x0020($sp)           
@@ -124,5 +142,3 @@ glabel func_808BA018
 /* 002F8 808BA1F8 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 002FC 808BA1FC 03E00008 */  jr      $ra                        
 /* 00300 808BA200 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
-
-

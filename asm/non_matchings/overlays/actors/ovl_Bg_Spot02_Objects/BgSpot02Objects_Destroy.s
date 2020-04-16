@@ -12,5 +12,3 @@ glabel BgSpot02Objects_Destroy
 /* 00290 808AC8F0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00294 808AC8F4 03E00008 */  jr      $ra                        
 /* 00298 808AC8F8 00000000 */  nop
-
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AE665C
+    .asciz "../z_en_reeba.c"
+    .balign 4
+
+glabel D_80AE666C
+    .asciz "../z_en_reeba.c"
+    .balign 4
+
+.text
 glabel EnReeba_Draw
 /* 016F4 80AE63C4 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 016F8 80AE63C8 AFB10048 */  sw      $s1, 0x0048($sp)           
@@ -109,4 +119,3 @@ glabel EnReeba_Draw
 /* 01884 80AE6554 8FB10048 */  lw      $s1, 0x0048($sp)           
 /* 01888 80AE6558 03E00008 */  jr      $ra                        
 /* 0188C 80AE655C 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
-

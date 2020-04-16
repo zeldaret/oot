@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A4CAC
+    .asciz "../z_bg_mori_idomizu.c"
+    .balign 4
+
+glabel D_808A4CC4
+    .asciz "../z_bg_mori_idomizu.c"
+    .balign 4
+
+glabel D_808A4CDC
+    .asciz "../z_bg_mori_idomizu.c"
+    .balign 4
+
+.text
 glabel func_808A4A64
 /* 00424 808A4A64 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00428 808A4A68 3C0E0001 */  lui     $t6, 0x0001                ## $t6 = 00010000
@@ -106,4 +120,3 @@ glabel func_808A4A64
 /* 005C4 808A4C04 00000000 */  nop
 /* 005C8 808A4C08 00000000 */  nop
 /* 005CC 808A4C0C 00000000 */  nop
-

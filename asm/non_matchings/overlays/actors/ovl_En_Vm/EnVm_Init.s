@@ -99,5 +99,3 @@ glabel EnVm_Init
 /* 0016C 80B2D5CC 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 00170 80B2D5D0 03E00008 */  jr      $ra                        
 /* 00174 80B2D5D4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

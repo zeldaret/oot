@@ -8,5 +8,3 @@ glabel BgBreakwall_Update
 /* 009EC 808705CC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 009F0 808705D0 03E00008 */  jr      $ra                        
 /* 009F4 808705D4 00000000 */  nop
-
-

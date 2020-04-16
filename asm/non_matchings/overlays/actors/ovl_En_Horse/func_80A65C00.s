@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A6682C
+    .asciz "../z_en_horse.c"
+    .balign 4
+
+glabel D_80A6683C
+    .asciz "../z_en_horse.c"
+    .balign 4
+
+.text
 glabel func_80A65C00
 /* 0A910 80A65C00 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0A914 80A65C04 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
@@ -84,5 +94,3 @@ glabel func_80A65C00
 /* 0AA48 80A65D38 8FB00020 */  lw      $s0, 0x0020($sp)           
 /* 0AA4C 80A65D3C 03E00008 */  jr      $ra                        
 /* 0AA50 80A65D40 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

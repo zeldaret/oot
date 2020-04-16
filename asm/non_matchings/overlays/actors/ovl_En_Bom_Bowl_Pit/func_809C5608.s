@@ -1,3 +1,13 @@
+.rdata
+glabel D_809C5720
+    .asciz "[32m☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809C574C
+    .asciz "[32m☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_809C5608
 /* 007C8 809C5608 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 007CC 809C560C AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -40,5 +50,3 @@ glabel func_809C5608
 /* 0084C 809C568C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00850 809C5690 03E00008 */  jr      $ra                        
 /* 00854 809C5694 00000000 */  nop
-
-

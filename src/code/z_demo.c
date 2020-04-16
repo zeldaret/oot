@@ -99,14 +99,15 @@ void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     Input* pad1 = &globalCtx->state.input[0];
 
-    if (!~(pad1->padPressed | ~L_JPAD) && (csCtx->state == CS_STATE_IDLE) && (gSaveContext.scene_setup_index >= 4)) {
+    if (!~(pad1->press.in.button | ~L_JPAD) && (csCtx->state == CS_STATE_IDLE) &&
+        (gSaveContext.scene_setup_index >= 4)) {
         D_8015FCC8 = 0;
         gSaveContext.cutscene_index = 0xFFFD;
         gSaveContext.cutscene_trigger = 1;
     }
 
-    if (!~(pad1->padPressed | ~U_JPAD) && (csCtx->state == CS_STATE_IDLE) && (gSaveContext.scene_setup_index >= 4) &&
-        (D_8011D394 == 0)) {
+    if (!~(pad1->press.in.button | ~U_JPAD) && (csCtx->state == CS_STATE_IDLE) &&
+        (gSaveContext.scene_setup_index >= 4) && (D_8011D394 == 0)) {
         D_8015FCC8 = 1;
         gSaveContext.cutscene_index = 0xFFFD;
         gSaveContext.cutscene_trigger = 1;
@@ -443,15 +444,16 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
 
     if ((gSaveContext.game_mode != 0) && (gSaveContext.game_mode != 3) && (globalCtx->sceneNum != SCENE_SPOT00) &&
         (csCtx->frames > 20) &&
-        (!~(globalCtx->state.input[0].padPressed | ~A_BUTTON) || !~(globalCtx->state.input[0].padPressed | ~B_BUTTON) ||
-         !~(globalCtx->state.input[0].padPressed | ~START_BUTTON)) &&
+        (!~(globalCtx->state.input[0].press.in.button | ~A_BUTTON) ||
+         !~(globalCtx->state.input[0].press.in.button | ~B_BUTTON) ||
+         !~(globalCtx->state.input[0].press.in.button | ~START_BUTTON)) &&
         (gSaveContext.file_num != 0xFEDC) && (globalCtx->sceneLoadFlag == 0)) {
         Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         temp = 1;
     }
 
     if ((csCtx->frames == cmd->startFrame) || (temp != 0) ||
-        ((csCtx->frames > 20) && (!~(globalCtx->state.input[0].padPressed | ~START_BUTTON)) &&
+        ((csCtx->frames > 20) && (!~(globalCtx->state.input[0].press.in.button | ~START_BUTTON)) &&
          (gSaveContext.file_num != 0xFEDC))) {
         csCtx->state = CS_STATE_UNSKIPPABLE_EXEC;
         func_800F68BC(0);
@@ -1523,7 +1525,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
         return;
     }
 
-    if (!~(globalCtx->state.input[0].padPressed | ~R_JPAD)) {
+    if (!~(globalCtx->state.input[0].press.in.button | ~R_JPAD)) {
         csCtx->state = CS_STATE_UNSKIPPABLE_INIT;
         return;
     }

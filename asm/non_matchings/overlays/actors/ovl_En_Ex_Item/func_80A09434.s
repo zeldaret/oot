@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A09F8C
+    .asciz "\x1b[32m ☆☆☆☆☆ 母親ー？     ☆☆☆☆☆ %x\n\x1b[m"
+    .balign 4
+
+glabel D_80A09FBC
+    .asciz "\x1b[32m ☆☆☆☆☆ 動いてねー？ ☆☆☆☆☆ %x\n\x1b[m"
+    .balign 4
+
+glabel D_80A09FEC
+    .asciz "\x1b[32m ☆☆☆☆☆ さぁきえるぞ！ ☆☆☆☆☆ \n\x1b[m"
+    .balign 4
+
+.text
 glabel func_80A09434
 /* 00594 80A09434 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00598 80A09438 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -146,5 +160,3 @@ glabel func_80A09434
 /* 007A0 80A09640 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 007A4 80A09644 03E00008 */  jr      $ra                        
 /* 007A8 80A09648 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-

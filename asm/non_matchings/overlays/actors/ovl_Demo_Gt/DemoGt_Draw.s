@@ -1,3 +1,9 @@
+.rdata
+glabel D_80982A3C
+    .asciz "\x1b[31m描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m"
+    .balign 4
+
+.text
 glabel DemoGt_Draw
 /* 04EE8 80982558 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 04EEC 8098255C AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -29,4 +35,3 @@ glabel DemoGt_Draw
 /* 04F44 809825B4 00000000 */  nop
 /* 04F48 809825B8 00000000 */  nop
 /* 04F4C 809825BC 00000000 */  nop
-

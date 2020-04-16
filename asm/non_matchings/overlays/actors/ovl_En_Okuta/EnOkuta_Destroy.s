@@ -10,5 +10,3 @@ glabel EnOkuta_Destroy
 /* 00224 80AC0884 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00228 80AC0888 03E00008 */  jr      $ra                        
 /* 0022C 80AC088C 00000000 */  nop
-
-

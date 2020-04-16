@@ -1,26 +1,24 @@
 /*
  * File: z_bg_bom_guard.c
  * Overlay: Bg_Bom_Guard
- * Description:
+ * Description: Bombchu Bowling Alley Game
  */
 
 #include "z_bg_bom_guard.h"
 
 #include <vt.h>
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void BgBomGuard_Init(BgBomGuard* this, GlobalContext* globalCtx);
-static void BgBomGuard_Destroy(BgBomGuard* this, GlobalContext* globalCtx);
-static void BgBomGuard_Update(BgBomGuard* this, GlobalContext* globalCtx);
+void BgBomGuard_Init(BgBomGuard* this, GlobalContext* globalCtx);
+void BgBomGuard_Destroy(BgBomGuard* this, GlobalContext* globalCtx);
+void BgBomGuard_Update(BgBomGuard* this, GlobalContext* globalCtx);
 
-static void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx);
+void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Bom_Guard_InitVars = {
     ACTOR_BG_BOM_GUARD,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_BOWL,
     sizeof(BgBomGuard),
@@ -32,11 +30,11 @@ const ActorInit Bg_Bom_Guard_InitVars = {
 
 extern u32 D_06001C40;
 
-static void BgBomGuard_SetupAction(BgBomGuard* this, ActorFunc actionFunc) {
+void BgBomGuard_SetupAction(BgBomGuard* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-static void BgBomGuard_Init(BgBomGuard* this, GlobalContext* globalCtx) {
+void BgBomGuard_Init(BgBomGuard* this, GlobalContext* globalCtx) {
     s32 pad[2];
     Actor* thisx = &this->dyna.actor;
     s32 local_c = 0;
@@ -55,11 +53,11 @@ static void BgBomGuard_Init(BgBomGuard* this, GlobalContext* globalCtx) {
     BgBomGuard_SetupAction(this, func_8086E638);
 }
 
-static void BgBomGuard_Destroy(BgBomGuard* this, GlobalContext* globalCtx) {
+void BgBomGuard_Destroy(BgBomGuard* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {
+void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {
     Actor* it = globalCtx->actorCtx.actorList[ACTORTYPE_NPC].first;
     Actor* thisx = &this->dyna.actor;
 
@@ -83,6 +81,6 @@ static void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {
     }
 }
 
-static void BgBomGuard_Update(BgBomGuard* this, GlobalContext* globalCtx) {
+void BgBomGuard_Update(BgBomGuard* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }

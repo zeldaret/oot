@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80A6AFE8
+    .float 0.33333334
+glabel D_80A6AFEC
+    .float 0.20
+
+.text
 glabel func_80A695A4
 /* 001D4 80A695A4 8C820150 */  lw      $v0, 0x0150($a0)           ## 00000150
 /* 001D8 80A695A8 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
@@ -51,5 +58,3 @@ glabel func_80A695A4
 /* 0028C 80A6965C C422AF64 */  lwc1    $f2, %lo(D_80A6AF64)($at)  
 /* 00290 80A69660 03E00008 */  jr      $ra                        
 /* 00294 80A69664 46001006 */  mov.s   $f0, $f2                   
-
-

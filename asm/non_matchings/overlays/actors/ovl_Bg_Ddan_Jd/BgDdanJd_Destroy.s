@@ -12,5 +12,3 @@ glabel BgDdanJd_Destroy
 /* 000CC 80870B7C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000D0 80870B80 03E00008 */  jr      $ra                        
 /* 000D4 80870B84 00000000 */  nop
-
-

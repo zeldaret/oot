@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A3A200
+    .asciz "../z_en_geldB.c"
+    .balign 4
+
+glabel D_80A3A210
+    .asciz "../z_en_geldB.c"
+    .balign 4
+
+.text
 glabel EnGeldB_Draw
 /* 04788 80A39A98 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 0478C 80A39A9C AFBF004C */  sw      $ra, 0x004C($sp)
@@ -242,5 +252,3 @@ glabel EnGeldB_Draw
 /* 04B10 80A39E20 8FB40048 */  lw      $s4, 0x0048($sp)
 /* 04B14 80A39E24 03E00008 */  jr      $ra
 /* 04B18 80A39E28 27BD00D8 */  addiu   $sp, $sp, 0x00D8           ## $sp = 00000000
-
-

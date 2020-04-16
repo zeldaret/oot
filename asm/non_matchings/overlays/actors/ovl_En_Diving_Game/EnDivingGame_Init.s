@@ -1,3 +1,26 @@
+.rdata
+glabel D_809EF0F0
+    .asciz "[32m☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.balign 4
+
+glabel D_809EF120
+    .asciz "[32m☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.balign 4
+
+.late_rodata
+glabel D_809EF1AC
+    .float 0.01
+
+glabel D_809EF1B0
+ .word 0x3C54FDF3
+glabel D_809EF1B4
+ .word 0x3C656041
+
+.text
 glabel EnDivingGame_Init
 /* 00000 809ED870 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 809ED874 3C01C040 */  lui     $at, 0xC040                ## $at = C0400000
@@ -84,5 +107,3 @@ glabel EnDivingGame_Init
 /* 00128 809ED998 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 0012C 809ED99C 03E00008 */  jr      $ra
 /* 00130 809ED9A0 00000000 */  nop
-
-

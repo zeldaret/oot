@@ -67,5 +67,3 @@ glabel EnFdFire_Update
 /* 00724 80A0EBD4 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00728 80A0EBD8 03E00008 */  jr      $ra                        
 /* 0072C 80A0EBDC 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

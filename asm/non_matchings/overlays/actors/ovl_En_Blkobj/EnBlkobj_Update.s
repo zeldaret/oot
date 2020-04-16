@@ -8,5 +8,3 @@ glabel EnBlkobj_Update
 /* 002B8 809C2318 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002BC 809C231C 03E00008 */  jr      $ra                        
 /* 002C0 809C2320 00000000 */  nop
-
-

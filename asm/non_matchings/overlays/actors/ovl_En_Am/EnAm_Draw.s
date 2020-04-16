@@ -1,3 +1,17 @@
+.rdata
+glabel D_809B0160
+    .asciz "../z_en_am.c"
+    .balign 4
+
+glabel D_809B0170
+    .asciz "../z_en_am.c"
+    .balign 4
+
+.late_rodata
+glabel D_809B0184
+    .float 1.4
+
+.text
 glabel EnAm_Draw
 /* 01EC4 809AFDE4 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 01EC8 809AFDE8 AFB10038 */  sw      $s1, 0x0038($sp)           
@@ -96,4 +110,3 @@ glabel EnAm_Draw
 /* 02034 809AFF54 03E00008 */  jr      $ra                        
 /* 02038 809AFF58 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 0203C 809AFF5C 00000000 */  nop
-

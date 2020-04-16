@@ -1,3 +1,33 @@
+.rdata
+glabel D_8094AA60
+    .asciz "OooooooooooooooooooooooooooooooooCC\n"
+    .balign 4
+
+.late_rodata
+glabel D_8094B020
+    .float 0.3
+
+glabel D_8094B024
+    .float 0.4
+
+glabel jtbl_8094B028
+.word L80941618
+.word L80941470
+.word L80941494
+.word L809414CC
+.word L80941534
+.word L80941574
+.word L809415E4
+glabel D_8094B044
+    .float 0.03
+
+glabel D_8094B048
+    .float 0.05
+
+glabel D_8094B04C
+ .word 0x3F733333
+
+.text
 glabel func_80940D48
 /* 08078 80940D48 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 0807C 80940D4C AFBF0044 */  sw      $ra, 0x0044($sp)           
@@ -681,5 +711,3 @@ glabel L80941618
 /* 089F4 809416C4 8FB30040 */  lw      $s3, 0x0040($sp)           
 /* 089F8 809416C8 03E00008 */  jr      $ra                        
 /* 089FC 809416CC 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
-
-

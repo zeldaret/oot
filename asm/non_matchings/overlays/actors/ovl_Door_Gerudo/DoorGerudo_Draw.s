@@ -1,3 +1,21 @@
+.rdata
+glabel D_80994B80
+    .asciz "../z_door_gerudo.c"
+    .balign 4
+
+glabel D_80994B94
+    .asciz "../z_door_gerudo.c"
+    .balign 4
+
+glabel D_80994BA8
+    .asciz "../z_door_gerudo.c"
+    .balign 4
+
+.late_rodata
+glabel D_80994BC0
+    .float 0.01
+
+.text
 glabel DoorGerudo_Draw
 /* 00468 80994A48 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 0046C 80994A4C AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -66,4 +84,3 @@ glabel DoorGerudo_Draw
 /* 00564 80994B44 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00568 80994B48 00000000 */  nop
 /* 0056C 80994B4C 00000000 */  nop
-

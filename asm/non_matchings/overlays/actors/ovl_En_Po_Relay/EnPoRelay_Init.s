@@ -106,5 +106,3 @@ glabel EnPoRelay_Init
 /* 00178 80AD78B8 8FB00024 */  lw      $s0, 0x0024($sp)
 /* 0017C 80AD78BC 03E00008 */  jr      $ra
 /* 00180 80AD78C0 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

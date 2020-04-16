@@ -1,3 +1,25 @@
+.rdata
+glabel D_809BBC30
+    .asciz "../z_en_bb.c"
+    .balign 4
+
+glabel D_809BBC40
+    .asciz "../z_en_bb.c"
+    .balign 4
+
+glabel D_809BBC50
+    .asciz "../z_en_bb.c"
+    .balign 4
+
+.late_rodata
+glabel D_809BBCFC
+    .float 0.8
+glabel D_809BBD00
+    .float 0.0000958738019107841
+glabel D_809BBD04
+    .float 0.009999999776482582
+
+.text
 glabel EnBb_Draw
 /* 03264 809BB544 27BDFF38 */  addiu   $sp, $sp, 0xFF38           ## $sp = FFFFFF38
 /* 03268 809BB548 3C0F809C */  lui     $t7, %hi(D_809BBC18)       ## $t7 = 809C0000
@@ -345,4 +367,3 @@ glabel EnBb_Draw
 /* 03794 809BBA74 00000000 */  nop
 /* 03798 809BBA78 00000000 */  nop
 /* 0379C 809BBA7C 00000000 */  nop
-

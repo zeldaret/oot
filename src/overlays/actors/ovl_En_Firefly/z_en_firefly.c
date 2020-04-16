@@ -1,6 +1,5 @@
 #include "z_en_firefly.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00005005
 
 void EnFirefly_Init(EnFirefly* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnFirefly_Draw(EnFirefly* this, GlobalContext* globalCtx);
 const ActorInit En_Firefly_InitVars = {
     ACTOR_EN_FIREFLY,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_FIREFLY,
     sizeof(EnFirefly),

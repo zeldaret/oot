@@ -1,3 +1,9 @@
+.rdata
+glabel D_809ADDC0
+    .asciz "[36m Elf_Msg2_Actor_ct %04x\n\n[m"
+    .balign 4
+
+.text
 glabel ElfMsg2_Init
 /* 00184 809AD884 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00188 809AD888 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -59,5 +65,3 @@ glabel ElfMsg2_Init
 /* 00250 809AD950 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00254 809AD954 03E00008 */  jr      $ra                        
 /* 00258 809AD958 00000000 */  nop
-
-

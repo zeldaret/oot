@@ -1,3 +1,24 @@
+.rdata
+glabel D_808A4C40
+    .asciz "Error : バンク危険！(arg_data 0x%04x)(%s %d)\n"
+    .balign 4
+
+glabel D_808A4C70
+    .asciz "../z_bg_mori_idomizu.c"
+    .balign 4
+
+glabel D_808A4C88
+    .asciz "(森の神殿 井戸水)(arg_data 0x%04x)\n"
+    .balign 4
+
+.late_rodata
+glabel D_808A4CF4
+    .float 1.1
+
+glabel D_808A4CF8
+ .word 0xC4E38000, 0x00000000
+
+.text
 glabel BgMoriIdomizu_Init
 /* 0002C 808A466C 3C0E808A */  lui     $t6, %hi(D_808A4C10)       ## $t6 = 808A0000
 /* 00030 808A4670 85CE4C10 */  lh      $t6, %lo(D_808A4C10)($t6)  
@@ -93,5 +114,3 @@ glabel BgMoriIdomizu_Init
 /* 0016C 808A47AC 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00170 808A47B0 03E00008 */  jr      $ra                        
 /* 00174 808A47B4 00000000 */  nop
-
-

@@ -46,5 +46,3 @@ glabel EnYukabyun_Init
 /* 000A0 80B43A60 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 000A4 80B43A64 03E00008 */  jr      $ra                        
 /* 000A8 80B43A68 00000000 */  nop
-
-

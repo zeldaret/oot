@@ -1,3 +1,25 @@
+.rdata
+glabel D_808D1D5C
+    .asciz "FD DRAW START\n"
+    .balign 4
+
+glabel D_808D1D6C
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1D7C
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1D8C
+    .asciz "FD DRAW END\n"
+    .balign 4
+
+glabel D_808D1D9C
+    .asciz "FD DRAW END2\n"
+    .balign 4
+
+.text
 glabel BossFd_Draw
 /* 051DC 808CFF9C 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 051E0 808CFFA0 AFA40050 */  sw      $a0, 0x0050($sp)           
@@ -70,5 +92,3 @@ glabel BossFd_Draw
 /* 052D8 808D0098 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 052DC 808D009C 03E00008 */  jr      $ra                        
 /* 052E0 808D00A0 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

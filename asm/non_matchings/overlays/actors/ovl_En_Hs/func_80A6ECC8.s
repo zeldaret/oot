@@ -7,5 +7,3 @@ glabel func_80A6ECC8
 /* 0093C 80A6ECDC 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 00940 80A6ECE0 03E00008 */  jr      $ra                        
 /* 00944 80A6ECE4 ACC00000 */  sw      $zero, 0x0000($a2)         ## 00000000
-
-

@@ -29,5 +29,3 @@ glabel ObjHana_Update
 /* 001A4 80B93A04 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001A8 80B93A08 03E00008 */  jr      $ra                        
 /* 001AC 80B93A0C 00000000 */  nop
-
-

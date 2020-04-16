@@ -36,5 +36,3 @@ glabel func_80A43A88
 /* 00DCC 80A43AFC 3062FFFF */  andi    $v0, $v1, 0xFFFF           ## $v0 = 00003017
 /* 00DD0 80A43B00 03E00008 */  jr      $ra                        
 /* 00DD4 80A43B04 00000000 */  nop
-
-

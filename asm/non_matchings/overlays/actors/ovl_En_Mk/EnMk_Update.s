@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80AAD660
+    .float 0.025
+
+.text
 glabel EnMk_Update
 /* 009D0 80AAD2D0 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 009D4 80AAD2D4 AFB00028 */  sw      $s0, 0x0028($sp)           
@@ -162,5 +167,3 @@ glabel EnMk_Update
 /* 00C0C 80AAD50C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00C10 80AAD510 03E00008 */  jr      $ra                        
 /* 00C14 80AAD514 00000000 */  nop
-
-

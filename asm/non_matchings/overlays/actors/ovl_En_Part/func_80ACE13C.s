@@ -1,3 +1,21 @@
+.late_rodata
+glabel jtbl_80ACF2AC
+.word L80ACE2AC
+.word L80ACE56C
+.word L80ACE348
+.word L80ACE3E4
+.word L80ACE4A4
+.word L80ACE4A4
+.word L80ACE4A4
+.word L80ACE4A4
+.word L80ACE2AC
+.word L80ACE2AC
+.word L80ACE348
+.word L80ACE56C
+.word L80ACE56C
+.word L80ACE2AC
+
+.text
 glabel func_80ACE13C
 /* 0036C 80ACE13C 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 00370 80ACE140 3C0F80AD */  lui     $t7, %hi(D_80ACF1B0)       ## $t7 = 80AD0000
@@ -311,5 +329,3 @@ glabel L80ACE56C
 /* 007DC 80ACE5AC 8FB40060 */  lw      $s4, 0x0060($sp)           
 /* 007E0 80ACE5B0 03E00008 */  jr      $ra                        
 /* 007E4 80ACE5B4 27BD00A8 */  addiu   $sp, $sp, 0x00A8           ## $sp = 00000000
-
-

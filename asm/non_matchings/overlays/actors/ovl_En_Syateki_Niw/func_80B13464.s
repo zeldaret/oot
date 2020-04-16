@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B13740
+    .asciz "../z_en_syateki_niw.c"
+    .balign 4
+
+glabel D_80B13758
+    .asciz "../z_en_syateki_niw.c"
+    .balign 4
+
+glabel D_80B13770
+    .asciz "../z_en_syateki_niw.c"
+    .balign 4
+
+.text
 glabel func_80B13464
 /* 01B74 80B13464 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 01B78 80B13468 AFBF0054 */  sw      $ra, 0x0054($sp)           
@@ -121,4 +135,3 @@ glabel func_80B13464
 /* 01D44 80B13634 00000000 */  nop
 /* 01D48 80B13638 00000000 */  nop
 /* 01D4C 80B1363C 00000000 */  nop
-

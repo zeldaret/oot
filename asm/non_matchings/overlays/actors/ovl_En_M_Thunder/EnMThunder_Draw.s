@@ -1,3 +1,39 @@
+.rdata
+glabel D_80AA0490
+    .asciz "../z_en_m_thunder.c"
+    .balign 4
+
+glabel D_80AA04A4
+    .asciz "../z_en_m_thunder.c"
+    .balign 4
+
+glabel D_80AA04B8
+    .asciz "../z_en_m_thunder.c"
+    .balign 4
+
+glabel D_80AA04CC
+    .asciz "../z_en_m_thunder.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AA0514
+    .float 0.02
+
+glabel D_80AA0518
+ .word 0xBF333333
+glabel D_80AA051C
+ .word 0xBF19999A
+glabel D_80AA0520
+    .float -1.2
+
+glabel D_80AA0524
+ .word 0xBFE66666
+glabel D_80AA0528
+ .word 0xBFB33333
+glabel D_80AA052C
+    .float 0.85
+
+.text
 glabel EnMThunder_Draw
 /* 00D08 80A9FCE8 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 00D0C 80A9FCEC AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -471,4 +507,3 @@ glabel EnMThunder_Draw
 /* 01414 80AA03F4 03E00008 */  jr      $ra                        
 /* 01418 80AA03F8 00000000 */  nop
 /* 0141C 80AA03FC 00000000 */  nop
-

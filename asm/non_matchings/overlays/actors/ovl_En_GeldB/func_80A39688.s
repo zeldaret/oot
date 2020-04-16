@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A3A1E0
+    .asciz "../z_en_geldB.c"
+    .balign 4
+
+glabel D_80A3A1F0
+    .asciz "../z_en_geldB.c"
+    .balign 4
+
+.text
 glabel func_80A39688
 /* 04378 80A39688 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0437C 80A3968C AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -107,5 +117,3 @@ glabel func_80A39688
 /* 04508 80A39818 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 0450C 80A3981C 03E00008 */  jr      $ra                        
 /* 04510 80A39820 00000000 */  nop
-
-

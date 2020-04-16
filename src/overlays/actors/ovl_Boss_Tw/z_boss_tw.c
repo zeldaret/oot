@@ -1,6 +1,5 @@
 #include "z_boss_tw.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void BossTw_Init(BossTw* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BossTw_Draw(BossTw* this, GlobalContext* globalCtx);
 const ActorInit Boss_Tw_InitVars = {
     ACTOR_BOSS_TW,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_TW,
     sizeof(BossTw),

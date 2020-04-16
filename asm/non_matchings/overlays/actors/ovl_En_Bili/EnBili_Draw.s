@@ -1,3 +1,13 @@
+.rdata
+glabel D_809C1710
+    .asciz "../z_en_bili.c"
+    .balign 4
+
+glabel D_809C1720
+    .asciz "../z_en_bili.c"
+    .balign 4
+
+.text
 glabel EnBili_Draw
 /* 01BF8 809C1498 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 01BFC 809C149C AFBF002C */  sw      $ra, 0x002C($sp)
@@ -102,4 +112,3 @@ glabel EnBili_Draw
 /* 01D74 809C1614 03E00008 */  jr      $ra
 /* 01D78 809C1618 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 01D7C 809C161C 00000000 */  nop
-

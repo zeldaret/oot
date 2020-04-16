@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B937B0
+    .asciz "../z_obj_hamishi.c"
+    .balign 4
+
+glabel D_80B937C4
+    .asciz "../z_obj_hamishi.c"
+    .balign 4
+
+glabel D_80B937D8
+    .asciz "../z_obj_hamishi.c"
+    .balign 4
+
+.text
 glabel ObjHamishi_Draw
 /* 006B8 80B93648 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 006BC 80B9364C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -57,4 +71,3 @@ glabel ObjHamishi_Draw
 /* 00794 80B93724 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00798 80B93728 03E00008 */  jr      $ra                        
 /* 0079C 80B9372C 00000000 */  nop
-

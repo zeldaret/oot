@@ -4,44 +4,20 @@
  * Description: Spawns and manages the Anubis enemy
  */
 
-#include <ultra64.h>
-#include <global.h>
+#include "z_en_anubice_tag.h"
 
-#include <vt.h>
-
-// temp struct until we can reference other actors outside of their file
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x10E];
-    /* 0x025A */ s16 unk_25A;
-    /* 0x025C */ char unk_25C[0x2];
-    /* 0x025E */ s16 unk_25E;
-    /* 0x0260 */ s16 unk_260;
-    /* 0x0262 */ s16 unk_262;
-    /* 0x0264 */ char unk_264[0xB0];
-} EnAnubice; // size = 0x0314
-
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc actionFunc;
-    /* 0x0150 */ EnAnubice* anubis;
-    /* 0x0154 */ f32 triggerRange;
-} EnAnubiceTag; // size = 0x0158
-
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx);
-static void EnAnubiceTag_Destroy(EnAnubiceTag* this, GlobalContext* globalCtx);
-static void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
-static void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
-static void EnAnubiceTag_Update(EnAnubiceTag* this, GlobalContext* globalCtx);
-static void EnAnubiceTag_Draw(EnAnubiceTag* this, GlobalContext* globalCtx);
+void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx);
+void EnAnubiceTag_Destroy(EnAnubiceTag* this, GlobalContext* globalCtx);
+void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
+void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
+void EnAnubiceTag_Update(EnAnubiceTag* this, GlobalContext* globalCtx);
+void EnAnubiceTag_Draw(EnAnubiceTag* this, GlobalContext* globalCtx);
 
 const ActorInit En_Anubice_Tag_InitVars = {
     ACTOR_EN_ANUBICE_TAG,
     ACTORTYPE_SWITCH,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnAnubiceTag),
@@ -51,7 +27,7 @@ const ActorInit En_Anubice_Tag_InitVars = {
     (ActorFunc)EnAnubiceTag_Draw,
 };
 
-static void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     //"Anubis control tag generated"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
@@ -65,10 +41,10 @@ static void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx) {
     this->actionFunc = &EnAnubiceTag_SpawnAnubis;
 }
 
-static void EnAnubiceTag_Destroy(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_Destroy(EnAnubiceTag* this, GlobalContext* globalCtx) {
 }
 
-static void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
     this->anubis =
         Actor_SpawnAttached(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ANUBICE, this->actor.posRot.pos.x,
                             this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.rotTowardsLinkY, 0, 0);
@@ -78,7 +54,7 @@ static void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCt
     }
 }
 
-static void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
     EnAnubice* anubis;
     Vec3f offset;
 
@@ -116,11 +92,11 @@ static void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalC
     }
 }
 
-static void EnAnubiceTag_Update(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_Update(EnAnubiceTag* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-static void EnAnubiceTag_Draw(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_Draw(EnAnubiceTag* this, GlobalContext* globalCtx) {
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,

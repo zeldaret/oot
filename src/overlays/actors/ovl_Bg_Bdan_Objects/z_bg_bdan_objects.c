@@ -1,40 +1,38 @@
 /*
  * File: z_bg_bdan_objects.c
  * Overlay: ovl_Bg_Bdan_Objects
- * Description:
+ * Description: Lord Jabu-Jabu Objects
  */
 
 #include "z_bg_bdan_objects.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx);
-static void BgBdanObjects_Destroy(BgBdanObjects* this, GlobalContext* globalCtx);
-static void BgBdanObjects_Update(BgBdanObjects* this, GlobalContext* globalCtx);
-static void BgBdanObjects_Draw(BgBdanObjects* this, GlobalContext* globalCtx);
+void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx);
+void BgBdanObjects_Destroy(BgBdanObjects* this, GlobalContext* globalCtx);
+void BgBdanObjects_Update(BgBdanObjects* this, GlobalContext* globalCtx);
+void BgBdanObjects_Draw(BgBdanObjects* this, GlobalContext* globalCtx);
 
-static void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086C1A0(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086C55C(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086C5BC(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086C618(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086C6EC(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086C7D0(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086C868(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086C9A8(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086C9F0(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086CABC(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086CB10(BgBdanObjects* this, GlobalContext* globalCtx);
-static void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C1A0(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C55C(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C5BC(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C618(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C6EC(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C7D0(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C868(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C9A8(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086C9F0(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086CABC(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086CB10(BgBdanObjects* this, GlobalContext* globalCtx);
+void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Bdan_Objects_InitVars = {
     ACTOR_BG_BDAN_OBJECTS,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_BDAN_OBJECTS,
     sizeof(BgBdanObjects),
@@ -80,7 +78,7 @@ s32 BgBdanObjects_GetContactRu1(BgBdanObjects* this, s32 arg1) {
     }
 }
 
-static void BgBdanObjects_SetContactRu1(BgBdanObjects* this, s32 arg1) {
+void BgBdanObjects_SetContactRu1(BgBdanObjects* this, s32 arg1) {
     switch (arg1) {
         case 1:
             this->unk_1B8 = 2;
@@ -96,7 +94,7 @@ static void BgBdanObjects_SetContactRu1(BgBdanObjects* this, s32 arg1) {
     }
 }
 
-static void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
+void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     s16 pad;
     s32 localC = 0;
@@ -154,7 +152,7 @@ static void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, this, localC);
 }
 
-static void BgBdanObjects_Destroy(BgBdanObjects* this, GlobalContext* globalCtx) {
+void BgBdanObjects_Destroy(BgBdanObjects* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
@@ -163,7 +161,7 @@ static void BgBdanObjects_Destroy(BgBdanObjects* this, GlobalContext* globalCtx)
     }
 }
 
-static void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (BgBdanObjects_GetContactRu1(this, 0)) {
@@ -194,7 +192,7 @@ static void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086C1A0(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C1A0(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 500.0f, 0.5f, 7.5f,
                                 1.0f) < 0.1f) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
@@ -214,7 +212,7 @@ static void func_8086C1A0(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx) {
     s32 temp;
 
     if (this->unk_16A != 0) {
@@ -238,7 +236,7 @@ static void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     this->dyna.actor.velocity.y += 0.5f;
@@ -271,7 +269,7 @@ static void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086C55C(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C55C(BgBdanObjects* this, GlobalContext* globalCtx) {
     this->unk_16A -= 1;
 
     if (this->unk_16A == 0) {
@@ -282,7 +280,7 @@ static void func_8086C55C(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086C5BC(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C5BC(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
     }
@@ -297,7 +295,7 @@ static void func_8086C5BC(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086C618(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C618(BgBdanObjects* this, GlobalContext* globalCtx) {
     ActorCollider_Cylinder_Update(&this->dyna.actor, &this->collider);
     Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, &this->collider);
     if (Flags_GetClear(globalCtx, this->dyna.actor.room)) {
@@ -310,7 +308,7 @@ static void func_8086C618(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086C6EC(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C6EC(BgBdanObjects* this, GlobalContext* globalCtx) {
     s32 cond = Math_ApproxUpdateScaledS(&this->dyna.actor.shape.rot.y, this->dyna.actor.initPosRot.rot.y, 0x200);
     if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + -125.0f, 3.0f)) {
         if (cond) {
@@ -319,7 +317,7 @@ static void func_8086C6EC(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->dyna.actor)) {
         if (this->dyna.actor.xzDistanceFromLink < 120.0f) {
             this->actionFunc = (ActorFunc)func_8086C7D0;
@@ -328,7 +326,7 @@ static void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086C7D0(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C7D0(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 965.0f, 0.5f, 15.0f,
                                 0.2f) < 0.01f) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_A);
@@ -338,10 +336,10 @@ static void func_8086C7D0(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086C868(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C868(BgBdanObjects* this, GlobalContext* globalCtx) {
 }
 
-static void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
     }
@@ -373,14 +371,14 @@ static void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086C9A8(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C9A8(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->unk_168)) {
         this->unk_16A = 0x64;
         this->actionFunc = (ActorFunc)func_8086C9F0;
     }
 }
 
-static void func_8086C9F0(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086C9F0(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->unk_16A == 0) {
         if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 0.5f)) {
             Flags_UnsetSwitch(globalCtx, this->unk_168);
@@ -396,7 +394,7 @@ static void func_8086C9F0(BgBdanObjects* this, GlobalContext* globalCtx) {
     globalCtx->colCtx.stat.colHeader->waterBoxes[7].unk_02 = this->dyna.actor.posRot.pos.y;
 }
 
-static void func_8086CABC(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086CABC(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
     }
@@ -406,7 +404,7 @@ static void func_8086CABC(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086CB10(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086CB10(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->dyna.actor)) {
         Flags_SetSwitch(globalCtx, this->unk_168);
         this->unk_16A = 0x32;
@@ -416,7 +414,7 @@ static void func_8086CB10(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
+void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
     }
@@ -430,12 +428,12 @@ static void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-static void BgBdanObjects_Update(BgBdanObjects* this, GlobalContext* globalCtx) {
+void BgBdanObjects_Update(BgBdanObjects* this, GlobalContext* globalCtx) {
     Actor_SetHeight(&this->dyna.actor, 50.0f);
     this->actionFunc(this, globalCtx);
 }
 
-static void BgBdanObjects_Draw(BgBdanObjects* this, GlobalContext* globalCtx) {
+void BgBdanObjects_Draw(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.params == 0) {
         if (this->actionFunc == (ActorFunc)func_8086C054) {
             if (((this->dyna.actor.initPosRot.pos.y + -79.0f) - 5.0f) < this->dyna.actor.posRot.pos.y) {

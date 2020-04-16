@@ -1,3 +1,13 @@
+.rdata
+glabel D_80ACD7DC
+    .asciz "../z_en_owl.c"
+    .balign 4
+
+glabel D_80ACD7EC
+    .asciz "../z_en_owl.c"
+    .balign 4
+
+.text
 glabel EnOwl_Draw
 /* 03098 80ACCFB8 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0309C 80ACCFBC AFBF0024 */  sw      $ra, 0x0024($sp)
@@ -63,5 +73,3 @@ glabel EnOwl_Draw
 /* 0318C 80ACD0AC 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 03190 80ACD0B0 03E00008 */  jr      $ra
 /* 03194 80ACD0B4 00000000 */  nop
-
-

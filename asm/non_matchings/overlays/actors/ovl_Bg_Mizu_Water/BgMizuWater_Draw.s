@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A05A8
+    .asciz "../z_bg_mizu_water.c"
+    .balign 4
+
+glabel D_808A05C0
+    .asciz "../z_bg_mizu_water.c"
+    .balign 4
+
+glabel D_808A05D8
+    .asciz "../z_bg_mizu_water.c"
+    .balign 4
+
+.text
 glabel BgMizuWater_Draw
 /* 00AE8 808A0398 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00AEC 808A039C AFB10038 */  sw      $s1, 0x0038($sp)           
@@ -93,4 +107,3 @@ glabel BgMizuWater_Draw
 /* 00C54 808A0504 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 00C58 808A0508 00000000 */  nop
 /* 00C5C 808A050C 00000000 */  nop
-

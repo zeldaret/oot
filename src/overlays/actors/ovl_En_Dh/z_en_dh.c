@@ -1,6 +1,5 @@
 #include "z_en_dh.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000415
 
 void EnDh_Init(EnDh* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnDh_Draw(EnDh* this, GlobalContext* globalCtx);
 const ActorInit En_Dh_InitVars = {
     ACTOR_EN_DH,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_DH,
     sizeof(EnDh),

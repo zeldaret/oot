@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A96A90
+    .asciz "../z_en_karebaba.c"
+    .balign 4
+
+glabel D_80A96AA4
+    .asciz "../z_en_karebaba.c"
+    .balign 4
+
+glabel D_80A96AB8
+    .asciz "../z_en_karebaba.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A96B60
+    .float 0.15
+
+.text
 glabel func_80A9644C
 /* 010FC 80A9644C 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 01100 80A96450 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -74,5 +92,3 @@ glabel func_80A9644C
 /* 0121C 80A9656C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
 /* 01220 80A96570 03E00008 */  jr      $ra                        
 /* 01224 80A96574 00000000 */  nop
-
-

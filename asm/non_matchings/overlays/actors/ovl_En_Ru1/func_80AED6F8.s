@@ -16,5 +16,3 @@ glabel func_80AED6F8
 .L80AED730:
 /* 02B20 80AED730 03E00008 */  jr      $ra                        
 /* 02B24 80AED734 00000000 */  nop
-
-

@@ -119,5 +119,3 @@ glabel EnGSwitch_Update
 /* 01110 80A22FD0 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 01114 80A22FD4 03E00008 */  jr      $ra                        
 /* 01118 80A22FD8 00000000 */  nop
-
-

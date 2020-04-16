@@ -68,5 +68,3 @@ glabel EnfHG_Init
 /* 000F0 80B62AB0 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 000F4 80B62AB4 03E00008 */  jr      $ra                        
 /* 000F8 80B62AB8 00000000 */  nop
-
-

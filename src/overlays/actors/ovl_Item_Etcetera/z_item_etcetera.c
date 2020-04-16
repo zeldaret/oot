@@ -1,6 +1,11 @@
+/*
+ * File: z_item_etcetera.c
+ * Overlay: ovl_Item_Etcetera
+ * Description: Collectible Items
+ */
+
 #include "z_item_etcetera.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ItemEtcetera_Init(ItemEtcetera* this, GlobalContext* globalCtx);
@@ -11,7 +16,6 @@ void ItemEtcetera_Update(ItemEtcetera* this, GlobalContext* globalCtx);
 const ActorInit Item_Etcetera_InitVars = {
     ACTOR_ITEM_ETCETERA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ItemEtcetera),

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A0B4D0
+    .asciz "../z_en_ex_ruppy.c"
+    .balign 4
+
+glabel D_80A0B4E4
+    .asciz "../z_en_ex_ruppy.c"
+    .balign 4
+
+glabel D_80A0B4F8
+    .asciz "../z_en_ex_ruppy.c"
+    .balign 4
+
+.text
 glabel EnExRuppy_Draw
 /* 00DCC 80A0B1DC 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00DD0 80A0B1E0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -81,4 +95,3 @@ glabel EnExRuppy_Draw
 /* 00F04 80A0B314 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00F08 80A0B318 00000000 */  nop
 /* 00F0C 80A0B31C 00000000 */  nop
-

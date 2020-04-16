@@ -6,19 +6,18 @@
 
 #include "z_bg_zg.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void BgZg_Init(BgZg* this, GlobalContext* globalCtx);
-static void BgZg_Destroy(BgZg* this, GlobalContext* globalCtx);
-static void BgZg_Update(BgZg* this, GlobalContext* globalCtx);
-static void BgZg_Draw(BgZg* this, GlobalContext* globalCtx);
-static void func_808C0C50(BgZg* this);
-static s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx);
-static s32 func_808C0CC8(BgZg* this);
-static void func_808C0CD4(BgZg* this, GlobalContext* globalCtx);
-static void func_808C0D08(BgZg* this, GlobalContext* globalCtx);
-static void func_808C0EEC(BgZg* this, GlobalContext* globalCtx);
+void BgZg_Init(BgZg* this, GlobalContext* globalCtx);
+void BgZg_Destroy(BgZg* this, GlobalContext* globalCtx);
+void BgZg_Update(BgZg* this, GlobalContext* globalCtx);
+void BgZg_Draw(BgZg* this, GlobalContext* globalCtx);
+void func_808C0C50(BgZg* this);
+s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx);
+s32 func_808C0CC8(BgZg* this);
+void func_808C0CD4(BgZg* this, GlobalContext* globalCtx);
+void func_808C0D08(BgZg* this, GlobalContext* globalCtx);
+void func_808C0EEC(BgZg* this, GlobalContext* globalCtx);
 
 static const ActorFunc actionFuncs[] = {
     (ActorFunc)func_808C0CD4,
@@ -36,7 +35,6 @@ static const ActorFunc drawFuncs[] = {
 const ActorInit Bg_Zg_InitVars = {
     ACTOR_BG_ZG,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_ZG,
     sizeof(BgZg),
@@ -49,33 +47,33 @@ const ActorInit Bg_Zg_InitVars = {
 extern u32 D_06001080;
 extern u32 D_060011D4;
 
-static void BgZg_Destroy(BgZg* this, GlobalContext* globalCtx) {
+void BgZg_Destroy(BgZg* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void func_808C0C50(BgZg* this) {
+void func_808C0C50(BgZg* this) {
     Audio_PlaySoundGeneral(NA_SE_EV_METALDOOR_OPEN, &this->dyna.actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-static s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx) {
+s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     s32 flag = (thisx->params >> 8) & 0xFF;
     return Flags_GetSwitch(globalCtx, flag);
 }
 
-static s32 func_808C0CC8(BgZg* this) {
+s32 func_808C0CC8(BgZg* this) {
     s32 flag = this->dyna.actor.params & 0xFF;
     return flag;
 }
 
-static void func_808C0CD4(BgZg* this, GlobalContext* globalCtx) {
+void func_808C0CD4(BgZg* this, GlobalContext* globalCtx) {
     if (func_808C0C98(this, globalCtx) != 0) {
         this->action = 1;
         func_808C0C50(this);
     }
 }
 
-static void func_808C0D08(BgZg* this, GlobalContext* globalCtx) {
+void func_808C0D08(BgZg* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     thisx->posRot.pos.y += (kREG(16) + 20.0f) * 1.2f;
@@ -84,7 +82,7 @@ static void func_808C0D08(BgZg* this, GlobalContext* globalCtx) {
     }
 }
 
-static void BgZg_Update(BgZg* this, GlobalContext* globalCtx) {
+void BgZg_Update(BgZg* this, GlobalContext* globalCtx) {
     s32 action = this->action;
 
     if (((action < 0) || (1 < action)) || (actionFuncs[action] == NULL)) {
@@ -95,7 +93,7 @@ static void BgZg_Update(BgZg* this, GlobalContext* globalCtx) {
     }
 }
 
-static void BgZg_Init(BgZg* this, GlobalContext* globalCtx) {
+void BgZg_Init(BgZg* this, GlobalContext* globalCtx) {
     s32 sp20[2];
     Actor* thisx = &this->dyna.actor;
     u32 local_c;
@@ -118,7 +116,7 @@ static void BgZg_Init(BgZg* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
+void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
 
     GraphicsContext* gfxCtx;
     GraphicsContext* tempgfxCtx; // oddly needs this to match
@@ -136,7 +134,7 @@ static void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_bg_zg.c", 320);
 }
 
-static void BgZg_Draw(BgZg* this, GlobalContext* globalCtx) {
+void BgZg_Draw(BgZg* this, GlobalContext* globalCtx) {
     s32 action = this->drawConfig;
 
     if (((action < 0) || (action > 0)) || drawFuncs[action] == NULL) {

@@ -1,3 +1,17 @@
+.rdata
+glabel D_809E2980
+    .asciz "../z_en_cs.c"
+    .balign 4
+
+glabel D_809E2990
+    .asciz "../z_en_cs.c"
+    .balign 4
+
+glabel D_809E29A0
+    .asciz "../z_en_cs.c"
+    .balign 4
+
+.text
 glabel EnCs_Draw
 /* 00CE4 809E2594 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00CE8 809E2598 AFB1002C */  sw      $s1, 0x002C($sp)
@@ -125,5 +139,3 @@ glabel EnCs_Draw
 /* 00EC8 809E2778 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 00ECC 809E277C 03E00008 */  jr      $ra
 /* 00ED0 809E2780 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

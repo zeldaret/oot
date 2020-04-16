@@ -1,3 +1,17 @@
+.rdata
+glabel D_80977D20
+    .asciz "../z_demo_ext.c"
+    .balign 4
+
+glabel D_80977D30
+    .asciz "../z_demo_ext.c"
+    .balign 4
+
+glabel D_80977D40
+    .asciz "../z_demo_ext.c"
+    .balign 4
+
+.text
 glabel func_80977950
 /* 005C0 80977950 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 005C4 80977954 AFBF003C */  sw      $ra, 0x003C($sp)
@@ -176,5 +190,3 @@ glabel func_80977950
 /* 00874 80977C04 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
 /* 00878 80977C08 03E00008 */  jr      $ra
 /* 0087C 80977C0C 00000000 */  nop
-
-

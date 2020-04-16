@@ -1,6 +1,5 @@
 #include <global.h>
 #include <vt.h>
-#include <padmgr.h>
 #include <sched.h>
 
 u32 gScreenWidth = SCREEN_WIDTH;

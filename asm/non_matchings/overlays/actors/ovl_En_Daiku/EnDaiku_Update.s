@@ -75,5 +75,3 @@ glabel EnDaiku_Update
 /* 0126C 809E3D9C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 01270 809E3DA0 03E00008 */  jr      $ra                        
 /* 01274 809E3DA4 00000000 */  nop
-
-

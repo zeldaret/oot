@@ -1,3 +1,29 @@
+.rdata
+glabel D_809848AC
+    .asciz "../z_demo_ik_inFace.c"
+    .balign 4
+
+glabel D_809848C4
+    .asciz "../z_demo_ik_inFace.c"
+    .balign 4
+
+glabel D_809848DC
+    .asciz "../z_demo_ik_inFace.c"
+    .balign 4
+
+glabel D_809848F4
+    .asciz "../z_demo_ik_inFace.c"
+    .balign 4
+
+glabel D_8098490C
+    .asciz "../z_demo_ik_inFace.c"
+    .balign 4
+
+glabel D_80984924
+    .asciz "../z_demo_ik_inFace.c"
+    .balign 4
+
+.text
 glabel func_809841F4
 /* 00EF4 809841F4 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00EF8 809841F8 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -142,5 +168,3 @@ glabel func_809841F4
 /* 01110 80984410 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 01114 80984414 03E00008 */  jr      $ra                        
 /* 01118 80984418 00000000 */  nop
-
-

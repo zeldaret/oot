@@ -46,5 +46,3 @@ glabel BgSpot03Taki_Init
 /* 003D4 808ADEB4 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 003D8 808ADEB8 03E00008 */  jr      $ra                        
 /* 003DC 808ADEBC 00000000 */  nop
-
-

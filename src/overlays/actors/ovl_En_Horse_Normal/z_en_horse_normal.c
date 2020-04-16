@@ -1,6 +1,5 @@
 #include "z_en_horse_normal.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnHorseNormal_Init(EnHorseNormal* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnHorseNormal_Draw(EnHorseNormal* this, GlobalContext* globalCtx);
 const ActorInit En_Horse_Normal_InitVars = {
     ACTOR_EN_HORSE_NORMAL,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HORSE_NORMAL,
     sizeof(EnHorseNormal),

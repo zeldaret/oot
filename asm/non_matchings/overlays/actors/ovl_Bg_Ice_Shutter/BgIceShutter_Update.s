@@ -8,5 +8,3 @@ glabel BgIceShutter_Update
 /* 00394 80891E54 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00398 80891E58 03E00008 */  jr      $ra                        
 /* 0039C 80891E5C 00000000 */  nop
-
-

@@ -1,3 +1,9 @@
+.rdata
+glabel D_809706F4
+    .asciz "\x1B[31mかつらが無い!!!!!!!!!!!!!!!!\n\x1B[m"
+    .balign 4
+
+.text
 glabel func_8096EEDC
 /* 01A2C 8096EEDC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 01A30 8096EEE0 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -33,5 +39,3 @@ glabel func_8096EEDC
 /* 01A90 8096EF40 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01A94 8096EF44 03E00008 */  jr      $ra                        
 /* 01A98 8096EF48 00000000 */  nop
-
-

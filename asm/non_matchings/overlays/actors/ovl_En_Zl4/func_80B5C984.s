@@ -1,3 +1,25 @@
+.late_rodata
+glabel jtbl_80B5FC10
+.word L80B5C9C0
+.word L80B5C9E4
+.word L80B5CA68
+.word L80B5CA88
+.word L80B5CAE0
+.word L80B5CB10
+.word L80B5CB70
+.word L80B5CBAC
+.word L80B5CC08
+.word L80B5CC28
+.word L80B5CC64
+.word L80B5CD18
+.word L80B5CD84
+.word L80B5CDCC
+.word L80B5CE30
+.word L80B5CE5C
+.word L80B5CE98
+.word L80B5CED4
+
+.text
 glabel func_80B5C984
 /* 011D4 80B5C984 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 011D8 80B5C988 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -410,5 +432,3 @@ glabel L80B5CED4
 /* 017B4 80B5CF64 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 017B8 80B5CF68 03E00008 */  jr      $ra                        
 /* 017BC 80B5CF6C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

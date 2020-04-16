@@ -1,3 +1,17 @@
+.rdata
+glabel D_8086FAD4
+    .asciz "../z_bg_bowl_wall.c"
+    .balign 4
+
+glabel D_8086FAE8
+    .asciz "../z_bg_bowl_wall.c"
+    .balign 4
+
+glabel D_8086FAFC
+    .asciz "../z_bg_bowl_wall.c"
+    .balign 4
+
+.text
 glabel BgBowlWall_Draw
 /* 00764 8086F8C4 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00768 8086F8C8 AFB10020 */  sw      $s1, 0x0020($sp)           
@@ -88,4 +102,3 @@ glabel BgBowlWall_Draw
 /* 008B4 8086FA14 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 008B8 8086FA18 00000000 */  nop
 /* 008BC 8086FA1C 00000000 */  nop
-

@@ -20,5 +20,3 @@ glabel EnHonotrap_Destroy
 /* 004A8 80A5A0D8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 004AC 80A5A0DC 03E00008 */  jr      $ra                        
 /* 004B0 80A5A0E0 00000000 */  nop
-
-

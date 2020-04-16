@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_809BBC8C
+    .float 0.2
+glabel D_809BBC90
+    .float 65535.0
+glabel D_809BBC94
+    .float 0.1
+
+.text
 glabel func_809B8EF4
 /* 00C14 809B8EF4 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00C18 809B8EF8 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
@@ -572,5 +581,3 @@ glabel func_809B8EF4
 /* 01400 809B96E0 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 01404 809B96E4 03E00008 */  jr      $ra
 /* 01408 809B96E8 00000000 */  nop
-
-

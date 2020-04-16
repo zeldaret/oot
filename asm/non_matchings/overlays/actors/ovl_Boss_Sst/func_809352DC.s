@@ -1,3 +1,29 @@
+.rdata
+glabel D_80937910
+    .asciz "../z_boss_sst.c"
+    .balign 4
+
+glabel D_80937920
+    .asciz "../z_boss_sst.c"
+    .balign 4
+
+glabel D_80937930
+    .asciz "../z_boss_sst.c"
+    .balign 4
+
+.late_rodata
+glabel D_80937A4C
+    .float 6.28318548203
+
+glabel D_80937A50
+    .float 6.28318548203
+
+glabel D_80937A54
+ .word 0x39C49BA6
+glabel D_80937A58
+ .word 0x3A449BA6
+
+.text
 glabel func_809352DC
 /* 08D0C 809352DC 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 08D10 809352E0 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -300,5 +326,3 @@ glabel func_809352DC
 /* 09188 80935758 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 0918C 8093575C 03E00008 */  jr      $ra
 /* 09190 80935760 27BD00A0 */  addiu   $sp, $sp, 0x00A0           ## $sp = 00000000
-
-

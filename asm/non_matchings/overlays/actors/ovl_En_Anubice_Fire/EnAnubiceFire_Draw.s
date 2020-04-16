@@ -1,3 +1,23 @@
+.rdata
+glabel D_809B3290
+    .asciz "../z_en_anubice_fire.c"
+    .balign 4
+
+glabel D_809B32A8
+    .asciz "../z_en_anubice_fire.c"
+    .balign 4
+
+glabel D_809B32C0
+    .asciz "../z_en_anubice_fire.c"
+    .balign 4
+
+.late_rodata
+glabel D_809B32EC
+    .float 0.2
+glabel D_809B32F0
+    .float 0.1
+
+.text
 glabel EnAnubiceFire_Draw
 /* 0094C 809B2EEC 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 00950 809B2EF0 AFB5005C */  sw      $s5, 0x005C($sp)           
@@ -184,4 +204,3 @@ glabel EnAnubiceFire_Draw
 /* 00C14 809B31B4 00000000 */  nop
 /* 00C18 809B31B8 00000000 */  nop
 /* 00C1C 809B31BC 00000000 */  nop
-

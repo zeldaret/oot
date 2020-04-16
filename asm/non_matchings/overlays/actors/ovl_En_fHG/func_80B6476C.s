@@ -1,3 +1,16 @@
+.rdata
+glabel D_80B65324
+    .asciz "REVISE !!\n"
+    .balign 4
+
+.late_rodata
+glabel D_80B65444
+    .float 1.3
+
+glabel D_80B65448
+ .word 0x454FD000
+
+.text
 glabel func_80B6476C
 /* 01DAC 80B6476C 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 01DB0 80B64770 AFB00040 */  sw      $s0, 0x0040($sp)
@@ -228,5 +241,3 @@ glabel func_80B6476C
 /* 020DC 80B64A9C 8FB00040 */  lw      $s0, 0x0040($sp)
 /* 020E0 80B64AA0 03E00008 */  jr      $ra
 /* 020E4 80B64AA4 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-

@@ -16,7 +16,6 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx);
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static ColliderCylinderInit cylinderInitData = {
@@ -28,7 +27,6 @@ static ColliderCylinderInit cylinderInitData = {
 const ActorInit En_Tubo_Trap_InitVars = {
     ACTOR_EN_TUBO_TRAP,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(EnTuboTrap),

@@ -32,5 +32,3 @@ glabel EnTa_Destroy
 /* 00848 80B142E8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0084C 80B142EC 03E00008 */  jr      $ra                        
 /* 00850 80B142F0 00000000 */  nop
-
-

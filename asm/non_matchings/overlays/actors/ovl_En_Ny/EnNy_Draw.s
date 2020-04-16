@@ -1,3 +1,21 @@
+.rdata
+glabel D_80ABE444
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+glabel D_80ABE454
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+glabel D_80ABE464
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+glabel D_80ABE474
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+.text
 glabel EnNy_Draw
 /* 01174 80ABDD24 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 01178 80ABDD28 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -203,5 +221,3 @@ glabel EnNy_Draw
 /* 01484 80ABE034 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 01488 80ABE038 03E00008 */  jr      $ra                        
 /* 0148C 80ABE03C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

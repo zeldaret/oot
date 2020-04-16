@@ -1,3 +1,27 @@
+.rdata
+glabel D_809CE420
+    .asciz "../z_en_choo.c"
+    .balign 4
+
+glabel D_809CE430
+    .asciz "../z_en_choo.c"
+    .balign 4
+
+glabel D_809CE440
+    .asciz "../z_en_choo.c"
+    .balign 4
+
+.late_rodata
+glabel D_809CE480
+    .float 9.58738019108e-05
+
+glabel D_809CE484
+    .float 9.58738019108e-05
+
+glabel D_809CE488
+    .float 9.58738019108e-05
+
+.text
 glabel func_809CD144
 /* 000D4 809CD144 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 000D8 809CD148 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -161,5 +185,3 @@ glabel func_809CD144
 /* 00340 809CD3B0 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 00344 809CD3B4 03E00008 */  jr      $ra                        
 /* 00348 809CD3B8 00000000 */  nop
-
-

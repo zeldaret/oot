@@ -242,7 +242,7 @@ s32 func_80096238(void* data) {
         osSyncPrintf("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
 
         time = osGetTime();
-        if (!func_8006E418(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
+        if (!Jpeg_Decode(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
             time = osGetTime() - time;
 
             // Translates to: "SUCCESS... I THINK. time = %6.3f ms"
@@ -375,8 +375,8 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
                 gfxCtx->polyOpa.p = spA8;
             }
 
-            // gSPLoadUcode(gfxCtx->polyOpa.p++, SysUcode_GetUcode(), SysUcode_GetUcodeData())?
-            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, SysUcode_GetUcode(), SysUcode_GetUcodeData(), 0x800);
+            // gSPLoadUcode(gfxCtx->polyOpa.p++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
+            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
         }
     }
 
@@ -481,8 +481,8 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
                 gfxCtx->polyOpa.p = spA8;
             }
 
-            // gSPLoadUcode(gfxCtx->polyOpa.p++, SysUcode_GetUcode(), SysUcode_GetUcodeData())?
-            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, SysUcode_GetUcode(), SysUcode_GetUcodeData(), 0x800);
+            // gSPLoadUcode(gfxCtx->polyOpa.p++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
+            gSPLoadUcodeEx(gfxCtx->polyOpa.p++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
         }
     }
 

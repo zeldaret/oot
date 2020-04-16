@@ -1,3 +1,21 @@
+.rdata
+glabel D_809828A0
+    .asciz "../z_demo_gt_part4_2.c"
+    .balign 4
+
+glabel D_809828B8
+    .asciz "../z_demo_gt_part4_2.c"
+    .balign 4
+
+glabel D_809828D0
+    .asciz "../z_demo_gt_part4_2.c"
+    .balign 4
+
+.late_rodata
+glabel D_80982B2C
+    .float 9.58738019108e-05
+
+.text
 glabel func_80981694
 /* 04024 80981694 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 04028 80981698 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -139,5 +157,3 @@ glabel func_80981694
 /* 04228 80981898 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 0422C 8098189C 03E00008 */  jr      $ra                        
 /* 04230 809818A0 00000000 */  nop
-
-

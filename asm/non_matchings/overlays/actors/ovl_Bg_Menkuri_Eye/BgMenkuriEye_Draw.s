@@ -1,3 +1,17 @@
+.rdata
+glabel D_8089C0D0
+    .asciz "../z_bg_menkuri_eye.c"
+    .balign 4
+
+glabel D_8089C0E8
+    .asciz "../z_bg_menkuri_eye.c"
+    .balign 4
+
+glabel D_8089C100
+	.asciz "../z_bg_menkuri_eye.c"
+	.balign 4
+
+.text
 glabel BgMenkuriEye_Draw
 /* 00270 8089BEE0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00274 8089BEE4 AFBF001C */  sw      $ra, 0x001C($sp)
@@ -103,4 +117,3 @@ glabel BgMenkuriEye_Draw
 /* 003F4 8089C064 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 003F8 8089C068 00000000 */  nop
 /* 003FC 8089C06C 00000000 */  nop
-

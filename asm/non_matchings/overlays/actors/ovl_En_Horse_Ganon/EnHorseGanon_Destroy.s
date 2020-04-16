@@ -20,5 +20,3 @@ glabel EnHorseGanon_Destroy
 /* 00458 80A68AB8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0045C 80A68ABC 03E00008 */  jr      $ra                        
 /* 00460 80A68AC0 00000000 */  nop
-
-

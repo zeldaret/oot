@@ -12,5 +12,3 @@ glabel BgBreakwall_Destroy
 /* 001D4 8086FDB4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001D8 8086FDB8 03E00008 */  jr      $ra                        
 /* 001DC 8086FDBC 00000000 */  nop
-
-

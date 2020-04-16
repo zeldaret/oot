@@ -8,5 +8,3 @@ glabel MagicFire_Destroy
 /* 000C0 80B88E30 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000C4 80B88E34 03E00008 */  jr      $ra                        
 /* 000C8 80B88E38 00000000 */  nop
-
-

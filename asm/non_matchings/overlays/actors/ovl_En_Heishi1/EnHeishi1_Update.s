@@ -1,3 +1,18 @@
+.rdata
+glabel D_80A52C00
+    .asciz "[32m☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.late_rodata
+glabel D_80A52C38
+ .word 0x44098000
+glabel D_80A52C3C
+    .float 3.14159274101
+
+glabel D_80A52C40
+ .word 0xC079999A, 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel EnHeishi1_Update
 /* 0104C 80A5231C 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 01050 80A52320 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -210,5 +225,3 @@ glabel EnHeishi1_Update
 /* 01360 80A52630 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 01364 80A52634 03E00008 */  jr      $ra                        
 /* 01368 80A52638 00000000 */  nop
-
-

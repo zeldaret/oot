@@ -1,3 +1,61 @@
+.rdata
+glabel D_80B3AC18
+    .asciz "[35m☆☆☆☆☆ きょり %f\n[m"
+    .balign 4
+
+glabel D_80B3AC38
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B3AC3C
+    .asciz "[32m☆☆☆☆☆ 透明メッセージ君せっと %x\n[m"
+    .balign 4
+
+glabel D_80B3AC6C
+    .asciz "[33m☆☆☆☆☆ セーブ情報 	           %x\n[m"
+    .balign 4
+
+glabel D_80B3AC9C
+    .asciz "[35m☆☆☆☆☆ 指定メッセージ種類     %x\n[m"
+    .balign 4
+
+glabel D_80B3ACCC
+    .asciz "[36m☆☆☆☆☆ 実質メッセージ種類     %x\n[m"
+    .balign 4
+
+glabel D_80B3ACFC
+    .asciz "[32m☆☆☆☆☆ 指定範囲               %d\n[m"
+    .balign 4
+
+glabel D_80B3AD2C
+    .asciz "[33m☆☆☆☆☆ 処理範囲               %f\n[m"
+    .balign 4
+
+glabel D_80B3AD5C
+    .asciz "[35m☆☆☆☆☆ レンジは？ 		   %d\n[m"
+    .balign 4
+
+glabel D_80B3AD84
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B3AD88
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B3AD8C
+    .asciz "[35m ☆☆ 強制 ☆☆ \n[m"
+    .balign 4
+
+glabel D_80B3ADA8
+    .asciz "[31m ☆☆ ゲルドの修練場強制チェックのみ ☆☆ \n[m"
+    .balign 4
+
+glabel D_80B3ADDC
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel func_80B3A4F8
 /* 00628 80B3A4F8 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 0062C 80B3A4FC AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -182,5 +240,3 @@ glabel func_80B3A4F8
 /* 00894 80B3A764 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00898 80B3A768 03E00008 */  jr      $ra                        
 /* 0089C 80B3A76C 00000000 */  nop
-
-

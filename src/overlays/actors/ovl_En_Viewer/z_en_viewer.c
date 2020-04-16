@@ -1,6 +1,11 @@
+/*
+ * File: z_en_viewer.c
+ * Overlay: ovl_En_Viewer
+ * Description: Cutscene Actors
+ */
+
 #include "z_en_viewer.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnViewer_Init(EnViewer* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnViewer_Draw(EnViewer* this, GlobalContext* globalCtx);
 const ActorInit En_Viewer_InitVars = {
     ACTOR_EN_VIEWER,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnViewer),

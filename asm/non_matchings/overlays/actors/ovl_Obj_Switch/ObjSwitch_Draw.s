@@ -16,4 +16,3 @@ glabel ObjSwitch_Draw
 /* 019E4 80B9EBF4 00000000 */  nop
 /* 019E8 80B9EBF8 00000000 */  nop
 /* 019EC 80B9EBFC 00000000 */  nop
-

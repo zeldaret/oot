@@ -1,6 +1,5 @@
 #include "z_en_ge1.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnGe1_Init(EnGe1* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnGe1_Draw(EnGe1* this, GlobalContext* globalCtx);
 const ActorInit En_Ge1_InitVars = {
     ACTOR_EN_GE1,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_GE1,
     sizeof(EnGe1),

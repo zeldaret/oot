@@ -1,3 +1,17 @@
+.rdata
+glabel D_80AC9274
+    .asciz "%s[%d]:\x1b[32mズーム中！！\x1b[m\n"
+    .balign 4
+
+glabel D_80AC9294
+    .asciz "../z_en_oB1.c"
+    .balign 4
+
+glabel D_80AC92A4
+    .asciz "店主の依頼 ( %d )\n"
+    .balign 4
+
+.text
 glabel func_80AC5900
 /* 02C60 80AC5900 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 02C64 80AC5904 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -81,5 +95,3 @@ glabel func_80AC5900
 /* 02D7C 80AC5A1C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 02D80 80AC5A20 03E00008 */  jr      $ra                        
 /* 02D84 80AC5A24 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

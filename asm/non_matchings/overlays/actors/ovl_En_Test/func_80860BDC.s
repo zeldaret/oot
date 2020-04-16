@@ -11,11 +11,9 @@ glabel func_80860BDC
 /* 015B0 80860C00 240E000E */  addiu   $t6, $zero, 0x000E         ## $t6 = 0000000E
 /* 015B4 80860C04 3C058086 */  lui     $a1, %hi(func_80860C24)    ## $a1 = 80860000
 /* 015B8 80860C08 24A50C24 */  addiu   $a1, $a1, %lo(func_80860C24) ## $a1 = 80860C24
-/* 015BC 80860C0C 0C217D94 */  jal     func_8085F650
+/* 015BC 80860C0C 0C217D94 */  jal     EnTest_SetupAction
 /* 015C0 80860C10 A08E07C8 */  sb      $t6, 0x07C8($a0)           ## 000007C8
 /* 015C4 80860C14 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 015C8 80860C18 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 015CC 80860C1C 03E00008 */  jr      $ra
 /* 015D0 80860C20 00000000 */  nop
-
-

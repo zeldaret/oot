@@ -18,5 +18,3 @@ glabel BgHakaZou_Update
 /* 00FEC 808835AC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00FF0 808835B0 03E00008 */  jr      $ra                        
 /* 00FF4 808835B4 00000000 */  nop
-
-

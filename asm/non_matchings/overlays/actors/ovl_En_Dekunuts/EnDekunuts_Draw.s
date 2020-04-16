@@ -30,4 +30,3 @@ glabel EnDekunuts_Draw
 /* 015C4 809EAB24 03E00008 */  jr      $ra                        
 /* 015C8 809EAB28 00000000 */  nop
 /* 015CC 809EAB2C 00000000 */  nop
-

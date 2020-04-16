@@ -6,7 +6,6 @@
 
 #include "z_obj_comb.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx);
@@ -22,7 +21,6 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx);
 const ActorInit Obj_Comb_InitVars = {
     ACTOR_OBJ_COMB,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjComb),

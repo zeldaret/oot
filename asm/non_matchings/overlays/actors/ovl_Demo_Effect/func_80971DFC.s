@@ -1,3 +1,25 @@
+.rdata
+glabel D_809768FC
+    .asciz "0"
+    .balign 4
+
+glabel D_80976900
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976914
+    .asciz "[36m 縮むバージョン \n[m"
+    .balign 4
+
+glabel D_80976930
+    .asciz "[36m 通常 バージョン \n[m"
+    .balign 4
+
+.late_rodata
+glabel D_80976CE4
+    .float 1.7
+
+.text
 glabel func_80971DFC
 /* 00EAC 80971DFC 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00EB0 80971E00 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -144,5 +166,3 @@ glabel func_80971DFC
 /* 010AC 80971FFC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 010B0 80972000 03E00008 */  jr      $ra                        
 /* 010B4 80972004 00000000 */  nop
-
-

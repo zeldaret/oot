@@ -1,3 +1,13 @@
+.late_rodata
+glabel jtbl_80988A04
+.word L80987470
+.word L80987484
+.word L80987498
+.word L809874AC
+.word L809874C0
+.word 0x00000000, 0x00000000
+
+.text
 glabel DemoIm_Init
 /* 027EC 809873CC 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 027F0 809873D0 AFB10028 */  sw      $s1, 0x0028($sp)
@@ -81,5 +91,3 @@ glabel L809874C0
 /* 02908 809874E8 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 0290C 809874EC 03E00008 */  jr      $ra
 /* 02910 809874F0 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

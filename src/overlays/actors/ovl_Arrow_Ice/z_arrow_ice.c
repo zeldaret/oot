@@ -7,7 +7,6 @@
 #include "z_arrow_ice.h"
 #include "../ovl_En_Arrow/z_en_arrow.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx);
@@ -24,7 +23,6 @@ void ArrowIce_Hit(ArrowIce* this, GlobalContext* globalCtx);
 const ActorInit Arrow_Ice_InitVars = {
     ACTOR_ARROW_ICE,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ArrowIce),

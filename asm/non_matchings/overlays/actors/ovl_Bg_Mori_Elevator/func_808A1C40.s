@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808A23B8
+    .float 0.001
+
+.text
 glabel func_808A1C40
 /* 00440 808A1C40 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00444 808A1C44 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
@@ -47,5 +52,3 @@ glabel func_808A1C40
 /* 004E8 808A1CE8 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 004EC 808A1CEC 03E00008 */  jr      $ra                        
 /* 004F0 808A1CF0 00000000 */  nop
-
-

@@ -1,3 +1,35 @@
+.rdata
+glabel D_80A72850
+    .asciz "../z_en_hy.c"
+    .balign 4
+
+glabel D_80A72860
+    .asciz "../z_en_hy.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A72AA0
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71E38
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71E38
+.word L80A71D08
+.word L80A71D08
+
+.text
 glabel EnHy_Draw
 /* 02678 80A71C28 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 0267C 80A71C2C AFBF002C */  sw      $ra, 0x002C($sp)
@@ -165,4 +197,3 @@ glabel L80A71E38
 /* 028E4 80A71E94 00000000 */  nop
 /* 028E8 80A71E98 00000000 */  nop
 /* 028EC 80A71E9C 00000000 */  nop
-

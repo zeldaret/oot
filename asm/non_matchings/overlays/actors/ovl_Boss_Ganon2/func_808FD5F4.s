@@ -1,3 +1,100 @@
+.late_rodata
+glabel jtbl_8090DAB4
+.word L808FD644
+.word L808FD80C
+.word L808FD940
+.word L808FDB64
+.word L808FDC48
+.word L808FDD74
+.word L808FF810
+.word L808FF810
+.word L808FF810
+.word L808FF810
+.word L808FDDE8
+.word L808FDF70
+.word L808FE1C0
+.word L808FE1C0
+.word L808FE2E0
+.word L808FE4C0
+.word L808FE63C
+.word L808FE8E4
+.word L808FEA08
+.word L808FEAC8
+.word L808FEB70
+.word L808FECE8
+.word L808FED50
+.word L808FEF74
+.word L808FF150
+.word L808FF1F4
+.word L808FF330
+.word L808FF404
+.word L808FF51C
+.word L808FF678
+glabel D_8090DB2C
+ .word 0x44728000
+glabel D_8090DB30
+ .word 0x4487C000
+glabel D_8090DB34
+ .word 0x44728000
+glabel D_8090DB38
+ .word 0x4487C000
+glabel D_8090DB3C
+ .word 0x44728000
+glabel D_8090DB40
+ .word 0x4487C000
+glabel D_8090DB44
+    .float 1500.0
+
+glabel D_8090DB48
+ .word 0x4487C000
+glabel D_8090DB4C
+ .word 0x44728000
+glabel D_8090DB50
+ .word 0x4487C000
+glabel D_8090DB54
+ .word 0x44738000
+glabel D_8090DB58
+ .word 0x4487C000
+glabel D_8090DB5C
+ .word 0x44688000
+glabel D_8090DB60
+ .word 0x448D2000
+glabel D_8090DB64
+ .word 0x44A14000
+glabel D_8090DB68
+ .word 0x4487C000
+glabel D_8090DB6C
+ .word 0x4487C000
+glabel D_8090DB70
+ .word 0x4487C000
+glabel D_8090DB74
+ .word 0x4487C000
+glabel D_8090DB78
+ .word 0x448C2000
+glabel D_8090DB7C
+ .word 0x447C4000
+glabel D_8090DB80
+    .float 7000.0
+
+glabel D_8090DB84
+ .word 0x448A4000
+glabel D_8090DB88
+ .word 0x4487C000
+glabel D_8090DB8C
+ .word 0x44EBC000
+glabel D_8090DB90
+ .word 0x4487C000
+glabel D_8090DB94
+ .word 0x44896000
+glabel D_8090DB98
+    .float 0.8
+
+glabel D_8090DB9C
+ .word 0x44896000
+glabel D_8090DBA0
+ .word 0x4487C000
+
+.text
 glabel func_808FD5F4
 /* 006B4 808FD5F4 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 006B8 808FD5F8 AFBF003C */  sw      $ra, 0x003C($sp)
@@ -2360,5 +2457,3 @@ glabel L808FF810
 /* 0294C 808FF88C 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 02950 808FF890 03E00008 */  jr      $ra
 /* 02954 808FF894 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

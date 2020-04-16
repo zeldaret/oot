@@ -1,18 +1,30 @@
+/*
+ * File: z_bg_bombwall.c
+ * Overlay: ovl_Bg_Bombwall
+ * Description: 2D Bombable Wall
+ */
+
 #include "z_bg_bombwall.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00400000
 
 void BgBombwall_Init(BgBombwall* this, GlobalContext* globalCtx);
 void BgBombwall_Destroy(BgBombwall* this, GlobalContext* globalCtx);
 void BgBombwall_Update(BgBombwall* this, GlobalContext* globalCtx);
 void BgBombwall_Draw(BgBombwall* this, GlobalContext* globalCtx);
+void func_8086E7D0(BgBombwall* this, GlobalContext* globalCtx);
+void func_8086EAC0(BgBombwall* this, GlobalContext* globalCtx);
+void func_8086EB5C(BgBombwall* this, GlobalContext* globalCtx);
+void func_8086ED50(BgBombwall* this, GlobalContext* globalCtx);
+void func_8086ED70(BgBombwall* this, GlobalContext* globalCtx);
+void func_8086EDFC(BgBombwall* this, GlobalContext* globalCtx);
+void func_8086EE40(BgBombwall* this, GlobalContext* globalCtx);
+void func_8086EE94(BgBombwall* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Bombwall_InitVars = {
     ACTOR_BG_BOMBWALL,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(BgBombwall),

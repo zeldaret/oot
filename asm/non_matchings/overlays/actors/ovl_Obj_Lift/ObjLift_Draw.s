@@ -11,4 +11,3 @@ glabel ObjLift_Draw
 /* 008C4 80B96994 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 008C8 80B96998 03E00008 */  jr      $ra                        
 /* 008CC 80B9699C 00000000 */  nop
-

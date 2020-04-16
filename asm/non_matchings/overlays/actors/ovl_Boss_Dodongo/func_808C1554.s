@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808CA640
+ .word 0x3E490FDB
+
+.text
 glabel func_808C1554
 /* 003C4 808C1554 44862000 */  mtc1    $a2, $f4                   ## $f4 = 0.00
 /* 003C8 808C1558 3C014248 */  lui     $at, 0x4248                ## $at = 42480000
@@ -163,5 +168,3 @@ glabel func_808C1554
 /* 0062C 808C17BC 8FB30030 */  lw      $s3, 0x0030($sp)           
 /* 00630 808C17C0 03E00008 */  jr      $ra                        
 /* 00634 808C17C4 27BD1060 */  addiu   $sp, $sp, 0x1060           ## $sp = 00000000
-
-

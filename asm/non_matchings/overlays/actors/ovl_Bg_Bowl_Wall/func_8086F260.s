@@ -1,3 +1,13 @@
+.rdata
+glabel D_8086FAD0
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_8086FB10
+    .float 2.990000009536743
+
+.text
 glabel func_8086F260
 /* 00100 8086F260 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 00104 8086F264 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -129,5 +139,3 @@ glabel func_8086F260
 /* 002D4 8086F434 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 002D8 8086F438 03E00008 */  jr      $ra                        
 /* 002DC 8086F43C 00000000 */  nop
-
-

@@ -7,7 +7,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-static void Opening_SetNextGameState(OpeningContext* this) {
+void Opening_SetNextGameState(OpeningContext* this) {
     gSaveContext.game_mode = 1;
     this->state.running = false;
     gSaveContext.link_age = 0;
@@ -17,10 +17,10 @@ static void Opening_SetNextGameState(OpeningContext* this) {
     SET_NEXT_GAMESTATE(&this->state, func_800BCA64, GlobalContext);
 }
 
-static void func_80803C5C(OpeningContext* this) {
+void func_80803C5C(OpeningContext* this) {
 }
 
-static void Opening_Update(OpeningContext* this) {
+void Opening_Update(OpeningContext* this) {
     func_80095248(this->state.gfxCtx, 0, 0, 0);
     Opening_SetNextGameState(this);
     func_80803C5C(this);

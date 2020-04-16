@@ -126,7 +126,6 @@ glabel D_801454DC
     .balign 4
 
 .text
-
 glabel Graph_Update
 /* B3D378 800C61D8 27BDFF38 */  addiu $sp, $sp, -0xc8
 /* B3D37C 800C61DC AFBF001C */  sw    $ra, 0x1c($sp)

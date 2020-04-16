@@ -13,5 +13,3 @@ glabel EnDoor_Destroy
 .L809FC414:
 /* 00244 809FC414 03E00008 */  jr      $ra                        
 /* 00248 809FC418 00000000 */  nop
-
-

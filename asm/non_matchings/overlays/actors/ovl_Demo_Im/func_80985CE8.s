@@ -1,3 +1,13 @@
+.rdata
+glabel D_80988810
+    .asciz "../z_demo_im_inKenjyanomaDemo02.c"
+    .balign 4
+
+glabel D_80988834
+    .asciz "../z_demo_im_inKenjyanomaDemo02.c"
+    .balign 4
+
+.text
 glabel func_80985CE8
 /* 01108 80985CE8 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 0110C 80985CEC AFBF002C */  sw      $ra, 0x002C($sp)
@@ -93,5 +103,3 @@ glabel func_80985CE8
 /* 01274 80985E54 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 01278 80985E58 03E00008 */  jr      $ra
 /* 0127C 80985E5C 00000000 */  nop
-
-

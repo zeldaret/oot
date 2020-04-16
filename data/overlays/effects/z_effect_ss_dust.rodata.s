@@ -16,21 +16,37 @@ glabel D_809A2A84
     .balign 4
 
 glabel D_809A2A98
- .word 0x3B23D70A
+    .float 0.0025
+    .balign 4
+
 glabel D_809A2A9C
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_809A2AA0
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_809A2AA4
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_809A2AA8
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_809A2AAC
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_809A2AB0
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_809A2AB4
- .word 0x3ECCCCCD
+    .float 0.4
+    .balign 4
+
 glabel D_809A2AB8
  .word 0x3E4CCCCD, 0x00000000
 

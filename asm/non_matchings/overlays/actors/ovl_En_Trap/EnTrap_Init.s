@@ -261,5 +261,3 @@ glabel EnTrap_Init
 /* 003AC 80B24A0C D7B40020 */  ldc1    $f20, 0x0020($sp)          
 /* 003B0 80B24A10 03E00008 */  jr      $ra                        
 /* 003B4 80B24A14 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

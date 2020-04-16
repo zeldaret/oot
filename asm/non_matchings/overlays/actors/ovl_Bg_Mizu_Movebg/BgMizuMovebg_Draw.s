@@ -1,3 +1,17 @@
+.rdata
+glabel D_8089EBC0
+    .asciz "../z_bg_mizu_movebg.c"
+    .balign 4
+
+glabel D_8089EBD8
+    .asciz "../z_bg_mizu_movebg.c"
+    .balign 4
+
+glabel D_8089EBF0
+    .asciz "../z_bg_mizu_movebg.c"
+    .balign 4
+
+.text
 glabel BgMizuMovebg_Draw
 /* 00C00 8089E830 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00C04 8089E834 AFB10048 */  sw      $s1, 0x0048($sp)           
@@ -188,4 +202,3 @@ glabel BgMizuMovebg_Draw
 /* 00EE4 8089EB14 8FB10048 */  lw      $s1, 0x0048($sp)           
 /* 00EE8 8089EB18 03E00008 */  jr      $ra                        
 /* 00EEC 8089EB1C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-

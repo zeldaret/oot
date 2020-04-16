@@ -23,4 +23,3 @@ glabel EnHs2_Draw
 /* 004D4 80A6F474 03E00008 */  jr      $ra
 /* 004D8 80A6F478 00000000 */  nop
 /* 004DC 80A6F47C 00000000 */  nop
-

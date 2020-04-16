@@ -7,7 +7,6 @@
 #include "z_arrow_fire.h"
 #include "../ovl_En_Arrow/z_en_arrow.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void ArrowFire_Init(ArrowFire* this, GlobalContext* globalCtx);
@@ -24,7 +23,6 @@ void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx);
 const ActorInit Arrow_Fire_InitVars = {
     ACTOR_ARROW_FIRE,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ArrowFire),

@@ -119,5 +119,3 @@ glabel EnZl4_Init
 /* 007AC 80B5BF5C 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 007B0 80B5BF60 03E00008 */  jr      $ra
 /* 007B4 80B5BF64 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

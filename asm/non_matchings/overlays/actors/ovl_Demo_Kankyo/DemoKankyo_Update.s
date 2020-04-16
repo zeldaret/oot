@@ -8,5 +8,3 @@ glabel DemoKankyo_Update
 /* 00B20 809899A0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00B24 809899A4 03E00008 */  jr      $ra                        
 /* 00B28 809899A8 00000000 */  nop
-
-

@@ -1,3 +1,65 @@
+.rdata
+glabel D_80A9504C
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A95060
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A95074
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A95088
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A9509C
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A950B0
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A95108
+    .float 3.14159274101
+
+glabel D_80A9510C
+    .float 3.14159274101
+
+glabel D_80A95110
+    .float 3.14159274101
+
+glabel D_80A95114
+    .float 3.14159274101
+
+glabel D_80A95118
+ .word 0x45898000
+glabel D_80A9511C
+ .word 0xC53B8000
+glabel D_80A95120
+ .word 0x3B343958
+glabel D_80A95124
+    .float 0.01
+
+glabel D_80A95128
+ .word 0xBF20D97C
+glabel D_80A9512C
+    .float 3.14159274101
+
+glabel D_80A95130
+    .float 3.14159274101
+
+glabel D_80A95134
+    .float 3.14159274101
+
+glabel D_80A95138
+    .float 3.14159274101
+
+.text
 glabel EnKanban_Draw
 /* 01BE8 80A93B88 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 01BEC 80A93B8C AFB00014 */  sw      $s0, 0x0014($sp)           
@@ -593,4 +655,3 @@ glabel EnKanban_Draw
 /* 024C4 80A94464 00000000 */  nop
 /* 024C8 80A94468 00000000 */  nop
 /* 024CC 80A9446C 00000000 */  nop
-

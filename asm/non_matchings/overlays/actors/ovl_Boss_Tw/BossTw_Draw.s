@@ -1,3 +1,17 @@
+.rdata
+glabel D_8094AC28
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AC38
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+.late_rodata
+glabel D_8094B06C
+ .word 0x458FC000
+
+.text
 glabel BossTw_Draw
 /* 0A5A4 80943274 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 0A5A8 80943278 AFBF0044 */  sw      $ra, 0x0044($sp)
@@ -458,5 +472,3 @@ glabel BossTw_Draw
 /* 0AC74 80943944 8FB20040 */  lw      $s2, 0x0040($sp)
 /* 0AC78 80943948 03E00008 */  jr      $ra
 /* 0AC7C 8094394C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

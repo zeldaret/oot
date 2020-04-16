@@ -15,5 +15,3 @@ glabel BgHakaShip_Destroy
 /* 00170 8087F270 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00174 8087F274 03E00008 */  jr      $ra                        
 /* 00178 8087F278 00000000 */  nop
-
-

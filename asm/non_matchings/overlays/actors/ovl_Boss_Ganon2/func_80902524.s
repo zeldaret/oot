@@ -1,3 +1,13 @@
+.rdata
+glabel D_8090D6E8
+    .asciz "this->no_hit_time %d\n"
+    .balign 4
+
+glabel D_8090D700
+    .asciz "this->look_on %d\n"
+    .balign 4
+
+.text
 glabel func_80902524
 /* 055E4 80902524 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 055E8 80902528 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -211,5 +221,3 @@ glabel func_80902524
 /* 058D4 80902814 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 058D8 80902818 03E00008 */  jr      $ra                        
 /* 058DC 8090281C 00000000 */  nop
-
-

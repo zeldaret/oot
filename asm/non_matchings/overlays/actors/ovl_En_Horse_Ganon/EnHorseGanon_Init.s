@@ -86,5 +86,3 @@ glabel EnHorseGanon_Init
 /* 00408 80A68A68 8FB10020 */  lw      $s1, 0x0020($sp)
 /* 0040C 80A68A6C 03E00008 */  jr      $ra
 /* 00410 80A68A70 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

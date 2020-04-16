@@ -12,5 +12,3 @@ glabel func_80AC2D18
 /* 0009C 80AC2D3C 2402FFFF */  addiu   $v0, $zero, 0xFFFF         ## $v0 = FFFFFFFF
 /* 000A0 80AC2D40 03E00008 */  jr      $ra                        
 /* 000A4 80AC2D44 00000000 */  nop
-
-

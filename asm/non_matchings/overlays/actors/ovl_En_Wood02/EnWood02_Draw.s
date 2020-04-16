@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B3BFA0
+    .asciz "../z_en_wood02.c"
+    .balign 4
+
+glabel D_80B3BFB4
+    .asciz "../z_en_wood02.c"
+    .balign 4
+
+glabel D_80B3BFC8
+    .asciz "../z_en_wood02.c"
+    .balign 4
+
+glabel D_80B3BFDC
+    .asciz "../z_en_wood02.c"
+    .balign 4
+
+.text
 glabel EnWood02_Draw
 /* 00CA4 80B3BC14 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00CA8 80B3BC18 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -189,4 +207,3 @@ glabel EnWood02_Draw
 /* 00F64 80B3BED4 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 00F68 80B3BED8 03E00008 */  jr      $ra                        
 /* 00F6C 80B3BEDC 00000000 */  nop
-

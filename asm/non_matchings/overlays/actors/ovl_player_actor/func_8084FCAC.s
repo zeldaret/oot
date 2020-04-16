@@ -1,3 +1,9 @@
+.rdata
+glabel D_80855320
+    .asciz "DEBUG MODE"
+    .balign 4
+
+.text
 glabel func_8084FCAC
 /* 1DA9C 8084FCAC 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 1DAA0 8084FCB0 3C078086 */  lui     $a3, %hi(D_80858AB4)       ## $a3 = 80860000
@@ -199,5 +205,3 @@ glabel func_8084FCAC
 /* 1DD60 8084FF70 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 1DD64 8084FF74 03E00008 */  jr      $ra                        
 /* 1DD68 8084FF78 00000000 */  nop
-
-

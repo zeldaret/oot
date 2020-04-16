@@ -53,7 +53,7 @@ glabel func_80103010
 /* B7A244 801030A4 03333021 */  addu  $a2, $t9, $s3
 /* B7A248 801030A8 30C8FFFF */  andi  $t0, $a2, 0xffff
 /* B7A24C 801030AC 01003025 */  move  $a2, $t0
-/* B7A250 801030B0 0C0417D0 */  jal   func_80105F40
+/* B7A250 801030B0 0C0417D0 */  jal   osReadMempak
 /* B7A254 801030B4 02C03825 */   move  $a3, $s6
 /* B7A258 801030B8 50400004 */  beql  $v0, $zero, .L801030CC
 /* B7A25C 801030BC 8E440004 */   lw    $a0, 4($s2)

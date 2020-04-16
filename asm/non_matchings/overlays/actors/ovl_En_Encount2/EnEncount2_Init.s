@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A08B70
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A08B74
+    .asciz "[32m☆☆☆☆☆ デスマウンテンエンカウント２セットされました ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A08BC4
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A08BC8
+    .asciz "[32m☆☆☆☆☆ ガノンタワー脱出エンカウント２セットされました ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel EnEncount2_Init
 /* 00000 80A07990 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00004 80A07994 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -54,5 +72,3 @@ glabel EnEncount2_Init
 /* 000B0 80A07A40 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 000B4 80A07A44 03E00008 */  jr      $ra                        
 /* 000B8 80A07A48 00000000 */  nop
-
-

@@ -16,13 +16,21 @@ glabel D_80915150
     .balign 4
 
 glabel D_80915188
- .word 0x52554E20, 0x310A0000
+    .asciz "RUN 1\n"
+    .balign 4
+
 glabel D_80915190
- .word 0x52554E20, 0x320A0000
+    .asciz "RUN 2\n"
+    .balign 4
+
 glabel D_80915198
- .word 0x52554E20, 0x330A0000
+    .asciz "RUN 3\n"
+    .balign 4
+
 glabel D_809151A0
- .word 0x52554E20, 0x340A0000
+    .asciz "RUN 4\n"
+    .balign 4
+
 glabel D_809151A8
     .asciz "this->fwork[GND_END_FRAME] = %d\n"
     .balign 4
@@ -72,11 +80,15 @@ glabel D_80915324
     .balign 4
 
 glabel D_8091534C
- .word 0x4D4F5645, 0x20454E44, 0x0A000000
+    .asciz "MOVE END\n"
+    .balign 4
+
 glabel D_80915358
  .word 0x4620310A, 0x00000000
 glabel D_80915360
- .word 0x46203135, 0x0A000000
+    .asciz "F 15\n"
+    .balign 4
+
 glabel D_80915368
  .word 0x4620320A, 0x00000000
 glabel D_80915370
@@ -84,37 +96,51 @@ glabel D_80915370
     .balign 4
 
 glabel D_80915388
- .word 0x4D4F5645, 0x2050203D, 0x2025780A, 0x00000000
+    .asciz "MOVE P = %x\n"
+    .balign 4
+
 glabel D_80915398
     .asciz "STOP TIMER = %d ==============\n"
     .balign 4
 
 glabel D_809153B8
- .word 0x59502025, 0x660A0000
+    .asciz "YP %f\n"
+    .balign 4
+
 glabel D_809153C0
- .word 0x44524157, 0x2031310A, 0x00000000
+    .asciz "DRAW 11\n"
+    .balign 4
+
 glabel D_809153CC
     .asciz "EYE_COL %d\n"
     .balign 4
 
 glabel D_809153D8
- .word 0x44524157, 0x2032320A, 0x00000000
+    .asciz "DRAW 22\n"
+    .balign 4
+
 glabel D_809153E4
     .asciz "../z_boss_ganondrof.c"
     .balign 4
 
 glabel D_809153FC
- .word 0x44524157, 0x20454E44, 0x2025640A, 0x00000000
+    .asciz "DRAW END %d\n"
+    .balign 4
+
 glabel D_8091540C
  .word 0xC54F3000
 glabel D_80915410
  .word 0xC54F3000
 glabel D_80915414
- .word 0x3CF5C28F
+    .float 0.03
+    .balign 4
+
 glabel D_80915418
  .word 0x3F933333
 glabel D_8091541C
- .word 0x3F4CCCCD
+    .float 0.8
+    .balign 4
+
 glabel D_80915420
  .word 0xC54F3000
 glabel D_80915424
@@ -128,9 +154,13 @@ glabel D_80915430
 glabel D_80915434
  .word 0xBDA3D70A
 glabel D_80915438
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_8091543C
- .word 0x3FFEB852
+    .float 1.99000000954
+    .balign 4
+
 glabel D_80915440
  .word 0xBE4CCCCD
 glabel D_80915444
@@ -138,13 +168,21 @@ glabel D_80915444
 glabel D_80915448
  .word 0x4622F983
 glabel D_8091544C
- .word 0x461C4000
+    .float 10000.0
+    .balign 4
+
 glabel D_80915450
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80915454
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80915458
- .word 0x40490FDB
+    .float 3.14159274101
+    .balign 4
+
 glabel jtbl_8091545C
 .word L80912E00
 .word L80912FB4
@@ -153,15 +191,25 @@ glabel jtbl_8091545C
 .word L809134B4
 .word L8091352C
 glabel D_80915474
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80915478
- .word 0x3CA3D70A
+    .float 0.02
+    .balign 4
+
 glabel D_8091547C
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80915480
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80915484
- .word 0x3D4CCCCD
+    .float 0.05
+    .balign 4
+
 glabel D_80915488
  .word 0xC54F3000
 glabel D_8091548C
@@ -183,15 +231,23 @@ glabel D_809154A8
 glabel D_809154AC
  .word 0xBE4CCCCD
 glabel D_809154B0
- .word 0x3B03126F
+    .float 0.002
+    .balign 4
+
 glabel D_809154B4
  .word 0xC54F3000
 glabel D_809154B8
- .word 0x3B03126F
+    .float 0.002
+    .balign 4
+
 glabel D_809154BC
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_809154C0
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_809154C4
  .word func_809145BC
 .word func_809145BC

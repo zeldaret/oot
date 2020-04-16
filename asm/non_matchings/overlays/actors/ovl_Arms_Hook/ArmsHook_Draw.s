@@ -1,3 +1,28 @@
+.rdata
+glabel D_80865BC0
+    .asciz "../z_arms_hook.c"
+    .balign 4
+
+glabel D_80865BD4
+    .asciz "../z_arms_hook.c"
+    .balign 4
+
+glabel D_80865BE8
+    .asciz "../z_arms_hook.c"
+    .balign 4
+
+glabel D_80865BFC
+    .asciz "../z_arms_hook.c"
+    .balign 4
+
+.late_rodata
+glabel D_80865C14
+    .float 0.015
+
+glabel D_80865C18
+    .float 0.01
+
+.text
 glabel ArmsHook_Draw
 /* 00930 80865830 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00934 80865834 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -177,4 +202,3 @@ glabel ArmsHook_Draw
 /* 00BD4 80865AD4 00000000 */  nop
 /* 00BD8 80865AD8 00000000 */  nop
 /* 00BDC 80865ADC 00000000 */  nop
-

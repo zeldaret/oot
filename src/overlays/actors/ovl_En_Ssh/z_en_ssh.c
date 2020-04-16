@@ -1,6 +1,5 @@
 #include "z_en_ssh.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void EnSsh_Init(EnSsh* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnSsh_Draw(EnSsh* this, GlobalContext* globalCtx);
 const ActorInit En_Ssh_InitVars = {
     ACTOR_EN_SSH,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_SSH,
     sizeof(EnSsh),

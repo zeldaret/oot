@@ -1,6 +1,5 @@
 #include "z_bg_vb_sima.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgVbSima_Init(BgVbSima* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgVbSima_Draw(BgVbSima* this, GlobalContext* globalCtx);
 const ActorInit Bg_Vb_Sima_InitVars = {
     ACTOR_BG_VB_SIMA,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_FD,
     sizeof(BgVbSima),

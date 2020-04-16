@@ -163,5 +163,3 @@ glabel BgRelayObjects_Init
 /* 00230 808A9080 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00234 808A9084 03E00008 */  jr      $ra                        
 /* 00238 808A9088 00000000 */  nop
-
-

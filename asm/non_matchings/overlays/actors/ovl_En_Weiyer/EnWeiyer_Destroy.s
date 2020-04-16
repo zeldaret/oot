@@ -10,5 +10,3 @@ glabel EnWeiyer_Destroy
 /* 000E8 80B32378 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000EC 80B3237C 03E00008 */  jr      $ra                        
 /* 000F0 80B32380 00000000 */  nop
-
-

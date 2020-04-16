@@ -462,5 +462,3 @@ glabel EnElf_Draw
 /* 042D4 80A05F04 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 042D8 80A05F08 03E00008 */  jr      $ra
 /* 042DC 80A05F0C 00000000 */  nop
-
-

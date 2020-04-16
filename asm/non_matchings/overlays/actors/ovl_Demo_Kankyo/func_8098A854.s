@@ -1,3 +1,21 @@
+.rdata
+glabel D_8098C94C
+    .asciz "../z_demo_kankyo.c"
+    .balign 4
+
+glabel D_8098C960
+    .asciz "../z_demo_kankyo.c"
+    .balign 4
+
+glabel D_8098C974
+    .asciz "../z_demo_kankyo.c"
+    .balign 4
+
+glabel D_8098C988
+    .asciz "../z_demo_kankyo.c"
+    .balign 4
+
+.text
 glabel func_8098A854
 /* 019D4 8098A854 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 019D8 8098A858 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -83,5 +101,3 @@ glabel func_8098A854
 /* 01B18 8098A998 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 01B1C 8098A99C 03E00008 */  jr      $ra                        
 /* 01B20 8098A9A0 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

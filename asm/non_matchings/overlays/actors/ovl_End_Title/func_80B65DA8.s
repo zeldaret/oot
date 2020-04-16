@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B698B4
+    .asciz "../z_end_title.c"
+    .balign 4
+
+glabel D_80B698C8
+    .asciz "../z_end_title.c"
+    .balign 4
+
+.text
 glabel func_80B65DA8
 /* 00688 80B65DA8 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 0068C 80B65DAC AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -55,4 +65,3 @@ glabel func_80B65DA8
 /* 00754 80B65E74 03E00008 */  jr      $ra                        
 /* 00758 80B65E78 00000000 */  nop
 /* 0075C 80B65E7C 00000000 */  nop
-

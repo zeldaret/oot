@@ -1,3 +1,13 @@
+.rdata
+glabel D_8097BF90
+    .asciz "Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n"
+    .balign 4
+
+glabel D_8097BFC0
+    .asciz "Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n"
+    .balign 4
+
+.text
 glabel func_80978EE4
 /* 005B4 80978EE4 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 005B8 80978EE8 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -37,5 +47,3 @@ glabel func_80978EE4
 /* 00624 80978F54 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00628 80978F58 03E00008 */  jr      $ra                        
 /* 0062C 80978F5C 00000000 */  nop
-
-

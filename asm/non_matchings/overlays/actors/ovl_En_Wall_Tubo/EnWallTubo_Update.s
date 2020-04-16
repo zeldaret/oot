@@ -51,4 +51,3 @@ glabel EnWallTubo_Update
 /* 00524 80B2F314 00000000 */  nop
 /* 00528 80B2F318 00000000 */  nop
 /* 0052C 80B2F31C 00000000 */  nop
-
