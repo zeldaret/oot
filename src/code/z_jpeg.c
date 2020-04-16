@@ -276,26 +276,26 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
 
     switch (ctx.dhtCount) {
         case 1: {
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], &workBuff->codesLenghts, &workBuff->codes,
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], &workBuff->codesLengths, &workBuff->codes,
                                               4)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
             break;
         }
         case 4: {
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], &workBuff->codesLenghts, &workBuff->codes,
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], &workBuff->codesLengths, &workBuff->codes,
                                               1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[1], &hTables[1], &workBuff->codesLenghts, &workBuff->codes,
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[1], &hTables[1], &workBuff->codesLengths, &workBuff->codes,
                                               1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[2], &hTables[2], &workBuff->codesLenghts, &workBuff->codes,
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[2], &hTables[2], &workBuff->codesLengths, &workBuff->codes,
                                               1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[3], &hTables[3], &workBuff->codesLenghts, &workBuff->codes,
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[3], &hTables[3], &workBuff->codesLengths, &workBuff->codes,
                                               1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }

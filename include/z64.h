@@ -1499,7 +1499,7 @@ typedef struct {
     /* 0x000 */ JpegTaskData taskData;
     /* 0x020 */ char yieldData[0x200];
     /* 0x220 */ JpegQuantizationTable qTables[3];
-    /* 0x3A0 */ u8 codesLenghts[0x110];
+    /* 0x3A0 */ u8 codesLengths[0x110];
     /* 0x4B0 */ u16 codes[0x108];
     /* 0x6C0 */ u16 unk_6C0[4][0x180];
 } JpegWork; // size = 0x12C0
