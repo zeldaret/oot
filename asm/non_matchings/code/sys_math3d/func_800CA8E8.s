@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_801464D4
+    .float 0.008
+
+glabel D_801464D8
+    .float 0.008
+
+.text
 glabel func_800CA8E8
 /* B41A88 800CA8E8 C4900000 */  lwc1  $f16, ($a0)
 /* B41A8C 800CA8EC C4A40000 */  lwc1  $f4, ($a1)
@@ -109,9 +117,9 @@ glabel func_800CA8E8
 /* B41C30 800CAA90 46008005 */  abs.s $f0, $f16
 /* B41C34 800CAA94 E7B0007C */  swc1  $f16, 0x7c($sp)
 /* B41C38 800CAA98 460A003C */  c.lt.s $f0, $f10
-/* B41C3C 800CAA9C 00000000 */  nop   
+/* B41C3C 800CAA9C 00000000 */  nop
 /* B41C40 800CAAA0 45000003 */  bc1f  .L800CAAB0
-/* B41C44 800CAAA4 00000000 */   nop   
+/* B41C44 800CAAA4 00000000 */   nop
 /* B41C48 800CAAA8 10000038 */  b     .L800CAB8C
 /* B41C4C 800CAAAC 00001025 */   move  $v0, $zero
 .L800CAAB0:

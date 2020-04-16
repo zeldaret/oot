@@ -103,7 +103,7 @@ glabel func_8006199C
 /* AD8CB4 80061B14 8FBF0014 */  lw    $ra, 0x14($sp)
 /* AD8CB8 80061B18 27BD0018 */  addiu $sp, $sp, 0x18
 /* AD8CBC 80061B1C 03E00008 */  jr    $ra
-/* AD8CC0 80061B20 00000000 */   nop   
+/* AD8CC0 80061B20 00000000 */   nop
 
 /* AD8CC4 80061B24 27BDFFA8 */  addiu $sp, $sp, -0x58
 /* AD8CC8 80061B28 AFBF002C */  sw    $ra, 0x2c($sp)
@@ -131,7 +131,7 @@ glabel func_8006199C
 /* AD8D20 80061B80 314B0001 */  andi  $t3, $t2, 1
 /* AD8D24 80061B84 51600017 */  beql  $t3, $zero, .L80061BE4
 /* AD8D28 80061B88 8FBF002C */   lw    $ra, 0x2c($sp)
-/* AD8D2C 80061B8C 0C033FC5 */  jal   func_800CFF14
+/* AD8D2C 80061B8C 0C033FC5 */  jal   Math3D_CylinderOutCylinder
 /* AD8D30 80061B90 27A6004C */   addiu $a2, $sp, 0x4c
 /* AD8D34 80061B94 24010001 */  li    $at, 1
 /* AD8D38 80061B98 14410011 */  bne   $v0, $at, .L80061BE0
