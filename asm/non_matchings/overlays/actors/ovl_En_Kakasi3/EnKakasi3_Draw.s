@@ -21,4 +21,3 @@ glabel EnKakasi3_Draw
 /* 00FE4 80A91D04 00000000 */  nop
 /* 00FE8 80A91D08 00000000 */  nop
 /* 00FEC 80A91D0C 00000000 */  nop
-

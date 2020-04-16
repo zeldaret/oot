@@ -12,5 +12,3 @@ glabel BgSpot01Idohashira_Destroy
 /* 00438 808AB118 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0043C 808AB11C 03E00008 */  jr      $ra                        
 /* 00440 808AB120 00000000 */  nop
-
-

@@ -1,6 +1,11 @@
+/*
+ * File: z_en_horse_link_child.c
+ * Overlay: ovl_En_Horse_Link_Child
+ * Description: Young Epona
+ */
+
 #include "z_en_horse_link_child.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void EnHorseLinkChild_Init(EnHorseLinkChild* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnHorseLinkChild_Draw(EnHorseLinkChild* this, GlobalContext* globalCtx);
 const ActorInit En_Horse_Link_Child_InitVars = {
     ACTOR_EN_HORSE_LINK_CHILD,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HORSE_LINK_CHILD,
     sizeof(EnHorseLinkChild),

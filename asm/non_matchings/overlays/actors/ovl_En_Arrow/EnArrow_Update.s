@@ -93,5 +93,3 @@ glabel EnArrow_Update
 /* 00ED4 809B47F4 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 00ED8 809B47F8 03E00008 */  jr      $ra                        
 /* 00EDC 809B47FC 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-

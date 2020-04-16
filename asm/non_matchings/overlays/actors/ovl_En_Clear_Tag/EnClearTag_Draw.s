@@ -1,3 +1,56 @@
+.rdata
+glabel D_809DBFC0
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+glabel D_809DBFD4
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+glabel D_809DBFE8
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+glabel D_809DBFFC
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+glabel D_809DC010
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+glabel D_809DC024
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+glabel D_809DC038
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+.late_rodata
+glabel D_809DC110
+    .float 0.05
+
+glabel D_809DC114
+    .float 1.3
+
+glabel D_809DC118
+ .word 0x3F933333
+glabel D_809DC11C
+ .word 0x3EB33333
+glabel D_809DC120
+    .float 3.14159274101
+
+glabel D_809DC124
+    .float 3.14159274101
+
+glabel D_809DC128
+    .float 3.14159274101
+
+glabel D_809DC12C
+    .float 0.05
+
+.text
 glabel EnClearTag_Draw
 /* 01450 809D4A00 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 01454 809D4A04 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -394,5 +447,3 @@ glabel EnClearTag_Draw
 /* 01A48 809D4FF8 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 01A4C 809D4FFC 03E00008 */  jr      $ra                        
 /* 01A50 809D5000 27BD00A0 */  addiu   $sp, $sp, 0x00A0           ## $sp = 00000000
-
-

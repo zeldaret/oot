@@ -220,5 +220,3 @@ glabel BossFd_Init
 /* 00858 808CB618 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 0085C 808CB61C 03E00008 */  jr      $ra                        
 /* 00860 808CB620 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

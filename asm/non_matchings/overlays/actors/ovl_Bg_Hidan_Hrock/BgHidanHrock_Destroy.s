@@ -18,5 +18,3 @@ glabel BgHidanHrock_Destroy
 /* 00368 80889498 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0036C 8088949C 03E00008 */  jr      $ra                        
 /* 00370 808894A0 00000000 */  nop
-
-

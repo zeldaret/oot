@@ -1,3 +1,28 @@
+.rdata
+glabel D_808D63F4
+    .asciz "../z_boss_fd2.c"
+    .balign 4
+
+glabel D_808D6404
+    .asciz "../z_boss_fd2.c"
+    .balign 4
+
+glabel D_808D6414
+    .asciz "../z_boss_fd2.c"
+    .balign 4
+
+.late_rodata
+glabel D_808D64CC
+ .word 0xC4638000
+glabel D_808D64D0
+    .float 1.57079637051
+
+glabel D_808D64D4
+ .word 0x3A6BEDFA
+glabel D_808D64D8
+    .float 0.01
+
+.text
 glabel func_808D52CC
 /* 02C5C 808D52CC 27BDFEA0 */  addiu   $sp, $sp, 0xFEA0           ## $sp = FFFFFEA0
 /* 02C60 808D52D0 3C0F808D */  lui     $t7, %hi(D_808D6248)       ## $t7 = 808D0000
@@ -409,5 +434,3 @@ glabel func_808D52CC
 /* 03264 808D58D4 8FBE0068 */  lw      $s8, 0x0068($sp)           
 /* 03268 808D58D8 03E00008 */  jr      $ra                        
 /* 0326C 808D58DC 27BD0160 */  addiu   $sp, $sp, 0x0160           ## $sp = 00000000
-
-

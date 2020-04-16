@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A8E430
+    .asciz "../z_en_jsjutan.c"
+    .balign 4
+
+glabel D_80A8E444
+    .asciz "../z_en_jsjutan.c"
+    .balign 4
+
+glabel D_80A8E458
+    .asciz "../z_en_jsjutan.c"
+    .balign 4
+
+glabel D_80A8E46C
+    .asciz "../z_en_jsjutan.c"
+    .balign 4
+
+.text
 glabel EnJsjutan_Draw
 /* 00E78 80A8A618 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 00E7C 80A8A61C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -289,4 +307,3 @@ glabel EnJsjutan_Draw
 /* 012C4 80A8AA64 03E00008 */  jr      $ra                        
 /* 012C8 80A8AA68 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
 /* 012CC 80A8AA6C 00000000 */  nop
-

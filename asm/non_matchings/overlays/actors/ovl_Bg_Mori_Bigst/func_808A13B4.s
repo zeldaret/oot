@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A1668
+    .asciz "../z_bg_mori_bigst.c"
+    .balign 4
+
+glabel D_808A1680
+    .asciz "../z_bg_mori_bigst.c"
+    .balign 4
+
+glabel D_808A1698
+    .asciz "../z_bg_mori_bigst.c"
+    .balign 4
+
+.text
 glabel func_808A13B4
 /* 007F4 808A13B4 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 007F8 808A13B8 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -66,4 +80,3 @@ glabel func_808A13B4
 /* 008F4 808A14B4 00000000 */  nop
 /* 008F8 808A14B8 00000000 */  nop
 /* 008FC 808A14BC 00000000 */  nop
-

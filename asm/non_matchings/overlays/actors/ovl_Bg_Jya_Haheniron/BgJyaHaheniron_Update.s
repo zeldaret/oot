@@ -10,5 +10,3 @@ glabel BgJyaHaheniron_Update
 /* 005F0 808986B0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 005F4 808986B4 03E00008 */  jr      $ra                        
 /* 005F8 808986B8 00000000 */  nop
-
-

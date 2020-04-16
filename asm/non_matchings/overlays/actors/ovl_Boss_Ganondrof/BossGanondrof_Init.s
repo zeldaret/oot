@@ -181,5 +181,3 @@ glabel BossGanondrof_Init
 /* 006B0 80910CF0 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 006B4 80910CF4 03E00008 */  jr      $ra                        
 /* 006B8 80910CF8 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

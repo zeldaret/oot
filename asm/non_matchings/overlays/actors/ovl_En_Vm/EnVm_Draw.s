@@ -1,3 +1,37 @@
+.rdata
+glabel D_80B2EBBC
+    .asciz "../z_en_vm.c"
+    .balign 4
+
+glabel D_80B2EBCC
+    .asciz "../z_en_vm.c"
+    .balign 4
+
+glabel D_80B2EBDC
+    .asciz "../z_en_vm.c"
+    .balign 4
+
+glabel D_80B2EBEC
+    .asciz "../z_en_vm.c"
+    .balign 4
+
+glabel D_80B2EBFC
+    .asciz "../z_en_vm.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B2EC30
+    .float 0.8
+
+glabel D_80B2EC34
+ .word 0x46FFFE00
+glabel D_80B2EC38
+    .float 0.1
+
+glabel D_80B2EC3C
+    .float 0.0015
+
+.text
 glabel EnVm_Draw
 /* 011B8 80B2E618 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 011BC 80B2E61C AFB20028 */  sw      $s2, 0x0028($sp)
@@ -251,4 +285,3 @@ glabel EnVm_Draw
 /* 01594 80B2E9F4 03E00008 */  jr      $ra
 /* 01598 80B2E9F8 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
 /* 0159C 80B2E9FC 00000000 */  nop
-

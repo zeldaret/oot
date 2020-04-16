@@ -82,5 +82,3 @@ glabel BgTreemouth_Init
 /* 00120 808BC620 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00124 808BC624 03E00008 */  jr      $ra                        
 /* 00128 808BC628 00000000 */  nop
-
-

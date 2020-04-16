@@ -74,5 +74,3 @@ glabel func_808DED4C
 .L808DEE68:
 /* 085F8 808DEE68 03E00008 */  jr      $ra                        
 /* 085FC 808DEE6C 46001005 */  abs.s   $f0, $f2                   
-
-

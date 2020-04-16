@@ -68,5 +68,3 @@ glabel EnFw_Init
 /* 0069C 80A1EC3C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 006A0 80A1EC40 03E00008 */  jr      $ra
 /* 006A4 80A1EC44 00000000 */  nop
-
-

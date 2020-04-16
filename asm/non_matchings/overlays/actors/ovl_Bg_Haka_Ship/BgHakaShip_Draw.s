@@ -1,3 +1,37 @@
+.rdata
+glabel D_8087FAF8
+    .asciz "../z_bg_haka_ship.c"
+    .balign 4
+
+glabel D_8087FB0C
+    .asciz "../z_bg_haka_ship.c"
+    .balign 4
+
+glabel D_8087FB20
+    .asciz "../z_bg_haka_ship.c"
+    .balign 4
+
+glabel D_8087FB34
+    .asciz "../z_bg_haka_ship.c"
+    .balign 4
+
+glabel D_8087FB48
+    .asciz "../z_bg_haka_ship.c"
+    .balign 4
+
+glabel D_8087FB5C
+    .asciz "../z_bg_haka_ship.c"
+    .balign 4
+
+.late_rodata
+glabel D_8087FB88
+    .float 9.5873802e-5
+glabel D_8087FB8C
+    .float -3670.0
+glabel D_8087FB90
+    .float -367.0
+
+.text
 glabel BgHakaShip_Draw
 /* 006B4 8087F7B4 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 006B8 8087F7B8 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -190,4 +224,3 @@ glabel BgHakaShip_Draw
 /* 00994 8087FA94 03E00008 */  jr      $ra                        
 /* 00998 8087FA98 00000000 */  nop
 /* 0099C 8087FA9C 00000000 */  nop
-

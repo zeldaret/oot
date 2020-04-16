@@ -27,5 +27,3 @@ glabel BgRelayObjects_Destroy
 /* 00298 808A90E8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0029C 808A90EC 03E00008 */  jr      $ra                        
 /* 002A0 808A90F0 00000000 */  nop
-
-

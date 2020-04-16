@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B98A04
+    .float 0.001
+
+.text
 glabel ObjMakeoshihiki_Draw
 /* 001BC 80B986CC 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 001C0 80B986D0 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -143,4 +148,3 @@ glabel ObjMakeoshihiki_Draw
 /* 003B4 80B988C4 03E00008 */  jr      $ra                        
 /* 003B8 80B988C8 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 003BC 80B988CC 00000000 */  nop
-

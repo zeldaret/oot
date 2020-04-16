@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A6AFB0
+    .asciz "../z_en_horse_link_child.c"
+    .balign 4
+
+glabel D_80A6AFCC
+    .asciz "../z_en_horse_link_child.c"
+    .balign 4
+
+.text
 glabel func_80A6AD84
 /* 019B4 80A6AD84 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 019B8 80A6AD88 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -57,5 +67,3 @@ glabel func_80A6AD84
 /* 01A8C 80A6AE5C 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 01A90 80A6AE60 03E00008 */  jr      $ra                        
 /* 01A94 80A6AE64 00000000 */  nop
-
-

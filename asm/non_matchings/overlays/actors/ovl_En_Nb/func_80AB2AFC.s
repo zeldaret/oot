@@ -1,3 +1,26 @@
+.rdata
+glabel D_80AB5088
+    .asciz "En_Nb_Confrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80AB520C
+.word L80AB2B5C
+.word L80AB2BD0
+.word L80AB2BD0
+.word L80AB2BD0
+.word L80AB2BD0
+.word L80AB2BD0
+.word L80AB2BD0
+.word L80AB2BD0
+.word L80AB2BC0
+.word L80AB2B6C
+.word L80AB2B80
+.word L80AB2B90
+.word L80AB2BA0
+.word L80AB2BB0
+
+.text
 glabel func_80AB2AFC
 /* 01D6C 80AB2AFC 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 01D70 80AB2B00 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -74,5 +97,3 @@ glabel L80AB2BD0
 /* 01E5C 80AB2BEC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 01E60 80AB2BF0 03E00008 */  jr      $ra                        
 /* 01E64 80AB2BF4 00000000 */  nop
-
-

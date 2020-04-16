@@ -10,5 +10,3 @@ glabel EnYukabyun_Destroy
 /* 000C8 80B43A88 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000CC 80B43A8C 03E00008 */  jr      $ra                        
 /* 000D0 80B43A90 00000000 */  nop
-
-

@@ -19,5 +19,3 @@ glabel EnPoDesert_Destroy
 /* 001A8 80AD2E58 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001AC 80AD2E5C 03E00008 */  jr      $ra                        
 /* 001B0 80AD2E60 00000000 */  nop
-
-

@@ -22,5 +22,3 @@ glabel BgHakaSgami_Update
 /* 008D4 8087EDB4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 008D8 8087EDB8 03E00008 */  jr      $ra                        
 /* 008DC 8087EDBC 00000000 */  nop
-
-

@@ -5,8 +5,7 @@
 #include <global.h>
 
 typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x18];
+    /* 0x0000 */ DynaPolyActor dyna;
 } BgJyaBlock; // size = 0x0164
 
 extern const ActorInit Bg_Jya_Block_InitVars;

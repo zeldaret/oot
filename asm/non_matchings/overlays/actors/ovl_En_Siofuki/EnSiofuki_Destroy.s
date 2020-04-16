@@ -12,5 +12,3 @@ glabel EnSiofuki_Destroy
 /* 0023C 80AFBDBC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00240 80AFBDC0 03E00008 */  jr      $ra                        
 /* 00244 80AFBDC4 00000000 */  nop
-
-

@@ -7,5 +7,3 @@ glabel DemoSa_Destroy
 /* 00014 8098E474 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00018 8098E478 03E00008 */  jr      $ra
 /* 0001C 8098E47C 00000000 */  nop
-
-

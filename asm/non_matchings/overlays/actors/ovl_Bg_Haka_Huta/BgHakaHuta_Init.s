@@ -53,5 +53,3 @@ glabel BgHakaHuta_Init
 /* 000B0 8087D070 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 000B4 8087D074 03E00008 */  jr      $ra                        
 /* 000B8 8087D078 00000000 */  nop
-
-

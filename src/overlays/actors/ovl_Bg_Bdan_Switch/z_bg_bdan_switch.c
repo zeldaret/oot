@@ -4,98 +4,46 @@
  * Description: Switches (Inside Lord Jabu-Jabu)
  */
 
-#include <ultra64.h>
-#include <global.h>
+#include "z_bg_bdan_switch.h"
 
-// BgBdanSwitch.actor.params & 0xFF
-typedef enum {
-    /* 0x00 */ BLUE,
-    /* 0x01 */ YELLOW_HEAVY,
-    /* 0x02 */ YELLOW,
-    /* 0x03 */ YELLOW_TALL_1,
-    /* 0x04 */ YELLOW_TALL_2
-} BgBdanSwitchType;
-
-typedef struct {
-    /* 0x00 */ char unk_00[0x2E];
-    /* 0x2E */ s16 unk_2E;
-} ColliderCustomHelper;
-
-typedef struct {
-    /* 0x00 */ Collider base;
-    /* 0x18 */ char unk_18[0x4];
-    /* 0x1C */ ColliderCustomHelper* unk_1C;
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ char unk_24[0x1C];
-    // after this is a guess based on ColliderCylinderMain
-    /* 0x40 */ s16 radius;
-    /* 0x42 */ s16 height;
-    /* 0x44 */ s16 yShift;
-    /* 0x46 */ Vec3s position;
-} ColliderCustomMain; // size = 0x4C
-
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ u32 dynaPolyId;
-    /* 0x0150 */ f32 unk_150;
-    /* 0x0154 */ f32 unk_154;
-    /* 0x0158 */ u32 unk_158;
-    /* 0x015C */ u32 unk_15C;
-    /* 0x0160 */ u8 unk_160;
-    /* 0x0164 */ ActorFunc updateFunc;
-    /* 0x0168 */ ColliderCustomMain collider;
-    /* 0x01B4 */ char unk_1B4[0x14];
-    /* 0x01C8 */ f32 unk_1C8;
-    /* 0x01CC */ s16 unk_1CC;
-    /* 0x01CE */ char unk_1CE[0x2];
-    /* 0x01D0 */ f32 unk_1D0;
-    /* 0x01D4 */ f32 unk_1D4;
-    /* 0x01D8 */ s16 unk_1D8;
-    /* 0x01DA */ s16 unk_1DA;
-    /* 0x01DC */ u8 unk_1DC;
-    /* 0x01DD */ char unk_1DD[0x3];
-} BgBdanSwitch; // size = 0x01E0
-
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void BgBdanSwitch_Init(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void BgBdanSwitch_Destroy(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void BgBdanSwitch_Update(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void BgBdanSwitch_Draw(BgBdanSwitch* this, GlobalContext* globalCtx);
+void BgBdanSwitch_Init(BgBdanSwitch* this, GlobalContext* globalCtx);
+void BgBdanSwitch_Destroy(BgBdanSwitch* this, GlobalContext* globalCtx);
+void BgBdanSwitch_Update(BgBdanSwitch* this, GlobalContext* globalCtx);
+void BgBdanSwitch_Draw(BgBdanSwitch* this, GlobalContext* globalCtx);
 
-static void func_8086D5C4(BgBdanSwitch* this);
-static void func_8086D5E0(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086D67C(BgBdanSwitch* this);
-static void func_8086D694(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086D730(BgBdanSwitch* this);
-static void func_8086D754(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086D7FC(BgBdanSwitch* this);
-static void func_8086D80C(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086D86C(BgBdanSwitch* this);
-static void func_8086D888(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086D8BC(BgBdanSwitch* this);
-static void func_8086D8CC(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086D95C(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086D9F8(BgBdanSwitch* this);
-static void func_8086DA1C(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086DAB4(BgBdanSwitch* this);
-static void func_8086DAC4(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086DB24(BgBdanSwitch* this);
-static void func_8086DB40(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086DB4C(BgBdanSwitch* this);
-static void func_8086DB68(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086DC30(BgBdanSwitch* this);
-static void func_8086DC48(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086DCCC(BgBdanSwitch* this);
-static void func_8086DCE8(BgBdanSwitch* this, GlobalContext* globalCtx);
-static void func_8086DDA8(BgBdanSwitch* this);
-static void func_8086DDC0(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086D5C4(BgBdanSwitch* this);
+void func_8086D5E0(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086D67C(BgBdanSwitch* this);
+void func_8086D694(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086D730(BgBdanSwitch* this);
+void func_8086D754(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086D7FC(BgBdanSwitch* this);
+void func_8086D80C(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086D86C(BgBdanSwitch* this);
+void func_8086D888(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086D8BC(BgBdanSwitch* this);
+void func_8086D8CC(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086D95C(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086D9F8(BgBdanSwitch* this);
+void func_8086DA1C(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086DAB4(BgBdanSwitch* this);
+void func_8086DAC4(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086DB24(BgBdanSwitch* this);
+void func_8086DB40(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086DB4C(BgBdanSwitch* this);
+void func_8086DB68(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086DC30(BgBdanSwitch* this);
+void func_8086DC48(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086DCCC(BgBdanSwitch* this);
+void func_8086DCE8(BgBdanSwitch* this, GlobalContext* globalCtx);
+void func_8086DDA8(BgBdanSwitch* this);
+void func_8086DDC0(BgBdanSwitch* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Bdan_Switch_InitVars = {
     ACTOR_BG_BDAN_SWITCH,
     ACTORTYPE_SWITCH,
-    ROOM,
     FLAGS,
     OBJECT_BDAN_OBJECTS,
     sizeof(BgBdanSwitch),
@@ -122,7 +70,7 @@ static InitChainEntry initChain[] = {
 
 static u32 D_8086E0E0[] = { 0x00000000, 0x430C0000, 0x00000000, 0x00000000 };
 
-static void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
+void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
     s16 pad1;
     u32 local_c = 0;
     s16 pad2;
@@ -136,13 +84,13 @@ static void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, u32 coll
     }
 }
 
-static void func_8086D098(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086D098(BgBdanSwitch* this, GlobalContext* globalCtx) {
     Actor* actor = &this->actor;
     func_8005BBF8(globalCtx, &this->collider, actor);
     func_8005C050(globalCtx, &this->collider, actor, &D_8086E0C4, &this->collider.unk_20);
 }
 
-static void func_8086D0EC(BgBdanSwitch* this) {
+void func_8086D0EC(BgBdanSwitch* this) {
     if (this->unk_1CC > 0) {
         this->unk_1CC += 0x5DC;
     } else {
@@ -166,7 +114,7 @@ static void func_8086D0EC(BgBdanSwitch* this) {
     this->actor.shape.unk_08 = 1.2f / this->unk_1D0;
 }
 
-static void BgBdanSwitch_Init(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void BgBdanSwitch_Init(BgBdanSwitch* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 type;
     s32 flag;
@@ -230,7 +178,7 @@ static void BgBdanSwitch_Init(BgBdanSwitch* this, GlobalContext* globalCtx) {
     osSyncPrintf("(巨大魚ダンジョン 専用スイッチ)(arg_data 0x%04x)\n", this->actor.params);
 }
 
-static void BgBdanSwitch_Destroy(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void BgBdanSwitch_Destroy(BgBdanSwitch* this, GlobalContext* globalCtx) {
     switch (this->actor.params & 0xFF) {
         case BLUE:
         case YELLOW_HEAVY:
@@ -243,7 +191,7 @@ static void BgBdanSwitch_Destroy(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086D4B4(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086D4B4(BgBdanSwitch* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 type;
     if (!Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
@@ -257,7 +205,7 @@ static void func_8086D4B4(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086D548(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086D548(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
         Flags_UnsetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         if ((this->actor.params & 0xFF) == YELLOW_TALL_2) {
@@ -266,12 +214,12 @@ static void func_8086D548(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086D5C4(BgBdanSwitch* this) {
+void func_8086D5C4(BgBdanSwitch* this) {
     this->updateFunc = &func_8086D5E0;
     this->unk_1C8 = 1.0f;
 }
 
-static void func_8086D5E0(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086D5E0(BgBdanSwitch* this, GlobalContext* globalCtx) {
     switch (this->actor.params & 0xFF) {
         case BLUE:
             if (func_800435B4(&this->actor)) {
@@ -287,12 +235,12 @@ static void func_8086D5E0(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086D67C(BgBdanSwitch* this) {
+void func_8086D67C(BgBdanSwitch* this) {
     this->updateFunc = &func_8086D694;
     this->unk_1DA = 0x64;
 }
 
-static void func_8086D694(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086D694(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if ((func_8005B198() == this->actor.type) || (this->unk_1DA <= 0)) {
         this->unk_1C8 -= 0.2f;
         if (this->unk_1C8 <= 0.1f) {
@@ -303,13 +251,13 @@ static void func_8086D694(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086D730(BgBdanSwitch* this) {
+void func_8086D730(BgBdanSwitch* this) {
     this->unk_1C8 = 0.1f;
     this->updateFunc = &func_8086D754;
     this->unk_1D8 = 6;
 }
 
-static void func_8086D754(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086D754(BgBdanSwitch* this, GlobalContext* globalCtx) {
     switch (this->actor.params & 0xFF) {
         case BLUE:
             if (!func_800435B4(&this->actor)) {
@@ -328,11 +276,11 @@ static void func_8086D754(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086D7FC(BgBdanSwitch* this) {
+void func_8086D7FC(BgBdanSwitch* this) {
     this->updateFunc = &func_8086D80C;
 }
 
-static void func_8086D80C(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086D80C(BgBdanSwitch* this, GlobalContext* globalCtx) {
     this->unk_1C8 += 0.2f;
     if (this->unk_1C8 >= 1.0f) {
         func_8086D5C4(this);
@@ -340,22 +288,22 @@ static void func_8086D80C(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086D86C(BgBdanSwitch* this) {
+void func_8086D86C(BgBdanSwitch* this) {
     this->updateFunc = &func_8086D888;
     this->unk_1C8 = 1.0f;
 }
 
-static void func_8086D888(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086D888(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->actor)) {
         func_8086D8BC(this);
     }
 }
 
-static void func_8086D8BC(BgBdanSwitch* this) {
+void func_8086D8BC(BgBdanSwitch* this) {
     this->updateFunc = &func_8086D8CC;
 }
 
-static void func_8086D8CC(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086D8CC(BgBdanSwitch* this, GlobalContext* globalCtx) {
     this->unk_1C8 -= 0.2f;
     if (this->unk_1C8 <= 0.6f) {
         func_8086D9F8(this);
@@ -364,12 +312,12 @@ static void func_8086D8CC(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086D944(BgBdanSwitch* this) {
+void func_8086D944(BgBdanSwitch* this) {
     this->updateFunc = &func_8086D95C;
     this->unk_1DA = 0x64;
 }
 
-static void func_8086D95C(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086D95C(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if ((func_8005B198() == this->actor.type) || (this->unk_1DA <= 0)) {
         this->unk_1C8 -= 0.2f;
         if (this->unk_1C8 <= 0.1f) {
@@ -380,13 +328,13 @@ static void func_8086D95C(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086D9F8(BgBdanSwitch* this) {
+void func_8086D9F8(BgBdanSwitch* this) {
     this->unk_1C8 = 0.6f;
     this->updateFunc = &func_8086DA1C;
     this->unk_1D8 = 6;
 }
 
-static void func_8086DA1C(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086DA1C(BgBdanSwitch* this, GlobalContext* globalCtx) {
     Actor* heldActor = PLAYER->heldActor;
 
     if (func_8004356C(&this->actor)) {
@@ -405,11 +353,11 @@ static void func_8086DA1C(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086DAB4(BgBdanSwitch* this) {
+void func_8086DAB4(BgBdanSwitch* this) {
     this->updateFunc = &func_8086DAC4;
 }
 
-static void func_8086DAC4(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086DAC4(BgBdanSwitch* this, GlobalContext* globalCtx) {
     this->unk_1C8 += 0.2f;
     if (this->unk_1C8 >= 1.0f) {
         func_8086D86C(this);
@@ -417,20 +365,20 @@ static void func_8086DAC4(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086DB24(BgBdanSwitch* this) {
+void func_8086DB24(BgBdanSwitch* this) {
     this->unk_1C8 = 0.1f;
     this->updateFunc = &func_8086DB40;
 }
 
-static void func_8086DB40(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086DB40(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
-static void func_8086DB4C(BgBdanSwitch* this) {
+void func_8086DB4C(BgBdanSwitch* this) {
     this->updateFunc = &func_8086DB68;
     this->unk_1C8 = 2.0f;
 }
 
-static void func_8086DB68(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086DB68(BgBdanSwitch* this, GlobalContext* globalCtx) {
     switch (this->actor.params & 0xFF) {
         default:
             return;
@@ -450,12 +398,12 @@ static void func_8086DB68(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086DC30(BgBdanSwitch* this) {
+void func_8086DC30(BgBdanSwitch* this) {
     this->updateFunc = &func_8086DC48;
     this->unk_1DA = 0x64;
 }
 
-static void func_8086DC48(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086DC48(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if ((func_8005B198() == this->actor.type) || (this->unk_1DA <= 0)) {
         this->unk_1C8 -= 0.3f;
         if (this->unk_1C8 <= 1.0f) {
@@ -465,12 +413,12 @@ static void func_8086DC48(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086DCCC(BgBdanSwitch* this) {
+void func_8086DCCC(BgBdanSwitch* this) {
     this->updateFunc = &func_8086DCE8;
     this->unk_1C8 = 1.0f;
 }
 
-static void func_8086DCE8(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086DCE8(BgBdanSwitch* this, GlobalContext* globalCtx) {
     switch (this->actor.params & 0xFF) {
         case YELLOW_TALL_1:
             if (!Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
@@ -486,12 +434,12 @@ static void func_8086DCE8(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_8086DDA8(BgBdanSwitch* this) {
+void func_8086DDA8(BgBdanSwitch* this) {
     this->updateFunc = &func_8086DDC0;
     this->unk_1DA = 0x64;
 }
 
-static void func_8086DDC0(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void func_8086DDC0(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if ((((this->actor.params & 0xFF) != YELLOW_TALL_2) || (func_8005B198() == this->actor.type)) ||
         (this->unk_1DA <= 0)) {
         this->unk_1C8 += 0.3f;
@@ -502,7 +450,7 @@ static void func_8086DDC0(BgBdanSwitch* this, GlobalContext* globalCtx) {
     }
 }
 
-static void BgBdanSwitch_Update(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void BgBdanSwitch_Update(BgBdanSwitch* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 type;
     s32 pad2;
@@ -528,14 +476,14 @@ static void BgBdanSwitch_Update(BgBdanSwitch* this, GlobalContext* globalCtx) {
     Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
 }
 
-static void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
+void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
     func_800D1694(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (this->actor.shape.unk_08 * this->unk_1D0),
                   this->actor.posRot.pos.z, &this->actor.shape.rot);
     Matrix_Scale(this->unk_1D4, this->unk_1D0, this->unk_1D4, MTXMODE_APPLY);
     Gfx_DrawDListOpa(globalCtx, arg2);
 }
 
-static void BgBdanSwitch_Draw(BgBdanSwitch* this, GlobalContext* globalCtx) {
+void BgBdanSwitch_Draw(BgBdanSwitch* this, GlobalContext* globalCtx) {
     switch (this->actor.params & 0xFF) {
         case YELLOW_HEAVY:
         case YELLOW:

@@ -12,5 +12,3 @@ glabel BgTreemouth_Destroy
 /* 00150 808BC650 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00154 808BC654 03E00008 */  jr      $ra                        
 /* 00158 808BC658 00000000 */  nop
-
-

@@ -47,7 +47,7 @@ glabel BgDdanKd_Init
 /* 000A0 80871190 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
 /* 000A4 80871194 3C058087 */  lui     $a1, %hi(func_80871234)    ## $a1 = 80870000
 /* 000A8 80871198 24A51234 */  addiu   $a1, $a1, %lo(func_80871234) ## $a1 = 80871234
-/* 000AC 8087119C 0C21C43C */  jal     func_808710F0              
+/* 000AC 8087119C 0C21C43C */  jal     BgDdanKd_SetupAction              
 /* 000B0 808711A0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 000B4 808711A4 1000000D */  beq     $zero, $zero, .L808711DC   
 /* 000B8 808711A8 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -61,7 +61,7 @@ glabel BgDdanKd_Init
 /* 000D4 808711C4 24A51838 */  addiu   $a1, $a1, %lo(func_80871838) ## $a1 = 80871838
 /* 000D8 808711C8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 000DC 808711CC 460A4401 */  sub.s   $f16, $f8, $f10            
-/* 000E0 808711D0 0C21C43C */  jal     func_808710F0              
+/* 000E0 808711D0 0C21C43C */  jal     BgDdanKd_SetupAction              
 /* 000E4 808711D4 E6100028 */  swc1    $f16, 0x0028($s0)          ## 00000028
 /* 000E8 808711D8 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L808711DC:
@@ -69,5 +69,3 @@ glabel BgDdanKd_Init
 /* 000F0 808711E0 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 000F4 808711E4 03E00008 */  jr      $ra                        
 /* 000F8 808711E8 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

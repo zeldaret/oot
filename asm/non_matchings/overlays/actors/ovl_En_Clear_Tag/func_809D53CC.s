@@ -1,3 +1,33 @@
+.rdata
+glabel D_809DC04C
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+glabel D_809DC060
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+glabel D_809DC074
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+glabel D_809DC088
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+glabel D_809DC09C
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+glabel D_809DC0B0
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+glabel D_809DC0C4
+    .asciz "../z_en_clear_tag.c"
+    .balign 4
+
+.text
 glabel func_809D53CC
 /* 01E1C 809D53CC 27BDFEF0 */  addiu   $sp, $sp, 0xFEF0           ## $sp = FFFFFEF0
 /* 01E20 809D53D0 AFB1004C */  sw      $s1, 0x004C($sp)           
@@ -543,4 +573,3 @@ glabel func_809D53CC
 /* 02654 809D5C04 00000000 */  nop
 /* 02658 809D5C08 00000000 */  nop
 /* 0265C 809D5C0C 00000000 */  nop
-

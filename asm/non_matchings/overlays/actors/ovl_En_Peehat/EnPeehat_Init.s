@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_80AD2908
+ .word 0x45834000
+glabel D_80AD290C
+ .word 0x3BC49BA6
+glabel D_80AD2910
+ .word 0x3B449BA6
+
+.text
 glabel EnPeehat_Init
 /* 00008 80ACF4A8 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0000C 80ACF4AC AFB10028 */  sw      $s1, 0x0028($sp)           
@@ -165,5 +174,3 @@ glabel EnPeehat_Init
 /* 00268 80ACF708 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 0026C 80ACF70C 03E00008 */  jr      $ra                        
 /* 00270 80ACF710 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

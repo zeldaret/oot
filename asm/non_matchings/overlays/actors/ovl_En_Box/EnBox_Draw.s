@@ -1,3 +1,13 @@
+.rdata
+glabel D_809CA8D0
+    .asciz "../z_en_box.c"
+    .balign 4
+
+glabel D_809CA8E0
+    .asciz "../z_en_box.c"
+    .balign 4
+
+.text
 glabel EnBox_Draw
 /* 017D0 809CA590 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 017D4 809CA594 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -157,4 +167,3 @@ glabel EnBox_Draw
 /* 01A14 809CA7D4 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 01A18 809CA7D8 03E00008 */  jr      $ra
 /* 01A1C 809CA7DC 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-

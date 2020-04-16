@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B0F208
+    .float 0.02
+
+.text
 glabel EnSw_Init
 /* 00750 80B0C500 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00754 80B0C504 3C0F80B1 */  lui     $t7, %hi(D_80B0F0E0)       ## $t7 = 80B10000
@@ -334,5 +339,3 @@ glabel EnSw_Init
 /* 00C0C 80B0C9BC 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 00C10 80B0C9C0 03E00008 */  jr      $ra                        
 /* 00C14 80B0C9C4 00000000 */  nop
-
-

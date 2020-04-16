@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A21C90
+    .asciz "../z_en_fz.c"
+    .balign 4
+
+glabel D_80A21CA0
+    .asciz "../z_en_fz.c"
+    .balign 4
+
+glabel D_80A21CB0
+    .asciz "../z_en_fz.c"
+    .balign 4
+
+.text
 glabel func_80A218A8
 /* 01AE8 80A218A8 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 01AEC 80A218AC AFBF0064 */  sw      $ra, 0x0064($sp)           
@@ -180,4 +194,3 @@ glabel func_80A218A8
 /* 01DA4 80A21B64 8FBE0060 */  lw      $s8, 0x0060($sp)           
 /* 01DA8 80A21B68 03E00008 */  jr      $ra                        
 /* 01DAC 80A21B6C 27BD00C0 */  addiu   $sp, $sp, 0x00C0           ## $sp = 00000000
-

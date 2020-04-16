@@ -31,5 +31,3 @@ glabel MirRay_Destroy
 /* 005A8 80B8D5F8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 005AC 80B8D5FC 03E00008 */  jr      $ra                        
 /* 005B0 80B8D600 00000000 */  nop
-
-

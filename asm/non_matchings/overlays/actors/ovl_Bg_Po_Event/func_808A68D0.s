@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808A7DF8
+ .word 0x44504000
+
+.text
 glabel func_808A68D0
 /* 006C0 808A68D0 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 006C4 808A68D4 3C01808A */  lui     $at, %hi(D_808A7DF8)       ## $at = 808A0000
@@ -71,5 +76,3 @@ glabel func_808A68D0
 /* 007C0 808A69D0 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 007C4 808A69D4 03E00008 */  jr      $ra                        
 /* 007C8 808A69D8 00000000 */  nop
-
-

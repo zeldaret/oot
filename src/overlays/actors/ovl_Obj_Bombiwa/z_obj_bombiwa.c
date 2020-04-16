@@ -6,21 +6,19 @@
 
 #include "z_obj_bombiwa.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx);
-static void ObjBombiwa_Destroy(ObjBombiwa* this, GlobalContext* globalCtx);
-static void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx);
-static void ObjBombiwa_Draw(ObjBombiwa* this, GlobalContext* globalCtx);
+void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx);
+void ObjBombiwa_Destroy(ObjBombiwa* this, GlobalContext* globalCtx);
+void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx);
+void ObjBombiwa_Draw(ObjBombiwa* this, GlobalContext* globalCtx);
 
-static void ObjBombiwa_InitCollision(ObjBombiwa* this, GlobalContext* globalCtx);
-static void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx);
+void ObjBombiwa_InitCollision(ObjBombiwa* this, GlobalContext* globalCtx);
+void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Bombiwa_InitVars = {
     ACTOR_OBJ_BOMBIWA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_BOMBIWA,
     sizeof(ObjBombiwa),
@@ -54,14 +52,14 @@ static s16 effectScales[] = {
 
 extern Gfx* D_060009E0; // dlist
 
-static void ObjBombiwa_InitCollision(ObjBombiwa* this, GlobalContext* globalCtx) {
+void ObjBombiwa_InitCollision(ObjBombiwa* this, GlobalContext* globalCtx) {
     ObjBombiwa* thisLocal = this;
     ActorCollider_AllocCylinder(globalCtx, &thisLocal->collider);
     ActorCollider_InitCylinder(globalCtx, &thisLocal->collider, &thisLocal->actor, &colliderInit);
     ActorCollider_Cylinder_Update(&thisLocal->actor, &thisLocal->collider);
 }
 
-static void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx) {
+void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, initChain);
     ObjBombiwa_InitCollision(this, globalCtx);
     if ((Flags_GetSwitch(globalCtx, this->actor.params & 0x3F) != 0)) {
@@ -78,11 +76,11 @@ static void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx) {
     }
 }
 
-static void ObjBombiwa_Destroy(ObjBombiwa* this, GlobalContext* globalCtx) {
+void ObjBombiwa_Destroy(ObjBombiwa* this, GlobalContext* globalCtx) {
     ActorCollider_FreeCylinder(globalCtx, &this->collider);
 }
 
-static void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
+void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
     Vec3f temp_s2;
     Vec3f temp_s3;
     Gfx** dlist;
@@ -106,7 +104,7 @@ static void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
     func_80033480(globalCtx, &this->actor.posRot.pos, 60.0f, 8, 100, 160, 1);
 }
 
-static void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx) {
+void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx) {
     SubGlobalContext11E60* sub_11E60;
     ColliderCylinderMain* collider;
 
@@ -131,6 +129,6 @@ static void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx) {
     }
 }
 
-static void ObjBombiwa_Draw(ObjBombiwa* this, GlobalContext* globalCtx) {
+void ObjBombiwa_Draw(ObjBombiwa* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_060009E0);
 }

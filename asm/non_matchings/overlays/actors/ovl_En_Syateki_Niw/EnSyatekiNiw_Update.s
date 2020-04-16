@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B1382C
+ .word 0xBE19999A
+
+.text
 glabel EnSyatekiNiw_Update
 /* 01384 80B12C74 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 01388 80B12C78 3C0F80B1 */  lui     $t7, %hi(D_80B136B8)       ## $t7 = 80B10000
@@ -245,5 +250,3 @@ glabel EnSyatekiNiw_Update
 /* 016E4 80B12FD4 8FB10048 */  lw      $s1, 0x0048($sp)           
 /* 016E8 80B12FD8 03E00008 */  jr      $ra                        
 /* 016EC 80B12FDC 27BD00A8 */  addiu   $sp, $sp, 0x00A8           ## $sp = 00000000
-
-

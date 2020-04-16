@@ -1,3 +1,25 @@
+.rdata
+glabel D_80BACAE0
+    .asciz "../z_oceff_wipe3.c"
+    .balign 4
+
+glabel D_80BACAF4
+    .asciz "../z_oceff_wipe3.c"
+    .balign 4
+
+glabel D_80BACB08
+    .asciz "../z_oceff_wipe3.c"
+    .balign 4
+
+.late_rodata
+glabel D_80BACB1C
+    .float 1330.0
+glabel D_80BACB20
+    .float 1330.0
+glabel D_80BACB24
+    .float 0.1
+ 
+.text
 glabel OceffWipe3_Draw
 /* 0011C 80BAB50C 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 00120 80BAB510 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -213,4 +235,3 @@ glabel OceffWipe3_Draw
 /* 00454 80BAB844 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 00458 80BAB848 03E00008 */  jr      $ra                        
 /* 0045C 80BAB84C 27BD00B0 */  addiu   $sp, $sp, 0x00B0           ## $sp = 00000000
-

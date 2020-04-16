@@ -141,5 +141,3 @@ glabel EnMd_Init
 /* 015F0 80AAB840 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 015F4 80AAB844 03E00008 */  jr      $ra
 /* 015F8 80AAB848 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

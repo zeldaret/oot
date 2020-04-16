@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A55224
+    .asciz "[33m ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.late_rodata
+glabel D_80A552F8
+    .float 7000.0
+
+.text
 glabel func_80A5455C
 /* 016BC 80A5455C 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 016C0 80A54560 AFB10030 */  sw      $s1, 0x0030($sp)           
@@ -106,5 +116,3 @@ glabel func_80A5455C
 /* 01830 80A546D0 8FB10030 */  lw      $s1, 0x0030($sp)           
 /* 01834 80A546D4 03E00008 */  jr      $ra                        
 /* 01838 80A546D8 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

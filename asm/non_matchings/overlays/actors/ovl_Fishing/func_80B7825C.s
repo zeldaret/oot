@@ -1,3 +1,135 @@
+.rdata
+glabel D_80B7B2B8
+    .asciz "\x1b[32m"
+    .balign 4
+
+glabel D_80B7B2C0
+    .asciz "zelda_time %x\n"
+    .balign 4
+
+glabel D_80B7B2D0
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80B7B2D4
+    .asciz "HI_SCORE = %x\n"
+    .balign 4
+
+.late_rodata
+glabel D_80B7B82C
+    .float 846400.0
+
+glabel D_80B7B830
+    .float 0.3
+
+glabel D_80B7B834
+    .float 0.0015
+
+glabel jtbl_80B7B838
+.word L80B7955C
+.word L80B78890
+.word L80B78930
+.word L80B78DE8
+.word L80B7955C
+.word L80B7955C
+.word L80B7955C
+.word L80B7955C
+.word L80B7955C
+.word L80B7955C
+.word L80B78EBC
+.word L80B78F8C
+.word L80B7955C
+.word L80B7955C
+.word L80B7955C
+.word L80B7955C
+.word L80B7955C
+.word L80B7955C
+.word L80B7955C
+.word L80B7955C
+.word L80B79084
+.word L80B79158
+.word L80B791B0
+glabel D_80B7B894
+    .float 0.2
+    
+
+glabel D_80B7B898
+    .float 0.1
+    
+
+glabel D_80B7B89C
+    .float 0.001
+    
+
+glabel D_80B7B8A0
+    .float 0.3
+    
+
+glabel D_80B7B8A4
+    .float 0.1
+    
+
+glabel D_80B7B8A8
+    .float 0.4
+    
+
+glabel D_80B7B8AC
+    .float 0.4
+    
+
+glabel D_80B7B8B0
+    .float 0.000500000081956
+    
+
+glabel D_80B7B8B4
+    .float 3.14159274101
+    
+
+glabel D_80B7B8B8
+    .float 6.28
+    
+
+glabel D_80B7B8BC
+    .float 0.01
+    
+
+glabel D_80B7B8C0
+    .float 0.0200000014156
+    
+
+glabel D_80B7B8C4
+    .float 1.2
+    
+
+glabel D_80B7B8C8
+    .float 0.03
+    
+
+glabel D_80B7B8CC
+    .float 0.8
+    
+
+glabel D_80B7B8D0
+    .float 150.1
+    
+
+glabel D_80B7B8D4
+    .float 1500.0
+    
+
+glabel D_80B7B8D8
+    .float 1.67079639435
+    
+
+glabel D_80B7B8DC
+    .float -9.58738019108e-05
+    
+
+glabel D_80B7B8E0
+    .float 0.0036
+    
+
+.text
 glabel func_80B7825C
 /* 0E8BC 80B7825C 27BDFED8 */  addiu   $sp, $sp, 0xFED8           ## $sp = FFFFFED8
 /* 0E8C0 80B78260 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -2115,5 +2247,3 @@ glabel L80B7955C
 /* 10760 80B7A100 27BD0128 */  addiu   $sp, $sp, 0x0128           ## $sp = 00000000
 /* 10764 80B7A104 03E00008 */  jr      $ra                        
 /* 10768 80B7A108 00000000 */  nop
-
-

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80884EE0
+    .asciz "[36m 最大 ブロック セーブビット %x\n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80884FB0
+.word L80883BF8
+.word L80883B2C
+.word L80883A9C
+.word L80883AE4
+.word L80883B6C
+
+.text
 glabel BgHeavyBlock_Init
 /* 00278 80883A08 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0027C 80883A0C AFA50024 */  sw      $a1, 0x0024($sp)           
@@ -160,5 +174,3 @@ glabel L80883BF8
 /* 004AC 80883C3C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 004B0 80883C40 03E00008 */  jr      $ra                        
 /* 004B4 80883C44 00000000 */  nop
-
-

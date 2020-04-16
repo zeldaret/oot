@@ -19,5 +19,3 @@ glabel BgHeavyBlock_Destroy
 /* 004F4 80883C84 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 004F8 80883C88 03E00008 */  jr      $ra                        
 /* 004FC 80883C8C 00000000 */  nop
-
-

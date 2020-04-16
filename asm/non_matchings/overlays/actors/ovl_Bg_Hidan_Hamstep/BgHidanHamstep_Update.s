@@ -8,5 +8,3 @@ glabel BgHidanHamstep_Update
 /* 00C1C 80888C5C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00C20 80888C60 03E00008 */  jr      $ra                        
 /* 00C24 80888C64 00000000 */  nop
-
-

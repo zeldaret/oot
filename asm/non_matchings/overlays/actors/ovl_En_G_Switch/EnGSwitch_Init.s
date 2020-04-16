@@ -1,3 +1,75 @@
+.rdata
+glabel D_80A23780
+    .asciz "[32m☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80A237B0
+    .asciz "[33m☆☆☆☆☆ セーブ	     ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80A237E0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A237E4
+    .asciz "[32m☆☆☆☆☆ 親スイッチ発生 ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+.balign 4
+
+glabel D_80A23818
+    .asciz "[35m☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.balign 4
+
+glabel D_80A2384C
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A23850
+    .asciz "[32m☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A23890
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A23894
+    .asciz "[32m☆☆☆☆☆ 子スイッチ発生 ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+.balign 4
+
+glabel D_80A238C8
+    .asciz "[32m☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A23908
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A2390C
+    .asciz "[32m☆☆☆☆☆ やぶさめぶち抜き壷 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A23940
+    .asciz "[35m なにみの？ %d\n[m\n"
+    .balign 4
+
+.balign 4
+
+glabel D_80A2395C
+    .asciz "[36m バンクおかしいしぞ！%d\n[m\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A23B04
+ .word 0x403F5C29
+glabel D_80A23B08
+ .word 0x3EE66666
+
+.text
 glabel EnGSwitch_Init
 /* 00000 80A21EC0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 80A21EC4 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -255,5 +327,3 @@ glabel EnGSwitch_Init
 /* 0035C 80A2221C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00360 80A22220 03E00008 */  jr      $ra                        
 /* 00364 80A22224 00000000 */  nop
-
-

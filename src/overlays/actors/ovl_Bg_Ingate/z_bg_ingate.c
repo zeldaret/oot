@@ -1,18 +1,25 @@
+/*
+ * File: z_bg_ingate.c
+ * Overlay: ovl_Bg_Ingate
+ * Description: Ingo's Gates (Lon Lon Ranch)
+ */
+
 #include "z_bg_ingate.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgIngate_Init(BgIngate* this, GlobalContext* globalCtx);
 void BgIngate_Destroy(BgIngate* this, GlobalContext* globalCtx);
 void BgIngate_Update(BgIngate* this, GlobalContext* globalCtx);
 void BgIngate_Draw(BgIngate* this, GlobalContext* globalCtx);
+void BgIngate_SetupAction(BgIngate* this, ActorFunc actionFunc);
+void func_80892890(BgIngate* this, GlobalContext* globalCtx);
+void func_80892990(BgIngate* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Ingate_InitVars = {
     ACTOR_BG_INGATE,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_INGATE,
     sizeof(BgIngate),
@@ -22,7 +29,7 @@ const ActorInit Bg_Ingate_InitVars = {
     (ActorFunc)BgIngate_Draw,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ingate/func_80892740.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ingate/BgIngate_SetupAction.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ingate/BgIngate_Init.s")
 

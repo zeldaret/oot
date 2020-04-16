@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809FAC74
+ .word 0x3FE66666, 0x00000000, 0x00000000
+
+.text
 glabel EnDodongo_Draw
 /* 02338 809FA588 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0233C 809FA58C AFB00038 */  sw      $s0, 0x0038($sp)           
@@ -61,5 +66,3 @@ glabel EnDodongo_Draw
 /* 02418 809FA668 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 0241C 809FA66C 03E00008 */  jr      $ra                        
 /* 02420 809FA670 00000000 */  nop
-
-

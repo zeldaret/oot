@@ -46,5 +46,3 @@ glabel ObjSwitch_Destroy
 /* 0082C 80B9DA3C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00830 80B9DA40 03E00008 */  jr      $ra                        
 /* 00834 80B9DA44 00000000 */  nop
-
-

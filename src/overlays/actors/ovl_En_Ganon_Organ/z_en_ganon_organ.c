@@ -12,7 +12,6 @@ typedef struct {
     /* 0x014C */ char unk_14C[0x4];
 } EnGanonOrgan; // size = 0x0150
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnGanonOrgan_Init(EnGanonOrgan* this, GlobalContext* globalCtx);
@@ -23,7 +22,6 @@ void EnGanonOrgan_Draw(EnGanonOrgan* this, GlobalContext* globalCtx);
 const ActorInit En_Ganon_Organ_InitVars = {
     ACTOR_EN_GANON_ORGAN,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_GANON,
     sizeof(EnGanonOrgan),

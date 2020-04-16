@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808B4700
+    .float 0.001
+
+.text
 glabel func_808B40AC
 /* 0074C 808B40AC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00750 808B40B0 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -54,5 +59,3 @@ glabel func_808B40AC
 /* 0080C 808B416C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00810 808B4170 03E00008 */  jr      $ra                        
 /* 00814 808B4174 00000000 */  nop
-
-

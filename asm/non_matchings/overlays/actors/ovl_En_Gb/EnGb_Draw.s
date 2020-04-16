@@ -84,5 +84,3 @@ glabel EnGb_Draw
 /* 00E70 80A2FFF0 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 00E74 80A2FFF4 03E00008 */  jr      $ra
 /* 00E78 80A2FFF8 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

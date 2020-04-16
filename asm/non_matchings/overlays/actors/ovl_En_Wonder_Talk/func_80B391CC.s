@@ -1,3 +1,58 @@
+.rdata
+glabel D_80B399E4
+    .asciz "[32m ☆☆☆☆☆ 石板ＧＯ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B39A10
+    .asciz "[35m☆☆☆☆☆ 注目座標	       	☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B39A44
+    .asciz "[32m ☆☆☆☆☆ こども ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B39A6C
+    .asciz "[36m ☆☆☆☆☆ おとな ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B39A94
+    .asciz "[36m☆☆☆☆☆ this->actor.talk_message    ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80B39AD4
+    .asciz "[32m ☆☆☆☆☆ 日記帳スタート！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B39B08
+    .asciz "[35m☆☆☆☆☆ 注目座標	       	☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B39B3C
+    .asciz "[35m☆☆☆☆☆ 注目座標	       	☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B39B70
+    .asciz "[35m☆☆☆☆☆ 注目座標	       	☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B39BA4
+    .asciz "[35m☆☆☆☆☆ 注目座標	       	☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B39BD8
+    .asciz "[36m☆☆☆☆☆ this->actor.talk_message    ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B39D78
+.word L80B39228
+.word L80B392C0
+.word L80B39314
+.word L80B39358
+.word L80B393B8
+.word 0x00000000
+
+.text
 glabel func_80B391CC
 /* 000DC 80B391CC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 000E0 80B391D0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -179,5 +234,3 @@ glabel L80B393B8
 /* 00340 80B39430 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00344 80B39434 03E00008 */  jr      $ra                        
 /* 00348 80B39438 00000000 */  nop
-
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B1B724
+    .asciz "../z_en_tite.c"
+    .balign 4
+
+glabel D_80B1B734
+    .asciz "../z_en_tite.c"
+    .balign 4
+
+.text
 glabel EnTite_Draw
 /* 027E8 80B1B268 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 027EC 80B1B26C AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -214,4 +224,3 @@ glabel EnTite_Draw
 /* 02B24 80B1B5A4 00000000 */  nop
 /* 02B28 80B1B5A8 00000000 */  nop
 /* 02B2C 80B1B5AC 00000000 */  nop
-

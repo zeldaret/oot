@@ -12,5 +12,3 @@ glabel BgJyaBlock_Destroy
 /* 000D8 80894278 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000DC 8089427C 03E00008 */  jr      $ra                        
 /* 000E0 80894280 00000000 */  nop
-
-

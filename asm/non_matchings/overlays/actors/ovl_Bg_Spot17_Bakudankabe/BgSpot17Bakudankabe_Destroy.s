@@ -12,5 +12,3 @@ glabel BgSpot17Bakudankabe_Destroy
 /* 003E4 808B6FA4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 003E8 808B6FA8 03E00008 */  jr      $ra                        
 /* 003EC 808B6FAC 00000000 */  nop
-
-

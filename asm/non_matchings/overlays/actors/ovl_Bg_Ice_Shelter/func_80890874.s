@@ -1,3 +1,13 @@
+.rdata
+glabel D_80891800
+    .asciz "Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80891840
+    .asciz "../z_bg_ice_shelter.c"
+    .balign 4
+
+.text
 glabel func_80890874
 /* 00134 80890874 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00138 80890878 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -38,5 +48,3 @@ glabel func_80890874
 /* 001B0 808908F0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 001B4 808908F4 03E00008 */  jr      $ra                        
 /* 001B8 808908F8 00000000 */  nop
-
-

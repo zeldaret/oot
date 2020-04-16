@@ -1,6 +1,11 @@
+/*
+ * File: z_oceff_wipe2.c
+ * Overlay: ovl_Oceff_Wipe2
+ * Description: Epona's Song Effect
+ */
+
 #include "z_oceff_wipe2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void OceffWipe2_Init(OceffWipe2* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void OceffWipe2_Draw(OceffWipe2* this, GlobalContext* globalCtx);
 const ActorInit Oceff_Wipe2_InitVars = {
     ACTOR_OCEFF_WIPE2,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffWipe2),

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B62674
+    .asciz "../z_en_zo.c"
+    .balign 4
+
+glabel D_80B62684
+    .asciz "../z_en_zo.c"
+    .balign 4
+
+.text
 glabel EnZo_Draw
 /* 02020 80B62240 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 02024 80B62244 3C0F80B6 */  lui     $t7, %hi(D_80B625B0)       ## $t7 = 80B60000
@@ -134,4 +144,3 @@ glabel EnZo_Draw
 /* 02224 80B62444 03E00008 */  jr      $ra                        
 /* 02228 80B62448 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 0222C 80B6244C 00000000 */  nop
-

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80895048
+    .asciz "../z_bg_jya_bombchuiwa.c"
+    .balign 4
+
+glabel D_80895064
+    .asciz "../z_bg_jya_bombchuiwa.c"
+    .balign 4
+
+glabel D_80895080
+    .asciz "../z_bg_jya_bombchuiwa.c"
+    .balign 4
+
+.text
 glabel func_80894BC8
 /* 00728 80894BC8 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 0072C 80894BCC AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -172,5 +186,3 @@ glabel func_80894BC8
 /* 009B0 80894E50 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 009B4 80894E54 03E00008 */  jr      $ra                        
 /* 009B8 80894E58 00000000 */  nop
-
-

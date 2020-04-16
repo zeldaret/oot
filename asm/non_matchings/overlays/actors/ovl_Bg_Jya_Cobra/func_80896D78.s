@@ -1,3 +1,21 @@
+.rdata
+glabel D_80897684
+    .asciz "../z_bg_jya_cobra.c"
+    .balign 4
+
+glabel D_80897698
+    .asciz "../z_bg_jya_cobra.c"
+    .balign 4
+
+glabel D_808976AC
+    .asciz "../z_bg_jya_cobra.c"
+    .balign 4
+
+.late_rodata
+glabel D_80897740
+    .float 0.1
+
+.text
 glabel func_80896D78
 /* 01488 80896D78 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0148C 80896D7C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -90,5 +108,3 @@ glabel func_80896D78
 /* 015E8 80896ED8 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 015EC 80896EDC 03E00008 */  jr      $ra                        
 /* 015F0 80896EE0 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

@@ -12,5 +12,3 @@ glabel BgSpot07Taki_Destroy
 /* 000CC 808AFCFC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000D0 808AFD00 03E00008 */  jr      $ra                        
 /* 000D4 808AFD04 00000000 */  nop
-
-

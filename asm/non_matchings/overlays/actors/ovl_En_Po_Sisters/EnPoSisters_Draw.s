@@ -1,3 +1,44 @@
+.rdata
+glabel D_80ADD828
+    .asciz "../z_en_po_sisters.c"
+    .balign 4
+
+glabel D_80ADD840
+    .asciz "../z_en_po_sisters.c"
+    .balign 4
+
+glabel D_80ADD858
+    .asciz "../z_en_po_sisters.c"
+    .balign 4
+
+glabel D_80ADD870
+    .asciz "../z_en_po_sisters.c"
+    .balign 4
+
+.late_rodata
+glabel D_80ADD8A8
+ .word 0x3BB78035
+glabel D_80ADD8AC
+    .float 0.0027
+
+glabel D_80ADD8B0
+    .float 0.0027
+
+glabel D_80ADD8B4
+ .word 0x3B656042
+glabel D_80ADD8B8
+    .float 0.0027
+
+glabel D_80ADD8BC
+    .float 0.8
+
+glabel D_80ADD8C0
+    .float 0.025
+
+glabel D_80ADD8C4
+ .word 0x3BE56042, 0x00000000, 0x00000000
+
+.text
 glabel EnPoSisters_Draw
 /* 040B4 80ADD044 27BDFF08 */  addiu   $sp, $sp, 0xFF08           ## $sp = FFFFFF08
 /* 040B8 80ADD048 AFBF006C */  sw      $ra, 0x006C($sp)
@@ -449,4 +490,3 @@ glabel EnPoSisters_Draw
 /* 04754 80ADD6E4 03E00008 */  jr      $ra
 /* 04758 80ADD6E8 27BD00F8 */  addiu   $sp, $sp, 0x00F8           ## $sp = 00000000
 /* 0475C 80ADD6EC 00000000 */  nop
-

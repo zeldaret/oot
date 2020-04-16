@@ -36,5 +36,3 @@ glabel BgPoEvent_Destroy
 /* 006B4 808A68C4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 006B8 808A68C8 03E00008 */  jr      $ra                        
 /* 006BC 808A68CC 00000000 */  nop
-
-

@@ -1,6 +1,5 @@
 #include "z_demo_tre_lgt.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void DemoTreLgt_Init(DemoTreLgt* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void DemoTreLgt_Draw(DemoTreLgt* this, GlobalContext* globalCtx);
 const ActorInit Demo_Tre_Lgt_InitVars = {
     ACTOR_DEMO_TRE_LGT,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_BOX,
     sizeof(DemoTreLgt),

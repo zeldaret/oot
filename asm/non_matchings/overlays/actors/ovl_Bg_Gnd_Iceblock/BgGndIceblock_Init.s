@@ -86,5 +86,3 @@ glabel BgGndIceblock_Init
 /* 00128 80879BC8 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0012C 80879BCC 03E00008 */  jr      $ra                        
 /* 00130 80879BD0 00000000 */  nop
-
-

@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809B0180
+    .float 4500.0
+
+.text
 glabel EnAm_Update
 /* 01ADC 809AF9FC 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 01AE0 809AFA00 AFBF004C */  sw      $ra, 0x004C($sp)           
@@ -261,5 +266,3 @@ glabel EnAm_Update
 /* 01E70 809AFD90 8FB30048 */  lw      $s3, 0x0048($sp)           
 /* 01E74 809AFD94 03E00008 */  jr      $ra                        
 /* 01E78 809AFD98 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
-
-

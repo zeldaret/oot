@@ -1,3 +1,28 @@
+.rdata
+glabel D_808D1CBC
+    .asciz "FD MOVE START \n"
+    .balign 4
+
+glabel D_808D1CCC
+    .asciz "FD MOVE END 1\n"
+    .balign 4
+
+glabel D_808D1CDC
+    .asciz "FD MOVE END 2\n"
+    .balign 4
+
+.late_rodata
+glabel D_808D1F88
+    .float 0.4
+
+glabel D_808D1F8C
+ .word 0x410E6666
+glabel D_808D1F90
+ .word 0x41EF3333
+glabel D_808D1F94
+    .float 0.4
+
+.text
 glabel BossFd_Update
 /* 03F24 808CECE4 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 03F28 808CECE8 AFB30054 */  sw      $s3, 0x0054($sp)           
@@ -530,5 +555,3 @@ glabel BossFd_Update
 /* 0467C 808CF43C 8FB40058 */  lw      $s4, 0x0058($sp)           
 /* 04680 808CF440 03E00008 */  jr      $ra                        
 /* 04684 808CF444 27BD00D8 */  addiu   $sp, $sp, 0x00D8           ## $sp = 00000000
-
-

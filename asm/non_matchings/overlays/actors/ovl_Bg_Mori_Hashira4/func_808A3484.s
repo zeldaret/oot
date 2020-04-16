@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A36A4
+    .asciz "../z_bg_mori_hashira4.c"
+    .balign 4
+
+glabel D_808A36BC
+    .asciz "../z_bg_mori_hashira4.c"
+    .balign 4
+
+glabel D_808A36D4
+    .asciz "../z_bg_mori_hashira4.c"
+    .balign 4
+
+.text
 glabel func_808A3484
 /* 00424 808A3484 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00428 808A3488 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -70,4 +84,3 @@ glabel func_808A3484
 /* 00534 808A3594 00000000 */  nop
 /* 00538 808A3598 00000000 */  nop
 /* 0053C 808A359C 00000000 */  nop
-

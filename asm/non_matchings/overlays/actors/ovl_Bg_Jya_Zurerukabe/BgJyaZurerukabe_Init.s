@@ -1,3 +1,29 @@
+.rdata
+glabel D_8089BAAC
+    .asciz "[41;37m"
+    .balign 4
+
+glabel D_8089BAB8
+    .asciz "home pos が変更されたみたい(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+.balign 4
+
+glabel D_8089BAF0
+    .asciz "../z_bg_jya_zurerukabe.c"
+    .balign 4
+
+glabel D_8089BB0C
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_8089BB10
+    .asciz "(jya ずれる壁)(arg_data 0x%04x)\n"
+    .balign 4
+
+.balign 4
+
+.text
 glabel BgJyaZurerukabe_Init
 /* 00220 8089B660 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00224 8089B664 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -75,5 +101,3 @@ glabel BgJyaZurerukabe_Init
 /* 00320 8089B760 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00324 8089B764 03E00008 */  jr      $ra                        
 /* 00328 8089B768 00000000 */  nop
-
-

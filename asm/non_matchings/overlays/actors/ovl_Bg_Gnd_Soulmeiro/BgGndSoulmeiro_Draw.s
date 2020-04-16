@@ -1,3 +1,25 @@
+.rdata
+glabel D_8087B590
+    .asciz "../z_bg_gnd_soulmeiro.c"
+    .balign 4
+
+glabel D_8087B5A8
+    .asciz "../z_bg_gnd_soulmeiro.c"
+    .balign 4
+
+glabel D_8087B5C0
+    .asciz "../z_bg_gnd_soulmeiro.c"
+    .balign 4
+
+.late_rodata
+glabel D_8087B5D8
+    .float 10922.0
+glabel D_8087B5DC
+    .float 0.0083333338
+glabel D_8087B5E0
+    .float 0.69999999
+
+.text
 glabel BgGndSoulmeiro_Draw
 /* 0060C 8087B3CC 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00610 8087B3D0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -86,4 +108,3 @@ glabel BgGndSoulmeiro_Draw
 /* 00744 8087B504 00000000 */  nop
 /* 00748 8087B508 00000000 */  nop
 /* 0074C 8087B50C 00000000 */  nop
-

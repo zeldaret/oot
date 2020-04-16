@@ -1,3 +1,29 @@
+.rdata
+glabel D_80B39C18
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B39C1C
+    .asciz "[33m☆☆☆☆☆ セーブ情報		☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80B39C4C
+    .asciz "[35m☆☆☆☆☆ 種類インデックス	☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80B39C80
+    .asciz "[36m☆☆☆☆☆ 実質メッセージ種類     %x\n[m"
+    .balign 4
+
+glabel D_80B39CB0
+    .asciz "[32m☆☆☆☆☆ 指定範囲               %d\n[m"
+    .balign 4
+
+glabel D_80B39CE0
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel func_80B3943C
 /* 0034C 80B3943C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00350 80B39440 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -128,5 +154,3 @@ glabel func_80B3943C
 /* 004F4 80B395E4 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 004F8 80B395E8 03E00008 */  jr      $ra                        
 /* 004FC 80B395EC 00000000 */  nop
-
-

@@ -10,5 +10,3 @@ glabel EnTrap_Destroy
 /* 003D4 80B24A34 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 003D8 80B24A38 03E00008 */  jr      $ra                        
 /* 003DC 80B24A3C 00000000 */  nop
-
-

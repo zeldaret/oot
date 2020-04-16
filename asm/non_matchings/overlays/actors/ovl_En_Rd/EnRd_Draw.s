@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AE4970
+    .asciz "../z_en_rd.c"
+    .balign 4
+
+glabel D_80AE4980
+    .asciz "../z_en_rd.c"
+    .balign 4
+
+.text
 glabel EnRd_Draw
 /* 02268 80AE4668 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 0226C 80AE466C AFBF0034 */  sw      $ra, 0x0034($sp)
@@ -143,4 +153,3 @@ glabel EnRd_Draw
 /* 02494 80AE4894 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 02498 80AE4898 03E00008 */  jr      $ra
 /* 0249C 80AE489C 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-

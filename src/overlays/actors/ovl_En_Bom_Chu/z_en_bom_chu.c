@@ -1,6 +1,5 @@
 #include "z_en_bom_chu.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnBomChu_Init(EnBomChu* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnBomChu_Draw(EnBomChu* this, GlobalContext* globalCtx);
 const ActorInit En_Bom_Chu_InitVars = {
     ACTOR_EN_BOM_CHU,
     ACTORTYPE_EXPLOSIVES,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBomChu),

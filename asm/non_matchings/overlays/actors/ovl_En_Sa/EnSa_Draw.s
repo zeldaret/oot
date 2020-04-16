@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AF7490
+    .asciz "../z_en_sa.c"
+    .balign 4
+
+glabel D_80AF74A0
+    .asciz "../z_en_sa.c"
+    .balign 4
+
+.text
 glabel EnSa_Draw
 /* 01A08 80AF6F68 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 01A0C 80AF6F6C AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -184,4 +194,3 @@ glabel EnSa_Draw
 /* 01CD4 80AF7234 03E00008 */  jr      $ra                        
 /* 01CD8 80AF7238 00000000 */  nop
 /* 01CDC 80AF723C 00000000 */  nop
-

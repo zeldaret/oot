@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B86848
+ .word 0xBE99999A
+
+.text
 glabel func_80B865E0
 /* 004B0 80B865E0 3C0180B8 */  lui     $at, %hi(D_80B86848)       ## $at = 80B80000
 /* 004B4 80B865E4 C4246848 */  lwc1    $f4, %lo(D_80B86848)($at)  
@@ -23,5 +28,3 @@ glabel func_80B865E0
 /* 00504 80B86634 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00508 80B86638 03E00008 */  jr      $ra                        
 /* 0050C 80B8663C 00000000 */  nop
-
-

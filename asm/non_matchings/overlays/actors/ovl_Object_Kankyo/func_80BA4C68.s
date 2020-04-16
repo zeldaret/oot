@@ -21,12 +21,10 @@ glabel func_80BA4C68
 /* 02210 80BA4CB0 24A54CD4 */  addiu   $a1, $a1, %lo(func_80BA4CD4) ## $a1 = 80BA4CD4
 /* 02214 80BA4CB4 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 02218 80BA4CB8 A0CF001E */  sb      $t7, 0x001E($a2)           ## 0000001E
-/* 0221C 80BA4CBC 0C2E8AA8 */  jal     func_80BA2AA0              
+/* 0221C 80BA4CBC 0C2E8AA8 */  jal     ObjectKankyo_SetupAction              
 /* 02220 80BA4CC0 E4C40190 */  swc1    $f4, 0x0190($a2)           ## 00000190
 .L80BA4CC4:
 /* 02224 80BA4CC4 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 02228 80BA4CC8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0222C 80BA4CCC 03E00008 */  jr      $ra                        
 /* 02230 80BA4CD0 00000000 */  nop
-
-

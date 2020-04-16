@@ -128,5 +128,3 @@ glabel EnAm_Init
 /* 002EC 809AE20C 8FB00024 */  lw      $s0, 0x0024($sp)           
 /* 002F0 809AE210 03E00008 */  jr      $ra                        
 /* 002F4 809AE214 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

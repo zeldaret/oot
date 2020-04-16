@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A35200
+    .asciz "../z_en_ge3.c"
+    .balign 4
+
+glabel D_80A35210
+    .asciz "../z_en_ge3.c"
+    .balign 4
+
+.text
 glabel EnGe3_Draw
 /* 00A40 80A35060 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00A44 80A35064 AFB10028 */  sw      $s1, 0x0028($sp)
@@ -67,4 +77,3 @@ glabel EnGe3_Draw
 /* 00B44 80A35164 03E00008 */  jr      $ra
 /* 00B48 80A35168 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 00B4C 80A3516C 00000000 */  nop
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A91E04
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A91E08
+    .asciz "[33m☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel EnKakasi3_Update
 /* 00E6C 80A91B8C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00E70 80A91B90 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
@@ -83,5 +93,3 @@ glabel EnKakasi3_Update
 /* 00F8C 80A91CAC 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00F90 80A91CB0 03E00008 */  jr      $ra                        
 /* 00F94 80A91CB4 00000000 */  nop
-
-

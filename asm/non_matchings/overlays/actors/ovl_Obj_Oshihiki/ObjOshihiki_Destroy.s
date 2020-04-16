@@ -12,5 +12,3 @@ glabel ObjOshihiki_Destroy
 /* 0073C 80B9B8BC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00740 80B9B8C0 03E00008 */  jr      $ra                        
 /* 00744 80B9B8C4 00000000 */  nop
-
-

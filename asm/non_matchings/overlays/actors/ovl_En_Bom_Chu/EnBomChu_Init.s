@@ -105,5 +105,3 @@ glabel EnBomChu_Init
 /* 00190 809C59C0 27BD01D8 */  addiu   $sp, $sp, 0x01D8           ## $sp = 00000000
 /* 00194 809C59C4 03E00008 */  jr      $ra                        
 /* 00198 809C59C8 00000000 */  nop
-
-

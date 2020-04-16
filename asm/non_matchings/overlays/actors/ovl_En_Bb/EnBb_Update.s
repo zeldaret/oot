@@ -172,5 +172,3 @@ glabel EnBb_Update
 /* 03208 809BB4E8 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 0320C 809BB4EC 03E00008 */  jr      $ra                        
 /* 03210 809BB4F0 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-

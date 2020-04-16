@@ -1,3 +1,49 @@
+.rdata
+glabel D_808A4420
+    .asciz "../z_bg_mori_hineri.c"
+    .balign 4
+
+glabel D_808A4438
+    .asciz "../z_bg_mori_hineri.c"
+    .balign 4
+
+glabel D_808A4450
+    .asciz "../z_bg_mori_hineri.c"
+    .balign 4
+
+glabel D_808A4468
+    .asciz "../z_bg_mori_hineri.c"
+    .balign 4
+
+glabel D_808A4480
+    .asciz "../z_bg_mori_hineri.c"
+    .balign 4
+
+glabel D_808A4498
+    .asciz "../z_bg_mori_hineri.c"
+    .balign 4
+
+.late_rodata
+glabel D_808A44C0
+    .float -1761.0
+glabel D_808A44C4
+    .float 1278.0
+glabel D_808A44C8
+    .float 1999.0
+glabel D_808A44CC
+    .float 1278.0
+glabel D_808A44D0
+    .float 1.57079637051
+glabel D_808A44D4
+    .float 0.01
+glabel D_808A44D8
+    .float 1.3008157
+glabel D_808A44DC
+    .float 3.14159274101
+glabel D_808A44E0
+    .float 0.01
+
+.text
 glabel func_808A3F58
 /* 00788 808A3F58 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 0078C 808A3F5C AFBF001C */  sw      $ra, 0x001C($sp)
@@ -300,4 +346,3 @@ glabel func_808A3F58
 /* 00C04 808A43D4 00000000 */  nop
 /* 00C08 808A43D8 00000000 */  nop
 /* 00C0C 808A43DC 00000000 */  nop
-

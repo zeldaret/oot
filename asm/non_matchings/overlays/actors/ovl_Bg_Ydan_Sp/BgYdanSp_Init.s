@@ -267,5 +267,3 @@ glabel BgYdanSp_Init
 /* 003D8 808BF7E8 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 003DC 808BF7EC 03E00008 */  jr      $ra                        
 /* 003E0 808BF7F0 00000000 */  nop
-
-

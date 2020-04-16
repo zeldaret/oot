@@ -24,5 +24,3 @@ glabel EnBrob_Destroy
 /* 002C0 809CADD0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002C4 809CADD4 03E00008 */  jr      $ra                        
 /* 002C8 809CADD8 00000000 */  nop
-
-

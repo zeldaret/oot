@@ -22,5 +22,3 @@ glabel BgYdanMaruta_Destroy
 /* 002A8 808BEFE8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002AC 808BEFEC 03E00008 */  jr      $ra                        
 /* 002B0 808BEFF0 00000000 */  nop
-
-

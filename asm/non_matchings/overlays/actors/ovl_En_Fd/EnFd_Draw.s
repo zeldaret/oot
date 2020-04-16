@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A0E120
+    .asciz "../z_en_fd.c"
+    .balign 4
+
+glabel D_80A0E130
+    .asciz "../z_en_fd.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A0E1D8
+    .float 0.9
+
+.text
 glabel EnFd_Draw
 /* 0195C 80A0D01C 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 01960 80A0D020 3C0F80A1 */  lui     $t7, %hi(D_80A0E0D0)       ## $t7 = 80A10000
@@ -263,5 +277,3 @@ glabel EnFd_Draw
 /* 01D40 80A0D400 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 01D44 80A0D404 03E00008 */  jr      $ra
 /* 01D48 80A0D408 27BD00A0 */  addiu   $sp, $sp, 0x00A0           ## $sp = 00000000
-
-

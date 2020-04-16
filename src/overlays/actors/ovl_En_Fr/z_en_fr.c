@@ -1,6 +1,5 @@
 #include "z_en_fr.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000019
 
 void EnFr_Init(EnFr* this, GlobalContext* globalCtx);
@@ -11,7 +10,6 @@ void EnFr_Update(EnFr* this, GlobalContext* globalCtx);
 const ActorInit En_Fr_InitVars = {
     ACTOR_EN_FR,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_FR,
     sizeof(EnFr),

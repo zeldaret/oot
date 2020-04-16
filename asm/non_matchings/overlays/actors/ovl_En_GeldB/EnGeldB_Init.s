@@ -144,5 +144,3 @@ glabel EnGeldB_Init
 /* 0021C 80A3552C 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 00220 80A35530 03E00008 */  jr      $ra
 /* 00224 80A35534 27BD01E8 */  addiu   $sp, $sp, 0x01E8           ## $sp = 00000000
-
-

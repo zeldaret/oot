@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A740D8
+    .asciz "../z_en_ice_hono.c"
+    .balign 4
+
+glabel D_80A740EC
+    .asciz "../z_en_ice_hono.c"
+    .balign 4
+
+glabel D_80A74100
+    .asciz "../z_en_ice_hono.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A74174
+    .float 9.58738019108e-05
+
+.text
 glabel EnIceHono_Draw
 /* 00E1C 80A73E0C 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00E20 80A73E10 AFB10038 */  sw      $s1, 0x0038($sp)           
@@ -120,4 +138,3 @@ glabel EnIceHono_Draw
 /* 00FF4 80A73FE4 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 00FF8 80A73FE8 03E00008 */  jr      $ra                        
 /* 00FFC 80A73FEC 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-

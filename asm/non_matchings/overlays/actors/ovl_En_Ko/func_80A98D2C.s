@@ -38,5 +38,3 @@ glabel func_80A98D2C
 .L80A98DAC:
 /* 01FFC 80A98DAC 03E00008 */  jr      $ra                        
 /* 02000 80A98DB0 00000000 */  nop
-
-

@@ -12,5 +12,3 @@ glabel BgGndIceblock_Destroy
 /* 00158 80879BF8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0015C 80879BFC 03E00008 */  jr      $ra                        
 /* 00160 80879C00 00000000 */  nop
-
-

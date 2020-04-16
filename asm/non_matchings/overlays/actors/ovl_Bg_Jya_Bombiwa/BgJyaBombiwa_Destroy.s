@@ -18,5 +18,3 @@ glabel BgJyaBombiwa_Destroy
 /* 001F0 80895390 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001F4 80895394 03E00008 */  jr      $ra                        
 /* 001F8 80895398 00000000 */  nop
-
-

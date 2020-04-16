@@ -1,6 +1,5 @@
 #include "z_en_cs.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnCs_Init(EnCs* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnCs_Draw(EnCs* this, GlobalContext* globalCtx);
 const ActorInit En_Cs_InitVars = {
     ACTOR_EN_CS,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_CS,
     sizeof(EnCs),

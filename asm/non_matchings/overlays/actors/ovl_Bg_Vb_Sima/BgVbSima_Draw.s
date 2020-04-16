@@ -1,3 +1,17 @@
+.rdata
+glabel D_808BE420
+    .asciz "../z_bg_vb_sima.c"
+    .balign 4
+
+glabel D_808BE434
+    .asciz "../z_bg_vb_sima.c"
+    .balign 4
+
+glabel D_808BE448
+    .asciz "../z_bg_vb_sima.c"
+    .balign 4
+
+.text
 glabel BgVbSima_Draw
 /* 005C4 808BE324 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 005C8 808BE328 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -50,4 +64,3 @@ glabel BgVbSima_Draw
 /* 00684 808BE3E4 03E00008 */  jr      $ra                        
 /* 00688 808BE3E8 00000000 */  nop
 /* 0068C 808BE3EC 00000000 */  nop
-

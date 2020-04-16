@@ -6,7 +6,9 @@
 
 typedef struct {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0xC];
+    /* 0x014C */ ActorFunc actionFunc;
+    /* 0x0150 */ f32 unk_150;
+    /* 0x0154 */ char unk_154[0x4];
 } BgSpot01Idomizu; // size = 0x0158
 
 extern const ActorInit Bg_Spot01_Idomizu_InitVars;

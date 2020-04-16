@@ -36,5 +36,3 @@ glabel EnExRuppy_Update
 /* 00DC0 80A0B1D0 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00DC4 80A0B1D4 03E00008 */  jr      $ra                        
 /* 00DC8 80A0B1D8 00000000 */  nop
-
-

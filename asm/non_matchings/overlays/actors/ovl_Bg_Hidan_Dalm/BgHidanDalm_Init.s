@@ -64,5 +64,3 @@ glabel BgHidanDalm_Init
 /* 000D8 80885EF8 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 000DC 80885EFC 03E00008 */  jr      $ra                        
 /* 000E0 80885F00 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

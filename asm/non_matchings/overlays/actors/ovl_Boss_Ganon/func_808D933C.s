@@ -1776,5 +1776,3 @@ glabel L808DAB60
 /* 0446C 808DACDC 27BD00B0 */  addiu   $sp, $sp, 0x00B0           ## $sp = 00000000
 /* 04470 808DACE0 03E00008 */  jr      $ra
 /* 04474 808DACE4 00000000 */  nop
-
-

@@ -19,5 +19,3 @@ glabel ObjKibako2_Destroy
 /* 00420 80B95DF0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00424 80B95DF4 03E00008 */  jr      $ra                        
 /* 00428 80B95DF8 00000000 */  nop
-
-

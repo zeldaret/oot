@@ -17,5 +17,3 @@ glabel BgGndDarkmeiro_Destroy
 /* 002EC 80878F1C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002F0 80878F20 03E00008 */  jr      $ra                        
 /* 002F4 80878F24 00000000 */  nop
-
-

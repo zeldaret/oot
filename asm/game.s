@@ -656,7 +656,7 @@ glabel func_800C4A98
 /* B3BC44 800C4AA4 3C048016 */  lui   $a0, %hi(gPadMgr) # $a0, 0x8016
 /* B3BC48 800C4AA8 248468C0 */  addiu $a0, %lo(gPadMgr) # addiu $a0, $a0, 0x68c0
 /* B3BC4C 800C4AAC 24E50014 */  addiu $a1, $a3, 0x14
-/* B3BC50 800C4AB0 0C031F82 */  jal   func_800C7E08
+/* B3BC50 800C4AB0 0C031F82 */  jal   PadMgr_RequestPadData
 /* B3BC54 800C4AB4 24060001 */   li    $a2, 1
 /* B3BC58 800C4AB8 8FBF0014 */  lw    $ra, 0x14($sp)
 /* B3BC5C 800C4ABC 27BD0018 */  addiu $sp, $sp, 0x18

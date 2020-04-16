@@ -18,12 +18,10 @@ glabel func_80872288
 /* 008C8 808722C8 3C058087 */  lui     $a1, %hi(func_80871CF4)    ## $a1 = 80870000
 /* 008CC 808722CC 55A10004 */  bnel    $t5, $at, .L808722E0       
 /* 008D0 808722D0 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 008D4 808722D4 0C21C680 */  jal     func_80871A00              
+/* 008D4 808722D4 0C21C680 */  jal     BgDodoago_SetupAction              
 /* 008D8 808722D8 24A51CF4 */  addiu   $a1, $a1, %lo(func_80871CF4) ## $a1 = 80871CF4
 /* 008DC 808722DC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L808722E0:
 /* 008E0 808722E0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 008E4 808722E4 03E00008 */  jr      $ra                        
 /* 008E8 808722E8 00000000 */  nop
-
-

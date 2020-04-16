@@ -1,3 +1,66 @@
+.rdata
+glabel D_80B7B160
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B170
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B180
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B190
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B1A0
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B1B0
+    .asciz "../z_fishing.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B7B420
+    .float 9.58738019108e-05
+    
+
+glabel D_80B7B424
+    .float 3.14159274101
+    
+
+glabel D_80B7B428
+    .float 0.00399999972433
+    
+
+glabel D_80B7B42C
+    .float 1.57079637051
+    
+
+glabel D_80B7B430
+    .float 1.57079637051
+    
+
+glabel D_80B7B434
+    .float -850.0
+    
+
+glabel D_80B7B438
+    .float 2100.0
+    
+
+glabel D_80B7B43C
+    .float 0.001
+    
+
+glabel D_80B7B440
+    .float 0.001
+    
+
+.text
 glabel func_80B6D688
 /* 03CE8 80B6D688 3C0180B8 */  lui     $at, %hi(D_80B7E144)       ## $at = 80B80000
 /* 03CEC 80B6D68C C424E144 */  lwc1    $f4, %lo(D_80B7E144)($at)  
@@ -567,5 +630,3 @@ glabel func_80B6D688
 /* 04584 80B6DF24 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 04588 80B6DF28 03E00008 */  jr      $ra                        
 /* 0458C 80B6DF2C 27BD00E8 */  addiu   $sp, $sp, 0x00E8           ## $sp = 00000000
-
-

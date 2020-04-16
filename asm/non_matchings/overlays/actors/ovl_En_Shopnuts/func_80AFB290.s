@@ -1,3 +1,31 @@
+.rdata
+glabel D_80AFB520
+    .asciz "../z_en_shopnuts.c"
+    .balign 4
+
+glabel D_80AFB534
+    .asciz "../z_en_shopnuts.c"
+    .balign 4
+
+glabel D_80AFB548
+    .asciz "../z_en_shopnuts.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AFB55C
+ .word 0x3DAA9931
+glabel D_80AFB560
+ .word 0x3DEF0069
+glabel D_80AFB564
+    .float 1.7
+
+glabel D_80AFB568
+    .float 0.7
+
+glabel D_80AFB56C
+ .word 0x3E2AB368
+
+.text
 glabel func_80AFB290
 /* 00B70 80AFB290 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00B74 80AFB294 24010009 */  addiu   $at, $zero, 0x0009         ## $at = 00000009
@@ -123,5 +151,3 @@ glabel func_80AFB290
 /* 00D40 80AFB460 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00D44 80AFB464 03E00008 */  jr      $ra                        
 /* 00D48 80AFB468 00000000 */  nop
-
-

@@ -1,3 +1,47 @@
+.rdata
+glabel D_80A118AC
+    .asciz "F_FIRE_MODE %d\n"
+    .balign 4
+
+glabel D_80A118BC
+    .asciz "fly_mode    %d\n"
+    .balign 4
+
+glabel D_80A118CC
+    .asciz "BEFORE setAC   %d\n"
+    .balign 4
+
+glabel D_80A118E0
+    .asciz "AFTER  setAC\n"
+    .balign 4
+
+glabel D_80A118F0
+    .asciz "なぜだああああああああ      %d\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A119DC
+ .word 0x469C4000
+glabel D_80A119E0
+ .word 0xBDA3D70A
+glabel D_80A119E4
+ .word 0x4622F983
+glabel D_80A119E8
+ .word 0x4622F983
+glabel D_80A119EC
+ .word 0x4622F983
+glabel D_80A119F0
+ .word 0x4622F983
+glabel D_80A119F4
+ .word 0x4622F983
+glabel D_80A119F8
+ .word 0x4622F983
+glabel D_80A119FC
+ .word 0x4622F983
+glabel D_80A11A00
+ .word 0xBDCCCCCD
+
+.text
 glabel func_80A10220
 /* 00FC0 80A10220 27BDFEF0 */  addiu   $sp, $sp, 0xFEF0           ## $sp = FFFFFEF0
 /* 00FC4 80A10224 AFBF0044 */  sw      $ra, 0x0044($sp)           
@@ -909,5 +953,3 @@ glabel func_80A10220
 /* 01CAC 80A10F0C 8FB10040 */  lw      $s1, 0x0040($sp)           
 /* 01CB0 80A10F10 03E00008 */  jr      $ra                        
 /* 01CB4 80A10F14 27BD0110 */  addiu   $sp, $sp, 0x0110           ## $sp = 00000000
-
-

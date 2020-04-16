@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A8FE30
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A8FE34
+    .asciz "[33m☆☆☆☆☆ Ｌｅｔ’ｓ ＤＡＮＣＥ！ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+.text
 glabel EnKakasi_Init
 /* 00028 80A8F198 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0002C 80A8F19C AFB00028 */  sw      $s0, 0x0028($sp)
@@ -65,5 +75,3 @@ glabel EnKakasi_Init
 /* 00110 80A8F280 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00114 80A8F284 03E00008 */  jr      $ra
 /* 00118 80A8F288 00000000 */  nop
-
-

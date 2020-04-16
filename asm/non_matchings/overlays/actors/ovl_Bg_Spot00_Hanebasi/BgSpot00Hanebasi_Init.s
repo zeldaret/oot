@@ -298,5 +298,3 @@ glabel BgSpot00Hanebasi_Init
 /* 00400 808A9B80 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 00404 808A9B84 03E00008 */  jr      $ra                        
 /* 00408 808A9B88 00000000 */  nop
-
-

@@ -13,5 +13,3 @@ glabel BossFd2_Destroy
 /* 00554 808D2BC4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00558 808D2BC8 03E00008 */  jr      $ra
 /* 0055C 808D2BCC 00000000 */  nop
-
-

@@ -1,3 +1,24 @@
+.rdata
+glabel D_8089B258
+    .asciz "../z_bg_jya_megami.c"
+    .balign 4
+
+glabel D_8089B270
+    .asciz "../z_bg_jya_megami.c"
+    .balign 4
+
+glabel D_8089B288
+    .asciz "../z_bg_jya_megami.c"
+    .balign 4
+
+.late_rodata
+glabel D_8089B2BC
+    .float 9.58738019108e-05
+
+glabel D_8089B2C0
+    .float 0.1
+
+.text
 glabel func_8089AD48
 /* 00C18 8089AD48 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 00C1C 8089AD4C AFB60048 */  sw      $s6, 0x0048($sp)           
@@ -131,5 +152,3 @@ glabel func_8089AD48
 /* 00E18 8089AF48 8FBE0050 */  lw      $s8, 0x0050($sp)           
 /* 00E1C 8089AF4C 03E00008 */  jr      $ra                        
 /* 00E20 8089AF50 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
-
-

@@ -113,5 +113,3 @@ glabel BgIceShutter_Init
 /* 001F8 80891CB8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 001FC 80891CBC 03E00008 */  jr      $ra                        
 /* 00200 80891CC0 00000000 */  nop
-
-

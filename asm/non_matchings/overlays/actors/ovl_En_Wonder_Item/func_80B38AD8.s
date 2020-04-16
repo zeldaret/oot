@@ -1,3 +1,9 @@
+.rdata
+glabel D_80B38E94
+    .asciz "[33m☆☆☆☆☆ うっかり兵セット完了 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_80B38AD8
 /* 00A78 80B38AD8 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00A7C 80B38ADC AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -46,5 +52,3 @@ glabel func_80B38AD8
 /* 00B0C 80B38B6C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00B10 80B38B70 03E00008 */  jr      $ra                        
 /* 00B14 80B38B74 00000000 */  nop
-
-

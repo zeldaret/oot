@@ -19,4 +19,3 @@ glabel EnHorseZelda_Draw
 /* 008D4 80A6E1A4 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 008D8 80A6E1A8 03E00008 */  jr      $ra                        
 /* 008DC 80A6E1AC 00000000 */  nop
-

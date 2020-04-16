@@ -29,5 +29,3 @@ glabel BgVbSima_Init
 /* 0005C 808BDDBC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00060 808BDDC0 03E00008 */  jr      $ra                        
 /* 00064 808BDDC4 00000000 */  nop
-
-

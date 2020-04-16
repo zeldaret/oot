@@ -4,49 +4,45 @@
  * Description: Blue Navi Target. Probably unused since NPC's are blue and they do not use this actor.
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
+#include "z_en_oe2.h"
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x44];
-    /* 0x0190 */ ActorFunc updateFunc;
-} ActorEnOE2; // size = 0x0194
-
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
-static void func_80ABE6A0(ActorEnOE2* this, ActorFunc func);
-static void Init(ActorEnOE2* this, GlobalContext* globalCtx);
-static void Destroy(ActorEnOE2* this, GlobalContext* globalCtx);
-static void func_80ABE6DC(ActorEnOE2* this, GlobalContext* globalCtx);
-static void Update(ActorEnOE2* this, GlobalContext* globalCtx);
-static void Draw(ActorEnOE2* this, GlobalContext* globalCtx);
+void func_80ABE6A0(EnOE2* this, ActorFunc func);
+void EnOE2_Init(EnOE2* this, GlobalContext* globalCtx);
+void EnOE2_Destroy(EnOE2* this, GlobalContext* globalCtx);
+void func_80ABE6DC(EnOE2* this, GlobalContext* globalCtx);
+void EnOE2_Update(EnOE2* this, GlobalContext* globalCtx);
+void EnOE2_Draw(EnOE2* this, GlobalContext* globalCtx);
 
 const ActorInit En_OE2_InitVars = {
-    ACTOR_EN_OE2,    ACTORTYPE_NPC,      ROOM,
-    FLAGS,           OBJECT_OE2,         sizeof(ActorEnOE2),
-    (ActorFunc)Init, (ActorFunc)Destroy, (ActorFunc)Update,
-    (ActorFunc)Draw,
+    ACTOR_EN_OE2,
+    ACTORTYPE_NPC,
+    FLAGS,
+    OBJECT_OE2,
+    sizeof(EnOE2),
+    (ActorFunc)EnOE2_Init,
+    (ActorFunc)EnOE2_Destroy,
+    (ActorFunc)EnOE2_Update,
+    (ActorFunc)EnOE2_Draw,
 };
 
-static void func_80ABE6A0(ActorEnOE2* this, ActorFunc func) {
-    this->updateFunc = func;
+void EnOE2_SetupAction(EnOE2* this, ActorFunc actionFunc) {
+    this->updateFunc = actionFunc;
 }
 
-static void Init(ActorEnOE2* this, GlobalContext* globalCtx) {
-    func_80ABE6A0(this, (ActorFunc)func_80ABE6DC);
+void EnOE2_Init(EnOE2* this, GlobalContext* globalCtx) {
+    EnOE2_SetupAction(this, func_80ABE6DC);
 }
 
-static void Destroy(ActorEnOE2* this, GlobalContext* globalCtx) {
+void EnOE2_Destroy(EnOE2* this, GlobalContext* globalCtx) {
 }
 
-static void func_80ABE6DC(ActorEnOE2* this, GlobalContext* globalCtx) {
+void func_80ABE6DC(EnOE2* this, GlobalContext* globalCtx) {
 }
 
-static void Update(ActorEnOE2* this, GlobalContext* globalCtx) {
+void EnOE2_Update(EnOE2* this, GlobalContext* globalCtx) {
 }
 
-static void Draw(ActorEnOE2* this, GlobalContext* globalCtx) {
+void EnOE2_Draw(EnOE2* this, GlobalContext* globalCtx) {
 }

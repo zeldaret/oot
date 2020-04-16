@@ -721,5 +721,3 @@ glabel EnNiw_Update
 /* 027D4 80AB7F54 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 027D8 80AB7F58 03E00008 */  jr      $ra                        
 /* 027DC 80AB7F5C 27BD00E0 */  addiu   $sp, $sp, 0x00E0           ## $sp = 00000000
-
-

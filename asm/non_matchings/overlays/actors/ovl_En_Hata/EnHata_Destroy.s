@@ -15,5 +15,3 @@ glabel EnHata_Destroy
 /* 0016C 80A50EBC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00170 80A50EC0 03E00008 */  jr      $ra
 /* 00174 80A50EC4 00000000 */  nop
-
-

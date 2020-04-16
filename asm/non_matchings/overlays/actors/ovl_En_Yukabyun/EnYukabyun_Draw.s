@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B43F70
+    .asciz "../z_en_yukabyun.c"
+    .balign 4
+
+glabel D_80B43F84
+    .asciz "../z_en_yukabyun.c"
+    .balign 4
+
+glabel D_80B43F98
+    .asciz "../z_en_yukabyun.c"
+    .balign 4
+
+.text
 glabel EnYukabyun_Draw
 /* 00420 80B43DE0 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00424 80B43DE4 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -75,4 +89,3 @@ glabel EnYukabyun_Draw
 /* 00544 80B43F04 03E00008 */  jr      $ra                        
 /* 00548 80B43F08 00000000 */  nop
 /* 0054C 80B43F0C 00000000 */  nop
-

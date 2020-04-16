@@ -3,7 +3,7 @@
 #include <PR/os_cont.h>
 
 void Sample_Calc(SampleContext* this) {
-    if (!~(this->state.input[0].padPressed | ~START_BUTTON)) {
+    if (!~(this->state.input[0].press.in.button | ~START_BUTTON)) {
         SET_NEXT_GAMESTATE(&this->state, func_800BCA64, GlobalContext);
         this->state.running = false;
     }

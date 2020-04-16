@@ -12,5 +12,3 @@ glabel ObjHsblock_Destroy
 /* 00224 80B93D84 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00228 80B93D88 03E00008 */  jr      $ra                        
 /* 0022C 80B93D8C 00000000 */  nop
-
-

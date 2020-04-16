@@ -23,5 +23,3 @@ glabel BgJya1flift_Destroy
 /* 00244 80892DA4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00248 80892DA8 03E00008 */  jr      $ra                        
 /* 0024C 80892DAC 00000000 */  nop
-
-

@@ -9,5 +9,3 @@ glabel func_80969CA0
 .L80969CBC:
 /* 001EC 80969CBC 03E00008 */  jr      $ra                        
 /* 001F0 80969CC0 00000000 */  nop
-
-

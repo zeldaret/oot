@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AC943C
+    .asciz "../z_en_oB1.c"
+    .balign 4
+
+glabel D_80AC944C
+    .asciz "../z_en_oB1.c"
+    .balign 4
+
+.text
 glabel func_80AC80B4
 /* 05414 80AC80B4 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 05418 80AC80B8 AFB20030 */  sw      $s2, 0x0030($sp)
@@ -99,5 +109,3 @@ glabel func_80AC80B4
 /* 05598 80AC8238 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 0559C 80AC823C 03E00008 */  jr      $ra
 /* 055A0 80AC8240 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
-
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A1A53C
+    .asciz "../z_en_floormas.c"
+    .balign 4
+
+glabel D_80A1A550
+    .asciz "../z_en_floormas.c"
+    .balign 4
+
+.text
 glabel func_80A1A350
 /* 02E40 80A1A350 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 02E44 80A1A354 AFB10028 */  sw      $s1, 0x0028($sp)
@@ -65,4 +75,3 @@ glabel func_80A1A350
 /* 02F34 80A1A444 03E00008 */  jr      $ra
 /* 02F38 80A1A448 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 02F3C 80A1A44C 00000000 */  nop
-

@@ -1,3 +1,23 @@
+.rdata
+glabel D_80A55294
+    .asciz "../z_en_heishi2.c"
+    .balign 4
+
+glabel D_80A552A8
+    .asciz "../z_en_heishi2.c"
+    .balign 4
+
+glabel D_80A552BC
+    .asciz "../z_en_heishi2.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A552FC
+ .word 0xC40E8000
+glabel D_80A55300
+ .word 0x3F9C61AA, 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel EnHeishi2_Draw
 /* 01E8C 80A54D2C 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 01E90 80A54D30 AFB10024 */  sw      $s1, 0x0024($sp)           
@@ -115,4 +135,3 @@ glabel EnHeishi2_Draw
 /* 02044 80A54EE4 03E00008 */  jr      $ra                        
 /* 02048 80A54EE8 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 0204C 80A54EEC 00000000 */  nop
-

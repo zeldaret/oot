@@ -46,5 +46,3 @@ glabel BgSpot08Bakudankabe_Init
 /* 003DC 808B06AC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 003E0 808B06B0 03E00008 */  jr      $ra                        
 /* 003E4 808B06B4 00000000 */  nop
-
-

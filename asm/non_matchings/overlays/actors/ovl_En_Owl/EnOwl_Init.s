@@ -1,3 +1,65 @@
+.rdata
+glabel D_80ACD650
+    .asciz "[36m 会話フクロウ %4x no = %d, sv = %d\n[m"
+    .balign 4
+
+glabel D_80ACD67C
+    .asciz "savebitでフクロウ退避\n"
+    .balign 4
+
+glabel D_80ACD694
+    .asciz "フクロウ退避\n"
+    .balign 4
+
+glabel D_80ACD6A4
+    .asciz "フクロウ退避\n"
+    .balign 4
+
+glabel D_80ACD6B4
+    .asciz "フクロウ退避\n"
+    .balign 4
+
+glabel D_80ACD6C4
+    .asciz "フクロウ退避\n"
+    .balign 4
+
+glabel D_80ACD6D4
+    .asciz "フクロウ退避\n"
+    .balign 4
+
+glabel D_80ACD6E4
+    .asciz "\x1b[36m"
+    .balign 4
+
+glabel D_80ACD6EC
+    .asciz "no = %d  \n"
+    .balign 4
+
+glabel D_80ACD6F8
+    .asciz "未完成のフクロウ未完成のフクロウ未完成のフクロウ\n"
+    .balign 4
+
+glabel D_80ACD72C
+    .asciz "\x1b[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80ACD7FC
+.word L80ACA110
+.word L80ACA12C
+.word L80ACA13C
+.word L80ACA160
+.word L80ACA1A0
+.word L80ACA1E0
+.word L80ACA1F0
+.word L80ACA244
+.word L80ACA264
+.word L80ACA274
+.word L80ACA284
+.word L80ACA294
+.word L80ACA2DC
+
+.text
 glabel EnOwl_Init
 /* 00000 80AC9F20 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00004 80AC9F24 AFA50054 */  sw      $a1, 0x0054($sp)
@@ -331,5 +393,3 @@ glabel L80ACA2DC
 /* 00464 80ACA384 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00468 80ACA388 03E00008 */  jr      $ra
 /* 0046C 80ACA38C 00000000 */  nop
-
-

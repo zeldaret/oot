@@ -1,3 +1,17 @@
+.rdata
+glabel D_8088CDBC
+    .asciz "../z_bg_hidan_rsekizou.c"
+    .balign 4
+
+glabel D_8088CDD8
+    .asciz "../z_bg_hidan_rsekizou.c"
+    .balign 4
+
+glabel D_8088CDF4
+    .asciz "../z_bg_hidan_rsekizou.c"
+    .balign 4
+
+.text
 glabel BgHidanRsekizou_Draw
 /* 0083C 8088CA3C 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 00840 8088CA40 AFB50030 */  sw      $s5, 0x0030($sp)           
@@ -141,4 +155,3 @@ glabel BgHidanRsekizou_Draw
 /* 00A54 8088CC54 00000000 */  nop
 /* 00A58 8088CC58 00000000 */  nop
 /* 00A5C 8088CC5C 00000000 */  nop
-

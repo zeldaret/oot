@@ -1,6 +1,5 @@
 #include "z_bg_jya_bombiwa.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgJyaBombiwa_Init(BgJyaBombiwa* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgJyaBombiwa_Draw(BgJyaBombiwa* this, GlobalContext* globalCtx);
 const ActorInit Bg_Jya_Bombiwa_InitVars = {
     ACTOR_BG_JYA_BOMBIWA,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaBombiwa),

@@ -258,5 +258,3 @@ glabel EnEncount2_Update
 /* 00CD8 80A08668 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00CDC 80A0866C 03E00008 */  jr      $ra                        
 /* 00CE0 80A08670 00000000 */  nop
-
-

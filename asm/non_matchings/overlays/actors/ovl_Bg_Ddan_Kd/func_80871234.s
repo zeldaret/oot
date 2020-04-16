@@ -1,3 +1,9 @@
+.rdata
+glabel D_80871920
+    .asciz "dam    %d\n"
+    .balign 4
+
+.text
 glabel func_80871234
 /* 00144 80871234 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00148 80871238 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -39,7 +45,7 @@ glabel func_80871234
 /* 001CC 808712BC 3C058087 */  lui     $a1, %hi(func_80871364)    ## $a1 = 80870000
 /* 001D0 808712C0 4502000C */  bc1fl   .L808712F4                 
 /* 001D4 808712C4 86020168 */  lh      $v0, 0x0168($s0)           ## 00000168
-/* 001D8 808712C8 0C21C43C */  jal     func_808710F0              
+/* 001D8 808712C8 0C21C43C */  jal     BgDdanKd_SetupAction              
 /* 001DC 808712CC 24A51364 */  addiu   $a1, $a1, %lo(func_80871364) ## $a1 = 80871364
 /* 001E0 808712D0 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 001E4 808712D4 24050BEA */  addiu   $a1, $zero, 0x0BEA         ## $a1 = 00000BEA
@@ -85,5 +91,3 @@ glabel func_80871234
 /* 00268 80871358 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0026C 8087135C 03E00008 */  jr      $ra                        
 /* 00270 80871360 00000000 */  nop
-
-

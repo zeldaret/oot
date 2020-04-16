@@ -154,5 +154,3 @@ glabel EnEiyer_Update
 /* 017E0 80A01780 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 017E4 80A01784 03E00008 */  jr      $ra                        
 /* 017E8 80A01788 00000000 */  nop
-
-

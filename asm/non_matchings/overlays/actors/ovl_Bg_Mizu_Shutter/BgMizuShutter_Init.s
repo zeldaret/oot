@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_8089F5C8
+    .float 9.58738019108e-05
+
+glabel D_8089F5CC
+    .float 9.58738019108e-05
+
+glabel D_8089F5D0
+    .float 9.58738019108e-05
+
+.text
 glabel BgMizuShutter_Init
 /* 00000 8089EE50 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00004 8089EE54 AFA50044 */  sw      $a1, 0x0044($sp)           
@@ -161,5 +172,3 @@ glabel BgMizuShutter_Init
 /* 00250 8089F0A0 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00254 8089F0A4 03E00008 */  jr      $ra                        
 /* 00258 8089F0A8 00000000 */  nop
-
-

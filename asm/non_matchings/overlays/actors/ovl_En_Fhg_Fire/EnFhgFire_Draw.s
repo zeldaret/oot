@@ -1,3 +1,45 @@
+.rdata
+glabel D_80A11920
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A11934
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A11948
+    .asciz "yari hikari draw 1\n"
+    .balign 4
+
+glabel D_80A1195C
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A11970
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A11984
+    .asciz "FF DRAW 1\n"
+    .balign 4
+
+glabel D_80A11990
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A119A4
+    .asciz "FF DRAW 2\n"
+    .balign 4
+
+glabel D_80A119B0
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A11A04
+ .word 0x40490FF9, 0x00000000, 0x00000000
+
+.text
 glabel EnFhgFire_Draw
 /* 01ED8 80A11138 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 01EDC 80A1113C AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -411,4 +453,3 @@ glabel EnFhgFire_Draw
 /* 02504 80A11764 00000000 */  nop
 /* 02508 80A11768 00000000 */  nop
 /* 0250C 80A1176C 00000000 */  nop
-

@@ -1,3 +1,66 @@
+.rdata
+glabel D_80976880
+    .asciz "\x1b[36m no = %d\n\x1b[m"
+    .balign 4
+
+glabel D_80976894
+    .asciz "\x1b[36m bank_ID = %d\n\x1b[m"
+    .balign 4
+
+glabel D_809768AC
+    .asciz "0"
+    .balign 4
+
+glabel D_809768B0
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_809768C4
+    .asciz "0"
+    .balign 4
+
+glabel D_809768C8
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80976C58
+.word L809711AC
+.word L809711C8
+.word L809711F8
+.word L809713A8
+.word L809713CC
+.word L80971424
+.word L809714B8
+.word L80971544
+.word L809715E0
+.word L809716D8
+.word L809716EC
+.word L80971700
+.word L80971714
+.word L80971728
+.word L8097173C
+.word L80971774
+.word L809715B0
+.word L80971578
+.word L8097125C
+.word L809717B0
+.word L809717E8
+.word L80971820
+.word L8097189C
+.word L80971750
+.word L80971764
+.word L80971764
+glabel jtbl_80976CC0
+.word L809712AC
+.word L809712CC
+.word L809712EC
+.word L8097130C
+.word L8097132C
+.word L8097134C
+.word L80971370
+
+.text
 glabel DemoEffect_Init
 /* 00170 809710C0 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00174 809710C4 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -600,5 +663,3 @@ glabel L8097189C
 /* 009B8 80971908 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 009BC 8097190C 03E00008 */  jr      $ra                        
 /* 009C0 80971910 00000000 */  nop
-
-

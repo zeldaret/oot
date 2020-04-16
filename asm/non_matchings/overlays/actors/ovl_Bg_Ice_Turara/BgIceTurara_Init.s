@@ -62,5 +62,3 @@ glabel BgIceTurara_Init
 /* 000CC 80891FEC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 000D0 80891FF0 03E00008 */  jr      $ra                        
 /* 000D4 80891FF4 00000000 */  nop
-
-

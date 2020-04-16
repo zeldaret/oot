@@ -70,5 +70,3 @@ glabel BgHakaTubo_Init
 /* 000EC 8088133C 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 000F0 80881340 03E00008 */  jr      $ra                        
 /* 000F4 80881344 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

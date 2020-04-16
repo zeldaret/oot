@@ -1,3 +1,13 @@
+.rdata
+glabel D_80889E90
+    .asciz "◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n"
+    .balign 4
+
+glabel D_80889ED0
+    .asciz "arg_data おかしい 【格子】\n"
+    .balign 4
+
+.text
 glabel BgHidanKousi_Init
 /* 00008 80889968 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0000C 8088996C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -74,13 +84,13 @@ glabel BgHidanKousi_Init
 /* 00100 80889A60 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00104 80889A64 3C058089 */  lui     $a1, %hi(func_80889D28)    ## $a1 = 80890000
 /* 00108 80889A68 24A59D28 */  addiu   $a1, $a1, %lo(func_80889D28) ## $a1 = 80889D28
-/* 0010C 80889A6C 0C222658 */  jal     func_80889960              
+/* 0010C 80889A6C 0C222658 */  jal     BgHidanKousi_SetupAction              
 /* 00110 80889A70 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00114 80889A74 10000005 */  beq     $zero, $zero, .L80889A8C   
 /* 00118 80889A78 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80889A7C:
 /* 0011C 80889A7C 3C058089 */  lui     $a1, %hi(func_80889B5C)    ## $a1 = 80890000
-/* 00120 80889A80 0C222658 */  jal     func_80889960              
+/* 00120 80889A80 0C222658 */  jal     BgHidanKousi_SetupAction              
 /* 00124 80889A84 24A59B5C */  addiu   $a1, $a1, %lo(func_80889B5C) ## $a1 = 80889B5C
 /* 00128 80889A88 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80889A8C:
@@ -88,5 +98,3 @@ glabel BgHidanKousi_Init
 /* 00130 80889A90 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00134 80889A94 03E00008 */  jr      $ra                        
 /* 00138 80889A98 00000000 */  nop
-
-

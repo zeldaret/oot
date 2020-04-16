@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A5B070
+    .asciz "Warning : vector size zero (%s %d)\n"
+    .balign 4
+
+glabel D_80A5B094
+    .asciz "../z_en_honotrap.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A5B120
+    .float 0.001
+
+.text
 glabel func_80A59CC0
 /* 00090 80A59CC0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00094 80A59CC4 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -46,5 +60,3 @@ glabel func_80A59CC0
 /* 00134 80A59D64 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00138 80A59D68 03E00008 */  jr      $ra                        
 /* 0013C 80A59D6C 00000000 */  nop
-
-

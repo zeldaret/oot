@@ -101,5 +101,3 @@ glabel BgHidanSekizou_Init
 /* 00520 8088D3E0 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 00524 8088D3E4 03E00008 */  jr      $ra                        
 /* 00528 8088D3E8 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

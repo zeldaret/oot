@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AA38E0
+    .asciz "../z_en_ma3.c"
+    .balign 4
+
+glabel D_80AA38F0
+    .asciz "../z_en_ma3.c"
+    .balign 4
+
+.text
 glabel EnMa3_Draw
 /* 00BCC 80AA366C 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00BD0 80AA3670 AFB20030 */  sw      $s2, 0x0030($sp)
@@ -97,4 +107,3 @@ glabel EnMa3_Draw
 /* 00D44 80AA37E4 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 00D48 80AA37E8 00000000 */  nop
 /* 00D4C 80AA37EC 00000000 */  nop
-

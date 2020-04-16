@@ -1,18 +1,25 @@
+/*
+ * File: z_bg_gnd_soulmeiro.c
+ * Overlay: ovl_Bg_Gnd_Soulmeiro
+ * Description: Web-Blocked Ceiling Hole (Inside Ganon's Castle)
+ */
+
 #include "z_bg_gnd_soulmeiro.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgGndSoulmeiro_Init(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 void BgGndSoulmeiro_Destroy(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 void BgGndSoulmeiro_Update(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 void BgGndSoulmeiro_Draw(BgGndSoulmeiro* this, GlobalContext* globalCtx);
+void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx);
+void func_8087B284(BgGndSoulmeiro* this, GlobalContext* globalCtx);
+void func_8087B350(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Gnd_Soulmeiro_InitVars = {
     ACTOR_BG_GND_SOULMEIRO,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_DEMO_KEKKAI,
     sizeof(BgGndSoulmeiro),

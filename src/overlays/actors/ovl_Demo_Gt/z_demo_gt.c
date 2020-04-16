@@ -1,6 +1,5 @@
 #include "z_demo_gt.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void DemoGt_Init(DemoGt* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void DemoGt_Draw(DemoGt* this, GlobalContext* globalCtx);
 const ActorInit Demo_Gt_InitVars = {
     ACTOR_DEMO_GT,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GT,
     sizeof(DemoGt),

@@ -206,5 +206,3 @@ glabel BgHakaGate_Init
 /* 002C0 8087C0B0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 002C4 8087C0B4 03E00008 */  jr      $ra                        
 /* 002C8 8087C0B8 00000000 */  nop
-
-

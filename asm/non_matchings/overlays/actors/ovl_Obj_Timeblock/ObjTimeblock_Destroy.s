@@ -12,5 +12,3 @@ glabel ObjTimeblock_Destroy
 /* 00380 80BA0320 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00384 80BA0324 03E00008 */  jr      $ra                        
 /* 00388 80BA0328 00000000 */  nop
-
-

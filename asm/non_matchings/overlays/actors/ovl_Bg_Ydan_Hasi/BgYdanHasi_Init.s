@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808BEC6C
+    .float 0.15
+
+.text
 glabel BgYdanHasi_Init
 /* 00000 808BE500 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 808BE504 AFA5003C */  sw      $a1, 0x003C($sp)           
@@ -97,5 +102,3 @@ glabel BgYdanHasi_Init
 /* 00154 808BE654 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00158 808BE658 03E00008 */  jr      $ra                        
 /* 0015C 808BE65C 00000000 */  nop
-
-

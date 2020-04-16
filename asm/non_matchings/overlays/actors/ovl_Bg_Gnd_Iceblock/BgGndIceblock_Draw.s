@@ -12,4 +12,3 @@ glabel BgGndIceblock_Draw
 /* 00C74 8087A714 03E00008 */  jr      $ra                        
 /* 00C78 8087A718 00000000 */  nop
 /* 00C7C 8087A71C 00000000 */  nop
-

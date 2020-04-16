@@ -1,6 +1,11 @@
+/*
+ * File: z_obj_oshihiki.c
+ * Overlay: ovl_Obj_Oshihiki
+ * Description: Movable Block
+ */
+
 #include "z_obj_oshihiki.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ObjOshihiki_Init(ObjOshihiki* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void ObjOshihiki_Draw(ObjOshihiki* this, GlobalContext* globalCtx);
 const ActorInit Obj_Oshihiki_InitVars = {
     ACTOR_OBJ_OSHIHIKI,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjOshihiki),

@@ -1,3 +1,25 @@
+.rdata
+glabel D_80A56F30
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A56F34
+    .asciz "[32m ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A56F6C
+    .asciz "[33m ☆☆☆☆☆ 識別完了！	    ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A56FA0
+    .asciz "[35m ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n[m"
+    .balign 4
+
+glabel D_80A56FD8
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel EnHeishi4_Init
 /* 00000 80A560D0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00004 80A560D4 AFA50044 */  sw      $a1, 0x0044($sp)           
@@ -158,5 +180,3 @@ glabel EnHeishi4_Init
 /* 00224 80A562F4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00228 80A562F8 03E00008 */  jr      $ra                        
 /* 0022C 80A562FC 00000000 */  nop
-
-

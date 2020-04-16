@@ -1,3 +1,24 @@
+.rdata
+glabel D_80ABE484
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+glabel D_80ABE494
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+glabel D_80ABE4A4
+    .asciz "../z_en_ny.c"
+    .balign 4
+
+.late_rodata
+glabel D_80ABE4E4
+    .float 0.04
+
+glabel D_80ABE4E8
+    .float 0.4
+
+.text
 glabel func_80ABE040
 /* 01490 80ABE040 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 01494 80ABE044 AFBF0064 */  sw      $ra, 0x0064($sp)           
@@ -185,4 +206,3 @@ glabel func_80ABE040
 /* 01754 80ABE304 27BD00C0 */  addiu   $sp, $sp, 0x00C0           ## $sp = 00000000
 /* 01758 80ABE308 00000000 */  nop
 /* 0175C 80ABE30C 00000000 */  nop
-

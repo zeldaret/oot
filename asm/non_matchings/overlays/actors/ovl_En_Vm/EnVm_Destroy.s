@@ -10,5 +10,3 @@ glabel EnVm_Destroy
 /* 00194 80B2D5F4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00198 80B2D5F8 03E00008 */  jr      $ra                        
 /* 0019C 80B2D5FC 00000000 */  nop
-
-

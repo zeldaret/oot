@@ -48,5 +48,3 @@ glabel BgDdanJd_Init
 /* 0009C 80870B4C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 000A0 80870B50 03E00008 */  jr      $ra                        
 /* 000A4 80870B54 00000000 */  nop
-
-

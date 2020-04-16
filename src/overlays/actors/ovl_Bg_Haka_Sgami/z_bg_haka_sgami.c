@@ -1,17 +1,24 @@
+/*
+ * File: z_bg_haka_sgami.c
+ * Overlay: ovl_Bg_Haka_Sgami
+ * Description: Shadow Temple Spinning Scythe Trap
+ */
+
 #include "z_bg_haka_sgami.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000011
 
 void BgHakaSgami_Init(BgHakaSgami* this, GlobalContext* globalCtx);
 void BgHakaSgami_Destroy(BgHakaSgami* this, GlobalContext* globalCtx);
 void BgHakaSgami_Update(BgHakaSgami* this, GlobalContext* globalCtx);
+void func_8087E7E4(BgHakaSgami* this, GlobalContext* globalCtx);
+void func_8087E858(BgHakaSgami* this, GlobalContext* globalCtx);
+void func_8087EDC0(BgHakaSgami* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Haka_Sgami_InitVars = {
     ACTOR_BG_HAKA_SGAMI,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgHakaSgami),

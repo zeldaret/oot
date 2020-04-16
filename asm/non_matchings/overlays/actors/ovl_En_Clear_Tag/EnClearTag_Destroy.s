@@ -10,5 +10,3 @@ glabel EnClearTag_Destroy
 /* 00400 809D39B0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00404 809D39B4 03E00008 */  jr      $ra                        
 /* 00408 809D39B8 00000000 */  nop
-
-

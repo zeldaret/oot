@@ -6,20 +6,18 @@
 
 #include "z_en_boom.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-static void EnBoom_SetupAction(EnBoom* this, ActorFunc* actionFunc);
-static void EnBoom_Init(EnBoom* this, GlobalContext* globalCtx);
-static void EnBoom_Destroy(EnBoom* this, GlobalContext* globalCtx);
-static void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx);
-static void EnBoom_Update(EnBoom* this, GlobalContext* globalCtx);
-static void EnBoom_Draw(EnBoom* this, GlobalContext* globalCtx);
+void EnBoom_SetupAction(EnBoom* this, ActorFunc* actionFunc);
+void EnBoom_Init(EnBoom* this, GlobalContext* globalCtx);
+void EnBoom_Destroy(EnBoom* this, GlobalContext* globalCtx);
+void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx);
+void EnBoom_Update(EnBoom* this, GlobalContext* globalCtx);
+void EnBoom_Draw(EnBoom* this, GlobalContext* globalCtx);
 
 const ActorInit En_Boom_InitVars = {
     ACTOR_EN_BOOM,
     ACTORTYPE_MISC,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBoom),
@@ -87,11 +85,11 @@ static Vec3f mtxSrc2 = { 960.0f, 0.0f, 0.0f };
 
 extern D_0400C808;
 
-static void EnBoom_SetupAction(EnBoom* this, ActorFunc* actionFunc) {
+void EnBoom_SetupAction(EnBoom* this, ActorFunc* actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-static void EnBoom_Init(EnBoom* this, GlobalContext* globalCtx) {
+void EnBoom_Init(EnBoom* this, GlobalContext* globalCtx) {
     u32 pad;
     TrailEffect trail;
 
@@ -131,12 +129,12 @@ static void EnBoom_Init(EnBoom* this, GlobalContext* globalCtx) {
     EnBoom_SetupAction(this, &EnBoom_Fly);
 }
 
-static void EnBoom_Destroy(EnBoom* this, GlobalContext* globalCtx) {
+void EnBoom_Destroy(EnBoom* this, GlobalContext* globalCtx) {
     func_8002709C(globalCtx, this->effect);
     func_8005D060(globalCtx, &this->collider);
 }
 
-static void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
+void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     Actor* target;
     Player* player;
     s32 collided;
@@ -268,7 +266,7 @@ static void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     }
 }
 
-static void EnBoom_Update(EnBoom* this, GlobalContext* globalCtx) {
+void EnBoom_Update(EnBoom* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     if (!(player->stateFlags1 & 0x20000000)) {
         this->actionFunc(this, globalCtx);
@@ -277,7 +275,7 @@ static void EnBoom_Update(EnBoom* this, GlobalContext* globalCtx) {
     }
 }
 
-static void EnBoom_Draw(EnBoom* this, GlobalContext* globalCtx) {
+void EnBoom_Draw(EnBoom* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f mtxDest1;
     Vec3f mtxDest2;

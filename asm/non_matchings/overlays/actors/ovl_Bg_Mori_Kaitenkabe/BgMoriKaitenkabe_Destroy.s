@@ -12,5 +12,3 @@ glabel BgMoriKaitenkabe_Destroy
 /* 00170 808A4F30 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00174 808A4F34 03E00008 */  jr      $ra                        
 /* 00178 808A4F38 00000000 */  nop
-
-

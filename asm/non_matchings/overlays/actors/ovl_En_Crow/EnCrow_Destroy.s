@@ -9,5 +9,3 @@ glabel EnCrow_Destroy
 /* 00108 809E0348 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0010C 809E034C 03E00008 */  jr      $ra                        
 /* 00110 809E0350 00000000 */  nop
-
-

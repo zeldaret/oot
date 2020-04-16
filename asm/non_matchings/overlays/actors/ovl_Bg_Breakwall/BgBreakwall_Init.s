@@ -113,7 +113,7 @@ glabel BgBreakwall_Init
 /* 0018C 8086FD6C 10000004 */  beq     $zero, $zero, .L8086FD80   
 /* 00190 8086FD70 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L8086FD74:
-/* 00194 8086FD74 0C21BEF8 */  jal     func_8086FBE0              
+/* 00194 8086FD74 0C21BEF8 */  jal     BgBreakwall_SetupAction              
 /* 00198 8086FD78 24A50290 */  addiu   $a1, $a1, %lo(func_80870290) ## $a1 = 00000290
 /* 0019C 8086FD7C 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L8086FD80:
@@ -121,5 +121,3 @@ glabel BgBreakwall_Init
 /* 001A4 8086FD84 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 001A8 8086FD88 03E00008 */  jr      $ra                        
 /* 001AC 8086FD8C 00000000 */  nop
-
-

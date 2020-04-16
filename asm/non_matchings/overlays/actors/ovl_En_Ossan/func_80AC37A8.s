@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AC9064
+    .asciz "\x1b[33m%s[%d]:★★★ 会話終了！！ ★★★\x1b[m\n"
+    .balign 4
+
+glabel D_80AC9090
+    .asciz "../z_en_oB1.c"
+    .balign 4
+
+.text
 glabel func_80AC37A8
 /* 00B08 80AC37A8 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00B0C 80AC37AC AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -55,5 +65,3 @@ glabel func_80AC37A8
 /* 00BD8 80AC3878 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 00BDC 80AC387C 03E00008 */  jr      $ra                        
 /* 00BE0 80AC3880 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

@@ -43,5 +43,3 @@ glabel BgGanonOtyuka_Init
 /* 0008C 808759AC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00090 808759B0 03E00008 */  jr      $ra                        
 /* 00094 808759B4 00000000 */  nop
-
-

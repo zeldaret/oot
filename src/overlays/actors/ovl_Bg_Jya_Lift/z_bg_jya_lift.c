@@ -1,6 +1,11 @@
+/*
+ * File: z_bg_jya_lift.c
+ * Overlay: ovl_Bg_Jya_Lift
+ * Description: Chain Platform (Spirit Temple)
+ */
+
 #include "z_bg_jya_lift.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgJyaLift_Init(BgJyaLift* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void BgJyaLift_Draw(BgJyaLift* this, GlobalContext* globalCtx);
 const ActorInit Bg_Jya_Lift_InitVars = {
     ACTOR_BG_JYA_LIFT,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaLift),

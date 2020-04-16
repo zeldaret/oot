@@ -1,3 +1,17 @@
+.rdata
+glabel D_808B6ABC
+    .asciz "../z_bg_spot16_doughnut.c"
+    .balign 4
+
+glabel D_808B6AD8
+    .asciz "../z_bg_spot16_doughnut.c"
+    .balign 4
+
+glabel D_808B6AF4
+    .asciz "../z_bg_spot16_doughnut.c"
+    .balign 4
+
+.text
 glabel func_808B68D8
 /* 00498 808B68D8 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0049C 808B68DC AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -69,4 +83,3 @@ glabel func_808B68D8
 /* 005A4 808B69E4 00000000 */  nop
 /* 005A8 808B69E8 00000000 */  nop
 /* 005AC 808B69EC 00000000 */  nop
-

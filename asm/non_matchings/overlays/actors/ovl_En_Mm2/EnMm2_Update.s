@@ -90,5 +90,3 @@ glabel EnMm2_Update
 /* 00A7C 80AAF8CC 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 00A80 80AAF8D0 03E00008 */  jr      $ra                        
 /* 00A84 80AAF8D4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

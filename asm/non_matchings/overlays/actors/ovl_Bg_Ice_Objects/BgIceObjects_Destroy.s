@@ -12,5 +12,3 @@ glabel BgIceObjects_Destroy
 /* 000AC 8088F8BC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000B0 8088F8C0 03E00008 */  jr      $ra                        
 /* 000B4 8088F8C4 00000000 */  nop
-
-

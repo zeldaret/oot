@@ -1,3 +1,17 @@
+.rdata
+glabel D_80877EC0
+    .asciz "\x1b[32m"
+    .balign 4
+
+glabel D_80877EC8
+    .asciz "WHY !!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+glabel D_80877EE0
+    .asciz "\x1b[m"
+    .balign 4
+
+.text
 glabel BgGanonOtyuka_Destroy
 /* 00098 808759B8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0009C 808759BC AFA40018 */  sw      $a0, 0x0018($sp)           
@@ -24,5 +38,3 @@ glabel BgGanonOtyuka_Destroy
 /* 000E0 80875A00 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000E4 80875A04 03E00008 */  jr      $ra                        
 /* 000E8 80875A08 00000000 */  nop
-
-

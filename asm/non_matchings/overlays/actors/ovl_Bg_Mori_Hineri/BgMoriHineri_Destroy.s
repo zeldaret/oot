@@ -12,5 +12,3 @@ glabel BgMoriHineri_Destroy
 /* 00220 808A39F0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00224 808A39F4 03E00008 */  jr      $ra                        
 /* 00228 808A39F8 00000000 */  nop
-
-

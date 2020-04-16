@@ -1,3 +1,13 @@
+.rdata
+glabel D_809E4170
+    .asciz "../z_en_daiku.c"
+    .balign 4
+
+glabel D_809E4180
+    .asciz "../z_en_daiku.c"
+    .balign 4
+
+.text
 glabel EnDaiku_Draw
 /* 01278 809E3DA8 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 0127C 809E3DAC AFBF0024 */  sw      $ra, 0x0024($sp)
@@ -87,5 +97,3 @@ glabel EnDaiku_Draw
 /* 013BC 809E3EEC 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 013C0 809E3EF0 03E00008 */  jr      $ra
 /* 013C4 809E3EF4 00000000 */  nop
-
-

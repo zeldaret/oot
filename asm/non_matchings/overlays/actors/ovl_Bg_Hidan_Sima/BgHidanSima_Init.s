@@ -73,5 +73,3 @@ glabel BgHidanSima_Init
 /* 000F4 8088E4C4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 000F8 8088E4C8 03E00008 */  jr      $ra                        
 /* 000FC 8088E4CC 00000000 */  nop
-
-

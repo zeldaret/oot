@@ -11,5 +11,3 @@ glabel EnGirlA_Destroy
 /* 0034C 80A3AA9C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00350 80A3AAA0 03E00008 */  jr      $ra
 /* 00354 80A3AAA4 00000000 */  nop
-
-

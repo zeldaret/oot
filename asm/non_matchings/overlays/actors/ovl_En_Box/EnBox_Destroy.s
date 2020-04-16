@@ -12,5 +12,3 @@ glabel EnBox_Destroy
 /* 00528 809C92E8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0052C 809C92EC 03E00008 */  jr      $ra                        
 /* 00530 809C92F0 00000000 */  nop
-
-

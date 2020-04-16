@@ -1,6 +1,5 @@
 #include "z_bg_hidan_rsekizou.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHidanRsekizou_Init(BgHidanRsekizou* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgHidanRsekizou_Draw(BgHidanRsekizou* this, GlobalContext* globalCtx);
 const ActorInit Bg_Hidan_Rsekizou_InitVars = {
     ACTOR_BG_HIDAN_RSEKIZOU,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanRsekizou),

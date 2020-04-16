@@ -28,5 +28,3 @@ glabel BossTw_Destroy
 /* 01264 80939F34 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01268 80939F38 03E00008 */  jr      $ra
 /* 0126C 80939F3C 00000000 */  nop
-
-

@@ -25,5 +25,3 @@ glabel BgSpot00Hanebasi_Destroy
 /* 0045C 808A9BDC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00460 808A9BE0 03E00008 */  jr      $ra                        
 /* 00464 808A9BE4 00000000 */  nop
-
-

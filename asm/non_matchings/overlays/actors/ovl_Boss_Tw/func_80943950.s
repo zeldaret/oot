@@ -1,3 +1,44 @@
+.rdata
+glabel D_8094AC48
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AC58
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8094B070
+.word L80943CA8
+.word L80943C20
+.word L80943B0C
+.word L80943B94
+.word L80943CFC
+.word L80943D1C
+.word L809439B8
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943CA8
+.word L80943C20
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943D38
+.word L80943B0C
+.word L80943B94
+
+.text
 glabel func_80943950
 /* 0AC80 80943950 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 0AC84 80943954 AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -284,5 +325,3 @@ glabel L80943D38
 /* 0B0B4 80943D84 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 0B0B8 80943D88 03E00008 */  jr      $ra                        
 /* 0B0BC 80943D8C 00000000 */  nop
-
-

@@ -23,5 +23,3 @@ glabel BgHakaGate_Destroy
 /* 00318 8087C108 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0031C 8087C10C 03E00008 */  jr      $ra                        
 /* 00320 8087C110 00000000 */  nop
-
-

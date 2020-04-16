@@ -1,6 +1,5 @@
 #include "z_en_ik.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnIk_Init(EnIk* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnIk_Draw(EnIk* this, GlobalContext* globalCtx);
 const ActorInit En_Ik_InitVars = {
     ACTOR_EN_IK,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_IK,
     sizeof(EnIk),

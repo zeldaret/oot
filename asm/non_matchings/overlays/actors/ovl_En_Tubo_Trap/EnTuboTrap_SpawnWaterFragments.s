@@ -175,5 +175,3 @@ glabel EnTuboTrap_SpawnWaterFragments
 /* 0060C 80B25EFC 8FBE0098 */  lw      $s8, 0x0098($sp)           
 /* 00610 80B25F00 03E00008 */  jr      $ra                        
 /* 00614 80B25F04 27BD00E0 */  addiu   $sp, $sp, 0x00E0           ## $sp = 00000000
-
-
