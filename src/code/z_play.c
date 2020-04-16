@@ -15,7 +15,7 @@ s16 D_801614C8;
 u64 D_801614D0[0xA00];
 
 void func_800BC450(GlobalContext* globalCtx) {
-    func_8005A7A8(globalCtx->cameraPtrs[globalCtx->activeCamera], globalCtx->unk_1242B - 1, globalCtx);
+    func_8005A7A8(globalCtx->cameraPtrs[globalCtx->activeCamera], globalCtx->unk_1242B - 1);
 }
 
 void func_800BC490(GlobalContext* globalCtx, s16 point) {
