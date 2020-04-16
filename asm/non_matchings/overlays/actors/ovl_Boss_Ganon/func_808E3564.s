@@ -334,7 +334,7 @@ glabel func_808E3564
 /* 0D1BC 808E3A2C 00000000 */  nop
 /* 0D1C0 808E3A30 4500000F */  bc1f    .L808E3A70                 
 /* 0D1C4 808E3A34 00000000 */  nop
-/* 0D1C8 808E3A38 0C030129 */  jal     func_800C04A4              
+/* 0D1C8 808E3A38 0C030129 */  jal     Gameplay_GetCamera              
 /* 0D1CC 808E3A3C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0D1D0 808E3A40 0C016A52 */  jal     func_8005A948              
 /* 0D1D4 808E3A44 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000

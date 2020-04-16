@@ -138,7 +138,7 @@ void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
 
 void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx) != 0) { // if attached is set
-        Rupees_ChangeBy(-prices[BEANS_BOUGHT]);        // decrease ruppees
+        Rupees_ChangeBy(-prices[BEANS_BOUGHT]);
         this->actor.attachedA = NULL;
         this->actionFunc = &EnMs_TalkAfterBuy;
         return;
@@ -165,7 +165,7 @@ void EnMs_Update(EnMs* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     this->actionFunc(this, globalCtx);
 
-    if (gSaveContext.entrance_index == 0x157 && gSaveContext.scene_setup_index == 8) { // ride carpet if in credits
+    if (gSaveContext.entranceIndex == 0x157 && gSaveContext.sceneSetupIndex == 8) { // ride carpet if in credits
         Actor_MoveForward(&this->actor);
         osSyncPrintf("OOOHHHHHH %f\n", this->actor.velocity.y);
         func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);

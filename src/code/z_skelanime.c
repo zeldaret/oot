@@ -15,14 +15,14 @@ void SkelAnime_AnimationType3Loaded(GlobalContext* globalCtx, AnimationEntryType
 void SkelAnime_AnimationType4Loaded(GlobalContext* globalCtx, AnimationEntryType4* entry);
 void SkelAnime_AnimationType5Loaded(GlobalContext* globalCtx, AnimationEntryType5* entry);
 
-//.data
+// .data
 u32 D_8012A480 = 0;
 static AnimationEntryCallback sAnimationLoadDone[] = {
     &SkelAnime_LinkAnimetionLoaded,  &SkelAnime_AnimationType1Loaded, &SkelAnime_AnimationType2Loaded,
     &SkelAnime_AnimationType3Loaded, &SkelAnime_AnimationType4Loaded, &SkelAnime_AnimationType5Loaded,
 };
 
-//.bss
+// .bss
 u32 D_801600B0;
 
 /*

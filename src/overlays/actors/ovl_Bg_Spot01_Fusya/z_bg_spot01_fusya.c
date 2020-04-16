@@ -45,8 +45,8 @@ void BgSpot01Fusya_Init(BgSpot01Fusya* this, GlobalContext* globalCtx) {
     this->unk_154 = 100.0f;
     this->unk_158 = 100.0f;
     this->unk_15C = 0.5f;
-    if (gSaveContext.scene_setup_index < 4) {
-        gSaveContext.event_chk_inf[6] &= 0xFFDF;
+    if (gSaveContext.sceneSetupIndex < 4) {
+        gSaveContext.eventChkInf[6] &= 0xFFDF;
     }
     BgSpot01Fusya_SetupAction(this, func_808AAA50);
 }
@@ -57,7 +57,7 @@ void BgSpot01Fusya_Destroy(BgSpot01Fusya* this, GlobalContext* globalCtx) {
 void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx) {
     f32 temp;
     Actor* thisx = &this->actor;
-    if (gSaveContext.event_chk_inf[6] & 0x20) {
+    if (gSaveContext.eventChkInf[6] & 0x20) {
         this->unk_158 = 1800.0f;
     }
     thisx->shape.rot.z += this->unk_154;

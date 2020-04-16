@@ -4,7 +4,7 @@ glabel func_808429B4
 /* 107AC 808429BC AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 107B0 808429C0 AFA60038 */  sw      $a2, 0x0038($sp)           
 /* 107B4 808429C4 AFA7003C */  sw      $a3, 0x003C($sp)           
-/* 107B8 808429C8 0C030129 */  jal     func_800C04A4              
+/* 107B8 808429C8 0C030129 */  jal     Gameplay_GetCamera              
 /* 107BC 808429CC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 107C0 808429D0 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 107C4 808429D4 0C024BE2 */  jal     Quake_Add              

@@ -15,7 +15,7 @@ glabel func_80A0F6F8
 /* 004B8 80A0F718 AFB20048 */  sw      $s2, 0x0048($sp)           
 /* 004BC 80A0F71C AFB00040 */  sw      $s0, 0x0040($sp)           
 /* 004C0 80A0F720 F7B40038 */  sdc1    $f20, 0x0038($sp)          
-/* 004C4 80A0F724 0C030129 */  jal     func_800C04A4              
+/* 004C4 80A0F724 0C030129 */  jal     Gameplay_GetCamera              
 /* 004C8 80A0F728 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 004CC 80A0F72C 86230158 */  lh      $v1, 0x0158($s1)           ## 00000158
 /* 004D0 80A0F730 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000

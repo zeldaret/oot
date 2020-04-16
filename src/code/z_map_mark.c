@@ -88,7 +88,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
-    dungeonId = gSaveContext.dungeon_index;
+    dungeonId = gSaveContext.dungeonIndex;
     interfaceCtx = &globalCtx->interfaceCtx;
 
     if ((D_8015FFD0 != NULL) && (globalCtx->interfaceCtx.roomNum >= D_8015FFD0[7][dungeonId])) {

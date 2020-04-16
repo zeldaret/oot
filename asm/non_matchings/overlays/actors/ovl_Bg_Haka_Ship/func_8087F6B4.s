@@ -45,7 +45,7 @@ glabel func_8087F6B4
 /* 00650 8087F750 00000000 */  nop
 /* 00654 8087F754 50400004 */  beql    $v0, $zero, .L8087F768     
 /* 00658 8087F758 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 0065C 8087F75C 0C0302D8 */  jal     func_800C0B60              
+/* 0065C 8087F75C 0C0302D8 */  jal     Gameplay_TriggerVoidOut              
 /* 00660 8087F760 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00664 8087F764 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L8087F768:

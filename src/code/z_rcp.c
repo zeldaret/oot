@@ -1460,12 +1460,10 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     gSPDisplayList(gfxCtx->polyOpa.p++, sFillSetupDL);
     gSPDisplayList(gfxCtx->polyXlu.p++, sFillSetupDL);
     gSPDisplayList(gfxCtx->overlay.p++, sFillSetupDL);
-    gDPSetScissorFrac(gfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, (s32)gScreenWidth * 4.0f,
-                      (s32)gScreenHeight * 4.0f);
-    gDPSetScissorFrac(gfxCtx->polyXlu.p++, G_SC_NON_INTERLACE, 0, 0, (s32)gScreenWidth * 4.0f,
-                      (s32)gScreenHeight * 4.0f);
-    gDPSetScissorFrac(gfxCtx->overlay.p++, G_SC_NON_INTERLACE, 0, 0, (s32)gScreenWidth * 4.0f,
-                      (s32)gScreenHeight * 4.0f);
+
+    gDPSetScissorFrac(gfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
+    gDPSetScissorFrac(gfxCtx->polyXlu.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
+    gDPSetScissorFrac(gfxCtx->overlay.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
 
     gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
     gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
@@ -1554,8 +1552,7 @@ void func_80095974(GraphicsContext* gfxCtx) {
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2503);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, sFillSetupDL);
-    gDPSetScissorFrac(gfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, (s32)gScreenWidth * 4.0f,
-                      (s32)gScreenHeight * 4.0f);
+    gDPSetScissorFrac(gfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
     gDPSetDepthImage(gfxCtx->polyOpa.p++, gZBuffer);
     gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
 

@@ -1818,7 +1818,7 @@ glabel func_80054478
 /* ACCE20 80055C80 00808025 */  move  $s0, $a0
 /* ACCE24 80055C84 AFBF0024 */  sw    $ra, 0x24($sp)
 /* ACCE28 80055C88 8C84008C */  lw    $a0, 0x8c($a0)
-/* ACCE2C 80055C8C 0C030129 */  jal   func_800C04A4
+/* ACCE2C 80055C8C 0C030129 */  jal   Gameplay_GetCamera
 /* ACCE30 80055C90 00002825 */   move  $a1, $zero
 /* ACCE34 80055C94 AFA20074 */  sw    $v0, 0x74($sp)
 /* ACCE38 80055C98 8E0E00A8 */  lw    $t6, 0xa8($s0)
@@ -2041,7 +2041,7 @@ glabel func_80054478
 /* ACD160 80055FC0 00808025 */  move  $s0, $a0
 /* ACD164 80055FC4 AFBF0024 */  sw    $ra, 0x24($sp)
 /* ACD168 80055FC8 8C84008C */  lw    $a0, 0x8c($a0)
-/* ACD16C 80055FCC 0C030129 */  jal   func_800C04A4
+/* ACD16C 80055FCC 0C030129 */  jal   Gameplay_GetCamera
 /* ACD170 80055FD0 00002825 */   move  $a1, $zero
 /* ACD174 80055FD4 244E0094 */  addiu $t6, $v0, 0x94
 /* ACD178 80055FD8 AFAE0064 */  sw    $t6, 0x64($sp)
