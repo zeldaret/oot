@@ -298,11 +298,61 @@ void func_8003E954(u32 uParm1, u8* puParm2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041648.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800417A0.s")
+// called by func_800418D0 with actorMesh->unk_08
+void func_800417A0(void* arg0) {
+    s32 v10, v18, v1C, v20, v28, i;
+
+    v10 = *((s32*)(&((u8*)arg0)[0x10]));
+    i = (u32)(v10 << 4) >> 0x1C;
+    *((s32*)(&((u8*)arg0)[0x10])) = (s32)((gSegments[i] + (v10 & 0xFFFFFF)) + 0x80000000);
+
+    v18 = *((s32*)(&((u8*)arg0)[0x18]));
+    i = (u32)(v18 << 4) >> 0x1C;
+    *((s32*)(&((u8*)arg0)[0x18])) = (s32)((gSegments[i] + (v18 & 0xFFFFFF)) + 0x80000000);
+
+    v1C = *((s32*)(&((u8*)arg0)[0x1C]));
+    i = (u32)(v1C << 4) >> 0x1C;
+    *((s32*)(&((u8*)arg0)[0x1C])) = (s32)((gSegments[i] + (v1C & 0xFFFFFF)) + 0x80000000);
+
+    v20 = *((s32*)(&((u8*)arg0)[0x20]));
+    i = (u32)(v20 << 4) >> 0x1C;
+    *((s32*)(&((u8*)arg0)[0x20])) = (s32)((gSegments[i] + (v20 & 0xFFFFFF)) + 0x80000000);
+
+    v28 = *((s32*)(&((u8*)arg0)[0x28]));
+    i = (u32)(v28 << 4) >> 0x1C;
+    *((s32*)(&((u8*)arg0)[0x28])) = (s32)((gSegments[i] + (v28 & 0xFFFFFF)) + 0x80000000);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041880.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800418D0.s")
+void func_800418D0(CollisionContext* colCtx, GlobalContext* globalCtx) {
+    ActorMesh* actorMesh;
+    DynaCollisionContext* dynaColCtx;
+    void* phi_s2;
+    s32 i;
+    u16 flag;
+
+    dynaColCtx = &colCtx->dyna;
+    phi_s2 = dynaColCtx;
+    for (i = 0; i != 50; i++) {
+        flag = dynaColCtx->flags[i];
+        if ((flag & 1) != 0) {
+            if ((flag & 2) == 0) {
+                // strong suspicions about ActorMesh actorMeshArr[50]; in DynaCollisionContext being at 0x0000 not
+                // 0x0004, with those changes:
+                actorMesh = &dynaColCtx->actorMeshArr[i];
+                Actor_SetObjectDependency(globalCtx, actorMesh->actor);
+                func_800417A0(actorMesh->unk_08);
+                /*
+                // with old structure
+                actorMesh = &((ActorMesh*)dynaColCtx)[i];
+                Actor_SetObjectDependency(globalCtx, ((u32*)actorMesh)[1]);
+                func_800417A0(((u32*)actorMesh)[2]);
+                */
+            }
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 void func_80041978(int iParm1, int iParm2) {
