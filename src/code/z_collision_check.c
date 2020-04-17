@@ -298,7 +298,7 @@ s32 func_8005D1E0(GlobalContext* globalCtx, ColliderCylinderMain* collision) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D3BC.s")
 
-void func_8005D400(UNK_TYPE arg0, UNK_TYPE arg1) {
+void func_8005D400(GlobalContext* globalCtx, SubGlobalContext11E60* sub_11E60) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005D40C.s")

@@ -128,7 +128,7 @@ glabel func_801109B0
 /* B87B80 801109E0 00818021 */  addu  $s0, $a0, $at
 /* B87B84 801109E4 8CC50000 */  lw    $a1, ($a2)
 /* B87B88 801109E8 AFA60058 */  sw    $a2, 0x58($sp)
-/* B87B8C 801109EC 0C02A89E */  jal   func_800AA278
+/* B87B8C 801109EC 0C02A89E */  jal   View_Init
 /* B87B90 801109F0 02002025 */   move  $a0, $s0
 /* B87B94 801109F4 A60001FC */  sh    $zero, 0x1fc($s0)
 /* B87B98 801109F8 920201FD */  lbu   $v0, 0x1fd($s0)

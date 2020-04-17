@@ -20,7 +20,7 @@ glabel func_80B3CA84
 /* 008D8 80B3CAB8 00000000 */  nop
 /* 008DC 80B3CABC 45000020 */  bc1f    .L80B3CB40                 
 /* 008E0 80B3CAC0 00000000 */  nop
-/* 008E4 80B3CAC4 0C02FF21 */  jal     func_800BFC84              
+/* 008E4 80B3CAC4 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 008E8 80B3CAC8 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 008EC 80B3CACC 1440001C */  bne     $v0, $zero, .L80B3CB40     
 /* 008F0 80B3CAD0 8FA6001C */  lw      $a2, 0x001C($sp)           

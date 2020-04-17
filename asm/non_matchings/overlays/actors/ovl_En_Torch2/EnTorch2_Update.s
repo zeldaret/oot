@@ -35,7 +35,7 @@ glabel EnTorch2_Update
 /* 0047C 80B1DDFC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00480 80B1DE00 A7A8005A */  sh      $t0, 0x005A($sp)           
 /* 00484 80B1DE04 AFA60084 */  sw      $a2, 0x0084($sp)           
-/* 00488 80B1DE08 0C030129 */  jal     func_800C04A4              
+/* 00488 80B1DE08 0C030129 */  jal     Gameplay_GetCamera              
 /* 0048C 80B1DE0C AFA20078 */  sw      $v0, 0x0078($sp)           
 /* 00490 80B1DE10 AFA20068 */  sw      $v0, 0x0068($sp)           
 /* 00494 80B1DE14 8FA40084 */  lw      $a0, 0x0084($sp)           

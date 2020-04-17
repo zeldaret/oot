@@ -7,7 +7,7 @@ glabel func_8084DF6C
 /* 1BD70 8084DF80 01C17824 */  and     $t7, $t6, $at              
 /* 1BD74 8084DF84 ACAF067C */  sw      $t7, 0x067C($a1)           ## 0000067C
 /* 1BD78 8084DF88 A0A00434 */  sb      $zero, 0x0434($a1)         ## 00000434
-/* 1BD7C 8084DF8C 0C030129 */  jal     func_800C04A4              
+/* 1BD7C 8084DF8C 0C030129 */  jal     Gameplay_GetCamera              
 /* 1BD80 8084DF90 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 1BD84 8084DF94 0C016C69 */  jal     func_8005B1A4              
 /* 1BD88 8084DF98 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000

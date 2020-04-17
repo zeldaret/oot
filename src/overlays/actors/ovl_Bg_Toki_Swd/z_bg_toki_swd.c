@@ -193,7 +193,7 @@ void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx) {
         thisx->draw = NULL;
     }
 
-    if (gSaveContext.scene_setup_index == 5) {
+    if (gSaveContext.sceneSetupIndex == 5) {
         globalCtx->unk_11D30[0] = 0xFF;
     }
 
@@ -209,13 +209,13 @@ void BgTokiSwd_Destroy(BgTokiSwd* this, GlobalContext* globalCtx) {
 }
 
 void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
-    if (((gSaveContext.event_chk_inf[4] & 0x8000) == 0) && (gSaveContext.scene_setup_index < 4) &&
-        (func_8002E12C(&this->actor, 800.0f, 0x7530) != 0) && (func_800BFC84(globalCtx) == 0)) {
-        gSaveContext.event_chk_inf[4] |= 0x8000;
+    if (((gSaveContext.eventChkInf[4] & 0x8000) == 0) && (gSaveContext.sceneSetupIndex < 4) &&
+        (func_8002E12C(&this->actor, 800.0f, 0x7530) != 0) && !Gameplay_InCsMode(globalCtx)) {
+        gSaveContext.eventChkInf[4] |= 0x8000;
         globalCtx->csCtx.segment = D_808BBD90;
-        gSaveContext.cutscene_trigger = 1;
+        gSaveContext.cutsceneTrigger = 1;
     }
-    if (LINK_IS_CHILD || ((gSaveContext.event_chk_inf[5] & 0x20) != 0)) {
+    if (LINK_IS_CHILD || ((gSaveContext.eventChkInf[5] & 0x20) != 0)) {
         if (func_8002F410(&this->actor, globalCtx) != 0) {
             if (LINK_IS_CHILD) {
                 Item_Give(globalCtx, ITEM_SWORD_MASTER);
@@ -225,7 +225,7 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
             }
             Audio_SetBGM(NA_BGM_STOP);
             Audio_SetBGM(NA_SE_PL_BOUND_DIRT);
-            gSaveContext.cutscene_trigger = 1;
+            gSaveContext.cutsceneTrigger = 1;
             this->actor.attachedA = 0;
             BgTokiSwd_SetupAction(this, func_808BB0AC);
         } else {
@@ -234,7 +234,7 @@ void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if (gSaveContext.scene_setup_index == 5) {
+    if (gSaveContext.sceneSetupIndex == 5) {
         if (globalCtx->unk_11D30[0] > 0) {
             globalCtx->unk_11D30[0]--;
         } else {

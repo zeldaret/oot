@@ -6,7 +6,7 @@ glabel func_80835EA4
 /* 03CA4 80835EB4 0C20D791 */  jal     func_80835E44              
 /* 03CA8 80835EB8 24050038 */  addiu   $a1, $zero, 0x0038         ## $a1 = 00000038
 /* 03CAC 80835EBC 8FA40028 */  lw      $a0, 0x0028($sp)           
-/* 03CB0 80835EC0 0C030129 */  jal     func_800C04A4              
+/* 03CB0 80835EC0 0C030129 */  jal     Gameplay_GetCamera              
 /* 03CB4 80835EC4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 03CB8 80835EC8 8FAE002C */  lw      $t6, 0x002C($sp)           
 /* 03CBC 80835ECC 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000

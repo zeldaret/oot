@@ -52,7 +52,7 @@ void BgGjyoBridge_Init(BgGjyoBridge* this, GlobalContext* globalCtx) {
 
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, dynaCollisionContext, this, local_c);
 
-    if (gSaveContext.event_chk_inf[4] & 0x2000) {
+    if (gSaveContext.eventChkInf[4] & 0x2000) {
         this->actionFunc = func_808787A4;
     } else {
         this->dyna.actor.draw = NULL;
@@ -71,13 +71,13 @@ void func_808787A4(BgGjyoBridge* this, GlobalContext* globalCtx) {
 void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((gBitFlags[3] & gSaveContext.quest_items) && (gBitFlags[4] & gSaveContext.quest_items) &&
+    if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
         (INV_CONTENT(ITEM_ARROW_LIGHT) == ITEM_ARROW_LIGHT) && (player->actor.posRot.pos.x > -70.0f) &&
         (player->actor.posRot.pos.x < 300.0f) && (player->actor.posRot.pos.y > 1340.0f) &&
         (player->actor.posRot.pos.z > 1340.0f) && (player->actor.posRot.pos.z < 1662.0f) &&
-        (func_800BFC84(globalCtx) == 0)) {
+        !Gameplay_InCsMode(globalCtx)) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02002640);
-        gSaveContext.cutscene_trigger = 1;
+        gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = BgGjyoBridge_SpawnBridge;
     }
 }
@@ -87,7 +87,7 @@ void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx) {
         (globalCtx->csCtx.actorActions[2]->action == 2)) {
         this->dyna.actor.draw = &BgGjyoBridge_Draw;
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
-        gSaveContext.event_chk_inf[4] |= 0x2000;
+        gSaveContext.eventChkInf[4] |= 0x2000;
     }
 }
 

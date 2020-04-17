@@ -63,7 +63,7 @@ glabel func_800AB9EC
 /* B22BF8 800ABA58 0C000B58 */  jal   LogUtils_CheckNullPointer
 /* B22BFC 800ABA5C 2407038E */   li    $a3, 910
 /* B22C00 800ABA60 02402025 */  move  $a0, $s2
-/* B22C04 800ABA64 0C02A864 */  jal   func_800AA190
+/* B22C04 800ABA64 0C02A864 */  jal   View_ViewportToVp
 /* B22C08 800ABA68 26050008 */   addiu $a1, $s0, 8
 /* B22C0C 800ABA6C 8E4D0000 */  lw    $t5, ($s2)
 /* B22C10 800ABA70 02201025 */  move  $v0, $s1

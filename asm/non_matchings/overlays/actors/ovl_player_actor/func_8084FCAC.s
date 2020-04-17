@@ -41,7 +41,7 @@ glabel func_8084FCAC
 /* 1DB18 8084FD28 398D0001 */  xori    $t5, $t4, 0x0001           ## $t5 = 00000001
 /* 1DB1C 8084FD2C 11A00008 */  beq     $t5, $zero, .L8084FD50     
 /* 1DB20 8084FD30 AC4D0000 */  sw      $t5, 0x0000($v0)           ## 808535D0
-/* 1DB24 8084FD34 0C030129 */  jal     func_800C04A4              
+/* 1DB24 8084FD34 0C030129 */  jal     Gameplay_GetCamera              
 /* 1DB28 8084FD38 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 1DB2C 8084FD3C 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 1DB30 8084FD40 0C016911 */  jal     func_8005A444              

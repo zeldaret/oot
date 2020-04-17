@@ -379,7 +379,7 @@ glabel func_80A9F408
 /* 00924 80A9F904 0C03D095 */  jal     func_800F4254              
 /* 00928 80A9F908 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 .L80A9F90C:
-/* 0092C 80A9F90C 0C02FF21 */  jal     func_800BFC84              
+/* 0092C 80A9F90C 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 00930 80A9F910 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 00934 80A9F914 50400004 */  beql    $v0, $zero, .L80A9F928     
 /* 00938 80A9F918 8FBF003C */  lw      $ra, 0x003C($sp)           

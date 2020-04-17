@@ -28,7 +28,7 @@ glabel func_8087B7E8
 /* 001A0 8087B850 0301C824 */  and     $t9, $t8, $at              
 /* 001A4 8087B854 AE190680 */  sw      $t9, 0x0680($s0)           ## 00000680
 /* 001A8 8087B858 AFA70020 */  sw      $a3, 0x0020($sp)           
-/* 001AC 8087B85C 0C02FF21 */  jal     func_800BFC84              
+/* 001AC 8087B85C 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 001B0 8087B860 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 001B4 8087B864 1440002C */  bne     $v0, $zero, .L8087B918     
 /* 001B8 8087B868 8FA70020 */  lw      $a3, 0x0020($sp)           

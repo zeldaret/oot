@@ -7,7 +7,7 @@ glabel func_80916AEC
 /* 010F0 80916B00 AFBF0034 */  sw      $ra, 0x0034($sp)
 /* 010F4 80916B04 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 010F8 80916B08 AFB20030 */  sw      $s2, 0x0030($sp)
-/* 010FC 80916B0C 0C030129 */  jal     func_800C04A4
+/* 010FC 80916B0C 0C030129 */  jal     Gameplay_GetCamera
 /* 01100 80916B10 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 01104 80916B14 AFA20038 */  sw      $v0, 0x0038($sp)
 /* 01108 80916B18 8E0F0004 */  lw      $t7, 0x0004($s0)           ## 00000004
@@ -23,16 +23,16 @@ glabel func_80916AEC
 /* 01130 80916B40 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01134 80916B44 0C00B7D5 */  jal     func_8002DF54
 /* 01138 80916B48 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 0113C 80916B4C 0C03008C */  jal     func_800C0230
+/* 0113C 80916B4C 0C03008C */  jal     Gameplay_CreateSubCamera
 /* 01140 80916B50 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01144 80916B54 A60201BC */  sh      $v0, 0x01BC($s0)           ## 000001BC
 /* 01148 80916B58 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0114C 80916B5C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 01150 80916B60 0C0300C5 */  jal     func_800C0314
+/* 01150 80916B60 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 01154 80916B64 24060003 */  addiu   $a2, $zero, 0x0003         ## $a2 = 00000003
 /* 01158 80916B68 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0115C 80916B6C 860501BC */  lh      $a1, 0x01BC($s0)           ## 000001BC
-/* 01160 80916B70 0C0300C5 */  jal     func_800C0314
+/* 01160 80916B70 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 01164 80916B74 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 01168 80916B78 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
 /* 0116C 80916B7C 0C028800 */  jal     SkelAnime_GetFrameCount
