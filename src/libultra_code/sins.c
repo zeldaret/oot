@@ -1,10 +1,10 @@
 #include "guint.h"
 #include "sintable.h"
 
-signed short sins(unsigned short x) {
+s16 sins(u16 x) {
     /* 0 <= x < 0x10000  ==>  0 <= x < 2PI */
 
-    signed short val;
+    s16 val;
 
     x >>= 4; /* Now range 0 <= x < 0x1000 */
 

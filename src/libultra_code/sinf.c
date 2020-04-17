@@ -29,14 +29,14 @@ static const fu zero = { 0x00000000 };
  * ====================================================================
  */
 
-float fsin(float x) {
-    double dx, xsq, poly;
-    double dn;
-    int n;
-    double result;
-    int ix, xpt;
+f32 fsin(f32 x) {
+    f64 dx, xsq, poly;
+    f64 dn;
+    s32 n;
+    f64 result;
+    s32 ix, xpt;
 
-    ix = *(int*)&x;
+    ix = *(s32*)&x;
     xpt = (ix >> 22);
     xpt &= 0x1ff;
 
@@ -58,7 +58,7 @@ float fsin(float x) {
 
             result = dx + (dx * xsq) * poly;
 
-            return ((float)result);
+            return ((f32)result);
         }
 
         return (x);
@@ -89,10 +89,10 @@ float fsin(float x) {
         result = dx + (dx * xsq) * poly;
 
         if ((n & 1) == 0) {
-            return ((float)result);
+            return ((f32)result);
         }
 
-        return (-(float)result);
+        return (-(f32)result);
     }
 
     if (x != x) {

@@ -29,15 +29,15 @@ static const fu zero = { 0x00000000 };
  * ====================================================================
  */
 
-float fcos(float x) {
-    float absx;
-    double dx, xsq, poly;
-    double dn;
-    int n;
-    double result;
-    int ix, xpt;
+f32 fcos(f32 x) {
+    f32 absx;
+    f64 dx, xsq, poly;
+    f64 dn;
+    s32 n;
+    f64 result;
+    s32 ix, xpt;
 
-    ix = *(int*)&x;
+    ix = *(s32*)&x;
     xpt = (ix >> 22);
     xpt &= 0x1ff;
 
@@ -72,10 +72,10 @@ float fcos(float x) {
         /* negate result if n is odd */
 
         if ((n & 1) == 0) {
-            return ((float)result);
+            return ((f32)result);
         }
 
-        return (-(float)result);
+        return (-(f32)result);
     }
 
     if (x != x) {
