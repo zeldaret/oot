@@ -1190,7 +1190,7 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* check,
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3229);
     }
     check = (void*)check;
-    (*D_8011DF18[collider->shape])(globalCtx, collider);
+    D_8011DF18[collider->shape](globalCtx, collider);
     if (collider->actor != NULL) {
         if (collider->actor->update == NULL) {
             return -1;
@@ -2412,7 +2412,7 @@ void func_80061274(GlobalContext* globalCtx, CollisionCheckContext* check, Colli
         }
 
         else if ((collider->atFlags & 0x40) || collider->actor == NULL || temp->actor != collider->actor) {
-            (*D_8011DF6C[collider->shape][temp->shape])(globalCtx, check, collider, temp);
+            D_8011DF6C[collider->shape][temp->shape](globalCtx, check, collider, temp);
         }
     }
 }
@@ -2835,7 +2835,7 @@ void func_800622E4(GlobalContext* globalCtx, CollisionCheckContext* check) {
         if ((collider->acFlags & 0x40)) {
             continue;
         }
-        (*D_8011E008[collider->shape])(globalCtx, check, collider);
+        D_8011E008[collider->shape](globalCtx, check, collider);
     }
 }
 
