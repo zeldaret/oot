@@ -1618,7 +1618,7 @@ f32 func_800CA774(f32);
 // ? Math3D_DistXYZ16toF(?);
 // ? Math3D_Vec3f_Cross(?);
 // ? Math3D_SurfaceNorm(?);
-f32 func_800CB678(Vec3f*, Vec3f*);
+f32 Math3D_Vec3f_DistXYZ(Vec3f*, Vec3f*);
 // ? func_800CB698(?);
 // ? func_800CB7B4(?);
 // ? func_800CB824(?);
