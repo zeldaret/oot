@@ -100,7 +100,7 @@ void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
     s32 localC = 0;
 
     Actor_ProcessInitChain(this, initChain);
-    DynaPolyInfo_SetActorMove(this, 1);
+    func_80043480(this, 1);
     this->unk_168 = (thisx->params >> 8) & 0x3F;
     thisx->params &= 0xFF;
     if (thisx->params == 2) {
@@ -110,7 +110,7 @@ void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
         return;
     }
     if (thisx->params == 0) {
-        DynaPolyInfo_Alloc(&D_06008CE0, &localC);
+        func_80041880(&D_06008CE0, &localC);
         ActorCollider_AllocCylinder(globalCtx, &this->collider);
         ActorCollider_InitCylinder(globalCtx, &this->collider, this, &D_8086CD70);
         thisx->posRot.pos.y = (f32)(thisx->posRot.pos.y + -79.0f);
@@ -135,12 +135,12 @@ void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
         }
     } else {
         if (thisx->params == 1) {
-            DynaPolyInfo_Alloc(&D_06005048, &localC);
+            func_80041880(&D_06005048, &localC);
             this->unk_16A = 0x200;
             this->unk_168 = 0;
             this->actionFunc = (ActorFunc)func_8086C874;
         } else {
-            DynaPolyInfo_Alloc(&D_06005580, &localC);
+            func_80041880(&D_06005580, &localC);
             if (Flags_GetSwitch(globalCtx, this->unk_168)) {
                 this->actionFunc = (ActorFunc)func_8086C868;
                 thisx->posRot.pos.y = thisx->initPosRot.pos.y - 400.0f;
@@ -149,13 +149,13 @@ void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
             }
         }
     }
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, this, localC);
+    this->dyna.dynaPolyId = func_8003EA74(globalCtx, &globalCtx->colCtx.dyna, this, localC);
 }
 
 void BgBdanObjects_Destroy(BgBdanObjects* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     if (thisx->params == 0) {
         ActorCollider_FreeCylinder(globalCtx, &this->collider);
     }
