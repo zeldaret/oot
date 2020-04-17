@@ -92,4 +92,4 @@ float fcos(float x) {
     /* just give up and return 0.0 */
 
     return (zero.f);
-} 
+}
