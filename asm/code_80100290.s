@@ -126,9 +126,9 @@ glabel sinf
 /* B775CC 8010042C 3C018015 */  lui   $at, %hi(D_8014B250)
 /* B775D0 80100430 45010004 */  bc1t  .L80100444
 /* B775D4 80100434 00000000 */   nop   
-/* B775D8 80100438 3C018015 */  lui   $at, %hi(D_8014B2D0)
+/* B775D8 80100438 3C018015 */  lui   $at, %hi(__libm_qnan_f)
 /* B775DC 8010043C 03E00008 */  jr    $ra
-/* B775E0 80100440 C420B2D0 */   lwc1  $f0, %lo(D_8014B2D0)($at)
+/* B775E0 80100440 C420B2D0 */   lwc1  $f0, %lo(__libm_qnan_f)($at)
 
 .L80100444:
 /* B775E4 80100444 C420B250 */  lwc1  $f0, %lo(D_8014B250)($at)
@@ -245,7 +245,7 @@ glabel func_801004C0
 /* B77764 801005C4 03E00008 */  jr    $ra
 /* B77768 801005C8 27BD0018 */   addiu $sp, $sp, 0x18
 
-glabel func_801005CC
+glabel osSpTaskLoad
 /* B7776C 801005CC 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B77770 801005D0 AFBF0024 */  sw    $ra, 0x24($sp)
 /* B77774 801005D4 AFB00014 */  sw    $s0, 0x14($sp)
@@ -346,7 +346,7 @@ glabel func_801005CC
 /* B778CC 8010072C 03E00008 */  jr    $ra
 /* B778D0 80100730 27BD0028 */   addiu $sp, $sp, 0x28
 
-glabel func_80100734
+glabel osSpTaskStartGo
 /* B778D4 80100734 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B778D8 80100738 AFBF0014 */  sw    $ra, 0x14($sp)
 /* B778DC 8010073C 0C040ECC */  jal   __osSpDeviceBusy

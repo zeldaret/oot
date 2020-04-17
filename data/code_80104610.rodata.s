@@ -24,5 +24,5 @@ glabel D_8014B2B8
 glabel D_8014B2C0
     .incbin "baserom.z64", 0xBC2460, 0x10 # Nothing?
 
-glabel D_8014B2D0
-    .incbin "baserom.z64", 0xBC2470, 0x10 # Called as a float, but contains a invalid number?
+glabel __libm_qnan_f
+    .word 0x7F810000 # Called as a float, but contains a invalid number?
