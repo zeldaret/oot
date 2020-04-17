@@ -478,8 +478,8 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_2B4);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
-    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl,
-                                          skelAnime->dListCount, NULL, NULL, NULL, gfxCtx->polyXlu.p);
+    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                          NULL, NULL, NULL, gfxCtx->polyXlu.p);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2_inKenjyanomaDemo02.c", 291);
 }
@@ -796,7 +796,7 @@ void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
-    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL,
+    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru2.c", 663);
 }
