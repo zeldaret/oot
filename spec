@@ -545,7 +545,6 @@ beginseg
     include "build/asm/code_801041E0.o"
     include "build/asm/code_80104450.o"
     include "build/src/libultra_code/cosf.o"
-    include "build/data/libm_vals.data.o"
     include "build/src/libultra_code/coss.o"
     include "build/asm/osViSetEvent.o"
     include "build/asm/code_80104810.o"

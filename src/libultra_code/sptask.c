@@ -5,8 +5,9 @@
     if (ptr != NULL) {                         \
         ptr = (void*)osVirtualToPhysical(ptr); \
     }
+
 static OSTask tmp_task;
-static OSTask* _VirtualToPhysicalTask(OSTask* intp) {
+OSTask* _VirtualToPhysicalTask(OSTask* intp) {
     OSTask* tp;
     tp = &tmp_task;
     bcopy(intp, tp, sizeof(OSTask));
@@ -20,6 +21,8 @@ static OSTask* _VirtualToPhysicalTask(OSTask* intp) {
     _osVirtualToPhysical(tp->t.yield_data_ptr);
     return tp;
 }
+
+#ifdef NON_MATCHING
 void osSpTaskLoad(OSTask* intp) {
 
     OSTask* tp;
@@ -29,7 +32,7 @@ void osSpTaskLoad(OSTask* intp) {
         tp->t.ucode_data_size = tp->t.yield_data_size;
         intp->t.flags &= ~OS_TASK_YIELDED;
         if (tp->t.flags & OS_TASK_LOADABLE) {
-            tp->t.ucode = (u64*)HW_REG((u32)intp->t.yield_data_ptr + OS_YIELD_DATA_SIZE - 4, u32);
+            tp->t.ucode = HW_REG((u32)intp->t.yield_data_ptr + OS_YIELD_DATA_SIZE - 4, u32);
         }
     }
     osWritebackDCache(tp, sizeof(OSTask));
@@ -50,6 +53,9 @@ void osSpTaskLoad(OSTask* intp) {
         ;
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/sptask/osSpTaskLoad.s")
+#endif
 void osSpTaskStartGo(OSTask* tp) {
 
     while (__osSpDeviceBusy()) {

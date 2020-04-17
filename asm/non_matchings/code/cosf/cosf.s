@@ -1,14 +1,23 @@
-.include "macro.inc"
+.rdata
+glabel D_8014B280
+    .incbin "baserom.z64", 0xBC2420, 0x28 
 
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+glabel D_8014B2A8
+    .incbin "baserom.z64", 0xBC2448, 0x8 # .double 0.318309886183791
 
-.section .text
+glabel D_8014B2B0
+    .incbin "baserom.z64", 0xBC2450, 0x8 # Pi
 
-.align 4
+glabel D_8014B2B8
+    .incbin "baserom.z64", 0xBC2458, 0x8 # 3.17865095470564E-8
 
+glabel D_8014B2C0
+    .incbin "baserom.z64", 0xBC2460, 0x10 # Nothing?
+
+glabel D_8014B2D0
+    .incbin "baserom.z64", 0xBC2470, 0x10 # Called as a float, but contains a invalid number?
+
+.text
 glabel cosf
 /* B7B7B0 80104610 E7AC0000 */  swc1  $f12, ($sp)
 /* B7B7B4 80104614 8FA20000 */  lw    $v0, ($sp)
@@ -105,4 +114,4 @@ glabel cosf
 .L8010476C:
 /* B7B90C 8010476C C420B2C0 */  lwc1  $f0, %lo(D_8014B2C0)($at)
 /* B7B910 80104770 03E00008 */  jr    $ra
-/* B7B914 80104774 00000000 */   nop   
+/* B7B914 80104774 00000000 */   nop
