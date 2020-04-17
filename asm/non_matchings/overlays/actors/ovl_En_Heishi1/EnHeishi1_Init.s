@@ -1,3 +1,57 @@
+.rdata
+glabel D_80A52930
+    .asciz "[32m 種類☆☆☆☆☆☆☆☆☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A5295C
+    .asciz "[33m れえるでぇたぁ☆☆☆☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A52988
+    .asciz "[35m anime_frame_speed ☆☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A529B4
+    .asciz "[35m 補間フレーム☆☆☆☆☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A529E0
+    .asciz "[35m point間の移動スピード目標値 ☆ %f\n[m"
+    .balign 4
+
+glabel D_80A52A0C
+    .asciz "[35m point間の移動スピード最大 ☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A52A38
+    .asciz "[35m (体)反転アングルスピード目標値 %f\n[m"
+    .balign 4
+
+glabel D_80A52A64
+    .asciz "[35m (体)反転アングルスピード最大☆ %f\n[m"
+    .balign 4
+
+glabel D_80A52A90
+    .asciz "[35m (頭)反転アングルスピード加算値 %f\n[m"
+    .balign 4
+
+glabel D_80A52ABC
+    .asciz "[35m (頭)反転アングルスピード最大☆ %f\n[m"
+    .balign 4
+
+glabel D_80A52AE8
+    .asciz "[32m 今時間 %d\n[m"
+    .balign 4
+
+glabel D_80A52AFC
+    .asciz "[33m チェック時間 %d\n[m"
+    .balign 4
+
+glabel D_80A52B18
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel EnHeishi1_Init
 /* 00000 80A512D0 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 00004 80A512D4 AFB20040 */  sw      $s2, 0x0040($sp)           
@@ -239,5 +293,3 @@ glabel EnHeishi1_Init
 /* 00344 80A51614 8FB20040 */  lw      $s2, 0x0040($sp)           
 /* 00348 80A51618 03E00008 */  jr      $ra                        
 /* 0034C 80A5161C 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-
-

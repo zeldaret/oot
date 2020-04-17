@@ -4,5 +4,3 @@ glabel func_80B515C4
 /* 02C3C 80B515CC AC8001A0 */  sw      $zero, 0x01A0($a0)         ## 000001A0
 /* 02C40 80B515D0 03E00008 */  jr      $ra                        
 /* 02C44 80B515D4 A08000C8 */  sb      $zero, 0x00C8($a0)         ## 000000C8
-
-

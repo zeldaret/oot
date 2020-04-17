@@ -1,3 +1,39 @@
+.rdata
+glabel D_80AA0490
+    .asciz "../z_en_m_thunder.c"
+    .balign 4
+
+glabel D_80AA04A4
+    .asciz "../z_en_m_thunder.c"
+    .balign 4
+
+glabel D_80AA04B8
+    .asciz "../z_en_m_thunder.c"
+    .balign 4
+
+glabel D_80AA04CC
+    .asciz "../z_en_m_thunder.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AA0514
+    .float 0.02
+
+glabel D_80AA0518
+ .word 0xBF333333
+glabel D_80AA051C
+ .word 0xBF19999A
+glabel D_80AA0520
+    .float -1.2
+
+glabel D_80AA0524
+ .word 0xBFE66666
+glabel D_80AA0528
+ .word 0xBFB33333
+glabel D_80AA052C
+    .float 0.85
+
+.text
 glabel EnMThunder_Draw
 /* 00D08 80A9FCE8 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 00D0C 80A9FCEC AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -11,7 +47,7 @@ glabel EnMThunder_Draw
 /* 00D2C 80A9FD0C 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
 /* 00D30 80A9FD10 27A40088 */  addiu   $a0, $sp, 0x0088           ## $a0 = FFFFFFD8
 /* 00D34 80A9FD14 2407034C */  addiu   $a3, $zero, 0x034C         ## $a3 = 0000034C
-/* 00D38 80A9FD18 0C031AB1 */  jal     func_800C6AC4              
+/* 00D38 80A9FD18 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00D3C 80A9FD1C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00D40 80A9FD20 8FB800B4 */  lw      $t8, 0x00B4($sp)           
 /* 00D44 80A9FD24 0C024F61 */  jal     func_80093D84              
@@ -463,7 +499,7 @@ glabel EnMThunder_Draw
 /* 013F4 80AA03D4 24C604CC */  addiu   $a2, $a2, %lo(D_80AA04CC)  ## $a2 = 80AA04CC
 /* 013F8 80AA03D8 27A40088 */  addiu   $a0, $sp, 0x0088           ## $a0 = FFFFFFD8
 /* 013FC 80AA03DC 24070407 */  addiu   $a3, $zero, 0x0407         ## $a3 = 00000407
-/* 01400 80AA03E0 0C031AD5 */  jal     func_800C6B54              
+/* 01400 80AA03E0 0C031AD5 */  jal     Graph_CloseDisps              
 /* 01404 80AA03E4 8DA50000 */  lw      $a1, 0x0000($t5)           ## 00000000
 /* 01408 80AA03E8 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 0140C 80AA03EC 8FB00038 */  lw      $s0, 0x0038($sp)           
@@ -471,4 +507,3 @@ glabel EnMThunder_Draw
 /* 01414 80AA03F4 03E00008 */  jr      $ra                        
 /* 01418 80AA03F8 00000000 */  nop
 /* 0141C 80AA03FC 00000000 */  nop
-

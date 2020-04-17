@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_80A4B940
+    .float 9.99999997475e-07
+
+glabel D_80A4B944
+    .float 9.99999997475e-07
+
+glabel D_80A4B948
+    .float 9.99999997475e-07
+
+.text
 glabel EnGoma_Update
 /* 01BB4 80A4AA74 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 01BB8 80A4AA78 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -164,5 +175,3 @@ glabel EnGoma_Update
 /* 01DF4 80A4ACB4 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 01DF8 80A4ACB8 03E00008 */  jr      $ra                        
 /* 01DFC 80A4ACBC 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

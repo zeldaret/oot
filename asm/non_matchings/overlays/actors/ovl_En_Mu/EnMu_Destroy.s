@@ -7,5 +7,3 @@ glabel EnMu_Destroy
 /* 002F8 80AB0718 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002FC 80AB071C 03E00008 */  jr      $ra
 /* 00300 80AB0720 00000000 */  nop
-
-

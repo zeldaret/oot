@@ -1,3 +1,21 @@
+.rdata
+glabel D_80982780
+    .asciz "../z_demo_gt_part1.c"
+    .balign 4
+
+glabel D_80982798
+    .asciz "../z_demo_gt_part1.c"
+    .balign 4
+
+glabel D_809827B0
+    .asciz "../z_demo_gt_part1.c"
+    .balign 4
+
+.late_rodata
+glabel D_80982AD8
+    .float 9.58738019108e-05
+
+.text
 glabel func_8097F508
 /* 01E98 8097F508 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 01E9C 8097F50C 3C0E0001 */  lui     $t6, 0x0001                ## $t6 = 00010000
@@ -44,7 +62,7 @@ glabel func_8097F508
 /* 01F38 8097F5A8 27A40078 */  addiu   $a0, $sp, 0x0078           ## $a0 = FFFFFFA0
 /* 01F3C 8097F5AC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01F40 8097F5B0 240701CA */  addiu   $a3, $zero, 0x01CA         ## $a3 = 000001CA
-/* 01F44 8097F5B4 0C031AB1 */  jal     func_800C6AC4              
+/* 01F44 8097F5B4 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01F48 8097F5B8 E7A40098 */  swc1    $f4, 0x0098($sp)           
 /* 01F4C 8097F5BC 0C01DE0D */  jal     Math_Coss
               ## coss?
@@ -254,12 +272,10 @@ glabel func_8097F508
 /* 0226C 8097F8DC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02270 8097F8E0 2407022D */  addiu   $a3, $zero, 0x022D         ## $a3 = 0000022D
 /* 02274 8097F8E4 AC590004 */  sw      $t9, 0x0004($v0)           ## 00000004
-/* 02278 8097F8E8 0C031AD5 */  jal     func_800C6B54              
+/* 02278 8097F8E8 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0227C 8097F8EC AC580000 */  sw      $t8, 0x0000($v0)           ## 00000000
 /* 02280 8097F8F0 8FBF004C */  lw      $ra, 0x004C($sp)           
 /* 02284 8097F8F4 8FB00048 */  lw      $s0, 0x0048($sp)           
 /* 02288 8097F8F8 27BD00D8 */  addiu   $sp, $sp, 0x00D8           ## $sp = 00000000
 /* 0228C 8097F8FC 03E00008 */  jr      $ra                        
 /* 02290 8097F900 00000000 */  nop
-
-

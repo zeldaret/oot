@@ -2,6 +2,7 @@
 #include <global.h>
 #include <alloca.h>
 #include <vt.h>
+#include <PR/os_cont.h>
 
 // data
 const char* sExceptionNames[] = {
@@ -32,17 +33,17 @@ const char* sExceptionNames[] = {
 };
 
 // bss
-FaultThreadStruct* sFaultStructPtr;
-u8 sFaultIsWaitingForInput;
-char sFaultStack[0x600];
-char sFaultThreadInfo[0x20];
-FaultThreadStruct gFaultStruct;
+extern FaultThreadStruct* sFaultStructPtr;
+extern u8 sFaultIsWaitingForInput;
+extern char sFaultStack[0x600];
+extern StackEntry sFaultThreadInfo;
+extern FaultThreadStruct gFaultStruct;
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/fault/pad_800D3F10.s")
 
 void Fault_SleepImpl(u32 duration) {
     u64 value = (duration * OS_CPU_COUNTER) / 1000ull;
-    func_800FF3A0(value);
+    Sleep_Cycles(value);
 }
 
 void Fault_ClientProcessThread(FaultClientContext* ctx) {
@@ -249,7 +250,7 @@ void Fault_Sleep(u32 duration) {
 
 void Fault_PadCallback(Input* input) {
     // BUG: this function is not called correctly and thus will crash from reading a bad pointer at 0x800C7E4C
-    func_800C7E08(input, 0);
+    PadMgr_RequestPadData(input, 0);
 }
 
 void Fault_UpdatePadImpl() {
@@ -269,7 +270,7 @@ u32 Fault_WaitForInputImpl() {
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
 
-            kDown = curInput->padPressed;
+            kDown = curInput->press.in.button;
 
             if (kDown == 0x20) {
                 sFaultStructPtr->faultActive = !sFaultStructPtr->faultActive;
@@ -582,7 +583,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
             count--;
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-            if (!~(curInput->padPressed | ~0x20)) {
+            if (!~(curInput->press.in.button | ~L_TRIG)) {
                 sFaultStructPtr->faultActive = false;
             }
         }
@@ -590,42 +591,42 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
         do {
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-        } while (curInput->padPressed == 0);
+        } while (curInput->press.in.button == 0);
 
-        if (!~(curInput->padPressed | ~0x1000)) {
+        if (!~(curInput->press.in.button | ~START_BUTTON)) {
             return;
         }
 
-        if (!~(curInput->raw.pad | ~0x8000)) {
+        if (!~(curInput->cur.in.button | ~A_BUTTON)) {
             return;
         }
 
         off = 0x10;
-        if (!~(curInput->raw.pad | ~0x2000)) {
+        if (!~(curInput->cur.in.button | ~Z_TRIG)) {
             off = 0x100;
         }
-        if (!~(curInput->raw.pad | ~0x4000)) {
+        if (!~(curInput->cur.in.button | ~B_BUTTON)) {
             off <<= 8;
         }
-        if (!~(curInput->raw.pad | ~0x800)) {
+        if (!~(curInput->cur.in.button | ~U_JPAD)) {
             addr -= off;
         }
-        if (!~(curInput->raw.pad | ~0x400)) {
+        if (!~(curInput->cur.in.button | ~D_JPAD)) {
             addr += off;
         }
-        if (!~(curInput->raw.pad | ~0x8)) {
+        if (!~(curInput->cur.in.button | ~U_CBUTTONS)) {
             addr = pc;
         }
-        if (!~(curInput->raw.pad | ~0x4)) {
+        if (!~(curInput->cur.in.button | ~D_CBUTTONS)) {
             addr = sp;
         }
-        if (!~(curInput->raw.pad | ~0x2)) {
+        if (!~(curInput->cur.in.button | ~L_CBUTTONS)) {
             addr = unk0;
         }
-        if (!~(curInput->raw.pad | ~0x1)) {
+        if (!~(curInput->cur.in.button | ~R_CBUTTONS)) {
             addr = unk1;
         }
-        if (!~(curInput->raw.pad | ~0x20)) {
+        if (!~(curInput->cur.in.button | ~L_TRIG)) {
             break;
         }
     }
@@ -803,8 +804,8 @@ void Fault_Start(void) {
     sFaultStructPtr->faultActive = false;
     gFaultStruct.faultHandlerEnabled = true;
     osCreateMesgQueue(&sFaultStructPtr->queue, &sFaultStructPtr->msg, 1);
-    StackCheck_Init(sFaultThreadInfo, &sFaultStack, sFaultStack + sizeof(sFaultStack), 0, 0x100, "fault");
-    osCreateThread(&sFaultStructPtr->thread, 2, &Fault_ThreadEntry, 0, sFaultThreadInfo, 0x7f);
+    StackCheck_Init(&sFaultThreadInfo, &sFaultStack, sFaultStack + sizeof(sFaultStack), 0, 0x100, "fault");
+    osCreateThread(&sFaultStructPtr->thread, 2, &Fault_ThreadEntry, 0, sFaultStack + sizeof(sFaultStack), 0x7f);
     osStartThread(&sFaultStructPtr->thread);
 }
 

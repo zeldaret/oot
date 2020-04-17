@@ -1,7 +1,6 @@
 #include <vt.h>
 #include "z_en_owl.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000019
 
 extern Gfx D_060089A8;
@@ -26,7 +25,6 @@ void EnOwl_Draw(EnOwl* this, GlobalContext* globalCtx);
 const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_OWL,
     sizeof(EnOwl),
@@ -208,7 +206,7 @@ void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx)
             break;
         // Lost woods before saria
         case OWL_LOST_WOODS_PRESARIA:
-            if (!HAS_QUEST_STATUS(0xC)){
+            if (!CHECK_QUEST_ITEM(0xC)){
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
                 Actor_Kill(&this->actor);
                 return;
@@ -217,7 +215,7 @@ void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx)
             break;
         // Lost woods after saria
         case OWL_LOST_WOODS_POSTSARIA:
-            if(!HAS_QUEST_STATUS(0xC)){
+            if(!CHECK_QUEST_ITEM(0xC)){
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
                 Actor_Kill(&this->actor);
                 return;
@@ -627,9 +625,9 @@ void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx)
     u16 textId;
 
     EnOwl_LookAtLink(this, globalCtx);
-    if (HAS_QUEST_STATUS(0xE))
+    if (CHECK_QUEST_ITEM(0xE))
     {
-        if (HAS_QUEST_STATUS(0xC))
+        if (CHECK_QUEST_ITEM(0xC))
         {
             textId = 0x4031;
         }

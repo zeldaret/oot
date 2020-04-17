@@ -1,3 +1,35 @@
+.late_rodata
+glabel D_80AA04E0
+    .float 0.1
+
+glabel D_80AA04E4
+    .float 0.1
+
+glabel D_80AA04E8
+    .float 0.15
+
+glabel D_80AA04EC
+    .float 0.1
+
+glabel D_80AA04F0
+    .float 0.85
+
+glabel D_80AA04F4
+    .float 0.15
+
+glabel D_80AA04F8
+    .float 0.15
+
+glabel D_80AA04FC
+    .float 0.1
+
+glabel D_80AA0500
+    .float 0.85
+
+glabel D_80AA0504
+    .float 0.1
+
+.text
 glabel func_80A9F408
 /* 00428 80A9F408 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0042C 80A9F40C AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -347,7 +379,7 @@ glabel func_80A9F408
 /* 00924 80A9F904 0C03D095 */  jal     func_800F4254              
 /* 00928 80A9F908 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 .L80A9F90C:
-/* 0092C 80A9F90C 0C02FF21 */  jal     func_800BFC84              
+/* 0092C 80A9F90C 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 00930 80A9F910 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 00934 80A9F914 50400004 */  beql    $v0, $zero, .L80A9F928     
 /* 00938 80A9F918 8FBF003C */  lw      $ra, 0x003C($sp)           
@@ -361,5 +393,3 @@ glabel func_80A9F408
 /* 0094C 80A9F92C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00950 80A9F930 03E00008 */  jr      $ra                        
 /* 00954 80A9F934 00000000 */  nop
-
-

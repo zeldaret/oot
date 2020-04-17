@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A90B48
+    .asciz "[32m☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A90B74
+    .asciz "[32m☆☆☆☆☆ SAVE 終了 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel func_80A90264
 /* 00254 80A90264 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00258 80A90268 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -169,5 +179,3 @@ glabel func_80A90264
 /* 004BC 80A904CC 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 004C0 80A904D0 03E00008 */  jr      $ra
 /* 004C4 80A904D4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

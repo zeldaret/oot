@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809E16F8
+    .float 0.03
+
+.text
 glabel func_809E0770
 /* 00530 809E0770 3C02809E */  lui     $v0, %hi(D_809E16C8)       ## $v0 = 809E0000
 /* 00534 809E0774 244216C8 */  addiu   $v0, $v0, %lo(D_809E16C8)  ## $v0 = 809E16C8
@@ -63,5 +68,3 @@ glabel func_809E0770
 /* 00618 809E0858 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0061C 809E085C 03E00008 */  jr      $ra
 /* 00620 809E0860 00000000 */  nop
-
-

@@ -66,5 +66,3 @@ glabel BgHakaTrap_Update
 /* 010BC 80880D5C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 010C0 80880D60 03E00008 */  jr      $ra                        
 /* 010C4 80880D64 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

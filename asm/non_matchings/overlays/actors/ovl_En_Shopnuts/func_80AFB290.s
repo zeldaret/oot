@@ -1,3 +1,31 @@
+.rdata
+glabel D_80AFB520
+    .asciz "../z_en_shopnuts.c"
+    .balign 4
+
+glabel D_80AFB534
+    .asciz "../z_en_shopnuts.c"
+    .balign 4
+
+glabel D_80AFB548
+    .asciz "../z_en_shopnuts.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AFB55C
+ .word 0x3DAA9931
+glabel D_80AFB560
+ .word 0x3DEF0069
+glabel D_80AFB564
+    .float 1.7
+
+glabel D_80AFB568
+    .float 0.7
+
+glabel D_80AFB56C
+ .word 0x3E2AB368
+
+.text
 glabel func_80AFB290
 /* 00B70 80AFB290 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00B74 80AFB294 24010009 */  addiu   $at, $zero, 0x0009         ## $at = 00000009
@@ -16,7 +44,7 @@ glabel func_80AFB290
 /* 00BA8 80AFB2C8 240702AA */  addiu   $a3, $zero, 0x02AA         ## $a3 = 000002AA
 /* 00BAC 80AFB2CC 8C850000 */  lw      $a1, 0x0000($a0)           ## 00000000
 /* 00BB0 80AFB2D0 27A40028 */  addiu   $a0, $sp, 0x0028           ## $a0 = FFFFFFD8
-/* 00BB4 80AFB2D4 0C031AB1 */  jal     func_800C6AC4              
+/* 00BB4 80AFB2D4 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00BB8 80AFB2D8 AFA50038 */  sw      $a1, 0x0038($sp)           
 /* 00BBC 80AFB2DC 8FA80060 */  lw      $t0, 0x0060($sp)           
 /* 00BC0 80AFB2E0 3C0140C0 */  lui     $at, 0x40C0                ## $at = 40C00000
@@ -116,12 +144,10 @@ glabel func_80AFB290
 /* 00D28 80AFB448 AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
 /* 00D2C 80AFB44C 8FB80050 */  lw      $t8, 0x0050($sp)           
 /* 00D30 80AFB450 240702CD */  addiu   $a3, $zero, 0x02CD         ## $a3 = 000002CD
-/* 00D34 80AFB454 0C031AD5 */  jal     func_800C6B54              
+/* 00D34 80AFB454 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00D38 80AFB458 8F050000 */  lw      $a1, 0x0000($t8)           ## 00000000
 .L80AFB45C:
 /* 00D3C 80AFB45C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00D40 80AFB460 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00D44 80AFB464 03E00008 */  jr      $ra                        
 /* 00D48 80AFB468 00000000 */  nop
-
-

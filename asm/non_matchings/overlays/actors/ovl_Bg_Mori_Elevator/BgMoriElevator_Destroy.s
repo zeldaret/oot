@@ -1,3 +1,9 @@
+.rdata
+glabel D_808A22B4
+    .asciz "森の神殿 elevator DT\n"
+    .balign 4
+
+.text
 glabel BgMoriElevator_Destroy
 /* 002AC 808A1AAC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 002B0 808A1AB0 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -23,5 +29,3 @@ glabel BgMoriElevator_Destroy
 /* 002F4 808A1AF4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002F8 808A1AF8 03E00008 */  jr      $ra                        
 /* 002FC 808A1AFC 00000000 */  nop
-
-

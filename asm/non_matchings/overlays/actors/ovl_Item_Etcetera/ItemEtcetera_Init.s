@@ -1,3 +1,37 @@
+.rdata
+glabel D_80B85DA0
+    .asciz "no = %d\n"
+    .balign 4
+
+glabel D_80B85DAC
+    .asciz "bank_ID = %d\n"
+    .balign 4
+
+glabel D_80B85DBC
+    .asciz "0"
+    .balign 4
+
+glabel D_80B85DC0
+    .asciz "../z_item_etcetera.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B85E24
+.word L80B85710
+.word L80B857B0
+.word L80B857B0
+.word L80B857B0
+.word L80B857B0
+.word L80B857B0
+.word L80B8574C
+.word L80B85778
+.word L80B85778
+.word L80B85778
+.word L80B85778
+.word L80B85778
+.word L80B85778
+
+.text
 glabel ItemEtcetera_Init
 /* 00008 80B855F8 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0000C 80B855FC AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -131,5 +165,3 @@ glabel L80B857B0
 /* 001C8 80B857B8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 001CC 80B857BC 03E00008 */  jr      $ra                        
 /* 001D0 80B857C0 00000000 */  nop
-
-

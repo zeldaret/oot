@@ -108,5 +108,3 @@ glabel EnCs_Init
 /* 002A8 809E1B58 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 002AC 809E1B5C 03E00008 */  jr      $ra
 /* 002B0 809E1B60 00000000 */  nop
-
-

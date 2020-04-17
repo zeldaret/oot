@@ -48,5 +48,3 @@ glabel BgSpot08Bakudankabe_Update
 /* 004D0 808B07A0 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 004D4 808B07A4 03E00008 */  jr      $ra                        
 /* 004D8 808B07A8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

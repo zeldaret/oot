@@ -1,3 +1,52 @@
+.late_rodata
+.late_rodata_alignment 8
+glabel jtbl_80AA1700
+.word L80AA08B0
+.word L80AA08B0
+.word L80AA07C4
+.word L80AA08B0
+.word L80AA087C
+.word L80AA087C
+.word L80AA0898
+.word L80AA08B0
+.word L80AA08B0
+.word L80AA08B0
+glabel jtbl_80AA1728
+.word L80AA07F0
+.word L80AA0874
+.word L80AA08B0
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0818
+.word L80AA0834
+.word L80AA0850
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA0874
+.word L80AA086C
+
+.text
 glabel func_80AA0778
 /* 000E8 80AA0778 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 000EC 80AA077C AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -94,5 +143,3 @@ glabel L80AA08B0
 /* 00228 80AA08B8 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000003
 /* 0022C 80AA08BC 03E00008 */  jr      $ra                        
 /* 00230 80AA08C0 00000000 */  nop
-
-

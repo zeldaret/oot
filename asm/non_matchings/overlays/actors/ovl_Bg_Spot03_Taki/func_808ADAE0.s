@@ -221,5 +221,3 @@ glabel func_808ADAE0
 /* 00328 808ADE08 44CDF800 */  ctc1    $t5, $31
 /* 0032C 808ADE0C 03E00008 */  jr      $ra                        
 /* 00330 808ADE10 A08E00DF */  sb      $t6, 0x00DF($a0)           ## 000000DF
-
-

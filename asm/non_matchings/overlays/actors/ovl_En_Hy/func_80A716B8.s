@@ -1,3 +1,26 @@
+.rdata
+glabel D_80A72810
+    .asciz "../z_en_hy.c"
+    .balign 4
+
+glabel D_80A72820
+    .asciz "../z_en_hy.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A72A90
+    .float 3.14159274101
+
+glabel D_80A72A94
+    .float 3.14159274101
+
+glabel D_80A72A98
+    .float 3.14159274101
+
+glabel D_80A72A9C
+    .float 3.14159274101
+
+.text
 glabel func_80A716B8
 /* 02108 80A716B8 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 0210C 80A716BC AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -10,7 +33,7 @@ glabel func_80A716B8
 /* 02128 80A716D8 24C62810 */  addiu   $a2, $a2, %lo(D_80A72810)  ## $a2 = 80A72810
 /* 0212C 80A716DC 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFD4
 /* 02130 80A716E0 2407087A */  addiu   $a3, $zero, 0x087A         ## $a3 = 0000087A
-/* 02134 80A716E4 0C031AB1 */  jal     func_800C6AC4              
+/* 02134 80A716E4 0C031AB1 */  jal     Graph_OpenDisps              
 /* 02138 80A716E8 AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 0213C 80A716EC 8FA9005C */  lw      $t1, 0x005C($sp)           
 /* 02140 80A716F0 240C000F */  addiu   $t4, $zero, 0x000F         ## $t4 = 0000000F
@@ -235,12 +258,10 @@ glabel func_80A716B8
 /* 0248C 80A71A3C 24C62820 */  addiu   $a2, $a2, %lo(D_80A72820)  ## $a2 = 80A72820
 /* 02490 80A71A40 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFD4
 /* 02494 80A71A44 240708B4 */  addiu   $a3, $zero, 0x08B4         ## $a3 = 000008B4
-/* 02498 80A71A48 0C031AD5 */  jal     func_800C6B54              
+/* 02498 80A71A48 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0249C 80A71A4C 8F250000 */  lw      $a1, 0x0000($t9)           ## 00000000
 /* 024A0 80A71A50 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 024A4 80A71A54 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 024A8 80A71A58 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 024AC 80A71A5C 03E00008 */  jr      $ra                        
 /* 024B0 80A71A60 00000000 */  nop
-
-

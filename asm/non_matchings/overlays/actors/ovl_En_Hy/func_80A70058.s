@@ -1,3 +1,57 @@
+.late_rodata
+glabel jtbl_80A728C4
+.word L80A700D0
+.word L80A700D0
+.word L80A701B0
+.word L80A700D8
+.word L80A700D0
+.word L80A7056C
+.word L80A700D0
+.word L80A700D0
+.word L80A700D0
+.word L80A700D0
+glabel jtbl_80A728EC
+.word L80A70380
+.word L80A70564
+.word L80A70564
+.word L80A70564
+.word L80A70564
+.word L80A702CC
+.word L80A702CC
+.word L80A702CC
+.word L80A702CC
+glabel jtbl_80A72910
+.word L80A70318
+.word L80A70564
+.word L80A70440
+.word L80A70564
+.word L80A70564
+.word L80A7034C
+.word L80A70564
+.word L80A703F0
+.word L80A70564
+.word L80A70424
+.word L80A70564
+.word L80A703B8
+.word L80A70564
+.word L80A7039C
+.word L80A70564
+.word L80A70564
+.word L80A70564
+.word L80A703D4
+glabel jtbl_80A72958
+.word L80A70474
+.word L80A70564
+.word L80A70490
+.word L80A70564
+.word L80A704AC
+.word L80A70564
+.word L80A704C8
+.word L80A70564
+.word L80A70564
+.word L80A704E4
+
+.text
 glabel func_80A70058
 /* 00AA8 80A70058 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00AAC 80A7005C 3C0F80A7 */  lui     $t7, %hi(D_80A727F0)       ## $t7 = 80A70000
@@ -383,5 +437,3 @@ glabel L80A7056C
 /* 00FE8 80A70598 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00FEC 80A7059C 03E00008 */  jr      $ra                        
 /* 00FF0 80A705A0 00000000 */  nop
-
-

@@ -1,3 +1,17 @@
+.rdata
+glabel D_8088BFF0
+    .asciz "../z_bg_hidan_rock.c"
+    .balign 4
+
+glabel D_8088C008
+    .asciz "../z_bg_hidan_rock.c"
+    .balign 4
+
+glabel D_8088C020
+    .asciz "../z_bg_hidan_rock.c"
+    .balign 4
+
+.text
 glabel func_8088BC40
 /* 00BC0 8088BC40 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00BC4 8088BC44 AFBF001C */  sw      $ra, 0x001C($sp)
@@ -9,7 +23,7 @@ glabel func_8088BC40
 /* 00BDC 8088BC5C 24C6BFF0 */  addiu   $a2, $a2, %lo(D_8088BFF0)  ## $a2 = 8088BFF0
 /* 00BE0 8088BC60 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 00BE4 8088BC64 24070328 */  addiu   $a3, $zero, 0x0328         ## $a3 = 00000328
-/* 00BE8 8088BC68 0C031AB1 */  jal     func_800C6AC4
+/* 00BE8 8088BC68 0C031AB1 */  jal     Graph_OpenDisps
 /* 00BEC 8088BC6C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00BF0 8088BC70 8E0402D0 */  lw      $a0, 0x02D0($s0)           ## 000002D0
 /* 00BF4 8088BC74 0C024DDD */  jal     Gfx_CallSetupDL
@@ -139,12 +153,10 @@ glabel func_8088BC40
 /* 00DDC 8088BE5C 24C6C020 */  addiu   $a2, $a2, %lo(D_8088C020)  ## $a2 = 8088C020
 /* 00DE0 8088BE60 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 00DE4 8088BE64 24070359 */  addiu   $a3, $zero, 0x0359         ## $a3 = 00000359
-/* 00DE8 8088BE68 0C031AD5 */  jal     func_800C6B54
+/* 00DE8 8088BE68 0C031AD5 */  jal     Graph_CloseDisps
 /* 00DEC 8088BE6C 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 00DF0 8088BE70 8FBF001C */  lw      $ra, 0x001C($sp)
 /* 00DF4 8088BE74 8FB00018 */  lw      $s0, 0x0018($sp)
 /* 00DF8 8088BE78 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 00DFC 8088BE7C 03E00008 */  jr      $ra
 /* 00E00 8088BE80 00000000 */  nop
-
-

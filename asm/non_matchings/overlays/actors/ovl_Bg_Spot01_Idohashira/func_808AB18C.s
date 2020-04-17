@@ -19,5 +19,3 @@ glabel func_808AB18C
 /* 004F0 808AB1D0 01CB6021 */  addu    $t4, $t6, $t3              
 /* 004F4 808AB1D4 03E00008 */  jr      $ra                        
 /* 004F8 808AB1D8 A48C00B8 */  sh      $t4, 0x00B8($a0)           ## 000000B8
-
-

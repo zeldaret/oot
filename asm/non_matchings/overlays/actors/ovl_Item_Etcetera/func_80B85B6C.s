@@ -1,3 +1,19 @@
+.rdata
+glabel D_80B85DD8
+    .asciz "../z_item_etcetera.c"
+    .balign 4
+
+glabel D_80B85DF0
+    .asciz "(game_play->demo_play.npcdemopnt[0]->dousa) = %d\n"
+    .balign 4
+
+.late_rodata
+glabel D_80B85E64
+    .float -0.1
+glabel D_80B85E68
+    .float -0.1
+
+.text
 glabel func_80B85B6C
 /* 0057C 80B85B6C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00580 80B85B70 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -57,5 +73,3 @@ glabel func_80B85B6C
 /* 00644 80B85C34 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00648 80B85C38 03E00008 */  jr      $ra                        
 /* 0064C 80B85C3C 00000000 */  nop
-
-

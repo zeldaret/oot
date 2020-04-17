@@ -1,3 +1,9 @@
+.rdata
+glabel D_80B2EBB0
+    .asciz "hp down %d\n"
+    .balign 4
+
+.text
 glabel func_80B2E034
 /* 00BD4 80B2E034 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00BD8 80B2E038 AFB00030 */  sw      $s0, 0x0030($sp)           
@@ -75,5 +81,3 @@ glabel func_80B2E034
 /* 00CDC 80B2E13C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00CE0 80B2E140 03E00008 */  jr      $ra                        
 /* 00CE4 80B2E144 00000000 */  nop
-
-

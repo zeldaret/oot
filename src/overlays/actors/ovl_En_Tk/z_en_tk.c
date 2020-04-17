@@ -6,7 +6,6 @@
 
 #include "z_en_tk.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx);
@@ -40,7 +39,6 @@ extern SkeletonHeader D_0600BE40;
 const ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_TK,
     sizeof(EnTk),
@@ -105,15 +103,15 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     s16 i;
     s16 alpha;
     s16 imageIdx;
-    Gfx* pgdl[4];
+    Gfx* dispRefs[4];
 
     /*
-     *  This assignment always occurs before a call to func_800C6AC4 which
+     *  This assignment always occurs before a call to Graph_OpenDisps which
      *  makes me suspect that they're inside a macro where the function call
-     *  is present only for debug builds. Same for func_800C6B54 most likely.
+     *  is present only for debug builds. Same for Graph_CloseDisps most likely.
      */
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(pgdl, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 114);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 114);
 
     gfxSetup = 0;
 
@@ -154,7 +152,7 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
         eff++;
     }
 
-    func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 154);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 154);
 }
 
 s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth, f32 yAccelMax) {
@@ -356,7 +354,7 @@ u16 func_80B1C54C(GlobalContext* globalCtx, Actor* a1) {
         return ret;
     }
 
-    if (gSaveContext.inf_table[13] & 0x0200) {
+    if (gSaveContext.infTable[13] & 0x0200) {
         /* "Do you want me to dig here? ..." */
         return 0x5019;
     } else {
@@ -375,7 +373,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* actor) {
         case 2:
             /* "I am the boss of the carpenters ..." (wtf?) */
             if (actor->textId == 0x5028) {
-                gSaveContext.inf_table[13] |= 0x0100;
+                gSaveContext.infTable[13] |= 0x0100;
             }
             ret = 0;
             break;
@@ -392,11 +390,11 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* actor) {
                 } else {
                     globalCtx->msgCtx.msgMode = 0x37;
                     Rupees_ChangeBy(-10);
-                    gSaveContext.inf_table[13] |= 0x0200;
+                    gSaveContext.infTable[13] |= 0x0200;
                     return 2;
                 }
                 func_8010B720(globalCtx, actor->textId);
-                gSaveContext.inf_table[13] |= 0x0200;
+                gSaveContext.infTable[13] |= 0x0200;
             }
             break;
         case 5:
@@ -509,7 +507,7 @@ void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
 
     func_80061EFC(&thisAgain->actor.sub_98, NULL, &D_80B1D534);
 
-    if (gSaveContext.day_time <= 0xC000 || gSaveContext.day_time >= 0xE000 || !LINK_IS_CHILD ||
+    if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime >= 0xE000 || !LINK_IS_CHILD ||
         globalCtx->sceneNum != SCENE_SPOT02) {
         Actor_Kill(&thisAgain->actor);
         return;
@@ -631,8 +629,8 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
                  * Upgrade the purple rupee reward to the heart piece if this
                  * is the first grand prize dig.
                  */
-                if ((gSaveContext.item_get_inf[1] & 0x1000) == 0) {
-                    gSaveContext.item_get_inf[1] |= 0x1000;
+                if ((gSaveContext.itemGetInf[1] & 0x1000) == 0) {
+                    gSaveContext.itemGetInf[1] |= 0x1000;
                     this->currentReward = 4;
                 }
             }
@@ -694,14 +692,14 @@ void EnTk_Update(EnTk* this, GlobalContext* globalCtx) {
 
 void func_80B1D200(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
-    Gfx* pgdl[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1188);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, D_0600ACE0);
 
-    func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
 }
 
 s32 func_80B1D278(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
@@ -748,14 +746,14 @@ void EnTk_Draw(EnTk* this, GlobalContext* globalCtx) {
 
     EnTk* thisAgain = this;
     GraphicsContext* gfxCtx;
-    Gfx* pgdl[4];
+    Gfx* dispRefs[4];
 
     Matrix_Push();
     EnTkEff_Draw(thisAgain, globalCtx);
     Matrix_Pull();
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1294);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1294);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
@@ -764,5 +762,5 @@ void EnTk_Draw(EnTk* this, GlobalContext* globalCtx) {
     SkelAnime_DrawSV(globalCtx, thisAgain->skelAnim.skeleton, thisAgain->skelAnim.actorDrawTbl,
                      thisAgain->skelAnim.dListCount, func_80B1D278, func_80B1D2E4, &thisAgain->actor);
 
-    func_800C6B54(pgdl, globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
 }

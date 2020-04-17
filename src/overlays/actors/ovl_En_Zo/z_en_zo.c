@@ -1,6 +1,11 @@
+/*
+ * File: z_en_zo.c
+ * Overlay: ovl_En_Zo
+ * Description: Zora
+ */
+
 #include "z_en_zo.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnZo_Init(EnZo* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnZo_Draw(EnZo* this, GlobalContext* globalCtx);
 const ActorInit En_Zo_InitVars = {
     ACTOR_EN_ZO,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_ZO,
     sizeof(EnZo),

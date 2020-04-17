@@ -20,5 +20,3 @@ glabel DoorKiller_Destroy
 /* 003C4 80995014 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 003C8 80995018 03E00008 */  jr      $ra                        
 /* 003CC 8099501C 00000000 */  nop
-
-

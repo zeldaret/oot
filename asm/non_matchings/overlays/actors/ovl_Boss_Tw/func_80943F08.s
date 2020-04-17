@@ -1,3 +1,31 @@
+.rdata
+glabel D_8094AC98
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094ACA8
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094ACB8
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094ACC8
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+.late_rodata
+glabel D_8094B150
+    .float 1.57079637051
+
+glabel D_8094B154
+    .float 1.3
+
+glabel D_8094B158
+    .float 1.57079637051
+
+.text
 glabel func_80943F08
 /* 0B238 80943F08 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 0B23C 80943F0C AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -11,7 +39,7 @@ glabel func_80943F08
 /* 0B25C 80943F2C 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
 /* 0B260 80943F30 27A40098 */  addiu   $a0, $sp, 0x0098           ## $a0 = FFFFFFE0
 /* 0B264 80943F34 24071C8F */  addiu   $a3, $zero, 0x1C8F         ## $a3 = 00001C8F
-/* 0B268 80943F38 0C031AB1 */  jal     func_800C6AC4              
+/* 0B268 80943F38 0C031AB1 */  jal     Graph_OpenDisps              
 /* 0B26C 80943F3C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 0B270 80943F40 0C034213 */  jal     Matrix_Push              
 /* 0B274 80943F44 00000000 */  nop
@@ -574,12 +602,10 @@ glabel func_80943F08
 /* 0BAC4 80944794 24C6ACC8 */  addiu   $a2, $a2, %lo(D_8094ACC8)  ## $a2 = 8094ACC8
 /* 0BAC8 80944798 27A40098 */  addiu   $a0, $sp, 0x0098           ## $a0 = FFFFFFE0
 /* 0BACC 8094479C 24071D6B */  addiu   $a3, $zero, 0x1D6B         ## $a3 = 00001D6B
-/* 0BAD0 809447A0 0C031AD5 */  jal     func_800C6B54              
+/* 0BAD0 809447A0 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0BAD4 809447A4 8D450000 */  lw      $a1, 0x0000($t2)           ## 00000000
 /* 0BAD8 809447A8 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 0BADC 809447AC 8FB00038 */  lw      $s0, 0x0038($sp)           
 /* 0BAE0 809447B0 27BD00B8 */  addiu   $sp, $sp, 0x00B8           ## $sp = 00000000
 /* 0BAE4 809447B4 03E00008 */  jr      $ra                        
 /* 0BAE8 809447B8 00000000 */  nop
-
-

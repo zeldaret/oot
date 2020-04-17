@@ -1,6 +1,11 @@
+/*
+ * File: z_item_b_heart.c
+ * Overlay: ovl_Item_B_Heart
+ * Description: Heart Container
+ */
+
 #include "z_item_b_heart.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ItemBHeart_Init(ItemBHeart* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void ItemBHeart_Draw(ItemBHeart* this, GlobalContext* globalCtx);
 const ActorInit Item_B_Heart_InitVars = {
     ACTOR_ITEM_B_HEART,
     ACTORTYPE_MISC,
-    ROOM,
     FLAGS,
     OBJECT_GI_HEARTS,
     sizeof(ItemBHeart),

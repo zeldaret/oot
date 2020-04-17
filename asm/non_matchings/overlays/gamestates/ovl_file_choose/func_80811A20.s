@@ -77,12 +77,12 @@ glabel func_80811A20
 /* 0DDF0 80811B30 0C034204 */  jal     Matrix_Init              
 /* 0DDF4 80811B34 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DDF8 80811B38 260400B8 */  addiu   $a0, $s0, 0x00B8           ## $a0 = 000000B8
-/* 0DDFC 80811B3C 0C02A89E */  jal     func_800AA278              
+/* 0DDFC 80811B3C 0C02A89E */  jal     View_Init              
 /* 0DE00 80811B40 8E050000 */  lw      $a1, 0x0000($s0)           ## 00000000
 /* 0DE04 80811B44 3C0A8081 */  lui     $t2, %hi(func_80810DAC)    ## $t2 = 80810000
-/* 0DE08 80811B48 3C0B8081 */  lui     $t3, %hi(.L80811A18)       ## $t3 = 80810000
+/* 0DE08 80811B48 3C0B8081 */  lui     $t3, %hi(func_80811A18)       ## $t3 = 80810000
 /* 0DE0C 80811B4C 254A0DAC */  addiu   $t2, $t2, %lo(func_80810DAC) ## $t2 = 80810DAC
-/* 0DE10 80811B50 256B1A18 */  addiu   $t3, $t3, %lo(.L80811A18)  ## $t3 = 80811A18
+/* 0DE10 80811B50 256B1A18 */  addiu   $t3, $t3, %lo(func_80811A18)  ## $t3 = 80811A18
 /* 0DE14 80811B54 AE0A0004 */  sw      $t2, 0x0004($s0)           ## 00000004
 /* 0DE18 80811B58 AE0B0008 */  sw      $t3, 0x0008($s0)           ## 00000008
 /* 0DE1C 80811B5C 0C2044EA */  jal     func_808113A8              
@@ -107,4 +107,3 @@ glabel func_80811A20
 /* 0DE64 80811BA4 03E00008 */  jr      $ra                        
 /* 0DE68 80811BA8 00000000 */  nop
 /* 0DE6C 80811BAC 00000000 */  nop
-

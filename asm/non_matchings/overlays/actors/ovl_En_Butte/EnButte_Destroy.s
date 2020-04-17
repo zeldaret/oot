@@ -9,5 +9,3 @@ glabel EnButte_Destroy
 /* 004F0 809CD560 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 004F4 809CD564 03E00008 */  jr      $ra                        
 /* 004F8 809CD568 00000000 */  nop
-
-

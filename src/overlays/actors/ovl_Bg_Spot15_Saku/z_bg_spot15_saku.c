@@ -1,12 +1,11 @@
 /*
  * File: z_bg_spot15_saku.c
  * Overlay: ovl_Bg_Spot15_Saku
- * Description:
+ * Description: Hyrule Castle Gate
  */
 
 #include "z_bg_spot15_saku.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgSpot15Saku_Init(BgSpot15Saku* this, GlobalContext* globalCtx);
@@ -21,7 +20,6 @@ void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot15_Saku_InitVars = {
     ACTOR_BG_SPOT15_SAKU,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_SPOT15_OBJ,
     sizeof(BgSpot15Saku),
@@ -48,7 +46,7 @@ void BgSpot15Saku_Init(BgSpot15Saku* this, GlobalContext* globalCtx) {
     this->unk_170 = thisx->posRot.pos.x;
     this->unk_174 = thisx->posRot.pos.y;
     this->unk_178 = thisx->posRot.pos.z;
-    if ((gSaveContext.inf_table[7] & 2) != 0) {
+    if ((gSaveContext.infTable[7] & 2) != 0) {
         thisx->posRot.pos.z = 2659.0f;
     }
     this->actionFunc = func_808B4930;
@@ -59,7 +57,7 @@ void BgSpot15Saku_Destroy(BgSpot15Saku* this, GlobalContext* globalCtx) {
 }
 
 void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {
-    if (this->unk_168 && !(gSaveContext.inf_table[7] & 2)) {
+    if (this->unk_168 && !(gSaveContext.infTable[7] & 2)) {
         this->unk_17C = 2;
         this->actionFunc = func_808B4978;
     }
@@ -92,14 +90,14 @@ void BgSpot15Saku_Update(BgSpot15Saku* this, GlobalContext* globalCtx) {
 
 void BgSpot15Saku_Draw(BgSpot15Saku* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 259);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 259);
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_060003C0);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 268);
 }

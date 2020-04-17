@@ -4,35 +4,25 @@
  * Description: Hoppable horse fence
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
+#include "z_bg_umajump.h"
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ u32 dynaPolyId;
-    /* 0x0150 */ char unk_150[0x14];
-} ActorBgUmajump; // size = 0x0164
-
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void Init(ActorBgUmajump* this, GlobalContext* globalCtx);
-static void Destroy(ActorBgUmajump* this, GlobalContext* globalCtx);
-static void Update(ActorBgUmajump* this, GlobalContext* globalCtx);
-static void Draw(ActorBgUmajump* this, GlobalContext* globalCtx);
+void BgUmaJump_Init(BgUmaJump* this, GlobalContext* globalCtx);
+void BgUmaJump_Destroy(BgUmaJump* this, GlobalContext* globalCtx);
+void BgUmaJump_Update(BgUmaJump* this, GlobalContext* globalCtx);
+void BgUmaJump_Draw(BgUmaJump* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Umajump_InitVars = {
     ACTOR_BG_UMAJUMP,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_UMAJUMP,
-    sizeof(ActorBgUmajump),
-    (ActorFunc)Init,
-    (ActorFunc)Destroy,
-    (ActorFunc)Update,
-    (ActorFunc)Draw,
+    sizeof(BgUmaJump),
+    (ActorFunc)BgUmaJump_Init,
+    (ActorFunc)BgUmaJump_Destroy,
+    (ActorFunc)BgUmaJump_Update,
+    (ActorFunc)BgUmaJump_Draw,
 };
 
 extern D_06001438; // segmented address: 0x06001438
@@ -42,7 +32,7 @@ static InitChainEntry initChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static void Init(ActorBgUmajump* this, GlobalContext* globalCtx) {
+void BgUmaJump_Init(BgUmaJump* this, GlobalContext* globalCtx) {
     s32 pad[2];
     u32 sp24 = 0;
 
@@ -60,13 +50,13 @@ static void Init(ActorBgUmajump* this, GlobalContext* globalCtx) {
     }
 }
 
-static void Destroy(ActorBgUmajump* this, GlobalContext* globalCtx) {
+void BgUmaJump_Destroy(BgUmaJump* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
-static void Update(ActorBgUmajump* this, GlobalContext* globalCtx) {
+void BgUmaJump_Update(BgUmaJump* this, GlobalContext* globalCtx) {
 }
 
-static void Draw(ActorBgUmajump* this, GlobalContext* globalCtx) {
+void BgUmaJump_Draw(BgUmaJump* this, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_06001220);
 }

@@ -1,6 +1,11 @@
+/*
+ * File: z_oceff_wipe3.c
+ * Overlay: ovl_Oceff_Wipe3
+ * Description: Saria's Song Effect
+ */
+
 #include "z_oceff_wipe3.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void OceffWipe3_Init(OceffWipe3* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void OceffWipe3_Draw(OceffWipe3* this, GlobalContext* globalCtx);
 const ActorInit Oceff_Wipe3_InitVars = {
     ACTOR_OCEFF_WIPE3,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffWipe3),

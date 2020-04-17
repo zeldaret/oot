@@ -7,5 +7,3 @@ glabel BgBombwall_Destroy
 /* 00380 8086EB50 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00384 8086EB54 03E00008 */  jr      $ra                        
 /* 00388 8086EB58 00000000 */  nop
-
-

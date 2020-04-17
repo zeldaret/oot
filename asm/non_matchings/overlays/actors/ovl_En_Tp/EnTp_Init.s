@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B22B80
+    .float 0.3
+
+.text
 glabel EnTp_Init
 /* 00008 80B20DE8 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 0000C 80B20DEC AFB60060 */  sw      $s6, 0x0060($sp)           
@@ -167,5 +172,3 @@ glabel EnTp_Init
 /* 00270 80B21050 8FBE0068 */  lw      $s8, 0x0068($sp)           
 /* 00274 80B21054 03E00008 */  jr      $ra                        
 /* 00278 80B21058 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-
-

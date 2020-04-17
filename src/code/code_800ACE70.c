@@ -3,10 +3,7 @@
 typedef struct {
     /* 0x00 */ u32 type;
     /* 0x04 */ u32 setScissor;
-    /* 0x08 */ union {
-        Color_RGBA8 c;
-        u32 rgba;
-    } color;
+    /* 0x08 */ Color_RGBA8 color;
     /* 0x0C */ u32 unk_0C;
 } struct_801664F0;
 
@@ -42,7 +39,7 @@ Gfx D_8012AC40[] = {
 };
 
 Gfx D_8012AC58[] = {
-    gsDPSetCombineLERP(K5, K5, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, K5, K5, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
+    gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PRIMITIVE),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_DISABLE | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PRIM | G_RM_CLD_SURF | G_RM_CLD_SURF2),
@@ -60,10 +57,10 @@ Gfx D_8012AC58[] = {
 void func_800ACE70(struct_801664F0* this) {
     this->type = 0;
     this->setScissor = false;
-    this->color.c.r = 0xFF;
-    this->color.c.g = 0xFF;
-    this->color.c.b = 0xFF;
-    this->color.c.a = 0xFF;
+    this->color.r = 0xFF;
+    this->color.g = 0xFF;
+    this->color.b = 0xFF;
+    this->color.a = 0xFF;
 }
 
 // Destroy func

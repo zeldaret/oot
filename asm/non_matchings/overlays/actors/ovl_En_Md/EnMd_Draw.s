@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AAC4B0
+    .asciz "../z_en_md.c"
+    .balign 4
+
+glabel D_80AAC4C0
+    .asciz "../z_en_md.c"
+    .balign 4
+
+.text
 glabel EnMd_Draw
 /* 01F10 80AAC160 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 01F14 80AAC164 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -9,7 +19,7 @@ glabel EnMd_Draw
 /* 01F2C 80AAC17C 24C6C4B0 */  addiu   $a2, $a2, %lo(D_80AAC4B0)  ## $a2 = 80AAC4B0
 /* 01F30 80AAC180 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 01F34 80AAC184 24070500 */  addiu   $a3, $zero, 0x0500         ## $a3 = 00000500
-/* 01F38 80AAC188 0C031AB1 */  jal     func_800C6AC4              
+/* 01F38 80AAC188 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01F3C 80AAC18C AFA50048 */  sw      $a1, 0x0048($sp)           
 /* 01F40 80AAC190 86020210 */  lh      $v0, 0x0210($s0)           ## 00000210
 /* 01F44 80AAC194 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF
@@ -94,7 +104,7 @@ glabel EnMd_Draw
 /* 02074 80AAC2C4 24C6C4C0 */  addiu   $a2, $a2, %lo(D_80AAC4C0)  ## $a2 = 80AAC4C0
 /* 02078 80AAC2C8 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 0207C 80AAC2CC 24070525 */  addiu   $a3, $zero, 0x0525         ## $a3 = 00000525
-/* 02080 80AAC2D0 0C031AD5 */  jal     func_800C6B54              
+/* 02080 80AAC2D0 0C031AD5 */  jal     Graph_CloseDisps              
 /* 02084 80AAC2D4 8DA50000 */  lw      $a1, 0x0000($t5)           ## 00000000
 /* 02088 80AAC2D8 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 0208C 80AAC2DC 8FB00020 */  lw      $s0, 0x0020($sp)           
@@ -102,4 +112,3 @@ glabel EnMd_Draw
 /* 02094 80AAC2E4 03E00008 */  jr      $ra                        
 /* 02098 80AAC2E8 00000000 */  nop
 /* 0209C 80AAC2EC 00000000 */  nop
-

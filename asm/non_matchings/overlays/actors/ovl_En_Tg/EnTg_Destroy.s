@@ -14,5 +14,3 @@ glabel EnTg_Destroy
 /* 00254 80B185B4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00258 80B185B8 03E00008 */  jr      $ra
 /* 0025C 80B185BC 00000000 */  nop
-
-

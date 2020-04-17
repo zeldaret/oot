@@ -1,3 +1,17 @@
+.rdata
+glabel D_809AD5C0
+    .asciz "../z_elf_msg.c"
+    .balign 4
+
+glabel D_809AD5D0
+    .asciz "../z_elf_msg.c"
+    .balign 4
+
+glabel D_809AD5E0
+    .asciz "../z_elf_msg.c"
+    .balign 4
+
+.text
 glabel ElfMsg_Draw
 /* 00570 809AD090 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00574 809AD094 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -8,7 +22,7 @@ glabel ElfMsg_Draw
 /* 00588 809AD0A8 24C6D5C0 */  addiu   $a2, $a2, %lo(D_809AD5C0)  ## $a2 = 809AD5C0
 /* 0058C 809AD0AC 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFEC
 /* 00590 809AD0B0 240701B4 */  addiu   $a3, $zero, 0x01B4         ## $a3 = 000001B4
-/* 00594 809AD0B4 0C031AB1 */  jal     func_800C6AC4              
+/* 00594 809AD0B4 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00598 809AD0B8 AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 0059C 809AD0BC 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
 /* 005A0 809AD0C0 24A5FA90 */  addiu   $a1, $a1, 0xFA90           ## $a1 = 8015FA90
@@ -107,7 +121,7 @@ glabel ElfMsg_Draw
 .L809AD228:
 /* 00708 809AD228 8FA9004C */  lw      $t1, 0x004C($sp)           
 /* 0070C 809AD22C 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFEC
-/* 00710 809AD230 0C031AD5 */  jal     func_800C6B54              
+/* 00710 809AD230 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00714 809AD234 8D250000 */  lw      $a1, 0x0000($t1)           ## 00000008
 /* 00718 809AD238 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L809AD23C:
@@ -116,4 +130,3 @@ glabel ElfMsg_Draw
 /* 00724 809AD244 00000000 */  nop
 /* 00728 809AD248 00000000 */  nop
 /* 0072C 809AD24C 00000000 */  nop
-

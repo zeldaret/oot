@@ -1,6 +1,5 @@
 #include "z_bg_hidan_sima.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHidanSima_Init(BgHidanSima* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgHidanSima_Draw(BgHidanSima* this, GlobalContext* globalCtx);
 const ActorInit Bg_Hidan_Sima_InitVars = {
     ACTOR_BG_HIDAN_SIMA,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanSima),

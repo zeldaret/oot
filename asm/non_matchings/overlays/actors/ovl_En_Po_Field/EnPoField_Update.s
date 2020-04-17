@@ -81,5 +81,3 @@ glabel EnPoField_Update
 /* 02ABC 80AD65BC 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 02AC0 80AD65C0 03E00008 */  jr      $ra                        
 /* 02AC4 80AD65C4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

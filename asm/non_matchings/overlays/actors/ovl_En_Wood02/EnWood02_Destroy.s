@@ -15,5 +15,3 @@ glabel EnWood02_Destroy
 /* 007A4 80B3B714 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 007A8 80B3B718 03E00008 */  jr      $ra                        
 /* 007AC 80B3B71C 00000000 */  nop
-
-

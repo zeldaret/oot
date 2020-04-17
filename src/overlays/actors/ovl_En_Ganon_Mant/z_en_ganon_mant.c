@@ -1,6 +1,5 @@
 #include "z_en_ganon_mant.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnGanonMant_Init(EnGanonMant* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnGanonMant_Draw(EnGanonMant* this, GlobalContext* globalCtx);
 const ActorInit En_Ganon_Mant_InitVars = {
     ACTOR_EN_GANON_MANT,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnGanonMant),

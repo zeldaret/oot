@@ -23,5 +23,3 @@ glabel EnAnubice_Destroy
 /* 00300 809B1420 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00304 809B1424 03E00008 */  jr      $ra                        
 /* 00308 809B1428 00000000 */  nop
-
-

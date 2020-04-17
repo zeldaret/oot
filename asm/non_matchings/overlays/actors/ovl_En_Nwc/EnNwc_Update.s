@@ -18,5 +18,3 @@ glabel EnNwc_Update
 /* 0094C 80ABCA2C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00950 80ABCA30 03E00008 */  jr      $ra                        
 /* 00954 80ABCA34 00000000 */  nop
-
-

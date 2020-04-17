@@ -32,5 +32,3 @@ glabel func_809E5A38
 /* 002E0 809E5AB0 3109FFFE */  andi    $t1, $t0, 0xFFFE           ## $t1 = 00000000
 /* 002E4 809E5AB4 03E00008 */  jr      $ra                        
 /* 002E8 809E5AB8 A0A900D6 */  sb      $t1, 0x00D6($a1)           ## 000000D6
-
-

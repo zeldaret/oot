@@ -12,5 +12,3 @@ glabel func_80B54DE0
 /* 01A58 80B54E08 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
 /* 01A5C 80B54E0C 03E00008 */  jr      $ra                        
 /* 01A60 80B54E10 AC396FC0 */  sw      $t9, 0x6FC0($at)           ## 80166FC0
-
-

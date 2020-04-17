@@ -5,9 +5,9 @@
  */
 
 #include "z_arrow_ice.h"
+
 #include "../ovl_En_Arrow/z_en_arrow.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx);
@@ -24,7 +24,6 @@ void ArrowIce_Hit(ArrowIce* this, GlobalContext* globalCtx);
 const ActorInit Arrow_Ice_InitVars = {
     ACTOR_ARROW_ICE,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ArrowIce),
@@ -55,15 +54,14 @@ void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx) {
 
 void ArrowIce_Destroy(ArrowIce* this, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
-    LogUtils_LogThreadId("../z_arrow_ice.c", 415);
-    // Translates to: ""Disappearance" = Disappearance"
-    osSyncPrintf("\"消滅\" = %s\n", "消滅");
+    // Translates to: "Disappearance"
+    LOG_STRING("消滅", "../z_arrow_ice.c", 415);
 }
 
 void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx) {
     EnArrow* arrow;
 
-    arrow = this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.attachedA;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -150,7 +148,7 @@ void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx) {
     f32 distanceScaled;
     s32 pad;
 
-    arrow = this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.attachedA;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -194,17 +192,17 @@ void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx) {
     u32 stateFrames;
     GraphicsContext* gfxCtx;
     EnArrow* arrow;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     stateFrames = globalCtx->state.frames;
-    arrow = this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.attachedA;
     if (1) {}
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
         if (1) {}
         tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
         // clang-format off
-        gfxCtx = globalCtx->state.gfxCtx; func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 610);
+        gfxCtx = globalCtx->state.gfxCtx; Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 610);
         // clang-format on
         Matrix_Translate(tranform->posRot.pos.x, tranform->posRot.pos.y, tranform->posRot.pos.z, MTXMODE_NEW);
         Matrix_RotateY(tranform->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
@@ -241,6 +239,6 @@ void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx) {
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 128, 32, 1,
                                         511 - (stateFrames * 10) % 512, 511 - (stateFrames * 10) % 512, 4, 16));
         gSPDisplayList(gfxCtx->polyXlu.p++, vertexDL);
-        func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 676);
+        Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_arrow_ice.c", 676);
     }
 }

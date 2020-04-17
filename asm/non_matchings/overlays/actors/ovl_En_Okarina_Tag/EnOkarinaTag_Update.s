@@ -78,4 +78,3 @@ glabel EnOkarinaTag_Update
 /* 00CA4 80ABF9C4 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00CA8 80ABF9C8 03E00008 */  jr      $ra                        
 /* 00CAC 80ABF9CC 00000000 */  nop
-

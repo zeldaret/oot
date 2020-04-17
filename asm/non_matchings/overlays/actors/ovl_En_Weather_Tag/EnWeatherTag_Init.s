@@ -1,3 +1,81 @@
+.rdata
+glabel D_80B31E40
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B31E44
+    .asciz "[33m☆☆☆☆☆ （;o;) くらいよー ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B31E78
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B31E7C
+    .asciz "[33m☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B31EB8
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B31EBC
+    .asciz "[33m☆☆☆☆☆ ゆきがふるー あなたはこないー (._.) ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B31F00
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B31F04
+    .asciz "[33m☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B31F4C
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B31F50
+    .asciz "[33m☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B31F8C
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B31F90
+    .asciz "[33m☆☆☆☆☆ くもり雨雷 (;O;) うおお 憂鬱 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B31FD0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B31FD4
+    .asciz "[33m☆☆☆☆☆ 砂漠が濃くなります ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B32008
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B3200C
+    .asciz "[33m☆☆☆☆☆ わわわわー なーがーさーきーはー (^o^) ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B32054
+.word L80B31080
+.word L80B310B0
+.word L80B310F8
+.word L80B31148
+.word L80B31198
+.word L80B311E8
+.word L80B3125C
+.word L80B3128C
+.word 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel EnWeatherTag_Init
 /* 00014 80B31034 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00018 80B31038 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -202,5 +280,3 @@ glabel L80B3128C
 /* 0029C 80B312BC 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 002A0 80B312C0 03E00008 */  jr      $ra                        
 /* 002A4 80B312C4 00000000 */  nop
-
-

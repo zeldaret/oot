@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AFA430
+    .asciz "SDA MOVE\n"
+    .balign 4
+
+glabel D_80AFA43C
+    .asciz "SDA MOVE END\n"
+    .balign 4
+
+.text
 glabel EnSda_Update
 /* 00018 80AF8E38 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0001C 80AF8E3C 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
@@ -32,5 +42,3 @@ glabel EnSda_Update
 /* 00084 80AF8EA4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00088 80AF8EA8 03E00008 */  jr      $ra                        
 /* 0008C 80AF8EAC 00000000 */  nop
-
-

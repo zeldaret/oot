@@ -46,5 +46,3 @@ glabel EnFish_Update
 /* 01D20 80A16FA0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01D24 80A16FA4 03E00008 */  jr      $ra                        
 /* 01D28 80A16FA8 00000000 */  nop
-
-

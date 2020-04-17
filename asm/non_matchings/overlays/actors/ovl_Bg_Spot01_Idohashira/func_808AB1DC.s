@@ -1,3 +1,9 @@
+.rdata
+glabel D_808AB870
+    .asciz "[31mBg_Spot01_Idohashira_Get_FreeFallで割り算出来ない!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel func_808AB1DC
 /* 004FC 808AB1DC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00500 808AB1E0 AFA60020 */  sw      $a2, 0x0020($sp)           
@@ -50,5 +56,3 @@ glabel func_808AB1DC
 /* 005B0 808AB290 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 005B4 808AB294 03E00008 */  jr      $ra                        
 /* 005B8 808AB298 00000000 */  nop
-
-

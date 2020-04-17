@@ -12,4 +12,3 @@ glabel BgJyaZurerukabe_Draw
 /* 00574 8089B9B4 03E00008 */  jr      $ra                        
 /* 00578 8089B9B8 00000000 */  nop
 /* 0057C 8089B9BC 00000000 */  nop
-

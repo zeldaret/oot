@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B65210
+    .asciz "F DT1\n"
+    .balign 4
+
+glabel D_80B65218
+    .asciz "F DT2\n"
+    .balign 4
+
+.text
 glabel EnfHG_Destroy
 /* 000FC 80B62ABC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00100 80B62AC0 AFA40018 */  sw      $a0, 0x0018($sp)           
@@ -19,5 +29,3 @@ glabel EnfHG_Destroy
 /* 00138 80B62AF8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0013C 80B62AFC 03E00008 */  jr      $ra                        
 /* 00140 80B62B00 00000000 */  nop
-
-

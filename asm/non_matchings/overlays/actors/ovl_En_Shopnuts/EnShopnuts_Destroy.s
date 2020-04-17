@@ -10,5 +10,3 @@ glabel EnShopnuts_Destroy
 /* 00154 80AFA874 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00158 80AFA878 03E00008 */  jr      $ra                        
 /* 0015C 80AFA87C 00000000 */  nop
-
-

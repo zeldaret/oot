@@ -1,6 +1,5 @@
 #include "z_en_gb.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnGb_Init(EnGb* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnGb_Draw(EnGb* this, GlobalContext* globalCtx);
 const ActorInit En_Gb_InitVars = {
     ACTOR_EN_GB,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_PS,
     sizeof(EnGb),

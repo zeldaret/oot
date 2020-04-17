@@ -22,7 +22,7 @@ glabel func_809AB9DC
 /* 003F8 809ABA28 860F0050 */  lh      $t7, 0x0050($s0)           ## 00000050
 /* 003FC 809ABA2C 55E0008E */  bnel    $t7, $zero, .L809ABC68     
 /* 00400 809ABA30 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 00404 809ABA34 0C030129 */  jal     func_800C04A4              
+/* 00404 809ABA34 0C030129 */  jal     Gameplay_GetCamera              
 /* 00408 809ABA38 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0040C 809ABA3C 0C016A52 */  jal     func_8005A948              
 /* 00410 809ABA40 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
@@ -178,4 +178,3 @@ glabel func_809AB9DC
 /* 00644 809ABC74 03E00008 */  jr      $ra                        
 /* 00648 809ABC78 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 0064C 809ABC7C 00000000 */  nop
-

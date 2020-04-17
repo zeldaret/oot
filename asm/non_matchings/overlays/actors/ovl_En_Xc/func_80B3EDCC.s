@@ -22,5 +22,3 @@ glabel func_80B3EDCC
 /* 02C3C 80B3EE1C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 02C40 80B3EE20 03E00008 */  jr      $ra                        
 /* 02C44 80B3EE24 00000000 */  nop
-
-

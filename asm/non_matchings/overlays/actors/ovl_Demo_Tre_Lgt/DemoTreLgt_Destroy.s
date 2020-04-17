@@ -9,5 +9,3 @@ glabel DemoTreLgt_Destroy
 /* 00088 80993748 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0008C 8099374C 03E00008 */  jr      $ra                        
 /* 00090 80993750 00000000 */  nop
-
-

@@ -117,5 +117,3 @@ glabel EnMm_Init
 /* 002CC 80AADA3C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 002D0 80AADA40 03E00008 */  jr      $ra
 /* 002D4 80AADA44 00000000 */  nop
-
-

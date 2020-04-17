@@ -1,3 +1,50 @@
+.rdata
+glabel D_80926A80
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+glabel D_80926A90
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+glabel D_80926AA0
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+glabel D_80926AB0
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+glabel D_80926AC0
+    .asciz "../z_boss_mo.c"
+    .balign 4
+
+.late_rodata
+glabel D_80926E98
+    .float 0.8
+
+glabel D_80926E9C
+ .word 0x3E6B851F
+glabel D_80926EA0
+    .float 0.01
+
+glabel D_80926EA4
+    .float 0.1
+
+glabel D_80926EA8
+ .word 0x3F533333
+glabel D_80926EAC
+ .word 0x3F966666
+glabel D_80926EB0
+    .float 0.1
+
+glabel D_80926EB4
+    .float 1.57079637051
+
+glabel D_80926EB8
+    .float 0.05
+
+.text
 glabel func_80924228
 /* 08728 80924228 27BDFF18 */  addiu   $sp, $sp, 0xFF18           ## $sp = FFFFFF18
 /* 0872C 8092422C AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -10,7 +57,7 @@ glabel func_80924228
 /* 08748 80924248 24C66A80 */  addiu   $a2, $a2, %lo(D_80926A80)  ## $a2 = 80926A80
 /* 0874C 8092424C 27A400CC */  addiu   $a0, $sp, 0x00CC           ## $a0 = FFFFFFE4
 /* 08750 80924250 24071A20 */  addiu   $a3, $zero, 0x1A20         ## $a3 = 00001A20
-/* 08754 80924254 0C031AB1 */  jal     func_800C6AC4              
+/* 08754 80924254 0C031AB1 */  jal     Graph_OpenDisps              
 /* 08758 80924258 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 0875C 8092425C 8FAF00EC */  lw      $t7, 0x00EC($sp)           
 /* 08760 80924260 C6280028 */  lwc1    $f8, 0x0028($s1)           ## 00000028
@@ -565,7 +612,7 @@ glabel func_80924228
 /* 08FCC 80924ACC 24C66AC0 */  addiu   $a2, $a2, %lo(D_80926AC0)  ## $a2 = 80926AC0
 /* 08FD0 80924AD0 27A400CC */  addiu   $a0, $sp, 0x00CC           ## $a0 = FFFFFFE4
 /* 08FD4 80924AD4 24071B21 */  addiu   $a3, $zero, 0x1B21         ## $a3 = 00001B21
-/* 08FD8 80924AD8 0C031AD5 */  jal     func_800C6B54              
+/* 08FD8 80924AD8 0C031AD5 */  jal     Graph_CloseDisps              
 /* 08FDC 80924ADC 8F050000 */  lw      $a1, 0x0000($t8)           ## 00000000
 /* 08FE0 80924AE0 8FA500EC */  lw      $a1, 0x00EC($sp)           
 /* 08FE4 80924AE4 3C040001 */  lui     $a0, 0x0001                ## $a0 = 00010000
@@ -577,5 +624,3 @@ glabel func_80924228
 /* 08FFC 80924AFC 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 09000 80924B00 03E00008 */  jr      $ra                        
 /* 09004 80924B04 27BD00E8 */  addiu   $sp, $sp, 0x00E8           ## $sp = 00000000
-
-

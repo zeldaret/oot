@@ -95,5 +95,3 @@ glabel EnMa3_Init
 /* 0071C 80AA31BC 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00720 80AA31C0 03E00008 */  jr      $ra
 /* 00724 80AA31C4 00000000 */  nop
-
-

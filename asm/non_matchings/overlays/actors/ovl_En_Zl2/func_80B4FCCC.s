@@ -12,5 +12,3 @@ glabel func_80B4FCCC
 /* 01364 80B4FCF4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
 /* 01368 80B4FCF8 03E00008 */  jr      $ra                        
 /* 0136C 80B4FCFC AC396FC0 */  sw      $t9, 0x6FC0($at)           ## 80166FC0
-
-

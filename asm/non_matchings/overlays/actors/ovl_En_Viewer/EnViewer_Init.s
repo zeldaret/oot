@@ -55,5 +55,3 @@ glabel EnViewer_Init
 /* 000CC 80B2A2CC 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 000D0 80B2A2D0 03E00008 */  jr      $ra                        
 /* 000D4 80B2A2D4 00000000 */  nop
-
-

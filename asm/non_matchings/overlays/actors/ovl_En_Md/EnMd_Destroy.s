@@ -10,5 +10,3 @@ glabel EnMd_Destroy
 /* 01618 80AAB868 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0161C 80AAB86C 03E00008 */  jr      $ra                        
 /* 01620 80AAB870 00000000 */  nop
-
-

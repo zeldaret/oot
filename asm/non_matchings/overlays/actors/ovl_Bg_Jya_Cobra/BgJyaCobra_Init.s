@@ -1,3 +1,9 @@
+.rdata
+glabel D_8089760C
+    .asciz "(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n"
+    .balign 4
+
+.text
 glabel BgJyaCobra_Init
 /* 00EE4 808967D4 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00EE8 808967D8 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -77,5 +83,3 @@ glabel BgJyaCobra_Init
 /* 00FEC 808968DC 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00FF0 808968E0 03E00008 */  jr      $ra                        
 /* 00FF4 808968E4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

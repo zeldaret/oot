@@ -1,14 +1,13 @@
 /*
  * File: z_demo_go.c
  * Overlay: Demo_Go
- * Description:
+ * Description: Gorons (Cutscene)
  */
 
 #include "z_demo_go.h"
 
 #include <vt.h>
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void DemoGo_Init(DemoGo* this, GlobalContext* globalCtx);
@@ -41,7 +40,6 @@ ActorFunc D_8097D468[] = {
 const ActorInit Demo_Go_InitVars = {
     ACTOR_DEMO_GO,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(DemoGo),
@@ -336,9 +334,9 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     void* srcSegment8 = D_8097D440[temp];
     void* srcSegment9 = &D_0600E680;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment8));
@@ -347,7 +345,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL,
                      &this->actor);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
 }
 
 void DemoGo_Draw(DemoGo* this, GlobalContext* globalCtx) {

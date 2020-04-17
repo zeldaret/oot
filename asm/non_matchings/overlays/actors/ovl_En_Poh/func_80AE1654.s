@@ -1,3 +1,25 @@
+.rdata
+glabel D_80AE1BF0
+    .asciz "../z_en_poh.c"
+    .balign 4
+
+glabel D_80AE1C00
+    .asciz "../z_en_poh.c"
+    .balign 4
+
+glabel D_80AE1C10
+    .asciz "../z_en_poh.c"
+    .balign 4
+
+glabel D_80AE1C20
+    .asciz "../z_en_poh.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AE1C70
+    .float 9.58738019108e-05
+
+.text
 glabel func_80AE1654
 /* 03904 80AE1654 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 03908 80AE1658 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -10,7 +32,7 @@ glabel func_80AE1654
 /* 03924 80AE1674 24C61BF0 */  addiu   $a2, $a2, %lo(D_80AE1BF0)  ## $a2 = 80AE1BF0
 /* 03928 80AE1678 27A40080 */  addiu   $a0, $sp, 0x0080           ## $a0 = FFFFFFE8
 /* 0392C 80AE167C 24070B11 */  addiu   $a3, $zero, 0x0B11         ## $a3 = 00000B11
-/* 03930 80AE1680 0C031AB1 */  jal     func_800C6AC4              
+/* 03930 80AE1680 0C031AB1 */  jal     Graph_OpenDisps              
 /* 03934 80AE1684 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 03938 80AE1688 8E180190 */  lw      $t8, 0x0190($s0)           ## 00000190
 /* 0393C 80AE168C 3C0F80AE */  lui     $t7, %hi(func_80ADF994)    ## $t7 = 80AE0000
@@ -250,7 +272,7 @@ glabel func_80AE1654
 /* 03CD0 80AE1A20 24C61C20 */  addiu   $a2, $a2, %lo(D_80AE1C20)  ## $a2 = 80AE1C20
 /* 03CD4 80AE1A24 27A40080 */  addiu   $a0, $sp, 0x0080           ## $a0 = FFFFFFE8
 /* 03CD8 80AE1A28 24070B64 */  addiu   $a3, $zero, 0x0B64         ## $a3 = 00000B64
-/* 03CDC 80AE1A2C 0C031AD5 */  jal     func_800C6B54              
+/* 03CDC 80AE1A2C 0C031AD5 */  jal     Graph_CloseDisps              
 /* 03CE0 80AE1A30 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 03CE4 80AE1A34 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 03CE8 80AE1A38 8FB00034 */  lw      $s0, 0x0034($sp)           
@@ -259,4 +281,3 @@ glabel func_80AE1654
 /* 03CF4 80AE1A44 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
 /* 03CF8 80AE1A48 00000000 */  nop
 /* 03CFC 80AE1A4C 00000000 */  nop
-

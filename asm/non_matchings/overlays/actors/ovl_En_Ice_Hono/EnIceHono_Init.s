@@ -1,3 +1,15 @@
+.rdata
+glabel D_80A740A0
+    .asciz "(ice 炎)(arg_data 0x%04x)\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A7412C
+ .word 0x477FFF80
+glabel D_80A74130
+ .word 0x477FFF80
+
+.text
 glabel EnIceHono_Init
 /* 00238 80A73228 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0023C 80A7322C AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -101,5 +113,3 @@ glabel EnIceHono_Init
 /* 00394 80A73384 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00398 80A73388 03E00008 */  jr      $ra                        
 /* 0039C 80A7338C 00000000 */  nop
-
-

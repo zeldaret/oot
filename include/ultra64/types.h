@@ -32,8 +32,7 @@ typedef union {
 typedef float MtxF_t[4][4];
 typedef union {
     MtxF_t mf;
-    struct
-    {
+    struct {
         float xx, xy, xz, xw,
               yx, yy, yz, yw,
               zx, zy, zz, zw,

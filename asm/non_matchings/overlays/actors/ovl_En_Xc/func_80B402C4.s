@@ -1,3 +1,23 @@
+.rdata
+glabel D_80B42070
+    .asciz "../z_en_oA2_inMetamol.c"
+    .balign 4
+
+glabel D_80B42088
+    .asciz "../z_en_oA2_inMetamol.c"
+    .balign 4
+
+glabel D_80B420A0
+    .asciz "../z_en_oA2_inMetamol.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B42258
+ .word 0x458B6000
+glabel D_80B4225C
+ .word 0x4494C000
+
+.text
 glabel func_80B402C4
 /* 040E4 80B402C4 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 040E8 80B402C8 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -16,7 +36,7 @@ glabel func_80B402C4
 /* 0411C 80B402FC 8CB00000 */  lw      $s0, 0x0000($a1)           ## 00000000
 /* 04120 80B40300 27A40068 */  addiu   $a0, $sp, 0x0068           ## $a0 = FFFFFFD0
 /* 04124 80B40304 24070235 */  addiu   $a3, $zero, 0x0235         ## $a3 = 00000235
-/* 04128 80B40308 0C031AB1 */  jal     func_800C6AC4
+/* 04128 80B40308 0C031AB1 */  jal     Graph_OpenDisps
 /* 0412C 80B4030C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 04130 80B40310 8E3902BC */  lw      $t9, 0x02BC($s1)           ## 000002BC
 /* 04134 80B40314 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -173,12 +193,10 @@ glabel func_80B402C4
 /* 04388 80B40568 24C620A0 */  addiu   $a2, $a2, %lo(D_80B420A0)  ## $a2 = 80B420A0
 /* 0438C 80B4056C 27A40068 */  addiu   $a0, $sp, 0x0068           ## $a0 = FFFFFFD0
 /* 04390 80B40570 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 04394 80B40574 0C031AD5 */  jal     func_800C6B54
+/* 04394 80B40574 0C031AD5 */  jal     Graph_CloseDisps
 /* 04398 80B40578 2407029C */  addiu   $a3, $zero, 0x029C         ## $a3 = 0000029C
 /* 0439C 80B4057C 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 043A0 80B40580 8FB00024 */  lw      $s0, 0x0024($sp)
 /* 043A4 80B40584 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 043A8 80B40588 03E00008 */  jr      $ra
 /* 043AC 80B4058C 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
-
-

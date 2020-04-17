@@ -129,7 +129,7 @@ glabel func_80A053F0
               
 /* 03998 80A055C8 248460E8 */  addiu   $a0, $a0, %lo(D_80A060E8)  ## $a0 = 80A060E8
 .L80A055CC:
-/* 0399C 80A055CC 0C02FF21 */  jal     func_800BFC84              
+/* 0399C 80A055CC 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 039A0 80A055D0 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 039A4 80A055D4 1440000E */  bne     $v0, $zero, .L80A05610     
 /* 039A8 80A055D8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
@@ -204,5 +204,3 @@ glabel func_80A053F0
 /* 03AA0 80A056D0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 03AA4 80A056D4 03E00008 */  jr      $ra                        
 /* 03AA8 80A056D8 00000000 */  nop
-
-

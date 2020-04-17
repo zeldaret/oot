@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_808553C4
+ .word 0x41EB7972
+glabel D_808553C8
+ .word 0x41EB7972
+
+.text
 glabel func_8083E5A8
 /* 0C398 8083E5A8 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0C39C 8083E5AC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
@@ -232,7 +239,7 @@ glabel func_8083E5A8
 /* 0C6F4 8083E904 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
 /* 0C6F8 8083E908 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0C6FC 8083E90C A5EE01F4 */  sh      $t6, 0x01F4($t7)           ## 000001F4
-/* 0C700 8083E910 0C030129 */  jal     func_800C04A4              
+/* 0C700 8083E910 0C030129 */  jal     Gameplay_GetCamera              
 /* 0C704 8083E914 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 0C708 8083E918 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 0C70C 8083E91C 0C0169DF */  jal     func_8005A77C              
@@ -338,5 +345,3 @@ glabel func_8083E5A8
 /* 0C878 8083EA88 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 0C87C 8083EA8C 03E00008 */  jr      $ra                        
 /* 0C880 8083EA90 00000000 */  nop
-
-

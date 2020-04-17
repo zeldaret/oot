@@ -1,3 +1,27 @@
+.rdata
+glabel D_80B52980
+    .asciz "En_Zl2_inAgain_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B52BDC
+.word L80B50A6C
+.word L80B50A80
+.word L80B50A94
+.word L80B50AA8
+.word L80B50ABC
+.word L80B50AD0
+.word L80B50AE4
+.word L80B50AF8
+.word L80B50B0C
+.word L80B50B20
+.word L80B50B34
+.word L80B50B48
+.word L80B50B5C
+.word L80B50B70
+.word L80B50B84
+
+.text
 glabel func_80B50A04
 /* 02074 80B50A04 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 02078 80B50A08 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -129,5 +153,3 @@ glabel L80B50B84
 /* 02220 80B50BB0 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 02224 80B50BB4 03E00008 */  jr      $ra                        
 /* 02228 80B50BB8 00000000 */  nop
-
-

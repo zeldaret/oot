@@ -9,5 +9,3 @@ glabel func_80AFE9AC
 /* 00718 80AFE9C8 46000005 */  abs.s   $f0, $f0                   
 /* 0071C 80AFE9CC 03E00008 */  jr      $ra                        
 /* 00720 80AFE9D0 46080000 */  add.s   $f0, $f0, $f8              
-
-

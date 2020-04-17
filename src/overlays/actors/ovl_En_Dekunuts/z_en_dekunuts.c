@@ -1,6 +1,11 @@
+/*
+ * File: z_en_dekunuts.c
+ * Overlay: ovl_En_Dekunuts
+ * Description: Mad Scrub
+ */
+
 #include "z_en_dekunuts.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000005
 
 void EnDekunuts_Init(EnDekunuts* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnDekunuts_Draw(EnDekunuts* this, GlobalContext* globalCtx);
 const ActorInit En_Dekunuts_InitVars = {
     ACTOR_EN_DEKUNUTS,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_DEKUNUTS,
     sizeof(EnDekunuts),

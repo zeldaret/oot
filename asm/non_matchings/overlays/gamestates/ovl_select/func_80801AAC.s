@@ -12,7 +12,7 @@ glabel func_80801AAC
 /* 00F44 80801AD4 24C63530 */  addiu   $a2, $a2, %lo(D_80803530)  ## $a2 = 80803530
 /* 00F48 80801AD8 27A40054 */  addiu   $a0, $sp, 0x0054           ## $a0 = FFFFFFE4
 /* 00F4C 80801ADC 240703A2 */  addiu   $a3, $zero, 0x03A2         ## $a3 = 000003A2
-/* 00F50 80801AE0 0C031AB1 */  jal     func_800C6AC4              
+/* 00F50 80801AE0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00F54 80801AE4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00F58 80801AE8 8E2302C0 */  lw      $v1, 0x02C0($s1)           ## 000002C0
 /* 00F5C 80801AEC 3C0FDB06 */  lui     $t7, 0xDB06                ## $t7 = DB060000
@@ -33,7 +33,7 @@ glabel func_80801AAC
 /* 00F98 80801B28 AFD80044 */  sw      $t8, 0x0044($s8)           ## FFFFFFD4
 /* 00F9C 80801B2C AFC00040 */  sw      $zero, 0x0040($s8)         ## FFFFFFD0
 /* 00FA0 80801B30 AFC00048 */  sw      $zero, 0x0048($s8)         ## FFFFFFD8
-/* 00FA4 80801B34 0C02A93F */  jal     func_800AA4FC              
+/* 00FA4 80801B34 0C02A93F */  jal     View_SetViewport              
 /* 00FA8 80801B38 27C50040 */  addiu   $a1, $s8, 0x0040           ## $a1 = FFFFFFD0
 /* 00FAC 80801B3C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000000A8
 /* 00FB0 80801B40 0C02AA94 */  jal     func_800AAA50              
@@ -70,7 +70,7 @@ glabel func_80801AAC
 /* 0102C 80801BBC 24C63540 */  addiu   $a2, $a2, %lo(D_80803540)  ## $a2 = 80803540
 /* 01030 80801BC0 27C40054 */  addiu   $a0, $s8, 0x0054           ## $a0 = FFFFFFE4
 /* 01034 80801BC4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
-/* 01038 80801BC8 0C031AD5 */  jal     func_800C6B54              
+/* 01038 80801BC8 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0103C 80801BCC 240703C6 */  addiu   $a3, $zero, 0x03C6         ## $a3 = 000003C6
 /* 01040 80801BD0 8FDF0034 */  lw      $ra, 0x0034($s8)           ## FFFFFFC4
 /* 01044 80801BD4 03C0E825 */  or      $sp, $s8, $zero            ## $sp = FFFFFF90
@@ -80,5 +80,3 @@ glabel func_80801AAC
 /* 01054 80801BE4 8FDE0030 */  lw      $s8, 0x0030($s8)           ## FFFFFFC0
 /* 01058 80801BE8 03E00008 */  jr      $ra                        
 /* 0105C 80801BEC 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-
-

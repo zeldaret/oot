@@ -8,5 +8,3 @@ glabel BgGndIceblock_Update
 /* 00C44 8087A6E4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00C48 8087A6E8 03E00008 */  jr      $ra                        
 /* 00C4C 8087A6EC 00000000 */  nop
-
-

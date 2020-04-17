@@ -141,5 +141,3 @@ glabel EnDodongo_Init
 /* 00710 809F8960 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 00714 809F8964 03E00008 */  jr      $ra                        
 /* 00718 809F8968 27BD01F8 */  addiu   $sp, $sp, 0x01F8           ## $sp = 00000000
-
-

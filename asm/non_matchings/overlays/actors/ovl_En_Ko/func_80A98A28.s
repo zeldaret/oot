@@ -34,5 +34,3 @@ glabel func_80A98A28
 .L80A98A9C:
 /* 01CEC 80A98A9C 03E00008 */  jr      $ra                        
 /* 01CF0 80A98AA0 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
-
-

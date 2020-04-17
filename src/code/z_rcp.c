@@ -9,26 +9,24 @@ Gfx sSetupDL[] = {
                        COMBINED),
     gsDPSetOtherMode(G_AD_NOISE | G_CD_NOISE | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_ZB_CLD_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_ZB_CLD_SURF2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x01 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_PASS2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_OPA_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_OPA_SURF2),
     gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x02 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_ZB_OPA_SURF | G_RM_AA_ZB_OPA_SURF2),
@@ -38,11 +36,10 @@ Gfx sSetupDL[] = {
     /* 0x03 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_PASS2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_ZB_OPA_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_ZB_OPA_SURF2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
@@ -59,7 +56,7 @@ Gfx sSetupDL[] = {
     /* 0x05 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE),
+    gsDPSetCombineMode(G_CC_MODULATEI_PRIM, G_CC_MODULATEI_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_ZB_XLU_SURF | G_RM_AA_ZB_XLU_SURF2),
@@ -69,19 +66,17 @@ Gfx sSetupDL[] = {
     /* 0x06 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_PASS2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_TEX_EDGE2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_TEX_EDGE2),
     gsSPLoadGeometryMode(G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x07 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_XLU_SURF | G_RM_AA_XLU_SURF2),
@@ -91,7 +86,7 @@ Gfx sSetupDL[] = {
     /* 0x08 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_OPA_SURF | G_RM_AA_OPA_SURF2),
@@ -101,18 +96,17 @@ Gfx sSetupDL[] = {
     /* 0x09 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, COMBINED, 0, SHADE, 0, COMBINED, 0, SHADE, 0),
+    gsDPSetCombineMode(G_CC_MODULATEIA, G_CC_MODULATEIA2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_XLU_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_XLU_SURF2),
     gsSPLoadGeometryMode(G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x0A */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_OPA_SURF | G_RM_AA_OPA_SURF2),
@@ -122,18 +116,17 @@ Gfx sSetupDL[] = {
     /* 0x0B */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, COMBINED, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA, G_CC_MODULATEIA_PRIM2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_OPA_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_OPA_SURF2),
     gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x0C */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE),
+    gsDPSetCombineMode(G_CC_MODULATEI_PRIM, G_CC_MODULATEI_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_OPA_SURF | G_RM_AA_OPA_SURF2),
@@ -143,8 +136,7 @@ Gfx sSetupDL[] = {
     /* 0x0D */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_XLU_SURF | G_RM_XLU_SURF2),
@@ -154,7 +146,7 @@ Gfx sSetupDL[] = {
     /* 0x0E */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0),
+    gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_ZB_TEX_EDGE | G_RM_AA_ZB_TEX_EDGE2),
@@ -164,30 +156,27 @@ Gfx sSetupDL[] = {
     /* 0x0F */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_PASS2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_ZB_TEX_EDGE2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_ZB_TEX_EDGE2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x10 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0, COMBINED, 0,
-                       PRIMITIVE, 0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_ZB_XLU_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_ZB_XLU_SURF2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x11 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_ZB_TEX_EDGE | G_RM_AA_ZB_TEX_EDGE2),
@@ -197,19 +186,17 @@ Gfx sSetupDL[] = {
     /* 0x12 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA, G_CC_PASS2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_ZB_TEX_EDGE2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_ZB_TEX_EDGE2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x13 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | AA_EN | Z_CMP | IM_RD | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA |
@@ -221,8 +208,7 @@ Gfx sSetupDL[] = {
     /* 0x14 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_ZB_CLD_SURF | G_RM_ZB_CLD_SURF2),
@@ -232,7 +218,7 @@ Gfx sSetupDL[] = {
     /* 0x15 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0),
+    gsDPSetCombineMode(G_CC_MODULATEIA, G_CC_MODULATEIA),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_ZB_XLU_SURF | G_RM_AA_ZB_XLU_SURF2),
@@ -242,18 +228,17 @@ Gfx sSetupDL[] = {
     /* 0x16 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, COMBINED, 0, SHADE, 0, COMBINED, 0, SHADE, 0),
+    gsDPSetCombineMode(G_CC_MODULATEIA, G_CC_MODULATEIA2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_ZB_XLU_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_ZB_XLU_SURF2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x17 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_ZB_OPA_SURF | G_RM_AA_ZB_OPA_SURF2),
@@ -263,29 +248,27 @@ Gfx sSetupDL[] = {
     /* 0x18 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, COMBINED, 0, SHADE, 0, COMBINED, 0, SHADE, 0),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA, G_CC_MODULATEIA2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_ZB_OPA_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_ZB_OPA_SURF2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x19 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, COMBINED, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA, G_CC_MODULATEIA_PRIM2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_ZB_OPA_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_ZB_OPA_SURF2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x1A */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE),
+    gsDPSetCombineMode(G_CC_MODULATEI_PRIM, G_CC_MODULATEI_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_ZB_OPA_SURF | G_RM_AA_ZB_OPA_SURF2),
@@ -295,7 +278,7 @@ Gfx sSetupDL[] = {
     /* 0x1B */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE),
+    gsDPSetCombineMode(G_CC_MODULATEI_PRIM, G_CC_MODULATEI_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_ZB_XLU_SURF | G_RM_AA_ZB_XLU_SURF2),
@@ -305,7 +288,7 @@ Gfx sSetupDL[] = {
     /* 0x1C */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, TEXEL0),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA_PRIM, G_CC_MODULATEIDECALA_PRIM),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_RGBA16 | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_AA_TEX_EDGE | G_RM_AA_TEX_EDGE2),
@@ -318,14 +301,14 @@ Gfx sSetupDL[] = {
     gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, NOISE, 0, COMBINED, 0, 0, 0, 0, COMBINED),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) | G_RM_AA_ZB_OPA_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_PASS | G_RM_AA_ZB_OPA_SURF2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x1E */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
+    gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PRIMITIVE),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_ZB_XLU_LINE | G_RM_AA_ZB_XLU_LINE2),
@@ -360,7 +343,7 @@ Gfx sSetupDL[] = {
                        ENVIRONMENT, COMBINED, TEXEL0, COMBINED),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) | G_RM_AA_ZB_OPA_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_PASS | G_RM_AA_ZB_OPA_SURF2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR |
                          G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
@@ -368,7 +351,7 @@ Gfx sSetupDL[] = {
     /* 0x22 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, SHADE, 0, 0, 0, TEXEL0, 0, 0, 0, SHADE),
+    gsDPSetCombineMode(G_CC_DECALRGB, G_CC_DECALRGB),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_OPA_SURF | G_RM_OPA_SURF2),
@@ -378,7 +361,7 @@ Gfx sSetupDL[] = {
     /* 0x23 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0),
+    gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_ZB_XLU_DECAL | G_RM_AA_ZB_XLU_DECAL2),
@@ -388,7 +371,7 @@ Gfx sSetupDL[] = {
     /* 0x24 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_FILL | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2),
@@ -401,15 +384,14 @@ Gfx sSetupDL[] = {
     gsDPSetCombineLERP(PRIMITIVE, 0, SHADE, 0, 0, 0, 0, PRIMITIVE, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_ZB_OPA_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_ZB_OPA_SURF2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x26 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_ZB_XLU_SURF | G_RM_AA_ZB_XLU_SURF2),
@@ -419,8 +401,7 @@ Gfx sSetupDL[] = {
     /* 0x27 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_XLU_SURF | G_RM_XLU_SURF2),
@@ -441,7 +422,7 @@ Gfx sSetupDL[] = {
     /* 0x29 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0, TEXEL0, 0, SHADE, 0),
+    gsDPSetCombineMode(G_CC_MODULATEIA, G_CC_MODULATEIA),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_ZB_XLU_SURF | G_RM_ZB_XLU_SURF2),
@@ -451,7 +432,7 @@ Gfx sSetupDL[] = {
     /* 0x2A */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_XLU_SURF | G_RM_XLU_SURF2),
@@ -461,7 +442,7 @@ Gfx sSetupDL[] = {
     /* 0x2B */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, TEXEL0),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA_PRIM, G_CC_MODULATEIDECALA_PRIM),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_RGBA16 | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_XLU_SURF | G_RM_XLU_SURF2),
@@ -471,11 +452,10 @@ Gfx sSetupDL[] = {
     /* 0x2C */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_PASS2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_ZB_OVL_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_ZB_OVL_SURF2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
@@ -502,7 +482,7 @@ Gfx sSetupDL[] = {
     /* 0x2F */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE),
+    gsDPSetCombineMode(G_CC_MODULATEI_PRIM, G_CC_MODULATEI_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_ZB_XLU_SURF | G_RM_ZB_XLU_SURF2),
@@ -512,7 +492,7 @@ Gfx sSetupDL[] = {
     /* 0x30 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
+    gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PRIMITIVE),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_AA_XLU_SURF | G_RM_AA_XLU_SURF2),
@@ -532,8 +512,7 @@ Gfx sSetupDL[] = {
     /* 0x32 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_OPA_SURF | G_RM_OPA_SURF2),
@@ -543,8 +522,7 @@ Gfx sSetupDL[] = {
     /* 0x33 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_XLU_SURF | G_RM_XLU_SURF2),
@@ -554,8 +532,7 @@ Gfx sSetupDL[] = {
     /* 0x34 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_XLU_SURF | G_RM_XLU_SURF2),
@@ -580,7 +557,7 @@ Gfx sSetupDL[] = {
                        COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_THRESHOLD | G_ZS_PIXEL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) | G_RM_XLU_SURF2),
+                     G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_PASS | G_RM_XLU_SURF2),
     gsSPLoadGeometryMode(G_CULL_BACK),
     gsSPEndDisplayList(),
 
@@ -591,15 +568,14 @@ Gfx sSetupDL[] = {
                        COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_THRESHOLD | G_ZS_PIXEL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) | G_RM_XLU_SURF2),
+                     G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_PASS | G_RM_XLU_SURF2),
     gsSPLoadGeometryMode(G_CULL_BACK),
     gsSPEndDisplayList(),
 
     /* 0x38 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_XLU_SURF | G_RM_XLU_SURF2),
@@ -609,7 +585,7 @@ Gfx sSetupDL[] = {
     /* 0x39 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
+    gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PRIMITIVE),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_CLD_SURF | G_RM_CLD_SURF2),
@@ -633,7 +609,7 @@ Gfx sSetupDL[] = {
                        ENVIRONMENT, COMBINED, TEXEL0, COMBINED),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) | G_RM_AA_OPA_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_PASS | G_RM_AA_OPA_SURF2),
     gsSPLoadGeometryMode(G_SHADE | G_CULL_BACK | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
@@ -662,19 +638,17 @@ Gfx sSetupDL[] = {
     /* 0x3E */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, TEXEL0, COMBINED, 0, PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA, G_CC_MODULATEIA_PRIM2),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_NONE | G_ZS_PIXEL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA) |
-                         G_RM_AA_ZB_OPA_SURF2),
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_ZB_OPA_SURF2),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BACK | G_FOG | G_LIGHTING | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x3F */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | Z_UPD | IM_RD | CVG_DST_SAVE | ZMODE_OPA | FORCE_BL |
@@ -686,18 +660,17 @@ Gfx sSetupDL[] = {
     /* 0x40 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_PASS2),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                     G_AC_THRESHOLD | G_ZS_PIXEL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) | G_RM_XLU_SURF2),
+                     G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_PASS | G_RM_XLU_SURF2),
     gsSPLoadGeometryMode(G_SHADE | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x41 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | G_RM_CLD_SURF | G_RM_CLD_SURF2),
@@ -707,32 +680,29 @@ Gfx sSetupDL[] = {
     /* 0x42 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0),
+    gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | Z_CMP | Z_UPD | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA |
-                         ALPHA_CVG_SEL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) |
-                         GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1)),
+                         ALPHA_CVG_SEL | G_RM_PASS | GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1)),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x43 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | Z_CMP | Z_UPD | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA |
-                         ALPHA_CVG_SEL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) |
-                         GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1)),
+                         ALPHA_CVG_SEL | G_RM_PASS | GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1)),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 
     /* 0x44 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0),
+    gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | Z_CMP | Z_UPD | IM_RD | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA |
@@ -744,8 +714,7 @@ Gfx sSetupDL[] = {
     /* 0x45 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
-                       0),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | Z_CMP | Z_UPD | IM_RD | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA |
@@ -757,12 +726,11 @@ Gfx sSetupDL[] = {
     /* 0x46 */
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0),
+    gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
     gsDPSetOtherMode(G_AD_NOTPATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                      G_AC_THRESHOLD | G_ZS_PIXEL | Z_CMP | Z_UPD | CVG_DST_FULL | ZMODE_OPA | CVG_X_ALPHA |
-                         ALPHA_CVG_SEL | GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) |
-                         GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1)),
+                         ALPHA_CVG_SEL | G_RM_PASS | GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1)),
     gsSPLoadGeometryMode(G_ZBUFFER | G_SHADE | G_FOG | G_SHADING_SMOOTH),
     gsSPEndDisplayList(),
 };
@@ -770,7 +738,7 @@ Gfx sSetupDL[] = {
 Gfx sFillSetupDL[] = {
     gsDPPipeSync(),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE, 0, 0, 0, SHADE),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
     gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_PERSP | G_CYC_FILL | G_PM_NPRIMITIVE,
                      G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2),
@@ -889,169 +857,169 @@ Gfx* func_80093808(Gfx* gfx) {
 }
 
 void func_80093848(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1293);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1293);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x3A]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1297);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1297);
 }
 
 void func_800938B4(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1309);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1309);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x39]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1313);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1313);
 }
 
 void func_80093920(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1325);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1325);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x32]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1329);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1329);
 }
 
 void func_8009398C(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1341);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1341);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x33]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1345);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1345);
 }
 
 void func_800939F8(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1357);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1357);
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x34]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1361);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1361);
 }
 
 void func_80093A64(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1373);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1373);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x35]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1377);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1377);
 }
 
 void func_80093AD0(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1389);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1389);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x36]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1393);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1393);
 }
 
 void func_80093B3C(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1405);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1405);
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x37]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1409);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1409);
 }
 
 void func_80093BA8(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1421);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1421);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x1A]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1425);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1425);
 }
 
 void func_80093C14(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1439);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1439);
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x19]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1443);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1443);
 }
 
 void func_80093C80(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
     gfxCtx = globalCtx->state.gfxCtx;
     func_80093D18(gfxCtx);
 
     if (globalCtx->roomCtx.curRoom.unk_03 == 3) {
-        func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1460);
+        Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1460);
 
         gDPSetColorDither(gfxCtx->polyOpa.p++, G_CD_DISABLE);
 
-        func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1462);
+        Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1462);
     }
 }
 
 void func_80093D18(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1475);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1475);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x19]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1479);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1479);
 }
 
 void func_80093D84(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1491);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1491);
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x19]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1495);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1495);
 }
 
 void func_80093DF0(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1507);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1507);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x1F]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1511);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1511);
 }
 
 void func_80093E5C(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1523);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1523);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x20]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1527);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1527);
 }
 
 void func_80093EC8(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1539);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1539);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x21]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1543);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1543);
 }
 
 Gfx* func_80093F34(Gfx* gfx) {
@@ -1065,43 +1033,43 @@ Gfx* func_80093F58(Gfx* gfx) {
 }
 
 void func_80093F7C(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1569);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1569);
 
     gfxCtx->polyOpa.p = func_80093F58(gfxCtx->polyOpa.p);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1573);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1573);
 }
 
 void func_80093FD8(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1585);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1585);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x23]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1589);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1589);
 }
 
 void func_80094044(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1601);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1601);
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x2C]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1605);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1605);
 }
 
 void func_800940B0(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1617);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1617);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x24]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1621);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1621);
 }
 
 Gfx* func_8009411C(Gfx* gfx) {
@@ -1110,83 +1078,83 @@ Gfx* func_8009411C(Gfx* gfx) {
 }
 
 void func_80094140(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1640);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1640);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x1C]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1644);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1644);
 }
 
 void func_800941AC(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1651);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1651);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x2B]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1655);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1655);
 }
 
 void func_80094218(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1670);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1670);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x2D]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1674);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1674);
 }
 
 void func_80094284(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1681);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1681);
 
     gSPDisplayList(gfxCtx->overlay.p++, &sSetupDL[6 * 0x2E]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1685);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1685);
 }
 
 void func_800942F0(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1700);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1700);
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x26]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1704);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1704);
 }
 
 void func_8009435C(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1722);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1722);
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x04]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1726);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1726);
 }
 
 void func_800943C8(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1758);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1758);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x25]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1762);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1762);
 }
 
 void func_80094434(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1775);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1775);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x02]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1779);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1779);
 }
 
 Gfx* func_800944A0(Gfx* gfx) {
@@ -1195,23 +1163,23 @@ Gfx* func_800944A0(Gfx* gfx) {
 }
 
 void func_800944C4(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1799);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1799);
 
     gfxCtx->polyOpa.p = func_800944A0(gfxCtx->polyOpa.p);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1801);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1801);
 }
 
 void func_80094520(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1809);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1809);
 
     gfxCtx->overlay.p = func_800944A0(gfxCtx->overlay.p);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1811);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1811);
 }
 
 void func_8009457C(Gfx** gfxp) {
@@ -1221,33 +1189,33 @@ void func_8009457C(Gfx** gfxp) {
 }
 
 void func_800945A0(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1837);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1837);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x28]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1841);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1841);
 }
 
 void func_8009460C(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1853);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1853);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x29]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1857);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1857);
 }
 
 void func_80094678(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1869);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1869);
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x2F]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1873);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1873);
 }
 
 Gfx* func_800946E4(Gfx* gfx) {
@@ -1307,84 +1275,84 @@ Gfx* func_80094968(Gfx* gfx) {
 }
 
 void func_800949A8(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1953);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1953);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x2A]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1957);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1957);
 }
 
 void func_80094A14(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1964);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1964);
 
     gSPDisplayList(gfxCtx->overlay.p++, &sSetupDL[6 * 0x2A]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1968);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1968);
 }
 
 void func_80094A80(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 1992);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 1992);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x30]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 1996);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 1996);
 }
 
 void func_80094AEC(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 2008);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2008);
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x31]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 2012);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2012);
 }
 
 void func_80094B58(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 2024);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2024);
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x1B]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 2028);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2028);
 }
 
 void func_80094BC4(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 2040);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2040);
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x3C]);
     gDPSetColorDither(gfxCtx->polyXlu.p++, G_CD_DISABLE);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 2043);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2043);
 }
 
 void func_80094C50(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 2056);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2056);
 
     gSPDisplayList(gfxCtx->polyXlu.p++, &sSetupDL[6 * 0x3D]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 2058);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2058);
 }
 
 void func_80094CBC(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 2086);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2086);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x38]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 2090);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2090);
 }
 
 void func_80094D28(Gfx** gfxp) {
@@ -1394,19 +1362,19 @@ void func_80094D28(Gfx** gfxp) {
 }
 
 void func_80094D4C(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 2112);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2112);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &sSetupDL[6 * 0x3B]);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 2116);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2116);
 }
 
 #ifdef NON_MATCHING
 // regalloc differences
 void Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height) {
-    Gfx* displayList = func_800C6C3C(gfxp, 3 * sizeof(Gfx));
+    Gfx* displayList = Graph_DlistAlloc(gfxp, 3 * sizeof(Gfx));
 
     gDPTileSync(displayList);
     gDPSetTileSize(displayList + 1, 0, x, y, (x + ((width - 1) << 2)), (y + ((height - 1) << 2)));
@@ -1484,25 +1452,23 @@ Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a) {
 }
 
 void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
     s32 ret;
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 2386);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2386);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, sFillSetupDL);
     gSPDisplayList(gfxCtx->polyXlu.p++, sFillSetupDL);
     gSPDisplayList(gfxCtx->overlay.p++, sFillSetupDL);
-    gDPSetScissorFrac(gfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, (s32)gScreenWidth * 4.0f,
-                      (s32)gScreenHeight * 4.0f);
-    gDPSetScissorFrac(gfxCtx->polyXlu.p++, G_SC_NON_INTERLACE, 0, 0, (s32)gScreenWidth * 4.0f,
-                      (s32)gScreenHeight * 4.0f);
-    gDPSetScissorFrac(gfxCtx->overlay.p++, G_SC_NON_INTERLACE, 0, 0, (s32)gScreenWidth * 4.0f,
-                      (s32)gScreenHeight * 4.0f);
 
-    gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->unk_2DC);
-    gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->unk_2DC);
-    gDPSetColorImage(gfxCtx->polyXlu.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->unk_2DC);
-    gDPSetColorImage(gfxCtx->overlay.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->unk_2DC);
+    gDPSetScissorFrac(gfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
+    gDPSetScissorFrac(gfxCtx->polyXlu.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
+    gDPSetScissorFrac(gfxCtx->overlay.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
+
+    gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
+    gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
+    gDPSetColorImage(gfxCtx->polyXlu.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
+    gDPSetColorImage(gfxCtx->overlay.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
 
     gDPSetDepthImage(gfxCtx->polyOpa.p++, gZBuffer);
     gDPSetDepthImage(gfxCtx->polyXlu.p++, gZBuffer);
@@ -1559,7 +1525,7 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
         gDPFillRectangle(gfxCtx->polyOpa.p++, 0, ret, gScreenWidth - 1, gScreenHeight - ret - 1);
         gDPPipeSync(gfxCtx->polyOpa.p++);
 
-        gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->unk_2DC);
+        gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
         gDPSetCycleType(gfxCtx->polyOpa.p++, G_CYC_FILL);
         gDPSetRenderMode(gfxCtx->polyOpa.p++, G_RM_NOOP, G_RM_NOOP2);
         gDPSetFillColor(gfxCtx->polyOpa.p++, (GPACK_RGBA5551(r, g, b, 1) << 16) | GPACK_RGBA5551(r, g, b, 1));
@@ -1577,19 +1543,18 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
         }
     }
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 2497);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2497);
 }
 
 void func_80095974(GraphicsContext* gfxCtx) {
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_rcp.c", 2503);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_rcp.c", 2503);
 
     gSPDisplayList(gfxCtx->polyOpa.p++, sFillSetupDL);
-    gDPSetScissorFrac(gfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, (s32)gScreenWidth * 4.0f,
-                      (s32)gScreenHeight * 4.0f);
+    gDPSetScissorFrac(gfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, gScreenWidth * 4.0f, gScreenHeight * 4.0f);
     gDPSetDepthImage(gfxCtx->polyOpa.p++, gZBuffer);
-    gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->unk_2DC);
+    gDPSetColorImage(gfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, gScreenWidth, gfxCtx->curFrameBuffer);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_rcp.c", 2513);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2513);
 }

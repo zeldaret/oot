@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_808AA884
+ .word 0x44D48000
+glabel D_808AA888
+ .word 0x3B3B3EE7
+
+.text
 glabel BgSpot00Hanebasi_Update
 /* 0082C 808A9FAC 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00830 808A9FB0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -69,7 +76,7 @@ glabel BgSpot00Hanebasi_Update
 /* 00938 808AA0B8 4502002A */  bc1fl   .L808AA164                 
 /* 0093C 808AA0BC 3C05453B */  lui     $a1, 0x453B                ## $a1 = 453B0000
 /* 00940 808AA0C0 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 00944 808AA0C4 0C02FF21 */  jal     func_800BFC84              
+/* 00944 808AA0C4 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 00948 808AA0C8 AFA70030 */  sw      $a3, 0x0030($sp)           
 /* 0094C 808AA0CC 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
 /* 00950 808AA0D0 2508E660 */  addiu   $t0, $t0, 0xE660           ## $t0 = 8015E660
@@ -203,5 +210,3 @@ glabel BgSpot00Hanebasi_Update
 /* 00B24 808AA2A4 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00B28 808AA2A8 03E00008 */  jr      $ra                        
 /* 00B2C 808AA2AC 00000000 */  nop
-
-

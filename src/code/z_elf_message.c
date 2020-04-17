@@ -22,10 +22,10 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
     switch (msg->byte0 & 0x1E) {
         case 0:
             temp = 1 << (msg->byte1 & 0x0F);
-            return ((msg->byte0 & 1) == 1) == !!(gSaveContext.event_chk_inf[(msg->byte1 & 0xF0) >> 4] & temp);
+            return ((msg->byte0 & 1) == 1) == !!(gSaveContext.eventChkInf[(msg->byte1 & 0xF0) >> 4] & temp);
         case 2:
             return ((msg->byte0 & 1) == 1) ==
-                   !!(gBitFlags[msg->byte1 - ITEM_KEY_BOSS] & gSaveContext.dungeon_items[gSaveContext.dungeon_index]);
+                   !!(gBitFlags[msg->byte1 - ITEM_KEY_BOSS] & gSaveContext.dungeonItems[gSaveContext.dungeonIndex]);
         case 4:
             return ((msg->byte0 & 1) == 1) == (msg->byte3 == INV_CONTENT(msg->byte1));
         case 6:
@@ -38,17 +38,17 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
                               gSaveContext.equipment);
                 case 0x20:
                     return ((msg->byte0 & 1) == 1) ==
-                           !!(gBitFlags[msg->byte3 - ITEM_SONG_MINUET + 6] & gSaveContext.quest_items);
+                           !!(CHECK_QUEST_ITEM(msg->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET));
                 case 0x30:
                     return ((msg->byte0 & 1) == 1) ==
-                           !!(gBitFlags[msg->byte3 - ITEM_MEDALLION_FOREST] & gSaveContext.quest_items);
+                           !!(CHECK_QUEST_ITEM(msg->byte3 - ITEM_MEDALLION_FOREST + QUEST_MEDALLION_FOREST));
                 case 0x40:
-                    return ((msg->byte0 & 1) == 1) == !!gSaveContext.magic_acquired;
+                    return ((msg->byte0 & 1) == 1) == !!gSaveContext.magicAcquired;
             }
     }
 
-    LogUtils_LogThreadId("../z_elf_message.c", 156);
-    osSyncPrintf("\"企画外 条件\" = %s\n", "企画外 条件"); // "Unplanned conditions"
+    // "Unplanned conditions"
+    LOG_STRING("企画外 条件", "../z_elf_message.c", 156);
     __assert("0", "../z_elf_message.c", 157);
 
     return false;
@@ -138,8 +138,8 @@ u16 ElfMessage_GetTextFromMsgs(ElfMessage* msg) {
             case 0xE0:
                 return msg->byte2 | 0x100;
             default:
-                LogUtils_LogThreadId("../z_elf_message.c", 281);
-                osSyncPrintf("\"企画外 条件\" = %s\n", "企画外 条件"); // "Unplanned conditions"
+                // "Unplanned conditions"
+                LOG_STRING("企画外 条件", "../z_elf_message.c", 281);
                 __assert("0", "../z_elf_message.c", 282);
         }
         msg++;

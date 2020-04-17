@@ -11,5 +11,3 @@ glabel BgJyaBombchuiwa_Update
 /* 00658 80894AF8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0065C 80894AFC 03E00008 */  jr      $ra                        
 /* 00660 80894B00 00000000 */  nop
-
-

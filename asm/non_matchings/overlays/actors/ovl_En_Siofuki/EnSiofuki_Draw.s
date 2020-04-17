@@ -1,3 +1,17 @@
+.rdata
+glabel D_80AFC820
+    .asciz "../z_en_siofuki.c"
+    .balign 4
+
+glabel D_80AFC834
+    .asciz "../z_en_siofuki.c"
+    .balign 4
+
+glabel D_80AFC848
+    .asciz "../z_en_siofuki.c"
+    .balign 4
+
+.text
 glabel EnSiofuki_Draw
 /* 00A18 80AFC598 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00A1C 80AFC59C 3C0F0001 */  lui     $t7, 0x0001                ## $t7 = 00010000
@@ -14,7 +28,7 @@ glabel EnSiofuki_Draw
 /* 00A48 80AFC5C8 24C6C820 */  addiu   $a2, $a2, %lo(D_80AFC820)  ## $a2 = 80AFC820
 /* 00A4C 80AFC5CC 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFDC
 /* 00A50 80AFC5D0 2407028E */  addiu   $a3, $zero, 0x028E         ## $a3 = 0000028E
-/* 00A54 80AFC5D4 0C031AB1 */  jal     func_800C6AC4              
+/* 00A54 80AFC5D4 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00A58 80AFC5D8 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00A5C 80AFC5DC 8FB80084 */  lw      $t8, 0x0084($sp)           
 /* 00A60 80AFC5E0 0C024F61 */  jal     func_80093D84              
@@ -90,7 +104,7 @@ glabel EnSiofuki_Draw
 /* 00B78 80AFC6F8 24C6C848 */  addiu   $a2, $a2, %lo(D_80AFC848)  ## $a2 = 80AFC848
 /* 00B7C 80AFC6FC 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFDC
 /* 00B80 80AFC700 240702A2 */  addiu   $a3, $zero, 0x02A2         ## $a3 = 000002A2
-/* 00B84 80AFC704 0C031AD5 */  jal     func_800C6B54              
+/* 00B84 80AFC704 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00B88 80AFC708 8DA50000 */  lw      $a1, 0x0000($t5)           ## 00000000
 /* 00B8C 80AFC70C 922F019C */  lbu     $t7, 0x019C($s1)           ## 0000019C
 /* 00B90 80AFC710 31EE0001 */  andi    $t6, $t7, 0x0001           ## $t6 = 00000000
@@ -152,4 +166,3 @@ glabel EnSiofuki_Draw
 /* 00C64 80AFC7E4 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 00C68 80AFC7E8 00000000 */  nop
 /* 00C6C 80AFC7EC 00000000 */  nop
-

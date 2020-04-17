@@ -110,5 +110,3 @@ glabel EnHintnuts_Update
 /* 0162C 80A5882C 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 01630 80A58830 03E00008 */  jr      $ra                        
 /* 01634 80A58834 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

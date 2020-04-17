@@ -147,5 +147,3 @@ glabel EnCrow_Update
 /* 011E8 809E1428 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 011EC 809E142C 03E00008 */  jr      $ra                        
 /* 011F0 809E1430 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B1FA30
+    .asciz "../z_en_torch2.c"
+    .balign 4
+
+glabel D_80B1FA44
+    .asciz "../z_en_torch2.c"
+    .balign 4
+
+.text
 glabel EnTorch2_Draw
 /* 01E78 80B1F7F8 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 01E7C 80B1F7FC AFB20030 */  sw      $s2, 0x0030($sp)
@@ -11,7 +21,7 @@ glabel EnTorch2_Draw
 /* 01E9C 80B1F81C 24C6FA30 */  addiu   $a2, $a2, %lo(D_80B1FA30)  ## $a2 = 80B1FA30
 /* 01EA0 80B1F820 27A40050 */  addiu   $a0, $sp, 0x0050           ## $a0 = FFFFFFE0
 /* 01EA4 80B1F824 2407041A */  addiu   $a3, $zero, 0x041A         ## $a3 = 0000041A
-/* 01EA8 80B1F828 0C031AB1 */  jal     func_800C6AC4
+/* 01EA8 80B1F828 0C031AB1 */  jal     Graph_OpenDisps
 /* 01EAC 80B1F82C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 01EB0 80B1F830 0C024F20 */  jal     func_80093C80
 /* 01EB4 80B1F834 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
@@ -111,7 +121,7 @@ glabel EnTorch2_Draw
 /* 02024 80B1F9A4 24C6FA44 */  addiu   $a2, $a2, %lo(D_80B1FA44)  ## $a2 = 80B1FA44
 /* 02028 80B1F9A8 27A40050 */  addiu   $a0, $sp, 0x0050           ## $a0 = FFFFFFE0
 /* 0202C 80B1F9AC 8E450000 */  lw      $a1, 0x0000($s2)           ## 00000000
-/* 02030 80B1F9B0 0C031AD5 */  jal     func_800C6B54
+/* 02030 80B1F9B0 0C031AD5 */  jal     Graph_CloseDisps
 /* 02034 80B1F9B4 2407045A */  addiu   $a3, $zero, 0x045A         ## $a3 = 0000045A
 /* 02038 80B1F9B8 8FBF0034 */  lw      $ra, 0x0034($sp)
 /* 0203C 80B1F9BC 8FB00028 */  lw      $s0, 0x0028($sp)
@@ -119,4 +129,3 @@ glabel EnTorch2_Draw
 /* 02044 80B1F9C4 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 02048 80B1F9C8 03E00008 */  jr      $ra
 /* 0204C 80B1F9CC 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-

@@ -17,5 +17,3 @@ glabel DemoKekkai_Destroy
 /* 002A4 8098D274 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002A8 8098D278 03E00008 */  jr      $ra                        
 /* 002AC 8098D27C 00000000 */  nop
-
-

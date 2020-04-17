@@ -74,5 +74,3 @@ glabel EnAnubiceFire_Init
 /* 00118 809B26B8 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 0011C 809B26BC 03E00008 */  jr      $ra                        
 /* 00120 809B26C0 00000000 */  nop
-
-

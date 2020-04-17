@@ -1,3 +1,25 @@
+.rdata
+glabel D_80A52B84
+    .asciz "[32m 種類  %d\n[m"
+    .balign 4
+
+glabel D_80A52B98
+    .asciz "[32m ぱす  %d\n[m"
+    .balign 4
+
+glabel D_80A52BAC
+    .asciz "[32m 反転  %d\n[m"
+    .balign 4
+
+glabel D_80A52BC0
+    .asciz "[32m 時間  %d\n[m"
+    .balign 4
+
+glabel D_80A52BD4
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel func_80A51D18
 /* 00A48 80A51D18 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00A4C 80A51D1C AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -163,5 +185,3 @@ glabel func_80A51D18
 /* 00C74 80A51F44 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00C78 80A51F48 03E00008 */  jr      $ra                        
 /* 00C7C 80A51F4C 00000000 */  nop
-
-

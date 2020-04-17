@@ -1,3 +1,65 @@
+.rdata
+glabel D_80A9504C
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A95060
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A95074
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A95088
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A9509C
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A950B0
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A95108
+    .float 3.14159274101
+
+glabel D_80A9510C
+    .float 3.14159274101
+
+glabel D_80A95110
+    .float 3.14159274101
+
+glabel D_80A95114
+    .float 3.14159274101
+
+glabel D_80A95118
+ .word 0x45898000
+glabel D_80A9511C
+ .word 0xC53B8000
+glabel D_80A95120
+ .word 0x3B343958
+glabel D_80A95124
+    .float 0.01
+
+glabel D_80A95128
+ .word 0xBF20D97C
+glabel D_80A9512C
+    .float 3.14159274101
+
+glabel D_80A95130
+    .float 3.14159274101
+
+glabel D_80A95134
+    .float 3.14159274101
+
+glabel D_80A95138
+    .float 3.14159274101
+
+.text
 glabel EnKanban_Draw
 /* 01BE8 80A93B88 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 01BEC 80A93B8C AFB00014 */  sw      $s0, 0x0014($sp)           
@@ -16,7 +78,7 @@ glabel EnKanban_Draw
 /* 01C1C 80A93BBC 24C6504C */  addiu   $a2, $a2, %lo(D_80A9504C)  ## $a2 = 80A9504C
 /* 01C20 80A93BC0 27A40078 */  addiu   $a0, $sp, 0x0078           ## $a0 = FFFFFFD8
 /* 01C24 80A93BC4 2407067B */  addiu   $a3, $zero, 0x067B         ## $a3 = 0000067B
-/* 01C28 80A93BC8 0C031AB1 */  jal     func_800C6AC4              
+/* 01C28 80A93BC8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01C2C 80A93BCC 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 01C30 80A93BD0 8FB800A4 */  lw      $t8, 0x00A4($sp)           
 /* 01C34 80A93BD4 0C024F46 */  jal     func_80093D18              
@@ -583,7 +645,7 @@ glabel EnKanban_Draw
 /* 0249C 80A9443C 24C650B0 */  addiu   $a2, $a2, %lo(D_80A950B0)  ## $a2 = 80A950B0
 /* 024A0 80A94440 27A40078 */  addiu   $a0, $sp, 0x0078           ## $a0 = FFFFFFD8
 /* 024A4 80A94444 24070741 */  addiu   $a3, $zero, 0x0741         ## $a3 = 00000741
-/* 024A8 80A94448 0C031AD5 */  jal     func_800C6B54              
+/* 024A8 80A94448 0C031AD5 */  jal     Graph_CloseDisps              
 /* 024AC 80A9444C 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 /* 024B0 80A94450 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 024B4 80A94454 8FB00014 */  lw      $s0, 0x0014($sp)           
@@ -593,4 +655,3 @@ glabel EnKanban_Draw
 /* 024C4 80A94464 00000000 */  nop
 /* 024C8 80A94468 00000000 */  nop
 /* 024CC 80A9446C 00000000 */  nop
-

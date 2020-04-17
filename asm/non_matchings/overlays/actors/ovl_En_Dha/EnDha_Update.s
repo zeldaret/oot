@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809ED788
+    .float 10000.0
+
+.text
 glabel EnDha_Update
 /* 00AEC 809ED36C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00AF0 809ED370 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -45,5 +50,3 @@ glabel EnDha_Update
 /* 00B88 809ED408 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00B8C 809ED40C 03E00008 */  jr      $ra                        
 /* 00B90 809ED410 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

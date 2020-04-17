@@ -1,3 +1,28 @@
+.rdata
+glabel D_809E55A0
+    .asciz "<%d>\n"
+    .balign 4
+
+.late_rodata
+glabel D_809E561C
+    .float 9.58738019108e-05
+
+glabel D_809E5620
+    .float 9.58738019108e-05
+
+glabel D_809E5624
+    .float 9.58738019108e-05
+
+glabel D_809E5628
+    .float 9.58738019108e-05
+
+glabel D_809E562C
+    .float 9.58738019108e-05
+
+glabel D_809E5630
+    .float 9.58738019108e-05
+
+.text
 glabel func_809E50B4
 /* 00D94 809E50B4 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00D98 809E50B8 24010008 */  addiu   $at, $zero, 0x0008         ## $at = 00000008
@@ -122,5 +147,3 @@ glabel func_809E50B4
 /* 00F5C 809E527C 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 00F60 809E5280 03E00008 */  jr      $ra                        
 /* 00F64 809E5284 00000000 */  nop
-
-

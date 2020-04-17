@@ -1,3 +1,35 @@
+.rdata
+glabel D_80A72850
+    .asciz "../z_en_hy.c"
+    .balign 4
+
+glabel D_80A72860
+    .asciz "../z_en_hy.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A72AA0
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71E38
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71D08
+.word L80A71E38
+.word L80A71D08
+.word L80A71D08
+
+.text
 glabel EnHy_Draw
 /* 02678 80A71C28 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 0267C 80A71C2C AFBF002C */  sw      $ra, 0x002C($sp)
@@ -9,7 +41,7 @@ glabel EnHy_Draw
 /* 02694 80A71C44 24C62850 */  addiu   $a2, $a2, %lo(D_80A72850)  ## $a2 = 80A72850
 /* 02698 80A71C48 27A40044 */  addiu   $a0, $sp, 0x0044           ## $a0 = FFFFFFDC
 /* 0269C 80A71C4C 2407090E */  addiu   $a3, $zero, 0x090E         ## $a3 = 0000090E
-/* 026A0 80A71C50 0C031AB1 */  jal     func_800C6AC4
+/* 026A0 80A71C50 0C031AB1 */  jal     Graph_OpenDisps
 /* 026A4 80A71C54 AFA50054 */  sw      $a1, 0x0054($sp)
 /* 026A8 80A71C58 8E180190 */  lw      $t8, 0x0190($s0)           ## 00000190
 /* 026AC 80A71C5C 3C0F80A7 */  lui     $t7, %hi(func_80A70E34)    ## $t7 = 80A70000
@@ -156,7 +188,7 @@ glabel L80A71E38
 /* 028C0 80A71E70 24C62860 */  addiu   $a2, $a2, %lo(D_80A72860)  ## $a2 = 80A72860
 /* 028C4 80A71E74 27A40044 */  addiu   $a0, $sp, 0x0044           ## $a0 = FFFFFFDC
 /* 028C8 80A71E78 24070954 */  addiu   $a3, $zero, 0x0954         ## $a3 = 00000954
-/* 028CC 80A71E7C 0C031AD5 */  jal     func_800C6B54
+/* 028CC 80A71E7C 0C031AD5 */  jal     Graph_CloseDisps
 /* 028D0 80A71E80 8D650000 */  lw      $a1, 0x0000($t3)           ## 00000000
 /* 028D4 80A71E84 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 028D8 80A71E88 8FB00028 */  lw      $s0, 0x0028($sp)
@@ -165,4 +197,3 @@ glabel L80A71E38
 /* 028E4 80A71E94 00000000 */  nop
 /* 028E8 80A71E98 00000000 */  nop
 /* 028EC 80A71E9C 00000000 */  nop
-

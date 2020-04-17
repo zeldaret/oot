@@ -1,3 +1,24 @@
+.rdata
+glabel D_80A9E8C0
+    .asciz "../z_en_light.c"
+    .balign 4
+
+glabel D_80A9E8D0
+    .asciz "../z_en_light.c"
+    .balign 4
+
+glabel D_80A9E8E0
+    .asciz "../z_en_light.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A9E910
+    .float 9.58738019108e-05
+
+glabel D_80A9E914
+    .float 3.14159274101
+
+.text
 glabel EnLight_Draw
 /* 0096C 80A9E4AC 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00970 80A9E4B0 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -16,7 +37,7 @@ glabel EnLight_Draw
 /* 009A4 80A9E4E4 AFA80084 */  sw      $t0, 0x0084($sp)           
 /* 009A8 80A9E4E8 27A4006C */  addiu   $a0, $sp, 0x006C           ## $a0 = FFFFFFDC
 /* 009AC 80A9E4EC 240701B9 */  addiu   $a3, $zero, 0x01B9         ## $a3 = 000001B9
-/* 009B0 80A9E4F0 0C031AB1 */  jal     func_800C6AC4              
+/* 009B0 80A9E4F0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 009B4 80A9E4F4 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 009B8 80A9E4F8 8FAC0094 */  lw      $t4, 0x0094($sp)           
 /* 009BC 80A9E4FC 0C024F61 */  jal     func_80093D84              
@@ -214,7 +235,7 @@ glabel EnLight_Draw
 /* 00CB0 80A9E7F0 240701EB */  addiu   $a3, $zero, 0x01EB         ## $a3 = 000001EB
 /* 00CB4 80A9E7F4 AC4A0004 */  sw      $t2, 0x0004($v0)           ## 00000004
 /* 00CB8 80A9E7F8 8FAB0094 */  lw      $t3, 0x0094($sp)           
-/* 00CBC 80A9E7FC 0C031AD5 */  jal     func_800C6B54              
+/* 00CBC 80A9E7FC 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00CC0 80A9E800 8D650000 */  lw      $a1, 0x0000($t3)           ## 00000000
 /* 00CC4 80A9E804 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 00CC8 80A9E808 8FB00038 */  lw      $s0, 0x0038($sp)           
@@ -223,4 +244,3 @@ glabel EnLight_Draw
 /* 00CD4 80A9E814 00000000 */  nop
 /* 00CD8 80A9E818 00000000 */  nop
 /* 00CDC 80A9E81C 00000000 */  nop
-

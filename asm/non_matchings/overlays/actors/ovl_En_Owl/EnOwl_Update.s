@@ -1,51 +1,20 @@
 .rdata
-
 glabel D_80ACD7AC
- .word 0xA5D5A5AF, 0xA5EDA5A6, 0xBEC3CCC7, 0x21212121, 0x21212121, 0x21212121, 0x21212121, 0x21212121, 0x21212121, 0x21212121, 0x21212121, 0x21210A00
-
-glabel D_FN1
-.asciz "../z_en_owl.c"
-    .balign 4
-glabel D_FN2
-.asciz "../z_en_owl.c"
+    .asciz "フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
     .balign 4
 
-glabel jtbl_80ACD7FC
-.word L80ACA110
-.word L80ACA12C
-.word L80ACA13C
-.word L80ACA160
-.word L80ACA1A0
-.word L80ACA1E0
-.word L80ACA1F0
-.word L80ACA244
-.word L80ACA264
-.word L80ACA274
-.word L80ACA284
-.word L80ACA294
-.word L80ACA2DC
-glabel jtbl_80ACD830
-.word L80ACBAFC
-.word L80ACBB38
-.word L80ACBB80
-.word L80ACBBC8
-.word L80ACBBE4
-glabel D_80ACD844
- .word 0x45BB8000
-glabel D_80ACD848
- .word 0x3ECCCCCD
-glabel D_80ACD84C
- .word 0x3E4CCCCD
-glabel D_80ACD850
- .word 0x3E4CCCCD
+.late_rodata
 glabel D_80ACD854
- .word 0x3E99999A
+    .float 0.3
+
 glabel D_80ACD858
- .word 0x459C4000
+    .float 5000.0
+
 glabel D_80ACD85C
- .word 0x459C4000
+    .float 5000.0
+
 glabel D_80ACD860
- .word 0x459C4000, 0x00000000, 0x00000000, 0x00000000
+    .float 5000.0
 
 .text
 glabel EnOwl_Update
@@ -585,5 +554,3 @@ glabel EnOwl_Update
 /* 02ED4 80ACCDF4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 02ED8 80ACCDF8 03E00008 */  jr      $ra
 /* 02EDC 80ACCDFC 00000000 */  nop
-
-

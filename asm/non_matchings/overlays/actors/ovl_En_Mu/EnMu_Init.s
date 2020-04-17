@@ -57,5 +57,3 @@ glabel EnMu_Init
 /* 002D8 80AB06F8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 002DC 80AB06FC 03E00008 */  jr      $ra
 /* 002E0 80AB0700 00000000 */  nop
-
-

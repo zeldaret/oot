@@ -8,5 +8,3 @@ glabel DemoEffect_Update
 /* 03758 809746A8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0375C 809746AC 03E00008 */  jr      $ra                        
 /* 03760 809746B0 00000000 */  nop
-
-

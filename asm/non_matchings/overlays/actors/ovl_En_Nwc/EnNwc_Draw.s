@@ -9,4 +9,3 @@ glabel EnNwc_Draw
 /* 00974 80ABCA54 00000000 */  nop
 /* 00978 80ABCA58 00000000 */  nop
 /* 0097C 80ABCA5C 00000000 */  nop
-

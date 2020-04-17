@@ -1,3 +1,41 @@
+.rdata
+glabel D_808D62E8
+    .asciz "UP 1    mode %d\n"
+    .balign 4
+
+glabel D_808D62FC
+    .asciz "UP 1.5 \n"
+    .balign 4
+
+glabel D_808D6308
+    .asciz "UP time %d \n"
+    .balign 4
+
+glabel D_808D6318
+    .asciz "PL time %x \n"
+    .balign 4
+
+glabel D_808D6328
+    .asciz "MT time %x \n"
+    .balign 4
+
+glabel D_808D6338
+    .asciz "UP 1.6 \n"
+    .balign 4
+
+glabel D_808D6344
+    .asciz "UP 1.7 \n"
+    .balign 4
+
+glabel D_808D6350
+    .asciz "UP 2\n"
+    .balign 4
+
+.late_rodata
+glabel D_808D6480
+ .word 0x410E6666
+
+.text
 glabel func_808D2CE0
 /* 00670 808D2CE0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00674 808D2CE4 AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -264,5 +302,3 @@ glabel func_808D2CE0
 /* 00A10 808D3080 8FB20030 */  lw      $s2, 0x0030($sp)           
 /* 00A14 808D3084 03E00008 */  jr      $ra                        
 /* 00A18 808D3088 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AD8DC4
+    .asciz "../z_en_po_relay.c"
+    .balign 4
+
+glabel D_80AD8DD8
+    .asciz "../z_en_po_relay.c"
+    .balign 4
+
+.text
 glabel EnPoRelay_Draw
 /* 013F8 80AD8B38 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 013FC 80AD8B3C AFBF002C */  sw      $ra, 0x002C($sp)
@@ -9,7 +19,7 @@ glabel EnPoRelay_Draw
 /* 01414 80AD8B54 24C68DC4 */  addiu   $a2, $a2, %lo(D_80AD8DC4)  ## $a2 = 80AD8DC4
 /* 01418 80AD8B58 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 0141C 80AD8B5C 240703AC */  addiu   $a3, $zero, 0x03AC         ## $a3 = 000003AC
-/* 01420 80AD8B60 0C031AB1 */  jal     func_800C6AC4
+/* 01420 80AD8B60 0C031AB1 */  jal     Graph_OpenDisps
 /* 01424 80AD8B64 AFA50048 */  sw      $a1, 0x0048($sp)
 /* 01428 80AD8B68 8FAF0054 */  lw      $t7, 0x0054($sp)
 /* 0142C 80AD8B6C 0C024F46 */  jal     func_80093D18
@@ -54,11 +64,10 @@ glabel EnPoRelay_Draw
 /* 014C8 80AD8C08 24C68DD8 */  addiu   $a2, $a2, %lo(D_80AD8DD8)  ## $a2 = 80AD8DD8
 /* 014CC 80AD8C0C 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 014D0 80AD8C10 240703BA */  addiu   $a3, $zero, 0x03BA         ## $a3 = 000003BA
-/* 014D4 80AD8C14 0C031AD5 */  jal     func_800C6B54
+/* 014D4 80AD8C14 0C031AD5 */  jal     Graph_CloseDisps
 /* 014D8 80AD8C18 8D050000 */  lw      $a1, 0x0000($t0)           ## 00000000
 /* 014DC 80AD8C1C 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 014E0 80AD8C20 8FB00028 */  lw      $s0, 0x0028($sp)
 /* 014E4 80AD8C24 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 014E8 80AD8C28 03E00008 */  jr      $ra
 /* 014EC 80AD8C2C 00000000 */  nop
-

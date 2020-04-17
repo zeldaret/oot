@@ -10,5 +10,3 @@ glabel EnZl3_Destroy
 /* 000AC 80B5345C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000B0 80B53460 03E00008 */  jr      $ra                        
 /* 000B4 80B53464 00000000 */  nop
-
-

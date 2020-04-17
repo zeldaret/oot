@@ -1,3 +1,32 @@
+.rdata
+glabel D_809D1570
+    .asciz "../z_en_bw.c"
+    .balign 4
+
+glabel D_809D1580
+    .asciz "../z_en_bw.c"
+    .balign 4
+
+glabel D_809D1590
+    .asciz "../z_en_bw.c"
+    .balign 4
+
+.late_rodata
+glabel D_809D16CC
+ .word 0x48B71B00
+glabel D_809D16D0
+ .word 0x48127C00
+glabel D_809D16D4
+ .word 0x49064700
+glabel D_809D16D8
+ .word 0x3C54FDF4
+glabel D_809D16DC
+    .float 0.01
+
+glabel D_809D16E0
+    .float 1.3
+
+.text
 glabel EnBw_Draw
 /* 02858 809D0F38 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 0285C 809D0F3C 3C0F809D */  lui     $t7, %hi(D_809D1554)       ## $t7 = 809D0000
@@ -20,7 +49,7 @@ glabel EnBw_Draw
 /* 028A0 809D0F80 24C61570 */  addiu   $a2, $a2, %lo(D_809D1570)  ## $a2 = 809D1570
 /* 028A4 809D0F84 27A40080 */  addiu   $a0, $sp, 0x0080           ## $a0 = FFFFFFC8
 /* 028A8 809D0F88 2407058F */  addiu   $a3, $zero, 0x058F         ## $a3 = 0000058F
-/* 028AC 809D0F8C 0C031AB1 */  jal     func_800C6AC4
+/* 028AC 809D0F8C 0C031AB1 */  jal     Graph_OpenDisps
 /* 028B0 809D0F90 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 028B4 809D0F94 9209022F */  lbu     $t1, 0x022F($s0)           ## 0000022F
 /* 028B8 809D0F98 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF
@@ -313,7 +342,7 @@ glabel EnBw_Draw
 /* 02D24 809D1404 24C61590 */  addiu   $a2, $a2, %lo(D_809D1590)  ## $a2 = 809D1590
 /* 02D28 809D1408 27A40080 */  addiu   $a0, $sp, 0x0080           ## $a0 = FFFFFFC8
 /* 02D2C 809D140C 8E450000 */  lw      $a1, 0x0000($s2)           ## 00000000
-/* 02D30 809D1410 0C031AD5 */  jal     func_800C6B54
+/* 02D30 809D1410 0C031AD5 */  jal     Graph_CloseDisps
 /* 02D34 809D1414 240705F1 */  addiu   $a3, $zero, 0x05F1         ## $a3 = 000005F1
 /* 02D38 809D1418 8FBF0044 */  lw      $ra, 0x0044($sp)
 /* 02D3C 809D141C 8FB00038 */  lw      $s0, 0x0038($sp)
@@ -321,4 +350,3 @@ glabel EnBw_Draw
 /* 02D44 809D1424 8FB20040 */  lw      $s2, 0x0040($sp)
 /* 02D48 809D1428 03E00008 */  jr      $ra
 /* 02D4C 809D142C 27BD00B8 */  addiu   $sp, $sp, 0x00B8           ## $sp = 00000000
-

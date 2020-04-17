@@ -1,6 +1,5 @@
 #include "z_en_js.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnJs_Init(EnJs* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnJs_Draw(EnJs* this, GlobalContext* globalCtx);
 const ActorInit En_Js_InitVars = {
     ACTOR_EN_JS,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_JS,
     sizeof(EnJs),

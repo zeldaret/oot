@@ -1,3 +1,53 @@
+.rdata
+glabel D_80A1D110
+    .asciz "[41;37m"
+    .balign 4
+
+glabel D_80A1D11C
+    .asciz "%s[%d] : 引数が間違っている！！(%d)\n"
+    .balign 4
+
+glabel D_80A1D144
+    .asciz "../z_en_fr.c"
+    .balign 4
+
+glabel D_80A1D154
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80A1D158
+    .asciz "0"
+    .balign 4
+
+glabel D_80A1D15C
+    .asciz "../z_en_fr.c"
+    .balign 4
+
+glabel D_80A1D16C
+    .asciz "[41;37m"
+    .balign 4
+
+glabel D_80A1D178
+    .asciz "%s[%d] : バンクが無いよ！！\n"
+    .balign 4
+
+glabel D_80A1D198
+    .asciz "../z_en_fr.c"
+    .balign 4
+
+glabel D_80A1D1A8
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80A1D1AC
+    .asciz "0"
+    .balign 4
+
+glabel D_80A1D1B0
+    .asciz "../z_en_fr.c"
+    .balign 4
+
+.text
 glabel EnFr_Init
 /* 00114 80A1AAB4 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00118 80A1AAB8 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -101,5 +151,3 @@ glabel EnFr_Init
 /* 00260 80A1AC00 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00264 80A1AC04 03E00008 */  jr      $ra                        
 /* 00268 80A1AC08 00000000 */  nop
-
-

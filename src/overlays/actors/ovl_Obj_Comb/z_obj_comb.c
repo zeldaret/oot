@@ -6,7 +6,6 @@
 
 #include "z_obj_comb.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx);
@@ -22,7 +21,6 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx);
 const ActorInit Obj_Comb_InitVars = {
     ACTOR_OBJ_COMB,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjComb),
@@ -183,11 +181,11 @@ void ObjComb_Update(ObjComb* this, GlobalContext* globalCtx) {
 void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx) {
     s32 pad;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_obj_comb.c", 369);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_comb.c", 369);
     func_80093D18(globalCtx->state.gfxCtx);
 
     Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (118.0f * this->actor.scale.y),
@@ -204,5 +202,5 @@ void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx) {
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_050095B0);
 
     func_800628A4(0, &this->collider);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
 }

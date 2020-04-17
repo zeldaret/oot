@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A6854C
+    .asciz "En_HGC_Spot20_Ta_end():対応せず\n"
+    .balign 4
+
+.text
 glabel func_80A67CE4
 /* 00794 80A67CE4 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00798 80A67CE8 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -74,5 +80,3 @@ glabel func_80A67CE4
 /* 008A0 80A67DF0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 008A4 80A67DF4 03E00008 */  jr      $ra                        
 /* 008A8 80A67DF8 00000000 */  nop
-
-

@@ -1,3 +1,49 @@
+.late_rodata
+glabel D_80B7B788
+    .float 2500.0
+    
+
+glabel D_80B7B78C
+    .float 0.3
+    
+
+glabel D_80B7B790
+    .float 0.05
+    
+
+glabel D_80B7B794
+    .float 2500.0
+    
+
+glabel D_80B7B798
+    .float 0.3
+    
+
+glabel D_80B7B79C
+    .float 0.05
+    
+
+glabel D_80B7B7A0
+    .float 2500.0
+    
+
+glabel D_80B7B7A4
+    .float 0.3
+    
+
+glabel D_80B7B7A8
+    .float 0.05
+    
+
+glabel D_80B7B7AC
+    .float 0.8
+    
+
+glabel D_80B7B7B0
+    .float -9.99999974738e-05
+    
+
+.text
 glabel func_80B768FC
 /* 0CF5C 80B768FC 27BDFF00 */  addiu   $sp, $sp, 0xFF00           ## $sp = FFFFFF00
 /* 0CF60 80B76900 3C0E80B8 */  lui     $t6, %hi(D_80B7E114)       ## $t6 = 80B80000
@@ -620,5 +666,3 @@ glabel func_80B768FC
 /* 0D820 80B771C0 8FB70074 */  lw      $s7, 0x0074($sp)           
 /* 0D824 80B771C4 03E00008 */  jr      $ra                        
 /* 0D828 80B771C8 27BD0100 */  addiu   $sp, $sp, 0x0100           ## $sp = 00000000
-
-

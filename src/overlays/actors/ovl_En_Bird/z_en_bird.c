@@ -27,7 +27,6 @@ typedef struct {
     /* 0x01C2 */ char unk_1C2[0x1A];
 } EnBird; // size = 0x01C4
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnBird_Init(EnBird* this, GlobalContext* globalCtx);
@@ -43,7 +42,6 @@ void func_809C1CAC(EnBird* this, s16 params);
 const ActorInit En_Bird_InitVars = {
     ACTOR_EN_BIRD,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_BIRD,
     sizeof(EnBird),

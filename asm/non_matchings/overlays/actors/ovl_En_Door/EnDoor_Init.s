@@ -151,5 +151,3 @@ glabel EnDoor_Init
 /* 0020C 809FC3DC 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 00210 809FC3E0 03E00008 */  jr      $ra                        
 /* 00214 809FC3E4 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-

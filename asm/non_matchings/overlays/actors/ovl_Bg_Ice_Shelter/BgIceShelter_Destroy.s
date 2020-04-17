@@ -1,3 +1,12 @@
+.late_rodata
+glabel jtbl_808918C0
+.word L80890B5C
+.word L80890B5C
+.word L80890B40
+.word L80890B40
+.word L80890B5C
+
+.text
 glabel BgIceShelter_Destroy
 /* 003C4 80890B04 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 003C8 80890B08 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -40,5 +49,3 @@ glabel L80890B5C
 /* 00440 80890B80 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00444 80890B84 03E00008 */  jr      $ra                        
 /* 00448 80890B88 00000000 */  nop
-
-

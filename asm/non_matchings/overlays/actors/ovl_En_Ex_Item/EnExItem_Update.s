@@ -23,5 +23,3 @@ glabel EnExItem_Update
 /* 00C10 80A09AB0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00C14 80A09AB4 03E00008 */  jr      $ra                        
 /* 00C18 80A09AB8 00000000 */  nop
-
-

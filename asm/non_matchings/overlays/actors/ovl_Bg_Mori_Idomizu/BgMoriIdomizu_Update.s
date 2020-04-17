@@ -11,5 +11,3 @@ glabel BgMoriIdomizu_Update
 /* 00418 808A4A58 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0041C 808A4A5C 03E00008 */  jr      $ra                        
 /* 00420 808A4A60 00000000 */  nop
-
-

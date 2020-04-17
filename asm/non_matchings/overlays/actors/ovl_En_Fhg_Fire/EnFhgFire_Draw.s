@@ -1,3 +1,45 @@
+.rdata
+glabel D_80A11920
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A11934
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A11948
+    .asciz "yari hikari draw 1\n"
+    .balign 4
+
+glabel D_80A1195C
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A11970
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A11984
+    .asciz "FF DRAW 1\n"
+    .balign 4
+
+glabel D_80A11990
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A119A4
+    .asciz "FF DRAW 2\n"
+    .balign 4
+
+glabel D_80A119B0
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A11A04
+ .word 0x40490FF9, 0x00000000, 0x00000000
+
+.text
 glabel EnFhgFire_Draw
 /* 01ED8 80A11138 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 01EDC 80A1113C AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -9,7 +51,7 @@ glabel EnFhgFire_Draw
 /* 01EF4 80A11154 24C61920 */  addiu   $a2, $a2, %lo(D_80A11920)  ## $a2 = 80A11920
 /* 01EF8 80A11158 27A4009C */  addiu   $a0, $sp, 0x009C           ## $a0 = FFFFFFE4
 /* 01EFC 80A1115C 240706BB */  addiu   $a3, $zero, 0x06BB         ## $a3 = 000006BB
-/* 01F00 80A11160 0C031AB1 */  jal     func_800C6AC4              
+/* 01F00 80A11160 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01F04 80A11164 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 01F08 80A11168 8FA800B8 */  lw      $t0, 0x00B8($sp)           
 /* 01F0C 80A1116C 24010024 */  addiu   $at, $zero, 0x0024         ## $at = 00000024
@@ -402,7 +444,7 @@ glabel EnFhgFire_Draw
 /* 024E0 80A11740 24C619B0 */  addiu   $a2, $a2, %lo(D_80A119B0)  ## $a2 = 80A119B0
 /* 024E4 80A11744 27A4009C */  addiu   $a0, $sp, 0x009C           ## $a0 = FFFFFFE4
 /* 024E8 80A11748 2407076C */  addiu   $a3, $zero, 0x076C         ## $a3 = 0000076C
-/* 024EC 80A1174C 0C031AD5 */  jal     func_800C6B54              
+/* 024EC 80A1174C 0C031AD5 */  jal     Graph_CloseDisps              
 /* 024F0 80A11750 8D450000 */  lw      $a1, 0x0000($t2)           ## 00000000
 /* 024F4 80A11754 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 024F8 80A11758 8FB00038 */  lw      $s0, 0x0038($sp)           
@@ -411,4 +453,3 @@ glabel EnFhgFire_Draw
 /* 02504 80A11764 00000000 */  nop
 /* 02508 80A11768 00000000 */  nop
 /* 0250C 80A1176C 00000000 */  nop
-

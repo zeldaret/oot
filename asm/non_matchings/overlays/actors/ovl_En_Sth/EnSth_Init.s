@@ -1,3 +1,29 @@
+.rdata
+glabel D_80B0B4C0
+    .asciz "[34m金スタル屋 no = %d\n[m"
+    .balign 4
+
+glabel D_80B0B4DC
+    .asciz "金スタル屋 まだ 人間に戻れない \n"
+    .balign 4
+
+glabel D_80B0B500
+    .asciz "[34m金スタル屋 まだ 人間に戻れない \n[m"
+    .balign 4
+
+glabel D_80B0B52C
+    .asciz "bank_ID = %d\n"
+    .balign 4
+
+glabel D_80B0B53C
+    .asciz "0"
+    .balign 4
+
+glabel D_80B0B540
+    .asciz "../z_en_sth.c"
+    .balign 4
+
+.text
 glabel EnSth_Init
 /* 00008 80B07548 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0000C 80B0754C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -103,5 +129,3 @@ glabel EnSth_Init
 /* 00164 80B076A4 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00168 80B076A8 03E00008 */  jr      $ra                        
 /* 0016C 80B076AC 00000000 */  nop
-
-

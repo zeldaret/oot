@@ -1,3 +1,9 @@
+.rdata
+glabel D_80B52A30
+    .asciz "[31m En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel func_80B52114
 /* 03784 80B52114 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 03788 80B52118 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -40,5 +46,3 @@ glabel func_80B52114
 /* 03804 80B52194 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 03808 80B52198 03E00008 */  jr      $ra                        
 /* 0380C 80B5219C 00000000 */  nop
-
-

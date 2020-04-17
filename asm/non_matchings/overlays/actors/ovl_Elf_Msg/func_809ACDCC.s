@@ -11,5 +11,3 @@ glabel func_809ACDCC
 /* 002CC 809ACDEC 030F1023 */  subu    $v0, $t8, $t7              
 /* 002D0 809ACDF0 03E00008 */  jr      $ra                        
 /* 002D4 809ACDF4 00000000 */  nop
-
-

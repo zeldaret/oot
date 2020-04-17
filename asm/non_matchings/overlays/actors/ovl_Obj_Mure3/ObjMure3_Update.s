@@ -11,4 +11,3 @@ glabel ObjMure3_Update
 /* 006C4 80B9B094 00000000 */  nop
 /* 006C8 80B9B098 00000000 */  nop
 /* 006CC 80B9B09C 00000000 */  nop
-

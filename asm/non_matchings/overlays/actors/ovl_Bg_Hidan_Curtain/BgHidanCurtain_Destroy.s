@@ -10,5 +10,3 @@ glabel BgHidanCurtain_Destroy
 /* 00288 80885428 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0028C 8088542C 03E00008 */  jr      $ra                        
 /* 00290 80885430 00000000 */  nop
-
-

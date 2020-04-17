@@ -580,5 +580,3 @@ glabel L808DBAB0
 /* 05274 808DBAE4 8FB10048 */  lw      $s1, 0x0048($sp)
 /* 05278 808DBAE8 03E00008 */  jr      $ra
 /* 0527C 808DBAEC 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
-
-

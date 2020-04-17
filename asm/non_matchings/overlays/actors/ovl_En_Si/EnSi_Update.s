@@ -29,5 +29,3 @@ glabel EnSi_Update
 /* 003B8 80AFBA48 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 003BC 80AFBA4C 03E00008 */  jr      $ra                        
 /* 003C0 80AFBA50 00000000 */  nop
-
-

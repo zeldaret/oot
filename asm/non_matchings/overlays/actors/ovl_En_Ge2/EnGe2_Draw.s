@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A3441C
+    .asciz "../z_en_ge2.c"
+    .balign 4
+
+glabel D_80A3442C
+    .asciz "../z_en_ge2.c"
+    .balign 4
+
+.text
 glabel EnGe2_Draw
 /* 01610 80A341E0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 01614 80A341E4 AFB10028 */  sw      $s1, 0x0028($sp)
@@ -10,7 +20,7 @@ glabel EnGe2_Draw
 /* 01630 80A34200 24C6441C */  addiu   $a2, $a2, %lo(D_80A3441C)  ## $a2 = 80A3441C
 /* 01634 80A34204 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
 /* 01638 80A34208 240704FA */  addiu   $a3, $zero, 0x04FA         ## $a3 = 000004FA
-/* 0163C 80A3420C 0C031AB1 */  jal     func_800C6AC4
+/* 0163C 80A3420C 0C031AB1 */  jal     Graph_OpenDisps
 /* 01640 80A34210 AFA5004C */  sw      $a1, 0x004C($sp)
 /* 01644 80A34214 0C0250F2 */  jal     func_800943C8
 /* 01648 80A34218 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -59,7 +69,7 @@ glabel EnGe2_Draw
 /* 016F4 80A342C4 24C6442C */  addiu   $a2, $a2, %lo(D_80A3442C)  ## $a2 = 80A3442C
 /* 016F8 80A342C8 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
 /* 016FC 80A342CC 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 01700 80A342D0 0C031AD5 */  jal     func_800C6B54
+/* 01700 80A342D0 0C031AD5 */  jal     Graph_CloseDisps
 /* 01704 80A342D4 2407050B */  addiu   $a3, $zero, 0x050B         ## $a3 = 0000050B
 /* 01708 80A342D8 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 0170C 80A342DC 8FB00024 */  lw      $s0, 0x0024($sp)
@@ -67,4 +77,3 @@ glabel EnGe2_Draw
 /* 01714 80A342E4 03E00008 */  jr      $ra
 /* 01718 80A342E8 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 0171C 80A342EC 00000000 */  nop
-

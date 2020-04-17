@@ -15,5 +15,3 @@ glabel EnBdfire_Update
 /* 0088C 809BC8BC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00890 809BC8C0 03E00008 */  jr      $ra                        
 /* 00894 809BC8C4 00000000 */  nop
-
-

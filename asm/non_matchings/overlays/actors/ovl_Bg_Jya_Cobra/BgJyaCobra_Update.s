@@ -28,5 +28,3 @@ glabel BgJyaCobra_Update
 /* 013B8 80896CA8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 013BC 80896CAC 03E00008 */  jr      $ra                        
 /* 013C0 80896CB0 00000000 */  nop
-
-

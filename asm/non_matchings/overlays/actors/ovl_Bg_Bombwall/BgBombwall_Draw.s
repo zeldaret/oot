@@ -11,4 +11,3 @@ glabel BgBombwall_Draw
 /* 00744 8086EF14 03E00008 */  jr      $ra                        
 /* 00748 8086EF18 00000000 */  nop
 /* 0074C 8086EF1C 00000000 */  nop
-

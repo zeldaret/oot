@@ -1,3 +1,25 @@
+.rdata
+glabel D_80A4DF88
+    .asciz "Ｅｒｒｏｒ : arg_data が不正(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80A4DFC0
+    .asciz "../z_en_gr.c"
+    .balign 4
+
+glabel D_80A4DFD0
+    .asciz "Ｅｒｒｏｒ : レールデータ が不正(%s %d)\n"
+    .balign 4
+
+glabel D_80A4DFFC
+    .asciz "../z_en_gr.c"
+    .balign 4
+
+glabel D_80A4E00C
+    .asciz "(ごろ岩)(arg 0x%04x)(rail %d)(end %d)(bgc %d)(hit %d)\n"
+    .balign 4
+
+.text
 glabel EnGoroiwa_Init
 /* 01778 80A4D418 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0177C 80A4D41C AFB20028 */  sw      $s2, 0x0028($sp)           
@@ -113,5 +135,3 @@ glabel EnGoroiwa_Init
 /* 0190C 80A4D5AC 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 01910 80A4D5B0 03E00008 */  jr      $ra                        
 /* 01914 80A4D5B4 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

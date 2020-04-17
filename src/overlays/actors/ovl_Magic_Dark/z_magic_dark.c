@@ -1,6 +1,11 @@
+/*
+ * File: z_magic_dark.c
+ * Overlay: ovl_Magic_Dark
+ * Description: Nayru's Love
+ */
+
 #include "z_magic_dark.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
 void MagicDark_Init(MagicDark* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void MagicDark_Draw(MagicDark* this, GlobalContext* globalCtx);
 const ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(MagicDark),

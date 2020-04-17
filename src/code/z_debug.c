@@ -114,11 +114,12 @@ void func_8006390C(Input* input) {
     s32 i;
 
     regGroup = (gGameInfo->regGroup * REG_PAGES + gGameInfo->regPage) * REG_PER_PAGE - REG_PER_PAGE;
-    dpad = input->raw.pad & 0xF00;
-    if (!~(input->raw.pad | ~L_TRIG) || !~(input->raw.pad | ~R_TRIG) || !~(input->raw.pad | ~START_BUTTON)) {
+    dpad = input->cur.in.button & (U_JPAD | L_JPAD | R_JPAD | D_JPAD);
+    if (!~(input->cur.in.button | ~L_TRIG) || !~(input->cur.in.button | ~R_TRIG) ||
+        !~(input->cur.in.button | ~START_BUTTON)) {
         input_combo = inputCombos;
         for (i = 0; i < REG_GROUPS; i++) {
-            if (~(~input_combo->push | input->raw.pad) || ~(~input_combo->held | input->padPressed)) {
+            if (~(~input_combo->push | input->cur.in.button) || ~(~input_combo->held | input->press.in.button)) {
                 input_combo++;
             } else {
                 break;
@@ -154,16 +155,18 @@ void func_8006390C(Input* input) {
                     gGameInfo->dpadLast = dpad;
                 }
 
-                increment = (dpad & R_JPAD)
-                                ? (!~(input->raw.pad | ~(A_BUTTON | B_BUTTON))
-                                       ? 1000
-                                       : !~(input->raw.pad | ~A_BUTTON) ? 100 : !~(input->raw.pad | ~B_BUTTON) ? 10 : 1)
-                                : (dpad & L_JPAD) ? (!~(input->raw.pad | ~(A_BUTTON | B_BUTTON))
-                                                         ? -1000
-                                                         : !~(input->raw.pad | ~A_BUTTON)
-                                                               ? -100
-                                                               : !~(input->raw.pad | ~B_BUTTON) ? -10 : -1)
-                                                  : 0;
+                increment =
+                    (dpad & R_JPAD)
+                        ? (!~(input->cur.in.button | ~(A_BUTTON | B_BUTTON))
+                               ? 1000
+                               : !~(input->cur.in.button | ~A_BUTTON) ? 100
+                                                                      : !~(input->cur.in.button | ~B_BUTTON) ? 10 : 1)
+                        : (dpad & L_JPAD) ? (!~(input->cur.in.button | ~(A_BUTTON | B_BUTTON))
+                                                 ? -1000
+                                                 : !~(input->cur.in.button | ~A_BUTTON)
+                                                       ? -100
+                                                       : !~(input->cur.in.button | ~B_BUTTON) ? -10 : -1)
+                                          : 0;
 
                 gGameInfo->data[gGameInfo->regCur + regGroup] += increment;
                 if (dpad & U_JPAD) {
@@ -221,12 +224,12 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     void* unk2[6];
     GfxPrint gfxPrint;
     void* unk[2];
-    Gfx* dlFrame[4]; // stores state of GfxCtx next ptrs
+    Gfx* dispRefs[4]; // stores state of GfxCtx next ptrs
 
-    func_800C6AC4(&dlFrame, gfxCtx, "../z_debug.c", 628);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_debug.c", 628);
     GfxPrint_Ctor(&gfxPrint);
     sp78 = gfxCtx->polyOpa.p;
-    tempRet = func_800C6C20(gfxCtx->polyOpa.p);
+    tempRet = Graph_GfxPlusOne(gfxCtx->polyOpa.p);
     gSPDisplayList(gfxCtx->overlay.p++, tempRet);
     GfxPrint_Open(&gfxPrint, tempRet);
 
@@ -241,9 +244,9 @@ void func_80063D7C(GraphicsContext* gfxCtx) {
     D_8011E0B0 = 0;
     sp7C = GfxPrint_Close(&gfxPrint);
     gSPEndDisplayList(sp7C++);
-    func_800C6C28(sp78, sp7C);
+    Graph_BranchDlist(sp78, sp7C);
     gfxCtx->polyOpa.p = sp7C;
     if (0) {}
-    func_800C6B54(&dlFrame, gfxCtx, "../z_debug.c", 664);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_debug.c", 664);
     GfxPrint_Dtor(&gfxPrint);
 }

@@ -64,5 +64,3 @@ glabel MirRay_Update
 /* 00694 80B8D6E4 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00698 80B8D6E8 03E00008 */  jr      $ra                        
 /* 0069C 80B8D6EC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

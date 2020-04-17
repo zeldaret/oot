@@ -1,3 +1,9 @@
+/*
+ * File: z_player.c
+ * Overlay: ovl_player_actor
+ * Description: Link
+ */
+
 #include <ultra64.h>
 #include <global.h>
 

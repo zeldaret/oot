@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80A6D5A8
+ .word 0x3EAAAAAB
+glabel D_80A6D5AC
+    .float 0.2
+
+.text
 glabel func_80A6B30C
 /* 000BC 80A6B30C 8C820150 */  lw      $v0, 0x0150($a0)           ## 00000150
 /* 000C0 80A6B310 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
@@ -51,5 +58,3 @@ glabel func_80A6B30C
 /* 00174 80A6B3C4 C422D4C8 */  lwc1    $f2, %lo(D_80A6D4C8)($at)  
 /* 00178 80A6B3C8 03E00008 */  jr      $ra                        
 /* 0017C 80A6B3CC 46001006 */  mov.s   $f0, $f2                   
-
-

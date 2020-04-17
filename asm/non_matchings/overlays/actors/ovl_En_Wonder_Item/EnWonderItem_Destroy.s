@@ -18,5 +18,3 @@ glabel EnWonderItem_Destroy
 /* 00034 80B38094 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00038 80B38098 03E00008 */  jr      $ra                        
 /* 0003C 80B3809C 00000000 */  nop
-
-

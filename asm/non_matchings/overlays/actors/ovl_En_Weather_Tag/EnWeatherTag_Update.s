@@ -45,4 +45,3 @@ glabel EnWeatherTag_Update
 /* 00DF4 80B31E14 00000000 */  nop
 /* 00DF8 80B31E18 00000000 */  nop
 /* 00DFC 80B31E1C 00000000 */  nop
-

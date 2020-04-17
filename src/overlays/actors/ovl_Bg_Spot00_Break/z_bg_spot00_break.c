@@ -4,35 +4,25 @@
  * Description: Broken drawbridge in Hyrule Field.
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
+#include "z_bg_spot00_break.h"
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ u32 dynaPolyId;
-    /* 0x0150 */ char unk_150[0x14];
-} ActorSpot00Break; // size = 0x0164
-
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void Init(ActorSpot00Break* this, GlobalContext* globalCtx);
-static void Destroy(ActorSpot00Break* this, GlobalContext* globalCtx);
-static void Update(ActorSpot00Break* this, GlobalContext* globalCtx);
-static void Draw(ActorSpot00Break* this, GlobalContext* globalCtx);
+void BgSpot00Break_Init(BgSpot00Break* this, GlobalContext* globalCtx);
+void BgSpot00Break_Destroy(BgSpot00Break* this, GlobalContext* globalCtx);
+void BgSpot00Break_Update(BgSpot00Break* this, GlobalContext* globalCtx);
+void BgSpot00Break_Draw(BgSpot00Break* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot00_Break_InitVars = {
     ACTOR_BG_SPOT00_BREAK,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_SPOT00_BREAK,
-    sizeof(ActorSpot00Break),
-    (ActorFunc)Init,
-    (ActorFunc)Destroy,
-    (ActorFunc)Update,
-    (ActorFunc)Draw,
+    sizeof(BgSpot00Break),
+    (ActorFunc)BgSpot00Break_Init,
+    (ActorFunc)BgSpot00Break_Destroy,
+    (ActorFunc)BgSpot00Break_Update,
+    (ActorFunc)BgSpot00Break_Draw,
 };
 
 static InitChainEntry initChain[] = {
@@ -47,7 +37,7 @@ extern D_06000908; // segmented address: 0x06000908
 extern D_06000980; // segmented address: 0x06000980
 extern D_06000440; // segmented address: 0x06000440
 
-static void Init(ActorSpot00Break* this, GlobalContext* globalCtx) {
+void BgSpot00Break_Init(BgSpot00Break* this, GlobalContext* globalCtx) {
     s32 pad[2];
     u32 local_c = 0;
 
@@ -67,14 +57,14 @@ static void Init(ActorSpot00Break* this, GlobalContext* globalCtx) {
     }
 }
 
-static void Destroy(ActorSpot00Break* this, GlobalContext* globalCtx) {
+void BgSpot00Break_Destroy(BgSpot00Break* this, GlobalContext* globalCtx) {
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
-static void Update(ActorSpot00Break* this, GlobalContext* globalCtx) {
+void BgSpot00Break_Update(BgSpot00Break* this, GlobalContext* globalCtx) {
 }
 
-static void Draw(ActorSpot00Break* this, GlobalContext* globalCtx) {
+void BgSpot00Break_Draw(BgSpot00Break* this, GlobalContext* globalCtx) {
     if (this->actor.params == 1) {
         Gfx_DrawDListOpa(globalCtx, &D_06000980);
     } else {
