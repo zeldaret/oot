@@ -276,7 +276,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ char unk_00[0x04];
     /* 0x04 */ Actor* actor;
-    /* 0x08 */ void* unk_08;
+    /* 0x08 */ void* unk_08; // Struct800417A0*
     /* 0x0C */ char  unk_0C[0x0C];
     /* 0x18 */ Vec3f scale1;
     /* 0x24 */ Vec3s rot1;

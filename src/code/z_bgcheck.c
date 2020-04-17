@@ -298,29 +298,24 @@ void func_8003E954(u32 uParm1, u8* puParm2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041648.s")
 
+typedef struct {
+    /* 0x00 */ char  unk_00[0x10];
+    /* 0x10 */ void* unk_10;
+    /* 0x14 */ char  unk_[0x04];
+    /* 0x18 */ void* unk_18;
+    /* 0x1C */ void* unk_1C;
+    /* 0x20 */ void* unk_20;
+    /* 0x24 */ char  unk_24[4];
+    /* 0x28 */ void* unk_28;
+} Struct800417A0; // size = 0x32
+
 // called by func_800418D0 with actorMesh->unk_08
-void func_800417A0(void* arg0) {
-    s32 v10, v18, v1C, v20, v28, i;
-
-    v10 = *((s32*)(&((u8*)arg0)[0x10]));
-    i = (u32)(v10 << 4) >> 0x1C;
-    *((s32*)(&((u8*)arg0)[0x10])) = (s32)((gSegments[i] + (v10 & 0xFFFFFF)) + 0x80000000);
-
-    v18 = *((s32*)(&((u8*)arg0)[0x18]));
-    i = (u32)(v18 << 4) >> 0x1C;
-    *((s32*)(&((u8*)arg0)[0x18])) = (s32)((gSegments[i] + (v18 & 0xFFFFFF)) + 0x80000000);
-
-    v1C = *((s32*)(&((u8*)arg0)[0x1C]));
-    i = (u32)(v1C << 4) >> 0x1C;
-    *((s32*)(&((u8*)arg0)[0x1C])) = (s32)((gSegments[i] + (v1C & 0xFFFFFF)) + 0x80000000);
-
-    v20 = *((s32*)(&((u8*)arg0)[0x20]));
-    i = (u32)(v20 << 4) >> 0x1C;
-    *((s32*)(&((u8*)arg0)[0x20])) = (s32)((gSegments[i] + (v20 & 0xFFFFFF)) + 0x80000000);
-
-    v28 = *((s32*)(&((u8*)arg0)[0x28]));
-    i = (u32)(v28 << 4) >> 0x1C;
-    *((s32*)(&((u8*)arg0)[0x28])) = (s32)((gSegments[i] + (v28 & 0xFFFFFF)) + 0x80000000);
+void func_800417A0(Struct800417A0* arg0) {
+    arg0->unk_10 = SEGMENTED_TO_VIRTUAL(arg0->unk_10);
+    arg0->unk_18 = SEGMENTED_TO_VIRTUAL(arg0->unk_18);
+    arg0->unk_1C = SEGMENTED_TO_VIRTUAL(arg0->unk_1C);
+    arg0->unk_20 = SEGMENTED_TO_VIRTUAL(arg0->unk_20);
+    arg0->unk_28 = SEGMENTED_TO_VIRTUAL(arg0->unk_28);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041880.s")
