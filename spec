@@ -536,7 +536,7 @@ beginseg
     include "build/asm/code_80103010.o"
     include "build/src/libultra_code/sqrtf.o"
     include "build/asm/code_801031F0.o"
-    include "build/src/libultra_code/code_80103B30.o"
+    include "build/src/libultra_code/sp.o"
     include "build/asm/code_80103B60.o"
     include "build/asm/code_80103BB0.o"
     include "build/data/code_80103BB0.data.o"

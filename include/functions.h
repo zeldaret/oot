@@ -2380,7 +2380,7 @@ void func_80101E34(MtxF*, f32, f32, f32, f32, f32, f32, f32, f32, f32);
 // ? func_801032B0(?);
 void func_80103A70(UNK_PTR, Gfx*, Hilite*, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32,
                    s32, s32);
-// ? func_80103B30(?);
+// ? __osSpDeviceBusy(?);
 // ? func_80103B60(?);
 // ? func_80103BB0(?);
 void func_80103D58(Mtx*, f32, f32, f32, f32, f32, f32, f32);
