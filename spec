@@ -542,7 +542,7 @@ beginseg
     include "build/data/code_80103BB0.data.o"
     include "build/asm/code_80103DC0.o"
     include "build/data/code_80103DC0.data.o"
-    include "build/src/libultra_code/code_80104140.o"
+    include "build/src/libultra_code/__osGetActiveQueue.o"
     include "build/asm/code_80104160.o"
     include "build/data/code_80104610.rodata.o"
     include "build/src/libultra_code/osDpGetStatus.o"

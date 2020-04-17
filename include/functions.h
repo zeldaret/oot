@@ -2388,7 +2388,7 @@ void func_80103D58(Mtx*, f32, f32, f32, f32, f32, f32, f32);
 // ? func_80103E20(?);
 // ? func_80103FA4(?);
 // ? func_80103FF0(?);
-// ? func_80104140(?);
+// ? __osGetActiveQueue(?);
 // ? func_80104160(?);
 u32 osDpGetStatus(void);
 void osDpSetStatus(u32 status);
