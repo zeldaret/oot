@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-u32* func_80106760() {
+u32* osViGetCurrentFramebuffer() {
     register u32 sMask = __osDisableInt();
     u32* var1;
 
