@@ -47,7 +47,7 @@ void BgHidanSyoku_Init(BgHidanSyoku* this, GlobalContext* globalCtx) {
     this->dyna.actor.initPosRot.pos.y += 540.0f;
 }
 
-static void Destroy(BgHidanSyoku* this, GlobalContext* globalCtx) {
+void BgHidanSyoku_Destroy(BgHidanSyoku* this, GlobalContext* globalCtx) {
     func_8003ED58(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
