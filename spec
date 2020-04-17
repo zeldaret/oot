@@ -569,7 +569,7 @@ beginseg
     include "build/src/libultra_code/__osSpGetStatus.o"
     include "build/src/libultra_code/__osSpSetStatus.o"
     include "build/asm/osWritebackDCacheAll.o"
-    include "build/src/libultra_code/code_801064C0.o"
+    include "build/src/libultra_code/__osGetCurrFaultedThread.o"
     include "build/asm/code_801064E0.o"
     include "build/asm/code_80106550.o"
     include "build/data/code_80106550.rodata.o"
