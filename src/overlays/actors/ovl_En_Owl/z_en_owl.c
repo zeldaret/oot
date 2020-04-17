@@ -1248,7 +1248,7 @@ s32 func_80ACC624(EnOwl* this, GlobalContext* globalCtx)
 void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx)
 {
     u32 phi_v0;
-    s16 phi_a1;
+    s32 phi_a1;
     s16 phi_return;
     AnimationHeader* curAnim;
     f32 curAnimFrame;
@@ -1264,7 +1264,7 @@ void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx)
         osSyncPrintf("フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"); // Owl disappears !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         return;
     }
-    if ((this->actionFlags & 0x80) == 0 && func_80ACC624(this, globalCtx) != 0)
+    if (!(this->actionFlags & 0x80) && func_80ACC624(this, globalCtx))
     {
         curAnim = this->skelAnime.animCurrentSeg;
         curAnimFrame = this->skelAnime.animCurrentFrame;
@@ -1323,7 +1323,7 @@ void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx)
                     this->unk_405--;
                     if (this->unk_405 != 0)
                     {
-                        phi_a1 = Math_Coss(this->unk_405 * 8192) * 4096.0f;
+                        phi_a1 = (s16)(Math_Coss(this->unk_405 * 8192) * 4096.0f);
                     }
                     else
                     {
@@ -1337,7 +1337,7 @@ void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx)
                         }
                         if ((this->actionFlags & 0x20) != 0)
                         {
-                            this->unk_3EE -=4;
+                            this->unk_3EE -= 4;
                         }
                         else
                         {
@@ -1345,7 +1345,6 @@ void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx)
                         }
                         this->unk_404++;
                     }
-                    phi_a1 = phi_a1;
                     if ((this->actionFlags & 0x20) != 0)
                     {
                         phi_a1 = -phi_a1;
@@ -1489,7 +1488,7 @@ void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx)
 #define NON_MATCHING
 
 // "mtxUpdate"
-s32 EnOwl_PreDrawLimb(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f* pos, Vec3s* rot, Actor* actor)
+s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f* pos, Vec3s* rot, Actor* actor)
 {
     EnOwl* this = (EnOwl*)actor;
     switch(limbIndex){
@@ -1520,7 +1519,7 @@ s32 EnOwl_PreDrawLimb(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f*
 }
 
 // "appendDList"
-void EnOwl_PostDrawLimb(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3s* rot, Actor* actor)
+void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3s* rot, Actor* actor)
 {
     EnOwl* this = (EnOwl*)actor;
     Vec3f vec;
@@ -1554,7 +1553,7 @@ void EnOwl_Draw(EnOwl* this, GlobalContext* globalCtx)
     func_800C6AC4(gfx, globalCtx->state.gfxCtx, D_FN1, 2247);
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 8, SEGMENTED_TO_VIRTUAL(dLists[this->curDlistIdx + 1]));
-    SkelAnime_DrawSV(globalCtx, this->curSkelAnime->skeleton, this->curSkelAnime->actorDrawTbl, this->curSkelAnime->dListCount, &EnOwl_PreDrawLimb, &EnOwl_PostDrawLimb, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->curSkelAnime->skeleton, this->curSkelAnime->actorDrawTbl, this->curSkelAnime->dListCount, &EnOwl_OverrideLimbDraw, &EnOwl_PostLimbUpdate, &this->actor);
     func_800C6B54(gfx, globalCtx->state.gfxCtx, D_FN2, 2264);
 }
 
@@ -1569,9 +1568,7 @@ void EnOwl_ChangeMode(EnOwl *this, ActorFunc actionFunc, OwlFunc arg2, SkelAnime
 void func_80ACD130(EnOwl* this, GlobalContext* globalCtx, s32 idx)
 {
     Vec3f startPos;
-    CsCmdActorAction  *temp_v0;
 
-    temp_v0 = globalCtx->csCtx.actorActions[idx];
     startPos.x = globalCtx->csCtx.actorActions[idx]->startPos.x;
     startPos.y = globalCtx->csCtx.actorActions[idx]->startPos.y;
     startPos.z = globalCtx->csCtx.actorActions[idx]->startPos.z;
@@ -1585,7 +1582,7 @@ f32 func_80ACD1C4(GlobalContext* globalCtx, s32 idx)
     f32 ret;
 
     ret = func_8006F93C(globalCtx->csCtx.actorActions[idx]->endFrame, globalCtx->csCtx.actorActions[idx]->startFrame, globalCtx->csCtx.frames);
-    if (1.0f < ret)
+    if (ret > 1.0f)
     {
         ret = 1.0f;
     }
@@ -1623,7 +1620,7 @@ void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx)
     }
     angle = (s16)((t * angle) + this->actor.posRot.rot.z);
     angle = (u16)angle;
-    if ((this->actionFlags & 4) != 0)
+    if (this->actionFlags)
     {
         phi_f2 = globalCtx->csCtx.actorActions[7]->roll;
         phi_f2 *= 0.054931640625f;
