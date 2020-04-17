@@ -21,7 +21,7 @@ void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx);
 void EnOwl_Destroy(EnOwl* this, GlobalContext* globalCtx);
 void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx);
 void EnOwl_Draw(EnOwl* this, GlobalContext* globalCtx);
-
+#define NON_MATCHING
 const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
     ACTORTYPE_NPC,
@@ -153,7 +153,7 @@ void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx)
         // In front of kakariko
         case OWL_KAKARIKO:
             // has zelda's letter
-            if(gSaveContext.event_chk_inf[4] & 1){
+            if(gSaveContext.eventChkInf[4] & 1){
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
                 Actor_Kill(&this->actor);
                 return;
@@ -164,7 +164,7 @@ void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx)
         // Between Lake Hylia and Gerudo Valley
         case OWL_HYLIA_GERUDO:
             // has ocarina of time
-            if(gSaveContext.event_chk_inf[4] & 8){
+            if(gSaveContext.eventChkInf[4] & 8){
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
                 Actor_Kill(&this->actor);
                 return;
@@ -178,8 +178,8 @@ void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx)
         // unknown
         case OWL_ZORA_RIVER:
             // opened zora's domain or has zelda's letter
-            if((gSaveContext.event_chk_inf[3] & 0x200) ||
-            (gSaveContext.event_chk_inf[4] & 1) == 0){
+            if((gSaveContext.eventChkInf[3] & 0x200) ||
+            (gSaveContext.eventChkInf[4] & 1) == 0){
                 osSyncPrintf("フクロウ退避\n"); // Owl evacuation
                 Actor_Kill(&this->actor);
                 return;
@@ -423,7 +423,7 @@ void EnOwl_WaitOutsideKokiri(EnOwl* this, GlobalContext* globalCtx)
 
         this->actionFunc = &EnOwl_ConfirmKokiriMessage;
         // spoke to owl by lost woods
-        gSaveContext.event_chk_inf[6] |= 0x8000;
+        gSaveContext.eventChkInf[6] |= 0x8000;
     }
 }
 
@@ -485,7 +485,7 @@ void func_80ACAB88(EnOwl* this, GlobalContext* globalCtx)
         switch(globalCtx->msgCtx.choiceIndex){
             case 0:
                 // obtained zelda's letter
-                if (gSaveContext.event_chk_inf[4] & 1)
+                if (gSaveContext.eventChkInf[4] & 1)
                 {
                     func_8010B720(globalCtx, 0x206D);
                 }
@@ -662,7 +662,7 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx)
 {
     u16 textId;
     // Spoke to Owl in Lake Hylia
-    if ((gSaveContext.inf_table[25] & 0x20) != 0)
+    if ((gSaveContext.infTable[25] & 0x20) != 0)
     {
         textId = 0x4004;
     }
@@ -673,7 +673,7 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx)
     EnOwl_LookAtLink(this, globalCtx);
     if (func_80ACA558(this, globalCtx, textId) != 0)
     {
-        gSaveContext.inf_table[25] |= 0x20;
+        gSaveContext.infTable[25] |= 0x20;
         func_800F5C64(0x5A);
         this->actionFunc = &func_80ACB148;
 
@@ -702,7 +702,7 @@ void func_80ACB274(EnOwl* this, GlobalContext* globalCtx)
 void EnOwl_WaitDeathMountainShortcut(EnOwl* this, GlobalContext* globalCtx)
 {
     EnOwl_LookAtLink(this, globalCtx);
-    if (!gSaveContext.magic_acquired)
+    if (!gSaveContext.magicAcquired)
     {
         if (func_80ACA558(this, globalCtx, 0x3062) != 0)
         {
@@ -1096,7 +1096,7 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx)
             }
 
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-            gSaveContext.cutscene_trigger = 1;
+            gSaveContext.cutsceneTrigger = 1;
             func_800F44EC(0x14, 0xA);
             this->actionFunc = &EnOwl_WaitDefault;
             this->unk_40A = 0;
@@ -1168,7 +1168,7 @@ void func_80ACC390(EnOwl* this)
     }else {
         this->unk_410 = &func_80ACC460;
         this->unk_3FE = 6;
-        SkelAnime_ChangeAnimation(this->curSkelAnime, &D_060015CC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060015CC.genericHeader), 2, 5.0f);
+        SkelAnime_ChangeAnim(this->curSkelAnime, &D_060015CC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060015CC.genericHeader), 2, 5.0f);
     }
 }
 
@@ -1179,12 +1179,12 @@ void func_80ACC460(EnOwl* this)
         if (this->unk_3FE > 0)
         {
             this->unk_3FE--;
-            SkelAnime_ChangeAnimation(this->curSkelAnime, this->curSkelAnime->animCurrentSeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(this->curSkelAnime->animCurrentSeg), 2, 0.0f);
+            SkelAnime_ChangeAnim(this->curSkelAnime, this->curSkelAnime->animCurrentSeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(this->curSkelAnime->animCurrentSeg), 2, 0.0f);
         }
         else {
             this->unk_3FE = 0xA0;
             this->unk_410 = &func_80ACC390;
-            SkelAnime_ChangeAnimation(this->curSkelAnime, &D_0600C1C4, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&D_0600C1C4.genericHeader), 0, 5.0f);
+            SkelAnime_ChangeAnim(this->curSkelAnime, &D_0600C1C4, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&D_0600C1C4.genericHeader), 0, 5.0f);
         }
     }
 }
@@ -1193,7 +1193,7 @@ void func_80ACC540(EnOwl* this)
 {
     if (SkelAnime_FrameUpdateMatrix(this->curSkelAnime) != 0)
     {
-        SkelAnime_ChangeAnimation(this->curSkelAnime, this->curSkelAnime->animCurrentSeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(this->curSkelAnime->animCurrentSeg), 2, 0.0f);
+        SkelAnime_ChangeAnim(this->curSkelAnime, this->curSkelAnime->animCurrentSeg, 1.0f, 0.0f, SkelAnime_GetFrameCount(this->curSkelAnime->animCurrentSeg), 2, 0.0f);
         this->actionFlags |= 1;
         return;
     }
@@ -1561,7 +1561,7 @@ void EnOwl_Draw(EnOwl* this, GlobalContext* globalCtx)
 void EnOwl_ChangeMode(EnOwl *this, ActorFunc actionFunc, OwlFunc arg2, SkelAnime* skelAnime, AnimationHeader* animation, f32 transitionRate)
 {
     this->curSkelAnime = skelAnime;
-    SkelAnime_ChangeAnimation(this->curSkelAnime, animation, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&animation->genericHeader), 2, transitionRate);
+    SkelAnime_ChangeAnim(this->curSkelAnime, animation, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&animation->genericHeader), 2, transitionRate);
     this->actionFunc = actionFunc;
     this->unk_410 = arg2;
 }
