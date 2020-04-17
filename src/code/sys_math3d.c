@@ -28,7 +28,7 @@ void Math3D_LineVsPos(Linef* line, Vec3f* pos, Vec3f* ret) {
     f32 temp_ret;
     f32 temp_f0;
 
-    temp_ret = Math3D_Vec3f_HadamardProduct(&line->b);
+    temp_ret = func_800CB600(&line->b);
     if (fabsf(temp_ret) < 0.008f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n"); // Math3D_lineVsPosSuisenCross(): No
@@ -110,11 +110,11 @@ void func_800CAFA0(Vec3f* v0, Vec3f* v1, f32 arg2, Vec3f* ret) {
 f32 Math3D_DotProduct(Vec3f* vec1, Vec3f* vec2) {
     f32 ret;
 
-    Math3D_CalcDotProduct(vec1, vec2, &ret);
+    func_800CB010(vec1, vec2, &ret);
     return ret;
 }
 
-s32 Math3D_CalcDotProduct(Vec3f* vec1, Vec3f* vec2, f32* dst) {
+s32 func_800CB010(Vec3f* vec1, Vec3f* vec2, f32* dst) {
     f32 magProduct;
 
     magProduct = Math3D_Vec3fMagnitude(vec1) * Math3D_Vec3fMagnitude(vec2);
@@ -242,23 +242,23 @@ f32 func_800CB594(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
     func_800CB55C(arg0 - arg2, arg1 - arg3);
 }
 
-f32 func_800CB5D8(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
+f32 Math3D_Dist2D(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
     return sqrtf(func_800CB594(arg0, arg1, arg2, arg3));
 }
 
-f32 Math3D_Vec3f_HadamardProduct(Vec3f* vec) {
+f32 func_800CB600(Vec3f* vec) {
     return SQ(vec->x) + SQ(vec->y) + SQ(vec->z);
 }
 
 f32 Math3D_Vec3fMagnitude(Vec3f* vec) {
-    return sqrt(Math3D_Vec3f_HadamardProduct(vec));
+    return sqrt(func_800CB600(vec));
 }
 
 f32 func_800CB650(Vec3f* a, Vec3f* b) {
     Vec3f diff;
 
     Math_Vec3f_Diff(a, b, &diff);
-    return Math3D_Vec3f_HadamardProduct(&diff);
+    return func_800CB600(&diff);
 }
 
 /*
