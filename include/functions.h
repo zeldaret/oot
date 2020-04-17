@@ -125,7 +125,7 @@ void* memcpy(void* dst, const void* src, size_t size);
 void osInvalICache(void* vaddr, s32 nbytes);
 void osCreateMesgQueue(OSMesgQueue* mq, OSMesg* msg, s32 count);
 void osInvalDCache(void* vaddr, s32 nbytes);
-u32 __osSiDeviceBusy();
+s32 __osSiDeviceBusy();
 void osSetThreadPri(OSThread* thread, OSPri pri);
 OSPri osGetThreadPri(OSThread* thread);
 s32 __osEPiRawReadIo(OSPiHandle* handle, u32 devAddr, u32* data);
@@ -2364,7 +2364,7 @@ void func_80101E34(Mtx*, f32, f32, f32, f32, f32, f32, f32, f32, f32);
 // ? func_80102FA0(?);
 // ? func_80103010(?);
 // ? func_801031F0(?);
-// ? func_80103210(?);
+// ? osContStartQuery(?);
 // ? func_8010328C(?);
 // ? func_801032B0(?);
 void func_80103A70(UNK_PTR, Gfx*, Hilite*, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32,
