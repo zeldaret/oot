@@ -3885,7 +3885,7 @@ Gfx* func_80034B54(GraphicsContext* gfxCtx) {
 #endif
 
 void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
-                   PostLimbUpdate2 postLimbUpdate, Actor* actor, s16 alpha) {
+                   PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
@@ -3899,13 +3899,13 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, func_80034B28(globalCtx->state.gfxCtx));
 
     gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          overrideLimbDraw, postLimbUpdate, actor, gfxCtx->polyOpa.p);
+                                          overrideLimbDraw, postLimbDraw, actor, gfxCtx->polyOpa.p);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 8860);
 }
 
 void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
-                   PostLimbUpdate2 postLimbUpdate, Actor* actor, s16 alpha) {
+                   PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
@@ -3918,7 +3918,7 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, func_80034B54(globalCtx->state.gfxCtx));
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          overrideLimbDraw, postLimbUpdate, actor, gfxCtx->polyXlu.p);
+                                          overrideLimbDraw, postLimbDraw, actor, gfxCtx->polyXlu.p);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 8904);
 }
