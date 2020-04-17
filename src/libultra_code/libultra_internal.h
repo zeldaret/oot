@@ -43,4 +43,6 @@ s32 __osAiDeviceBusy();
 void __osDispatchThread();
 u32 __osGetCause();
 s32 __osAtomicDec(u32*);
+signed short sins(unsigned short x);
+signed short coss(unsigned short x);
 #endif

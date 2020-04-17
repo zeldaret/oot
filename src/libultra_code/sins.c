@@ -1,7 +1,7 @@
 #include "guint.h"
 #include "sintable.h"
 
-signed short sins( unsigned short x )
+signed short sins(unsigned short x)
 {
 	/* 0 <= x < 0x10000  ==>  0 <= x < 2PI */
 
