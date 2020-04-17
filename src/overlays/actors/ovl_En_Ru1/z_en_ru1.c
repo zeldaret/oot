@@ -88,8 +88,9 @@ u32 D_80AF0870[] = {
     0x0600E838,
     0x0600FA38,
     0x06010638,
-    0x00000000,
 };
+
+s32 D_80AF087C = 0;
 
 #include "z_en_ru1_cutscene_data.c"
 
@@ -207,14 +208,14 @@ void func_80AEADD8(EnRu1* this) {
     this->unk_34C = 0;
 }
 
-s32 func_80AEADE0(EnRu1* this) {
-    s32 params = this->actor.params >> 8;
-    return params & 0xFF;
+u8 func_80AEADE0(EnRu1* this) {
+    u8 params = this->actor.params >> 8;
+    return params;
 }
 
-s32 func_80AEADF0(EnRu1* this) {
+u8 func_80AEADF0(EnRu1* this) {
     s16 params = this->actor.params;
-    return params & 0xFF;
+    return params;
 }
 
 void EnRu1_Destroy(EnRu1* this, GlobalContext* globalCtx) {
@@ -226,7 +227,7 @@ void func_80AEAE1C(EnRu1* this) {
     s16* unk_25E = &this->unk_25E;
     s16* unk_25C = &this->unk_25C;
 
-    if (!DECR(*unk_25E)) {
+    if (DECR(*unk_25E) == 0) {
         *unk_25E = Math_Rand_S16Offset(0x3C, 0x3C);
     }
 
@@ -287,15 +288,19 @@ s32 func_80AEAFE0(GlobalContext* globalCtx, u16 action, s32 actorActionIdx) {
 }
 
 s32 func_80AEB020(EnRu1* this, GlobalContext* globalCtx) {
-    EnRu1* actorIt = globalCtx->actorCtx.actorList[ACTORTYPE_NPC].first;
+    Actor* actorIt = globalCtx->actorCtx.actorList[ACTORTYPE_NPC].first;
+    EnRu1* someEnRu1;
 
     while (actorIt != NULL) {
-        if ((actorIt->actor.id == ACTOR_EN_RU1) && (actorIt != this)) {
-            if (actorIt->action == 31 || actorIt->action == 32 || actorIt->action == 24) {
-                return 1;
+        if (actorIt->id == ACTOR_EN_RU1) {
+            someEnRu1 = actorIt;
+            if (someEnRu1 != this) {
+                if ((someEnRu1->action == 31) || (someEnRu1->action == 32) || (someEnRu1->action == 24)) {
+                    return 1;
+                }
             }
         }
-        actorIt = actorIt->actor.next;
+        actorIt = actorIt->next;
     }
     return 0;
 }
@@ -1304,17 +1309,15 @@ void func_80AED8DC(EnRu1* this) {
     s16* unk_29E = &this->unk_29E;
     s32 pad[2];
 
-    if (!DECR(*unk_2AC)) {
+    if (DECR(*unk_2AC) == 0) {
         *unk_2AC = Math_Rand_S16Offset(0xA, 0x19);
         temp_hi = *unk_2AC % 5;
         if (temp_hi == 0) {
             this->unk_2B0 = 1;
+        } else if (temp_hi == 1) {
+            this->unk_2B0 = 2;
         } else {
-            if (temp_hi == 1) {
-                this->unk_2B0 = 2;
-            } else {
-                this->unk_2B0 = 0;
-            }
+            this->unk_2B0 = 0;
         }
         *unk_29E = 0;
     }
@@ -1522,14 +1525,12 @@ s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
         if ((gSaveContext.infTable[20] & 8)) {
             thisx->textId = 0x404E;
             func_8002F2F4(thisx, globalCtx);
+        } else if (gSaveContext.infTable[20] & 4) {
+            thisx->textId = 0x404D;
+            func_8002F2F4(thisx, globalCtx);
         } else {
-            if ((gSaveContext.infTable[20] & 4)) {
-                thisx->textId = 0x404D;
-                func_8002F2F4(thisx, globalCtx);
-            } else {
-                thisx->textId = 0x404C;
-                func_8002F2F4(thisx, globalCtx);
-            }
+            thisx->textId = 0x404C;
+            func_8002F2F4(thisx, globalCtx);
         }
         return 0;
     }
@@ -2159,13 +2160,11 @@ void func_80AEFD38(EnRu1* this, GlobalContext* globalCtx) {
 
 s32 func_80AEFDC0(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    s16 temp_ret;
 
     if (!func_8002F194(thisx, globalCtx)) {
         thisx->flags |= 9;
-        temp_ret = Text_GetFaceReaction(globalCtx, 0x1F);
-        thisx->textId = temp_ret;
-        if ((temp_ret & 0xFFFF) == 0) {
+        thisx->textId = Text_GetFaceReaction(globalCtx, 0x1F);
+        if (thisx->textId == 0) {
             thisx->textId = 0x402C;
         }
         func_8002F2F4(thisx, globalCtx);
