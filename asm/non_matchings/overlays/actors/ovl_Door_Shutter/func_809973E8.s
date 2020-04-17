@@ -51,7 +51,7 @@ glabel func_809973E8
               
 /* 011FC 8099749C 2405281D */  addiu   $a1, $zero, 0x281D         ## $a1 = 0000281D
 /* 01200 809974A0 8FA4004C */  lw      $a0, 0x004C($sp)           
-/* 01204 809974A4 0C030129 */  jal     func_800C04A4              
+/* 01204 809974A4 0C030129 */  jal     Gameplay_GetCamera              
 /* 01208 809974A8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0120C 809974AC 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 01210 809974B0 0C024BE2 */  jal     Quake_Add              

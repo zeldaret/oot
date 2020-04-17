@@ -4,8 +4,6 @@
 #include <ultra64.h>
 #include <global.h>
 
-#include "../ovl_En_Bom_Bowl_Man/z_en_bom_bowl_man.h"
-
 typedef struct {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ActorFunc actionFunc;

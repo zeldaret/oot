@@ -754,16 +754,16 @@ glabel EnClearTag_Update
 /* 01088 809D4638 8FA400CC */  lw      $a0, 0x00CC($sp)           
 /* 0108C 809D463C 0C019148 */  jal     func_80064520              
 /* 01090 809D4640 24851D64 */  addiu   $a1, $a0, 0x1D64           ## $a1 = 00001D64
-/* 01094 809D4644 0C03008C */  jal     func_800C0230              
+/* 01094 809D4644 0C03008C */  jal     Gameplay_CreateSubCamera              
 /* 01098 809D4648 8FA400CC */  lw      $a0, 0x00CC($sp)           
 /* 0109C 809D464C A62201E2 */  sh      $v0, 0x01E2($s1)           ## 000001E2
 /* 010A0 809D4650 8FA400CC */  lw      $a0, 0x00CC($sp)           
 /* 010A4 809D4654 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 010A8 809D4658 0C0300C5 */  jal     func_800C0314              
+/* 010A8 809D4658 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 010AC 809D465C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 010B0 809D4660 8FA400CC */  lw      $a0, 0x00CC($sp)           
 /* 010B4 809D4664 862501E2 */  lh      $a1, 0x01E2($s1)           ## 000001E2
-/* 010B8 809D4668 0C0300C5 */  jal     func_800C0314              
+/* 010B8 809D4668 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 010BC 809D466C 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 010C0 809D4670 9230017C */  lbu     $s0, 0x017C($s1)           ## 0000017C
 .L809D4674:

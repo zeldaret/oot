@@ -12,7 +12,7 @@ glabel D_80144738
     .balign 4
 
 .text
-glabel func_800BEDD8
+glabel Gameplay_Draw
 /* B35F78 800BEDD8 27BDFDD0 */  addiu $sp, $sp, -0x230
 /* B35F7C 800BEDDC AFBF002C */  sw    $ra, 0x2c($sp)
 /* B35F80 800BEDE0 AFB10028 */  sw    $s1, 0x28($sp)
@@ -281,7 +281,7 @@ glabel func_800BEDD8
 /* B36394 800BF1F4 5420001B */  bnezl $at, .L800BF264
 /* B36398 800BF1F8 3C010001 */   lui   $at, 1
 .L800BF1FC:
-/* B3639C 800BF1FC 0C02A89E */  jal   func_800AA278
+/* B3639C 800BF1FC 0C02A89E */  jal   View_Init
 /* B363A0 800BF200 02202825 */   move  $a1, $s1
 /* B363A4 800BF204 240F000A */  li    $t7, 10
 /* B363A8 800BF208 241800F0 */  li    $t8, 240
@@ -292,7 +292,7 @@ glabel func_800BEDD8
 /* B363BC 800BF21C AFA00090 */  sw    $zero, 0x90($sp)
 /* B363C0 800BF220 AFA00098 */  sw    $zero, 0x98($sp)
 /* B363C4 800BF224 27A400A0 */  addiu $a0, $sp, 0xa0
-/* B363C8 800BF228 0C02A93F */  jal   func_800AA4FC
+/* B363C8 800BF228 0C02A93F */  jal   View_SetViewport
 /* B363CC 800BF22C 27A50090 */   addiu $a1, $sp, 0x90
 /* B363D0 800BF230 27A400A0 */  addiu $a0, $sp, 0xa0
 /* B363D4 800BF234 2405000F */  li    $a1, 15
@@ -852,7 +852,7 @@ glabel func_800BEDD8
 /* B36BC0 800BFA20 51200004 */  beql  $t1, $zero, .L800BFA34
 /* B36BC4 800BFA24 8E1901DC */   lw    $t9, 0x1dc($s0)
 .L800BFA28:
-/* B36BC8 800BFA28 0C02FB50 */  jal   func_800BED40
+/* B36BC8 800BFA28 0C02FB50 */  jal   Gameplay_DrawOverlayElements
 /* B36BCC 800BFA2C 02002025 */   move  $a0, $s0
 .L800BFA30:
 /* B36BD0 800BFA30 8E1901DC */  lw    $t9, 0x1dc($s0)

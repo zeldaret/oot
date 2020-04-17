@@ -5,6 +5,7 @@
  */
 
 #include "z_arrow_ice.h"
+
 #include "../ovl_En_Arrow/z_en_arrow.h"
 
 #define FLAGS 0x02000010
@@ -53,14 +54,14 @@ void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx) {
 
 void ArrowIce_Destroy(ArrowIce* this, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
-    // Translates to: ""Disappearance" = Disappearance"
+    // Translates to: "Disappearance"
     LOG_STRING("消滅", "../z_arrow_ice.c", 415);
 }
 
 void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx) {
     EnArrow* arrow;
 
-    arrow = this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.attachedA;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -147,7 +148,7 @@ void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx) {
     f32 distanceScaled;
     s32 pad;
 
-    arrow = this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.attachedA;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -194,7 +195,7 @@ void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx) {
     Gfx* dispRefs[4];
 
     stateFrames = globalCtx->state.frames;
-    arrow = this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.attachedA;
     if (1) {}
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {

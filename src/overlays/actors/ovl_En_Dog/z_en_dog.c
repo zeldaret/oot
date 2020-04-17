@@ -53,15 +53,6 @@ static struct_80034EC0_Entry animations[] = {
     { 0x06000928, 1.0f, 0.0f, 6.0f, 0x02, -6.0f },  { 0x06000C28, 1.0f, 0.0f, -1.0f, 0x00, -6.0f },
 };
 
-// Bandaid fix for a lw vs lh issue in EnDog_FollowPath. Roman will look at it later.
-typedef union {
-    /* 0x00 */ s32 entry;
-    struct {
-        s16 unk_0;
-        s16 unk_2;
-    };
-} s16ArrEntry;
-
 typedef enum {
     /* 0x00 */ DOG_WALK,
     /* 0x01 */ DOG_RUN,
@@ -163,8 +154,8 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
     return 0;
 }
 
-static s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx) {
-    if ((this->collider.base.acFlags & 2)) {
+s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx) {
+    if (this->collider.base.acFlags & 2) {
         this->collider.base.acFlags &= ~2;
         return 2;
     }
@@ -173,7 +164,7 @@ static s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    if ((this->collider.base.maskB & 1)) {
+    if (this->collider.base.maskB & 1) {
         this->collider.base.maskB &= ~1;
         if (gSaveContext.dogParams != 0) {
             return 0;
@@ -185,7 +176,7 @@ static s8 EnDog_CanFollow(EnDog* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-static EnDog_UpdateWaypoint(EnDog* this, GlobalContext* globalCtx) {
+s32 EnDog_UpdateWaypoint(EnDog* this, GlobalContext* globalCtx) {
     s32 change;
 
     if (this->path == NULL) {
@@ -292,8 +283,8 @@ void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx) {
 }
 
 void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
-    s16ArrEntry behaviors[] = { DOG_SIT, DOG_BOW, DOG_BARK };
-    s16ArrEntry unused[] = { 40, 80, 20 };
+    s32 behaviors[] = { DOG_SIT, DOG_BOW, DOG_BARK };
+    s32 unused[] = { 40, 80, 20 };
     f32 speed;
     s32 frame;
 
@@ -315,16 +306,16 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
         // depending on where he is on his path. En_Hy checks these event flags.
         if (this->waypoint < 9) {
             // Richard is close to her, text says something about his coat
-            gSaveContext.event_inf[3] |= 1;
+            gSaveContext.eventInf[3] |= 1;
         } else {
             // Richard is far, text says something about running fast
-            gSaveContext.event_inf[3] &= ~1;
+            gSaveContext.eventInf[3] &= ~1;
         }
     } else {
         frame = globalCtx->state.frames % 3;
-        this->nextBehavior = behaviors[frame].entry;
-        // no clue why they're using the action id to calculate timer. possibly meant to use the unused array?
-        this->behaviorTimer = Math_Rand_S16Offset(60, behaviors[frame].unk_2);
+        this->nextBehavior = behaviors[frame];
+        // no clue why they're using the behavior id to calculate timer. possibly meant to use the unused array?
+        this->behaviorTimer = Math_Rand_S16Offset(60, behaviors[frame]);
         this->actionFunc = EnDog_ChooseMovement;
     }
 }
@@ -450,8 +441,7 @@ void EnDog_Update(EnDog* this, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
 }
 
-static UNK_TYPE EnDog_Callback1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                Actor* actor) {
+s32 EnDog_Callback1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
     return 0;
 }
 

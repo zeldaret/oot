@@ -5,12 +5,12 @@ glabel D_801441E8
 
 glabel D_80144204
     .asciz "エンディングはじまるよー\n"
-    # EUC-JP: エンディングはじまるよー | The ending starts?
+    # Translates to: "The ending starts?"
     .balign 4
 
 glabel D_80144220
     .asciz "出戻り？\n"
-    # EUC-JP: 出戻り | Return
+    # Translates to: "Return?"
     .balign 4
 
 glabel D_8014422C
@@ -23,7 +23,7 @@ glabel D_80144244
 
 glabel D_80144250
     .asciz "ゼルダヒープ %08x-%08x\n"
-    # EUC-JP: ゼルダヒープ | Zelda heap
+    # Translates to: "Zelda heap"
     .balign 4
 
 glabel D_80144268
@@ -35,7 +35,7 @@ glabel D_80144294
     .balign 4
 
 .text
-glabel func_800BCA64
+glabel Gameplay_Init
 /* B33C04 800BCA64 27BDFF70 */  addiu $sp, $sp, -0x90
 /* B33C08 800BCA68 AFB20028 */  sw    $s2, 0x28($sp)
 /* B33C0C 800BCA6C 3C128016 */  lui   $s2, %hi(gSaveContext) # $s2, 0x8016
@@ -67,7 +67,7 @@ glabel func_800BCA64
 /* B33C70 800BCAD0 02202025 */   move  $a0, $s1
 /* B33C74 800BCAD4 262400B8 */  addiu $a0, $s1, 0xb8
 /* B33C78 800BCAD8 AFA4003C */  sw    $a0, 0x3c($sp)
-/* B33C7C 800BCADC 0C02A89E */  jal   func_800AA278
+/* B33C7C 800BCADC 0C02A89E */  jal   View_Init
 /* B33C80 800BCAE0 02002825 */   move  $a1, $s0
 /* B33C84 800BCAE4 0C03DA0A */  jal   func_800F6828
 /* B33C88 800BCAE8 00002025 */   move  $a0, $zero
@@ -89,7 +89,7 @@ glabel func_800BCA64
 /* B33CC4 800BCB24 0C015F1B */  jal   func_80057C6C
 /* B33CC8 800BCB28 02203825 */   move  $a3, $s1
 /* B33CCC 800BCB2C 8FA40038 */  lw    $a0, 0x38($sp)
-/* B33CD0 800BCB30 0C0160D5 */  jal   func_80058354
+/* B33CD0 800BCB30 0C0160D5 */  jal   Camera_ChangeStatus
 /* B33CD4 800BCB34 24050007 */   li    $a1, 7
 /* B33CD8 800BCB38 00004025 */  move  $t0, $zero
 /* B33CDC 800BCB3C 2630034C */  addiu $s0, $s1, 0x34c
@@ -101,7 +101,7 @@ glabel func_800BCA64
 /* B33CF0 800BCB50 0C015F1B */  jal   func_80057C6C
 /* B33CF4 800BCB54 AFA80044 */   sw    $t0, 0x44($sp)
 /* B33CF8 800BCB58 02002025 */  move  $a0, $s0
-/* B33CFC 800BCB5C 0C0160D5 */  jal   func_80058354
+/* B33CFC 800BCB5C 0C0160D5 */  jal   Camera_ChangeStatus
 /* B33D00 800BCB60 24050100 */   li    $a1, 256
 /* B33D04 800BCB64 8FA80044 */  lw    $t0, 0x44($sp)
 /* B33D08 800BCB68 24010444 */  li    $at, 1092
@@ -296,7 +296,7 @@ glabel func_800BCA64
 /* B33FB8 800BCE18 01F81021 */  addu  $v0, $t7, $t8
 /* B33FBC 800BCE1C 80450000 */  lb    $a1, ($v0)
 /* B33FC0 800BCE20 80460001 */  lb    $a2, 1($v0)
-/* B33FC4 800BCE24 0C030002 */  jal   Area_Spawn
+/* B33FC4 800BCE24 0C030002 */  jal   Gameplay_SpawnScene
 /* B33FC8 800BCE28 02202025 */   move  $a0, $s1
 /* B33FCC 800BCE2C 3C048014 */  lui   $a0, %hi(D_801441E8) # $a0, 0x8014
 /* B33FD0 800BCE30 248441E8 */  addiu $a0, %lo(D_801441E8) # addiu $a0, $a0, 0x41e8
@@ -405,10 +405,10 @@ glabel func_800BCA64
 /* B34158 800BCFB8 00602025 */   move  $a0, $v1
 /* B3415C 800BCFBC 0C034204 */  jal   Matrix_Init
 /* B34160 800BCFC0 02202025 */   move  $a0, $s1
-/* B34164 800BCFC4 3C0C800C */  lui   $t4, %hi(func_800BFAE4) # $t4, 0x800c
-/* B34168 800BCFC8 3C0D800C */  lui   $t5, %hi(func_800BC8EC) # $t5, 0x800c
-/* B3416C 800BCFCC 258CFAE4 */  addiu $t4, %lo(func_800BFAE4) # addiu $t4, $t4, -0x51c
-/* B34170 800BCFD0 25ADC8EC */  addiu $t5, %lo(func_800BC8EC) # addiu $t5, $t5, -0x3714
+/* B34164 800BCFC4 3C0C800C */  lui   $t4, %hi(Gameplay_Main) # $t4, 0x800c
+/* B34168 800BCFC8 3C0D800C */  lui   $t5, %hi(Gameplay_Destroy) # $t5, 0x800c
+/* B3416C 800BCFCC 258CFAE4 */  addiu $t4, %lo(Gameplay_Main) # addiu $t4, $t4, -0x51c
+/* B34170 800BCFD0 25ADC8EC */  addiu $t5, %lo(Gameplay_Destroy) # addiu $t5, $t5, -0x3714
 /* B34174 800BCFD4 3C010001 */  lui   $at, 1
 /* B34178 800BCFD8 AE2C0004 */  sw    $t4, 4($s1)
 /* B3417C 800BCFDC AE2D0008 */  sw    $t5, 8($s1)
@@ -477,8 +477,8 @@ glabel func_800BCA64
 /* B3426C 800BD0CC 3C048016 */  lui   $a0, %hi(D_80161498) # $a0, 0x8016
 /* B34270 800BD0D0 0C02B400 */  jal   func_800AD000
 /* B34274 800BD0D4 24841498 */   addiu $a0, %lo(D_80161498) # addiu $a0, $a0, 0x1498
-/* B34278 800BD0D8 3C018016 */  lui   $at, %hi(D_801614B3) # $at, 0x8016
-/* B3427C 800BD0DC A02014B3 */  sb    $zero, %lo(D_801614B3)($at)
+/* B34278 800BD0D8 3C018016 */  lui   $at, %hi(D_801614B0+3) # $at, 0x8016
+/* B3427C 800BD0DC A02014B3 */  sb    $zero, %lo(D_801614B0+3)($at)
 /* B34280 800BD0E0 0C01B0E8 */  jal   func_8006C3A0
 /* B34284 800BD0E4 02202025 */   move  $a0, $s1
 /* B34288 800BD0E8 26300074 */  addiu $s0, $s1, 0x74

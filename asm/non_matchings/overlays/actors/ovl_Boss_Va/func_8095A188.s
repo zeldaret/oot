@@ -94,7 +94,7 @@ glabel func_8095A188
 /* 0AF08 8095A1C8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0AF0C 8095A1CC 3C058096 */  lui     $a1, %hi(D_8095C23C)       ## $a1 = 80960000
 /* 0AF10 8095A1D0 0000A025 */  or      $s4, $zero, $zero          ## $s4 = 00000000
-/* 0AF14 8095A1D4 0C030129 */  jal     func_800C04A4
+/* 0AF14 8095A1D4 0C030129 */  jal     Gameplay_GetCamera
 /* 0AF18 8095A1D8 84A5C23C */  lh      $a1, %lo(D_8095C23C)($a1)
 /* 0AF1C 8095A1DC 3C068096 */  lui     $a2, %hi(D_8095C490)       ## $a2 = 80960000
 /* 0AF20 8095A1E0 AFA20134 */  sw      $v0, 0x0134($sp)

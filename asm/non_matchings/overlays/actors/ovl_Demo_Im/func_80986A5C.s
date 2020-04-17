@@ -17,7 +17,7 @@ glabel func_80986A5C
 /* 01EB8 80986A98 00000000 */  nop
 /* 01EBC 80986A9C 45020008 */  bc1fl   .L80986AC0                 
 /* 01EC0 80986AA0 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
-/* 01EC4 80986AA4 0C02FF21 */  jal     func_800BFC84              
+/* 01EC4 80986AA4 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 01EC8 80986AA8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 01ECC 80986AAC 54400004 */  bnel    $v0, $zero, .L80986AC0     
 /* 01ED0 80986AB0 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000

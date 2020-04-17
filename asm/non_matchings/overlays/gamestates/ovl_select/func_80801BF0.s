@@ -33,7 +33,7 @@ glabel func_80801BF0
 /* 010DC 80801C6C AFD90044 */  sw      $t9, 0x0044($s8)           ## FFFFFFD4
 /* 010E0 80801C70 AFC00040 */  sw      $zero, 0x0040($s8)         ## FFFFFFD0
 /* 010E4 80801C74 AFC00048 */  sw      $zero, 0x0048($s8)         ## FFFFFFD8
-/* 010E8 80801C78 0C02A93F */  jal     func_800AA4FC              
+/* 010E8 80801C78 0C02A93F */  jal     View_SetViewport              
 /* 010EC 80801C7C 27C50040 */  addiu   $a1, $s8, 0x0040           ## $a1 = FFFFFFD0
 /* 010F0 80801C80 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000000A8
 /* 010F4 80801C84 0C02AA94 */  jal     func_800AAA50              

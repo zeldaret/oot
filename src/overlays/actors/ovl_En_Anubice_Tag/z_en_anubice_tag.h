@@ -3,7 +3,7 @@
 
 #include <ultra64.h>
 #include <global.h>
-#include <vt.h>
+
 #include "../ovl_En_Anubice/z_en_anubice.h"
 
 typedef struct {

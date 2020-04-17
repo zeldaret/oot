@@ -2,10 +2,13 @@
 #define _Z64SCENE_H_
 
 typedef struct {
-    /* 0x00 */ u32 sceneVromStart;
-    /* 0x04 */ u32 sceneVromEnd;
-    /* 0x08 */ u32 titleVromStart;
-    /* 0x0C */ u32 titleVromEnd;
+    /* 0x00 */ u32 vromStart;
+    /* 0x04 */ u32 vromEnd;
+} RomFile; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ RomFile sceneFile;
+    /* 0x08 */ RomFile titleFile;
     /* 0x10 */ u8  unk_10;
     /* 0x11 */ u8  config;
     /* 0x12 */ u8  unk_12;

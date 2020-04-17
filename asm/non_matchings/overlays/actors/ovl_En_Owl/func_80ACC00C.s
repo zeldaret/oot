@@ -54,7 +54,7 @@ glabel func_80ACC00C
 /* 02130 80ACC050 A60F00B6 */  sh      $t7, 0x00B6($s0)           ## 000000B6
 /* 02134 80ACC054 45020060 */  bc1fl   .L80ACC1D8                 
 /* 02138 80ACC058 3C014214 */  lui     $at, 0x4214                ## $at = 42140000
-/* 0213C 80ACC05C 0C02FF21 */  jal     func_800BFC84              
+/* 0213C 80ACC05C 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 02140 80ACC060 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 02144 80ACC064 5440005C */  bnel    $v0, $zero, .L80ACC1D8     
 /* 02148 80ACC068 3C014214 */  lui     $at, 0x4214                ## $at = 42140000

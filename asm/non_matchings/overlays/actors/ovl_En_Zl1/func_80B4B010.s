@@ -55,16 +55,16 @@ glabel func_80B4B010
 /* 005A0 80B4B0E0 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 005A4 80B4B0E4 E7A80018 */  swc1    $f8, 0x0018($sp)
-/* 005A8 80B4B0E8 0C03008C */  jal     func_800C0230
+/* 005A8 80B4B0E8 0C03008C */  jal     Gameplay_CreateSubCamera
 /* 005AC 80B4B0EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 005B0 80B4B0F0 A60201E8 */  sh      $v0, 0x01E8($s0)           ## 000001E8
 /* 005B4 80B4B0F4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 005B8 80B4B0F8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 005BC 80B4B0FC 0C0300C5 */  jal     func_800C0314
+/* 005BC 80B4B0FC 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 005C0 80B4B100 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 005C4 80B4B104 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 005C8 80B4B108 860501E8 */  lh      $a1, 0x01E8($s0)           ## 000001E8
-/* 005CC 80B4B10C 0C0300C5 */  jal     func_800C0314
+/* 005CC 80B4B10C 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 005D0 80B4B110 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 005D4 80B4B114 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 005D8 80B4B118 860501E8 */  lh      $a1, 0x01E8($s0)           ## 000001E8

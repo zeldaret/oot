@@ -354,7 +354,7 @@ u16 func_80B1C54C(GlobalContext* globalCtx, Actor* a1) {
         return ret;
     }
 
-    if (gSaveContext.inf_table[13] & 0x0200) {
+    if (gSaveContext.infTable[13] & 0x0200) {
         /* "Do you want me to dig here? ..." */
         return 0x5019;
     } else {
@@ -373,7 +373,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* actor) {
         case 2:
             /* "I am the boss of the carpenters ..." (wtf?) */
             if (actor->textId == 0x5028) {
-                gSaveContext.inf_table[13] |= 0x0100;
+                gSaveContext.infTable[13] |= 0x0100;
             }
             ret = 0;
             break;
@@ -390,11 +390,11 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* actor) {
                 } else {
                     globalCtx->msgCtx.msgMode = 0x37;
                     Rupees_ChangeBy(-10);
-                    gSaveContext.inf_table[13] |= 0x0200;
+                    gSaveContext.infTable[13] |= 0x0200;
                     return 2;
                 }
                 func_8010B720(globalCtx, actor->textId);
-                gSaveContext.inf_table[13] |= 0x0200;
+                gSaveContext.infTable[13] |= 0x0200;
             }
             break;
         case 5:
@@ -507,7 +507,7 @@ void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
 
     func_80061EFC(&thisAgain->actor.sub_98, NULL, &D_80B1D534);
 
-    if (gSaveContext.day_time <= 0xC000 || gSaveContext.day_time >= 0xE000 || !LINK_IS_CHILD ||
+    if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime >= 0xE000 || !LINK_IS_CHILD ||
         globalCtx->sceneNum != SCENE_SPOT02) {
         Actor_Kill(&thisAgain->actor);
         return;
@@ -629,8 +629,8 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
                  * Upgrade the purple rupee reward to the heart piece if this
                  * is the first grand prize dig.
                  */
-                if ((gSaveContext.item_get_inf[1] & 0x1000) == 0) {
-                    gSaveContext.item_get_inf[1] |= 0x1000;
+                if ((gSaveContext.itemGetInf[1] & 0x1000) == 0) {
+                    gSaveContext.itemGetInf[1] |= 0x1000;
                     this->currentReward = 4;
                 }
             }

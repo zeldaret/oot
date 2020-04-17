@@ -886,13 +886,13 @@ s16 func_8001F404(s16 dropId) {
     // clang-format off
     if (((dropId == DROP_BOMBS_A      || dropId == DROP_BOMBS_SPECIAL || dropId == DROP_BOMBS_B)      && INV_CONTENT(ITEM_BOMB) == ITEM_NONE) ||
         ((dropId == DROP_ARROWS_SMALL || dropId == DROP_ARROWS_MEDIUM || dropId == DROP_ARROWS_LARGE) && INV_CONTENT(ITEM_BOW) == ITEM_NONE) ||
-        ((dropId == DROP_MAGIC_LARGE  || dropId == DROP_MAGIC_SMALL)                                  && gSaveContext.magic_level == 0) ||
+        ((dropId == DROP_MAGIC_LARGE  || dropId == DROP_MAGIC_SMALL)                                  && gSaveContext.magicLevel == 0) ||
         ((dropId == DROP_SEEDS)                                                                       && INV_CONTENT(ITEM_SLINGSHOT) == ITEM_NONE)) {
         return -1;
     }
     // clang-format on
 
-    if (dropId == DROP_HEART && gSaveContext.health_capacity == gSaveContext.health) {
+    if (dropId == DROP_HEART && gSaveContext.healthCapacity == gSaveContext.health) {
         return DROP_RUPEE_GREEN;
     }
 
@@ -1038,12 +1038,12 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_HEART;
-        } else if ((gSaveContext.magic_level != 0) && (gSaveContext.magic == 0)) { // Empty magic meter
+        } else if ((gSaveContext.magicLevel != 0) && (gSaveContext.magic == 0)) { // Empty magic meter
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_MAGIC_LARGE;
-        } else if ((gSaveContext.magic_level != 0) &&
-                   (gSaveContext.magic <= (gSaveContext.magic_level >> 1))) { // Half magic or less
+        } else if ((gSaveContext.magicLevel != 0) &&
+                   (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) { // Half magic or less
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_MAGIC_SMALL;

@@ -69,7 +69,7 @@ s32 BgBdanObjects_GetContactRu1(BgBdanObjects* this, s32 arg1) {
         case 0:
             return this->unk_1B8 == 1;
         case 4:
-            return gSaveContext.inf_table[20] & 0x40;
+            return gSaveContext.infTable[20] & 0x40;
         case 3:
             return this->unk_1B8 == 4;
         default:
@@ -87,7 +87,7 @@ void BgBdanObjects_SetContactRu1(BgBdanObjects* this, s32 arg1) {
             this->unk_1B8 = 3;
             break;
         case 4:
-            gSaveContext.inf_table[20] |= 0x40;
+            gSaveContext.infTable[20] |= 0x40;
             break;
         default:
             osSyncPrintf("Bg_Bdan_Objects_Set_Contact_Ru1\nそんな送信モードは無い%d!!!!!!!!\n");
@@ -185,7 +185,7 @@ void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((!func_800BFC84(globalCtx)) && (!BgBdanObjects_GetContactRu1(this, 0))) {
+    if (!Gameplay_InCsMode(globalCtx) && !BgBdanObjects_GetContactRu1(this, 0)) {
         this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + -79.0f;
     } else {
         this->dyna.actor.posRot.pos.y = (this->dyna.actor.initPosRot.pos.y + -79.0f) - 5.0f;
@@ -218,7 +218,7 @@ void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
         if (this->unk_16A == 0) {
-            temp = Quake_Add(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 1);
+            temp = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 1);
             Quake_SetSpeed(temp, 0x3A98);
             Quake_SetQuakeValues(temp, 0, 1, 0xFA, 1);
             Quake_SetCountdown(temp, 0xA);
@@ -232,7 +232,7 @@ void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx) {
         BgBdanObjects_SetContactRu1(this, 4);
         this->unk_16A = 0xA;
         this->actionFunc = (ActorFunc)func_8086C55C;
-        func_8005B1A4(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0]);
+        func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
     }
 }
 
@@ -345,13 +345,13 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
     if (this->unk_168 == 0) {
         if (func_8004356C(&this->dyna.actor)) {
-            this->unk_1B8 = globalCtx->cameraCtx.activeCameraPtrs[0]->unk_142;
-            func_8005A77C(globalCtx->cameraCtx.activeCameraPtrs[0], 0x3A);
-            func_8005AD1C(globalCtx->cameraCtx.activeCameraPtrs[0], 4);
+            this->unk_1B8 = globalCtx->cameraPtrs[0]->unk_142;
+            func_8005A77C(globalCtx->cameraPtrs[0], 0x3A);
+            func_8005AD1C(globalCtx->cameraPtrs[0], 4);
             this->unk_168 = 0xAU;
         }
     } else {
-        func_8005A77C(globalCtx->cameraCtx.activeCameraPtrs[0], 0x3A);
+        func_8005A77C(globalCtx->cameraPtrs[0], 0x3A);
         if (!func_8004356C(&this->dyna.actor)) {
             if (this->unk_168 != 0) {
                 this->unk_168 -= 1;
@@ -360,8 +360,8 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
         if (this->unk_168 == 0) {
             do {
             } while (0);
-            func_8005A77C(globalCtx->cameraCtx.activeCameraPtrs[0], (s16)this->unk_1B8);
-            func_8005ACFC(globalCtx->cameraCtx.activeCameraPtrs[0], 4);
+            func_8005A77C(globalCtx->cameraPtrs[0], (s16)this->unk_1B8);
+            func_8005ACFC(globalCtx->cameraPtrs[0], 4);
         }
     }
     this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y -

@@ -941,7 +941,9 @@ void func_8005D3BC(GlobalContext* globalCtx, CollisionCheckContext* check) {
     AREG(23) = 1;
 }
 
-void func_8005D400(UNK_TYPE arg0, UNK_TYPE arg1) {
+//Destruct CollisionCheckContext
+void func_8005D400(GlobalContext* globalCtx, CollisionCheckContext* check) {
+
 }
 
 // Initialize CollisionCheckContext

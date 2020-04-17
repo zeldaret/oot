@@ -67,7 +67,7 @@ static ActorDamageChart damageTable = {
     0x02, 0x24, 0x00, 0x44, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
 };
 
-static InitChainEntry initChain[3] = {
+static InitChainEntry initChain[] = {
     ICHAIN_S8(naviEnemyId, 0x30, 1),
     ICHAIN_F32(unk_4C, 0x157C, 1),
     ICHAIN_F32_DIV1000(gravity, 0xFA24, 0),
@@ -293,7 +293,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
 
 void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    if ((func_8008E988(globalCtx) == 0) && (player->stateFlags2 & 0x10) == 0 && (player->unk_A78 >= 0) &&
+    if (!func_8008E988(globalCtx) && (player->stateFlags2 & 0x10) == 0 && (player->unk_A78 >= 0) &&
         (this->actor.xzDistanceFromLink < 30.0f) && (this->actor.yDistanceFromLink < -5.0f) &&
         (-(f32)(player->unk_4DA + 0xA) < this->actor.yDistanceFromLink)) {
         EnWallmas_TakePlayerBegin(this, globalCtx);
@@ -415,14 +415,14 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
             this->actor.posRot.pos.y = this->actor.posRot.pos.y + 10.0f;
         }
 
-        if (gSaveContext.link_age != 0) {
+        if (LINK_IS_CHILD) {
             player->actor.posRot.pos.y = this->actor.posRot.pos.y - 30.0f;
         } else {
             player->actor.posRot.pos.y = this->actor.posRot.pos.y - 50.0f;
         }
 
         if (this->timer == -0x1E) {
-            if (gSaveContext.link_age != 0) {
+            if (LINK_IS_CHILD) {
                 func_8002F7DC(&this->actor, NA_SE_VO_LI_TAKEN_AWAY_KID);
             } else {
                 func_8002F7DC(&this->actor, NA_SE_VO_LI_TAKEN_AWAY);
@@ -434,8 +434,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
         this->timer = this->timer + 2;
     } else {
-        Math_ApproxF(&this->actor.posRot.pos.y,
-                     player->actor.posRot.pos.y + (gSaveContext.link_age != 0 ? 30.0f : 50.0f), 5.0f);
+        Math_ApproxF(&this->actor.posRot.pos.y, player->actor.posRot.pos.y + (LINK_IS_CHILD ? 30.0f : 50.0f), 5.0f);
     }
 
     Math_ApproxF(&this->actor.posRot.pos.x, player->actor.posRot.pos.x, 3.0f);
@@ -443,7 +442,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0x1E) {
         func_80078884(NA_SE_OC_ABYSS);
-        func_800C0C88(globalCtx);
+        Gameplay_TriggerRespawn(globalCtx);
     }
 }
 

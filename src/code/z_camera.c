@@ -234,7 +234,6 @@ s32 func_800443A0(Camera* camera, Vec3f* b, Vec3f* c) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800443A0.s")
 #endif
 
-f32 func_8003C940(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
 f32 func_80044434(Camera* camera, Vec3f* b, Vec3f* c, s32* d) {
     s32 sp2C; // unused
     CollisionPoly* sp28;
@@ -739,7 +738,7 @@ s16 func_80046CB4(Camera* camera, s16 b, s16 c, f32 d, f32 e) {
     if (camera->unk_D8 > 0.001f) {
         temp = b - 0x7fff; // this is probably some kind of cast that I'm too stupid to know
         sp1C = c - temp;
-        phi_f14 = (s16)(sp1C - 0x7fff) * 0.00003051851f;
+        phi_f14 = (s16)(sp1C - 0x7fff) * (1.0f / 32767.0f);
     } else {
         temp = b - 0x7fff;
         sp1C = c - temp;
@@ -804,7 +803,7 @@ void Camera_Vec3fCopy(Vec3f* src, Vec3f* dst) {
 s32 func_8005AD40(Camera* camera, s32 a, s16 b, f32 c, s16 d, s16 e, s16 f);
 
 void func_80057FC4(Camera* camera) {
-    if (camera != &camera->globalCtx->cameraCtx.activeCameras[0]) {
+    if (camera != &camera->globalCtx->cameras[0]) {
         camera->unk_154 = camera->unk_142 = 33;
         camera->unk_14C &= ~0x4;
     } else if (camera->globalCtx->roomCtx.curRoom.mesh->polygon.type != 1) {
@@ -839,7 +838,7 @@ void Camera_Stub80058140(Camera* camera) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80058148.s")
 
 // 109 lines (unknown arrays)
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80058354.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_ChangeStatus.s")
 
 // 261 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800584E8.s")
@@ -867,11 +866,11 @@ s32 func_80058CF8(Camera* camera) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800591EC.s")
 
 void func_80059EC8(Camera* camera) {
-    Camera* sp24 = camera->globalCtx->cameraCtx.activeCameraPtrs[0];
+    Camera* sp24 = camera->globalCtx->cameraPtrs[0];
     Player* player = (Player*)camera->globalCtx->actorCtx.actorList[2].first;
 
     if (camera->unk_160 == 0) {
-        func_800C0314(camera->globalCtx, camera->unk_162, 7);
+        Gameplay_ChangeCameraStatus(camera->globalCtx, camera->unk_162, 7);
 
         if ((camera->unk_162 == 0) && (camera->unk_168 != 0)) {
             player->actor.freeze = 0;
@@ -885,24 +884,24 @@ void func_80059EC8(Camera* camera) {
             sp24->unk_14C |= 8;
         }
 
-        if (camera->globalCtx->cameraCtx.activeCameraPtrs[camera->unk_14E]->unk_162 == camera->unk_164) {
-            camera->globalCtx->cameraCtx.activeCameraPtrs[camera->unk_14E]->unk_162 = camera->unk_162;
+        if (camera->globalCtx->cameraPtrs[camera->unk_14E]->unk_162 == camera->unk_164) {
+            camera->globalCtx->cameraPtrs[camera->unk_14E]->unk_162 = camera->unk_162;
         }
 
-        if (camera->globalCtx->cameraCtx.activeCameraPtrs[camera->unk_162]->unk_14E == camera->unk_164) {
-            camera->globalCtx->cameraCtx.activeCameraPtrs[camera->unk_162]->unk_14E = camera->unk_14E;
+        if (camera->globalCtx->cameraPtrs[camera->unk_162]->unk_14E == camera->unk_164) {
+            camera->globalCtx->cameraPtrs[camera->unk_162]->unk_14E = camera->unk_14E;
         }
 
-        if (camera->globalCtx->cameraCtx.activeCameraPtrs[camera->unk_162]->unk_164 == 0) {
-            camera->globalCtx->cameraCtx.activeCameraPtrs[camera->unk_162]->unk_15E = 0;
+        if (camera->globalCtx->cameraPtrs[camera->unk_162]->unk_164 == 0) {
+            camera->globalCtx->cameraPtrs[camera->unk_162]->unk_15E = 0;
         }
 
         camera->unk_162 = 0;
         camera->unk_14E = camera->unk_162;
         camera->unk_160 = -1;
-        camera->globalCtx->unk_10B05 = 0;
+        camera->globalCtx->envCtx.unk_E1 = 0;
 
-        func_800C0384(camera->globalCtx, camera->unk_164);
+        Gameplay_ClearCamera(camera->globalCtx, camera->unk_164);
     }
 }
 
@@ -1128,9 +1127,9 @@ s32 func_8005B198() {
 s16 func_8005B1A4(Camera* camera) {
     camera->unk_14C |= 0x8;
 
-    if ((camera->unk_164 == 0) && (camera->globalCtx->cameraCtx.unk_5C0 != 0)) {
-        camera->globalCtx->cameraCtx.activeCameraPtrs[camera->globalCtx->cameraCtx.unk_5C0]->unk_14C |= 0x8;
-        return camera->globalCtx->cameraCtx.unk_5C0;
+    if ((camera->unk_164 == 0) && (camera->globalCtx->activeCamera != 0)) {
+        camera->globalCtx->cameraPtrs[camera->globalCtx->activeCamera]->unk_14C |= 0x8;
+        return camera->globalCtx->activeCamera;
     }
 
     return camera->unk_164;

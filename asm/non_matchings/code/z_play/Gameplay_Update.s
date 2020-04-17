@@ -17,18 +17,18 @@ glabel D_801442FC
 
 glabel D_80144300
     .asciz "fbdemo_init呼出し失敗！\n"
-    # EUC-JP: 呼出し失敗！| Call failed!
+    # Translates to: "Call failed!"
     .balign 4
 
 glabel D_8014431C
-    .incbin "baserom.z64", 0xBBB4BC, 0x24
-    # .asciz "\n\n\nサウンドイニシャル来ました。111"
-    # EUC-JP: サウンドイニシャル来ました。| Sound initalized?
+    .asciz "\n\n\nサウンドイニシャル来ました。111"
+    # Translates to: "Sound initalized."
+    .balign 4
 
 glabel D_80144340
-    .incbin "baserom.z64", 0xBBB4E0, 0x24
-    # .asciz "\n\n\nサウンドイニシャル来ました。222"
-    # EUC-JP: サウンドイニシャル来ました。| Sound initalized?
+    .asciz "\n\n\nサウンドイニシャル来ました。222"
+    # Translates to: "Sound initalized."
+    .balign 4
 
 glabel D_80144364
     .asciz "../z_play.c"
@@ -36,11 +36,12 @@ glabel D_80144364
 
 glabel D_80144370
     .asciz "\"来た!!!!!!!!!!!!!!!!!!!!!\" = %s\n"
-    # EUC-JP: 来た | Was coming?
+    # Translates to: "It's here!!!"
     .balign 4
 
 glabel D_80144394
     .asciz "来た!!!!!!!!!!!!!!!!!!!!!"
+    # Translates to: "It's here!!!"
     .balign 4
 
 glabel D_801443B0
@@ -217,12 +218,12 @@ glabel D_80144558
 
 glabel D_80144560
     .asciz "\x1b[36mカレイドスコープ中につき視点変更を禁止しております\n\x1b[m"
-    # EUC-JP: カレイドスコープ中につき視点変更を禁止しております | Changing viewpoint is prohibited during kaleidoscope
+    # Translates to: "Changing viewpoint is prohibited during kaleidoscope"
     .balign 4
 
 glabel D_8014459C
     .asciz "\x1b[36mデモ中につき視点変更を禁止しております\n\x1b[m"
-    # EUC-JP: デモ中につき視点変更を禁止しております | Changing viewpoint is prohibited during the demo
+    # Translates to: "Changing viewpoint is prohibited during the demo"
     .balign 4
 
 glabel D_801445CC
@@ -379,7 +380,7 @@ glabel jtbl_801449D0
    .word L800BE0F0
 
 .text
-glabel func_800BD314
+glabel Gameplay_Update
 /* B344B4 800BD314 27BDFF78 */  addiu $sp, $sp, -0x88
 /* B344B8 800BD318 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B344BC 800BD31C 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)
@@ -532,8 +533,8 @@ glabel func_800BD314
 /* B346E4 800BD544 AC201490 */   sw    $zero, %lo(D_80161490)($at)
 .L800BD548:
 /* B346E8 800BD548 258C59C0 */  addiu $t4, %lo(D_801759C0) # addiu $t4, $t4, 0x59c0
-/* B346EC 800BD54C 3C018016 */  lui   $at, %hi(D_8016148C) # $at, 0x8016
-/* B346F0 800BD550 AC2C148C */  sw    $t4, %lo(D_8016148C)($at)
+/* B346EC 800BD54C 3C018016 */  lui   $at, %hi(D_801613B0+0xdc) # $at, 0x8016
+/* B346F0 800BD550 AC2C148C */  sw    $t4, %lo(D_801613B0+0xdc)($at)
 /* B346F4 800BD554 3C0F8016 */  lui   $t7, %hi(gGameInfo) # $t7, 0x8016
 /* B346F8 800BD558 8DEFFA90 */  lw    $t7, %lo(gGameInfo)($t7)
 /* B346FC 800BD55C 3C018016 */  lui   $at, %hi(D_80161490) # $at, 0x8016
@@ -846,10 +847,10 @@ glabel func_800BD314
 /* B34B58 800BD9B8 3C0D8081 */  lui   $t5, %hi(func_80811A20) # $t5, 0x8081
 /* B34B5C 800BD9BC 11E10012 */  beq   $t7, $at, .L800BDA08
 /* B34B60 800BD9C0 25AD1A20 */   addiu $t5, %lo(func_80811A20) # addiu $t5, $t5, 0x1a20
-/* B34B64 800BD9C4 3C18800C */  lui   $t8, %hi(func_800BCA64) # $t8, 0x800c
+/* B34B64 800BD9C4 3C18800C */  lui   $t8, %hi(Gameplay_Init) # $t8, 0x800c
 /* B34B68 800BD9C8 3C090001 */  lui   $t1, (0x00012518 >> 16) # lui $t1, 1
 /* B34B6C 800BD9CC 35292518 */  ori   $t1, (0x00012518 & 0xFFFF) # ori $t1, $t1, 0x2518
-/* B34B70 800BD9D0 2718CA64 */  addiu $t8, %lo(func_800BCA64) # addiu $t8, $t8, -0x359c
+/* B34B70 800BD9D0 2718CA64 */  addiu $t8, %lo(Gameplay_Init) # addiu $t8, $t8, -0x359c
 /* B34B74 800BD9D4 AE18000C */  sw    $t8, 0xc($s0)
 /* B34B78 800BD9D8 AE090010 */  sw    $t1, 0x10($s0)
 /* B34B7C 800BD9DC 862A1E1A */  lh    $t2, 0x1e1a($s1)
@@ -1002,8 +1003,8 @@ glabel L800BDB30
 /* B34D90 800BDBF0 28410014 */  slti  $at, $v0, 0x14
 /* B34D94 800BDBF4 14200010 */  bnez  $at, .L800BDC38
 /* B34D98 800BDBF8 244C0001 */   addiu $t4, $v0, 1
-/* B34D9C 800BDBFC 3C02800C */  lui   $v0, %hi(func_800BCA64) # $v0, 0x800c
-/* B34DA0 800BDC00 2442CA64 */  addiu $v0, %lo(func_800BCA64) # addiu $v0, $v0, -0x359c
+/* B34D9C 800BDBFC 3C02800C */  lui   $v0, %hi(Gameplay_Init) # $v0, 0x800c
+/* B34DA0 800BDC00 2442CA64 */  addiu $v0, %lo(Gameplay_Init) # addiu $v0, $v0, -0x359c
 /* B34DA4 800BDC04 AE000098 */  sw    $zero, 0x98($s0)
 /* B34DA8 800BDC08 AE02000C */  sw    $v0, 0xc($s0)
 /* B34DAC 800BDC0C AE0A0010 */  sw    $t2, 0x10($s0)
@@ -1132,10 +1133,10 @@ glabel L800BDDCC
 /* B34F74 800BDDD4 240B0003 */  li    $t3, 3
 /* B34F78 800BDDD8 11210012 */  beq   $t1, $at, .L800BDE24
 /* B34F7C 800BDDDC 3C0C8016 */   lui   $t4, %hi(gGameInfo) # $t4, 0x8016
-/* B34F80 800BDDE0 3C02800C */  lui   $v0, %hi(func_800BCA64) # $v0, 0x800c
+/* B34F80 800BDDE0 3C02800C */  lui   $v0, %hi(Gameplay_Init) # $v0, 0x800c
 /* B34F84 800BDDE4 3C190001 */  lui   $t9, (0x00012518 >> 16) # lui $t9, 1
 /* B34F88 800BDDE8 37392518 */  ori   $t9, (0x00012518 & 0xFFFF) # ori $t9, $t9, 0x2518
-/* B34F8C 800BDDEC 2442CA64 */  addiu $v0, %lo(func_800BCA64) # addiu $v0, $v0, -0x359c
+/* B34F8C 800BDDEC 2442CA64 */  addiu $v0, %lo(Gameplay_Init) # addiu $v0, $v0, -0x359c
 /* B34F90 800BDDF0 AE000098 */  sw    $zero, 0x98($s0)
 /* B34F94 800BDDF4 AE02000C */  sw    $v0, 0xc($s0)
 /* B34F98 800BDDF8 AE190010 */  sw    $t9, 0x10($s0)
@@ -1236,9 +1237,9 @@ glabel L800BDEE0
 /* B35100 800BDF60 92290B0C */  lbu   $t1, 0xb0c($s1)
 .L800BDF64:
 /* B35104 800BDF64 240100FF */  li    $at, 255
-/* B35108 800BDF68 3C02800C */  lui   $v0, %hi(func_800BCA64) # $v0, 0x800c
+/* B35108 800BDF68 3C02800C */  lui   $v0, %hi(Gameplay_Init) # $v0, 0x800c
 /* B3510C 800BDF6C 15210076 */  bne   $t1, $at, .L800BE148
-/* B35110 800BDF70 2442CA64 */   addiu $v0, %lo(func_800BCA64) # addiu $v0, $v0, -0x359c
+/* B35110 800BDF70 2442CA64 */   addiu $v0, %lo(Gameplay_Init) # addiu $v0, $v0, -0x359c
 /* B35114 800BDF74 3C190001 */  lui   $t9, (0x00012518 >> 16) # lui $t9, 1
 /* B35118 800BDF78 37392518 */  ori   $t9, (0x00012518 & 0xFFFF) # ori $t9, $t9, 0x2518
 /* B3511C 800BDF7C AE000098 */  sw    $zero, 0x98($s0)
