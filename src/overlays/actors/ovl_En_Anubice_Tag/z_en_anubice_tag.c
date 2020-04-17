@@ -6,6 +6,8 @@
 
 #include "z_en_anubice_tag.h"
 
+#include <vt.h>
+
 #define FLAGS 0x00000010
 
 void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx);
@@ -29,7 +31,7 @@ const ActorInit En_Anubice_Tag_InitVars = {
 
 void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
-    //"Anubis control tag generated"
+    // "Anubis control tag generated"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
 
     if (this->actor.params < (s16)0xFFFF) {

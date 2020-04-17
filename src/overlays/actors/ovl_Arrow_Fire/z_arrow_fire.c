@@ -5,6 +5,7 @@
  */
 
 #include "z_arrow_fire.h"
+
 #include "../ovl_En_Arrow/z_en_arrow.h"
 
 #define FLAGS 0x02000010
@@ -53,14 +54,14 @@ void ArrowFire_Init(ArrowFire* this, GlobalContext* globalCtx) {
 
 void ArrowFire_Destroy(ArrowFire* this, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
-    // Translates to: ""Disappearance" = Disappearance"
+    // Translates to: "Disappearance"
     LOG_STRING("消滅", "../z_arrow_fire.c", 421);
 }
 
 void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx) {
     EnArrow* arrow;
 
-    arrow = this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.attachedA;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -147,7 +148,7 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
     f32 distanceScaled;
     s32 pad;
 
-    arrow = this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.attachedA;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -194,7 +195,7 @@ void ArrowFire_Draw(ArrowFire* this, GlobalContext* globalCtx) {
     Gfx* dispRefs[4];
 
     stateFrames = globalCtx->state.frames;
-    arrow = this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.attachedA;
     if (1) {}
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {

@@ -6,9 +6,10 @@
 
 #include "z_en_eg.h"
 
+#include <vt.h>
+
 #define FLAGS 0x00000010
 
-void EnEg_PlayVoidOutSFX();
 void EnEg_Init(EnEg* this, GlobalContext* globalCtx);
 void EnEg_Destroy(EnEg* this, GlobalContext* globalCtx);
 void func_809FFDC8(EnEg* this, GlobalContext* globalCtx);
@@ -32,7 +33,7 @@ const ActorInit En_Eg_InitVars = {
     (ActorFunc)EnEg_Draw,
 };
 
-void PlayVoidOutSFX() {
+void EnEg_PlayVoidOutSFX() {
     func_800788CC(NA_SE_OC_ABYSS);
 }
 
@@ -44,13 +45,13 @@ void EnEg_Init(EnEg* this, GlobalContext* globalCtx) {
 }
 
 void func_809FFDC8(EnEg* this, GlobalContext* globalCtx) {
-    if (!hasVoidedOut && (gSaveContext.timer_2_value < 1) && Flags_GetSwitch(globalCtx, 0x36) && (kREG(0) == 0)) {
+    if (!hasVoidedOut && (gSaveContext.timer2Value < 1) && Flags_GetSwitch(globalCtx, 0x36) && (kREG(0) == 0)) {
         // Void the player out
-        func_800C0C88(globalCtx);
-        gSaveContext.respawn_flag = -2;
+        Gameplay_TriggerRespawn(globalCtx);
+        gSaveContext.respawnFlag = -2;
         Audio_SetBGM(NA_BGM_STOP);
-        globalCtx->fadeOutTransition = 2;
-        PlayVoidOutSFX();
+        globalCtx->fadeTransition = 2;
+        EnEg_PlayVoidOutSFX();
         hasVoidedOut = true;
     }
 }

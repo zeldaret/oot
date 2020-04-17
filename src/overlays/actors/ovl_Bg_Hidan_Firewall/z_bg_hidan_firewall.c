@@ -191,9 +191,8 @@ void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx) {
 
 void BgHidanFirewall_Draw(BgHidanFirewall* this, GlobalContext* globalCtx) {
     UNK_PTR* temp;
-    u32 pad;
     GraphicsContext* gfxCtx;
-    Gfx* dispRefs[3];
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
 

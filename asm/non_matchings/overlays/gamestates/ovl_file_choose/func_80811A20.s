@@ -77,7 +77,7 @@ glabel func_80811A20
 /* 0DDF0 80811B30 0C034204 */  jal     Matrix_Init              
 /* 0DDF4 80811B34 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DDF8 80811B38 260400B8 */  addiu   $a0, $s0, 0x00B8           ## $a0 = 000000B8
-/* 0DDFC 80811B3C 0C02A89E */  jal     func_800AA278              
+/* 0DDFC 80811B3C 0C02A89E */  jal     View_Init              
 /* 0DE00 80811B40 8E050000 */  lw      $a1, 0x0000($s0)           ## 00000000
 /* 0DE04 80811B44 3C0A8081 */  lui     $t2, %hi(func_80810DAC)    ## $t2 = 80810000
 /* 0DE08 80811B48 3C0B8081 */  lui     $t3, %hi(func_80811A18)       ## $t3 = 80810000

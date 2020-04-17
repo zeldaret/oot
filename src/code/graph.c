@@ -119,7 +119,7 @@ GameStateOverlay* Graph_GetNextGameState() {
     if (gameStateInitFunc == Title_Init) {
         return &gGameStateOverlayTable[2];
     }
-    if (gameStateInitFunc == func_800BCA64) {
+    if (gameStateInitFunc == Gameplay_Init) {
         return &gGameStateOverlayTable[3];
     }
     if (gameStateInitFunc == Opening_Init) {
@@ -389,7 +389,7 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     if (D_8012DBC0 && (!~(gameState->input[0].press.in.button | ~Z_TRIG)) &&
         (!~(gameState->input[0].cur.in.button | ~(L_TRIG | R_TRIG)))) {
-        gSaveContext.game_mode = 0;
+        gSaveContext.gameMode = 0;
         SET_NEXT_GAMESTATE(gameState, func_80801E44, char[0x240]); // TODO : SelectContext
         gameState->running = false;
     }
@@ -438,8 +438,7 @@ void Graph_ThreadEntry(void* arg0) {
         }
         func_800C5080(gameState, ovl->init, &gfxCtx); // Game_Ct
 
-        while (func_800C547C(gameState)) // Game_IsGameStateRunning
-        {
+        while (func_800C547C(gameState)) { // Game_IsGameStateRunning
             Graph_Update(&gfxCtx, gameState);
         }
 

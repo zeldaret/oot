@@ -3,7 +3,7 @@ glabel func_80A781CC
 /* 03EC0 80A781D0 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 03EC4 80A781D4 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 03EC8 80A781D8 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 03ECC 80A781DC 0C02FF21 */  jal     func_800BFC84              
+/* 03ECC 80A781DC 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 03ED0 80A781E0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 03ED4 80A781E4 1440001A */  bne     $v0, $zero, .L80A78250     
 /* 03ED8 80A781E8 3C0E80A7 */  lui     $t6, %hi(EnIk_Update)    ## $t6 = 80A70000

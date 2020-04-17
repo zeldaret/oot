@@ -199,13 +199,13 @@ void Interface_DrawHealth(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Vtx* sp154 = interfaceCtx->vtx_12C;
     s32 curHeartFraction = gSaveContext.health % 0x10;
-    s16 totalHeartCount = gSaveContext.health_capacity / 0x10;
+    s16 totalHeartCount = gSaveContext.healthCapacity / 0x10;
     s16 fullHeartCount = gSaveContext.health / 0x10;
     s32 pad2;
     f32 sp144 = interfaceCtx->unk_22A * 0.1f;
     s32 curCombineModeSet = 0;
     u8* curBgImgLoaded = NULL;
-    s32 ddHeartCountMinusOne = gSaveContext.defense_hearts - 1;
+    s32 ddHeartCountMinusOne = gSaveContext.defenseHearts - 1;
     Gfx* dispRefs[5];
 
     Graph_OpenDisps(dispRefs, gfxCtx, "../z_lifemeter.c", 353);
@@ -393,7 +393,7 @@ void Health_HandleCriticalAlarm(GlobalContext* globalCtx) {
             interfaceCtx->unk_22A = 0;
             interfaceCtx->unk_22C = 0;
             if (!func_8008E988(globalCtx) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
-                Health_IsCritical() && !func_800BFC84(globalCtx)) {
+                Health_IsCritical() && !Gameplay_InCsMode(globalCtx)) {
                 func_80078884(NA_SE_SY_HITPOINT_ALARM);
             }
         }
@@ -409,11 +409,11 @@ void Health_HandleCriticalAlarm(GlobalContext* globalCtx) {
 u32 Health_IsCritical(void) {
     s32 var;
 
-    if (gSaveContext.health_capacity <= 0x50) {
+    if (gSaveContext.healthCapacity <= 0x50) {
         var = 0x10;
-    } else if (gSaveContext.health_capacity <= 0xA0) {
+    } else if (gSaveContext.healthCapacity <= 0xA0) {
         var = 0x18;
-    } else if (gSaveContext.health_capacity <= 0xF0) {
+    } else if (gSaveContext.healthCapacity <= 0xF0) {
         var = 0x20;
     } else {
         var = 0x2C;

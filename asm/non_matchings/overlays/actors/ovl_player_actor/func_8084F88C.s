@@ -29,7 +29,7 @@ glabel func_8084F88C
 /* 1D6E8 8084F8F8 24010009 */  addiu   $at, $zero, 0x0009         ## $at = 00000009
 /* 1D6EC 8084F8FC 17010008 */  bne     $t8, $at, .L8084F920       
 /* 1D6F0 8084F900 00000000 */  nop
-/* 1D6F4 8084F904 0C030322 */  jal     func_800C0C88              
+/* 1D6F4 8084F904 0C030322 */  jal     Gameplay_TriggerRespawn              
 /* 1D6F8 8084F908 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 1D6FC 8084F90C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 1D700 8084F910 00300821 */  addu    $at, $at, $s0              
@@ -39,12 +39,12 @@ glabel func_8084F88C
 .L8084F920:
 /* 1D710 8084F920 04410005 */  bgez    $v0, .L8084F938            
 /* 1D714 8084F924 00000000 */  nop
-/* 1D718 8084F928 0C030322 */  jal     func_800C0C88              
+/* 1D718 8084F928 0C030322 */  jal     Gameplay_TriggerRespawn              
 /* 1D71C 8084F92C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 1D720 8084F930 10000004 */  beq     $zero, $zero, .L8084F944   
 /* 1D724 8084F934 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 .L8084F938:
-/* 1D728 8084F938 0C0302D8 */  jal     func_800C0B60              
+/* 1D728 8084F938 0C0302D8 */  jal     Gameplay_TriggerVoidOut              
 /* 1D72C 8084F93C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L8084F940:
 /* 1D730 8084F940 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

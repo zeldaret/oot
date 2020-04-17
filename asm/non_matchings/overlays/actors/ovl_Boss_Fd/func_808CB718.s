@@ -321,7 +321,7 @@ glabel func_808CB718
 /* 00B88 808CB948 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
 /* 00B8C 808CB94C 8FA401D4 */  lw      $a0, 0x01D4($sp)           
 /* 00B90 808CB950 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00B94 808CB954 0C030129 */  jal     func_800C04A4              
+/* 00B94 808CB954 0C030129 */  jal     Gameplay_GetCamera              
 /* 00B98 808CB958 8C901C44 */  lw      $s0, 0x1C44($a0)           ## 00001C44
 /* 00B9C 808CB95C 86CA1402 */  lh      $t2, 0x1402($s6)           ## 00001402
 /* 00BA0 808CB960 00408825 */  or      $s1, $v0, $zero            ## $s1 = 00000000
@@ -377,16 +377,16 @@ glabel L808CB988
 /* 00C64 808CBA24 02C02825 */  or      $a1, $s6, $zero            ## $a1 = 00000000
 /* 00C68 808CBA28 0C00B7D5 */  jal     func_8002DF54              
 /* 00C6C 808CBA2C 24060008 */  addiu   $a2, $zero, 0x0008         ## $a2 = 00000008
-/* 00C70 808CBA30 0C03008C */  jal     func_800C0230              
+/* 00C70 808CBA30 0C03008C */  jal     Gameplay_CreateSubCamera              
 /* 00C74 808CBA34 8FA401D4 */  lw      $a0, 0x01D4($sp)           
 /* 00C78 808CBA38 A6C21404 */  sh      $v0, 0x1404($s6)           ## 00001404
 /* 00C7C 808CBA3C 8FA401D4 */  lw      $a0, 0x01D4($sp)           
 /* 00C80 808CBA40 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00C84 808CBA44 0C0300C5 */  jal     func_800C0314              
+/* 00C84 808CBA44 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 00C88 808CBA48 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 00C8C 808CBA4C 8FA401D4 */  lw      $a0, 0x01D4($sp)           
 /* 00C90 808CBA50 86C51404 */  lh      $a1, 0x1404($s6)           ## 00001404
-/* 00C94 808CBA54 0C0300C5 */  jal     func_800C0314              
+/* 00C94 808CBA54 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 00C98 808CBA58 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 00C9C 808CBA5C 3C0143BE */  lui     $at, 0x43BE                ## $at = 43BE0000
 /* 00CA0 808CBA60 44810000 */  mtc1    $at, $f0                   ## $f0 = 380.00
