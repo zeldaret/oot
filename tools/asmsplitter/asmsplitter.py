@@ -27,13 +27,13 @@ if not os.path.exists("c"):
 dirs = os.listdir("asm")
 
 for directory in dirs:
-    if (os.path.isdir("asm\\" + directory)):
+    if (os.path.isdir("asm//" + directory)):
         continue
 
-    print("Processing asm\\" + directory)
+    print("Processing asm//" + directory)
     
     folderName = os.path.splitext(directory)[0]
-    lines = ReadAllLines("asm\\" + directory)
+    lines = ReadAllLines("asm//" + directory)
     functions = list()
     currentFunction = None
 
@@ -50,11 +50,11 @@ for directory in dirs:
     if (currentFunction != None):
         functions.insert(len(functions), currentFunction)
 
-    if not os.path.exists("asm\\" + folderName):
-        os.makedirs("asm\\" + folderName)
+    if not os.path.exists("asm//" + folderName):
+        os.makedirs("asm//" + folderName)
 
     for func in functions:
-        WriteAllLines("asm\\" + folderName + "\\" + func.funcName + ".s", func.lines)
+        WriteAllLines("asm//" + folderName + "//" + func.funcName + ".s", func.lines)
 
     cLines = list()
 
@@ -64,6 +64,6 @@ for directory in dirs:
     for func in functions:
         cLines.insert(len(cLines), "#pragma GLOBAL_ASM(\"asm/non_matchings/code/" + folderName + "/" + func.funcName + ".s\")\n")
 
-    WriteAllLines("c\\" + folderName + ".c", cLines)
+    WriteAllLines("c//" + folderName + ".c", cLines)
     
 print("Done!")

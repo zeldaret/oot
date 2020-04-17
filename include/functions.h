@@ -2351,7 +2351,7 @@ s16 sins(u16);
 // void __osPackReadData();
 // ? guPerspectiveF(?);
 // ? guPerspective(?);
-// ? func_80101360(?);
+// ? __osSpRawStartDma(?);
 // s32 __osSiRawStartDma(s32 dir, void *addr);
 // ? osSpTaskYield(?);
 // ? func_801014C0(?);
