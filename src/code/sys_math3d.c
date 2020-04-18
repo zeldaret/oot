@@ -31,9 +31,10 @@ void Math3D_LineVsPos(Linef* line, Vec3f* pos, Vec3f* ret) {
     temp_ret = func_800CB600(&line->b);
     if (fabsf(temp_ret) < 0.008f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n"); // Math3D_lineVsPosSuisenCross(): No
-                                                                                // straight line length
-        osSyncPrintf("cross = pos を返します。\n");                             // "Returns cross = pos.
+        // Math3D_lineVsPosSuisenCross(): No straight line length
+        osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n");
+        // Returns cross = pos.
+        osSyncPrintf("cross = pos を返します。\n");
         osSyncPrintf(VT_RST);
         Math_Vec3f_Copy(ret, pos);
     }
@@ -706,8 +707,8 @@ f32 Math3D_UDistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
 
     if (fabsf(sqrtf(SQ(nx) + SQ(ny) + SQ(nz))) < 0.008f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        osSyncPrintf("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny,
-                     nz); // Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f
+        // Math3DLengthPlaneAndPos(): Normal size is near zero %f %f %f
+        osSyncPrintf("Math3DLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
         osSyncPrintf(VT_RST);
         return 0.0f;
     }
@@ -724,8 +725,8 @@ f32 Math3D_DistPlaneToPos(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* p) {
     normMagnitude = sqrtf(SQ(nx) + SQ(ny) + SQ(nz));
     if (fabsf(normMagnitude) < 0.008f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        osSyncPrintf("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny,
-                     nz); // Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f
+        // Math3DSignedLengthPlaneAndPos(): Normal size is close to zero %f %f %f
+        osSyncPrintf("Math3DSignedLengthPlaneAndPos():法線size がゼロ近いです%f %f %f\n", nx, ny, nz);
         osSyncPrintf(VT_RST);
         return 0.0f;
     }
