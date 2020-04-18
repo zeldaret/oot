@@ -140,8 +140,8 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
             this->actor.unk_4C = 500.0f;
             this->unk_178 = 45.0f;
             func_8001D234(this, this->actor.params);
-            Collider_AllocCylinder(globalCtx, &this->cylinderCollider);
-            Collider_InitCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_80115440);
+            Collider_InitCylinder(globalCtx, &this->cylinderCollider);
+            Collider_SetCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_80115440);
             this->actor.sub_98.mass = 0xFF;
             this->actor.unk_1F = 0;
             break;

@@ -32,14 +32,14 @@ glabel EnKarebaba_Init
 /* 0006C 80A953BC 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00070 80A953C0 26050244 */  addiu   $a1, $s0, 0x0244           ## $a1 = 00000244
 /* 00074 80A953C4 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00078 80A953C8 0C0170D9 */  jal     Collider_AllocCylinder
+/* 00078 80A953C8 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 0007C 80A953CC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00080 80A953D0 3C0780A9 */  lui     $a3, %hi(D_80A969F0)       ## $a3 = 80A90000
 /* 00084 80A953D4 24E769F0 */  addiu   $a3, $a3, %lo(D_80A969F0)  ## $a3 = 80A969F0
 /* 00088 80A953D8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0008C 80A953DC 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 00090 80A953E0 0C01712B */  jal     Collider_InitCylinder
+/* 00090 80A953E0 0C01712B */  jal     Collider_SetCylinder
               
 /* 00094 80A953E4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00098 80A953E8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -48,14 +48,14 @@ glabel EnKarebaba_Init
 /* 000A0 80A953F0 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 000A4 80A953F4 260501F8 */  addiu   $a1, $s0, 0x01F8           ## $a1 = 000001F8
 /* 000A8 80A953F8 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 000AC 80A953FC 0C0170D9 */  jal     Collider_AllocCylinder
+/* 000AC 80A953FC 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 000B0 80A95400 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 000B4 80A95404 3C0780A9 */  lui     $a3, %hi(D_80A96A1C)       ## $a3 = 80A90000
 /* 000B8 80A95408 24E76A1C */  addiu   $a3, $a3, %lo(D_80A96A1C)  ## $a3 = 80A96A1C
 /* 000BC 80A9540C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 000C0 80A95410 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 000C4 80A95414 0C01712B */  jal     Collider_InitCylinder
+/* 000C4 80A95414 0C01712B */  jal     Collider_SetCylinder
               
 /* 000C8 80A95418 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000CC 80A9541C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

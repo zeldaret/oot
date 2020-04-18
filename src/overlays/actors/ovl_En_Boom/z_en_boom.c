@@ -81,8 +81,8 @@ void EnBoom_Init(EnBoom* this, GlobalContext* globalCtx) {
 
     Effect_Add(globalCtx, &this->effect, 1, 0, 0, &trail);
 
-    Collider_AllocQuad(globalCtx, &this->collider);
-    Collider_InitQuad(globalCtx, &this->collider, this, &col);
+    Collider_InitQuad(globalCtx, &this->collider);
+    Collider_SetQuad(globalCtx, &this->collider, this, &col);
 
     EnBoom_SetupAction(this, &EnBoom_Fly);
 }

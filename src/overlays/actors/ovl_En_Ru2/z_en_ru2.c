@@ -95,8 +95,8 @@ extern AnimationHeader* D_0600F8B8;
 
 void func_80AF2550(EnRu2* this, GlobalContext* globalCtx) {
     EnRu2* thisLocal = this;
-    Collider_AllocCylinder(globalCtx, &thisLocal->collider);
-    Collider_InitCylinder_Set3(globalCtx, &thisLocal->collider, &this->actor, &colliderInit);
+    Collider_InitCylinder(globalCtx, &thisLocal->collider);
+    Collider_SetCylinder_Set3(globalCtx, &thisLocal->collider, &this->actor, &colliderInit);
 }
 
 void func_80AF259C(EnRu2* this, GlobalContext* globalCtx) {

@@ -111,8 +111,8 @@ void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
     if (thisx->params == 0) {
         DynaPolyInfo_Alloc(&D_06008CE0, &localC);
-        Collider_AllocCylinder(globalCtx, &this->collider);
-        Collider_InitCylinder(globalCtx, &this->collider, this, &D_8086CD70);
+        Collider_InitCylinder(globalCtx, &this->collider);
+        Collider_SetCylinder(globalCtx, &this->collider, this, &D_8086CD70);
         thisx->posRot.pos.y = (f32)(thisx->posRot.pos.y + -79.0f);
         if (Flags_GetClear(globalCtx, thisx->room)) {
             Flags_SetSwitch(globalCtx, this->unk_168);

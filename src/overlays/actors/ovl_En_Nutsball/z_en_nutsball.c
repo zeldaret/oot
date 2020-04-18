@@ -40,8 +40,8 @@ void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx) {
     s32 pad[2];
 
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawFunc_Circle, 13.0f);
-    Collider_AllocCylinder(globalCtx, &this->collider);
-    Collider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
     this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, objectTbl[this->actor.params]);
 
     if (this->objBankIndex < 0) {

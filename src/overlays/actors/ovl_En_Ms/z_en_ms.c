@@ -74,8 +74,8 @@ void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, initChain);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06003DC0, &D_060005EC, &this->unkSkelAnimeStruct, &this->unk_1C6,
                      9);
-    Collider_AllocCylinder(globalCtx, &this->collider);
-    Collider_InitCylinder_Set3(globalCtx, &this->collider, this, &colliderInit);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder_Set3(globalCtx, &this->collider, this, &colliderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
     Actor_SetScale(&this->actor, 0.015f);
 

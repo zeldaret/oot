@@ -28,13 +28,13 @@ glabel func_80B050A0
 /* 00878 80B05108 ADD80014 */  sw      $t8, 0x0014($t6)           ## FFFFFFFC
 .L80B0510C:
 /* 0087C 80B0510C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 00880 80B05110 0C0170D9 */  jal     Collider_AllocCylinder
+/* 00880 80B05110 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00884 80B05114 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000194
 /* 00888 80B05118 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 0088C 80B0511C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000194
 /* 00890 80B05120 02603025 */  or      $a2, $s3, $zero            ## $a2 = 00000000
-/* 00894 80B05124 0C01712B */  jal     Collider_InitCylinder
+/* 00894 80B05124 0C01712B */  jal     Collider_SetCylinder
               
 /* 00898 80B05128 8E270000 */  lw      $a3, 0x0000($s1)           ## FFFFFFE8
 /* 0089C 80B0512C 26310004 */  addiu   $s1, $s1, 0x0004           ## $s1 = FFFFFFEC
@@ -65,7 +65,7 @@ glabel func_80B050A0
 /* 008FC 80B0518C 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 00900 80B05190 2670035C */  addiu   $s0, $s3, 0x035C           ## $s0 = 0000035C
 /* 00904 80B05194 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000035C
-/* 00908 80B05198 0C016EFE */  jal     func_8005BBF8              
+/* 00908 80B05198 0C016EFE */  jal     Collider_InitJntSph              
 /* 0090C 80B0519C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 00910 80B051A0 3C0780B0 */  lui     $a3, %hi(D_80B07078)       ## $a3 = 80B00000
 /* 00914 80B051A4 266E037C */  addiu   $t6, $s3, 0x037C           ## $t6 = 0000037C
@@ -73,7 +73,7 @@ glabel func_80B050A0
 /* 0091C 80B051AC 24E77078 */  addiu   $a3, $a3, %lo(D_80B07078)  ## $a3 = 80B07078
 /* 00920 80B051B0 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 00924 80B051B4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000035C
-/* 00928 80B051B8 0C017014 */  jal     Collider_InitJntSph              
+/* 00928 80B051B8 0C017014 */  jal     Collider_SetJntSph              
 /* 0092C 80B051BC 02603025 */  or      $a2, $s3, $zero            ## $a2 = 00000000
 /* 00930 80B051C0 8FBF0034 */  lw      $ra, 0x0034($sp)           
 /* 00934 80B051C4 8FB00020 */  lw      $s0, 0x0020($sp)           

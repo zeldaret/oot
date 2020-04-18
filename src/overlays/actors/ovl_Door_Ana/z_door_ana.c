@@ -62,8 +62,8 @@ void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx) {
         // only allocate collider for grottos that need bombing/hammering open
         if ((this->actor.params & 0x200) != 0) {
             collider = &this->collider;
-            Collider_AllocCylinder(globalCtx, collider);
-            Collider_InitCylinder(globalCtx, collider, &this->actor, &colliderInit);
+            Collider_InitCylinder(globalCtx, collider);
+            Collider_SetCylinder(globalCtx, collider, &this->actor, &colliderInit);
         } else {
             this->actor.flags |= 0x10;
         }

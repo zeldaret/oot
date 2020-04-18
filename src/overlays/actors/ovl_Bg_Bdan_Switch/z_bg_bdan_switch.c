@@ -90,8 +90,8 @@ void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, u32 collision, 
 
 void func_8086D098(BgBdanSwitch* this, GlobalContext* globalCtx) {
     Actor* actor = &this->actor;
-    func_8005BBF8(globalCtx, &this->collider);
-    Collider_InitJntSph(globalCtx, &this->collider, actor, &colliderInit, &this->colliderItems);
+    Collider_InitJntSph(globalCtx, &this->collider);
+    Collider_SetJntSph(globalCtx, &this->collider, actor, &colliderInit, &this->colliderItems);
 }
 
 void func_8086D0EC(BgBdanSwitch* this) {

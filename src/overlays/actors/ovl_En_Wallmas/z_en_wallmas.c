@@ -95,8 +95,8 @@ void EnWallmas_Init(EnWallmas* this, GlobalContext* globalCtx) {
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
                      0x19);
 
-    Collider_AllocCylinder(globalCtx, &this->colCylinder);
-    Collider_InitCylinder(globalCtx, &this->colCylinder, &this->actor, &colCylinderInit);
+    Collider_InitCylinder(globalCtx, &this->colCylinder);
+    Collider_SetCylinder(globalCtx, &this->colCylinder, &this->actor, &colCylinderInit);
     func_80061ED4(&this->actor.sub_98, &damageTable, &sub98Init);
     this2->switchFlag = (u8)(this2->actor.params >> 0x8);
     this->actor.params = this->actor.params & 0xFF;

@@ -159,7 +159,7 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
     func_800C0F08(&globalCtx->preRenderCtx);
     func_800271A8(globalCtx);
     Effect_SS_Clear(globalCtx);
-    func_8005D400(globalCtx, &globalCtx->collisionCheckCtx);
+    CollisionCheck_DestroyContext(globalCtx, &globalCtx->collisionCheckCtx);
 
     if (D_80161490 == 3) {
         func_800B1DBC(&D_801613B0);
@@ -852,7 +852,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         LOG_NUM("1", 1, "../z_play.c", 3631);
                     }
 
-                    func_8005D40C(globalCtx, &globalCtx->collisionCheckCtx);
+                    CollisionCheck_InitContext(globalCtx, &globalCtx->collisionCheckCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3637);

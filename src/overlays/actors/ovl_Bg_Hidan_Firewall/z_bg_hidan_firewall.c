@@ -63,8 +63,8 @@ void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx) {
 
     this->unk_150 = 0;
 
-    Collider_AllocCylinder(globalCtx, &this->collider);
-    Collider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
 
     this->collider.dim.position.y = this->actor.posRot.pos.y;
 

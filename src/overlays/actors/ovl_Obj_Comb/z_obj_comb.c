@@ -130,8 +130,8 @@ void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx) {
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, &initChain);
-    func_8005BBF8(globalCtx, &this->collider);
-    Collider_InitJntSph(globalCtx, &this->collider, this, &colliderInit, &this->colliderItems);
+    Collider_InitJntSph(globalCtx, &this->collider);
+    Collider_SetJntSph(globalCtx, &this->collider, this, &colliderInit, &this->colliderItems);
     ObjComb_SetWait(this);
 }
 

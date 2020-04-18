@@ -502,8 +502,8 @@ void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&thisAgain->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
                          0.f);
 
-    Collider_AllocCylinder(globalCtx, &thisAgain->collider);
-    Collider_InitCylinder(globalCtx, &thisAgain->collider, &thisAgain->actor, &D_80B1D508);
+    Collider_InitCylinder(globalCtx, &thisAgain->collider);
+    Collider_SetCylinder(globalCtx, &thisAgain->collider, &thisAgain->actor, &D_80B1D508);
 
     func_80061EFC(&thisAgain->actor.sub_98, NULL, &D_80B1D534);
 

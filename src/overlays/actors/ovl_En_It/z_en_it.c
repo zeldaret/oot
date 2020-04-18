@@ -38,8 +38,8 @@ void EnIt_Init(EnIt* this, GlobalContext* globalCtx) {
     EnIt* it = this;
 
     it->actor.params = 0x0D05;
-    Collider_AllocCylinder(globalCtx, &it->cylinderCollider);
-    Collider_InitCylinder(globalCtx, &it->cylinderCollider, &it->actor, &cylinderInitData);
+    Collider_InitCylinder(globalCtx, &it->cylinderCollider);
+    Collider_SetCylinder(globalCtx, &it->cylinderCollider, &it->actor, &cylinderInitData);
     func_80061EFC(&it->actor.sub_98, 0, &subActor98Init); // Init Damage Chart
 }
 

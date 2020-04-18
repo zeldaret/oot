@@ -239,8 +239,8 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
         return;
     }
 
-    Collider_AllocCylinder(globalCtx, collider);
-    Collider_InitCylinder(globalCtx, collider, &this->actor, &cylinderInit);
+    Collider_InitCylinder(globalCtx, collider);
+    Collider_SetCylinder(globalCtx, collider, &this->actor, &cylinderInit);
     func_80061EFC(&this->actor.sub_98, 0, &sub98Data);
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;

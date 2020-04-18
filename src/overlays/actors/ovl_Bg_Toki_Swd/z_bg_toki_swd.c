@@ -198,8 +198,8 @@ void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx) {
         globalCtx->unk_11D30[0] = 0xFF;
     }
 
-    Collider_AllocCylinder(globalCtx, collision);
-    Collider_InitCylinder(globalCtx, collision, thisx, &colliderInit);
+    Collider_InitCylinder(globalCtx, collision);
+    Collider_SetCylinder(globalCtx, collision, thisx, &colliderInit);
     Collider_CylinderUpdate(thisx, collision);
     func_80061ED4(&thisx->sub_98, 0, &sub98Init);
 }

@@ -56,8 +56,8 @@ extern Gfx* D_060009E0; // dlist
 
 void ObjBombiwa_InitCollision(ObjBombiwa* this, GlobalContext* globalCtx) {
     ObjBombiwa* thisLocal = this;
-    Collider_AllocCylinder(globalCtx, &thisLocal->collider);
-    Collider_InitCylinder(globalCtx, &thisLocal->collider, &thisLocal->actor, &colliderInit);
+    Collider_InitCylinder(globalCtx, &thisLocal->collider);
+    Collider_SetCylinder(globalCtx, &thisLocal->collider, &thisLocal->actor, &colliderInit);
     Collider_CylinderUpdate(&thisLocal->actor, &thisLocal->collider);
 }
 

@@ -93,8 +93,8 @@ void En_Item00_Init(ActorEnItem00* this, GlobalContext* globalCtx) {
     }
 
     Actor_ProcessInitChain(&this->actor, D_8011550C);
-    Collider_AllocCylinder(globalCtx, &this->cylinderCollider);
-    Collider_InitCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_801154E0);
+    Collider_InitCylinder(globalCtx, &this->cylinderCollider);
+    Collider_SetCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_801154E0);
 
     this->unk_158 = 1;
 

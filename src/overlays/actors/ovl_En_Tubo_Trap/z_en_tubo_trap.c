@@ -44,8 +44,8 @@ void EnTuboTrap_Init(EnTuboTrap* this, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 2.0f);
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 壷トラップ ☆☆☆☆☆ %x\n" VT_RST, this->actor.params); // "Urn Trap"
-    Collider_AllocCylinder(globalCtx, &this->collider);
-    Collider_InitCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
     Actor_SetScale(&this->actor, 0.1f);
     this->actionFunc = (ActorFunc)EnTuboTrap_WaitForProximity;
 }
