@@ -8,7 +8,7 @@ void EnMa1_Update(EnMa1* this, GlobalContext* globalCtx);
 void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx);
 
 u16 EnMa1_GetText(EnMa1* this, GlobalContext* globalCtx);
-s16 func_80AA0778(EnMa1* this, GlobalContext* globalCtx);
+s16 func_80AA0778(GlobalContext* globalCtx, EnMa1* this);
 
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx);
 void func_80AA0EA0(EnMa1* this, GlobalContext* globalCtx);
@@ -101,6 +101,45 @@ u16 EnMa1_GetText(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA0778.s")
+/*s16 func_80AA0778(GlobalContext *globalCtx, EnMa1 *this) {
+    switch(func_8010BDBC(&globalCtx->msgCtx)) {
+        case 2:
+            switch(this->actor.textId - 0x2041) {
+                case 0:
+                    gSaveContext.infTable[8] |= 0x10;
+                    gSaveContext.eventChkInf[1] |= 1;
+                    return 0;
+                case 6:
+                    gSaveContext.eventChkInf[1] |= 0x20;
+                    return 0;
+                case 7:
+                    gSaveContext.infTable[8] |= 0x20;
+                    return 0;
+                case 8:
+                    gSaveContext.eventChkInf[1] |= 0x40;
+                    return 0;
+                case 32:
+                    return 2;
+                default:
+                    return 0;
+            }
+        case 4:
+        case 5:
+            if (func_80106BC8(globalCtx) != 0) {
+                return 2;
+            } else {
+                return 1;
+            }
+        case 6:
+            if (func_80106BC8(globalCtx) != 0) {
+                return 3;
+            } else {
+                return 1;
+            }
+        default:
+            return 1;
+    }
+}*/
 
 s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
     if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneSetupIndex == 5)) {
