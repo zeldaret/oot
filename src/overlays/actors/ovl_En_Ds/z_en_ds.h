@@ -7,7 +7,7 @@
 typedef struct {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s actorDrawTable;
+    /* 0x0190 */ Vec3s limbDrawTable;
     /* 0x0196 */ char unk_194[0x1E];
     /* 0x01B4 */ Vec3s unk_1B4;
     /* 0x01BA */ char unk_1B8[0x1E];

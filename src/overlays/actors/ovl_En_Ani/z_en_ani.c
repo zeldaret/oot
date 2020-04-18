@@ -23,8 +23,8 @@ void func_809B0994(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A28(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A6C(EnAni* this, GlobalContext* globalCtx);
 void EnAni_Update(EnAni* this, GlobalContext* globalCtx);
-s32 EnAni_UpdateMtxFunc(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnAni* enAni);
-void EnAni_LimbAppendDList(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnAni* enAni);
+s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnAni* enAni);
+void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnAni* enAni);
 void EnAni_Draw(EnAni* this, GlobalContext* globalCtx);
 
 extern SkeletonHeader D_060000F0;
@@ -73,7 +73,7 @@ void EnAni_Init(EnAni* this, GlobalContext* globalCtx) {
     anim = &D_060076EC;
     Actor_ProcessInitChain(&this->actor, initChain);
     ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, anim, this->actorDrawTable, this->transitionDrawTable,
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, anim, this->limbDrawTable, this->transitionDrawTable,
                      0x10);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, anim);
     ActorCollider_AllocCylinder(globalCtx, &this->collider);
@@ -297,7 +297,7 @@ void EnAni_Update(EnAni* this, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnAni_UpdateMtxFunc(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnAni* enAni) {
+s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnAni* enAni) {
     EnAni* temp;
 
     temp = enAni;
@@ -308,7 +308,7 @@ s32 EnAni_UpdateMtxFunc(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     return 0;
 }
 
-void EnAni_LimbAppendDList(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnAni* enAni) {
+void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnAni* enAni) {
     if (limbIndex == 15) {
         Matrix_MultVec3f(&EnAniVec, &enAni->actor.posRot2.pos);
     }
@@ -328,7 +328,7 @@ void EnAni_Draw(EnAni* this, GlobalContext* globalCtx) {
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(temp[this->unk_2AC]));
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
-                     EnAni_UpdateMtxFunc, EnAni_LimbAppendDList, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ani.c", 736);
 }

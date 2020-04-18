@@ -17,3 +17,7 @@ It builds the following ROM:
 * zelda_ocarina_mq_dbg.z64 `md5: f0b7f35375f9cc8ca1b2d59d78e35405`
 
 Please refer to the Getting Started guide in the Wiki for setup instructions.
+
+Website: https://zelda64.dev/
+
+Discord: https://discord.zelda64.dev
