@@ -326,7 +326,9 @@ typedef struct {
     /* 0x0444 */ u8         action;
     /* 0x0445 */ char       unk_445[0x003];
     /* 0x0448 */ Actor*     unk_448;
-    /* 0x0445 */ char       unk_44C[0x01E];
+    /* 0x044C */ char       unk_44C[0x004];
+    /* 0x0450 */ Vec3f      unk_450;
+    /* 0x045C */ char       unk_45C[0x00E];
     /* 0x046A */ u16        unk_46A;
     /* 0x046C */ char       unk_46C[0x6E];
     /* 0x04DA */ s16        unk_4DA;
@@ -352,7 +354,8 @@ typedef struct {
     /* 0x06C8 */ SkelAnime  skelAnime2;
     /* 0x070C */ char       unk_70C[0x128];
     /* 0x0834 */ s16        unk_834;
-    /* 0x0836 */ char       unk_836[0x006];
+    /* 0x0836 */ char       unk_836[0x002];
+    /* 0x0838 */ f32        unk_838;
     /* 0x083C */ s16        unk_83C;
     /* 0x083E */ char       unk_83E[0x004];
     /* 0x0842 */ s8         swordAnimation;
