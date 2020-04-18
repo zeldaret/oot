@@ -3690,21 +3690,6 @@ typedef struct {
     /* 0x06 */ s16 unk_06;
     /* 0x08 */ s16 unk_08;
     /* 0x0A */ s16 unk_0A;
-    /* 0x0C */ char unk_0C[0x2];
-    /* 0x0E */ s16 unk_0E;
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ char unk_12[0x2];
-    /* 0x14 */ f32 unk_14;
-    /* 0x18 */ Vec3f unk_18;
-} struct_80034A14_arg1;
-
-typedef struct {
-    /* 0x00 */ s16 unk_00;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-    /* 0x06 */ s16 unk_06;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ s16 unk_0A;
     /* 0x0C */ u8 unk_0C;
 } struct_80116130_0; // size = 0x10
 
@@ -3750,18 +3735,18 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     sp40 = Math_Vec3f_Yaw(&actor->posRot.pos, &arg1->unk_18) - actor->shape.rot.y;
 
     temp1 = (sp40 < -arg2) ? -arg2 : ((sp40 > arg2) ? arg2 : sp40);
-    Math_SmoothScaleMaxMinS(&arg1->unk_0A, temp1, 6, 2000, 1);
+    Math_SmoothScaleMaxMinS(&arg1->unk_08.y, temp1, 6, 2000, 1);
 
     sp40 = (ABS(sp40) >= 0x8000) ? 0 : ((sp40 >= 0) ? sp40 : -sp40);
-    arg1->unk_0A = ((arg1->unk_0A < -sp40) ? -sp40 : ((arg1->unk_0A > sp40) ? sp40 : arg1->unk_0A));
+    arg1->unk_08.y = ((arg1->unk_08.y < -sp40) ? -sp40 : ((arg1->unk_08.y > sp40) ? sp40 : arg1->unk_08.y));
 
-    sp40 = sp40 - arg1->unk_0A;
+    sp40 = sp40 - arg1->unk_08.y;
 
     temp1 = (sp40 < -arg5) ? -arg5 : ((sp40 > arg5) ? arg5 : sp40);
-    Math_SmoothScaleMaxMinS(&arg1->unk_10, temp1, 6, 2000, 1);
+    Math_SmoothScaleMaxMinS(&arg1->unk_08.z, temp1, 6, 2000, 1);
 
     sp40 = (ABS(sp40) >= 0x8000) ? 0 : ((sp40 >= 0) ? sp40 : -sp40);
-    arg1->unk_10 = ((arg1->unk_10 < -sp40) ? -sp40 : ((arg1->unk_10 > sp40) ? sp40 : arg1->unk_10));
+    arg1->unk_08.z = ((arg1->unk_08.z < -sp40) ? -sp40 : ((arg1->unk_08.z > sp40) ? sp40 : arg1->unk_08.z));
 
     if (arg8 != 0) {
         if (arg3) {} // Seems necessary to match
@@ -3771,10 +3756,10 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     temp1 = (sp46 < arg4) ? arg4 : ((sp46 > arg3) ? arg3 : sp46);
     Math_SmoothScaleMaxMinS(&arg1->unk_08, temp1, 6, 2000, 1);
 
-    temp2 = sp46 - arg1->unk_08;
+    temp2 = sp46 - arg1->unk_08.x;
 
     temp1 = (temp2 < arg7) ? arg7 : ((temp2 > arg6) ? arg6 : temp2);
-    Math_SmoothScaleMaxMinS(&arg1->unk_0E, temp1, 6, 2000, 1);
+    Math_SmoothScaleMaxMinS(&arg1->unk_0E.x, temp1, 6, 2000, 1);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_800344BC.s")

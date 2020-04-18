@@ -84,14 +84,14 @@ const ActorInit En_Ru2_InitVars = {
     (ActorFunc)EnRu2_Draw,
 };
 
-extern AnimationHeader* D_060004CC;
-extern SkeletonHeader* D_0600C700;
-extern AnimationHeader* D_0600D3DC;
-extern AnimationHeader* D_0600DCAC;
-extern AnimationHeader* D_06000DE8;
-extern AnimationHeader* D_0600E630;
-extern AnimationHeader* D_0600F03C;
-extern AnimationHeader* D_0600F8B8;
+extern AnimationHeader D_060004CC;
+extern SkeletonHeader D_0600C700;
+extern AnimationHeader D_0600D3DC;
+extern AnimationHeader D_0600DCAC;
+extern AnimationHeader D_06000DE8;
+extern AnimationHeader D_0600E630;
+extern AnimationHeader D_0600F03C;
+extern AnimationHeader D_0600F8B8;
 
 void func_80AF2550(EnRu2* this, GlobalContext* globalCtx) {
     EnRu2* thisLocal = this;
@@ -304,7 +304,8 @@ void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         csCmdActorAction = globalCtx->csCtx.actorActions[3];
         if (csCmdActorAction != NULL && csCmdActorAction->action == 3) {
-            SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(animation), 2, 0.0f);
+            SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
+                                 SkelAnime_GetFrameCount(&animation->genericHeader), 2, 0.0f);
             this->action = 4;
         }
     }
@@ -756,7 +757,7 @@ void EnRu2_Update(EnRu2* this, GlobalContext* globalCtx) {
 void EnRu2_Init(EnRu2* this, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     func_80AF2550(this, globalCtx);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600C700, NULL, &this->unk_190, &this->unk_21A, 0x17);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600C700, NULL, &this->actorDrawTable, &this->transitionDrawTable, 23);
 
     switch (func_80AF26A0(this)) {
         case 2:
