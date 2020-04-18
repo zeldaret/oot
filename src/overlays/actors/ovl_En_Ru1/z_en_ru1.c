@@ -477,7 +477,7 @@ void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEB6E0(EnRu1* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if (skelAnime->unk_3E.y < skelAnime->actorDrawTbl->y) {
+    if (skelAnime->unk_3E.y < skelAnime->limbDrawTbl[0].y) {
         skelAnime->flags |= 3;
         SkelAnime_LoadAnimationType5(globalCtx, &this->actor, skelAnime, 1.0f);
     }
@@ -486,9 +486,9 @@ void func_80AEB6E0(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEB738(EnRu1* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
 
-    skelAnime->unk_3E = *skelAnime->actorDrawTbl;
-    skelAnime->prevFramePos = *skelAnime->actorDrawTbl;
-    if (skelAnime->unk_3E.y < skelAnime->actorDrawTbl->y) {
+    skelAnime->unk_3E = *skelAnime->limbDrawTbl;
+    skelAnime->prevFramePos = *skelAnime->limbDrawTbl;
+    if (skelAnime->unk_3E.y < skelAnime->limbDrawTbl[0].y) {
         skelAnime->flags |= 3;
         SkelAnime_LoadAnimationType5(globalCtx, &this->actor, skelAnime, 1.0f);
     }
@@ -2252,7 +2252,7 @@ void EnRu1_Init(EnRu1* this, GlobalContext* globalCtx) {
     u32 temp_ret;
 
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06012700, NULL, &this->actorDrawTable, &this->transitionDrawTable,
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06012700, NULL, &this->limbDrawTable, &this->transitionDrawTable,
                      17);
     func_80AEAD20(this, globalCtx);
     switch (func_80AEADF0(this)) {
@@ -2352,9 +2352,8 @@ void func_80AF0400(EnRu1* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, 0xFF);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
-    gfxCtx->polyOpa.p =
-        SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl, skelAnime->dListCount, func_80AF02E8,
-                          func_80AF0368, &this->actor, gfxCtx->polyOpa.p);
+    gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                          func_80AF02E8, func_80AF0368, &this->actor, gfxCtx->polyOpa.p);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1309);
 }
@@ -2378,8 +2377,8 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0x00, this->unk_2A8);
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
-    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->actorDrawTbl,
-                                          skelAnime->dListCount, func_80AF02E8, NULL, &this->actor, gfxCtx->polyXlu.p);
+    gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
+                                          func_80AF02E8, NULL, &this->actor, gfxCtx->polyXlu.p);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
 }
