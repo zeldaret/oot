@@ -12,7 +12,7 @@ typedef struct {
     /* 0x01E0 */ s16 unk_1E0;
     /* 0x01E2 */ s16 unk_1E2;
     /* 0x01E4 */ s16 unk_1E4;
-    /* 0x01E6 */ char unk_1E6[0x2];
+    /* 0x01E6 */ s16 unk_1E6;
     /* 0x01E8 */ struct_80034A14_arg1 unk_1E8;
     /* 0x020C */ char unk_20C[0x4];
 } EnMa1; // size = 0x0210
