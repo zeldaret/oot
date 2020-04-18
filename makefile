@@ -27,7 +27,7 @@ CC         := $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bi
 CC_OLD     := $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
 
 # Check code syntax with host compiler
-CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -D _LANGUAGE_C -D NON_MATCHING -I include -include stdarg.h
+CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -D _LANGUAGE_C -D NON_MATCHING -Iinclude -Isrc -include stdarg.h
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
@@ -35,10 +35,10 @@ ELF2ROM    := tools/elf2rom
 ZAP2        := tools/ZAP2/ZAP2.out
 
 OPTIMIZATION := -O2
-ASFLAGS := -march=vr4300 -32 -I include
+ASFLAGS := -march=vr4300 -32 -Iinclude
 
 # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
-CFLAGS  := -mips2 -G 0 -non_shared -Xfullwarn -Xcpluscomm -I include -Wab,-r4300_mul -woff 649,838
+CFLAGS  := -mips2 -G 0 -non_shared -Xfullwarn -Xcpluscomm -Iinclude -Isrc -Wab,-r4300_mul -woff 649,838
 
 ifeq ($(shell getconf LONG_BIT), 32)
   # Work around memory allocation bug in QEMU
