@@ -1118,6 +1118,17 @@ typedef struct {
 } struct_80034EC0_Entry; // size = 0x18
 
 typedef struct {
+    /* 0x00 */ s16 unk_00;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ s16 unk_06;
+    /* 0x08 */ Vec3s unk_08;
+    /* 0x0E */ Vec3s unk_0E;
+    /* 0x14 */ f32 unk_14;
+    /* 0x18 */ Vec3f unk_18;
+} struct_80034A14_arg1;
+
+typedef struct {
     /* 0x00 */ u32 unk_00;
     /* 0x04 */ u32(*init)(GlobalContext*, u32, LoadedParticleEntry*, void*);
 } ParticleOverlayInfo;
