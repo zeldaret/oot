@@ -1,11 +1,3 @@
-.data
-glabel D_801344D0
-    .incbin "baserom.z64", 0xBAB670, 0x7FE
-
-glabel D_80134CCE
-    .incbin "baserom.z64", 0xBABE6E, 0x2
-
-.text
 glabel sins
 /* B775F0 80100450 308EFFFF */  andi  $t6, $a0, 0xffff
 /* B775F4 80100454 000E7902 */  srl   $t7, $t6, 4

@@ -6,10 +6,10 @@
         ptr = (void*)osVirtualToPhysical(ptr); \
     }
 
-static OSTask tmp_task;
+static OSTask sTmpTask;
 OSTask* _VirtualToPhysicalTask(OSTask* intp) {
     OSTask* tp;
-    tp = &tmp_task;
+    tp = &sTmpTask;
     bcopy(intp, tp, sizeof(OSTask));
 
     _osVirtualToPhysical(tp->t.ucode);
@@ -23,6 +23,7 @@ OSTask* _VirtualToPhysicalTask(OSTask* intp) {
 }
 
 #ifdef NON_MATCHING
+// very close to matching, just regalloc
 void osSpTaskLoad(OSTask* intp) {
 
     OSTask* tp;
@@ -56,6 +57,7 @@ void osSpTaskLoad(OSTask* intp) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/sptask/osSpTaskLoad.s")
 #endif
+
 void osSpTaskStartGo(OSTask* tp) {
 
     while (__osSpDeviceBusy()) {

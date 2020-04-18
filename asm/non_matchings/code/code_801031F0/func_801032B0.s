@@ -1,4 +1,4 @@
-.rdata
+.late_rodata
 
 glabel D_8014B270
     .double 0.1

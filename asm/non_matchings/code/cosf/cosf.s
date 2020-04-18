@@ -1,4 +1,4 @@
-.rdata
+.late_rodata
 glabel D_8014B280
     .incbin "baserom.z64", 0xBC2420, 0x28 
 

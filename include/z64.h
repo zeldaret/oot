@@ -346,7 +346,7 @@ typedef struct {
 } Viewport; // size = 0x10
 
 
- typedef struct { 
+typedef struct { 
     /* 0x0000 */ s32    magic; // string literal "VIEW" / 0x56494557
     /* 0x0004 */ GraphicsContext* gfxCtx;
     /* 0x0008 */ Viewport viewport;

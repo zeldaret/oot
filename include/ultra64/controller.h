@@ -12,7 +12,7 @@
 #define CONT_CMD_WRITE_MEMPACK 3
 #define CONT_CMD_READ_EEPROM 4
 #define CONT_CMD_WRITE_EEPROM 5
-#define CONT_CMD_RESET 0xff
+#define CONT_CMD_RESET 0xFF
 
 #define CONT_CMD_REQUEST_STATUS_TX 1
 #define CONT_CMD_READ_BUTTON_TX 1
@@ -30,9 +30,9 @@
 #define CONT_CMD_WRITE_EEPROM_RX 1
 #define CONT_CMD_RESET_RX 3
 
-#define CONT_CMD_NOP 0xff
-#define CONT_CMD_END 0xfe //indicates end of a command
-#define CONT_CMD_EXE 1    //set pif ram status byte to this to do a command
+#define CONT_CMD_NOP 0xFF
+#define CONT_CMD_END 0xFE // Indicates end of a command
+#define CONT_CMD_EXE 1    // Set pif ram status byte to this to do a command
 
 #define DIR_STATUS_EMPTY 0
 #define DIR_STATUS_UNKNOWN 1
