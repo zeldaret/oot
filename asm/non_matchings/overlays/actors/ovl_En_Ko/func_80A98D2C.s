@@ -1,12 +1,12 @@
 glabel func_80A98D2C
-/* 01F7C 80A98D2C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 01F80 80A98D30 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01F7C 80A98D2C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 01F80 80A98D30 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01F84 80A98D34 8C4E0004 */  lw      $t6, 0x0004($v0)           ## 8015E664
 /* 01F88 80A98D38 AFA40000 */  sw      $a0, 0x0000($sp)           
-/* 01F8C 80A98D3C 3C0F8012 */  lui     $t7, 0x8012                ## $t7 = 80120000
+/* 01F8C 80A98D3C 3C0F8012 */  lui     $t7, %hi(gBitFlags)
 /* 01F90 80A98D40 15C0000B */  bne     $t6, $zero, .L80A98D70     
-/* 01F94 80A98D44 3C088012 */  lui     $t0, 0x8012                ## $t0 = 80120000
-/* 01F98 80A98D48 8DEF7120 */  lw      $t7, 0x7120($t7)           ## 80127120
+/* 01F94 80A98D44 3C088012 */  lui     $t0, %hi(gBitFlags+0x48)
+/* 01F98 80A98D48 8DEF7120 */  lw      $t7, %lo(gBitFlags)($t7)
 /* 01F9C 80A98D4C 8C5800A4 */  lw      $t8, 0x00A4($v0)           ## 8015E704
 /* 01FA0 80A98D50 24030003 */  addiu   $v1, $zero, 0x0003         ## $v1 = 00000003
 /* 01FA4 80A98D54 01F8C824 */  and     $t9, $t7, $t8              
@@ -18,7 +18,7 @@ glabel func_80A98D2C
 /* 01FB8 80A98D68 03E00008 */  jr      $ra                        
 /* 01FBC 80A98D6C 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000003
 .L80A98D70:
-/* 01FC0 80A98D70 8D087168 */  lw      $t0, 0x7168($t0)           ## 80127168
+/* 01FC0 80A98D70 8D087168 */  lw      $t0, %lo(gBitFlags+0x48)($t0)
 /* 01FC4 80A98D74 8C4900A4 */  lw      $t1, 0x00A4($v0)           ## 000000A7
 /* 01FC8 80A98D78 01095024 */  and     $t2, $t0, $t1              
 /* 01FCC 80A98D7C 5140000B */  beql    $t2, $zero, .L80A98DAC     

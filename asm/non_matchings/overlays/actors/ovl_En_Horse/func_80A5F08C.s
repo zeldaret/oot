@@ -1,7 +1,7 @@
 glabel func_80A5F08C
 /* 03D9C 80A5F08C 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
-/* 03DA0 80A5F090 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 03DA4 80A5F094 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 03DA0 80A5F090 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 03DA4 80A5F094 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 03DA8 80A5F098 AFBF002C */  sw      $ra, 0x002C($sp)           
 /* 03DAC 80A5F09C AFB10028 */  sw      $s1, 0x0028($sp)           
 /* 03DB0 80A5F0A0 AFB00024 */  sw      $s0, 0x0024($sp)           
@@ -16,10 +16,10 @@ glabel func_80A5F08C
 /* 03DD4 80A5F0C4 0C296F65 */  jal     func_80A5BD94              
 /* 03DD8 80A5F0C8 A44005BE */  sh      $zero, 0x05BE($v0)         ## 801605BE
 /* 03DDC 80A5F0CC 10400021 */  beq     $v0, $zero, .L80A5F154     
-/* 03DE0 80A5F0D0 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 03DE4 80A5F0D4 3C188013 */  lui     $t8, 0x8013                ## $t8 = 80130000
-/* 03DE8 80A5F0D8 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 03DEC 80A5F0DC 271833E8 */  addiu   $t8, $t8, 0x33E8           ## $t8 = 801333E8
+/* 03DE0 80A5F0D0 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 03DE4 80A5F0D4 3C188013 */  lui     $t8, %hi(D_801333E8)
+/* 03DE8 80A5F0D8 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 03DEC 80A5F0DC 271833E8 */  addiu   $t8, %lo(D_801333E8)
 /* 03DF0 80A5F0E0 AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 03DF4 80A5F0E4 AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 03DF8 80A5F0E8 24042805 */  addiu   $a0, $zero, 0x2805         ## $a0 = 00002805
@@ -33,9 +33,9 @@ glabel func_80A5F08C
 /* 03E14 80A5F104 03214024 */  and     $t0, $t9, $at              
 /* 03E18 80A5F108 AE0801F0 */  sw      $t0, 0x01F0($s0)           ## 000001F0
 /* 03E1C 80A5F10C 862900A4 */  lh      $t1, 0x00A4($s1)           ## 000000A4
-/* 03E20 80A5F110 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 03E20 80A5F110 3C018016 */  lui     $at, %hi(gSaveContext+0x1348)
 /* 03E24 80A5F114 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 03E28 80A5F118 A429F9A8 */  sh      $t1, -0x0658($at)          ## 8015F9A8
+/* 03E28 80A5F118 A429F9A8 */  sh      $t1, %lo(gSaveContext+0x1348)($at)
 /* 03E2C 80A5F11C 0C016AA4 */  jal     func_8005AA90              
 /* 03E30 80A5F120 8E240790 */  lw      $a0, 0x0790($s1)           ## 00000790
 /* 03E34 80A5F124 8E240790 */  lw      $a0, 0x0790($s1)           ## 00000790

@@ -18,8 +18,8 @@ glabel EnZl4_Init
 /* 0063C 80B5BDEC AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 00640 80B5BDF0 0C0291BE */  jal     SkelAnime_InitSV
 /* 00644 80B5BDF4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00648 80B5BDF8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0064C 80B5BDFC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00648 80B5BDF8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0064C 80B5BDFC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00650 80B5BE00 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00654 80B5BE04 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00658 80B5BE08 0C00AC78 */  jal     ActorShape_Init
@@ -52,10 +52,10 @@ glabel EnZl4_Init
 /* 006B8 80B5BE68 0C00B58B */  jal     Actor_SetScale
 
 /* 006BC 80B5BE6C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 006C0 80B5BE70 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 006C0 80B5BE70 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 006C4 80B5BE74 24190006 */  addiu   $t9, $zero, 0x0006         ## $t9 = 00000006
 /* 006C8 80B5BE78 3408FFFF */  ori     $t0, $zero, 0xFFFF         ## $t0 = 0000FFFF
-/* 006CC 80B5BE7C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 006CC 80B5BE7C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 006D0 80B5BE80 A219001F */  sb      $t9, 0x001F($s0)           ## 0000001F
 /* 006D4 80B5BE84 A608010E */  sh      $t0, 0x010E($s0)           ## 0000010E
 /* 006D8 80B5BE88 A200020E */  sb      $zero, 0x020E($s0)         ## 0000020E

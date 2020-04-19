@@ -13,17 +13,17 @@ glabel func_8080F560
 /* 0B84C 8080F58C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 0B850 8080F590 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 0B854 8080F594 3C0FE700 */  lui     $t7, 0xE700                ## $t7 = E7000000
-/* 0B858 8080F598 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 0B858 8080F598 3C188016 */  lui     $t8, %hi(gGameInfo)
 /* 0B85C 8080F59C 244E0008 */  addiu   $t6, $v0, 0x0008           ## $t6 = 00000008
 /* 0B860 8080F5A0 AE0E02C0 */  sw      $t6, 0x02C0($s0)           ## 000002C0
 /* 0B864 8080F5A4 AC400004 */  sw      $zero, 0x0004($v0)         ## 00000004
 /* 0B868 8080F5A8 AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
-/* 0B86C 8080F5AC 8F18FA90 */  lw      $t8, -0x0570($t8)          ## 8015FA90
+/* 0B86C 8080F5AC 8F18FA90 */  lw      $t8, %lo(gGameInfo)($t8)
 /* 0B870 8080F5B0 0C01DE0D */  jal     Math_Coss
               ## coss?
 /* 0B874 8080F5B4 870407AA */  lh      $a0, 0x07AA($t8)           ## 801607AA
-/* 0B878 8080F5B8 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 0B87C 8080F5BC 8F39FA90 */  lw      $t9, -0x0570($t9)          ## 8015FA90
+/* 0B878 8080F5B8 3C198016 */  lui     $t9, %hi(gGameInfo)
+/* 0B87C 8080F5BC 8F39FA90 */  lw      $t9, %lo(gGameInfo)($t9)
 /* 0B880 8080F5C0 E7A00048 */  swc1    $f0, 0x0048($sp)           
 /* 0B884 8080F5C4 0C01DE1C */  jal     Math_Sins
               ## sins?
@@ -31,8 +31,8 @@ glabel func_8080F560
 /* 0B88C 8080F5CC 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
 /* 0B890 8080F5D0 44811000 */  mtc1    $at, $f2                   ## $f2 = 1000.00
 /* 0B894 8080F5D4 C7A40048 */  lwc1    $f4, 0x0048($sp)           
-/* 0B898 8080F5D8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0B89C 8080F5DC 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 0B898 8080F5D8 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 0B89C 8080F5DC 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 0B8A0 8080F5E0 46041182 */  mul.s   $f6, $f2, $f4              
 /* 0B8A4 8080F5E4 00000000 */  nop
 /* 0B8A8 8080F5E8 46020202 */  mul.s   $f8, $f0, $f2              
@@ -46,8 +46,8 @@ glabel func_8080F560
 /* 0B8C8 8080F608 0C01DE1C */  jal     Math_Sins
               ## sins?
 /* 0B8CC 8080F60C 844407AA */  lh      $a0, 0x07AA($v0)           ## 801607AA
-/* 0B8D0 8080F610 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 0B8D4 8080F614 8D29FA90 */  lw      $t1, -0x0570($t1)          ## 8015FA90
+/* 0B8D0 8080F610 3C098016 */  lui     $t1, %hi(gGameInfo)
+/* 0B8D4 8080F614 8D29FA90 */  lw      $t1, %lo(gGameInfo)($t1)
 /* 0B8D8 8080F618 E7A00048 */  swc1    $f0, 0x0048($sp)           
 /* 0B8DC 8080F61C 0C01DE0D */  jal     Math_Coss
               ## coss?
@@ -87,8 +87,8 @@ glabel func_8080F560
 /* 0B964 8080F6A4 AE0A02C0 */  sw      $t2, 0x02C0($s0)           ## 000002C0
 /* 0B968 8080F6A8 AC400004 */  sw      $zero, 0x0004($v0)         ## 00000004
 /* 0B96C 8080F6AC AC4B0000 */  sw      $t3, 0x0000($v0)           ## 00000000
-/* 0B970 8080F6B0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0B974 8080F6B4 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 0B970 8080F6B0 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 0B974 8080F6B4 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 0B978 8080F6B8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0B97C 8080F6BC 3421C8E8 */  ori     $at, $at, 0xC8E8           ## $at = 0001C8E8
 /* 0B980 8080F6C0 844C07AA */  lh      $t4, 0x07AA($v0)           ## 801607AA

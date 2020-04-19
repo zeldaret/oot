@@ -75,8 +75,8 @@ glabel EnDns_Init
 .L809EF394:
 /* 00044 809EF394 14C1000D */  bne     $a2, $at, .L809EF3CC
 /* 00048 809EF398 248406C8 */  addiu   $a0, $a0, %lo(D_809F06C8)  ## $a0 = 000006C8
-/* 0004C 809EF39C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00050 809EF3A0 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 0004C 809EF39C 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 00050 809EF3A0 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 00054 809EF3A4 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 00058 809EF3A8 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011
 /* 0005C 809EF3AC 11C00003 */  beq     $t6, $zero, .L809EF3BC
@@ -125,8 +125,8 @@ glabel EnDns_Init
 /* 000F0 809EF440 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 000F4 809EF444 0C017114 */  jal     func_8005C450
 /* 000F8 809EF448 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 000FC 809EF44C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00100 809EF450 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 000FC 809EF44C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00100 809EF450 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00104 809EF454 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00108 809EF458 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0010C 809EF45C 0C00AC78 */  jal     ActorShape_Init

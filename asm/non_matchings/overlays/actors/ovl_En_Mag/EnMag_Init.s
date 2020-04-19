@@ -1,6 +1,6 @@
 glabel EnMag_Init
-/* 00000 80AA3B00 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00004 80AA3B04 2442FA90 */  addiu   $v0, $v0, 0xFA90           ## $v0 = 8015FA90
+/* 00000 80AA3B00 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 00004 80AA3B04 2442FA90 */  addiu   $v0, %lo(gGameInfo)
 /* 00008 80AA3B08 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0000C 80AA3B0C 8C4F0000 */  lw      $t7, 0x0000($v0)           ## 8015FA90
 /* 00010 80AA3B10 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -38,11 +38,11 @@ glabel EnMag_Init
 /* 00090 80AA3B90 A5EE04A6 */  sh      $t6, 0x04A6($t7)           ## 000004A6
 /* 00094 80AA3B94 8C590000 */  lw      $t9, 0x0000($v0)           ## 8015FA90
 /* 00098 80AA3B98 44806000 */  mtc1    $zero, $f12                ## $f12 = 0.00
-/* 0009C 80AA3B9C 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
+/* 0009C 80AA3B9C 3C078016 */  lui     $a3, %hi(gSaveContext)
 /* 000A0 80AA3BA0 A73804A8 */  sh      $t8, 0x04A8($t9)           ## 000004A8
 /* 000A4 80AA3BA4 8C4D0000 */  lw      $t5, 0x0000($v0)           ## 8015FA90
 /* 000A8 80AA3BA8 24180063 */  addiu   $t8, $zero, 0x0063         ## $t8 = 00000063
-/* 000AC 80AA3BAC 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 000AC 80AA3BAC 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 000B0 80AA3BB0 A5AC0F1C */  sh      $t4, 0x0F1C($t5)           ## 00000F1C
 /* 000B4 80AA3BB4 8C4E0000 */  lw      $t6, 0x0000($v0)           ## 8015FA90
 /* 000B8 80AA3BB8 240C0009 */  addiu   $t4, $zero, 0x0009         ## $t4 = 00000009

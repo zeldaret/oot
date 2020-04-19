@@ -9,9 +9,9 @@ glabel func_80A43A2C
 /* 00D18 80A43A48 8FAE001C */  lw      $t6, 0x001C($sp)           
 /* 00D1C 80A43A4C 95CF010E */  lhu     $t7, 0x010E($t6)           ## 0000010E
 /* 00D20 80A43A50 24013014 */  addiu   $at, $zero, 0x3014         ## $at = 00003014
-/* 00D24 80A43A54 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00D24 80A43A54 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 00D28 80A43A58 15E10004 */  bne     $t7, $at, .L80A43A6C       
-/* 00D2C 80A43A5C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00D2C 80A43A5C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00D30 80A43A60 94580F16 */  lhu     $t8, 0x0F16($v0)           ## 8015F576
 /* 00D34 80A43A64 37190001 */  ori     $t9, $t8, 0x0001           ## $t9 = 00000001
 /* 00D38 80A43A68 A4590F16 */  sh      $t9, 0x0F16($v0)           ## 8015F576

@@ -61,8 +61,8 @@ glabel EnKakasi2_Update
               ## CollisionCheck_setOT
 /* 007C4 80A907D4 8FA60050 */  lw      $a2, 0x0050($sp)           
 .L80A907D8:
-/* 007C8 80A907D8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 007CC 80A907DC 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 007C8 80A907D8 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 007CC 80A907DC 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 007D0 80A907E0 845812D4 */  lh      $t8, 0x12D4($v0)           ## 801612D4
 /* 007D4 80A907E4 53000054 */  beql    $t8, $zero, .L80A90938     
 /* 007D8 80A907E8 8FBF004C */  lw      $ra, 0x004C($sp)           

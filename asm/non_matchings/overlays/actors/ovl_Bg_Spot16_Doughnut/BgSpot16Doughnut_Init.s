@@ -104,8 +104,8 @@ glabel BgSpot16Doughnut_Init
 /* 00134 808B6574 0C00084C */  jal     osSyncPrintf
               
 /* 00138 808B6578 00000000 */  nop
-/* 0013C 808B657C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00140 808B6580 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 0013C 808B657C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00140 808B6580 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00144 808B6584 8C4A0004 */  lw      $t2, 0x0004($v0)           ## 8015E664
 /* 00148 808B6588 3C04808B */  lui     $a0, %hi(D_808B6A3C)       ## $a0 = 808B0000
 /* 0014C 808B658C 24846A3C */  addiu   $a0, $a0, %lo(D_808B6A3C)  ## $a0 = 808B6A3C

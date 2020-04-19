@@ -6,8 +6,8 @@ glabel EnDivingGame_Destroy
 /* 00144 809ED9B4 00A03825 */  or      $a3, $a1, $zero            ## $a3 = 00000000
 /* 00148 809ED9B8 15C00003 */  bne     $t6, $zero, .L809ED9C8     
 /* 0014C 809ED9BC 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
-/* 00150 809ED9C0 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00154 809ED9C4 A420FA2E */  sh      $zero, -0x05D2($at)        ## 8015FA2E
+/* 00150 809ED9C0 3C018016 */  lui     $at, %hi(gSaveContext+0x13ce)
+/* 00154 809ED9C4 A420FA2E */  sh      $zero, %lo(gSaveContext+0x13ce)($at)
 .L809ED9C8:
 /* 00158 809ED9C8 0C0170EB */  jal     ActorCollider_FreeCylinder
               

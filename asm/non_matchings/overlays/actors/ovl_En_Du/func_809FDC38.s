@@ -9,19 +9,19 @@ glabel func_809FDC38
 /* 00024 809FDC54 1000001D */  beq     $zero, $zero, .L809FDCCC   
 /* 00028 809FDC58 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000000
 .L809FDC5C:
-/* 0002C 809FDC5C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00030 809FDC60 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
-/* 00034 809FDC64 3C0F8012 */  lui     $t7, 0x8012                ## $t7 = 80120000
-/* 00038 809FDC68 8DEF71B8 */  lw      $t7, 0x71B8($t7)           ## 801271B8
+/* 0002C 809FDC5C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00030 809FDC60 2442E660 */  addiu   $v0, %lo(gSaveContext)
+/* 00034 809FDC64 3C0F8012 */  lui     $t7, %hi(gUpgradeMasks+8)
+/* 00038 809FDC68 8DEF71B8 */  lw      $t7, %lo(gUpgradeMasks+8)($t7)
 /* 0003C 809FDC6C 8C4E00A0 */  lw      $t6, 0x00A0($v0)           ## 8015E700
-/* 00040 809FDC70 3C198012 */  lui     $t9, 0x8012                ## $t9 = 80120000
-/* 00044 809FDC74 933971F6 */  lbu     $t9, 0x71F6($t9)           ## 801271F6
+/* 00040 809FDC70 3C198012 */  lui     $t9, %hi(gUpgradeShifts+2)
+/* 00044 809FDC74 933971F6 */  lbu     $t9, %lo(gUpgradeShifts+2)($t9)
 /* 00048 809FDC78 01CFC024 */  and     $t8, $t6, $t7              
-/* 0004C 809FDC7C 3C098012 */  lui     $t1, 0x8012                ## $t1 = 80120000
+/* 0004C 809FDC7C 3C098012 */  lui     $t1, %hi(gBitFlags+0x4c)
 /* 00050 809FDC80 03384007 */  srav    $t0, $t8, $t9              
 /* 00054 809FDC84 5100000B */  beql    $t0, $zero, .L809FDCB4     
 /* 00058 809FDC88 944C0F1A */  lhu     $t4, 0x0F1A($v0)           ## 8015F57A
-/* 0005C 809FDC8C 8D29716C */  lw      $t1, 0x716C($t1)           ## 8012716C
+/* 0005C 809FDC8C 8D29716C */  lw      $t1, %lo(gBitFlags+0x4c)($t1)
 /* 00060 809FDC90 8C4A00A4 */  lw      $t2, 0x00A4($v0)           ## 8015E704
 /* 00064 809FDC94 012A5824 */  and     $t3, $t1, $t2              
 /* 00068 809FDC98 11600003 */  beq     $t3, $zero, .L809FDCA8     

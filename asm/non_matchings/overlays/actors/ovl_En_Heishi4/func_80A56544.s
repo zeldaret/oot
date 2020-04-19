@@ -36,8 +36,8 @@ glabel func_80A56544
 /* 004E0 80A565B0 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 004E4 80A565B4 E7B00010 */  swc1    $f16, 0x0010($sp)
-/* 004E8 80A565B8 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 004EC 80A565BC 8D08E664 */  lw      $t0, -0x199C($t0)          ## 8015E664
+/* 004E8 80A565B8 3C088016 */  lui     $t0, %hi(gSaveContext+4)
+/* 004EC 80A565BC 8D08E664 */  lw      $t0, %lo(gSaveContext+4)($t0)
 /* 004F0 80A565C0 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 004F4 80A565C4 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011
 /* 004F8 80A565C8 11000003 */  beq     $t0, $zero, .L80A565D8

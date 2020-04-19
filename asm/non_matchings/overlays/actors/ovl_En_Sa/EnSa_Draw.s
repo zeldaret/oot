@@ -38,8 +38,8 @@ glabel EnSa_Draw
 /* 01A70 80AF6FD0 00195080 */  sll     $t2, $t9,  2               
 /* 01A74 80AF6FD4 012A5821 */  addu    $t3, $t1, $t2              
 /* 01A78 80AF6FD8 8D640000 */  lw      $a0, 0x0000($t3)           ## 00000000
-/* 01A7C 80AF6FDC 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
-/* 01A80 80AF6FE0 24C66FA8 */  addiu   $a2, $a2, 0x6FA8           ## $a2 = 80166FA8
+/* 01A7C 80AF6FDC 3C068016 */  lui     $a2, %hi(gSegments)
+/* 01A80 80AF6FE0 24C66FA8 */  addiu   $a2, %lo(gSegments)
 /* 01A84 80AF6FE4 00046900 */  sll     $t5, $a0,  4               
 /* 01A88 80AF6FE8 000D7702 */  srl     $t6, $t5, 28               
 /* 01A8C 80AF6FEC 000E7880 */  sll     $t7, $t6,  2               
@@ -117,8 +117,8 @@ glabel EnSa_Draw
 /* 01BA8 80AF7108 000AC880 */  sll     $t9, $t2,  2               
 /* 01BAC 80AF710C 01395821 */  addu    $t3, $t1, $t9              
 /* 01BB0 80AF7110 8D640000 */  lw      $a0, 0x0000($t3)           ## 00000000
-/* 01BB4 80AF7114 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
-/* 01BB8 80AF7118 24C66FA8 */  addiu   $a2, $a2, 0x6FA8           ## $a2 = 80166FA8
+/* 01BB4 80AF7114 3C068016 */  lui     $a2, %hi(gSegments)
+/* 01BB8 80AF7118 24C66FA8 */  addiu   $a2, %lo(gSegments)
 /* 01BBC 80AF711C 00047100 */  sll     $t6, $a0,  4               
 /* 01BC0 80AF7120 000E7F02 */  srl     $t7, $t6, 28               
 /* 01BC4 80AF7124 000FC080 */  sll     $t8, $t7,  2               

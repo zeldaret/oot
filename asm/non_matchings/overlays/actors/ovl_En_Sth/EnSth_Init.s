@@ -38,11 +38,11 @@ glabel EnSth_Init
 /* 0002C 80B0756C AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00030 80B07570 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
 /* 00034 80B07574 8FA60024 */  lw      $a2, 0x0024($sp)           
-/* 00038 80B07578 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 00038 80B07578 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xd0)
 /* 0003C 80B0757C 1440000D */  bne     $v0, $zero, .L80B075B4     
 /* 00040 80B07580 0002C080 */  sll     $t8, $v0,  2               
-/* 00044 80B07584 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00048 80B07588 85CEE730 */  lh      $t6, -0x18D0($t6)          ## 8015E730
+/* 00044 80B07584 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xd0)
+/* 00048 80B07588 85CEE730 */  lh      $t6, %lo(gSaveContext+0xd0)($t6)
 /* 0004C 80B0758C 29C10064 */  slti    $at, $t6, 0x0064           
 /* 00050 80B07590 50200016 */  beql    $at, $zero, .L80B075EC     
 /* 00054 80B07594 0006C840 */  sll     $t9, $a2,  1               
@@ -56,7 +56,7 @@ glabel EnSth_Init
 /* 0006C 80B075AC 1000003C */  beq     $zero, $zero, .L80B076A0   
 /* 00070 80B075B0 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80B075B4:
-/* 00074 80B075B4 85EFE730 */  lh      $t7, -0x18D0($t7)          ## FFFFE730
+/* 00074 80B075B4 85EFE730 */  lh      $t7, %lo(gSaveContext+0xd0)($t7)
 /* 00078 80B075B8 0302C021 */  addu    $t8, $t8, $v0              
 /* 0007C 80B075BC 0018C040 */  sll     $t8, $t8,  1               
 /* 00080 80B075C0 01F8082A */  slt     $at, $t7, $t8              

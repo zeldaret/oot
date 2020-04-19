@@ -28,8 +28,8 @@ glabel func_80AA0F44
 /* 00918 80AA0FA8 AFA30024 */  sw      $v1, 0x0024($sp)           
 /* 0091C 80AA0FAC 8FA30024 */  lw      $v1, 0x0024($sp)           
 .L80AA0FB0:
-/* 00920 80AA0FB0 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 00924 80AA0FB4 954AF536 */  lhu     $t2, -0x0ACA($t2)          ## 8015F536
+/* 00920 80AA0FB0 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xed6)
+/* 00924 80AA0FB4 954AF536 */  lhu     $t2, %lo(gSaveContext+0xed6)($t2)
 /* 00928 80AA0FB8 314B0040 */  andi    $t3, $t2, 0x0040           ## $t3 = 00000000
 /* 0092C 80AA0FBC 51600027 */  beql    $t3, $zero, .L80AA105C     
 /* 00930 80AA0FC0 8FBF001C */  lw      $ra, 0x001C($sp)           

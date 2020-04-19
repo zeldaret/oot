@@ -1,8 +1,8 @@
 glabel func_80A436DC
-/* 009AC 80A436DC 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 009B0 80A436E0 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 009B4 80A436E4 8DEFE704 */  lw      $t7, -0x18FC($t7)          ## 8015E704
-/* 009B8 80A436E8 8DCE716C */  lw      $t6, 0x716C($t6)           ## 8012716C
+/* 009AC 80A436DC 3C0E8012 */  lui     $t6, %hi(gBitFlags+0x4c)
+/* 009B0 80A436E0 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xa4)
+/* 009B4 80A436E4 8DEFE704 */  lw      $t7, %lo(gSaveContext+0xa4)($t7)
+/* 009B8 80A436E8 8DCE716C */  lw      $t6, %lo(gBitFlags+0x4c)($t6)
 /* 009BC 80A436EC AFA40000 */  sw      $a0, 0x0000($sp)           
 /* 009C0 80A436F0 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 009C4 80A436F4 01CFC024 */  and     $t8, $t6, $t7              

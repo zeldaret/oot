@@ -23,8 +23,8 @@ glabel func_809898C8
 /* 00A98 80989918 0C00BE0A */  jal     Audio_PlayActorSound2
               
 /* 00A9C 8098991C 24052893 */  addiu   $a1, $zero, 0x2893         ## $a1 = 00002893
-/* 00AA0 80989920 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00AA4 80989924 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00AA0 80989920 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00AA4 80989924 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00AA8 80989928 944E0EDC */  lhu     $t6, 0x0EDC($v0)           ## 8015F53C
 /* 00AAC 8098992C 35CF0800 */  ori     $t7, $t6, 0x0800           ## $t7 = 00000800
 /* 00AB0 80989930 A44F0EDC */  sh      $t7, 0x0EDC($v0)           ## 8015F53C

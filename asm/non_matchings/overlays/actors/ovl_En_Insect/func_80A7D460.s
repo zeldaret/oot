@@ -472,12 +472,12 @@ glabel func_80A7D460
 /* 01B9C 80A7D9BC 14200023 */  bne     $at, $zero, .L80A7DA4C     
 /* 01BA0 80A7D9C0 24580001 */  addiu   $t8, $v0, 0x0001           ## $t8 = 00000001
 /* 01BA4 80A7D9C4 8E020320 */  lw      $v0, 0x0320($s0)           ## 00000320
-/* 01BA8 80A7D9C8 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
+/* 01BA8 80A7D9C8 3C088016 */  lui     $t0, %hi(gSaveContext+0xe9c)
 /* 01BAC 80A7D9CC 5040001C */  beql    $v0, $zero, .L80A7DA40     
 /* 01BB0 80A7D9D0 34CF0080 */  ori     $t7, $a2, 0x0080           ## $t7 = 000000C0
 /* 01BB4 80A7D9D4 8443001C */  lh      $v1, 0x001C($v0)           ## 0000001C
-/* 01BB8 80A7D9D8 3C098012 */  lui     $t1, 0x8012                ## $t1 = 80120000
-/* 01BBC 80A7D9DC 3C0B8012 */  lui     $t3, 0x8012                ## $t3 = 80120000
+/* 01BB8 80A7D9D8 3C098012 */  lui     $t1, %hi(D_8012723C)
+/* 01BBC 80A7D9DC 3C0B8012 */  lui     $t3, %hi(D_8012724C)
 /* 01BC0 80A7D9E0 00032203 */  sra     $a0, $v1,  8               
 /* 01BC4 80A7D9E4 3084001F */  andi    $a0, $a0, 0x001F           ## $a0 = 00000000
 /* 01BC8 80A7D9E8 2484FFFF */  addiu   $a0, $a0, 0xFFFF           ## $a0 = FFFFFFFF
@@ -487,10 +487,10 @@ glabel func_80A7D460
 /* 01BD8 80A7D9F8 00052880 */  sll     $a1, $a1,  2               
 /* 01BDC 80A7D9FC 01254821 */  addu    $t1, $t1, $a1              
 /* 01BE0 80A7DA00 01194021 */  addu    $t0, $t0, $t9              
-/* 01BE4 80A7DA04 8D08F4FC */  lw      $t0, -0x0B04($t0)          ## 8015F4FC
-/* 01BE8 80A7DA08 8D29723C */  lw      $t1, 0x723C($t1)           ## 8012723C
+/* 01BE4 80A7DA04 8D08F4FC */  lw      $t0, %lo(gSaveContext+0xe9c)($t0)
+/* 01BE8 80A7DA08 8D29723C */  lw      $t1, %lo(D_8012723C)($t1)
 /* 01BEC 80A7DA0C 01655821 */  addu    $t3, $t3, $a1              
-/* 01BF0 80A7DA10 8D6B724C */  lw      $t3, 0x724C($t3)           ## 8012724C
+/* 01BF0 80A7DA10 8D6B724C */  lw      $t3, %lo(D_8012724C)($t3)
 /* 01BF4 80A7DA14 01095024 */  and     $t2, $t0, $t1              
 /* 01BF8 80A7DA18 306D00FF */  andi    $t5, $v1, 0x00FF           ## $t5 = 00000000
 /* 01BFC 80A7DA1C 016A6006 */  srlv    $t4, $t2, $t3              

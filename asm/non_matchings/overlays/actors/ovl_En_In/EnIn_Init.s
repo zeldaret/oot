@@ -17,12 +17,12 @@ glabel EnIn_Init
               ## ObjectIndex
 /* 00EDC 80A79E8C AFA60030 */  sw      $a2, 0x0030($sp)           
 /* 00EE0 80A79E90 8FA60030 */  lw      $a2, 0x0030($sp)           
-/* 00EE4 80A79E94 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 00EE4 80A79E94 3C198016 */  lui     $t9, %hi(gSaveContext+0x1368)
 /* 00EE8 80A79E98 3C0C80A8 */  lui     $t4, %hi(func_80A79FB0)    ## $t4 = 80A80000
 /* 00EEC 80A79E9C A0C201E4 */  sb      $v0, 0x01E4($a2)           ## 000001E4
 /* 00EF0 80A79EA0 80CE01E4 */  lb      $t6, 0x01E4($a2)           ## 000001E4
 /* 00EF4 80A79EA4 3C0280A8 */  lui     $v0, %hi(D_80A7B998)       ## $v0 = 80A80000
-/* 00EF8 80A79EA8 2739F9C8 */  addiu   $t9, $t9, 0xF9C8           ## $t9 = 8015F9C8
+/* 00EF8 80A79EA8 2739F9C8 */  addiu   $t9, %lo(gSaveContext+0x1368)
 /* 00EFC 80A79EAC 05C10009 */  bgez    $t6, .L80A79ED4            
 /* 00F00 80A79EB0 258C9FB0 */  addiu   $t4, $t4, %lo(func_80A79FB0) ## $t4 = 80A79FB0
 /* 00F04 80A79EB4 84CF001C */  lh      $t7, 0x001C($a2)           ## 0000001C
@@ -63,13 +63,13 @@ glabel EnIn_Init
 /* 00F84 80A79F34 4502000B */  bc1fl   .L80A79F64                 
 /* 00F88 80A79F38 ACCC0190 */  sw      $t4, 0x0190($a2)           ## 00000190
 /* 00F8C 80A79F3C C432BA98 */  lwc1    $f18, %lo(D_80A7BA98)($at) 
-/* 00F90 80A79F40 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 00F90 80A79F40 3C018016 */  lui     $at, %hi(gSaveContext+0x13fa)
 /* 00F94 80A79F44 240B0001 */  addiu   $t3, $zero, 0x0001         ## $t3 = 00000001
 /* 00F98 80A79F48 46128032 */  c.eq.s  $f16, $f18                 
 /* 00F9C 80A79F4C 00000000 */  nop
 /* 00FA0 80A79F50 45020004 */  bc1fl   .L80A79F64                 
 /* 00FA4 80A79F54 ACCC0190 */  sw      $t4, 0x0190($a2)           ## 00000190
-/* 00FA8 80A79F58 A420FA5A */  sh      $zero, -0x05A6($at)        ## 8015FA5A
+/* 00FA8 80A79F58 A420FA5A */  sh      $zero, %lo(gSaveContext+0x13fa)($at)
 /* 00FAC 80A79F5C AC4B0000 */  sw      $t3, 0x0000($v0)           ## FFFFB998
 /* 00FB0 80A79F60 ACCC0190 */  sw      $t4, 0x0190($a2)           ## 00000190
 .L80A79F64:

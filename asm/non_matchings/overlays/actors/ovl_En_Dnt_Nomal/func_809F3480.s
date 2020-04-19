@@ -22,14 +22,14 @@ glabel func_809F3480
 /* 0020C 809F34CC 01194021 */  addu    $t0, $t0, $t9              
 /* 00210 809F34D0 8D0817B4 */  lw      $t0, 0x17B4($t0)           ## 000117B4
 /* 00214 809F34D4 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 00218 809F34D8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00218 809F34D8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 0021C 809F34DC 01014821 */  addu    $t1, $t0, $at              
-/* 00220 809F34E0 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00224 809F34E4 AC296FC0 */  sw      $t1, 0x6FC0($at)           ## 80166FC0
+/* 00220 809F34E0 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 00224 809F34E4 AC296FC0 */  sw      $t1, %lo(gSegments+0x18)($at)
 /* 00228 809F34E8 820A0279 */  lb      $t2, 0x0279($s0)           ## 00000279
 /* 0022C 809F34EC 44050000 */  mfc1    $a1, $f0                   
 /* 00230 809F34F0 44070000 */  mfc1    $a3, $f0                   
-/* 00234 809F34F4 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00234 809F34F4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00238 809F34F8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0023C 809F34FC 0C00AC78 */  jal     ActorShape_Init
               

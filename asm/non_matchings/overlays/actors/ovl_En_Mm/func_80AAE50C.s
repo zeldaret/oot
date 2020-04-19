@@ -12,8 +12,8 @@ glabel func_80AAE50C
 /* 00DC0 80AAE530 25CEE294 */  addiu   $t6, $t6, %lo(func_80AAE294) ## $t6 = 80AAE294
 /* 00DC4 80AAE534 AE00025C */  sw      $zero, 0x025C($s0)         ## 0000025C
 /* 00DC8 80AAE538 AE0E0190 */  sw      $t6, 0x0190($s0)           ## 00000190
-/* 00DCC 80AAE53C 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00DD0 80AAE540 95EFF556 */  lhu     $t7, -0x0AAA($t7)          ## 8015F556
+/* 00DCC 80AAE53C 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xef6)
+/* 00DD0 80AAE540 95EFF556 */  lhu     $t7, %lo(gSaveContext+0xef6)($t7)
 /* 00DD4 80AAE544 26060258 */  addiu   $a2, $s0, 0x0258           ## $a2 = 00000258
 /* 00DD8 80AAE548 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00DDC 80AAE54C 31F80800 */  andi    $t8, $t7, 0x0800           ## $t8 = 00000000

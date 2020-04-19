@@ -1,8 +1,8 @@
 glabel func_80A43824
-/* 00AF4 80A43824 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00AF8 80A43828 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
-/* 00AFC 80A4382C 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 00B00 80A43830 8DCE716C */  lw      $t6, 0x716C($t6)           ## 8012716C
+/* 00AF4 80A43824 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00AF8 80A43828 2442E660 */  addiu   $v0, %lo(gSaveContext)
+/* 00AFC 80A4382C 3C0E8012 */  lui     $t6, %hi(gBitFlags+0x4c)
+/* 00B00 80A43830 8DCE716C */  lw      $t6, %lo(gBitFlags+0x4c)($t6)
 /* 00B04 80A43834 8C4F00A4 */  lw      $t7, 0x00A4($v0)           ## 8015E704
 /* 00B08 80A43838 AFA40000 */  sw      $a0, 0x0000($sp)           
 /* 00B0C 80A4383C AFA50004 */  sw      $a1, 0x0004($sp)           

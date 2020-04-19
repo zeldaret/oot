@@ -36,9 +36,9 @@ glabel func_80A5BD94
 /* 00B14 80A5BE04 0C00D6D3 */  jal     Flags_GetEventChkInf
 
 /* 00B18 80A5BE08 24040018 */  addiu   $a0, $zero, 0x0018         ## $a0 = 00000018
-/* 00B1C 80A5BE0C 1040000A */  beq     $v0, $zero, .L80A5BE38
-/* 00B20 80A5BE10 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00B24 80A5BE14 95EFFA5A */  lhu     $t7, -0x05A6($t7)          ## 8015FA5A
+/* 00B1C 80A5BE0C 1040000A */  beq     $v0, $zero, .L80A5BE38     
+/* 00B20 80A5BE10 3C0F8016 */  lui     $t7, %hi(gSaveContext+0x13fa)
+/* 00B24 80A5BE14 95EFFA5A */  lhu     $t7, %lo(gSaveContext+0x13fa)($t7)
 /* 00B28 80A5BE18 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
 /* 00B2C 80A5BE1C 31F8000F */  andi    $t8, $t7, 0x000F           ## $t8 = 00000000
 /* 00B30 80A5BE20 5701001A */  bnel    $t8, $at, .L80A5BE8C

@@ -19,8 +19,8 @@ glabel D_80A3284C
 glabel func_80A31E2C
 /* 014BC 80A31E2C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 014C0 80A31E30 AFB00018 */  sw      $s0, 0x0018($sp)           
-/* 014C4 80A31E34 3C108016 */  lui     $s0, 0x8016                ## $s0 = 80160000
-/* 014C8 80A31E38 2610E660 */  addiu   $s0, $s0, 0xE660           ## $s0 = 8015E660
+/* 014C4 80A31E34 3C108016 */  lui     $s0, %hi(gSaveContext)
+/* 014C8 80A31E38 2610E660 */  addiu   $s0, %lo(gSaveContext)
 /* 014CC 80A31E3C 960E13FA */  lhu     $t6, 0x13FA($s0)           ## 8015FA5A
 /* 014D0 80A31E40 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 014D4 80A31E44 AFBF001C */  sw      $ra, 0x001C($sp)           

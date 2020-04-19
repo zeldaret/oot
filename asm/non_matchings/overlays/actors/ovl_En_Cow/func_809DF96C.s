@@ -10,8 +10,8 @@ glabel func_809DF96C
 /* 00B8C 809DF98C 00000000 */  nop
 /* 00B90 809DF990 14410036 */  bne     $v0, $at, .L809DFA6C       
 .L809DF994:
-/* 00B94 809DF994 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00B98 809DF998 2442FA90 */  addiu   $v0, $v0, 0xFA90           ## $v0 = 8015FA90
+/* 00B94 809DF994 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 00B98 809DF998 2442FA90 */  addiu   $v0, %lo(gGameInfo)
 /* 00B9C 809DF99C 8C470000 */  lw      $a3, 0x0000($v0)           ## 8015FA90
 /* 00BA0 809DF9A0 84EF05BE */  lh      $t7, 0x05BE($a3)           ## 000005BE
 /* 00BA4 809DF9A4 51E0002F */  beql    $t7, $zero, .L809DFA64     

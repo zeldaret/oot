@@ -8,8 +8,8 @@ glabel EnFirefly_Init
 /* 0007C 80A130EC 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 00080 80A130F0 24A54F8C */  addiu   $a1, $a1, %lo(D_80A14F8C)  ## $a1 = 80A14F8C
-/* 00084 80A130F4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00088 80A130F8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00084 80A130F4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00088 80A130F8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0008C 80A130FC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00090 80A13100 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00094 80A13104 0C00AC78 */  jal     ActorShape_Init

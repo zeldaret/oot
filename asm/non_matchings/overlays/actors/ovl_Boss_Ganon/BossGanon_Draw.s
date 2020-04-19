@@ -48,11 +48,11 @@ glabel BossGanon_Draw
 /* 0A518 808E0D88 AE4802D0 */  sw      $t0, 0x02D0($s2)           ## 000002D0
 /* 0A51C 808E0D8C 35290020 */  ori     $t1, $t1, 0x0020           ## $t1 = DB060020
 /* 0A520 808E0D90 000B6080 */  sll     $t4, $t3,  2
-/* 0A524 808E0D94 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 0A524 808E0D94 3C0D8016 */  lui     $t5, %hi(gSegments)
 /* 0A528 808E0D98 01AC6821 */  addu    $t5, $t5, $t4
 /* 0A52C 808E0D9C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 0A530 808E0DA0 AC690000 */  sw      $t1, 0x0000($v1)           ## 00000000
-/* 0A534 808E0DA4 8DAD6FA8 */  lw      $t5, 0x6FA8($t5)           ## 80166FA8
+/* 0A534 808E0DA4 8DAD6FA8 */  lw      $t5, %lo(gSegments)($t5)
 /* 0A538 808E0DA8 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 0A53C 808E0DAC 00817024 */  and     $t6, $a0, $at
 /* 0A540 808E0DB0 3C018000 */  lui     $at, 0x8000                ## $at = 80000000

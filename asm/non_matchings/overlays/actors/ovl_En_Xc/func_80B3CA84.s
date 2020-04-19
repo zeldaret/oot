@@ -29,17 +29,17 @@ glabel func_80B3CA84
 /* 008FC 80B3CADC 00027900 */  sll     $t7, $v0,  4               
 /* 00900 80B3CAE0 000FC702 */  srl     $t8, $t7, 28               
 /* 00904 80B3CAE4 0018C880 */  sll     $t9, $t8,  2               
-/* 00908 80B3CAE8 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
+/* 00908 80B3CAE8 3C088016 */  lui     $t0, %hi(gSegments)
 /* 0090C 80B3CAEC 01194021 */  addu    $t0, $t0, $t9              
 /* 00910 80B3CAF0 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 00914 80B3CAF4 8D086FA8 */  lw      $t0, 0x6FA8($t0)           ## 80166FA8
+/* 00914 80B3CAF4 8D086FA8 */  lw      $t0, %lo(gSegments)($t0)
 /* 00918 80B3CAF8 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 0091C 80B3CAFC 00414824 */  and     $t1, $v0, $at              
 /* 00920 80B3CB00 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00924 80B3CB04 01095021 */  addu    $t2, $t0, $t1              
-/* 00928 80B3CB08 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 00928 80B3CB08 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 0092C 80B3CB0C 01415821 */  addu    $t3, $t2, $at              
-/* 00930 80B3CB10 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00930 80B3CB10 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00934 80B3CB14 ACCB1D68 */  sw      $t3, 0x1D68($a2)           ## 00001D68
 /* 00938 80B3CB18 946D0EDE */  lhu     $t5, 0x0EDE($v1)           ## 8015F53E
 /* 0093C 80B3CB1C 240C0001 */  addiu   $t4, $zero, 0x0001         ## $t4 = 00000001

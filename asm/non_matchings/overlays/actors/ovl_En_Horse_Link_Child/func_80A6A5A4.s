@@ -5,19 +5,19 @@ glabel D_80A6AFF0
 .text
 glabel func_80A6A5A4
 /* 011D4 80A6A5A4 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
-/* 011D8 80A6A5A8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 011DC 80A6A5AC 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 011D8 80A6A5A8 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 011DC 80A6A5AC 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 011E0 80A6A5B0 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 011E4 80A6A5B4 AFB00028 */  sw      $s0, 0x0028($sp)
 /* 011E8 80A6A5B8 AFA5003C */  sw      $a1, 0x003C($sp)
 /* 011EC 80A6A5BC 844E05BE */  lh      $t6, 0x05BE($v0)           ## 801605BE
-/* 011F0 80A6A5C0 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
+/* 011F0 80A6A5C0 3C078013 */  lui     $a3, %hi(D_801333E0)
 /* 011F4 80A6A5C4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 011F8 80A6A5C8 11C0000E */  beq     $t6, $zero, .L80A6A604
-/* 011FC 80A6A5CC 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 01200 80A6A5D0 3C0F8013 */  lui     $t7, 0x8013                ## $t7 = 80130000
+/* 011FC 80A6A5CC 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 01200 80A6A5D0 3C0F8013 */  lui     $t7, %hi(D_801333E8)
 /* 01204 80A6A5D4 A44005BE */  sh      $zero, 0x05BE($v0)         ## 801605BE
-/* 01208 80A6A5D8 25EF33E8 */  addiu   $t7, $t7, 0x33E8           ## $t7 = 801333E8
+/* 01208 80A6A5D8 25EF33E8 */  addiu   $t7, %lo(D_801333E8)
 /* 0120C 80A6A5DC AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 01210 80A6A5E0 AFA70010 */  sw      $a3, 0x0010($sp)
 /* 01214 80A6A5E4 24042844 */  addiu   $a0, $zero, 0x2844         ## $a0 = 00002844

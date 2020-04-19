@@ -62,11 +62,11 @@ glabel func_80A03CF8
 /* 021B0 80A03DE0 8FB80064 */  lw      $t8, 0x0064($sp)           
 .L80A03DE4:
 /* 021B4 80A03DE4 24010034 */  addiu   $at, $zero, 0x0034         ## $at = 00000034
-/* 021B8 80A03DE8 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 021B8 80A03DE8 3C0F8016 */  lui     $t7, %hi(gSaveContext+0x1360)
 /* 021BC 80A03DEC 871900A4 */  lh      $t9, 0x00A4($t8)           ## 000000A4
 /* 021C0 80A03DF0 17210028 */  bne     $t9, $at, .L80A03E94       
 /* 021C4 80A03DF4 00000000 */  nop
-/* 021C8 80A03DF8 8DEFF9C0 */  lw      $t7, -0x0640($t7)          ## 8015F9C0
+/* 021C8 80A03DF8 8DEFF9C0 */  lw      $t7, %lo(gSaveContext+0x1360)($t7)
 /* 021CC 80A03DFC 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 021D0 80A03E00 8FA80064 */  lw      $t0, 0x0064($sp)           
 /* 021D4 80A03E04 15E10023 */  bne     $t7, $at, .L80A03E94       

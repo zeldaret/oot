@@ -5,13 +5,13 @@ glabel func_80A5E2A8
 /* 02FC4 80A5E2B4 AFA50034 */  sw      $a1, 0x0034($sp)
 /* 02FC8 80A5E2B8 240E000C */  addiu   $t6, $zero, 0x000C         ## $t6 = 0000000C
 /* 02FCC 80A5E2BC 240F0002 */  addiu   $t7, $zero, 0x0002         ## $t7 = 00000002
-/* 02FD0 80A5E2C0 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
+/* 02FD0 80A5E2C0 3C078013 */  lui     $a3, %hi(D_801333E0)
 /* 02FD4 80A5E2C4 AC8E014C */  sw      $t6, 0x014C($a0)           ## 0000014C
 /* 02FD8 80A5E2C8 AC8F0210 */  sw      $t7, 0x0210($a0)           ## 00000210
-/* 02FDC 80A5E2CC 3C188013 */  lui     $t8, 0x8013                ## $t8 = 80130000
-/* 02FE0 80A5E2D0 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
+/* 02FDC 80A5E2CC 3C188013 */  lui     $t8, %hi(D_801333E8)
+/* 02FE0 80A5E2D0 24E733E0 */  addiu   $a3, %lo(D_801333E0)
 /* 02FE4 80A5E2D4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 02FE8 80A5E2D8 271833E8 */  addiu   $t8, $t8, 0x33E8           ## $t8 = 801333E8
+/* 02FE8 80A5E2D8 271833E8 */  addiu   $t8, %lo(D_801333E8)
 /* 02FEC 80A5E2DC AFB80014 */  sw      $t8, 0x0014($sp)
 /* 02FF0 80A5E2E0 260500E4 */  addiu   $a1, $s0, 0x00E4           ## $a1 = 000000E4
 /* 02FF4 80A5E2E4 2404281A */  addiu   $a0, $zero, 0x281A         ## $a0 = 0000281A

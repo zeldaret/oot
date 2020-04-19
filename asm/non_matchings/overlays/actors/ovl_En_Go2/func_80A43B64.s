@@ -1,10 +1,10 @@
 glabel func_80A43B64
 /* 00E34 80A43B64 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00E38 80A43B68 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 00E3C 80A43B6C 3C058012 */  lui     $a1, 0x8012                ## $a1 = 80120000
-/* 00E40 80A43B70 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00E44 80A43B74 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
-/* 00E48 80A43B78 24A57120 */  addiu   $a1, $a1, 0x7120           ## $a1 = 80127120
+/* 00E3C 80A43B6C 3C058012 */  lui     $a1, %hi(gBitFlags)
+/* 00E40 80A43B70 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00E44 80A43B74 2463E660 */  addiu   $v1, %lo(gSaveContext)
+/* 00E48 80A43B78 24A57120 */  addiu   $a1, %lo(gBitFlags)
 /* 00E4C 80A43B7C 8CAE0004 */  lw      $t6, 0x0004($a1)           ## 80127124
 /* 00E50 80A43B80 8C6200A4 */  lw      $v0, 0x00A4($v1)           ## 8015E704
 /* 00E54 80A43B84 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -18,8 +18,8 @@ glabel func_80A43B64
 /* 00E74 80A43BA4 24023043 */  addiu   $v0, $zero, 0x3043         ## $v0 = 00003043
 /* 00E78 80A43BA8 8CB9004C */  lw      $t9, 0x004C($a1)           ## 8012716C
 .L80A43BAC:
-/* 00E7C 80A43BAC 3C0A8012 */  lui     $t2, 0x8012                ## $t2 = 80120000
-/* 00E80 80A43BB0 3C0C8012 */  lui     $t4, 0x8012                ## $t4 = 80120000
+/* 00E7C 80A43BAC 3C0A8012 */  lui     $t2, %hi(gUpgradeMasks+8)
+/* 00E80 80A43BB0 3C0C8012 */  lui     $t4, %hi(gUpgradeShifts+2)
 /* 00E84 80A43BB4 03224024 */  and     $t0, $t9, $v0              
 /* 00E88 80A43BB8 51000004 */  beql    $t0, $zero, .L80A43BCC     
 /* 00E8C 80A43BBC 8C6900A0 */  lw      $t1, 0x00A0($v1)           ## 8015E700
@@ -27,8 +27,8 @@ glabel func_80A43B64
 /* 00E94 80A43BC4 24023027 */  addiu   $v0, $zero, 0x3027         ## $v0 = 00003027
 /* 00E98 80A43BC8 8C6900A0 */  lw      $t1, 0x00A0($v1)           ## 8015E700
 .L80A43BCC:
-/* 00E9C 80A43BCC 8D4A71B8 */  lw      $t2, 0x71B8($t2)           ## 801271B8
-/* 00EA0 80A43BD0 918C71F6 */  lbu     $t4, 0x71F6($t4)           ## 801271F6
+/* 00E9C 80A43BCC 8D4A71B8 */  lw      $t2, %lo(gUpgradeMasks+8)($t2)
+/* 00EA0 80A43BD0 918C71F6 */  lbu     $t4, %lo(gUpgradeShifts+2)($t4)
 /* 00EA4 80A43BD4 012A5824 */  and     $t3, $t1, $t2              
 /* 00EA8 80A43BD8 018B6807 */  srav    $t5, $t3, $t4              
 /* 00EAC 80A43BDC 11A00003 */  beq     $t5, $zero, .L80A43BEC     
@@ -39,9 +39,9 @@ glabel func_80A43B64
 /* 00EBC 80A43BEC 0C00B2D0 */  jal     Flags_GetSwitch
               
 /* 00EC0 80A43BF0 2405001B */  addiu   $a1, $zero, 0x001B         ## $a1 = 0000001B
-/* 00EC4 80A43BF4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 00EC4 80A43BF4 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 00EC8 80A43BF8 14400003 */  bne     $v0, $zero, .L80A43C08     
-/* 00ECC 80A43BFC 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00ECC 80A43BFC 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00ED0 80A43C00 10000009 */  beq     $zero, $zero, .L80A43C28   
 /* 00ED4 80A43C04 24023017 */  addiu   $v0, $zero, 0x3017         ## $v0 = 00003017
 .L80A43C08:

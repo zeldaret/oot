@@ -4,10 +4,10 @@ glabel func_80AC6F2C
 /* 04294 80AC6F34 2401000A */  addiu   $at, $zero, 0x000A         ## $at = 0000000A
 /* 04298 80AC6F38 15E10053 */  bne     $t7, $at, .L80AC7088       
 /* 0429C 80AC6F3C A08E01EB */  sb      $t6, 0x01EB($a0)           ## 000001EB
-/* 042A0 80AC6F40 3C188012 */  lui     $t8, 0x8012                ## $t8 = 80120000
-/* 042A4 80AC6F44 93187485 */  lbu     $t8, 0x7485($t8)           ## 80127485
-/* 042A8 80AC6F48 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
-/* 042AC 80AC6F4C 24A5E660 */  addiu   $a1, $a1, 0xE660           ## $a1 = 8015E660
+/* 042A0 80AC6F40 3C188012 */  lui     $t8, %hi(gItemSlots+0x21)
+/* 042A4 80AC6F44 93187485 */  lbu     $t8, %lo(gItemSlots+0x21)($t8)
+/* 042A8 80AC6F48 3C058016 */  lui     $a1, %hi(gSaveContext)
+/* 042AC 80AC6F4C 24A5E660 */  addiu   $a1, %lo(gSaveContext)
 /* 042B0 80AC6F50 00B8C821 */  addu    $t9, $a1, $t8              
 /* 042B4 80AC6F54 93280074 */  lbu     $t0, 0x0074($t9)           ## 00000074
 /* 042B8 80AC6F58 2401002C */  addiu   $at, $zero, 0x002C         ## $at = 0000002C

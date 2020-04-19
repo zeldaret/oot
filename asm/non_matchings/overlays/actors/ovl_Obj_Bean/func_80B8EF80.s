@@ -10,13 +10,13 @@ glabel func_80B8EF80
 /* 00520 80B8EFA0 001940C0 */  sll     $t0, $t9,  3               
 /* 00524 80B8EFA4 01C81821 */  addu    $v1, $t6, $t0              
 /* 00528 80B8EFA8 8C620004 */  lw      $v0, 0x0004($v1)           ## 00000004
-/* 0052C 80B8EFAC 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
+/* 0052C 80B8EFAC 3C0C8016 */  lui     $t4, %hi(gSegments)
 /* 00530 80B8EFB0 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 00534 80B8EFB4 00024900 */  sll     $t1, $v0,  4               
 /* 00538 80B8EFB8 00095702 */  srl     $t2, $t1, 28               
 /* 0053C 80B8EFBC 000A5880 */  sll     $t3, $t2,  2               
 /* 00540 80B8EFC0 018B6021 */  addu    $t4, $t4, $t3              
-/* 00544 80B8EFC4 8D8C6FA8 */  lw      $t4, 0x6FA8($t4)           ## 80166FA8
+/* 00544 80B8EFC4 8D8C6FA8 */  lw      $t4, %lo(gSegments)($t4)
 /* 00548 80B8EFC8 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 0054C 80B8EFCC 00416824 */  and     $t5, $v0, $at              
 /* 00550 80B8EFD0 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
