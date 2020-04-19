@@ -112,11 +112,11 @@ glabel EnFhgFire_Draw
 /* 01FE8 80A11248 AE0E02D0 */  sw      $t6, 0x02D0($s0)           ## 000002D0
 /* 01FEC 80A1124C 00194880 */  sll     $t1, $t9,  2               
 /* 01FF0 80A11250 3C0FDE00 */  lui     $t7, 0xDE00                ## $t7 = DE000000
-/* 01FF4 80A11254 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 01FF4 80A11254 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 01FF8 80A11258 01495021 */  addu    $t2, $t2, $t1              
 /* 01FFC 80A1125C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 02000 80A11260 AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
-/* 02004 80A11264 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 80166FA8
+/* 02004 80A11264 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 02008 80A11268 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 0200C 80A1126C 00815824 */  and     $t3, $a0, $at              
 /* 02010 80A11270 3C018000 */  lui     $at, 0x8000                ## $at = 80000000

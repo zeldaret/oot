@@ -49,8 +49,8 @@ glabel EnWonderItem_Update
 /* 00C2C 80B38C8C 00401825 */  or      $v1, $v0, $zero            ## $v1 = 00000000
 /* 00C30 80B38C90 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 .L80B38C94:
-/* 00C34 80B38C94 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00C38 80B38C98 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 00C34 80B38C94 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 00C38 80B38C98 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 00C3C 80B38C9C 3C0B80B4 */  lui     $t3, %hi(D_80B38DC0)       ## $t3 = 80B40000
 /* 00C40 80B38CA0 256B8DC0 */  addiu   $t3, $t3, %lo(D_80B38DC0)  ## $t3 = 80B38DC0
 /* 00C44 80B38CA4 85F812D4 */  lh      $t8, 0x12D4($t7)           ## 801612D4

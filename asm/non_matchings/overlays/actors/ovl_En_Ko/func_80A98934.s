@@ -4,7 +4,7 @@ glabel func_80A98934
 /* 01B8C 80A9893C 14200005 */  bne     $at, $zero, .L80A98954     
 /* 01B90 80A98940 2401005B */  addiu   $at, $zero, 0x005B         ## $at = 0000005B
 /* 01B94 80A98944 106100A4 */  beq     $v1, $at, .L80A98BD8       
-/* 01B98 80A98948 3C0B8012 */  lui     $t3, 0x8012                ## $t3 = 80120000
+/* 01B98 80A98948 3C0B8012 */  lui     $t3, %hi(gItemSlots+0x2d)
 /* 01B9C 80A9894C 100000B0 */  beq     $zero, $zero, .L80A98C10   
 /* 01BA0 80A98950 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 .L80A98954:
@@ -27,7 +27,7 @@ glabel func_80A98934
 /* 01BE0 80A98990 00000000 */  nop
 /* 01BE4 80A98994 8482001C */  lh      $v0, 0x001C($a0)           ## 0000001C
 .L80A98998:
-/* 01BE8 80A98998 3C0F8012 */  lui     $t7, 0x8012                ## $t7 = 80120000
+/* 01BE8 80A98998 3C0F8012 */  lui     $t7, %hi(gBitFlags)
 /* 01BEC 80A9899C 304200FF */  andi    $v0, $v0, 0x00FF           ## $v0 = 00000000
 /* 01BF0 80A989A0 28410007 */  slti    $at, $v0, 0x0007           
 /* 01BF4 80A989A4 14200005 */  bne     $at, $zero, .L80A989BC     
@@ -37,10 +37,10 @@ glabel func_80A98934
 /* 01C04 80A989B4 03E00008 */  jr      $ra                        
 /* 01C08 80A989B8 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 .L80A989BC:
-/* 01C0C 80A989BC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 01C10 80A989C0 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01C0C 80A989BC 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 01C10 80A989C0 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01C14 80A989C4 8C5800A4 */  lw      $t8, 0x00A4($v0)           ## 8015E704
-/* 01C18 80A989C8 8DEF7120 */  lw      $t7, 0x7120($t7)           ## 80127120
+/* 01C18 80A989C8 8DEF7120 */  lw      $t7, %lo(gBitFlags)($t7)
 /* 01C1C 80A989CC 01F8C824 */  and     $t9, $t7, $t8              
 /* 01C20 80A989D0 17200006 */  bne     $t9, $zero, .L80A989EC     
 /* 01C24 80A989D4 00000000 */  nop

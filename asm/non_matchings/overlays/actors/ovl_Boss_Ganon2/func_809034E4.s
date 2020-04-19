@@ -592,10 +592,10 @@ glabel func_809034E4
 /* 06E34 80903D74 0003C100 */  sll     $t8, $v1,  4               
 /* 06E38 80903D78 0018CF02 */  srl     $t9, $t8, 28               
 /* 06E3C 80903D7C 00194880 */  sll     $t1, $t9,  2               
-/* 06E40 80903D80 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 06E40 80903D80 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 06E44 80903D84 01495021 */  addu    $t2, $t2, $t1              
 /* 06E48 80903D88 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 06E4C 80903D8C 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 80166FA8
+/* 06E4C 80903D8C 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 06E50 80903D90 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 06E54 80903D94 00615824 */  and     $t3, $v1, $at              
 /* 06E58 80903D98 3C018000 */  lui     $at, 0x8000                ## $at = 80000000

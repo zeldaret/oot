@@ -7,8 +7,8 @@ glabel func_80849EA8
 /* 17CAC 80849EBC 0C213F2B */  jal     func_8084FCAC              
 /* 17CB0 80849EC0 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 17CB4 80849EC4 1040006C */  beq     $v0, $zero, .L8084A078     
-/* 17CB8 80849EC8 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 17CBC 80849ECC 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 17CB8 80849EC8 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 17CBC 80849ECC 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 17CC0 80849ED0 846E13C4 */  lh      $t6, 0x13C4($v1)           ## 8015FA24
 /* 17CC4 80849ED4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 17CC8 80849ED8 342117A4 */  ori     $at, $at, 0x17A4           ## $at = 000117A4
@@ -17,9 +17,9 @@ glabel func_80849EA8
 /* 17CD4 80849EE4 0C02604B */  jal     Object_GetIndex
               ## ObjectIndex
 /* 17CD8 80849EE8 2405016B */  addiu   $a1, $zero, 0x016B         ## $a1 = 0000016B
-/* 17CDC 80849EEC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 17CDC 80849EEC 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 17CE0 80849EF0 04410003 */  bgez    $v0, .L80849F00            
-/* 17CE4 80849EF4 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 17CE4 80849EF4 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 17CE8 80849EF8 10000023 */  beq     $zero, $zero, .L80849F88   
 /* 17CEC 80849EFC A46013C4 */  sh      $zero, 0x13C4($v1)         ## 8015FA24
 .L80849F00:
@@ -37,8 +37,8 @@ glabel func_80849EA8
 /* 17D1C 80849F2C C4248ABC */  lwc1    $f4, %lo(D_80858ABC)($at)  
 /* 17D20 80849F30 3C018086 */  lui     $at, %hi(D_80858AC0)       ## $at = 80860000
 /* 17D24 80849F34 C4268AC0 */  lwc1    $f6, %lo(D_80858AC0)($at)  
-/* 17D28 80849F38 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 17D2C 80849F3C 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 17D28 80849F38 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 17D2C 80849F3C 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 17D30 80849F40 846213C4 */  lh      $v0, 0x13C4($v1)           ## 8015FA24
 /* 17D34 80849F44 AFA00018 */  sw      $zero, 0x0018($sp)         
 /* 17D38 80849F48 E7A40010 */  swc1    $f4, 0x0010($sp)           
@@ -127,8 +127,8 @@ glabel func_80849EA8
 /* 17E64 8084A074 27A60044 */  addiu   $a2, $sp, 0x0044           ## $a2 = FFFFFFDC
 .L8084A078:
 /* 17E68 8084A078 C6080024 */  lwc1    $f8, 0x0024($s0)           ## 00000024
-/* 17E6C 8084A07C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 17E70 8084A080 2442FA90 */  addiu   $v0, $v0, 0xFA90           ## $v0 = 8015FA90
+/* 17E6C 8084A07C 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 17E70 8084A080 2442FA90 */  addiu   $v0, %lo(gGameInfo)
 /* 17E74 8084A084 4600428D */  trunc.w.s $f10, $f8                  
 /* 17E78 8084A088 8C4D0000 */  lw      $t5, 0x0000($v0)           ## 8015FA90
 /* 17E7C 8084A08C 440C5000 */  mfc1    $t4, $f10                  

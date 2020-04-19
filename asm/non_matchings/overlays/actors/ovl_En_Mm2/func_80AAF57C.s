@@ -18,9 +18,9 @@ glabel func_80AAF57C
 /* 00768 80AAF5B8 8FAE0018 */  lw      $t6, 0x0018($sp)           
 /* 0076C 80AAF5BC 95CF010E */  lhu     $t7, 0x010E($t6)           ## 0000010E
 /* 00770 80AAF5C0 2401607D */  addiu   $at, $zero, 0x607D         ## $at = 0000607D
-/* 00774 80AAF5C4 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00774 80AAF5C4 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 00778 80AAF5C8 15E10004 */  bne     $t7, $at, .L80AAF5DC       
-/* 0077C 80AAF5CC 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 0077C 80AAF5CC 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00780 80AAF5D0 94580F26 */  lhu     $t8, 0x0F26($v0)           ## 8015F586
 /* 00784 80AAF5D4 37198000 */  ori     $t9, $t8, 0x8000           ## $t9 = 00008000
 /* 00788 80AAF5D8 A4590F26 */  sh      $t9, 0x0F26($v0)           ## 8015F586

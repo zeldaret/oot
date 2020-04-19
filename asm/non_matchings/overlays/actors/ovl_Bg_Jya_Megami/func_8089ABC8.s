@@ -37,11 +37,11 @@ glabel func_8089ABC8
 /* 00AEC 8089AC1C AC590000 */  sw      $t9, 0x0000($v0)           ## 00000000
 /* 00AF0 8089AC20 850901CC */  lh      $t1, 0x01CC($t0)           ## 000001CC
 /* 00AF4 8089AC24 3C04808A */  lui     $a0, %hi(D_8089B1AC)       ## $a0 = 808A0000
-/* 00AF8 8089AC28 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
+/* 00AF8 8089AC28 3C068016 */  lui     $a2, %hi(gSegments)
 /* 00AFC 8089AC2C 00095080 */  sll     $t2, $t1,  2               
 /* 00B00 8089AC30 008A2021 */  addu    $a0, $a0, $t2              
 /* 00B04 8089AC34 8C84B1AC */  lw      $a0, %lo(D_8089B1AC)($a0)  
-/* 00B08 8089AC38 24C66FA8 */  addiu   $a2, $a2, 0x6FA8           ## $a2 = 80166FA8
+/* 00B08 8089AC38 24C66FA8 */  addiu   $a2, %lo(gSegments)
 /* 00B0C 8089AC3C 3C0500FF */  lui     $a1, 0x00FF                ## $a1 = 00FF0000
 /* 00B10 8089AC40 00046100 */  sll     $t4, $a0,  4               
 /* 00B14 8089AC44 000C6F02 */  srl     $t5, $t4, 28               

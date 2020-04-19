@@ -3,10 +3,10 @@ glabel func_8096D728
 /* 0027C 8096D72C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00280 8096D730 000FC702 */  srl     $t8, $t7, 28
 /* 00284 8096D734 0018C880 */  sll     $t9, $t8,  2
-/* 00288 8096D738 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
+/* 00288 8096D738 3C088016 */  lui     $t0, %hi(gSegments)
 /* 0028C 8096D73C 01194021 */  addu    $t0, $t0, $t9
 /* 00290 8096D740 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 00294 8096D744 8D086FA8 */  lw      $t0, 0x6FA8($t0)           ## 80166FA8
+/* 00294 8096D744 8D086FA8 */  lw      $t0, %lo(gSegments)($t0)
 /* 00298 8096D748 AFA40028 */  sw      $a0, 0x0028($sp)
 /* 0029C 8096D74C 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 002A0 8096D750 AFA5002C */  sw      $a1, 0x002C($sp)

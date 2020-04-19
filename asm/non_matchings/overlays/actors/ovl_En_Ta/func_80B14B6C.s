@@ -20,9 +20,9 @@ glabel func_80B14B6C
 /* 01114 80B14BB4 24A54AF4 */  addiu   $a1, $a1, %lo(func_80B14AF4) ## $a1 = 80B14AF4
 /* 01118 80B14BB8 0C2C4EA8 */  jal     func_80B13AA0
 /* 0111C 80B14BBC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 01120 80B14BC0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 01120 80B14BC0 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 01124 80B14BC4 240E0005 */  addiu   $t6, $zero, 0x0005         ## $t6 = 00000005
-/* 01128 80B14BC8 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01128 80B14BC8 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 0112C 80B14BCC A60E02CC */  sh      $t6, 0x02CC($s0)           ## 000002CC
 /* 01130 80B14BD0 944F0ED6 */  lhu     $t7, 0x0ED6($v0)           ## 8015F536
 /* 01134 80B14BD4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000

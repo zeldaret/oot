@@ -39,8 +39,8 @@ glabel BossGanon_Update
 /* 06DEC 808DD65C 01284821 */  addu    $t1, $t1, $t0              
 /* 06DF0 808DD660 8D2917B4 */  lw      $t1, 0x17B4($t1)           ## 000117B4
 /* 06DF4 808DD664 01215021 */  addu    $t2, $t1, $at              
-/* 06DF8 808DD668 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 06DFC 808DD66C AC2A6FC0 */  sw      $t2, 0x6FC0($at)           ## 80166FC0
+/* 06DF8 808DD668 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 06DFC 808DD66C AC2A6FC0 */  sw      $t2, %lo(gSegments+0x18)($at)
 /* 06E00 808DD670 92A4071B */  lbu     $a0, 0x071B($s5)           ## 0000071B
 .L808DD674:
 /* 06E04 808DD674 50800049 */  beql    $a0, $zero, .L808DD79C     
@@ -1130,18 +1130,18 @@ glabel L808DE3B0
 /* 07D14 808DE584 92AE066C */  lbu     $t6, 0x066C($s5)           ## 0000066C
 .L808DE588:
 /* 07D18 808DE588 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001
-/* 07D1C 808DE58C 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 07D1C 808DE58C 3C018016 */  lui     $at, %hi(D_8015FCF0)
 /* 07D20 808DE590 11C0001C */  beq     $t6, $zero, .L808DE604     
 /* 07D24 808DE594 00000000 */  nop
-/* 07D28 808DE598 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 07D2C 808DE59C A02FFCF0 */  sb      $t7, -0x0310($at)          ## 8015FCF0
+/* 07D28 808DE598 3C018016 */  lui     $at, %hi(D_8015FCF0)
+/* 07D2C 808DE59C A02FFCF0 */  sb      $t7, %lo(D_8015FCF0)($at)
 /* 07D30 808DE5A0 92B8066C */  lbu     $t8, 0x066C($s5)           ## 0000066C
 /* 07D34 808DE5A4 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 07D38 808DE5A8 5701000A */  bnel    $t8, $at, .L808DE5D4       
 /* 07D3C 808DE5AC C6A60670 */  lwc1    $f6, 0x0670($s5)           ## 00000670
 /* 07D40 808DE5B0 8EA90024 */  lw      $t1, 0x0024($s5)           ## 00000024
-/* 07D44 808DE5B4 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 07D48 808DE5B8 2739FCF8 */  addiu   $t9, $t9, 0xFCF8           ## $t9 = 8015FCF8
+/* 07D44 808DE5B4 3C198016 */  lui     $t9, %hi(D_8015FCF8)
+/* 07D48 808DE5B8 2739FCF8 */  addiu   $t9, %lo(D_8015FCF8)
 /* 07D4C 808DE5BC AF290000 */  sw      $t1, 0x0000($t9)           ## 8015FCF8
 /* 07D50 808DE5C0 8EA80028 */  lw      $t0, 0x0028($s5)           ## 00000028
 /* 07D54 808DE5C4 AF280004 */  sw      $t0, 0x0004($t9)           ## 8015FCFC
@@ -1149,20 +1149,20 @@ glabel L808DE3B0
 /* 07D5C 808DE5CC AF290008 */  sw      $t1, 0x0008($t9)           ## 8015FD00
 /* 07D60 808DE5D0 C6A60670 */  lwc1    $f6, 0x0670($s5)           ## 00000670
 .L808DE5D4:
-/* 07D64 808DE5D4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 07D64 808DE5D4 3C018016 */  lui     $at, %hi(D_8015FD06)
 /* 07D68 808DE5D8 4600320D */  trunc.w.s $f8, $f6                   
 /* 07D6C 808DE5DC 440B4000 */  mfc1    $t3, $f8                   
 /* 07D70 808DE5E0 00000000 */  nop
-/* 07D74 808DE5E4 A42BFD06 */  sh      $t3, -0x02FA($at)          ## 8015FD06
+/* 07D74 808DE5E4 A42BFD06 */  sh      $t3, %lo(D_8015FD06)($at)
 /* 07D78 808DE5E8 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 07D7C 808DE5EC 44818000 */  mtc1    $at, $f16                  ## $f16 = 10.00
-/* 07D80 808DE5F0 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 07D84 808DE5F4 E430FD08 */  swc1    $f16, -0x02F8($at)         ## 8015FD08
-/* 07D88 808DE5F8 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 07D80 808DE5F0 3C018016 */  lui     $at, %hi(D_8015FD08)
+/* 07D84 808DE5F4 E430FD08 */  swc1    $f16, %lo(D_8015FD08)($at)
+/* 07D88 808DE5F8 3C018016 */  lui     $at, %hi(D_8015FD0C)
 /* 07D8C 808DE5FC 10000002 */  beq     $zero, $zero, .L808DE608   
-/* 07D90 808DE600 A420FD0C */  sh      $zero, -0x02F4($at)        ## 8015FD0C
+/* 07D90 808DE600 A420FD0C */  sh      $zero, %lo(D_8015FD0C)($at)
 .L808DE604:
-/* 07D94 808DE604 A020FCF0 */  sb      $zero, -0x0310($at)        ## 8015FCF0
+/* 07D94 808DE604 A020FCF0 */  sb      $zero, %lo(D_8015FCF0)($at)
 .L808DE608:
 /* 07D98 808DE608 92A20274 */  lbu     $v0, 0x0274($s5)           ## 00000274
 /* 07D9C 808DE60C 3C014248 */  lui     $at, 0x4248                ## $at = 42480000

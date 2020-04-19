@@ -38,8 +38,8 @@ glabel EnSda_Draw
 /* 000EC 80AF8F0C 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 000F0 80AF8F10 0C2BE571 */  jal     func_80AF95C4              
 /* 000F4 80AF8F14 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 000F8 80AF8F18 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 000FC 80AF8F1C 8F39FA90 */  lw      $t9, -0x0570($t9)          ## 8015FA90
+/* 000F8 80AF8F18 3C198016 */  lui     $t9, %hi(gGameInfo)
+/* 000FC 80AF8F1C 8F39FA90 */  lw      $t9, %lo(gGameInfo)($t9)
 /* 00100 80AF8F20 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 00104 80AF8F24 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00108 80AF8F28 872809D4 */  lh      $t0, 0x09D4($t9)           ## 801609D4

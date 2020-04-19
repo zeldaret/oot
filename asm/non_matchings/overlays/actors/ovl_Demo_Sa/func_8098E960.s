@@ -1,6 +1,6 @@
 glabel func_8098E960
-/* 00500 8098E960 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00504 8098E964 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00500 8098E960 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00504 8098E964 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00508 8098E968 904E1415 */  lbu     $t6, 0x1415($v0)           ## 8015FA75
 /* 0050C 8098E96C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00510 8098E970 AFBF0014 */  sw      $ra, 0x0014($sp)           

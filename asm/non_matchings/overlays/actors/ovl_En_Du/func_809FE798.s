@@ -63,8 +63,8 @@ glabel func_809FE798
 /* 00C30 809FE860 0C00B55C */  jal     Actor_Kill
               
 /* 00C34 809FE864 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00C38 809FE868 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00C3C 809FE86C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00C38 809FE868 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00C3C 809FE86C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00C40 809FE870 944F0F1A */  lhu     $t7, 0x0F1A($v0)           ## 8015F57A
 /* 00C44 809FE874 35F80400 */  ori     $t8, $t7, 0x0400           ## $t8 = 00000400
 /* 00C48 809FE878 A4580F1A */  sh      $t8, 0x0F1A($v0)           ## 8015F57A

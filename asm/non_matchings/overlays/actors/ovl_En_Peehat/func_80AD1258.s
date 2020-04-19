@@ -109,8 +109,8 @@ glabel func_80AD1258
 /* 01F20 80AD13C0 240B003C */  addiu   $t3, $zero, 0x003C         ## $t3 = 0000003C
 /* 01F24 80AD13C4 A60B02F6 */  sh      $t3, 0x02F6($s0)           ## 000002F6
 .L80AD13C8:
-/* 01F28 80AD13C8 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
-/* 01F2C 80AD13CC 8D8CE670 */  lw      $t4, -0x1990($t4)          ## 8015E670
+/* 01F28 80AD13C8 3C0C8016 */  lui     $t4, %hi(gSaveContext+0x10)
+/* 01F2C 80AD13CC 8D8CE670 */  lw      $t4, %lo(gSaveContext+0x10)($t4)
 /* 01F30 80AD13D0 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 01F34 80AD13D4 15800012 */  bne     $t4, $zero, .L80AD1420     
 /* 01F38 80AD13D8 24A50024 */  addiu   $a1, $a1, 0x0024           ## $a1 = 00000024

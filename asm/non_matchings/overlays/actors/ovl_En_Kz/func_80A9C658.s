@@ -12,8 +12,8 @@ glabel func_80A9C658
 /* 00130 80A9C680 1000000B */  beq     $zero, $zero, .L80A9C6B0   
 /* 00134 80A9C684 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000000
 .L80A9C688:
-/* 00138 80A9C688 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 0013C 80A9C68C 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 00138 80A9C688 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 0013C 80A9C68C 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 00140 80A9C690 15C00005 */  bne     $t6, $zero, .L80A9C6A8     
 /* 00144 80A9C694 00000000 */  nop
 /* 00148 80A9C698 0C2A716B */  jal     func_80A9C5AC              

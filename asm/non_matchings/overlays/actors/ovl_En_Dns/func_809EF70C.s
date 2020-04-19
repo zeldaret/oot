@@ -1,7 +1,7 @@
 glabel func_809EF70C
 /* 003BC 809EF70C 8C8F02C0 */  lw      $t7, 0x02C0($a0)           ## 000002C0
-/* 003C0 809EF710 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 003C4 809EF714 85CEE694 */  lh      $t6, -0x196C($t6)          ## 8015E694
+/* 003C0 809EF710 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x34)
+/* 003C4 809EF714 85CEE694 */  lh      $t6, %lo(gSaveContext+0x34)($t6)
 /* 003C8 809EF718 85F80000 */  lh      $t8, 0x0000($t7)           ## 00000000
 /* 003CC 809EF71C 24020004 */  addiu   $v0, $zero, 0x0004         ## $v0 = 00000004
 /* 003D0 809EF720 01D8082A */  slt     $at, $t6, $t8              

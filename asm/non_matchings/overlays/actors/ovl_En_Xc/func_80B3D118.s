@@ -1,6 +1,6 @@
 glabel func_80B3D118
-/* 00F38 80B3D118 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00F3C 80B3D11C 8DCEF9C0 */  lw      $t6, -0x0640($t6)          ## 8015F9C0
+/* 00F38 80B3D118 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x1360)
+/* 00F3C 80B3D11C 8DCEF9C0 */  lw      $t6, %lo(gSaveContext+0x1360)($t6)
 /* 00F40 80B3D120 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00F44 80B3D124 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 00F48 80B3D128 15C10005 */  bne     $t6, $at, .L80B3D140       

@@ -1,6 +1,6 @@
 glabel func_80A3B0BC
-/* 0096C 80A3B0BC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00970 80A3B0C0 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 0096C 80A3B0BC 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00970 80A3B0C0 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00974 80A3B0C4 8C6E0004 */  lw      $t6, 0x0004($v1)           ## 8015E664
 /* 00978 80A3B0C8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0097C 80A3B0CC AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -13,11 +13,11 @@ glabel func_80A3B0BC
 .L80A3B0E4:
 /* 00994 80A3B0E4 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 00998 80A3B0E8 14410003 */  bne     $v0, $at, .L80A3B0F8       
-/* 0099C 80A3B0EC 3C0F8012 */  lui     $t7, 0x8012                ## $t7 = 80120000
+/* 0099C 80A3B0EC 3C0F8012 */  lui     $t7, %hi(gBitFlags+0x24)
 /* 009A0 80A3B0F0 10000017 */  beq     $zero, $zero, .L80A3B150   
 /* 009A4 80A3B0F4 24020002 */  addiu   $v0, $zero, 0x0002         ## $v0 = 00000002
 .L80A3B0F8:
-/* 009A8 80A3B0F8 8DEF7144 */  lw      $t7, 0x7144($t7)           ## 80127144
+/* 009A8 80A3B0F8 8DEF7144 */  lw      $t7, %lo(gBitFlags+0x24)($t7)
 /* 009AC 80A3B0FC 9478009C */  lhu     $t8, 0x009C($v1)           ## 8015E6FC
 /* 009B0 80A3B100 01F8C824 */  and     $t9, $t7, $t8              
 /* 009B4 80A3B104 53200004 */  beql    $t9, $zero, .L80A3B118     

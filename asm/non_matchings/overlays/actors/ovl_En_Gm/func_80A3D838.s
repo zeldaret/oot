@@ -41,10 +41,10 @@ glabel func_80A3D838
 /* 001F0 80A3D8D0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 001F4 80A3D8D4 248402B8 */  addiu   $a0, $a0, 0x02B8           ## $a0 = 060002B8
 /* 001F8 80A3D8D8 01816821 */  addu    $t5, $t4, $at
-/* 001FC 80A3D8DC 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 001FC 80A3D8DC 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 00200 80A3D8E0 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 00204 80A3D8E4 AC2D6FC0 */  sw      $t5, 0x6FC0($at)           ## 80166FC0
+/* 00204 80A3D8E4 AC2D6FC0 */  sw      $t5, %lo(gSegments+0x18)($at)
 /* 00208 80A3D8E8 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 0020C 80A3D8EC 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00210 80A3D8F0 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
@@ -72,8 +72,8 @@ glabel func_80A3D838
 /* 00260 80A3D940 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00264 80A3D944 0C017114 */  jal     func_8005C450
 /* 00268 80A3D948 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 0026C 80A3D94C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00270 80A3D950 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0026C 80A3D94C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00270 80A3D950 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00274 80A3D954 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00278 80A3D958 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0027C 80A3D95C 0C00AC78 */  jal     ActorShape_Init

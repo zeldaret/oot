@@ -21,8 +21,8 @@ glabel OceffSpot_Destroy
 /* 001A4 80BA6214 8F060160 */  lw      $a2, 0x0160($t8)           ## 00000160
 /* 001A8 80BA6218 0C021DB2 */  jal     func_800876C8              
 /* 001AC 80BA621C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 001B0 80BA6220 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 001B4 80BA6224 8739FA28 */  lh      $t9, -0x05D8($t9)          ## 8015FA28
+/* 001B0 80BA6220 3C198016 */  lui     $t9, %hi(gSaveContext+0x13c8)
+/* 001B4 80BA6224 8739FA28 */  lh      $t9, %lo(gSaveContext+0x13c8)($t9)
 /* 001B8 80BA6228 53200009 */  beql    $t9, $zero, .L80BA6250     
 /* 001BC 80BA622C 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 001C0 80BA6230 8E081C40 */  lw      $t0, 0x1C40($s0)           ## 00001C40

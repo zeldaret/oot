@@ -39,8 +39,8 @@ glabel func_80A99BC4
 /* 02EA8 80A99C58 01696021 */  addu    $t4, $t3, $t1              
 /* 02EAC 80A99C5C 8D8D17B4 */  lw      $t5, 0x17B4($t4)           ## 000017B4
 /* 02EB0 80A99C60 01A17021 */  addu    $t6, $t5, $at              
-/* 02EB4 80A99C64 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 02EB8 80A99C68 AC2E6FC0 */  sw      $t6, 0x6FC0($at)           ## 80166FC0
+/* 02EB4 80A99C64 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 02EB8 80A99C68 AC2E6FC0 */  sw      $t6, %lo(gSegments+0x18)($at)
 .L80A99C6C:
 /* 02EBC 80A99C6C 2401000F */  addiu   $at, $zero, 0x000F         ## $at = 0000000F
 /* 02EC0 80A99C70 14A10004 */  bne     $a1, $at, .L80A99C84       

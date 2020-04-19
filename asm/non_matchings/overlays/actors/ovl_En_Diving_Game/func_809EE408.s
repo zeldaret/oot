@@ -95,11 +95,11 @@ glabel func_809EE408
 /* 00CE8 809EE558 0C27B678 */  jal     func_809ED9E0              
 /* 00CEC 809EE55C 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00CF0 809EE560 861902A6 */  lh      $t9, 0x02A6($s0)           ## 000002A6
-/* 00CF4 809EE564 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 00CF4 809EE564 3C098016 */  lui     $t1, %hi(gSaveContext+0xeda)
 /* 00CF8 809EE568 240B001E */  addiu   $t3, $zero, 0x001E         ## $t3 = 0000001E
 /* 00CFC 809EE56C 2728FFFF */  addiu   $t0, $t9, 0xFFFF           ## $t0 = FFFFFFFF
 /* 00D00 809EE570 A60802A6 */  sh      $t0, 0x02A6($s0)           ## 000002A6
-/* 00D04 809EE574 9529F53A */  lhu     $t1, -0x0AC6($t1)          ## 8015F53A
+/* 00D04 809EE574 9529F53A */  lhu     $t1, %lo(gSaveContext+0xeda)($t1)
 /* 00D08 809EE578 240C0005 */  addiu   $t4, $zero, 0x0005         ## $t4 = 00000005
 /* 00D0C 809EE57C 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
 /* 00D10 809EE580 312A0100 */  andi    $t2, $t1, 0x0100           ## $t2 = 00000000

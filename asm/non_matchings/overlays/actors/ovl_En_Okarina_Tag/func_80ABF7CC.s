@@ -28,10 +28,10 @@ glabel func_80ABF7CC
 /* 00AF8 80ABF818 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00AFC 80ABF81C 0C041B33 */  jal     func_80106CCC              
 /* 00B00 80ABF820 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 00B04 80ABF824 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00B08 80ABF828 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
-/* 00B0C 80ABF82C 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 00B10 80ABF830 8DCE715C */  lw      $t6, 0x715C($t6)           ## 8012715C
+/* 00B04 80ABF824 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00B08 80ABF828 2463E660 */  addiu   $v1, %lo(gSaveContext)
+/* 00B0C 80ABF82C 3C0E8012 */  lui     $t6, %hi(gBitFlags+0x3c)
+/* 00B10 80ABF830 8DCE715C */  lw      $t6, %lo(gBitFlags+0x3c)($t6)
 /* 00B14 80ABF834 8C6F00A4 */  lw      $t7, 0x00A4($v1)           ## 8015E704
 /* 00B18 80ABF838 3C020200 */  lui     $v0, 0x0200                ## $v0 = 02000000
 /* 00B1C 80ABF83C 244224A0 */  addiu   $v0, $v0, 0x24A0           ## $v0 = 020024A0
@@ -40,10 +40,10 @@ glabel func_80ABF7CC
 /* 00B28 80ABF848 0002C900 */  sll     $t9, $v0,  4               
 /* 00B2C 80ABF84C 00194702 */  srl     $t0, $t9, 28               
 /* 00B30 80ABF850 00084880 */  sll     $t1, $t0,  2               
-/* 00B34 80ABF854 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 00B34 80ABF854 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 00B38 80ABF858 01495021 */  addu    $t2, $t2, $t1              
 /* 00B3C 80ABF85C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 00B40 80ABF860 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 80166FA8
+/* 00B40 80ABF860 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 00B44 80ABF864 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00B48 80ABF868 00415824 */  and     $t3, $v0, $at              
 /* 00B4C 80ABF86C 8FAE0024 */  lw      $t6, 0x0024($sp)           

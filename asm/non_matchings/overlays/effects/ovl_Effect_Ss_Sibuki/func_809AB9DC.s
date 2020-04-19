@@ -29,8 +29,8 @@ glabel func_809AB9DC
 /* 00414 809ABA44 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float
 /* 00418 809ABA48 A7A2002E */  sh      $v0, 0x002E($sp)           
-/* 0041C 809ABA4C 3C118016 */  lui     $s1, 0x8016                ## $s1 = 80160000
-/* 00420 809ABA50 2631FA90 */  addiu   $s1, $s1, 0xFA90           ## $s1 = 8015FA90
+/* 0041C 809ABA4C 3C118016 */  lui     $s1, %hi(gGameInfo)
+/* 00420 809ABA50 2631FA90 */  addiu   $s1, %lo(gGameInfo)
 /* 00424 809ABA54 8E220000 */  lw      $v0, 0x0000($s1)           ## 8015FA90
 /* 00428 809ABA58 3C01809B */  lui     $at, %hi(D_809ABCDC)       ## $at = 809B0000
 /* 0042C 809ABA5C C434BCDC */  lwc1    $f20, %lo(D_809ABCDC)($at) 
@@ -160,8 +160,8 @@ glabel func_809AB9DC
 /* 00608 809ABC38 E606001C */  swc1    $f6, 0x001C($s0)           ## 0000001C
 .L809ABC3C:
 /* 0060C 809ABC3C 86020054 */  lh      $v0, 0x0054($s0)           ## 00000054
-/* 00610 809ABC40 3C118016 */  lui     $s1, 0x8016                ## $s1 = 80160000
-/* 00614 809ABC44 2631FA90 */  addiu   $s1, $s1, 0xFA90           ## $s1 = 8015FA90
+/* 00610 809ABC40 3C118016 */  lui     $s1, %hi(gGameInfo)
+/* 00614 809ABC44 2631FA90 */  addiu   $s1, %lo(gGameInfo)
 /* 00618 809ABC48 50400007 */  beql    $v0, $zero, .L809ABC68     
 /* 0061C 809ABC4C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 00620 809ABC50 8E2A0000 */  lw      $t2, 0x0000($s1)           ## 8015FA90

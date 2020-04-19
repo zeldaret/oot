@@ -56,8 +56,8 @@ glabel func_808B3AAC
 /* 00200 808B3B60 10200006 */  beq     $at, $zero, .L808B3B7C     
 /* 00204 808B3B64 2841A001 */  slti    $at, $v0, 0xA001           
 /* 00208 808B3B68 14200004 */  bne     $at, $zero, .L808B3B7C     
-/* 0020C 808B3B6C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00210 808B3B70 9442F536 */  lhu     $v0, -0x0ACA($v0)          ## 8015F536
+/* 0020C 808B3B6C 3C028016 */  lui     $v0, %hi(gSaveContext+0xed6)
+/* 00210 808B3B70 9442F536 */  lhu     $v0, %lo(gSaveContext+0xed6)($v0)
 /* 00214 808B3B74 10000003 */  beq     $zero, $zero, .L808B3B84   
 /* 00218 808B3B78 30420010 */  andi    $v0, $v0, 0x0010           ## $v0 = 00000000
 .L808B3B7C:

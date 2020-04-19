@@ -1,7 +1,7 @@
 glabel func_80A1DB60
 /* 00350 80A1DB60 90AE1D6C */  lbu     $t6, 0x1D6C($a1)           ## 00001D6C
-/* 00354 80A1DB64 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00358 80A1DB68 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00354 80A1DB64 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00358 80A1DB68 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 0035C 80A1DB6C 15C0000A */  bne     $t6, $zero, .L80A1DB98     
 /* 00360 80A1DB70 3C0F80A2 */  lui     $t7, %hi(func_80A1DE24)    ## $t7 = 80A20000
 /* 00364 80A1DB74 25EFDE24 */  addiu   $t7, $t7, %lo(func_80A1DE24) ## $t7 = 80A1DE24

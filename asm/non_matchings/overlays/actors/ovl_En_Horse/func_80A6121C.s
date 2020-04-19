@@ -40,8 +40,8 @@ glabel func_80A6121C
 /* 05FA4 80A61294 C6080024 */  lwc1    $f8, 0x0024($s0)           ## 00000024
 /* 05FA8 80A61298 0C032D9E */  jal     Math3D_Vec3f_DistXYZ
 /* 05FAC 80A6129C 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
-/* 05FB0 80A612A0 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
-/* 05FB4 80A612A4 8D8CFA90 */  lw      $t4, -0x0570($t4)          ## 8015FA90
+/* 05FB0 80A612A0 3C0C8016 */  lui     $t4, %hi(gGameInfo)
+/* 05FB4 80A612A4 8D8CFA90 */  lw      $t4, %lo(gGameInfo)($t4)
 /* 05FB8 80A612A8 858D0564 */  lh      $t5, 0x0564($t4)           ## 80160564
 /* 05FBC 80A612AC 448D2000 */  mtc1    $t5, $f4                   ## $f4 = 0.00
 /* 05FC0 80A612B0 00000000 */  nop

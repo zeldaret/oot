@@ -1,7 +1,7 @@
 glabel func_80B58624
 /* 05274 80B58624 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
-/* 05278 80B58628 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0527C 80B5862C 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 05278 80B58628 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 0527C 80B5862C 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 05280 80B58630 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 05284 80B58634 AFB10020 */  sw      $s1, 0x0020($sp)           
 /* 05288 80B58638 AFB0001C */  sw      $s0, 0x001C($sp)           

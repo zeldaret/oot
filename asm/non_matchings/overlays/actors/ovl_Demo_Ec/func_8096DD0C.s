@@ -46,9 +46,9 @@ glabel func_8096DD0C
 /* 008E4 8096DD94 27A40024 */  addiu   $a0, $sp, 0x0024           ## $a0 = FFFFFFDC
 /* 008E8 8096DD98 24C606BC */  addiu   $a2, $a2, %lo(D_809706BC)  ## $a2 = 809706BC
 /* 008EC 8096DD9C 01816821 */  addu    $t5, $t4, $at              
-/* 008F0 8096DDA0 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 008F0 8096DDA0 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 008F4 8096DDA4 0C031AD5 */  jal     Graph_CloseDisps              
-/* 008F8 8096DDA8 AC2D6FC0 */  sw      $t5, 0x6FC0($at)           ## 80166FC0
+/* 008F8 8096DDA8 AC2D6FC0 */  sw      $t5, %lo(gSegments+0x18)($at)
 /* 008FC 8096DDAC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00900 8096DDB0 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00904 8096DDB4 03E00008 */  jr      $ra                        

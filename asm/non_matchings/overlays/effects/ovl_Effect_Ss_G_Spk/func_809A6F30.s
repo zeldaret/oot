@@ -24,10 +24,10 @@ glabel func_809A6F30
 /* 0004C 809A6F7C 00027100 */  sll     $t6, $v0,  4               
 /* 00050 809A6F80 000E7F02 */  srl     $t7, $t6, 28               
 /* 00054 809A6F84 000FC080 */  sll     $t8, $t7,  2               
-/* 00058 809A6F88 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 00058 809A6F88 3C198016 */  lui     $t9, %hi(gSegments)
 /* 0005C 809A6F8C 0338C821 */  addu    $t9, $t9, $t8              
 /* 00060 809A6F90 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 00064 809A6F94 8F396FA8 */  lw      $t9, 0x6FA8($t9)           ## 80166FA8
+/* 00064 809A6F94 8F396FA8 */  lw      $t9, %lo(gSegments)($t9)
 /* 00068 809A6F98 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 0006C 809A6F9C 00414024 */  and     $t0, $v0, $at              
 /* 00070 809A6FA0 3C018000 */  lui     $at, 0x8000                ## $at = 80000000

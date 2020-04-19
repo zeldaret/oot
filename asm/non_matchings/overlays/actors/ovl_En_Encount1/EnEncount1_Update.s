@@ -11,8 +11,8 @@ glabel EnEncount1_Update
 /* 00C08 80A07328 8C99014C */  lw      $t9, 0x014C($a0)           ## 0000014C
 /* 00C0C 80A0732C 0320F809 */  jalr    $ra, $t9                   
 /* 00C10 80A07330 00000000 */  nop
-/* 00C14 80A07334 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00C18 80A07338 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 00C14 80A07334 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 00C18 80A07338 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 00C1C 80A0733C 8FA40048 */  lw      $a0, 0x0048($sp)           
 /* 00C20 80A07340 8FA5004C */  lw      $a1, 0x004C($sp)           
 /* 00C24 80A07344 85F812D4 */  lh      $t8, 0x12D4($t7)           ## 801612D4

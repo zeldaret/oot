@@ -14,8 +14,8 @@ glabel D_8097C010
 .text
 glabel func_80979030
 /* 00700 80979030 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
-/* 00704 80979034 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00708 80979038 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 00704 80979034 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 00708 80979038 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 0070C 8097903C AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00710 80979040 AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 00714 80979044 AFA40048 */  sw      $a0, 0x0048($sp)           

@@ -31,8 +31,8 @@ glabel func_80A31BE8
 /* 012EC 80A31C5C 10000046 */  beq     $zero, $zero, .L80A31D78   
 /* 012F0 80A31C60 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80A31C64:
-/* 012F4 80A31C64 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 012F8 80A31C68 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 012F4 80A31C64 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 012F8 80A31C68 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 012FC 80A31C6C 84590034 */  lh      $t9, 0x0034($v0)           ## 8015E694
 /* 01300 80A31C70 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01304 80A31C74 2B210014 */  slti    $at, $t9, 0x0014           
@@ -51,9 +51,9 @@ glabel func_80A31BE8
 /* 01334 80A31CA4 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 01338 80A31CA8 00300821 */  addu    $at, $at, $s0              
 /* 0133C 80A31CAC 24090129 */  addiu   $t1, $zero, 0x0129         ## $t1 = 00000129
-/* 01340 80A31CB0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 01340 80A31CB0 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 01344 80A31CB4 A4291E1A */  sh      $t1, 0x1E1A($at)           ## 00011E1A
-/* 01348 80A31CB8 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01348 80A31CB8 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 0134C 80A31CBC 340AFFF0 */  ori     $t2, $zero, 0xFFF0         ## $t2 = 0000FFF0
 /* 01350 80A31CC0 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01354 80A31CC4 A44A1412 */  sh      $t2, 0x1412($v0)           ## 8015FA72

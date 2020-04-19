@@ -30,9 +30,9 @@ glabel func_80AA0D88
 .L80AA0DF4:
 /* 00764 80AA0DF4 84C900A4 */  lh      $t1, 0x00A4($a2)           ## 000000A4
 /* 00768 80AA0DF8 2401005F */  addiu   $at, $zero, 0x005F         ## $at = 0000005F
-/* 0076C 80AA0DFC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 0076C 80AA0DFC 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 00770 80AA0E00 15210009 */  bne     $t1, $at, .L80AA0E28       
-/* 00774 80AA0E04 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00774 80AA0E04 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00778 80AA0E08 944A0ED6 */  lhu     $t2, 0x0ED6($v0)           ## 8015F536
 /* 0077C 80AA0E0C 314B0010 */  andi    $t3, $t2, 0x0010           ## $t3 = 00000000
 /* 00780 80AA0E10 11600005 */  beq     $t3, $zero, .L80AA0E28     
@@ -43,14 +43,14 @@ glabel func_80AA0D88
 /* 00790 80AA0E20 1000001C */  beq     $zero, $zero, .L80AA0E94   
 /* 00794 80AA0E24 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80AA0E28:
-/* 00798 80AA0E28 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0079C 80AA0E2C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00798 80AA0E28 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0079C 80AA0E2C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 007A0 80AA0E30 944C0ED6 */  lhu     $t4, 0x0ED6($v0)           ## 8015F536
-/* 007A4 80AA0E34 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
+/* 007A4 80AA0E34 3C0E8012 */  lui     $t6, %hi(gBitFlags+0x34)
 /* 007A8 80AA0E38 318D0010 */  andi    $t5, $t4, 0x0010           ## $t5 = 00000000
 /* 007AC 80AA0E3C 51A00007 */  beql    $t5, $zero, .L80AA0E5C     
 /* 007B0 80AA0E40 849901E8 */  lh      $t9, 0x01E8($a0)           ## 000001E8
-/* 007B4 80AA0E44 8DCE7154 */  lw      $t6, 0x7154($t6)           ## 80127154
+/* 007B4 80AA0E44 8DCE7154 */  lw      $t6, %lo(gBitFlags+0x34)($t6)
 /* 007B8 80AA0E48 8C4F00A4 */  lw      $t7, 0x00A4($v0)           ## 8015E704
 /* 007BC 80AA0E4C 01CFC024 */  and     $t8, $t6, $t7              
 /* 007C0 80AA0E50 53000010 */  beql    $t8, $zero, .L80AA0E94     

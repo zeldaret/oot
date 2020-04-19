@@ -1,6 +1,6 @@
 glabel func_80AA1B58
-/* 001B8 80AA1B58 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
-/* 001BC 80AA1B5C 24C6E660 */  addiu   $a2, $a2, 0xE660           ## $a2 = 8015E660
+/* 001B8 80AA1B58 3C068016 */  lui     $a2, %hi(gSaveContext)
+/* 001BC 80AA1B5C 24C6E660 */  addiu   $a2, %lo(gSaveContext)
 /* 001C0 80AA1B60 8CCE0004 */  lw      $t6, 0x0004($a2)           ## 8015E664
 /* 001C4 80AA1B64 24030001 */  addiu   $v1, $zero, 0x0001         ## $v1 = 00000001
 /* 001C8 80AA1B68 546E0004 */  bnel    $v1, $t6, .L80AA1B7C       
