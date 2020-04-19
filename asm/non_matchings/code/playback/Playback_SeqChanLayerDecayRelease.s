@@ -1,4 +1,4 @@
-glabel seq_channel_layer_decay_release_internal
+glabel Playback_SeqChanLayerDecayRelease
 /* B5EA28 800E7888 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B5EA2C 800E788C AFB00018 */  sw    $s0, 0x18($sp)
 /* B5EA30 800E7890 2408FFFF */  li    $t0, -1
@@ -184,11 +184,11 @@ glabel seq_channel_layer_decay_release_internal
 /* B5ECC8 800E7B28 00C02025 */  move  $a0, $a2
 /* B5ECCC 800E7B2C 57290008 */  bnel  $t9, $t1, .L800E7B50
 /* B5ECD0 800E7B30 8FBF001C */   lw    $ra, 0x1c($sp)
-/* B5ECD4 800E7B34 0C03A037 */  jal   audio_list_remove
+/* B5ECD4 800E7B34 0C03A037 */  jal   Playback_AudioListRemove
 /* B5ECD8 800E7B38 AFA60024 */   sw    $a2, 0x24($sp)
 /* B5ECDC 800E7B3C 8FA50024 */  lw    $a1, 0x24($sp)
 /* B5ECE0 800E7B40 8CA4000C */  lw    $a0, 0xc($a1)
-/* B5ECE4 800E7B44 0C03A027 */  jal   audio_list_push_front
+/* B5ECE4 800E7B44 0C03A027 */  jal   Playback_AudioListPushFront
 /* B5ECE8 800E7B48 24840010 */   addiu $a0, $a0, 0x10
 .L800E7B4C:
 /* B5ECEC 800E7B4C 8FBF001C */  lw    $ra, 0x1c($sp)

@@ -47,7 +47,7 @@ typedef struct {
     f32 speed;
     // f32 extent;
     // struct Note *note; // Changed from extent to note? Shortened Struct maybe?
-} Portamento; // size = 0x10
+} Portamento; // size = 0x0C
 
 typedef struct {
     s16 delay;
@@ -104,9 +104,9 @@ typedef struct {
 } Drum; // OOT size = 0x8, TODO figure out what is still used.
 
 typedef struct {
-    u32 ootNew;
-    u32 ootNew2;
-} UnkInstrument; // size = 0x8
+    u32 unk_0;
+    u32 unk_4;
+} UnkInstrument; // size = 0x8, new struct to OOT
 
 typedef struct {
     /*0x00*/ u8 numInstruments;
@@ -197,18 +197,16 @@ typedef struct {
     f32 target;
     s32 pad1C; // 0x8C in Note
     // /*0x1C, 0x20*/ AdsrEnvelope *envelope;
-} AdsrState; // size = 0x20, 0x24 in EU
+} AdsrState;
 
 typedef struct {
     /*0x00*/ s8 reverb;
     /*0x01*/ u8 pan;
     /*0x02*/ u8 pad;
-    /*0x03*/ u8 ootNew3;
-    /*0x04*/ u16 ootNew4;
-    /*0x06*/ u16 ootNew6;
+    /*0x04*/ u32 pad2;
     /*0x08*/ f32 freqScale;
     /*0x0C*/ f32 velocity;
-    /*0x10*/ u32 pad1[2];
+    /*0x10*/ u32 pad3[2];
 } NoteAttributes; // size = 0x10
 
 typedef struct SequenceChannel {
@@ -232,7 +230,7 @@ typedef struct SequenceChannel {
     /*0x03*/ u8 muteBehavior;
     /*0x04*/ u8 reverb;       // or dry/wet mix
     /*0x05*/ u8 notePriority; // 0-3
-    /*0x06*/ u8 ootPad;
+    /*0x06*/ u8 pad;
     /*0x07*/ u8 bankId;
     /*0x08*/ u8 reverbIndex;
     /*0x09*/ u8 bookOffset;
@@ -255,7 +253,7 @@ typedef struct SequenceChannel {
     /*0x2C*/ f32 appliedVolume;
     /*0x30*/ f32 freqScale;
     /*0x34*/ u8 (*dynTable)[][2];
-    /*0x3C*/ s32 pad[2];
+    /*0x3C*/ s32 pad1[2];
     /*0x44*/ struct Note* noteUnused;                  // never read
     /*0x48*/ struct SequenceChannelLayer* layerUnused; // never read
     /*0x4C*/ Instrument* instrument;
@@ -268,8 +266,8 @@ typedef struct SequenceChannel {
     /*    */ AdsrSettings adsr;
     /*    */ NotePool notePool;
     /*0xCC*/ struct Note* test;
-    /*0xD0*/ u8 unkD0;
-} SequenceChannel; // size = 0xC0, 0xC4 in EU
+    /*0xD0*/ u8 pad2;
+} SequenceChannel;
 
 // Maybe SequenceTrack?
 typedef struct SequenceChannelLayer {
@@ -280,8 +278,8 @@ typedef struct SequenceChannelLayer {
     /*0x00*/ u8 unusedEu0b8 : 1;
     /*0x00*/ u8 notePropertiesNeedInit : 1;
     /*0x00*/ u8 ignoreDrumPan : 1;
-    /*0x00*/ u8 ootNew : 1;
-    /*0x01*/ u8 ootPad;
+    /*0x00*/ u8 bit0 : 1;
+    /*0x01*/ u8 pad;
     /*0x02*/ u8 instOrWave;
     /*0x03*/ u8 status;
     /*0x04*/ u8 noteDuration; // set to 0x80
@@ -295,21 +293,21 @@ typedef struct SequenceChannelLayer {
     /*0x0C*/ f32 freqScale;
     /*0x10*/ f32 velocitySquare;
     /*0x14*/ f32 noteVelocity;
-    /*0x1C*/ AdsrSettings adsr;
-    /*    */ Portamento portamento;
-    /*    */ struct Note* note;
-    /*    */ f32 noteFreqScale;
-    /*    */ s16 shortNoteDefaultPlayPercentage;
-    /*    */ s16 playPercentage; // it's not really a percentage...
-    /*    */ s16 delay;
-    /*    */ s16 duration;
-    /*    */ s16 delayUnused; // set to 'delay', never read
-    /*    */ f32 ootNew2;
-    /*    */ s32 pad1;
-    /*    */ Instrument* instrument;
-    /*    */ AudioBankSound* sound;
-    /*    */ SequenceChannel* seqChannel;
-    /*    */ M64ScriptState scriptState;
+    /*0x18*/ AdsrSettings adsr;
+    /*0x20*/ Portamento portamento;
+    /*0x2C*/ struct Note* note;
+    /*0x30*/ f32 noteFreqScale;
+    /*0x34*/ s16 shortNoteDefaultPlayPercentage;
+    /*0x36*/ s16 playPercentage; // it's not really a percentage...
+    /*0x38*/ s16 delay;
+    /*0x3A*/ s16 duration;
+    /*0x3C*/ s16 delayUnused; // set to 'delay', never read
+    /*0x40*/ f32 unk_40;
+    /*0x44*/ s32 pad1;
+    /*0x48*/ Instrument* instrument;
+    /*0x4C*/ AudioBankSound* sound;
+    /*0x50*/ SequenceChannel* seqChannel;
+    /*0x54*/ M64ScriptState scriptState;
     /*    */ AudioListItem listItem;
     /*    */ u8 pad2[4];
 } SequenceChannelLayer;
@@ -351,9 +349,9 @@ typedef struct {
     /*0x00*/ u8 priority;
     /*0x01*/ u8 waveId;
     /*0x02*/ u8 sampleCountIndex;
-    /*0x03*/ u8 ootNew;
-    /*0x04*/ u8 ootNew2;
-    /*0x05*/ u8 ootNew3;
+    /*0x03*/ u8 bankId;
+    /*0x04*/ u8 unk_04;
+    /*0x05*/ u8 stereoHeadsetEffects;
     /*0x06*/ s16 adsrVolScale;
     /*0x08*/ f32 portamentoFreqScale;
     /*0x0C*/ f32 vibratoFreqScale;
@@ -385,7 +383,7 @@ typedef struct {
         struct {
             /*0x01*/ u8 reverbIndex : 3;
             /*0x01*/ u8 bookOffset : 2;
-            /*0x01*/ u8 ootField : 1;
+            /*0x01*/ u8 bit2 : 1;
             /*0x01*/ u8 isSyntheticWave : 1;
             /*0x01*/ u8 hasTwoAdpcmParts : 1;
         } asBitfields;
@@ -395,37 +393,37 @@ typedef struct {
     /*0x03*/ u8 headsetPanRight;
     /*0x04*/ u8 headsetPanLeft;
     /*0x05*/ u8 reverbVol;
-    u8 ootNew;  // sound shifted by 4.
-    u8 ootNew2; // sound shifted by 4.
-    /*0x06*/ u16 targetVolLeft;
-    /*0x08*/ u16 targetVolRight;
-    /*0x0A*/ u16 resamplingRateFixedPoint; // stored as signed but loaded as u16
-    s16 ootPad2;                           // sound shifted by 4.
-    /*0x0C*/ union {
-        s16* samples;
-        AudioBankSound* audioBankSound;
-    } sound;
-    u32 oot14;
-    s32 ootPad[2];
+    /*0x06*/ u8 unk_06; // sound shifted by 4.
+    /*0x07*/ u8 unk_07; // sound shifted by 4.
+    /*0x08*/ u16 targetVolLeft;
+    /*0x0A*/ u16 targetVolRight;
+    /*0x0C*/ u16 resamplingRateFixedPoint; // stored as signed but loaded as u16
+    /*0x0E*/ s16 unk_10;
+    /*0x10*/ union {
+                 s16* samples;
+                 AudioBankSound* audioBankSound;
+             } sound;
+    /*0x14*/ u32 unk_14;
+    /*0x18*/ s32 pad[2];
 } NoteSubEu;
 
 typedef struct Note {
     /*0x00*/ AudioListItem listItem;
     /*0x10*/ NoteSynthesisState synthesisState;
-    u8 pad0[12];
-    NotePlaybackState playbackState;
-    /*0x90*/ s16 pad12;
-    /*0x92*/ u16 ootNew8;
-    /*0x94*/ u16 ootNew9;
-    /*0x96*/ u8 pad7[0x1A];
-    /*0xB0*/ u8 ootNew10;
-    /*0xB4*/ u32 pad11[2];
+    /*    */ u8 pad[12];
+    /*    */ NotePlaybackState playbackState;
+    /*0x90*/ s16 pad1;
+    /*0x92*/ u16 unk_92;
+    /*0x94*/ u16 unk_94;
+    /*0x96*/ u8 pad2[0x1A];
+    /*0xB0*/ u8 unk_B0;
+    /*0xB4*/ u32 pad3[2];
 
-    // Possibly removed? Changed?
+    // Possibly removed? Changed? Likely needs fit within this all here.
     // /*0x74, 0x7C*/ Portamento portamento;
     // /*0x84, 0x8C*/ VibratoState vibratoState;
 
-    /*0xB8*/ u32 ootNew4;
+    /*0xB8*/ u32 unk_B8;
     /*0xBC*/ NoteSubEu noteSubEu;
 } Note;
 
@@ -467,14 +465,16 @@ typedef struct {
     /*0x352C*/ Note* gNotes;
 } AudioContext;
 
+
+// These two are similar to NoteSubEu. ReverbBits may be shared in both.
 typedef struct {
     u8 bit0 : 1;
     u8 bit1 : 1;
     u8 bit2 : 2;
-    u8 bit4 : 1;
-    u8 bit5 : 1;
-    u8 bit6 : 1;
-    u8 bit7 : 1;
+    u8 strongRight : 1;
+    u8 strongLeft : 1;
+    u8 stereoHeadsetEffects : 1;
+    u8 usesHeadsetPanEffects : 1;
 } ReverbBits;
 
 typedef struct {

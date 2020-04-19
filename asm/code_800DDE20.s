@@ -204,12 +204,12 @@ glabel func_800DE048
 /* B55270 800DE0D0 356C0040 */  ori   $t4, $t3, 0x40
 /* B55274 800DE0D4 A04C0000 */  sb    $t4, ($v0)
 .L800DE0D8:
-/* B55278 800DE0D8 0C039BCA */  jal   note_disable
+/* B55278 800DE0D8 0C039BCA */  jal   Playback_NoteDisable
 /* B5527C 800DE0DC 02002025 */   move  $a0, $s0
-/* B55280 800DE0E0 0C03A037 */  jal   audio_list_remove
+/* B55280 800DE0E0 0C03A037 */  jal   Playback_AudioListRemove
 /* B55284 800DE0E4 02002025 */   move  $a0, $s0
 /* B55288 800DE0E8 02602025 */  move  $a0, $s3
-/* B5528C 800DE0EC 0C03A70A */  jal   audio_list_push_back
+/* B5528C 800DE0EC 0C03A70A */  jal   SeqPlayer_AudioListPushBack
 /* B55290 800DE0F0 02002825 */   move  $a1, $s0
 /* B55294 800DE0F4 8EA22894 */  lw    $v0, 0x2894($s5)
 /* B55298 800DE0F8 26310001 */  addiu $s1, $s1, 1
@@ -367,7 +367,7 @@ glabel func_800DE2B0
 /* B554A0 800DE300 03E00008 */  jr    $ra
 /* B554A4 800DE304 00000000 */   nop   
 
-glabel sound_alloc
+glabel Heap_SoundAlloc
 /* B554A8 800DE308 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B554AC 800DE30C AFBF0014 */  sw    $ra, 0x14($sp)
 /* B554B0 800DE310 0C0378F7 */  jal   func_800DE3DC
@@ -2465,9 +2465,9 @@ glabel func_800DFBF8
 /* B571E0 800E0040 00052940 */  sll   $a1, $a1, 5
 /* B571E4 800E0044 0C0378E0 */  jal   func_800DE380
 /* B571E8 800E0048 02602025 */   move  $a0, $s3
-/* B571EC 800E004C 0C03A1E2 */  jal   note_init_all
+/* B571EC 800E004C 0C03A1E2 */  jal   Playback_NoteInitAll
 /* B571F0 800E0050 AEC2352C */   sw    $v0, 0x352c($s6)
-/* B571F4 800E0054 0C039F57 */  jal   init_note_free_list
+/* B571F4 800E0054 0C039F57 */  jal   Playback_InitNoteFreeList
 /* B571F8 800E0058 00000000 */   nop   
 /* B571FC 800E005C 86D82854 */  lh    $t8, 0x2854($s6)
 /* B57200 800E0060 8ED92894 */  lw    $t9, 0x2894($s6)
@@ -2681,7 +2681,7 @@ glabel func_800DFBF8
 /* B57518 800E0378 24050040 */   li    $a1, 64
 /* B5751C 800E037C AE420278 */  sw    $v0, 0x278($s2)
 /* B57520 800E0380 02602025 */  move  $a0, $s3
-/* B57524 800E0384 0C0378C2 */  jal   sound_alloc
+/* B57524 800E0384 0C0378C2 */  jal   Heap_SoundAlloc
 /* B57528 800E0388 24050010 */   li    $a1, 16
 /* B5752C 800E038C AE420270 */  sw    $v0, 0x270($s2)
 /* B57530 800E0390 86A50014 */  lh    $a1, 0x14($s5)
@@ -2700,7 +2700,7 @@ glabel func_800DFBF8
 /* B5755C 800E03BC 24050040 */   li    $a1, 64
 /* B57560 800E03C0 AE42027C */  sw    $v0, 0x27c($s2)
 /* B57564 800E03C4 02602025 */  move  $a0, $s3
-/* B57568 800E03C8 0C0378C2 */  jal   sound_alloc
+/* B57568 800E03C8 0C0378C2 */  jal   Heap_SoundAlloc
 /* B5756C 800E03CC 24050010 */   li    $a1, 16
 /* B57570 800E03D0 AE420274 */  sw    $v0, 0x274($s2)
 /* B57574 800E03D4 86A50016 */  lh    $a1, 0x16($s5)
@@ -3131,7 +3131,7 @@ glabel func_800E0964
 /* B57B58 800E09B8 2416007F */  li    $s6, 127
 /* B57B5C 800E09BC 02802025 */  move  $a0, $s4
 .L800E09C0:
-/* B57B60 800E09C0 0C039D26 */  jal   get_instrument_inner
+/* B57B60 800E09C0 0C039D26 */  jal   Playback_GetInstrumentInner
 /* B57B64 800E09C4 02202825 */   move  $a1, $s1
 /* B57B68 800E09C8 10400010 */  beqz  $v0, .L800E0A0C
 /* B57B6C 800E09CC 00408025 */   move  $s0, $v0
@@ -3166,7 +3166,7 @@ glabel func_800E0964
 /* B57BD0 800E0A30 1940000E */  blez  $t2, .L800E0A6C
 /* B57BD4 800E0A34 02802025 */   move  $a0, $s4
 .L800E0A38:
-/* B57BD8 800E0A38 0C039D5B */  jal   get_drum
+/* B57BD8 800E0A38 0C039D5B */  jal   Playback_GetDrum
 /* B57BDC 800E0A3C 02002825 */   move  $a1, $s0
 /* B57BE0 800E0A40 10400003 */  beqz  $v0, .L800E0A50
 /* B57BE4 800E0A44 02402025 */   move  $a0, $s2
@@ -3186,7 +3186,7 @@ glabel func_800E0964
 /* B57C14 800E0A74 19A0000E */  blez  $t5, .L800E0AB0
 /* B57C18 800E0A78 02802025 */   move  $a0, $s4
 .L800E0A7C:
-/* B57C1C 800E0A7C 0C039D94 */  jal   get_unknown_instrument
+/* B57C1C 800E0A7C 0C039D94 */  jal   Playback_GetUnkInstrument
 /* B57C20 800E0A80 02002825 */   move  $a1, $s0
 /* B57C24 800E0A84 10400003 */  beqz  $v0, .L800E0A94
 /* B57C28 800E0A88 02402025 */   move  $a0, $s2
@@ -3595,7 +3595,7 @@ glabel func_800E0EB4
 /* B581B4 800E1014 1B20001B */  blez  $t9, .L800E1084
 /* B581B8 800E1018 02A02025 */   move  $a0, $s5
 .L800E101C:
-/* B581BC 800E101C 0C039D26 */  jal   get_instrument_inner
+/* B581BC 800E101C 0C039D26 */  jal   Playback_GetInstrumentInner
 /* B581C0 800E1020 02202825 */   move  $a1, $s1
 /* B581C4 800E1024 10400010 */  beqz  $v0, .L800E1068
 /* B581C8 800E1028 00408025 */   move  $s0, $v0
@@ -3629,7 +3629,7 @@ glabel func_800E0EB4
 /* B58228 800E1088 1980000E */  blez  $t4, .L800E10C4
 /* B5822C 800E108C 02A02025 */   move  $a0, $s5
 .L800E1090:
-/* B58230 800E1090 0C039D5B */  jal   get_drum
+/* B58230 800E1090 0C039D5B */  jal   Playback_GetDrum
 /* B58234 800E1094 02402825 */   move  $a1, $s2
 /* B58238 800E1098 10400003 */  beqz  $v0, .L800E10A8
 /* B5823C 800E109C 02802025 */   move  $a0, $s4
@@ -3648,7 +3648,7 @@ glabel func_800E0EB4
 /* B58268 800E10C8 19E0000E */  blez  $t7, .L800E1104
 /* B5826C 800E10CC 02A02025 */   move  $a0, $s5
 .L800E10D0:
-/* B58270 800E10D0 0C039D94 */  jal   get_unknown_instrument
+/* B58270 800E10D0 0C039D94 */  jal   Playback_GetUnkInstrument
 /* B58274 800E10D4 02602825 */   move  $a1, $s3
 /* B58278 800E10D8 10400003 */  beqz  $v0, .L800E10E8
 /* B5827C 800E10DC 02802025 */   move  $a0, $s4

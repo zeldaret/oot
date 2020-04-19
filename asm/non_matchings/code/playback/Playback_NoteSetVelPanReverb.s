@@ -7,7 +7,7 @@ glabel D_801495C4
     .float 4095.999
 
 .text
-glabel note_set_vel_pan_reverb
+glabel Playback_NoteSetVelPanReverb
 /* B5DAE0 800E6940 27BDFFB8 */  addiu $sp, $sp, -0x48
 /* B5DAE4 800E6944 AFBF0014 */  sw    $ra, 0x14($sp)
 /* B5DAE8 800E6948 AFA40048 */  sw    $a0, 0x48($sp)
@@ -37,12 +37,12 @@ glabel note_set_vel_pan_reverb
 /* B5DB40 800E69A0 910900C6 */  lbu   $t1, 0xc6($t0)
 /* B5DB44 800E69A4 A0A90006 */  sb    $t1, 6($a1)
 
-# note_set_resampling_rate setup
+# Playback_NoteSetResamplingRate setup
 /* B5DB48 800E69A8 8CC50004 */  lw    $a1, 4($a2)
 /* B5DB4C 800E69AC AFA7004C */  sw    $a3, 0x4c($sp)
 /* B5DB50 800E69B0 AFA60050 */  sw    $a2, 0x50($sp)
 /* B5DB54 800E69B4 AFA20020 */  sw    $v0, 0x20($sp)
-/* B5DB58 800E69B8 0C039B6E */  jal   note_set_resampling_rate
+/* B5DB58 800E69B8 0C039B6E */  jal   Playback_NoteSetResamplingRate
 /* B5DB5C 800E69BC E7A20028 */   swc1  $f2, 0x28($sp)
 
 /* B5DB60 800E69C0 93AA0027 */  lbu   $t2, 0x27($sp)

@@ -260,7 +260,7 @@ glabel func_800E9584
 /* B60854 800E96B4 90B90000 */  lbu   $t9, ($a1)
 /* B60858 800E96B8 24A40084 */  addiu $a0, $a1, 0x84
 /* B6085C 800E96BC 3328FFFE */  andi  $t0, $t9, 0xfffe
-/* B60860 800E96C0 0C039F43 */  jal   init_note_lists
+/* B60860 800E96C0 0C039F43 */  jal   Playback_InitNoteLists
 /* B60864 800E96C4 A0A80000 */   sb    $t0, ($a1)
 .L800E96C8:
 /* B60868 800E96C8 8FBF0014 */  lw    $ra, 0x14($sp)
@@ -279,7 +279,7 @@ glabel func_800E96D8
 /* B60894 800E96F4 00E02025 */   move  $a0, $a3
 /* B60898 800E96F8 3C048017 */  lui   $a0, %hi(D_80174D08)
 /* B6089C 800E96FC 24844D08 */  addiu $a0, %lo(D_80174D08) # addiu $a0, $a0, 0x4d08
-/* B608A0 800E9700 0C03A71A */  jal   audio_list_pop_back
+/* B608A0 800E9700 0C03A71A */  jal   SeqPlayer_AudioListPopBack
 /* B608A4 800E9704 AFA6001C */   sw    $a2, 0x1c($sp)
 /* B608A8 800E9708 8FA6001C */  lw    $a2, 0x1c($sp)
 /* B608AC 800E970C 14400007 */  bnez  $v0, .L800E972C
@@ -288,7 +288,7 @@ glabel func_800E96D8
 /* B608B8 800E9718 10000034 */  b     .L800E97EC
 /* B608BC 800E971C 2402FFFF */   li    $v0, -1
 .L800E9720:
-/* B608C0 800E9720 0C039ED8 */  jal   seq_channel_layer_note_decay
+/* B608C0 800E9720 0C039ED8 */  jal   Playback_SeqChanLayerNoteDecay
 /* B608C4 800E9724 AFA6001C */   sw    $a2, 0x1c($sp)
 /* B608C8 800E9728 8FA6001C */  lw    $a2, 0x1c($sp)
 .L800E972C:
@@ -362,12 +362,12 @@ glabel func_800E97FC
 /* B609CC 800E982C 001947C2 */  srl   $t0, $t9, 0x1f
 /* B609D0 800E9830 15010005 */  bne   $t0, $at, .L800E9848
 /* B609D4 800E9834 00000000 */   nop   
-/* B609D8 800E9838 0C039EE0 */  jal   seq_channel_layer_note_release
+/* B609D8 800E9838 0C039EE0 */  jal   Playback_SeqChanLayerNoteRelease
 /* B609DC 800E983C AFA40018 */   sw    $a0, 0x18($sp)
 /* B609E0 800E9840 10000004 */  b     .L800E9854
 /* B609E4 800E9844 8FA40018 */   lw    $a0, 0x18($sp)
 .L800E9848:
-/* B609E8 800E9848 0C039ED8 */  jal   seq_channel_layer_note_decay
+/* B609E8 800E9848 0C039ED8 */  jal   Playback_SeqChanLayerNoteDecay
 /* B609EC 800E984C AFA40018 */   sw    $a0, 0x18($sp)
 /* B609F0 800E9850 8FA40018 */  lw    $a0, 0x18($sp)
 .L800E9854:
@@ -393,7 +393,7 @@ glabel func_800E9878
 /* B60A34 800E9894 10C00008 */  beqz  $a2, .L800E98B8
 /* B60A38 800E9898 24C50070 */   addiu $a1, $a2, 0x70
 /* B60A3C 800E989C AFA20018 */  sw    $v0, 0x18($sp)
-/* B60A40 800E98A0 0C03A70A */  jal   audio_list_push_back
+/* B60A40 800E98A0 0C03A70A */  jal   SeqPlayer_AudioListPushBack
 /* B60A44 800E98A4 AFA6001C */   sw    $a2, 0x1c($sp)
 /* B60A48 800E98A8 0C03A5FF */  jal   func_800E97FC
 /* B60A4C 800E98AC 8FA4001C */   lw    $a0, 0x1c($sp)
@@ -421,7 +421,7 @@ glabel func_800E98C8
 /* B60A94 800E98F4 26100001 */  addiu $s0, $s0, 1
 /* B60A98 800E98F8 5612FFFC */  bnel  $s0, $s2, .L800E98EC
 /* B60A9C 800E98FC 02202025 */   move  $a0, $s1
-/* B60AA0 800E9900 0C039F80 */  jal   note_pool_clear
+/* B60AA0 800E9900 0C039F80 */  jal   Playback_NotePoolClear
 /* B60AA4 800E9904 26240084 */   addiu $a0, $s1, 0x84
 /* B60AA8 800E9908 922E0000 */  lbu   $t6, ($s1)
 /* B60AAC 800E990C 31D9FF7F */  andi  $t9, $t6, 0xff7f
@@ -601,7 +601,7 @@ glabel func_800E9B6C
 /* B60D18 800E9B78 00808025 */  move  $s0, $a0
 /* B60D1C 800E9B7C 0C03A68B */  jal   func_800E9A2C
 /* B60D20 800E9B80 3405FFFF */   li    $a1, 65535
-/* B60D24 800E9B84 0C039F80 */  jal   note_pool_clear
+/* B60D24 800E9B84 0C039F80 */  jal   Playback_NotePoolClear
 /* B60D28 800E9B88 2604009C */   addiu $a0, $s0, 0x9c
 /* B60D2C 800E9B8C 8E0E0000 */  lw    $t6, ($s0)
 /* B60D30 800E9B90 000E7FC2 */  srl   $t7, $t6, 0x1f
@@ -648,7 +648,7 @@ glabel func_800E9B6C
 /* B60DC0 800E9C20 03E00008 */  jr    $ra
 /* B60DC4 800E9C24 00000000 */   nop   
 
-glabel audio_list_push_back
+glabel SeqPlayer_AudioListPushBack
 /* B60DC8 800E9C28 8CAE0000 */  lw    $t6, ($a1)
 /* B60DCC 800E9C2C 15C0000C */  bnez  $t6, .L800E9C60
 /* B60DD0 800E9C30 00000000 */   nop   
@@ -667,7 +667,7 @@ glabel audio_list_push_back
 /* B60E00 800E9C60 03E00008 */  jr    $ra
 /* B60E04 800E9C64 00000000 */   nop   
 
-glabel audio_list_pop_back
+glabel SeqPlayer_AudioListPopBack
 /* B60E08 800E9C68 8C830000 */  lw    $v1, ($a0)
 /* B60E0C 800E9C6C 54640004 */  bnel  $v1, $a0, .L800E9C80
 /* B60E10 800E9C70 8C6E0000 */   lw    $t6, ($v1)
@@ -714,7 +714,7 @@ glabel func_800E9CA8
 /* B60EA4 800E9D04 AE123B28 */  sw    $s2, 0x3b28($s0)
 /* B60EA8 800E9D08 AE003B20 */  sw    $zero, 0x3b20($s0)
 /* B60EAC 800E9D0C 02602025 */  move  $a0, $s3
-/* B60EB0 800E9D10 0C03A70A */  jal   audio_list_push_back
+/* B60EB0 800E9D10 0C03A70A */  jal   SeqPlayer_AudioListPushBack
 /* B60EB4 800E9D14 02202825 */   move  $a1, $s1
 /* B60EB8 800E9D18 26310080 */  addiu $s1, $s1, 0x80
 /* B60EBC 800E9D1C 26100080 */  addiu $s0, $s0, 0x80
@@ -792,7 +792,7 @@ glabel func_800E9DD4
 /* B60FB8 800E9E18 0109082A */  slt   $at, $t0, $t1
 /* B60FBC 800E9E1C 5420002A */  bnezl $at, .L800E9EC8
 /* B60FC0 800E9E20 8FBF001C */   lw    $ra, 0x1c($sp)
-/* B60FC4 800E9E24 0C039ED8 */  jal   seq_channel_layer_note_decay
+/* B60FC4 800E9E24 0C039ED8 */  jal   Playback_SeqChanLayerNoteDecay
 /* B60FC8 800E9E28 00000000 */   nop   
 /* B60FCC 800E9E2C 920B0000 */  lbu   $t3, ($s0)
 /* B60FD0 800E9E30 356C0020 */  ori   $t4, $t3, 0x20
@@ -834,7 +834,7 @@ glabel func_800E9DD4
 /* B61054 800E9EB4 07230004 */  bgezl $t9, .L800E9EC8
 /* B61058 800E9EB8 8FBF001C */   lw    $ra, 0x1c($sp)
 .L800E9EBC:
-/* B6105C 800E9EBC 0C039ED8 */  jal   seq_channel_layer_note_decay
+/* B6105C 800E9EBC 0C039ED8 */  jal   Playback_SeqChanLayerNoteDecay
 /* B61060 800E9EC0 02002025 */   move  $a0, $s0
 .L800E9EC4:
 /* B61064 800E9EC4 8FBF001C */  lw    $ra, 0x1c($sp)
@@ -851,7 +851,7 @@ glabel func_800E9ED8
 /* B61084 800E9EE4 000EC0C0 */  sll   $t8, $t6, 3
 /* B61088 800E9EE8 07020006 */  bltzl $t8, .L800E9F04
 /* B6108C 800E9EEC 8C82002C */   lw    $v0, 0x2c($a0)
-/* B61090 800E9EF0 0C039ED8 */  jal   seq_channel_layer_note_decay
+/* B61090 800E9EF0 0C039ED8 */  jal   Playback_SeqChanLayerNoteDecay
 /* B61094 800E9EF4 AFA40018 */   sw    $a0, 0x18($sp)
 /* B61098 800E9EF8 1000000A */  b     .L800E9F24
 /* B6109C 800E9EFC 8FA40018 */   lw    $a0, 0x18($sp)
@@ -862,7 +862,7 @@ glabel func_800E9ED8
 /* B610AC 800E9F0C 8C590048 */  lw    $t9, 0x48($v0)
 /* B610B0 800E9F10 54990005 */  bnel  $a0, $t9, .L800E9F28
 /* B610B4 800E9F14 90820020 */   lbu   $v0, 0x20($a0)
-/* B610B8 800E9F18 0C039ED8 */  jal   seq_channel_layer_note_decay
+/* B610B8 800E9F18 0C039ED8 */  jal   Playback_SeqChanLayerNoteDecay
 /* B610BC 800E9F1C AFA40018 */   sw    $a0, 0x18($sp)
 /* B610C0 800E9F20 8FA40018 */  lw    $a0, 0x18($sp)
 .L800E9F24:
@@ -942,19 +942,19 @@ glabel func_800E9F64
 /* B611C8 800EA028 00E02825 */  move  $a1, $a3
 /* B611CC 800EA02C 55000018 */  bnezl $t0, .L800EA090
 /* B611D0 800EA030 8CE6002C */   lw    $a2, 0x2c($a3)
-/* B611D4 800EA034 0C039F29 */  jal   init_synthetic_wave
+/* B611D4 800EA034 0C039F29 */  jal   Playback_InitSyntheticWave
 /* B611D8 800EA038 AFA70018 */   sw    $a3, 0x18($sp)
 /* B611DC 800EA03C 10000013 */  b     .L800EA08C
 /* B611E0 800EA040 8FA70018 */   lw    $a3, 0x18($sp)
 .L800EA044:
 /* B611E4 800EA044 14A00004 */  bnez  $a1, .L800EA058
 /* B611E8 800EA048 00E02025 */   move  $a0, $a3
-/* B611EC 800EA04C 0C039ED8 */  jal   seq_channel_layer_note_decay
+/* B611EC 800EA04C 0C039ED8 */  jal   Playback_SeqChanLayerNoteDecay
 /* B611F0 800EA050 AFA70018 */   sw    $a3, 0x18($sp)
 /* B611F4 800EA054 8FA70018 */  lw    $a3, 0x18($sp)
 .L800EA058:
 /* B611F8 800EA058 00E02025 */  move  $a0, $a3
-/* B611FC 800EA05C 0C03A12D */  jal   alloc_note
+/* B611FC 800EA05C 0C03A12D */  jal   Playback_AllocNote
 /* B61200 800EA060 AFA70018 */   sw    $a3, 0x18($sp)
 /* B61204 800EA064 8FA70018 */  lw    $a3, 0x18($sp)
 /* B61208 800EA068 10400008 */  beqz  $v0, .L800EA08C
@@ -1081,7 +1081,7 @@ glabel L800EA1E8
 /* B613B0 800EA210 922D0000 */  lbu   $t5, ($s1)
 /* B613B4 800EA214 02202025 */  move  $a0, $s1
 /* B613B8 800EA218 31AEFFFD */  andi  $t6, $t5, 0xfffd
-/* B613BC 800EA21C 0C039ED8 */  jal   seq_channel_layer_note_decay
+/* B613BC 800EA21C 0C039ED8 */  jal   Playback_SeqChanLayerNoteDecay
 /* B613C0 800EA220 A22E0000 */   sb    $t6, ($s1)
 /* B613C4 800EA224 1000FFB4 */  b     .L800EA0F8
 /* B613C8 800EA228 00000000 */   nop   
@@ -1274,7 +1274,7 @@ glabel func_800EA440
 /* B61658 800EA4B8 90640007 */  lbu   $a0, 7($v1)
 /* B6165C 800EA4BC AFAB0074 */  sw    $t3, 0x74($sp)
 /* B61660 800EA4C0 AFAA0040 */  sw    $t2, 0x40($sp)
-/* B61664 800EA4C4 0C039D5B */  jal   get_drum
+/* B61664 800EA4C4 0C039D5B */  jal   Playback_GetDrum
 /* B61668 800EA4C8 AFA60078 */   sw    $a2, 0x78($sp)
 /* B6166C 800EA4CC 8FA60078 */  lw    $a2, 0x78($sp)
 /* B61670 800EA4D0 8FAA0040 */  lw    $t2, 0x40($sp)
@@ -1315,7 +1315,7 @@ glabel func_800EA440
 /* B616F0 800EA550 30E5FFFF */  andi  $a1, $a3, 0xffff
 /* B616F4 800EA554 AFAB0074 */  sw    $t3, 0x74($sp)
 /* B616F8 800EA558 AFAA0040 */  sw    $t2, 0x40($sp)
-/* B616FC 800EA55C 0C039D94 */  jal   get_unknown_instrument
+/* B616FC 800EA55C 0C039D94 */  jal   Playback_GetUnkInstrument
 /* B61700 800EA560 AFA60078 */   sw    $a2, 0x78($sp)
 /* B61704 800EA564 8FA60078 */  lw    $a2, 0x78($sp)
 /* B61708 800EA568 8FAA0040 */  lw    $t2, 0x40($sp)
@@ -1379,7 +1379,7 @@ glabel func_800EA440
 /* B617DC 800EA63C AFA70020 */  sw    $a3, 0x20($sp)
 /* B617E0 800EA640 AFA8001C */  sw    $t0, 0x1c($sp)
 /* B617E4 800EA644 A3A9003F */  sb    $t1, 0x3f($sp)
-/* B617E8 800EA648 0C039D17 */  jal   instrument_get_audio_bank_sound
+/* B617E8 800EA648 0C039D17 */  jal   Playback_InstrumentGetAudioBankSound
 /* B617EC 800EA64C AFAA0040 */   sw    $t2, 0x40($sp)
 /* B617F0 800EA650 8FA60078 */  lw    $a2, 0x78($sp)
 /* B617F4 800EA654 8FA70020 */  lw    $a3, 0x20($sp)
@@ -1544,7 +1544,7 @@ glabel L800EA734
 /* B61A28 800EA888 00E02825 */   move  $a1, $a3
 /* B61A2C 800EA88C AFA60078 */  sw    $a2, 0x78($sp)
 /* B61A30 800EA890 AFA70020 */  sw    $a3, 0x20($sp)
-/* B61A34 800EA894 0C039D17 */  jal   instrument_get_audio_bank_sound
+/* B61A34 800EA894 0C039D17 */  jal   Playback_InstrumentGetAudioBankSound
 /* B61A38 800EA898 AFAA0040 */   sw    $t2, 0x40($sp)
 /* B61A3C 800EA89C 8FA60078 */  lw    $a2, 0x78($sp)
 /* B61A40 800EA8A0 8FA70020 */  lw    $a3, 0x20($sp)
@@ -2027,7 +2027,7 @@ glabel func_800EAF24
 /* B620D8 800EAF38 AFA60028 */  sw    $a2, 0x28($sp)
 /* B620DC 800EAF3C AFA7002C */  sw    $a3, 0x2c($sp)
 /* B620E0 800EAF40 90840007 */  lbu   $a0, 7($a0)
-/* B620E4 800EAF44 0C039D26 */  jal   get_instrument_inner
+/* B620E4 800EAF44 0C039D26 */  jal   Playback_GetInstrumentInner
 /* B620E8 800EAF48 AFA50018 */   sw    $a1, 0x18($sp)
 /* B620EC 800EAF4C 8FA50018 */  lw    $a1, 0x18($sp)
 /* B620F0 800EAF50 8FA60028 */  lw    $a2, 0x28($sp)
@@ -2225,15 +2225,15 @@ glabel L800EB1E0
 /* B6238C 800EB1EC A28A0000 */   sb    $t2, ($s4)
 glabel L800EB1F0
 /* B62390 800EB1F0 26900084 */  addiu $s0, $s4, 0x84
-/* B62394 800EB1F4 0C039F80 */  jal   note_pool_clear
+/* B62394 800EB1F4 0C039F80 */  jal   Playback_NotePoolClear
 /* B62398 800EB1F8 02002025 */   move  $a0, $s0
 /* B6239C 800EB1FC 93A50063 */  lbu   $a1, 0x63($sp)
-/* B623A0 800EB200 0C039FD8 */  jal   note_pool_fill
+/* B623A0 800EB200 0C039FD8 */  jal   Playback_NotePoolFill
 /* B623A4 800EB204 02002025 */   move  $a0, $s0
 /* B623A8 800EB208 1000FFBA */  b     .L800EB0F4
 /* B623AC 800EB20C 00000000 */   nop   
 glabel L800EB210
-/* B623B0 800EB210 0C039F80 */  jal   note_pool_clear
+/* B623B0 800EB210 0C039F80 */  jal   Playback_NotePoolClear
 /* B623B4 800EB214 26840084 */   addiu $a0, $s4, 0x84
 /* B623B8 800EB218 1000FFB6 */  b     .L800EB0F4
 /* B623BC 800EB21C 00000000 */   nop   
@@ -3166,19 +3166,19 @@ glabel L800EBE68
 /* B63098 800EBEF8 00000000 */   nop   
 glabel L800EBEFC
 /* B6309C 800EBEFC 2650009C */  addiu $s0, $s2, 0x9c
-/* B630A0 800EBF00 0C039F80 */  jal   note_pool_clear
+/* B630A0 800EBF00 0C039F80 */  jal   Playback_NotePoolClear
 /* B630A4 800EBF04 02002025 */   move  $a0, $s0
 /* B630A8 800EBF08 0C03A752 */  jal   func_800E9D48
 /* B630AC 800EBF0C 02202025 */   move  $a0, $s1
 /* B630B0 800EBF10 02002025 */  move  $a0, $s0
-/* B630B4 800EBF14 0C039FD8 */  jal   note_pool_fill
+/* B630B4 800EBF14 0C039FD8 */  jal   Playback_NotePoolFill
 /* B630B8 800EBF18 00402825 */   move  $a1, $v0
 /* B630BC 800EBF1C 1000FFD2 */  b     .L800EBE68
 /* B630C0 800EBF20 00000000 */   nop   
 /* B630C4 800EBF24 1000FFD0 */  b     .L800EBE68
 /* B630C8 800EBF28 00000000 */   nop   
 glabel L800EBF2C
-/* B630CC 800EBF2C 0C039F80 */  jal   note_pool_clear
+/* B630CC 800EBF2C 0C039F80 */  jal   Playback_NotePoolClear
 /* B630D0 800EBF30 2644009C */   addiu $a0, $s2, 0x9c
 /* B630D4 800EBF34 1000FFCC */  b     .L800EBE68
 /* B630D8 800EBF38 00000000 */   nop   
@@ -3668,7 +3668,7 @@ glabel func_800EC564
 /* B6378C 800EC5EC 1420FFF2 */  bnez  $at, .L800EC5B8
 /* B63790 800EC5F0 26310160 */   addiu $s1, $s1, 0x160
 .L800EC5F4:
-/* B63794 800EC5F4 0C039BE3 */  jal   process_notes
+/* B63794 800EC5F4 0C039BE3 */  jal   Playback_ProcessNotes
 /* B63798 800EC5F8 00000000 */   nop   
 /* B6379C 800EC5FC 8FBF0024 */  lw    $ra, 0x24($sp)
 /* B637A0 800EC600 8FB00014 */  lw    $s0, 0x14($sp)
@@ -3862,7 +3862,7 @@ glabel func_800EC80C
 /* B63A50 800EC8B0 E4C0002C */  swc1  $f0, 0x2c($a2)
 /* B63A54 800EC8B4 E4C00034 */  swc1  $f0, 0x34($a2)
 /* B63A58 800EC8B8 AFA60018 */  sw    $a2, 0x18($sp)
-/* B63A5C 800EC8BC 0C039F43 */  jal   init_note_lists
+/* B63A5C 800EC8BC 0C039F43 */  jal   Playback_InitNoteLists
 /* B63A60 800EC8C0 24C4009C */   addiu $a0, $a2, 0x9c
 /* B63A64 800EC8C4 0C03B19A */  jal   func_800EC668
 /* B63A68 800EC8C8 8FA40018 */   lw    $a0, 0x18($sp)
