@@ -1,11 +1,3 @@
-.data
-glabel D_8012D2D0
-    .incbin "baserom.z64", 0xBA4470, 0x30
-
-glabel D_8012D300
-    .incbin "baserom.z64", 0xBA44A0, 0x10
-
-.text
 glabel func_800CA63C
 /* B417DC 800CA63C 2C81000D */  sltiu $at, $a0, 0xd
 /* B417E0 800CA640 14200029 */  bnez  $at, .L800CA6E8

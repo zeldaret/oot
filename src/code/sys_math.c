@@ -27,6 +27,10 @@ f32 func_800CA63C(u32 arg0) {
     return ret;
 }
 #else
+f32 D_8012D2D0[] = { 1.0f,   1.0f,    2.0f,     6.0f,      24.0f,      120.0f,
+                     720.0f, 5040.0f, 40320.0f, 362880.0f, 3628800.0f, 39916800.0f };
+
+f32 D_8012D300 = 479001600.0f;
 #pragma GLOBAL_ASM("asm/non_matchings/code/sys_math/func_800CA63C.s")
 #endif
 

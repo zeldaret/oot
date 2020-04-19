@@ -97,8 +97,8 @@ u16 GetAtan2Tbl(f32 x, f32 y) {
 s16 atan2s(f32 x, f32 y) {
     s32 ret;
 
-    if (0.0f <= y) {
-        if (0.0f <= x) {
+    if (y >= 0.0f) {
+        if (x >= 0.0f) {
             if (y <= x) {
                 ret = GetAtan2Tbl(y, x);
             } else {
