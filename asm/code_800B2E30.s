@@ -139,7 +139,7 @@ glabel func_800B2E30
 /* B2A194 800B2FF4 E7A00018 */  swc1  $f0, 0x18($sp)
 /* B2A198 800B2FF8 E7A0001C */  swc1  $f0, 0x1c($sp)
 /* B2A19C 800B2FFC E7A00024 */  swc1  $f0, 0x24($sp)
-/* B2A1A0 800B3000 0C04078D */  jal   func_80101E34
+/* B2A1A0 800B3000 0C04078D */  jal   guLookAtReflect
 /* B2A1A4 800B3004 E7AA0020 */   swc1  $f10, 0x20($sp)
 /* B2A1A8 800B3008 8FBF0034 */  lw    $ra, 0x34($sp)
 /* B2A1AC 800B300C 8FB00030 */  lw    $s0, 0x30($sp)

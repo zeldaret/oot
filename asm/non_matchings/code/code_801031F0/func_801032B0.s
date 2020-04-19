@@ -18,7 +18,7 @@ glabel func_801032B0
 /* B7A46C 801032CC AFA7009C */  sw    $a3, 0x9c($sp)
 /* B7A470 801032D0 AFA40090 */  sw    $a0, 0x90($sp)
 /* B7A474 801032D4 AFA50094 */  sw    $a1, 0x94($sp)
-/* B7A478 801032D8 0C0406D0 */  jal   func_80101B40
+/* B7A478 801032D8 0C0406D0 */  jal   guMtxIdentF
 /* B7A47C 801032DC AFA60098 */   sw    $a2, 0x98($sp)
 /* B7A480 801032E0 C7A800A8 */  lwc1  $f8, 0xa8($sp)
 /* B7A484 801032E4 C7A6009C */  lwc1  $f6, 0x9c($sp)

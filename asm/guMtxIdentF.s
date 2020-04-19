@@ -9,6 +9,8 @@
 
 .align 4
 
+## Handwritten ASM
+
 glabel guMtxIdentF
 /* B78CE0 80101B40 3C083F80 */  lui   $t0, 0x3f80
 /* B78CE4 80101B44 AC880000 */  sw    $t0, ($a0)

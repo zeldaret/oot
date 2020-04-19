@@ -4,7 +4,7 @@
 
 // TODO: rename these
 //      SM64                OOT
-#define guMtxIdentF         func_80101B40
+#define guMtxIdentF         guMtxIdentF
 #define guMtxF2L            func_801064E0
 
 s32 __osDisableInt();
