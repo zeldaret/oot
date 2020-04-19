@@ -4,7 +4,7 @@
 extern UnkRumbleStruct D_80160FD0;
 extern PadMgr gPadMgr;
 
-void func_800A9F30(PadMgr *a, s32 b) {
+void func_800A9F30(PadMgr* a, s32 b) {
     func_800D2E30(&D_80160FD0);
     PadMgr_RumbleSet(a, D_80160FD0.rumbleEnable);
 }
