@@ -53,7 +53,7 @@ glabel func_80A6A7D0
 /* 014B8 80A6A888 10000004 */  beq     $zero, $zero, .L80A6A89C
 /* 014BC 80A6A88C 8E0C01E8 */  lw      $t4, 0x01E8($s0)           ## 000001E8
 .L80A6A890:
-/* 014C0 80A6A890 0C032D9E */  jal     func_800CB678
+/* 014C0 80A6A890 0C032D9E */  jal     Math3D_Vec3f_DistXYZ
 /* 014C4 80A6A894 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 014C8 80A6A898 8E0C01E8 */  lw      $t4, 0x01E8($s0)           ## 000001E8
 .L80A6A89C:

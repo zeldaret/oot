@@ -629,7 +629,7 @@ void EnWallmas_DrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnWallmas_Draw(EnWallmas* this, GlobalContext* globalCtx) {
     if (this->actionFunc != (ActorFunc)&EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
+        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                          &EnWallMas_UpdatePos, &EnWallmas_DrawOpa, &this->actor);
     }
 
