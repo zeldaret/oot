@@ -73,7 +73,7 @@ typedef struct {
     u8 loaded;
     u8* sampleAddr;
     AdpcmLoop* loop;
-    struct AdpcmBook* book;
+    AdpcmBook* book;
     u32 sampleSize; // never read. either 0 or 1 mod 9, depending on padding
 } AudioBankSample;
 

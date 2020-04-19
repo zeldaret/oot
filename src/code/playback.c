@@ -575,8 +575,7 @@ Note* pop_node_with_value_less_equal(AudioListItem* list, s32 limit) {
         return NULL;
     }
 
-    best = cur;
-    for (; cur != list; cur = cur->next) {
+    for (best = cur; cur != list; cur = cur->next) {
         if (((Note*)best->u.value)->playbackState.priority >=
             ((Note*)cur->u.value)->playbackState.priority) {
             best = cur;
