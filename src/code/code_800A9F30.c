@@ -1,12 +1,12 @@
 #include <ultra64.h>
 #include <global.h>
 
-extern u8 D_80160FD0[];
+extern UnkRumbleStruct D_80160FD0;
 extern PadMgr gPadMgr;
 
-void func_800A9F30(s32 a, s32 b) {
+void func_800A9F30(PadMgr *a, s32 b) {
     func_800D2E30(&D_80160FD0);
-    PadMgr_RumbleSet(a, &D_80160FD0);
+    PadMgr_RumbleSet(a, D_80160FD0.rumbleEnable);
 }
 
 void func_800A9F6C(f32 a, u8 b, u8 c, u8 d) {
@@ -22,8 +22,8 @@ void func_800A9F6C(f32 a, u8 b, u8 c, u8 d) {
         temp2 = b - (temp1 * 255) / 1000;
         if (temp2 > 0) {
             D_801610DA = temp2;
-            D_80160FD0[0x10B] = c;
-            D_80160FD0[0x10C] = d;
+            D_80160FD0.unk_10B = c;
+            D_80160FD0.unk_10C = d;
         }
     }
 }
@@ -42,11 +42,11 @@ void func_800AA000(float a, u8 b, u8 c, u8 d) {
         temp2 = b - (temp1 * 255) / 1000;
 
         for (i = 0; i != 0x40; i++) {
-            if (D_80160FD0[i + 4] == 0) {
+            if (D_80160FD0.unk_04[i] == 0) {
                 if (temp2 > 0) {
-                    D_80160FD0[i + 0x04] = temp2;
-                    D_80160FD0[i + 0x44] = c;
-                    D_80160FD0[i + 0x84] = d;
+                    D_80160FD0.unk_04[i] = temp2;
+                    D_80160FD0.unk_44[i] = c;
+                    D_80160FD0.unk_84[i] = d;
                 }
                 break;
             }
@@ -57,7 +57,7 @@ void func_800AA000(float a, u8 b, u8 c, u8 d) {
 void func_800AA0B4(void) {
     func_800D3140(&D_80160FD0);
 
-    gPadMgr.retraceCallback = func_800A9F30;
+    gPadMgr.retraceCallback = (void*)func_800A9F30;
     gPadMgr.retraceCallbackValue = 0;
 
     if (0) {} // Necessary to match
@@ -75,7 +75,7 @@ void func_800AA0F0(void) {
 }
 
 u32 func_800AA148(void) {
-    return ((gPadMgr.pakType[0] ^ 1) == 0);
+    return gPadMgr.pakType[0] == 1;
 }
 
 void func_800AA15C(void) {
