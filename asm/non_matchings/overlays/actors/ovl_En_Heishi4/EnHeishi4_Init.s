@@ -76,9 +76,9 @@ glabel EnHeishi4_Init
 /* 000C0 80A56190 44810000 */  mtc1    $at, $f0                   ## $f0 = 30.00
 /* 000C4 80A56194 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 000C8 80A56198 44812000 */  mtc1    $at, $f4                   ## $f4 = 60.00
-/* 000CC 80A5619C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 000CC 80A5619C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 000D0 80A561A0 44070000 */  mfc1    $a3, $f0                   
-/* 000D4 80A561A4 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 000D4 80A561A4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 000D8 80A561A8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 000DC 80A561AC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 000E0 80A561B0 0C00AC78 */  jal     ActorShape_Init

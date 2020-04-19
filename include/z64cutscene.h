@@ -4,14 +4,14 @@
 typedef struct {
     /* 0x00 */ u16 entrance;       // entrance index upon which the cutscene should trigger
     /* 0x02 */ u8  ageRestriction; // 0 for adult only, 1 for child only, 2 for both ages
-    /* 0x03 */ u8  flag;           // event_chk_inf flag bound to the entrance cutscene
+    /* 0x03 */ u8  flag;           // eventChkInf flag bound to the entrance cutscene
     /* 0x04 */ u32 segAddr;        // segment offset location of the cutscene
 } EntranceCutscene; // size = 0x8
 
 typedef struct {
     /* 0x00 */ s8    continueFlag;
     /* 0x01 */ s8    cameraRoll;
-    /* 0x02 */ s16   nextPointFrame;
+    /* 0x02 */ u16   nextPointFrame;
     /* 0x04 */ f32   viewAngle; // in degrees
     /* 0x08 */ Vec3s pos;
 } CutsceneCameraPoint; // size = 0x10
@@ -69,7 +69,7 @@ typedef struct {
 } CsCmdTextbox; // size = 0xC
 
 typedef struct {
-    /* 0x00 */ u16 action;
+    /* 0x00 */ u16 action; // "dousa"
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
     /* 0x06 */ Vec3s rot;

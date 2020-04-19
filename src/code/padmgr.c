@@ -298,7 +298,7 @@ void PadMgr_HandleRetraceMsg(PadMgr* padmgr) {
         bzero(&padmgr->pads[0], 0x18);
     }
     PadMgr_ProcessInputs(padmgr);
-    func_80103210(queue);
+    osContStartQuery(queue);
     osRecvMesg(queue, NULL, OS_MESG_BLOCK);
     func_8010328C(padmgr);
     PadMgr_UnlockSerialMesgQueue(padmgr, queue);

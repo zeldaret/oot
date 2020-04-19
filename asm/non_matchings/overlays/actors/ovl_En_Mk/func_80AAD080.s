@@ -16,16 +16,16 @@ glabel func_80AAD080
 /* 007B8 80AAD0B8 24014018 */  addiu   $at, $zero, 0x4018         ## $at = 00004018
 /* 007BC 80AAD0BC 8FA30034 */  lw      $v1, 0x0034($sp)
 /* 007C0 80AAD0C0 10810006 */  beq     $a0, $at, .L80AAD0DC
-/* 007C4 80AAD0C4 3C0F8012 */  lui     $t7, 0x8012                ## $t7 = 80120000
+/* 007C4 80AAD0C4 3C0F8012 */  lui     $t7, %hi(gItemSlots+0x30)
 /* 007C8 80AAD0C8 3C0E80AB */  lui     $t6, %hi(func_80AACA40)    ## $t6 = 80AB0000
 /* 007CC 80AAD0CC A464010E */  sh      $a0, 0x010E($v1)           ## 0000010E
 /* 007D0 80AAD0D0 25CECA40 */  addiu   $t6, $t6, %lo(func_80AACA40) ## $t6 = 80AACA40
 /* 007D4 80AAD0D4 10000079 */  beq     $zero, $zero, .L80AAD2BC
 /* 007D8 80AAD0D8 AE0E0284 */  sw      $t6, 0x0284($s0)           ## 00000284
 .L80AAD0DC:
-/* 007DC 80AAD0DC 91EF7494 */  lbu     $t7, 0x7494($t7)           ## 80127494
-/* 007E0 80AAD0E0 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
-/* 007E4 80AAD0E4 24A5E660 */  addiu   $a1, $a1, 0xE660           ## $a1 = 8015E660
+/* 007DC 80AAD0DC 91EF7494 */  lbu     $t7, %lo(gItemSlots+0x30)($t7)
+/* 007E0 80AAD0E0 3C058016 */  lui     $a1, %hi(gSaveContext)
+/* 007E4 80AAD0E4 24A5E660 */  addiu   $a1, %lo(gSaveContext)
 /* 007E8 80AAD0E8 00AFC021 */  addu    $t8, $a1, $t7
 /* 007EC 80AAD0EC 93190074 */  lbu     $t9, 0x0074($t8)           ## 00000074
 /* 007F0 80AAD0F0 24010036 */  addiu   $at, $zero, 0x0036         ## $at = 00000036
@@ -109,12 +109,12 @@ glabel func_80AAD080
 
 /* 0090C 80AAD20C E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 00910 80AAD210 960F027E */  lhu     $t7, 0x027E($s0)           ## 0000027E
-/* 00914 80AAD214 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 00914 80AAD214 3C018016 */  lui     $at, %hi(gSaveContext+0x13d2)
 /* 00918 80AAD218 24044807 */  addiu   $a0, $zero, 0x4807         ## $a0 = 00004807
 /* 0091C 80AAD21C 31F8FFFD */  andi    $t8, $t7, 0xFFFD           ## $t8 = 00000000
 /* 00920 80AAD220 A618027E */  sh      $t8, 0x027E($s0)           ## 0000027E
 /* 00924 80AAD224 0C01E221 */  jal     func_80078884
-/* 00928 80AAD228 A420FA32 */  sh      $zero, -0x05CE($at)        ## 8015FA32
+/* 00928 80AAD228 A420FA32 */  sh      $zero, %lo(gSaveContext+0x13d2)($at)
 /* 0092C 80AAD22C 10000024 */  beq     $zero, $zero, .L80AAD2C0
 /* 00930 80AAD230 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80AAD234:

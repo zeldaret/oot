@@ -168,7 +168,7 @@ glabel func_80A1F814
 /* 014BC 80A1FA5C AE0D02D0 */  sw      $t5, 0x02D0($s0)           ## 000002D0
 /* 014C0 80A1FA60 3C0480A2 */  lui     $a0, %hi(D_80A1FC18)       ## $a0 = 80A20000
 /* 014C4 80A1FA64 AC4E0000 */  sw      $t6, 0x0000($v0)           ## 00000000
-/* 014C8 80A1FA68 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 014C8 80A1FA68 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 014CC 80A1FA6C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 014D0 80A1FA70 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 014D4 80A1FA74 46128182 */  mul.s   $f6, $f16, $f18            
@@ -184,7 +184,7 @@ glabel func_80A1F814
 /* 014FC 80A1FA9C 00194702 */  srl     $t0, $t9, 28               
 /* 01500 80A1FAA0 00084880 */  sll     $t1, $t0,  2               
 /* 01504 80A1FAA4 01495021 */  addu    $t2, $t2, $t1              
-/* 01508 80A1FAA8 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 80166FA8
+/* 01508 80A1FAA8 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 0150C 80A1FAAC 0081C024 */  and     $t8, $a0, $at              
 /* 01510 80A1FAB0 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 01514 80A1FAB4 030A5821 */  addu    $t3, $t8, $t2              

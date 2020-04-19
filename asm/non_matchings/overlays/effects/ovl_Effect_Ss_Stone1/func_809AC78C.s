@@ -80,13 +80,13 @@ glabel func_809AC78C
 /* 001BC 809AC8BC AE0B02D0 */  sw      $t3, 0x02D0($s0)           ## 000002D0
 /* 001C0 809AC8C0 AC4C0000 */  sw      $t4, 0x0000($v0)           ## 00000000
 /* 001C4 809AC8C4 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
-/* 001C8 809AC8C8 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 001C8 809AC8C8 3C188016 */  lui     $t8, %hi(gSegments)
 /* 001CC 809AC8CC 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 001D0 809AC8D0 00046900 */  sll     $t5, $a0,  4               
 /* 001D4 809AC8D4 000D7702 */  srl     $t6, $t5, 28               
 /* 001D8 809AC8D8 000E7880 */  sll     $t7, $t6,  2               
 /* 001DC 809AC8DC 030FC021 */  addu    $t8, $t8, $t7              
-/* 001E0 809AC8E0 8F186FA8 */  lw      $t8, 0x6FA8($t8)           ## 80166FA8
+/* 001E0 809AC8E0 8F186FA8 */  lw      $t8, %lo(gSegments)($t8)
 /* 001E4 809AC8E4 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 001E8 809AC8E8 0081C824 */  and     $t9, $a0, $at              
 /* 001EC 809AC8EC 3C018000 */  lui     $at, 0x8000                ## $at = 80000000

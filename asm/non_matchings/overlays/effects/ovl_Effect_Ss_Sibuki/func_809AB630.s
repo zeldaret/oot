@@ -4,7 +4,7 @@ glabel func_809AB630
 /* 00008 809AB638 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 0000C 809AB63C AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00010 809AB640 8CEF0000 */  lw      $t7, 0x0000($a3)           ## 00000000
-/* 00014 809AB644 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 00014 809AB644 3C0A8016 */  lui     $t2, %hi(gGameInfo)
 /* 00018 809AB648 3C020405 */  lui     $v0, 0x0405                ## $v0 = 04050000
 /* 0001C 809AB64C ACCF0000 */  sw      $t7, 0x0000($a2)           ## 00000000
 /* 00020 809AB650 8CEE0004 */  lw      $t6, 0x0004($a3)           ## 00000004
@@ -13,10 +13,10 @@ glabel func_809AB630
 /* 0002C 809AB65C ACCE0004 */  sw      $t6, 0x0004($a2)           ## 00000004
 /* 00030 809AB660 8CEF0008 */  lw      $t7, 0x0008($a3)           ## 00000008
 /* 00034 809AB664 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
-/* 00038 809AB668 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
+/* 00038 809AB668 3C0C8016 */  lui     $t4, %hi(gSegments)
 /* 0003C 809AB66C ACCF0008 */  sw      $t7, 0x0008($a2)           ## 00000008
 /* 00040 809AB670 8CF9000C */  lw      $t9, 0x000C($a3)           ## 0000000C
-/* 00044 809AB674 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 00044 809AB674 3C0F8016 */  lui     $t7, %hi(gSegments)
 /* 00048 809AB678 ACD9000C */  sw      $t9, 0x000C($a2)           ## 0000000C
 /* 0004C 809AB67C 8CF80010 */  lw      $t8, 0x0010($a3)           ## 00000010
 /* 00050 809AB680 ACD80010 */  sw      $t8, 0x0010($a2)           ## 00000010
@@ -28,7 +28,7 @@ glabel func_809AB630
 /* 00068 809AB698 ACC8001C */  sw      $t0, 0x001C($a2)           ## 0000001C
 /* 0006C 809AB69C 8CE90020 */  lw      $t1, 0x0020($a3)           ## 00000020
 /* 00070 809AB6A0 ACC90020 */  sw      $t1, 0x0020($a2)           ## 00000020
-/* 00074 809AB6A4 8D4AFA90 */  lw      $t2, -0x0570($t2)          ## 8015FA90
+/* 00074 809AB6A4 8D4AFA90 */  lw      $t2, %lo(gGameInfo)($t2)
 /* 00078 809AB6A8 00024900 */  sll     $t1, $v0,  4               
 /* 0007C 809AB6AC 854B09D8 */  lh      $t3, 0x09D8($t2)           ## 801609D8
 /* 00080 809AB6B0 00095702 */  srl     $t2, $t1, 28               
@@ -41,7 +41,7 @@ glabel func_809AB630
 /* 0009C 809AB6CC 000D7080 */  sll     $t6, $t5,  2               
 /* 000A0 809AB6D0 01EE7821 */  addu    $t7, $t7, $t6              
 /* 000A4 809AB6D4 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 000A8 809AB6D8 8DEF6FA8 */  lw      $t7, 0x6FA8($t7)           ## 80166FA8
+/* 000A8 809AB6D8 8DEF6FA8 */  lw      $t7, %lo(gSegments)($t7)
 /* 000AC 809AB6DC 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 000B0 809AB6E0 0041C024 */  and     $t8, $v0, $at              
 /* 000B4 809AB6E4 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
@@ -52,7 +52,7 @@ glabel func_809AB630
 /* 000C8 809AB6F8 000A5880 */  sll     $t3, $t2,  2               
 .L809AB6FC:
 /* 000CC 809AB6FC 018B6021 */  addu    $t4, $t4, $t3              
-/* 000D0 809AB700 8D8C6FA8 */  lw      $t4, 0x6FA8($t4)           ## 80166FA8
+/* 000D0 809AB700 8D8C6FA8 */  lw      $t4, %lo(gSegments)($t4)
 /* 000D4 809AB704 00416824 */  and     $t5, $v0, $at              
 /* 000D8 809AB708 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 000DC 809AB70C 018D7021 */  addu    $t6, $t4, $t5              
@@ -63,8 +63,8 @@ glabel func_809AB630
 /* 000EC 809AB71C 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float
 /* 000F0 809AB720 AFA70024 */  sw      $a3, 0x0024($sp)           
-/* 000F4 809AB724 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 000F8 809AB728 8C63FA90 */  lw      $v1, -0x0570($v1)          ## 8015FA90
+/* 000F4 809AB724 3C038016 */  lui     $v1, %hi(gGameInfo)
+/* 000F8 809AB728 8C63FA90 */  lw      $v1, %lo(gGameInfo)($v1)
 /* 000FC 809AB72C 3C0143FA */  lui     $at, 0x43FA                ## $at = 43FA0000
 /* 00100 809AB730 44812000 */  mtc1    $at, $f4                   ## $f4 = 500.00
 /* 00104 809AB734 84780A54 */  lh      $t8, 0x0A54($v1)           ## 80160A54

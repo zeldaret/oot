@@ -6,9 +6,9 @@ glabel func_809CCAA8
 /* 00EB8 809CCAB8 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00EBC 809CCABC 04400008 */  bltz    $v0, .L809CCAE0            
 /* 00EC0 809CCAC0 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 00EC4 809CCAC4 3C0E8003 */  lui     $t6, 0x8003                ## $t6 = 80030000
+/* 00EC4 809CCAC4 3C0E8003 */  lui     $t6, %hi(ActorShadow_DrawFunc_Circle)
 /* 00EC8 809CCAC8 3C0F809D */  lui     $t7, %hi(func_809CCAF0)    ## $t7 = 809D0000
-/* 00ECC 809CCACC 25CEB5EC */  addiu   $t6, $t6, 0xB5EC           ## $t6 = 8002B5EC
+/* 00ECC 809CCACC 25CEB5EC */  addiu   $t6, %lo(ActorShadow_DrawFunc_Circle)
 /* 00ED0 809CCAD0 25EFCAF0 */  addiu   $t7, $t7, %lo(func_809CCAF0) ## $t7 = 809CCAF0
 /* 00ED4 809CCAD4 AC8E00C0 */  sw      $t6, 0x00C0($a0)           ## 000000C0
 /* 00ED8 809CCAD8 A482020A */  sh      $v0, 0x020A($a0)           ## 0000020A

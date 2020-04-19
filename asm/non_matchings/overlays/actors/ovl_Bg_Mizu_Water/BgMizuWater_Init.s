@@ -45,8 +45,8 @@ glabel BgMizuWater_Init
 /* 001FC 8089FAAC 01200008 */  jr      $t1                        
 /* 00200 8089FAB0 00000000 */  nop
 glabel L8089FAB4
-/* 00204 8089FAB4 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 00208 8089FAB8 8D4AFA90 */  lw      $t2, -0x0570($t2)          ## 8015FA90
+/* 00204 8089FAB4 3C0A8016 */  lui     $t2, %hi(gGameInfo)
+/* 00208 8089FAB8 8D4AFA90 */  lw      $t2, %lo(gGameInfo)($t2)
 /* 0020C 8089FABC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00210 8089FAC0 854B1532 */  lh      $t3, 0x1532($t2)           ## 80161532
 /* 00214 8089FAC4 55600012 */  bnel    $t3, $zero, .L8089FB10     

@@ -93,8 +93,8 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
         }
 
         if (equipment == EQUIP_SWORD) {
-            gSaveContext.equips.button_items[0] = ITEM_NONE;
-            gSaveContext.inf_table[29] = 1;
+            gSaveContext.equips.buttonItems[0] = ITEM_NONE;
+            gSaveContext.infTable[29] = 1;
         }
 
         func_8008ECAC(globalCtx, player);

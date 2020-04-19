@@ -27,9 +27,9 @@ glabel func_80A7A770
 /* 01820 80A7A7D0 AC990004 */  sw      $t9, 0x0004($a0)           ## 00000004
 /* 01824 80A7A7D4 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 01828 80A7A7D8 3C0880A8 */  lui     $t0, %hi(func_80A7A848)    ## $t0 = 80A80000
-/* 0182C 80A7A7DC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 0182C 80A7A7DC 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 01830 80A7A7E0 2508A848 */  addiu   $t0, $t0, %lo(func_80A7A848) ## $t0 = 80A7A848
-/* 01834 80A7A7E4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01834 80A7A7E4 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01838 80A7A7E8 ACC80190 */  sw      $t0, 0x0190($a2)           ## 00000190
 /* 0183C 80A7A7EC 944913FA */  lhu     $t1, 0x13FA($v0)           ## 8015FA5A
 /* 01840 80A7A7F0 24190004 */  addiu   $t9, $zero, 0x0004         ## $t9 = 00000004

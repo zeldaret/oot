@@ -57,8 +57,8 @@ glabel func_80AC7ED0
 /* 052E4 80AC7F84 3C18DB06 */  lui     $t8, 0xDB06                ## $t8 = DB060000
 /* 052E8 80AC7F88 37180028 */  ori     $t8, $t8, 0x0028           ## $t8 = DB060028
 /* 052EC 80AC7F8C 01616021 */  addu    $t4, $t3, $at              
-/* 052F0 80AC7F90 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 052F4 80AC7F94 AC2C6FC0 */  sw      $t4, 0x6FC0($at)           ## 80166FC0
+/* 052F0 80AC7F90 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 052F4 80AC7F94 AC2C6FC0 */  sw      $t4, %lo(gSegments+0x18)($at)
 /* 052F8 80AC7F98 ADCD0000 */  sw      $t5, 0x0000($t6)           ## 00000000
 /* 052FC 80AC7F9C 8D0302C0 */  lw      $v1, 0x02C0($t0)           ## 000002C0
 /* 05300 80AC7FA0 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
@@ -67,7 +67,7 @@ glabel func_80AC7ED0
 /* 0530C 80AC7FAC AD0F02C0 */  sw      $t7, 0x02C0($t0)           ## 000002C0
 /* 05310 80AC7FB0 AC780000 */  sw      $t8, 0x0000($v1)           ## 00000000
 /* 05314 80AC7FB4 84B901F2 */  lh      $t9, 0x01F2($a1)           ## 000001F2
-/* 05318 80AC7FB8 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 05318 80AC7FB8 3C0F8016 */  lui     $t7, %hi(gSegments)
 /* 0531C 80AC7FBC 00195080 */  sll     $t2, $t9,  2               
 /* 05320 80AC7FC0 008A2021 */  addu    $a0, $a0, $t2              
 /* 05324 80AC7FC4 8C848EAC */  lw      $a0, %lo(D_80AC8EAC)($a0)  
@@ -75,7 +75,7 @@ glabel func_80AC7ED0
 /* 0532C 80AC7FCC 000C6F02 */  srl     $t5, $t4, 28               
 /* 05330 80AC7FD0 000D7080 */  sll     $t6, $t5,  2               
 /* 05334 80AC7FD4 01EE7821 */  addu    $t7, $t7, $t6              
-/* 05338 80AC7FD8 8DEF6FA8 */  lw      $t7, 0x6FA8($t7)           ## 80166FA8
+/* 05338 80AC7FD8 8DEF6FA8 */  lw      $t7, %lo(gSegments)($t7)
 /* 0533C 80AC7FDC 00815824 */  and     $t3, $a0, $at              
 /* 05340 80AC7FE0 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 05344 80AC7FE4 016FC021 */  addu    $t8, $t3, $t7              

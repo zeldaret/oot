@@ -28,12 +28,12 @@ glabel func_809FEB08
 /* 00F40 809FEB70 10000024 */  beq     $zero, $zero, .L809FEC04   
 /* 00F44 809FEB74 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L809FEB78:
-/* 00F48 809FEB78 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
-/* 00F4C 809FEB7C 3C198012 */  lui     $t9, 0x8012                ## $t9 = 80120000
-/* 00F50 809FEB80 8F3971B8 */  lw      $t9, 0x71B8($t9)           ## 801271B8
-/* 00F54 809FEB84 8F18E700 */  lw      $t8, -0x1900($t8)          ## 8015E700
-/* 00F58 809FEB88 3C098012 */  lui     $t1, 0x8012                ## $t1 = 80120000
-/* 00F5C 809FEB8C 912971F6 */  lbu     $t1, 0x71F6($t1)           ## 801271F6
+/* 00F48 809FEB78 3C188016 */  lui     $t8, %hi(gSaveContext+0xa0)
+/* 00F4C 809FEB7C 3C198012 */  lui     $t9, %hi(gUpgradeMasks+8)
+/* 00F50 809FEB80 8F3971B8 */  lw      $t9, %lo(gUpgradeMasks+8)($t9)
+/* 00F54 809FEB84 8F18E700 */  lw      $t8, %lo(gSaveContext+0xa0)($t8)
+/* 00F58 809FEB88 3C098012 */  lui     $t1, %hi(gUpgradeShifts+2)
+/* 00F5C 809FEB8C 912971F6 */  lbu     $t1, %lo(gUpgradeShifts+2)($t1)
 /* 00F60 809FEB90 03194024 */  and     $t0, $t8, $t9              
 /* 00F64 809FEB94 240C301F */  addiu   $t4, $zero, 0x301F         ## $t4 = 0000301F
 /* 00F68 809FEB98 01285007 */  srav    $t2, $t0, $t1              

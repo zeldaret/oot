@@ -28,10 +28,10 @@ glabel func_80AC6D30
 /* 040F8 80AC6D98 8D2917B4 */  lw      $t1, 0x17B4($t1)           ## 000117B4
 /* 040FC 80AC6D9C 2484078C */  addiu   $a0, $a0, 0x078C           ## $a0 = 0600078C
 /* 04100 80AC6DA0 01215021 */  addu    $t2, $t1, $at
-/* 04104 80AC6DA4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 04104 80AC6DA4 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 04108 80AC6DA8 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 0410C 80AC6DAC AC2A6FC0 */  sw      $t2, 0x6FC0($at)           ## 80166FC0
+/* 0410C 80AC6DAC AC2A6FC0 */  sw      $t2, %lo(gSegments+0x18)($at)
 /* 04110 80AC6DB0 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 04114 80AC6DB4 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 04118 80AC6DB8 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000

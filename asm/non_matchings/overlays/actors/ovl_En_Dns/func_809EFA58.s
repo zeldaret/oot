@@ -1,6 +1,6 @@
 glabel func_809EFA58
-/* 00708 809EFA58 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0070C 809EFA5C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00708 809EFA58 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0070C 809EFA5C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00710 809EFA60 944E0EF0 */  lhu     $t6, 0x0EF0($v0)           ## 8015F550
 /* 00714 809EFA64 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00718 809EFA68 AFBF0014 */  sw      $ra, 0x0014($sp)           

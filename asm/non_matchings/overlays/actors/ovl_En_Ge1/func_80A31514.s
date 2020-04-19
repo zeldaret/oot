@@ -1,8 +1,8 @@
 glabel func_80A31514
-/* 00BA4 80A31514 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 00BA8 80A31518 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00BAC 80A3151C 8DEFE704 */  lw      $t7, -0x18FC($t7)          ## 8015E704
-/* 00BB0 80A31520 8DCE7178 */  lw      $t6, 0x7178($t6)           ## 80127178
+/* 00BA4 80A31514 3C0E8012 */  lui     $t6, %hi(gBitFlags+0x58)
+/* 00BA8 80A31518 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xa4)
+/* 00BAC 80A3151C 8DEFE704 */  lw      $t7, %lo(gSaveContext+0xa4)($t7)
+/* 00BB0 80A31520 8DCE7178 */  lw      $t6, %lo(gBitFlags+0x58)($t6)
 /* 00BB4 80A31524 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00BB8 80A31528 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00BBC 80A3152C 01CFC024 */  and     $t8, $t6, $t7              

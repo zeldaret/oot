@@ -38,10 +38,10 @@ glabel func_80ADE7C0
 /* 00AFC 80ADE84C 14410031 */  bne     $v0, $at, .L80ADE914       
 /* 00B00 80ADE850 240A5005 */  addiu   $t2, $zero, 0x5005         ## $t2 = 00005005
 .L80ADE854:
-/* 00B04 80ADE854 3C0D8012 */  lui     $t5, 0x8012                ## $t5 = 80120000
-/* 00B08 80ADE858 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00B0C 80ADE85C 8DCEE704 */  lw      $t6, -0x18FC($t6)          ## 8015E704
-/* 00B10 80ADE860 8DAD715C */  lw      $t5, 0x715C($t5)           ## 8012715C
+/* 00B04 80ADE854 3C0D8012 */  lui     $t5, %hi(gBitFlags+0x3c)
+/* 00B08 80ADE858 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xa4)
+/* 00B0C 80ADE85C 8DCEE704 */  lw      $t6, %lo(gSaveContext+0xa4)($t6)
+/* 00B10 80ADE860 8DAD715C */  lw      $t5, %lo(gBitFlags+0x3c)($t5)
 /* 00B14 80ADE864 24185000 */  addiu   $t8, $zero, 0x5000         ## $t8 = 00005000
 /* 00B18 80ADE868 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00B1C 80ADE86C 01AE7824 */  and     $t7, $t5, $t6              

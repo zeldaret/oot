@@ -5,8 +5,8 @@ glabel EnCow_Init
 /* 00220 809DF020 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00224 809DF024 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00228 809DF028 AFBF003C */  sw      $ra, 0x003C($sp)
-/* 0022C 809DF02C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00230 809DF030 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0022C 809DF02C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00230 809DF030 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00234 809DF034 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00238 809DF038 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 0023C 809DF03C 0C00AC78 */  jal     ActorShape_Init
@@ -68,9 +68,9 @@ glabel EnCow_Init
 /* 00304 809DF104 AE19027C */  sw      $t9, 0x027C($s0)           ## 0000027C
 /* 00308 809DF108 862800A4 */  lh      $t0, 0x00A4($s1)           ## 000000A4
 /* 0030C 809DF10C 24010034 */  addiu   $at, $zero, 0x0034         ## $at = 00000034
-/* 00310 809DF110 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00310 809DF110 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 00314 809DF114 15010010 */  bne     $t0, $at, .L809DF158
-/* 00318 809DF118 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00318 809DF118 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 0031C 809DF11C 8C490004 */  lw      $t1, 0x0004($v0)           ## 8015E664
 /* 00320 809DF120 51200006 */  beql    $t1, $zero, .L809DF13C
 /* 00324 809DF124 944A0ED6 */  lhu     $t2, 0x0ED6($v0)           ## 8015F536
@@ -120,7 +120,7 @@ glabel EnCow_Init
 /* 003B8 809DF1B8 3C014F00 */  lui     $at, 0x4F00                ## $at = 4F000000
 /* 003BC 809DF1BC 460A0400 */  add.s   $f16, $f0, $f10
 /* 003C0 809DF1C0 24180006 */  addiu   $t8, $zero, 0x0006         ## $t8 = 00000006
-/* 003C4 809DF1C4 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 003C4 809DF1C4 3C198016 */  lui     $t9, %hi(gGameInfo)
 /* 003C8 809DF1C8 444EF800 */  cfc1    $t6, $31
 /* 003CC 809DF1CC 44CFF800 */  ctc1    $t7, $31
 /* 003D0 809DF1D0 00000000 */  nop
@@ -157,7 +157,7 @@ glabel EnCow_Init
 /* 00440 809DF240 A60F0278 */  sh      $t7, 0x0278($s0)           ## 00000278
 /* 00444 809DF244 A600027A */  sh      $zero, 0x027A($s0)         ## 0000027A
 /* 00448 809DF248 A218001F */  sb      $t8, 0x001F($s0)           ## 0000001F
-/* 0044C 809DF24C 8F39FA90 */  lw      $t9, -0x0570($t9)          ## 8015FA90
+/* 0044C 809DF24C 8F39FA90 */  lw      $t9, %lo(gGameInfo)($t9)
 /* 00450 809DF250 44CEF800 */  ctc1    $t6, $31
 /* 00454 809DF254 10000071 */  beq     $zero, $zero, .L809DF41C
 /* 00458 809DF258 A72005BE */  sh      $zero, 0x05BE($t9)         ## 801605BE

@@ -72,8 +72,8 @@ glabel func_80A125B8
 /* 00A7C 80A1269C A209018E */  sb      $t1, 0x018E($s0)           ## 0000018E
 /* 00A80 80A126A0 A200018E */  sb      $zero, 0x018E($s0)         ## 0000018E
 .L80A126A4:
-/* 00A84 80A126A4 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 00A88 80A126A8 8D4AFA90 */  lw      $t2, -0x0570($t2)          ## 8015FA90
+/* 00A84 80A126A4 3C0A8016 */  lui     $t2, %hi(gGameInfo)
+/* 00A88 80A126A8 8D4AFA90 */  lw      $t2, %lo(gGameInfo)($t2)
 /* 00A8C 80A126AC 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00A90 80A126B0 240E00FF */  addiu   $t6, $zero, 0x00FF         ## $t6 = 000000FF
 /* 00A94 80A126B4 854B12D4 */  lh      $t3, 0x12D4($t2)           ## 801612D4

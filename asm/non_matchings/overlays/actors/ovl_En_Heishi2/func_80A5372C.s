@@ -47,16 +47,16 @@ glabel func_80A5372C
 /* 008FC 80A5379C E7B00010 */  swc1    $f16, 0x0010($sp)
 /* 00900 80A537A0 240800C8 */  addiu   $t0, $zero, 0x00C8         ## $t0 = 000000C8
 /* 00904 80A537A4 A60802F2 */  sh      $t0, 0x02F2($s0)           ## 000002F2
-/* 00908 80A537A8 0C03008C */  jal     func_800C0230
+/* 00908 80A537A8 0C03008C */  jal     Gameplay_CreateSubCamera
 /* 0090C 80A537AC 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00910 80A537B0 A6020310 */  sh      $v0, 0x0310($s0)           ## 00000310
 /* 00914 80A537B4 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00918 80A537B8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 0091C 80A537BC 0C0300C5 */  jal     func_800C0314
+/* 0091C 80A537BC 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 00920 80A537C0 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 00924 80A537C4 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00928 80A537C8 86050310 */  lh      $a1, 0x0310($s0)           ## 00000310
-/* 0092C 80A537CC 0C0300C5 */  jal     func_800C0314
+/* 0092C 80A537CC 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 00930 80A537D0 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 00934 80A537D4 3C0180A5 */  lui     $at, %hi(D_80A552D0)       ## $at = 80A50000
 /* 00938 80A537D8 C42452D0 */  lwc1    $f4, %lo(D_80A552D0)($at)

@@ -18,12 +18,12 @@ glabel func_80B9FFA0
 /* 0003C 80B9FFDC 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 .L80B9FFE0:
 /* 00040 80B9FFE0 14610004 */  bne     $v1, $at, .L80B9FFF4       
-/* 00044 80B9FFE4 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 00044 80B9FFE4 3C098016 */  lui     $t1, %hi(gSaveContext+4)
 /* 00048 80B9FFE8 90880174 */  lbu     $t0, 0x0174($a0)           ## 00000174
 /* 0004C 80B9FFEC 03E00008 */  jr      $ra                        
 /* 00050 80B9FFF0 01051026 */  xor     $v0, $t0, $a1              
 .L80B9FFF4:
-/* 00054 80B9FFF4 8D29E664 */  lw      $t1, -0x199C($t1)          ## 8015E664
+/* 00054 80B9FFF4 8D29E664 */  lw      $t1, %lo(gSaveContext+4)($t1)
 /* 00058 80B9FFF8 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 0005C 80B9FFFC 24030011 */  addiu   $v1, $zero, 0x0011         ## $v1 = 00000011
 /* 00060 80BA0000 11200003 */  beq     $t1, $zero, .L80BA0010     

@@ -68,8 +68,8 @@ glabel BgSpot06Objects_Init
 /* 000AC 808AE82C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
               ## DynaPolyInfo_setActor
 /* 000B0 808AE830 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 000B4 808AE834 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 000B8 808AE838 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 000B4 808AE834 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 000B8 808AE838 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 000BC 808AE83C AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 000C0 808AE840 8C790004 */  lw      $t9, 0x0004($v1)           ## 8015E664
 /* 000C4 808AE844 8FA40044 */  lw      $a0, 0x0044($sp)           
@@ -110,8 +110,8 @@ glabel BgSpot06Objects_Init
 /* 00140 808AE8C0 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00144 808AE8C4 0C017014 */  jal     func_8005C050              
 /* 00148 808AE8C8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 0014C 808AE8CC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00150 808AE8D0 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 0014C 808AE8CC 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00150 808AE8D0 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00154 808AE8D4 8C6B0004 */  lw      $t3, 0x0004($v1)           ## 8015E664
 /* 00158 808AE8D8 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 0015C 808AE8DC 5560002C */  bnel    $t3, $zero, .L808AE990     
@@ -119,9 +119,9 @@ glabel BgSpot06Objects_Init
 /* 00164 808AE8E4 0C00B2D0 */  jal     Flags_GetSwitch
               
 /* 00168 808AE8E8 86050168 */  lh      $a1, 0x0168($s0)           ## 00000168
-/* 0016C 808AE8EC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 0016C 808AE8EC 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 00170 808AE8F0 10400026 */  beq     $v0, $zero, .L808AE98C     
-/* 00174 808AE8F4 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00174 808AE8F4 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00178 808AE8F8 946C0EE0 */  lhu     $t4, 0x0EE0($v1)           ## 8015F540
 /* 0017C 808AE8FC 3C01808B */  lui     $at, %hi(D_808AF9EC)       ## $at = 808B0000
 /* 00180 808AE900 318D0200 */  andi    $t5, $t4, 0x0200           ## $t5 = 00000000
@@ -196,9 +196,9 @@ glabel BgSpot06Objects_Init
 /* 0027C 808AE9FC 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 00280 808AEA00 24A5F968 */  addiu   $a1, $a1, %lo(D_808AF968)  ## $a1 = 808AF968
-/* 00284 808AEA04 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 00284 808AEA04 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 00288 808AEA08 240C0030 */  addiu   $t4, $zero, 0x0030         ## $t4 = 00000030
-/* 0028C 808AEA0C 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 0028C 808AEA0C 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00290 808AEA10 AE0C0004 */  sw      $t4, 0x0004($s0)           ## 00000004
 /* 00294 808AEA14 8C6D0004 */  lw      $t5, 0x0004($v1)           ## 8015E664
 /* 00298 808AEA18 3C09808B */  lui     $t1, %hi(func_808AEE00)    ## $t1 = 808B0000
@@ -274,9 +274,9 @@ glabel BgSpot06Objects_Init
               ## DynaPolyInfo_setActor
 /* 00398 808AEB18 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 0039C 808AEB1C 3C0A808B */  lui     $t2, %hi(func_808AEE00)    ## $t2 = 808B0000
-/* 003A0 808AEB20 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 003A0 808AEB20 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 003A4 808AEB24 254AEE00 */  addiu   $t2, $t2, %lo(func_808AEE00) ## $t2 = 808AEE00
-/* 003A8 808AEB28 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 003A8 808AEB28 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 003AC 808AEB2C AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 003B0 808AEB30 AE0A0164 */  sw      $t2, 0x0164($s0)           ## 00000164
 /* 003B4 808AEB34 8C6B0004 */  lw      $t3, 0x0004($v1)           ## 8015E664

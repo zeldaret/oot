@@ -97,8 +97,7 @@ void Jpeg_CopyToZbuffer(u16* src, u16* zbuffer, s32 x, s32 y) {
 u16 Jpeg_GetU16(u8* ptr) {
     if (((u32)ptr & 1) == 0) { // if the address is aligned to 2
         return *(u16*)ptr;
-    }
-    else {
+    } else {
         return *(u16*)(ptr - 1) << 8 | (*(u16*)(ptr + 1) >> 8); // ?? it's exactly like *(16*)ptr
     }
 }
@@ -250,19 +249,19 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
 
     switch (ctx.dqtCount) {
         case 1: {
-            func_800FF540(ctx.dqtPtr[0], &workBuff->qTables[0], 3);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[0], &workBuff->qTables[0], 3);
             break;
         }
         case 2: {
-            func_800FF540(ctx.dqtPtr[0], &workBuff->qTables[0], 1);
-            func_800FF540(ctx.dqtPtr[1], &workBuff->qTables[1], 1);
-            func_800FF540(ctx.dqtPtr[1], &workBuff->qTables[2], 1);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[0], &workBuff->qTables[0], 1);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[1], &workBuff->qTables[1], 1);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[1], &workBuff->qTables[2], 1);
             break;
         }
         case 3: {
-            func_800FF540(ctx.dqtPtr[0], &workBuff->qTables[0], 1);
-            func_800FF540(ctx.dqtPtr[1], &workBuff->qTables[1], 1);
-            func_800FF540(ctx.dqtPtr[2], &workBuff->qTables[2], 1);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[0], &workBuff->qTables[0], 1);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[1], &workBuff->qTables[1], 1);
+            JpegUtils_ProcessQuantizationTable(ctx.dqtPtr[2], &workBuff->qTables[2], 1);
             break;
         }
         default:
@@ -277,22 +276,27 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
 
     switch (ctx.dhtCount) {
         case 1: {
-            if (func_800FF7FC(ctx.dhtPtr[0], &hTables[0], &workBuff->codesLenghts, &workBuff->codes, 4)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], &workBuff->codesLengths, &workBuff->codes,
+                                              4)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
             break;
         }
         case 4: {
-            if (func_800FF7FC(ctx.dhtPtr[0], &hTables[0], &workBuff->codesLenghts, &workBuff->codes, 1)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], &workBuff->codesLengths, &workBuff->codes,
+                                              1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
-            if (func_800FF7FC(ctx.dhtPtr[1], &hTables[1], &workBuff->codesLenghts, &workBuff->codes, 1)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[1], &hTables[1], &workBuff->codesLengths, &workBuff->codes,
+                                              1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
-            if (func_800FF7FC(ctx.dhtPtr[2], &hTables[2], &workBuff->codesLenghts, &workBuff->codes, 1)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[2], &hTables[2], &workBuff->codesLengths, &workBuff->codes,
+                                              1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
-            if (func_800FF7FC(ctx.dhtPtr[3], &hTables[3], &workBuff->codesLenghts, &workBuff->codes, 1)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[3], &hTables[3], &workBuff->codesLengths, &workBuff->codes,
+                                              1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
             break;

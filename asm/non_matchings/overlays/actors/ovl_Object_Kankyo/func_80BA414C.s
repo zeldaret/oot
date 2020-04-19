@@ -85,8 +85,8 @@ glabel func_80BA414C
 /* 017F0 80BA4290 00026100 */  sll     $t4, $v0,  4               
 /* 017F4 80BA4294 000C6F02 */  srl     $t5, $t4, 28               
 /* 017F8 80BA4298 3C0142A0 */  lui     $at, 0x42A0                ## $at = 42A00000
-/* 017FC 80BA429C 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 01800 80BA42A0 25EF6FA8 */  addiu   $t7, $t7, 0x6FA8           ## $t7 = 80166FA8
+/* 017FC 80BA429C 3C0F8016 */  lui     $t7, %hi(gSegments)
+/* 01800 80BA42A0 25EF6FA8 */  addiu   $t7, %lo(gSegments)
 /* 01804 80BA42A4 000D7080 */  sll     $t6, $t5,  2               
 /* 01808 80BA42A8 3C080100 */  lui     $t0, 0x0100                ## $t0 = 01000000
 /* 0180C 80BA42AC 3C090401 */  lui     $t1, 0x0401                ## $t1 = 04010000

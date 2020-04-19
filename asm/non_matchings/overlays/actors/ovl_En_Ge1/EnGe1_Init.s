@@ -14,8 +14,8 @@ glabel EnGe1_Init
 /* 00008 80A30978 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0000C 80A3097C AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00010 80A30980 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 00014 80A30984 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00018 80A30988 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00014 80A30984 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00018 80A30988 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0001C 80A3098C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00020 80A30990 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00024 80A30994 0C00AC78 */  jal     ActorShape_Init
@@ -95,10 +95,10 @@ glabel EnGe1_Init
 /* 00134 80A30AA4 24080001 */  addiu   $t0, $zero, 0x0001         ## $t0 = 00000001
 /* 00138 80A30AA8 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 0013C 80A30AAC 10410022 */  beq     $v0, $at, .L80A30B38
-/* 00140 80A30AB0 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 00140 80A30AB0 3C0B8016 */  lui     $t3, %hi(gSaveContext+4)
 /* 00144 80A30AB4 24010045 */  addiu   $at, $zero, 0x0045         ## $at = 00000045
 /* 00148 80A30AB8 1041002D */  beq     $v0, $at, .L80A30B70
-/* 0014C 80A30ABC 3C0D8012 */  lui     $t5, 0x8012                ## $t5 = 80120000
+/* 0014C 80A30ABC 3C0D8012 */  lui     $t5, %hi(gItemSlots+3)
 /* 00150 80A30AC0 24010046 */  addiu   $at, $zero, 0x0046         ## $at = 00000046
 /* 00154 80A30AC4 10410050 */  beq     $v0, $at, .L80A30C08
 /* 00158 80A30AC8 240C0001 */  addiu   $t4, $zero, 0x0001         ## $t4 = 00000001
@@ -135,7 +135,7 @@ glabel EnGe1_Init
 /* 001C0 80A30B30 1000003F */  beq     $zero, $zero, .L80A30C30
 /* 001C4 80A30B34 AE0A02B4 */  sw      $t2, 0x02B4($s0)           ## 000002B4
 .L80A30B38:
-/* 001C8 80A30B38 8D6BE664 */  lw      $t3, -0x199C($t3)          ## FFFFE664
+/* 001C8 80A30B38 8D6BE664 */  lw      $t3, %lo(gSaveContext+4)($t3)
 /* 001CC 80A30B3C 3C0C80A3 */  lui     $t4, %hi(func_80A3118C)    ## $t4 = 80A30000
 /* 001D0 80A30B40 3C0480A3 */  lui     $a0, %hi(D_80A327C0)       ## $a0 = 80A30000
 /* 001D4 80A30B44 15600007 */  bne     $t3, $zero, .L80A30B64
@@ -153,9 +153,9 @@ glabel EnGe1_Init
 /* 001F8 80A30B68 10000031 */  beq     $zero, $zero, .L80A30C30
 /* 001FC 80A30B6C AE0C02B4 */  sw      $t4, 0x02B4($s0)           ## 000002B4
 .L80A30B70:
-/* 00200 80A30B70 91AD7467 */  lbu     $t5, 0x7467($t5)           ## 00007467
-/* 00204 80A30B74 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00208 80A30B78 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00200 80A30B70 91AD7467 */  lbu     $t5, %lo(gItemSlots+3)($t5)
+/* 00204 80A30B74 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00208 80A30B78 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 0020C 80A30B7C 004D7021 */  addu    $t6, $v0, $t5
 /* 00210 80A30B80 91CF0074 */  lbu     $t7, 0x0074($t6)           ## 00000074
 /* 00214 80A30B84 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF
@@ -174,8 +174,8 @@ glabel EnGe1_Init
 /* 00240 80A30BB0 0C00084C */  jal     osSyncPrintf
 
 /* 00244 80A30BB4 248427DC */  addiu   $a0, $a0, %lo(D_80A327DC)  ## $a0 = 000027DC
-/* 00248 80A30BB8 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 0024C 80A30BBC 9739FA5A */  lhu     $t9, -0x05A6($t9)          ## 8015FA5A
+/* 00248 80A30BB8 3C198016 */  lui     $t9, %hi(gSaveContext+0x13fa)
+/* 0024C 80A30BBC 9739FA5A */  lhu     $t9, %lo(gSaveContext+0x13fa)($t9)
 /* 00250 80A30BC0 3C0980A3 */  lui     $t1, %hi(func_80A31E2C)    ## $t1 = 80A30000
 /* 00254 80A30BC4 25291E2C */  addiu   $t1, $t1, %lo(func_80A31E2C) ## $t1 = 80A31E2C
 /* 00258 80A30BC8 33280100 */  andi    $t0, $t9, 0x0100           ## $t0 = 00000000

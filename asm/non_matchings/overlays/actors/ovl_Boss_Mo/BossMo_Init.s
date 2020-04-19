@@ -101,7 +101,7 @@ glabel BossMo_Init
               
 /* 00720 8091C220 81251CBC */  lb      $a1, 0x1CBC($t1)           ## 00001CBC
 /* 00724 8091C224 1040002A */  beq     $v0, $zero, .L8091C2D0     
-/* 00728 8091C228 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 00728 8091C228 3C198016 */  lui     $t9, %hi(gSaveContext+0xee2)
 /* 0072C 8091C22C 0C00B55C */  jal     Actor_Kill
               
 /* 00730 8091C230 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -147,7 +147,7 @@ glabel BossMo_Init
 /* 007C8 8091C2C8 1000006D */  beq     $zero, $zero, .L8091C480   
 /* 007CC 8091C2CC A70E0002 */  sh      $t6, 0x0002($t8)           ## 00000002
 .L8091C2D0:
-/* 007D0 8091C2D0 9739F542 */  lhu     $t9, -0x0ABE($t9)          ## FFFFF542
+/* 007D0 8091C2D0 9739F542 */  lhu     $t9, %lo(gSaveContext+0xee2)($t9)
 /* 007D4 8091C2D4 24090001 */  addiu   $t1, $zero, 0x0001         ## $t1 = 00000001
 /* 007D8 8091C2D8 240B0014 */  addiu   $t3, $zero, 0x0014         ## $t3 = 00000014
 /* 007DC 8091C2DC 33280010 */  andi    $t0, $t9, 0x0010           ## $t0 = 00000000

@@ -105,9 +105,8 @@ Gfx* func_80A28148(GraphicsContext* gfxCtx, BossGanon* dorf) {
 
 void EnGanonOrgan_Draw(EnGanonOrgan* this, GlobalContext* globalCtx) {
     BossGanon* dorf;
-    u32 pad;
     GraphicsContext* gfxCtx;
-    Gfx* dispRefs[3];
+    Gfx* dispRefs[4];
 
     dorf = (BossGanon*)this->actor.attachedA;
     gfxCtx = globalCtx->state.gfxCtx;

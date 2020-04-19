@@ -30,8 +30,8 @@ glabel func_809C441C
 /* 00E30 809C4460 01E00008 */  jr      $t7                        
 /* 00E34 809C4464 00000000 */  nop
 glabel L809C4468
-/* 00E38 809C4468 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
-/* 00E3C 809C446C 9718F552 */  lhu     $t8, -0x0AAE($t8)          ## 8015F552
+/* 00E38 809C4468 3C188016 */  lui     $t8, %hi(gSaveContext+0xef2)
+/* 00E3C 809C446C 9718F552 */  lhu     $t8, %lo(gSaveContext+0xef2)($t8)
 /* 00E40 809C4470 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 00E44 809C4474 33190002 */  andi    $t9, $t8, 0x0002           ## $t9 = 00000000
 /* 00E48 809C4478 13200002 */  beq     $t9, $zero, .L809C4484     
@@ -49,8 +49,8 @@ glabel L809C4498
 /* 00E6C 809C449C 1000000C */  beq     $zero, $zero, .L809C44D0   
 /* 00E70 809C44A0 A7A3004E */  sh      $v1, 0x004E($sp)           
 glabel L809C44A4
-/* 00E74 809C44A4 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 00E78 809C44A8 9508F552 */  lhu     $t0, -0x0AAE($t0)          ## 8015F552
+/* 00E74 809C44A4 3C088016 */  lui     $t0, %hi(gSaveContext+0xef2)
+/* 00E78 809C44A8 9508F552 */  lhu     $t0, %lo(gSaveContext+0xef2)($t0)
 /* 00E7C 809C44AC 24030001 */  addiu   $v1, $zero, 0x0001         ## $v1 = 00000001
 /* 00E80 809C44B0 31090004 */  andi    $t1, $t0, 0x0004           ## $t1 = 00000000
 /* 00E84 809C44B4 11200002 */  beq     $t1, $zero, .L809C44C0     
@@ -64,10 +64,10 @@ glabel L809C44C8
 /* 00E9C 809C44CC A7A3004E */  sh      $v1, 0x004E($sp)           
 .L809C44D0:
 /* 00EA0 809C44D0 87A3004E */  lh      $v1, 0x004E($sp)           
-/* 00EA4 809C44D4 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 00EA4 809C44D4 3C0A8016 */  lui     $t2, %hi(gGameInfo)
 /* 00EA8 809C44D8 3C014314 */  lui     $at, 0x4314                ## $at = 43140000
 /* 00EAC 809C44DC A6030230 */  sh      $v1, 0x0230($s0)           ## 00000230
-/* 00EB0 809C44E0 8D4AFA90 */  lw      $t2, -0x0570($t2)          ## 8015FA90
+/* 00EB0 809C44E0 8D4AFA90 */  lw      $t2, %lo(gGameInfo)($t2)
 /* 00EB4 809C44E4 44813000 */  mtc1    $at, $f6                   ## $f6 = 148.00
 /* 00EB8 809C44E8 3C0D809C */  lui     $t5, %hi(D_809C4A60)       ## $t5 = 809C0000
 /* 00EBC 809C44EC 854212E2 */  lh      $v0, 0x12E2($t2)           ## 801612E2

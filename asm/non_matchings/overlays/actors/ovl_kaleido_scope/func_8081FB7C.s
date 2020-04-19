@@ -7,20 +7,20 @@ glabel func_8081FB7C
 /* 0C370 8081FB90 A48E01E4 */  sh      $t6, 0x01E4($a0)           ## 000001E4
 /* 0C374 8081FB94 A48001EA */  sh      $zero, 0x01EA($a0)         ## 000001EA
 /* 0C378 8081FB98 93AF002F */  lbu     $t7, 0x002F($sp)           
-/* 0C37C 8081FB9C 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
+/* 0C37C 8081FB9C 3C078013 */  lui     $a3, %hi(D_801333E0)
 /* 0C380 8081FBA0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0C384 8081FBA4 15E00013 */  bne     $t7, $zero, .L8081FBF4     
-/* 0C388 8081FBA8 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
+/* 0C388 8081FBA8 24E733E0 */  addiu   $a3, %lo(D_801333E0)
 /* 0C38C 8081FBAC 949801E8 */  lhu     $t8, 0x01E8($a0)           ## 000001E8
-/* 0C390 8081FBB0 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 0C394 8081FBB4 3C098013 */  lui     $t1, 0x8013                ## $t1 = 80130000
+/* 0C390 8081FBB0 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 0C394 8081FBB4 3C098013 */  lui     $t1, %hi(D_801333E8)
 /* 0C398 8081FBB8 0018C840 */  sll     $t9, $t8,  1               
 /* 0C39C 8081FBBC 27280001 */  addiu   $t0, $t9, 0x0001           ## $t0 = 00000001
 /* 0C3A0 8081FBC0 A48801E6 */  sh      $t0, 0x01E6($a0)           ## 000001E6
-/* 0C3A4 8081FBC4 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 0C3A8 8081FBC8 252933E8 */  addiu   $t1, $t1, 0x33E8           ## $t1 = 801333E8
-/* 0C3AC 8081FBCC 3C058013 */  lui     $a1, 0x8013                ## $a1 = 80130000
-/* 0C3B0 8081FBD0 24A533D4 */  addiu   $a1, $a1, 0x33D4           ## $a1 = 801333D4
+/* 0C3A4 8081FBC4 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 0C3A8 8081FBC8 252933E8 */  addiu   $t1, %lo(D_801333E8)
+/* 0C3AC 8081FBCC 3C058013 */  lui     $a1, %hi(D_801333D4)
+/* 0C3B0 8081FBD0 24A533D4 */  addiu   $a1, %lo(D_801333D4)
 /* 0C3B4 8081FBD4 AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 0C3B8 8081FBD8 AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 0C3BC 8081FBDC 24044825 */  addiu   $a0, $zero, 0x4825         ## $a0 = 00004825
@@ -32,12 +32,12 @@ glabel func_8081FB7C
 /* 0C3D0 8081FBF0 A60A0238 */  sh      $t2, 0x0238($s0)           ## 00000238
 .L8081FBF4:
 /* 0C3D4 8081FBF4 960B01E8 */  lhu     $t3, 0x01E8($s0)           ## 000001E8
-/* 0C3D8 8081FBF8 3C0D8013 */  lui     $t5, 0x8013                ## $t5 = 80130000
-/* 0C3DC 8081FBFC 25AD33E8 */  addiu   $t5, $t5, 0x33E8           ## $t5 = 801333E8
+/* 0C3D8 8081FBF8 3C0D8013 */  lui     $t5, %hi(D_801333E8)
+/* 0C3DC 8081FBFC 25AD33E8 */  addiu   $t5, %lo(D_801333E8)
 /* 0C3E0 8081FC00 000B6040 */  sll     $t4, $t3,  1               
 /* 0C3E4 8081FC04 A60C01E6 */  sh      $t4, 0x01E6($s0)           ## 000001E6
-/* 0C3E8 8081FC08 3C058013 */  lui     $a1, 0x8013                ## $a1 = 80130000
-/* 0C3EC 8081FC0C 24A533D4 */  addiu   $a1, $a1, 0x33D4           ## $a1 = 801333D4
+/* 0C3E8 8081FC08 3C058013 */  lui     $a1, %hi(D_801333D4)
+/* 0C3EC 8081FC0C 24A533D4 */  addiu   $a1, %lo(D_801333D4)
 /* 0C3F0 8081FC10 AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 0C3F4 8081FC14 AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 0C3F8 8081FC18 24044826 */  addiu   $a0, $zero, 0x4826         ## $a0 = 00004826
@@ -58,8 +58,8 @@ glabel func_8081FB7C
 /* 0C42C 8081FC4C 00431021 */  addu    $v0, $v0, $v1              
 /* 0C430 8081FC50 03224021 */  addu    $t0, $t9, $v0              
 /* 0C434 8081FC54 91090001 */  lbu     $t1, 0x0001($t0)           ## 00000001
-/* 0C438 8081FC58 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 0C43C 8081FC5C 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 0C438 8081FC58 3C078016 */  lui     $a3, %hi(gSaveContext)
+/* 0C43C 8081FC5C 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 0C440 8081FC60 A0E913E3 */  sb      $t1, 0x13E3($a3)           ## 8015FA43
 /* 0C444 8081FC64 960A01E8 */  lhu     $t2, 0x01E8($s0)           ## 000001E8
 /* 0C448 8081FC68 3C048083 */  lui     $a0, %hi(D_8082FAD0)       ## $a0 = 80830000
@@ -88,8 +88,8 @@ glabel func_8081FB7C
 /* 0C4A4 8081FCC4 0C00084C */  jal     osSyncPrintf
               
 /* 0C4A8 8081FCC8 01E32821 */  addu    $a1, $t7, $v1              
-/* 0C4AC 8081FCCC 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 0C4B0 8081FCD0 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 0C4AC 8081FCCC 3C078016 */  lui     $a3, %hi(gSaveContext)
+/* 0C4B0 8081FCD0 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 0C4B4 8081FCD4 A4E013EA */  sh      $zero, 0x13EA($a3)         ## 8015FA4A
 /* 0C4B8 8081FCD8 0C020978 */  jal     Interface_ChangeAlpha              
 /* 0C4BC 8081FCDC 24040032 */  addiu   $a0, $zero, 0x0032         ## $a0 = 00000032

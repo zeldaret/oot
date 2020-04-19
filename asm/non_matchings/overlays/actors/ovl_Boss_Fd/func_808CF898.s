@@ -271,7 +271,7 @@ glabel func_808CF898
 /* 04E74 808CFC34 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 04E78 808CFC38 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 04E7C 808CFC3C 3C04808D */  lui     $a0, %hi(D_808D1A9C)       ## $a0 = 808D0000
-/* 04E80 808CFC40 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 04E80 808CFC40 3C098016 */  lui     $t1, %hi(gSegments)
 /* 04E84 808CFC44 244D0008 */  addiu   $t5, $v0, 0x0008           ## $t5 = 00000008
 /* 04E88 808CFC48 AE0D02D0 */  sw      $t5, 0x02D0($s0)           ## 000002D0
 /* 04E8C 808CFC4C AC4B0000 */  sw      $t3, 0x0000($v0)           ## 00000000
@@ -285,7 +285,7 @@ glabel func_808CF898
 /* 04EAC 808CFC6C 000F4702 */  srl     $t0, $t7, 28               
 /* 04EB0 808CFC70 00085080 */  sll     $t2, $t0,  2               
 /* 04EB4 808CFC74 012A4821 */  addu    $t1, $t1, $t2              
-/* 04EB8 808CFC78 8D296FA8 */  lw      $t1, 0x6FA8($t1)           ## 80166FA8
+/* 04EB8 808CFC78 8D296FA8 */  lw      $t1, %lo(gSegments)($t1)
 /* 04EBC 808CFC7C 0081C824 */  and     $t9, $a0, $at              
 /* 04EC0 808CFC80 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 04EC4 808CFC84 03296021 */  addu    $t4, $t9, $t1              
@@ -377,7 +377,7 @@ glabel func_808CF898
 /* 05010 808CFDD0 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 05014 808CFDD4 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 05018 808CFDD8 3C04808D */  lui     $a0, %hi(D_808D1A9C)       ## $a0 = 808D0000
-/* 0501C 808CFDDC 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 0501C 808CFDDC 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 05020 808CFDE0 244F0008 */  addiu   $t7, $v0, 0x0008           ## $t7 = 00000008
 /* 05024 808CFDE4 AE0F02D0 */  sw      $t7, 0x02D0($s0)           ## 000002D0
 /* 05028 808CFDE8 AC480000 */  sw      $t0, 0x0000($v0)           ## 00000000
@@ -391,7 +391,7 @@ glabel func_808CF898
 /* 05048 808CFE08 000C6F02 */  srl     $t5, $t4, 28               
 /* 0504C 808CFE0C 000D5880 */  sll     $t3, $t5,  2               
 /* 05050 808CFE10 01CB7021 */  addu    $t6, $t6, $t3              
-/* 05054 808CFE14 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 05054 808CFE14 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 05058 808CFE18 00814824 */  and     $t1, $a0, $at              
 /* 0505C 808CFE1C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 05060 808CFE20 012EC021 */  addu    $t8, $t1, $t6              

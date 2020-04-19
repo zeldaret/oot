@@ -4,6 +4,7 @@
 QuakeRequest sQuakeRequest[4];
 s16 D_80126250 = 1;
 s16 sQuakeRequestCount = 0;
+
 s16 (*sQuakeCallbacks[])(QuakeRequest*, ShakeInfo*) = {
     NULL, Quake_Callback1, Quake_Callback2, Quake_Callback3, Quake_Callback4, Quake_Callback5, Quake_Callback6,
 };
@@ -143,7 +144,7 @@ s16 Quake_GetFreeIndex() {
 
 QuakeRequest* Quake_AddImpl(Camera* cam, u32 callbackIdx) {
     s16 idx = Quake_GetFreeIndex();
-    QuakeRequest* req = sQuakeRequest + idx;
+    QuakeRequest* req = &sQuakeRequest[idx];
 
     func_80106860(req, 0, sizeof(QuakeRequest)); // memset
     req->cam = cam;
@@ -163,7 +164,8 @@ void Quake_Remove(QuakeRequest* req) {
 }
 
 QuakeRequest* Quake_GetRequest(s16 idx) {
-    QuakeRequest* req = sQuakeRequest + (idx & 3);
+    QuakeRequest* req = &sQuakeRequest[idx & 3];
+
     if (req->callbackIdx == 0) {
         return NULL;
     }
@@ -328,7 +330,7 @@ s16 Quake_Calc(Camera* camera, UnkQuakeCalcStruct* camData) {
     for (idx = 0; idx < ARRAY_COUNT(sQuakeRequest); idx++) {
         req = &sQuakeRequest[idx];
         if (req->callbackIdx != 0) {
-            if (globalCtx->cameraCtx.activeCameraPtrs[req->camPtrIdx] == 0) {
+            if (globalCtx->cameraPtrs[req->camPtrIdx] == 0) {
                 osSyncPrintf(VT_COL(YELLOW, BLACK) "quake: stopped! 'coz camera [%d] killed!!\n" VT_RST,
                              req->camPtrIdx);
                 Quake_Remove(req);

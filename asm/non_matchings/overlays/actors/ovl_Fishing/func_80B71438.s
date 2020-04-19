@@ -5,8 +5,8 @@ glabel func_80B71438
 /* 07AA4 80B71444 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 07AA8 80B71448 15C10010 */  bne     $t6, $at, .L80B7148C       
 /* 07AAC 80B7144C AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 07AB0 80B71450 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 07AB4 80B71454 8C42F520 */  lw      $v0, -0x0AE0($v0)          ## 8015F520
+/* 07AB0 80B71450 3C028016 */  lui     $v0, %hi(gSaveContext+0xec0)
+/* 07AB4 80B71454 8C42F520 */  lw      $v0, %lo(gSaveContext+0xec0)($v0)
 /* 07AB8 80B71458 240940AE */  addiu   $t1, $zero, 0x40AE         ## $t1 = 000040AE
 /* 07ABC 80B7145C 304F007F */  andi    $t7, $v0, 0x007F           ## $t7 = 00000000
 /* 07AC0 80B71460 11E00008 */  beq     $t7, $zero, .L80B71484     
@@ -23,8 +23,8 @@ glabel func_80B71438
 /* 07AE4 80B71484 10000010 */  beq     $zero, $zero, .L80B714C8   
 /* 07AE8 80B71488 A489010E */  sh      $t1, 0x010E($a0)           ## 0000010E
 .L80B7148C:
-/* 07AEC 80B7148C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 07AF0 80B71490 8C42F520 */  lw      $v0, -0x0AE0($v0)          ## 8015F520
+/* 07AEC 80B7148C 3C028016 */  lui     $v0, %hi(gSaveContext+0xec0)
+/* 07AF0 80B71490 8C42F520 */  lw      $v0, %lo(gSaveContext+0xec0)($v0)
 /* 07AF4 80B71494 3C017F00 */  lui     $at, 0x7F00                ## $at = 7F000000
 /* 07AF8 80B71498 240E40AE */  addiu   $t6, $zero, 0x40AE         ## $t6 = 000040AE
 /* 07AFC 80B7149C 00415024 */  and     $t2, $v0, $at              

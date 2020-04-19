@@ -62,8 +62,8 @@ glabel func_80B2A300
 /* 001E0 80B2A3E0 8D4A17B4 */  lw      $t2, 0x17B4($t2)           ## 000117B4
 /* 001E4 80B2A3E4 8FA50044 */  lw      $a1, 0x0044($sp)
 /* 001E8 80B2A3E8 01415821 */  addu    $t3, $t2, $at
-/* 001EC 80B2A3EC 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 001F0 80B2A3F0 AC2B6FC0 */  sw      $t3, 0x6FC0($at)           ## 80166FC0
+/* 001EC 80B2A3EC 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 001F0 80B2A3F0 AC2B6FC0 */  sw      $t3, %lo(gSegments+0x18)($at)
 /* 001F4 80B2A3F4 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003
 /* 001F8 80B2A3F8 10410007 */  beq     $v0, $at, .L80B2A418
 /* 001FC 80B2A3FC 24010007 */  addiu   $at, $zero, 0x0007         ## $at = 00000007

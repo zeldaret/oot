@@ -19,7 +19,7 @@ glabel EnRiverSound_Update
 .L80AE6F00:
 /* 005D0 80AE6F00 8608014E */  lh      $t0, 0x014E($s0)           ## 0000014E
 /* 005D4 80AE6F04 8F391E08 */  lw      $t9, 0x1E08($t9)           ## 00011E08
-/* 005D8 80AE6F08 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 005D8 80AE6F08 3C0D8016 */  lui     $t5, %hi(gSegments)
 /* 005DC 80AE6F0C 000848C0 */  sll     $t1, $t0,  3               
 /* 005E0 80AE6F10 03291021 */  addu    $v0, $t9, $t1              
 /* 005E4 80AE6F14 8C430004 */  lw      $v1, 0x0004($v0)           ## 00000004
@@ -29,7 +29,7 @@ glabel EnRiverSound_Update
 /* 005F4 80AE6F24 000A5F02 */  srl     $t3, $t2, 28               
 /* 005F8 80AE6F28 000B6080 */  sll     $t4, $t3,  2               
 /* 005FC 80AE6F2C 01AC6821 */  addu    $t5, $t5, $t4              
-/* 00600 80AE6F30 8DAD6FA8 */  lw      $t5, 0x6FA8($t5)           ## 80166FA8
+/* 00600 80AE6F30 8DAD6FA8 */  lw      $t5, %lo(gSegments)($t5)
 /* 00604 80AE6F34 00617024 */  and     $t6, $v1, $at              
 /* 00608 80AE6F38 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 0060C 80AE6F3C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000

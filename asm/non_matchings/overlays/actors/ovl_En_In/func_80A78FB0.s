@@ -1,6 +1,6 @@
 glabel func_80A78FB0
-/* 00000 80A78FB0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00004 80A78FB4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00000 80A78FB0 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00004 80A78FB4 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00008 80A78FB8 944E0ED6 */  lhu     $t6, 0x0ED6($v0)           ## 8015F536
 /* 0000C 80A78FBC AFA40000 */  sw      $a0, 0x0000($sp)           
 /* 00010 80A78FC0 31CF0010 */  andi    $t7, $t6, 0x0010           ## $t7 = 00000000

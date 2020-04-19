@@ -20,10 +20,10 @@ glabel EnHy_Update
 /* 02074 80A71624 8D0817B4 */  lw      $t0, 0x17B4($t0)           ## 000117B4
 /* 02078 80A71628 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 0207C 80A7162C 01014821 */  addu    $t1, $t0, $at              
-/* 02080 80A71630 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 02080 80A71630 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 02084 80A71634 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
               
-/* 02088 80A71638 AC296FC0 */  sw      $t1, 0x6FC0($at)           ## 80166FC0
+/* 02088 80A71638 AC296FC0 */  sw      $t1, %lo(gSegments+0x18)($at)
 /* 0208C 80A7163C 0C29C169 */  jal     func_80A705A4              
 /* 02090 80A71640 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02094 80A71644 860A01E8 */  lh      $t2, 0x01E8($s0)           ## 000001E8

@@ -17,7 +17,7 @@ glabel func_80B5764C
 /* 042D8 80B57688 24420001 */  addiu   $v0, $v0, 0x0001           ## $v0 = 00000001
 /* 042DC 80B5768C 5441000B */  bnel    $v0, $at, .L80B576BC       
 /* 042E0 80B57690 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 042E4 80B57694 0C02FF21 */  jal     func_800BFC84              
+/* 042E4 80B57694 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 042E8 80B57698 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 042EC 80B5769C 14400006 */  bne     $v0, $zero, .L80B576B8     
 /* 042F0 80B576A0 8FA40024 */  lw      $a0, 0x0024($sp)           

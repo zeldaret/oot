@@ -16,20 +16,20 @@ s32 func_8006CFC0(s32 scene) {
 }
 
 void func_8006D074(GlobalContext* globalCtx) {
-    gSaveContext.horse_data.scene = SCENE_SPOT00;
-    gSaveContext.horse_data.pos.x = -1840;
-    gSaveContext.horse_data.pos.y = 72;
-    gSaveContext.horse_data.pos.z = 5497;
-    gSaveContext.horse_data.angle = -27353;
+    gSaveContext.horseData.scene = SCENE_SPOT00;
+    gSaveContext.horseData.pos.x = -1840;
+    gSaveContext.horseData.pos.y = 72;
+    gSaveContext.horseData.pos.z = 5497;
+    gSaveContext.horseData.angle = -27353;
 }
 
 void func_8006D0AC(GlobalContext* globalCtx) {
-    if (gSaveContext.horse_data.scene == SCENE_SPOT06) {
-        gSaveContext.horse_data.scene = SCENE_SPOT06;
-        gSaveContext.horse_data.pos.x = -2065;
-        gSaveContext.horse_data.pos.y = -863;
-        gSaveContext.horse_data.pos.z = 1839;
-        gSaveContext.horse_data.angle = 0;
+    if (gSaveContext.horseData.scene == SCENE_SPOT06) {
+        gSaveContext.horseData.scene = SCENE_SPOT06;
+        gSaveContext.horseData.pos.x = -2065;
+        gSaveContext.horseData.pos.y = -863;
+        gSaveContext.horseData.pos.z = 1839;
+        gSaveContext.horseData.angle = 0;
     }
 }
 
@@ -59,35 +59,35 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
 
         func_8002DECC(globalCtx, player, player->rideActor);
         func_8002DE74(globalCtx, player);
-        gSaveContext.horse_data.scene = globalCtx->sceneNum;
+        gSaveContext.horseData.scene = globalCtx->sceneNum;
 
         if (globalCtx->sceneNum == SCENE_SPOT12) {
             player->rideActor->room = -1;
         }
-    } else if ((globalCtx->sceneNum == SCENE_SPOT12) && (gSaveContext.minigame_state == 3)) {
+    } else if ((globalCtx->sceneNum == SCENE_SPOT12) && (gSaveContext.minigameState == 3)) {
         Actor* horseActor;
-        gSaveContext.minigame_state = 0;
+        gSaveContext.minigameState = 0;
         horseActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 3586.0f, 1413.0f, -402.0f, 0, 0x4000, 0, 1);
         horseActor->room = -1;
-    } else if ((gSaveContext.entrance_index == 1230) && (gSaveContext.event_chk_inf[1] & 0x100)) {
+    } else if ((gSaveContext.entranceIndex == 1230) && (gSaveContext.eventChkInf[1] & 0x100)) {
         Actor* horseActor;
         horseActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, 1);
         if (horseActor == NULL) {
             __assert("horse_actor != NULL", "../z_horse.c", 389);
         }
-    } else if ((globalCtx->sceneNum == gSaveContext.horse_data.scene) &&
+    } else if ((globalCtx->sceneNum == gSaveContext.horseData.scene) &&
                (Flags_GetEventChkInf(0x18) != 0 || DREG(1) != 0)) {
         // Translates to: "SET BY EXISTENCE OF HORSE %d %d %d"
-        osSyncPrintf("馬存在によるセット %d %d %d\n", gSaveContext.horse_data.scene, Flags_GetEventChkInf(0x18),
+        osSyncPrintf("馬存在によるセット %d %d %d\n", gSaveContext.horseData.scene, Flags_GetEventChkInf(0x18),
                      DREG(1));
 
-        if (func_8006CFC0(gSaveContext.horse_data.scene)) {
+        if (func_8006CFC0(gSaveContext.horseData.scene)) {
             Actor* horseActor;
-            horseActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, gSaveContext.horse_data.pos.x,
-                                     gSaveContext.horse_data.pos.y, gSaveContext.horse_data.pos.z, 0,
-                                     gSaveContext.horse_data.angle, 0, 1);
+            horseActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, gSaveContext.horseData.pos.x,
+                                     gSaveContext.horseData.pos.y, gSaveContext.horseData.pos.z, 0,
+                                     gSaveContext.horseData.angle, 0, 1);
             if (horseActor == NULL) {
                 __assert("horse_actor != NULL", "../z_horse.c", 414);
             }
@@ -98,7 +98,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
         } else {
             osSyncPrintf(VT_COL(RED, WHITE));
             // Translates to: "Horse_SetNormal():%d SET SPOT IS NO GOOD."
-            osSyncPrintf("Horse_SetNormal():%d セットスポットまずいです。\n", gSaveContext.horse_data.scene);
+            osSyncPrintf("Horse_SetNormal():%d セットスポットまずいです。\n", gSaveContext.horseData.scene);
             osSyncPrintf(VT_RST);
             func_8006D074(globalCtx);
         }
@@ -128,7 +128,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
             }
         }
     } else if (!Flags_GetEventChkInf(0x18)) {
-        if ((DREG(1) == 0) && (globalCtx->sceneNum == SCENE_SOUKO) && (gSaveContext.night_flag != 0)) {
+        if ((DREG(1) == 0) && (globalCtx->sceneNum == SCENE_SOUKO) && (gSaveContext.nightFlag != 0)) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 0.0f, 0.0f, -60.0f, 0, 0x7360, 0, 1);
         }
     }
@@ -149,9 +149,9 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
     s32 i;
     Vec3s spawnPos;
 
-    if ((gSaveContext.entrance_index == 0x028A || gSaveContext.entrance_index == 0x028E ||
-         gSaveContext.entrance_index == 0x0292 || gSaveContext.entrance_index == 0x0476) &&
-        (gSaveContext.respawn_flag == 0)) {
+    if ((gSaveContext.entranceIndex == 0x028A || gSaveContext.entranceIndex == 0x028E ||
+         gSaveContext.entranceIndex == 0x0292 || gSaveContext.entranceIndex == 0x0476) &&
+        (gSaveContext.respawnFlag == 0)) {
         Vec3s spawnPositions[] = {
             { 0xF46F, 0x0139, 0x1E14 },
             { 0xF894, 0x0139, 0x1B67 },
@@ -159,11 +159,11 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
             { 0xF6F7, 0x0139, 0x1766 },
         };
 
-        if (gSaveContext.entrance_index == 0x028A) {
+        if (gSaveContext.entranceIndex == 0x028A) {
             spawnPos = spawnPositions[0];
-        } else if (gSaveContext.entrance_index == 0x028E) {
+        } else if (gSaveContext.entranceIndex == 0x028E) {
             spawnPos = spawnPositions[1];
-        } else if (gSaveContext.entrance_index == 0x0292) {
+        } else if (gSaveContext.entranceIndex == 0x0292) {
             spawnPos = spawnPositions[2];
         } else {
             spawnPos = spawnPositions[3];
@@ -177,8 +177,8 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
 
         func_8002DECC(globalCtx, player, player->rideActor);
         func_8002DE74(globalCtx, player);
-        gSaveContext.horse_data.scene = globalCtx->sceneNum;
-    } else if ((globalCtx->sceneNum == SCENE_SPOT20) && ((gSaveContext.event_inf[0] & 0xF) == 6) &&
+        gSaveContext.horseData.scene = globalCtx->sceneNum;
+    } else if ((globalCtx->sceneNum == SCENE_SPOT20) && ((gSaveContext.eventInf[0] & 0xF) == 6) &&
                (Flags_GetEventChkInf(0x18) == 0) && (DREG(1) == 0)) {
         player->rideActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 894.0f, 0.0f, -2084.0f, 0, -0x7FFF, 0, 5);
@@ -188,7 +188,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
 
         func_8002DECC(globalCtx, player, player->rideActor);
         func_8002DE74(globalCtx, player);
-        gSaveContext.horse_data.scene = globalCtx->sceneNum;
+        gSaveContext.horseData.scene = globalCtx->sceneNum;
 
         if (globalCtx->sceneNum == SCENE_SPOT12) {
             player->rideActor->room = -1;
@@ -203,9 +203,9 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
 
         for (i = 0; i < ARRAY_COUNT(D_8011F9B8); i++) {
             if ((globalCtx->sceneNum == D_8011F9B8[i].scene) &&
-                (gSaveContext.cutscene_index == D_8011F9B8[i].cutsceneIndex)) {
+                (gSaveContext.cutsceneIndex == D_8011F9B8[i].cutsceneIndex)) {
                 if (D_8011F9B8[i].type == 7) {
-                    if ((globalCtx->sceneNum == 99) && (gSaveContext.cutscene_index == 0xFFF1)) {
+                    if ((globalCtx->sceneNum == 99) && (gSaveContext.cutsceneIndex == 0xFFF1)) {
                         D_8011F9B8[i].pos.x = player->actor.posRot.pos.x;
                         D_8011F9B8[i].pos.y = player->actor.posRot.pos.y;
                         D_8011F9B8[i].pos.z = player->actor.posRot.pos.z;
@@ -226,7 +226,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                     s32 pad2;
 
                     temp = 0;
-                    if (((gSaveContext.event_inf[0] & 0x10) >> 4) && D_8011F9B8[i].type == 6) {
+                    if (((gSaveContext.eventInf[0] & 0x10) >> 4) && D_8011F9B8[i].type == 6) {
                         temp = 0x8000;
                     }
 
@@ -250,7 +250,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                     sp54.y = player->actor.posRot.pos.y + 100.0f;
                     sp54.z = player->actor.posRot.pos.z;
 
-                    func_800C04D8(globalCtx, globalCtx->cameraCtx.unk_5C0, &player->actor.posRot, &sp54);
+                    func_800C04D8(globalCtx, globalCtx->activeCamera, &player->actor.posRot.pos, &sp54);
                 } else {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, D_8011F9B8[i].pos.x,
                                 D_8011F9B8[i].pos.y, D_8011F9B8[i].pos.z, 0, D_8011F9B8[i].angle, 0,
@@ -279,20 +279,20 @@ struct_8011F9B8 D_8011F9B8[] = {
 
 void func_8006DC68(GlobalContext* globalCtx, Player* player) {
     if (LINK_IS_ADULT) {
-        if (!func_8006CFC0(gSaveContext.horse_data.scene)) {
+        if (!func_8006CFC0(gSaveContext.horseData.scene)) {
             osSyncPrintf(VT_COL(RED, WHITE));
             // Translates to: "Horse_Set_Check():%d SET SPOT IS NO GOOD."
-            osSyncPrintf("Horse_Set_Check():%d セットスポットまずいです。\n", gSaveContext.horse_data.scene);
+            osSyncPrintf("Horse_Set_Check():%d セットスポットまずいです。\n", gSaveContext.horseData.scene);
             osSyncPrintf(VT_RST);
             func_8006D074(globalCtx);
         }
 
         if (func_8006CFC0(globalCtx->sceneNum)) {
-            if ((gSaveContext.scene_setup_index > 3) ||
-                ((gSaveContext.entrance_index == 0x028A || gSaveContext.entrance_index == 0x028E ||
-                  gSaveContext.entrance_index == 0x0292 || gSaveContext.entrance_index == 0x0476) &&
-                 (gSaveContext.respawn_flag == 0)) ||
-                ((globalCtx->sceneNum == SCENE_SPOT20) && ((gSaveContext.event_inf[0] & 0xF) == 6) &&
+            if ((gSaveContext.sceneSetupIndex > 3) ||
+                ((gSaveContext.entranceIndex == 0x028A || gSaveContext.entranceIndex == 0x028E ||
+                  gSaveContext.entranceIndex == 0x0292 || gSaveContext.entranceIndex == 0x0476) &&
+                 (gSaveContext.respawnFlag == 0)) ||
+                ((globalCtx->sceneNum == SCENE_SPOT20) && ((gSaveContext.eventInf[0] & 0xF) == 6) &&
                  !Flags_GetEventChkInf(0x18) && (DREG(1) == 0))) {
                 func_8006D684(globalCtx, player);
             } else {

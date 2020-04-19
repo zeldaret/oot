@@ -1,7 +1,7 @@
 glabel func_8089F8B0
 /* 00000 8089F8B0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
-/* 00004 8089F8B4 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00008 8089F8B8 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00004 8089F8B4 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 00008 8089F8B8 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 0000C 8089F8BC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00010 8089F8C0 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00014 8089F8C4 AFA5001C */  sw      $a1, 0x001C($sp)           
@@ -24,22 +24,22 @@ glabel func_8089F8B0
 /* 00054 8089F904 0C00B2DD */  jal     Flags_SetSwitch
               
 /* 00058 8089F908 2405001C */  addiu   $a1, $zero, 0x001C         ## $a1 = 0000001C
-/* 0005C 8089F90C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 0005C 8089F90C 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 00060 8089F910 1000000A */  beq     $zero, $zero, .L8089F93C   
-/* 00064 8089F914 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00064 8089F914 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 .L8089F918:
 /* 00068 8089F918 0C00B2DD */  jal     Flags_SetSwitch
               
 /* 0006C 8089F91C 2405001D */  addiu   $a1, $zero, 0x001D         ## $a1 = 0000001D
-/* 00070 8089F920 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00070 8089F920 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 00074 8089F924 10000005 */  beq     $zero, $zero, .L8089F93C   
-/* 00078 8089F928 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00078 8089F928 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 .L8089F92C:
 /* 0007C 8089F92C 0C00B2DD */  jal     Flags_SetSwitch
               
 /* 00080 8089F930 2405001E */  addiu   $a1, $zero, 0x001E         ## $a1 = 0000001E
-/* 00084 8089F934 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00088 8089F938 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00084 8089F934 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 00088 8089F938 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 .L8089F93C:
 /* 0008C 8089F93C A4401514 */  sh      $zero, 0x1514($v0)         ## 80161514
 .L8089F940:

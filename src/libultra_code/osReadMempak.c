@@ -40,8 +40,9 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, PIF_mempak_dat
         if (!ret) {
             if (bufptr[0x26] != osMempakDataCRC(bufptr + 6)) {
                 ret = func_80101910(ctrlrqueue, ctrlridx);
-                if (ret)
+                if (ret) {
                     break;
+                }
                 ret = 4; // Retry
             } else {
                 bcopy(bufptr + 6, data, 0x20);
@@ -49,8 +50,9 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, PIF_mempak_dat
         } else {
             ret = 1; // Error
         }
-        if (ret != 4)
+        if (ret != 4) {
             break;
+        }
     } while (0 <= read_try_count--);
     __osSiRelAccess();
     return ret;

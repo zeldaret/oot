@@ -61,8 +61,8 @@ glabel EnReeba_Draw
 /* 017AC 80AE647C 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 017B0 80AE6480 0C031AD5 */  jal     Graph_CloseDisps              
 /* 017B4 80AE6484 24070440 */  addiu   $a3, $zero, 0x0440         ## $a3 = 00000440
-/* 017B8 80AE6488 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
-/* 017BC 80AE648C 8D8CFA90 */  lw      $t4, -0x0570($t4)          ## 8015FA90
+/* 017B8 80AE6488 3C0C8016 */  lui     $t4, %hi(gGameInfo)
+/* 017BC 80AE648C 8D8CFA90 */  lw      $t4, %lo(gGameInfo)($t4)
 /* 017C0 80AE6490 858D12D4 */  lh      $t5, 0x12D4($t4)           ## 801612D4
 /* 017C4 80AE6494 51A0002E */  beql    $t5, $zero, .L80AE6550     
 /* 017C8 80AE6498 8FBF004C */  lw      $ra, 0x004C($sp)           

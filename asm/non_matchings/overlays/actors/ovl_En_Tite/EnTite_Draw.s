@@ -31,18 +31,18 @@ glabel EnTite_Draw
 /* 02834 80B1B2B4 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE
 /* 02838 80B1B2B8 8FA80080 */  lw      $t0, 0x0080($sp)           
 /* 0283C 80B1B2BC 1701003A */  bne     $t8, $at, .L80B1B3A8       
-/* 02840 80B1B2C0 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
+/* 02840 80B1B2C0 3C058016 */  lui     $a1, %hi(gSegments)
 /* 02844 80B1B2C4 8D0202C0 */  lw      $v0, 0x02C0($t0)           ## 000002C0
 /* 02848 80B1B2C8 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 0284C 80B1B2CC 24841300 */  addiu   $a0, $a0, 0x1300           ## $a0 = 06001300
 /* 02850 80B1B2D0 00045100 */  sll     $t2, $a0,  4               
 /* 02854 80B1B2D4 000A5F02 */  srl     $t3, $t2, 28               
-/* 02858 80B1B2D8 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
+/* 02858 80B1B2D8 3C058016 */  lui     $a1, %hi(gSegments)
 /* 0285C 80B1B2DC 3C09DB06 */  lui     $t1, 0xDB06                ## $t1 = DB060000
 /* 02860 80B1B2E0 24590008 */  addiu   $t9, $v0, 0x0008           ## $t9 = 00000008
 /* 02864 80B1B2E4 AD1902C0 */  sw      $t9, 0x02C0($t0)           ## 000002C0
 /* 02868 80B1B2E8 35290020 */  ori     $t1, $t1, 0x0020           ## $t1 = DB060020
-/* 0286C 80B1B2EC 24A56FA8 */  addiu   $a1, $a1, 0x6FA8           ## $a1 = 80166FA8
+/* 0286C 80B1B2EC 24A56FA8 */  addiu   $a1, %lo(gSegments)
 /* 02870 80B1B2F0 000B6080 */  sll     $t4, $t3,  2               
 /* 02874 80B1B2F4 00AC6821 */  addu    $t5, $a1, $t4              
 /* 02878 80B1B2F8 AC490000 */  sw      $t1, 0x0000($v0)           ## 00000000
@@ -97,7 +97,7 @@ glabel EnTite_Draw
 /* 02938 80B1B3B8 000D7702 */  srl     $t6, $t5, 28               
 /* 0293C 80B1B3BC 3C0CDB06 */  lui     $t4, 0xDB06                ## $t4 = DB060000
 /* 02940 80B1B3C0 244B0008 */  addiu   $t3, $v0, 0x0008           ## $t3 = 00000008
-/* 02944 80B1B3C4 24A56FA8 */  addiu   $a1, $a1, 0x6FA8           ## $a1 = 8016DF50
+/* 02944 80B1B3C4 24A56FA8 */  addiu   $a1, %lo(gSegments)
 /* 02948 80B1B3C8 AD0B02C0 */  sw      $t3, 0x02C0($t0)           ## 000002C0
 /* 0294C 80B1B3CC 358C0020 */  ori     $t4, $t4, 0x0020           ## $t4 = DB060020
 /* 02950 80B1B3D0 000E7880 */  sll     $t7, $t6,  2               

@@ -1,6 +1,6 @@
 glabel func_80A30DCC
-/* 0045C 80A30DCC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00460 80A30DD0 9442F546 */  lhu     $v0, -0x0ABA($v0)          ## 8015F546
+/* 0045C 80A30DCC 3C028016 */  lui     $v0, %hi(gSaveContext+0xee6)
+/* 00460 80A30DD0 9442F546 */  lhu     $v0, %lo(gSaveContext+0xee6)($v0)
 /* 00464 80A30DD4 304E0001 */  andi    $t6, $v0, 0x0001           ## $t6 = 00000000
 /* 00468 80A30DD8 11C00007 */  beq     $t6, $zero, .L80A30DF8     
 /* 0046C 80A30DDC 304F0002 */  andi    $t7, $v0, 0x0002           ## $t7 = 00000000
