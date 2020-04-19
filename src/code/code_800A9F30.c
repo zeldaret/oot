@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-extern UnkRumbleStruct D_80160FD0;
+UnkRumbleStruct D_80160FD0;
 extern PadMgr gPadMgr;
 
 void func_800A9F30(PadMgr* a, s32 b) {
@@ -21,7 +21,7 @@ void func_800A9F6C(f32 a, u8 b, u8 c, u8 d) {
     if ((temp1 < 1000) && (b != 0) && (d != 0)) {
         temp2 = b - (temp1 * 255) / 1000;
         if (temp2 > 0) {
-            D_801610DA = temp2;
+            D_80160FD0.unk_10A = temp2;
             D_80160FD0.unk_10B = c;
             D_80160FD0.unk_10C = d;
         }
@@ -79,13 +79,13 @@ u32 func_800AA148(void) {
 }
 
 void func_800AA15C(void) {
-    D_801610D4 = 2;
+    D_80160FD0.unk_104 = 2;
 }
 
 void func_800AA16C(void) {
-    D_801610D4 = 0;
+    D_80160FD0.unk_104 = 0;
 }
 
 void func_800AA178(u32 a) {
-    D_801610D5 = !!a;
+    D_80160FD0.unk_105 = !!a;
 }

@@ -28,7 +28,7 @@ f32 func_800437F0(f32 arg0, f32 arg1) {
 
     if (arg0 < ret) {
         ret = 1;
-    } else if (ret < (float)arg0 * (1 - percent)) { //! float cast needed to match
+    } else if (ret < (f32)arg0 * (1 - percent)) { //! float cast needed to match
         ret = (SQ(arg1) * (1 - percent)) / SQ((1 - percent) * arg0);
     } else {
         ret = 1 - (.4f * SQ(arg0 - ret)) / SQ(.4f * arg0);

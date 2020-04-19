@@ -370,7 +370,6 @@ beginseg
     include "build/data/z_sram.rodata.o"
     include "build/src/code/code_800A9D40.o"
     include "build/src/code/code_800A9F30.o"
-    include "build/data/code_800A9F30.bss.o"
     include "build/data/z_text.data.o"
     include "build/src/code/z_view.o"
     include "build/src/code/z_vimode.o"
