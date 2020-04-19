@@ -58,7 +58,7 @@ glabel func_800C89D4
 /* B3FBF4 800C8A54 1000000B */  b     .L800C8A84
 /* B3FBF8 800C8A58 00001025 */   move  $v0, $zero
 .L800C8A5C:
-/* B3FBFC 800C8A5C 0C0419D8 */  jal   func_80106760
+/* B3FBFC 800C8A5C 0C0419D8 */  jal   osViGetCurrentFramebuffer
 /* B3FC00 800C8A60 AFA5001C */   sw    $a1, 0x1c($sp)
 /* B3FC04 800C8A64 8FA5001C */  lw    $a1, 0x1c($sp)
 /* B3FC08 800C8A68 8CAF000C */  lw    $t7, 0xc($a1)

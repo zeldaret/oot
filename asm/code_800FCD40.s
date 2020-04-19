@@ -30,7 +30,7 @@ glabel func_800FCD40
 /* B73F20 800FCD80 8FA40020 */  lw    $a0, 0x20($sp)
 /* B73F24 800FCD84 55E10038 */  bnel  $t7, $at, .L800FCE68
 /* B73F28 800FCD88 00001025 */   move  $v0, $zero
-/* B73F2C 800FCD8C 0C040C84 */  jal   func_80103210
+/* B73F2C 800FCD8C 0C040C84 */  jal   osContStartQuery
 /* B73F30 800FCD90 AFA70024 */   sw    $a3, 0x24($sp)
 /* B73F34 800FCD94 10400003 */  beqz  $v0, .L800FCDA4
 /* B73F38 800FCD98 8FA70024 */   lw    $a3, 0x24($sp)

@@ -1,5 +1,5 @@
 #include <global.h>
 
-OSThread* func_80104140() {
+OSThread* __osGetActiveQueue() {
     return __osActiveQueue;
 }
