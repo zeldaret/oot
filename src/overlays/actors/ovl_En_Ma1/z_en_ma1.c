@@ -1,3 +1,9 @@
+/*
+ * File: z_en_ma1.c
+ * Overlay: En_Ma1
+ * Description:
+ */
+
 #include "z_en_ma1.h"
 
 #define FLAGS 0x02000039
@@ -7,7 +13,7 @@ void EnMa1_Destroy(EnMa1* this, GlobalContext* globalCtx);
 void EnMa1_Update(EnMa1* this, GlobalContext* globalCtx);
 void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx);
 
-u16 EnMa1_GetText(EnMa1* this, GlobalContext* globalCtx);
+u16 EnMa1_GetText(GlobalContext* globalCtx, EnMa1* this);
 s16 func_80AA0778(GlobalContext* globalCtx, EnMa1* this);
 
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx);
@@ -55,19 +61,21 @@ u32 D_80AA16C4[] = {
     0x06002B18,
     0x06002F18,
 };
+
 u32 D_80AA16D0[] = {
     0x06001B18,
     0x06002318,
     0x06002718,
-    0x00000000,
 };
+
+s32 D_80AA16DC = 0;
 
 extern AnimationHeader D_06000820;
 extern SkeletonHeader D_06008460;
 extern AnimationHeader D_06008D64;
 
-u16 EnMa1_GetText(EnMa1* this, GlobalContext* globalCtx) {
-    u16 faceReaction = Text_GetFaceReaction(this, 0x17);
+u16 EnMa1_GetText(GlobalContext* globalCtx, EnMa1* this) {
+    u16 faceReaction = Text_GetFaceReaction(globalCtx, 0x17);
     if (faceReaction != 0) {
         return faceReaction;
     }
@@ -100,46 +108,61 @@ u16 EnMa1_GetText(EnMa1* this, GlobalContext* globalCtx) {
     return 0x2041;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA0778.s")
-/*s16 func_80AA0778(GlobalContext *globalCtx, EnMa1 *this) {
-    switch(func_8010BDBC(&globalCtx->msgCtx)) {
+s16 func_80AA0778(GlobalContext* globalCtx, EnMa1* this) {
+    s16 ret = 1;
+    switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 2:
-            switch(this->actor.textId - 0x2041) {
+            switch (this->actor.textId - 0x2041) {
                 case 0:
                     gSaveContext.infTable[8] |= 0x10;
                     gSaveContext.eventChkInf[1] |= 1;
-                    return 0;
+                    ret = 0;
+                    break;
+                case 2:
+                    ret = 1;
+                    break;
                 case 6:
                     gSaveContext.eventChkInf[1] |= 0x20;
-                    return 0;
+                    ret = 0;
+                    break;
                 case 7:
                     gSaveContext.infTable[8] |= 0x20;
-                    return 0;
+                    ret = 0;
+                    break;
                 case 8:
                     gSaveContext.eventChkInf[1] |= 0x40;
-                    return 0;
+                    ret = 0;
+                    break;
                 case 32:
-                    return 2;
+                    ret = 2;
+                    break;
                 default:
-                    return 0;
+                    ret = 0;
+                    break;
             }
+            break;
         case 4:
         case 5:
             if (func_80106BC8(globalCtx) != 0) {
-                return 2;
-            } else {
-                return 1;
+                ret = 2;
             }
+            break;
         case 6:
             if (func_80106BC8(globalCtx) != 0) {
-                return 3;
-            } else {
-                return 1;
+                ret = 3;
             }
-        default:
-            return 1;
+            break;
+        case 0:
+        case 1:
+        case 3:
+        case 7:
+        case 8:
+        case 9:
+            ret = 1;
+            break;
     }
-}*/
+    return ret;
+}
 
 s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
     if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneSetupIndex == 5)) {
@@ -173,7 +196,7 @@ s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA0A0C(EnMa1* this) {
-    if (!DECR(this->unk_1E2)) {
+    if (DECR(this->unk_1E2) == 0) {
         this->unk_1E4 += 1;
         if (this->unk_1E4 >= 3) {
             this->unk_1E2 = Math_Rand_S16Offset(0x1E, 0x1E);
@@ -189,7 +212,7 @@ void func_80AA0A84(EnMa1* this, UNK_TYPE idx) {
                          D_80AA1678[idx].transitionRate);
 }
 
-void func_80AA0AF4(EnMa1 *this, GlobalContext *globalCtx) {
+void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
@@ -317,8 +340,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             this->unk_1E8.unk_00 = 1;
             this->actor.flags |= 0x10000;
             this->actionFunc = (ActorFunc)func_80AA106C;
-        }
-        else if (this->actor.xzDistanceFromLink < (30.0f + (f32)this->collider.dim.radius)) {
+        } else if (this->actor.xzDistanceFromLink < 30.0f + (f32)this->collider.dim.radius) {
             player->stateFlags2 |= 0x800000;
         }
     }
@@ -347,7 +369,7 @@ void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.unk_E3EE == 3) {
         globalCtx->nextEntranceIndex = 0x157;
         gSaveContext.nextCutsceneIndex = 0xFFF1;
-        globalCtx->fadeTransition = 0x2A;
+        globalCtx->fadeTransition = 42;
         globalCtx->sceneLoadFlag = 0x14;
         this->actionFunc = (ActorFunc)func_80AA11C8;
     }
@@ -373,10 +395,9 @@ void EnMa1_Update(EnMa1* this, GlobalContext* globalCtx) {
     func_80AA0AF4(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/func_80AA12BC.s")
-/*s32 func_80AA12BC(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s* rot, EnMa1* this) {
-    Vec3s tempVec;a
-    s32 pad;
+s32 func_80AA12BC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnMa1* this) {
+    s16 pad[2];
+    Vec3s tempVec;
 
     if ((limbIndex == 2) || (limbIndex == 5)) {
         *dList = NULL;
@@ -384,19 +405,19 @@ void EnMa1_Update(EnMa1* this, GlobalContext* globalCtx) {
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         tempVec = this->unk_1E8.unk_08;
-        Matrix_RotateX(((f32)tempVec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ(((f32)tempVec.z / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(((f32)tempVec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateZ(((f32)tempVec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
         tempVec = this->unk_1E8.unk_0E;
-        Matrix_RotateX(((f32)(0 - tempVec.x) / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ(((f32)(0 - tempVec.z) / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(((f32)(0 - tempVec.y) / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateZ(((f32)(0 - tempVec.x) / 32768.0f) * M_PI, MTXMODE_APPLY);
     }
     return 0;
-}*/
+}
 
-void func_80AA1448(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *rot, Actor* actor) {
+void func_80AA1448(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
     s32 pad;
     Vec3f vec = D_80AA16B8;
 
@@ -405,21 +426,22 @@ void func_80AA1448(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma1/EnMa1_Draw.s")
-/*void EnMa1_Draw(EnMa1 *this, GlobalContext *globalCtx) {
+void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx) {
     Camera* camera;
+    f32 someFloat;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[4];
-    s32 pad;
+    Gfx* dispRefs[6];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma1.c", 1226);
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
-    func_800F6268(Math_Vec3f_DistXZ(&this->actor.posRot, &camera->unk_5C), 0x2F);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot, &camera->unk_5C);
+    func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA16C4[this->unk_1E6]));
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA16D0[this->unk_1E4]));
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount, func_80AA12BC, func_80AA1448, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
+                     func_80AA12BC, func_80AA1448, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma1.c", 1261);
-}*/
+}
