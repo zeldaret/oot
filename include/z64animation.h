@@ -4,7 +4,7 @@
 #include <ultra64.h>
 #include <ultra64/gbi.h>
 #include <z64dma.h>
-#include <z64vec.h>
+#include <z64math.h>
 
 #define LINK_ANIMETION_OFFSET(addr,offset) (((u32)&_link_animetionSegmentRomStart)+((u32)addr)-((u32)&link_animetion_segment)+((u32)offset))
 #define LIMB_DONE 0xFF

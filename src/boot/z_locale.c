@@ -5,9 +5,6 @@
 u32 gCurrentRegion = 0;
 LocaleCartInfo sCartInfo;
 
-// temporary
-extern PadMgr gPadMgr;
-
 void Locale_Init() {
     osEPiReadIo(gCartHandle, 0x38, &sCartInfo.mediaFormat);
     osEPiReadIo(gCartHandle, 0x3C, &sCartInfo.regionInfo);
