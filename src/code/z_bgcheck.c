@@ -331,20 +331,10 @@ void func_800418D0(CollisionContext* colCtx, GlobalContext* globalCtx) {
     phi_s2 = dynaColCtx;
     for (i = 0; i != 50; i++) {
         flag = dynaColCtx->flags[i];
-        if ((flag & 1) != 0) {
-            if ((flag & 2) == 0) {
-                // strong suspicions about ActorMesh actorMeshArr[50]; in DynaCollisionContext being at 0x0000 not
-                // 0x0004, with those changes:
-                actorMesh = &dynaColCtx->actorMeshArr[i];
-                Actor_SetObjectDependency(globalCtx, actorMesh->actor);
-                func_800417A0(actorMesh->unk_08);
-                /*
-                // with old structure
-                actorMesh = &((ActorMesh*)dynaColCtx)[i];
-                Actor_SetObjectDependency(globalCtx, ((u32*)actorMesh)[1]);
-                func_800417A0(((u32*)actorMesh)[2]);
-                */
-            }
+        if ((flag & 1) && !(flag & 2)) {
+            actorMesh = &dynaColCtx->actorMeshArr[i];
+            Actor_SetObjectDependency(globalCtx, actorMesh->actor);
+            func_800417A0(actorMesh->unk_08);
         }
     }
 }
