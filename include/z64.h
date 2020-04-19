@@ -350,8 +350,8 @@ typedef struct {
     /* 0x0004 */ GraphicsContext* gfxCtx;
     /* 0x0008 */ Viewport viewport;
     /* 0x0018 */ f32    fovy;  // vertical field of view in degrees
-    /* 0x001C */ f32    near;  // distance to near clipping plane
-    /* 0x0020 */ f32    far;   // distance to far clipping plane
+    /* 0x001C */ f32    zNear;  // distance to near clipping plane
+    /* 0x0020 */ f32    zFar;   // distance to far clipping plane
     /* 0x0024 */ f32    scale; // scale for matrix elements
     /* 0x0028 */ Vec3f  eye;
     /* 0x0034 */ Vec3f  unk_34;

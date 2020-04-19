@@ -44,8 +44,8 @@ void View_Init(View* view, GraphicsContext* gfxCtx) {
     view->eye.y = 0.0f;
     view->scale = 1.0f;
     view->fovy = 60.0f;
-    view->near = 10.0f;
-    view->far = 12800.0f;
+    view->zNear = 10.0f;
+    view->zFar = 12800.0f;
     view->unk_34.x = 0.0f;
     view->unk_40.x = 0.0f;
     view->unk_40.y = 1.0f;
@@ -91,29 +91,29 @@ void View_GetScale(View* view, f32* scale) {
 
 void func_800AA460(View* view, f32 fovy, f32 near, f32 far) {
     view->fovy = fovy;
-    view->near = near;
-    view->far = far;
+    view->zNear = near;
+    view->zFar = far;
     view->flags |= 4;
 }
 
 void func_800AA48C(View* view, f32* fovy, f32* near, f32* far) {
     *fovy = view->fovy;
-    *near = view->near;
-    *far = view->far;
+    *near = view->zNear;
+    *far = view->zFar;
 }
 
 void func_800AA4A8(View* view, f32 fovy, f32 near, f32 far) {
     view->fovy = fovy;
-    view->near = near;
-    view->far = far;
+    view->zNear = near;
+    view->zFar = far;
     view->flags |= 8;
     view->scale = 1.0f;
 }
 
 void func_800AA4E0(View* view, f32* fovy, f32* near, f32* far) {
     *fovy = view->fovy;
-    *near = view->near;
-    *far = view->far;
+    *near = view->zNear;
+    *far = view->zFar;
 }
 
 void View_SetViewport(View* view, Viewport* viewport) {
@@ -313,14 +313,14 @@ s32 func_800AAA9C(View* view) {
         }
         guPerspective(projection, &view->normal, HREG(83), HREG(84) / 10000.0f, HREG(85), HREG(86), HREG(87) / 100.0f);
     } else {
-        guPerspective(projection, &view->normal, view->fovy, aspect, view->near, view->far, view->scale);
+        guPerspective(projection, &view->normal, view->fovy, aspect, view->zNear, view->zFar, view->scale);
     }
 
     if (QREG(88) & 1) {
         s32 i;
         MtxF mf;
 
-        osSyncPrintf("fovy %f near %f far %f scale %f aspect %f normal %08x\n", view->fovy, view->near, view->far,
+        osSyncPrintf("fovy %f near %f far %f scale %f aspect %f normal %08x\n", view->fovy, view->zNear, view->zFar,
                      view->scale, aspect, view->normal);
 
         Matrix_MtxToMtxF(projection, &mf);
@@ -401,7 +401,7 @@ s32 func_800AB0A8(View* view) {
     view->projectionPtr = projection;
 
     func_801045A4(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
-                  (f32)gScreenHeight * 0.5f, view->near, view->far, view->scale);
+                  (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
 
     view->projection = *projection;
 
@@ -439,7 +439,7 @@ s32 func_800AB2C4(View* view) {
     view->projectionPtr = projection;
 
     func_801045A4(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
-                  (f32)gScreenHeight * 0.5f, view->near, view->far, view->scale);
+                  (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
 
     view->projection = *projection;
 
@@ -482,7 +482,7 @@ s32 func_800AB560(View* view) {
     height = view->viewport.bottomY - view->viewport.topY;
 
     aspect = (f32)width / (f32)height;
-    guPerspective(projection, &view->normal, view->fovy, aspect, view->near, view->far, view->scale);
+    guPerspective(projection, &view->normal, view->fovy, aspect, view->zNear, view->zFar, view->scale);
 
     view->projection = *projection;
 
@@ -552,7 +552,7 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
         view->projectionPtr = projection;
 
         func_801045A4(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
-                      (f32)gScreenHeight * 0.5f, view->near, view->far, view->scale);
+                      (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
 
         view->projection = *projection;
 
@@ -567,7 +567,7 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
         width = view->viewport.rightX - view->viewport.leftX;
         height = view->viewport.bottomY - view->viewport.topY;
 
-        guPerspective(projection, &view->normal, view->fovy, (f32)width / (f32)height, view->near, view->far,
+        guPerspective(projection, &view->normal, view->fovy, (f32)width / (f32)height, view->zNear, view->zFar,
                       view->scale);
 
         view->projection = *projection;
