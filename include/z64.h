@@ -14,7 +14,7 @@
 #include <z64item.h>
 #include <z64animation.h>
 #include <z64dma.h>
-#include <z64vec.h>
+#include <z64math.h>
 #include <bgm.h>
 #include <sfx.h>
 #include <color.h>

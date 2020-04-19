@@ -51,17 +51,17 @@ glabel func_80A61A28
 .L80A61A9C:
 /* 067AC 80A61A9C 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
 /* 067B0 80A61AA0 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 067B4 80A61AA4 0C032D9E */  jal     func_800CB678
+/* 067B4 80A61AA4 0C032D9E */  jal     Math3D_Vec3f_DistXYZ
 /* 067B8 80A61AA8 AFA40038 */  sw      $a0, 0x0038($sp)
 /* 067BC 80A61AAC 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 067C0 80A61AB0 E7A00058 */  swc1    $f0, 0x0058($sp)
 /* 067C4 80A61AB4 8FA50038 */  lw      $a1, 0x0038($sp)
 /* 067C8 80A61AB8 24840024 */  addiu   $a0, $a0, 0x0024           ## $a0 = 00000024
-/* 067CC 80A61ABC 0C032D9E */  jal     func_800CB678
+/* 067CC 80A61ABC 0C032D9E */  jal     Math3D_Vec3f_DistXYZ
 /* 067D0 80A61AC0 AFA40030 */  sw      $a0, 0x0030($sp)
 /* 067D4 80A61AC4 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 067D8 80A61AC8 E7A00054 */  swc1    $f0, 0x0054($sp)
-/* 067DC 80A61ACC 0C032D9E */  jal     func_800CB678
+/* 067DC 80A61ACC 0C032D9E */  jal     Math3D_Vec3f_DistXYZ
 /* 067E0 80A61AD0 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 067E4 80A61AD4 3C014396 */  lui     $at, 0x4396                ## $at = 43960000
 /* 067E8 80A61AD8 44816000 */  mtc1    $at, $f12                  ## $f12 = 300.00
