@@ -2,8 +2,8 @@ glabel func_800CA63C
 /* B417DC 800CA63C 2C81000D */  sltiu $at, $a0, 0xd
 /* B417E0 800CA640 14200029 */  bnez  $at, .L800CA6E8
 /* B417E4 800CA644 00044880 */   sll   $t1, $a0, 2
-/* B417E8 800CA648 3C018013 */  lui   $at, %hi(D_8012D300)
-/* B417EC 800CA64C C422D300 */  lwc1  $f2, %lo(D_8012D300)($at)
+/* B417E8 800CA648 3C018013 */  lui   $at, %hi(sFactorialTbl)
+/* B417EC 800CA64C C422D300 */  lwc1  $f2, %lo(sFactorialTbl + 0x30)($at)
 /* B417F0 800CA650 2881000D */  slti  $at, $a0, 0xd
 /* B417F4 800CA654 14200027 */  bnez  $at, .L800CA6F4
 /* B417F8 800CA658 2402000D */   li    $v0, 13
@@ -45,9 +45,9 @@ glabel func_800CA63C
 /* B41880 800CA6E0 03E00008 */  jr    $ra
 /* B41884 800CA6E4 46001006 */   mov.s $f0, $f2
 .L800CA6E8:
-/* B41888 800CA6E8 3C018013 */  lui   $at, %hi(D_8012D2D0)
+/* B41888 800CA6E8 3C018013 */  lui   $at, %hi(sFactorialTbl)
 /* B4188C 800CA6EC 00290821 */  addu  $at, $at, $t1
-/* B41890 800CA6F0 C422D2D0 */  lwc1  $f2, %lo(D_8012D2D0)($at)
+/* B41890 800CA6F0 C422D2D0 */  lwc1  $f2, %lo(sFactorialTbl)($at)
 .L800CA6F4:
 /* B41894 800CA6F4 03E00008 */  jr    $ra
 /* B41898 800CA6F8 46001006 */   mov.s $f0, $f2
