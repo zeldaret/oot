@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809C173C
+    .float 0.9
+
+.text
 glabel func_809BFB5C
 /* 002BC 809BFB5C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 002C0 809BFB60 AFBF0014 */  sw      $ra, 0x0014($sp)
@@ -5,7 +10,7 @@ glabel func_809BFB5C
 /* 002C8 809BFB68 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 002CC 809BFB6C 24A500A4 */  addiu   $a1, $a1, 0x00A4           ## $a1 = 060000A4
 /* 002D0 809BFB70 AFA60018 */  sw      $a2, 0x0018($sp)
-/* 002D4 809BFB74 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 002D4 809BFB74 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 002D8 809BFB78 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 002DC 809BFB7C 8FA60018 */  lw      $a2, 0x0018($sp)
 /* 002E0 809BFB80 240E0060 */  addiu   $t6, $zero, 0x0060         ## $t6 = 00000060
@@ -25,5 +30,3 @@ glabel func_809BFB5C
 /* 00318 809BFBB8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0031C 809BFBBC 03E00008 */  jr      $ra
 /* 00320 809BFBC0 00000000 */  nop
-
-

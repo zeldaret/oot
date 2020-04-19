@@ -1,3 +1,23 @@
+.rdata
+glabel D_80996060
+    .asciz "bank_ID = %d\n"
+    .balign 4
+
+glabel D_80996070
+    .asciz "status = %d\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_809960A8
+.word L80994D4C
+.word L80994E88
+.word L80994E88
+.word L80994E88
+.word L80994E88
+glabel D_809960BC
+ .word 0xBF19999A
+
+.text
 glabel DoorKiller_Init
 /* 00000 80994C50 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00004 80994C54 AFB10028 */  sw      $s1, 0x0028($sp)
@@ -248,5 +268,3 @@ glabel L80994E88
 /* 00378 80994FC8 8FB50038 */  lw      $s5, 0x0038($sp)
 /* 0037C 80994FCC 03E00008 */  jr      $ra
 /* 00380 80994FD0 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

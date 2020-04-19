@@ -1,6 +1,11 @@
+/*
+ * File: z_bg_menkuri_eye.c
+ * Overlay: ovl_Bg_Menkuri_Eye
+ * Description: Eye platform eye switches
+ */
+
 #include "z_bg_menkuri_eye.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000020
 
 void BgMenkuriEye_Init(BgMenkuriEye* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void BgMenkuriEye_Draw(BgMenkuriEye* this, GlobalContext* globalCtx);
 const ActorInit Bg_Menkuri_Eye_InitVars = {
     ACTOR_BG_MENKURI_EYE,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_MENKURI_OBJECTS,
     sizeof(BgMenkuriEye),

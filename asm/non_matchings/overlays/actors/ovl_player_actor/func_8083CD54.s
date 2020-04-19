@@ -38,12 +38,10 @@ glabel func_8083CD54
 /* 0ABD4 8083CDE4 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 0ABD8 8083CDE8 E7A00014 */  swc1    $f0, 0x0014($sp)
 /* 0ABDC 8083CDEC E7A00010 */  swc1    $f0, 0x0010($sp)
-/* 0ABE0 8083CDF0 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 0ABE0 8083CDF0 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 0ABE4 8083CDF4 E7B2001C */  swc1    $f18, 0x001C($sp)
 /* 0ABE8 8083CDF8 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 0ABEC 8083CDFC 8FB00028 */  lw      $s0, 0x0028($sp)
 /* 0ABF0 8083CE00 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0ABF4 8083CE04 03E00008 */  jr      $ra
 /* 0ABF8 8083CE08 00000000 */  nop
-
-

@@ -1,3 +1,81 @@
+.rdata
+glabel D_809D3180
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809D3184
+    .asciz "[32m☆☆☆☆☆ 宝発生(部屋はどれ？) %d\n[m"
+    .balign 4
+
+glabel D_809D31B0
+    .asciz "[32m☆☆☆☆☆ ビットは？ 	     %x\n[m"
+    .balign 4
+
+glabel D_809D31D8
+    .asciz "[32m☆☆☆☆☆ セーブＢＩＴは？     %x\n[m"
+    .balign 4
+
+glabel D_809D3204
+    .asciz "[32m☆☆☆☆☆ もう、ゾンビ？	     %d\n[m"
+    .balign 4
+
+glabel D_809D3230
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809D3234
+    .asciz "[33m☆☆☆☆☆ 中央宝発生(ＧＲＥＡＴ) ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_809D3270
+    .asciz "[35m☆☆☆☆☆ 左宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_809D32B4
+    .asciz "[35m☆☆☆☆☆ 部屋番号は？  %x\n[m"
+    .balign 4
+
+glabel D_809D32DC
+    .asciz "[35m☆☆☆☆☆ ビットはなぁに？  %x\n[m"
+    .balign 4
+
+glabel D_809D3308
+    .asciz "[35m☆☆☆☆☆ すけすけ君？ %x\n[m"
+    .balign 4
+
+glabel D_809D332C
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809D3330
+    .asciz "[36m☆☆☆☆☆ 右宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_809D3374
+    .asciz "[36m☆☆☆☆☆ 部屋番号は？  %d\n[m"
+    .balign 4
+
+glabel D_809D339C
+    .asciz "[36m☆☆☆☆☆ ビットはなぁに？  %x\n[m"
+    .balign 4
+
+glabel D_809D33C8
+    .asciz "[36m☆☆☆☆☆ すけすけ君？ %x\n[m"
+    .balign 4
+
+glabel D_809D33EC
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_809D3448
+ .word 0xC51C4000
+glabel D_809D344C
+ .word 0xC51C4000
+glabel D_809D3450
+    .float 1.99000000954
+
+.text
 glabel EnChanger_Init
 /* 0000C 809D269C 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00010 809D26A0 AFB20040 */  sw      $s2, 0x0040($sp)           
@@ -62,13 +140,13 @@ glabel EnChanger_Init
 /* 000D8 809D2768 24843230 */  addiu   $a0, $a0, %lo(D_809D3230)  ## $a0 = 809D3230
 /* 000DC 809D276C 87A30068 */  lh      $v1, 0x0068($sp)           
 /* 000E0 809D2770 82491CBC */  lb      $t1, 0x1CBC($s2)           ## 00001CBC
-/* 000E4 809D2774 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 000E4 809D2774 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xef2)
 /* 000E8 809D2778 00031840 */  sll     $v1, $v1,  1               
 /* 000EC 809D277C 00031C00 */  sll     $v1, $v1, 16               
 /* 000F0 809D2780 29210006 */  slti    $at, $t1, 0x0006           
 /* 000F4 809D2784 14200053 */  bne     $at, $zero, .L809D28D4     
 /* 000F8 809D2788 00031C03 */  sra     $v1, $v1, 16               
-/* 000FC 809D278C 954AF552 */  lhu     $t2, -0x0AAE($t2)          ## 8015F552
+/* 000FC 809D278C 954AF552 */  lhu     $t2, %lo(gSaveContext+0xef2)($t2)
 /* 00100 809D2790 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 00104 809D2794 44810000 */  mtc1    $at, $f0                   ## $f0 = 20.00
 /* 00108 809D2798 314B0800 */  andi    $t3, $t2, 0x0800           ## $t3 = 00000000
@@ -110,7 +188,7 @@ glabel EnChanger_Init
 /* 0018C 809D281C 1040002D */  beq     $v0, $zero, .L809D28D4     
 /* 00190 809D2820 AE220158 */  sw      $v0, 0x0158($s1)           ## 00000158
 /* 00194 809D2824 862F0168 */  lh      $t7, 0x0168($s1)           ## 00000168
-/* 00198 809D2828 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 00198 809D2828 3C188016 */  lui     $t8, %hi(gSaveContext+0xef2)
 /* 0019C 809D282C 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 001A0 809D2830 11E00009 */  beq     $t7, $zero, .L809D2858     
 /* 001A4 809D2834 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
@@ -125,7 +203,7 @@ glabel EnChanger_Init
 /* 001C0 809D2850 10000119 */  beq     $zero, $zero, .L809D2CB8   
 /* 001C4 809D2854 8FBF0044 */  lw      $ra, 0x0044($sp)           
 .L809D2858:
-/* 001C8 809D2858 9718F552 */  lhu     $t8, -0x0AAE($t8)          ## FFFFF552
+/* 001C8 809D2858 9718F552 */  lhu     $t8, %lo(gSaveContext+0xef2)($t8)
 /* 001CC 809D285C 44070000 */  mfc1    $a3, $f0                   
 /* 001D0 809D2860 2406010F */  addiu   $a2, $zero, 0x010F         ## $a2 = 0000010F
 /* 001D4 809D2864 33190800 */  andi    $t9, $t8, 0x0800           ## $t9 = 00000000
@@ -441,5 +519,3 @@ glabel EnChanger_Init
 /* 00630 809D2CC0 8FB20040 */  lw      $s2, 0x0040($sp)           
 /* 00634 809D2CC4 03E00008 */  jr      $ra                        
 /* 00638 809D2CC8 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

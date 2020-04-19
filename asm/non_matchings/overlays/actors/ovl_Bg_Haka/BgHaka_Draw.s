@@ -1,3 +1,29 @@
+.rdata
+glabel D_8087BD00
+    .asciz "../z_bg_haka.c"
+    .balign 4
+
+glabel D_8087BD10
+    .asciz "../z_bg_haka.c"
+    .balign 4
+
+glabel D_8087BD20
+    .asciz "../z_bg_haka.c"
+    .balign 4
+
+glabel D_8087BD30
+    .asciz "../z_bg_haka.c"
+    .balign 4
+
+.late_rodata
+glabel D_8087BD40
+    .float 34.6
+glabel D_8087BD44
+    .float -112.8
+glabel D_8087BD48
+    .float 0.05
+
+.text
 glabel BgHaka_Draw
 /* 004D0 8087BB80 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 004D4 8087BB84 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -10,7 +36,7 @@ glabel BgHaka_Draw
 /* 004F0 8087BBA0 24C6BD00 */  addiu   $a2, $a2, %lo(D_8087BD00)  ## $a2 = 8087BD00
 /* 004F4 8087BBA4 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFEC
 /* 004F8 8087BBA8 24070191 */  addiu   $a3, $zero, 0x0191         ## $a3 = 00000191
-/* 004FC 8087BBAC 0C031AB1 */  jal     func_800C6AC4              
+/* 004FC 8087BBAC 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00500 8087BBB0 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00504 8087BBB4 0C024F46 */  jal     func_80093D18              
 /* 00508 8087BBB8 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -75,7 +101,7 @@ glabel BgHaka_Draw
 /* 005F4 8087BCA4 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 005F8 8087BCA8 24C6BD30 */  addiu   $a2, $a2, %lo(D_8087BD30)  ## $a2 = 8087BD30
 /* 005FC 8087BCAC 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFEC
-/* 00600 8087BCB0 0C031AD5 */  jal     func_800C6B54              
+/* 00600 8087BCB0 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00604 8087BCB4 240701A5 */  addiu   $a3, $zero, 0x01A5         ## $a3 = 000001A5
 /* 00608 8087BCB8 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 0060C 8087BCBC 8FB00014 */  lw      $s0, 0x0014($sp)           
@@ -83,4 +109,3 @@ glabel BgHaka_Draw
 /* 00614 8087BCC4 03E00008 */  jr      $ra                        
 /* 00618 8087BCC8 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 0061C 8087BCCC 00000000 */  nop
-

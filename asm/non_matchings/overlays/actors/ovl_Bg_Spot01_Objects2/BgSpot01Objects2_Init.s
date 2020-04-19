@@ -1,3 +1,26 @@
+.rdata
+glabel D_808AC530
+	.asciz "-----------------------------バンク設定ありませんでした."
+	.balign 4
+
+	
+.late_rodata
+glabel jtbl_808AC58C
+.word L808AC17C
+.word L808AC17C
+.word L808AC17C
+.word L808AC188
+.word L808AC194
+
+glabel jtbl_808AC5A0
+.word L808AC448
+.word L808AC448
+.word L808AC448
+.word L808AC394
+.word L808AC368
+.word 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel BgSpot01Objects2_Init
 /* 00000 808AC140 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00004 808AC144 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -67,5 +90,3 @@ glabel L808AC194
 /* 000D4 808AC214 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 000D8 808AC218 03E00008 */  jr      $ra                        
 /* 000DC 808AC21C 00000000 */  nop
-
-

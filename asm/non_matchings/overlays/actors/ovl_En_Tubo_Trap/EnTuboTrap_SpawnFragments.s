@@ -177,5 +177,3 @@ glabel EnTuboTrap_SpawnFragments
 /* 00390 80B25C80 8FBE0098 */  lw      $s8, 0x0098($sp)           
 /* 00394 80B25C84 03E00008 */  jr      $ra                        
 /* 00398 80B25C88 27BD00E0 */  addiu   $sp, $sp, 0x00E0           ## $sp = 00000000
-
-

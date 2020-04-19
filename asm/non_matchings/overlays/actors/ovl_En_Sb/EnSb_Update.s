@@ -110,5 +110,3 @@ glabel EnSb_Update
 /* 0102C 80AF881C 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 01030 80AF8820 03E00008 */  jr      $ra                        
 /* 01034 80AF8824 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

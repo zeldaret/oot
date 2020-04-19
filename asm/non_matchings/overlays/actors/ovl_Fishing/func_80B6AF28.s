@@ -1,3 +1,26 @@
+.late_rodata
+glabel D_80B7B394
+    .float 0.001
+
+glabel D_80B7B398
+    .float 0.1
+
+glabel D_80B7B39C
+    .float 0.3
+
+glabel D_80B7B3A0
+    .float 846400.0
+
+glabel D_80B7B3A4
+    .float 0.11
+
+glabel D_80B7B3A8
+    .float 0.0100000007078
+
+glabel D_80B7B3AC
+    .float 0.147
+
+.text
 glabel func_80B6AF28
 /* 01588 80B6AF28 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 0158C 80B6AF2C F7BC0040 */  sdc1    $f28, 0x0040($sp)          
@@ -19,7 +42,7 @@ glabel func_80B6AF28
 /* 015CC 80B6AF6C AFB0004C */  sw      $s0, 0x004C($sp)           
 /* 015D0 80B6AF70 F7B40020 */  sdc1    $f20, 0x0020($sp)          
 /* 015D4 80B6AF74 3C0180B8 */  lui     $at, %hi(D_80B7B398)       ## $at = 80B80000
-/* 015D8 80B6AF78 3C138016 */  lui     $s3, 0x8016                ## $s3 = 80160000
+/* 015D8 80B6AF78 3C138016 */  lui     $s3, %hi(gGameInfo)
 /* 015DC 80B6AF7C 3C1780B8 */  lui     $s7, %hi(D_80B7A89C)       ## $s7 = 80B80000
 /* 015E0 80B6AF80 4480B000 */  mtc1    $zero, $f22                ## $f22 = 0.00
 /* 015E4 80B6AF84 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
@@ -27,7 +50,7 @@ glabel func_80B6AF28
 /* 015EC 80B6AF8C AFBF006C */  sw      $ra, 0x006C($sp)           
 /* 015F0 80B6AF90 AFB10050 */  sw      $s1, 0x0050($sp)           
 /* 015F4 80B6AF94 26F7A89C */  addiu   $s7, $s7, %lo(D_80B7A89C)  ## $s7 = 80B7A89C
-/* 015F8 80B6AF98 2673FA90 */  addiu   $s3, $s3, 0xFA90           ## $s3 = 8015FA90
+/* 015F8 80B6AF98 2673FA90 */  addiu   $s3, %lo(gGameInfo)
 /* 015FC 80B6AF9C C434B398 */  lwc1    $f20, %lo(D_80B7B398)($at) 
 /* 01600 80B6AFA0 0000A025 */  or      $s4, $zero, $zero          ## $s4 = 00000000
 /* 01604 80B6AFA4 3C150001 */  lui     $s5, 0x0001                ## $s5 = 00010000
@@ -495,5 +518,3 @@ glabel func_80B6AF28
 /* 01CC8 80B6B668 8FB70068 */  lw      $s7, 0x0068($sp)           
 /* 01CCC 80B6B66C 03E00008 */  jr      $ra                        
 /* 01CD0 80B6B670 27BD00B8 */  addiu   $sp, $sp, 0x00B8           ## $sp = 00000000
-
-

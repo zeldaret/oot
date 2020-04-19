@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80BA6FD0
+ .word 0x4019999A
+glabel D_80BA6FD4
+    .float 0.3
+
+.text
 glabel OceffSpot_Init
 /* 00008 80BA6078 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0000C 80BA607C AFA50044 */  sw      $a1, 0x0044($sp)           
@@ -71,8 +78,8 @@ glabel OceffSpot_Init
               
 /* 0010C 80BA617C 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 00110 80BA6180 AE020160 */  sw      $v0, 0x0160($s0)           ## 00000160
-/* 00114 80BA6184 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 00118 80BA6188 8D4AFA90 */  lw      $t2, -0x0570($t2)          ## 8015FA90
+/* 00114 80BA6184 3C0A8016 */  lui     $t2, %hi(gGameInfo)
+/* 00118 80BA6188 8D4AFA90 */  lw      $t2, %lo(gGameInfo)($t2)
 /* 0011C 80BA618C 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00
 /* 00120 80BA6190 3C0180BA */  lui     $at, %hi(D_80BA6FD4)       ## $at = 80BA0000
 /* 00124 80BA6194 854B04B2 */  lh      $t3, 0x04B2($t2)           ## 801604B2
@@ -92,5 +99,3 @@ glabel OceffSpot_Init
 /* 00154 80BA61C4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00158 80BA61C8 03E00008 */  jr      $ra                        
 /* 0015C 80BA61CC 00000000 */  nop
-
-

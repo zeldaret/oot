@@ -20,6 +20,34 @@ typedef enum {
 } UpgradeType;
 
 typedef enum {
+    /* 0x00 */ QUEST_MEDALLION_FOREST,
+    /* 0x01 */ QUEST_MEDALLION_FIRE,
+    /* 0x02 */ QUEST_MEDALLION_WATER,
+    /* 0x03 */ QUEST_MEDALLION_SPIRIT,
+    /* 0x04 */ QUEST_MEDALLION_SHADOW,
+    /* 0x05 */ QUEST_MEDALLION_LIGHT,
+    /* 0x06 */ QUEST_SONG_MINUET,
+    /* 0x07 */ QUEST_SONG_BOLERO,
+    /* 0x08 */ QUEST_SONG_SERENADE,
+    /* 0x09 */ QUEST_SONG_REQUIEM,
+    /* 0x0A */ QUEST_SONG_NOCTURNE,
+    /* 0x0B */ QUEST_SONG_PRELUDE,
+    /* 0x0C */ QUEST_SONG_LULLABY,
+    /* 0x0D */ QUEST_SONG_EPONA,
+    /* 0x0E */ QUEST_SONG_SARIA,
+    /* 0x0F */ QUEST_SONG_SUN,
+    /* 0x10 */ QUEST_SONG_TIME,
+    /* 0x11 */ QUEST_SONG_STORMS,
+    /* 0x12 */ QUEST_KOKIRI_EMERALD,
+    /* 0x13 */ QUEST_GORON_RUBY,
+    /* 0x14 */ QUEST_ZORA_SAPPHIRE,
+    /* 0x15 */ QUEST_STONE_OF_AGONY,
+    /* 0x16 */ QUEST_GERUDO_CARD,
+    /* 0x17 */ QUEST_SKULL_TOKEN,
+    /* 0x18 */ QUEST_HEART_PIECE
+} QuestItem;
+
+typedef enum {
     /* 0x00 */ SLOT_STICK,
     /* 0x01 */ SLOT_NUT,
     /* 0x02 */ SLOT_BOMB,

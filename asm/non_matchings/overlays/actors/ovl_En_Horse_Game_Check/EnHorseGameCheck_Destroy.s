@@ -15,5 +15,3 @@ glabel EnHorseGameCheck_Destroy
 /* 00E70 80A683C0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00E74 80A683C4 03E00008 */  jr      $ra                        
 /* 00E78 80A683C8 00000000 */  nop
-
-

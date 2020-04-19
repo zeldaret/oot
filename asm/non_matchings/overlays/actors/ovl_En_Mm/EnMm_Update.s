@@ -28,5 +28,3 @@ glabel EnMm_Update
 /* 00F30 80AAE6A0 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00F34 80AAE6A4 03E00008 */  jr      $ra                        
 /* 00F38 80AAE6A8 00000000 */  nop
-
-

@@ -13,5 +13,3 @@ glabel BgBowlWall_Update
 /* 00758 8086F8B8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0075C 8086F8BC 03E00008 */  jr      $ra                        
 /* 00760 8086F8C0 00000000 */  nop
-
-

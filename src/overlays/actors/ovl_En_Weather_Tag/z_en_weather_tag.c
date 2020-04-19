@@ -1,6 +1,11 @@
+/*
+ * File: z_en_weather_tag.c
+ * Overlay: ovl_En_Weather_Tag
+ * Description: Proximity Rain/Weather Effects
+ */
+
 #include "z_en_weather_tag.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnWeatherTag_Init(EnWeatherTag* this, GlobalContext* globalCtx);
@@ -11,7 +16,6 @@ void EnWeatherTag_Update(EnWeatherTag* this, GlobalContext* globalCtx);
 const ActorInit En_Weather_Tag_InitVars = {
     ACTOR_EN_WEATHER_TAG,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWeatherTag),

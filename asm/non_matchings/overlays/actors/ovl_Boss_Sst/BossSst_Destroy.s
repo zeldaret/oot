@@ -19,5 +19,3 @@ glabel BossSst_Destroy
 /* 004C4 8092CA94 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 004C8 8092CA98 03E00008 */  jr      $ra                        
 /* 004CC 8092CA9C 00000000 */  nop
-
-

@@ -1,3 +1,93 @@
+.late_rodata
+glabel D_80926DAC
+    .float 0.005
+
+glabel D_80926DB0
+ .word 0x3C75C28F
+glabel D_80926DB4
+ .word 0x3C75C28F
+glabel D_80926DB8
+    .float 0.005
+
+glabel D_80926DBC
+    .float 0.008
+
+glabel jtbl_80926DC0
+.word L80921B08
+.word L80921B08
+.word L80921B08
+.word L80921B08
+.word L80921B08
+.word L80921B08
+.word L80921B08
+.word L80921B08
+.word L80921B08
+.word L80921B08
+.word L80921B08
+.word L80921928
+.word L809219DC
+.word L80921A60
+.word L80921B08
+.word L80921B08
+.word L80921AA0
+glabel D_80926E04
+    .float 0.02
+
+glabel D_80926E08
+    .float 0.05
+
+glabel D_80926E0C
+    .float -0.01
+
+glabel D_80926E10
+    .float 0.08
+
+glabel D_80926E14
+ .word 0x3E051EB8
+glabel D_80926E18
+    .float 0.4
+
+glabel D_80926E1C
+    .float 3.14159274101
+
+glabel D_80926E20
+ .word 0x45418000
+glabel D_80926E24
+ .word 0x452EC000
+glabel D_80926E28
+ .word 0x4622F983
+glabel D_80926E2C
+ .word 0x4622F983
+glabel D_80926E30
+    .float 0.2
+
+glabel D_80926E34
+ .word 0x4048F5C3
+glabel D_80926E38
+    .float 0.6
+
+glabel D_80926E3C
+    .float 1.6
+
+glabel D_80926E40
+    .float 0.3
+
+glabel D_80926E44
+    .float 0.075
+
+glabel D_80926E48
+    .float 0.15
+
+glabel D_80926E4C
+    .float 0.1
+
+glabel D_80926E50
+    .float 0.05
+
+glabel D_80926E54
+    .float 0.1
+
+.text
 glabel func_809216D0
 /* 05BD0 809216D0 27BDFF18 */  addiu   $sp, $sp, 0xFF18           ## $sp = FFFFFF18
 /* 05BD4 809216D4 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -1559,5 +1649,3 @@ glabel L80921B08
 /* 07224 80922D24 8FB20038 */  lw      $s2, 0x0038($sp)           
 /* 07228 80922D28 03E00008 */  jr      $ra                        
 /* 0722C 80922D2C 27BD00E8 */  addiu   $sp, $sp, 0x00E8           ## $sp = 00000000
-
-

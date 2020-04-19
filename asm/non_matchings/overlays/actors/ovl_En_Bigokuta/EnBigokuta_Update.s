@@ -138,5 +138,3 @@ glabel EnBigokuta_Update
 /* 01F50 809BEBB0 8FB50028 */  lw      $s5, 0x0028($sp)           
 /* 01F54 809BEBB4 03E00008 */  jr      $ra                        
 /* 01F58 809BEBB8 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

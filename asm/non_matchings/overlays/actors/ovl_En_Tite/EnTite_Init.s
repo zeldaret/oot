@@ -29,8 +29,8 @@ glabel EnTite_Init
 /* 0006C 80B18AEC 0C02915F */  jal     SkelAnime_Init
               
 /* 00070 80B18AF0 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 00074 80B18AF4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00078 80B18AF8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00074 80B18AF4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00078 80B18AF8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0007C 80B18AFC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00080 80B18B00 3C05C348 */  lui     $a1, 0xC348                ## $a1 = C3480000
 /* 00084 80B18B04 0C00AC78 */  jal     ActorShape_Init
@@ -89,5 +89,3 @@ glabel EnTite_Init
 /* 00150 80B18BD0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00154 80B18BD4 03E00008 */  jr      $ra                        
 /* 00158 80B18BD8 00000000 */  nop
-
-

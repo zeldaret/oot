@@ -1,3 +1,20 @@
+.late_rodata
+glabel D_80B7B360
+    .float 0.3
+    
+glabel D_80B7B364
+    .float 0.6
+    
+glabel D_80B7B368
+    .float 6.28318548203 # 2*pi
+    
+glabel D_80B7B36C
+    .float 0.08
+    
+glabel D_80B7B370
+    .float 0.1
+
+.text
 glabel func_80B6A22C
 /* 0088C 80B6A22C 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00890 80B6A230 AFB00048 */  sw      $s0, 0x0048($sp)           
@@ -209,5 +226,3 @@ glabel func_80B6A22C
 /* 00B94 80B6A534 8FBE0068 */  lw      $s8, 0x0068($sp)           
 /* 00B98 80B6A538 03E00008 */  jr      $ra                        
 /* 00B9C 80B6A53C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

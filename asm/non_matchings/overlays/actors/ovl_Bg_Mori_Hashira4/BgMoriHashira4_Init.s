@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A3638
+    .asciz "Error : バンク危険！(arg_data 0x%04x)(%s %d)\n"
+    .balign 4
+
+glabel D_808A3668
+    .asciz "../z_bg_mori_hashira4.c"
+    .balign 4
+
+glabel D_808A3680
+    .asciz "(森の神殿 ４本柱)(arg_data 0x%04x)\n"
+    .balign 4
+
+.text
 glabel BgMoriHashira4_Init
 /* 00090 808A30F0 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00094 808A30F4 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -91,5 +105,3 @@ glabel BgMoriHashira4_Init
 /* 001C0 808A3220 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 001C4 808A3224 03E00008 */  jr      $ra                        
 /* 001C8 808A3228 00000000 */  nop
-
-

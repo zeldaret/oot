@@ -1,3 +1,37 @@
+.rdata
+glabel D_80A54F40
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A54F44
+    .asciz "[35m ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A54F7C
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A54F80
+    .asciz "[32m ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A54FB4
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A54FB8
+    .asciz "[32m ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A54FF0
+    .asciz "[33m ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A55028
+    .asciz "[35m ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n[m"
+    .balign 4
+
+.text
 glabel EnHeishi2_Init
 /* 00000 80A52EA0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00004 80A52EA4 AFA50044 */  sw      $a1, 0x0044($sp)           
@@ -95,8 +129,8 @@ glabel EnHeishi2_Init
 .L80A52FF4:
 /* 00154 80A52FF4 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 00158 80A52FF8 44813000 */  mtc1    $at, $f6                   ## $f6 = 60.00
-/* 0015C 80A52FFC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00160 80A53000 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0015C 80A52FFC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00160 80A53000 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00164 80A53004 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00168 80A53008 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
 /* 0016C 80A5300C 0C00AC78 */  jal     ActorShape_Init
@@ -212,5 +246,3 @@ glabel EnHeishi2_Init
 /* 002E0 80A53180 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 002E4 80A53184 03E00008 */  jr      $ra                        
 /* 002E8 80A53188 00000000 */  nop
-
-

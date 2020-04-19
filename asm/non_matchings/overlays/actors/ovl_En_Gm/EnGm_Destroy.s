@@ -10,5 +10,3 @@ glabel EnGm_Destroy
 /* 000DC 80A3D7BC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000E0 80A3D7C0 03E00008 */  jr      $ra                        
 /* 000E4 80A3D7C4 00000000 */  nop
-
-

@@ -166,5 +166,3 @@ glabel EnInsect_Update
 /* 0201C 80A7DE3C 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 02020 80A7DE40 03E00008 */  jr      $ra                        
 /* 02024 80A7DE44 00000000 */  nop
-
-

@@ -1,18 +1,26 @@
+/*
+ * File: z_bg_haka.c
+ * Overlay: ovl_Bg_Haka
+ * Description: Gravestone
+ */
+
 #include "z_bg_haka.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHaka_Init(BgHaka* this, GlobalContext* globalCtx);
 void BgHaka_Destroy(BgHaka* this, GlobalContext* globalCtx);
 void BgHaka_Update(BgHaka* this, GlobalContext* globalCtx);
 void BgHaka_Draw(BgHaka* this, GlobalContext* globalCtx);
-
+void func_8087B758(BgHaka* this, Player* player);
+void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx);
+void func_8087B938(BgHaka* this, GlobalContext* globalCtx);
+void func_8087BAAC(BgHaka* this, GlobalContext* globalCtx);
+void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx);
 /*
 const ActorInit Bg_Haka_InitVars = {
     ACTOR_BG_HAKA,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HAKA,
     sizeof(BgHaka),

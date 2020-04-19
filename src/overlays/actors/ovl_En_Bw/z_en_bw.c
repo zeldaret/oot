@@ -1,6 +1,5 @@
 #include "z_en_bw.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000015
 
 void EnBw_Init(EnBw* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnBw_Draw(EnBw* this, GlobalContext* globalCtx);
 const ActorInit En_Bw_InitVars = {
     ACTOR_EN_BW,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_BW,
     sizeof(EnBw),

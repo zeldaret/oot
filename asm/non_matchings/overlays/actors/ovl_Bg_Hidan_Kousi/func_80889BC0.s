@@ -16,12 +16,10 @@ glabel func_80889BC0
 /* 00298 80889BF8 5F200004 */  bgtzl   $t9, .L80889C0C            
 /* 0029C 80889BFC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80889C00:
-/* 002A0 80889C00 0C222658 */  jal     func_80889960              
+/* 002A0 80889C00 0C222658 */  jal     BgHidanKousi_SetupAction              
 /* 002A4 80889C04 24A59C18 */  addiu   $a1, $a1, %lo(func_80889C18) ## $a1 = 80889C18
 /* 002A8 80889C08 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80889C0C:
 /* 002AC 80889C0C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002B0 80889C10 03E00008 */  jr      $ra                        
 /* 002B4 80889C14 00000000 */  nop
-
-

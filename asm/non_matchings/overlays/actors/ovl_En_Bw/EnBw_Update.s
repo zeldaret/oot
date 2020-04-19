@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_809D16A0
+ .word 0xBD99999A
+glabel D_809D16A4
+    .float 0.4
+
+glabel D_809D16A8
+ .word 0xBDCCCCCD
+glabel D_809D16AC
+ .word 0xBDCCCCCD
+glabel D_809D16B0
+    .float 0.4
+
+.text
 glabel EnBw_Update
 /* 021B0 809D0890 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 021B4 809D0894 3C0F809D */  lui     $t7, %hi(D_809D14CC)       ## $t7 = 809D0000
@@ -315,5 +329,3 @@ glabel EnBw_Update
 /* 0262C 809D0D0C 8FB0002C */  lw      $s0, 0x002C($sp)           
 /* 02630 809D0D10 03E00008 */  jr      $ra                        
 /* 02634 809D0D14 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

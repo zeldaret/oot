@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AD3A04
+    .asciz "../z_en_po_desert.c"
+    .balign 4
+
+glabel D_80AD3A18
+    .asciz "../z_en_po_desert.c"
+    .balign 4
+
+.text
 glabel EnPoDesert_Draw
 /* 00B44 80AD37F4 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00B48 80AD37F8 AFB20030 */  sw      $s2, 0x0030($sp)
@@ -11,7 +21,7 @@ glabel EnPoDesert_Draw
 /* 00B68 80AD3818 24C63A04 */  addiu   $a2, $a2, %lo(D_80AD3A04)  ## $a2 = 80AD3A04
 /* 00B6C 80AD381C 27A40050 */  addiu   $a0, $sp, 0x0050           ## $a0 = FFFFFFE8
 /* 00B70 80AD3820 2407022F */  addiu   $a3, $zero, 0x022F         ## $a3 = 0000022F
-/* 00B74 80AD3824 0C031AB1 */  jal     func_800C6AC4
+/* 00B74 80AD3824 0C031AB1 */  jal     Graph_OpenDisps
 /* 00B78 80AD3828 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00B7C 80AD382C 0C024F61 */  jal     func_80093D84
 /* 00B80 80AD3830 8E440000 */  lw      $a0, 0x0000($s2)           ## 00000000
@@ -27,7 +37,7 @@ glabel EnPoDesert_Draw
 /* 00BA8 80AD3858 240500FF */  addiu   $a1, $zero, 0x00FF         ## $a1 = 000000FF
 /* 00BAC 80AD385C 24060055 */  addiu   $a2, $zero, 0x0055         ## $a2 = 00000055
 /* 00BB0 80AD3860 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00BB4 80AD3864 0C025474 */  jal     func_800951D0
+/* 00BB4 80AD3864 0C025474 */  jal     Gfx_EnvColor
 /* 00BB8 80AD3868 AFA2004C */  sw      $v0, 0x004C($sp)
 /* 00BBC 80AD386C 8FA3004C */  lw      $v1, 0x004C($sp)
 /* 00BC0 80AD3870 3C08DB06 */  lui     $t0, 0xDB06                ## $t0 = DB060000
@@ -43,7 +53,7 @@ glabel EnPoDesert_Draw
 /* 00BE8 80AD3898 92250220 */  lbu     $a1, 0x0220($s1)           ## 00000220
 /* 00BEC 80AD389C 8E440000 */  lw      $a0, 0x0000($s2)           ## 00000000
 /* 00BF0 80AD38A0 AFA20048 */  sw      $v0, 0x0048($sp)
-/* 00BF4 80AD38A4 0C025474 */  jal     func_800951D0
+/* 00BF4 80AD38A4 0C025474 */  jal     Gfx_EnvColor
 /* 00BF8 80AD38A8 AFA90010 */  sw      $t1, 0x0010($sp)
 /* 00BFC 80AD38AC 8FA30048 */  lw      $v1, 0x0048($sp)
 /* 00C00 80AD38B0 3C0A80AD */  lui     $t2, %hi(func_80AD3328)    ## $t2 = 80AD0000
@@ -56,10 +66,10 @@ glabel EnPoDesert_Draw
 /* 00C1C 80AD38CC 3C0880AD */  lui     $t0, %hi(func_80AD3594)    ## $t0 = 80AD0000
 /* 00C20 80AD38D0 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00C24 80AD38D4 3C0DDB06 */  lui     $t5, 0xDB06                ## $t5 = DB060000
-/* 00C28 80AD38D8 3C0E8011 */  lui     $t6, 0x8011                ## $t6 = 80110000
+/* 00C28 80AD38D8 3C0E8011 */  lui     $t6, %hi(D_80116280)
 /* 00C2C 80AD38DC 244C0008 */  addiu   $t4, $v0, 0x0008           ## $t4 = 00000008
 /* 00C30 80AD38E0 AE0C02D0 */  sw      $t4, 0x02D0($s0)           ## 000002D0
-/* 00C34 80AD38E4 25CE6280 */  addiu   $t6, $t6, 0x6280           ## $t6 = 80116280
+/* 00C34 80AD38E4 25CE6280 */  addiu   $t6, %lo(D_80116280)
 /* 00C38 80AD38E8 35AD0030 */  ori     $t5, $t5, 0x0030           ## $t5 = DB060030
 /* 00C3C 80AD38EC AC4D0000 */  sw      $t5, 0x0000($v0)           ## 00000000
 /* 00C40 80AD38F0 1000000A */  beq     $zero, $zero, .L80AD391C
@@ -67,10 +77,10 @@ glabel EnPoDesert_Draw
 .L80AD38F8:
 /* 00C48 80AD38F8 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00C4C 80AD38FC 3C18DB06 */  lui     $t8, 0xDB06                ## $t8 = DB060000
-/* 00C50 80AD3900 3C198011 */  lui     $t9, 0x8011                ## $t9 = 80110000
+/* 00C50 80AD3900 3C198011 */  lui     $t9, %hi(D_80116280+0x10)
 /* 00C54 80AD3904 244F0008 */  addiu   $t7, $v0, 0x0008           ## $t7 = 00000008
 /* 00C58 80AD3908 AE0F02D0 */  sw      $t7, 0x02D0($s0)           ## 000002D0
-/* 00C5C 80AD390C 27396290 */  addiu   $t9, $t9, 0x6290           ## $t9 = 80116290
+/* 00C5C 80AD390C 27396290 */  addiu   $t9, %lo(D_80116280+0x10)
 /* 00C60 80AD3910 37180030 */  ori     $t8, $t8, 0x0030           ## $t8 = DB060030
 /* 00C64 80AD3914 AC580000 */  sw      $t8, 0x0000($v0)           ## 00000000
 /* 00C68 80AD3918 AC590004 */  sw      $t9, 0x0004($v0)           ## 00000004
@@ -89,7 +99,7 @@ glabel EnPoDesert_Draw
 /* 00C98 80AD3948 24C63A18 */  addiu   $a2, $a2, %lo(D_80AD3A18)  ## $a2 = 80AD3A18
 /* 00C9C 80AD394C 8E450000 */  lw      $a1, 0x0000($s2)           ## 00000000
 /* 00CA0 80AD3950 27A40050 */  addiu   $a0, $sp, 0x0050           ## $a0 = FFFFFFE8
-/* 00CA4 80AD3954 0C031AD5 */  jal     func_800C6B54
+/* 00CA4 80AD3954 0C031AD5 */  jal     Graph_CloseDisps
 /* 00CA8 80AD3958 24070255 */  addiu   $a3, $zero, 0x0255         ## $a3 = 00000255
 /* 00CAC 80AD395C 8FBF0034 */  lw      $ra, 0x0034($sp)
 /* 00CB0 80AD3960 8FB00028 */  lw      $s0, 0x0028($sp)
@@ -100,4 +110,3 @@ glabel EnPoDesert_Draw
 /* 00CC4 80AD3974 00000000 */  nop
 /* 00CC8 80AD3978 00000000 */  nop
 /* 00CCC 80AD397C 00000000 */  nop
-

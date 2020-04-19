@@ -55,8 +55,8 @@ glabel ObjHana_Init
 /* 000BC 80B9391C 3C0C80B9 */  lui     $t4, %hi(D_80B93AC4)       ## $t4 = 80B90000
 /* 000C0 80B93920 258C3AC4 */  addiu   $t4, $t4, %lo(D_80B93AC4)  ## $t4 = 80B93AC4
 /* 000C4 80B93924 162C0007 */  bne     $s1, $t4, .L80B93944       
-/* 000C8 80B93928 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
-/* 000CC 80B9392C 95ADF53C */  lhu     $t5, -0x0AC4($t5)          ## 8015F53C
+/* 000C8 80B93928 3C0D8016 */  lui     $t5, %hi(gSaveContext+0xedc)
+/* 000CC 80B9392C 95ADF53C */  lhu     $t5, %lo(gSaveContext+0xedc)($t5)
 /* 000D0 80B93930 31AE0001 */  andi    $t6, $t5, 0x0001           ## $t6 = 00000000
 /* 000D4 80B93934 51C00004 */  beql    $t6, $zero, .L80B93948     
 /* 000D8 80B93938 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -70,5 +70,3 @@ glabel ObjHana_Init
 /* 000EC 80B9394C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 000F0 80B93950 03E00008 */  jr      $ra                        
 /* 000F4 80B93954 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

@@ -1,6 +1,6 @@
 .late_rodata
 glabel D_80139DA8
-    .float 0.00003051851
+    .float 0.00003051851 # (1.0f / 32767.0f)
 
 glabel D_80139DAC
     .float -0.8

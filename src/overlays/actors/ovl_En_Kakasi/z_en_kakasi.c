@@ -1,6 +1,5 @@
 #include "z_en_kakasi.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000009
 
 void EnKakasi_Init(EnKakasi* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnKakasi_Draw(EnKakasi* this, GlobalContext* globalCtx);
 const ActorInit En_Kakasi_InitVars = {
     ACTOR_EN_KAKASI,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_KA,
     sizeof(EnKakasi),

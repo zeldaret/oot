@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80937A14
+    .float 0.01
+
+.text
 glabel BossSst_Update
 /* 07A5C 8093402C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 07A60 80934030 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -214,5 +219,3 @@ glabel BossSst_Update
 /* 07D5C 8093432C 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 07D60 80934330 03E00008 */  jr      $ra                        
 /* 07D64 80934334 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

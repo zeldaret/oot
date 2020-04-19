@@ -1,3 +1,27 @@
+.rdata
+glabel D_809F16B0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809F16B4
+    .asciz "\x1B[32m☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n\x1B[m"
+    .balign 4
+
+.balign 4
+
+glabel D_809F16F0
+    .asciz "\x1B[32m☆☆☆☆☆ ザコザコ ☆☆☆☆☆ %x\n\x1B[m"
+    .balign 4
+
+glabel D_809F171C
+    .asciz "\x1B[32m☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n\x1B[m"
+    .balign 4
+
+.late_rodata
+glabel D_809F197C
+    .float 4050.0
+
+.text
 glabel EnDntDemo_Init
 /* 0000C 809F08EC 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00010 809F08F0 AFB30044 */  sw      $s3, 0x0044($sp)           
@@ -118,5 +142,3 @@ glabel EnDntDemo_Init
 /* 001B8 809F0A98 8FB00038 */  lw      $s0, 0x0038($sp)           
 /* 001BC 809F0A9C 03E00008 */  jr      $ra                        
 /* 001C0 809F0AA0 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

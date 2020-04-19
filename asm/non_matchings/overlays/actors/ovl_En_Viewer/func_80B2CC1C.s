@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80B2D1C4
+ .word 0xC61C4000
+glabel D_80B2D1C8
+    .float 3.14159274101
+
+.text
 glabel func_80B2CC1C
 /* 02A1C 80B2CC1C 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 02A20 80B2CC20 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -6,10 +13,10 @@ glabel func_80B2CC1C
 /* 02A2C 80B2CC2C AFA40040 */  sw      $a0, 0x0040($sp)           
 /* 02A30 80B2CC30 84AE001C */  lh      $t6, 0x001C($a1)           ## 0000001C
 /* 02A34 80B2CC34 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
-/* 02A38 80B2CC38 3C118016 */  lui     $s1, 0x8016                ## $s1 = 80160000
+/* 02A38 80B2CC38 3C118016 */  lui     $s1, %hi(gGameInfo)
 /* 02A3C 80B2CC3C 000E7A03 */  sra     $t7, $t6,  8               
 /* 02A40 80B2CC40 15E10099 */  bne     $t7, $at, .L80B2CEA8       
-/* 02A44 80B2CC44 2631FA90 */  addiu   $s1, $s1, 0xFA90           ## $s1 = 8015FA90
+/* 02A44 80B2CC44 2631FA90 */  addiu   $s1, %lo(gGameInfo)
 /* 02A48 80B2CC48 8E380000 */  lw      $t8, 0x0000($s1)           ## 8015FA90
 /* 02A4C 80B2CC4C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 02A50 80B2CC50 44811000 */  mtc1    $at, $f2                   ## $f2 = 10.00
@@ -170,4 +177,3 @@ glabel func_80B2CC1C
 /* 02CB4 80B2CEB4 03E00008 */  jr      $ra                        
 /* 02CB8 80B2CEB8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 02CBC 80B2CEBC 00000000 */  nop
-

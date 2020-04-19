@@ -45,7 +45,7 @@ glabel func_80837704
 /* 05594 808377A4 260501B4 */  addiu   $a1, $s0, 0x01B4           ## $a1 = 000001B4
 /* 05598 808377A8 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 0559C 808377AC E7A40010 */  swc1    $f4, 0x0010($sp)
-/* 055A0 808377B0 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 055A0 808377B0 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 055A4 808377B4 E7AA001C */  swc1    $f10, 0x001C($sp)
 /* 055A8 808377B8 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 055AC 808377BC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
@@ -56,5 +56,3 @@ glabel func_80837704
 /* 055C0 808377D0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 055C4 808377D4 03E00008 */  jr      $ra
 /* 055C8 808377D8 00000000 */  nop
-
-

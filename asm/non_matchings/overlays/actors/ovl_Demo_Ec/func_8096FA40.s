@@ -23,8 +23,8 @@ glabel func_8096FA40
 /* 025E4 8096FA94 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 025E8 8096FA98 0C25B575 */  jal     func_8096D5D4              
 /* 025EC 8096FA9C 8FA5002C */  lw      $a1, 0x002C($sp)           
-/* 025F0 8096FAA0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 025F4 8096FAA4 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 025F0 8096FAA0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 025F4 8096FAA4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 025F8 8096FAA8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 025FC 8096FAAC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 02600 8096FAB0 0C00AC78 */  jal     ActorShape_Init
@@ -39,5 +39,3 @@ glabel func_8096FA40
 /* 02620 8096FAD0 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 02624 8096FAD4 03E00008 */  jr      $ra                        
 /* 02628 8096FAD8 00000000 */  nop
-
-

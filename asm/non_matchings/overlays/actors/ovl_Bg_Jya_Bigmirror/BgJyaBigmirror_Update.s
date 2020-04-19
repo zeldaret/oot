@@ -17,5 +17,3 @@ glabel BgJyaBigmirror_Update
 /* 0057C 80893C5C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00580 80893C60 03E00008 */  jr      $ra                        
 /* 00584 80893C64 00000000 */  nop
-
-

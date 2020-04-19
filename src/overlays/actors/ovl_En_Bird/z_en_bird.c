@@ -27,7 +27,6 @@ typedef struct {
     /* 0x01C2 */ char unk_1C2[0x1A];
 } EnBird; // size = 0x01C4
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnBird_Init(EnBird* this, GlobalContext* globalCtx);
@@ -43,7 +42,6 @@ void func_809C1CAC(EnBird* this, s16 params);
 const ActorInit En_Bird_InitVars = {
     ACTOR_EN_BIRD,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_BIRD,
     sizeof(EnBird),
@@ -92,7 +90,7 @@ void func_809C1CAC(EnBird* this, s16 params) {
     AnimationHeader* anim = &D_0600006C;
 
     this->unk_198 = Math_Rand_S16Offset(5, 0x23);
-    SkelAnime_ChangeAnimation(&this->skelAnime, anim, playbackSpeed, 0.0f, frameCount, 0, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, anim, playbackSpeed, 0.0f, frameCount, 0, 0.0f);
     EnBird_SetNewUpdate(this, func_809C1D60);
 }
 
@@ -146,5 +144,5 @@ void EnBird_Update(EnBird* this, GlobalContext* globalCtx) {
 }
 
 void EnBird_Draw(EnBird* this, GlobalContext* globalCtx) {
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, 0, NULL, NULL);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 0, NULL, NULL);
 }

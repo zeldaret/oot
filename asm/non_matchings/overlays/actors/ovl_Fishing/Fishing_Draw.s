@@ -1,3 +1,29 @@
+.late_rodata
+glabel D_80B7B758
+    .float 3.14159274101
+
+glabel D_80B7B75C
+    .float 3.14159274101
+
+glabel D_80B7B760
+    .float 3.14159274101
+
+glabel D_80B7B764
+    .float 9.58738019108e-05
+
+glabel D_80B7B768
+    .float 1.57079637051
+
+glabel D_80B7B76C
+    .float 0.01
+
+glabel D_80B7B770
+    .float 9.58738019108e-05
+
+glabel D_80B7B774
+    .float -1.57079637051
+
+.text
 glabel Fishing_Draw
 /* 0C444 80B75DE4 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0C448 80B75DE8 AFB00028 */  sw      $s0, 0x0028($sp)
@@ -146,5 +172,3 @@ glabel Fishing_Draw
 /* 0C67C 80B7601C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0C680 80B76020 03E00008 */  jr      $ra
 /* 0C684 80B76024 00000000 */  nop
-
-

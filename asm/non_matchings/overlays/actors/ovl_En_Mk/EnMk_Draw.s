@@ -24,4 +24,3 @@ glabel EnMk_Draw
 /* 00CF4 80AAD5F4 00000000 */  nop
 /* 00CF8 80AAD5F8 00000000 */  nop
 /* 00CFC 80AAD5FC 00000000 */  nop
-

@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A55F90
+    .asciz "[32m☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel EnHeishi3_Init
 /* 00000 80A55640 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 80A55644 3C0180A5 */  lui     $at, %hi(D_80A55F40)       ## $at = 80A50000
@@ -27,8 +33,8 @@ glabel EnHeishi3_Init
 /* 0005C 80A5569C 0C00B58B */  jal     Actor_SetScale
               
 /* 00060 80A556A0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00064 80A556A4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00068 80A556A8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00064 80A556A4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00068 80A556A8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0006C 80A556AC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00070 80A556B0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00074 80A556B4 0C00AC78 */  jal     ActorShape_Init
@@ -85,5 +91,3 @@ glabel EnHeishi3_Init
 /* 0012C 80A5576C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00130 80A55770 03E00008 */  jr      $ra                        
 /* 00134 80A55774 00000000 */  nop
-
-

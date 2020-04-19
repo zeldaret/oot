@@ -1,11 +1,25 @@
+.rdata
+glabel D_80A6EE10
+    .asciz "[36m ヒヨコの店(大人の時) \n[m"
+    .balign 4
+
+glabel D_80A6EE30
+    .asciz "[36m ヒヨコ屋閉店 \n[m"
+    .balign 4
+
+glabel D_80A6EE48
+    .asciz "[36m ヒヨコの店(子人の時) \n[m"
+    .balign 4
+
+.text
 glabel EnHs_Init
 /* 00008 80A6E3A8 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0000C 80A6E3AC AFB00028 */  sw      $s0, 0x0028($sp)
 /* 00010 80A6E3B0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00014 80A6E3B4 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00018 80A6E3B8 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 0001C 80A6E3BC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00020 80A6E3C0 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0001C 80A6E3BC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00020 80A6E3C0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00024 80A6E3C4 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00028 80A6E3C8 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 0002C 80A6E3CC 0C00AC78 */  jal     ActorShape_Init
@@ -27,7 +41,7 @@ glabel EnHs_Init
 /* 00068 80A6E408 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0006C 80A6E40C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00070 80A6E410 24A505C0 */  addiu   $a1, $a1, 0x05C0           ## $a1 = 060005C0
-/* 00074 80A6E414 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 00074 80A6E414 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00078 80A6E418 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 0007C 80A6E41C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00080 80A6E420 AFA50034 */  sw      $a1, 0x0034($sp)
@@ -48,8 +62,8 @@ glabel EnHs_Init
 /* 000B4 80A6E454 0C00B58B */  jal     Actor_SetScale
 
 /* 000B8 80A6E458 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000BC 80A6E45C 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 000C0 80A6E460 8D08E664 */  lw      $t0, -0x199C($t0)          ## 8015E664
+/* 000BC 80A6E45C 3C088016 */  lui     $t0, %hi(gSaveContext+4)
+/* 000C0 80A6E460 8D08E664 */  lw      $t0, %lo(gSaveContext+4)($t0)
 /* 000C4 80A6E464 24090001 */  addiu   $t1, $zero, 0x0001         ## $t1 = 00000001
 /* 000C8 80A6E468 3C0480A7 */  lui     $a0, %hi(D_80A6EE48)       ## $a0 = 80A70000
 /* 000CC 80A6E46C 51000004 */  beql    $t0, $zero, .L80A6E480
@@ -70,8 +84,8 @@ glabel EnHs_Init
 /* 00100 80A6E4A0 24A5E9AC */  addiu   $a1, $a1, %lo(func_80A6E9AC) ## $a1 = 80A6E9AC
 /* 00104 80A6E4A4 0C29B8E8 */  jal     func_80A6E3A0
 /* 00108 80A6E4A8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0010C 80A6E4AC 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
-/* 00110 80A6E4B0 956BF556 */  lhu     $t3, -0x0AAA($t3)          ## 8015F556
+/* 0010C 80A6E4AC 3C0B8016 */  lui     $t3, %hi(gSaveContext+0xef6)
+/* 00110 80A6E4B0 956BF556 */  lhu     $t3, %lo(gSaveContext+0xef6)($t3)
 /* 00114 80A6E4B4 3C0480A7 */  lui     $a0, %hi(D_80A6EE30)       ## $a0 = 80A70000
 /* 00118 80A6E4B8 316C0001 */  andi    $t4, $t3, 0x0001           ## $t4 = 00000000
 /* 0011C 80A6E4BC 5180000E */  beql    $t4, $zero, .L80A6E4F8
@@ -101,5 +115,3 @@ glabel EnHs_Init
 /* 00168 80A6E508 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 0016C 80A6E50C 03E00008 */  jr      $ra
 /* 00170 80A6E510 00000000 */  nop
-
-

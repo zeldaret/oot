@@ -1,3 +1,9 @@
+.rdata
+glabel D_809F3090
+    .asciz "\x1B[33m☆☆☆☆☆ 時間 ☆☆☆☆☆ %d\n\x1B[m"
+    .balign 4
+
+.text
 glabel EnDntJiji_Update
 /* 01128 809F2C08 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0112C 809F2C0C AFA5003C */  sw      $a1, 0x003C($sp)           
@@ -9,10 +15,10 @@ glabel EnDntJiji_Update
               
 /* 01144 809F2C24 34A5C28F */  ori     $a1, $a1, 0xC28F           ## $a1 = 3C75C28F
 /* 01148 809F2C28 860E0246 */  lh      $t6, 0x0246($s0)           ## 00000246
-/* 0114C 809F2C2C 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 0114C 809F2C2C 3C188016 */  lui     $t8, %hi(gGameInfo)
 /* 01150 809F2C30 25CF0001 */  addiu   $t7, $t6, 0x0001           ## $t7 = 00000001
 /* 01154 809F2C34 A60F0246 */  sh      $t7, 0x0246($s0)           ## 00000246
-/* 01158 809F2C38 8F18FA90 */  lw      $t8, -0x0570($t8)          ## 8015FA90
+/* 01158 809F2C38 8F18FA90 */  lw      $t8, %lo(gGameInfo)($t8)
 /* 0115C 809F2C3C 871912D4 */  lh      $t9, 0x12D4($t8)           ## 801612D4
 /* 01160 809F2C40 13200004 */  beq     $t9, $zero, .L809F2C54     
 /* 01164 809F2C44 3C04809F */  lui     $a0, %hi(D_809F3090)       ## $a0 = 809F0000
@@ -147,5 +153,3 @@ glabel EnDntJiji_Update
 /* 01314 809F2DF4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 01318 809F2DF8 03E00008 */  jr      $ra                        
 /* 0131C 809F2DFC 00000000 */  nop
-
-

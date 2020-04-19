@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80AAC588
+    .float 0.001
+
+.text
 glabel func_80AAB948
 /* 016F8 80AAB948 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 016FC 80AAB94C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -84,10 +89,10 @@ glabel func_80AAB948
 /* 01828 80AABA78 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 .L80AABA7C:
 /* 0182C 80AABA7C 14410032 */  bne     $v0, $at, .L80AABB48       
-/* 01830 80AABA80 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 01834 80AABA84 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
-/* 01838 80AABA88 3C198012 */  lui     $t9, 0x8012                ## $t9 = 80120000
-/* 0183C 80AABA8C 8F397168 */  lw      $t9, 0x7168($t9)           ## 80127168
+/* 01830 80AABA80 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 01834 80AABA84 2463E660 */  addiu   $v1, %lo(gSaveContext)
+/* 01838 80AABA88 3C198012 */  lui     $t9, %hi(gBitFlags+0x48)
+/* 0183C 80AABA8C 8F397168 */  lw      $t9, %lo(gBitFlags+0x48)($t9)
 /* 01840 80AABA90 8C6800A4 */  lw      $t0, 0x00A4($v1)           ## 8015E704
 /* 01844 80AABA94 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
 /* 01848 80AABA98 03284824 */  and     $t1, $t9, $t0              
@@ -193,5 +198,3 @@ glabel func_80AAB948
 /* 019B4 80AABC04 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 019B8 80AABC08 03E00008 */  jr      $ra                        
 /* 019BC 80AABC0C 00000000 */  nop
-
-

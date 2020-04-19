@@ -6,24 +6,22 @@
 
 #include "z_door_ana.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000000
 
-static void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx);
-static void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx);
-static void DoorAna_Update(DoorAna* this, GlobalContext* globalCtx);
-static void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Update(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx);
 
-static void DoorAna_SetupAction(DoorAna* this, ActorFunc func);
+void DoorAna_SetupAction(DoorAna* this, ActorFunc func);
 
-static void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx);
-static void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx);
-static void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx);
+void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx);
 
 const ActorInit Door_Ana_InitVars = {
     ACTOR_DOOR_ANA,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(DoorAna),
@@ -47,14 +45,14 @@ static s16 entrances[] = {
 };
 
 // display list
-extern Gfx* D_05001390;
+extern Gfx D_05001390[];
 
 // sets current actionFunc to be ran on next update call
-static void DoorAna_SetupAction(DoorAna* this, ActorFunc func) {
+void DoorAna_SetupAction(DoorAna* this, ActorFunc func) {
     this->actionFunc = func;
 }
 
-static void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx) {
     ColliderCylinderMain* collider;
 
     this->actor.shape.rot.z = 0;
@@ -77,7 +75,7 @@ static void DoorAna_Init(DoorAna* this, GlobalContext* globalCtx) {
     this->actor.unk_1F = 0;
 }
 
-static void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx) {
     // free collider if it has one
     if ((this->actor.params & 0x200) != 0) {
         ActorCollider_FreeCylinder(globalCtx, &this->collider);
@@ -85,7 +83,7 @@ static void DoorAna_Destroy(DoorAna* this, GlobalContext* globalCtx) {
 }
 
 // update routine for grottos that are currently "hidden"/unopened
-static void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
     bool openGrotto = false;
     if ((this->actor.params & 0x200) == 0) {
         // opening with song of storms
@@ -113,7 +111,7 @@ static void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
 }
 
 // update routine for grottos that are open
-static void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
     Player* player;
     s32 destinationIdx;
 
@@ -122,7 +120,7 @@ static void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
         if ((this->actor.unk_1F != 0) && (globalCtx->sceneLoadFlag == 0) && (player->stateFlags1 & 0x80000000) &&
             (player->unk_84F == 0)) {
             destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;
-            func_800C0AF4(globalCtx, 1, 0x4FF);
+            Gameplay_SetupRespawnPoint(globalCtx, RESPAWN_MODE_RETURN, 0x4FF);
             gSaveContext.respawn[RESPAWN_MODE_RETURN].pos.y = this->actor.posRot.pos.y;
             gSaveContext.respawn[RESPAWN_MODE_RETURN].yaw = this->actor.initPosRot.rot.y;
             gSaveContext.respawn[RESPAWN_MODE_RETURN].data = this->actor.params & 0xFFFF;
@@ -132,7 +130,7 @@ static void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
             globalCtx->nextEntranceIndex = entrances[destinationIdx];
             DoorAna_SetupAction(this, (ActorFunc)&DoorAna_Update_Entering);
         } else {
-            if (func_8008E988(globalCtx) == 0 && !(player->stateFlags1 & 0x8800000) &&
+            if (!func_8008E988(globalCtx) && !(player->stateFlags1 & 0x8800000) &&
                 this->actor.xzDistanceFromLink <= 15.0f && -50.0f <= this->actor.yDistanceFromLink &&
                 this->actor.yDistanceFromLink <= 15.0f) {
                 player->stateFlags1 |= 0x80000000;
@@ -146,7 +144,7 @@ static void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
 }
 
 // update function for after the player has triggered the grotto
-static void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx) {
     Player* player;
 
     if (this->actor.yDistanceFromLink <= 0.0f && 15.0f < this->actor.xzDistanceFromLink) {
@@ -156,22 +154,20 @@ static void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx) {
     }
 }
 
-static void DoorAna_Update(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Update(DoorAna* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     // changes the grottos facing angle based on camera angle
-    this->actor.shape.rot.y =
-        func_8005A9F4(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0]) + 0x8000;
+    this->actor.shape.rot.y = func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x8000;
 }
 
-static void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx) {
+void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx** dList = &D_05001390; // required for stack placement?
-    Gfx* gfxArr[3];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_door_ana.c", 440);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_door_ana.c", 440);
     func_80093D84(globalCtx->state.gfxCtx);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_ana.c", 446),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyXlu.p++, dList);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_door_ana.c", 449);
+    gSPDisplayList(gfxCtx->polyXlu.p++, D_05001390);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_door_ana.c", 449);
 }

@@ -8,5 +8,3 @@ glabel BgMizuMovebg_Update
 /* 00BF4 8089E824 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00BF8 8089E828 03E00008 */  jr      $ra                        
 /* 00BFC 8089E82C 00000000 */  nop
-
-

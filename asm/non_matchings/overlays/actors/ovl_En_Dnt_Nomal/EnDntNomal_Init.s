@@ -1,3 +1,29 @@
+.rdata
+glabel D_809F5EB0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809F5EB4
+    .asciz "[32m☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F5EE8
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809F5EEC
+    .asciz "[32m☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F5F28
+    .asciz "[35m なにみの？ %d\n[m\n"
+    .balign 4
+
+glabel D_809F5F44
+    .asciz "[36m バンクおかしいしぞ！%d\n[m\n"
+    .balign 4
+
+.text
 glabel EnDntNomal_Init
 /* 00000 809F32C0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 809F32C4 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -110,5 +136,3 @@ glabel EnDntNomal_Init
 /* 0016C 809F342C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00170 809F3430 03E00008 */  jr      $ra                        
 /* 00174 809F3434 00000000 */  nop
-
-

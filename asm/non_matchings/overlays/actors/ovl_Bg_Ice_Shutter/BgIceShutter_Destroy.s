@@ -12,5 +12,3 @@ glabel BgIceShutter_Destroy
 /* 00228 80891CE8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0022C 80891CEC 03E00008 */  jr      $ra                        
 /* 00230 80891CF0 00000000 */  nop
-
-

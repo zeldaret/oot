@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808D1FBC
+    .float 0.1
+
+.text
 glabel func_808D07A4
 /* 059E4 808D07A4 AFA40000 */  sw      $a0, 0x0000($sp)           
 /* 059E8 808D07A8 24040002 */  addiu   $a0, $zero, 0x0002         ## $a0 = 00000002
@@ -71,5 +76,3 @@ glabel func_808D07A4
 .L808D089C:
 /* 05ADC 808D089C 03E00008 */  jr      $ra                        
 /* 05AE0 808D08A0 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
-
-

@@ -10,5 +10,3 @@ glabel EnFdFire_Destroy
 /* 00250 80A0E700 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00254 80A0E704 03E00008 */  jr      $ra                        
 /* 00258 80A0E708 00000000 */  nop
-
-

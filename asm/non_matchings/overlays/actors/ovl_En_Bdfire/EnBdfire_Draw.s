@@ -10,4 +10,3 @@ glabel EnBdfire_Draw
 /* 00AB4 809BCAE4 00000000 */  nop
 /* 00AB8 809BCAE8 00000000 */  nop
 /* 00ABC 809BCAEC 00000000 */  nop
-

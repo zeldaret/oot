@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B65294
+    .asciz "STANDBY !!\n"
+    .balign 4
+
+glabel D_80B652A0
+    .asciz "XP2  = %f\n"
+    .balign 4
+
+glabel D_80B652AC
+    .asciz "ZP2  = %f\n"
+    .balign 4
+
+glabel D_80B652B8
+    .asciz "arg_data ------------------------------------>%d\n"
+    .balign 4
+
+.text
 glabel func_80B6404C
 /* 0168C 80B6404C 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 01690 80B64050 AFB00038 */  sw      $s0, 0x0038($sp)
@@ -97,7 +115,7 @@ glabel func_80B6404C
 /* 017E4 80B641A4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 017E8 80B641A8 24A5B4C8 */  addiu   $a1, $a1, 0xB4C8           ## $a1 = 0600B4C8
 /* 017EC 80B641AC 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 017F0 80B641B0 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 017F0 80B641B0 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 017F4 80B641B4 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 017F8 80B641B8 240B8000 */  addiu   $t3, $zero, 0x8000         ## $t3 = FFFF8000
 /* 017FC 80B641BC 1000001E */  beq     $zero, $zero, .L80B64238
@@ -140,5 +158,3 @@ glabel func_80B6404C
 /* 01880 80B64240 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 01884 80B64244 03E00008 */  jr      $ra
 /* 01888 80B64248 00000000 */  nop
-
-

@@ -5,7 +5,7 @@ glabel func_809EC9C8
 /* 00154 809EC9D4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00158 809EC9D8 24A515B0 */  addiu   $a1, $a1, 0x15B0           ## $a1 = 060015B0
 /* 0015C 809EC9DC AFA60018 */  sw      $a2, 0x0018($sp)
-/* 00160 809EC9E0 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 00160 809EC9E0 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00164 809EC9E4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00168 809EC9E8 8FA60018 */  lw      $a2, 0x0018($sp)
 /* 0016C 809EC9EC 0C03F66B */  jal     Math_Rand_ZeroOne
@@ -34,5 +34,3 @@ glabel func_809EC9C8
 /* 001C4 809ECA44 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001C8 809ECA48 03E00008 */  jr      $ra
 /* 001CC 809ECA4C 00000000 */  nop
-
-

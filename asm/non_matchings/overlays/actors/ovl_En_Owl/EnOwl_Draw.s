@@ -1,3 +1,13 @@
+.rdata
+glabel D_80ACD7DC
+    .asciz "../z_en_owl.c"
+    .balign 4
+
+glabel D_80ACD7EC
+    .asciz "../z_en_owl.c"
+    .balign 4
+
+.text
 glabel EnOwl_Draw
 /* 03098 80ACCFB8 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0309C 80ACCFBC AFBF0024 */  sw      $ra, 0x0024($sp)
@@ -8,7 +18,7 @@ glabel EnOwl_Draw
 /* 030B0 80ACCFD0 24C6D7DC */  addiu   $a2, $a2, %lo(D_80ACD7DC)  ## $a2 = 80ACD7DC
 /* 030B4 80ACCFD4 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFE4
 /* 030B8 80ACCFD8 240708C7 */  addiu   $a3, $zero, 0x08C7         ## $a3 = 000008C7
-/* 030BC 80ACCFDC 0C031AB1 */  jal     func_800C6AC4
+/* 030BC 80ACCFDC 0C031AB1 */  jal     Graph_OpenDisps
 /* 030C0 80ACCFE0 AFA50044 */  sw      $a1, 0x0044($sp)
 /* 030C4 80ACCFE4 8FAF0054 */  lw      $t7, 0x0054($sp)
 /* 030C8 80ACCFE8 0C0250F2 */  jal     func_800943C8
@@ -23,7 +33,7 @@ glabel EnOwl_Draw
 /* 030EC 80ACD00C ACB802C0 */  sw      $t8, 0x02C0($a1)           ## 000002C0
 /* 030F0 80ACD010 AC790000 */  sw      $t9, 0x0000($v1)           ## 00000000
 /* 030F4 80ACD014 850903F4 */  lh      $t1, 0x03F4($t0)           ## 000003F4
-/* 030F8 80ACD018 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 030F8 80ACD018 3C0F8016 */  lui     $t7, %hi(gSegments)
 /* 030FC 80ACD01C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 03100 80ACD020 00095080 */  sll     $t2, $t1,  2
 /* 03104 80ACD024 008A2021 */  addu    $a0, $a0, $t2
@@ -34,7 +44,7 @@ glabel EnOwl_Draw
 /* 03118 80ACD038 000C6F02 */  srl     $t5, $t4, 28
 /* 0311C 80ACD03C 000D7080 */  sll     $t6, $t5,  2
 /* 03120 80ACD040 01EE7821 */  addu    $t7, $t7, $t6
-/* 03124 80ACD044 8DEF6FA8 */  lw      $t7, 0x6FA8($t7)           ## 80166FA8
+/* 03124 80ACD044 8DEF6FA8 */  lw      $t7, %lo(gSegments)($t7)
 /* 03128 80ACD048 00815824 */  and     $t3, $a0, $at
 /* 0312C 80ACD04C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 03130 80ACD050 016FC021 */  addu    $t8, $t3, $t7
@@ -57,11 +67,9 @@ glabel EnOwl_Draw
 /* 03174 80ACD094 24C6D7EC */  addiu   $a2, $a2, %lo(D_80ACD7EC)  ## $a2 = 80ACD7EC
 /* 03178 80ACD098 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFE4
 /* 0317C 80ACD09C 240708D8 */  addiu   $a3, $zero, 0x08D8         ## $a3 = 000008D8
-/* 03180 80ACD0A0 0C031AD5 */  jal     func_800C6B54
+/* 03180 80ACD0A0 0C031AD5 */  jal     Graph_CloseDisps
 /* 03184 80ACD0A4 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 03188 80ACD0A8 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 0318C 80ACD0AC 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 03190 80ACD0B0 03E00008 */  jr      $ra
 /* 03194 80ACD0B4 00000000 */  nop
-
-

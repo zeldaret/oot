@@ -1,3 +1,9 @@
+.rdata
+glabel D_8089A070
+    .asciz "女神リフト DT\n"
+    .balign 4
+
+.text
 glabel BgJyaLift_Destroy
 /* 00124 80899CC4 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00128 80899CC8 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -23,5 +29,3 @@ glabel BgJyaLift_Destroy
 /* 0016C 80899D0C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00170 80899D10 03E00008 */  jr      $ra                        
 /* 00174 80899D14 00000000 */  nop
-
-

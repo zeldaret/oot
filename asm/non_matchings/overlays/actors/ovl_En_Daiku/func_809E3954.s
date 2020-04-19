@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_809E41B8
+    .float 9.58738019108e-05
+
+glabel D_809E41BC
+ .word 0x4622F983
+
+.text
 glabel func_809E3954
 /* 00E24 809E3954 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00E28 809E3958 AFB0002C */  sw      $s0, 0x002C($sp)           
@@ -6,15 +14,15 @@ glabel func_809E3954
 /* 00E34 809E3964 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00E38 809E3968 AFBF0034 */  sw      $ra, 0x0034($sp)           
 /* 00E3C 809E396C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00E40 809E3970 0C0300E1 */  jal     func_800C0384              
+/* 00E40 809E3970 0C0300E1 */  jal     Gameplay_ClearCamera              
 /* 00E44 809E3974 86050206 */  lh      $a1, 0x0206($s0)           ## 00000206
 /* 00E48 809E3978 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E4C 809E397C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00E50 809E3980 0C0300C5 */  jal     func_800C0314              
+/* 00E50 809E3980 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 00E54 809E3984 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 00E58 809E3988 AE0001FC */  sw      $zero, 0x01FC($s0)         ## 000001FC
-/* 00E5C 809E398C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00E60 809E3990 95CEF546 */  lhu     $t6, -0x0ABA($t6)          ## 8015F546
+/* 00E5C 809E398C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xee6)
+/* 00E60 809E3990 95CEF546 */  lhu     $t6, %lo(gSaveContext+0xee6)($t6)
 /* 00E64 809E3994 2401000F */  addiu   $at, $zero, 0x000F         ## $at = 0000000F
 /* 00E68 809E3998 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E6C 809E399C 31CF000F */  andi    $t7, $t6, 0x000F           ## $t7 = 00000000
@@ -81,5 +89,3 @@ glabel func_809E3954
 /* 00F50 809E3A80 8FB10030 */  lw      $s1, 0x0030($sp)           
 /* 00F54 809E3A84 03E00008 */  jr      $ra                        
 /* 00F58 809E3A88 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

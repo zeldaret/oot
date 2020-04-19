@@ -1,3 +1,17 @@
+.rdata
+glabel D_808A0580
+    .asciz "<コンストラクト>%x %x %x\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_808A05F0
+.word L8089FAB4
+.word L8089FCCC
+.word L8089FBFC
+.word L8089FC3C
+.word L8089FC84
+
+.text
 glabel BgMizuWater_Init
 /* 0018C 8089FA3C 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00190 8089FA40 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -31,8 +45,8 @@ glabel BgMizuWater_Init
 /* 001FC 8089FAAC 01200008 */  jr      $t1                        
 /* 00200 8089FAB0 00000000 */  nop
 glabel L8089FAB4
-/* 00204 8089FAB4 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 00208 8089FAB8 8D4AFA90 */  lw      $t2, -0x0570($t2)          ## 8015FA90
+/* 00204 8089FAB4 3C0A8016 */  lui     $t2, %hi(gGameInfo)
+/* 00208 8089FAB8 8D4AFA90 */  lw      $t2, %lo(gGameInfo)($t2)
 /* 0020C 8089FABC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00210 8089FAC0 854B1532 */  lh      $t3, 0x1532($t2)           ## 80161532
 /* 00214 8089FAC4 55600012 */  bnel    $t3, $zero, .L8089FB10     
@@ -198,5 +212,3 @@ glabel L8089FCCC
 /* 00430 8089FCE0 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 00434 8089FCE4 03E00008 */  jr      $ra                        
 /* 00438 8089FCE8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

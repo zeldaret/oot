@@ -1,3 +1,12 @@
+.late_rodata
+glabel jtbl_80A4FF24
+.word L80A4F8F8
+.word L80A4F8D4
+.word L80A4F8B0
+.word L80A4F88C
+.word L80A4F868
+
+.text
 glabel EnGs_Update
 /* 014D4 80A4F7F4 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 014D8 80A4F7F8 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -112,5 +121,3 @@ glabel L80A4F8F8
 /* 0165C 80A4F97C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 01660 80A4F980 03E00008 */  jr      $ra                        
 /* 01664 80A4F984 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

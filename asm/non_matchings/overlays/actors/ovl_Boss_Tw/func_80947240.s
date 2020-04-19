@@ -1,3 +1,27 @@
+.rdata
+glabel D_8094ADE8
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094ADF8
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AE08
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+glabel D_8094AE18
+    .asciz "../z_boss_tw.c"
+    .balign 4
+
+.late_rodata
+glabel D_8094B1CC
+ .word 0x3DB851EC
+glabel D_8094B1D0
+ .word 0x3DB851EC
+
+.text
 glabel func_80947240
 /* 0E570 80947240 27BDFF30 */  addiu   $sp, $sp, 0xFF30           ## $sp = FFFFFF30
 /* 0E574 80947244 AFB40058 */  sw      $s4, 0x0058($sp)           
@@ -19,7 +43,7 @@ glabel func_80947240
 /* 0E5B4 80947284 24C6ADE8 */  addiu   $a2, $a2, %lo(D_8094ADE8)  ## $a2 = 8094ADE8
 /* 0E5B8 80947288 27A400AC */  addiu   $a0, $sp, 0x00AC           ## $a0 = FFFFFFDC
 /* 0E5BC 8094728C 24072344 */  addiu   $a3, $zero, 0x2344         ## $a3 = 00002344
-/* 0E5C0 80947290 0C031AB1 */  jal     func_800C6AC4              
+/* 0E5C0 80947290 0C031AB1 */  jal     Graph_OpenDisps              
 /* 0E5C4 80947294 00A09025 */  or      $s2, $a1, $zero            ## $s2 = 00000000
 /* 0E5C8 80947298 0C024F61 */  jal     func_80093D84              
 /* 0E5CC 8094729C 8E840000 */  lw      $a0, 0x0000($s4)           ## 00000000
@@ -39,8 +63,8 @@ glabel func_80947240
 /* 0E604 809472D4 35EFFF80 */  ori     $t7, $t7, 0xFF80           ## $t7 = FFD7FF80
 /* 0E608 809472D8 4600218D */  trunc.w.s $f6, $f4                   
 /* 0E60C 809472DC 3C0EFB00 */  lui     $t6, 0xFB00                ## $t6 = FB000000
-/* 0E610 809472E0 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 0E614 809472E4 25296FA8 */  addiu   $t1, $t1, 0x6FA8           ## $t1 = 80166FA8
+/* 0E610 809472E0 3C098016 */  lui     $t1, %hi(gSegments)
+/* 0E614 809472E4 25296FA8 */  addiu   $t1, %lo(gSegments)
 /* 0E618 809472E8 440A3000 */  mfc1    $t2, $f6                   
 /* 0E61C 809472EC 3C15DB06 */  lui     $s5, 0xDB06                ## $s5 = DB060000
 /* 0E620 809472F0 36B50020 */  ori     $s5, $s5, 0x0020           ## $s5 = DB060020
@@ -111,7 +135,7 @@ glabel func_80947240
 /* 0E720 809473F0 031E0019 */  multu   $t8, $s8                   
 /* 0E724 809473F4 0000C812 */  mflo    $t9                        
 /* 0E728 809473F8 03283821 */  addu    $a3, $t9, $t0              
-/* 0E72C 809473FC 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0E72C 809473FC 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0E730 80947400 30E700FF */  andi    $a3, $a3, 0x00FF           ## $a3 = 00000000
 /* 0E734 80947404 AE220004 */  sw      $v0, 0x0004($s1)           ## 0601A434
 /* 0E738 80947408 866E0156 */  lh      $t6, 0x0156($s3)           ## 00000156
@@ -195,7 +219,7 @@ glabel func_80947240
 /* 0E86C 8094753C 0018C880 */  sll     $t9, $t8,  2               
 /* 0E870 80947540 3C0EDE00 */  lui     $t6, 0xDE00                ## $t6 = DE000000
 /* 0E874 80947544 440A8000 */  mfc1    $t2, $f16                  
-/* 0E878 80947548 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
+/* 0E878 80947548 3C088016 */  lui     $t0, %hi(gSegments)
 /* 0E87C 8094754C 01194021 */  addu    $t0, $t0, $t9              
 /* 0E880 80947550 314B00FF */  andi    $t3, $t2, 0x00FF           ## $t3 = 00000000
 /* 0E884 80947554 01616025 */  or      $t4, $t3, $at              ## $t4 = C3E1EB00
@@ -206,7 +230,7 @@ glabel func_80947240
 /* 0E898 80947568 244D0008 */  addiu   $t5, $v0, 0x0008           ## $t5 = 00000008
 /* 0E89C 8094756C AE4D02D0 */  sw      $t5, 0x02D0($s2)           ## 000002D0
 /* 0E8A0 80947570 AC4E0000 */  sw      $t6, 0x0000($v0)           ## 00000000
-/* 0E8A4 80947574 8D086FA8 */  lw      $t0, 0x6FA8($t0)           ## 80166FA8
+/* 0E8A4 80947574 8D086FA8 */  lw      $t0, %lo(gSegments)($t0)
 /* 0E8A8 80947578 00814824 */  and     $t1, $a0, $at              
 /* 0E8AC 8094757C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 0E8B0 80947580 01095021 */  addu    $t2, $t0, $t1              
@@ -224,8 +248,8 @@ glabel func_80947240
 /* 0E8E0 809475B0 00026100 */  sll     $t4, $v0,  4               
 /* 0E8E4 809475B4 000C6F02 */  srl     $t5, $t4, 28               
 /* 0E8E8 809475B8 C436B1D0 */  lwc1    $f22, %lo(D_8094B1D0)($at) 
-/* 0E8EC 809475BC 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 0E8F0 809475C0 25EF6FA8 */  addiu   $t7, $t7, 0x6FA8           ## $t7 = 80166FA8
+/* 0E8EC 809475BC 3C0F8016 */  lui     $t7, %hi(gSegments)
+/* 0E8F0 809475C0 25EF6FA8 */  addiu   $t7, %lo(gSegments)
 /* 0E8F4 809475C4 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 0E8F8 809475C8 000D7080 */  sll     $t6, $t5,  2               
 /* 0E8FC 809475CC 01CFC021 */  addu    $t8, $t6, $t7              
@@ -275,7 +299,7 @@ glabel func_80947240
 /* 0E9A8 80947678 019E0019 */  multu   $t4, $s8                   
 /* 0E9AC 8094767C 00006812 */  mflo    $t5                        
 /* 0E9B0 80947680 01AE3821 */  addu    $a3, $t5, $t6              
-/* 0E9B4 80947684 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 0E9B4 80947684 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 0E9B8 80947688 30E700FF */  andi    $a3, $a3, 0x00FF           ## $a3 = 00000000
 /* 0E9BC 8094768C AE220004 */  sw      $v0, 0x0004($s1)           ## 0601AB04
 /* 0E9C0 80947690 866A0156 */  lh      $t2, 0x0156($s3)           ## 00000156
@@ -347,7 +371,7 @@ glabel func_80947240
 /* 0EAC4 80947794 24C6AE18 */  addiu   $a2, $a2, %lo(D_8094AE18)  ## $a2 = 8094AE18
 /* 0EAC8 80947798 27A400AC */  addiu   $a0, $sp, 0x00AC           ## $a0 = FFFFFFDC
 /* 0EACC 8094779C 8E850000 */  lw      $a1, 0x0000($s4)           ## 00000000
-/* 0EAD0 809477A0 0C031AD5 */  jal     func_800C6B54              
+/* 0EAD0 809477A0 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0EAD4 809477A4 24072397 */  addiu   $a3, $zero, 0x2397         ## $a3 = 00002397
 /* 0EAD8 809477A8 8FBF006C */  lw      $ra, 0x006C($sp)           
 /* 0EADC 809477AC D7B40038 */  ldc1    $f20, 0x0038($sp)          
@@ -363,5 +387,3 @@ glabel func_80947240
 /* 0EB04 809477D4 8FBE0068 */  lw      $s8, 0x0068($sp)           
 /* 0EB08 809477D8 03E00008 */  jr      $ra                        
 /* 0EB0C 809477DC 27BD00D0 */  addiu   $sp, $sp, 0x00D0           ## $sp = 00000000
-
-

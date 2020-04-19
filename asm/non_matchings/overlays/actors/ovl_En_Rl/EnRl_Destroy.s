@@ -7,5 +7,3 @@ glabel EnRl_Destroy
 /* 00014 80AE72C4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00018 80AE72C8 03E00008 */  jr      $ra
 /* 0001C 80AE72CC 00000000 */  nop
-
-

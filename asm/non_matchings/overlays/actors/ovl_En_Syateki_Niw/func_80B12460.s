@@ -1,3 +1,31 @@
+.late_rodata
+glabel jtbl_80B137E4
+.word L80B124AC
+.word L80B124C4
+.word L80B1257C
+.word L80B12620
+.word L80B12670
+.word L80B126E8
+.word L80B12798
+glabel D_80B13800
+    .float 5000.0
+
+glabel D_80B13804
+ .word 0xC59C4000
+glabel D_80B13808
+ .word 0xBE99999A
+glabel D_80B1380C
+    .float 10000.0
+
+glabel D_80B13810
+ .word 0x465AC000
+glabel D_80B13814
+    .float 5000.0
+
+glabel D_80B13818
+ .word 0x4622F983
+
+.text
 glabel func_80B12460
 /* 00B70 80B12460 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00B74 80B12464 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -193,11 +221,11 @@ glabel L80B126E8
 /* 00E38 80B12728 C512002C */  lwc1    $f18, 0x002C($t0)          ## 0000002C
 /* 00E3C 80B1272C 44812000 */  mtc1    $at, $f4                   ## $f4 = 30.00
 /* 00E40 80B12730 C608002C */  lwc1    $f8, 0x002C($s0)           ## 0000002C
-/* 00E44 80B12734 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
+/* 00E44 80B12734 3C078013 */  lui     $a3, %hi(D_801333E0)
 /* 00E48 80B12738 46049181 */  sub.s   $f6, $f18, $f4             
-/* 00E4C 80B1273C 3C0F8013 */  lui     $t7, 0x8013                ## $t7 = 80130000
-/* 00E50 80B12740 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 00E54 80B12744 25EF33E8 */  addiu   $t7, $t7, 0x33E8           ## $t7 = 801333E8
+/* 00E4C 80B1273C 3C0F8013 */  lui     $t7, %hi(D_801333E8)
+/* 00E50 80B12740 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 00E54 80B12744 25EF33E8 */  addiu   $t7, %lo(D_801333E8)
 /* 00E58 80B12748 4608303C */  c.lt.s  $f6, $f8                   
 /* 00E5C 80B1274C 2404680B */  addiu   $a0, $zero, 0x680B         ## $a0 = 0000680B
 /* 00E60 80B12750 260500E4 */  addiu   $a1, $s0, 0x00E4           ## $a1 = 000000E4
@@ -229,8 +257,8 @@ glabel L80B12798
 /* 00EC0 80B127B0 00290821 */  addu    $at, $at, $t1              
 /* 00EC4 80B127B4 A0221E15 */  sb      $v0, 0x1E15($at)           ## 00011E15
 /* 00EC8 80B127B8 8FAB0034 */  lw      $t3, 0x0034($sp)           
-/* 00ECC 80B127BC 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 00ED0 80B127C0 8D4AE660 */  lw      $t2, -0x19A0($t2)          ## 8015E660
+/* 00ECC 80B127BC 3C0A8016 */  lui     $t2, %hi(gSaveContext)
+/* 00ED0 80B127C0 8D4AE660 */  lw      $t2, %lo(gSaveContext)($t2)
 /* 00ED4 80B127C4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00ED8 80B127C8 002B0821 */  addu    $at, $at, $t3              
 /* 00EDC 80B127CC A42A1E1A */  sh      $t2, 0x1E1A($at)           ## 00011E1A
@@ -305,5 +333,3 @@ glabel L80B12798
 /* 00FDC 80B128CC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00FE0 80B128D0 03E00008 */  jr      $ra                        
 /* 00FE4 80B128D4 00000000 */  nop
-
-

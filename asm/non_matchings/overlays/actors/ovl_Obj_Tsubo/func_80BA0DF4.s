@@ -1,3 +1,9 @@
+.rdata
+glabel D_80BA1BE0
+    .asciz "地面に付着失敗\n"
+    .balign 4
+
+.text
 glabel func_80BA0DF4
 /* 00094 80BA0DF4 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00098 80BA0DF8 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -44,5 +50,3 @@ glabel func_80BA0DF4
 /* 0012C 80BA0E8C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00130 80BA0E90 03E00008 */  jr      $ra                        
 /* 00134 80BA0E94 00000000 */  nop
-
-

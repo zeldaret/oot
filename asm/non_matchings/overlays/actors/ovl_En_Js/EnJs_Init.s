@@ -27,7 +27,7 @@ glabel EnJs_Init
 /* 00068 80A88E78 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0006C 80A88E7C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00070 80A88E80 24A5045C */  addiu   $a1, $a1, 0x045C           ## $a1 = 0600045C
-/* 00074 80A88E84 0C02947A */  jal     func_800A51E8
+/* 00074 80A88E84 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 00078 80A88E88 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0007C 80A88E8C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00080 80A88E90 AFA50044 */  sw      $a1, 0x0044($sp)
@@ -77,5 +77,3 @@ glabel EnJs_Init
 /* 00120 80A88F30 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 00124 80A88F34 03E00008 */  jr      $ra
 /* 00128 80A88F38 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

@@ -10,5 +10,3 @@ glabel EnGSwitch_Destroy
 /* 00384 80A22244 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00388 80A22248 03E00008 */  jr      $ra                        
 /* 0038C 80A2224C 00000000 */  nop
-
-

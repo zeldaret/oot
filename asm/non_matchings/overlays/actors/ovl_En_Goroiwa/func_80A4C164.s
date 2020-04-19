@@ -8,5 +8,3 @@ glabel func_80A4C164
 /* 004DC 80A4C17C 0058C821 */  addu    $t9, $v0, $t8              
 /* 004E0 80A4C180 03E00008 */  jr      $ra                        
 /* 004E4 80A4C184 A49901CE */  sh      $t9, 0x01CE($a0)           ## 000001CE
-
-

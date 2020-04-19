@@ -43,11 +43,11 @@ glabel func_808D779C
 /* 00FC0 808D7830 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00FC4 808D7834 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00FC8 808D7838 01215021 */  addu    $t2, $t1, $at
-/* 00FCC 808D783C 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00FD0 808D7840 AC2A6FC0 */  sw      $t2, 0x6FC0($at)           ## 80166FC0
+/* 00FCC 808D783C 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 00FD0 808D7840 AC2A6FC0 */  sw      $t2, %lo(gSegments+0x18)($at)
 /* 00FD4 808D7844 24A55FFC */  addiu   $a1, $a1, 0x5FFC           ## $a1 = 06005FFC
 /* 00FD8 808D7848 26040150 */  addiu   $a0, $s0, 0x0150           ## $a0 = 00000150
-/* 00FDC 808D784C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 00FDC 808D784C 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 00FE0 808D7850 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 00FE4 808D7854 10000005 */  beq     $zero, $zero, .L808D786C
 /* 00FE8 808D7858 8FBF001C */  lw      $ra, 0x001C($sp)
@@ -61,5 +61,3 @@ glabel func_808D779C
 /* 01000 808D7870 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 01004 808D7874 03E00008 */  jr      $ra
 /* 01008 808D7878 00000000 */  nop
-
-

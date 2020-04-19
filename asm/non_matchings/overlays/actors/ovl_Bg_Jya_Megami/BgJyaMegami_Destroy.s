@@ -18,5 +18,3 @@ glabel BgJyaMegami_Destroy
 /* 004B0 8089A5E0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 004B4 8089A5E4 03E00008 */  jr      $ra                        
 /* 004B8 8089A5E8 00000000 */  nop
-
-

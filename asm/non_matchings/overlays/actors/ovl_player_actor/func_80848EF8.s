@@ -1,8 +1,15 @@
+.late_rodata
+glabel D_808554C4
+ .word 0x48435000
+glabel D_808554C8
+ .word 0x4A742400
+
+.text
 glabel func_80848EF8
-/* 16CE8 80848EF8 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 16CEC 80848EFC 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 16CF0 80848F00 8DEFE704 */  lw      $t7, -0x18FC($t7)          ## 8015E704
-/* 16CF4 80848F04 8DCE7174 */  lw      $t6, 0x7174($t6)           ## 80127174
+/* 16CE8 80848EF8 3C0E8012 */  lui     $t6, %hi(gBitFlags+0x54)
+/* 16CEC 80848EFC 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xa4)
+/* 16CF0 80848F00 8DEFE704 */  lw      $t7, %lo(gSaveContext+0xa4)($t7)
+/* 16CF4 80848F04 8DCE7174 */  lw      $t6, %lo(gBitFlags+0x54)($t6)
 /* 16CF8 80848F08 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 16CFC 80848F0C AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 16D00 80848F10 01CFC024 */  and     $t8, $t6, $t7              
@@ -43,5 +50,3 @@ glabel func_80848EF8
 /* 16D80 80848F90 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 16D84 80848F94 03E00008 */  jr      $ra                        
 /* 16D88 80848F98 00000000 */  nop
-
-

@@ -16,7 +16,9 @@ glabel D_808025E8
     .balign 4
 
 glabel D_80802604
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80802608
     .asciz " 1:SPOT00"
     .balign 4

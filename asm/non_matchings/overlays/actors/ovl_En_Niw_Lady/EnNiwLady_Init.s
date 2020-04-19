@@ -1,3 +1,13 @@
+.rdata
+glabel D_80ABB420
+    .asciz "[32m☆☆☆☆☆ ねぇちゃんうっふん ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80ABB458
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel EnNiwLady_Init
 /* 00000 80AB9C40 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 80AB9C44 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -35,7 +45,7 @@ glabel EnNiwLady_Init
 /* 00070 80AB9CB0 24010037 */  addiu   $at, $zero, 0x0037         ## $at = 00000037
 /* 00074 80AB9CB4 24080001 */  addiu   $t0, $zero, 0x0001         ## $t0 = 00000001
 /* 00078 80AB9CB8 871900A4 */  lh      $t9, 0x00A4($t8)           ## 000000A4
-/* 0007C 80AB9CBC 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 0007C 80AB9CBC 3C098016 */  lui     $t1, %hi(gSaveContext+0x10)
 /* 00080 80AB9CC0 3C0480AC */  lui     $a0, %hi(D_80ABB420)       ## $a0 = 80AC0000
 /* 00084 80AB9CC4 57210003 */  bnel    $t9, $at, .L80AB9CD4       
 /* 00088 80AB9CC8 86050278 */  lh      $a1, 0x0278($s0)           ## 00000278
@@ -44,7 +54,7 @@ glabel EnNiwLady_Init
 .L80AB9CD4:
 /* 00094 80AB9CD4 10A00008 */  beq     $a1, $zero, .L80AB9CF8     
 /* 00098 80AB9CD8 00000000 */  nop
-/* 0009C 80AB9CDC 8D29E670 */  lw      $t1, -0x1990($t1)          ## 8015E670
+/* 0009C 80AB9CDC 8D29E670 */  lw      $t1, %lo(gSaveContext+0x10)($t1)
 /* 000A0 80AB9CE0 15200005 */  bne     $t1, $zero, .L80AB9CF8     
 /* 000A4 80AB9CE4 00000000 */  nop
 /* 000A8 80AB9CE8 0C00B55C */  jal     Actor_Kill
@@ -72,5 +82,3 @@ glabel EnNiwLady_Init
 /* 000EC 80AB9D2C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 000F0 80AB9D30 03E00008 */  jr      $ra                        
 /* 000F4 80AB9D34 00000000 */  nop
-
-

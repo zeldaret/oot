@@ -10,5 +10,3 @@ glabel EnSyatekiNiw_Destroy
 /* 00198 80B11A88 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0019C 80B11A8C 03E00008 */  jr      $ra                        
 /* 001A0 80B11A90 00000000 */  nop
-
-

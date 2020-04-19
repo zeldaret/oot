@@ -1,6 +1,11 @@
+/*
+ * File: z_en_door.c
+ * Overlay: ovl_En_Door
+ * Description: Door
+ */
+
 #include "z_en_door.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void EnDoor_Init(EnDoor* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void EnDoor_Draw(EnDoor* this, GlobalContext* globalCtx);
 const ActorInit En_Door_InitVars = {
     ACTOR_EN_DOOR,
     ACTORTYPE_DOOR,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnDoor),

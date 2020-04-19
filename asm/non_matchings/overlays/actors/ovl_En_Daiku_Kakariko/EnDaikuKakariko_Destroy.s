@@ -10,5 +10,3 @@ glabel EnDaikuKakariko_Destroy
 /* 00420 809E4740 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00424 809E4744 03E00008 */  jr      $ra                        
 /* 00428 809E4748 00000000 */  nop
-
-

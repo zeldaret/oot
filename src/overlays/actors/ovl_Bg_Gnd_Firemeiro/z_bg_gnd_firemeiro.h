@@ -5,8 +5,10 @@
 #include <global.h>
 
 typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x2C];
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ Vec3f unk_164;
+    /* 0x0170 */ char unk_170[0x4];
+    /* 0x0174 */ ActorFunc actionFunc;
 } BgGndFiremeiro; // size = 0x0178
 
 extern const ActorInit Bg_Gnd_Firemeiro_InitVars;

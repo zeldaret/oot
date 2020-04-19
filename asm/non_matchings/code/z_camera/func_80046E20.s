@@ -285,7 +285,7 @@ glabel func_80046E20
 /* ABE3D0 80047230 3C088016 */  lui   $t0, %hi(gGameInfo) # $t0, 0x8016
 /* ABE3D4 80047234 8D08FA90 */  lw    $t0, %lo(gGameInfo)($t0)
 /* ABE3D8 80047238 8FAD0074 */  lw    $t5, 0x74($sp)
-/* ABE3DC 8004723C 3C048016 */  lui   $a0, %hi(D_80163FFF) # $a0, 0x8016
+/* ABE3DC 8004723C 3C048016 */  lui   $a0, %hi(D_8015CEA0) # $a0, 0x8016
 /* ABE3E0 80047240 850901BE */  lh    $t1, 0x1be($t0)
 /* ABE3E4 80047244 44895000 */  mtc1  $t1, $f10
 /* ABE3E8 80047248 00000000 */  nop   
@@ -297,7 +297,7 @@ glabel func_80046E20
 /* ABE400 80047260 8484CEA0 */  lh    $a0, %lo(D_8015CEA0)($a0)
 /* ABE404 80047264 85AF0006 */  lh    $t7, 6($t5)
 /* ABE408 80047268 E7A20050 */  swc1  $f2, 0x50($sp)
-/* ABE40C 8004726C 24843FFF */  addiu $a0, %lo(D_80163FFF) # addiu $a0, $a0, 0x3fff
+/* ABE40C 8004726C 24843FFF */  addiu $a0, $a0, 0x3fff
 /* ABE410 80047270 00042400 */  sll   $a0, $a0, 0x10
 /* ABE414 80047274 00042403 */  sra   $a0, $a0, 0x10
 /* ABE418 80047278 0C01DE1C */  jal   Math_Sins

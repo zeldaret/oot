@@ -93,5 +93,3 @@ glabel BgDodoago_Update
 /* 00A34 80872434 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00A38 80872438 03E00008 */  jr      $ra                        
 /* 00A3C 8087243C 00000000 */  nop
-
-

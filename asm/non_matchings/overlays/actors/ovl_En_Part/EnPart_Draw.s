@@ -1,3 +1,17 @@
+.rdata
+glabel D_80ACF210
+    .asciz "../z_en_part.c"
+    .balign 4
+
+glabel D_80ACF220
+    .asciz "../z_en_part.c"
+    .balign 4
+
+glabel D_80ACF230
+    .asciz "../z_en_part.c"
+    .balign 4
+
+.text
 glabel EnPart_Draw
 /* 00DAC 80ACEB7C 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 00DB0 80ACEB80 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -9,7 +23,7 @@ glabel EnPart_Draw
 /* 00DC8 80ACEB98 24C6F210 */  addiu   $a2, $a2, %lo(D_80ACF210)  ## $a2 = 80ACF210
 /* 00DCC 80ACEB9C 27A40080 */  addiu   $a0, $sp, 0x0080           ## $a0 = FFFFFFE8
 /* 00DD0 80ACEBA0 24070287 */  addiu   $a3, $zero, 0x0287         ## $a3 = 00000287
-/* 00DD4 80ACEBA4 0C031AB1 */  jal     func_800C6AC4              
+/* 00DD4 80ACEBA4 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00DD8 80ACEBA8 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00DDC 80ACEBAC 8FAF0098 */  lw      $t7, 0x0098($sp)           
 /* 00DE0 80ACEBB0 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
@@ -234,7 +248,7 @@ glabel EnPart_Draw
 /* 0113C 80ACEF0C 3C0A0600 */  lui     $t2, 0x0600                ## $t2 = 06000000
 /* 01140 80ACEF10 254A2FF0 */  addiu   $t2, $t2, 0x2FF0           ## $t2 = 06002FF0
 /* 01144 80ACEF14 154B003A */  bne     $t2, $t3, .L80ACF000       
-/* 01148 80ACEF18 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
+/* 01148 80ACEF18 3C068016 */  lui     $a2, %hi(gSegments)
 /* 0114C 80ACEF1C 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 01150 80ACEF20 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 01154 80ACEF24 24841300 */  addiu   $a0, $a0, 0x1300           ## $a0 = 06001300
@@ -245,7 +259,7 @@ glabel EnPart_Draw
 /* 01168 80ACEF38 AE0C02C0 */  sw      $t4, 0x02C0($s0)           ## 000002C0
 /* 0116C 80ACEF3C 35AD0020 */  ori     $t5, $t5, 0x0020           ## $t5 = DB060020
 /* 01170 80ACEF40 00187880 */  sll     $t7, $t8,  2               
-/* 01174 80ACEF44 24C66FA8 */  addiu   $a2, $a2, 0x6FA8           ## $a2 = 80166FA8
+/* 01174 80ACEF44 24C66FA8 */  addiu   $a2, %lo(gSegments)
 /* 01178 80ACEF48 00CFC821 */  addu    $t9, $a2, $t7              
 /* 0117C 80ACEF4C AC4D0000 */  sw      $t5, 0x0000($v0)           ## 00000000
 /* 01180 80ACEF50 8F2A0000 */  lw      $t2, 0x0000($t9)           ## 00000000
@@ -300,7 +314,7 @@ glabel EnPart_Draw
 /* 0123C 80ACF00C 3C0A0600 */  lui     $t2, 0x0600                ## $t2 = 06000000
 /* 01240 80ACF010 254A2FF0 */  addiu   $t2, $t2, 0x2FF0           ## $t2 = 06002FF0
 /* 01244 80ACF014 15450039 */  bne     $t2, $a1, .L80ACF0FC       
-/* 01248 80ACF018 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
+/* 01248 80ACF018 3C068016 */  lui     $a2, %hi(gSegments)
 /* 0124C 80ACF01C 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 01250 80ACF020 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 01254 80ACF024 24841B00 */  addiu   $a0, $a0, 0x1B00           ## $a0 = 06001B00
@@ -311,7 +325,7 @@ glabel EnPart_Draw
 /* 01268 80ACF038 AE0B02C0 */  sw      $t3, 0x02C0($s0)           ## 000002C0
 /* 0126C 80ACF03C 358C0020 */  ori     $t4, $t4, 0x0020           ## $t4 = DB060020
 /* 01270 80ACF040 000EC080 */  sll     $t8, $t6,  2               
-/* 01274 80ACF044 24C66FA8 */  addiu   $a2, $a2, 0x6FA8           ## $a2 = 80166FA8
+/* 01274 80ACF044 24C66FA8 */  addiu   $a2, %lo(gSegments)
 /* 01278 80ACF048 00D87821 */  addu    $t7, $a2, $t8              
 /* 0127C 80ACF04C AC4C0000 */  sw      $t4, 0x0000($v0)           ## 00000000
 /* 01280 80ACF050 8DF90000 */  lw      $t9, 0x0000($t7)           ## 00000008
@@ -388,7 +402,7 @@ glabel EnPart_Draw
 /* 01394 80ACF164 24C6F230 */  addiu   $a2, $a2, %lo(D_80ACF230)  ## $a2 = 80ACF230
 /* 01398 80ACF168 27A40080 */  addiu   $a0, $sp, 0x0080           ## $a0 = FFFFFFE8
 /* 0139C 80ACF16C 240702BC */  addiu   $a3, $zero, 0x02BC         ## $a3 = 000002BC
-/* 013A0 80ACF170 0C031AD5 */  jal     func_800C6B54              
+/* 013A0 80ACF170 0C031AD5 */  jal     Graph_CloseDisps              
 /* 013A4 80ACF174 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 /* 013A8 80ACF178 8FBF002C */  lw      $ra, 0x002C($sp)           
 /* 013AC 80ACF17C 8FB00028 */  lw      $s0, 0x0028($sp)           
@@ -396,4 +410,3 @@ glabel EnPart_Draw
 /* 013B4 80ACF184 03E00008 */  jr      $ra                        
 /* 013B8 80ACF188 00000000 */  nop
 /* 013BC 80ACF18C 00000000 */  nop
-

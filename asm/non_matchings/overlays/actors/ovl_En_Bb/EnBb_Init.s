@@ -1,3 +1,12 @@
+.late_rodata
+glabel jtbl_809BBC6C
+.word L809B882C
+.word L809B8858
+.word L809B8764
+.word L809B872C
+.word L809B86E4
+
+.text
 glabel EnBb_Init
 /* 00280 809B8560 27BDFE18 */  addiu   $sp, $sp, 0xFE18           ## $sp = FFFFFE18
 /* 00284 809B8564 AFA501EC */  sw      $a1, 0x01EC($sp)           
@@ -50,8 +59,8 @@ glabel EnBb_Init
 .L809B8618:
 /* 00338 809B8618 04410006 */  bgez    $v0, .L809B8634            
 /* 0033C 809B861C 3C054348 */  lui     $a1, 0x4348                ## $a1 = 43480000
-/* 00340 809B8620 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00344 809B8624 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00340 809B8620 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00344 809B8624 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00348 809B8628 0C00AC78 */  jal     ActorShape_Init
               
 /* 0034C 809B862C 3C07420C */  lui     $a3, 0x420C                ## $a3 = 420C0000
@@ -250,5 +259,3 @@ glabel L809B8858
 /* 0061C 809B88FC 27BD01E8 */  addiu   $sp, $sp, 0x01E8           ## $sp = 00000000
 /* 00620 809B8900 03E00008 */  jr      $ra                        
 /* 00624 809B8904 00000000 */  nop
-
-

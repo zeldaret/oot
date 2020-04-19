@@ -1,3 +1,23 @@
+.late_rodata
+glabel D_80B88BD8
+ .word 0x3CB60B61
+glabel D_80B88BDC
+ .word 0x3DAAAAAA
+glabel D_80B88BE0
+ .word 0x38D1B717
+glabel D_80B88BE4
+    .float 0.9
+
+glabel D_80B88BE8
+    .float 0.2
+
+glabel D_80B88BEC
+    .float 1.6
+
+glabel D_80B88BF0
+    .float 0.8
+
+.text
 glabel MagicDark_Update
 /* 004A8 80B87878 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 004AC 80B8787C AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -110,5 +130,3 @@ glabel MagicDark_Update
 /* 0063C 80B87A0C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00640 80B87A10 03E00008 */  jr      $ra                        
 /* 00644 80B87A14 00000000 */  nop
-
-

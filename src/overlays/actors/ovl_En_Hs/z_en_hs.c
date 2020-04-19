@@ -1,6 +1,5 @@
 #include "z_en_hs.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnHs_Init(EnHs* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnHs_Draw(EnHs* this, GlobalContext* globalCtx);
 const ActorInit En_Hs_InitVars = {
     ACTOR_EN_HS,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_HS,
     sizeof(EnHs),

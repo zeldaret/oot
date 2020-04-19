@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A669A8
+    .float 0.1
+
+.text
 glabel func_80A63FA8
 /* 08CB8 80A63FA8 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 08CBC 80A63FAC AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -94,15 +99,15 @@ glabel func_80A63FA8
 /* 08E10 80A64100 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 08E14 80A64104 3C0180A6 */  lui     $at, %hi(D_80A669A8)       ## $at = 80A60000
 /* 08E18 80A64108 C42469A8 */  lwc1    $f4, %lo(D_80A669A8)($at)  
-/* 08E1C 80A6410C 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 08E20 80A64110 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
+/* 08E1C 80A6410C 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 08E20 80A64110 24E733E0 */  addiu   $a3, %lo(D_801333E0)
 /* 08E24 80A64114 4604003C */  c.lt.s  $f0, $f4                   
 /* 08E28 80A64118 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 08E2C 80A6411C 24042805 */  addiu   $a0, $zero, 0x2805         ## $a0 = 00002805
 /* 08E30 80A64120 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
 /* 08E34 80A64124 45000005 */  bc1f    .L80A6413C                 
-/* 08E38 80A64128 3C0D8013 */  lui     $t5, 0x8013                ## $t5 = 80130000
-/* 08E3C 80A6412C 25AD33E8 */  addiu   $t5, $t5, 0x33E8           ## $t5 = 801333E8
+/* 08E38 80A64128 3C0D8013 */  lui     $t5, %hi(D_801333E8)
+/* 08E3C 80A6412C 25AD33E8 */  addiu   $t5, %lo(D_801333E8)
 /* 08E40 80A64130 AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 08E44 80A64134 0C03DCE3 */  jal     Audio_PlaySoundGeneral
               
@@ -114,5 +119,3 @@ glabel func_80A63FA8
 /* 08E54 80A64144 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 08E58 80A64148 03E00008 */  jr      $ra                        
 /* 08E5C 80A6414C 00000000 */  nop
-
-

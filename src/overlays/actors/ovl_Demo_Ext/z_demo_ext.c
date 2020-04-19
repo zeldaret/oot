@@ -1,6 +1,5 @@
 #include "z_demo_ext.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void DemoExt_Init(DemoExt* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void DemoExt_Draw(DemoExt* this, GlobalContext* globalCtx);
 const ActorInit Demo_Ext_InitVars = {
     ACTOR_DEMO_EXT,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_FHG,
     sizeof(DemoExt),

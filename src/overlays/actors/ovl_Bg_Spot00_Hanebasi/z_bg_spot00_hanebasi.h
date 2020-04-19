@@ -5,8 +5,8 @@
 #include <global.h>
 
 typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x34];
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ char unk_164[0x1C];
 } BgSpot00Hanebasi; // size = 0x0180
 
 extern const ActorInit Bg_Spot00_Hanebasi_InitVars;

@@ -1,3 +1,34 @@
+.late_rodata
+.late_rodata_alignment 4
+glabel D_80A729CC
+ .word func_80A70CD8
+.word func_80A70CD8
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word func_80A70C44
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word L80A70D40
+.word func_80A70C08
+.word L80A70D40
+.word func_80A70BAC
+
+.text
 glabel func_80A70AE4
 /* 01534 80A70AE4 84A300A4 */  lh      $v1, 0x00A4($a1)           ## 000000A4
 /* 01538 80A70AE8 28610038 */  slti    $at, $v1, 0x0038           
@@ -23,7 +54,7 @@ glabel func_80A70AE4
 /* 01580 80A70B30 2405000A */  addiu   $a1, $zero, 0x000A         ## $a1 = 0000000A
 /* 01584 80A70B34 3042007F */  andi    $v0, $v0, 0x007F           ## $v0 = 00000000
 /* 01588 80A70B38 1041000B */  beq     $v0, $at, .L80A70B68       
-/* 0158C 80A70B3C 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 0158C 80A70B3C 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 01590 80A70B40 10A20009 */  beq     $a1, $v0, .L80A70B68       
 /* 01594 80A70B44 2401000C */  addiu   $at, $zero, 0x000C         ## $at = 0000000C
 /* 01598 80A70B48 10410007 */  beq     $v0, $at, .L80A70B68       
@@ -35,7 +66,7 @@ glabel func_80A70AE4
 /* 015B0 80A70B60 03E00008 */  jr      $ra                        
 /* 015B4 80A70B64 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 .L80A70B68:
-/* 015B8 80A70B68 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 015B8 80A70B68 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 015BC 80A70B6C 8C6F0004 */  lw      $t7, 0x0004($v1)           ## 8015E664
 /* 015C0 80A70B70 2401000C */  addiu   $at, $zero, 0x000C         ## $at = 0000000C
 /* 015C4 80A70B74 11E00003 */  beq     $t7, $zero, .L80A70B84     
@@ -54,5 +85,3 @@ glabel func_80A70AE4
 .L80A70BA4:
 /* 015F4 80A70BA4 03E00008 */  jr      $ra                        
 /* 015F8 80A70BA8 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
-
-

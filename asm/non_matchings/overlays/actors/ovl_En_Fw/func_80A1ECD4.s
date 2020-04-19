@@ -1,3 +1,18 @@
+.late_rodata
+glabel D_80A1FC70
+    .float 0.9
+
+glabel D_80A1FC74
+ .word 0x45AAA000
+glabel D_80A1FC78
+ .word 0x4622F983
+glabel D_80A1FC7C
+    .float 0.2
+
+glabel D_80A1FC80
+    .float 0.3
+
+.text
 glabel func_80A1ECD4
 /* 00734 80A1ECD4 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00738 80A1ECD8 44810000 */  mtc1    $at, $f0                   ## $f0 = 1.00
@@ -415,5 +430,3 @@ glabel func_80A1ECD4
 /* 00CFC 80A1F29C 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 00D00 80A1F2A0 03E00008 */  jr      $ra                        
 /* 00D04 80A1F2A4 00000000 */  nop
-
-

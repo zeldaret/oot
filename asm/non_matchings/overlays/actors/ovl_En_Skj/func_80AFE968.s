@@ -16,5 +16,3 @@ glabel func_80AFE968
 /* 006F0 80AFE9A0 46000004 */  sqrt.s  $f0, $f0                   
 /* 006F4 80AFE9A4 03E00008 */  jr      $ra                        
 /* 006F8 80AFE9A8 46040000 */  add.s   $f0, $f0, $f4              
-
-

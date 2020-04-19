@@ -28,5 +28,3 @@ glabel EnPoSisters_Destroy
 /* 002A4 80AD9234 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002A8 80AD9238 03E00008 */  jr      $ra                        
 /* 002AC 80AD923C 00000000 */  nop
-
-

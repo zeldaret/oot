@@ -20,5 +20,3 @@ glabel EnHorseLinkChild_Destroy
 /* 004B0 80A69880 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 004B4 80A69884 03E00008 */  jr      $ra                        
 /* 004B8 80A69888 00000000 */  nop
-
-

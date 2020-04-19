@@ -14,5 +14,3 @@ glabel EnDekunuts_Destroy
 /* 00190 809E96F0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00194 809E96F4 03E00008 */  jr      $ra                        
 /* 00198 809E96F8 00000000 */  nop
-
-

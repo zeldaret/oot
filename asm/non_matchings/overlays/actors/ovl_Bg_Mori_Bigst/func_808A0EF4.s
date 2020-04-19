@@ -1,3 +1,15 @@
+.rdata
+glabel D_808A15F4
+    .asciz "Warning : 第２スタルフォス発生失敗\n"
+    .balign 4
+
+.late_rodata
+glabel D_808A16B0
+    .float 827.0
+glabel D_808A16B4
+    .float -3320.0
+
+.text
 glabel func_808A0EF4
 /* 00334 808A0EF4 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00338 808A0EF8 AFA50044 */  sw      $a1, 0x0044($sp)           
@@ -52,5 +64,3 @@ glabel func_808A0EF4
 /* 003E4 808A0FA4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 003E8 808A0FA8 03E00008 */  jr      $ra                        
 /* 003EC 808A0FAC 00000000 */  nop
-
-

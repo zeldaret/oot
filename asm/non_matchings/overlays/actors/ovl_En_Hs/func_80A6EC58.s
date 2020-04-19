@@ -1,3 +1,13 @@
+.late_rodata
+glabel jtbl_80A6EE68
+.word L80A6EC84
+.word L80A6ECB0
+.word func_80A6ECBC
+.word func_80A6ECC8
+.word func_80A6ECE8
+.word 0x00000000
+
+.text
 glabel func_80A6EC58
 /* 008B8 80A6EC58 24AEFFF7 */  addiu   $t6, $a1, 0xFFF7           ## $t6 = FFFFFFF7
 /* 008BC 80A6EC5C 2DC10005 */  sltiu   $at, $t6, 0x0005           
@@ -26,5 +36,3 @@ glabel L80A6ECB0
 /* 00910 80A6ECB0 ACC00000 */  sw      $zero, 0x0000($a2)         ## 00000000
 /* 00914 80A6ECB4 03E00008 */  jr      $ra                        
 /* 00918 80A6ECB8 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
-
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B99C10
+    .asciz "おかしなの (%s %d)\n"
+    .balign 4
+
+glabel D_80B99C24
+    .asciz "../z_obj_mure.c"
+    .balign 4
+
+.text
 glabel func_80B98CB4
 /* 00214 80B98CB4 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00218 80B98CB8 28C10004 */  slti    $at, $a2, 0x0004           
@@ -26,5 +36,3 @@ glabel func_80B98CB4
 /* 0026C 80B98D0C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00270 80B98D10 03E00008 */  jr      $ra                        
 /* 00274 80B98D14 00000000 */  nop
-
-

@@ -1,6 +1,6 @@
 glabel func_808B9618
-/* 00248 808B9618 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 0024C 808B961C 95CEF578 */  lhu     $t6, -0x0A88($t6)          ## 8015F578
+/* 00248 808B9618 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xf18)
+/* 0024C 808B961C 95CEF578 */  lhu     $t6, %lo(gSaveContext+0xf18)($t6)
 /* 00250 808B9620 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00254 808B9624 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00258 808B9628 31CF0200 */  andi    $t7, $t6, 0x0200           ## $t7 = 00000000
@@ -34,5 +34,3 @@ glabel func_808B9618
 /* 002BC 808B968C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 002C0 808B9690 03E00008 */  jr      $ra                        
 /* 002C4 808B9694 00000000 */  nop
-
-

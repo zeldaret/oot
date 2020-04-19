@@ -1,6 +1,5 @@
 #include "z_en_fhg_fire.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EnFhgFire_Init(EnFhgFire* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnFhgFire_Draw(EnFhgFire* this, GlobalContext* globalCtx);
 const ActorInit En_Fhg_Fire_InitVars = {
     ACTOR_PLAYER,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_FHG,
     sizeof(EnFhgFire),

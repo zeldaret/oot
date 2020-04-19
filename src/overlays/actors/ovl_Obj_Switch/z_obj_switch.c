@@ -1,6 +1,11 @@
+/*
+ * File: z_obj_switch.c
+ * Overlay: ovl_Obj_Switch
+ * Description: Switches
+ */
+
 #include "z_obj_switch.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void ObjSwitch_Init(ObjSwitch* this, GlobalContext* globalCtx);
@@ -12,7 +17,6 @@ void ObjSwitch_Draw(ObjSwitch* this, GlobalContext* globalCtx);
 const ActorInit Obj_Switch_InitVars = {
     ACTOR_OBJ_SWITCH,
     ACTORTYPE_SWITCH,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjSwitch),

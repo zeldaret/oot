@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809B32E8
+    .float 0.6
+
+.text
 glabel EnAnubiceFire_Update
 /* 00754 809B2CF4 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00758 809B2CF8 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -135,5 +140,3 @@ glabel EnAnubiceFire_Update
 /* 00940 809B2EE0 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00944 809B2EE4 03E00008 */  jr      $ra                        
 /* 00948 809B2EE8 00000000 */  nop
-
-

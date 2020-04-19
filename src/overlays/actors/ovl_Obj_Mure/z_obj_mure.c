@@ -1,6 +1,11 @@
+/*
+ * File: z_obj_mure.c
+ * Overlay: ovl_Obj_Mure
+ * Description: Fish, Bugs, Butterflies
+ */
+
 #include "z_obj_mure.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void ObjMure_Init(ObjMure* this, GlobalContext* globalCtx);
@@ -11,7 +16,6 @@ void ObjMure_Update(ObjMure* this, GlobalContext* globalCtx);
 const ActorInit Obj_Mure_InitVars = {
     ACTOR_OBJ_MURE,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjMure),

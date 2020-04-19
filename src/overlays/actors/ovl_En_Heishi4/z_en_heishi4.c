@@ -1,6 +1,5 @@
 #include "z_en_heishi4.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnHeishi4_Init(EnHeishi4* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnHeishi4_Draw(EnHeishi4* this, GlobalContext* globalCtx);
 const ActorInit En_Heishi4_InitVars = {
     ACTOR_EN_HEISHI4,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_SD,
     sizeof(EnHeishi4),

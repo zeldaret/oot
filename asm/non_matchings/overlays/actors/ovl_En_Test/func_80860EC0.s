@@ -5,7 +5,7 @@ glabel func_80860EC0
 /* 0187C 80860ECC AFBF001C */  sw      $ra, 0x001C($sp)
 /* 01880 80860ED0 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 01884 80860ED4 24A5E2B0 */  addiu   $a1, $a1, 0xE2B0           ## $a1 = 0600E2B0
-/* 01888 80860ED8 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 01888 80860ED8 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 0188C 80860EDC 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 01890 80860EE0 240E000F */  addiu   $t6, $zero, 0x000F         ## $t6 = 0000000F
 /* 01894 80860EE4 0C03F66B */  jal     Math_Rand_ZeroOne
@@ -44,12 +44,10 @@ glabel func_80860EC0
 /* 0190C 80860F5C 00000000 */  nop
 /* 01910 80860F60 0018CC00 */  sll     $t9, $t8, 16
 /* 01914 80860F64 00194403 */  sra     $t0, $t9, 16
-/* 01918 80860F68 0C217D94 */  jal     func_8085F650
+/* 01918 80860F68 0C217D94 */  jal     EnTest_SetupAction
 /* 0191C 80860F6C AE0807E8 */  sw      $t0, 0x07E8($s0)           ## 000007E8
 /* 01920 80860F70 8FBF001C */  lw      $ra, 0x001C($sp)
 /* 01924 80860F74 8FB00018 */  lw      $s0, 0x0018($sp)
 /* 01928 80860F78 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0192C 80860F7C 03E00008 */  jr      $ra
 /* 01930 80860F80 00000000 */  nop
-
-

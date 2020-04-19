@@ -1,3 +1,13 @@
+.rdata
+glabel D_808754E0
+    .asciz "[32m☆☆☆☆☆ 大妖精の泉 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80875510
+    .asciz "[32m☆☆☆☆☆ 石妖精の泉 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel BgDyYoseizo_Init
 /* 00000 80872830 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 80872834 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -77,5 +87,3 @@ glabel BgDyYoseizo_Init
 /* 00118 80872948 8FB00024 */  lw      $s0, 0x0024($sp)
 /* 0011C 8087294C 03E00008 */  jr      $ra
 /* 00120 80872950 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

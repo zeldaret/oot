@@ -6,7 +6,7 @@ glabel func_80AD9368
 /* 003E8 80AD9378 24A514CC */  addiu   $a1, $a1, 0x14CC           ## $a1 = 060014CC
 /* 003EC 80AD937C AFA70018 */  sw      $a3, 0x0018($sp)
 /* 003F0 80AD9380 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 003F4 80AD9384 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 003F4 80AD9384 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 003F8 80AD9388 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
 /* 003FC 80AD938C 24040002 */  addiu   $a0, $zero, 0x0002         ## $a0 = 00000002
 /* 00400 80AD9390 0C01DF64 */  jal     Math_Rand_S16Offset
@@ -23,5 +23,3 @@ glabel func_80AD9368
 /* 00428 80AD93B8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0042C 80AD93BC 03E00008 */  jr      $ra
 /* 00430 80AD93C0 00000000 */  nop
-
-

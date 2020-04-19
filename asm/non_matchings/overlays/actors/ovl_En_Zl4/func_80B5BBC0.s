@@ -15,5 +15,3 @@ glabel func_80B5BBC0
 /* 00444 80B5BBF4 468084A0 */  cvt.s.w $f18, $f16                 
 /* 00448 80B5BBF8 03E00008 */  jr      $ra                        
 /* 0044C 80B5BBFC E4B20008 */  swc1    $f18, 0x0008($a1)          ## 00000008
-
-

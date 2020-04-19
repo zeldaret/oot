@@ -1,18 +1,23 @@
+/*
+ * File: z_object_kankyo.c
+ * Overlay: ovl_Object_Kankyo
+ * Description: Environmental Effects
+ */
+
 #include "z_object_kankyo.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000030
 
 void ObjectKankyo_Init(ObjectKankyo* this, GlobalContext* globalCtx);
 void ObjectKankyo_Destroy(ObjectKankyo* this, GlobalContext* globalCtx);
 void ObjectKankyo_Update(ObjectKankyo* this, GlobalContext* globalCtx);
 void ObjectKankyo_Draw(ObjectKankyo* this, GlobalContext* globalCtx);
+void ObjectKankyo_SetupAction(ObjectKankyo* this, ActorFunc actionFunc);
 
 /*
 const ActorInit Object_Kankyo_InitVars = {
     ACTOR_OBJECT_KANKYO,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjectKankyo),
@@ -22,7 +27,7 @@ const ActorInit Object_Kankyo_InitVars = {
     (ActorFunc)ObjectKankyo_Draw,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Object_Kankyo/func_80BA2AA0.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Object_Kankyo/ObjectKankyo_SetupAction.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Object_Kankyo/ObjectKankyo_Init.s")
 

@@ -5,7 +5,7 @@ glabel func_8085FDD0
 /* 0078C 8085FDDC 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00790 8085FDE0 24A5316C */  addiu   $a1, $a1, 0x316C           ## $a1 = 0600316C
 /* 00794 8085FDE4 AFA60018 */  sw      $a2, 0x0018($sp)
-/* 00798 8085FDE8 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 00798 8085FDE8 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 0079C 8085FDEC 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 007A0 8085FDF0 8FA40018 */  lw      $a0, 0x0018($sp)
 /* 007A4 8085FDF4 3C014060 */  lui     $at, 0x4060                ## $at = 40600000
@@ -23,11 +23,9 @@ glabel func_8085FDD0
 /* 007D4 8085FE24 AC8E07E8 */  sw      $t6, 0x07E8($a0)           ## 000007E8
 /* 007D8 8085FE28 E48A0028 */  swc1    $f10, 0x0028($a0)          ## 00000028
 /* 007DC 8085FE2C AC980004 */  sw      $t8, 0x0004($a0)           ## 00000004
-/* 007E0 8085FE30 0C217D94 */  jal     func_8085F650
+/* 007E0 8085FE30 0C217D94 */  jal     EnTest_SetupAction
 /* 007E4 8085FE34 E4840054 */  swc1    $f4, 0x0054($a0)           ## 00000054
 /* 007E8 8085FE38 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 007EC 8085FE3C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 007F0 8085FE40 03E00008 */  jr      $ra
 /* 007F4 8085FE44 00000000 */  nop
-
-

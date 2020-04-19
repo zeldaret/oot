@@ -1,6 +1,11 @@
+.late_rodata
+glabel D_80A9E8F0
+ .word 0x38D1B717, 0x00000000
+
+.text
 glabel EnLight_Init
-/* 00000 80A9DB40 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00004 80A9DB44 8DCEF9BC */  lw      $t6, -0x0644($t6)          ## 8015F9BC
+/* 00000 80A9DB40 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x135c)
+/* 00004 80A9DB44 8DCEF9BC */  lw      $t6, %lo(gSaveContext+0x135c)($t6)
 /* 00008 80A9DB48 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0000C 80A9DB4C AFB00024 */  sw      $s0, 0x0024($sp)           
 /* 00010 80A9DB50 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003
@@ -132,5 +137,3 @@ glabel EnLight_Init
 /* 001D4 80A9DD14 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 001D8 80A9DD18 03E00008 */  jr      $ra                        
 /* 001DC 80A9DD1C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

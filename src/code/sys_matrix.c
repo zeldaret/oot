@@ -298,7 +298,7 @@ void Matrix_RotateZ(f32 z, u8 mode) {
 /*
  * Rotates the top of the matrix stack by `z` degrees, then
  * rotates that matrix by `y` degrees, then rotates that matrix
- * by `x` degrees.
+ * by `x` degrees. (roll-pitch-yaw)
  * Original Name: Matrix_RotateXYZ, changed to reflect rotation order.
  */
 void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
@@ -388,7 +388,7 @@ void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
 
 /*
  * Translates the top of the matrix stack by `translation` units,
- * then rotates that matrix by `rotation` in Z-Y-X order
+ * then rotates that matrix by `rotation` in Z-Y-X order (roll-pitch-yaw)
  */
 void Matrix_TranslateThenRotateZYX(Vec3f* translation, Vec3s* rotation) {
     MtxF* cmf = sCurrentMatrix;
@@ -898,8 +898,11 @@ MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
             if (!(-32768.0f <= mf->mf[i][j]) || !(mf->mf[i][j] < 32768.0f)) {
-                osSyncPrintf("%s %d: [%s] =\n/ %12.6f %12.6f %12.6f %12.6f \\\n| %12.6f %12.6f %12.6f %12.6f |\n| "
-                             "%12.6f %12.6f %12.6f %12.6f |\n\\ %12.6f %12.6f %12.6f %12.6f /\n",
+                osSyncPrintf("%s %d: [%s] =\n"
+                             "/ %12.6f %12.6f %12.6f %12.6f \\\n"
+                             "| %12.6f %12.6f %12.6f %12.6f |\n"
+                             "| %12.6f %12.6f %12.6f %12.6f |\n"
+                             "\\ %12.6f %12.6f %12.6f %12.6f /\n",
                              file, line, "mf", mf->xx, mf->yx, mf->zx, mf->wx, mf->xy, mf->yy, mf->zy, mf->wy, mf->xz,
                              mf->yz, mf->zz, mf->wz, mf->xw, mf->yw, mf->zw, mf->ww);
                 Fault_AddHungupAndCrash(file, line);

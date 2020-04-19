@@ -12,5 +12,3 @@ glabel BgBowlWall_Destroy
 /* 000F4 8086F254 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000F8 8086F258 03E00008 */  jr      $ra                        
 /* 000FC 8086F25C 00000000 */  nop
-
-

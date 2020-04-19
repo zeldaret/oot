@@ -53,5 +53,3 @@ glabel EnHorseGanon_Update
 /* 0093C 80A68F9C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00940 80A68FA0 03E00008 */  jr      $ra                        
 /* 00944 80A68FA4 00000000 */  nop
-
-

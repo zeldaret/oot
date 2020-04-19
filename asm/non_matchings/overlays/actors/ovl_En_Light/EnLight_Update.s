@@ -185,5 +185,3 @@ glabel EnLight_Update
 /* 00528 80A9E068 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0052C 80A9E06C 03E00008 */  jr      $ra                        
 /* 00530 80A9E070 00000000 */  nop
-
-

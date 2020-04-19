@@ -5,8 +5,8 @@ glabel EnCow_Init
 /* 00220 809DF020 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00224 809DF024 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00228 809DF028 AFBF003C */  sw      $ra, 0x003C($sp)
-/* 0022C 809DF02C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00230 809DF030 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0022C 809DF02C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00230 809DF030 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00234 809DF034 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00238 809DF038 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 0023C 809DF03C 0C00AC78 */  jal     ActorShape_Init
@@ -35,7 +35,7 @@ glabel EnCow_Init
 /* 00290 809DF090 AFA50040 */  sw      $a1, 0x0040($sp)
 /* 00294 809DF094 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00298 809DF098 24A501CC */  addiu   $a1, $a1, 0x01CC           ## $a1 = 060001CC
-/* 0029C 809DF09C 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 0029C 809DF09C 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 002A0 809DF0A0 8FA40040 */  lw      $a0, 0x0040($sp)
 /* 002A4 809DF0A4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 002A8 809DF0A8 AFA50040 */  sw      $a1, 0x0040($sp)
@@ -68,9 +68,9 @@ glabel EnCow_Init
 /* 00304 809DF104 AE19027C */  sw      $t9, 0x027C($s0)           ## 0000027C
 /* 00308 809DF108 862800A4 */  lh      $t0, 0x00A4($s1)           ## 000000A4
 /* 0030C 809DF10C 24010034 */  addiu   $at, $zero, 0x0034         ## $at = 00000034
-/* 00310 809DF110 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00310 809DF110 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 00314 809DF114 15010010 */  bne     $t0, $at, .L809DF158
-/* 00318 809DF118 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00318 809DF118 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 0031C 809DF11C 8C490004 */  lw      $t1, 0x0004($v0)           ## 8015E664
 /* 00320 809DF120 51200006 */  beql    $t1, $zero, .L809DF13C
 /* 00324 809DF124 944A0ED6 */  lhu     $t2, 0x0ED6($v0)           ## 8015F536
@@ -120,7 +120,7 @@ glabel EnCow_Init
 /* 003B8 809DF1B8 3C014F00 */  lui     $at, 0x4F00                ## $at = 4F000000
 /* 003BC 809DF1BC 460A0400 */  add.s   $f16, $f0, $f10
 /* 003C0 809DF1C0 24180006 */  addiu   $t8, $zero, 0x0006         ## $t8 = 00000006
-/* 003C4 809DF1C4 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 003C4 809DF1C4 3C198016 */  lui     $t9, %hi(gGameInfo)
 /* 003C8 809DF1C8 444EF800 */  cfc1    $t6, $31
 /* 003CC 809DF1CC 44CFF800 */  ctc1    $t7, $31
 /* 003D0 809DF1D0 00000000 */  nop
@@ -157,7 +157,7 @@ glabel EnCow_Init
 /* 00440 809DF240 A60F0278 */  sh      $t7, 0x0278($s0)           ## 00000278
 /* 00444 809DF244 A600027A */  sh      $zero, 0x027A($s0)         ## 0000027A
 /* 00448 809DF248 A218001F */  sb      $t8, 0x001F($s0)           ## 0000001F
-/* 0044C 809DF24C 8F39FA90 */  lw      $t9, -0x0570($t9)          ## 8015FA90
+/* 0044C 809DF24C 8F39FA90 */  lw      $t9, %lo(gGameInfo)($t9)
 /* 00450 809DF250 44CEF800 */  ctc1    $t6, $31
 /* 00454 809DF254 10000071 */  beq     $zero, $zero, .L809DF41C
 /* 00458 809DF258 A72005BE */  sh      $zero, 0x05BE($t9)         ## 801605BE
@@ -176,7 +176,7 @@ glabel EnCow_Init
 /* 00488 809DF288 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0048C 809DF28C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00490 809DF290 24A54348 */  addiu   $a1, $a1, 0x4348           ## $a1 = 06004348
-/* 00494 809DF294 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 00494 809DF294 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00498 809DF298 8FA40040 */  lw      $a0, 0x0040($sp)
 /* 0049C 809DF29C 3C0B809E */  lui     $t3, %hi(func_809DFE98)    ## $t3 = 809E0000
 /* 004A0 809DF2A0 3C0C809E */  lui     $t4, %hi(func_809E0070)    ## $t4 = 809E0000
@@ -298,5 +298,3 @@ glabel EnCow_Init
 /* 00640 809DF440 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 00644 809DF444 03E00008 */  jr      $ra
 /* 00648 809DF448 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

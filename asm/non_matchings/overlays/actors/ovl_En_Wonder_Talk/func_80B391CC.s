@@ -1,3 +1,58 @@
+.rdata
+glabel D_80B399E4
+    .asciz "[32m ☆☆☆☆☆ 石板ＧＯ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B39A10
+    .asciz "[35m☆☆☆☆☆ 注目座標	       	☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B39A44
+    .asciz "[32m ☆☆☆☆☆ こども ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B39A6C
+    .asciz "[36m ☆☆☆☆☆ おとな ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B39A94
+    .asciz "[36m☆☆☆☆☆ this->actor.talk_message    ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80B39AD4
+    .asciz "[32m ☆☆☆☆☆ 日記帳スタート！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B39B08
+    .asciz "[35m☆☆☆☆☆ 注目座標	       	☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B39B3C
+    .asciz "[35m☆☆☆☆☆ 注目座標	       	☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B39B70
+    .asciz "[35m☆☆☆☆☆ 注目座標	       	☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B39BA4
+    .asciz "[35m☆☆☆☆☆ 注目座標	       	☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80B39BD8
+    .asciz "[36m☆☆☆☆☆ this->actor.talk_message    ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B39D78
+.word L80B39228
+.word L80B392C0
+.word L80B39314
+.word L80B39358
+.word L80B393B8
+.word 0x00000000
+
+.text
 glabel func_80B391CC
 /* 000DC 80B391CC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 000E0 80B391D0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -41,8 +96,8 @@ glabel L80B39228
 /* 00168 80B39258 0C00084C */  jal     osSyncPrintf
               
 /* 0016C 80B3925C E604015C */  swc1    $f4, 0x015C($s0)           ## 0000015C
-/* 00170 80B39260 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
-/* 00174 80B39264 8F18E664 */  lw      $t8, -0x199C($t8)          ## 8015E664
+/* 00170 80B39260 3C188016 */  lui     $t8, %hi(gSaveContext+4)
+/* 00174 80B39264 8F18E664 */  lw      $t8, %lo(gSaveContext+4)($t8)
 /* 00178 80B39268 24197040 */  addiu   $t9, $zero, 0x7040         ## $t9 = 00007040
 /* 0017C 80B3926C 3C0480B4 */  lui     $a0, %hi(D_80B39A6C)       ## $a0 = 80B40000
 /* 00180 80B39270 13000007 */  beq     $t8, $zero, .L80B39290     
@@ -129,9 +184,9 @@ glabel L80B39358
 /* 00294 80B39384 E6000160 */  swc1    $f0, 0x0160($s0)           ## 00000160
 /* 00298 80B39388 3C0142F0 */  lui     $at, 0x42F0                ## $at = 42F00000
 /* 0029C 80B3938C 44813000 */  mtc1    $at, $f6                   ## $f6 = 120.00
-/* 002A0 80B39390 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 002A0 80B39390 3C188016 */  lui     $t8, %hi(gSaveContext+0xed6)
 /* 002A4 80B39394 E606015C */  swc1    $f6, 0x015C($s0)           ## 0000015C
-/* 002A8 80B39398 9718F536 */  lhu     $t8, -0x0ACA($t8)          ## 8015F536
+/* 002A8 80B39398 9718F536 */  lhu     $t8, %lo(gSaveContext+0xed6)($t8)
 /* 002AC 80B3939C 33192000 */  andi    $t9, $t8, 0x2000           ## $t9 = 00000000
 /* 002B0 80B393A0 1320001A */  beq     $t9, $zero, .L80B3940C     
 /* 002B4 80B393A4 00000000 */  nop
@@ -179,5 +234,3 @@ glabel L80B393B8
 /* 00340 80B39430 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00344 80B39434 03E00008 */  jr      $ra                        
 /* 00348 80B39438 00000000 */  nop
-
-

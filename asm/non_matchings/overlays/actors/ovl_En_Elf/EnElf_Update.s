@@ -22,5 +22,3 @@ glabel EnElf_Update
 /* 03AF8 80A05728 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 03AFC 80A0572C 03E00008 */  jr      $ra                        
 /* 03B00 80A05730 00000000 */  nop
-
-

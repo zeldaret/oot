@@ -107,5 +107,3 @@ glabel EnSt_Update
 /* 024EC 80B06D7C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 024F0 80B06D80 03E00008 */  jr      $ra                        
 /* 024F4 80B06D84 00000000 */  nop
-
-

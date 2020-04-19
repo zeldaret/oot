@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_808A6074
+ .word 0x43C98000
+glabel D_808A6078
+ .word 0x43C98000
+
+.text
 glabel func_808A5A0C
 /* 0049C 808A5A0C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 004A0 808A5A10 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -71,12 +78,12 @@ glabel func_808A5A0C
 /* 005A4 808A5B14 84CD07A0 */  lh      $t5, 0x07A0($a2)           ## 000007A0
 /* 005A8 808A5B18 000D7080 */  sll     $t6, $t5,  2               
 /* 005AC 808A5B1C 00CE7821 */  addu    $t7, $a2, $t6              
-/* 005B0 808A5B20 0C024BE2 */  jal     func_80092F88              
+/* 005B0 808A5B20 0C024BE2 */  jal     Quake_Add              
 /* 005B4 808A5B24 8DE40790 */  lw      $a0, 0x0790($t7)           ## 00000790
 /* 005B8 808A5B28 00022400 */  sll     $a0, $v0, 16               
 /* 005BC 808A5B2C AFA2002C */  sw      $v0, 0x002C($sp)           
 /* 005C0 808A5B30 00042403 */  sra     $a0, $a0, 16               
-/* 005C4 808A5B34 0C024B6B */  jal     func_80092DAC              
+/* 005C4 808A5B34 0C024B6B */  jal     Quake_SetSpeed              
 /* 005C8 808A5B38 2405C350 */  addiu   $a1, $zero, 0xC350         ## $a1 = FFFFC350
 /* 005CC 808A5B3C 87B0002E */  lh      $s0, 0x002E($sp)           
 /* 005D0 808A5B40 24050005 */  addiu   $a1, $zero, 0x0005         ## $a1 = 00000005
@@ -84,11 +91,11 @@ glabel func_808A5A0C
 /* 005D8 808A5B48 00102400 */  sll     $a0, $s0, 16               
 /* 005DC 808A5B4C 00042403 */  sra     $a0, $a0, 16               
 /* 005E0 808A5B50 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 005E4 808A5B54 0C024B9C */  jal     func_80092E70              
+/* 005E4 808A5B54 0C024B9C */  jal     Quake_SetQuakeValues              
 /* 005E8 808A5B58 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 005EC 808A5B5C 00102400 */  sll     $a0, $s0, 16               
 /* 005F0 808A5B60 00042403 */  sra     $a0, $a0, 16               
-/* 005F4 808A5B64 0C024B7C */  jal     func_80092DF0              
+/* 005F4 808A5B64 0C024B7C */  jal     Quake_SetCountdown              
 /* 005F8 808A5B68 24050005 */  addiu   $a1, $zero, 0x0005         ## $a1 = 00000005
 /* 005FC 808A5B6C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L808A5B70:
@@ -96,5 +103,3 @@ glabel func_808A5A0C
 /* 00604 808A5B74 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00608 808A5B78 03E00008 */  jr      $ra                        
 /* 0060C 808A5B7C 00000000 */  nop
-
-

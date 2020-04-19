@@ -43,5 +43,3 @@ glabel ItemBHeart_Update
 /* 00108 80B85258 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 0010C 80B8525C 03E00008 */  jr      $ra                        
 /* 00110 80B85260 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

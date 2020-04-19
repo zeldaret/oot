@@ -1,6 +1,5 @@
 #include "z_bg_jya_1flift.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgJya1flift_Init(BgJya1flift* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgJya1flift_Draw(BgJya1flift* this, GlobalContext* globalCtx);
 const ActorInit Bg_Jya_1flift_InitVars = {
     ACTOR_BG_JYA_1FLIFT,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJya1flift),

@@ -62,7 +62,7 @@ glabel func_800ECA00
 /* B63BB4 800ECA14 248468C0 */  addiu $a0, %lo(gPadMgr) # addiu $a0, $a0, 0x68c0
 /* B63BB8 800ECA18 27A50020 */  addiu $a1, $sp, 0x20
 /* B63BBC 800ECA1C 00003025 */  move  $a2, $zero
-/* B63BC0 800ECA20 0C031F82 */  jal   func_800C7E08
+/* B63BC0 800ECA20 0C031F82 */  jal   PadMgr_RequestPadData
 /* B63BC4 800ECA24 AFAE0018 */   sw    $t6, 0x18($sp)
 /* B63BC8 800ECA28 97AF0020 */  lhu   $t7, 0x20($sp)
 /* B63BCC 800ECA2C 8FB80018 */  lw    $t8, 0x18($sp)
@@ -2307,7 +2307,7 @@ glabel func_800EE97C
 /* B65B24 800EE984 3C048016 */  lui   $a0, %hi(gPadMgr) # $a0, 0x8016
 /* B65B28 800EE988 248468C0 */  addiu $a0, %lo(gPadMgr) # addiu $a0, $a0, 0x68c0
 /* B65B2C 800EE98C 27A50020 */  addiu $a1, $sp, 0x20
-/* B65B30 800EE990 0C031F82 */  jal   func_800C7E08
+/* B65B30 800EE990 0C031F82 */  jal   PadMgr_RequestPadData
 /* B65B34 800EE994 00003025 */   move  $a2, $zero
 /* B65B38 800EE998 97AE0068 */  lhu   $t6, 0x68($sp)
 /* B65B3C 800EE99C 3C038017 */  lui   $v1, %hi(D_8016BAB4) # $v1, 0x8017

@@ -92,5 +92,3 @@ glabel func_80ABB0CC
 /* 015DC 80ABB21C 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 015E0 80ABB220 03E00008 */  jr      $ra                        
 /* 015E4 80ABB224 00000000 */  nop
-
-

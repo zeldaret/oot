@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B116A0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B116A4
+    .asciz "[32m☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel EnSyatekiMan_Init
 /* 00000 80B10870 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 80B10874 AFB00028 */  sw      $s0, 0x0028($sp)
@@ -32,8 +42,8 @@ glabel EnSyatekiMan_Init
 /* 0006C 80B108DC 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00070 80B108E0 0C0291BE */  jal     SkelAnime_InitSV
 /* 00074 80B108E4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 00078 80B108E8 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 0007C 80B108EC 8D08E664 */  lw      $t0, -0x199C($t0)          ## 8015E664
+/* 00078 80B108E8 3C088016 */  lui     $t0, %hi(gSaveContext+4)
+/* 0007C 80B108EC 8D08E664 */  lw      $t0, %lo(gSaveContext+4)($t0)
 /* 00080 80B108F0 3C0B80B1 */  lui     $t3, %hi(func_80B11310)    ## $t3 = 80B10000
 /* 00084 80B108F4 240A0014 */  addiu   $t2, $zero, 0x0014         ## $t2 = 00000014
 /* 00088 80B108F8 11000003 */  beq     $t0, $zero, .L80B10908
@@ -54,5 +64,3 @@ glabel EnSyatekiMan_Init
 /* 000C0 80B10930 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 000C4 80B10934 03E00008 */  jr      $ra
 /* 000C8 80B10938 00000000 */  nop
-
-

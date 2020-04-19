@@ -1,3 +1,17 @@
+.rdata
+glabel D_808AF994
+    .asciz "../z_bg_spot06_objects.c"
+    .balign 4
+
+glabel D_808AF9B0
+    .asciz "../z_bg_spot06_objects.c"
+    .balign 4
+
+glabel D_808AF9CC
+    .asciz "../z_bg_spot06_objects.c"
+    .balign 4
+
+.text
 glabel func_808AF524
 /* 00DA4 808AF524 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 00DA8 808AF528 AFB20040 */  sw      $s2, 0x0040($sp)           
@@ -11,7 +25,7 @@ glabel func_808AF524
 /* 00DC8 808AF548 24C6F994 */  addiu   $a2, $a2, %lo(D_808AF994)  ## $a2 = 808AF994
 /* 00DCC 808AF54C 27A4006C */  addiu   $a0, $sp, 0x006C           ## $a0 = FFFFFFE4
 /* 00DD0 808AF550 2407034C */  addiu   $a3, $zero, 0x034C         ## $a3 = 0000034C
-/* 00DD4 808AF554 0C031AB1 */  jal     func_800C6AC4              
+/* 00DD4 808AF554 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00DD8 808AF558 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00DDC 808AF55C 0C024F61 */  jal     func_80093D84              
 /* 00DE0 808AF560 8E440000 */  lw      $a0, 0x0000($s2)           ## 00000000
@@ -52,7 +66,7 @@ glabel func_808AF524
 /* 00E6C 808AF5EC AFA20064 */  sw      $v0, 0x0064($sp)           
 /* 00E70 808AF5F0 AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 00E74 808AF5F4 AFB0001C */  sw      $s0, 0x001C($sp)           
-/* 00E78 808AF5F8 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00E78 808AF5F8 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00E7C 808AF5FC 02003825 */  or      $a3, $s0, $zero            ## $a3 = 00000000
 /* 00E80 808AF600 8FA30064 */  lw      $v1, 0x0064($sp)           
 /* 00E84 808AF604 8FA60050 */  lw      $a2, 0x0050($sp)           
@@ -80,7 +94,7 @@ glabel func_808AF524
 /* 00EDC 808AF65C AFA70020 */  sw      $a3, 0x0020($sp)           
 /* 00EE0 808AF660 AFB0001C */  sw      $s0, 0x001C($sp)           
 /* 00EE4 808AF664 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 00EE8 808AF668 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 00EE8 808AF668 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 00EEC 808AF66C AFA20060 */  sw      $v0, 0x0060($sp)           
 /* 00EF0 808AF670 8FA30060 */  lw      $v1, 0x0060($sp)           
 /* 00EF4 808AF674 3C0BFB00 */  lui     $t3, 0xFB00                ## $t3 = FB000000
@@ -95,7 +109,7 @@ glabel func_808AF524
 /* 00F18 808AF698 AC4B0000 */  sw      $t3, 0x0000($v0)           ## 00000000
 /* 00F1C 808AF69C 8FAD0088 */  lw      $t5, 0x0088($sp)           
 /* 00F20 808AF6A0 3C06808B */  lui     $a2, %hi(D_808AF9CC)       ## $a2 = 808B0000
-/* 00F24 808AF6A4 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 00F24 808AF6A4 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x1360)
 /* 00F28 808AF6A8 C5A4016C */  lwc1    $f4, 0x016C($t5)           ## 0000016C
 /* 00F2C 808AF6AC 3C09DE00 */  lui     $t1, 0xDE00                ## $t1 = DE000000
 /* 00F30 808AF6B0 24C6F9CC */  addiu   $a2, $a2, %lo(D_808AF9CC)  ## $a2 = 808AF9CC
@@ -104,7 +118,7 @@ glabel func_808AF524
 /* 00F3C 808AF6BC 2407036F */  addiu   $a3, $zero, 0x036F         ## $a3 = 0000036F
 /* 00F40 808AF6C0 4502000F */  bc1fl   .L808AF700                 
 /* 00F44 808AF6C4 8E2202D0 */  lw      $v0, 0x02D0($s1)           ## 000002D0
-/* 00F48 808AF6C8 8DCEF9C0 */  lw      $t6, -0x0640($t6)          ## 8015F9C0
+/* 00F48 808AF6C8 8DCEF9C0 */  lw      $t6, %lo(gSaveContext+0x1360)($t6)
 /* 00F4C 808AF6CC 3C18DE00 */  lui     $t8, 0xDE00                ## $t8 = DE000000
 /* 00F50 808AF6D0 29C10004 */  slti    $at, $t6, 0x0004           
 /* 00F54 808AF6D4 5020000A */  beql    $at, $zero, .L808AF700     
@@ -126,7 +140,7 @@ glabel func_808AF524
 /* 00F90 808AF710 AC4A0004 */  sw      $t2, 0x0004($v0)           ## 00000004
 /* 00F94 808AF714 AC490000 */  sw      $t1, 0x0000($v0)           ## 00000000
 .L808AF718:
-/* 00F98 808AF718 0C031AD5 */  jal     func_800C6B54              
+/* 00F98 808AF718 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00F9C 808AF71C 8E450000 */  lw      $a1, 0x0000($s2)           ## 00000000
 /* 00FA0 808AF720 8FBF0044 */  lw      $ra, 0x0044($sp)           
 /* 00FA4 808AF724 8FB00038 */  lw      $s0, 0x0038($sp)           
@@ -134,5 +148,3 @@ glabel func_808AF524
 /* 00FAC 808AF72C 8FB20040 */  lw      $s2, 0x0040($sp)           
 /* 00FB0 808AF730 03E00008 */  jr      $ra                        
 /* 00FB4 808AF734 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
-
-

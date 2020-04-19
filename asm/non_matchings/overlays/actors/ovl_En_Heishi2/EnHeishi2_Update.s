@@ -91,5 +91,3 @@ glabel EnHeishi2_Update
 /* 01D14 80A54BB4 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 01D18 80A54BB8 03E00008 */  jr      $ra                        
 /* 01D1C 80A54BBC 00000000 */  nop
-
-

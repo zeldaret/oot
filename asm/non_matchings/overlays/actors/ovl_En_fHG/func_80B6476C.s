@@ -1,3 +1,16 @@
+.rdata
+glabel D_80B65324
+    .asciz "REVISE !!\n"
+    .balign 4
+
+.late_rodata
+glabel D_80B65444
+    .float 1.3
+
+glabel D_80B65448
+ .word 0x454FD000
+
+.text
 glabel func_80B6476C
 /* 01DAC 80B6476C 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 01DB0 80B64770 AFB00040 */  sw      $s0, 0x0040($sp)
@@ -207,7 +220,7 @@ glabel func_80B6476C
 /* 02090 80B64A50 AE0D01FC */  sw      $t5, 0x01FC($s0)           ## 000001FC
 /* 02094 80B64A54 44060000 */  mfc1    $a2, $f0
 /* 02098 80B64A58 8FA4004C */  lw      $a0, 0x004C($sp)
-/* 0209C 80B64A5C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 0209C 80B64A5C 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 020A0 80B64A60 AFA20050 */  sw      $v0, 0x0050($sp)
 /* 020A4 80B64A64 8FA20050 */  lw      $v0, 0x0050($sp)
 /* 020A8 80B64A68 240F0005 */  addiu   $t7, $zero, 0x0005         ## $t7 = 00000005
@@ -228,5 +241,3 @@ glabel func_80B6476C
 /* 020DC 80B64A9C 8FB00040 */  lw      $s0, 0x0040($sp)
 /* 020E0 80B64AA0 03E00008 */  jr      $ra
 /* 020E4 80B64AA4 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-
