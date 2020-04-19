@@ -5,12 +5,10 @@
 .set noreorder # don't insert nops after branches
 .set gp=64     # allow use of 64-bit general purposee registers
 
-.section .rodata
+.section .data
 
-.align 4
+glabel D_801344D0
+    .incbin "baserom.z64", 0xBAB670, 0x7FE
 
-glabel D_8014B270
-    .double 0.1
-
-glabel D_8014B278
-    .double 0.1
+glabel D_80134CCE
+    .incbin "baserom.z64", 0xBABE6E, 0x2

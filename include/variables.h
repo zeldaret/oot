@@ -3792,7 +3792,7 @@ extern Arena gSystemArena;
 //extern OSMesg osSiMesgBuff[SIAccessQueueSize];
 //extern OSMesgQueue gOsSiMessageQueue;
 //extern pif_data_buffer_t _osPifInternalBuff;
-//extern u8 _osCont_lastPollType;
+extern u8 _osCont_lastPollType;
 //extern u8 _osCont_numControllers;
 //extern OSMesgQueue _osContMesgQueue;
 //extern OSMesg _osContMesgBuff[4];

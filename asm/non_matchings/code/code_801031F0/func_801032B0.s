@@ -1,69 +1,12 @@
-.include "macro.inc"
+.late_rodata
 
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+glabel D_8014B270
+    .double 0.1
 
-.section .text
+glabel D_8014B278
+    .double 0.1
 
-.align 4
-
-glabel func_801031F0
-/* B7A390 801031F0 27BDFFE8 */  addiu $sp, $sp, -0x18
-/* B7A394 801031F4 AFBF0014 */  sw    $ra, 0x14($sp)
-/* B7A398 801031F8 0C0419E8 */  jal   func_801067A0
-/* B7A39C 801031FC 00002025 */   move  $a0, $zero
-/* B7A3A0 80103200 8FBF0014 */  lw    $ra, 0x14($sp)
-/* B7A3A4 80103204 27BD0018 */  addiu $sp, $sp, 0x18
-/* B7A3A8 80103208 03E00008 */  jr    $ra
-/* B7A3AC 8010320C 00000000 */   nop   
-
-glabel func_80103210
-/* B7A3B0 80103210 27BDFFE0 */  addiu $sp, $sp, -0x20
-/* B7A3B4 80103214 AFBF0014 */  sw    $ra, 0x14($sp)
-/* B7A3B8 80103218 0C0402E8 */  jal   __osSiGetAccess
-/* B7A3BC 8010321C AFA40020 */   sw    $a0, 0x20($sp)
-/* B7A3C0 80103220 3C0E8017 */  lui   $t6, %hi(_osCont_lastPollType) # $t6, 0x8017
-/* B7A3C4 80103224 91CE5810 */  lbu   $t6, %lo(_osCont_lastPollType)($t6)
-/* B7A3C8 80103228 11C0000B */  beqz  $t6, .L80103258
-/* B7A3CC 8010322C 00000000 */   nop   
-/* B7A3D0 80103230 0C040386 */  jal   __osPackRequestData
-/* B7A3D4 80103234 00002025 */   move  $a0, $zero
-/* B7A3D8 80103238 3C058017 */  lui   $a1, %hi(_osPifInternalBuff) # $a1, 0x8017
-/* B7A3DC 8010323C 24A557D0 */  addiu $a1, %lo(_osPifInternalBuff) # addiu $a1, $a1, 0x57d0
-/* B7A3E0 80103240 0C0404FC */  jal   __osSiRawStartDma /*(s32 dir, void *addr)*/
-/* B7A3E4 80103244 24040001 */   li    $a0, 1
-/* B7A3E8 80103248 8FA40020 */  lw    $a0, 0x20($sp)
-/* B7A3EC 8010324C 00002825 */  move  $a1, $zero
-/* B7A3F0 80103250 0C000CA0 */  jal   osRecvMesg
-/* B7A3F4 80103254 24060001 */   li    $a2, 1
-.L80103258:
-/* B7A3F8 80103258 3C058017 */  lui   $a1, %hi(_osPifInternalBuff) # $a1, 0x8017
-/* B7A3FC 8010325C 24A557D0 */  addiu $a1, %lo(_osPifInternalBuff) # addiu $a1, $a1, 0x57d0
-/* B7A400 80103260 0C0404FC */  jal   __osSiRawStartDma /*(s32 dir, void *addr)*/
-/* B7A404 80103264 00002025 */   move  $a0, $zero
-/* B7A408 80103268 3C018017 */  lui   $at, %hi(_osCont_lastPollType) # $at, 0x8017
-/* B7A40C 8010326C AFA2001C */  sw    $v0, 0x1c($sp)
-/* B7A410 80103270 0C0402F9 */  jal   __osSiRelAccess
-/* B7A414 80103274 A0205810 */   sb    $zero, %lo(_osCont_lastPollType)($at)
-/* B7A418 80103278 8FBF0014 */  lw    $ra, 0x14($sp)
-/* B7A41C 8010327C 8FA2001C */  lw    $v0, 0x1c($sp)
-/* B7A420 80103280 27BD0020 */  addiu $sp, $sp, 0x20
-/* B7A424 80103284 03E00008 */  jr    $ra
-/* B7A428 80103288 00000000 */   nop   
-
-glabel func_8010328C
-/* B7A42C 8010328C 27BDFFE0 */  addiu $sp, $sp, -0x20
-/* B7A430 80103290 AFBF0014 */  sw    $ra, 0x14($sp)
-/* B7A434 80103294 00802825 */  move  $a1, $a0
-/* B7A438 80103298 0C04035B */  jal   __osContGetInitData
-/* B7A43C 8010329C 27A4001F */   addiu $a0, $sp, 0x1f
-/* B7A440 801032A0 8FBF0014 */  lw    $ra, 0x14($sp)
-/* B7A444 801032A4 27BD0020 */  addiu $sp, $sp, 0x20
-/* B7A448 801032A8 03E00008 */  jr    $ra
-/* B7A44C 801032AC 00000000 */   nop   
-
+.text
 glabel func_801032B0
 /* B7A450 801032B0 27BDFF70 */  addiu $sp, $sp, -0x90
 /* B7A454 801032B4 AFBF003C */  sw    $ra, 0x3c($sp)
@@ -574,50 +517,3 @@ glabel func_801032B0
 /* B7AC08 80103A68 03E00008 */  jr    $ra
 /* B7AC0C 80103A6C 27BD0090 */   addiu $sp, $sp, 0x90
 
-glabel func_80103A70
-/* B7AC10 80103A70 27BDFF68 */  addiu $sp, $sp, -0x98
-/* B7AC14 80103A74 C7A400A8 */  lwc1  $f4, 0xa8($sp)
-/* B7AC18 80103A78 C7A600AC */  lwc1  $f6, 0xac($sp)
-/* B7AC1C 80103A7C C7A800B0 */  lwc1  $f8, 0xb0($sp)
-/* B7AC20 80103A80 E7A40010 */  swc1  $f4, 0x10($sp)
-/* B7AC24 80103A84 E7A60014 */  swc1  $f6, 0x14($sp)
-/* B7AC28 80103A88 C7A600C4 */  lwc1  $f6, 0xc4($sp)
-/* B7AC2C 80103A8C C7A400C0 */  lwc1  $f4, 0xc0($sp)
-/* B7AC30 80103A90 C7AA00B4 */  lwc1  $f10, 0xb4($sp)
-/* B7AC34 80103A94 C7B000B8 */  lwc1  $f16, 0xb8($sp)
-/* B7AC38 80103A98 C7B200BC */  lwc1  $f18, 0xbc($sp)
-/* B7AC3C 80103A9C 44876000 */  mtc1  $a3, $f12
-/* B7AC40 80103AA0 E7A80018 */  swc1  $f8, 0x18($sp)
-/* B7AC44 80103AA4 E7A6002C */  swc1  $f6, 0x2c($sp)
-/* B7AC48 80103AA8 E7A40028 */  swc1  $f4, 0x28($sp)
-/* B7AC4C 80103AAC E7AA001C */  swc1  $f10, 0x1c($sp)
-/* B7AC50 80103AB0 E7B00020 */  swc1  $f16, 0x20($sp)
-/* B7AC54 80103AB4 E7B20024 */  swc1  $f18, 0x24($sp)
-/* B7AC58 80103AB8 C7B200D4 */  lwc1  $f18, 0xd4($sp)
-/* B7AC5C 80103ABC C7B000D0 */  lwc1  $f16, 0xd0($sp)
-/* B7AC60 80103AC0 C7AA00CC */  lwc1  $f10, 0xcc($sp)
-/* B7AC64 80103AC4 C7A400D8 */  lwc1  $f4, 0xd8($sp)
-/* B7AC68 80103AC8 C7A600DC */  lwc1  $f6, 0xdc($sp)
-/* B7AC6C 80103ACC C7A800C8 */  lwc1  $f8, 0xc8($sp)
-/* B7AC70 80103AD0 8FAE00E0 */  lw    $t6, 0xe0($sp)
-/* B7AC74 80103AD4 8FAF00E4 */  lw    $t7, 0xe4($sp)
-/* B7AC78 80103AD8 AFBF0054 */  sw    $ra, 0x54($sp)
-/* B7AC7C 80103ADC AFA40098 */  sw    $a0, 0x98($sp)
-/* B7AC80 80103AE0 44076000 */  mfc1  $a3, $f12
-/* B7AC84 80103AE4 27A40058 */  addiu $a0, $sp, 0x58
-/* B7AC88 80103AE8 E7B2003C */  swc1  $f18, 0x3c($sp)
-/* B7AC8C 80103AEC E7B00038 */  swc1  $f16, 0x38($sp)
-/* B7AC90 80103AF0 E7AA0034 */  swc1  $f10, 0x34($sp)
-/* B7AC94 80103AF4 E7A40040 */  swc1  $f4, 0x40($sp)
-/* B7AC98 80103AF8 E7A60044 */  swc1  $f6, 0x44($sp)
-/* B7AC9C 80103AFC E7A80030 */  swc1  $f8, 0x30($sp)
-/* B7ACA0 80103B00 AFAE0048 */  sw    $t6, 0x48($sp)
-/* B7ACA4 80103B04 0C040CAC */  jal   func_801032B0
-/* B7ACA8 80103B08 AFAF004C */   sw    $t7, 0x4c($sp)
-/* B7ACAC 80103B0C 27A40058 */  addiu $a0, $sp, 0x58
-/* B7ACB0 80103B10 0C041938 */  jal   func_801064E0
-/* B7ACB4 80103B14 8FA50098 */   lw    $a1, 0x98($sp)
-/* B7ACB8 80103B18 8FBF0054 */  lw    $ra, 0x54($sp)
-/* B7ACBC 80103B1C 27BD0098 */  addiu $sp, $sp, 0x98
-/* B7ACC0 80103B20 03E00008 */  jr    $ra
-/* B7ACC4 80103B24 00000000 */   nop   

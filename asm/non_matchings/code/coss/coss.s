@@ -1,14 +1,3 @@
-.include "macro.inc"
-
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
-
-.section .text
-
-.align 4
-
 glabel coss
 /* B7B920 80104780 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B7B924 80104784 AFA40018 */  sw    $a0, 0x18($sp)

@@ -6,6 +6,38 @@
 #include <PR/os_cont.h>
 #include <PR/os_message.h>
 
+#define CONT_CMD_REQUEST_STATUS 0
+#define CONT_CMD_READ_BUTTON 1
+#define CONT_CMD_READ_MEMPACK 2
+#define CONT_CMD_WRITE_MEMPACK 3
+#define CONT_CMD_READ_EEPROM 4
+#define CONT_CMD_WRITE_EEPROM 5
+#define CONT_CMD_RESET 0xFF
+
+#define CONT_CMD_REQUEST_STATUS_TX 1
+#define CONT_CMD_READ_BUTTON_TX 1
+#define CONT_CMD_READ_MEMPACK_TX 3
+#define CONT_CMD_WRITE_MEMPACK_TX 35
+#define CONT_CMD_READ_EEPROM_TX 2
+#define CONT_CMD_WRITE_EEPROM_TX 10
+#define CONT_CMD_RESET_TX 1
+
+#define CONT_CMD_REQUEST_STATUS_RX 3
+#define CONT_CMD_READ_BUTTON_RX 4
+#define CONT_CMD_READ_MEMPACK_RX 33
+#define CONT_CMD_WRITE_MEMPACK_RX 1
+#define CONT_CMD_READ_EEPROM_RX 8
+#define CONT_CMD_WRITE_EEPROM_RX 1
+#define CONT_CMD_RESET_RX 3
+
+#define CONT_CMD_NOP 0xFF
+#define CONT_CMD_END 0xFE // Indicates end of a command
+#define CONT_CMD_EXE 1    // Set pif ram status byte to this to do a command
+
+#define DIR_STATUS_EMPTY 0
+#define DIR_STATUS_UNKNOWN 1
+#define DIR_STATUS_OCCUPIED 2
+
 typedef struct
 {
     /* 0x00 */ union{

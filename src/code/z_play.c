@@ -1094,7 +1094,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         gfxCtx->polyOpa.p = func_800BC8A0(globalCtx, gfxCtx->polyOpa.p);
         gfxCtx->polyXlu.p = func_800BC8A0(globalCtx, gfxCtx->polyXlu.p);
 
-        func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.near, globalCtx->lightCtx.unk_0C);
+        func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.unk_0C);
         func_800AAA50(&globalCtx->view, 15);
 
         Matrix_MtxToMtxF(&globalCtx->view.viewing, &globalCtx->mf_11DA0);
