@@ -37,8 +37,8 @@ void func_800D2E30(UnkRumbleStruct* arg0) {
             arg0->unk_44[i] = 0;
             arg0->unk_04[i] = 0;
         }
-        arg0->unk_106 = arg0->unk_108 = arg0->unk_10A = arg0->unk_10B = arg0->unk_10C = arg0->unk_10D = 0U;
-        arg0->unk_104 = 1U;
+        arg0->unk_106 = arg0->unk_108 = arg0->unk_10A = arg0->unk_10B = arg0->unk_10C = arg0->unk_10D = 0;
+        arg0->unk_104 = 1;
     }
     if (arg0->unk_104 != 0) {
         for (i = 0; i != 0x40; i++) {
@@ -51,7 +51,7 @@ void func_800D2E30(UnkRumbleStruct* arg0) {
                     if (temp > 0) {
                         arg0->unk_04[i] = temp;
                     } else {
-                        arg0->unk_04[i] = (u8)0U;
+                        arg0->unk_04[i] = 0;
                     }
                 }
 
@@ -77,7 +77,7 @@ void func_800D2E30(UnkRumbleStruct* arg0) {
                 if (temp > 0) {
                     arg0->unk_10A = temp;
                 } else {
-                    arg0->unk_10A = 0U;
+                    arg0->unk_10A = 0;
                 }
             }
             temp = arg0->unk_10D + arg0->unk_10A;
@@ -89,7 +89,7 @@ void func_800D2E30(UnkRumbleStruct* arg0) {
             temp = arg0->unk_10A;
         } else {
             if (index == -1) {
-                temp = 0U;
+                temp = 0;
             } else {
                 temp = arg0->unk_04[index];
             }
@@ -102,7 +102,7 @@ void func_800D2E30(UnkRumbleStruct* arg0) {
         } else {
             arg0->unk_108 = 0;
             if ((++arg0->unk_106) >= 0x1C21) {
-                arg0->unk_104 = 0U;
+                arg0->unk_104 = 0;
             }
         }
     } else {
@@ -113,7 +113,7 @@ void func_800D2E30(UnkRumbleStruct* arg0) {
             arg0->unk_04[i] = 0;
         }
 
-        arg0->unk_106 = arg0->unk_108 = arg0->unk_10A = arg0->unk_10B = arg0->unk_10C = arg0->unk_10D = 0U;
+        arg0->unk_106 = arg0->unk_108 = arg0->unk_10A = arg0->unk_10B = arg0->unk_10C = arg0->unk_10D = 0;
     }
 }
 
