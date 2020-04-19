@@ -1,9 +1,6 @@
 #include <ultra64.h>
 #include <global.h>
 
-extern u8 D_8012DBB0;
-extern PadMgr gPadMgr;
-
 void func_800D2E30(UnkRumbleStruct* arg0) {
     s32 i;
     s32 unk_a3;
