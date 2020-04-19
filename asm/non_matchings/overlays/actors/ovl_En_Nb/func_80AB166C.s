@@ -1,6 +1,6 @@
 glabel func_80AB166C
-/* 008DC 80AB166C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 008E0 80AB1670 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 008DC 80AB166C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 008E0 80AB1670 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 008E4 80AB1674 904E1415 */  lbu     $t6, 0x1415($v0)           ## 8015FA75
 /* 008E8 80AB1678 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 008EC 80AB167C 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003

@@ -30,8 +30,8 @@ glabel func_80A1C05C
 /* 01728 80A1C0C8 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80A1C0CC:
 /* 0172C 80A1C0CC 01284821 */  addu    $t1, $t1, $t0              
-/* 01730 80A1C0D0 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 01734 80A1C0D4 954AF54E */  lhu     $t2, -0x0AB2($t2)          ## 8015F54E
+/* 01730 80A1C0D0 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xeee)
+/* 01734 80A1C0D4 954AF54E */  lhu     $t2, %lo(gSaveContext+0xeee)($t2)
 /* 01738 80A1C0D8 9529D008 */  lhu     $t1, %lo(D_80A1D008)($t1)  
 /* 0173C 80A1C0DC 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 01740 80A1C0E0 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001

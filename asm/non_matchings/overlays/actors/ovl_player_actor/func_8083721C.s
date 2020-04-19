@@ -1,6 +1,6 @@
 glabel func_8083721C
-/* 0500C 8083721C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 05010 80837220 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 0500C 8083721C 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 05010 80837220 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 05014 80837224 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 05018 80837228 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0501C 8083722C 85CF006A */  lh      $t7, 0x006A($t6)           ## 8016006A

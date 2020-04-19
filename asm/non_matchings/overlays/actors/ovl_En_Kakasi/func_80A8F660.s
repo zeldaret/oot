@@ -30,10 +30,10 @@ glabel func_80A8F660
 /* 0055C 80A8F6CC 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00560 80A8F6D0 E7B00010 */  swc1    $f16, 0x0010($sp)
-/* 00564 80A8F6D4 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00564 80A8F6D4 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 00568 80A8F6D8 24084076 */  addiu   $t0, $zero, 0x4076         ## $t0 = 00004076
 /* 0056C 80A8F6DC 24090006 */  addiu   $t1, $zero, 0x0006         ## $t1 = 00000006
-/* 00570 80A8F6E0 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00570 80A8F6E0 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00574 80A8F6E4 A608010E */  sh      $t0, 0x010E($s0)           ## 0000010E
 /* 00578 80A8F6E8 A6090196 */  sh      $t1, 0x0196($s0)           ## 00000196
 /* 0057C 80A8F6EC 8C4A0004 */  lw      $t2, 0x0004($v0)           ## 8015E664

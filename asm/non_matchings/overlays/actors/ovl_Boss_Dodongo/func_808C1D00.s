@@ -293,8 +293,8 @@ glabel L808C1E60
 /* 00F10 808C20A0 C5D2002C */  lwc1    $f18, 0x002C($t6)          ## 0000002C
 /* 00F14 808C20A4 E612043C */  swc1    $f18, 0x043C($s0)          ## 0000043C
 .L808C20A8:
-/* 00F18 808C20A8 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00F1C 808C20AC 95EFF542 */  lhu     $t7, -0x0ABE($t7)          ## 8015F542
+/* 00F18 808C20A8 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xee2)
+/* 00F1C 808C20AC 95EFF542 */  lhu     $t7, %lo(gSaveContext+0xee2)($t7)
 /* 00F20 808C20B0 31F80002 */  andi    $t8, $t7, 0x0002           ## $t8 = 00000000
 /* 00F24 808C20B4 5300002D */  beql    $t8, $zero, .L808C216C
 /* 00F28 808C20B8 860E0198 */  lh      $t6, 0x0198($s0)           ## 00000198
@@ -509,8 +509,8 @@ glabel L808C23A8
 /* 01230 808C23C0 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
 
 /* 01234 808C23C4 E7A00010 */  swc1    $f0, 0x0010($sp)
-/* 01238 808C23C8 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
-/* 0123C 808C23CC 95ADF542 */  lhu     $t5, -0x0ABE($t5)          ## 8015F542
+/* 01238 808C23C8 3C0D8016 */  lui     $t5, %hi(gSaveContext+0xee2)
+/* 0123C 808C23CC 95ADF542 */  lhu     $t5, %lo(gSaveContext+0xee2)($t5)
 /* 01240 808C23D0 8FAF006C */  lw      $t7, 0x006C($sp)
 /* 01244 808C23D4 31AE0002 */  andi    $t6, $t5, 0x0002           ## $t6 = 00000000
 /* 01248 808C23D8 11C00004 */  beq     $t6, $zero, .L808C23EC
@@ -660,8 +660,8 @@ glabel L808C23A8
 /* 01454 808C25E4 2401005A */  addiu   $at, $zero, 0x005A         ## $at = 0000005A
 .L808C25E8:
 /* 01458 808C25E8 1461001F */  bne     $v1, $at, .L808C2668
-/* 0145C 808C25EC 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 01460 808C25F0 9529F542 */  lhu     $t1, -0x0ABE($t1)          ## 8015F542
+/* 0145C 808C25EC 3C098016 */  lui     $t1, %hi(gSaveContext+0xee2)
+/* 01460 808C25F0 9529F542 */  lhu     $t1, %lo(gSaveContext+0xee2)($t1)
 /* 01464 808C25F4 8FA4007C */  lw      $a0, 0x007C($sp)
 /* 01468 808C25F8 3C020601 */  lui     $v0, 0x0601                ## $v0 = 06010000
 /* 0146C 808C25FC 312A0002 */  andi    $t2, $t1, 0x0002           ## $t2 = 00000000
@@ -671,10 +671,10 @@ glabel L808C23A8
 /* 0147C 808C260C 00025900 */  sll     $t3, $v0,  4
 /* 01480 808C2610 000B6702 */  srl     $t4, $t3, 28
 /* 01484 808C2614 000C6880 */  sll     $t5, $t4,  2
-/* 01488 808C2618 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 01488 808C2618 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 0148C 808C261C 01CD7021 */  addu    $t6, $t6, $t5
 /* 01490 808C2620 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 01494 808C2624 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 01494 808C2624 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 01498 808C2628 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 0149C 808C262C 00417824 */  and     $t7, $v0, $at
 /* 014A0 808C2630 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
@@ -737,12 +737,12 @@ glabel L808C23A8
 /* 01574 808C2704 A60001BC */  sh      $zero, 0x01BC($s0)         ## 000001BC
 /* 01578 808C2708 8FA8006C */  lw      $t0, 0x006C($sp)
 /* 0157C 808C270C 2419BFFE */  addiu   $t9, $zero, 0xBFFE         ## $t9 = FFFFBFFE
-/* 01580 808C2710 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 01580 808C2710 3C098016 */  lui     $t1, %hi(gSaveContext+0xee2)
 /* 01584 808C2714 A51900B6 */  sh      $t9, 0x00B6($t0)           ## 000000B6
-/* 01588 808C2718 9529F542 */  lhu     $t1, -0x0ABE($t1)          ## 8015F542
-/* 0158C 808C271C 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 01588 808C2718 9529F542 */  lhu     $t1, %lo(gSaveContext+0xee2)($t1)
+/* 0158C 808C271C 3C018016 */  lui     $at, %hi(gSaveContext+0xee2)
 /* 01590 808C2720 352A0002 */  ori     $t2, $t1, 0x0002           ## $t2 = 80160002
-/* 01594 808C2724 A42AF542 */  sh      $t2, -0x0ABE($at)          ## 8015F542
+/* 01594 808C2724 A42AF542 */  sh      $t2, %lo(gSaveContext+0xee2)($at)
 .L808C2728:
 /* 01598 808C2728 860B01B4 */  lh      $t3, 0x01B4($s0)           ## 000001B4
 .L808C272C:

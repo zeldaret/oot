@@ -1,6 +1,6 @@
 glabel func_80978EBC
-/* 0058C 80978EBC 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00590 80978EC0 8DCEF9C0 */  lw      $t6, -0x0640($t6)          ## 8015F9C0
+/* 0058C 80978EBC 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x1360)
+/* 00590 80978EC0 8DCEF9C0 */  lw      $t6, %lo(gSaveContext+0x1360)($t6)
 /* 00594 80978EC4 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 00598 80978EC8 29C10004 */  slti    $at, $t6, 0x0004           
 /* 0059C 80978ECC 10200003 */  beq     $at, $zero, .L80978EDC     

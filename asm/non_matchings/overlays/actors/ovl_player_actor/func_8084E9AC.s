@@ -41,8 +41,8 @@ glabel func_8084E9AC
 /* 1C82C 8084EA3C 1000001D */  beq     $zero, $zero, .L8084EAB4   
 /* 1C830 8084EA40 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L8084EA44:
-/* 1C834 8084EA44 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 1C838 8084EA48 8F39E664 */  lw      $t9, -0x199C($t9)          ## 8015E664
+/* 1C834 8084EA44 3C198016 */  lui     $t9, %hi(gSaveContext+4)
+/* 1C838 8084EA48 8F39E664 */  lw      $t9, %lo(gSaveContext+4)($t9)
 /* 1C83C 8084EA4C 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 1C840 8084EA50 3C05431E */  lui     $a1, 0x431E                ## $a1 = 431E0000
 /* 1C844 8084EA54 1720000A */  bne     $t9, $zero, .L8084EA80     
@@ -57,8 +57,8 @@ glabel func_8084E9AC
 /* 1C868 8084EA78 1000000E */  beq     $zero, $zero, .L8084EAB4   
 /* 1C86C 8084EA7C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L8084EA80:
-/* 1C870 8084EA80 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 1C874 8084EA84 8D08E664 */  lw      $t0, -0x199C($t0)          ## 8015E664
+/* 1C870 8084EA80 3C088016 */  lui     $t0, %hi(gSaveContext+4)
+/* 1C874 8084EA84 8D08E664 */  lw      $t0, %lo(gSaveContext+4)($t0)
 /* 1C878 8084EA88 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 1C87C 8084EA8C 3C058085 */  lui     $a1, %hi(D_808549F4)       ## $a1 = 80850000
 /* 1C880 8084EA90 11000005 */  beq     $t0, $zero, .L8084EAA8     

@@ -27,8 +27,8 @@ glabel func_8083C544
 /* 0A398 8083C5A8 10410017 */  beq     $v0, $at, .L8083C608       
 /* 0A39C 8083C5AC 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 0A3A0 8083C5B0 1441000E */  bne     $v0, $at, .L8083C5EC       
-/* 0A3A4 8083C5B4 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 0A3A8 8083C5B8 954AE696 */  lhu     $t2, -0x196A($t2)          ## 8015E696
+/* 0A3A4 8083C5B4 3C0A8016 */  lui     $t2, %hi(gSaveContext+0x36)
+/* 0A3A8 8083C5B8 954AE696 */  lhu     $t2, %lo(gSaveContext+0x36)($t2)
 /* 0A3AC 8083C5BC 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 0A3B0 8083C5C0 3C014F80 */  lui     $at, 0x4F80                ## $at = 4F800000
 /* 0A3B4 8083C5C4 448A3000 */  mtc1    $t2, $f6                   ## $f6 = -0.00

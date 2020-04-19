@@ -21,8 +21,8 @@ glabel BgJyaGoroiwa_Init
 /* 0013C 80897AAC 0C0187B5 */  jal     func_80061ED4              
 /* 00140 80897AB0 A60200B4 */  sh      $v0, 0x00B4($s0)           ## 000000B4
 /* 00144 80897AB4 3C054414 */  lui     $a1, 0x4414                ## $a1 = 44140000
-/* 00148 80897AB8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0014C 80897ABC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00148 80897AB8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0014C 80897ABC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00150 80897AC0 34A5C000 */  ori     $a1, $a1, 0xC000           ## $a1 = 4414C000
 /* 00154 80897AC4 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00158 80897AC8 0C00AC78 */  jal     ActorShape_Init

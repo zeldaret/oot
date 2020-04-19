@@ -45,8 +45,8 @@ glabel EnTakaraMan_Init
 
 /* 00070 80B175D0 8F051D38 */  lw      $a1, 0x1D38($t8)           ## 00001D38
 /* 00074 80B175D4 8FA40034 */  lw      $a0, 0x0034($sp)
-/* 00078 80B175D8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0007C 80B175DC 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00078 80B175D8 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0007C 80B175DC 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00080 80B175E0 AC801D38 */  sw      $zero, 0x1D38($a0)         ## 00001D38
 /* 00084 80B175E4 94481402 */  lhu     $t0, 0x1402($v0)           ## 8015FA62
 /* 00088 80B175E8 2419FFFF */  addiu   $t9, $zero, 0xFFFF         ## $t9 = FFFFFFFF

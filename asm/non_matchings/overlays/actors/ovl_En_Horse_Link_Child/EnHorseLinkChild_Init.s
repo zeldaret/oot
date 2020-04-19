@@ -15,8 +15,8 @@ glabel EnHorseLinkChild_Init
 /* 002C4 80A69694 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 002C8 80A69698 3C01C060 */  lui     $at, 0xC060                ## $at = C0600000
 /* 002CC 80A6969C 44812000 */  mtc1    $at, $f4                   ## $f4 = -3.50
-/* 002D0 80A696A0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 002D4 80A696A4 24C6B644 */  addiu   $a2, $a2, 0xB644           ## $a2 = 8002B644
+/* 002D0 80A696A0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Squiggly)
+/* 002D4 80A696A4 24C6B644 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Squiggly)
 /* 002D8 80A696A8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 002DC 80A696AC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 002E0 80A696B0 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
@@ -80,8 +80,8 @@ glabel EnHorseLinkChild_Init
 /* 003C0 80A69790 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 003C4 80A69794 AE0001F0 */  sw      $zero, 0x01F0($s0)         ## 000001F0
 /* 003C8 80A69798 A20001EC */  sb      $zero, 0x01EC($s0)         ## 000001EC
-/* 003CC 80A6979C 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 003D0 80A697A0 8D08F9C0 */  lw      $t0, -0x0640($t0)          ## 8015F9C0
+/* 003CC 80A6979C 3C088016 */  lui     $t0, %hi(gSaveContext+0x1360)
+/* 003D0 80A697A0 8D08F9C0 */  lw      $t0, %lo(gSaveContext+0x1360)($t0)
 /* 003D4 80A697A4 8FA9003C */  lw      $t1, 0x003C($sp)
 /* 003D8 80A697A8 29010004 */  slti    $at, $t0, 0x0004
 /* 003DC 80A697AC 54200006 */  bnel    $at, $zero, .L80A697C8
@@ -99,14 +99,14 @@ glabel EnHorseLinkChild_Init
 
 /* 00408 80A697D8 24040014 */  addiu   $a0, $zero, 0x0014         ## $a0 = 00000014
 /* 0040C 80A697DC 14400005 */  bne     $v0, $zero, .L80A697F4
-/* 00410 80A697E0 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 00410 80A697E0 3C0B8016 */  lui     $t3, %hi(gSaveContext+0xed6)
 /* 00414 80A697E4 0C00B55C */  jal     Actor_Kill
 
 /* 00418 80A697E8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0041C 80A697EC 1000000F */  beq     $zero, $zero, .L80A6982C
 /* 00420 80A697F0 8FBF0024 */  lw      $ra, 0x0024($sp)
 .L80A697F4:
-/* 00424 80A697F4 956BF536 */  lhu     $t3, -0x0ACA($t3)          ## FFFFF536
+/* 00424 80A697F4 956BF536 */  lhu     $t3, %lo(gSaveContext+0xed6)($t3)
 /* 00428 80A697F8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0042C 80A697FC 316C0040 */  andi    $t4, $t3, 0x0040           ## $t4 = 00000000
 /* 00430 80A69800 0C29A7B0 */  jal     func_80A69EC0

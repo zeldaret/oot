@@ -52,13 +52,13 @@ glabel func_80AE8968
 /* 00568 80AE89A8 3C014500 */  lui     $at, 0x4500                ## $at = 45000000
 /* 0056C 80AE89AC 44814000 */  mtc1    $at, $f8                   ## $f8 = 2048.00
 /* 00570 80AE89B0 E48601FC */  swc1    $f6, 0x01FC($a0)           ## 000001FC
-/* 00574 80AE89B4 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 00574 80AE89B4 3C098016 */  lui     $t1, %hi(gSaveContext+0x70)
 /* 00578 80AE89B8 E4880220 */  swc1    $f8, 0x0220($a0)           ## 00000220
-/* 0057C 80AE89BC 3C0A8012 */  lui     $t2, 0x8012                ## $t2 = 80120000
-/* 00580 80AE89C0 954A71A2 */  lhu     $t2, 0x71A2($t2)           ## 801271A2
-/* 00584 80AE89C4 9529E6D0 */  lhu     $t1, -0x1930($t1)          ## 8015E6D0
-/* 00588 80AE89C8 3C0C8012 */  lui     $t4, 0x8012                ## $t4 = 80120000
-/* 0058C 80AE89CC 918C71F1 */  lbu     $t4, 0x71F1($t4)           ## 801271F1
+/* 0057C 80AE89BC 3C0A8012 */  lui     $t2, %hi(gEquipMasks+2)
+/* 00580 80AE89C0 954A71A2 */  lhu     $t2, %lo(gEquipMasks+2)($t2)
+/* 00584 80AE89C4 9529E6D0 */  lhu     $t1, %lo(gSaveContext+0x70)($t1)
+/* 00588 80AE89C8 3C0C8012 */  lui     $t4, %hi(gEquipShifts+1)
+/* 0058C 80AE89CC 918C71F1 */  lbu     $t4, %lo(gEquipShifts+1)($t4)
 /* 00590 80AE89D0 012A5824 */  and     $t3, $t1, $t2              
 /* 00594 80AE89D4 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003
 /* 00598 80AE89D8 018B6807 */  srav    $t5, $t3, $t4              
@@ -77,12 +77,12 @@ glabel func_80AE8968
 /* 005CC 80AE8A0C A2020372 */  sb      $v0, 0x0372($s0)           ## 00000372
 /* 005D0 80AE8A10 A20E0375 */  sb      $t6, 0x0375($s0)           ## 00000375
 .L80AE8A14:
-/* 005D4 80AE8A14 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 005D8 80AE8A18 3C188012 */  lui     $t8, 0x8012                ## $t8 = 80120000
-/* 005DC 80AE8A1C 971871A4 */  lhu     $t8, 0x71A4($t8)           ## 801271A4
-/* 005E0 80AE8A20 95EFE6D0 */  lhu     $t7, -0x1930($t7)          ## 8015E6D0
-/* 005E4 80AE8A24 3C088012 */  lui     $t0, 0x8012                ## $t0 = 80120000
-/* 005E8 80AE8A28 910871F2 */  lbu     $t0, 0x71F2($t0)           ## 801271F2
+/* 005D4 80AE8A14 3C0F8016 */  lui     $t7, %hi(gSaveContext+0x70)
+/* 005D8 80AE8A18 3C188012 */  lui     $t8, %hi(gEquipMasks+4)
+/* 005DC 80AE8A1C 971871A4 */  lhu     $t8, %lo(gEquipMasks+4)($t8)
+/* 005E0 80AE8A20 95EFE6D0 */  lhu     $t7, %lo(gSaveContext+0x70)($t7)
+/* 005E4 80AE8A24 3C088012 */  lui     $t0, %hi(gEquipShifts+2)
+/* 005E8 80AE8A28 910871F2 */  lbu     $t0, %lo(gEquipShifts+2)($t0)
 /* 005EC 80AE8A2C 01F8C824 */  and     $t9, $t7, $t8              
 /* 005F0 80AE8A30 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 005F4 80AE8A34 01194807 */  srav    $t1, $t9, $t0              

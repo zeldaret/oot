@@ -7,7 +7,7 @@ glabel EnSyatekiItm_Update
 /* 00ABC 80B1016C 0320F809 */  jalr    $ra, $t9                   
 /* 00AC0 80B10170 00000000 */  nop
 /* 00AC4 80B10174 8FA40048 */  lw      $a0, 0x0048($sp)           
-/* 00AC8 80B10178 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 00AC8 80B10178 3C188016 */  lui     $t8, %hi(gGameInfo)
 /* 00ACC 80B1017C 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00AD0 80B10180 84820150 */  lh      $v0, 0x0150($a0)           ## 00000150
 /* 00AD4 80B10184 240B00FF */  addiu   $t3, $zero, 0x00FF         ## $t3 = 000000FF
@@ -22,7 +22,7 @@ glabel EnSyatekiItm_Update
 /* 00AF4 80B101A4 244FFFFF */  addiu   $t7, $v0, 0xFFFF           ## $t7 = FFFFFFFF
 /* 00AF8 80B101A8 A48F0152 */  sh      $t7, 0x0152($a0)           ## 00000152
 .L80B101AC:
-/* 00AFC 80B101AC 8F18FA90 */  lw      $t8, -0x0570($t8)          ## 8015FA90
+/* 00AFC 80B101AC 8F18FA90 */  lw      $t8, %lo(gGameInfo)($t8)
 /* 00B00 80B101B0 870812D4 */  lh      $t0, 0x12D4($t8)           ## 801612D4
 /* 00B04 80B101B4 51000017 */  beql    $t0, $zero, .L80B10214     
 /* 00B08 80B101B8 8FBF0044 */  lw      $ra, 0x0044($sp)           

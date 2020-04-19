@@ -6,10 +6,10 @@ glabel func_80A6BCEC
 /* 00AAC 80A6BCFC 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 00AB0 80A6BD00 00807025 */  or      $t6, $a0, $zero            ## $t6 = 00000000
 /* 00AB4 80A6BD04 1441000C */  bne     $v0, $at, .L80A6BD38       
-/* 00AB8 80A6BD08 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 00ABC 80A6BD0C 3C0F8013 */  lui     $t7, 0x8013                ## $t7 = 80130000
-/* 00AC0 80A6BD10 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 00AC4 80A6BD14 25EF33E8 */  addiu   $t7, $t7, 0x33E8           ## $t7 = 801333E8
+/* 00AB8 80A6BD08 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 00ABC 80A6BD0C 3C0F8013 */  lui     $t7, %hi(D_801333E8)
+/* 00AC0 80A6BD10 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 00AC4 80A6BD14 25EF33E8 */  addiu   $t7, %lo(D_801333E8)
 /* 00AC8 80A6BD18 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 00ACC 80A6BD1C AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 00AD0 80A6BD20 24042804 */  addiu   $a0, $zero, 0x2804         ## $a0 = 00002804
@@ -22,11 +22,11 @@ glabel func_80A6BCEC
 .L80A6BD38:
 /* 00AE8 80A6BD38 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
 /* 00AEC 80A6BD3C 1441000B */  bne     $v0, $at, .L80A6BD6C       
-/* 00AF0 80A6BD40 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
+/* 00AF0 80A6BD40 3C078013 */  lui     $a3, %hi(D_801333E0)
 /* 00AF4 80A6BD44 8FA50020 */  lw      $a1, 0x0020($sp)           
-/* 00AF8 80A6BD48 3C188013 */  lui     $t8, 0x8013                ## $t8 = 80130000
-/* 00AFC 80A6BD4C 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 00B00 80A6BD50 271833E8 */  addiu   $t8, $t8, 0x33E8           ## $t8 = 801333E8
+/* 00AF8 80A6BD48 3C188013 */  lui     $t8, %hi(D_801333E8)
+/* 00AFC 80A6BD4C 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 00B00 80A6BD50 271833E8 */  addiu   $t8, %lo(D_801333E8)
 /* 00B04 80A6BD54 AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 00B08 80A6BD58 AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 00B0C 80A6BD5C 24042804 */  addiu   $a0, $zero, 0x2804         ## $a0 = 00002804

@@ -12,9 +12,9 @@ glabel BgSstFloor_Update
 /* 0009C 808B99AC 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 000A0 808B99B0 244294F8 */  addiu   $v0, $v0, 0x94F8           ## $v0 = 060194F8
 /* 000A4 808B99B4 0002C100 */  sll     $t8, $v0,  4               
-/* 000A8 808B99B8 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
+/* 000A8 808B99B8 3C068016 */  lui     $a2, %hi(gSegments)
 /* 000AC 808B99BC 0018CF02 */  srl     $t9, $t8, 28               
-/* 000B0 808B99C0 24C66FA8 */  addiu   $a2, $a2, 0x6FA8           ## $a2 = 80166FA8
+/* 000B0 808B99C0 24C66FA8 */  addiu   $a2, %lo(gSegments)
 /* 000B4 808B99C4 00194880 */  sll     $t1, $t9,  2               
 /* 000B8 808B99C8 00C95021 */  addu    $t2, $a2, $t1              
 /* 000BC 808B99CC 8D4B0000 */  lw      $t3, 0x0000($t2)           ## 00000000

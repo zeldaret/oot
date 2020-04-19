@@ -80,8 +80,8 @@ glabel func_80AC1938
 /* 013E8 80AC1A48 10410006 */  beq     $v0, $at, .L80AC1A64       
 /* 013EC 80AC1A4C 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 013F0 80AC1A50 1441001C */  bne     $v0, $at, .L80AC1AC4       
-/* 013F4 80AC1A54 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 013F8 80AC1A58 8D29E664 */  lw      $t1, -0x199C($t1)          ## 8015E664
+/* 013F4 80AC1A54 3C098016 */  lui     $t1, %hi(gSaveContext+4)
+/* 013F8 80AC1A58 8D29E664 */  lw      $t1, %lo(gSaveContext+4)($t1)
 /* 013FC 80AC1A5C 5520001A */  bnel    $t1, $zero, .L80AC1AC8     
 /* 01400 80AC1A60 C6060024 */  lwc1    $f6, 0x0024($s0)           ## 00000024
 .L80AC1A64:

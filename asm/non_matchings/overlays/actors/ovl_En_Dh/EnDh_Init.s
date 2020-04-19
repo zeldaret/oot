@@ -25,8 +25,8 @@ glabel EnDh_Init
 /* 00060 809EADA0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00064 809EADA4 0C0291BE */  jal     SkelAnime_InitSV
 /* 00068 809EADA8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 0006C 809EADAC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00070 809EADB0 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0006C 809EADAC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00070 809EADB0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00074 809EADB4 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00078 809EADB8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0007C 809EADBC 0C00AC78 */  jal     ActorShape_Init
@@ -35,8 +35,8 @@ glabel EnDh_Init
 /* 00084 809EADC4 240800FE */  addiu   $t0, $zero, 0x00FE         ## $t0 = 000000FE
 /* 00088 809EADC8 A600001C */  sh      $zero, 0x001C($s0)         ## 0000001C
 /* 0008C 809EADCC A20800AE */  sb      $t0, 0x00AE($s0)           ## 000000AE
-/* 00090 809EADD0 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 00094 809EADD4 8D29E664 */  lw      $t1, -0x199C($t1)          ## 8015E664
+/* 00090 809EADD0 3C098016 */  lui     $t1, %hi(gSaveContext+4)
+/* 00094 809EADD4 8D29E664 */  lw      $t1, %lo(gSaveContext+4)($t1)
 /* 00098 809EADD8 240D00FF */  addiu   $t5, $zero, 0x00FF         ## $t5 = 000000FF
 /* 0009C 809EADDC 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE
 /* 000A0 809EADE0 15200004 */  bne     $t1, $zero, .L809EADF4

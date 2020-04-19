@@ -11,8 +11,8 @@ glabel func_80AFE428
 /* 0019C 80AFE44C 03E00008 */  jr      $ra                        
 /* 001A0 80AFE450 A08E0117 */  sb      $t6, 0x0117($a0)           ## 00000117
 .L80AFE454:
-/* 001A4 80AFE454 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 001A8 80AFE458 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 001A4 80AFE454 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 001A8 80AFE458 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 001AC 80AFE45C 944F0EF6 */  lhu     $t7, 0x0EF6($v0)           ## 8015F556
 /* 001B0 80AFE460 24190041 */  addiu   $t9, $zero, 0x0041         ## $t9 = 00000041
 /* 001B4 80AFE464 31F80200 */  andi    $t8, $t7, 0x0200           ## $t8 = 00000000

@@ -9,8 +9,8 @@ glabel BgRelayObjects_Destroy
               ## DynaPolyInfo_delReserve
 /* 00258 808A90A8 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 0025C 808A90AC 8FAF0018 */  lw      $t7, 0x0018($sp)           
-/* 00260 808A90B0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00264 808A90B4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00260 808A90B0 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00264 808A90B4 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00268 808A90B8 85F8001C */  lh      $t8, 0x001C($t7)           ## 0000001C
 /* 0026C 808A90BC 5700000A */  bnel    $t8, $zero, .L808A90E8     
 /* 00270 808A90C0 8FBF0014 */  lw      $ra, 0x0014($sp)           

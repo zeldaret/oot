@@ -19,12 +19,12 @@ glabel EnTr_Draw
 /* 011D0 80B23EC0 11C0000B */  beq     $t6, $zero, .L80B23EF0
 /* 011D4 80B23EC4 00000000 */  nop
 /* 011D8 80B23EC8 848F02D8 */  lh      $t7, 0x02D8($a0)           ## 000002D8
-/* 011DC 80B23ECC 3C098003 */  lui     $t1, 0x8003                ## $t1 = 80030000
+/* 011DC 80B23ECC 3C098003 */  lui     $t1, %hi(ActorShadow_DrawFunc_Circle)
 /* 011E0 80B23ED0 3C0680B2 */  lui     $a2, %hi(D_80B24414)       ## $a2 = 80B20000
 /* 011E4 80B23ED4 000FC080 */  sll     $t8, $t7,  2
 /* 011E8 80B23ED8 00B8C821 */  addu    $t9, $a1, $t8
 /* 011EC 80B23EDC 8F281D8C */  lw      $t0, 0x1D8C($t9)           ## 00001D8C
-/* 011F0 80B23EE0 2529B5EC */  addiu   $t1, $t1, 0xB5EC           ## $t1 = 8002B5EC
+/* 011F0 80B23EE0 2529B5EC */  addiu   $t1, %lo(ActorShadow_DrawFunc_Circle)
 /* 011F4 80B23EE4 24C64414 */  addiu   $a2, $a2, %lo(D_80B24414)  ## $a2 = 80B24414
 /* 011F8 80B23EE8 15000003 */  bne     $t0, $zero, .L80B23EF8
 /* 011FC 80B23EEC 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
@@ -44,7 +44,7 @@ glabel EnTr_Draw
 /* 0122C 80B23F1C 356B0020 */  ori     $t3, $t3, 0x0020           ## $t3 = DB060020
 /* 01230 80B23F20 8CA302C0 */  lw      $v1, 0x02C0($a1)           ## 000002C0
 /* 01234 80B23F24 3C0480B2 */  lui     $a0, %hi(D_80B243D0)       ## $a0 = 80B20000
-/* 01238 80B23F28 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
+/* 01238 80B23F28 3C088016 */  lui     $t0, %hi(gSegments)
 /* 0123C 80B23F2C 246A0008 */  addiu   $t2, $v1, 0x0008           ## $t2 = 00000008
 /* 01240 80B23F30 ACAA02C0 */  sw      $t2, 0x02C0($a1)           ## 000002C0
 /* 01244 80B23F34 AC6B0000 */  sw      $t3, 0x0000($v1)           ## 00000000
@@ -60,7 +60,7 @@ glabel EnTr_Draw
 /* 0126C 80B23F5C 000FC702 */  srl     $t8, $t7, 28
 /* 01270 80B23F60 0018C880 */  sll     $t9, $t8,  2
 /* 01274 80B23F64 01194021 */  addu    $t0, $t0, $t9
-/* 01278 80B23F68 8D086FA8 */  lw      $t0, 0x6FA8($t0)           ## 80166FA8
+/* 01278 80B23F68 8D086FA8 */  lw      $t0, %lo(gSegments)($t0)
 /* 0127C 80B23F6C 00817024 */  and     $t6, $a0, $at
 /* 01280 80B23F70 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 01284 80B23F74 01C84821 */  addu    $t1, $t6, $t0

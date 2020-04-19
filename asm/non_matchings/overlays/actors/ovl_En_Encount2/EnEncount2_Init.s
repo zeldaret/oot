@@ -40,8 +40,8 @@ glabel EnEncount2_Init
 /* 00048 80A079D8 0C00084C */  jal     osSyncPrintf
               
 /* 0004C 80A079DC 8605001C */  lh      $a1, 0x001C($s0)           ## 0000001C
-/* 00050 80A079E0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00054 80A079E4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00050 80A079E0 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00054 80A079E4 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00058 80A079E8 8C590004 */  lw      $t9, 0x0004($v0)           ## 8015E664
 /* 0005C 80A079EC 1720000F */  bne     $t9, $zero, .L80A07A2C     
 /* 00060 80A079F0 00000000 */  nop

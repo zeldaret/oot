@@ -56,8 +56,8 @@ glabel func_80B10EB0
 /* 006E8 80B10F58 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 .L80B10F5C:
 /* 006EC 80B10F5C 8E090118 */  lw      $t1, 0x0118($s0)           ## 00000118
-/* 006F0 80B10F60 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 006F4 80B10F64 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 006F0 80B10F60 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 006F4 80B10F64 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 006F8 80B10F68 AE000118 */  sw      $zero, 0x0118($s0)         ## 00000118
 /* 006FC 80B10F6C AE090220 */  sw      $t1, 0x0220($s0)           ## 00000220
 /* 00700 80B10F70 8C6A0004 */  lw      $t2, 0x0004($v1)           ## 8015E664
@@ -69,22 +69,22 @@ glabel func_80B10EB0
 /* 00718 80B10F88 316C2000 */  andi    $t4, $t3, 0x2000           ## $t4 = 00000000
 /* 0071C 80B10F8C 1580001A */  bne     $t4, $zero, .L80B10FF8     
 /* 00720 80B10F90 240E0055 */  addiu   $t6, $zero, 0x0055         ## $t6 = 00000055
-/* 00724 80B10F94 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 00728 80B10F98 8DCE71C4 */  lw      $t6, 0x71C4($t6)           ## 801271C4
+/* 00724 80B10F94 3C0E8012 */  lui     $t6, %hi(gUpgradeMasks+0x14)
+/* 00728 80B10F98 8DCE71C4 */  lw      $t6, %lo(gUpgradeMasks+0x14)($t6)
 /* 0072C 80B10F9C 8C6D00A0 */  lw      $t5, 0x00A0($v1)           ## 8015E700
-/* 00730 80B10FA0 3C188012 */  lui     $t8, 0x8012                ## $t8 = 80120000
-/* 00734 80B10FA4 931871F9 */  lbu     $t8, 0x71F9($t8)           ## 801271F9
+/* 00730 80B10FA0 3C188012 */  lui     $t8, %hi(gUpgradeShifts+5)
+/* 00734 80B10FA4 931871F9 */  lbu     $t8, %lo(gUpgradeShifts+5)($t8)
 /* 00738 80B10FA8 01AE7824 */  and     $t7, $t5, $t6              
 /* 0073C 80B10FAC 0C00084C */  jal     osSyncPrintf
               
 /* 00740 80B10FB0 030F2807 */  srav    $a1, $t7, $t8              
-/* 00744 80B10FB4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00748 80B10FB8 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
-/* 0074C 80B10FBC 3C088012 */  lui     $t0, 0x8012                ## $t0 = 80120000
-/* 00750 80B10FC0 8D0871C4 */  lw      $t0, 0x71C4($t0)           ## 801271C4
+/* 00744 80B10FB4 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00748 80B10FB8 2463E660 */  addiu   $v1, %lo(gSaveContext)
+/* 0074C 80B10FBC 3C088012 */  lui     $t0, %hi(gUpgradeMasks+0x14)
+/* 00750 80B10FC0 8D0871C4 */  lw      $t0, %lo(gUpgradeMasks+0x14)($t0)
 /* 00754 80B10FC4 8C7900A0 */  lw      $t9, 0x00A0($v1)           ## 8015E700
-/* 00758 80B10FC8 3C0A8012 */  lui     $t2, 0x8012                ## $t2 = 80120000
-/* 0075C 80B10FCC 914A71F9 */  lbu     $t2, 0x71F9($t2)           ## 801271F9
+/* 00758 80B10FC8 3C0A8012 */  lui     $t2, %hi(gUpgradeShifts+5)
+/* 0075C 80B10FCC 914A71F9 */  lbu     $t2, %lo(gUpgradeShifts+5)($t2)
 /* 00760 80B10FD0 03284824 */  and     $t1, $t9, $t0              
 /* 00764 80B10FD4 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 00768 80B10FD8 01495807 */  srav    $t3, $t1, $t2              
@@ -106,22 +106,22 @@ glabel func_80B10EB0
 /* 0079C 80B1100C 31F84000 */  andi    $t8, $t7, 0x4000           ## $t8 = 00000000
 /* 007A0 80B11010 17000022 */  bne     $t8, $zero, .L80B1109C     
 /* 007A4 80B11014 24080055 */  addiu   $t0, $zero, 0x0055         ## $t0 = 00000055
-/* 007A8 80B11018 3C088012 */  lui     $t0, 0x8012                ## $t0 = 80120000
-/* 007AC 80B1101C 8D0871B0 */  lw      $t0, 0x71B0($t0)           ## 801271B0
+/* 007A8 80B11018 3C088012 */  lui     $t0, %hi(gUpgradeMasks)
+/* 007AC 80B1101C 8D0871B0 */  lw      $t0, %lo(gUpgradeMasks)($t0)
 /* 007B0 80B11020 8C7900A0 */  lw      $t9, 0x00A0($v1)           ## 8015E700
-/* 007B4 80B11024 3C0A8012 */  lui     $t2, 0x8012                ## $t2 = 80120000
-/* 007B8 80B11028 914A71F4 */  lbu     $t2, 0x71F4($t2)           ## 801271F4
+/* 007B4 80B11024 3C0A8012 */  lui     $t2, %hi(gUpgradeShifts)
+/* 007B8 80B11028 914A71F4 */  lbu     $t2, %lo(gUpgradeShifts)($t2)
 /* 007BC 80B1102C 03284824 */  and     $t1, $t9, $t0              
 /* 007C0 80B11030 0C00084C */  jal     osSyncPrintf
               
 /* 007C4 80B11034 01492807 */  srav    $a1, $t1, $t2              
-/* 007C8 80B11038 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 007CC 80B1103C 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
-/* 007D0 80B11040 3C0C8012 */  lui     $t4, 0x8012                ## $t4 = 80120000
-/* 007D4 80B11044 8D8C71B0 */  lw      $t4, 0x71B0($t4)           ## 801271B0
+/* 007C8 80B11038 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 007CC 80B1103C 2463E660 */  addiu   $v1, %lo(gSaveContext)
+/* 007D0 80B11040 3C0C8012 */  lui     $t4, %hi(gUpgradeMasks)
+/* 007D4 80B11044 8D8C71B0 */  lw      $t4, %lo(gUpgradeMasks)($t4)
 /* 007D8 80B11048 8C6B00A0 */  lw      $t3, 0x00A0($v1)           ## 8015E700
-/* 007DC 80B1104C 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 007E0 80B11050 91CE71F4 */  lbu     $t6, 0x71F4($t6)           ## 801271F4
+/* 007DC 80B1104C 3C0E8012 */  lui     $t6, %hi(gUpgradeShifts)
+/* 007E0 80B11050 91CE71F4 */  lbu     $t6, %lo(gUpgradeShifts)($t6)
 /* 007E4 80B11054 016C6824 */  and     $t5, $t3, $t4              
 /* 007E8 80B11058 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 007EC 80B1105C 01CD1007 */  srav    $v0, $t5, $t6              

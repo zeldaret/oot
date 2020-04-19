@@ -115,13 +115,13 @@ glabel EnBombf_Update
 .L809C78EC:
 /* 0098C 809C78EC C610006C */  lwc1    $f16, 0x006C($s0)          ## 0000006C
 /* 00990 809C78F0 240A0001 */  addiu   $t2, $zero, 0x0001         ## $t2 = 00000001
-/* 00994 809C78F4 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 00994 809C78F4 3C0B8016 */  lui     $t3, %hi(gGameInfo)
 /* 00998 809C78F8 46101032 */  c.eq.s  $f2, $f16                  
 /* 0099C 809C78FC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 009A0 809C7900 3C0640A0 */  lui     $a2, 0x40A0                ## $a2 = 40A00000
 /* 009A4 809C7904 4503000E */  bc1tl   .L809C7940                 
 /* 009A8 809C7908 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
-/* 009AC 809C790C 8D6BFA90 */  lw      $t3, -0x0570($t3)          ## 8015FA90
+/* 009AC 809C790C 8D6BFA90 */  lw      $t3, %lo(gGameInfo)($t3)
 /* 009B0 809C7910 240C001F */  addiu   $t4, $zero, 0x001F         ## $t4 = 0000001F
 /* 009B4 809C7914 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 009B8 809C7918 A56A0560 */  sh      $t2, 0x0560($t3)           ## 80160560
@@ -129,8 +129,8 @@ glabel EnBombf_Update
 /* 009C0 809C7920 E7A20010 */  swc1    $f2, 0x0010($sp)           
 /* 009C4 809C7924 0C00B92D */  jal     func_8002E4B4              
 /* 009C8 809C7928 8FA4009C */  lw      $a0, 0x009C($sp)           
-/* 009CC 809C792C 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
-/* 009D0 809C7930 8DADFA90 */  lw      $t5, -0x0570($t5)          ## 8015FA90
+/* 009CC 809C792C 3C0D8016 */  lui     $t5, %hi(gGameInfo)
+/* 009D0 809C7930 8DADFA90 */  lw      $t5, %lo(gGameInfo)($t5)
 /* 009D4 809C7934 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
 /* 009D8 809C7938 A5A00560 */  sh      $zero, 0x0560($t5)         ## 80160560
 /* 009DC 809C793C 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
@@ -182,8 +182,8 @@ glabel EnBombf_Update
 /* 00A80 809C79E0 0C00B638 */  jal     Actor_MoveForward
               
 /* 00A84 809C79E4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00A88 809C79E8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00A8C 809C79EC 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 00A88 809C79E8 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 00A8C 809C79EC 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 00A90 809C79F0 240D0001 */  addiu   $t5, $zero, 0x0001         ## $t5 = 00000001
 /* 00A94 809C79F4 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
 /* 00A98 809C79F8 A5CD0560 */  sh      $t5, 0x0560($t6)           ## 80160560
@@ -195,8 +195,8 @@ glabel EnBombf_Update
 /* 00AB0 809C7A10 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 00AB4 809C7A14 0C00B92D */  jal     func_8002E4B4              
 /* 00AB8 809C7A18 E7A60010 */  swc1    $f6, 0x0010($sp)           
-/* 00ABC 809C7A1C 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
-/* 00AC0 809C7A20 8F18FA90 */  lw      $t8, -0x0570($t8)          ## 8015FA90
+/* 00ABC 809C7A1C 3C188016 */  lui     $t8, %hi(gGameInfo)
+/* 00AC0 809C7A20 8F18FA90 */  lw      $t8, %lo(gGameInfo)($t8)
 /* 00AC4 809C7A24 3C01809D */  lui     $at, %hi(D_809C835C)       ## $at = 809D0000
 /* 00AC8 809C7A28 A7000560 */  sh      $zero, 0x0560($t8)         ## 80160560
 /* 00ACC 809C7A2C C6080068 */  lwc1    $f8, 0x0068($s0)           ## 00000068

@@ -7,8 +7,8 @@ glabel D_80982AD4
 
 .text
 glabel func_8097F1D8
-/* 01B68 8097F1D8 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
-/* 01B6C 8097F1DC 24C6FA90 */  addiu   $a2, $a2, 0xFA90           ## $a2 = 8015FA90
+/* 01B68 8097F1D8 3C068016 */  lui     $a2, %hi(gGameInfo)
+/* 01B6C 8097F1DC 24C6FA90 */  addiu   $a2, %lo(gGameInfo)
 /* 01B70 8097F1E0 8CC30000 */  lw      $v1, 0x0000($a2)           ## 8015FA90
 /* 01B74 8097F1E4 84820172 */  lh      $v0, 0x0172($a0)           ## 00000172
 /* 01B78 8097F1E8 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

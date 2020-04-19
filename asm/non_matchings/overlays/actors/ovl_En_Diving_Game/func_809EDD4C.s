@@ -68,7 +68,7 @@ glabel func_809EDD4C
 /* 005C8 809EDE38 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 005CC 809EDE3C 240A0004 */  addiu   $t2, $zero, 0x0004         ## $t2 = 00000004
 /* 005D0 809EDE40 10400008 */  beq     $v0, $zero, .L809EDE64     
-/* 005D4 809EDE44 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 005D4 809EDE44 3C0B8016 */  lui     $t3, %hi(gSaveContext+0xeda)
 /* 005D8 809EDE48 10410014 */  beq     $v0, $at, .L809EDE9C       
 /* 005DC 809EDE4C 24194056 */  addiu   $t9, $zero, 0x4056         ## $t9 = 00004056
 /* 005E0 809EDE50 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
@@ -78,7 +78,7 @@ glabel func_809EDD4C
 /* 005F0 809EDE60 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L809EDE64:
 /* 005F4 809EDE64 A60A0292 */  sh      $t2, 0x0292($s0)           ## 00000292
-/* 005F8 809EDE68 956BF53A */  lhu     $t3, -0x0AC6($t3)          ## 8015F53A
+/* 005F8 809EDE68 956BF53A */  lhu     $t3, %lo(gSaveContext+0xeda)($t3)
 /* 005FC 809EDE6C 240D4053 */  addiu   $t5, $zero, 0x4053         ## $t5 = 00004053
 /* 00600 809EDE70 240F405C */  addiu   $t7, $zero, 0x405C         ## $t7 = 0000405C
 /* 00604 809EDE74 316C0100 */  andi    $t4, $t3, 0x0100           ## $t4 = 00000000
