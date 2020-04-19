@@ -23,7 +23,7 @@ typedef struct {
 } SplineData; // originally called SplinedatZ
 
 f32 func_800437F0(f32 arg0, f32 arg1) {
-    f32 percent = .4f;
+    f32 percent = 0.4f;
     f32 ret = fabsf(arg1);
 
     if (arg0 < ret) {
@@ -31,7 +31,7 @@ f32 func_800437F0(f32 arg0, f32 arg1) {
     } else if (ret < (f32)arg0 * (1 - percent)) { //! float cast needed to match
         ret = (SQ(arg1) * (1 - percent)) / SQ((1 - percent) * arg0);
     } else {
-        ret = 1 - (.4f * SQ(arg0 - ret)) / SQ(.4f * arg0);
+        ret = 1 - (0.4f * SQ(arg0 - ret)) / SQ(0.4f * arg0);
     }
 
     return ret;
