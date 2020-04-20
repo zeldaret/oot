@@ -17,9 +17,6 @@ void func_80A9D42C(EnKz* this, GlobalContext* globalCtx);
 void func_80A9D490(EnKz* this, GlobalContext* globalCtx);
 void func_80A9D520(EnKz* this, GlobalContext* globalCtx);
 
-void func_80A9D670();
-void func_80A9D744();
-
 /*
 const ActorInit En_Kz_InitVars = {
     ACTOR_EN_KZ,
@@ -46,15 +43,7 @@ static ColliderCylinderInit cylinderInit = {
     0x0000, 0x00000000,
 };
 
-typedef struct {
-    /* 0x00 */ u8 health;
-    /* 0x02 */ s16 unk_10;
-    /* 0x04 */ s16 unk_12;
-    /* 0x06 */ u16 unk_14;
-    /* 0x08 */ u8 mass;
-} sub98Init;
-
-static sub98Init sub98Data = {
+static Sub98Init5 sub98Data = {
     0x00,   // health
     0x0000, // unk_10
     0x0000, // unk_12
@@ -82,13 +71,146 @@ typedef enum {
 
 extern SkeletonHeader D_060186D0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9C550.s")
+//EnKz_GetTextNoMaskChild
+u16 func_80A9C550(GlobalContext* globalCtx, EnKz* this) {
+    Player* player = PLAYER;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9C5AC.s")
+    if (gBitFlags[20] & gSaveContext.quest_items) { // has Zora's Sapphire
+        return 0x402B; // "So, you saved the Princess, eh? I really appreciate it!"
+    } else if (gSaveContext.event_chk_inf[3] & 8) {
+        return 0x401C; // "Please find my dear Princess Ruto immediately... Zora!"
+    } else {
+        player->exchangeItemId = 0x1D;
+        return 0x401A; // "Oh, my dear, sweet Princess Ruto... Where has she gone? I'm so worried..."
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9C658.s")
+//EnKz_GetTextNoMaskAdult
+u16 func_80A9C5AC(GlobalContext* globalCtx, EnKz* this) {
+    Player* player = PLAYER;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9C6C0.s")
+    if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_FROG) {
+        if (!(gSaveContext.inf_table[19] & 0x200)) {
+            if ((gBitFlags[2] << gEquipShifts[2]) & gSaveContext.equipment) { 
+                return 0x401F; // "Ohhh, I'm revived...I will give you a Zora Tunic...What?! You already have one?..."
+            } else {
+                return 0x4012; // "Oh--I've come back to life!...I grant you this tunic..."
+            }
+        } else {
+            return (gBitFlags[8] & gSaveContext.quest_items) ? 0x4045 : 0x401A;
+            // 4045: "Ah, I see... Princess Ruto went to the Water Temple..."
+            // 401A: "Oh, my dear, sweet Princess Ruto... Where has she gone? I'm so worried..."
+        }
+    } else {
+        player->exchangeItemId = 0xC;
+        return 0x4012; // "Oh--I've come back to life!...I grant you this tunic..."
+    }
+}
+
+//EnKz_GetText
+u16 func_80A9C658(GlobalContext* globalCtx, EnKz* this) {
+    u16 reactionText = Text_GetFaceReaction(globalCtx, 0x1E);
+
+    if (reactionText != 0) {
+        return reactionText;
+    }
+
+    if (LINK_IS_ADULT) {
+        return func_80A9C5AC(globalCtx, this);
+    } else {
+        return func_80A9C550(globalCtx, this);
+    }
+}
+
+//u16 func_80A9C6C0(GlobalContext* globalCtx, EnKz* this);
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9C6C0.s")
+
+u16 func_80A9C6C0(GlobalContext* globalCtx, EnKz* this) {
+    u8 dialogState;
+    u16 ret;
+
+    ret = 1;
+    dialogState = func_8010BDBC(&globalCtx->msgCtx);
+
+    switch (dialogState) {
+        case 0: 
+            break;
+        case 1: 
+            break;
+        case 2: 
+            break;
+        case 6:
+        ret = 0;
+            switch (this->actor.textId) {
+                case 0x4012:
+                    gSaveContext.inf_table[19] |= 0x200;
+                    return 2;
+                case 0x401B:
+                
+                    if (func_80106BC8(globalCtx) == 0) {
+                        return 1;
+                    } else {
+                        return 2;
+                    }
+                
+                    break;
+                case 0x401F:
+                    gSaveContext.inf_table[19] |= 0x200;
+                    break;
+                default:
+                    return 0;
+                    break;
+            }
+            break;
+        case 3:
+            if (this->actor.textId != 0x4014) {
+                if (this->actor.textId == 0x401B && this->unk_208 == 0) { //might not be an and
+                    Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, 
+                                           &D_801333E0, &D_801333E8);
+                    this->unk_208 = 1;
+                    //ret = 1;
+                }
+            } else {
+                if (this->unk_208 == 0) {
+                    Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, 
+                                           &D_801333E0, &D_801333E8);
+                    this->unk_208 = 1;
+                    //ret = 1;
+                }
+            }
+            break;
+        case 4:
+            if (func_80106BC8(globalCtx) != 0) {
+                ret = 1;
+                if (this->actor.textId == 0x4014) {
+                    switch (globalCtx->msgCtx.choiceIndex) {
+                        case 0: // yes
+                            func_80A9D490(this, globalCtx);
+                            ret = 2;
+                        case 1: // no
+                            this->actor.textId = 0x4016;
+                            func_8010B720(globalCtx, 0x4016);
+                            ret = 1;
+                    }
+                }
+            }
+            break;
+        case 5:
+            ret = 1;
+            if (func_80106BC8(globalCtx) != 0) {
+                ret = 2;
+            }
+            break;
+        case 7:
+            break;
+        case 8:
+            break;
+        case 9:
+            break;
+    }
+    return ret;
+}
+
 
 //EnKz_UpdateEyes
 void func_80A9C8E4(EnKz* this) {
@@ -102,7 +224,9 @@ void func_80A9C8E4(EnKz* this) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9C95C.s")
+//s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* nextBehavior, f32 unkf, ActorFunc callback1, ActorFunc callback2);
 
+// this function has a conditional with a call to 5c above, which takes 58 (gettext) and c0 as args
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9CB18.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9CCD8.s")
@@ -147,7 +271,7 @@ void EnKz_Destroy(EnKz* this, GlobalContext* globalCtx) {
 //EnKz_PreMweepWait
 void func_80A9D0C0(EnKz* this, GlobalContext* globalCtx){
     if (this->nextBehavior == KZ_SPECIAL) {
-        func_80034EC0(&this->skelanime, animations, 2); //use enum?
+        func_80034EC0(&this->skelanime, animations, KZ_SPECIAL);
         this->nextBehavior = KZ_WAIT;
         this->actionFunc = func_80A9D130;
     } else {
@@ -205,13 +329,14 @@ void func_80A9D25C(EnKz* this, GlobalContext* globalCtx) {
 
 //EnKz_StopMweep
 void func_80A9D3C8(EnKz* this, GlobalContext* globalCtx) {
+    // At a glance, these function calls seem related to freeing Link and the camera from the cutscene
     func_800C0314(globalCtx, this->unk_214, 7);
     func_800C0384(globalCtx, this->unk_212);
     func_8002DF54(globalCtx, &this->actor, 7);
     this->actionFunc = func_80A9D42C;
 }
 
-//EnKz_PostMweepWait
+//EnKz_Wait
 void func_80A9D42C(EnKz* this, GlobalContext* globalCtx) {
     if (this->nextBehavior == KZ_SPECIAL) {
         this->actionFunc = func_80A9D490;
@@ -243,7 +368,7 @@ void func_80A9D490(EnKz* this, GlobalContext* globalCtx) {
 void func_80A9D520(EnKz* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx))) {
         if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_FROG) {
-            func_80088AA0(180); // start timer 2 with 3 minutes
+            func_80088AA0(180); // start timer2 with 3 minutes
             gSaveContext.event_inf[1] &= ~1;
         }
         this->nextBehavior = KZ_WAIT;
@@ -269,20 +394,37 @@ void EnKz_Update(EnKz* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9D670.s")
+//EnKz_LimbUpdateMatrix
+s32 func_80A9D670(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnKz* this) {
+    s32 limb = limbIndex;
+    if (limb == 8 || limb == 9 || limb == 10) {
+        rot->y += (Math_Sins(this->unk_2A6[limb]) * 200.0f);
+        rot->z += (Math_Coss(this->unk_2BE[limb]) * 200.0f);
+    }
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9D744.s")
+//EnKz_LimbAppendDlist
+void func_80A9D744(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnKz* this) {
+    s32 limb = limbIndex;
+    Vec3f src = { 2600.0f, 0.0f, 0.0f };
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/EnKz_Draw.s")
+    if (limb == 11) {
+        Matrix_MultVec3f(&src, &this->actor.posRot2.pos);
+    }
+}
+
 void EnKz_Draw(EnKz* this, GlobalContext* globalCtx) {
-    Gfx* gfxArr[4];
+    s32 pad;
     GraphicsContext* gfxCtx;
+    Gfx* gfxArr[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(&gfxArr, &globalCtx->state.gfxCtx, "../z_en_kz.c", 1259);
+    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_kz.c", 1259);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(eyeImages[this->eyeImageIdx]));
-    func_800943C8(&globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, &this->skelanime.skeleton, &this->skelanime.actorDrawTbl, 
-                     &this->skelanime.dListCount, func_80A9D670, func_80A9D744, &this->actor);
-    func_800C6B54(&gfxArr, &globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);
+    func_800943C8(globalCtx->state.gfxCtx);
+    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.actorDrawTbl, 
+                     this->skelanime.dListCount, func_80A9D670, func_80A9D744, &this->actor);
+    func_800C6B54(&gfxArr, globalCtx->state.gfxCtx, "../z_en_kz.c", 1281);
 }
+
