@@ -351,7 +351,7 @@ void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 == 2) {
         func_800ED858(2);
         func_8010BD58(globalCtx, 9);
-        this->actor.flags &= 0xFFFEFFFF;
+        this->actor.flags &= ~0x10000;
         this->actionFunc = (ActorFunc)func_80AA10EC;
     }
 }
