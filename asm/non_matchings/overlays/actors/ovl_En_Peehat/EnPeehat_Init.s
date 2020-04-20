@@ -37,8 +37,8 @@ glabel EnPeehat_Init
 /* 00068 80ACF508 0C02915F */  jal     SkelAnime_Init
               
 /* 0006C 80ACF50C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 00070 80ACF510 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00074 80ACF514 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00070 80ACF510 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00074 80ACF514 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00078 80ACF518 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0007C 80ACF51C 3C0542C8 */  lui     $a1, 0x42C8                ## $a1 = 42C80000
 /* 00080 80ACF520 0C00AC78 */  jal     ActorShape_Init

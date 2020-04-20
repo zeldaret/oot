@@ -1,6 +1,6 @@
 glabel func_80AF5DFC
-/* 0089C 80AF5DFC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 008A0 80AF5E00 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 0089C 80AF5DFC 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 008A0 80AF5E00 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 008A4 80AF5E04 8C620008 */  lw      $v0, 0x0008($v1)           ## 8015E668
 /* 008A8 80AF5E08 3401FFF0 */  ori     $at, $zero, 0xFFF0         ## $at = 0000FFF0
 /* 008AC 80AF5E0C AFA40000 */  sw      $a0, 0x0000($sp)           
@@ -29,10 +29,10 @@ glabel func_80AF5DFC
 /* 008F8 80AF5E58 54410012 */  bnel    $v0, $at, .L80AF5EA4       
 /* 008FC 80AF5E5C 24010056 */  addiu   $at, $zero, 0x0056         ## $at = 00000056
 /* 00900 80AF5E60 8C6E0004 */  lw      $t6, 0x0004($v1)           ## 8015E664
-/* 00904 80AF5E64 3C0F8012 */  lui     $t7, 0x8012                ## $t7 = 80120000
+/* 00904 80AF5E64 3C0F8012 */  lui     $t7, %hi(gItemSlots+7)
 /* 00908 80AF5E68 51C0000E */  beql    $t6, $zero, .L80AF5EA4     
 /* 0090C 80AF5E6C 24010056 */  addiu   $at, $zero, 0x0056         ## $at = 00000056
-/* 00910 80AF5E70 91EF746B */  lbu     $t7, 0x746B($t7)           ## 8012746B
+/* 00910 80AF5E70 91EF746B */  lbu     $t7, %lo(gItemSlots+7)($t7)
 /* 00914 80AF5E74 24010007 */  addiu   $at, $zero, 0x0007         ## $at = 00000007
 /* 00918 80AF5E78 006FC021 */  addu    $t8, $v1, $t7              
 /* 0091C 80AF5E7C 93190074 */  lbu     $t9, 0x0074($t8)           ## 00000074
@@ -50,11 +50,11 @@ glabel func_80AF5DFC
 /* 00944 80AF5EA4 54410011 */  bnel    $v0, $at, .L80AF5EEC       
 /* 00948 80AF5EA8 24010055 */  addiu   $at, $zero, 0x0055         ## $at = 00000055
 /* 0094C 80AF5EAC 946A0EDC */  lhu     $t2, 0x0EDC($v1)           ## 8015F53C
-/* 00950 80AF5EB0 3C0C8012 */  lui     $t4, 0x8012                ## $t4 = 80120000
+/* 00950 80AF5EB0 3C0C8012 */  lui     $t4, %hi(gBitFlags+0x38)
 /* 00954 80AF5EB4 314B0001 */  andi    $t3, $t2, 0x0001           ## $t3 = 00000000
 /* 00958 80AF5EB8 5160000C */  beql    $t3, $zero, .L80AF5EEC     
 /* 0095C 80AF5EBC 24010055 */  addiu   $at, $zero, 0x0055         ## $at = 00000055
-/* 00960 80AF5EC0 8D8C7158 */  lw      $t4, 0x7158($t4)           ## 80127158
+/* 00960 80AF5EC0 8D8C7158 */  lw      $t4, %lo(gBitFlags+0x38)($t4)
 /* 00964 80AF5EC4 8C6D00A4 */  lw      $t5, 0x00A4($v1)           ## 8015E704
 /* 00968 80AF5EC8 24030005 */  addiu   $v1, $zero, 0x0005         ## $v1 = 00000005
 /* 0096C 80AF5ECC 018D7024 */  and     $t6, $t4, $t5              
@@ -69,8 +69,8 @@ glabel func_80AF5DFC
 /* 00988 80AF5EE8 24010055 */  addiu   $at, $zero, 0x0055         ## $at = 00000055
 .L80AF5EEC:
 /* 0098C 80AF5EEC 1441000E */  bne     $v0, $at, .L80AF5F28       
-/* 00990 80AF5EF0 3C0F8012 */  lui     $t7, 0x8012                ## $t7 = 80120000
-/* 00994 80AF5EF4 8DEF7168 */  lw      $t7, 0x7168($t7)           ## 80127168
+/* 00990 80AF5EF0 3C0F8012 */  lui     $t7, %hi(gBitFlags+0x48)
+/* 00994 80AF5EF4 8DEF7168 */  lw      $t7, %lo(gBitFlags+0x48)($t7)
 /* 00998 80AF5EF8 8C7800A4 */  lw      $t8, 0x00A4($v1)           ## 000000A9
 /* 0099C 80AF5EFC 01F8C824 */  and     $t9, $t7, $t8              
 /* 009A0 80AF5F00 5720000A */  bnel    $t9, $zero, .L80AF5F2C     

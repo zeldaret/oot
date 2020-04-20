@@ -74,8 +74,8 @@ glabel EnPoDesert_Init
 /* 0010C 80AD2DBC 0C01E763 */  jal     Lights_InitType0PositionalLight
               
 /* 00110 80AD2DC0 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 00114 80AD2DC4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00118 80AD2DC8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00114 80AD2DC4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00118 80AD2DC8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0011C 80AD2DCC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00120 80AD2DD0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00124 80AD2DD4 0C00AC78 */  jal     ActorShape_Init

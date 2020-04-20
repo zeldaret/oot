@@ -18,8 +18,8 @@ glabel EnTa_Destroy
 /* 00818 80B142B8 85CF00A4 */  lh      $t7, 0x00A4($t6)           ## 000000A4
 /* 0081C 80B142BC 2401004C */  addiu   $at, $zero, 0x004C         ## $at = 0000004C
 /* 00820 80B142C0 15E10002 */  bne     $t7, $at, .L80B142CC       
-/* 00824 80B142C4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00828 80B142C8 A420FA2E */  sh      $zero, -0x05D2($at)        ## 8015FA2E
+/* 00824 80B142C4 3C018016 */  lui     $at, %hi(gSaveContext+0x13ce)
+/* 00828 80B142C8 A420FA2E */  sh      $zero, %lo(gSaveContext+0x13ce)($at)
 .L80B142CC:
 /* 0082C 80B142CC 94D802E0 */  lhu     $t8, 0x02E0($a2)           ## 000002E0
 /* 00830 80B142D0 33190200 */  andi    $t9, $t8, 0x0200           ## $t9 = 00000000

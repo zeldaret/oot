@@ -11,17 +11,17 @@ glabel func_80B03A00
 /* 017B4 80B03A24 25CE39BC */  addiu   $t6, $t6, %lo(func_80B039BC) ## $t6 = 80B039BC
 /* 017B8 80B03A28 15E00006 */  bne     $t7, $zero, .L80B03A44     
 /* 017BC 80B03A2C ACEE02F8 */  sw      $t6, 0x02F8($a3)           ## 000002F8
-/* 017C0 80B03A30 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 017C4 80B03A34 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 017C0 80B03A30 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 017C4 80B03A34 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 017C8 80B03A38 94780EE6 */  lhu     $t8, 0x0EE6($v1)           ## 8015F546
 /* 017CC 80B03A3C 37190040 */  ori     $t9, $t8, 0x0040           ## $t9 = 00000040
 /* 017D0 80B03A40 A4790EE6 */  sh      $t9, 0x0EE6($v1)           ## 8015F546
 .L80B03A44:
 /* 017D4 80B03A44 94E2010E */  lhu     $v0, 0x010E($a3)           ## 0000010E
-/* 017D8 80B03A48 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 017D8 80B03A48 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 017DC 80B03A4C 24010026 */  addiu   $at, $zero, 0x0026         ## $at = 00000026
 /* 017E0 80B03A50 10410004 */  beq     $v0, $at, .L80B03A64       
-/* 017E4 80B03A54 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 017E4 80B03A54 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 017E8 80B03A58 24010027 */  addiu   $at, $zero, 0x0027         ## $at = 00000027
 /* 017EC 80B03A5C 54410006 */  bnel    $v0, $at, .L80B03A78       
 /* 017F0 80B03A60 24010024 */  addiu   $at, $zero, 0x0024         ## $at = 00000024
@@ -136,8 +136,8 @@ glabel func_80B03A00
 /* 01960 80B03BD0 15000026 */  bne     $t0, $zero, .L80B03C6C     
 /* 01964 80B03BD4 A4E2010E */  sh      $v0, 0x010E($a3)           ## 0000010E
 /* 01968 80B03BD8 84E9001C */  lh      $t1, 0x001C($a3)           ## 0000001C
-/* 0196C 80B03BDC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 01970 80B03BE0 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 0196C 80B03BDC 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 01970 80B03BE0 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 01974 80B03BE4 55200020 */  bnel    $t1, $zero, .L80B03C68     
 /* 01978 80B03BE8 24090022 */  addiu   $t1, $zero, 0x0022         ## $t1 = 00000022
 /* 0197C 80B03BEC 846200D0 */  lh      $v0, 0x00D0($v1)           ## 8015E730

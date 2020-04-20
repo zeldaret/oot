@@ -70,8 +70,8 @@ glabel EnOwl_Init
 /* 00018 80AC9F38 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 0001C 80AC9F3C 24A5D61C */  addiu   $a1, $a1, %lo(D_80ACD61C)  ## $a1 = 80ACD61C
-/* 00020 80AC9F40 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00024 80AC9F44 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00020 80AC9F40 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00024 80AC9F44 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00028 80AC9F48 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0002C 80AC9F4C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00030 80AC9F50 0C00AC78 */  jal     ActorShape_Init
@@ -220,8 +220,8 @@ glabel L80ACA13C
 /* 00238 80ACA158 10000088 */  beq     $zero, $zero, .L80ACA37C
 /* 0023C 80ACA15C AE0A040C */  sw      $t2, 0x040C($s0)           ## 0000040C
 glabel L80ACA160
-/* 00240 80ACA160 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00244 80ACA164 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00240 80ACA160 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00244 80ACA164 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00248 80ACA168 944B0EDC */  lhu     $t3, 0x0EDC($v0)           ## 8015F53C
 /* 0024C 80ACA16C 3C0D80AD */  lui     $t5, %hi(func_80ACACD8)    ## $t5 = 80AD0000
 /* 00250 80ACA170 3C0480AD */  lui     $a0, %hi(D_80ACD694)       ## $a0 = 80AD0000
@@ -240,8 +240,8 @@ glabel L80ACA160
 /* 00278 80ACA198 10000078 */  beq     $zero, $zero, .L80ACA37C
 /* 0027C 80ACA19C AE0D040C */  sw      $t5, 0x040C($s0)           ## 0000040C
 glabel L80ACA1A0
-/* 00280 80ACA1A0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00284 80ACA1A4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00280 80ACA1A0 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00284 80ACA1A4 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00288 80ACA1A8 944E0EDC */  lhu     $t6, 0x0EDC($v0)           ## 8015F53C
 /* 0028C 80ACA1AC 3C1880AD */  lui     $t8, %hi(func_80ACAE5C)    ## $t8 = 80AD0000
 /* 00290 80ACA1B0 3C0480AD */  lui     $a0, %hi(D_80ACD6A4)       ## $a0 = 80AD0000
@@ -265,8 +265,8 @@ glabel L80ACA1E0
 /* 002C8 80ACA1E8 10000064 */  beq     $zero, $zero, .L80ACA37C
 /* 002CC 80ACA1EC AE19040C */  sw      $t9, 0x040C($s0)           ## 0000040C
 glabel L80ACA1F0
-/* 002D0 80ACA1F0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 002D4 80ACA1F4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 002D0 80ACA1F0 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 002D4 80ACA1F4 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 002D8 80ACA1F8 94480EDA */  lhu     $t0, 0x0EDA($v0)           ## 8015F53A
 /* 002DC 80ACA1FC 3C0480AD */  lui     $a0, %hi(D_80ACD6B4)       ## $a0 = 80AD0000
 /* 002E0 80ACA200 31090200 */  andi    $t1, $t0, 0x0200           ## $t1 = 00000000
@@ -316,10 +316,10 @@ glabel L80ACA284
 /* 0036C 80ACA28C 1000003B */  beq     $zero, $zero, .L80ACA37C
 /* 00370 80ACA290 AE18040C */  sw      $t8, 0x040C($s0)           ## 0000040C
 glabel L80ACA294
-/* 00374 80ACA294 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00378 80ACA298 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
-/* 0037C 80ACA29C 3C198012 */  lui     $t9, 0x8012                ## $t9 = 80120000
-/* 00380 80ACA2A0 8F397150 */  lw      $t9, 0x7150($t9)           ## 80127150
+/* 00374 80ACA294 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00378 80ACA298 2442E660 */  addiu   $v0, %lo(gSaveContext)
+/* 0037C 80ACA29C 3C198012 */  lui     $t9, %hi(gBitFlags+0x30)
+/* 00380 80ACA2A0 8F397150 */  lw      $t9, %lo(gBitFlags+0x30)($t9)
 /* 00384 80ACA2A4 8C4800A4 */  lw      $t0, 0x00A4($v0)           ## 8015E704
 /* 00388 80ACA2A8 3C0A80AD */  lui     $t2, %hi(func_80ACB568)    ## $t2 = 80AD0000
 /* 0038C 80ACA2AC 3C0480AD */  lui     $a0, %hi(D_80ACD6C4)       ## $a0 = 80AD0000
@@ -338,10 +338,10 @@ glabel L80ACA294
 /* 003B4 80ACA2D4 10000029 */  beq     $zero, $zero, .L80ACA37C
 /* 003B8 80ACA2D8 AE0A040C */  sw      $t2, 0x040C($s0)           ## 0000040C
 glabel L80ACA2DC
-/* 003BC 80ACA2DC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 003C0 80ACA2E0 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
-/* 003C4 80ACA2E4 3C0B8012 */  lui     $t3, 0x8012                ## $t3 = 80120000
-/* 003C8 80ACA2E8 8D6B7158 */  lw      $t3, 0x7158($t3)           ## 80127158
+/* 003BC 80ACA2DC 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 003C0 80ACA2E0 2442E660 */  addiu   $v0, %lo(gSaveContext)
+/* 003C4 80ACA2E4 3C0B8012 */  lui     $t3, %hi(gBitFlags+0x38)
+/* 003C8 80ACA2E8 8D6B7158 */  lw      $t3, %lo(gBitFlags+0x38)($t3)
 /* 003CC 80ACA2EC 8C4C00A4 */  lw      $t4, 0x00A4($v0)           ## 8015E704
 /* 003D0 80ACA2F0 3C0E80AD */  lui     $t6, %hi(func_80ACB6EC)    ## $t6 = 80AD0000
 /* 003D4 80ACA2F4 3C0480AD */  lui     $a0, %hi(D_80ACD6D4)       ## $a0 = 80AD0000

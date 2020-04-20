@@ -54,11 +54,11 @@ glabel func_80AF9C70
 /* 00EA4 80AF9CC4 0C025011 */  jal     func_80094044              
 /* 00EA8 80AF9CC8 8E840000 */  lw      $a0, 0x0000($s4)           ## 00000000
 /* 00EAC 80AF9CCC 8E4302D0 */  lw      $v1, 0x02D0($s2)           ## 000002D0
-/* 00EB0 80AF9CD0 3C138016 */  lui     $s3, 0x8016                ## $s3 = 80160000
+/* 00EB0 80AF9CD0 3C138016 */  lui     $s3, %hi(gGameInfo)
 /* 00EB4 80AF9CD4 3C0FFA00 */  lui     $t7, 0xFA00                ## $t7 = FA000000
 /* 00EB8 80AF9CD8 246E0008 */  addiu   $t6, $v1, 0x0008           ## $t6 = 00000008
 /* 00EBC 80AF9CDC AE4E02D0 */  sw      $t6, 0x02D0($s2)           ## 000002D0
-/* 00EC0 80AF9CE0 2673FA90 */  addiu   $s3, $s3, 0xFA90           ## $s3 = 8015FA90
+/* 00EC0 80AF9CE0 2673FA90 */  addiu   $s3, %lo(gGameInfo)
 /* 00EC4 80AF9CE4 AC6F0000 */  sw      $t7, 0x0000($v1)           ## 00000000
 /* 00EC8 80AF9CE8 8E780000 */  lw      $t8, 0x0000($s3)           ## 8015FA90
 /* 00ECC 80AF9CEC 3C0BFB00 */  lui     $t3, 0xFB00                ## $t3 = FB000000

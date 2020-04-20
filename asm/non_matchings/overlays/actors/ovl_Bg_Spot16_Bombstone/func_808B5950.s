@@ -30,8 +30,8 @@ glabel func_808B5950
 /* 00D90 808B59C0 0C00B2DD */  jal     Flags_SetSwitch
               
 /* 00D94 808B59C4 86250156 */  lh      $a1, 0x0156($s1)           ## 00000156
-/* 00D98 808B59C8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00D9C 808B59CC 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00D98 808B59C8 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00D9C 808B59CC 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00DA0 808B59D0 94580ED8 */  lhu     $t8, 0x0ED8($v0)           ## 8015F538
 /* 00DA4 808B59D4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00DA8 808B59D8 37190008 */  ori     $t9, $t8, 0x0008           ## $t9 = 00000008
@@ -57,8 +57,8 @@ glabel func_808B5950
               ## CollisionCheck_setAC
 /* 00DEC 808B5A1C 8FA50030 */  lw      $a1, 0x0030($sp)           
 .L808B5A20:
-/* 00DF0 808B5A20 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00DF4 808B5A24 8C63FA90 */  lw      $v1, -0x0570($v1)          ## 8015FA90
+/* 00DF0 808B5A20 3C038016 */  lui     $v1, %hi(gGameInfo)
+/* 00DF4 808B5A24 8C63FA90 */  lw      $v1, %lo(gGameInfo)($v1)
 /* 00DF8 808B5A28 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 00DFC 808B5A2C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E00 808B5A30 846211D4 */  lh      $v0, 0x11D4($v1)           ## 801611D4
@@ -66,8 +66,8 @@ glabel func_808B5950
 /* 00E08 808B5A38 00000000 */  nop
 /* 00E0C 808B5A3C 0C22D587 */  jal     func_808B561C              
 /* 00E10 808B5A40 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00E14 808B5A44 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 00E18 808B5A48 8D29FA90 */  lw      $t1, -0x0570($t1)          ## 8015FA90
+/* 00E14 808B5A44 3C098016 */  lui     $t1, %hi(gGameInfo)
+/* 00E18 808B5A48 8D29FA90 */  lw      $t1, %lo(gGameInfo)($t1)
 /* 00E1C 808B5A4C 2408FFF6 */  addiu   $t0, $zero, 0xFFF6         ## $t0 = FFFFFFF6
 /* 00E20 808B5A50 10000004 */  beq     $zero, $zero, .L808B5A64   
 /* 00E24 808B5A54 A52811D4 */  sh      $t0, 0x11D4($t1)           ## 801611D4

@@ -102,8 +102,8 @@ glabel EnReeba_Init
 /* 00144 80AE4E14 3C0180AE */  lui     $at, %hi(D_80AE6680)       ## $at = 80AE0000
 /* 00148 80AE4E18 C4286680 */  lwc1    $f8, %lo(D_80AE6680)($at)  
 /* 0014C 80AE4E1C C606028C */  lwc1    $f6, 0x028C($s0)           ## 0000028C
-/* 00150 80AE4E20 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00154 80AE4E24 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00150 80AE4E20 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00154 80AE4E24 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00158 80AE4E28 46083002 */  mul.s   $f0, $f6, $f8              
 /* 0015C 80AE4E2C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00160 80AE4E30 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000

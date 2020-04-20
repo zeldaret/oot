@@ -46,10 +46,10 @@ glabel EnGuest_Update
 /* 00184 80A503A4 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 00188 80A503A8 248442AC */  addiu   $a0, $a0, 0x42AC           ## $a0 = 060042AC
 /* 0018C 80A503AC 01816821 */  addu    $t5, $t4, $at
-/* 00190 80A503B0 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 00190 80A503B0 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 00194 80A503B4 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 00198 80A503B8 AC2D6FC0 */  sw      $t5, 0x6FC0($at)           ## 80166FC0
+/* 00198 80A503B8 AC2D6FC0 */  sw      $t5, %lo(gSegments+0x18)($at)
 /* 0019C 80A503BC 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 001A0 80A503C0 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 001A4 80A503C4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000

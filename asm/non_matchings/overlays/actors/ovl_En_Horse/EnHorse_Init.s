@@ -15,8 +15,8 @@ glabel D_80A6687C
 glabel EnHorse_Init
 /* 00DE0 80A5C0D0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00DE4 80A5C0D4 AFB10030 */  sw      $s1, 0x0030($sp)
-/* 00DE8 80A5C0D8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00DEC 80A5C0DC 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 00DE8 80A5C0D8 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 00DEC 80A5C0DC 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 00DF0 80A5C0E0 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00DF4 80A5C0E4 AFBF0034 */  sw      $ra, 0x0034($sp)
 /* 00DF8 80A5C0E8 AFB0002C */  sw      $s0, 0x002C($sp)
@@ -28,15 +28,15 @@ glabel EnHorse_Init
 /* 00E0C 80A5C0FC A5C00E60 */  sh      $zero, 0x0E60($t6)         ## 80160E60
 /* 00E10 80A5C100 0C297032 */  jal     func_80A5C0C8
 /* 00E14 80A5C104 260403C8 */  addiu   $a0, $s0, 0x03C8           ## $a0 = 000003C8
-/* 00E18 80A5C108 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00E1C 80A5C10C 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 00E18 80A5C108 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 00E1C 80A5C10C 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 00E20 80A5C110 26180024 */  addiu   $t8, $s0, 0x0024           ## $t8 = 00000024
 /* 00E24 80A5C114 3C01428C */  lui     $at, 0x428C                ## $at = 428C0000
 /* 00E28 80A5C118 A5E005BE */  sh      $zero, 0x05BE($t7)         ## 801605BE
 /* 00E2C 80A5C11C AFB8003C */  sw      $t8, 0x003C($sp)
 /* 00E30 80A5C120 8F090000 */  lw      $t1, 0x0000($t8)           ## 00000024
 /* 00E34 80A5C124 44813000 */  mtc1    $at, $f6                   ## $f6 = 70.00
-/* 00E38 80A5C128 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00E38 80A5C128 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 00E3C 80A5C12C AE090258 */  sw      $t1, 0x0258($s0)           ## 00000258
 /* 00E40 80A5C130 8F080004 */  lw      $t0, 0x0004($t8)           ## 00000028
 /* 00E44 80A5C134 AE08025C */  sw      $t0, 0x025C($s0)           ## 0000025C
@@ -47,7 +47,7 @@ glabel EnHorse_Init
 /* 00E58 80A5C148 AE000154 */  sw      $zero, 0x0154($s0)         ## 00000154
 /* 00E5C 80A5C14C AE090260 */  sw      $t1, 0x0260($s0)           ## 00000260
 /* 00E60 80A5C150 E608025C */  swc1    $f8, 0x025C($s0)           ## 0000025C
-/* 00E64 80A5C154 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00E64 80A5C154 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 00E68 80A5C158 844A055C */  lh      $t2, 0x055C($v0)           ## 8016055C
 /* 00E6C 80A5C15C 15400002 */  bne     $t2, $zero, .L80A5C168
 /* 00E70 80A5C160 240B0046 */  addiu   $t3, $zero, 0x0046         ## $t3 = 00000046
@@ -140,9 +140,9 @@ glabel EnHorse_Init
 
 /* 00F98 80A5C288 24040018 */  addiu   $a0, $zero, 0x0018         ## $a0 = 00000018
 /* 00F9C 80A5C28C 14400006 */  bne     $v0, $zero, .L80A5C2A8
-/* 00FA0 80A5C290 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 00FA4 80A5C294 8F39FA90 */  lw      $t9, -0x0570($t9)          ## 8015FA90
-/* 00FA8 80A5C298 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 00FA0 80A5C290 3C198016 */  lui     $t9, %hi(gGameInfo)
+/* 00FA4 80A5C294 8F39FA90 */  lw      $t9, %lo(gGameInfo)($t9)
+/* 00FA8 80A5C298 3C0D8016 */  lui     $t5, %hi(gSaveContext+0x13fa)
 /* 00FAC 80A5C29C 87280556 */  lh      $t0, 0x0556($t9)           ## 80160556
 /* 00FB0 80A5C2A0 1100000A */  beq     $t0, $zero, .L80A5C2CC
 /* 00FB4 80A5C2A4 00000000 */  nop
@@ -157,7 +157,7 @@ glabel EnHorse_Init
 /* 00FD4 80A5C2C4 10000014 */  beq     $zero, $zero, .L80A5C318
 /* 00FD8 80A5C2C8 AE0C01F0 */  sw      $t4, 0x01F0($s0)           ## 000001F0
 .L80A5C2CC:
-/* 00FDC 80A5C2CC 95ADFA5A */  lhu     $t5, -0x05A6($t5)          ## 8015FA5A
+/* 00FDC 80A5C2CC 95ADFA5A */  lhu     $t5, %lo(gSaveContext+0x13fa)($t5)
 /* 00FE0 80A5C2D0 31AE0040 */  andi    $t6, $t5, 0x0040           ## $t6 = 00000000
 /* 00FE4 80A5C2D4 51C00011 */  beql    $t6, $zero, .L80A5C31C
 /* 00FE8 80A5C2D8 862900A4 */  lh      $t1, 0x00A4($s1)           ## 000000A4
@@ -183,8 +183,8 @@ glabel EnHorse_Init
 .L80A5C31C:
 /* 0102C 80A5C31C 24010063 */  addiu   $at, $zero, 0x0063         ## $at = 00000063
 /* 01030 80A5C320 15210012 */  bne     $t1, $at, .L80A5C36C
-/* 01034 80A5C324 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 01038 80A5C328 954AFA5A */  lhu     $t2, -0x05A6($t2)          ## 8015FA5A
+/* 01034 80A5C324 3C0A8016 */  lui     $t2, %hi(gSaveContext+0x13fa)
+/* 01038 80A5C328 954AFA5A */  lhu     $t2, %lo(gSaveContext+0x13fa)($t2)
 /* 0103C 80A5C32C 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
 /* 01040 80A5C330 314B000F */  andi    $t3, $t2, 0x000F           ## $t3 = 00000000
 /* 01044 80A5C334 5561000E */  bnel    $t3, $at, .L80A5C370
@@ -193,8 +193,8 @@ glabel EnHorse_Init
 
 /* 01050 80A5C340 24040018 */  addiu   $a0, $zero, 0x0018         ## $a0 = 00000018
 /* 01054 80A5C344 14400009 */  bne     $v0, $zero, .L80A5C36C
-/* 01058 80A5C348 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
-/* 0105C 80A5C34C 8D8CFA90 */  lw      $t4, -0x0570($t4)          ## 8015FA90
+/* 01058 80A5C348 3C0C8016 */  lui     $t4, %hi(gGameInfo)
+/* 0105C 80A5C34C 8D8CFA90 */  lw      $t4, %lo(gGameInfo)($t4)
 /* 01060 80A5C350 858D0556 */  lh      $t5, 0x0556($t4)           ## 80160556
 /* 01064 80A5C354 55A00006 */  bnel    $t5, $zero, .L80A5C370
 /* 01068 80A5C358 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000
@@ -211,8 +211,8 @@ glabel EnHorse_Init
 /* 01088 80A5C378 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0108C 80A5C37C 3C01C060 */  lui     $at, 0xC060                ## $at = C0600000
 /* 01090 80A5C380 44815000 */  mtc1    $at, $f10                  ## $f10 = -3.50
-/* 01094 80A5C384 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 01098 80A5C388 24C6B644 */  addiu   $a2, $a2, 0xB644           ## $a2 = 8002B644
+/* 01094 80A5C384 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Squiggly)
+/* 01098 80A5C388 24C6B644 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Squiggly)
 /* 0109C 80A5C38C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 010A0 80A5C390 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 010A4 80A5C394 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
@@ -272,7 +272,7 @@ glabel EnHorse_Init
 /* 01164 80A5C454 44812000 */  mtc1    $at, $f4                   ## $f4 = 70.00
 /* 01168 80A5C458 8D0A0000 */  lw      $t2, 0x0000($t0)           ## 00000000
 /* 0116C 80A5C45C 24010063 */  addiu   $at, $zero, 0x0063         ## $at = 00000063
-/* 01170 80A5C460 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 01170 80A5C460 3C0B8016 */  lui     $t3, %hi(gSaveContext+0x1360)
 /* 01174 80A5C464 AE0A0038 */  sw      $t2, 0x0038($s0)           ## 00000038
 /* 01178 80A5C468 8D090004 */  lw      $t1, 0x0004($t0)           ## 00000004
 /* 0117C 80A5C46C AE09003C */  sw      $t1, 0x003C($s0)           ## 0000003C
@@ -285,7 +285,7 @@ glabel EnHorse_Init
 /* 01198 80A5C488 862200A4 */  lh      $v0, 0x00A4($s1)           ## 000000A4
 /* 0119C 80A5C48C 54410035 */  bnel    $v0, $at, .L80A5C564
 /* 011A0 80A5C490 24010036 */  addiu   $at, $zero, 0x0036         ## $at = 00000036
-/* 011A4 80A5C494 8D6BF9C0 */  lw      $t3, -0x0640($t3)          ## 8015F9C0
+/* 011A4 80A5C494 8D6BF9C0 */  lw      $t3, %lo(gSaveContext+0x1360)($t3)
 /* 011A8 80A5C498 29610004 */  slti    $at, $t3, 0x0004
 /* 011AC 80A5C49C 50200031 */  beql    $at, $zero, .L80A5C564
 /* 011B0 80A5C4A0 24010036 */  addiu   $at, $zero, 0x0036         ## $at = 00000036
@@ -294,10 +294,10 @@ glabel EnHorse_Init
 /* 011BC 80A5C4AC 1581001C */  bne     $t4, $at, .L80A5C520
 /* 011C0 80A5C4B0 00000000 */  nop
 /* 011C4 80A5C4B4 860D0034 */  lh      $t5, 0x0034($s0)           ## 00000034
-/* 011C8 80A5C4B8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 011C8 80A5C4B8 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x10)
 /* 011CC 80A5C4BC 11A00004 */  beq     $t5, $zero, .L80A5C4D0
 /* 011D0 80A5C4C0 00000000 */  nop
-/* 011D4 80A5C4C4 8DCEE670 */  lw      $t6, -0x1990($t6)          ## 8015E670
+/* 011D4 80A5C4C4 8DCEE670 */  lw      $t6, %lo(gSaveContext+0x10)($t6)
 /* 011D8 80A5C4C8 11C00005 */  beq     $t6, $zero, .L80A5C4E0
 /* 011DC 80A5C4CC 00000000 */  nop
 .L80A5C4D0:
@@ -332,13 +332,13 @@ glabel EnHorse_Init
 
 /* 01234 80A5C524 24040018 */  addiu   $a0, $zero, 0x0018         ## $a0 = 00000018
 /* 01238 80A5C528 14400027 */  bne     $v0, $zero, .L80A5C5C8
-/* 0123C 80A5C52C 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
-/* 01240 80A5C530 8F18FA90 */  lw      $t8, -0x0570($t8)          ## 8015FA90
-/* 01244 80A5C534 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
+/* 0123C 80A5C52C 3C188016 */  lui     $t8, %hi(gGameInfo)
+/* 01240 80A5C530 8F18FA90 */  lw      $t8, %lo(gGameInfo)($t8)
+/* 01244 80A5C534 3C088016 */  lui     $t0, %hi(gSaveContext+0x10)
 /* 01248 80A5C538 87190556 */  lh      $t9, 0x0556($t8)           ## 80160556
 /* 0124C 80A5C53C 57200023 */  bnel    $t9, $zero, .L80A5C5CC
 /* 01250 80A5C540 8E020158 */  lw      $v0, 0x0158($s0)           ## 00000158
-/* 01254 80A5C544 8D08E670 */  lw      $t0, -0x1990($t0)          ## 8015E670
+/* 01254 80A5C544 8D08E670 */  lw      $t0, %lo(gSaveContext+0x10)($t0)
 /* 01258 80A5C548 51000020 */  beql    $t0, $zero, .L80A5C5CC
 /* 0125C 80A5C54C 8E020158 */  lw      $v0, 0x0158($s0)           ## 00000158
 /* 01260 80A5C550 0C00B55C */  jal     Actor_Kill
@@ -349,21 +349,21 @@ glabel EnHorse_Init
 /* 01270 80A5C560 24010036 */  addiu   $at, $zero, 0x0036         ## $at = 00000036
 .L80A5C564:
 /* 01274 80A5C564 14410018 */  bne     $v0, $at, .L80A5C5C8
-/* 01278 80A5C568 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 0127C 80A5C56C 8D29E670 */  lw      $t1, -0x1990($t1)          ## 8015E670
+/* 01278 80A5C568 3C098016 */  lui     $t1, %hi(gSaveContext+0x10)
+/* 0127C 80A5C56C 8D29E670 */  lw      $t1, %lo(gSaveContext+0x10)($t1)
 /* 01280 80A5C570 1120000D */  beq     $t1, $zero, .L80A5C5A8
 /* 01284 80A5C574 00000000 */  nop
 /* 01288 80A5C578 0C00D6D3 */  jal     Flags_GetEventChkInf
 
 /* 0128C 80A5C57C 24040018 */  addiu   $a0, $zero, 0x0018         ## $a0 = 00000018
 /* 01290 80A5C580 14400009 */  bne     $v0, $zero, .L80A5C5A8
-/* 01294 80A5C584 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 01298 80A5C588 8D4AFA90 */  lw      $t2, -0x0570($t2)          ## 8015FA90
-/* 0129C 80A5C58C 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
+/* 01294 80A5C584 3C0A8016 */  lui     $t2, %hi(gGameInfo)
+/* 01298 80A5C588 8D4AFA90 */  lw      $t2, %lo(gGameInfo)($t2)
+/* 0129C 80A5C58C 3C0C8016 */  lui     $t4, %hi(gSaveContext+4)
 /* 012A0 80A5C590 854B0556 */  lh      $t3, 0x0556($t2)           ## 80160556
 /* 012A4 80A5C594 15600004 */  bne     $t3, $zero, .L80A5C5A8
 /* 012A8 80A5C598 00000000 */  nop
-/* 012AC 80A5C59C 8D8CE664 */  lw      $t4, -0x199C($t4)          ## 8015E664
+/* 012AC 80A5C59C 8D8CE664 */  lw      $t4, %lo(gSaveContext+4)($t4)
 /* 012B0 80A5C5A0 51800006 */  beql    $t4, $zero, .L80A5C5BC
 /* 012B4 80A5C5A4 8E0D01F0 */  lw      $t5, 0x01F0($s0)           ## 000001F0
 .L80A5C5A8:
@@ -456,8 +456,8 @@ glabel EnHorse_Init
 
 /* 013F8 80A5C6E8 24060C05 */  addiu   $a2, $zero, 0x0C05         ## $a2 = 00000C05
 .L80A5C6EC:
-/* 013FC 80A5C6EC 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 01400 80A5C6F0 95CEFA5A */  lhu     $t6, -0x05A6($t6)          ## 8015FA5A
+/* 013FC 80A5C6EC 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x13fa)
+/* 01400 80A5C6F0 95CEFA5A */  lhu     $t6, %lo(gSaveContext+0x13fa)($t6)
 /* 01404 80A5C6F4 3C01414A */  lui     $at, 0x414A                ## $at = 414A0000
 /* 01408 80A5C6F8 31CF0040 */  andi    $t7, $t6, 0x0040           ## $t7 = 00000000
 /* 0140C 80A5C6FC 55E00006 */  bnel    $t7, $zero, .L80A5C718
@@ -497,8 +497,8 @@ glabel EnHorse_Init
 
 /* 01484 80A5C774 24040018 */  addiu   $a0, $zero, 0x0018         ## $a0 = 00000018
 /* 01488 80A5C778 14400009 */  bne     $v0, $zero, .L80A5C7A0
-/* 0148C 80A5C77C 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 01490 80A5C780 8F39FA90 */  lw      $t9, -0x0570($t9)          ## 8015FA90
+/* 0148C 80A5C77C 3C198016 */  lui     $t9, %hi(gGameInfo)
+/* 01490 80A5C780 8F39FA90 */  lw      $t9, %lo(gGameInfo)($t9)
 /* 01494 80A5C784 87280556 */  lh      $t0, 0x0556($t9)           ## 80160556
 /* 01498 80A5C788 55000006 */  bnel    $t0, $zero, .L80A5C7A4
 /* 0149C 80A5C78C 862200A4 */  lh      $v0, 0x00A4($s1)           ## 000000A4

@@ -26,8 +26,8 @@ glabel func_80AB3914
 .L80AB3974:
 /* 02BE4 80AB3974 24016027 */  addiu   $at, $zero, 0x6027         ## $at = 00006027
 /* 02BE8 80AB3978 14410005 */  bne     $v0, $at, .L80AB3990       
-/* 02BEC 80AB397C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 02BF0 80AB3980 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 02BEC 80AB397C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 02BF0 80AB3980 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 02BF4 80AB3984 944F0F24 */  lhu     $t7, 0x0F24($v0)           ## 8015F584
 /* 02BF8 80AB3988 35F81000 */  ori     $t8, $t7, 0x1000           ## $t8 = 00001000
 /* 02BFC 80AB398C A4580F24 */  sh      $t8, 0x0F24($v0)           ## 8015F584

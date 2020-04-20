@@ -59,8 +59,8 @@ glabel EnBb_Init
 .L809B8618:
 /* 00338 809B8618 04410006 */  bgez    $v0, .L809B8634            
 /* 0033C 809B861C 3C054348 */  lui     $a1, 0x4348                ## $a1 = 43480000
-/* 00340 809B8620 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00344 809B8624 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00340 809B8620 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00344 809B8624 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00348 809B8628 0C00AC78 */  jal     ActorShape_Init
               
 /* 0034C 809B862C 3C07420C */  lui     $a3, 0x420C                ## $a3 = 420C0000

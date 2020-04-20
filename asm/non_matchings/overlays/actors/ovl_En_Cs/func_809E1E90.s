@@ -2,13 +2,13 @@ glabel func_809E1E90
 /* 005E0 809E1E90 000670C0 */  sll     $t6, $a2,  3               
 /* 005E4 809E1E94 008E7821 */  addu    $t7, $a0, $t6              
 /* 005E8 809E1E98 8DE80004 */  lw      $t0, 0x0004($t7)           ## 00000004
-/* 005EC 809E1E9C 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 005EC 809E1E9C 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 005F0 809E1EA0 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 005F4 809E1EA4 0008C100 */  sll     $t8, $t0,  4               
 /* 005F8 809E1EA8 0018CF02 */  srl     $t9, $t8, 28               
 /* 005FC 809E1EAC 00194880 */  sll     $t1, $t9,  2               
 /* 00600 809E1EB0 01495021 */  addu    $t2, $t2, $t1              
-/* 00604 809E1EB4 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 80166FA8
+/* 00604 809E1EB4 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 00608 809E1EB8 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 0060C 809E1EBC 00076880 */  sll     $t5, $a3,  2               
 /* 00610 809E1EC0 01A76823 */  subu    $t5, $t5, $a3              

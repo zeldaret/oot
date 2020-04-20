@@ -129,8 +129,8 @@ glabel EnHeishi2_Init
 .L80A52FF4:
 /* 00154 80A52FF4 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 00158 80A52FF8 44813000 */  mtc1    $at, $f6                   ## $f6 = 60.00
-/* 0015C 80A52FFC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00160 80A53000 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0015C 80A52FFC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00160 80A53000 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00164 80A53004 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00168 80A53008 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
 /* 0016C 80A5300C 0C00AC78 */  jal     ActorShape_Init

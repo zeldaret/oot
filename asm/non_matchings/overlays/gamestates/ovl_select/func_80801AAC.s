@@ -50,13 +50,13 @@ glabel func_80801AAC
 /* 00FDC 80801B6C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 00FE0 80801B70 0C200585 */  jal     func_80801614              
 /* 00FE4 80801B74 02002825 */  or      $a1, $s0, $zero            ## $a1 = FFFFFF70
-/* 00FE8 80801B78 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 00FEC 80801B7C 8CE6E664 */  lw      $a2, -0x199C($a3)          ## 8015E664
+/* 00FE8 80801B78 3C078016 */  lui     $a3, %hi(gSaveContext+4)
+/* 00FEC 80801B7C 8CE6E664 */  lw      $a2, %lo(gSaveContext+4)($a3)
 /* 00FF0 80801B80 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 00FF4 80801B84 0C20061F */  jal     func_8080187C              
 /* 00FF8 80801B88 02002825 */  or      $a1, $s0, $zero            ## $a1 = FFFFFF70
-/* 00FFC 80801B8C 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 01000 80801B90 8CE7E668 */  lw      $a3, -0x1998($a3)          ## 8015E668
+/* 00FFC 80801B8C 3C078016 */  lui     $a3, %hi(gSaveContext+8)
+/* 01000 80801B90 8CE7E668 */  lw      $a3, %lo(gSaveContext+8)($a3)
 /* 01004 80801B94 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01008 80801B98 02002825 */  or      $a1, $s0, $zero            ## $a1 = FFFFFF70
 /* 0100C 80801B9C 0C20063C */  jal     func_808018F0              

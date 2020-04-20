@@ -44,8 +44,8 @@ glabel EnKanban_Init
 /* 00138 80A920D8 240B0001 */  addiu   $t3, $zero, 0x0001         ## $t3 = 00000001
 /* 0013C 80A920DC 1441000B */  bne     $v0, $at, .L80A9210C       
 /* 00140 80A920E0 340CFFFF */  ori     $t4, $zero, 0xFFFF         ## $t4 = 0000FFFF
-/* 00144 80A920E4 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 00148 80A920E8 8F39E664 */  lw      $t9, -0x199C($t9)          ## 8015E664
+/* 00144 80A920E4 3C198016 */  lui     $t9, %hi(gSaveContext+4)
+/* 00148 80A920E8 8F39E664 */  lw      $t9, %lo(gSaveContext+4)($t9)
 /* 0014C 80A920EC 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 00150 80A920F0 2408409D */  addiu   $t0, $zero, 0x409D         ## $t0 = 0000409D
 /* 00154 80A920F4 17210003 */  bne     $t9, $at, .L80A92104       
@@ -75,8 +75,8 @@ glabel EnKanban_Init
 /* 001A8 80A92148 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 001AC 80A9214C 0C2A47E8 */  jal     func_80A91FA0              
 /* 001B0 80A92150 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 001B4 80A92154 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 001B8 80A92158 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 001B4 80A92154 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 001B8 80A92158 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 001BC 80A9215C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 001C0 80A92160 15C10005 */  bne     $t6, $at, .L80A92178       
 /* 001C4 80A92164 3C014170 */  lui     $at, 0x4170                ## $at = 41700000

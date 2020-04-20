@@ -161,12 +161,12 @@ glabel func_809CD144
 /* 002E0 809CD350 244E0008 */  addiu   $t6, $v0, 0x0008           ## $t6 = 00000008
 /* 002E4 809CD354 AE0E02D0 */  sw      $t6, 0x02D0($s0)           ## 000002D0
 /* 002E8 809CD358 00194080 */  sll     $t0, $t9,  2               
-/* 002EC 809CD35C 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 002EC 809CD35C 3C098016 */  lui     $t1, %hi(gSegments)
 /* 002F0 809CD360 3C0FDE00 */  lui     $t7, 0xDE00                ## $t7 = DE000000
 /* 002F4 809CD364 01284821 */  addu    $t1, $t1, $t0              
 /* 002F8 809CD368 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 002FC 809CD36C AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
-/* 00300 809CD370 8D296FA8 */  lw      $t1, 0x6FA8($t1)           ## 80166FA8
+/* 00300 809CD370 8D296FA8 */  lw      $t1, %lo(gSegments)($t1)
 /* 00304 809CD374 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00308 809CD378 00815024 */  and     $t2, $a0, $at              
 /* 0030C 809CD37C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000

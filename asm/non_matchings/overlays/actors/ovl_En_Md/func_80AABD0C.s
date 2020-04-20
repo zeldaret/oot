@@ -17,10 +17,10 @@ glabel func_80AABD0C
 /* 01AF8 80AABD48 50400007 */  beql    $v0, $zero, .L80AABD68     
 /* 01AFC 80AABD4C 8A180030 */  lwl     $t8, 0x0030($s0)           ## 00000030
 /* 01B00 80AABD50 860E0212 */  lh      $t6, 0x0212($s0)           ## 00000212
-/* 01B04 80AABD54 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 01B08 80AABD58 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01B04 80AABD54 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 01B08 80AABD58 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01B0C 80AABD5C 11C00008 */  beq     $t6, $zero, .L80AABD80     
-/* 01B10 80AABD60 3C198012 */  lui     $t9, 0x8012                ## $t9 = 80120000
+/* 01B10 80AABD60 3C198012 */  lui     $t9, %hi(gBitFlags+0x48)
 /* 01B14 80AABD64 8A180030 */  lwl     $t8, 0x0030($s0)           ## 00000030
 .L80AABD68:
 /* 01B18 80AABD68 9A180033 */  lwr     $t8, 0x0033($s0)           ## 00000033
@@ -30,7 +30,7 @@ glabel func_80AABD0C
 /* 01B28 80AABD78 10000029 */  beq     $zero, $zero, .L80AABE20   
 /* 01B2C 80AABD7C A61800B8 */  sh      $t8, 0x00B8($s0)           ## 000000B8
 .L80AABD80:
-/* 01B30 80AABD80 8F397168 */  lw      $t9, 0x7168($t9)           ## 80127168
+/* 01B30 80AABD80 8F397168 */  lw      $t9, %lo(gBitFlags+0x48)($t9)
 /* 01B34 80AABD84 8C4800A4 */  lw      $t0, 0x00A4($v0)           ## 8015E704
 /* 01B38 80AABD88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01B3C 80AABD8C 03284824 */  and     $t1, $t9, $t0              
@@ -47,8 +47,8 @@ glabel func_80AABD0C
 /* 01B68 80AABDB8 00000000 */  nop
 /* 01B6C 80AABDBC 0C041B33 */  jal     func_80106CCC              
 /* 01B70 80AABDC0 01802025 */  or      $a0, $t4, $zero            ## $a0 = 00000000
-/* 01B74 80AABDC4 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 01B78 80AABDC8 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01B74 80AABDC4 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 01B78 80AABDC8 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01B7C 80AABDCC 944E0ED6 */  lhu     $t6, 0x0ED6($v0)           ## 8015F536
 /* 01B80 80AABDD0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01B84 80AABDD4 35CF1000 */  ori     $t7, $t6, 0x1000           ## $t7 = 00001000

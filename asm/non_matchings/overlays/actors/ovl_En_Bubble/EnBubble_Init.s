@@ -4,10 +4,10 @@ glabel EnBubble_Init
 /* 00C94 809CC894 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00C98 809CC898 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00C9C 809CC89C AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 00CA0 809CC8A0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00CA0 809CC8A0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00CA4 809CC8A4 3C073E4C */  lui     $a3, 0x3E4C                ## $a3 = 3E4C0000
 /* 00CA8 809CC8A8 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3E4CCCCD
-/* 00CAC 809CC8AC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00CAC 809CC8AC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00CB0 809CC8B0 3C054180 */  lui     $a1, 0x4180                ## $a1 = 41800000
 /* 00CB4 809CC8B4 0C00AC78 */  jal     ActorShape_Init
               

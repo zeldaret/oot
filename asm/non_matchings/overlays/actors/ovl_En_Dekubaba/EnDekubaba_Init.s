@@ -8,8 +8,8 @@ glabel EnDekubaba_Init
 /* 00018 809E57E8 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 0001C 809E57EC 24A59020 */  addiu   $a1, $a1, %lo(D_809E9020)  ## $a1 = 809E9020
-/* 00020 809E57F0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00024 809E57F4 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00020 809E57F0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00024 809E57F4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00028 809E57F8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0002C 809E57FC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00030 809E5800 0C00AC78 */  jal     ActorShape_Init
@@ -53,7 +53,7 @@ glabel EnDekubaba_Init
 /* 000C0 809E5890 E6040230 */  swc1    $f4, 0x0230($s0)           ## 00000230
 /* 000C4 809E5894 8CE90008 */  lw      $t1, 0x0008($a3)           ## 809E8FD0
 /* 000C8 809E5898 3C05809F */  lui     $a1, %hi(D_809E8ECC)       ## $a1 = 809F0000
-/* 000CC 809E589C 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 000CC 809E589C 3C198016 */  lui     $t9, %hi(gSaveContext+4)
 /* 000D0 809E58A0 1920001B */  blez    $t1, .L809E5910            
 /* 000D4 809E58A4 24C68FD8 */  addiu   $a2, $a2, %lo(D_809E8FD8)  ## $a2 = 809E8FD8
 /* 000D8 809E58A8 3C014020 */  lui     $at, 0x4020                ## $at = 40200000
@@ -84,7 +84,7 @@ glabel EnDekubaba_Init
 /* 00138 809E5908 5420FFEC */  bnel    $at, $zero, .L809E58BC     
 /* 0013C 809E590C 84AA0020 */  lh      $t2, 0x0020($a1)           ## 809E8F10
 .L809E5910:
-/* 00140 809E5910 8F39E664 */  lw      $t9, -0x199C($t9)          ## 8015E664
+/* 00140 809E5910 8F39E664 */  lw      $t9, %lo(gSaveContext+4)($t9)
 /* 00144 809E5914 24080004 */  addiu   $t0, $zero, 0x0004         ## $t0 = 00000004
 /* 00148 809E5918 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 0014C 809E591C 13200003 */  beq     $t9, $zero, .L809E592C     
@@ -108,7 +108,7 @@ glabel EnDekubaba_Init
 /* 0018C 809E595C 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 00190 809E5960 E6120230 */  swc1    $f18, 0x0230($s0)          ## 00000230
 /* 00194 809E5964 8CEC0008 */  lw      $t4, 0x0008($a3)           ## 00000008
-/* 00198 809E5968 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 00198 809E5968 3C188016 */  lui     $t8, %hi(gSaveContext+4)
 /* 0019C 809E596C 24A58FE0 */  addiu   $a1, $a1, %lo(D_809E8FE0)  ## $a1 = 809E8FE0
 /* 001A0 809E5970 1980000C */  blez    $t4, .L809E59A4            
 /* 001A4 809E5974 3C06809F */  lui     $a2, %hi(D_809E8FD8)       ## $a2 = 809F0000
@@ -125,7 +125,7 @@ glabel EnDekubaba_Init
 /* 001CC 809E599C 5420FFF8 */  bnel    $at, $zero, .L809E5980     
 /* 001D0 809E59A0 8E0D0254 */  lw      $t5, 0x0254($s0)           ## 00000254
 .L809E59A4:
-/* 001D4 809E59A4 8F18E664 */  lw      $t8, -0x199C($t8)          ## 8015E664
+/* 001D4 809E59A4 8F18E664 */  lw      $t8, %lo(gSaveContext+4)($t8)
 /* 001D8 809E59A8 24190004 */  addiu   $t9, $zero, 0x0004         ## $t9 = 00000004
 /* 001DC 809E59AC 3C01809F */  lui     $at, %hi(D_809E8FFB)       ## $at = 809F0000
 /* 001E0 809E59B0 13000002 */  beq     $t8, $zero, .L809E59BC     

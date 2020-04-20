@@ -8,8 +8,8 @@ glabel func_808B8BB4
 /* 002BC 808B8BCC 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 002C0 808B8BD0 24A5911C */  addiu   $a1, $a1, %lo(D_808B911C)  ## $a1 = 808B911C
-/* 002C4 808B8BD4 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 002C8 808B8BD8 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 002C4 808B8BD4 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 002C8 808B8BD8 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 002CC 808B8BDC 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 002D0 808B8BE0 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011
 /* 002D4 808B8BE4 11C00003 */  beq     $t6, $zero, .L808B8BF4     

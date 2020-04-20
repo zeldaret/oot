@@ -4,8 +4,8 @@ glabel EnMa2_Init
 /* 004A4 80AA1E44 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 004A8 80AA1E48 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 004AC 80AA1E4C AFA50044 */  sw      $a1, 0x0044($sp)
-/* 004B0 80AA1E50 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 004B4 80AA1E54 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 004B0 80AA1E50 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 004B4 80AA1E54 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 004B8 80AA1E58 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 004BC 80AA1E5C 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 004C0 80AA1E60 0C00AC78 */  jal     ActorShape_Init
@@ -52,7 +52,7 @@ glabel EnMa2_Init
 /* 00554 80AA1EF4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00558 80AA1EF8 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003
 /* 0055C 80AA1EFC 1041000F */  beq     $v0, $at, .L80AA1F3C
-/* 00560 80AA1F00 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 00560 80AA1F00 3C188016 */  lui     $t8, %hi(gSaveContext+0xf08)
 /* 00564 80AA1F04 10000022 */  beq     $zero, $zero, .L80AA1F90
 /* 00568 80AA1F08 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 .L80AA1F0C:
@@ -70,7 +70,7 @@ glabel EnMa2_Init
 /* 00594 80AA1F34 10000015 */  beq     $zero, $zero, .L80AA1F8C
 /* 00598 80AA1F38 AE0F0190 */  sw      $t7, 0x0190($s0)           ## 00000190
 .L80AA1F3C:
-/* 0059C 80AA1F3C 9718F568 */  lhu     $t8, -0x0A98($t8)          ## FFFFF568
+/* 0059C 80AA1F3C 9718F568 */  lhu     $t8, %lo(gSaveContext+0xf08)($t8)
 /* 005A0 80AA1F40 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 005A4 80AA1F44 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 005A8 80AA1F48 33192000 */  andi    $t9, $t8, 0x2000           ## $t9 = 00000000

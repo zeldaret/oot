@@ -4,8 +4,8 @@ glabel EnDu_Init
 /* 00584 809FE1B4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00588 809FE1B8 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 0058C 809FE1BC AFA5004C */  sw      $a1, 0x004C($sp)
-/* 00590 809FE1C0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00594 809FE1C4 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00590 809FE1C0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00594 809FE1C4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00598 809FE1C8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0059C 809FE1CC 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 005A0 809FE1D0 0C00AC78 */  jal     ActorShape_Init
@@ -61,9 +61,9 @@ glabel EnDu_Init
 /* 00650 809FE280 0C00B58B */  jal     Actor_SetScale
 
 /* 00654 809FE284 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00658 809FE288 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 00658 809FE288 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 0065C 809FE28C 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
-/* 00660 809FE290 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00660 809FE290 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00664 809FE294 A20E001F */  sb      $t6, 0x001F($s0)           ## 0000001F
 /* 00668 809FE298 A60001F4 */  sh      $zero, 0x01F4($s0)         ## 000001F4
 /* 0066C 809FE29C 8C6F0008 */  lw      $t7, 0x0008($v1)           ## 8015E668
@@ -76,10 +76,10 @@ glabel EnDu_Init
 /* 00688 809FE2B8 0002C100 */  sll     $t8, $v0,  4
 /* 0068C 809FE2BC 0018CF02 */  srl     $t9, $t8, 28
 /* 00690 809FE2C0 00194080 */  sll     $t0, $t9,  2
-/* 00694 809FE2C4 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 00694 809FE2C4 3C098016 */  lui     $t1, %hi(gSegments)
 /* 00698 809FE2C8 01284821 */  addu    $t1, $t1, $t0
 /* 0069C 809FE2CC 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 006A0 809FE2D0 8D296FA8 */  lw      $t1, 0x6FA8($t1)           ## 80166FA8
+/* 006A0 809FE2D0 8D296FA8 */  lw      $t1, %lo(gSegments)($t1)
 /* 006A4 809FE2D4 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 006A8 809FE2D8 00415024 */  and     $t2, $v0, $at
 /* 006AC 809FE2DC 8FAD004C */  lw      $t5, 0x004C($sp)

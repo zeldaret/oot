@@ -11,12 +11,12 @@ glabel func_80B07BEC
 /* 006D0 80B07C10 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003
 /* 006D4 80B07C14 14410011 */  bne     $v0, $at, .L80B07C5C       
 .L80B07C18:
-/* 006D8 80B07C18 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 006DC 80B07C1C 3C188012 */  lui     $t8, 0x8012                ## $t8 = 80120000
-/* 006E0 80B07C20 8F1871C0 */  lw      $t8, 0x71C0($t8)           ## 801271C0
-/* 006E4 80B07C24 8DEFE700 */  lw      $t7, -0x1900($t7)          ## 8015E700
-/* 006E8 80B07C28 3C098012 */  lui     $t1, 0x8012                ## $t1 = 80120000
-/* 006EC 80B07C2C 912971F8 */  lbu     $t1, 0x71F8($t1)           ## 801271F8
+/* 006D8 80B07C18 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xa0)
+/* 006DC 80B07C1C 3C188012 */  lui     $t8, %hi(gUpgradeMasks+0x10)
+/* 006E0 80B07C20 8F1871C0 */  lw      $t8, %lo(gUpgradeMasks+0x10)($t8)
+/* 006E4 80B07C24 8DEFE700 */  lw      $t7, %lo(gSaveContext+0xa0)($t7)
+/* 006E8 80B07C28 3C098012 */  lui     $t1, %hi(gUpgradeShifts+4)
+/* 006EC 80B07C2C 912971F8 */  lbu     $t1, %lo(gUpgradeShifts+4)($t1)
 /* 006F0 80B07C30 01F8C824 */  and     $t9, $t7, $t8              
 /* 006F4 80B07C34 01391807 */  srav    $v1, $t9, $t1              
 /* 006F8 80B07C38 10600005 */  beq     $v1, $zero, .L80B07C50     

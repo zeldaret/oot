@@ -79,8 +79,8 @@ glabel EnGSwitch_Update
               ## CollisionCheck_setAC
 /* 01084 80A22F44 00812821 */  addu    $a1, $a0, $at              
 .L80A22F48:
-/* 01088 80A22F48 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 0108C 80A22F4C 8F39FA90 */  lw      $t9, -0x0570($t9)          ## 8015FA90
+/* 01088 80A22F48 3C198016 */  lui     $t9, %hi(gGameInfo)
+/* 0108C 80A22F4C 8F39FA90 */  lw      $t9, %lo(gGameInfo)($t9)
 /* 01090 80A22F50 872E12D4 */  lh      $t6, 0x12D4($t9)           ## 801612D4
 /* 01094 80A22F54 51C0001D */  beql    $t6, $zero, .L80A22FCC     
 /* 01098 80A22F58 8FBF004C */  lw      $ra, 0x004C($sp)           

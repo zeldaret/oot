@@ -4,8 +4,8 @@ glabel func_80B00964
 /* 026BC 80B0096C AFA5004C */  sw      $a1, 0x004C($sp)           
 /* 026C0 80B00970 0C00BC65 */  jal     func_8002F194              
 /* 026C4 80B00974 AFA40048 */  sw      $a0, 0x0048($sp)           
-/* 026C8 80B00978 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 026CC 80B0097C 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 026C8 80B00978 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 026CC 80B0097C 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 026D0 80B00980 3C0180B0 */  lui     $at, %hi(D_80B01EA0)       ## $at = 80B00000
 /* 026D4 80B00984 AC221EA0 */  sw      $v0, %lo(D_80B01EA0)($at)  
 /* 026D8 80B00988 85CF12D4 */  lh      $t7, 0x12D4($t6)           ## 801612D4

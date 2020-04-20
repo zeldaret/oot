@@ -51,12 +51,12 @@ glabel func_809F236C
 /* 00948 809F2428 0C00BE0A */  jal     Audio_PlayActorSound2
 
 /* 0094C 809F242C 2405387C */  addiu   $a1, $zero, 0x387C         ## $a1 = 0000387C
-/* 00950 809F2430 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
-/* 00954 809F2434 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 00958 809F2438 8DCE71CC */  lw      $t6, 0x71CC($t6)           ## 801271CC
-/* 0095C 809F243C 8DADE700 */  lw      $t5, -0x1900($t5)          ## 8015E700
-/* 00960 809F2440 3C188012 */  lui     $t8, 0x8012                ## $t8 = 80120000
-/* 00964 809F2444 931871FB */  lbu     $t8, 0x71FB($t8)           ## 801271FB
+/* 00950 809F2430 3C0D8016 */  lui     $t5, %hi(gSaveContext+0xa0)
+/* 00954 809F2434 3C0E8012 */  lui     $t6, %hi(gUpgradeMasks+0x1c)
+/* 00958 809F2438 8DCE71CC */  lw      $t6, %lo(gUpgradeMasks+0x1c)($t6)
+/* 0095C 809F243C 8DADE700 */  lw      $t5, %lo(gSaveContext+0xa0)($t5)
+/* 00960 809F2440 3C188012 */  lui     $t8, %hi(gUpgradeShifts+7)
+/* 00964 809F2444 931871FB */  lbu     $t8, %lo(gUpgradeShifts+7)($t8)
 /* 00968 809F2448 01AE7824 */  and     $t7, $t5, $t6
 /* 0096C 809F244C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 00970 809F2450 030F1007 */  srav    $v0, $t7, $t8

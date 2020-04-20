@@ -24,8 +24,8 @@ glabel func_80A223F8
 /* 0058C 80A2244C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00590 80A22450 3C0B80A2 */  lui     $t3, %hi(func_80A22FDC)    ## $t3 = 80A20000
 /* 00594 80A22454 01014821 */  addu    $t1, $t0, $at              
-/* 00598 80A22458 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 0059C 80A2245C AC296FC0 */  sw      $t1, 0x6FC0($at)           ## 80166FC0
+/* 00598 80A22458 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 0059C 80A2245C AC296FC0 */  sw      $t1, %lo(gSegments+0x18)($at)
 /* 005A0 80A22460 80CA0178 */  lb      $t2, 0x0178($a2)           ## 00000178
 /* 005A4 80A22464 3C0C80A2 */  lui     $t4, %hi(func_80A22B1C)    ## $t4 = 80A20000
 /* 005A8 80A22468 256B2FDC */  addiu   $t3, $t3, %lo(func_80A22FDC) ## $t3 = 80A22FDC

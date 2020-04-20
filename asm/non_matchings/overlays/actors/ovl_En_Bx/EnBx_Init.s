@@ -90,8 +90,8 @@ glabel EnBx_Init
 /* 00134 809D1C14 46068200 */  add.s   $f8, $f16, $f6             
 /* 00138 809D1C18 144AFFE2 */  bne     $v0, $t2, .L809D1BA4       
 /* 0013C 809D1C1C E488014C */  swc1    $f8, 0x014C($a0)           ## 00000158
-/* 00140 809D1C20 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00144 809D1C24 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00140 809D1C20 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00144 809D1C24 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00148 809D1C28 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0014C 809D1C2C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00150 809D1C30 0C00AC78 */  jal     ActorShape_Init

@@ -13,8 +13,8 @@ glabel func_80A3DFBC
 /* 00908 80A3DFE8 8F3917B4 */  lw      $t9, 0x17B4($t9)           ## 000117B4
 /* 0090C 80A3DFEC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00910 80A3DFF0 03214021 */  addu    $t0, $t9, $at              
-/* 00914 80A3DFF4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00918 80A3DFF8 AC286FC0 */  sw      $t0, 0x6FC0($at)           ## 80166FC0
+/* 00914 80A3DFF4 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 00918 80A3DFF8 AC286FC0 */  sw      $t0, %lo(gSegments+0x18)($at)
 /* 0091C 80A3DFFC 848902BE */  lh      $t1, 0x02BE($a0)           ## 000002BE
 /* 00920 80A3E000 252A0001 */  addiu   $t2, $t1, 0x0001           ## $t2 = 00000001
 /* 00924 80A3E004 A48A02BE */  sh      $t2, 0x02BE($a0)           ## 000002BE

@@ -13,14 +13,14 @@ glabel func_80B3ECD8
 /* 02B04 80B3ECE4 3C014140 */  lui     $at, 0x4140                ## $at = 41400000
 /* 02B08 80B3ECE8 44818000 */  mtc1    $at, $f16                  ## $f16 = 12.00
 /* 02B0C 80B3ECEC 46062200 */  add.s   $f8, $f4, $f6              
-/* 02B10 80B3ECF0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 02B10 80B3ECF0 3C0E8016 */  lui     $t6, %hi(gGameInfo)
 /* 02B14 80B3ECF4 E4880268 */  swc1    $f8, 0x0268($a0)           ## 00000268
 /* 02B18 80B3ECF8 C48A0268 */  lwc1    $f10, 0x0268($a0)          ## 00000268
 /* 02B1C 80B3ECFC 460A803E */  c.le.s  $f16, $f10                 
 /* 02B20 80B3ED00 00000000 */  nop
 /* 02B24 80B3ED04 4500000E */  bc1f    .L80B3ED40                 
 /* 02B28 80B3ED08 00000000 */  nop
-/* 02B2C 80B3ED0C 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 02B2C 80B3ED0C 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 02B30 80B3ED10 3C0180B4 */  lui     $at, %hi(D_80B4223C)       ## $at = 80B40000
 /* 02B34 80B3ED14 C426223C */  lwc1    $f6, %lo(D_80B4223C)($at)  
 /* 02B38 80B3ED18 85CF1458 */  lh      $t7, 0x1458($t6)           ## 80161458

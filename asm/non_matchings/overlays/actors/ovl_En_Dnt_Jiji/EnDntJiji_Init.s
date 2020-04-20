@@ -15,10 +15,10 @@ glabel EnDntJiji_Init
 /* 0000C 809F1AEC AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 00010 809F1AF0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00014 809F1AF4 AFBF002C */  sw      $ra, 0x002C($sp)           
-/* 00018 809F1AF8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00018 809F1AF8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 0001C 809F1AFC 44050000 */  mfc1    $a1, $f0                   
 /* 00020 809F1B00 44070000 */  mfc1    $a3, $f0                   
-/* 00024 809F1B04 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00024 809F1B04 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00028 809F1B08 0C00AC78 */  jal     ActorShape_Init
               
 /* 0002C 809F1B0C 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4

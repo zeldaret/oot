@@ -245,8 +245,8 @@ glabel EnTrap_Init
               
 /* 00374 80B249D4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00378 80B249D8 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 0037C 80B249DC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00380 80B249E0 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0037C 80B249DC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00380 80B249E0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00384 80B249E4 44050000 */  mfc1    $a1, $f0                   
 /* 00388 80B249E8 44070000 */  mfc1    $a3, $f0                   
 /* 0038C 80B249EC 0C00AC78 */  jal     ActorShape_Init

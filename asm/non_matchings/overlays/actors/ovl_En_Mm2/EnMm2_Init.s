@@ -14,8 +14,8 @@ glabel EnMm2_Init
 /* 00204 80AAF054 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 00208 80AAF058 24A5FB5C */  addiu   $a1, $a1, %lo(D_80AAFB5C)  ## $a1 = 80AAFB5C
-/* 0020C 80AAF05C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00210 80AAF060 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0020C 80AAF05C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00210 80AAF060 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00214 80AAF064 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00218 80AAF068 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0021C 80AAF06C 0C00AC78 */  jal     ActorShape_Init
@@ -94,16 +94,16 @@ glabel EnMm2_Init
 /* 00328 80AAF178 25EFF57C */  addiu   $t7, $t7, %lo(func_80AAF57C) ## $t7 = 80AAF57C
 /* 0032C 80AAF17C AE0F0190 */  sw      $t7, 0x0190($s0)           ## 00000190
 .L80AAF180:
-/* 00330 80AAF180 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00334 80AAF184 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00330 80AAF180 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00334 80AAF184 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00338 80AAF188 8C580004 */  lw      $t8, 0x0004($v0)           ## 8015E664
 /* 0033C 80AAF18C 53000006 */  beql    $t8, $zero, .L80AAF1A8
 /* 00340 80AAF190 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 /* 00344 80AAF194 0C00B55C */  jal     Actor_Kill
 
 /* 00348 80AAF198 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0034C 80AAF19C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00350 80AAF1A0 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 0034C 80AAF19C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00350 80AAF1A0 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00354 80AAF1A4 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 .L80AAF1A8:
 /* 00358 80AAF1A8 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001

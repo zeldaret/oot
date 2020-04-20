@@ -24,8 +24,8 @@ glabel EnDha_Init
 /* 0005C 809EC8DC 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00060 809EC8E0 0C0291BE */  jal     SkelAnime_InitSV
 /* 00064 809EC8E4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 00068 809EC8E8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0006C 809EC8EC 24C6B8C4 */  addiu   $a2, $a2, 0xB8C4           ## $a2 = 8002B8C4
+/* 00068 809EC8E8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Teardrop)
+/* 0006C 809EC8EC 24C6B8C4 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Teardrop)
 /* 00070 809EC8F0 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00074 809EC8F4 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00078 809EC8F8 0C00AC78 */  jal     ActorShape_Init

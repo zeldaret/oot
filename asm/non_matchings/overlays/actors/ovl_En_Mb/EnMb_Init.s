@@ -21,8 +21,8 @@ glabel EnMb_Init
 
 /* 00030 80AA6080 AFAE0044 */  sw      $t6, 0x0044($sp)
 /* 00034 80AA6084 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
-/* 00038 80AA6088 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0003C 80AA608C 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00038 80AA6088 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0003C 80AA608C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00040 80AA6090 AFA40034 */  sw      $a0, 0x0034($sp)
 /* 00044 80AA6094 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00048 80AA6098 0C00AC78 */  jal     ActorShape_Init
@@ -151,8 +151,8 @@ glabel EnMb_Init
 
 /* 0021C 80AA626C 24A50024 */  addiu   $a1, $a1, 0x0024           ## $a1 = 00000024
 /* 00220 80AA6270 86050032 */  lh      $a1, 0x0032($s0)           ## 00000032
-/* 00224 80AA6274 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00228 80AA6278 24C6B8C4 */  addiu   $a2, $a2, 0xB8C4           ## $a2 = 8002B8C4
+/* 00224 80AA6274 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Teardrop)
+/* 00228 80AA6278 24C6B8C4 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Teardrop)
 /* 0022C 80AA627C 00A22023 */  subu    $a0, $a1, $v0
 /* 00230 80AA6280 00042400 */  sll     $a0, $a0, 16
 /* 00234 80AA6284 00042403 */  sra     $a0, $a0, 16

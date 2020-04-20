@@ -1,6 +1,6 @@
 glabel func_80B57754
-/* 043A4 80B57754 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 043A8 80B57758 85CEFA50 */  lh      $t6, -0x05B0($t6)          ## 8015FA50
+/* 043A4 80B57754 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x13f0)
+/* 043A8 80B57758 85CEFA50 */  lh      $t6, %lo(gSaveContext+0x13f0)($t6)
 /* 043AC 80B5775C 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 043B0 80B57760 AFBF002C */  sw      $ra, 0x002C($sp)           
 /* 043B4 80B57764 15C00011 */  bne     $t6, $zero, .L80B577AC     

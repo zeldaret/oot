@@ -16,8 +16,8 @@ glabel EnHorseGanon_Init
 /* 002FC 80A6895C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00300 80A68960 3C01C060 */  lui     $at, 0xC060                ## $at = C0600000
 /* 00304 80A68964 44812000 */  mtc1    $at, $f4                   ## $f4 = -3.50
-/* 00308 80A68968 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0030C 80A6896C 24C6B644 */  addiu   $a2, $a2, 0xB644           ## $a2 = 8002B644
+/* 00308 80A68968 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Squiggly)
+/* 0030C 80A6896C 24C6B644 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Squiggly)
 /* 00310 80A68970 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00314 80A68974 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00318 80A68978 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000

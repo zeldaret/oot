@@ -9,14 +9,14 @@ glabel EnSsh_Init
 
 /* 01500 80B03770 24840304 */  addiu   $a0, $a0, 0x0304           ## $a0 = 06000304
 /* 01504 80B03774 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
-/* 01508 80B03778 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 0150C 80B0377C 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 01508 80B03778 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xd0)
+/* 0150C 80B0377C 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xd0)
 /* 01510 80B03780 468021A0 */  cvt.s.w $f6, $f4
 /* 01514 80B03784 E7A6003C */  swc1    $f6, 0x003C($sp)
 /* 01518 80B03788 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C
 /* 0151C 80B0378C 14600009 */  bne     $v1, $zero, .L80B037B4
 /* 01520 80B03790 0003C080 */  sll     $t8, $v1,  2
-/* 01524 80B03794 85CEE730 */  lh      $t6, -0x18D0($t6)          ## 8015E730
+/* 01524 80B03794 85CEE730 */  lh      $t6, %lo(gSaveContext+0xd0)($t6)
 /* 01528 80B03798 29C10064 */  slti    $at, $t6, 0x0064
 /* 0152C 80B0379C 1420000F */  bne     $at, $zero, .L80B037DC
 /* 01530 80B037A0 00000000 */  nop
@@ -26,7 +26,7 @@ glabel EnSsh_Init
 /* 0153C 80B037AC 1000004A */  beq     $zero, $zero, .L80B038D8
 /* 01540 80B037B0 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80B037B4:
-/* 01544 80B037B4 85EFE730 */  lh      $t7, -0x18D0($t7)          ## FFFFE730
+/* 01544 80B037B4 85EFE730 */  lh      $t7, %lo(gSaveContext+0xd0)($t7)
 /* 01548 80B037B8 0303C021 */  addu    $t8, $t8, $v1
 /* 0154C 80B037BC 0018C040 */  sll     $t8, $t8,  1
 /* 01550 80B037C0 01F8082A */  slt     $at, $t7, $t8
@@ -38,8 +38,8 @@ glabel EnSsh_Init
 /* 01564 80B037D4 10000040 */  beq     $zero, $zero, .L80B038D8
 /* 01568 80B037D8 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80B037DC:
-/* 0156C 80B037DC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 01570 80B037E0 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0156C 80B037DC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 01570 80B037E0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 01574 80B037E4 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 01578 80B037E8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0157C 80B037EC 0C00AC78 */  jal     ActorShape_Init

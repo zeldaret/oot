@@ -1,6 +1,6 @@
 glabel func_80811A20
-/* 0DCE0 80811A20 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 0DCE4 80811A24 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 0DCE0 80811A20 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 0DCE4 80811A24 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 0DCE8 80811A28 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0DCEC 80811A2C AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 0DCF0 80811A30 3C0201AA */  lui     $v0, 0x01AA                ## $v0 = 01AA0000

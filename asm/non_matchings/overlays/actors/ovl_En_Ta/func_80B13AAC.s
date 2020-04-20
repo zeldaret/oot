@@ -6,8 +6,8 @@ glabel func_80B13AAC
 /* 0001C 80B13ABC 24050018 */  addiu   $a1, $zero, 0x0018         ## $a1 = 00000018
 /* 00020 80B13AC0 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00024 80B13AC4 AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 00028 80B13AC8 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
-/* 0002C 80B13ACC 2484E660 */  addiu   $a0, $a0, 0xE660           ## $a0 = 8015E660
+/* 00028 80B13AC8 3C048016 */  lui     $a0, %hi(gSaveContext)
+/* 0002C 80B13ACC 2484E660 */  addiu   $a0, %lo(gSaveContext)
 /* 00030 80B13AD0 948313FA */  lhu     $v1, 0x13FA($a0)           ## 8015FA5A
 /* 00034 80B13AD4 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 00038 80B13AD8 306E0400 */  andi    $t6, $v1, 0x0400           ## $t6 = 00000000

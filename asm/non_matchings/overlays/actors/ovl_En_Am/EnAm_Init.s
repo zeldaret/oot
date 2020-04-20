@@ -10,8 +10,8 @@ glabel EnAm_Init
 /* 00150 809AE070 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 00154 809AE074 24A50048 */  addiu   $a1, $a1, %lo(D_809B0048)  ## $a1 = 809B0048
-/* 00158 809AE078 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0015C 809AE07C 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00158 809AE078 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0015C 809AE07C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00160 809AE080 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00164 809AE084 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00168 809AE088 0C00AC78 */  jal     ActorShape_Init

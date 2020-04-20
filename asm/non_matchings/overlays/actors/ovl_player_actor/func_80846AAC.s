@@ -1,6 +1,6 @@
 glabel func_80846AAC
-/* 1489C 80846AAC 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 148A0 80846AB0 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 1489C 80846AAC 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 148A0 80846AB0 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 148A4 80846AB4 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 148A8 80846AB8 AFB10028 */  sw      $s1, 0x0028($sp)
 /* 148AC 80846ABC 000E7880 */  sll     $t7, $t6,  2
@@ -87,8 +87,8 @@ glabel func_80846AAC
               ## Effect_Add
 /* 149EC 80846BFC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 149F0 80846C00 8E190678 */  lw      $t9, 0x0678($s0)           ## 00000678
-/* 149F4 80846C04 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 149F8 80846C08 24C6B8C4 */  addiu   $a2, $a2, 0xB8C4           ## $a2 = 8002B8C4
+/* 149F4 80846C04 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Teardrop)
+/* 149F8 80846C08 24C6B8C4 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Teardrop)
 /* 149FC 80846C0C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 14A00 80846C10 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 14A04 80846C14 0C00AC78 */  jal     ActorShape_Init

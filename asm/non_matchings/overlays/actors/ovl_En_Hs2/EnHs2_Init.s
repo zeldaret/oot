@@ -10,8 +10,8 @@ glabel EnHs2_Init
 /* 00008 80A6EFA8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0000C 80A6EFAC AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00010 80A6EFB0 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 00014 80A6EFB4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00018 80A6EFB8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00014 80A6EFB4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00018 80A6EFB8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0001C 80A6EFBC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00020 80A6EFC0 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00024 80A6EFC4 0C00AC78 */  jal     ActorShape_Init

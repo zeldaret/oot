@@ -46,19 +46,19 @@ glabel func_809C3B50
 
 /* 005C4 809C3BF4 A60F0238 */  sh      $t7, 0x0238($s0)           ## 00000238
 /* 005C8 809C3BF8 4600020D */  trunc.w.s $f8, $f0
-/* 005CC 809C3BFC 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 005CC 809C3BFC 3C0B8016 */  lui     $t3, %hi(gSaveContext+0xed8)
 /* 005D0 809C3C00 24180018 */  addiu   $t8, $zero, 0x0018         ## $t8 = 00000018
-/* 005D4 809C3C04 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 005D4 809C3C04 3C0D8016 */  lui     $t5, %hi(gGameInfo)
 /* 005D8 809C3C08 44094000 */  mfc1    $t1, $f8
 /* 005DC 809C3C0C 24190004 */  addiu   $t9, $zero, 0x0004         ## $t9 = 00000004
 /* 005E0 809C3C10 3305FFFF */  andi    $a1, $t8, 0xFFFF           ## $a1 = 00000018
 /* 005E4 809C3C14 252A0014 */  addiu   $t2, $t1, 0x0014           ## $t2 = 00000014
 /* 005E8 809C3C18 A60A0236 */  sh      $t2, 0x0236($s0)           ## 00000236
-/* 005EC 809C3C1C 956BF538 */  lhu     $t3, -0x0AC8($t3)          ## 8015F538
+/* 005EC 809C3C1C 956BF538 */  lhu     $t3, %lo(gSaveContext+0xed8)($t3)
 /* 005F0 809C3C20 316C0020 */  andi    $t4, $t3, 0x0020           ## $t4 = 00000000
 /* 005F4 809C3C24 5580000A */  bnel    $t4, $zero, .L809C3C50
 /* 005F8 809C3C28 A618010E */  sh      $t8, 0x010E($s0)           ## 0000010E
-/* 005FC 809C3C2C 8DADFA90 */  lw      $t5, -0x0570($t5)          ## 8015FA90
+/* 005FC 809C3C2C 8DADFA90 */  lw      $t5, %lo(gGameInfo)($t5)
 /* 00600 809C3C30 3C0F809C */  lui     $t7, %hi(func_809C3C7C)    ## $t7 = 809C0000
 /* 00604 809C3C34 25EF3C7C */  addiu   $t7, $t7, %lo(func_809C3C7C) ## $t7 = 809C3C7C
 /* 00608 809C3C38 85AE12D8 */  lh      $t6, 0x12D8($t5)           ## 801612D8

@@ -5,8 +5,8 @@ glabel D_80A4E068
 .text
 glabel func_80A4C6C8
 /* 00A28 80A4C6C8 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
-/* 00A2C 80A4C6CC 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00A30 80A4C6D0 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 00A2C 80A4C6CC 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 00A30 80A4C6D0 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 00A34 80A4C6D4 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00A38 80A4C6D8 AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 00A3C 80A4C6DC AFA50034 */  sw      $a1, 0x0034($sp)           
@@ -36,12 +36,12 @@ glabel func_80A4C6C8
 /* 00A98 80A4C738 032A1821 */  addu    $v1, $t9, $t2              
 /* 00A9C 80A4C73C 8C620004 */  lw      $v0, 0x0004($v1)           ## 00000004
 /* 00AA0 80A4C740 860801CE */  lh      $t0, 0x01CE($s0)           ## 000001CE
-/* 00AA4 80A4C744 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 00AA4 80A4C744 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 00AA8 80A4C748 00025900 */  sll     $t3, $v0,  4               
 /* 00AAC 80A4C74C 000B6702 */  srl     $t4, $t3, 28               
 /* 00AB0 80A4C750 000C6880 */  sll     $t5, $t4,  2               
 /* 00AB4 80A4C754 01CD7021 */  addu    $t6, $t6, $t5              
-/* 00AB8 80A4C758 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 00AB8 80A4C758 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 00ABC 80A4C75C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 00AC0 80A4C760 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00AC4 80A4C764 00084880 */  sll     $t1, $t0,  2               

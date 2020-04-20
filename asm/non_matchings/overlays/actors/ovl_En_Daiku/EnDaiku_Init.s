@@ -9,8 +9,8 @@ glabel EnDaiku_Init
 /* 000CC 809E2BFC 30420003 */  andi    $v0, $v0, 0x0003           ## $v0 = 00000000
 /* 000D0 809E2C00 14400009 */  bne     $v0, $zero, .L809E2C28
 /* 000D4 809E2C04 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
-/* 000D8 809E2C08 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
-/* 000DC 809E2C0C 2484E660 */  addiu   $a0, $a0, 0xE660           ## $a0 = 8015E660
+/* 000D8 809E2C08 3C048016 */  lui     $a0, %hi(gSaveContext)
+/* 000DC 809E2C0C 2484E660 */  addiu   $a0, %lo(gSaveContext)
 /* 000E0 809E2C10 948E0EE6 */  lhu     $t6, 0x0EE6($a0)           ## 8015F546
 /* 000E4 809E2C14 31CF0001 */  andi    $t7, $t6, 0x0001           ## $t7 = 00000000
 /* 000E8 809E2C18 11E00003 */  beq     $t7, $zero, .L809E2C28
@@ -18,10 +18,10 @@ glabel EnDaiku_Init
 /* 000F0 809E2C20 1000001C */  beq     $zero, $zero, .L809E2C94
 /* 000F4 809E2C24 24030001 */  addiu   $v1, $zero, 0x0001         ## $v1 = 00000001
 .L809E2C28:
-/* 000F8 809E2C28 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
+/* 000F8 809E2C28 3C048016 */  lui     $a0, %hi(gSaveContext)
 /* 000FC 809E2C2C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 00100 809E2C30 14410007 */  bne     $v0, $at, .L809E2C50
-/* 00104 809E2C34 2484E660 */  addiu   $a0, $a0, 0xE660           ## $a0 = 8015E660
+/* 00104 809E2C34 2484E660 */  addiu   $a0, %lo(gSaveContext)
 /* 00108 809E2C38 94980EE6 */  lhu     $t8, 0x0EE6($a0)           ## 8015F546
 /* 0010C 809E2C3C 33190002 */  andi    $t9, $t8, 0x0002           ## $t9 = 00000000
 /* 00110 809E2C40 53200004 */  beql    $t9, $zero, .L809E2C54
@@ -72,11 +72,11 @@ glabel EnDaiku_Init
 /* 001A8 809E2CD8 861900B8 */  lh      $t9, 0x00B8($s0)           ## 000000B8
 .L809E2CDC:
 /* 001AC 809E2CDC A60000B8 */  sh      $zero, 0x00B8($s0)         ## 000000B8
-/* 001B0 809E2CE0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 001B0 809E2CE0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 001B4 809E2CE4 3329003F */  andi    $t1, $t9, 0x003F           ## $t1 = 00000000
 /* 001B8 809E2CE8 AE090240 */  sw      $t1, 0x0240($s0)           ## 00000240
 /* 001BC 809E2CEC AFA80044 */  sw      $t0, 0x0044($sp)
-/* 001C0 809E2CF0 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 001C0 809E2CF0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 001C4 809E2CF4 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 001C8 809E2CF8 0C00AC78 */  jal     ActorShape_Init
 

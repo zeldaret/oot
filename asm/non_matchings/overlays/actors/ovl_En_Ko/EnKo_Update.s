@@ -26,10 +26,10 @@ glabel EnKo_Update
 /* 029B4 80A99764 8D6B17B4 */  lw      $t3, 0x17B4($t3)           ## 000117B4
 /* 029B8 80A99768 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 029BC 80A9976C 01616021 */  addu    $t4, $t3, $at              
-/* 029C0 80A99770 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 029C0 80A99770 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 029C4 80A99774 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
               
-/* 029C8 80A99778 AC2C6FC0 */  sw      $t4, 0x6FC0($at)           ## 80166FC0
+/* 029C8 80A99778 AC2C6FC0 */  sw      $t4, %lo(gSegments+0x18)($at)
 /* 029CC 80A9977C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 029D0 80A99780 0C2A636D */  jal     func_80A98DB4              
 /* 029D4 80A99784 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000

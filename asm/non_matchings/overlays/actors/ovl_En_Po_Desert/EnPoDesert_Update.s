@@ -46,11 +46,11 @@ glabel EnPoDesert_Update
               ## CollisionCheck_setOT
 /* 00800 80AD34B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00804 80AD34B4 922F1C27 */  lbu     $t7, 0x1C27($s1)           ## 00001C27
-/* 00808 80AD34B8 3C098003 */  lui     $t1, 0x8003                ## $t1 = 80030000
+/* 00808 80AD34B8 3C098003 */  lui     $t1, %hi(ActorShadow_DrawFunc_Circle)
 /* 0080C 80AD34BC 51E00008 */  beql    $t7, $zero, .L80AD34E0     
 /* 00810 80AD34C0 8E0A0004 */  lw      $t2, 0x0004($s0)           ## 00000004
 /* 00814 80AD34C4 8E180004 */  lw      $t8, 0x0004($s0)           ## 00000004
-/* 00818 80AD34C8 2529B5EC */  addiu   $t1, $t1, 0xB5EC           ## $t1 = 8002B5EC
+/* 00818 80AD34C8 2529B5EC */  addiu   $t1, %lo(ActorShadow_DrawFunc_Circle)
 /* 0081C 80AD34CC AE0900C0 */  sw      $t1, 0x00C0($s0)           ## 000000C0
 /* 00820 80AD34D0 37080081 */  ori     $t0, $t8, 0x0081           ## $t0 = 00000081
 /* 00824 80AD34D4 10000006 */  beq     $zero, $zero, .L80AD34F0   

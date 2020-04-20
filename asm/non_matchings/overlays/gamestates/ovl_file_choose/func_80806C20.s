@@ -62,7 +62,7 @@ glabel func_80806C20
 /* 02FB4 80806CF4 272AFFCE */  addiu   $t2, $t9, 0xFFCE           ## $t2 = FFFFFFCE
 /* 02FB8 80806CF8 A50A4A98 */  sh      $t2, 0x4A98($t0)           ## 00004A98
 /* 02FBC 80806CFC 850B4A98 */  lh      $t3, 0x4A98($t0)           ## 00004A98
-/* 02FC0 80806D00 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 02FC0 80806D00 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 02FC4 80806D04 5D600003 */  bgtzl   $t3, .L80806D14            
 /* 02FC8 80806D08 850C4A6E */  lh      $t4, 0x4A6E($t0)           ## 00004A6E
 /* 02FCC 80806D0C A5004A98 */  sh      $zero, 0x4A98($t0)         ## 00004A98
@@ -84,7 +84,7 @@ glabel func_80806C20
 /* 03008 80806D48 A50B4AA8 */  sh      $t3, 0x4AA8($t0)           ## 00004AA8
 /* 0300C 80806D4C 00240821 */  addu    $at, $at, $a0              
 /* 03010 80806D50 A42CCAAA */  sh      $t4, -0x3556($at)          ## 0001CAAA
-/* 03014 80806D54 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 03014 80806D54 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 03018 80806D58 240E00C8 */  addiu   $t6, $zero, 0x00C8         ## $t6 = 000000C8
 /* 0301C 80806D5C 3C010002 */  lui     $at, 0x0002                ## $at = 00020000
 /* 03020 80806D60 844D0ADC */  lh      $t5, 0x0ADC($v0)           ## 80160ADC

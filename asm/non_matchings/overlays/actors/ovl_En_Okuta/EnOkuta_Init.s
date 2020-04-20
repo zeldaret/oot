@@ -99,8 +99,8 @@ glabel EnOkuta_Init
 /* 00160 80AC07C0 8FBF002C */  lw      $ra, 0x002C($sp)           
 .L80AC07C4:
 /* 00164 80AC07C4 3C054489 */  lui     $a1, 0x4489                ## $a1 = 44890000
-/* 00168 80AC07C8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0016C 80AC07CC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00168 80AC07C8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0016C 80AC07CC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00170 80AC07D0 34A58000 */  ori     $a1, $a1, 0x8000           ## $a1 = 44898000
 /* 00174 80AC07D4 0C00AC78 */  jal     ActorShape_Init
               

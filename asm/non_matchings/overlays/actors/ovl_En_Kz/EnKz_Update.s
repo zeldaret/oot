@@ -1,6 +1,6 @@
 glabel EnKz_Update
-/* 01064 80A9D5B4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 01068 80A9D5B8 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 01064 80A9D5B4 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 01068 80A9D5B8 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 0106C 80A9D5BC 8C6E0004 */  lw      $t6, 0x0004($v1)           ## 8015E664
 /* 01070 80A9D5C0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 01074 80A9D5C4 AFB00018 */  sw      $s0, 0x0018($sp)           

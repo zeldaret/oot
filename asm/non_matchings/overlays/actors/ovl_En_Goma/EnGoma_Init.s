@@ -65,12 +65,12 @@ glabel EnGoma_Init
 /* 00074 80A48F34 3C1880A5 */  lui     $t8, %hi(func_80A4B554)    ## $t8 = 80A50000
 /* 00078 80A48F38 2718B554 */  addiu   $t8, $t8, %lo(func_80A4B554) ## $t8 = 80A4B554
 /* 0007C 80A48F3C 24190003 */  addiu   $t9, $zero, 0x0003         ## $t9 = 00000003
-/* 00080 80A48F40 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00080 80A48F40 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00084 80A48F44 44051000 */  mfc1    $a1, $f2
 /* 00088 80A48F48 44071000 */  mfc1    $a3, $f2
 /* 0008C 80A48F4C AE1802B0 */  sw      $t8, 0x02B0($s0)           ## 000002B0
 /* 00090 80A48F50 A61902B8 */  sh      $t9, 0x02B8($s0)           ## 000002B8
-/* 00094 80A48F54 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00094 80A48F54 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00098 80A48F58 0C00AC78 */  jal     ActorShape_Init
 
 /* 0009C 80A48F5C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
@@ -147,8 +147,8 @@ glabel EnGoma_Init
 /* 001A0 80A49060 C42AB90C */  lwc1    $f10, %lo(D_80A4B90C)($at)
 /* 001A4 80A49064 46060202 */  mul.s   $f8, $f0, $f6
 /* 001A8 80A49068 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
-/* 001AC 80A4906C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 001B0 80A49070 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 001AC 80A4906C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 001B0 80A49070 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 001B4 80A49074 44051000 */  mfc1    $a1, $f2
 /* 001B8 80A49078 44071000 */  mfc1    $a3, $f2
 /* 001BC 80A4907C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
@@ -160,8 +160,8 @@ glabel EnGoma_Init
 /* 001D0 80A49090 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80A49094:
 /* 001D4 80A49094 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
-/* 001D8 80A49098 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 001DC 80A4909C 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 001D8 80A49098 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 001DC 80A4909C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 001E0 80A490A0 44051000 */  mfc1    $a1, $f2
 /* 001E4 80A490A4 0C00AC78 */  jal     ActorShape_Init
 

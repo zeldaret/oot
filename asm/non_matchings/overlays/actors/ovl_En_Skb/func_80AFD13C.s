@@ -106,12 +106,12 @@ glabel func_80AFD13C
 /* 008F8 80AFD298 24A50024 */  addiu   $a1, $a1, 0x0024           ## $a1 = 00000024
 /* 008FC 80AFD29C 3C014448 */  lui     $at, 0x4448                ## $at = 44480000
 /* 00900 80AFD2A0 44814000 */  mtc1    $at, $f8                   ## $f8 = 800.00
-/* 00904 80AFD2A4 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 00904 80AFD2A4 3C0D8016 */  lui     $t5, %hi(gSaveContext+0x10)
 /* 00908 80AFD2A8 4600403C */  c.lt.s  $f8, $f0                   
 /* 0090C 80AFD2AC 00000000 */  nop
 /* 00910 80AFD2B0 45010005 */  bc1t    .L80AFD2C8                 
 /* 00914 80AFD2B4 00000000 */  nop
-/* 00918 80AFD2B8 8DADE670 */  lw      $t5, -0x1990($t5)          ## 8015E670
+/* 00918 80AFD2B8 8DADE670 */  lw      $t5, %lo(gSaveContext+0x10)($t5)
 /* 0091C 80AFD2BC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00920 80AFD2C0 15A00005 */  bne     $t5, $zero, .L80AFD2D8     
 /* 00924 80AFD2C4 00000000 */  nop

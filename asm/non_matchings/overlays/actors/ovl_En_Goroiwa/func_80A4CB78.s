@@ -22,12 +22,12 @@ glabel func_80A4CB78
 /* 00F00 80A4CBA0 01D91821 */  addu    $v1, $t6, $t9              
 /* 00F04 80A4CBA4 8C620004 */  lw      $v0, 0x0004($v1)           ## 00000004
 /* 00F08 80A4CBA8 848F01CE */  lh      $t7, 0x01CE($a0)           ## 000001CE
-/* 00F0C 80A4CBAC 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 00F0C 80A4CBAC 3C0B8016 */  lui     $t3, %hi(gSegments)
 /* 00F10 80A4CBB0 00024100 */  sll     $t0, $v0,  4               
 /* 00F14 80A4CBB4 00084F02 */  srl     $t1, $t0, 28               
 /* 00F18 80A4CBB8 00095080 */  sll     $t2, $t1,  2               
 /* 00F1C 80A4CBBC 016A5821 */  addu    $t3, $t3, $t2              
-/* 00F20 80A4CBC0 8D6B6FA8 */  lw      $t3, 0x6FA8($t3)           ## 80166FA8
+/* 00F20 80A4CBC0 8D6B6FA8 */  lw      $t3, %lo(gSegments)($t3)
 /* 00F24 80A4CBC4 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 00F28 80A4CBC8 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00F2C 80A4CBCC 000FC080 */  sll     $t8, $t7,  2               

@@ -129,8 +129,8 @@ glabel EnPoField_Init
 /* 001D4 80AD3CD4 0C01E77C */  jal     Lights_InitType2PositionalLight
               
 /* 001D8 80AD3CD8 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 001DC 80AD3CDC 3C0F8003 */  lui     $t7, 0x8003                ## $t7 = 80030000
-/* 001E0 80AD3CE0 25EFB5EC */  addiu   $t7, $t7, 0xB5EC           ## $t7 = 8002B5EC
+/* 001DC 80AD3CDC 3C0F8003 */  lui     $t7, %hi(ActorShadow_DrawFunc_Circle)
+/* 001E0 80AD3CE0 25EFB5EC */  addiu   $t7, %lo(ActorShadow_DrawFunc_Circle)
 /* 001E4 80AD3CE4 AE0F00C0 */  sw      $t7, 0x00C0($s0)           ## 000000C0
 /* 001E8 80AD3CE8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 001EC 80AD3CEC 0C2B4F5A */  jal     func_80AD3D68              

@@ -30,8 +30,8 @@ glabel func_808FFDB0
 /* 02ED8 808FFE18 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 02EDC 808FFE1C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 02EE0 808FFE20 01014821 */  addu    $t1, $t0, $at
-/* 02EE4 808FFE24 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 02EE8 808FFE28 AC296FC0 */  sw      $t1, 0x6FC0($at)           ## 80166FC0
+/* 02EE4 808FFE24 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 02EE8 808FFE28 AC296FC0 */  sw      $t1, %lo(gSegments+0x18)($at)
 /* 02EEC 808FFE2C 24A5FFE4 */  addiu   $a1, $a1, 0xFFE4           ## $a1 = 0600FFE4
 /* 02EF0 808FFE30 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 02EF4 808FFE34 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat

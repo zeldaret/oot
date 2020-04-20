@@ -10,7 +10,7 @@ glabel EnNiwLady_Update
               
 /* 01220 80ABAE60 AFA2002C */  sw      $v0, 0x002C($sp)           
 /* 01224 80ABAE64 8FA2002C */  lw      $v0, 0x002C($sp)           
-/* 01228 80ABAE68 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 01228 80ABAE68 3C198016 */  lui     $t9, %hi(gSaveContext+4)
 /* 0122C 80ABAE6C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 01230 80ABAE70 8C580024 */  lw      $t8, 0x0024($v0)           ## 00000024
 /* 01234 80ABAE74 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -21,7 +21,7 @@ glabel EnNiwLady_Update
 /* 01248 80ABAE88 AE0F02A4 */  sw      $t7, 0x02A4($s0)           ## 000002A4
 /* 0124C 80ABAE8C 8C58002C */  lw      $t8, 0x002C($v0)           ## 0000002C
 /* 01250 80ABAE90 AE1802A8 */  sw      $t8, 0x02A8($s0)           ## 000002A8
-/* 01254 80ABAE94 8F39E664 */  lw      $t9, -0x199C($t9)          ## 8015E664
+/* 01254 80ABAE94 8F39E664 */  lw      $t9, %lo(gSaveContext+4)($t9)
 /* 01258 80ABAE98 13200006 */  beq     $t9, $zero, .L80ABAEB4     
 /* 0125C 80ABAE9C 00000000 */  nop
 /* 01260 80ABAEA0 C4440028 */  lwc1    $f4, 0x0028($v0)           ## 00000028
@@ -65,8 +65,8 @@ glabel EnNiwLady_Update
 /* 012EC 80ABAF2C 8F3917B4 */  lw      $t9, 0x17B4($t9)           ## 000117B4
 /* 012F0 80ABAF30 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 012F4 80ABAF34 03214021 */  addu    $t0, $t9, $at              
-/* 012F8 80ABAF38 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 012FC 80ABAF3C AC286FC0 */  sw      $t0, 0x6FC0($at)           ## 80166FC0
+/* 012F8 80ABAF38 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 012FC 80ABAF3C AC286FC0 */  sw      $t0, %lo(gSegments+0x18)($at)
 /* 01300 80ABAF40 82090281 */  lb      $t1, 0x0281($s0)           ## 00000281
 /* 01304 80ABAF44 05220052 */  bltzl   $t1, .L80ABB090            
 /* 01308 80ABAF48 8FBF0024 */  lw      $ra, 0x0024($sp)           
