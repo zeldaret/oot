@@ -1094,7 +1094,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         gfxCtx->polyOpa.p = func_800BC8A0(globalCtx, gfxCtx->polyOpa.p);
         gfxCtx->polyXlu.p = func_800BC8A0(globalCtx, gfxCtx->polyXlu.p);
 
-        func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.near, globalCtx->lightCtx.unk_0C);
+        func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.unk_0C);
         func_800AAA50(&globalCtx->view, 15);
 
         Matrix_MtxToMtxF(&globalCtx->view.viewing, &globalCtx->mf_11DA0);
@@ -1128,7 +1128,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 view.flags = 2 | 8;
 
                 // clang-format off
-                viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH; 
+                viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH;
                 viewport.topY = 0; viewport.leftX = 0;
                 // clang-format on
 
@@ -1600,7 +1600,7 @@ s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3)
 
     if (1) {} // Necessary to match
 
-    camera->unk_DC = func_800CB678(arg2, arg3);
+    camera->unk_DC = Math3D_Vec3f_DistXYZ(arg2, arg3);
 
     player = camera->player;
     if (player != NULL) {

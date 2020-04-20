@@ -10,8 +10,8 @@ glabel func_80845C68
 /* 13A78 80845C88 8FA7001C */  lw      $a3, 0x001C($sp)           
 .L80845C8C:
 /* 13A7C 80845C8C 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 13A80 80845C90 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 13A84 80845C94 A020F9DB */  sb      $zero, -0x0625($at)        ## 8015F9DB
+/* 13A80 80845C90 3C018016 */  lui     $at, %hi(gSaveContext+0x137b)
+/* 13A84 80845C94 A020F9DB */  sb      $zero, %lo(gSaveContext+0x137b)($at)
 /* 13A88 80845C98 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 13A8C 80845C9C 03E00008 */  jr      $ra                        
 /* 13A90 80845CA0 00E01025 */  or      $v0, $a3, $zero            ## $v0 = 00000000

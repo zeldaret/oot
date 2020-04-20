@@ -40,14 +40,14 @@ glabel func_80A0AB1C
 /* 0079C 80A0ABAC 46083282 */  mul.s   $f10, $f6, $f8             
 /* 007A0 80A0ABB0 44982000 */  mtc1    $t8, $f4                   ## $f4 = 0.00
 /* 007A4 80A0ABB4 3C01C248 */  lui     $at, 0xC248                ## $at = C2480000
-/* 007A8 80A0ABB8 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 007A8 80A0ABB8 3C198016 */  lui     $t9, %hi(gSaveContext+0xeda)
 /* 007AC 80A0ABBC 44814000 */  mtc1    $at, $f8                   ## $f8 = -50.00
 /* 007B0 80A0ABC0 3C01C396 */  lui     $at, 0xC396                ## $at = C3960000
 /* 007B4 80A0ABC4 468021A0 */  cvt.s.w $f6, $f4                   
 /* 007B8 80A0ABC8 46105480 */  add.s   $f18, $f10, $f16           
 /* 007BC 80A0ABCC 46083082 */  mul.s   $f2, $f6, $f8              
 /* 007C0 80A0ABD0 E6120028 */  swc1    $f18, 0x0028($s0)          ## 00000028
-/* 007C4 80A0ABD4 9739F53A */  lhu     $t9, -0x0AC6($t9)          ## 8015F53A
+/* 007C4 80A0ABD4 9739F53A */  lhu     $t9, %lo(gSaveContext+0xeda)($t9)
 /* 007C8 80A0ABD8 33280100 */  andi    $t0, $t9, 0x0100           ## $t0 = 00000000
 /* 007CC 80A0ABDC 55000012 */  bnel    $t0, $zero, .L80A0AC28     
 /* 007D0 80A0ABE0 44815000 */  mtc1    $at, $f10                  ## $f10 = -300.00

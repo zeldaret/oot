@@ -52,8 +52,8 @@ glabel BgHidanRsekizou_Draw
 /* 008CC 8088CACC AE3802C0 */  sw      $t8, 0x02C0($s1)           ## 000002C0
 /* 008D0 8088CAD0 3C19DE00 */  lui     $t9, 0xDE00                ## $t9 = DE000000
 /* 008D4 8088CAD4 27B3005C */  addiu   $s3, $sp, 0x005C           ## $s3 = FFFFFFB4
-/* 008D8 8088CAD8 3C058013 */  lui     $a1, 0x8013                ## $a1 = 80130000
-/* 008DC 8088CADC 24A5DB60 */  addiu   $a1, $a1, 0xDB60           ## $a1 = 8012DB60
+/* 008D8 8088CAD8 3C058013 */  lui     $a1, %hi(gMtxFClear)
+/* 008DC 8088CADC 24A5DB60 */  addiu   $a1, %lo(gMtxFClear)
 /* 008E0 8088CAE0 02602025 */  or      $a0, $s3, $zero            ## $a0 = FFFFFFB4
 /* 008E4 8088CAE4 AC590000 */  sw      $t9, 0x0000($v0)           ## 00000000
 /* 008E8 8088CAE8 0C0346EA */  jal     Matrix_MtxFCopy              

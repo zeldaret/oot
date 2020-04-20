@@ -86,8 +86,8 @@ glabel EnBa_Init
 /* 00148 809B6498 10000025 */  beq     $zero, $zero, .L809B6530   
 /* 0014C 809B649C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L809B64A0:
-/* 00150 809B64A0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00154 809B64A4 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00150 809B64A0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00154 809B64A4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00158 809B64A8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0015C 809B64AC 0C00AC78 */  jal     ActorShape_Init
               

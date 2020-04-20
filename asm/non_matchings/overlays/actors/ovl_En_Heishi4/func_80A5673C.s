@@ -13,8 +13,8 @@ glabel D_80A57074
 
 .text
 glabel func_80A5673C
-/* 0066C 80A5673C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00670 80A56740 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 0066C 80A5673C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00670 80A56740 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00674 80A56744 944E0EDC */  lhu     $t6, 0x0EDC($v0)           ## 8015F53C
 /* 00678 80A56748 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0067C 80A5674C AFB00028 */  sw      $s0, 0x0028($sp)

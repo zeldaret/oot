@@ -4,8 +4,8 @@ glabel D_808ABE18
 
 .text
 glabel func_808ABB84
-/* 000A4 808ABB84 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 000A8 808ABB88 95CEF540 */  lhu     $t6, -0x0AC0($t6)          ## 8015F540
+/* 000A4 808ABB84 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xee0)
+/* 000A8 808ABB88 95CEF540 */  lhu     $t6, %lo(gSaveContext+0xee0)($t6)
 /* 000AC 808ABB8C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 000B0 808ABB90 AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 000B4 808ABB94 31CF0080 */  andi    $t7, $t6, 0x0080           ## $t7 = 00000000
@@ -18,18 +18,18 @@ glabel func_808ABB84
 .L808ABBB0:
 /* 000D0 808ABBB0 C6060028 */  lwc1    $f6, 0x0028($s0)           ## 00000028
 /* 000D4 808ABBB4 8CA807C0 */  lw      $t0, 0x07C0($a1)           ## 000007C0
-/* 000D8 808ABBB8 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
+/* 000D8 808ABBB8 3C078013 */  lui     $a3, %hi(D_801333E0)
 /* 000DC 808ABBBC 4600320D */  trunc.w.s $f8, $f6                   
 /* 000E0 808ABBC0 8D090028 */  lw      $t1, 0x0028($t0)           ## 00000028
-/* 000E4 808ABBC4 3C058013 */  lui     $a1, 0x8013                ## $a1 = 80130000
-/* 000E8 808ABBC8 3C0A8013 */  lui     $t2, 0x8013                ## $t2 = 80130000
+/* 000E4 808ABBC4 3C058013 */  lui     $a1, %hi(D_801333D4)
+/* 000E8 808ABBC8 3C0A8013 */  lui     $t2, %hi(D_801333E8)
 /* 000EC 808ABBCC 44194000 */  mfc1    $t9, $f8                   
-/* 000F0 808ABBD0 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 000F4 808ABBD4 254A33E8 */  addiu   $t2, $t2, 0x33E8           ## $t2 = 801333E8
+/* 000F0 808ABBD0 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 000F4 808ABBD4 254A33E8 */  addiu   $t2, %lo(D_801333E8)
 /* 000F8 808ABBD8 A5390002 */  sh      $t9, 0x0002($t1)           ## 00000002
 /* 000FC 808ABBDC C60A0028 */  lwc1    $f10, 0x0028($s0)          ## 00000028
 /* 00100 808ABBE0 C6000150 */  lwc1    $f0, 0x0150($s0)           ## 00000150
-/* 00104 808ABBE4 24A533D4 */  addiu   $a1, $a1, 0x33D4           ## $a1 = 801333D4
+/* 00104 808ABBE4 24A533D4 */  addiu   $a1, %lo(D_801333D4)
 /* 00108 808ABBE8 2404205E */  addiu   $a0, $zero, 0x205E         ## $a0 = 0000205E
 /* 0010C 808ABBEC 460A003C */  c.lt.s  $f0, $f10                  
 /* 00110 808ABBF0 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004

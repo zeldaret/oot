@@ -4,8 +4,8 @@ glabel EnMa3_Init
 /* 005DC 80AA307C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 005E0 80AA3080 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 005E4 80AA3084 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 005E8 80AA3088 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 005EC 80AA308C 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 005E8 80AA3088 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 005EC 80AA308C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 005F0 80AA3090 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 005F4 80AA3094 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 005F8 80AA3098 0C00AC78 */  jal     ActorShape_Init

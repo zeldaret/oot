@@ -29,8 +29,8 @@ glabel BgRelayObjects_Init
 /* 00064 808A8EB4 0C010620 */  jal     DynaPolyInfo_Alloc
               
 /* 00068 808A8EB8 248425FC */  addiu   $a0, $a0, 0x25FC           ## $a0 = 060025FC
-/* 0006C 808A8EBC 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 00070 808A8EC0 954AF540 */  lhu     $t2, -0x0AC0($t2)          ## 8015F540
+/* 0006C 808A8EBC 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xee0)
+/* 00070 808A8EC0 954AF540 */  lhu     $t2, %lo(gSaveContext+0xee0)($t2)
 /* 00074 808A8EC4 240C0400 */  addiu   $t4, $zero, 0x0400         ## $t4 = 00000400
 /* 00078 808A8EC8 240D0080 */  addiu   $t5, $zero, 0x0080         ## $t5 = 00000080
 /* 0007C 808A8ECC 314B0020 */  andi    $t3, $t2, 0x0020           ## $t3 = 00000000

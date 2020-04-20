@@ -1,6 +1,6 @@
 glabel func_80A3A7EC
-/* 0009C 80A3A7EC 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 000A0 80A3A7F0 95EFF550 */  lhu     $t7, -0x0AB0($t7)          ## 8015F550
+/* 0009C 80A3A7EC 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xef0)
+/* 000A0 80A3A7F0 95EFF550 */  lhu     $t7, %lo(gSaveContext+0xef0)($t7)
 /* 000A4 80A3A7F4 24190026 */  addiu   $t9, $zero, 0x0026         ## $t9 = 00000026
 /* 000A8 80A3A7F8 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 000AC 80A3A7FC 31F80100 */  andi    $t8, $t7, 0x0100           ## $t8 = 00000000

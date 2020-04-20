@@ -47,8 +47,8 @@ glabel func_8083BDBC
 /* 09C60 8083BE70 00000000 */  nop
 /* 09C64 8083BE74 04C10012 */  bgez    $a2, .L8083BEC0            
 /* 09C68 8083BE78 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 09C6C 8083BE7C 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
-/* 09C70 8083BE80 8D8CFA90 */  lw      $t4, -0x0570($t4)          ## 8015FA90
+/* 09C6C 8083BE7C 3C0C8016 */  lui     $t4, %hi(gGameInfo)
+/* 09C70 8083BE80 8D8CFA90 */  lw      $t4, %lo(gGameInfo)($t4)
 /* 09C74 8083BE84 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
 /* 09C78 8083BE88 44814000 */  mtc1    $at, $f8                   ## $f8 = 100.00
 /* 09C7C 8083BE8C 858D009E */  lh      $t5, 0x009E($t4)           ## 8016009E

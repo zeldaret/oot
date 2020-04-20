@@ -1,6 +1,6 @@
 glabel func_80A330A0
-/* 004D0 80A330A0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 004D4 80A330A4 95CFF546 */  lhu     $t7, -0x0ABA($t6)          ## 8015F546
+/* 004D0 80A330A0 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xee6)
+/* 004D4 80A330A4 95CFF546 */  lhu     $t7, %lo(gSaveContext+0xee6)($t6)
 /* 004D8 80A330A8 2401000F */  addiu   $at, $zero, 0x000F         ## $at = 0000000F
 /* 004DC 80A330AC 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 004E0 80A330B0 31F8000F */  andi    $t8, $t7, 0x000F           ## $t8 = 00000000

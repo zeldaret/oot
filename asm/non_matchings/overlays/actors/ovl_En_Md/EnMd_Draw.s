@@ -33,7 +33,7 @@ glabel EnMd_Draw
 /* 01F64 80AAC1B4 AD0F02C0 */  sw      $t7, 0x02C0($t0)           ## 000002C0
 /* 01F68 80AAC1B8 AC780000 */  sw      $t8, 0x0000($v1)           ## 00000000
 /* 01F6C 80AAC1BC 8619020E */  lh      $t9, 0x020E($s0)           ## 0000020E
-/* 01F70 80AAC1C0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 01F70 80AAC1C0 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 01F74 80AAC1C4 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 01F78 80AAC1C8 00194880 */  sll     $t1, $t9,  2               
 /* 01F7C 80AAC1CC 00892021 */  addu    $a0, $a0, $t1              
@@ -44,7 +44,7 @@ glabel EnMd_Draw
 /* 01F90 80AAC1E0 000B6702 */  srl     $t4, $t3, 28               
 /* 01F94 80AAC1E4 000C6880 */  sll     $t5, $t4,  2               
 /* 01F98 80AAC1E8 01CD7021 */  addu    $t6, $t6, $t5              
-/* 01F9C 80AAC1EC 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 01F9C 80AAC1EC 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 01FA0 80AAC1F0 00815024 */  and     $t2, $a0, $at              
 /* 01FA4 80AAC1F4 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 01FA8 80AAC1F8 014E7821 */  addu    $t7, $t2, $t6              
@@ -71,7 +71,7 @@ glabel EnMd_Draw
 /* 01FF8 80AAC248 AD0902D0 */  sw      $t1, 0x02D0($t0)           ## 000002D0
 /* 01FFC 80AAC24C AC6B0000 */  sw      $t3, 0x0000($v1)           ## 00000000
 /* 02000 80AAC250 860C020E */  lh      $t4, 0x020E($s0)           ## 0000020E
-/* 02004 80AAC254 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 02004 80AAC254 3C198016 */  lui     $t9, %hi(gSegments)
 /* 02008 80AAC258 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 0200C 80AAC25C 000C6880 */  sll     $t5, $t4,  2               
 /* 02010 80AAC260 008D2021 */  addu    $a0, $a0, $t5              
@@ -82,7 +82,7 @@ glabel EnMd_Draw
 /* 02024 80AAC274 000E7F02 */  srl     $t7, $t6, 28               
 /* 02028 80AAC278 000FC080 */  sll     $t8, $t7,  2               
 /* 0202C 80AAC27C 0338C821 */  addu    $t9, $t9, $t8              
-/* 02030 80AAC280 8F396FA8 */  lw      $t9, 0x6FA8($t9)           ## 80166FA8
+/* 02030 80AAC280 8F396FA8 */  lw      $t9, %lo(gSegments)($t9)
 /* 02034 80AAC284 00815024 */  and     $t2, $a0, $at              
 /* 02038 80AAC288 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 0203C 80AAC28C 01594821 */  addu    $t1, $t2, $t9              

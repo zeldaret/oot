@@ -1,7 +1,7 @@
 glabel func_80AE4114
 /* 01D14 80AE4114 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
-/* 01D18 80AE4118 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 01D1C 80AE411C 85EFFA82 */  lh      $t7, -0x057E($t7)          ## 8015FA82
+/* 01D18 80AE4118 3C0F8016 */  lui     $t7, %hi(gSaveContext+0x1422)
+/* 01D1C 80AE411C 85EFFA82 */  lh      $t7, %lo(gSaveContext+0x1422)($t7)
 /* 01D20 80AE4120 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 01D24 80AE4124 AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 01D28 80AE4128 AFA50034 */  sw      $a1, 0x0034($sp)           

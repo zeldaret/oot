@@ -37,10 +37,10 @@ glabel EnRiverSound_Init
 .L80AE69B0:
 /* 00080 80AE69B0 2401000C */  addiu   $at, $zero, 0x000C         ## $at = 0000000C
 /* 00084 80AE69B4 1441000E */  bne     $v0, $at, .L80AE69F0       
-/* 00088 80AE69B8 3C038012 */  lui     $v1, 0x8012                ## $v1 = 80120000
-/* 0008C 80AE69BC 24637120 */  addiu   $v1, $v1, 0x7120           ## $v1 = 80127120
-/* 00090 80AE69C0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00094 80AE69C4 8C42E704 */  lw      $v0, -0x18FC($v0)          ## 8015E704
+/* 00088 80AE69B8 3C038012 */  lui     $v1, %hi(gBitFlags)
+/* 0008C 80AE69BC 24637120 */  addiu   $v1, %lo(gBitFlags)
+/* 00090 80AE69C0 3C028016 */  lui     $v0, %hi(gSaveContext+0xa4)
+/* 00094 80AE69C4 8C42E704 */  lw      $v0, %lo(gSaveContext+0xa4)($v0)
 /* 00098 80AE69C8 8C790030 */  lw      $t9, 0x0030($v1)           ## 80127150
 /* 0009C 80AE69CC 03224024 */  and     $t0, $t9, $v0              
 /* 000A0 80AE69D0 11000005 */  beq     $t0, $zero, .L80AE69E8     

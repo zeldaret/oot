@@ -608,12 +608,12 @@ glabel func_80B6B674
 /* 02500 80B6BEA0 AC440004 */  sw      $a0, 0x0004($v0)           ## 00000004
 /* 02504 80B6BEA4 AC550000 */  sw      $s5, 0x0000($v0)           ## 00000000
 /* 02508 80B6BEA8 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
-/* 0250C 80B6BEAC 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 0250C 80B6BEAC 3C0F8016 */  lui     $t7, %hi(gGameInfo)
 /* 02510 80B6BEB0 2401FF00 */  addiu   $at, $zero, 0xFF00         ## $at = FFFFFF00
 /* 02514 80B6BEB4 244E0008 */  addiu   $t6, $v0, 0x0008           ## $t6 = 00000008
 /* 02518 80B6BEB8 AE0E02D0 */  sw      $t6, 0x02D0($s0)           ## 000002D0
 /* 0251C 80B6BEBC AC570000 */  sw      $s7, 0x0000($v0)           ## 00000000
-/* 02520 80B6BEC0 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 02520 80B6BEC0 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 02524 80B6BEC4 26940001 */  addiu   $s4, $s4, 0x0001           ## $s4 = 00000001
 /* 02528 80B6BEC8 329400FF */  andi    $s4, $s4, 0x00FF           ## $s4 = 00000001
 /* 0252C 80B6BECC 85F809FA */  lh      $t8, 0x09FA($t7)           ## 801609FA

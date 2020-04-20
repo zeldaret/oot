@@ -167,8 +167,8 @@ glabel L80ABEEB8
 /* 001A0 80ABEEC0 10000015 */  beq     $zero, $zero, .L80ABEF18   
 /* 001A4 80ABEEC4 AE08014C */  sw      $t0, 0x014C($s0)           ## 0000014C
 glabel L80ABEEC8
-/* 001A8 80ABEEC8 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 001AC 80ABEECC 8D29E664 */  lw      $t1, -0x199C($t1)          ## 8015E664
+/* 001A8 80ABEEC8 3C098016 */  lui     $t1, %hi(gSaveContext+4)
+/* 001AC 80ABEECC 8D29E664 */  lw      $t1, %lo(gSaveContext+4)($t1)
 /* 001B0 80ABEED0 15200005 */  bne     $t1, $zero, .L80ABEEE8     
 /* 001B4 80ABEED4 00000000 */  nop
 /* 001B8 80ABEED8 0C00B55C */  jal     Actor_Kill

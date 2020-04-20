@@ -1419,11 +1419,11 @@ glabel L8093E854
 /* 05C40 8093E910 000D7702 */  srl     $t6, $t5, 28
 /* 05C44 8093E914 002B0821 */  addu    $at, $at, $t3
 /* 05C48 8093E918 000EC880 */  sll     $t9, $t6,  2
-/* 05C4C 8093E91C 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 05C4C 8093E91C 3C0F8016 */  lui     $t7, %hi(gSegments)
 /* 05C50 8093E920 E4260AFC */  swc1    $f6, 0x0AFC($at)           ## 00010AFC
 /* 05C54 8093E924 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 05C58 8093E928 01F97821 */  addu    $t7, $t7, $t9
-/* 05C5C 8093E92C 8DEF6FA8 */  lw      $t7, 0x6FA8($t7)           ## 80166FA8
+/* 05C5C 8093E92C 8DEF6FA8 */  lw      $t7, %lo(gSegments)($t7)
 /* 05C60 8093E930 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 05C64 8093E934 0041C024 */  and     $t8, $v0, $at
 /* 05C68 8093E938 8FA400A4 */  lw      $a0, 0x00A4($sp)
@@ -1440,8 +1440,8 @@ glabel L8093E854
 /* 05C94 8093E964 0C00B380 */  jal     TitleCard_InitBossName
 
 /* 05C98 8093E968 24851D4C */  addiu   $a1, $a0, 0x1D4C           ## $a1 = 00001D4C
-/* 05C9C 8093E96C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 05CA0 8093E970 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 05C9C 8093E96C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 05CA0 8093E970 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 05CA4 8093E974 944B0EE2 */  lhu     $t3, 0x0EE2($v0)           ## 8015F542
 /* 05CA8 8093E978 2404001B */  addiu   $a0, $zero, 0x001B         ## $a0 = 0000001B
 /* 05CAC 8093E97C 356C0020 */  ori     $t4, $t3, 0x0020           ## $t4 = 00000020

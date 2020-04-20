@@ -113,8 +113,8 @@ glabel EnOssan_Init
 /* 007E4 80AC3484 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 007E8 80AC3488 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
 /* 007EC 80AC348C 14E3000D */  bne     $a3, $v1, .L80AC34C4       
-/* 007F0 80AC3490 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
-/* 007F4 80AC3494 2484E660 */  addiu   $a0, $a0, 0xE660           ## $a0 = 8015E660
+/* 007F0 80AC3490 3C048016 */  lui     $a0, %hi(gSaveContext)
+/* 007F4 80AC3494 2484E660 */  addiu   $a0, %lo(gSaveContext)
 /* 007F8 80AC3498 8C8E0004 */  lw      $t6, 0x0004($a0)           ## 8015E664
 /* 007FC 80AC349C 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 00800 80AC34A0 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011
@@ -128,10 +128,10 @@ glabel EnOssan_Init
 /* 0081C 80AC34BC A60F001C */  sh      $t7, 0x001C($s0)           ## 0000001C
 /* 00820 80AC34C0 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C
 .L80AC34C4:
-/* 00824 80AC34C4 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
+/* 00824 80AC34C4 3C048016 */  lui     $a0, %hi(gSaveContext)
 /* 00828 80AC34C8 2861000B */  slti    $at, $v1, 0x000B           
 /* 0082C 80AC34CC 14200017 */  bne     $at, $zero, .L80AC352C     
-/* 00830 80AC34D0 2484E660 */  addiu   $a0, $a0, 0xE660           ## $a0 = 8015E660
+/* 00830 80AC34D0 2484E660 */  addiu   $a0, %lo(gSaveContext)
 /* 00834 80AC34D4 04630016 */  bgezl   $v1, .L80AC3530            
 /* 00838 80AC34D8 2401000A */  addiu   $at, $zero, 0x000A         ## $at = 0000000A
 /* 0083C 80AC34DC 0C00B55C */  jal     Actor_Kill

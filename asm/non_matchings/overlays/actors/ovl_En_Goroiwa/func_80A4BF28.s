@@ -53,13 +53,13 @@ glabel func_80A4BF28
 .L80A4BFDC:
 /* 0033C 80A4BFDC 012A0019 */  multu   $t1, $t2                   
 /* 00340 80A4BFE0 8CE30004 */  lw      $v1, 0x0004($a3)           ## 00000004
-/* 00344 80A4BFE4 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 00344 80A4BFE4 3C0F8016 */  lui     $t7, %hi(gSegments)
 /* 00348 80A4BFE8 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 0034C 80A4BFEC 00035900 */  sll     $t3, $v1,  4               
 /* 00350 80A4BFF0 000B6702 */  srl     $t4, $t3, 28               
 /* 00354 80A4BFF4 000C6880 */  sll     $t5, $t4,  2               
 /* 00358 80A4BFF8 01ED7821 */  addu    $t7, $t7, $t5              
-/* 0035C 80A4BFFC 8DEF6FA8 */  lw      $t7, 0x6FA8($t7)           ## 80166FA8
+/* 0035C 80A4BFFC 8DEF6FA8 */  lw      $t7, %lo(gSegments)($t7)
 /* 00360 80A4C000 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00364 80A4C004 0000C012 */  mflo    $t8                        
 /* 00368 80A4C008 00617024 */  and     $t6, $v1, $at              

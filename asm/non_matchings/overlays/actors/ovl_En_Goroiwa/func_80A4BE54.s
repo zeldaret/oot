@@ -11,12 +11,12 @@ glabel func_80A4BE54
 /* 001D8 80A4BE78 01E83021 */  addu    $a2, $t7, $t0              
 /* 001DC 80A4BE7C 8CC30004 */  lw      $v1, 0x0004($a2)           ## 00000004
 /* 001E0 80A4BE80 849801CE */  lh      $t8, 0x01CE($a0)           ## 000001CE
-/* 001E4 80A4BE84 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
+/* 001E4 80A4BE84 3C0C8016 */  lui     $t4, %hi(gSegments)
 /* 001E8 80A4BE88 00034900 */  sll     $t1, $v1,  4               
 /* 001EC 80A4BE8C 00095702 */  srl     $t2, $t1, 28               
 /* 001F0 80A4BE90 000A5880 */  sll     $t3, $t2,  2               
 /* 001F4 80A4BE94 018B6021 */  addu    $t4, $t4, $t3              
-/* 001F8 80A4BE98 8D8C6FA8 */  lw      $t4, 0x6FA8($t4)           ## 80166FA8
+/* 001F8 80A4BE98 8D8C6FA8 */  lw      $t4, %lo(gSegments)($t4)
 /* 001FC 80A4BE9C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 00200 80A4BEA0 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00204 80A4BEA4 0018C880 */  sll     $t9, $t8,  2               

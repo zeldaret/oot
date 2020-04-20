@@ -6,8 +6,8 @@ glabel func_8097F0AC
 /* 01A4C 8097F0BC 2401008C */  addiu   $at, $zero, 0x008C         ## $at = 0000008C
 /* 01A50 8097F0C0 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
 /* 01A54 8097F0C4 10610005 */  beq     $v1, $at, .L8097F0DC       
-/* 01A58 8097F0C8 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 01A5C 8097F0CC 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 01A58 8097F0C8 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 01A5C 8097F0CC 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 01A60 8097F0D0 24010013 */  addiu   $at, $zero, 0x0013         ## $at = 00000013
 /* 01A64 8097F0D4 85F81456 */  lh      $t8, 0x1456($t7)           ## 80161456
 /* 01A68 8097F0D8 17010017 */  bne     $t8, $at, .L8097F138       

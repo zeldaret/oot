@@ -1,0 +1,53 @@
+glabel func_800CA63C
+/* B417DC 800CA63C 2C81000D */  sltiu $at, $a0, 0xd
+/* B417E0 800CA640 14200029 */  bnez  $at, .L800CA6E8
+/* B417E4 800CA644 00044880 */   sll   $t1, $a0, 2
+/* B417E8 800CA648 3C018013 */  lui   $at, %hi(sFactorialTbl)
+/* B417EC 800CA64C C422D300 */  lwc1  $f2, %lo(sFactorialTbl + 0x30)($at)
+/* B417F0 800CA650 2881000D */  slti  $at, $a0, 0xd
+/* B417F4 800CA654 14200027 */  bnez  $at, .L800CA6F4
+/* B417F8 800CA658 2402000D */   li    $v0, 13
+/* B417FC 800CA65C 2485FFF4 */  addiu $a1, $a0, -0xc
+/* B41800 800CA660 30A50003 */  andi  $a1, $a1, 3
+/* B41804 800CA664 10A0000A */  beqz  $a1, .L800CA690
+/* B41808 800CA668 24A3000D */   addiu $v1, $a1, 0xd
+/* B4180C 800CA66C 44822000 */  mtc1  $v0, $f4
+.L800CA670:
+/* B41810 800CA670 24420001 */  addiu $v0, $v0, 1
+/* B41814 800CA674 468021A0 */  cvt.s.w $f6, $f4
+/* B41818 800CA678 46061082 */  mul.s $f2, $f2, $f6
+/* B4181C 800CA67C 5462FFFC */  bnel  $v1, $v0, .L800CA670
+/* B41820 800CA680 44822000 */   mtc1  $v0, $f4
+/* B41824 800CA684 248E0001 */  addiu $t6, $a0, 1
+/* B41828 800CA688 11C2001A */  beq   $t6, $v0, .L800CA6F4
+/* B4182C 800CA68C 00000000 */   nop
+.L800CA690:
+/* B41830 800CA690 44824000 */  mtc1  $v0, $f8
+/* B41834 800CA694 244F0001 */  addiu $t7, $v0, 1
+/* B41838 800CA698 448F8000 */  mtc1  $t7, $f16
+/* B4183C 800CA69C 468042A0 */  cvt.s.w $f10, $f8
+/* B41840 800CA6A0 24580002 */  addiu $t8, $v0, 2
+/* B41844 800CA6A4 44982000 */  mtc1  $t8, $f4
+/* B41848 800CA6A8 24590003 */  addiu $t9, $v0, 3
+/* B4184C 800CA6AC 44994000 */  mtc1  $t9, $f8
+/* B41850 800CA6B0 468084A0 */  cvt.s.w $f18, $f16
+/* B41854 800CA6B4 460A1082 */  mul.s $f2, $f2, $f10
+/* B41858 800CA6B8 24420004 */  addiu $v0, $v0, 4
+/* B4185C 800CA6BC 24880001 */  addiu $t0, $a0, 1
+/* B41860 800CA6C0 468021A0 */  cvt.s.w $f6, $f4
+/* B41864 800CA6C4 46121082 */  mul.s $f2, $f2, $f18
+/* B41868 800CA6C8 468042A0 */  cvt.s.w $f10, $f8
+/* B4186C 800CA6CC 46061082 */  mul.s $f2, $f2, $f6
+/* B41870 800CA6D0 00000000 */  nop
+/* B41874 800CA6D4 460A1082 */  mul.s $f2, $f2, $f10
+/* B41878 800CA6D8 1502FFED */  bne   $t0, $v0, .L800CA690
+/* B4187C 800CA6DC 00000000 */   nop
+/* B41880 800CA6E0 03E00008 */  jr    $ra
+/* B41884 800CA6E4 46001006 */   mov.s $f0, $f2
+.L800CA6E8:
+/* B41888 800CA6E8 3C018013 */  lui   $at, %hi(sFactorialTbl)
+/* B4188C 800CA6EC 00290821 */  addu  $at, $at, $t1
+/* B41890 800CA6F0 C422D2D0 */  lwc1  $f2, %lo(sFactorialTbl)($at)
+.L800CA6F4:
+/* B41894 800CA6F4 03E00008 */  jr    $ra
+/* B41898 800CA6F8 46001006 */   mov.s $f0, $f2

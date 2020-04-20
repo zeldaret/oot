@@ -147,8 +147,8 @@ glabel BgHidanCurtain_Update
 /* 007D0 80885970 0C017713 */  jal     Actor_CollisionCheck_SetOT
               ## CollisionCheck_setOT
 /* 007D4 80885974 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 007D8 80885978 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 007DC 8088597C 8D29F9C0 */  lw      $t1, -0x0640($t1)          ## 8015F9C0
+/* 007D8 80885978 3C098016 */  lui     $t1, %hi(gSaveContext+0x1360)
+/* 007DC 8088597C 8D29F9C0 */  lw      $t1, %lo(gSaveContext+0x1360)($t1)
 /* 007E0 80885980 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 007E4 80885984 29210004 */  slti    $at, $t1, 0x0004           
 /* 007E8 80885988 50200011 */  beql    $at, $zero, .L808859D0     

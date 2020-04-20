@@ -42,8 +42,8 @@ glabel EnSyatekiMan_Init
 /* 0006C 80B108DC 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00070 80B108E0 0C0291BE */  jal     SkelAnime_InitSV
 /* 00074 80B108E4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 00078 80B108E8 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 0007C 80B108EC 8D08E664 */  lw      $t0, -0x199C($t0)          ## 8015E664
+/* 00078 80B108E8 3C088016 */  lui     $t0, %hi(gSaveContext+4)
+/* 0007C 80B108EC 8D08E664 */  lw      $t0, %lo(gSaveContext+4)($t0)
 /* 00080 80B108F0 3C0B80B1 */  lui     $t3, %hi(func_80B11310)    ## $t3 = 80B10000
 /* 00084 80B108F4 240A0014 */  addiu   $t2, $zero, 0x0014         ## $t2 = 00000014
 /* 00088 80B108F8 11000003 */  beq     $t0, $zero, .L80B10908

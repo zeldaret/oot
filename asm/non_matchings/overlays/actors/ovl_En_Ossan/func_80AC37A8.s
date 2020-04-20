@@ -24,8 +24,8 @@ glabel func_80AC37A8
 /* 00B38 80AC37D8 0C00084C */  jal     osSyncPrintf
               
 /* 00B3C 80AC37DC AFAE0024 */  sw      $t6, 0x0024($sp)           
-/* 00B40 80AC37E0 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00B44 80AC37E4 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 00B40 80AC37E0 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 00B44 80AC37E4 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 00B48 80AC37E8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B4C 80AC37EC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00B50 80AC37F0 0C00BC65 */  jal     func_8002F194              

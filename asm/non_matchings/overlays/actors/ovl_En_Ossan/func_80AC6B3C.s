@@ -26,8 +26,8 @@ glabel func_80AC6B3C
 /* 03EFC 80AC6B9C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 03F00 80AC6BA0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 03F04 80AC6BA4 01014821 */  addu    $t1, $t0, $at
-/* 03F08 80AC6BA8 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 03F0C 80AC6BAC AC296FC0 */  sw      $t1, 0x6FC0($at)           ## 80166FC0
+/* 03F08 80AC6BA8 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 03F0C 80AC6BAC AC296FC0 */  sw      $t1, %lo(gSegments+0x18)($at)
 /* 03F10 80AC6BB0 0C028800 */  jal     SkelAnime_GetFrameCount
 
 /* 03F14 80AC6BB4 248404A8 */  addiu   $a0, $a0, 0x04A8           ## $a0 = 060004A8

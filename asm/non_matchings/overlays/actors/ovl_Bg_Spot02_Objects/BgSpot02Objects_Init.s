@@ -110,8 +110,8 @@ glabel L808AC6BC
 /* 00150 808AC7B0 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
               ## DynaPolyInfo_setActor
 /* 00154 808AC7B4 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 00158 808AC7B8 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 0015C 808AC7BC 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00158 808AC7B8 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 0015C 808AC7BC 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00160 808AC7C0 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 00164 808AC7C4 94690ED6 */  lhu     $t1, 0x0ED6($v1)           ## 8015F536
 /* 00168 808AC7C8 8FAB0034 */  lw      $t3, 0x0034($sp)           
@@ -150,10 +150,10 @@ glabel L808AC824
 /* 001D8 808AC838 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 001DC 808AC83C 3C19808B */  lui     $t9, %hi(func_808ACC34)    ## $t9 = 808B0000
 /* 001E0 808AC840 3C08808B */  lui     $t0, %hi(func_808ACCB8)    ## $t0 = 808B0000
-/* 001E4 808AC844 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 001E4 808AC844 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 001E8 808AC848 2739CC34 */  addiu   $t9, $t9, %lo(func_808ACC34) ## $t9 = 808ACC34
 /* 001EC 808AC84C 2508CCB8 */  addiu   $t0, $t0, %lo(func_808ACCB8) ## $t0 = 808ACCB8
-/* 001F0 808AC850 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 001F0 808AC850 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 001F4 808AC854 AE190164 */  sw      $t9, 0x0164($s0)           ## 00000164
 /* 001F8 808AC858 AE080134 */  sw      $t0, 0x0134($s0)           ## 00000134
 /* 001FC 808AC85C 94690ED6 */  lhu     $t1, 0x0ED6($v1)           ## 8015F536

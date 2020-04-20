@@ -22,14 +22,14 @@ glabel func_80AAB370
 /* 01158 80AAB3A8 000FC0C0 */  sll     $t8, $t7,  3               
 /* 0115C 80AAB3AC 01D82021 */  addu    $a0, $t6, $t8              
 /* 01160 80AAB3B0 8C830004 */  lw      $v1, 0x0004($a0)           ## 00000004
-/* 01164 80AAB3B4 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 01164 80AAB3B4 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 01168 80AAB3B8 860C0212 */  lh      $t4, 0x0212($s0)           ## 00000212
 /* 0116C 80AAB3BC 0003C900 */  sll     $t9, $v1,  4               
 /* 01170 80AAB3C0 00194702 */  srl     $t0, $t9, 28               
 /* 01174 80AAB3C4 00084880 */  sll     $t1, $t0,  2               
 /* 01178 80AAB3C8 01495021 */  addu    $t2, $t2, $t1              
 /* 0117C 80AAB3CC 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 01180 80AAB3D0 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 80166FA8
+/* 01180 80AAB3D0 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 01184 80AAB3D4 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 01188 80AAB3D8 00615824 */  and     $t3, $v1, $at              
 /* 0118C 80AAB3DC 000C6880 */  sll     $t5, $t4,  2               

@@ -69,8 +69,8 @@ glabel EnYabusameMark_Update
 /* 00690 80B43450 0C01767D */  jal     Actor_CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00694 80B43454 00812821 */  addu    $a1, $a0, $at              
-/* 00698 80B43458 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 0069C 80B4345C 8D08FA90 */  lw      $t0, -0x0570($t0)          ## 8015FA90
+/* 00698 80B43458 3C088016 */  lui     $t0, %hi(gGameInfo)
+/* 0069C 80B4345C 8D08FA90 */  lw      $t0, %lo(gGameInfo)($t0)
 /* 006A0 80B43460 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 006A4 80B43464 240C00FF */  addiu   $t4, $zero, 0x00FF         ## $t4 = 000000FF
 /* 006A8 80B43468 850912D4 */  lh      $t1, 0x12D4($t0)           ## 801612D4

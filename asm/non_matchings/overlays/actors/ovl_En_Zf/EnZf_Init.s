@@ -26,8 +26,8 @@ glabel EnZf_Init
 /* 002FC 80B4434C 344CFF00 */  ori     $t4, $v0, 0xFF00           ## $t4 = 0000FF00
 /* 00300 80B44350 A60C001C */  sh      $t4, 0x001C($s0)           ## 0000001C
 .L80B44354:
-/* 00304 80B44354 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00308 80B44358 24C6B8C4 */  addiu   $a2, $a2, 0xB8C4           ## $a2 = 8002B8C4
+/* 00304 80B44354 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Teardrop)
+/* 00308 80B44358 24C6B8C4 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Teardrop)
 /* 0030C 80B4435C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00310 80B44360 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00314 80B44364 0C00AC78 */  jal     ActorShape_Init

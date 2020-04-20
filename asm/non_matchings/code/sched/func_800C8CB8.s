@@ -79,7 +79,7 @@ glabel func_800C8CB8
 /* B3FF14 800C8D74 0C041924 */  jal   osWritebackDCacheAll
 /* B3FF18 800C8D78 AE180004 */   sw    $t8, 4($s0)
 /* B3FF1C 800C8D7C 26040010 */  addiu $a0, $s0, 0x10
-/* B3FF20 800C8D80 0C040173 */  jal   func_801005CC
+/* B3FF20 800C8D80 0C040173 */  jal   osSpTaskLoad
 /* B3FF24 800C8D84 AFA40020 */   sw    $a0, 0x20($sp)
 /* B3FF28 800C8D88 8E040010 */  lw    $a0, 0x10($s0)
 /* B3FF2C 800C8D8C 24010002 */  li    $at, 2
@@ -108,7 +108,7 @@ glabel func_800C8CB8
 /* B3FF80 800C8DE0 AC22A510 */  sw    $v0, %lo(D_8016A510)($at)
 /* B3FF84 800C8DE4 AC23A514 */  sw    $v1, %lo(D_8016A514)($at)
 .L800C8DE8:
-/* B3FF88 800C8DE8 0C0401CD */  jal   func_80100734
+/* B3FF88 800C8DE8 0C0401CD */  jal   osSpTaskStartGo
 /* B3FF8C 800C8DEC 8FA40020 */   lw    $a0, 0x20($sp)
 /* B3FF90 800C8DF0 3C198013 */  lui   $t9, %hi(D_8012D290) # $t9, 0x8013
 /* B3FF94 800C8DF4 2739D290 */  addiu $t9, %lo(D_8012D290) # addiu $t9, $t9, -0x2d70

@@ -250,8 +250,8 @@ glabel func_80AD830C
 /* 00F7C 80AD86BC 11A00032 */  beq     $t5, $zero, .L80AD8788     
 /* 00F80 80AD86C0 00000000 */  nop
 /* 00F84 80AD86C4 C6080024 */  lwc1    $f8, 0x0024($s0)           ## 00000024
-/* 00F88 80AD86C8 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00F8C 80AD86CC 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00F88 80AD86C8 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00F8C 80AD86CC 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00F90 80AD86D0 E7A80060 */  swc1    $f8, 0x0060($sp)           
 /* 00F94 80AD86D4 C6120080 */  lwc1    $f18, 0x0080($s0)          ## 00000080
 /* 00F98 80AD86D8 846213D0 */  lh      $v0, 0x13D0($v1)           ## 8015FA30
@@ -267,9 +267,9 @@ glabel func_80AD830C
 /* 00FBC 80AD86FC 0C00B35B */  jal     Flags_GetCollectible
               
 /* 00FC0 80AD8700 8605001C */  lh      $a1, 0x001C($s0)           ## 0000001C
-/* 00FC4 80AD8704 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 00FC4 80AD8704 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 00FC8 80AD8708 1440000F */  bne     $v0, $zero, .L80AD8748     
-/* 00FCC 80AD870C 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00FCC 80AD870C 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00FD0 80AD8710 846F13D0 */  lh      $t7, 0x13D0($v1)           ## 8015FA30
 /* 00FD4 80AD8714 29E1003D */  slti    $at, $t7, 0x003D           
 /* 00FD8 80AD8718 5020000C */  beql    $at, $zero, .L80AD874C     
@@ -308,8 +308,8 @@ glabel func_80AD830C
 /* 01048 80AD8788 0C00B34E */  jal     Flags_SetTempClear
               
 /* 0104C 80AD878C 24050004 */  addiu   $a1, $zero, 0x0004         ## $a1 = 00000004
-/* 01050 80AD8790 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 01054 80AD8794 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 01050 80AD8790 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 01054 80AD8794 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 01058 80AD8798 847913D0 */  lh      $t9, 0x13D0($v1)           ## 8015FA30
 /* 0105C 80AD879C AC790ED0 */  sw      $t9, 0x0ED0($v1)           ## 8015F530
 .L80AD87A0:

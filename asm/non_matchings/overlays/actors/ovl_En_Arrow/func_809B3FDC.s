@@ -91,8 +91,8 @@ glabel func_809B3FDC
 .L809B4104:
 /* 007E4 809B4104 2401000A */  addiu   $at, $zero, 0x000A         ## $at = 0000000A
 /* 007E8 809B4108 14410013 */  bne     $v0, $at, .L809B4158
-/* 007EC 809B410C 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 007F0 809B4110 8F39FA90 */  lw      $t9, -0x0570($t9)          ## 8015FA90
+/* 007EC 809B410C 3C198016 */  lui     $t9, %hi(gGameInfo)
+/* 007F0 809B4110 8F39FA90 */  lw      $t9, %lo(gGameInfo)($t9)
 /* 007F4 809B4114 2418FFFF */  addiu   $t8, $zero, 0xFFFF         ## $t8 = FFFFFFFF
 /* 007F8 809B4118 24060056 */  addiu   $a2, $zero, 0x0056         ## $a2 = 00000056
 /* 007FC 809B411C A7380D38 */  sh      $t8, 0x0D38($t9)           ## 80160D38

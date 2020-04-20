@@ -350,14 +350,14 @@ glabel L80B4B6FC
 /* 00BE4 80B4B724 2529C5D0 */  addiu   $t1, $t1, %lo(D_80B4C5D0)  ## $t1 = 80B4C5D0
 /* 00BE8 80B4B728 240A0001 */  addiu   $t2, $zero, 0x0001         ## $t2 = 00000001
 /* 00BEC 80B4B72C 46128032 */  c.eq.s  $f16, $f18
-/* 00BF0 80B4B730 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 00BF0 80B4B730 3C018016 */  lui     $at, %hi(gSaveContext+0x1414)
 /* 00BF4 80B4B734 3C0B80B5 */  lui     $t3, %hi(func_80B4B8B4)    ## $t3 = 80B50000
 /* 00BF8 80B4B738 4502000B */  bc1fl   .L80B4B768
 /* 00BFC 80B4B73C 8FAE003C */  lw      $t6, 0x003C($sp)
 /* 00C00 80B4B740 AFB90048 */  sw      $t9, 0x0048($sp)
 /* 00C04 80B4B744 AFA8003C */  sw      $t0, 0x003C($sp)
 /* 00C08 80B4B748 AE291D68 */  sw      $t1, 0x1D68($s1)           ## 00001D68
-/* 00C0C 80B4B74C A02AFA74 */  sb      $t2, -0x058C($at)          ## 8015FA74
+/* 00C0C 80B4B74C A02AFA74 */  sb      $t2, %lo(gSaveContext+0x1414)($at)
 /* 00C10 80B4B750 860C01E2 */  lh      $t4, 0x01E2($s0)           ## 000001E2
 /* 00C14 80B4B754 256BB8B4 */  addiu   $t3, $t3, %lo(func_80B4B8B4) ## $t3 = 80B4B8B4
 /* 00C18 80B4B758 AE0B0190 */  sw      $t3, 0x0190($s0)           ## 00000190

@@ -54,10 +54,10 @@ glabel func_809AA9AC
 /* 0026C 809AAA7C 27A60054 */  addiu   $a2, $sp, 0x0054           ## $a2 = FFFFFE74
 /* 00270 809AAA80 8E2302D0 */  lw      $v1, 0x02D0($s1)           ## 000002D0
 /* 00274 809AAA84 3C19DA38 */  lui     $t9, 0xDA38                ## $t9 = DA380000
-/* 00278 809AAA88 3C088013 */  lui     $t0, 0x8013                ## $t0 = 80130000
+/* 00278 809AAA88 3C088013 */  lui     $t0, %hi(gMtxClear)
 /* 0027C 809AAA8C 24780008 */  addiu   $t8, $v1, 0x0008           ## $t8 = 00000008
 /* 00280 809AAA90 AE3802D0 */  sw      $t8, 0x02D0($s1)           ## 000002D0
-/* 00284 809AAA94 2508DB20 */  addiu   $t0, $t0, 0xDB20           ## $t0 = 8012DB20
+/* 00284 809AAA94 2508DB20 */  addiu   $t0, %lo(gMtxClear)
 /* 00288 809AAA98 37390003 */  ori     $t9, $t9, 0x0003           ## $t9 = DA380003
 /* 0028C 809AAA9C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00290 809AAAA0 27A50054 */  addiu   $a1, $sp, 0x0054           ## $a1 = FFFFFE74

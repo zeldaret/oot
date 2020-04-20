@@ -13,8 +13,8 @@ glabel BgSpot07Taki_Init
 /* 00028 808AFC58 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 0002C 808AFC5C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00030 808AFC60 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00034 808AFC64 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 00030 808AFC60 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 00034 808AFC64 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 00038 808AFC68 15C00013 */  bne     $t6, $zero, .L808AFCB8     
 /* 0003C 808AFC6C 00000000 */  nop
 /* 00040 808AFC70 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C

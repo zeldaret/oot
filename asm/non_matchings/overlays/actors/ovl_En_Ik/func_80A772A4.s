@@ -2,11 +2,11 @@ glabel func_80A772A4
 /* 02F94 80A772A4 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 02F98 80A772A8 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 02F9C 80A772AC 8FA50020 */  lw      $a1, 0x0020($sp)           
-/* 02FA0 80A772B0 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 02FA4 80A772B4 3C0E8013 */  lui     $t6, 0x8013                ## $t6 = 80130000
-/* 02FA8 80A772B8 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
+/* 02FA0 80A772B0 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 02FA4 80A772B4 3C0E8013 */  lui     $t6, %hi(D_801333E8)
+/* 02FA8 80A772B8 24E733E0 */  addiu   $a3, %lo(D_801333E0)
 /* 02FAC 80A772BC AFBF001C */  sw      $ra, 0x001C($sp)           
-/* 02FB0 80A772C0 25CE33E8 */  addiu   $t6, $t6, 0x33E8           ## $t6 = 801333E8
+/* 02FB0 80A772C0 25CE33E8 */  addiu   $t6, %lo(D_801333E8)
 /* 02FB4 80A772C4 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 02FB8 80A772C8 AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 02FBC 80A772CC 2404392B */  addiu   $a0, $zero, 0x392B         ## $a0 = 0000392B

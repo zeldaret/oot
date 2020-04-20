@@ -98,8 +98,8 @@ glabel func_8092CC58
 /* 007D8 8092CDA8 84A58CC4 */  lh      $a1, %lo(D_80938CC4)($a1)
 /* 007DC 8092CDAC 0C0300E1 */  jal     Gameplay_ClearCamera
 /* 007E0 8092CDB0 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 007E4 8092CDB4 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
-/* 007E8 8092CDB8 24A5E660 */  addiu   $a1, $a1, 0xE660           ## $a1 = 8015E660
+/* 007E4 8092CDB4 3C058016 */  lui     $a1, %hi(gSaveContext)
+/* 007E8 8092CDB8 24A5E660 */  addiu   $a1, %lo(gSaveContext)
 /* 007EC 8092CDBC 94AE0EE2 */  lhu     $t6, 0x0EE2($a1)           ## 8015F542
 /* 007F0 8092CDC0 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 007F4 8092CDC4 35CF0080 */  ori     $t7, $t6, 0x0080           ## $t7 = 00000080
@@ -157,10 +157,10 @@ glabel func_8092CC58
 /* 008B8 8092CE88 13000030 */  beq     $t8, $zero, .L8092CF4C
 /* 008BC 8092CE8C 00000000 */  nop
 /* 008C0 8092CE90 82590195 */  lb      $t9, 0x0195($s2)           ## 00000195
-/* 008C4 8092CE94 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
+/* 008C4 8092CE94 3C058016 */  lui     $a1, %hi(gSaveContext)
 /* 008C8 8092CE98 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 008CC 8092CE9C 17200011 */  bne     $t9, $zero, .L8092CEE4
-/* 008D0 8092CEA0 24A5E660 */  addiu   $a1, $a1, 0xE660           ## $a1 = 8015E660
+/* 008D0 8092CEA0 24A5E660 */  addiu   $a1, %lo(gSaveContext)
 /* 008D4 8092CEA4 3C108094 */  lui     $s0, %hi(D_80938CA0)       ## $s0 = 80940000
 /* 008D8 8092CEA8 26108CA0 */  addiu   $s0, $s0, %lo(D_80938CA0)  ## $s0 = 80938CA0
 /* 008DC 8092CEAC 8E0A0000 */  lw      $t2, 0x0000($s0)           ## 80938CA0
@@ -718,8 +718,8 @@ glabel func_8092CC58
 /* 01114 8092D6E4 28C100C7 */  slti    $at, $a2, 0x00C7
 /* 01118 8092D6E8 502000B3 */  beql    $at, $zero, .L8092D9B8
 /* 0111C 8092D6EC 2401000C */  addiu   $at, $zero, 0x000C         ## $at = 0000000C
-/* 01120 8092D6F0 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
-/* 01124 8092D6F4 24A5E660 */  addiu   $a1, $a1, 0xE660           ## $a1 = 8015E660
+/* 01120 8092D6F0 3C058016 */  lui     $a1, %hi(gSaveContext)
+/* 01124 8092D6F4 24A5E660 */  addiu   $a1, %lo(gSaveContext)
 /* 01128 8092D6F8 94A30EE2 */  lhu     $v1, 0x0EE2($a1)           ## 8015F542
 /* 0112C 8092D6FC 240F00C6 */  addiu   $t7, $zero, 0x00C6         ## $t7 = 000000C6
 /* 01130 8092D700 01E61023 */  subu    $v0, $t7, $a2
@@ -863,10 +863,10 @@ glabel func_8092CC58
 /* 01348 8092D918 00025900 */  sll     $t3, $v0,  4
 /* 0134C 8092D91C 000B6702 */  srl     $t4, $t3, 28
 /* 01350 8092D920 000C6880 */  sll     $t5, $t4,  2
-/* 01354 8092D924 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 01354 8092D924 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 01358 8092D928 01CD7021 */  addu    $t6, $t6, $t5
 /* 0135C 8092D92C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 01360 8092D930 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 01360 8092D930 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 01364 8092D934 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 01368 8092D938 00417824 */  and     $t7, $v0, $at
 /* 0136C 8092D93C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
