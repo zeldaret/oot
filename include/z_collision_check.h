@@ -9,16 +9,6 @@
 // From z64.h
 struct Actor;
 
-typedef struct {
-    Vec3s pos;
-    s16 radius;
-} PosRadius;
-
-typedef struct {
-    Vec3f a;
-    Vec3f b;
-} Line;
-
 typedef enum
 {
     COLTYPE_JNTSPH = 0,
@@ -116,15 +106,15 @@ typedef struct
 } ColliderBodyInit; // size = 0x18
 
 typedef struct {
-    /* 0x00 */ PosRadius unk_00; //model space displacement
-    /* 0x08 */ PosRadius posr;
-    /* 0x10 */ float scale; //factor to transform model space to world space
-    /* 0x14 */ u8 unk_14;
+    /* 0x00 */ Sphere16 modelSphere; //model space sphere
+    /* 0x08 */ Sphere16 worldSphere; // world space sphere
+    /* 0x10 */ float scale; //world space sphere = model * scale * 0.01
+    /* 0x14 */ u8 joint;
 } ColliderJntSphItemDim; //size = 0x18
 
 typedef struct {
-    u8 unk_00;
-    PosRadius unk_02;
+    u8 joint;
+    Sphere16 modelSphere;
     s16 scale;
 } ColliderJntSphItemDimInit; //size = 0x0C
 
@@ -164,52 +154,38 @@ typedef struct {
 
 typedef struct
 {
-    /* 0x00 */ s16 radius;
-    /* 0x02 */ s16 height; 
-    /* 0x04 */ s16 yShift; 
-    /* 0x06 */ Vec3s position; 
-} ColliderCylinderDim; // size = 0xC
-
-typedef struct
-{
     /* 0x00 */ Collider base;
     /* 0x18 */ ColliderBody body;
-    /* 0x40 */ ColliderCylinderDim dim;
+    /* 0x40 */ Cylinder16 dim;
 } ColliderCylinder; // size = 0x4C
 
 typedef struct
 {
     /* 0x00 */ ColliderInit base;
     /* 0x08 */ ColliderBodyInit body;
-    /* 0x20 */ ColliderCylinderDim dim;
+    /* 0x20 */ Cylinder16 dim;
 } ColliderCylinderInit; // size = 0x2C
 
 typedef struct
 {
     /* 0x00 */ ColliderInit_set3 base;
     /* 0x08 */ ColliderBodyInit body;
-    /* 0x20 */ ColliderCylinderDim dim;
+    /* 0x20 */ Cylinder16 dim;
 } ColliderCylinderInit_set3; // size = 0x2C
 
 typedef struct {
     /* 0x00 */ ColliderInit_Actor base;
     /* 0x08 */ ColliderBodyInit body;
-    /* 0x20 */ ColliderCylinderDim dim;
+    /* 0x20 */ Cylinder16 dim;
 } ColliderCylinderInit_Actor; // size = 0x2C
 
 typedef struct {
-    /* 0x00 */ Vec3f poly[3];
-    /* 0x24 */ Vec3f unitNormal;
-    /* 0x30 */ float normalDist;
-} ColliderTrisItemDim; //size = 0x34
-
-typedef struct {
-    /* 0x00 */ Vec3f poly[3];
+    /* 0x00 */ Vec3f vtx[3];
 } ColliderTrisItemDimInit; //size = 0x24
 
 typedef struct {
     /* 0x00 */ ColliderBody body;
-    /* 0x28 */ ColliderTrisItemDim dim;
+    /* 0x28 */ TriNorm dim;
 } ColliderTrisItem; //size = 0x5C
 
 typedef struct {
@@ -228,7 +204,6 @@ typedef struct {
     /* 0x08 */ s32 count;
     /* 0x0C */ ColliderTrisItemInit* list;
 } ColliderTrisInit;
-
 
 typedef struct {
     /* 0x00 */ ColliderInit_set3 base;
@@ -259,7 +234,6 @@ typedef struct {
     /* 0x30 */ ColliderQuadDimInit dim;
 } ColliderQuadInit; //size 0x60
 
-
 typedef struct {
     /* 0x00 */ ColliderInit_set3 base;
     /* 0x18 */ ColliderBodyInit body;
@@ -268,10 +242,8 @@ typedef struct {
 
 typedef struct
 {
-    Vec3f a;
-    Vec3f b;
+    Linef line;
     u16 unk18;
 } OcLine_s;
-
 
 #endif

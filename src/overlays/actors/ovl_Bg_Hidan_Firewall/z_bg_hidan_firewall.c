@@ -66,7 +66,7 @@ void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
 
-    this->collider.dim.position.y = this->actor.posRot.pos.y;
+    this->collider.dim.pos.y = this->actor.posRot.pos.y;
 
     func_80061ED4(&this->actor.sub_98, NULL, &actor98InitData);
 
@@ -166,8 +166,8 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* 
     }
     sp28 = Math_Sins(this->actor.shape.rot.y);
     temp_ret = Math_Coss(this->actor.shape.rot.y);
-    this->collider.dim.position.x = this->actor.posRot.pos.x + sp30.x * temp_ret + sp30.z * sp28;
-    this->collider.dim.position.z = this->actor.posRot.pos.z - sp30.x * sp28 + sp30.z * temp_ret;
+    this->collider.dim.pos.x = this->actor.posRot.pos.x + sp30.x * temp_ret + sp30.z * sp28;
+    this->collider.dim.pos.z = this->actor.posRot.pos.z - sp30.x * sp28 + sp30.z * temp_ret;
 }
 
 void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx) {

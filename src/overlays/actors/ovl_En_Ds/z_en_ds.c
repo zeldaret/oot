@@ -52,7 +52,7 @@ void EnDs_Init(EnDs* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, skelAnime, &D_06004768, &D_0600039C, &this->actorDrawTable, &this->unk_1B4, 6);
+    SkelAnime_InitSV(globalCtx, skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600039C);
 
     this->actor.sub_98.mass = 0xFF;
@@ -286,6 +286,6 @@ void func_809FDA7C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
 void EnDs_Draw(EnDs* this, GlobalContext* globalCtx) {
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      &func_809FDA38, &func_809FDA7C, this);
 }
