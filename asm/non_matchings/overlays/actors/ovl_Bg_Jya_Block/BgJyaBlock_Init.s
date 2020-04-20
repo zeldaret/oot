@@ -25,8 +25,8 @@ glabel BgJyaBlock_Init
 /* 00050 808941F0 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 00054 808941F4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00058 808941F8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 0005C 808941FC 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 00058 808941F8 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 0005C 808941FC 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 00060 80894200 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 00064 80894204 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011
 /* 00068 80894208 11C00003 */  beq     $t6, $zero, .L80894218     

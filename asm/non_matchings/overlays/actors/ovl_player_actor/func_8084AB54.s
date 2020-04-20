@@ -27,9 +27,9 @@ glabel func_8084AB54
 /* 189A4 8084ABB4 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 189A8 8084ABB8 01D17021 */  addu    $t6, $t6, $s1              
 /* 189AC 8084ABBC 91CE1DE8 */  lbu     $t6, 0x1DE8($t6)           ## 00011DE8
-/* 189B0 8084ABC0 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 189B0 8084ABC0 3C018016 */  lui     $at, %hi(gSaveContext+4)
 /* 189B4 8084ABC4 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 189B8 8084ABC8 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 189BC 8084ABCC 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 189C0 8084ABD0 03E00008 */  jr      $ra                        
-/* 189C4 8084ABD4 AC2EE664 */  sw      $t6, -0x199C($at)          ## 8015E664
+/* 189C4 8084ABD4 AC2EE664 */  sw      $t6, %lo(gSaveContext+4)($at)

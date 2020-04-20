@@ -22,12 +22,12 @@ glabel func_80AD7984
 /* 00294 80AD79D4 31AE001F */  andi    $t6, $t5, 0x001F           ## $t6 = 00000000
 /* 00298 80AD79D8 0C0222CD */  jal     func_80088B34              
 /* 0029C 80AD79DC A60E0196 */  sh      $t6, 0x0196($s0)           ## 00000196
-/* 002A0 80AD79E0 3C0F8012 */  lui     $t7, 0x8012                ## $t7 = 80120000
-/* 002A4 80AD79E4 91EF746E */  lbu     $t7, 0x746E($t7)           ## 8012746E
-/* 002A8 80AD79E8 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 002A0 80AD79E0 3C0F8012 */  lui     $t7, %hi(gItemSlots+0xa)
+/* 002A4 80AD79E4 91EF746E */  lbu     $t7, %lo(gItemSlots+0xa)($t7)
+/* 002A8 80AD79E8 3C188016 */  lui     $t8, %hi(gSaveContext+0x74)
 /* 002AC 80AD79EC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 002B0 80AD79F0 030FC021 */  addu    $t8, $t8, $t7              
-/* 002B4 80AD79F4 9318E6D4 */  lbu     $t8, -0x192C($t8)          ## 8015E6D4
+/* 002B4 80AD79F4 9318E6D4 */  lbu     $t8, %lo(gSaveContext+0x74)($t8)
 /* 002B8 80AD79F8 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
 /* 002BC 80AD79FC 3B1900FF */  xori    $t9, $t8, 0x00FF           ## $t9 = 801600FF
 /* 002C0 80AD7A00 0019C82B */  sltu    $t9, $zero, $t9            

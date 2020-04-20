@@ -46,8 +46,8 @@ glabel func_80BA6260
 /* 00224 80BA6294 0C00B55C */  jal     Actor_Kill
               
 /* 00228 80BA6298 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 0022C 80BA629C 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 00230 80BA62A0 95CEFB40 */  lhu     $t6, -0x04C0($t6)          ## 8011FB40
+/* 0022C 80BA629C 3C0E8012 */  lui     $t6, %hi(D_8011FB40)
+/* 00230 80BA62A0 95CEFB40 */  lhu     $t6, %lo(D_8011FB40)($t6)
 /* 00234 80BA62A4 24010190 */  addiu   $at, $zero, 0x0190         ## $at = 00000190
 /* 00238 80BA62A8 8FA5001C */  lw      $a1, 0x001C($sp)           
 /* 0023C 80BA62AC 11C10020 */  beq     $t6, $at, .L80BA6330       
@@ -55,8 +55,8 @@ glabel func_80BA6260
 /* 00244 80BA62B4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00248 80BA62B8 00A11021 */  addu    $v0, $a1, $at              
 /* 0024C 80BA62BC 844F04E6 */  lh      $t7, 0x04E6($v0)           ## 000004E6
-/* 00250 80BA62C0 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
-/* 00254 80BA62C4 24C6E660 */  addiu   $a2, $a2, 0xE660           ## $a2 = 8015E660
+/* 00250 80BA62C0 3C068016 */  lui     $a2, %hi(gSaveContext)
+/* 00254 80BA62C4 24C6E660 */  addiu   $a2, %lo(gSaveContext)
 /* 00258 80BA62C8 55E0001A */  bnel    $t7, $zero, .L80BA6334     
 /* 0025C 80BA62CC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00260 80BA62D0 94D813FA */  lhu     $t8, 0x13FA($a2)           ## 8015FA5A

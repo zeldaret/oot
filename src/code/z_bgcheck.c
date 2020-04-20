@@ -247,7 +247,6 @@ void func_80038C78(CollisionPoly* arg0, s32 arg1, s32 arg2, Vec3f arg3[]) {
 
 #ifdef NON_MATCHING
 // pretty far off, dunno if it's functionally equivalent
-void func_800CCF98(Vec3f*, Vec3f*, Vec3f*, f32, f32, f32, f32, f32, f32, s32, f32);
 void func_80038D48(CollisionPoly* arg0, Vec3s arg1[], f32 arg2, f32 arg3, s32 arg4, f32 arg5) {
     Math_Vec3s_ToVec3f(&D_8015BC30[0], &arg1[arg0->unk_02 & 0x1FFF]);
     Math_Vec3s_ToVec3f(&D_8015BC30[1], &arg1[arg0->unk_04 & 0x1FFF]);
@@ -261,7 +260,6 @@ void func_80038D48(CollisionPoly*, Vec3s*, f32, f32, s32, f32);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80038D48.s")
 #endif
 
-void func_800CD044(Vec3f*, Vec3f*, Vec3f*, f32, f32, f32, f32, f32, f32, s32, f32);
 void func_80038E78(CollisionPoly* arg0, Vec3s arg1[], f32 arg2, f32 arg3, s32 arg4, f32 arg5) {
     f32 sp44, sp40, sp3C;
 
@@ -274,7 +272,6 @@ void func_80038F20(CollisionPoly* arg0, Vec3s arg1[], f32 arg2, f32 arg3, s32 ar
     func_80038D48(arg0, arg1, arg2, arg3, arg4, 1.0f);
 }
 
-void func_800CD6B0(Vec3f*, Vec3f*, Vec3f*, f32, f32, f32, f32, f32, f32, s32);
 void func_80038F60(CollisionPoly* arg0, Vec3s arg1[], f32 arg2, f32 arg3, s32 arg4) {
     f32 sp3C, sp38, sp34;
 
@@ -283,7 +280,6 @@ void func_80038F60(CollisionPoly* arg0, Vec3s arg1[], f32 arg2, f32 arg3, s32 ar
     func_800CD6B0(&D_8015BC80[0], &D_8015BC80[1], &D_8015BC80[2], sp3C, sp38, sp34, arg0->dist, arg2, arg3, arg4);
 }
 
-void func_800CDD60(Vec3f*, Vec3f*, Vec3f*, f32, f32, f32, f32, f32, f32, s32);
 void func_80039000(CollisionPoly* arg0, Vec3s arg1[], f32 arg2, f32 arg3, s32 arg4) {
     f32 sp3C, sp38, sp34;
 

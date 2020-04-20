@@ -19,8 +19,8 @@ glabel func_8081FABC
 /* 0C2DC 8081FAFC 00811021 */  addu    $v0, $a0, $at              
 .L8081FB00:
 /* 0C2E0 8081FB00 84430246 */  lh      $v1, 0x0246($v0)           ## 00010246
-/* 0C2E4 8081FB04 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 0C2E8 8081FB08 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 0C2E4 8081FB04 3C078016 */  lui     $a3, %hi(gSaveContext)
+/* 0C2E8 8081FB08 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 0C2EC 8081FB0C 00E37021 */  addu    $t6, $a3, $v1              
 /* 0C2F0 8081FB10 91CF0074 */  lbu     $t7, 0x0074($t6)           ## 00000074
 /* 0C2F4 8081FB14 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF

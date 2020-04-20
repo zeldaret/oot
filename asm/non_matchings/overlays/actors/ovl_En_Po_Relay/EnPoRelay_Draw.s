@@ -29,7 +29,7 @@ glabel EnPoRelay_Draw
 /* 0143C 80AD8B7C 37390020 */  ori     $t9, $t9, 0x0020           ## $t9 = DB060020
 /* 01440 80AD8B80 8CA302C0 */  lw      $v1, 0x02C0($a1)           ## 000002C0
 /* 01444 80AD8B84 3C0480AE */  lui     $a0, %hi(D_80AD8D54)       ## $a0 = 80AE0000
-/* 01448 80AD8B88 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 01448 80AD8B88 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 0144C 80AD8B8C 24780008 */  addiu   $t8, $v1, 0x0008           ## $t8 = 00000008
 /* 01450 80AD8B90 ACB802C0 */  sw      $t8, 0x02C0($a1)           ## 000002C0
 /* 01454 80AD8B94 AC790000 */  sw      $t9, 0x0000($v1)           ## 00000000
@@ -45,7 +45,7 @@ glabel EnPoRelay_Draw
 /* 0147C 80AD8BBC 000B6702 */  srl     $t4, $t3, 28
 /* 01480 80AD8BC0 000C6880 */  sll     $t5, $t4,  2
 /* 01484 80AD8BC4 01CD7021 */  addu    $t6, $t6, $t5
-/* 01488 80AD8BC8 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 01488 80AD8BC8 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 0148C 80AD8BCC 00815024 */  and     $t2, $a0, $at
 /* 01490 80AD8BD0 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 01494 80AD8BD4 014E7821 */  addu    $t7, $t2, $t6

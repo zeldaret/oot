@@ -36,8 +36,8 @@ glabel BgTreemouth_Init
 /* 0007C 808BC57C 0C00B56E */  jal     Actor_SetHeight
               
 /* 00080 808BC580 3C054248 */  lui     $a1, 0x4248                ## $a1 = 42480000
-/* 00084 808BC584 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00088 808BC588 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00084 808BC584 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00088 808BC588 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 0008C 808BC58C 8C621360 */  lw      $v0, 0x1360($v1)           ## 8015F9C0
 /* 00090 808BC590 28410004 */  slti    $at, $v0, 0x0004           
 /* 00094 808BC594 5020000B */  beql    $at, $zero, .L808BC5C4     

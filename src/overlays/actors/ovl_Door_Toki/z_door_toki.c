@@ -46,7 +46,7 @@ void DoorToki_Destroy(DoorToki* this, GlobalContext* globalCtx) {
 }
 
 void DoorToki_Update(DoorToki* this, GlobalContext* globalCtx) {
-    if (gSaveContext.event_chk_inf[4] & 0x800) {
+    if (gSaveContext.eventChkInf[4] & 0x800) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
     } else {
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);

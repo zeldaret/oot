@@ -11,8 +11,8 @@ glabel func_80A45DA4
 .L80A45DC8:
 /* 03098 80A45DC8 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
 /* 0309C 80A45DCC A08E01EA */  sb      $t6, 0x01EA($a0)           ## 000001EA
-/* 030A0 80A45DD0 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 030A4 80A45DD4 95EFF57A */  lhu     $t7, -0x0A86($t7)          ## 8015F57A
+/* 030A0 80A45DD0 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xf1a)
+/* 030A4 80A45DD4 95EFF57A */  lhu     $t7, %lo(gSaveContext+0xf1a)($t7)
 /* 030A8 80A45DD8 3C0180A5 */  lui     $at, %hi(D_80A48728)       ## $at = 80A50000
 /* 030AC 80A45DDC 31F84000 */  andi    $t8, $t7, 0x4000           ## $t8 = 00000000
 /* 030B0 80A45DE0 13000005 */  beq     $t8, $zero, .L80A45DF8     

@@ -29,7 +29,7 @@ glabel EnGe3_Draw
 /* 00A84 80A350A4 35EF0020 */  ori     $t7, $t7, 0x0020           ## $t7 = DB060020
 /* 00A88 80A350A8 8CA302C0 */  lw      $v1, 0x02C0($a1)           ## 000002C0
 /* 00A8C 80A350AC 3C0480A3 */  lui     $a0, %hi(D_80A351D4)       ## $a0 = 80A30000
-/* 00A90 80A350B0 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
+/* 00A90 80A350B0 3C0C8016 */  lui     $t4, %hi(gSegments)
 /* 00A94 80A350B4 246E0008 */  addiu   $t6, $v1, 0x0008           ## $t6 = 00000008
 /* 00A98 80A350B8 ACAE02C0 */  sw      $t6, 0x02C0($a1)           ## 000002C0
 /* 00A9C 80A350BC AC6F0000 */  sw      $t7, 0x0000($v1)           ## 00000000
@@ -45,7 +45,7 @@ glabel EnGe3_Draw
 /* 00AC4 80A350E4 00095702 */  srl     $t2, $t1, 28
 /* 00AC8 80A350E8 000A5880 */  sll     $t3, $t2,  2
 /* 00ACC 80A350EC 018B6021 */  addu    $t4, $t4, $t3
-/* 00AD0 80A350F0 8D8C6FA8 */  lw      $t4, 0x6FA8($t4)           ## 80166FA8
+/* 00AD0 80A350F0 8D8C6FA8 */  lw      $t4, %lo(gSegments)($t4)
 /* 00AD4 80A350F4 00814024 */  and     $t0, $a0, $at
 /* 00AD8 80A350F8 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00ADC 80A350FC 010C6821 */  addu    $t5, $t0, $t4

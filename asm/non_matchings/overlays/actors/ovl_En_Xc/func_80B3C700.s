@@ -2,10 +2,10 @@ glabel func_80B3C700
 /* 00520 80B3C700 00057100 */  sll     $t6, $a1,  4
 /* 00524 80B3C704 000E7F02 */  srl     $t7, $t6, 28
 /* 00528 80B3C708 000FC080 */  sll     $t8, $t7,  2
-/* 0052C 80B3C70C 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 0052C 80B3C70C 3C198016 */  lui     $t9, %hi(gSegments)
 /* 00530 80B3C710 0338C821 */  addu    $t9, $t9, $t8
 /* 00534 80B3C714 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 00538 80B3C718 8F396FA8 */  lw      $t9, 0x6FA8($t9)           ## 80166FA8
+/* 00538 80B3C718 8F396FA8 */  lw      $t9, %lo(gSegments)($t9)
 /* 0053C 80B3C71C 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00540 80B3C720 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00544 80B3C724 00A14024 */  and     $t0, $a1, $at

@@ -29,8 +29,8 @@ glabel D_808B9244
 
 .text
 glabel func_808B8910
-/* 00000 808B8910 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00004 808B8914 8C63E664 */  lw      $v1, -0x199C($v1)          ## 8015E664
+/* 00000 808B8910 3C038016 */  lui     $v1, %hi(gSaveContext+4)
+/* 00004 808B8914 8C63E664 */  lw      $v1, %lo(gSaveContext+4)($v1)
 /* 00008 808B8918 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0000C 808B891C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00010 808B8920 AFA40020 */  sw      $a0, 0x0020($sp)           

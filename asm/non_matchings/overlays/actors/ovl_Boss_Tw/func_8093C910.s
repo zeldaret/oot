@@ -54,16 +54,16 @@ glabel func_8093C910
 /* 03CB0 8093C980 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 03CB4 8093C984 0C00B7D5 */  jal     func_8002DF54
 /* 03CB8 8093C988 24060039 */  addiu   $a2, $zero, 0x0039         ## $a2 = 00000039
-/* 03CBC 8093C98C 0C03008C */  jal     func_800C0230
+/* 03CBC 8093C98C 0C03008C */  jal     Gameplay_CreateSubCamera
 /* 03CC0 8093C990 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 03CC4 8093C994 A62205FC */  sh      $v0, 0x05FC($s1)           ## 000005FC
 /* 03CC8 8093C998 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 03CCC 8093C99C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 03CD0 8093C9A0 0C0300C5 */  jal     func_800C0314
+/* 03CD0 8093C9A0 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 03CD4 8093C9A4 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 03CD8 8093C9A8 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 03CDC 8093C9AC 862505FC */  lh      $a1, 0x05FC($s1)           ## 000005FC
-/* 03CE0 8093C9B0 0C0300C5 */  jal     func_800C0314
+/* 03CE0 8093C9B0 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 03CE4 8093C9B4 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 03CE8 8093C9B8 3C014448 */  lui     $at, 0x4448                ## $at = 44480000
 /* 03CEC 8093C9BC 44812000 */  mtc1    $at, $f4                   ## $f4 = 800.00
@@ -710,7 +710,7 @@ glabel func_8093C910
 /* 04620 8093D2F0 2638060C */  addiu   $t8, $s1, 0x060C           ## $t8 = 0000060C
 /* 04624 8093D2F4 AFB80048 */  sw      $t8, 0x0048($sp)
 /* 04628 8093D2F8 AFAF004C */  sw      $t7, 0x004C($sp)
-/* 0462C 8093D2FC 0C030129 */  jal     func_800C04A4
+/* 0462C 8093D2FC 0C030129 */  jal     Gameplay_GetCamera
 /* 04630 8093D300 26300600 */  addiu   $s0, $s1, 0x0600           ## $s0 = 00000600
 /* 04634 8093D304 8E080000 */  lw      $t0, 0x0000($s0)           ## 00000600
 /* 04638 8093D308 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000

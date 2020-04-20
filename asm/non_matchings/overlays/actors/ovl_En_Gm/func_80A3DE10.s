@@ -16,7 +16,7 @@ glabel func_80A3DE10
 /* 00768 80A3DE48 00501021 */  addu    $v0, $v0, $s0              
 /* 0076C 80A3DE4C 904204BD */  lbu     $v0, 0x04BD($v0)           ## 000104BD
 /* 00770 80A3DE50 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 00774 80A3DE54 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 00774 80A3DE54 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x34)
 /* 00778 80A3DE58 10400005 */  beq     $v0, $zero, .L80A3DE70     
 /* 0077C 80A3DE5C 00000000 */  nop
 /* 00780 80A3DE60 1041001C */  beq     $v0, $at, .L80A3DED4       
@@ -24,7 +24,7 @@ glabel func_80A3DE10
 /* 00788 80A3DE68 10000021 */  beq     $zero, $zero, .L80A3DEF0   
 /* 0078C 80A3DE6C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80A3DE70:
-/* 00790 80A3DE70 85CEE694 */  lh      $t6, -0x196C($t6)          ## 8015E694
+/* 00790 80A3DE70 85CEE694 */  lh      $t6, %lo(gSaveContext+0x34)($t6)
 /* 00794 80A3DE74 8FA40028 */  lw      $a0, 0x0028($sp)           
 /* 00798 80A3DE78 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0079C 80A3DE7C 29C100C8 */  slti    $at, $t6, 0x00C8           

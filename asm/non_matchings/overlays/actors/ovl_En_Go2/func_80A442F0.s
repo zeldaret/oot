@@ -1,6 +1,6 @@
 glabel func_80A442F0
-/* 015C0 80A442F0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 015C4 80A442F4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 015C0 80A442F0 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 015C4 80A442F4 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 015C8 80A442F8 8C4E0004 */  lw      $t6, 0x0004($v0)           ## 8015E664
 /* 015CC 80A442FC AFA40000 */  sw      $a0, 0x0000($sp)           
 /* 015D0 80A44300 AFA50004 */  sw      $a1, 0x0004($sp)           

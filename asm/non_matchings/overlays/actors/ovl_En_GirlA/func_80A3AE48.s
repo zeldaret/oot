@@ -9,8 +9,8 @@ glabel func_80A3AE48
 /* 00714 80A3AE64 10000011 */  beq     $zero, $zero, .L80A3AEAC   
 /* 00718 80A3AE68 24020003 */  addiu   $v0, $zero, 0x0003         ## $v0 = 00000003
 .L80A3AE6C:
-/* 0071C 80A3AE6C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00720 80A3AE70 85CEE694 */  lh      $t6, -0x196C($t6)          ## 8015E694
+/* 0071C 80A3AE6C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x34)
+/* 00720 80A3AE70 85CEE694 */  lh      $t6, %lo(gSaveContext+0x34)($t6)
 /* 00724 80A3AE74 85F801C8 */  lh      $t8, 0x01C8($t7)           ## 000001C8
 /* 00728 80A3AE78 01D8082A */  slt     $at, $t6, $t8              
 /* 0072C 80A3AE7C 10200003 */  beq     $at, $zero, .L80A3AE8C     

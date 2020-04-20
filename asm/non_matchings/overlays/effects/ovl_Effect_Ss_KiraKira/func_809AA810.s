@@ -8,10 +8,10 @@ glabel func_809AA810
 /* 00018 809AA828 8CEE0004 */  lw      $t6, 0x0004($a3)           ## 00000004
 /* 0001C 809AA82C ACCE0004 */  sw      $t6, 0x0004($a2)           ## 00000004
 /* 00020 809AA830 8CEF0008 */  lw      $t7, 0x0008($a3)           ## 00000008
-/* 00024 809AA834 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 00024 809AA834 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 00028 809AA838 ACCF0008 */  sw      $t7, 0x0008($a2)           ## 00000008
 /* 0002C 809AA83C 8CF9000C */  lw      $t9, 0x000C($a3)           ## 0000000C
-/* 00030 809AA840 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 00030 809AA840 3C0F8016 */  lui     $t7, %hi(gSegments)
 /* 00034 809AA844 ACD9000C */  sw      $t9, 0x000C($a2)           ## 0000000C
 /* 00038 809AA848 8CF80010 */  lw      $t8, 0x0010($a3)           ## 00000010
 /* 0003C 809AA84C ACD80010 */  sw      $t8, 0x0010($a2)           ## 00000010
@@ -38,7 +38,7 @@ glabel func_809AA810
 /* 00090 809AA8A0 A4CB005C */  sh      $t3, 0x005C($a2)           ## 0000005C
 /* 00094 809AA8A4 01EE7821 */  addu    $t7, $t7, $t6              
 /* 00098 809AA8A8 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 0009C 809AA8AC 8DEF6FA8 */  lw      $t7, 0x6FA8($t7)           ## 80166FA8
+/* 0009C 809AA8AC 8DEF6FA8 */  lw      $t7, %lo(gSegments)($t7)
 /* 000A0 809AA8B0 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 000A4 809AA8B4 0041C024 */  and     $t8, $v0, $at              
 /* 000A8 809AA8B8 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
@@ -57,7 +57,7 @@ glabel func_809AA810
 /* 000D8 809AA8E8 000B6702 */  srl     $t4, $t3, 28               
 /* 000DC 809AA8EC 000C6880 */  sll     $t5, $t4,  2               
 /* 000E0 809AA8F0 01CD7021 */  addu    $t6, $t6, $t5              
-/* 000E4 809AA8F4 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 000E4 809AA8F4 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 000E8 809AA8F8 00417824 */  and     $t7, $v0, $at              
 /* 000EC 809AA8FC 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 000F0 809AA900 01CFC021 */  addu    $t8, $t6, $t7              

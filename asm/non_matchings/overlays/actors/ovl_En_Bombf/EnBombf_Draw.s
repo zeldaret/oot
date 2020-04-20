@@ -143,13 +143,13 @@ glabel EnBombf_Draw
 /* 0123C 809C819C 0C271FC9 */  jal     func_809C7F24              
 /* 01240 809C81A0 8CA40000 */  lw      $a0, 0x0000($a1)           ## 00000000
 /* 01244 809C81A4 8FAA0024 */  lw      $t2, 0x0024($sp)           
-/* 01248 809C81A8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 01248 809C81A8 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 0124C 809C81AC 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 01250 809C81B0 000A5900 */  sll     $t3, $t2,  4               
 /* 01254 809C81B4 000B6702 */  srl     $t4, $t3, 28               
 /* 01258 809C81B8 000C6880 */  sll     $t5, $t4,  2               
 /* 0125C 809C81BC 01CD7021 */  addu    $t6, $t6, $t5              
-/* 01260 809C81C0 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 01260 809C81C0 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 01264 809C81C4 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 01268 809C81C8 00414824 */  and     $t1, $v0, $at              
 /* 0126C 809C81CC 8FB9002C */  lw      $t9, 0x002C($sp)           

@@ -69,7 +69,7 @@ glabel func_800C99C4
 /* B40C40 800C9AA0 AE2F0000 */   sw    $t7, ($s1)
 /* B40C44 800C9AA4 27B000D8 */  addiu $s0, $sp, 0xd8
 /* B40C48 800C9AA8 02002025 */  move  $a0, $s0
-/* B40C4C 800C9AAC 0C02A89E */  jal   func_800AA278
+/* B40C4C 800C9AAC 0C02A89E */  jal   View_Init
 /* B40C50 800C9AB0 8FA50224 */   lw    $a1, 0x224($sp)
 /* B40C54 800C9AB4 2409000A */  li    $t1, 10
 /* B40C58 800C9AB8 240A00F0 */  li    $t2, 240
@@ -80,7 +80,7 @@ glabel func_800C99C4
 /* B40C6C 800C9ACC AFA000A4 */  sw    $zero, 0xa4($sp)
 /* B40C70 800C9AD0 AFA000AC */  sw    $zero, 0xac($sp)
 /* B40C74 800C9AD4 02002025 */  move  $a0, $s0
-/* B40C78 800C9AD8 0C02A93F */  jal   func_800AA4FC
+/* B40C78 800C9AD8 0C02A93F */  jal   View_SetViewport
 /* B40C7C 800C9ADC 27A500A4 */   addiu $a1, $sp, 0xa4
 /* B40C80 800C9AE0 8FAC0224 */  lw    $t4, 0x224($sp)
 /* B40C84 800C9AE4 02002025 */  move  $a0, $s0

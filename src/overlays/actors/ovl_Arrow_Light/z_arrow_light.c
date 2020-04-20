@@ -5,6 +5,7 @@
  */
 
 #include "z_arrow_light.h"
+
 #include "../ovl_En_Arrow/z_en_arrow.h"
 
 #define FLAGS 0x02000010
@@ -53,14 +54,14 @@ void ArrowLight_Init(ArrowLight* this, GlobalContext* globalCtx) {
 
 void ArrowLight_Destroy(ArrowLight* this, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
-    // Translates to: ""Disappearance" = Disappearance"
+    // Translates to: "Disappearance"
     LOG_STRING("消滅", "../z_arrow_light.c", 403);
 }
 
 void ArrowLight_Charge(ArrowLight* this, GlobalContext* globalCtx) {
     EnArrow* arrow;
 
-    arrow = this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.attachedA;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -147,7 +148,7 @@ void ArrowLight_Fly(ArrowLight* this, GlobalContext* globalCtx) {
     f32 distanceScaled;
     s32 pad;
 
-    arrow = this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.attachedA;
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);
         return;
@@ -194,7 +195,7 @@ void ArrowLight_Draw(ArrowLight* this, GlobalContext* globalCtx) {
     Gfx* dispRefs[4];
 
     stateFrames = globalCtx->state.frames;
-    arrow = this->actor.attachedA;
+    arrow = (EnArrow*)this->actor.attachedA;
     if (1) {}
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {

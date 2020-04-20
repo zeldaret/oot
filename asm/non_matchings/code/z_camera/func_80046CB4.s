@@ -3,7 +3,7 @@ glabel D_80139E74
     .float 0.001
     
 glabel D_80139E78
-    .float 0.00003051851
+    .float 0.00003051851 # (1.0f / 32767.0f)
     
 glabel D_80139E7C
     .float 0.01

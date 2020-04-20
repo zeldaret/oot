@@ -3,10 +3,10 @@ glabel func_80A1DE24
 /* 00618 80A1DE28 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 0061C 80A1DE2C AFB10018 */  sw      $s1, 0x0018($sp)           
 /* 00620 80A1DE30 AFB00014 */  sw      $s0, 0x0014($sp)           
-/* 00624 80A1DE34 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 00624 80A1DE34 3C198016 */  lui     $t9, %hi(gSaveContext+0xede)
 /* 00628 80A1DE38 848F00B6 */  lh      $t7, 0x00B6($a0)           ## 000000B6
 /* 0062C 80A1DE3C 848E008A */  lh      $t6, 0x008A($a0)           ## 0000008A
-/* 00630 80A1DE40 9739F53E */  lhu     $t9, -0x0AC2($t9)          ## 8015F53E
+/* 00630 80A1DE40 9739F53E */  lhu     $t9, %lo(gSaveContext+0xede)($t9)
 /* 00634 80A1DE44 8CA31C44 */  lw      $v1, 0x1C44($a1)           ## 00001C44
 /* 00638 80A1DE48 3C0180A2 */  lui     $at, %hi(D_80A1E590)       ## $at = 80A20000
 /* 0063C 80A1DE4C 01CFC023 */  subu    $t8, $t6, $t7              

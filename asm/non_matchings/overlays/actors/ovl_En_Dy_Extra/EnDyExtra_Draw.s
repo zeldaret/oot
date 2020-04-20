@@ -18,11 +18,11 @@ glabel EnDyExtra_Draw
 /* 0027C 809FF96C 00077900 */  sll     $t7, $a3,  4               
 /* 00280 809FF970 000FC702 */  srl     $t8, $t7, 28               
 /* 00284 809FF974 0018C880 */  sll     $t9, $t8,  2               
-/* 00288 809FF978 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 00288 809FF978 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 0028C 809FF97C 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00290 809FF980 01595021 */  addu    $t2, $t2, $t9              
 /* 00294 809FF984 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 00298 809FF988 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 80166FA8
+/* 00298 809FF988 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 0029C 809FF98C 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 002A0 809FF990 00E15824 */  and     $t3, $a3, $at              
 /* 002A4 809FF994 AFBF003C */  sw      $ra, 0x003C($sp)           

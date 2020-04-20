@@ -1,9 +1,9 @@
 glabel func_80AA0EFC
 /* 0086C 80AA0EFC 848E01E8 */  lh      $t6, 0x01E8($a0)           ## 000001E8
 /* 00870 80AA0F00 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003
-/* 00874 80AA0F04 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00874 80AA0F04 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 00878 80AA0F08 15C1000C */  bne     $t6, $at, .L80AA0F3C       
-/* 0087C 80AA0F0C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 0087C 80AA0F0C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00880 80AA0F10 3C0F80AA */  lui     $t7, %hi(func_80AA0D88)    ## $t7 = 80AA0000
 /* 00884 80AA0F14 25EF0D88 */  addiu   $t7, $t7, %lo(func_80AA0D88) ## $t7 = 80AA0D88
 /* 00888 80AA0F18 A48001E8 */  sh      $zero, 0x01E8($a0)         ## 000001E8

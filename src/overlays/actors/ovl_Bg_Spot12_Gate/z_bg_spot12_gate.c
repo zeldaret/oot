@@ -113,7 +113,7 @@ void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
     Math_ApproxF(&thisx->velocity.y, 1.6f, 0.03f);
     if (Math_ApproxF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y + 200.0f, thisx->velocity.y)) {
         func_808B3274(this);
-        var = Quake_Add(globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0], 3);
+        var = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 3);
         Quake_SetSpeed(var, -0x3CB0);
         Quake_SetQuakeValues(var, 3, 0, 0, 0);
         Quake_SetCountdown(var, 0xC);

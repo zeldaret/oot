@@ -9,10 +9,10 @@ glabel func_80AA0690
 /* 0001C 80AA06AC 1000002E */  beq     $zero, $zero, .L80AA0768   
 /* 00020 80AA06B0 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000000
 .L80AA06B4:
-/* 00024 80AA06B4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00028 80AA06B8 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
-/* 0002C 80AA06BC 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 00030 80AA06C0 8DCE7154 */  lw      $t6, 0x7154($t6)           ## 80127154
+/* 00024 80AA06B4 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00028 80AA06B8 2463E660 */  addiu   $v1, %lo(gSaveContext)
+/* 0002C 80AA06BC 3C0E8012 */  lui     $t6, %hi(gBitFlags+0x34)
+/* 00030 80AA06C0 8DCE7154 */  lw      $t6, %lo(gBitFlags+0x34)($t6)
 /* 00034 80AA06C4 8C6F00A4 */  lw      $t7, 0x00A4($v1)           ## 8015E704
 /* 00038 80AA06C8 01CFC024 */  and     $t8, $t6, $t7              
 /* 0003C 80AA06CC 53000004 */  beql    $t8, $zero, .L80AA06E0     

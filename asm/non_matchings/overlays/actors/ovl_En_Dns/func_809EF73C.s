@@ -1,8 +1,8 @@
 glabel func_809EF73C
-/* 003EC 809EF73C 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 003F0 809EF740 91CE746A */  lbu     $t6, 0x746A($t6)           ## 8012746A
-/* 003F4 809EF744 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 003F8 809EF748 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 003EC 809EF73C 3C0E8012 */  lui     $t6, %hi(gItemSlots+6)
+/* 003F0 809EF740 91CE746A */  lbu     $t6, %lo(gItemSlots+6)($t6)
+/* 003F4 809EF744 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 003F8 809EF748 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 003FC 809EF74C 006E1021 */  addu    $v0, $v1, $t6              
 /* 00400 809EF750 904F0074 */  lbu     $t7, 0x0074($v0)           ## 00000074
 /* 00404 809EF754 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
@@ -12,17 +12,17 @@ glabel func_809EF73C
 /* 00414 809EF764 10000022 */  beq     $zero, $zero, .L809EF7F0   
 /* 00418 809EF768 24020003 */  addiu   $v0, $zero, 0x0003         ## $v0 = 00000003
 .L809EF76C:
-/* 0041C 809EF76C 3C088012 */  lui     $t0, 0x8012                ## $t0 = 80120000
-/* 00420 809EF770 8D0871C4 */  lw      $t0, 0x71C4($t0)           ## 801271C4
+/* 0041C 809EF76C 3C088012 */  lui     $t0, %hi(gUpgradeMasks+0x14)
+/* 00420 809EF770 8D0871C4 */  lw      $t0, %lo(gUpgradeMasks+0x14)($t0)
 /* 00424 809EF774 8C7900A0 */  lw      $t9, 0x00A0($v1)           ## 8015E700
-/* 00428 809EF778 3C0A8012 */  lui     $t2, 0x8012                ## $t2 = 80120000
-/* 0042C 809EF77C 914A71F9 */  lbu     $t2, 0x71F9($t2)           ## 801271F9
+/* 00428 809EF778 3C0A8012 */  lui     $t2, %hi(gUpgradeShifts+5)
+/* 0042C 809EF77C 914A71F9 */  lbu     $t2, %lo(gUpgradeShifts+5)($t2)
 /* 00430 809EF780 03284824 */  and     $t1, $t9, $t0              
-/* 00434 809EF784 3C0D8012 */  lui     $t5, 0x8012                ## $t5 = 80120000
+/* 00434 809EF784 3C0D8012 */  lui     $t5, %hi(gUpgradeCapacities+0x28)
 /* 00438 809EF788 01495807 */  srav    $t3, $t1, $t2              
 /* 0043C 809EF78C 000B6040 */  sll     $t4, $t3,  1               
 /* 00440 809EF790 01AC6821 */  addu    $t5, $t5, $t4              
-/* 00444 809EF794 95AD7224 */  lhu     $t5, 0x7224($t5)           ## 80127224
+/* 00444 809EF794 95AD7224 */  lhu     $t5, %lo(gUpgradeCapacities+0x28)($t5)
 /* 00448 809EF798 8058008C */  lb      $t8, 0x008C($v0)           ## 0000008F
 /* 0044C 809EF79C 030D082A */  slt     $at, $t8, $t5              
 /* 00450 809EF7A0 54200004 */  bnel    $at, $zero, .L809EF7B4     

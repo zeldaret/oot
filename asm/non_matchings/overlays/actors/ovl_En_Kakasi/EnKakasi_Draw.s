@@ -10,8 +10,8 @@ glabel D_80A8FEBC
 .text
 glabel EnKakasi_Draw
 /* 00BE0 80A8FD50 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
-/* 00BE4 80A8FD54 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00BE8 80A8FD58 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 00BE4 80A8FD54 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 00BE8 80A8FD58 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 00BEC 80A8FD5C AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 00BF0 80A8FD60 AFA40028 */  sw      $a0, 0x0028($sp)
 /* 00BF4 80A8FD64 AFA5002C */  sw      $a1, 0x002C($sp)
@@ -23,8 +23,8 @@ glabel EnKakasi_Draw
 
 /* 00C0C 80A8FD7C 2484FEB8 */  addiu   $a0, $a0, %lo(D_80A8FEB8)  ## $a0 = 80A8FEB8
 /* 00C10 80A8FD80 3C0480A9 */  lui     $a0, %hi(D_80A8FEBC)       ## $a0 = 80A90000
-/* 00C14 80A8FD84 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
-/* 00C18 80A8FD88 90A5F5A0 */  lbu     $a1, -0x0A60($a1)          ## 8015F5A0
+/* 00C14 80A8FD84 3C058016 */  lui     $a1, %hi(gSaveContext+0xf40)
+/* 00C18 80A8FD88 90A5F5A0 */  lbu     $a1, %lo(gSaveContext+0xf40)($a1)
 /* 00C1C 80A8FD8C 0C00084C */  jal     osSyncPrintf
 
 /* 00C20 80A8FD90 2484FEBC */  addiu   $a0, $a0, %lo(D_80A8FEBC)  ## $a0 = 80A8FEBC

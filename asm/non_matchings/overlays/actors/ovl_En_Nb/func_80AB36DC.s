@@ -1,7 +1,7 @@
 glabel func_80AB36DC
 /* 0294C 80AB36DC 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
-/* 02950 80AB36E0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 02954 80AB36E4 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 02950 80AB36E0 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 02954 80AB36E4 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 02958 80AB36E8 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 0295C 80AB36EC AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 02960 80AB36F0 AFA5002C */  sw      $a1, 0x002C($sp)           

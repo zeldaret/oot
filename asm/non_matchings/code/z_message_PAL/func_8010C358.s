@@ -8,7 +8,7 @@ glabel func_8010C358
 /* B83510 8010C370 AFAE001C */  sw    $t6, 0x1c($sp)
 /* B83514 8010C374 AFA00018 */  sw    $zero, 0x18($sp)
 /* B83518 8010C378 AFA00020 */  sw    $zero, 0x20($sp)
-/* B8351C 8010C37C 0C02A93F */  jal   func_800AA4FC
+/* B8351C 8010C37C 0C02A93F */  jal   View_SetViewport
 /* B83520 8010C380 27A50018 */   addiu $a1, $sp, 0x18
 /* B83524 8010C384 0C02ACB1 */  jal   func_800AB2C4
 /* B83528 8010C388 8FA40028 */   lw    $a0, 0x28($sp)

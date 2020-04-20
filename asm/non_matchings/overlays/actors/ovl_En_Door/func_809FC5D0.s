@@ -43,8 +43,8 @@ glabel func_809FC5D0
 /* 0049C 809FC66C 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
 /* 004A0 809FC670 8CA5CECC */  lw      $a1, %lo(D_809FCECC)($a1)
 /* 004A4 809FC674 8FA70040 */  lw      $a3, 0x0040($sp)
-/* 004A8 809FC678 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 004AC 809FC67C 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 004A8 809FC678 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 004AC 809FC67C 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 004B0 809FC680 84EF0196 */  lh      $t7, 0x0196($a3)           ## 00000196
 /* 004B4 809FC684 51E00079 */  beql    $t7, $zero, .L809FC86C
 /* 004B8 809FC688 8FBF0014 */  lw      $ra, 0x0014($sp)
@@ -115,8 +115,8 @@ glabel func_809FC5D0
 /* 005A8 809FC778 5020003C */  beql    $at, $zero, .L809FC86C
 /* 005AC 809FC77C 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 005B0 809FC780 84ED0196 */  lh      $t5, 0x0196($a3)           ## 00000196
-/* 005B4 809FC784 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 005B8 809FC788 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 005B4 809FC784 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 005B8 809FC788 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 005BC 809FC78C 51A0000E */  beql    $t5, $zero, .L809FC7C8
 /* 005C0 809FC790 8FAB0038 */  lw      $t3, 0x0038($sp)
 /* 005C4 809FC794 946E1402 */  lhu     $t6, 0x1402($v1)           ## 8015FA62

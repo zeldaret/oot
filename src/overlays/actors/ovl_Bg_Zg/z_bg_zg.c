@@ -6,6 +6,8 @@
 
 #include "z_bg_zg.h"
 
+#include <vt.h>
+
 #define FLAGS 0x00000010
 
 void BgZg_Init(BgZg* this, GlobalContext* globalCtx);

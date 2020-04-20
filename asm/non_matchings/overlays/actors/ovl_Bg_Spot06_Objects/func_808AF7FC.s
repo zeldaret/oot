@@ -1,6 +1,6 @@
 glabel func_808AF7FC
-/* 0107C 808AF7FC 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 01080 808AF800 95CEF540 */  lhu     $t6, -0x0AC0($t6)          ## 8015F540
+/* 0107C 808AF7FC 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xee0)
+/* 01080 808AF800 95CEF540 */  lhu     $t6, %lo(gSaveContext+0xee0)($t6)
 /* 01084 808AF804 3C18808B */  lui     $t8, %hi(func_808AF824)    ## $t8 = 808B0000
 /* 01088 808AF808 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 0108C 808AF80C 31CF0200 */  andi    $t7, $t6, 0x0200           ## $t7 = 00000000

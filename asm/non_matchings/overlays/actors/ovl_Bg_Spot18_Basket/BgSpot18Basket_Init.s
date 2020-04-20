@@ -51,8 +51,8 @@ glabel BgSpot18Basket_Init
 /* 0027C 808B798C 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 00280 808B7990 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00284 808B7994 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00288 808B7998 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00284 808B7994 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00288 808B7998 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0028C 808B799C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00290 808B79A0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00294 808B79A4 0C00AC78 */  jal     ActorShape_Init

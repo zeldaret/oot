@@ -9,8 +9,8 @@ glabel EnEiyer_Init
 /* 0001C 809FFFBC 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 00020 809FFFC0 24A519C4 */  addiu   $a1, $a1, %lo(D_80A019C4)  ## $a1 = 80A019C4
-/* 00024 809FFFC4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00028 809FFFC8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00024 809FFFC4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00028 809FFFC8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0002C 809FFFCC 262400B4 */  addiu   $a0, $s1, 0x00B4           ## $a0 = 000000B4
 /* 00030 809FFFD0 3C054416 */  lui     $a1, 0x4416                ## $a1 = 44160000
 /* 00034 809FFFD4 0C00AC78 */  jal     ActorShape_Init

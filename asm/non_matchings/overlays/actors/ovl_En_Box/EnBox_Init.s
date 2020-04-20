@@ -1,6 +1,6 @@
 glabel EnBox_Init
-/* 00094 809C8E54 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00098 809C8E58 8C42E664 */  lw      $v0, -0x199C($v0)          ## 8015E664
+/* 00094 809C8E54 3C028016 */  lui     $v0, %hi(gSaveContext+4)
+/* 00098 809C8E58 8C42E664 */  lw      $v0, %lo(gSaveContext+4)($v0)
 /* 0009C 809C8E5C 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 000A0 809C8E60 AFB00024 */  sw      $s0, 0x0024($sp)
 /* 000A4 809C8E64 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000

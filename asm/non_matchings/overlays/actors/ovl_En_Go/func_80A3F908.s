@@ -87,12 +87,12 @@ glabel func_80A3F908
 /* 014DC 80A3FA4C 15410032 */  bne     $t2, $at, .L80A3FB18       
 /* 014E0 80A3FA50 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 014E4 80A3FA54 14410030 */  bne     $v0, $at, .L80A3FB18       
-/* 014E8 80A3FA58 3C0B8012 */  lui     $t3, 0x8012                ## $t3 = 80120000
-/* 014EC 80A3FA5C 916B7491 */  lbu     $t3, 0x7491($t3)           ## 80127491
-/* 014F0 80A3FA60 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 014E8 80A3FA58 3C0B8012 */  lui     $t3, %hi(gItemSlots+0x2d)
+/* 014EC 80A3FA5C 916B7491 */  lbu     $t3, %lo(gItemSlots+0x2d)($t3)
+/* 014F0 80A3FA60 3C028016 */  lui     $v0, %hi(gSaveContext+0x74)
 /* 014F4 80A3FA64 24010033 */  addiu   $at, $zero, 0x0033         ## $at = 00000033
 /* 014F8 80A3FA68 004B1021 */  addu    $v0, $v0, $t3              
-/* 014FC 80A3FA6C 9042E6D4 */  lbu     $v0, -0x192C($v0)          ## 8015E6D4
+/* 014FC 80A3FA6C 9042E6D4 */  lbu     $v0, %lo(gSaveContext+0x74)($v0)
 /* 01500 80A3FA70 5441001B */  bnel    $v0, $at, .L80A3FAE0       
 /* 01504 80A3FA74 24010036 */  addiu   $at, $zero, 0x0036         ## $at = 00000036
 /* 01508 80A3FA78 0C00BCDA */  jal     func_8002F368              
@@ -100,8 +100,8 @@ glabel func_80A3F908
 /* 01510 80A3FA80 2401000B */  addiu   $at, $zero, 0x000B         ## $at = 0000000B
 /* 01514 80A3FA84 1441000C */  bne     $v0, $at, .L80A3FAB8       
 /* 01518 80A3FA88 24183053 */  addiu   $t8, $zero, 0x3053         ## $t8 = 00003053
-/* 0151C 80A3FA8C 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
-/* 01520 80A3FA90 958CF56E */  lhu     $t4, -0x0A92($t4)          ## 8015F56E
+/* 0151C 80A3FA8C 3C0C8016 */  lui     $t4, %hi(gSaveContext+0xf0e)
+/* 01520 80A3FA90 958CF56E */  lhu     $t4, %lo(gSaveContext+0xf0e)($t4)
 /* 01524 80A3FA94 240E3055 */  addiu   $t6, $zero, 0x3055         ## $t6 = 00003055
 /* 01528 80A3FA98 240F3054 */  addiu   $t7, $zero, 0x3054         ## $t7 = 00003054
 /* 0152C 80A3FA9C 318D0010 */  andi    $t5, $t4, 0x0010           ## $t5 = 00000000
@@ -117,12 +117,12 @@ glabel func_80A3F908
 .L80A3FABC:
 /* 0154C 80A3FABC 9619010E */  lhu     $t9, 0x010E($s0)           ## 0000010E
 /* 01550 80A3FAC0 8FA8002C */  lw      $t0, 0x002C($sp)           
-/* 01554 80A3FAC4 3C098012 */  lui     $t1, 0x8012                ## $t1 = 80120000
-/* 01558 80A3FAC8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 01554 80A3FAC4 3C098012 */  lui     $t1, %hi(gItemSlots+0x2d)
+/* 01558 80A3FAC8 3C028016 */  lui     $v0, %hi(gSaveContext+0x74)
 /* 0155C 80A3FACC A519010E */  sh      $t9, 0x010E($t0)           ## 0000010E
-/* 01560 80A3FAD0 91297491 */  lbu     $t1, 0x7491($t1)           ## 80127491
+/* 01560 80A3FAD0 91297491 */  lbu     $t1, %lo(gItemSlots+0x2d)($t1)
 /* 01564 80A3FAD4 00491021 */  addu    $v0, $v0, $t1              
-/* 01568 80A3FAD8 9042E6D4 */  lbu     $v0, -0x192C($v0)          ## 8015E6D4
+/* 01568 80A3FAD8 9042E6D4 */  lbu     $v0, %lo(gSaveContext+0x74)($v0)
 /* 0156C 80A3FADC 24010036 */  addiu   $at, $zero, 0x0036         ## $at = 00000036
 .L80A3FAE0:
 /* 01570 80A3FAE0 5441000E */  bnel    $v0, $at, .L80A3FB1C       

@@ -1,6 +1,6 @@
 glabel func_80AA2AA0
-/* 00000 80AA2AA0 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00004 80AA2AA4 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00000 80AA2AA0 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00004 80AA2AA4 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00008 80AA2AA8 946E0F0E */  lhu     $t6, 0x0F0E($v1)           ## 8015F56E
 /* 0000C 80AA2AAC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00010 80AA2AB0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -68,9 +68,9 @@ glabel func_80AA2AA0
 /* 000EC 80AA2B8C 0C00D4FD */  jal     Actor_FindNearby
               
 /* 000F0 80AA2B90 E7A40010 */  swc1    $f4, 0x0010($sp)           
-/* 000F4 80AA2B94 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 000F4 80AA2B94 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 000F8 80AA2B98 14400003 */  bne     $v0, $zero, .L80AA2BA8     
-/* 000FC 80AA2B9C 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 000FC 80AA2B9C 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00100 80AA2BA0 10000008 */  beq     $zero, $zero, .L80AA2BC4   
 /* 00104 80AA2BA4 24022001 */  addiu   $v0, $zero, 0x2001         ## $v0 = 00002001
 .L80AA2BA8:

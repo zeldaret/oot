@@ -13,8 +13,8 @@ glabel func_80A2FA50
 /* 008FC 80A2FA7C 0C041AF2 */  jal     func_80106BC8              
 /* 00900 80A2FA80 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00904 80A2FA84 10400029 */  beq     $v0, $zero, .L80A2FB2C     
-/* 00908 80A2FA88 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0090C 80A2FA8C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00908 80A2FA88 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0090C 80A2FA8C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00910 80A2FA90 94430F0E */  lhu     $v1, 0x0F0E($v0)           ## 8015F56E
 /* 00914 80A2FA94 306E0040 */  andi    $t6, $v1, 0x0040           ## $t6 = 00000000
 /* 00918 80A2FA98 15C00002 */  bne     $t6, $zero, .L80A2FAA4     
@@ -30,8 +30,8 @@ glabel func_80A2FA50
 /* 0093C 80A2FABC 2407001E */  addiu   $a3, $zero, 0x001E         ## $a3 = 0000001E
 /* 00940 80A2FAC0 0C021CC3 */  jal     Rupees_ChangeBy              
 /* 00944 80A2FAC4 24040032 */  addiu   $a0, $zero, 0x0032         ## $a0 = 00000032
-/* 00948 80A2FAC8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0094C 80A2FACC 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00948 80A2FAC8 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0094C 80A2FACC 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00950 80A2FAD0 8C580EBC */  lw      $t8, 0x0EBC($v0)           ## 8015F51C
 /* 00954 80A2FAD4 240103E8 */  addiu   $at, $zero, 0x03E8         ## $at = 000003E8
 /* 00958 80A2FAD8 240A70F8 */  addiu   $t2, $zero, 0x70F8         ## $t2 = 000070F8

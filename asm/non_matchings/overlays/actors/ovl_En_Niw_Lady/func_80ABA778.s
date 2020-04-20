@@ -16,9 +16,9 @@ glabel func_80ABA778
               
 /* 00B58 80ABA798 AFA50018 */  sw      $a1, 0x0018($sp)           
 /* 00B5C 80ABA79C 8FA50018 */  lw      $a1, 0x0018($sp)           
-/* 00B60 80ABA7A0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00B60 80ABA7A0 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 00B64 80ABA7A4 240E0006 */  addiu   $t6, $zero, 0x0006         ## $t6 = 00000006
-/* 00B68 80ABA7A8 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00B68 80ABA7A8 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00B6C 80ABA7AC A4AE0262 */  sh      $t6, 0x0262($a1)           ## 00000262
 /* 00B70 80ABA7B0 A0A00273 */  sb      $zero, 0x0273($a1)         ## 00000273
 /* 00B74 80ABA7B4 944F0EF4 */  lhu     $t7, 0x0EF4($v0)           ## 8015F554

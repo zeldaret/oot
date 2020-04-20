@@ -70,7 +70,7 @@ glabel func_8087F400
 /* 003B8 8087F4B8 00000000 */  nop
 /* 003BC 8087F4BC 45020011 */  bc1fl   .L8087F504                 
 /* 003C0 8087F4C0 3C063E4C */  lui     $a2, 0x3E4C                ## $a2 = 3E4C0000
-/* 003C4 8087F4C4 0C02FF21 */  jal     func_800BFC84              
+/* 003C4 8087F4C4 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 003C8 8087F4C8 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 003CC 8087F4CC 1440000C */  bne     $v0, $zero, .L8087F500     
 /* 003D0 8087F4D0 24180028 */  addiu   $t8, $zero, 0x0028         ## $t8 = 00000028
