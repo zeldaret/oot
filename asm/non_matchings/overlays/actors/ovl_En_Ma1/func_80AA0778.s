@@ -80,8 +80,8 @@ glabel L80AA07C4
 /* 00158 80AA07E8 03200008 */  jr      $t9                        
 /* 0015C 80AA07EC 00000000 */  nop
 glabel L80AA07F0
-/* 00160 80AA07F0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00164 80AA07F4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00160 80AA07F0 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00164 80AA07F4 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00168 80AA07F8 94480F08 */  lhu     $t0, 0x0F08($v0)           ## 8015F568
 /* 0016C 80AA07FC 944A0ED6 */  lhu     $t2, 0x0ED6($v0)           ## 8015F536
 /* 00170 80AA0800 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
@@ -91,24 +91,24 @@ glabel L80AA07F0
 /* 00180 80AA0810 10000027 */  beq     $zero, $zero, .L80AA08B0   
 /* 00184 80AA0814 A44B0ED6 */  sh      $t3, 0x0ED6($v0)           ## 8015F536
 glabel L80AA0818
-/* 00188 80AA0818 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0018C 80AA081C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00188 80AA0818 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0018C 80AA081C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00190 80AA0820 944C0ED6 */  lhu     $t4, 0x0ED6($v0)           ## 8015F536
 /* 00194 80AA0824 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 00198 80AA0828 358D0020 */  ori     $t5, $t4, 0x0020           ## $t5 = 00000020
 /* 0019C 80AA082C 10000020 */  beq     $zero, $zero, .L80AA08B0   
 /* 001A0 80AA0830 A44D0ED6 */  sh      $t5, 0x0ED6($v0)           ## 8015F536
 glabel L80AA0834
-/* 001A4 80AA0834 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 001A8 80AA0838 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 001A4 80AA0834 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 001A8 80AA0838 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 001AC 80AA083C 944E0F08 */  lhu     $t6, 0x0F08($v0)           ## 8015F568
 /* 001B0 80AA0840 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 001B4 80AA0844 35CF0020 */  ori     $t7, $t6, 0x0020           ## $t7 = 00000020
 /* 001B8 80AA0848 10000019 */  beq     $zero, $zero, .L80AA08B0   
 /* 001BC 80AA084C A44F0F08 */  sh      $t7, 0x0F08($v0)           ## 8015F568
 glabel L80AA0850
-/* 001C0 80AA0850 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 001C4 80AA0854 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 001C0 80AA0850 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 001C4 80AA0854 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 001C8 80AA0858 94580ED6 */  lhu     $t8, 0x0ED6($v0)           ## 8015F536
 /* 001CC 80AA085C 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 001D0 80AA0860 37190040 */  ori     $t9, $t8, 0x0040           ## $t9 = 00000040

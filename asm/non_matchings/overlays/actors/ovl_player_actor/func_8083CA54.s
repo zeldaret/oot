@@ -3,12 +3,12 @@ glabel func_8083CA54
 /* 0A848 8083CA58 44810000 */  mtc1    $at, $f0                   ## $f0 = 2.00
 /* 0A84C 8083CA5C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0A850 8083CA60 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 0A854 8083CA64 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 0A854 8083CA64 3C018016 */  lui     $at, %hi(gSaveContext+0x13bc)
 /* 0A858 8083CA68 E4A00838 */  swc1    $f0, 0x0838($a1)           ## 00000838
 /* 0A85C 8083CA6C AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 0A860 8083CA70 3C0642F0 */  lui     $a2, 0x42F0                ## $a2 = 42F00000
 /* 0A864 8083CA74 0C20F244 */  jal     func_8083C910              
-/* 0A868 8083CA78 E420FA1C */  swc1    $f0, -0x05E4($at)          ## 8015FA1C
+/* 0A868 8083CA78 E420FA1C */  swc1    $f0, %lo(gSaveContext+0x13bc)($at)
 /* 0A86C 8083CA7C 10400003 */  beq     $v0, $zero, .L8083CA8C     
 /* 0A870 8083CA80 8FA5001C */  lw      $a1, 0x001C($sp)           
 /* 0A874 8083CA84 240EFFF1 */  addiu   $t6, $zero, 0xFFF1         ## $t6 = FFFFFFF1

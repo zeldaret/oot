@@ -21,11 +21,11 @@ glabel BgSpot00Hanebasi_Update
 /* 0085C 808A9FDC 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00860 808A9FE0 860F00A4 */  lh      $t7, 0x00A4($s0)           ## 000000A4
 /* 00864 808A9FE4 24010051 */  addiu   $at, $zero, 0x0051         ## $at = 00000051
-/* 00868 808A9FE8 3C038012 */  lui     $v1, 0x8012                ## $v1 = 80120000
+/* 00868 808A9FE8 3C038012 */  lui     $v1, %hi(gBitFlags)
 /* 0086C 808A9FEC 15E10066 */  bne     $t7, $at, .L808AA188       
-/* 00870 808A9FF0 24637120 */  addiu   $v1, $v1, 0x7120           ## $v1 = 80127120
-/* 00874 808A9FF4 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 00878 808A9FF8 2508E660 */  addiu   $t0, $t0, 0xE660           ## $t0 = 8015E660
+/* 00870 808A9FF0 24637120 */  addiu   $v1, %lo(gBitFlags)
+/* 00874 808A9FF4 3C088016 */  lui     $t0, %hi(gSaveContext)
+/* 00878 808A9FF8 2508E660 */  addiu   $t0, %lo(gSaveContext)
 /* 0087C 808A9FFC 8D0200A4 */  lw      $v0, 0x00A4($t0)           ## 8015E704
 /* 00880 808AA000 8C780048 */  lw      $t8, 0x0048($v1)           ## 80127168
 /* 00884 808AA004 03024824 */  and     $t1, $t8, $v0              
@@ -78,8 +78,8 @@ glabel BgSpot00Hanebasi_Update
 /* 00940 808AA0C0 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00944 808AA0C4 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 00948 808AA0C8 AFA70030 */  sw      $a3, 0x0030($sp)           
-/* 0094C 808AA0CC 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 00950 808AA0D0 2508E660 */  addiu   $t0, $t0, 0xE660           ## $t0 = 8015E660
+/* 0094C 808AA0CC 3C088016 */  lui     $t0, %hi(gSaveContext)
+/* 00950 808AA0D0 2508E660 */  addiu   $t0, %lo(gSaveContext)
 /* 00954 808AA0D4 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00958 808AA0D8 14400021 */  bne     $v0, $zero, .L808AA160     
 /* 0095C 808AA0DC 8FA70030 */  lw      $a3, 0x0030($sp)           
@@ -102,9 +102,9 @@ glabel BgSpot00Hanebasi_Update
 /* 0099C 808AA11C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 009A0 808AA120 00300821 */  addu    $at, $at, $s0              
 /* 009A4 808AA124 240B00CD */  addiu   $t3, $zero, 0x00CD         ## $t3 = 000000CD
-/* 009A8 808AA128 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
+/* 009A8 808AA128 3C088016 */  lui     $t0, %hi(gSaveContext)
 /* 009AC 808AA12C A42B1E1A */  sh      $t3, 0x1E1A($at)           ## 00011E1A
-/* 009B0 808AA130 2508E660 */  addiu   $t0, $t0, 0xE660           ## $t0 = 8015E660
+/* 009B0 808AA130 2508E660 */  addiu   $t0, %lo(gSaveContext)
 /* 009B4 808AA134 340CFFF1 */  ori     $t4, $zero, 0xFFF1         ## $t4 = 0000FFF1
 /* 009B8 808AA138 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 009BC 808AA13C A50C1412 */  sh      $t4, 0x1412($t0)           ## 8015FA72
@@ -129,13 +129,13 @@ glabel BgSpot00Hanebasi_Update
 /* 00A00 808AA180 00300821 */  addu    $at, $at, $s0              
 /* 00A04 808AA184 A02E0B01 */  sb      $t6, 0x0B01($at)           ## 00010B01
 .L808AA188:
-/* 00A08 808AA188 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 00A0C 808AA18C 2508E660 */  addiu   $t0, $t0, 0xE660           ## $t0 = 8015E660
+/* 00A08 808AA188 3C088016 */  lui     $t0, %hi(gSaveContext)
+/* 00A0C 808AA18C 2508E660 */  addiu   $t0, %lo(gSaveContext)
 /* 00A10 808AA190 8D041360 */  lw      $a0, 0x1360($t0)           ## 8015F9C0
 /* 00A14 808AA194 24060005 */  addiu   $a2, $zero, 0x0005         ## $a2 = 00000005
-/* 00A18 808AA198 3C058012 */  lui     $a1, 0x8012                ## $a1 = 80120000
+/* 00A18 808AA198 3C058012 */  lui     $a1, %hi(D_8011FB40)
 /* 00A1C 808AA19C 14C4003F */  bne     $a2, $a0, .L808AA29C       
-/* 00A20 808AA1A0 24A5FB40 */  addiu   $a1, $a1, 0xFB40           ## $a1 = 8011FB40
+/* 00A20 808AA1A0 24A5FB40 */  addiu   $a1, %lo(D_8011FB40)
 /* 00A24 808AA1A4 94AF0000 */  lhu     $t7, 0x0000($a1)           ## 8011FB40
 /* 00A28 808AA1A8 24010032 */  addiu   $at, $zero, 0x0032         ## $at = 00000032
 /* 00A2C 808AA1AC 55E10033 */  bnel    $t7, $at, .L808AA27C       

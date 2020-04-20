@@ -82,7 +82,7 @@ glabel EnGoroiwa_Init
 /* 01844 80A4D4E4 24C6DEB4 */  addiu   $a2, $a2, %lo(D_80A4DEB4)  ## $a2 = FFFFDEB4
 /* 01848 80A4D4E8 8628001C */  lh      $t0, 0x001C($s1)           ## 0000001C
 /* 0184C 80A4D4EC 3C0580A5 */  lui     $a1, %hi(D_80A4DF10)       ## $a1 = 80A50000
-/* 01850 80A4D4F0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 01850 80A4D4F0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 01854 80A4D4F4 00084A83 */  sra     $t1, $t0, 10               
 /* 01858 80A4D4F8 312A0001 */  andi    $t2, $t1, 0x0001           ## $t2 = 00000000
 /* 0185C 80A4D4FC 000A5880 */  sll     $t3, $t2,  2               
@@ -90,7 +90,7 @@ glabel EnGoroiwa_Init
 /* 01864 80A4D504 3C074116 */  lui     $a3, 0x4116                ## $a3 = 41160000
 /* 01868 80A4D508 34E76666 */  ori     $a3, $a3, 0x6666           ## $a3 = 41166666
 /* 0186C 80A4D50C 8CA5DF10 */  lw      $a1, %lo(D_80A4DF10)($a1)  
-/* 01870 80A4D510 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 01870 80A4D510 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 01874 80A4D514 0C00AC78 */  jal     ActorShape_Init
               
 /* 01878 80A4D518 262400B4 */  addiu   $a0, $s1, 0x00B4           ## $a0 = 000000B4

@@ -22,7 +22,7 @@ glabel func_809EDEDC
 /* 006B8 809EDF28 00471021 */  addu    $v0, $v0, $a3              
 /* 006BC 809EDF2C 904204BD */  lbu     $v0, 0x04BD($v0)           ## 000104BD
 /* 006C0 809EDF30 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 006C4 809EDF34 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 006C4 809EDF34 3C0F8016 */  lui     $t7, %hi(gSaveContext+0x34)
 /* 006C8 809EDF38 10400005 */  beq     $v0, $zero, .L809EDF50     
 /* 006CC 809EDF3C 00000000 */  nop
 /* 006D0 809EDF40 50410017 */  beql    $v0, $at, .L809EDFA0       
@@ -30,7 +30,7 @@ glabel func_809EDEDC
 /* 006D8 809EDF48 1000001C */  beq     $zero, $zero, .L809EDFBC   
 /* 006DC 809EDF4C 00000000 */  nop
 .L809EDF50:
-/* 006E0 809EDF50 85EFE694 */  lh      $t7, -0x196C($t7)          ## 8015E694
+/* 006E0 809EDF50 85EFE694 */  lh      $t7, %lo(gSaveContext+0x34)($t7)
 /* 006E4 809EDF54 29E10014 */  slti    $at, $t7, 0x0014           
 /* 006E8 809EDF58 54200008 */  bnel    $at, $zero, .L809EDF7C     
 /* 006EC 809EDF5C A60002A4 */  sh      $zero, 0x02A4($s0)         ## 000002A4
@@ -60,8 +60,8 @@ glabel func_809EDEDC
 /* 00744 809EDFB4 A60202A8 */  sh      $v0, 0x02A8($s0)           ## 000002A8
 /* 00748 809EDFB8 A202031E */  sb      $v0, 0x031E($s0)           ## 0000031E
 .L809EDFBC:
-/* 0074C 809EDFBC 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 00750 809EDFC0 9529F53A */  lhu     $t1, -0x0AC6($t1)          ## 8015F53A
+/* 0074C 809EDFBC 3C098016 */  lui     $t1, %hi(gSaveContext+0xeda)
+/* 00750 809EDFC0 9529F53A */  lhu     $t1, %lo(gSaveContext+0xeda)($t1)
 /* 00754 809EDFC4 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 00758 809EDFC8 312A0100 */  andi    $t2, $t1, 0x0100           ## $t2 = 00000000
 /* 0075C 809EDFCC 11400007 */  beq     $t2, $zero, .L809EDFEC     

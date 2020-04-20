@@ -5,8 +5,8 @@ glabel func_80A31FE0
 /* 0167C 80A31FEC 3C0B80A3 */  lui     $t3, %hi(func_80A31D88)    ## $t3 = 80A30000
 /* 01680 80A31FF0 256B1D88 */  addiu   $t3, $t3, %lo(func_80A31D88) ## $t3 = 80A31D88
 /* 01684 80A31FF4 8C4E067C */  lw      $t6, 0x067C($v0)           ## 0000067C
-/* 01688 80A31FF8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0168C 80A31FFC 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01688 80A31FF8 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0168C 80A31FFC 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01690 80A32000 000E7A00 */  sll     $t7, $t6,  8               
 /* 01694 80A32004 05E00009 */  bltz    $t7, .L80A3202C            
 /* 01698 80A32008 3C074348 */  lui     $a3, 0x4348                ## $a3 = 43480000

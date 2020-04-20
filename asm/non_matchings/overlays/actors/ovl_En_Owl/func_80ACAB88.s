@@ -18,7 +18,7 @@ glabel func_80ACAB88
 /* 00CA8 80ACABC8 00461021 */  addu    $v0, $v0, $a2              
 /* 00CAC 80ACABCC 904204BD */  lbu     $v0, 0x04BD($v0)           ## 000104BD
 /* 00CB0 80ACABD0 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 00CB4 80ACABD4 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 00CB4 80ACABD4 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xedc)
 /* 00CB8 80ACABD8 10400005 */  beq     $v0, $zero, .L80ACABF0     
 /* 00CBC 80ACABDC 00000000 */  nop
 /* 00CC0 80ACABE0 10410013 */  beq     $v0, $at, .L80ACAC30       
@@ -26,7 +26,7 @@ glabel func_80ACAB88
 /* 00CC8 80ACABE8 10000017 */  beq     $zero, $zero, .L80ACAC48   
 /* 00CCC 80ACABEC 960803FC */  lhu     $t0, 0x03FC($s0)           ## 000003FC
 .L80ACABF0:
-/* 00CD0 80ACABF0 95CEF53C */  lhu     $t6, -0x0AC4($t6)          ## 8015F53C
+/* 00CD0 80ACABF0 95CEF53C */  lhu     $t6, %lo(gSaveContext+0xedc)($t6)
 /* 00CD4 80ACABF4 2405206D */  addiu   $a1, $zero, 0x206D         ## $a1 = 0000206D
 /* 00CD8 80ACABF8 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 00CDC 80ACABFC 31CF0001 */  andi    $t7, $t6, 0x0001           ## $t7 = 00000000

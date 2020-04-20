@@ -16,8 +16,8 @@ glabel EnHorseZelda_Init
 /* 00240 80A6DB10 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00244 80A6DB14 3C01C060 */  lui     $at, 0xC060                ## $at = C0600000
 /* 00248 80A6DB18 44812000 */  mtc1    $at, $f4                   ## $f4 = -3.50
-/* 0024C 80A6DB1C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00250 80A6DB20 24C6B644 */  addiu   $a2, $a2, 0xB644           ## $a2 = 8002B644
+/* 0024C 80A6DB1C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Squiggly)
+/* 00250 80A6DB20 24C6B644 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Squiggly)
 /* 00254 80A6DB24 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00258 80A6DB28 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0025C 80A6DB2C 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000

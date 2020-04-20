@@ -52,8 +52,8 @@ glabel func_80A70E34
 /* 018E8 80A70E98 24190010 */  addiu   $t9, $zero, 0x0010         ## $t9 = 00000010
 /* 018EC 80A70E9C 261802D0 */  addiu   $t8, $s0, 0x02D0           ## $t8 = 000002D0
 /* 018F0 80A70EA0 01014821 */  addu    $t1, $t0, $at
-/* 018F4 80A70EA4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 018F8 80A70EA8 AC296FC0 */  sw      $t1, 0x6FC0($at)           ## 80166FC0
+/* 018F4 80A70EA4 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 018F8 80A70EA8 AC296FC0 */  sw      $t1, %lo(gSegments+0x18)($at)
 /* 018FC 80A70EAC 860A001C */  lh      $t2, 0x001C($s0)           ## 0000001C
 /* 01900 80A70EB0 260F0270 */  addiu   $t7, $s0, 0x0270           ## $t7 = 00000270
 /* 01904 80A70EB4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
@@ -73,8 +73,8 @@ glabel func_80A70E34
 /* 0193C 80A70EEC 0C0291BE */  jal     SkelAnime_InitSV
 /* 01940 80A70EF0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01944 80A70EF4 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 01948 80A70EF8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0194C 80A70EFC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 01948 80A70EF8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0194C 80A70EFC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 01950 80A70F00 44050000 */  mfc1    $a1, $f0
 /* 01954 80A70F04 44070000 */  mfc1    $a3, $f0
 /* 01958 80A70F08 0C00AC78 */  jal     ActorShape_Init
@@ -92,8 +92,8 @@ glabel func_80A70E34
 /* 01984 80A70F34 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 01988 80A70F38 2605019C */  addiu   $a1, $s0, 0x019C           ## $a1 = 0000019C
 /* 0198C 80A70F3C 01616021 */  addu    $t4, $t3, $at
-/* 01990 80A70F40 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 01994 80A70F44 AC2C6FC0 */  sw      $t4, 0x6FC0($at)           ## 80166FC0
+/* 01990 80A70F40 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 01994 80A70F44 AC2C6FC0 */  sw      $t4, %lo(gSegments+0x18)($at)
 /* 01998 80A70F48 0C0170D9 */  jal     ActorCollider_AllocCylinder
 
 /* 0199C 80A70F4C AFA50030 */  sw      $a1, 0x0030($sp)
@@ -125,7 +125,7 @@ glabel func_80A70E34
 /* 01A00 80A70FB0 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 01A04 80A70FB4 8FB8003C */  lw      $t8, 0x003C($sp)
 /* 01A08 80A70FB8 2401001E */  addiu   $at, $zero, 0x001E         ## $at = 0000001E
-/* 01A0C 80A70FBC 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 01A0C 80A70FBC 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xee0)
 /* 01A10 80A70FC0 870200A4 */  lh      $v0, 0x00A4($t8)           ## 000000A4
 /* 01A14 80A70FC4 10410003 */  beq     $v0, $at, .L80A70FD4
 /* 01A18 80A70FC8 24010020 */  addiu   $at, $zero, 0x0020         ## $at = 00000020
@@ -144,7 +144,7 @@ glabel func_80A70E34
 .L80A70FF8:
 /* 01A48 80A70FF8 14410003 */  bne     $v0, $at, .L80A71008
 /* 01A4C 80A70FFC 00000000 */  nop
-/* 01A50 80A71000 954AF540 */  lhu     $t2, -0x0AC0($t2)          ## 8015F540
+/* 01A50 80A71000 954AF540 */  lhu     $t2, %lo(gSaveContext+0xee0)($t2)
 /* 01A54 80A71004 A60A0330 */  sh      $t2, 0x0330($s0)           ## 00000330
 .L80A71008:
 /* 01A58 80A71008 0C29C1A6 */  jal     func_80A70698

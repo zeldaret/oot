@@ -87,10 +87,10 @@ glabel func_80A5EE80
 /* 03CBC 80A5EFAC 00000000 */  nop
 /* 03CC0 80A5EFB0 4500001F */  bc1f    .L80A5F030                 
 .L80A5EFB4:
-/* 03CC4 80A5EFB4 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 03CC8 80A5EFB8 3C198013 */  lui     $t9, 0x8013                ## $t9 = 80130000
-/* 03CCC 80A5EFBC 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 03CD0 80A5EFC0 273933E8 */  addiu   $t9, $t9, 0x33E8           ## $t9 = 801333E8
+/* 03CC4 80A5EFB4 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 03CC8 80A5EFB8 3C198013 */  lui     $t9, %hi(D_801333E8)
+/* 03CCC 80A5EFBC 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 03CD0 80A5EFC0 273933E8 */  addiu   $t9, %lo(D_801333E8)
 /* 03CD4 80A5EFC4 AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 03CD8 80A5EFC8 AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 03CDC 80A5EFCC 24042819 */  addiu   $a0, $zero, 0x2819         ## $a0 = 00002819

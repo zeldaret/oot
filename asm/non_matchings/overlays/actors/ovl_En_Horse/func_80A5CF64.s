@@ -28,14 +28,14 @@ glabel func_80A5CF64
 /* 01CD8 80A5CFC8 C60801C4 */  lwc1    $f8, 0x01C4($s0)           ## 000001C4
 /* 01CDC 80A5CFCC 8E0301F0 */  lw      $v1, 0x01F0($s0)           ## 000001F0
 .L80A5CFD0:
-/* 01CE0 80A5CFD0 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 01CE4 80A5CFD4 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
+/* 01CE0 80A5CFD0 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 01CE4 80A5CFD4 24E733E0 */  addiu   $a3, %lo(D_801333E0)
 /* 01CE8 80A5CFD8 306F1000 */  andi    $t7, $v1, 0x1000           ## $t7 = 00000000
 /* 01CEC 80A5CFDC 15E0000B */  bne     $t7, $zero, .L80A5D00C
 /* 01CF0 80A5CFE0 34781000 */  ori     $t8, $v1, 0x1000           ## $t8 = 00001000
-/* 01CF4 80A5CFE4 3C198013 */  lui     $t9, 0x8013                ## $t9 = 80130000
+/* 01CF4 80A5CFE4 3C198013 */  lui     $t9, %hi(D_801333E8)
 /* 01CF8 80A5CFE8 AE1801F0 */  sw      $t8, 0x01F0($s0)           ## 000001F0
-/* 01CFC 80A5CFEC 273933E8 */  addiu   $t9, $t9, 0x33E8           ## $t9 = 801333E8
+/* 01CFC 80A5CFEC 273933E8 */  addiu   $t9, %lo(D_801333E8)
 /* 01D00 80A5CFF0 AFB90014 */  sw      $t9, 0x0014($sp)
 /* 01D04 80A5CFF4 AFA70010 */  sw      $a3, 0x0010($sp)
 /* 01D08 80A5CFF8 2404282C */  addiu   $a0, $zero, 0x282C         ## $a0 = 0000282C

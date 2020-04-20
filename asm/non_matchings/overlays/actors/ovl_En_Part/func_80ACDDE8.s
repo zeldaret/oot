@@ -264,9 +264,9 @@ glabel L80ACE0AC
 /* 00310 80ACE0E0 3C0180AD */  lui     $at, %hi(D_80ACF2A4)       ## $at = 80AD0000
 /* 00314 80ACE0E4 46029182 */  mul.s   $f6, $f18, $f2             
 /* 00318 80ACE0E8 E6000060 */  swc1    $f0, 0x0060($s0)           ## 00000060
-/* 0031C 80ACE0EC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 0031C 80ACE0EC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00320 80ACE0F0 44050000 */  mfc1    $a1, $f0                   
-/* 00324 80ACE0F4 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00324 80ACE0F4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00328 80ACE0F8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0032C 80ACE0FC 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
 /* 00330 80ACE100 E6060068 */  swc1    $f6, 0x0068($s0)           ## 00000068

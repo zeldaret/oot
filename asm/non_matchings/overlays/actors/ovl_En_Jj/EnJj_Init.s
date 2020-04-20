@@ -52,8 +52,8 @@ glabel EnJj_Init
 /* 000C4 80A878C4 A200030F */  sb      $zero, 0x030F($s0)         ## 0000030F
 /* 000C8 80A878C8 A2000310 */  sb      $zero, 0x0310($s0)         ## 00000310
 /* 000CC 80A878CC A2000311 */  sb      $zero, 0x0311($s0)         ## 00000311
-/* 000D0 80A878D0 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 000D4 80A878D4 9739F53A */  lhu     $t9, -0x0AC6($t9)          ## 8015F53A
+/* 000D0 80A878D0 3C198016 */  lui     $t9, %hi(gSaveContext+0xeda)
+/* 000D4 80A878D4 9739F53A */  lhu     $t9, %lo(gSaveContext+0xeda)($t9)
 /* 000D8 80A878D8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 000DC 80A878DC 3C0580A8 */  lui     $a1, %hi(func_80A87C30)    ## $a1 = 80A80000
 /* 000E0 80A878E0 33280400 */  andi    $t0, $t9, 0x0400           ## $t0 = 00000000

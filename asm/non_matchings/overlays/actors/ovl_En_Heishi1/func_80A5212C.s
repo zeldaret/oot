@@ -23,8 +23,8 @@ glabel func_80A5212C
 /* 00EAC 80A5217C 0C041B33 */  jal     func_80106CCC              
 /* 00EB0 80A52180 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00EB4 80A52184 8FA40020 */  lw      $a0, 0x0020($sp)           
-/* 00EB8 80A52188 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00EBC 80A5218C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00EB8 80A52188 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00EBC 80A5218C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00EC0 80A52190 84980268 */  lh      $t8, 0x0268($a0)           ## 00000268
 /* 00EC4 80A52194 2403002E */  addiu   $v1, $zero, 0x002E         ## $v1 = 0000002E
 /* 00EC8 80A52198 240904FA */  addiu   $t1, $zero, 0x04FA         ## $t1 = 000004FA

@@ -29,7 +29,7 @@ glabel EnTakaraMan_Draw
 /* 00794 80B17CF4 37390020 */  ori     $t9, $t9, 0x0020           ## $t9 = DB060020
 /* 00798 80B17CF8 8CA302C0 */  lw      $v1, 0x02C0($a1)           ## 000002C0
 /* 0079C 80B17CFC 3C0480B1 */  lui     $a0, %hi(D_80B17DD4)       ## $a0 = 80B10000
-/* 007A0 80B17D00 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 007A0 80B17D00 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 007A4 80B17D04 24780008 */  addiu   $t8, $v1, 0x0008           ## $t8 = 00000008
 /* 007A8 80B17D08 ACB802C0 */  sw      $t8, 0x02C0($a1)           ## 000002C0
 /* 007AC 80B17D0C AC790000 */  sw      $t9, 0x0000($v1)           ## 00000000
@@ -45,7 +45,7 @@ glabel EnTakaraMan_Draw
 /* 007D4 80B17D34 000B6702 */  srl     $t4, $t3, 28
 /* 007D8 80B17D38 000C6880 */  sll     $t5, $t4,  2
 /* 007DC 80B17D3C 01CD7021 */  addu    $t6, $t6, $t5
-/* 007E0 80B17D40 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 007E0 80B17D40 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 007E4 80B17D44 00815024 */  and     $t2, $a0, $at
 /* 007E8 80B17D48 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 007EC 80B17D4C 014E7821 */  addu    $t7, $t2, $t6

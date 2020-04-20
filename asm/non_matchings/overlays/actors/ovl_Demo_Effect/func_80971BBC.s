@@ -49,8 +49,8 @@ glabel func_80971BBC
 /* 00D04 80971C54 0C00B58B */  jal     Actor_SetScale
               
 /* 00D08 80971C58 34A5CCCD */  ori     $a1, $a1, 0xCCCD           ## $a1 = 3E4CCCCD
-/* 00D0C 80971C5C 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 00D10 80971C60 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 00D0C 80971C5C 3C078016 */  lui     $a3, %hi(gSaveContext)
+/* 00D10 80971C60 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 00D14 80971C64 8CEE0000 */  lw      $t6, 0x0000($a3)           ## 8015E660
 /* 00D18 80971C68 24030053 */  addiu   $v1, $zero, 0x0053         ## $v1 = 00000053
 /* 00D1C 80971C6C 546E001B */  bnel    $v1, $t6, .L80971CDC       
@@ -72,15 +72,15 @@ glabel func_80971BBC
 .L80971CAC:
 /* 00D5C 80971CAC 0C25C68A */  jal     func_80971A28              
 /* 00D60 80971CB0 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 00D64 80971CB4 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 00D68 80971CB8 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 00D64 80971CB4 3C078016 */  lui     $a3, %hi(gSaveContext)
+/* 00D68 80971CB8 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 00D6C 80971CBC 10000006 */  beq     $zero, $zero, .L80971CD8   
 /* 00D70 80971CC0 24030053 */  addiu   $v1, $zero, 0x0053         ## $v1 = 00000053
 .L80971CC4:
 /* 00D74 80971CC4 0C25C68A */  jal     func_80971A28              
 /* 00D78 80971CC8 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 00D7C 80971CCC 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 00D80 80971CD0 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 00D7C 80971CCC 3C078016 */  lui     $a3, %hi(gSaveContext)
+/* 00D80 80971CD0 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 00D84 80971CD4 24030053 */  addiu   $v1, $zero, 0x0053         ## $v1 = 00000053
 .L80971CD8:
 /* 00D88 80971CD8 8609018C */  lh      $t1, 0x018C($s0)           ## 0000018C

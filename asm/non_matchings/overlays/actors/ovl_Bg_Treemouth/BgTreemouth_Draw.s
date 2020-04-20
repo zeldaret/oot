@@ -33,8 +33,8 @@ glabel BgTreemouth_Draw
 /* 00750 808BCC50 8FAF004C */  lw      $t7, 0x004C($sp)           
 /* 00754 808BCC54 0C024F46 */  jal     func_80093D18              
 /* 00758 808BCC58 8DE40000 */  lw      $a0, 0x0000($t7)           ## 00000000
-/* 0075C 808BCC5C 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00760 808BCC60 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 0075C 808BCC5C 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00760 808BCC60 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00764 808BCC64 8C621360 */  lw      $v0, 0x1360($v1)           ## 8015F9C0
 /* 00768 808BCC68 8FA8003C */  lw      $t0, 0x003C($sp)           
 /* 0076C 808BCC6C 97A90042 */  lhu     $t1, 0x0042($sp)           

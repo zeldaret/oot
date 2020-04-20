@@ -1,6 +1,6 @@
 glabel func_809EFB40
-/* 007F0 809EFB40 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 007F4 809EFB44 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 007F0 809EFB40 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 007F4 809EFB44 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 007F8 809EFB48 944E0F2A */  lhu     $t6, 0x0F2A($v0)           ## 8015F58A
 /* 007FC 809EFB4C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00800 809EFB50 AFBF0014 */  sw      $ra, 0x0014($sp)           

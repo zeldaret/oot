@@ -14,8 +14,8 @@ glabel D_80B4220C
 
 .text
 glabel func_80B3D158
-/* 00F78 80B3D158 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00F7C 80B3D15C 8DCEF9C0 */  lw      $t6, -0x0640($t6)          ## 8015F9C0
+/* 00F78 80B3D158 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x1360)
+/* 00F7C 80B3D15C 8DCEF9C0 */  lw      $t6, %lo(gSaveContext+0x1360)($t6)
 /* 00F80 80B3D160 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00F84 80B3D164 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 00F88 80B3D168 AFBF0014 */  sw      $ra, 0x0014($sp)

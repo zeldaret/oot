@@ -10,8 +10,8 @@ glabel EnFdFire_Init
 /* 00138 80A0E5E8 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 0013C 80A0E5EC 8CAF1C44 */  lw      $t7, 0x1C44($a1)           ## 00001C44
 /* 00140 80A0E5F0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00144 80A0E5F4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00148 80A0E5F8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00144 80A0E5F4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00148 80A0E5F8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0014C 80A0E5FC 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00150 80A0E600 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00154 80A0E604 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000

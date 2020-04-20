@@ -25,9 +25,9 @@ glabel func_809C4E8C
 /* 0007C 809C4EBC 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
 /* 00080 809C4EC0 240400DA */  addiu   $a0, $zero, 0x00DA         ## $a0 = 000000DA
 /* 00084 809C4EC4 106000AA */  beq     $v1, $zero, .L809C5170     
-/* 00088 809C4EC8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00088 809C4EC8 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 0008C 809C4ECC 44818000 */  mtc1    $at, $f16                  ## $f16 = 40.00
-/* 00090 809C4ED0 2442FA90 */  addiu   $v0, $v0, 0xFA90           ## $v0 = 8015FA90
+/* 00090 809C4ED0 2442FA90 */  addiu   $v0, %lo(gGameInfo)
 .L809C4ED4:
 /* 00094 809C4ED4 10700004 */  beq     $v1, $s0, .L809C4EE8       
 /* 00098 809C4ED8 00000000 */  nop

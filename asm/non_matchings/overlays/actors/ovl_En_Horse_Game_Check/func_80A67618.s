@@ -1,6 +1,6 @@
 glabel func_80A67618
-/* 000C8 80A67618 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 000CC 80A6761C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 000C8 80A67618 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 000CC 80A6761C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 000D0 80A67620 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 000D4 80A67624 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 000D8 80A67628 AC400008 */  sw      $zero, 0x0008($v0)         ## 8015E668
@@ -34,8 +34,8 @@ glabel func_80A67618
 /* 00148 80A67698 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 0014C 80A6769C 0C01DD7C */  jal     func_800775F0              
 /* 00150 80A676A0 24040042 */  addiu   $a0, $zero, 0x0042         ## $a0 = 00000042
-/* 00154 80A676A4 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00158 80A676A8 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00154 80A676A4 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00158 80A676A8 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 0015C 80A676AC 10000021 */  beq     $zero, $zero, .L80A67734   
 /* 00160 80A676B0 8FA5001C */  lw      $a1, 0x001C($sp)           
 .L80A676B4:
@@ -49,10 +49,10 @@ glabel func_80A67618
 /* 00180 80A676D0 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00184 80A676D4 8FA5001C */  lw      $a1, 0x001C($sp)           
 /* 00188 80A676D8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
-/* 0018C 80A676DC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 0018C 80A676DC 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 00190 80A676E0 2408002E */  addiu   $t0, $zero, 0x002E         ## $t0 = 0000002E
 /* 00194 80A676E4 00250821 */  addu    $at, $at, $a1              
-/* 00198 80A676E8 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00198 80A676E8 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 0019C 80A676EC 10000011 */  beq     $zero, $zero, .L80A67734   
 /* 001A0 80A676F0 A0281E5E */  sb      $t0, 0x1E5E($at)           ## 00011E5E
 .L80A676F4:
@@ -73,8 +73,8 @@ glabel func_80A67618
 /* 001DC 80A6772C 35F88000 */  ori     $t8, $t7, 0x8000           ## $t8 = 00008000
 /* 001E0 80A67730 A45813FA */  sh      $t8, 0x13FA($v0)           ## 8015FA5A
 .L80A67734:
-/* 001E4 80A67734 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 001E8 80A67738 8F39FA90 */  lw      $t9, -0x0570($t9)          ## 8015FA90
+/* 001E4 80A67734 3C198016 */  lui     $t9, %hi(gGameInfo)
+/* 001E8 80A67738 8F39FA90 */  lw      $t9, %lo(gGameInfo)($t9)
 /* 001EC 80A6773C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 001F0 80A67740 00250821 */  addu    $at, $at, $a1              
 /* 001F4 80A67744 24080014 */  addiu   $t0, $zero, 0x0014         ## $t0 = 00000014

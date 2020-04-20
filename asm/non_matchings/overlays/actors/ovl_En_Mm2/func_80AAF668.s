@@ -21,8 +21,8 @@ glabel func_80AAF668
 /* 0083C 80AAF68C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
               
 /* 00840 80AAF690 A48FFF6A */  sh      $t7, -0x0096($a0)          ## 000000B6
-/* 00844 80AAF694 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 00848 80AAF698 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 00844 80AAF694 3C078016 */  lui     $a3, %hi(gSaveContext)
+/* 00848 80AAF698 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 0084C 80AAF69C 84E313D4 */  lh      $v1, 0x13D4($a3)           ## 8015FA34
 /* 00850 80AAF6A0 8CF80EC8 */  lw      $t8, 0x0EC8($a3)           ## 8015F528
 /* 00854 80AAF6A4 3C0680AB */  lui     $a2, %hi(func_80AAF5EC)    ## $a2 = 80AB0000
@@ -39,9 +39,9 @@ glabel func_80AAF668
 .L80AAF6CC:
 /* 0087C 80AAF6CC 0C2ABC89 */  jal     func_80AAF224              
 /* 00880 80AAF6D0 8FA50024 */  lw      $a1, 0x0024($sp)           
-/* 00884 80AAF6D4 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
+/* 00884 80AAF6D4 3C078016 */  lui     $a3, %hi(gSaveContext)
 /* 00888 80AAF6D8 1040000B */  beq     $v0, $zero, .L80AAF708     
-/* 0088C 80AAF6DC 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 0088C 80AAF6DC 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 00890 80AAF6E0 A60001F6 */  sh      $zero, 0x01F6($s0)         ## 000001F6
 /* 00894 80AAF6E4 84E213D4 */  lh      $v0, 0x13D4($a3)           ## 8015FA34
 /* 00898 80AAF6E8 8CE90EC8 */  lw      $t1, 0x0EC8($a3)           ## 8015F528
@@ -58,16 +58,16 @@ glabel func_80AAF668
 /* 008C0 80AAF710 0C000B84 */  jal     LogUtils_LogThreadId
               
 /* 008C4 80AAF714 2405021D */  addiu   $a1, $zero, 0x021D         ## $a1 = 0000021D
-/* 008C8 80AAF718 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 008CC 80AAF71C 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 008C8 80AAF718 3C078016 */  lui     $a3, %hi(gSaveContext)
+/* 008CC 80AAF71C 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 008D0 80AAF720 94E513FC */  lhu     $a1, 0x13FC($a3)           ## 8015FA5C
 /* 008D4 80AAF724 3C0480AB */  lui     $a0, %hi(D_80AAFBB8)       ## $a0 = 80AB0000
 /* 008D8 80AAF728 2484FBB8 */  addiu   $a0, $a0, %lo(D_80AAFBB8)  ## $a0 = 80AAFBB8
 /* 008DC 80AAF72C 0C00084C */  jal     osSyncPrintf
               
 /* 008E0 80AAF730 30A50001 */  andi    $a1, $a1, 0x0001           ## $a1 = 00000000
-/* 008E4 80AAF734 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 008E8 80AAF738 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 008E4 80AAF734 3C078016 */  lui     $a3, %hi(gSaveContext)
+/* 008E8 80AAF738 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 008EC 80AAF73C 94EA13FC */  lhu     $t2, 0x13FC($a3)           ## 8015FA5C
 /* 008F0 80AAF740 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 008F4 80AAF744 314B0001 */  andi    $t3, $t2, 0x0001           ## $t3 = 00000000

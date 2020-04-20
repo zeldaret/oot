@@ -52,8 +52,8 @@ glabel func_808AA2B0
 /* 00B90 808AA310 00A09025 */  or      $s2, $a1, $zero            ## $s2 = 00000000
 /* 00B94 808AA314 0C024F61 */  jal     func_80093D84              
 /* 00B98 808AA318 8E640000 */  lw      $a0, 0x0000($s3)           ## 00000000
-/* 00B9C 808AA31C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00BA0 808AA320 8DCEF9C0 */  lw      $t6, -0x0640($t6)          ## 8015F9C0
+/* 00B9C 808AA31C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x1360)
+/* 00BA0 808AA320 8DCEF9C0 */  lw      $t6, %lo(gSaveContext+0x1360)($t6)
 /* 00BA4 808AA324 29C10004 */  slti    $at, $t6, 0x0004           
 /* 00BA8 808AA328 14200005 */  bne     $at, $zero, .L808AA340     
 /* 00BAC 808AA32C 3C01808B */  lui     $at, %hi(D_808AA88C)       ## $at = 808B0000

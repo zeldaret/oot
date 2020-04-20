@@ -15,8 +15,8 @@ glabel func_80AA1150
 /* 00AF4 80AA1184 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00AF8 80AA1188 00250821 */  addu    $at, $at, $a1              
 /* 00AFC 80AA118C A4391E1A */  sh      $t9, 0x1E1A($at)           ## 00011E1A
-/* 00B00 80AA1190 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00B04 80AA1194 A428FA72 */  sh      $t0, -0x058E($at)          ## 8015FA72
+/* 00B00 80AA1190 3C018016 */  lui     $at, %hi(gSaveContext+0x1412)
+/* 00B04 80AA1194 A428FA72 */  sh      $t0, %lo(gSaveContext+0x1412)($at)
 /* 00B08 80AA1198 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00B0C 80AA119C 00250821 */  addu    $at, $at, $a1              
 /* 00B10 80AA11A0 A0291E5E */  sb      $t1, 0x1E5E($at)           ## 00011E5E

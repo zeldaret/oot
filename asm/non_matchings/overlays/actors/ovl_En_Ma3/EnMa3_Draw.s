@@ -44,11 +44,11 @@ glabel EnMa3_Draw
 /* 00C48 80AA36E8 AC680000 */  sw      $t0, 0x0000($v1)           ## 00000000
 /* 00C4C 80AA36EC 86090210 */  lh      $t1, 0x0210($s0)           ## 00000210
 /* 00C50 80AA36F0 3C0480AA */  lui     $a0, %hi(D_80AA38A4)       ## $a0 = 80AA0000
-/* 00C54 80AA36F4 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
+/* 00C54 80AA36F4 3C068016 */  lui     $a2, %hi(gSegments)
 /* 00C58 80AA36F8 00095080 */  sll     $t2, $t1,  2
 /* 00C5C 80AA36FC 008A2021 */  addu    $a0, $a0, $t2
 /* 00C60 80AA3700 8C8438A4 */  lw      $a0, %lo(D_80AA38A4)($a0)
-/* 00C64 80AA3704 24C66FA8 */  addiu   $a2, $a2, 0x6FA8           ## $a2 = 80166FA8
+/* 00C64 80AA3704 24C66FA8 */  addiu   $a2, %lo(gSegments)
 /* 00C68 80AA3708 3C0500FF */  lui     $a1, 0x00FF                ## $a1 = 00FF0000
 /* 00C6C 80AA370C 00046100 */  sll     $t4, $a0,  4
 /* 00C70 80AA3710 000C6F02 */  srl     $t5, $t4, 28
