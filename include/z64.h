@@ -1081,9 +1081,8 @@ typedef struct GlobalContext {
     /* 0x11E5C */ s8 unk_11E5C;
     /* 0x11E5D */ s8 bombchuBowlingAmmo; // "bombchu_game_flag"
     /* 0x11E5E */ u8 fadeTransition;
-    /* 0x11E5F */ char unk_11E5F[0x1];
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
-    /* 0x120FC */ char unk_120FC[0x28];
+    /* 0x120FC */ u16 envFlags[20];
     /* 0x12124 */ PreRenderContext preRenderCtx;
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];

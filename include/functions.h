@@ -827,10 +827,10 @@ void Audio_PlaySoundAtPosition(GlobalContext* globalCtx, Vec3f* pos, s32 duratio
 u16 ElfMessage_GetSariaText(GlobalContext* globalCtx);
 u16 ElfMessage_GetCUpText(GlobalContext* globalCtx);
 u16 Text_GetFaceReaction(GlobalContext* globalCtx, u32 reactionSet);
-// ? func_8006C3A0(?);
-// ? func_8006C3D0(?);
-void func_8006C438(GlobalContext* globalCtx, s16 arg1);
-s32 func_8006C4A4(GlobalContext*, s32);
+void Flags_UnsetAllEnv(GlobalContext* globalCtx);
+void Flags_SetEnv(GlobalContext* globalCtx, s16 flag);
+void Flags_UnsetEnv(GlobalContext* globalCtx, s16 flag);
+s32 Flags_GetEnv(GlobalContext* globalCtx, s16 flag);
 // ? func_8006C510(?);
 // ? func_8006C5A8(?);
 // ? func_8006CBAC(?);
