@@ -132,7 +132,7 @@ clean:
 
 setup:
 	git submodule update --init --recursive
-	make -C tools
+	make ido7 all -C tools
 	python3 fixbaserom.py
 	python3 extract_baserom.py
 	python3 extract_assets.py
