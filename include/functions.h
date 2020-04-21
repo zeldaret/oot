@@ -2350,12 +2350,11 @@ void guLookAtReflect(Mtx*, f32, f32, f32, f32, f32, f32, f32, f32, f32);
 // ? func_80102CC4(?);
 // ? func_80102FA0(?);
 // ? func_80103010(?);
-// ? func_801031F0(?);
+// ? osAfterPreNMI(?);
 // ? osContStartQuery(?);
 void osContGetQuery(OSContStatus* data);
-// ? func_801032B0(?);
-void func_80103A70(UNK_PTR, Gfx*, Hilite*, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32,
-                   s32, s32);
+// ? guLookAtHiliteF(?);
+void guLookAtHilite(Mtx* m, LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt,  f32 yAt,  f32 zAt, f32 xUp,  f32 yUp,  f32 zUp, f32 xl1,  f32 yl1,  f32 zl1, f32 xl2,  f32 yl2,  f32 zl2, s32 hiliteWidth, s32 hiliteHeight);	
 // ? __osSpDeviceBusy(?);
 // ? func_80103B60(?);
 // ? func_80103BB0(?);

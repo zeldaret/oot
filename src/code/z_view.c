@@ -352,7 +352,7 @@ s32 func_800AAA9C(View* view) {
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
     guLookAtReflect(viewing, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y, view->unk_34.z,
-                  view->unk_40.x, view->unk_40.y, view->unk_40.z);
+                    view->unk_40.x, view->unk_40.y, view->unk_40.z);
 
     view->viewing = *viewing;
 
@@ -501,7 +501,7 @@ s32 func_800AB560(View* view) {
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
     guLookAtReflect(viewing, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y, view->unk_34.z,
-                  view->unk_40.x, view->unk_40.y, view->unk_40.z);
+                    view->unk_40.x, view->unk_40.y, view->unk_40.z);
 
     view->viewing = *viewing;
 
@@ -519,7 +519,7 @@ s32 func_800AB944(View* view) {
 
     func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
     guLookAtReflect(view->viewingPtr, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y,
-                  view->unk_34.z, view->unk_40.x, view->unk_40.y, view->unk_40.z);
+                    view->unk_34.z, view->unk_40.x, view->unk_40.y, view->unk_40.z);
 
     Graph_CloseDisps(dispRefs, view->gfxCtx, "../z_view.c", 886);
 
@@ -583,7 +583,7 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
 
         func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
         guLookAtReflect(viewing, view->eye.x, view->eye.y, view->eye.z, view->unk_34.x, view->unk_34.y, view->unk_34.z,
-                      view->unk_40.x, view->unk_40.y, view->unk_40.z);
+                        view->unk_40.x, view->unk_40.y, view->unk_40.z);
 
         view->viewing = *viewing;
 

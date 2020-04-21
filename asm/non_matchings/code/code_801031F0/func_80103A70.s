@@ -1,4 +1,4 @@
-glabel func_80103A70
+glabel guLookAtHilite
 /* B7AC10 80103A70 27BDFF68 */  addiu $sp, $sp, -0x98
 /* B7AC14 80103A74 C7A400A8 */  lwc1  $f4, 0xa8($sp)
 /* B7AC18 80103A78 C7A600AC */  lwc1  $f6, 0xac($sp)
@@ -36,7 +36,7 @@ glabel func_80103A70
 /* B7AC98 80103AF8 E7A60044 */  swc1  $f6, 0x44($sp)
 /* B7AC9C 80103AFC E7A80030 */  swc1  $f8, 0x30($sp)
 /* B7ACA0 80103B00 AFAE0048 */  sw    $t6, 0x48($sp)
-/* B7ACA4 80103B04 0C040CAC */  jal   func_801032B0
+/* B7ACA4 80103B04 0C040CAC */  jal   guLookAtHiliteF
 /* B7ACA8 80103B08 AFAF004C */   sw    $t7, 0x4c($sp)
 /* B7ACAC 80103B0C 27A40058 */  addiu $a0, $sp, 0x58
 /* B7ACB0 80103B10 0C041938 */  jal   func_801064E0

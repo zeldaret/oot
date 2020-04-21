@@ -1320,8 +1320,9 @@ Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* 
     }
 
     func_800ABE74(correctedEyeX, eye->y, eye->z);
-    func_80103A70(&D_8015BBA8, lookAt, *hilite, correctedEyeX, eye->y, eye->z, object->x, object->y, object->z, 0.0f,
-                  1.0f, 0.0f, lightDir->x, lightDir->y, lightDir->z, lightDir->x, lightDir->y, lightDir->z, 0x10, 0x10);
+    guLookAtHilite(&D_8015BBA8, lookAt, *hilite, correctedEyeX, eye->y, eye->z, object->x, object->y, object->z, 0.0f,
+                   1.0f, 0.0f, lightDir->x, lightDir->y, lightDir->z, lightDir->x, lightDir->y, lightDir->z, 0x10,
+                   0x10);
 
     gSPLookAt(gfx++, lookAt);
     gDPSetHilite1Tile(gfx++, 1, *hilite, 0x10, 0x10);
