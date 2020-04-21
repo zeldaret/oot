@@ -2352,7 +2352,7 @@ void guLookAtReflect(Mtx*, f32, f32, f32, f32, f32, f32, f32, f32, f32);
 // ? func_80103010(?);
 // ? func_801031F0(?);
 // ? osContStartQuery(?);
-// ? func_8010328C(?);
+void osContGetQuery(OSContStatus* data);
 // ? func_801032B0(?);
 void func_80103A70(UNK_PTR, Gfx*, Hilite*, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32, f32,
                    s32, s32);
