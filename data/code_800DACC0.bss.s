@@ -238,7 +238,7 @@ glabel D_8016E9A4
 glabel D_8016EE8B
     .space 0x2F5
 
-glabel D_8016F180
+glabel gAudioContext
     .space 0x1
 
 glabel D_8016F181
@@ -364,7 +364,7 @@ glabel D_80171A14
 glabel D_80171A18
     .space 0x2
 
-glabel D_80171A1A
+glabel gSoundMode
     .space 0x2
 
 glabel D_80171A1C
@@ -610,7 +610,7 @@ glabel D_80174CA0
 glabel D_80174D08
     .space 0x10
 
-glabel D_80174D18
+glabel gNoteFreeLists
     .space 0x10
 
 glabel D_80174D28
