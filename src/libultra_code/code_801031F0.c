@@ -8,7 +8,7 @@ s32 osAfterPreNMI(void) {
 /**
  * osContStartQuery:
  * Starts to read the values for SI device status and type which are connected to the controller port and joyport
- *connector.
+ * connector.
  **/
 
 s32 osContStartQuery(OSMesgQueue* mq) {
