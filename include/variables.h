@@ -644,7 +644,7 @@ extern s32 gDebugArenaLogSeverity;
 //extern ? D_8012DDDC;
 //extern ? D_8012DE1C;
 //extern ? D_8012E02C;
-extern s16 *gWaveSamples[6];
+extern s16* gWaveSamples[6];
 //extern ? D_8012F098;
 //extern ? D_8012F0B0;
 //extern ? D_8012F8B4;

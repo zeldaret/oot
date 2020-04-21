@@ -1,4 +1,4 @@
-glabel Playback_ProcessNotes
+glabel Audio_ProcessNotes
 /* B5E12C 800E6F8C 27BDFF60 */  addiu $sp, $sp, -0xa0
 /* B5E130 800E6F90 AFB40028 */  sw    $s4, 0x28($sp)
 /* B5E134 800E6F94 3C148017 */  lui   $s4, %hi(gAudioContext)
@@ -90,13 +90,13 @@ glabel Playback_ProcessNotes
 /* B5E278 800E70D8 10000014 */  b     .L800E712C
 /* B5E27C 800E70DC 92020000 */   lbu   $v0, ($s0)
 .L800E70E0:
-/* B5E280 800E70E0 0C039EE0 */  jal   Playback_SeqChanLayerNoteRelease
+/* B5E280 800E70E0 0C039EE0 */  jal   Audio_SeqChanLayerNoteRelease
 /* B5E284 800E70E4 00000000 */   nop   
-/* B5E288 800E70E8 0C03A037 */  jal   Playback_AudioListRemove
+/* B5E288 800E70E8 0C03A037 */  jal   Audio_AudioListRemove
 /* B5E28C 800E70EC 02202025 */   move  $a0, $s1
 /* B5E290 800E70F0 8E24000C */  lw    $a0, 0xc($s1)
 /* B5E294 800E70F4 02202825 */  move  $a1, $s1
-/* B5E298 800E70F8 0C03A027 */  jal   Playback_AudioListPushFront
+/* B5E298 800E70F8 0C03A027 */  jal   Audio_AudioListPushFront
 /* B5E29C 800E70FC 24840010 */   addiu $a0, $a0, 0x10
 /* B5E2A0 800E7100 24180002 */  li    $t8, 2
 /* B5E2A4 800E7104 A2160000 */  sb    $s6, ($s0)
@@ -136,34 +136,34 @@ glabel Playback_ProcessNotes
 .L800E717C:
 /* B5E31C 800E717C 52790020 */  beql  $s3, $t9, .L800E7200
 /* B5E320 800E7180 8E040014 */   lw    $a0, 0x14($s0)
-/* B5E324 800E7184 0C039BCA */  jal   Playback_NoteDisable
+/* B5E324 800E7184 0C039BCA */  jal   Audio_NoteDisable
 /* B5E328 800E7188 02202025 */   move  $a0, $s1
 /* B5E32C 800E718C 8E050018 */  lw    $a1, 0x18($s0)
 /* B5E330 800E7190 02202025 */  move  $a0, $s1
 /* B5E334 800E7194 8CA80050 */  lw    $t0, 0x50($a1)
 /* B5E338 800E7198 1100000F */  beqz  $t0, .L800E71D8
 /* B5E33C 800E719C 00000000 */   nop   
-/* B5E340 800E71A0 0C03A062 */  jal   Playback_NoteInitForLayer
+/* B5E340 800E71A0 0C03A062 */  jal   Audio_NoteInitForLayer
 /* B5E344 800E71A4 263200C0 */   addiu $s2, $s1, 0xc0
 /* B5E348 800E71A8 0C03A3C0 */  jal   func_800E8F00
 /* B5E34C 800E71AC 02202025 */   move  $a0, $s1
 /* B5E350 800E71B0 0C03A3EE */  jal   func_800E8FB8
 /* B5E354 800E71B4 02202025 */   move  $a0, $s1
-/* B5E358 800E71B8 0C03A037 */  jal   Playback_AudioListRemove
+/* B5E358 800E71B8 0C03A037 */  jal   Audio_AudioListRemove
 /* B5E35C 800E71BC 02202025 */   move  $a0, $s1
 /* B5E360 800E71C0 8E24000C */  lw    $a0, 0xc($s1)
 /* B5E364 800E71C4 02202825 */  move  $a1, $s1
-/* B5E368 800E71C8 0C03A70A */  jal   SeqPlayer_AudioListPushBack
+/* B5E368 800E71C8 0C03A70A */  jal   Audio_AudioListPushBack
 /* B5E36C 800E71CC 24840030 */   addiu $a0, $a0, 0x30
 /* B5E370 800E71D0 1000002C */  b     .L800E7284
 /* B5E374 800E71D4 AE130018 */   sw    $s3, 0x18($s0)
 .L800E71D8:
-/* B5E378 800E71D8 0C039BCA */  jal   Playback_NoteDisable
+/* B5E378 800E71D8 0C039BCA */  jal   Audio_NoteDisable
 /* B5E37C 800E71DC 02202025 */   move  $a0, $s1
-/* B5E380 800E71E0 0C03A037 */  jal   Playback_AudioListRemove
+/* B5E380 800E71E0 0C03A037 */  jal   Audio_AudioListRemove
 /* B5E384 800E71E4 02202025 */   move  $a0, $s1
 /* B5E388 800E71E8 8E24000C */  lw    $a0, 0xc($s1)
-/* B5E38C 800E71EC 0C03A70A */  jal   SeqPlayer_AudioListPushBack
+/* B5E38C 800E71EC 0C03A70A */  jal   Audio_AudioListPushBack
 /* B5E390 800E71F0 02202825 */   move  $a1, $s1
 /* B5E394 800E71F4 10000088 */  b     .L800E7418
 /* B5E398 800E71F8 AE130018 */   sw    $s3, 0x18($s0)
@@ -175,12 +175,12 @@ glabel Playback_ProcessNotes
 /* B5E3AC 800E720C 354B0002 */  ori   $t3, $t2, 2
 /* B5E3B0 800E7210 A08B0000 */  sb    $t3, ($a0)
 .L800E7214:
-/* B5E3B4 800E7214 0C039BCA */  jal   Playback_NoteDisable
+/* B5E3B4 800E7214 0C039BCA */  jal   Audio_NoteDisable
 /* B5E3B8 800E7218 02202025 */   move  $a0, $s1
-/* B5E3BC 800E721C 0C03A037 */  jal   Playback_AudioListRemove
+/* B5E3BC 800E721C 0C03A037 */  jal   Audio_AudioListRemove
 /* B5E3C0 800E7220 02202025 */   move  $a0, $s1
 /* B5E3C4 800E7224 8E24000C */  lw    $a0, 0xc($s1)
-/* B5E3C8 800E7228 0C03A70A */  jal   SeqPlayer_AudioListPushBack
+/* B5E3C8 800E7228 0C03A70A */  jal   Audio_AudioListPushBack
 /* B5E3CC 800E722C 02202825 */   move  $a1, $s1
 /* B5E3D0 800E7230 1000007A */  b     .L800E741C
 /* B5E3D4 800E7234 8E822894 */   lw    $v0, 0x2894($s4)
@@ -196,12 +196,12 @@ glabel Playback_ProcessNotes
 /* B5E3F8 800E7258 35F80002 */  ori   $t8, $t7, 2
 /* B5E3FC 800E725C A0980000 */  sb    $t8, ($a0)
 .L800E7260:
-/* B5E400 800E7260 0C039BCA */  jal   Playback_NoteDisable
+/* B5E400 800E7260 0C039BCA */  jal   Audio_NoteDisable
 /* B5E404 800E7264 02202025 */   move  $a0, $s1
-/* B5E408 800E7268 0C03A037 */  jal   Playback_AudioListRemove
+/* B5E408 800E7268 0C03A037 */  jal   Audio_AudioListRemove
 /* B5E40C 800E726C 02202025 */   move  $a0, $s1
 /* B5E410 800E7270 8E24000C */  lw    $a0, 0xc($s1)
-/* B5E414 800E7274 0C03A70A */  jal   SeqPlayer_AudioListPushBack
+/* B5E414 800E7274 0C03A70A */  jal   Audio_AudioListPushBack
 /* B5E418 800E7278 02202825 */   move  $a1, $s1
 /* B5E41C 800E727C 10000067 */  b     .L800E741C
 /* B5E420 800E7280 8E822894 */   lw    $v0, 0x2894($s4)
@@ -304,7 +304,7 @@ glabel Playback_ProcessNotes
 /* B5E588 800E73E8 E7B20070 */  swc1  $f18, 0x70($sp)
 /* B5E58C 800E73EC 46104282 */  mul.s $f10, $f8, $f16
 /* B5E590 800E73F0 E7A60070 */  swc1  $f6, 0x70($sp)
-/* B5E594 800E73F4 0C039A50 */  jal   Playback_NoteSetVelPanReverb
+/* B5E594 800E73F4 0C039A50 */  jal   Audio_NoteSetVelPanReverb
 /* B5E598 800E73F8 E7AA0074 */   swc1  $f10, 0x74($sp)
 /* B5E59C 800E73FC 93AC006B */  lbu   $t4, 0x6b($sp)
 /* B5E5A0 800E7400 924F0001 */  lbu   $t7, 1($s2)

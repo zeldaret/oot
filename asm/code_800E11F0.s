@@ -846,7 +846,7 @@ glabel func_800E1D64
 /* B58F10 800E1D70 00808025 */  move  $s0, $a0
 /* B58F14 800E1D74 1020001D */  beqz  $at, .L800E1DEC
 /* B58F18 800E1D78 AFBF001C */   sw    $ra, 0x1c($sp)
-/* B58F1C 800E1D7C 0C039D26 */  jal   Playback_GetInstrumentInner
+/* B58F1C 800E1D7C 0C039D26 */  jal   Audio_GetInstrumentInner
 /* B58F20 800E1D80 00000000 */   nop   
 /* B58F24 800E1D84 14400003 */  bnez  $v0, .L800E1D94
 /* B58F28 800E1D88 00401825 */   move  $v1, $v0
@@ -880,7 +880,7 @@ glabel func_800E1D64
 /* B58F8C 800E1DEC 2401007F */  li    $at, 127
 /* B58F90 800E1DF0 14A1000B */  bne   $a1, $at, .L800E1E20
 /* B58F94 800E1DF4 02002025 */   move  $a0, $s0
-/* B58F98 800E1DF8 0C039D5B */  jal   Playback_GetDrum
+/* B58F98 800E1DF8 0C039D5B */  jal   Audio_GetDrum
 /* B58F9C 800E1DFC 00C02825 */   move  $a1, $a2
 /* B58FA0 800E1E00 14400003 */  bnez  $v0, .L800E1E10
 /* B58FA4 800E1E04 00401825 */   move  $v1, $v0
@@ -2612,7 +2612,7 @@ glabel func_800E35E0
 /* B5A788 800E35E8 AFBF0014 */  sw    $ra, 0x14($sp)
 /* B5A78C 800E35EC 10200009 */  beqz  $at, .L800E3614
 /* B5A790 800E35F0 00A03025 */   move  $a2, $a1
-/* B5A794 800E35F4 0C039D26 */  jal   Playback_GetInstrumentInner
+/* B5A794 800E35F4 0C039D26 */  jal   Audio_GetInstrumentInner
 /* B5A798 800E35F8 00000000 */   nop   
 /* B5A79C 800E35FC 14400003 */  bnez  $v0, .L800E360C
 /* B5A7A0 800E3600 00000000 */   nop   
@@ -2625,7 +2625,7 @@ glabel func_800E35E0
 /* B5A7B4 800E3614 28C10100 */  slti  $at, $a2, 0x100
 /* B5A7B8 800E3618 10200009 */  beqz  $at, .L800E3640
 /* B5A7BC 800E361C 00000000 */   nop   
-/* B5A7C0 800E3620 0C039D5B */  jal   Playback_GetDrum
+/* B5A7C0 800E3620 0C039D5B */  jal   Audio_GetDrum
 /* B5A7C4 800E3624 24C5FF80 */   addiu $a1, $a2, -0x80
 /* B5A7C8 800E3628 14400003 */  bnez  $v0, .L800E3638
 /* B5A7CC 800E362C 00000000 */   nop   
@@ -2635,7 +2635,7 @@ glabel func_800E35E0
 /* B5A7D8 800E3638 10000008 */  b     .L800E365C
 /* B5A7DC 800E363C 8C430004 */   lw    $v1, 4($v0)
 .L800E3640:
-/* B5A7E0 800E3640 0C039D94 */  jal   Playback_GetUnkInstrument
+/* B5A7E0 800E3640 0C039D94 */  jal   Audio_GetUnkInstrument
 /* B5A7E4 800E3644 24C5FF00 */   addiu $a1, $a2, -0x100
 /* B5A7E8 800E3648 54400004 */  bnezl $v0, .L800E365C
 /* B5A7EC 800E364C 8C430000 */   lw    $v1, ($v0)
@@ -3903,7 +3903,7 @@ glabel func_800E478C
 /* B5B980 800E47E0 00009025 */   move  $s2, $zero
 /* B5B984 800E47E4 02802025 */  move  $a0, $s4
 .L800E47E8:
-/* B5B988 800E47E8 0C039D5B */  jal   Playback_GetDrum
+/* B5B988 800E47E8 0C039D5B */  jal   Audio_GetDrum
 /* B5B98C 800E47EC 02402825 */   move  $a1, $s2
 /* B5B990 800E47F0 10400005 */  beqz  $v0, .L800E4808
 /* B5B994 800E47F4 02202825 */   move  $a1, $s1
@@ -3921,7 +3921,7 @@ glabel func_800E478C
 /* B5B9BC 800E481C 2415007F */   li    $s5, 127
 /* B5B9C0 800E4820 02802025 */  move  $a0, $s4
 .L800E4824:
-/* B5B9C4 800E4824 0C039D26 */  jal   Playback_GetInstrumentInner
+/* B5B9C4 800E4824 0C039D26 */  jal   Audio_GetInstrumentInner
 /* B5B9C8 800E4828 02402825 */   move  $a1, $s2
 /* B5B9CC 800E482C 10400016 */  beqz  $v0, .L800E4888
 /* B5B9D0 800E4830 00408025 */   move  $s0, $v0
@@ -4026,7 +4026,7 @@ glabel func_800E4918
 /* B5BB34 800E4994 AFA30070 */  sw    $v1, 0x70($sp)
 /* B5BB38 800E4998 02202025 */  move  $a0, $s1
 .L800E499C:
-/* B5BB3C 800E499C 0C039D26 */  jal   Playback_GetInstrumentInner
+/* B5BB3C 800E499C 0C039D26 */  jal   Audio_GetInstrumentInner
 /* B5BB40 800E49A0 02402825 */   move  $a1, $s2
 /* B5BB44 800E49A4 1040000E */  beqz  $v0, .L800E49E0
 /* B5BB48 800E49A8 00408025 */   move  $s0, $v0
@@ -4056,7 +4056,7 @@ glabel func_800E4918
 /* B5BB98 800E49F8 19E0000C */  blez  $t7, .L800E4A2C
 /* B5BB9C 800E49FC 02202025 */   move  $a0, $s1
 .L800E4A00:
-/* B5BBA0 800E4A00 0C039D5B */  jal   Playback_GetDrum
+/* B5BBA0 800E4A00 0C039D5B */  jal   Audio_GetDrum
 /* B5BBA4 800E4A04 02402825 */   move  $a1, $s2
 /* B5BBA8 800E4A08 50400004 */  beql  $v0, $zero, .L800E4A1C
 /* B5BBAC 800E4A0C 8FB80074 */   lw    $t8, 0x74($sp)
@@ -4073,7 +4073,7 @@ glabel func_800E4918
 /* B5BBD0 800E4A30 1B20000B */  blez  $t9, .L800E4A60
 /* B5BBD4 800E4A34 02202025 */   move  $a0, $s1
 .L800E4A38:
-/* B5BBD8 800E4A38 0C039D94 */  jal   Playback_GetUnkInstrument
+/* B5BBD8 800E4A38 0C039D94 */  jal   Audio_GetUnkInstrument
 /* B5BBDC 800E4A3C 02402825 */   move  $a1, $s2
 /* B5BBE0 800E4A40 10400003 */  beqz  $v0, .L800E4A50
 /* B5BBE4 800E4A44 00402025 */   move  $a0, $v0
