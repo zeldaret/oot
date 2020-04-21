@@ -516,7 +516,7 @@ beginseg
     include "build/data/code_801014A0.bss.o"
     include "build/asm/code_80101910.o"
     include "build/data/code_80101910.bss.o"
-    include "build/asm/guMtxIdentf.o"
+    include "build/asm/guMtxIdentF.o"
     include "build/src/libultra_code/guLookAtRef.o"
     include "build/asm/code_80101EB0.o"
     include "build/asm/code_80102330.o"
