@@ -1379,8 +1379,8 @@ glabel func_800FA3DC
 /* B717C0 800FA620 01D57023 */  subu  $t6, $t6, $s5
 /* B717C4 800FA624 000E7080 */  sll   $t6, $t6, 2
 /* B717C8 800FA628 01D57023 */  subu  $t6, $t6, $s5
-/* B717CC 800FA62C 3C0F8017 */  lui   $t7, %hi(D_8016F180)
-/* B717D0 800FA630 25EFF180 */  addiu $t7, %lo(D_8016F180) # addiu $t7, $t7, -0xe80
+/* B717CC 800FA62C 3C0F8017 */  lui   $t7, %hi(gAudioContext)
+/* B717D0 800FA630 25EFF180 */  addiu $t7, %lo(gAudioContext) # addiu $t7, $t7, -0xe80
 /* B717D4 800FA634 000E7140 */  sll   $t6, $t6, 5
 /* B717D8 800FA638 01CF2821 */  addu  $a1, $t6, $t7
 /* B717DC 800FA63C 8CB93530 */  lw    $t9, 0x3530($a1)
