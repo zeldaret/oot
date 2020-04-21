@@ -1,49 +1,55 @@
 #include "libultra_internal.h"
 
-void guPositionF(float mf[4][4], float r, float p, float h, float s,
-		 float x, float y, float z)
-{
-        static float dtor = 3.1415926 / 180.0;
-        float   sinr, sinp, sinh;
-        float   cosr, cosp, cosh;
+/**
+ * guPositionF
+ * Creates a rotation/parallel translation modeling matrix (floating point)
+ **/
 
-        r *= dtor;
-        p *= dtor;
-        h *= dtor;
-        sinr = sinf(r);
-        cosr = cosf(r);
-        sinp = sinf(p);
-        cosp = cosf(p);
-        sinh = sinf(h);
-        cosh = cosf(h);
+void guPositionF(f32 mf[4][4], f32 rot, f32 pitch, f32 yaw, f32 scale, f32 x, f32 y, f32 z) {
+    static f32 D_80134D00 = M_PI / 180.0;
+    f32 sinr, sinp, sinh;
+    f32 cosr, cosp, cosh;
 
-        mf[0][0] = (cosp*cosh) * s;
-        mf[0][1] = (cosp*sinh) * s;
-        mf[0][2] = (-sinp) * s;
-        mf[0][3] = 0.0;
+    rot *= D_80134D00;
+    pitch *= D_80134D00;
+    yaw *= D_80134D00;
 
-        mf[1][0] = (sinr*sinp*cosh - cosr*sinh) * s;
-        mf[1][1] = (sinr*sinp*sinh + cosr*cosh) * s;
-        mf[1][2] = (sinr*cosp) * s;
-        mf[1][3] = 0.0;
+    sinr = sinf(rot);
+    cosr = cosf(rot);
+    sinp = sinf(pitch);
+    cosp = cosf(pitch);
+    sinh = sinf(yaw);
+    cosh = cosf(yaw);
 
-        mf[2][0] = (cosr*sinp*cosh + sinr*sinh) * s;
-        mf[2][1] = (cosr*sinp*sinh - sinr*cosh) * s;
-        mf[2][2] = (cosr*cosp) * s;
-        mf[2][3] = 0.0;
+    mf[0][0] = (cosp * cosh) * scale;
+    mf[0][1] = (cosp * sinh) * scale;
+    mf[0][2] = (-sinp) * scale;
+    mf[0][3] = 0.0f;
 
-        mf[3][0] = x;
-        mf[3][1] = y;
-        mf[3][2] = z;
-        mf[3][3] = 1.0;
+    mf[1][0] = ((sinr * sinp * cosh) - (cosr * sinh)) * scale;
+    mf[1][1] = ((sinr * sinp * sinh) + (cosr * cosh)) * scale;
+    mf[1][2] = (sinr * cosp) * scale;
+    mf[1][3] = 0.0f;
+
+    mf[2][0] = ((cosr * sinp * cosh) + (sinr * sinh)) * scale;
+    mf[2][1] = ((cosr * sinp * sinh) - (sinr * cosh)) * scale;
+    mf[2][2] = (cosr * cosp) * scale;
+    mf[2][3] = 0.0f;
+
+    mf[3][0] = x;
+    mf[3][1] = y;
+    mf[3][2] = z;
+    mf[3][3] = 1.0f;
 }
 
-void guPosition(Mtx *m, float r, float p, float h, float s,
-                                float x, float y, float z)
-{
-    float mf[4][4];
+/**
+ * guPosition
+ * Creates a rotational/paralell translation moeling matrix (fixed point)
+ */
+void guPosition(Mtx* m, f32 rot, f32 pitch, f32 yaw, f32 scale, f32 x, f32 y, f32 z) {
+    f32 mf[4][4];
 
-    guPositionF(mf, r, p, h, s, x, y, z);
+    guPositionF(mf, rot, pitch, yaw, scale, x, y, z);
 
     guMtxF2L(mf, m);
 }
