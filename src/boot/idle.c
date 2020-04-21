@@ -2,7 +2,7 @@
 #include <global.h>
 #include <vt.h>
 
-OSThread sMainThread;
+OSThread gMainThread;
 u8 sMainStack[0x900];
 StackEntry sMainStackInfo;
 OSMesg sPiMgrCmdBuff[50];
@@ -24,7 +24,7 @@ void Main_ThreadEntry(void* arg0) {
     DmaMgr_Start();
     osSyncPrintf("codeセグメントロード中...");
     var1 = osGetTime();
-    DmaMgr_SendRequest1((u32)_dmadataSegmentEnd, (u32)_codeSegmentRomStart, _codeSegmentRomEnd - _codeSegmentRomStart,
+    DmaMgr_SendRequest1(_codeSegmentStart, (u32)_codeSegmentRomStart, _codeSegmentRomEnd - _codeSegmentRomStart,
                         "../idle.c", 238);
     var1 -= osGetTime();
     osSyncPrintf("\rcodeセグメントロード中...完了\n");
@@ -78,11 +78,11 @@ void Idle_ThreadEntry(void* a0) {
     osViSetMode(&gViConfigMode);
     ViConfig_UpdateVi(1);
     osViBlack(1);
-    osViSwapBuffer(0x803da80);
-    osCreatePiManager(0x96, &gPiMgrCmdQ, sPiMgrCmdBuff, 0x32);
+    osViSwapBuffer(0x803DA80); //! @bug Invalid vram address (probably intended to be 0x803DA800)
+    osCreatePiManager(150, &gPiMgrCmdQ, sPiMgrCmdBuff, 50);
     StackCheck_Init(&sMainStackInfo, sMainStack, sMainStack + sizeof(sMainStack), 0, 0x400, "main");
-    osCreateThread(&sMainThread, 3, Main_ThreadEntry, a0, sMainStack + sizeof(sMainStack), 10);
-    osStartThread(&sMainThread);
+    osCreateThread(&gMainThread, 3, Main_ThreadEntry, a0, sMainStack + sizeof(sMainStack), 10);
+    osStartThread(&gMainThread);
     osSetThreadPri(NULL, 0);
 
     while (1) {

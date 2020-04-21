@@ -40,6 +40,7 @@ DECLARE_ROM_SEGMENT(ger_message_data_static)
 DECLARE_ROM_SEGMENT(fra_message_data_static)
 DECLARE_ROM_SEGMENT(map_grand_static)
 
+DECLARE_SEGMENT(code)
 DECLARE_ROM_SEGMENT(code)
 DECLARE_BSS_SEGMENT(code)
 
