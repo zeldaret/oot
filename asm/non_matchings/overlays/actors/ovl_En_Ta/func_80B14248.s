@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B16F4C
+    .float 0.8
+
+.text
 glabel func_80B14248
 /* 007A8 80B14248 3C014210 */  lui     $at, 0x4210                ## $at = 42100000
 /* 007AC 80B1424C 44812000 */  mtc1    $at, $f4                   ## $f4 = 36.00
@@ -13,5 +18,3 @@ glabel func_80B14248
 .L80B14274:
 /* 007D4 80B14274 03E00008 */  jr      $ra                        
 /* 007D8 80B14278 00000000 */  nop
-
-

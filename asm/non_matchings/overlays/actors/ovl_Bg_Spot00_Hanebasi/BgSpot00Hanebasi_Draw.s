@@ -1,3 +1,17 @@
+.rdata
+glabel D_808AA824
+    .asciz "../z_bg_spot00_hanebasi.c"
+    .balign 4
+
+glabel D_808AA840
+    .asciz "../z_bg_spot00_hanebasi.c"
+    .balign 4
+
+glabel D_808AA85C
+    .asciz "../z_bg_spot00_hanebasi.c"
+    .balign 4
+
+.text
 glabel BgSpot00Hanebasi_Draw
 /* 00E08 808AA588 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00E0C 808AA58C 3C0F808B */  lui     $t7, %hi(D_808AA7C4)       ## $t7 = 808B0000
@@ -19,7 +33,7 @@ glabel BgSpot00Hanebasi_Draw
 /* 00E4C 808AA5CC 8D250000 */  lw      $a1, 0x0000($t1)           ## 00000000
 /* 00E50 808AA5D0 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFD4
 /* 00E54 808AA5D4 240702BA */  addiu   $a3, $zero, 0x02BA         ## $a3 = 000002BA
-/* 00E58 808AA5D8 0C031AB1 */  jal     func_800C6AC4              
+/* 00E58 808AA5D8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00E5C 808AA5DC AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 00E60 808AA5E0 8FAA0064 */  lw      $t2, 0x0064($sp)           
 /* 00E64 808AA5E4 0C024F46 */  jal     func_80093D18              
@@ -76,9 +90,9 @@ glabel BgSpot00Hanebasi_Draw
 /* 00F30 808AA6B0 E7B20054 */  swc1    $f18, 0x0054($sp)          
 /* 00F34 808AA6B4 8E0C011C */  lw      $t4, 0x011C($s0)           ## 0000011C
 /* 00F38 808AA6B8 C7A40048 */  lwc1    $f4, 0x0048($sp)           
-/* 00F3C 808AA6BC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 00F3C 808AA6BC 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 00F40 808AA6C0 8D8D011C */  lw      $t5, 0x011C($t4)           ## 0000011C
-/* 00F44 808AA6C4 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00F44 808AA6C4 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00F48 808AA6C8 2401000C */  addiu   $at, $zero, 0x000C         ## $at = 0000000C
 /* 00F4C 808AA6CC E5A40024 */  swc1    $f4, 0x0024($t5)           ## 00000024
 /* 00F50 808AA6D0 8E0E011C */  lw      $t6, 0x011C($s0)           ## 0000011C
@@ -126,7 +140,7 @@ glabel BgSpot00Hanebasi_Draw
 /* 00FE4 808AA764 24C6A85C */  addiu   $a2, $a2, %lo(D_808AA85C)  ## $a2 = 808AA85C
 /* 00FE8 808AA768 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFD4
 /* 00FEC 808AA76C 240702DD */  addiu   $a3, $zero, 0x02DD         ## $a3 = 000002DD
-/* 00FF0 808AA770 0C031AD5 */  jal     func_800C6B54              
+/* 00FF0 808AA770 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00FF4 808AA774 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 00FF8 808AA778 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00FFC 808AA77C 8FB00018 */  lw      $s0, 0x0018($sp)           
@@ -134,4 +148,3 @@ glabel BgSpot00Hanebasi_Draw
 /* 01004 808AA784 03E00008 */  jr      $ra                        
 /* 01008 808AA788 00000000 */  nop
 /* 0100C 808AA78C 00000000 */  nop
-

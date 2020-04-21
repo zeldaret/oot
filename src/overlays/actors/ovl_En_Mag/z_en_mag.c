@@ -1,6 +1,11 @@
+/*
+ * File: z_en_mag.c
+ * Overlay: ovl_En_Mag
+ * Description: Title Screen Actor
+ */
+
 #include "z_en_mag.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000030
 
 void EnMag_Init(EnMag* this, GlobalContext* globalCtx);
@@ -9,11 +14,9 @@ void EnMag_Update(EnMag* this, GlobalContext* globalCtx);
 void EnMag_Draw(EnMag* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Mag_InitVars =
-{
+const ActorInit En_Mag_InitVars = {
     ACTOR_EN_MAG,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_MAG,
     sizeof(EnMag),

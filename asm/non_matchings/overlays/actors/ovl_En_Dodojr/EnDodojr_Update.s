@@ -51,5 +51,3 @@ glabel EnDodojr_Update
 /* 01984 809F7D44 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 01988 809F7D48 03E00008 */  jr      $ra                        
 /* 0198C 809F7D4C 00000000 */  nop
-
-

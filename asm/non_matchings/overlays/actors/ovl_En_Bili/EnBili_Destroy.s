@@ -10,5 +10,3 @@ glabel EnBili_Destroy
 /* 00110 809BF9B0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00114 809BF9B4 03E00008 */  jr      $ra                        
 /* 00118 809BF9B8 00000000 */  nop
-
-

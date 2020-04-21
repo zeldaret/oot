@@ -9,5 +9,3 @@ glabel EnFw_Destroy
 /* 006C4 80A1EC64 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 006C8 80A1EC68 03E00008 */  jr      $ra                        
 /* 006CC 80A1EC6C 00000000 */  nop
-
-

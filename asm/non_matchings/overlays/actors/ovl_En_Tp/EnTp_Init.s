@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B22B80
+    .float 0.3
+
+.text
 glabel EnTp_Init
 /* 00008 80B20DE8 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 0000C 80B20DEC AFB60060 */  sw      $s6, 0x0060($sp)           
@@ -22,12 +27,12 @@ glabel EnTp_Init
 /* 00054 80B20E34 3C0F80B2 */  lui     $t7, %hi(D_80B22AC4)       ## $t7 = 80B20000
 /* 00058 80B20E38 240E0003 */  addiu   $t6, $zero, 0x0003         ## $t6 = 00000003
 /* 0005C 80B20E3C 25EF2AC4 */  addiu   $t7, $t7, %lo(D_80B22AC4)  ## $t7 = 80B22AC4
-/* 00060 80B20E40 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00060 80B20E40 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00064 80B20E44 3C073E0F */  lui     $a3, 0x3E0F                ## $a3 = 3E0F0000
 /* 00068 80B20E48 A26E001F */  sb      $t6, 0x001F($s3)           ## 0000001F
 /* 0006C 80B20E4C AE6F0098 */  sw      $t7, 0x0098($s3)           ## 00000098
 /* 00070 80B20E50 34E75C29 */  ori     $a3, $a3, 0x5C29           ## $a3 = 3E0F5C29
-/* 00074 80B20E54 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00074 80B20E54 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00078 80B20E58 266400B4 */  addiu   $a0, $s3, 0x00B4           ## $a0 = 000000B4
 /* 0007C 80B20E5C 0C00AC78 */  jal     ActorShape_Init
               
@@ -167,5 +172,3 @@ glabel EnTp_Init
 /* 00270 80B21050 8FBE0068 */  lw      $s8, 0x0068($sp)           
 /* 00274 80B21054 03E00008 */  jr      $ra                        
 /* 00278 80B21058 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-
-

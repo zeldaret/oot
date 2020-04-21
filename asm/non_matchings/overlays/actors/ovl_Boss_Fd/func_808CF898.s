@@ -1,3 +1,33 @@
+.rdata
+glabel D_808D1CEC
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1CFC
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1D0C
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1D1C
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1D2C
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1D3C
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+glabel D_808D1D4C
+    .asciz "../z_boss_fd.c"
+    .balign 4
+
+.text
 glabel func_808CF898
 /* 04AD8 808CF898 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 04ADC 808CF89C AFBF0044 */  sw      $ra, 0x0044($sp)           
@@ -20,7 +50,7 @@ glabel func_808CF898
 /* 04B20 808CF8E0 24C61CEC */  addiu   $a2, $a2, %lo(D_808D1CEC)  ## $a2 = 808D1CEC
 /* 04B24 808CF8E4 27A400B4 */  addiu   $a0, $sp, 0x00B4           ## $a0 = FFFFFFDC
 /* 04B28 808CF8E8 24070FB7 */  addiu   $a3, $zero, 0x0FB7         ## $a3 = 00000FB7
-/* 04B2C 808CF8EC 0C031AB1 */  jal     func_800C6AC4              
+/* 04B2C 808CF8EC 0C031AB1 */  jal     Graph_OpenDisps              
 /* 04B30 808CF8F0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 04B34 808CF8F4 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 04B38 808CF8F8 4481A000 */  mtc1    $at, $f20                  ## $f20 = 1.00
@@ -186,7 +216,7 @@ glabel func_808CF898
 /* 04D9C 808CFB5C 3C120601 */  lui     $s2, 0x0601                ## $s2 = 06010000
 /* 04DA0 808CFB60 2652B3A8 */  addiu   $s2, $s2, 0xB3A8           ## $s2 = 0600B3A8
 /* 04DA4 808CFB64 8E0402D0 */  lw      $a0, 0x02D0($s0)           ## 000002D0
-/* 04DA8 808CFB68 0C024DDD */  jal     func_80093774              
+/* 04DA8 808CFB68 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 04DAC 808CFB6C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 04DB0 808CFB70 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 /* 04DB4 808CFB74 244B0008 */  addiu   $t3, $v0, 0x0008           ## $t3 = 00000008
@@ -241,7 +271,7 @@ glabel func_808CF898
 /* 04E74 808CFC34 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 04E78 808CFC38 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 04E7C 808CFC3C 3C04808D */  lui     $a0, %hi(D_808D1A9C)       ## $a0 = 808D0000
-/* 04E80 808CFC40 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 04E80 808CFC40 3C098016 */  lui     $t1, %hi(gSegments)
 /* 04E84 808CFC44 244D0008 */  addiu   $t5, $v0, 0x0008           ## $t5 = 00000008
 /* 04E88 808CFC48 AE0D02D0 */  sw      $t5, 0x02D0($s0)           ## 000002D0
 /* 04E8C 808CFC4C AC4B0000 */  sw      $t3, 0x0000($v0)           ## 00000000
@@ -255,7 +285,7 @@ glabel func_808CF898
 /* 04EAC 808CFC6C 000F4702 */  srl     $t0, $t7, 28               
 /* 04EB0 808CFC70 00085080 */  sll     $t2, $t0,  2               
 /* 04EB4 808CFC74 012A4821 */  addu    $t1, $t1, $t2              
-/* 04EB8 808CFC78 8D296FA8 */  lw      $t1, 0x6FA8($t1)           ## 80166FA8
+/* 04EB8 808CFC78 8D296FA8 */  lw      $t1, %lo(gSegments)($t1)
 /* 04EBC 808CFC7C 0081C824 */  and     $t9, $a0, $at              
 /* 04EC0 808CFC80 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 04EC4 808CFC84 03296021 */  addu    $t4, $t9, $t1              
@@ -289,7 +319,7 @@ glabel func_808CF898
 /* 04F2C 808CFCEC 3C120601 */  lui     $s2, 0x0601                ## $s2 = 06010000
 /* 04F30 808CFCF0 2652B3A8 */  addiu   $s2, $s2, 0xB3A8           ## $s2 = 0600B3A8
 /* 04F34 808CFCF4 8E0402D0 */  lw      $a0, 0x02D0($s0)           ## 000002D0
-/* 04F38 808CFCF8 0C024DDD */  jal     func_80093774              
+/* 04F38 808CFCF8 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 04F3C 808CFCFC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 04F40 808CFD00 AE0202D0 */  sw      $v0, 0x02D0($s0)           ## 000002D0
 /* 04F44 808CFD04 24580008 */  addiu   $t8, $v0, 0x0008           ## $t8 = 00000008
@@ -347,7 +377,7 @@ glabel func_808CF898
 /* 05010 808CFDD0 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 05014 808CFDD4 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 05018 808CFDD8 3C04808D */  lui     $a0, %hi(D_808D1A9C)       ## $a0 = 808D0000
-/* 0501C 808CFDDC 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 0501C 808CFDDC 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 05020 808CFDE0 244F0008 */  addiu   $t7, $v0, 0x0008           ## $t7 = 00000008
 /* 05024 808CFDE4 AE0F02D0 */  sw      $t7, 0x02D0($s0)           ## 000002D0
 /* 05028 808CFDE8 AC480000 */  sw      $t0, 0x0000($v0)           ## 00000000
@@ -361,7 +391,7 @@ glabel func_808CF898
 /* 05048 808CFE08 000C6F02 */  srl     $t5, $t4, 28               
 /* 0504C 808CFE0C 000D5880 */  sll     $t3, $t5,  2               
 /* 05050 808CFE10 01CB7021 */  addu    $t6, $t6, $t3              
-/* 05054 808CFE14 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 05054 808CFE14 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 05058 808CFE18 00814824 */  and     $t1, $a0, $at              
 /* 0505C 808CFE1C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 05060 808CFE20 012EC021 */  addu    $t8, $t1, $t6              
@@ -448,7 +478,7 @@ glabel func_808CF898
 /* 05194 808CFF54 24C61D4C */  addiu   $a2, $a2, %lo(D_808D1D4C)  ## $a2 = 808D1D4C
 /* 05198 808CFF58 27A400B4 */  addiu   $a0, $sp, 0x00B4           ## $a0 = FFFFFFDC
 /* 0519C 808CFF5C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 051A0 808CFF60 0C031AD5 */  jal     func_800C6B54              
+/* 051A0 808CFF60 0C031AD5 */  jal     Graph_CloseDisps              
 /* 051A4 808CFF64 24071066 */  addiu   $a3, $zero, 0x1066         ## $a3 = 00001066
 /* 051A8 808CFF68 8FBF0044 */  lw      $ra, 0x0044($sp)           
 /* 051AC 808CFF6C D7B40018 */  ldc1    $f20, 0x0018($sp)          
@@ -463,5 +493,3 @@ glabel func_808CF898
 /* 051D0 808CFF90 8FBE0040 */  lw      $s8, 0x0040($sp)           
 /* 051D4 808CFF94 03E00008 */  jr      $ra                        
 /* 051D8 808CFF98 27BD00D8 */  addiu   $sp, $sp, 0x00D8           ## $sp = 00000000
-
-

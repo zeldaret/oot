@@ -307,7 +307,7 @@ glabel func_80AB6570
 /* 01228 80AB69A8 A600025A */  sh      $zero, 0x025A($s0)         ## 0000025A
 /* 0122C 80AB69AC A60E029E */  sh      $t6, 0x029E($s0)           ## 0000029E
 .L80AB69B0:
-/* 01230 80AB69B0 0C03F494 */  jal     func_800FD250              
+/* 01230 80AB69B0 0C03F494 */  jal     Math_atan2f              
 /* 01234 80AB69B4 00000000 */  nop
 /* 01238 80AB69B8 3C0180AC */  lui     $at, %hi(D_80AB8AE0)       ## $at = 80AC0000
 /* 0123C 80AB69BC C4268AE0 */  lwc1    $f6, %lo(D_80AB8AE0)($at)  
@@ -345,5 +345,3 @@ glabel func_80AB6570
 /* 012AC 80AB6A2C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 012B0 80AB6A30 03E00008 */  jr      $ra                        
 /* 012B4 80AB6A34 00000000 */  nop
-
-

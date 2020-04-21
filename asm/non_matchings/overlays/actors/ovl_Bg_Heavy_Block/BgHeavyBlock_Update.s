@@ -8,5 +8,3 @@ glabel BgHeavyBlock_Update
 /* 01470 80884C00 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01474 80884C04 03E00008 */  jr      $ra                        
 /* 01478 80884C08 00000000 */  nop
-
-

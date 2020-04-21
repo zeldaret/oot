@@ -1,3 +1,13 @@
+.rdata
+glabel D_808A2E68
+    .asciz "Error : 梯子の発生失敗(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_808A2E98
+    .asciz "../z_bg_mori_hashigo.c"
+    .balign 4
+
+.text
 glabel func_808A2698
 /* 00138 808A2698 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 0013C 808A269C AFB00038 */  sw      $s0, 0x0038($sp)           
@@ -59,5 +69,3 @@ glabel func_808A2698
 /* 00204 808A2764 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00208 808A2768 03E00008 */  jr      $ra                        
 /* 0020C 808A276C 00000000 */  nop
-
-

@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B65454
+    .float 1500.0
+
+.text
 glabel EnfHG_Update
 /* 02340 80B64D00 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 02344 80B64D04 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -108,5 +113,3 @@ glabel EnfHG_Update
 /* 024C8 80B64E88 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 024CC 80B64E8C 03E00008 */  jr      $ra                        
 /* 024D0 80B64E90 00000000 */  nop
-
-

@@ -21,4 +21,3 @@ glabel EnSkb_Draw
 /* 01674 80AFE014 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 01678 80AFE018 03E00008 */  jr      $ra                        
 /* 0167C 80AFE01C 00000000 */  nop
-

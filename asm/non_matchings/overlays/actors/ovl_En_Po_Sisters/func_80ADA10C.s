@@ -43,5 +43,3 @@ glabel func_80ADA10C
 /* 0121C 80ADA1AC 25EFBD38 */  addiu   $t7, $t7, %lo(func_80ADBD38) ## $t7 = 80ADBD38
 /* 01220 80ADA1B0 03E00008 */  jr      $ra                        
 /* 01224 80ADA1B4 AC8F0190 */  sw      $t7, 0x0190($a0)           ## 00000190
-
-

@@ -1,3 +1,38 @@
+.rdata
+glabel D_809829FC
+    .asciz "Demo_Gt_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.late_rodata
+.late_rodata_alignment 4
+glabel jtbl_80982B54
+.word L809824A4
+.word L809824B4
+.word L809824C4
+.word L80982524
+.word L80982524
+.word L809824D4
+.word L809824E4
+.word L809824F4
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982524
+.word L80982504
+.word L80982514
+
+.text
 glabel DemoGt_Init
 /* 04E04 80982474 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 04E08 80982478 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -66,5 +101,3 @@ glabel L80982524
 /* 04ED0 80982540 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 04ED4 80982544 03E00008 */  jr      $ra                        
 /* 04ED8 80982548 00000000 */  nop
-
-

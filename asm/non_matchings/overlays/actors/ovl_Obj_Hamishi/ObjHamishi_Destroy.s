@@ -10,5 +10,3 @@ glabel ObjHamishi_Destroy
 /* 00580 80B93510 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00584 80B93514 03E00008 */  jr      $ra                        
 /* 00588 80B93518 00000000 */  nop
-
-

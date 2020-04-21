@@ -1,3 +1,75 @@
+.late_rodata
+glabel D_8090DC64
+    .float 0.3
+
+glabel D_8090DC68
+ .word 0x465AC000
+glabel D_8090DC6C
+ .word 0x463B8000
+glabel D_8090DC70
+    .float 0.2
+
+glabel D_8090DC74
+    .float 1.9
+
+glabel D_8090DC78
+    .float 10000.0
+
+glabel jtbl_8090DC7C
+.word L80903360
+.word L8090304C
+.word L80903360
+.word L80903360
+.word L80903070
+.word L809030C0
+.word L80903110
+.word L809031D8
+.word L80903264
+.word L80903360
+.word L80903360
+.word L80903360
+.word L80903360
+.word L80903360
+.word L80903360
+.word L80903360
+.word L80903360
+.word L80903360
+.word L80903360
+.word L80903360
+.word L80903360
+.word L809032A4
+.word L809032C8
+.word L809032F0
+.word L80903318
+.word L80903340
+glabel D_8090DCE4
+    .float 0.15
+
+glabel D_8090DCE8
+    .float 0.15
+
+glabel D_8090DCEC
+    .float 0.15
+
+glabel D_8090DCF0
+    .float 0.15
+
+glabel D_8090DCF4
+    .float 6.28318548203
+
+glabel D_8090DCF8
+    .float 0.1
+
+glabel D_8090DCFC
+    .float 0.3
+
+glabel D_8090DD00
+    .float 0.2
+
+glabel D_8090DD04
+    .float 0.15
+
+.text
 glabel BossGanon2_Update
 /* 058E0 80902820 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 058E4 80902824 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -911,5 +983,3 @@ glabel L80903360
 /* 06598 809034D8 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 0659C 809034DC 03E00008 */  jr      $ra                        
 /* 065A0 809034E0 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

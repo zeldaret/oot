@@ -1,6 +1,5 @@
 #include "z_boss_ganondrof.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000035
 
 void BossGanondrof_Init(BossGanondrof* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void BossGanondrof_Update(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Draw(BossGanondrof* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Boss_Ganondrof_InitVars =
-{
+const ActorInit Boss_Ganondrof_InitVars = {
     ACTOR_BOSS_GANONDROF,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_GND,
     sizeof(BossGanondrof),

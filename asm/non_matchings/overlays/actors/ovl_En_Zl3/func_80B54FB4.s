@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B5A610
+    .asciz "ゼルダ姫のEn_Zl3_Actor_inFinal_Init通すよ!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+glabel D_80B5A654
+    .asciz "ゼルダ姫のEn_Zl3_Actor_inFinal_Initは通った!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_80B54FB4
 /* 01C04 80B54FB4 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 01C08 80B54FB8 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -41,5 +51,3 @@ glabel func_80B54FB4
 /* 01C98 80B55048 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 01C9C 80B5504C 03E00008 */  jr      $ra                        
 /* 01CA0 80B55050 00000000 */  nop
-
-

@@ -156,5 +156,3 @@ glabel BgGndDarkmeiro_Init
 /* 002AC 80878EDC 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 002B0 80878EE0 03E00008 */  jr      $ra                        
 /* 002B4 80878EE4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

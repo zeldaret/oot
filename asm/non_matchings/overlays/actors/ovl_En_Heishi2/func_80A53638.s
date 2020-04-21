@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A55194
+    .asciz "[35m☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n[m"
+    .balign 4
+
+.text
 glabel func_80A53638
 /* 00798 80A53638 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0079C 80A5363C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -69,5 +75,3 @@ glabel func_80A53638
 /* 00880 80A53720 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00884 80A53724 03E00008 */  jr      $ra                        
 /* 00888 80A53728 00000000 */  nop
-
-

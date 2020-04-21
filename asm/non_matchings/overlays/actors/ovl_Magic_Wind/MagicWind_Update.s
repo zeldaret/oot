@@ -24,5 +24,3 @@ glabel MagicWind_Update
 /* 004E8 80B8B5E8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 004EC 80B8B5EC 03E00008 */  jr      $ra                        
 /* 004F0 80B8B5F0 00000000 */  nop
-
-

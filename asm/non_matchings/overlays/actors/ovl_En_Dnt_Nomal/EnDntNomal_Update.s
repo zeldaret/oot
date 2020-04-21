@@ -1,3 +1,14 @@
+.late_rodata
+glabel jtbl_809F606C
+.word L809F57B0
+.word L809F56EC
+.word L809F5714
+.word L809F576C
+.word L809F5784
+.word L809F5794
+.word L809F57A4
+
+.text
 glabel EnDntNomal_Update
 /* 02360 809F5620 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 02364 809F5624 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -204,5 +215,3 @@ glabel L809F57B0
 /* 02618 809F58D8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 0261C 809F58DC 03E00008 */  jr      $ra                        
 /* 02620 809F58E0 00000000 */  nop
-
-

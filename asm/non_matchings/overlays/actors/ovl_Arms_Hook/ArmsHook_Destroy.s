@@ -17,5 +17,3 @@ glabel ArmsHook_Destroy
 /* 000B8 80864FB8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000BC 80864FBC 03E00008 */  jr      $ra                        
 /* 000C0 80864FC0 00000000 */  nop
-
-

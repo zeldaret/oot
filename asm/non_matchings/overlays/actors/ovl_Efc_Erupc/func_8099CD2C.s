@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8099D81C
+    .float 0.1
+
+.text
 glabel func_8099CD2C
 /* 0007C 8099CD2C 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00080 8099CD30 AFBF0044 */  sw      $ra, 0x0044($sp)           
@@ -76,8 +81,8 @@ glabel func_8099CD2C
 /* 0018C 8099CE3C 244B0001 */  addiu   $t3, $v0, 0x0001           ## $t3 = 00000001
 /* 00190 8099CE40 0C03CFCF */  jal     func_800F3F3C              
 /* 00194 8099CE44 24040006 */  addiu   $a0, $zero, 0x0006         ## $a0 = 00000006
-/* 00198 8099CE48 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 0019C 8099CE4C 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00198 8099CE48 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 0019C 8099CE4C 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 001A0 8099CE50 94690ED8 */  lhu     $t1, 0x0ED8($v1)           ## 8015F538
 /* 001A4 8099CE54 352A8000 */  ori     $t2, $t1, 0x8000           ## $t2 = 00008000
 /* 001A8 8099CE58 A46A0ED8 */  sh      $t2, 0x0ED8($v1)           ## 8015F538
@@ -164,5 +169,3 @@ glabel func_8099CD2C
 /* 002BC 8099CF6C 8FB20040 */  lw      $s2, 0x0040($sp)           
 /* 002C0 8099CF70 03E00008 */  jr      $ra                        
 /* 002C4 8099CF74 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

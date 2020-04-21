@@ -1,6 +1,11 @@
+/*
+ * File: z_bg_jya_haheniron
+ * Overlay: ovl_Bg_Jya_Haheniron
+ * Description: Chunks of Iron Knucle Chair and Pillar
+ */
+
 #include "z_bg_jya_haheniron.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000010
 
 void BgJyaHaheniron_Init(BgJyaHaheniron* this, GlobalContext* globalCtx);
@@ -9,11 +14,9 @@ void BgJyaHaheniron_Update(BgJyaHaheniron* this, GlobalContext* globalCtx);
 void BgJyaHaheniron_Draw(BgJyaHaheniron* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Haheniron_InitVars =
-{
+const ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_JYA_IRON,
     sizeof(BgJyaHaheniron),

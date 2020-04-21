@@ -1,3 +1,25 @@
+.rdata
+glabel D_80A52B84
+    .asciz "[32m 種類  %d\n[m"
+    .balign 4
+
+glabel D_80A52B98
+    .asciz "[32m ぱす  %d\n[m"
+    .balign 4
+
+glabel D_80A52BAC
+    .asciz "[32m 反転  %d\n[m"
+    .balign 4
+
+glabel D_80A52BC0
+    .asciz "[32m 時間  %d\n[m"
+    .balign 4
+
+glabel D_80A52BD4
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel func_80A51D18
 /* 00A48 80A51D18 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00A4C 80A51D1C AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -121,8 +143,8 @@ glabel func_80A51D18
 /* 00BE8 80A51EB8 0C01E107 */  jal     Math_SmoothScaleMaxF
               
 /* 00BEC 80A51EBC 00000000 */  nop
-/* 00BF0 80A51EC0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00BF4 80A51EC4 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00BF0 80A51EC0 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 00BF4 80A51EC4 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 00BF8 80A51EC8 8605026C */  lh      $a1, 0x026C($s0)           ## 0000026C
 /* 00BFC 80A51ECC 845912D6 */  lh      $t9, 0x12D6($v0)           ## 801612D6
 /* 00C00 80A51ED0 54B9001B */  bnel    $a1, $t9, .L80A51F40       
@@ -163,5 +185,3 @@ glabel func_80A51D18
 /* 00C74 80A51F44 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00C78 80A51F48 03E00008 */  jr      $ra                        
 /* 00C7C 80A51F4C 00000000 */  nop
-
-

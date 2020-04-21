@@ -1,3 +1,22 @@
+.rdata
+glabel D_80ACD7AC
+    .asciz "フクロウ消滅!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+.late_rodata
+glabel D_80ACD854
+    .float 0.3
+
+glabel D_80ACD858
+    .float 5000.0
+
+glabel D_80ACD85C
+    .float 5000.0
+
+glabel D_80ACD860
+    .float 5000.0
+
+.text
 glabel EnOwl_Update
 /* 02780 80ACC6A0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 02784 80ACC6A4 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -535,5 +554,3 @@ glabel EnOwl_Update
 /* 02ED4 80ACCDF4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 02ED8 80ACCDF8 03E00008 */  jr      $ra                        
 /* 02EDC 80ACCDFC 00000000 */  nop
-
-

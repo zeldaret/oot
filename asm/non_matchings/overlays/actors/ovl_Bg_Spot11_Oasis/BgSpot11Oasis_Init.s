@@ -20,5 +20,3 @@ glabel BgSpot11Oasis_Init
 /* 00174 808B2964 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00178 808B2968 03E00008 */  jr      $ra                        
 /* 0017C 808B296C 00000000 */  nop
-
-

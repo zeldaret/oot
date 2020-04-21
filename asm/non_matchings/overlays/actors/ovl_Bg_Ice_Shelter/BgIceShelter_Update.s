@@ -8,5 +8,3 @@ glabel BgIceShelter_Update
 /* 00C70 808913B0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00C74 808913B4 03E00008 */  jr      $ra                        
 /* 00C78 808913B8 00000000 */  nop
-
-

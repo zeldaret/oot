@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B5AB9C
+ .word 0x455D8000
+
+.text
 glabel func_80B59828
 /* 06478 80B59828 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0647C 80B5982C AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -58,8 +63,8 @@ glabel func_80B59828
 /* 06548 80B598F8 0C2D4D1A */  jal     func_80B53468              
 /* 0654C 80B598FC 00000000 */  nop
 /* 06550 80B59900 240A0140 */  addiu   $t2, $zero, 0x0140         ## $t2 = 00000140
-/* 06554 80B59904 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 06558 80B59908 A42AFA84 */  sh      $t2, -0x057C($at)          ## 8015FA84
+/* 06554 80B59904 3C018016 */  lui     $at, %hi(gSaveContext+0x1424)
+/* 06558 80B59908 A42AFA84 */  sh      $t2, %lo(gSaveContext+0x1424)($at)
 /* 0655C 80B5990C 0C021DA0 */  jal     func_80087680              
 /* 06560 80B59910 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 06564 80B59914 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -172,5 +177,3 @@ glabel func_80B59828
 /* 066C4 80B59A74 8FB10030 */  lw      $s1, 0x0030($sp)           
 /* 066C8 80B59A78 03E00008 */  jr      $ra                        
 /* 066CC 80B59A7C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

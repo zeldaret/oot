@@ -8,5 +8,3 @@ glabel BgSpot01Idomizu_Update
 /* 0016C 808ABC4C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00170 808ABC50 03E00008 */  jr      $ra                        
 /* 00174 808ABC54 00000000 */  nop
-
-

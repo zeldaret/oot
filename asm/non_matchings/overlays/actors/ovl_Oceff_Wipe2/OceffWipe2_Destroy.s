@@ -6,8 +6,8 @@ glabel OceffWipe2_Destroy
 /* 00080 80BA9C30 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00084 80BA9C34 0C021DB2 */  jal     func_800876C8              
 /* 00088 80BA9C38 AFA20018 */  sw      $v0, 0x0018($sp)           
-/* 0008C 80BA9C3C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00090 80BA9C40 85CEFA28 */  lh      $t6, -0x05D8($t6)          ## 8015FA28
+/* 0008C 80BA9C3C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x13c8)
+/* 00090 80BA9C40 85CEFA28 */  lh      $t6, %lo(gSaveContext+0x13c8)($t6)
 /* 00094 80BA9C44 8FA20018 */  lw      $v0, 0x0018($sp)           
 /* 00098 80BA9C48 51C00005 */  beql    $t6, $zero, .L80BA9C60     
 /* 0009C 80BA9C4C 8FBF0014 */  lw      $ra, 0x0014($sp)           
@@ -19,5 +19,3 @@ glabel OceffWipe2_Destroy
 /* 000B0 80BA9C60 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 000B4 80BA9C64 03E00008 */  jr      $ra                        
 /* 000B8 80BA9C68 00000000 */  nop
-
-

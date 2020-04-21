@@ -15,4 +15,3 @@ glabel EnIshi_Draw
 /* 01584 80A7F9E4 00000000 */  nop
 /* 01588 80A7F9E8 00000000 */  nop
 /* 0158C 80A7F9EC 00000000 */  nop
-

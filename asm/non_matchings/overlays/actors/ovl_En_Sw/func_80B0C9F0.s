@@ -1,3 +1,13 @@
+.late_rodata
+glabel D_80B0F20C
+ .word 0x481C4000
+glabel D_80B0F210
+    .float 0.1
+
+glabel D_80B0F214
+ .word 0xBDCCCCCD
+
+.text
 glabel func_80B0C9F0
 /* 00C40 80B0C9F0 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00C44 80B0C9F4 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -59,8 +69,8 @@ glabel func_80B0C9F0
 /* 00D10 80B0CAC0 0C00CB1F */  jal     func_80032C7C              
 /* 00D14 80B0CAC4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00D18 80B0CAC8 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C
-/* 00D1C 80B0CACC 3C0E8003 */  lui     $t6, 0x8003                ## $t6 = 80030000
-/* 00D20 80B0CAD0 25CEB5EC */  addiu   $t6, $t6, 0xB5EC           ## $t6 = 8002B5EC
+/* 00D1C 80B0CACC 3C0E8003 */  lui     $t6, %hi(ActorShadow_DrawFunc_Circle)
+/* 00D20 80B0CAD0 25CEB5EC */  addiu   $t6, %lo(ActorShadow_DrawFunc_Circle)
 /* 00D24 80B0CAD4 31F8E000 */  andi    $t8, $t7, 0xE000           ## $t8 = 00000000
 /* 00D28 80B0CAD8 0018CB43 */  sra     $t9, $t8, 13               
 /* 00D2C 80B0CADC 1320001D */  beq     $t9, $zero, .L80B0CB54     
@@ -137,5 +147,3 @@ glabel func_80B0C9F0
 /* 00E2C 80B0CBDC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00E30 80B0CBE0 03E00008 */  jr      $ra                        
 /* 00E34 80B0CBE4 00000000 */  nop
-
-

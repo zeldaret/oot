@@ -7,8 +7,8 @@ glabel EnRd_Update
 /* 01EF0 80AE42F0 AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 01EF4 80AE42F4 0C2B9045 */  jal     func_80AE4114              
 /* 01EF8 80AE42F8 AFAE0034 */  sw      $t6, 0x0034($sp)           
-/* 01EFC 80AE42FC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 01F00 80AE4300 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01EFC 80AE42FC 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 01F00 80AE4300 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01F04 80AE4304 844F1422 */  lh      $t7, 0x1422($v0)           ## 8015FA82
 /* 01F08 80AE4308 51E00006 */  beql    $t7, $zero, .L80AE4324     
 /* 01F0C 80AE430C 9202031C */  lbu     $v0, 0x031C($s0)           ## 0000031C
@@ -136,5 +136,3 @@ glabel EnRd_Update
 /* 020B8 80AE44B8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 020BC 80AE44BC 03E00008 */  jr      $ra                        
 /* 020C0 80AE44C0 00000000 */  nop
-
-

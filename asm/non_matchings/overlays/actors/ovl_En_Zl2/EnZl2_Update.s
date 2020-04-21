@@ -1,3 +1,9 @@
+.rdata
+glabel D_80B52ABC
+    .asciz "[31mメインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel EnZl2_Update
 /* 038B4 80B52244 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 038B8 80B52248 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -26,5 +32,3 @@ glabel EnZl2_Update
 /* 03904 80B52294 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 03908 80B52298 03E00008 */  jr      $ra                        
 /* 0390C 80B5229C 00000000 */  nop
-
-

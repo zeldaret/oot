@@ -1,7 +1,6 @@
 #include <global.h>
 
-void __osResetGlobalIntMask(u32 mask)
-{
+void __osResetGlobalIntMask(u32 mask) {
     register s32 prevInt;
 
     prevInt = __osDisableInt();

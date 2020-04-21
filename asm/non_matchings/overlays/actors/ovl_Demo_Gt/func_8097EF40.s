@@ -1,3 +1,17 @@
+.late_rodata
+glabel D_80982AC0
+    .float 679.0
+
+glabel D_80982AC4
+    .float 1700.0
+
+glabel D_80982AC8
+    .float 679.0
+
+glabel D_80982ACC
+    .float 1700.0
+
+.text
 glabel func_8097EF40
 /* 018D0 8097EF40 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 018D4 8097EF44 3C0F8098 */  lui     $t7, %hi(D_809825FC)       ## $t7 = 80980000
@@ -15,7 +29,7 @@ glabel func_8097EF40
 /* 01904 8097EF74 ACD80004 */  sw      $t8, 0x0004($a2)           ## FFFFFFDC
 /* 01908 8097EF78 8DF90008 */  lw      $t9, 0x0008($t7)           ## 80982604
 /* 0190C 8097EF7C 27A70034 */  addiu   $a3, $sp, 0x0034           ## $a3 = FFFFFFCC
-/* 01910 8097EF80 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 01910 8097EF80 3C0B8016 */  lui     $t3, %hi(gGameInfo)
 /* 01914 8097EF84 ACD90008 */  sw      $t9, 0x0008($a2)           ## FFFFFFE0
 /* 01918 8097EF88 8D0A0000 */  lw      $t2, 0x0000($t0)           ## 80982608
 /* 0191C 8097EF8C 24010014 */  addiu   $at, $zero, 0x0014         ## $at = 00000014
@@ -25,7 +39,7 @@ glabel func_8097EF40
 /* 0192C 8097EF9C ACE90004 */  sw      $t1, 0x0004($a3)           ## FFFFFFD0
 /* 01930 8097EFA0 8D0A0008 */  lw      $t2, 0x0008($t0)           ## 80982610
 /* 01934 8097EFA4 ACEA0008 */  sw      $t2, 0x0008($a3)           ## FFFFFFD4
-/* 01938 8097EFA8 8D6BFA90 */  lw      $t3, -0x0570($t3)          ## 8015FA90
+/* 01938 8097EFA8 8D6BFA90 */  lw      $t3, %lo(gGameInfo)($t3)
 /* 0193C 8097EFAC 856C1456 */  lh      $t4, 0x1456($t3)           ## 80161456
 /* 01940 8097EFB0 11810003 */  beq     $t4, $at, .L8097EFC0       
 /* 01944 8097EFB4 240100DC */  addiu   $at, $zero, 0x00DC         ## $at = 000000DC
@@ -92,5 +106,3 @@ glabel func_8097EF40
 /* 01A30 8097F0A0 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 01A34 8097F0A4 03E00008 */  jr      $ra                        
 /* 01A38 8097F0A8 00000000 */  nop
-
-

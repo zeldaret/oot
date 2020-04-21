@@ -82,4 +82,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80110460.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801104C8.s")
-

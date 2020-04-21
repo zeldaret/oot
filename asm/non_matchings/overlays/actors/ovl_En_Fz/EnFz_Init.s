@@ -101,5 +101,3 @@ glabel EnFz_Init
 /* 00170 80A1FF30 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00174 80A1FF34 03E00008 */  jr      $ra                        
 /* 00178 80A1FF38 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

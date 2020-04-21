@@ -16,5 +16,3 @@ glabel func_80B57A74
 .L80B57AA4:
 /* 046F4 80B57AA4 03E00008 */  jr      $ra                        
 /* 046F8 80B57AA8 00000000 */  nop
-
-

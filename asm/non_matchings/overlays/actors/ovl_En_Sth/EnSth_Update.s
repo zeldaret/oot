@@ -8,5 +8,3 @@ glabel EnSth_Update
 /* 00994 80B07ED4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00998 80B07ED8 03E00008 */  jr      $ra                        
 /* 0099C 80B07EDC 00000000 */  nop
-
-

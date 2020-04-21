@@ -12,5 +12,3 @@ glabel EnJsjutan_Destroy
 /* 000B4 80A89854 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000B8 80A89858 03E00008 */  jr      $ra                        
 /* 000BC 80A8985C 00000000 */  nop
-
-

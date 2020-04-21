@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80AFE128
+    .float 3000.0
+
+.text
 glabel EnSkb_Update
 /* 01270 80AFDC10 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 01274 80AFDC14 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -78,5 +83,3 @@ glabel EnSkb_Update
 /* 01384 80AFDD24 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 01388 80AFDD28 03E00008 */  jr      $ra                        
 /* 0138C 80AFDD2C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

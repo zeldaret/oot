@@ -10,5 +10,3 @@ glabel EnGuest_Destroy
 /* 000D0 80A502F0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 000D4 80A502F4 03E00008 */  jr      $ra                        
 /* 000D8 80A502F8 00000000 */  nop
-
-

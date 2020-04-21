@@ -20,8 +20,8 @@ glabel EnHintnuts_Init
 /* 00044 80A57244 10000050 */  beq     $zero, $zero, .L80A57388   
 /* 00048 80A57248 AE180004 */  sw      $t8, 0x0004($s0)           ## 00000004
 .L80A5724C:
-/* 0004C 80A5724C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00050 80A57250 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0004C 80A5724C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00050 80A57250 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00054 80A57254 0C00AC78 */  jal     ActorShape_Init
               
 /* 00058 80A57258 3C07420C */  lui     $a3, 0x420C                ## $a3 = 420C0000
@@ -115,5 +115,3 @@ glabel EnHintnuts_Init
 /* 00190 80A57390 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 00194 80A57394 03E00008 */  jr      $ra                        
 /* 00198 80A57398 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

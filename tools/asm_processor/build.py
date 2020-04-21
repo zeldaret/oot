@@ -43,6 +43,7 @@ try:
         print()
         print(' '.join(shlex.quote(x) for x in compile_cmdline))
         print()
+        sys.exit(55)
         # To keep the preprocessed file:
         # os._exit(1)
 

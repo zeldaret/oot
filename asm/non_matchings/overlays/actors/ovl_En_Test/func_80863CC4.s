@@ -1,3 +1,57 @@
+.late_rodata
+glabel jtbl_808647F8
+.word L80863F68
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863F70
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863F88
+.word L80863FCC
+.word L80863FA0
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863F7C
+.word L80863FCC
+.word L80863FCC
+.word L80863F94
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FB8
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FCC
+.word L80863FC4
+.word L80863FCC
+.word L80863FCC
+.word L80863FAC
+
+.text
 glabel func_80863CC4
 /* 04674 80863CC4 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 04678 80863CC8 AFB00030 */  sw      $s0, 0x0030($sp)           
@@ -245,5 +299,3 @@ glabel L80863FCC
 /* 049EC 8086403C 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 049F0 80864040 03E00008 */  jr      $ra                        
 /* 049F4 80864044 00000000 */  nop
-
-

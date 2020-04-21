@@ -1,3 +1,76 @@
+.rdata
+glabel D_809F1758
+    .asciz "[31m☆☆☆☆☆ げらげら ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F1784
+    .asciz "[32m☆☆☆☆☆ 特別！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F17AC
+    .asciz "[32m☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F17DC
+    .asciz "[33m☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F180C
+    .asciz "[35m☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F183C
+    .asciz "[36m☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F186C
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809F1870
+    .asciz "[32m☆☆☆☆☆ 各インデックス１ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809F18A4
+    .asciz "[32m☆☆☆☆☆ 各インデックス２ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809F18D8
+    .asciz "[32m☆☆☆☆☆ 各インデックス３ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809F190C
+    .asciz "\n"
+    .balign 4
+
+glabel D_809F1910
+    .asciz "[33m☆☆☆☆☆ どういう評価？  ☆☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809F1944
+    .asciz "[35m☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809F1978
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_809F1980
+.word L809F0E1C
+.word L809F0D50
+.word L809F0E1C
+.word L809F0E1C
+.word L809F0E1C
+.word L809F0E1C
+.word L809F0E1C
+.word L809F0D80
+glabel D_809F19A0
+    .float 8.99
+glabel D_809F19A4
+    .float 7.99
+
+.text
 glabel func_809F0AA4
 /* 001C4 809F0AA4 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 001C8 809F0AA8 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -185,8 +258,8 @@ glabel func_809F0AA4
 /* 00468 809F0D48 03200008 */  jr      $t9                        
 /* 0046C 809F0D4C 00000000 */  nop
 glabel L809F0D50
-/* 00470 809F0D50 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 00474 809F0D54 954AF552 */  lhu     $t2, -0x0AAE($t2)          ## 8015F552
+/* 00470 809F0D50 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xef2)
+/* 00474 809F0D54 954AF552 */  lhu     $t2, %lo(gSaveContext+0xef2)($t2)
 /* 00478 809F0D58 240C0002 */  addiu   $t4, $zero, 0x0002         ## $t4 = 00000002
 /* 0047C 809F0D5C 240D0002 */  addiu   $t5, $zero, 0x0002         ## $t5 = 00000002
 /* 00480 809F0D60 314B4000 */  andi    $t3, $t2, 0x4000           ## $t3 = 00000000
@@ -200,8 +273,8 @@ glabel L809F0D50
 /* 0049C 809F0D7C 87A8003C */  lh      $t0, 0x003C($sp)           
 glabel L809F0D80
 .L809F0D80:
-/* 004A0 809F0D80 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 004A4 809F0D84 95CEF552 */  lhu     $t6, -0x0AAE($t6)          ## 8015F552
+/* 004A0 809F0D80 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xef2)
+/* 004A4 809F0D84 95CEF552 */  lhu     $t6, %lo(gSaveContext+0xef2)($t6)
 /* 004A8 809F0D88 31CF8000 */  andi    $t7, $t6, 0x8000           ## $t7 = 00000000
 /* 004AC 809F0D8C 15E00023 */  bne     $t7, $zero, .L809F0E1C     
 /* 004B0 809F0D90 00000000 */  nop
@@ -209,12 +282,12 @@ glabel L809F0D80
 /* 004B8 809F0D98 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 004BC 809F0D9C 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 004C0 809F0DA0 1041001E */  beq     $v0, $at, .L809F0E1C       
-/* 004C4 809F0DA4 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 004C8 809F0DA8 3C188013 */  lui     $t8, 0x8013                ## $t8 = 80130000
-/* 004CC 809F0DAC 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 004D0 809F0DB0 271833E8 */  addiu   $t8, $t8, 0x33E8           ## $t8 = 801333E8
-/* 004D4 809F0DB4 3C058013 */  lui     $a1, 0x8013                ## $a1 = 80130000
-/* 004D8 809F0DB8 24A533D4 */  addiu   $a1, $a1, 0x33D4           ## $a1 = 801333D4
+/* 004C4 809F0DA4 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 004C8 809F0DA8 3C188013 */  lui     $t8, %hi(D_801333E8)
+/* 004CC 809F0DAC 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 004D0 809F0DB0 271833E8 */  addiu   $t8, %lo(D_801333E8)
+/* 004D4 809F0DB4 3C058013 */  lui     $a1, %hi(D_801333D4)
+/* 004D8 809F0DB8 24A533D4 */  addiu   $a1, %lo(D_801333D4)
 /* 004DC 809F0DBC AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 004E0 809F0DC0 AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 004E4 809F0DC4 24044807 */  addiu   $a0, $zero, 0x4807         ## $a0 = 00004807
@@ -460,5 +533,3 @@ glabel L809F0E1C
 /* 00814 809F10F4 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 00818 809F10F8 03E00008 */  jr      $ra                        
 /* 0081C 809F10FC 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

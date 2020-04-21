@@ -23,5 +23,3 @@ glabel BgJyaZurerukabe_Update
 /* 00544 8089B984 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00548 8089B988 03E00008 */  jr      $ra                        
 /* 0054C 8089B98C 00000000 */  nop
-
-

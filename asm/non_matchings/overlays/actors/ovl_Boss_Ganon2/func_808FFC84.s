@@ -32,5 +32,3 @@ glabel func_808FFC84
 /* 02DB0 808FFCF0 AC8A0040 */  sw      $t2, 0x0040($a0)           ## 00000040
 /* 02DB4 808FFCF4 03E00008 */  jr      $ra                        
 /* 02DB8 808FFCF8 00000000 */  nop
-
-

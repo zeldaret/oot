@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_80B2A0F8
+ .word 0x44D48000
+glabel D_80B2A0FC
+ .word 0x43CCCCCD
+glabel D_80B2A100
+ .word 0x4622F983, 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel EnVbBall_Update
 /* 00614 80B295B4 27BDFEF0 */  addiu   $sp, $sp, 0xFEF0           ## $sp = FFFFFEF0
 /* 00618 80B295B8 AFBF0064 */  sw      $ra, 0x0064($sp)           
@@ -123,9 +132,9 @@ glabel EnVbBall_Update
 /* 007D8 80B29778 4481B000 */  mtc1    $at, $f22                  ## $f22 = 10.00
 /* 007DC 80B2977C 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 007E0 80B29780 26991C24 */  addiu   $t9, $s4, 0x1C24           ## $t9 = 00001C24
-/* 007E4 80B29784 3C138013 */  lui     $s3, 0x8013                ## $s3 = 80130000
+/* 007E4 80B29784 3C138013 */  lui     $s3, %hi(D_801333E0)
 /* 007E8 80B29788 4481A000 */  mtc1    $at, $f20                  ## $f20 = 3.00
-/* 007EC 80B2978C 267333E0 */  addiu   $s3, $s3, 0x33E0           ## $s3 = 801333E0
+/* 007EC 80B2978C 267333E0 */  addiu   $s3, %lo(D_801333E0)
 /* 007F0 80B29790 AFB9006C */  sw      $t9, 0x006C($sp)           
 /* 007F4 80B29794 862E001C */  lh      $t6, 0x001C($s1)           ## 0000001C
 .L80B29798:
@@ -210,8 +219,8 @@ glabel EnVbBall_Update
 /* 0090C 80B298AC 244500E4 */  addiu   $a1, $v0, 0x00E4           ## $a1 = 000000E4
 /* 00910 80B298B0 16AD0007 */  bne     $s5, $t5, .L80B298D0       
 /* 00914 80B298B4 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
-/* 00918 80B298B8 3C0F8013 */  lui     $t7, 0x8013                ## $t7 = 80130000
-/* 0091C 80B298BC 25EF33E8 */  addiu   $t7, $t7, 0x33E8           ## $t7 = 801333E8
+/* 00918 80B298B8 3C0F8013 */  lui     $t7, %hi(D_801333E8)
+/* 0091C 80B298BC 25EF33E8 */  addiu   $t7, %lo(D_801333E8)
 /* 00920 80B298C0 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 00924 80B298C4 02603825 */  or      $a3, $s3, $zero            ## $a3 = 801333E0
 /* 00928 80B298C8 0C03DCE3 */  jal     Audio_PlaySoundGeneral
@@ -242,7 +251,7 @@ glabel EnVbBall_Update
 /* 00980 80B29920 46004282 */  mul.s   $f10, $f8, $f0             
 /* 00984 80B29924 E60A0158 */  swc1    $f10, 0x0158($s0)          ## 00000158
 /* 00988 80B29928 C7AE00F4 */  lwc1    $f14, 0x00F4($sp)          
-/* 0098C 80B2992C 0C03F494 */  jal     func_800FD250              
+/* 0098C 80B2992C 0C03F494 */  jal     Math_atan2f              
 /* 00990 80B29930 C7AC00EC */  lwc1    $f12, 0x00EC($sp)          
 /* 00994 80B29934 3C0180B3 */  lui     $at, %hi(D_80B2A100)       ## $at = 80B30000
 /* 00998 80B29938 C430A100 */  lwc1    $f16, %lo(D_80B2A100)($at) 
@@ -553,5 +562,3 @@ glabel EnVbBall_Update
 /* 00DD4 80B29D74 8FB50060 */  lw      $s5, 0x0060($sp)           
 /* 00DD8 80B29D78 03E00008 */  jr      $ra                        
 /* 00DDC 80B29D7C 27BD0110 */  addiu   $sp, $sp, 0x0110           ## $sp = 00000000
-
-

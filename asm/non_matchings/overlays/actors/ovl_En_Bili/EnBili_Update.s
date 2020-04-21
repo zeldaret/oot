@@ -131,5 +131,3 @@ glabel EnBili_Update
 /* 0155C 809C0DFC 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 01560 809C0E00 03E00008 */  jr      $ra                        
 /* 01564 809C0E04 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

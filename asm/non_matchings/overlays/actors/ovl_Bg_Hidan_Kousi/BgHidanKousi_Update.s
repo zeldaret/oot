@@ -8,5 +8,3 @@ glabel BgHidanKousi_Update
 /* 003EC 80889D4C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 003F0 80889D50 03E00008 */  jr      $ra                        
 /* 003F4 80889D54 00000000 */  nop
-
-

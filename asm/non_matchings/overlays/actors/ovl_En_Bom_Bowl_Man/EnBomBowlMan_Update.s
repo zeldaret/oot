@@ -106,5 +106,3 @@ glabel EnBomBowlMan_Update
 /* 0126C 809C489C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 01270 809C48A0 03E00008 */  jr      $ra                        
 /* 01274 809C48A4 00000000 */  nop
-
-

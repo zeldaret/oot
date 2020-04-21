@@ -3,7 +3,7 @@ glabel func_80AF55E0
 /* 00084 80AF55E4 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00088 80AF55E8 00A03025 */  or      $a2, $a1, $zero            ## $a2 = 00000000
 /* 0008C 80AF55EC AFA6001C */  sw      $a2, 0x001C($sp)           
-/* 00090 80AF55F0 0C01B0D8 */  jal     func_8006C360              
+/* 00090 80AF55F0 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00094 80AF55F4 24050010 */  addiu   $a1, $zero, 0x0010         ## $a1 = 00000010
 /* 00098 80AF55F8 8FA6001C */  lw      $a2, 0x001C($sp)           
 /* 0009C 80AF55FC 10400003 */  beq     $v0, $zero, .L80AF560C     
@@ -11,10 +11,10 @@ glabel func_80AF55E0
 /* 000A4 80AF5604 10000037 */  beq     $zero, $zero, .L80AF56E4   
 /* 000A8 80AF5608 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000000
 .L80AF560C:
-/* 000AC 80AF560C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 000B0 80AF5610 3C048012 */  lui     $a0, 0x8012                ## $a0 = 80120000
-/* 000B4 80AF5614 24847120 */  addiu   $a0, $a0, 0x7120           ## $a0 = 80127120
-/* 000B8 80AF5618 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 000AC 80AF560C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 000B0 80AF5610 3C048012 */  lui     $a0, %hi(gBitFlags)
+/* 000B4 80AF5614 24847120 */  addiu   $a0, %lo(gBitFlags)
+/* 000B8 80AF5618 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 000BC 80AF561C 8C4300A4 */  lw      $v1, 0x00A4($v0)           ## 8015E704
 /* 000C0 80AF5620 8C8E0038 */  lw      $t6, 0x0038($a0)           ## 80127158
 /* 000C4 80AF5624 01C37824 */  and     $t7, $t6, $v1              
@@ -76,5 +76,3 @@ glabel func_80AF55E0
 /* 00188 80AF56E8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0018C 80AF56EC 03E00008 */  jr      $ra                        
 /* 00190 80AF56F0 00000000 */  nop
-
-

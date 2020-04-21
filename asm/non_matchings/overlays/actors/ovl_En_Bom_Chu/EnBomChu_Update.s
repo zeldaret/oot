@@ -257,5 +257,3 @@ glabel EnBomChu_Update
 /* 01158 809C6988 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 0115C 809C698C 03E00008 */  jr      $ra                        
 /* 01160 809C6990 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

@@ -1,3 +1,11 @@
+.rdata
+glabel D_809EF150
+    .asciz "[32m☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.balign 4
+
+.text
 glabel func_809EEAF8
 /* 01288 809EEAF8 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0128C 809EEAFC AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -22,8 +30,8 @@ glabel func_809EEAF8
 /* 012D0 809EEB40 2484F150 */  addiu   $a0, $a0, %lo(D_809EF150)  ## $a0 = 809EF150
 /* 012D4 809EEB44 A60002A4 */  sh      $zero, 0x02A4($s0)         ## 000002A4
 /* 012D8 809EEB48 860202A4 */  lh      $v0, 0x02A4($s0)           ## 000002A4
-/* 012DC 809EEB4C 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 012E0 809EEB50 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 012DC 809EEB4C 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 012E0 809EEB50 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 012E4 809EEB54 A60202A2 */  sh      $v0, 0x02A2($s0)           ## 000002A2
 /* 012E8 809EEB58 A602029C */  sh      $v0, 0x029C($s0)           ## 0000029C
 /* 012EC 809EEB5C A60202A8 */  sh      $v0, 0x02A8($s0)           ## 000002A8
@@ -41,5 +49,3 @@ glabel func_809EEAF8
 /* 01314 809EEB84 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 01318 809EEB88 03E00008 */  jr      $ra                        
 /* 0131C 809EEB8C 00000000 */  nop
-
-

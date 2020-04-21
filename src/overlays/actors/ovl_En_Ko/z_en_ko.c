@@ -1,6 +1,5 @@
 #include "z_en_ko.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000019
 
 void EnKo_Init(EnKo* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnKo_Update(EnKo* this, GlobalContext* globalCtx);
 void EnKo_Draw(EnKo* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ko_InitVars =
-{
+const ActorInit En_Ko_InitVars = {
     ACTOR_EN_KO,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnKo),

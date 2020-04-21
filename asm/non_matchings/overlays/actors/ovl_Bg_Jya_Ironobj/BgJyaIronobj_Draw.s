@@ -8,11 +8,10 @@ glabel BgJyaIronobj_Draw
 /* 00BBC 8089945C 31CF0001 */  andi    $t7, $t6, 0x0001           ## $t7 = 00000000
 /* 00BC0 80899460 000FC080 */  sll     $t8, $t7,  2               
 /* 00BC4 80899464 00B82821 */  addu    $a1, $a1, $t8              
-/* 00BC8 80899468 0C00D498 */  jal     Draw_DListOpa
+/* 00BC8 80899468 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00BCC 8089946C 8CA594A4 */  lw      $a1, %lo(D_808994A4)($a1)  
 /* 00BD0 80899470 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00BD4 80899474 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00BD8 80899478 03E00008 */  jr      $ra                        
 /* 00BDC 8089947C 00000000 */  nop
-

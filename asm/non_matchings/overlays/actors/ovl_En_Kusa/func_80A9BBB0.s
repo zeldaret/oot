@@ -27,5 +27,3 @@ glabel func_80A9BBB0
 /* 00C70 80A9BC10 3C0180AA */  lui     $at, %hi(D_80A9C1DC)       ## $at = 80AA0000
 /* 00C74 80A9BC14 03E00008 */  jr      $ra                        
 /* 00C78 80A9BC18 A420C1DC */  sh      $zero, %lo(D_80A9C1DC)($at) 
-
-

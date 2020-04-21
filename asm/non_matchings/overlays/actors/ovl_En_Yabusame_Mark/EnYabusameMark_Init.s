@@ -1,3 +1,25 @@
+.rdata
+glabel D_80B43680
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B43684
+    .asciz "[32m☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80B436B4
+    .asciz "[32m☆☆☆☆☆ 種類インデックス 	   ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80B436EC
+    .asciz "[35m☆☆☆☆☆ 種類       ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80B4371C
+    .asciz "[36m☆☆☆☆☆ さらに分類 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel EnYabusameMark_Init
 /* 00028 80B42DE8 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0002C 80B42DEC AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -80,10 +102,10 @@ glabel EnYabusameMark_Init
 /* 00140 80B42F00 8E0D002C */  lw      $t5, 0x002C($s0)           ## 0000002C
 /* 00144 80B42F04 35CF0010 */  ori     $t7, $t6, 0x0010           ## $t7 = 00000010
 /* 00148 80B42F08 AE0F0004 */  sw      $t7, 0x0004($s0)           ## 00000004
-/* 0014C 80B42F0C 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 0014C 80B42F0C 3C188016 */  lui     $t8, %hi(gSaveContext+0x1360)
 /* 00150 80B42F10 AE0C0158 */  sw      $t4, 0x0158($s0)           ## 00000158
 /* 00154 80B42F14 AE0D015C */  sw      $t5, 0x015C($s0)           ## 0000015C
-/* 00158 80B42F18 8F18F9C0 */  lw      $t8, -0x0640($t8)          ## 8015F9C0
+/* 00158 80B42F18 8F18F9C0 */  lw      $t8, %lo(gSaveContext+0x1360)($t8)
 /* 0015C 80B42F1C 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 00160 80B42F20 3C0480B4 */  lui     $a0, %hi(D_80B436EC)       ## $a0 = 80B40000
 /* 00164 80B42F24 13010005 */  beq     $t8, $at, .L80B42F3C       
@@ -111,5 +133,3 @@ glabel EnYabusameMark_Init
 /* 001A8 80B42F68 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 001AC 80B42F6C 03E00008 */  jr      $ra                        
 /* 001B0 80B42F70 00000000 */  nop
-
-

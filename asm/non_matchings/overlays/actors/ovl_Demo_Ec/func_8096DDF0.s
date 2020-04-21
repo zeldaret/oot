@@ -9,5 +9,3 @@ glabel func_8096DDF0
 .L8096DE0C:
 /* 0095C 8096DE0C 03E00008 */  jr      $ra                        
 /* 00960 8096DE10 00000000 */  nop
-
-

@@ -5,16 +5,14 @@
 #include <global.h>
 
 typedef enum {
-    WMT_TIMER,
-    WMT_PROXIMITY,
-    WMT_FLAG,
+    /* 0x00 */ WMT_TIMER,
+    /* 0x01 */ WMT_PROXIMITY,
+    /* 0x02 */ WMT_FLAG
 } WallmasType;
 
-typedef struct
-{
+typedef struct {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x018C */ char unk_18C[0x4];
     /* 0x0190 */ ActorFunc actionFunc;
     /* 0x0194 */ s16 timer;
     /* 0x0196 */ s16 switchFlag;

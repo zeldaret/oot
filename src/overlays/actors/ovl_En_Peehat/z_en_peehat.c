@@ -1,6 +1,5 @@
 #include "z_en_peehat.h"
 
-#define ROOM  0x00
 #define FLAGS 0x01000015
 
 void EnPeehat_Init(EnPeehat* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnPeehat_Update(EnPeehat* this, GlobalContext* globalCtx);
 void EnPeehat_Draw(EnPeehat* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Peehat_InitVars =
-{
+const ActorInit En_Peehat_InitVars = {
     ACTOR_EN_PEEHAT,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_PEEHAT,
     sizeof(EnPeehat),

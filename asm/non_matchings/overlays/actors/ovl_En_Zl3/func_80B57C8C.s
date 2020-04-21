@@ -9,5 +9,3 @@ glabel func_80B57C8C
 /* 048F8 80B57CA8 2C420001 */  sltiu   $v0, $v0, 0x0001           
 /* 048FC 80B57CAC 03E00008 */  jr      $ra                        
 /* 04900 80B57CB0 00000000 */  nop
-
-

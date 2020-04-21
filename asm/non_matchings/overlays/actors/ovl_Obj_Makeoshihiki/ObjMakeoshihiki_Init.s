@@ -1,3 +1,29 @@
+.rdata
+glabel D_80B98970
+	.asciz "\x1B[41;37m"
+	.balign 4
+
+glabel D_80B9897C
+    .asciz "Ｅｒｒｏｒ : 押し引きブロック発生失敗(%s %d)\n"
+    .balign 4
+
+glabel D_80B989AC
+    .asciz "../z_obj_makeoshihiki.c"
+    .balign 4
+	
+glabel D_80B989C4
+	.asciz "\x1B[m"
+	.balign 4
+
+glabel D_80B989C8
+    .asciz "(%s)(arg_data %04xF)(angleZ %d)\n"
+    .balign 4
+
+glabel D_80B989EC
+    .asciz "../z_obj_makeoshihiki.c"
+    .balign 4
+	
+.text
 glabel ObjMakeoshihiki_Init
 /* 00000 80B98510 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00004 80B98514 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -124,5 +150,3 @@ glabel ObjMakeoshihiki_Init
 /* 001B0 80B986C0 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 001B4 80B986C4 03E00008 */  jr      $ra                        
 /* 001B8 80B986C8 00000000 */  nop
-
-

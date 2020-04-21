@@ -1,3 +1,25 @@
+.rdata
+glabel D_8099EB70
+    .asciz "../z_eff_dust.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_8099EBE0
+.word L8099D998
+.word L8099D9E4
+.word L8099DA30
+.word L8099DA6C
+.word L8099DAA8
+glabel D_8099EBF4
+    .float 0.8
+
+glabel D_8099EBF8
+    .float 0.1
+
+glabel D_8099EBFC
+    .float 0.8
+
+.text
 glabel EffDust_Init
 /* 00084 8099D954 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00088 8099D958 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -120,5 +142,3 @@ glabel L8099DAA8
 /* 00240 8099DB10 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00244 8099DB14 03E00008 */  jr      $ra                        
 /* 00248 8099DB18 00000000 */  nop
-
-

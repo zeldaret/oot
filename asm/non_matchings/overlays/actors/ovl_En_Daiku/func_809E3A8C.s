@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_809E41C0
+ .word 0x4622F983
+glabel D_809E41C4
+ .word 0x41A70A3D, 0x00000000, 0x00000000
+
+.text
 glabel func_809E3A8C
 /* 00F5C 809E3A8C 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00F60 809E3A90 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -13,12 +20,12 @@ glabel func_809E3A8C
 /* 00F88 809E3AB8 01E93021 */  addu    $a2, $t7, $t1              
 /* 00F8C 809E3ABC 8CC30004 */  lw      $v1, 0x0004($a2)           ## 00000004
 /* 00F90 809E3AC0 8C9901EC */  lw      $t9, 0x01EC($a0)           ## 000001EC
-/* 00F94 809E3AC4 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 00F94 809E3AC4 3C0D8016 */  lui     $t5, %hi(gSegments)
 /* 00F98 809E3AC8 00035100 */  sll     $t2, $v1,  4               
 /* 00F9C 809E3ACC 000A5F02 */  srl     $t3, $t2, 28               
 /* 00FA0 809E3AD0 000B6080 */  sll     $t4, $t3,  2               
 /* 00FA4 809E3AD4 01AC6821 */  addu    $t5, $t5, $t4              
-/* 00FA8 809E3AD8 8DAD6FA8 */  lw      $t5, 0x6FA8($t5)           ## 80166FA8
+/* 00FA8 809E3AD8 8DAD6FA8 */  lw      $t5, %lo(gSegments)($t5)
 /* 00FAC 809E3ADC 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 00FB0 809E3AE0 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00FB4 809E3AE4 00194080 */  sll     $t0, $t9,  2               
@@ -42,7 +49,7 @@ glabel func_809E3A8C
 /* 00FFC 809E3B2C 46083301 */  sub.s   $f12, $f6, $f8             
 /* 01000 809E3B30 46128381 */  sub.s   $f14, $f16, $f18           
 /* 01004 809E3B34 E7AC0038 */  swc1    $f12, 0x0038($sp)          
-/* 01008 809E3B38 0C03F494 */  jal     func_800FD250              
+/* 01008 809E3B38 0C03F494 */  jal     Math_atan2f              
 /* 0100C 809E3B3C E7AE0034 */  swc1    $f14, 0x0034($sp)          
 /* 01010 809E3B40 3C01809E */  lui     $at, %hi(D_809E41C0)       ## $at = 809E0000
 /* 01014 809E3B44 C42441C0 */  lwc1    $f4, %lo(D_809E41C0)($at)  
@@ -138,5 +145,3 @@ glabel func_809E3A8C
 /* 01158 809E3C88 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 0115C 809E3C8C 03E00008 */  jr      $ra                        
 /* 01160 809E3C90 00000000 */  nop
-
-

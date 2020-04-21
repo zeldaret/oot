@@ -1,6 +1,11 @@
+/*
+ * File: z_en_arrow.c
+ * Overlay: ovl_En_Arrow
+ * Description: Arrows
+ */
+
 #include "z_en_arrow.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000030
 
 void EnArrow_Init(EnArrow* this, GlobalContext* globalCtx);
@@ -9,11 +14,9 @@ void EnArrow_Update(EnArrow* this, GlobalContext* globalCtx);
 void EnArrow_Draw(EnArrow* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Arrow_InitVars =
-{
+const ActorInit En_Arrow_InitVars = {
     ACTOR_EN_ARROW,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnArrow),

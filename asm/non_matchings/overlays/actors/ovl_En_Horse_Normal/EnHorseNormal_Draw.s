@@ -1,3 +1,32 @@
+.rdata
+glabel D_80A6D560
+    .asciz "../z_en_horse_normal.c"
+    .balign 4
+
+glabel D_80A6D578
+    .asciz "../z_en_horse_normal.c"
+    .balign 4
+
+glabel D_80A6D590
+    .asciz "../z_en_horse_normal.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A6D5E8
+ .word 0x43B18000
+glabel D_80A6D5EC
+ .word 0xC4368000
+glabel D_80A6D5F0
+ .word 0xC4898000
+glabel D_80A6D5F4
+ .word 0xC4924000
+glabel D_80A6D5F8
+    .float 0.01
+
+glabel D_80A6D5FC
+    .float 9.58738019108e-05
+
+.text
 glabel EnHorseNormal_Draw
 /* 01C1C 80A6CE6C 27BDFF30 */  addiu   $sp, $sp, 0xFF30           ## $sp = FFFFFF30
 /* 01C20 80A6CE70 AFB10030 */  sw      $s1, 0x0030($sp)           
@@ -10,7 +39,7 @@ glabel EnHorseNormal_Draw
 /* 01C3C 80A6CE8C 24C6D560 */  addiu   $a2, $a2, %lo(D_80A6D560)  ## $a2 = 80A6D560
 /* 01C40 80A6CE90 27A400B4 */  addiu   $a0, $sp, 0x00B4           ## $a0 = FFFFFFE4
 /* 01C44 80A6CE94 240708B0 */  addiu   $a3, $zero, 0x08B0         ## $a3 = 000008B0
-/* 01C48 80A6CE98 0C031AB1 */  jal     func_800C6AC4              
+/* 01C48 80A6CE98 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01C4C 80A6CE9C AFA500C4 */  sw      $a1, 0x00C4($sp)           
 /* 01C50 80A6CEA0 862200A4 */  lh      $v0, 0x00A4($s1)           ## 000000A4
 /* 01C54 80A6CEA4 24010063 */  addiu   $at, $zero, 0x0063         ## $at = 00000063
@@ -199,10 +228,10 @@ glabel EnHorseNormal_Draw
 /* 01F18 80A6D168 8FA800C4 */  lw      $t0, 0x00C4($sp)           
 /* 01F1C 80A6D16C 8D0402C0 */  lw      $a0, 0x02C0($t0)           ## 000002C0
 /* 01F20 80A6D170 3C09DA38 */  lui     $t1, 0xDA38                ## $t1 = DA380000
-/* 01F24 80A6D174 3C198013 */  lui     $t9, 0x8013                ## $t9 = 80130000
+/* 01F24 80A6D174 3C198013 */  lui     $t9, %hi(gMtxClear)
 /* 01F28 80A6D178 24980008 */  addiu   $t8, $a0, 0x0008           ## $t8 = 00000008
 /* 01F2C 80A6D17C AD1802C0 */  sw      $t8, 0x02C0($t0)           ## 000002C0
-/* 01F30 80A6D180 2739DB20 */  addiu   $t9, $t9, 0xDB20           ## $t9 = 8012DB20
+/* 01F30 80A6D180 2739DB20 */  addiu   $t9, %lo(gMtxClear)
 /* 01F34 80A6D184 35290003 */  ori     $t1, $t1, 0x0003           ## $t1 = DA380003
 /* 01F38 80A6D188 AC890000 */  sw      $t1, 0x0000($a0)           ## 00000000
 /* 01F3C 80A6D18C AC990004 */  sw      $t9, 0x0004($a0)           ## 00000004
@@ -313,7 +342,7 @@ glabel EnHorseNormal_Draw
 /* 020D8 80A6D328 24C6D590 */  addiu   $a2, $a2, %lo(D_80A6D590)  ## $a2 = 80A6D590
 /* 020DC 80A6D32C 27A400B4 */  addiu   $a0, $sp, 0x00B4           ## $a0 = FFFFFFE4
 /* 020E0 80A6D330 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 020E4 80A6D334 0C031AD5 */  jal     func_800C6B54              
+/* 020E4 80A6D334 0C031AD5 */  jal     Graph_CloseDisps              
 /* 020E8 80A6D338 24070923 */  addiu   $a3, $zero, 0x0923         ## $a3 = 00000923
 .L80A6D33C:
 /* 020EC 80A6D33C 8FBF0034 */  lw      $ra, 0x0034($sp)           
@@ -321,4 +350,3 @@ glabel EnHorseNormal_Draw
 /* 020F4 80A6D344 8FB10030 */  lw      $s1, 0x0030($sp)           
 /* 020F8 80A6D348 03E00008 */  jr      $ra                        
 /* 020FC 80A6D34C 27BD00D0 */  addiu   $sp, $sp, 0x00D0           ## $sp = 00000000
-

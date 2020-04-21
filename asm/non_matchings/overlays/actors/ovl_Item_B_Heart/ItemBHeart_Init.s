@@ -31,5 +31,3 @@ glabel ItemBHeart_Init
 /* 0005C 80B851AC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00060 80B851B0 03E00008 */  jr      $ra                        
 /* 00064 80B851B4 00000000 */  nop
-
-

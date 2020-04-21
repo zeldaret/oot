@@ -24,7 +24,7 @@ glabel func_80AD30D0
 .L80AD3128:
 /* 00478 80AD3128 1462000F */  bne     $v1, $v0, .L80AD3168       
 /* 0047C 80AD312C 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00480 80AD3130 0C02FF21 */  jal     func_800BFC84              
+/* 00480 80AD3130 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 00484 80AD3134 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 00488 80AD3138 10400005 */  beq     $v0, $zero, .L80AD3150     
 /* 0048C 80AD313C 8FA70018 */  lw      $a3, 0x0018($sp)           
@@ -54,5 +54,3 @@ glabel func_80AD30D0
 /* 004D8 80AD3188 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 004DC 80AD318C 03E00008 */  jr      $ra                        
 /* 004E0 80AD3190 00000000 */  nop
-
-

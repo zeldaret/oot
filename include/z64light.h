@@ -4,15 +4,13 @@
 #include <ultra64.h>
 #include <ultra64/gbi.h>
 
-typedef struct z_Light_t
-{
+typedef struct z_Light_t {
     /* 0x0 */ struct LightInfo* info;
     /* 0x4 */ struct z_Light_t* prev;
     /* 0x8 */ struct z_Light_t* next;
 } z_Light;
 
-typedef struct
-{
+typedef struct {
     /* 0x0 */ z_Light* lightsHead;
     /* 0x4 */ u8 ambientRed;
     /* 0x5 */ u8 ambientGreen;
@@ -24,21 +22,18 @@ typedef struct
     /* 0xC */ s16 unk_0C;
 } LightingContext;
 
-typedef struct
-{
+typedef struct {
     /* 0x000 */ int numOccupied;
     /* 0x004 */ int nextFree;
     /* 0x008 */ z_Light lights[32];
 } LightsList;
 
-typedef struct
-{
+typedef struct {
     /* 0x0 */ u8 type;
     /* 0x2 */ u16 params[6];
 } LightInfo;
 
-typedef struct
-{
+typedef struct {
     /* 0x0 */ s8 dirX;
     /* 0x1 */ s8 dirY;
     /* 0x2 */ s8 dirZ;
@@ -48,8 +43,7 @@ typedef struct
     /* 0x6 */ u16 pad[3];
 } LightInfoDirectionalParams;
 
-typedef struct
-{
+typedef struct {
     /* 0x0 */ s16 posX;
     /* 0x2 */ s16 posY;
     /* 0x4 */ s16 posZ;
@@ -60,8 +54,7 @@ typedef struct
     /* 0xA */ s16 radius;
 } LightInfoPositionalParams;
 
-typedef struct
-{
+typedef struct {
     /* 0x00 */ u8 numLights;
     /* 0x01 */ u8 enablePosLights;
     /* 0x02 */ UNK_TYPE1 pad2[6];
@@ -69,14 +62,12 @@ typedef struct
     /* 0x10 */ Light lights[7];
 } LightMapper;
 
-typedef struct
-{
+typedef struct {
     /* 0x0 */ u8 type;
     /* 0x2 */ LightInfoDirectionalParams params;
 } LightInfoDirectional;
 
-typedef struct
-{
+typedef struct {
     /* 0x0 */ u8 type;
     /* 0x2 */ LightInfoPositionalParams params;
 } LightInfoPositional;

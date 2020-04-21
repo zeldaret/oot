@@ -26,4 +26,3 @@ glabel EnInsect_Draw
 /* 02084 80A7DEA4 00000000 */  nop
 /* 02088 80A7DEA8 00000000 */  nop
 /* 0208C 80A7DEAC 00000000 */  nop
-

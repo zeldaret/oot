@@ -1,6 +1,5 @@
 #include "z_en_ice_hono.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000000
 
 void EnIceHono_Init(EnIceHono* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnIceHono_Update(EnIceHono* this, GlobalContext* globalCtx);
 void EnIceHono_Draw(EnIceHono* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Ice_Hono_InitVars =
-{
+const ActorInit En_Ice_Hono_InitVars = {
     ACTOR_EN_ICE_HONO,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnIceHono),

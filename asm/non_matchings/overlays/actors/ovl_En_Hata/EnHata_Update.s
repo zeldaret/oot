@@ -145,5 +145,3 @@ glabel EnHata_Update
 /* 00388 80A510D8 8FB00020 */  lw      $s0, 0x0020($sp)           
 /* 0038C 80A510DC 03E00008 */  jr      $ra                        
 /* 00390 80A510E0 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-

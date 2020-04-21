@@ -1,6 +1,6 @@
 glabel func_80AADA70
-/* 00300 80AADA70 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00304 80AADA74 9442E66C */  lhu     $v0, -0x1994($v0)          ## 8015E66C
+/* 00300 80AADA70 3C028016 */  lui     $v0, %hi(gSaveContext+0xc)
+/* 00304 80AADA74 9442E66C */  lhu     $v0, %lo(gSaveContext+0xc)($v0)
 /* 00308 80AADA78 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 0030C 80AADA7C 28413556 */  slti    $at, $v0, 0x3556           
 /* 00310 80AADA80 14200005 */  bne     $at, $zero, .L80AADA98     
@@ -12,5 +12,3 @@ glabel func_80AADA70
 .L80AADA98:
 /* 00328 80AADA98 03E00008 */  jr      $ra                        
 /* 0032C 80AADA9C 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000001
-
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_809B2374
+    .asciz "[32m☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_809B23A4
+    .asciz "[33m☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+.text
 glabel func_809B142C
 /* 0030C 809B142C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00310 809B1430 AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -69,5 +79,3 @@ glabel func_809B142C
 /* 003F8 809B1518 8FB60030 */  lw      $s6, 0x0030($sp)           
 /* 003FC 809B151C 03E00008 */  jr      $ra                        
 /* 00400 809B1520 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

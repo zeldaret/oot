@@ -1,3 +1,20 @@
+.rdata
+glabel D_80A3D09C
+    .asciz "%s(%2d)\n" # %s(%2d)
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A3D124
+.word L80A3C05C
+.word L80A3C0AC
+.word L80A3C0FC
+.word L80A3C14C
+.word L80A3C19C
+.word L80A3C1F4
+.word L80A3C218
+.word L80A3C23C
+
+.text
 glabel func_80A3BFE4
 /* 01894 80A3BFE4 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 01898 80A3BFE8 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -31,8 +48,8 @@ glabel func_80A3BFE4
 /* 01904 80A3C054 01000008 */  jr      $t0                        
 /* 01908 80A3C058 00000000 */  nop
 glabel L80A3C05C
-/* 0190C 80A3C05C 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 01910 80A3C060 9529F556 */  lhu     $t1, -0x0AAA($t1)          ## 8015F556
+/* 0190C 80A3C05C 3C098016 */  lui     $t1, %hi(gSaveContext+0xef6)
+/* 01910 80A3C060 9529F556 */  lhu     $t1, %lo(gSaveContext+0xef6)($t1)
 /* 01914 80A3C064 3C0F80A4 */  lui     $t7, %hi(D_80A3C674)       ## $t7 = 80A40000
 /* 01918 80A3C068 25EFC674 */  addiu   $t7, $t7, %lo(D_80A3C674)  ## $t7 = 80A3C674
 /* 0191C 80A3C06C 312A0100 */  andi    $t2, $t1, 0x0100           ## $t2 = 00000000
@@ -54,8 +71,8 @@ glabel L80A3C05C
 /* 01954 80A3C0A4 10000076 */  beq     $zero, $zero, .L80A3C280   
 /* 01958 80A3C0A8 A61901A0 */  sh      $t9, 0x01A0($s0)           ## 000001A0
 glabel L80A3C0AC
-/* 0195C 80A3C0AC 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 01960 80A3C0B0 9508F556 */  lhu     $t0, -0x0AAA($t0)          ## 8015F556
+/* 0195C 80A3C0AC 3C088016 */  lui     $t0, %hi(gSaveContext+0xef6)
+/* 01960 80A3C0B0 9508F556 */  lhu     $t0, %lo(gSaveContext+0xef6)($t0)
 /* 01964 80A3C0B4 3C0E80A4 */  lui     $t6, %hi(D_80A3C674)       ## $t6 = 80A40000
 /* 01968 80A3C0B8 25CEC674 */  addiu   $t6, $t6, %lo(D_80A3C674)  ## $t6 = 80A3C674
 /* 0196C 80A3C0BC 31090400 */  andi    $t1, $t0, 0x0400           ## $t1 = 00000000
@@ -77,8 +94,8 @@ glabel L80A3C0AC
 /* 019A4 80A3C0F4 10000062 */  beq     $zero, $zero, .L80A3C280   
 /* 019A8 80A3C0F8 A61801A0 */  sh      $t8, 0x01A0($s0)           ## 000001A0
 glabel L80A3C0FC
-/* 019AC 80A3C0FC 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 019B0 80A3C100 9739F556 */  lhu     $t9, -0x0AAA($t9)          ## 8015F556
+/* 019AC 80A3C0FC 3C198016 */  lui     $t9, %hi(gSaveContext+0xef6)
+/* 019B0 80A3C100 9739F556 */  lhu     $t9, %lo(gSaveContext+0xef6)($t9)
 /* 019B4 80A3C104 3C0D80A4 */  lui     $t5, %hi(D_80A3C674)       ## $t5 = 80A40000
 /* 019B8 80A3C108 25ADC674 */  addiu   $t5, $t5, %lo(D_80A3C674)  ## $t5 = 80A3C674
 /* 019BC 80A3C10C 33280200 */  andi    $t0, $t9, 0x0200           ## $t0 = 00000000
@@ -100,8 +117,8 @@ glabel L80A3C0FC
 /* 019F4 80A3C144 1000004E */  beq     $zero, $zero, .L80A3C280   
 /* 019F8 80A3C148 A60F01A0 */  sh      $t7, 0x01A0($s0)           ## 000001A0
 glabel L80A3C14C
-/* 019FC 80A3C14C 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
-/* 01A00 80A3C150 9718F556 */  lhu     $t8, -0x0AAA($t8)          ## 8015F556
+/* 019FC 80A3C14C 3C188016 */  lui     $t8, %hi(gSaveContext+0xef6)
+/* 01A00 80A3C150 9718F556 */  lhu     $t8, %lo(gSaveContext+0xef6)($t8)
 /* 01A04 80A3C154 3C0C80A4 */  lui     $t4, %hi(D_80A3C674)       ## $t4 = 80A40000
 /* 01A08 80A3C158 258CC674 */  addiu   $t4, $t4, %lo(D_80A3C674)  ## $t4 = 80A3C674
 /* 01A0C 80A3C15C 33190800 */  andi    $t9, $t8, 0x0800           ## $t9 = 00000000
@@ -123,8 +140,8 @@ glabel L80A3C14C
 /* 01A44 80A3C194 1000003A */  beq     $zero, $zero, .L80A3C280   
 /* 01A48 80A3C198 A60E01A0 */  sh      $t6, 0x01A0($s0)           ## 000001A0
 glabel L80A3C19C
-/* 01A4C 80A3C19C 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 01A50 80A3C1A0 95EFF556 */  lhu     $t7, -0x0AAA($t7)          ## 8015F556
+/* 01A4C 80A3C19C 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xef6)
+/* 01A50 80A3C1A0 95EFF556 */  lhu     $t7, %lo(gSaveContext+0xef6)($t7)
 /* 01A54 80A3C1A4 3C0C80A4 */  lui     $t4, %hi(D_80A3C674)       ## $t4 = 80A40000
 /* 01A58 80A3C1A8 258CC674 */  addiu   $t4, $t4, %lo(D_80A3C674)  ## $t4 = 80A3C674
 /* 01A5C 80A3C1AC 31F80800 */  andi    $t8, $t7, 0x0800           ## $t8 = 00000000
@@ -269,5 +286,3 @@ glabel L80A3C23C
 /* 01C60 80A3C3B0 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 01C64 80A3C3B4 03E00008 */  jr      $ra                        
 /* 01C68 80A3C3B8 00000000 */  nop
-
-

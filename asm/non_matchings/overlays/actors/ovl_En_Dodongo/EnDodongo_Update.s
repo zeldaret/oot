@@ -126,5 +126,3 @@ glabel EnDodongo_Update
 /* 01E9C 809FA0EC 8FB0001C */  lw      $s0, 0x001C($sp)           
 /* 01EA0 809FA0F0 03E00008 */  jr      $ra                        
 /* 01EA4 809FA0F4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

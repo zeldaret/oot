@@ -31,7 +31,7 @@ glabel func_8085FE48
 /* 00864 8085FEB4 4500000F */  bc1f    .L8085FEF4                 
 /* 00868 8085FEB8 00000000 */  nop
 /* 0086C 8085FEBC A0CE07C8 */  sb      $t6, 0x07C8($a2)           ## 000007C8
-/* 00870 8085FEC0 0C217D94 */  jal     func_8085F650              
+/* 00870 8085FEC0 0C217D94 */  jal     EnTest_SetupAction              
 /* 00874 8085FEC4 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00878 8085FEC8 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 0087C 8085FECC 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
@@ -61,5 +61,3 @@ glabel func_8085FE48
 /* 008CC 8085FF1C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 008D0 8085FF20 03E00008 */  jr      $ra                        
 /* 008D4 8085FF24 00000000 */  nop
-
-

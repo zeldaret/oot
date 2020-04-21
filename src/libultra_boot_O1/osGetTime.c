@@ -1,7 +1,6 @@
 #include <global.h>
 
-OSTime osGetTime(void)
-{
+OSTime osGetTime(void) {
     u32 sp34;
     u32 sp30;
     u64 t1;

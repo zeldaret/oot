@@ -15,7 +15,7 @@ glabel func_8084EED8
 /* 1CCFC 8084EF0C 0C20F03A */  jal     func_8083C0E8              
 /* 1CD00 8084EF10 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 1CD04 8084EF14 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 1CD08 8084EF18 0C030129 */  jal     func_800C04A4              
+/* 1CD08 8084EF18 0C030129 */  jal     Gameplay_GetCamera              
 /* 1CD0C 8084EF1C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 1CD10 8084EF20 0C016C69 */  jal     func_8005B1A4              
 /* 1CD14 8084EF24 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
@@ -52,8 +52,8 @@ glabel func_8084EED8
 /* 1CD88 8084EF98 3C05423C */  lui     $a1, 0x423C                ## $a1 = 423C0000
 /* 1CD8C 8084EF9C 10400003 */  beq     $v0, $zero, .L8084EFAC     
 /* 1CD90 8084EFA0 240F0140 */  addiu   $t7, $zero, 0x0140         ## $t7 = 00000140
-/* 1CD94 8084EFA4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 1CD98 8084EFA8 A42FFA84 */  sh      $t7, -0x057C($at)          ## 8015FA84
+/* 1CD94 8084EFA4 3C018016 */  lui     $at, %hi(gSaveContext+0x1424)
+/* 1CD98 8084EFA8 A42FFA84 */  sh      $t7, %lo(gSaveContext+0x1424)($at)
 .L8084EFAC:
 /* 1CD9C 8084EFAC 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L8084EFB0:
@@ -61,5 +61,3 @@ glabel func_8084EED8
 /* 1CDA4 8084EFB4 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 1CDA8 8084EFB8 03E00008 */  jr      $ra                        
 /* 1CDAC 8084EFBC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

@@ -21,7 +21,7 @@ glabel func_80A97610
 /* 008AC 80A9765C 14610007 */  bne     $v1, $at, .L80A9767C       
 .L80A97660:
 /* 008B0 80A97660 24050013 */  addiu   $a1, $zero, 0x0013         ## $a1 = 00000013
-/* 008B4 80A97664 0C01B0D8 */  jal     func_8006C360              
+/* 008B4 80A97664 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 008B8 80A97668 AFA60024 */  sw      $a2, 0x0024($sp)           
 /* 008BC 80A9766C 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 008C0 80A97670 84C3001C */  lh      $v1, 0x001C($a2)           ## 0000001C
@@ -43,7 +43,7 @@ glabel func_80A97610
 .L80A976AC:
 /* 008FC 80A976AC 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 00900 80A976B0 24050014 */  addiu   $a1, $zero, 0x0014         ## $a1 = 00000014
-/* 00904 80A976B4 0C01B0D8 */  jal     func_8006C360              
+/* 00904 80A976B4 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00908 80A976B8 AFA60024 */  sw      $a2, 0x0024($sp)           
 /* 0090C 80A976BC 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 00910 80A976C0 3044FFFF */  andi    $a0, $v0, 0xFFFF           ## $a0 = 00000000
@@ -54,17 +54,17 @@ glabel func_80A97610
 /* 00920 80A976D0 14610006 */  bne     $v1, $at, .L80A976EC       
 /* 00924 80A976D4 24050012 */  addiu   $a1, $zero, 0x0012         ## $a1 = 00000012
 /* 00928 80A976D8 8FA40020 */  lw      $a0, 0x0020($sp)           
-/* 0092C 80A976DC 0C01B0D8 */  jal     func_8006C360              
+/* 0092C 80A976DC 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00930 80A976E0 AFA60024 */  sw      $a2, 0x0024($sp)           
 /* 00934 80A976E4 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 00938 80A976E8 3044FFFF */  andi    $a0, $v0, 0xFFFF           ## $a0 = 00000000
 .L80A976EC:
 /* 0093C 80A976EC 10800003 */  beq     $a0, $zero, .L80A976FC     
-/* 00940 80A976F0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 00940 80A976F0 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
 /* 00944 80A976F4 1000000C */  beq     $zero, $zero, .L80A97728   
 /* 00948 80A976F8 00801025 */  or      $v0, $a0, $zero            ## $v0 = 00000000
 .L80A976FC:
-/* 0094C 80A976FC 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 0094C 80A976FC 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 00950 80A97700 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
 /* 00954 80A97704 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 00958 80A97708 15C00005 */  bne     $t6, $zero, .L80A97720     
@@ -82,5 +82,3 @@ glabel func_80A97610
 /* 0097C 80A9772C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00980 80A97730 03E00008 */  jr      $ra                        
 /* 00984 80A97734 00000000 */  nop
-
-

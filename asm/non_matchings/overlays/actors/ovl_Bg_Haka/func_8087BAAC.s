@@ -14,5 +14,3 @@ glabel func_8087BAAC
 .L8087BADC:
 /* 0042C 8087BADC 03E00008 */  jr      $ra                        
 /* 00430 8087BAE0 00000000 */  nop
-
-

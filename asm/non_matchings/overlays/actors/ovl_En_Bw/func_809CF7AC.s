@@ -1,3 +1,27 @@
+.late_rodata
+glabel D_809D1618
+    .float 0.001
+
+glabel D_809D161C
+ .word 0x3C54FDF4
+glabel D_809D1620
+ .word 0x3B656041
+glabel D_809D1624
+    .float 0.001
+
+glabel D_809D1628
+ .word 0x3CC8B439
+glabel D_809D162C
+ .word 0x3C54FDF4
+glabel D_809D1630
+    .float 0.001
+
+glabel D_809D1634
+ .word 0x3C54FDF4
+glabel D_809D1638
+ .word 0x3B656041
+
+.text
 glabel func_809CF7AC
 /* 010CC 809CF7AC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 010D0 809CF7B0 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -86,5 +110,3 @@ glabel func_809CF7AC
 /* 01204 809CF8E4 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 01208 809CF8E8 03E00008 */  jr      $ra                        
 /* 0120C 809CF8EC 00000000 */  nop
-
-

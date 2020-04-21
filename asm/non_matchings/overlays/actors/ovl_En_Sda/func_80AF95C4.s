@@ -1,3 +1,34 @@
+.rdata
+glabel D_80AFA468
+    .asciz "SDA CONT \n"
+    .balign 4
+
+glabel D_80AFA474
+    .asciz "SDA CONT 2\n"
+    .balign 4
+
+glabel D_80AFA480
+    .asciz "SDA CONT 3\n"
+    .balign 4
+
+glabel D_80AFA48C
+    .asciz "SDA CONT 4\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AFA4F0
+    .float 1.2
+
+glabel D_80AFA4F4
+    .float -1.2
+
+glabel D_80AFA4F8
+    .float 3.14159274101
+
+glabel D_80AFA4FC
+    .float 3.14159274101
+
+.text
 glabel func_80AF95C4
 /* 007A4 80AF95C4 27BDFE50 */  addiu   $sp, $sp, 0xFE50           ## $sp = FFFFFE50
 /* 007A8 80AF95C8 AFB60040 */  sw      $s6, 0x0040($sp)           
@@ -20,8 +51,8 @@ glabel func_80AF95C4
 /* 007EC 80AF960C 0C00084C */  jal     osSyncPrintf
               
 /* 007F0 80AF9610 2484A468 */  addiu   $a0, $a0, %lo(D_80AFA468)  ## $a0 = 80AFA468
-/* 007F4 80AF9614 3C1E8016 */  lui     $s8, 0x8016                ## $s8 = 80160000
-/* 007F8 80AF9618 27DEFA90 */  addiu   $s8, $s8, 0xFA90           ## $s8 = 8015FA90
+/* 007F4 80AF9614 3C1E8016 */  lui     $s8, %hi(gGameInfo)
+/* 007F8 80AF9618 27DEFA90 */  addiu   $s8, %lo(gGameInfo)
 /* 007FC 80AF961C 8FCE0000 */  lw      $t6, 0x0000($s8)           ## 8015FA90
 /* 00800 80AF9620 02201025 */  or      $v0, $s1, $zero            ## $v0 = 00000000
 /* 00804 80AF9624 00009825 */  or      $s3, $zero, $zero          ## $s3 = 00000000
@@ -451,5 +482,3 @@ glabel func_80AF95C4
 /* 00E44 80AF9C64 8FBE0048 */  lw      $s8, 0x0048($sp)           
 /* 00E48 80AF9C68 03E00008 */  jr      $ra                        
 /* 00E4C 80AF9C6C 27BD01B0 */  addiu   $sp, $sp, 0x01B0           ## $sp = 00000000
-
-

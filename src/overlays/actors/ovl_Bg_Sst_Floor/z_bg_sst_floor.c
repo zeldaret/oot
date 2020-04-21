@@ -1,6 +1,5 @@
 #include "z_bg_sst_floor.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000030
 
 void BgSstFloor_Init(BgSstFloor* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void BgSstFloor_Update(BgSstFloor* this, GlobalContext* globalCtx);
 void BgSstFloor_Draw(BgSstFloor* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Sst_Floor_InitVars =
-{
+const ActorInit Bg_Sst_Floor_InitVars = {
     ACTOR_BG_SST_FLOOR,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SST,
     sizeof(BgSstFloor),

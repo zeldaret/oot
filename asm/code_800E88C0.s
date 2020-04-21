@@ -521,7 +521,7 @@ glabel func_800E8FB8
 /* B6017C 800E8FDC 03E00008 */  jr    $ra
 /* B60180 800E8FE0 AC980098 */   sw    $t8, 0x98($a0)
 
-glabel func_800E8FE4
+glabel Audio_AdsrInit
 /* B60184 800E8FE4 AFA60008 */  sw    $a2, 8($sp)
 /* B60188 800E8FE8 44800000 */  mtc1  $zero, $f0
 /* B6018C 800E8FEC A0800000 */  sb    $zero, ($a0)

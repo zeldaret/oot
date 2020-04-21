@@ -1,6 +1,5 @@
 #include "z_en_part.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000010
 
 void EnPart_Init(EnPart* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnPart_Update(EnPart* this, GlobalContext* globalCtx);
 void EnPart_Draw(EnPart* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Part_InitVars =
-{
+const ActorInit En_Part_InitVars = {
     ACTOR_EN_PART,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnPart),

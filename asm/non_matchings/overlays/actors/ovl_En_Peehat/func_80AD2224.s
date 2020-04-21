@@ -1,3 +1,33 @@
+.rdata
+glabel D_80AD2890
+    .asciz "../z_en_peehat.c"
+    .balign 4
+
+glabel D_80AD28A4
+    .asciz "../z_en_peehat.c"
+    .balign 4
+
+glabel D_80AD28B8
+    .asciz "../z_en_peehat.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AD295C
+ .word 0x3DEB851F
+glabel D_80AD2960
+ .word 0x3E051EB8
+glabel D_80AD2964
+    .float 0.1
+
+glabel D_80AD2968
+    .float 0.1
+
+glabel D_80AD296C
+ .word 0x3E051EB8
+glabel D_80AD2970
+ .word 0x3DEB851F
+
+.text
 glabel func_80AD2224
 /* 02D84 80AD2224 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 02D88 80AD2228 AFA70054 */  sw      $a3, 0x0054($sp)           
@@ -34,7 +64,7 @@ glabel func_80AD2224
 /* 02DF8 80AD2298 8F250000 */  lw      $a1, 0x0000($t9)           ## 00000000
 /* 02DFC 80AD229C 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 02E00 80AD22A0 2407079A */  addiu   $a3, $zero, 0x079A         ## $a3 = 0000079A
-/* 02E04 80AD22A4 0C031AB1 */  jal     func_800C6AC4              
+/* 02E04 80AD22A4 0C031AB1 */  jal     Graph_OpenDisps              
 /* 02E08 80AD22A8 AFA50040 */  sw      $a1, 0x0040($sp)           
 /* 02E0C 80AD22AC 0C034213 */  jal     Matrix_Push              
 /* 02E10 80AD22B0 00000000 */  nop
@@ -125,7 +155,7 @@ glabel func_80AD2224
 /* 02F64 80AD2404 24C628B8 */  addiu   $a2, $a2, %lo(D_80AD28B8)  ## $a2 = 80AD28B8
 /* 02F68 80AD2408 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 02F6C 80AD240C 240707AB */  addiu   $a3, $zero, 0x07AB         ## $a3 = 000007AB
-/* 02F70 80AD2410 0C031AD5 */  jal     func_800C6B54              
+/* 02F70 80AD2410 0C031AD5 */  jal     Graph_CloseDisps              
 /* 02F74 80AD2414 8F050000 */  lw      $a1, 0x0000($t8)           ## 00000000
 /* 02F78 80AD2418 10000002 */  beq     $zero, $zero, .L80AD2424   
 /* 02F7C 80AD241C 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
@@ -136,5 +166,3 @@ glabel func_80AD2224
 /* 02F8C 80AD242C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 02F90 80AD2430 03E00008 */  jr      $ra                        
 /* 02F94 80AD2434 00000000 */  nop
-
-

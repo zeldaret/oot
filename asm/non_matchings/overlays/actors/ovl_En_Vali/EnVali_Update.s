@@ -99,5 +99,3 @@ glabel EnVali_Update
 /* 01560 80B27C10 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 01564 80B27C14 03E00008 */  jr      $ra                        
 /* 01568 80B27C18 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

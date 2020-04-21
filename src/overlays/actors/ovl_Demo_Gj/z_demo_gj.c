@@ -1,6 +1,5 @@
 #include "z_demo_gj.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000030
 
 void DemoGj_Init(DemoGj* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void DemoGj_Update(DemoGj* this, GlobalContext* globalCtx);
 void DemoGj_Draw(DemoGj* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_Gj_InitVars =
-{
+const ActorInit Demo_Gj_InitVars = {
     ACTOR_DEMO_GJ,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GJ,
     sizeof(DemoGj),

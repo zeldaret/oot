@@ -1,3 +1,13 @@
+.rdata
+glabel D_808A5FAC
+    .asciz "camera changed (mori rakka tenjyo) ... \n"
+    .balign 4
+
+glabel D_808A5FD8
+    .asciz "camera changed (previous) ... \n"
+    .balign 4
+
+.text
 glabel BgMoriRakkatenjo_Update
 /* 00700 808A5C70 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00704 808A5C74 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -64,5 +74,3 @@ glabel BgMoriRakkatenjo_Update
 /* 007E4 808A5D54 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 007E8 808A5D58 03E00008 */  jr      $ra                        
 /* 007EC 808A5D5C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

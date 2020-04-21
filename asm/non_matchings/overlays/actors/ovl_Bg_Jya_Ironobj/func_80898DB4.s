@@ -1,3 +1,29 @@
+.rdata
+glabel D_808995B0
+    .asciz "Error 攻撃方法が分からない(%s %d)\n"
+    .balign 4
+
+glabel D_808995D4
+    .asciz "../z_bg_jya_ironobj.c"
+    .balign 4
+
+glabel D_808995EC
+    .asciz "¢ attack_type(%d)\n"
+    .balign 4
+
+.late_rodata
+glabel D_80899610
+    .float 0.1
+
+glabel D_80899614
+    .float 0.8
+
+glabel D_80899618
+ .word 0x3D042108
+glabel D_8089961C
+ .word 0x3E851EB8
+
+.text
 glabel func_80898DB4
 /* 00514 80898DB4 27BDFF10 */  addiu   $sp, $sp, 0xFF10           ## $sp = FFFFFF10
 /* 00518 80898DB8 AFBF0094 */  sw      $ra, 0x0094($sp)           
@@ -302,5 +328,3 @@ glabel func_80898DB4
 /* 00954 808991F4 8FB60090 */  lw      $s6, 0x0090($sp)           
 /* 00958 808991F8 03E00008 */  jr      $ra                        
 /* 0095C 808991FC 27BD00F0 */  addiu   $sp, $sp, 0x00F0           ## $sp = 00000000
-
-

@@ -1,6 +1,5 @@
 #include "z_bg_jya_bigmirror.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000030
 
 void BgJyaBigmirror_Init(BgJyaBigmirror* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void BgJyaBigmirror_Update(BgJyaBigmirror* this, GlobalContext* globalCtx);
 void BgJyaBigmirror_Draw(BgJyaBigmirror* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Bigmirror_InitVars =
-{
+const ActorInit Bg_Jya_Bigmirror_InitVars = {
     ACTOR_BG_JYA_BIGMIRROR,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaBigmirror),

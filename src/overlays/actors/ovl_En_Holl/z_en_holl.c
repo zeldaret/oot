@@ -1,6 +1,5 @@
 #include "z_en_holl.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000010
 
 void EnHoll_Init(EnHoll* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnHoll_Update(EnHoll* this, GlobalContext* globalCtx);
 void EnHoll_Draw(EnHoll* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Holl_InitVars =
-{
+const ActorInit En_Holl_InitVars = {
     ACTOR_EN_HOLL,
     ACTORTYPE_DOOR,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnHoll),

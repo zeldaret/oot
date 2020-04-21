@@ -1,6 +1,6 @@
 glabel func_80B3CF90
-/* 00DB0 80B3CF90 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00DB4 80B3CF94 8DCEF9C0 */  lw      $t6, -0x0640($t6)          ## 8015F9C0
+/* 00DB0 80B3CF90 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x1360)
+/* 00DB4 80B3CF94 8DCEF9C0 */  lw      $t6, %lo(gSaveContext+0x1360)($t6)
 /* 00DB8 80B3CF98 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00DBC 80B3CF9C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00DC0 80B3CFA0 AFA40018 */  sw      $a0, 0x0018($sp)           
@@ -35,5 +35,3 @@ glabel func_80B3CF90
 /* 00E28 80B3D008 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00E2C 80B3D00C 03E00008 */  jr      $ra                        
 /* 00E30 80B3D010 00000000 */  nop
-
-

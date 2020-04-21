@@ -17,5 +17,3 @@ glabel EnBw_Destroy
 /* 00198 809CE878 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0019C 809CE87C 03E00008 */  jr      $ra                        
 /* 001A0 809CE880 00000000 */  nop
-
-
