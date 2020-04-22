@@ -6,6 +6,7 @@ RUN apt-get update && \
         build-essential \
         pkg-config \
         python3 \
+	python3-pip \
         wget \
 	git \
 	unzip
@@ -16,6 +17,8 @@ RUN wget \
     echo 8170f37cf03a08cc2d7c1c58f10d650ea0d158f711f6916da9364f6d8c85f741 qemu.deb | sha256sum --check && \
     dpkg -i qemu.deb && \
     rm qemu.deb
+
+RUN python3 -m pip install --user colorama ansiwrap attrs watchdog python-Levenshtein
 
 RUN mkdir /oot
 WORKDIR /oot
