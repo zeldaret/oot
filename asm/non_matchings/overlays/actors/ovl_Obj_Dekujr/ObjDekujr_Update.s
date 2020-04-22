@@ -16,8 +16,8 @@ glabel ObjDekujr_Update
 /* 0037C 80B9279C 0C017713 */  jal     Actor_CollisionCheck_SetOT
               ## CollisionCheck_setOT
 /* 00380 80B927A0 00812821 */  addu    $a1, $a0, $at              
-/* 00384 80B927A4 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00388 80B927A8 8DCEE668 */  lw      $t6, -0x1998($t6)          ## 8015E668
+/* 00384 80B927A4 3C0E8016 */  lui     $t6, %hi(gSaveContext+8)
+/* 00388 80B927A8 8DCEE668 */  lw      $t6, %lo(gSaveContext+8)($t6)
 /* 0038C 80B927AC 3401FFF0 */  ori     $at, $zero, 0xFFF0         ## $at = 0000FFF0
 /* 00390 80B927B0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00394 80B927B4 01C1082A */  slt     $at, $t6, $at              

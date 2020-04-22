@@ -156,6 +156,8 @@ s32 func_8008F29C(Player* player) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008FCC8.s")
 
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090014.s")
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_800902F0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090440.s")

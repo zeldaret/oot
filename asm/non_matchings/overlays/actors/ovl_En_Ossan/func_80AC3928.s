@@ -1,7 +1,7 @@
 glabel func_80AC3928
 /* 00C88 80AC3928 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
-/* 00C8C 80AC392C 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00C90 80AC3930 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 00C8C 80AC392C 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 00C90 80AC3930 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 00C94 80AC3934 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00C98 80AC3938 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00C9C 80AC393C AFA60020 */  sw      $a2, 0x0020($sp)           

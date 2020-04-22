@@ -11,8 +11,8 @@ glabel func_80B07C88
 /* 0076C 80B07CAC AE000118 */  sw      $zero, 0x0118($s0)         ## 00000118
 /* 00770 80B07CB0 0C2C1D50 */  jal     func_80B07540              
 /* 00774 80B07CB4 24A57AF4 */  addiu   $a1, $a1, %lo(func_80B07AF4) ## $a1 = 80B07AF4
-/* 00778 80B07CB8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0077C 80B07CBC 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00778 80B07CB8 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0077C 80B07CBC 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00780 80B07CC0 944E0EEE */  lhu     $t6, 0x0EEE($v0)           ## 8015F54E
 /* 00784 80B07CC4 960F029C */  lhu     $t7, 0x029C($s0)           ## 0000029C
 /* 00788 80B07CC8 01CFC025 */  or      $t8, $t6, $t7              ## $t8 = 00000000

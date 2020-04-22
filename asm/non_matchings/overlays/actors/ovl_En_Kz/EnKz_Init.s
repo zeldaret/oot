@@ -56,8 +56,8 @@ glabel EnKz_Init
 /* 00A84 80A9CFD4 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00A88 80A9CFD8 0C00D3B0 */  jal     func_80034EC0
 /* 00A8C 80A9CFDC 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 00A90 80A9CFE0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00A94 80A9CFE4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00A90 80A9CFE0 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00A94 80A9CFE4 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00A98 80A9CFE8 94480EDA */  lhu     $t0, 0x0EDA($v0)           ## 8015F53A
 /* 00A9C 80A9CFEC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00AA0 80A9CFF0 31090008 */  andi    $t1, $t0, 0x0008           ## $t1 = 00000000
@@ -65,8 +65,8 @@ glabel EnKz_Init
 /* 00AA8 80A9CFF8 8C4A0004 */  lw      $t2, 0x0004($v0)           ## 8015E664
 /* 00AAC 80A9CFFC 0C2A7391 */  jal     func_80A9CE44
 /* 00AB0 80A9D000 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
-/* 00AB4 80A9D004 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00AB8 80A9D008 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00AB4 80A9D004 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00AB8 80A9D008 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00ABC 80A9D00C 8C4A0004 */  lw      $t2, 0x0004($v0)           ## 8015E664
 .L80A9D010:
 /* 00AC0 80A9D010 3C0F80AA */  lui     $t7, %hi(func_80A9D0C0)    ## $t7 = 80AA0000

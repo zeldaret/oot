@@ -11,8 +11,8 @@ glabel EnViewer_Update
 /* 010C4 80B2B2C4 0338C821 */  addu    $t9, $t9, $t8              
 /* 010C8 80B2B2C8 8F3917B4 */  lw      $t9, 0x17B4($t9)           ## 000117B4
 /* 010CC 80B2B2CC 03214021 */  addu    $t0, $t9, $at              
-/* 010D0 80B2B2D0 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 010D4 80B2B2D4 AC286FC0 */  sw      $t0, 0x6FC0($at)           ## 80166FC0
+/* 010D0 80B2B2D0 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 010D4 80B2B2D4 AC286FC0 */  sw      $t0, %lo(gSegments+0x18)($at)
 /* 010D8 80B2B2D8 8C9901E0 */  lw      $t9, 0x01E0($a0)           ## 000001E0
 /* 010DC 80B2B2DC 0320F809 */  jalr    $ra, $t9                   
 /* 010E0 80B2B2E0 00000000 */  nop

@@ -44,11 +44,11 @@ glabel func_808ACA08
 /* 00444 808ACAA4 8FAD0044 */  lw      $t5, 0x0044($sp)           
 .L808ACAA8:
 /* 00448 808ACAA8 24010192 */  addiu   $at, $zero, 0x0192         ## $at = 00000192
-/* 0044C 808ACAAC 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 0044C 808ACAAC 3C0F8016 */  lui     $t7, %hi(gSaveContext+4)
 /* 00450 808ACAB0 95AE1D74 */  lhu     $t6, 0x1D74($t5)           ## 00001D74
 /* 00454 808ACAB4 55C1000D */  bnel    $t6, $at, .L808ACAEC       
 /* 00458 808ACAB8 8FBF0034 */  lw      $ra, 0x0034($sp)           
-/* 0045C 808ACABC 8DEFE664 */  lw      $t7, -0x199C($t7)          ## 8015E664
+/* 0045C 808ACABC 8DEFE664 */  lw      $t7, %lo(gSaveContext+4)($t7)
 /* 00460 808ACAC0 2405683E */  addiu   $a1, $zero, 0x683E         ## $a1 = 0000683E
 /* 00464 808ACAC4 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00468 808ACAC8 11E00005 */  beq     $t7, $zero, .L808ACAE0     

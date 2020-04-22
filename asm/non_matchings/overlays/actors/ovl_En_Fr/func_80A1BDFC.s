@@ -6,8 +6,8 @@ glabel func_80A1BDFC
 /* 0146C 80A1BE0C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 01470 80A1BE10 15C1001D */  bne     $t6, $at, .L80A1BE88       
 /* 01474 80A1BE14 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
-/* 01478 80A1BE18 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0147C 80A1BE1C 9442F54E */  lhu     $v0, -0x0AB2($v0)          ## 8015F54E
+/* 01478 80A1BE18 3C028016 */  lui     $v0, %hi(gSaveContext+0xeee)
+/* 0147C 80A1BE1C 9442F54E */  lhu     $v0, %lo(gSaveContext+0xeee)($v0)
 /* 01480 80A1BE20 3C0D80A2 */  lui     $t5, %hi(func_80A1BE98)    ## $t5 = 80A20000
 /* 01484 80A1BE24 25ADBE98 */  addiu   $t5, $t5, %lo(func_80A1BE98) ## $t5 = 80A1BE98
 /* 01488 80A1BE28 304F0002 */  andi    $t7, $v0, 0x0002           ## $t7 = 00000000

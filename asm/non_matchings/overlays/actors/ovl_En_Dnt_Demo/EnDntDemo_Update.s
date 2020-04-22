@@ -16,8 +16,8 @@ glabel EnDntDemo_Update
 /* 00BA0 809F1480 8C99014C */  lw      $t9, 0x014C($a0)           ## 0000014C
 /* 00BA4 809F1484 0320F809 */  jalr    $ra, $t9                   
 /* 00BA8 809F1488 00000000 */  nop
-/* 00BAC 809F148C 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
-/* 00BB0 809F1490 8F18FA90 */  lw      $t8, -0x0570($t8)          ## 8015FA90
+/* 00BAC 809F148C 3C188016 */  lui     $t8, %hi(gGameInfo)
+/* 00BB0 809F1490 8F18FA90 */  lw      $t8, %lo(gGameInfo)($t8)
 /* 00BB4 809F1494 8FA40048 */  lw      $a0, 0x0048($sp)           
 /* 00BB8 809F1498 8FA5004C */  lw      $a1, 0x004C($sp)           
 /* 00BBC 809F149C 870812D4 */  lh      $t0, 0x12D4($t8)           ## 801612D4

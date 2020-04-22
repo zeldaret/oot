@@ -1,6 +1,6 @@
 glabel func_808237B4
-/* 0FF94 808237B4 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
-/* 0FF98 808237B8 24C6FA90 */  addiu   $a2, $a2, 0xFA90           ## $a2 = 8015FA90
+/* 0FF94 808237B4 3C068016 */  lui     $a2, %hi(gGameInfo)
+/* 0FF98 808237B8 24C6FA90 */  addiu   $a2, %lo(gGameInfo)
 /* 0FF9C 808237BC 8CCE0000 */  lw      $t6, 0x0000($a2)           ## 8015FA90
 /* 0FFA0 808237C0 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 0FFA4 808237C4 85CF07AE */  lh      $t7, 0x07AE($t6)           ## 000007AE

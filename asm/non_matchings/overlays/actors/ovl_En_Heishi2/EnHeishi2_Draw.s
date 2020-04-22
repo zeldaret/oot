@@ -48,10 +48,10 @@ glabel EnHeishi2_Draw
 /* 01EF0 80A54D90 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01EF4 80A54D94 864F02FE */  lh      $t7, 0x02FE($s2)           ## 000002FE
 /* 01EF8 80A54D98 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
-/* 01EFC 80A54D9C 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 01EFC 80A54D9C 3C188016 */  lui     $t8, %hi(gSaveContext+0xf06)
 /* 01F00 80A54DA0 15E10046 */  bne     $t7, $at, .L80A54EBC       
 /* 01F04 80A54DA4 00000000 */  nop
-/* 01F08 80A54DA8 9718F566 */  lhu     $t8, -0x0A9A($t8)          ## 8015F566
+/* 01F08 80A54DA8 9718F566 */  lhu     $t8, %lo(gSaveContext+0xf06)($t8)
 /* 01F0C 80A54DAC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01F10 80A54DB0 342117A4 */  ori     $at, $at, 0x17A4           ## $at = 000117A4
 /* 01F14 80A54DB4 33190080 */  andi    $t9, $t8, 0x0080           ## $t9 = 00000000

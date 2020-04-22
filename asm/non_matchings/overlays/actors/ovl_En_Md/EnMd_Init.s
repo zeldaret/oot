@@ -5,8 +5,8 @@ glabel EnMd_Init
 /* 0140C 80AAB65C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01410 80AAB660 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 01414 80AAB664 AFBF003C */  sw      $ra, 0x003C($sp)
-/* 01418 80AAB668 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0141C 80AAB66C 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 01418 80AAB668 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0141C 80AAB66C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 01420 80AAB670 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01424 80AAB674 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 01428 80AAB678 0C00AC78 */  jal     ActorShape_Init
@@ -85,22 +85,22 @@ glabel EnMd_Init
 /* 01530 80AAB780 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 01534 80AAB784 862300A4 */  lh      $v1, 0x00A4($s1)           ## 000000A4
 /* 01538 80AAB788 24040055 */  addiu   $a0, $zero, 0x0055         ## $a0 = 00000055
-/* 0153C 80AAB78C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 0153C 80AAB78C 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 01540 80AAB790 14830004 */  bne     $a0, $v1, .L80AAB7A4
-/* 01544 80AAB794 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01544 80AAB794 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01548 80AAB798 944A0ED4 */  lhu     $t2, 0x0ED4($v0)           ## 8015F534
 /* 0154C 80AAB79C 314B0010 */  andi    $t3, $t2, 0x0010           ## $t3 = 00000000
 /* 01550 80AAB7A0 11600013 */  beq     $t3, $zero, .L80AAB7F0
 .L80AAB7A4:
-/* 01554 80AAB7A4 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 01554 80AAB7A4 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 01558 80AAB7A8 1483000A */  bne     $a0, $v1, .L80AAB7D4
-/* 0155C 80AAB7AC 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 0155C 80AAB7AC 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01560 80AAB7B0 944C0ED4 */  lhu     $t4, 0x0ED4($v0)           ## 8015F534
-/* 01564 80AAB7B4 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
+/* 01564 80AAB7B4 3C0E8012 */  lui     $t6, %hi(gBitFlags+0x48)
 /* 01568 80AAB7B8 318D0010 */  andi    $t5, $t4, 0x0010           ## $t5 = 00000000
 /* 0156C 80AAB7BC 51A00006 */  beql    $t5, $zero, .L80AAB7D8
 /* 01570 80AAB7C0 2401005B */  addiu   $at, $zero, 0x005B         ## $at = 0000005B
-/* 01574 80AAB7C4 8DCE7168 */  lw      $t6, 0x7168($t6)           ## 80127168
+/* 01574 80AAB7C4 8DCE7168 */  lw      $t6, %lo(gBitFlags+0x48)($t6)
 /* 01578 80AAB7C8 8C4F00A4 */  lw      $t7, 0x00A4($v0)           ## 8015E704
 /* 0157C 80AAB7CC 01CFC024 */  and     $t8, $t6, $t7
 /* 01580 80AAB7D0 17000007 */  bne     $t8, $zero, .L80AAB7F0

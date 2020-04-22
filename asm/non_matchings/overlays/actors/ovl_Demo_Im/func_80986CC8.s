@@ -1,6 +1,6 @@
 glabel func_80986CC8
-/* 020E8 80986CC8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 020EC 80986CCC 95CEF53C */  lhu     $t6, -0x0AC4($t6)          ## 8015F53C
+/* 020E8 80986CC8 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xedc)
+/* 020EC 80986CCC 95CEF53C */  lhu     $t6, %lo(gSaveContext+0xedc)($t6)
 /* 020F0 80986CD0 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 020F4 80986CD4 2418001A */  addiu   $t8, $zero, 0x001A         ## $t8 = 0000001A
 /* 020F8 80986CD8 31CF0001 */  andi    $t7, $t6, 0x0001           ## $t7 = 00000000

@@ -24,8 +24,8 @@ glabel func_80AA66A0
 /* 006A8 80AA66F8 06000041 */  bltz    $s0, .L80AA6800            
 /* 006AC 80AA66FC 24950024 */  addiu   $s5, $a0, 0x0024           ## $s5 = 00000024
 /* 006B0 80AA6700 3C1E00FF */  lui     $s8, 0x00FF                ## $s8 = 00FF0000
-/* 006B4 80AA6704 3C178016 */  lui     $s7, 0x8016                ## $s7 = 80160000
-/* 006B8 80AA6708 26F76FA8 */  addiu   $s7, $s7, 0x6FA8           ## $s7 = 80166FA8
+/* 006B4 80AA6704 3C178016 */  lui     $s7, %hi(gSegments)
+/* 006B8 80AA6708 26F76FA8 */  addiu   $s7, %lo(gSegments)
 /* 006BC 80AA670C 37DEFFFF */  ori     $s8, $s8, 0xFFFF           ## $s8 = 00FFFFFF
 /* 006C0 80AA6710 27B6005C */  addiu   $s6, $sp, 0x005C           ## $s6 = FFFFFFEC
 .L80AA6714:

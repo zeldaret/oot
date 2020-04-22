@@ -35,12 +35,12 @@ glabel func_808BC9EC
 /* 00550 808BCA50 3402FFFF */  ori     $v0, $zero, 0xFFFF         ## $v0 = 0000FFFF
 /* 00554 808BCA54 A4E01D74 */  sh      $zero, 0x1D74($a3)         ## 00001D74
 /* 00558 808BCA58 A4E21D7C */  sh      $v0, 0x1D7C($a3)           ## 00001D7C
-/* 0055C 808BCA5C 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00560 808BCA60 A422FCC0 */  sh      $v0, -0x0340($at)          ## 8015FCC0
-/* 00564 808BCA64 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00568 808BCA68 A422FCC2 */  sh      $v0, -0x033E($at)          ## 8015FCC2
-/* 0056C 808BCA6C 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00570 808BCA70 A422FCC4 */  sh      $v0, -0x033C($at)          ## 8015FCC4
+/* 0055C 808BCA5C 3C018016 */  lui     $at, %hi(D_8015FCC0)
+/* 00560 808BCA60 A422FCC0 */  sh      $v0, %lo(D_8015FCC0)($at)
+/* 00564 808BCA64 3C018016 */  lui     $at, %hi(D_8015FCC2)
+/* 00568 808BCA68 A422FCC2 */  sh      $v0, %lo(D_8015FCC2)($at)
+/* 0056C 808BCA6C 3C018016 */  lui     $at, %hi(D_8015FCC4)
+/* 00570 808BCA70 A422FCC4 */  sh      $v0, %lo(D_8015FCC4)($at)
 /* 00574 808BCA74 240F0002 */  addiu   $t7, $zero, 0x0002         ## $t7 = 00000002
 /* 00578 808BCA78 3C180001 */  lui     $t8, 0x0001                ## $t8 = 00010000
 /* 0057C 808BCA7C A0E01D7E */  sb      $zero, 0x1D7E($a3)         ## 00001D7E

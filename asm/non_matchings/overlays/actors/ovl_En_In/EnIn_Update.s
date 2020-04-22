@@ -42,8 +42,8 @@ glabel EnIn_Update
 /* 021F0 80A7B1A0 27391BE0 */  addiu   $t9, $t9, 0x1BE0           ## $t9 = 06001BE0
 /* 021F4 80A7B1A4 1728000A */  bne     $t9, $t0, .L80A7B1D0       
 /* 021F8 80A7B1A8 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 021FC 80A7B1AC 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 02200 80A7B1B0 9529FA5A */  lhu     $t1, -0x05A6($t1)          ## 8015FA5A
+/* 021FC 80A7B1AC 3C098016 */  lui     $t1, %hi(gSaveContext+0x13fa)
+/* 02200 80A7B1B0 9529FA5A */  lhu     $t1, %lo(gSaveContext+0x13fa)($t1)
 /* 02204 80A7B1B4 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
 /* 02208 80A7B1B8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0220C 80A7B1BC 312A000F */  andi    $t2, $t1, 0x000F           ## $t2 = 00000000
@@ -77,13 +77,13 @@ glabel EnIn_Update
 /* 02270 80A7B220 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 02274 80A7B224 0C29E6AD */  jal     func_80A79AB4              
 /* 02278 80A7B228 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
-/* 0227C 80A7B22C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 02280 80A7B230 85CEFA34 */  lh      $t6, -0x05CC($t6)          ## 8015FA34
-/* 02284 80A7B234 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 0227C 80A7B22C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x13d4)
+/* 02280 80A7B230 85CEFA34 */  lh      $t6, %lo(gSaveContext+0x13d4)($t6)
+/* 02284 80A7B234 3C0F8016 */  lui     $t7, %hi(gSaveContext+0x13d2)
 /* 02288 80A7B238 29C10006 */  slti    $at, $t6, 0x0006           
 /* 0228C 80A7B23C 5020000F */  beql    $at, $zero, .L80A7B27C     
 /* 02290 80A7B240 8208001F */  lb      $t0, 0x001F($s0)           ## 0000001F
-/* 02294 80A7B244 85EFFA32 */  lh      $t7, -0x05CE($t7)          ## 8015FA32
+/* 02294 80A7B244 85EFFA32 */  lh      $t7, %lo(gSaveContext+0x13d2)($t7)
 /* 02298 80A7B248 51E0000C */  beql    $t7, $zero, .L80A7B27C     
 /* 0229C 80A7B24C 8208001F */  lb      $t0, 0x001F($s0)           ## 0000001F
 /* 022A0 80A7B250 86180308 */  lh      $t8, 0x0308($s0)           ## 00000308

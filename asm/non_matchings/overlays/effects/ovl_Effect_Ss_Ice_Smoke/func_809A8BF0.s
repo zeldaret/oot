@@ -22,9 +22,9 @@ glabel func_809A8BF0
 /* 00048 809A8C38 1040002E */  beq     $v0, $zero, .L809A8CF4     
 /* 0004C 809A8C3C 3C090001 */  lui     $t1, 0x0001                ## $t1 = 00010000
 /* 00050 809A8C40 8FB8002C */  lw      $t8, 0x002C($sp)           
-/* 00054 809A8C44 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00054 809A8C44 3C028016 */  lui     $v0, %hi(gSegments)
 /* 00058 809A8C48 8FAF0038 */  lw      $t7, 0x0038($sp)           
-/* 0005C 809A8C4C 24426FA8 */  addiu   $v0, $v0, 0x6FA8           ## $v0 = 80166FA8
+/* 0005C 809A8C4C 24426FA8 */  addiu   $v0, %lo(gSegments)
 /* 00060 809A8C50 0018C900 */  sll     $t9, $t8,  4               
 /* 00064 809A8C54 8C4E0018 */  lw      $t6, 0x0018($v0)           ## 80166FC0
 /* 00068 809A8C58 0338C821 */  addu    $t9, $t9, $t8              
@@ -65,10 +65,10 @@ glabel func_809A8BF0
 /* 000E8 809A8CD8 AE0F0024 */  sw      $t7, 0x0024($s0)           ## 00000024
 /* 000EC 809A8CDC A60D0044 */  sh      $t5, 0x0044($s0)           ## 00000044
 /* 000F0 809A8CE0 8FB90028 */  lw      $t9, 0x0028($sp)           
-/* 000F4 809A8CE4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 000F4 809A8CE4 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 000F8 809A8CE8 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 000FC 809A8CEC 10000005 */  beq     $zero, $zero, .L809A8D04   
-/* 00100 809A8CF0 AC396FC0 */  sw      $t9, 0x6FC0($at)           ## 80166FC0
+/* 00100 809A8CF0 AC396FC0 */  sw      $t9, %lo(gSegments+0x18)($at)
 .L809A8CF4:
 /* 00104 809A8CF4 3C04809B */  lui     $a0, %hi(D_809A90C0)       ## $a0 = 809B0000
 /* 00108 809A8CF8 0C00084C */  jal     osSyncPrintf

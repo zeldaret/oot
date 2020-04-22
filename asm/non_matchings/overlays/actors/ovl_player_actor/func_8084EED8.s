@@ -52,8 +52,8 @@ glabel func_8084EED8
 /* 1CD88 8084EF98 3C05423C */  lui     $a1, 0x423C                ## $a1 = 423C0000
 /* 1CD8C 8084EF9C 10400003 */  beq     $v0, $zero, .L8084EFAC     
 /* 1CD90 8084EFA0 240F0140 */  addiu   $t7, $zero, 0x0140         ## $t7 = 00000140
-/* 1CD94 8084EFA4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 1CD98 8084EFA8 A42FFA84 */  sh      $t7, -0x057C($at)          ## 8015FA84
+/* 1CD94 8084EFA4 3C018016 */  lui     $at, %hi(gSaveContext+0x1424)
+/* 1CD98 8084EFA8 A42FFA84 */  sh      $t7, %lo(gSaveContext+0x1424)($at)
 .L8084EFAC:
 /* 1CD9C 8084EFAC 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L8084EFB0:

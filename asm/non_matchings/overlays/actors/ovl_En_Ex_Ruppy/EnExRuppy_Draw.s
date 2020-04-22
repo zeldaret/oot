@@ -52,7 +52,7 @@ glabel EnExRuppy_Draw
 /* 00E5C 80A0B26C AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00E60 80A0B270 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 00E64 80A0B274 3C0480A1 */  lui     $a0, %hi(D_80A0B3B8)       ## $a0 = 80A10000
-/* 00E68 80A0B278 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 00E68 80A0B278 3C198016 */  lui     $t9, %hi(gSegments)
 /* 00E6C 80A0B27C 24480008 */  addiu   $t0, $v0, 0x0008           ## $t0 = 00000008
 /* 00E70 80A0B280 AE0802C0 */  sw      $t0, 0x02C0($s0)           ## 000002C0
 /* 00E74 80A0B284 AC490000 */  sw      $t1, 0x0000($v0)           ## 00000000
@@ -71,7 +71,7 @@ glabel EnExRuppy_Draw
 /* 00EA8 80A0B2B8 000E7F02 */  srl     $t7, $t6, 28               
 /* 00EAC 80A0B2BC 000FC080 */  sll     $t8, $t7,  2               
 /* 00EB0 80A0B2C0 0338C821 */  addu    $t9, $t9, $t8              
-/* 00EB4 80A0B2C4 8F396FA8 */  lw      $t9, 0x6FA8($t9)           ## 80166FA8
+/* 00EB4 80A0B2C4 8F396FA8 */  lw      $t9, %lo(gSegments)($t9)
 /* 00EB8 80A0B2C8 00816824 */  and     $t5, $a0, $at              
 /* 00EBC 80A0B2CC 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00EC0 80A0B2D0 01B94021 */  addu    $t0, $t5, $t9              

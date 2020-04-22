@@ -22,8 +22,8 @@ glabel EnFw_Init
 /* 005F0 80A1EB90 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 005F4 80A1EB94 0C00D3B0 */  jal     func_80034EC0
 /* 005F8 80A1EB98 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 005FC 80A1EB9C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00600 80A1EBA0 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 005FC 80A1EB9C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00600 80A1EBA0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00604 80A1EBA4 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00608 80A1EBA8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0060C 80A1EBAC 0C00AC78 */  jal     ActorShape_Init

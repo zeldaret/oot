@@ -17,8 +17,8 @@ glabel func_80ABF28C
 /* 00590 80ABF2B0 25F80001 */  addiu   $t8, $t7, 0x0001           ## $t8 = 00000001
 /* 00594 80ABF2B4 14790005 */  bne     $v1, $t9, .L80ABF2CC       
 /* 00598 80ABF2B8 A498015A */  sh      $t8, 0x015A($a0)           ## 0000015A
-/* 0059C 80ABF2BC 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 005A0 80ABF2C0 9108F925 */  lbu     $t0, -0x06DB($t0)          ## 8015F925
+/* 0059C 80ABF2BC 3C088016 */  lui     $t0, %hi(gSaveContext+0x12c5)
+/* 005A0 80ABF2C0 9108F925 */  lbu     $t0, %lo(gSaveContext+0x12c5)($t0)
 /* 005A4 80ABF2C4 5100007D */  beql    $t0, $zero, .L80ABF4BC     
 /* 005A8 80ABF2C8 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80ABF2CC:
@@ -43,17 +43,17 @@ glabel func_80ABF28C
 /* 005EC 80ABF30C 84C50150 */  lh      $a1, 0x0150($a2)           ## 00000150
 .L80ABF310:
 /* 005F0 80ABF310 24040004 */  addiu   $a0, $zero, 0x0004         ## $a0 = 00000004
-/* 005F4 80ABF314 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 005F4 80ABF314 3C0B8016 */  lui     $t3, %hi(gSaveContext+0xedc)
 /* 005F8 80ABF318 14850005 */  bne     $a0, $a1, .L80ABF330       
 /* 005FC 80ABF31C 00000000 */  nop
-/* 00600 80ABF320 956BF53C */  lhu     $t3, -0x0AC4($t3)          ## 8015F53C
+/* 00600 80ABF320 956BF53C */  lhu     $t3, %lo(gSaveContext+0xedc)($t3)
 /* 00604 80ABF324 316C0800 */  andi    $t4, $t3, 0x0800           ## $t4 = 00000000
 /* 00608 80ABF328 55800064 */  bnel    $t4, $zero, .L80ABF4BC     
 /* 0060C 80ABF32C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80ABF330:
 /* 00610 80ABF330 14650004 */  bne     $v1, $a1, .L80ABF344       
-/* 00614 80ABF334 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
-/* 00618 80ABF338 95ADF536 */  lhu     $t5, -0x0ACA($t5)          ## 8015F536
+/* 00614 80ABF334 3C0D8016 */  lui     $t5, %hi(gSaveContext+0xed6)
+/* 00618 80ABF338 95ADF536 */  lhu     $t5, %lo(gSaveContext+0xed6)($t5)
 /* 0061C 80ABF33C 31AE2000 */  andi    $t6, $t5, 0x2000           ## $t6 = 00000000
 /* 00620 80ABF340 15C0005D */  bne     $t6, $zero, .L80ABF4B8     
 .L80ABF344:

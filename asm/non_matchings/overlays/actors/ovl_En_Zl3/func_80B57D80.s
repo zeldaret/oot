@@ -30,8 +30,8 @@ glabel func_80B57D80
 /* 04A38 80B57DE8 C606002C */  lwc1    $f6, 0x002C($s0)           ## 0000002C
 /* 04A3C 80B57DEC 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 04A40 80B57DF0 46120102 */  mul.s   $f4, $f0, $f18             
-/* 04A44 80B57DF4 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 04A48 80B57DF8 2442FA90 */  addiu   $v0, $v0, 0xFA90           ## $v0 = 8015FA90
+/* 04A44 80B57DF4 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 04A48 80B57DF8 2442FA90 */  addiu   $v0, %lo(gGameInfo)
 /* 04A4C 80B57DFC 3C014180 */  lui     $at, 0x4180                ## $at = 41800000
 /* 04A50 80B57E00 44819000 */  mtc1    $at, $f18                  ## $f18 = 16.00
 /* 04A54 80B57E04 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

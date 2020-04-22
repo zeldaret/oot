@@ -9,6 +9,6 @@ glabel func_8096DDBC
 /* 00928 8096DDD8 030FC021 */  addu    $t8, $t8, $t7              
 /* 0092C 8096DDDC 8F1817B4 */  lw      $t8, 0x17B4($t8)           ## 000117B4
 /* 00930 8096DDE0 0301C821 */  addu    $t9, $t8, $at              
-/* 00934 8096DDE4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 00934 8096DDE4 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 00938 8096DDE8 03E00008 */  jr      $ra                        
-/* 0093C 8096DDEC AC396FC0 */  sw      $t9, 0x6FC0($at)           ## 80166FC0
+/* 0093C 8096DDEC AC396FC0 */  sw      $t9, %lo(gSegments+0x18)($at)

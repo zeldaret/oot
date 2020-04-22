@@ -27,10 +27,10 @@ glabel func_8098A9A4
 /* 01B50 8098A9D0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01B54 8098A9D4 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 01B58 8098A9D8 922E1D6C */  lbu     $t6, 0x1D6C($s1)           ## 00001D6C
-/* 01B5C 8098A9DC 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 01B5C 8098A9DC 3C0F8016 */  lui     $t7, %hi(gSaveContext+0x1360)
 /* 01B60 8098A9E0 11C00005 */  beq     $t6, $zero, .L8098A9F8     
 /* 01B64 8098A9E4 00000000 */  nop
-/* 01B68 8098A9E8 8DEFF9C0 */  lw      $t7, -0x0640($t7)          ## 8015F9C0
+/* 01B68 8098A9E8 8DEFF9C0 */  lw      $t7, %lo(gSaveContext+0x1360)($t7)
 /* 01B6C 8098A9EC 29E10004 */  slti    $at, $t7, 0x0004           
 /* 01B70 8098A9F0 1420002A */  bne     $at, $zero, .L8098AA9C     
 /* 01B74 8098A9F4 00000000 */  nop

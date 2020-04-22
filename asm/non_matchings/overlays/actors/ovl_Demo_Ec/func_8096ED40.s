@@ -15,12 +15,12 @@ glabel func_8096ED40
 /* 018C4 8096ED74 00194080 */  sll     $t0, $t9,  2               
 /* 018C8 8096ED78 3C0FDE00 */  lui     $t7, 0xDE00                ## $t7 = DE000000
 /* 018CC 8096ED7C 248E0008 */  addiu   $t6, $a0, 0x0008           ## $t6 = 00000008
-/* 018D0 8096ED80 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 018D0 8096ED80 3C098016 */  lui     $t1, %hi(gSegments)
 /* 018D4 8096ED84 ACAE0000 */  sw      $t6, 0x0000($a1)           ## 00000000
 /* 018D8 8096ED88 01284821 */  addu    $t1, $t1, $t0              
 /* 018DC 8096ED8C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 018E0 8096ED90 AC8F0000 */  sw      $t7, 0x0000($a0)           ## 00000000
-/* 018E4 8096ED94 8D296FA8 */  lw      $t1, 0x6FA8($t1)           ## 80166FA8
+/* 018E4 8096ED94 8D296FA8 */  lw      $t1, %lo(gSegments)($t1)
 /* 018E8 8096ED98 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 018EC 8096ED9C 00415024 */  and     $t2, $v0, $at              
 /* 018F0 8096EDA0 3C018000 */  lui     $at, 0x8000                ## $at = 80000000

@@ -51,7 +51,7 @@ glabel EnMm_Draw
 /* 00F90 80AAE700 AC6F0000 */  sw      $t7, 0x0000($v1)           ## 00000000
 /* 00F94 80AAE704 8D1801E4 */  lw      $t8, 0x01E4($t0)           ## 000001E4
 /* 00F98 80AAE708 3C0480AB */  lui     $a0, %hi(D_80AAEBEC)       ## $a0 = 80AB0000
-/* 00F9C 80AAE70C 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 00F9C 80AAE70C 3C0D8016 */  lui     $t5, %hi(gSegments)
 /* 00FA0 80AAE710 0018C880 */  sll     $t9, $t8,  2
 /* 00FA4 80AAE714 00992021 */  addu    $a0, $a0, $t9
 /* 00FA8 80AAE718 8C84EBEC */  lw      $a0, %lo(D_80AAEBEC)($a0)
@@ -61,7 +61,7 @@ glabel EnMm_Draw
 /* 00FB8 80AAE728 000A5F02 */  srl     $t3, $t2, 28
 /* 00FBC 80AAE72C 000B6080 */  sll     $t4, $t3,  2
 /* 00FC0 80AAE730 01AC6821 */  addu    $t5, $t5, $t4
-/* 00FC4 80AAE734 8DAD6FA8 */  lw      $t5, 0x6FA8($t5)           ## 80166FA8
+/* 00FC4 80AAE734 8DAD6FA8 */  lw      $t5, %lo(gSegments)($t5)
 /* 00FC8 80AAE738 00814824 */  and     $t1, $a0, $at
 /* 00FCC 80AAE73C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00FD0 80AAE740 012D7021 */  addu    $t6, $t1, $t5
@@ -79,8 +79,8 @@ glabel EnMm_Draw
 /* 01000 80AAE770 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01004 80AAE774 0C0286B2 */  jal     SkelAnime_DrawSV
 /* 01008 80AAE778 AFA80018 */  sw      $t0, 0x0018($sp)
-/* 0100C 80AAE77C 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 01010 80AAE780 954AF556 */  lhu     $t2, -0x0AAA($t2)          ## 8015F556
+/* 0100C 80AAE77C 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xef6)
+/* 01010 80AAE780 954AF556 */  lhu     $t2, %lo(gSaveContext+0xef6)($t2)
 /* 01014 80AAE784 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01018 80AAE788 342117A4 */  ori     $at, $at, 0x17A4           ## $at = 000117A4
 /* 0101C 80AAE78C 314B0800 */  andi    $t3, $t2, 0x0800           ## $t3 = 00000000

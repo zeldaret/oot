@@ -4,8 +4,8 @@ glabel EnZl2_Init
 /* 03918 80B522A8 AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 0391C 80B522AC AFA50044 */  sw      $a1, 0x0044($sp)
 /* 03920 80B522B0 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
-/* 03924 80B522B4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 03928 80B522B8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 03924 80B522B4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 03928 80B522B8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0392C 80B522BC AFA4002C */  sw      $a0, 0x002C($sp)
 /* 03930 80B522C0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 03934 80B522C4 0C00AC78 */  jal     ActorShape_Init
@@ -38,8 +38,8 @@ glabel EnZl2_Init
 /* 03998 80B52328 10000004 */  beq     $zero, $zero, .L80B5233C
 /* 0399C 80B5232C 8FBF0024 */  lw      $ra, 0x0024($sp)
 .L80B52330:
-/* 039A0 80B52330 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 039A4 80B52334 A420FA32 */  sh      $zero, -0x05CE($at)        ## 8015FA32
+/* 039A0 80B52330 3C018016 */  lui     $at, %hi(gSaveContext+0x13d2)
+/* 039A4 80B52334 A420FA32 */  sh      $zero, %lo(gSaveContext+0x13d2)($at)
 /* 039A8 80B52338 8FBF0024 */  lw      $ra, 0x0024($sp)
 .L80B5233C:
 /* 039AC 80B5233C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000

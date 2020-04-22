@@ -54,8 +54,8 @@ glabel func_808A9234
 /* 004A4 808A92F4 15410004 */  bne     $t2, $at, .L808A9308       
 /* 004A8 808A92F8 258C9320 */  addiu   $t4, $t4, %lo(func_808A9320) ## $t4 = 808A9320
 /* 004AC 808A92FC 240B000F */  addiu   $t3, $zero, 0x000F         ## $t3 = 0000000F
-/* 004B0 808A9300 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 004B4 808A9304 A42BFA2E */  sh      $t3, -0x05D2($at)          ## 8015FA2E
+/* 004B0 808A9300 3C018016 */  lui     $at, %hi(gSaveContext+0x13ce)
+/* 004B4 808A9304 A42BFA2E */  sh      $t3, %lo(gSaveContext+0x13ce)($at)
 .L808A9308:
 /* 004B8 808A9308 AE0C0164 */  sw      $t4, 0x0164($s0)           ## 00000164
 .L808A930C:
