@@ -57,20 +57,25 @@ const ActorInit En_Horse_Ganon_InitVars = {
 
 // static Sub98Init4 subActor98Init = { 0x0A000023, 0x0064FE00 };
 
+extern UNK_PTR D_06008668;
+extern AnimationHeader D_06004AA4;
+extern AnimationHeader D_06005264;
+extern AnimationHeader D_06005B78;
+extern AnimationHeader D_06002CE4;
+
 extern ColliderCylinderInit D_80A691E0;
 extern CollisionCheckInfo D_80A69240;
 extern InitChainEntry D_80A692C0;
 extern AnimationHeader* D_80A691C0;
-extern AnimationHeader* D_80A691B0;
 extern u32* D_80A69230;
-extern UNK_PTR D_06008668;
-extern UNK_PTR D_06004AA4;
 extern s32 D_80A692B8;
 extern void (*D_80A692C4[3])();
 extern s8* D_80A69248;
 extern u8 D_80A6924E; // this should be a pointer but that changes how the address is loaded
-extern f32* D_80A691C8;
 
+AnimationHeader* D_80A691B0[] = {&D_06004AA4, &D_06005264, &D_06005B78, &D_06002CE4};
+
+f32 D_80A691C8[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
 // the rest are padding
 const f32 D_80A692D0[] = { 10430.3779297f, 0.0f, 0.0f, 0.0f };
 
@@ -161,12 +166,12 @@ void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx)
     this->actor.posRot2.pos.y += 70.0f;
     func_800A663C(globalCtx, &this->unk_154, &D_06008668, &D_06004AA4);
     this->animationIndex = 0;
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, D_80A691B0);
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, D_80A691B0[0]);
 
     Collider_InitCylinder(globalCtx, collider);
     Collider_SetCylinder(globalCtx, collider, &this->actor, &D_80A691E0);
     Collider_InitJntSph(globalCtx, &this->unk_248);
-    Collider_SetJntSph(globalCtx, &this->unk_248, this, &D_80A69230, &this->unk_268);
+    Collider_SetJntSph(globalCtx, &this->unk_248, &this->actor, &D_80A69230, &this->unk_268);
 
     func_80061ED4(&this->actor.colChkInfo, 0, &D_80A69240);
     func_80A68AC4(this);
@@ -191,55 +196,49 @@ void func_80A68AF0(EnHorseGanon* this, s32 unused)
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68B20.s")
-// void func_80A68B20(EnHorseGanon *this) {
-//     s32 changeAnimation;
-//     f32 sp30;
-//     s32 sp34;
-//     EnHorseGanon *new_var;
+void func_80A68B20(EnHorseGanon *this) {
+    s32 changeAnimation;
+    f32 sp30;
 
-//     this->unk_14C = 1;
-//     if (this->actor.speedXZ <= 3.0f) {
-//         changeAnimation = 0;
-//         if (this->animationIndex != 2) {
-//             changeAnimation = 1;
-//         }
-//         this->animationIndex = 2;
-//     } else if (this->actor.speedXZ <= 6.0f) {
-//         changeAnimation = 0;
-//         if (this->animationIndex != 3) {
-//             changeAnimation = 1;
-//         }
-//         this->animationIndex = 3;
-//     } else {
-//         changeAnimation = 0;
-//         if (this->animationIndex != 4) {
-//             changeAnimation = 1;
-//         }
-//         this->animationIndex = 4;
-//     }
+    changeAnimation = 0;
+    this->unk_14C = 1;
+    if (this->actor.speedXZ <= 3.0f) {
+        if (this->animationIndex != 2) {
+            changeAnimation = 1;
+        }
+        this->animationIndex = 2;
+    } else if (this->actor.speedXZ <= 6.0f) {
+        if (this->animationIndex != 3) {
+            changeAnimation = 1;
+        }
+        this->animationIndex = 3;
+    } else {
+        if (this->animationIndex != 4) {
+            changeAnimation = 1;
+        }
+        this->animationIndex = 4;
+    }
 
-//     if (this->animationIndex == 2) {
-//         sp30 = this->actor.speedXZ / 3.0f;
-//     } else if (this->animationIndex == 3) {
-//         sp34 = changeAnimation;
-//         sp30 = this->actor.speedXZ / 5.0f;
-//         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.unk_E4, 4, &D_801333E8, &D_801333E8, &D_801333E8);
-//     } else if (this->animationIndex == 4) {
-//         sp34 = changeAnimation;
-//         sp30 = this->actor.speedXZ / 7.0f;
-//         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.unk_E4, 4, &D_801333E8, &D_801333E8, &D_801333E8);
-//     } else {
-//         sp30 = 1.0f;
-//     }
+    if (this->animationIndex == 2) {
+        sp30 = this->actor.speedXZ / 3.0f;
+    } else if (this->animationIndex == 3) {
+        sp30 = this->actor.speedXZ / 5.0f;
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    } else if (this->animationIndex == 4) {
+        sp30 = this->actor.speedXZ / 7.0f;
+        Audio_PlaySoundGeneral(NA_SE_EV_HORSE_RUN, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    } else {
+        sp30 = 1.0f;
+    }
 
-//     new_var = this;
-//     if (changeAnimation == 1) {
-//         SkelAnime_ChangeAnim(&this->skelAnime, &D_80A691B0[new_var->animationIndex], D_80A691C8[this->animationIndex] * 1.5f, 0, (f32) SkelAnime_GetFrameCount(&D_80A691B0[this->animationIndex]), 2, -3.0f);
-//         return;
-//     }
-//     SkelAnime_ChangeAnim(&this->skelAnime, &D_80A691B0[new_var->animationIndex], D_80A691C8[this->animationIndex] * sp30 * 1.5f, 0.0f, (f32) SkelAnime_GetFrameCount(&D_80A691B0[this->animationIndex]), 2, 0.0f);
-// }
+    if (changeAnimation == 1) {
+        SkelAnime_ChangeAnim(&this->skelAnime, D_80A691B0[this->animationIndex], D_80A691C8[this->animationIndex] * sp30  * 1.5f,
+                0.0f, SkelAnime_GetFrameCount(&D_80A691B0[this->animationIndex]->genericHeader), 2, -3.0f);
+    } else {
+        SkelAnime_ChangeAnim(&this->skelAnime, D_80A691B0[this->animationIndex], D_80A691C8[this->animationIndex] * sp30 * 1.5f,
+                0.0f, SkelAnime_GetFrameCount(&D_80A691B0[this->animationIndex]->genericHeader), 2, 0.0f);
+    }
+}
 
 void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx)
 {
