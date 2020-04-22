@@ -62,7 +62,7 @@ glabel EnKarebaba_Init
 /* 000D0 80A95420 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 000D4 80A95424 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 000D8 80A95428 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 000D8 80A95428 0C016C80 */  jal     DamageTable_Get
               
 /* 000DC 80A9542C 24040001 */  addiu   $a0, $zero, 0x0001         ## $a0 = 00000001
 /* 000E0 80A95430 3C0680A9 */  lui     $a2, %hi(D_80A96A48)       ## $a2 = 80A90000

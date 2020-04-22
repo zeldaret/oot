@@ -30,7 +30,7 @@ const ActorInit En_Ms_InitVars = {
     (ActorFunc)EnMs_Draw,
 };
 
-static ColliderCylinderInit_set3 colliderInit = {
+static ColliderCylinderInit_Set3 colliderInit = {
     { 0x0A, 0x00, 0x09, 0x39, 0x01 },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 0x0016, 0x0025, 0x0000, { 0 } },
@@ -79,7 +79,7 @@ void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
     Actor_SetScale(&this->actor, 0.015f);
 
-    this->actor.sub_98.mass = 0xFF;
+    this->actor.colChkInfo.mass = 0xFF;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;

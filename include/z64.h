@@ -9,6 +9,7 @@
 #include <z64actor.h>
 #include <z64object.h>
 #include <z64cutscene.h>
+#include <z64collision_check.h>
 #include <z64scene.h>
 #include <z64effect.h>
 #include <z64item.h>
@@ -18,7 +19,6 @@
 #include <bgm.h>
 #include <sfx.h>
 #include <color.h>
-#include <z_collision_check.h>
 #include <ichain.h>
 #include <stdarg.h>
 #include <regs.h>
@@ -892,7 +892,7 @@ typedef struct {
     /* 0x1C0 */ s32 colOcCount;
     /* 0x1C4 */ Collider* colOc[COLLISION_CHECK_OC_MAX];
     /* 0x28C */ s32 colOcLineCount;
-    /* 0x290 */ OcLine_s* colOcLine[COLLISION_CHECK_OC_LINE_MAX];
+    /* 0x290 */ OcLine* colOcLine[COLLISION_CHECK_OC_LINE_MAX];
 
 } CollisionCheckContext; // size = 0x29C SubGlobalContext11E60
 

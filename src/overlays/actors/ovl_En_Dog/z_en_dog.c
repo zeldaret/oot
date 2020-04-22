@@ -38,7 +38,7 @@ static ColliderCylinderInit cylinderInit = {
     { 0x0010, 0x0014, 0x0000, { 0 } },
 };
 
-static SubActor98Init_2 sub98Data = {
+static CollisionCheckInfoInit2 colChkInfoInit = {
     0x00,   // health
     0x0000, // unk_10
     0x0000, // unk_12
@@ -241,7 +241,7 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, collider);
     Collider_SetCylinder(globalCtx, collider, &this->actor, &cylinderInit);
-    func_80061EFC(&this->actor.sub_98, 0, &sub98Data);
+    func_80061EFC(&this->actor.colChkInfo, 0, &colChkInfoInit);
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
     this->actor.gravity = -1.0f;

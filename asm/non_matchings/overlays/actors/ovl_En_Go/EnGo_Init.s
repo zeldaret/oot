@@ -50,7 +50,7 @@ glabel EnGo_Init
 /* 01674 80A3FBE4 0C01712B */  jal     Collider_SetCylinder
 
 /* 01678 80A3FBE8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 0167C 80A3FBEC 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 0167C 80A3FBEC 0C016C80 */  jal     DamageTable_Get
 
 /* 01680 80A3FBF0 24040016 */  addiu   $a0, $zero, 0x0016         ## $a0 = 00000016
 /* 01684 80A3FBF4 3C0680A4 */  lui     $a2, %hi(D_80A41B2C)       ## $a2 = 80A40000

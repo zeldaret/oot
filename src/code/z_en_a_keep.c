@@ -142,7 +142,7 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
             func_8001D234(this, this->actor.params);
             Collider_InitCylinder(globalCtx, &this->cylinderCollider);
             Collider_SetCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_80115440);
-            this->actor.sub_98.mass = 0xFF;
+            this->actor.colChkInfo.mass = 0xFF;
             this->actor.unk_1F = 0;
             break;
         case A_OBJ_KNOB:
@@ -156,7 +156,7 @@ void En_A_Obj_Init(ActorEnAObj* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.params < 5) {
-        this->actor.sub_98.mass = 0xFF;
+        this->actor.colChkInfo.mass = 0xFF;
     }
 
     if (this->dynaPolyId != -1) {

@@ -42,7 +42,7 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx);
 
 void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx);
 
-static ColliderCylinderInit_set3 colliderInit = {
+static ColliderCylinderInit_Set3 colliderInit = {
     { 0x0A, 0x00, 0x09, 0x00, 0x01 },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000080, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
     { 0x001E, 0x0064, 0x0000, { 0 } },

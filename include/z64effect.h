@@ -5,8 +5,8 @@
 typedef struct {
     /* 0x00 */ Vec3f velocity;
     /* 0x0C */ Vec3f position;
-    /* 0x18 */ Vec3s unk18;
-    /* 0x1E */ Vec3s unk1E;
+    /* 0x18 */ Vec3s unk_18;
+    /* 0x1E */ Vec3s unk_1E;
 } EffSparkParticle; // size = 0x24
 
 typedef struct {
@@ -23,7 +23,7 @@ typedef struct {
     /* 0x4C0 */ s32 duration;
 } EffSparkParams; // size = 0x4C4  
 
-/* gz has trail related structs but they seem to be different in dbg*/
+// gz has trail related structs but they seem to be different in dbg
 typedef struct {
     /* 0x0000 */ char        unk_00[0x184];
     /* 0x0184 */ Color_RGBA8 p1Start;

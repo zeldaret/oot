@@ -35,7 +35,7 @@ glabel EnFd_Init
 /* 00B6C 80A0C22C 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00B70 80A0C230 0C017014 */  jal     Collider_SetJntSph
 /* 00B74 80A0C234 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00B78 80A0C238 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 00B78 80A0C238 0C016C80 */  jal     DamageTable_Get
 
 /* 00B7C 80A0C23C 2404000F */  addiu   $a0, $zero, 0x000F         ## $a0 = 0000000F
 /* 00B80 80A0C240 3C0680A1 */  lui     $a2, %hi(D_80A0DFE0)       ## $a2 = 80A10000

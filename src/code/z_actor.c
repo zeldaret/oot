@@ -842,7 +842,7 @@ void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     actor->unk_F4 = 1000.0f;
     actor->unk_F8 = 350.0f;
     actor->unk_FC = 700.0f;
-    func_80061E48(&actor->sub_98);
+    func_80061E48(&actor->colChkInfo);
     actor->floorPolySource = 0x32;
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
     if (Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
@@ -870,9 +870,9 @@ void Actor_Destroy(Actor* actor, GlobalContext* globalCtx) {
 
 void func_8002D7EC(Actor* actor) {
     f32 speedRate = R_UPDATE_RATE * 0.5f;
-    actor->posRot.pos.x += (actor->velocity.x * speedRate) + actor->sub_98.displacement.x;
-    actor->posRot.pos.y += (actor->velocity.y * speedRate) + actor->sub_98.displacement.y;
-    actor->posRot.pos.z += (actor->velocity.z * speedRate) + actor->sub_98.displacement.z;
+    actor->posRot.pos.x += (actor->velocity.x * speedRate) + actor->colChkInfo.displacement.x;
+    actor->posRot.pos.y += (actor->velocity.y * speedRate) + actor->colChkInfo.displacement.y;
+    actor->posRot.pos.z += (actor->velocity.z * speedRate) + actor->colChkInfo.displacement.z;
 }
 
 void func_8002D868(Actor* actor) {
@@ -1539,7 +1539,7 @@ s32 func_8002F2CC(Actor* actor, GlobalContext* globalCtx, f32 arg2) {
 }
 
 s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
-    f32 var1 = 50.0f + actor->sub_98.unk_10;
+    f32 var1 = 50.0f + actor->colChkInfo.unk_10;
     return func_8002F2CC(actor, globalCtx, var1);
 }
 
@@ -2096,7 +2096,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
             } else if ((unkFlag && !(actor->flags & unkFlag)) ||
                        (!unkFlag && unkCondition && (sp74 != actor) && (actor != player->unk_68C) &&
                         (actor != player->heldActor) && (&player->actor != actor->attachedA))) {
-                func_80061E8C(&actor->sub_98);
+                func_80061E8C(&actor->colChkInfo);
                 actor = actor->next;
             } else if (actor->update == NULL) {
                 if (!actor->activelyDrawn) {
@@ -2133,7 +2133,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                     func_8003F8EC(globalCtx, &globalCtx->colCtx.dyna, actor);
                 }
 
-                func_80061E8C(&actor->sub_98);
+                func_80061E8C(&actor->colChkInfo);
 
                 actor = actor->next;
             }
@@ -3330,7 +3330,7 @@ Actor_80033780* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg
                 spA8.y = itemActor->actor.posRot.pos.y + deltaY;
                 spA8.z = itemActor->actor.posRot.pos.z + deltaZ;
 
-                if (func_80062ECC(refActor->sub_98.unk_10, refActor->sub_98.unk_12, 0.0f, &refActor->posRot.pos,
+                if (func_80062ECC(refActor->colChkInfo.unk_10, refActor->colChkInfo.unk_12, 0.0f, &refActor->posRot.pos,
                                   &itemActor->actor.posRot.pos, &spA8, &sp90, &sp84)) {
                     return itemActor;
                 } else {
@@ -3981,7 +3981,7 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
             break;
     }
 
-    func_8002E4B4(globalCtx, actor, actor->sub_98.unk_12, actor->sub_98.unk_10, actor->sub_98.unk_10, 0x1D);
+    func_8002E4B4(globalCtx, actor, actor->colChkInfo.unk_12, actor->colChkInfo.unk_10, actor->colChkInfo.unk_10, 0x1D);
 
     return ret;
 }
@@ -4071,13 +4071,13 @@ u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
 }
 
 u8 Actor_ApplyDamage(Actor* actor) {
-    if (actor->sub_98.damage >= actor->sub_98.health) {
-        actor->sub_98.health = 0;
+    if (actor->colChkInfo.damage >= actor->colChkInfo.health) {
+        actor->colChkInfo.health = 0;
     } else {
-        actor->sub_98.health -= actor->sub_98.damage;
+        actor->colChkInfo.health -= actor->colChkInfo.damage;
     }
 
-    return actor->sub_98.health;
+    return actor->colChkInfo.health;
 }
 
 void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag) {

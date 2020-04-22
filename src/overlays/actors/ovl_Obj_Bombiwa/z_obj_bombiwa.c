@@ -34,7 +34,7 @@ static ColliderCylinderInit colliderInit = {
     { 0x0037, 0x0046, 0x0000, { 0 } },
 };
 
-static SubActor98Init subActor98Init = {
+static CollisionCheckInfoInit colChkInfoInit = {
     0x00,
     0x000C,
     0x003C,
@@ -67,7 +67,7 @@ void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx) {
     if ((Flags_GetSwitch(globalCtx, this->actor.params & 0x3F) != 0)) {
         Actor_Kill(&this->actor);
     } else {
-        func_80061ED4(&this->actor.sub_98, NULL, &subActor98Init);
+        func_80061ED4(&this->actor.colChkInfo, NULL, &colChkInfoInit);
         if (this->actor.shape.rot.y == 0) {
             s16 rand = (s16)Math_Rand_ZeroFloat(65536.0f);
             this->actor.posRot.rot.y = rand;

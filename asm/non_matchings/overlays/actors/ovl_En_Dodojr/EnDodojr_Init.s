@@ -36,7 +36,7 @@ glabel EnDodojr_Init
 /* 0007C 809F643C 0C01712B */  jal     Collider_SetCylinder
               
 /* 00080 809F6440 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00084 809F6444 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 00084 809F6444 0C016C80 */  jal     DamageTable_Get
               
 /* 00088 809F6448 24040004 */  addiu   $a0, $zero, 0x0004         ## $a0 = 00000004
 /* 0008C 809F644C 3C06809F */  lui     $a2, %hi(D_809F7EDC)       ## $a2 = 809F0000

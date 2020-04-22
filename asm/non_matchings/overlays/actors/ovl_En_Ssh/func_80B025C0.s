@@ -55,7 +55,7 @@ glabel func_80B025C0
 /* 00418 80B02688 A26B03C2 */  sb      $t3, 0x03C2($s3)           ## 000003C2
 /* 0041C 80B0268C A26C03C0 */  sb      $t4, 0x03C0($s3)           ## 000003C0
 /* 00420 80B02690 AE6D03B4 */  sw      $t5, 0x03B4($s3)           ## 000003B4
-/* 00424 80B02694 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 00424 80B02694 0C016C80 */  jal     DamageTable_Get
               
 /* 00428 80B02698 24040002 */  addiu   $a0, $zero, 0x0002         ## $a0 = 00000002
 /* 0042C 80B0269C 3C0680B0 */  lui     $a2, %hi(D_80B0449C)       ## $a2 = 80B00000

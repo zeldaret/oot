@@ -32,7 +32,7 @@ glabel EnMa3_Init
 /* 00644 80AA30E4 0C01712B */  jal     Collider_SetCylinder
 
 /* 00648 80AA30E8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 0064C 80AA30EC 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 0064C 80AA30EC 0C016C80 */  jal     DamageTable_Get
 /* 00650 80AA30F0 24040016 */  addiu   $a0, $zero, 0x0016         ## $a0 = 00000016
 /* 00654 80AA30F4 3C0680AA */  lui     $a2, %hi(D_80AA383C)       ## $a2 = 80AA0000
 /* 00658 80AA30F8 24C6383C */  addiu   $a2, $a2, %lo(D_80AA383C)  ## $a2 = 80AA383C

@@ -79,7 +79,7 @@ void EnAni_Init(EnAni* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, anim);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
-    this->actor.sub_98.mass = 0xFF;
+    this->actor.colChkInfo.mass = 0xFF;
     if (LINK_IS_CHILD) {
         EnAni_SetupAction(this, func_809B064C);
     } else {

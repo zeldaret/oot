@@ -18,7 +18,7 @@ static ColliderCylinderInit cylinderInitData = {
     { 0x0028, 0x000A, 0x0000, { 0 } },
 };
 
-static SubActor98Init_2 subActor98Init = {
+static CollisionCheckInfoInit2 colChkInfoInit = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
@@ -40,7 +40,7 @@ void EnIt_Init(EnIt* this, GlobalContext* globalCtx) {
     it->actor.params = 0x0D05;
     Collider_InitCylinder(globalCtx, &it->cylinderCollider);
     Collider_SetCylinder(globalCtx, &it->cylinderCollider, &it->actor, &cylinderInitData);
-    func_80061EFC(&it->actor.sub_98, 0, &subActor98Init); // Init Damage Chart
+    func_80061EFC(&it->actor.colChkInfo, 0, &colChkInfoInit); // Init Damage Chart
 }
 
 void EnIt_Destroy(EnIt* this, GlobalContext* globalCtx) {

@@ -55,14 +55,14 @@ static ColliderCylinderInit colCylinderInit = {
     { 0x001E, 0x0028, 0x0000, { 0 } },
 };
 
-static SubActor98Init sub98Init = {
+static CollisionCheckInfoInit colChkInfoInit = {
     0x04,
     0x001E,
     0x0028,
     0x96,
 };
 
-static ActorDamageChart damageTable = {
+static DamageTable damageTable = {
     0x10, 0x02, 0x01, 0x02, 0x10, 0x02, 0x02, 0x10, 0x01, 0x02, 0x04, 0x24, 0x02, 0x44, 0x04, 0x02,
     0x02, 0x24, 0x00, 0x44, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
 };
@@ -97,7 +97,7 @@ void EnWallmas_Init(EnWallmas* this, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->colCylinder);
     Collider_SetCylinder(globalCtx, &this->colCylinder, &this->actor, &colCylinderInit);
-    func_80061ED4(&this->actor.sub_98, &damageTable, &sub98Init);
+    func_80061ED4(&this->actor.colChkInfo, &damageTable, &colChkInfoInit);
     this2->switchFlag = (u8)(this2->actor.params >> 0x8);
     this->actor.params = this->actor.params & 0xFF;
 
@@ -250,7 +250,7 @@ void EnWallmas_StunBegin(EnWallmas* this) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_060019CC, 1.5f, 0, 20.0f, 2, -3.0f);
 
     this->actor.speedXZ = 0.0f;
-    if (this->actor.sub_98.damageEffect == 4) {
+    if (this->actor.colChkInfo.damageEffect == 4) {
         func_8003426C(&this->actor, -0x8000, 0xFF, 0, 0x50);
     } else {
         func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
@@ -363,7 +363,7 @@ void EnWallmas_ReturnToCeiling(EnWallmas* this, GlobalContext* globalCtx) {
 
 void EnWallmas_TakeDamage(EnWallmas* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        if (this->actor.sub_98.health == 0) {
+        if (this->actor.colChkInfo.health == 0) {
             EnWallMas_DieBegin(this, globalCtx);
         } else {
             EnWallmas_DamageCoolDownStart(this);
@@ -467,7 +467,7 @@ void EnWallmas_Stun(EnWallmas* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer == 0) {
-        if (this->actor.sub_98.health == 0) {
+        if (this->actor.colChkInfo.health == 0) {
             EnWallMas_DieBegin(this, globalCtx);
         } else {
             EnWallmas_ReturnToCeilingStart(this);
@@ -479,24 +479,24 @@ void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
     if ((this->colCylinder.base.acFlags & 2) != 0) {
         this->colCylinder.base.acFlags &= ~2;
         func_80035650(&this->actor, &this->colCylinder.body, 1);
-        if ((this->actor.sub_98.damageEffect != 0) || (this->actor.sub_98.damage != 0)) {
+        if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 func_80032C7C(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DEAD);
                 this->actor.flags &= ~1;
             } else {
-                if (this->actor.sub_98.damage != 0) {
+                if (this->actor.colChkInfo.damage != 0) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_DAMAGE);
                 }
             }
 
-            if ((this->actor.sub_98.damageEffect == DAMAGE_EFFECT_STUN_WHITE) ||
-                (this->actor.sub_98.damageEffect == DAMAGE_EFFECT_STUN_BLUE)) {
+            if ((this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_STUN_WHITE) ||
+                (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_STUN_BLUE)) {
                 if (this->actionFunc != (ActorFunc)&EnWallmas_Stun) {
                     EnWallmas_StunBegin(this);
                 }
             } else {
-                if (this->actor.sub_98.damageEffect == DAMAGE_EFFECT_BURN) {
+                if (this->actor.colChkInfo.damageEffect == DAMAGE_EFFECT_BURN) {
                     func_8002A65C(globalCtx, &this->actor, &this->actor.posRot.pos, 0x28, 0x28);
                 }
 

@@ -259,7 +259,7 @@ glabel EnHorse_Init
 /* 01134 80A5C424 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01138 80A5C428 0C017014 */  jal     Collider_SetJntSph
 /* 0113C 80A5C42C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 01140 80A5C430 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 01140 80A5C430 0C016C80 */  jal     DamageTable_Get
 
 /* 01144 80A5C434 2404000B */  addiu   $a0, $zero, 0x000B         ## $a0 = 0000000B
 /* 01148 80A5C438 3C0680A6 */  lui     $a2, %hi(D_80A65F38)       ## $a2 = 80A60000

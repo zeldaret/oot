@@ -61,14 +61,14 @@ typedef struct {
 
 typedef struct {
     u8 table[32];
-} ActorDamageChart;
+} DamageTable;
 
 typedef struct {
     /* 0x00 */ u8 health;
     /* 0x02 */ s16 unk_02;
     /* 0x04 */ s16 unk_04;
     /* 0x06 */ u8 mass;
-} SubActor98Init;
+} CollisionCheckInfoInit;
 
 typedef struct {
     /* 0x00 */ u8 health;
@@ -76,10 +76,10 @@ typedef struct {
     /* 0x04 */ s16 unk_04;
     /* 0x06 */ s16 unk_06;
     /* 0x08 */ u8 mass;
-} SubActor98Init_2;
+} CollisionCheckInfoInit2;
 
 typedef struct {
-    /* 0x00 */ ActorDamageChart* damageChart;  // For actors which contain a damage chart (example: Stalfos)...
+    /* 0x00 */ DamageTable* damageTable;  // For actors which contain one (example: Stalfos)...
     /* 0x04 */ Vec3f displacement; // Amount to correct velocity (0x5C) by when colliding into a body
     /* 0x10 */ s16   unk_10;
     /* 0x12 */ s16   unk_12;
@@ -88,9 +88,9 @@ typedef struct {
     /* 0x17 */ u8    health;
     /* 0x18 */ u8    damage; // Amount to decrement health by
     /* 0x19 */ u8    damageEffect; // Stores what effect should occur when hit by a weapon
-    /* 0x1A */ u8    impactEffect; // Maybe? set on deku nut when deku nut collides with gossip stone
-    /* 0x1B */ u8    unk_1B;
-} SubActorStruct98; // size = 0x1C
+    /* 0x1A */ u8    atHitEffect; // Stores what effect should occur when AT connects with an AC
+    /* 0x1B */ u8    acHitEffect; // Stores what effect should occur when AC is touched by an AT
+} CollisionCheckInfo; // size = 0x1C
 
 typedef struct {
     /* 0x00 */ Vec3s  rot; // Current actor shape rotation
@@ -133,7 +133,7 @@ typedef struct Actor {
     /* 0x08C */ f32     waterSurfaceDist;
     /* 0x090 */ f32     xzDistanceFromLink;
     /* 0x094 */ f32     yDistanceFromLink;
-    /* 0x098 */ SubActorStruct98 sub_98;
+    /* 0x098 */ CollisionCheckInfo colChkInfo;
     /* 0x0B4 */ ActorShape shape;
     /* 0x0CC */ Vec3f   unk_CC[2];
     /* 0x0E4 */ Vec3f   unk_E4; // Stores result of some vector transformation involving actor xyz vector, and a matrix at Global Context + 11D60

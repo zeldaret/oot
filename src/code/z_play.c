@@ -840,7 +840,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         LOG_NUM("1", 1, "../z_play.c", 3618);
                     }
 
-                    func_80061C98(globalCtx, &globalCtx->collisionCheckCtx);
+                    CollisionCheck_OC(globalCtx, &globalCtx->collisionCheckCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3624);

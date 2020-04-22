@@ -156,8 +156,8 @@ for i in update:
 #inputType = 'ColliderJntSphItemInit'
 
 #ovlName = 'ovl_En_Boom'
-#address = 0x0007D0 
-#inputType = 'ColliderQuadInit'        
+#address = 0x0007D0
+#inputType = 'ColliderQuadInit'
 
 ovlName = input("Overlay Name (baserom): ")
 ovlFile = open("../../baserom/" + ovlName, "rb")

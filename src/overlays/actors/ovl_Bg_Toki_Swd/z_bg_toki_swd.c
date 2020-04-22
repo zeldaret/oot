@@ -167,7 +167,7 @@ static ColliderCylinderInit colliderInit = {
     { 0x000A, 0x0046, 0x0000, { 0 } }
 };
 
-static SubActor98Init sub98Init = {
+static CollisionCheckInfoInit colChkInfoInit = {
     0x0A,
     0x0023,
     0x0064,
@@ -201,7 +201,7 @@ void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, collision);
     Collider_SetCylinder(globalCtx, collision, thisx, &colliderInit);
     Collider_CylinderUpdate(thisx, collision);
-    func_80061ED4(&thisx->sub_98, 0, &sub98Init);
+    func_80061ED4(&thisx->colChkInfo, 0, &colChkInfoInit);
 }
 
 void BgTokiSwd_Destroy(BgTokiSwd* this, GlobalContext* globalCtx) {
