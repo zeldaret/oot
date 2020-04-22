@@ -6,27 +6,6 @@
 /**
  * guLookAtHiliteF
  * This function creates the viewing matrix (floating point) and sets the LookAt/Hilite structures
- *
- * mf: 4x4 viewing matrix resulting from calculation
- * l: Pointer to LookAt structure resulting from calculation
- * h: Pointer to Hilite structure resulting from calculation
- * xEye: x-coordinate of viewpoint
- * yEye: y-coordinate of viewpoint
- * zEye: z-coordinate of viewpoint
- * xAt: x-coordinate of lookat point
- * yAt: y-coordinate of lookat point
- * zAt: z-coordinate of lookat point
- * xUp: x component of upward vector
- * yUp: y component of upward vector
- * zUp: z component of upward vector
- * xl1: x direction for first specular highlight
- * yl1: y direction for first specular highlight
- * zl1: z direction for first specular highlight
- * xl2: x direction for second specular highlight
- * yl2: y direction for second specular highlight
- * zl2: z direction for second specular highlight
- * hiliteWidth: width of texture for specular highlight
- * hiliteHeight: height of texture for specular highlight
  **/
 void guLookAtHiliteF(f32 mf[4][4], LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt,
                      f32 xUp, f32 yUp, f32 zUp, f32 xl1, f32 yl1, f32 zl1, /* light 1 direction */
