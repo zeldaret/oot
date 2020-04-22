@@ -4,12 +4,14 @@
 
 beginseg
     name "makerom"
-    include "build/baserom/makerom.o"
-    address 0x80000000
+    include "build/asm/rom_header.o"
+    include "build/asm/ipl3.o"
+    include "build/asm/entry.o"
 endseg
 
 beginseg
     name "boot"
+    address 0x80000460
     include "build/src/boot/boot_main.o"
     include "build/src/boot/idle.o"
     include "build/src/boot/viconfig.o"
@@ -107,13 +109,11 @@ beginseg
     include "build/src/libultra_boot_O1/__osGetHWIntrRoutine.o"
     include "build/asm/__osSetWatchLo.o"
     include "build/data/rsp_boot.text.o"
-    address 0x80000460
 endseg
 
 beginseg
     name "dmadata"
     include "build/asm/dmadata.o"
-    address 0x80016DA0
 endseg
 
 beginseg
@@ -269,6 +269,7 @@ endseg
 
 beginseg
     name "code"
+    address 0x8001CE60
     include "build/src/code/z_en_a_keep.o"
     include "build/data/z_en_a_keep.data.o"
     include "build/src/code/z_en_item00.o"
@@ -574,7 +575,6 @@ beginseg
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"
     include "build/data/rsp.rodata.o"
-    address 0x8001CE60
 endseg
 
 beginseg
@@ -586,9 +586,9 @@ endseg
 
 beginseg
     name "ovl_title"
+    address 0x80800000
     include "build/src/overlays/gamestates/ovl_title/z_title.o"
     include "build/src/overlays/gamestates/ovl_title/z_title_reloc.o"
-    address 0x80800000
 endseg
 
 beginseg
