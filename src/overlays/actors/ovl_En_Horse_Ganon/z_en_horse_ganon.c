@@ -26,6 +26,8 @@ void func_80A68870(EnHorseGanon* this); // can be removed once this function mat
 void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx); // can be removed once this function matches
 void func_80A68B20(EnHorseGanon* this); // can be removed once this function matches
 void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, unk_struct_800A6408* struct_800A6408);
+void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx);
+void func_80A68AF0(EnHorseGanon* this, s32 unused);
 
 // external functions
 void func_800A6888(GlobalContext*, s32*); // not exactly sure on 2nd arg type
@@ -44,40 +46,33 @@ const ActorInit En_Horse_Ganon_InitVars = {
     (ActorFunc)EnHorseGanon_Draw,
 };
 
-
-// static InitChainEntry initChain[] = {
-//     ICHAIN_F32(unk_F8, 1200, ICHAIN_STOP),
-// };
-
-// static ColliderCylinderInit colliderInit = {
-//     0x0A000039, 0x12010000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000100, 0x00280064, 0x00000000, 0x00000000,
-// };
-
-// static u32 D_80A69230[] = { 0x0A000939, 0x12000000, 0x00000001 };
-
-// static Sub98Init4 subActor98Init = { 0x0A000023, 0x0064FE00 };
-
 extern UNK_PTR D_06008668;
 extern AnimationHeader D_06004AA4;
 extern AnimationHeader D_06005264;
 extern AnimationHeader D_06005B78;
 extern AnimationHeader D_06002CE4;
+extern AnimationHeader D_06002650;
+extern AnimationHeader D_06003858;
 
-extern ColliderCylinderInit D_80A691E0;
-extern CollisionCheckInfo D_80A69240;
-extern InitChainEntry D_80A692C0;
-extern AnimationHeader* D_80A691C0;
-extern u32* D_80A69230;
-extern s32 D_80A692B8;
-extern void (*D_80A692C4[3])();
-extern s8* D_80A69248;
-extern u8 D_80A6924E; // this should be a pointer but that changes how the address is loaded
-
-AnimationHeader* D_80A691B0[] = {&D_06004AA4, &D_06005264, &D_06005B78, &D_06002CE4};
-
+AnimationHeader* D_80A691B0[] = { &D_06004AA4, &D_06005264, &D_06005B78, &D_06002CE4 };
+AnimationHeader* D_80A691C0[] = { &D_06002650, &D_06003858 };
 f32 D_80A691C8[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
+static ColliderCylinderInit colliderInit /*D_80A691E0*/= {
+    0x0A000039, 0x12010000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000100, 0x00280064, 0x00000000, 0x00000000,
+};
+u32 D_80A6920C[] = { 0, 0, 0, 0, 0, 0x00000100, 0x0D000000, 0x00000000, 0x00140064 };
+s32 D_80A69230[] = { 0x0A000939, 0x12000000, 0x00000001, (s32)&D_80A6920C };
+static CollisionCheckInfo subActor98Init /*D_80A69240*/= { 0x0A000023, 0x0064FE00 };
+s8 D_80A69248[] = { 0x09, 0xB8, 0x01, 0x26, 0x0E, 0x2C };
+u8 D_80A6924E[] = { 0x07, 0x00, 0x0C, 0x11, 0x01, 0x7A, 0x12, 0x69, 0x07, 0x00, 0x06, 0x4E, 0xFE, 0xFB, 0x1D, 0xAC, 0x07, 0x00, 0x02, 0xF2, 0xFF, 0x45, 0x24, 0x4F, 0x07, 0x00, 0xF9, 0x6E, 0xFE, 0x0C, 0x31, 0x22, 0x07, 0x00, 0xF3, 0x28, 0xFE, 0x0C, 0x32, 0xD5, 0x07, 0x00, 0xEB, 0xEA, 0xFE, 0x5F, 0x2D, 0x6E, 0x07, 0x00, 0xE9, 0x5E, 0xFE, 0x27, 0x25, 0x65, 0x07, 0x00, 0xE5, 0x93, 0xFE, 0x0C, 0x20, 0xAC, 0x07, 0x00, 0xE6, 0x25, 0xFE, 0x77, 0x1B, 0x07, 0x07, 0x00, 0xEB, 0xB7, 0x00, 0x7C, 0x15, 0x39, 0x07, 0x00, 0xF4, 0x66, 0x00, 0x02, 0x11, 0xB9, 0x07, 0x00, 0xF4, 0x7B, 0xFF, 0xDD, 0x11, 0xAF, 0x07, 0x00, 0xF8, 0x8D, 0xFF, 0xD1, 0x0B, 0xA2, 0x07, 0x00 };
+s32 D_80A692B8[] = { 0, 0x00000010 };
+static InitChainEntry initChain[] /*D_80A692C0*/= {
+    ICHAIN_F32(unk_F8, 1200, ICHAIN_STOP),
+};
+void (*D_80A692C4[])() = { &func_80A68AF0, &func_80A68DB0, 0 };
+
 // the rest are padding
-const f32 D_80A692D0[] = { 10430.3779297f, 0.0f, 0.0f, 0.0f };
+const f32 D_80A692D0[] = { 10430.3779f, 0.0f, 0.0f, 0.0f };
 
 void func_80A68660(void* unkPTR, u32 offset, Vec3f* vec)
 {
@@ -124,7 +119,7 @@ void func_80A686A8(EnHorseGanon *this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->actor.speedXZ < (f32) (&D_80A6924E)[this->unk_1ec * 8]) {
+    if (this->actor.speedXZ < (f32) D_80A6924E[this->unk_1ec * 8]) {
         this->actor.speedXZ += 0.5f;
         return;
     }
@@ -132,29 +127,29 @@ void func_80A686A8(EnHorseGanon *this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68870.s")
-/*void func_80A68870(EnHorseGanon* this)
-// regalloc mismatch
-{
-    if (this->skelAnime.animCurrentFrame > (f32) (&D_80A692B8)[this->unk_1e8])
-    {
-        if ((&D_80A692B8)[this->unk_1e8] != 0 || !(this->skelAnime.animCurrentFrame > (f32) (&D_80A692B8)[1]))
-        {
-            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+// void func_80A68870(EnHorseGanon* this)
+// // regalloc mismatch
+// {
+//     if (this->skelAnime.animCurrentFrame > (f32) D_80A692B8[this->unk_1e8])
+//     {
+//         if (D_80A692B8[this->unk_1e8] != 0 || !(this->skelAnime.animCurrentFrame > (f32) D_80A692B8[1]))
+//         {
+//             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
-            this->unk_1e8 += 1;
-            if (this->unk_1e8 >= 2)
-            {
-                this->unk_1e8 = 0;
-            }
-        }
-    }
-}*/
+//             this->unk_1e8 += 1;
+//             if (this->unk_1e8 >= 2)
+//             {
+//                 this->unk_1e8 = 0;
+//             }
+//         }
+//     }
+// }
 
 void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx)
 {
     Collider* collider = &this->collider;
 
-    Actor_ProcessInitChain(&this->actor, &D_80A692C0);
+    Actor_ProcessInitChain(&this->actor, &initChain);
     Actor_SetScale(&this->actor, 0.0115f);
 
     this->actor.gravity = -3.5f;
@@ -169,11 +164,11 @@ void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx)
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, D_80A691B0[0]);
 
     Collider_InitCylinder(globalCtx, collider);
-    Collider_SetCylinder(globalCtx, collider, &this->actor, &D_80A691E0);
+    Collider_SetCylinder(globalCtx, collider, &this->actor, &colliderInit);
     Collider_InitJntSph(globalCtx, &this->unk_248);
     Collider_SetJntSph(globalCtx, &this->unk_248, &this->actor, &D_80A69230, &this->unk_268);
 
-    func_80061ED4(&this->actor.colChkInfo, 0, &D_80A69240);
+    func_80061ED4(&this->actor.colChkInfo, 0, &subActor98Init);
     func_80A68AC4(this);
 }
 
@@ -187,7 +182,7 @@ void EnHorseGanon_Destroy(EnHorseGanon* this, GlobalContext* globalCtx)
 void func_80A68AC4(EnHorseGanon* this)
 {
     this->unk_14C = 0;
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, D_80A691C0);
+    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, D_80A691C0[0]);
 }
 
 void func_80A68AF0(EnHorseGanon* this, s32 unused)

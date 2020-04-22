@@ -2710,7 +2710,6 @@ endseg
 beginseg
     name "ovl_En_Horse_Ganon"
     include "build/src/overlays/actors/ovl_En_Horse_Ganon/z_en_horse_ganon.o"
-    include "build/data/overlays/actors/z_en_horse_ganon.data.o"
     include "build/data/overlays/actors/z_en_horse_ganon.reloc.o"
 endseg
 
