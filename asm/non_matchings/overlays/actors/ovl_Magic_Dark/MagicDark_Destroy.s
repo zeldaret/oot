@@ -1,6 +1,6 @@
 glabel MagicDark_Destroy
-/* 000E0 80B874B0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 000E4 80B874B4 85CEFA28 */  lh      $t6, -0x05D8($t6)          ## 8015FA28
+/* 000E0 80B874B0 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x13c8)
+/* 000E4 80B874B4 85CEFA28 */  lh      $t6, %lo(gSaveContext+0x13c8)($t6)
 /* 000E8 80B874B8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 000EC 80B874BC AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 000F0 80B874C0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000

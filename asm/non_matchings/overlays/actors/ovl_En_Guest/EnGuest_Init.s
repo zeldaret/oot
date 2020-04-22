@@ -25,8 +25,8 @@ glabel D_80A50BF4
 
 .text
 glabel EnGuest_Init
-/* 00000 80A50220 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00004 80A50224 95CEF566 */  lhu     $t6, -0x0A9A($t6)          ## 8015F566
+/* 00000 80A50220 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xf06)
+/* 00004 80A50224 95CEF566 */  lhu     $t6, %lo(gSaveContext+0xf06)($t6)
 /* 00008 80A50228 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0000C 80A5022C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00010 80A50230 31CF0040 */  andi    $t7, $t6, 0x0040           ## $t7 = 00000000

@@ -10,12 +10,12 @@ glabel func_80AAACF8
 /* 00AC8 80AAAD18 1000002D */  beq     $zero, $zero, .L80AAADD0   
 /* 00ACC 80AAAD1C 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000000
 .L80AAAD20:
-/* 00AD0 80AAAD20 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 00AD0 80AAAD20 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 00AD4 80AAAD24 A0800208 */  sb      $zero, 0x0208($a0)         ## 00000208
 /* 00AD8 80AAAD28 A0800209 */  sb      $zero, 0x0209($a0)         ## 00000209
-/* 00ADC 80AAAD2C 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
-/* 00AE0 80AAAD30 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 00AE4 80AAAD34 8DCE7168 */  lw      $t6, 0x7168($t6)           ## 80127168
+/* 00ADC 80AAAD2C 2463E660 */  addiu   $v1, %lo(gSaveContext)
+/* 00AE0 80AAAD30 3C0E8012 */  lui     $t6, %hi(gBitFlags+0x48)
+/* 00AE4 80AAAD34 8DCE7168 */  lw      $t6, %lo(gBitFlags+0x48)($t6)
 /* 00AE8 80AAAD38 8C6F00A4 */  lw      $t7, 0x00A4($v1)           ## 8015E704
 /* 00AEC 80AAAD3C 01CFC024 */  and     $t8, $t6, $t7              
 /* 00AF0 80AAAD40 53000004 */  beql    $t8, $zero, .L80AAAD54     
@@ -24,17 +24,17 @@ glabel func_80AAACF8
 /* 00AFC 80AAAD4C 24021045 */  addiu   $v0, $zero, 0x1045         ## $v0 = 00001045
 /* 00B00 80AAAD50 94790ED4 */  lhu     $t9, 0x0ED4($v1)           ## 8015F534
 .L80AAAD54:
-/* 00B04 80AAAD54 3C058012 */  lui     $a1, 0x8012                ## $a1 = 80120000
-/* 00B08 80AAAD58 24A571A0 */  addiu   $a1, $a1, 0x71A0           ## $a1 = 801271A0
+/* 00B04 80AAAD54 3C058012 */  lui     $a1, %hi(gEquipMasks)
+/* 00B08 80AAAD58 24A571A0 */  addiu   $a1, %lo(gEquipMasks)
 /* 00B0C 80AAAD5C 33280010 */  andi    $t0, $t9, 0x0010           ## $t0 = 00000000
 /* 00B10 80AAAD60 11000003 */  beq     $t0, $zero, .L80AAAD70     
-/* 00B14 80AAAD64 3C068012 */  lui     $a2, 0x8012                ## $a2 = 80120000
+/* 00B14 80AAAD64 3C068012 */  lui     $a2, %hi(gEquipShifts)
 /* 00B18 80AAAD68 10000019 */  beq     $zero, $zero, .L80AAADD0   
 /* 00B1C 80AAAD6C 24021034 */  addiu   $v0, $zero, 0x1034         ## $v0 = 00001034
 .L80AAAD70:
 /* 00B20 80AAAD70 94620070 */  lhu     $v0, 0x0070($v1)           ## 8015E6D0
 /* 00B24 80AAAD74 94A90002 */  lhu     $t1, 0x0002($a1)           ## 801271A2
-/* 00B28 80AAAD78 24C671F0 */  addiu   $a2, $a2, 0x71F0           ## $a2 = 801271F0
+/* 00B28 80AAAD78 24C671F0 */  addiu   $a2, %lo(gEquipShifts)
 /* 00B2C 80AAAD7C 90CB0001 */  lbu     $t3, 0x0001($a2)           ## 801271F1
 /* 00B30 80AAAD80 00495024 */  and     $t2, $v0, $t1              
 /* 00B34 80AAAD84 24040001 */  addiu   $a0, $zero, 0x0001         ## $a0 = 00000001

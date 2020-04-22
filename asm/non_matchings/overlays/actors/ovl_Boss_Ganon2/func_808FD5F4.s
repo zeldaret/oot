@@ -1741,10 +1741,10 @@ glabel L808FED50
 /* 01EC0 808FEE00 00027900 */  sll     $t7, $v0,  4
 /* 01EC4 808FEE04 000FC702 */  srl     $t8, $t7, 28
 /* 01EC8 808FEE08 0018C880 */  sll     $t9, $t8,  2
-/* 01ECC 808FEE0C 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 01ECC 808FEE0C 3C0B8016 */  lui     $t3, %hi(gSegments)
 /* 01ED0 808FEE10 01795821 */  addu    $t3, $t3, $t9
 /* 01ED4 808FEE14 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 01ED8 808FEE18 8D6B6FA8 */  lw      $t3, 0x6FA8($t3)           ## 80166FA8
+/* 01ED8 808FEE18 8D6B6FA8 */  lw      $t3, %lo(gSegments)($t3)
 /* 01EDC 808FEE1C 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 01EE0 808FEE20 00416024 */  and     $t4, $v0, $at
 /* 01EE4 808FEE24 3C018000 */  lui     $at, 0x8000                ## $at = 80000000

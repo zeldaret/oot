@@ -38,7 +38,7 @@ glabel func_800C82A0
 /* B3F498 800C82F8 8F280000 */  lw    $t0, ($t9)
 /* B3F49C 800C82FC 51000011 */  beql  $t0, $zero, .L800C8344
 /* B3F4A0 800C8300 8C620008 */   lw    $v0, 8($v1)
-/* B3F4A4 800C8304 0C0419D8 */  jal   func_80106760
+/* B3F4A4 800C8304 0C0419D8 */  jal   osViGetCurrentFramebuffer
 /* B3F4A8 800C8308 00000000 */   nop   
 /* B3F4AC 800C830C 0C0011D0 */  jal   osViGetNextFramebuffer
 /* B3F4B0 800C8310 AFA20018 */   sw    $v0, 0x18($sp)

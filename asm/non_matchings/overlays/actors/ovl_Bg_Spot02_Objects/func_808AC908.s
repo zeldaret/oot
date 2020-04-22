@@ -18,8 +18,8 @@ glabel func_808AC908
 /* 002E8 808AC948 0C00BE0A */  jal     Audio_PlayActorSound2
               
 /* 002EC 808AC94C AFA6003C */  sw      $a2, 0x003C($sp)           
-/* 002F0 808AC950 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 002F4 808AC954 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 002F0 808AC950 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 002F4 808AC954 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 002F8 808AC958 94580ED6 */  lhu     $t8, 0x0ED6($v0)           ## 8015F536
 /* 002FC 808AC95C 24080019 */  addiu   $t0, $zero, 0x0019         ## $t0 = 00000019
 /* 00300 808AC960 37192000 */  ori     $t9, $t8, 0x2000           ## $t9 = 00002000

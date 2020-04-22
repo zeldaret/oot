@@ -26,8 +26,8 @@ glabel func_80B111D4
 /* 009A8 80B11218 0C00084C */  jal     osSyncPrintf
               
 /* 009AC 80B1121C 24841748 */  addiu   $a0, $a0, %lo(D_80B11748)  ## $a0 = 80B11748
-/* 009B0 80B11220 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 009B4 80B11224 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 009B0 80B11220 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 009B4 80B11224 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 009B8 80B11228 8C6E0004 */  lw      $t6, 0x0004($v1)           ## 8015E664
 /* 009BC 80B1122C 3C0C80B1 */  lui     $t4, %hi(func_80B109DC)    ## $t4 = 80B10000
 /* 009C0 80B11230 258C09DC */  addiu   $t4, $t4, %lo(func_80B109DC) ## $t4 = 80B109DC

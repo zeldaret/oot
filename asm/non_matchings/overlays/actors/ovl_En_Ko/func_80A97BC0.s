@@ -17,10 +17,10 @@ glabel func_80A97BC0
 /* 00E48 80A97BF8 ADD9FFFC */  sw      $t9, -0x0004($t6)          ## FFFFFF04
 /* 00E4C 80A97BFC 8DF90000 */  lw      $t9, 0x0000($t7)           ## 80A9A638
 /* 00E50 80A97C00 8DF80004 */  lw      $t8, 0x0004($t7)           ## 80A9A63C
-/* 00E54 80A97C04 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 00E54 80A97C04 3C098016 */  lui     $t1, %hi(gSaveContext+4)
 /* 00E58 80A97C08 ADD90000 */  sw      $t9, 0x0000($t6)           ## FFFFFF08
 /* 00E5C 80A97C0C ADD80004 */  sw      $t8, 0x0004($t6)           ## FFFFFF0C
-/* 00E60 80A97C10 8D29E664 */  lw      $t1, -0x199C($t1)          ## 8015E664
+/* 00E60 80A97C10 8D29E664 */  lw      $t1, %lo(gSaveContext+4)($t1)
 /* 00E64 80A97C14 15200009 */  bne     $t1, $zero, .L80A97C3C     
 /* 00E68 80A97C18 00000000 */  nop
 /* 00E6C 80A97C1C 848A001C */  lh      $t2, 0x001C($a0)           ## 0000001C

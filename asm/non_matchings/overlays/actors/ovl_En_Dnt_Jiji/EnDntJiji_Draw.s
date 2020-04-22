@@ -42,7 +42,7 @@ glabel EnDntJiji_Draw
 /* 0137C 809F2E5C AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
 /* 01380 809F2E60 8618024C */  lh      $t8, 0x024C($s0)           ## 0000024C
 /* 01384 809F2E64 3C04809F */  lui     $a0, %hi(D_809F2FCC)       ## $a0 = 809F0000
-/* 01388 809F2E68 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
+/* 01388 809F2E68 3C0C8016 */  lui     $t4, %hi(gSegments)
 /* 0138C 809F2E6C 0018C880 */  sll     $t9, $t8,  2               
 /* 01390 809F2E70 00992021 */  addu    $a0, $a0, $t9              
 /* 01394 809F2E74 8C842FCC */  lw      $a0, %lo(D_809F2FCC)($a0)  
@@ -52,7 +52,7 @@ glabel EnDntJiji_Draw
 /* 013A4 809F2E84 00095702 */  srl     $t2, $t1, 28               
 /* 013A8 809F2E88 000A5880 */  sll     $t3, $t2,  2               
 /* 013AC 809F2E8C 018B6021 */  addu    $t4, $t4, $t3              
-/* 013B0 809F2E90 8D8C6FA8 */  lw      $t4, 0x6FA8($t4)           ## 80166FA8
+/* 013B0 809F2E90 8D8C6FA8 */  lw      $t4, %lo(gSegments)($t4)
 /* 013B4 809F2E94 00814024 */  and     $t0, $a0, $at              
 /* 013B8 809F2E98 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 013BC 809F2E9C 010C6821 */  addu    $t5, $t0, $t4              

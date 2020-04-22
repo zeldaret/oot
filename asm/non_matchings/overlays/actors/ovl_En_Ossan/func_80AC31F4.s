@@ -1,6 +1,6 @@
 glabel func_80AC31F4
-/* 00554 80AC31F4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00558 80AC31F8 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00554 80AC31F4 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00558 80AC31F8 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 0055C 80AC31FC 8C6E0004 */  lw      $t6, 0x0004($v1)           ## 8015E664
 /* 00560 80AC3200 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00564 80AC3204 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -12,10 +12,10 @@ glabel func_80AC31F4
 /* 00578 80AC3218 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011
 .L80AC321C:
 /* 0057C 80AC321C 1441001A */  bne     $v0, $at, .L80AC3288       
-/* 00580 80AC3220 3C0C8012 */  lui     $t4, 0x8012                ## $t4 = 80120000
+/* 00580 80AC3220 3C0C8012 */  lui     $t4, %hi(gBitFlags+4)
 /* 00584 80AC3224 946F0ED8 */  lhu     $t7, 0x0ED8($v1)           ## 8015F538
-/* 00588 80AC3228 3C088012 */  lui     $t0, 0x8012                ## $t0 = 80120000
-/* 0058C 80AC322C 3C0A8012 */  lui     $t2, 0x8012                ## $t2 = 80120000
+/* 00588 80AC3228 3C088012 */  lui     $t0, %hi(gUpgradeMasks+8)
+/* 0058C 80AC322C 3C0A8012 */  lui     $t2, %hi(gUpgradeShifts+2)
 /* 00590 80AC3230 31F80020 */  andi    $t8, $t7, 0x0020           ## $t8 = 00000000
 /* 00594 80AC3234 53000006 */  beql    $t8, $zero, .L80AC3250     
 /* 00598 80AC3238 8C7900A0 */  lw      $t9, 0x00A0($v1)           ## 8015E700
@@ -25,8 +25,8 @@ glabel func_80AC31F4
 /* 005A8 80AC3248 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 005AC 80AC324C 8C7900A0 */  lw      $t9, 0x00A0($v1)           ## 000000A0
 .L80AC3250:
-/* 005B0 80AC3250 8D0871B8 */  lw      $t0, 0x71B8($t0)           ## 000071B8
-/* 005B4 80AC3254 914A71F6 */  lbu     $t2, 0x71F6($t2)           ## 000071F6
+/* 005B0 80AC3250 8D0871B8 */  lw      $t0, %lo(gUpgradeMasks+8)($t0)
+/* 005B4 80AC3254 914A71F6 */  lbu     $t2, %lo(gUpgradeShifts+2)($t2)
 /* 005B8 80AC3258 03284824 */  and     $t1, $t9, $t0              
 /* 005BC 80AC325C 01495807 */  srav    $t3, $t1, $t2              
 /* 005C0 80AC3260 11600005 */  beq     $t3, $zero, .L80AC3278     
@@ -41,7 +41,7 @@ glabel func_80AC31F4
 /* 005E0 80AC3280 1000000D */  beq     $zero, $zero, .L80AC32B8   
 /* 005E4 80AC3284 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80AC3288:
-/* 005E8 80AC3288 8D8C7124 */  lw      $t4, 0x7124($t4)           ## 00007124
+/* 005E8 80AC3288 8D8C7124 */  lw      $t4, %lo(gBitFlags+4)($t4)
 /* 005EC 80AC328C 8C6D00A4 */  lw      $t5, 0x00A4($v1)           ## 000000A4
 /* 005F0 80AC3290 018D7024 */  and     $t6, $t4, $t5              
 /* 005F4 80AC3294 15C00005 */  bne     $t6, $zero, .L80AC32AC     

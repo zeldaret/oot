@@ -7,7 +7,7 @@
 
 .section .data
 
-glabel D_8012F090
+glabel gWaveSamples
     .incbin "baserom.z64", 0xBA6230, 0x8
 
 glabel D_8012F098
@@ -40,13 +40,13 @@ glabel D_8012FAC4
 glabel D_8012FAD4
     .incbin "baserom.z64", 0xBA6C74, 0x10
 
-glabel D_8012FAE4
+glabel gZeroNoteSub
     .incbin "baserom.z64", 0xBA6C84, 0x20
 
-glabel D_8012FB04
+glabel gDefaultNoteSub
     .incbin "baserom.z64", 0xBA6CA4, 0x20
 
-glabel D_8012FB24
+glabel gHeadsetPanQuantization
     .incbin "baserom.z64", 0xBA6CC4, 0x7E
 
 glabel D_8012FBA2
@@ -55,13 +55,13 @@ glabel D_8012FBA2
 glabel D_8012FBAA
     .incbin "baserom.z64", 0xBA6D4A, 0x7E
 
-glabel D_8012FC28
+glabel gHeadsetPanVolume
     .incbin "baserom.z64", 0xBA6DC8, 0x1FC
 
 glabel D_8012FE24
     .incbin "baserom.z64", 0xBA6FC4, 0x4
 
-glabel D_8012FE28
+glabel gStereoPanVolume
     .incbin "baserom.z64", 0xBA6FC8, 0x1D7
 
 glabel D_8012FFFF
@@ -82,7 +82,7 @@ glabel D_80130006
 glabel D_80130024
     .incbin "baserom.z64", 0xBA71C4, 0x4
 
-glabel D_80130028
+glabel gDefaultPanVolume
     .incbin "baserom.z64", 0xBA71C8, 0x1FC
 
 glabel D_80130224

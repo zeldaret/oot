@@ -6,8 +6,8 @@ glabel EnWeatherTag_Update
 /* 00D60 80B31D80 8C99014C */  lw      $t9, 0x014C($a0)           ## 0000014C
 /* 00D64 80B31D84 0320F809 */  jalr    $ra, $t9                   
 /* 00D68 80B31D88 00000000 */  nop
-/* 00D6C 80B31D8C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00D70 80B31D90 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 00D6C 80B31D8C 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 00D70 80B31D90 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 00D74 80B31D94 8FA40048 */  lw      $a0, 0x0048($sp)           
 /* 00D78 80B31D98 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00D7C 80B31D9C 85CF12D4 */  lh      $t7, 0x12D4($t6)           ## 801612D4

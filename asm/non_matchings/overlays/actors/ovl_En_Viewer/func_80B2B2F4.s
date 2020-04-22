@@ -1,6 +1,6 @@
 glabel func_80B2B2F4
-/* 010F4 80B2B2F4 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 010F8 80B2B2F8 8DCEF9C0 */  lw      $t6, -0x0640($t6)          ## 8015F9C0
+/* 010F4 80B2B2F4 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x1360)
+/* 010F8 80B2B2F8 8DCEF9C0 */  lw      $t6, %lo(gSaveContext+0x1360)($t6)
 /* 010FC 80B2B2FC 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 01100 80B2B300 AFA7000C */  sw      $a3, 0x000C($sp)           
 /* 01104 80B2B304 55C1000C */  bnel    $t6, $at, .L80B2B338       

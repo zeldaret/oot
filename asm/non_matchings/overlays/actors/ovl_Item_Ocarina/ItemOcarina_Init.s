@@ -64,8 +64,8 @@ glabel ItemOcarina_Init
 /* 000C0 80B861F0 3C0580B8 */  lui     $a1, %hi(func_80B866BC)    ## $a1 = 80B80000
 /* 000C4 80B861F4 0C2E184C */  jal     func_80B86130              
 /* 000C8 80B861F8 24A566BC */  addiu   $a1, $a1, %lo(func_80B866BC) ## $a1 = 80B866BC
-/* 000CC 80B861FC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 000D0 80B86200 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 000CC 80B861FC 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 000D0 80B86200 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 000D4 80B86204 944F0EE4 */  lhu     $t7, 0x0EE4($v0)           ## 8015F544
 /* 000D8 80B86208 31F80001 */  andi    $t8, $t7, 0x0001           ## $t8 = 00000000
 /* 000DC 80B8620C 13000007 */  beq     $t8, $zero, .L80B8622C     

@@ -53,12 +53,12 @@ glabel func_808A6CCC
 /* 00B80 808A6D90 0C01E221 */  jal     func_80078884              
 /* 00B84 808A6D94 24044802 */  addiu   $a0, $zero, 0x4802         ## $a0 = 00004802
 /* 00B88 808A6D98 240D000A */  addiu   $t5, $zero, 0x000A         ## $t5 = 0000000A
-/* 00B8C 808A6D9C 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 00B8C 808A6D9C 3C018016 */  lui     $at, %hi(gSaveContext+0x13ce)
 /* 00B90 808A6DA0 10000071 */  beq     $zero, $zero, .L808A6F68   
-/* 00B94 808A6DA4 A42DFA2E */  sh      $t5, -0x05D2($at)          ## 8015FA2E
+/* 00B94 808A6DA4 A42DFA2E */  sh      $t5, %lo(gSaveContext+0x13ce)($at)
 .L808A6DA8:
-/* 00B98 808A6DA8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00B9C 808A6DAC 85CEFA30 */  lh      $t6, -0x05D0($t6)          ## 8015FA30
+/* 00B98 808A6DA8 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x13d0)
+/* 00B9C 808A6DAC 85CEFA30 */  lh      $t6, %lo(gSaveContext+0x13d0)($t6)
 /* 00BA0 808A6DB0 3C0F808A */  lui     $t7, %hi(D_808A7D58)       ## $t7 = 808A0000
 /* 00BA4 808A6DB4 55C00010 */  bnel    $t6, $zero, .L808A6DF8     
 /* 00BA8 808A6DB8 24010040 */  addiu   $at, $zero, 0x0040         ## $at = 00000040

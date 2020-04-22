@@ -21,8 +21,8 @@ glabel func_809E3954
 /* 00E50 809E3980 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 00E54 809E3984 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 00E58 809E3988 AE0001FC */  sw      $zero, 0x01FC($s0)         ## 000001FC
-/* 00E5C 809E398C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00E60 809E3990 95CEF546 */  lhu     $t6, -0x0ABA($t6)          ## 8015F546
+/* 00E5C 809E398C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xee6)
+/* 00E60 809E3990 95CEF546 */  lhu     $t6, %lo(gSaveContext+0xee6)($t6)
 /* 00E64 809E3994 2401000F */  addiu   $at, $zero, 0x000F         ## $at = 0000000F
 /* 00E68 809E3998 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E6C 809E399C 31CF000F */  andi    $t7, $t6, 0x000F           ## $t7 = 00000000

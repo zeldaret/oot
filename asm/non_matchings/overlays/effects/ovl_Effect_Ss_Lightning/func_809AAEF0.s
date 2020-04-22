@@ -11,11 +11,11 @@ glabel func_809AAEF0
 /* 00024 809AAF14 ACCE0004 */  sw      $t6, 0x0004($a2)           ## 00000004
 /* 00028 809AAF18 8CEF0008 */  lw      $t7, 0x0008($a3)           ## 00000008
 /* 0002C 809AAF1C 00194080 */  sll     $t0, $t9,  2               
-/* 00030 809AAF20 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 00030 809AAF20 3C098016 */  lui     $t1, %hi(gSegments)
 /* 00034 809AAF24 01284821 */  addu    $t1, $t1, $t0              
 /* 00038 809AAF28 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 0003C 809AAF2C ACCF0008 */  sw      $t7, 0x0008($a2)           ## 00000008
-/* 00040 809AAF30 8D296FA8 */  lw      $t1, 0x6FA8($t1)           ## 80166FA8
+/* 00040 809AAF30 8D296FA8 */  lw      $t1, %lo(gSegments)($t1)
 /* 00044 809AAF34 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00048 809AAF38 00615024 */  and     $t2, $v1, $at              
 /* 0004C 809AAF3C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000

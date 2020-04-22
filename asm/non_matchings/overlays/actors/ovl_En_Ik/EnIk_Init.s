@@ -5,11 +5,11 @@ glabel EnIk_Init
 /* 03F5C 80A7826C AFA50034 */  sw      $a1, 0x0034($sp)
 /* 03F60 80A78270 8482001C */  lh      $v0, 0x001C($a0)           ## 0000001C
 /* 03F64 80A78274 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 03F68 80A78278 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 03F68 80A78278 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xeda)
 /* 03F6C 80A7827C 304E00FF */  andi    $t6, $v0, 0x00FF           ## $t6 = 00000000
 /* 03F70 80A78280 15C00005 */  bne     $t6, $zero, .L80A78298
 /* 03F74 80A78284 3043FF00 */  andi    $v1, $v0, 0xFF00           ## $v1 = 00000000
-/* 03F78 80A78288 95EFF53A */  lhu     $t7, -0x0AC6($t7)          ## 8015F53A
+/* 03F78 80A78288 95EFF53A */  lhu     $t7, %lo(gSaveContext+0xeda)($t7)
 /* 03F7C 80A7828C 31F81000 */  andi    $t8, $t7, 0x1000           ## $t8 = 00000000
 /* 03F80 80A78290 17000007 */  bne     $t8, $zero, .L80A782B0
 /* 03F84 80A78294 00000000 */  nop
@@ -28,8 +28,8 @@ glabel EnIk_Init
 /* 03FA8 80A782B8 1000001B */  beq     $zero, $zero, .L80A78328
 /* 03FAC 80A782BC 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80A782C0:
-/* 03FB0 80A782C0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 03FB4 80A782C4 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 03FB0 80A782C0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 03FB4 80A782C4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 03FB8 80A782C8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 03FBC 80A782CC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 03FC0 80A782D0 0C00AC78 */  jal     ActorShape_Init

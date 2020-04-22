@@ -100,8 +100,8 @@ glabel EnFr_Update
 /* 003FC 80A1AD9C 3C0D80A2 */  lui     $t5, %hi(D_80A1D008)       ## $t5 = 80A20000
 /* 00400 80A1ADA0 016A5821 */  addu    $t3, $t3, $t2
 /* 00404 80A1ADA4 916BD018 */  lbu     $t3, %lo(D_80A1D018)($t3)
-/* 00408 80A1ADA8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 0040C 80A1ADAC 95CEF54E */  lhu     $t6, -0x0AB2($t6)          ## 8015F54E
+/* 00408 80A1ADA8 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xeee)
+/* 0040C 80A1ADAC 95CEF54E */  lhu     $t6, %lo(gSaveContext+0xeee)($t6)
 /* 00410 80A1ADB0 000B6040 */  sll     $t4, $t3,  1
 /* 00414 80A1ADB4 01AC6821 */  addu    $t5, $t5, $t4
 /* 00418 80A1ADB8 95ADD008 */  lhu     $t5, %lo(D_80A1D008)($t5)

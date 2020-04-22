@@ -223,11 +223,11 @@ glabel func_80A22764
 .L80A22A5C:
 /* 00B9C 80A22A5C 9203018D */  lbu     $v1, 0x018D($s0)           ## 0000018D
 .L80A22A60:
-/* 00BA0 80A22A60 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 00BA0 80A22A60 3C0B8016 */  lui     $t3, %hi(gGameInfo)
 /* 00BA4 80A22A64 30690002 */  andi    $t1, $v1, 0x0002           ## $t1 = 00000000
 /* 00BA8 80A22A68 55200006 */  bnel    $t1, $zero, .L80A22A84     
 /* 00BAC 80A22A6C 8E020118 */  lw      $v0, 0x0118($s0)           ## 00000118
-/* 00BB0 80A22A70 8D6BFA90 */  lw      $t3, -0x0570($t3)          ## 8015FA90
+/* 00BB0 80A22A70 8D6BFA90 */  lw      $t3, %lo(gGameInfo)($t3)
 /* 00BB4 80A22A74 856C12E4 */  lh      $t4, 0x12E4($t3)           ## 801612E4
 /* 00BB8 80A22A78 51800024 */  beql    $t4, $zero, .L80A22B0C     
 /* 00BBC 80A22A7C 8FBF001C */  lw      $ra, 0x001C($sp)           

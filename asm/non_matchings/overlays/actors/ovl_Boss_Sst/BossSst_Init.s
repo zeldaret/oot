@@ -75,8 +75,8 @@ glabel BossSst_Init
 /* 000F0 8092C6C0 0C0291BE */  jal     SkelAnime_InitSV
 /* 000F4 8092C6C4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000F8 8092C6C8 3C054788 */  lui     $a1, 0x4788                ## $a1 = 47880000
-/* 000FC 8092C6CC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00100 8092C6D0 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 000FC 8092C6CC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00100 8092C6D0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00104 8092C6D4 34A5B800 */  ori     $a1, $a1, 0xB800           ## $a1 = 4788B800
 /* 00108 8092C6D8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0010C 8092C6DC 0C00AC78 */  jal     ActorShape_Init
@@ -293,8 +293,8 @@ glabel BossSst_Init
 /* 00424 8092C9F4 240D0001 */  addiu   $t5, $zero, 0x0001         ## $t5 = 00000001
 /* 00428 8092C9F8 A20D0194 */  sb      $t5, 0x0194($s0)           ## 00000194
 .L8092C9FC:
-/* 0042C 8092C9FC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00430 8092CA00 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0042C 8092C9FC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00430 8092CA00 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00434 8092CA04 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00438 8092CA08 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0043C 8092CA0C 0C00AC78 */  jal     ActorShape_Init

@@ -5,14 +5,14 @@ glabel func_808AAE6C
 /* 00198 808AAE78 AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 0019C 808AAE7C 8C980024 */  lw      $t8, 0x0024($a0)           ## 00000024
 /* 001A0 808AAE80 27A50030 */  addiu   $a1, $sp, 0x0030           ## $a1 = FFFFFFF0
-/* 001A4 808AAE84 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 001A4 808AAE84 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 001A8 808AAE88 ACB80000 */  sw      $t8, 0x0000($a1)           ## FFFFFFF0
 /* 001AC 808AAE8C 8C8F0028 */  lw      $t7, 0x0028($a0)           ## 00000028
 /* 001B0 808AAE90 3C0143AF */  lui     $at, 0x43AF                ## $at = 43AF0000
 /* 001B4 808AAE94 ACAF0004 */  sw      $t7, 0x0004($a1)           ## FFFFFFF4
 /* 001B8 808AAE98 8C98002C */  lw      $t8, 0x002C($a0)           ## 0000002C
 /* 001BC 808AAE9C ACB80008 */  sw      $t8, 0x0008($a1)           ## FFFFFFF8
-/* 001C0 808AAEA0 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 001C0 808AAEA0 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 001C4 808AAEA4 C7A40034 */  lwc1    $f4, 0x0034($sp)           
 /* 001C8 808AAEA8 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 001CC 808AAEAC 84591472 */  lh      $t9, 0x1472($v0)           ## 80161472

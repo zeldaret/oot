@@ -2,7 +2,7 @@
 #define _Z64ACTOR_H_
 
 #include <z64animation.h>
-#include <z64vec.h>
+#include <z64math.h>
 
 #define ACTOR_DLF_MAX 471
 #define ACTOR_NUMBER_MAX 200

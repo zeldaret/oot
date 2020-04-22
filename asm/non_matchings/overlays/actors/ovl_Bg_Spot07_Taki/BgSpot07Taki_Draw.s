@@ -31,8 +31,8 @@ glabel BgSpot07Taki_Draw
 /* 00134 808AFD64 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00138 808AFD68 8FA200A4 */  lw      $v0, 0x00A4($sp)           
 /* 0013C 808AFD6C 3C0F0001 */  lui     $t7, 0x0001                ## $t7 = 00010000
-/* 00140 808AFD70 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
-/* 00144 808AFD74 8F18E664 */  lw      $t8, -0x199C($t8)          ## 8015E664
+/* 00140 808AFD70 3C188016 */  lui     $t8, %hi(gSaveContext+4)
+/* 00144 808AFD74 8F18E664 */  lw      $t8, %lo(gSaveContext+4)($t8)
 /* 00148 808AFD78 01E27821 */  addu    $t7, $t7, $v0              
 /* 0014C 808AFD7C 8DEF1DE4 */  lw      $t7, 0x1DE4($t7)           ## 00011DE4
 /* 00150 808AFD80 17000029 */  bne     $t8, $zero, .L808AFE28     
@@ -127,9 +127,9 @@ glabel BgSpot07Taki_Draw
 /* 002AC 808AFEDC AFA20070 */  sw      $v0, 0x0070($sp)           
 /* 002B0 808AFEE0 8FA30070 */  lw      $v1, 0x0070($sp)           
 /* 002B4 808AFEE4 8FA70048 */  lw      $a3, 0x0048($sp)           
-/* 002B8 808AFEE8 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
+/* 002B8 808AFEE8 3C0C8016 */  lui     $t4, %hi(gSaveContext+4)
 /* 002BC 808AFEEC AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
-/* 002C0 808AFEF0 8D8CE664 */  lw      $t4, -0x199C($t4)          ## 8015E664
+/* 002C0 808AFEF0 8D8CE664 */  lw      $t4, %lo(gSaveContext+4)($t4)
 /* 002C4 808AFEF4 51800097 */  beql    $t4, $zero, .L808B0154     
 /* 002C8 808AFEF8 8FAC00A0 */  lw      $t4, 0x00A0($sp)           
 /* 002CC 808AFEFC 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0

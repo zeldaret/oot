@@ -8,13 +8,13 @@ glabel func_808BC8B8
               
 /* 003D0 808BC8D0 24040005 */  addiu   $a0, $zero, 0x0005         ## $a0 = 00000005
 /* 003D4 808BC8D4 10400004 */  beq     $v0, $zero, .L808BC8E8     
-/* 003D8 808BC8D8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 003DC 808BC8DC 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 003D8 808BC8D8 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 003DC 808BC8DC 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 003E0 808BC8E0 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 003E4 808BC8E4 15C00039 */  bne     $t6, $zero, .L808BC9CC     
 .L808BC8E8:
-/* 003E8 808BC8E8 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 003EC 808BC8EC 8DEFE664 */  lw      $t7, -0x199C($t7)          ## 8015E664
+/* 003E8 808BC8E8 3C0F8016 */  lui     $t7, %hi(gSaveContext+4)
+/* 003EC 808BC8EC 8DEFE664 */  lw      $t7, %lo(gSaveContext+4)($t7)
 /* 003F0 808BC8F0 51E0003A */  beql    $t7, $zero, .L808BC9DC     
 /* 003F4 808BC8F4 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 003F8 808BC8F8 0C00D6D3 */  jal     Flags_GetEventChkInf
@@ -40,11 +40,11 @@ glabel func_808BC8B8
 /* 00444 808BC944 8FAC0024 */  lw      $t4, 0x0024($sp)           
 /* 00448 808BC948 3C0B808C */  lui     $t3, %hi(D_808BD2A0)       ## $t3 = 808C0000
 /* 0044C 808BC94C 256BD2A0 */  addiu   $t3, $t3, %lo(D_808BD2A0)  ## $t3 = 808BD2A0
-/* 00450 808BC950 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 00450 808BC950 3C018016 */  lui     $at, %hi(gSaveContext+0x1414)
 /* 00454 808BC954 240D0001 */  addiu   $t5, $zero, 0x0001         ## $t5 = 00000001
 /* 00458 808BC958 3C05808C */  lui     $a1, %hi(func_808BC9EC)    ## $a1 = 808C0000
 /* 0045C 808BC95C AD8B1D68 */  sw      $t3, 0x1D68($t4)           ## 00001D68
-/* 00460 808BC960 A02DFA74 */  sb      $t5, -0x058C($at)          ## 8015FA74
+/* 00460 808BC960 A02DFA74 */  sb      $t5, %lo(gSaveContext+0x1414)($at)
 /* 00464 808BC964 24A5C9EC */  addiu   $a1, $a1, %lo(func_808BC9EC) ## $a1 = 808BC9EC
 /* 00468 808BC968 0C22F140 */  jal     func_808BC500              
 /* 0046C 808BC96C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -64,10 +64,10 @@ glabel func_808BC8B8
 /* 0049C 808BC99C 3C0E808C */  lui     $t6, %hi(D_808BCE20)       ## $t6 = 808C0000
 /* 004A0 808BC9A0 25CECE20 */  addiu   $t6, $t6, %lo(D_808BCE20)  ## $t6 = 808BCE20
 /* 004A4 808BC9A4 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
-/* 004A8 808BC9A8 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 004A8 808BC9A8 3C018016 */  lui     $at, %hi(gSaveContext+0x1414)
 /* 004AC 808BC9AC 3C05808C */  lui     $a1, %hi(func_808BC9EC)    ## $a1 = 808C0000
 /* 004B0 808BC9B0 ADEE1D68 */  sw      $t6, 0x1D68($t7)           ## 00001D68
-/* 004B4 808BC9B4 A038FA74 */  sb      $t8, -0x058C($at)          ## 8015FA74
+/* 004B4 808BC9B4 A038FA74 */  sb      $t8, %lo(gSaveContext+0x1414)($at)
 /* 004B8 808BC9B8 24A5C9EC */  addiu   $a1, $a1, %lo(func_808BC9EC) ## $a1 = 808BC9EC
 /* 004BC 808BC9BC 0C22F140 */  jal     func_808BC500              
 /* 004C0 808BC9C0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

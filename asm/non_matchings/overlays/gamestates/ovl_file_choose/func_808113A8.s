@@ -8,8 +8,8 @@ glabel func_808113A8
 /* 0D680 808113C0 AFB1001C */  sw      $s1, 0x001C($sp)           
 /* 0D684 808113C4 0C02A735 */  jal     func_800A9CD4              
 /* 0D688 808113C8 02402825 */  or      $a1, $s2, $zero            ## $a1 = 000001E0
-/* 0D68C 808113CC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0D690 808113D0 2442FA90 */  addiu   $v0, $v0, 0xFA90           ## $v0 = 8015FA90
+/* 0D68C 808113CC 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 0D690 808113D0 2442FA90 */  addiu   $v0, %lo(gGameInfo)
 /* 0D694 808113D4 8C4F0000 */  lw      $t7, 0x0000($v0)           ## 8015FA90
 /* 0D698 808113D8 240E0020 */  addiu   $t6, $zero, 0x0020         ## $t6 = 00000020
 /* 0D69C 808113DC 24180016 */  addiu   $t8, $zero, 0x0016         ## $t8 = 00000016
@@ -338,8 +338,8 @@ glabel func_808113A8
 /* 0DBA8 808118E8 AFA30030 */  sw      $v1, 0x0030($sp)           
 /* 0DBAC 808118EC 0C02CE10 */  jal     func_800B3840              ## letterbox_target_addr
 /* 0DBB0 808118F0 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 0DBB4 808118F4 3C118016 */  lui     $s1, 0x8016                ## $s1 = 80160000
-/* 0DBB8 808118F8 2631E660 */  addiu   $s1, $s1, 0xE660           ## $s1 = 8015E660
+/* 0DBB4 808118F4 3C118016 */  lui     $s1, %hi(gSaveContext)
+/* 0DBB8 808118F8 2631E660 */  addiu   $s1, %lo(gSaveContext)
 /* 0DBBC 808118FC 260701E8 */  addiu   $a3, $s0, 0x01E8           ## $a3 = 000001E8
 /* 0DBC0 80811900 A620141A */  sh      $zero, 0x141A($s1)         ## 8015FA7A
 /* 0DBC4 80811904 A620000C */  sh      $zero, 0x000C($s1)         ## 8015E66C
@@ -351,9 +351,9 @@ glabel func_808113A8
 /* 0DBDC 8081191C 3C080001 */  lui     $t0, 0x0001                ## $t0 = 00010000
 /* 0DBE0 80811920 3508C8E8 */  ori     $t0, $t0, 0xC8E8           ## $t0 = 0001C8E8
 /* 0DBE4 80811924 2419000A */  addiu   $t9, $zero, 0x000A         ## $t9 = 0000000A
-/* 0DBE8 80811928 3C018012 */  lui     $at, 0x8012                ## $at = 80120000
+/* 0DBE8 80811928 3C018012 */  lui     $at, %hi(D_8011FB40)
 /* 0DBEC 8081192C 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0DBF0 80811930 A439FB40 */  sh      $t9, -0x04C0($at)          ## 8011FB40
+/* 0DBF0 80811930 A439FB40 */  sh      $t9, %lo(D_8011FB40)($at)
 /* 0DBF4 80811934 02081021 */  addu    $v0, $s0, $t0              
 /* 0DBF8 80811938 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 0DBFC 8081193C 24090063 */  addiu   $t1, $zero, 0x0063         ## $t1 = 00000063
@@ -395,9 +395,9 @@ glabel func_808113A8
 /* 0DC8C 808119CC 0C02A7A8 */  jal     Sram_ReadWrite
 /* 0DC90 808119D0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0DC94 808119D4 8E4F0000 */  lw      $t7, 0x0000($s2)           ## 000001E0
-/* 0DC98 808119D8 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 0DC98 808119D8 3C018016 */  lui     $at, %hi(gSaveContext+0x1409)
 /* 0DC9C 808119DC 91F80002 */  lbu     $t8, 0x0002($t7)           ## 00000002
-/* 0DCA0 808119E0 A038FA69 */  sb      $t8, -0x0597($at)          ## 8015FA69
+/* 0DCA0 808119E0 A038FA69 */  sb      $t8, %lo(gSaveContext+0x1409)($at)
 /* 0DCA4 808119E4 92391409 */  lbu     $t9, 0x1409($s1)           ## 8015FA69
 /* 0DCA8 808119E8 2B210003 */  slti    $at, $t9, 0x0003           
 /* 0DCAC 808119EC 54200005 */  bnel    $at, $zero, .L80811A04     

@@ -42,9 +42,9 @@ glabel func_8088DC50
               ## coss?
 /* 00E24 8088DCE4 00042403 */  sra     $a0, $a0, 16               
 /* 00E28 8088DCE8 27B30068 */  addiu   $s3, $sp, 0x0068           ## $s3 = FFFFFFA8
-/* 00E2C 8088DCEC 3C058013 */  lui     $a1, 0x8013                ## $a1 = 80130000
+/* 00E2C 8088DCEC 3C058013 */  lui     $a1, %hi(gMtxFClear)
 /* 00E30 8088DCF0 46000586 */  mov.s   $f22, $f0                  
-/* 00E34 8088DCF4 24A5DB60 */  addiu   $a1, $a1, 0xDB60           ## $a1 = 8012DB60
+/* 00E34 8088DCF4 24A5DB60 */  addiu   $a1, %lo(gMtxFClear)
 /* 00E38 8088DCF8 0C0346EA */  jal     Matrix_MtxFCopy              
 /* 00E3C 8088DCFC 02602025 */  or      $a0, $s3, $zero            ## $a0 = FFFFFFA8
 /* 00E40 8088DD00 86B807A0 */  lh      $t8, 0x07A0($s5)           ## 000007A0

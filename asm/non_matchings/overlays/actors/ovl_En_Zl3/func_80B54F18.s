@@ -6,8 +6,8 @@ glabel func_80B54F18
 /* 01B78 80B54F28 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01B7C 80B54F2C 00A03025 */  or      $a2, $a1, $zero            ## $a2 = 00000000
 /* 01B80 80B54F30 15C0001B */  bne     $t6, $zero, .L80B54FA0     
-/* 01B84 80B54F34 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 01B88 80B54F38 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 01B84 80B54F34 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 01B88 80B54F38 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 01B8C 80B54F3C 3C01C1D0 */  lui     $at, 0xC1D0                ## $at = C1D00000
 /* 01B90 80B54F40 44814000 */  mtc1    $at, $f8                   ## $f8 = -26.00
 /* 01B94 80B54F44 85F8145E */  lh      $t8, 0x145E($t7)           ## 8016145E

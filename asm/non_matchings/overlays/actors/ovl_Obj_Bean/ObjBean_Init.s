@@ -46,8 +46,8 @@ glabel ObjBean_Init
 /* 01014 80B8FA94 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 01018 80B8FA98 24A50EA8 */  addiu   $a1, $a1, %lo(D_80B90EA8)  ## $a1 = 80B90EA8
-/* 0101C 80B8FA9C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 01020 80B8FAA0 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 0101C 80B8FA9C 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 01020 80B8FAA0 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 01024 80B8FAA4 24010011 */  addiu   $at, $zero, 0x0011         ## $at = 00000011
 /* 01028 80B8FAA8 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011
 /* 0102C 80B8FAAC 11C00003 */  beq     $t6, $zero, .L80B8FABC     
@@ -63,8 +63,8 @@ glabel ObjBean_Init
               
 /* 01050 80B8FAD0 30A5003F */  andi    $a1, $a1, 0x003F           ## $a1 = 00000000
 /* 01054 80B8FAD4 14400006 */  bne     $v0, $zero, .L80B8FAF0     
-/* 01058 80B8FAD8 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 0105C 80B8FADC 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 01058 80B8FAD8 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 0105C 80B8FADC 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 01060 80B8FAE0 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 01064 80B8FAE4 85F81156 */  lh      $t8, 0x1156($t7)           ## 80161156
 /* 01068 80B8FAE8 17010058 */  bne     $t8, $at, .L80B8FC4C       
@@ -151,12 +151,12 @@ glabel ObjBean_Init
 /* 01180 80B8FC00 0C2E3AA0 */  jal     func_80B8EA80              
 /* 01184 80B8FC04 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 01188 80B8FC08 920D01F7 */  lbu     $t5, 0x01F7($s0)           ## 000001F7
-/* 0118C 80B8FC0C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 0118C 80B8FC0C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 01190 80B8FC10 3C07410C */  lui     $a3, 0x410C                ## $a3 = 410C0000
 /* 01194 80B8FC14 35AE0010 */  ori     $t6, $t5, 0x0010           ## $t6 = 00000010
 /* 01198 80B8FC18 A20E01F7 */  sb      $t6, 0x01F7($s0)           ## 000001F7
 /* 0119C 80B8FC1C 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 410CCCCD
-/* 011A0 80B8FC20 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 011A0 80B8FC20 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 011A4 80B8FC24 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 011A8 80B8FC28 0C00AC78 */  jal     ActorShape_Init
               
@@ -181,8 +181,8 @@ glabel ObjBean_Init
               
 /* 011E8 80B8FC68 30A5003F */  andi    $a1, $a1, 0x003F           ## $a1 = 00000000
 /* 011EC 80B8FC6C 14400006 */  bne     $v0, $zero, .L80B8FC88     
-/* 011F0 80B8FC70 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 011F4 80B8FC74 8F39FA90 */  lw      $t9, -0x0570($t9)          ## 8015FA90
+/* 011F0 80B8FC70 3C198016 */  lui     $t9, %hi(gGameInfo)
+/* 011F4 80B8FC74 8F39FA90 */  lw      $t9, %lo(gGameInfo)($t9)
 /* 011F8 80B8FC78 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 011FC 80B8FC7C 87281156 */  lh      $t0, 0x1156($t9)           ## 80161156
 /* 01200 80B8FC80 15010005 */  bne     $t0, $at, .L80B8FC98       

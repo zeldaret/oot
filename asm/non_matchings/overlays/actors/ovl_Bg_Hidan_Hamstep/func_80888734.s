@@ -1,6 +1,6 @@
 glabel func_80888734
-/* 006F4 80888734 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 006F8 80888738 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 006F4 80888734 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 006F8 80888738 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 006FC 8088873C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00700 80888740 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00704 80888744 85CF0110 */  lh      $t7, 0x0110($t6)           ## 80160110

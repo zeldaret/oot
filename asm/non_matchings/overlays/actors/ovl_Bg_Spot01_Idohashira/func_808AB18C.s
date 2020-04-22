@@ -1,6 +1,6 @@
 glabel func_808AB18C
-/* 004AC 808AB18C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 004B0 808AB190 2442FA90 */  addiu   $v0, $v0, 0xFA90           ## $v0 = 8015FA90
+/* 004AC 808AB18C 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 004B0 808AB190 2442FA90 */  addiu   $v0, %lo(gGameInfo)
 /* 004B4 808AB194 8C4F0000 */  lw      $t7, 0x0000($v0)           ## 8015FA90
 /* 004B8 808AB198 848E00B4 */  lh      $t6, 0x00B4($a0)           ## 000000B4
 /* 004BC 808AB19C 848800B6 */  lh      $t0, 0x00B6($a0)           ## 000000B6
