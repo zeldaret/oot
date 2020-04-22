@@ -1,3 +1,13 @@
+.rdata
+glabel D_809F2FE0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809F2FE4
+    .asciz "\x1B[33m☆☆☆☆☆ デグナッツお面品評会長老 ☆☆☆☆☆ %x\n\x1B[m"
+    .balign 4
+
+.text
 glabel EnDntJiji_Init
 /* 00000 809F1AE0 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00004 809F1AE4 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
@@ -5,10 +15,10 @@ glabel EnDntJiji_Init
 /* 0000C 809F1AEC AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 00010 809F1AF0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00014 809F1AF4 AFBF002C */  sw      $ra, 0x002C($sp)           
-/* 00018 809F1AF8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00018 809F1AF8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 0001C 809F1AFC 44050000 */  mfc1    $a1, $f0                   
 /* 00020 809F1B00 44070000 */  mfc1    $a3, $f0                   
-/* 00024 809F1B04 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00024 809F1B04 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00028 809F1B08 0C00AC78 */  jal     ActorShape_Init
               
 /* 0002C 809F1B0C 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
@@ -68,5 +78,3 @@ glabel EnDntJiji_Init
 /* 000F0 809F1BD0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 000F4 809F1BD4 03E00008 */  jr      $ra                        
 /* 000F8 809F1BD8 00000000 */  nop
-
-

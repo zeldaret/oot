@@ -1,3 +1,37 @@
+.rdata
+glabel D_80B85DA0
+    .asciz "no = %d\n"
+    .balign 4
+
+glabel D_80B85DAC
+    .asciz "bank_ID = %d\n"
+    .balign 4
+
+glabel D_80B85DBC
+    .asciz "0"
+    .balign 4
+
+glabel D_80B85DC0
+    .asciz "../z_item_etcetera.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B85E24
+.word L80B85710
+.word L80B857B0
+.word L80B857B0
+.word L80B857B0
+.word L80B857B0
+.word L80B857B0
+.word L80B8574C
+.word L80B85778
+.word L80B85778
+.word L80B85778
+.word L80B85778
+.word L80B85778
+.word L80B85778
+
+.text
 glabel ItemEtcetera_Init
 /* 00008 80B855F8 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0000C 80B855FC AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -84,8 +118,8 @@ glabel L80B85710
 /* 0012C 80B8571C 3C0A80B8 */  lui     $t2, %hi(func_80B858B4)    ## $t2 = 80B80000
 /* 00130 80B85720 254A58B4 */  addiu   $t2, $t2, %lo(func_80B858B4) ## $t2 = 80B858B4
 /* 00134 80B85724 AE0A014C */  sw      $t2, 0x014C($s0)           ## 0000014C
-/* 00138 80B85728 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
-/* 0013C 80B8572C 956BF53A */  lhu     $t3, -0x0AC6($t3)          ## 8015F53A
+/* 00138 80B85728 3C0B8016 */  lui     $t3, %hi(gSaveContext+0xeda)
+/* 0013C 80B8572C 956BF53A */  lhu     $t3, %lo(gSaveContext+0xeda)($t3)
 /* 00140 80B85730 316C0002 */  andi    $t4, $t3, 0x0002           ## $t4 = 00000000
 /* 00144 80B85734 5180001F */  beql    $t4, $zero, .L80B857B4     
 /* 00148 80B85738 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -131,5 +165,3 @@ glabel L80B857B0
 /* 001C8 80B857B8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 001CC 80B857BC 03E00008 */  jr      $ra                        
 /* 001D0 80B857C0 00000000 */  nop
-
-

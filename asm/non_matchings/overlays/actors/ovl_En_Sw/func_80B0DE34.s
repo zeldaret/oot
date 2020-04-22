@@ -32,5 +32,3 @@ glabel func_80B0DE34
 /* 020EC 80B0DE9C 00021400 */  sll     $v0, $v0, 16               
 /* 020F0 80B0DEA0 03E00008 */  jr      $ra                        
 /* 020F4 80B0DEA4 00021403 */  sra     $v0, $v0, 16               
-
-

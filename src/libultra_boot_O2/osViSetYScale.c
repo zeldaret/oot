@@ -1,7 +1,6 @@
 #include <global.h>
 
-void osViSetYScale(float scale)
-{
+void osViSetYScale(float scale) {
     register s32 prevInt;
 
     prevInt = __osDisableInt();

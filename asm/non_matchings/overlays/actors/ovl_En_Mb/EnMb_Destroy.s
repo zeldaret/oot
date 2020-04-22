@@ -20,5 +20,3 @@ glabel EnMb_Destroy
 /* 003AC 80AA63FC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 003B0 80AA6400 03E00008 */  jr      $ra                        
 /* 003B4 80AA6404 00000000 */  nop
-
-

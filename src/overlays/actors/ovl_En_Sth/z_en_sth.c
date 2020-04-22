@@ -1,6 +1,5 @@
 #include "z_en_sth.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000019
 
 void EnSth_Init(EnSth* this, GlobalContext* globalCtx);
@@ -8,11 +7,9 @@ void EnSth_Destroy(EnSth* this, GlobalContext* globalCtx);
 void EnSth_Update(EnSth* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Sth_InitVars =
-{
+const ActorInit En_Sth_InitVars = {
     ACTOR_EN_STH,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnSth),

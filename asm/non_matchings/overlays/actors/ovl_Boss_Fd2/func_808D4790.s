@@ -1,3 +1,21 @@
+.rdata
+glabel D_808D637C
+    .asciz "[32m"
+    .balign 4
+
+glabel D_808D6384
+    .asciz "damage   %d\n"
+    .balign 4
+
+glabel D_808D6394
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_808D6398
+    .asciz "hp %d\n"
+    .balign 4
+
+.text
 glabel func_808D4790
 /* 02120 808D4790 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 02124 808D4794 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -345,5 +363,3 @@ glabel func_808D4790
 /* 025EC 808D4C5C 8FB50038 */  lw      $s5, 0x0038($sp)           
 /* 025F0 808D4C60 03E00008 */  jr      $ra                        
 /* 025F4 808D4C64 27BD00A8 */  addiu   $sp, $sp, 0x00A8           ## $sp = 00000000
-
-

@@ -23,7 +23,7 @@ glabel func_800C99C4
 /* B40B90 800C99F0 27A400B4 */  addiu $a0, $sp, 0xb4
 /* B40B94 800C99F4 240700E1 */  li    $a3, 225
 /* B40B98 800C99F8 AFA20208 */  sw    $v0, 0x208($sp)
-/* B40B9C 800C99FC 0C031AB1 */  jal   func_800C6AC4
+/* B40B9C 800C99FC 0C031AB1 */  jal   Graph_OpenDisps
 /* B40BA0 800C9A00 24520002 */   addiu $s2, $v0, 2
 /* B40BA4 800C9A04 3C0E8013 */  lui   $t6, %hi(sIrqMgrRetraceTime) # $t6, 0x8013
 /* B40BA8 800C9A08 25CEDBE0 */  addiu $t6, %lo(sIrqMgrRetraceTime) # addiu $t6, $t6, -0x2420
@@ -69,7 +69,7 @@ glabel func_800C99C4
 /* B40C40 800C9AA0 AE2F0000 */   sw    $t7, ($s1)
 /* B40C44 800C9AA4 27B000D8 */  addiu $s0, $sp, 0xd8
 /* B40C48 800C9AA8 02002025 */  move  $a0, $s0
-/* B40C4C 800C9AAC 0C02A89E */  jal   func_800AA278
+/* B40C4C 800C9AAC 0C02A89E */  jal   View_Init
 /* B40C50 800C9AB0 8FA50224 */   lw    $a1, 0x224($sp)
 /* B40C54 800C9AB4 2409000A */  li    $t1, 10
 /* B40C58 800C9AB8 240A00F0 */  li    $t2, 240
@@ -80,7 +80,7 @@ glabel func_800C99C4
 /* B40C6C 800C9ACC AFA000A4 */  sw    $zero, 0xa4($sp)
 /* B40C70 800C9AD0 AFA000AC */  sw    $zero, 0xac($sp)
 /* B40C74 800C9AD4 02002025 */  move  $a0, $s0
-/* B40C78 800C9AD8 0C02A93F */  jal   func_800AA4FC
+/* B40C78 800C9AD8 0C02A93F */  jal   View_SetViewport
 /* B40C7C 800C9ADC 27A500A4 */   addiu $a1, $sp, 0xa4
 /* B40C80 800C9AE0 8FAC0224 */  lw    $t4, 0x224($sp)
 /* B40C84 800C9AE4 02002025 */  move  $a0, $s0
@@ -275,7 +275,7 @@ glabel func_800C99C4
 /* B40F74 800C9DD4 3C068014 */  lui   $a2, %hi(D_80146260) # $a2, 0x8014
 /* B40F78 800C9DD8 24C66260 */  addiu $a2, %lo(D_80146260) # addiu $a2, $a2, 0x6260
 /* B40F7C 800C9DDC AF3802B0 */  sw    $t8, 0x2b0($t9)
-/* B40F80 800C9DE0 0C031AD5 */  jal   func_800C6B54
+/* B40F80 800C9DE0 0C031AD5 */  jal   Graph_CloseDisps
 /* B40F84 800C9DE4 8FA50224 */   lw    $a1, 0x224($sp)
 .L800C9DE8:
 /* B40F88 800C9DE8 8FBF0034 */  lw    $ra, 0x34($sp)

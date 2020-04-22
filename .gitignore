@@ -17,12 +17,15 @@ baserom/
 *.elf
 *.sra
 *.z64
+*.n64
+*.v64
 *.map
 *.dump
 out.txt
 
 # Tool artifacts
 tools/ido7.1_compiler/*
+tools/mipspro7.2_compiler/
 tools/overlayhelpers/batchdisasm/output/*
 tools/overlayhelpers/batchdisasm/output2/*
 tools/overlayhelpers/batchdisasm/mipsdisasm/*

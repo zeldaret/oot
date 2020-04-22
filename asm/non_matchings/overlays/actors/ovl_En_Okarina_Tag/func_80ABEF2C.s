@@ -1,3 +1,9 @@
+.rdata
+glabel D_80AC0454
+    .asciz "[31m☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+.text
 glabel func_80ABEF2C
 /* 0020C 80ABEF2C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00210 80ABEF30 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -25,10 +31,10 @@ glabel func_80ABEF2C
 .L80ABEF84:
 /* 00264 80ABEF84 860A0152 */  lh      $t2, 0x0152($s0)           ## 00000152
 /* 00268 80ABEF88 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
-/* 0026C 80ABEF8C 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 0026C 80ABEF8C 3C0B8016 */  lui     $t3, %hi(gSaveContext+0x12c5)
 /* 00270 80ABEF90 55410005 */  bnel    $t2, $at, .L80ABEFA8       
 /* 00274 80ABEF94 8D0C0680 */  lw      $t4, 0x0680($t0)           ## 00000680
-/* 00278 80ABEF98 916BF925 */  lbu     $t3, -0x06DB($t3)          ## 8015F925
+/* 00278 80ABEF98 916BF925 */  lbu     $t3, %lo(gSaveContext+0x12c5)($t3)
 /* 0027C 80ABEF9C 51600047 */  beql    $t3, $zero, .L80ABF0BC     
 /* 00280 80ABEFA0 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00284 80ABEFA4 8D0C0680 */  lw      $t4, 0x0680($t0)           ## 00000680
@@ -112,5 +118,3 @@ glabel func_80ABEF2C
 /* 003A0 80ABF0C0 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 003A4 80ABF0C4 03E00008 */  jr      $ra                        
 /* 003A8 80ABF0C8 00000000 */  nop
-
-

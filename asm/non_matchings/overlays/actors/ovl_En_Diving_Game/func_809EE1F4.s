@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_809EF1BC
+    .float 0.1
+
+glabel D_809EF1C0
+    .float 0.04
+
+.text
 glabel func_809EE1F4
 /* 00984 809EE1F4 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00988 809EE1F8 AFB00014 */  sw      $s0, 0x0014($sp)           
@@ -8,16 +16,16 @@ glabel func_809EE1F4
 /* 0099C 809EE20C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
               
 /* 009A0 809EE210 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 009A4 809EE214 0C03008C */  jal     func_800C0230              
+/* 009A4 809EE214 0C03008C */  jal     Gameplay_CreateSubCamera              
 /* 009A8 809EE218 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 009AC 809EE21C A60202A0 */  sh      $v0, 0x02A0($s0)           ## 000002A0
 /* 009B0 809EE220 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 009B4 809EE224 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 009B8 809EE228 0C0300C5 */  jal     func_800C0314              
+/* 009B8 809EE228 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 009BC 809EE22C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 009C0 809EE230 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 009C4 809EE234 860502A0 */  lh      $a1, 0x02A0($s0)           ## 000002A0
-/* 009C8 809EE238 0C0300C5 */  jal     func_800C0314              
+/* 009C8 809EE238 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 009CC 809EE23C 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 009D0 809EE240 3C01C352 */  lui     $at, 0xC352                ## $at = C3520000
 /* 009D4 809EE244 44812000 */  mtc1    $at, $f4                   ## $f4 = -210.00
@@ -33,14 +41,14 @@ glabel func_809EE1F4
 /* 009FC 809EE26C 44819000 */  mtc1    $at, $f18                  ## $f18 = -240.00
 /* 00A00 809EE270 2403000A */  addiu   $v1, $zero, 0x000A         ## $v1 = 0000000A
 /* 00A04 809EE274 A603029A */  sh      $v1, 0x029A($s0)           ## 0000029A
-/* 00A08 809EE278 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 00A08 809EE278 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xeda)
 /* 00A0C 809EE27C E60402F4 */  swc1    $f4, 0x02F4($s0)           ## 000002F4
 /* 00A10 809EE280 E60602F8 */  swc1    $f6, 0x02F8($s0)           ## 000002F8
 /* 00A14 809EE284 E60802FC */  swc1    $f8, 0x02FC($s0)           ## 000002FC
 /* 00A18 809EE288 E60A02D0 */  swc1    $f10, 0x02D0($s0)          ## 000002D0
 /* 00A1C 809EE28C E61002D4 */  swc1    $f16, 0x02D4($s0)          ## 000002D4
 /* 00A20 809EE290 E61202D8 */  swc1    $f18, 0x02D8($s0)          ## 000002D8
-/* 00A24 809EE294 95CEF53A */  lhu     $t6, -0x0AC6($t6)          ## 8015F53A
+/* 00A24 809EE294 95CEF53A */  lhu     $t6, %lo(gSaveContext+0xeda)($t6)
 /* 00A28 809EE298 24180005 */  addiu   $t8, $zero, 0x0005         ## $t8 = 00000005
 /* 00A2C 809EE29C 3C01809F */  lui     $at, %hi(D_809EF1BC)       ## $at = 809F0000
 /* 00A30 809EE2A0 31CF0100 */  andi    $t7, $t6, 0x0100           ## $t7 = 00000000
@@ -134,5 +142,3 @@ glabel func_809EE1F4
 /* 00B8C 809EE3FC 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 00B90 809EE400 03E00008 */  jr      $ra                        
 /* 00B94 809EE404 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

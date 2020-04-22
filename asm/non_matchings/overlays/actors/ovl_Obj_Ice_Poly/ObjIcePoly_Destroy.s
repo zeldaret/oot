@@ -22,5 +22,3 @@ glabel ObjIcePoly_Destroy
 /* 00204 80B94464 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00208 80B94468 03E00008 */  jr      $ra                        
 /* 0020C 80B9446C 00000000 */  nop
-
-

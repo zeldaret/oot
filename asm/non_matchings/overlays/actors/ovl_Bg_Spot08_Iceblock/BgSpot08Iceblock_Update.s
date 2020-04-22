@@ -42,5 +42,3 @@ glabel BgSpot08Iceblock_Update
 /* 00CC0 808B1620 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00CC4 808B1624 03E00008 */  jr      $ra                        
 /* 00CC8 808B1628 00000000 */  nop
-
-

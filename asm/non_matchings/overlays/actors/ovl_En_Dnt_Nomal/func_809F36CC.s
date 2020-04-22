@@ -1,3 +1,15 @@
+.rdata
+glabel D_809F5F68
+    .asciz "[36m☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.late_rodata
+glabel D_809F6034
+ .word 0x44A78000
+glabel D_809F6038
+ .word 0x44A78000
+
+.text
 glabel func_809F36CC
 /* 0040C 809F36CC 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00410 809F36D0 3C0F809F */  lui     $t7, %hi(D_809F5E70)       ## $t7 = 809F0000
@@ -59,8 +71,8 @@ glabel func_809F36CC
 /* 004EC 809F37AC 27A6003C */  addiu   $a2, $sp, 0x003C           ## $a2 = FFFFFFC4
 /* 004F0 809F37B0 15800006 */  bne     $t4, $zero, .L809F37CC     
 /* 004F4 809F37B4 27A70048 */  addiu   $a3, $sp, 0x0048           ## $a3 = FFFFFFD0
-/* 004F8 809F37B8 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
-/* 004FC 809F37BC 8DADFA90 */  lw      $t5, -0x0570($t5)          ## 8015FA90
+/* 004F8 809F37B8 3C0D8016 */  lui     $t5, %hi(gGameInfo)
+/* 004FC 809F37BC 8DADFA90 */  lw      $t5, %lo(gGameInfo)($t5)
 /* 00500 809F37C0 85AE12D4 */  lh      $t6, 0x12D4($t5)           ## 801612D4
 /* 00504 809F37C4 51C00078 */  beql    $t6, $zero, .L809F39A8     
 /* 00508 809F37C8 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -127,8 +139,8 @@ glabel func_809F36CC
 /* 005F8 809F38B8 0C00084C */  jal     osSyncPrintf
               
 /* 005FC 809F38BC 8605026C */  lh      $a1, 0x026C($s0)           ## 0000026C
-/* 00600 809F38C0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00604 809F38C4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00600 809F38C0 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00604 809F38C4 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00608 809F38C8 8C4B0004 */  lw      $t3, 0x0004($v0)           ## 8015E664
 /* 0060C 809F38CC 51600036 */  beql    $t3, $zero, .L809F39A8     
 /* 00610 809F38D0 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -192,5 +204,3 @@ glabel func_809F36CC
 /* 006EC 809F39AC 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 006F0 809F39B0 03E00008 */  jr      $ra                        
 /* 006F4 809F39B4 00000000 */  nop
-
-

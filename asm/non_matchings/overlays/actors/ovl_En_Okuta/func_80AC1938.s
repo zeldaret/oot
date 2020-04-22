@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80AC292C
+    .float 0.1
+
+.text
 glabel func_80AC1938
 /* 012D8 80AC1938 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 012DC 80AC193C AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -75,8 +80,8 @@ glabel func_80AC1938
 /* 013E8 80AC1A48 10410006 */  beq     $v0, $at, .L80AC1A64       
 /* 013EC 80AC1A4C 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 013F0 80AC1A50 1441001C */  bne     $v0, $at, .L80AC1AC4       
-/* 013F4 80AC1A54 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 013F8 80AC1A58 8D29E664 */  lw      $t1, -0x199C($t1)          ## 8015E664
+/* 013F4 80AC1A54 3C098016 */  lui     $t1, %hi(gSaveContext+4)
+/* 013F8 80AC1A58 8D29E664 */  lw      $t1, %lo(gSaveContext+4)($t1)
 /* 013FC 80AC1A5C 5520001A */  bnel    $t1, $zero, .L80AC1AC8     
 /* 01400 80AC1A60 C6060024 */  lwc1    $f6, 0x0024($s0)           ## 00000024
 .L80AC1A64:
@@ -159,5 +164,3 @@ glabel func_80AC1938
 /* 01514 80AC1B74 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 01518 80AC1B78 03E00008 */  jr      $ra                        
 /* 0151C 80AC1B7C 00000000 */  nop
-
-

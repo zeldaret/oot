@@ -18,5 +18,3 @@ glabel BgGanonOtyuka_Update
 /* 00804 80876124 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00808 80876128 03E00008 */  jr      $ra                        
 /* 0080C 8087612C 00000000 */  nop
-
-

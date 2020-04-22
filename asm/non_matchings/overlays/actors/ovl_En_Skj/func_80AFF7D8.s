@@ -56,8 +56,8 @@ glabel func_80AFF7D8
 /* 015FC 80AFF8AC 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 01600 80AFF8B0 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 01604 80AFF8B4 1441000C */  bne     $v0, $at, .L80AFF8E8       
-/* 01608 80AFF8B8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0160C 80AFF8BC 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01608 80AFF8B8 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0160C 80AFF8BC 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01610 80AFF8C0 944F0EF6 */  lhu     $t7, 0x0EF6($v0)           ## 8015F556
 /* 01614 80AFF8C4 31F80200 */  andi    $t8, $t7, 0x0200           ## $t8 = 00000000
 /* 01618 80AFF8C8 17000007 */  bne     $t8, $zero, .L80AFF8E8     
@@ -86,9 +86,9 @@ glabel func_80AFF7D8
 .L80AFF91C:
 /* 0166C 80AFF91C 8CD90680 */  lw      $t9, 0x0680($a2)           ## 00000680
 /* 01670 80AFF920 3C010080 */  lui     $at, 0x0080                ## $at = 00800000
-/* 01674 80AFF924 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 01674 80AFF924 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 01678 80AFF928 03214025 */  or      $t0, $t9, $at              ## $t0 = 00800000
-/* 0167C 80AFF92C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 0167C 80AFF92C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01680 80AFF930 ACC80680 */  sw      $t0, 0x0680($a2)           ## 00000680
 /* 01684 80AFF934 94490EF2 */  lhu     $t1, 0x0EF2($v0)           ## 8015F552
 /* 01688 80AFF938 312A0040 */  andi    $t2, $t1, 0x0040           ## $t2 = 00000000
@@ -99,7 +99,7 @@ glabel func_80AFF7D8
 /* 0169C 80AFF94C 316C0200 */  andi    $t4, $t3, 0x0200           ## $t4 = 00000000
 /* 016A0 80AFF950 11800009 */  beq     $t4, $zero, .L80AFF978     
 /* 016A4 80AFF954 00000000 */  nop
-/* 016A8 80AFF958 0C01B0D8 */  jal     func_8006C360              
+/* 016A8 80AFF958 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 016AC 80AFF95C 24050015 */  addiu   $a1, $zero, 0x0015         ## $a1 = 00000015
 /* 016B0 80AFF960 304DFFFF */  andi    $t5, $v0, 0xFFFF           ## $t5 = 00000000
 /* 016B4 80AFF964 15A00015 */  bne     $t5, $zero, .L80AFF9BC     
@@ -124,7 +124,7 @@ glabel func_80AFF7D8
 /* 016F8 80AFF9A8 10000004 */  beq     $zero, $zero, .L80AFF9BC   
 /* 016FC 80AFF9AC A61802C4 */  sh      $t8, 0x02C4($s0)           ## 000002C4
 .L80AFF9B0:
-/* 01700 80AFF9B0 0C01B0D8 */  jal     func_8006C360              
+/* 01700 80AFF9B0 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 01704 80AFF9B4 24050015 */  addiu   $a1, $zero, 0x0015         ## $a1 = 00000015
 /* 01708 80AFF9B8 A60202C4 */  sh      $v0, 0x02C4($s0)           ## 000002C4
 .L80AFF9BC:
@@ -140,5 +140,3 @@ glabel func_80AFF7D8
 /* 0172C 80AFF9DC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 01730 80AFF9E0 03E00008 */  jr      $ra                        
 /* 01734 80AFF9E4 00000000 */  nop
-
-

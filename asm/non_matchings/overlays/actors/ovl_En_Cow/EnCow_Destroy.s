@@ -20,5 +20,3 @@ glabel EnCow_Destroy
 /* 00688 809DF488 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0068C 809DF48C 03E00008 */  jr      $ra                        
 /* 00690 809DF490 00000000 */  nop
-
-

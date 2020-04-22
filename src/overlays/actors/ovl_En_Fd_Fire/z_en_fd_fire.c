@@ -1,6 +1,5 @@
 #include "z_en_fd_fire.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000015
 
 void EnFdFire_Init(EnFdFire* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnFdFire_Update(EnFdFire* this, GlobalContext* globalCtx);
 void EnFdFire_Draw(EnFdFire* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Fd_Fire_InitVars =
-{
+const ActorInit En_Fd_Fire_InitVars = {
     ACTOR_EN_FD_FIRE,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(EnFdFire),

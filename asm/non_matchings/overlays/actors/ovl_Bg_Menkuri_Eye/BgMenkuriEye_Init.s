@@ -56,5 +56,3 @@ glabel BgMenkuriEye_Init
 /* 000CC 8089BD3C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 000D0 8089BD40 03E00008 */  jr      $ra                        
 /* 000D4 8089BD44 00000000 */  nop
-
-

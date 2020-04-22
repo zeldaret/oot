@@ -4,10 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct
-{
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x6C];
+typedef struct {
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ char unk_164[0x54];
 } ObjKibako2; // size = 0x01B8
 
 extern const ActorInit Obj_Kibako2_InitVars;

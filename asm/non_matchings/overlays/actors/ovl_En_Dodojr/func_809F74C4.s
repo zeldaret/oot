@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809F7F8C
+ .word 0x40266666
+
+.text
 glabel func_809F74C4
 /* 01104 809F74C4 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 01108 809F74C8 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -31,8 +36,8 @@ glabel func_809F74C4
 /* 01174 809F7534 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 01178 809F7538 C7A0002C */  lwc1    $f0, 0x002C($sp)           
 /* 0117C 809F753C 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
-/* 01180 809F7540 3C188003 */  lui     $t8, 0x8003                ## $t8 = 80030000
-/* 01184 809F7544 2718B5EC */  addiu   $t8, $t8, 0xB5EC           ## $t8 = 8002B5EC
+/* 01180 809F7540 3C188003 */  lui     $t8, %hi(ActorShadow_DrawFunc_Circle)
+/* 01184 809F7544 2718B5EC */  addiu   $t8, %lo(ActorShadow_DrawFunc_Circle)
 /* 01188 809F7548 46040032 */  c.eq.s  $f0, $f4                   
 /* 0118C 809F754C 3C01809F */  lui     $at, %hi(D_809F7F8C)       ## $at = 809F0000
 /* 01190 809F7550 4502000A */  bc1fl   .L809F757C                 
@@ -51,5 +56,3 @@ glabel func_809F74C4
 /* 011C0 809F7580 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 011C4 809F7584 03E00008 */  jr      $ra                        
 /* 011C8 809F7588 00000000 */  nop
-
-

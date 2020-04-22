@@ -1,3 +1,25 @@
+.rdata
+glabel D_80855240
+    .asciz "../z_player.c"
+    .balign 4
+
+glabel D_80855250
+    .asciz "size = %x\n"
+    .balign 4
+
+glabel D_8085525C
+    .asciz "size <= 1024 * 8"
+    .balign 4
+
+glabel D_80855270
+    .asciz "../z_player.c"
+    .balign 4
+
+glabel D_80855280
+    .asciz "../z_player.c"
+    .balign 4
+
+.text
 glabel func_8083AE40
 /* 08C30 8083AE40 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 08C34 8083AE44 00053C00 */  sll     $a3, $a1, 16               
@@ -17,8 +39,8 @@ glabel func_8083AE40
               
 /* 08C6C 8083AE7C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 08C70 8083AE80 87A7004E */  lh      $a3, 0x004E($sp)           
-/* 08C74 8083AE84 3C188012 */  lui     $t8, 0x8012                ## $t8 = 80120000
-/* 08C78 8083AE88 27187528 */  addiu   $t8, $t8, 0x7528           ## $t8 = 80127528
+/* 08C74 8083AE84 3C188012 */  lui     $t8, %hi(gObjectTable)
+/* 08C78 8083AE88 27187528 */  addiu   $t8, %lo(gObjectTable)
 /* 08C7C 8083AE8C 000778C0 */  sll     $t7, $a3,  3               
 /* 08C80 8083AE90 01F81021 */  addu    $v0, $t7, $t8              
 /* 08C84 8083AE94 8C590004 */  lw      $t9, 0x0004($v0)           ## 00000004
@@ -70,5 +92,3 @@ glabel func_8083AE40
 /* 08D28 8083AF38 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 08D2C 8083AF3C 03E00008 */  jr      $ra                        
 /* 08D30 8083AF40 00000000 */  nop
-
-

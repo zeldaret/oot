@@ -1,6 +1,5 @@
 #include "z_demo_ik.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000010
 
 void DemoIk_Init(DemoIk* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void DemoIk_Update(DemoIk* this, GlobalContext* globalCtx);
 void DemoIk_Draw(DemoIk* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Demo_Ik_InitVars =
-{
+const ActorInit Demo_Ik_InitVars = {
     ACTOR_DEMO_IK,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_IK,
     sizeof(DemoIk),

@@ -1,30 +1,27 @@
 #include <global.h>
 
-void osDestroyThread(OSThread *thread)
-{
+void osDestroyThread(OSThread* thread) {
     register s32 int_disabled;
-    
-    register OSThread *s1;
-    register OSThread *s2;
+
+    register OSThread* s1;
+    register OSThread* s2;
 
     int_disabled = __osDisableInt();
 
-    if (thread == NULL)
+    if (thread == NULL) {
         thread = __osRunningThread;
 
-    else if (thread->state != OS_STATE_STOPPED)
+    } else if (thread->state != OS_STATE_STOPPED) {
         __osDequeueThread(thread->queue, thread);
+    }
 
-    if (__osActiveQueue == thread)
+    if (__osActiveQueue == thread) {
         __osActiveQueue = __osActiveQueue->tlnext;
-    else
-    {
+    } else {
         s1 = __osActiveQueue;
-        while (s1->priority != -1)
-        {
+        while (s1->priority != -1) {
             s2 = s1->tlnext;
-            if (s2 == thread)
-            {
+            if (s2 == thread) {
                 s1->tlnext = thread->tlnext;
                 break;
             }
@@ -32,8 +29,9 @@ void osDestroyThread(OSThread *thread)
         }
     }
 
-    if (thread == __osRunningThread)
+    if (thread == __osRunningThread) {
         __osDispatchThread();
+    }
 
     __osRestoreInt(int_disabled);
 }

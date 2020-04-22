@@ -30,5 +30,3 @@ glabel EnHorse_Destroy
 /* 0158C 80A5C87C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 01590 80A5C880 03E00008 */  jr      $ra                        
 /* 01594 80A5C884 00000000 */  nop
-
-

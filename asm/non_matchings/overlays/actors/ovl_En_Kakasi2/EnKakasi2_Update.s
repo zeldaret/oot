@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A90BA0
+    .asciz "[33m☆☆☆☆☆ this->actor.player_distance ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A90BE0
+    .asciz "[33m☆☆☆☆☆ this->hosei.x ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+.late_rodata
+glabel D_80A90C10
+ .word 0x0A0A0000, 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel EnKakasi2_Update
 /* 00720 80A90730 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00724 80A90734 AFBF004C */  sw      $ra, 0x004C($sp)           
@@ -47,8 +61,8 @@ glabel EnKakasi2_Update
               ## CollisionCheck_setOT
 /* 007C4 80A907D4 8FA60050 */  lw      $a2, 0x0050($sp)           
 .L80A907D8:
-/* 007C8 80A907D8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 007CC 80A907DC 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 007C8 80A907D8 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 007CC 80A907DC 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 007D0 80A907E0 845812D4 */  lh      $t8, 0x12D4($v0)           ## 801612D4
 /* 007D4 80A907E4 53000054 */  beql    $t8, $zero, .L80A90938     
 /* 007D8 80A907E8 8FBF004C */  lw      $ra, 0x004C($sp)           
@@ -148,5 +162,3 @@ glabel EnKakasi2_Update
 /* 0092C 80A9093C 8FB10048 */  lw      $s1, 0x0048($sp)           
 /* 00930 80A90940 03E00008 */  jr      $ra                        
 /* 00934 80A90944 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-

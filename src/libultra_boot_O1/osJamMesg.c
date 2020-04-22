@@ -1,6 +1,6 @@
 #include <global.h>
 
-s32 osJamMesg(OSMesgQueue *mq, OSMesg msg, s32 flag) {
+s32 osJamMesg(OSMesgQueue* mq, OSMesg msg, s32 flag) {
     register s32 int_disabled;
     int_disabled = __osDisableInt();
     while (mq->validCount >= mq->msgCount) {

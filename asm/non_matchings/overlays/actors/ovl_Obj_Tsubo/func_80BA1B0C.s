@@ -9,7 +9,7 @@ glabel func_80BA1B0C
 /* 00DC8 80BA1B28 31F80001 */  andi    $t8, $t7, 0x0001           ## $t8 = 00000000
 /* 00DCC 80BA1B2C 0018C880 */  sll     $t9, $t8,  2               
 /* 00DD0 80BA1B30 00B92821 */  addu    $a1, $a1, $t9              
-/* 00DD4 80BA1B34 0C00D498 */  jal     Draw_DListOpa
+/* 00DD4 80BA1B34 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 00DD8 80BA1B38 8CA51B84 */  lw      $a1, %lo(D_80BA1B84)($a1)  
 /* 00DDC 80BA1B3C 8FBF0014 */  lw      $ra, 0x0014($sp)           
@@ -17,4 +17,3 @@ glabel func_80BA1B0C
 /* 00DE4 80BA1B44 03E00008 */  jr      $ra                        
 /* 00DE8 80BA1B48 00000000 */  nop
 /* 00DEC 80BA1B4C 00000000 */  nop
-

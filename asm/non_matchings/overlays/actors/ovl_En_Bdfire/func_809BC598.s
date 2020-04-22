@@ -1,3 +1,19 @@
+.rdata
+glabel D_809BCB30
+    .asciz "POWER\n"
+    .balign 4
+
+.late_rodata
+glabel D_809BCB88
+ .word 0xC4ADC000
+glabel D_809BCB8C
+ .word 0xC52F4000
+glabel D_809BCB90
+ .word 0xC56DC000
+glabel D_809BCB94
+ .word 0x40866667, 0x00000000, 0x00000000
+
+.text
 glabel func_809BC598
 /* 00568 809BC598 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0056C 809BC59C AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -12,10 +28,10 @@ glabel func_809BC598
 /* 00590 809BC5C0 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 00594 809BC5C4 1700000D */  bne     $t8, $zero, .L809BC5FC     
 /* 00598 809BC5C8 A48F0158 */  sh      $t7, 0x0158($a0)           ## 00000158
-/* 0059C 809BC5CC 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 005A0 809BC5D0 3C198013 */  lui     $t9, 0x8013                ## $t9 = 80130000
-/* 005A4 809BC5D4 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 005A8 809BC5D8 273933E8 */  addiu   $t9, $t9, 0x33E8           ## $t9 = 801333E8
+/* 0059C 809BC5CC 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 005A0 809BC5D0 3C198013 */  lui     $t9, %hi(D_801333E8)
+/* 005A4 809BC5D4 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 005A8 809BC5D8 273933E8 */  addiu   $t9, %lo(D_801333E8)
 /* 005AC 809BC5DC AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 005B0 809BC5E0 AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 005B4 809BC5E4 24043009 */  addiu   $a0, $zero, 0x3009         ## $a0 = 00003009
@@ -209,5 +225,3 @@ glabel func_809BC598
 /* 00850 809BC880 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00854 809BC884 03E00008 */  jr      $ra                        
 /* 00858 809BC888 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

@@ -1,3 +1,47 @@
+.rdata
+glabel D_80B7B260
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B270
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B280
+    .asciz "../z_fishing.c"
+    .balign 4
+
+glabel D_80B7B290
+    .asciz "\x1B[32m"
+    .balign 4
+
+glabel D_80B7B298
+    .asciz "\x1B[33m"
+    .balign 4
+
+glabel D_80B7B2A0
+    .asciz "plays %x\n"
+    .balign 4
+
+glabel D_80B7B2AC
+    .asciz "ys %x\n"
+    .balign 4
+
+glabel D_80B7B2B4
+    .asciz "\x1B[m"
+    .balign 4
+
+.late_rodata
+glabel D_80B7B7B4
+    .float 0.003325
+
+glabel D_80B7B7B8
+    .float 0.00475
+
+glabel D_80B7B7BC
+    .float 3.14159274101
+
+.text
 glabel func_80B771CC
 /* 0D82C 80B771CC 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 0D830 80B771D0 3C0E80B8 */  lui     $t6, %hi(D_80B7E075)       ## $t6 = 80B80000
@@ -34,7 +78,7 @@ glabel func_80B771CC
 /* 0D8A4 80B77244 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 /* 0D8A8 80B77248 27A40070 */  addiu   $a0, $sp, 0x0070           ## $a0 = FFFFFFD8
 /* 0D8AC 80B7724C 24071F70 */  addiu   $a3, $zero, 0x1F70         ## $a3 = 00001F70
-/* 0D8B0 80B77250 0C031AB1 */  jal     func_800C6AC4              
+/* 0D8B0 80B77250 0C031AB1 */  jal     Graph_OpenDisps              
 /* 0D8B4 80B77254 00A09025 */  or      $s2, $a1, $zero            ## $s2 = 00000000
 /* 0D8B8 80B77258 3C014700 */  lui     $at, 0x4700                ## $at = 47000000
 /* 0D8BC 80B7725C 4481C000 */  mtc1    $at, $f24                  ## $f24 = 32768.00
@@ -129,7 +173,7 @@ glabel func_80B771CC
 /* 0DA14 80B773B4 24C6B280 */  addiu   $a2, $a2, %lo(D_80B7B280)  ## $a2 = 80B7B280
 /* 0DA18 80B773B8 27A40070 */  addiu   $a0, $sp, 0x0070           ## $a0 = FFFFFFD8
 /* 0DA1C 80B773BC 24071FA3 */  addiu   $a3, $zero, 0x1FA3         ## $a3 = 00001FA3
-/* 0DA20 80B773C0 0C031AD5 */  jal     func_800C6B54              
+/* 0DA20 80B773C0 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0DA24 80B773C4 8F050000 */  lw      $a1, 0x0000($t8)           ## 00000000
 /* 0DA28 80B773C8 8FBF0054 */  lw      $ra, 0x0054($sp)           
 /* 0DA2C 80B773CC D7B40018 */  ldc1    $f20, 0x0018($sp)          
@@ -146,5 +190,3 @@ glabel func_80B771CC
 /* 0DA58 80B773F8 8FBE0050 */  lw      $s8, 0x0050($sp)           
 /* 0DA5C 80B773FC 03E00008 */  jr      $ra                        
 /* 0DA60 80B77400 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
-
-

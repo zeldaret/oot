@@ -1,6 +1,5 @@
 #include "z_en_reeba.h"
 
-#define ROOM  0x00
 #define FLAGS 0x08000015
 
 void EnReeba_Init(EnReeba* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnReeba_Update(EnReeba* this, GlobalContext* globalCtx);
 void EnReeba_Draw(EnReeba* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Reeba_InitVars =
-{
+const ActorInit En_Reeba_InitVars = {
     ACTOR_EN_REEBA,
     ACTORTYPE_MISC,
-    ROOM,
     FLAGS,
     OBJECT_REEBA,
     sizeof(EnReeba),

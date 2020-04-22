@@ -1,3 +1,25 @@
+.rdata
+glabel D_80A170EC
+    .asciz "Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80A17138
+    .asciz "../z_en_sakana.c"
+    .balign 4
+
+glabel D_80A1714C
+    .asciz "デモ魚消滅\n"
+    .balign 4
+
+glabel D_80A17158
+    .asciz "不正なデモ動作(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80A17180
+    .asciz "../z_en_sakana.c"
+    .balign 4
+
+.text
 glabel func_80A16A64
 /* 017E4 80A16A64 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 017E8 80A16A68 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -140,5 +162,3 @@ glabel func_80A16A64
 /* 019DC 80A16C5C 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 019E0 80A16C60 03E00008 */  jr      $ra                        
 /* 019E4 80A16C64 00000000 */  nop
-
-

@@ -20,4 +20,3 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin/func_800A63CC.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_skin/func_800A6408.s")
-

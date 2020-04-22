@@ -6,5 +6,3 @@ glabel func_80A67BDC
 /* 0069C 80A67BEC AC800154 */  sw      $zero, 0x0154($a0)         ## 00000154
 /* 006A0 80A67BF0 03E00008 */  jr      $ra                        
 /* 006A4 80A67BF4 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
-
-

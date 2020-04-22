@@ -1,6 +1,5 @@
 #include "z_en_insect.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000000
 
 void EnInsect_Init(EnInsect* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnInsect_Update(EnInsect* this, GlobalContext* globalCtx);
 void EnInsect_Draw(EnInsect* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Insect_InitVars =
-{
+const ActorInit En_Insect_InitVars = {
     ACTOR_EN_INSECT,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnInsect),

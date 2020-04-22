@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809DC0E8
+ .word 0x38000100
+
+.text
 glabel func_809D3B80
 /* 005D0 809D3B80 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 005D4 809D3B84 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -26,7 +31,7 @@ glabel func_809D3B80
 /* 00630 809D3BE0 E7B00018 */  swc1    $f16, 0x0018($sp)          
 /* 00634 809D3BE4 46000207 */  neg.s   $f8, $f0                   
 /* 00638 809D3BE8 46104302 */  mul.s   $f12, $f8, $f16            
-/* 0063C 809D3BEC 0C03F494 */  jal     func_800FD250              
+/* 0063C 809D3BEC 0C03F494 */  jal     Math_atan2f              
 /* 00640 809D3BF0 00000000 */  nop
 /* 00644 809D3BF4 8FA80020 */  lw      $t0, 0x0020($sp)           
 /* 00648 809D3BF8 46000287 */  neg.s   $f10, $f0                  
@@ -37,7 +42,7 @@ glabel func_809D3B80
 /* 0065C 809D3C0C 44817000 */  mtc1    $at, $f14                  ## $f14 = 1.00
 /* 00660 809D3C10 46009107 */  neg.s   $f4, $f18                  
 /* 00664 809D3C14 46102302 */  mul.s   $f12, $f4, $f16            
-/* 00668 809D3C18 0C03F494 */  jal     func_800FD250              
+/* 00668 809D3C18 0C03F494 */  jal     Math_atan2f              
 /* 0066C 809D3C1C 00000000 */  nop
 /* 00670 809D3C20 8FA90020 */  lw      $t1, 0x0020($sp)           
 /* 00674 809D3C24 E5200190 */  swc1    $f0, 0x0190($t1)           ## 00000190
@@ -46,5 +51,3 @@ glabel func_809D3B80
 /* 0067C 809D3C2C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00680 809D3C30 03E00008 */  jr      $ra                        
 /* 00684 809D3C34 00000000 */  nop
-
-

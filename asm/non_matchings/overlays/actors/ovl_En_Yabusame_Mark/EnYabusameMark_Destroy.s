@@ -9,5 +9,3 @@ glabel EnYabusameMark_Destroy
 /* 0001C 80B42DDC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00020 80B42DE0 03E00008 */  jr      $ra                        
 /* 00024 80B42DE4 00000000 */  nop
-
-

@@ -20,11 +20,17 @@ glabel D_809A8B50
     .balign 4
 
 glabel D_809A8B68
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_809A8B6C
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_809A8B70
- .word 0x38C90FDB
+    .float 9.58738019108e-05
+    .balign 4
+
 glabel D_809A8B74
  .word 0x3F59999A, 0x00000000, 0x00000000
 

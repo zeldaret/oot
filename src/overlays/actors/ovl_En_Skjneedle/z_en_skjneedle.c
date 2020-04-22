@@ -1,6 +1,11 @@
+/*
+ * File: z_en_skjneedle.c
+ * Overlay: ovl_En_Skjneedle
+ * Description: Skullkid Needle Attack
+ */
+
 #include "z_en_skjneedle.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000205
 
 void EnSkjneedle_Init(EnSkjneedle* this, GlobalContext* globalCtx);
@@ -9,11 +14,9 @@ void EnSkjneedle_Update(EnSkjneedle* this, GlobalContext* globalCtx);
 void EnSkjneedle_Draw(EnSkjneedle* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Skjneedle_InitVars =
-{
+const ActorInit En_Skjneedle_InitVars = {
     ACTOR_EN_SKJNEEDLE,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_SKJ,
     sizeof(EnSkjneedle),

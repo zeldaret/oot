@@ -27,5 +27,3 @@ glabel BgPoEvent_Update
 /* 01800 808A7A10 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01804 808A7A14 03E00008 */  jr      $ra                        
 /* 01808 808A7A18 00000000 */  nop
-
-

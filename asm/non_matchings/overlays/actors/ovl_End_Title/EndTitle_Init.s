@@ -12,5 +12,3 @@ glabel EndTitle_Init
 .L80B65748:
 /* 00028 80B65748 03E00008 */  jr      $ra                        
 /* 0002C 80B6574C 00000000 */  nop
-
-

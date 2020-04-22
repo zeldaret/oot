@@ -1,3 +1,13 @@
+.rdata
+glabel D_80897570
+    .asciz "Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_808975B0
+    .asciz "../z_bg_jya_cobra.c"
+    .balign 4
+
+.text
 glabel func_8089593C
 /* 0004C 8089593C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00050 80895940 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -38,5 +48,3 @@ glabel func_8089593C
 /* 000C8 808959B8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 000CC 808959BC 03E00008 */  jr      $ra                        
 /* 000D0 808959C0 00000000 */  nop
-
-

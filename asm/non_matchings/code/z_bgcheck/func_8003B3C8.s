@@ -166,7 +166,7 @@ glabel func_8003B3C8
 /* AB27E0 8003B640 E7B20028 */  swc1  $f18, 0x28($sp)
 /* AB27E4 8003B644 C6240004 */  lwc1  $f4, 4($s1)
 /* AB27E8 8003B648 E7A0007C */  swc1  $f0, 0x7c($sp)
-/* AB27EC 8003B64C 0C03345A */  jal   func_800CD168
+/* AB27EC 8003B64C 0C03345A */  jal   Math3D_TriVtxCylTouching
 /* AB27F0 8003B650 E7A4002C */   swc1  $f4, 0x2c($sp)
 /* AB27F4 8003B654 14400043 */  bnez  $v0, .L8003B764
 /* AB27F8 8003B658 C7A60084 */   lwc1  $f6, 0x84($sp)
@@ -188,7 +188,7 @@ glabel func_8003B3C8
 /* AB2838 8003B698 8FA70088 */  lw    $a3, 0x88($sp)
 /* AB283C 8003B69C E7A40028 */  swc1  $f4, 0x28($sp)
 /* AB2840 8003B6A0 C6260004 */  lwc1  $f6, 4($s1)
-/* AB2844 8003B6A4 0C03345A */  jal   func_800CD168
+/* AB2844 8003B6A4 0C03345A */  jal   Math3D_TriVtxCylTouching
 /* AB2848 8003B6A8 E7A6002C */   swc1  $f6, 0x2c($sp)
 /* AB284C 8003B6AC 1440002D */  bnez  $v0, .L8003B764
 /* AB2850 8003B6B0 C7A80084 */   lwc1  $f8, 0x84($sp)
@@ -210,7 +210,7 @@ glabel func_8003B3C8
 /* AB2890 8003B6F0 8FA70088 */  lw    $a3, 0x88($sp)
 /* AB2894 8003B6F4 E7A60028 */  swc1  $f6, 0x28($sp)
 /* AB2898 8003B6F8 C6280004 */  lwc1  $f8, 4($s1)
-/* AB289C 8003B6FC 0C03345A */  jal   func_800CD168
+/* AB289C 8003B6FC 0C03345A */  jal   Math3D_TriVtxCylTouching
 /* AB28A0 8003B700 E7A8002C */   swc1  $f8, 0x2c($sp)
 /* AB28A4 8003B704 14400017 */  bnez  $v0, .L8003B764
 /* AB28A8 8003B708 C7AA0084 */   lwc1  $f10, 0x84($sp)
@@ -232,7 +232,7 @@ glabel func_8003B3C8
 /* AB28E8 8003B748 8FA70088 */  lw    $a3, 0x88($sp)
 /* AB28EC 8003B74C E7A80028 */  swc1  $f8, 0x28($sp)
 /* AB28F0 8003B750 C62A0004 */  lwc1  $f10, 4($s1)
-/* AB28F4 8003B754 0C03345A */  jal   func_800CD168
+/* AB28F4 8003B754 0C03345A */  jal   Math3D_TriVtxCylTouching
 /* AB28F8 8003B758 E7AA002C */   swc1  $f10, 0x2c($sp)
 /* AB28FC 8003B75C 10400003 */  beqz  $v0, .L8003B76C
 /* AB2900 8003B760 C7B00084 */   lwc1  $f16, 0x84($sp)

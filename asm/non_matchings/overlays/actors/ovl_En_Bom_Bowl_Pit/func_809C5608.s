@@ -1,3 +1,13 @@
+.rdata
+glabel D_809C5720
+    .asciz "[32m☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809C574C
+    .asciz "[32m☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_809C5608
 /* 007C8 809C5608 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 007CC 809C560C AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -22,10 +32,10 @@ glabel func_809C5608
 /* 00814 809C5654 240F0140 */  addiu   $t7, $zero, 0x0140         ## $t7 = 00000140
 /* 00818 809C5658 2484574C */  addiu   $a0, $a0, %lo(D_809C574C)  ## $a0 = 809C574C
 /* 0081C 809C565C 15C10004 */  bne     $t6, $at, .L809C5670       
-/* 00820 809C5660 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 00820 809C5660 3C018016 */  lui     $at, %hi(gSaveContext+0x1424)
 /* 00824 809C5664 0C00084C */  jal     osSyncPrintf
               
-/* 00828 809C5668 A42FFA84 */  sh      $t7, -0x057C($at)          ## 8015FA84
+/* 00828 809C5668 A42FFA84 */  sh      $t7, %lo(gSaveContext+0x1424)($at)
 /* 0082C 809C566C 8FA20018 */  lw      $v0, 0x0018($sp)           
 .L809C5670:
 /* 00830 809C5670 3C19809C */  lui     $t9, %hi(func_809C4E60)    ## $t9 = 809C0000
@@ -40,5 +50,3 @@ glabel func_809C5608
 /* 0084C 809C568C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00850 809C5690 03E00008 */  jr      $ra                        
 /* 00854 809C5694 00000000 */  nop
-
-

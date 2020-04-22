@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_808BEC70
+ .word 0x3CC90FDB
+glabel D_808BEC74
+ .word 0x3E00ADFD, 0x00000000, 0x00000000
+
+.text
 glabel func_808BE690
 /* 00190 808BE690 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00194 808BE694 3C0F0001 */  lui     $t7, 0x0001                ## $t7 = 00010000
@@ -84,5 +91,3 @@ glabel func_808BE690
 /* 002BC 808BE7BC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 002C0 808BE7C0 03E00008 */  jr      $ra                        
 /* 002C4 808BE7C4 00000000 */  nop
-
-

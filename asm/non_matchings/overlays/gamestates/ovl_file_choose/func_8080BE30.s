@@ -1,6 +1,6 @@
 glabel func_8080BE30
-/* 080F0 8080BE30 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 080F4 8080BE34 2463FA90 */  addiu   $v1, $v1, 0xFA90           ## $v1 = 8015FA90
+/* 080F0 8080BE30 3C038016 */  lui     $v1, %hi(gGameInfo)
+/* 080F4 8080BE34 2463FA90 */  addiu   $v1, %lo(gGameInfo)
 /* 080F8 8080BE38 8C620000 */  lw      $v0, 0x0000($v1)           ## 8015FA90
 /* 080FC 8080BE3C 240100FE */  addiu   $at, $zero, 0x00FE         ## $at = 000000FE
 /* 08100 8080BE40 3C080002 */  lui     $t0, 0x0002                ## $t0 = 00020000
@@ -21,5 +21,3 @@ glabel func_8080BE30
 .L8080BE7C:
 /* 0813C 8080BE7C 03E00008 */  jr      $ra                        
 /* 08140 8080BE80 00000000 */  nop
-
-

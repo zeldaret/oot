@@ -53,4 +53,3 @@ glabel EnHorse_Draw
 /* 0AB14 80A65E04 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 0AB18 80A65E08 03E00008 */  jr      $ra                        
 /* 0AB1C 80A65E0C 00000000 */  nop
-

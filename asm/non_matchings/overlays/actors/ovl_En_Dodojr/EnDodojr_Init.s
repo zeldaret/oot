@@ -63,5 +63,3 @@ glabel EnDodojr_Init
 /* 000DC 809F649C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 000E0 809F64A0 03E00008 */  jr      $ra                        
 /* 000E4 809F64A4 00000000 */  nop
-
-

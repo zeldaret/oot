@@ -25,7 +25,7 @@ glabel func_80A05040
 /* 0346C 80A0509C 10000016 */  beq     $zero, $zero, .L80A050F8   
 /* 03470 80A050A0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L80A050A4:
-/* 03474 80A050A4 0C01B0AC */  jal     func_8006C2B0              
+/* 03474 80A050A4 0C01B0AC */  jal     ElfMessage_GetSariaText              
 /* 03478 80A050A8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0347C 80A050AC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03480 80A050B0 0C042DC8 */  jal     func_8010B720              
@@ -56,5 +56,3 @@ glabel func_80A05040
 /* 034D8 80A05108 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 034DC 80A0510C 03E00008 */  jr      $ra                        
 /* 034E0 80A05110 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

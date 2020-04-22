@@ -123,14 +123,14 @@ glabel func_808E3564
 /* 0CEC4 808E3734 46128581 */  sub.s   $f22, $f16, $f18           
 /* 0CEC8 808E3738 4600A306 */  mov.s   $f12, $f20                 
 /* 0CECC 808E373C 46085601 */  sub.s   $f24, $f10, $f8            
-/* 0CED0 808E3740 0C03F494 */  jal     func_800FD250              
+/* 0CED0 808E3740 0C03F494 */  jal     Math_atan2f              
 /* 0CED4 808E3744 4600B386 */  mov.s   $f14, $f22                 
 /* 0CED8 808E3748 4614A682 */  mul.s   $f26, $f20, $f20           
 /* 0CEDC 808E374C E7A000B0 */  swc1    $f0, 0x00B0($sp)           
 /* 0CEE0 808E3750 4600C306 */  mov.s   $f12, $f24                 
 /* 0CEE4 808E3754 4616B702 */  mul.s   $f28, $f22, $f22           
 /* 0CEE8 808E3758 461CD000 */  add.s   $f0, $f26, $f28            
-/* 0CEEC 808E375C 0C03F494 */  jal     func_800FD250              
+/* 0CEEC 808E375C 0C03F494 */  jal     Math_atan2f              
 /* 0CEF0 808E3760 46000384 */  sqrt.s  $f14, $f0                  
 /* 0CEF4 808E3764 C6040038 */  lwc1    $f4, 0x0038($s0)           ## 00010038
 /* 0CEF8 808E3768 46000507 */  neg.s   $f20, $f0                  
@@ -334,7 +334,7 @@ glabel func_808E3564
 /* 0D1BC 808E3A2C 00000000 */  nop
 /* 0D1C0 808E3A30 4500000F */  bc1f    .L808E3A70                 
 /* 0D1C4 808E3A34 00000000 */  nop
-/* 0D1C8 808E3A38 0C030129 */  jal     func_800C04A4              
+/* 0D1C8 808E3A38 0C030129 */  jal     Gameplay_GetCamera              
 /* 0D1CC 808E3A3C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0D1D0 808E3A40 0C016A52 */  jal     func_8005A948              
 /* 0D1D4 808E3A44 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
@@ -567,5 +567,3 @@ glabel func_808E3564
 /* 0D508 808E3D78 8FBE0070 */  lw      $s8, 0x0070($sp)           
 /* 0D50C 808E3D7C 03E00008 */  jr      $ra                        
 /* 0D510 808E3D80 27BD00D0 */  addiu   $sp, $sp, 0x00D0           ## $sp = 00000000
-
-

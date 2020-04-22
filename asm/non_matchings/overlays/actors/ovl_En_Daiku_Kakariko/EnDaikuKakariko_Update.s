@@ -102,5 +102,3 @@ glabel EnDaikuKakariko_Update
 /* 00D88 809E50A8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00D8C 809E50AC 03E00008 */  jr      $ra                        
 /* 00D90 809E50B0 00000000 */  nop
-
-

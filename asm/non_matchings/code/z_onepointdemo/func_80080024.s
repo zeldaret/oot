@@ -48,7 +48,7 @@ glabel func_80080024
 /* AF7270 800800D0 00062C00 */  sll   $a1, $a2, 0x10
 /* AF7274 800800D4 A459014E */  sh    $t9, 0x14e($v0)
 /* AF7278 800800D8 AFA30018 */  sw    $v1, 0x18($sp)
-/* AF727C 800800DC 0C0300E1 */  jal   func_800C0384
+/* AF727C 800800DC 0C0300E1 */  jal   Gameplay_ClearCamera
 /* AF7280 800800E0 00052C03 */   sra   $a1, $a1, 0x10
 /* AF7284 800800E4 8FBF0014 */  lw    $ra, 0x14($sp)
 /* AF7288 800800E8 8FA20018 */  lw    $v0, 0x18($sp)

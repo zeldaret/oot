@@ -53,5 +53,3 @@ glabel BgHidanRock_Update
 /* 00BB4 8088BC34 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00BB8 8088BC38 03E00008 */  jr      $ra                        
 /* 00BBC 8088BC3C 00000000 */  nop
-
-

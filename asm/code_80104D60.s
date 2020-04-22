@@ -61,7 +61,7 @@ glabel func_80104D60
 /* B7BFAC 80104E0C 01103021 */  addu  $a2, $t0, $s0
 /* B7BFB0 80104E10 30C9FFFF */  andi  $t1, $a2, 0xffff
 /* B7BFB4 80104E14 01203025 */  move  $a2, $t1
-/* B7BFB8 80104E18 0C0417D0 */  jal   func_80105F40
+/* B7BFB8 80104E18 0C0417D0 */  jal   osReadMempak
 /* B7BFBC 80104E1C 27A70038 */   addiu $a3, $sp, 0x38
 /* B7BFC0 80104E20 10400003 */  beqz  $v0, .L80104E30
 /* B7BFC4 80104E24 97AA003C */   lhu   $t2, 0x3c($sp)

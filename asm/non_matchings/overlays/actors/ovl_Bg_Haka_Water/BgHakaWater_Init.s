@@ -37,5 +37,3 @@ glabel BgHakaWater_Init
 /* 0007C 80881D7C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00080 80881D80 03E00008 */  jr      $ra                        
 /* 00084 80881D84 00000000 */  nop
-
-

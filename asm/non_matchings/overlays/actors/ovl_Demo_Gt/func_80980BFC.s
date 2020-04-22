@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80982B08
+    .float 790.0
+
+.text
 glabel func_80980BFC
 /* 0358C 80980BFC 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 03590 80980C00 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -5,8 +10,8 @@ glabel func_80980BFC
 /* 03598 80980C08 240102E4 */  addiu   $at, $zero, 0x02E4         ## $at = 000002E4
 /* 0359C 80980C0C 00A03825 */  or      $a3, $a1, $zero            ## $a3 = 00000000
 /* 035A0 80980C10 10410005 */  beq     $v0, $at, .L80980C28       
-/* 035A4 80980C14 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 035A8 80980C18 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 035A4 80980C14 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 035A8 80980C18 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 035AC 80980C1C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 035B0 80980C20 85CF145C */  lh      $t7, 0x145C($t6)           ## 8016145C
 /* 035B4 80980C24 15E10016 */  bne     $t7, $at, .L80980C80       
@@ -38,5 +43,3 @@ glabel func_80980BFC
 /* 03614 80980C84 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 03618 80980C88 03E00008 */  jr      $ra                        
 /* 0361C 80980C8C 00000000 */  nop
-
-

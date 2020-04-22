@@ -50,7 +50,7 @@ glabel func_800214D0
 /* A986B4 80021514 F7B40028 */  sdc1  $f20, 0x28($sp)
 /* A986B8 80021518 240703CB */  li    $a3, 971
 /* A986BC 8002151C 24C6520C */  addiu $a2, %lo(D_8013520C) # addiu $a2, $a2, 0x520c
-/* A986C0 80021520 0C031AB1 */  jal   func_800C6AC4
+/* A986C0 80021520 0C031AB1 */  jal   Graph_OpenDisps
 /* A986C4 80021524 27A40124 */   addiu $a0, $sp, 0x124
 /* A986C8 80021528 27A40138 */  addiu $a0, $sp, 0x138
 /* A986CC 8002152C 0C01DF97 */  jal   Math_Vec3s_ToVec3f
@@ -330,19 +330,19 @@ glabel func_800214D0
 /* A98AE8 80021948 8C59000C */  lw    $t9, 0xc($v0)
 /* A98AEC 8002194C AA99001C */  swl   $t9, 0x1c($s4)
 /* A98AF0 80021950 BA99001F */  swr   $t9, 0x1f($s4)
-/* A98AF4 80021954 0C03F3CD */  jal   func_800FCF34
+/* A98AF4 80021954 0C03F3CD */  jal   Math_nearbyintf
 /* A98AF8 80021958 C7AC0158 */   lwc1  $f12, 0x158($sp)
 /* A98AFC 8002195C 4600018D */  trunc.w.s $f6, $f0
 /* A98B00 80021960 440A3000 */  mfc1  $t2, $f6
 /* A98B04 80021964 00000000 */  nop   
 /* A98B08 80021968 A68A0000 */  sh    $t2, ($s4)
-/* A98B0C 8002196C 0C03F3CD */  jal   func_800FCF34
+/* A98B0C 8002196C 0C03F3CD */  jal   Math_nearbyintf
 /* A98B10 80021970 C7AC015C */   lwc1  $f12, 0x15c($sp)
 /* A98B14 80021974 4600040D */  trunc.w.s $f16, $f0
 /* A98B18 80021978 440C8000 */  mfc1  $t4, $f16
 /* A98B1C 8002197C 00000000 */  nop   
 /* A98B20 80021980 A68C0002 */  sh    $t4, 2($s4)
-/* A98B24 80021984 0C03F3CD */  jal   func_800FCF34
+/* A98B24 80021984 0C03F3CD */  jal   Math_nearbyintf
 /* A98B28 80021988 C7AC0160 */   lwc1  $f12, 0x160($sp)
 /* A98B2C 8002198C 4600020D */  trunc.w.s $f8, $f0
 /* A98B30 80021990 440E4000 */  mfc1  $t6, $f8
@@ -356,19 +356,19 @@ glabel func_800214D0
 /* A98B50 800219B0 A299000E */  sb    $t9, 0xe($s4)
 /* A98B54 800219B4 93A8014B */  lbu   $t0, 0x14b($sp)
 /* A98B58 800219B8 A288000F */  sb    $t0, 0xf($s4)
-/* A98B5C 800219BC 0C03F3CD */  jal   func_800FCF34
+/* A98B5C 800219BC 0C03F3CD */  jal   Math_nearbyintf
 /* A98B60 800219C0 C7AC014C */   lwc1  $f12, 0x14c($sp)
 /* A98B64 800219C4 4600048D */  trunc.w.s $f18, $f0
 /* A98B68 800219C8 440A9000 */  mfc1  $t2, $f18
 /* A98B6C 800219CC 00000000 */  nop   
 /* A98B70 800219D0 A68A0010 */  sh    $t2, 0x10($s4)
-/* A98B74 800219D4 0C03F3CD */  jal   func_800FCF34
+/* A98B74 800219D4 0C03F3CD */  jal   Math_nearbyintf
 /* A98B78 800219D8 C7AC0150 */   lwc1  $f12, 0x150($sp)
 /* A98B7C 800219DC 4600028D */  trunc.w.s $f10, $f0
 /* A98B80 800219E0 440C5000 */  mfc1  $t4, $f10
 /* A98B84 800219E4 00000000 */  nop   
 /* A98B88 800219E8 A68C0012 */  sh    $t4, 0x12($s4)
-/* A98B8C 800219EC 0C03F3CD */  jal   func_800FCF34
+/* A98B8C 800219EC 0C03F3CD */  jal   Math_nearbyintf
 /* A98B90 800219F0 C7AC0154 */   lwc1  $f12, 0x154($sp)
 /* A98B94 800219F4 4600010D */  trunc.w.s $f4, $f0
 /* A98B98 800219F8 24120001 */  li    $s2, 1
@@ -520,19 +520,19 @@ glabel func_800214D0
 /* A98DDC 80021C3C 8C4B000C */  lw    $t3, 0xc($v0)
 /* A98DE0 80021C40 AA2B000C */  swl   $t3, 0xc($s1)
 /* A98DE4 80021C44 BA2B000F */  swr   $t3, 0xf($s1)
-/* A98DE8 80021C48 0C03F3CD */  jal   func_800FCF34
+/* A98DE8 80021C48 0C03F3CD */  jal   Math_nearbyintf
 /* A98DEC 80021C4C C7AC0158 */   lwc1  $f12, 0x158($sp)
 /* A98DF0 80021C50 4600018D */  trunc.w.s $f6, $f0
 /* A98DF4 80021C54 440E3000 */  mfc1  $t6, $f6
 /* A98DF8 80021C58 00000000 */  nop   
 /* A98DFC 80021C5C A60E0000 */  sh    $t6, ($s0)
-/* A98E00 80021C60 0C03F3CD */  jal   func_800FCF34
+/* A98E00 80021C60 0C03F3CD */  jal   Math_nearbyintf
 /* A98E04 80021C64 C7AC015C */   lwc1  $f12, 0x15c($sp)
 /* A98E08 80021C68 4600020D */  trunc.w.s $f8, $f0
 /* A98E0C 80021C6C 44184000 */  mfc1  $t8, $f8
 /* A98E10 80021C70 00000000 */  nop   
 /* A98E14 80021C74 A6180002 */  sh    $t8, 2($s0)
-/* A98E18 80021C78 0C03F3CD */  jal   func_800FCF34
+/* A98E18 80021C78 0C03F3CD */  jal   Math_nearbyintf
 /* A98E1C 80021C7C C7AC0160 */   lwc1  $f12, 0x160($sp)
 /* A98E20 80021C80 4600048D */  trunc.w.s $f18, $f0
 /* A98E24 80021C84 4406E000 */  mfc1  $a2, $f28
@@ -558,19 +558,19 @@ glabel func_800214D0
 /* A98E74 80021CD4 0C009FA1 */  jal   func_80027E84
 /* A98E78 80021CD8 93A401A7 */   lbu   $a0, 0x1a7($sp)
 /* A98E7C 80021CDC A202000F */  sb    $v0, 0xf($s0)
-/* A98E80 80021CE0 0C03F3CD */  jal   func_800FCF34
+/* A98E80 80021CE0 0C03F3CD */  jal   Math_nearbyintf
 /* A98E84 80021CE4 C7AC014C */   lwc1  $f12, 0x14c($sp)
 /* A98E88 80021CE8 4600028D */  trunc.w.s $f10, $f0
 /* A98E8C 80021CEC 440A5000 */  mfc1  $t2, $f10
 /* A98E90 80021CF0 00000000 */  nop   
 /* A98E94 80021CF4 A62A0000 */  sh    $t2, ($s1)
-/* A98E98 80021CF8 0C03F3CD */  jal   func_800FCF34
+/* A98E98 80021CF8 0C03F3CD */  jal   Math_nearbyintf
 /* A98E9C 80021CFC C7AC0150 */   lwc1  $f12, 0x150($sp)
 /* A98EA0 80021D00 4600010D */  trunc.w.s $f4, $f0
 /* A98EA4 80021D04 440C2000 */  mfc1  $t4, $f4
 /* A98EA8 80021D08 00000000 */  nop   
 /* A98EAC 80021D0C A62C0002 */  sh    $t4, 2($s1)
-/* A98EB0 80021D10 0C03F3CD */  jal   func_800FCF34
+/* A98EB0 80021D10 0C03F3CD */  jal   Math_nearbyintf
 /* A98EB4 80021D14 C7AC0154 */   lwc1  $f12, 0x154($sp)
 /* A98EB8 80021D18 4600040D */  trunc.w.s $f16, $f0
 /* A98EBC 80021D1C 4406E000 */  mfc1  $a2, $f28
@@ -680,7 +680,7 @@ glabel func_800214D0
 /* A99058 80021EB8 24C652B8 */  addiu $a2, %lo(D_801352B8) # addiu $a2, $a2, 0x52b8
 /* A9905C 80021EBC 27A40124 */  addiu $a0, $sp, 0x124
 /* A99060 80021EC0 8FA50204 */  lw    $a1, 0x204($sp)
-/* A99064 80021EC4 0C031AD5 */  jal   func_800C6B54
+/* A99064 80021EC4 0C031AD5 */  jal   Graph_CloseDisps
 /* A99068 80021EC8 240704A0 */   li    $a3, 1184
 /* A9906C 80021ECC 8FBF0064 */  lw    $ra, 0x64($sp)
 /* A99070 80021ED0 D7B40028 */  ldc1  $f20, 0x28($sp)

@@ -1,3 +1,13 @@
+.rdata
+glabel D_808B618C
+    .asciz "Error 補正出来ない(%s %d)(arg_data 0x%04x)(hosei_angY %x)\n"
+    .balign 4
+
+glabel D_808B61C8
+    .asciz "../z_bg_spot16_bombstone.c"
+    .balign 4
+
+.text
 glabel func_808B56BC
 /* 00A8C 808B56BC 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00A90 808B56C0 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -78,5 +88,3 @@ glabel func_808B56BC
 /* 00BA4 808B57D4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00BA8 808B57D8 03E00008 */  jr      $ra                        
 /* 00BAC 808B57DC 00000000 */  nop
-
-

@@ -1,6 +1,11 @@
+/*
+ * File: z_magic_fire.c
+ * Overlay: ovl_Magic_Fire
+ * Description: Din's Fire
+ */
+
 #include "z_magic_fire.h"
 
-#define ROOM  0x00
 #define FLAGS 0x02000010
 
 void MagicFire_Init(MagicFire* this, GlobalContext* globalCtx);
@@ -9,11 +14,9 @@ void MagicFire_Update(MagicFire* this, GlobalContext* globalCtx);
 void MagicFire_Draw(MagicFire* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Magic_Fire_InitVars =
-{
+const ActorInit Magic_Fire_InitVars = {
     ACTOR_MAGIC_FIRE,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(MagicFire),

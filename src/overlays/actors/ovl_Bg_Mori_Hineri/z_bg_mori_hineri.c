@@ -1,6 +1,5 @@
 #include "z_bg_mori_hineri.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000030
 
 void BgMoriHineri_Init(BgMoriHineri* this, GlobalContext* globalCtx);
@@ -8,11 +7,9 @@ void BgMoriHineri_Destroy(BgMoriHineri* this, GlobalContext* globalCtx);
 void BgMoriHineri_Update(BgMoriHineri* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Mori_Hineri_InitVars =
-{
+const ActorInit Bg_Mori_Hineri_InitVars = {
     ACTOR_BG_MORI_HINERI,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgMoriHineri),

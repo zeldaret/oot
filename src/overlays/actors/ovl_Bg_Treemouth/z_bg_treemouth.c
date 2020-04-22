@@ -1,6 +1,5 @@
 #include "z_bg_treemouth.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000030
 
 void BgTreemouth_Init(BgTreemouth* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void BgTreemouth_Update(BgTreemouth* this, GlobalContext* globalCtx);
 void BgTreemouth_Draw(BgTreemouth* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Treemouth_InitVars =
-{
+const ActorInit Bg_Treemouth_InitVars = {
     ACTOR_BG_TREEMOUTH,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT04_OBJECTS,
     sizeof(BgTreemouth),

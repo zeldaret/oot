@@ -10,5 +10,3 @@ glabel EnSkj_Destroy
 /* 00630 80AFE8E0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00634 80AFE8E4 03E00008 */  jr      $ra                        
 /* 00638 80AFE8E8 00000000 */  nop
-
-

@@ -80,5 +80,3 @@ glabel EnSsh_Update
 /* 01F14 80B04184 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 01F18 80B04188 03E00008 */  jr      $ra                        
 /* 01F1C 80B0418C 00000000 */  nop
-
-

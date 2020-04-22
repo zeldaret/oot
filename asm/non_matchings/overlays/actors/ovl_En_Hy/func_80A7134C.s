@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A72A8C
+    .float 0.4
+
+.text
 glabel func_80A7134C
 /* 01D9C 80A7134C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 01DA0 80A71350 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -35,7 +40,7 @@ glabel func_80A7134C
 /* 01E18 80A713C8 8E050210 */  lw      $a1, 0x0210($s0)           ## 00000210
 /* 01E1C 80A713CC 82060214 */  lb      $a2, 0x0214($s0)           ## 00000214
 /* 01E20 80A713D0 27A70036 */  addiu   $a3, $sp, 0x0036           ## $a3 = FFFFFFFE
-/* 01E24 80A713D4 0C023948 */  jal     func_8008E520              
+/* 01E24 80A713D4 0C023948 */  jal     Path_OrientAndGetDistSq              
 /* 01E28 80A713D8 E6040068 */  swc1    $f4, 0x0068($s0)           ## 00000068
 /* 01E2C 80A713DC 24080001 */  addiu   $t0, $zero, 0x0001         ## $t0 = 00000001
 /* 01E30 80A713E0 AFA80010 */  sw      $t0, 0x0010($sp)           
@@ -99,5 +104,3 @@ glabel func_80A7134C
 /* 01F08 80A714B8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 01F0C 80A714BC 03E00008 */  jr      $ra                        
 /* 01F10 80A714C0 00000000 */  nop
-
-

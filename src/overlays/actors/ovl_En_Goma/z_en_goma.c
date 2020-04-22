@@ -1,6 +1,5 @@
 #include "z_en_goma.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000035
 
 void EnGoma_Init(EnGoma* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnGoma_Update(EnGoma* this, GlobalContext* globalCtx);
 void EnGoma_Draw(EnGoma* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Goma_InitVars =
-{
+const ActorInit En_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_GOL,
     sizeof(EnGoma),

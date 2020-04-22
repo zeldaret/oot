@@ -31,5 +31,3 @@ glabel BgMoriBigst_Update
 /* 007E8 808A13A8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 007EC 808A13AC 03E00008 */  jr      $ra                        
 /* 007F0 808A13B0 00000000 */  nop
-
-

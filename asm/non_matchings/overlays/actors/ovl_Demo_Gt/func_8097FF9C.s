@@ -1,3 +1,17 @@
+.rdata
+glabel D_809827C8
+    .asciz "../z_demo_gt_part2.c"
+    .balign 4
+
+glabel D_809827E0
+    .asciz "../z_demo_gt_part2.c"
+    .balign 4
+
+glabel D_809827F8
+    .asciz "../z_demo_gt_part2.c"
+    .balign 4
+
+.text
 glabel func_8097FF9C
 /* 0292C 8097FF9C 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 02930 8097FFA0 AFBF004C */  sw      $ra, 0x004C($sp)           
@@ -9,7 +23,7 @@ glabel func_8097FF9C
 /* 02948 8097FFB8 24C627C8 */  addiu   $a2, $a2, %lo(D_809827C8)  ## $a2 = 809827C8
 /* 0294C 8097FFBC 27A40064 */  addiu   $a0, $sp, 0x0064           ## $a0 = FFFFFFDC
 /* 02950 8097FFC0 240701D6 */  addiu   $a3, $zero, 0x01D6         ## $a3 = 000001D6
-/* 02954 8097FFC4 0C031AB1 */  jal     func_800C6AC4              
+/* 02954 8097FFC4 0C031AB1 */  jal     Graph_OpenDisps              
 /* 02958 8097FFC8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0295C 8097FFCC 0C024F46 */  jal     func_80093D18              
 /* 02960 8097FFD0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -47,7 +61,7 @@ glabel func_8097FF9C
 /* 029E0 80980050 8C6B0008 */  lw      $t3, 0x0008($v1)           ## 00000180
 /* 029E4 80980054 AFAC0038 */  sw      $t4, 0x0038($sp)           
 /* 029E8 80980058 AFA20060 */  sw      $v0, 0x0060($sp)           
-/* 029EC 8098005C 0C02541A */  jal     Draw_TwoTexScrollEnvColor              
+/* 029EC 8098005C 0C02541A */  jal     Gfx_TwoTexScrollEnvColor              
 /* 029F0 80980060 AFAB0034 */  sw      $t3, 0x0034($sp)           
 /* 029F4 80980064 8FA90060 */  lw      $t1, 0x0060($sp)           
 /* 029F8 80980068 3C0EDA38 */  lui     $t6, 0xDA38                ## $t6 = DA380000
@@ -85,12 +99,10 @@ glabel func_8097FF9C
 /* 02A78 809800E8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02A7C 809800EC 240701E9 */  addiu   $a3, $zero, 0x01E9         ## $a3 = 000001E9
 /* 02A80 809800F0 AC4D0004 */  sw      $t5, 0x0004($v0)           ## 00000004
-/* 02A84 809800F4 0C031AD5 */  jal     func_800C6B54              
+/* 02A84 809800F4 0C031AD5 */  jal     Graph_CloseDisps              
 /* 02A88 809800F8 AC4C0000 */  sw      $t4, 0x0000($v0)           ## 00000000
 /* 02A8C 809800FC 8FBF004C */  lw      $ra, 0x004C($sp)           
 /* 02A90 80980100 8FB00048 */  lw      $s0, 0x0048($sp)           
 /* 02A94 80980104 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
 /* 02A98 80980108 03E00008 */  jr      $ra                        
 /* 02A9C 8098010C 00000000 */  nop
-
-

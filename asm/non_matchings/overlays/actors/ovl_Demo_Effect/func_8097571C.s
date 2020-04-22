@@ -1,3 +1,21 @@
+.rdata
+glabel D_80976ADC
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976AF0
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976B04
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+.late_rodata
+glabel D_80976D70
+    .float 9.58738019108e-05
+
+.text
 glabel func_8097571C
 /* 047CC 8097571C 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 047D0 80975720 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -10,7 +28,7 @@ glabel func_8097571C
 /* 047EC 8097573C 24C66ADC */  addiu   $a2, $a2, %lo(D_80976ADC)  ## $a2 = 80976ADC
 /* 047F0 80975740 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFE4
 /* 047F4 80975744 24070B4C */  addiu   $a3, $zero, 0x0B4C         ## $a3 = 00000B4C
-/* 047F8 80975748 0C031AB1 */  jal     func_800C6AC4              
+/* 047F8 80975748 0C031AB1 */  jal     Graph_OpenDisps              
 /* 047FC 8097574C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 04800 80975750 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 04804 80975754 3C0FFA00 */  lui     $t7, 0xFA00                ## $t7 = FA000000
@@ -80,12 +98,10 @@ glabel func_8097571C
 /* 04904 80975854 AE0A02D0 */  sw      $t2, 0x02D0($s0)           ## 000002D0
 /* 04908 80975858 AC4C0004 */  sw      $t4, 0x0004($v0)           ## 00000004
 /* 0490C 8097585C AC4B0000 */  sw      $t3, 0x0000($v0)           ## 00000000
-/* 04910 80975860 0C031AD5 */  jal     func_800C6B54              
+/* 04910 80975860 0C031AD5 */  jal     Graph_CloseDisps              
 /* 04914 80975864 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 04918 80975868 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 0491C 8097586C 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 04920 80975870 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 04924 80975874 03E00008 */  jr      $ra                        
 /* 04928 80975878 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

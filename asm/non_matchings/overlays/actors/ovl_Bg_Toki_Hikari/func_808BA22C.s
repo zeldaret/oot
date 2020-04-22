@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808BAD58
+    .float 0.05
+
+.text
 glabel func_808BA22C
 /* 0032C 808BA22C AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 00330 808BA230 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -19,5 +24,3 @@ glabel func_808BA22C
 /* 00368 808BA268 AC8E0150 */  sw      $t6, 0x0150($a0)           ## 00000150
 /* 0036C 808BA26C 03E00008 */  jr      $ra                        
 /* 00370 808BA270 00000000 */  nop
-
-

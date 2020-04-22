@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80147368
     .asciz "フォルトマネージャ:OS_EVENT_CPU_BREAKを受信しました\n"
     .balign 4

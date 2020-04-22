@@ -20,5 +20,3 @@ glabel BgMoriElevator_Update
 /* 00900 808A2100 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00904 808A2104 03E00008 */  jr      $ra                        
 /* 00908 808A2108 00000000 */  nop
-
-

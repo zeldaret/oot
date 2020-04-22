@@ -1,6 +1,5 @@
 #include "z_en_daiku.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000019
 
 void EnDaiku_Init(EnDaiku* this, GlobalContext* globalCtx);
@@ -9,11 +8,9 @@ void EnDaiku_Update(EnDaiku* this, GlobalContext* globalCtx);
 void EnDaiku_Draw(EnDaiku* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Daiku_InitVars =
-{
+const ActorInit En_Daiku_InitVars = {
     ACTOR_EN_DAIKU,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_DAIKU,
     sizeof(EnDaiku),

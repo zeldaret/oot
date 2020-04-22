@@ -9,5 +9,3 @@ glabel func_80AB12EC
 .L80AB1308:
 /* 00578 80AB1308 03E00008 */  jr      $ra                        
 /* 0057C 80AB130C 00000000 */  nop
-
-

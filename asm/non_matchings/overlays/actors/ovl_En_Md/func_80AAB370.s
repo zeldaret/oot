@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80AAC584
+ .word 0x4622F983
+
+.text
 glabel func_80AAB370
 /* 01120 80AAB370 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 01124 80AAB374 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -17,14 +22,14 @@ glabel func_80AAB370
 /* 01158 80AAB3A8 000FC0C0 */  sll     $t8, $t7,  3               
 /* 0115C 80AAB3AC 01D82021 */  addu    $a0, $t6, $t8              
 /* 01160 80AAB3B0 8C830004 */  lw      $v1, 0x0004($a0)           ## 00000004
-/* 01164 80AAB3B4 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 01164 80AAB3B4 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 01168 80AAB3B8 860C0212 */  lh      $t4, 0x0212($s0)           ## 00000212
 /* 0116C 80AAB3BC 0003C900 */  sll     $t9, $v1,  4               
 /* 01170 80AAB3C0 00194702 */  srl     $t0, $t9, 28               
 /* 01174 80AAB3C4 00084880 */  sll     $t1, $t0,  2               
 /* 01178 80AAB3C8 01495021 */  addu    $t2, $t2, $t1              
 /* 0117C 80AAB3CC 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 01180 80AAB3D0 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 80166FA8
+/* 01180 80AAB3D0 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 01184 80AAB3D4 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 01188 80AAB3D8 00615824 */  and     $t3, $v1, $at              
 /* 0118C 80AAB3DC 000C6880 */  sll     $t5, $t4,  2               
@@ -46,7 +51,7 @@ glabel func_80AAB370
 /* 011CC 80AAB41C 46083301 */  sub.s   $f12, $f6, $f8             
 /* 011D0 80AAB420 46128381 */  sub.s   $f14, $f16, $f18           
 /* 011D4 80AAB424 E7AC002C */  swc1    $f12, 0x002C($sp)          
-/* 011D8 80AAB428 0C03F494 */  jal     func_800FD250              
+/* 011D8 80AAB428 0C03F494 */  jal     Math_atan2f              
 /* 011DC 80AAB42C E7AE0028 */  swc1    $f14, 0x0028($sp)          
 /* 011E0 80AAB430 3C0180AB */  lui     $at, %hi(D_80AAC584)       ## $at = 80AB0000
 /* 011E4 80AAB434 C424C584 */  lwc1    $f4, %lo(D_80AAC584)($at)  
@@ -94,5 +99,3 @@ glabel func_80AAB370
 /* 01280 80AAB4D0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 01284 80AAB4D4 03E00008 */  jr      $ra                        
 /* 01288 80AAB4D8 00000000 */  nop
-
-

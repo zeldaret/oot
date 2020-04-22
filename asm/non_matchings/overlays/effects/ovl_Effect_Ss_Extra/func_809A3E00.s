@@ -28,7 +28,7 @@ glabel func_809A3E00
 /* 0001A8 809A3E68 27A40040 */  addiu $a0, $sp, 0x40
 /* 0001AC 809A3E6C 24C64080 */  addiu $a2, %lo(D_809A4080) # addiu $a2, $a2, 0x4080
 /* 0001B0 809A3E70 00A08025 */  move  $s0, $a1
-/* 0001B4 809A3E74 0C031AB1 */  jal   func_800C6AC4
+/* 0001B4 809A3E74 0C031AB1 */  jal   Graph_OpenDisps
 /* 0001B8 809A3E78 AFA80054 */   sw    $t0, 0x54($sp)
 /* 0001BC 809A3E7C 8FA80054 */  lw    $t0, 0x54($sp)
 /* 0001C0 809A3E80 3C018000 */  lui   $at, 0x8000
@@ -75,7 +75,7 @@ glabel func_809A3E00
 /* 000264 809A3F24 35EF0020 */  ori   $t7, (0xDB060020 & 0xFFFF) # ori $t7, $t7, 0x20
 /* 000268 809A3F28 AC620004 */  sw    $v0, 4($v1)
 /* 00026C 809A3F2C 8E0202D0 */  lw    $v0, 0x2d0($s0)
-/* 000270 809A3F30 3C04809A */  lui   $a0, 0x809a
+/* 000270 809A3F30 3C04809A */  lui   $a0, %hi(D_809A4070)
 /* 000274 809A3F34 3C078016 */  lui   $a3, %hi(gSegments) # $a3, 0x8016
 /* 000278 809A3F38 244E0008 */  addiu $t6, $v0, 8
 /* 00027C 809A3F3C AE0E02D0 */  sw    $t6, 0x2d0($s0)
@@ -85,7 +85,7 @@ glabel func_809A3E00
 /* 00028C 809A3F4C 3C0500FF */  lui   $a1, (0x00FFFFFF >> 16) # lui $a1, 0xff
 /* 000290 809A3F50 0018C880 */  sll   $t9, $t8, 2
 /* 000294 809A3F54 00992021 */  addu  $a0, $a0, $t9
-/* 000298 809A3F58 8C844070 */  lw    $a0, 0x4070($a0)
+/* 000298 809A3F58 8C844070 */  lw    $a0, %lo(D_809A4070)($a0)
 /* 00029C 809A3F5C 34A5FFFF */  ori   $a1, (0x00FFFFFF & 0xFFFF) # ori $a1, $a1, 0xffff
 /* 0002A0 809A3F60 3C068000 */  lui   $a2, 0x8000
 /* 0002A4 809A3F64 00045100 */  sll   $t2, $a0, 4
@@ -117,7 +117,7 @@ glabel func_809A3E00
 /* 00030C 809A3FCC AC590004 */  sw    $t9, 4($v0)
 /* 000310 809A3FD0 8E450000 */  lw    $a1, ($s2)
 /* 000314 809A3FD4 24C640A8 */  addiu $a2, %lo(D_809A40A8) # addiu $a2, $a2, 0x40a8
-/* 000318 809A3FD8 0C031AD5 */  jal   func_800C6B54
+/* 000318 809A3FD8 0C031AD5 */  jal   Graph_CloseDisps
 /* 00031C 809A3FDC 240700C2 */   li    $a3, 194
 /* 000320 809A3FE0 8FBF0024 */  lw    $ra, 0x24($sp)
 /* 000324 809A3FE4 8FB00018 */  lw    $s0, 0x18($sp)
@@ -125,4 +125,3 @@ glabel func_809A3E00
 /* 00032C 809A3FEC 8FB20020 */  lw    $s2, 0x20($sp)
 /* 000330 809A3FF0 03E00008 */  jr    $ra
 /* 000334 809A3FF4 27BD0060 */   addiu $sp, $sp, 0x60
-

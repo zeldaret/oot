@@ -163,5 +163,3 @@ glabel BgYdanMaruta_Init
 /* 00254 808BEF94 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00258 808BEF98 03E00008 */  jr      $ra                        
 /* 0025C 808BEF9C 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

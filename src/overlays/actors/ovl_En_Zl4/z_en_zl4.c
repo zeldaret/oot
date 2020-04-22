@@ -1,6 +1,11 @@
+/*
+ * File: z_en_zl4.c
+ * Overlay: ovl_En_Zl4
+ * Description: Child Princess Zelda
+ */
+
 #include "z_en_zl4.h"
 
-#define ROOM  0x00
 #define FLAGS 0x00000019
 
 void EnZl4_Init(EnZl4* this, GlobalContext* globalCtx);
@@ -9,11 +14,9 @@ void EnZl4_Update(EnZl4* this, GlobalContext* globalCtx);
 void EnZl4_Draw(EnZl4* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Zl4_InitVars =
-{
+const ActorInit En_Zl4_InitVars = {
     ACTOR_EN_ZL4,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_ZL4,
     sizeof(EnZl4),

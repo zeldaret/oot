@@ -2,17 +2,17 @@ glabel func_80B5B90C
 /* 0015C 80B5B90C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00160 80B5B910 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00164 80B5B914 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 00168 80B5B918 0C01B0D8 */  jal     func_8006C360              
+/* 00168 80B5B918 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 0016C 80B5B91C 24050016 */  addiu   $a1, $zero, 0x0016         ## $a1 = 00000016
 /* 00170 80B5B920 10400003 */  beq     $v0, $zero, .L80B5B930     
 /* 00174 80B5B924 3043FFFF */  andi    $v1, $v0, 0xFFFF           ## $v1 = 00000000
 /* 00178 80B5B928 1000001D */  beq     $zero, $zero, .L80B5B9A0   
 /* 0017C 80B5B92C 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000000
 .L80B5B930:
-/* 00180 80B5B930 3C048012 */  lui     $a0, 0x8012                ## $a0 = 80120000
-/* 00184 80B5B934 24847120 */  addiu   $a0, $a0, 0x7120           ## $a0 = 80127120
-/* 00188 80B5B938 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 0018C 80B5B93C 8C63E704 */  lw      $v1, -0x18FC($v1)          ## 8015E704
+/* 00180 80B5B930 3C048012 */  lui     $a0, %hi(gBitFlags)
+/* 00184 80B5B934 24847120 */  addiu   $a0, %lo(gBitFlags)
+/* 00188 80B5B938 3C038016 */  lui     $v1, %hi(gSaveContext+0xa4)
+/* 0018C 80B5B93C 8C63E704 */  lw      $v1, %lo(gSaveContext+0xa4)($v1)
 /* 00190 80B5B940 8C8E0048 */  lw      $t6, 0x0048($a0)           ## 80127168
 /* 00194 80B5B944 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 00198 80B5B948 01C37824 */  and     $t7, $t6, $v1              
@@ -46,5 +46,3 @@ glabel func_80B5B90C
 /* 001F4 80B5B9A4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001F8 80B5B9A8 03E00008 */  jr      $ra                        
 /* 001FC 80B5B9AC 00000000 */  nop
-
-

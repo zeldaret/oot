@@ -15,7 +15,7 @@ glabel func_808DFBD0
 /* 09394 808DFC04 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 09398 808DFC08 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
 /* 0939C 808DFC0C 24071E34 */  addiu   $a3, $zero, 0x1E34         ## $a3 = 00001E34
-/* 093A0 808DFC10 0C031AB1 */  jal     func_800C6AC4              
+/* 093A0 808DFC10 0C031AB1 */  jal     Graph_OpenDisps              
 /* 093A4 808DFC14 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 093A8 808DFC18 0C034213 */  jal     Matrix_Push              
 /* 093AC 808DFC1C 00000000 */  nop
@@ -240,11 +240,11 @@ glabel func_808DFBD0
 /* 096EC 808DFF5C AE2902D0 */  sw      $t1, 0x02D0($s1)           ## 000002D0
 /* 096F0 808DFF60 000C6880 */  sll     $t5, $t4,  2               
 /* 096F4 808DFF64 3C0ADE00 */  lui     $t2, 0xDE00                ## $t2 = DE000000
-/* 096F8 808DFF68 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 096F8 808DFF68 3C0F8016 */  lui     $t7, %hi(gSegments)
 /* 096FC 808DFF6C 01ED7821 */  addu    $t7, $t7, $t5              
 /* 09700 808DFF70 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 09704 808DFF74 AC4A0000 */  sw      $t2, 0x0000($v0)           ## 00000000
-/* 09708 808DFF78 8DEF6FA8 */  lw      $t7, 0x6FA8($t7)           ## 80166FA8
+/* 09708 808DFF78 8DEF6FA8 */  lw      $t7, %lo(gSegments)($t7)
 /* 0970C 808DFF7C 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 09710 808DFF80 0081C024 */  and     $t8, $a0, $at              
 /* 09714 808DFF84 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
@@ -257,7 +257,7 @@ glabel func_808DFBD0
 /* 09730 808DFFA0 24C67BCC */  addiu   $a2, $a2, %lo(D_808F7BCC)  ## $a2 = 808F7BCC
 /* 09734 808DFFA4 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 09738 808DFFA8 24071E66 */  addiu   $a3, $zero, 0x1E66         ## $a3 = 00001E66
-/* 0973C 808DFFAC 0C031AD5 */  jal     func_800C6B54              
+/* 0973C 808DFFAC 0C031AD5 */  jal     Graph_CloseDisps              
 /* 09740 808DFFB0 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 09744 808DFFB4 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L808DFFB8:
@@ -265,5 +265,3 @@ glabel func_808DFBD0
 /* 0974C 808DFFBC 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 09750 808DFFC0 03E00008 */  jr      $ra                        
 /* 09754 808DFFC4 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

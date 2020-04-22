@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_80AD2908
+ .word 0x45834000
+glabel D_80AD290C
+ .word 0x3BC49BA6
+glabel D_80AD2910
+ .word 0x3B449BA6
+
+.text
 glabel EnPeehat_Init
 /* 00008 80ACF4A8 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0000C 80ACF4AC AFB10028 */  sw      $s1, 0x0028($sp)           
@@ -28,8 +37,8 @@ glabel EnPeehat_Init
 /* 00068 80ACF508 0C02915F */  jal     SkelAnime_Init
               
 /* 0006C 80ACF50C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 00070 80ACF510 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00074 80ACF514 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00070 80ACF510 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00074 80ACF514 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00078 80ACF518 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0007C 80ACF51C 3C0542C8 */  lui     $a1, 0x42C8                ## $a1 = 42C80000
 /* 00080 80ACF520 0C00AC78 */  jal     ActorShape_Init
@@ -165,5 +174,3 @@ glabel EnPeehat_Init
 /* 00268 80ACF708 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 0026C 80ACF70C 03E00008 */  jr      $ra                        
 /* 00270 80ACF710 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

@@ -82,5 +82,3 @@ glabel EnGb_Update
 /* 00D20 80A2FEA0 8FB50028 */  lw      $s5, 0x0028($sp)           
 /* 00D24 80A2FEA4 03E00008 */  jr      $ra                        
 /* 00D28 80A2FEA8 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

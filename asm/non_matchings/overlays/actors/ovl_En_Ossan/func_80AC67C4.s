@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_80AC9614
+    .float 0.05
+
+glabel D_80AC9618
+    .float 0.05
+
+glabel D_80AC961C
+    .float 0.1
+
+.text
 glabel func_80AC67C4
 /* 03B24 80AC67C4 908E02CC */  lbu     $t6, 0x02CC($a0)           ## 000002CC
 /* 03B28 80AC67C8 C48202C4 */  lwc1    $f2, 0x02C4($a0)           ## 000002C4
@@ -112,5 +123,3 @@ glabel func_80AC67C4
 /* 03CC4 80AC6964 E48E0268 */  swc1    $f14, 0x0268($a0)          ## 00000268
 /* 03CC8 80AC6968 03E00008 */  jr      $ra                        
 /* 03CCC 80AC696C E486027C */  swc1    $f6, 0x027C($a0)           ## 0000027C
-
-

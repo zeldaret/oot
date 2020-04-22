@@ -84,7 +84,9 @@ glabel D_80812C40
     .balign 4
 
 glabel D_80812C5C
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80812C60
  .word 0xBDAACEBB, 0x0A000000
 glabel D_80812C68
@@ -108,11 +110,19 @@ glabel D_80812CC8
     .balign 4
 
 glabel D_80812CE0
- .word 0x3DCCCCCD
+    .float 0.1
+    .balign 4
+
 glabel D_80812CE4
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_80812CE8
- .word 0x3ECCCCCD, 0x00000000
+    .float 0.4
+    .balign 4
+
+.align 4
+
 glabel D_80812CF0
  .word 0xA3D3A3F2, 0xA3E1A3ED, 0x20A3D3A3, 0xF4A3E1A3, 0xF2A3F4A8, 0xA1A3CCA3, 0xEFA3E1A3, 0xE42020A1, 0xD5A1D5A1, 0xD5A1D5A1, 0xD5202000
 glabel D_80812D1C
@@ -190,7 +200,9 @@ glabel D_80812EBC
     .balign 4
 
 glabel D_80812EE0
- .word 0x1B5B6D00
+    .asciz "\x1b[m"
+    .balign 4
+
 glabel D_80812EE4
     .asciz "../z_file_choose.c"
     .balign 4

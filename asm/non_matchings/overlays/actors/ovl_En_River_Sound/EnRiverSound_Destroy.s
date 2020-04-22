@@ -22,5 +22,3 @@ glabel EnRiverSound_Destroy
 /* 00118 80AE6A48 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0011C 80AE6A4C 03E00008 */  jr      $ra                        
 /* 00120 80AE6A50 00000000 */  nop
-
-

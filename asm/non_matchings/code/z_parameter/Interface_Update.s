@@ -511,7 +511,7 @@ glabel L8008D93C
 /* B04D48 8008DBA8 9138241B */  lbu   $t8, 0x241b($t1)
 /* B04D4C 8008DBAC 57000006 */  bnezl $t8, .L8008DBC8
 /* B04D50 8008DBB0 850213CC */   lh    $v0, 0x13cc($t0)
-/* B04D54 8008DBB4 0C02FF21 */  jal   func_800BFC84
+/* B04D54 8008DBB4 0C02FF21 */  jal   Gameplay_InCsMode
 /* B04D58 8008DBB8 01E02025 */   move  $a0, $t7
 /* B04D5C 8008DBBC 3C088016 */  lui   $t0, %hi(gSaveContext) # $t0, 0x8016
 /* B04D60 8008DBC0 2508E660 */  addiu $t0, %lo(gSaveContext) # addiu $t0, $t0, -0x19a0

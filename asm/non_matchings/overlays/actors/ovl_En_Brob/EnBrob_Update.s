@@ -186,5 +186,3 @@ glabel EnBrob_Update
 /* 00DF0 809CB900 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00DF4 809CB904 03E00008 */  jr      $ra                        
 /* 00DF8 809CB908 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

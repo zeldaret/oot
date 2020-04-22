@@ -1,3 +1,33 @@
+.rdata
+glabel D_80AFA498
+    .asciz "../z_en_sda.c"
+    .balign 4
+
+glabel D_80AFA4A8
+    .asciz "SDA D 1\n"
+    .balign 4
+
+glabel D_80AFA4B4
+    .asciz "../z_en_sda.c"
+    .balign 4
+
+glabel D_80AFA4C4
+    .asciz "../z_en_sda.c"
+    .balign 4
+
+glabel D_80AFA4D4
+    .asciz "SDA D 2\n"
+    .balign 4
+
+glabel D_80AFA4E0
+    .asciz "../z_en_sda.c"
+    .balign 4
+
+.late_rodata
+glabel D_80AFA500
+    .float 0.6
+
+.text
 glabel func_80AF9C70
 /* 00E50 80AF9C70 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 00E54 80AF9C74 AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -15,7 +45,7 @@ glabel func_80AF9C70
 /* 00E84 80AF9CA4 24C6A498 */  addiu   $a2, $a2, %lo(D_80AFA498)  ## $a2 = 80AFA498
 /* 00E88 80AF9CA8 27A40080 */  addiu   $a0, $sp, 0x0080           ## $a0 = FFFFFFD8
 /* 00E8C 80AF9CAC 2407033A */  addiu   $a3, $zero, 0x033A         ## $a3 = 0000033A
-/* 00E90 80AF9CB0 0C031AB1 */  jal     func_800C6AC4              
+/* 00E90 80AF9CB0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00E94 80AF9CB4 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 00E98 80AF9CB8 3C0480B0 */  lui     $a0, %hi(D_80AFA4A8)       ## $a0 = 80B00000
 /* 00E9C 80AF9CBC 0C00084C */  jal     osSyncPrintf
@@ -24,11 +54,11 @@ glabel func_80AF9C70
 /* 00EA4 80AF9CC4 0C025011 */  jal     func_80094044              
 /* 00EA8 80AF9CC8 8E840000 */  lw      $a0, 0x0000($s4)           ## 00000000
 /* 00EAC 80AF9CCC 8E4302D0 */  lw      $v1, 0x02D0($s2)           ## 000002D0
-/* 00EB0 80AF9CD0 3C138016 */  lui     $s3, 0x8016                ## $s3 = 80160000
+/* 00EB0 80AF9CD0 3C138016 */  lui     $s3, %hi(gGameInfo)
 /* 00EB4 80AF9CD4 3C0FFA00 */  lui     $t7, 0xFA00                ## $t7 = FA000000
 /* 00EB8 80AF9CD8 246E0008 */  addiu   $t6, $v1, 0x0008           ## $t6 = 00000008
 /* 00EBC 80AF9CDC AE4E02D0 */  sw      $t6, 0x02D0($s2)           ## 000002D0
-/* 00EC0 80AF9CE0 2673FA90 */  addiu   $s3, $s3, 0xFA90           ## $s3 = 8015FA90
+/* 00EC0 80AF9CE0 2673FA90 */  addiu   $s3, %lo(gGameInfo)
 /* 00EC4 80AF9CE4 AC6F0000 */  sw      $t7, 0x0000($v1)           ## 00000000
 /* 00EC8 80AF9CE8 8E780000 */  lw      $t8, 0x0000($s3)           ## 8015FA90
 /* 00ECC 80AF9CEC 3C0BFB00 */  lui     $t3, 0xFB00                ## $t3 = FB000000
@@ -262,7 +292,7 @@ glabel func_80AF9C70
 /* 01250 80AFA070 24C6A4E0 */  addiu   $a2, $a2, %lo(D_80AFA4E0)  ## $a2 = 80AFA4E0
 /* 01254 80AFA074 27A40080 */  addiu   $a0, $sp, 0x0080           ## $a0 = FFFFFFD8
 /* 01258 80AFA078 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
-/* 0125C 80AFA07C 0C031AD5 */  jal     func_800C6B54              
+/* 0125C 80AFA07C 0C031AD5 */  jal     Graph_CloseDisps              
 /* 01260 80AFA080 24070372 */  addiu   $a3, $zero, 0x0372         ## $a3 = 00000372
 /* 01264 80AFA084 8FBF0034 */  lw      $ra, 0x0034($sp)           
 /* 01268 80AFA088 D7B40018 */  ldc1    $f20, 0x0018($sp)          
@@ -275,4 +305,3 @@ glabel func_80AF9C70
 /* 01284 80AFA0A4 27BD00A8 */  addiu   $sp, $sp, 0x00A8           ## $sp = 00000000
 /* 01288 80AFA0A8 00000000 */  nop
 /* 0128C 80AFA0AC 00000000 */  nop
-

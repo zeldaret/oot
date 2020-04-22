@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808ABE14
+    .float -550.0
+
+.text
 glabel BgSpot01Idomizu_Init
 /* 00000 808ABAE0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00004 808ABAE4 AFA5001C */  sw      $a1, 0x001C($sp)           
@@ -7,8 +12,8 @@ glabel BgSpot01Idomizu_Init
 /* 00014 808ABAF4 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 00018 808ABAF8 AFA40018 */  sw      $a0, 0x0018($sp)           
-/* 0001C 808ABAFC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00020 808ABB00 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 0001C 808ABAFC 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00020 808ABB00 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00024 808ABB04 944E0EE0 */  lhu     $t6, 0x0EE0($v0)           ## 8015F540
 /* 00028 808ABB08 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 0002C 808ABB0C 24010011 */  addiu   $at, $zero, 0x0011         ## $at = 00000011
@@ -42,5 +47,3 @@ glabel BgSpot01Idomizu_Init
 /* 0008C 808ABB6C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00090 808ABB70 03E00008 */  jr      $ra                        
 /* 00094 808ABB74 00000000 */  nop
-
-

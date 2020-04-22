@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B87298
+    .asciz "../z_item_shield.c"
+    .balign 4
+
+glabel D_80B872AC
+    .asciz "../z_item_shield.c"
+    .balign 4
+
+glabel D_80B872C0
+    .asciz "../z_item_shield.c"
+    .balign 4
+
+.text
 glabel ItemShield_Draw
 /* 00778 80B87098 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 0077C 80B8709C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -11,7 +25,7 @@ glabel ItemShield_Draw
 /* 0079C 80B870BC 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 007A0 80B870C0 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
 /* 007A4 80B870C4 240701C9 */  addiu   $a3, $zero, 0x01C9         ## $a3 = 000001C9
-/* 007A8 80B870C8 0C031AB1 */  jal     func_800C6AC4              
+/* 007A8 80B870C8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 007AC 80B870CC 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 007B0 80B870D0 8FB9004C */  lw      $t9, 0x004C($sp)           
 /* 007B4 80B870D4 0C024F46 */  jal     func_80093D18              
@@ -40,11 +54,11 @@ glabel ItemShield_Draw
 /* 00810 80B87130 AE0B02C0 */  sw      $t3, 0x02C0($s0)           ## 000002C0
 /* 00814 80B87134 000E7880 */  sll     $t7, $t6,  2               
 /* 00818 80B87138 3C0CDE00 */  lui     $t4, 0xDE00                ## $t4 = DE000000
-/* 0081C 80B8713C 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 0081C 80B8713C 3C188016 */  lui     $t8, %hi(gSegments)
 /* 00820 80B87140 030FC021 */  addu    $t8, $t8, $t7              
 /* 00824 80B87144 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 00828 80B87148 AC4C0000 */  sw      $t4, 0x0000($v0)           ## 00000000
-/* 0082C 80B8714C 8F186FA8 */  lw      $t8, 0x6FA8($t8)           ## 80166FA8
+/* 0082C 80B8714C 8F186FA8 */  lw      $t8, %lo(gSegments)($t8)
 /* 00830 80B87150 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00834 80B87154 0081C824 */  and     $t9, $a0, $at              
 /* 00838 80B87158 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
@@ -56,7 +70,7 @@ glabel ItemShield_Draw
 /* 00850 80B87170 24C672C0 */  addiu   $a2, $a2, %lo(D_80B872C0)  ## $a2 = 80B872C0
 /* 00854 80B87174 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 00858 80B87178 240701D1 */  addiu   $a3, $zero, 0x01D1         ## $a3 = 000001D1
-/* 0085C 80B8717C 0C031AD5 */  jal     func_800C6B54              
+/* 0085C 80B8717C 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00860 80B87180 8D450000 */  lw      $a1, 0x0000($t2)           ## 00000000
 .L80B87184:
 /* 00864 80B87184 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -66,4 +80,3 @@ glabel ItemShield_Draw
 /* 00874 80B87194 00000000 */  nop
 /* 00878 80B87198 00000000 */  nop
 /* 0087C 80B8719C 00000000 */  nop
-

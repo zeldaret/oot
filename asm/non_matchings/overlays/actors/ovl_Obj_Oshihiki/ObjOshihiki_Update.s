@@ -37,5 +37,3 @@ glabel ObjOshihiki_Update
 /* 015D8 80B9C758 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 015DC 80B9C75C 03E00008 */  jr      $ra                        
 /* 015E0 80B9C760 00000000 */  nop
-
-

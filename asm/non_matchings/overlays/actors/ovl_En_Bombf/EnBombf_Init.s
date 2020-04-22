@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_809C8350
+    .float 10000.0
+
+glabel D_809C8354
+ .word 0x46F23000
+
+.text
 glabel EnBombf_Init
 /* 00008 809C6F68 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0000C 809C6F6C AFB10020 */  sw      $s1, 0x0020($sp)           
@@ -38,8 +46,8 @@ glabel EnBombf_Init
 /* 0008C 809C6FEC 0C017014 */  jal     func_8005C050              
 /* 00090 809C6FF0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00094 809C6FF4 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
-/* 00098 809C6FF8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0009C 809C6FFC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00098 809C6FF8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0009C 809C6FFC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 000A0 809C7000 17000005 */  bne     $t8, $zero, .L809C7018     
 /* 000A4 809C7004 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 000A8 809C7008 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
@@ -127,5 +135,3 @@ glabel EnBombf_Init
 /* 001D4 809C7134 8FB0001C */  lw      $s0, 0x001C($sp)           
 /* 001D8 809C7138 03E00008 */  jr      $ra                        
 /* 001DC 809C713C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

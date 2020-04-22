@@ -1,3 +1,9 @@
+.rdata
+glabel D_809888D0
+    .asciz "Demo_Im_Spot00_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.text
 glabel func_8098680C
 /* 01C2C 8098680C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 01C30 80986810 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -63,5 +69,3 @@ glabel func_8098680C
 /* 01CFC 809868DC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 01D00 809868E0 03E00008 */  jr      $ra                        
 /* 01D04 809868E4 00000000 */  nop
-
-

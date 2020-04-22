@@ -1,6 +1,6 @@
 glabel func_80B3CB58
-/* 00978 80B3CB58 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0097C 80B3CB5C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00978 80B3CB58 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0097C 80B3CB5C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00980 80B3CB60 944E0EDE */  lhu     $t6, 0x0EDE($v0)           ## 8015F53E
 /* 00984 80B3CB64 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00988 80B3CB68 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -21,5 +21,3 @@ glabel func_80B3CB58
 /* 009B8 80B3CB98 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 009BC 80B3CB9C 03E00008 */  jr      $ra                        
 /* 009C0 80B3CBA0 00000000 */  nop
-
-

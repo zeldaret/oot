@@ -161,7 +161,7 @@ glabel func_80102590
 .L80102644:
 /* B797E4 80102644 8E440004 */  lw    $a0, 4($s2)
 /* B797E8 80102648 8E450008 */  lw    $a1, 8($s2)
-/* B797EC 8010264C 0C0417D0 */  jal   func_80105F40
+/* B797EC 8010264C 0C0417D0 */  jal   osReadMempak
 /* B797F0 80102650 02A03825 */   move  $a3, $s5
 /* B797F4 80102654 10400003 */  beqz  $v0, .L80102664
 /* B797F8 80102658 366B0080 */   ori   $t3, $s3, 0x80
@@ -190,7 +190,7 @@ glabel func_80102590
 .L801026AC:
 /* B7984C 801026AC 8E440004 */  lw    $a0, 4($s2)
 /* B79850 801026B0 8E450008 */  lw    $a1, 8($s2)
-/* B79854 801026B4 0C0417D0 */  jal   func_80105F40
+/* B79854 801026B4 0C0417D0 */  jal   osReadMempak
 /* B79858 801026B8 27A7005C */   addiu $a3, $sp, 0x5c
 /* B7985C 801026BC 10400003 */  beqz  $v0, .L801026CC
 /* B79860 801026C0 27A3005C */   addiu $v1, $sp, 0x5c
@@ -222,7 +222,7 @@ glabel func_80102590
 .L8010271C:
 /* B798BC 8010271C 8E440004 */  lw    $a0, 4($s2)
 /* B798C0 80102720 8E450008 */  lw    $a1, 8($s2)
-/* B798C4 80102724 0C0417D0 */  jal   func_80105F40
+/* B798C4 80102724 0C0417D0 */  jal   osReadMempak
 /* B798C8 80102728 02A03825 */   move  $a3, $s5
 /* B798CC 8010272C 10400003 */  beqz  $v0, .L8010273C
 /* B798D0 80102730 93A8007C */   lbu   $t0, 0x7c($sp)
@@ -296,7 +296,7 @@ glabel func_80102590
 /* B799BC 8010281C 8E440004 */  lw    $a0, 4($s2)
 /* B799C0 80102820 8E450008 */  lw    $a1, 8($s2)
 /* B799C4 80102824 24060001 */  li    $a2, 1
-/* B799C8 80102828 0C0417D0 */  jal   func_80105F40
+/* B799C8 80102828 0C0417D0 */  jal   osReadMempak
 /* B799CC 8010282C 02A03825 */   move  $a3, $s5
 /* B799D0 80102830 10400003 */  beqz  $v0, .L80102840
 /* B799D4 80102834 02801825 */   move  $v1, $s4
@@ -390,7 +390,7 @@ glabel func_801028E0
 /* B79B04 80102964 8E640004 */  lw    $a0, 4($s3)
 /* B79B08 80102968 8E650008 */  lw    $a1, 8($s3)
 /* B79B0C 8010296C 96060000 */  lhu   $a2, ($s0)
-/* B79B10 80102970 0C0417D0 */  jal   func_80105F40
+/* B79B10 80102970 0C0417D0 */  jal   osReadMempak
 /* B79B14 80102974 02403825 */   move  $a3, $s2
 /* B79B18 80102978 10400003 */  beqz  $v0, .L80102988
 /* B79B1C 8010297C 02402025 */   move  $a0, $s2
@@ -472,7 +472,7 @@ glabel func_80102A44
 .L80102A80:
 /* B79C20 80102A80 8E050008 */  lw    $a1, 8($s0)
 /* B79C24 80102A84 24060001 */  li    $a2, 1
-/* B79C28 80102A88 0C0417D0 */  jal   func_80105F40
+/* B79C28 80102A88 0C0417D0 */  jal   osReadMempak
 /* B79C2C 80102A8C 27A7004C */   addiu $a3, $sp, 0x4c
 /* B79C30 80102A90 10400003 */  beqz  $v0, .L80102AA0
 /* B79C34 80102A94 27A4004C */   addiu $a0, $sp, 0x4c
@@ -559,7 +559,7 @@ glabel func_80102A44
 /* B79D54 80102BB4 8E050008 */  lw    $a1, 8($s0)
 /* B79D58 80102BB8 24060007 */  li    $a2, 7
 /* B79D5C 80102BBC 2607002C */  addiu $a3, $s0, 0x2c
-/* B79D60 80102BC0 0C0417D0 */  jal   func_80105F40
+/* B79D60 80102BC0 0C0417D0 */  jal   osReadMempak
 /* B79D64 80102BC4 A20F0064 */   sb    $t7, 0x64($s0)
 /* B79D68 80102BC8 50400004 */  beql  $v0, $zero, .L80102BDC
 /* B79D6C 80102BCC 00001025 */   move  $v0, $zero
@@ -600,7 +600,7 @@ glabel func_80102BF0
 .L80102C44:
 /* B79DE4 80102C44 8E050008 */  lw    $a1, 8($s0)
 /* B79DE8 80102C48 24060001 */  li    $a2, 1
-/* B79DEC 80102C4C 0C0417D0 */  jal   func_80105F40
+/* B79DEC 80102C4C 0C0417D0 */  jal   osReadMempak
 /* B79DF0 80102C50 27A70028 */   addiu $a3, $sp, 0x28
 /* B79DF4 80102C54 1040000D */  beqz  $v0, .L80102C8C
 /* B79DF8 80102C58 24010002 */   li    $at, 2
@@ -611,7 +611,7 @@ glabel func_80102BF0
 .L80102C6C:
 /* B79E0C 80102C6C 8E040004 */  lw    $a0, 4($s0)
 /* B79E10 80102C70 8E050008 */  lw    $a1, 8($s0)
-/* B79E14 80102C74 0C0417D0 */  jal   func_80105F40
+/* B79E14 80102C74 0C0417D0 */  jal   osReadMempak
 /* B79E18 80102C78 27A70028 */   addiu $a3, $sp, 0x28
 /* B79E1C 80102C7C 50400004 */  beql  $v0, $zero, .L80102C90
 /* B79E20 80102C80 2604000C */   addiu $a0, $s0, 0xc
@@ -739,7 +739,7 @@ glabel func_80102CC4
 /* B79FD0 80102E30 01D36821 */  addu  $t5, $t6, $s3
 /* B79FD4 80102E34 01B03021 */  addu  $a2, $t5, $s0
 /* B79FD8 80102E38 30CFFFFF */  andi  $t7, $a2, 0xffff
-/* B79FDC 80102E3C 0C0417D0 */  jal   func_80105F40
+/* B79FDC 80102E3C 0C0417D0 */  jal   osReadMempak
 /* B79FE0 80102E40 01E03025 */   move  $a2, $t7
 /* B79FE4 80102E44 00401825 */  move  $v1, $v0
 .L80102E48:
@@ -777,7 +777,7 @@ glabel func_80102CC4
 /* B7A05C 80102EBC 01B03021 */  addu  $a2, $t5, $s0
 /* B7A060 80102EC0 30CFFFFF */  andi  $t7, $a2, 0xffff
 /* B7A064 80102EC4 01E03025 */  move  $a2, $t7
-/* B7A068 80102EC8 0C0417D0 */  jal   func_80105F40
+/* B7A068 80102EC8 0C0417D0 */  jal   osReadMempak
 /* B7A06C 80102ECC 02203825 */   move  $a3, $s1
 /* B7A070 80102ED0 26100001 */  addiu $s0, $s0, 1
 /* B7A074 80102ED4 2A010008 */  slti  $at, $s0, 8

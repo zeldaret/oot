@@ -12,5 +12,3 @@ glabel BgSstFloor_Destroy
 /* 0008C 808B999C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00090 808B99A0 03E00008 */  jr      $ra                        
 /* 00094 808B99A4 00000000 */  nop
-
-

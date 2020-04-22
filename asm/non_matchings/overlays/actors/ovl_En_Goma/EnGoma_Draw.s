@@ -1,3 +1,61 @@
+.rdata
+glabel D_80A4B8A0
+    .asciz "../z_en_goma.c"
+    .balign 4
+
+glabel D_80A4B8B0
+    .asciz "../z_en_goma.c"
+    .balign 4
+
+glabel D_80A4B8C0
+    .asciz "../z_en_goma.c"
+    .balign 4
+
+glabel D_80A4B8D0
+    .asciz "../z_en_goma.c"
+    .balign 4
+
+glabel D_80A4B8E0
+    .asciz "../z_en_goma.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A4B94C
+    .float 3.14159274101
+
+glabel D_80A4B950
+    .float 3.14159274101
+
+glabel D_80A4B954
+    .float 3.14159274101
+
+glabel D_80A4B958
+    .float 3.14159274101
+
+glabel D_80A4B95C
+    .float 3.14159274101
+
+glabel D_80A4B960
+ .word 0x40490E56
+glabel D_80A4B964
+ .word 0x41FF3333
+glabel D_80A4B968
+    .float 0.15
+
+glabel D_80A4B96C
+    .float 0.1
+
+glabel D_80A4B970
+ .word 0x3F733333
+glabel D_80A4B974
+ .word 0x3F866666
+glabel D_80A4B978
+    .float 0.1
+
+glabel D_80A4B97C
+    .float 0.15
+
+.text
 glabel EnGoma_Draw
 /* 02018 80A4AED8 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 0201C 80A4AEDC AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -10,7 +68,7 @@ glabel EnGoma_Draw
 /* 02038 80A4AEF8 24C6B8A0 */  addiu   $a2, $a2, %lo(D_80A4B8A0)  ## $a2 = 80A4B8A0
 /* 0203C 80A4AEFC 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE0
 /* 02040 80A4AF00 240707F8 */  addiu   $a3, $zero, 0x07F8         ## $a3 = 000007F8
-/* 02044 80A4AF04 0C031AB1 */  jal     func_800C6AC4              
+/* 02044 80A4AF04 0C031AB1 */  jal     Graph_OpenDisps              
 /* 02048 80A4AF08 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 0204C 80A4AF0C 8FAF007C */  lw      $t7, 0x007C($sp)           
 /* 02050 80A4AF10 0C024F46 */  jal     func_80093D18              
@@ -309,12 +367,10 @@ glabel EnGoma_Draw
 /* 024C4 80A4B384 24C6B8E0 */  addiu   $a2, $a2, %lo(D_80A4B8E0)  ## $a2 = 80A4B8E0
 /* 024C8 80A4B388 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE0
 /* 024CC 80A4B38C 24070847 */  addiu   $a3, $zero, 0x0847         ## $a3 = 00000847
-/* 024D0 80A4B390 0C031AD5 */  jal     func_800C6B54              
+/* 024D0 80A4B390 0C031AD5 */  jal     Graph_CloseDisps              
 /* 024D4 80A4B394 8D650000 */  lw      $a1, 0x0000($t3)           ## 00000000
 /* 024D8 80A4B398 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 024DC 80A4B39C 8FB0001C */  lw      $s0, 0x001C($sp)           
 /* 024E0 80A4B3A0 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 024E4 80A4B3A4 03E00008 */  jr      $ra                        
 /* 024E8 80A4B3A8 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

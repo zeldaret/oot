@@ -10,5 +10,3 @@ glabel EnDns_Destroy
 /* 001C0 809EF510 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001C4 809EF514 03E00008 */  jr      $ra                        
 /* 001C8 809EF518 00000000 */  nop
-
-

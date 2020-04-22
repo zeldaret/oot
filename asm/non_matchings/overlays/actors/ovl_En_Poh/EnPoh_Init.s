@@ -9,8 +9,8 @@ glabel EnPoh_Init
 /* 0001C 80ADDD6C 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 00020 80ADDD70 24A51B5C */  addiu   $a1, $a1, %lo(D_80AE1B5C)  ## $a1 = 80AE1B5C
-/* 00024 80ADDD74 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00028 80ADDD78 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00024 80ADDD74 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00028 80ADDD78 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0002C 80ADDD7C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00030 80ADDD80 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00034 80ADDD84 0C00AC78 */  jal     ActorShape_Init
@@ -242,5 +242,3 @@ glabel EnPoh_Init
 /* 00338 80ADE088 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 0033C 80ADE08C 03E00008 */  jr      $ra                        
 /* 00340 80ADE090 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-
