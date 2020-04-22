@@ -3,6 +3,7 @@
 
 #include <ultra64.h>
 #include <global.h>
+#include <vt.h>
 #include "../ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
 
 typedef struct {
@@ -20,7 +21,11 @@ typedef struct {
     /* 0x0298 */ Vec3f unk_298; // camera related
     /* 0x02A4 */ char unk_2A4[0x18];
     /* 0x02BC */ Vec3f unk_2BC; // camera related
-    /* 0x02C8 */ char unk_2C8[0x2A];
+    /* 0x02C8 */ char unk_2C8[0x18];
+    /* 0x02E0 */ f32 unk_2E0;
+    /* 0x02E4 */ char unk_2E4[0x8];
+    /* 0x02EC */ f32 unk_2EC;
+    /* 0x02F0 */ u16 unk_2F0;
     /* 0x02F2 */ s16 gateTimer; // starts counting down when guard starts to open gate.
     /* 0x02F4 */ char unk_2F4[0xA];
     /* 0x02FE */ s16 initParams; // copy of actor params at init
