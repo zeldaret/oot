@@ -36,7 +36,7 @@ if (romFileName != ""):
         
             print("Byte swapping done.")
 else:
-    print("Error: Could not find baserom.z64")
+    print("Error: Could not find baserom.z64/baserom.n64")
     sys.exit(1)
     
 # Strip the overdump
