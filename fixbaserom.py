@@ -9,6 +9,8 @@ import hashlib
 romFileName = ""
 if (path.exists("baserom.z64")):
     romFileName = "baserom.z64"
+elif (path.exists("baserom.n64")):
+    romFileName = "baserom.n64"
 
 # Read in the original ROM
 if (romFileName != ""):
