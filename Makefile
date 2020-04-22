@@ -131,7 +131,7 @@ clean:
 
 setup:
 	git submodule update --init --recursive
-	make all -C tools
+	make -C tools
 	python3 fixbaserom.py
 	python3 extract_baserom.py
 	python3 extract_assets.py
