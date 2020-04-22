@@ -25,8 +25,3 @@ $(1): $($1_SOURCES)
 endef
 
 $(foreach p,$(PROGRAMS),$(eval $(call COMPILE,$(p))))
-
-ido7:
-	wget -O ido7.zip https://github.com/zeldaret/oot/releases/download/0.1/ido7.1_fixed.zip
-	unzip -n ido7.zip
-	rm ido7.zip
