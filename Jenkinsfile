@@ -5,7 +5,7 @@ pipeline {
         stage('Setup') {
             steps {
                 echo 'Setting up...'
-                sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom_original.z64'
+                sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom.z64'
                 sh 'make -j`nproc` setup'
             }
         }
