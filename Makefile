@@ -145,7 +145,7 @@ build/asm/%.o: asm/%.s
 	$(AS) $(ASFLAGS) $^ -o $@
 
 build/data/%.o: data/%.s
-	iconv --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
+	iconv --from UTF-8 --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
 
 #build/assets/%.o: assets/%.s
 #	$(AS) $(ASFLAGS) $^ -o $@
@@ -171,7 +171,7 @@ build/src/overlays/%.o: src/overlays/%.c
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
     
 build/asm/overlays/%.o: asm/overlays/%.s
-	iconv --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
+	iconv --from UTF-8 --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
 
 build/src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $(OPTIMIZATION) -o $@ $^
