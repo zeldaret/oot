@@ -5,7 +5,6 @@
 .set noreorder # don't insert nops after branches
 .set gp=64     # allow use of 64-bit general purposee registers
 
-.section .data
+.section .text
 
-glabel D_80134D00
-    .incbin "baserom.z64", 0xBABEA0, 0x10
+.incbin "baserom.z64", 0x40, 0xFC0
