@@ -120,7 +120,7 @@ s16 func_80AA1A38(GlobalContext* globalCtx, EnMa2* this) {
 
 void func_80AA1AE4(EnMa2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s32 phi_a3;
+    s16 phi_a3;
 
     if ((this->unk_1E0.unk_00 == 0) && (this->skelAnime.animCurrentSeg == &D_06009EE0)) {
         phi_a3 = 1;
@@ -338,8 +338,8 @@ s32 func_80AA2354(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_RotateX((-tempVec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }
     if ((limbIndex == 11) || (limbIndex == 12) || (limbIndex == 15)) {
-        rot->y += Math_Sins(thisx->unk_214[limbIndex].x) * 200.0f;
-        rot->z += Math_Coss(thisx->unk_214[limbIndex].y) * 200.0f;
+        rot->y += Math_Sins(thisx->unk_212[limbIndex].y) * 200.0f;
+        rot->z += Math_Coss(thisx->unk_212[limbIndex].z) * 200.0f;
     }
     return 0;
 }
