@@ -1495,8 +1495,6 @@ void func_8009BC44(GlobalContext* globalCtx) {
 }
 
 // Screen Shake for Ganon's Tower Collapse
-#ifdef NON_MATCHING
-// regalloc differences
 void func_8009BEEC(GlobalContext* globalCtx) {
     s32 var;
 
@@ -1514,10 +1512,6 @@ void func_8009BEEC(GlobalContext* globalCtx) {
         Quake_SetCountdown(var, 48.0f - (Math_Rand_ZeroOne() * 15.0f));
     }
 }
-#else
-void func_8009BEEC(GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_scene_table/func_8009BEEC.s")
-#endif
 
 // Scene Draw Config 38
 void func_8009C0AC(GlobalContext* globalCtx) {

@@ -9,7 +9,9 @@
 
 .align 4
 
-glabel func_80101B40
+## Handwritten ASM
+
+glabel guMtxIdentF
 /* B78CE0 80101B40 3C083F80 */  lui   $t0, 0x3f80
 /* B78CE4 80101B44 AC880000 */  sw    $t0, ($a0)
 /* B78CE8 80101B48 AC800004 */  sw    $zero, 4($a0)

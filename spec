@@ -4,12 +4,14 @@
 
 beginseg
     name "makerom"
-    include "build/baserom/makerom.o"
-    address 0x80000000
+    include "build/asm/rom_header.o"
+    include "build/asm/ipl3.o"
+    include "build/asm/entry.o"
 endseg
 
 beginseg
     name "boot"
+    address 0x80000460
     include "build/src/boot/boot_main.o"
     include "build/src/boot/idle.o"
     include "build/src/boot/viconfig.o"
@@ -107,13 +109,11 @@ beginseg
     include "build/src/libultra_boot_O1/__osGetHWIntrRoutine.o"
     include "build/asm/__osSetWatchLo.o"
     include "build/data/rsp_boot.text.o"
-    address 0x80000460
 endseg
 
 beginseg
     name "dmadata"
     include "build/asm/dmadata.o"
-    address 0x80016DA0
 endseg
 
 beginseg
@@ -269,6 +269,7 @@ endseg
 
 beginseg
     name "code"
+    address 0x8001CE60
     include "build/src/code/z_en_a_keep.o"
     include "build/data/z_en_a_keep.data.o"
     include "build/src/code/z_en_item00.o"
@@ -452,8 +453,7 @@ beginseg
     include "build/data/code_800E11F0.rodata.o"
     include "build/asm/code_800E6840.o"
     include "build/data/code_800E6840.data.o"
-    include "build/asm/code_800E6940.o"
-    include "build/data/code_800E6940.rodata.o"
+    include "build/src/code/audio_playback.o"
     include "build/asm/code_800E88C0.o"
     include "build/data/code_800E88C0.data.o"
     include "build/data/code_800E88C0.rodata.o"
@@ -507,8 +507,8 @@ beginseg
     include "build/data/code_801014A0.bss.o"
     include "build/asm/code_80101910.o"
     include "build/data/code_80101910.bss.o"
-    include "build/asm/code_80101B40.o"
-    include "build/asm/code_80101B90.o"
+    include "build/asm/guMtxIdentF.o"
+    include "build/src/libultra_code/guLookAt.o"
     include "build/asm/code_80101EB0.o"
     include "build/asm/code_80102330.o"
     include "build/asm/code_80102420.o"
@@ -517,10 +517,10 @@ beginseg
     include "build/asm/code_80103010.o"
     include "build/src/libultra_code/sqrtf.o"
     include "build/src/libultra_code/code_801031F0.o"
+    include "build/src/libultra_code/guLookAtHilite.o"
     include "build/src/libultra_code/sp.o"
     include "build/asm/code_80103B60.o"
-    include "build/asm/code_80103BB0.o"
-    include "build/data/code_80103BB0.data.o"
+    include "build/src/libultra_code/guPosition.o"
     include "build/asm/code_80103DC0.o"
     include "build/data/code_80103DC0.data.o"
     include "build/src/libultra_code/__osGetActiveQueue.o"
@@ -531,7 +531,7 @@ beginseg
     include "build/asm/code_80104450.o"
     include "build/src/libultra_code/cosf.o"
     include "build/src/libultra_code/coss.o"
-    include "build/asm/osViSetEvent.o"
+    include "build/src/libultra_code/osViSetEvent.o"
     include "build/asm/code_80104810.o"
     include "build/asm/code_80104B00.o"
     include "build/asm/code_80104C80.o"
@@ -566,7 +566,6 @@ beginseg
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"
     include "build/data/rsp.rodata.o"
-    address 0x8001CE60
 endseg
 
 beginseg
@@ -578,9 +577,9 @@ endseg
 
 beginseg
     name "ovl_title"
+    address 0x80800000
     include "build/src/overlays/gamestates/ovl_title/z_title.o"
     include "build/src/overlays/gamestates/ovl_title/z_title_reloc.o"
-    address 0x80800000
 endseg
 
 beginseg
