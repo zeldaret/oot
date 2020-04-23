@@ -3,14 +3,17 @@
 
 static Gfx sRCPSetupFade[] = {
     gsDPPipeSync(),
-    gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
-    gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE | G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_1PRIMITIVE, G_AC_NONE | G_ZS_PIXEL | G_RM_CLD_SURF | G_RM_CLD_SURF2),
+    gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
+                          G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
+    gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
+                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_1PRIMITIVE,
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_CLD_SURF | G_RM_CLD_SURF2),
     gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE),
     gsSPEndDisplayList(),
 };
 
 void TransitionFade_Start(TransitionFade* fade) {
-    switch(fade->fadeType){
+    switch (fade->fadeType) {
         case 0:
             break;
         case 1:
@@ -33,12 +36,12 @@ void TransitionFade_Destroy(TransitionFade* fade) {
 }
 
 #ifdef NON_MATCHING
-void TransitionFade_Move(TransitionFade *fade, s32 updateRate) {
+void TransitionFade_Move(TransitionFade* fade, s32 updateRate) {
     char pad[2];
     s16 newAlpha;
     s32 alpha;
 
-    switch(fade->fadeType){
+    switch (fade->fadeType) {
         case 0:
             break;
         case 1:
@@ -49,7 +52,7 @@ void TransitionFade_Move(TransitionFade *fade, s32 updateRate) {
             }
             if (gSaveContext.fadeDuration == 0) {
                 // Divide by 0! Zero is included in ZCommonGet fade_speed
-                osSyncPrintf(VT_COL(RED,WHITE) "０除算! ZCommonGet fade_speed に０がはいってる" VT_RST);
+                osSyncPrintf(VT_COL(RED, WHITE) "０除算! ZCommonGet fade_speed に０がはいってる" VT_RST);
             }
             alpha = (fade->fadeTimer * 255.0f) / gSaveContext.fadeDuration;
             fade->fadeColor.a = fade->fadeDirection != 0 ? 0xFF - alpha : alpha;
@@ -111,5 +114,4 @@ void TransitionFade_SetType(TransitionFade* fade, s32 type) {
     } else {
         fade->fadeType = 0;
     }
-
 }

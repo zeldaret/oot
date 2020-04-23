@@ -517,25 +517,30 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                     if ((globalCtx->transitionCtx.transitionType >> 5) == 1) {
                         globalCtx->transitionCtx.setTypeFunc(&globalCtx->transitionCtx,
-                                                         globalCtx->transitionCtx.transitionType | 0x80);
+                                                             globalCtx->transitionCtx.transitionType | 0x80);
                     }
 
                     gSaveContext.unk_1419 = 14;
-                    if ((globalCtx->transitionCtx.transitionType == 8) || (globalCtx->transitionCtx.transitionType == 9)) {
+                    if ((globalCtx->transitionCtx.transitionType == 8) ||
+                        (globalCtx->transitionCtx.transitionType == 9)) {
                         gSaveContext.unk_1419 = 28;
                     }
 
                     gSaveContext.fadeDuration = 60;
-                    if ((globalCtx->transitionCtx.transitionType == 4) || (globalCtx->transitionCtx.transitionType == 5)) {
+                    if ((globalCtx->transitionCtx.transitionType == 4) ||
+                        (globalCtx->transitionCtx.transitionType == 5)) {
                         gSaveContext.fadeDuration = 20;
-                    } else if ((globalCtx->transitionCtx.transitionType == 6) || (globalCtx->transitionCtx.transitionType == 7)) {
+                    } else if ((globalCtx->transitionCtx.transitionType == 6) ||
+                               (globalCtx->transitionCtx.transitionType == 7)) {
                         gSaveContext.fadeDuration = 150;
                     } else if (globalCtx->transitionCtx.transitionType == 17) {
                         gSaveContext.fadeDuration = 2;
                     }
 
-                    if ((globalCtx->transitionCtx.transitionType == 3) || (globalCtx->transitionCtx.transitionType == 5) ||
-                        (globalCtx->transitionCtx.transitionType == 7) || (globalCtx->transitionCtx.transitionType == 13) ||
+                    if ((globalCtx->transitionCtx.transitionType == 3) ||
+                        (globalCtx->transitionCtx.transitionType == 5) ||
+                        (globalCtx->transitionCtx.transitionType == 7) ||
+                        (globalCtx->transitionCtx.transitionType == 13) ||
                         (globalCtx->transitionCtx.transitionType == 17)) {
                         globalCtx->transitionCtx.setColorFunc(&globalCtx->transitionCtx, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
                         if (globalCtx->transitionCtx.unk_248 != NULL) {

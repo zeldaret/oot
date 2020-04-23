@@ -8,31 +8,103 @@
         _g->words.w1 = (rgba);                                                                 \
     })
 
-
 Gfx D_8012B030[] = {
     gsDPPipeSync(),
     gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
-    gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
+    gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
+                          G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
     gsDPSetCombineMode(G_CC_DECALRGB, G_CC_DECALRGB),
-    gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE | G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_1PRIMITIVE, G_AC_NONE | G_ZS_PIXEL | G_RM_AA_OPA_SURF | G_RM_AA_OPA_SURF2),
+    gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
+                         G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_1PRIMITIVE,
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_AA_OPA_SURF | G_RM_AA_OPA_SURF2),
     gsSPEndDisplayList(),
 };
 
 Vtx D_8012B060[] = {
-    { { { 0, 577, 0 }, 0, { 0, 0 }, { 0xFF, 0xFF, 0xFF, 0xFF }, }, },
-    { { { 1000, -1154, 0 }, 0, { 0, 0 }, { 0xFF, 0xFF, 0xFF, 0xFF }, }, },
-    { { { -1000, -1154, 0 }, 0, { 0, 0 }, { 0xFF, 0xFF, 0xFF, 0xFF }, }, },
-    { { { 0, -1154, 0 }, 0, { 0, 0 }, { 0xFF, 0xFF, 0xFF, 0xFF }, }, },
-    { { { 500, -288, 0 }, 0, { 0, 0 }, { 0xFF, 0xFF, 0xFF, 0xFF }, }, },
-    { { { -500, -288, 0 }, 0, { 0, 0 }, { 0xFF, 0xFF, 0xFF, 0xFF }, }, },
-    { { { -32000, 32000, 0 }, 0, { 0, 0 }, { 0xFF, 0xFF, 0xFF, 0xFF }, }, },
-    { { { 32000, 32000, 0 }, 0, { 0, 0 }, { 0xFF, 0xFF, 0xFF, 0xFF }, }, },
-    { { { 32000, -32000, 0 }, 0, { 0, 0 }, { 0xFF, 0xFF, 0xFF, 0xFF }, }, },
-    { { { -32000, -32000, 0 }, 0, { 0, 0 }, { 0xFF, 0xFF, 0xFF, 0xFF }, }, },
+    {
+        {
+            { 0, 577, 0 },
+            0,
+            { 0, 0 },
+            { 0xFF, 0xFF, 0xFF, 0xFF },
+        },
+    },
+    {
+        {
+            { 1000, -1154, 0 },
+            0,
+            { 0, 0 },
+            { 0xFF, 0xFF, 0xFF, 0xFF },
+        },
+    },
+    {
+        {
+            { -1000, -1154, 0 },
+            0,
+            { 0, 0 },
+            { 0xFF, 0xFF, 0xFF, 0xFF },
+        },
+    },
+    {
+        {
+            { 0, -1154, 0 },
+            0,
+            { 0, 0 },
+            { 0xFF, 0xFF, 0xFF, 0xFF },
+        },
+    },
+    {
+        {
+            { 500, -288, 0 },
+            0,
+            { 0, 0 },
+            { 0xFF, 0xFF, 0xFF, 0xFF },
+        },
+    },
+    {
+        {
+            { -500, -288, 0 },
+            0,
+            { 0, 0 },
+            { 0xFF, 0xFF, 0xFF, 0xFF },
+        },
+    },
+    {
+        {
+            { -32000, 32000, 0 },
+            0,
+            { 0, 0 },
+            { 0xFF, 0xFF, 0xFF, 0xFF },
+        },
+    },
+    {
+        {
+            { 32000, 32000, 0 },
+            0,
+            { 0, 0 },
+            { 0xFF, 0xFF, 0xFF, 0xFF },
+        },
+    },
+    {
+        {
+            { 32000, -32000, 0 },
+            0,
+            { 0, 0 },
+            { 0xFF, 0xFF, 0xFF, 0xFF },
+        },
+    },
+    {
+        {
+            { -32000, -32000, 0 },
+            0,
+            { 0, 0 },
+            { 0xFF, 0xFF, 0xFF, 0xFF },
+        },
+    },
 };
 
 void TransitionTriforce_Start(TransitionTriforce* triforce) {
-    switch(triforce->state){
+    switch (triforce->state) {
         case 1:
         case 2:
             triforce->transPos = 1.0f;
@@ -57,14 +129,14 @@ void TransitionTriforce_Destroy(TransitionTriforce* triforce) {
 void TransitionTriforce_Move(TransitionTriforce* triforce, s32 updateRate) {
     f32 temp_f0;
     s32 i;
-    for(i = updateRate; i > 0; i--){
-        if(triforce->state == 1){
+    for (i = updateRate; i > 0; i--) {
+        if (triforce->state == 1) {
             triforce->transPos = CLAMP_MIN(triforce->transPos * (1.0f - triforce->step), 0.03f);
-        } else if(triforce->state == 2){
+        } else if (triforce->state == 2) {
             triforce->transPos = CLAMP_MIN(triforce->transPos - triforce->step, 0.03f);
-        } else if (triforce->state == 3){
+        } else if (triforce->state == 3) {
             triforce->transPos = CLAMP_MAX(triforce->transPos / (1.0f - triforce->step), 1.0f);
-        } else if (triforce->state == 4){
+        } else if (triforce->state == 4) {
             triforce->transPos = CLAMP_MAX(triforce->transPos + triforce->step, 1.0f);
         }
     }
@@ -86,7 +158,7 @@ void TransitionTriforce_SetState(TransitionTriforce* triforce, s32 state) {
 #ifdef NON_MATCHING
 void TransitionTriforce_Draw(TransitionTriforce* triforce, Gfx** gfxP) {
     char pad[4];
-    Mtx *modelView;
+    Mtx* modelView;
     Gfx* gfx = *gfxP;
     f32 scale;
     f32 rotation;
@@ -109,7 +181,7 @@ void TransitionTriforce_Draw(TransitionTriforce* triforce, Gfx** gfxP) {
     gSPMatrix(gfx++, &modelView[2], G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_MUL);
     gSPVertex(gfx++, D_8012B060, 10, 0);
     if (TransitionTriforce_IsDone(triforce) == 0) {
-        switch (triforce->fadeDirection){
+        switch (triforce->fadeDirection) {
             case 1:
                 gSP2Triangles(gfx++, 0, 4, 5, 0, 4, 1, 3, 0);
                 gSP1Triangle(gfx++, 5, 3, 2, 0);
@@ -122,7 +194,7 @@ void TransitionTriforce_Draw(TransitionTriforce* triforce, Gfx** gfxP) {
                 break;
         }
     } else {
-        switch(triforce->fadeDirection){
+        switch (triforce->fadeDirection) {
             case 1:
                 break;
             case 2:
@@ -139,14 +211,14 @@ void TransitionTriforce_Draw(TransitionTriforce* triforce, Gfx** gfxP) {
 
 #ifdef NON_MATCHING
 s32 TransitionTriforce_IsDone(TransitionTriforce* triforce) {
-    if(triforce->state == 1 || triforce->state == 2){
-        if(triforce->transPos <= 0.03f){
+    if (triforce->state == 1 || triforce->state == 2) {
+        if (triforce->transPos <= 0.03f) {
             return 1;
         }
         return 0;
     }
-    if(triforce->state == 3 || triforce->state == 4){
-        if(triforce->transPos >= 1.0f){
+    if (triforce->state == 3 || triforce->state == 4) {
+        if (triforce->transPos >= 1.0f) {
             return 1;
         }
         return 0;

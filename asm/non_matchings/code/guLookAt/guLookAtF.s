@@ -1,14 +1,3 @@
-.include "macro.inc"
-
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
-
-.section .text
-
-.align 4
-
 glabel guLookAtF
 /* B78D30 80101B90 27BDFF88 */  addiu $sp, $sp, -0x78
 /* B78D34 80101B94 AFBF0044 */  sw    $ra, 0x44($sp)

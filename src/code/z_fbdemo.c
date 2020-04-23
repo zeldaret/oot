@@ -19,9 +19,12 @@ Gfx D_8012AFB0[] = {
 Gfx D_8012B000[] = {
     gsDPPipeSync(),
     gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
-    gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
+    gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
+                          G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
     gsDPSetCombineMode(G_CC_DECALRGB, G_CC_DECALRGB),
-    gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE | G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_1PRIMITIVE, G_AC_NONE | G_ZS_PIXEL | G_RM_AA_OPA_SURF | G_RM_AA_OPA_SURF2),
+    gsDPSetOtherMode(G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
+                         G_TD_CLAMP | G_TP_PERSP | G_CYC_1CYCLE | G_PM_1PRIMITIVE,
+                     G_AC_NONE | G_ZS_PIXEL | G_RM_AA_OPA_SURF | G_RM_AA_OPA_SURF2),
     gsSPEndDisplayList(),
 };
 
@@ -29,7 +32,7 @@ Gfx D_8012B000[] = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBDemo_InitData.s")
 
-void FBDemo_Destroy(TransitionStruct *trans) {
+void FBDemo_Destroy(TransitionStruct* trans) {
     osSyncPrintf("fbdemo_cleanup(%08x)\n", trans);
     osSyncPrintf("msleep(100);\n");
     Sleep_Msec(100);
@@ -51,7 +54,7 @@ void FBDemo_Destroy(TransitionStruct *trans) {
     }
 }
 
-TransitionStruct *FBDemo_Init(TransitionStruct *trans, s32 row, s32 col) {
+TransitionStruct* FBDemo_Init(TransitionStruct* trans, s32 row, s32 col) {
     osSyncPrintf("fbdemo_init(%08x, %d, %d)\n", trans, row, col);
     bzero(trans, sizeof(*trans));
     trans->frame = 0;
@@ -60,7 +63,8 @@ TransitionStruct *FBDemo_Init(TransitionStruct *trans, s32 row, s32 col) {
     trans->unk_0C = SystemArena_MallocDebug(((row * 8) + 8) * (col + 1), "../z_fbdemo.c", 195);
     trans->vtxFrame1 = SystemArena_MallocDebug((row + 1) * sizeof(Vtx) * (col + 1), "../z_fbdemo.c", 196);
     trans->vtxFrame2 = SystemArena_MallocDebug((row + 1) * sizeof(Vtx) * (col + 1), "../z_fbdemo.c", 197);
-    trans->gfx = SystemArena_MallocDebug(((trans->col * ((trans->row * 9) + 1)) + 2) * sizeof(Gfx), "../z_fbdemo.c", 198);
+    trans->gfx =
+        SystemArena_MallocDebug(((trans->col * ((trans->row * 9) + 1)) + 2) * sizeof(Gfx), "../z_fbdemo.c", 198);
     if (trans->unk_0C == NULL || trans->vtxFrame1 == NULL || trans->vtxFrame2 == NULL || trans->gfx == NULL) {
         osSyncPrintf("fbdemo_init allocation error\n");
         if (trans->unk_0C != NULL) {
@@ -103,7 +107,6 @@ void FBDemo_Draw(TransitionStruct* trans, Gfx** gfxP) {
     gDPPipeSync(gfx++);
     trans->frame ^= 1;
     *gfxP = gfx;
-
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBDemo_Move.s")
