@@ -18,10 +18,10 @@ if path.exists("baserom.z64"):
 
 # Determine if we have a ROM file
 romFileName = ""
-if path.exists("input.z64"):
-    romFileName = "input.z64"
-elif path.exists("input.n64"):
-    romFileName = "input.n64"
+if path.exists("baserom_original.z64"):
+    romFileName = "baserom_original.z64"
+elif path.exists("baserom_original.n64"):
+    romFileName = "baserom_original.n64"
 
 # Read in the original ROM
 if romFileName != "":
@@ -47,7 +47,7 @@ if romFileName != "":
         
             print("Byte swapping done.")
 else:
-    print("Error: Could not find input.z64/input.n64.")
+    print("Error: Could not find baserom_original.z64/baserom_original.n64.")
     sys.exit(1)
     
 # Strip the overdump
