@@ -2401,25 +2401,23 @@ s32 func_8006146C(u8 mass) {
     return 2;
 }
 
-#ifdef NON_MATCHING
 // SetOC collision, perform elastic collision
-// Regalloc issues, possibly logic issues too
 void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collider* right, ColliderBody* rightBody,
                    Vec3f* rightv, f32 arg6) {
     f32 temp_f0;
     f32 leftDisplacementFactor;
     f32 rightDisplacementFactor;
-    f32 xzDist; // sp40
+    f32 xzDist;
     f32 leftMass;
-    f32 rightMass; // sp38
-    f32 totalMass; // sp34
+    f32 rightMass;
+    f32 totalMass;
     f32 inverseTotalMass;
     f32 xDelta;
     f32 zDelta;
-    Actor* leftActor;  // sp24
-    Actor* rightActor; // sp20
+    Actor* leftActor;
+    Actor* rightActor;
     s32 rightMassType;
-    s32 leftMassType; // sp18
+    s32 leftMassType;
 
     leftActor = left->actor;
     rightActor = right->actor;
@@ -2435,58 +2433,51 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
     if ((left->maskB & 8) != 0) {
         right->maskB |= 1;
     }
-    if (leftActor == NULL || rightActor == NULL || (left->maskA & 4) != 0 || (right->maskA & 4) != 0) {
+    if (leftActor == NULL || rightActor == NULL || (left->maskA & 4) || (right->maskA & 4)) {
         return;
     }
     leftMassType = func_8006146C(leftActor->colChkInfo.mass);
     rightMassType = func_8006146C(rightActor->colChkInfo.mass);
-    leftMass = leftActor->colChkInfo.mass;   // ad8734:    bgez    t2,0xad8748
-    rightMass = rightActor->colChkInfo.mass; // ad8754:    bgez    t3,0xad8768
+    leftMass = leftActor->colChkInfo.mass;
+    rightMass = rightActor->colChkInfo.mass;
     totalMass = leftMass + rightMass;
-    if (fabsf(totalMass) < 0.008f) { // ad8790:    bc1fl   0xad87b0 ~>
-        leftMass = 1.0f;
-        rightMass = 1.0f;
-        totalMass = 2.0f;
+    if (fabsf(totalMass) < 0.008f) { 
+        totalMass = (leftMass = rightMass = 1.0f) * 2;
     }
-    // leftMass = leftv->x;
     xDelta = rightv->x - leftv->x;
     zDelta = rightv->z - leftv->z;
-    xzDist = sqrtf(xDelta * xDelta + zDelta * zDelta);
-    // ad87e0
-    if (leftMassType == 0) {      // ad87e4:    bnez    v1,0xad8804 ~>
-        if (rightMassType == 0) { // ad87ec:    beqz    v0,0xad8964 ~>
+    xzDist = sqrtf(SQ(xDelta) + SQ(zDelta));
+
+    if (leftMassType == 0) {
+        if (rightMassType == 0) { 
             return;
         } else {
-            leftDisplacementFactor = 0.0f;
-            rightDisplacementFactor = 1.0f;
-            // ad87fc:    b       0xad888c ~>
+            leftDisplacementFactor = 0;
+            rightDisplacementFactor = 1;
         }
-    } else if (leftMassType == 1) { // ad8804:    bne     v1,a0,0xad884c ~>
-        if (rightMassType == 0) {   // ad880c:    bnez    v0,0xad8824 ~>
-            leftDisplacementFactor = 1.0f;
-            rightDisplacementFactor = 0.0f;
-        } else if (rightMassType == 1) { // ad8824:    bne     v0,a0,0xad883c ~>
+    } else if (leftMassType == 1) {
+        if (rightMassType == 0) {
+            leftDisplacementFactor = 1;
+            rightDisplacementFactor = 0;
+        } else if (rightMassType == 1) { 
             leftDisplacementFactor = 0.5f;
             rightDisplacementFactor = 0.5f;
-            // block_26:
         } else {
-            leftDisplacementFactor = 0.0f;
-            rightDisplacementFactor = 1.0f;
-            // ad8844:    b       0xad888c ~>
+            leftDisplacementFactor = 0;
+            rightDisplacementFactor = 1;
         }
     } else {
-        if (rightMassType == 2) { // ad884c:    bne     v0,at,0xad8878 ~>
-            inverseTotalMass = 1.0f / totalMass;
+        if (rightMassType == 2) {
+            inverseTotalMass = 1 / totalMass;
             leftDisplacementFactor = rightMass * inverseTotalMass;
             rightDisplacementFactor = leftMass * inverseTotalMass;
-            // ad8870:    b       0xad8888 ~>
         } else {
-            leftDisplacementFactor = 1.0f;
-            rightDisplacementFactor = 0.0f;
+            leftDisplacementFactor = 1;
+            rightDisplacementFactor = 0;
         }
     }
 
-    if (!(fabsf(xzDist) < 0.008f)) { // ad88a4:    bc1tl   0xad8910 ~>
+    if (!(fabsf(xzDist) < 0.008f)) { 
         temp_f0 = arg6 / xzDist;
         xDelta *= temp_f0;
         zDelta *= temp_f0;
@@ -2502,12 +2493,6 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
         rightActor->colChkInfo.displacement.x += rightDisplacementFactor;
     }
 }
-
-#else
-void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collider* right, ColliderBody* rightBody,
-                   Vec3f* rightv, f32 arg6);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_800614A4.s")
-#endif // NON_MATCHING
 
 void CollisionCheck_OC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
                                       Collider* r) {
