@@ -346,7 +346,7 @@ typedef struct {
 } Viewport; // size = 0x10
 
 
-typedef struct { 
+typedef struct {
     /* 0x0000 */ s32    magic; // string literal "VIEW" / 0x56494557
     /* 0x0004 */ GraphicsContext* gfxCtx;
     /* 0x0008 */ Viewport viewport;
@@ -369,7 +369,7 @@ typedef struct {
     /* 0x0110 */ Vec3f  unk_110;
     /* 0x011C */ u16    normal; // used to normalize the projection matrix
     /* 0x0120 */ u32    flags;
-    /* 0x0124 */ s32    unk_124; 
+    /* 0x0124 */ s32    unk_124;
 } View; // size = 0x128
 
 typedef struct {
@@ -896,27 +896,93 @@ typedef struct {
 } PreRenderContext; // size = 0xA4
 
 typedef struct {
-    /* 0x00 */ char unk_00[0xDC];
-    /* 0xDC */ u16* unk_DC;
+    /* 0x00 */ s32 row;
+    /* 0x04 */ s32 col;
+    /* 0x08 */ s32 frame;
+    /* 0x0C */ f32* unk_0C;
+    /* 0x10 */ Vtx* vtxFrame1;
+    /* 0x14 */ Vtx* vtxFrame2;
+    /* 0x18 */ Mtx projection;
+    /* 0x58 */ Mtx modelView;
+    /* 0x98 */ char unk_98[0x40];
+    /* 0xD8 */ Gfx* gfx; //gfxtbl
+    /* 0xDC */ u16* zBuffer;
 } TransitionStruct; // size = 0xE0
 
 typedef struct {
-    /* 0x000 */ char   unk_00[0x228];
-    /* 0x228 */ s32    unk_228;
-    /* 0x22C */ void (*unk_22C)(UNK_ARGS);
-    /* 0x230 */ void (*unk_230)(UNK_ARGS);
-    /* 0x234 */ void (*unk_234)(UNK_ARGS);
-    /* 0x238 */ void (*unk_238)(UNK_ARGS);
-    /* 0x23C */ void (*unk_23C)(UNK_ARGS);
-    /* 0x240 */ void (*unk_240)(UNK_ARGS);
-    /* 0x244 */ void (*unk_244)(UNK_ARGS);
-    /* 0x248 */ void (*unk_248)(UNK_ARGS);
-    /* 0x24C */ s32  (*unk_24C)(UNK_ARGS);
-} TransitionContext; // size = 0x250
+    /* 0x000 */ Color_RGBA8 color;
+    /* 0x004 */ Color_RGBA8 unk_04;
+    /* 0x008 */ u8 direction;
+    /* 0x009 */ u8 frame;
+    /* 0x00A */ u8 isDone;
+    /* 0x00C */ u16 texX;
+    /* 0x00E */ u16 texY;
+    /* 0x010 */ u16 normal;
+    /* 0x018 */ Mtx projection;
+    /* 0x058 */ Mtx lookAt;
+    /* 0x098 */ Mtx modelView[2][3];
+} TransitionWipe1; // size = 0x218
 
 typedef struct {
-    /* 0x00 */ char unk_00[0x0C];
-} SubGlobalContext1241C; // size = 0xC
+    /* 0x000 */ u8 fadeType;
+    /* 0x001 */ u8 isDone;
+    /* 0x002 */ u8 fadeDirection;
+    /* 0x004 */ Color_RGBA8 fadeColor;
+    /* 0x008 */ u16 fadeTimer;
+} TransitionFade; // size = 0xC
+
+typedef struct {
+    /* 0x000 */ Color_RGBA8 color;
+    /* 0x004 */ Color_RGBA8 unk_04;
+    /* 0x008 */ s32 texX;
+    /* 0x00C */ s32 texY;
+    /* 0x010 */ s32 step;
+    /* 0x014 */ u8 unk_14;
+    /* 0x015 */ u8 typeColor;
+    /* 0x016 */ u8 speed;
+    /* 0x017 */ u8 effect;
+    /* 0x018 */ u8 isDone;
+    /* 0x019 */ u8 frame;
+    /* 0x01A */ u16 normal;
+    /* 0x01C */ char unk_1C[4];
+    /* 0x020 */ Mtx projection;
+    /* 0x060 */ Mtx lookAt;
+    /* 0x0A0 */ char* texture;
+    /* 0x0A4 */ char unk_A4[0x4];
+    /* 0x0A8 */ Mtx modelView[2][3];
+} TransitionCircle; // size = 0x228;
+
+typedef struct {
+    /* 0x000 */ Color_RGBA8 color;
+    /* 0x004 */ f32 transPos;
+    /* 0x008 */ f32 step;
+    /* 0x00C */ s32 state;
+    /* 0x010 */ s32 fadeDirection;
+    /* 0x014 */ char unk_14[0x4];
+    /* 0x018 */ Mtx projection;
+    /* 0x058 */ s32 frame;
+    /* 0x05C */ char unk_5C[4];
+    /* 0x060 */ Mtx modelView[2][3];
+} TransitionTriforce; // size = 0x1E0;
+
+typedef struct {
+    union {
+        TransitionFade fade;
+        TransitionCircle circle;
+        TransitionTriforce triforce;
+        TransitionWipe1 wipe;
+    } transition;
+    /* 0x228 */ s32    transitionType;
+    /* 0x22C */ void* (*initFunc)(void*);
+    /* 0x230 */ void (*destroyFunc)(UNK_ARGS);
+    /* 0x234 */ void (*moveFunc)(UNK_ARGS);
+    /* 0x238 */ void (*drawFunc)(UNK_ARGS);
+    /* 0x23C */ void (*startFunc)(UNK_ARGS);
+    /* 0x240 */ void (*setTypeFunc)(UNK_ARGS);
+    /* 0x244 */ void (*setColorFunc)(UNK_ARGS);
+    /* 0x248 */ void (*unk_248)(UNK_ARGS);
+    /* 0x24C */ s32  (*isDoneFunc)(UNK_ARGS);
+} TransitionContext; // size = 0x250
 
 typedef struct {
     /* 0x00 */ s16   id;
@@ -1070,8 +1136,8 @@ typedef struct GlobalContext {
     /* 0x12124 */ PreRenderContext preRenderCtx;
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];
-    /* 0x1241B */ u8 unk_1241B; // "fbdemo_wipe_modem"
-    /* 0x1241C */ SubGlobalContext1241C sub_1241C;
+    /* 0x1241B */ u8 transitionMode; // "fbdemo_wipe_modem"
+    /* 0x1241C */ TransitionFade sub_1241C;
     /* 0x12428 */ char unk_12428[0x3];
     /* 0x1242B */ u8 unk_1242B;
     /* 0x1242C */ Scene* loadedScene;
@@ -1523,7 +1589,7 @@ typedef struct {
 typedef struct {
     /* 0x000 */ u8 codeOffs[16];
     /* 0x010 */ u16 dcCodes[120];
-    /* 0x100 */ u16 acCodes[256]; 
+    /* 0x100 */ u16 acCodes[256];
 } JpegHuffmanTableOld; // size = 0x300
 
 typedef struct {

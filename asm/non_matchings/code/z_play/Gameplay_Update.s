@@ -521,7 +521,7 @@ glabel Gameplay_Update
 .L800BD518:
 /* B346B8 800BD518 248413B0 */  addiu $a0, %lo(D_801613B0) # addiu $a0, $a0, 0x13b0
 /* B346BC 800BD51C 2405000A */  li    $a1, 10
-/* B346C0 800BD520 0C02C7A1 */  jal   func_800B1E84
+/* B346C0 800BD520 0C02C7A1 */  jal   FBDemo_Init
 /* B346C4 800BD524 24060007 */   li    $a2, 7
 /* B346C8 800BD528 14400007 */  bnez  $v0, .L800BD548
 /* B346CC 800BD52C 3C0C8017 */   lui   $t4, %hi(D_801759C0) # $t4, 0x8017
@@ -886,7 +886,7 @@ glabel Gameplay_Update
 /* B34BEC 800BDA4C 3C048016 */  lui   $a0, %hi(D_801613B0) # $a0, 0x8016
 /* B34BF0 800BDA50 55C1000A */  bnel  $t6, $at, .L800BDA7C
 /* B34BF4 800BDA54 3C010001 */   lui   $at, 1
-/* B34BF8 800BDA58 0C02C76F */  jal   func_800B1DBC
+/* B34BF8 800BDA58 0C02C76F */  jal   FBDemo_Destroy
 /* B34BFC 800BDA5C 248413B0 */   addiu $a0, %lo(D_801613B0) # addiu $a0, $a0, 0x13b0
 /* B34C00 800BDA60 3C188016 */  lui   $t8, %hi(gGameInfo) # $t8, 0x8016
 /* B34C04 800BDA64 8F18FA90 */  lw    $t8, %lo(gGameInfo)($t8)
@@ -2045,7 +2045,7 @@ glabel L800BE148
 .L800BEB20:
 /* B35CC0 800BEB20 3421241C */  ori   $at, (0x0001241C & 0xFFFF) # ori $at, $at, 0x241c
 /* B35CC4 800BEB24 02012021 */  addu  $a0, $s0, $at
-/* B35CC8 800BEB28 0C02CD5A */  jal   func_800B3568
+/* B35CC8 800BEB28 0C02CD5A */  jal   TransitionFade_Move
 /* B35CCC 800BEB2C 84450110 */   lh    $a1, 0x110($v0)
 .L800BEB30:
 /* B35CD0 800BEB30 3C198016 */  lui   $t9, %hi(gGameInfo) # $t9, 0x8016

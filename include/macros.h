@@ -14,6 +14,8 @@
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
 #define DECR(x) ((x) == 0 ? 0 : ((x) -= 1))
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
+#define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
+#define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
 
 #define RGBA8(r, g, b, a) (((r & 0xFF) << 24) | ((g & 0xFF) << 16) | ((b & 0xFF) << 8) | ((a & 0xFF) << 0))
 
