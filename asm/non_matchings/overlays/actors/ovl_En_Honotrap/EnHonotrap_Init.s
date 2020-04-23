@@ -24,5 +24,3 @@ glabel EnHonotrap_Init
 /* 00460 80A5A090 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00464 80A5A094 03E00008 */  jr      $ra                        
 /* 00468 80A5A098 00000000 */  nop
-
-

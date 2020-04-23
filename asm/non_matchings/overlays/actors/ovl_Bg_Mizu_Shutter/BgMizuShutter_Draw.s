@@ -1,3 +1,17 @@
+.rdata
+glabel D_8089F580
+    .asciz "../z_bg_mizu_shutter.c"
+    .balign 4
+
+glabel D_8089F598
+    .asciz "../z_bg_mizu_shutter.c"
+    .balign 4
+
+glabel D_8089F5B0
+    .asciz "../z_bg_mizu_shutter.c"
+    .balign 4
+
+.text
 glabel BgMizuShutter_Draw
 /* 005F8 8089F448 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 005FC 8089F44C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -9,7 +23,7 @@ glabel BgMizuShutter_Draw
 /* 00614 8089F464 24C6F580 */  addiu   $a2, $a2, %lo(D_8089F580)  ## $a2 = 8089F580
 /* 00618 8089F468 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFE4
 /* 0061C 8089F46C 2407019A */  addiu   $a3, $zero, 0x019A         ## $a3 = 0000019A
-/* 00620 8089F470 0C031AB1 */  jal     func_800C6AC4              
+/* 00620 8089F470 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00624 8089F474 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00628 8089F478 8FAF004C */  lw      $t7, 0x004C($sp)           
 /* 0062C 8089F47C 0C024F46 */  jal     func_80093D18              
@@ -46,7 +60,7 @@ glabel BgMizuShutter_Draw
 /* 006A8 8089F4F8 8FAD004C */  lw      $t5, 0x004C($sp)           
 .L8089F4FC:
 /* 006AC 8089F4FC 27A4002C */  addiu   $a0, $sp, 0x002C           ## $a0 = FFFFFFE4
-/* 006B0 8089F500 0C031AD5 */  jal     func_800C6B54              
+/* 006B0 8089F500 0C031AD5 */  jal     Graph_CloseDisps              
 /* 006B4 8089F504 8DA50000 */  lw      $a1, 0x0000($t5)           ## 00000000
 /* 006B8 8089F508 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 006BC 8089F50C 8FB00018 */  lw      $s0, 0x0018($sp)           
@@ -54,4 +68,3 @@ glabel BgMizuShutter_Draw
 /* 006C4 8089F514 03E00008 */  jr      $ra                        
 /* 006C8 8089F518 00000000 */  nop
 /* 006CC 8089F51C 00000000 */  nop
-

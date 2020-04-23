@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80B421FC
+    .float 447.0
+glabel D_80B42200
+    .float 647.0
+
+.text
 glabel func_80B3CBA4
 /* 009C4 80B3CBA4 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 009C8 80B3CBA8 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -49,7 +56,7 @@ glabel func_80B3CBA4
 /* 00A80 80B3CC60 00000000 */  nop
 /* 00A84 80B3CC64 45000020 */  bc1f    .L80B3CCE8                 
 /* 00A88 80B3CC68 00000000 */  nop
-/* 00A8C 80B3CC6C 0C02FF21 */  jal     func_800BFC84              
+/* 00A8C 80B3CC6C 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 00A90 80B3CC70 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00A94 80B3CC74 1440001C */  bne     $v0, $zero, .L80B3CCE8     
 /* 00A98 80B3CC78 8FA6001C */  lw      $a2, 0x001C($sp)           
@@ -58,17 +65,17 @@ glabel func_80B3CBA4
 /* 00AA4 80B3CC84 00027900 */  sll     $t7, $v0,  4               
 /* 00AA8 80B3CC88 000FC702 */  srl     $t8, $t7, 28               
 /* 00AAC 80B3CC8C 0018C880 */  sll     $t9, $t8,  2               
-/* 00AB0 80B3CC90 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
+/* 00AB0 80B3CC90 3C088016 */  lui     $t0, %hi(gSegments)
 /* 00AB4 80B3CC94 01194021 */  addu    $t0, $t0, $t9              
 /* 00AB8 80B3CC98 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 00ABC 80B3CC9C 8D086FA8 */  lw      $t0, 0x6FA8($t0)           ## 80166FA8
+/* 00ABC 80B3CC9C 8D086FA8 */  lw      $t0, %lo(gSegments)($t0)
 /* 00AC0 80B3CCA0 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00AC4 80B3CCA4 00414824 */  and     $t1, $v0, $at              
 /* 00AC8 80B3CCA8 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00ACC 80B3CCAC 01095021 */  addu    $t2, $t0, $t1              
-/* 00AD0 80B3CCB0 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 00AD0 80B3CCB0 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 00AD4 80B3CCB4 01415821 */  addu    $t3, $t2, $at              
-/* 00AD8 80B3CCB8 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00AD8 80B3CCB8 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00ADC 80B3CCBC ACCB1D68 */  sw      $t3, 0x1D68($a2)           ## 00001D68
 /* 00AE0 80B3CCC0 946D0EDE */  lhu     $t5, 0x0EDE($v1)           ## 8015F53E
 /* 00AE4 80B3CCC4 240C0001 */  addiu   $t4, $zero, 0x0001         ## $t4 = 00000001
@@ -88,5 +95,3 @@ glabel func_80B3CBA4
 /* 00B14 80B3CCF4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00B18 80B3CCF8 03E00008 */  jr      $ra                        
 /* 00B1C 80B3CCFC 00000000 */  nop
-
-

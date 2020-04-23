@@ -1,15 +1,15 @@
 glabel func_80811A20
-/* 0DCE0 80811A20 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 0DCE4 80811A24 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 0DCE0 80811A20 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 0DCE4 80811A24 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 0DCE8 80811A28 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0DCEC 80811A2C AFB00020 */  sw      $s0, 0x0020($sp)           
-/* 0DCF0 80811A30 3C0201AA */  lui     $v0, 0x01AA                ## $v0 = 01AA0000
-/* 0DCF4 80811A34 3C1801AF */  lui     $t8, 0x01AF                ## $t8 = 01AF0000
+/* 0DCF0 80811A30 3C0201AA */  lui     $v0, %hi(_title_staticSegmentRomStart)
+/* 0DCF4 80811A34 3C1801AF */  lui     $t8, %hi(_title_staticSegmentRomEnd)
 /* 0DCF8 80811A38 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0DCFC 80811A3C AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 0DD00 80811A40 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
-/* 0DD04 80811A44 2718B440 */  addiu   $t8, $t8, 0xB440           ## $t8 = 01AEB440
-/* 0DD08 80811A48 24424000 */  addiu   $v0, $v0, 0x4000           ## $v0 = 01AA4000
+/* 0DD04 80811A44 2718B440 */  addiu   $t8, %lo(_title_staticSegmentRomEnd)
+/* 0DD08 80811A48 24424000 */  addiu   $v0, %lo(_title_staticSegmentRomStart)
 /* 0DD0C 80811A4C 03022823 */  subu    $a1, $t8, $v0              
 /* 0DD10 80811A50 3C048081 */  lui     $a0, %hi(D_80812F48)       ## $a0 = 80810000
 /* 0DD14 80811A54 A5EE0110 */  sh      $t6, 0x0110($t7)           ## 80160110
@@ -43,10 +43,10 @@ glabel func_80811A20
 /* 0DD74 80811AB4 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 0DD78 80811AB8 0C0006A8 */  jal     DmaMgr_SendRequest1              
 /* 0DD7C 80811ABC 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0DD80 80811AC0 3C0301AF */  lui     $v1, 0x01AF                ## $v1 = 01AF0000
-/* 0DD84 80811AC4 3C0801AF */  lui     $t0, 0x01AF                ## $t0 = 01AF0000
-/* 0DD88 80811AC8 2508FB00 */  addiu   $t0, $t0, 0xFB00           ## $t0 = 01AEFB00
-/* 0DD8C 80811ACC 2463C000 */  addiu   $v1, $v1, 0xC000           ## $v1 = 01AEC000
+/* 0DD80 80811AC0 3C0301AF */  lui     $v1, %hi(_parameter_staticSegmentRomStart)
+/* 0DD84 80811AC4 3C0801AF */  lui     $t0, %hi(_parameter_staticSegmentRomEnd)
+/* 0DD88 80811AC8 2508FB00 */  addiu   $t0, %lo(_parameter_staticSegmentRomEnd)
+/* 0DD8C 80811ACC 2463C000 */  addiu   $v1, %lo(_parameter_staticSegmentRomStart)
 /* 0DD90 80811AD0 01032823 */  subu    $a1, $t0, $v1              
 /* 0DD94 80811AD4 3C068081 */  lui     $a2, %hi(D_80812FAC)       ## $a2 = 80810000
 /* 0DD98 80811AD8 24C62FAC */  addiu   $a2, $a2, %lo(D_80812FAC)  ## $a2 = 80812FAC
@@ -77,12 +77,12 @@ glabel func_80811A20
 /* 0DDF0 80811B30 0C034204 */  jal     Matrix_Init              
 /* 0DDF4 80811B34 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DDF8 80811B38 260400B8 */  addiu   $a0, $s0, 0x00B8           ## $a0 = 000000B8
-/* 0DDFC 80811B3C 0C02A89E */  jal     func_800AA278              
+/* 0DDFC 80811B3C 0C02A89E */  jal     View_Init              
 /* 0DE00 80811B40 8E050000 */  lw      $a1, 0x0000($s0)           ## 00000000
 /* 0DE04 80811B44 3C0A8081 */  lui     $t2, %hi(func_80810DAC)    ## $t2 = 80810000
-/* 0DE08 80811B48 3C0B8081 */  lui     $t3, %hi(.L80811A18)       ## $t3 = 80810000
+/* 0DE08 80811B48 3C0B8081 */  lui     $t3, %hi(func_80811A18)       ## $t3 = 80810000
 /* 0DE0C 80811B4C 254A0DAC */  addiu   $t2, $t2, %lo(func_80810DAC) ## $t2 = 80810DAC
-/* 0DE10 80811B50 256B1A18 */  addiu   $t3, $t3, %lo(.L80811A18)  ## $t3 = 80811A18
+/* 0DE10 80811B50 256B1A18 */  addiu   $t3, $t3, %lo(func_80811A18)  ## $t3 = 80811A18
 /* 0DE14 80811B54 AE0A0004 */  sw      $t2, 0x0004($s0)           ## 00000004
 /* 0DE18 80811B58 AE0B0008 */  sw      $t3, 0x0008($s0)           ## 00000008
 /* 0DE1C 80811B5C 0C2044EA */  jal     func_808113A8              
@@ -107,4 +107,3 @@ glabel func_80811A20
 /* 0DE64 80811BA4 03E00008 */  jr      $ra                        
 /* 0DE68 80811BA8 00000000 */  nop
 /* 0DE6C 80811BAC 00000000 */  nop
-

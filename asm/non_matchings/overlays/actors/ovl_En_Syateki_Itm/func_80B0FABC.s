@@ -1,3 +1,19 @@
+.rdata
+glabel D_80B10438
+    .asciz "[32m☆☆☆☆☆ ルピーでエラー原 ☆☆☆☆ \n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B10674
+.word L80B0FBDC
+.word L80B0FC10
+.word L80B0FC64
+.word L80B0FC98
+.word L80B0FCEC
+.word L80B0FD40
+.word 0x00000000
+
+.text
 glabel func_80B0FABC
 /* 0040C 80B0FABC 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 00410 80B0FAC0 3C0E80B1 */  lui     $t6, %hi(D_80B103C8)       ## $t6 = 80B10000
@@ -335,5 +351,3 @@ glabel L80B0FD40
 /* 00888 80B0FF38 8FBE0058 */  lw      $s8, 0x0058($sp)           
 /* 0088C 80B0FF3C 03E00008 */  jr      $ra                        
 /* 00890 80B0FF40 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

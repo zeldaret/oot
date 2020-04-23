@@ -1,11 +1,21 @@
+.rdata
+glabel D_80A343D0
+    .asciz "0"
+    .balign 4
+
+glabel D_80A343D4
+    .asciz "../z_en_ge2.c"
+    .balign 4
+
+.text
 glabel EnGe2_Init
 /* 000A4 80A32C74 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 000A8 80A32C78 AFB00028 */  sw      $s0, 0x0028($sp)
 /* 000AC 80A32C7C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 000B0 80A32C80 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 000B4 80A32C84 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 000B8 80A32C88 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 000BC 80A32C8C 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 000B8 80A32C88 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 000BC 80A32C8C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 000C0 80A32C90 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 000C4 80A32C94 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 000C8 80A32C98 0C00AC78 */  jal     ActorShape_Init
@@ -26,7 +36,7 @@ glabel EnGe2_Init
 /* 00100 80A32CD0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00104 80A32CD4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00108 80A32CD8 24A59ED4 */  addiu   $a1, $a1, 0x9ED4           ## $a1 = 06009ED4
-/* 0010C 80A32CDC 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 0010C 80A32CDC 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00110 80A32CE0 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 00114 80A32CE4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00118 80A32CE8 AFA50030 */  sw      $a1, 0x0030($sp)
@@ -151,5 +161,3 @@ glabel EnGe2_Init
 /* 002C8 80A32E98 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 002CC 80A32E9C 03E00008 */  jr      $ra
 /* 002D0 80A32EA0 00000000 */  nop
-
-

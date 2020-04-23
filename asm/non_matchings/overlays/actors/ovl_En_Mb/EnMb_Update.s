@@ -1,3 +1,13 @@
+.late_rodata
+glabel D_80AA9E94
+    .float 4500.0
+
+glabel D_80AA9E98
+ .word 0xC5898000
+glabel D_80AA9E9C
+ .word 0xC5898000
+
+.text
 glabel EnMb_Update
 /* 03654 80AA96A4 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 03658 80AA96A8 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -128,5 +138,3 @@ glabel EnMb_Update
 /* 03814 80AA9864 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 03818 80AA9868 03E00008 */  jr      $ra                        
 /* 0381C 80AA986C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

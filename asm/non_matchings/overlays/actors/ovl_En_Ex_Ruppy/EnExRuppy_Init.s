@@ -1,3 +1,45 @@
+.rdata
+glabel D_80A0B3D0
+    .asciz "[32m☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80A0B400
+    .asciz "[32m☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A0B430
+    .asciz "[32m☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A0B50C
+.word L80A0A478
+.word L80A0A634
+.word L80A0A634
+.word L80A0A6E0
+.word L80A0A7AC
+glabel D_80A0B520
+    .float 0.01
+
+glabel D_80A0B524
+ .word 0x4348FD71
+glabel D_80A0B528
+    .float 0.02
+
+glabel D_80A0B52C
+    .float 0.02
+
+glabel D_80A0B530
+ .word 0x407F5C29
+glabel D_80A0B534
+    .float 0.02
+
+glabel D_80A0B538
+ .word 0x41F7EB85
+glabel D_80A0B53C
+    .float 0.01
+
+.text
 glabel EnExRuppy_Init
 /* 00000 80A0A410 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00004 80A0A414 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -11,8 +53,8 @@ glabel EnExRuppy_Init
 /* 00024 80A0A434 0C00084C */  jal     osSyncPrintf
               
 /* 00028 80A0A438 86050152 */  lh      $a1, 0x0152($s0)           ## 00000152
-/* 0002C 80A0A43C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00030 80A0A440 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0002C 80A0A43C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00030 80A0A440 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00034 80A0A444 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00038 80A0A448 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0003C 80A0A44C 0C00AC78 */  jal     ActorShape_Init
@@ -38,9 +80,9 @@ glabel L80A0A478
 /* 00080 80A0A490 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 00084 80A0A494 2418FFFF */  addiu   $t8, $zero, 0xFFFF         ## $t8 = FFFFFFFF
 /* 00088 80A0A498 A2180003 */  sb      $t8, 0x0003($s0)           ## 00000003
-/* 0008C 80A0A49C 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 0008C 80A0A49C 3C198016 */  lui     $t9, %hi(gSaveContext+0xeda)
 /* 00090 80A0A4A0 E604006C */  swc1    $f4, 0x006C($s0)           ## 0000006C
-/* 00094 80A0A4A4 9739F53A */  lhu     $t9, -0x0AC6($t9)          ## 8015F53A
+/* 00094 80A0A4A4 9739F53A */  lhu     $t9, %lo(gSaveContext+0xeda)($t9)
 /* 00098 80A0A4A8 24090005 */  addiu   $t1, $zero, 0x0005         ## $t1 = 00000005
 /* 0009C 80A0A4AC 3C0180A1 */  lui     $at, %hi(D_80A0B524)       ## $at = 80A10000
 /* 000A0 80A0A4B0 33280100 */  andi    $t0, $t9, 0x0100           ## $t0 = 00000000
@@ -288,5 +330,3 @@ glabel L80A0A7AC
 /* 003F8 80A0A808 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 003FC 80A0A80C 03E00008 */  jr      $ra                        
 /* 00400 80A0A810 00000000 */  nop
-
-

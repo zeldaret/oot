@@ -32,7 +32,7 @@ glabel func_800800F8
 /* AF72E8 80080148 AFA70054 */   sw    $a3, 0x54($sp)
 /* AF72EC 8008014C 849107A0 */  lh    $s1, 0x7a0($a0)
 .L80080150:
-/* AF72F0 80080150 0C03008C */  jal   func_800C0230
+/* AF72F0 80080150 0C03008C */  jal   Gameplay_CreateSubCamera
 /* AF72F4 80080154 02602025 */   move  $a0, $s3
 /* AF72F8 80080158 14570007 */  bne   $v0, $s7, .L80080178
 /* AF72FC 8008015C A7A20042 */   sh    $v0, 0x42($sp)
@@ -94,12 +94,12 @@ glabel func_800800F8
 /* AF73D0 80080230 E46400FC */   swc1  $f4, 0xfc($v1)
 /* AF73D4 80080234 00112C00 */  sll   $a1, $s1, 0x10
 /* AF73D8 80080238 00052C03 */  sra   $a1, $a1, 0x10
-/* AF73DC 8008023C 0C0300C5 */  jal   func_800C0314
+/* AF73DC 8008023C 0C0300C5 */  jal   Gameplay_ChangeCameraStatus
 /* AF73E0 80080240 02602025 */   move  $a0, $s3
 /* AF73E4 80080244 10000004 */  b     .L80080258
 /* AF73E8 80080248 00143400 */   sll   $a2, $s4, 0x10
 .L8008024C:
-/* AF73EC 8008024C 0C0300C5 */  jal   func_800C0314
+/* AF73EC 8008024C 0C0300C5 */  jal   Gameplay_ChangeCameraStatus
 /* AF73F0 80080250 24060001 */   li    $a2, 1
 /* AF73F4 80080254 00143400 */  sll   $a2, $s4, 0x10
 .L80080258:
@@ -112,7 +112,7 @@ glabel func_800800F8
 /* AF7410 80080270 00103400 */  sll   $a2, $s0, 0x10
 /* AF7414 80080274 00063403 */  sra   $a2, $a2, 0x10
 /* AF7418 80080278 02602025 */  move  $a0, $s3
-/* AF741C 8008027C 0C0300C5 */  jal   func_800C0314
+/* AF741C 8008027C 0C0300C5 */  jal   Gameplay_ChangeCameraStatus
 /* AF7420 80080280 87A50042 */   lh    $a1, 0x42($sp)
 /* AF7424 80080284 8ECE0790 */  lw    $t6, 0x790($s6)
 /* AF7428 80080288 87B20042 */  lh    $s2, 0x42($sp)
@@ -180,7 +180,7 @@ glabel func_800800F8
 /* AF750C 8008036C 00102C00 */  sll   $a1, $s0, 0x10
 /* AF7510 80080370 00052C03 */  sra   $a1, $a1, 0x10
 /* AF7514 80080374 02602025 */  move  $a0, $s3
-/* AF7518 80080378 0C0300C5 */  jal   func_800C0314
+/* AF7518 80080378 0C0300C5 */  jal   Gameplay_ChangeCameraStatus
 /* AF751C 8008037C 24060007 */   li    $a2, 7
 /* AF7520 80080380 1000000C */  b     .L800803B4
 /* AF7524 80080384 8E390790 */   lw    $t9, 0x790($s1)

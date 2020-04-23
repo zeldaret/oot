@@ -1,6 +1,5 @@
 #include "z_en_changer.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void EnChanger_Init(EnChanger* this, GlobalContext* globalCtx);
@@ -11,7 +10,6 @@ void EnChanger_Update(EnChanger* this, GlobalContext* globalCtx);
 const ActorInit En_Changer_InitVars = {
     ACTOR_EN_CHANGER,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnChanger),

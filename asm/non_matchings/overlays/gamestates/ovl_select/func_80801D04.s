@@ -9,7 +9,7 @@ glabel func_80801D04
 /* 01190 80801D20 24C63570 */  addiu   $a2, $a2, %lo(D_80803570)  ## $a2 = 80803570
 /* 01194 80801D24 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 01198 80801D28 240703F5 */  addiu   $a3, $zero, 0x03F5         ## $a3 = 000003F5
-/* 0119C 80801D2C 0C031AB1 */  jal     func_800C6AC4              
+/* 0119C 80801D2C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 011A0 80801D30 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 011A4 80801D34 8E2302C0 */  lw      $v1, 0x02C0($s1)           ## 000002C0
 /* 011A8 80801D38 3C0FDB06 */  lui     $t7, 0xDB06                ## $t7 = DB060000
@@ -30,7 +30,7 @@ glabel func_80801D04
 /* 011E4 80801D74 AFB80028 */  sw      $t8, 0x0028($sp)           
 /* 011E8 80801D78 AFA00024 */  sw      $zero, 0x0024($sp)         
 /* 011EC 80801D7C AFA0002C */  sw      $zero, 0x002C($sp)         
-/* 011F0 80801D80 0C02A93F */  jal     func_800AA4FC              
+/* 011F0 80801D80 0C02A93F */  jal     View_SetViewport              
 /* 011F4 80801D84 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFD4
 /* 011F8 80801D88 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 011FC 80801D8C 0C02AA94 */  jal     func_800AAA50              
@@ -50,12 +50,10 @@ glabel func_80801D04
 /* 0122C 80801DBC 24C63580 */  addiu   $a2, $a2, %lo(D_80803580)  ## $a2 = 80803580
 /* 01230 80801DC0 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 01234 80801DC4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
-/* 01238 80801DC8 0C031AD5 */  jal     func_800C6B54              
+/* 01238 80801DC8 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0123C 80801DCC 2407040D */  addiu   $a3, $zero, 0x040D         ## $a3 = 0000040D
 /* 01240 80801DD0 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 01244 80801DD4 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 01248 80801DD8 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 0124C 80801DDC 03E00008 */  jr      $ra                        
 /* 01250 80801DE0 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

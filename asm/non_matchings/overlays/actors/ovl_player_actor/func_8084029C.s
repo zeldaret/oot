@@ -1,6 +1,6 @@
 glabel func_8084029C
-/* 0E08C 8084029C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 0E090 808402A0 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 0E08C 8084029C 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 0E090 808402A0 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 0E094 808402A4 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0E098 808402A8 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 0E09C 808402AC AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -117,5 +117,3 @@ glabel func_8084029C
 /* 0E234 80840444 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0E238 80840448 03E00008 */  jr      $ra                        
 /* 0E23C 8084044C 00000000 */  nop
-
-

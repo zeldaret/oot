@@ -8,5 +8,3 @@ glabel BgHakaWater_Update
 /* 003B8 808820B8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 003BC 808820BC 03E00008 */  jr      $ra                        
 /* 003C0 808820C0 00000000 */  nop
-
-

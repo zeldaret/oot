@@ -35,7 +35,10 @@ glabel D_801305C4
     .incbin "baserom.z64", 0xBA7764, 0x8
 
 glabel D_801305CC
-    .incbin "baserom.z64", 0xBA776C, 0x14
+    .incbin "baserom.z64", 0xBA776C, 0x4
+
+glabel D_801305D0
+    .incbin "baserom.z64", 0xBA7770, 0x10
 
 glabel D_801305E0
     .incbin "baserom.z64", 0xBA7780, 0x4
@@ -236,7 +239,10 @@ glabel D_8013170C
     .incbin "baserom.z64", 0xBA88AC, 0x134
 
 glabel D_80131840
-    .incbin "baserom.z64", 0xBA89E0, 0x18
+    .incbin "baserom.z64", 0xBA89E0, 0x14
+
+glabel D_80131854
+    .incbin "baserom.z64", 0xBA89F4, 0x4
 
 glabel D_80131858
     .incbin "baserom.z64", 0xBA89F8, 0x4

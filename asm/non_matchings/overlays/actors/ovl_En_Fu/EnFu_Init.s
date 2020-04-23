@@ -4,8 +4,8 @@ glabel EnFu_Init
 /* 00008 80A1D818 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0000C 80A1D81C AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00010 80A1D820 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 00014 80A1D824 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00018 80A1D828 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00014 80A1D824 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00018 80A1D828 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0001C 80A1D82C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00020 80A1D830 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00024 80A1D834 0C00AC78 */  jal     ActorShape_Init
@@ -27,7 +27,7 @@ glabel EnFu_Init
 /* 00060 80A1D870 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00064 80A1D874 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00068 80A1D878 24A50B04 */  addiu   $a1, $a1, 0x0B04           ## $a1 = 06000B04
-/* 0006C 80A1D87C 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 0006C 80A1D87C 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00070 80A1D880 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00074 80A1D884 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00078 80A1D888 AFA50034 */  sw      $a1, 0x0034($sp)
@@ -48,8 +48,8 @@ glabel EnFu_Init
 /* 000AC 80A1D8BC 0C00B58B */  jal     Actor_SetScale
 
 /* 000B0 80A1D8C0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000B4 80A1D8C4 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 000B8 80A1D8C8 8D08E664 */  lw      $t0, -0x199C($t0)          ## 8015E664
+/* 000B4 80A1D8C4 3C088016 */  lui     $t0, %hi(gSaveContext+4)
+/* 000B8 80A1D8C8 8D08E664 */  lw      $t0, %lo(gSaveContext+4)($t0)
 /* 000BC 80A1D8CC 3C0A80A2 */  lui     $t2, %hi(func_80A1DE24)    ## $t2 = 80A20000
 /* 000C0 80A1D8D0 254ADE24 */  addiu   $t2, $t2, %lo(func_80A1DE24) ## $t2 = 80A1DE24
 /* 000C4 80A1D8D4 11000006 */  beq     $t0, $zero, .L80A1D8F0
@@ -74,5 +74,3 @@ glabel EnFu_Init
 /* 00108 80A1D918 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 0010C 80A1D91C 03E00008 */  jr      $ra
 /* 00110 80A1D920 00000000 */  nop
-
-

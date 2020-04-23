@@ -1,3 +1,9 @@
+.rdata
+glabel D_80BA0BCC
+    .asciz "◯◯◯◯ Time Block 注目カメラ (frame counter  %d)\n"
+    .balign 4
+
+.text
 glabel func_80BA0768
 /* 007C8 80BA0768 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 007CC 80BA076C AFB00014 */  sw      $s0, 0x0014($sp)           
@@ -57,5 +63,3 @@ glabel func_80BA0768
 /* 00890 80BA0830 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00894 80BA0834 03E00008 */  jr      $ra                        
 /* 00898 80BA0838 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

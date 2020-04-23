@@ -1,3 +1,25 @@
+.rdata
+glabel D_809768FC
+    .asciz "0"
+    .balign 4
+
+glabel D_80976900
+    .asciz "../z_demo_effect.c"
+    .balign 4
+
+glabel D_80976914
+    .asciz "[36m 縮むバージョン \n[m"
+    .balign 4
+
+glabel D_80976930
+    .asciz "[36m 通常 バージョン \n[m"
+    .balign 4
+
+.late_rodata
+glabel D_80976CE4
+    .float 1.7
+
+.text
 glabel func_80971DFC
 /* 00EAC 80971DFC 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00EB0 80971E00 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -32,7 +54,7 @@ glabel func_80971DFC
 /* 00F1C 80971E6C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00F20 80971E70 24010019 */  addiu   $at, $zero, 0x0019         ## $at = 00000019
 /* 00F24 80971E74 14410022 */  bne     $v0, $at, .L80971F00       
-/* 00F28 80971E78 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 00F28 80971E78 3C038016 */  lui     $v1, %hi(gSaveContext)
 .L80971E7C:
 /* 00F2C 80971E7C 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00F30 80971E80 44810000 */  mtc1    $at, $f0                   ## $f0 = 1.00
@@ -71,7 +93,7 @@ glabel func_80971DFC
 /* 00FA8 80971EF8 1000003F */  beq     $zero, $zero, .L80971FF8   
 /* 00FAC 80971EFC 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80971F00:
-/* 00FB0 80971F00 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = FFFFE660
+/* 00FB0 80971F00 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00FB4 80971F04 8C621360 */  lw      $v0, 0x1360($v1)           ## FFFFF9C0
 /* 00FB8 80971F08 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 00FBC 80971F0C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 0000014C
@@ -144,5 +166,3 @@ glabel func_80971DFC
 /* 010AC 80971FFC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 010B0 80972000 03E00008 */  jr      $ra                        
 /* 010B4 80972004 00000000 */  nop
-
-

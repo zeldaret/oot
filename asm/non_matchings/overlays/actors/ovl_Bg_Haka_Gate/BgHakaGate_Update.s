@@ -18,5 +18,3 @@ glabel BgHakaGate_Update
 /* 00A60 8087C850 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00A64 8087C854 03E00008 */  jr      $ra                        
 /* 00A68 8087C858 00000000 */  nop
-
-

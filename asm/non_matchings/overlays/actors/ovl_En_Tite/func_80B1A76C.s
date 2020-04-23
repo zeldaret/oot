@@ -6,7 +6,7 @@ glabel func_80B1A76C
 /* 01CFC 80B1A77C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 01D00 80B1A780 24A50A14 */  addiu   $a1, $a1, 0x0A14           ## $a1 = 06000A14
 /* 01D04 80B1A784 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 01D08 80B1A788 0C0294E1 */  jal     SkelAnime_ChangeAnimationPlaybackSpeed
+/* 01D08 80B1A788 0C0294E1 */  jal     SkelAnime_ChangeAnimPlaybackRepeat
 /* 01D0C 80B1A78C 3C063FC0 */  lui     $a2, 0x3FC0                ## $a2 = 3FC00000
 /* 01D10 80B1A790 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01D14 80B1A794 0C00BE0A */  jal     Audio_PlayActorSound2
@@ -75,5 +75,3 @@ glabel func_80B1A76C
 /* 01DFC 80B1A87C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 01E00 80B1A880 03E00008 */  jr      $ra
 /* 01E04 80B1A884 00000000 */  nop
-
-

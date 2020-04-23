@@ -25,5 +25,3 @@ glabel EnHorseNormal_Destroy
 /* 006C0 80A6B910 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 006C4 80A6B914 03E00008 */  jr      $ra                        
 /* 006C8 80A6B918 00000000 */  nop
-
-

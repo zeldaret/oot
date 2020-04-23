@@ -1,6 +1,6 @@
 glabel func_80B1156C
-/* 00CFC 80B1156C 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00D00 80B11570 2463FA90 */  addiu   $v1, $v1, 0xFA90           ## $v1 = 8015FA90
+/* 00CFC 80B1156C 3C038016 */  lui     $v1, %hi(gGameInfo)
+/* 00D00 80B11570 2463FA90 */  addiu   $v1, %lo(gGameInfo)
 /* 00D04 80B11574 8C620000 */  lw      $v0, 0x0000($v1)           ## 8015FA90
 /* 00D08 80B11578 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00D0C 80B1157C AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -22,4 +22,3 @@ glabel func_80B1156C
 /* 00D44 80B115B4 03E00008 */  jr      $ra                        
 /* 00D48 80B115B8 00000000 */  nop
 /* 00D4C 80B115BC 00000000 */  nop
-

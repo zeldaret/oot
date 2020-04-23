@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AA28F0
+    .asciz "../z_en_ma2.c"
+    .balign 4
+
+glabel D_80AA2900
+    .asciz "../z_en_ma2.c"
+    .balign 4
+
+.text
 glabel EnMa2_Draw
 /* 00CDC 80AA267C 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00CE0 80AA2680 AFB20030 */  sw      $s2, 0x0030($sp)
@@ -11,7 +21,7 @@ glabel EnMa2_Draw
 /* 00D00 80AA26A0 24C628F0 */  addiu   $a2, $a2, %lo(D_80AA28F0)  ## $a2 = 80AA28F0
 /* 00D04 80AA26A4 27A40044 */  addiu   $a0, $sp, 0x0044           ## $a0 = FFFFFFDC
 /* 00D08 80AA26A8 240703BB */  addiu   $a3, $zero, 0x03BB         ## $a3 = 000003BB
-/* 00D0C 80AA26AC 0C031AB1 */  jal     func_800C6AC4
+/* 00D0C 80AA26AC 0C031AB1 */  jal     Graph_OpenDisps
 /* 00D10 80AA26B0 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 00D14 80AA26B4 864E07A0 */  lh      $t6, 0x07A0($s2)           ## 000007A0
 /* 00D18 80AA26B8 26040024 */  addiu   $a0, $s0, 0x0024           ## $a0 = 00000024
@@ -34,11 +44,11 @@ glabel EnMa2_Draw
 /* 00D58 80AA26F8 AC680000 */  sw      $t0, 0x0000($v1)           ## 00000000
 /* 00D5C 80AA26FC 86090210 */  lh      $t1, 0x0210($s0)           ## 00000210
 /* 00D60 80AA2700 3C0480AA */  lui     $a0, %hi(D_80AA28B4)       ## $a0 = 80AA0000
-/* 00D64 80AA2704 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
+/* 00D64 80AA2704 3C068016 */  lui     $a2, %hi(gSegments)
 /* 00D68 80AA2708 00095080 */  sll     $t2, $t1,  2
 /* 00D6C 80AA270C 008A2021 */  addu    $a0, $a0, $t2
 /* 00D70 80AA2710 8C8428B4 */  lw      $a0, %lo(D_80AA28B4)($a0)
-/* 00D74 80AA2714 24C66FA8 */  addiu   $a2, $a2, 0x6FA8           ## $a2 = 80166FA8
+/* 00D74 80AA2714 24C66FA8 */  addiu   $a2, %lo(gSegments)
 /* 00D78 80AA2718 3C0500FF */  lui     $a1, 0x00FF                ## $a1 = 00FF0000
 /* 00D7C 80AA271C 00046100 */  sll     $t4, $a0,  4
 /* 00D80 80AA2720 000C6F02 */  srl     $t5, $t4, 28
@@ -87,7 +97,7 @@ glabel EnMa2_Draw
 /* 00E2C 80AA27CC 24C62900 */  addiu   $a2, $a2, %lo(D_80AA2900)  ## $a2 = 80AA2900
 /* 00E30 80AA27D0 27A40044 */  addiu   $a0, $sp, 0x0044           ## $a0 = FFFFFFDC
 /* 00E34 80AA27D4 8E450000 */  lw      $a1, 0x0000($s2)           ## 00000000
-/* 00E38 80AA27D8 0C031AD5 */  jal     func_800C6B54
+/* 00E38 80AA27D8 0C031AD5 */  jal     Graph_CloseDisps
 /* 00E3C 80AA27DC 240703DE */  addiu   $a3, $zero, 0x03DE         ## $a3 = 000003DE
 /* 00E40 80AA27E0 8FBF0034 */  lw      $ra, 0x0034($sp)
 /* 00E44 80AA27E4 8FB00028 */  lw      $s0, 0x0028($sp)
@@ -97,4 +107,3 @@ glabel EnMa2_Draw
 /* 00E54 80AA27F4 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 00E58 80AA27F8 00000000 */  nop
 /* 00E5C 80AA27FC 00000000 */  nop
-

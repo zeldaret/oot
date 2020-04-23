@@ -40,20 +40,36 @@ glabel D_809AA668
 glabel D_809AA66C
  .word 0x46FFFE00
 glabel D_809AA670
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_809AA674
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_809AA678
- .word 0x3C23D70A
+    .float 0.01
+    .balign 4
+
 glabel D_809AA67C
- .word 0x3F666666
+    .float 0.9
+    .balign 4
+
 glabel D_809AA680
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 glabel D_809AA684
- .word 0xBF4CCCCD
+    .float -0.8
+    .balign 4
+
 glabel D_809AA688
- .word 0x3F666666
+    .float 0.9
+    .balign 4
+
 glabel D_809AA68C
- .word 0x3E4CCCCD
+    .float 0.2
+    .balign 4
+
 
 

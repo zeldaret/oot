@@ -1,3 +1,17 @@
+.late_rodata
+glabel jtbl_80AA2910
+.word L80AA1AD0
+.word L80AA1AD0
+.word L80AA1A78
+.word L80AA1AD0
+.word L80AA1AD0
+.word L80AA1AD0
+.word L80AA1AD0
+.word L80AA1AD0
+.word L80AA1AD0
+.word L80AA1AD0
+
+.text
 glabel func_80AA1A38
 /* 00098 80AA1A38 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 0009C 80AA1A3C AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -26,16 +40,16 @@ glabel L80AA1A78
 /* 000F4 80AA1A94 1000000E */  beq     $zero, $zero, .L80AA1AD0   
 /* 000F8 80AA1A98 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 .L80AA1A9C:
-/* 000FC 80AA1A9C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00100 80AA1AA0 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 000FC 80AA1A9C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00100 80AA1AA0 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00104 80AA1AA4 94580F08 */  lhu     $t8, 0x0F08($v0)           ## 8015F568
 /* 00108 80AA1AA8 24030002 */  addiu   $v1, $zero, 0x0002         ## $v1 = 00000002
 /* 0010C 80AA1AAC 37191000 */  ori     $t9, $t8, 0x1000           ## $t9 = 00001000
 /* 00110 80AA1AB0 10000007 */  beq     $zero, $zero, .L80AA1AD0   
 /* 00114 80AA1AB4 A4590F08 */  sh      $t9, 0x0F08($v0)           ## 8015F568
 .L80AA1AB8:
-/* 00118 80AA1AB8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0011C 80AA1ABC 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00118 80AA1AB8 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0011C 80AA1ABC 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00120 80AA1AC0 94480F08 */  lhu     $t0, 0x0F08($v0)           ## 8015F568
 /* 00124 80AA1AC4 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 00128 80AA1AC8 35092000 */  ori     $t1, $t0, 0x2000           ## $t1 = 00002000
@@ -47,5 +61,3 @@ glabel L80AA1AD0
 /* 00138 80AA1AD8 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000000
 /* 0013C 80AA1ADC 03E00008 */  jr      $ra                        
 /* 00140 80AA1AE0 00000000 */  nop
-
-

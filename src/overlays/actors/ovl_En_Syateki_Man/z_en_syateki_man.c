@@ -1,6 +1,5 @@
 #include "z_en_syateki_man.h"
 
-#define ROOM 0x00
 #define FLAGS 0x08000019
 
 void EnSyatekiMan_Init(EnSyatekiMan* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnSyatekiMan_Draw(EnSyatekiMan* this, GlobalContext* globalCtx);
 const ActorInit En_Syateki_Man_InitVars = {
     ACTOR_EN_SYATEKI_MAN,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_OSSAN,
     sizeof(EnSyatekiMan),

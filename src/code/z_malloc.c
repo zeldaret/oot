@@ -10,13 +10,13 @@ Arena sZeldaArena;
 void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action) {
     if (!ptr) {
         if (gZeldaArenaLogSeverity >= LOG_SEVERITY_ERROR) {
-            //"%s: %u bytes %s failed\n"
+            // "%s: %u bytes %s failed\n"
             osSyncPrintf("%s: %u バイトの%sに失敗しました\n", name, size, action);
             __osDisplayArena(&sZeldaArena);
             return;
         }
     } else if (gZeldaArenaLogSeverity >= LOG_SEVERITY_VERBOSE) {
-        //"%s: %u bytes %s succeeded\n"
+        // "%s: %u bytes %s succeeded\n"
         osSyncPrintf("%s: %u バイトの%sに成功しました\n", name, size, action);
     }
 }

@@ -53,10 +53,10 @@ glabel func_800C9E44
 .L800C9EA8:
 /* B41048 800C9EA8 3C068014 */  lui   $a2, %hi(D_801462A8) # $a2, 0x8014
 /* B4104C 800C9EAC 24C662A8 */  addiu $a2, %lo(D_801462A8) # addiu $a2, $a2, 0x62a8
-/* B41050 800C9EB0 0C031AB1 */  jal   func_800C6AC4
+/* B41050 800C9EB0 0C031AB1 */  jal   Graph_OpenDisps
 /* B41054 800C9EB4 2407013E */   li    $a3, 318
 /* B41058 800C9EB8 27A40080 */  addiu $a0, $sp, 0x80
-/* B4105C 800C9EBC 0C02A89E */  jal   func_800AA278
+/* B4105C 800C9EBC 0C02A89E */  jal   View_Init
 /* B41060 800C9EC0 8FA501B4 */   lw    $a1, 0x1b4($sp)
 /* B41064 800C9EC4 240F000A */  li    $t7, 10
 /* B41068 800C9EC8 241800F0 */  li    $t8, 240
@@ -67,7 +67,7 @@ glabel func_800C9E44
 /* B4107C 800C9EDC AFA00058 */  sw    $zero, 0x58($sp)
 /* B41080 800C9EE0 AFA00060 */  sw    $zero, 0x60($sp)
 /* B41084 800C9EE4 27A40080 */  addiu $a0, $sp, 0x80
-/* B41088 800C9EE8 0C02A93F */  jal   func_800AA4FC
+/* B41088 800C9EE8 0C02A93F */  jal   View_SetViewport
 /* B4108C 800C9EEC 27A50058 */   addiu $a1, $sp, 0x58
 /* B41090 800C9EF0 8FA901B4 */  lw    $t1, 0x1b4($sp)
 /* B41094 800C9EF4 27A40080 */  addiu $a0, $sp, 0x80
@@ -197,7 +197,7 @@ glabel func_800C9E44
 /* B4127C 800CA0DC 8FAF01B4 */  lw    $t7, 0x1b4($sp)
 /* B41280 800CA0E0 8FB8007C */  lw    $t8, 0x7c($sp)
 /* B41284 800CA0E4 ADF802B0 */  sw    $t8, 0x2b0($t7)
-/* B41288 800CA0E8 0C031AD5 */  jal   func_800C6B54
+/* B41288 800CA0E8 0C031AD5 */  jal   Graph_CloseDisps
 /* B4128C 800CA0EC 8FA501B4 */   lw    $a1, 0x1b4($sp)
 /* B41290 800CA0F0 8FBF001C */  lw    $ra, 0x1c($sp)
 .L800CA0F4:

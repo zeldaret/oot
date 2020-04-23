@@ -19,5 +19,3 @@ glabel EnBomChu_Destroy
 /* 001E0 809C5A10 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001E4 809C5A14 03E00008 */  jr      $ra                        
 /* 001E8 809C5A18 00000000 */  nop
-
-

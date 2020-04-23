@@ -1,6 +1,5 @@
 #include "z_en_ossan.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000019
 
 void EnOssan_Init(EnOssan* this, GlobalContext* globalCtx);
@@ -11,7 +10,6 @@ void EnOssan_Update(EnOssan* this, GlobalContext* globalCtx);
 const ActorInit En_Ossan_InitVars = {
     ACTOR_EN_OSSAN,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnOssan),

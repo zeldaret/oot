@@ -13,5 +13,3 @@ glabel EfcErupc_Update
 /* 002F4 8099CFA4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 002F8 8099CFA8 03E00008 */  jr      $ra                        
 /* 002FC 8099CFAC 00000000 */  nop
-
-

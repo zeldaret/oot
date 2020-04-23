@@ -11,5 +11,3 @@ glabel func_808CB67C
 .L808CB6A0:
 /* 008E0 808CB6A0 03E00008 */  jr      $ra                        
 /* 008E4 808CB6A4 28622000 */  slti    $v0, $v1, 0x2000           
-
-

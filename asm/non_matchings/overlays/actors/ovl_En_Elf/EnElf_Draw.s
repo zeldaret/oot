@@ -13,12 +13,12 @@ glabel EnElf_Draw
 /* 03C54 80A05884 5700019E */  bnel    $t8, $zero, .L80A05F00
 /* 03C58 80A05888 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 03C5C 80A0588C 8C59067C */  lw      $t9, 0x067C($v0)           ## 0000067C
-/* 03C60 80A05890 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 03C60 80A05890 3C0B8016 */  lui     $t3, %hi(gGameInfo)
 /* 03C64 80A05894 24050020 */  addiu   $a1, $zero, 0x0020         ## $a1 = 00000020
 /* 03C68 80A05898 001952C0 */  sll     $t2, $t9, 11
 /* 03C6C 80A0589C 0543000C */  bgezl   $t2, .L80A058D0
 /* 03C70 80A058A0 8CC40000 */  lw      $a0, 0x0000($a2)           ## 00000000
-/* 03C74 80A058A4 8D6BFA90 */  lw      $t3, -0x0570($t3)          ## 8015FA90
+/* 03C74 80A058A4 8D6BFA90 */  lw      $t3, %lo(gGameInfo)($t3)
 /* 03C78 80A058A8 C48800EC */  lwc1    $f8, 0x00EC($a0)           ## 000000EC
 /* 03C7C 80A058AC 856C1508 */  lh      $t4, 0x1508($t3)           ## 80161508
 /* 03C80 80A058B0 448C2000 */  mtc1    $t4, $f4                   ## $f4 = 0.00
@@ -40,7 +40,7 @@ glabel EnElf_Draw
 /* 03CB8 80A058E8 AFA20068 */  sw      $v0, 0x0068($sp)
 /* 03CBC 80A058EC 27A40050 */  addiu   $a0, $sp, 0x0050           ## $a0 = FFFFFFD0
 /* 03CC0 80A058F0 24070AAA */  addiu   $a3, $zero, 0x0AAA         ## $a3 = 00000AAA
-/* 03CC4 80A058F4 0C031AB1 */  jal     func_800C6AC4
+/* 03CC4 80A058F4 0C031AB1 */  jal     Graph_OpenDisps
 /* 03CC8 80A058F8 AFA50060 */  sw      $a1, 0x0060($sp)
 /* 03CCC 80A058FC 8FAE0084 */  lw      $t6, 0x0084($sp)
 /* 03CD0 80A05900 0C0252D6 */  jal     func_80094B58
@@ -453,7 +453,7 @@ glabel EnElf_Draw
 /* 042B8 80A05EE8 8FAC0084 */  lw      $t4, 0x0084($sp)
 /* 042BC 80A05EEC 27A40050 */  addiu   $a0, $sp, 0x0050           ## $a0 = FFFFFFD0
 /* 042C0 80A05EF0 24070AE9 */  addiu   $a3, $zero, 0x0AE9         ## $a3 = 00000AE9
-/* 042C4 80A05EF4 0C031AD5 */  jal     func_800C6B54
+/* 042C4 80A05EF4 0C031AD5 */  jal     Graph_CloseDisps
 /* 042C8 80A05EF8 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 .L80A05EFC:
 /* 042CC 80A05EFC 8FBF002C */  lw      $ra, 0x002C($sp)
@@ -462,5 +462,3 @@ glabel EnElf_Draw
 /* 042D4 80A05F04 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 042D8 80A05F08 03E00008 */  jr      $ra
 /* 042DC 80A05F0C 00000000 */  nop
-
-

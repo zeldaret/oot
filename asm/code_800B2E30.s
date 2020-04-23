@@ -139,7 +139,7 @@ glabel func_800B2E30
 /* B2A194 800B2FF4 E7A00018 */  swc1  $f0, 0x18($sp)
 /* B2A198 800B2FF8 E7A0001C */  swc1  $f0, 0x1c($sp)
 /* B2A19C 800B2FFC E7A00024 */  swc1  $f0, 0x24($sp)
-/* B2A1A0 800B3000 0C04078D */  jal   func_80101E34
+/* B2A1A0 800B3000 0C04078D */  jal   guLookAtReflect
 /* B2A1A4 800B3004 E7AA0020 */   swc1  $f10, 0x20($sp)
 /* B2A1A8 800B3008 8FBF0034 */  lw    $ra, 0x34($sp)
 /* B2A1AC 800B300C 8FB00030 */  lw    $s0, 0x30($sp)
@@ -299,7 +299,7 @@ glabel func_800B31D0
 /* B2A3D0 800B3230 AD4C0000 */  sw    $t4, ($t2)
 /* B2A3D4 800B3234 8E06000C */  lw    $a2, 0xc($s0)
 /* B2A3D8 800B3238 8E050008 */  lw    $a1, 8($s0)
-/* B2A3DC 800B323C 0C02536E */  jal   func_80094DB8
+/* B2A3DC 800B323C 0C02536E */  jal   Gfx_BranchTexScroll
 /* B2A3E0 800B3240 AFAD0010 */   sw    $t5, 0x10($sp)
 /* B2A3E4 800B3244 8FAE007C */  lw    $t6, 0x7c($sp)
 /* B2A3E8 800B3248 3C18DB06 */  lui   $t8, (0xDB060024 >> 16) # lui $t8, 0xdb06

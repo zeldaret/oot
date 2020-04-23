@@ -8,5 +8,3 @@ glabel BgMoriKaitenkabe_Update
 /* 004E0 808A52A0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 004E4 808A52A4 03E00008 */  jr      $ra                        
 /* 004E8 808A52A8 00000000 */  nop
-
-

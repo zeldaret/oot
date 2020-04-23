@@ -1,6 +1,5 @@
 #include "z_boss_mo.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000035
 
 void BossMo_Init(BossMo* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BossMo_Draw(BossMo* this, GlobalContext* globalCtx);
 const ActorInit Boss_Mo_InitVars = {
     ACTOR_BOSS_MO,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_MO,
     sizeof(BossMo),

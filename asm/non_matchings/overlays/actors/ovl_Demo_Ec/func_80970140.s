@@ -1,3 +1,9 @@
+.rdata
+glabel D_8097075C
+    .asciz "\x1B[31mDemo_Ec_main_bank:バンクを読めない arg_data = %d!\n\x1B[m"
+    .balign 4
+
+.text
 glabel func_80970140
 /* 02C90 80970140 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 02C94 80970144 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -66,5 +72,3 @@ glabel func_80970140
 /* 02D68 80970218 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 02D6C 8097021C 03E00008 */  jr      $ra                        
 /* 02D70 80970220 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

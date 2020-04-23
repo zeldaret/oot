@@ -1,3 +1,42 @@
+.rdata
+glabel D_80B0F1A0
+    .asciz "../z_en_sw.c"
+    .balign 4
+
+glabel D_80B0F1B0
+    .asciz "../z_en_sw.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B0F24C
+.word L80B0ECAC
+.word L80B0EC9C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC2C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC4C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC3C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC7C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC6C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC1C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC5C
+.word L80B0ECB8
+.word L80B0ECB8
+.word L80B0EC8C
+
+.text
 glabel func_80B0EAC4
 /* 02D14 80B0EAC4 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 02D18 80B0EAC8 3C0F80B1 */  lui     $t7, %hi(D_80B0F150)       ## $t7 = 80B10000
@@ -67,7 +106,7 @@ glabel func_80B0EAC4
 /* 02E18 80B0EBC8 8D050000 */  lw      $a1, 0x0000($t0)           ## FFFFFFE8
 /* 02E1C 80B0EBCC 24070824 */  addiu   $a3, $zero, 0x0824         ## $a3 = 00000824
 /* 02E20 80B0EBD0 27A40028 */  addiu   $a0, $sp, 0x0028           ## $a0 = FFFFFFA0
-/* 02E24 80B0EBD4 0C031AB1 */  jal     func_800C6AC4              
+/* 02E24 80B0EBD4 0C031AB1 */  jal     Graph_OpenDisps              
 /* 02E28 80B0EBD8 AFA50038 */  sw      $a1, 0x0038($sp)           
 /* 02E2C 80B0EBDC 8FB1009C */  lw      $s1, 0x009C($sp)           
 /* 02E30 80B0EBE0 8FA6008C */  lw      $a2, 0x008C($sp)           
@@ -191,7 +230,7 @@ glabel L80B0ECB8
 /* 02FC8 80B0ED78 24C6F1B0 */  addiu   $a2, $a2, %lo(D_80B0F1B0)  ## $a2 = 80B0F1B0
 /* 02FCC 80B0ED7C 27A40028 */  addiu   $a0, $sp, 0x0028           ## $a0 = FFFFFFA0
 /* 02FD0 80B0ED80 24070861 */  addiu   $a3, $zero, 0x0861         ## $a3 = 00000861
-/* 02FD4 80B0ED84 0C031AD5 */  jal     func_800C6B54              
+/* 02FD4 80B0ED84 0C031AD5 */  jal     Graph_CloseDisps              
 /* 02FD8 80B0ED88 8F050000 */  lw      $a1, 0x0000($t8)           ## 00000000
 /* 02FDC 80B0ED8C 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 02FE0 80B0ED90 8FB00014 */  lw      $s0, 0x0014($sp)           
@@ -199,5 +238,3 @@ glabel L80B0ECB8
 /* 02FE8 80B0ED98 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
 /* 02FEC 80B0ED9C 03E00008 */  jr      $ra                        
 /* 02FF0 80B0EDA0 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
-
-

@@ -1,3 +1,17 @@
+.rdata
+glabel D_8089B210
+    .asciz "../z_bg_jya_megami.c"
+    .balign 4
+
+glabel D_8089B228
+    .asciz "../z_bg_jya_megami.c"
+    .balign 4
+
+glabel D_8089B240
+    .asciz "../z_bg_jya_megami.c"
+    .balign 4
+
+.text
 glabel func_8089ABC8
 /* 00A98 8089ABC8 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00A9C 8089ABCC AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -9,7 +23,7 @@ glabel func_8089ABC8
 /* 00AB4 8089ABE4 24C6B210 */  addiu   $a2, $a2, %lo(D_8089B210)  ## $a2 = 8089B210
 /* 00AB8 8089ABE8 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFEC
 /* 00ABC 8089ABEC 240702C2 */  addiu   $a3, $zero, 0x02C2         ## $a3 = 000002C2
-/* 00AC0 8089ABF0 0C031AB1 */  jal     func_800C6AC4              
+/* 00AC0 8089ABF0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00AC4 8089ABF4 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00AC8 8089ABF8 8FAF004C */  lw      $t7, 0x004C($sp)           
 /* 00ACC 8089ABFC 0C024F46 */  jal     func_80093D18              
@@ -23,11 +37,11 @@ glabel func_8089ABC8
 /* 00AEC 8089AC1C AC590000 */  sw      $t9, 0x0000($v0)           ## 00000000
 /* 00AF0 8089AC20 850901CC */  lh      $t1, 0x01CC($t0)           ## 000001CC
 /* 00AF4 8089AC24 3C04808A */  lui     $a0, %hi(D_8089B1AC)       ## $a0 = 808A0000
-/* 00AF8 8089AC28 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
+/* 00AF8 8089AC28 3C068016 */  lui     $a2, %hi(gSegments)
 /* 00AFC 8089AC2C 00095080 */  sll     $t2, $t1,  2               
 /* 00B00 8089AC30 008A2021 */  addu    $a0, $a0, $t2              
 /* 00B04 8089AC34 8C84B1AC */  lw      $a0, %lo(D_8089B1AC)($a0)  
-/* 00B08 8089AC38 24C66FA8 */  addiu   $a2, $a2, 0x6FA8           ## $a2 = 80166FA8
+/* 00B08 8089AC38 24C66FA8 */  addiu   $a2, %lo(gSegments)
 /* 00B0C 8089AC3C 3C0500FF */  lui     $a1, 0x00FF                ## $a1 = 00FF0000
 /* 00B10 8089AC40 00046100 */  sll     $t4, $a0,  4               
 /* 00B14 8089AC44 000C6F02 */  srl     $t5, $t4, 28               
@@ -88,12 +102,10 @@ glabel func_8089ABC8
 /* 00BF0 8089AD20 24C6B240 */  addiu   $a2, $a2, %lo(D_8089B240)  ## $a2 = 8089B240
 /* 00BF4 8089AD24 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFEC
 /* 00BF8 8089AD28 240702D0 */  addiu   $a3, $zero, 0x02D0         ## $a3 = 000002D0
-/* 00BFC 8089AD2C 0C031AD5 */  jal     func_800C6B54              
+/* 00BFC 8089AD2C 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00C00 8089AD30 8D450000 */  lw      $a1, 0x0000($t2)           ## 00000000
 /* 00C04 8089AD34 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00C08 8089AD38 8FB00018 */  lw      $s0, 0x0018($sp)           
 /* 00C0C 8089AD3C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00C10 8089AD40 03E00008 */  jr      $ra                        
 /* 00C14 8089AD44 00000000 */  nop
-
-

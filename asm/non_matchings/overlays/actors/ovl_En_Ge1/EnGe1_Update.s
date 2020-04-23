@@ -90,5 +90,3 @@ glabel EnGe1_Update
 /* 01A34 80A323A4 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 01A38 80A323A8 03E00008 */  jr      $ra                        
 /* 01A3C 80A323AC 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

@@ -44,8 +44,8 @@ glabel EnCrow_Init
 /* 000A4 809E02E4 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 000A8 809E02E8 0C0187B5 */  jal     func_80061ED4
 /* 000AC 809E02EC A5490036 */  sh      $t1, 0x0036($t2)           ## 00000036
-/* 000B0 809E02F0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 000B4 809E02F4 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 000B0 809E02F0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 000B4 809E02F4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 000B8 809E02F8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 000BC 809E02FC 3C0544FA */  lui     $a1, 0x44FA                ## $a1 = 44FA0000
 /* 000C0 809E0300 0C00AC78 */  jal     ActorShape_Init
@@ -60,5 +60,3 @@ glabel EnCrow_Init
 /* 000E0 809E0320 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 000E4 809E0324 03E00008 */  jr      $ra
 /* 000E8 809E0328 00000000 */  nop
-
-

@@ -1,3 +1,40 @@
+.late_rodata
+glabel jtbl_80B3BFF0
+.word L80B3B3C4
+.word L80B3B40C
+.word L80B3B438
+.word L80B3B3FC
+.word L80B3B400
+.word L80B3B40C
+.word L80B3B3FC
+.word L80B3B400
+.word L80B3B3FC
+.word L80B3B400
+.word L80B3B40C
+.word L80B3B40C
+.word L80B3B3C4
+.word L80B3B3FC
+.word L80B3B400
+.word L80B3B3B4
+.word L80B3B3B8
+.word L80B3B40C
+.word L80B3B3C4
+.word L80B3B3FC
+.word L80B3B400
+.word L80B3B3B4
+.word L80B3B3B8
+.word L80B3B470
+.word L80B3B470
+glabel D_80B3C054
+    .float 0.6
+
+glabel D_80B3C058
+    .float 0.02
+
+glabel D_80B3C05C
+ .word 0xC0466666
+
+.text
 glabel EnWood02_Init
 /* 0033C 80B3B2AC 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00340 80B3B2B0 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -306,5 +343,3 @@ glabel L80B3B470
 /* 0076C 80B3B6DC 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00770 80B3B6E0 03E00008 */  jr      $ra                        
 /* 00774 80B3B6E4 00000000 */  nop
-
-

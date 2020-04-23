@@ -1,3 +1,27 @@
+.rdata
+glabel D_80888F24
+    .asciz "【ハンマーステップ】 arg_data おかしい (arg_data = %d)"
+    .balign 4
+
+glabel D_80888F5C
+    .asciz "%s %d\n"
+    .balign 4
+
+glabel D_80888F64
+    .asciz "../z_bg_hidan_hamstep.c"
+    .balign 4
+
+glabel D_80888F7C
+    .asciz "B(%d)\n"
+    .balign 4
+
+.late_rodata
+glabel D_80888FD4
+ .word 0xBE75C28F
+glabel D_80888FD8
+    .float 10000.0
+
+.text
 glabel func_80888A58
 /* 00A18 80888A58 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00A1C 80888A5C AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -130,5 +154,3 @@ glabel func_80888A58
 /* 00BEC 80888C2C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00BF0 80888C30 03E00008 */  jr      $ra                        
 /* 00BF4 80888C34 00000000 */  nop
-
-

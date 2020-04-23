@@ -61,5 +61,3 @@ glabel EnMa1_Update
 /* 00C20 80AA12B0 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00C24 80AA12B4 03E00008 */  jr      $ra                        
 /* 00C28 80AA12B8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

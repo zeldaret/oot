@@ -1,6 +1,11 @@
+.late_rodata
+glabel D_80855450
+    .float -1.2
+
+.text
 glabel func_8084411C
-/* 11F0C 8084411C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 11F10 80844120 81CEFA13 */  lb      $t6, -0x05ED($t6)          ## 8015FA13
+/* 11F0C 8084411C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x13b3)
+/* 11F10 80844120 81CEFA13 */  lb      $t6, %lo(gSaveContext+0x13b3)($t6)
 /* 11F14 80844124 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 11F18 80844128 AFB00028 */  sw      $s0, 0x0028($sp)
 /* 11F1C 8084412C 29C10029 */  slti    $at, $t6, 0x0029
@@ -149,7 +154,7 @@ glabel func_8084411C
 /* 12130 80844340 3C073F80 */  lui     $a3, 0x3F80                ## $a3 = 3F800000
 /* 12134 80844344 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 12138 80844348 E7A00014 */  swc1    $f0, 0x0014($sp)
-/* 1213C 8084434C 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 1213C 8084434C 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 12140 80844350 E7AA001C */  swc1    $f10, 0x001C($sp)
 /* 12144 80844354 2419FFFF */  addiu   $t9, $zero, 0xFFFF         ## $t9 = FFFFFFFF
 /* 12148 80844358 100000E6 */  beq     $zero, $zero, .L808446F4
@@ -405,5 +410,3 @@ glabel func_8084411C
 /* 124EC 808446FC 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 124F0 80844700 03E00008 */  jr      $ra
 /* 124F4 80844704 00000000 */  nop
-
-

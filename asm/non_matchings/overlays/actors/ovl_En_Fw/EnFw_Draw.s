@@ -32,5 +32,3 @@ glabel EnFw_Draw
 /* 010B8 80A1F658 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 010BC 80A1F65C 03E00008 */  jr      $ra
 /* 010C0 80A1F660 00000000 */  nop
-
-

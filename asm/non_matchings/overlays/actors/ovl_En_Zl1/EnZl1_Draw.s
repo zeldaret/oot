@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B4E720
+    .asciz "../z_en_girlB.c"
+    .balign 4
+
+glabel D_80B4E730
+    .asciz "../z_en_girlB.c"
+    .balign 4
+
+.text
 glabel EnZl1_Draw
 /* 0191C 80B4C45C 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 01920 80B4C460 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -9,14 +19,14 @@ glabel EnZl1_Draw
 /* 01938 80B4C478 24C6E720 */  addiu   $a2, $a2, %lo(D_80B4E720)  ## $a2 = 80B4E720
 /* 0193C 80B4C47C 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 01940 80B4C480 240707DB */  addiu   $a3, $zero, 0x07DB         ## $a3 = 000007DB
-/* 01944 80B4C484 0C031AB1 */  jal     func_800C6AC4
+/* 01944 80B4C484 0C031AB1 */  jal     Graph_OpenDisps
 /* 01948 80B4C488 AFA50050 */  sw      $a1, 0x0050($sp)
 /* 0194C 80B4C48C 8FA80050 */  lw      $t0, 0x0050($sp)
 /* 01950 80B4C490 3C18DB06 */  lui     $t8, 0xDB06                ## $t8 = DB060000
 /* 01954 80B4C494 37180020 */  ori     $t8, $t8, 0x0020           ## $t8 = DB060020
 /* 01958 80B4C498 8D0202C0 */  lw      $v0, 0x02C0($t0)           ## 000002C0
-/* 0195C 80B4C49C 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
-/* 01960 80B4C4A0 24A56FA8 */  addiu   $a1, $a1, 0x6FA8           ## $a1 = 80166FA8
+/* 0195C 80B4C49C 3C058016 */  lui     $a1, %hi(gSegments)
+/* 01960 80B4C4A0 24A56FA8 */  addiu   $a1, %lo(gSegments)
 /* 01964 80B4C4A4 244F0008 */  addiu   $t7, $v0, 0x0008           ## $t7 = 00000008
 /* 01968 80B4C4A8 AD0F02C0 */  sw      $t7, 0x02C0($t0)           ## 000002C0
 /* 0196C 80B4C4AC AC580000 */  sw      $t8, 0x0000($v0)           ## 00000000
@@ -85,11 +95,10 @@ glabel EnZl1_Draw
 /* 01A68 80B4C5A8 24C6E730 */  addiu   $a2, $a2, %lo(D_80B4E730)  ## $a2 = 80B4E730
 /* 01A6C 80B4C5AC 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 01A70 80B4C5B0 240707FE */  addiu   $a3, $zero, 0x07FE         ## $a3 = 000007FE
-/* 01A74 80B4C5B4 0C031AD5 */  jal     func_800C6B54
+/* 01A74 80B4C5B4 0C031AD5 */  jal     Graph_CloseDisps
 /* 01A78 80B4C5B8 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 01A7C 80B4C5BC 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 01A80 80B4C5C0 8FB00028 */  lw      $s0, 0x0028($sp)
 /* 01A84 80B4C5C4 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 01A88 80B4C5C8 03E00008 */  jr      $ra
 /* 01A8C 80B4C5CC 00000000 */  nop
-

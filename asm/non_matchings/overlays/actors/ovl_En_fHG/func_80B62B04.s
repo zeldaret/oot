@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B65398
+ .word 0xC54F3000
+
+.text
 glabel func_80B62B04
 /* 00144 80B62B04 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00148 80B62B08 AFA5001C */  sw      $a1, 0x001C($sp)
@@ -6,7 +11,7 @@ glabel func_80B62B04
 /* 00154 80B62B14 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00158 80B62B18 24A5E8A0 */  addiu   $a1, $a1, 0xE8A0           ## $a1 = 0600E8A0
 /* 0015C 80B62B1C AFA60018 */  sw      $a2, 0x0018($sp)
-/* 00160 80B62B20 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 00160 80B62B20 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00164 80B62B24 24840250 */  addiu   $a0, $a0, 0x0250           ## $a0 = 00000250
 /* 00168 80B62B28 3C014160 */  lui     $at, 0x4160                ## $at = 41600000
 /* 0016C 80B62B2C 8FA60018 */  lw      $a2, 0x0018($sp)
@@ -25,5 +30,3 @@ glabel func_80B62B04
 /* 001A0 80B62B60 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001A4 80B62B64 03E00008 */  jr      $ra
 /* 001A8 80B62B68 00000000 */  nop
-
-

@@ -16,7 +16,6 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx);
 void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx);
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 static ColliderCylinderInit cylinderInitData = {
@@ -28,7 +27,6 @@ static ColliderCylinderInit cylinderInitData = {
 const ActorInit En_Tubo_Trap_InitVars = {
     ACTOR_EN_TUBO_TRAP,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(EnTuboTrap),
@@ -238,7 +236,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistanceFromLink < 200.0f && this->actor.posRot.pos.y <= player->actor.posRot.pos.y) {
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, this, ACTORTYPE_ENEMY);
         this->actor.flags |= 1;
-        targetHeight = 40.0f + -10.0f * gSaveContext.link_age;
+        targetHeight = 40.0f + -10.0f * gSaveContext.linkAge;
 
         this->targetY = player->actor.posRot.pos.y + targetHeight;
         if (this->targetY < this->actor.posRot.pos.y) {
@@ -291,5 +289,5 @@ void EnTuboTrap_Update(EnTuboTrap* this, GlobalContext* globalCtx) {
 }
 
 void EnTuboTrap_Draw(EnTuboTrap* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, D_05017870);
+    Gfx_DrawDListOpa(globalCtx, D_05017870);
 }

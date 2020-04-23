@@ -14,5 +14,3 @@ glabel EnMa1_Destroy
 /* 006EC 80AA0D7C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 006F0 80AA0D80 03E00008 */  jr      $ra
 /* 006F4 80AA0D84 00000000 */  nop
-
-

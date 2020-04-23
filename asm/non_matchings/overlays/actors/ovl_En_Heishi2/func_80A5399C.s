@@ -1,10 +1,16 @@
+.rdata
+glabel D_80A551C0
+    .asciz "[35m ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_80A5399C
 /* 00AFC 80A5399C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00B00 80A539A0 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00B04 80A539A4 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00B08 80A539A8 A080030B */  sb      $zero, 0x030B($a0)         ## 0000030B
-/* 00B0C 80A539AC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00B10 80A539B0 9442F566 */  lhu     $v0, -0x0A9A($v0)          ## 8015F566
+/* 00B0C 80A539AC 3C028016 */  lui     $v0, %hi(gSaveContext+0xf06)
+/* 00B10 80A539B0 9442F566 */  lhu     $v0, %lo(gSaveContext+0xf06)($v0)
 /* 00B14 80A539B4 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 00B18 80A539B8 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 00B1C 80A539BC 304E0040 */  andi    $t6, $v0, 0x0040           ## $t6 = 00000000
@@ -86,5 +92,3 @@ glabel func_80A5399C
 /* 00C28 80A53AC8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00C2C 80A53ACC 03E00008 */  jr      $ra                        
 /* 00C30 80A53AD0 00000000 */  nop
-
-

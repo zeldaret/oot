@@ -10,5 +10,3 @@ glabel EnDntJiji_Destroy
 /* 00118 809F1BF8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0011C 809F1BFC 03E00008 */  jr      $ra                        
 /* 00120 809F1C00 00000000 */  nop
-
-

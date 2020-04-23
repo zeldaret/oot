@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B90FD0
+    .asciz "\x1b[36m"
+    .balign 4
+
+glabel D_80B90FD8
+    .asciz "馬と豆の木リフト衝突！！！\n"
+    .balign 4
+
+glabel D_80B90FF4
+    .asciz "\x1b[m"
+    .balign 4
+
+.text
 glabel ObjBean_Update
 /* 02048 80B90AC8 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0204C 80B90ACC AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -59,8 +73,8 @@ glabel ObjBean_Update
 /* 0211C 80B90B9C 3C0142B0 */  lui     $at, 0x42B0                ## $at = 42B00000
 /* 02120 80B90BA0 44815000 */  mtc1    $at, $f10                  ## $f10 = 88.00
 /* 02124 80B90BA4 C6080050 */  lwc1    $f8, 0x0050($s0)           ## 00000050
-/* 02128 80B90BA8 3C0A8003 */  lui     $t2, 0x8003                ## $t2 = 80030000
-/* 0212C 80B90BAC 254AB5EC */  addiu   $t2, $t2, 0xB5EC           ## $t2 = 8002B5EC
+/* 02128 80B90BA8 3C0A8003 */  lui     $t2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0212C 80B90BAC 254AB5EC */  addiu   $t2, %lo(ActorShadow_DrawFunc_Circle)
 /* 02130 80B90BB0 460A4402 */  mul.s   $f16, $f8, $f10            
 /* 02134 80B90BB4 AE0A00C0 */  sw      $t2, 0x00C0($s0)           ## 000000C0
 /* 02138 80B90BB8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -121,5 +135,3 @@ glabel ObjBean_Update
 /* 021F0 80B90C70 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 021F4 80B90C74 03E00008 */  jr      $ra                        
 /* 021F8 80B90C78 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

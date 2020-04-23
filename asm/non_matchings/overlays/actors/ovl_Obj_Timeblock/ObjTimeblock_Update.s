@@ -33,5 +33,3 @@ glabel ObjTimeblock_Update
 /* 009EC 80BA098C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 009F0 80BA0990 03E00008 */  jr      $ra                        
 /* 009F4 80BA0994 00000000 */  nop
-
-

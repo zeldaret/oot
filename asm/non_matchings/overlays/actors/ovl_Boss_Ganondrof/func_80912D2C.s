@@ -12,7 +12,7 @@ glabel func_80912D2C
 /* 02714 80912D54 00A0A025 */  or      $s4, $a1, $zero            ## $s4 = 00000000
 /* 02718 80912D58 8CB31C44 */  lw      $s3, 0x1C44($a1)           ## 00001C44
 /* 0271C 80912D5C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 02720 80912D60 0C030129 */  jal     func_800C04A4
+/* 02720 80912D60 0C030129 */  jal     Gameplay_GetCamera
 /* 02724 80912D64 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 02728 80912D68 C6640080 */  lwc1    $f4, 0x0080($s3)           ## 00000080
 /* 0272C 80912D6C 3C048091 */  lui     $a0, %hi(D_809152F8)       ## $a0 = 80910000
@@ -67,12 +67,12 @@ glabel L80912E00
 /* 027D0 80912E10 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 027D4 80912E14 0C00B7D5 */  jal     func_8002DF54
 /* 027D8 80912E18 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 027DC 80912E1C 0C03008C */  jal     func_800C0230
+/* 027DC 80912E1C 0C03008C */  jal     Gameplay_CreateSubCamera
 /* 027E0 80912E20 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 027E4 80912E24 A642035C */  sh      $v0, 0x035C($s2)           ## 0000035C
 /* 027E8 80912E28 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 027EC 80912E2C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 027F0 80912E30 0C0300C5 */  jal     func_800C0314
+/* 027F0 80912E30 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 027F4 80912E34 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 027F8 80912E38 3C048091 */  lui     $a0, %hi(D_80915300)       ## $a0 = 80910000
 /* 027FC 80912E3C 0C00084C */  jal     osSyncPrintf
@@ -80,7 +80,7 @@ glabel L80912E00
 /* 02800 80912E40 24845300 */  addiu   $a0, $a0, %lo(D_80915300)  ## $a0 = 80915300
 /* 02804 80912E44 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 02808 80912E48 8645035C */  lh      $a1, 0x035C($s2)           ## 0000035C
-/* 0280C 80912E4C 0C0300C5 */  jal     func_800C0314
+/* 0280C 80912E4C 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 02810 80912E50 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 02814 80912E54 3C048091 */  lui     $a0, %hi(D_80915304)       ## $a0 = 80910000
 /* 02818 80912E58 0C00084C */  jal     osSyncPrintf
@@ -204,7 +204,7 @@ glabel L80912FB4
 /* 029E0 80913020 E64001D0 */  swc1    $f0, 0x01D0($s2)           ## 000001D0
 /* 029E4 80913024 AFAF0014 */  sw      $t7, 0x0014($sp)
 /* 029E8 80913028 E7A00010 */  swc1    $f0, 0x0010($sp)
-/* 029EC 8091302C 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 029EC 8091302C 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 029F0 80913030 E7A60018 */  swc1    $f6, 0x0018($sp)
 /* 029F4 80913034 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
@@ -224,7 +224,7 @@ glabel L80912FB4
 /* 02A24 80913064 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06000D84
 /* 02A28 80913068 468042A0 */  cvt.s.w $f10, $f8
 /* 02A2C 8091306C 3C06C1A0 */  lui     $a2, 0xC1A0                ## $a2 = C1A00000
-/* 02A30 80913070 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 02A30 80913070 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 02A34 80913074 E64A01D0 */  swc1    $f10, 0x01D0($s2)          ## 000001D0
 /* 02A38 80913078 24190002 */  addiu   $t9, $zero, 0x0002         ## $t9 = 00000002
 /* 02A3C 8091307C A65901A2 */  sh      $t9, 0x01A2($s2)           ## 000001A2
@@ -459,7 +459,7 @@ glabel L809131C4
 /* 02D84 809133C4 A64D035E */  sh      $t5, 0x035E($s2)           ## 0000035E
 /* 02D88 809133C8 A64E01BC */  sh      $t6, 0x01BC($s2)           ## 000001BC
 /* 02D8C 809133CC 24A5189C */  addiu   $a1, $a1, 0x189C           ## $a1 = 0600189C
-/* 02D90 809133D0 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 02D90 809133D0 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 02D94 809133D4 3C06C120 */  lui     $a2, 0xC120                ## $a2 = C1200000
 /* 02D98 809133D8 3C014160 */  lui     $at, 0x4160                ## $at = 41600000
 /* 02D9C 809133DC 44812000 */  mtc1    $at, $f4                   ## $f4 = 14.00
@@ -513,7 +513,7 @@ glabel L80913424
 /* 02E50 80913490 A64A035E */  sh      $t2, 0x035E($s2)           ## 0000035E
 /* 02E54 80913494 24A51AB0 */  addiu   $a1, $a1, 0x1AB0           ## $a1 = 06001AB0
 /* 02E58 80913498 02202025 */  or      $a0, $s1, $zero            ## $a0 = 0000014C
-/* 02E5C 8091349C 0C029490 */  jal     func_800A5240
+/* 02E5C 8091349C 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 02E60 809134A0 3C06C120 */  lui     $a2, 0xC120                ## $a2 = C1200000
 /* 02E64 809134A4 240B0028 */  addiu   $t3, $zero, 0x0028         ## $t3 = 00000028
 /* 02E68 809134A8 A64001AE */  sh      $zero, 0x01AE($s2)         ## 000001AE
@@ -1055,5 +1055,3 @@ glabel L8091352C
 /* 03608 80913C48 8FB40048 */  lw      $s4, 0x0048($sp)
 /* 0360C 80913C4C 03E00008 */  jr      $ra
 /* 03610 80913C50 27BD00C0 */  addiu   $sp, $sp, 0x00C0           ## $sp = 00000000
-
-

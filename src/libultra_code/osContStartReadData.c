@@ -26,9 +26,9 @@ void osContGetReadData(OSContPad* pad) {
         slot = *slot_ptr;
         pad->errno = (slot.hdr.status_hi_bytes_rec_lo & 0xc0) >> 4;
         if (pad->errno == 0) {
-            pad->button = slot.button;
-            pad->stick_x = slot.rawStickX;
-            pad->stick_y = slot.rawStickY;
+            pad->button = slot.input.button;
+            pad->stick_x = slot.input.x;
+            pad->stick_y = slot.input.y;
         }
     };
 }
@@ -46,9 +46,9 @@ void __osPackReadData() {
     slot.hdr.bytes_send = 1;
     slot.hdr.status_hi_bytes_rec_lo = 4;
     slot.hdr.command = 1;
-    slot.button = 0xFFFF;
-    slot.rawStickX = 0xFF;
-    slot.rawStickY = 0xFF;
+    slot.input.button = 0xFFFF;
+    slot.input.x = 0xFF;
+    slot.input.y = 0xFF;
     for (i = 0; i < _osCont_numControllers; i++) {
         *slot_ptr++ = slot;
     }

@@ -19,12 +19,12 @@ glabel func_80860438
 /* 00E28 80860478 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00E2C 8086047C 260404A8 */  addiu   $a0, $s0, 0x04A8           ## $a0 = 000004A8
 /* 00E30 80860480 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
-/* 00E34 80860484 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00E34 80860484 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00E38 80860488 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00E3C 8086048C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00E40 80860490 24A581B4 */  addiu   $a1, $a1, 0x81B4           ## $a1 = 060081B4
-/* 00E44 80860494 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 00E44 80860494 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00E48 80860498 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 00E4C 8086049C 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float
@@ -44,12 +44,10 @@ glabel func_80860438
 /* 00E84 808604D4 00000000 */  nop
 /* 00E88 808604D8 0018CC00 */  sll     $t9, $t8, 16
 /* 00E8C 808604DC 00194403 */  sra     $t0, $t9, 16
-/* 00E90 808604E0 0C217D94 */  jal     func_8085F650
+/* 00E90 808604E0 0C217D94 */  jal     EnTest_SetupAction
 /* 00E94 808604E4 AE0807E8 */  sw      $t0, 0x07E8($s0)           ## 000007E8
 /* 00E98 808604E8 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 00E9C 808604EC 8FB00028 */  lw      $s0, 0x0028($sp)
 /* 00EA0 808604F0 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00EA4 808604F4 03E00008 */  jr      $ra
 /* 00EA8 808604F8 00000000 */  nop
-
-

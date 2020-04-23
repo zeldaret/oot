@@ -1,8 +1,8 @@
 glabel func_80A3B328
-/* 00BD8 80A3B328 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 00BDC 80A3B32C 91CE746D */  lbu     $t6, 0x746D($t6)           ## 8012746D
-/* 00BE0 80A3B330 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00BE4 80A3B334 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00BD8 80A3B328 3C0E8012 */  lui     $t6, %hi(gItemSlots+9)
+/* 00BDC 80A3B32C 91CE746D */  lbu     $t6, %lo(gItemSlots+9)($t6)
+/* 00BE0 80A3B330 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00BE4 80A3B334 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00BE8 80A3B338 004E7821 */  addu    $t7, $v0, $t6              
 /* 00BEC 80A3B33C 81F8008C */  lb      $t8, 0x008C($t7)           ## 0000008C
 /* 00BF0 80A3B340 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
@@ -34,5 +34,3 @@ glabel func_80A3B328
 /* 00C4C 80A3B39C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00C50 80A3B3A0 03E00008 */  jr      $ra                        
 /* 00C54 80A3B3A4 00000000 */  nop
-
-

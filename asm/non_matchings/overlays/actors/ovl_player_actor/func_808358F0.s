@@ -63,7 +63,7 @@ glabel func_808358F0
 /* 037C8 808359D8 10000001 */  beq     $zero, $zero, .L808359E0
 /* 037CC 808359DC 24C62608 */  addiu   $a2, $a2, 0x2608           ## $a2 = 04002608
 .L808359E0:
-/* 037D0 808359E0 0C02901F */  jal     func_800A407C
+/* 037D0 808359E0 0C02901F */  jal     SkelAnime_ChangeLinkAnimDefaultStop
 /* 037D4 808359E4 8FA50024 */  lw      $a1, 0x0024($sp)
 .L808359E8:
 /* 037D8 808359E8 8FBF001C */  lw      $ra, 0x001C($sp)
@@ -71,5 +71,3 @@ glabel func_808358F0
 /* 037E0 808359F0 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 037E4 808359F4 03E00008 */  jr      $ra
 /* 037E8 808359F8 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
-
-

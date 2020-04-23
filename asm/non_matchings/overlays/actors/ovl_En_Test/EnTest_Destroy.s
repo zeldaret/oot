@@ -42,5 +42,3 @@ glabel EnTest_Destroy
 /* 002DC 8085F92C 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 002E0 8085F930 03E00008 */  jr      $ra                        
 /* 002E4 8085F934 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

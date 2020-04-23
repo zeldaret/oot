@@ -1,6 +1,5 @@
 #include "z_en_ishi.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00800000
 
 void EnIshi_Init(EnIshi* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EnIshi_Draw(EnIshi* this, GlobalContext* globalCtx);
 const ActorInit En_Ishi_InitVars = {
     ACTOR_EN_ISHI,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(EnIshi),

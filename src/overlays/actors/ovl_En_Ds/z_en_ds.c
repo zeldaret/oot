@@ -6,7 +6,6 @@
 
 #include "z_en_ds.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
 void EnDs_Init(EnDs* this, GlobalContext* globalCtx);
@@ -35,7 +34,6 @@ void func_809FDA7C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 const ActorInit En_Ds_InitVars = {
     ACTOR_EN_DS,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_DS,
     sizeof(EnDs),
@@ -54,8 +52,8 @@ void EnDs_Init(EnDs* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, skelAnime, &D_06004768, &D_0600039C, &this->actorDrawTable, &this->unk_1B4, 6);
-    func_800A51E8(&this->skelAnime, &D_0600039C);
+    SkelAnime_InitSV(globalCtx, skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
+    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600039C);
 
     this->actor.sub_98.mass = 0xFF;
 
@@ -101,7 +99,7 @@ void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x504F;
         this->actionFunc = EnDs_TalkAfterGiveOddPotion;
         this->actor.flags &= ~0x100;
-        gSaveContext.item_get_inf[3] |= 1;
+        gSaveContext.itemGetInf[3] |= 1;
     }
 }
 
@@ -109,7 +107,7 @@ void EnDs_GiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx) != 0) {
         this->actor.attachedA = NULL;
         this->actionFunc = EnDs_DisplayOddPotionText;
-        gSaveContext.timer_2_state = 0;
+        gSaveContext.timer2State = 0;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_ODD_POTION, 10000.0f, 50.0f);
     }
@@ -231,7 +229,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
             Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             player->actor.textId = 0x504A;
             this->actionFunc = EnDs_OfferOddPotion;
-        } else if (gSaveContext.item_get_inf[3] & 1) {
+        } else if (gSaveContext.itemGetInf[3] & 1) {
             player->actor.textId = 0x500C;
             this->actionFunc = EnDs_OfferBluePotion;
         } else {
@@ -288,6 +286,6 @@ void func_809FDA7C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
 void EnDs_Draw(EnDs* this, GlobalContext* globalCtx) {
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      &func_809FDA38, &func_809FDA7C, this);
 }

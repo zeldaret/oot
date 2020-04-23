@@ -1,3 +1,21 @@
+.rdata
+glabel D_80AEA838
+    .asciz "../z_en_rr.c"
+    .balign 4
+
+glabel D_80AEA848
+    .asciz "../z_en_rr.c"
+    .balign 4
+
+glabel D_80AEA858
+    .asciz "../z_en_rr.c"
+    .balign 4
+
+glabel D_80AEA868
+    .asciz "../z_en_rr.c"
+    .balign 4
+
+.text
 glabel EnRr_Draw
 /* 01D94 80AEA1D4 27BDFF38 */  addiu   $sp, $sp, 0xFF38           ## $sp = FFFFFF38
 /* 01D98 80AEA1D8 AFB30054 */  sw      $s3, 0x0054($sp)
@@ -21,7 +39,7 @@ glabel EnRr_Draw
 /* 01DDC 80AEA21C 24C6A838 */  addiu   $a2, $a2, %lo(D_80AEA838)  ## $a2 = 80AEA838
 /* 01DE0 80AEA220 27A40098 */  addiu   $a0, $sp, 0x0098           ## $a0 = FFFFFFD0
 /* 01DE4 80AEA224 240705C6 */  addiu   $a3, $zero, 0x05C6         ## $a3 = 000005C6
-/* 01DE8 80AEA228 0C031AB1 */  jal     func_800C6AC4
+/* 01DE8 80AEA228 0C031AB1 */  jal     Graph_OpenDisps
 /* 01DEC 80AEA22C AFA500A8 */  sw      $a1, 0x00A8($sp)
 /* 01DF0 80AEA230 8FB800CC */  lw      $t8, 0x00CC($sp)
 /* 01DF4 80AEA234 0C024F61 */  jal     func_80093D84
@@ -64,7 +82,7 @@ glabel EnRr_Draw
 /* 01E88 80AEA2C8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 01E8C 80AEA2CC 00004025 */  or      $t0, $zero, $zero          ## $t0 = 00000000
 /* 01E90 80AEA2D0 3006007F */  andi    $a2, $zero, 0x007F         ## $a2 = 00000000
-/* 01E94 80AEA2D4 0C0253D0 */  jal     Draw_TwoTexScroll
+/* 01E94 80AEA2D4 0C0253D0 */  jal     Gfx_TwoTexScroll
 /* 01E98 80AEA2D8 00408025 */  or      $s0, $v0, $zero            ## $s0 = 00000000
 /* 01E9C 80AEA2DC 0C034213 */  jal     Matrix_Push
 /* 01EA0 80AEA2E0 AE020004 */  sw      $v0, 0x0004($s0)           ## 00000004
@@ -180,7 +198,7 @@ glabel EnRr_Draw
 /* 02054 80AEA494 24C6A868 */  addiu   $a2, $a2, %lo(D_80AEA868)  ## $a2 = 80AEA868
 /* 02058 80AEA498 27A40098 */  addiu   $a0, $sp, 0x0098           ## $a0 = FFFFFFD0
 /* 0205C 80AEA49C 2407060F */  addiu   $a3, $zero, 0x060F         ## $a3 = 0000060F
-/* 02060 80AEA4A0 0C031AD5 */  jal     func_800C6B54
+/* 02060 80AEA4A0 0C031AD5 */  jal     Graph_CloseDisps
 /* 02064 80AEA4A4 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 02068 80AEA4A8 866201F2 */  lh      $v0, 0x01F2($s3)           ## 000001F2
 /* 0206C 80AEA4AC 1040004F */  beq     $v0, $zero, .L80AEA5EC
@@ -282,4 +300,3 @@ glabel EnRr_Draw
 /* 021D4 80AEA614 00000000 */  nop
 /* 021D8 80AEA618 00000000 */  nop
 /* 021DC 80AEA61C 00000000 */  nop
-

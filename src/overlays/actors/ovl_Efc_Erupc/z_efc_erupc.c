@@ -1,6 +1,5 @@
 #include "z_efc_erupc.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void EfcErupc_Init(EfcErupc* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void EfcErupc_Draw(EfcErupc* this, GlobalContext* globalCtx);
 const ActorInit Efc_Erupc_InitVars = {
     ACTOR_EFC_ERUPC,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_EFC_ERUPC,
     sizeof(EfcErupc),

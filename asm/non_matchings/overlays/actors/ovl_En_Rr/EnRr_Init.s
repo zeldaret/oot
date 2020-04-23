@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_80AEA878
+    .float 0.014
+glabel D_80AEA87C
+    .float 0.013
+glabel D_80AEA880
+    .float -0.4
+
+.text
 glabel EnRr_Init
 /* 00000 80AE8440 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00004 80AE8444 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -106,5 +115,3 @@ glabel EnRr_Init
 /* 00190 80AE85D0 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00194 80AE85D4 03E00008 */  jr      $ra                        
 /* 00198 80AE85D8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

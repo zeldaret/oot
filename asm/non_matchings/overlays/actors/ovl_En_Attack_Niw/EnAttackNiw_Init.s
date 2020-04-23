@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809B6190
+    .float 60000.0
+
+.text
 glabel EnAttackNiw_Init
 /* 00000 809B5100 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 809B5104 AFA50034 */  sw      $a1, 0x0034($sp)
@@ -8,8 +13,8 @@ glabel EnAttackNiw_Init
 /* 00018 809B5118 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 0001C 809B511C 24A56170 */  addiu   $a1, $a1, %lo(D_809B6170)  ## $a1 = 809B6170
-/* 00020 809B5120 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00024 809B5124 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00020 809B5120 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00024 809B5124 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00028 809B5128 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0002C 809B512C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00030 809B5130 0C00AC78 */  jal     ActorShape_Init
@@ -85,5 +90,3 @@ glabel EnAttackNiw_Init
 /* 00128 809B5228 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0012C 809B522C 03E00008 */  jr      $ra
 /* 00130 809B5230 00000000 */  nop
-
-

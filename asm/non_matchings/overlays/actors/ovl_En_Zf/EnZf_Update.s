@@ -262,5 +262,3 @@ glabel EnZf_Update
 /* 055A0 80B495F0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 055A4 80B495F4 03E00008 */  jr      $ra                        
 /* 055A8 80B495F8 00000000 */  nop
-
-

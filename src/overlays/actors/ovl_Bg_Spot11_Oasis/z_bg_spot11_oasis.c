@@ -1,6 +1,5 @@
 #include "z_bg_spot11_oasis.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
 void BgSpot11Oasis_Init(BgSpot11Oasis* this, GlobalContext* globalCtx);
@@ -10,7 +9,6 @@ void BgSpot11Oasis_Update(BgSpot11Oasis* this, GlobalContext* globalCtx);
 const ActorInit Bg_Spot11_Oasis_InitVars = {
     ACTOR_BG_SPOT11_OASIS,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT11_OBJ,
     sizeof(BgSpot11Oasis),

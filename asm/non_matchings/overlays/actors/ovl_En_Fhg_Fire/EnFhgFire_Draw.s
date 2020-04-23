@@ -1,3 +1,45 @@
+.rdata
+glabel D_80A11920
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A11934
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A11948
+    .asciz "yari hikari draw 1\n"
+    .balign 4
+
+glabel D_80A1195C
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A11970
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A11984
+    .asciz "FF DRAW 1\n"
+    .balign 4
+
+glabel D_80A11990
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+glabel D_80A119A4
+    .asciz "FF DRAW 2\n"
+    .balign 4
+
+glabel D_80A119B0
+    .asciz "../z_en_fhg_fire.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A11A04
+ .word 0x40490FF9, 0x00000000, 0x00000000
+
+.text
 glabel EnFhgFire_Draw
 /* 01ED8 80A11138 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 01EDC 80A1113C AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -9,7 +51,7 @@ glabel EnFhgFire_Draw
 /* 01EF4 80A11154 24C61920 */  addiu   $a2, $a2, %lo(D_80A11920)  ## $a2 = 80A11920
 /* 01EF8 80A11158 27A4009C */  addiu   $a0, $sp, 0x009C           ## $a0 = FFFFFFE4
 /* 01EFC 80A1115C 240706BB */  addiu   $a3, $zero, 0x06BB         ## $a3 = 000006BB
-/* 01F00 80A11160 0C031AB1 */  jal     func_800C6AC4              
+/* 01F00 80A11160 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01F04 80A11164 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 01F08 80A11168 8FA800B8 */  lw      $t0, 0x00B8($sp)           
 /* 01F0C 80A1116C 24010024 */  addiu   $at, $zero, 0x0024         ## $at = 00000024
@@ -70,11 +112,11 @@ glabel EnFhgFire_Draw
 /* 01FE8 80A11248 AE0E02D0 */  sw      $t6, 0x02D0($s0)           ## 000002D0
 /* 01FEC 80A1124C 00194880 */  sll     $t1, $t9,  2               
 /* 01FF0 80A11250 3C0FDE00 */  lui     $t7, 0xDE00                ## $t7 = DE000000
-/* 01FF4 80A11254 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 01FF4 80A11254 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 01FF8 80A11258 01495021 */  addu    $t2, $t2, $t1              
 /* 01FFC 80A1125C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 02000 80A11260 AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
-/* 02004 80A11264 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 80166FA8
+/* 02004 80A11264 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 02008 80A11268 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 0200C 80A1126C 00815824 */  and     $t3, $a0, $at              
 /* 02010 80A11270 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
@@ -316,7 +358,7 @@ glabel EnFhgFire_Draw
 /* 02398 80A115F8 AFA2005C */  sw      $v0, 0x005C($sp)           
 /* 0239C 80A115FC 00095400 */  sll     $t2, $t1, 16               
 /* 023A0 80A11600 000A5C03 */  sra     $t3, $t2, 16               
-/* 023A4 80A11604 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 023A4 80A11604 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 023A8 80A11608 AFAB0020 */  sw      $t3, 0x0020($sp)           
 /* 023AC 80A1160C 8FA3005C */  lw      $v1, 0x005C($sp)           
 /* 023B0 80A11610 3C180601 */  lui     $t8, 0x0601                ## $t8 = 06010000
@@ -402,7 +444,7 @@ glabel EnFhgFire_Draw
 /* 024E0 80A11740 24C619B0 */  addiu   $a2, $a2, %lo(D_80A119B0)  ## $a2 = 80A119B0
 /* 024E4 80A11744 27A4009C */  addiu   $a0, $sp, 0x009C           ## $a0 = FFFFFFE4
 /* 024E8 80A11748 2407076C */  addiu   $a3, $zero, 0x076C         ## $a3 = 0000076C
-/* 024EC 80A1174C 0C031AD5 */  jal     func_800C6B54              
+/* 024EC 80A1174C 0C031AD5 */  jal     Graph_CloseDisps              
 /* 024F0 80A11750 8D450000 */  lw      $a1, 0x0000($t2)           ## 00000000
 /* 024F4 80A11754 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 024F8 80A11758 8FB00038 */  lw      $s0, 0x0038($sp)           
@@ -411,4 +453,3 @@ glabel EnFhgFire_Draw
 /* 02504 80A11764 00000000 */  nop
 /* 02508 80A11768 00000000 */  nop
 /* 0250C 80A1176C 00000000 */  nop
-

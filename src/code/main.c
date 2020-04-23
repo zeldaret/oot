@@ -1,10 +1,9 @@
 #include <global.h>
 #include <vt.h>
-#include <padmgr.h>
 #include <sched.h>
 
-u32 gScreenWidth = SCREEN_WIDTH;
-u32 gScreenHeight = SCREEN_HEIGHT;
+s32 gScreenWidth = SCREEN_WIDTH;
+s32 gScreenHeight = SCREEN_HEIGHT;
 u32 gSystemHeapSize = 0;
 
 PreNmiBuff* gAppNmiBufferPtr;

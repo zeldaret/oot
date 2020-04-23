@@ -1,3 +1,23 @@
+.rdata
+glabel D_80B42070
+    .asciz "../z_en_oA2_inMetamol.c"
+    .balign 4
+
+glabel D_80B42088
+    .asciz "../z_en_oA2_inMetamol.c"
+    .balign 4
+
+glabel D_80B420A0
+    .asciz "../z_en_oA2_inMetamol.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B42258
+ .word 0x458B6000
+glabel D_80B4225C
+ .word 0x4494C000
+
+.text
 glabel func_80B402C4
 /* 040E4 80B402C4 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 040E8 80B402C8 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -16,7 +36,7 @@ glabel func_80B402C4
 /* 0411C 80B402FC 8CB00000 */  lw      $s0, 0x0000($a1)           ## 00000000
 /* 04120 80B40300 27A40068 */  addiu   $a0, $sp, 0x0068           ## $a0 = FFFFFFD0
 /* 04124 80B40304 24070235 */  addiu   $a3, $zero, 0x0235         ## $a3 = 00000235
-/* 04128 80B40308 0C031AB1 */  jal     func_800C6AC4
+/* 04128 80B40308 0C031AB1 */  jal     Graph_OpenDisps
 /* 0412C 80B4030C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 04130 80B40310 8E3902BC */  lw      $t9, 0x02BC($s1)           ## 000002BC
 /* 04134 80B40314 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -27,8 +47,8 @@ glabel func_80B402C4
 /* 04144 80B40324 24050040 */  addiu   $a1, $zero, 0x0040         ## $a1 = 00000040
 /* 04148 80B40328 0C034213 */  jal     Matrix_Push
 /* 0414C 80B4032C AFA20064 */  sw      $v0, 0x0064($sp)
-/* 04150 80B40330 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 04154 80B40334 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 04150 80B40330 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 04154 80B40334 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 04158 80B40338 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
 /* 0415C 80B4033C 44814000 */  mtc1    $at, $f8                   ## $f8 = 100.00
 /* 04160 80B40340 84481474 */  lh      $t0, 0x1474($v0)           ## 80161474
@@ -51,8 +71,8 @@ glabel func_80B402C4
 /* 041A4 80B40384 44065000 */  mfc1    $a2, $f10
 /* 041A8 80B40388 0C034261 */  jal     Matrix_Translate
 /* 041AC 80B4038C 00000000 */  nop
-/* 041B0 80B40390 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 041B4 80B40394 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 041B0 80B40390 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 041B4 80B40394 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 041B8 80B40398 862602A4 */  lh      $a2, 0x02A4($s1)           ## 000002A4
 /* 041BC 80B4039C 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 041C0 80B403A0 84441480 */  lh      $a0, 0x1480($v0)           ## 80161480
@@ -130,10 +150,10 @@ glabel func_80B402C4
 /* 042DC 80B404BC 3C18DB06 */  lui     $t8, 0xDB06                ## $t8 = DB060000
 /* 042E0 80B404C0 0007C900 */  sll     $t9, $a3,  4
 /* 042E4 80B404C4 00197F02 */  srl     $t7, $t9, 28
-/* 042E8 80B404C8 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 042E8 80B404C8 3C098016 */  lui     $t1, %hi(gSegments)
 /* 042EC 80B404CC 246E0008 */  addiu   $t6, $v1, 0x0008           ## $t6 = 00000008
 /* 042F0 80B404D0 AE0E02C0 */  sw      $t6, 0x02C0($s0)           ## 000002C0
-/* 042F4 80B404D4 25296FA8 */  addiu   $t1, $t1, 0x6FA8           ## $t1 = 80166FA8
+/* 042F4 80B404D4 25296FA8 */  addiu   $t1, %lo(gSegments)
 /* 042F8 80B404D8 000F4080 */  sll     $t0, $t7,  2
 /* 042FC 80B404DC 37180020 */  ori     $t8, $t8, 0x0020           ## $t8 = DB060020
 /* 04300 80B404E0 01092021 */  addu    $a0, $t0, $t1
@@ -173,12 +193,10 @@ glabel func_80B402C4
 /* 04388 80B40568 24C620A0 */  addiu   $a2, $a2, %lo(D_80B420A0)  ## $a2 = 80B420A0
 /* 0438C 80B4056C 27A40068 */  addiu   $a0, $sp, 0x0068           ## $a0 = FFFFFFD0
 /* 04390 80B40570 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 04394 80B40574 0C031AD5 */  jal     func_800C6B54
+/* 04394 80B40574 0C031AD5 */  jal     Graph_CloseDisps
 /* 04398 80B40578 2407029C */  addiu   $a3, $zero, 0x029C         ## $a3 = 0000029C
 /* 0439C 80B4057C 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 043A0 80B40580 8FB00024 */  lw      $s0, 0x0024($sp)
 /* 043A4 80B40584 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 043A8 80B40588 03E00008 */  jr      $ra
 /* 043AC 80B4058C 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
-
-

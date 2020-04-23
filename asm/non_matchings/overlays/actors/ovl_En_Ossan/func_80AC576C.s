@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AC9214
+    .asciz "%s[%d]:\x1b[32mズーム中！！\x1b[m\n"
+    .balign 4
+
+glabel D_80AC9234
+    .asciz "../z_en_oB1.c"
+    .balign 4
+
+.text
 glabel func_80AC576C
 /* 02ACC 80AC576C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 02AD0 80AC5770 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -64,5 +74,3 @@ glabel func_80AC576C
 /* 02BAC 80AC584C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 02BB0 80AC5850 03E00008 */  jr      $ra                        
 /* 02BB4 80AC5854 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

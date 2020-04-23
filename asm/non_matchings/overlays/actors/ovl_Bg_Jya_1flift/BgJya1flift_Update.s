@@ -80,5 +80,3 @@ glabel BgJya1flift_Update
 /* 0053C 8089309C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00540 808930A0 03E00008 */  jr      $ra                        
 /* 00544 808930A4 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

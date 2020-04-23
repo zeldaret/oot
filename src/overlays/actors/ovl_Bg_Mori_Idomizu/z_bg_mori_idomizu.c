@@ -1,6 +1,5 @@
 #include "z_bg_mori_idomizu.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
 void BgMoriIdomizu_Init(BgMoriIdomizu* this, GlobalContext* globalCtx);
@@ -11,7 +10,6 @@ void BgMoriIdomizu_Update(BgMoriIdomizu* this, GlobalContext* globalCtx);
 const ActorInit Bg_Mori_Idomizu_InitVars = {
     ACTOR_BG_MORI_IDOMIZU,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_MORI_OBJECTS,
     sizeof(BgMoriIdomizu),

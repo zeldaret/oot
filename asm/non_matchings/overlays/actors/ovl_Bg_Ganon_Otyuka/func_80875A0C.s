@@ -1,3 +1,21 @@
+.rdata
+glabel D_80877EE4
+    .asciz "OTC O 1\n"
+    .balign 4
+
+glabel D_80877EF0
+    .asciz "OTC O 2\n"
+    .balign 4
+
+glabel D_80877EFC
+    .asciz "OTC O 3\n"
+    .balign 4
+
+.late_rodata
+glabel D_80877F9C
+    .float 4900.0
+
+.text
 glabel func_80875A0C
 /* 000EC 80875A0C 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 000F0 80875A10 AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -174,5 +192,3 @@ glabel func_80875A0C
 /* 0035C 80875C7C 8FB60038 */  lw      $s6, 0x0038($sp)           
 /* 00360 80875C80 03E00008 */  jr      $ra                        
 /* 00364 80875C84 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
-
-

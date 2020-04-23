@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A59AF0
+    .asciz "../z_en_holl.c"
+    .balign 4
+
+glabel D_80A59B00
+    .asciz "../z_en_holl.c"
+    .balign 4
+
+glabel D_80A59B10
+    .asciz "../z_en_holl.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A59B2C
+    .float 3.14159274101
+
+.text
 glabel EnHoll_Draw
 /* 00CB0 80A598C0 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00CB4 80A598C4 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -10,7 +28,7 @@ glabel EnHoll_Draw
 /* 00CD0 80A598E0 27A40028 */  addiu   $a0, $sp, 0x0028           ## $a0 = FFFFFFE0
 /* 00CD4 80A598E4 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
 /* 00CD8 80A598E8 24070325 */  addiu   $a3, $zero, 0x0325         ## $a3 = 00000325
-/* 00CDC 80A598EC 0C031AB1 */  jal     func_800C6AC4              
+/* 00CDC 80A598EC 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00CE0 80A598F0 AFA50038 */  sw      $a1, 0x0038($sp)           
 /* 00CE4 80A598F4 8FB90048 */  lw      $t9, 0x0048($sp)           
 /* 00CE8 80A598F8 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF
@@ -25,7 +43,7 @@ glabel EnHoll_Draw
 /* 00D0C 80A5991C 24050025 */  addiu   $a1, $zero, 0x0025         ## $a1 = 00000025
 /* 00D10 80A59920 8D4702D0 */  lw      $a3, 0x02D0($t2)           ## 000002D0
 .L80A59924:
-/* 00D14 80A59924 0C024DDD */  jal     func_80093774              
+/* 00D14 80A59924 0C024DDD */  jal     Gfx_CallSetupDL              
 /* 00D18 80A59928 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 00D1C 80A5992C 8FAB0048 */  lw      $t3, 0x0048($sp)           
 /* 00D20 80A59930 00403825 */  or      $a3, $v0, $zero            ## $a3 = 00000000
@@ -85,11 +103,10 @@ glabel EnHoll_Draw
 .L80A59A00:
 /* 00DF0 80A59A00 8FAF004C */  lw      $t7, 0x004C($sp)           
 /* 00DF4 80A59A04 2407033F */  addiu   $a3, $zero, 0x033F         ## $a3 = 0000033F
-/* 00DF8 80A59A08 0C031AD5 */  jal     func_800C6B54              
+/* 00DF8 80A59A08 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00DFC 80A59A0C 8DE50000 */  lw      $a1, 0x0000($t7)           ## FA000000
 .L80A59A10:
 /* 00E00 80A59A10 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00E04 80A59A14 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00E08 80A59A18 03E00008 */  jr      $ra                        
 /* 00E0C 80A59A1C 00000000 */  nop
-

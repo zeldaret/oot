@@ -1,3 +1,21 @@
+.rdata
+glabel D_809C8310
+    .asciz "../z_en_bombf.c"
+    .balign 4
+
+glabel D_809C8320
+    .asciz "../z_en_bombf.c"
+    .balign 4
+
+glabel D_809C8330
+    .asciz "../z_en_bombf.c"
+    .balign 4
+
+glabel D_809C8340
+    .asciz "../z_en_bombf.c"
+    .balign 4
+
+.text
 glabel EnBombf_Draw
 /* 01054 809C7FB4 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 01058 809C7FB8 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -9,7 +27,7 @@ glabel EnBombf_Draw
 /* 01070 809C7FD0 24C68310 */  addiu   $a2, $a2, %lo(D_809C8310)  ## $a2 = 809C8310
 /* 01074 809C7FD4 27A4004C */  addiu   $a0, $sp, 0x004C           ## $a0 = FFFFFFE4
 /* 01078 809C7FD8 2407040A */  addiu   $a3, $zero, 0x040A         ## $a3 = 0000040A
-/* 0107C 809C7FDC 0C031AB1 */  jal     func_800C6AC4              
+/* 0107C 809C7FDC 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01080 809C7FE0 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 01084 809C7FE4 8FA20068 */  lw      $v0, 0x0068($sp)           
 /* 01088 809C7FE8 8FB8006C */  lw      $t8, 0x006C($sp)           
@@ -125,13 +143,13 @@ glabel EnBombf_Draw
 /* 0123C 809C819C 0C271FC9 */  jal     func_809C7F24              
 /* 01240 809C81A0 8CA40000 */  lw      $a0, 0x0000($a1)           ## 00000000
 /* 01244 809C81A4 8FAA0024 */  lw      $t2, 0x0024($sp)           
-/* 01248 809C81A8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 01248 809C81A8 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 0124C 809C81AC 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 01250 809C81B0 000A5900 */  sll     $t3, $t2,  4               
 /* 01254 809C81B4 000B6702 */  srl     $t4, $t3, 28               
 /* 01258 809C81B8 000C6880 */  sll     $t5, $t4,  2               
 /* 0125C 809C81BC 01CD7021 */  addu    $t6, $t6, $t5              
-/* 01260 809C81C0 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 01260 809C81C0 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 01264 809C81C4 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 01268 809C81C8 00414824 */  and     $t1, $v0, $at              
 /* 0126C 809C81CC 8FB9002C */  lw      $t9, 0x002C($sp)           
@@ -157,7 +175,7 @@ glabel EnBombf_Draw
 /* 012B4 809C8214 24C68340 */  addiu   $a2, $a2, %lo(D_809C8340)  ## $a2 = 809C8340
 /* 012B8 809C8218 27A4004C */  addiu   $a0, $sp, 0x004C           ## $a0 = FFFFFFE4
 /* 012BC 809C821C 24070427 */  addiu   $a3, $zero, 0x0427         ## $a3 = 00000427
-/* 012C0 809C8220 0C031AD5 */  jal     func_800C6B54              
+/* 012C0 809C8220 0C031AD5 */  jal     Graph_CloseDisps              
 /* 012C4 809C8224 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 012C8 809C8228 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 012CC 809C822C 8FB00018 */  lw      $s0, 0x0018($sp)           
@@ -165,4 +183,3 @@ glabel EnBombf_Draw
 /* 012D4 809C8234 03E00008 */  jr      $ra                        
 /* 012D8 809C8238 00000000 */  nop
 /* 012DC 809C823C 00000000 */  nop
-

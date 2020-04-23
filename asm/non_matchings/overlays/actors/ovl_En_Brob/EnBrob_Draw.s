@@ -31,4 +31,3 @@ glabel EnBrob_Draw
 /* 00F44 809CBA54 00000000 */  nop
 /* 00F48 809CBA58 00000000 */  nop
 /* 00F4C 809CBA5C 00000000 */  nop
-

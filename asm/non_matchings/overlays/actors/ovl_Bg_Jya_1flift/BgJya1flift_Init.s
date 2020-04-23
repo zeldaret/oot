@@ -1,3 +1,9 @@
+.rdata
+glabel D_808931A8
+    .asciz "(１Ｆリフト)(flag %d)(room %d)\n"
+    .balign 4
+
+.text
 glabel BgJya1flift_Init
 /* 000E0 80892C40 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 000E4 80892C44 AFA50024 */  sw      $a1, 0x0024($sp)           
@@ -44,8 +50,8 @@ glabel BgJya1flift_Init
               
 /* 00178 80892CD8 30A5003F */  andi    $a1, $a1, 0x003F           ## $a1 = 00000000
 /* 0017C 80892CDC 10400012 */  beq     $v0, $zero, .L80892D28     
-/* 00180 80892CE0 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
-/* 00184 80892CE4 8F18E664 */  lw      $t8, -0x199C($t8)          ## 8015E664
+/* 00180 80892CE0 3C188016 */  lui     $t8, %hi(gSaveContext+4)
+/* 00184 80892CE4 8F18E664 */  lw      $t8, %lo(gSaveContext+4)($t8)
 /* 00188 80892CE8 24010011 */  addiu   $at, $zero, 0x0011         ## $at = 00000011
 /* 0018C 80892CEC 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011
 /* 00190 80892CF0 13000003 */  beq     $t8, $zero, .L80892D00     
@@ -80,5 +86,3 @@ glabel BgJya1flift_Init
 /* 001F0 80892D50 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 001F4 80892D54 03E00008 */  jr      $ra                        
 /* 001F8 80892D58 00000000 */  nop
-
-

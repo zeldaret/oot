@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808A8A30
+ .word 0xC4C3C000
+
+.text
 glabel BgPoSyokudai_Init
 /* 00000 808A80B0 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00004 808A80B4 AFB10030 */  sw      $s1, 0x0030($sp)           
@@ -182,5 +187,3 @@ glabel BgPoSyokudai_Init
 /* 00290 808A8340 8FB0002C */  lw      $s0, 0x002C($sp)           
 /* 00294 808A8344 03E00008 */  jr      $ra                        
 /* 00298 808A8348 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

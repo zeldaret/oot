@@ -8,5 +8,3 @@ glabel BgJyaIronobj_Update
 /* 00B98 80899438 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00B9C 8089943C 03E00008 */  jr      $ra                        
 /* 00BA0 80899440 00000000 */  nop
-
-

@@ -10,7 +10,7 @@ glabel func_80A17D9C
 /* 008AC 80A17DBC 24A541F4 */  addiu   $a1, $a1, 0x41F4           ## $a1 = 060041F4
 /* 008B0 80A17DC0 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 008B4 80A17DC4 3C064090 */  lui     $a2, 0x4090                ## $a2 = 40900000
-/* 008B8 80A17DC8 0C0294E1 */  jal     SkelAnime_ChangeAnimationPlaybackSpeed
+/* 008B8 80A17DC8 0C0294E1 */  jal     SkelAnime_ChangeAnimPlaybackRepeat
 /* 008BC 80A17DCC AFA70018 */  sw      $a3, 0x0018($sp)
 /* 008C0 80A17DD0 8FA70018 */  lw      $a3, 0x0018($sp)
 .L80A17DD4:
@@ -24,5 +24,3 @@ glabel func_80A17D9C
 /* 008E0 80A17DF0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 008E4 80A17DF4 03E00008 */  jr      $ra
 /* 008E8 80A17DF8 00000000 */  nop
-
-

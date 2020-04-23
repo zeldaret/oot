@@ -104,5 +104,3 @@ glabel BgMenkuriEye_Update
 /* 00264 8089BED4 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00268 8089BED8 03E00008 */  jr      $ra                        
 /* 0026C 8089BEDC 00000000 */  nop
-
-

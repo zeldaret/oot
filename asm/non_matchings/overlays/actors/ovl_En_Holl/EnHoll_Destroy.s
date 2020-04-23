@@ -10,5 +10,3 @@ glabel EnHoll_Destroy
 /* 000FC 80A58D0C 0018C823 */  subu    $t9, $zero, $t8            
 /* 00100 80A58D10 03E00008 */  jr      $ra                        
 /* 00104 80A58D14 A4790004 */  sh      $t9, 0x0004($v1)           ## 00000004
-
-

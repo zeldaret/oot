@@ -16,4 +16,3 @@ glabel ItemOcarina_Draw
 /* 006B4 80B867E4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 006B8 80B867E8 03E00008 */  jr      $ra                        
 /* 006BC 80B867EC 00000000 */  nop
-

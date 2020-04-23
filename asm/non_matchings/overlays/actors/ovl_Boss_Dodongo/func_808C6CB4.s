@@ -80,5 +80,3 @@ glabel func_808C6CB4
 /* 05C4C 808C6DDC 24420030 */  addiu   $v0, $v0, 0x0030           ## $v0 = 00010030
 /* 05C50 808C6DE0 03E00008 */  jr      $ra                        
 /* 05C54 808C6DE4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
-
-

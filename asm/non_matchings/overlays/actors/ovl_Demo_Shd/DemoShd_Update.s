@@ -8,5 +8,3 @@ glabel DemoShd_Update
 /* 001DC 8099140C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001E0 80991410 03E00008 */  jr      $ra                        
 /* 001E4 80991414 00000000 */  nop
-
-

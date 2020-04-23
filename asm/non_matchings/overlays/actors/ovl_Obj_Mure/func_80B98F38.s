@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B99CCC
+    .asciz "Error : 既に子供がいる(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80B99CFC
+    .asciz "../z_obj_mure.c"
+    .balign 4
+
+glabel D_80B99D0C
+    .asciz "warning 発生失敗 (%s %d)\n"
+    .balign 4
+
+glabel D_80B99D28
+    .asciz "../z_obj_mure.c"
+    .balign 4
+
+.text
 glabel func_80B98F38
 /* 00498 80B98F38 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 0049C 80B98F3C AFBF0054 */  sw      $ra, 0x0054($sp)           
@@ -106,5 +124,3 @@ glabel func_80B98F38
 /* 00610 80B990B0 8FBE0050 */  lw      $s8, 0x0050($sp)           
 /* 00614 80B990B4 03E00008 */  jr      $ra                        
 /* 00618 80B990B8 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

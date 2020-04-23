@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809BF528
+ .word 0xC4802000
+
+.text
 glabel EnBigokuta_Init
 /* 00000 809BCC60 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00004 809BCC64 AFB30034 */  sw      $s3, 0x0034($sp)
@@ -96,5 +101,3 @@ glabel EnBigokuta_Init
 /* 0015C 809BCDBC 8FB40038 */  lw      $s4, 0x0038($sp)
 /* 00160 809BCDC0 03E00008 */  jr      $ra
 /* 00164 809BCDC4 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

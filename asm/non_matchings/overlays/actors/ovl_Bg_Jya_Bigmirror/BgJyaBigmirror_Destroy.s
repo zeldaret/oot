@@ -8,5 +8,3 @@ glabel BgJyaBigmirror_Destroy
 .L80893C18:
 /* 00538 80893C18 03E00008 */  jr      $ra                        
 /* 0053C 80893C1C 00000000 */  nop
-
-

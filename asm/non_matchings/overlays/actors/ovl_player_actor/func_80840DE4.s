@@ -1,3 +1,13 @@
+.late_rodata
+glabel D_80855410
+ .word 0x409CCCCD
+glabel D_80855414
+    .float 0.4
+
+glabel D_80855418
+    .float 0.1
+
+.text
 glabel func_80840DE4
 /* 0EBD4 80840DE4 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0EBD8 80840DE8 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -14,8 +24,8 @@ glabel func_80840DE4
 /* 0EC04 80840E14 25CE26E8 */  addiu   $t6, $t6, 0x26E8           ## $t6 = 040026E8
 /* 0EC08 80840E18 144E000E */  bne     $v0, $t6, .L80840E54       
 /* 0EC0C 80840E1C AE0201BC */  sw      $v0, 0x01BC($s0)           ## 000001BC
-/* 0EC10 80840E20 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 0EC14 80840E24 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 0EC10 80840E20 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 0EC14 80840E24 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 0EC18 80840E28 3C0141C0 */  lui     $at, 0x41C0                ## $at = 41C00000
 /* 0EC1C 80840E2C 44810000 */  mtc1    $at, $f0                   ## $f0 = 24.00
 /* 0EC20 80840E30 85F80492 */  lh      $t8, 0x0492($t7)           ## 80160492
@@ -28,8 +38,8 @@ glabel func_80840DE4
 /* 0EC3C 80840E4C 1000000C */  beq     $zero, $zero, .L80840E80   
 /* 0EC40 80840E50 46001087 */  neg.s   $f2, $f2                   
 .L80840E54:
-/* 0EC44 80840E54 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 0EC48 80840E58 8F39FA90 */  lw      $t9, -0x0570($t9)          ## 8015FA90
+/* 0EC44 80840E54 3C198016 */  lui     $t9, %hi(gGameInfo)
+/* 0EC48 80840E58 8F39FA90 */  lw      $t9, %lo(gGameInfo)($t9)
 /* 0EC4C 80840E5C 3C0141E8 */  lui     $at, 0x41E8                ## $at = 41E80000
 /* 0EC50 80840E60 44810000 */  mtc1    $at, $f0                   ## $f0 = 29.00
 /* 0EC54 80840E64 87280492 */  lh      $t0, 0x0492($t9)           ## 80160492
@@ -230,5 +240,3 @@ glabel func_80840DE4
 /* 0EF1C 8084112C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 0EF20 80841130 03E00008 */  jr      $ra                        
 /* 0EF24 80841134 00000000 */  nop
-
-

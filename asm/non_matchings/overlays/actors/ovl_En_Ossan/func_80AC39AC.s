@@ -9,8 +9,8 @@ glabel func_80AC39AC
 /* 00D28 80AC39C8 00A03825 */  or      $a3, $a1, $zero            ## $a3 = 00000000
 /* 00D2C 80AC39CC 15E10017 */  bne     $t7, $at, .L80AC3A2C       
 /* 00D30 80AC39D0 A4AE01FC */  sh      $t6, 0x01FC($a1)           ## 000001FC
-/* 00D34 80AC39D4 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00D38 80AC39D8 9442F556 */  lhu     $v0, -0x0AAA($v0)          ## 8015F556
+/* 00D34 80AC39D4 3C028016 */  lui     $v0, %hi(gSaveContext+0xef6)
+/* 00D38 80AC39D8 9442F556 */  lhu     $v0, %lo(gSaveContext+0xef6)($v0)
 /* 00D3C 80AC39DC 240570A2 */  addiu   $a1, $zero, 0x70A2         ## $a1 = 000070A2
 /* 00D40 80AC39E0 30580100 */  andi    $t8, $v0, 0x0100           ## $t8 = 00000000
 /* 00D44 80AC39E4 1300000C */  beq     $t8, $zero, .L80AC3A18     
@@ -56,5 +56,3 @@ glabel func_80AC39AC
 /* 00DD4 80AC3A74 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00DD8 80AC3A78 03E00008 */  jr      $ra                        
 /* 00DDC 80AC3A7C 00000000 */  nop
-
-

@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B136E0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B136E4
+    .asciz "[32m☆☆☆☆☆ 射的場鶏 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80B13710
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B13714
+    .asciz "[32m☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel EnSyatekiNiw_Init
 /* 00000 80B118F0 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 80B118F4 AFA5003C */  sw      $a1, 0x003C($sp)
@@ -10,10 +28,10 @@ glabel EnSyatekiNiw_Init
 /* 0001C 80B1190C 24A5368C */  addiu   $a1, $a1, %lo(D_80B1368C)  ## $a1 = 80B1368C
 /* 00020 80B11910 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
 /* 00024 80B11914 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE
-/* 00028 80B11918 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00028 80B11918 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 0002C 80B1191C 01C17824 */  and     $t7, $t6, $at
 /* 00030 80B11920 AE0F0004 */  sw      $t7, 0x0004($s0)           ## 00000004
-/* 00034 80B11924 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00034 80B11924 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00038 80B11928 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0003C 80B1192C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00040 80B11930 0C00AC78 */  jal     ActorShape_Init
@@ -107,5 +125,3 @@ glabel EnSyatekiNiw_Init
 /* 00170 80B11A60 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00174 80B11A64 03E00008 */  jr      $ra
 /* 00178 80B11A68 00000000 */  nop
-
-

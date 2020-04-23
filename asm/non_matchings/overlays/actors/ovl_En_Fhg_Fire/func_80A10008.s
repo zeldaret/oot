@@ -1,3 +1,23 @@
+.rdata
+glabel D_80A11880
+    .asciz "yari hikari 1\n"
+    .balign 4
+
+glabel D_80A11890
+    .asciz "yari hikari 2\n"
+    .balign 4
+
+glabel D_80A118A0
+    .asciz "FLASH !!\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A119D4
+ .word 0x469C4000
+glabel D_80A119D8
+ .word 0xBDA3D70A
+
+.text
 glabel func_80A10008
 /* 00DA8 80A10008 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00DAC 80A1000C AFB10038 */  sw      $s1, 0x0038($sp)           
@@ -149,5 +169,3 @@ glabel func_80A10008
 /* 00FB4 80A10214 8FB50048 */  lw      $s5, 0x0048($sp)           
 /* 00FB8 80A10218 03E00008 */  jr      $ra                        
 /* 00FBC 80A1021C 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

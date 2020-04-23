@@ -1,3 +1,28 @@
+.rdata
+glabel D_809E9130
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+glabel D_809E9144
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+glabel D_809E9158
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+glabel D_809E916C
+    .asciz "../z_en_dekubaba.c"
+    .balign 4
+
+.late_rodata
+glabel D_809E91D4
+    .float 0.01
+
+glabel D_809E91D8
+    .float 9.58738019108e-05
+
+.text
 glabel EnDekubaba_Draw
 /* 03478 809E8C48 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 0347C 809E8C4C AFB10020 */  sw      $s1, 0x0020($sp)           
@@ -10,7 +35,7 @@ glabel EnDekubaba_Draw
 /* 03498 809E8C68 24C69130 */  addiu   $a2, $a2, %lo(D_809E9130)  ## $a2 = 809E9130
 /* 0349C 809E8C6C 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
 /* 034A0 809E8C70 24070AC0 */  addiu   $a3, $zero, 0x0AC0         ## $a3 = 00000AC0
-/* 034A4 809E8C74 0C031AB1 */  jal     func_800C6AC4              
+/* 034A4 809E8C74 0C031AB1 */  jal     Graph_OpenDisps              
 /* 034A8 809E8C78 AFA5004C */  sw      $a1, 0x004C($sp)           
 /* 034AC 809E8C7C 0C024F46 */  jal     func_80093D18              
 /* 034B0 809E8C80 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -148,7 +173,7 @@ glabel EnDekubaba_Draw
 /* 036A4 809E8E74 24C6916C */  addiu   $a2, $a2, %lo(D_809E916C)  ## $a2 = 809E916C
 /* 036A8 809E8E78 27A4003C */  addiu   $a0, $sp, 0x003C           ## $a0 = FFFFFFE4
 /* 036AC 809E8E7C 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 036B0 809E8E80 0C031AD5 */  jal     func_800C6B54              
+/* 036B0 809E8E80 0C031AD5 */  jal     Graph_CloseDisps              
 /* 036B4 809E8E84 24070AF4 */  addiu   $a3, $zero, 0x0AF4         ## $a3 = 00000AF4
 /* 036B8 809E8E88 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 036BC 809E8E8C 8FB0001C */  lw      $s0, 0x001C($sp)           
@@ -156,4 +181,3 @@ glabel EnDekubaba_Draw
 /* 036C4 809E8E94 03E00008 */  jr      $ra                        
 /* 036C8 809E8E98 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 036CC 809E8E9C 00000000 */  nop
-

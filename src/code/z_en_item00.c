@@ -767,9 +767,9 @@ void En_Item00_Draw(ActorEnItem00* this, GlobalContext* globalCtx) {
 void func_8001EF30(ActorEnItem00* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 iconNb;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1546);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_item00.c", 1546);
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
@@ -789,7 +789,7 @@ void func_8001EF30(ActorEnItem00* this, GlobalContext* globalCtx) {
 
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_04042440);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1568);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_item00.c", 1568);
 }
 
 /**
@@ -798,11 +798,11 @@ void func_8001EF30(ActorEnItem00* this, GlobalContext* globalCtx) {
 void func_8001F080(ActorEnItem00* this, GlobalContext* globalCtx) {
     s32 iconNb;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     iconNb = this->actor.params - 3;
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1594);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_item00.c", 1594);
 
     gfxCtx->polyOpa.p = func_800BC8A0(globalCtx, gfxCtx->polyOpa.p);
 
@@ -820,7 +820,7 @@ void func_8001F080(ActorEnItem00* this, GlobalContext* globalCtx) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_0403F070);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1611);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_item00.c", 1611);
 }
 
 /**
@@ -828,9 +828,9 @@ void func_8001F080(ActorEnItem00* this, GlobalContext* globalCtx) {
  */
 void func_8001F1F4(ActorEnItem00* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1623);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_item00.c", 1623);
 
     func_80093D18(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
@@ -844,7 +844,7 @@ void func_8001F1F4(ActorEnItem00* this, GlobalContext* globalCtx) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_0403BCD8);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1647);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_item00.c", 1647);
 }
 
 /**
@@ -852,9 +852,9 @@ void func_8001F1F4(ActorEnItem00* this, GlobalContext* globalCtx) {
  */
 void func_8001F334(ActorEnItem00* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1658);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_item00.c", 1658);
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002ED80(&this->actor, globalCtx, 0);
@@ -862,7 +862,7 @@ void func_8001F334(ActorEnItem00* this, GlobalContext* globalCtx) {
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_0403B030);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_item00.c", 1673);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_item00.c", 1673);
 }
 
 /**
@@ -886,13 +886,13 @@ s16 func_8001F404(s16 dropId) {
     // clang-format off
     if (((dropId == DROP_BOMBS_A      || dropId == DROP_BOMBS_SPECIAL || dropId == DROP_BOMBS_B)      && INV_CONTENT(ITEM_BOMB) == ITEM_NONE) ||
         ((dropId == DROP_ARROWS_SMALL || dropId == DROP_ARROWS_MEDIUM || dropId == DROP_ARROWS_LARGE) && INV_CONTENT(ITEM_BOW) == ITEM_NONE) ||
-        ((dropId == DROP_MAGIC_LARGE  || dropId == DROP_MAGIC_SMALL)                                  && gSaveContext.magic_level == 0) ||
+        ((dropId == DROP_MAGIC_LARGE  || dropId == DROP_MAGIC_SMALL)                                  && gSaveContext.magicLevel == 0) ||
         ((dropId == DROP_SEEDS)                                                                       && INV_CONTENT(ITEM_SLINGSHOT) == ITEM_NONE)) {
         return -1;
     }
     // clang-format on
 
-    if (dropId == DROP_HEART && gSaveContext.health_capacity == gSaveContext.health) {
+    if (dropId == DROP_HEART && gSaveContext.healthCapacity == gSaveContext.health) {
         return DROP_RUPEE_GREEN;
     }
 
@@ -1038,12 +1038,12 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_HEART;
-        } else if ((gSaveContext.magic_level != 0) && (gSaveContext.magic == 0)) { // Empty magic meter
+        } else if ((gSaveContext.magicLevel != 0) && (gSaveContext.magic == 0)) { // Empty magic meter
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_MAGIC_LARGE;
-        } else if ((gSaveContext.magic_level != 0) &&
-                   (gSaveContext.magic <= (gSaveContext.magic_level >> 1))) { // Half magic or less
+        } else if ((gSaveContext.magicLevel != 0) &&
+                   (gSaveContext.magic <= (gSaveContext.magicLevel >> 1))) { // Half magic or less
             params = 0xA * 0x10;
             dropTableIndex = 0x0;
             dropId = DROP_MAGIC_SMALL;

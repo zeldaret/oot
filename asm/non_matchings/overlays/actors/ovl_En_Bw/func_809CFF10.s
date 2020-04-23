@@ -6,7 +6,7 @@ glabel func_809CFF10
 /* 01840 809CFF20 24A52250 */  addiu   $a1, $a1, 0x2250           ## $a1 = 06002250
 /* 01844 809CFF24 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 01848 809CFF28 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 0184C 809CFF2C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 0184C 809CFF2C 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 01850 809CFF30 3C06BF80 */  lui     $a2, 0xBF80                ## $a2 = BF800000
 /* 01854 809CFF34 8FA40018 */  lw      $a0, 0x0018($sp)
 /* 01858 809CFF38 3C014130 */  lui     $at, 0x4130                ## $at = 41300000
@@ -34,5 +34,3 @@ glabel func_809CFF10
 /* 018AC 809CFF8C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 018B0 809CFF90 03E00008 */  jr      $ra
 /* 018B4 809CFF94 00000000 */  nop
-
-

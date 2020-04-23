@@ -78,7 +78,7 @@ glabel func_8006ECF4
 /* AE5FC4 8006EE24 34210760 */  ori   $at, (0x00010760 & 0xFFFF) # ori $at, $at, 0x760
 /* AE5FC8 8006EE28 A45909AC */  sh    $t9, 0x9ac($v0)
 /* AE5FCC 8006EE2C 8CC50000 */  lw    $a1, ($a2)
-/* AE5FD0 8006EE30 0C02A89E */  jal   func_800AA278
+/* AE5FD0 8006EE30 0C02A89E */  jal   View_Init
 /* AE5FD4 8006EE34 00812021 */   addu  $a0, $a0, $at
 /* AE5FD8 8006EE38 8FBF0014 */  lw    $ra, 0x14($sp)
 /* AE5FDC 8006EE3C 27BD0018 */  addiu $sp, $sp, 0x18

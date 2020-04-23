@@ -1,3 +1,33 @@
+.rdata
+glabel D_80B99B04
+    .asciz "Error 群れな敵 (%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80B99B30
+    .asciz "../z_obj_mure.c"
+    .balign 4
+
+glabel D_80B99B40
+    .asciz "Error 群れな敵 (%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80B99B6C
+    .asciz "../z_obj_mure.c"
+    .balign 4
+
+glabel D_80B99B7C
+    .asciz "群れな敵 (arg_data 0x%04x)(chNum(%d) ptn(%d) svNum(%d) type(%d))\n"
+    .balign 4
+
+glabel D_80B99BC0
+    .asciz "Warning : 個体数が設定されていません(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80B99C00
+    .asciz "../z_obj_mure.c"
+    .balign 4
+
+.text
 glabel ObjMure_Init
 /* 000A8 80B98B48 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 000AC 80B98B4C AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -88,5 +118,3 @@ glabel ObjMure_Init
 /* 001D0 80B98C70 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 001D4 80B98C74 03E00008 */  jr      $ra                        
 /* 001D8 80B98C78 00000000 */  nop
-
-

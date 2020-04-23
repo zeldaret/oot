@@ -1,6 +1,5 @@
 #include "z_bg_heavy_block.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
 void BgHeavyBlock_Init(BgHeavyBlock* this, GlobalContext* globalCtx);
@@ -12,7 +11,6 @@ void BgHeavyBlock_Draw(BgHeavyBlock* this, GlobalContext* globalCtx);
 const ActorInit Bg_Heavy_Block_InitVars = {
     ACTOR_BG_HEAVY_BLOCK,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HEAVY_OBJECT,
     sizeof(BgHeavyBlock),

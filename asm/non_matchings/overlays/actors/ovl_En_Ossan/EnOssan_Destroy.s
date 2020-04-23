@@ -14,5 +14,3 @@ glabel EnOssan_Destroy
 /* 00A98 80AC3738 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00A9C 80AC373C 03E00008 */  jr      $ra
 /* 00AA0 80AC3740 00000000 */  nop
-
-

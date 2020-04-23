@@ -8,5 +8,3 @@ glabel EffDust_Update
 /* 00C18 8099E4E8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00C1C 8099E4EC 03E00008 */  jr      $ra                        
 /* 00C20 8099E4F0 00000000 */  nop
-
-

@@ -1,3 +1,23 @@
+.rdata
+glabel D_809B4EF0
+    .asciz "../z_en_arrow.c"
+    .balign 4
+
+glabel D_809B4F00
+    .asciz "../z_en_arrow.c"
+    .balign 4
+
+glabel D_809B4F10
+    .asciz "../z_en_arrow.c"
+    .balign 4
+
+.late_rodata
+glabel D_809B4F5C
+    .float 0.0000958738
+glabel D_809B4F60
+    .float 0.0000958738
+
+.text
 glabel EnArrow_Draw
 /* 01048 809B4968 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 0104C 809B496C AFBF002C */  sw      $ra, 0x002C($sp)
@@ -10,8 +30,8 @@ glabel EnArrow_Draw
 /* 01068 809B4988 44805000 */  mtc1    $zero, $f10                ## $f10 = 0.00
 /* 0106C 809B498C 0C024F46 */  jal     func_80093D18
 /* 01070 809B4990 8CA40000 */  lw      $a0, 0x0000($a1)           ## 00000000
-/* 01074 809B4994 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
-/* 01078 809B4998 8F18FA90 */  lw      $t8, -0x0570($t8)          ## 8015FA90
+/* 01074 809B4994 3C188016 */  lui     $t8, %hi(gGameInfo)
+/* 01078 809B4998 8F18FA90 */  lw      $t8, %lo(gGameInfo)($t8)
 /* 0107C 809B499C C60400EC */  lwc1    $f4, 0x00EC($s0)           ## 000000EC
 /* 01080 809B49A0 8FA4007C */  lw      $a0, 0x007C($sp)
 /* 01084 809B49A4 87190492 */  lh      $t9, 0x0492($t8)           ## 80160492
@@ -101,7 +121,7 @@ glabel EnArrow_Draw
 /* 011BC 809B4ADC 44C9F800 */  ctc1    $t1, $31
 /* 011C0 809B4AE0 8D650000 */  lw      $a1, 0x0000($t3)           ## 00000000
 /* 011C4 809B4AE4 24070542 */  addiu   $a3, $zero, 0x0542         ## $a3 = 00000542
-/* 011C8 809B4AE8 0C031AB1 */  jal     func_800C6AC4
+/* 011C8 809B4AE8 0C031AB1 */  jal     Graph_OpenDisps
 /* 011CC 809B4AEC AFA50064 */  sw      $a1, 0x0064($sp)
 /* 011D0 809B4AF0 8FAC007C */  lw      $t4, 0x007C($sp)
 /* 011D4 809B4AF4 0C024F05 */  jal     func_80093C14
@@ -242,7 +262,7 @@ glabel EnArrow_Draw
 /* 013DC 809B4CFC 24C64F10 */  addiu   $a2, $a2, %lo(D_809B4F10)  ## $a2 = 809B4F10
 /* 013E0 809B4D00 27A40054 */  addiu   $a0, $sp, 0x0054           ## $a0 = FFFFFFDC
 /* 013E4 809B4D04 24070565 */  addiu   $a3, $zero, 0x0565         ## $a3 = 00000565
-/* 013E8 809B4D08 0C031AD5 */  jal     func_800C6B54
+/* 013E8 809B4D08 0C031AD5 */  jal     Graph_CloseDisps
 /* 013EC 809B4D0C 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 013F0 809B4D10 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L809B4D14:
@@ -253,4 +273,3 @@ glabel EnArrow_Draw
 /* 01404 809B4D24 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 01408 809B4D28 03E00008 */  jr      $ra
 /* 0140C 809B4D2C 00000000 */  nop
-

@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809D15A0
+    .float 0.6
+
+.text
 glabel EnBw_Init
 /* 00008 809CE6E8 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0000C 809CE6EC AFA5003C */  sw      $a1, 0x003C($sp)           
@@ -27,8 +32,8 @@ glabel EnBw_Init
 /* 00068 809CE748 0C02915F */  jal     SkelAnime_Init
               
 /* 0006C 809CE74C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 00070 809CE750 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00074 809CE754 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00070 809CE750 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00074 809CE754 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00078 809CE758 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0007C 809CE75C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00080 809CE760 0C00AC78 */  jal     ActorShape_Init
@@ -92,5 +97,3 @@ glabel EnBw_Init
 /* 00158 809CE838 AC4B0000 */  sw      $t3, 0x0000($v0)           ## 809D14C8
 /* 0015C 809CE83C 03E00008 */  jr      $ra                        
 /* 00160 809CE840 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

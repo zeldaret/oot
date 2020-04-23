@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AB9AEC
+    .asciz "../z_en_niw_girl.c"
+    .balign 4
+
+glabel D_80AB9B00
+    .asciz "../z_en_niw_girl.c"
+    .balign 4
+
+.text
 glabel EnNiwGirl_Draw
 /* 008C8 80AB9848 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 008CC 80AB984C 3C0F80AC */  lui     $t7, %hi(D_80AB99CC)       ## $t7 = 80AC0000
@@ -19,7 +29,7 @@ glabel EnNiwGirl_Draw
 /* 0090C 80AB988C 24C69AEC */  addiu   $a2, $a2, %lo(D_80AB9AEC)  ## $a2 = 80AB9AEC
 /* 00910 80AB9890 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFD8
 /* 00914 80AB9894 2407023D */  addiu   $a3, $zero, 0x023D         ## $a3 = 0000023D
-/* 00918 80AB9898 0C031AB1 */  jal     func_800C6AC4
+/* 00918 80AB9898 0C031AB1 */  jal     Graph_OpenDisps
 /* 0091C 80AB989C AFA50048 */  sw      $a1, 0x0048($sp)
 /* 00920 80AB98A0 0C024F46 */  jal     func_80093D18
 /* 00924 80AB98A4 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -28,7 +38,7 @@ glabel EnNiwGirl_Draw
 /* 00930 80AB98B0 35290020 */  ori     $t1, $t1, 0x0020           ## $t1 = DB060020
 /* 00934 80AB98B4 8CA302C0 */  lw      $v1, 0x02C0($a1)           ## 000002C0
 /* 00938 80AB98B8 3C0480AC */  lui     $a0, %hi(D_80AB99D8)       ## $a0 = 80AC0000
-/* 0093C 80AB98BC 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 0093C 80AB98BC 3C188016 */  lui     $t8, %hi(gSegments)
 /* 00940 80AB98C0 24680008 */  addiu   $t0, $v1, 0x0008           ## $t0 = 00000008
 /* 00944 80AB98C4 ACA802C0 */  sw      $t0, 0x02C0($a1)           ## 000002C0
 /* 00948 80AB98C8 AC690000 */  sw      $t1, 0x0000($v1)           ## 00000000
@@ -44,7 +54,7 @@ glabel EnNiwGirl_Draw
 /* 00970 80AB98F0 000D7702 */  srl     $t6, $t5, 28
 /* 00974 80AB98F4 000E7880 */  sll     $t7, $t6,  2
 /* 00978 80AB98F8 030FC021 */  addu    $t8, $t8, $t7
-/* 0097C 80AB98FC 8F186FA8 */  lw      $t8, 0x6FA8($t8)           ## 80166FA8
+/* 0097C 80AB98FC 8F186FA8 */  lw      $t8, %lo(gSegments)($t8)
 /* 00980 80AB9900 00816024 */  and     $t4, $a0, $at
 /* 00984 80AB9904 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00988 80AB9908 0198C821 */  addu    $t9, $t4, $t8
@@ -67,7 +77,7 @@ glabel EnNiwGirl_Draw
 /* 009CC 80AB994C 24C69B00 */  addiu   $a2, $a2, %lo(D_80AB9B00)  ## $a2 = 80AB9B00
 /* 009D0 80AB9950 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFD8
 /* 009D4 80AB9954 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 009D8 80AB9958 0C031AD5 */  jal     func_800C6B54
+/* 009D8 80AB9958 0C031AD5 */  jal     Graph_CloseDisps
 /* 009DC 80AB995C 24070250 */  addiu   $a3, $zero, 0x0250         ## $a3 = 00000250
 /* 009E0 80AB9960 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 009E4 80AB9964 8FB00024 */  lw      $s0, 0x0024($sp)
@@ -77,4 +87,3 @@ glabel EnNiwGirl_Draw
 /* 009F4 80AB9974 00000000 */  nop
 /* 009F8 80AB9978 00000000 */  nop
 /* 009FC 80AB997C 00000000 */  nop
-

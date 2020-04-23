@@ -1,3 +1,15 @@
+.late_rodata
+glabel jtbl_80B4E768
+.word L80B4BF6C
+.word L80B4BFE0
+.word L80B4C070
+.word L80B4C0E8
+.word L80B4C130
+.word L80B4C17C
+.word L80B4C1A0
+.word 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel func_80B4BF2C
 /* 013EC 80B4BF2C 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 013F0 80B4BF30 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -95,10 +107,10 @@ glabel L80B4C070
 /* 01550 80B4C090 860601E8 */  lh      $a2, 0x01E8($s0)           ## 000001E8
 /* 01554 80B4C094 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01558 80B4C098 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 0155C 80B4C09C 0C0300C5 */  jal     func_800C0314              
+/* 0155C 80B4C09C 0C0300C5 */  jal     Gameplay_ChangeCameraStatus              
 /* 01560 80B4C0A0 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 01564 80B4C0A4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01568 80B4C0A8 0C0300E1 */  jal     func_800C0384              
+/* 01568 80B4C0A8 0C0300E1 */  jal     Gameplay_ClearCamera              
 /* 0156C 80B4C0AC 860501E8 */  lh      $a1, 0x01E8($s0)           ## 000001E8
 /* 01570 80B4C0B0 861801E2 */  lh      $t8, 0x01E2($s0)           ## 000001E2
 /* 01574 80B4C0B4 AE000118 */  sw      $zero, 0x0118($s0)         ## 00000118
@@ -201,5 +213,3 @@ glabel L80B4C1A0
 /* 016D4 80B4C214 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 016D8 80B4C218 03E00008 */  jr      $ra                        
 /* 016DC 80B4C21C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

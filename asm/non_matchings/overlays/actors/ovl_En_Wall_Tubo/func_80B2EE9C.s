@@ -34,9 +34,9 @@ glabel func_80B2EE9C
 /* 0012C 80B2EF1C 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
 /* 00130 80B2EF20 240400DA */  addiu   $a0, $zero, 0x00DA         ## $a0 = 000000DA
 /* 00134 80B2EF24 1040005F */  beq     $v0, $zero, .L80B2F0A4     
-/* 00138 80B2EF28 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 00138 80B2EF28 3C038016 */  lui     $v1, %hi(gGameInfo)
 /* 0013C 80B2EF2C 44818000 */  mtc1    $at, $f16                  ## $f16 = 40.00
-/* 00140 80B2EF30 2463FA90 */  addiu   $v1, $v1, 0xFA90           ## $v1 = 8015FA90
+/* 00140 80B2EF30 2463FA90 */  addiu   $v1, %lo(gGameInfo)
 .L80B2EF34:
 /* 00144 80B2EF34 10500004 */  beq     $v0, $s0, .L80B2EF48       
 /* 00148 80B2EF38 00000000 */  nop
@@ -143,5 +143,3 @@ glabel func_80B2EE9C
 /* 002BC 80B2F0AC 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 002C0 80B2F0B0 03E00008 */  jr      $ra                        
 /* 002C4 80B2F0B4 00000000 */  nop
-
-

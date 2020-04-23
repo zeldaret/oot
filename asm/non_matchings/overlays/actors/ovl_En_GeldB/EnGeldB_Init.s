@@ -12,11 +12,11 @@ glabel EnGeldB_Init
 /* 0002C 80A3533C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00030 80A35340 3C0E80A4 */  lui     $t6, %hi(D_80A3A0E4)       ## $t6 = 80A40000
 /* 00034 80A35344 25CEA0E4 */  addiu   $t6, $t6, %lo(D_80A3A0E4)  ## $t6 = 80A3A0E4
-/* 00038 80A35348 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00038 80A35348 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Teardrop)
 /* 0003C 80A3534C 44050000 */  mfc1    $a1, $f0
 /* 00040 80A35350 44070000 */  mfc1    $a3, $f0
 /* 00044 80A35354 AE0E0098 */  sw      $t6, 0x0098($s0)           ## 00000098
-/* 00048 80A35358 24C6B8C4 */  addiu   $a2, $a2, 0xB8C4           ## $a2 = 8002B8C4
+/* 00048 80A35358 24C6B8C4 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Teardrop)
 /* 0004C 80A3535C 0C00AC78 */  jal     ActorShape_Init
 
 /* 00050 80A35360 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
@@ -144,5 +144,3 @@ glabel EnGeldB_Init
 /* 0021C 80A3552C 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 00220 80A35530 03E00008 */  jr      $ra
 /* 00224 80A35534 27BD01E8 */  addiu   $sp, $sp, 0x01E8           ## $sp = 00000000
-
-

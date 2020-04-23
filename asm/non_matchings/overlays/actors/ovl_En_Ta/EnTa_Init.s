@@ -1,11 +1,33 @@
+.rdata
+glabel D_80B16EA0
+    .asciz "[36m 追放タロン \n[m"
+    .balign 4
+
+glabel D_80B16EB8
+    .asciz "[36m 出戻りタロン \n[m"
+    .balign 4
+
+glabel D_80B16ED0
+    .asciz "[36m 夜はいない \n[m"
+    .balign 4
+
+glabel D_80B16EE8
+    .asciz "[36m その他のタロン \n[m"
+    .balign 4
+
+glabel D_80B16F04
+    .asciz "[36m ロンロン牧場の倉庫 の タロン\n[m"
+    .balign 4
+
+.text
 glabel EnTa_Init
 /* 000E8 80B13B88 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 000EC 80B13B8C AFB00030 */  sw      $s0, 0x0030($sp)
 /* 000F0 80B13B90 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 000F4 80B13B94 AFBF0034 */  sw      $ra, 0x0034($sp)
 /* 000F8 80B13B98 AFA50054 */  sw      $a1, 0x0054($sp)
-/* 000FC 80B13B9C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00100 80B13BA0 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 000FC 80B13B9C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00100 80B13BA0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00104 80B13BA4 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00108 80B13BA8 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 0010C 80B13BAC 0C00AC78 */  jal     ActorShape_Init
@@ -74,9 +96,9 @@ glabel EnTa_Init
 /* 001F4 80B13C94 0C00084C */  jal     osSyncPrintf
 
 /* 001F8 80B13C98 24846EA0 */  addiu   $a0, $a0, %lo(D_80B16EA0)  ## $a0 = 80B16EA0
-/* 001FC 80B13C9C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00200 80B13CA0 9442F540 */  lhu     $v0, -0x0AC0($v0)          ## 8015F540
-/* 00204 80B13CA4 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
+/* 001FC 80B13C9C 3C028016 */  lui     $v0, %hi(gSaveContext+0xee0)
+/* 00200 80B13CA0 9442F540 */  lhu     $v0, %lo(gSaveContext+0xee0)($v0)
+/* 00204 80B13CA4 3C0C8016 */  lui     $t4, %hi(gSaveContext+4)
 /* 00208 80B13CA8 304B0800 */  andi    $t3, $v0, 0x0800           ## $t3 = 00000000
 /* 0020C 80B13CAC 11600005 */  beq     $t3, $zero, .L80B13CC4
 /* 00210 80B13CB0 00000000 */  nop
@@ -86,7 +108,7 @@ glabel EnTa_Init
 /* 0021C 80B13CBC 1000015E */  beq     $zero, $zero, .L80B14238
 /* 00220 80B13CC0 8FBF0034 */  lw      $ra, 0x0034($sp)
 .L80B13CC4:
-/* 00224 80B13CC4 8D8CE664 */  lw      $t4, -0x199C($t4)          ## FFFFE664
+/* 00224 80B13CC4 8D8CE664 */  lw      $t4, %lo(gSaveContext+4)($t4)
 /* 00228 80B13CC8 304D0400 */  andi    $t5, $v0, 0x0400           ## $t5 = 00000000
 /* 0022C 80B13CCC 11800005 */  beq     $t4, $zero, .L80B13CE4
 /* 00230 80B13CD0 00000000 */  nop
@@ -107,7 +129,7 @@ glabel EnTa_Init
 /* 00264 80B13D04 A60002B4 */  sh      $zero, 0x02B4($s0)         ## 000002B4
 /* 00268 80B13D08 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 0026C 80B13D0C 24A51C94 */  addiu   $a1, $a1, 0x1C94           ## $a1 = 06001C94
-/* 00270 80B13D10 0C02947A */  jal     func_800A51E8
+/* 00270 80B13D10 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 00274 80B13D14 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00278 80B13D18 3C0E0600 */  lui     $t6, 0x0600                ## $t6 = 06000000
 /* 0027C 80B13D1C 25CE1C94 */  addiu   $t6, $t6, 0x1C94           ## $t6 = 06001C94
@@ -123,7 +145,7 @@ glabel EnTa_Init
 /* 002A0 80B13D40 A60F02B4 */  sh      $t7, 0x02B4($s0)           ## 000002B4
 /* 002A4 80B13D44 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 002A8 80B13D48 24A5CD50 */  addiu   $a1, $a1, 0xCD50           ## $a1 = 0600CD50
-/* 002AC 80B13D4C 0C02947A */  jal     func_800A51E8
+/* 002AC 80B13D4C 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 002B0 80B13D50 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 002B4 80B13D54 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 002B8 80B13D58 44813000 */  mtc1    $at, $f6                   ## $f6 = 54.00
@@ -136,8 +158,8 @@ glabel EnTa_Init
 /* 002D0 80B13D70 0C00084C */  jal     osSyncPrintf
 
 /* 002D4 80B13D74 24846EB8 */  addiu   $a0, $a0, %lo(D_80B16EB8)  ## $a0 = 00006EB8
-/* 002D8 80B13D78 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 002DC 80B13D7C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 002D8 80B13D78 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 002DC 80B13D7C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 002E0 80B13D80 94590EE0 */  lhu     $t9, 0x0EE0($v0)           ## 8015F540
 /* 002E4 80B13D84 33280800 */  andi    $t0, $t9, 0x0800           ## $t0 = 00000000
 /* 002E8 80B13D88 55000006 */  bnel    $t0, $zero, .L80B13DA4
@@ -183,7 +205,7 @@ glabel EnTa_Init
 /* 0036C 80B13E0C A60002B4 */  sh      $zero, 0x02B4($s0)         ## 000002B4
 /* 00370 80B13E10 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00374 80B13E14 24A51C94 */  addiu   $a1, $a1, 0x1C94           ## $a1 = 06001C94
-/* 00378 80B13E18 0C02947A */  jal     func_800A51E8
+/* 00378 80B13E18 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 0037C 80B13E1C 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00380 80B13E20 3C0D0600 */  lui     $t5, 0x0600                ## $t5 = 06000000
 /* 00384 80B13E24 25AD1C94 */  addiu   $t5, $t5, 0x1C94           ## $t5 = 06001C94
@@ -198,8 +220,8 @@ glabel EnTa_Init
 /* 003A0 80B13E40 846200A4 */  lh      $v0, 0x00A4($v1)           ## 000000A4
 /* 003A4 80B13E44 5441002E */  bnel    $v0, $at, .L80B13F00
 /* 003A8 80B13E48 2401004C */  addiu   $at, $zero, 0x004C         ## $at = 0000004C
-/* 003AC 80B13E4C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 003B0 80B13E50 9442F536 */  lhu     $v0, -0x0ACA($v0)          ## 8015F536
+/* 003AC 80B13E4C 3C028016 */  lui     $v0, %hi(gSaveContext+0xed6)
+/* 003B0 80B13E50 9442F536 */  lhu     $v0, %lo(gSaveContext+0xed6)($v0)
 /* 003B4 80B13E54 304E0010 */  andi    $t6, $v0, 0x0010           ## $t6 = 00000000
 /* 003B8 80B13E58 11C00005 */  beq     $t6, $zero, .L80B13E70
 /* 003BC 80B13E5C 304F0008 */  andi    $t7, $v0, 0x0008           ## $t7 = 00000000
@@ -220,7 +242,7 @@ glabel EnTa_Init
 /* 003F0 80B13E90 A60002B4 */  sh      $zero, 0x02B4($s0)         ## 000002B4
 /* 003F4 80B13E94 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 003F8 80B13E98 24A51C94 */  addiu   $a1, $a1, 0x1C94           ## $a1 = 06001C94
-/* 003FC 80B13E9C 0C02947A */  jal     func_800A51E8
+/* 003FC 80B13E9C 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 00400 80B13EA0 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00404 80B13EA4 3C180600 */  lui     $t8, 0x0600                ## $t8 = 06000000
 /* 00408 80B13EA8 27181C94 */  addiu   $t8, $t8, 0x1C94           ## $t8 = 06001C94
@@ -236,7 +258,7 @@ glabel EnTa_Init
 /* 0042C 80B13ECC A61902B4 */  sh      $t9, 0x02B4($s0)           ## 000002B4
 /* 00430 80B13ED0 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00434 80B13ED4 24A5CD50 */  addiu   $a1, $a1, 0xCD50           ## $a1 = 0600CD50
-/* 00438 80B13ED8 0C02947A */  jal     func_800A51E8
+/* 00438 80B13ED8 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 0043C 80B13EDC 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00440 80B13EE0 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 00444 80B13EE4 44814000 */  mtc1    $at, $f8                   ## $f8 = 54.00
@@ -253,8 +275,8 @@ glabel EnTa_Init
 /* 0046C 80B13F0C 0C00084C */  jal     osSyncPrintf
 
 /* 00470 80B13F10 24846F04 */  addiu   $a0, $a0, %lo(D_80B16F04)  ## $a0 = 80B16F04
-/* 00474 80B13F14 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00478 80B13F18 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00474 80B13F14 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00478 80B13F18 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 0047C 80B13F1C 94690ED6 */  lhu     $t1, 0x0ED6($v1)           ## 8015F536
 /* 00480 80B13F20 312A0010 */  andi    $t2, $t1, 0x0010           ## $t2 = 00000000
 /* 00484 80B13F24 55400006 */  bnel    $t2, $zero, .L80B13F40
@@ -369,8 +391,8 @@ glabel EnTa_Init
 /* 0061C 80B140BC 8FA50054 */  lw      $a1, 0x0054($sp)
 /* 00620 80B140C0 0C2C4EAB */  jal     func_80B13AAC
 /* 00624 80B140C4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00628 80B140C8 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 0062C 80B140CC 9529FA5A */  lhu     $t1, -0x05A6($t1)          ## 8015FA5A
+/* 00628 80B140C8 3C098016 */  lui     $t1, %hi(gSaveContext+0x13fa)
+/* 0062C 80B140CC 9529FA5A */  lhu     $t1, %lo(gSaveContext+0x13fa)($t1)
 /* 00630 80B140D0 3C0580B1 */  lui     $a1, %hi(func_80B16608)    ## $a1 = 80B10000
 /* 00634 80B140D4 24A56608 */  addiu   $a1, $a1, %lo(func_80B16608) ## $a1 = 80B16608
 /* 00638 80B140D8 312A0400 */  andi    $t2, $t1, 0x0400           ## $t2 = 00000000
@@ -406,11 +428,11 @@ glabel EnTa_Init
 /* 006A8 80B14148 46003201 */  sub.s   $f8, $f6, $f0
 /* 006AC 80B1414C E7B00010 */  swc1    $f16, 0x0010($sp)
 /* 006B0 80B14150 44074000 */  mfc1    $a3, $f8
-/* 006B4 80B14154 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 006B4 80B14154 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 006B8 80B14158 00000000 */  nop
-/* 006BC 80B1415C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 006C0 80B14160 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 006BC 80B1415C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 006C0 80B14160 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 006C4 80B14164 944D13FA */  lhu     $t5, 0x13FA($v0)           ## 8015FA5A
 /* 006C8 80B14168 31AEFBFF */  andi    $t6, $t5, 0xFBFF           ## $t6 = 00000000
 /* 006CC 80B1416C 10000031 */  beq     $zero, $zero, .L80B14234
@@ -425,7 +447,7 @@ glabel EnTa_Init
 /* 006EC 80B1418C A60002B4 */  sh      $zero, 0x02B4($s0)         ## 000002B4
 /* 006F0 80B14190 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 006F4 80B14194 24A517E8 */  addiu   $a1, $a1, 0x17E8           ## $a1 = 060017E8
-/* 006F8 80B14198 0C02947A */  jal     func_800A51E8
+/* 006F8 80B14198 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 006FC 80B1419C 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00700 80B141A0 3C0F0600 */  lui     $t7, 0x0600                ## $t7 = 06000000
 /* 00704 80B141A4 25EF17E8 */  addiu   $t7, $t7, 0x17E8           ## $t7 = 060017E8
@@ -439,7 +461,7 @@ glabel EnTa_Init
 /* 00720 80B141C0 A61802B4 */  sh      $t8, 0x02B4($s0)           ## 000002B4
 /* 00724 80B141C4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00728 80B141C8 24A5CD50 */  addiu   $a1, $a1, 0xCD50           ## $a1 = 0600CD50
-/* 0072C 80B141CC 0C02947A */  jal     func_800A51E8
+/* 0072C 80B141CC 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 00730 80B141D0 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00734 80B141D4 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 00738 80B141D8 44812000 */  mtc1    $at, $f4                   ## $f4 = 54.00
@@ -458,7 +480,7 @@ glabel EnTa_Init
 /* 00768 80B14208 A60802B4 */  sh      $t0, 0x02B4($s0)           ## 000002B4
 /* 0076C 80B1420C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 00770 80B14210 24A5CD50 */  addiu   $a1, $a1, 0xCD50           ## $a1 = 0600CD50
-/* 00774 80B14214 0C02947A */  jal     func_800A51E8
+/* 00774 80B14214 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 00778 80B14218 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 0077C 80B1421C 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 00780 80B14220 44813000 */  mtc1    $at, $f6                   ## $f6 = 54.00
@@ -473,5 +495,3 @@ glabel EnTa_Init
 /* 0079C 80B1423C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 007A0 80B14240 03E00008 */  jr      $ra
 /* 007A4 80B14244 00000000 */  nop
-
-

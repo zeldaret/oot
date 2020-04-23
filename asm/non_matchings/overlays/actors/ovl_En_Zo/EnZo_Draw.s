@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B62674
+    .asciz "../z_en_zo.c"
+    .balign 4
+
+glabel D_80B62684
+    .asciz "../z_en_zo.c"
+    .balign 4
+
+.text
 glabel EnZo_Draw
 /* 02020 80B62240 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 02024 80B62244 3C0F80B6 */  lui     $t7, %hi(D_80B625B0)       ## $t7 = 80B60000
@@ -37,7 +47,7 @@ glabel EnZo_Draw
 /* 020AC 80B622CC 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 020B0 80B622D0 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 020B4 80B622D4 240703F0 */  addiu   $a3, $zero, 0x03F0         ## $a3 = 000003F0
-/* 020B8 80B622D8 0C031AB1 */  jal     func_800C6AC4              
+/* 020B8 80B622D8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 020BC 80B622DC AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 020C0 80B622E0 3C01437F */  lui     $at, 0x437F                ## $at = 437F0000
 /* 020C4 80B622E4 44814000 */  mtc1    $at, $f8                   ## $f8 = 255.00
@@ -54,7 +64,7 @@ glabel EnZo_Draw
 /* 020F0 80B62310 AD0B02C0 */  sw      $t3, 0x02C0($t0)           ## 000002C0
 /* 020F4 80B62314 AC6C0000 */  sw      $t4, 0x0000($v1)           ## 00000000
 /* 020F8 80B62318 860D0654 */  lh      $t5, 0x0654($s0)           ## 00000654
-/* 020FC 80B6231C 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 020FC 80B6231C 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 02100 80B62320 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 02104 80B62324 000D7080 */  sll     $t6, $t5,  2               
 /* 02108 80B62328 03AE2021 */  addu    $a0, $sp, $t6              
@@ -65,7 +75,7 @@ glabel EnZo_Draw
 /* 0211C 80B6233C 0018CF02 */  srl     $t9, $t8, 28               
 /* 02120 80B62340 00194880 */  sll     $t1, $t9,  2               
 /* 02124 80B62344 01495021 */  addu    $t2, $t2, $t1              
-/* 02128 80B62348 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 80166FA8
+/* 02128 80B62348 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 0212C 80B6234C 00817824 */  and     $t7, $a0, $at              
 /* 02130 80B62350 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 02134 80B62354 01EA5821 */  addu    $t3, $t7, $t2              
@@ -92,7 +102,7 @@ glabel EnZo_Draw
 /* 02184 80B623A4 AD1802D0 */  sw      $t8, 0x02D0($t0)           ## 000002D0
 /* 02188 80B623A8 AC790000 */  sw      $t9, 0x0000($v1)           ## 00000000
 /* 0218C 80B623AC 86090654 */  lh      $t1, 0x0654($s0)           ## 00000654
-/* 02190 80B623B0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 02190 80B623B0 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 02194 80B623B4 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 02198 80B623B8 00097880 */  sll     $t7, $t1,  2               
 /* 0219C 80B623BC 03AF2021 */  addu    $a0, $sp, $t7              
@@ -103,7 +113,7 @@ glabel EnZo_Draw
 /* 021B0 80B623D0 000B6702 */  srl     $t4, $t3, 28               
 /* 021B4 80B623D4 000C6880 */  sll     $t5, $t4,  2               
 /* 021B8 80B623D8 01CD7021 */  addu    $t6, $t6, $t5              
-/* 021BC 80B623DC 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 021BC 80B623DC 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 021C0 80B623E0 00815024 */  and     $t2, $a0, $at              
 /* 021C4 80B623E4 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 021C8 80B623E8 014EC021 */  addu    $t8, $t2, $t6              
@@ -125,7 +135,7 @@ glabel EnZo_Draw
 /* 02204 80B62424 24C62684 */  addiu   $a2, $a2, %lo(D_80B62684)  ## $a2 = 80B62684
 /* 02208 80B62428 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFDC
 /* 0220C 80B6242C 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 02210 80B62430 0C031AD5 */  jal     func_800C6B54              
+/* 02210 80B62430 0C031AD5 */  jal     Graph_CloseDisps              
 /* 02214 80B62434 24070401 */  addiu   $a3, $zero, 0x0401         ## $a3 = 00000401
 /* 02218 80B62438 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80B6243C:
@@ -134,4 +144,3 @@ glabel EnZo_Draw
 /* 02224 80B62444 03E00008 */  jr      $ra                        
 /* 02228 80B62448 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 0222C 80B6244C 00000000 */  nop
-

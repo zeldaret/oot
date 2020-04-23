@@ -13,5 +13,3 @@ glabel BgSpot15Rrbox_Destroy
 /* 00334 808B3C94 A4204590 */  sh      $zero, %lo(D_808B4590)($at) 
 /* 00338 808B3C98 03E00008 */  jr      $ra                        
 /* 0033C 808B3C9C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
-
-

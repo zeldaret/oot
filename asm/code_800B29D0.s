@@ -51,7 +51,7 @@ glabel func_800B29D0
 /* B29C00 800B2A60 E7A00018 */  swc1  $f0, 0x18($sp)
 /* B29C04 800B2A64 E7A0001C */  swc1  $f0, 0x1c($sp)
 /* B29C08 800B2A68 E7A00024 */  swc1  $f0, 0x24($sp)
-/* B29C0C 800B2A6C 0C04078D */  jal   func_80101E34
+/* B29C0C 800B2A6C 0C04078D */  jal   guLookAtReflect
 /* B29C10 800B2A70 E7AA0020 */   swc1  $f10, 0x20($sp)
 /* B29C14 800B2A74 8FBF0034 */  lw    $ra, 0x34($sp)
 /* B29C18 800B2A78 8FB00030 */  lw    $s0, 0x30($sp)
@@ -191,7 +191,7 @@ glabel func_800B2B98
 /* B29DF8 800B2C58 9606000E */  lhu   $a2, 0xe($s0)
 /* B29DFC 800B2C5C 9605000C */  lhu   $a1, 0xc($s0)
 /* B29E00 800B2C60 AFA00010 */  sw    $zero, 0x10($sp)
-/* B29E04 800B2C64 0C02536E */  jal   func_80094DB8
+/* B29E04 800B2C64 0C02536E */  jal   Gfx_BranchTexScroll
 /* B29E08 800B2C68 00003825 */   move  $a3, $zero
 /* B29E0C 800B2C6C 8FAB007C */  lw    $t3, 0x7c($sp)
 /* B29E10 800B2C70 3C0DDB06 */  lui   $t5, (0xDB060020 >> 16) # lui $t5, 0xdb06

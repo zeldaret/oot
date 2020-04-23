@@ -1,3 +1,9 @@
+.rdata
+glabel D_80894010
+    .asciz "(jya 大鏡)(arg_data 0x%04x)\n"
+    .balign 4
+
+.text
 glabel BgJyaBigmirror_Init
 /* 00488 80893B68 3C0E8089 */  lui     $t6, %hi(D_80893ED0)       ## $t6 = 80890000
 /* 0048C 80893B6C 91CE3ED0 */  lbu     $t6, %lo(D_80893ED0)($t6)  
@@ -42,5 +48,3 @@ glabel BgJyaBigmirror_Init
 /* 00514 80893BF4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00518 80893BF8 03E00008 */  jr      $ra                        
 /* 0051C 80893BFC 00000000 */  nop
-
-

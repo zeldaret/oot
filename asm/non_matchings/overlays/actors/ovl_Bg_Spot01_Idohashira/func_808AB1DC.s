@@ -1,3 +1,9 @@
+.rdata
+glabel D_808AB870
+    .asciz "[31mBg_Spot01_Idohashira_Get_FreeFallで割り算出来ない!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel func_808AB1DC
 /* 004FC 808AB1DC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00500 808AB1E0 AFA60020 */  sw      $a2, 0x0020($sp)           
@@ -12,13 +18,13 @@ glabel func_808AB1DC
 /* 00524 808AB204 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00528 808AB208 E7AC0018 */  swc1    $f12, 0x0018($sp)          
 /* 0052C 808AB20C E7AE001C */  swc1    $f14, 0x001C($sp)          
-/* 00530 808AB210 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 00530 808AB210 3C0F8016 */  lui     $t7, %hi(gGameInfo)
 /* 00534 808AB214 3C04808B */  lui     $a0, %hi(D_808AB870)       ## $a0 = 808B0000
 /* 00538 808AB218 46103032 */  c.eq.s  $f6, $f16                  
 /* 0053C 808AB21C 03274023 */  subu    $t0, $t9, $a3              
 /* 00540 808AB220 45010016 */  bc1t    .L808AB27C                 
 /* 00544 808AB224 00000000 */  nop
-/* 00548 808AB228 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 00548 808AB228 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 0054C 808AB22C 44882000 */  mtc1    $t0, $f4                   ## $f4 = 0.00
 /* 00550 808AB230 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
 /* 00554 808AB234 85F81466 */  lh      $t8, 0x1466($t7)           ## 80161466
@@ -50,5 +56,3 @@ glabel func_808AB1DC
 /* 005B0 808AB290 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 005B4 808AB294 03E00008 */  jr      $ra                        
 /* 005B8 808AB298 00000000 */  nop
-
-

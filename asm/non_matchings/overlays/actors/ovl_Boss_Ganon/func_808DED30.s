@@ -6,5 +6,3 @@ glabel func_808DED30
 /* 084D0 808DED40 3C018090 */  lui     $at, %hi(D_808F93CC)       ## $at = 80900000
 /* 084D4 808DED44 03E00008 */  jr      $ra                        
 /* 084D8 808DED48 AC2693CC */  sw      $a2, %lo(D_808F93CC)($at)  
-
-

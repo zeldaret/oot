@@ -53,5 +53,3 @@ glabel OceffStorm_Init
 /* 000C8 80BA71A8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 000CC 80BA71AC 03E00008 */  jr      $ra                        
 /* 000D0 80BA71B0 00000000 */  nop
-
-

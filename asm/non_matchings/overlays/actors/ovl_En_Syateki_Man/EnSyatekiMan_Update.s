@@ -43,5 +43,3 @@ glabel EnSyatekiMan_Update
 /* 00C10 80B11480 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00C14 80B11484 03E00008 */  jr      $ra                        
 /* 00C18 80B11488 00000000 */  nop
-
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80AC91B4
+    .asciz "%s[%d]:\x1b[32mズーム中！！\x1b[m\n"
+    .balign 4
+
+glabel D_80AC91D4
+    .asciz "../z_en_oB1.c"
+    .balign 4
+
+.text
 glabel func_80AC5594
 /* 028F4 80AC5594 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 028F8 80AC5598 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -64,5 +74,3 @@ glabel func_80AC5594
 /* 029D4 80AC5674 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 029D8 80AC5678 03E00008 */  jr      $ra                        
 /* 029DC 80AC567C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-
