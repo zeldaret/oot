@@ -244,17 +244,17 @@
 
 /**
  * ARGS
- *   s16 actorAnim (a), s16 startFrame (s), s16 endFrame (e),
- *   s16 rotX (u),      s16 rotY (v),       s16 rotZ (w),
- *   s32 startX (l),    s32 startY (m),     s32 startZ (n),
- *   s32 endX (x),      s32 endY (y),       s32 endZ (z),
- *   f32 normX (i),     f32 normY (j),      f32 normZ (k),
+ *   s16 actorAction (a), s16 startFrame (s), s16 endFrame (e),
+ *   s16 rotX (u),        s16 rotY (v),       s16 rotZ (w),
+ *   s32 startX (i),      s32 startY (j),     s32 startZ (k),
+ *   s32 endX (l),        s32 endY (m),       s32 endZ (n),
+ *   f32 normX (x),       f32 normY (y),      f32 normZ (z),
  * FORMAT
- *   aaaassss eeeeuuuu vvvvwwww llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz iiiiiiii jjjjjjjj kkkkkkkk
+ *   aaaassss eeeeuuuu vvvvwwww iiiiiiii jjjjjjjj kkkkkkkk llllllll mmmmmmmm nnnnnnnn xxxxxxxx yyyyyyyy zzzzzzzz
  *   size = 0x30
  **/
-#define CS_ACTOR_ACTION(actorAnim, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
-    CMD_HH(actorAnim, startFrame), CMD_HH(endFrame, rotX), CMD_HH(rotY, rotZ), \
+#define CS_ACTOR_ACTION(actorAction, startFrame, endFrame, rotX, rotY, rotZ, startX, startY, startZ, endX, endY, endZ, normX, normY, normZ) \
+    CMD_HH(actorAction, startFrame), CMD_HH(endFrame, rotX), CMD_HH(rotY, rotZ), \
     CMD_W(startX), CMD_W(startY), CMD_W(startZ), \
     CMD_W(endX), CMD_W(endY), CMD_W(endZ), \
     CMD_W(normX), CMD_W(normY), CMD_W(normZ)
