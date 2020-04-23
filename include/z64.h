@@ -934,7 +934,7 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ Color_RGBA8 color;
-    /* 0x004 */ Color_RGBA8 unk_04;
+    /* 0x004 */ Color_RGBA8 envColor;
     /* 0x008 */ s32 texX;
     /* 0x00C */ s32 texY;
     /* 0x010 */ s32 step;
@@ -972,17 +972,18 @@ typedef struct {
         TransitionCircle circle;
         TransitionTriforce triforce;
         TransitionWipe1 wipe;
-    } transition;
+        char data[0x228];
+    };
     /* 0x228 */ s32    transitionType;
-    /* 0x22C */ void* (*initFunc)(void*);
-    /* 0x230 */ void (*destroyFunc)(UNK_ARGS);
-    /* 0x234 */ void (*moveFunc)(UNK_ARGS);
-    /* 0x238 */ void (*drawFunc)(UNK_ARGS);
-    /* 0x23C */ void (*startFunc)(UNK_ARGS);
-    /* 0x240 */ void (*setTypeFunc)(UNK_ARGS);
-    /* 0x244 */ void (*setColorFunc)(UNK_ARGS);
-    /* 0x248 */ void (*unk_248)(UNK_ARGS);
-    /* 0x24C */ s32  (*isDoneFunc)(UNK_ARGS);
+    /* 0x22C */ void* (*initFunc)(void* transition);
+    /* 0x230 */ void  (*destroyFunc)(void* transition);
+    /* 0x234 */ void  (*moveFunc)(void* transition, s32 updateRate);
+    /* 0x238 */ void  (*drawFunc)(void* transition, Gfx** gfxP);
+    /* 0x23C */ void  (*startFunc)(void* transition);
+    /* 0x240 */ void  (*setTypeFunc)(void* transition, s32 type);
+    /* 0x244 */ void  (*setColorFunc)(void* transition, u32 color);
+    /* 0x248 */ void  (*setEnvColorFunc)(void* transition, u32 color);
+    /* 0x24C */ s32   (*isDoneFunc)(void* transition);
 } TransitionContext; // size = 0x250
 
 typedef struct {

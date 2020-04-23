@@ -54,7 +54,7 @@ glabel func_800BC5E0
 /* B337DC 800BC63C 3C0A800B */  lui   $t2, %hi(TransitionCircle_Move) # $t2, 0x800b
 /* B337E0 800BC640 3C0B800B */  lui   $t3, %hi(TransitionCircle_SetType) # $t3, 0x800b
 /* B337E4 800BC644 3C0C800B */  lui   $t4, %hi(TransitionCircle_SetColor) # $t4, 0x800b
-/* B337E8 800BC648 3C0D800B */  lui   $t5, %hi(func_800B34D4) # $t5, 0x800b
+/* B337E8 800BC648 3C0D800B */  lui   $t5, %hi(TransitionCircle_SetEnvColor) # $t5, 0x800b
 /* B337EC 800BC64C 25EF301C */  addiu $t7, %lo(TransitionCircle_Init) # addiu $t7, $t7, 0x301c
 /* B337F0 800BC650 27183044 */  addiu $t8, %lo(TransitionCircle_Destroy) # addiu $t8, $t8, 0x3044
 /* B337F4 800BC654 27392E30 */  addiu $t9, %lo(TransitionCircle_Start) # addiu $t9, $t9, 0x2e30
@@ -63,7 +63,7 @@ glabel func_800BC5E0
 /* B33800 800BC660 254A304C */  addiu $t2, %lo(TransitionCircle_Move) # addiu $t2, $t2, 0x304c
 /* B33804 800BC664 256B3474 */  addiu $t3, %lo(TransitionCircle_SetType) # addiu $t3, $t3, 0x3474
 /* B33808 800BC668 258C34CC */  addiu $t4, %lo(TransitionCircle_SetColor) # addiu $t4, $t4, 0x34cc
-/* B3380C 800BC66C 25AD34D4 */  addiu $t5, %lo(func_800B34D4) # addiu $t5, $t5, 0x34d4
+/* B3380C 800BC66C 25AD34D4 */  addiu $t5, %lo(TransitionCircle_SetEnvColor) # addiu $t5, $t5, 0x34d4
 /* B33810 800BC670 AC8F022C */  sw    $t7, 0x22c($a0)
 /* B33814 800BC674 AC980230 */  sw    $t8, 0x230($a0)
 /* B33818 800BC678 AC99023C */  sw    $t9, 0x23c($a0)
