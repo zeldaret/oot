@@ -230,7 +230,7 @@ void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
 
 void func_80AA0B74(EnMa1* this) {
     if (this->skelAnime.animCurrentSeg == &D_06008D64) {
-        if ((this->unk_1E8.unk_00 == 0)) {
+        if (this->unk_1E8.unk_00 == 0) {
             if (this->unk_1E0 != 0) {
                 this->unk_1E0 = 0;
                 func_800F6584(0, this);
@@ -252,7 +252,7 @@ void EnMa1_Init(EnMa1* this, GlobalContext* globalCtx) {
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008460, NULL, NULL, NULL, 0);
     ActorCollider_AllocCylinder(globalCtx, collider);
     ActorCollider_InitCylinder(globalCtx, collider, &this->actor, &D_80AA1640);
-    func_80061EFC(&this->actor.sub_98, CollisionBtlTbl_Get(0x16), &D_80AA166C);
+    func_80061EFC(&this->actor.sub_98, (ActorDamageChart*)CollisionBtlTbl_Get(0x16), &D_80AA166C);
 
     if (!func_80AA08C4(this, globalCtx)) {
         Actor_Kill(&this->actor);
@@ -382,13 +382,13 @@ void EnMa1_Update(EnMa1* this, GlobalContext* globalCtx) {
     ColliderCylinderMain* collider = &this->collider;
     s32 pad;
 
-    ActorCollider_Cylinder_Update(this, collider);
+    ActorCollider_Cylinder_Update(&this->actor, collider);
     Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, collider);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_80AA0A0C(this);
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != (ActorFunc)func_80AA11C8) {
-        func_800343CC(globalCtx, &this->actor, &this->unk_1E8, (f32)this->collider.dim.radius + 30.0f, EnMa1_GetText,
+        func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, (f32)this->collider.dim.radius + 30.0f, EnMa1_GetText,
                       func_80AA0778);
     }
     func_80AA0B74(this);
@@ -434,7 +434,7 @@ void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx) {
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma1.c", 1226);
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
-    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot, &camera->unk_5C);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->unk_5C);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
