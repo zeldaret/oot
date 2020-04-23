@@ -89,10 +89,14 @@ void TransitionTriforce_SetState(TransitionTriforce* triforce, s32 state) {
 
 #ifdef NON_MATCHING
 void TransitionTriforce_Draw(TransitionTriforce* triforce, Gfx** gfxP) {
-    char pad[4];
-    Mtx* modelView;
+
     Gfx* gfx = *gfxP;
+    Mtx* modelView;
     f32 scale;
+    char pad[4];
+
+
+    char pad2[4];
     f32 rotation;
 
     rotation = triforce->transPos * 360.0f;
@@ -141,22 +145,15 @@ void TransitionTriforce_Draw(TransitionTriforce* triforce, Gfx** gfxP) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo_triforce/TransitionTriforce_Draw.s")
 #endif
 
-#ifdef NON_MATCHING
 s32 TransitionTriforce_IsDone(TransitionTriforce* triforce) {
+    s32 ret = 0;
     if (triforce->state == 1 || triforce->state == 2) {
-        if (triforce->transPos <= 0.03f) {
-            return 1;
-        }
-        return 0;
+        return triforce->transPos <= 0.03f;
+
     }
-    if (triforce->state == 3 || triforce->state == 4) {
-        if (triforce->transPos >= 1.0f) {
-            return 1;
-        }
-        return 0;
+    else if (triforce->state == 3 || triforce->state == 4) {
+        return triforce->transPos >= 1.0f;
     }
-    return 0;
+    return ret;
+
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo_triforce/TransitionTriforce_IsDone.s")
-#endif
