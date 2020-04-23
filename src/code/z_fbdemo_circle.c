@@ -237,40 +237,23 @@ char sCircleTexStarburst[] = {
 };
 
 Vtx sCircleVtx[] = {
-    VTX(-25, 0, 0, 0, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-23, 10, 0, 384, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 192, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-18, 18, 0, 768, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 576, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-10, 23, 0, 1152, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 960, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 25, 0, 1536, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 1344, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(10, 23, 0, 1920, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 1728, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(18, 18, 0, 2304, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 2112, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(23, 10, 0, 2688, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 2496, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(25, 0, 0, 3072, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 2880, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(23, -10, 0, 3456, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 3264, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(18, -18, 0, 3840, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 3648, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(10, -23, 0, 4224, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 4032, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, -25, 0, 4608, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 4416, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-10, -23, 0, 4992, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 4800, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-18, -18, 0, 5376, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 5184, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-23, -10, 0, 5760, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 5568, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-23, -10, 0, 5760, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-25, 0, 0, 6144, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, 0, -10, 5952, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(-25, 0, 0, 0, 4096, 0xFF, 0xFF, 0xFF, 0xFF),    VTX(-23, 10, 0, 384, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 192, 2048, 0xFF, 0xFF, 0xFF, 0xFF),  VTX(-18, 18, 0, 768, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 576, 2048, 0xFF, 0xFF, 0xFF, 0xFF),  VTX(-10, 23, 0, 1152, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 960, 2048, 0xFF, 0xFF, 0xFF, 0xFF),  VTX(0, 25, 0, 1536, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 1344, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(10, 23, 0, 1920, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 1728, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(18, 18, 0, 2304, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 2112, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(23, 10, 0, 2688, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 2496, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(25, 0, 0, 3072, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 2880, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(23, -10, 0, 3456, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 3264, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(18, -18, 0, 3840, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 3648, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(10, -23, 0, 4224, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 4032, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(0, -25, 0, 4608, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 4416, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(-10, -23, 0, 4992, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 4800, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(-18, -18, 0, 5376, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 5184, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(-23, -10, 0, 5760, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 0, -10, 5568, 2048, 0xFF, 0xFF, 0xFF, 0xFF), VTX(-23, -10, 0, 5760, 4096, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(-25, 0, 0, 6144, 4096, 0xFF, 0xFF, 0xFF, 0xFF), VTX(0, 0, -10, 5952, 2048, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
 Gfx sCircleDList[] = {
@@ -300,130 +283,131 @@ Gfx sCircleDList[] = {
     gsSPEndDisplayList(),
 };
 
-void TransitionCircle_Start(TransitionCircle* circle) {
-    circle->isDone = 0;
-    switch (circle->effect) {
+void TransitionCircle_Start(TransitionCircle* this) {
+    this->isDone = 0;
+    switch (this->effect) {
         case 1:
-            circle->texture = sCircleTexWave;
+            this->texture = sCircleTexWave;
             break;
         case 2:
-            circle->texture = sCircleTexRipple;
+            this->texture = sCircleTexRipple;
             break;
         case 3:
-            circle->texture = sCircleTexStarburst;
+            this->texture = sCircleTexStarburst;
             break;
         default:
-            circle->texture = sCircleTexDefault;
+            this->texture = sCircleTexDefault;
             break;
     }
 
-    if (circle->speed == 0) {
-        circle->step = 0x14;
+    if (this->speed == 0) {
+        this->step = 0x14;
     } else {
-        circle->step = 0xA;
+        this->step = 0xA;
     }
 
-    if (circle->typeColor == 0) {
-        circle->color.rgba = 0x000000FF;
-    } else if (circle->typeColor == 1) {
-        circle->color.rgba = 0xA0A0A0FF;
-    } else if (circle->typeColor == 2) {
+    if (this->typeColor == 0) {
+        this->color.rgba = 0x000000FF;
+    } else if (this->typeColor == 1) {
+        this->color.rgba = 0xA0A0A0FF;
+    } else if (this->typeColor == 2) {
         // yes, really.
-        circle->color.r = 0x64;
-        circle->color.g = 0x64;
-        circle->color.b = 0x64;
-        circle->color.a = 0xFF;
+        this->color.r = 0x64;
+        this->color.g = 0x64;
+        this->color.b = 0x64;
+        this->color.a = 0xFF;
     } else {
-        circle->step = 0x28;
-        circle->color.rgba = circle->effect == 1 ? 0x000000FF : 0xA0A0A0FF;
+        this->step = 0x28;
+        this->color.rgba = this->effect == 1 ? 0x000000FF : 0xA0A0A0FF;
     }
-    if (circle->unk_14 != 0) {
-        circle->texY = 0;
-        if (circle->typeColor == 3) {
-            circle->texY = 0xFA;
+    if (this->unk_14 != 0) {
+        this->texY = 0;
+        if (this->typeColor == 3) {
+            this->texY = 0xFA;
         }
     } else {
-        circle->texY = 0x1F4;
-        if (circle->effect == 2) {
+        this->texY = 0x1F4;
+        if (this->effect == 2) {
             Audio_PlaySoundGeneral(NA_SE_OC_SECRET_WARP_OUT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
-    guPerspective(&circle->projection, &circle->normal, 60.0f, (4.0f / 3.0f), 10.0f, 12800.0f, 1.0f);
-    guLookAt(&circle->lookAt, 0.0f, 0.0f, 400.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    guPerspective(&this->projection, &this->normal, 60.0f, (4.0f / 3.0f), 10.0f, 12800.0f, 1.0f);
+    guLookAt(&this->lookAt, 0.0f, 0.0f, 400.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 }
 
-TransitionCircle* TransitionCircle_Init(TransitionCircle* circle) {
-    bzero(circle, sizeof(*circle));
-    return circle;
+TransitionCircle* TransitionCircle_Init(TransitionCircle* this) {
+    bzero(this, sizeof(*this));
+    return this;
 }
 
-void TransitionCircle_Destroy(TransitionCircle* circle) {
+void TransitionCircle_Destroy(TransitionCircle* this) {
 }
 
-void TransitionCircle_Move(TransitionCircle* circle, s32 updateRate) {
+void TransitionCircle_Move(TransitionCircle* this, s32 updateRate) {
     s32 temp_t2;
     s32 temp_t3;
 
-    if (circle->unk_14 != 0) {
-        if (circle->texY == 0) {
-            if (circle->effect == 2) {
+    if (this->unk_14 != 0) {
+        if (this->texY == 0) {
+            if (this->effect == 2) {
                 Audio_PlaySoundGeneral(NA_SE_OC_SECRET_WARP_IN, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
         }
-        circle->texY += circle->step * 3 / updateRate;
-        if (circle->texY >= 0x1F4) {
-            circle->texY = 0x1F4;
-            circle->isDone = 1;
+        this->texY += this->step * 3 / updateRate;
+        if (this->texY >= 0x1F4) {
+            this->texY = 0x1F4;
+            this->isDone = 1;
         }
     } else {
-        circle->texY -= circle->step * 3 / updateRate;
-        if (circle->typeColor != 3) {
-            if (circle->texY <= 0) {
-                circle->texY = 0;
-                circle->isDone = 1;
+        this->texY -= this->step * 3 / updateRate;
+        if (this->typeColor != 3) {
+            if (this->texY <= 0) {
+                this->texY = 0;
+                this->isDone = 1;
             }
         } else {
-            if (circle->texY < 0xFB) {
-                circle->texY = 0xFA;
-                circle->isDone = 1;
+            if (this->texY < 0xFB) {
+                this->texY = 0xFA;
+                this->isDone = 1;
             }
         }
     }
 }
 
-void TransitionCircle_Draw(TransitionCircle* circle, Gfx** gfxP) {
+void TransitionCircle_Draw(TransitionCircle* this, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
-    Mtx* modelView = circle->modelView[circle->frame];
+    Mtx* modelView = this->modelView[this->frame];
     char pad[4];
     Gfx* texScroll;
 
-    f32 zero = 0.0f;
-    f32 one = 1.0f;
-    f32 fourteenEight = 14.8f;
+    // These variables are a best guess based on the other transition types.
+    f32 tPos = 0.0f;
+    f32 rot = 0.0f;
+    f32 scale = 14.8f;
 
-    circle->frame ^= 1;
+    this->frame ^= 1;
     gDPPipeSync(gfx++);
-    texScroll = Gfx_BranchTexScroll(&gfx, circle->texX, circle->texY, 0x10, 0x40);
+    texScroll = Gfx_BranchTexScroll(&gfx, this->texX, this->texY, 0x10, 0x40);
     gSPSegment(gfx++, 9, texScroll);
-    gSPSegment(gfx++, 8, circle->texture);
-    gDPSetColor(gfx++, G_SETPRIMCOLOR, circle->color.rgba);
-    gDPSetColor(gfx++, G_SETENVCOLOR, circle->color.rgba);
-    gSPMatrix(gfx++, &circle->projection, G_MTX_PROJECTION | G_MTX_LOAD);
-    gSPPerspNormalize(gfx++, circle->normal);
-    gSPMatrix(gfx++, &circle->lookAt, G_MTX_PROJECTION | G_MTX_NOPUSH | G_MTX_MUL);
+    gSPSegment(gfx++, 8, this->texture);
+    gDPSetColor(gfx++, G_SETPRIMCOLOR, this->color.rgba);
+    gDPSetColor(gfx++, G_SETENVCOLOR, this->color.rgba);
+    gSPMatrix(gfx++, &this->projection, G_MTX_PROJECTION | G_MTX_LOAD);
+    gSPPerspNormalize(gfx++, this->normal);
+    gSPMatrix(gfx++, &this->lookAt, G_MTX_PROJECTION | G_MTX_NOPUSH | G_MTX_MUL);
 
-    if (fourteenEight != one) {
-        guScale(&modelView[0], fourteenEight, fourteenEight, one);
+    if (scale != 1.0f) {
+        guScale(&modelView[0], scale, scale, 1.0f);
         gSPMatrix(gfx++, &modelView[0], G_MTX_LOAD);
     }
 
-    if (zero != 0.0f) {
-        guRotate(&modelView[1], 0.0f, 0.0f, 0.0f, 1.0f);
+    if (rot != 0.0f) {
+        guRotate(&modelView[1], rot, 0.0f, 0.0f, 1.0f);
         gSPMatrix(gfx++, &modelView[1], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     }
 
-    if ((zero != 0.0f) || (zero != 0.0f)) {
-        guTranslate(&modelView[2], 0.0f, 0.0f, 0.0f);
+    if ((tPos != 0.0f) || (tPos != 0.0f)) {
+        guTranslate(&modelView[2], tPos, tPos, 0.0f);
         gSPMatrix(gfx++, &modelView[2], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     }
     gSPDisplayList(gfx++, sCircleDList);
@@ -431,27 +415,27 @@ void TransitionCircle_Draw(TransitionCircle* circle, Gfx** gfxP) {
     *gfxP = gfx;
 }
 
-s32 TransitionCircle_IsDone(TransitionCircle* circle) {
-    return circle->isDone;
+s32 TransitionCircle_IsDone(TransitionCircle* this) {
+    return this->isDone;
 }
 
-void TransitionCircle_SetType(TransitionCircle* circle, s32 type) {
+void TransitionCircle_SetType(TransitionCircle* this, s32 type) {
     if (type & 0x80) {
-        circle->unk_14 = (type >> 5) & 0x1;
-        circle->typeColor = (type >> 3) & 0x3;
-        circle->speed = type & 0x1;
-        circle->effect = (type >> 1) & 0x3;
+        this->unk_14 = (type >> 5) & 0x1;
+        this->typeColor = (type >> 3) & 0x3;
+        this->speed = type & 0x1;
+        this->effect = (type >> 1) & 0x3;
     } else if (type == 1) {
-        circle->unk_14 = 1;
+        this->unk_14 = 1;
     } else {
-        circle->unk_14 = 0;
+        this->unk_14 = 0;
     }
 }
 
-void TransitionCircle_SetColor(TransitionCircle* circle, u32 color) {
-    circle->color.rgba = color;
+void TransitionCircle_SetColor(TransitionCircle* this, u32 color) {
+    this->color.rgba = color;
 }
 
-void TransitionCircle_SetEnvColor(TransitionCircle* circle, u32 envColor) {
-    circle->envColor.rgba = envColor;
+void TransitionCircle_SetEnvColor(TransitionCircle* this, u32 envColor) {
+    this->envColor.rgba = envColor;
 }

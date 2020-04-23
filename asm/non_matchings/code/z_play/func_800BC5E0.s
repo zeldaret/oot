@@ -113,22 +113,22 @@ glabel L800BC6C0
 /* B338C0 800BC720 10000056 */  b     .L800BC87C
 /* B338C4 800BC724 AC800248 */   sw    $zero, 0x248($a0)
 glabel L800BC728
-/* B338C8 800BC728 3C0D800B */  lui   $t5, %hi(TransitionWipe1_Init) # $t5, 0x800b
-/* B338CC 800BC72C 3C0E800B */  lui   $t6, %hi(TransitionWipe1_Destroy) # $t6, 0x800b
-/* B338D0 800BC730 3C0F800B */  lui   $t7, %hi(TransitionWipe1_Start) # $t7, 0x800b
-/* B338D4 800BC734 3C18800B */  lui   $t8, %hi(TransitionWipe1_IsDone) # $t8, 0x800b
-/* B338D8 800BC738 3C19800B */  lui   $t9, %hi(TransitionWipe1_Draw) # $t9, 0x800b
-/* B338DC 800BC73C 3C08800B */  lui   $t0, %hi(TransitionWipe1_Move) # $t0, 0x800b
-/* B338E0 800BC740 3C09800B */  lui   $t1, %hi(TransitionWipe1_SetType) # $t1, 0x800b
-/* B338E4 800BC744 3C0A800B */  lui   $t2, %hi(TransitionWipe1_SetColor) # $t2, 0x800b
-/* B338E8 800BC748 25AD2A88 */  addiu $t5, %lo(TransitionWipe1_Init) # addiu $t5, $t5, 0x2a88
-/* B338EC 800BC74C 25CE2AB0 */  addiu $t6, %lo(TransitionWipe1_Destroy) # addiu $t6, $t6, 0x2ab0
-/* B338F0 800BC750 25EF29D0 */  addiu $t7, %lo(TransitionWipe1_Start) # addiu $t7, $t7, 0x29d0
-/* B338F4 800BC754 27182DD4 */  addiu $t8, %lo(TransitionWipe1_IsDone) # addiu $t8, $t8, 0x2dd4
-/* B338F8 800BC758 27392B98 */  addiu $t9, %lo(TransitionWipe1_Draw) # addiu $t9, $t9, 0x2b98
-/* B338FC 800BC75C 25082AB8 */  addiu $t0, %lo(TransitionWipe1_Move) # addiu $t0, $t0, 0x2ab8
-/* B33900 800BC760 25292DDC */  addiu $t1, %lo(TransitionWipe1_SetType) # addiu $t1, $t1, 0x2ddc
-/* B33904 800BC764 254A2E1C */  addiu $t2, %lo(TransitionWipe1_SetColor) # addiu $t2, $t2, 0x2e1c
+/* B338C8 800BC728 3C0D800B */  lui   $t5, %hi(TransitionWipe_Init) # $t5, 0x800b
+/* B338CC 800BC72C 3C0E800B */  lui   $t6, %hi(TransitionWipe_Destroy) # $t6, 0x800b
+/* B338D0 800BC730 3C0F800B */  lui   $t7, %hi(TransitionWipe_Start) # $t7, 0x800b
+/* B338D4 800BC734 3C18800B */  lui   $t8, %hi(TransitionWipe_IsDone) # $t8, 0x800b
+/* B338D8 800BC738 3C19800B */  lui   $t9, %hi(TransitionWipe_Draw) # $t9, 0x800b
+/* B338DC 800BC73C 3C08800B */  lui   $t0, %hi(TransitionWipe_Move) # $t0, 0x800b
+/* B338E0 800BC740 3C09800B */  lui   $t1, %hi(TransitionWipe_SetType) # $t1, 0x800b
+/* B338E4 800BC744 3C0A800B */  lui   $t2, %hi(TransitionWipe_SetColor) # $t2, 0x800b
+/* B338E8 800BC748 25AD2A88 */  addiu $t5, %lo(TransitionWipe_Init) # addiu $t5, $t5, 0x2a88
+/* B338EC 800BC74C 25CE2AB0 */  addiu $t6, %lo(TransitionWipe_Destroy) # addiu $t6, $t6, 0x2ab0
+/* B338F0 800BC750 25EF29D0 */  addiu $t7, %lo(TransitionWipe_Start) # addiu $t7, $t7, 0x29d0
+/* B338F4 800BC754 27182DD4 */  addiu $t8, %lo(TransitionWipe_IsDone) # addiu $t8, $t8, 0x2dd4
+/* B338F8 800BC758 27392B98 */  addiu $t9, %lo(TransitionWipe_Draw) # addiu $t9, $t9, 0x2b98
+/* B338FC 800BC75C 25082AB8 */  addiu $t0, %lo(TransitionWipe_Move) # addiu $t0, $t0, 0x2ab8
+/* B33900 800BC760 25292DDC */  addiu $t1, %lo(TransitionWipe_SetType) # addiu $t1, $t1, 0x2ddc
+/* B33904 800BC764 254A2E1C */  addiu $t2, %lo(TransitionWipe_SetColor) # addiu $t2, $t2, 0x2e1c
 /* B33908 800BC768 AC8D022C */  sw    $t5, 0x22c($a0)
 /* B3390C 800BC76C AC8E0230 */  sw    $t6, 0x230($a0)
 /* B33910 800BC770 AC8F023C */  sw    $t7, 0x23c($a0)

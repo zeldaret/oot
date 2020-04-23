@@ -16,7 +16,7 @@ glabel D_80142F28
     .balign 4
 
 .text
-glabel FBDemo_InitGraphics
+glabel FBFilter_InitGraphics
 /* B28A50 800B18B0 27BDFF90 */  addiu $sp, $sp, -0x70
 /* B28A54 800B18B4 AFB00028 */  sw    $s0, 0x28($sp)
 /* B28A58 800B18B8 00808025 */  move  $s0, $a0

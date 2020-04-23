@@ -346,7 +346,7 @@ glabel Gameplay_Draw
 /* B36488 800BF2E8 3C048016 */  lui   $a0, %hi(D_801613B0) # $a0, 0x8016
 /* B3648C 800BF2EC 248413B0 */  addiu $a0, %lo(D_801613B0) # addiu $a0, $a0, 0x13b0
 /* B36490 800BF2F0 27A50088 */  addiu $a1, $sp, 0x88
-/* B36494 800BF2F4 0C02C862 */  jal   FBDemo_Draw
+/* B36494 800BF2F4 0C02C862 */  jal   FBFilter_Draw
 /* B36498 800BF2F8 AFA90088 */   sw    $t1, 0x88($sp)
 /* B3649C 800BF2FC 8FB90088 */  lw    $t9, 0x88($sp)
 /* B364A0 800BF300 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016

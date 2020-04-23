@@ -13,16 +13,11 @@ Gfx sTriforceDList[] = {
 };
 
 Vtx sTriforceVTX[] = {
-    VTX(0, 577, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(1000, -1154, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-1000, -1154, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(0, -1154, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(500, -288, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-500, -288, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-32000, 32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(32000, 32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(32000, -32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(-32000, -32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(0, 577, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),        VTX(1000, -1154, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(-1000, -1154, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),  VTX(0, -1154, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(500, -288, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),     VTX(-500, -288, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(-32000, 32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF), VTX(32000, 32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(32000, -32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF), VTX(-32000, -32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
 void TransitionTriforce_Start(TransitionTriforce* this) {
@@ -84,7 +79,6 @@ void TransitionTriforce_Draw(TransitionTriforce* this, Gfx** gfxP) {
     f32 scale;
     char pad[4];
 
-
     char pad2[4];
     f32 rotation;
 
@@ -136,10 +130,8 @@ s32 TransitionTriforce_IsDone(TransitionTriforce* this) {
     if (this->state == 1 || this->state == 2) {
         return this->transPos <= 0.03f;
 
-    }
-    else if (this->state == 3 || this->state == 4) {
+    } else if (this->state == 3 || this->state == 4) {
         return this->transPos >= 1.0f;
     }
     return ret;
-
 }

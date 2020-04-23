@@ -6,7 +6,7 @@ void* D_8012D1F0 = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
 Input* D_8012D1F8 = NULL;
 
-TransitionStruct D_801613B0;
+FBFilter D_801613B0;
 s32 D_80161490;
 VisMonoStruct D_80161498;
 Color_RGBA8 D_801614B0;
@@ -82,14 +82,14 @@ void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
             return;
         case 0:
         case 8:
-            transitionCtx->initFunc = TransitionWipe1_Init;
-            transitionCtx->destroyFunc = TransitionWipe1_Destroy;
-            transitionCtx->startFunc = TransitionWipe1_Start;
-            transitionCtx->isDoneFunc = TransitionWipe1_IsDone;
-            transitionCtx->drawFunc = TransitionWipe1_Draw;
-            transitionCtx->moveFunc = TransitionWipe1_Move;
-            transitionCtx->setTypeFunc = TransitionWipe1_SetType;
-            transitionCtx->setColorFunc = TransitionWipe1_SetColor;
+            transitionCtx->initFunc = TransitionWipe_Init;
+            transitionCtx->destroyFunc = TransitionWipe_Destroy;
+            transitionCtx->startFunc = TransitionWipe_Start;
+            transitionCtx->isDoneFunc = TransitionWipe_IsDone;
+            transitionCtx->drawFunc = TransitionWipe_Draw;
+            transitionCtx->moveFunc = TransitionWipe_Move;
+            transitionCtx->setTypeFunc = TransitionWipe_SetType;
+            transitionCtx->setColorFunc = TransitionWipe_SetColor;
             transitionCtx->setEnvColorFunc = NULL;
             return;
         case 2:
@@ -162,7 +162,7 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
     func_8005D400(globalCtx, &globalCtx->sub_11E60);
 
     if (D_80161490 == 3) {
-        FBDemo_Destroy(&D_801613B0);
+        FBFilter_Destroy(&D_801613B0);
         D_80161490 = 0;
     }
 
@@ -465,7 +465,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         if (D_80161490 != 0) {
             switch (D_80161490) {
                 case 2:
-                    if (FBDemo_Init(&D_801613B0, 10, 7) == 0) {
+                    if (FBFilter_Init(&D_801613B0, 10, 7) == 0) {
                         osSyncPrintf("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
                         D_80161490 = 0;
                     } else {
@@ -610,7 +610,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                             func_800BC88C(globalCtx);
                             globalCtx->transitionMode = 0;
                             if (D_80161490 == 3) {
-                                FBDemo_Destroy(&D_801613B0);
+                                FBFilter_Destroy(&D_801613B0);
                                 D_80161490 = 0;
                                 R_UPDATE_RATE = 3;
                             }
@@ -1164,7 +1164,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
         if (D_80161490 == 3) {
             Gfx* sp88 = gfxCtx->polyOpa.p;
-            FBDemo_Draw(&D_801613B0, &sp88);
+            FBFilter_Draw(&D_801613B0, &sp88);
             gfxCtx->polyOpa.p = sp88;
             goto Gameplay_Draw_DrawOverlayElements;
         } else {

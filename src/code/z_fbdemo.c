@@ -28,92 +28,91 @@ Gfx D_8012B000[] = {
     gsSPEndDisplayList(),
 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBDemo_InitGraphics.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBFilter_InitGraphics.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBDemo_InitData.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBFilter_InitData.s")
 
-void FBDemo_Destroy(TransitionStruct* trans) {
-    osSyncPrintf("fbdemo_cleanup(%08x)\n", trans);
+void FBFilter_Destroy(FBFilter* this) {
+    osSyncPrintf("fbdemo_cleanup(%08x)\n", this);
     osSyncPrintf("msleep(100);\n");
     Sleep_Msec(100);
-    if (trans->unk_0C != NULL) {
-        SystemArena_FreeDebug(trans->unk_0C, "../z_fbdemo.c", 180);
-        trans->unk_0C = NULL;
+    if (this->unk_0C != NULL) {
+        SystemArena_FreeDebug(this->unk_0C, "../z_fbdemo.c", 180);
+        this->unk_0C = NULL;
     }
-    if (trans->vtxFrame1 != NULL) {
-        SystemArena_FreeDebug(trans->vtxFrame1, "../z_fbdemo.c", 181);
-        trans->vtxFrame1 = NULL;
+    if (this->vtxFrame1 != NULL) {
+        SystemArena_FreeDebug(this->vtxFrame1, "../z_fbdemo.c", 181);
+        this->vtxFrame1 = NULL;
     }
-    if (trans->vtxFrame2 != NULL) {
-        SystemArena_FreeDebug(trans->vtxFrame2, "../z_fbdemo.c", 182);
-        trans->vtxFrame2 = NULL;
+    if (this->vtxFrame2 != NULL) {
+        SystemArena_FreeDebug(this->vtxFrame2, "../z_fbdemo.c", 182);
+        this->vtxFrame2 = NULL;
     }
-    if (trans->gfx != NULL) {
-        SystemArena_FreeDebug(trans->gfx, "../z_fbdemo.c", 183);
-        trans->gfx = NULL;
+    if (this->gfx != NULL) {
+        SystemArena_FreeDebug(this->gfx, "../z_fbdemo.c", 183);
+        this->gfx = NULL;
     }
 }
 
-TransitionStruct* FBDemo_Init(TransitionStruct* trans, s32 row, s32 col) {
-    osSyncPrintf("fbdemo_init(%08x, %d, %d)\n", trans, row, col);
-    bzero(trans, sizeof(*trans));
-    trans->frame = 0;
-    trans->row = row;
-    trans->col = col;
-    trans->unk_0C = SystemArena_MallocDebug(((row * 8) + 8) * (col + 1), "../z_fbdemo.c", 195);
-    trans->vtxFrame1 = SystemArena_MallocDebug((row + 1) * sizeof(Vtx) * (col + 1), "../z_fbdemo.c", 196);
-    trans->vtxFrame2 = SystemArena_MallocDebug((row + 1) * sizeof(Vtx) * (col + 1), "../z_fbdemo.c", 197);
-    trans->gfx =
-        SystemArena_MallocDebug(((trans->col * ((trans->row * 9) + 1)) + 2) * sizeof(Gfx), "../z_fbdemo.c", 198);
-    if (trans->unk_0C == NULL || trans->vtxFrame1 == NULL || trans->vtxFrame2 == NULL || trans->gfx == NULL) {
+FBFilter* FBFilter_Init(FBFilter* this, s32 row, s32 col) {
+    osSyncPrintf("fbdemo_init(%08x, %d, %d)\n", this, row, col);
+    bzero(this, sizeof(*this));
+    this->frame = 0;
+    this->row = row;
+    this->col = col;
+    this->unk_0C = SystemArena_MallocDebug(((row * 8) + 8) * (col + 1), "../z_fbdemo.c", 195);
+    this->vtxFrame1 = SystemArena_MallocDebug((row + 1) * sizeof(Vtx) * (col + 1), "../z_fbdemo.c", 196);
+    this->vtxFrame2 = SystemArena_MallocDebug((row + 1) * sizeof(Vtx) * (col + 1), "../z_fbdemo.c", 197);
+    this->gfx = SystemArena_MallocDebug(((this->col * ((this->row * 9) + 1)) + 2) * sizeof(Gfx), "../z_fbdemo.c", 198);
+    if (this->unk_0C == NULL || this->vtxFrame1 == NULL || this->vtxFrame2 == NULL || this->gfx == NULL) {
         osSyncPrintf("fbdemo_init allocation error\n");
-        if (trans->unk_0C != NULL) {
-            SystemArena_FreeDebug(trans->unk_0C, "../z_fbdemo.c", 202);
-            trans->unk_0C = NULL;
+        if (this->unk_0C != NULL) {
+            SystemArena_FreeDebug(this->unk_0C, "../z_fbdemo.c", 202);
+            this->unk_0C = NULL;
         }
-        if (trans->vtxFrame1 != NULL) {
-            SystemArena_FreeDebug(trans->vtxFrame1, "../z_fbdemo.c", 203);
-            trans->vtxFrame1 = NULL;
+        if (this->vtxFrame1 != NULL) {
+            SystemArena_FreeDebug(this->vtxFrame1, "../z_fbdemo.c", 203);
+            this->vtxFrame1 = NULL;
         }
-        if (trans->vtxFrame2 != NULL) {
-            SystemArena_FreeDebug(trans->vtxFrame2, "../z_fbdemo.c", 204);
-            trans->vtxFrame2 = NULL;
+        if (this->vtxFrame2 != NULL) {
+            SystemArena_FreeDebug(this->vtxFrame2, "../z_fbdemo.c", 204);
+            this->vtxFrame2 = NULL;
         }
-        if (trans->gfx != NULL) {
-            SystemArena_FreeDebug(trans->gfx, "../z_fbdemo.c", 205);
-            trans->gfx = NULL;
+        if (this->gfx != NULL) {
+            SystemArena_FreeDebug(this->gfx, "../z_fbdemo.c", 205);
+            this->gfx = NULL;
         }
         return NULL;
     }
-    FBDemo_InitGraphics(trans);
-    FBDemo_InitData(trans);
-    trans->frame = 0;
-    return trans;
+    FBFilter_InitGraphics(this);
+    FBFilter_InitData(this);
+    this->frame = 0;
+    return this;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBDemo_Update.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBFilter_Update.s")
 
-void FBDemo_Draw(TransitionStruct* trans, Gfx** gfxP) {
+void FBFilter_Draw(FBFilter* this, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
 
     gSPDisplayList(gfx++, D_8012B000);
-    FBDemo_Update(trans);
-    gSPMatrix(gfx++, &trans->projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
-    gSPMatrix(gfx++, &trans->modelView, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPSegment(gfx++, 10, trans->frame == 0 ? trans->vtxFrame1 : trans->vtxFrame2);
-    gSPSegment(gfx++, 11, trans->zBuffer);
+    FBFilter_Update(this);
+    gSPMatrix(gfx++, &this->projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPMatrix(gfx++, &this->modelView, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPSegment(gfx++, 10, this->frame == 0 ? this->vtxFrame1 : this->vtxFrame2);
+    gSPSegment(gfx++, 11, this->zBuffer);
     gSPDisplayList(gfx++, D_8012B000);
-    gSPDisplayList(gfx++, trans->gfx);
+    gSPDisplayList(gfx++, this->gfx);
     gDPPipeSync(gfx++);
-    trans->frame ^= 1;
+    this->frame ^= 1;
     *gfxP = gfx;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBDemo_Move.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBFilter_Move.s")
 
-void func_800B23E8(TransitionStruct* trans) {
+void func_800B23E8(FBFilter* this) {
 }
 
-s32 func_800B23F0(TransitionStruct* trans) {
+s32 func_800B23F0(FBFilter* this) {
     return 0;
 }

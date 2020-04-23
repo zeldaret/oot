@@ -3,30 +3,18 @@
 extern Gfx D_08000000[];
 
 Vtx sWipeVtx[] = {
-    VTX(-1299, 750, 0, 13653, 2048, 0xAD, 0x30, 0xB8, 0xFF),
-    VTX(-750, 1299, 0, 15019, 2048, 0xD0, 0x53, 0xB8, 0xFF),
-    VTX(0, 0, -500, 14336, 0, 0xCE, 0xCE, 0xA0, 0xFF),
-    VTX(0, 1500, 0, 16384, 2048, 0x00, 0x60, 0xB8, 0xFF),
-    VTX(0, 0, -500, 15701, 0, 0x3D, 0x3D, 0xAD, 0xFF),
-    VTX(0, 1500, 0, 0, 2048, 0x00, 0x60, 0xB8, 0xFF),
-    VTX(750, 1299, 0, 1365, 2048, 0x30, 0x53, 0xB8, 0xFF),
-    VTX(0, 0, -500, 683, 0, 0x3D, 0x3D, 0xAD, 0xFF),
-    VTX(1299, 750, 0, 2731, 2048, 0x53, 0x30, 0xB8, 0xFF),
-    VTX(0, 0, -500, 2048, 0, 0x3D, 0x3D, 0xAD, 0xFF),
-    VTX(1500, 0, 0, 4096, 2048, 0x60, 0x00, 0xB8, 0xFF),
-    VTX(0, 0, -500, 3413, 0, 0x3D, 0x3D, 0xAD, 0xFF),
-    VTX(1299, -750, 0, 5461, 2048, 0x53, 0xD0, 0xB8, 0xFF),
-    VTX(0, 0, -500, 4779, 0, 0x3D, 0x3D, 0xAD, 0xFF),
-    VTX(750, -1299, 0, 6827, 2048, 0x30, 0xAD, 0xB8, 0xFF),
-    VTX(0, 0, -500, 6144, 0, 0xCE, 0xCE, 0xA0, 0xFF),
-    VTX(0, -1500, 0, 8192, 2048, 0x00, 0xA0, 0xB8, 0xFF),
-    VTX(0, 0, -500, 7509, 0, 0xCE, 0xCE, 0xA0, 0xFF),
-    VTX(-750, -1299, 0, 9557, 2048, 0xD0, 0xAD, 0xB8, 0xFF),
-    VTX(0, 0, -500, 8875, 0, 0xCE, 0xCE, 0xA0, 0xFF),
-    VTX(-1299, -750, 0, 10923, 2048, 0xAD, 0xD0, 0xB8, 0xFF),
-    VTX(0, 0, -500, 10240, 0, 0xCE, 0xCE, 0xA0, 0xFF),
-    VTX(-1500, 0, 0, 12288, 2048, 0xA0, 0x00, 0xB8, 0xFF),
-    VTX(0, 0, -500, 11605, 0, 0xCE, 0xCE, 0xA0, 0xFF),
+    VTX(-1299, 750, 0, 13653, 2048, 0xAD, 0x30, 0xB8, 0xFF),  VTX(-750, 1299, 0, 15019, 2048, 0xD0, 0x53, 0xB8, 0xFF),
+    VTX(0, 0, -500, 14336, 0, 0xCE, 0xCE, 0xA0, 0xFF),        VTX(0, 1500, 0, 16384, 2048, 0x00, 0x60, 0xB8, 0xFF),
+    VTX(0, 0, -500, 15701, 0, 0x3D, 0x3D, 0xAD, 0xFF),        VTX(0, 1500, 0, 0, 2048, 0x00, 0x60, 0xB8, 0xFF),
+    VTX(750, 1299, 0, 1365, 2048, 0x30, 0x53, 0xB8, 0xFF),    VTX(0, 0, -500, 683, 0, 0x3D, 0x3D, 0xAD, 0xFF),
+    VTX(1299, 750, 0, 2731, 2048, 0x53, 0x30, 0xB8, 0xFF),    VTX(0, 0, -500, 2048, 0, 0x3D, 0x3D, 0xAD, 0xFF),
+    VTX(1500, 0, 0, 4096, 2048, 0x60, 0x00, 0xB8, 0xFF),      VTX(0, 0, -500, 3413, 0, 0x3D, 0x3D, 0xAD, 0xFF),
+    VTX(1299, -750, 0, 5461, 2048, 0x53, 0xD0, 0xB8, 0xFF),   VTX(0, 0, -500, 4779, 0, 0x3D, 0x3D, 0xAD, 0xFF),
+    VTX(750, -1299, 0, 6827, 2048, 0x30, 0xAD, 0xB8, 0xFF),   VTX(0, 0, -500, 6144, 0, 0xCE, 0xCE, 0xA0, 0xFF),
+    VTX(0, -1500, 0, 8192, 2048, 0x00, 0xA0, 0xB8, 0xFF),     VTX(0, 0, -500, 7509, 0, 0xCE, 0xCE, 0xA0, 0xFF),
+    VTX(-750, -1299, 0, 9557, 2048, 0xD0, 0xAD, 0xB8, 0xFF),  VTX(0, 0, -500, 8875, 0, 0xCE, 0xCE, 0xA0, 0xFF),
+    VTX(-1299, -750, 0, 10923, 2048, 0xAD, 0xD0, 0xB8, 0xFF), VTX(0, 0, -500, 10240, 0, 0xCE, 0xCE, 0xA0, 0xFF),
+    VTX(-1500, 0, 0, 12288, 2048, 0xA0, 0x00, 0xB8, 0xFF),    VTX(0, 0, -500, 11605, 0, 0xCE, 0xCE, 0xA0, 0xFF),
     VTX(0, 0, -500, 12971, 0, 0xCE, 0xCE, 0xA0, 0xFF),
 };
 
@@ -152,8 +140,8 @@ Gfx sWipeDList[] = {
     gsDPSetCombineLERP(TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, COMBINED, 0,
                        PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0),
     gsDPSetPrimDepth(0, 0),
-    gsDPLoadTextureBlock_4b(sWipeTexture, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 6, 6,
-                            11, G_TX_NOLOD),
+    gsDPLoadTextureBlock_4b(sWipeTexture, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 6,
+                            6, 11, G_TX_NOLOD),
     gsDPLoadMultiBlock_4b(sWipeTexture, 0x0100, 1, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
                           G_TX_MIRROR | G_TX_WRAP, 6, 6, 11, 1),
     gsDPSetTextureLUT(G_TT_NONE),
@@ -175,64 +163,64 @@ Gfx sWipeSyncDList[] = {
     gsSPEndDisplayList(),
 };
 
-void TransitionWipe1_Start(TransitionWipe1* wipe) {
-    wipe->isDone = 0;
-    if (wipe->direction) {
-        wipe->texY = 0x14D;
+void TransitionWipe_Start(TransitionWipe* this) {
+    this->isDone = 0;
+    if (this->direction) {
+        this->texY = 0x14D;
     } else {
-        wipe->texY = 0x264;
+        this->texY = 0x264;
     }
 
-    guPerspective(&wipe->projection, &wipe->normal, 60.0f, (4.0 / 3.0f), 10.0f, 12800.0f, 1.0f);
-    guLookAt(&wipe->lookAt, 0.0f, 0.0f, 400.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    guPerspective(&this->projection, &this->normal, 60.0f, (4.0 / 3.0f), 10.0f, 12800.0f, 1.0f);
+    guLookAt(&this->lookAt, 0.0f, 0.0f, 400.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 }
 
-TransitionWipe1* TransitionWipe1_Init(TransitionWipe1* wipe) {
-    bzero(wipe, sizeof(*wipe));
-    return wipe;
+TransitionWipe* TransitionWipe_Init(TransitionWipe* this) {
+    bzero(this, sizeof(*this));
+    return this;
 }
 
-void TransitionWipe1_Destroy(TransitionWipe1* wipe) {
+void TransitionWipe_Destroy(TransitionWipe* this) {
 }
 
-void TransitionWipe1_Move(TransitionWipe1* wipe, s32 updateRate) {
+void TransitionWipe_Move(TransitionWipe* this, s32 updateRate) {
     u8 unk1419;
 
-    if (wipe->direction != 0) {
+    if (this->direction != 0) {
         unk1419 = gSaveContext.unk_1419;
-        wipe->texY += (unk1419 * 3) / updateRate;
-        if (wipe->texY >= 0x264) {
-            wipe->texY = 0x264;
-            wipe->isDone = 1;
+        this->texY += (unk1419 * 3) / updateRate;
+        if (this->texY >= 0x264) {
+            this->texY = 0x264;
+            this->isDone = 1;
         }
     } else {
         unk1419 = gSaveContext.unk_1419;
-        wipe->texY -= (unk1419 * 3) / updateRate;
-        if (wipe->texY < 0x14E) {
-            wipe->texY = 0x14D;
-            wipe->isDone = 1;
+        this->texY -= (unk1419 * 3) / updateRate;
+        if (this->texY < 0x14E) {
+            this->texY = 0x14D;
+            this->isDone = 1;
         }
     }
 }
 
-void TransitionWipe1_Draw(TransitionWipe1* wipe, Gfx** gfxP) {
+void TransitionWipe_Draw(TransitionWipe* this, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
     Mtx* modelView;
     char pad[0x14];
     Gfx* tex;
 
-    modelView = wipe->modelView[wipe->frame];
-    wipe->frame ^= 1;
+    modelView = this->modelView[this->frame];
+    this->frame ^= 1;
     guScale(&modelView[0], 0.56f, 0.56f, 1.0f);
     guRotate(&modelView[1], 0.0f, 0.0f, 0.0f, 1.0f);
     guTranslate(&modelView[2], 0.0f, 0.0f, 0.0f);
     gDPPipeSync(gfx++);
-    tex = Gfx_BranchTexScroll(&gfx, wipe->texX, wipe->texY, 0, 0);
+    tex = Gfx_BranchTexScroll(&gfx, this->texX, this->texY, 0, 0);
     gSPSegment(gfx++, 8, tex);
-    gDPSetPrimColor(gfx++, 0, 0x80, wipe->color.r, wipe->color.g, wipe->color.b, 0xFF);
-    gSPMatrix(gfx++, &wipe->projection, G_MTX_LOAD | G_MTX_PROJECTION);
-    gSPPerspNormalize(gfx++, wipe->normal);
-    gSPMatrix(gfx++, &wipe->lookAt, G_MTX_MUL | G_MTX_PROJECTION);
+    gDPSetPrimColor(gfx++, 0, 0x80, this->color.r, this->color.g, this->color.b, 0xFF);
+    gSPMatrix(gfx++, &this->projection, G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPPerspNormalize(gfx++, this->normal);
+    gSPMatrix(gfx++, &this->lookAt, G_MTX_MUL | G_MTX_PROJECTION);
     gSPMatrix(gfx++, &modelView[0], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPMatrix(gfx++, &modelView[1], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gSPMatrix(gfx++, &modelView[2], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
@@ -241,28 +229,28 @@ void TransitionWipe1_Draw(TransitionWipe1* wipe, Gfx** gfxP) {
     *gfxP = gfx;
 }
 
-s32 TransitionWipe1_IsDone(TransitionWipe1* wipe) {
-    return wipe->isDone;
+s32 TransitionWipe_IsDone(TransitionWipe* this) {
+    return this->isDone;
 }
 
-void TransitionWipe1_SetType(TransitionWipe1* wipe, s32 type) {
+void TransitionWipe_SetType(TransitionWipe* this, s32 type) {
     if (type == 1) {
-        wipe->direction = 1;
+        this->direction = 1;
     } else {
-        wipe->direction = 0;
+        this->direction = 0;
     }
 
-    if (wipe->direction != 0) {
-        wipe->texY = 0x14D;
+    if (this->direction != 0) {
+        this->texY = 0x14D;
     } else {
-        wipe->texY = 0x264;
+        this->texY = 0x264;
     }
 }
 
-void TransitionWipe1_SetColor(TransitionWipe1* wipe, u32 color) {
-    wipe->color.rgba = color;
+void TransitionWipe_SetColor(TransitionWipe* this, u32 color) {
+    this->color.rgba = color;
 }
 
-void func_800B2E24(TransitionWipe1* wipe, u32 arg1) {
-    wipe->unk_04.rgba = arg1;
+void TransitionWipe_SetEnvColor(TransitionWipe* this, u32 color) {
+    this->envColor.rgba = color;
 }
