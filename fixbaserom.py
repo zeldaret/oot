@@ -59,7 +59,7 @@ print("Patching header...")
 strippedContent[0x3E] = 0x50
 
 # Check to see if the ROM is a "vanilla" Debug ROM
-str_hash = get_str_hash(strippedContent)
+str_hash = get_str_hash(bytearray(strippedContent))
 if str_hash != "f0b7f35375f9cc8ca1b2d59d78e35405":
     print("Error: Expected a hash of f0b7f35375f9cc8ca1b2d59d78e35405 but got " + str_hash + ". " +
           "The baserom has probably been tampered, find a new one")
