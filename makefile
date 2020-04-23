@@ -106,6 +106,9 @@ build/src/code/fault.o: CFLAGS += -trapuv
 build/src/code/fault.o: OPTIMIZATION := -O2 -g3
 build/src/code/fault_drawer.o: CFLAGS += -trapuv
 build/src/code/fault_drawer.o: OPTIMIZATION := -O2 -g3
+build/src/code/code_801068B0.o: OPTIMIZATION := -g
+build/src/code/code_80106860.o: OPTIMIZATION := -g
+build/src/code/code_801067F0.o: OPTIMIZATION := -g
 
 
 #### Main Targets ###

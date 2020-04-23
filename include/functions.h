@@ -2408,7 +2408,7 @@ OSThread* __osGetCurrFaultedThread();
 // ? __osSpSetPc(?);
 f32 absf(f32);
 void* func_80106860(void* ptr, s32 val, size_t size);
-// ? func_801068B0(?);
+void* func_801068B0(void* dst, void* src, size_t size);
 // ? func_801069B0(?);
 u8 func_80106BC8(GlobalContext* globalCtx);
 // ? func_80106C88(?);
