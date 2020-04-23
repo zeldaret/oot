@@ -2,212 +2,35 @@
 
 extern Gfx D_08000000[];
 
-// clang-format on
-Vtx D_8012B100[] = {
-    {
-        {
-            { -1299, 750, 0 },
-            0,
-            { 13653, 2048 },
-            { 0xAD, 0x30, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { -750, 1299, 0 },
-            0,
-            { 15019, 2048 },
-            { 0xD0, 0x53, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 0, -500 },
-            0,
-            { 14336, 0 },
-            { 0xCE, 0xCE, 0xA0, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 1500, 0 },
-            0,
-            { 16384, 2048 },
-            { 0x00, 0x60, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 0, -500 },
-            0,
-            { 15701, 0 },
-            { 0x3D, 0x3D, 0xAD, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 1500, 0 },
-            0,
-            { 0, 2048 },
-            { 0x00, 0x60, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { 750, 1299, 0 },
-            0,
-            { 1365, 2048 },
-            { 0x30, 0x53, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 0, -500 },
-            0,
-            { 683, 0 },
-            { 0x3D, 0x3D, 0xAD, 0xFF },
-        },
-    },
-    {
-        {
-            { 1299, 750, 0 },
-            0,
-            { 2731, 2048 },
-            { 0x53, 0x30, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 0, -500 },
-            0,
-            { 2048, 0 },
-            { 0x3D, 0x3D, 0xAD, 0xFF },
-        },
-    },
-    {
-        {
-            { 1500, 0, 0 },
-            0,
-            { 4096, 2048 },
-            { 0x60, 0x00, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 0, -500 },
-            0,
-            { 3413, 0 },
-            { 0x3D, 0x3D, 0xAD, 0xFF },
-        },
-    },
-    {
-        {
-            { 1299, -750, 0 },
-            0,
-            { 5461, 2048 },
-            { 0x53, 0xD0, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 0, -500 },
-            0,
-            { 4779, 0 },
-            { 0x3D, 0x3D, 0xAD, 0xFF },
-        },
-    },
-    {
-        {
-            { 750, -1299, 0 },
-            0,
-            { 6827, 2048 },
-            { 0x30, 0xAD, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 0, -500 },
-            0,
-            { 6144, 0 },
-            { 0xCE, 0xCE, 0xA0, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, -1500, 0 },
-            0,
-            { 8192, 2048 },
-            { 0x00, 0xA0, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 0, -500 },
-            0,
-            { 7509, 0 },
-            { 0xCE, 0xCE, 0xA0, 0xFF },
-        },
-    },
-    {
-        {
-            { -750, -1299, 0 },
-            0,
-            { 9557, 2048 },
-            { 0xD0, 0xAD, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 0, -500 },
-            0,
-            { 8875, 0 },
-            { 0xCE, 0xCE, 0xA0, 0xFF },
-        },
-    },
-    {
-        {
-            { -1299, -750, 0 },
-            0,
-            { 10923, 2048 },
-            { 0xAD, 0xD0, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 0, -500 },
-            0,
-            { 10240, 0 },
-            { 0xCE, 0xCE, 0xA0, 0xFF },
-        },
-    },
-    {
-        {
-            { -1500, 0, 0 },
-            0,
-            { 12288, 2048 },
-            { 0xA0, 0x00, 0xB8, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 0, -500 },
-            0,
-            { 11605, 0 },
-            { 0xCE, 0xCE, 0xA0, 0xFF },
-        },
-    },
-    {
-        {
-            { 0, 0, -500 },
-            0,
-            { 12971, 0 },
-            { 0xCE, 0xCE, 0xA0, 0xFF },
-        },
-    },
+Vtx sWipeVtx[] = {
+    VTX(-1299, 750, 0, 13653, 2048, 0xAD, 0x30, 0xB8, 0xFF),
+    VTX(-750, 1299, 0, 15019, 2048, 0xD0, 0x53, 0xB8, 0xFF),
+    VTX(0, 0, -500, 14336, 0, 0xCE, 0xCE, 0xA0, 0xFF),
+    VTX(0, 1500, 0, 16384, 2048, 0x00, 0x60, 0xB8, 0xFF),
+    VTX(0, 0, -500, 15701, 0, 0x3D, 0x3D, 0xAD, 0xFF),
+    VTX(0, 1500, 0, 0, 2048, 0x00, 0x60, 0xB8, 0xFF),
+    VTX(750, 1299, 0, 1365, 2048, 0x30, 0x53, 0xB8, 0xFF),
+    VTX(0, 0, -500, 683, 0, 0x3D, 0x3D, 0xAD, 0xFF),
+    VTX(1299, 750, 0, 2731, 2048, 0x53, 0x30, 0xB8, 0xFF),
+    VTX(0, 0, -500, 2048, 0, 0x3D, 0x3D, 0xAD, 0xFF),
+    VTX(1500, 0, 0, 4096, 2048, 0x60, 0x00, 0xB8, 0xFF),
+    VTX(0, 0, -500, 3413, 0, 0x3D, 0x3D, 0xAD, 0xFF),
+    VTX(1299, -750, 0, 5461, 2048, 0x53, 0xD0, 0xB8, 0xFF),
+    VTX(0, 0, -500, 4779, 0, 0x3D, 0x3D, 0xAD, 0xFF),
+    VTX(750, -1299, 0, 6827, 2048, 0x30, 0xAD, 0xB8, 0xFF),
+    VTX(0, 0, -500, 6144, 0, 0xCE, 0xCE, 0xA0, 0xFF),
+    VTX(0, -1500, 0, 8192, 2048, 0x00, 0xA0, 0xB8, 0xFF),
+    VTX(0, 0, -500, 7509, 0, 0xCE, 0xCE, 0xA0, 0xFF),
+    VTX(-750, -1299, 0, 9557, 2048, 0xD0, 0xAD, 0xB8, 0xFF),
+    VTX(0, 0, -500, 8875, 0, 0xCE, 0xCE, 0xA0, 0xFF),
+    VTX(-1299, -750, 0, 10923, 2048, 0xAD, 0xD0, 0xB8, 0xFF),
+    VTX(0, 0, -500, 10240, 0, 0xCE, 0xCE, 0xA0, 0xFF),
+    VTX(-1500, 0, 0, 12288, 2048, 0xA0, 0x00, 0xB8, 0xFF),
+    VTX(0, 0, -500, 11605, 0, 0xCE, 0xCE, 0xA0, 0xFF),
+    VTX(0, 0, -500, 12971, 0, 0xCE, 0xCE, 0xA0, 0xFF),
 };
-// clang-format off
 
-char D_8012B290[] = {
+char sWipeTexture[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -318,7 +141,7 @@ char D_8012B290[] = {
     0xEF, 0xFF, 0xEF, 0xED, 0xFF, 0xFF, 0xFC, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
 };
 
-Gfx D_8012BA90[] = {
+Gfx sWipeDList[] = {
     gsDPPipeSync(),
     gsSPClearGeometryMode(G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
                           G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH),
@@ -329,14 +152,14 @@ Gfx D_8012BA90[] = {
     gsDPSetCombineLERP(TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, COMBINED, 0,
                        PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0),
     gsDPSetPrimDepth(0, 0),
-    gsDPLoadTextureBlock_4b(D_8012B290, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 6, 6,
+    gsDPLoadTextureBlock_4b(sWipeTexture, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 6, 6,
                             11, G_TX_NOLOD),
-    gsDPLoadMultiBlock_4b(D_8012B290, 0x0100, 1, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
+    gsDPLoadMultiBlock_4b(sWipeTexture, 0x0100, 1, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
                           G_TX_MIRROR | G_TX_WRAP, 6, 6, 11, 1),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsSPDisplayList(D_08000000),
-    gsSPVertex(D_8012B100, 25, 0),
+    gsSPVertex(sWipeVtx, 25, 0),
     gsSP2Triangles(0, 1, 2, 0, 1, 3, 4, 0),
     gsSP2Triangles(5, 6, 7, 0, 6, 8, 9, 0),
     gsSP2Triangles(8, 10, 11, 0, 10, 12, 13, 0),
@@ -347,7 +170,7 @@ Gfx D_8012BA90[] = {
 };
 
 // unused.
-Gfx D_8012BB88[] = {
+Gfx sWipeSyncDList[] = {
     gsDPPipeSync(),
     gsSPEndDisplayList(),
 };
@@ -372,25 +195,25 @@ TransitionWipe1* TransitionWipe1_Init(TransitionWipe1* wipe) {
 void TransitionWipe1_Destroy(TransitionWipe1* wipe) {
 }
 
-#ifdef NON_MATCHING
 void TransitionWipe1_Move(TransitionWipe1* wipe, s32 updateRate) {
+    u8 unk1419;
+
     if (wipe->direction != 0) {
-        wipe->texY += (gSaveContext.unk_1419 * 3) / updateRate;
+        unk1419 = gSaveContext.unk_1419;
+        wipe->texY += (unk1419 * 3) / updateRate;
         if (wipe->texY >= 0x264) {
             wipe->texY = 0x264;
             wipe->isDone = 1;
         }
     } else {
-        wipe->texY -= (gSaveContext.unk_1419 * 3) / updateRate;
+        unk1419 = gSaveContext.unk_1419;
+        wipe->texY -= (unk1419 * 3) / updateRate;
         if (wipe->texY < 0x14E) {
             wipe->texY = 0x14D;
             wipe->isDone = 1;
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo_wipe1/TransitionWipe1_Move.s")
-#endif
 
 void TransitionWipe1_Draw(TransitionWipe1* wipe, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
@@ -413,7 +236,7 @@ void TransitionWipe1_Draw(TransitionWipe1* wipe, Gfx** gfxP) {
     gSPMatrix(gfx++, &modelView[0], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPMatrix(gfx++, &modelView[1], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gSPMatrix(gfx++, &modelView[2], G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPDisplayList(gfx++, D_8012BA90);
+    gSPDisplayList(gfx++, sWipeDList);
     gDPPipeSync(gfx++);
     *gfxP = gfx;
 }
@@ -421,7 +244,7 @@ void TransitionWipe1_Draw(TransitionWipe1* wipe, Gfx** gfxP) {
 s32 TransitionWipe1_IsDone(TransitionWipe1* wipe) {
     return wipe->isDone;
 }
-// settype
+
 void TransitionWipe1_SetType(TransitionWipe1* wipe, s32 type) {
     if (type == 1) {
         wipe->direction = 1;
