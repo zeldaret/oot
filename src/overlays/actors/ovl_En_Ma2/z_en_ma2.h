@@ -16,9 +16,8 @@ typedef struct {
     /* 0x020E */ s16 unk_20E;
     /* 0x0210 */ s16 unk_210;
     /* 0x0212 */ char unk_212[0x2];
-    /* 0x0214 */ s16 unk_214;
-    /* 0x0216 */ s16 unk_216;
-    /* 0x0218 */ char unk_218[0x6C];
+    /* 0x0214 */ Vec3s unk_214[0x12];
+    /* 0x0280 */ char unk_280[0x4];
 } EnMa2; // size = 0x0284
 
 extern const ActorInit En_Ma2_InitVars;

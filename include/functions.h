@@ -400,6 +400,7 @@ Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx);
 s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, u16 (*unkFunc1)(GlobalContext*, Actor*),
                   s16 (*unkFunc2)(GlobalContext*, Actor*));
 s16 func_800347E8(s16 arg0);
+void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3);
 void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
                    PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha);
 void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
@@ -458,6 +459,7 @@ void func_80038A28(CollisionPoly*, f32, f32, f32, MtxF*);
 // ? func_80039A3C(?);
 // ? func_80039AEC(?);
 // ? func_8003A3E0(?);
+
 // ? func_8003A5B8(?);
 // ? func_8003A7D8(?);
 // ? func_8003A95C(?);
