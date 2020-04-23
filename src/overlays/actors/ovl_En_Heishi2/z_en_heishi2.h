@@ -5,6 +5,7 @@
 #include <global.h>
 #include <vt.h>
 #include "../ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
+#include "../ovl_En_Bom/z_en_bom.h"
 
 typedef struct {
     /* 0x0000 */ Actor actor;
@@ -23,7 +24,8 @@ typedef struct {
     /* 0x02BC */ Vec3f unk_2BC; // camera related
     /* 0x02C8 */ char unk_2C8[0x18];
     /* 0x02E0 */ f32 unk_2E0;
-    /* 0x02E4 */ char unk_2E4[0x8];
+    /* 0x02E4 */ f32 unk_2E4;
+    /* 0x02E8 */ char unk_2E8[0x4];
     /* 0x02EC */ f32 unk_2EC;
     /* 0x02F0 */ u16 unk_2F0;
     /* 0x02F2 */ s16 gateTimer; // starts counting down when guard starts to open gate.
@@ -34,7 +36,8 @@ typedef struct {
     /* 0x0308 */ u8 audioFlag;
     /* 0x0309 */ char unk_309[0x3];
     /* 0x030C */ u8 unk_30C;
-    /* 0x030D */ char unk_30D[0x3];
+    /* 0x030D */ char unk_30D;
+    /* 0x030E */ s16 unk_30E;
     /* 0x0310 */ s16 cameraId;
     /* 0x0314 */ BgGateShutter* attached;
     /* 0x0318 */ char unk_318[0x18];

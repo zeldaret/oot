@@ -35,12 +35,12 @@ glabel EnHeishi2_Draw
 /* 01EC0 80A54D60 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 01EC4 80A54D64 0C024F46 */  jal     func_80093D18              
 /* 01EC8 80A54D68 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
-/* 01ECC 80A54D6C 3C0E80A5 */  lui     $t6, %hi(func_80A54C34)    ## $t6 = 80A50000
-/* 01ED0 80A54D70 25CE4C34 */  addiu   $t6, $t6, %lo(func_80A54C34) ## $t6 = 80A54C34
+/* 01ECC 80A54D6C 3C0E80A5 */  lui     $t6, %hi(EnHeishi2_PostLimbDraw)    ## $t6 = 80A50000
+/* 01ED0 80A54D70 25CE4C34 */  addiu   $t6, $t6, %lo(EnHeishi2_PostLimbDraw) ## $t6 = 80A54C34
 /* 01ED4 80A54D74 8E450150 */  lw      $a1, 0x0150($s2)           ## 00000150
 /* 01ED8 80A54D78 8E46016C */  lw      $a2, 0x016C($s2)           ## 0000016C
-/* 01EDC 80A54D7C 3C0780A5 */  lui     $a3, %hi(func_80A54BC0)    ## $a3 = 80A50000
-/* 01EE0 80A54D80 24E74BC0 */  addiu   $a3, $a3, %lo(func_80A54BC0) ## $a3 = 80A54BC0
+/* 01EDC 80A54D7C 3C0780A5 */  lui     $a3, %hi(EnHeishi2_OverrideLimbDraw)    ## $a3 = 80A50000
+/* 01EE0 80A54D80 24E74BC0 */  addiu   $a3, $a3, %lo(EnHeishi2_OverrideLimbDraw) ## $a3 = 80A54BC0
 /* 01EE4 80A54D84 AFB20014 */  sw      $s2, 0x0014($sp)           
 /* 01EE8 80A54D88 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 01EEC 80A54D8C 0C028572 */  jal     SkelAnime_Draw
