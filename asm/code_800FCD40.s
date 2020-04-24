@@ -42,7 +42,7 @@ glabel func_800FCD40
 /* B73F4C 800FCDAC 24060001 */  li    $a2, 1
 /* B73F50 800FCDB0 0C000CA0 */  jal   osRecvMesg
 /* B73F54 800FCDB4 AFA70024 */   sw    $a3, 0x24($sp)
-/* B73F58 800FCDB8 0C040CA3 */  jal   func_8010328C
+/* B73F58 800FCDB8 0C040CA3 */  jal   osContGetQuery
 /* B73F5C 800FCDBC 02002025 */   move  $a0, $s0
 /* B73F60 800FCDC0 8FA70024 */  lw    $a3, 0x24($sp)
 /* B73F64 800FCDC4 02001025 */  move  $v0, $s0
