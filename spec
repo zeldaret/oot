@@ -2930,7 +2930,6 @@ endseg
 beginseg
     name "ovl_En_Ma3"
     include "build/src/overlays/actors/ovl_En_Ma3/z_en_ma3.o"
-    include "build/data/overlays/actors/z_en_ma3.data.o"
     include "build/data/overlays/actors/z_en_ma3.reloc.o"
 endseg
 

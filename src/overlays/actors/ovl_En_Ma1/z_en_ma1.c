@@ -233,12 +233,12 @@ void func_80AA0B74(EnMa1* this) {
         if ((this->unk_1E8.unk_00 == 0)) {
             if (this->unk_1E0 != 0) {
                 this->unk_1E0 = 0;
-                func_800F6584(0, this);
+                func_800F6584(0);
             }
         } else {
             if (this->unk_1E0 == 0) {
                 this->unk_1E0 = 1;
-                func_800F6584(1, this);
+                func_800F6584(1);
             }
         }
     }

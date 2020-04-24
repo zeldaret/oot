@@ -192,12 +192,12 @@ void func_80AA1DB4(EnMa2* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animCurrentSeg == &D_06009EE0) {
         if (this->unk_1E0.unk_00 == 0) {
             if (this->unk_20A != 0) {
-                func_800F6584(0, this);
+                func_800F6584(0);
                 this->unk_20A = 0;
             }
         } else {
             if (this->unk_20A == 0) {
-                func_800F6584(1, this);
+                func_800F6584(1);
                 this->unk_20A = 1;
             }
         }
