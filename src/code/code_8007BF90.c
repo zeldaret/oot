@@ -91,14 +91,14 @@ struct_80045714* func_8007C29C(struct_80045714* arg0, Vec3f* arg1) {
     distSquared = SQ(arg1->x) + SQ(arg1->z);
     dist = sqrtf(distSquared);
 
-    if ((dist == 0.0f) && (0.0f == arg1->y)) {
+    if ((dist == 0.0f) && (arg1->y == 0.0f)) {
         sp28.unk_04 = 0;
     } else {
         sp28.unk_04 = Math_atan2f(dist, arg1->y) * 57.295776f * 182.04167f + 0.5f;
     }
 
     sp28.unk_00 = sqrtf(SQ(arg1->y) + distSquared);
-    if ((0.0f == arg1->x) && (0.0f == arg1->z)) {
+    if ((arg1->x == 0.0f) && (arg1->z == 0.0f)) {
         sp28.unk_06 = 0;
     } else {
         sp28.unk_06 = Math_atan2f(arg1->x, arg1->z) * 57.295776f * 182.04167f + 0.5f;
@@ -171,6 +171,7 @@ Vec3f* func_8007C574(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2) {
 Vec3s* func_8007C5E0(Vec3s* arg0, Vec3f* arg1, Vec3f* arg2) {
     Vec3f sp24;
     Vec3s sp18;
+
     func_8007C4E0(&sp24, arg1, arg2);
 
     sp18.x = (((sp24.x * 57.295776f)) * 182.04167f) + 0.5f;
