@@ -26,7 +26,7 @@ void Sample_Draw(SampleContext* this) {
 
     if (1) {
         Mtx* mtx = Graph_Alloc(gfxCtx, sizeof(Mtx));
-        func_80103D58(mtx, SREG(37), SREG(38), SREG(39), 1.0f, SREG(40), SREG(41), SREG(42));
+        guPosition(mtx, SREG(37), SREG(38), SREG(39), 1.0f, SREG(40), SREG(41), SREG(42));
         gSPMatrix(gfxCtx->polyOpa.p++, mtx, G_MTX_LOAD);
     }
 

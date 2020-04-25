@@ -142,7 +142,7 @@ void IrqMgr_HandlePRENMI450(IrqMgr* this) {
 void IrqMgr_HandlePRENMI480(IrqMgr* this) {
     u32 ret;
     osSetTimer(&this->timer, OS_USEC_TO_CYCLES(20000), 0ull, &this->queue, (OSMesg)PRENMI500_MSG);
-    ret = func_801031F0(); // osAfterPreNMI
+    ret = osAfterPreNMI();
     if (ret) {
         osSyncPrintf("osAfterPreNMIが %d を返しました！？\n", ret); // osAfterPreNMI returned %d !?
         osSetTimer(&this->timer, OS_USEC_TO_CYCLES(1000), 0ull, &this->queue, (OSMesg)PRENMI480_MSG);

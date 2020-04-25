@@ -77,7 +77,7 @@ glabel func_80103E20
 /* B7B04C 80103EAC 460C2202 */  mul.s $f8, $f4, $f12
 /* B7B050 80103EB0 E7AA0038 */  swc1  $f10, 0x38($sp)
 /* B7B054 80103EB4 46024182 */  mul.s $f6, $f8, $f2
-/* B7B058 80103EB8 0C0406D0 */  jal   func_80101B40
+/* B7B058 80103EB8 0C0406D0 */  jal   guMtxIdentF
 /* B7B05C 80103EBC E7A60034 */   swc1  $f6, 0x34($sp)
 /* B7B060 80103EC0 C7AE0044 */  lwc1  $f14, 0x44($sp)
 /* B7B064 80103EC4 C7AA0050 */  lwc1  $f10, 0x50($sp)

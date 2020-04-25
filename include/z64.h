@@ -7,6 +7,7 @@
 #include <ultra64/controller.h>
 #include <z64light.h>
 #include <z64actor.h>
+#include <z64audio.h>
 #include <z64object.h>
 #include <z64cutscene.h>
 #include <z64scene.h>
