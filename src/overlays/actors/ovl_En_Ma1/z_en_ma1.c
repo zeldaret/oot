@@ -68,8 +68,6 @@ u32 D_80AA16D0[] = {
     0x06002718,
 };
 
-s32 D_80AA16DC = 0;
-
 extern AnimationHeader D_06000820;
 extern SkeletonHeader D_06008460;
 extern AnimationHeader D_06008D64;
