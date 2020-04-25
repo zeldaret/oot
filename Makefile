@@ -22,7 +22,6 @@ LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
 
-# Be sure to grab ido7.1_compiler and put it in tools/ first.
 CC         := $(QEMU_IRIX) -L tools/ido7.1_compiler tools/ido7.1_compiler/usr/bin/cc
 CC_OLD     := $(QEMU_IRIX) -L tools/ido5.3_compiler tools/ido5.3_compiler/usr/bin/cc
 
@@ -149,7 +148,7 @@ build/asm/%.o: asm/%.s
 	$(AS) $(ASFLAGS) $^ -o $@
 
 build/data/%.o: data/%.s
-	iconv --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
+	iconv --from UTF-8 --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
 
 #build/assets/%.o: assets/%.s
 #	$(AS) $(ASFLAGS) $^ -o $@
@@ -175,7 +174,7 @@ build/src/overlays/%.o: src/overlays/%.c
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
     
 build/asm/overlays/%.o: asm/overlays/%.s
-	iconv --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
+	iconv --from UTF-8 --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
 
 build/src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $(OPTIMIZATION) -o $@ $^
