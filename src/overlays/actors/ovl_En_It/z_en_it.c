@@ -13,9 +13,9 @@ void EnIt_Destroy(EnIt* this, GlobalContext* globalCtx);
 void EnIt_Update(EnIt* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit cylinderInitData = {
-    { 0x0A, 0x00, 0x00, 0x05, 0x10, 0x01 },
+    { COLTYPE_UNK10, 0x00, 0x00, 0x05, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-    { 0x0028, 0x000A, 0x0000, { 0 } },
+    { 40, 10, 0, { 0 } },
 };
 
 static CollisionCheckInfoInit2 colChkInfoInit = {

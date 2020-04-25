@@ -33,9 +33,9 @@ const ActorInit Door_Ana_InitVars = {
 
 // initial collision data
 static ColliderCylinderInit colliderInit = {
-    { 0x0A, 0x00, 0x09, 0x00, 0x00, 0x01 },
+    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_CYLINDER },
     { 0x02, { 0x00000000, 0x00, 0x00 }, { 0x00000048, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
-    { 0x0032, 0x000A, 0x0000, { 0 } },
+    { 50, 10, 0, { 0 } },
 };
 
 // array of entrance table entries to grotto destinations

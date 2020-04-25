@@ -13,7 +13,7 @@ void func_8005B280(GraphicsContext* gfx, Vec3f* vA, Vec3f* vB, Vec3f* vC) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_8005B2AC.s")
 
 s32 Collider_InitBase(GlobalContext* globalCtx, Collider* collider) {
-    static Collider init = { NULL, NULL, NULL, NULL, 0, 0, 0, 0, 3, COLTYPE_INVALID };
+    static Collider init = { NULL, NULL, NULL, NULL, 0, 0, 0, 0, COLTYPE_UNK3, COLSHAPE_INVALID };
     *collider = init;
     return 1;
 }
@@ -35,7 +35,7 @@ s32 Collider_SetBase_Actor(GlobalContext* globalCtx, Collider* collider, Collide
 // maskB = 0x10
 s32 Collider_SetBase_Set3(GlobalContext* globalCtx, Collider* collider, Actor* actor, ColliderInit_Set3* src) {
     collider->actor = actor;
-    collider->unk_14 = src->unk_00;
+    collider->type = src->type;
     collider->atFlags = src->atFlags;
     collider->acFlags = src->acFlags;
     collider->maskA = src->maskA;
@@ -47,7 +47,7 @@ s32 Collider_SetBase_Set3(GlobalContext* globalCtx, Collider* collider, Actor* a
 // maskB = src->maskB
 s32 Collider_SetBase(GlobalContext* globalCtx, Collider* collider, Actor* actor, ColliderInit* src) {
     collider->actor = actor;
-    collider->unk_14 = src->unk_00;
+    collider->type = src->type;
     collider->atFlags = src->atFlags;
     collider->acFlags = src->acFlags;
     collider->maskA = src->maskA;
@@ -864,7 +864,7 @@ s32 func_8005D3A4(GlobalContext* globalCtx, OcLine* line) {
 }
 
 void func_8005D3BC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
-    collisionCheckCtx->unk2 = 0;
+    collisionCheckCtx->sacFlags = 0;
     CollisionCheck_InitContext(globalCtx, collisionCheckCtx);
     AREG(21) = 1;
     AREG(22) = 1;
@@ -879,7 +879,7 @@ void CollisionCheck_InitContext(GlobalContext* globalCtx, CollisionCheckContext*
     Collider** c;
     OcLine** d;
 
-    if (!(collisionCheckCtx->unk2 & 1)) {
+    if (!(collisionCheckCtx->sacFlags & 1)) {
         collisionCheckCtx->colAtCount = 0;
         collisionCheckCtx->colAcCount = 0;
         collisionCheckCtx->colOcCount = 0;
@@ -902,14 +902,14 @@ void CollisionCheck_InitContext(GlobalContext* globalCtx, CollisionCheckContext*
     }
 }
 
-// unconfirmed args
+// Unused
 void CollisionCheck_EnableSAC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
-    collisionCheckCtx->unk2 |= 1;
+    collisionCheckCtx->sacFlags |= 1;
 }
 
-// unconfirmed args
+// Unused
 void CollisionCheck_DisableSAC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
-    collisionCheckCtx->unk2 &= ~1;
+    collisionCheckCtx->sacFlags &= ~1;
 }
 
 // Draw Collider
@@ -925,17 +925,17 @@ void func_8005D4DC(GlobalContext* globalCtx, Collider* collider) {
         return;
     }
     switch (collider->shape) {
-        case COLTYPE_JNTSPH:
+        case COLSHAPE_JNTSPH:
             jntSph = (ColliderJntSph*)collider;
             for (i = 0; i < jntSph->count; i++) {
                 func_800D05D0(globalCtx, &jntSph->list[i].dim.worldSphere);
             }
             break;
-        case COLTYPE_CYLINDER:
+        case COLSHAPE_CYLINDER:
             cylinder = (ColliderCylinder*)collider;
             func_800D05DC(globalCtx, &cylinder->dim);
             break;
-        case COLTYPE_TRIS:
+        case COLSHAPE_TRIS:
             tris = (ColliderTris*)collider;
             for (i = 0; i < tris->count; i++) {
                 trisItem = &tris->list[i];
@@ -943,7 +943,7 @@ void func_8005D4DC(GlobalContext* globalCtx, Collider* collider) {
                               &trisItem->dim.vtx[2]);
             }
             break;
-        case COLTYPE_QUAD:
+        case COLSHAPE_QUAD:
             quad = (ColliderQuad*)collider;
             func_8005B280(globalCtx->state.gfxCtx, &quad->dim.quad[2], &quad->dim.quad[3], &quad->dim.quad[1]);
             func_8005B280(globalCtx->state.gfxCtx, &quad->dim.quad[1], &quad->dim.quad[0], &quad->dim.quad[2]);
@@ -986,14 +986,14 @@ void CollisionCheck_Draw(GlobalContext* globalCtx, CollisionCheckContext* collis
 s32 (*D_8011DEF8[])(GlobalContext*, Collider*) = { Collider_JntSphSetAT, Collider_CylinderSetAT, Collider_TrisSetAT,
                                                    Collider_QuadSetAT };
 
-// Sets collider as an AT (attack) for the current frame, allowing it to be checked against ACs (attack colliders)
+// Sets collider as an AT (attack) for the current frame, which will be checked against ACs (attack colliders)
 s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
     s32 index;
 
     if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
-    if (!(collider->shape < COLTYPE_INVALID)) {
+    if (!(collider->shape < COLSHAPE_INVALID)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 2997);
     }
     D_8011DEF8[collider->shape](globalCtx, collider);
@@ -1007,7 +1007,7 @@ s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* collis
         // EUC-JP: インデックスがオーバーして追加不能 | Index exceeded and cannot be added
         return -1;
     }
-    if (collisionCheckCtx->unk2 & 1) {
+    if (collisionCheckCtx->sacFlags & 1) {
         return -1;
     }
     index = collisionCheckCtx->colAtCount;
@@ -1015,13 +1015,13 @@ s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* collis
     return index;
 }
 
-// Sets collider as an AT (attack) for the current frame, allowing it to be checked against ACs (attack colliders).
+// Unused. Sets collider as an AT (attack) for the current frame, which will be checked against ACs (attack colliders).
 // If CollisionCheck_SAC is enabled, the collider will be inserted into the list at the specified index, otherwise it
 // will be inserted into the next slot
 s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider,
                              s32 index) {
 
-    if (!(collider->shape < COLTYPE_INVALID)) {
+    if (!(collider->shape < COLSHAPE_INVALID)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3037);
     }
     if (func_800C0D28(globalCtx) == 1) {
@@ -1031,7 +1031,7 @@ s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
-    if (collisionCheckCtx->unk2 & 1) {
+    if (collisionCheckCtx->sacFlags & 1) {
         if (!(index < collisionCheckCtx->colAtCount)) {
             osSyncPrintf("CollisionCheck_setAT_SAC():全データ数より大きいところに登録しようとしている。\n");
             // EUC-JP: 全データ数より大きいところに登録しようとしている。 | You are trying to register a location that
@@ -1060,7 +1060,7 @@ s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* collis
     if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
-    if (!(collider->shape < COLTYPE_INVALID)) {
+    if (!(collider->shape < COLSHAPE_INVALID)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3114);
     }
     D_8011DF08[collider->shape](globalCtx, collider);
@@ -1074,7 +1074,7 @@ s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* collis
         // EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
         return -1;
     }
-    if (collisionCheckCtx->unk2 & 1) {
+    if (collisionCheckCtx->sacFlags & 1) {
         return -1;
     }
     index = collisionCheckCtx->colAcCount;
@@ -1082,13 +1082,13 @@ s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* collis
     return index;
 }
 
-// Sets collider as an AC (attack collider) for the current frame, allowing it to detect ATs (attacks).
+// Unused. Sets collider as an AC (attack collider) for the current frame, allowing it to detect ATs (attacks).
 // If CollisionCheck_SAC is enabled, the collider will be inserted into the list at the specified index, otherwise it
 // will be inserted into the next slot
 s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider,
                              s32 index) {
 
-    if (!(collider->shape < COLTYPE_INVALID)) {
+    if (!(collider->shape < COLSHAPE_INVALID)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3153);
     }
     if (func_800C0D28(globalCtx) == 1) {
@@ -1098,7 +1098,7 @@ s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
-    if (collisionCheckCtx->unk2 & 1) {
+    if (collisionCheckCtx->sacFlags & 1) {
         if (!(index < collisionCheckCtx->colAcCount)) {
             osSyncPrintf("CollisionCheck_setAC_SAC():全データ数より大きいところに登録しようとしている。\n");
             // EUC-JP: 全データ数より大きいところに登録しようとしている。| You are trying to register a location that is
@@ -1132,7 +1132,7 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* collis
     if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
-    if (!(collider->shape < COLTYPE_INVALID)) {
+    if (!(collider->shape < COLSHAPE_INVALID)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3229);
     }
     D_8011DF18[collider->shape](globalCtx, collider);
@@ -1146,7 +1146,7 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* collis
         // EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
         return -1;
     }
-    if (collisionCheckCtx->unk2 & 1) {
+    if (collisionCheckCtx->sacFlags & 1) {
         return -1;
     }
     index = collisionCheckCtx->colOcCount;
@@ -1154,7 +1154,7 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* collis
     return index;
 }
 
-// Sets collider as an OC (object collider) for the current frame, allowing it to detect other OCs
+// Unused. Sets collider as an OC (object collider) for the current frame, allowing it to detect other OCs
 // If CollisionCheck_SAC is enabled, the collider will be inserted into the list at the specified index, otherwise it
 // will be inserted into the next slot
 s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider,
@@ -1163,14 +1163,14 @@ s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
-    if (!(collider->shape < COLTYPE_INVALID)) {
+    if (!(collider->shape < COLSHAPE_INVALID)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3274);
     }
     D_8011DF18[collider->shape](globalCtx, collider);
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
-    if (collisionCheckCtx->unk2 & 1) {
+    if (collisionCheckCtx->sacFlags & 1) {
         if (!(index < collisionCheckCtx->colOcCount)) {
             osSyncPrintf("CollisionCheck_setOC_SAC():全データ数より大きいところに登録しようとしている。\n");
             // EUC-JP: 全データ数より大きいところに登録しようとしている。| You are trying to register a location that is
@@ -1232,6 +1232,7 @@ void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 }
 
 #ifdef NON_MATCHING
+// Blue EffSpark
 //.bss problems
 void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     s32 sp24;
@@ -1286,6 +1287,7 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
 #endif // NON_MATCHING
 
 #ifdef NON_MATCHING
+// Green EffSpark
 //.bss problems
 void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     s32 sp24;
@@ -1356,7 +1358,7 @@ void func_8005E2EC(GlobalContext* globalCtx, ColliderBody* colliderBody, Collide
     s32 flags;
 
     flags = colliderBody->toucherFlags & 0x18;
-    if (flags == 0 && collider->unk_14 != 9) {
+    if (flags == 0 && collider->type != COLTYPE_METAL_SHIELD) {
         func_80029CA4(globalCtx, 0, arg3);
         if (collider->actor == NULL) {
             Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_BOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -1442,20 +1444,20 @@ void func_8005E604(GlobalContext* globalCtx, Collider* left, ColliderBody* leftB
         return;
     }
     if (right->actor != NULL) {
-        (*D_8011DF28[D_8011DF40[right->unk_14].unk00])(globalCtx, right, arg5);
+        (*D_8011DF28[D_8011DF40[right->type].unk00])(globalCtx, right, arg5);
     }
     if (right->actor != NULL) {
-        if (D_8011DF40[right->unk_14].unk01 == 3) {
+        if (D_8011DF40[right->type].unk01 == 3) {
             func_8005E2EC(globalCtx, leftBody, right, arg5);
-        } else if (D_8011DF40[right->unk_14].unk01 == 4) {
+        } else if (D_8011DF40[right->type].unk01 == 4) {
             if (left->actor == NULL) {
                 func_80062CD4(globalCtx, arg5);
                 Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             } else {
                 func_80062E14(globalCtx, arg5, &left->actor->unk_E4);
             }
-        } else if (D_8011DF40[right->unk_14].unk01 != 5) {
-            func_80029CA4(globalCtx, D_8011DF40[right->unk_14].unk01, arg5);
+        } else if (D_8011DF40[right->type].unk01 != 5) {
+            func_80029CA4(globalCtx, D_8011DF40[right->type].unk01, arg5);
             if ((rightBody->bumperFlags & 0x20) == 0) {
                 func_8005E4F8(left, rightBody);
             }
@@ -1504,7 +1506,8 @@ s32 func_8005E81C(GlobalContext* globalCtx, Collider* left, ColliderBody* leftBo
     rightBody->bumper.unk_06.x = (s16)arg7->x;
     rightBody->bumper.unk_06.y = (s16)arg7->y;
     rightBody->bumper.unk_06.z = (s16)arg7->z;
-    if (!(leftBody->toucherFlags & 0x20) && right->unk_14 != 9 && right->unk_14 != 11 && right->unk_14 != 12) {
+    if (!(leftBody->toucherFlags & 0x20) && right->type != COLTYPE_METAL_SHIELD &&
+        right->type != COLTYPE_WOODEN_SHIELD && right->type != COLTYPE_UNK12) {
         rightBody->bumperFlags |= 0x80;
     } else {
         func_8005E604(globalCtx, left, leftBody, right, rightBody, arg7);
@@ -2441,7 +2444,7 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
     leftMass = leftActor->colChkInfo.mass;
     rightMass = rightActor->colChkInfo.mass;
     totalMass = leftMass + rightMass;
-    if (fabsf(totalMass) < 0.008f) { 
+    if (fabsf(totalMass) < 0.008f) {
         totalMass = (leftMass = rightMass = 1.0f) * 2;
     }
     xDelta = rightv->x - leftv->x;
@@ -2449,7 +2452,7 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
     xzDist = sqrtf(SQ(xDelta) + SQ(zDelta));
 
     if (leftMassType == 0) {
-        if (rightMassType == 0) { 
+        if (rightMassType == 0) {
             return;
         } else {
             leftDisplacementFactor = 0;
@@ -2459,7 +2462,7 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
         if (rightMassType == 0) {
             leftDisplacementFactor = 1;
             rightDisplacementFactor = 0;
-        } else if (rightMassType == 1) { 
+        } else if (rightMassType == 1) {
             leftDisplacementFactor = 0.5f;
             rightDisplacementFactor = 0.5f;
         } else {
@@ -2477,7 +2480,7 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
         }
     }
 
-    if (!(fabsf(xzDist) < 0.008f)) { 
+    if (!(fabsf(xzDist) < 0.008f)) {
         temp_f0 = arg6 / xzDist;
         xDelta *= temp_f0;
         zDelta *= temp_f0;
@@ -2942,6 +2945,7 @@ void func_800628A4(s32 arg0, ColliderJntSph* collider) {
 #endif // NON_MATCHING
 
 #ifdef NON_MATCHING
+// Purple EffSpark
 //.bss section problems
 void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
     s32 sp24;
@@ -2995,6 +2999,7 @@ void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
 #endif // NON_MATCHING
 
 #ifdef NON_MATCHING
+// White EffSpark (Bubbles?)
 //.bss section problems
 void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
     s32 sp24;
@@ -3121,158 +3126,159 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
 
 #if 0 // NON_MATCHING
 // Incomplete, possibly not using the same logic
-// F12 = (f32)Dark Link + A8(0x98 + 0x10)
-// F14 = (f32)Dark Link + AA(0x98 + 0x12)
-// A2 = f32 unk
-// A3 = Vec3f * Dark Link
-// SP + 0x10 = Vec3f * Deku Nut
-// SP + 0x14 = Vec3f * SP + 0xA8
-// SP + 0x18 = UNK * SP + 0x90
-// SP + 0x1C = UNK * SP + 0x84
-s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* arg3, Vec3f* arg4, Vec3f* arg5, Vec3f* arg6,
+s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* ac_actor_pos, Vec3f* at_actor_pos, Vec3f* arg5, Vec3f* arg6,
                   Vec3f* arg7) {
+    // arg5 = SP + 0xA8, unk input
+    // arg6 = SP + 0x90, unk output
+    // arg7 = SP + 0x84, unk output2
     // sp -0x78
 
-    Vec3f sp6C;
-    Vec3f sp60;
-    Vec3f sp54;
+    Vec3f delta_a3_a4_sp6C;
+    Vec3f delta_a3_a5_sp60;
+    Vec3f delta_a4_a5_sp54;
     f32 sp50;
     f32 sp4C;
-    f32 sp38;
     f32 temp_f0;
-    f32 temp_f0_2;
     f32 temp_f0_3;
-    f32 temp_f0_4;
-    f32 temp_f12_2;
-    f32 temp_f14_2;
-    f32 temp_f14_3;
+    f32 temp_f12;
+    f32 temp_f14;
+    f32 sp38;
     f32 temp_f16_2;
-    f32 temp_f2; // ok
+    f32 temp_f2;
     s32 phi_v0;
     s32 phi_v1;
-    s32 phi_v0_3;
+    s32 phi_a0;
     s32 phi_a1;
     s32 phi_a2;
-    s32 phi_v1_2;
 
-    sp6C.x = arg4->x - arg3->x;
-    sp6C.y = (arg4->y - arg3->y) - arg2; // temp_f14
-    sp6C.z = arg4->z - arg3->z;
+    delta_a3_a4_sp6C.x = at_actor_pos->x - ac_actor_pos->x;
+    delta_a3_a4_sp6C.y = at_actor_pos->y - ac_actor_pos->y - arg2; // temp_f14
+    delta_a3_a4_sp6C.z = at_actor_pos->z - ac_actor_pos->z;
 
-    sp60.x = arg5->x - arg3->x;
-    sp60.y = (arg5->y - arg3->y) - arg2; // temp_f6
-    sp60.z = arg5->z - arg3->z;
+    delta_a3_a5_sp60.x = arg5->x - ac_actor_pos->x;
+    delta_a3_a5_sp60.y = arg5->y - ac_actor_pos->y - arg2; // temp_f6
+    delta_a3_a5_sp60.z = arg5->z - ac_actor_pos->z;
 
-    sp54.x = sp60.x - sp6C.x; // temp_f16;
-    // sp18 = sp60.y - sp6C.y; // temp_f8;
-    sp54.y = sp60.y - sp6C.y; // sp18; // temp_f8;
-    sp54.z = sp60.z - sp6C.z; // temp_f18;
+    delta_a4_a5_sp54.x = delta_a3_a5_sp60.x - delta_a3_a4_sp6C.x; // temp_f16;
+    delta_a4_a5_sp54.y = delta_a3_a5_sp60.y - delta_a3_a4_sp6C.y; // sp18; // temp_f8;
+    delta_a4_a5_sp54.z = delta_a3_a5_sp60.z - delta_a3_a4_sp6C.z; // temp_f18;
 
     phi_v0 = 0;
-
-    if (0.0f < sp6C.y) { // ada12c:    bc1f    0xada138 ~>
+    // ada12c:    bc1f    0xada138 ~>
+    if (0.0f < delta_a3_a4_sp6C.y) { 
         phi_v0 = 1;
     }
-    if (phi_v0 != 0) { // ada138:    beqzl   v0,0xada188 ~>
-        if (sp6C.y < actor_ac_98_12) {
-            if (sqrtf((sp6C.x * sp6C.x) + (sp6C.z * sp6C.z)) < actor_ac_98_10) {
-                return 3;
-            }
+    // ada138:    beqzl   v0,0xada188 ~>
+    if (phi_v0 && delta_a3_a4_sp6C.y < actor_ac_98_12) {
+        if (sqrtf(SQ(delta_a3_a4_sp6C.x) + SQ(delta_a3_a4_sp6C.z)) < actor_ac_98_10) {
+            return 3;
         }
     }
 
     phi_v1 = 0;
-    if (0.0f < sp60.y) {
+    if (0.0f < delta_a3_a5_sp60.y) { //ada19c:    bc1f    0xada1a8 ~>
         phi_v1 = 1;
     }
-    if (phi_v1 != 0) {
-        if (sp60.y < actor_ac_98_12) {
-            if (sqrtf((sp60.x * sp60.x) + (sp60.z * sp60.z)) < actor_ac_98_10) {
-                return 3;
-            }
+    //ada1a8:    beqzl   v1,0xada1f4 ~>
+    if (phi_v1 && delta_a3_a5_sp60.y < actor_ac_98_12) {
+        if (sqrtf(SQ(delta_a3_a5_sp60.x) + SQ(delta_a3_a5_sp60.z)) < actor_ac_98_10) {
+            return 3;
         }
     }
 
-    sp38 = ((sp6C.x * sp6C.x) + (sp6C.z * sp6C.z)) - (actor_ac_98_10 * actor_ac_98_10); // temp_f12;
-    temp_f2 = (sp54.x * sp54.x) + (sp54.z * sp54.z);
+    //ada1f4
+    sp38 = SQ(delta_a3_a4_sp6C.x) + SQ(delta_a3_a4_sp6C.z) - SQ(actor_ac_98_10); // temp_f12;
+    temp_f2 = SQ(delta_a4_a5_sp54.x) + SQ(delta_a4_a5_sp54.z);
     if (!(fabsf(temp_f2) < 0.008f)) { // ada23c:    bc1t    0xada2f0 ~>
-        temp_f14_2 = ((sp54.x + sp54.x) * sp6C.x) + ((sp54.z + sp54.z) * sp6C.z);
-        temp_f0 = temp_f14_2 * temp_f14_2;
-        temp_f12_2 = (4.0f * temp_f2) * sp38;
-        if (temp_f0 < temp_f12_2) { // ada280:    bc1f    0xada290 ~>
+        temp_f14 = (delta_a4_a5_sp54.x + delta_a4_a5_sp54.x) * delta_a3_a4_sp6C.x + (delta_a4_a5_sp54.z + delta_a4_a5_sp54.z) * delta_a3_a4_sp6C.z;
+        temp_f0 = SQ(temp_f14);
+        temp_f12 = (4.0f * temp_f2) * sp38;
+        if (temp_f0 < temp_f12) { // ada280:    bc1f    0xada290 ~>
             return 0;
         }
-        temp_f16_2 = temp_f0 - temp_f12_2;
-        temp_f0_2 = sqrtf(temp_f16_2);
+        //ada290
+        temp_f16_2 = temp_f0 - temp_f12;
+        temp_f0 = sqrtf(temp_f16_2);
         if (0.0f < temp_f16_2) {
-            phi_v0_3 = 1;
+            phi_v0 = 1;
+            phi_v1 = 1;
         } else {
-            phi_v0_3 = 0;
+            phi_v0 = 0;
+            phi_v1 = 1;
         }
 
-        sp50 = (temp_f0_2 - temp_f14_2) / (temp_f2 + temp_f2); // temp_f16_3;
-        if (phi_v0_3 == 1) {
-            sp4C = (-temp_f14_2 - temp_f0_2) / (temp_f2 + temp_f2);
+        sp50 = (temp_f0 - temp_f14) / (temp_f2 + temp_f2); // temp_f16_3;
+        if (phi_v0 == 1) {
+            sp4C = (-temp_f14 - temp_f0) / (temp_f2 + temp_f2);
         }
     } else { // 0xada2f0
-        temp_f14_3 = ((sp54.x + sp54.x) * sp6C.x) + ((sp54.z + sp54.z) * sp6C.z);
-        if (!(fabsf(temp_f14_3) < 0.008f)) { // ada324
-            phi_v0_3 = 0;
-            sp50 = -sp38 / temp_f14_3;
-            phi_v1_2 = 1;
+        temp_f14 = ((delta_a4_a5_sp54.x + delta_a4_a5_sp54.x) * delta_a3_a4_sp6C.x) + ((delta_a4_a5_sp54.z + delta_a4_a5_sp54.z) * delta_a3_a4_sp6C.z);
+        if (!(fabsf(temp_f14) < 0.008f)) { // ada324
+            phi_v0 = 0;
+            sp50 = -sp38 / temp_f14;
+            phi_v1 = 1;
         } // ada340:    b       0xada468
         else {
             if (sp38 <= 0.0f) {  // ada358:    bc1f    0xada460
+                phi_a0 = phi_v0;
                 if (phi_v0 != 0) // ada360:    beqz    v0,0xada388 ~>
                 {
-                    phi_v0 = 0;
-                    if (sp6C.y < actor_ac_98_12) {
-                        phi_v0 = 1;
+                    phi_a0 = 0; 
+                    //ada37C
+                    if (delta_a3_a4_sp6C.y < actor_ac_98_12) {
+                        phi_a0 = 1;
                     }
                 }
+                phi_a1 = phi_a0;
+                //ada38C
+                phi_a0 = phi_v1;
                 if (phi_v1 != 0) {
-                    phi_v1 = 0;
-                    if (sp60.y < actor_ac_98_12) {
-                        phi_v1 = 1;
+                    phi_a0 = 0; 
+                    if (delta_a3_a5_sp60.y < actor_ac_98_12) {
+                        phi_a0 = 1; 
                     }
                 }
-                if (phi_v0 != 0) {     // ada3b4
-                    if (phi_v1 != 0) { // ada3bc
-                        *arg6 = sp6C;
-                        *arg7 = sp60;
+                if (phi_a1) { // ada3b4
+                    if (phi_a0) { // ada3bc
+                        *arg6 = delta_a3_a4_sp6C;
+                        *arg7 = delta_a3_a5_sp60;
                         return 2;
                     }
                 }
                 // ada408
-                if (phi_v0 != 0) {
-                    *arg6 = sp6C;
+                if (phi_a1) {
+                    *arg6 = delta_a3_a4_sp6C;
                     return 1;
                 }
                 // ada434
-                if (phi_v1 != 0) {
-                    *arg6 = sp60;
+                if (phi_a0) {
+                    *arg6 = delta_a3_a5_sp60;
                     return 1;
                 }
             }
+            //ada460
             return 0;
         }
     }
     // ada468 800632C8
-    if (phi_v0_3 == 0) { // ada468:    bnezl   v0,0xada4a4 ~>
+    if (phi_v0 == 0) { // ada468:    bnezl   v0,0xada4a4 ~>
         if (sp50 < 0.0f || 1.0f < sp50) {
             return 0;
         }
     } else { // ada4a4
         phi_a1 = 0;
-        if (sp50 < 0.0f) {
+        if (sp50 < 0.0f) { //ada4ac
             phi_a1 = 1;
         }
+        //ada4b8
+        phi_a0 = phi_a1;
         if (phi_a1 == 0) {
             phi_a1 = 0;
             if (1.0f < sp50) {
                 phi_a1 = 1;
             }
         }
+        //ada4dc
         phi_a2 = 0;
         if (sp4C < 0.0f) {
             phi_a2 = 1;
@@ -3289,48 +3295,48 @@ s32 func_80062ECC(f32 actor_ac_98_10, f32 actor_ac_98_12, f32 arg2, Vec3f* arg3,
             }
         }
         if (phi_a1 != 0) {
-            phi_v1_2 = 0;
+            phi_v1 = 0;
         }
         if (phi_a2 != 0) {
-            phi_v0_3 = 0;
+            phi_v0 = 0;
         }
     }
-    if (phi_v1_2 == 1) {
-        temp_f0_3 = (sp50 * sp54.y) + sp6C.y;
-        if ((temp_f0_3 < 0.0f) || (actor_ac_98_12 < temp_f0_3)) {
-            phi_v1_2 = 0;
+    if (phi_v1 == 1) {
+        temp_f0_3 = sp50 * delta_a4_a5_sp54.y + delta_a3_a4_sp6C.y;
+        if (temp_f0_3 < 0.0f || actor_ac_98_12 < temp_f0_3) {
+            phi_v1 = 0;
         }
     }
-    if (phi_v0_3 == 1) {
-        temp_f0_4 = (sp4C * sp54.y) + sp6C.y;
-        if ((temp_f0_4 < 0.0f) || (actor_ac_98_12 < temp_f0_4)) {
-            phi_v0_3 = 0;
+    if (phi_v0 == 1) {
+        temp_f0_3 = sp4C * delta_a4_a5_sp54.y + delta_a3_a4_sp6C.y;
+        if (temp_f0_3 < 0.0f || actor_ac_98_12 < temp_f0_3) {
+            phi_v0 = 0;
         }
     }
-    if (phi_v1_2 == 0 && phi_v0_3 == 0) {
+    if (phi_v1 == 0 && phi_v0 == 0) {
         return 0;
     }
-    if (phi_v1_2 == 1) {
-        if (phi_v0_3 == 1) {
-            arg6->x = (f32)(((sp50 * sp54.x) + sp6C.x) + arg3->x);
-            arg6->y = (f32)(((sp50 * sp54.y) + sp6C.y) + arg3->y);
-            arg6->z = (f32)(((sp50 * sp54.z) + sp6C.z) + arg3->z);
-            arg7->x = (f32)(((sp4C * sp54.x) + sp6C.x) + arg3->x);
-            arg7->y = (f32)(((sp4C * sp54.y) + sp6C.y) + arg3->y);
-            arg7->z = (f32)(((sp4C * sp54.z) + sp6C.z) + arg3->z);
+    if (phi_v1 == 1) {
+        if (phi_v0 == 1) {
+            arg6->x = sp50 * delta_a4_a5_sp54.x + delta_a3_a4_sp6C.x + ac_actor_pos->x;
+            arg6->y = sp50 * delta_a4_a5_sp54.y + delta_a3_a4_sp6C.y + ac_actor_pos->y;
+            arg6->z = sp50 * delta_a4_a5_sp54.z + delta_a3_a4_sp6C.z + ac_actor_pos->z;
+            arg7->x = sp4C * delta_a4_a5_sp54.x + delta_a3_a4_sp6C.x + ac_actor_pos->x;
+            arg7->y = sp4C * delta_a4_a5_sp54.y + delta_a3_a4_sp6C.y + ac_actor_pos->y;
+            arg7->z = sp4C * delta_a4_a5_sp54.z + delta_a3_a4_sp6C.z + ac_actor_pos->z;
             return 2;
         }
     }
-    if (phi_v1_2 == 1) {
-        arg6->x = (f32)(((sp50 * sp54.x) + sp6C.x) + arg3->x);
-        arg6->y = (f32)(((sp50 * sp54.y) + sp6C.y) + arg3->y);
-        arg6->z = (f32)(((sp50 * sp54.z) + sp6C.z) + arg3->z);
+    if (phi_v1 == 1) {
+        arg6->x = sp50 * delta_a4_a5_sp54.x + delta_a3_a4_sp6C.x + ac_actor_pos->x;
+        arg6->y = sp50 * delta_a4_a5_sp54.y + delta_a3_a4_sp6C.y + ac_actor_pos->y;
+        arg6->z = sp50 * delta_a4_a5_sp54.z + delta_a3_a4_sp6C.z + ac_actor_pos->z;
         return 1;
     }
-    if (phi_v0_3 == 1) { // ada700
-        arg6->x = (f32)(((sp4C * sp54.x) + sp6C.x) + arg3->x);
-        arg6->y = (f32)(((sp4C * sp54.y) + sp6C.y) + arg3->y);
-        arg6->z = (f32)(((sp4C * sp54.z) + sp6C.z) + arg3->z);
+    if (phi_v0 == 1) { // ada700
+        arg6->x = sp4C * delta_a4_a5_sp54.x + delta_a3_a4_sp6C.x + ac_actor_pos->x;
+        arg6->y = sp4C * delta_a4_a5_sp54.y + delta_a3_a4_sp6C.y + ac_actor_pos->y;
+        arg6->z = sp4C * delta_a4_a5_sp54.z + delta_a3_a4_sp6C.z + ac_actor_pos->z;
         return 1;
     }
     return 1;

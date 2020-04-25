@@ -28,9 +28,9 @@ const ActorInit En_Nutsball_InitVars = {
 };
 
 static ColliderCylinderInit cylinderInitData = {
-    { 0x0A, 0x11, 0x09, 0x39, 0x20, 0x01 },
+    { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x11, 0x01, 0x01 },
-    { 0x000D, 0x000D, 0x0000, { 0 } },
+    { 13, 13, 0, { 0 } },
 };
 
 static s16 objectTbl[] = { OBJECT_DEKUNUTS, OBJECT_HINTNUTS, OBJECT_SHOPNUTS, OBJECT_DNS, OBJECT_DNK };

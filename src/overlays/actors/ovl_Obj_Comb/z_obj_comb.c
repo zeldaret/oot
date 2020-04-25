@@ -37,7 +37,11 @@ ColliderJntSphItemInit colliderItemsInit[1] = {
     },
 };
 
-ColliderJntSphInit colliderInit = { { 0x0A, 0x00, 0x09, 0x09, 0x20, 0x00 }, 1, &colliderItemsInit };
+ColliderJntSphInit colliderInit = {
+    { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
+    1,
+    &colliderItemsInit,
+};
 
 static InitChainEntry initChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),

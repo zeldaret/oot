@@ -4,7 +4,27 @@ T_DEFAULT = ''
 T_SET3 = '_Set3'
 T_ACTOR = '_Actor'
 
-SHAPE_ENUM = [ "COLTYPE_JNTSPH", "COLTYPE_CYLINDER", "COLTYPE_TRIS", "COLTYPE_QUAD" ]
+TYPE_ENUM = [
+    "COLTYPE_UNK0",
+    "COLTYPE_UNK1",
+    "COLTYPE_UNK2",
+    "COLTYPE_UNK3", 
+    "COLTYPE_UNK4",
+    "COLTYPE_UNK5",
+    "COLTYPE_UNK6",
+    "COLTYPE_UNK7",
+    "COLTYPE_UNK8",
+    "COLTYPE_METAL_SHIELD",
+    "COLTYPE_UNK10",
+    "COLTYPE_WOODEN_SHIELD",
+    "COLTYPE_UNK12", 
+    "COLTYPE_UNK13"  ]
+
+SHAPE_ENUM = [ 
+    "COLSHAPE_JNTSPH",
+    "COLSHAPE_CYLINDER",
+    "COLSHAPE_TRIS",
+    "COLSHAPE_QUAD" ]    
 
 sf_ColliderInit = ">BBBBBB"
 sf_ColliderInit_Set3 = ">BBBBB"
@@ -17,16 +37,16 @@ sf_Tris = ">II"
 sf_TrisItem = ">9f"
 sf_Quad = ">12f"
 
-f_ColliderInit = "{{ 0x{0:02X}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, 0x{4:02X}, {5} }}"
-f_ColliderInit_Set3 = "{{ 0x{0:02X}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, {4} }}"
+f_ColliderInit = "{{ {0}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, 0x{4:02X}, {5} }}"
+f_ColliderInit_Set3 = "{{ {0}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, {4} }}"
 f_ColliderInit_Actor = "{{ {0}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, {4} }}"
 f_ColliderBodyInit = "{{ 0x{0:02X}, {{ 0x{1:08X}, 0x{2:02X}, 0x{3:02X} }}, {{ 0x{4:08X}, 0x{5:02X}, 0x{6:02X} }}, 0x{7:02X} 0x{8:02X} 0x{9:02X} }}"
 f_JntSph = "{{ {0}, D_{1:08X} }}"
 f_JntSphItem = "{{ {0}, {{ {{ {1}, {2}, {3} }}, {4} }}, {5} }}"
 f_Cylinder16 = "{{ {0}, {1}, {2}, {{ {3}, {4}, {5} }} }}"
 f_Tris = "{{ {0}, D_{1:08X} }}"
-f_TrisItem = "{{ {{ {0}, {1}, {2} }}, {{ {3}, {4}, {5} }}, {{ {6}, {7}, {8} }} }}"
-f_Quad = "{{ {{ {0}, {1}, {2} }}, {{ {3}, {4}, {5} }}, {{ {6}, {7}, {8} }}, {{ {9}, {10}, {11} }} }}"
+f_TrisItem = "{{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}f, {8}f }} }}"
+f_Quad = "{{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}f, {8}f }}, {{ {9}f, {10}f, {11}f }} }}"
 
 def GetColliderFormat(type):
     if type == T_DEFAULT:
@@ -45,6 +65,12 @@ def GetColliderStr(data, off, type):
             cBase[0] = 'NULL'
         else:
             cBase[0] = '0x{0:08X}'.format(cBase[0])
+    else:
+        if cBase[0] < 14:
+            cBase[0] = TYPE_ENUM[cBase[0]]
+        else:
+            cBase[0] = '0x{0:02X}'.format(cBase[0])
+            
     i = 4
     if type == T_DEFAULT:
         i = 5

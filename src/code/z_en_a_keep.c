@@ -303,7 +303,7 @@ void func_8001D608(ActorEnAObj* this, GlobalContext* globalCtx) {
 }
 
 void En_A_Obj_Update(ActorEnAObj* this, GlobalContext* globalCtx) {
-    ColliderCylinder* cylinderCollider;
+    Collider* collider;
 
     this->updateFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
@@ -322,9 +322,9 @@ void En_A_Obj_Update(ActorEnAObj* this, GlobalContext* globalCtx) {
     switch (this->actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
-            cylinderCollider = &this->cylinderCollider;
-            Collider_CylinderUpdate(&this->actor, cylinderCollider);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, cylinderCollider);
+            collider = (Collider*)&this->cylinderCollider;
+            Collider_CylinderUpdate(&this->actor, &this->cylinderCollider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, collider);
     }
 }
 

@@ -10,12 +10,29 @@
 struct Actor;
 
 typedef enum {
-    COLTYPE_JNTSPH,
-    COLTYPE_CYLINDER,
-    COLTYPE_TRIS,
-    COLTYPE_QUAD,
-    COLTYPE_INVALID
+    COLTYPE_UNK0,
+    COLTYPE_UNK1,
+    COLTYPE_UNK2,
+    COLTYPE_UNK3,
+    COLTYPE_UNK4,
+    COLTYPE_UNK5,
+    COLTYPE_UNK6,
+    COLTYPE_UNK7,
+    COLTYPE_UNK8,
+    COLTYPE_METAL_SHIELD,
+    COLTYPE_UNK10,
+    COLTYPE_WOODEN_SHIELD,
+    COLTYPE_UNK12,
+    COLTYPE_UNK13
 } ColliderType;
+
+typedef enum {
+    COLSHAPE_JNTSPH,
+    COLSHAPE_CYLINDER,
+    COLSHAPE_TRIS,
+    COLSHAPE_QUAD,
+    COLSHAPE_INVALID
+} ColliderShape;
 
 typedef struct {
     /* 0x00 */ struct Actor* actor;
@@ -26,21 +43,21 @@ typedef struct {
     /* 0x11 */ u8 acFlags; // Compared to atFlags
     /* 0x12 */ u8 maskA;   // Bitwise-and compared to maskB
     /* 0x13 */ u8 maskB;   // Bitwise-and compared to maskA
-    /* 0x14 */ u8 unk_14;
-    /* 0x15 */ u8 shape; // JntSph, Cylinder, Tris, Quad
+    /* 0x14 */ u8 type;
+    /* 0x15 */ u8 shape; // ColliderShape
 } Collider;              // size = 0x18
 
 typedef struct {
-    /* 0x00 */ u8 unk_00;
+    /* 0x00 */ u8 type;
     /* 0x01 */ u8 atFlags;
     /* 0x02 */ u8 acFlags;
     /* 0x03 */ u8 maskA; // Bitwise-And with maskB
     /* 0x04 */ u8 maskB; // Bitwise-And with maskA
-    /* 0x05 */ u8 shape; // Collider Type
+    /* 0x05 */ u8 shape; // ColliderShape
 } ColliderInit;          // size = 0x06
 
 typedef struct {
-    /* 0x00 */ u8 unk_00;
+    /* 0x00 */ u8 type;
     /* 0x01 */ u8 atFlags;
     /* 0x02 */ u8 acFlags;
     /* 0x03 */ u8 maskA; // Bitwise-And with maskB
@@ -52,7 +69,7 @@ typedef struct {
     /* 0x04 */ u8 atFlags; // Compared to acFlags
     /* 0x05 */ u8 acFlags; // Compared to atFlags
     /* 0x06 */ u8 maskA;   // Bitwise-and compared to maskB
-    /* 0x07 */ u8 shape;   // JntSph, Cylinder, Tris, Quad
+    /* 0x07 */ u8 shape;   // ColliderShape
 } ColliderInit_Actor;      // size = 0x08
 
 typedef struct {
@@ -201,8 +218,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ Vec3f quad[4];
-    /* 0x30 */ Vec3s dcMid;
-    /* 0x36 */ Vec3s baMid; // bounding box min
+    /* 0x30 */ Vec3s dcMid; //midpoint of vectors d, c
+    /* 0x36 */ Vec3s baMid; //midpoint of vectors b, a
     /* 0x3C */ f32 unk_3C;
 } ColliderQuadDim; // size = 0x40
 

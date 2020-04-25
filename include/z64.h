@@ -885,7 +885,7 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ s16 colAtCount;
-    /* 0x002 */ u16 unk2;
+    /* 0x002 */ u16 sacFlags;
     /* 0x004 */ Collider* colAt[COLLISION_CHECK_AT_MAX];
     /* 0x0CC */ s32 colAcCount;
     /* 0x0D0 */ Collider* colAc[COLLISION_CHECK_AC_MAX];

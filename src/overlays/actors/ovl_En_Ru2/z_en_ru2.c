@@ -43,9 +43,9 @@ void func_80AF321C(EnRu2* this, GlobalContext* globalCtx);
 void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit_Set3 colliderInit = {
-    { 0x0A, 0x00, 0x09, 0x00, 0x01 },
+    { COLTYPE_UNK10, 0x00, 0x09, 0x00, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000080, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
-    { 0x001E, 0x0064, 0x0000, { 0 } },
+    { 30, 100, 0, { 0 } },
 };
 
 static u32 D_80AF410C[] = {
