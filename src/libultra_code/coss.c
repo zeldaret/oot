@@ -1,3 +1,6 @@
 #include "libultra_internal.h"
+#include <global.h>
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/coss/coss.s")
+s16 coss(u16 angle) {
+    return sins(angle + 0x4000);
+}
