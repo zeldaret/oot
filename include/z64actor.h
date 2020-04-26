@@ -60,14 +60,26 @@ typedef struct {
 } ActorOverlay; // size = 0x20
 
 typedef struct {
-    struct {
-        char damage : 4;
-        char effect : 4;
-    } attack[32];
-} ActorDamageChart;
+    u8 table[32];
+} DamageTable;
 
 typedef struct {
-    /* 0x00 */ ActorDamageChart* damageChart;  // For actors which contain a damage chart (example: Stalfos)...
+    /* 0x00 */ u8 health;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ u8 mass;
+} CollisionCheckInfoInit;
+
+typedef struct {
+    /* 0x00 */ u8 health;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ s16 unk_06;
+    /* 0x08 */ u8 mass;
+} CollisionCheckInfoInit2;
+
+typedef struct {
+    /* 0x00 */ DamageTable* damageTable;  // For actors which contain one (example: Stalfos)...
     /* 0x04 */ Vec3f displacement; // Amount to correct velocity (0x5C) by when colliding into a body
     /* 0x10 */ s16   unk_10;
     /* 0x12 */ s16   unk_12;
@@ -76,9 +88,9 @@ typedef struct {
     /* 0x17 */ u8    health;
     /* 0x18 */ u8    damage; // Amount to decrement health by
     /* 0x19 */ u8    damageEffect; // Stores what effect should occur when hit by a weapon
-    /* 0x1A */ u8    impactEffect; // Maybe? set on deku nut when deku nut collides with gossip stone
-    /* 0x1B */ u8    unk_1B;
-} SubActorStruct98; // size = 0x1C
+    /* 0x1A */ u8    atHitEffect; // Stores what effect should occur when AT connects with an AC
+    /* 0x1B */ u8    acHitEffect; // Stores what effect should occur when AC is touched by an AT
+} CollisionCheckInfo; // size = 0x1C
 
 typedef struct {
     /* 0x00 */ Vec3s  rot; // Current actor shape rotation
@@ -121,7 +133,7 @@ typedef struct Actor {
     /* 0x08C */ f32     waterSurfaceDist;
     /* 0x090 */ f32     xzDistanceFromLink;
     /* 0x094 */ f32     yDistanceFromLink;
-    /* 0x098 */ SubActorStruct98 sub_98;
+    /* 0x098 */ CollisionCheckInfo colChkInfo;
     /* 0x0B4 */ ActorShape shape;
     /* 0x0CC */ Vec3f   unk_CC[2];
     /* 0x0E4 */ Vec3f   unk_E4; // Stores result of some vector transformation involving actor xyz vector, and a matrix at Global Context + 11D60
@@ -160,118 +172,6 @@ typedef struct Actor {
     /* 0x13C */ char    dbgPad[0x10]; // Padding that only exists in the debug rom
     /* From here on, the structure and size varies for each actor */
 } Actor; // size = 0x14C
-
-typedef struct {
-    /* 0x00 */ u8 health;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-    /* 0x06 */ u8 mass;
-} Sub98Init4;
-
-typedef struct {
-    /* 0x00 */ u8 health;
-    /* 0x02 */ s16 unk_10;
-    /* 0x04 */ s16 unk_12;
-    /* 0x06 */ u16 unk_14;
-    /* 0x08 */ u8 mass;
-} Sub98Init5;
-
-typedef enum {
-    COLTYPE_CYLINDER = 1,
-    COLTYPE_CYLINDER_GROUP = 0,
-    COLTYPE_QUAD = 3,
-    COLTYPE_TRIANGLE_GROUP = 2
-} ColliderType;
-
-typedef struct {
-    /* 0x00 */ Actor* actor;
-    /* 0x04 */ Actor* at;
-    /* 0x08 */ Actor* ac;
-    /* 0x0C */ Actor* ot;
-    /* 0x10 */ u8 colliderFlags; /* Compared to 0x11 */
-    /* 0x11 */ u8 collideFlags; /* Compared to 0x10 */
-    /* 0x12 */ u8 maskA; /* Bitwise-and compared to 0x13 */
-    /* 0x13 */ u8 maskB; /* Bitwise-and compared to 0x12 */
-    /* 0x14 */ u8 unk_14;
-    /* 0x15 */ u8 type; /* Cylinder Collection, Cylinder, Triangle Collection, Quad */
-} Collider; // size = 0x18
-
-typedef struct {
-    /* 0x00 */ s32 flags; /* Toucher Attack Identifier Flags */
-    /* 0x04 */ u8 unk_04;
-    /* 0x05 */ u8 damage; /* Damage or Stun Timer */
-} ColliderTouch; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ s32 flags; /* Collision Exclusion Mask */
-    /* 0x04 */ u8 effect; /* Damage Effect (Knockback, Fire, etc.) */
-    /* 0x05 */ u8 unk_05;
-    /* 0x06 */ s16 unk_06;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ s16 unk_0A;
-} ColliderBump; // size = 0x0C
-
-typedef struct ColliderBody {
-    /* 0x00 */ ColliderTouch toucher;
-    /* 0x08 */ ColliderBump bumper;
-    /* 0x14 */ u8 flags;
-    /* 0x15 */ u8 toucherFlags;
-    /* 0x16 */ u8 bumperFlags;
-    /* 0x17 */ u8 flags2;
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ struct ColliderBodyEntry* colBuf;
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ struct ColliderBody* colliding;
-} ColliderBody; // size = 0x28
-
-typedef struct ColliderBodyEntry {
-    /* 0x00 */ ColliderBody c;
-    /* 0x28 */ char unk_28[0x18];
-} ColliderBodyEntry; // size = 0x40
-
-typedef struct {
-    /* 0x00 */ u8 bodyFlags;
-    /* 0x01 */ u8 unk_09[0x3]; /* 000000 */
-    /* 0x04 */ s32 toucherMask; /* Attack Toucher Exclusion Mask */
-    /* 0x08 */ u8 bumperEffect; /* Damage Effect (Knockback, Fire, etc.) */
-    /* 0x09 */ u8 toucherDamage; /* Damage Amount or Stun Timer */
-    /* 0x0A */ u8 unk_12[0x2]; /* 0000 */
-    /* 0x0C */ s32 bumperMask; /* Bumper Exclusion Mask */
-    /* 0x10 */ u8 unk_18[0x4]; /* 00000000 */
-    /* 0x14 */ u8 toucherFlags; /* Attack Toucher Flags */
-    /* 0x15 */ u8 bumperFlags; /* Bumper Flags */
-    /* 0x16 */ u8 bodyFlags2;
-    /* 0x17 */ u8 unk_1F; /* 00 */
-} ColliderBodyInfoInner; // size = 0x1A
-
-typedef struct {
-    /* 0x00 */ u8 unk_00;
-    /* 0x01 */ u8 colliderFlags; /* Collider Flags */
-    /* 0x02 */ u8 collideFlags; /* Collide Flags */
-    /* 0x03 */ u8 maskA; /* Bitwise-And with Mask B */
-    /* 0x04 */ u8 maskB; /* Bitwise-And with Mask A */
-    /* 0x05 */ u8 type; /* Collider Type */
-    /* 0x06 */ u8 unk_06[0x2]; /* 0000 */
-} ColliderBodyInfo; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ s16 radius; /* Cylinder Radius */
-    /* 0x02 */ s16 height; /* Cylinder Height */
-    /* 0x04 */ s16 yShift; /* Shift Cylinder on Y Axis */
-    /* 0x06 */ Vec3s position; /* {X, Y, Z} position of Cylinder */
-} ColliderDimensions; // size = 0xC
-
-typedef struct {
-    /* 0x00 */ Collider base;
-    /* 0x18 */ ColliderBody body;
-    /* 0x40 */ ColliderDimensions dim;
-} ColliderCylinderMain; // size = 0x4C
-
-typedef struct {
-    /* 0x00 */ ColliderBodyInfo body;
-    /* 0x08 */ ColliderBodyInfoInner inner;
-    /* 0x22 */ ColliderDimensions dim;
-} ColliderCylinderInit; // size = 0x2E
 
 typedef struct {
     /* 0x00 */ Actor* actor;

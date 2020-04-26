@@ -16,14 +16,14 @@ glabel EnSsh_Destroy
 /* 016B0 80B03920 241201C8 */  addiu   $s2, $zero, 0x01C8         ## $s2 = 000001C8
 .L80B03924:
 /* 016B4 80B03924 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 016B8 80B03928 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 016B8 80B03928 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 016BC 80B0392C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 000002FC
 /* 016C0 80B03930 2610004C */  addiu   $s0, $s0, 0x004C           ## $s0 = 0000004C
 /* 016C4 80B03934 1612FFFB */  bne     $s0, $s2, .L80B03924       
 /* 016C8 80B03938 2631004C */  addiu   $s1, $s1, 0x004C           ## $s1 = 00000348
 /* 016CC 80B0393C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 016D0 80B03940 0C016F32 */  jal     func_8005BCC8              
+/* 016D0 80B03940 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 016D4 80B03944 266504C4 */  addiu   $a1, $s3, 0x04C4           ## $a1 = 000004C4
 /* 016D8 80B03948 8FBF002C */  lw      $ra, 0x002C($sp)           
 /* 016DC 80B0394C 8FB00018 */  lw      $s0, 0x0018($sp)           

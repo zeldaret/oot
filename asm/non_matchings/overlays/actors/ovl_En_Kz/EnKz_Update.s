@@ -17,14 +17,14 @@ glabel EnKz_Update
 /* 0109C 80A9D5EC 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 010A0 80A9D5F0 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 010A4 80A9D5F4 AFA60024 */  sw      $a2, 0x0024($sp)           
-/* 010A8 80A9D5F8 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 010A8 80A9D5F8 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 010AC 80A9D5FC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 010B0 80A9D600 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 010B4 80A9D604 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 010B8 80A9D608 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 010BC 80A9D60C 8FA60024 */  lw      $a2, 0x0024($sp)           
-/* 010C0 80A9D610 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 010C0 80A9D610 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 010C4 80A9D614 00812821 */  addu    $a1, $a0, $at              
 /* 010C8 80A9D618 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

@@ -12,7 +12,7 @@ glabel BgSpot08Bakudankabe_Destroy
 /* 0040C 808B06DC 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00410 808B06E0 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00414 808B06E4 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00418 808B06E8 0C016F32 */  jal     func_8005BCC8              
+/* 00418 808B06E8 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 0041C 808B06EC 24A50164 */  addiu   $a1, $a1, 0x0164           ## $a1 = 00000164
 /* 00420 808B06F0 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00424 808B06F4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

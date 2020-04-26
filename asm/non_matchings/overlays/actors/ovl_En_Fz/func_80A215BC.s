@@ -156,7 +156,7 @@ glabel func_80A215BC
 /* 01A34 80A217F4 C60A000C */  lwc1    $f10, 0x000C($s0)          ## 00000280
 /* 01A38 80A217F8 4600540D */  trunc.w.s $f16, $f10                 
 /* 01A3C 80A217FC 44098000 */  mfc1    $t1, $f16                  
-/* 01A40 80A21800 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 01A40 80A21800 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 01A44 80A21804 A6290232 */  sh      $t1, 0x0232($s1)           ## 00000232
 /* 01A48 80A21808 C6120004 */  lwc1    $f18, 0x0004($s0)          ## 00000278

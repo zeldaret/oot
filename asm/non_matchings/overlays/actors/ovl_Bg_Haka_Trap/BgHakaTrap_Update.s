@@ -29,12 +29,12 @@ glabel BgHakaTrap_Update
 /* 01048 80880CE8 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 0104C 80880CEC 02212821 */  addu    $a1, $s1, $at              
 /* 01050 80880CF0 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 01054 80880CF4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01054 80880CF4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01058 80880CF8 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 0105C 80880CFC 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 01060 80880D00 8FA60020 */  lw      $a2, 0x0020($sp)           
-/* 01064 80880D04 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01064 80880D04 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01068 80880D08 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0106C 80880D0C 10000012 */  beq     $zero, $zero, .L80880D58   
@@ -48,7 +48,7 @@ glabel BgHakaTrap_Update
 /* 01088 80880D28 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0108C 80880D2C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01090 80880D30 02212821 */  addu    $a1, $s1, $at              
-/* 01094 80880D34 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01094 80880D34 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01098 80880D38 260601C4 */  addiu   $a2, $s0, 0x01C4           ## $a2 = 000001C4
 .L80880D3C:
@@ -56,7 +56,7 @@ glabel BgHakaTrap_Update
 /* 010A0 80880D40 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 010A4 80880D44 02212821 */  addu    $a1, $s1, $at              
 /* 010A8 80880D48 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 010AC 80880D4C 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 010AC 80880D4C 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 010B0 80880D50 26060178 */  addiu   $a2, $s0, 0x0178           ## $a2 = 00000178
 .L80880D54:

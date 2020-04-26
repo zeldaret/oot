@@ -30,9 +30,10 @@ const ActorInit En_Ms_InitVars = {
     (ActorFunc)EnMs_Draw,
 };
 
-static s32 unk_col_80AB0320[] = {
-    0x0A000939, 0x01000000, 0x00000000, 0x00000000, 0x00000000, 0xFFCFFFFF,
-    0x00000000, 0x00010100, 0x00160025, 0x00000000, 0x00000000,
+static ColliderCylinderInit_Set3 colliderInit = {
+    { COLTYPE_UNK10, 0x00, 0x09, 0x39, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 22, 37, 0, { 0 } },
 };
 
 static s16 prices[] = {
@@ -73,12 +74,12 @@ void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, initChain);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06003DC0, &D_060005EC, &this->unkSkelAnimeStruct, &this->unk_1C6,
                      9);
-    ActorCollider_AllocCylinder(globalCtx, &this->collider);
-    func_8005C450(globalCtx, &this->collider, this, &unk_col_80AB0320);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder_Set3(globalCtx, &this->collider, this, &colliderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
     Actor_SetScale(&this->actor, 0.015f);
 
-    this->actor.sub_98.mass = 0xFF;
+    this->actor.colChkInfo.mass = 0xFF;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
@@ -89,8 +90,8 @@ void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
 }
 
 void EnMs_Destroy(EnMs* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* collider = &this->collider;
-    ActorCollider_FreeCylinder(globalCtx, collider);
+    ColliderCylinder* collider = &this->collider;
+    Collider_DestroyCylinder(globalCtx, collider);
 }
 
 void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
@@ -170,8 +171,8 @@ void EnMs_Update(EnMs* this, GlobalContext* globalCtx) {
         osSyncPrintf("OOOHHHHHH %f\n", this->actor.velocity.y);
         func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     }
-    ActorCollider_Cylinder_Update(&this->actor, &this->collider);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
 void EnMs_Draw(EnMs* this, GlobalContext* globalCtx) {

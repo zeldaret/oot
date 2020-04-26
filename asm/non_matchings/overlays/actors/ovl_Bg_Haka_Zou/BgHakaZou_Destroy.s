@@ -14,7 +14,7 @@ glabel BgHakaZou_Destroy
 /* 00310 808828D0 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00314 808828D4 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 00318 808828D8 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0031C 808828DC 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0031C 808828DC 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00320 808828E0 24E5016C */  addiu   $a1, $a3, 0x016C           ## $a1 = 0000016C
 .L808828E4:

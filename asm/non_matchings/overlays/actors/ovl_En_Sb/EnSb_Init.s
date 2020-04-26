@@ -30,14 +30,14 @@ glabel EnSb_Init
 /* 00058 80AF7848 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0005C 80AF784C 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00060 80AF7850 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00064 80AF7854 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00064 80AF7854 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00068 80AF7858 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 0006C 80AF785C 3C0780B0 */  lui     $a3, %hi(D_80AF89D0)       ## $a3 = 80B00000
 /* 00070 80AF7860 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 00074 80AF7864 24E789D0 */  addiu   $a3, $a3, %lo(D_80AF89D0)  ## $a3 = 80AF89D0
 /* 00078 80AF7868 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 0007C 80AF786C 0C017114 */  jal     func_8005C450
+/* 0007C 80AF786C 0C017114 */  jal     Collider_SetCylinder_Set3
 /* 00080 80AF7870 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00084 80AF7874 3C053BC4 */  lui     $a1, 0x3BC4                ## $a1 = 3BC40000
 /* 00088 80AF7878 A60001FC */  sh      $zero, 0x01FC($s0)         ## 000001FC

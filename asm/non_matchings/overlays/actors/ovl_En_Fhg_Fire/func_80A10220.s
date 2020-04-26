@@ -883,7 +883,7 @@ glabel func_80A10220
 /* 01BC4 80A10E24 8FBF0044 */  lw      $ra, 0x0044($sp)           
 .L80A10E28:
 /* 01BC8 80A10E28 260501B0 */  addiu   $a1, $s0, 0x01B0           ## $a1 = 000001B0
-/* 01BCC 80A10E2C 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 01BCC 80A10E2C 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 01BD0 80A10E30 AFA50050 */  sw      $a1, 0x0050($sp)           
 /* 01BD4 80A10E34 3C0480A1 */  lui     $a0, %hi(D_80A118CC)       ## $a0 = 80A10000
@@ -895,7 +895,7 @@ glabel func_80A10220
 /* 01BE8 80A10E48 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01BEC 80A10E4C 02212821 */  addu    $a1, $s1, $at              
 /* 01BF0 80A10E50 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01BF4 80A10E54 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01BF4 80A10E54 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01BF8 80A10E58 8FA60050 */  lw      $a2, 0x0050($sp)           
 /* 01BFC 80A10E5C 3C0480A1 */  lui     $a0, %hi(D_80A118E0)       ## $a0 = 80A10000

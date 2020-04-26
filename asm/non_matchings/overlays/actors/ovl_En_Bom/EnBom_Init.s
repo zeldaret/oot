@@ -27,18 +27,18 @@ glabel EnBom_Init
 /* 00064 809C2734 A60801FA */  sh      $t0, 0x01FA($s0)           ## 000001FA
 /* 00068 809C2738 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0006C 809C273C AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 00070 809C2740 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00070 809C2740 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00074 809C2744 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00078 809C2748 26050198 */  addiu   $a1, $s0, 0x0198           ## $a1 = 00000198
 /* 0007C 809C274C AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00080 809C2750 0C016EFE */  jal     func_8005BBF8              
+/* 00080 809C2750 0C016EFE */  jal     Collider_InitJntSph              
 /* 00084 809C2754 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00088 809C2758 3C07809C */  lui     $a3, %hi(D_809C3430)       ## $a3 = 809C0000
 /* 0008C 809C275C 24E73430 */  addiu   $a3, $a3, %lo(D_809C3430)  ## $a3 = 809C3430
 /* 00090 809C2760 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00094 809C2764 8FA5002C */  lw      $a1, 0x002C($sp)           
-/* 00098 809C2768 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00098 809C2768 0C01712B */  jal     Collider_SetCylinder
               
 /* 0009C 809C276C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000A0 809C2770 3C07809C */  lui     $a3, %hi(D_809C3480)       ## $a3 = 809C0000
@@ -47,7 +47,7 @@ glabel EnBom_Init
 /* 000AC 809C277C 24E73480 */  addiu   $a3, $a3, %lo(D_809C3480)  ## $a3 = 809C3480
 /* 000B0 809C2780 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000B4 809C2784 8FA50030 */  lw      $a1, 0x0030($sp)           
-/* 000B8 809C2788 0C017014 */  jal     func_8005C050              
+/* 000B8 809C2788 0C017014 */  jal     Collider_SetJntSph              
 /* 000BC 809C278C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000C0 809C2790 860F00B8 */  lh      $t7, 0x00B8($s0)           ## 000000B8
 /* 000C4 809C2794 860B00B8 */  lh      $t3, 0x00B8($s0)           ## 000000B8

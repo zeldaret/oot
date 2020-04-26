@@ -91,7 +91,7 @@ glabel BgMenkuriEye_Update
 /* 0023C 8089BEAC 26060150 */  addiu   $a2, $s0, 0x0150           ## $a2 = 00000150
 /* 00240 8089BEB0 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00244 8089BEB4 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
-/* 00248 8089BEB8 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00248 8089BEB8 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 0024C 8089BEBC 00812821 */  addu    $a1, $a0, $at              
 .L8089BEC0:

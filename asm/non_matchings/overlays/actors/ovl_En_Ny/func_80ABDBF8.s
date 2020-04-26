@@ -58,12 +58,12 @@ glabel func_80ABDBF8
 /* 01120 80ABDCD0 E6060028 */  swc1    $f6, 0x0028($s0)           ## 00000028
 /* 01124 80ABDCD4 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 01128 80ABDCD8 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 0112C 80ABDCDC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0112C 80ABDCDC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01130 80ABDCE0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01134 80ABDCE4 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 01138 80ABDCE8 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0113C 80ABDCEC 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0113C 80ABDCEC 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01140 80ABDCF0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01144 80ABDCF4 0C00B638 */  jal     Actor_MoveForward

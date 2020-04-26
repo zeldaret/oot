@@ -49,14 +49,14 @@ glabel EnTa_Init
 /* 00148 80B13BE8 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 0014C 80B13BEC 26050264 */  addiu   $a1, $s0, 0x0264           ## $a1 = 00000264
 /* 00150 80B13BF0 AFA5003C */  sw      $a1, 0x003C($sp)
-/* 00154 80B13BF4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00154 80B13BF4 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00158 80B13BF8 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 0015C 80B13BFC 3C0780B1 */  lui     $a3, %hi(D_80B16E50)       ## $a3 = 80B10000
 /* 00160 80B13C00 8FA5003C */  lw      $a1, 0x003C($sp)
 /* 00164 80B13C04 24E76E50 */  addiu   $a3, $a3, %lo(D_80B16E50)  ## $a3 = 80B16E50
 /* 00168 80B13C08 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 0016C 80B13C0C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0016C 80B13C0C 0C01712B */  jal     Collider_SetCylinder
 
 /* 00170 80B13C10 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00174 80B13C14 3C0980B1 */  lui     $t1, %hi(func_80B166CC)    ## $t1 = 80B10000

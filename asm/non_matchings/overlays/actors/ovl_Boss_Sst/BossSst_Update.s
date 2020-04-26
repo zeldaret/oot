@@ -92,7 +92,7 @@ glabel BossSst_Update
 /* 07B98 80934168 11E00004 */  beq     $t7, $zero, .L8093417C     
 /* 07B9C 8093416C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 07BA0 80934170 02212821 */  addu    $a1, $s1, $at              
-/* 07BA4 80934174 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 07BA4 80934174 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 07BA8 80934178 260603D4 */  addiu   $a2, $s0, 0x03D4           ## $a2 = 000003D4
 .L8093417C:
@@ -114,7 +114,7 @@ glabel BossSst_Update
 /* 07BE8 809341B8 11600004 */  beq     $t3, $zero, .L809341CC     
 /* 07BEC 809341BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 07BF0 809341C0 02212821 */  addu    $a1, $s1, $at              
-/* 07BF4 809341C4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 07BF4 809341C4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 07BF8 809341C8 260603D4 */  addiu   $a2, $s0, 0x03D4           ## $a2 = 000003D4
 .L809341CC:
@@ -126,7 +126,7 @@ glabel BossSst_Update
 /* 07C0C 809341DC 13200004 */  beq     $t9, $zero, .L809341F0     
 /* 07C10 809341E0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 07C14 809341E4 02212821 */  addu    $a1, $s1, $at              
-/* 07C18 809341E8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 07C18 809341E8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 07C1C 809341EC 260603D4 */  addiu   $a2, $s0, 0x03D4           ## $a2 = 000003D4
 .L809341F0:
@@ -137,7 +137,7 @@ glabel BossSst_Update
 /* 07C30 80934200 11C00004 */  beq     $t6, $zero, .L80934214     
 /* 07C34 80934204 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 07C38 80934208 02212821 */  addu    $a1, $s1, $at              
-/* 07C3C 8093420C 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 07C3C 8093420C 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 07C40 80934210 260606B4 */  addiu   $a2, $s0, 0x06B4           ## $a2 = 000006B4
 .L80934214:

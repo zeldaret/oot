@@ -3,7 +3,7 @@ glabel EnTrap_Destroy
 /* 003BC 80B24A1C 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 003C0 80B24A20 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 003C4 80B24A24 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 003C8 80B24A28 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 003C8 80B24A28 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 003CC 80B24A2C 24C501A0 */  addiu   $a1, $a2, 0x01A0           ## $a1 = 000001A0
 /* 003D0 80B24A30 8FBF0014 */  lw      $ra, 0x0014($sp)           

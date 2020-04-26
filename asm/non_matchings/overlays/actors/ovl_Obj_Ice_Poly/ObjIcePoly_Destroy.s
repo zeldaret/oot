@@ -9,12 +9,12 @@ glabel ObjIcePoly_Destroy
 /* 001DC 80B9443C 10200008 */  beq     $at, $zero, .L80B94460     
 /* 001E0 80B94440 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 001E4 80B94444 24C50154 */  addiu   $a1, $a2, 0x0154           ## $a1 = 00000154
-/* 001E8 80B94448 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001E8 80B94448 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001EC 80B9444C AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 001F0 80B94450 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 001F4 80B94454 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 001F8 80B94458 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001F8 80B94458 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001FC 80B9445C 24C501A0 */  addiu   $a1, $a2, 0x01A0           ## $a1 = 000001A0
 .L80B94460:

@@ -51,7 +51,7 @@ glabel EnFireRock_Destroy
 .L80A120B0:
 /* 00490 80A120B0 8FA40024 */  lw      $a0, 0x0024($sp)           
 .L80A120B4:
-/* 00494 80A120B4 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00494 80A120B4 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00498 80A120B8 24C50194 */  addiu   $a1, $a2, 0x0194           ## $a1 = 00000194
 /* 0049C 80A120BC 8FBF0014 */  lw      $ra, 0x0014($sp)           
