@@ -37,9 +37,10 @@ const ActorInit En_Ma1_InitVars = {
     (ActorFunc)EnMa1_Draw,
 };
 
-ColliderCylinderInit D_80AA1640 = {
-    0x0A, 0x00, 0x00, 0x39, 0x20, 0x01,   0x00,   0x00000000, 0x00,   0x00,   0x00000000,
-    0x00, 0x00, 0x00, 0x00, 0x01, 0x0012, 0x002E, 0x0000,     0x0000, 0x0000, 0x0000,
+ColliderCylinderInit cylinderInit = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 18, 46, 0, { 0, 0, 0 } },
 };
 
 CollisionCheckInfoInit2 D_80AA166C = {
@@ -248,7 +249,7 @@ void EnMa1_Init(EnMa1* this, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008460, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, collider);
-    Collider_SetCylinder(globalCtx, collider, &this->actor, &D_80AA1640);
+    Collider_SetCylinder(globalCtx, collider, &this->actor, &cylinderInit);
     func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &D_80AA166C);
 
     if (!func_80AA08C4(this, globalCtx)) {
