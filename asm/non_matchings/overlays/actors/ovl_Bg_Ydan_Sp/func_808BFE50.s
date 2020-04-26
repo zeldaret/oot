@@ -201,7 +201,7 @@ glabel func_808BFE50
 /* 00CF4 808C0104 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00CF8 808C0108 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00CFC 808C010C 26060170 */  addiu   $a2, $s0, 0x0170           ## $a2 = 00000170
-/* 00D00 808C0110 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00D00 808C0110 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00D04 808C0114 00812821 */  addu    $a1, $a0, $at              
 .L808C0118:

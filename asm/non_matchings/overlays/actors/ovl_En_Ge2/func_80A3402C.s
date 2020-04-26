@@ -6,7 +6,7 @@ glabel func_80A3402C
 /* 0146C 80A3403C 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 01470 80A34040 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 01474 80A34044 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 01478 80A34048 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 01478 80A34048 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 0147C 80A3404C AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 01480 80A34050 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -14,7 +14,7 @@ glabel func_80A3402C
 /* 01488 80A34058 02212821 */  addu    $a1, $s1, $at              
 /* 0148C 80A3405C AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 01490 80A34060 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01494 80A34064 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01494 80A34064 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01498 80A34068 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 0149C 80A3406C 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
@@ -57,7 +57,7 @@ glabel func_80A3402C
 /* 01528 80A340F8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L80A340FC:
 /* 0152C 80A340FC 8FA50028 */  lw      $a1, 0x0028($sp)           
-/* 01530 80A34100 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01530 80A34100 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01534 80A34104 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01538 80A34108 0C28CC28 */  jal     func_80A330A0              

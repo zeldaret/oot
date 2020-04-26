@@ -28,7 +28,7 @@ glabel EnDaikuKakariko_Update
 .L809E4FA0:
 /* 00C80 809E4FA0 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 00C84 809E4FA4 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 00C88 809E4FA8 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00C88 809E4FA8 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00C8C 809E4FAC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00C90 809E4FB0 96080200 */  lhu     $t0, 0x0200($s0)           ## 00000200
@@ -47,7 +47,7 @@ glabel EnDaikuKakariko_Update
 .L809E4FE4:
 /* 00CC4 809E4FE4 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00CC8 809E4FE8 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
-/* 00CCC 809E4FEC 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00CCC 809E4FEC 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00CD0 809E4FF0 00812821 */  addu    $a1, $a0, $at              
 /* 00CD4 809E4FF4 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190

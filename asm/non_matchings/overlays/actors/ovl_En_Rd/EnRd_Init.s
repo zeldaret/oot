@@ -95,14 +95,14 @@ glabel EnRd_Init
 .L80AE2568:
 /* 00168 80AE2568 26050320 */  addiu   $a1, $s0, 0x0320           ## $a1 = 00000320
 /* 0016C 80AE256C AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00170 80AE2570 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00170 80AE2570 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00174 80AE2574 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00178 80AE2578 3C0780AE */  lui     $a3, %hi(D_80AE48C0)       ## $a3 = 80AE0000
 /* 0017C 80AE257C 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 00180 80AE2580 24E748C0 */  addiu   $a3, $a3, %lo(D_80AE48C0)  ## $a3 = 80AE48C0
 /* 00184 80AE2584 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 00188 80AE2588 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00188 80AE2588 0C01712B */  jal     Collider_SetCylinder
 
 /* 0018C 80AE258C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00190 80AE2590 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C

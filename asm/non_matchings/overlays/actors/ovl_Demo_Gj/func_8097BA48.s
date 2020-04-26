@@ -68,14 +68,14 @@ glabel func_8097BA48
 .L8097BB3C:
 /* 0320C 8097BB3C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L8097BB40:
-/* 03210 8097BB40 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 03210 8097BB40 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 03214 8097BB44 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000184
 /* 03218 8097BB48 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0321C 8097BB4C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 03220 8097BB50 02212821 */  addu    $a1, $s1, $at              
 /* 03224 8097BB54 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 03228 8097BB58 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 03228 8097BB58 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 0322C 8097BB5C 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000184
 /* 03230 8097BB60 8FBF0024 */  lw      $ra, 0x0024($sp)           

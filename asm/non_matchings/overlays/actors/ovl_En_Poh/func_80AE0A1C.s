@@ -42,7 +42,7 @@ glabel func_80AE0A1C
 /* 02D64 80AE0AB4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02D68 80AE0AB8 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02D6C 80AE0ABC AE0B0004 */  sw      $t3, 0x0004($s0)           ## 00000004
-/* 02D70 80AE0AC0 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 02D70 80AE0AC0 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 02D74 80AE0AC4 02212821 */  addu    $a1, $s1, $at              
 /* 02D78 80AE0AC8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -54,7 +54,7 @@ glabel func_80AE0A1C
 /* 02D8C 80AE0ADC AFAD0030 */  sw      $t5, 0x0030($sp)           
 /* 02D90 80AE0AE0 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 02D94 80AE0AE4 AFAC0034 */  sw      $t4, 0x0034($sp)           
-/* 02D98 80AE0AE8 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 02D98 80AE0AE8 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 02D9C 80AE0AEC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02DA0 80AE0AF0 920E02CD */  lbu     $t6, 0x02CD($s0)           ## 000002CD
@@ -66,19 +66,19 @@ glabel func_80AE0A1C
 /* 02DB8 80AE0B08 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02DBC 80AE0B0C 17210003 */  bne     $t9, $at, .L80AE0B1C       
 /* 02DC0 80AE0B10 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 02DC4 80AE0B14 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 02DC4 80AE0B14 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 02DC8 80AE0B18 8FA6002C */  lw      $a2, 0x002C($sp)           
 .L80AE0B1C:
 /* 02DCC 80AE0B1C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L80AE0B20:
 /* 02DD0 80AE0B20 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 02DD4 80AE0B24 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02DD4 80AE0B24 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02DD8 80AE0B28 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 02DDC 80AE0B2C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02DE0 80AE0B30 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 02DE4 80AE0B34 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02DE4 80AE0B34 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02DE8 80AE0B38 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 02DEC 80AE0B3C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

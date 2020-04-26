@@ -30,14 +30,14 @@ glabel EnShopnuts_Init
 /* 00068 80AFA788 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0006C 80AFA78C 26050270 */  addiu   $a1, $s0, 0x0270           ## $a1 = 00000270
 /* 00070 80AFA790 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00074 80AFA794 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00074 80AFA794 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00078 80AFA798 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 0007C 80AFA79C 3C0780B0 */  lui     $a3, %hi(D_80AFB4E0)       ## $a3 = 80B00000
 /* 00080 80AFA7A0 24E7B4E0 */  addiu   $a3, $a3, %lo(D_80AFB4E0)  ## $a3 = 80AFB4E0
 /* 00084 80AFA7A4 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00088 80AFA7A8 8FA50030 */  lw      $a1, 0x0030($sp)
-/* 0008C 80AFA7AC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0008C 80AFA7AC 0C01712B */  jal     Collider_SetCylinder
 
 /* 00090 80AFA7B0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00094 80AFA7B4 3C0680B0 */  lui     $a2, %hi(D_80AFB50C)       ## $a2 = 80B00000
@@ -46,7 +46,7 @@ glabel EnShopnuts_Init
 /* 000A0 80AFA7C0 0C0187B5 */  jal     func_80061ED4
 /* 000A4 80AFA7C4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 000A8 80AFA7C8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000AC 80AFA7CC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 000AC 80AFA7CC 0C0189B7 */  jal     Collider_CylinderUpdate
 
 /* 000B0 80AFA7D0 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 000B4 80AFA7D4 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C

@@ -25,14 +25,14 @@ glabel BgHakaTrap_Init
 /* 00044 8087FCE4 13010086 */  beq     $t8, $at, .L8087FF00       
 /* 00048 8087FCE8 256B09B0 */  addiu   $t3, $t3, %lo(func_808809B0) ## $t3 = 808809B0
 /* 0004C 8087FCEC 26050178 */  addiu   $a1, $s0, 0x0178           ## $a1 = 00000178
-/* 00050 8087FCF0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00050 8087FCF0 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00054 8087FCF4 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 00058 8087FCF8 3C078088 */  lui     $a3, %hi(D_80880F54)       ## $a3 = 80880000
 /* 0005C 8087FCFC 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 00060 8087FD00 24E70F54 */  addiu   $a3, $a3, %lo(D_80880F54)  ## $a3 = 80880F54
 /* 00064 8087FD04 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00068 8087FD08 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00068 8087FD08 0C01712B */  jal     Collider_SetCylinder
               
 /* 0006C 8087FD0C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00070 8087FD10 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C
@@ -143,7 +143,7 @@ glabel BgHakaTrap_Init
 .L8087FE88:
 /* 001E8 8087FE88 260501C4 */  addiu   $a1, $s0, 0x01C4           ## $a1 = 000001C4
 /* 001EC 8087FE8C AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 001F0 8087FE90 0C0171F8 */  jal     func_8005C7E0              
+/* 001F0 8087FE90 0C0171F8 */  jal     Collider_InitTris              
 /* 001F4 8087FE94 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 001F8 8087FE98 3C078088 */  lui     $a3, %hi(D_80880FF8)       ## $a3 = 80880000
 /* 001FC 8087FE9C 260D01E4 */  addiu   $t5, $s0, 0x01E4           ## $t5 = 000001E4
@@ -151,7 +151,7 @@ glabel BgHakaTrap_Init
 /* 00204 8087FEA4 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 00208 8087FEA8 24E70FF8 */  addiu   $a3, $a3, %lo(D_80880FF8)  ## $a3 = 80880FF8
 /* 0020C 8087FEAC 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00210 8087FEB0 0C0172EB */  jal     func_8005CBAC              
+/* 00210 8087FEB0 0C0172EB */  jal     Collider_SetTris              
 /* 00214 8087FEB4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00218 8087FEB8 921901A5 */  lbu     $t9, 0x01A5($s0)           ## 000001A5
 /* 0021C 8087FEBC 3C098088 */  lui     $t1, %hi(func_808801B8)    ## $t1 = 80880000

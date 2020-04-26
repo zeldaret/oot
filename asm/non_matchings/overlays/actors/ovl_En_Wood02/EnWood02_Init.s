@@ -88,14 +88,14 @@ glabel EnWood02_Init
 /* 003F0 80B3B360 26050158 */  addiu   $a1, $s0, 0x0158           ## $a1 = 00000158
 /* 003F4 80B3B364 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 003F8 80B3B368 8FA40054 */  lw      $a0, 0x0054($sp)           
-/* 003FC 80B3B36C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 003FC 80B3B36C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00400 80B3B370 A7A8004E */  sh      $t0, 0x004E($sp)           
 /* 00404 80B3B374 3C0780B4 */  lui     $a3, %hi(D_80B3BF00)       ## $a3 = 80B40000
 /* 00408 80B3B378 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 0040C 80B3B37C 24E7BF00 */  addiu   $a3, $a3, %lo(D_80B3BF00)  ## $a3 = 80B3BF00
 /* 00410 80B3B380 8FA40054 */  lw      $a0, 0x0054($sp)           
-/* 00414 80B3B384 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00414 80B3B384 0C01712B */  jal     Collider_SetCylinder
               
 /* 00418 80B3B388 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0041C 80B3B38C 87A8004E */  lh      $t0, 0x004E($sp)           

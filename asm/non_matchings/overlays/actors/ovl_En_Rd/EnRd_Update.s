@@ -101,7 +101,7 @@ glabel EnRd_Update
 /* 02044 80AE4444 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02048 80AE4448 11C10019 */  beq     $t6, $at, .L80AE44B0       
 /* 0204C 80AE444C 26050320 */  addiu   $a1, $s0, 0x0320           ## $a1 = 00000320
-/* 02050 80AE4450 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 02050 80AE4450 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 02054 80AE4454 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 02058 80AE4458 8FA40044 */  lw      $a0, 0x0044($sp)           
@@ -109,7 +109,7 @@ glabel EnRd_Update
 /* 02060 80AE4460 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02064 80AE4464 00812821 */  addu    $a1, $a0, $at              
 /* 02068 80AE4468 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 0206C 80AE446C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0206C 80AE446C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02070 80AE4470 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 02074 80AE4474 9218031B */  lbu     $t8, 0x031B($s0)           ## 0000031B
@@ -126,7 +126,7 @@ glabel EnRd_Update
 /* 020A0 80AE44A0 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80AE44A4:
 /* 020A4 80AE44A4 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 020A8 80AE44A8 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 020A8 80AE44A8 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 020AC 80AE44AC 8FA60028 */  lw      $a2, 0x0028($sp)           
 .L80AE44B0:

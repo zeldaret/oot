@@ -40,14 +40,14 @@ glabel EnHorseZelda_Update
 /* 006C4 80A6DF94 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 000001FC
 /* 006C8 80A6DF98 E610003C */  swc1    $f16, 0x003C($s0)          ## 0000003C
 /* 006CC 80A6DF9C AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 006D0 80A6DFA0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 006D0 80A6DFA0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 006D4 80A6DFA4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 006D8 80A6DFA8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 006DC 80A6DFAC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 006E0 80A6DFB0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 006E4 80A6DFB4 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 006E8 80A6DFB8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 006E8 80A6DFB8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 006EC 80A6DFBC 00812821 */  addu    $a1, $a0, $at              
 /* 006F0 80A6DFC0 8FBF0024 */  lw      $ra, 0x0024($sp)           

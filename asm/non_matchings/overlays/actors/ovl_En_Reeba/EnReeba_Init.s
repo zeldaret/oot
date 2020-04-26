@@ -51,14 +51,14 @@ glabel EnReeba_Init
 /* 0008C 80AE4D5C A20C00AF */  sb      $t4, 0x00AF($s0)           ## 000000AF
 /* 00090 80AE4D60 26050290 */  addiu   $a1, $s0, 0x0290           ## $a1 = 00000290
 /* 00094 80AE4D64 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00098 80AE4D68 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00098 80AE4D68 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 0009C 80AE4D6C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 000A0 80AE4D70 3C0780AE */  lui     $a3, %hi(D_80AE65A0)       ## $a3 = 80AE0000
 /* 000A4 80AE4D74 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 000A8 80AE4D78 24E765A0 */  addiu   $a3, $a3, %lo(D_80AE65A0)  ## $a3 = 80AE65A0
 /* 000AC 80AE4D7C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000B0 80AE4D80 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000B0 80AE4D80 0C01712B */  jal     Collider_SetCylinder
               
 /* 000B4 80AE4D84 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000B8 80AE4D88 860D001C */  lh      $t5, 0x001C($s0)           ## 0000001C

@@ -98,7 +98,7 @@ glabel func_80885F4C
 /* 00284 808860A4 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00288 808860A8 02212821 */  addu    $a1, $s1, $at              
 /* 0028C 808860AC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00290 808860B0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00290 808860B0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00294 808860B4 2606016C */  addiu   $a2, $s0, 0x016C           ## $a2 = 0000016C
 /* 00298 808860B8 8FBF001C */  lw      $ra, 0x001C($sp)           

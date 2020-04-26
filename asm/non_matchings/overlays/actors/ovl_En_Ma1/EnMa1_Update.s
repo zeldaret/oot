@@ -7,14 +7,14 @@ glabel EnMa1_Update
 /* 00B58 80AA11E8 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00B5C 80AA11EC 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 00B60 80AA11F0 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
-/* 00B64 80AA11F4 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00B64 80AA11F4 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00B68 80AA11F8 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 00B6C 80AA11FC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00B70 80AA1200 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00B74 80AA1204 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 00B78 80AA1208 02212821 */  addu    $a1, $s1, $at              
-/* 00B7C 80AA120C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00B7C 80AA120C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00B80 80AA1210 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B84 80AA1214 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

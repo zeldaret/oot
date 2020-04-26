@@ -43,7 +43,7 @@ glabel BgJyaGoroiwa_Update
 /* 00574 80897EE4 11200004 */  beq     $t1, $zero, .L80897EF8     
 /* 00578 80897EE8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0057C 80897EEC 02212821 */  addu    $a1, $s1, $at              
-/* 00580 80897EF0 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00580 80897EF0 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00584 80897EF4 26060150 */  addiu   $a2, $s0, 0x0150           ## $a2 = 00000150
 .L80897EF8:
@@ -51,7 +51,7 @@ glabel BgJyaGoroiwa_Update
 /* 0058C 80897EFC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00590 80897F00 02212821 */  addu    $a1, $s1, $at              
 /* 00594 80897F04 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00598 80897F08 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00598 80897F08 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0059C 80897F0C 26060150 */  addiu   $a2, $s0, 0x0150           ## $a2 = 00000150
 /* 005A0 80897F10 8FBF0024 */  lw      $ra, 0x0024($sp)           

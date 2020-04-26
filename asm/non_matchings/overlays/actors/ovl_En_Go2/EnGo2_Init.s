@@ -26,14 +26,14 @@ glabel EnGo2_Init
 /* 037F8 80A46528 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 037FC 80A4652C 260501BC */  addiu   $a1, $s0, 0x01BC           ## $a1 = 000001BC
 /* 03800 80A46530 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 03804 80A46534 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 03804 80A46534 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 03808 80A46538 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0380C 80A4653C 3C0780A5 */  lui     $a3, %hi(D_80A48114)       ## $a3 = 80A50000
 /* 03810 80A46540 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 03814 80A46544 24E78114 */  addiu   $a3, $a3, %lo(D_80A48114)  ## $a3 = 80A48114
 /* 03818 80A46548 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 0381C 80A4654C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0381C 80A4654C 0C01712B */  jal     Collider_SetCylinder
 
 /* 03820 80A46550 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 03824 80A46554 3C0680A5 */  lui     $a2, %hi(D_80A48140)       ## $a2 = 80A50000

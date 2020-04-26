@@ -32,7 +32,7 @@ glabel EnShopnuts_Update
 /* 00A7C 80AFB19C 11200004 */  beq     $t1, $zero, .L80AFB1B0     
 /* 00A80 80AFB1A0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00A84 80AFB1A4 02212821 */  addu    $a1, $s1, $at              
-/* 00A88 80AFB1A8 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00A88 80AFB1A8 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00A8C 80AFB1AC 26060270 */  addiu   $a2, $s0, 0x0270           ## $a2 = 00000270
 .L80AFB1B0:
@@ -40,7 +40,7 @@ glabel EnShopnuts_Update
 /* 00A94 80AFB1B4 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00A98 80AFB1B8 02212821 */  addu    $a1, $s1, $at              
 /* 00A9C 80AFB1BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00AA0 80AFB1C0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00AA0 80AFB1C0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00AA4 80AFB1C4 26060270 */  addiu   $a2, $s0, 0x0270           ## $a2 = 00000270
 /* 00AA8 80AFB1C8 8E030190 */  lw      $v1, 0x0190($s0)           ## 00000190

@@ -28,7 +28,7 @@ glabel BossGanon2_Init
 /* 00480 808FD3C0 A21900AF */  sb      $t9, 0x00AF($s0)           ## 000000AF
 /* 00484 808FD3C4 26050424 */  addiu   $a1, $s0, 0x0424           ## $a1 = 00000424
 /* 00488 808FD3C8 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 0048C 808FD3CC 0C016EFE */  jal     func_8005BBF8
+/* 0048C 808FD3CC 0C016EFE */  jal     Collider_InitJntSph
 /* 00490 808FD3D0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00494 808FD3D4 3C078090 */  lui     $a3, %hi(D_80906FBC)       ## $a3 = 80900000
 /* 00498 808FD3D8 26080464 */  addiu   $t0, $s0, 0x0464           ## $t0 = 00000464
@@ -36,11 +36,11 @@ glabel BossGanon2_Init
 /* 004A0 808FD3E0 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 004A4 808FD3E4 24E76FBC */  addiu   $a3, $a3, %lo(D_80906FBC)  ## $a3 = 80906FBC
 /* 004A8 808FD3E8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 004AC 808FD3EC 0C017014 */  jal     func_8005C050
+/* 004AC 808FD3EC 0C017014 */  jal     Collider_SetJntSph
 /* 004B0 808FD3F0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 004B4 808FD3F4 26050444 */  addiu   $a1, $s0, 0x0444           ## $a1 = 00000444
 /* 004B8 808FD3F8 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 004BC 808FD3FC 0C016EFE */  jal     func_8005BBF8
+/* 004BC 808FD3FC 0C016EFE */  jal     Collider_InitJntSph
 /* 004C0 808FD400 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 004C4 808FD404 3C078090 */  lui     $a3, %hi(D_80907014)       ## $a3 = 80900000
 /* 004C8 808FD408 26090864 */  addiu   $t1, $s0, 0x0864           ## $t1 = 00000864
@@ -48,7 +48,7 @@ glabel BossGanon2_Init
 /* 004D0 808FD410 AFA90010 */  sw      $t1, 0x0010($sp)
 /* 004D4 808FD414 24E77014 */  addiu   $a3, $a3, %lo(D_80907014)  ## $a3 = 80907014
 /* 004D8 808FD418 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 004DC 808FD41C 0C017014 */  jal     func_8005C050
+/* 004DC 808FD41C 0C017014 */  jal     Collider_SetJntSph
 /* 004E0 808FD420 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 004E4 808FD424 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 004E8 808FD428 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000

@@ -58,14 +58,14 @@ glabel EnMm2_Init
 /* 002A4 80AAF0F4 AE0801F8 */  sw      $t0, 0x01F8($s0)           ## 000001F8
 /* 002A8 80AAF0F8 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 002AC 80AAF0FC AFA50030 */  sw      $a1, 0x0030($sp)
-/* 002B0 80AAF100 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 002B0 80AAF100 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 002B4 80AAF104 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 002B8 80AAF108 3C0780AB */  lui     $a3, %hi(D_80AAFAC0)       ## $a3 = 80AB0000
 /* 002BC 80AAF10C 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 002C0 80AAF110 24E7FAC0 */  addiu   $a3, $a3, %lo(D_80AAFAC0)  ## $a3 = 80AAFAC0
 /* 002C4 80AAF114 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 002C8 80AAF118 0C01712B */  jal     ActorCollider_InitCylinder
+/* 002C8 80AAF118 0C01712B */  jal     Collider_SetCylinder
 
 /* 002CC 80AAF11C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 002D0 80AAF120 960B01F4 */  lhu     $t3, 0x01F4($s0)           ## 000001F4

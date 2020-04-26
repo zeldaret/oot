@@ -1709,8 +1709,8 @@ s32 func_800D0560(Sphere16* arg0, f32 arg1, f32 arg2) {
     return 0;
 }
 
-void func_800D05D0(s32 arg0, s32 arg1) {
+void func_800D05D0(GlobalContext* gctx, Sphere16* sph) {
 }
 
-void func_800D05DC(s32 arg0, s32 arg1) {
+void func_800D05DC(GlobalContext* gctx, Cylinder16* cyl) {
 }

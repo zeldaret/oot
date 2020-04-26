@@ -54,19 +54,19 @@ glabel EnDh_Init
 /* 000C8 809EAE08 01C17824 */  and     $t7, $t6, $at
 /* 000CC 809EAE0C AE0F0004 */  sw      $t7, 0x0004($s0)           ## 00000004
 /* 000D0 809EAE10 26050260 */  addiu   $a1, $s0, 0x0260           ## $a1 = 00000260
-/* 000D4 809EAE14 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000D4 809EAE14 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 000D8 809EAE18 AFA50030 */  sw      $a1, 0x0030($sp)
 /* 000DC 809EAE1C 3C07809F */  lui     $a3, %hi(D_809EC5C0)       ## $a3 = 809F0000
 /* 000E0 809EAE20 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 000E4 809EAE24 24E7C5C0 */  addiu   $a3, $a3, %lo(D_809EC5C0)  ## $a3 = 809EC5C0
 /* 000E8 809EAE28 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000EC 809EAE2C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000EC 809EAE2C 0C01712B */  jal     Collider_SetCylinder
 
 /* 000F0 809EAE30 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000F4 809EAE34 260502AC */  addiu   $a1, $s0, 0x02AC           ## $a1 = 000002AC
 /* 000F8 809EAE38 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 000FC 809EAE3C 0C016EFE */  jal     func_8005BBF8
+/* 000FC 809EAE3C 0C016EFE */  jal     Collider_InitJntSph
 /* 00100 809EAE40 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00104 809EAE44 3C07809F */  lui     $a3, %hi(D_809EC610)       ## $a3 = 809F0000
 /* 00108 809EAE48 261802CC */  addiu   $t8, $s0, 0x02CC           ## $t8 = 000002CC
@@ -74,7 +74,7 @@ glabel EnDh_Init
 /* 00110 809EAE50 AFB80010 */  sw      $t8, 0x0010($sp)
 /* 00114 809EAE54 24E7C610 */  addiu   $a3, $a3, %lo(D_809EC610)  ## $a3 = 809EC610
 /* 00118 809EAE58 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0011C 809EAE5C 0C017014 */  jal     func_8005C050
+/* 0011C 809EAE5C 0C017014 */  jal     Collider_SetJntSph
 /* 00120 809EAE60 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00124 809EAE64 0C27AC17 */  jal     func_809EB05C
 /* 00128 809EAE68 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

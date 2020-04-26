@@ -10,6 +10,7 @@
 #include <z64audio.h>
 #include <z64object.h>
 #include <z64cutscene.h>
+#include <z64collision_check.h>
 #include <z64scene.h>
 #include <z64effect.h>
 #include <z64item.h>
@@ -884,8 +885,17 @@ typedef struct {
 } RoomContext; // size = 0x74
 
 typedef struct {
-    /* 0x00 */ char unk_00[0x028C];
-} SubGlobalContext11E60; // size = 0x28C
+    /* 0x000 */ s16 colAtCount;
+    /* 0x002 */ u16 sacFlags;
+    /* 0x004 */ Collider* colAt[COLLISION_CHECK_AT_MAX];
+    /* 0x0CC */ s32 colAcCount;
+    /* 0x0D0 */ Collider* colAc[COLLISION_CHECK_AC_MAX];
+    /* 0x1C0 */ s32 colOcCount;
+    /* 0x1C4 */ Collider* colOc[COLLISION_CHECK_OC_MAX];
+    /* 0x28C */ s32 colOcLineCount;
+    /* 0x290 */ OcLine* colOcLine[COLLISION_CHECK_OC_LINE_MAX];
+
+} CollisionCheckContext; // size = 0x29C SubGlobalContext11E60
 
 typedef struct {
     /* 0x00 */ char unk_00[0x10];
@@ -1066,8 +1076,8 @@ typedef struct GlobalContext {
     /* 0x11E5D */ s8 bombchuBowlingAmmo; // "bombchu_game_flag"
     /* 0x11E5E */ u8 fadeTransition;
     /* 0x11E5F */ char unk_11E5F[0x1];
-    /* 0x11E60 */ SubGlobalContext11E60 sub_11E60;
-    /* 0x120EC */ char unk_120EC[0x38];
+    /* 0x11E60 */ CollisionCheckContext colChkCtx;
+    /* 0x120FC */ char unk_120FC[0x28];
     /* 0x12124 */ PreRenderContext preRenderCtx;
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];

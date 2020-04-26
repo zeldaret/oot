@@ -207,12 +207,12 @@ glabel EnHorse_Update
 .L80A64998:
 /* 096A8 80A64998 26050278 */  addiu   $a1, $s0, 0x0278           ## $a1 = 00000278
 /* 096AC 80A6499C AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 096B0 80A649A0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 096B0 80A649A0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 096B4 80A649A4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 096B8 80A649A8 260502C4 */  addiu   $a1, $s0, 0x02C4           ## $a1 = 000002C4
 /* 096BC 80A649AC AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 096C0 80A649B0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 096C0 80A649B0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 096C4 80A649B4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 096C8 80A649B8 0C01DE1C */  jal     Math_Sins
@@ -268,17 +268,17 @@ glabel EnHorse_Update
 /* 09780 80A64A70 01B97021 */  addu    $t6, $t5, $t9              
 /* 09784 80A64A74 A60E030E */  sh      $t6, 0x030E($s0)           ## 0000030E
 /* 09788 80A64A78 AFA50038 */  sw      $a1, 0x0038($sp)           
-/* 0978C 80A64A7C 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 0978C 80A64A7C 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 09790 80A64A80 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 09794 80A64A84 8FA40074 */  lw      $a0, 0x0074($sp)           
 /* 09798 80A64A88 8FA50038 */  lw      $a1, 0x0038($sp)           
-/* 0979C 80A64A8C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0979C 80A64A8C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 097A0 80A64A90 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 097A4 80A64A94 8FA40074 */  lw      $a0, 0x0074($sp)           
 /* 097A8 80A64A98 8FA50038 */  lw      $a1, 0x0038($sp)           
-/* 097AC 80A64A9C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 097AC 80A64A9C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 097B0 80A64AA0 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 097B4 80A64AA4 8FA3004C */  lw      $v1, 0x004C($sp)           

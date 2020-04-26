@@ -6,7 +6,7 @@ glabel BgJyaHaheniron_Destroy
 /* 00358 80898418 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0035C 8089841C 55C00004 */  bnel    $t6, $zero, .L80898430     
 /* 00360 80898420 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00364 80898424 0C016F32 */  jal     func_8005BCC8              
+/* 00364 80898424 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 00368 80898428 24C50150 */  addiu   $a1, $a2, 0x0150           ## $a1 = 00000150
 /* 0036C 8089842C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80898430:

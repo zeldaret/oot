@@ -21,7 +21,7 @@ typedef struct {
     /* 0x02C2 */ u8 unk_2C2;
     /* 0x02C3 */ u8 unk_2C3;
     /* 0x02C4 */ f32 unk_2C4;
-    /* 0x02C8 */ ColliderCylinderMain collider;
+    /* 0x02C8 */ ColliderCylinder collider;
 } EnRu2; // size = 0x0314
 
 extern const ActorInit En_Ru2_InitVars;

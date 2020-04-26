@@ -256,12 +256,12 @@ glabel EnTite_Update
 /* 026C0 80B1B140 AE0D0040 */  sw      $t5, 0x0040($s0)           ## 00000040
 /* 026C4 80B1B144 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 026C8 80B1B148 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 026CC 80B1B14C 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 026CC 80B1B14C 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 026D0 80B1B150 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 026D4 80B1B154 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 026D8 80B1B158 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 026DC 80B1B15C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 026DC 80B1B15C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 026E0 80B1B160 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 026E4 80B1B164 8FBF0024 */  lw      $ra, 0x0024($sp)           

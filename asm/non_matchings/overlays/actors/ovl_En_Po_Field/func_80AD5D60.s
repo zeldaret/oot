@@ -75,7 +75,7 @@ glabel func_80AD5D60
 /* 02364 80AD5E64 440E2000 */  mfc1    $t6, $f4                   
 /* 02368 80AD5E68 A60A02D6 */  sh      $t2, 0x02D6($s0)           ## 000002D6
 /* 0236C 80AD5E6C A60C02D8 */  sh      $t4, 0x02D8($s0)           ## 000002D8
-/* 02370 80AD5E70 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 02370 80AD5E70 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 02374 80AD5E74 A60E02DA */  sh      $t6, 0x02DA($s0)           ## 000002DA
 /* 02378 80AD5E78 8FBF001C */  lw      $ra, 0x001C($sp)           

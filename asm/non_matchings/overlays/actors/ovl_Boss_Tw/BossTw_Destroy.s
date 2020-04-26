@@ -5,7 +5,7 @@ glabel BossTw_Destroy
 /* 01214 80939EE4 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 01218 80939EE8 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 0121C 80939EEC AFBF0014 */  sw      $ra, 0x0014($sp)
-/* 01220 80939EF0 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 01220 80939EF0 0C0170EB */  jal     Collider_DestroyCylinder
 
 /* 01224 80939EF4 24A505AC */  addiu   $a1, $a1, 0x05AC           ## $a1 = 000005AC
 /* 01228 80939EF8 8FA30018 */  lw      $v1, 0x0018($sp)

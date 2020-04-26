@@ -7,7 +7,7 @@ glabel BossGoma_Destroy
 /* 00504 80915F14 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00508 80915F18 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 0050C 80915F1C 8FA4001C */  lw      $a0, 0x001C($sp)
-/* 00510 80915F20 0C016F32 */  jal     func_8005BCC8
+/* 00510 80915F20 0C016F32 */  jal     Collider_DestroyJntSph
 /* 00514 80915F24 24A507BC */  addiu   $a1, $a1, 0x07BC           ## $a1 = 000007BC
 /* 00518 80915F28 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 0051C 80915F2C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
