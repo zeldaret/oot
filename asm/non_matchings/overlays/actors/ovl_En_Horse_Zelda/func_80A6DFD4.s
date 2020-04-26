@@ -89,7 +89,7 @@ glabel func_80A6DFD4
 /* 00858 80A6E128 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0085C 80A6E12C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00860 80A6E130 26260248 */  addiu   $a2, $s1, 0x0248           ## $a2 = 00000248
-/* 00864 80A6E134 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00864 80A6E134 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00868 80A6E138 00812821 */  addu    $a1, $a0, $at              
 /* 0086C 80A6E13C 8FBF002C */  lw      $ra, 0x002C($sp)           

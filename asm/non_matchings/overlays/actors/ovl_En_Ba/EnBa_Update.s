@@ -50,7 +50,7 @@ glabel EnBa_Update
 /* 018B0 809B7C00 14200004 */  bne     $at, $zero, .L809B7C14     
 /* 018B4 809B7C04 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 018B8 809B7C08 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
-/* 018BC 809B7C0C 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 018BC 809B7C0C 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 018C0 809B7C10 00812821 */  addu    $a1, $a0, $at              
 .L809B7C14:

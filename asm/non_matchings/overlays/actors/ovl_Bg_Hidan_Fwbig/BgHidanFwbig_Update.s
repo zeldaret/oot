@@ -88,12 +88,12 @@ glabel BgHidanFwbig_Update
 /* 008A8 80887B98 26060154 */  addiu   $a2, $s0, 0x0154           ## $a2 = 00000154
 /* 008AC 80887B9C AFA60028 */  sw      $a2, 0x0028($sp)           
 /* 008B0 80887BA0 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 008B4 80887BA4 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 008B4 80887BA4 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 008B8 80887BA8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 008BC 80887BAC 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 008C0 80887BB0 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 008C4 80887BB4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 008C4 80887BB4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 008C8 80887BB8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 008CC 80887BBC 8FBF0024 */  lw      $ra, 0x0024($sp)           

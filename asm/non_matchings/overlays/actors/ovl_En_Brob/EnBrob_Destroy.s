@@ -12,12 +12,12 @@ glabel EnBrob_Destroy
 /* 00298 809CADA8 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 0029C 809CADAC 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 002A0 809CADB0 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 002A4 809CADB4 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002A4 809CADB4 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 002A8 809CADB8 24A50228 */  addiu   $a1, $a1, 0x0228           ## $a1 = 00000228
 /* 002AC 809CADBC 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 002B0 809CADC0 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 002B4 809CADC4 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002B4 809CADC4 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 002B8 809CADC8 24A50274 */  addiu   $a1, $a1, 0x0274           ## $a1 = 00000274
 /* 002BC 809CADCC 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -23,18 +23,18 @@ glabel EnBombf_Init
 /* 00038 809C6F98 AE0E0200 */  sw      $t6, 0x0200($s0)           ## 00000200
 /* 0003C 809C6F9C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00040 809C6FA0 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 00044 809C6FA4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00044 809C6FA4 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00048 809C6FA8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0004C 809C6FAC 26050198 */  addiu   $a1, $s0, 0x0198           ## $a1 = 00000198
 /* 00050 809C6FB0 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00054 809C6FB4 0C016EFE */  jal     func_8005BBF8              
+/* 00054 809C6FB4 0C016EFE */  jal     Collider_InitJntSph              
 /* 00058 809C6FB8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0005C 809C6FBC 3C07809D */  lui     $a3, %hi(D_809C8260)       ## $a3 = 809D0000
 /* 00060 809C6FC0 24E78260 */  addiu   $a3, $a3, %lo(D_809C8260)  ## $a3 = 809C8260
 /* 00064 809C6FC4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00068 809C6FC8 8FA5002C */  lw      $a1, 0x002C($sp)           
-/* 0006C 809C6FCC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0006C 809C6FCC 0C01712B */  jal     Collider_SetCylinder
               
 /* 00070 809C6FD0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00074 809C6FD4 3C07809D */  lui     $a3, %hi(D_809C82B0)       ## $a3 = 809D0000
@@ -43,7 +43,7 @@ glabel EnBombf_Init
 /* 00080 809C6FE0 24E782B0 */  addiu   $a3, $a3, %lo(D_809C82B0)  ## $a3 = 809C82B0
 /* 00084 809C6FE4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00088 809C6FE8 8FA50030 */  lw      $a1, 0x0030($sp)           
-/* 0008C 809C6FEC 0C017014 */  jal     func_8005C050              
+/* 0008C 809C6FEC 0C017014 */  jal     Collider_SetJntSph              
 /* 00090 809C6FF0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00094 809C6FF4 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
 /* 00098 809C6FF8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)

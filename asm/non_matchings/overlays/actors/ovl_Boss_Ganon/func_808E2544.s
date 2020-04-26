@@ -538,7 +538,7 @@ glabel L808E29A8
 /* 0C4BC 808E2D2C 26300610 */  addiu   $s0, $s1, 0x0610           ## $s0 = 00000610
 .L808E2D30:
 /* 0C4C0 808E2D30 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000610
-/* 0C4C4 808E2D34 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0C4C4 808E2D34 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 0C4C8 808E2D38 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0C4CC 808E2D3C 862A01B8 */  lh      $t2, 0x01B8($s1)           ## 000001B8
@@ -547,7 +547,7 @@ glabel L808E29A8
 /* 0C4D8 808E2D48 15400004 */  bne     $t2, $zero, .L808E2D5C     
 /* 0C4DC 808E2D4C 8FA400A4 */  lw      $a0, 0x00A4($sp)           
 /* 0C4E0 808E2D50 00812821 */  addu    $a1, $a0, $at              
-/* 0C4E4 808E2D54 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0C4E4 808E2D54 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 0C4E8 808E2D58 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000610
 .L808E2D5C:

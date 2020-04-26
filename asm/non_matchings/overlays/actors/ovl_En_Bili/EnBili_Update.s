@@ -90,7 +90,7 @@ glabel EnBili_Update
 /* 014D8 809C0D78 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 014DC 809C0D7C 260501D4 */  addiu   $a1, $s0, 0x01D4           ## $a1 = 000001D4
 /* 014E0 809C0D80 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 014E4 809C0D84 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 014E4 809C0D84 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 014E8 809C0D88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 014EC 809C0D8C 920A01E4 */  lbu     $t2, 0x01E4($s0)           ## 000001E4
@@ -100,7 +100,7 @@ glabel EnBili_Update
 /* 014FC 809C0D9C 11600004 */  beq     $t3, $zero, .L809C0DB0     
 /* 01500 809C0DA0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01504 809C0DA4 02212821 */  addu    $a1, $s1, $at              
-/* 01508 809C0DA8 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 01508 809C0DA8 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 0150C 809C0DAC 8FA60028 */  lw      $a2, 0x0028($sp)           
 .L809C0DB0:
@@ -112,13 +112,13 @@ glabel EnBili_Update
 /* 01524 809C0DC4 02212821 */  addu    $a1, $s1, $at              
 /* 01528 809C0DC8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0152C 809C0DCC 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 01530 809C0DD0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01530 809C0DD0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01534 809C0DD4 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 01538 809C0DD8 8FA5002C */  lw      $a1, 0x002C($sp)           
 .L809C0DDC:
 /* 0153C 809C0DDC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01540 809C0DE0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01540 809C0DE0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01544 809C0DE4 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01548 809C0DE8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

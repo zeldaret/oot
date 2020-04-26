@@ -135,14 +135,14 @@ glabel EnNiwGirl_Update
 /* 00824 80AB97A4 26060288 */  addiu   $a2, $s0, 0x0288           ## $a2 = 00000288
 /* 00828 80AB97A8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000288
 /* 0082C 80AB97AC AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 00830 80AB97B0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00830 80AB97B0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00834 80AB97B4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00838 80AB97B8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 0083C 80AB97BC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00840 80AB97C0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00844 80AB97C4 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 00848 80AB97C8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00848 80AB97C8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0084C 80AB97CC 00812821 */  addu    $a1, $a0, $at              
 /* 00850 80AB97D0 8FBF0024 */  lw      $ra, 0x0024($sp)           

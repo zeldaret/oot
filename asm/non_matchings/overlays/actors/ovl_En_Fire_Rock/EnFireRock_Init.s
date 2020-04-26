@@ -118,14 +118,14 @@ glabel L80A11D14
 /* 00100 80A11D20 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00104 80A11D24 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00108 80A11D28 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 0010C 80A11D2C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0010C 80A11D2C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00110 80A11D30 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00114 80A11D34 3C0780A1 */  lui     $a3, %hi(D_80A12CCC)       ## $a3 = 80A10000
 /* 00118 80A11D38 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 0011C 80A11D3C 24E72CCC */  addiu   $a3, $a3, %lo(D_80A12CCC)  ## $a3 = 80A12CCC
 /* 00120 80A11D40 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00124 80A11D44 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00124 80A11D44 0C01712B */  jal     Collider_SetCylinder
               
 /* 00128 80A11D48 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0012C 80A11D4C 3C0480A1 */  lui     $a0, %hi(D_80A12D2C)       ## $a0 = 80A10000
@@ -187,14 +187,14 @@ glabel L80A11DD8
 /* 001EC 80A11E0C E602016C */  swc1    $f2, 0x016C($s0)           ## 0000016C
 /* 001F0 80A11E10 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 001F4 80A11E14 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 001F8 80A11E18 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001F8 80A11E18 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 001FC 80A11E1C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00200 80A11E20 3C0780A1 */  lui     $a3, %hi(D_80A12CA0)       ## $a3 = 80A10000
 /* 00204 80A11E24 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00208 80A11E28 24E72CA0 */  addiu   $a3, $a3, %lo(D_80A12CA0)  ## $a3 = 80A12CA0
 /* 0020C 80A11E2C 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00210 80A11E30 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00210 80A11E30 0C01712B */  jal     Collider_SetCylinder
               
 /* 00214 80A11E34 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00218 80A11E38 3C0180A1 */  lui     $at, %hi(D_80A12EB4)       ## $at = 80A10000
@@ -250,14 +250,14 @@ glabel L80A11E70
 /* 002C8 80A11EE8 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 002CC 80A11EEC E610006C */  swc1    $f16, 0x006C($s0)          ## 0000006C
 /* 002D0 80A11EF0 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 002D4 80A11EF4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 002D4 80A11EF4 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 002D8 80A11EF8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 002DC 80A11EFC 3C0780A1 */  lui     $a3, %hi(D_80A12CA0)       ## $a3 = 80A10000
 /* 002E0 80A11F00 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 002E4 80A11F04 24E72CA0 */  addiu   $a3, $a3, %lo(D_80A12CA0)  ## $a3 = 80A12CA0
 /* 002E8 80A11F08 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 002EC 80A11F0C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 002EC 80A11F0C 0C01712B */  jal     Collider_SetCylinder
               
 /* 002F0 80A11F10 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 002F4 80A11F14 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
