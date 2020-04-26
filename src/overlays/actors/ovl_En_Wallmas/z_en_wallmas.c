@@ -535,11 +535,11 @@ void EnWallmas_Update(EnWallmas* this, GlobalContext* globalCtx) {
 
     if ((this2->actionFunc != (ActorFunc)&EnWallmas_Die) && (this2->actionFunc != (ActorFunc)&EnWallmas_Drop)) {
         Collider_CylinderUpdate(&this2->actor, &this2->colCylinder);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this2->colCylinder);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this2->colCylinder);
 
         if ((this2->actionFunc != (ActorFunc)&EnWallmas_TakeDamage) && (this2->actor.bgCheckFlags & 1) != 0 &&
             (this2->actor.freeze == 0)) {
-            CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this2->colCylinder);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this2->colCylinder);
         }
     }
 

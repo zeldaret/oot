@@ -106,7 +106,7 @@ void func_80AF259C(EnRu2* this, GlobalContext* globalCtx) {
     s32 pad2[2];
 
     Collider_CylinderUpdate(thisx, collider);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, collider);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, collider);
 }
 
 void EnRu2_Destroy(EnRu2* this, GlobalContext* globalCtx) {

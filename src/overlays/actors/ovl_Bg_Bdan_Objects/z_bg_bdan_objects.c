@@ -297,7 +297,7 @@ void func_8086C5BC(BgBdanObjects* this, GlobalContext* globalCtx) {
 
 void func_8086C618(BgBdanObjects* this, GlobalContext* globalCtx) {
     Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
-    CollisionCheck_SetAT(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
+    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
     if (Flags_GetClear(globalCtx, this->dyna.actor.room)) {
         Flags_SetSwitch(globalCtx, this->unk_168);
         this->dyna.actor.initPosRot.rot.y = (s16)(this->dyna.actor.shape.rot.y + 0x2000) & 0xC000;

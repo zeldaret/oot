@@ -530,7 +530,7 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx) {
     }
 
     Collider_CylinderUpdate(&this->actor, &this->cylinderCollider);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->cylinderCollider);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->cylinderCollider);
 
     if ((this->actor.params == DROP_SHIELD_DEKU) || (this->actor.params == DROP_SHIELD_HYLIAN) ||
         (this->actor.params == DROP_TUNIC_ZORA) || (this->actor.params == DROP_TUNIC_GORON)) {

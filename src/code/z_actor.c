@@ -2483,7 +2483,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     }
 
     if ((HREG(64) != 1) || (HREG(76) != 0)) {
-        CollisionCheck_Draw(globalCtx, &globalCtx->collisionCheckCtx);
+        CollisionCheck_Draw(globalCtx, &globalCtx->colChkCtx);
     }
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_actor.c", 6563);
@@ -2541,7 +2541,7 @@ void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx) {
         }
     }
 
-    CollisionCheck_InitContext(globalCtx, &globalCtx->collisionCheckCtx);
+    CollisionCheck_InitContext(globalCtx, &globalCtx->colChkCtx);
     actorCtx->flags.tempClear = 0;
     actorCtx->flags.tempSwch &= 0xFFFFFF;
     globalCtx->msgCtx.unk_E3F4 = 0;

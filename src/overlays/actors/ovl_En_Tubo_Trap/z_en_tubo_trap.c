@@ -277,7 +277,7 @@ void EnTuboTrap_Fly(EnTuboTrap* this, GlobalContext* globalCtx) {
 
 void EnTuboTrap_Update(EnTuboTrap* this, GlobalContext* globalCtx) {
     EnTuboTrap* tuboTrap = this;
-    CollisionCheckContext* check = &globalCtx->collisionCheckCtx;
+    CollisionCheckContext* check = &globalCtx->colChkCtx;
 
     tuboTrap->actionFunc(tuboTrap, globalCtx);
     Actor_MoveForward(&tuboTrap->actor);

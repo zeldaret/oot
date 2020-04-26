@@ -184,8 +184,8 @@ void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     if (this->actionFunc == (ActorFunc)BgHidanFirewall_Erupt) {
         BgHidanFirewall_ColliderFollowPlayer(this, globalCtx);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
         func_8002F974(&this->actor, 0x2034);
     }
 }

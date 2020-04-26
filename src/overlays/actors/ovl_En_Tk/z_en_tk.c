@@ -675,7 +675,7 @@ void EnTk_Update(EnTk* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &thisAgain->collider;
 
     Collider_CylinderUpdate(&thisAgain->actor, collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
 
     SkelAnime_FrameUpdateMatrix(&thisAgain->skelAnim);
 

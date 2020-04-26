@@ -98,7 +98,7 @@ void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
             Collider_DestroyCylinder(globalCtx, &this->collider);
         } else {
             Collider_CylinderUpdate(&this->actor, &this->collider);
-            CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
         }
     }
     // open the grotto

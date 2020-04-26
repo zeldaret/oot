@@ -438,7 +438,7 @@ void EnDog_Update(EnDog* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
     Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
 s32 EnDog_Callback1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {

@@ -245,7 +245,7 @@ void EnAni_Update(EnAni* this, GlobalContext* globalCtx) {
 
     collider = &this->collider;
     Collider_CylinderUpdate(&this->actor, collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.actorActions[0] != NULL)) {

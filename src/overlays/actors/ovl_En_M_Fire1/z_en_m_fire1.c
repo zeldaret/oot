@@ -57,6 +57,6 @@ void EnMFire1_Update(EnMFire1* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         Collider_CylinderUpdate(&thisLocal->actor, &thisLocal->capsule);
-        CollisionCheck_SetAT(globalCtx, &globalCtx->collisionCheckCtx, &thisLocal->capsule);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &thisLocal->capsule);
     }
 }

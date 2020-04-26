@@ -72,79 +72,79 @@ void Collider_BaseSetOC(GlobalContext* globalCtx, Collider* collider) {
     collider->maskB &= ~0x1;
 }
 
-s32 Collider_InitColliderTouch(GlobalContext* globalCtx, ColliderTouch* touch) {
+s32 Collider_InitTouch(GlobalContext* globalCtx, ColliderTouch* touch) {
     static ColliderTouch init = { 0, 0, 0 };
     *touch = init;
     return 1;
 }
 
-s32 Collider_DestroyColliderTouch(GlobalContext* globalCtx, ColliderTouch* touch) {
+s32 Collider_DestroyTouch(GlobalContext* globalCtx, ColliderTouch* touch) {
     return 1;
 }
 
 // src might actually be a different type
-s32 Collider_SetColliderTouch(GlobalContext* globalCtx, ColliderTouch* dest, ColliderTouch* src) {
+s32 Collider_SetTouch(GlobalContext* globalCtx, ColliderTouch* dest, ColliderTouch* src) {
     dest->flags = src->flags;
     dest->effect = src->effect;
     dest->damage = src->damage;
     return 1;
 }
 
-void Collider_ColliderBodySetAT_Unk(GlobalContext* globalCtx, ColliderBody* body) {
+void Collider_BodySetAT_Unk(GlobalContext* globalCtx, ColliderBody* body) {
 }
 
-s32 Collider_InitColliderBump(GlobalContext* globalCtx, ColliderBump* bump) {
+s32 Collider_InitBump(GlobalContext* globalCtx, ColliderBump* bump) {
     static ColliderBump init = { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } };
     *bump = init;
     return 1;
 }
 
-s32 Collider_DestroyColliderBump(GlobalContext* globalCtx, ColliderBump* bump) {
+s32 Collider_DestroyBump(GlobalContext* globalCtx, ColliderBump* bump) {
     return 1;
 }
 
-s32 Collider_SetColliderBump(GlobalContext* globalCtx, ColliderBump* bump, ColliderBumpInit* init) {
+s32 Collider_SetBump(GlobalContext* globalCtx, ColliderBump* bump, ColliderBumpInit* init) {
     bump->flags = init->flags;
     bump->effect = init->effect;
     bump->defense = init->defense;
     return 1;
 }
 
-s32 Collider_InitColliderBody(GlobalContext* globalCtx, ColliderBody* body) {
+s32 Collider_InitBody(GlobalContext* globalCtx, ColliderBody* body) {
     static ColliderBody init = {
         { 0, 0, 0 }, { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } }, 0, 0, 0, 0, NULL, NULL, NULL, NULL,
     };
     *body = init;
-    Collider_InitColliderTouch(globalCtx, &body->toucher);
-    Collider_InitColliderBump(globalCtx, &body->bumper);
+    Collider_InitTouch(globalCtx, &body->toucher);
+    Collider_InitBump(globalCtx, &body->bumper);
     return 1;
 }
 
-s32 Collider_DestroyColliderBody(GlobalContext* globalCtx, ColliderBody* body) {
-    Collider_DestroyColliderTouch(globalCtx, &body->toucher);
-    Collider_DestroyColliderBump(globalCtx, &body->bumper);
+s32 Collider_DestroyBody(GlobalContext* globalCtx, ColliderBody* body) {
+    Collider_DestroyTouch(globalCtx, &body->toucher);
+    Collider_DestroyBump(globalCtx, &body->bumper);
     return 1;
 }
 
-s32 Collider_SetColliderBody(GlobalContext* globalCtx, ColliderBody* body, ColliderBodyInit* bodyInit) {
+s32 Collider_SetBody(GlobalContext* globalCtx, ColliderBody* body, ColliderBodyInit* bodyInit) {
     body->flags = bodyInit->bodyFlags;
-    Collider_SetColliderTouch(globalCtx, &body->toucher, &bodyInit->toucher);
-    Collider_SetColliderBump(globalCtx, &body->bumper, &bodyInit->bumper);
+    Collider_SetTouch(globalCtx, &body->toucher, &bodyInit->toucher);
+    Collider_SetBump(globalCtx, &body->bumper, &bodyInit->bumper);
     body->toucherFlags = bodyInit->toucherFlags;
     body->bumperFlags = bodyInit->bumperFlags;
     body->ocFlags = bodyInit->bodyFlags2;
     return 1;
 }
 
-void Collider_ColliderBodySetAT(GlobalContext* globalCtx, ColliderBody* body) {
+void Collider_BodySetAT(GlobalContext* globalCtx, ColliderBody* body) {
     body->atHit = NULL;
     body->atHitItem = NULL;
     body->toucherFlags &= ~0x2;
     body->toucherFlags &= ~0x40;
-    Collider_ColliderBodySetAT_Unk(globalCtx, body);
+    Collider_BodySetAT_Unk(globalCtx, body);
 }
 
-void Collider_ColliderBodySetAC(GlobalContext* globalCtx, ColliderBody* body) {
+void Collider_BodySetAC(GlobalContext* globalCtx, ColliderBody* body) {
     body->bumper.unk_06.z = 0;
     body->bumperFlags &= ~0x2;
     body->bumperFlags &= ~0x80;
@@ -154,7 +154,7 @@ void Collider_ColliderBodySetAC(GlobalContext* globalCtx, ColliderBody* body) {
     body->bumper.unk_06.x = body->bumper.unk_06.z;
 }
 
-void Collider_ColliderBodySetOC(GlobalContext* globalCtx, ColliderBody* body) {
+void Collider_BodySetOC(GlobalContext* globalCtx, ColliderBody* body) {
     body->ocFlags &= ~0x2;
 }
 
@@ -176,35 +176,35 @@ s32 Collider_SetJntSphItemDim(GlobalContext* globalCtx, ColliderJntSphItemDim* d
 }
 
 s32 Collider_InitJntSphItem(GlobalContext* globalCtx, ColliderJntSphItem* item) {
-    Collider_InitColliderBody(globalCtx, &item->body);
+    Collider_InitBody(globalCtx, &item->body);
     Collider_InitJntSphItemDim(globalCtx, &item->dim);
     return 1;
 }
 
 s32 Collider_DestroyJntSphItem(GlobalContext* globalCtx, ColliderJntSphItem* item) {
-    Collider_DestroyColliderBody(globalCtx, &item->body);
+    Collider_DestroyBody(globalCtx, &item->body);
     Collider_DestroyJntSphItemDim(globalCtx, &item->dim);
     return 1;
 }
 
 s32 Collider_SetJntSphItem(GlobalContext* globalCtx, ColliderJntSphItem* dest, ColliderJntSphItemInit* src) {
-    Collider_SetColliderBody(globalCtx, &dest->body, &src->body);
+    Collider_SetBody(globalCtx, &dest->body, &src->body);
     Collider_SetJntSphItemDim(globalCtx, &dest->dim, &src->dim);
     return 1;
 }
 
 s32 Collider_JntSphItemSetAT(GlobalContext* globalCtx, ColliderJntSphItem* collider) {
-    Collider_ColliderBodySetAT(globalCtx, &collider->body);
+    Collider_BodySetAT(globalCtx, &collider->body);
     return 1;
 }
 
 s32 Collider_JntSphItemSetAC(GlobalContext* globalCtx, ColliderJntSphItem* collider) {
-    Collider_ColliderBodySetAC(globalCtx, &collider->body);
+    Collider_BodySetAC(globalCtx, &collider->body);
     return 1;
 }
 
 s32 Collider_JntSphItemSetOC(GlobalContext* globalCtx, ColliderJntSphItem* collider) {
-    Collider_ColliderBodySetOC(globalCtx, &collider->body);
+    Collider_BodySetOC(globalCtx, &collider->body);
     return 1;
 }
 
@@ -410,40 +410,40 @@ s32 Collider_JntSphSetOC(GlobalContext* globalCtx, Collider* collider) {
     return 1;
 }
 
-s32 Collider_InitColliderCylinderDim(GlobalContext* globalCtx, Cylinder16* dim) {
+s32 Collider_InitCylinderDim(GlobalContext* globalCtx, Cylinder16* dim) {
     Cylinder16 init = { 0 };
     *dim = init;
     return 1;
 }
 
-s32 Collider_DestroyColliderCylinderDim(GlobalContext* globalCtx, Cylinder16* dim) {
+s32 Collider_DestroyCylinderDim(GlobalContext* globalCtx, Cylinder16* dim) {
     return 1;
 }
 
-s32 Collider_SetColliderCylinderDim(GlobalContext* globalCtx, Cylinder16* dest, Cylinder16* src) {
+s32 Collider_SetCylinderDim(GlobalContext* globalCtx, Cylinder16* dest, Cylinder16* src) {
     *dest = *src;
     return 1;
 }
 
 s32 Collider_InitCylinder(GlobalContext* globalCtx, ColliderCylinder* collider) {
     Collider_InitBase(globalCtx, &collider->base);
-    Collider_InitColliderBody(globalCtx, &collider->body);
-    Collider_InitColliderCylinderDim(globalCtx, &collider->dim);
+    Collider_InitBody(globalCtx, &collider->body);
+    Collider_InitCylinderDim(globalCtx, &collider->dim);
     return 1;
 }
 
 s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collider) {
     Collider_DestroyBase(globalCtx, &collider->base);
-    Collider_DestroyColliderBody(globalCtx, &collider->body);
-    Collider_DestroyColliderCylinderDim(globalCtx, &collider->dim);
+    Collider_DestroyBody(globalCtx, &collider->body);
+    Collider_DestroyCylinderDim(globalCtx, &collider->dim);
     return 1;
 }
 
 // used only by DekuJr, D_80B92A00
 s32 Collider_SetCylinder_Actor(GlobalContext* globalCtx, ColliderCylinder* collider, ColliderCylinderInit_Actor* src) {
     Collider_SetBase_Actor(globalCtx, &collider->base, &src->base);
-    Collider_SetColliderBody(globalCtx, &collider->body, &src->body);
-    Collider_SetColliderCylinderDim(globalCtx, &collider->dim, &src->dim);
+    Collider_SetBody(globalCtx, &collider->body, &src->body);
+    Collider_SetCylinderDim(globalCtx, &collider->dim, &src->dim);
     return 1;
 }
 
@@ -451,8 +451,8 @@ s32 Collider_SetCylinder_Actor(GlobalContext* globalCtx, ColliderCylinder* colli
 s32 Collider_SetCylinder_Set3(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
                               ColliderCylinderInit_Set3* src) {
     Collider_SetBase_Set3(globalCtx, &collider->base, actor, &src->base);
-    Collider_SetColliderBody(globalCtx, &collider->body, &src->body);
-    Collider_SetColliderCylinderDim(globalCtx, &collider->dim, &src->dim);
+    Collider_SetBody(globalCtx, &collider->body, &src->body);
+    Collider_SetCylinderDim(globalCtx, &collider->dim, &src->dim);
     return 1;
 }
 
@@ -460,43 +460,43 @@ s32 Collider_SetCylinder_Set3(GlobalContext* globalCtx, ColliderCylinder* collid
 s32 Collider_SetCylinder(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
                          ColliderCylinderInit* src) {
     Collider_SetBase(globalCtx, &collider->base, actor, &src->base);
-    Collider_SetColliderBody(globalCtx, &collider->body, &src->body);
-    Collider_SetColliderCylinderDim(globalCtx, &collider->dim, &src->dim);
+    Collider_SetBody(globalCtx, &collider->body, &src->body);
+    Collider_SetCylinderDim(globalCtx, &collider->dim, &src->dim);
     return 1;
 }
 
 s32 Collider_CylinderSetAT(GlobalContext* globalCtx, Collider* collider) {
     ColliderCylinder* col = (ColliderCylinder*)collider;
     Collider_BaseSetAT(globalCtx, &col->base);
-    Collider_ColliderBodySetAT(globalCtx, &col->body);
+    Collider_BodySetAT(globalCtx, &col->body);
     return 1;
 }
 
 s32 Collider_CylinderSetAC(GlobalContext* globalCtx, Collider* collider) {
     ColliderCylinder* col = (ColliderCylinder*)collider;
     Collider_BaseSetAC(globalCtx, &col->base);
-    Collider_ColliderBodySetAC(globalCtx, &col->body);
+    Collider_BodySetAC(globalCtx, &col->body);
     return 1;
 }
 
 s32 Collider_CylinderSetOC(GlobalContext* globalCtx, Collider* collider) {
     ColliderCylinder* col = (ColliderCylinder*)collider;
     Collider_BaseSetOC(globalCtx, &col->base);
-    Collider_ColliderBodySetOC(globalCtx, &col->body);
+    Collider_BodySetOC(globalCtx, &col->body);
     return 1;
 }
 
-s32 Collider_InitColliderTrisItemDim(GlobalContext* globalCtx, TriNorm* dim) {
+s32 Collider_InitTrisItemDim(GlobalContext* globalCtx, TriNorm* dim) {
     static TriNorm init = { 0 };
     *dim = init;
     return 1;
 }
 
-s32 Collider_DestroyColliderTrisItemDim(GlobalContext* globalCtx, TriNorm* dim) {
+s32 Collider_DestroyTrisItemDim(GlobalContext* globalCtx, TriNorm* dim) {
     return 1;
 }
 
-s32 Collider_SetColliderTrisItemDim(GlobalContext* globalCtx, TriNorm* dest, ColliderTrisItemDimInit* src) {
+s32 Collider_SetTrisItemDim(GlobalContext* globalCtx, TriNorm* dest, ColliderTrisItemDimInit* src) {
     Vec3f* d;
     Vec3f* s;
     float nx, ny, nz, nd;
@@ -516,36 +516,36 @@ s32 Collider_SetColliderTrisItemDim(GlobalContext* globalCtx, TriNorm* dest, Col
     return 1;
 }
 
-s32 Collider_InitColliderTrisItem(GlobalContext* globalCtx, ColliderTrisItem* collider) {
-    Collider_InitColliderBody(globalCtx, &collider->body);
-    Collider_InitColliderTrisItemDim(globalCtx, &collider->dim);
+s32 Collider_InitTrisItem(GlobalContext* globalCtx, ColliderTrisItem* collider) {
+    Collider_InitBody(globalCtx, &collider->body);
+    Collider_InitTrisItemDim(globalCtx, &collider->dim);
     return 1;
 }
 
-s32 Collider_DestroyColliderTrisItem(GlobalContext* globalCtx, ColliderTrisItem* collider) {
-    Collider_DestroyColliderBody(globalCtx, &collider->body);
-    Collider_DestroyColliderTrisItemDim(globalCtx, &collider->dim);
+s32 Collider_DestroyTrisItem(GlobalContext* globalCtx, ColliderTrisItem* collider) {
+    Collider_DestroyBody(globalCtx, &collider->body);
+    Collider_DestroyTrisItemDim(globalCtx, &collider->dim);
     return 1;
 }
 
-s32 Collider_SetColliderTrisItem(GlobalContext* globalCtx, ColliderTrisItem* dest, ColliderTrisItemInit* src) {
-    Collider_SetColliderBody(globalCtx, &dest->body, &src->body);
-    Collider_SetColliderTrisItemDim(globalCtx, &dest->dim, &src->dim);
+s32 Collider_SetTrisItem(GlobalContext* globalCtx, ColliderTrisItem* dest, ColliderTrisItemInit* src) {
+    Collider_SetBody(globalCtx, &dest->body, &src->body);
+    Collider_SetTrisItemDim(globalCtx, &dest->dim, &src->dim);
     return 1;
 }
 
 s32 Collider_TrisItemSetAT(GlobalContext* globalCtx, ColliderTrisItem* item) {
-    Collider_ColliderBodySetAT(globalCtx, &item->body);
+    Collider_BodySetAT(globalCtx, &item->body);
     return 1;
 }
 
 s32 Collider_TrisItemSetAC(GlobalContext* globalCtx, ColliderTrisItem* item) {
-    Collider_ColliderBodySetAC(globalCtx, &item->body);
+    Collider_BodySetAC(globalCtx, &item->body);
     return 1;
 }
 
 s32 Collider_TrisItemSetOC(GlobalContext* globalCtx, ColliderTrisItem* item) {
-    Collider_ColliderBodySetOC(globalCtx, &item->body);
+    Collider_BodySetOC(globalCtx, &item->body);
     return 1;
 }
 
@@ -564,7 +564,7 @@ s32 Collider_FreeTris(GlobalContext* globalCtx, ColliderTris* tris) {
     next = tris->list;
 
     while (next < tris->list + tris->count) {
-        Collider_DestroyColliderTrisItem(globalCtx, next);
+        Collider_DestroyTrisItem(globalCtx, next);
         next++;
     }
 
@@ -584,7 +584,7 @@ s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris) {
     next = tris->list;
 
     while (next < tris->list + tris->count) {
-        Collider_DestroyColliderTrisItem(globalCtx, next);
+        Collider_DestroyTrisItem(globalCtx, next);
         next++;
     }
     tris->count = 0;
@@ -611,8 +611,8 @@ s32 Collider_SetTris_Set3(GlobalContext* globalCtx, ColliderTris* dest, Actor* a
     srcNext = src->list;
 
     while (destNext < dest->list + dest->count) {
-        Collider_InitColliderTrisItem(globalCtx, destNext);
-        Collider_SetColliderTrisItem(globalCtx, destNext, srcNext);
+        Collider_InitTrisItem(globalCtx, destNext);
+        Collider_SetTrisItem(globalCtx, destNext, srcNext);
         destNext++;
         srcNext++;
     }
@@ -640,8 +640,8 @@ s32 Collider_SetTris_Set5(GlobalContext* globalCtx, ColliderTris* dest, Actor* a
     srcNext = src->list;
 
     while (destNext < dest->list + dest->count) {
-        Collider_InitColliderTrisItem(globalCtx, destNext);
-        Collider_SetColliderTrisItem(globalCtx, destNext, srcNext);
+        Collider_InitTrisItem(globalCtx, destNext);
+        Collider_SetTrisItem(globalCtx, destNext, srcNext);
         destNext++;
         srcNext++;
     }
@@ -665,8 +665,8 @@ s32 Collider_SetTris(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor,
     srcNext = src->list;
 
     while (destNext < dest->list + dest->count) {
-        Collider_InitColliderTrisItem(globalCtx, destNext);
-        Collider_SetColliderTrisItem(globalCtx, destNext, srcNext);
+        Collider_InitTrisItem(globalCtx, destNext);
+        Collider_SetTrisItem(globalCtx, destNext, srcNext);
         destNext++;
         srcNext++;
     }
@@ -718,7 +718,7 @@ s32 Collider_TrisSetOC(GlobalContext* globalCtx, Collider* collider) {
     return 1;
 }
 
-s32 Collider_InitColliderQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dim) {
+s32 Collider_InitQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dim) {
     static ColliderQuadDim init = {
         { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
         { 0, 0, 0 },
@@ -729,7 +729,7 @@ s32 Collider_InitColliderQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dim)
     return 1;
 }
 
-s32 Collider_DestroyColliderQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dim) {
+s32 Collider_DestroyQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dim) {
     return 1;
 }
 
@@ -749,7 +749,7 @@ void func_8005CEDC(ColliderQuadDim* dim) {
     dim->baMid.z = (dim->quad[1].z + dim->quad[0].z) * 0.5f;
 }
 
-s32 Collider_SetColliderQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dest, ColliderQuadDimInit* src) {
+s32 Collider_SetQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dest, ColliderQuadDimInit* src) {
     dest->quad[0] = src->quad[0];
     dest->quad[1] = src->quad[1];
     dest->quad[2] = src->quad[2];
@@ -760,38 +760,38 @@ s32 Collider_SetColliderQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dest,
 
 s32 Collider_InitQuad(GlobalContext* globalCtx, ColliderQuad* collider) {
     Collider_InitBase(globalCtx, &collider->base);
-    Collider_InitColliderBody(globalCtx, &collider->body);
-    Collider_InitColliderQuadDim(globalCtx, &collider->dim);
+    Collider_InitBody(globalCtx, &collider->body);
+    Collider_InitQuadDim(globalCtx, &collider->dim);
     return 1;
 }
 
 s32 Collider_DestroyQuad(GlobalContext* globalCtx, ColliderQuad* collider) {
     Collider_DestroyBase(globalCtx, &collider->base);
-    Collider_DestroyColliderBody(globalCtx, &collider->body);
-    Collider_DestroyColliderQuadDim(globalCtx, &collider->dim);
+    Collider_DestroyBody(globalCtx, &collider->body);
+    Collider_DestroyQuadDim(globalCtx, &collider->dim);
     return 1;
 }
 
 // maskB = 0x10
 s32 Collider_SetQuad_Set3(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInit_Set3* src) {
     Collider_SetBase_Set3(globalCtx, &collider->base, actor, &src->base);
-    Collider_SetColliderBody(globalCtx, &collider->body, &src->body);
-    Collider_SetColliderQuadDim(globalCtx, &collider->dim, &src->dim);
+    Collider_SetBody(globalCtx, &collider->body, &src->body);
+    Collider_SetQuadDim(globalCtx, &collider->dim, &src->dim);
     return 1;
 }
 
 // maskB = src->maskB
 s32 Collider_SetQuad(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInit* src) {
     Collider_SetBase(globalCtx, &collider->base, actor, &src->base);
-    Collider_SetColliderBody(globalCtx, &collider->body, &src->body);
-    Collider_SetColliderQuadDim(globalCtx, &collider->dim, &src->dim);
+    Collider_SetBody(globalCtx, &collider->body, &src->body);
+    Collider_SetQuadDim(globalCtx, &collider->dim, &src->dim);
     return 1;
 }
 
 s32 Collider_QuadSetAT(GlobalContext* globalCtx, Collider* collider) {
     ColliderQuad* col = (ColliderQuad*)collider;
     Collider_BaseSetAT(globalCtx, &col->base);
-    Collider_ColliderBodySetAT(globalCtx, &col->body);
+    Collider_BodySetAT(globalCtx, &col->body);
     func_8005CEC4(globalCtx, &col->dim);
     return 1;
 }
@@ -799,14 +799,14 @@ s32 Collider_QuadSetAT(GlobalContext* globalCtx, Collider* collider) {
 s32 Collider_QuadSetAC(GlobalContext* globalCtx, Collider* collider) {
     ColliderQuad* col = (ColliderQuad*)collider;
     Collider_BaseSetAC(globalCtx, &col->base);
-    Collider_ColliderBodySetAC(globalCtx, &col->body);
+    Collider_BodySetAC(globalCtx, &col->body);
     return 1;
 }
 
 s32 Collider_QuadSetOC(GlobalContext* globalCtx, Collider* collider) {
     ColliderQuad* col = (ColliderQuad*)collider;
     Collider_BaseSetOC(globalCtx, &col->base);
-    Collider_ColliderBodySetOC(globalCtx, &col->body);
+    Collider_BodySetOC(globalCtx, &col->body);
     return 1;
 }
 
@@ -825,7 +825,7 @@ s32 func_8005D218(GlobalContext* globalCtx, ColliderQuad* quad, Vec3f* arg2) {
             Collider_BaseSetAC(globalCtx, quad->body.atHit);
         }
         if (quad->body.atHitItem != NULL) {
-            Collider_ColliderBodySetAC(globalCtx, quad->body.atHitItem);
+            Collider_BodySetAC(globalCtx, quad->body.atHitItem);
         }
         return 1;
     }
@@ -863,53 +863,53 @@ s32 func_8005D3A4(GlobalContext* globalCtx, OcLine* line) {
     return 1;
 }
 
-void func_8005D3BC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
-    collisionCheckCtx->sacFlags = 0;
-    CollisionCheck_InitContext(globalCtx, collisionCheckCtx);
+void func_8005D3BC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
+    colChkCtx->sacFlags = 0;
+    CollisionCheck_InitContext(globalCtx, colChkCtx);
     AREG(21) = 1;
     AREG(22) = 1;
     AREG(23) = 1;
 }
 
-void CollisionCheck_DestroyContext(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
+void CollisionCheck_DestroyContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
 }
 
 // Initialize CollisionCheckContext
-void CollisionCheck_InitContext(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
+void CollisionCheck_InitContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider** c;
     OcLine** d;
 
-    if (!(collisionCheckCtx->sacFlags & 1)) {
-        collisionCheckCtx->colAtCount = 0;
-        collisionCheckCtx->colAcCount = 0;
-        collisionCheckCtx->colOcCount = 0;
-        collisionCheckCtx->colOcLineCount = 0;
-        for (c = collisionCheckCtx->colAt; c < collisionCheckCtx->colAt + COLLISION_CHECK_AT_MAX; c++) {
+    if (!(colChkCtx->sacFlags & 1)) {
+        colChkCtx->colAtCount = 0;
+        colChkCtx->colAcCount = 0;
+        colChkCtx->colOcCount = 0;
+        colChkCtx->colOcLineCount = 0;
+        for (c = colChkCtx->colAt; c < colChkCtx->colAt + COLLISION_CHECK_AT_MAX; c++) {
             *c = NULL;
         }
 
-        for (c = collisionCheckCtx->colAc; c < collisionCheckCtx->colAc + COLLISION_CHECK_AC_MAX; c++) {
+        for (c = colChkCtx->colAc; c < colChkCtx->colAc + COLLISION_CHECK_AC_MAX; c++) {
             *c = NULL;
         }
 
-        for (c = collisionCheckCtx->colOc; c < collisionCheckCtx->colOc + COLLISION_CHECK_OC_MAX; c++) {
+        for (c = colChkCtx->colOc; c < colChkCtx->colOc + COLLISION_CHECK_OC_MAX; c++) {
             *c = NULL;
         }
 
-        for (d = collisionCheckCtx->colOcLine; d < collisionCheckCtx->colOcLine + COLLISION_CHECK_OC_LINE_MAX; d++) {
+        for (d = colChkCtx->colOcLine; d < colChkCtx->colOcLine + COLLISION_CHECK_OC_LINE_MAX; d++) {
             *d = NULL;
         }
     }
 }
 
 // Unused
-void CollisionCheck_EnableSAC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
-    collisionCheckCtx->sacFlags |= 1;
+void CollisionCheck_EnableSAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
+    colChkCtx->sacFlags |= 1;
 }
 
 // Unused
-void CollisionCheck_DisableSAC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
-    collisionCheckCtx->sacFlags &= ~1;
+void CollisionCheck_DisableSAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
+    colChkCtx->sacFlags &= ~1;
 }
 
 // Draw Collider
@@ -951,24 +951,24 @@ void func_8005D4DC(GlobalContext* globalCtx, Collider* collider) {
     }
 }
 
-void CollisionCheck_Draw(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
+void CollisionCheck_Draw(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider* collider;
     s32 i;
 
     if (AREG(15)) {
         if (AREG(21)) {
-            for (i = 0; i < collisionCheckCtx->colAtCount; i++) {
-                func_8005D4DC(globalCtx, collisionCheckCtx->colAt[i]);
+            for (i = 0; i < colChkCtx->colAtCount; i++) {
+                func_8005D4DC(globalCtx, colChkCtx->colAt[i]);
             }
         }
         if (AREG(22)) {
-            for (i = 0; i < collisionCheckCtx->colAcCount; i++) {
-                func_8005D4DC(globalCtx, collisionCheckCtx->colAc[i]);
+            for (i = 0; i < colChkCtx->colAcCount; i++) {
+                func_8005D4DC(globalCtx, colChkCtx->colAc[i]);
             }
         }
         if (AREG(23)) {
-            for (i = 0; i < collisionCheckCtx->colOcCount; i++) {
-                collider = collisionCheckCtx->colOc[i];
+            for (i = 0; i < colChkCtx->colOcCount; i++) {
+                collider = colChkCtx->colOc[i];
                 if (collider->maskA & 1) {
                     func_8005D4DC(globalCtx, collider);
                 }
@@ -987,7 +987,7 @@ s32 (*D_8011DEF8[])(GlobalContext*, Collider*) = { Collider_JntSphSetAT, Collide
                                                    Collider_QuadSetAT };
 
 // Sets collider as an AT (attack) for the current frame, which will be checked against ACs (attack colliders)
-s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
+s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
     if (func_800C0D28(globalCtx) == 1) {
@@ -1002,23 +1002,23 @@ s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* collis
             return -1;
         }
     }
-    if (collisionCheckCtx->colAtCount >= COLLISION_CHECK_AT_MAX) {
+    if (colChkCtx->colAtCount >= COLLISION_CHECK_AT_MAX) {
         osSyncPrintf("CollisionCheck_setAT():インデックスがオーバーして追加不能\n");
         // EUC-JP: インデックスがオーバーして追加不能 | Index exceeded and cannot be added
         return -1;
     }
-    if (collisionCheckCtx->sacFlags & 1) {
+    if (colChkCtx->sacFlags & 1) {
         return -1;
     }
-    index = collisionCheckCtx->colAtCount;
-    collisionCheckCtx->colAt[collisionCheckCtx->colAtCount++] = collider;
+    index = colChkCtx->colAtCount;
+    colChkCtx->colAt[colChkCtx->colAtCount++] = collider;
     return index;
 }
 
 // Unused. Sets collider as an AT (attack) for the current frame, which will be checked against ACs (attack colliders).
 // If CollisionCheck_SAC is enabled, the collider will be inserted into the list at the specified index, otherwise it
 // will be inserted into the next slot
-s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider,
+s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider,
                              s32 index) {
 
     if (!(collider->shape < COLSHAPE_INVALID)) {
@@ -1031,21 +1031,21 @@ s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
-    if (collisionCheckCtx->sacFlags & 1) {
-        if (!(index < collisionCheckCtx->colAtCount)) {
+    if (colChkCtx->sacFlags & 1) {
+        if (!(index < colChkCtx->colAtCount)) {
             osSyncPrintf("CollisionCheck_setAT_SAC():全データ数より大きいところに登録しようとしている。\n");
             // EUC-JP: 全データ数より大きいところに登録しようとしている。 | You are trying to register a location that
             // is larger than the total number of data.
             return -1;
         }
-        collisionCheckCtx->colAt[index] = collider;
+        colChkCtx->colAt[index] = collider;
     } else {
-        if (!(collisionCheckCtx->colAtCount < COLLISION_CHECK_AT_MAX)) {
+        if (!(colChkCtx->colAtCount < COLLISION_CHECK_AT_MAX)) {
             osSyncPrintf("CollisionCheck_setAT():インデックスがオーバーして追加不能\n");
             return -1;
         }
-        index = collisionCheckCtx->colAtCount;
-        collisionCheckCtx->colAt[collisionCheckCtx->colAtCount++] = collider;
+        index = colChkCtx->colAtCount;
+        colChkCtx->colAt[colChkCtx->colAtCount++] = collider;
     }
     return index;
 }
@@ -1054,7 +1054,7 @@ s32 (*D_8011DF08[])(GlobalContext*, Collider*) = { Collider_JntSphSetAC, Collide
                                                    Collider_QuadSetAC };
 
 // Sets collider as an AC (attack collider) for the current frame, allowing it to detect ATs (attacks)
-s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
+s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
     if (func_800C0D28(globalCtx) == 1) {
@@ -1069,23 +1069,23 @@ s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* collis
             return -1;
         }
     }
-    if (collisionCheckCtx->colAcCount >= COLLISION_CHECK_AC_MAX) {
+    if (colChkCtx->colAcCount >= COLLISION_CHECK_AC_MAX) {
         osSyncPrintf("CollisionCheck_setAC():インデックスがオーバして追加不能\n");
         // EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
         return -1;
     }
-    if (collisionCheckCtx->sacFlags & 1) {
+    if (colChkCtx->sacFlags & 1) {
         return -1;
     }
-    index = collisionCheckCtx->colAcCount;
-    collisionCheckCtx->colAc[collisionCheckCtx->colAcCount++] = collider;
+    index = colChkCtx->colAcCount;
+    colChkCtx->colAc[colChkCtx->colAcCount++] = collider;
     return index;
 }
 
 // Unused. Sets collider as an AC (attack collider) for the current frame, allowing it to detect ATs (attacks).
 // If CollisionCheck_SAC is enabled, the collider will be inserted into the list at the specified index, otherwise it
 // will be inserted into the next slot
-s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider,
+s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider,
                              s32 index) {
 
     if (!(collider->shape < COLSHAPE_INVALID)) {
@@ -1098,22 +1098,22 @@ s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
-    if (collisionCheckCtx->sacFlags & 1) {
-        if (!(index < collisionCheckCtx->colAcCount)) {
+    if (colChkCtx->sacFlags & 1) {
+        if (!(index < colChkCtx->colAcCount)) {
             osSyncPrintf("CollisionCheck_setAC_SAC():全データ数より大きいところに登録しようとしている。\n");
             // EUC-JP: 全データ数より大きいところに登録しようとしている。| You are trying to register a location that is
             // larger than the total number of data.
             return -1;
         }
-        collisionCheckCtx->colAc[index] = collider;
+        colChkCtx->colAc[index] = collider;
     } else {
-        if (!(collisionCheckCtx->colAcCount < COLLISION_CHECK_AC_MAX)) {
+        if (!(colChkCtx->colAcCount < COLLISION_CHECK_AC_MAX)) {
             osSyncPrintf("CollisionCheck_setAC():インデックスがオーバして追加不能\n");
             // EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
             return -1;
         }
-        index = collisionCheckCtx->colAcCount;
-        collisionCheckCtx->colAc[collisionCheckCtx->colAcCount++] = collider;
+        index = colChkCtx->colAcCount;
+        colChkCtx->colAc[colChkCtx->colAcCount++] = collider;
     }
     return index;
 }
@@ -1126,7 +1126,7 @@ s32 (*D_8011DF18[])(GlobalContext*, Collider*) = {
 };
 
 // Sets collider as an OC (object collider) for the current frame, allowing it to detect other OCs
-s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
+s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
     if (func_800C0D28(globalCtx) == 1) {
@@ -1141,23 +1141,23 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* collis
             return -1;
         }
     }
-    if (collisionCheckCtx->colOcCount >= COLLISION_CHECK_OC_MAX) {
+    if (colChkCtx->colOcCount >= COLLISION_CHECK_OC_MAX) {
         osSyncPrintf("CollisionCheck_setOC():インデックスがオーバして追加不能\n");
         // EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
         return -1;
     }
-    if (collisionCheckCtx->sacFlags & 1) {
+    if (colChkCtx->sacFlags & 1) {
         return -1;
     }
-    index = collisionCheckCtx->colOcCount;
-    collisionCheckCtx->colOc[collisionCheckCtx->colOcCount++] = collider;
+    index = colChkCtx->colOcCount;
+    colChkCtx->colOc[colChkCtx->colOcCount++] = collider;
     return index;
 }
 
 // Unused. Sets collider as an OC (object collider) for the current frame, allowing it to detect other OCs
 // If CollisionCheck_SAC is enabled, the collider will be inserted into the list at the specified index, otherwise it
 // will be inserted into the next slot
-s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider,
+s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider,
                              s32 index) {
 
     if (func_800C0D28(globalCtx) == 1) {
@@ -1170,40 +1170,40 @@ s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
-    if (collisionCheckCtx->sacFlags & 1) {
-        if (!(index < collisionCheckCtx->colOcCount)) {
+    if (colChkCtx->sacFlags & 1) {
+        if (!(index < colChkCtx->colOcCount)) {
             osSyncPrintf("CollisionCheck_setOC_SAC():全データ数より大きいところに登録しようとしている。\n");
             // EUC-JP: 全データ数より大きいところに登録しようとしている。| You are trying to register a location that is
             // larger than the total number of data.
             return -1;
         }
         // BUG: Should be colOc
-        collisionCheckCtx->colAt[index] = collider;
+        colChkCtx->colAt[index] = collider;
     } else {
-        if (!(collisionCheckCtx->colOcCount < COLLISION_CHECK_OC_MAX)) {
+        if (!(colChkCtx->colOcCount < COLLISION_CHECK_OC_MAX)) {
             osSyncPrintf("CollisionCheck_setOC():インデックスがオーバして追加不能\n");
             // EUC-JP: インデックスがオーバして追加不能 | Index exceeded and cannot be added
             return -1;
         }
-        index = collisionCheckCtx->colOcCount;
-        collisionCheckCtx->colOc[collisionCheckCtx->colOcCount++] = collider;
+        index = colChkCtx->colOcCount;
+        colChkCtx->colOc[colChkCtx->colOcCount++] = collider;
     }
     return index;
 }
 
-s32 CollisionCheck_SetOCLine(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, OcLine* collider) {
+s32 CollisionCheck_SetOCLine(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, OcLine* collider) {
     s32 index;
 
     if (func_800C0D28(globalCtx) == 1) {
         return -1;
     }
     func_8005D3A4(globalCtx, collider);
-    if (!(collisionCheckCtx->colOcLineCount < COLLISION_CHECK_OC_LINE_MAX)) {
+    if (!(colChkCtx->colOcLineCount < COLLISION_CHECK_OC_LINE_MAX)) {
         osSyncPrintf("CollisionCheck_setOCLine():インデックスがオーバして追加不能\n");
         return -1;
     }
-    index = collisionCheckCtx->colOcLineCount;
-    collisionCheckCtx->colOcLine[collisionCheckCtx->colOcLineCount++] = collider;
+    index = colChkCtx->colOcLineCount;
+    colChkCtx->colOcLine[colChkCtx->colOcLineCount++] = collider;
     return index;
 }
 
@@ -1516,7 +1516,7 @@ s32 func_8005E81C(GlobalContext* globalCtx, Collider* left, ColliderBody* leftBo
     return 1;
 }
 
-void CollisionCheck_AC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_AC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                       Collider* r) {
     ColliderJntSph* left;
     ColliderJntSph* right;
@@ -1570,7 +1570,7 @@ void CollisionCheck_AC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckCo
     }
 }
 
-void CollisionCheck_AC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_AC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                    Collider* r) {
     ColliderJntSph* left = (ColliderJntSph*)l;
     ColliderCylinder* right = (ColliderCylinder*)r;
@@ -1620,7 +1620,7 @@ void CollisionCheck_AC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckConte
     }
 }
 
-void CollisionCheck_AC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_AC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                    Collider* r) {
     ColliderCylinder* left = (ColliderCylinder*)l;
     ColliderJntSph* right = (ColliderJntSph*)r;
@@ -1672,7 +1672,7 @@ void CollisionCheck_AC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckConte
     }
 }
 
-void CollisionCheck_AC_JntSphVsTris(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_AC_JntSphVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                     Collider* r) {
     ColliderJntSph* left = (ColliderJntSph*)l;
     ColliderTris* right = (ColliderTris*)r;
@@ -1710,7 +1710,7 @@ void CollisionCheck_AC_JntSphVsTris(GlobalContext* globalCtx, CollisionCheckCont
     }
 }
 
-void CollisionCheck_AC_TrisVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_AC_TrisVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                     Collider* r) {
     ColliderTris* left = (ColliderTris*)l;
     ColliderTrisItem* lItem;
@@ -1753,7 +1753,7 @@ void CollisionCheck_AC_TrisVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
 extern TriNorm D_8015E230;
 extern TriNorm D_8015E268;
 
-void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                     Collider* r) {
     ColliderJntSph* left = (ColliderJntSph*)l;
     ColliderQuad* right = (ColliderQuad*)r;
@@ -1798,7 +1798,7 @@ void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckCont
 extern TriNorm D_8015E2A0;
 extern TriNorm D_8015E2D8;
 
-void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                     Collider* r) {
     ColliderJntSph* right = (ColliderJntSph*)r;
     Vec3f sp88;
@@ -1846,8 +1846,7 @@ void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
     }
 }
 
-void CollisionCheck_AC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
-                                Collider* r) {
+void CollisionCheck_AC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderCylinder* left = (ColliderCylinder*)l;
     ColliderCylinder* right = (ColliderCylinder*)r;
     f32 sp6C;
@@ -1884,8 +1883,7 @@ void CollisionCheck_AC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext*
     }
 }
 
-void CollisionCheck_AC_CylVsTris(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
-                                 Collider* r) {
+void CollisionCheck_AC_CylVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderCylinder* left = (ColliderCylinder*)l;
     ColliderTris* right = (ColliderTris*)r;
     ColliderTrisItem* rItem;
@@ -1919,8 +1917,7 @@ void CollisionCheck_AC_CylVsTris(GlobalContext* globalCtx, CollisionCheckContext
 
 extern Vec3f D_8015E310;
 
-void CollisionCheck_AC_TrisVsCyl(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
-                                 Collider* r) {
+void CollisionCheck_AC_TrisVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderTris* left = (ColliderTris*)l;
     ColliderCylinder* right = (ColliderCylinder*)r;
     ColliderTrisItem* lItem;
@@ -1956,8 +1953,7 @@ extern TriNorm D_8015E320;
 extern TriNorm D_8015E358;
 extern Vec3f D_8015E390;
 
-void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
-                                 Collider* r) {
+void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderCylinder* left = (ColliderCylinder*)l;
     ColliderQuad* right = (ColliderQuad*)r;
     Vec3f sp64;
@@ -2003,8 +1999,7 @@ extern TriNorm D_8015E3A0;
 extern TriNorm D_8015E3D8;
 extern Vec3f D_8015E410;
 
-void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
-                                 Collider* r) {
+void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderQuad* left = (ColliderQuad*)l;
     ColliderCylinder* right = (ColliderCylinder*)r;
     Vec3f sp64;
@@ -2052,7 +2047,7 @@ void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext
 
 extern Vec3f D_8015E420;
 
-void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                   Collider* r) {
     ColliderTris* left = (ColliderTris*)l;
     ColliderTris* right = (ColliderTris*)r;
@@ -2094,7 +2089,7 @@ extern Vec3f D_8015E430;
 extern TriNorm D_8015E440;
 extern TriNorm D_8015E478;
 
-void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                   Collider* r) {
     ColliderTris* left = (ColliderTris*)l;
     ColliderQuad* right = (ColliderQuad*)r;
@@ -2140,7 +2135,7 @@ extern Vec3f D_8015E4B0;
 extern TriNorm D_8015E4C0;
 extern TriNorm D_8015E4F8;
 
-void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                   Collider* r) {
     ColliderQuad* left = (ColliderQuad*)l;
     ColliderTris* right = (ColliderTris*)r;
@@ -2188,7 +2183,7 @@ extern TriNorm D_8015E530[2];
 extern Vec3f D_8015E598;
 extern TriNorm D_8015E5A8[2];
 
-void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                   Collider* r) {
     ColliderQuad* left = (ColliderQuad*)l;
     ColliderQuad* right = (ColliderQuad*)r;
@@ -2242,7 +2237,7 @@ void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContex
 }
 
 // D_8011DF5C ColliderJntSph
-void func_80060EBC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
+void func_80060EBC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderJntSph* col = (ColliderJntSph*)collider;
     ColliderJntSphItem* item;
     Vec3f sp24;
@@ -2262,7 +2257,7 @@ void func_80060EBC(GlobalContext* globalCtx, CollisionCheckContext* collisionChe
 }
 
 // D_8011DF5C ColliderCylinder
-void func_80060F94(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
+void func_80060F94(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderCylinder* item = (ColliderCylinder*)collider;
     Vec3f sp28;
 
@@ -2278,7 +2273,7 @@ void func_80060F94(GlobalContext* globalCtx, CollisionCheckContext* collisionChe
 }
 
 // D_8011DF5C ColliderTris
-void func_80061028(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
+void func_80061028(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderTris* col = (ColliderTris*)collider;
     ColliderTrisItem* item;
     Vec3f sp24;
@@ -2298,7 +2293,7 @@ void func_80061028(GlobalContext* globalCtx, CollisionCheckContext* collisionChe
 }
 
 // D_8011DF5C ColliderQuad
-void func_8006110C(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
+void func_8006110C(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderQuad* item = (ColliderQuad*)collider;
     Vec3f sp28;
 
@@ -2313,7 +2308,7 @@ void func_8006110C(GlobalContext* globalCtx, CollisionCheckContext* collisionChe
     }
 }
 
-void func_800611A0(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
+void func_800611A0(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider** col;
     Collider* temp;
 
@@ -2324,19 +2319,19 @@ void func_800611A0(GlobalContext* globalCtx, CollisionCheckContext* collisionChe
         func_8006110C,
     };
 
-    for (col = collisionCheckCtx->colAc; col < collisionCheckCtx->colAc + collisionCheckCtx->colAcCount; col++) {
+    for (col = colChkCtx->colAc; col < colChkCtx->colAc + colChkCtx->colAcCount; col++) {
         temp = *col;
         if (temp != NULL) {
             if (temp->acFlags & 1) {
                 if (temp->actor == NULL || temp->actor->update != NULL) {
-                    (*D_8011DF5C[temp->shape])(globalCtx, collisionCheckCtx, temp);
+                    (*D_8011DF5C[temp->shape])(globalCtx, colChkCtx, temp);
                 }
             }
         }
     }
 }
 
-void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
+void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     Collider** col;
     Collider* temp;
 
@@ -2350,7 +2345,7 @@ void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* collisio
         { CollisionCheck_AC_QuadVsJntSph, CollisionCheck_AC_QuadVsCyl, CollisionCheck_AC_QuadVsTris,
           CollisionCheck_AC_QuadVsQuad },
     };
-    for (col = collisionCheckCtx->colAc; col < collisionCheckCtx->colAc + collisionCheckCtx->colAcCount; col++) {
+    for (col = colChkCtx->colAc; col < colChkCtx->colAc + colChkCtx->colAcCount; col++) {
         temp = *col;
         if (temp == NULL) {
             continue;
@@ -2365,30 +2360,29 @@ void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* collisio
         }
 
         else if ((collider->atFlags & 0x40) || collider->actor == NULL || temp->actor != collider->actor) {
-            D_8011DF6C[collider->shape][temp->shape](globalCtx, collisionCheckCtx, collider, temp);
+            D_8011DF6C[collider->shape][temp->shape](globalCtx, colChkCtx, collider, temp);
         }
     }
 }
 
 // Test Attack Collisions
-void func_8006139C(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
+void func_8006139C(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider** colAt;
     Collider* colliderAt;
 
-    if (collisionCheckCtx->colAtCount != 0) {
-        if (collisionCheckCtx->colAcCount != 0) {
-            for (colAt = collisionCheckCtx->colAt; colAt < collisionCheckCtx->colAt + collisionCheckCtx->colAtCount;
-                 colAt++) {
+    if (colChkCtx->colAtCount != 0) {
+        if (colChkCtx->colAcCount != 0) {
+            for (colAt = colChkCtx->colAt; colAt < colChkCtx->colAt + colChkCtx->colAtCount; colAt++) {
                 colliderAt = *colAt;
                 if (colliderAt != NULL) {
                     if (colliderAt->atFlags & 1) {
                         if ((colliderAt->actor == NULL) || (colliderAt->actor->update != NULL)) {
-                            CollisionCheck_AC(globalCtx, collisionCheckCtx, colliderAt);
+                            CollisionCheck_AC(globalCtx, colChkCtx, colliderAt);
                         }
                     }
                 }
             }
-            func_800611A0(globalCtx, collisionCheckCtx);
+            func_800611A0(globalCtx, colChkCtx);
         }
     }
 }
@@ -2497,7 +2491,7 @@ void func_800614A4(Collider* left, ColliderBody* leftBody, Vec3f* leftv, Collide
     }
 }
 
-void CollisionCheck_OC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_OC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                       Collider* r) {
     ColliderJntSph* left = (ColliderJntSph*)l;
     ColliderJntSph* right = (ColliderJntSph*)r;
@@ -2526,7 +2520,7 @@ void CollisionCheck_OC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckCo
     }
 }
 
-void CollisionCheck_OC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_OC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                    Collider* r) {
     ColliderJntSph* left = (ColliderJntSph*)l;
     ColliderCylinder* right = (ColliderCylinder*)r;
@@ -2555,13 +2549,12 @@ void CollisionCheck_OC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckConte
     }
 }
 
-void CollisionCheck_OC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
+void CollisionCheck_OC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l,
                                    Collider* r) {
-    CollisionCheck_OC_JntSphVsCyl(globalCtx, collisionCheckCtx, r, l);
+    CollisionCheck_OC_JntSphVsCyl(globalCtx, colChkCtx, r, l);
 }
 
-void CollisionCheck_OC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* l,
-                                Collider* r) {
+void CollisionCheck_OC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* l, Collider* r) {
     ColliderCylinder* left = (ColliderCylinder*)l;
     ColliderCylinder* right = (ColliderCylinder*)r;
     f32 sp4C;
@@ -2601,7 +2594,7 @@ s32 func_80061C18(Collider* arg0, Collider* arg1) {
     return 0;
 }
 
-void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
+void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider** phi_s2;
     Collider** phi_s0;
     Collider** new_var;
@@ -2615,12 +2608,11 @@ void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* collisio
         { NULL, NULL, NULL, NULL },
     };
 
-    for (phi_s2 = collisionCheckCtx->colOc; phi_s2 < collisionCheckCtx->colOc + collisionCheckCtx->colOcCount;
-         phi_s2++) {
+    for (phi_s2 = colChkCtx->colOc; phi_s2 < colChkCtx->colOc + colChkCtx->colOcCount; phi_s2++) {
         if (*phi_s2 == NULL || func_80061BF4(*phi_s2) == 1) {
             continue;
         }
-        for (phi_s0 = phi_s2 + 1; phi_s0 < collisionCheckCtx->colOc + collisionCheckCtx->colOcCount; phi_s0++) {
+        for (phi_s0 = phi_s2 + 1; phi_s0 < colChkCtx->colOc + colChkCtx->colOcCount; phi_s0++) {
             if (*phi_s0 == NULL || func_80061BF4(*phi_s0) == 1 || func_80061C18(*phi_s2, *phi_s0) == 1) {
                 continue;
             }
@@ -2632,7 +2624,7 @@ void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* collisio
                 // EUC-JP: 未対応 | Not compatible
                 continue;
             }
-            (*test)(globalCtx, collisionCheckCtx, *new_var, *new_var2);
+            (*test)(globalCtx, colChkCtx, *new_var, *new_var2);
         }
     }
 }
@@ -2682,8 +2674,7 @@ void func_80061F2C(CollisionCheckInfo* info, s32 index, CollisionCheckInfoInit2*
 }
 
 // Apply AC damage effect
-void func_80061F64(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider,
-                   ColliderBody* body) {
+void func_80061F64(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider, ColliderBody* body) {
     DamageTable* tbl;
     u32 flags;
     s32 i;
@@ -2722,7 +2713,7 @@ void func_80061F64(GlobalContext* globalCtx, CollisionCheckContext* collisionChe
 }
 
 // Apply ColliderJntSph AC damage effect
-void func_8006216C(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
+void func_8006216C(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderJntSph* jntSph = (ColliderJntSph*)collider;
     s32 i;
 
@@ -2730,34 +2721,34 @@ void func_8006216C(GlobalContext* globalCtx, CollisionCheckContext* collisionChe
         return;
     }
     for (i = 0; i < jntSph->count; i++) {
-        func_80061F64(globalCtx, collisionCheckCtx, &jntSph->base, &jntSph->list[i].body);
+        func_80061F64(globalCtx, colChkCtx, &jntSph->base, &jntSph->list[i].body);
     }
 }
 
 // Apply ColliderCylinder AC damage effect
-void func_80062210(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
+void func_80062210(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
-    func_80061F64(globalCtx, collisionCheckCtx, &cylinder->base, &cylinder->body);
+    func_80061F64(globalCtx, colChkCtx, &cylinder->base, &cylinder->body);
 }
 
 // Apply ColliderTris AC damage effect
-void func_80062230(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
+void func_80062230(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderTris* tris = (ColliderTris*)collider;
     s32 i;
 
     for (i = 0; i < tris->count; i++) {
-        func_80061F64(globalCtx, collisionCheckCtx, collider, &tris->list[i].body);
+        func_80061F64(globalCtx, colChkCtx, collider, &tris->list[i].body);
     }
 }
 
 // Apply ColliderQuad AC damage effect
-void func_800622C4(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Collider* collider) {
+void func_800622C4(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     ColliderQuad* quad = (ColliderQuad*)collider;
-    func_80061F64(globalCtx, collisionCheckCtx, &quad->base, &quad->body);
+    func_80061F64(globalCtx, colChkCtx, &quad->base, &quad->body);
 }
 
 // Apply all AC damage effects
-void func_800622E4(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx) {
+void func_800622E4(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider* collider;
     s32 i;
 
@@ -2768,21 +2759,21 @@ void func_800622E4(GlobalContext* globalCtx, CollisionCheckContext* collisionChe
         func_800622C4,
     };
 
-    for (i = 0; i < collisionCheckCtx->colAcCount; i++) {
-        collider = collisionCheckCtx->colAc[i];
+    for (i = 0; i < colChkCtx->colAcCount; i++) {
+        collider = colChkCtx->colAc[i];
         if (collider == 0) {
             continue;
         }
         if ((collider->acFlags & 0x40)) {
             continue;
         }
-        D_8011E008[collider->shape](globalCtx, collisionCheckCtx, collider);
+        D_8011E008[collider->shape](globalCtx, colChkCtx, collider);
     }
 }
 
 extern Linef D_8015E610;
 
-s32 CollisionCheck_generalLineOcCheck_JntSph(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx,
+s32 CollisionCheck_generalLineOcCheck_JntSph(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
                                              Collider* collider, Vec3f* arg3, Vec3f* arg4) {
     ColliderJntSph* jntSph = (ColliderJntSph*)collider;
     ColliderJntSphItem* item;
@@ -2804,7 +2795,7 @@ s32 CollisionCheck_generalLineOcCheck_JntSph(GlobalContext* globalCtx, Collision
 extern Vec3f D_8015E628;
 extern Vec3f D_8015E638;
 
-s32 CollisionCheck_generalLineOcCheck_Cyl(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx,
+s32 CollisionCheck_generalLineOcCheck_Cyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx,
                                           Collider* collider, Vec3f* arg3, Vec3f* arg4) {
     ColliderCylinder* cylinder = (ColliderCylinder*)collider;
     if (!(cylinder->body.ocFlags & 1)) {
@@ -2816,8 +2807,8 @@ s32 CollisionCheck_generalLineOcCheck_Cyl(GlobalContext* globalCtx, CollisionChe
     return 0;
 }
 
-s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx,
-                                      Vec3f* camera_3C, Vec3f* arg3, Actor** arg4, s32 arg5) {
+s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C,
+                                      Vec3f* arg3, Actor** arg4, s32 arg5) {
     Collider* collider;
     s32 (*t)(GlobalContext*, CollisionCheckContext*, Collider*, Vec3f*, Vec3f*);
     Collider** c;
@@ -2833,7 +2824,7 @@ s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckCo
     };
 
     result = 0;
-    for (c = collisionCheckCtx->colOc; c < collisionCheckCtx->colOc + collisionCheckCtx->colOcCount; c++) {
+    for (c = colChkCtx->colOc; c < colChkCtx->colOc + colChkCtx->colOcCount; c++) {
         if (func_80061BF4(*c) == 1) {
             continue;
         }
@@ -2853,7 +2844,7 @@ s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckCo
             osSyncPrintf("CollisionCheck_generalLineOcCheck():未対応 %dタイプ\n", collider->shape);
             // EUC-JP: 未対応 %dタイプ | %d's type is not supported
         } else {
-            result = (*t)(globalCtx, collisionCheckCtx, collider, camera_3C, arg3);
+            result = (*t)(globalCtx, colChkCtx, collider, camera_3C, arg3);
             if (result != 0) {
                 break;
             }
@@ -2862,13 +2853,13 @@ s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckCo
     return result;
 }
 
-s32 func_8006268C(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Vec3f* arg2, Vec3f* arg3) {
-    CollisionCheck_GeneralLineOcCheck(globalCtx, collisionCheckCtx, arg2, arg3, NULL, 0);
+s32 func_8006268C(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* arg2, Vec3f* arg3) {
+    CollisionCheck_GeneralLineOcCheck(globalCtx, colChkCtx, arg2, arg3, NULL, 0);
 }
 
-s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* collisionCheckCtx, Vec3f* camera_3C, Vec3f* arg3,
+s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C, Vec3f* arg3,
                   Actor** arg4, s32 arg5) {
-    CollisionCheck_GeneralLineOcCheck(globalCtx, collisionCheckCtx, camera_3C, arg3, arg4, arg5);
+    CollisionCheck_GeneralLineOcCheck(globalCtx, colChkCtx, camera_3C, arg3, arg4, arg5);
 }
 
 void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider) {
@@ -2915,7 +2906,7 @@ void func_800627A0(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f*
 // Set ColliderTrisItem at index
 void func_8006285C(GlobalContext* globalCtx, ColliderTris* collider, s32 index, ColliderTrisItemDimInit* init) {
     ColliderTrisItem* item = &collider->list[index];
-    Collider_SetColliderTrisItemDim(globalCtx, &item->dim, init);
+    Collider_SetTrisItemDim(globalCtx, &item->dim, init);
 }
 
 #ifdef NON_MATCHING

@@ -107,7 +107,7 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
 }
 
 void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx) {
-    CollisionCheckContext* collisionCheckCtx;
+    CollisionCheckContext* colChkCtx;
     ColliderCylinder* collider;
 
     if (func_80033684(globalCtx, &this->actor) != NULL ||
@@ -122,10 +122,10 @@ void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx) {
     } else {
         this->collider.base.acFlags &= ~0x2;
         if (this->actor.xzDistanceFromLink < 800.0f) {
-            collisionCheckCtx = &globalCtx->collisionCheckCtx;
+            colChkCtx = &globalCtx->colChkCtx;
             collider = &this->collider;
-            CollisionCheck_SetAC(globalCtx, collisionCheckCtx, collider);
-            CollisionCheck_SetOC(globalCtx, collisionCheckCtx, collider);
+            CollisionCheck_SetAC(globalCtx, colChkCtx, collider);
+            CollisionCheck_SetOC(globalCtx, colChkCtx, collider);
         }
     }
 }

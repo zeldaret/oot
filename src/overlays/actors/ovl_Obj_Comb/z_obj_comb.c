@@ -166,11 +166,11 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
             Actor_Kill(this);
         }
     } else {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 
     if (this->actor.update != NULL) {
-        CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 }
 

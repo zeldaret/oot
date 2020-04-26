@@ -54,5 +54,5 @@ void EnIt_Update(EnIt* this, GlobalContext* globalCtx) {
     EnIt* it = this;
 
     Collider_CylinderUpdate(&it->actor, &it->cylinderCollider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &it->cylinderCollider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &it->cylinderCollider);
 }

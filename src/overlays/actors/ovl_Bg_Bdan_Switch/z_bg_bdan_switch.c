@@ -480,8 +480,8 @@ void BgBdanSwitch_Update(BgBdanSwitch* this, GlobalContext* globalCtx) {
     this->collider.base.acFlags &= 0xFFFD;
     this->unk_1DC = pad;
     this->collider.list[0].dim.modelSphere.radius = this->unk_1D4 * 370.0f;
-    CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
 void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, UNK_TYPE arg2) {

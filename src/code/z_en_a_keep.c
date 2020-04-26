@@ -324,7 +324,7 @@ void En_A_Obj_Update(ActorEnAObj* this, GlobalContext* globalCtx) {
         case A_OBJ_SIGNPOST_ARROW:
             collider = (Collider*)&this->cylinderCollider;
             Collider_CylinderUpdate(&this->actor, &this->cylinderCollider);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, collider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
     }
 }
 

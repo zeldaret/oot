@@ -172,7 +172,7 @@ void EnMs_Update(EnMs* this, GlobalContext* globalCtx) {
         func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     }
     Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
 void EnMs_Draw(EnMs* this, GlobalContext* globalCtx) {

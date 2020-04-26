@@ -126,9 +126,9 @@ void EnNutsball_Update(EnNutsball* this, GlobalContext* globalCtx) {
 
         nutsball->actor.flags |= 0x1000000;
 
-        CollisionCheck_SetAT(globalCtx, &globalCtx->collisionCheckCtx, &nutsball->collider);
-        CollisionCheck_SetAC(globalCtx, &globalCtx->collisionCheckCtx, &nutsball->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->collisionCheckCtx, &nutsball->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &nutsball->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &nutsball->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &nutsball->collider);
     }
 }
 
