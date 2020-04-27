@@ -60,12 +60,12 @@ const ActorInit En_Heishi2_InitVars = {
 };
 */
 void EnHeishi2_Init(EnHeishi2* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* collider;
+    ColliderCylinder* collider;
     Actor* thisx = &this->actor;
 
     Actor_SetScale(thisx, 0.01f);
     this->initParams = thisx->params & 0xFF;
-    thisx->sub_98.mass = 0xFF;
+    thisx->colChkInfo.mass = 0xFF;
 
     if ((this->initParams == 6) || (this->initParams == 9)) {
         thisx->draw = func_80A54C6C;
@@ -87,7 +87,7 @@ void EnHeishi2_Init(EnHeishi2* this, GlobalContext* globalCtx) {
         thisx->posRot.pos.y -= 60.0f;
         thisx->posRot.pos.z += 90.0f;
         thisx->shape.rot.y = thisx->posRot.rot.y;
-        ActorCollider_FreeCylinder(globalCtx, &this->collider);
+        Collider_DestroyCylinder(globalCtx, &this->collider);
         func_8002DF54(globalCtx, 0, 8);
         thisx->flags |= 0x11;
         this->actionFunc = func_80A544AC;
@@ -98,8 +98,8 @@ void EnHeishi2_Init(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->limbDrawTable,
                    this->transitionDrawTable, 17);
     collider = &this->collider;
-    ActorCollider_AllocCylinder(globalCtx, collider);
-    ActorCollider_InitCylinder(globalCtx, collider, thisx, &D_80A54F10);
+    Collider_InitCylinder(globalCtx, collider);
+    Collider_SetCylinder(globalCtx, collider, thisx, &D_80A54F10);
     this->collider.dim.yShift = 0;
     this->collider.dim.radius = 0xF;
     this->collider.dim.height = 0x46;
@@ -119,7 +119,7 @@ void EnHeishi2_Init(EnHeishi2* this, GlobalContext* globalCtx) {
             osSyncPrintf("\n\n");
             // "Peep hole soldier!"
             osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" VT_RST);
-            ActorCollider_FreeCylinder(globalCtx, collider);
+            Collider_DestroyCylinder(globalCtx, collider);
             thisx->flags &= -0xA;
             this->actionFunc = func_80A531D8;
             break;
@@ -137,7 +137,7 @@ void EnHeishi2_Init(EnHeishi2* this, GlobalContext* globalCtx) {
 
 void EnHeishi2_Destroy(EnHeishi2* this, GlobalContext* globalCtx) {
     if ((this->collider.dim.radius != 0) || (this->collider.dim.height != 0)) {
-        ActorCollider_FreeCylinder(globalCtx, &this->collider);
+        Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
 

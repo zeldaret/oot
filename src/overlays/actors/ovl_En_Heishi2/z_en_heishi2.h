@@ -43,7 +43,7 @@ typedef struct {
     /* 0x0318 */ char unk_318[0x18];
     /* 0x0330 */ MtxF mtxf_330;
     /* 0x0370 */ char unk_370[0x28];
-    /* 0x0398 */ ColliderCylinderMain collider;
+    /* 0x0398 */ ColliderCylinder collider;
 } EnHeishi2; // size = 0x03E4
 
 extern const ActorInit En_Heishi2_InitVars;
