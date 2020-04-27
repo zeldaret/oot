@@ -75,7 +75,7 @@ glabel EnButte_Update
 /* 011A8 809CE218 00812821 */  addu    $a1, $a0, $at              
 /* 011AC 809CE21C 45020004 */  bc1fl   .L809CE230                 
 /* 011B0 809CE220 C60800BC */  lwc1    $f8, 0x00BC($s0)           ## 000000BC
-/* 011B4 809CE224 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 011B4 809CE224 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 011B8 809CE228 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 011BC 809CE22C C60800BC */  lwc1    $f8, 0x00BC($s0)           ## 000000BC

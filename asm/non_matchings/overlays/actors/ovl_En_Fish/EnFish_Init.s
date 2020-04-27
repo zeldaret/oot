@@ -32,7 +32,7 @@ glabel EnFish_Init
 /* 00240 80A154C0 260501AC */  addiu   $a1, $s0, 0x01AC           ## $a1 = 000001AC
 /* 00244 80A154C4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00248 80A154C8 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 0024C 80A154CC 0C016EFE */  jal     func_8005BBF8
+/* 0024C 80A154CC 0C016EFE */  jal     Collider_InitJntSph
 /* 00250 80A154D0 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00254 80A154D4 3C0780A1 */  lui     $a3, %hi(D_80A17040)       ## $a3 = 80A10000
 /* 00258 80A154D8 2608016C */  addiu   $t0, $s0, 0x016C           ## $t0 = 0000016C
@@ -40,7 +40,7 @@ glabel EnFish_Init
 /* 00260 80A154E0 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 00264 80A154E4 24E77040 */  addiu   $a3, $a3, %lo(D_80A17040)  ## $a3 = 80A17040
 /* 00268 80A154E8 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 0026C 80A154EC 0C017014 */  jal     func_8005C050
+/* 0026C 80A154EC 0C017014 */  jal     Collider_SetJntSph
 /* 00270 80A154F0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00274 80A154F4 24090032 */  addiu   $t1, $zero, 0x0032         ## $t1 = 00000032
 /* 00278 80A154F8 0C03F66B */  jal     Math_Rand_ZeroOne

@@ -50,8 +50,8 @@ void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx) {
     }
 
     thisx->posRot2.pos = thisx->posRot.pos;
-    thisx->sub_98.unk_10 = 0x1E;
-    thisx->sub_98.unk_12 = 0x32;
+    thisx->colChkInfo.unk_10 = 0x1E;
+    thisx->colChkInfo.unk_12 = 0x32;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 6.0f);
     this->dyna.unk_160 = 0;
     this->dyna.unk_15C = 0;
@@ -102,7 +102,7 @@ void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx) {
         }
     }
     Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, thisx->sub_98.unk_12, thisx->sub_98.unk_10, thisx->sub_98.unk_10, 0x1D);
+    func_8002E4B4(globalCtx, thisx, thisx->colChkInfo.unk_12, thisx->colChkInfo.unk_10, thisx->colChkInfo.unk_10, 0x1D);
     thisx->posRot2.pos = thisx->posRot.pos;
 }
 

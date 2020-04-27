@@ -105,14 +105,14 @@ glabel EnDaiku_Init
 /* 00220 809E2D50 10000071 */  beq     $zero, $zero, .L809E2F18
 /* 00224 809E2D54 8FBF002C */  lw      $ra, 0x002C($sp)
 .L809E2D58:
-/* 00228 809E2D58 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00228 809E2D58 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 0022C 809E2D5C AFA50034 */  sw      $a1, 0x0034($sp)
 /* 00230 809E2D60 3C07809E */  lui     $a3, %hi(D_809E4060)       ## $a3 = 809E0000
 /* 00234 809E2D64 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 00238 809E2D68 24E74060 */  addiu   $a3, $a3, %lo(D_809E4060)  ## $a3 = 809E4060
 /* 0023C 809E2D6C 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 00240 809E2D70 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00240 809E2D70 0C01712B */  jal     Collider_SetCylinder
 
 /* 00244 809E2D74 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00248 809E2D78 3C05809E */  lui     $a1, %hi(D_809E4098)       ## $a1 = 809E0000

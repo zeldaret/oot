@@ -64,7 +64,7 @@ glabel func_80A16C68
 /* 01AB4 80A16D34 00812821 */  addu    $a1, $a0, $at              
 /* 01AB8 80A16D38 45000003 */  bc1f    .L80A16D48                 
 /* 01ABC 80A16D3C 00000000 */  nop
-/* 01AC0 80A16D40 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01AC0 80A16D40 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01AC4 80A16D44 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 .L80A16D48:

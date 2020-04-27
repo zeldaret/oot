@@ -8,7 +8,7 @@ glabel func_80A7567C
 /* 01384 80A75694 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 01388 80A75698 00A12821 */  addu    $a1, $a1, $at              
 /* 0138C 80A7569C 24E603EC */  addiu   $a2, $a3, 0x03EC           ## $a2 = 000003EC
-/* 01390 80A756A0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01390 80A756A0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01394 80A756A4 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 01398 80A756A8 8FA70018 */  lw      $a3, 0x0018($sp)           

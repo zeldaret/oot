@@ -67,7 +67,7 @@ glabel EnVm_Update
 /* 00DC4 80B2E224 26050268 */  addiu   $a1, $s0, 0x0268           ## $a1 = 00000268
 .L80B2E228:
 /* 00DC8 80B2E228 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00DCC 80B2E22C 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00DCC 80B2E22C 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00DD0 80B2E230 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00DD4 80B2E234 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -75,7 +75,7 @@ glabel EnVm_Update
 /* 00DDC 80B2E23C 02212821 */  addu    $a1, $s1, $at              
 /* 00DE0 80B2E240 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 00DE4 80B2E244 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00DE8 80B2E248 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00DE8 80B2E248 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00DEC 80B2E24C 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 00DF0 80B2E250 920F0114 */  lbu     $t7, 0x0114($s0)           ## 00000114
@@ -86,13 +86,13 @@ glabel EnVm_Update
 /* 00E04 80B2E264 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 00E08 80B2E268 53000004 */  beql    $t8, $zero, .L80B2E27C     
 /* 00E0C 80B2E26C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00E10 80B2E270 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00E10 80B2E270 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00E14 80B2E274 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 00E18 80B2E278 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L80B2E27C:
 /* 00E1C 80B2E27C 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 00E20 80B2E280 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00E20 80B2E280 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00E24 80B2E284 26060334 */  addiu   $a2, $s0, 0x0334           ## $a2 = 00000334
 /* 00E28 80B2E288 8E090024 */  lw      $t1, 0x0024($s0)           ## 00000024

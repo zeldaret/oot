@@ -52,14 +52,14 @@ glabel EnDivingGame_Init
 /* 00068 809ED8D8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0006C 809ED8DC 2605034C */  addiu   $a1, $s0, 0x034C           ## $a1 = 0000034C
 /* 00070 809ED8E0 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00074 809ED8E4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00074 809ED8E4 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00078 809ED8E8 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 0007C 809ED8EC 3C07809F */  lui     $a3, %hi(D_809EF0B4)       ## $a3 = 809F0000
 /* 00080 809ED8F0 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 00084 809ED8F4 24E7F0B4 */  addiu   $a3, $a3, %lo(D_809EF0B4)  ## $a3 = 809EF0B4
 /* 00088 809ED8F8 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 0008C 809ED8FC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0008C 809ED8FC 0C01712B */  jal     Collider_SetCylinder
 
 /* 00090 809ED900 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00094 809ED904 3C04809F */  lui     $a0, %hi(D_809EF0F0)       ## $a0 = 809F0000

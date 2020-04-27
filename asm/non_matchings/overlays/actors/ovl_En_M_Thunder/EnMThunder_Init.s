@@ -9,14 +9,14 @@ glabel EnMThunder_Init
 /* 00024 80A9F004 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00028 80A9F008 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0002C 80A9F00C AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00030 80A9F010 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00030 80A9F010 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00034 80A9F014 AFA60044 */  sw      $a2, 0x0044($sp)           
 /* 00038 80A9F018 3C0780AA */  lui     $a3, %hi(D_80AA0420)       ## $a3 = 80AA0000
 /* 0003C 80A9F01C 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 00040 80A9F020 24E70420 */  addiu   $a3, $a3, %lo(D_80AA0420)  ## $a3 = 80AA0420
 /* 00044 80A9F024 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00048 80A9F028 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00048 80A9F028 0C01712B */  jal     Collider_SetCylinder
               
 /* 0004C 80A9F02C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00050 80A9F030 C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024

@@ -170,14 +170,14 @@ glabel EnGSwitch_Init
 /* 00148 80A22008 A60E015C */  sh      $t6, 0x015C($s0)           ## 0000015C
 /* 0014C 80A2200C 2605017C */  addiu   $a1, $s0, 0x017C           ## $a1 = 0000017C
 /* 00150 80A22010 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00154 80A22014 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00154 80A22014 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00158 80A22018 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 0015C 80A2201C 3C0780A2 */  lui     $a3, %hi(D_80A236E4)       ## $a3 = 80A20000
 /* 00160 80A22020 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00164 80A22024 24E736E4 */  addiu   $a3, $a3, %lo(D_80A236E4)  ## $a3 = 80A236E4
 /* 00168 80A22028 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 0016C 80A2202C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0016C 80A2202C 0C01712B */  jal     Collider_SetCylinder
               
 /* 00170 80A22030 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00174 80A22034 3C01442F */  lui     $at, 0x442F                ## $at = 442F0000
@@ -232,14 +232,14 @@ glabel EnGSwitch_Init
 /* 00214 80A220D4 00000000 */  nop
 /* 00218 80A220D8 A6080158 */  sh      $t0, 0x0158($s0)           ## 00000158
 /* 0021C 80A220DC AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00220 80A220E0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00220 80A220E0 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00224 80A220E4 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00228 80A220E8 3C0780A2 */  lui     $a3, %hi(D_80A236E4)       ## $a3 = 80A20000
 /* 0022C 80A220EC 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00230 80A220F0 24E736E4 */  addiu   $a3, $a3, %lo(D_80A236E4)  ## $a3 = 80A236E4
 /* 00234 80A220F4 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 00238 80A220F8 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00238 80A220F8 0C01712B */  jal     Collider_SetCylinder
               
 /* 0023C 80A220FC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00240 80A22100 3C013E80 */  lui     $at, 0x3E80                ## $at = 3E800000
@@ -298,14 +298,14 @@ glabel EnGSwitch_Init
 /* 002F8 80A221B8 E61000BC */  swc1    $f16, 0x00BC($s0)          ## 000000BC
 /* 002FC 80A221BC 2605017C */  addiu   $a1, $s0, 0x017C           ## $a1 = 0000017C
 /* 00300 80A221C0 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00304 80A221C4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00304 80A221C4 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00308 80A221C8 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 0030C 80A221CC 3C0780A2 */  lui     $a3, %hi(D_80A236E4)       ## $a3 = 80A20000
 /* 00310 80A221D0 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00314 80A221D4 24E736E4 */  addiu   $a3, $a3, %lo(D_80A236E4)  ## $a3 = 80A236E4
 /* 00318 80A221D8 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 0031C 80A221DC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0031C 80A221DC 0C01712B */  jal     Collider_SetCylinder
               
 /* 00320 80A221E0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00324 80A221E4 3C0F80A2 */  lui     $t7, %hi(func_80A230A8)    ## $t7 = 80A20000

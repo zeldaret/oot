@@ -3,7 +3,7 @@ glabel EnAnubiceFire_Destroy
 /* 00128 809B26C8 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 0012C 809B26CC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00130 809B26D0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00134 809B26D4 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00134 809B26D4 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00138 809B26D8 24C501A8 */  addiu   $a1, $a2, 0x01A8           ## $a1 = 000001A8
 /* 0013C 809B26DC 8FBF0014 */  lw      $ra, 0x0014($sp)           

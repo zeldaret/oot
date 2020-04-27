@@ -32,14 +32,14 @@ glabel EnZl4_Init
 /* 00670 80B5BE20 24060015 */  addiu   $a2, $zero, 0x0015         ## $a2 = 00000015
 /* 00674 80B5BE24 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00678 80B5BE28 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 0067C 80B5BE2C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0067C 80B5BE2C 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00680 80B5BE30 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00684 80B5BE34 3C0780B6 */  lui     $a3, %hi(D_80B5E780)       ## $a3 = 80B60000
 /* 00688 80B5BE38 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 0068C 80B5BE3C 24E7E780 */  addiu   $a3, $a3, %lo(D_80B5E780)  ## $a3 = 80B5E780
 /* 00690 80B5BE40 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 00694 80B5BE44 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00694 80B5BE44 0C01712B */  jal     Collider_SetCylinder
 
 /* 00698 80B5BE48 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0069C 80B5BE4C 3C0680B6 */  lui     $a2, %hi(D_80B5E7AC)       ## $a2 = 80B60000

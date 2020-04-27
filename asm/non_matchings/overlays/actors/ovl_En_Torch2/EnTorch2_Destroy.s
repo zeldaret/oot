@@ -11,17 +11,17 @@ glabel EnTorch2_Destroy
 /* 001CC 80B1DB4C 0C03D6D6 */  jal     func_800F5B58              
 /* 001D0 80B1DB50 00000000 */  nop
 /* 001D4 80B1DB54 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 001D8 80B1DB58 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001D8 80B1DB58 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001DC 80B1DB5C 26050498 */  addiu   $a1, $s0, 0x0498           ## $a1 = 00000498
 /* 001E0 80B1DB60 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 001E4 80B1DB64 0C017418 */  jal     func_8005D060              
+/* 001E4 80B1DB64 0C017418 */  jal     Collider_DestroyQuad              
 /* 001E8 80B1DB68 260504E4 */  addiu   $a1, $s0, 0x04E4           ## $a1 = 000004E4
 /* 001EC 80B1DB6C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 001F0 80B1DB70 0C017418 */  jal     func_8005D060              
+/* 001F0 80B1DB70 0C017418 */  jal     Collider_DestroyQuad              
 /* 001F4 80B1DB74 26050564 */  addiu   $a1, $s0, 0x0564           ## $a1 = 00000564
 /* 001F8 80B1DB78 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 001FC 80B1DB7C 0C017418 */  jal     func_8005D060              
+/* 001FC 80B1DB7C 0C017418 */  jal     Collider_DestroyQuad              
 /* 00200 80B1DB80 260505E4 */  addiu   $a1, $s0, 0x05E4           ## $a1 = 000005E4
 /* 00204 80B1DB84 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00208 80B1DB88 8FB00014 */  lw      $s0, 0x0014($sp)           

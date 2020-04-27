@@ -52,19 +52,19 @@ glabel EnHorseGanon_Init
 /* 00388 80A689E8 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 0038C 80A689EC 260501FC */  addiu   $a1, $s0, 0x01FC           ## $a1 = 000001FC
 /* 00390 80A689F0 AFA50028 */  sw      $a1, 0x0028($sp)
-/* 00394 80A689F4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00394 80A689F4 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00398 80A689F8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0039C 80A689FC 3C0780A7 */  lui     $a3, %hi(D_80A691E0)       ## $a3 = 80A70000
 /* 003A0 80A68A00 8FA50028 */  lw      $a1, 0x0028($sp)
 /* 003A4 80A68A04 24E791E0 */  addiu   $a3, $a3, %lo(D_80A691E0)  ## $a3 = 80A691E0
 /* 003A8 80A68A08 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 003AC 80A68A0C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 003AC 80A68A0C 0C01712B */  jal     Collider_SetCylinder
 
 /* 003B0 80A68A10 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 003B4 80A68A14 26050248 */  addiu   $a1, $s0, 0x0248           ## $a1 = 00000248
 /* 003B8 80A68A18 AFA50028 */  sw      $a1, 0x0028($sp)
-/* 003BC 80A68A1C 0C016EFE */  jal     func_8005BBF8
+/* 003BC 80A68A1C 0C016EFE */  jal     Collider_InitJntSph
 /* 003C0 80A68A20 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 003C4 80A68A24 3C0780A7 */  lui     $a3, %hi(D_80A69230)       ## $a3 = 80A70000
 /* 003C8 80A68A28 26180268 */  addiu   $t8, $s0, 0x0268           ## $t8 = 00000268
@@ -72,7 +72,7 @@ glabel EnHorseGanon_Init
 /* 003D0 80A68A30 AFB80010 */  sw      $t8, 0x0010($sp)
 /* 003D4 80A68A34 24E79230 */  addiu   $a3, $a3, %lo(D_80A69230)  ## $a3 = 80A69230
 /* 003D8 80A68A38 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 003DC 80A68A3C 0C017014 */  jal     func_8005C050
+/* 003DC 80A68A3C 0C017014 */  jal     Collider_SetJntSph
 /* 003E0 80A68A40 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 003E4 80A68A44 3C0680A7 */  lui     $a2, %hi(D_80A69240)       ## $a2 = 80A70000
 /* 003E8 80A68A48 24C69240 */  addiu   $a2, $a2, %lo(D_80A69240)  ## $a2 = 80A69240

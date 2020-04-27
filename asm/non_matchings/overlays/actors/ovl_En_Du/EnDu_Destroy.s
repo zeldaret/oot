@@ -7,7 +7,7 @@ glabel EnDu_Destroy
 /* 00760 809FE390 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00764 809FE394 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 00768 809FE398 8FA4001C */  lw      $a0, 0x001C($sp)
-/* 0076C 809FE39C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0076C 809FE39C 0C0170EB */  jal     Collider_DestroyCylinder
 
 /* 00770 809FE3A0 24A50194 */  addiu   $a1, $a1, 0x0194           ## $a1 = 00000194
 /* 00774 809FE3A4 8FBF0014 */  lw      $ra, 0x0014($sp)

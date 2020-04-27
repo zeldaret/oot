@@ -80,14 +80,14 @@ glabel EnHorseLinkChild_Update
 /* 017E4 80A6ABB4 A20C01EC */  sb      $t4, 0x01EC($s0)           ## 000001EC
 /* 017E8 80A6ABB8 A20001EC */  sb      $zero, 0x01EC($s0)         ## 000001EC
 .L80A6ABBC:
-/* 017EC 80A6ABBC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 017EC 80A6ABBC 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 017F0 80A6ABC0 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 017F4 80A6ABC4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 017F8 80A6ABC8 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 017FC 80A6ABCC 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01800 80A6ABD0 02212821 */  addu    $a1, $s1, $at              
-/* 01804 80A6ABD4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01804 80A6ABD4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01808 80A6ABD8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0180C 80A6ABDC 0C29A523 */  jal     func_80A6948C              

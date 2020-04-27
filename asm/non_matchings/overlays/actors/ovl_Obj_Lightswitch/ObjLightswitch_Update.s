@@ -48,12 +48,12 @@ glabel ObjLightswitch_Update
 /* 00BF8 80B97798 A20201C2 */  sb      $v0, 0x01C2($s0)           ## 000001C2
 /* 00BFC 80B9779C AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 00C00 80B977A0 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 00C04 80B977A4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00C04 80B977A4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00C08 80B977A8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00C0C 80B977AC 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00C10 80B977B0 8FA60020 */  lw      $a2, 0x0020($sp)           
-/* 00C14 80B977B4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00C14 80B977B4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00C18 80B977B8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00C1C 80B977BC 8FBF001C */  lw      $ra, 0x001C($sp)           

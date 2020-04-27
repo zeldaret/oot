@@ -124,7 +124,7 @@ glabel EnGe2_Update
 .L80A33FCC:
 /* 013FC 80A33FCC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01400 80A33FD0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
-/* 01404 80A33FD4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01404 80A33FD4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01408 80A33FD8 00812821 */  addu    $a1, $a0, $at              
 .L80A33FDC:

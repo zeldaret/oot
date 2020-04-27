@@ -7,7 +7,7 @@ glabel BgGndSoulmeiro_Destroy
 /* 00154 8087AF14 31CF00FF */  andi    $t7, $t6, 0x00FF           ## $t7 = 00000000
 /* 00158 8087AF18 55E00004 */  bnel    $t7, $zero, .L8087AF2C     
 /* 0015C 8087AF1C 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00160 8087AF20 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00160 8087AF20 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00164 8087AF24 24C5014C */  addiu   $a1, $a2, 0x014C           ## $a1 = 0000014C
 /* 00168 8087AF28 8FBF0014 */  lw      $ra, 0x0014($sp)           

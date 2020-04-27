@@ -30,7 +30,7 @@ glabel func_8086ED70
 /* 00608 8086EDD8 00812821 */  addu    $a1, $a0, $at              
 /* 0060C 8086EDDC 45020004 */  bc1fl   .L8086EDF0                 
 /* 00610 8086EDE0 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00614 8086EDE4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00614 8086EDE4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00618 8086EDE8 24E60164 */  addiu   $a2, $a3, 0x0164           ## $a2 = 00000164
 /* 0061C 8086EDEC 8FBF0014 */  lw      $ra, 0x0014($sp)           
