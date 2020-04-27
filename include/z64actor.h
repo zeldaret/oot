@@ -250,7 +250,8 @@ typedef struct {
     /* 0x0698 */ f32        unk_698;
     /* 0x069C */ char       unk_69C[0x008];
     /* 0x06A4 */ f32        unk_6A4;
-    /* 0x06A8 */ char       unk_6A8[0x5];
+    /* 0x06A8 */ Actor*     unk_6A8;
+    /* 0x06AC */ char       unk_6AC[0x001];
     /* 0x06AD */ u8         unk_6AD;
     /* 0x06AE */ char       unk_6AE[0x1A];
     /* 0x06C8 */ SkelAnime  skelAnime2;

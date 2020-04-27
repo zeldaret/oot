@@ -52,7 +52,6 @@ typedef struct {
     /* 0x0364 */ Vec3f unk_364;
     /* 0x0370 */ f32 unk_370;
     /* 0x0374 */ struct_80034A14_arg1 unk_374;
-    /* 0x0398 */ char unk_398[0x4]; // probably belongs to previous struct
 } EnRu1; // size = 0x039C
 
 extern const ActorInit En_Ru1_InitVars;

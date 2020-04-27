@@ -604,9 +604,11 @@ typedef struct {
     /* 0xE3E2 */ u16    unk_E3E2;
     /* 0xE3E4 */ u8     unk_E3E4;
     /* 0xE3E5 */ u8     choiceIndex;
-    /* 0xE3E6 */ char   unk_E3E6[0x08];
+    /* 0xE3E6 */ char   unk_E3E6[0x01];
+    /* 0xE3E7 */ u8     unk_E3E7;
+    /* 0xE3E8 */ char   unk_E3E8[0x6];
     /* 0xE3EE */ u16    unk_E3EE;
-    /* 0xE3EE */ u16    unk_E3F0;
+    /* 0xE3F0 */ u16    unk_E3F0;
     /* 0xE3F2 */ char   unk_E3F2[0x02];
     /* 0xE3F4 */ u16    unk_E3F4;
     /* 0xE3F6 */ char   unk_E3F6[0x16];
@@ -1129,6 +1131,14 @@ typedef struct {
     /* 0x14 */ f32              transitionRate;
 } struct_80034EC0_Entry; // size = 0x18
 
+// Another animation related structure
+typedef struct {
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ f32              frameCount;
+    /* 0x08 */ u8               unk_08;
+    /* 0x0C */ f32              transitionRate;
+} struct_D_80AA1678; // size = 0x10
+
 typedef struct {
     /* 0x00 */ s16 unk_00;
     /* 0x02 */ s16 unk_02;
@@ -1138,6 +1148,7 @@ typedef struct {
     /* 0x0E */ Vec3s unk_0E;
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ Vec3f unk_18;
+    /* 0x24 */ char unk_24[0x4];
 } struct_80034A14_arg1;
 
 typedef struct {
@@ -1577,7 +1588,7 @@ typedef struct {
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 
-typedef struct {
+typedef struct { 
     /* 0x00 */ char unk_00[0x08];
     /* 0x08 */ Color_RGBA8 color;
     /* 0x0C */ char unk_0C[0x0C];
