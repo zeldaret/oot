@@ -37,12 +37,14 @@ void func_80A54320(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx);
+void func_80A541FC(EnHeishi2* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06005C30;
 extern AnimationHeader D_06005500;
 extern ColliderCylinderInit D_80A54F10;
 extern SkeletonHeader D_0600BAC8;
 extern Gfx* D_0602B060;
+extern Gfx* D_06002C10;
 
 /*
 const ActorInit En_Heishi2_InitVars = {
@@ -390,7 +392,57 @@ void func_80A54038(EnHeishi2* this, GlobalContext* globalCtx) {
     }
 }
 
+//
+
+#ifdef NON_MATCHING
+// regalloc
+void func_80A540C0(EnHeishi2 *this, GlobalContext *globalCtx) {
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+            switch (globalCtx->msgCtx.choiceIndex)
+            {
+                case 0:
+                    this->actor.textId = 0x2020;
+                    func_8010B720(globalCtx, this->actor.textId);
+                    func_8008F08C(globalCtx);
+                    gSaveContext.infTable[7] |= 0x80;
+                    gSaveContext.itemGetInf[3] |= 0x100;
+                    Item_Give(globalCtx, 0x2C);
+                    if (this->unk_309[1] != 0) {
+                        this->unk_309[1] = 2;
+                        this->unk_30E = 1;
+                        this->actionFunc = func_80A5427C; 
+                    }
+                    
+                    else
+                    {
+                        this->unk_30E = 0;
+                        this->actionFunc = func_80A541FC;      
+                    }
+                    break;
+                    
+                case 1:
+                    this->unk_30E = 1;
+                    this->actor.textId = 0x200C;
+                    func_8010B720(globalCtx, this->actor.textId);
+                    this->unk_300 = 5;
+                    if (this->unk_309[1] == 0) 
+                    {
+                        this->actionFunc = func_80A5427C;
+                    }
+
+                    else
+                    {
+                        this->actionFunc = func_80A54954;
+                    }  
+    
+            }
+
+        }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A540C0.s")
+#endif
 
 void func_80A541FC(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -534,7 +586,16 @@ void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A54C6C.s")
+void func_80A54C6C(EnHeishi2 *this, GlobalContext *globalCtx) {
+    GraphicsContext* gfxCtx;
+    Gfx* dispRefs[4];
+
+    gfxCtx = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1772);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002C10);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
+}
 
 #ifdef NON_MATCHING
 void EnHeishi2_Draw(EnHeishi2* this, GlobalContext* globalCtx) {
