@@ -52,18 +52,18 @@ glabel EnHorseLinkChild_Init
 /* 00354 80A69724 260401A0 */  addiu   $a0, $s0, 0x01A0           ## $a0 = 000001A0
 /* 00358 80A69728 260501F4 */  addiu   $a1, $s0, 0x01F4           ## $a1 = 000001F4
 /* 0035C 80A6972C AFA50028 */  sw      $a1, 0x0028($sp)
-/* 00360 80A69730 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00360 80A69730 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00364 80A69734 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00368 80A69738 3C0780A7 */  lui     $a3, %hi(D_80A6AEF4)       ## $a3 = 80A70000
 /* 0036C 80A6973C 8FA50028 */  lw      $a1, 0x0028($sp)
 /* 00370 80A69740 24E7AEF4 */  addiu   $a3, $a3, %lo(D_80A6AEF4)  ## $a3 = 80A6AEF4
 /* 00374 80A69744 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 00378 80A69748 0C017114 */  jal     func_8005C450
+/* 00378 80A69748 0C017114 */  jal     Collider_SetCylinder_Set3
 /* 0037C 80A6974C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00380 80A69750 26050240 */  addiu   $a1, $s0, 0x0240           ## $a1 = 00000240
 /* 00384 80A69754 AFA50028 */  sw      $a1, 0x0028($sp)
-/* 00388 80A69758 0C016EFE */  jal     func_8005BBF8
+/* 00388 80A69758 0C016EFE */  jal     Collider_InitJntSph
 /* 0038C 80A6975C 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00390 80A69760 3C0780A7 */  lui     $a3, %hi(D_80A6AF44)       ## $a3 = 80A70000
 /* 00394 80A69764 26190260 */  addiu   $t9, $s0, 0x0260           ## $t9 = 00000260
@@ -71,7 +71,7 @@ glabel EnHorseLinkChild_Init
 /* 0039C 80A6976C AFB90010 */  sw      $t9, 0x0010($sp)
 /* 003A0 80A69770 24E7AF44 */  addiu   $a3, $a3, %lo(D_80A6AF44)  ## $a3 = 80A6AF44
 /* 003A4 80A69774 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 003A8 80A69778 0C017014 */  jal     func_8005C050
+/* 003A8 80A69778 0C017014 */  jal     Collider_SetJntSph
 /* 003AC 80A6977C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 003B0 80A69780 3C0680A7 */  lui     $a2, %hi(D_80A6AF54)       ## $a2 = 80A70000
 /* 003B4 80A69784 24C6AF54 */  addiu   $a2, $a2, %lo(D_80A6AF54)  ## $a2 = 80A6AF54

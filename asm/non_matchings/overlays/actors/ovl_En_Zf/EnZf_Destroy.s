@@ -30,11 +30,11 @@ glabel EnZf_Destroy
 /* 00624 80B44674 0C009C27 */  jal     func_8002709C              
 /* 00628 80B44678 8E050414 */  lw      $a1, 0x0414($s0)           ## 00000414
 /* 0062C 80B4467C 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00630 80B44680 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00630 80B44680 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00634 80B44684 26050418 */  addiu   $a1, $s0, 0x0418           ## $a1 = 00000418
 /* 00638 80B44688 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 0063C 80B4468C 0C017418 */  jal     func_8005D060              
+/* 0063C 80B4468C 0C017418 */  jal     Collider_DestroyQuad              
 /* 00640 80B44690 26050464 */  addiu   $a1, $s0, 0x0464           ## $a1 = 00000464
 /* 00644 80B44694 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 00648 80B44698 8FB00020 */  lw      $s0, 0x0020($sp)           

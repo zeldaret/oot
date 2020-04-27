@@ -6,7 +6,7 @@ glabel func_80B96BA0
 /* 00010 80B96BB0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00014 80B96BB4 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00018 80B96BB8 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
-/* 0001C 80B96BBC 0C016EFE */  jal     func_8005BBF8              
+/* 0001C 80B96BBC 0C016EFE */  jal     Collider_InitJntSph              
 /* 00020 80B96BC0 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 00024 80B96BC4 3C0780B9 */  lui     $a3, %hi(D_80B97F44)       ## $a3 = 80B90000
 /* 00028 80B96BC8 260E0170 */  addiu   $t6, $s0, 0x0170           ## $t6 = 00000170
@@ -14,7 +14,7 @@ glabel func_80B96BA0
 /* 00030 80B96BD0 24E77F44 */  addiu   $a3, $a3, %lo(D_80B97F44)  ## $a3 = 80B97F44
 /* 00034 80B96BD4 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00038 80B96BD8 8FA50028 */  lw      $a1, 0x0028($sp)           
-/* 0003C 80B96BDC 0C017014 */  jal     func_8005C050              
+/* 0003C 80B96BDC 0C017014 */  jal     Collider_SetJntSph              
 /* 00040 80B96BE0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00044 80B96BE4 C60400BC */  lwc1    $f4, 0x00BC($s0)           ## 000000BC
 /* 00048 80B96BE8 C6060054 */  lwc1    $f6, 0x0054($s0)           ## 00000054

@@ -19,7 +19,7 @@ glabel func_808A2A14
 .L808A2A58:
 /* 004F8 808A2A58 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 004FC 808A2A5C 24E60164 */  addiu   $a2, $a3, 0x0164           ## $a2 = 00000164
-/* 00500 808A2A60 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00500 808A2A60 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00504 808A2A64 00812821 */  addu    $a1, $a0, $at              
 .L808A2A68:

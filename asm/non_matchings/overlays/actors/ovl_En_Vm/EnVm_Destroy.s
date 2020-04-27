@@ -3,7 +3,7 @@ glabel EnVm_Destroy
 /* 0017C 80B2D5DC 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 00180 80B2D5E0 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00184 80B2D5E4 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00188 80B2D5E8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00188 80B2D5E8 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0018C 80B2D5EC 24C50268 */  addiu   $a1, $a2, 0x0268           ## $a1 = 00000268
 /* 00190 80B2D5F0 8FBF0014 */  lw      $ra, 0x0014($sp)           

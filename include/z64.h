@@ -10,6 +10,7 @@
 #include <z64audio.h>
 #include <z64object.h>
 #include <z64cutscene.h>
+#include <z64collision_check.h>
 #include <z64scene.h>
 #include <z64effect.h>
 #include <z64item.h>
@@ -481,8 +482,8 @@ typedef struct {
 } StaticCollisionContext; // size = 0x50
 
 typedef struct {
-    /* 0x0000 */ char   unk_00[0x04];
-    /* 0x0004 */ ActorMesh actorMeshArr[50];
+    /* 0x0000 */ ActorMesh actorMeshArr[50];
+    /* 0x1388 */ char   unk_1388[0x04];
     /* 0x138C */ u16    flags[50];
     /* 0x13F0 */ char   unk_13F0[0x24];
 } DynaCollisionContext; // size = 0x1414
@@ -604,9 +605,11 @@ typedef struct {
     /* 0xE3E2 */ u16    unk_E3E2;
     /* 0xE3E4 */ u8     unk_E3E4;
     /* 0xE3E5 */ u8     choiceIndex;
-    /* 0xE3E6 */ char   unk_E3E6[0x08];
+    /* 0xE3E6 */ char   unk_E3E6[0x01];
+    /* 0xE3E7 */ u8     unk_E3E7;
+    /* 0xE3E8 */ char   unk_E3E8[0x6];
     /* 0xE3EE */ u16    unk_E3EE;
-    /* 0xE3EE */ u16    unk_E3F0;
+    /* 0xE3F0 */ u16    unk_E3F0;
     /* 0xE3F2 */ char   unk_E3F2[0x02];
     /* 0xE3F4 */ u16    unk_E3F4;
     /* 0xE3F6 */ char   unk_E3F6[0x16];
@@ -885,8 +888,17 @@ typedef struct {
 } RoomContext; // size = 0x74
 
 typedef struct {
-    /* 0x00 */ char unk_00[0x028C];
-} SubGlobalContext11E60; // size = 0x28C
+    /* 0x000 */ s16 colAtCount;
+    /* 0x002 */ u16 sacFlags;
+    /* 0x004 */ Collider* colAt[COLLISION_CHECK_AT_MAX];
+    /* 0x0CC */ s32 colAcCount;
+    /* 0x0D0 */ Collider* colAc[COLLISION_CHECK_AC_MAX];
+    /* 0x1C0 */ s32 colOcCount;
+    /* 0x1C4 */ Collider* colOc[COLLISION_CHECK_OC_MAX];
+    /* 0x28C */ s32 colOcLineCount;
+    /* 0x290 */ OcLine* colOcLine[COLLISION_CHECK_OC_LINE_MAX];
+
+} CollisionCheckContext; // size = 0x29C SubGlobalContext11E60
 
 typedef struct {
     /* 0x00 */ char unk_00[0x10];
@@ -1064,8 +1076,8 @@ typedef struct GlobalContext {
     /* 0x11E5D */ s8 bombchuBowlingAmmo; // "bombchu_game_flag"
     /* 0x11E5E */ u8 fadeTransition;
     /* 0x11E5F */ char unk_11E5F[0x1];
-    /* 0x11E60 */ SubGlobalContext11E60 sub_11E60;
-    /* 0x120EC */ char unk_120EC[0x38];
+    /* 0x11E60 */ CollisionCheckContext colChkCtx;
+    /* 0x120FC */ char unk_120FC[0x28];
     /* 0x12124 */ PreRenderContext preRenderCtx;
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];
@@ -1117,6 +1129,14 @@ typedef struct {
     /* 0x14 */ f32              transitionRate;
 } struct_80034EC0_Entry; // size = 0x18
 
+// Another animation related structure
+typedef struct {
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ f32              frameCount;
+    /* 0x08 */ u8               unk_08;
+    /* 0x0C */ f32              transitionRate;
+} struct_D_80AA1678; // size = 0x10
+
 typedef struct {
     /* 0x00 */ s16 unk_00;
     /* 0x02 */ s16 unk_02;
@@ -1126,6 +1146,7 @@ typedef struct {
     /* 0x0E */ Vec3s unk_0E;
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ Vec3f unk_18;
+    /* 0x24 */ char unk_24[0x4];
 } struct_80034A14_arg1;
 
 typedef struct {
@@ -1565,7 +1586,7 @@ typedef struct {
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 
-typedef struct {
+typedef struct { 
     /* 0x00 */ char unk_00[0x08];
     /* 0x08 */ Color_RGBA8 color;
     /* 0x0C */ char unk_0C[0x0C];

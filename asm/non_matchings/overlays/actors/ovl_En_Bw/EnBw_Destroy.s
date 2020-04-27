@@ -5,12 +5,12 @@ glabel EnBw_Destroy
 /* 00170 809CE850 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00174 809CE854 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00178 809CE858 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 0017C 809CE85C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0017C 809CE85C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00180 809CE860 24A50294 */  addiu   $a1, $a1, 0x0294           ## $a1 = 00000294
 /* 00184 809CE864 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00188 809CE868 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0018C 809CE86C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0018C 809CE86C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00190 809CE870 24A502E0 */  addiu   $a1, $a1, 0x02E0           ## $a1 = 000002E0
 /* 00194 809CE874 8FBF0014 */  lw      $ra, 0x0014($sp)           

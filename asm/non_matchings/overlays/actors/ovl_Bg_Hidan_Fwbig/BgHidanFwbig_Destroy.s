@@ -3,7 +3,7 @@ glabel BgHidanFwbig_Destroy
 /* 0019C 8088748C 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 001A0 80887490 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 001A4 80887494 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 001A8 80887498 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001A8 80887498 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001AC 8088749C 24C50154 */  addiu   $a1, $a2, 0x0154           ## $a1 = 00000154
 /* 001B0 808874A0 8FBF0014 */  lw      $ra, 0x0014($sp)           

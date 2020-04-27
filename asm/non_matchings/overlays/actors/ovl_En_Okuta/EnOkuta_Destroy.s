@@ -3,7 +3,7 @@ glabel EnOkuta_Destroy
 /* 0020C 80AC086C 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 00210 80AC0870 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00214 80AC0874 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00218 80AC0878 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00218 80AC0878 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0021C 80AC087C 24C50370 */  addiu   $a1, $a2, 0x0370           ## $a1 = 00000370
 /* 00220 80AC0880 8FBF0014 */  lw      $ra, 0x0014($sp)           

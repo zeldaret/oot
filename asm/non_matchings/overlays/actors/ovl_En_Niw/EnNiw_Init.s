@@ -259,7 +259,7 @@ glabel L80AB5AF4
 /* 00374 80AB5AF4 2650030C */  addiu   $s0, $s2, 0x030C           ## $s0 = 0000030C
 .L80AB5AF8:
 /* 00378 80AB5AF8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000030C
-/* 0037C 80AB5AFC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0037C 80AB5AFC 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00380 80AB5B00 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 00384 80AB5B04 8642001C */  lh      $v0, 0x001C($s2)           ## 0000001C
@@ -280,7 +280,7 @@ glabel L80AB5AF4
 .L80AB5B3C:
 /* 003BC 80AB5B3C 3C0780AC */  lui     $a3, %hi(D_80AB86B0)       ## $a3 = 80AC0000
 /* 003C0 80AB5B40 24E786B0 */  addiu   $a3, $a3, %lo(D_80AB86B0)  ## $a3 = 80AB86B0
-/* 003C4 80AB5B44 0C01712B */  jal     ActorCollider_InitCylinder
+/* 003C4 80AB5B44 0C01712B */  jal     Collider_SetCylinder
 
 /* 003C8 80AB5B48 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 003CC 80AB5B4C 8FAD0054 */  lw      $t5, 0x0054($sp)
@@ -300,7 +300,7 @@ glabel L80AB5AF4
 .L80AB5B80:
 /* 00400 80AB5B80 3C0780AC */  lui     $a3, %hi(D_80AB8684)       ## $a3 = 80AC0000
 /* 00404 80AB5B84 24E78684 */  addiu   $a3, $a3, %lo(D_80AB8684)  ## $a3 = 80AB8684
-/* 00408 80AB5B88 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00408 80AB5B88 0C01712B */  jal     Collider_SetCylinder
 
 /* 0040C 80AB5B8C 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 .L80AB5B90:

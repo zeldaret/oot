@@ -40,12 +40,12 @@ glabel EnNwc_Init
 /* 007CC 80ABC8AC 24420024 */  addiu   $v0, $v0, 0x0024           ## $v0 = FFFFFDDC
 /* 007D0 80ABC8B0 2650014C */  addiu   $s0, $s2, 0x014C           ## $s0 = 0000014C
 /* 007D4 80ABC8B4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000014C
-/* 007D8 80ABC8B8 0C016EFE */  jal     func_8005BBF8              
+/* 007D8 80ABC8B8 0C016EFE */  jal     Collider_InitJntSph              
 /* 007DC 80ABC8BC 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 007E0 80ABC8C0 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 007E4 80ABC8C4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000014C
 /* 007E8 80ABC8C8 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 007EC 80ABC8CC 0C016F94 */  jal     func_8005BE50              ## ClObjJntSph_set3
+/* 007EC 80ABC8CC 0C016F94 */  jal     Collider_SetJntSph_Set3              ## ClObjJntSph_set3
 /* 007F0 80ABC8D0 02803825 */  or      $a3, $s4, $zero            ## $a3 = 80ABCAA4
 /* 007F4 80ABC8D4 240A0010 */  addiu   $t2, $zero, 0x0010         ## $t2 = 00000010
 /* 007F8 80ABC8D8 314B00FF */  andi    $t3, $t2, 0x00FF           ## $t3 = 00000010

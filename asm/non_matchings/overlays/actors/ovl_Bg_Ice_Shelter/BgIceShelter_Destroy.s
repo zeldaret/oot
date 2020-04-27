@@ -35,14 +35,14 @@ glabel L80890B40
 glabel L80890B5C
 /* 0041C 80890B5C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00420 80890B60 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00424 80890B64 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00424 80890B64 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00428 80890B68 24A501B4 */  addiu   $a1, $a1, 0x01B4           ## $a1 = 000001B4
 .L80890B6C:
 /* 0042C 80890B6C 8FA50018 */  lw      $a1, 0x0018($sp)           
 .L80890B70:
 /* 00430 80890B70 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00434 80890B74 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00434 80890B74 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00438 80890B78 24A50168 */  addiu   $a1, $a1, 0x0168           ## $a1 = 00000168
 /* 0043C 80890B7C 8FBF0014 */  lw      $ra, 0x0014($sp)           

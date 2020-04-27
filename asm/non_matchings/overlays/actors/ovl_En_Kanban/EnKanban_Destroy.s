@@ -6,7 +6,7 @@ glabel EnKanban_Destroy
 /* 001FC 80A9219C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00200 80A921A0 55C00004 */  bnel    $t6, $zero, .L80A921B4     
 /* 00204 80A921A4 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00208 80A921A8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00208 80A921A8 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0020C 80A921AC 24C501A0 */  addiu   $a1, $a2, 0x01A0           ## $a1 = 000001A0
 /* 00210 80A921B0 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -63,14 +63,14 @@ glabel func_80A3D838
 /* 00240 80A3D920 AE0E0134 */  sw      $t6, 0x0134($s0)           ## 00000134
 /* 00244 80A3D924 26050270 */  addiu   $a1, $s0, 0x0270           ## $a1 = 00000270
 /* 00248 80A3D928 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 0024C 80A3D92C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0024C 80A3D92C 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00250 80A3D930 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00254 80A3D934 3C0780A4 */  lui     $a3, %hi(D_80A3E350)       ## $a3 = 80A40000
 /* 00258 80A3D938 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 0025C 80A3D93C 24E7E350 */  addiu   $a3, $a3, %lo(D_80A3E350)  ## $a3 = 80A3E350
 /* 00260 80A3D940 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00264 80A3D944 0C017114 */  jal     func_8005C450
+/* 00264 80A3D944 0C017114 */  jal     Collider_SetCylinder_Set3
 /* 00268 80A3D948 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0026C 80A3D94C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00270 80A3D950 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)

@@ -13,11 +13,11 @@ glabel BgHakaSgami_Destroy
 /* 002D0 8087E7B0 8DE50158 */  lw      $a1, 0x0158($t7)           ## 00000158
 /* 002D4 8087E7B4 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 002D8 8087E7B8 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 002DC 8087E7BC 0C017232 */  jal     func_8005C8C8              
+/* 002DC 8087E7BC 0C017232 */  jal     Collider_DestroyTris              
 /* 002E0 8087E7C0 24A501A8 */  addiu   $a1, $a1, 0x01A8           ## $a1 = 000001A8
 /* 002E4 8087E7C4 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 002E8 8087E7C8 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 002EC 8087E7CC 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002EC 8087E7CC 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 002F0 8087E7D0 24A5015C */  addiu   $a1, $a1, 0x015C           ## $a1 = 0000015C
 /* 002F4 8087E7D4 8FBF0014 */  lw      $ra, 0x0014($sp)           

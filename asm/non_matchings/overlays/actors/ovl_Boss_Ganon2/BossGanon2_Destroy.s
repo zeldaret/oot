@@ -7,11 +7,11 @@ glabel BossGanon2_Destroy
 /* 00560 808FD4A0 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00564 808FD4A4 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 00568 808FD4A8 8FA4001C */  lw      $a0, 0x001C($sp)
-/* 0056C 808FD4AC 0C016F32 */  jal     func_8005BCC8
+/* 0056C 808FD4AC 0C016F32 */  jal     Collider_DestroyJntSph
 /* 00570 808FD4B0 24A50424 */  addiu   $a1, $a1, 0x0424           ## $a1 = 00000424
 /* 00574 808FD4B4 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 00578 808FD4B8 8FA4001C */  lw      $a0, 0x001C($sp)
-/* 0057C 808FD4BC 0C016F32 */  jal     func_8005BCC8
+/* 0057C 808FD4BC 0C016F32 */  jal     Collider_DestroyJntSph
 /* 00580 808FD4C0 24A50444 */  addiu   $a1, $a1, 0x0444           ## $a1 = 00000444
 /* 00584 808FD4C4 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 00588 808FD4C8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

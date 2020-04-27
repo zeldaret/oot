@@ -60,7 +60,7 @@ glabel MagicFire_Update
 .L80B88F78:
 /* 00208 80B88F78 AFA6002C */  sw      $a2, 0x002C($sp)           
 .L80B88F7C:
-/* 0020C 80B88F7C 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0020C 80B88F7C 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00210 80B88F80 AFA7004C */  sw      $a3, 0x004C($sp)           
 /* 00214 80B88F84 3C0180B9 */  lui     $at, %hi(D_80B8AFFC)       ## $at = 80B90000
@@ -87,7 +87,7 @@ glabel MagicFire_Update
 /* 00268 80B88FD8 440C2000 */  mfc1    $t4, $f4                   
 /* 0026C 80B88FDC 440E5000 */  mfc1    $t6, $f10                  
 /* 00270 80B88FE0 A60C018E */  sh      $t4, 0x018E($s0)           ## 0000018E
-/* 00274 80B88FE4 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00274 80B88FE4 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00278 80B88FE8 A60E0190 */  sh      $t6, 0x0190($s0)           ## 00000190
 /* 0027C 80B88FEC 860301A4 */  lh      $v1, 0x01A4($s0)           ## 000001A4
