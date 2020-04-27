@@ -299,13 +299,13 @@ void func_8003E954(u32 uParm1, u8* puParm2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041648.s")
 
 typedef struct {
-    /* 0x00 */ char  unk_00[0x10];
+    /* 0x00 */ char unk_00[0x10];
     /* 0x10 */ void* unk_10;
-    /* 0x14 */ char  unk_[0x04];
+    /* 0x14 */ char unk_[0x04];
     /* 0x18 */ void* unk_18;
     /* 0x1C */ void* unk_1C;
     /* 0x20 */ void* unk_20;
-    /* 0x24 */ char  unk_24[4];
+    /* 0x24 */ char unk_24[4];
     /* 0x28 */ void* unk_28;
 } Struct800417A0; // size = 0x32
 

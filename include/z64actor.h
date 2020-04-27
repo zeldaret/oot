@@ -59,30 +59,6 @@ typedef struct {
     /* 0x1E */ s8    nbLoaded; // original name: "clients"
 } ActorOverlay; // size = 0x20
 
-#define DMG_ENTRY(damage,effect) {effect,damage}
-/* The actual implementation of these effects are dependant
- * upon the actor.  Effects 0-3, and F seem to be the same
- * across all actors.
-*/
-typedef enum {
-    /* 0x0 */ DMG_EFF_UNK0,
-    /* 0x1 */ DMG_EFF_STUN,
-    /* 0x2 */ DMG_EFF_BURN,
-    /* 0x3 */ DMG_EFF_FREEZE,
-    /* 0x4 */ DMG_EFF_UNK4,
-    /* 0x5 */ DMG_EFF_NOSTUN,
-    /* 0x6 */ DMG_EFF_UNK6,
-    /* 0x7 */ DMG_EFF_UNK7,
-    /* 0x8 */ DMG_EFF_UNK8,
-    /* 0x9 */ DMG_EFF_UNK9,
-    /* 0xA */ DMG_EFF_SHIELD,
-    /* 0xB */ DMG_EFF_PURPLERUPEE,
-    /* 0xC */ DMG_EFF_FAIRY,
-    /* 0xD */ DMG_EFF_ARROW,
-    /* 0xE */ DMG_EFF_MAGICJAR,
-    /* 0xF */ DMG_EFF_NONE
-} ActorDamageEffect;
-
 typedef struct {
     u8 table[32];
 } DamageTable;
@@ -149,7 +125,7 @@ typedef struct Actor {
     /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon an actor is over/touching
     /* 0x07C */ u8      wallPolySource; // Complex Poly Surface Source. 0x32 = Scene
     /* 0x07D */ u8      floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
-    /* 0x07E */ s16     unk_7E;
+    /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly
     /* 0x080 */ f32     unk_80; // Floor poly height?
     /* 0x084 */ f32     unk_84;
     /* 0x088 */ u16     bgCheckFlags;

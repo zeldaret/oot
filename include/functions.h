@@ -189,6 +189,7 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
 // ? func_80022A10(?);
 // ? func_8002389C(?);
 void func_80024F0C(UNK_TYPE);
+void func_80026230(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
 void func_80026400(GlobalContext*, Color_RGBA8*, u8, s16);
 void func_80026608(GlobalContext*);
 void func_80026690(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
@@ -244,7 +245,7 @@ void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? func_80029F44(?);
 // ? func_8002A32C(?);
 // ? func_8002A3C4(?);
-void func_8002A65C(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, u32 arg3, u32 arg4);
+void func_8002A65C(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 arg3, s16 arg4);
 void func_8002A6B8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg3, u32 arg4, s32 arg5, u32 arg6,
                    u32 arg7, u32 arg8, u32 arg9, u32 arg10, u32 arg11, u32 arg12, u32 arg13, u32 arg14, u32 arg15);
 // ? func_8002A894(?);
@@ -701,14 +702,16 @@ s32 Collider_DestroyJntSph(GlobalContext* globalCtx, ColliderJntSph* collider);
 s32 Collider_SetJntSph_Set(GlobalContext* globalCtx, ColliderJntSph* dest, ColliderJntSphInit_Actor* src);
 s32 Collider_SetJntSph_Set3(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit_Set3* src);
 s32 Collider_SetJntSph_Set5(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src);
-s32 Collider_SetJntSph(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src, ColliderJntSphItem* list);
+s32 Collider_SetJntSph(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src,
+                       ColliderJntSphItem* list);
 s32 Collider_InitCylinderDim(GlobalContext* globalCtx, Cylinder16* dim);
 s32 Collider_DestroyCylinderDim(GlobalContext* globalCtx, Cylinder16* dim);
 s32 Collider_SetCylinderDim(GlobalContext* globalCtx, Cylinder16* dest, Cylinder16* src);
 s32 Collider_InitCylinder(GlobalContext* globalCtx, ColliderCylinder* collider);
 s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collider);
 s32 Collider_SetCylinder_Actor(GlobalContext* globalCtx, ColliderCylinder* collider, ColliderCylinderInit_Actor* arg2);
-s32 Collider_SetCylinder_Set3(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor, ColliderCylinderInit_Set3* src);
+s32 Collider_SetCylinder_Set3(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
+                              ColliderCylinderInit_Set3* src);
 s32 Collider_SetCylinder(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor, ColliderCylinderInit* src);
 s32 Collider_CylinderSetAT(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_CylinderSetAC(GlobalContext* globalCtx, Collider* collider);
@@ -728,7 +731,7 @@ s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris);
 s32 Collider_SetTris_Set3(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit_Set3* src);
 s32 Collider_SetTris_Set5(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src);
 s32 Collider_SetTris(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src,
-    ColliderTrisItem* list);
+                     ColliderTrisItem* list);
 s32 Collider_TrisSetAT(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_TrisSetAC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_TrisSetOC(GlobalContext* globalCtx, Collider* collider);
@@ -786,7 +789,8 @@ void func_80061ED4(CollisionCheckInfo* info, DamageTable* damageTable, Collision
 void func_80061EFC(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init);
 // ? func_80061F64(?);
 // ? func_800622E4(?);
-s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C, Vec3f* arg3, Actor** arg4, s32 arg5);
+s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C,
+                                      Vec3f* arg3, Actor** arg4, s32 arg5);
 // ? func_800626B0(?);
 void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider);
 // ? func_80062734(?);
@@ -1714,7 +1718,7 @@ u32 SysUcode_GetUCodeBoot();
 u32 SysUcode_GetUCodeBootSize();
 u32 SysUcode_GetUCode();
 u32 SysUcode_GetUCodeData();
-void func_800D2E30(UnkRumbleStruct *arg0);
+void func_800D2E30(UnkRumbleStruct* arg0);
 void func_800D3140(UnkRumbleStruct* arg0);
 void func_800D3178(UnkRumbleStruct* arg0);
 // ? func_800D31F0(?);
@@ -2377,7 +2381,9 @@ void guLookAtReflect(Mtx*, f32, f32, f32, f32, f32, f32, f32, f32, f32);
 // ? osContStartQuery(?);
 void osContGetQuery(OSContStatus* data);
 // ? guLookAtHiliteF(?);
-void guLookAtHilite(Mtx* m, LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt,  f32 yAt,  f32 zAt, f32 xUp,  f32 yUp,  f32 zUp, f32 xl1,  f32 yl1,  f32 zl1, f32 xl2,  f32 yl2,  f32 zl2, s32 hiliteWidth, s32 hiliteHeight);	
+void guLookAtHilite(Mtx* m, LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp,
+                    f32 yUp, f32 zUp, f32 xl1, f32 yl1, f32 zl1, f32 xl2, f32 yl2, f32 zl2, s32 hiliteWidth,
+                    s32 hiliteHeight);
 // ? __osSpDeviceBusy(?);
 // ? func_80103B60(?);
 // ? guPositionF(?);
