@@ -159,7 +159,7 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
     func_800C0F08(&globalCtx->preRenderCtx);
     func_800271A8(globalCtx);
     Effect_SS_Clear(globalCtx);
-    func_8005D400(globalCtx, &globalCtx->sub_11E60);
+    CollisionCheck_DestroyContext(globalCtx, &globalCtx->colChkCtx);
 
     if (D_80161490 == 3) {
         func_800B1DBC(&D_801613B0);
@@ -242,7 +242,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     func_8006BA00(globalCtx);
     func_80026C2C(globalCtx);
     func_800272B0(globalCtx, 0x55);
-    func_8005D3BC(globalCtx, &globalCtx->sub_11E60);
+    func_8005D3BC(globalCtx, &globalCtx->colChkCtx);
     SkelAnime_AnimationCtxReset(&globalCtx->animationCtx);
     func_8006450C(globalCtx, &globalCtx->csCtx);
 
@@ -834,25 +834,25 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         LOG_NUM("1", 1, "../z_play.c", 3612);
                     }
 
-                    func_8006139C(globalCtx, &globalCtx->sub_11E60);
+                    func_8006139C(globalCtx, &globalCtx->colChkCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3618);
                     }
 
-                    func_80061C98(globalCtx, &globalCtx->sub_11E60);
+                    CollisionCheck_OC(globalCtx, &globalCtx->colChkCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3624);
                     }
 
-                    func_800622E4(globalCtx, &globalCtx->sub_11E60);
+                    func_800622E4(globalCtx, &globalCtx->colChkCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3631);
                     }
 
-                    func_8005D40C(globalCtx, &globalCtx->sub_11E60);
+                    CollisionCheck_InitContext(globalCtx, &globalCtx->colChkCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3637);
@@ -1094,7 +1094,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         gfxCtx->polyOpa.p = func_800BC8A0(globalCtx, gfxCtx->polyOpa.p);
         gfxCtx->polyXlu.p = func_800BC8A0(globalCtx, gfxCtx->polyXlu.p);
 
-        func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.near, globalCtx->lightCtx.unk_0C);
+        func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.unk_0C);
         func_800AAA50(&globalCtx->view, 15);
 
         Matrix_MtxToMtxF(&globalCtx->view.viewing, &globalCtx->mf_11DA0);
@@ -1128,7 +1128,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 view.flags = 2 | 8;
 
                 // clang-format off
-                viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH; 
+                viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH;
                 viewport.topY = 0; viewport.leftX = 0;
                 // clang-format on
 
@@ -1600,7 +1600,7 @@ s32 func_800C04D8(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3)
 
     if (1) {} // Necessary to match
 
-    camera->unk_DC = func_800CB678(arg2, arg3);
+    camera->unk_DC = Math3D_Vec3f_DistXYZ(arg2, arg3);
 
     player = camera->player;
     if (player != NULL) {

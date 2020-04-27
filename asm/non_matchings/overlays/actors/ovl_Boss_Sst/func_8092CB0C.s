@@ -55,8 +55,8 @@ glabel func_8092CB0C
 /* 00610 8092CBE0 0C01DF90 */  jal     Math_Vec3f_Copy
               ## Vec3f_Copy
 /* 00614 8092CBE4 26050024 */  addiu   $a1, $s0, 0x0024           ## $a1 = 00000024
-/* 00618 8092CBE8 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 0061C 8092CBEC 9739F542 */  lhu     $t9, -0x0ABE($t9)          ## 8015F542
+/* 00618 8092CBE8 3C198016 */  lui     $t9, %hi(gSaveContext+0xee2)
+/* 0061C 8092CBEC 9739F542 */  lhu     $t9, %lo(gSaveContext+0xee2)($t9)
 /* 00620 8092CBF0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00624 8092CBF4 3C058094 */  lui     $a1, %hi(D_80938CC4)       ## $a1 = 80940000
 /* 00628 8092CBF8 33280080 */  andi    $t0, $t9, 0x0080           ## $t0 = 00000000

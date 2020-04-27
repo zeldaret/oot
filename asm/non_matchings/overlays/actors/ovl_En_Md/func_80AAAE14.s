@@ -1,7 +1,7 @@
 glabel func_80AAAE14
 /* 00BC4 80AAAE14 AFA40000 */  sw      $a0, 0x0000($sp)           
-/* 00BC8 80AAAE18 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00BCC 80AAAE1C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00BC8 80AAAE18 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00BCC 80AAAE1C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00BD0 80AAAE20 A0A00208 */  sb      $zero, 0x0208($a1)         ## 00000208
 /* 00BD4 80AAAE24 A0A00209 */  sb      $zero, 0x0209($a1)         ## 00000209
 /* 00BD8 80AAAE28 944E0EDC */  lhu     $t6, 0x0EDC($v0)           ## 8015F53C

@@ -13,16 +13,16 @@ glabel func_80A406E0
 /* 0219C 80A4070C 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 021A0 80A40710 15C10033 */  bne     $t6, $at, .L80A407E0       
 /* 021A4 80A40714 00000000 */  nop
-/* 021A8 80A40718 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 021AC 80A4071C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 021A8 80A40718 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 021AC 80A4071C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 021B0 80A40720 904F003E */  lbu     $t7, 0x003E($v0)           ## 8015E69E
-/* 021B4 80A40724 3C188012 */  lui     $t8, 0x8012                ## $t8 = 80120000
+/* 021B4 80A40724 3C188012 */  lui     $t8, %hi(gItemSlots+0x2d)
 /* 021B8 80A40728 11E00003 */  beq     $t7, $zero, .L80A40738     
 /* 021BC 80A4072C 00000000 */  nop
 /* 021C0 80A40730 10000064 */  beq     $zero, $zero, .L80A408C4   
 /* 021C4 80A40734 A48001E0 */  sh      $zero, 0x01E0($a0)         ## 000001E0
 .L80A40738:
-/* 021C8 80A40738 93187491 */  lbu     $t8, 0x7491($t8)           ## 80127491
+/* 021C8 80A40738 93187491 */  lbu     $t8, %lo(gItemSlots+0x2d)($t8)
 /* 021CC 80A4073C 24010036 */  addiu   $at, $zero, 0x0036         ## $at = 00000036
 /* 021D0 80A40740 3C0580A4 */  lui     $a1, %hi(func_80A40B74)    ## $a1 = 80A40000
 /* 021D4 80A40744 0058C821 */  addu    $t9, $v0, $t8              
@@ -46,8 +46,8 @@ glabel func_80A406E0
 /* 0221C 80A4078C 240A0037 */  addiu   $t2, $zero, 0x0037         ## $t2 = 00000037
 /* 02220 80A40790 00240821 */  addu    $at, $at, $a0              
 /* 02224 80A40794 A02A03DC */  sb      $t2, 0x03DC($at)           ## 000103DC
-/* 02228 80A40798 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 0222C 80A4079C A420FA32 */  sh      $zero, -0x05CE($at)        ## 8015FA32
+/* 02228 80A40798 3C018016 */  lui     $at, %hi(gSaveContext+0x13d2)
+/* 0222C 80A4079C A420FA32 */  sh      $zero, %lo(gSaveContext+0x13d2)($at)
 /* 02230 80A407A0 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 02234 80A407A4 2405105E */  addiu   $a1, $zero, 0x105E         ## $a1 = 0000105E
 /* 02238 80A407A8 2406FF9D */  addiu   $a2, $zero, 0xFF9D         ## $a2 = FFFFFF9D

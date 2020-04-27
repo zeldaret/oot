@@ -1,7 +1,7 @@
 /*
  * File: z_en_bird.c
  * Overlay: ovl_En_Bird
- * Description: The projectile fired by deku scrubs and octaroks.
+ * Description: A brown bird. Tweet tweet.
  */
 
 #include <ultra64.h>
@@ -70,7 +70,7 @@ void EnBird_Init(EnBird* this, GlobalContext* globalCtx) {
     this->unk_194 = 0;
     this->unk_198 = 0;
     this->unk_1C0 = 0x9C4;
-    this->actor.sub_98.mass = 0;
+    this->actor.colChkInfo.mass = 0;
     this->unk_1A8 = 1.5f;
     this->unk_1AC = 0.5f;
     this->unk_1A0 = 0.0f;
@@ -144,5 +144,5 @@ void EnBird_Update(EnBird* this, GlobalContext* globalCtx) {
 }
 
 void EnBird_Draw(EnBird* this, GlobalContext* globalCtx) {
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.actorDrawTbl, 0, NULL, NULL);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 0, NULL, NULL);
 }

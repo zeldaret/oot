@@ -12,8 +12,8 @@ glabel EnWonderTalk2_Update
 /* 008D4 80B3A7A4 0C00B56E */  jal     Actor_SetHeight
               
 /* 008D8 80B3A7A8 E4840028 */  swc1    $f4, 0x0028($a0)           ## 00000028
-/* 008DC 80B3A7AC 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 008E0 80B3A7B0 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 008DC 80B3A7AC 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 008E0 80B3A7B0 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 008E4 80B3A7B4 8FA40048 */  lw      $a0, 0x0048($sp)           
 /* 008E8 80B3A7B8 85CF12D4 */  lh      $t7, 0x12D4($t6)           ## 801612D4
 /* 008EC 80B3A7BC 51E0003C */  beql    $t7, $zero, .L80B3A8B0     

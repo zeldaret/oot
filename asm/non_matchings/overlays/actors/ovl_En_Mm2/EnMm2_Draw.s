@@ -29,7 +29,7 @@ glabel EnMm2_Draw
 /* 00ACC 80AAF91C 37390020 */  ori     $t9, $t9, 0x0020           ## $t9 = DB060020
 /* 00AD0 80AAF920 8CA302C0 */  lw      $v1, 0x02C0($a1)           ## 000002C0
 /* 00AD4 80AAF924 3C0480AB */  lui     $a0, %hi(D_80AAFB60)       ## $a0 = 80AB0000
-/* 00AD8 80AAF928 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 00AD8 80AAF928 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 00ADC 80AAF92C 24780008 */  addiu   $t8, $v1, 0x0008           ## $t8 = 00000008
 /* 00AE0 80AAF930 ACB802C0 */  sw      $t8, 0x02C0($a1)           ## 000002C0
 /* 00AE4 80AAF934 AC790000 */  sw      $t9, 0x0000($v1)           ## 00000000
@@ -45,7 +45,7 @@ glabel EnMm2_Draw
 /* 00B0C 80AAF95C 000B6702 */  srl     $t4, $t3, 28
 /* 00B10 80AAF960 000C6880 */  sll     $t5, $t4,  2
 /* 00B14 80AAF964 01CD7021 */  addu    $t6, $t6, $t5
-/* 00B18 80AAF968 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 00B18 80AAF968 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 00B1C 80AAF96C 00815024 */  and     $t2, $a0, $at
 /* 00B20 80AAF970 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00B24 80AAF974 014E7821 */  addu    $t7, $t2, $t6

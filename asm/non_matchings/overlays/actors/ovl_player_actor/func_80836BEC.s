@@ -113,7 +113,7 @@ glabel func_80836BEC
 .L80836D7C:
 /* 04B6C 80836D7C 8F398AB4 */  lw      $t9, %lo(D_80858AB4)($t9)  
 /* 04B70 80836D80 2401DFFF */  addiu   $at, $zero, 0xDFFF         ## $at = FFFFDFFF
-/* 04B74 80836D84 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
+/* 04B74 80836D84 3C058016 */  lui     $a1, %hi(gSaveContext+0x140c)
 /* 04B78 80836D88 9729000C */  lhu     $t1, 0x000C($t9)           ## 8086000C
 /* 04B7C 80836D8C 346B8000 */  ori     $t3, $v1, 0x8000           ## $t3 = 00008000
 /* 04B80 80836D90 01215027 */  nor     $t2, $t1, $at              
@@ -126,7 +126,7 @@ glabel func_80836BEC
 /* 04B9C 80836DAC 8CC21CC8 */  lw      $v0, 0x1CC8($a2)           ## 00001CC8
 /* 04BA0 80836DB0 8CC21C44 */  lw      $v0, 0x1C44($a2)           ## 00001C44
 .L80836DB4:
-/* 04BA4 80836DB4 90A5FA6C */  lbu     $a1, -0x0594($a1)          ## 8015FA6C
+/* 04BA4 80836DB4 90A5FA6C */  lbu     $a1, %lo(gSaveContext+0x140c)($a1)
 /* 04BA8 80836DB8 0005282B */  sltu    $a1, $zero, $a1            
 /* 04BAC 80836DBC 14A00003 */  bne     $a1, $zero, .L80836DCC     
 /* 04BB0 80836DC0 00000000 */  nop

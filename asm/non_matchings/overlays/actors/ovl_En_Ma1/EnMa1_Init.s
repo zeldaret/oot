@@ -4,8 +4,8 @@ glabel EnMa1_Init
 /* 00560 80AA0BF0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00564 80AA0BF4 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00568 80AA0BF8 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 0056C 80AA0BFC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00570 80AA0C00 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0056C 80AA0BFC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00570 80AA0C00 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00574 80AA0C04 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00578 80AA0C08 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 0057C 80AA0C0C 0C00AC78 */  jal     ActorShape_Init
@@ -22,17 +22,17 @@ glabel EnMa1_Init
 /* 005A4 80AA0C34 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 005A8 80AA0C38 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 005AC 80AA0C3C AFA50030 */  sw      $a1, 0x0030($sp)
-/* 005B0 80AA0C40 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 005B0 80AA0C40 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 005B4 80AA0C44 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 005B8 80AA0C48 3C0780AA */  lui     $a3, %hi(D_80AA1640)       ## $a3 = 80AA0000
 /* 005BC 80AA0C4C 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 005C0 80AA0C50 24E71640 */  addiu   $a3, $a3, %lo(D_80AA1640)  ## $a3 = 80AA1640
 /* 005C4 80AA0C54 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 005C8 80AA0C58 0C01712B */  jal     ActorCollider_InitCylinder
+/* 005C8 80AA0C58 0C01712B */  jal     Collider_SetCylinder
 
 /* 005CC 80AA0C5C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 005D0 80AA0C60 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 005D0 80AA0C60 0C016C80 */  jal     DamageTable_Get
 
 /* 005D4 80AA0C64 24040016 */  addiu   $a0, $zero, 0x0016         ## $a0 = 00000016
 /* 005D8 80AA0C68 3C0680AA */  lui     $a2, %hi(D_80AA166C)       ## $a2 = 80AA0000
@@ -64,18 +64,18 @@ glabel EnMa1_Init
 /* 00638 80AA0CC8 0C00B58B */  jal     Actor_SetScale
 
 /* 0063C 80AA0CCC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00640 80AA0CD0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00640 80AA0CD0 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 00644 80AA0CD4 240F0006 */  addiu   $t7, $zero, 0x0006         ## $t7 = 00000006
-/* 00648 80AA0CD8 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00648 80AA0CD8 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 0064C 80AA0CDC A20F001F */  sb      $t7, 0x001F($s0)           ## 0000001F
 /* 00650 80AA0CE0 A60001E8 */  sh      $zero, 0x01E8($s0)         ## 000001E8
 /* 00654 80AA0CE4 94580ED6 */  lhu     $t8, 0x0ED6($v0)           ## 8015F536
 /* 00658 80AA0CE8 3C0B80AA */  lui     $t3, %hi(func_80AA0D88)    ## $t3 = 80AA0000
-/* 0065C 80AA0CEC 3C088012 */  lui     $t0, 0x8012                ## $t0 = 80120000
+/* 0065C 80AA0CEC 3C088012 */  lui     $t0, %hi(gBitFlags+0x34)
 /* 00660 80AA0CF0 33190010 */  andi    $t9, $t8, 0x0010           ## $t9 = 00000000
 /* 00664 80AA0CF4 13200008 */  beq     $t9, $zero, .L80AA0D18
 /* 00668 80AA0CF8 256B0D88 */  addiu   $t3, $t3, %lo(func_80AA0D88) ## $t3 = 80AA0D88
-/* 0066C 80AA0CFC 8D087154 */  lw      $t0, 0x7154($t0)           ## 80127154
+/* 0066C 80AA0CFC 8D087154 */  lw      $t0, %lo(gBitFlags+0x34)($t0)
 /* 00670 80AA0D00 8C4900A4 */  lw      $t1, 0x00A4($v0)           ## 8015E704
 /* 00674 80AA0D04 3C0C80AA */  lui     $t4, %hi(func_80AA0F44)    ## $t4 = 80AA0000
 /* 00678 80AA0D08 258C0F44 */  addiu   $t4, $t4, %lo(func_80AA0F44) ## $t4 = 80AA0F44

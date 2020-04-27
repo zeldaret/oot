@@ -46,26 +46,26 @@ glabel EnBrob_Init
 /* 00080 809CAB90 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 00084 809CAB94 26050228 */  addiu   $a1, $s0, 0x0228           ## $a1 = 00000228
 /* 00088 809CAB98 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 0008C 809CAB9C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0008C 809CAB9C 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00090 809CABA0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00094 809CABA4 3C07809D */  lui     $a3, %hi(D_809CBA80)       ## $a3 = 809D0000
 /* 00098 809CABA8 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 0009C 809CABAC 24E7BA80 */  addiu   $a3, $a3, %lo(D_809CBA80)  ## $a3 = 809CBA80
 /* 000A0 809CABB0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000A4 809CABB4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000A4 809CABB4 0C01712B */  jal     Collider_SetCylinder
 
 /* 000A8 809CABB8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000AC 809CABBC 26050274 */  addiu   $a1, $s0, 0x0274           ## $a1 = 00000274
 /* 000B0 809CABC0 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 000B4 809CABC4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000B4 809CABC4 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 000B8 809CABC8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 000BC 809CABCC 3C07809D */  lui     $a3, %hi(D_809CBA80)       ## $a3 = 809D0000
 /* 000C0 809CABD0 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 000C4 809CABD4 24E7BA80 */  addiu   $a3, $a3, %lo(D_809CBA80)  ## $a3 = 809CBA80
 /* 000C8 809CABD8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000CC 809CABDC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000CC 809CABDC 0C01712B */  jal     Collider_SetCylinder
 
 /* 000D0 809CABE0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000D4 809CABE4 3C06809D */  lui     $a2, %hi(D_809CBAAC)       ## $a2 = 809D0000

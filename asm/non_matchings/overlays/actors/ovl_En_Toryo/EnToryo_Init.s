@@ -7,14 +7,14 @@ glabel EnToryo_Init
 /* 00014 80B20184 2401002A */  addiu   $at, $zero, 0x002A         ## $at = 0000002A
 /* 00018 80B20188 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0001C 80B2018C 10410026 */  beq     $v0, $at, .L80B20228
-/* 00020 80B20190 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 00020 80B20190 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 00024 80B20194 24010052 */  addiu   $at, $zero, 0x0052         ## $at = 00000052
 /* 00028 80B20198 10410012 */  beq     $v0, $at, .L80B201E4
-/* 0002C 80B2019C 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 0002C 80B2019C 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 00030 80B201A0 2401005A */  addiu   $at, $zero, 0x005A         ## $at = 0000005A
 /* 00034 80B201A4 14410031 */  bne     $v0, $at, .L80B2026C
-/* 00038 80B201A8 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 0003C 80B201AC 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00038 80B201A8 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 0003C 80B201AC 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00040 80B201B0 8C6F0004 */  lw      $t7, 0x0004($v1)           ## 8015E664
 /* 00044 80B201B4 24010011 */  addiu   $at, $zero, 0x0011         ## $at = 00000011
 /* 00048 80B201B8 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011
@@ -30,7 +30,7 @@ glabel EnToryo_Init
 /* 0006C 80B201DC 10000023 */  beq     $zero, $zero, .L80B2026C
 /* 00070 80B201E0 A61901E8 */  sh      $t9, 0x01E8($s0)           ## 000001E8
 .L80B201E4:
-/* 00074 80B201E4 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015CCC0
+/* 00074 80B201E4 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00078 80B201E8 8C680004 */  lw      $t0, 0x0004($v1)           ## 8015CCC4
 /* 0007C 80B201EC 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 00080 80B201F0 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011
@@ -49,7 +49,7 @@ glabel EnToryo_Init
 /* 000B0 80B20220 10000012 */  beq     $zero, $zero, .L80B2026C
 /* 000B4 80B20224 A60B01E8 */  sh      $t3, 0x01E8($s0)           ## 000001E8
 .L80B20228:
-/* 000B8 80B20228 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015B320
+/* 000B8 80B20228 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 000BC 80B2022C 8C6C0004 */  lw      $t4, 0x0004($v1)           ## 8015B324
 /* 000C0 80B20230 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 000C4 80B20234 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011
@@ -77,8 +77,8 @@ glabel EnToryo_Init
 
 /* 00110 80B20280 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B20284:
-/* 00114 80B20284 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00118 80B20288 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00114 80B20284 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00118 80B20288 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0011C 80B2028C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00120 80B20290 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00124 80B20294 0C00AC78 */  jal     ActorShape_Init
@@ -99,14 +99,14 @@ glabel EnToryo_Init
 /* 0015C 80B202CC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00160 80B202D0 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00164 80B202D4 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00168 80B202D8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00168 80B202D8 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 0016C 80B202DC 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 00170 80B202E0 3C0780B2 */  lui     $a3, %hi(D_80B20C00)       ## $a3 = 80B20000
 /* 00174 80B202E4 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 00178 80B202E8 24E70C00 */  addiu   $a3, $a3, %lo(D_80B20C00)  ## $a3 = 80B20C00
 /* 0017C 80B202EC 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 00180 80B202F0 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00180 80B202F0 0C01712B */  jal     Collider_SetCylinder
 
 /* 00184 80B202F4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00188 80B202F8 3C0580B2 */  lui     $a1, %hi(D_80B20C38)       ## $a1 = 80B20000

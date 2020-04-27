@@ -1,10 +1,10 @@
 glabel func_80A70BAC
 /* 015FC 80A70BAC 8482001C */  lh      $v0, 0x001C($a0)           ## 0000001C
 /* 01600 80A70BB0 2405000A */  addiu   $a1, $zero, 0x000A         ## $a1 = 0000000A
-/* 01604 80A70BB4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 01604 80A70BB4 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 01608 80A70BB8 3042007F */  andi    $v0, $v0, 0x007F           ## $v0 = 00000000
 /* 0160C 80A70BBC 10A20003 */  beq     $a1, $v0, .L80A70BCC       
-/* 01610 80A70BC0 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 01610 80A70BC0 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 01614 80A70BC4 03E00008 */  jr      $ra                        
 /* 01618 80A70BC8 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 .L80A70BCC:

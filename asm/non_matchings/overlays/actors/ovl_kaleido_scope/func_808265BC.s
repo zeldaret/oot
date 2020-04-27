@@ -1,6 +1,6 @@
 glabel func_808265BC
-/* 12D9C 808265BC 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
-/* 12DA0 808265C0 24A5FA90 */  addiu   $a1, $a1, 0xFA90           ## $a1 = 8015FA90
+/* 12D9C 808265BC 3C058016 */  lui     $a1, %hi(gGameInfo)
+/* 12DA0 808265C0 24A5FA90 */  addiu   $a1, %lo(gGameInfo)
 /* 12DA4 808265C4 8CAE0000 */  lw      $t6, 0x0000($a1)           ## 8015FA90
 /* 12DA8 808265C8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 12DAC 808265CC AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -57,42 +57,42 @@ glabel func_808265BC
 /* 12E78 80826698 3C038083 */  lui     $v1, %hi(D_8082AB6C)       ## $v1 = 80830000
 /* 12E7C 8082669C 03260019 */  multu   $t9, $a2                   
 /* 12E80 808266A0 2463AB6C */  addiu   $v1, $v1, %lo(D_8082AB6C)  ## $v1 = 8082AB6C
-/* 12E84 808266A4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 12E84 808266A4 3C018016 */  lui     $at, %hi(gSaveContext+0x13e2)
 /* 12E88 808266A8 2405000E */  addiu   $a1, $zero, 0x000E         ## $a1 = 0000000E
 /* 12E8C 808266AC 00004812 */  mflo    $t1                        
 /* 12E90 808266B0 00695021 */  addu    $t2, $v1, $t1              
 /* 12E94 808266B4 91480000 */  lbu     $t0, 0x0000($t2)           ## 00000000
-/* 12E98 808266B8 A028FA42 */  sb      $t0, -0x05BE($at)          ## 8015FA42
+/* 12E98 808266B8 A028FA42 */  sb      $t0, %lo(gSaveContext+0x13e2)($at)
 /* 12E9C 808266BC 944B01E8 */  lhu     $t3, 0x01E8($v0)           ## 000001E8
-/* 12EA0 808266C0 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 12EA0 808266C0 3C018016 */  lui     $at, %hi(gSaveContext+0x13e3)
 /* 12EA4 808266C4 01660019 */  multu   $t3, $a2                   
 /* 12EA8 808266C8 00006012 */  mflo    $t4                        
 /* 12EAC 808266CC 006C7021 */  addu    $t6, $v1, $t4              
 /* 12EB0 808266D0 91CF0001 */  lbu     $t7, 0x0001($t6)           ## 00000001
-/* 12EB4 808266D4 A02FFA43 */  sb      $t7, -0x05BD($at)          ## 8015FA43
+/* 12EB4 808266D4 A02FFA43 */  sb      $t7, %lo(gSaveContext+0x13e3)($at)
 /* 12EB8 808266D8 944D01E8 */  lhu     $t5, 0x01E8($v0)           ## 000001E8
-/* 12EBC 808266DC 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 12EBC 808266DC 3C018016 */  lui     $at, %hi(gSaveContext+0x13e4)
 /* 12EC0 808266E0 01A60019 */  multu   $t5, $a2                   
 /* 12EC4 808266E4 0000C012 */  mflo    $t8                        
 /* 12EC8 808266E8 0078C821 */  addu    $t9, $v1, $t8              
 /* 12ECC 808266EC 93290002 */  lbu     $t1, 0x0002($t9)           ## 00000002
-/* 12ED0 808266F0 A029FA44 */  sb      $t1, -0x05BC($at)          ## 8015FA44
+/* 12ED0 808266F0 A029FA44 */  sb      $t1, %lo(gSaveContext+0x13e4)($at)
 /* 12ED4 808266F4 944A01E8 */  lhu     $t2, 0x01E8($v0)           ## 000001E8
-/* 12ED8 808266F8 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 12ED8 808266F8 3C018016 */  lui     $at, %hi(gSaveContext+0x13e5)
 /* 12EDC 808266FC 01460019 */  multu   $t2, $a2                   
 /* 12EE0 80826700 3C0A8083 */  lui     $t2, %hi(D_8082ABEC)       ## $t2 = 80830000
 /* 12EE4 80826704 00004012 */  mflo    $t0                        
 /* 12EE8 80826708 00685821 */  addu    $t3, $v1, $t0              
 /* 12EEC 8082670C 916C0003 */  lbu     $t4, 0x0003($t3)           ## 00000003
-/* 12EF0 80826710 A02CFA45 */  sb      $t4, -0x05BB($at)          ## 8015FA45
+/* 12EF0 80826710 A02CFA45 */  sb      $t4, %lo(gSaveContext+0x13e5)($at)
 /* 12EF4 80826714 944E01E8 */  lhu     $t6, 0x01E8($v0)           ## 000001E8
-/* 12EF8 80826718 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 12EF8 80826718 3C018016 */  lui     $at, %hi(gSaveContext+0x13e6)
 /* 12EFC 8082671C 240C00FF */  addiu   $t4, $zero, 0x00FF         ## $t4 = 000000FF
 /* 12F00 80826720 01C60019 */  multu   $t6, $a2                   
 /* 12F04 80826724 00007812 */  mflo    $t7                        
 /* 12F08 80826728 006F6821 */  addu    $t5, $v1, $t7              
 /* 12F0C 8082672C 91B80004 */  lbu     $t8, 0x0004($t5)           ## 00000004
-/* 12F10 80826730 A038FA46 */  sb      $t8, -0x05BA($at)          ## 8015FA46
+/* 12F10 80826730 A038FA46 */  sb      $t8, %lo(gSaveContext+0x13e6)($at)
 /* 12F14 80826734 945901E6 */  lhu     $t9, 0x01E6($v0)           ## 000001E6
 /* 12F18 80826738 944801D4 */  lhu     $t0, 0x01D4($v0)           ## 000001D4
 /* 12F1C 8082673C 00194840 */  sll     $t1, $t9,  1               

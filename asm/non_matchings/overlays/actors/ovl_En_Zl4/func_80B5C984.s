@@ -405,8 +405,8 @@ glabel L80B5CED4
 /* 01758 80B5CF08 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0175C 80B5CF0C 00310821 */  addu    $at, $at, $s1              
 /* 01760 80B5CF10 A42D1E1A */  sh      $t5, 0x1E1A($at)           ## 00011E1A
-/* 01764 80B5CF14 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 01768 80B5CF18 A42EFA72 */  sh      $t6, -0x058E($at)          ## 8015FA72
+/* 01764 80B5CF14 3C018016 */  lui     $at, %hi(gSaveContext+0x1412)
+/* 01768 80B5CF18 A42EFA72 */  sh      $t6, %lo(gSaveContext+0x1412)($at)
 /* 0176C 80B5CF1C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01770 80B5CF20 00310821 */  addu    $at, $at, $s1              
 /* 01774 80B5CF24 A02F1E15 */  sb      $t7, 0x1E15($at)           ## 00011E15

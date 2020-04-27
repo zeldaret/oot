@@ -46,10 +46,10 @@ glabel EnGuest_Update
 /* 00184 80A503A4 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 00188 80A503A8 248442AC */  addiu   $a0, $a0, 0x42AC           ## $a0 = 060042AC
 /* 0018C 80A503AC 01816821 */  addu    $t5, $t4, $at
-/* 00190 80A503B0 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 00190 80A503B0 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 00194 80A503B4 0C028800 */  jal     SkelAnime_GetFrameCount
 
-/* 00198 80A503B8 AC2D6FC0 */  sw      $t5, 0x6FC0($at)           ## 80166FC0
+/* 00198 80A503B8 AC2D6FC0 */  sw      $t5, %lo(gSegments+0x18)($at)
 /* 0019C 80A503BC 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 001A0 80A503C0 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 001A4 80A503C4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
@@ -71,14 +71,14 @@ glabel EnGuest_Update
 /* 001E0 80A50400 AE0F0130 */  sw      $t7, 0x0130($s0)           ## 00000130
 /* 001E4 80A50404 26050254 */  addiu   $a1, $s0, 0x0254           ## $a1 = 00000254
 /* 001E8 80A50408 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 001EC 80A5040C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001EC 80A5040C 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 001F0 80A50410 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001F4 80A50414 3C0780A5 */  lui     $a3, %hi(D_80A50B70)       ## $a3 = 80A50000
 /* 001F8 80A50418 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 001FC 80A5041C 24E70B70 */  addiu   $a3, $a3, %lo(D_80A50B70)  ## $a3 = 80A50B70
 /* 00200 80A50420 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00204 80A50424 0C017114 */  jal     func_8005C450
+/* 00204 80A50424 0C017114 */  jal     Collider_SetCylinder_Set3
 /* 00208 80A50428 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0020C 80A5042C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00210 80A50430 0C00B56E */  jal     Actor_SetHeight

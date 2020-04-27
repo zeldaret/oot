@@ -1,23 +1,23 @@
 glabel func_80A3ABF8
-/* 004A8 80A3ABF8 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 004AC 80A3ABFC 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
-/* 004B0 80A3AC00 3C0F8012 */  lui     $t7, 0x8012                ## $t7 = 80120000
-/* 004B4 80A3AC04 8DEF71CC */  lw      $t7, 0x71CC($t7)           ## 801271CC
+/* 004A8 80A3ABF8 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 004AC 80A3ABFC 2463E660 */  addiu   $v1, %lo(gSaveContext)
+/* 004B0 80A3AC00 3C0F8012 */  lui     $t7, %hi(gUpgradeMasks+0x1c)
+/* 004B4 80A3AC04 8DEF71CC */  lw      $t7, %lo(gUpgradeMasks+0x1c)($t7)
 /* 004B8 80A3AC08 8C6E00A0 */  lw      $t6, 0x00A0($v1)           ## 8015E700
-/* 004BC 80A3AC0C 3C198012 */  lui     $t9, 0x8012                ## $t9 = 80120000
-/* 004C0 80A3AC10 933971FB */  lbu     $t9, 0x71FB($t9)           ## 801271FB
+/* 004BC 80A3AC0C 3C198012 */  lui     $t9, %hi(gUpgradeShifts+7)
+/* 004C0 80A3AC10 933971FB */  lbu     $t9, %lo(gUpgradeShifts+7)($t9)
 /* 004C4 80A3AC14 01CFC024 */  and     $t8, $t6, $t7              
-/* 004C8 80A3AC18 3C028012 */  lui     $v0, 0x8012                ## $v0 = 80120000
+/* 004C8 80A3AC18 3C028012 */  lui     $v0, %hi(gUpgradeCapacities+0x38)
 /* 004CC 80A3AC1C 03384007 */  srav    $t0, $t8, $t9              
 /* 004D0 80A3AC20 00084840 */  sll     $t1, $t0,  1               
 /* 004D4 80A3AC24 00491021 */  addu    $v0, $v0, $t1              
-/* 004D8 80A3AC28 94427234 */  lhu     $v0, 0x7234($v0)           ## 80127234
+/* 004D8 80A3AC28 94427234 */  lhu     $v0, %lo(gUpgradeCapacities+0x38)($v0)
 /* 004DC 80A3AC2C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 004E0 80A3AC30 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 004E4 80A3AC34 1040000A */  beq     $v0, $zero, .L80A3AC60     
 /* 004E8 80A3AC38 AFA40018 */  sw      $a0, 0x0018($sp)           
-/* 004EC 80A3AC3C 3C0A8012 */  lui     $t2, 0x8012                ## $t2 = 80120000
-/* 004F0 80A3AC40 914A7465 */  lbu     $t2, 0x7465($t2)           ## 80127465
+/* 004EC 80A3AC3C 3C0A8012 */  lui     $t2, %hi(gItemSlots+1)
+/* 004F0 80A3AC40 914A7465 */  lbu     $t2, %lo(gItemSlots+1)($t2)
 /* 004F4 80A3AC44 006A5821 */  addu    $t3, $v1, $t2              
 /* 004F8 80A3AC48 816C008C */  lb      $t4, 0x008C($t3)           ## 0000008C
 /* 004FC 80A3AC4C 0182082A */  slt     $at, $t4, $v0              

@@ -112,7 +112,7 @@ glabel EnHeishi2_Init
 /* 00114 80A52FB4 AE0C0278 */  sw      $t4, 0x0278($s0)           ## 00000278
 /* 00118 80A52FB8 A60F00B6 */  sh      $t7, 0x00B6($s0)           ## 000000B6
 /* 0011C 80A52FBC 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00120 80A52FC0 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00120 80A52FC0 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00124 80A52FC4 26050398 */  addiu   $a1, $s0, 0x0398           ## $a1 = 00000398
 /* 00128 80A52FC8 8FA40044 */  lw      $a0, 0x0044($sp)           
@@ -129,8 +129,8 @@ glabel EnHeishi2_Init
 .L80A52FF4:
 /* 00154 80A52FF4 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 00158 80A52FF8 44813000 */  mtc1    $at, $f6                   ## $f6 = 60.00
-/* 0015C 80A52FFC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00160 80A53000 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0015C 80A52FFC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00160 80A53000 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00164 80A53004 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00168 80A53008 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
 /* 0016C 80A5300C 0C00AC78 */  jal     ActorShape_Init
@@ -152,14 +152,14 @@ glabel EnHeishi2_Init
 /* 001A4 80A53044 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 001A8 80A53048 26050398 */  addiu   $a1, $s0, 0x0398           ## $a1 = 00000398
 /* 001AC 80A5304C AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 001B0 80A53050 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001B0 80A53050 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 001B4 80A53054 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 001B8 80A53058 3C0780A5 */  lui     $a3, %hi(D_80A54F10)       ## $a3 = 80A50000
 /* 001BC 80A5305C 24E74F10 */  addiu   $a3, $a3, %lo(D_80A54F10)  ## $a3 = 80A54F10
 /* 001C0 80A53060 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 001C4 80A53064 8FA50030 */  lw      $a1, 0x0030($sp)           
-/* 001C8 80A53068 0C01712B */  jal     ActorCollider_InitCylinder
+/* 001C8 80A53068 0C01712B */  jal     Collider_SetCylinder
               
 /* 001CC 80A5306C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 001D0 80A53070 860202FE */  lh      $v0, 0x02FE($s0)           ## 000002FE
@@ -203,7 +203,7 @@ glabel EnHeishi2_Init
               
 /* 00258 80A530F8 24844F80 */  addiu   $a0, $a0, %lo(D_80A54F80)  ## $a0 = 80A54F80
 /* 0025C 80A530FC 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00260 80A53100 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00260 80A53100 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00264 80A53104 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 00268 80A53108 8E180004 */  lw      $t8, 0x0004($s0)           ## 00000004

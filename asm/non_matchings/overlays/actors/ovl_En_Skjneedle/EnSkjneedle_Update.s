@@ -34,7 +34,7 @@ glabel EnSkjneedle_Update
 /* 00158 80B02008 34A5D70A */  ori     $a1, $a1, 0xD70A           ## $a1 = 0000D70A
 /* 0015C 80B0200C 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00160 80B02010 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 00164 80B02014 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00164 80B02014 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00168 80B02018 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0016C 80B0201C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -42,12 +42,12 @@ glabel EnSkjneedle_Update
 /* 00174 80B02024 02212821 */  addu    $a1, $s1, $at              
 /* 00178 80B02028 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 0017C 80B0202C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00180 80B02030 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00180 80B02030 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00184 80B02034 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 00188 80B02038 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 0018C 80B0203C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00190 80B02040 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00190 80B02040 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00194 80B02044 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 00198 80B02048 0C00B638 */  jal     Actor_MoveForward

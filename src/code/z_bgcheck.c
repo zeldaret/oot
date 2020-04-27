@@ -323,13 +323,11 @@ void func_800417A0(Struct800417A0* arg0) {
 void func_800418D0(CollisionContext* colCtx, GlobalContext* globalCtx) {
     ActorMesh* actorMesh;
     DynaCollisionContext* dynaColCtx;
-    void* phi_s2;
     s32 i;
     u16 flag;
 
     dynaColCtx = &colCtx->dyna;
-    phi_s2 = dynaColCtx;
-    for (i = 0; i != 50; i++) {
+    for (i = 0; i < 50; i++) {
         flag = dynaColCtx->flags[i];
         if ((flag & 1) && !(flag & 2)) {
             actorMesh = &dynaColCtx->actorMeshArr[i];

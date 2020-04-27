@@ -38,8 +38,8 @@ glabel func_808D9018
 /* 02830 808D90A0 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 02834 808D90A4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 02838 808D90A8 01415821 */  addu    $t3, $t2, $at
-/* 0283C 808D90AC 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 02840 808D90B0 AC2B6FC0 */  sw      $t3, 0x6FC0($at)           ## 80166FC0
+/* 0283C 808D90AC 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 02840 808D90B0 AC2B6FC0 */  sw      $t3, %lo(gSegments+0x18)($at)
 /* 02844 808D90B4 24A5EA00 */  addiu   $a1, $a1, 0xEA00           ## $a1 = 0600EA00
 /* 02848 808D90B8 26040150 */  addiu   $a0, $s0, 0x0150           ## $a0 = 00000150
 /* 0284C 808D90BC 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop

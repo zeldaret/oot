@@ -1,7 +1,7 @@
 glabel func_80A32F74
 /* 003A4 80A32F74 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
-/* 003A8 80A32F78 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 003AC 80A32F7C 8DEFE670 */  lw      $t7, -0x1990($t7)          ## 8015E670
+/* 003A8 80A32F78 3C0F8016 */  lui     $t7, %hi(gSaveContext+0x10)
+/* 003AC 80A32F7C 8DEFE670 */  lw      $t7, %lo(gSaveContext+0x10)($t7)
 /* 003B0 80A32F80 AFA70054 */  sw      $a3, 0x0054($sp)           
 /* 003B4 80A32F84 00073C00 */  sll     $a3, $a3, 16               
 /* 003B8 80A32F88 AFBF001C */  sw      $ra, 0x001C($sp)           

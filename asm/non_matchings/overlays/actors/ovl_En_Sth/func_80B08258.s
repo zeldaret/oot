@@ -33,8 +33,8 @@ glabel func_80B08258
 /* 00D6C 80B082AC 0338C821 */  addu    $t9, $t9, $t8
 /* 00D70 80B082B0 8F3917B4 */  lw      $t9, 0x17B4($t9)           ## 000117B4
 /* 00D74 80B082B4 03214821 */  addu    $t1, $t9, $at
-/* 00D78 80B082B8 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00D7C 80B082BC AC296FC0 */  sw      $t1, 0x6FC0($at)           ## 80166FC0
+/* 00D78 80B082B8 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 00D7C 80B082BC AC296FC0 */  sw      $t1, %lo(gSegments+0x18)($at)
 /* 00D80 80B082C0 0C0250F2 */  jal     func_800943C8
 /* 00D84 80B082C4 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
 /* 00D88 80B082C8 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0

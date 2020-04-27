@@ -66,7 +66,7 @@ glabel func_80B9569C
 /* 00AE0 80B95780 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00AE4 80B95784 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 00AE8 80B95788 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 00AEC 80B9578C 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00AEC 80B9578C 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00AF0 80B95790 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00AF4 80B95794 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -74,12 +74,12 @@ glabel func_80B9569C
 /* 00AFC 80B9579C 02218021 */  addu    $s0, $s1, $at              
 /* 00B00 80B957A0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00B04 80B957A4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00B08 80B957A8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00B08 80B957A8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00B0C 80B957AC 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 00B10 80B957B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B14 80B957B4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00B18 80B957B8 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00B18 80B957B8 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00B1C 80B957BC 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 00B20 80B957C0 8FBF0024 */  lw      $ra, 0x0024($sp)           

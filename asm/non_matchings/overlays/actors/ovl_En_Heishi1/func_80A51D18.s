@@ -143,8 +143,8 @@ glabel func_80A51D18
 /* 00BE8 80A51EB8 0C01E107 */  jal     Math_SmoothScaleMaxF
               
 /* 00BEC 80A51EBC 00000000 */  nop
-/* 00BF0 80A51EC0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00BF4 80A51EC4 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00BF0 80A51EC0 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 00BF4 80A51EC4 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 00BF8 80A51EC8 8605026C */  lh      $a1, 0x026C($s0)           ## 0000026C
 /* 00BFC 80A51ECC 845912D6 */  lh      $t9, 0x12D6($v0)           ## 801612D6
 /* 00C00 80A51ED0 54B9001B */  bnel    $a1, $t9, .L80A51F40       

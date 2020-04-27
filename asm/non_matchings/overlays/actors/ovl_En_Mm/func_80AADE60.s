@@ -2,13 +2,13 @@ glabel func_80AADE60
 /* 006F0 80AADE60 000670C0 */  sll     $t6, $a2,  3               
 /* 006F4 80AADE64 008E7821 */  addu    $t7, $a0, $t6              
 /* 006F8 80AADE68 8DE80004 */  lw      $t0, 0x0004($t7)           ## 00000004
-/* 006FC 80AADE6C 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 006FC 80AADE6C 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 00700 80AADE70 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 00704 80AADE74 0008C100 */  sll     $t8, $t0,  4               
 /* 00708 80AADE78 0018CF02 */  srl     $t9, $t8, 28               
 /* 0070C 80AADE7C 00194880 */  sll     $t1, $t9,  2               
 /* 00710 80AADE80 01495021 */  addu    $t2, $t2, $t1              
-/* 00714 80AADE84 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 80166FA8
+/* 00714 80AADE84 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 00718 80AADE88 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 0071C 80AADE8C 00076880 */  sll     $t5, $a3,  2               
 /* 00720 80AADE90 01A76823 */  subu    $t5, $t5, $a3              

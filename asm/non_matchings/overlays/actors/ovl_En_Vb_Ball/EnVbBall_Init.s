@@ -61,14 +61,14 @@ glabel EnVbBall_Init
 /* 00094 80B29034 10000035 */  beq     $zero, $zero, .L80B2910C   
 /* 00098 80B29038 E608006C */  swc1    $f8, 0x006C($s0)           ## 0000006C
 .L80B2903C:
-/* 0009C 80B2903C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0009C 80B2903C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 000A0 80B29040 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 000A4 80B29044 3C0780B3 */  lui     $a3, %hi(D_80B2A000)       ## $a3 = 80B30000
 /* 000A8 80B29048 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 000AC 80B2904C 24E7A000 */  addiu   $a3, $a3, %lo(D_80B2A000)  ## $a3 = 80B2A000
 /* 000B0 80B29050 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 000B4 80B29054 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000B4 80B29054 0C01712B */  jal     Collider_SetCylinder
               
 /* 000B8 80B29058 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000BC 80B2905C 860F0034 */  lh      $t7, 0x0034($s0)           ## 00000034

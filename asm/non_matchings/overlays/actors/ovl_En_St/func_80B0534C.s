@@ -101,7 +101,7 @@ glabel func_80B0534C
 /* 00C2C 80B054BC C7B00078 */  lwc1    $f16, 0x0078($sp)          
 /* 00C30 80B054C0 4600848D */  trunc.w.s $f18, $f16                 
 /* 00C34 80B054C4 44189000 */  mfc1    $t8, $f18                  
-/* 00C38 80B054C8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00C38 80B054C8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00C3C 80B054CC A63802C2 */  sh      $t8, 0x02C2($s1)           ## 000002C2
 /* 00C40 80B054D0 2673004C */  addiu   $s3, $s3, 0x004C           ## $s3 = 0000004C

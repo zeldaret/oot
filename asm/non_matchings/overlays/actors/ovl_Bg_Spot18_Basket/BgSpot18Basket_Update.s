@@ -29,7 +29,7 @@ glabel BgSpot18Basket_Update
 /* 00D90 808B84A0 26060164 */  addiu   $a2, $s0, 0x0164           ## $a2 = 00000164
 /* 00D94 808B84A4 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 00D98 808B84A8 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00D9C 808B84AC 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00D9C 808B84AC 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00DA0 808B84B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00DA4 808B84B4 8E0B0204 */  lw      $t3, 0x0204($s0)           ## 00000204
@@ -41,7 +41,7 @@ glabel BgSpot18Basket_Update
 /* 00DBC 808B84CC 920C0175 */  lbu     $t4, 0x0175($s0)           ## 00000175
 /* 00DC0 808B84D0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00DC4 808B84D4 318DFFFD */  andi    $t5, $t4, 0xFFFD           ## $t5 = 00000000
-/* 00DC8 808B84D8 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00DC8 808B84D8 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00DCC 808B84DC A20D0175 */  sb      $t5, 0x0175($s0)           ## 00000175
 .L808B84E0:

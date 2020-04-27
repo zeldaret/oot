@@ -138,8 +138,8 @@ glabel L80B5DFD0
 /* 02834 80B5DFE4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02838 80B5DFE8 0C00B7D5 */  jal     func_8002DF54              
 /* 0283C 80B5DFEC 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
-/* 02840 80B5DFF0 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 02844 80B5DFF4 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 02840 80B5DFF0 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 02844 80B5DFF4 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 02848 80B5DFF8 946F0EDC */  lhu     $t7, 0x0EDC($v1)           ## 8015F53C
 /* 0284C 80B5DFFC 240E0032 */  addiu   $t6, $zero, 0x0032         ## $t6 = 00000032
 /* 02850 80B5E000 3C1980B6 */  lui     $t9, %hi(func_80B5E090)    ## $t9 = 80B60000

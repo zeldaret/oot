@@ -56,8 +56,8 @@ glabel func_808751A0
 /* 02A0C 8087523C 02419021 */  addu    $s2, $s2, $at              
 /* 02A10 80875240 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 02A14 80875244 00194702 */  srl     $t0, $t9, 28               
-/* 02A18 80875248 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 02A1C 8087524C 254A6FA8 */  addiu   $t2, $t2, 0x6FA8           ## $t2 = 80166FA8
+/* 02A18 80875248 3C0A8016 */  lui     $t2, %hi(gSegments)
+/* 02A1C 8087524C 254A6FA8 */  addiu   $t2, %lo(gSegments)
 /* 02A20 80875250 00084880 */  sll     $t1, $t0,  2               
 /* 02A24 80875254 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 02A28 80875258 0041B024 */  and     $s6, $v0, $at              

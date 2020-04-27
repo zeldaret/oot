@@ -22,9 +22,20 @@ typedef struct {
     Vec3s pos;
 } SplineData; // originally called SplinedatZ
 
-// 47 lines
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800437F0.s")
-// had an attempt at this but didn't get very close
+f32 func_800437F0(f32 arg0, f32 arg1) {
+    f32 percent = 0.4f;
+    f32 ret = fabsf(arg1);
+
+    if (arg0 < ret) {
+        ret = 1;
+    } else if (ret < (f32)arg0 * (1 - percent)) { //! float cast needed to match
+        ret = (SQ(arg1) * (1 - percent)) / SQ((1 - percent) * arg0);
+    } else {
+        ret = 1 - (0.4f * SQ(arg0 - ret)) / SQ(0.4f * arg0);
+    }
+
+    return ret;
+}
 
 f32 func_8004389C(f32 a, f32 b, f32 c, f32 d) {
     f32 temp1 = a - b;

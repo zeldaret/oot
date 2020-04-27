@@ -6,14 +6,14 @@ glabel EnSi_Init
 /* 00010 80AFB6A0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00014 80AFB6A4 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00018 80AFB6A8 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
-/* 0001C 80AFB6AC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0001C 80AFB6AC 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00020 80AFB6B0 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 00024 80AFB6B4 3C0780B0 */  lui     $a3, %hi(D_80AFBAB0)       ## $a3 = 80B00000
 /* 00028 80AFB6B8 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 0002C 80AFB6BC 24E7BAB0 */  addiu   $a3, $a3, %lo(D_80AFBAB0)  ## $a3 = 80AFBAB0
 /* 00030 80AFB6C0 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00034 80AFB6C4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00034 80AFB6C4 0C01712B */  jal     Collider_SetCylinder
               
 /* 00038 80AFB6C8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0003C 80AFB6CC 3C0680B0 */  lui     $a2, %hi(D_80AFBADC)       ## $a2 = 80B00000

@@ -29,12 +29,12 @@ glabel EnFu_Draw
 /* 00AE0 80A1E2F0 37390020 */  ori     $t9, $t9, 0x0020           ## $t9 = DB060020
 /* 00AE4 80A1E2F4 8D0302C0 */  lw      $v1, 0x02C0($t0)           ## 000002C0
 /* 00AE8 80A1E2F8 3C0480A2 */  lui     $a0, %hi(D_80A1E458)       ## $a0 = 80A20000
-/* 00AEC 80A1E2FC 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
+/* 00AEC 80A1E2FC 3C068016 */  lui     $a2, %hi(gSegments)
 /* 00AF0 80A1E300 24780008 */  addiu   $t8, $v1, 0x0008           ## $t8 = 00000008
 /* 00AF4 80A1E304 AD1802C0 */  sw      $t8, 0x02C0($t0)           ## 000002C0
 /* 00AF8 80A1E308 AC790000 */  sw      $t9, 0x0000($v1)           ## 00000000
 /* 00AFC 80A1E30C 960902AA */  lhu     $t1, 0x02AA($s0)           ## 000002AA
-/* 00B00 80A1E310 24C66FA8 */  addiu   $a2, $a2, 0x6FA8           ## $a2 = 80166FA8
+/* 00B00 80A1E310 24C66FA8 */  addiu   $a2, %lo(gSegments)
 /* 00B04 80A1E314 3C0500FF */  lui     $a1, 0x00FF                ## $a1 = 00FF0000
 /* 00B08 80A1E318 00095080 */  sll     $t2, $t1,  2
 /* 00B0C 80A1E31C 008A2021 */  addu    $a0, $a0, $t2

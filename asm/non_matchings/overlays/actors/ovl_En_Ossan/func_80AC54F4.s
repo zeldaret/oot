@@ -1,6 +1,6 @@
 glabel func_80AC54F4
-/* 02854 80AC54F4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 02858 80AC54F8 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 02854 80AC54F4 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 02858 80AC54F8 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 0285C 80AC54FC 8C6E0004 */  lw      $t6, 0x0004($v1)           ## 8015E664
 /* 02860 80AC5500 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 02864 80AC5504 AFBF0014 */  sw      $ra, 0x0014($sp)           

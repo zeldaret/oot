@@ -4,8 +4,8 @@ glabel EnMa3_Init
 /* 005DC 80AA307C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 005E0 80AA3080 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 005E4 80AA3084 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 005E8 80AA3088 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 005EC 80AA308C 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 005E8 80AA3088 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 005EC 80AA308C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 005F0 80AA3090 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 005F4 80AA3094 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 005F8 80AA3098 0C00AC78 */  jal     ActorShape_Init
@@ -22,17 +22,17 @@ glabel EnMa3_Init
 /* 00620 80AA30C0 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00624 80AA30C4 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00628 80AA30C8 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 0062C 80AA30CC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0062C 80AA30CC 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00630 80AA30D0 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00634 80AA30D4 3C0780AA */  lui     $a3, %hi(D_80AA3810)       ## $a3 = 80AA0000
 /* 00638 80AA30D8 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 0063C 80AA30DC 24E73810 */  addiu   $a3, $a3, %lo(D_80AA3810)  ## $a3 = 80AA3810
 /* 00640 80AA30E0 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 00644 80AA30E4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00644 80AA30E4 0C01712B */  jal     Collider_SetCylinder
 
 /* 00648 80AA30E8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 0064C 80AA30EC 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 0064C 80AA30EC 0C016C80 */  jal     DamageTable_Get
 /* 00650 80AA30F0 24040016 */  addiu   $a0, $zero, 0x0016         ## $a0 = 00000016
 /* 00654 80AA30F4 3C0680AA */  lui     $a2, %hi(D_80AA383C)       ## $a2 = 80AA0000
 /* 00658 80AA30F8 24C6383C */  addiu   $a2, $a2, %lo(D_80AA383C)  ## $a2 = 80AA383C

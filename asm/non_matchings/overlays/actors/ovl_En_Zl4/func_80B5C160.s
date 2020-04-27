@@ -86,7 +86,7 @@ glabel L80B5C254
 /* 00AB8 80B5C268 0C041AF2 */  jal     func_80106BC8              
 /* 00ABC 80B5C26C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00AC0 80B5C270 1040001D */  beq     $v0, $zero, .L80B5C2E8     
-/* 00AC4 80B5C274 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
+/* 00AC4 80B5C274 3C0C8016 */  lui     $t4, %hi(gSegments)
 /* 00AC8 80B5C278 3C020200 */  lui     $v0, 0x0200                ## $v0 = 02000000
 /* 00ACC 80B5C27C 24423994 */  addiu   $v0, $v0, 0x3994           ## $v0 = 02003994
 /* 00AD0 80B5C280 00024900 */  sll     $t1, $v0,  4               
@@ -94,16 +94,16 @@ glabel L80B5C254
 /* 00AD8 80B5C288 000A5880 */  sll     $t3, $t2,  2               
 /* 00ADC 80B5C28C 018B6021 */  addu    $t4, $t4, $t3              
 /* 00AE0 80B5C290 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 00AE4 80B5C294 8D8C6FA8 */  lw      $t4, 0x6FA8($t4)           ## 80166FA8
+/* 00AE4 80B5C294 8D8C6FA8 */  lw      $t4, %lo(gSegments)($t4)
 /* 00AE8 80B5C298 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00AEC 80B5C29C 00416824 */  and     $t5, $v0, $at              
 /* 00AF0 80B5C2A0 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00AF4 80B5C2A4 018D7021 */  addu    $t6, $t4, $t5              
 /* 00AF8 80B5C2A8 01C17821 */  addu    $t7, $t6, $at              
 /* 00AFC 80B5C2AC AE2F1D68 */  sw      $t7, 0x1D68($s1)           ## 00001D68
-/* 00B00 80B5C2B0 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 00B00 80B5C2B0 3C018016 */  lui     $at, %hi(gSaveContext+0x1414)
 /* 00B04 80B5C2B4 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
-/* 00B08 80B5C2B8 A038FA74 */  sb      $t8, -0x058C($at)          ## 8015FA74
+/* 00B08 80B5C2B8 A038FA74 */  sb      $t8, %lo(gSaveContext+0x1414)($at)
 /* 00B0C 80B5C2BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B10 80B5C2C0 0C2D6E22 */  jal     func_80B5B888              
 /* 00B14 80B5C2C4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000

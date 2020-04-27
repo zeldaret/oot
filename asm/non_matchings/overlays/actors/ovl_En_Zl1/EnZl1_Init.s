@@ -35,14 +35,14 @@ glabel EnZl1_Init
 /* 0008C 80B4ABCC E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 00090 80B4ABD0 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00094 80B4ABD4 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00098 80B4ABD8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00098 80B4ABD8 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 0009C 80B4ABDC 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 000A0 80B4ABE0 3C0780B5 */  lui     $a3, %hi(D_80B4E5F0)       ## $a3 = 80B50000
 /* 000A4 80B4ABE4 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 000A8 80B4ABE8 24E7E5F0 */  addiu   $a3, $a3, %lo(D_80B4E5F0)  ## $a3 = 80B4E5F0
 /* 000AC 80B4ABEC 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 000B0 80B4ABF0 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000B0 80B4ABF0 0C01712B */  jal     Collider_SetCylinder
 
 /* 000B4 80B4ABF4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000B8 80B4ABF8 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000
@@ -50,16 +50,16 @@ glabel EnZl1_Init
 /* 000C0 80B4AC00 0C00B58B */  jal     Actor_SetScale
 
 /* 000C4 80B4AC04 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000C8 80B4AC08 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 000CC 80B4AC0C 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 000C8 80B4AC08 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 000CC 80B4AC0C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 000D0 80B4AC10 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 000D4 80B4AC14 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 000D8 80B4AC18 0C00AC78 */  jal     ActorShape_Init
 
 /* 000DC 80B4AC1C 3C0741C0 */  lui     $a3, 0x41C0                ## $a3 = 41C00000
 /* 000E0 80B4AC20 A200001F */  sb      $zero, 0x001F($s0)         ## 0000001F
-/* 000E4 80B4AC24 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 000E8 80B4AC28 8DCEF9C0 */  lw      $t6, -0x0640($t6)          ## 8015F9C0
+/* 000E4 80B4AC24 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x1360)
+/* 000E8 80B4AC28 8DCEF9C0 */  lw      $t6, %lo(gSaveContext+0x1360)($t6)
 /* 000EC 80B4AC2C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 000F0 80B4AC30 29C10004 */  slti    $at, $t6, 0x0004
 /* 000F4 80B4AC34 14200014 */  bne     $at, $zero, .L80B4AC88

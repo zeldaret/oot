@@ -125,11 +125,11 @@ glabel L80A025C0
 /* 009B0 80A025E0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 009B4 80A025E4 960E02C4 */  lhu     $t6, 0x02C4($s0)           ## 000002C4
 /* 009B8 80A025E8 3C1880A0 */  lui     $t8, %hi(func_80A053F0)    ## $t8 = 80A00000
-/* 009BC 80A025EC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 009BC 80A025EC 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 009C0 80A025F0 271853F0 */  addiu   $t8, $t8, %lo(func_80A053F0) ## $t8 = 80A053F0
 /* 009C4 80A025F4 24190014 */  addiu   $t9, $zero, 0x0014         ## $t9 = 00000014
 /* 009C8 80A025F8 35CF0004 */  ori     $t7, $t6, 0x0004           ## $t7 = 00000004
-/* 009CC 80A025FC 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 009CC 80A025FC 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 009D0 80A02600 A60F02C4 */  sh      $t7, 0x02C4($s0)           ## 000002C4
 /* 009D4 80A02604 AE180130 */  sw      $t8, 0x0130($s0)           ## 00000130
 /* 009D8 80A02608 AE000298 */  sw      $zero, 0x0298($s0)         ## 00000298
@@ -194,8 +194,8 @@ glabel L80A02694
 /* 00AB4 80A026E4 E6080290 */  swc1    $f8, 0x0290($s0)           ## 00000290
 glabel L80A026E8
 /* 00AB8 80A026E8 960F02C4 */  lhu     $t7, 0x02C4($s0)           ## 000002C4
-/* 00ABC 80A026EC 3C198003 */  lui     $t9, 0x8003                ## $t9 = 80030000
-/* 00AC0 80A026F0 2739B614 */  addiu   $t9, $t9, 0xB614           ## $t9 = 8002B614
+/* 00ABC 80A026EC 3C198003 */  lui     $t9, %hi(ActorShadow_DrawFunc_WhiteCircle)
+/* 00AC0 80A026F0 2739B614 */  addiu   $t9, %lo(ActorShadow_DrawFunc_WhiteCircle)
 /* 00AC4 80A026F4 35F80200 */  ori     $t8, $t7, 0x0200           ## $t8 = 00000200
 /* 00AC8 80A026F8 A61802C4 */  sh      $t8, 0x02C4($s0)           ## 000002C4
 /* 00ACC 80A026FC AE1900C0 */  sw      $t9, 0x00C0($s0)           ## 000000C0

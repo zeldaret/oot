@@ -108,11 +108,11 @@ glabel func_80B6C134
 /* 028E8 80B6C288 AE0A02D0 */  sw      $t2, 0x02D0($s0)           ## 000002D0
 /* 028EC 80B6C28C 000D7080 */  sll     $t6, $t5,  2               
 /* 028F0 80B6C290 3C0BDE00 */  lui     $t3, 0xDE00                ## $t3 = DE000000
-/* 028F4 80B6C294 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 028F4 80B6C294 3C0F8016 */  lui     $t7, %hi(gSegments)
 /* 028F8 80B6C298 01EE7821 */  addu    $t7, $t7, $t6              
 /* 028FC 80B6C29C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 02900 80B6C2A0 AC4B0000 */  sw      $t3, 0x0000($v0)           ## 00000000
-/* 02904 80B6C2A4 8DEF6FA8 */  lw      $t7, 0x6FA8($t7)           ## 80166FA8
+/* 02904 80B6C2A4 8DEF6FA8 */  lw      $t7, %lo(gSegments)($t7)
 /* 02908 80B6C2A8 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 0290C 80B6C2AC 0081C024 */  and     $t8, $a0, $at              
 /* 02910 80B6C2B0 3C018000 */  lui     $at, 0x8000                ## $at = 80000000

@@ -7,14 +7,16 @@
 #include <ultra64/controller.h>
 #include <z64light.h>
 #include <z64actor.h>
+#include <z64audio.h>
 #include <z64object.h>
 #include <z64cutscene.h>
+#include <z64collision_check.h>
 #include <z64scene.h>
 #include <z64effect.h>
 #include <z64item.h>
 #include <z64animation.h>
 #include <z64dma.h>
-#include <z64vec.h>
+#include <z64math.h>
 #include <bgm.h>
 #include <sfx.h>
 #include <color.h>
@@ -345,13 +347,14 @@ typedef struct {
    /* 0x000C */ s32 rightX;  // lrx (lower right x)
 } Viewport; // size = 0x10
 
-typedef struct {
+
+typedef struct { 
     /* 0x0000 */ s32    magic; // string literal "VIEW" / 0x56494557
     /* 0x0004 */ GraphicsContext* gfxCtx;
     /* 0x0008 */ Viewport viewport;
     /* 0x0018 */ f32    fovy;  // vertical field of view in degrees
-    /* 0x001C */ f32    near;  // distance to near clipping plane
-    /* 0x0020 */ f32    far;   // distance to far clipping plane
+    /* 0x001C */ f32    zNear;  // distance to near clipping plane
+    /* 0x0020 */ f32    zFar;   // distance to far clipping plane
     /* 0x0024 */ f32    scale; // scale for matrix elements
     /* 0x0028 */ Vec3f  eye;
     /* 0x0034 */ Vec3f  unk_34;
@@ -368,7 +371,7 @@ typedef struct {
     /* 0x0110 */ Vec3f  unk_110;
     /* 0x011C */ u16    normal; // used to normalize the projection matrix
     /* 0x0120 */ u32    flags;
-    /* 0x0124 */ s32    unk_124;
+    /* 0x0124 */ s32    unk_124; 
 } View; // size = 0x128
 
 typedef struct {
@@ -882,8 +885,17 @@ typedef struct {
 } RoomContext; // size = 0x74
 
 typedef struct {
-    /* 0x00 */ char unk_00[0x028C];
-} SubGlobalContext11E60; // size = 0x28C
+    /* 0x000 */ s16 colAtCount;
+    /* 0x002 */ u16 sacFlags;
+    /* 0x004 */ Collider* colAt[COLLISION_CHECK_AT_MAX];
+    /* 0x0CC */ s32 colAcCount;
+    /* 0x0D0 */ Collider* colAc[COLLISION_CHECK_AC_MAX];
+    /* 0x1C0 */ s32 colOcCount;
+    /* 0x1C4 */ Collider* colOc[COLLISION_CHECK_OC_MAX];
+    /* 0x28C */ s32 colOcLineCount;
+    /* 0x290 */ OcLine* colOcLine[COLLISION_CHECK_OC_LINE_MAX];
+
+} CollisionCheckContext; // size = 0x29C SubGlobalContext11E60
 
 typedef struct {
     /* 0x00 */ char unk_00[0x10];
@@ -1064,8 +1076,8 @@ typedef struct GlobalContext {
     /* 0x11E5D */ s8 bombchuBowlingAmmo; // "bombchu_game_flag"
     /* 0x11E5E */ u8 fadeTransition;
     /* 0x11E5F */ char unk_11E5F[0x1];
-    /* 0x11E60 */ SubGlobalContext11E60 sub_11E60;
-    /* 0x120EC */ char unk_120EC[0x38];
+    /* 0x11E60 */ CollisionCheckContext colChkCtx;
+    /* 0x120FC */ char unk_120FC[0x28];
     /* 0x12124 */ PreRenderContext preRenderCtx;
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];
@@ -1116,6 +1128,17 @@ typedef struct {
     /* 0x10 */ u8               unk_10;
     /* 0x14 */ f32              transitionRate;
 } struct_80034EC0_Entry; // size = 0x18
+
+typedef struct {
+    /* 0x00 */ s16 unk_00;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ s16 unk_06;
+    /* 0x08 */ Vec3s unk_08;
+    /* 0x0E */ Vec3s unk_0E;
+    /* 0x14 */ f32 unk_14;
+    /* 0x18 */ Vec3f unk_18;
+} struct_80034A14_arg1;
 
 typedef struct {
     /* 0x00 */ u32 unk_00;
@@ -1559,5 +1582,21 @@ typedef struct {
     /* 0x08 */ Color_RGBA8 color;
     /* 0x0C */ char unk_0C[0x0C];
 } VisMonoStruct; // size = 0x18
+
+typedef struct {
+    /* 0x000 */ u8 rumbleEnable[4];
+    /* 0x004 */ u8 unk_04[0x40];
+    /* 0x044 */ u8 unk_44[0x40];
+    /* 0x084 */ u8 unk_84[0x40];
+    /* 0x0C4 */ u8 unk_C4[0x40];
+    /* 0x104 */ u8 unk_104;
+    /* 0x105 */ u8 unk_105;
+    /* 0x106 */ u16 unk_106;
+    /* 0x108 */ u16 unk_108;
+    /* 0x10A */ u8 unk_10A;
+    /* 0x10B */ u8 unk_10B;
+    /* 0x10C */ u8 unk_10C;
+    /* 0x10D */ u8 unk_10D;
+} UnkRumbleStruct; // size = 0x10E
 
 #endif

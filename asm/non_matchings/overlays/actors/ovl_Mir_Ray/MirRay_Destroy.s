@@ -20,12 +20,12 @@ glabel MirRay_Destroy
 /* 00580 80B8D5D0 33280002 */  andi    $t0, $t9, 0x0002           ## $t0 = 00000000
 /* 00584 80B8D5D4 51000005 */  beql    $t0, $zero, .L80B8D5EC     
 /* 00588 80B8D5D8 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0058C 80B8D5DC 0C016F32 */  jal     func_8005BCC8              
+/* 0058C 80B8D5DC 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 00590 80B8D5E0 2445014C */  addiu   $a1, $v0, 0x014C           ## $a1 = 0000014C
 /* 00594 80B8D5E4 8FA20018 */  lw      $v0, 0x0018($sp)           
 /* 00598 80B8D5E8 8FA4001C */  lw      $a0, 0x001C($sp)           
 .L80B8D5EC:
-/* 0059C 80B8D5EC 0C017418 */  jal     func_8005D060              
+/* 0059C 80B8D5EC 0C017418 */  jal     Collider_DestroyQuad              
 /* 005A0 80B8D5F0 244501AC */  addiu   $a1, $v0, 0x01AC           ## $a1 = 000001AC
 /* 005A4 80B8D5F4 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 005A8 80B8D5F8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

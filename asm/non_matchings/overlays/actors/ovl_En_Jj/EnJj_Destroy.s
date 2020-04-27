@@ -22,7 +22,7 @@ glabel EnJj_Destroy
 /* 002DC 80A87ADC 24E50810 */  addiu   $a1, $a3, 0x0810           ## $a1 = 00000810
 /* 002E0 80A87AE0 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 002E4 80A87AE4 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 002E8 80A87AE8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002E8 80A87AE8 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 002EC 80A87AEC 24A502B0 */  addiu   $a1, $a1, 0x02B0           ## $a1 = 000002B0
 /* 002F0 80A87AF0 10000007 */  beq     $zero, $zero, .L80A87B10   

@@ -181,12 +181,12 @@ glabel EnHeishi1_Init
 /* 001C4 80A51494 0C00084C */  jal     osSyncPrintf
               
 /* 001C8 80A51498 00000000 */  nop
-/* 001CC 80A5149C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 001CC 80A5149C 3C028016 */  lui     $v0, %hi(gSaveContext+0xc)
 /* 001D0 80A514A0 3C0480A5 */  lui     $a0, %hi(D_80A52AE8)       ## $a0 = 80A50000
 /* 001D4 80A514A4 24842AE8 */  addiu   $a0, $a0, %lo(D_80A52AE8)  ## $a0 = 80A52AE8
 /* 001D8 80A514A8 0C00084C */  jal     osSyncPrintf
               
-/* 001DC 80A514AC 9445E66C */  lhu     $a1, -0x1994($v0)          ## 8015E66C
+/* 001DC 80A514AC 9445E66C */  lhu     $a1, %lo(gSaveContext+0xc)($v0)
 /* 001E0 80A514B0 3C0480A5 */  lui     $a0, %hi(D_80A52AFC)       ## $a0 = 80A50000
 /* 001E4 80A514B4 24842AFC */  addiu   $a0, $a0, %lo(D_80A52AFC)  ## $a0 = 80A52AFC
 /* 001E8 80A514B8 0C00084C */  jal     osSyncPrintf
@@ -236,11 +236,11 @@ glabel EnHeishi1_Init
 .L80A51558:
 /* 00288 80A51558 862A026A */  lh      $t2, 0x026A($s1)           ## 0000026A
 /* 0028C 80A5155C 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
-/* 00290 80A51560 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00290 80A51560 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 00294 80A51564 11410017 */  beq     $t2, $at, .L80A515C4       
-/* 00298 80A51568 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
-/* 0029C 80A5156C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 002A0 80A51570 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00298 80A51568 2442E660 */  addiu   $v0, %lo(gSaveContext)
+/* 0029C 80A5156C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 002A0 80A51570 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 002A4 80A51574 944B000C */  lhu     $t3, 0x000C($v0)           ## 8015E66C
 /* 002A8 80A51578 3401B888 */  ori     $at, $zero, 0xB888         ## $at = 0000B888
 /* 002AC 80A5157C 0161082A */  slt     $at, $t3, $at              

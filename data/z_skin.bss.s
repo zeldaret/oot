@@ -8,4 +8,7 @@
 .section .bss
 
 glabel D_801600C0
-    .space 0xF10
+    .space 0x404
+
+glabel D_801604C4
+    .space 0xB0C

@@ -7,8 +7,8 @@ glabel func_809E1CB8
 /* 0041C 809E1CCC 2405000F */  addiu   $a1, $zero, 0x000F         ## $a1 = 0000000F
 /* 00420 809E1CD0 0C01B0D8 */  jal     Text_GetFaceReaction              
 /* 00424 809E1CD4 AFAE001C */  sw      $t6, 0x001C($sp)           
-/* 00428 809E1CD8 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 0042C 809E1CDC 95EFF556 */  lhu     $t7, -0x0AAA($t7)          ## 8015F556
+/* 00428 809E1CD8 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xef6)
+/* 0042C 809E1CDC 95EFF556 */  lhu     $t7, %lo(gSaveContext+0xef6)($t7)
 /* 00430 809E1CE0 00401825 */  or      $v1, $v0, $zero            ## $v1 = 00000000
 /* 00434 809E1CE4 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 00438 809E1CE8 31F80400 */  andi    $t8, $t7, 0x0400           ## $t8 = 00000000

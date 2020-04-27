@@ -670,7 +670,7 @@ glabel EnNiw_Update
 /* 02720 80AB7EA0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02724 80AB7EA4 3C0C80AB */  lui     $t4, %hi(func_80AB6BF8)    ## $t4 = 80AB0000
 /* 02728 80AB7EA8 258C6BF8 */  addiu   $t4, $t4, %lo(func_80AB6BF8) ## $t4 = 80AB6BF8
-/* 0272C 80AB7EAC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0272C 80AB7EAC 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 02730 80AB7EB0 AFAC003C */  sw      $t4, 0x003C($sp)           
 /* 02734 80AB7EB4 8622001C */  lh      $v0, 0x001C($s1)           ## 0000001C
@@ -686,7 +686,7 @@ glabel EnNiw_Update
 /* 0275C 80AB7EDC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02760 80AB7EE0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02764 80AB7EE4 00812821 */  addu    $a1, $a0, $at              
-/* 02768 80AB7EE8 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 02768 80AB7EE8 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 0276C 80AB7EEC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 0000030C
 .L80AB7EF0:
@@ -710,7 +710,7 @@ glabel EnNiw_Update
 /* 027B4 80AB7F34 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 027B8 80AB7F38 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 027BC 80AB7F3C 00812821 */  addu    $a1, $a0, $at              
-/* 027C0 80AB7F40 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 027C0 80AB7F40 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 027C4 80AB7F44 02003025 */  or      $a2, $s0, $zero            ## $a2 = 0000030C
 .L80AB7F48:

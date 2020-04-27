@@ -51,8 +51,8 @@ glabel func_80AF95C4
 /* 007EC 80AF960C 0C00084C */  jal     osSyncPrintf
               
 /* 007F0 80AF9610 2484A468 */  addiu   $a0, $a0, %lo(D_80AFA468)  ## $a0 = 80AFA468
-/* 007F4 80AF9614 3C1E8016 */  lui     $s8, 0x8016                ## $s8 = 80160000
-/* 007F8 80AF9618 27DEFA90 */  addiu   $s8, $s8, 0xFA90           ## $s8 = 8015FA90
+/* 007F4 80AF9614 3C1E8016 */  lui     $s8, %hi(gGameInfo)
+/* 007F8 80AF9618 27DEFA90 */  addiu   $s8, %lo(gGameInfo)
 /* 007FC 80AF961C 8FCE0000 */  lw      $t6, 0x0000($s8)           ## 8015FA90
 /* 00800 80AF9620 02201025 */  or      $v0, $s1, $zero            ## $v0 = 00000000
 /* 00804 80AF9624 00009825 */  or      $s3, $zero, $zero          ## $s3 = 00000000

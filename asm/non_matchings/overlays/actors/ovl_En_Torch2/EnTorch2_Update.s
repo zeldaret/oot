@@ -192,7 +192,7 @@ glabel EnTorch2_Update
 /* 006C8 80B1E048 81EF0164 */  lb      $t7, %lo(D_80B20164)($t7)  
 /* 006CC 80B1E04C 820E0842 */  lb      $t6, 0x0842($s0)           ## 00000842
 /* 006D0 80B1E050 3C1880B2 */  lui     $t8, %hi(D_80B20162)       ## $t8 = 80B20000
-/* 006D4 80B1E054 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 006D4 80B1E054 3C0B8016 */  lui     $t3, %hi(gSaveContext+0x30)
 /* 006D8 80B1E058 11CF0008 */  beq     $t6, $t7, .L80B1E07C       
 /* 006DC 80B1E05C 3C0C80B2 */  lui     $t4, %hi(D_80B20160)       ## $t4 = 80B20000
 /* 006E0 80B1E060 93180162 */  lbu     $t8, %lo(D_80B20162)($t8)  
@@ -203,7 +203,7 @@ glabel EnTorch2_Update
 /* 006F4 80B1E074 3C0180B2 */  lui     $at, %hi(D_80B20164)       ## $at = 80B20000
 /* 006F8 80B1E078 A02A0164 */  sb      $t2, %lo(D_80B20164)($at)  
 .L80B1E07C:
-/* 006FC 80B1E07C 856BE690 */  lh      $t3, -0x1970($t3)          ## 8015E690
+/* 006FC 80B1E07C 856BE690 */  lh      $t3, %lo(gSaveContext+0x30)($t3)
 /* 00700 80B1E080 29610050 */  slti    $at, $t3, 0x0050           
 /* 00704 80B1E084 10200009 */  beq     $at, $zero, .L80B1E0AC     
 /* 00708 80B1E088 00000000 */  nop
@@ -228,12 +228,12 @@ glabel EnTorch2_Update
 /* 00750 80B1E0D0 00812821 */  addu    $a1, $a0, $at              
 /* 00754 80B1E0D4 AFA50038 */  sw      $a1, 0x0038($sp)           
 /* 00758 80B1E0D8 260604E4 */  addiu   $a2, $s0, 0x04E4           ## $a2 = 000004E4
-/* 0075C 80B1E0DC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0075C 80B1E0DC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00760 80B1E0E0 A7A8005A */  sh      $t0, 0x005A($sp)           
 /* 00764 80B1E0E4 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 00768 80B1E0E8 8FA50038 */  lw      $a1, 0x0038($sp)           
-/* 0076C 80B1E0EC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0076C 80B1E0EC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00770 80B1E0F0 26060564 */  addiu   $a2, $s0, 0x0564           ## $a2 = 00000564
 /* 00774 80B1E0F4 3C0780B2 */  lui     $a3, %hi(D_80B1F9F0)       ## $a3 = 80B20000
@@ -1161,8 +1161,8 @@ glabel EnTorch2_Update
 /* 014C0 80B1EE40 01616021 */  addu    $t4, $t3, $at              
 /* 014C4 80B1EE44 AFAC002C */  sw      $t4, 0x002C($sp)           
 .L80B1EE48:
-/* 014C8 80B1EE48 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 014CC 80B1EE4C 85CEFA50 */  lh      $t6, -0x05B0($t6)          ## 8015FA50
+/* 014C8 80B1EE48 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x13f0)
+/* 014CC 80B1EE4C 85CEFA50 */  lh      $t6, %lo(gSaveContext+0x13f0)($t6)
 /* 014D0 80B1EE50 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003
 /* 014D4 80B1EE54 3C1880B2 */  lui     $t8, %hi(D_80B2015E)       ## $t8 = 80B20000
 /* 014D8 80B1EE58 15C10013 */  bne     $t6, $at, .L80B1EEA8       
@@ -1487,7 +1487,7 @@ glabel EnTorch2_Update
 /* 0197C 80B1F2FC 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 /* 01980 80B1F300 44C2F800 */  ctc1    $v0, $31
 /* 01984 80B1F304 3C014F00 */  lui     $at, 0x4F00                ## $at = 4F000000
-/* 01988 80B1F308 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 01988 80B1F308 3C0B8016 */  lui     $t3, %hi(gSaveContext+0x30)
 /* 0198C 80B1F30C 46000124 */  cvt.w.s $f4, $f0                   
 /* 01990 80B1F310 4442F800 */  cfc1    $v0, $31
 /* 01994 80B1F314 00000000 */  nop
@@ -1518,7 +1518,7 @@ glabel EnTorch2_Update
 /* 019F0 80B1F370 0440FFFB */  bltz    $v0, .L80B1F360            
 /* 019F4 80B1F374 00000000 */  nop
 .L80B1F378:
-/* 019F8 80B1F378 856BE690 */  lh      $t3, -0x1970($t3)          ## 8015E690
+/* 019F8 80B1F378 856BE690 */  lh      $t3, %lo(gSaveContext+0x30)($t3)
 /* 019FC 80B1F37C 44CEF800 */  ctc1    $t6, $31
 /* 01A00 80B1F380 24420006 */  addiu   $v0, $v0, 0x0006           ## $v0 = 00000005
 /* 01A04 80B1F384 29610050 */  slti    $at, $t3, 0x0050           
@@ -1684,10 +1684,10 @@ glabel EnTorch2_Update
 /* 01C48 80B1F5C8 0C028EF0 */  jal     func_800A3BC0              
 /* 01C4C 80B1F5CC 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 01C50 80B1F5D0 8FA40084 */  lw      $a0, 0x0084($sp)           
-/* 01C54 80B1F5D4 0C017458 */  jal     func_8005D160              
+/* 01C54 80B1F5D4 0C017458 */  jal     Collider_QuadSetAT              
 /* 01C58 80B1F5D8 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 01C5C 80B1F5DC 8FA40084 */  lw      $a0, 0x0084($sp)           
-/* 01C60 80B1F5E0 0C017458 */  jal     func_8005D160              
+/* 01C60 80B1F5E0 0C017458 */  jal     Collider_QuadSetAT              
 /* 01C64 80B1F5E4 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 01C68 80B1F5E8 3C0780B2 */  lui     $a3, %hi(D_80B20163)       ## $a3 = 80B20000
 /* 01C6C 80B1F5EC 3C0680B2 */  lui     $a2, %hi(D_80B20160)       ## $a2 = 80B20000

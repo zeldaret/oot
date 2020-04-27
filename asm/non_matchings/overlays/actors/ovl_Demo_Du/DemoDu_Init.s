@@ -4,8 +4,8 @@ glabel DemoDu_Init
 /* 023E8 8096BEB8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 023EC 8096BEBC AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 023F0 8096BEC0 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 023F4 8096BEC4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 023F8 8096BEC8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 023F4 8096BEC4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 023F8 8096BEC8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 023FC 8096BECC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 02400 8096BED0 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 02404 8096BED4 0C00AC78 */  jal     ActorShape_Init

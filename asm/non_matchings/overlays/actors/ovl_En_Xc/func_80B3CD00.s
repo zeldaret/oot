@@ -8,12 +8,12 @@ glabel D_80B41F80
 
 .text
 glabel func_80B3CD00
-/* 00B20 80B3CD00 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00B24 80B3CD04 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 00B28 80B3CD08 3C0F8012 */  lui     $t7, 0x8012                ## $t7 = 80120000
-/* 00B2C 80B3CD0C 91EF71F3 */  lbu     $t7, 0x71F3($t7)           ## 801271F3
-/* 00B30 80B3CD10 8DCE7124 */  lw      $t6, 0x7124($t6)           ## 80127124
-/* 00B34 80B3CD14 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00B20 80B3CD00 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00B24 80B3CD04 3C0E8012 */  lui     $t6, %hi(gBitFlags+4)
+/* 00B28 80B3CD08 3C0F8012 */  lui     $t7, %hi(gEquipShifts+3)
+/* 00B2C 80B3CD0C 91EF71F3 */  lbu     $t7, %lo(gEquipShifts+3)($t7)
+/* 00B30 80B3CD10 8DCE7124 */  lw      $t6, %lo(gBitFlags+4)($t6)
+/* 00B34 80B3CD14 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00B38 80B3CD18 9459009C */  lhu     $t9, 0x009C($v0)           ## 8015E6FC
 /* 00B3C 80B3CD1C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00B40 80B3CD20 01EEC004 */  sllv    $t8, $t6, $t7              

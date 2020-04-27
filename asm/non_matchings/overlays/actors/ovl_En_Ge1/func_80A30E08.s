@@ -13,11 +13,11 @@ glabel func_80A30E08
 /* 004C0 80A30E30 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 004C4 80A30E34 0C01B41D */  jal     func_8006D074              
 /* 004C8 80A30E38 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 004CC 80A30E3C 3C048012 */  lui     $a0, 0x8012                ## $a0 = 80120000
-/* 004D0 80A30E40 24847464 */  addiu   $a0, $a0, 0x7464           ## $a0 = 80127464
+/* 004CC 80A30E3C 3C048012 */  lui     $a0, %hi(gItemSlots)
+/* 004D0 80A30E40 24847464 */  addiu   $a0, %lo(gItemSlots)
 /* 004D4 80A30E44 9099000A */  lbu     $t9, 0x000A($a0)           ## 8012746E
-/* 004D8 80A30E48 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 004DC 80A30E4C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 004D8 80A30E48 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 004DC 80A30E4C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 004E0 80A30E50 00594021 */  addu    $t0, $v0, $t9              
 /* 004E4 80A30E54 91090074 */  lbu     $t1, 0x0074($t0)           ## 00000074
 /* 004E8 80A30E58 240300FF */  addiu   $v1, $zero, 0x00FF         ## $v1 = 000000FF

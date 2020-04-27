@@ -62,14 +62,14 @@ glabel EnCs_Update
 .L809E24F8:
 /* 00C48 809E24F8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 00C4C 809E24FC AFA60024 */  sw      $a2, 0x0024($sp)           
-/* 00C50 809E2500 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00C50 809E2500 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00C54 809E2504 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00C58 809E2508 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00C5C 809E250C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00C60 809E2510 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00C64 809E2514 8FA60024 */  lw      $a2, 0x0024($sp)           
-/* 00C68 809E2518 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00C68 809E2518 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00C6C 809E251C 00812821 */  addu    $a1, $a0, $at              
 /* 00C70 809E2520 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190

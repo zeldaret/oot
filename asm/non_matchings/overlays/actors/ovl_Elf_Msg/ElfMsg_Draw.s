@@ -24,8 +24,8 @@ glabel ElfMsg_Draw
 /* 00590 809AD0B0 240701B4 */  addiu   $a3, $zero, 0x01B4         ## $a3 = 000001B4
 /* 00594 809AD0B4 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00598 809AD0B8 AFA50044 */  sw      $a1, 0x0044($sp)           
-/* 0059C 809AD0BC 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
-/* 005A0 809AD0C0 24A5FA90 */  addiu   $a1, $a1, 0xFA90           ## $a1 = 8015FA90
+/* 0059C 809AD0BC 3C058016 */  lui     $a1, %hi(gGameInfo)
+/* 005A0 809AD0C0 24A5FA90 */  addiu   $a1, %lo(gGameInfo)
 /* 005A4 809AD0C4 8CAF0000 */  lw      $t7, 0x0000($a1)           ## 8015FA90
 /* 005A8 809AD0C8 8FA80044 */  lw      $t0, 0x0044($sp)           
 /* 005AC 809AD0CC 8FB9004C */  lw      $t9, 0x004C($sp)           
@@ -36,8 +36,8 @@ glabel ElfMsg_Draw
 /* 005C0 809AD0E0 0C024F46 */  jal     func_80093D18              
 /* 005C4 809AD0E4 AFA80044 */  sw      $t0, 0x0044($sp)           
 /* 005C8 809AD0E8 8FA90048 */  lw      $t1, 0x0048($sp)           
-/* 005CC 809AD0EC 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
-/* 005D0 809AD0F0 24A5FA90 */  addiu   $a1, $a1, 0xFA90           ## $a1 = 8015FA90
+/* 005CC 809AD0EC 3C058016 */  lui     $a1, %hi(gGameInfo)
+/* 005D0 809AD0F0 24A5FA90 */  addiu   $a1, %lo(gGameInfo)
 /* 005D4 809AD0F4 852A001C */  lh      $t2, 0x001C($t1)           ## 0000001C
 /* 005D8 809AD0F8 8FA80044 */  lw      $t0, 0x0044($sp)           
 /* 005DC 809AD0FC 240601C0 */  addiu   $a2, $zero, 0x01C0         ## $a2 = 000001C0

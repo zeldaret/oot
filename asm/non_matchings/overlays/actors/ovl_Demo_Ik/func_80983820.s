@@ -39,11 +39,11 @@ glabel func_80983820
 /* 005A8 809838A8 AFB80048 */  sw      $t8, 0x0048($sp)
 /* 005AC 809838AC 2631035C */  addiu   $s1, $s1, 0x035C           ## $s1 = 0600035C
 .L809838B0:
-/* 005B0 809838B0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 005B0 809838B0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 005B4 809838B4 44070000 */  mfc1    $a3, $f0
 /* 005B8 809838B8 0C00AC78 */  jal     ActorShape_Init
 
-/* 005BC 809838BC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 005BC 809838BC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 005C0 809838C0 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 005C4 809838C4 26190190 */  addiu   $t9, $s0, 0x0190           ## $t9 = 00000190
 /* 005C8 809838C8 2608019C */  addiu   $t0, $s0, 0x019C           ## $t0 = 0000019C

@@ -132,9 +132,9 @@ glabel EnVbBall_Update
 /* 007D8 80B29778 4481B000 */  mtc1    $at, $f22                  ## $f22 = 10.00
 /* 007DC 80B2977C 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 007E0 80B29780 26991C24 */  addiu   $t9, $s4, 0x1C24           ## $t9 = 00001C24
-/* 007E4 80B29784 3C138013 */  lui     $s3, 0x8013                ## $s3 = 80130000
+/* 007E4 80B29784 3C138013 */  lui     $s3, %hi(D_801333E0)
 /* 007E8 80B29788 4481A000 */  mtc1    $at, $f20                  ## $f20 = 3.00
-/* 007EC 80B2978C 267333E0 */  addiu   $s3, $s3, 0x33E0           ## $s3 = 801333E0
+/* 007EC 80B2978C 267333E0 */  addiu   $s3, %lo(D_801333E0)
 /* 007F0 80B29790 AFB9006C */  sw      $t9, 0x006C($sp)           
 /* 007F4 80B29794 862E001C */  lh      $t6, 0x001C($s1)           ## 0000001C
 .L80B29798:
@@ -219,8 +219,8 @@ glabel EnVbBall_Update
 /* 0090C 80B298AC 244500E4 */  addiu   $a1, $v0, 0x00E4           ## $a1 = 000000E4
 /* 00910 80B298B0 16AD0007 */  bne     $s5, $t5, .L80B298D0       
 /* 00914 80B298B4 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
-/* 00918 80B298B8 3C0F8013 */  lui     $t7, 0x8013                ## $t7 = 80130000
-/* 0091C 80B298BC 25EF33E8 */  addiu   $t7, $t7, 0x33E8           ## $t7 = 801333E8
+/* 00918 80B298B8 3C0F8013 */  lui     $t7, %hi(D_801333E8)
+/* 0091C 80B298BC 25EF33E8 */  addiu   $t7, %lo(D_801333E8)
 /* 00920 80B298C0 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 00924 80B298C4 02603825 */  or      $a3, $s3, $zero            ## $a3 = 801333E0
 /* 00928 80B298C8 0C03DCE3 */  jal     Audio_PlaySoundGeneral
@@ -539,14 +539,14 @@ glabel EnVbBall_Update
 .L80B29D28:
 /* 00D88 80B29D28 26300168 */  addiu   $s0, $s1, 0x0168           ## $s0 = 00000168
 /* 00D8C 80B29D2C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000168
-/* 00D90 80B29D30 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00D90 80B29D30 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00D94 80B29D34 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00D98 80B29D38 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00D9C 80B29D3C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00DA0 80B29D40 02812821 */  addu    $a1, $s4, $at              
 /* 00DA4 80B29D44 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 00DA8 80B29D48 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00DA8 80B29D48 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00DAC 80B29D4C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000168
 /* 00DB0 80B29D50 8FBF0064 */  lw      $ra, 0x0064($sp)           

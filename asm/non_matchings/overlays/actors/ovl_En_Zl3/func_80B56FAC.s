@@ -11,12 +11,12 @@ glabel func_80B56FAC
 /* 03C20 80B56FD0 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 03C24 80B56FD4 8CC30004 */  lw      $v1, 0x0004($a2)           ## 00000004
 /* 03C28 80B56FD8 8FAA0024 */  lw      $t2, 0x0024($sp)           
-/* 03C2C 80B56FDC 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 03C2C 80B56FDC 3C198016 */  lui     $t9, %hi(gSegments)
 /* 03C30 80B56FE0 00037100 */  sll     $t6, $v1,  4               
 /* 03C34 80B56FE4 000E7F02 */  srl     $t7, $t6, 28               
 /* 03C38 80B56FE8 000FC080 */  sll     $t8, $t7,  2               
 /* 03C3C 80B56FEC 0338C821 */  addu    $t9, $t9, $t8              
-/* 03C40 80B56FF0 8F396FA8 */  lw      $t9, 0x6FA8($t9)           ## 80166FA8
+/* 03C40 80B56FF0 8F396FA8 */  lw      $t9, %lo(gSegments)($t9)
 /* 03C44 80B56FF4 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 03C48 80B56FF8 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 03C4C 80B56FFC 000A5880 */  sll     $t3, $t2,  2               

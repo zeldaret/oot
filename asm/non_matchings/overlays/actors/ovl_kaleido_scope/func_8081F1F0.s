@@ -48,10 +48,10 @@ glabel func_8081F1F0
 /* 0BA88 8081F2A8 0C031B0A */  jal     Graph_BranchDlist              
 /* 0BA8C 8081F2AC 8FA40050 */  lw      $a0, 0x0050($sp)           
 /* 0BA90 8081F2B0 8FAC0054 */  lw      $t4, 0x0054($sp)           
-/* 0BA94 8081F2B4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 0BA94 8081F2B4 3C038016 */  lui     $v1, %hi(gGameInfo)
 /* 0BA98 8081F2B8 3C068083 */  lui     $a2, %hi(D_8082FA7C)       ## $a2 = 80830000
 /* 0BA9C 8081F2BC AE0C02C0 */  sw      $t4, 0x02C0($s0)           ## 000002C0
-/* 0BAA0 8081F2C0 8C63FA90 */  lw      $v1, -0x0570($v1)          ## 8015FA90
+/* 0BAA0 8081F2C0 8C63FA90 */  lw      $v1, %lo(gGameInfo)($v1)
 /* 0BAA4 8081F2C4 24C6FA7C */  addiu   $a2, $a2, %lo(D_8082FA7C)  ## $a2 = 8082FA7C
 /* 0BAA8 8081F2C8 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE0
 /* 0BAAC 8081F2CC 846D0116 */  lh      $t5, 0x0116($v1)           ## 80160116

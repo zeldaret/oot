@@ -6,8 +6,8 @@ glabel D_80AA5F34
 
 .text
 glabel EnMag_Update
-/* 002A0 80AA3DA0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 002A4 80AA3DA4 8DCEF9B4 */  lw      $t6, -0x064C($t6)          ## 8015F9B4
+/* 002A0 80AA3DA0 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x1354)
+/* 002A4 80AA3DA4 8DCEF9B4 */  lw      $t6, %lo(gSaveContext+0x1354)($t6)
 /* 002A8 80AA3DA8 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 002AC 80AA3DAC AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 002B0 80AA3DB0 3401FEDC */  ori     $at, $zero, 0xFEDC         ## $at = 0000FEDC
@@ -23,7 +23,7 @@ glabel EnMag_Update
 /* 002D8 80AA3DD8 28610002 */  slti    $at, $v1, 0x0002           
 /* 002DC 80AA3DDC 94A30020 */  lhu     $v1, 0x0020($a1)           ## 00000020
 /* 002E0 80AA3DE0 2401EFFF */  addiu   $at, $zero, 0xEFFF         ## $at = FFFFEFFF
-/* 002E4 80AA3DE4 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
+/* 002E4 80AA3DE4 3C078013 */  lui     $a3, %hi(D_801333E0)
 /* 002E8 80AA3DE8 0061C027 */  nor     $t8, $v1, $at              
 /* 002EC 80AA3DEC 13000007 */  beq     $t8, $zero, .L80AA3E0C     
 /* 002F0 80AA3DF0 3C01FFFF */  lui     $at, 0xFFFF                ## $at = FFFF0000
@@ -34,11 +34,11 @@ glabel EnMag_Update
 /* 00304 80AA3E04 00614027 */  nor     $t0, $v1, $at              
 /* 00308 80AA3E08 15000039 */  bne     $t0, $zero, .L80AA3EF0     
 .L80AA3E0C:
-/* 0030C 80AA3E0C 3C098013 */  lui     $t1, 0x8013                ## $t1 = 80130000
-/* 00310 80AA3E10 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 00314 80AA3E14 252933E8 */  addiu   $t1, $t1, 0x33E8           ## $t1 = 801333E8
-/* 00318 80AA3E18 3C058013 */  lui     $a1, 0x8013                ## $a1 = 80130000
-/* 0031C 80AA3E1C 24A533D4 */  addiu   $a1, $a1, 0x33D4           ## $a1 = 801333D4
+/* 0030C 80AA3E0C 3C098013 */  lui     $t1, %hi(D_801333E8)
+/* 00310 80AA3E10 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 00314 80AA3E14 252933E8 */  addiu   $t1, %lo(D_801333E8)
+/* 00318 80AA3E18 3C058013 */  lui     $a1, %hi(D_801333D4)
+/* 0031C 80AA3E1C 24A533D4 */  addiu   $a1, %lo(D_801333D4)
 /* 00320 80AA3E20 AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 00324 80AA3E24 AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 00328 80AA3E28 24044823 */  addiu   $a0, $zero, 0x4823         ## $a0 = 00004823
@@ -83,10 +83,10 @@ glabel EnMag_Update
 /* 003C0 80AA3EC0 E44A62F0 */  swc1    $f10, 0x62F0($v0)          ## 000062F0
 /* 003C4 80AA3EC4 E45062F8 */  swc1    $f16, 0x62F8($v0)          ## 000062F8
 /* 003C8 80AA3EC8 A42A62DD */  sh      $t2, 0x62DD($at)           ## 0000E2DC
-/* 003CC 80AA3ECC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 003CC 80AA3ECC 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 003D0 80AA3ED0 3C0180AA */  lui     $at, %hi(D_80AA5EC0)       ## $at = 80AA0000
 /* 003D4 80AA3ED4 240B0014 */  addiu   $t3, $zero, 0x0014         ## $t3 = 00000014
-/* 003D8 80AA3ED8 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 003D8 80AA3ED8 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 003DC 80AA3EDC A42B5EC0 */  sh      $t3, %lo(D_80AA5EC0)($at)  
 /* 003E0 80AA3EE0 240C0001 */  addiu   $t4, $zero, 0x0001         ## $t4 = 00000001
 /* 003E4 80AA3EE4 240D00FF */  addiu   $t5, $zero, 0x00FF         ## $t5 = 000000FF
@@ -125,12 +125,12 @@ glabel EnMag_Update
 /* 0045C 80AA3F5C 26017FFF */  addiu   $at, $s0, 0x7FFF           ## $at = 00007FFF
 /* 00460 80AA3F60 0C03DA2F */  jal     func_800F68BC              
 /* 00464 80AA3F64 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 00468 80AA3F68 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 0046C 80AA3F6C 3C0A8013 */  lui     $t2, 0x8013                ## $t2 = 80130000
-/* 00470 80AA3F70 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 00474 80AA3F74 254A33E8 */  addiu   $t2, $t2, 0x33E8           ## $t2 = 801333E8
-/* 00478 80AA3F78 3C058013 */  lui     $a1, 0x8013                ## $a1 = 80130000
-/* 0047C 80AA3F7C 24A533D4 */  addiu   $a1, $a1, 0x33D4           ## $a1 = 801333D4
+/* 00468 80AA3F68 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 0046C 80AA3F6C 3C0A8013 */  lui     $t2, %hi(D_801333E8)
+/* 00470 80AA3F70 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 00474 80AA3F74 254A33E8 */  addiu   $t2, %lo(D_801333E8)
+/* 00478 80AA3F78 3C058013 */  lui     $a1, %hi(D_801333D4)
+/* 0047C 80AA3F7C 24A533D4 */  addiu   $a1, %lo(D_801333D4)
 /* 00480 80AA3F80 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 00484 80AA3F84 AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 00488 80AA3F88 24044823 */  addiu   $a0, $zero, 0x4823         ## $a0 = 00004823
@@ -139,8 +139,8 @@ glabel EnMag_Update
 /* 00490 80AA3F90 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
 /* 00494 80AA3F94 8FAD0044 */  lw      $t5, 0x0044($sp)           
 /* 00498 80AA3F98 240B0002 */  addiu   $t3, $zero, 0x0002         ## $t3 = 00000002
-/* 0049C 80AA3F9C 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 004A0 80AA3FA0 AC2BF9BC */  sw      $t3, -0x0644($at)          ## 8015F9BC
+/* 0049C 80AA3F9C 3C018016 */  lui     $at, %hi(gSaveContext+0x135c)
+/* 004A0 80AA3FA0 AC2BF9BC */  sw      $t3, %lo(gSaveContext+0x135c)($at)
 /* 004A4 80AA3FA4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 004A8 80AA3FA8 240C0014 */  addiu   $t4, $zero, 0x0014         ## $t4 = 00000014
 /* 004AC 80AA3FAC 002D0821 */  addu    $at, $at, $t5              
@@ -280,8 +280,8 @@ glabel EnMag_Update
 .L80AA41AC:
 /* 006AC 80AA41AC 44818000 */  mtc1    $at, $f16                  ## $f16 = 160.00
 /* 006B0 80AA41B0 C45262FC */  lwc1    $f18, 0x62FC($v0)          ## 000062FC
-/* 006B4 80AA41B4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 006B8 80AA41B8 2463FA90 */  addiu   $v1, $v1, 0xFA90           ## $v1 = 8015FA90
+/* 006B4 80AA41B4 3C038016 */  lui     $v1, %hi(gGameInfo)
+/* 006B8 80AA41B8 2463FA90 */  addiu   $v1, %lo(gGameInfo)
 /* 006BC 80AA41BC 4612803C */  c.lt.s  $f16, $f18                 
 /* 006C0 80AA41C0 00000000 */  nop
 /* 006C4 80AA41C4 45020094 */  bc1fl   .L80AA4418                 

@@ -10,10 +10,10 @@ glabel func_80A780D0
 /* 03DC8 80A780D8 AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 03DCC 80A780DC 8486001C */  lh      $a2, 0x001C($a0)           ## 0000001C
 /* 03DD0 80A780E0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 03DD4 80A780E4 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 03DD4 80A780E4 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xeda)
 /* 03DD8 80A780E8 14C00014 */  bne     $a2, $zero, .L80A7813C     
 /* 03DDC 80A780EC 00000000 */  nop
-/* 03DE0 80A780F0 95CEF53A */  lhu     $t6, -0x0AC6($t6)          ## 8015F53A
+/* 03DE0 80A780F0 95CEF53A */  lhu     $t6, %lo(gSaveContext+0xeda)($t6)
 /* 03DE4 80A780F4 3C1880A7 */  lui     $t8, %hi(EnIk_Update)    ## $t8 = 80A70000
 /* 03DE8 80A780F8 27187B9C */  addiu   $t8, $t8, %lo(EnIk_Update) ## $t8 = 80A77B9C
 /* 03DEC 80A780FC 31CF0800 */  andi    $t7, $t6, 0x0800           ## $t7 = 00000000
