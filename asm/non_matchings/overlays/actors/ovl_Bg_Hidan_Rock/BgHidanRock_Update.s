@@ -44,7 +44,7 @@ glabel BgHidanRock_Update
 /* 00B98 8088BC18 00000000 */  nop
 /* 00B9C 8088BC1C A60A01BE */  sh      $t2, 0x01BE($s0)           ## 000001BE
 /* 00BA0 8088BC20 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00BA4 8088BC24 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00BA4 8088BC24 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00BA8 8088BC28 00812821 */  addu    $a1, $a0, $at              
 /* 00BAC 8088BC2C 8FBF0024 */  lw      $ra, 0x0024($sp)           

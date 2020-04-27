@@ -10,7 +10,7 @@ glabel BgMenkuriEye_Init
 /* 0001C 8089BC8C 24A5C0C4 */  addiu   $a1, $a1, %lo(D_8089C0C4)  ## $a1 = 8089C0C4
 /* 00020 8089BC90 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 00024 8089BC94 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 00028 8089BC98 0C016EFE */  jal     func_8005BBF8              
+/* 00028 8089BC98 0C016EFE */  jal     Collider_InitJntSph              
 /* 0002C 8089BC9C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00030 8089BCA0 3C07808A */  lui     $a3, %hi(D_8089C0B4)       ## $a3 = 808A0000
 /* 00034 8089BCA4 260E0170 */  addiu   $t6, $s0, 0x0170           ## $t6 = 00000170
@@ -18,7 +18,7 @@ glabel BgMenkuriEye_Init
 /* 0003C 8089BCAC AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 00040 8089BCB0 24E7C0B4 */  addiu   $a3, $a3, %lo(D_8089C0B4)  ## $a3 = 8089C0B4
 /* 00044 8089BCB4 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00048 8089BCB8 0C017014 */  jal     func_8005C050              
+/* 00048 8089BCB8 0C017014 */  jal     Collider_SetJntSph              
 /* 0004C 8089BCBC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00050 8089BCC0 C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024
 /* 00054 8089BCC4 8E19016C */  lw      $t9, 0x016C($s0)           ## 0000016C

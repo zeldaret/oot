@@ -12,7 +12,7 @@ glabel BgMizuBwall_Destroy
 /* 00960 8089CDE0 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00964 8089CDE4 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00968 8089CDE8 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0096C 8089CDEC 0C017232 */  jal     func_8005C8C8              
+/* 0096C 8089CDEC 0C017232 */  jal     Collider_DestroyTris              
 /* 00970 8089CDF0 24A50164 */  addiu   $a1, $a1, 0x0164           ## $a1 = 00000164
 /* 00974 8089CDF4 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00978 8089CDF8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

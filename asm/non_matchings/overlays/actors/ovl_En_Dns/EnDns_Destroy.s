@@ -3,7 +3,7 @@ glabel EnDns_Destroy
 /* 001A8 809EF4F8 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 001AC 809EF4FC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 001B0 809EF500 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 001B4 809EF504 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001B4 809EF504 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001B8 809EF508 24C5026C */  addiu   $a1, $a2, 0x026C           ## $a1 = 0000026C
 /* 001BC 809EF50C 8FBF0014 */  lw      $ra, 0x0014($sp)           

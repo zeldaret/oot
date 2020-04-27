@@ -306,7 +306,7 @@ glabel ObjSyokudai_Update
 /* 00660 80B9F910 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 .L80B9F914:
 /* 00664 80B9F914 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 00668 80B9F918 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00668 80B9F918 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 0066C 80B9F91C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00670 80B9F920 8FA40084 */  lw      $a0, 0x0084($sp)           
@@ -314,23 +314,23 @@ glabel ObjSyokudai_Update
 /* 00678 80B9F928 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 0067C 80B9F92C 00812821 */  addu    $a1, $a0, $at              
 /* 00680 80B9F930 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00684 80B9F934 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00684 80B9F934 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00688 80B9F938 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 0068C 80B9F93C 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 00690 80B9F940 8FA50030 */  lw      $a1, 0x0030($sp)           
-/* 00694 80B9F944 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00694 80B9F944 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00698 80B9F948 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 0069C 80B9F94C 26060198 */  addiu   $a2, $s0, 0x0198           ## $a2 = 00000198
 /* 006A0 80B9F950 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000198
 /* 006A4 80B9F954 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 006A8 80B9F958 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 006A8 80B9F958 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 006AC 80B9F95C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 006B0 80B9F960 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 006B4 80B9F964 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 006B8 80B9F968 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 006B8 80B9F968 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 006BC 80B9F96C 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 006C0 80B9F970 860301E4 */  lh      $v1, 0x01E4($s0)           ## 000001E4

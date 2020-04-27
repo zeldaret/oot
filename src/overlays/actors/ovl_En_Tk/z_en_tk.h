@@ -25,7 +25,7 @@ struct EnTk {
     /* 0x0000 */ Actor      actor;
     /* 0x014C */ SkelAnime  skelAnim;
     /* 0x0190 */ EnTkFunc*  actionFunc;
-    /* 0x0194 */ ColliderCylinderMain collider;
+    /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ s16        h_1E0;
     /* 0x01E2 */ char       unk_1E2[0x26];
     /* 0x0208 */ u8         validDigHere;

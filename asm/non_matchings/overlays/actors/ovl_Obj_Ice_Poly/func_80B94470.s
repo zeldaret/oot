@@ -36,22 +36,22 @@ glabel func_80B94470
 /* 00294 80B944F4 02212821 */  addu    $a1, $s1, $at              
 /* 00298 80B944F8 26060154 */  addiu   $a2, $s0, 0x0154           ## $a2 = 00000154
 /* 0029C 80B944FC AFA60034 */  sw      $a2, 0x0034($sp)           
-/* 002A0 80B94500 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 002A0 80B94500 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 002A4 80B94504 AFA50038 */  sw      $a1, 0x0038($sp)           
 /* 002A8 80B94508 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 002AC 80B9450C 8FA50038 */  lw      $a1, 0x0038($sp)           
-/* 002B0 80B94510 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 002B0 80B94510 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 002B4 80B94514 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 002B8 80B94518 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 002BC 80B9451C 8FA50038 */  lw      $a1, 0x0038($sp)           
-/* 002C0 80B94520 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 002C0 80B94520 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 002C4 80B94524 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 002C8 80B94528 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 002CC 80B9452C 8FA50038 */  lw      $a1, 0x0038($sp)           
-/* 002D0 80B94530 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 002D0 80B94530 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 002D4 80B94534 260601A0 */  addiu   $a2, $s0, 0x01A0           ## $a2 = 000001A0
 /* 002D8 80B94538 10000004 */  beq     $zero, $zero, .L80B9454C   

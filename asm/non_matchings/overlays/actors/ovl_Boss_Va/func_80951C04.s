@@ -313,7 +313,7 @@ glabel func_80951C04
 /* 02D80 80952040 46109180 */  add.s   $f6, $f18, $f16            
 /* 02D84 80952044 AE0D0040 */  sw      $t5, 0x0040($s0)           ## 00000040
 /* 02D88 80952048 E606003C */  swc1    $f6, 0x003C($s0)           ## 0000003C
-/* 02D8C 8095204C 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 02D8C 8095204C 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 02D90 80952050 AFA50040 */  sw      $a1, 0x0040($sp)           
 /* 02D94 80952054 8FA4005C */  lw      $a0, 0x005C($sp)           
@@ -321,7 +321,7 @@ glabel func_80951C04
 /* 02D9C 8095205C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02DA0 80952060 00812821 */  addu    $a1, $a0, $at              
 /* 02DA4 80952064 AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 02DA8 80952068 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02DA8 80952068 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02DAC 8095206C 8FA60040 */  lw      $a2, 0x0040($sp)           
 /* 02DB0 80952070 92030114 */  lbu     $v1, 0x0114($s0)           ## 00000114
@@ -329,7 +329,7 @@ glabel func_80951C04
 /* 02DB8 80952078 8FA5003C */  lw      $a1, 0x003C($sp)           
 /* 02DBC 8095207C 14600004 */  bne     $v1, $zero, .L80952090     
 /* 02DC0 80952080 00000000 */  nop
-/* 02DC4 80952084 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 02DC4 80952084 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 02DC8 80952088 8FA60040 */  lw      $a2, 0x0040($sp)           
 /* 02DCC 8095208C 92030114 */  lbu     $v1, 0x0114($s0)           ## 00000114
@@ -342,7 +342,7 @@ glabel func_80951C04
 /* 02DE4 809520A4 860901F8 */  lh      $t1, 0x01F8($s0)           ## 000001F8
 .L809520A8:
 /* 02DE8 809520A8 8FA5003C */  lw      $a1, 0x003C($sp)           
-/* 02DEC 809520AC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 02DEC 809520AC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 02DF0 809520B0 8FA60040 */  lw      $a2, 0x0040($sp)           
 /* 02DF4 809520B4 860901F8 */  lh      $t1, 0x01F8($s0)           ## 000001F8

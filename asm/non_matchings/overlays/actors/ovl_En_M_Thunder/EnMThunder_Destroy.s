@@ -12,7 +12,7 @@ glabel EnMThunder_Destroy
 /* 002F0 80A9F2D0 8FA50020 */  lw      $a1, 0x0020($sp)           
 .L80A9F2D4:
 /* 002F4 80A9F2D4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 002F8 80A9F2D8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002F8 80A9F2D8 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 002FC 80A9F2DC 24A5014C */  addiu   $a1, $a1, 0x014C           ## $a1 = 0000014C
 /* 00300 80A9F2E0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

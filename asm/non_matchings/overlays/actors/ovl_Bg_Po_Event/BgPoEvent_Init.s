@@ -25,7 +25,7 @@ glabel BgPoEvent_Init
 /* 00584 808A6794 A60B001C */  sh      $t3, 0x001C($s0)           ## 0000001C
 /* 00588 808A6798 26050170 */  addiu   $a1, $s0, 0x0170           ## $a1 = 00000170
 /* 0058C 808A679C AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 00590 808A67A0 0C0171F8 */  jal     func_8005C7E0              
+/* 00590 808A67A0 0C0171F8 */  jal     Collider_InitTris              
 /* 00594 808A67A4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00598 808A67A8 3C07808A */  lui     $a3, %hi(D_808A7D48)       ## $a3 = 808A0000
 /* 0059C 808A67AC 260D0190 */  addiu   $t5, $s0, 0x0190           ## $t5 = 00000190
@@ -33,7 +33,7 @@ glabel BgPoEvent_Init
 /* 005A4 808A67B4 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 005A8 808A67B8 24E77D48 */  addiu   $a3, $a3, %lo(D_808A7D48)  ## $a3 = 808A7D48
 /* 005AC 808A67BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 005B0 808A67C0 0C0172EB */  jal     func_8005CBAC              
+/* 005B0 808A67C0 0C0172EB */  jal     Collider_SetTris              
 /* 005B4 808A67C4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 005B8 808A67C8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 005BC 808A67CC 0C00B2D0 */  jal     Flags_GetSwitch

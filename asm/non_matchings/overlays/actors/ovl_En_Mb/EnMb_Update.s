@@ -51,7 +51,7 @@ glabel EnMb_Update
 /* 036E8 80AA9738 00000000 */  nop
 /* 036EC 80AA973C 26050368 */  addiu   $a1, $s0, 0x0368           ## $a1 = 00000368
 /* 036F0 80AA9740 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 036F4 80AA9744 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 036F4 80AA9744 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 036F8 80AA9748 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 036FC 80AA974C 921800AF */  lbu     $t8, 0x00AF($s0)           ## 000000AF
@@ -96,7 +96,7 @@ glabel EnMb_Update
 /* 0378C 80AA97DC 02212821 */  addu    $a1, $s1, $at              
 /* 03790 80AA97E0 AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 03794 80AA97E4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 03798 80AA97E8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 03798 80AA97E8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0379C 80AA97EC 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 037A0 80AA97F0 8E020320 */  lw      $v0, 0x0320($s0)           ## 00000320
@@ -111,7 +111,7 @@ glabel EnMb_Update
 /* 037C4 80AA9814 50410005 */  beql    $v0, $at, .L80AA982C       
 /* 037C8 80AA9818 28410006 */  slti    $at, $v0, 0x0006           
 .L80AA981C:
-/* 037CC 80AA981C 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 037CC 80AA981C 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 037D0 80AA9820 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 037D4 80AA9824 8E020320 */  lw      $v0, 0x0320($s0)           ## 00000320
@@ -120,7 +120,7 @@ glabel EnMb_Update
 /* 037DC 80AA982C 14200004 */  bne     $at, $zero, .L80AA9840     
 /* 037E0 80AA9830 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 037E4 80AA9834 8FA50030 */  lw      $a1, 0x0030($sp)           
-/* 037E8 80AA9838 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 037E8 80AA9838 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 037EC 80AA983C 26060434 */  addiu   $a2, $s0, 0x0434           ## $a2 = 00000434
 .L80AA9840:
@@ -129,7 +129,7 @@ glabel EnMb_Update
 /* 037F8 80AA9848 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 037FC 80AA984C 5B200004 */  blezl   $t9, .L80AA9860            
 /* 03800 80AA9850 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 03804 80AA9854 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 03804 80AA9854 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 03808 80AA9858 260603B4 */  addiu   $a2, $s0, 0x03B4           ## $a2 = 000003B4
 /* 0380C 80AA985C 8FBF0024 */  lw      $ra, 0x0024($sp)           

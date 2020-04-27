@@ -85,14 +85,14 @@ glabel BossMo_Init
 /* 006E8 8091C1E8 AFA60044 */  sw      $a2, 0x0044($sp)           
 /* 006EC 8091C1EC 260514FC */  addiu   $a1, $s0, 0x14FC           ## $a1 = 000014FC
 /* 006F0 8091C1F0 AFA50048 */  sw      $a1, 0x0048($sp)           
-/* 006F4 8091C1F4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 006F4 8091C1F4 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 006F8 8091C1F8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 006FC 8091C1FC 3C078092 */  lui     $a3, %hi(D_8092603C)       ## $a3 = 80920000
 /* 00700 8091C200 8FA50048 */  lw      $a1, 0x0048($sp)           
 /* 00704 8091C204 24E7603C */  addiu   $a3, $a3, %lo(D_8092603C)  ## $a3 = 8092603C
 /* 00708 8091C208 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0070C 8091C20C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0070C 8091C20C 0C01712B */  jal     Collider_SetCylinder
               
 /* 00710 8091C210 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00714 8091C214 8FA90044 */  lw      $t1, 0x0044($sp)           
@@ -248,7 +248,7 @@ glabel BossMo_Init
 /* 0093C 8091C43C AE080104 */  sw      $t0, 0x0104($s0)           ## 00000104
 /* 00940 8091C440 8C590008 */  lw      $t9, 0x0008($v0)           ## FFFFFFEC
 /* 00944 8091C444 AE190108 */  sw      $t9, 0x0108($s0)           ## 00000108
-/* 00948 8091C448 0C016EFE */  jal     func_8005BBF8              
+/* 00948 8091C448 0C016EFE */  jal     Collider_InitJntSph              
 /* 0094C 8091C44C AFA50048 */  sw      $a1, 0x0048($sp)           
 /* 00950 8091C450 3C078092 */  lui     $a3, %hi(D_8092602C)       ## $a3 = 80920000
 /* 00954 8091C454 260A103C */  addiu   $t2, $s0, 0x103C           ## $t2 = 0000103C
@@ -256,7 +256,7 @@ glabel BossMo_Init
 /* 0095C 8091C45C AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 00960 8091C460 24E7602C */  addiu   $a3, $a3, %lo(D_8092602C)  ## $a3 = 8092602C
 /* 00964 8091C464 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00968 8091C468 0C017014 */  jal     func_8005C050              
+/* 00968 8091C468 0C017014 */  jal     Collider_SetJntSph              
 /* 0096C 8091C46C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00970 8091C470 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00974 8091C474 44813000 */  mtc1    $at, $f6                   ## $f6 = 1.00

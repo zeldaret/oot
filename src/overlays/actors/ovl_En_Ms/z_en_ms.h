@@ -12,7 +12,7 @@ typedef struct {
     /* 0x01C6 */ s16 unk_1C6;
     /* 0x01C8 */ char unk_1C8[0x34];
     /* 0x01FC */ ActorFunc actionFunc;
-    /* 0x0200 */ ColliderCylinderMain collider;
+    /* 0x0200 */ ColliderCylinder collider;
     /* 0x024C */ s16 activeTimer;
 } EnMs; // size = 0x0250
 

@@ -169,12 +169,12 @@ s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth
 /** z_en_tk_eff.c ends here probably **/
 
 static ColliderCylinderInit D_80B1D508 = {
-    0x0A, 0x00,       0x00, 0x39, 0x20,   0x01,   0x00,       0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00000000, 0x00, 0x00, 0x00,   0x00,   0x00000000, 0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00,       0x01, 0x00, 0x001E, 0x0034, 0x0000,     0x0000, 0x0000, 0x0000,
+    { 0x0A, 0x00, 0x00, 0x39, 0x20, 0x01 },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 0x001E, 0x0034, 0x0000, { 0 } },
 };
 
-static Sub98Init5 D_80B1D534 = {
+static CollisionCheckInfoInit2 colChkInfoInit = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
@@ -502,10 +502,10 @@ void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&thisAgain->skelAnim, anim, 1.f, 0.f, SkelAnime_GetFrameCount(&D_06002F84.genericHeader), 0,
                          0.f);
 
-    ActorCollider_AllocCylinder(globalCtx, &thisAgain->collider);
-    ActorCollider_InitCylinder(globalCtx, &thisAgain->collider, &thisAgain->actor, &D_80B1D508);
+    Collider_InitCylinder(globalCtx, &thisAgain->collider);
+    Collider_SetCylinder(globalCtx, &thisAgain->collider, &thisAgain->actor, &D_80B1D508);
 
-    func_80061EFC(&thisAgain->actor.sub_98, NULL, &D_80B1D534);
+    func_80061EFC(&thisAgain->actor.colChkInfo, NULL, &colChkInfoInit);
 
     if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime >= 0xE000 || !LINK_IS_CHILD ||
         globalCtx->sceneNum != SCENE_SPOT02) {
@@ -524,7 +524,7 @@ void EnTk_Init(EnTk* this, GlobalContext* globalCtx) {
 
 void EnTk_Destroy(EnTk* this, GlobalContext* globalCtx) {
     EnTk* thisAgain = this;
-    ActorCollider_FreeCylinder(globalCtx, &thisAgain->collider);
+    Collider_DestroyCylinder(globalCtx, &thisAgain->collider);
 }
 
 void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
@@ -672,10 +672,10 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
 
 void EnTk_Update(EnTk* this, GlobalContext* globalCtx) {
     EnTk* thisAgain = this;
-    ColliderCylinderMain* collider = &thisAgain->collider;
+    ColliderCylinder* collider = &thisAgain->collider;
 
-    ActorCollider_Cylinder_Update(&thisAgain->actor, collider);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, collider);
+    Collider_CylinderUpdate(&thisAgain->actor, collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
 
     SkelAnime_FrameUpdateMatrix(&thisAgain->skelAnim);
 

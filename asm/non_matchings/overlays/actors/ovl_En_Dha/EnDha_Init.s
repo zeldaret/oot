@@ -50,7 +50,7 @@ glabel EnDha_Init
 /* 000C0 809EC940 26050200 */  addiu   $a1, $s0, 0x0200           ## $a1 = 00000200
 /* 000C4 809EC944 AE090040 */  sw      $t1, 0x0040($s0)           ## 00000040
 /* 000C8 809EC948 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 000CC 809EC94C 0C016EFE */  jal     func_8005BBF8
+/* 000CC 809EC94C 0C016EFE */  jal     Collider_InitJntSph
 /* 000D0 809EC950 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 000D4 809EC954 3C07809F */  lui     $a3, %hi(D_809ED724)       ## $a3 = 809F0000
 /* 000D8 809EC958 260D0220 */  addiu   $t5, $s0, 0x0220           ## $t5 = 00000220
@@ -58,7 +58,7 @@ glabel EnDha_Init
 /* 000E0 809EC960 AFAD0010 */  sw      $t5, 0x0010($sp)
 /* 000E4 809EC964 24E7D724 */  addiu   $a3, $a3, %lo(D_809ED724)  ## $a3 = 809ED724
 /* 000E8 809EC968 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 000EC 809EC96C 0C017014 */  jal     func_8005C050
+/* 000EC 809EC96C 0C017014 */  jal     Collider_SetJntSph
 /* 000F0 809EC970 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000F4 809EC974 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
 /* 000F8 809EC978 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE

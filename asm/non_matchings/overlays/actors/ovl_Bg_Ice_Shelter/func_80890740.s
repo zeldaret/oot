@@ -10,18 +10,18 @@ glabel func_80890740
 /* 00020 80890760 31F80007 */  andi    $t8, $t7, 0x0007           ## $t8 = 00000000
 /* 00024 80890764 26050168 */  addiu   $a1, $s0, 0x0168           ## $a1 = 00000168
 /* 00028 80890768 AFB80030 */  sw      $t8, 0x0030($sp)           
-/* 0002C 8089076C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0002C 8089076C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00030 80890770 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 00034 80890774 3C078089 */  lui     $a3, %hi(D_8089170C)       ## $a3 = 80890000
 /* 00038 80890778 24E7170C */  addiu   $a3, $a3, %lo(D_8089170C)  ## $a3 = 8089170C
 /* 0003C 8089077C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00040 80890780 8FA5002C */  lw      $a1, 0x002C($sp)           
-/* 00044 80890784 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00044 80890784 0C01712B */  jal     Collider_SetCylinder
               
 /* 00048 80890788 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0004C 8089078C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00050 80890790 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00050 80890790 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00054 80890794 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 00058 80890798 8FA40030 */  lw      $a0, 0x0030($sp)           
@@ -48,18 +48,18 @@ glabel func_80890740
 /* 000A8 808907E8 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 000AC 808907EC 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000B0 808907F0 AFA30028 */  sw      $v1, 0x0028($sp)           
-/* 000B4 808907F4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000B4 808907F4 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 000B8 808907F8 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 000BC 808907FC 3C078089 */  lui     $a3, %hi(D_80891738)       ## $a3 = 80890000
 /* 000C0 80890800 24E71738 */  addiu   $a3, $a3, %lo(D_80891738)  ## $a3 = 80891738
 /* 000C4 80890804 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000C8 80890808 8FA50024 */  lw      $a1, 0x0024($sp)           
-/* 000CC 8089080C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000CC 8089080C 0C01712B */  jal     Collider_SetCylinder
               
 /* 000D0 80890810 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000D4 80890814 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000D8 80890818 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 000D8 80890818 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 000DC 8089081C 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 000E0 80890820 8FAD002C */  lw      $t5, 0x002C($sp)           

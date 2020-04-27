@@ -3,13 +3,13 @@ glabel func_80811A20
 /* 0DCE4 80811A24 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 0DCE8 80811A28 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0DCEC 80811A2C AFB00020 */  sw      $s0, 0x0020($sp)           
-/* 0DCF0 80811A30 3C0201AA */  lui     $v0, 0x01AA                ## $v0 = 01AA0000
-/* 0DCF4 80811A34 3C1801AF */  lui     $t8, 0x01AF                ## $t8 = 01AF0000
+/* 0DCF0 80811A30 3C0201AA */  lui     $v0, %hi(_title_staticSegmentRomStart)
+/* 0DCF4 80811A34 3C1801AF */  lui     $t8, %hi(_title_staticSegmentRomEnd)
 /* 0DCF8 80811A38 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0DCFC 80811A3C AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 0DD00 80811A40 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
-/* 0DD04 80811A44 2718B440 */  addiu   $t8, $t8, 0xB440           ## $t8 = 01AEB440
-/* 0DD08 80811A48 24424000 */  addiu   $v0, $v0, 0x4000           ## $v0 = 01AA4000
+/* 0DD04 80811A44 2718B440 */  addiu   $t8, %lo(_title_staticSegmentRomEnd)
+/* 0DD08 80811A48 24424000 */  addiu   $v0, %lo(_title_staticSegmentRomStart)
 /* 0DD0C 80811A4C 03022823 */  subu    $a1, $t8, $v0              
 /* 0DD10 80811A50 3C048081 */  lui     $a0, %hi(D_80812F48)       ## $a0 = 80810000
 /* 0DD14 80811A54 A5EE0110 */  sh      $t6, 0x0110($t7)           ## 80160110
@@ -43,10 +43,10 @@ glabel func_80811A20
 /* 0DD74 80811AB4 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 0DD78 80811AB8 0C0006A8 */  jal     DmaMgr_SendRequest1              
 /* 0DD7C 80811ABC 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0DD80 80811AC0 3C0301AF */  lui     $v1, 0x01AF                ## $v1 = 01AF0000
-/* 0DD84 80811AC4 3C0801AF */  lui     $t0, 0x01AF                ## $t0 = 01AF0000
-/* 0DD88 80811AC8 2508FB00 */  addiu   $t0, $t0, 0xFB00           ## $t0 = 01AEFB00
-/* 0DD8C 80811ACC 2463C000 */  addiu   $v1, $v1, 0xC000           ## $v1 = 01AEC000
+/* 0DD80 80811AC0 3C0301AF */  lui     $v1, %hi(_parameter_staticSegmentRomStart)
+/* 0DD84 80811AC4 3C0801AF */  lui     $t0, %hi(_parameter_staticSegmentRomEnd)
+/* 0DD88 80811AC8 2508FB00 */  addiu   $t0, %lo(_parameter_staticSegmentRomEnd)
+/* 0DD8C 80811ACC 2463C000 */  addiu   $v1, %lo(_parameter_staticSegmentRomStart)
 /* 0DD90 80811AD0 01032823 */  subu    $a1, $t0, $v1              
 /* 0DD94 80811AD4 3C068081 */  lui     $a2, %hi(D_80812FAC)       ## $a2 = 80810000
 /* 0DD98 80811AD8 24C62FAC */  addiu   $a2, $a2, %lo(D_80812FAC)  ## $a2 = 80812FAC

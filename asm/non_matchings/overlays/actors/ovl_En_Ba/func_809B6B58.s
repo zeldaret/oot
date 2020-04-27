@@ -385,7 +385,7 @@ glabel func_809B6B58
 /* 00D88 809B70D8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00D8C 809B70DC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00D90 809B70E0 26660320 */  addiu   $a2, $s3, 0x0320           ## $a2 = 00000320
-/* 00D94 809B70E4 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00D94 809B70E4 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00D98 809B70E8 00812821 */  addu    $a1, $a0, $at
 /* 00D9C 809B70EC 10000016 */  beq     $zero, $zero, .L809B7148

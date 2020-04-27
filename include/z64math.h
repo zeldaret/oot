@@ -40,7 +40,7 @@ typedef struct {
 typedef struct {
     Vec3f vtx[3];
     Plane plane;
-} TriNorm;
+} TriNorm; //size = 0x34
 
 typedef struct {
     s16 radius;

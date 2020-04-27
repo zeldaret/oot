@@ -49,14 +49,14 @@ glabel EnGb_Init
 /* 000DC 80A2F25C 26450164 */  addiu   $a1, $s2, 0x0164           ## $a1 = 00000164
 /* 000E0 80A2F260 2650023C */  addiu   $s0, $s2, 0x023C           ## $s0 = 0000023C
 /* 000E4 80A2F264 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000023C
-/* 000E8 80A2F268 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000E8 80A2F268 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 000EC 80A2F26C 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 000F0 80A2F270 3C0780A3 */  lui     $a3, %hi(D_80A30690)       ## $a3 = 80A30000
 /* 000F4 80A2F274 24E70690 */  addiu   $a3, $a3, %lo(D_80A30690)  ## $a3 = 80A30690
 /* 000F8 80A2F278 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 000FC 80A2F27C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000023C
-/* 00100 80A2F280 0C017114 */  jal     func_8005C450
+/* 00100 80A2F280 0C017114 */  jal     Collider_SetCylinder_Set3
 /* 00104 80A2F284 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 /* 00108 80A2F288 3C1080A3 */  lui     $s0, %hi(D_80A306BC)       ## $s0 = 80A30000
 /* 0010C 80A2F28C 3C1480A3 */  lui     $s4, %hi(D_80A30740)       ## $s4 = 80A30000
@@ -65,13 +65,13 @@ glabel EnGb_Init
 /* 00118 80A2F298 26510288 */  addiu   $s1, $s2, 0x0288           ## $s1 = 00000288
 .L80A2F29C:
 /* 0011C 80A2F29C 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 00120 80A2F2A0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00120 80A2F2A0 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00124 80A2F2A4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000288
 /* 00128 80A2F2A8 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 0012C 80A2F2AC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000288
 /* 00130 80A2F2B0 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 00134 80A2F2B4 0C017114 */  jal     func_8005C450
+/* 00134 80A2F2B4 0C017114 */  jal     Collider_SetCylinder_Set3
 /* 00138 80A2F2B8 02003825 */  or      $a3, $s0, $zero            ## $a3 = 80A306BC
 /* 0013C 80A2F2BC 2610002C */  addiu   $s0, $s0, 0x002C           ## $s0 = 80A306E8
 /* 00140 80A2F2C0 0214082B */  sltu    $at, $s0, $s4

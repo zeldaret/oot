@@ -6,14 +6,14 @@ glabel EnAnubiceFire_Init
 /* 00010 809B25B0 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00014 809B25B4 24C501A8 */  addiu   $a1, $a2, 0x01A8           ## $a1 = 000001A8
 /* 00018 809B25B8 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 0001C 809B25BC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0001C 809B25BC 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00020 809B25C0 AFA60028 */  sw      $a2, 0x0028($sp)           
 /* 00024 809B25C4 3C07809B */  lui     $a3, %hi(D_809B31E0)       ## $a3 = 809B0000
 /* 00028 809B25C8 8FA5001C */  lw      $a1, 0x001C($sp)           
 /* 0002C 809B25CC 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 00030 809B25D0 24E731E0 */  addiu   $a3, $a3, %lo(D_809B31E0)  ## $a3 = 809B31E0
-/* 00034 809B25D4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00034 809B25D4 0C01712B */  jal     Collider_SetCylinder
               
 /* 00038 809B25D8 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 0003C 809B25DC 8FA60028 */  lw      $a2, 0x0028($sp)           
