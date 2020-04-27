@@ -46,13 +46,13 @@ glabel func_80801E44
 /* 01364 80801EF4 AE000230 */  sw      $zero, 0x0230($s0)         ## 00000230
 /* 01368 80801EF8 AE000234 */  sw      $zero, 0x0234($s0)         ## 00000234
 /* 0136C 80801EFC 8C820000 */  lw      $v0, 0x0000($a0)           ## 8015FA90
-/* 01370 80801F00 3C0B01AA */  lui     $t3, 0x01AA                ## $t3 = 01AA0000
+/* 01370 80801F00 3C0B01AA */  lui     $t3, %hi(_z_select_staticSegmentRomEnd)
 /* 01374 80801F04 3C068080 */  lui     $a2, %hi(D_808035CC)       ## $a2 = 80800000
 /* 01378 80801F08 84431434 */  lh      $v1, 0x1434($v0)           ## 00001434
 /* 0137C 80801F0C 240A0001 */  addiu   $t2, $zero, 0x0001         ## $t2 = 00000001
 /* 01380 80801F10 24C635CC */  addiu   $a2, $a2, %lo(D_808035CC)  ## $a2 = 808035CC
 /* 01384 80801F14 0460000D */  bltz    $v1, .L80801F4C            
-/* 01388 80801F18 256B0200 */  addiu   $t3, $t3, 0x0200           ## $t3 = 01AA0200
+/* 01388 80801F18 256B0200 */  addiu   $t3, %lo(_z_select_staticSegmentRomEnd)
 /* 0138C 80801F1C 8E0F01D0 */  lw      $t7, 0x01D0($s0)           ## 000001D0
 /* 01390 80801F20 006F082A */  slt     $at, $v1, $t7              
 /* 01394 80801F24 10200009 */  beq     $at, $zero, .L80801F4C     
@@ -66,8 +66,8 @@ glabel func_80801E44
 /* 013B4 80801F44 AE0901DC */  sw      $t1, 0x01DC($s0)           ## 000001DC
 /* 013B8 80801F48 8C820000 */  lw      $v0, 0x0000($a0)           ## 8015FA90
 .L80801F4C:
-/* 013BC 80801F4C 3C0301AA */  lui     $v1, 0x01AA                ## $v1 = 01AA0000
-/* 013C0 80801F50 2463E000 */  addiu   $v1, $v1, 0xE000           ## $v1 = 01A9E000
+/* 013BC 80801F4C 3C0301AA */  lui     $v1, %hi(_z_select_staticSegmentRomStart)
+/* 013C0 80801F50 2463E000 */  addiu   $v1, %lo(_z_select_staticSegmentRomStart)
 /* 013C4 80801F54 A44A0110 */  sh      $t2, 0x0110($v0)           ## 00000110
 /* 013C8 80801F58 01632823 */  subu    $a1, $t3, $v1              
 /* 013CC 80801F5C AFA5002C */  sw      $a1, 0x002C($sp)           

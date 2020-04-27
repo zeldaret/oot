@@ -13,8 +13,8 @@ void EnMa1_Destroy(EnMa1* this, GlobalContext* globalCtx);
 void EnMa1_Update(EnMa1* this, GlobalContext* globalCtx);
 void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx);
 
-u16 EnMa1_GetText(GlobalContext* globalCtx, EnMa1* this);
-s16 func_80AA0778(GlobalContext* globalCtx, EnMa1* this);
+u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* this);
+s16 func_80AA0778(GlobalContext* globalCtx, Actor* this);
 
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx);
 void func_80AA0EA0(EnMa1* this, GlobalContext* globalCtx);
@@ -37,13 +37,13 @@ const ActorInit En_Ma1_InitVars = {
     (ActorFunc)EnMa1_Draw,
 };
 
-ColliderCylinderInit D_80AA1640 = {
-    0x0A, 0x00,       0x00, 0x39, 0x20,   0x01,   0x00,       0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00000000, 0x00, 0x00, 0x00,   0x00,   0x00000000, 0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00,       0x01, 0x00, 0x0012, 0x002E, 0x0000,     0x0000, 0x0000, 0x0000,
+static ColliderCylinderInit cylinderInit = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 18, 46, 0, { 0, 0, 0 } },
 };
 
-Sub98Init5 D_80AA166C = {
+CollisionCheckInfoInit2 D_80AA166C = {
     0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
@@ -68,13 +68,11 @@ u32 D_80AA16D0[] = {
     0x06002718,
 };
 
-s32 D_80AA16DC = 0;
-
 extern AnimationHeader D_06000820;
 extern SkeletonHeader D_06008460;
 extern AnimationHeader D_06008D64;
 
-u16 EnMa1_GetText(GlobalContext* globalCtx, EnMa1* this) {
+u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* this) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 0x17);
     if (faceReaction != 0) {
         return faceReaction;
@@ -108,11 +106,11 @@ u16 EnMa1_GetText(GlobalContext* globalCtx, EnMa1* this) {
     return 0x2041;
 }
 
-s16 func_80AA0778(GlobalContext* globalCtx, EnMa1* this) {
+s16 func_80AA0778(GlobalContext* globalCtx, Actor* this) {
     s16 ret = 1;
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 2:
-            switch (this->actor.textId - 0x2041) {
+            switch (this->textId - 0x2041) {
                 case 0:
                     gSaveContext.infTable[8] |= 0x10;
                     gSaveContext.eventChkInf[1] |= 1;
@@ -230,7 +228,7 @@ void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
 
 void func_80AA0B74(EnMa1* this) {
     if (this->skelAnime.animCurrentSeg == &D_06008D64) {
-        if ((this->unk_1E8.unk_00 == 0)) {
+        if (this->unk_1E8.unk_00 == 0) {
             if (this->unk_1E0 != 0) {
                 this->unk_1E0 = 0;
                 func_800F6584(0);
@@ -246,13 +244,13 @@ void func_80AA0B74(EnMa1* this) {
 
 void EnMa1_Init(EnMa1* this, GlobalContext* globalCtx) {
     s32 pad;
-    ColliderCylinderMain* collider = &this->collider;
+    ColliderCylinder* collider = &this->collider;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008460, NULL, NULL, NULL, 0);
-    ActorCollider_AllocCylinder(globalCtx, collider);
-    ActorCollider_InitCylinder(globalCtx, collider, &this->actor, &D_80AA1640);
-    func_80061EFC(&this->actor.sub_98, CollisionBtlTbl_Get(0x16), &D_80AA166C);
+    Collider_InitCylinder(globalCtx, collider);
+    Collider_SetCylinder(globalCtx, collider, &this->actor, &cylinderInit);
+    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &D_80AA166C);
 
     if (!func_80AA08C4(this, globalCtx)) {
         Actor_Kill(&this->actor);
@@ -275,7 +273,7 @@ void EnMa1_Init(EnMa1* this, GlobalContext* globalCtx) {
 
 void EnMa1_Destroy(EnMa1* this, GlobalContext* globalCtx) {
     SkelAnime_Free(&this->skelAnime, globalCtx);
-    ActorCollider_FreeCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
@@ -289,7 +287,7 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((globalCtx->sceneNum == 0x5F) && (gSaveContext.eventChkInf[1] & 0x10)) {
+    if ((globalCtx->sceneNum == SCENE_SPOT15) && (gSaveContext.eventChkInf[1] & 0x10)) {
         Actor_Kill(&this->actor);
     } else if ((!(gSaveContext.eventChkInf[1] & 0x10)) || (CHECK_QUEST_ITEM(QUEST_SONG_EPONA))) {
         if (this->unk_1E8.unk_00 == 2) {
@@ -379,24 +377,24 @@ void func_80AA11C8(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void EnMa1_Update(EnMa1* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* collider = &this->collider;
+    ColliderCylinder* collider = &this->collider;
     s32 pad;
 
-    ActorCollider_Cylinder_Update(this, collider);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, collider);
+    Collider_CylinderUpdate(&this->actor, collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_80AA0A0C(this);
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != (ActorFunc)func_80AA11C8) {
-        func_800343CC(globalCtx, &this->actor, &this->unk_1E8, (f32)this->collider.dim.radius + 30.0f, EnMa1_GetText,
-                      func_80AA0778);
+        func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, (f32)this->collider.dim.radius + 30.0f,
+                      EnMa1_GetText, func_80AA0778);
     }
     func_80AA0B74(this);
     func_80AA0AF4(this, globalCtx);
 }
 
-s32 func_80AA12BC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnMa1* this) {
-    s16 pad[2];
+s32 EnMa1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* this) {
+    EnMa1* thisx = (EnMa1*)this;
     Vec3s tempVec;
 
     if ((limbIndex == 2) || (limbIndex == 5)) {
@@ -404,20 +402,20 @@ s32 func_80AA12BC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     }
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        tempVec = this->unk_1E8.unk_08;
+        tempVec = thisx->unk_1E8.unk_08;
         Matrix_RotateX(((f32)tempVec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ(((f32)tempVec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
-        tempVec = this->unk_1E8.unk_0E;
+        tempVec = thisx->unk_1E8.unk_0E;
         Matrix_RotateX(((f32)(0 - tempVec.y) / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ(((f32)(0 - tempVec.x) / 32768.0f) * M_PI, MTXMODE_APPLY);
     }
     return 0;
 }
 
-void func_80AA1448(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+void EnMa1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
     s32 pad;
     Vec3f vec = D_80AA16B8;
 
@@ -434,7 +432,7 @@ void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx) {
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma1.c", 1226);
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
-    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot, &camera->unk_5C);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->unk_5C);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
@@ -442,6 +440,6 @@ void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA16D0[this->unk_1E4]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     func_80AA12BC, func_80AA1448, &this->actor);
+                     EnMa1_OverrideLimbDraw, EnMa1_PostLimbDraw, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma1.c", 1261);
 }

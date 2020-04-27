@@ -62,13 +62,13 @@ glabel BgBreakwall_Init
 /* 000DC 8086FCBC 00000000 */  nop
 /* 000E0 8086FCC0 2605016C */  addiu   $a1, $s0, 0x016C           ## $a1 = 0000016C
 /* 000E4 8086FCC4 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 000E8 8086FCC8 0C017406 */  jal     func_8005D018              
+/* 000E8 8086FCC8 0C017406 */  jal     Collider_InitQuad              
 /* 000EC 8086FCCC 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000F0 8086FCD0 3C078087 */  lui     $a3, %hi(D_80870760)       ## $a3 = 80870000
 /* 000F4 8086FCD4 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 000F8 8086FCD8 24E70760 */  addiu   $a3, $a3, %lo(D_80870760)  ## $a3 = 80870760
 /* 000FC 8086FCDC 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00100 8086FCE0 0C017441 */  jal     func_8005D104              
+/* 00100 8086FCE0 0C017441 */  jal     Collider_SetQuad              
 /* 00104 8086FCE4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00108 8086FCE8 10000006 */  beq     $zero, $zero, .L8086FD04   
 /* 0010C 8086FCEC 8FA20028 */  lw      $v0, 0x0028($sp)           

@@ -59,7 +59,7 @@ glabel func_809579F4
 /* 08808 80957AC8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0880C 80957ACC 260602D8 */  addiu   $a2, $s0, 0x02D8           ## $a2 = 000002D8
 /* 08810 80957AD0 46049200 */  add.s   $f8, $f18, $f4             
-/* 08814 80957AD4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 08814 80957AD4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 08818 80957AD8 E6080028 */  swc1    $f8, 0x0028($s0)           ## 00000028
 /* 0881C 80957ADC 3C0A0001 */  lui     $t2, 0x0001                ## $t2 = 00010000

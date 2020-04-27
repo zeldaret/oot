@@ -535,7 +535,7 @@ glabel L808E176C
 .L808E17B4:
 /* 0AF44 808E17B4 26300610 */  addiu   $s0, $s1, 0x0610           ## $s0 = 00000610
 /* 0AF48 808E17B8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000610
-/* 0AF4C 808E17BC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0AF4C 808E17BC 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 0AF50 808E17C0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0AF54 808E17C4 862F01B8 */  lh      $t7, 0x01B8($s1)           ## 000001B8
@@ -544,7 +544,7 @@ glabel L808E176C
 /* 0AF60 808E17D0 15E00004 */  bne     $t7, $zero, .L808E17E4     
 /* 0AF64 808E17D4 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 0AF68 808E17D8 00812821 */  addu    $a1, $a0, $at              
-/* 0AF6C 808E17DC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0AF6C 808E17DC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 0AF70 808E17E0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000610
 .L808E17E4:

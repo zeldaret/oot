@@ -40,17 +40,17 @@ glabel EnGo_Init
 /* 01650 80A3FBC0 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01654 80A3FBC4 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 01658 80A3FBC8 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 0165C 80A3FBCC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0165C 80A3FBCC 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 01660 80A3FBD0 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 01664 80A3FBD4 3C0780A4 */  lui     $a3, %hi(D_80A41B00)       ## $a3 = 80A40000
 /* 01668 80A3FBD8 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 0166C 80A3FBDC 24E71B00 */  addiu   $a3, $a3, %lo(D_80A41B00)  ## $a3 = 80A41B00
 /* 01670 80A3FBE0 8FA4005C */  lw      $a0, 0x005C($sp)
-/* 01674 80A3FBE4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 01674 80A3FBE4 0C01712B */  jal     Collider_SetCylinder
 
 /* 01678 80A3FBE8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 0167C 80A3FBEC 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 0167C 80A3FBEC 0C016C80 */  jal     DamageTable_Get
 
 /* 01680 80A3FBF0 24040016 */  addiu   $a0, $zero, 0x0016         ## $a0 = 00000016
 /* 01684 80A3FBF4 3C0680A4 */  lui     $a2, %hi(D_80A41B2C)       ## $a2 = 80A40000

@@ -6,7 +6,7 @@
 
 typedef struct {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ColliderCylinderMain collider;
+    /* 0x014C */ ColliderCylinder collider;
     /* 0x0198 */ SkelAnime skelAnime;
     /* 0x01DC */ Vec3s limbDrawTable[16];
     /* 0x023C */ Vec3s transitionDrawTable[16];

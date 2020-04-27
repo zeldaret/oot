@@ -4,7 +4,7 @@ glabel func_809F72A4
 /* 00EEC 809F72AC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00EF0 809F72B0 24850194 */  addiu   $a1, $a0, 0x0194           ## $a1 = 00000194
 /* 00EF4 809F72B4 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 00EF8 809F72B8 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00EF8 809F72B8 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00EFC 809F72BC AFA40028 */  sw      $a0, 0x0028($sp)           
 /* 00F00 809F72C0 8FA70028 */  lw      $a3, 0x0028($sp)           
@@ -33,7 +33,7 @@ glabel func_809F72A4
 /* 00F58 809F7318 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 00F5C 809F731C AFA3001C */  sw      $v1, 0x001C($sp)           
 /* 00F60 809F7320 AFA70028 */  sw      $a3, 0x0028($sp)           
-/* 00F64 809F7324 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00F64 809F7324 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00F68 809F7328 00812821 */  addu    $a1, $a0, $at              
 /* 00F6C 809F732C 8FA70028 */  lw      $a3, 0x0028($sp)           
@@ -60,13 +60,13 @@ glabel func_809F72A4
 /* 00FBC 809F737C 00000000 */  nop
 .L809F7380:
 /* 00FC0 809F7380 8FA60024 */  lw      $a2, 0x0024($sp)           
-/* 00FC4 809F7384 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00FC4 809F7384 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00FC8 809F7388 AFA50018 */  sw      $a1, 0x0018($sp)           
 /* 00FCC 809F738C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00FD0 809F7390 8FA4002C */  lw      $a0, 0x002C($sp)           
 .L809F7394:
-/* 00FD4 809F7394 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00FD4 809F7394 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00FD8 809F7398 8FA60024 */  lw      $a2, 0x0024($sp)           
 .L809F739C:

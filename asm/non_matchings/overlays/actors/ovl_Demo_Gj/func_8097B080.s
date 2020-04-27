@@ -10,19 +10,19 @@ glabel func_8097B080
 /* 02770 8097B0A0 00A12821 */  addu    $a1, $a1, $at              
 /* 02774 8097B0A4 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 02778 8097B0A8 AFA70044 */  sw      $a3, 0x0044($sp)           
-/* 0277C 8097B0AC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0277C 8097B0AC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 02780 8097B0B0 24C60184 */  addiu   $a2, $a2, 0x0184           ## $a2 = 00000184
 /* 02784 8097B0B4 8FA60040 */  lw      $a2, 0x0040($sp)           
 /* 02788 8097B0B8 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 0278C 8097B0BC 8FA5001C */  lw      $a1, 0x001C($sp)           
-/* 02790 8097B0C0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 02790 8097B0C0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 02794 8097B0C4 24C601D0 */  addiu   $a2, $a2, 0x01D0           ## $a2 = 000001D0
 /* 02798 8097B0C8 8FA60040 */  lw      $a2, 0x0040($sp)           
 /* 0279C 8097B0CC 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 027A0 8097B0D0 8FA5001C */  lw      $a1, 0x001C($sp)           
-/* 027A4 8097B0D4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 027A4 8097B0D4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 027A8 8097B0D8 24C6021C */  addiu   $a2, $a2, 0x021C           ## $a2 = 0000021C
 /* 027AC 8097B0DC 8FBF0014 */  lw      $ra, 0x0014($sp)           

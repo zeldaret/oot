@@ -22,14 +22,14 @@ glabel ObjSyokudai_Init
 /* 00048 80B9F2F8 00000000 */  nop
 /* 0004C 80B9F2FC 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00050 80B9F300 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00054 80B9F304 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00054 80B9F304 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00058 80B9F308 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0005C 80B9F30C 3C0780BA */  lui     $a3, %hi(D_80B9FE10)       ## $a3 = 80BA0000
 /* 00060 80B9F310 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 00064 80B9F314 24E7FE10 */  addiu   $a3, $a3, %lo(D_80B9FE10)  ## $a3 = 80B9FE10
 /* 00068 80B9F318 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0006C 80B9F31C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0006C 80B9F31C 0C01712B */  jal     Collider_SetCylinder
               
 /* 00070 80B9F320 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00074 80B9F324 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
@@ -40,14 +40,14 @@ glabel ObjSyokudai_Init
 /* 00088 80B9F338 9108FE78 */  lbu     $t0, %lo(D_80B9FE78)($t0)  
 /* 0008C 80B9F33C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00090 80B9F340 A2080160 */  sb      $t0, 0x0160($s0)           ## 00000160
-/* 00094 80B9F344 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00094 80B9F344 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00098 80B9F348 AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 0009C 80B9F34C 3C0780BA */  lui     $a3, %hi(D_80B9FE3C)       ## $a3 = 80BA0000
 /* 000A0 80B9F350 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 000A4 80B9F354 24E7FE3C */  addiu   $a3, $a3, %lo(D_80B9FE3C)  ## $a3 = 80B9FE3C
 /* 000A8 80B9F358 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000AC 80B9F35C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000AC 80B9F35C 0C01712B */  jal     Collider_SetCylinder
               
 /* 000B0 80B9F360 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000B4 80B9F364 C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024

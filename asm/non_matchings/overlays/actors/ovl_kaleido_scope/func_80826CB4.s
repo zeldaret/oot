@@ -144,13 +144,13 @@ glabel L80826E00
 /* 1369C 80826EBC 8E0F013C */  lw      $t7, 0x013C($s0)           ## 0000013C
 /* 136A0 80826EC0 8FB80068 */  lw      $t8, 0x0068($sp)           
 /* 136A4 80826EC4 2401FFF0 */  addiu   $at, $zero, 0xFFF0         ## $at = FFFFFFF0
-/* 136A8 80826EC8 3C020075 */  lui     $v0, 0x0075                ## $v0 = 00750000
+/* 136A8 80826EC8 3C020075 */  lui     $v0, %hi(_icon_item_staticSegmentRomStart)
 /* 136AC 80826ECC 01F8C821 */  addu    $t9, $t7, $t8              
 /* 136B0 80826ED0 272E000F */  addiu   $t6, $t9, 0x000F           ## $t6 = 0000000F
-/* 136B4 80826ED4 3C18007D */  lui     $t8, 0x007D                ## $t8 = 007D0000
+/* 136B4 80826ED4 3C18007D */  lui     $t8, %hi(_icon_item_staticSegmentRomEnd)
 /* 136B8 80826ED8 01C17824 */  and     $t7, $t6, $at              
-/* 136BC 80826EDC 27185CA0 */  addiu   $t8, $t8, 0x5CA0           ## $t8 = 007D5CA0
-/* 136C0 80826EE0 2442C000 */  addiu   $v0, $v0, 0xC000           ## $v0 = 0074C000
+/* 136BC 80826EDC 27185CA0 */  addiu   $t8, %lo(_icon_item_staticSegmentRomEnd)
+/* 136C0 80826EE0 2442C000 */  addiu   $v0, %lo(_icon_item_staticSegmentRomStart)
 /* 136C4 80826EE4 AE0F0128 */  sw      $t7, 0x0128($s0)           ## 00000128
 /* 136C8 80826EE8 03022823 */  subu    $a1, $t8, $v0              
 /* 136CC 80826EEC 3C048083 */  lui     $a0, %hi(D_8082FE14)       ## $a0 = 80830000
@@ -216,13 +216,13 @@ glabel L80826E00
 /* 137AC 80826FCC 8E180128 */  lw      $t8, 0x0128($s0)           ## 00000128
 /* 137B0 80826FD0 8FB90030 */  lw      $t9, 0x0030($sp)           
 /* 137B4 80826FD4 2401FFF0 */  addiu   $at, $zero, 0xFFF0         ## $at = FFFFFFF0
-/* 137B8 80826FD8 3C02007D */  lui     $v0, 0x007D                ## $v0 = 007D0000
+/* 137B8 80826FD8 3C02007D */  lui     $v0, %hi(_icon_item_24_staticSegmentRomStart)
 /* 137BC 80826FDC 03197021 */  addu    $t6, $t8, $t9              
 /* 137C0 80826FE0 25CF000F */  addiu   $t7, $t6, 0x000F           ## $t7 = 0000000F
-/* 137C4 80826FE4 3C19007E */  lui     $t9, 0x007E                ## $t9 = 007E0000
+/* 137C4 80826FE4 3C19007E */  lui     $t9, %hi(_icon_item_24_staticSegmentRomEnd)
 /* 137C8 80826FE8 01E1C024 */  and     $t8, $t7, $at              
-/* 137CC 80826FEC 27391400 */  addiu   $t9, $t9, 0x1400           ## $t9 = 007E1400
-/* 137D0 80826FF0 24426000 */  addiu   $v0, $v0, 0x6000           ## $v0 = 007D6000
+/* 137CC 80826FEC 27391400 */  addiu   $t9, %lo(_icon_item_24_staticSegmentRomEnd)
+/* 137D0 80826FF0 24426000 */  addiu   $v0, %lo(_icon_item_24_staticSegmentRomStart)
 /* 137D4 80826FF4 AE18012C */  sw      $t8, 0x012C($s0)           ## 0000012C
 /* 137D8 80826FF8 03222823 */  subu    $a1, $t9, $v0              
 /* 137DC 80826FFC 3C048083 */  lui     $a0, %hi(D_8082FE44)       ## $a0 = 80830000
@@ -258,10 +258,10 @@ glabel L80826E00
 /* 13850 80827070 03000008 */  jr      $t8                        
 /* 13854 80827074 00000000 */  nop
 glabel L80827078
-/* 13858 80827078 3C02007F */  lui     $v0, 0x007F                ## $v0 = 007F0000
-/* 1385C 8082707C 3C0E007F */  lui     $t6, 0x007F                ## $t6 = 007F0000
-/* 13860 80827080 25CEFD80 */  addiu   $t6, $t6, 0xFD80           ## $t6 = 007EFD80
-/* 13864 80827084 2442E000 */  addiu   $v0, $v0, 0xE000           ## $v0 = 007EE000
+/* 13858 80827078 3C02007F */  lui     $v0, %hi(_icon_item_dungeon_staticSegmentRomStart)
+/* 1385C 8082707C 3C0E007F */  lui     $t6, %hi(_icon_item_dungeon_staticSegmentRomEnd)
+/* 13860 80827080 25CEFD80 */  addiu   $t6, %lo(_icon_item_dungeon_staticSegmentRomEnd)
+/* 13864 80827084 2442E000 */  addiu   $v0, %lo(_icon_item_dungeon_staticSegmentRomStart)
 /* 13868 80827088 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 1386C 8082708C 3C018083 */  lui     $at, %hi(D_8082ABA8)       ## $at = 80830000
 /* 13870 80827090 01C22823 */  subu    $a1, $t6, $v0              
@@ -294,10 +294,10 @@ glabel L80827078
 /* 138D8 808270F8 10000018 */  beq     $zero, $zero, .L8082715C   
 /* 138DC 808270FC 2529E660 */  addiu   $t1, %lo(gSaveContext)
 glabel L80827100
-/* 138E0 80827100 3C02007E */  lui     $v0, 0x007E                ## $v0 = 007E0000
-/* 138E4 80827104 3C0E007F */  lui     $t6, 0x007F                ## $t6 = 007F0000
-/* 138E8 80827108 25CED930 */  addiu   $t6, $t6, 0xD930           ## $t6 = 007ED930
-/* 138EC 8082710C 24422000 */  addiu   $v0, $v0, 0x2000           ## $v0 = 007E2000
+/* 138E0 80827100 3C02007E */  lui     $v0, %hi(_icon_item_field_staticSegmentRomStart)
+/* 138E4 80827104 3C0E007F */  lui     $t6, %hi(_icon_item_field_staticSegmentRomEnd)
+/* 138E8 80827108 25CED930 */  addiu   $t6, %lo(_icon_item_field_staticSegmentRomEnd)
+/* 138EC 8082710C 24422000 */  addiu   $v0, %lo(_icon_item_field_staticSegmentRomStart)
 /* 138F0 80827110 3C018083 */  lui     $at, %hi(D_8082ABA8)       ## $at = 80830000
 /* 138F4 80827114 01C22823 */  subu    $a1, $t6, $v0              
 /* 138F8 80827118 3C048083 */  lui     $a0, %hi(D_8082FEB8)       ## $a0 = 80830000
@@ -328,10 +328,10 @@ glabel L80827100
 /* 13954 80827174 AE180134 */  sw      $t8, 0x0134($s0)           ## 00000134
 /* 13958 80827178 91231409 */  lbu     $v1, 0x1409($t1)           ## 8015FA69
 /* 1395C 8082717C 14600015 */  bne     $v1, $zero, .L808271D4     
-/* 13960 80827180 3C02007F */  lui     $v0, 0x007F                ## $v0 = 007F0000
-/* 13964 80827184 3C190080 */  lui     $t9, 0x0080                ## $t9 = 00800000
-/* 13968 80827188 27391C80 */  addiu   $t9, $t9, 0x1C80           ## $t9 = 00801C80
-/* 1396C 8082718C 24424000 */  addiu   $v0, $v0, 0x4000           ## $v0 = 007F4000
+/* 13960 80827180 3C02007F */  lui     $v0, %hi(_icon_item_nes_staticSegmentRomStart)
+/* 13964 80827184 3C190080 */  lui     $t9, %hi(_icon_item_nes_staticSegmentRomEnd)
+/* 13968 80827188 27391C80 */  addiu   $t9, %lo(_icon_item_nes_staticSegmentRomEnd)
+/* 1396C 8082718C 24424000 */  addiu   $v0, %lo(_icon_item_nes_staticSegmentRomStart)
 /* 13970 80827190 03222823 */  subu    $a1, $t9, $v0              
 /* 13974 80827194 3C048083 */  lui     $a0, %hi(D_8082FEF4)       ## $a0 = 80830000
 /* 13978 80827198 AFA50070 */  sw      $a1, 0x0070($sp)           
@@ -353,11 +353,11 @@ glabel L80827100
 .L808271D4:
 /* 139B4 808271D4 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 139B8 808271D8 14610016 */  bne     $v1, $at, .L80827234       
-/* 139BC 808271DC 3C020081 */  lui     $v0, 0x0081                ## $v0 = 00810000
-/* 139C0 808271E0 3C020080 */  lui     $v0, 0x0080                ## $v0 = 00800000
-/* 139C4 808271E4 3C0F0081 */  lui     $t7, 0x0081                ## $t7 = 00810000
-/* 139C8 808271E8 25EF0B80 */  addiu   $t7, $t7, 0x0B80           ## $t7 = 00810B80
-/* 139CC 808271EC 24422000 */  addiu   $v0, $v0, 0x2000           ## $v0 = 00802000
+/* 139BC 808271DC 3C020081 */  lui     $v0, %hi(_icon_item_fra_staticSegmentRomStart)
+/* 139C0 808271E0 3C020080 */  lui     $v0, %hi(_icon_item_ger_staticSegmentRomStart)
+/* 139C4 808271E4 3C0F0081 */  lui     $t7, %hi(_icon_item_ger_staticSegmentRomEnd)
+/* 139C8 808271E8 25EF0B80 */  addiu   $t7, %lo(_icon_item_ger_staticSegmentRomEnd)
+/* 139CC 808271EC 24422000 */  addiu   $v0, %lo(_icon_item_ger_staticSegmentRomStart)
 /* 139D0 808271F0 01E22823 */  subu    $a1, $t7, $v0              
 /* 139D4 808271F4 3C048083 */  lui     $a0, %hi(D_8082FF34)       ## $a0 = 80830000
 /* 139D8 808271F8 AFA50070 */  sw      $a1, 0x0070($sp)           
@@ -377,9 +377,9 @@ glabel L80827100
 /* 13A0C 8082722C 10000014 */  beq     $zero, $zero, .L80827280   
 /* 13A10 80827230 8E0F0134 */  lw      $t7, 0x0134($s0)           ## 00000134
 .L80827234:
-/* 13A14 80827234 3C190082 */  lui     $t9, 0x0082                ## $t9 = 00820000
-/* 13A18 80827238 27390480 */  addiu   $t9, $t9, 0x0480           ## $t9 = 00820480
-/* 13A1C 8082723C 24421000 */  addiu   $v0, $v0, 0x1000           ## $v0 = 00001000
+/* 13A14 80827234 3C190082 */  lui     $t9, %hi(_icon_item_fra_staticSegmentRomEnd)
+/* 13A18 80827238 27390480 */  addiu   $t9, %lo(_icon_item_fra_staticSegmentRomEnd)
+/* 13A1C 8082723C 24421000 */  addiu   $v0, %lo(_icon_item_fra_staticSegmentRomStart)
 /* 13A20 80827240 03222823 */  subu    $a1, $t9, $v0              
 /* 13A24 80827244 3C048083 */  lui     $a0, %hi(D_8082FF74)       ## $a0 = 80830000
 /* 13A28 80827248 AFA50070 */  sw      $a1, 0x0070($sp)           
@@ -446,8 +446,8 @@ glabel L80827100
 /* 13B08 80827328 8E040138 */  lw      $a0, 0x0138($s0)           ## 00000138
 /* 13B0C 8082732C 000E7240 */  sll     $t6, $t6,  9               
 /* 13B10 80827330 34019000 */  ori     $at, $zero, 0x9000         ## $at = 00009000
-/* 13B14 80827334 3C180088 */  lui     $t8, 0x0088                ## $t8 = 00880000
-/* 13B18 80827338 2718E000 */  addiu   $t8, $t8, 0xE000           ## $t8 = 0087E000
+/* 13B14 80827334 3C180088 */  lui     $t8, %hi(_map_name_staticSegmentRomStart)
+/* 13B18 80827338 2718E000 */  addiu   $t8, %lo(_map_name_staticSegmentRomStart)
 /* 13B1C 8082733C 01C17821 */  addu    $t7, $t6, $at              
 /* 13B20 80827340 3C078083 */  lui     $a3, %hi(D_8082FFE4)       ## $a3 = 80830000
 /* 13B24 80827344 24190EC0 */  addiu   $t9, $zero, 0x0EC0         ## $t9 = 00000EC0
@@ -470,8 +470,8 @@ glabel L80827100
 /* 13B64 80827384 8E040138 */  lw      $a0, 0x0138($s0)           ## 00000138
 /* 13B68 80827388 34216C00 */  ori     $at, $at, 0x6C00           ## $at = 00016C00
 /* 13B6C 8082738C 000E7240 */  sll     $t6, $t6,  9               
-/* 13B70 80827390 3C180088 */  lui     $t8, 0x0088                ## $t8 = 00880000
-/* 13B74 80827394 2718E000 */  addiu   $t8, $t8, 0xE000           ## $t8 = 0087E000
+/* 13B70 80827390 3C180088 */  lui     $t8, %hi(_map_name_staticSegmentRomStart)
+/* 13B74 80827394 2718E000 */  addiu   $t8, %lo(_map_name_staticSegmentRomStart)
 /* 13B78 80827398 01C17821 */  addu    $t7, $t6, $at              
 /* 13B7C 8082739C 3C078083 */  lui     $a3, %hi(D_80830000)       ## $a3 = 80830000
 /* 13B80 808273A0 24190EC4 */  addiu   $t9, $zero, 0x0EC4         ## $t9 = 00000EC4
@@ -491,8 +491,8 @@ glabel L80827100
 /* 13BB4 808273D4 8E040138 */  lw      $a0, 0x0138($s0)           ## 00000138
 /* 13BB8 808273D8 34214800 */  ori     $at, $at, 0x4800           ## $at = 00024800
 /* 13BBC 808273DC 000E7240 */  sll     $t6, $t6,  9               
-/* 13BC0 808273E0 3C180088 */  lui     $t8, 0x0088                ## $t8 = 00880000
-/* 13BC4 808273E4 2718E000 */  addiu   $t8, $t8, 0xE000           ## $t8 = 0087E000
+/* 13BC0 808273E0 3C180088 */  lui     $t8, %hi(_map_name_staticSegmentRomStart)
+/* 13BC4 808273E4 2718E000 */  addiu   $t8, %lo(_map_name_staticSegmentRomStart)
 /* 13BC8 808273E8 01C17821 */  addu    $t7, $t6, $at              
 /* 13BCC 808273EC 3C078083 */  lui     $a3, %hi(D_8083001C)       ## $a3 = 80830000
 /* 13BD0 808273F0 24190EC8 */  addiu   $t9, $zero, 0x0EC8         ## $t9 = 00000EC8
@@ -1866,12 +1866,12 @@ glabel L808286FC
 /* 14F2C 8082874C 01F17821 */  addu    $t7, $t7, $s1              
 /* 14F30 80828750 8DEF17A4 */  lw      $t7, 0x17A4($t7)           ## 000117A4
 /* 14F34 80828754 2401FFC0 */  addiu   $at, $zero, 0xFFC0         ## $at = FFFFFFC0
-/* 14F38 80828758 3C020075 */  lui     $v0, 0x0075                ## $v0 = 00750000
-/* 14F3C 8082875C 3C18007D */  lui     $t8, 0x007D                ## $t8 = 007D0000
+/* 14F38 80828758 3C020075 */  lui     $v0, %hi(_icon_item_staticSegmentRomStart)
+/* 14F3C 8082875C 3C18007D */  lui     $t8, %hi(_icon_item_staticSegmentRomEnd)
 /* 14F40 80828760 25F90030 */  addiu   $t9, $t7, 0x0030           ## $t9 = 00010030
 /* 14F44 80828764 03217024 */  and     $t6, $t9, $at              
-/* 14F48 80828768 27185CA0 */  addiu   $t8, $t8, 0x5CA0           ## $t8 = 007D5CA0
-/* 14F4C 8082876C 2442C000 */  addiu   $v0, $v0, 0xC000           ## $v0 = 0074C000
+/* 14F48 80828768 27185CA0 */  addiu   $t8, %lo(_icon_item_staticSegmentRomEnd)
+/* 14F4C 8082876C 2442C000 */  addiu   $v0, %lo(_icon_item_staticSegmentRomStart)
 /* 14F50 80828770 AE0E0128 */  sw      $t6, 0x0128($s0)           ## 00000128
 /* 14F54 80828774 03022823 */  subu    $a1, $t8, $v0              
 /* 14F58 80828778 3C048083 */  lui     $a0, %hi(D_80830038)       ## $a0 = 80830000
@@ -1891,13 +1891,13 @@ glabel L808286FC
 /* 14F8C 808287AC 8E190128 */  lw      $t9, 0x0128($s0)           ## 00000128
 /* 14F90 808287B0 8FAE0030 */  lw      $t6, 0x0030($sp)           
 /* 14F94 808287B4 2401FFF0 */  addiu   $at, $zero, 0xFFF0         ## $at = FFFFFFF0
-/* 14F98 808287B8 3C03007D */  lui     $v1, 0x007D                ## $v1 = 007D0000
+/* 14F98 808287B8 3C03007D */  lui     $v1, %hi(_icon_item_24_staticSegmentRomStart)
 /* 14F9C 808287BC 032EC021 */  addu    $t8, $t9, $t6              
 /* 14FA0 808287C0 270F000F */  addiu   $t7, $t8, 0x000F           ## $t7 = 0000000F
-/* 14FA4 808287C4 3C0E007E */  lui     $t6, 0x007E                ## $t6 = 007E0000
+/* 14FA4 808287C4 3C0E007E */  lui     $t6, %hi(_icon_item_24_staticSegmentRomEnd)
 /* 14FA8 808287C8 01E1C824 */  and     $t9, $t7, $at              
-/* 14FAC 808287CC 25CE1400 */  addiu   $t6, $t6, 0x1400           ## $t6 = 007E1400
-/* 14FB0 808287D0 24636000 */  addiu   $v1, $v1, 0x6000           ## $v1 = 007D6000
+/* 14FAC 808287CC 25CE1400 */  addiu   $t6, %lo(_icon_item_24_staticSegmentRomEnd)
+/* 14FB0 808287D0 24636000 */  addiu   $v1, %lo(_icon_item_24_staticSegmentRomStart)
 /* 14FB4 808287D4 AE19012C */  sw      $t9, 0x012C($s0)           ## 0000012C
 /* 14FB8 808287D8 01C32823 */  subu    $a1, $t6, $v1              
 /* 14FBC 808287DC 3C048083 */  lui     $a0, %hi(D_80830068)       ## $a0 = 80830000
@@ -1917,13 +1917,13 @@ glabel L808286FC
 /* 14FF0 80828810 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00000000
 /* 14FF4 80828814 8E0F012C */  lw      $t7, 0x012C($s0)           ## 0000012C
 /* 14FF8 80828818 2401FFF0 */  addiu   $at, $zero, 0xFFF0         ## $at = FFFFFFF0
-/* 14FFC 8082881C 3C03007F */  lui     $v1, 0x007F                ## $v1 = 007F0000
+/* 14FFC 8082881C 3C03007F */  lui     $v1, %hi(_icon_item_gameover_staticSegmentRomStart)
 /* 15000 80828820 01F1C821 */  addu    $t9, $t7, $s1              
 /* 15004 80828824 272E000F */  addiu   $t6, $t9, 0x000F           ## $t6 = 0000000F
-/* 15008 80828828 3C0F007F */  lui     $t7, 0x007F                ## $t7 = 007F0000
+/* 15008 80828828 3C0F007F */  lui     $t7, %hi(_icon_item_gameover_staticSegmentRomEnd)
 /* 1500C 8082882C 01C1C024 */  and     $t8, $t6, $at              
-/* 15010 80828830 25EF3C80 */  addiu   $t7, $t7, 0x3C80           ## $t7 = 007F3C80
-/* 15014 80828834 24630000 */  addiu   $v1, $v1, 0x0000           ## $v1 = 007F0000
+/* 15010 80828830 25EF3C80 */  addiu   $t7, %lo(_icon_item_gameover_staticSegmentRomEnd)
+/* 15014 80828834 24630000 */  addiu   $v1, %lo(_icon_item_gameover_staticSegmentRomStart)
 /* 15018 80828838 AE180130 */  sw      $t8, 0x0130($s0)           ## 00000130
 /* 1501C 8082883C 01E32823 */  subu    $a1, $t7, $v1              
 /* 15020 80828840 3C048083 */  lui     $a0, %hi(D_8083009C)       ## $a0 = 80830000
@@ -1954,10 +1954,10 @@ glabel L808286FC
 /* 15080 808288A0 248400E0 */  addiu   $a0, $a0, %lo(D_808300E0)  ## $a0 = 808300E0
 /* 15084 808288A4 14600015 */  bne     $v1, $zero, .L808288FC     
 /* 15088 808288A8 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 1508C 808288AC 3C02007F */  lui     $v0, 0x007F                ## $v0 = 007F0000
-/* 15090 808288B0 3C0E0080 */  lui     $t6, 0x0080                ## $t6 = 00800000
-/* 15094 808288B4 25CE1C80 */  addiu   $t6, $t6, 0x1C80           ## $t6 = 00801C80
-/* 15098 808288B8 24424000 */  addiu   $v0, $v0, 0x4000           ## $v0 = 007F4000
+/* 1508C 808288AC 3C02007F */  lui     $v0, %hi(_icon_item_nes_staticSegmentRomStart)
+/* 15090 808288B0 3C0E0080 */  lui     $t6, %hi(_icon_item_nes_staticSegmentRomEnd)
+/* 15094 808288B4 25CE1C80 */  addiu   $t6, %lo(_icon_item_nes_staticSegmentRomEnd)
+/* 15098 808288B8 24424000 */  addiu   $v0, %lo(_icon_item_nes_staticSegmentRomStart)
 /* 1509C 808288BC 01C23023 */  subu    $a2, $t6, $v0              
 /* 150A0 808288C0 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
 /* 150A4 808288C4 AFA6002C */  sw      $a2, 0x002C($sp)           
@@ -1978,10 +1978,10 @@ glabel L808286FC
 .L808288FC:
 /* 150DC 808288FC 14610017 */  bne     $v1, $at, .L8082895C       
 /* 150E0 80828900 3C048083 */  lui     $a0, %hi(D_80830160)       ## $a0 = 80830000
-/* 150E4 80828904 3C020080 */  lui     $v0, 0x0080                ## $v0 = 00800000
-/* 150E8 80828908 3C0F0081 */  lui     $t7, 0x0081                ## $t7 = 00810000
-/* 150EC 8082890C 25EF0B80 */  addiu   $t7, $t7, 0x0B80           ## $t7 = 00810B80
-/* 150F0 80828910 24422000 */  addiu   $v0, $v0, 0x2000           ## $v0 = 00802000
+/* 150E4 80828904 3C020080 */  lui     $v0, %hi(_icon_item_ger_staticSegmentRomStart)
+/* 150E8 80828908 3C0F0081 */  lui     $t7, %hi(_icon_item_ger_staticSegmentRomEnd)
+/* 150EC 8082890C 25EF0B80 */  addiu   $t7, %lo(_icon_item_ger_staticSegmentRomEnd)
+/* 150F0 80828910 24422000 */  addiu   $v0, %lo(_icon_item_ger_staticSegmentRomStart)
 /* 150F4 80828914 01E23023 */  subu    $a2, $t7, $v0              
 /* 150F8 80828918 3C048083 */  lui     $a0, %hi(D_80830120)       ## $a0 = 80830000
 /* 150FC 8082891C 24840120 */  addiu   $a0, $a0, %lo(D_80830120)  ## $a0 = 80830120
@@ -2002,10 +2002,10 @@ glabel L808286FC
 /* 15134 80828954 10000015 */  beq     $zero, $zero, .L808289AC   
 /* 15138 80828958 2508FA90 */  addiu   $t0, %lo(gGameInfo)
 .L8082895C:
-/* 1513C 8082895C 3C020081 */  lui     $v0, 0x0081                ## $v0 = 00810000
-/* 15140 80828960 3C0E0082 */  lui     $t6, 0x0082                ## $t6 = 00820000
-/* 15144 80828964 25CE0480 */  addiu   $t6, $t6, 0x0480           ## $t6 = 00820480
-/* 15148 80828968 24421000 */  addiu   $v0, $v0, 0x1000           ## $v0 = 00811000
+/* 1513C 8082895C 3C020081 */  lui     $v0, %hi(_icon_item_fra_staticSegmentRomStart)
+/* 15140 80828960 3C0E0082 */  lui     $t6, %hi(_icon_item_fra_staticSegmentRomEnd)
+/* 15144 80828964 25CE0480 */  addiu   $t6, %lo(_icon_item_fra_staticSegmentRomEnd)
+/* 15148 80828968 24421000 */  addiu   $v0, %lo(_icon_item_fra_staticSegmentRomStart)
 /* 1514C 8082896C 01C23023 */  subu    $a2, $t6, $v0              
 /* 15150 80828970 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000000
 /* 15154 80828974 AFA6002C */  sw      $a2, 0x002C($sp)           

@@ -1,18 +1,27 @@
-To work on the project on OSX:
+## Developing on OSX
 
-Requirements:
-Docker Desktop (for OSX)
-docker-sync (`gem install docker-sync`)
+#### Requirements
+* Docker Desktop (for OSX)
+* docker-sync (`gem install docker-sync`)
+* a set-up baserom (see general setup guide / wiki for more details)
 
-From the root directory of the repo, first build the image and tag it 'oot':
+#### Build the docker image
 `docker build . -t oot`
 
-Then, start docker-sync:
-docker-sync-stack start
+#### Start docker-sync and the development container
 
-After a lot of waiting, you'll see something like "Attaching to oot_oot_1". This means you're good to go. Ctrl+c on this tab to close the container and docker-sync.
+`docker-sync-stack start`
 
-Open a new tab and log into the container. To get the container id, use 'docker container ls' and grab the ID from the container with image oot:latest
-docker exec-it <CONTAINER-ID> /bin/bash
+After a lot of waiting, you'll see something like "Attaching to oot_oot_1". This means the container is ready.
+
+#### Log into the container to begin working
+Note: this will be done in another tab while you leave the docker-sync tab going.
+
+To get the container id, use `docker container ls` and use the ID from the container with image oot:latest in the following command
+
+`docker exec-it <CONTAINER-ID> /bin/bash` You're in.
 
 Run `make setup` followed by `make`, and you're off to the races!
+
+#### When done working
+Type Ctrl+c on the docker-cync tab to close the container and docker-sync.

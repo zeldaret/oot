@@ -43,7 +43,7 @@ glabel BgHidanHamstep_Init
 /* 001DC 8088821C 304200FF */  andi    $v0, $v0, 0x00FF           ## $v0 = 00000000
 /* 001E0 80888220 14400030 */  bne     $v0, $zero, .L808882E4     
 /* 001E4 80888224 00000000 */  nop
-/* 001E8 80888228 0C0171F8 */  jal     func_8005C7E0              
+/* 001E8 80888228 0C0171F8 */  jal     Collider_InitTris              
 /* 001EC 8088822C 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000164
 /* 001F0 80888230 3C078089 */  lui     $a3, %hi(D_80888DFC)       ## $a3 = 80890000
 /* 001F4 80888234 260E0184 */  addiu   $t6, $s0, 0x0184           ## $t6 = 00000184
@@ -51,7 +51,7 @@ glabel BgHidanHamstep_Init
 /* 001FC 8088823C 24E78DFC */  addiu   $a3, $a3, %lo(D_80888DFC)  ## $a3 = 80888DFC
 /* 00200 80888240 8FA4007C */  lw      $a0, 0x007C($sp)           
 /* 00204 80888244 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000164
-/* 00208 80888248 0C0172EB */  jal     func_8005CBAC              
+/* 00208 80888248 0C0172EB */  jal     Collider_SetTris              
 /* 0020C 8088824C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00210 80888250 00008825 */  or      $s1, $zero, $zero          ## $s1 = 00000000
 /* 00214 80888254 27A8006C */  addiu   $t0, $sp, 0x006C           ## $t0 = FFFFFFF4

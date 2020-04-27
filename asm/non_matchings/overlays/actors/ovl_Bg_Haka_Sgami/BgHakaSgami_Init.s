@@ -23,7 +23,7 @@ glabel BgHakaSgami_Init
 /* 00050 8087E530 AE0B0004 */  sw      $t3, 0x0004($s0)           ## 00000004
 .L8087E534:
 /* 00054 8087E534 260501A8 */  addiu   $a1, $s0, 0x01A8           ## $a1 = 000001A8
-/* 00058 8087E538 0C0171F8 */  jal     func_8005C7E0              
+/* 00058 8087E538 0C0171F8 */  jal     Collider_InitTris              
 /* 0005C 8087E53C AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 00060 8087E540 3C078088 */  lui     $a3, %hi(D_8087EF50)       ## $a3 = 80880000
 /* 00064 8087E544 260C01C8 */  addiu   $t4, $s0, 0x01C8           ## $t4 = 000001C8
@@ -31,18 +31,18 @@ glabel BgHakaSgami_Init
 /* 0006C 8087E54C AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 00070 8087E550 24E7EF50 */  addiu   $a3, $a3, %lo(D_8087EF50)  ## $a3 = 8087EF50
 /* 00074 8087E554 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00078 8087E558 0C0172EB */  jal     func_8005CBAC              
+/* 00078 8087E558 0C0172EB */  jal     Collider_SetTris              
 /* 0007C 8087E55C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00080 8087E560 2605015C */  addiu   $a1, $s0, 0x015C           ## $a1 = 0000015C
 /* 00084 8087E564 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 00088 8087E568 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00088 8087E568 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 0008C 8087E56C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00090 8087E570 3C078088 */  lui     $a3, %hi(D_8087EF60)       ## $a3 = 80880000
 /* 00094 8087E574 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 00098 8087E578 24E7EF60 */  addiu   $a3, $a3, %lo(D_8087EF60)  ## $a3 = 8087EF60
 /* 0009C 8087E57C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000A0 8087E580 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000A0 8087E580 0C01712B */  jal     Collider_SetCylinder
               
 /* 000A4 8087E584 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000A8 8087E588 C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024

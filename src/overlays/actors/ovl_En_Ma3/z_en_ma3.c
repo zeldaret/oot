@@ -13,8 +13,8 @@ void EnMa3_Destroy(EnMa3* this, GlobalContext* globalCtx);
 void EnMa3_Update(EnMa3* this, GlobalContext* globalCtx);
 void EnMa3_Draw(EnMa3* this, GlobalContext* globalCtx);
 
-u16 func_80AA2AA0(GlobalContext* globalCtx, EnMa3* this);
-s16 func_80AA2BD4(GlobalContext* globalCtx, EnMa3* this);
+u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* this);
+s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* this);
 
 void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx);
 s32 func_80AA2F28(EnMa3* this);
@@ -131,17 +131,17 @@ void func_80AA2F80(EnMa3 *this) {
 
 void EnMa3_Destroy(EnMa3 *this, GlobalContext *globalCtx) {
     SkelAnime_Free(&this->skelAnime, globalCtx);
-    ActorCollider_FreeCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/func_80AA3200.s")
 
 void EnMa3_Update(EnMa3 *this, GlobalContext *globalCtx) {
     s32 pad;
-    ColliderCylinderMain* collider = &this->collider;
+    ColliderCylinder* collider = &this->collider;
 
-    ActorCollider_Cylinder_Update(&this->actor, collider);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, collider);
+    Collider_CylinderUpdate(&this->actor, collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_80AA2F80(this);
     this->actionFunc(this, globalCtx);
