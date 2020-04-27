@@ -94,7 +94,7 @@ glabel BossGanondrof_Update
 /* 03994 80913FD4 15000004 */  bne     $t0, $zero, .L80913FE8     
 /* 03998 80913FD8 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 0399C 80913FDC 02412821 */  addu    $a1, $s2, $at              
-/* 039A0 80913FE0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 039A0 80913FE0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 039A4 80913FE4 8FA6003C */  lw      $a2, 0x003C($sp)           
 .L80913FE8:
@@ -112,12 +112,12 @@ glabel BossGanondrof_Update
 /* 039D4 80914014 2B210002 */  slti    $at, $t9, 0x0002           
 /* 039D8 80914018 14200009 */  bne     $at, $zero, .L80914040     
 /* 039DC 8091401C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 039E0 80914020 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 039E0 80914020 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 039E4 80914024 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 039E8 80914028 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 039EC 8091402C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 039F0 80914030 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 039F0 80914030 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 039F4 80914034 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 039F8 80914038 1000001A */  beq     $zero, $zero, .L809140A4   
@@ -128,7 +128,7 @@ glabel BossGanondrof_Update
 /* 03A08 80914048 3C0B8091 */  lui     $t3, %hi(func_80912594)    ## $t3 = 80910000
 /* 03A0C 8091404C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 03A10 80914050 02432821 */  addu    $a1, $s2, $v1              
-/* 03A14 80914054 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 03A14 80914054 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 03A18 80914058 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 03A1C 8091405C 10000011 */  beq     $zero, $zero, .L809140A4   
@@ -139,17 +139,17 @@ glabel BossGanondrof_Update
 /* 03A2C 8091406C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 03A30 80914070 02438021 */  addu    $s0, $s2, $v1              
 /* 03A34 80914074 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 03A38 80914078 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 03A38 80914078 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 03A3C 8091407C 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 03A40 80914080 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 03A44 80914084 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 03A48 80914088 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 03A48 80914088 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 03A4C 8091408C 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 03A50 80914090 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 03A54 80914094 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 03A58 80914098 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 03A58 80914098 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 03A5C 8091409C 8FA60040 */  lw      $a2, 0x0040($sp)           
 .L809140A0:

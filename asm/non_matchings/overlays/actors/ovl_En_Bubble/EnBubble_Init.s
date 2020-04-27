@@ -14,7 +14,7 @@ glabel EnBubble_Init
 /* 00CB8 809CC8B8 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00CBC 809CC8BC 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 00CC0 809CC8C0 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 00CC4 809CC8C4 0C016EFE */  jal     func_8005BBF8              
+/* 00CC4 809CC8C4 0C016EFE */  jal     Collider_InitJntSph              
 /* 00CC8 809CC8C8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00CCC 809CC8CC 3C07809D */  lui     $a3, %hi(D_809CCE78)       ## $a3 = 809D0000
 /* 00CD0 809CC8D0 260E0170 */  addiu   $t6, $s0, 0x0170           ## $t6 = 00000170
@@ -22,9 +22,9 @@ glabel EnBubble_Init
 /* 00CD8 809CC8D8 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 00CDC 809CC8DC 24E7CE78 */  addiu   $a3, $a3, %lo(D_809CCE78)  ## $a3 = 809CCE78
 /* 00CE0 809CC8E0 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00CE4 809CC8E4 0C017014 */  jal     func_8005C050              
+/* 00CE4 809CC8E4 0C017014 */  jal     Collider_SetJntSph              
 /* 00CE8 809CC8E8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00CEC 809CC8EC 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 00CEC 809CC8EC 0C016C80 */  jal     DamageTable_Get
               
 /* 00CF0 809CC8F0 24040009 */  addiu   $a0, $zero, 0x0009         ## $a0 = 00000009
 /* 00CF4 809CC8F4 3C06809D */  lui     $a2, %hi(D_809CCE88)       ## $a2 = 809D0000

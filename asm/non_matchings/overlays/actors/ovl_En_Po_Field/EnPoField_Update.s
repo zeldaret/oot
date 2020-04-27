@@ -54,7 +54,7 @@ glabel EnPoField_Update
 /* 02A64 80AD6564 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02A68 80AD6568 26050244 */  addiu   $a1, $s0, 0x0244           ## $a1 = 00000244
 /* 02A6C 80AD656C AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 02A70 80AD6570 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 02A70 80AD6570 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 02A74 80AD6574 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02A78 80AD6578 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -62,7 +62,7 @@ glabel EnPoField_Update
 /* 02A80 80AD6580 02212821 */  addu    $a1, $s1, $at              
 /* 02A84 80AD6584 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 02A88 80AD6588 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 02A8C 80AD658C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02A8C 80AD658C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02A90 80AD6590 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 02A94 80AD6594 920A0255 */  lbu     $t2, 0x0255($s0)           ## 00000255
@@ -71,7 +71,7 @@ glabel EnPoField_Update
 /* 02AA0 80AD65A0 314B0001 */  andi    $t3, $t2, 0x0001           ## $t3 = 00000000
 /* 02AA4 80AD65A4 51600004 */  beql    $t3, $zero, .L80AD65B8     
 /* 02AA8 80AD65A8 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 02AAC 80AD65AC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 02AAC 80AD65AC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 02AB0 80AD65B0 8FA60028 */  lw      $a2, 0x0028($sp)           
 .L80AD65B4:

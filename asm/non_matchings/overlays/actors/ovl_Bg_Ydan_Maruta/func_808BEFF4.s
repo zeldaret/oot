@@ -23,7 +23,7 @@ glabel func_808BEFF4
 /* 00304 808BF044 A61900B4 */  sh      $t9, 0x00B4($s0)           ## 000000B4
 /* 00308 808BF048 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 0030C 808BF04C 2606016C */  addiu   $a2, $s0, 0x016C           ## $a2 = 0000016C
-/* 00310 808BF050 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00310 808BF050 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00314 808BF054 00812821 */  addu    $a1, $a0, $at              
 /* 00318 808BF058 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

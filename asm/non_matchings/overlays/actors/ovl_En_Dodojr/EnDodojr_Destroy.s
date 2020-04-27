@@ -3,7 +3,7 @@ glabel EnDodojr_Destroy
 /* 000EC 809F64AC 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 000F0 809F64B0 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 000F4 809F64B4 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 000F8 809F64B8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 000F8 809F64B8 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 000FC 809F64BC 24C50194 */  addiu   $a1, $a2, 0x0194           ## $a1 = 00000194
 /* 00100 809F64C0 8FBF0014 */  lw      $ra, 0x0014($sp)           

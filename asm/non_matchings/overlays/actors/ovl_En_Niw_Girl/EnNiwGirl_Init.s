@@ -53,14 +53,14 @@ glabel EnNiwGirl_Init
 /* 00044 80AB8FC4 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 00048 80AB8FC8 26050288 */  addiu   $a1, $s0, 0x0288           ## $a1 = 00000288
 /* 0004C 80AB8FCC AFA50040 */  sw      $a1, 0x0040($sp)
-/* 00050 80AB8FD0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00050 80AB8FD0 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00054 80AB8FD4 8FA4006C */  lw      $a0, 0x006C($sp)
 /* 00058 80AB8FD8 3C0780AC */  lui     $a3, %hi(D_80AB99A0)       ## $a3 = 80AC0000
 /* 0005C 80AB8FDC 8FA50040 */  lw      $a1, 0x0040($sp)
 /* 00060 80AB8FE0 24E799A0 */  addiu   $a3, $a3, %lo(D_80AB99A0)  ## $a3 = 80AB99A0
 /* 00064 80AB8FE4 8FA4006C */  lw      $a0, 0x006C($sp)
-/* 00068 80AB8FE8 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00068 80AB8FE8 0C01712B */  jal     Collider_SetCylinder
 
 /* 0006C 80AB8FEC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00070 80AB8FF0 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C

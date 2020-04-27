@@ -52,14 +52,14 @@ glabel func_80B4AF18
 .L80B4AFD4:
 /* 00494 80B4AFD4 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 00498 80B4AFD8 AFA60034 */  sw      $a2, 0x0034($sp)           
-/* 0049C 80B4AFDC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0049C 80B4AFDC 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 004A0 80B4AFE0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 004A4 80B4AFE4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 004A8 80B4AFE8 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 004AC 80B4AFEC 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 004B0 80B4AFF0 02212821 */  addu    $a1, $s1, $at              
-/* 004B4 80B4AFF4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 004B4 80B4AFF4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 004B8 80B4AFF8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 004BC 80B4AFFC 8FBF002C */  lw      $ra, 0x002C($sp)           

@@ -22,7 +22,7 @@ glabel func_8086EAC0
 /* 00338 8086EB08 11000008 */  beq     $t0, $zero, .L8086EB2C     
 /* 0033C 8086EB0C 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00340 8086EB10 24E50164 */  addiu   $a1, $a3, 0x0164           ## $a1 = 00000164
-/* 00344 8086EB14 0C017232 */  jal     func_8005C8C8              
+/* 00344 8086EB14 0C017232 */  jal     Collider_DestroyTris              
 /* 00348 8086EB18 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 0034C 8086EB1C 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 00350 8086EB20 90E902A2 */  lbu     $t1, 0x02A2($a3)           ## 000002A2

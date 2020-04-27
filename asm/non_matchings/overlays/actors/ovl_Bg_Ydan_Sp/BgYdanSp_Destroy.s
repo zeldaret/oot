@@ -12,7 +12,7 @@ glabel BgYdanSp_Destroy
 /* 00408 808BF818 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 0040C 808BF81C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00410 808BF820 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00414 808BF824 0C017232 */  jal     func_8005C8C8              
+/* 00414 808BF824 0C017232 */  jal     Collider_DestroyTris              
 /* 00418 808BF828 24A50170 */  addiu   $a1, $a1, 0x0170           ## $a1 = 00000170
 /* 0041C 808BF82C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00420 808BF830 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

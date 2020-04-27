@@ -302,9 +302,7 @@ beginseg
     include "build/data/z_camera.data.o"
     include "build/data/z_camera.bss.o"
     include "build/src/code/z_collision_btltbls.o"
-    include "build/data/z_collision_btltbls.data.o"
     include "build/src/code/z_collision_check.o"
-    include "build/data/z_collision_check.data.o"
     include "build/data/z_collision_check.bss.o"
     include "build/src/code/z_common_data.o"
     include "build/data/z_common_data.bss.o"
@@ -2918,8 +2916,7 @@ endseg
 beginseg
     name "ovl_En_Ma1"
     include "build/src/overlays/actors/ovl_En_Ma1/z_en_ma1.o"
-    include "build/data/overlays/actors/z_en_ma1.data.o"
-    include "build/data/overlays/actors/z_en_ma1.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ma1/z_en_ma1_reloc.o"
 endseg
 
 beginseg

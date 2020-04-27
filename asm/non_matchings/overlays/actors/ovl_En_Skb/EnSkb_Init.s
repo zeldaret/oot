@@ -60,7 +60,7 @@ glabel EnSkb_Init
 /* 00274 80AFCC14 A20C0117 */  sb      $t4, 0x0117($s0)           ## 00000117
 /* 00278 80AFCC18 260502A4 */  addiu   $a1, $s0, 0x02A4           ## $a1 = 000002A4
 /* 0027C 80AFCC1C AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00280 80AFCC20 0C016EFE */  jal     func_8005BBF8              
+/* 00280 80AFCC20 0C016EFE */  jal     Collider_InitJntSph              
 /* 00284 80AFCC24 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00288 80AFCC28 3C0780B0 */  lui     $a3, %hi(D_80AFE068)       ## $a3 = 80B00000
 /* 0028C 80AFCC2C 260D02C4 */  addiu   $t5, $s0, 0x02C4           ## $t5 = 000002C4
@@ -68,7 +68,7 @@ glabel EnSkb_Init
 /* 00294 80AFCC34 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 00298 80AFCC38 24E7E068 */  addiu   $a3, $a3, %lo(D_80AFE068)  ## $a3 = 80AFE068
 /* 0029C 80AFCC3C 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 002A0 80AFCC40 0C017014 */  jal     func_8005C050              
+/* 002A0 80AFCC40 0C017014 */  jal     Collider_SetJntSph              
 /* 002A4 80AFCC44 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 002A8 80AFCC48 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
 /* 002AC 80AFCC4C 3C0180B0 */  lui     $at, %hi(D_80AFE108)       ## $at = 80B00000

@@ -11,7 +11,7 @@ glabel ObjHana_Destroy
 /* 0011C 80B9397C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00120 80B93980 07220004 */  bltzl   $t9, .L80B93994            
 /* 00124 80B93984 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00128 80B93988 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00128 80B93988 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0012C 80B9398C 24C5014C */  addiu   $a1, $a2, 0x014C           ## $a1 = 0000014C
 /* 00130 80B93990 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -47,7 +47,7 @@ glabel func_80A310C4
 /* 007F8 80A31168 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 007FC 80A3116C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00800 80A31170 24E6014C */  addiu   $a2, $a3, 0x014C           ## $a2 = 0000014C
-/* 00804 80A31174 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00804 80A31174 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00808 80A31178 00812821 */  addu    $a1, $a0, $at              
 /* 0080C 80A3117C 8FBF0014 */  lw      $ra, 0x0014($sp)           

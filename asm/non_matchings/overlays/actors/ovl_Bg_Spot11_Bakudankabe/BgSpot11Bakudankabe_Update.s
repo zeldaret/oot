@@ -34,7 +34,7 @@ glabel BgSpot11Bakudankabe_Update
 /* 0050C 808B268C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00001E60
 /* 00510 808B2690 02012821 */  addu    $a1, $s0, $at              
 /* 00514 808B2694 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00518 808B2698 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00518 808B2698 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 0051C 808B269C 26260164 */  addiu   $a2, $s1, 0x0164           ## $a2 = 00000164
 /* 00520 808B26A0 8FBF001C */  lw      $ra, 0x001C($sp)           
