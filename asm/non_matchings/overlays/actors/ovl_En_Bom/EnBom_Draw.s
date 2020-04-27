@@ -71,7 +71,7 @@ glabel EnBom_Draw
 /* 00C14 809C32E4 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 00C18 809C32E8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00C1C 809C32EC AC4D0004 */  sw      $t5, 0x0004($v0)           ## 00000004
-/* 00C20 809C32F0 0C034421 */  jal     Matrix_RotateZYX
+/* 00C20 809C32F0 0C034421 */  jal     Matrix_RotateRPY
 /* 00C24 809C32F4 AC4C0000 */  sw      $t4, 0x0000($v0)           ## 00000000
 /* 00C28 809C32F8 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 00C2C 809C32FC 3C0FDA38 */  lui     $t7, 0xDA38                ## $t7 = DA380000

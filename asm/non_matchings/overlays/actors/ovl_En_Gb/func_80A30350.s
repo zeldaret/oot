@@ -136,7 +136,7 @@ glabel func_80A30350
 /* 013E4 80A30564 24058000 */  addiu   $a1, $zero, 0x8000         ## $a1 = FFFF8000
 /* 013E8 80A30568 11C00003 */  beq     $t6, $zero, .L80A30578
 /* 013EC 80A3056C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 013F0 80A30570 0C034421 */  jal     Matrix_RotateZYX
+/* 013F0 80A30570 0C034421 */  jal     Matrix_RotateRPY
 /* 013F4 80A30574 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 .L80A30578:
 /* 013F8 80A30578 4406B000 */  mfc1    $a2, $f22

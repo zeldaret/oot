@@ -236,7 +236,7 @@ glabel EnVm_Draw
 /* 014D0 80B2E930 86240254 */  lh      $a0, 0x0254($s1)           ## 00000254
 /* 014D4 80B2E934 86250256 */  lh      $a1, 0x0256($s1)           ## 00000256
 /* 014D8 80B2E938 86260258 */  lh      $a2, 0x0258($s1)           ## 00000258
-/* 014DC 80B2E93C 0C034421 */  jal     Matrix_RotateZYX
+/* 014DC 80B2E93C 0C034421 */  jal     Matrix_RotateRPY
 /* 014E0 80B2E940 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 014E4 80B2E944 3C0180B3 */  lui     $at, %hi(D_80B2EC38)       ## $at = 80B30000
 /* 014E8 80B2E948 C42AEC38 */  lwc1    $f10, %lo(D_80B2EC38)($at)

@@ -301,7 +301,7 @@ void Matrix_RotateZ(f32 z, u8 mode) {
  * by `x` degrees. (roll-pitch-yaw)
  * Original Name: Matrix_RotateXYZ, changed to reflect rotation order.
  */
-void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
+void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
     MtxF* cmf = sCurrentMatrix;
     f32 temp1;
     f32 temp2;
@@ -389,7 +389,7 @@ void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
 /*
  * Roll-pitch-yaw rotation and position
  */
-void Matrix_RotateRPYf(Vec3f* position, Vec3s* rotation) {
+void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
     MtxF* cmf = sCurrentMatrix;
     f32 sin;
     f32 cos;

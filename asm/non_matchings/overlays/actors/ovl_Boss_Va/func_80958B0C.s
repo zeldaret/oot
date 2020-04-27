@@ -156,7 +156,7 @@ glabel func_80958B0C
 /* 09AA4 80958D64 87A4003E */  lh      $a0, 0x003E($sp)
 /* 09AA8 80958D68 87A5003C */  lh      $a1, 0x003C($sp)
 /* 09AAC 80958D6C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 09AB0 80958D70 0C034421 */  jal     Matrix_RotateZYX
+/* 09AB0 80958D70 0C034421 */  jal     Matrix_RotateRPY
 /* 09AB4 80958D74 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 09AB8 80958D78 3C0D8096 */  lui     $t5, %hi(D_809668D1)       ## $t5 = 80960000
 /* 09ABC 80958D7C 91AD68D1 */  lbu     $t5, %lo(D_809668D1)($t5)
