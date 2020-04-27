@@ -13,8 +13,8 @@ void EnMa1_Destroy(EnMa1* this, GlobalContext* globalCtx);
 void EnMa1_Update(EnMa1* this, GlobalContext* globalCtx);
 void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx);
 
-u16 EnMa1_GetText(GlobalContext* globalCtx, EnMa1* this);
-s16 func_80AA0778(GlobalContext* globalCtx, EnMa1* this);
+u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* this);
+s16 func_80AA0778(GlobalContext* globalCtx, Actor* this);
 
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx);
 void func_80AA0EA0(EnMa1* this, GlobalContext* globalCtx);
@@ -72,7 +72,7 @@ extern AnimationHeader D_06000820;
 extern SkeletonHeader D_06008460;
 extern AnimationHeader D_06008D64;
 
-u16 EnMa1_GetText(GlobalContext* globalCtx, EnMa1* this) {
+u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* this) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 0x17);
     if (faceReaction != 0) {
         return faceReaction;
@@ -106,11 +106,11 @@ u16 EnMa1_GetText(GlobalContext* globalCtx, EnMa1* this) {
     return 0x2041;
 }
 
-s16 func_80AA0778(GlobalContext* globalCtx, EnMa1* this) {
+s16 func_80AA0778(GlobalContext* globalCtx, Actor* this) {
     s16 ret = 1;
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 2:
-            switch (this->actor.textId - 0x2041) {
+            switch (this->textId - 0x2041) {
                 case 0:
                     gSaveContext.infTable[8] |= 0x10;
                     gSaveContext.eventChkInf[1] |= 1;
@@ -231,12 +231,12 @@ void func_80AA0B74(EnMa1* this) {
         if (this->unk_1E8.unk_00 == 0) {
             if (this->unk_1E0 != 0) {
                 this->unk_1E0 = 0;
-                func_800F6584(0, this);
+                func_800F6584(0);
             }
         } else {
             if (this->unk_1E0 == 0) {
                 this->unk_1E0 = 1;
-                func_800F6584(1, this);
+                func_800F6584(1);
             }
         }
     }
@@ -393,8 +393,8 @@ void EnMa1_Update(EnMa1* this, GlobalContext* globalCtx) {
     func_80AA0AF4(this, globalCtx);
 }
 
-s32 func_80AA12BC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnMa1* this) {
-    s16 pad[2];
+s32 EnMa1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* this) {
+    EnMa1* thisx = (EnMa1*)this;
     Vec3s tempVec;
 
     if ((limbIndex == 2) || (limbIndex == 5)) {
@@ -402,20 +402,20 @@ s32 func_80AA12BC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     }
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        tempVec = this->unk_1E8.unk_08;
+        tempVec = thisx->unk_1E8.unk_08;
         Matrix_RotateX(((f32)tempVec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ(((f32)tempVec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
-        tempVec = this->unk_1E8.unk_0E;
+        tempVec = thisx->unk_1E8.unk_0E;
         Matrix_RotateX(((f32)(0 - tempVec.y) / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ(((f32)(0 - tempVec.x) / 32768.0f) * M_PI, MTXMODE_APPLY);
     }
     return 0;
 }
 
-void func_80AA1448(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+void EnMa1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
     s32 pad;
     Vec3f vec = D_80AA16B8;
 
@@ -440,6 +440,6 @@ void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA16D0[this->unk_1E4]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     func_80AA12BC, func_80AA1448, &this->actor);
+                     EnMa1_OverrideLimbDraw, EnMa1_PostLimbDraw, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma1.c", 1261);
 }
