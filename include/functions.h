@@ -459,7 +459,6 @@ void func_80038A28(CollisionPoly*, f32, f32, f32, MtxF*);
 // ? func_80039A3C(?);
 // ? func_80039AEC(?);
 // ? func_8003A3E0(?);
-
 // ? func_8003A5B8(?);
 // ? func_8003A7D8(?);
 // ? func_8003A95C(?);
