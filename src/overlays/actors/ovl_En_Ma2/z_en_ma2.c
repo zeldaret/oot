@@ -31,21 +31,47 @@ const ActorInit En_Ma2_InitVars = {
     (ActorFunc)EnMa2_Draw,
 };
 
-static ColliderCylinderInit cylinderInit =
-    {
-        { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-        { 18, 46, 0, { 0, 0, 0 } },
-    };
+static ColliderCylinderInit cylinderInit = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 18, 46, 0, { 0, 0, 0 } },
+};
 
-CollisionCheckInfoInit2 D_80AA284C = { 0x00, 0x0000, 0x0000, 0x0000, 0xFF, };
+CollisionCheckInfoInit2 D_80AA284C = {
+    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
+};
 
 struct_D_80AA1678 D_80AA2858[] = {
-    { 0x060007D4, 1.0f, 0x00, 0.0f, },
-    { 0x060007D4, 1.0f, 0x00, -10.0f, },
-    { 0x060093BC, 1.0f, 0x00, 0.0f, },
-    { 0x06009EE0, 1.0f, 0x00, 0.0f, },
-    { 0x06009EE0, 1.0f, 0x00, -10.0f, },
+    {
+        0x060007D4,
+        1.0f,
+        0x00,
+        0.0f,
+    },
+    {
+        0x060007D4,
+        1.0f,
+        0x00,
+        -10.0f,
+    },
+    {
+        0x060093BC,
+        1.0f,
+        0x00,
+        0.0f,
+    },
+    {
+        0x06009EE0,
+        1.0f,
+        0x00,
+        0.0f,
+    },
+    {
+        0x06009EE0,
+        1.0f,
+        0x00,
+        -10.0f,
+    },
 };
 
 Vec3f D_80AA28A8 = { 900.0f, 0.0f, 0.0f };
@@ -138,10 +164,12 @@ u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
     if (gSaveContext.linkAge == 1) {
         return 0;
     }
-    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == 0x36) && (gSaveContext.nightFlag == 0) && (this->actor.shape.rot.z == 5)) {
+    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == 0x36) && (gSaveContext.nightFlag == 0) &&
+        (this->actor.shape.rot.z == 5)) {
         return 1;
     }
-    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == 0x63) && (gSaveContext.nightFlag == 1) && (this->actor.shape.rot.z == 6)) {
+    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == 0x63) && (gSaveContext.nightFlag == 1) &&
+        (this->actor.shape.rot.z == 6)) {
         return 2;
     }
     if ((!(gSaveContext.eventChkInf[1] & 0x100)) || (globalCtx->sceneNum != 0x63)) {
@@ -181,7 +209,7 @@ void func_80AA1CC0(EnMa2* this) {
     }
 }
 
-void func_80AA1D44(EnMa2 *this, s32 idx) {
+void func_80AA1D44(EnMa2* this, s32 idx) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_80AA2858[idx].animation->genericHeader);
 
     SkelAnime_ChangeAnim(&this->skelAnime, D_80AA2858[idx].animation, 1.0f, 0.0f, frameCount, D_80AA2858[idx].unk_08,
@@ -204,7 +232,7 @@ void func_80AA1DB4(EnMa2* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnMa2_Init(EnMa2 *this, GlobalContext *globalCtx) {
+void EnMa2_Init(EnMa2* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
     s32 pad;
 
@@ -248,14 +276,14 @@ void EnMa2_Destroy(EnMa2* this, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void func_80AA2018(EnMa2 *this, GlobalContext *globalCtx) {
+void func_80AA2018(EnMa2* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
         this->actor.flags &= ~0x10000;
         this->unk_1E0.unk_00 = 0;
     }
 }
 
-void func_80AA204C(EnMa2 *this, GlobalContext *globalCtx) {
+void func_80AA204C(EnMa2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (player->stateFlags2 & 0x1000000) {
@@ -268,7 +296,7 @@ void func_80AA204C(EnMa2 *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80AA20E4(EnMa2 *this, GlobalContext *globalCtx) {
+void func_80AA20E4(EnMa2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (globalCtx->msgCtx.unk_E3EE >= 4) {
@@ -285,7 +313,7 @@ void func_80AA20E4(EnMa2 *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80AA21C8(EnMa2 *this, GlobalContext *globalCtx) {
+void func_80AA21C8(EnMa2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (DECR(this->unk_208)) {
@@ -313,8 +341,8 @@ void EnMa2_Update(EnMa2* this, GlobalContext* globalCtx) {
     func_80AA1DB4(this, globalCtx);
     func_80AA1AE4(this, globalCtx);
     if (this->actionFunc != (ActorFunc)func_80AA20E4) {
-        func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.dim.radius + 30.0f, func_80AA19A0,
-                      func_80AA1A38);
+        func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.dim.radius + 30.0f,
+                      func_80AA19A0, func_80AA1A38);
     }
 }
 
@@ -344,7 +372,7 @@ s32 func_80AA2354(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_80AA2590(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *rot, Actor* this) {
+void func_80AA2590(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* this) {
     EnMa2* thisx = (EnMa2*)this;
     Vec3f vec = D_80AA28A8;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
