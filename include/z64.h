@@ -481,8 +481,8 @@ typedef struct {
 } StaticCollisionContext; // size = 0x50
 
 typedef struct {
-    /* 0x0000 */ char   unk_00[0x04];
-    /* 0x0004 */ ActorMesh actorMeshArr[50];
+    /* 0x0000 */ ActorMesh actorMeshArr[50];
+    /* 0x1388 */ char   unk_1388[0x04];
     /* 0x138C */ u16    flags[50];
     /* 0x13F0 */ char   unk_13F0[0x24];
 } DynaCollisionContext; // size = 0x1414

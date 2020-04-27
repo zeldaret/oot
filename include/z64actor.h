@@ -174,15 +174,17 @@ typedef struct Actor {
 } Actor; // size = 0x14C
 
 typedef struct {
-    /* 0x00 */ Actor* actor;
-    /* 0x04 */ char unk_04[0x10];
-    /* 0x14 */ Vec3f scale1;
-    /* 0x20 */ Vec3s rot1;
-    /* 0x28 */ Vec3f pos1;
-    /* 0x34 */ Vec3f scale2;
-    /* 0x40 */ Vec3s rot2;
-    /* 0x48 */ Vec3f pos2;
-    /* 0x54 */ char unk_54[0x10];
+    /* 0x00 */ char unk_00[0x04];
+    /* 0x04 */ Actor* actor;
+    /* 0x08 */ void* unk_08; // Struct800417A0*
+    /* 0x0C */ char  unk_0C[0x0C];
+    /* 0x18 */ Vec3f scale1;
+    /* 0x24 */ Vec3s rot1;
+    /* 0x2C */ Vec3f pos1;
+    /* 0x38 */ Vec3f scale2;
+    /* 0x44 */ Vec3s rot2;
+    /* 0x4C */ Vec3f pos2;
+    /* 0x58 */ char  unk_58[0x0C];
 } ActorMesh; // size = 0x64
 
 typedef struct {
