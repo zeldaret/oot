@@ -17,14 +17,14 @@ glabel EnIn_Update
 /* 02198 80A7B148 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 0219C 80A7B14C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 021A0 80A7B150 AFA60030 */  sw      $a2, 0x0030($sp)           
-/* 021A4 80A7B154 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 021A4 80A7B154 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 021A8 80A7B158 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 021AC 80A7B15C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 021B0 80A7B160 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 021B4 80A7B164 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 021B8 80A7B168 02212821 */  addu    $a1, $s1, $at              
-/* 021BC 80A7B16C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 021BC 80A7B16C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 021C0 80A7B170 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 021C4 80A7B174 3C0F80A8 */  lui     $t7, %hi(func_80A7A304)    ## $t7 = 80A80000

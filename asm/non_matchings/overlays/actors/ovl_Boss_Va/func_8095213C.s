@@ -427,7 +427,7 @@ glabel func_8095213C
 /* 03434 809526F4 2670028C */  addiu   $s0, $s3, 0x028C           ## $s0 = 0000028C
 .L809526F8:
 /* 03438 809526F8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000028C
-/* 0343C 809526FC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0343C 809526FC 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 03440 80952700 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 03444 80952704 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -435,12 +435,12 @@ glabel func_8095213C
 /* 0344C 8095270C 02818821 */  addu    $s1, $s4, $at              
 /* 03450 80952710 02202825 */  or      $a1, $s1, $zero            ## $a1 = 8095C1D0
 /* 03454 80952714 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 03458 80952718 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 03458 80952718 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0345C 8095271C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 0000028C
 /* 03460 80952720 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 03464 80952724 02202825 */  or      $a1, $s1, $zero            ## $a1 = 8095C1D0
-/* 03468 80952728 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 03468 80952728 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 0346C 8095272C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 0000028C
 /* 03470 80952730 8E680198 */  lw      $t0, 0x0198($s3)           ## 00000198
@@ -448,7 +448,7 @@ glabel func_8095213C
 /* 03478 80952738 02202825 */  or      $a1, $s1, $zero            ## $a1 = 8095C1D0
 /* 0347C 8095273C 55000004 */  bnel    $t0, $zero, .L80952750     
 /* 03480 80952740 866901F8 */  lh      $t1, 0x01F8($s3)           ## 000001F8
-/* 03484 80952744 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 03484 80952744 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 03488 80952748 02003025 */  or      $a2, $s0, $zero            ## $a2 = 0000028C
 /* 0348C 8095274C 866901F8 */  lh      $t1, 0x01F8($s3)           ## 000001F8

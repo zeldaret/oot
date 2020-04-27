@@ -44,14 +44,14 @@ glabel EnHeishi3_Update
 /* 00808 80A55E48 2606027C */  addiu   $a2, $s0, 0x027C           ## $a2 = 0000027C
 /* 0080C 80A55E4C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000027C
 /* 00810 80A55E50 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 00814 80A55E54 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00814 80A55E54 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00818 80A55E58 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0081C 80A55E5C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00820 80A55E60 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00824 80A55E64 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00828 80A55E68 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0082C 80A55E6C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0082C 80A55E6C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00830 80A55E70 00812821 */  addu    $a1, $a0, $at              
 /* 00834 80A55E74 8FBF0024 */  lw      $ra, 0x0024($sp)           

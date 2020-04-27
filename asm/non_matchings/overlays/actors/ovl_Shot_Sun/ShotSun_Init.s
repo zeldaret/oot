@@ -39,14 +39,14 @@ glabel ShotSun_Init
 /* 00074 80BADD34 AE0A0004 */  sw      $t2, 0x0004($s0)           ## 00000004
 .L80BADD38:
 /* 00078 80BADD38 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 0007C 80BADD3C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0007C 80BADD3C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00080 80BADD40 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00084 80BADD44 3C0780BB */  lui     $a3, %hi(D_80BAE2F0)       ## $a3 = 80BB0000
 /* 00088 80BADD48 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 0008C 80BADD4C 24E7E2F0 */  addiu   $a3, $a3, %lo(D_80BAE2F0)  ## $a3 = 80BAE2F0
 /* 00090 80BADD50 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 00094 80BADD54 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00094 80BADD54 0C01712B */  jal     Collider_SetCylinder
               
 /* 00098 80BADD58 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0009C 80BADD5C 8E0C0004 */  lw      $t4, 0x0004($s0)           ## 00000004

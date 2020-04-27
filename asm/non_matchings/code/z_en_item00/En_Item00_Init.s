@@ -154,13 +154,13 @@ glabel En_Item00_Init
 /* A94B5C 8001D9BC E7A20034 */   swc1  $f2, 0x34($sp)
 /* A94B60 8001D9C0 26050160 */  addiu $a1, $s0, 0x160
 /* A94B64 8001D9C4 AFA50020 */  sw    $a1, 0x20($sp)
-/* A94B68 8001D9C8 0C0170D9 */  jal   ActorCollider_AllocCylinder
+/* A94B68 8001D9C8 0C0170D9 */  jal   Collider_InitCylinder
 /* A94B6C 8001D9CC 8FA40044 */   lw    $a0, 0x44($sp)
 /* A94B70 8001D9D0 3C078011 */  lui   $a3, %hi(D_801154E0) # $a3, 0x8011
 /* A94B74 8001D9D4 8FA50020 */  lw    $a1, 0x20($sp)
 /* A94B78 8001D9D8 24E754E0 */  addiu $a3, %lo(D_801154E0) # addiu $a3, $a3, 0x54e0
 /* A94B7C 8001D9DC 8FA40044 */  lw    $a0, 0x44($sp)
-/* A94B80 8001D9E0 0C01712B */  jal   ActorCollider_InitCylinder
+/* A94B80 8001D9E0 0C01712B */  jal   Collider_SetCylinder
 /* A94B84 8001D9E4 02003025 */   move  $a2, $s0
 /* A94B88 8001D9E8 9609001C */  lhu   $t1, 0x1c($s0)
 /* A94B8C 8001D9EC C7A20034 */  lwc1  $f2, 0x34($sp)

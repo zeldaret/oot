@@ -7,7 +7,7 @@ glabel EnMa2_Destroy
 /* 00654 80AA1FF4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00658 80AA1FF8 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 0065C 80AA1FFC 8FA4001C */  lw      $a0, 0x001C($sp)
-/* 00660 80AA2000 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00660 80AA2000 0C0170EB */  jal     Collider_DestroyCylinder
 
 /* 00664 80AA2004 24A50194 */  addiu   $a1, $a1, 0x0194           ## $a1 = 00000194
 /* 00668 80AA2008 8FBF0014 */  lw      $ra, 0x0014($sp)

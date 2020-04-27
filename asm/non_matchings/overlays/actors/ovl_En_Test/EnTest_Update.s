@@ -207,7 +207,7 @@ glabel L808638F4
 /* 04300 80863950 26050810 */  addiu   $a1, $s0, 0x0810           ## $a1 = 00000810
 .L80863954:
 /* 04304 80863954 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 04308 80863958 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 04308 80863958 0C0189B7 */  jal     Collider_CylinderUpdate
 
 /* 0430C 8086395C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 04310 80863960 8E080028 */  lw      $t0, 0x0028($s0)           ## 00000028
@@ -231,7 +231,7 @@ glabel L808638F4
 /* 04354 808639A4 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 04358 808639A8 00812821 */  addu    $a1, $a0, $at
 /* 0435C 808639AC AFA50038 */  sw      $a1, 0x0038($sp)
-/* 04360 808639B0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 04360 808639B0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 04364 808639B4 8FA60034 */  lw      $a2, 0x0034($sp)
 /* 04368 808639B8 920C07C8 */  lbu     $t4, 0x07C8($s0)           ## 000007C8
@@ -248,7 +248,7 @@ glabel L808638F4
 /* 04394 808639E4 55E00004 */  bnel    $t7, $zero, .L808639F8
 /* 04398 808639E8 921807DE */  lbu     $t8, 0x07DE($s0)           ## 000007DE
 .L808639EC:
-/* 0439C 808639EC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0439C 808639EC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 043A0 808639F0 8FA60034 */  lw      $a2, 0x0034($sp)
 /* 043A4 808639F4 921807DE */  lbu     $t8, 0x07DE($s0)           ## 000007DE
@@ -257,7 +257,7 @@ glabel L808638F4
 /* 043AC 808639FC 8FA50038 */  lw      $a1, 0x0038($sp)
 /* 043B0 80863A00 53000004 */  beql    $t8, $zero, .L80863A14
 /* 043B4 80863A04 82190808 */  lb      $t9, 0x0808($s0)           ## 00000808
-/* 043B8 80863A08 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 043B8 80863A08 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 043BC 80863A0C 260608DC */  addiu   $a2, $s0, 0x08DC           ## $a2 = 000008DC
 .L80863A10:
@@ -274,7 +274,7 @@ glabel L808638F4
 /* 043E4 80863A34 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 043E8 80863A38 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 043EC 80863A3C 2606085C */  addiu   $a2, $s0, 0x085C           ## $a2 = 0000085C
-/* 043F0 80863A40 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 043F0 80863A40 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 043F4 80863A44 00812821 */  addu    $a1, $a0, $at
 /* 043F8 80863A48 10000004 */  beq     $zero, $zero, .L80863A5C

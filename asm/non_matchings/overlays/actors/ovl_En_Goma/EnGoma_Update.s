@@ -142,12 +142,12 @@ glabel EnGoma_Update
 /* 01D8C 80A4AC4C 2605030C */  addiu   $a1, $s0, 0x030C           ## $a1 = 0000030C
 /* 01D90 80A4AC50 55000017 */  bnel    $t0, $zero, .L80A4ACB0     
 /* 01D94 80A4AC54 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 01D98 80A4AC58 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 01D98 80A4AC58 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 01D9C 80A4AC5C AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 01DA0 80A4AC60 26050358 */  addiu   $a1, $s0, 0x0358           ## $a1 = 00000358
 /* 01DA4 80A4AC64 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 01DA8 80A4AC68 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 01DA8 80A4AC68 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 01DAC 80A4AC6C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01DB0 80A4AC70 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -155,17 +155,17 @@ glabel EnGoma_Update
 /* 01DB8 80A4AC78 02212821 */  addu    $a1, $s1, $at              
 /* 01DBC 80A4AC7C AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 01DC0 80A4AC80 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01DC4 80A4AC84 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01DC4 80A4AC84 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01DC8 80A4AC88 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01DCC 80A4AC8C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01DD0 80A4AC90 8FA50030 */  lw      $a1, 0x0030($sp)           
-/* 01DD4 80A4AC94 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01DD4 80A4AC94 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01DD8 80A4AC98 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01DDC 80A4AC9C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01DE0 80A4ACA0 8FA50030 */  lw      $a1, 0x0030($sp)           
-/* 01DE4 80A4ACA4 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 01DE4 80A4ACA4 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 01DE8 80A4ACA8 8FA6002C */  lw      $a2, 0x002C($sp)           
 .L80A4ACAC:

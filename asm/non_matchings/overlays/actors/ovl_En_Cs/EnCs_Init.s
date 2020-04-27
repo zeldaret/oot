@@ -35,14 +35,14 @@ glabel EnCs_Init
 /* 00198 809E1A48 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0019C 809E1A4C 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 001A0 809E1A50 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 001A4 809E1A54 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001A4 809E1A54 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 001A8 809E1A58 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 001AC 809E1A5C 3C07809E */  lui     $a3, %hi(D_809E28C0)       ## $a3 = 809E0000
 /* 001B0 809E1A60 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 001B4 809E1A64 24E728C0 */  addiu   $a3, $a3, %lo(D_809E28C0)  ## $a3 = 809E28C0
 /* 001B8 809E1A68 8FA4004C */  lw      $a0, 0x004C($sp)
-/* 001BC 809E1A6C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 001BC 809E1A6C 0C01712B */  jal     Collider_SetCylinder
 
 /* 001C0 809E1A70 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 001C4 809E1A74 3C05809E */  lui     $a1, %hi(D_809E28F8)       ## $a1 = 809E0000

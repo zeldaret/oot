@@ -96,7 +96,7 @@ glabel EnBomChu_Update
 /* 00F0C 809C673C 00000000 */  nop
 /* 00F10 809C6740 A5EE0034 */  sh      $t6, 0x0034($t7)           ## 00000034
 /* 00F14 809C6744 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 00F18 809C6748 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00F18 809C6748 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00F1C 809C674C AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 00F20 809C6750 8E18014C */  lw      $t8, 0x014C($s0)           ## 0000014C
@@ -105,7 +105,7 @@ glabel EnBomChu_Update
 /* 00F2C 809C675C 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 00F30 809C6760 13380003 */  beq     $t9, $t8, .L809C6770       
 /* 00F34 809C6764 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 00F38 809C6768 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00F38 809C6768 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00F3C 809C676C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L809C6770:

@@ -58,14 +58,14 @@ glabel BgJya1flift_Update
 /* 004F8 80893058 26060164 */  addiu   $a2, $s0, 0x0164           ## $a2 = 00000164
 /* 004FC 8089305C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000164
 /* 00500 80893060 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 00504 80893064 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00504 80893064 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00508 80893068 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0050C 8089306C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00510 80893070 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00514 80893074 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 00518 80893078 02212821 */  addu    $a1, $s1, $at              
-/* 0051C 8089307C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0051C 8089307C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00520 80893080 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00524 80893084 10000004 */  beq     $zero, $zero, .L80893098   

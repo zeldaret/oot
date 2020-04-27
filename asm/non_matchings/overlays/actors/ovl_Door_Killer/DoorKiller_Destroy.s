@@ -8,12 +8,12 @@ glabel DoorKiller_Destroy
 /* 0039C 80994FEC 31CF00FF */  andi    $t7, $t6, 0x00FF           ## $t7 = 00000000
 /* 003A0 80994FF0 15E00007 */  bne     $t7, $zero, .L80995010     
 /* 003A4 80994FF4 24C501C8 */  addiu   $a1, $a2, 0x01C8           ## $a1 = 000001C8
-/* 003A8 80994FF8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 003A8 80994FF8 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 003AC 80994FFC AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 003B0 80995000 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 003B4 80995004 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 003B8 80995008 0C016F32 */  jal     func_8005BCC8              
+/* 003B8 80995008 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 003BC 8099500C 24C50220 */  addiu   $a1, $a2, 0x0220           ## $a1 = 00000220
 .L80995010:
 /* 003C0 80995010 8FBF0014 */  lw      $ra, 0x0014($sp)           

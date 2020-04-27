@@ -42,7 +42,7 @@ glabel func_80A87C30
 /* 004C4 80A87CC4 A60802FA */  sh      $t0, 0x02FA($s0)           ## 000002FA
 /* 004C8 80A87CC8 02212821 */  addu    $a1, $s1, $at              
 /* 004CC 80A87CCC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 004D0 80A87CD0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 004D0 80A87CD0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 004D4 80A87CD4 260602B0 */  addiu   $a2, $s0, 0x02B0           ## $a2 = 000002B0
 /* 004D8 80A87CD8 8FBF001C */  lw      $ra, 0x001C($sp)           

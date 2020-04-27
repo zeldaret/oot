@@ -87,13 +87,13 @@ glabel EnYabusameMark_Init
 .L80B42ECC:
 /* 0010C 80B42ECC 8FA40034 */  lw      $a0, 0x0034($sp)           
 .L80B42ED0:
-/* 00110 80B42ED0 0C017406 */  jal     func_8005D018              
+/* 00110 80B42ED0 0C017406 */  jal     Collider_InitQuad              
 /* 00114 80B42ED4 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00118 80B42ED8 3C0780B4 */  lui     $a3, %hi(D_80B434F0)       ## $a3 = 80B40000
 /* 0011C 80B42EDC 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00120 80B42EE0 24E734F0 */  addiu   $a3, $a3, %lo(D_80B434F0)  ## $a3 = 80B434F0
 /* 00124 80B42EE4 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 00128 80B42EE8 0C017441 */  jal     func_8005D104              
+/* 00128 80B42EE8 0C017441 */  jal     Collider_SetQuad              
 /* 0012C 80B42EEC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00130 80B42EF0 8E0D0024 */  lw      $t5, 0x0024($s0)           ## 00000024
 /* 00134 80B42EF4 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004

@@ -95,12 +95,12 @@ glabel BossGoma_Update
 /* 04AD4 8091A4E4 260607BC */  addiu   $a2, $s0, 0x07BC           ## $a2 = 000007BC
 /* 04AD8 8091A4E8 00812821 */  addu    $a1, $a0, $at              
 /* 04ADC 8091A4EC AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 04AE0 8091A4F0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 04AE0 8091A4F0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 04AE4 8091A4F4 AFA60028 */  sw      $a2, 0x0028($sp)           
 /* 04AE8 8091A4F8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 04AEC 8091A4FC 8FA5002C */  lw      $a1, 0x002C($sp)           
-/* 04AF0 8091A500 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 04AF0 8091A500 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 04AF4 8091A504 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 04AF8 8091A508 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
@@ -119,7 +119,7 @@ glabel BossGoma_Update
 /* 04B2C 8091A53C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L8091A540:
 /* 04B30 8091A540 8FA5002C */  lw      $a1, 0x002C($sp)           
-/* 04B34 8091A544 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 04B34 8091A544 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 04B38 8091A548 8FA60028 */  lw      $a2, 0x0028($sp)           
 .L8091A54C:

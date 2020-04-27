@@ -4,7 +4,7 @@ glabel EnReeba_Destroy
 /* 00204 80AE4ED4 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00208 80AE4ED8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0020C 80AE4EDC 24C50290 */  addiu   $a1, $a2, 0x0290           ## $a1 = 00000290
-/* 00210 80AE4EE0 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00210 80AE4EE0 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00214 80AE4EE4 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 00218 80AE4EE8 8FA60018 */  lw      $a2, 0x0018($sp)           

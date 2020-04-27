@@ -97,12 +97,12 @@ glabel BossFd_Update
 /* 04020 808CEDE0 26711490 */  addiu   $s1, $s3, 0x1490           ## $s1 = 00001490
 /* 04024 808CEDE4 00818021 */  addu    $s0, $a0, $at              
 /* 04028 808CEDE8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 0402C 808CEDEC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0402C 808CEDEC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 04030 808CEDF0 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00001490
 /* 04034 808CEDF4 8FA400DC */  lw      $a0, 0x00DC($sp)           
 /* 04038 808CEDF8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 0403C 808CEDFC 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 0403C 808CEDFC 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 04040 808CEE00 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00001490
 /* 04044 808CEE04 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000

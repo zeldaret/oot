@@ -25,25 +25,25 @@ glabel EnRr_Init
 /* 00034 80AE8474 A20F00AF */  sb      $t7, 0x00AF($s0)           ## 000000AF
 /* 00038 80AE8478 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 0003C 80AE847C AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 00040 80AE8480 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00040 80AE8480 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00044 80AE8484 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00048 80AE8488 3C0780AF */  lui     $a3, %hi(D_80AEA658)       ## $a3 = 80AF0000
 /* 0004C 80AE848C 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00050 80AE8490 24E7A658 */  addiu   $a3, $a3, %lo(D_80AEA658)  ## $a3 = 80AEA658
 /* 00054 80AE8494 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00058 80AE8498 0C017114 */  jal     func_8005C450              
+/* 00058 80AE8498 0C017114 */  jal     Collider_SetCylinder_Set3              
 /* 0005C 80AE849C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00060 80AE84A0 2605019C */  addiu   $a1, $s0, 0x019C           ## $a1 = 0000019C
 /* 00064 80AE84A4 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 00068 80AE84A8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00068 80AE84A8 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 0006C 80AE84AC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00070 80AE84B0 3C0780AF */  lui     $a3, %hi(D_80AEA684)       ## $a3 = 80AF0000
 /* 00074 80AE84B4 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00078 80AE84B8 24E7A684 */  addiu   $a3, $a3, %lo(D_80AEA684)  ## $a3 = 80AEA684
 /* 0007C 80AE84BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00080 80AE84C0 0C017114 */  jal     func_8005C450              
+/* 00080 80AE84C0 0C017114 */  jal     Collider_SetCylinder_Set3              
 /* 00084 80AE84C4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00088 80AE84C8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0008C 80AE84CC 0C00B56E */  jal     Actor_SetHeight

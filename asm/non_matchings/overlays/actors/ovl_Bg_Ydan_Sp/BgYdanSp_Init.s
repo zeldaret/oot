@@ -26,7 +26,7 @@ glabel BgYdanSp_Init
 /* 00058 808BF468 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 0005C 808BF46C 26050170 */  addiu   $a1, $s0, 0x0170           ## $a1 = 00000170
 /* 00060 808BF470 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00064 808BF474 0C0171F8 */  jal     func_8005C7E0              
+/* 00064 808BF474 0C0171F8 */  jal     Collider_InitTris              
 /* 00068 808BF478 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 0006C 808BF47C 3C07808C */  lui     $a3, %hi(D_808C09A8)       ## $a3 = 808C0000
 /* 00070 808BF480 260C0190 */  addiu   $t4, $s0, 0x0190           ## $t4 = 00000190
@@ -34,7 +34,7 @@ glabel BgYdanSp_Init
 /* 00078 808BF488 24E709A8 */  addiu   $a3, $a3, %lo(D_808C09A8)  ## $a3 = 808C09A8
 /* 0007C 808BF48C 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 00080 808BF490 8FA50030 */  lw      $a1, 0x0030($sp)           
-/* 00084 808BF494 0C0172EB */  jal     func_8005CBAC              
+/* 00084 808BF494 0C0172EB */  jal     Collider_SetTris              
 /* 00088 808BF498 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0008C 808BF49C 860D001C */  lh      $t5, 0x001C($s0)           ## 0000001C
 /* 00090 808BF4A0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000

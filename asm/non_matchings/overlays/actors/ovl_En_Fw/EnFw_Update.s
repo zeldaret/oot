@@ -44,7 +44,7 @@ glabel EnFw_Update
 /* 00F4C 80A1F4EC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00F50 80A1F4F0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00F54 80A1F4F4 02212821 */  addu    $a1, $s1, $at              
-/* 00F58 80A1F4F8 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00F58 80A1F4F8 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00F5C 80A1F4FC 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 .L80A1F500:
@@ -53,7 +53,7 @@ glabel EnFw_Update
 /* 00F64 80A1F504 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00F68 80A1F508 02212821 */  addu    $a1, $s1, $at              
 /* 00F6C 80A1F50C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00F70 80A1F510 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00F70 80A1F510 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00F74 80A1F514 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 00F78 80A1F518 8FBF0024 */  lw      $ra, 0x0024($sp)           

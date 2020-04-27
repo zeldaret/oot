@@ -99,7 +99,7 @@ glabel EnSw_Init
 /* 008A8 80B0C658 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 008AC 80B0C65C 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 008B0 80B0C660 AFA50040 */  sw      $a1, 0x0040($sp)           
-/* 008B4 80B0C664 0C016EFE */  jal     func_8005BBF8              
+/* 008B4 80B0C664 0C016EFE */  jal     Collider_InitJntSph              
 /* 008B8 80B0C668 8FA40064 */  lw      $a0, 0x0064($sp)           
 /* 008BC 80B0C66C 3C0780B1 */  lui     $a3, %hi(D_80B0F064)       ## $a3 = 80B10000
 /* 008C0 80B0C670 260901B4 */  addiu   $t1, $s0, 0x01B4           ## $t1 = 000001B4
@@ -107,9 +107,9 @@ glabel EnSw_Init
 /* 008C8 80B0C678 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 008CC 80B0C67C 24E7F064 */  addiu   $a3, $a3, %lo(D_80B0F064)  ## $a3 = 80B0F064
 /* 008D0 80B0C680 8FA40064 */  lw      $a0, 0x0064($sp)           
-/* 008D4 80B0C684 0C017014 */  jal     func_8005C050              
+/* 008D4 80B0C684 0C017014 */  jal     Collider_SetJntSph              
 /* 008D8 80B0C688 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 008DC 80B0C68C 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 008DC 80B0C68C 0C016C80 */  jal     DamageTable_Get
               
 /* 008E0 80B0C690 2404000E */  addiu   $a0, $zero, 0x000E         ## $a0 = 0000000E
 /* 008E4 80B0C694 3C0680B1 */  lui     $a2, %hi(D_80B0F074)       ## $a2 = 80B10000

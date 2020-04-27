@@ -5,12 +5,12 @@ glabel EnPeehat_Destroy
 /* 00280 80ACF720 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00284 80ACF724 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00288 80ACF728 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 0028C 80ACF72C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0028C 80ACF72C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00290 80ACF730 24A50300 */  addiu   $a1, $a1, 0x0300           ## $a1 = 00000300
 /* 00294 80ACF734 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00298 80ACF738 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0029C 80ACF73C 0C016F32 */  jal     func_8005BCC8              
+/* 0029C 80ACF73C 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 002A0 80ACF740 24A5034C */  addiu   $a1, $a1, 0x034C           ## $a1 = 0000034C
 /* 002A4 80ACF744 8FA30018 */  lw      $v1, 0x0018($sp)           
 /* 002A8 80ACF748 846E001C */  lh      $t6, 0x001C($v1)           ## 0000001C

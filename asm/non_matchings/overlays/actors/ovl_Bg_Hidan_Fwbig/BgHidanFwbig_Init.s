@@ -12,14 +12,14 @@ glabel BgHidanFwbig_Init
 /* 00024 80887314 AFAF0024 */  sw      $t7, 0x0024($sp)           
 /* 00028 80887318 26050154 */  addiu   $a1, $s0, 0x0154           ## $a1 = 00000154
 /* 0002C 8088731C AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00030 80887320 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00030 80887320 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00034 80887324 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00038 80887328 3C078088 */  lui     $a3, %hi(D_80887ED0)       ## $a3 = 80880000
 /* 0003C 8088732C 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00040 80887330 24E77ED0 */  addiu   $a3, $a3, %lo(D_80887ED0)  ## $a3 = 80887ED0
 /* 00044 80887334 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 00048 80887338 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00048 80887338 0C01712B */  jal     Collider_SetCylinder
               
 /* 0004C 8088733C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00050 80887340 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
