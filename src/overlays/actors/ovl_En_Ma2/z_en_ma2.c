@@ -346,7 +346,7 @@ void EnMa2_Update(EnMa2* this, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_80AA2354(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* this) {
+s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* this) {
     EnMa2* thisx = (EnMa2*)this;
     Vec3s tempVec;
 
@@ -372,7 +372,7 @@ s32 func_80AA2354(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_80AA2590(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* this) {
+void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* this) {
     EnMa2* thisx = (EnMa2*)this;
     Vec3f vec = D_80AA28A8;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -406,6 +406,6 @@ void EnMa2_Draw(EnMa2* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA28C0[this->unk_20E]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     func_80AA2354, func_80AA2590, &this->actor);
+                     EnMa2_OverrideLimbDraw, EnMa2_PostLimbDraw, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma2.c", 990);
 }

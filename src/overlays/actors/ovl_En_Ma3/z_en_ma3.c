@@ -5,6 +5,7 @@
  */
 
 #include "z_en_ma3.h"
+#include "overlays/actors/ovl_En_Ma2/z_en_ma2.h"
 
 #define FLAGS 0x00000039
 
@@ -17,8 +18,11 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* this);
 s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* this);
 
 void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx);
+s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx);
 s32 func_80AA2F28(EnMa3* this);
 void func_80AA2F80(EnMa3* this);
+void func_80AA3004(EnMa3* this, s32 arg1);
+void func_80AA3200(EnMa3* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma3_InitVars = {
     ACTOR_EN_MA3,
@@ -32,13 +36,64 @@ const ActorInit En_Ma3_InitVars = {
     (ActorFunc)EnMa3_Draw,
 };
 
-u32 D_80AA3810[] = { 0x0A000039, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000100, 0x0012002E, 0x00000000, 0x00000000, };
-u32 D_80AA383C[] = { 0x00000000, 0x00000000, 0xFF000000, };
-u32 D_80AA3848[] = { 0x060007D4, 0x3F800000, 0x00000000, 0x00000000, 0x060007D4, 0x3F800000, 0x00000000, 0xC1200000, 0x060093BC, 0x3F800000, 0x00000000, 0x00000000, 0x06009EE0, 0x3F800000, 0x00000000, 0x00000000, 0x06009EE0, 0x3F800000, 0x00000000, 0xC1200000, };
-u32 D_80AA3898[] = { 0x44610000, 0x00000000, 0x00000000, };
-u32 D_80AA38A4[] = { 0x06002970, 0x06003570, 0x06003770, };
-u32 D_80AA38B0[] = { 0x06002570, 0x06002C70, 0x06003070, 0x00000000, };
+ColliderCylinderInit cylinderInit = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 18, 46, 0, { 0, 0, 0 } },
+};
 
+CollisionCheckInfoInit2 D_80AA383C = { 0x00, 0x0000, 0x0000, 0x0000, 0xFF };
+
+struct_D_80AA1678 D_80AA3848[] = {
+    {
+        0x060007D4,
+        1.0f,
+        0x00,
+        0.0f,
+    },
+    {
+        0x060007D4,
+        1.0f,
+        0x00,
+        -10.0f,
+    },
+    {
+        0x060093BC,
+        1.0f,
+        0x00,
+        0.0f,
+    },
+    {
+        0x06009EE0,
+        1.0f,
+        0x00,
+        0.0f,
+    },
+    {
+        0x06009EE0,
+        1.0f,
+        0x00,
+        -10.0f,
+    },
+};
+
+Vec3f D_80AA3898 = { 900.0f, 0.0f, 0.0f };
+
+u32 D_80AA38A4[] = {
+    0x06002970,
+    0x06003570,
+    0x06003770,
+};
+
+u32 D_80AA38B0[] = {
+    0x06002570,
+    0x06002C70,
+    0x06003070,
+};
+
+extern u32 D_06005420;
+extern SkeletonHeader D_06008D90;
+extern AnimationHeader D_060093BC;
 extern AnimationHeader D_06009EE0;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/func_80AA2AA0.s")
@@ -81,7 +136,7 @@ extern AnimationHeader D_06009EE0;
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/func_80AA2BD4.s")
 
-void func_80AA2E54(EnMa3 *this, GlobalContext *globalCtx) {
+void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 phi_a3;
 
@@ -96,9 +151,20 @@ void func_80AA2E54(EnMa3 *this, GlobalContext *globalCtx) {
     func_80034A14(&this->actor, &this->unk_1E0, 0, phi_a3);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/func_80AA2EC8.s")
+s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {
+    if (gSaveContext.linkAge == 1) {
+        return 2;
+    }
+    if (!(gSaveContext.eventChkInf[1] & 0x100)) {
+        return 2;
+    }
+    if (gSaveContext.eventInf[0] & 0x400) {
+        return 1;
+    }
+    return 0;
+}
 
-s32 func_80AA2F28(EnMa3 *this) {
+s32 func_80AA2F28(EnMa3* this) {
     if (this->skelAnime.animCurrentSeg != &D_06009EE0) {
         return 0;
     }
@@ -113,7 +179,7 @@ s32 func_80AA2F28(EnMa3 *this) {
     return 1;
 }
 
-void func_80AA2F80(EnMa3 *this) {
+void func_80AA2F80(EnMa3* this) {
     if (!func_80AA2F28(this)) {
         if (DECR(this->unk_20C) == 0) {
             this->unk_20E += 1;
@@ -125,18 +191,56 @@ void func_80AA2F80(EnMa3 *this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/func_80AA3004.s")
+void func_80AA3004(EnMa3* this, s32 idx) {
+    f32 frameCount = SkelAnime_GetFrameCount(&D_80AA3848[idx].animation->genericHeader);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/EnMa3_Init.s")
+    SkelAnime_ChangeAnim(&this->skelAnime, D_80AA3848[idx].animation, 1.0f, 0.0f, frameCount, D_80AA3848[idx].unk_08,
+                         D_80AA3848[idx].transitionRate);
+}
 
-void EnMa3_Destroy(EnMa3 *this, GlobalContext *globalCtx) {
+void EnMa3_Init(EnMa3* this, GlobalContext* globalCtx) {
+    ColliderCylinder* collider;
+    s32 temp_ret;
+
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008D90, NULL, 0, 0, 0);
+    collider = &this->collider;
+    Collider_InitCylinder(globalCtx, collider);
+    Collider_SetCylinder(globalCtx, collider, &this->actor, &cylinderInit);
+    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &D_80AA383C);
+
+    switch (func_80AA2EC8(this, globalCtx)) {
+        case 0:
+            func_80AA3004(this, 0);
+            this->actionFunc = (ActorFunc)func_80AA3200;
+            break;
+        case 1:
+            func_80AA3004(this, 0);
+            this->actionFunc = (ActorFunc)func_80AA3200;
+            break;
+        case 2:
+            Actor_Kill(&this->actor);
+            return;
+    }
+
+    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_SetScale(&this->actor, 0.01f);
+    this->unk_1E0.unk_00 = (u16)0;
+}
+
+void EnMa3_Destroy(EnMa3* this, GlobalContext* globalCtx) {
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/func_80AA3200.s")
+void func_80AA3200(EnMa3* this, GlobalContext* globalCtx) {
+    if (this->unk_1E0.unk_00 == 2) {
+        this->actor.flags &= ~0x10000;
+        this->unk_1E0.unk_00 = 0;
+    }
+}
 
-void EnMa3_Update(EnMa3 *this, GlobalContext *globalCtx) {
+void EnMa3_Update(EnMa3* this, GlobalContext* globalCtx) {
     s32 pad;
     ColliderCylinder* collider = &this->collider;
 
@@ -146,20 +250,79 @@ void EnMa3_Update(EnMa3 *this, GlobalContext *globalCtx) {
     func_80AA2F80(this);
     this->actionFunc(this, globalCtx);
     func_80AA2E54(this, globalCtx);
-    func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, (f32) this->collider.dim.radius + 150.0f, &func_80AA2AA0, &func_80AA2BD4);
+    func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.dim.radius + 150.0f,
+                  &func_80AA2AA0, &func_80AA2BD4);
     if (this->unk_1E0.unk_00 == 0) {
         if (this->unk_20A != 0) {
             func_800F6584(0);
             this->unk_20A = 0;
         }
     } else if (this->unk_20A == 0) {
-            func_800F6584(1);
-            this->unk_20A = 1;
+        func_800F6584(1);
+        this->unk_20A = 1;
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/func_80AA3344.s")
+s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* this) {
+    EnMa3* thisx = (EnMa3*)this;
+    Vec3s tempVec;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/func_80AA3580.s")
+    if ((limbIndex == 3) || (limbIndex == 6)) {
+        *dList = NULL;
+    }
+    if (limbIndex == 18) {
+        Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
+        tempVec = thisx->unk_1E0.unk_08;
+        Matrix_RotateX((tempVec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateZ((tempVec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
+    }
+    if (limbIndex == 11) {
+        tempVec = thisx->unk_1E0.unk_0E;
+        Matrix_RotateY((-tempVec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX((-tempVec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+    }
+    if ((limbIndex == 11) || (limbIndex == 12) || (limbIndex == 15)) {
+        rot->y += Math_Sins(thisx->unk_212[limbIndex].y) * 200.0f;
+        rot->z += Math_Coss(thisx->unk_212[limbIndex].z) * 200.0f;
+    }
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/EnMa3_Draw.s")
+void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* this) {
+    EnMa3* thisx = (EnMa3*)this;
+    Vec3f vec = D_80AA3898;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[4];
+
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
+
+    if (limbIndex == 18) {
+        Matrix_MultVec3f(&vec, &this->posRot2.pos);
+    }
+    if ((limbIndex == 14) && (thisx->skelAnime.animCurrentSeg == &D_060093BC)) {
+        gSPDisplayList(gfxCtx->polyOpa.p++, &D_06005420);
+    }
+
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 950);
+}
+
+void EnMa3_Draw(EnMa3* this, GlobalContext* globalCtx) {
+    Camera* camera;
+    f32 someFloat;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[6];
+
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
+    camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
+    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->unk_5C);
+    func_800F6268(someFloat, 0x2F);
+    func_80093D18(globalCtx->state.gfxCtx);
+
+    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA38A4[this->unk_210]));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA38B0[this->unk_20E]));
+
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     EnMa3_OverrideLimbDraw, EnMa3_PostLimbDraw, &this->actor);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 1013);
+}
