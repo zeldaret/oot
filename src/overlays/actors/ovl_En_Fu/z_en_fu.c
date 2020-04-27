@@ -7,7 +7,6 @@
 #include "z_en_fu.h"
 
 #define THIS ((EnFu*)thisx)
-
 #define FLAGS 0x02000019
 
 void EnFu_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -26,7 +25,6 @@ void func_80A1DD44(EnFu* this, GlobalContext* globalCtx);
 void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx);
 void func_80A1DB60(EnFu* this, GlobalContext* globalCtx);
 
-/*
 const ActorInit En_Fu_InitVars = {
     ACTOR_EN_FU,
     ACTORTYPE_NPC,
@@ -38,25 +36,25 @@ const ActorInit En_Fu_InitVars = {
     (ActorFunc)EnFu_Update,
     (ActorFunc)EnFu_Draw,
 };
-*/
 
-static ColliderCylinderInit cylinderInit = {
-    0x0A, 0x00,       0x11, 0x39, 0x10,   0x01,   0x00,       0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00000000, 0x00, 0x00, 0x00,   0x00,   0xFFCFFFFF, 0x00,   0x00,   0x00,   0x00,
-    0x00, 0x01,       0x01, 0x00, 0x001E, 0x0028, 0x0000,     0x0000, 0x0000, 0x0000,
+static ColliderCylinderInit cylinderInit =
+{
+    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    { 30, 40, 0, { 0, 0, 0 } },
 };
 
-Vec3f mtxSrc = {
+static Vec3f mtxSrc = {
     700.0f,
     700.0f,
 };
 
-UNK_PTR eyes[] = {
+static UNK_PTR eyesSegments[] = {
     0x06005F20, 
     0x06006320,
 };
 
-UNK_PTR mouth[] = {
+static UNK_PTR mouthSegments[] = {
     0x06006720, 
     0x06006920,
 };
@@ -64,7 +62,7 @@ UNK_PTR mouth[] = {
 extern AnimationHeader D_0600057C;
 extern AnimationHeader D_06000B04;
 extern SkeletonHeader D_06006C90;
-extern UNK_TYPE D_0201E080;
+extern UNK_TYPE D_0200E080;
 
 typedef enum {
     /* 0x00 */ FU_CALM,
@@ -79,9 +77,9 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitSV(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->limbDrawTable,
                      this->transitionDrawTable, 16);
     SkelAnime_ChangeAnimDefaultRepeat(&this->skelanime, &D_06000B04);
-    ActorCollider_AllocCylinder(globalCtx, &this->collider);
-    ActorCollider_InitCylinder(globalCtx, &this->collider, this, &cylinderInit);
-    this->actor.sub_98.mass = 0xFF;
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, this, &cylinderInit);
+    this->actor.colChkInfo.mass = 0xFF;
     Actor_SetScale(this, 0.01f);
     if (LINK_IS_CHILD) {
         this->actionFunc = func_80A1DA9C;
@@ -97,7 +95,7 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnFu* this = THIS;
-    ActorCollider_FreeCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, ActorFunc actionFunc) {
@@ -176,7 +174,7 @@ void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_80A1DB60;
         this->actor.flags &= ~0x10000;
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_0201E080);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_0200E080);
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(globalCtx, ITEM_SONG_STORMS);
         globalCtx->msgCtx.unk_E3EE = 0;
@@ -239,8 +237,8 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFu* this = THIS;
     s32 pad;
 
-    ActorCollider_Cylinder_Update(&this->actor, &this->collider);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     if (((this->unk_2A8 & 2) == 0) && (SkelAnime_FrameUpdateMatrix(&this->skelanime) != 0)) {
@@ -259,29 +257,35 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fu/func_80A1E110.s")
-s32 func_80A1E110(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f *pos, Vec3s* rot, EnFu* this) {
-    s32 temp_v1;
+s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f *pos, Vec3s* rot, EnFu* this) {
     s32 pad;
+    s32 pad1;
+
     if (limbIndex == 10) {
         return 0;
     }
     switch (limbIndex) {
-        case 14:
+        case 14: 
             rot->x += this->unk_29C.y;
             rot->z += this->unk_29C.x;
             break;
-        case 8:
-            if (this->unk_2A8 & 2) {
-                rot->y += (Math_Sins((globalCtx->state.frames * (limbIndex * 50 + 0x814))) * 200.0f);
-                rot->z += (Math_Coss((globalCtx->state.frames * (limbIndex * 50 + 0x940))) * 200.0f);
-            }
+        case 8: 
             break;
+    }
+
+    if (!(this->unk_2A8 & 2)) {
+        return 0;
+    }
+
+    if (limbIndex == 8) {
+        rot->y += (Math_Sins((globalCtx->state.frames * (limbIndex * 50 + 0x814))) * 200.0f);
+        rot->z += (Math_Coss((globalCtx->state.frames * (limbIndex * 50 + 0x940))) * 200.0f);
+        
     }
     return 0;
 }
 
-void func_80A1E26C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnFu* this) {
+void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnFu* this) {
     if (limbIndex == 14) {
         Matrix_MultVec3f(&mtxSrc, &this->actor.posRot2);
     }
@@ -296,9 +300,9 @@ void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fu.c", 773);
     func_800943C8(globalCtx->state.gfxCtx);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(eyes[this->facialExpression]));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(mouth[this->facialExpression]));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(eyesSegments[this->facialExpression]));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(mouthSegments[this->facialExpression]));
     SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, 
-                     this->skelanime.dListCount, func_80A1E110, func_80A1E26C, &this->actor);
+                     this->skelanime.dListCount, EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fu.c", 791);
 }
