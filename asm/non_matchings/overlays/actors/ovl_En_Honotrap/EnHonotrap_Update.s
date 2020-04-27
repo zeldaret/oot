@@ -83,7 +83,7 @@ glabel EnHonotrap_Update
 /* 00FA4 80A5ABD4 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00FA8 80A5ABD8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00FAC 80A5ABDC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
-/* 00FB0 80A5ABE0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00FB0 80A5ABE0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00FB4 80A5ABE4 00812821 */  addu    $a1, $a0, $at              
 /* 00FB8 80A5ABE8 8FBF0024 */  lw      $ra, 0x0024($sp)           

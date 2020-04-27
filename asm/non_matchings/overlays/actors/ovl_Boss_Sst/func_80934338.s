@@ -69,7 +69,7 @@ glabel func_80934338
 /* 07E64 80934434 314B0001 */  andi    $t3, $t2, 0x0001           ## $t3 = 00000000
 /* 07E68 80934438 51600004 */  beql    $t3, $zero, .L8093444C     
 /* 07E6C 8093443C 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
-/* 07E70 80934440 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 07E70 80934440 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 07E74 80934444 02212821 */  addu    $a1, $s1, $at              
 /* 07E78 80934448 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
@@ -90,14 +90,14 @@ glabel func_80934338
 /* 07EB0 80934480 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 07EB4 80934484 260606B4 */  addiu   $a2, $s0, 0x06B4           ## $a2 = 000006B4
 /* 07EB8 80934488 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 07EBC 8093448C 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 07EBC 8093448C 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 07EC0 80934490 AFA70020 */  sw      $a3, 0x0020($sp)           
 /* 07EC4 80934494 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 07EC8 80934498 8FA70020 */  lw      $a3, 0x0020($sp)           
 .L8093449C:
 /* 07ECC 8093449C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 07ED0 809344A0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 07ED0 809344A0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 07ED4 809344A4 00E03025 */  or      $a2, $a3, $zero            ## $a2 = 00000000
 .L809344A8:
@@ -108,7 +108,7 @@ glabel func_80934338
 /* 07EE8 809344B8 13000004 */  beq     $t8, $zero, .L809344CC     
 /* 07EEC 809344BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 07EF0 809344C0 02212821 */  addu    $a1, $s1, $at              
-/* 07EF4 809344C4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 07EF4 809344C4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 07EF8 809344C8 260603D4 */  addiu   $a2, $s0, 0x03D4           ## $a2 = 000003D4
 .L809344CC:

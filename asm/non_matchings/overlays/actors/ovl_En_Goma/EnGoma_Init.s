@@ -255,26 +255,26 @@ glabel EnGoma_Init
 /* 00320 80A491E0 2605030C */  addiu   $a1, $s0, 0x030C           ## $a1 = 0000030C
 /* 00324 80A491E4 E61002D8 */  swc1    $f16, 0x02D8($s0)          ## 000002D8
 /* 00328 80A491E8 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 0032C 80A491EC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0032C 80A491EC 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00330 80A491F0 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00334 80A491F4 3C0780A5 */  lui     $a3, %hi(D_80A4B7A0)       ## $a3 = 80A50000
 /* 00338 80A491F8 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 0033C 80A491FC 24E7B7A0 */  addiu   $a3, $a3, %lo(D_80A4B7A0)  ## $a3 = 80A4B7A0
 /* 00340 80A49200 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 00344 80A49204 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00344 80A49204 0C01712B */  jal     Collider_SetCylinder
 
 /* 00348 80A49208 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0034C 80A4920C 26050358 */  addiu   $a1, $s0, 0x0358           ## $a1 = 00000358
 /* 00350 80A49210 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00354 80A49214 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00354 80A49214 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00358 80A49218 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0035C 80A4921C 3C0780A5 */  lui     $a3, %hi(D_80A4B7CC)       ## $a3 = 80A50000
 /* 00360 80A49220 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 00364 80A49224 24E7B7CC */  addiu   $a3, $a3, %lo(D_80A4B7CC)  ## $a3 = 80A4B7CC
 /* 00368 80A49228 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 0036C 80A4922C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0036C 80A4922C 0C01712B */  jal     Collider_SetCylinder
 
 /* 00370 80A49230 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 .L80A49234:

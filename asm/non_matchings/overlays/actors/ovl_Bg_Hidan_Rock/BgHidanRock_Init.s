@@ -23,14 +23,14 @@ glabel BgHidanRock_Init
 /* 0004C 8088B0CC 2605017C */  addiu   $a1, $s0, 0x017C           ## $a1 = 0000017C
 /* 00050 8088B0D0 A20F0168 */  sb      $t7, 0x0168($s0)           ## 00000168
 /* 00054 8088B0D4 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00058 8088B0D8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00058 8088B0D8 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 0005C 8088B0DC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00060 8088B0E0 3C078089 */  lui     $a3, %hi(D_8088BF8C)       ## $a3 = 80890000
 /* 00064 8088B0E4 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00068 8088B0E8 24E7BF8C */  addiu   $a3, $a3, %lo(D_8088BF8C)  ## $a3 = 8088BF8C
 /* 0006C 8088B0EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00070 8088B0F0 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00070 8088B0F0 0C01712B */  jal     Collider_SetCylinder
               
 /* 00074 8088B0F4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00078 8088B0F8 92090168 */  lbu     $t1, 0x0168($s0)           ## 00000168

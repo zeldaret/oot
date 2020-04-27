@@ -298,11 +298,44 @@ void func_8003E954(u32 uParm1, u8* puParm2) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041648.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800417A0.s")
+typedef struct {
+    /* 0x00 */ char  unk_00[0x10];
+    /* 0x10 */ void* unk_10;
+    /* 0x14 */ char  unk_[0x04];
+    /* 0x18 */ void* unk_18;
+    /* 0x1C */ void* unk_1C;
+    /* 0x20 */ void* unk_20;
+    /* 0x24 */ char  unk_24[4];
+    /* 0x28 */ void* unk_28;
+} Struct800417A0; // size = 0x32
+
+// called by func_800418D0 with actorMesh->unk_08
+void func_800417A0(Struct800417A0* arg0) {
+    arg0->unk_10 = SEGMENTED_TO_VIRTUAL(arg0->unk_10);
+    arg0->unk_18 = SEGMENTED_TO_VIRTUAL(arg0->unk_18);
+    arg0->unk_1C = SEGMENTED_TO_VIRTUAL(arg0->unk_1C);
+    arg0->unk_20 = SEGMENTED_TO_VIRTUAL(arg0->unk_20);
+    arg0->unk_28 = SEGMENTED_TO_VIRTUAL(arg0->unk_28);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041880.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800418D0.s")
+void func_800418D0(CollisionContext* colCtx, GlobalContext* globalCtx) {
+    ActorMesh* actorMesh;
+    DynaCollisionContext* dynaColCtx;
+    s32 i;
+    u16 flag;
+
+    dynaColCtx = &colCtx->dyna;
+    for (i = 0; i < 50; i++) {
+        flag = dynaColCtx->flags[i];
+        if ((flag & 1) && !(flag & 2)) {
+            actorMesh = &dynaColCtx->actorMeshArr[i];
+            Actor_SetObjectDependency(globalCtx, actorMesh->actor);
+            func_800417A0(actorMesh->unk_08);
+        }
+    }
+}
 
 #ifdef NON_MATCHING
 void func_80041978(int iParm1, int iParm2) {

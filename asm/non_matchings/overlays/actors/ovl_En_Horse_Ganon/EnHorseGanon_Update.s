@@ -38,14 +38,14 @@ glabel EnHorseGanon_Update
 /* 00908 80A68F68 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 000001FC
 /* 0090C 80A68F6C E60A003C */  swc1    $f10, 0x003C($s0)          ## 0000003C
 /* 00910 80A68F70 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 00914 80A68F74 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00914 80A68F74 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00918 80A68F78 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0091C 80A68F7C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00920 80A68F80 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00924 80A68F84 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00928 80A68F88 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0092C 80A68F8C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0092C 80A68F8C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00930 80A68F90 00812821 */  addu    $a1, $a0, $at              
 /* 00934 80A68F94 8FBF0024 */  lw      $ra, 0x0024($sp)           

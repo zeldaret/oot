@@ -18,35 +18,35 @@ glabel func_809789D8
 /* 000E8 80978A18 10000018 */  beq     $zero, $zero, .L80978A7C   
 /* 000EC 80978A1C 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80978A20:
-/* 000F0 80978A20 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 000F0 80978A20 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 000F4 80978A24 26050184 */  addiu   $a1, $s0, 0x0184           ## $a1 = 00000184
 /* 000F8 80978A28 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000FC 80978A2C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 000FC 80978A2C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00100 80978A30 260501D0 */  addiu   $a1, $s0, 0x01D0           ## $a1 = 000001D0
 /* 00104 80978A34 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00108 80978A38 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00108 80978A38 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0010C 80978A3C 2605021C */  addiu   $a1, $s0, 0x021C           ## $a1 = 0000021C
 /* 00110 80978A40 1000000E */  beq     $zero, $zero, .L80978A7C   
 /* 00114 80978A44 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80978A48:
-/* 00118 80978A48 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00118 80978A48 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0011C 80978A4C 26050184 */  addiu   $a1, $s0, 0x0184           ## $a1 = 00000184
 /* 00120 80978A50 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00124 80978A54 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00124 80978A54 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00128 80978A58 260501D0 */  addiu   $a1, $s0, 0x01D0           ## $a1 = 000001D0
 /* 0012C 80978A5C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00130 80978A60 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00130 80978A60 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00134 80978A64 2605021C */  addiu   $a1, $s0, 0x021C           ## $a1 = 0000021C
 /* 00138 80978A68 10000004 */  beq     $zero, $zero, .L80978A7C   
 /* 0013C 80978A6C 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80978A70:
-/* 00140 80978A70 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00140 80978A70 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00144 80978A74 26050184 */  addiu   $a1, $s0, 0x0184           ## $a1 = 00000184
 /* 00148 80978A78 8FBF001C */  lw      $ra, 0x001C($sp)           

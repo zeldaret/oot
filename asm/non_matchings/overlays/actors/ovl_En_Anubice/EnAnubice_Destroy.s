@@ -4,7 +4,7 @@ glabel EnAnubice_Destroy
 /* 002BC 809B13DC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 002C0 809B13E0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 002C4 809B13E4 24C502C8 */  addiu   $a1, $a2, 0x02C8           ## $a1 = 000002C8
-/* 002C8 809B13E8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002C8 809B13E8 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 002CC 809B13EC AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 002D0 809B13F0 8FA60018 */  lw      $a2, 0x0018($sp)           

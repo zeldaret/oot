@@ -212,13 +212,13 @@ glabel En_Item00_Update
 .L8001E958:
 /* A95AF8 8001E958 00C02825 */  move  $a1, $a2
 /* A95AFC 8001E95C AFA60028 */  sw    $a2, 0x28($sp)
-/* A95B00 8001E960 0C0189B7 */  jal   ActorCollider_Cylinder_Update
+/* A95B00 8001E960 0C0189B7 */  jal   Collider_CylinderUpdate
 /* A95B04 8001E964 02002025 */   move  $a0, $s0
 /* A95B08 8001E968 3C010001 */  li    $at, 0x00010000 # 0.000000
 /* A95B0C 8001E96C 34211E60 */  ori   $at, (0x00011E60 & 0xFFFF) # ori $at, $at, 0x1e60
 /* A95B10 8001E970 8FA60028 */  lw    $a2, 0x28($sp)
 /* A95B14 8001E974 02212821 */  addu  $a1, $s1, $at
-/* A95B18 8001E978 0C01767D */  jal   Actor_CollisionCheck_SetAC
+/* A95B18 8001E978 0C01767D */  jal   CollisionCheck_SetAC
 /* A95B1C 8001E97C 02202025 */   move  $a0, $s1
 /* A95B20 8001E980 8603001C */  lh    $v1, 0x1c($s0)
 /* A95B24 8001E984 24010015 */  li    $at, 21

@@ -35,14 +35,14 @@ glabel EnPoDesert_Update
 /* 007D8 80AD3488 26060238 */  addiu   $a2, $s0, 0x0238           ## $a2 = 00000238
 /* 007DC 80AD348C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000238
 /* 007E0 80AD3490 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 007E4 80AD3494 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 007E4 80AD3494 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 007E8 80AD3498 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 007EC 80AD349C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 007F0 80AD34A0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 007F4 80AD34A4 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 007F8 80AD34A8 02212821 */  addu    $a1, $s1, $at              
-/* 007FC 80AD34AC 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 007FC 80AD34AC 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00800 80AD34B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00804 80AD34B4 922F1C27 */  lbu     $t7, 0x1C27($s1)           ## 00001C27

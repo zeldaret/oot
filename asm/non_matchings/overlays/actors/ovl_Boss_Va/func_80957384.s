@@ -279,12 +279,12 @@ glabel func_80957384
 /* 084B4 80957774 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 084B8 80957778 00812821 */  addu    $a1, $a0, $at              
 /* 084BC 8095777C AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 084C0 80957780 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 084C0 80957780 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 084C4 80957784 26060338 */  addiu   $a2, $s0, 0x0338           ## $a2 = 00000338
 /* 084C8 80957788 8FA4006C */  lw      $a0, 0x006C($sp)           
 /* 084CC 8095778C 8FA5003C */  lw      $a1, 0x003C($sp)           
-/* 084D0 80957790 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 084D0 80957790 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 084D4 80957794 260602D8 */  addiu   $a2, $s0, 0x02D8           ## $a2 = 000002D8
 /* 084D8 80957798 10000035 */  beq     $zero, $zero, .L80957870   
@@ -364,7 +364,7 @@ glabel func_80957384
 /* 085DC 8095789C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 085E0 809578A0 8FA4006C */  lw      $a0, 0x006C($sp)           
 /* 085E4 809578A4 8FA5003C */  lw      $a1, 0x003C($sp)           
-/* 085E8 809578A8 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 085E8 809578A8 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 085EC 809578AC 8FA60038 */  lw      $a2, 0x0038($sp)           
 /* 085F0 809578B0 8FAD0040 */  lw      $t5, 0x0040($sp)           

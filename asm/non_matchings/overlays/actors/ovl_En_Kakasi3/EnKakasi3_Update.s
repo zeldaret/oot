@@ -78,14 +78,14 @@ glabel EnKakasi3_Update
 /* 00F58 80A91C78 260601BC */  addiu   $a2, $s0, 0x01BC           ## $a2 = 000001BC
 /* 00F5C 80A91C7C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 000001BC
 /* 00F60 80A91C80 AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 00F64 80A91C84 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00F64 80A91C84 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00F68 80A91C88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00F6C 80A91C8C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00F70 80A91C90 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00F74 80A91C94 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00F78 80A91C98 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 00F7C 80A91C9C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00F7C 80A91C9C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00F80 80A91CA0 00812821 */  addu    $a1, $a0, $at              
 /* 00F84 80A91CA4 8FBF0024 */  lw      $ra, 0x0024($sp)           

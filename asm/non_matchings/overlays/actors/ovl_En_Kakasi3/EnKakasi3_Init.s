@@ -26,14 +26,14 @@ glabel EnKakasi3_Init
 /* 00058 80A90D78 A20E001F */  sb      $t6, 0x001F($s0)           ## 0000001F
 /* 0005C 80A90D7C 260501BC */  addiu   $a1, $s0, 0x01BC           ## $a1 = 000001BC
 /* 00060 80A90D80 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00064 80A90D84 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00064 80A90D84 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00068 80A90D88 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 0006C 80A90D8C 3C0780A9 */  lui     $a3, %hi(D_80A91D10)       ## $a3 = 80A90000
 /* 00070 80A90D90 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 00074 80A90D94 24E71D10 */  addiu   $a3, $a3, %lo(D_80A91D10)  ## $a3 = 80A91D10
 /* 00078 80A90D98 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 0007C 80A90D9C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0007C 80A90D9C 0C01712B */  jal     Collider_SetCylinder
 
 /* 00080 80A90DA0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00084 80A90DA4 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000

@@ -143,7 +143,7 @@ glabel EnOkuta_Update
 /* 01B74 80AC21D4 26050370 */  addiu   $a1, $s0, 0x0370           ## $a1 = 00000370
 .L80AC21D8:
 /* 01B78 80AC21D8 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 01B7C 80AC21DC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 01B7C 80AC21DC 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 01B80 80AC21E0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01B84 80AC21E4 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
@@ -196,7 +196,7 @@ glabel EnOkuta_Update
 /* 01C38 80AC2298 AE0A0004 */  sw      $t2, 0x0004($s0)           ## 00000004
 /* 01C3C 80AC229C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01C40 80AC22A0 02212821 */  addu    $a1, $s1, $at              
-/* 01C44 80AC22A4 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 01C44 80AC22A4 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 01C48 80AC22A8 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01C4C 80AC22AC 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
@@ -218,13 +218,13 @@ glabel EnOkuta_Update
 /* 01C88 80AC22E8 11C20005 */  beq     $t6, $v0, .L80AC2300       
 /* 01C8C 80AC22EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01C90 80AC22F0 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 01C94 80AC22F4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01C94 80AC22F4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01C98 80AC22F8 AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 01C9C 80AC22FC 8FA50030 */  lw      $a1, 0x0030($sp)           
 .L80AC2300:
 /* 01CA0 80AC2300 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01CA4 80AC2304 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01CA4 80AC2304 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01CA8 80AC2308 8FA6002C */  lw      $a2, 0x002C($sp)           
 .L80AC230C:

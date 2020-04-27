@@ -9,12 +9,12 @@ glabel EnHorseLinkChild_Destroy
 /* 00488 80A69858 24A50154 */  addiu   $a1, $a1, 0x0154           ## $a1 = 00000154
 /* 0048C 80A6985C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00490 80A69860 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00494 80A69864 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00494 80A69864 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00498 80A69868 24A501F4 */  addiu   $a1, $a1, 0x01F4           ## $a1 = 000001F4
 /* 0049C 80A6986C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 004A0 80A69870 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 004A4 80A69874 0C016F32 */  jal     func_8005BCC8              
+/* 004A4 80A69874 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 004A8 80A69878 24A50240 */  addiu   $a1, $a1, 0x0240           ## $a1 = 00000240
 /* 004AC 80A6987C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 004B0 80A69880 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

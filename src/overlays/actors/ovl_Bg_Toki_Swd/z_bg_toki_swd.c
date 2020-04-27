@@ -162,11 +162,12 @@ const ActorInit Bg_Toki_Swd_InitVars = {
 };
 
 static ColliderCylinderInit colliderInit = {
-    0x0A, 0x00, 0x00,       0x39, 0x12, 0x01, 0x00, 0x00, 0x00,   0x00,   0x00,   0x00,   0xFFCFFFFF, 0x00,   0x00,
-    0x00, 0x00, 0xFFCFFFFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0000, 0x0001, 0x0000, 0x000A, 0x0046,     0x0000,
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x12, COLSHAPE_CYLINDER },
+    { 0x00, { 0xFFCFFFFF, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 10, 70, 0, { 0 } }
 };
 
-static Sub98Init4 sub98Init = {
+static CollisionCheckInfoInit colChkInfoInit = {
     0x0A,
     0x0023,
     0x0064,
@@ -182,7 +183,7 @@ void BgTokiSwd_SetupAction(BgTokiSwd* this, ActorFunc actionFunc) {
 }
 
 void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* collision;
+    ColliderCylinder* collision;
     Actor* thisx = &this->actor;
 
     Actor_ProcessInitChain(thisx, initChain);
@@ -197,15 +198,15 @@ void BgTokiSwd_Init(BgTokiSwd* this, GlobalContext* globalCtx) {
         globalCtx->unk_11D30[0] = 0xFF;
     }
 
-    ActorCollider_AllocCylinder(globalCtx, collision);
-    ActorCollider_InitCylinder(globalCtx, collision, thisx, &colliderInit);
-    ActorCollider_Cylinder_Update(thisx, collision);
-    func_80061ED4(&thisx->sub_98, 0, &sub98Init);
+    Collider_InitCylinder(globalCtx, collision);
+    Collider_SetCylinder(globalCtx, collision, thisx, &colliderInit);
+    Collider_CylinderUpdate(thisx, collision);
+    func_80061ED4(&thisx->colChkInfo, 0, &colChkInfoInit);
 }
 
 void BgTokiSwd_Destroy(BgTokiSwd* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* collider = &this->collider;
-    ActorCollider_FreeCylinder(globalCtx, collider);
+    ColliderCylinder* collider = &this->collider;
+    Collider_DestroyCylinder(globalCtx, collider);
 }
 
 void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
@@ -269,7 +270,7 @@ void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx) {
 
 void BgTokiSwd_Update(BgTokiSwd* this, GlobalContext* globalCtx) {
     this->actionFunc(&this->actor, globalCtx);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
 void BgTokiSwd_Draw(BgTokiSwd* this, GlobalContext* globalCtx) {

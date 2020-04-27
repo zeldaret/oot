@@ -54,7 +54,7 @@ glabel EnButte_Init
 /* 003D4 809CD444 AFA50038 */  sw      $a1, 0x0038($sp)
 /* 003D8 809CD448 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 003DC 809CD44C AFA50034 */  sw      $a1, 0x0034($sp)
-/* 003E0 809CD450 0C016EFE */  jal     func_8005BBF8
+/* 003E0 809CD450 0C016EFE */  jal     Collider_InitJntSph
 /* 003E4 809CD454 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 003E8 809CD458 3C07809D */  lui     $a3, %hi(D_809CE314)       ## $a3 = 809D0000
 /* 003EC 809CD45C 260A016C */  addiu   $t2, $s0, 0x016C           ## $t2 = 0000016C
@@ -62,7 +62,7 @@ glabel EnButte_Init
 /* 003F4 809CD464 AFAA0010 */  sw      $t2, 0x0010($sp)
 /* 003F8 809CD468 24E7E314 */  addiu   $a3, $a3, %lo(D_809CE314)  ## $a3 = 809CE314
 /* 003FC 809CD46C 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 00400 809CD470 0C017014 */  jal     func_8005C050
+/* 00400 809CD470 0C017014 */  jal     Collider_SetJntSph
 /* 00404 809CD474 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00408 809CD478 0C03F66B */  jal     Math_Rand_ZeroOne
               ## Rand.Next() float

@@ -127,7 +127,7 @@ glabel func_80954168
 /* 05048 80954308 15A00004 */  bne     $t5, $zero, .L8095431C
 /* 0504C 8095430C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 05050 80954310 00812821 */  addu    $a1, $a0, $at
-/* 05054 80954314 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 05054 80954314 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 05058 80954318 260602D8 */  addiu   $a2, $s0, 0x02D8           ## $a2 = 000002D8
 .L8095431C:

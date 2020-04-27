@@ -3,7 +3,7 @@ glabel EnClearTag_Destroy
 /* 003E8 809D3998 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 003EC 809D399C AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 003F0 809D39A0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 003F4 809D39A4 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 003F4 809D39A4 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 003F8 809D39A8 24C50194 */  addiu   $a1, $a2, 0x0194           ## $a1 = 00000194
 /* 003FC 809D39AC 8FBF0014 */  lw      $ra, 0x0014($sp)           

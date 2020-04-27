@@ -12,7 +12,7 @@ glabel BgJyaMegami_Destroy
 /* 00498 8089A5C8 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 0049C 8089A5CC 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 004A0 8089A5D0 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 004A4 8089A5D4 0C016F32 */  jal     func_8005BCC8              
+/* 004A4 8089A5D4 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 004A8 8089A5D8 24A50168 */  addiu   $a1, $a1, 0x0168           ## $a1 = 00000168
 /* 004AC 8089A5DC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 004B0 8089A5E0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

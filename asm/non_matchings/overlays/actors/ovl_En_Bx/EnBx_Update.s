@@ -186,7 +186,7 @@ glabel EnBx_Update
 /* 00598 809D2078 02202825 */  or      $a1, $s1, $zero            ## $a1 = 000001CC
 /* 0059C 809D207C 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 005A0 809D2080 AE78003C */  sw      $t8, 0x003C($s3)           ## 0000003C
-/* 005A4 809D2084 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 005A4 809D2084 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 005A8 809D2088 AE790040 */  sw      $t9, 0x0040($s3)           ## 00000040
 /* 005AC 809D208C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -194,12 +194,12 @@ glabel EnBx_Update
 /* 005B4 809D2094 02818021 */  addu    $s0, $s4, $at              
 /* 005B8 809D2098 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000002
 /* 005BC 809D209C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
-/* 005C0 809D20A0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 005C0 809D20A0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 005C4 809D20A4 02203025 */  or      $a2, $s1, $zero            ## $a2 = 000001CC
 /* 005C8 809D20A8 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 005CC 809D20AC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000002
-/* 005D0 809D20B0 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 005D0 809D20B0 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 005D4 809D20B4 02203025 */  or      $a2, $s1, $zero            ## $a2 = 000001CC
 /* 005D8 809D20B8 8668001C */  lh      $t0, 0x001C($s3)           ## 0000001C
@@ -208,7 +208,7 @@ glabel EnBx_Update
 /* 005E4 809D20C4 31090080 */  andi    $t1, $t0, 0x0080           ## $t1 = 00000000
 /* 005E8 809D20C8 51200004 */  beql    $t1, $zero, .L809D20DC     
 /* 005EC 809D20CC 8FBF0044 */  lw      $ra, 0x0044($sp)           
-/* 005F0 809D20D0 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 005F0 809D20D0 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 005F4 809D20D4 26660218 */  addiu   $a2, $s3, 0x0218           ## $a2 = 00000218
 /* 005F8 809D20D8 8FBF0044 */  lw      $ra, 0x0044($sp)           

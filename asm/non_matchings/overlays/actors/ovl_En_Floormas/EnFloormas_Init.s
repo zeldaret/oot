@@ -31,14 +31,14 @@ glabel EnFloormas_Init
 /* 0006C 80A1757C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00070 80A17580 260502C8 */  addiu   $a1, $s0, 0x02C8           ## $a1 = 000002C8
 /* 00074 80A17584 AFA5003C */  sw      $a1, 0x003C($sp)
-/* 00078 80A17588 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00078 80A17588 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 0007C 80A1758C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00080 80A17590 3C0780A2 */  lui     $a3, %hi(D_80A1A470)       ## $a3 = 80A20000
 /* 00084 80A17594 8FA5003C */  lw      $a1, 0x003C($sp)
 /* 00088 80A17598 24E7A470 */  addiu   $a3, $a3, %lo(D_80A1A470)  ## $a3 = 80A1A470
 /* 0008C 80A1759C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00090 80A175A0 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00090 80A175A0 0C01712B */  jal     Collider_SetCylinder
 
 /* 00094 80A175A4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00098 80A175A8 3C0580A2 */  lui     $a1, %hi(D_80A1A4A4)       ## $a1 = 80A20000

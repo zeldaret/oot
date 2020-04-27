@@ -99,14 +99,14 @@ glabel EnToryo_Init
 /* 0015C 80B202CC 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00160 80B202D0 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00164 80B202D4 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00168 80B202D8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00168 80B202D8 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 0016C 80B202DC 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 00170 80B202E0 3C0780B2 */  lui     $a3, %hi(D_80B20C00)       ## $a3 = 80B20000
 /* 00174 80B202E4 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 00178 80B202E8 24E70C00 */  addiu   $a3, $a3, %lo(D_80B20C00)  ## $a3 = 80B20C00
 /* 0017C 80B202EC 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 00180 80B202F0 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00180 80B202F0 0C01712B */  jal     Collider_SetCylinder
 
 /* 00184 80B202F4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00188 80B202F8 3C0580B2 */  lui     $a1, %hi(D_80B20C38)       ## $a1 = 80B20000
