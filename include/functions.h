@@ -479,7 +479,7 @@ void func_80038A28(CollisionPoly*, f32, f32, f32, MtxF*);
 // ? func_8003C614(?);
 f32 func_8003C8EC(GlobalContext*, CollisionContext*, CollisionPoly**, Vec3f*);
 f32 func_8003C940(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
-// ? func_8003C9A4(?);
+f32 func_8003C9A4(CollisionContext*, CollisionPoly**, s32*, Actor*, Vec3f*);
 f32 func_8003CA0C(GlobalContext*, CollisionContext*, CollisionPoly**, u32*, Actor*, Vec3f*);
 f32 func_8003CB30(GlobalContext*, CollisionContext*, PosRot*, MtxF*);
 f32 func_8003CCA4(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
