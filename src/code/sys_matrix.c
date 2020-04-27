@@ -387,10 +387,9 @@ void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
 }
 
 /*
- * Translates the top of the matrix stack by `translation` units,
- * then rotates that matrix by `rotation` in Z-Y-X order (roll-pitch-yaw)
+ * Roll-pitch-yaw rotation
  */
-void Matrix_TranslateThenRotateZYX(Vec3f* translation, Vec3s* rotation) {
+void Matrix_RotateRPYf(Vec3f* translation, Vec3s* rotation) {
     MtxF* cmf = sCurrentMatrix;
     f32 sin;
     f32 cos;
