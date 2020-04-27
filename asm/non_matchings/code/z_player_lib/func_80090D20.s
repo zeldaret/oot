@@ -707,7 +707,7 @@ glabel func_80090D20
 /* B08844 800916A4 3C048012 */  lui   $a0, %hi(D_801261CC) # $a0, 0x8012
 /* B08848 800916A8 3C058012 */  lui   $a1, %hi(D_801261D8) # $a1, 0x8012
 /* B0884C 800916AC 24A561D8 */  addiu $a1, %lo(D_801261D8) # addiu $a1, $a1, 0x61d8
-/* B08850 800916B0 0C0344D0 */  jal   Matrix_RotateRPYf
+/* B08850 800916B0 0C0344D0 */  jal   Matrix_JointPosition
 /* B08854 800916B4 248461CC */   addiu $a0, %lo(D_801261CC) # addiu $a0, $a0, 0x61cc
 /* B08858 800916B8 0C034236 */  jal   Matrix_Get
 /* B0885C 800916BC 26040A20 */   addiu $a0, $s0, 0xa20

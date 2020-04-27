@@ -387,9 +387,9 @@ void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
 }
 
 /*
- * Roll-pitch-yaw rotation
+ * Roll-pitch-yaw rotation and position
  */
-void Matrix_RotateRPYf(Vec3f* translation, Vec3s* rotation) {
+void Matrix_RotateRPYf(Vec3f* position, Vec3s* rotation) {
     MtxF* cmf = sCurrentMatrix;
     f32 sin;
     f32 cos;
@@ -401,25 +401,25 @@ void Matrix_RotateRPYf(Vec3f* translation, Vec3s* rotation) {
 
     temp1 = cmf->xx;
     temp2 = cmf->yx;
-    cmf->wx += temp1 * translation->x + temp2 * translation->y + cmf->zx * translation->z;
+    cmf->wx += temp1 * position->x + temp2 * position->y + cmf->zx * position->z;
     cmf->xx = temp1 * cos + temp2 * sin;
     cmf->yx = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->xy;
     temp2 = cmf->yy;
-    cmf->wy += temp1 * translation->x + temp2 * translation->y + cmf->zy * translation->z;
+    cmf->wy += temp1 * position->x + temp2 * position->y + cmf->zy * position->z;
     cmf->xy = temp1 * cos + temp2 * sin;
     cmf->yy = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->xz;
     temp2 = cmf->yz;
-    cmf->wz += temp1 * translation->x + temp2 * translation->y + cmf->zz * translation->z;
+    cmf->wz += temp1 * position->x + temp2 * position->y + cmf->zz * position->z;
     cmf->xz = temp1 * cos + temp2 * sin;
     cmf->yz = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->xw;
     temp2 = cmf->yw;
-    cmf->ww += temp1 * translation->x + temp2 * translation->y + cmf->zw * translation->z;
+    cmf->ww += temp1 * position->x + temp2 * position->y + cmf->zw * position->z;
     cmf->xw = temp1 * cos + temp2 * sin;
     cmf->yw = temp2 * cos - temp1 * sin;
 
