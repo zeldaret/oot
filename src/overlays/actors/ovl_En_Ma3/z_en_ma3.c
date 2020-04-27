@@ -5,7 +5,6 @@
  */
 
 #include "z_en_ma3.h"
-#include "overlays/actors/ovl_En_Ma2/z_en_ma2.h"
 
 #define FLAGS 0x00000039
 
@@ -200,7 +199,7 @@ void func_80AA3004(EnMa3* this, s32 idx) {
 
 void EnMa3_Init(EnMa3* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
-    s32 temp_ret;
+    s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008D90, NULL, 0, 0, 0);
