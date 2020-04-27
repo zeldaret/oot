@@ -1,4 +1,4 @@
-glabel FBFilter_Update
+glabel TransitionUnk_SetData
 /* B29214 800B2074 8C830004 */  lw    $v1, 4($a0)
 /* B29218 800B2078 00001025 */  move  $v0, $zero
 /* B2921C 800B207C 24630001 */  addiu $v1, $v1, 1

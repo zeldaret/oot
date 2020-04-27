@@ -918,15 +918,15 @@ typedef struct {
         char data[0x228];
     };
     /* 0x228 */ s32    transitionType;
-    /* 0x22C */ void* (*initFunc)(void* transition);
-    /* 0x230 */ void  (*destroyFunc)(void* transition);
-    /* 0x234 */ void  (*moveFunc)(void* transition, s32 updateRate);
-    /* 0x238 */ void  (*drawFunc)(void* transition, Gfx** gfxP);
-    /* 0x23C */ void  (*startFunc)(void* transition);
-    /* 0x240 */ void  (*setTypeFunc)(void* transition, s32 type);
-    /* 0x244 */ void  (*setColorFunc)(void* transition, u32 color);
-    /* 0x248 */ void  (*setEnvColorFunc)(void* transition, u32 color);
-    /* 0x24C */ s32   (*isDoneFunc)(void* transition);
+    /* 0x22C */ void* (*init)(void* transition);
+    /* 0x230 */ void  (*destroy)(void* transition);
+    /* 0x234 */ void  (*update)(void* transition, s32 updateRate);
+    /* 0x238 */ void  (*draw)(void* transition, Gfx** gfxP);
+    /* 0x23C */ void  (*start)(void* transition);
+    /* 0x240 */ void  (*setType)(void* transition, s32 type);
+    /* 0x244 */ void  (*setColor)(void* transition, u32 color);
+    /* 0x248 */ void  (*setEnvColor)(void* transition, u32 color);
+    /* 0x24C */ s32   (*isDone)(void* transition);
 } TransitionContext; // size = 0x250
 
 typedef struct {
@@ -1586,7 +1586,7 @@ typedef struct {
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 
-typedef struct { 
+typedef struct {
     /* 0x00 */ char unk_00[0x08];
     /* 0x08 */ Color_RGBA8 color;
     /* 0x0C */ char unk_0C[0x0C];

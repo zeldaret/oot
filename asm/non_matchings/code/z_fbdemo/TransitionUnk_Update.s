@@ -1,4 +1,4 @@
-glabel FBFilter_Move
+glabel TransitionUnk_Update
 /* B29454 800B22B4 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B29458 800B22B8 F7B60010 */  sdc1  $f22, 0x10($sp)
 /* B2945C 800B22BC F7B40008 */  sdc1  $f20, 8($sp)

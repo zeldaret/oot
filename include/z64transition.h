@@ -14,9 +14,9 @@ typedef struct {
     /* 0x18 */ Mtx projection;
     /* 0x58 */ Mtx modelView;
     /* 0x98 */ char unk_98[0x40];
-    /* 0xD8 */ Gfx* gfx; //gfxtbl
+    /* 0xD8 */ Gfx* gfx; // "gfxtbl"
     /* 0xDC */ u16* zBuffer;
-} FBFilter; // size = 0xE0
+} TransitionUnk; // size = 0xE0
 
 typedef struct {
     /* 0x000 */ Color_RGBA8 color;
@@ -53,11 +53,9 @@ typedef struct {
     /* 0x018 */ u8 isDone;
     /* 0x019 */ u8 frame;
     /* 0x01A */ u16 normal;
-    /* 0x01C */ char unk_1C[4];
     /* 0x020 */ Mtx projection;
     /* 0x060 */ Mtx lookAt;
     /* 0x0A0 */ char* texture;
-    /* 0x0A4 */ char unk_A4[0x4];
     /* 0x0A8 */ Mtx modelView[2][3];
 } TransitionCircle; // size = 0x228;
 
@@ -67,10 +65,8 @@ typedef struct {
     /* 0x008 */ f32 step;
     /* 0x00C */ s32 state;
     /* 0x010 */ s32 fadeDirection;
-    /* 0x014 */ char unk_14[0x4];
     /* 0x018 */ Mtx projection;
     /* 0x058 */ s32 frame;
-    /* 0x05C */ char unk_5C[4];
     /* 0x060 */ Mtx modelView[2][3];
 } TransitionTriforce; // size = 0x1E0;
 

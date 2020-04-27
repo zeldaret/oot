@@ -28,11 +28,11 @@ Gfx D_8012B000[] = {
     gsSPEndDisplayList(),
 };
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBFilter_InitGraphics.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/TransitionUnk_InitGraphics.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBFilter_InitData.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/TransitionUnk_InitData.s")
 
-void FBFilter_Destroy(FBFilter* this) {
+void TransitionUnk_Destroy(TransitionUnk* this) {
     osSyncPrintf("fbdemo_cleanup(%08x)\n", this);
     osSyncPrintf("msleep(100);\n");
     Sleep_Msec(100);
@@ -54,7 +54,7 @@ void FBFilter_Destroy(FBFilter* this) {
     }
 }
 
-FBFilter* FBFilter_Init(FBFilter* this, s32 row, s32 col) {
+TransitionUnk* TransitionUnk_Init(TransitionUnk* this, s32 row, s32 col) {
     osSyncPrintf("fbdemo_init(%08x, %d, %d)\n", this, row, col);
     bzero(this, sizeof(*this));
     this->frame = 0;
@@ -84,19 +84,19 @@ FBFilter* FBFilter_Init(FBFilter* this, s32 row, s32 col) {
         }
         return NULL;
     }
-    FBFilter_InitGraphics(this);
-    FBFilter_InitData(this);
+    TransitionUnk_InitGraphics(this);
+    TransitionUnk_InitData(this);
     this->frame = 0;
     return this;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBFilter_Update.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/TransitionUnk_SetData.s")
 
-void FBFilter_Draw(FBFilter* this, Gfx** gfxP) {
+void TransitionUnk_Draw(TransitionUnk* this, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
 
     gSPDisplayList(gfx++, D_8012B000);
-    FBFilter_Update(this);
+    TransitionUnk_SetData(this);
     gSPMatrix(gfx++, &this->projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPMatrix(gfx++, &this->modelView, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(gfx++, 10, this->frame == 0 ? this->vtxFrame1 : this->vtxFrame2);
@@ -108,11 +108,11 @@ void FBFilter_Draw(FBFilter* this, Gfx** gfxP) {
     *gfxP = gfx;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/FBFilter_Move.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/TransitionUnk_Update.s")
 
-void func_800B23E8(FBFilter* this) {
+void func_800B23E8(TransitionUnk* this) {
 }
 
-s32 func_800B23F0(FBFilter* this) {
+s32 func_800B23F0(TransitionUnk* this) {
     return 0;
 }

@@ -1470,7 +1470,7 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     gDPSetDepthImage(gfxCtx->polyXlu.p++, gZBuffer);
     gDPSetDepthImage(gfxCtx->overlay.p++, gZBuffer);
 
-    if ((R_PAUSE_MENU_MODE < 2) && (D_80161490 < 2)) {
+    if ((R_PAUSE_MENU_MODE < 2) && (trnsnUnkState < 2)) {
         ret = func_800B38FC();
 
         if (HREG(80) == 16) {
