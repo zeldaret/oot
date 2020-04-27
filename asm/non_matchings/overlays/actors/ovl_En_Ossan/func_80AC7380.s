@@ -9,6 +9,6 @@ glabel func_80AC7380
 /* 046FC 80AC739C 0338C821 */  addu    $t9, $t9, $t8              
 /* 04700 80AC73A0 8F3917B4 */  lw      $t9, 0x17B4($t9)           ## 000117B4
 /* 04704 80AC73A4 03214021 */  addu    $t0, $t9, $at              
-/* 04708 80AC73A8 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 04708 80AC73A8 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 0470C 80AC73AC 03E00008 */  jr      $ra                        
-/* 04710 80AC73B0 AC286FC0 */  sw      $t0, 0x6FC0($at)           ## 80166FC0
+/* 04710 80AC73B0 AC286FC0 */  sw      $t0, %lo(gSegments+0x18)($at)

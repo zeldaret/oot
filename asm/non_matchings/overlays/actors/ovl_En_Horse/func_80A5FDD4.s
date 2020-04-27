@@ -80,14 +80,14 @@ glabel func_80A5FDD4
 /* 04BEC 80A5FEDC E7B20030 */  swc1    $f18, 0x0030($sp)
 .L80A5FEE0:
 /* 04BF0 80A5FEE0 14820013 */  bne     $a0, $v0, .L80A5FF30
-/* 04BF4 80A5FEE4 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
+/* 04BF4 80A5FEE4 3C078013 */  lui     $a3, %hi(D_801333E0)
 /* 04BF8 80A5FEE8 3C013E80 */  lui     $at, 0x3E80                ## $at = 3E800000
 /* 04BFC 80A5FEEC 44813000 */  mtc1    $at, $f6                   ## $f6 = 0.25
 /* 04C00 80A5FEF0 C6040068 */  lwc1    $f4, 0x0068($s0)           ## 00000068
-/* 04C04 80A5FEF4 3C0A8013 */  lui     $t2, 0x8013                ## $t2 = 80130000
-/* 04C08 80A5FEF8 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
+/* 04C04 80A5FEF4 3C0A8013 */  lui     $t2, %hi(D_801333E8)
+/* 04C08 80A5FEF8 24E733E0 */  addiu   $a3, %lo(D_801333E0)
 /* 04C0C 80A5FEFC 46062202 */  mul.s   $f8, $f4, $f6
-/* 04C10 80A5FF00 254A33E8 */  addiu   $t2, $t2, 0x33E8           ## $t2 = 801333E8
+/* 04C10 80A5FF00 254A33E8 */  addiu   $t2, %lo(D_801333E8)
 /* 04C14 80A5FF04 AFAA0014 */  sw      $t2, 0x0014($sp)
 /* 04C18 80A5FF08 AFA70010 */  sw      $a3, 0x0010($sp)
 /* 04C1C 80A5FF0C AFA30034 */  sw      $v1, 0x0034($sp)
@@ -106,11 +106,11 @@ glabel func_80A5FDD4
 /* 04C48 80A5FF38 3C0180A6 */  lui     $at, %hi(D_80A668F4)       ## $at = 80A60000
 /* 04C4C 80A5FF3C C43068F4 */  lwc1    $f16, %lo(D_80A668F4)($at)
 /* 04C50 80A5FF40 C60A0068 */  lwc1    $f10, 0x0068($s0)          ## 00000068
-/* 04C54 80A5FF44 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 04C58 80A5FF48 3C0B8013 */  lui     $t3, 0x8013                ## $t3 = 80130000
+/* 04C54 80A5FF44 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 04C58 80A5FF48 3C0B8013 */  lui     $t3, %hi(D_801333E8)
 /* 04C5C 80A5FF4C 46105482 */  mul.s   $f18, $f10, $f16
-/* 04C60 80A5FF50 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 04C64 80A5FF54 256B33E8 */  addiu   $t3, $t3, 0x33E8           ## $t3 = 801333E8
+/* 04C60 80A5FF50 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 04C64 80A5FF54 256B33E8 */  addiu   $t3, %lo(D_801333E8)
 /* 04C68 80A5FF58 AFAB0014 */  sw      $t3, 0x0014($sp)
 /* 04C6C 80A5FF5C AFA70010 */  sw      $a3, 0x0010($sp)
 /* 04C70 80A5FF60 AFA30034 */  sw      $v1, 0x0034($sp)

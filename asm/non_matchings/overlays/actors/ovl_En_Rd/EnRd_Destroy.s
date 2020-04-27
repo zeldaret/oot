@@ -1,6 +1,6 @@
 glabel EnRd_Destroy
-/* 001F0 80AE25F0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 001F4 80AE25F4 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 001F0 80AE25F0 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 001F4 80AE25F4 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 001F8 80AE25F8 844E1422 */  lh      $t6, 0x1422($v0)           ## 8015FA82
 /* 001FC 80AE25FC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00200 80AE2600 AFBF0014 */  sw      $ra, 0x0014($sp)           

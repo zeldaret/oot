@@ -61,8 +61,8 @@ glabel func_80A71A64
 /* 02578 80A71B28 01876821 */  addu    $t5, $t4, $a3              
 /* 0257C 80A71B2C 8DAE17B4 */  lw      $t6, 0x17B4($t5)           ## 000017B4
 /* 02580 80A71B30 01C17821 */  addu    $t7, $t6, $at              
-/* 02584 80A71B34 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 02588 80A71B38 AC2F6FC0 */  sw      $t7, 0x6FC0($at)           ## 80166FC0
+/* 02584 80A71B34 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 02588 80A71B38 AC2F6FC0 */  sw      $t7, %lo(gSegments+0x18)($at)
 .L80A71B3C:
 /* 0258C 80A71B3C 8FA60060 */  lw      $a2, 0x0060($sp)           
 /* 02590 80A71B40 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003

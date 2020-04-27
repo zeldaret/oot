@@ -23,8 +23,8 @@ glabel func_80A91A90
 /* 00DC0 80A91AE0 10400025 */  beq     $v0, $zero, .L80A91B78     
 /* 00DC4 80A91AE4 2401FFFF */  addiu   $at, $zero, 0xFFFF         ## $at = FFFFFFFF
 /* 00DC8 80A91AE8 922F0195 */  lbu     $t7, 0x0195($s1)           ## 00000195
-/* 00DCC 80A91AEC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00DD0 80A91AF0 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00DCC 80A91AEC 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00DD0 80A91AF0 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00DD4 80A91AF4 11E00006 */  beq     $t7, $zero, .L80A91B10     
 /* 00DD8 80A91AF8 240BFFFF */  addiu   $t3, $zero, 0xFFFF         ## $t3 = FFFFFFFF
 /* 00DDC 80A91AFC 94620EE6 */  lhu     $v0, 0x0EE6($v1)           ## 8015F546

@@ -7,8 +7,8 @@ glabel func_80A7A848
 /* 018AC 80A7A85C 15C10034 */  bne     $t6, $at, .L80A7A930       
 /* 018B0 80A7A860 00651821 */  addu    $v1, $v1, $a1              
 /* 018B4 80A7A864 906304BD */  lbu     $v1, 0x04BD($v1)           ## 000104BD
-/* 018B8 80A7A868 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 018BC 80A7A86C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 018B8 80A7A868 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 018BC 80A7A86C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 018C0 80A7A870 14600005 */  bne     $v1, $zero, .L80A7A888     
 /* 018C4 80A7A874 00000000 */  nop
 /* 018C8 80A7A878 844F0034 */  lh      $t7, 0x0034($v0)           ## 8015E694
@@ -16,10 +16,10 @@ glabel func_80A7A848
 /* 018D0 80A7A880 54200006 */  bnel    $at, $zero, .L80A7A89C     
 /* 018D4 80A7A884 945813FA */  lhu     $t8, 0x13FA($v0)           ## 8015FA5A
 .L80A7A888:
-/* 018D8 80A7A888 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 018D8 80A7A888 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 018DC 80A7A88C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 018E0 80A7A890 14610008 */  bne     $v1, $at, .L80A7A8B4       
-/* 018E4 80A7A894 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 018E4 80A7A894 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 018E8 80A7A898 945813FA */  lhu     $t8, 0x13FA($v0)           ## 8015FA5A
 .L80A7A89C:
 /* 018EC 80A7A89C 3C0880A8 */  lui     $t0, %hi(func_80A7A4C8)    ## $t0 = 80A80000
@@ -34,8 +34,8 @@ glabel func_80A7A848
 /* 0190C 80A7A8BC AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 01910 80A7A8C0 0C29E6EB */  jal     func_80A79BAC              
 /* 01914 80A7A8C4 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 01918 80A7A8C8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0191C 80A7A8CC 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01918 80A7A8C8 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0191C 80A7A8CC 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01920 80A7A8D0 944913FA */  lhu     $t1, 0x13FA($v0)           ## 8015FA5A
 /* 01924 80A7A8D4 3C01FFFF */  lui     $at, 0xFFFF                ## $at = FFFF0000
 /* 01928 80A7A8D8 34217FFF */  ori     $at, $at, 0x7FFF           ## $at = FFFF7FFF

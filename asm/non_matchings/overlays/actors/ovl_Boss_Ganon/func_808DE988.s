@@ -84,12 +84,12 @@ glabel func_808DE988
 /* 08254 808DEAC4 00194080 */  sll     $t0, $t9,  2               
 /* 08258 808DEAC8 3C0FDE00 */  lui     $t7, 0xDE00                ## $t7 = DE000000
 /* 0825C 808DEACC 244E0008 */  addiu   $t6, $v0, 0x0008           ## $t6 = 00000008
-/* 08260 808DEAD0 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 08260 808DEAD0 3C098016 */  lui     $t1, %hi(gSegments)
 /* 08264 808DEAD4 ADAE02D0 */  sw      $t6, 0x02D0($t5)           ## 000002D0
 /* 08268 808DEAD8 01284821 */  addu    $t1, $t1, $t0              
 /* 0826C 808DEADC 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 08270 808DEAE0 AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
-/* 08274 808DEAE4 8D296FA8 */  lw      $t1, 0x6FA8($t1)           ## 80166FA8
+/* 08274 808DEAE4 8D296FA8 */  lw      $t1, %lo(gSegments)($t1)
 /* 08278 808DEAE8 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 0827C 808DEAEC 00815024 */  and     $t2, $a0, $at              
 /* 08280 808DEAF0 3C018000 */  lui     $at, 0x8000                ## $at = 80000000

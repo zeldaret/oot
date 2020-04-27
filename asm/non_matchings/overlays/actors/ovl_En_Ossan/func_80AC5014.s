@@ -35,10 +35,10 @@ glabel func_80AC5014
 glabel L80AC5070
 /* 023D0 80AC5070 84E9001C */  lh      $t1, 0x001C($a3)           ## 0000001C
 /* 023D4 80AC5074 2401000C */  addiu   $at, $zero, 0x000C         ## $at = 0000000C
-/* 023D8 80AC5078 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 023D8 80AC5078 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xf06)
 /* 023DC 80AC507C 1521000A */  bne     $t1, $at, .L80AC50A8       
 /* 023E0 80AC5080 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 023E4 80AC5084 954AF566 */  lhu     $t2, -0x0A9A($t2)          ## 8015F566
+/* 023E4 80AC5084 954AF566 */  lhu     $t2, %lo(gSaveContext+0xf06)($t2)
 /* 023E8 80AC5088 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 023EC 80AC508C 314B0040 */  andi    $t3, $t2, 0x0040           ## $t3 = 00000000
 /* 023F0 80AC5090 51600006 */  beql    $t3, $zero, .L80AC50AC     

@@ -11,12 +11,12 @@ glabel func_8097FC1C
 /* 025D0 8097FC40 ACD90000 */  sw      $t9, 0x0000($a2)           ## FFFFFFD4
 /* 025D4 8097FC44 8DF80004 */  lw      $t8, 0x0004($t7)           ## 80982654
 /* 025D8 8097FC48 284102AB */  slti    $at, $v0, 0x02AB           
-/* 025DC 8097FC4C 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
+/* 025DC 8097FC4C 3C088016 */  lui     $t0, %hi(gGameInfo)
 /* 025E0 8097FC50 ACD80004 */  sw      $t8, 0x0004($a2)           ## FFFFFFD8
 /* 025E4 8097FC54 8DF90008 */  lw      $t9, 0x0008($t7)           ## 80982658
 /* 025E8 8097FC58 10200006 */  beq     $at, $zero, .L8097FC74     
 /* 025EC 8097FC5C ACD90008 */  sw      $t9, 0x0008($a2)           ## FFFFFFDC
-/* 025F0 8097FC60 8D08FA90 */  lw      $t0, -0x0570($t0)          ## 8015FA90
+/* 025F0 8097FC60 8D08FA90 */  lw      $t0, %lo(gGameInfo)($t0)
 /* 025F4 8097FC64 24010007 */  addiu   $at, $zero, 0x0007         ## $at = 00000007
 /* 025F8 8097FC68 85091456 */  lh      $t1, 0x1456($t0)           ## 80161456
 /* 025FC 8097FC6C 5521001A */  bnel    $t1, $at, .L8097FCD8       

@@ -36,9 +36,9 @@ glabel func_80AC5DAC
 /* 03194 80AC5E34 00000000 */  nop
 /* 03198 80AC5E38 8FAC0020 */  lw      $t4, 0x0020($sp)           
 /* 0319C 80AC5E3C 24010022 */  addiu   $at, $zero, 0x0022         ## $at = 00000022
-/* 031A0 80AC5E40 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 031A0 80AC5E40 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 031A4 80AC5E44 858D001C */  lh      $t5, 0x001C($t4)           ## 0000001C
-/* 031A8 80AC5E48 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 031A8 80AC5E48 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 031AC 80AC5E4C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 031B0 80AC5E50 15A10011 */  bne     $t5, $at, .L80AC5E98       
 /* 031B4 80AC5E54 00000000 */  nop

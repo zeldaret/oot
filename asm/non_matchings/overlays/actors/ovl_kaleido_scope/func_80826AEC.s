@@ -1,6 +1,6 @@
 glabel func_80826AEC
-/* 132CC 80826AEC 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 132D0 80826AF0 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 132CC 80826AEC 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 132D0 80826AF0 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 132D4 80826AF4 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 132D8 80826AF8 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 132DC 80826AFC AFA40030 */  sw      $a0, 0x0030($sp)           
@@ -22,8 +22,8 @@ glabel func_80826AEC
 /* 1331C 80826B3C 03222821 */  addu    $a1, $t9, $v0              
 /* 13320 80826B40 0C0006A8 */  jal     DmaMgr_SendRequest1              
 /* 13324 80826B44 240607F8 */  addiu   $a2, $zero, 0x07F8         ## $a2 = 000007F8
-/* 13328 80826B48 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 1332C 80826B4C 8D4AFA90 */  lw      $t2, -0x0570($t2)          ## 8015FA90
+/* 13328 80826B48 3C0A8016 */  lui     $t2, %hi(gGameInfo)
+/* 1332C 80826B4C 8D4AFA90 */  lw      $t2, %lo(gGameInfo)($t2)
 /* 13330 80826B50 8FA90030 */  lw      $t1, 0x0030($sp)           
 /* 13334 80826B54 8FA20024 */  lw      $v0, 0x0024($sp)           
 /* 13338 80826B58 854B0F2E */  lh      $t3, 0x0F2E($t2)           ## 80160F2E

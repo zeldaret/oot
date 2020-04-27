@@ -1,6 +1,6 @@
 glabel func_80B14410
-/* 00970 80B14410 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00974 80B14414 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00970 80B14410 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00974 80B14414 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00978 80B14418 8C4E0004 */  lw      $t6, 0x0004($v0)           ## 8015E664
 /* 0097C 80B1441C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00980 80B14420 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -11,8 +11,8 @@ glabel func_80B14410
 /* 00994 80B14434 24C667C0 */  addiu   $a2, $a2, %lo(func_80B167C0) ## $a2 = 80B167C0
 /* 00998 80B14438 0C2C4EA8 */  jal     func_80B13AA0              
 /* 0099C 80B1443C 24A54C18 */  addiu   $a1, $a1, %lo(func_80B14C18) ## $a1 = 80B14C18
-/* 009A0 80B14440 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 009A4 80B14444 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 009A0 80B14440 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 009A4 80B14444 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 009A8 80B14448 944F0ED6 */  lhu     $t7, 0x0ED6($v0)           ## 8015F536
 /* 009AC 80B1444C 35F80008 */  ori     $t8, $t7, 0x0008           ## $t8 = 00000008
 /* 009B0 80B14450 1000000A */  beq     $zero, $zero, .L80B1447C   
@@ -22,8 +22,8 @@ glabel func_80B14410
 /* 009BC 80B1445C 24C667C0 */  addiu   $a2, $a2, %lo(func_80B167C0) ## $a2 = 80B167C0
 /* 009C0 80B14460 0C2C4EA8 */  jal     func_80B13AA0              
 /* 009C4 80B14464 24A54CAC */  addiu   $a1, $a1, %lo(func_80B14CAC) ## $a1 = 00004CAC
-/* 009C8 80B14468 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 009CC 80B1446C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 009C8 80B14468 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 009CC 80B1446C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 009D0 80B14470 94590EE0 */  lhu     $t9, 0x0EE0($v0)           ## 8015F540
 /* 009D4 80B14474 37280400 */  ori     $t0, $t9, 0x0400           ## $t0 = 00000400
 /* 009D8 80B14478 A4480EE0 */  sh      $t0, 0x0EE0($v0)           ## 8015F540

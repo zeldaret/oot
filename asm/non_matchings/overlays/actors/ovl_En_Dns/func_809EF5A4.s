@@ -1,22 +1,22 @@
 glabel func_809EF5A4
-/* 00254 809EF5A4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00258 809EF5A8 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
-/* 0025C 809EF5AC 3C0F8012 */  lui     $t7, 0x8012                ## $t7 = 80120000
-/* 00260 809EF5B0 8DEF71CC */  lw      $t7, 0x71CC($t7)           ## 801271CC
+/* 00254 809EF5A4 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00258 809EF5A8 2463E660 */  addiu   $v1, %lo(gSaveContext)
+/* 0025C 809EF5AC 3C0F8012 */  lui     $t7, %hi(gUpgradeMasks+0x1c)
+/* 00260 809EF5B0 8DEF71CC */  lw      $t7, %lo(gUpgradeMasks+0x1c)($t7)
 /* 00264 809EF5B4 8C6E00A0 */  lw      $t6, 0x00A0($v1)           ## 8015E700
-/* 00268 809EF5B8 3C198012 */  lui     $t9, 0x8012                ## $t9 = 80120000
-/* 0026C 809EF5BC 933971FB */  lbu     $t9, 0x71FB($t9)           ## 801271FB
+/* 00268 809EF5B8 3C198012 */  lui     $t9, %hi(gUpgradeShifts+7)
+/* 0026C 809EF5BC 933971FB */  lbu     $t9, %lo(gUpgradeShifts+7)($t9)
 /* 00270 809EF5C0 01CFC024 */  and     $t8, $t6, $t7              
-/* 00274 809EF5C4 3C028012 */  lui     $v0, 0x8012                ## $v0 = 80120000
+/* 00274 809EF5C4 3C028012 */  lui     $v0, %hi(gUpgradeCapacities+0x38)
 /* 00278 809EF5C8 03384007 */  srav    $t0, $t8, $t9              
 /* 0027C 809EF5CC 00084840 */  sll     $t1, $t0,  1               
 /* 00280 809EF5D0 00491021 */  addu    $v0, $v0, $t1              
-/* 00284 809EF5D4 94427234 */  lhu     $v0, 0x7234($v0)           ## 80127234
+/* 00284 809EF5D4 94427234 */  lhu     $v0, %lo(gUpgradeCapacities+0x38)($v0)
 /* 00288 809EF5D8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0028C 809EF5DC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00290 809EF5E0 10400009 */  beq     $v0, $zero, .L809EF608     
-/* 00294 809EF5E4 3C0A8012 */  lui     $t2, 0x8012                ## $t2 = 80120000
-/* 00298 809EF5E8 914A7465 */  lbu     $t2, 0x7465($t2)           ## 80127465
+/* 00294 809EF5E4 3C0A8012 */  lui     $t2, %hi(gItemSlots+1)
+/* 00298 809EF5E8 914A7465 */  lbu     $t2, %lo(gItemSlots+1)($t2)
 /* 0029C 809EF5EC 006A5821 */  addu    $t3, $v1, $t2              
 /* 002A0 809EF5F0 816C008C */  lb      $t4, 0x008C($t3)           ## 0000008C
 /* 002A4 809EF5F4 0182082A */  slt     $at, $t4, $v0              

@@ -6,8 +6,8 @@ glabel EnOkarinaTag_Update
 /* 00B98 80ABF8B8 8C99014C */  lw      $t9, 0x014C($a0)           ## 0000014C
 /* 00B9C 80ABF8BC 0320F809 */  jalr    $ra, $t9                   
 /* 00BA0 80ABF8C0 00000000 */  nop
-/* 00BA4 80ABF8C4 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00BA8 80ABF8C8 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 00BA4 80ABF8C4 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 00BA8 80ABF8C8 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 00BAC 80ABF8CC 8FA40048 */  lw      $a0, 0x0048($sp)           
 /* 00BB0 80ABF8D0 8FA5004C */  lw      $a1, 0x004C($sp)           
 /* 00BB4 80ABF8D4 85CF12D4 */  lh      $t7, 0x12D4($t6)           ## 801612D4

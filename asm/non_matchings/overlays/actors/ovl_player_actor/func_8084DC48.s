@@ -101,14 +101,14 @@ glabel func_8084DC48
 /* 1BB9C 8084DDAC 5440001C */  bnel    $v0, $zero, .L8084DE20     
 /* 1BBA0 8084DDB0 820D084F */  lb      $t5, 0x084F($s0)           ## 0000084F
 /* 1BBA4 8084DDB4 960F0088 */  lhu     $t7, 0x0088($s0)           ## 00000088
-/* 1BBA8 8084DDB8 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 1BBAC 8084DDBC 3C088012 */  lui     $t0, 0x8012                ## $t0 = 80120000
+/* 1BBA8 8084DDB8 3C198016 */  lui     $t9, %hi(gSaveContext+0xa0)
+/* 1BBAC 8084DDBC 3C088012 */  lui     $t0, %hi(gUpgradeMasks+0xc)
 /* 1BBB0 8084DDC0 31F80001 */  andi    $t8, $t7, 0x0001           ## $t8 = 00000000
 /* 1BBB4 8084DDC4 17000015 */  bne     $t8, $zero, .L8084DE1C     
-/* 1BBB8 8084DDC8 3C0A8012 */  lui     $t2, 0x8012                ## $t2 = 80120000
-/* 1BBBC 8084DDCC 8F39E700 */  lw      $t9, -0x1900($t9)          ## 8015E700
-/* 1BBC0 8084DDD0 8D0871BC */  lw      $t0, 0x71BC($t0)           ## 801271BC
-/* 1BBC4 8084DDD4 914A71F7 */  lbu     $t2, 0x71F7($t2)           ## 801271F7
+/* 1BBB8 8084DDC8 3C0A8012 */  lui     $t2, %hi(gUpgradeShifts+3)
+/* 1BBBC 8084DDCC 8F39E700 */  lw      $t9, %lo(gSaveContext+0xa0)($t9)
+/* 1BBC0 8084DDD0 8D0871BC */  lw      $t0, %lo(gUpgradeMasks+0xc)($t0)
+/* 1BBC4 8084DDD4 914A71F7 */  lbu     $t2, %lo(gUpgradeShifts+3)($t2)
 /* 1BBC8 8084DDD8 3C018085 */  lui     $at, %hi(D_80854784)       ## $at = 80850000
 /* 1BBCC 8084DDDC 03284824 */  and     $t1, $t9, $t0              
 /* 1BBD0 8084DDE0 01495807 */  srav    $t3, $t1, $t2              

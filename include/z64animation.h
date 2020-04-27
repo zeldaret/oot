@@ -4,7 +4,7 @@
 #include <ultra64.h>
 #include <ultra64/gbi.h>
 #include <z64dma.h>
-#include <z64vec.h>
+#include <z64math.h>
 
 #define LINK_ANIMETION_OFFSET(addr,offset) (((u32)&_link_animetionSegmentRomStart)+((u32)addr)-((u32)&link_animetion_segment)+((u32)offset))
 #define LIMB_DONE 0xFF
@@ -160,7 +160,7 @@ struct SkelAnime {
     /* 0x14 */ f32 totalFrames;
     /* 0x18 */ f32 animCurrentFrame;
     /* 0x1C */ f32 animPlaybackSpeed;
-    /* 0x20 */ Vec3s* actorDrawTbl; // now_joint
+    /* 0x20 */ Vec3s* limbDrawTbl; // now_joint
     /* 0x24 */ Vec3s* transitionDrawTbl; // morf_joint
     /* 0x28 */ f32 transCurrentFrame;
     /* 0x2C */ f32 transitionStep;
@@ -172,16 +172,16 @@ struct SkelAnime {
     /* 0x3E */ Vec3s unk_3E;
 }; // size = 0x44
 
-typedef s32 (*SkelAnime_LimbUpdateMatrix)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+typedef s32 (*OverrideLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
              Vec3f* pos, Vec3s* rot, struct Actor* actor);
 
-typedef void (*SkelAnime_LimbAppendDlist)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+typedef void (*PostLimbDraw)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
                                           Vec3s* rot, struct Actor* actor);
 
-typedef s32 (*SkelAnime_LimbUpdateMatrix2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+typedef s32 (*OverrideLimbDraw2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
              Vec3f* pos, Vec3s* rot, struct Actor* actor, Gfx** gfx);
 
-typedef void (*SkelAnime_LimbAppendDlist2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
+typedef void (*PostLimbDraw2)(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
                                           Vec3s* rot, struct Actor* actor, Gfx** gfx);
 
 typedef void (*AnimationEntryCallback)(struct GlobalContext*, AnimationEntryType*);

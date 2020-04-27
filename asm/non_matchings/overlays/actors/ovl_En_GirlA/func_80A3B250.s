@@ -2,8 +2,8 @@ glabel func_80A3B250
 /* 00B00 80A3B250 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00B04 80A3B254 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00B08 80A3B258 AFA40018 */  sw      $a0, 0x0018($sp)           
-/* 00B0C 80A3B25C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00B10 80A3B260 85CEE694 */  lh      $t6, -0x196C($t6)          ## 8015E694
+/* 00B0C 80A3B25C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x34)
+/* 00B10 80A3B260 85CEE694 */  lh      $t6, %lo(gSaveContext+0x34)($t6)
 /* 00B14 80A3B264 84AF01C8 */  lh      $t7, 0x01C8($a1)           ## 000001C8
 /* 00B18 80A3B268 01CF082A */  slt     $at, $t6, $t7              
 /* 00B1C 80A3B26C 10200003 */  beq     $at, $zero, .L80A3B27C     

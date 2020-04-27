@@ -50,8 +50,8 @@ glabel ObjHsblock_Init
 /* 001C0 80B93D20 0C2E4F6C */  jal     func_80B93DB0              
 /* 001C4 80B93D24 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B93D28:
-/* 001C8 80B93D28 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 001CC 80B93D2C 2442FA90 */  addiu   $v0, $v0, 0xFA90           ## $v0 = 8015FA90
+/* 001C8 80B93D28 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 001CC 80B93D2C 2442FA90 */  addiu   $v0, %lo(gGameInfo)
 /* 001D0 80B93D30 8C590000 */  lw      $t9, 0x0000($v0)           ## 8015FA90
 /* 001D4 80B93D34 240300FF */  addiu   $v1, $zero, 0x00FF         ## $v1 = 000000FF
 /* 001D8 80B93D38 A723116E */  sh      $v1, 0x116E($t9)           ## 0000116E

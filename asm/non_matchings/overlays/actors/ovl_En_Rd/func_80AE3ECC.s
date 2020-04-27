@@ -23,9 +23,9 @@ glabel func_80AE3ECC
 /* 01B20 80AE3F20 86020316 */  lh      $v0, 0x0316($s0)           ## 00000316
 .L80AE3F24:
 /* 01B24 80AE3F24 14400003 */  bne     $v0, $zero, .L80AE3F34     
-/* 01B28 80AE3F28 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 01B28 80AE3F28 3C018016 */  lui     $at, %hi(gSaveContext+0x1422)
 /* 01B2C 80AE3F2C A2000318 */  sb      $zero, 0x0318($s0)         ## 00000318
-/* 01B30 80AE3F30 A420FA82 */  sh      $zero, -0x057E($at)        ## 8015FA82
+/* 01B30 80AE3F30 A420FA82 */  sh      $zero, %lo(gSaveContext+0x1422)($at)
 .L80AE3F34:
 /* 01B34 80AE3F34 92190114 */  lbu     $t9, 0x0114($s0)           ## 00000114
 .L80AE3F38:

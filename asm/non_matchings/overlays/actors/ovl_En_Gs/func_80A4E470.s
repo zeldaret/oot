@@ -1,7 +1,7 @@
 glabel func_80A4E470
 /* 00150 80A4E470 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
-/* 00154 80A4E474 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
-/* 00158 80A4E478 24C6FA90 */  addiu   $a2, $a2, 0xFA90           ## $a2 = 8015FA90
+/* 00154 80A4E474 3C068016 */  lui     $a2, %hi(gGameInfo)
+/* 00158 80A4E478 24C6FA90 */  addiu   $a2, %lo(gGameInfo)
 /* 0015C 80A4E47C 8CCE0000 */  lw      $t6, 0x0000($a2)           ## 8015FA90
 /* 00160 80A4E480 AFBF0034 */  sw      $ra, 0x0034($sp)           
 /* 00164 80A4E484 AFB10030 */  sw      $s1, 0x0030($sp)           

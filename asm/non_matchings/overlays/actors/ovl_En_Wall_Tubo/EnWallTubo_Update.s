@@ -12,8 +12,8 @@ glabel EnWallTubo_Update
 /* 00490 80B2F280 8FA5004C */  lw      $a1, 0x004C($sp)           
 /* 00494 80B2F284 0320F809 */  jalr    $ra, $t9                   
 /* 00498 80B2F288 00000000 */  nop
-/* 0049C 80B2F28C 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 004A0 80B2F290 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 0049C 80B2F28C 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 004A0 80B2F290 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 004A4 80B2F294 8FA40048 */  lw      $a0, 0x0048($sp)           
 /* 004A8 80B2F298 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 004AC 80B2F29C 85F812D4 */  lh      $t8, 0x12D4($t7)           ## 801612D4

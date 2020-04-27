@@ -3,12 +3,12 @@ glabel func_80A76DDC
 /* 02AD0 80A76DE0 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 02AD4 80A76DE4 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 02AD8 80A76DE8 8FA50020 */  lw      $a1, 0x0020($sp)           
-/* 02ADC 80A76DEC 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 02AE0 80A76DF0 3C0E8013 */  lui     $t6, 0x8013                ## $t6 = 80130000
-/* 02AE4 80A76DF4 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
+/* 02ADC 80A76DEC 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 02AE0 80A76DF0 3C0E8013 */  lui     $t6, %hi(D_801333E8)
+/* 02AE4 80A76DF4 24E733E0 */  addiu   $a3, %lo(D_801333E0)
 /* 02AE8 80A76DF8 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 02AEC 80A76DFC AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 02AF0 80A76E00 25CE33E8 */  addiu   $t6, $t6, 0x33E8           ## $t6 = 801333E8
+/* 02AF0 80A76E00 25CE33E8 */  addiu   $t6, %lo(D_801333E8)
 /* 02AF4 80A76E04 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 02AF8 80A76E08 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
 /* 02AFC 80A76E0C AFA70010 */  sw      $a3, 0x0010($sp)           

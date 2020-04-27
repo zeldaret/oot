@@ -343,11 +343,11 @@ glabel func_8080D8CC
 /* 0A0BC 8080DDFC 3C0E8081 */  lui     $t6, %hi(D_808128B4)       ## $t6 = 80810000
 /* 0A0C0 8080DE00 01C47021 */  addu    $t6, $t6, $a0              
 /* 0A0C4 8080DE04 85CE28B4 */  lh      $t6, %lo(D_808128B4)($t6)  
-/* 0A0C8 8080DE08 3C0B8012 */  lui     $t3, 0x8012                ## $t3 = 80120000
+/* 0A0C8 8080DE08 3C0B8012 */  lui     $t3, %hi(gBitFlags)
 /* 0A0CC 8080DE0C 8D0F4A1C */  lw      $t7, 0x4A1C($t0)           ## 00004A1C
 /* 0A0D0 8080DE10 000EC080 */  sll     $t8, $t6,  2               
 /* 0A0D4 8080DE14 01785821 */  addu    $t3, $t3, $t8              
-/* 0A0D8 8080DE18 8D6B7120 */  lw      $t3, 0x7120($t3)           ## 80127120
+/* 0A0D8 8080DE18 8D6B7120 */  lw      $t3, %lo(gBitFlags)($t3)
 /* 0A0DC 8080DE1C 016F6024 */  and     $t4, $t3, $t7              
 /* 0A0E0 8080DE20 5180007D */  beql    $t4, $zero, .L8080E018     
 /* 0A0E4 8080DE24 26730001 */  addiu   $s3, $s3, 0x0001           ## $s3 = 00000001

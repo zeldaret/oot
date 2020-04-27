@@ -1,6 +1,6 @@
 glabel func_8098FA2C
-/* 015CC 8098FA2C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 015D0 8098FA30 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 015CC 8098FA2C 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 015D0 8098FA30 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 015D4 8098FA34 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 015D8 8098FA38 44815000 */  mtc1    $at, $f10                  ## $f10 = 10.00
 /* 015DC 8098FA3C 85CF1476 */  lh      $t7, 0x1476($t6)           ## 80161476

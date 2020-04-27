@@ -283,8 +283,8 @@ glabel BossTw_Init
 /* 00DEC 80939ABC AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00DF0 80939AC0 0C0291BE */  jal     SkelAnime_InitSV
 /* 00DF4 80939AC4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00DF8 80939AC8 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00DFC 80939ACC 95EFF542 */  lhu     $t7, -0x0ABE($t7)          ## 8015F542
+/* 00DF8 80939AC8 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xee2)
+/* 00DFC 80939ACC 95EFF542 */  lhu     $t7, %lo(gSaveContext+0xee2)($t7)
 /* 00E00 80939AD0 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00E04 80939AD4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00E08 80939AD8 31F80020 */  andi    $t8, $t7, 0x0020           ## $t8 = 00000000
@@ -339,8 +339,8 @@ glabel BossTw_Init
 /* 00EB8 80939B88 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00EBC 80939B8C 0C0291BE */  jal     SkelAnime_InitSV
 /* 00EC0 80939B90 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00EC4 80939B94 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00EC8 80939B98 95EFF542 */  lhu     $t7, -0x0ABE($t7)          ## 8015F542
+/* 00EC4 80939B94 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xee2)
+/* 00EC8 80939B98 95EFF542 */  lhu     $t7, %lo(gSaveContext+0xee2)($t7)
 /* 00ECC 80939B9C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00ED0 80939BA0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00ED4 80939BA4 31F80020 */  andi    $t8, $t7, 0x0020           ## $t8 = 00000000
@@ -401,8 +401,8 @@ glabel BossTw_Init
 /* 00FA0 80939C70 8FA40048 */  lw      $a0, 0x0048($sp)
 /* 00FA4 80939C74 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 00FA8 80939C78 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
-/* 00FAC 80939C7C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00FB0 80939C80 95CEF542 */  lhu     $t6, -0x0ABE($t6)          ## 8015F542
+/* 00FAC 80939C7C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xee2)
+/* 00FB0 80939C80 95CEF542 */  lhu     $t6, %lo(gSaveContext+0xee2)($t6)
 /* 00FB4 80939C84 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00FB8 80939C88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00FBC 80939C8C 31CF0020 */  andi    $t7, $t6, 0x0020           ## $t7 = 00000000

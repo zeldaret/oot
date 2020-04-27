@@ -13,8 +13,8 @@ glabel D_80B88BB8
 
 .text
 glabel MagicDark_Init
-/* 00000 80B873D0 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00004 80B873D4 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00000 80B873D0 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00004 80B873D4 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00008 80B873D8 8C6E0004 */  lw      $t6, 0x0004($v1)           ## 8015E664
 /* 0000C 80B873DC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00010 80B873E0 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -40,9 +40,9 @@ glabel MagicDark_Init
               
 /* 00058 80B87428 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 0005C 80B8742C 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 00060 80B87430 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 00060 80B87430 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 00064 80B87434 2419FFFF */  addiu   $t9, $zero, 0xFFFF         ## $t9 = FFFFFFFF
-/* 00068 80B87438 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00068 80B87438 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 0006C 80B8743C A0990003 */  sb      $t9, 0x0003($a0)           ## 00000003
 /* 00070 80B87440 846813C8 */  lh      $t0, 0x13C8($v1)           ## 8015FA28
 /* 00074 80B87444 3C0980B8 */  lui     $t1, %hi(func_80B874E4)    ## $t1 = 80B80000

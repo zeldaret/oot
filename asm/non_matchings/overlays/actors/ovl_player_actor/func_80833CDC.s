@@ -19,8 +19,8 @@ glabel func_80833CDC
 .L80833D18:
 /* 01B08 80833D18 14A00012 */  bne     $a1, $zero, .L80833D64     
 /* 01B0C 80833D1C 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 01B10 80833D20 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
-/* 01B14 80833D24 2484E660 */  addiu   $a0, $a0, 0xE660           ## $a0 = 8015E660
+/* 01B10 80833D20 3C048016 */  lui     $a0, %hi(gSaveContext)
+/* 01B14 80833D24 2484E660 */  addiu   $a0, %lo(gSaveContext)
 /* 01B18 80833D28 908E13E2 */  lbu     $t6, 0x13E2($a0)           ## 8015FA42
 /* 01B1C 80833D2C 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF
 /* 01B20 80833D30 55C10004 */  bnel    $t6, $at, .L80833D44       
@@ -41,8 +41,8 @@ glabel func_80833CDC
 /* 01B50 80833D60 00601025 */  or      $v0, $v1, $zero            ## $v0 = 0000003D
 .L80833D64:
 /* 01B54 80833D64 14A1000B */  bne     $a1, $at, .L80833D94       
-/* 01B58 80833D68 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
-/* 01B5C 80833D6C 2484E660 */  addiu   $a0, $a0, 0xE660           ## $a0 = 8015E660
+/* 01B58 80833D68 3C048016 */  lui     $a0, %hi(gSaveContext)
+/* 01B5C 80833D6C 2484E660 */  addiu   $a0, %lo(gSaveContext)
 /* 01B60 80833D70 908F13E3 */  lbu     $t7, 0x13E3($a0)           ## 8015FA43
 /* 01B64 80833D74 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF
 /* 01B68 80833D78 51E10004 */  beql    $t7, $at, .L80833D8C       
@@ -57,9 +57,9 @@ glabel func_80833CDC
 .L80833D94:
 /* 01B84 80833D94 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 01B88 80833D98 14A1000C */  bne     $a1, $at, .L80833DCC       
-/* 01B8C 80833D9C 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
-/* 01B90 80833DA0 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
-/* 01B94 80833DA4 2484E660 */  addiu   $a0, $a0, 0xE660           ## $a0 = 8015E660
+/* 01B8C 80833D9C 3C048016 */  lui     $a0, %hi(gSaveContext)
+/* 01B90 80833DA0 3C048016 */  lui     $a0, %hi(gSaveContext)
+/* 01B94 80833DA4 2484E660 */  addiu   $a0, %lo(gSaveContext)
 /* 01B98 80833DA8 909813E4 */  lbu     $t8, 0x13E4($a0)           ## 8015FA44
 /* 01B9C 80833DAC 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF
 /* 01BA0 80833DB0 53010004 */  beql    $t8, $at, .L80833DC4       
@@ -72,7 +72,7 @@ glabel func_80833CDC
 /* 01BB4 80833DC4 03E00008 */  jr      $ra                        
 /* 01BB8 80833DC8 00601025 */  or      $v0, $v1, $zero            ## $v0 = 000000FF
 .L80833DCC:
-/* 01BBC 80833DCC 2484E660 */  addiu   $a0, $a0, 0xE660           ## $a0 = 8015CCC0
+/* 01BBC 80833DCC 2484E660 */  addiu   $a0, %lo(gSaveContext)
 /* 01BC0 80833DD0 909913E5 */  lbu     $t9, 0x13E5($a0)           ## 8015E0A5
 /* 01BC4 80833DD4 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF
 /* 01BC8 80833DD8 53210004 */  beql    $t9, $at, .L80833DEC       

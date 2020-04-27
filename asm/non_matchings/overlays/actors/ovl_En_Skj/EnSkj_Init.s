@@ -89,11 +89,11 @@ glabel EnSkj_Init
 /* 00340 80AFE5F0 1041000E */  beq     $v0, $at, .L80AFE62C
 /* 00344 80AFE5F4 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 00348 80AFE5F8 1041000C */  beq     $v0, $at, .L80AFE62C
-/* 0034C 80AFE5FC 3C198012 */  lui     $t9, 0x8012                ## $t9 = 80120000
-/* 00350 80AFE600 93397491 */  lbu     $t9, 0x7491($t9)           ## 80127491
-/* 00354 80AFE604 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
+/* 0034C 80AFE5FC 3C198012 */  lui     $t9, %hi(gItemSlots+0x2d)
+/* 00350 80AFE600 93397491 */  lbu     $t9, %lo(gItemSlots+0x2d)($t9)
+/* 00354 80AFE604 3C088016 */  lui     $t0, %hi(gSaveContext+0x74)
 /* 00358 80AFE608 01194021 */  addu    $t0, $t0, $t9
-/* 0035C 80AFE60C 9108E6D4 */  lbu     $t0, -0x192C($t0)          ## 8015E6D4
+/* 0035C 80AFE60C 9108E6D4 */  lbu     $t0, %lo(gSaveContext+0x74)($t0)
 /* 00360 80AFE610 29010032 */  slti    $at, $t0, 0x0032
 /* 00364 80AFE614 10200005 */  beq     $at, $zero, .L80AFE62C
 /* 00368 80AFE618 00000000 */  nop
@@ -194,8 +194,8 @@ glabel EnSkj_Init
 /* 004C0 80AFE770 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 004C4 80AFE774 0C017114 */  jal     func_8005C450
 /* 004C8 80AFE778 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 004CC 80AFE77C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 004D0 80AFE780 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 004CC 80AFE77C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 004D0 80AFE780 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 004D4 80AFE784 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 004D8 80AFE788 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 004DC 80AFE78C 0C00AC78 */  jal     ActorShape_Init

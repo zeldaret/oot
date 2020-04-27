@@ -1,6 +1,6 @@
 glabel func_809EDB08
-/* 00298 809EDB08 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 0029C 809EDB0C 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00298 809EDB08 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 0029C 809EDB0C 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 002A0 809EDB10 846E13CE */  lh      $t6, 0x13CE($v1)           ## 8015FA2E
 /* 002A4 809EDB14 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 002A8 809EDB18 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -12,9 +12,9 @@ glabel func_809EDB08
 /* 002C0 809EDB30 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 002C4 809EDB34 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 002C8 809EDB38 1440001C */  bne     $v0, $zero, .L809EDBAC     
-/* 002CC 809EDB3C 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 002CC 809EDB3C 3C018016 */  lui     $at, %hi(gSaveContext+0x13ce)
 /* 002D0 809EDB40 0C03D6D6 */  jal     func_800F5B58              
-/* 002D4 809EDB44 A420FA2E */  sh      $zero, -0x05D2($at)        ## 8015FA2E
+/* 002D4 809EDB44 A420FA2E */  sh      $zero, %lo(gSaveContext+0x13ce)($at)
 /* 002D8 809EDB48 0C01E221 */  jal     func_80078884              
 /* 002DC 809EDB4C 2404482C */  addiu   $a0, $zero, 0x482C         ## $a0 = 0000482C
 /* 002E0 809EDB50 240F71AD */  addiu   $t7, $zero, 0x71AD         ## $t7 = 000071AD
@@ -41,8 +41,8 @@ glabel func_809EDB08
 /* 00334 809EDBA4 1000003D */  beq     $zero, $zero, .L809EDC9C   
 /* 00338 809EDBA8 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 .L809EDBAC:
-/* 0033C 809EDBAC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00340 809EDBB0 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 0033C 809EDBAC 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00340 809EDBB0 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00344 809EDBB4 94680EDA */  lhu     $t0, 0x0EDA($v1)           ## 8015F53A
 /* 00348 809EDBB8 24020005 */  addiu   $v0, $zero, 0x0005         ## $v0 = 00000005
 /* 0034C 809EDBBC 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
@@ -90,8 +90,8 @@ glabel func_809EDB08
 /* 003E8 809EDC58 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 003EC 809EDC5C 0C00B7D5 */  jal     func_8002DF54              
 /* 003F0 809EDC60 24060008 */  addiu   $a2, $zero, 0x0008         ## $a2 = 00000008
-/* 003F4 809EDC64 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 003F8 809EDC68 9739F53A */  lhu     $t9, -0x0AC6($t9)          ## 8015F53A
+/* 003F4 809EDC64 3C198016 */  lui     $t9, %hi(gSaveContext+0xeda)
+/* 003F8 809EDC68 9739F53A */  lhu     $t9, %lo(gSaveContext+0xeda)($t9)
 /* 003FC 809EDC6C 3C0A809F */  lui     $t2, %hi(func_809EE048)    ## $t2 = 809F0000
 /* 00400 809EDC70 3C09809F */  lui     $t1, %hi(func_809EE96C)    ## $t1 = 809F0000
 /* 00404 809EDC74 33280100 */  andi    $t0, $t9, 0x0100           ## $t0 = 00000000

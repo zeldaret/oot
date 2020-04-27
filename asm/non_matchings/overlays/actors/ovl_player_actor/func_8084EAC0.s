@@ -29,8 +29,8 @@ glabel func_8084EAC0
 /* 1C918 8084EB28 24030003 */  addiu   $v1, $zero, 0x0003         ## $v1 = 00000003
 .L8084EB2C:
 /* 1C91C 8084EB2C 04610006 */  bgez    $v1, .L8084EB48            
-/* 1C920 8084EB30 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 1C924 8084EB34 85EFE690 */  lh      $t7, -0x1970($t7)          ## 8015E690
+/* 1C920 8084EB30 3C0F8016 */  lui     $t7, %hi(gSaveContext+0x30)
+/* 1C924 8084EB34 85EFE690 */  lh      $t7, %lo(gSaveContext+0x30)($t7)
 /* 1C928 8084EB38 29E10011 */  slti    $at, $t7, 0x0011           
 /* 1C92C 8084EB3C 10200002 */  beq     $at, $zero, .L8084EB48     
 /* 1C930 8084EB40 00000000 */  nop
@@ -44,17 +44,17 @@ glabel func_8084EAC0
 /* 1C94C 8084EB5C 10000015 */  beq     $zero, $zero, .L8084EBB4   
 /* 1C950 8084EB60 00000000 */  nop
 .L8084EB64:
-/* 1C954 8084EB64 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 1C954 8084EB64 3C018016 */  lui     $at, %hi(gSaveContext+0x1424)
 /* 1C958 8084EB68 10000012 */  beq     $zero, $zero, .L8084EBB4   
-/* 1C95C 8084EB6C A438FA84 */  sh      $t8, -0x057C($at)          ## 8015FA84
+/* 1C95C 8084EB6C A438FA84 */  sh      $t8, %lo(gSaveContext+0x1424)($at)
 .L8084EB70:
 /* 1C960 8084EB70 906349D7 */  lbu     $v1, %lo(D_808549D7)($v1)  
 /* 1C964 8084EB74 24080140 */  addiu   $t0, $zero, 0x0140         ## $t0 = 00000140
-/* 1C968 8084EB78 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 1C968 8084EB78 3C018016 */  lui     $at, %hi(gSaveContext+0x1424)
 /* 1C96C 8084EB7C 30790001 */  andi    $t9, $v1, 0x0001           ## $t9 = 00000000
 /* 1C970 8084EB80 13200002 */  beq     $t9, $zero, .L8084EB8C     
 /* 1C974 8084EB84 30690002 */  andi    $t1, $v1, 0x0002           ## $t1 = 00000000
-/* 1C978 8084EB88 A428FA84 */  sh      $t0, -0x057C($at)          ## 8015FA84
+/* 1C978 8084EB88 A428FA84 */  sh      $t0, %lo(gSaveContext+0x1424)($at)
 .L8084EB8C:
 /* 1C97C 8084EB8C 11200004 */  beq     $t1, $zero, .L8084EBA0     
 /* 1C980 8084EB90 8FA40034 */  lw      $a0, 0x0034($sp)           
@@ -65,8 +65,8 @@ glabel func_8084EAC0
 /* 1C990 8084EBA0 306A0004 */  andi    $t2, $v1, 0x0004           ## $t2 = 00000000
 /* 1C994 8084EBA4 11400003 */  beq     $t2, $zero, .L8084EBB4     
 /* 1C998 8084EBA8 240B0050 */  addiu   $t3, $zero, 0x0050         ## $t3 = 00000050
-/* 1C99C 8084EBAC 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 1C9A0 8084EBB0 A42BFA84 */  sh      $t3, -0x057C($at)          ## 8015FA84
+/* 1C99C 8084EBAC 3C018016 */  lui     $at, %hi(gSaveContext+0x1424)
+/* 1C9A0 8084EBB0 A42BFA84 */  sh      $t3, %lo(gSaveContext+0x1424)($at)
 .L8084EBB4:
 /* 1C9A4 8084EBB4 3C060400 */  lui     $a2, 0x0400                ## $a2 = 04000000
 /* 1C9A8 8084EBB8 24C62670 */  addiu   $a2, $a2, 0x2670           ## $a2 = 04002670
@@ -89,14 +89,14 @@ glabel func_8084EAC0
 .L8084EBF8:
 /* 1C9E8 8084EBF8 86020850 */  lh      $v0, 0x0850($s0)           ## 00000850
 /* 1C9EC 8084EBFC 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 1C9F0 8084EC00 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 1C9F0 8084EC00 3C0D8016 */  lui     $t5, %hi(gSaveContext+0x1424)
 /* 1C9F4 8084EC04 5441001A */  bnel    $v0, $at, .L8084EC70       
 /* 1C9F8 8084EC08 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
-/* 1C9FC 8084EC0C 85ADFA84 */  lh      $t5, -0x057C($t5)          ## 8015FA84
-/* 1CA00 8084EC10 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 1C9FC 8084EC0C 85ADFA84 */  lh      $t5, %lo(gSaveContext+0x1424)($t5)
+/* 1CA00 8084EC10 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x13f0)
 /* 1CA04 8084EC14 55A00011 */  bnel    $t5, $zero, .L8084EC5C     
 /* 1CA08 8084EC18 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 1CA0C 8084EC1C 85CEFA50 */  lh      $t6, -0x05B0($t6)          ## 8015FA50
+/* 1CA0C 8084EC1C 85CEFA50 */  lh      $t6, %lo(gSaveContext+0x13f0)($t6)
 /* 1CA10 8084EC20 24010009 */  addiu   $at, $zero, 0x0009         ## $at = 00000009
 /* 1CA14 8084EC24 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 1CA18 8084EC28 11C1000B */  beq     $t6, $at, .L8084EC58       
