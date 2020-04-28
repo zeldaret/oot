@@ -29,7 +29,7 @@ glabel EnMu_Update
 /* 003A8 80AB07C8 954C0004 */  lhu     $t4, 0x0004($t2)           ## FFFFFFF0
 /* 003AC 80AB07CC A48C01DE */  sh      $t4, 0x01DE($a0)           ## 000001DE
 /* 003B0 80AB07D0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 003B4 80AB07D4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 003B4 80AB07D4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 003B8 80AB07D8 00A12821 */  addu    $a1, $a1, $at              
 /* 003BC 80AB07DC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix

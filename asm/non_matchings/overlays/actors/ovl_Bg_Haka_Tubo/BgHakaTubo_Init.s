@@ -28,26 +28,26 @@ glabel BgHakaTubo_Init
 /* 00058 808812A8 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 0005C 808812AC 2605016C */  addiu   $a1, $s0, 0x016C           ## $a1 = 0000016C
 /* 00060 808812B0 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00064 808812B4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00064 808812B4 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00068 808812B8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0006C 808812BC 3C078088 */  lui     $a3, %hi(D_80881B60)       ## $a3 = 80880000
 /* 00070 808812C0 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00074 808812C4 24E71B60 */  addiu   $a3, $a3, %lo(D_80881B60)  ## $a3 = 80881B60
 /* 00078 808812C8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0007C 808812CC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0007C 808812CC 0C01712B */  jal     Collider_SetCylinder
               
 /* 00080 808812D0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00084 808812D4 260501B8 */  addiu   $a1, $s0, 0x01B8           ## $a1 = 000001B8
 /* 00088 808812D8 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 0008C 808812DC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0008C 808812DC 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00090 808812E0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00094 808812E4 3C078088 */  lui     $a3, %hi(D_80881B8C)       ## $a3 = 80880000
 /* 00098 808812E8 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 0009C 808812EC 24E71B8C */  addiu   $a3, $a3, %lo(D_80881B8C)  ## $a3 = 80881B8C
 /* 000A0 808812F0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000A4 808812F4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000A4 808812F4 0C01712B */  jal     Collider_SetCylinder
               
 /* 000A8 808812F8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000AC 808812FC 0C03F66B */  jal     Math_Rand_ZeroOne

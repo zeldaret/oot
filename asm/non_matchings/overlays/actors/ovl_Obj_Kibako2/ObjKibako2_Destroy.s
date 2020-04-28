@@ -6,7 +6,7 @@ glabel ObjKibako2_Destroy
 /* 003F4 80B95DC4 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 003F8 80B95DC8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 003FC 80B95DCC AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 00400 80B95DD0 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00400 80B95DD0 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00404 80B95DD4 24A50164 */  addiu   $a1, $a1, 0x0164           ## $a1 = 00000164
 /* 00408 80B95DD8 8FA4001C */  lw      $a0, 0x001C($sp)           

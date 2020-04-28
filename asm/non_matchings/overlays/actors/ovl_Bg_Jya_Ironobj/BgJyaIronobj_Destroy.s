@@ -6,7 +6,7 @@ glabel BgJyaIronobj_Destroy
 /* 00A00 808992A0 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00A04 808992A4 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00A08 808992A8 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 00A0C 808992AC 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00A0C 808992AC 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00A10 808992B0 24A50168 */  addiu   $a1, $a1, 0x0168           ## $a1 = 00000168
 /* 00A14 808992B4 8FA4001C */  lw      $a0, 0x001C($sp)           

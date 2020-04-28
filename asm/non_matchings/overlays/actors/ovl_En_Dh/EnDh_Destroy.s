@@ -6,12 +6,12 @@ glabel EnDh_Destroy
 /* 00150 809EAE90 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00154 809EAE94 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00158 809EAE98 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0015C 809EAE9C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0015C 809EAE9C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00160 809EAEA0 24A50260 */  addiu   $a1, $a1, 0x0260           ## $a1 = 00000260
 /* 00164 809EAEA4 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00168 809EAEA8 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0016C 809EAEAC 0C016F32 */  jal     func_8005BCC8              
+/* 0016C 809EAEAC 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 00170 809EAEB0 24A502AC */  addiu   $a1, $a1, 0x02AC           ## $a1 = 000002AC
 /* 00174 809EAEB4 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00178 809EAEB8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

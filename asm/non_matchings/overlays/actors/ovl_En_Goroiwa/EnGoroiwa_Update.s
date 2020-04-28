@@ -72,7 +72,7 @@ glabel EnGoroiwa_Update
 /* 02130 80A4DDD0 1D600005 */  bgtz    $t3, .L80A4DDE8            
 /* 02134 80A4DDD4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02138 80A4DDD8 02212821 */  addu    $a1, $s1, $at              
-/* 0213C 80A4DDDC 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 0213C 80A4DDDC 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 02140 80A4DDE0 26060150 */  addiu   $a2, $s0, 0x0150           ## $a2 = 00000150
 /* 02144 80A4DDE4 920201D3 */  lbu     $v0, 0x01D3($s0)           ## 000001D3
@@ -87,7 +87,7 @@ glabel EnGoroiwa_Update
 /* 02160 80A4DE00 1DA00004 */  bgtz    $t5, .L80A4DE14            
 /* 02164 80A4DE04 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02168 80A4DE08 02212821 */  addu    $a1, $s1, $at              
-/* 0216C 80A4DE0C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0216C 80A4DE0C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02170 80A4DE10 26060150 */  addiu   $a2, $s0, 0x0150           ## $a2 = 00000150
 .L80A4DE14:

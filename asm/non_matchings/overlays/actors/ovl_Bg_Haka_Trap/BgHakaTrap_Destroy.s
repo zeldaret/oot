@@ -22,12 +22,12 @@ glabel BgHakaTrap_Destroy
 /* 002E8 8087FF88 54410004 */  bnel    $v0, $at, .L8087FF9C       
 /* 002EC 8087FF8C 8FA40024 */  lw      $a0, 0x0024($sp)           
 .L8087FF90:
-/* 002F0 8087FF90 0C017232 */  jal     func_8005C8C8              
+/* 002F0 8087FF90 0C017232 */  jal     Collider_DestroyTris              
 /* 002F4 8087FF94 260501C4 */  addiu   $a1, $s0, 0x01C4           ## $a1 = 000001C4
 .L8087FF98:
 /* 002F8 8087FF98 8FA40024 */  lw      $a0, 0x0024($sp)           
 .L8087FF9C:
-/* 002FC 8087FF9C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002FC 8087FF9C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00300 8087FFA0 26050178 */  addiu   $a1, $s0, 0x0178           ## $a1 = 00000178
 .L8087FFA4:

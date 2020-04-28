@@ -8,7 +8,7 @@ glabel EnInsect_Destroy
 /* 0052C 80A7C34C 00021400 */  sll     $v0, $v0, 16               
 /* 00530 80A7C350 00021403 */  sra     $v0, $v0, 16               
 /* 00534 80A7C354 A7A2001E */  sh      $v0, 0x001E($sp)           
-/* 00538 80A7C358 0C016F32 */  jal     func_8005BCC8              
+/* 00538 80A7C358 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 0053C 80A7C35C 24C5014C */  addiu   $a1, $a2, 0x014C           ## $a1 = 0000014C
 /* 00540 80A7C360 87A2001E */  lh      $v0, 0x001E($sp)           
 /* 00544 80A7C364 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002

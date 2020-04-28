@@ -46,7 +46,7 @@ glabel EnBigokuta_Update
 .L809BEA7C:
 /* 01E1C 809BEA7C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01E20 809BEA80 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
-/* 01E24 809BEA84 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 01E24 809BEA84 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 01E28 809BEA88 02203025 */  or      $a2, $s1, $zero            ## $a2 = 000002EC
 /* 01E2C 809BEA8C 2610004C */  addiu   $s0, $s0, 0x004C           ## $s0 = 0000004C
@@ -66,7 +66,7 @@ glabel EnBigokuta_Update
 .L809BEAC0:
 /* 01E60 809BEAC0 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01E64 809BEAC4 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
-/* 01E68 809BEAC8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01E68 809BEAC8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01E6C 809BEACC 02203025 */  or      $a2, $s1, $zero            ## $a2 = 000002EC
 /* 01E70 809BEAD0 2610004C */  addiu   $s0, $s0, 0x004C           ## $s0 = 00000098
@@ -79,7 +79,7 @@ glabel EnBigokuta_Update
 .L809BEAE8:
 /* 01E88 809BEAE8 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01E8C 809BEAEC 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
-/* 01E90 809BEAF0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01E90 809BEAF0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01E94 809BEAF4 02203025 */  or      $a2, $s1, $zero            ## $a2 = 000002EC
 /* 01E98 809BEAF8 2610004C */  addiu   $s0, $s0, 0x004C           ## $s0 = 0000004C
@@ -91,7 +91,7 @@ glabel EnBigokuta_Update
 /* 01EB0 809BEB10 316C0001 */  andi    $t4, $t3, 0x0001           ## $t4 = 00000000
 /* 01EB4 809BEB14 51800004 */  beql    $t4, $zero, .L809BEB28     
 /* 01EB8 809BEB18 928D029D */  lbu     $t5, 0x029D($s4)           ## 0000029D
-/* 01EBC 809BEB1C 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01EBC 809BEB1C 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01EC0 809BEB20 2686028C */  addiu   $a2, $s4, 0x028C           ## $a2 = 0000028C
 /* 01EC4 809BEB24 928D029D */  lbu     $t5, 0x029D($s4)           ## 0000029D
@@ -103,14 +103,14 @@ glabel EnBigokuta_Update
 /* 01ED8 809BEB38 13200006 */  beq     $t9, $zero, .L809BEB54     
 /* 01EDC 809BEB3C 2686028C */  addiu   $a2, $s4, 0x028C           ## $a2 = 0000028C
 /* 01EE0 809BEB40 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 01EE4 809BEB44 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01EE4 809BEB44 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01EE8 809BEB48 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 01EEC 809BEB4C 10000005 */  beq     $zero, $zero, .L809BEB64   
 /* 01EF0 809BEB50 3C0141C8 */  lui     $at, 0x41C8                ## $at = 41C80000
 .L809BEB54:
 /* 01EF4 809BEB54 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 01EF8 809BEB58 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 01EF8 809BEB58 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 01EFC 809BEB5C 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 01F00 809BEB60 3C0141C8 */  lui     $at, 0x41C8                ## $at = 41C80000

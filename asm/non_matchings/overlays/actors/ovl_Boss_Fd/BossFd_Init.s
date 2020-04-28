@@ -97,7 +97,7 @@ glabel BossFd_Init
 /* 00698 808CB458 E6000024 */  swc1    $f0, 0x0024($s0)           ## 00000024
 /* 0069C 808CB45C E60A0028 */  swc1    $f10, 0x0028($s0)          ## 00000028
 /* 006A0 808CB460 AFA50044 */  sw      $a1, 0x0044($sp)           
-/* 006A4 808CB464 0C016EFE */  jal     func_8005BBF8              
+/* 006A4 808CB464 0C016EFE */  jal     Collider_InitJntSph              
 /* 006A8 808CB468 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 006AC 808CB46C 3C07808D */  lui     $a3, %hi(D_808D190C)       ## $a3 = 808D0000
 /* 006B0 808CB470 261914B0 */  addiu   $t9, $s0, 0x14B0           ## $t9 = 000014B0
@@ -105,7 +105,7 @@ glabel BossFd_Init
 /* 006B8 808CB478 AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 006BC 808CB47C 24E7190C */  addiu   $a3, $a3, %lo(D_808D190C)  ## $a3 = 808D190C
 /* 006C0 808CB480 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 006C4 808CB484 0C017014 */  jal     func_8005C050              
+/* 006C4 808CB484 0C017014 */  jal     Collider_SetJntSph              
 /* 006C8 808CB488 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 006CC 808CB48C 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 /* 006D0 808CB490 2404000C */  addiu   $a0, $zero, 0x000C         ## $a0 = 0000000C

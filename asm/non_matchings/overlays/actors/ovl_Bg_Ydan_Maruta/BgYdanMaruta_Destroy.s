@@ -5,7 +5,7 @@ glabel BgYdanMaruta_Destroy
 /* 0026C 808BEFAC AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00270 808BEFB0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00274 808BEFB4 24E5016C */  addiu   $a1, $a3, 0x016C           ## $a1 = 0000016C
-/* 00278 808BEFB8 0C017232 */  jal     func_8005C8C8              
+/* 00278 808BEFB8 0C017232 */  jal     Collider_DestroyTris              
 /* 0027C 808BEFBC AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 00280 808BEFC0 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 00284 808BEFC4 8FA4001C */  lw      $a0, 0x001C($sp)           

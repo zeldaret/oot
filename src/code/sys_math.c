@@ -12,13 +12,12 @@ f32 func_800CA540(f32 arg0) {
     return ret;
 }
 
-#ifdef NON_MATCHING
 f32 func_800CA63C(u32 arg0) {
     f32 ret;
     s32 i;
     if (arg0 > 12) {
         ret = sFactorialTbl[12];
-        for (i = 13; i < (s32)arg0; i++) {
+        for (i = 13; i <= (s32)arg0; i++) {
             ret *= i;
         }
     } else {
@@ -26,9 +25,6 @@ f32 func_800CA63C(u32 arg0) {
     }
     return ret;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_math/func_800CA63C.s")
-#endif
 
 f32 func_800CA6FC(f32 arg0, s32 arg1) {
     f32 ret = 1.0f;

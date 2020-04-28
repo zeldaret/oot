@@ -12,12 +12,12 @@ glabel BgHakaTubo_Destroy
 /* 0011C 8088136C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00120 80881370 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00124 80881374 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00128 80881378 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00128 80881378 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0012C 8088137C 24A5016C */  addiu   $a1, $a1, 0x016C           ## $a1 = 0000016C
 /* 00130 80881380 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00134 80881384 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00138 80881388 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00138 80881388 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0013C 8088138C 24A501B8 */  addiu   $a1, $a1, 0x01B8           ## $a1 = 000001B8
 /* 00140 80881390 8FBF0014 */  lw      $ra, 0x0014($sp)           

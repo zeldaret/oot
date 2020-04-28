@@ -101,14 +101,14 @@ glabel EnHeishi4_Init
 /* 0011C 80A561EC 260502BC */  addiu   $a1, $s0, 0x02BC           ## $a1 = 000002BC
 .L80A561F0:
 /* 00120 80A561F0 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00124 80A561F4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00124 80A561F4 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00128 80A561F8 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 0012C 80A561FC 3C0780A5 */  lui     $a3, %hi(D_80A56EF8)       ## $a3 = 80A50000
 /* 00130 80A56200 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 00134 80A56204 24E76EF8 */  addiu   $a3, $a3, %lo(D_80A56EF8)  ## $a3 = 80A56EF8
 /* 00138 80A56208 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 0013C 80A5620C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0013C 80A5620C 0C01712B */  jal     Collider_SetCylinder
               
 /* 00140 80A56210 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00144 80A56214 86020280 */  lh      $v0, 0x0280($s0)           ## 00000280

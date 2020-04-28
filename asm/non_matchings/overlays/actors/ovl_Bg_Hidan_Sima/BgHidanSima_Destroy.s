@@ -12,7 +12,7 @@ glabel BgHidanSima_Destroy
 /* 00124 8088E4F4 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00128 8088E4F8 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 0012C 8088E4FC 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00130 8088E500 0C016F32 */  jal     func_8005BCC8              
+/* 00130 8088E500 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 00134 8088E504 24A5016C */  addiu   $a1, $a1, 0x016C           ## $a1 = 0000016C
 /* 00138 8088E508 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 0013C 8088E50C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

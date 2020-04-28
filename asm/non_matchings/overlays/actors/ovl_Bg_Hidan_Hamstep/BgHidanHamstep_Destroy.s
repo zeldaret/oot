@@ -15,7 +15,7 @@ glabel BgHidanHamstep_Destroy
 /* 00464 808884A4 31F800FF */  andi    $t8, $t7, 0x00FF           ## $t8 = 00000000
 /* 00468 808884A8 57000004 */  bnel    $t8, $zero, .L808884BC     
 /* 0046C 808884AC 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00470 808884B0 0C017232 */  jal     func_8005C8C8              
+/* 00470 808884B0 0C017232 */  jal     Collider_DestroyTris              
 /* 00474 808884B4 24E50164 */  addiu   $a1, $a3, 0x0164           ## $a1 = 00000164
 /* 00478 808884B8 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L808884BC:

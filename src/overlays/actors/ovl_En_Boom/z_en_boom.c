@@ -27,52 +27,10 @@ const ActorInit En_Boom_InitVars = {
     (ActorFunc)EnBoom_Draw,
 };
 
-// Related to collision, should be moved somewhere else when collision_check is decompiled.
-// Seems to be made up of a bunch of substructs, but I didnt do too much digging.
-// This is probably not accurate.
-typedef struct {
-    u8 unk_00;
-    u8 unk_01;
-    u8 unk_02;
-    u8 unk_03;
-    u8 unk_04;
-    u8 unk_05;
-    u16 pad_06;
-    u8 unk_08;
-    u8 pad_09;
-    u8 pad_0A;
-    u8 pad_0B;
-    u32 unk_0C;
-    u8 unk_10;
-    u8 unk_11;
-    u16 pad_12;
-    u32 unk_14;
-    u8 unk_18;
-    u8 unk_19;
-    u16 pad_1A;
-    u8 unk_1C;
-    u8 unk_1D;
-    u8 unk_1E;
-    u8 pad_1F;
-    u32 unk_20;
-    u32 unk_24;
-    u32 unk_28;
-    u32 unk_2C;
-    u32 unk_30;
-    u32 unk_34;
-    u32 unk_38;
-    u32 unk_3C;
-    u32 unk_40;
-    u32 unk_44;
-    u32 unk_48;
-    u32 unk_4C;
-} unkCollision; // size = 0x50
-
-static unkCollision col = {
-    0x0A,       0x09,       0x00,       0x00,       0x08,       0x03,       0x0000,     0x02,       0x00,
-    0x00,       0x00,       0x00000010, 0x00,       0x01,       0x0000,     0xFFCFFFFF, 0x00,       0x00,
-    0x0000,     0x05,       0x00,       0x00,       0x00,       0x00000000, 0x00000000, 0x00000000, 0x00000000,
-    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
+static ColliderQuadInit col = {
+    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x08, COLSHAPE_QUAD },
+    { 0x02, { 0x00000010, 0x00, 0x01 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x05, 0x00, 0x00 },
+    { 0 },
 };
 
 static InitChainEntry initChain[] = {
@@ -123,15 +81,15 @@ void EnBoom_Init(EnBoom* this, GlobalContext* globalCtx) {
 
     Effect_Add(globalCtx, &this->effect, 1, 0, 0, &trail);
 
-    func_8005D018(globalCtx, &this->collider);
-    func_8005D104(globalCtx, &this->collider, this, &col);
+    Collider_InitQuad(globalCtx, &this->collider);
+    Collider_SetQuad(globalCtx, &this->collider, this, &col);
 
     EnBoom_SetupAction(this, &EnBoom_Fly);
 }
 
 void EnBoom_Destroy(EnBoom* this, GlobalContext* globalCtx) {
     func_8002709C(globalCtx, this->effect);
-    func_8005D060(globalCtx, &this->collider);
+    Collider_DestroyQuad(globalCtx, &this->collider);
 }
 
 void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
@@ -183,13 +141,13 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     func_8002F974(this, 0x1010);
 
     // If the boomerang collides with EnItem00 or a Skulltula token, set grabbed pointer to pick it up
-    collided = (this->collider.colliderFlags & 0x2);
+    collided = (this->collider.base.atFlags & 0x2);
     collided = (!!(collided));
     if (collided) {
-        if (((this->collider.at->id == ACTOR_EN_ITEM00) || (this->collider.at->id == ACTOR_EN_SI))) {
-            this->grabbed = this->collider.at;
-            if (this->collider.at->id == ACTOR_EN_SI) {
-                this->collider.at->flags |= 0x2000;
+        if (((this->collider.base.at->id == ACTOR_EN_ITEM00) || (this->collider.base.at->id == ACTOR_EN_SI))) {
+            this->grabbed = this->collider.base.at;
+            if (this->collider.base.at->id == ACTOR_EN_SI) {
+                this->collider.base.at->flags |= 0x2000;
             }
         }
     }
@@ -220,7 +178,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
     } else {
-        collided = (this->collider.colliderFlags & 0x2);
+        collided = (this->collider.base.atFlags & 0x2);
         collided = (!!(collided));
         if (collided) {
             // Copy the position from the prevous frame to the boomerang to start the bounce back.

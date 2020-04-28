@@ -71,14 +71,14 @@ glabel EnGuest_Update
 /* 001E0 80A50400 AE0F0130 */  sw      $t7, 0x0130($s0)           ## 00000130
 /* 001E4 80A50404 26050254 */  addiu   $a1, $s0, 0x0254           ## $a1 = 00000254
 /* 001E8 80A50408 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 001EC 80A5040C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001EC 80A5040C 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 001F0 80A50410 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001F4 80A50414 3C0780A5 */  lui     $a3, %hi(D_80A50B70)       ## $a3 = 80A50000
 /* 001F8 80A50418 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 001FC 80A5041C 24E70B70 */  addiu   $a3, $a3, %lo(D_80A50B70)  ## $a3 = 80A50B70
 /* 00200 80A50420 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00204 80A50424 0C017114 */  jal     func_8005C450
+/* 00204 80A50424 0C017114 */  jal     Collider_SetCylinder_Set3
 /* 00208 80A50428 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0020C 80A5042C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00210 80A50430 0C00B56E */  jal     Actor_SetHeight

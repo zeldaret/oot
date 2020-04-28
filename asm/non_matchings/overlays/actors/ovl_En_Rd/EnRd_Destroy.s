@@ -10,7 +10,7 @@ glabel EnRd_Destroy
 /* 00210 80AE2610 A4401422 */  sh      $zero, 0x1422($v0)         ## 8015FA82
 .L80AE2614:
 /* 00214 80AE2614 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
-/* 00218 80AE2618 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00218 80AE2618 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0021C 80AE261C 24C50320 */  addiu   $a1, $a2, 0x0320           ## $a1 = 00000320
 /* 00220 80AE2620 8FBF0014 */  lw      $ra, 0x0014($sp)           

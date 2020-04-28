@@ -12,7 +12,7 @@ glabel BgHidanKowarerukabe_Destroy
 /* 0024C 8088A26C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00250 8088A270 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00254 8088A274 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00258 8088A278 0C016F32 */  jal     func_8005BCC8              
+/* 00258 8088A278 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 0025C 8088A27C 24A50164 */  addiu   $a1, $a1, 0x0164           ## $a1 = 00000164
 /* 00260 8088A280 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00264 8088A284 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

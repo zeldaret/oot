@@ -27,7 +27,9 @@ f32 func_8007C058(f32 arg0, f32 arg1) {
     return (arg1 <= fabsf(arg0)) ? arg0 : ((arg0 >= 0) ? arg1 : -arg1);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_8007BF90/func_8007C0A8.s")
+f32 func_8007C0A8(f32 arg0, f32 arg1) {
+    return (fabsf(arg0) <= arg1) ? arg0 : ((arg0 >= 0) ? arg1 : -arg1);
+}
 
 Vec3f* func_8007C0F8(Vec3f* dest, Vec3f* a, Vec3f* b) {
     Vec3f v1;
@@ -70,8 +72,6 @@ Vec3f* func_8007C1AC(Vec3f* dest, struct_80045714* arg1) {
     return dest;
 }
 
-void func_8007C3F4(struct_80045714* arg0, Vec3f* arg1);
-
 void func_8007C25C(Vec3f* dest, struct_80045714* arg1) {
     struct_80045714 var;
 
@@ -82,11 +82,43 @@ void func_8007C25C(Vec3f* dest, struct_80045714* arg1) {
     func_8007C1AC(dest, &var);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_8007BF90/func_8007C29C.s")
+struct_80045714* func_8007C29C(struct_80045714* arg0, Vec3f* arg1) {
+    struct_80045714 sp28;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_8007BF90/func_8007C3F4.s")
+    f32 distSquared;
+    f32 dist;
 
-void func_8007C29C(struct_80045714* arg0, Vec3f* arg1);
+    distSquared = SQ(arg1->x) + SQ(arg1->z);
+    dist = sqrtf(distSquared);
+
+    if ((dist == 0.0f) && (arg1->y == 0.0f)) {
+        sp28.unk_04 = 0;
+    } else {
+        sp28.unk_04 = Math_atan2f(dist, arg1->y) * 57.295776f * 182.04167f + 0.5f;
+    }
+
+    sp28.unk_00 = sqrtf(SQ(arg1->y) + distSquared);
+    if ((arg1->x == 0.0f) && (arg1->z == 0.0f)) {
+        sp28.unk_06 = 0;
+    } else {
+        sp28.unk_06 = Math_atan2f(arg1->x, arg1->z) * 57.295776f * 182.04167f + 0.5f;
+    }
+
+    *arg0 = sp28;
+
+    return arg0;
+}
+
+struct_80045714* func_8007C3F4(struct_80045714* arg0, Vec3f* arg1) {
+    struct_80045714 sp18;
+
+    func_8007C29C(&sp18, arg1);
+    sp18.unk_04 = 0x3FFF - sp18.unk_04;
+
+    *arg0 = sp18;
+
+    return arg0;
+}
 
 void func_8007C440(struct_80045714* arg0, Vec3f* a, Vec3f* b) {
     Vec3f var;
@@ -120,6 +152,33 @@ Vec3f* func_8007C4E0(Vec3f* dest, Vec3f* a, Vec3f* b) {
     return dest;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_8007BF90/func_8007C574.s")
+Vec3f* func_8007C574(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2) {
+    Vec3f sp24;
+    Vec3f sp18;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_8007BF90/func_8007C5E0.s")
+    func_8007C4E0(&sp24, arg1, arg2);
+
+    // ~180 / pi
+    sp18.x = sp24.x * 57.295776f;
+    sp18.y = sp24.y * 57.295776f;
+    sp18.z = 0.0f;
+
+    *arg0 = sp18;
+
+    return arg0;
+}
+
+Vec3s* func_8007C5E0(Vec3s* arg0, Vec3f* arg1, Vec3f* arg2) {
+    Vec3f sp24;
+    Vec3s sp18;
+
+    func_8007C4E0(&sp24, arg1, arg2);
+
+    sp18.x = (((sp24.x * 57.295776f)) * 182.04167f) + 0.5f;
+    sp18.y = (((sp24.y * 57.295776f)) * 182.04167f) + 0.5f;
+    sp18.z = 0.0f;
+
+    *arg0 = sp18;
+
+    return arg0;
+}

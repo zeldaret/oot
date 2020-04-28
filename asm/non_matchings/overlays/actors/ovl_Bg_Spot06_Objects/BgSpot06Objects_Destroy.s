@@ -21,7 +21,7 @@ glabel BgSpot06Objects_Destroy
 /* 00420 808AEBA0 10000004 */  beq     $zero, $zero, .L808AEBB4   
 /* 00424 808AEBA4 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L808AEBA8:
-/* 00428 808AEBA8 0C016F32 */  jal     func_8005BCC8              
+/* 00428 808AEBA8 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 0042C 808AEBAC 8FA4001C */  lw      $a0, 0x001C($sp)           
 .L808AEBB0:
 /* 00430 808AEBB0 8FBF0014 */  lw      $ra, 0x0014($sp)           

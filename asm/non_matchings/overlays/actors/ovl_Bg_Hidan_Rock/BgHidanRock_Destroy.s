@@ -12,7 +12,7 @@ glabel BgHidanRock_Destroy
 /* 0019C 8088B21C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 001A0 8088B220 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 001A4 8088B224 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 001A8 8088B228 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001A8 8088B228 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001AC 8088B22C 24A5017C */  addiu   $a1, $a1, 0x017C           ## $a1 = 0000017C
 /* 001B0 8088B230 8FA40018 */  lw      $a0, 0x0018($sp)           

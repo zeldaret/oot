@@ -190,7 +190,7 @@ glabel MirRay_Init
 /* 0048C 80B8D4DC 31AE0002 */  andi    $t6, $t5, 0x0002           ## $t6 = 00000000
 /* 00490 80B8D4E0 51C00012 */  beql    $t6, $zero, .L80B8D52C     
 /* 00494 80B8D4E4 261101AC */  addiu   $s1, $s0, 0x01AC           ## $s1 = 000001AC
-/* 00498 80B8D4E8 0C016EFE */  jal     func_8005BBF8              
+/* 00498 80B8D4E8 0C016EFE */  jal     Collider_InitJntSph              
 /* 0049C 80B8D4EC AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 004A0 80B8D4F0 3C0780B9 */  lui     $a3, %hi(D_80B8E6E8)       ## $a3 = 80B90000
 /* 004A4 80B8D4F4 260F016C */  addiu   $t7, $s0, 0x016C           ## $t7 = 0000016C
@@ -198,7 +198,7 @@ glabel MirRay_Init
 /* 004AC 80B8D4FC AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 004B0 80B8D500 24E7E6E8 */  addiu   $a3, $a3, %lo(D_80B8E6E8)  ## $a3 = 80B8E6E8
 /* 004B4 80B8D504 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 004B8 80B8D508 0C017014 */  jal     func_8005C050              
+/* 004B8 80B8D508 0C017014 */  jal     Collider_SetJntSph              
 /* 004BC 80B8D50C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 004C0 80B8D510 9238001F */  lbu     $t8, 0x001F($s1)           ## 000001CB
 /* 004C4 80B8D514 33190004 */  andi    $t9, $t8, 0x0004           ## $t9 = 00000000
@@ -209,13 +209,13 @@ glabel MirRay_Init
 /* 004D8 80B8D528 261101AC */  addiu   $s1, $s0, 0x01AC           ## $s1 = 000001AC
 .L80B8D52C:
 /* 004DC 80B8D52C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 000001AC
-/* 004E0 80B8D530 0C017406 */  jal     func_8005D018              
+/* 004E0 80B8D530 0C017406 */  jal     Collider_InitQuad              
 /* 004E4 80B8D534 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 004E8 80B8D538 3C0780B9 */  lui     $a3, %hi(D_80B8E674)       ## $a3 = 80B90000
 /* 004EC 80B8D53C 24E7E674 */  addiu   $a3, $a3, %lo(D_80B8E674)  ## $a3 = 80B8E674
 /* 004F0 80B8D540 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 004F4 80B8D544 02202825 */  or      $a1, $s1, $zero            ## $a1 = 000001AC
-/* 004F8 80B8D548 0C017441 */  jal     func_8005D104              
+/* 004F8 80B8D548 0C017441 */  jal     Collider_SetQuad              
 /* 004FC 80B8D54C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00500 80B8D550 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C
 /* 00504 80B8D554 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005

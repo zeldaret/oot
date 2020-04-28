@@ -50,14 +50,14 @@ glabel ObjDekujr_Init
 /* 000A4 80B924C4 00000000 */  nop
 /* 000A8 80B924C8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000AC 80B924CC AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 000B0 80B924D0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000B0 80B924D0 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 000B4 80B924D4 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000B8 80B924D8 3C0680B9 */  lui     $a2, %hi(D_80B92A00)       ## $a2 = 80B90000
 /* 000BC 80B924DC 24C62A00 */  addiu   $a2, $a2, %lo(D_80B92A00)  ## $a2 = 80B92A00
 /* 000C0 80B924E0 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 000C4 80B924E4 ACD00000 */  sw      $s0, 0x0000($a2)           ## 80B92A00
-/* 000C8 80B924E8 0C0170FD */  jal     func_8005C3F4              
+/* 000C8 80B924E8 0C0170FD */  jal     Collider_SetCylinder_Actor              
 /* 000CC 80B924EC 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000D0 80B924F0 240B00FF */  addiu   $t3, $zero, 0x00FF         ## $t3 = 000000FF
 /* 000D4 80B924F4 A20B00AE */  sb      $t3, 0x00AE($s0)           ## 000000AE

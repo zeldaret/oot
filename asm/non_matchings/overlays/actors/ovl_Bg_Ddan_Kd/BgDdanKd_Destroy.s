@@ -12,7 +12,7 @@ glabel BgDdanKd_Destroy
 /* 00120 80871210 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00124 80871214 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00128 80871218 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0012C 8087121C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0012C 8087121C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00130 80871220 24A50178 */  addiu   $a1, $a1, 0x0178           ## $a1 = 00000178
 /* 00134 80871224 8FBF0014 */  lw      $ra, 0x0014($sp)           

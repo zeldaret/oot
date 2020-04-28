@@ -41,11 +41,11 @@ glabel func_80090604
 /* B07840 800906A0 34211E60 */  ori   $at, (0x00011E60 & 0xFFFF) # ori $at, $at, 0x1e60
 /* B07844 800906A4 00812821 */  addu  $a1, $a0, $at
 /* B07848 800906A8 AFA50024 */  sw    $a1, 0x24($sp)
-/* B0784C 800906AC 0C01767D */  jal   Actor_CollisionCheck_SetAC
+/* B0784C 800906AC 0C01767D */  jal   CollisionCheck_SetAC
 /* B07850 800906B0 8FA60060 */   lw    $a2, 0x60($sp)
 /* B07854 800906B4 8FA50024 */  lw    $a1, 0x24($sp)
 /* B07858 800906B8 8FA40058 */  lw    $a0, 0x58($sp)
-/* B0785C 800906BC 0C0175E7 */  jal   Actor_CollisionCheck_SetAT
+/* B0785C 800906BC 0C0175E7 */  jal   CollisionCheck_SetAT
 /* B07860 800906C0 8FA60060 */   lw    $a2, 0x60($sp)
 /* B07864 800906C4 8FBF001C */  lw    $ra, 0x1c($sp)
 .L800906C8:

@@ -214,14 +214,14 @@ glabel func_80A7F514
 /* 013DC 80A7F83C 26060150 */  addiu   $a2, $s0, 0x0150           ## $a2 = 00000150
 /* 013E0 80A7F840 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000150
 /* 013E4 80A7F844 AFA60030 */  sw      $a2, 0x0030($sp)           
-/* 013E8 80A7F848 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 013E8 80A7F848 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 013EC 80A7F84C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 013F0 80A7F850 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 013F4 80A7F854 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 013F8 80A7F858 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 013FC 80A7F85C 02212821 */  addu    $a1, $s1, $at              
-/* 01400 80A7F860 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01400 80A7F860 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01404 80A7F864 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01408 80A7F868 8FBF0024 */  lw      $ra, 0x0024($sp)           

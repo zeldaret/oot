@@ -100,7 +100,7 @@ glabel BgSpot06Objects_Init
 /* 00118 808AE898 24A5F964 */  addiu   $a1, $a1, %lo(D_808AF964)  ## $a1 = 808AF964
 /* 0011C 808AE89C 26050170 */  addiu   $a1, $s0, 0x0170           ## $a1 = 00000170
 /* 00120 808AE8A0 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 00124 808AE8A4 0C016EFE */  jal     func_8005BBF8              
+/* 00124 808AE8A4 0C016EFE */  jal     Collider_InitJntSph              
 /* 00128 808AE8A8 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 0012C 808AE8AC 3C07808B */  lui     $a3, %hi(D_808AF954)       ## $a3 = 808B0000
 /* 00130 808AE8B0 260A0190 */  addiu   $t2, $s0, 0x0190           ## $t2 = 00000190
@@ -108,7 +108,7 @@ glabel BgSpot06Objects_Init
 /* 00138 808AE8B8 AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 0013C 808AE8BC 24E7F954 */  addiu   $a3, $a3, %lo(D_808AF954)  ## $a3 = 808AF954
 /* 00140 808AE8C0 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 00144 808AE8C4 0C017014 */  jal     func_8005C050              
+/* 00144 808AE8C4 0C017014 */  jal     Collider_SetJntSph              
 /* 00148 808AE8C8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0014C 808AE8CC 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 00150 808AE8D0 2463E660 */  addiu   $v1, %lo(gSaveContext)

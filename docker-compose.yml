@@ -1,0 +1,11 @@
+version: "3"
+services:
+  oot:
+    volumes:
+      - oot-sync:/oot:nocopy
+    image: "oot:latest"
+    tty: true
+
+volumes:
+  oot-sync:
+    external: true

@@ -191,13 +191,13 @@ glabel L8001D08C
 /* A94268 8001D0C8 E6060178 */   swc1  $f6, 0x178($s0)
 /* A9426C 8001D0CC 2605017C */  addiu $a1, $s0, 0x17c
 /* A94270 8001D0D0 AFA50024 */  sw    $a1, 0x24($sp)
-/* A94274 8001D0D4 0C0170D9 */  jal   ActorCollider_AllocCylinder
+/* A94274 8001D0D4 0C0170D9 */  jal   Collider_InitCylinder
 /* A94278 8001D0D8 8FA4003C */   lw    $a0, 0x3c($sp)
 /* A9427C 8001D0DC 3C078011 */  lui   $a3, %hi(D_80115440) # $a3, 0x8011
 /* A94280 8001D0E0 8FA50024 */  lw    $a1, 0x24($sp)
 /* A94284 8001D0E4 24E75440 */  addiu $a3, %lo(D_80115440) # addiu $a3, $a3, 0x5440
 /* A94288 8001D0E8 8FA4003C */  lw    $a0, 0x3c($sp)
-/* A9428C 8001D0EC 0C01712B */  jal   ActorCollider_InitCylinder
+/* A9428C 8001D0EC 0C01712B */  jal   Collider_SetCylinder
 /* A94290 8001D0F0 02003025 */   move  $a2, $s0
 /* A94294 8001D0F4 240E00FF */  li    $t6, 255
 /* A94298 8001D0F8 A20E00AE */  sb    $t6, 0xae($s0)

@@ -9,7 +9,7 @@ glabel BgPoEvent_Destroy
 /* 00654 808A6864 54200007 */  bnel    $at, $zero, .L808A6884     
 /* 00658 808A6868 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 /* 0065C 808A686C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00660 808A6870 0C017232 */  jal     func_8005C8C8              
+/* 00660 808A6870 0C017232 */  jal     Collider_DestroyTris              
 /* 00664 808A6874 24E50170 */  addiu   $a1, $a3, 0x0170           ## $a1 = 00000170
 /* 00668 808A6878 10000012 */  beq     $zero, $zero, .L808A68C4   
 /* 0066C 808A687C 8FBF0014 */  lw      $ra, 0x0014($sp)           

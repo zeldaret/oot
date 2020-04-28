@@ -296,7 +296,7 @@ glabel func_800AB9EC
 /* B22F88 800ABDE8 C60A0044 */  lwc1  $f10, 0x44($s0)
 /* B22F8C 800ABDEC E7AA0020 */  swc1  $f10, 0x20($sp)
 /* B22F90 800ABDF0 C6120048 */  lwc1  $f18, 0x48($s0)
-/* B22F94 800ABDF4 0C04078D */  jal   func_80101E34
+/* B22F94 800ABDF4 0C04078D */  jal   guLookAtReflect
 /* B22F98 800ABDF8 E7B20024 */   swc1  $f18, 0x24($sp)
 /* B22F9C 800ABDFC 0240C025 */  move  $t8, $s2
 /* B22FA0 800ABE00 02007025 */  move  $t6, $s0

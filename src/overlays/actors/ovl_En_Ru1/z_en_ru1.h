@@ -41,8 +41,8 @@ typedef struct {
     /* 0x02AC */ s16 unk_2AC;
     /* 0x02AE */ char unk_2AE[0x2];
     /* 0x02B0 */ s32 unk_2B0;
-    /* 0x02B4 */ ColliderCylinderMain collider;
-    /* 0x0300 */ ColliderCylinderMain collider2;
+    /* 0x02B4 */ ColliderCylinder collider;
+    /* 0x0300 */ ColliderCylinder collider2;
     /* 0x034C */ s32 unk_34C;
     /* 0x0350 */ s32 unk_350;
     /* 0x0354 */ f32 unk_354;
@@ -52,7 +52,6 @@ typedef struct {
     /* 0x0364 */ Vec3f unk_364;
     /* 0x0370 */ f32 unk_370;
     /* 0x0374 */ struct_80034A14_arg1 unk_374;
-    /* 0x0398 */ char unk_398[0x4]; // probably belongs to previous struct
 } EnRu1; // size = 0x039C
 
 extern const ActorInit En_Ru1_InitVars;

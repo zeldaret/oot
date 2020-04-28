@@ -100,14 +100,14 @@ glabel BgHidanCurtain_Init
 /* 00100 808852A0 8F250004 */  lw      $a1, 0x0004($t9)           ## 00000004
 /* 00104 808852A4 26050158 */  addiu   $a1, $s0, 0x0158           ## $a1 = 00000158
 /* 00108 808852A8 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 0010C 808852AC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0010C 808852AC 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00110 808852B0 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00114 808852B4 3C078088 */  lui     $a3, %hi(D_80885B70)       ## $a3 = 80880000
 /* 00118 808852B8 24E75B70 */  addiu   $a3, $a3, %lo(D_80885B70)  ## $a3 = 80885B70
 /* 0011C 808852BC 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00120 808852C0 8FA50020 */  lw      $a1, 0x0020($sp)           
-/* 00124 808852C4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00124 808852C4 0C01712B */  jal     Collider_SetCylinder
               
 /* 00128 808852C8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0012C 808852CC C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024
@@ -128,7 +128,7 @@ glabel BgHidanCurtain_Init
 /* 00168 80885308 A60E0198 */  sh      $t6, 0x0198($s0)           ## 00000198
 /* 0016C 8088530C 846F0002 */  lh      $t7, 0x0002($v1)           ## 00000002
 /* 00170 80885310 A60F019A */  sh      $t7, 0x019A($s0)           ## 0000019A
-/* 00174 80885314 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00174 80885314 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00178 80885318 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 0017C 8088531C 3C068088 */  lui     $a2, %hi(D_80885B9C)       ## $a2 = 80880000

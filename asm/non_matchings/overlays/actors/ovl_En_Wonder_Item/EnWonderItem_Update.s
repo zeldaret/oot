@@ -32,14 +32,14 @@ glabel EnWonderItem_Update
 .L80B38C58:
 /* 00BF8 80B38C58 26060180 */  addiu   $a2, $s0, 0x0180           ## $a2 = 00000180
 /* 00BFC 80B38C5C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000180
-/* 00C00 80B38C60 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00C00 80B38C60 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00C04 80B38C64 AFA60050 */  sw      $a2, 0x0050($sp)           
 /* 00C08 80B38C68 8FA40064 */  lw      $a0, 0x0064($sp)           
 /* 00C0C 80B38C6C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00C10 80B38C70 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00C14 80B38C74 8FA60050 */  lw      $a2, 0x0050($sp)           
-/* 00C18 80B38C78 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00C18 80B38C78 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00C1C 80B38C7C 00812821 */  addu    $a1, $a0, $at              
 /* 00C20 80B38C80 86020154 */  lh      $v0, 0x0154($s0)           ## 00000154
