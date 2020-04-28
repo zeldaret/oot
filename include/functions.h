@@ -1237,7 +1237,6 @@ void SkelAnime_Free(SkelAnime* skelAnime, GlobalContext* globalCtx);
 // ? func_800A5F60(?);
 // ? func_800A60D8(?);
 // ? func_800A6460(?);
-void func_800A663C(GlobalContext* globalCtx, UNK_PTR, UNK_PTR, AnimationHeader*);
 // ? func_800A698C(?);
 // ? func_800A6AC4(?);
 // ? func_800A6E10(?);
