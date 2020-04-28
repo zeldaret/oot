@@ -83,7 +83,7 @@ glabel func_8088BC40
 /* 00CC4 8088BD44 00052C03 */  sra     $a1, $a1, 16
 /* 00CC8 8088BD48 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 00CCC 8088BD4C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 00CD0 8088BD50 0C034421 */  jal     Matrix_RotateZYX
+/* 00CD0 8088BD50 0C034421 */  jal     Matrix_RotateRPY
 /* 00CD4 8088BD54 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00CD8 8088BD58 44807000 */  mtc1    $zero, $f14                ## $f14 = 0.00
 /* 00CDC 8088BD5C 3C01C128 */  lui     $at, 0xC128                ## $at = C1280000

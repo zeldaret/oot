@@ -110,7 +110,7 @@ glabel func_8008FCC8
 /* B06F9C 8008FDFC 24070001 */  li    $a3, 1
 /* B06FA0 8008FE00 84440000 */  lh    $a0, ($v0)
 /* B06FA4 8008FE04 84450002 */  lh    $a1, 2($v0)
-/* B06FA8 8008FE08 0C034421 */  jal   Matrix_RotateZYX
+/* B06FA8 8008FE08 0C034421 */  jal   Matrix_RotateRPY
 /* B06FAC 8008FE0C 84460004 */   lh    $a2, 4($v0)
 /* B06FB0 8008FE10 8FA20040 */  lw    $v0, 0x40($sp)
 /* B06FB4 8008FE14 44800000 */  mtc1  $zero, $f0

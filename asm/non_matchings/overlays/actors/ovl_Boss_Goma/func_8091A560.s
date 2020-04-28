@@ -253,7 +253,7 @@ glabel L8091A7CC
 .L8091A838:
 /* 04E28 8091A838 8FA50078 */  lw      $a1, 0x0078($sp)
 /* 04E2C 8091A83C 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
-/* 04E30 8091A840 0C0344D0 */  jal     Matrix_TranslateThenRotateZYX
+/* 04E30 8091A840 0C0344D0 */  jal     Matrix_JointPosition
 /* 04E34 8091A844 AFA9005C */  sw      $t1, 0x005C($sp)
 /* 04E38 8091A848 8FAC0070 */  lw      $t4, 0x0070($sp)
 /* 04E3C 8091A84C 8FA9005C */  lw      $t1, 0x005C($sp)
@@ -302,7 +302,7 @@ glabel L8091A7CC
 glabel L8091A8F4
 /* 04EE4 8091A8F4 8FA50078 */  lw      $a1, 0x0078($sp)
 /* 04EE8 8091A8F8 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
-/* 04EEC 8091A8FC 0C0344D0 */  jal     Matrix_TranslateThenRotateZYX
+/* 04EEC 8091A8FC 0C0344D0 */  jal     Matrix_JointPosition
 /* 04EF0 8091A900 AFA9005C */  sw      $t1, 0x005C($sp)
 /* 04EF4 8091A904 8FAF0070 */  lw      $t7, 0x0070($sp)
 /* 04EF8 8091A908 8FA9005C */  lw      $t1, 0x005C($sp)
