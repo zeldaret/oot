@@ -139,7 +139,7 @@ glabel EnRr_Draw
 /* 01F68 80AEA3A8 8604025C */  lh      $a0, 0x025C($s0)           ## 0000029C
 /* 01F6C 80AEA3AC 8605025E */  lh      $a1, 0x025E($s0)           ## 0000029E
 /* 01F70 80AEA3B0 86060260 */  lh      $a2, 0x0260($s0)           ## 000002A0
-/* 01F74 80AEA3B4 0C034421 */  jal     Matrix_RotateZYX
+/* 01F74 80AEA3B4 0C034421 */  jal     Matrix_RotateRPY
 /* 01F78 80AEA3B8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 01F7C 80AEA3BC 0C034213 */  jal     Matrix_Push
 /* 01F80 80AEA3C0 00000000 */  nop

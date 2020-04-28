@@ -700,14 +700,16 @@ s32 Collider_DestroyJntSph(GlobalContext* globalCtx, ColliderJntSph* collider);
 s32 Collider_SetJntSph_Set(GlobalContext* globalCtx, ColliderJntSph* dest, ColliderJntSphInit_Actor* src);
 s32 Collider_SetJntSph_Set3(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit_Set3* src);
 s32 Collider_SetJntSph_Set5(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src);
-s32 Collider_SetJntSph(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src, ColliderJntSphItem* list);
+s32 Collider_SetJntSph(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src,
+                       ColliderJntSphItem* list);
 s32 Collider_InitCylinderDim(GlobalContext* globalCtx, Cylinder16* dim);
 s32 Collider_DestroyCylinderDim(GlobalContext* globalCtx, Cylinder16* dim);
 s32 Collider_SetCylinderDim(GlobalContext* globalCtx, Cylinder16* dest, Cylinder16* src);
 s32 Collider_InitCylinder(GlobalContext* globalCtx, ColliderCylinder* collider);
 s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collider);
 s32 Collider_SetCylinder_Actor(GlobalContext* globalCtx, ColliderCylinder* collider, ColliderCylinderInit_Actor* arg2);
-s32 Collider_SetCylinder_Set3(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor, ColliderCylinderInit_Set3* src);
+s32 Collider_SetCylinder_Set3(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
+                              ColliderCylinderInit_Set3* src);
 s32 Collider_SetCylinder(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor, ColliderCylinderInit* src);
 s32 Collider_CylinderSetAT(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_CylinderSetAC(GlobalContext* globalCtx, Collider* collider);
@@ -727,7 +729,7 @@ s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris);
 s32 Collider_SetTris_Set3(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit_Set3* src);
 s32 Collider_SetTris_Set5(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src);
 s32 Collider_SetTris(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src,
-    ColliderTrisItem* list);
+                     ColliderTrisItem* list);
 s32 Collider_TrisSetAT(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_TrisSetAC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_TrisSetOC(GlobalContext* globalCtx, Collider* collider);
@@ -785,7 +787,8 @@ void func_80061ED4(CollisionCheckInfo* info, DamageTable* damageTable, Collision
 void func_80061EFC(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init);
 // ? func_80061F64(?);
 // ? func_800622E4(?);
-s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C, Vec3f* arg3, Actor** arg4, s32 arg5);
+s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C,
+                                      Vec3f* arg3, Actor** arg4, s32 arg5);
 // ? func_800626B0(?);
 void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider);
 // ? func_80062734(?);
@@ -1691,8 +1694,8 @@ void Matrix_Scale(f32 x, f32 y, f32 z, u8 mode);
 void Matrix_RotateX(f32 x, u8 mode);
 void Matrix_RotateY(f32 y, u8 mode);
 void Matrix_RotateZ(f32 z, u8 mode);
-void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
-void Matrix_TranslateThenRotateZYX(Vec3f* arg0, Vec3s* arg1);
+void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode);
+void Matrix_JointPosition(Vec3f* position, Vec3s* rotation);
 void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec);
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
 Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line);
@@ -1713,7 +1716,7 @@ u32 SysUcode_GetUCodeBoot();
 u32 SysUcode_GetUCodeBootSize();
 u32 SysUcode_GetUCode();
 u32 SysUcode_GetUCodeData();
-void func_800D2E30(UnkRumbleStruct *arg0);
+void func_800D2E30(UnkRumbleStruct* arg0);
 void func_800D3140(UnkRumbleStruct* arg0);
 void func_800D3178(UnkRumbleStruct* arg0);
 // ? func_800D31F0(?);
@@ -2376,7 +2379,9 @@ void guLookAtReflect(Mtx*, f32, f32, f32, f32, f32, f32, f32, f32, f32);
 // ? osContStartQuery(?);
 void osContGetQuery(OSContStatus* data);
 // ? guLookAtHiliteF(?);
-void guLookAtHilite(Mtx* m, LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt,  f32 yAt,  f32 zAt, f32 xUp,  f32 yUp,  f32 zUp, f32 xl1,  f32 yl1,  f32 zl1, f32 xl2,  f32 yl2,  f32 zl2, s32 hiliteWidth, s32 hiliteHeight);	
+void guLookAtHilite(Mtx* m, LookAt* l, Hilite* h, f32 xEye, f32 yEye, f32 zEye, f32 xAt, f32 yAt, f32 zAt, f32 xUp,
+                    f32 yUp, f32 zUp, f32 xl1, f32 yl1, f32 zl1, f32 xl2, f32 yl2, f32 zl2, s32 hiliteWidth,
+                    s32 hiliteHeight);
 // ? __osSpDeviceBusy(?);
 // ? func_80103B60(?);
 // ? guPositionF(?);
