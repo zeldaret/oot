@@ -12,12 +12,6 @@ typedef struct {
 } substruct_8003880C;
 
 typedef struct {
-    substruct_8003880C** unk_00; // original name: tbl
-    substruct_8003880C** unk_04;
-    s32 unk_08;
-} struct_8003880C;
-
-typedef struct {
     char unk_00[4];
     Vec3f unk_04;
     s32 unk_10[3];
@@ -26,8 +20,6 @@ typedef struct {
     Vec3f unk_34;
 } struct_8003ADC8;
 
-extern Vec3f D_8015BC30[3];
-extern Vec3f D_8015BC58[3];
 extern Vec3f D_8015BC80[3];
 extern Vec3f D_8015BCA8[3];
 
@@ -49,63 +41,76 @@ s32 func_80038600(Vec3f* pos, char* file, s32 line) {
     return false;
 }
 
-void func_80038708(substruct_8003880C* arg0, s16* arg1, u16 arg2) {
+//mzxOK
+//Set SSLink_s
+void func_80038708(SSLink_s* arg0, s16* arg1, u16 arg2) {
     arg0->unk_00 = *arg1;
     arg0->unk_02 = arg2;
 }
 
-void func_8003871C(substruct_8003880C* arg0) {
-    arg0->unk_00 = SS_NULL;
+//mzxOK
+//Set SS_NULL
+void func_8003871C(u16* arg0) {
+    *arg0 = SS_NULL;
 }
 
-u16 func_8003E4DC(substruct_8003880C*);
-u16 func_80038878(substruct_8003880C*);
+u16 func_8003E4DC(PolyLinksList_s*);
+u16 func_80038878(DynaList_s*);
 
-void func_80038728(struct_8003880C* arg0, u16* arg1, s16* arg2) {
-    u16 newNode = func_8003E4DC(&arg0->unk_00); // Incorrect pointers
+//mzxOK
+//Set static PolyLinksList_s
+void func_80038728(PolyLinksList_s* arg0, u16* arg1, s16* arg2) {
+    u16 newNode = func_8003E4DC(arg0); 
 
-    func_80038708(&arg0->unk_04[newNode], arg2, *arg1);
+    func_80038708(&arg0->tbl[newNode], arg2, *arg1);
     *arg1 = newNode;
 }
 
-void func_80038780(struct_8003880C* arg0, u16* arg1, s16* arg2) {
-    u16 newNode = func_80038878(&arg0->unk_00); // Incorrect pointers
+//mzxOK
+//Set dynamic DynaList_s
+void func_80038780(DynaList_s* arg0, u16* arg1, s16* arg2) {
+    u16 newNode = func_80038878(arg0); 
 
-    if (newNode == SS_NULL) {
+    if (!(newNode != SS_NULL)) {
         __assert("new_node != SS_NULL", "../z_bgcheck.c", 1776);
     }
 
-    func_80038708(&arg0->unk_00[newNode], arg2, *arg1);
+    func_80038708(&arg0->tbl[newNode], arg2, *arg1);
     *arg1 = newNode;
 }
 
-void func_800387FC(s32 unused, struct_8003880C* arg1) {
-    arg1->unk_00 = NULL;
-    arg1->unk_04 = NULL;
+//mzxOK
+//Init DynaList_s
+void func_800387FC(GlobalContext* globalCtx, DynaList_s* arg1) {
+    arg1->tbl = NULL;
+    arg1->count = 0;
 }
 
-void func_8003880C(Actor* arg0, struct_8003880C* arg1, s32 arg2) {
-    // Todo: tidy up types here (the arg is arg0 struct that begins at wallpoly)
-    arg1->unk_00 = (substruct_8003880C**)THA_AllocEndAlign((TwoHeadArena*)(&arg0->wallPoly), arg2 * 4, -2);
+//mzxOK
+//Initialize DynaList tbl
+void func_8003880C(GlobalContext* globalCtx, DynaList_s* arg1, s32 max) {
+    arg1->tbl = THA_AllocEndAlign(&globalCtx->state.tha, max * 4, -2);
 
-    if (arg1->unk_00 == NULL) {
+    if (!(arg1->tbl != NULL)) {
         __assert("psst->tbl != NULL", "../z_bgcheck.c", 1811);
     }
 
-    arg1->unk_08 = arg2;
-    arg1->unk_04 = NULL;
+    arg1->max = max;
+    arg1->count = 0;
 }
 
-void func_80038870(struct_8003880C* arg0) {
-    arg0->unk_04 = NULL;
+//mzxOK
+//Reset DynaList_s count
+void func_80038870(DynaList_s* arg0) {
+    arg0->count = 0;
 }
 
-u16 func_80038878(substruct_8003880C* arg0) {
-    u16 var = arg0->unk_04;
+//mzx
+//Get next DynaList_s item
+u16 func_80038878(DynaList_s* arg0) {
+    u16 var = arg0->count++;
 
-    arg0->unk_04++;
-
-    if (arg0->unk_08 <= var) {
+    if (arg0->max <= var) {
         return SS_NULL;
     }
 
@@ -127,23 +132,39 @@ void func_800388E8(Vec3s* dst, Vec3f* src) {
 }
 
 #ifdef NON_MATCHING
-s16 func_80038924(CollisionPoly* arg0, Vec3s arg1[]) {
-    Vec3s *temp1, *temp2, *temp3;
+s16 func_80038924(CollisionPoly* poly, Vec3s* vtxList) {
+    //Vec3s* temp1;
+    //Vec3s* temp2;
+    //Vec3s* temp3;
+    s32 a, b, c;
+    s16 min;
 
-    if ((arg0->norm.y == 0x7FFF) || (arg0->norm.y == -0x7FFF)) {
-        return arg1[arg0->unk_02 & 0x1FFF].y;
+    if (poly->norm.y == 0x7FFF || poly->norm.y == -0x7FFF) {
+        return vtxList[poly->vIA].y;
     }
 
-    temp1 = &arg1[arg0->unk_02 & 0x1FFF];
-    temp2 = &arg1[arg0->unk_04 & 0x1FFF];
-    temp3 = &arg1[arg0->unk_06];
-    if (temp1->y > temp2->y) {
-        temp1->y = temp2->y;
+    //temp1 = &vtxList[poly->vIA];
+    //temp2 = &vtxList[poly->vIB];
+    //temp3 = &vtxList[poly->vIC];
+
+    a = poly->vIA;
+    b = poly->vIB;
+    c = poly->vIC;
+
+    //min = temp1->y;
+    min = vtxList[a].y;
+
+    //if (min > temp2->y) {
+    if (min > vtxList[b].y) {
+        //min = temp2->y;
+        min = vtxList[b].y;
     }
-    if (temp1->y < temp3->y) {
-        return temp1->y;
+    //if (min < temp3->y) {
+    if (min < vtxList[c].y) {
+        return min;
     }
-    return temp3->y;
+    //return temp3->y;
+    return vtxList[c].y;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80038924.s")
@@ -204,14 +225,16 @@ void func_80038A28(CollisionPoly* arg0, f32 arg1, f32 arg2, f32 arg3, MtxF* arg4
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80038A28.s")
 #endif
 
-f32 func_80038B7C(CollisionPoly* arg0, Vec3f* arg1) {
-    return ((arg0->norm.x * arg1->x) + (arg0->norm.y * arg1->y) + (arg0->norm.z * arg1->z)) * (1.0f / 32767) + arg0->dist;
+//mzxOk
+//Calculate point distance from plane
+f32 func_80038B7C(CollisionPoly* poly, Vec3f* point) {
+    return (poly->norm.x * point->x + poly->norm.y * point->y + poly->norm.z * point->z) * (1.0f / 32767) + poly->dist;
 }
 
 void func_80038BE0(CollisionPoly* arg0, Vec3s arg1[], Vec3f arg2[]) {
-    func_800388A8(&arg1[arg0->unk_02 & 0x1FFF], &arg2[0]);
-    func_800388A8(&arg1[arg0->unk_04 & 0x1FFF], &arg2[1]);
-    func_800388A8(&arg1[arg0->unk_06], &arg2[2]);
+    func_800388A8(&arg1[arg0->vIA], &arg2[0]);
+    func_800388A8(&arg1[arg0->vIB], &arg2[1]);
+    func_800388A8(&arg1[arg0->vIC], &arg2[2]);
 }
 
 // original name: T_Polygon_GetVertex_bg_ai
@@ -245,21 +268,28 @@ void func_80038C78(CollisionPoly* arg0, s32 arg1, s32 arg2, Vec3f arg3[]) {
     }
 }
 
-#ifdef NON_MATCHING
-// pretty far off, dunno if it's functionally equivalent
-void func_80038D48(CollisionPoly* arg0, Vec3s arg1[], f32 arg2, f32 arg3, s32 arg4, f32 arg5) {
-    Math_Vec3s_ToVec3f(&D_8015BC30[0], &arg1[arg0->unk_02 & 0x1FFF]);
-    Math_Vec3s_ToVec3f(&D_8015BC30[1], &arg1[arg0->unk_04 & 0x1FFF]);
-    Math_Vec3s_ToVec3f(&D_8015BC30[2], &arg1[arg0->unk_06]);
+//mzxOK
+extern Vec3f D_8015BC30[3];
+void func_80038D48(CollisionPoly* arg0, Vec3s* arg1, f32 arg2, f32 arg3, s32 arg4, f32 arg5) {
+    f32 nA, nB, nC;
+    Vec3s* vA, * vB, * vC;
 
-    func_800CCF98(&D_8015BC30[0], &D_8015BC30[1], &D_8015BC30[2], arg0->norm.x * (1.0f / 32767), arg0->norm.y * (1.0f / 32767),
-                  arg0->norm.z * (1.0f / 32767), arg0->dist, arg3, arg2, arg4, arg5);
+    vA = &arg1[arg0->vIA];
+    Math_Vec3s_ToVec3f(&D_8015BC30[0], vA);
+    vB = &arg1[arg0->vIB];
+    Math_Vec3s_ToVec3f(&D_8015BC30[1], vB);
+    vC = &arg1[arg0->vIC];
+    Math_Vec3s_ToVec3f(&D_8015BC30[2], vC);
+
+    nA = arg0->norm.x * (1.0f / 32767);
+    nB = arg0->norm.y * (1.0f / 32767);
+    nC = arg0->norm.z * (1.0f / 32767);
+
+    func_800CCF98(&D_8015BC30[0], &D_8015BC30[1], &D_8015BC30[2], nA, nB,
+        nC, arg0->dist, arg3, arg2, arg4, arg5);
 }
-#else
-void func_80038D48(CollisionPoly*, Vec3s*, f32, f32, s32, f32);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80038D48.s")
-#endif
 
+extern Vec3f D_8015BC58[3];
 void func_80038E78(CollisionPoly* arg0, Vec3s arg1[], f32 arg2, f32 arg3, s32 arg4, f32 arg5) {
     f32 sp44, sp40, sp3C;
 
@@ -308,53 +338,121 @@ void func_8003937C(CollisionPoly* arg0, Vec3s arg1[], Vec3f* arg2, f32 arg3) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003937C.s")
 #endif
 
-typedef struct {
-    char unk_00[0xA];
-    s16 unk_0A;
-    char unk_0C[4];
-} struct_80039448; // unknown struct of length 0x10
-
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80039448.s")
+//void func_80039448(CollisionContext* arg0, u16* arg1, CollisionPoly* polyList, Vec3s* vtxList, s16 index) {
+//    void* sp24;
+//    s32 temp_ret;
+//    s32 temp_ret_2;
+//    s32 temp_ret_3;
+//    u16 temp_v1;
+//    void* temp_a0;
+//    void* temp_a1;
+//    void* temp_a1_2;
+//    void* temp_t1;
+//    void* phi_t1;
+//    void* phi_a1;
+//    s16 phi_a2;
+//
+//    if (SS_NULL == *arg1) {
+//        func_80038728(&arg0->stat.polyLinksList, arg1, &index);
+//        return;
+//    }
+//    temp_ret = func_80038924(polyList[index], vtxList);
+//    temp_t1 = arg0->unk48 + (*arg1 * 4);
+//    temp_a1 = polyList + (*temp_t1 * 0x10);
+//    phi_a1 = temp_a1;
+//    if (temp_ret >= (s32)(vtxList + ((temp_a1->unk2 & 0x1FFF) * 6))->unk2) {
+//    block_6:
+//        phi_t1 = temp_t1;
+//        phi_a2 = *temp_t1;
+//    loop_7:
+//        temp_v1 = phi_t1->unk2;
+//        if (SS_NULL == temp_v1) {
+//            sp24 = phi_t1;
+//            temp_ret_2 = func_8003E4DC(arg0 + 0x44, phi_a1, phi_a2, vtxList);
+//            func_80038708(arg0->unk48 + (temp_ret_2 * 4), &index, 0xFFFF);
+//            phi_t1->unk2 = (s16)(temp_ret_2 & 0xFFFF);
+//            return;
+//        }
+//        temp_a0 = arg0->unk48 + (temp_v1 * 4);
+//        temp_a1_2 = polyList + (*temp_a0 * 0x10);
+//        if (temp_ret >= (s32)(vtxList + ((temp_a1_2->unk2 & 0x1FFF) * 6))->unk2) {
+//        block_13:
+//            phi_t1 = temp_a0;
+//            phi_a1 = temp_a1_2;
+//            phi_a2 = *temp_a0;
+//            goto loop_7;
+//        }
+//        if (temp_ret >= (s32)(vtxList + ((temp_a1_2->unk4 & 0x1FFF) * 6))->unk2) {
+//            goto block_13;
+//        }
+//        if (temp_ret >= (s32)(vtxList + (temp_a1_2->unk6 * 6))->unk2) {
+//            goto block_13;
+//        }
+//        sp24 = phi_t1;
+//        temp_ret_3 = func_8003E4DC(arg0 + 0x44, temp_a1_2, *temp_a0, vtxList);
+//        func_80038708(arg0->unk48 + (temp_ret_3 * 4), &index, phi_t1->unk2);
+//        phi_t1->unk2 = (s16)(temp_ret_3 & 0xFFFF);
+//        return;
+//    }
+//    phi_a1 = temp_a1;
+//    if (temp_ret >= (s32)(vtxList + ((temp_a1->unk4 & 0x1FFF) * 6))->unk2) {
+//        goto block_6;
+//    }
+//    phi_a1 = arg1;
+//    if (temp_ret >= (s32)(vtxList + (temp_a1->unk6 * 6))->unk2) {
+//        goto block_6;
+//    }
+//    func_80038728(&arg0->stat.polyLinksList, arg1, &index);
+//    return;
+//}
 
-// Type of "arg1" is unknown
-void func_8003965C(Vec3s* arg0, s32* arg1, struct_80039448 arg2[], s32 arg3, s16 arg4) {
-    if (arg2[arg4].unk_0A >= 0x4000) {
-        func_80039448(arg1, &arg0->x, arg2, arg3, arg4);
+typedef struct {
+    u16 floor;
+    u16 wall;
+    u16 ceiling;
 
-    } else if (arg2[arg4].unk_0A <= -0x6666) {
-        func_80039448(arg1, &arg0->z, arg2, arg3, arg4);
+} Lookup;
+
+//arg0 is floor, wall, ceiling
+void func_8003965C(Lookup* arg0, CollisionContext* colCtx, CollisionPoly* polyList, Vec3s* vtxList, s16 index) {
+    if (polyList[index].norm.y >= 0x4000) {
+        func_80039448(colCtx, &arg0->floor, polyList, vtxList, index);
+
+    } else if (polyList[index].norm.y <= -0x6666) {
+        func_80039448(colCtx, &arg0->ceiling, polyList, vtxList, index);
 
     } else {
-        func_80039448(arg1, &arg0->y, arg2, arg3, arg4);
+        func_80039448(colCtx, &arg0->wall, polyList, vtxList, index);
     }
-}
+} //list arg3
 
-f32 func_800396F0(s32*, u16, s16*, s16*, Vec3f*, f32, f32, s32);
+f32 func_800396F0(CollisionContext*, u16, s16*, s16*, Vec3f*, f32, f32, s32);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800396F0.s")
 
-// Type of "arg1" is unknown
-f32 func_8003992C(Vec3s* arg0, s32* arg1, u16 arg2, s16* arg3, Vec3f* arg4, s32 arg5, f32 arg6, f32 arg7) {
+
+f32 func_8003992C(Vec3s* arg0, CollisionContext* colCtx, u16 arg2, s16* arg3, Vec3f* arg4, s32 arg5, f32 arg6, f32 arg7) {
     s32 temp_v0;
     f32 temp_f2 = arg7;
 
-    if ((arg5 & 4) != 0) {
-        temp_f2 = func_800396F0(arg1, arg2, &arg0->x, arg3, arg4, temp_f2, arg6, 0);
+    if (arg5 & 4) {
+        temp_f2 = func_800396F0(colCtx, arg2, &arg0->x, arg3, arg4, temp_f2, arg6, 0);
     }
 
-    if (((arg5 & 2) != 0) || ((arg5 & 8) != 0)) {
+    if ((arg5 & 2) || (arg5 & 8)) {
         temp_v0 = 0;
         if ((arg5 & 0x10) != 0) {
             temp_v0 = 1;
         }
-        temp_f2 = func_800396F0(arg1, arg2, &arg0->y, arg3, arg4, temp_f2, arg6, temp_v0);
+        temp_f2 = func_800396F0(colCtx, arg2, &arg0->y, arg3, arg4, temp_f2, arg6, temp_v0);
     }
 
-    if ((arg5 & 1) != 0) {
+    if (arg5 & 1) {
         temp_v0 = 0;
         if ((arg5 & 0x10) != 0) {
             temp_v0 = 1;
         }
-        temp_f2 = func_800396F0(arg1, arg2, &arg0->z, arg3, arg4, temp_f2, arg6, temp_v0);
+        temp_f2 = func_800396F0(colCtx, arg2, &arg0->z, arg3, arg4, temp_f2, arg6, temp_v0);
     }
 
     return temp_f2;
@@ -572,19 +670,17 @@ void func_8003E398(substruct_8003880C* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003E3AC.s")
 
-// regalloc, unwanted u16 cast
-#ifdef NON_MATCHING
-u16 func_8003E4DC(substruct_8003880C* this) {
-    u16 new_index = (this->unk_02 += 1);
+//Get PolyLinksList_s Next
+u16 func_8003E4DC(PolyLinksList_s* arg0) {
+    u16 new_index;
 
-    if (new_index >= this->unk_00) {
+    new_index = arg0->count++;
+
+    if (!(new_index < arg0->max)) {
         __assert("new_index < this->short_slist_node_size", "../z_bgcheck.c", 6021);
     }
     return new_index;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003E4DC.s")
-#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003E530.s")
 
@@ -712,11 +808,13 @@ void func_8003E954(u32 arg0, u8* arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041648.s")
 
+//https://github.com/zeldaret/oot/pull/79
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800417A0.s")
 
 // we previously had this named as DynaPolyInfo_Alloc
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041880.s")
 
+//https://github.com/zeldaret/oot/pull/79
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_800418D0.s")
 
 #ifdef NON_MATCHING

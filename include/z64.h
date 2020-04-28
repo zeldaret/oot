@@ -474,21 +474,43 @@ typedef struct {
 } CollisionHeader;
 
 typedef struct {
+    u16 unk_00;
+    u16 unk_02;
+} SSLink_s;
+
+typedef struct {
+    u16 max;
+    u16 count;
+    SSLink_s* tbl;
+} PolyLinksList_s;
+
+typedef struct {
     /* 0x00 */ CollisionHeader* colHeader;
-    /* 0x04 */ char             unk_04[0x4C];
+    /* 0x04 */ char             unk_04[0x40];
+    /* 0x44 */ PolyLinksList_s  polyLinksList;
+    /* 0x4C */ void* checks;
 } StaticCollisionContext; // size = 0x50
+
+
+typedef struct {
+    SSLink_s* tbl;
+    int count;
+    int max;
+} DynaList_s;
 
 typedef struct {
     /* 0x0000 */ char   unk_00[0x04];
     /* 0x0004 */ ActorMesh actorMeshArr[50];
     /* 0x138C */ u16    flags[50];
-    /* 0x13F0 */ char   unk_13F0[0x24];
+    /* 0x13F0 */ char   unk_13F0[0x8];
+    /* 0x13F8 */ DynaList_s  dyn_list;
+    /* 0x1404 */ char   unk_13FC[0x10];
 } DynaCollisionContext; // size = 0x1414
 
 typedef struct {
     /* 0x0000 */ StaticCollisionContext stat;
     /* 0x0050 */ DynaCollisionContext   dyna;
-} CollisionContext; // size = 0x1464
+} CollisionContext; // off 0x07C0 size = 0x1464
 
 typedef struct {
     /* 0x00 */ Vec3f    pos;
