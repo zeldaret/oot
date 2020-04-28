@@ -1,0 +1,9 @@
+glabel func_80056430
+/* ACD5D0 80056430 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* ACD5D4 80056434 AFBF0014 */  sw    $ra, 0x14($sp)
+/* ACD5D8 80056438 0C011CE5 */  jal   func_80047394
+/* ACD5DC 8005643C 00000000 */   nop   
+/* ACD5E0 80056440 8FBF0014 */  lw    $ra, 0x14($sp)
+/* ACD5E4 80056444 27BD0018 */  addiu $sp, $sp, 0x18
+/* ACD5E8 80056448 03E00008 */  jr    $ra
+/* ACD5EC 8005644C 00000000 */   nop  

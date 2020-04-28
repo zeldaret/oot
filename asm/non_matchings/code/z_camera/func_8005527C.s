@@ -1,0 +1,9 @@
+glabel func_8005527C
+/* ACC41C 8005527C 27BDFFE8 */  addiu $sp, $sp, -0x18
+/* ACC420 80055280 AFBF0014 */  sw    $ra, 0x14($sp)
+/* ACC424 80055284 0C011CE5 */  jal   func_80047394
+/* ACC428 80055288 00000000 */   nop   
+/* ACC42C 8005528C 8FBF0014 */  lw    $ra, 0x14($sp)
+/* ACC430 80055290 27BD0018 */  addiu $sp, $sp, 0x18
+/* ACC434 80055294 03E00008 */  jr    $ra
+/* ACC438 80055298 00000000 */   nop  

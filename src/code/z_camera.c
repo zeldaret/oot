@@ -891,8 +891,51 @@ void Camera_Vec3fCopy(Vec3f* src, Vec3f* dst) {
     dst->z = src->z;
 }
 
-// Needs splitting
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80054478.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800544D0.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80054774.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80054794.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8005527C.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8005529C.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80055C78.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80055F64.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80055F98.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80055FB8.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80056430.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80056450.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800565F4.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80056614.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80056634.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80056654.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800567F8.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80056C20.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80056F6C.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057428.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057448.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057B98.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057C14.s")
 
 // 225 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057C6C.s")
