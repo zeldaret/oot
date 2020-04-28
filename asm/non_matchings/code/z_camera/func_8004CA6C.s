@@ -5,61 +5,63 @@ glabel D_80139248
 
 .late_rodata
 glabel D_8013A078
-    .incbin "baserom.z64", 0xBB1218, 0xC
+    .float 0.01
+    .float 0.01
+    .float 0.01
 
 glabel D_8013A084
-    .incbin "baserom.z64", 0xBB1224, 0x4
+    .float 0.01
 
 glabel D_8013A088
-    .incbin "baserom.z64", 0xBB1228, 0x4
+    .float 0.01
 
 glabel D_8013A08C
-    .incbin "baserom.z64", 0xBB122C, 0x4
+    .float 0.01
 
 glabel D_8013A090
-    .incbin "baserom.z64", 0xBB1230, 0x4
+    .float 0.05
 
 glabel D_8013A094
-    .incbin "baserom.z64", 0xBB1234, 0x4
+    .float -0.1
 
 glabel D_8013A098
-    .incbin "baserom.z64", 0xBB1238, 0x4
+    .float 0.01
 
 glabel D_8013A09C
-    .incbin "baserom.z64", 0xBB123C, 0x4
+    .float 1.1
 
 glabel D_8013A0A0
-    .incbin "baserom.z64", 0xBB1240, 0x4
+    .float 0.01
 
 glabel D_8013A0A4
-    .incbin "baserom.z64", 0xBB1244, 0x4
+    .float 0.01
 
 glabel D_8013A0A8
-    .incbin "baserom.z64", 0xBB1248, 0x4
+    .float 0.01
 
 glabel D_8013A0AC
-    .incbin "baserom.z64", 0xBB124C, 0x4
+    .float 0.01
 
 glabel D_8013A0B0
-    .incbin "baserom.z64", 0xBB1250, 0x4
+    .float 182.04167
 
 glabel D_8013A0B4
-    .incbin "baserom.z64", 0xBB1254, 0x4
+    .float 0.00549325
 
 glabel D_8013A0B8
-    .incbin "baserom.z64", 0xBB1258, 0x4
+    .float 182.04167
 
 glabel D_8013A0BC
-    .incbin "baserom.z64", 0xBB125C, 0x4
+    .float 182.04167
 
 glabel D_8013A0C0
-    .incbin "baserom.z64", 0xBB1260, 0x4
+    .float 0.02
 
 glabel D_8013A0C4
-    .incbin "baserom.z64", 0xBB1264, 0x4
+    .float 182.04167
 
 glabel D_8013A0C8
-    .incbin "baserom.z64", 0xBB1268, 0x4
+    .float 0.01
 
 .text
 glabel func_8004CA6C

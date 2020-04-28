@@ -1,33 +1,35 @@
 .late_rodata
 glabel D_80139F14
-    .incbin "baserom.z64", 0xBB10B4, 0x4
+    .float 182.04167
 
 glabel D_80139F18
-    .incbin "baserom.z64", 0xBB10B8, 0xC
+    .float 0.01
+    .float 0.01
+    .float 0.01
 
 glabel D_80139F24
-    .incbin "baserom.z64", 0xBB10C4, 0x4
+    .float 0.01
 
 glabel D_80139F28
-    .incbin "baserom.z64", 0xBB10C8, 0x4
+    .float 0.01
 
 glabel D_80139F2C
-    .incbin "baserom.z64", 0xBB10CC, 0x4
+    .float 0.01
 
 glabel D_80139F30
-    .incbin "baserom.z64", 0xBB10D0, 0x4
+    .float 0.01
 
 glabel D_80139F34
-    .incbin "baserom.z64", 0xBB10D4, 0x4
+    .float 0.05
 
 glabel D_80139F38
-    .incbin "baserom.z64", 0xBB10D8, 0x4
+    .float 0.3
 
 glabel D_80139F3C
-    .incbin "baserom.z64", 0xBB10DC, 0x4
+    .float 0.7
 
 glabel D_80139F40
-    .incbin "baserom.z64", 0xBB10E0, 0x4
+    .float -0.1
 
 .text
 glabel func_8004900C

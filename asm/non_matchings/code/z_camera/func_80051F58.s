@@ -1,12 +1,17 @@
 .late_rodata
 glabel D_8013A204
-    .incbin "baserom.z64", 0xBB13A4, 0x4
+    .float 0.01
 
 glabel jtbl_8013A208
-    .incbin "baserom.z64", 0xBB13A8, 0x18
+    .word L800520A8
+    .word L800520EC
+    .word L800521A0
+    .word L80052208
+    .word L80052230
+    .word L80052318
 
 glabel D_8013A220
-    .incbin "baserom.z64", 0xBB13C0, 0x4
+    .float 0.001
 
 .text
 glabel func_80051F58
@@ -97,6 +102,8 @@ glabel func_80051F58
 /* AC923C 8005209C 8C2CA208 */  lw    $t4, %lo(jtbl_8013A208)($at)
 /* AC9240 800520A0 01800008 */  jr    $t4
 /* AC9244 800520A4 00000000 */   nop
+
+glabel L800520A8
 /* AC9248 800520A8 0C010ED8 */  jal   func_80043B60
 /* AC924C 800520AC 02002025 */   move  $a0, $s0
 /* AC9250 800520B0 860D014C */  lh    $t5, 0x14c($s0)
@@ -114,6 +121,8 @@ glabel func_80051F58
 /* AC9280 800520E0 860F015E */  lh    $t7, 0x15e($s0)
 /* AC9284 800520E4 25F80001 */  addiu $t8, $t7, 1
 /* AC9288 800520E8 A618015E */  sh    $t8, 0x15e($s0)
+
+glabel L800520EC
 /* AC928C 800520EC 86020006 */  lh    $v0, 6($s0)
 /* AC9290 800520F0 02002025 */  move  $a0, $s0
 /* AC9294 800520F4 26080050 */  addiu $t0, $s0, 0x50
@@ -159,6 +168,8 @@ glabel func_80051F58
 /* AC9334 80052194 8609015E */  lh    $t1, 0x15e($s0)
 /* AC9338 80052198 252B0001 */  addiu $t3, $t1, 1
 /* AC933C 8005219C A60B015E */  sh    $t3, 0x15e($s0)
+
+glabel L800521A0
 /* AC9340 800521A0 8FAC0028 */  lw    $t4, 0x28($sp)
 /* AC9344 800521A4 858D0008 */  lh    $t5, 8($t4)
 /* AC9348 800521A8 31AE0004 */  andi  $t6, $t5, 4
@@ -186,6 +197,8 @@ glabel func_80051F58
 /* AC939C 800521FC 860A015E */  lh    $t2, 0x15e($s0)
 /* AC93A0 80052200 25490001 */  addiu $t1, $t2, 1
 /* AC93A4 80052204 A609015E */  sh    $t1, 0x15e($s0)
+
+glabel L80052208
 /* AC93A8 80052208 860B014C */  lh    $t3, 0x14c($s0)
 /* AC93AC 8005220C 356C0410 */  ori   $t4, $t3, 0x410
 /* AC93B0 80052210 A60C014C */  sh    $t4, 0x14c($s0)
@@ -196,6 +209,8 @@ glabel func_80051F58
 /* AC93C4 80052224 860F015E */  lh    $t7, 0x15e($s0)
 /* AC93C8 80052228 25F80001 */  addiu $t8, $t7, 1
 /* AC93CC 8005222C A618015E */  sh    $t8, 0x15e($s0)
+
+glabel L80052230
 /* AC93D0 80052230 8FB90028 */  lw    $t9, 0x28($sp)
 /* AC93D4 80052234 240E0005 */  li    $t6, 5
 /* AC93D8 80052238 3C018014 */  lui   $at, %hi(D_8013A220)
@@ -257,6 +272,8 @@ glabel func_80051F58
 .L80052310:
 /* AC94B0 80052310 25CF0001 */  addiu $t7, $t6, 1
 /* AC94B4 80052314 A60F015E */  sh    $t7, 0x15e($s0)
+
+glabel L80052318
 /* AC94B8 80052318 C60C0018 */  lwc1  $f12, 0x18($s0)
 /* AC94BC 8005231C C60E00FC */  lwc1  $f14, 0xfc($s0)
 /* AC94C0 80052320 3C063ECC */  lui   $a2, (0x3ECCCCCD >> 16) # lui $a2, 0x3ecc

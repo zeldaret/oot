@@ -13,70 +13,81 @@ glabel D_8013935C
 
 .late_rodata
 glabel D_8013A0DC
-    .incbin "baserom.z64", 0xBB127C, 0x4
+    .float 0.01
 
 glabel jtbl_8013A0E0
-    .incbin "baserom.z64", 0xBB1280, 0x30
+    .word L8004E734
+    .word L8004E770
+    .word L8004E770
+    .word L8004E798
+    .word L8004E874
+    .word L8004EB20
+    .word L8004EB20
+    .word L8004E7C8
+    .word L8004E81C
+    .word L8004E8B8
+    .word L8004EAC8
+    .word L8004E91C
 
 glabel D_8013A110
-    .incbin "baserom.z64", 0xBB12B0, 0x4
+    .float -0.6
 
 glabel D_8013A114
-    .incbin "baserom.z64", 0xBB12B4, 0x4
+    .float -0.2
 
 glabel D_8013A118
-    .incbin "baserom.z64", 0xBB12B8, 0x4
+    .float -0.2
 
 glabel D_8013A11C
-    .incbin "baserom.z64", 0xBB12BC, 0x4
+    .float 0.8
 
 glabel D_8013A120
-    .incbin "baserom.z64", 0xBB12C0, 0x4
+    .float 0.1
 
 glabel D_8013A124
-    .incbin "baserom.z64", 0xBB12C4, 0x4
+    .float -0.4
 
 glabel D_8013A128
-    .incbin "baserom.z64", 0xBB12C8, 0x4
+    .float -0.6
 
 glabel D_8013A12C
-    .incbin "baserom.z64", 0xBB12CC, 0x4
+    .float 1.6
 
 glabel D_8013A130
-    .incbin "baserom.z64", 0xBB12D0, 0x4
+    .float -0.3
 
 glabel D_8013A134
-    .incbin "baserom.z64", 0xBB12D4, 0x4
+    .float -0.1
 
 glabel D_8013A138
-    .incbin "baserom.z64", 0xBB12D8, 0x4
+    .float -0.3
 
 glabel D_8013A13C
-    .incbin "baserom.z64", 0xBB12DC, 0x4
+    .float -0.19
 
 glabel D_8013A140
-    .incbin "baserom.z64", 0xBB12E0, 0x4
+    .float 0.7
 
 glabel D_8013A144
-    .incbin "baserom.z64", 0xBB12E4, 0x4
+    .float 182.04167
 
 glabel D_8013A148
-    .incbin "baserom.z64", 0xBB12E8, 0x4
+    .float 182.04167
 
 glabel D_8013A14C
-    .incbin "baserom.z64", 0xBB12EC, 0x4
+    .float 182.04167
 
 glabel D_8013A150
-    .incbin "baserom.z64", 0xBB12F0, 0x4
+    .float 182.04167
 
 glabel D_8013A154
-    .incbin "baserom.z64", 0xBB12F4, 0x4
+    .float 182.04167
 
 glabel D_8013A158
-    .incbin "baserom.z64", 0xBB12F8, 0x4
+    .float 182.04167
 
 glabel D_8013A15C
-    .incbin "baserom.z64", 0xBB12FC, 0x4
+    .float 0.2
 
 .text
 glabel func_8004E460
@@ -269,6 +280,8 @@ glabel func_8004E460
 /* AC58C8 8004E728 8C2BA0E0 */  lw    $t3, %lo(jtbl_8013A0E0)($at)
 /* AC58CC 8004E72C 01600008 */  jr    $t3
 /* AC58D0 8004E730 00000000 */   nop
+
+glabel L8004E734
 /* AC58D4 8004E734 3C018014 */  lui   $at, %hi(D_8013A110)
 /* AC58D8 8004E738 C42AA110 */  lwc1  $f10, %lo(D_8013A110)($at)
 /* AC58DC 8004E73C 460E7200 */  add.s $f8, $f14, $f14
@@ -284,6 +297,8 @@ glabel func_8004E460
 /* AC5904 8004E764 8D8CFA90 */  lw    $t4, %lo(gGameInfo)($t4)
 /* AC5908 8004E768 100000F0 */  b     .L8004EB2C
 /* AC590C 8004E76C 85820314 */   lh    $v0, 0x314($t4)
+
+glabel L8004E770
 /* AC5910 8004E770 3C01C1A0 */  li    $at, 0xC1A00000 # 0.000000
 /* AC5914 8004E774 44812000 */  mtc1  $at, $f4
 /* AC5918 8004E778 3C0142A0 */  li    $at, 0x42A00000 # 0.000000
@@ -294,6 +309,8 @@ glabel func_8004E460
 /* AC592C 8004E78C 8DADFA90 */  lw    $t5, %lo(gGameInfo)($t5)
 /* AC5930 8004E790 100000E6 */  b     .L8004EB2C
 /* AC5934 8004E794 85A20314 */   lh    $v0, 0x314($t5)
+
+glabel L8004E798
 /* AC5938 8004E798 3C018014 */  lui   $at, %hi(D_8013A114)
 /* AC593C 8004E79C C42AA114 */  lwc1  $f10, %lo(D_8013A114)($at)
 /* AC5940 8004E7A0 3C0141C8 */  li    $at, 0x41C80000 # 0.000000
@@ -306,6 +323,8 @@ glabel func_8004E460
 /* AC595C 8004E7BC 8DCEFA90 */  lw    $t6, %lo(gGameInfo)($t6)
 /* AC5960 8004E7C0 100000DA */  b     .L8004EB2C
 /* AC5964 8004E7C4 85C20314 */   lh    $v0, 0x314($t6)
+
+glabel L8004E7C8
 /* AC5968 8004E7C8 3C018014 */  lui   $at, %hi(D_8013A118)
 /* AC596C 8004E7CC C42AA118 */  lwc1  $f10, %lo(D_8013A118)($at)
 /* AC5970 8004E7D0 3C018014 */  lui   $at, %hi(D_8013A11C)
@@ -327,6 +346,8 @@ glabel func_8004E460
 /* AC59B0 8004E810 8DEFFA90 */  lw    $t7, %lo(gGameInfo)($t7)
 /* AC59B4 8004E814 100000C5 */  b     .L8004EB2C
 /* AC59B8 8004E818 85E20314 */   lh    $v0, 0x314($t7)
+
+glabel L8004E81C
 /* AC59BC 8004E81C 3C018014 */  lui   $at, %hi(D_8013A120)
 /* AC59C0 8004E820 C42AA120 */  lwc1  $f10, %lo(D_8013A120)($at)
 /* AC59C4 8004E824 3C013F00 */  li    $at, 0x3F000000 # 0.000000
@@ -349,6 +370,8 @@ glabel func_8004E460
 /* AC5A08 8004E868 8F39FA90 */  lw    $t9, %lo(gGameInfo)($t9)
 /* AC5A0C 8004E86C 100000AF */  b     .L8004EB2C
 /* AC5A10 8004E870 87220314 */   lh    $v0, 0x314($t9)
+
+glabel L8004E874
 /* AC5A14 8004E874 3C018014 */  lui   $at, %hi(D_8013A124)
 /* AC5A18 8004E878 C42AA124 */  lwc1  $f10, %lo(D_8013A124)($at)
 /* AC5A1C 8004E87C 3C01C120 */  li    $at, 0xC1200000 # 0.000000
@@ -366,6 +389,8 @@ glabel func_8004E460
 /* AC5A4C 8004E8AC 8D08FA90 */  lw    $t0, %lo(gGameInfo)($t0)
 /* AC5A50 8004E8B0 1000009E */  b     .L8004EB2C
 /* AC5A54 8004E8B4 85020314 */   lh    $v0, 0x314($t0)
+
+glabel L8004E8B8
 /* AC5A58 8004E8B8 46127182 */  mul.s $f6, $f14, $f18
 /* AC5A5C 8004E8BC 3C013FC0 */  li    $at, 0x3FC00000 # 0.000000
 /* AC5A60 8004E8C0 44814000 */  mtc1  $at, $f8
@@ -391,6 +416,8 @@ glabel func_8004E460
 /* AC5AB0 8004E910 8D8CFA90 */  lw    $t4, %lo(gGameInfo)($t4)
 /* AC5AB4 8004E914 10000085 */  b     .L8004EB2C
 /* AC5AB8 8004E918 85820314 */   lh    $v0, 0x314($t4)
+
+glabel L8004E91C
 /* AC5ABC 8004E91C 3C018014 */  lui   $at, %hi(D_8013A128)
 /* AC5AC0 8004E920 C426A128 */  lwc1  $f6, %lo(D_8013A128)($at)
 /* AC5AC4 8004E924 3C018014 */  lui   $at, %hi(D_8013A12C)
@@ -503,6 +530,8 @@ glabel func_8004E460
 /* AC5C5C 8004EABC 8DEFFA90 */  lw    $t7, %lo(gGameInfo)($t7)
 /* AC5C60 8004EAC0 1000001A */  b     .L8004EB2C
 /* AC5C64 8004EAC4 85E20314 */   lh    $v0, 0x314($t7)
+
+glabel L8004EAC8
 /* AC5C68 8004EAC8 3C018014 */  lui   $at, %hi(D_8013A13C)
 /* AC5C6C 8004EACC C42AA13C */  lwc1  $f10, %lo(D_8013A13C)($at)
 /* AC5C70 8004EAD0 3C018014 */  lui   $at, %hi(D_8013A140)
@@ -525,7 +554,9 @@ glabel func_8004E460
 /* AC5CB4 8004EB14 8F39FA90 */  lw    $t9, %lo(gGameInfo)($t9)
 /* AC5CB8 8004EB18 10000004 */  b     .L8004EB2C
 /* AC5CBC 8004EB1C 87220314 */   lh    $v0, 0x314($t9)
+
 .L8004EB20:
+glabel L8004EB20
 /* AC5CC0 8004EB20 3C098016 */  lui   $t1, %hi(gGameInfo) # $t1, 0x8016
 /* AC5CC4 8004EB24 8D29FA90 */  lw    $t1, %lo(gGameInfo)($t1)
 /* AC5CC8 8004EB28 85220314 */  lh    $v0, 0x314($t1)

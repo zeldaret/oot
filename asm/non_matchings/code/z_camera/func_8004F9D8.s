@@ -1,15 +1,15 @@
 .late_rodata
 glabel D_8013A180
-    .incbin "baserom.z64", 0xBB1320, 0x4
+    .float 0.01
 
 glabel D_8013A184
-    .incbin "baserom.z64", 0xBB1324, 0x4
+    .float 0.1
 
 glabel D_8013A188
-    .incbin "baserom.z64", 0xBB1328, 0x4
+    .float 0.1
 
 glabel D_8013A18C
-    .incbin "baserom.z64", 0xBB132C, 0x4
+    .float 0.01
 
 .text
 glabel func_8004F9D8
