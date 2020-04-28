@@ -3054,7 +3054,7 @@ Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorType) {
 
 void func_80032C7C(GlobalContext* globalCtx, Actor* actor) {
     globalCtx->actorCtx.unk_00 = 5;
-    Audio_PlaySoundAtPosition(globalCtx, &actor->posRot.pos, 0x14, NA_SE_EN_LAST_DAMAGE);
+    Audio_PlaySoundAtPosition(globalCtx, &actor->posRot.pos, 20, NA_SE_EN_LAST_DAMAGE);
 }
 
 s16 func_80032CB4(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {

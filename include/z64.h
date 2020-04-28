@@ -580,6 +580,12 @@ typedef struct {
 } CutsceneContext; // size = 0x50
 
 typedef struct {
+    /* 0x00 */ u16 countdown;
+    /* 0x04 */ Vec3f originPos;
+    /* 0x10 */ Vec3f relativePos;
+} SoundSource; // size = 0x1C
+
+typedef struct {
     /* 0x00 */ char unk_0[0x4];
 } SubGlobalContext1F74; // size = 0x4
 
@@ -1030,7 +1036,7 @@ typedef struct GlobalContext {
     /* 0x007C0 */ CollisionContext colCtx;
     /* 0x01C24 */ ActorContext actorCtx;
     /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"
-    /* 0x01DB4 */ char unk_1DB4[0x1C0];
+    /* 0x01DB4 */ SoundSource soundSources[16];
     /* 0x01F74 */ SubGlobalContext1F74 sub_1F74;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
     /* 0x020C8 */ char unk_20C8[0x10];
