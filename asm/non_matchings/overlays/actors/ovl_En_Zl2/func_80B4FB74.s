@@ -60,7 +60,7 @@ glabel func_80B4FB74
 /* 01298 80B4FC28 2404A219 */  addiu   $a0, $zero, 0xA219         ## $a0 = FFFFA219
 /* 0129C 80B4FC2C 2405AC17 */  addiu   $a1, $zero, 0xAC17         ## $a1 = FFFFAC17
 /* 012A0 80B4FC30 24063333 */  addiu   $a2, $zero, 0x3333         ## $a2 = 00003333
-/* 012A4 80B4FC34 0C034421 */  jal     Matrix_RotateZYX
+/* 012A4 80B4FC34 0C034421 */  jal     Matrix_RotateRPY
 /* 012A8 80B4FC38 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 012AC 80B4FC3C 3C0180B5 */  lui     $at, %hi(D_80B52BD4)       ## $at = 80B50000
 /* 012B0 80B4FC40 C42C2BD4 */  lwc1    $f12, %lo(D_80B52BD4)($at)
