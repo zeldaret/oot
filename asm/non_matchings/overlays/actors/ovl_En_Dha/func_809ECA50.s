@@ -262,7 +262,7 @@ glabel func_809ECA50
 /* 00570 809ECDF0 87A40044 */  lh      $a0, 0x0044($sp)
 /* 00574 809ECDF4 87A50046 */  lh      $a1, 0x0046($sp)
 /* 00578 809ECDF8 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 0057C 809ECDFC 0C034421 */  jal     Matrix_RotateZYX
+/* 0057C 809ECDFC 0C034421 */  jal     Matrix_RotateRPY
 /* 00580 809ECE00 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00584 809ECE04 27A40064 */  addiu   $a0, $sp, 0x0064           ## $a0 = FFFFFFDC
 /* 00588 809ECE08 0C0346BD */  jal     Matrix_MultVec3f
@@ -280,7 +280,7 @@ glabel func_809ECA50
 /* 005B8 809ECE38 87A40044 */  lh      $a0, 0x0044($sp)
 /* 005BC 809ECE3C 87A50046 */  lh      $a1, 0x0046($sp)
 /* 005C0 809ECE40 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 005C4 809ECE44 0C034421 */  jal     Matrix_RotateZYX
+/* 005C4 809ECE44 0C034421 */  jal     Matrix_RotateRPY
 /* 005C8 809ECE48 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 005CC 809ECE4C 27A40070 */  addiu   $a0, $sp, 0x0070           ## $a0 = FFFFFFE8
 /* 005D0 809ECE50 0C0346BD */  jal     Matrix_MultVec3f

@@ -76,7 +76,7 @@ glabel func_80B4F45C
 /* 00B38 80B4F4C8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00B3C 80B4F4CC 84440000 */  lh      $a0, 0x0000($v0)           ## 00000000
 /* 00B40 80B4F4D0 84450002 */  lh      $a1, 0x0002($v0)           ## 00000002
-/* 00B44 80B4F4D4 0C034421 */  jal     Matrix_RotateZYX
+/* 00B44 80B4F4D4 0C034421 */  jal     Matrix_RotateRPY
 /* 00B48 80B4F4D8 84460004 */  lh      $a2, 0x0004($v0)           ## 00000004
 /* 00B4C 80B4F4DC 0C034213 */  jal     Matrix_Push
 /* 00B50 80B4F4E0 00000000 */  nop
@@ -130,7 +130,7 @@ glabel func_80B4F45C
 /* 00C0C 80B4F59C AFA3001C */  sw      $v1, 0x001C($sp)
 /* 00C10 80B4F5A0 00063403 */  sra     $a2, $a2, 16
 /* 00C14 80B4F5A4 00052C03 */  sra     $a1, $a1, 16
-/* 00C18 80B4F5A8 0C034421 */  jal     Matrix_RotateZYX
+/* 00C18 80B4F5A8 0C034421 */  jal     Matrix_RotateRPY
 /* 00C1C 80B4F5AC 00042403 */  sra     $a0, $a0, 16
 /* 00C20 80B4F5B0 3C01C33C */  lui     $at, 0xC33C                ## $at = C33C0000
 /* 00C24 80B4F5B4 44816000 */  mtc1    $at, $f12                  ## $f12 = -188.00
@@ -181,7 +181,7 @@ glabel func_80B4F45C
 /* 00CD4 80B4F664 00042400 */  sll     $a0, $a0, 16
 /* 00CD8 80B4F668 00042403 */  sra     $a0, $a0, 16
 /* 00CDC 80B4F66C 00052C03 */  sra     $a1, $a1, 16
-/* 00CE0 80B4F670 0C034421 */  jal     Matrix_RotateZYX
+/* 00CE0 80B4F670 0C034421 */  jal     Matrix_RotateRPY
 /* 00CE4 80B4F674 00063403 */  sra     $a2, $a2, 16
 /* 00CE8 80B4F678 3C01C3CD */  lui     $at, 0xC3CD                ## $at = C3CD0000
 /* 00CEC 80B4F67C 44816000 */  mtc1    $at, $f12                  ## $f12 = -410.00
@@ -233,7 +233,7 @@ glabel func_80B4F45C
 /* 00DA0 80B4F730 00042400 */  sll     $a0, $a0, 16
 /* 00DA4 80B4F734 00042403 */  sra     $a0, $a0, 16
 /* 00DA8 80B4F738 00052C03 */  sra     $a1, $a1, 16
-/* 00DAC 80B4F73C 0C034421 */  jal     Matrix_RotateZYX
+/* 00DAC 80B4F73C 0C034421 */  jal     Matrix_RotateRPY
 /* 00DB0 80B4F740 00063403 */  sra     $a2, $a2, 16
 /* 00DB4 80B4F744 3C0180B5 */  lui     $at, %hi(D_80B52BB4)       ## $at = 80B50000
 /* 00DB8 80B4F748 C42C2BB4 */  lwc1    $f12, %lo(D_80B52BB4)($at)
@@ -301,7 +301,7 @@ glabel func_80B4F45C
 /* 00EAC 80B4F83C 00042400 */  sll     $a0, $a0, 16
 /* 00EB0 80B4F840 00042403 */  sra     $a0, $a0, 16
 /* 00EB4 80B4F844 00052C03 */  sra     $a1, $a1, 16
-/* 00EB8 80B4F848 0C034421 */  jal     Matrix_RotateZYX
+/* 00EB8 80B4F848 0C034421 */  jal     Matrix_RotateRPY
 /* 00EBC 80B4F84C 00063403 */  sra     $a2, $a2, 16
 /* 00EC0 80B4F850 3C0180B5 */  lui     $at, %hi(D_80B52BC0)       ## $at = 80B50000
 /* 00EC4 80B4F854 C42C2BC0 */  lwc1    $f12, %lo(D_80B52BC0)($at)
@@ -357,7 +357,7 @@ glabel func_80B4F45C
 /* 00F88 80B4F918 00042400 */  sll     $a0, $a0, 16
 /* 00F8C 80B4F91C 00042403 */  sra     $a0, $a0, 16
 /* 00F90 80B4F920 00052C03 */  sra     $a1, $a1, 16
-/* 00F94 80B4F924 0C034421 */  jal     Matrix_RotateZYX
+/* 00F94 80B4F924 0C034421 */  jal     Matrix_RotateRPY
 /* 00F98 80B4F928 00063403 */  sra     $a2, $a2, 16
 /* 00F9C 80B4F92C 3C01C3DF */  lui     $at, 0xC3DF                ## $at = C3DF0000
 /* 00FA0 80B4F930 44816000 */  mtc1    $at, $f12                  ## $f12 = -446.00
@@ -425,7 +425,7 @@ glabel func_80B4F45C
 /* 01094 80B4FA24 00042400 */  sll     $a0, $a0, 16
 /* 01098 80B4FA28 00042403 */  sra     $a0, $a0, 16
 /* 0109C 80B4FA2C 00052C03 */  sra     $a1, $a1, 16
-/* 010A0 80B4FA30 0C034421 */  jal     Matrix_RotateZYX
+/* 010A0 80B4FA30 0C034421 */  jal     Matrix_RotateRPY
 /* 010A4 80B4FA34 00063403 */  sra     $a2, $a2, 16
 /* 010A8 80B4FA38 3C0180B5 */  lui     $at, %hi(D_80B52BCC)       ## $at = 80B50000
 /* 010AC 80B4FA3C C42C2BCC */  lwc1    $f12, %lo(D_80B52BCC)($at)
@@ -480,7 +480,7 @@ glabel func_80B4F45C
 /* 0116C 80B4FAFC 00042400 */  sll     $a0, $a0, 16
 /* 01170 80B4FB00 00042403 */  sra     $a0, $a0, 16
 /* 01174 80B4FB04 00052C03 */  sra     $a1, $a1, 16
-/* 01178 80B4FB08 0C034421 */  jal     Matrix_RotateZYX
+/* 01178 80B4FB08 0C034421 */  jal     Matrix_RotateRPY
 /* 0117C 80B4FB0C 00063403 */  sra     $a2, $a2, 16
 /* 01180 80B4FB10 3C01C3DF */  lui     $at, 0xC3DF                ## $at = C3DF0000
 /* 01184 80B4FB14 44816000 */  mtc1    $at, $f12                  ## $f12 = -446.00
