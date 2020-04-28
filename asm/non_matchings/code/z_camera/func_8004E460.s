@@ -154,7 +154,7 @@ glabel func_8004E460
 /* AC56E0 8004E540 AD8B01DC */   sw    $t3, 0x1dc($t4)
 .L8004E544:
 /* AC56E4 8004E544 8E240090 */  lw    $a0, 0x90($s1)
-/* AC56E8 8004E548 0C00B721 */  jal   func_8002DC84
+/* AC56E8 8004E548 0C00B721 */  jal   Player_GetCameraYOffset
 /* AC56EC 8004E54C AFA20034 */   sw    $v0, 0x34($sp)
 /* AC56F0 8004E550 862D014C */  lh    $t5, 0x14c($s1)
 /* AC56F4 8004E554 8622015E */  lh    $v0, 0x15e($s1)

@@ -1,9 +1,0 @@
-glabel func_80049984
-/* AC0B24 80049984 27BDFFE8 */  addiu $sp, $sp, -0x18
-/* AC0B28 80049988 AFBF0014 */  sw    $ra, 0x14($sp)
-/* AC0B2C 8004998C 0C011CE5 */  jal   func_80047394
-/* AC0B30 80049990 00000000 */   nop
-/* AC0B34 80049994 8FBF0014 */  lw    $ra, 0x14($sp)
-/* AC0B38 80049998 27BD0018 */  addiu $sp, $sp, 0x18
-/* AC0B3C 8004999C 03E00008 */  jr    $ra
-/* AC0B40 800499A0 00000000 */   nop

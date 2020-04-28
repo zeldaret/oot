@@ -36,7 +36,7 @@ glabel func_80047F64
 /* ABF10C 80047F6C 00808025 */  move  $s0, $a0
 /* ABF110 80047F70 AFBF0024 */  sw    $ra, 0x24($sp)
 /* ABF114 80047F74 AFB10020 */  sw    $s1, 0x20($sp)
-/* ABF118 80047F78 0C00B721 */  jal   func_8002DC84
+/* ABF118 80047F78 0C00B721 */  jal   Player_GetCameraYOffset
 /* ABF11C 80047F7C 8C840090 */   lw    $a0, 0x90($a0)
 /* ABF120 80047F80 3C038016 */  lui   $v1, %hi(gGameInfo) # $v1, 0x8016
 /* ABF124 80047F84 8C63FA90 */  lw    $v1, %lo(gGameInfo)($v1)

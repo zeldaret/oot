@@ -67,7 +67,7 @@ glabel func_80054794
 /* ACB940 800547A0 AFBF001C */  sw    $ra, 0x1c($sp)
 /* ACB944 800547A4 AFB00014 */  sw    $s0, 0x14($sp)
 /* ACB948 800547A8 A3A00053 */  sb    $zero, 0x53($sp)
-/* ACB94C 800547AC 0C00B721 */  jal   func_8002DC84
+/* ACB94C 800547AC 0C00B721 */  jal   Player_GetCameraYOffset
 /* ACB950 800547B0 8C840090 */   lw    $a0, 0x90($a0)
 /* ACB954 800547B4 862E014C */  lh    $t6, 0x14c($s1)
 /* ACB958 800547B8 8622015E */  lh    $v0, 0x15e($s1)

@@ -26,7 +26,7 @@ glabel func_800567F8
 /* ACD99C 800567FC AFB00018 */  sw    $s0, 0x18($sp)
 /* ACD9A0 80056800 00808025 */  move  $s0, $a0
 /* ACD9A4 80056804 AFBF001C */  sw    $ra, 0x1c($sp)
-/* ACD9A8 80056808 0C00B721 */  jal   func_8002DC84
+/* ACD9A8 80056808 0C00B721 */  jal   Player_GetCameraYOffset
 /* ACD9AC 8005680C 8C840090 */   lw    $a0, 0x90($a0)
 /* ACD9B0 80056810 8603015E */  lh    $v1, 0x15e($s0)
 /* ACD9B4 80056814 10600008 */  beqz  $v1, .L80056838

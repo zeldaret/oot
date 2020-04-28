@@ -24,7 +24,7 @@ glabel func_80057448
 /* ACE5EC 8005744C AFB00020 */  sw    $s0, 0x20($sp)
 /* ACE5F0 80057450 00808025 */  move  $s0, $a0
 /* ACE5F4 80057454 AFBF0024 */  sw    $ra, 0x24($sp)
-/* ACE5F8 80057458 0C00B721 */  jal   func_8002DC84
+/* ACE5F8 80057458 0C00B721 */  jal   Player_GetCameraYOffset
 /* ACE5FC 8005745C 8C840090 */   lw    $a0, 0x90($a0)
 /* ACE600 80057460 3C018014 */  lui   $at, %hi(D_8013A3D0)
 /* ACE604 80057464 C42CA3D0 */  lwc1  $f12, %lo(D_8013A3D0)($at)

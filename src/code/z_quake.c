@@ -22,8 +22,8 @@ Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, struct_80045714* arg2) {
 }
 
 void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
-    Vec3f* unk50 = &req->cam->unk_50;
-    Vec3f* unk5C = &req->cam->unk_5C;
+    Vec3f* unk50 = &req->cam->at;
+    Vec3f* unk5C = &req->cam->eye;
 
     Vec3f vec;
     struct_80045714 struc2;

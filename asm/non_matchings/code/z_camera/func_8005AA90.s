@@ -1,41 +1,41 @@
 .late_rodata
 glabel jtbl_8013A4EC
-    .word 0x8005AAD8 # 1
-    .word 0x8005AB68 # 2
-    .word 0x8005AC0C
-    .word 0x8005ABB8 # 4
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AB38 # 8
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AB10 # 16
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC0C
-    .word 0x8005AC00 # 32
-    
+    .word L8005AAD8 # 1
+    .word L8005AB68 # 2
+    .word L8005AC0C
+    .word L8005ABB8 # 4
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AB38 # 8
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AB10 # 16
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC0C
+    .word L8005AC00 # 32
+
 glabel D_8013A56C
     .float 182.041672 # 32768 / PI
-    
+
 .text
 glabel func_8005AA90
 /* AD1C30 8005AA90 10C00060 */  beqz  $a2, .L8005AC14
@@ -45,7 +45,7 @@ glabel func_8005AA90
 /* AD1C40 8005AAA0 24AEFFFF */   addiu $t6, $a1, -1
 /* AD1C44 8005AAA4 24010040 */  li    $at, 64
 /* AD1C48 8005AAA8 10A1004A */  beq   $a1, $at, .L8005ABD4
-/* AD1C4C 8005AAAC 00000000 */   nop   
+/* AD1C4C 8005AAAC 00000000 */   nop
 /* AD1C50 8005AAB0 1000005A */  b     .L8005AC1C
 /* AD1C54 8005AAB4 00001025 */   move  $v0, $zero
 .L8005AAB8:
@@ -56,7 +56,9 @@ glabel func_8005AA90
 /* AD1C68 8005AAC8 002E0821 */  addu  $at, $at, $t6
 /* AD1C6C 8005AACC 8C2EA4EC */  lw    $t6, %lo(jtbl_8013A4EC)($at)
 /* AD1C70 8005AAD0 01C00008 */  jr    $t6
-/* AD1C74 8005AAD4 00000000 */   nop   
+/* AD1C74 8005AAD4 00000000 */   nop
+
+glabel L8005AAD8
 /* AD1C78 8005AAD8 848F015C */  lh    $t7, 0x15c($a0)
 /* AD1C7C 8005AADC 31F8FFE6 */  andi  $t8, $t7, 0xffe6
 /* AD1C80 8005AAE0 A498015C */  sh    $t8, 0x15c($a0)
@@ -73,6 +75,8 @@ glabel func_8005AA90
 /* AD1CA4 8005AB04 01255025 */  or    $t2, $t1, $a1
 /* AD1CA8 8005AB08 10000044 */  b     .L8005AC1C
 /* AD1CAC 8005AB0C A48A015C */   sh    $t2, 0x15c($a0)
+
+glabel L8005AB10
 /* AD1CB0 8005AB10 848B015C */  lh    $t3, 0x15c($a0)
 /* AD1CB4 8005AB14 316CFFE6 */  andi  $t4, $t3, 0xffe6
 /* AD1CB8 8005AB18 A48C015C */  sh    $t4, 0x15c($a0)
@@ -83,6 +87,8 @@ glabel func_8005AA90
 /* AD1CCC 8005AB2C 8CCE0008 */  lw    $t6, 8($a2)
 /* AD1CD0 8005AB30 1000FFF2 */  b     .L8005AAFC
 /* AD1CD4 8005AB34 AC8E00B4 */   sw    $t6, 0xb4($a0)
+
+glabel L8005AB38
 /* AD1CD8 8005AB38 84820142 */  lh    $v0, 0x142($a0)
 /* AD1CDC 8005AB3C 2401003C */  li    $at, 60
 /* AD1CE0 8005AB40 5041FFEF */  beql  $v0, $at, .L8005AB00
@@ -95,6 +101,8 @@ glabel func_8005AA90
 /* AD1CFC 8005AB5C 31F8FFE6 */  andi  $t8, $t7, 0xffe6
 /* AD1D00 8005AB60 1000FFE6 */  b     .L8005AAFC
 /* AD1D04 8005AB64 A498015C */   sh    $t8, 0x15c($a0)
+
+glabel L8005AB68
 /* AD1D08 8005AB68 8CC80000 */  lw    $t0, ($a2)
 /* AD1D0C 8005AB6C 27A20004 */  addiu $v0, $sp, 4
 /* AD1D10 8005AB70 AC480000 */  sw    $t0, ($v0)
@@ -115,6 +123,8 @@ glabel func_8005AA90
 /* AD1D4C 8005ABAC 8C4C0008 */  lw    $t4, 8($v0)
 /* AD1D50 8005ABB0 1000FFD2 */  b     .L8005AAFC
 /* AD1D54 8005ABB4 AC8C0064 */   sw    $t4, 0x64($a0)
+
+glabel L8005ABB8
 /* AD1D58 8005ABB8 8CCE0000 */  lw    $t6, ($a2)
 /* AD1D5C 8005ABBC AC8E0068 */  sw    $t6, 0x68($a0)
 /* AD1D60 8005ABC0 8CCD0004 */  lw    $t5, 4($a2)
@@ -134,10 +144,14 @@ glabel func_8005AA90
 /* AD1D94 8005ABF4 44189000 */  mfc1  $t8, $f18
 /* AD1D98 8005ABF8 1000FFC0 */  b     .L8005AAFC
 /* AD1D9C 8005ABFC A498015A */   sh    $t8, 0x15a($a0)
+
+glabel L8005AC00
 /* AD1DA0 8005AC00 C4C40000 */  lwc1  $f4, ($a2)
 /* AD1DA4 8005AC04 1000FFBD */  b     .L8005AAFC
 /* AD1DA8 8005AC08 E48400FC */   swc1  $f4, 0xfc($a0)
+
 .L8005AC0C:
+glabel L8005AC0C
 /* AD1DAC 8005AC0C 10000003 */  b     .L8005AC1C
 /* AD1DB0 8005AC10 00001025 */   move  $v0, $zero
 .L8005AC14:

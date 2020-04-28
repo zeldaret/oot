@@ -540,7 +540,7 @@ glabel func_8005529C
 /* ACCBC0 80055A20 46100282 */  mul.s $f10, $f0, $f16
 /* ACCBC4 80055A24 E46A001C */  swc1  $f10, 0x1c($v1)
 .L80055A28:
-/* ACCBC8 80055A28 0C00B721 */  jal   func_8002DC84
+/* ACCBC8 80055A28 0C00B721 */  jal   Player_GetCameraYOffset
 /* ACCBCC 80055A2C 8E040090 */   lw    $a0, 0x90($s0)
 /* ACCBD0 80055A30 860B0160 */  lh    $t3, 0x160($s0)
 /* ACCBD4 80055A34 3C038012 */  lui   $v1, %hi(D_8011D9F4) # $v1, 0x8012

@@ -11,7 +11,7 @@ glabel func_80052460
 /* AC9604 80052464 AFB00018 */  sw    $s0, 0x18($sp)
 /* AC9608 80052468 00808025 */  move  $s0, $a0
 /* AC960C 8005246C AFBF001C */  sw    $ra, 0x1c($sp)
-/* AC9610 80052470 0C00B721 */  jal   func_8002DC84
+/* AC9610 80052470 0C00B721 */  jal   Player_GetCameraYOffset
 /* AC9614 80052474 8C840090 */   lw    $a0, 0x90($a0)
 /* AC9618 80052478 8E0E0090 */  lw    $t6, 0x90($s0)
 /* AC961C 8005247C 46000086 */  mov.s $f2, $f0

@@ -19,7 +19,7 @@ glabel func_80051F58
 /* AC90FC 80051F5C AFB00018 */  sw    $s0, 0x18($sp)
 /* AC9100 80051F60 00808025 */  move  $s0, $a0
 /* AC9104 80051F64 AFBF001C */  sw    $ra, 0x1c($sp)
-/* AC9108 80051F68 0C00B721 */  jal   func_8002DC84
+/* AC9108 80051F68 0C00B721 */  jal   Player_GetCameraYOffset
 /* AC910C 80051F6C 8C840090 */   lw    $a0, 0x90($a0)
 /* AC9110 80051F70 E7A0005C */  swc1  $f0, 0x5c($sp)
 /* AC9114 80051F74 860E014C */  lh    $t6, 0x14c($s0)

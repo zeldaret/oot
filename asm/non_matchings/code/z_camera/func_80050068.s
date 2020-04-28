@@ -13,7 +13,7 @@ glabel func_80050068
 /* AC7214 80050074 AFBF002C */  sw    $ra, 0x2c($sp)
 /* AC7218 80050078 AFB20028 */  sw    $s2, 0x28($sp)
 /* AC721C 8005007C AFB10024 */  sw    $s1, 0x24($sp)
-/* AC7220 80050080 0C00B721 */  jal   func_8002DC84
+/* AC7220 80050080 0C00B721 */  jal   Player_GetCameraYOffset
 /* AC7224 80050084 8C840090 */   lw    $a0, 0x90($a0)
 /* AC7228 80050088 E7A00050 */  swc1  $f0, 0x50($sp)
 /* AC722C 8005008C 8602015E */  lh    $v0, 0x15e($s0)

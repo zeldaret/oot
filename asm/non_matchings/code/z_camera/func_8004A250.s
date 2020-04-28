@@ -42,7 +42,7 @@ glabel func_8004A250
 /* AC13F4 8004A254 AFB00018 */  sw    $s0, 0x18($sp)
 /* AC13F8 8004A258 00808025 */  move  $s0, $a0
 /* AC13FC 8004A25C AFBF001C */  sw    $ra, 0x1c($sp)
-/* AC1400 8004A260 0C00B721 */  jal   func_8002DC84
+/* AC1400 8004A260 0C00B721 */  jal   Player_GetCameraYOffset
 /* AC1404 8004A264 8C840090 */   lw    $a0, 0x90($a0)
 /* AC1408 8004A268 E7A00048 */  swc1  $f0, 0x48($sp)
 /* AC140C 8004A26C 8603015E */  lh    $v1, 0x15e($s0)

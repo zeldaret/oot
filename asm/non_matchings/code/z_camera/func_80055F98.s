@@ -1,9 +1,0 @@
-glabel func_80055F98
-/* ACD138 80055F98 27BDFFE8 */  addiu $sp, $sp, -0x18
-/* ACD13C 80055F9C AFBF0014 */  sw    $ra, 0x14($sp)
-/* ACD140 80055FA0 0C011CE5 */  jal   func_80047394
-/* ACD144 80055FA4 00000000 */   nop   
-/* ACD148 80055FA8 8FBF0014 */  lw    $ra, 0x14($sp)
-/* ACD14C 80055FAC 27BD0018 */  addiu $sp, $sp, 0x18
-/* ACD150 80055FB0 03E00008 */  jr    $ra
-/* ACD154 80055FB4 00000000 */   nop 
