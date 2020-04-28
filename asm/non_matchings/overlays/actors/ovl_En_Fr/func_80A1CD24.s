@@ -173,7 +173,7 @@ glabel func_80A1CD24
 /* 025EC 80A1CF8C 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
 /* 025F0 80A1CF90 860500B6 */  lh      $a1, 0x00B6($s0)           ## 000000B6
 /* 025F4 80A1CF94 860600B8 */  lh      $a2, 0x00B8($s0)           ## 000000B8
-/* 025F8 80A1CF98 0C034421 */  jal     Matrix_RotateZYX
+/* 025F8 80A1CF98 0C034421 */  jal     Matrix_RotateRPY
 /* 025FC 80A1CF9C 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 02600 80A1CFA0 8E0502B4 */  lw      $a1, 0x02B4($s0)           ## 000002B4
 /* 02604 80A1CFA4 8E0602D0 */  lw      $a2, 0x02D0($s0)           ## 000002D0

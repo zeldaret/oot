@@ -33,7 +33,7 @@ glabel func_809AC42C
 /* 001D8 809AC4A8 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 001DC 809AC4AC 86250042 */  lh      $a1, 0x0042($s1)           ## 00000042
 /* 001E0 809AC4B0 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 001E4 809AC4B4 0C034421 */  jal     Matrix_RotateZYX
+/* 001E4 809AC4B4 0C034421 */  jal     Matrix_RotateRPY
 /* 001E8 809AC4B8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 001EC 809AC4BC 10000017 */  beq     $zero, $zero, .L809AC51C
 /* 001F0 809AC4C0 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
@@ -57,7 +57,7 @@ glabel func_809AC42C
 /* 00234 809AC504 00C13021 */  addu    $a2, $a2, $at
 /* 00238 809AC508 00063100 */  sll     $a2, $a2,  4
 /* 0023C 809AC50C 00063400 */  sll     $a2, $a2, 16
-/* 00240 809AC510 0C034421 */  jal     Matrix_RotateZYX
+/* 00240 809AC510 0C034421 */  jal     Matrix_RotateRPY
 /* 00244 809AC514 00063403 */  sra     $a2, $a2, 16
 /* 00248 809AC518 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 .L809AC51C:

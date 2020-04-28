@@ -400,7 +400,7 @@ glabel EnPoSisters_Draw
 /* 04600 80ADD590 00052C03 */  sra     $a1, $a1, 16
 /* 04604 80ADD594 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 04608 80ADD598 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 0460C 80ADD59C 0C034421 */  jal     Matrix_RotateZYX
+/* 0460C 80ADD59C 0C034421 */  jal     Matrix_RotateRPY
 /* 04610 80ADD5A0 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 04614 80ADD5A4 8FAC007C */  lw      $t4, 0x007C($sp)
 /* 04618 80ADD5A8 8E980190 */  lw      $t8, 0x0190($s4)           ## 00000190

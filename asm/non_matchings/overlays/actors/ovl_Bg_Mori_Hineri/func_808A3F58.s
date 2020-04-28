@@ -149,7 +149,7 @@ glabel func_808A3F58
 /* 00910 808A40E0 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 00914 808A40E4 24058000 */  addiu   $a1, $zero, 0x8000         ## $a1 = FFFF8000
 /* 00918 808A40E8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
-/* 0091C 808A40EC 0C034421 */  jal     Matrix_RotateZYX
+/* 0091C 808A40EC 0C034421 */  jal     Matrix_RotateRPY
 /* 00920 808A40F0 872600B8 */  lh      $a2, 0x00B8($t9)           ## 000000B8
 /* 00924 808A40F4 44806000 */  mtc1    $zero, $f12                ## $f12 = 0.00
 /* 00928 808A40F8 3C01C248 */  lui     $at, 0xC248                ## $at = C2480000
