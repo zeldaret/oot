@@ -806,6 +806,12 @@ s32 func_80047394(Camera* camera) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8004B5A0.s")
 
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8004C5F4.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8004C614.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8004C634.s")
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8004CA4C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8004CA6C.s")
@@ -864,7 +870,9 @@ s32 func_80047394(Camera* camera) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80052B90.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80052DEC.s")
+s32 func_80052DEC(Camera *camera) {
+    return func_80047394(camera);
+}
 
 // Very long function (1,444 lines), 1 jtbl
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80052E0C.s")
@@ -933,9 +941,25 @@ void Camera_Vec3fCopy(Vec3f* src, Vec3f* dst) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057448.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057B98.s")
+Camera* func_80057B98(s32 arg0, s32 arg1, s32 arg2) {
+    Camera* newCamera = ZeldaArena_MallocDebug(sizeof(*newCamera), "../z_camera.c", 9370);
+    if (newCamera != NULL) {
+        osSyncPrintf(VT_FGCOL(BLUE) "camera: create --- allocate %d byte" VT_RST "\n", sizeof(*newCamera) * 4);
+        func_80057C6C(newCamera, arg0, arg1, arg2);
+    } else {
+        osSyncPrintf(VT_COL(RED, WHITE) "camera: create: not enough memory\n" VT_RST);
+    }
+    return newCamera;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057C14.s")
+void func_80057C14(Camera* camera) {
+    if (camera != NULL) {
+        osSyncPrintf(VT_FGCOL(BLUE) "camera: destroy ---" VT_RST "\n");
+        ZeldaArena_FreeDebug(camera, "../z_camera.c", 9391);
+    } else {
+        osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: destroy: already cleared\n" VT_RST);
+    }
+}
 
 // 225 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057C6C.s")
