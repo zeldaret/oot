@@ -2,6 +2,8 @@
 
 #define FLAGS 0x00000009
 
+#define DEGREE_70_RAD 1.2217304706573486f
+
 void EnHeishi2_Init(EnHeishi2* this, GlobalContext* globalCtx);
 void EnHeishi2_Destroy(EnHeishi2* this, GlobalContext* globalCtx);
 void EnHeishi2_Update(EnHeishi2* this, GlobalContext* globalCtx);
@@ -534,13 +536,13 @@ void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A54954.s")
 
-void func_80A54954(EnHeishi2 *this, GlobalContext *globalCtx) {
+void func_80A54954(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16) frameCount, 0, -10.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->actionFunc = func_80A549E8;
 }
 
-void func_80A549E8(EnHeishi2 *this, GlobalContext *globalCtx) {
+void func_80A549E8(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->unk_300 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
@@ -623,12 +625,12 @@ void func_80A54C6C(EnHeishi2* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
 }
 
-#ifdef NON_MATCHING
 void EnHeishi2_Draw(EnHeishi2* this, GlobalContext* globalCtx) {
-    s32 objBankIndex;
-    GraphicsContext* gfxCtx;
     Actor* thisx;
-    Gfx* dispRefs[5];
+    GraphicsContext* gfxCtx;
+    s32 objBankIndex;
+    Mtx* mtx;
+    Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1792);
@@ -636,21 +638,19 @@ void EnHeishi2_Draw(EnHeishi2* this, GlobalContext* globalCtx) {
     thisx = &this->actor;
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi2_OverrideLimbDraw,
                    EnHeishi2_PostLimbDraw, thisx);
-    if ((this->initParams == 5) && (gSaveContext.infTable[7] & 0x80) != 0) {
+    if ((this->initParams == 5) && (gSaveContext.infTable[7] & 0x80)) {
         objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
         if (objBankIndex >= 0) {
             Matrix_Put(&this->mtxf_330);
             Matrix_Translate(-570.0f, 0.0f, 0.0f, 1);
-            Matrix_RotateZ(1.2217304706573486f, 1);
-            gSPSegment(gfxCtx->polyOpa.p++, 0x0D, Matrix_NewMtx(gfxCtx, "../z_en_heishi2.c", 1820) + 0xFE40);
-            gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
+            Matrix_RotateZ(DEGREE_70_RAD, 1);
+            mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
 
+            gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
+            gSPSegment(gfxCtx->polyOpa.p++, 0x0D, mtx);
             gSPDisplayList(gfxCtx->polyOpa.p++, &D_0602B060);
             gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[thisx->objBankIndex].segment);
         }
     }
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1834);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/EnHeishi2_Draw.s")
-#endif
