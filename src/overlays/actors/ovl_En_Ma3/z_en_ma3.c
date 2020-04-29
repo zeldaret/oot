@@ -95,45 +95,121 @@ extern SkeletonHeader D_06008D90;
 extern AnimationHeader D_060093BC;
 extern AnimationHeader D_06009EE0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/func_80AA2AA0.s")
-/*u16 func_80AA2AA0(GlobalContext *globalCtx, EnMa3 *this) {
+u16 func_80AA2AA0(GlobalContext *globalCtx, Actor *this) {
     Player* player = PLAYER;
+    s16* timer1ValuePtr;
 
     if (!(gSaveContext.infTable[11] & 0x100)) {
         return 0x2000;
     }
+    timer1ValuePtr = &gSaveContext.timer1Value;
     if (gSaveContext.eventInf[0] & 0x400) {
-        gSaveContext.timer1Value = gSaveContext.timer1Value; // why?
-        this->actor.flags |= 0x10000;
-        if (gSaveContext.timer1Value < 0xD3) {
-            if ((gSaveContext.unk_EC4 == 0) || (gSaveContext.unk_EC4 >= 0xB4)) {
-                gSaveContext.unk_EC4 = 0xB4;
-            }
-            if ((gSaveContext.eventChkInf[1] & 0x4000) || (gSaveContext.timer1Value >= 0x32)) {
-                if (gSaveContext.timer1Value >= gSaveContext.unk_EC4) {
-                    return 0x2004;
-                } else {
-                    return 0x2012;
-                }
-            } else {
-                return 0x208F;
-            }
-        } else {
+        gSaveContext.timer1Value = gSaveContext.timer1Value;
+        this->flags |= 0x10000;
+        if (gSaveContext.timer1Value >= 0xD3) {
             return 0x208E;
         }
-    }
-    if (!(player->stateFlags1 & 0x800000)) {
-        if (Actor_FindNearby(globalCtx, &this->actor, 0x14, 1, 1200.0f) == NULL) {
-            return 0x2001;
+        if ((gSaveContext.unk_EC4 == 0) || (gSaveContext.unk_EC4 >= 0xB4)) {
+            gSaveContext.unk_EC4 = 0xB4;
+            gSaveContext.timer1Value = *timer1ValuePtr;
         }
+        if (!(gSaveContext.eventChkInf[1] & 0x4000) && (gSaveContext.timer1Value < 0x32)) {
+            return 0x208F;
+        } else if (gSaveContext.timer1Value < gSaveContext.unk_EC4) {
+            return 0x2012;
+        } else {
+            return 0x2004;
+        }
+    }
+    if ((!(player->stateFlags1 & 0x800000)) && (Actor_FindNearby(globalCtx, this, 0x14, 1, 1200.0f) == NULL)) {
+        return 0x2001;
     }
     if (!(gSaveContext.infTable[11] & 0x200)) {
         return 0x2002;
+    } else {
+        return 0x2003;
     }
-    return 0x2003;
-}*/
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/func_80AA2BD4.s")
+/*s16 func_80AA2BD4(GlobalContext *globalCtx, Actor *this) {
+    s16 ret = 1;
+    s32 blah;
+
+    switch (func_8010BDBC(&globalCtx->msgCtx)) {
+        case 5:
+            if (func_80106BC8(globalCtx) != 0) {
+                globalCtx->nextEntranceIndex = 0x157;
+                gSaveContext.nextCutsceneIndex = 0xFFF0;
+                globalCtx->fadeTransition = 0x26;
+                globalCtx->sceneLoadFlag = 0x14;
+                gSaveContext.eventInf[0] |= 0x400;
+                gSaveContext.timer1State = 0xF;
+            }
+            break;
+        case 4:
+            if (func_80106BC8(globalCtx) != 0) {
+                gSaveContext.infTable[11] |= 0x200;
+                if (globalCtx->msgCtx.choiceIndex == 0) {
+                    if (gSaveContext.eventChkInf[1] & 0x4000) {
+                        func_8010B720(globalCtx, 0x2091);
+                    } else if (gSaveContext.unk_EC4 == 0) {
+                        func_8010B720(globalCtx, 0x2092);
+                    } else {
+                        func_8010B720(globalCtx, 0x2090);
+                    }
+                }
+            }
+            break;
+        case 2:
+            blah = this->textId - 0x2000;
+            if (this->textId == 0x208F) {
+                gSaveContext.eventChkInf[1] |= 0x4000;
+            } else if (this->textId < 0x208F) {
+                if (this->textId == 0x208E) {
+                    gSaveContext.eventInf[0] &= ~0x100;
+                    this->flags &= ~0x10000;
+                    ret = 0;
+                    gSaveContext.timer1State = 0xA;
+                } else if (this->textId < 0x2013) {
+                    switch (blah) {
+                        case 0:
+                            ret = 0;
+                            gSaveContext.infTable[11] |= 0x100;
+                            break;
+                        case 4:
+                        case 18:
+                            if ((s32)gSaveContext.timer1Value < gSaveContext.unk_EC4) {
+                                gSaveContext.unk_EC4 = gSaveContext.timer1Value;
+                            }
+                            gSaveContext.eventInf[0] &= ~0x400;
+                            this->flags &= ~0x10000;
+                            ret = 0;
+                            gSaveContext.timer1State = 0xA;
+                            break;
+                        case 2:
+                            gSaveContext.infTable[11] |= 0x200;
+                        case 3:
+                            if (!(gSaveContext.eventInf[0] & 0x400)) {
+                                ret = 0;
+                            }
+                            break;
+                    }
+                    break;
+                }
+            }
+            ret = 0;
+        case 0:
+        case 1:
+        case 3:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+            break;
+        }
+    return ret;
+}*/
 
 void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
