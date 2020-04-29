@@ -409,8 +409,8 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
                 gSaveContext.infTable[7] |= 0x80;
                 gSaveContext.itemGetInf[3] |= 0x100;
                 Item_Give(globalCtx, 0x2C);
-                if (this->unk_309[1] != 0) {
-                    this->unk_309[1] = 2;
+                if (this->unk_30A != 0) {
+                    this->unk_30A = 2;
                     this->unk_30E = 1;
                     this->actionFunc = func_80A5427C;
                 }
@@ -426,7 +426,7 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
                 this->actor.textId = 0x200C;
                 func_8010B720(globalCtx, this->actor.textId);
                 this->unk_300 = 5;
-                if (this->unk_309[1] == 0) {
+                if (this->unk_30A == 0) {
                     this->actionFunc = func_80A5427C;
                 }
 
@@ -459,7 +459,7 @@ void func_80A5427C(EnHeishi2* this, GlobalContext* globalCtx) {
         if (func_80106BC8(globalCtx) != 0) {
             if (this->unk_30E == 0) {
                 this->unk_30E = 0;
-                this->unk_309[1] = this->unk_30E;
+                this->unk_30A = this->unk_30E;
                 func_80106CCC(globalCtx);
                 this->actionFunc = func_80A53908;
             } else {
@@ -480,8 +480,48 @@ void func_80A54320(EnHeishi2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A543A0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A543A0.s")
+void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
 
+    Actor* thisx;
+    f32 frameCount;
+    BgGateShutter* gate;
+
+    frameCount = this->skelAnime.animCurrentFrame;
+    thisx = &this->actor;
+    gate = (BgGateShutter*)(globalCtx->actorCtx.actorList[7].first);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if ((frameCount >= 12.0f) && (!this->audioFlag)) {
+        Audio_PlayActorSound2(thisx, NA_SE_EV_SPEAR_HIT);
+        this->audioFlag = 1;
+    }
+    if (this->unk_2EC <= frameCount) {
+        if (gate != NULL) {
+
+            do {
+                if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
+                    gate = (BgGateShutter*)(gate->dyna.actor.next);
+                }
+
+                else {
+                    this->attached = gate;
+                    if (2 != this->unk_30A) {
+                        gate->isOpening = -1;
+                        break;
+                    }
+
+                    else {
+                        gate->isOpening = 2;
+                        break;
+                    }
+                }
+            } while (gate != NULL);
+        }
+        if (this->unk_30A == 0) {
+            this->unk_30A = 1;
+        }
+        this->actionFunc = func_80A53DF8;
+    }
+}
 void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, -0x17D4, 5, (s16)(s32)(f32)this->unk_2E4, 0);
     Math_SmoothScaleMaxF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
