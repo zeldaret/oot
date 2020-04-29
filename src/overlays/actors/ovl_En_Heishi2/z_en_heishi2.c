@@ -328,7 +328,53 @@ void func_80A53908(EnHeishi2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A5399C;
 }
 
+
+#ifdef NON_MATCHING
+void func_80A5399C(EnHeishi2 *this, GlobalContext *globalCtx) {
+    Actor* thisx;
+    s16 phi_v1;
+
+    this->unk_30B = 0;
+    phi_v1 = 0;
+    if ((gSaveContext.infTable[7] & 0x40) != 0) {
+        if ((gSaveContext.infTable[7] & 0x80) == 0) {
+            if (func_8008F080(globalCtx) == 1) {
+                if (this->unk_309 == 0) {
+                    thisx->textId = 0x200A;
+                } else {
+                    thisx->textId = 0x200B;
+                }
+                this->unk_300 = 4;
+                this->unk_30B = 1;
+                phi_v1 = 1;
+            } else {
+                thisx->textId = 0x2016;
+                this->unk_300 = 6;
+                phi_v1 = 1;
+            }
+        } else {
+            thisx->textId = 0x2020;
+            this->unk_300 = 5;
+            this->unk_30E = 0;
+            phi_v1 = 0;
+        }
+        if (Text_GetFaceReaction(globalCtx, 5) != 0) {
+            if (phi_v1 == 0) {
+                    thisx->textId = Text_GetFaceReaction(globalCtx, 5);
+                    this->unk_30B = 1;
+                this->unk_300 = 6;
+                this->unk_30E = 0;
+            }
+        }
+        this->actionFunc = func_80A5475C;
+        return;
+    }
+    osSyncPrintf("\x1b[35m ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n\x1b[m", thisx);
+    this->actionFunc = func_80A53AD4;
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A5399C.s")
+#endif
 
 void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
