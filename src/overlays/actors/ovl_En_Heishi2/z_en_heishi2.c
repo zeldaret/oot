@@ -396,49 +396,43 @@ void func_80A54038(EnHeishi2* this, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 // regalloc
-void func_80A540C0(EnHeishi2 *this, GlobalContext *globalCtx) {
+void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
-            switch (globalCtx->msgCtx.choiceIndex)
-            {
-                case 0:
-                    this->actor.textId = 0x2020;
-                    func_8010B720(globalCtx, this->actor.textId);
-                    func_8008F08C(globalCtx);
-                    gSaveContext.infTable[7] |= 0x80;
-                    gSaveContext.itemGetInf[3] |= 0x100;
-                    Item_Give(globalCtx, 0x2C);
-                    if (this->unk_309[1] != 0) {
-                        this->unk_309[1] = 2;
-                        this->unk_30E = 1;
-                        this->actionFunc = func_80A5427C; 
-                    }
-                    
-                    else
-                    {
-                        this->unk_30E = 0;
-                        this->actionFunc = func_80A541FC;      
-                    }
-                    break;
-                    
-                case 1:
+        switch (globalCtx->msgCtx.choiceIndex) {
+            case 0:
+                this->actor.textId = 0x2020;
+                func_8010B720(globalCtx, this->actor.textId);
+                func_8008F08C(globalCtx);
+                gSaveContext.infTable[7] |= 0x80;
+                gSaveContext.itemGetInf[3] |= 0x100;
+                Item_Give(globalCtx, 0x2C);
+                if (this->unk_309[1] != 0) {
+                    this->unk_309[1] = 2;
                     this->unk_30E = 1;
-                    this->actor.textId = 0x200C;
-                    func_8010B720(globalCtx, this->actor.textId);
-                    this->unk_300 = 5;
-                    if (this->unk_309[1] == 0) 
-                    {
-                        this->actionFunc = func_80A5427C;
-                    }
+                    this->actionFunc = func_80A5427C;
+                }
 
-                    else
-                    {
-                        this->actionFunc = func_80A54954;
-                    }  
-    
-            }
+                else {
+                    this->unk_30E = 0;
+                    this->actionFunc = func_80A541FC;
+                }
+                break;
 
+            case 1:
+                this->unk_30E = 1;
+                this->actor.textId = 0x200C;
+                func_8010B720(globalCtx, this->actor.textId);
+                this->unk_300 = 5;
+                if (this->unk_309[1] == 0) {
+                    this->actionFunc = func_80A5427C;
+                }
+
+                else {
+                    this->actionFunc = func_80A54954;
+                }
         }
+    }
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A540C0.s")
@@ -457,7 +451,7 @@ void func_80A541FC(EnHeishi2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A5427C(EnHeishi2 *this, GlobalContext *globalCtx) {
+void func_80A5427C(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
         if (func_80106BC8(globalCtx) != 0) {
@@ -466,20 +460,18 @@ void func_80A5427C(EnHeishi2 *this, GlobalContext *globalCtx) {
                 this->unk_309[1] = this->unk_30E;
                 func_80106CCC(globalCtx);
                 this->actionFunc = func_80A53908;
-            }
-            else
-            {
-            globalCtx->msgCtx.msgMode = 0x37;
-            this->actionFunc = func_80A54320;
+            } else {
+                globalCtx->msgCtx.msgMode = 0x37;
+                this->actionFunc = func_80A54320;
             }
         }
     }
 }
 
-void func_80A54320(EnHeishi2 *this, GlobalContext *globalCtx) {
+void func_80A54320(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount;
 
-    frameCount = (f32) SkelAnime_GetFrameCount(&D_06005500.genericHeader);
+    frameCount = (f32)SkelAnime_GetFrameCount(&D_06005500.genericHeader);
     this->unk_2EC = frameCount;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
     this->audioFlag = 0;
@@ -488,7 +480,7 @@ void func_80A54320(EnHeishi2 *this, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A543A0.s")
 
-void func_80A544AC(EnHeishi2 *this, GlobalContext *globalCtx) {
+void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.z, -0x17D4, 5, (s16)(s32)(f32)this->unk_2E4, 0);
     Math_SmoothScaleMaxF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
     this->actor.posRot.rot.z = this->actor.shape.rot.z;
@@ -502,36 +494,33 @@ void func_80A544AC(EnHeishi2 *this, GlobalContext *globalCtx) {
 
 #ifdef NON_MATCHING
 // cant get this one matching
-void func_80A5455C(EnHeishi2 *this, GlobalContext *globalCtx)
-{
-  EnBom *bomb;
-  Vec3f vec;
-  Actor* thisx = &this->actor;
-  if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0))
-  {
-    func_8002DF54(globalCtx, (void *) 0, 7);
-    func_80106CCC(globalCtx);
-    vec.x = Math_Rand_CenteredFloat(20.0f) + this->unk_274.x;
-    vec.y = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.y - 40.0f);
-    vec.z = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.z - 20.0f);
-    bomb = (EnBom *)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, vec.x, vec.y, vec.z, 0, (s16) (Math_Rand_CenteredFloat(7000.0f) + thisx->rotTowardsLinkY), 0, 0);
-    
-    if (&bomb->actor != ((void *) 0))
-    {
-      bomb->actor.speedXZ = Math_Rand_CenteredFloat(5.0f) + 10.0f;
-      bomb->actor.velocity.y = Math_Rand_CenteredFloat(5.0f) + 10.0f;
+void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
+    EnBom* bomb;
+    Vec3f vec;
+    Actor* thisx = &this->actor;
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+        func_8002DF54(globalCtx, (void*)0, 7);
+        func_80106CCC(globalCtx);
+        vec.x = Math_Rand_CenteredFloat(20.0f) + this->unk_274.x;
+        vec.y = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.y - 40.0f);
+        vec.z = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.z - 20.0f);
+        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, vec.x, vec.y, vec.z, 0,
+                                   (s16)(Math_Rand_CenteredFloat(7000.0f) + thisx->rotTowardsLinkY), 0, 0);
+
+        if (&bomb->actor != ((void*)0)) {
+            bomb->actor.speedXZ = Math_Rand_CenteredFloat(5.0f) + 10.0f;
+            bomb->actor.velocity.y = Math_Rand_CenteredFloat(5.0f) + 10.0f;
+        }
+
+        osSyncPrintf("\x1b[33m ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n\x1b[m");
+        this->actionFunc = func_80A546DC;
     }
-
-    osSyncPrintf("\x1b[33m ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n\x1b[m");
-    this->actionFunc = func_80A546DC;
-  }
-
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A5455C.s")
 #endif
 
-void func_80A546DC(EnHeishi2 *this, GlobalContext *globalCtx) {
+void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     Math_SmoothScaleMaxMinS(&thisx->shape.rot.z, 200, 5, this->unk_2E4, 0);
     Math_SmoothScaleMaxF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
@@ -564,7 +553,43 @@ void func_80A549E8(EnHeishi2* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/EnHeishi2_Update.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/EnHeishi2_Update.s")
+
+void EnHeishi2_Update(EnHeishi2* this, GlobalContext* globalCtx) {
+    ColliderCylinder* collider;
+    EnHeishi2* heishi2Temp;
+    Actor* thisx = &this->actor;
+    s32 phi_v1;
+
+    Actor_SetHeight(thisx, this->unk_2E0);
+    if ((this->initParams == 2) || (this->initParams == 5)) {
+        this->actor.posRot2.pos.y = 70.0f;
+        Actor_SetHeight(thisx, 70.0f);
+        func_80038290(globalCtx, thisx, &this->unk_260, &this->unk_26C, thisx->posRot2.pos);
+    }
+
+    this->unk_2FC++;
+    phi_v1 = 0;
+    heishi2Temp = this;
+
+    do {
+        phi_v1 += 2;
+        if (heishi2Temp->gateTimer != 0) {
+            heishi2Temp->gateTimer--;
+        }
+        heishi2Temp = (EnHeishi2*)&(heishi2Temp->actor.type);
+    } while (phi_v1 != 10);
+    this->actionFunc(this, globalCtx);
+    Actor_MoveForward(thisx);
+    if (this->initParams != 6) {
+        if (this->initParams != 9) {
+            func_8002E4B4(globalCtx, thisx, 10.0f, 10.0f, 30.0f, 0x1D);
+            collider = &this->collider;
+            Collider_CylinderUpdate(thisx, collider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
+        }
+    }
+}
 
 s32 EnHeishi2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                EnHeishi2* this) {
@@ -586,13 +611,14 @@ void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     }
 }
 
-void func_80A54C6C(EnHeishi2 *this, GlobalContext *globalCtx) {
+void func_80A54C6C(EnHeishi2* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1772);
-    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002C10);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
 }
