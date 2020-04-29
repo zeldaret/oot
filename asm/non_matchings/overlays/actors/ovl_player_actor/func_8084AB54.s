@@ -9,17 +9,17 @@ glabel func_8084AB54
 /* 18960 8084AB70 0C009C27 */  jal     func_8002709C              
 /* 18964 8084AB74 8E050670 */  lw      $a1, 0x0670($s0)           ## 00000670
 /* 18968 8084AB78 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 1896C 8084AB7C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 1896C 8084AB7C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 18970 8084AB80 26050498 */  addiu   $a1, $s0, 0x0498           ## $a1 = 00000498
 /* 18974 8084AB84 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 18978 8084AB88 0C017418 */  jal     func_8005D060              
+/* 18978 8084AB88 0C017418 */  jal     Collider_DestroyQuad              
 /* 1897C 8084AB8C 260504E4 */  addiu   $a1, $s0, 0x04E4           ## $a1 = 000004E4
 /* 18980 8084AB90 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 18984 8084AB94 0C017418 */  jal     func_8005D060              
+/* 18984 8084AB94 0C017418 */  jal     Collider_DestroyQuad              
 /* 18988 8084AB98 26050564 */  addiu   $a1, $s0, 0x0564           ## $a1 = 00000564
 /* 1898C 8084AB9C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 18990 8084ABA0 0C017418 */  jal     func_8005D060              
+/* 18990 8084ABA0 0C017418 */  jal     Collider_DestroyQuad              
 /* 18994 8084ABA4 260505E4 */  addiu   $a1, $s0, 0x05E4           ## $a1 = 000005E4
 /* 18998 8084ABA8 0C021DB2 */  jal     func_800876C8              
 /* 1899C 8084ABAC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000

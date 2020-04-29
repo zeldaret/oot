@@ -13,11 +13,11 @@ glabel BossGanondrof_Destroy
 /* 006E4 80910D24 0C0295BC */  jal     SkelAnime_Free
 /* 006E8 80910D28 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 006EC 80910D2C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 006F0 80910D30 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 006F0 80910D30 0C0170EB */  jal     Collider_DestroyCylinder
 
 /* 006F4 80910D34 260504E0 */  addiu   $a1, $s0, 0x04E0           ## $a1 = 000004E0
 /* 006F8 80910D38 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 006FC 80910D3C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 006FC 80910D3C 0C0170EB */  jal     Collider_DestroyCylinder
 
 /* 00700 80910D40 2605052C */  addiu   $a1, $s0, 0x052C           ## $a1 = 0000052C
 /* 00704 80910D44 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C

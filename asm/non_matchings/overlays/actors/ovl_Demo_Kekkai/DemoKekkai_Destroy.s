@@ -5,12 +5,12 @@ glabel DemoKekkai_Destroy
 /* 0027C 8098D24C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00280 8098D250 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00284 8098D254 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 00288 8098D258 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00288 8098D258 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0028C 8098D25C 24A5014C */  addiu   $a1, $a1, 0x014C           ## $a1 = 0000014C
 /* 00290 8098D260 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00294 8098D264 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00298 8098D268 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00298 8098D268 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0029C 8098D26C 24A50198 */  addiu   $a1, $a1, 0x0198           ## $a1 = 00000198
 /* 002A0 8098D270 8FBF0014 */  lw      $ra, 0x0014($sp)           

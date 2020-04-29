@@ -3,7 +3,7 @@ glabel ObjHamishi_Destroy
 /* 00568 80B934F8 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
 /* 0056C 80B934FC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00570 80B93500 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00574 80B93504 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00574 80B93504 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00578 80B93508 24E5014C */  addiu   $a1, $a3, 0x014C           ## $a1 = 0000014C
 /* 0057C 80B9350C 8FBF0014 */  lw      $ra, 0x0014($sp)           

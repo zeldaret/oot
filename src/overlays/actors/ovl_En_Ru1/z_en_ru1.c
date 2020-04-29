@@ -68,16 +68,16 @@ void func_80AF03F4(EnRu1* this, GlobalContext* globalCtx);
 void func_80AF0400(EnRu1* this, GlobalContext* globalCtx);
 void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx);
 
-ColliderCylinderInit D_80AF0800 = {
-    0x00, 0x00,       0x00, 0x09, 0x01,   0x00,   0x00,       0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00000000, 0x00, 0x00, 0x00,   0x00,   0x00000000, 0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00,       0x01, 0x00, 0x0019, 0x0050, 0x0000,     0x0000, 0x0000, 0x0000,
+ColliderCylinderInit_Set3 D_80AF0800 = {
+    { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 25, 80, 0, { 0 } },
 };
 
-ColliderCylinderInit D_80AF082C = {
-    0x00, 0x09,       0x00, 0x09, 0x01,   0x00,   0x00,       0x00,   0x00,   0x00,   0x00,
-    0x00, 0x00000101, 0x00, 0x00, 0x00,   0x00,   0x00000000, 0x00,   0x00,   0x00,   0x00,
-    0x01, 0x00,       0x01, 0x00, 0x0014, 0x001E, 0x0000,     0x0000, 0x0000, 0x0000,
+ColliderCylinderInit_Set3 D_80AF082C = {
+    { COLTYPE_UNK0, 0x09, 0x00, 0x09, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000101, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+    { 20, 30, 0, { 0 } },
 };
 
 u32 D_80AF0858[] = {
@@ -161,20 +161,20 @@ extern AnimationHeader D_06013A64;
 
 void func_80AEAC10(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad[4];
-    ColliderCylinderMain* collider = &this->collider;
+    ColliderCylinder* collider = &this->collider;
 
-    ActorCollider_Cylinder_Update(&this->actor, collider);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, collider);
+    Collider_CylinderUpdate(&this->actor, collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
 }
 
 void func_80AEAC54(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    ColliderCylinderMain* collider2 = &this->collider2;
+    ColliderCylinder* collider2 = &this->collider2;
     s32 pad[3];
 
-    ActorCollider_Cylinder_Update(thisx, collider2);
+    Collider_CylinderUpdate(thisx, collider2);
     if (this->unk_34C != 0) {
-        Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, collider2);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider2);
     } else if (thisx->xzDistanceFromLink > 32.0f) {
         this->unk_34C = 1;
     }
@@ -182,26 +182,26 @@ void func_80AEAC54(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEACDC(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad[4];
-    ColliderCylinderMain* collider2 = &this->collider2;
+    ColliderCylinder* collider2 = &this->collider2;
 
-    ActorCollider_Cylinder_Update(&this->actor, collider2);
-    Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, collider2);
+    Collider_CylinderUpdate(&this->actor, collider2);
+    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, collider2);
 }
 
 void func_80AEAD20(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
-    ActorCollider_AllocCylinder(globalCtx, &this->collider);
+    Collider_InitCylinder(globalCtx, &this->collider);
     if (!thisx) {} // necessary to match
-    func_8005C450(globalCtx, &this->collider, thisx, &D_80AF0800);
+    Collider_SetCylinder_Set3(globalCtx, &this->collider, thisx, &D_80AF0800);
 
-    ActorCollider_AllocCylinder(globalCtx, &this->collider2);
-    func_8005C450(globalCtx, &this->collider2, thisx, &D_80AF082C);
+    Collider_InitCylinder(globalCtx, &this->collider2);
+    Collider_SetCylinder_Set3(globalCtx, &this->collider2, thisx, &D_80AF082C);
 }
 
 void func_80AEAD98(EnRu1* this, GlobalContext* globalCtx) {
-    ActorCollider_FreeCylinder(globalCtx, &this->collider);
-    ActorCollider_FreeCylinder(globalCtx, &this->collider2);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider2);
 }
 
 void func_80AEADD8(EnRu1* this) {

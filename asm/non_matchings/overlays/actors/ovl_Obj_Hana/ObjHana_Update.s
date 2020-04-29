@@ -21,7 +21,7 @@ glabel ObjHana_Update
 /* 0018C 80B939EC 00A12821 */  addu    $a1, $a1, $at              
 /* 00190 80B939F0 45020004 */  bc1fl   .L80B93A04                 
 /* 00194 80B939F4 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00198 80B939F8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00198 80B939F8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0019C 80B939FC 24E6014C */  addiu   $a2, $a3, 0x014C           ## $a2 = 0000014C
 /* 001A0 80B93A00 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -13,12 +13,13 @@ void EnIt_Destroy(EnIt* this, GlobalContext* globalCtx);
 void EnIt_Update(EnIt* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit cylinderInitData = {
-    0x0A, 0x00, 0x00,       0x05, 0x10, 0x01, 0x00, 0x00, 0x00,   0x00,   0x00,   0x00,   0x00000000, 0x00,   0x00,
-    0x00, 0x00, 0x00000000, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0000, 0x0001, 0x0000, 0x0028, 0x000A,     0x0000,
+    { COLTYPE_UNK10, 0x00, 0x00, 0x05, 0x10, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 40, 10, 0, { 0 } },
 };
 
-static u8 damageTblInitData[] = {
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0x00, 0x00, 0x00,
+static CollisionCheckInfoInit2 colChkInfoInit = {
+    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
 };
 
 const ActorInit En_It_InitVars = {
@@ -37,21 +38,21 @@ void EnIt_Init(EnIt* this, GlobalContext* globalCtx) {
     EnIt* it = this;
 
     it->actor.params = 0x0D05;
-    ActorCollider_AllocCylinder(globalCtx, &it->cylinderCollider);
-    ActorCollider_InitCylinder(globalCtx, &it->cylinderCollider, &it->actor, &cylinderInitData);
-    func_80061EFC(&it->actor.sub_98.damageChart, 0, &damageTblInitData); // Init Damage Chart
+    Collider_InitCylinder(globalCtx, &it->cylinderCollider);
+    Collider_SetCylinder(globalCtx, &it->cylinderCollider, &it->actor, &cylinderInitData);
+    func_80061EFC(&it->actor.colChkInfo, 0, &colChkInfoInit); // Init Damage Chart
 }
 
 void EnIt_Destroy(EnIt* this, GlobalContext* globalCtx) {
     EnIt* it = this;
 
-    ActorCollider_FreeCylinder(globalCtx, &it->cylinderCollider);
+    Collider_DestroyCylinder(globalCtx, &it->cylinderCollider);
 }
 
 void EnIt_Update(EnIt* this, GlobalContext* globalCtx) {
     s32 pad;
     EnIt* it = this;
 
-    ActorCollider_Cylinder_Update(&it->actor, &it->cylinderCollider);
-    Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &it->cylinderCollider);
+    Collider_CylinderUpdate(&it->actor, &it->cylinderCollider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &it->cylinderCollider);
 }

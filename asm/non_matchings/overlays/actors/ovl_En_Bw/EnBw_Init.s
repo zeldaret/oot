@@ -66,21 +66,21 @@ glabel EnBw_Init
 /* 000E8 809CE7C8 26050294 */  addiu   $a1, $s0, 0x0294           ## $a1 = 00000294
 /* 000EC 809CE7CC E6060248 */  swc1    $f6, 0x0248($s0)           ## 00000248
 /* 000F0 809CE7D0 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 000F4 809CE7D4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000F4 809CE7D4 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 000F8 809CE7D8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000FC 809CE7DC 3C07809D */  lui     $a3, %hi(D_809D1450)       ## $a3 = 809D0000
 /* 00100 809CE7E0 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 00104 809CE7E4 24E71450 */  addiu   $a3, $a3, %lo(D_809D1450)  ## $a3 = 809D1450
 /* 00108 809CE7E8 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 0010C 809CE7EC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0010C 809CE7EC 0C01712B */  jal     Collider_SetCylinder
               
 /* 00110 809CE7F0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00114 809CE7F4 3C07809D */  lui     $a3, %hi(D_809D147C)       ## $a3 = 809D0000
 /* 00118 809CE7F8 24E7147C */  addiu   $a3, $a3, %lo(D_809D147C)  ## $a3 = 809D147C
 /* 0011C 809CE7FC 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00120 809CE800 260502E0 */  addiu   $a1, $s0, 0x02E0           ## $a1 = 000002E0
-/* 00124 809CE804 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00124 809CE804 0C01712B */  jal     Collider_SetCylinder
               
 /* 00128 809CE808 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0012C 809CE80C 86190032 */  lh      $t9, 0x0032($s0)           ## 00000032

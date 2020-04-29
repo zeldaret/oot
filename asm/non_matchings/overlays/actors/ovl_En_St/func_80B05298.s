@@ -23,28 +23,28 @@ glabel func_80B05298
 /* 00A54 80B052E4 2486022C */  addiu   $a2, $a0, 0x022C           ## $a2 = 0000022C
 /* 00A58 80B052E8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000022C
 /* 00A5C 80B052EC AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 00A60 80B052F0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00A60 80B052F0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00A64 80B052F4 AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 00A68 80B052F8 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 00A6C 80B052FC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00A70 80B05300 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00A74 80B05304 8FA60018 */  lw      $a2, 0x0018($sp)           
-/* 00A78 80B05308 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00A78 80B05308 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00A7C 80B0530C 00812821 */  addu    $a1, $a0, $at              
 /* 00A80 80B05310 1000000B */  beq     $zero, $zero, .L80B05340   
 /* 00A84 80B05314 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80B05318:
 /* 00A88 80B05318 AFA60018 */  sw      $a2, 0x0018($sp)           
-/* 00A8C 80B0531C 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00A8C 80B0531C 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00A90 80B05320 AFA70024 */  sw      $a3, 0x0024($sp)           
 /* 00A94 80B05324 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 00A98 80B05328 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00A9C 80B0532C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00AA0 80B05330 8FA60018 */  lw      $a2, 0x0018($sp)           
-/* 00AA4 80B05334 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00AA4 80B05334 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00AA8 80B05338 00812821 */  addu    $a1, $a0, $at              
 /* 00AAC 80B0533C 8FBF0014 */  lw      $ra, 0x0014($sp)           

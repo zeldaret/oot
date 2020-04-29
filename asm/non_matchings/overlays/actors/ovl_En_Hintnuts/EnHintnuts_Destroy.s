@@ -6,7 +6,7 @@ glabel EnHintnuts_Destroy
 /* 001AC 80A573AC 2401000A */  addiu   $at, $zero, 0x000A         ## $at = 0000000A
 /* 001B0 80A573B0 11C10003 */  beq     $t6, $at, .L80A573C0       
 /* 001B4 80A573B4 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 001B8 80A573B8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001B8 80A573B8 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001BC 80A573BC 24C50214 */  addiu   $a1, $a2, 0x0214           ## $a1 = 00000214
 .L80A573C0:

@@ -5,7 +5,7 @@ glabel EnTa_Destroy
 /* 007E8 80B14288 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 007EC 80B1428C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 007F0 80B14290 24C50264 */  addiu   $a1, $a2, 0x0264           ## $a1 = 00000264
-/* 007F4 80B14294 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 007F4 80B14294 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 007F8 80B14298 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 007FC 80B1429C 8FA60018 */  lw      $a2, 0x0018($sp)           

@@ -8,7 +8,7 @@ typedef struct {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ ActorFunc actionFunc;
-    /* 0x0194 */ ColliderCylinderMain collider;
+    /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ Path* path;
     /* 0x01E4 */ u8 reverse;
     /* 0x01E6 */ s16 waypoint;

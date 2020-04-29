@@ -29,7 +29,7 @@ glabel MirRay_Update
 /* 0061C 80B8D66C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00620 80B8D670 02212821 */  addu    $a1, $s1, $at              
 /* 00624 80B8D674 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00628 80B8D678 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00628 80B8D678 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 0062C 80B8D67C 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 .L80B8D680:
@@ -42,7 +42,7 @@ glabel MirRay_Update
 /* 00648 80B8D698 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0064C 80B8D69C 45020004 */  bc1fl   .L80B8D6B0                 
 /* 00650 80B8D6A0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00654 80B8D6A4 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00654 80B8D6A4 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00658 80B8D6A8 260601AC */  addiu   $a2, $s0, 0x01AC           ## $a2 = 000001AC
 /* 0065C 80B8D6AC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

@@ -7,7 +7,7 @@ glabel EnVbBall_Destroy
 /* 00194 80B29134 29C100C8 */  slti    $at, $t6, 0x00C8           
 /* 00198 80B29138 50200004 */  beql    $at, $zero, .L80B2914C     
 /* 0019C 80B2913C 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 001A0 80B29140 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001A0 80B29140 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001A4 80B29144 24C50168 */  addiu   $a1, $a2, 0x0168           ## $a1 = 00000168
 /* 001A8 80B29148 8FBF0014 */  lw      $ra, 0x0014($sp)           

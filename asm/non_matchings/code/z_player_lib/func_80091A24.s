@@ -312,7 +312,7 @@ glabel func_80091A24
 /* B09074 80091ED4 E7A00024 */  swc1  $f0, 0x24($sp)
 /* B09078 80091ED8 E7A0001C */  swc1  $f0, 0x1c($sp)
 /* B0907C 80091EDC E7A60020 */  swc1  $f6, 0x20($sp)
-/* B09080 80091EE0 0C04078D */  jal   func_80101E34
+/* B09080 80091EE0 0C04078D */  jal   guLookAtReflect
 /* B09084 80091EE4 E7A40018 */   swc1  $f4, 0x18($sp)
 /* B09088 80091EE8 8FA30114 */  lw    $v1, 0x114($sp)
 /* B0908C 80091EEC 3C0FDA38 */  lui   $t7, (0xDA380005 >> 16) # lui $t7, 0xda38

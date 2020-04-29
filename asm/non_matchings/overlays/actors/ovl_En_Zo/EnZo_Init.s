@@ -26,14 +26,14 @@ glabel EnZo_Init
 /* 01518 80B61738 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0151C 80B6173C 260501BC */  addiu   $a1, $s0, 0x01BC           ## $a1 = 000001BC
 /* 01520 80B61740 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 01524 80B61744 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 01524 80B61744 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 01528 80B61748 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0152C 80B6174C 3C0780B6 */  lui     $a3, %hi(D_80B6248C)       ## $a3 = 80B60000
 /* 01530 80B61750 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 01534 80B61754 24E7248C */  addiu   $a3, $a3, %lo(D_80B6248C)  ## $a3 = 80B6248C
 /* 01538 80B61758 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 0153C 80B6175C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0153C 80B6175C 0C01712B */  jal     Collider_SetCylinder
 
 /* 01540 80B61760 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 01544 80B61764 3C0680B6 */  lui     $a2, %hi(D_80B624B8)       ## $a2 = 80B60000

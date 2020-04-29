@@ -76,7 +76,7 @@ glabel EnDekubaba_Update
 /* 02D34 809E8504 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02D38 809E8508 02212821 */  addu    $a1, $s1, $at              
 /* 02D3C 809E850C 26060238 */  addiu   $a2, $s0, 0x0238           ## $a2 = 00000238
-/* 02D40 809E8510 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 02D40 809E8510 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 02D44 809E8514 AFA3002C */  sw      $v1, 0x002C($sp)           
 /* 02D48 809E8518 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
@@ -93,7 +93,7 @@ glabel EnDekubaba_Update
 /* 02D70 809E8540 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02D74 809E8544 02212821 */  addu    $a1, $s1, $at              
 /* 02D78 809E8548 26060238 */  addiu   $a2, $s0, 0x0238           ## $a2 = 00000238
-/* 02D7C 809E854C 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 02D7C 809E854C 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 02D80 809E8550 AFA3002C */  sw      $v1, 0x002C($sp)           
 /* 02D84 809E8554 8FA3002C */  lw      $v1, 0x002C($sp)           
@@ -104,7 +104,7 @@ glabel EnDekubaba_Update
 /* 02D94 809E8564 10680004 */  beq     $v1, $t0, .L809E8578       
 /* 02D98 809E8568 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02D9C 809E856C 02212821 */  addu    $a1, $s1, $at              
-/* 02DA0 809E8570 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02DA0 809E8570 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02DA4 809E8574 26060238 */  addiu   $a2, $s0, 0x0238           ## $a2 = 00000238
 .L809E8578:

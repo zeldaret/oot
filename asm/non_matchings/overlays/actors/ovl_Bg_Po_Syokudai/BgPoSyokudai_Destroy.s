@@ -11,7 +11,7 @@ glabel BgPoSyokudai_Destroy
 /* 002C0 808A8370 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 002C4 808A8374 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 002C8 808A8378 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 002CC 808A837C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002CC 808A837C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 002D0 808A8380 24A50164 */  addiu   $a1, $a1, 0x0164           ## $a1 = 00000164
 /* 002D4 808A8384 8FA7001C */  lw      $a3, 0x001C($sp)           

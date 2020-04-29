@@ -68,14 +68,14 @@ glabel EnGSwitch_Update
 /* 0105C 80A22F1C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01060 80A22F20 2606017C */  addiu   $a2, $s0, 0x017C           ## $a2 = 0000017C
 /* 01064 80A22F24 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000017C
-/* 01068 80A22F28 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 01068 80A22F28 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 0106C 80A22F2C AFA60054 */  sw      $a2, 0x0054($sp)           
 /* 01070 80A22F30 8FA40064 */  lw      $a0, 0x0064($sp)           
 /* 01074 80A22F34 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01078 80A22F38 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 0107C 80A22F3C 8FA60054 */  lw      $a2, 0x0054($sp)           
-/* 01080 80A22F40 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01080 80A22F40 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01084 80A22F44 00812821 */  addu    $a1, $a0, $at              
 .L80A22F48:
