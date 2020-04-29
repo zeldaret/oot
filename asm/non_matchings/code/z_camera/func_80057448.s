@@ -1,18 +1,22 @@
 .late_rodata
 glabel D_8013A3D0
-    .incbin "baserom.z64", 0xBB1570, 0x4
+    .float 0.01
 
 glabel jtbl_8013A3D4
-    .incbin "baserom.z64", 0xBB1574, 0x14
+.word L8005763C
+.word L80057694
+.word L80057878
+.word L80057910
+.word L80057A38
 
 glabel D_8013A3E8
-    .incbin "baserom.z64", 0xBB1588, 0x4
+    .float 0.1
 
 glabel D_8013A3EC
-    .incbin "baserom.z64", 0xBB158C, 0x4
+    .float 0.1
 
 glabel D_8013A3F0
-    .incbin "baserom.z64", 0xBB1590, 0x4
+    .float 0.001
 
 .text
 glabel func_80057448
@@ -20,7 +24,7 @@ glabel func_80057448
 /* ACE5EC 8005744C AFB00020 */  sw    $s0, 0x20($sp)
 /* ACE5F0 80057450 00808025 */  move  $s0, $a0
 /* ACE5F4 80057454 AFBF0024 */  sw    $ra, 0x24($sp)
-/* ACE5F8 80057458 0C00B721 */  jal   func_8002DC84
+/* ACE5F8 80057458 0C00B721 */  jal   Player_GetCameraYOffset
 /* ACE5FC 8005745C 8C840090 */   lw    $a0, 0x90($a0)
 /* ACE600 80057460 3C018014 */  lui   $at, %hi(D_8013A3D0)
 /* ACE604 80057464 C42CA3D0 */  lwc1  $f12, %lo(D_8013A3D0)($at)
@@ -147,6 +151,7 @@ glabel func_80057448
 /* ACE7D0 80057630 8C2CA3D4 */  lw    $t4, %lo(jtbl_8013A3D4)($at)
 /* ACE7D4 80057634 01800008 */  jr    $t4
 /* ACE7D8 80057638 00000000 */   nop   
+glabel L8005763C
 /* ACE7DC 8005763C 860E014C */  lh    $t6, 0x14c($s0)
 /* ACE7E0 80057640 24780001 */  addiu $t8, $v1, 1
 /* ACE7E4 80057644 A618015E */  sh    $t8, 0x15e($s0)
@@ -171,6 +176,7 @@ glabel func_80057448
 /* ACE82C 8005768C A60E0018 */   sh    $t6, 0x18($s0)
 /* ACE830 80057690 A60F0018 */  sh    $t7, 0x18($s0)
 .L80057694:
+glabel L80057694
 /* ACE834 80057694 86180006 */  lh    $t8, 6($s0)
 /* ACE838 80057698 2719FFFF */  addiu $t9, $t8, -1
 /* ACE83C 8005769C A6190006 */  sh    $t9, 6($s0)
@@ -295,6 +301,7 @@ glabel func_80057448
 /* ACEA10 80057870 ADD90008 */  sw    $t9, 8($t6)
 .L80057874:
 /* ACEA14 80057874 8FAA0038 */  lw    $t2, 0x38($sp)
+glabel L80057878
 /* ACEA18 80057878 8FAD003C */  lw    $t5, 0x3c($sp)
 /* ACEA1C 8005787C 27AB00AC */  addiu $t3, $sp, 0xac
 /* ACEA20 80057880 3C013E80 */  li    $at, 0x3E800000 # 0.000000
@@ -333,6 +340,7 @@ glabel func_80057448
 /* ACEAA4 80057904 258E8001 */  addiu $t6, $t4, -0x7fff
 /* ACEAA8 80057908 A46E0000 */  sh    $t6, ($v1)
 /* ACEAAC 8005790C 8FAA0038 */  lw    $t2, 0x38($sp)
+glabel L80057910
 /* ACEAB0 80057910 8FB8003C */  lw    $t8, 0x3c($sp)
 /* ACEAB4 80057914 27AF00AC */  addiu $t7, $sp, 0xac
 /* ACEAB8 80057918 3C013F00 */  li    $at, 0x3F000000 # 0.000000
@@ -407,6 +415,7 @@ glabel func_80057448
 /* ACEBCC 80057A2C A60E015E */  sh    $t6, 0x15e($s0)
 /* ACEBD0 80057A30 8FAA0038 */  lw    $t2, 0x38($sp)
 /* ACEBD4 80057A34 8603015E */  lh    $v1, 0x15e($s0)
+glabel L80057A38
 /* ACEBD8 80057A38 246F0001 */  addiu $t7, $v1, 1
 /* ACEBDC 80057A3C A60F015E */  sh    $t7, 0x15e($s0)
 .L80057A40:

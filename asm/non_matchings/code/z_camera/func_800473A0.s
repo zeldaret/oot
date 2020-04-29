@@ -44,7 +44,7 @@ glabel func_800473A0
 /* ABE548 800473A8 00808025 */  move  $s0, $a0
 /* ABE54C 800473AC AFBF0024 */  sw    $ra, 0x24($sp)
 /* ABE550 800473B0 AFB10020 */  sw    $s1, 0x20($sp)
-/* ABE554 800473B4 0C00B721 */  jal   func_8002DC84
+/* ABE554 800473B4 0C00B721 */  jal   Player_GetCameraYOffset
 /* ABE558 800473B8 8C840090 */   lw    $a0, 0x90($a0)
 /* ABE55C 800473BC 8602015E */  lh    $v0, 0x15e($s0)
 /* ABE560 800473C0 2401000A */  li    $at, 10

@@ -5,7 +5,7 @@ glabel D_801393DC
 
 .late_rodata
 glabel D_8013A190
-    .incbin "baserom.z64", 0xBB1330, 0x4
+    .float 0.01
 
 .text
 glabel func_8004FDE4

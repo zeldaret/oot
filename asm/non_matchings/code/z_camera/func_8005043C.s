@@ -1,9 +1,0 @@
-glabel func_8005043C
-/* AC75DC 8005043C 27BDFFE8 */  addiu $sp, $sp, -0x18
-/* AC75E0 80050440 AFBF0014 */  sw    $ra, 0x14($sp)
-/* AC75E4 80050444 0C011CE5 */  jal   func_80047394
-/* AC75E8 80050448 00000000 */   nop
-/* AC75EC 8005044C 8FBF0014 */  lw    $ra, 0x14($sp)
-/* AC75F0 80050450 27BD0018 */  addiu $sp, $sp, 0x18
-/* AC75F4 80050454 03E00008 */  jr    $ra
-/* AC75F8 80050458 00000000 */   nop

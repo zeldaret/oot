@@ -1,21 +1,21 @@
 .late_rodata
 glabel D_8013A3AC
-    .incbin "baserom.z64", 0xBB154C, 0x4
+    .float 1500.0
 
 glabel D_8013A3B0
-    .incbin "baserom.z64", 0xBB1550, 0x4
+    .float 3000.0
 
 glabel D_8013A3B4
-    .incbin "baserom.z64", 0xBB1554, 0x4
+    .float 0.4
 
 glabel D_8013A3B8
-    .incbin "baserom.z64", 0xBB1558, 0x4
+    .float 0.1
 
 glabel D_8013A3BC
-    .incbin "baserom.z64", 0xBB155C, 0x4
+    .float 0.4
 
 glabel D_8013A3C0
-    .incbin "baserom.z64", 0xBB1560, 0x4
+    .float 0.1
 
 .text
 glabel func_80056C20
@@ -25,7 +25,7 @@ glabel func_80056C20
 /* ACDDCC 80056C2C AFBF002C */  sw    $ra, 0x2c($sp)
 /* ACDDD0 80056C30 AFB20028 */  sw    $s2, 0x28($sp)
 /* ACDDD4 80056C34 AFB10024 */  sw    $s1, 0x24($sp)
-/* ACDDD8 80056C38 0C00B721 */  jal   func_8002DC84
+/* ACDDD8 80056C38 0C00B721 */  jal   Player_GetCameraYOffset
 /* ACDDDC 80056C3C 8C840090 */   lw    $a0, 0x90($a0)
 /* ACDDE0 80056C40 860E015E */  lh    $t6, 0x15e($s0)
 /* ACDDE4 80056C44 46000086 */  mov.s $f2, $f0

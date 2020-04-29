@@ -1,30 +1,30 @@
 .late_rodata
 glabel D_80139EF0
-    .incbin "baserom.z64", 0xBB1090, 0x4
+    .float 0.01
 
 glabel D_80139EF4
-    .incbin "baserom.z64", 0xBB1094, 0x4
+    .float 182.04167
 
 glabel D_80139EF8
-    .incbin "baserom.z64", 0xBB1098, 0x4
+    .float 0.01
 
 glabel D_80139EFC
-    .incbin "baserom.z64", 0xBB109C, 0x4
+    .float 0.01
 
 glabel D_80139F00
-    .incbin "baserom.z64", 0xBB10A0, 0x4
+    .float 0.01
 
 glabel D_80139F04
-    .incbin "baserom.z64", 0xBB10A4, 0x4
+    .float 0.01
 
 glabel D_80139F08
-    .incbin "baserom.z64", 0xBB10A8, 0x4
+    .float 0.01
 
 glabel D_80139F0C
-    .incbin "baserom.z64", 0xBB10AC, 0x4
+    .float 0.001
 
 glabel D_80139F10
-    .incbin "baserom.z64", 0xBB10B0, 0x4
+    .float 0.002
 
 .text
 glabel func_80048804
@@ -33,7 +33,7 @@ glabel func_80048804
 /* ABF9AC 8004880C 00808025 */  move  $s0, $a0
 /* ABF9B0 80048810 AFBF0024 */  sw    $ra, 0x24($sp)
 /* ABF9B4 80048814 AFB10020 */  sw    $s1, 0x20($sp)
-/* ABF9B8 80048818 0C00B721 */  jal   func_8002DC84
+/* ABF9B8 80048818 0C00B721 */  jal   Player_GetCameraYOffset
 /* ABF9BC 8004881C 8C840090 */   lw    $a0, 0x90($a0)
 /* ABF9C0 80048820 8602015E */  lh    $v0, 0x15e($s0)
 /* ABF9C4 80048824 10400009 */  beqz  $v0, .L8004884C

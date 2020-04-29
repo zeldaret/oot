@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-Vec3f* func_8007C1AC(Vec3f* dest, struct_80045714* arg1);
+Vec3f* func_8007C1AC(Vec3f* dest, VecSph* arg1);
 
 f32 func_8007BF90(Vec3f* a, Vec3f* b) {
     f32 dx = a->x - b->x;
@@ -51,39 +51,39 @@ Vec3f* func_8007C0F8(Vec3f* dest, Vec3f* a, Vec3f* b) {
     return dest;
 }
 
-Vec3f* func_8007C1AC(Vec3f* dest, struct_80045714* arg1) {
+Vec3f* func_8007C1AC(Vec3f* dest, VecSph* arg1) {
     Vec3f v;
     f32 sin4;
     f32 cos4;
     f32 sin6;
     f32 cos6;
 
-    cos4 = Math_Coss(arg1->unk_04);
-    cos6 = Math_Coss(arg1->unk_06);
-    sin4 = Math_Sins(arg1->unk_04);
-    sin6 = Math_Sins(arg1->unk_06);
+    cos4 = Math_Coss(arg1->phi);
+    cos6 = Math_Coss(arg1->theta);
+    sin4 = Math_Sins(arg1->phi);
+    sin6 = Math_Sins(arg1->theta);
 
-    v.x = arg1->unk_00 * sin4 * sin6;
-    v.y = arg1->unk_00 * cos4;
-    v.z = arg1->unk_00 * sin4 * cos6;
+    v.x = arg1->r * sin4 * sin6;
+    v.y = arg1->r * cos4;
+    v.z = arg1->r * sin4 * cos6;
 
     *dest = v;
 
     return dest;
 }
 
-void func_8007C25C(Vec3f* dest, struct_80045714* arg1) {
-    struct_80045714 var;
+void func_8007C25C(Vec3f* dest, VecSph* arg1) {
+    VecSph var;
 
-    var.unk_00 = arg1->unk_00;
-    var.unk_04 = 0x3FFF - arg1->unk_04;
-    var.unk_06 = arg1->unk_06;
+    var.r = arg1->r;
+    var.phi = 0x3FFF - arg1->phi;
+    var.theta = arg1->theta;
 
     func_8007C1AC(dest, &var);
 }
 
-struct_80045714* func_8007C29C(struct_80045714* arg0, Vec3f* arg1) {
-    struct_80045714 sp28;
+VecSph* func_8007C29C(VecSph* arg0, Vec3f* arg1) {
+    VecSph sp28;
 
     f32 distSquared;
     f32 dist;
@@ -92,16 +92,16 @@ struct_80045714* func_8007C29C(struct_80045714* arg0, Vec3f* arg1) {
     dist = sqrtf(distSquared);
 
     if ((dist == 0.0f) && (arg1->y == 0.0f)) {
-        sp28.unk_04 = 0;
+        sp28.phi = 0;
     } else {
-        sp28.unk_04 = Math_atan2f(dist, arg1->y) * 57.295776f * 182.04167f + 0.5f;
+        sp28.phi = Math_atan2f(dist, arg1->y) * 57.295776f * 182.04167f + 0.5f;
     }
 
-    sp28.unk_00 = sqrtf(SQ(arg1->y) + distSquared);
+    sp28.r = sqrtf(SQ(arg1->y) + distSquared);
     if ((arg1->x == 0.0f) && (arg1->z == 0.0f)) {
-        sp28.unk_06 = 0;
+        sp28.theta = 0;
     } else {
-        sp28.unk_06 = Math_atan2f(arg1->x, arg1->z) * 57.295776f * 182.04167f + 0.5f;
+        sp28.theta = Math_atan2f(arg1->x, arg1->z) * 57.295776f * 182.04167f + 0.5f;
     }
 
     *arg0 = sp28;
@@ -109,18 +109,18 @@ struct_80045714* func_8007C29C(struct_80045714* arg0, Vec3f* arg1) {
     return arg0;
 }
 
-struct_80045714* func_8007C3F4(struct_80045714* arg0, Vec3f* arg1) {
-    struct_80045714 sp18;
+VecSph* func_8007C3F4(VecSph* arg0, Vec3f* arg1) {
+    VecSph sp18;
 
     func_8007C29C(&sp18, arg1);
-    sp18.unk_04 = 0x3FFF - sp18.unk_04;
+    sp18.phi = 0x3FFF - sp18.phi;
 
     *arg0 = sp18;
 
     return arg0;
 }
 
-void func_8007C440(struct_80045714* arg0, Vec3f* a, Vec3f* b) {
+void func_8007C440(VecSph* arg0, Vec3f* a, Vec3f* b) {
     Vec3f var;
 
     var.x = b->x - a->x;
@@ -130,7 +130,7 @@ void func_8007C440(struct_80045714* arg0, Vec3f* a, Vec3f* b) {
     func_8007C29C(arg0, &var);
 }
 
-void func_8007C490(struct_80045714* arg0, Vec3f* a, Vec3f* b) {
+void func_8007C490(VecSph* arg0, Vec3f* a, Vec3f* b) {
     Vec3f var;
 
     var.x = b->x - a->x;

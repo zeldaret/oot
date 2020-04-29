@@ -1,9 +1,13 @@
 .late_rodata
 glabel jtbl_8013A370
-    .incbin "baserom.z64", 0xBB1510, 0x14
+    .word L80056098
+    .word L800560E4
+    .word L800563F4
+    .word L80056374
+    .word L8005641C
 
 glabel D_8013A384
-    .incbin "baserom.z64", 0xBB1524, 0x4
+    .float 0.1
 
 .text
 glabel func_80055FB8
@@ -28,7 +32,7 @@ glabel func_80055FB8
 /* ACD1A0 80056000 8DEFFA90 */  lw    $t7, %lo(gGameInfo)($t7)
 /* ACD1A4 80056004 85E20314 */  lh    $v0, 0x314($t7)
 /* ACD1A8 80056008 1040000F */  beqz  $v0, .L80056048
-/* ACD1AC 8005600C 00000000 */   nop   
+/* ACD1AC 8005600C 00000000 */   nop
 .L80056010:
 /* ACD1B0 80056010 86180142 */  lh    $t8, 0x142($s0)
 .L80056014:
@@ -66,7 +70,9 @@ glabel func_80055FB8
 /* ACD228 80056088 00380821 */  addu  $at, $at, $t8
 /* ACD22C 8005608C 8C38A370 */  lw    $t8, %lo(jtbl_8013A370)($at)
 /* ACD230 80056090 03000008 */  jr    $t8
-/* ACD234 80056094 00000000 */   nop   
+/* ACD234 80056094 00000000 */   nop
+
+glabel L80056098
 /* ACD238 80056098 44802000 */  mtc1  $zero, $f4
 /* ACD23C 8005609C 26080010 */  addiu $t0, $s0, 0x10
 /* ACD240 800560A0 A5000004 */  sh    $zero, 4($t0)
@@ -87,6 +93,8 @@ glabel func_80055FB8
 /* ACD27C 800560DC 860C000A */  lh    $t4, 0xa($s0)
 .L800560E0:
 /* ACD280 800560E0 A50C000A */  sh    $t4, 0xa($t0)
+
+glabel L800560E4
 /* ACD284 800560E4 26080010 */  addiu $t0, $s0, 0x10
 /* ACD288 800560E8 850D000A */  lh    $t5, 0xa($t0)
 /* ACD28C 800560EC 25030004 */  addiu $v1, $t0, 4
@@ -254,13 +262,15 @@ glabel func_80055FB8
 /* ACD4F0 80056350 460A4402 */  mul.s $f16, $f8, $f10
 /* ACD4F4 80056354 4600848D */  trunc.w.s $f18, $f16
 /* ACD4F8 80056358 440F9000 */  mfc1  $t7, $f18
-/* ACD4FC 8005635C 00000000 */  nop   
+/* ACD4FC 8005635C 00000000 */  nop
 /* ACD500 80056360 A60F015A */  sh    $t7, 0x15a($s0)
 /* ACD504 80056364 8518000A */  lh    $t8, 0xa($t0)
 /* ACD508 80056368 2719FFFF */  addiu $t9, $t8, -1
 /* ACD50C 8005636C 1000002B */  b     .L8005641C
 /* ACD510 80056370 A519000A */   sh    $t9, 0xa($t0)
+
 .L80056374:
+glabel L80056374
 /* ACD514 80056374 86020018 */  lh    $v0, 0x18($s0)
 /* ACD518 80056378 A6000160 */  sh    $zero, 0x160($s0)
 /* ACD51C 8005637C 24011000 */  li    $at, 4096
@@ -296,6 +306,8 @@ glabel func_80055FB8
 /* ACD588 800563E8 02002825 */   move  $a1, $s0
 /* ACD58C 800563EC 1000000C */  b     .L80056420
 /* ACD590 800563F0 8FBF0024 */   lw    $ra, 0x24($sp)
+
+glabel L800563F4
 /* ACD594 800563F4 26080010 */  addiu $t0, $s0, 0x10
 /* ACD598 800563F8 8509000A */  lh    $t1, 0xa($t0)
 /* ACD59C 800563FC 252BFFFF */  addiu $t3, $t1, -1
@@ -306,7 +318,9 @@ glabel func_80055FB8
 /* ACD5B0 80056410 860D015E */  lh    $t5, 0x15e($s0)
 /* ACD5B4 80056414 25AE0001 */  addiu $t6, $t5, 1
 /* ACD5B8 80056418 A60E015E */  sh    $t6, 0x15e($s0)
+
 .L8005641C:
+glabel L8005641C
 /* ACD5BC 8005641C 8FBF0024 */  lw    $ra, 0x24($sp)
 .L80056420:
 /* ACD5C0 80056420 8FB00020 */  lw    $s0, 0x20($sp)

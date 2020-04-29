@@ -1,6 +1,6 @@
 .late_rodata
 glabel D_8013A36C
-    .incbin "baserom.z64", 0xBB150C, 0x4
+    .float 0.1
 
 .text
 glabel func_80055C78

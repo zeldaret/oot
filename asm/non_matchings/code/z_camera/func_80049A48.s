@@ -1,42 +1,44 @@
 .late_rodata
 glabel D_80139F44
-    .incbin "baserom.z64", 0xBB10E4, 0xC
+    .float 0.01
+    .float 0.01
+    .float 0.01
 
 glabel D_80139F50
-    .incbin "baserom.z64", 0xBB10F0, 0x4
+    .float 0.0001
 
 glabel D_80139F54
-    .incbin "baserom.z64", 0xBB10F4, 0x4
+    .float 0.01
 
 glabel D_80139F58
-    .incbin "baserom.z64", 0xBB10F8, 0x4
+    .float 0.01
 
 glabel D_80139F5C
-    .incbin "baserom.z64", 0xBB10FC, 0x4
+    .float 0.01
 
 glabel D_80139F60
-    .incbin "baserom.z64", 0xBB1100, 0x4
+    .float 0.01
 
 glabel D_80139F64
-    .incbin "baserom.z64", 0xBB1104, 0x4
+    .float 0.01
 
 glabel D_80139F68
-    .incbin "baserom.z64", 0xBB1108, 0x4
+    .float 0.01
 
 glabel D_80139F6C
-    .incbin "baserom.z64", 0xBB110C, 0x4
+    .float 0.01
 
 glabel D_80139F70
-    .incbin "baserom.z64", 0xBB1110, 0x4
+    .float 0.01
 
 glabel D_80139F74
-    .incbin "baserom.z64", 0xBB1114, 0x4
+    .float 0.01
 
 glabel D_80139F78
-    .incbin "baserom.z64", 0xBB1118, 0x4
+    .float 0.01
 
 glabel D_80139F7C
-    .incbin "baserom.z64", 0xBB111C, 0x4
+    .float 0.99
 
 .text
 glabel func_80049A48
@@ -45,7 +47,7 @@ glabel func_80049A48
 /* AC0BF0 80049A50 00808025 */  move  $s0, $a0
 /* AC0BF4 80049A54 AFBF0024 */  sw    $ra, 0x24($sp)
 /* AC0BF8 80049A58 AFB10020 */  sw    $s1, 0x20($sp)
-/* AC0BFC 80049A5C 0C00B721 */  jal   func_8002DC84
+/* AC0BFC 80049A5C 0C00B721 */  jal   Player_GetCameraYOffset
 /* AC0C00 80049A60 8C840090 */   lw    $a0, 0x90($a0)
 /* AC0C04 80049A64 8603015E */  lh    $v1, 0x15e($s0)
 /* AC0C08 80049A68 10600008 */  beqz  $v1, .L80049A8C
