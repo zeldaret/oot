@@ -21,7 +21,7 @@ glabel func_80A1FF8C
 /* 00218 80A1FFD8 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
 /* 0021C 80A1FFDC 860500B6 */  lh      $a1, 0x00B6($s0)           ## 000000B6
 /* 00220 80A1FFE0 860600B8 */  lh      $a2, 0x00B8($s0)           ## 000000B8
-/* 00224 80A1FFE4 0C034421 */  jal     Matrix_RotateZYX
+/* 00224 80A1FFE4 0C034421 */  jal     Matrix_RotateRPY
 /* 00228 80A1FFE8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 0022C 80A1FFEC 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00230 80A1FFF0 3C01435C */  lui     $at, 0x435C                ## $at = 435C0000
