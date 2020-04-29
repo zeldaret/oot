@@ -154,11 +154,11 @@ void func_80A531E4(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
-    this->unk_309[2] = 0;
+    this->unk_30B = 0;
     this->unk_30E = 0;
     if (Text_GetFaceReaction(globalCtx, 5) != 0) {
         this->actor.textId = Text_GetFaceReaction(globalCtx, 5);
-        this->unk_309[2] = 1;
+        this->unk_30B = 1;
         this->unk_300 = 6;
         this->actionFunc = func_80A5475C;
         return;
@@ -532,13 +532,9 @@ void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A5475C.s")
 
-void func_80A54954(EnHeishi2* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f,
-                         (s16)(f32)SkelAnime_GetFrameCount(&D_06005C30.genericHeader), 0, -10.0f);
-    this->actionFunc = func_80A549E8;
-}
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A54954.s")
 
-void func_80A549E8(EnHeishi2* this, GlobalContext* globalCtx) {
+void func_80A549E8(EnHeishi2 *this, GlobalContext *globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (this->unk_300 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
@@ -552,8 +548,6 @@ void func_80A549E8(EnHeishi2* this, GlobalContext* globalCtx) {
         }
     }
 }
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/EnHeishi2_Update.s")
 
 void EnHeishi2_Update(EnHeishi2* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
@@ -577,7 +571,7 @@ void EnHeishi2_Update(EnHeishi2* this, GlobalContext* globalCtx) {
         if (heishi2Temp->gateTimer != 0) {
             heishi2Temp->gateTimer--;
         }
-        heishi2Temp = (EnHeishi2*)&(heishi2Temp->actor.type);
+        heishi2Temp = (EnHeishi2*)&(heishi2Temp->actor.type); // what is going on here ???
     } while (phi_v1 != 10);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(thisx);

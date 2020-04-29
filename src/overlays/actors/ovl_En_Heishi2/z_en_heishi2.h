@@ -35,7 +35,8 @@ typedef struct {
     /* 0x0300 */ s16 unk_300; // mask related
     /* 0x0302 */ char unk_302[0x6];
     /* 0x0308 */ u8 audioFlag;
-    /* 0x0309 */ char unk_309[0x3];
+    /* 0x0309 */ char unk_309[0x2];
+    /* 0x030B */ u8 unk_30B;
     /* 0x030C */ u8 unk_30C;
     /* 0x030D */ char unk_30D;
     /* 0x030E */ s16 unk_30E;
