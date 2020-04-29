@@ -6,8 +6,6 @@
 DATA
 */
 
-
-
 // Non-matchings functions marked with CLOSE are either a matter of regalloc or stack size and can possibly be fixed
 // with the permutator.
 
@@ -138,7 +136,7 @@ Vec3f* func_80043BC4(Vec3f* a, Vec3s* b) {
     return a;
 }
 
-Vec3f* func_80043C28(Vec3f* a, Vec3f* b, struct_80045714* c) {
+Vec3f* func_80043C28(Vec3f* a, Vec3f* b, VecSph* c) {
     Vec3f sp24, sp18;
     func_8007C25C(&sp18, c);
 
@@ -167,11 +165,11 @@ s32 func_80043D18(Camera* camera, Vec3f* b, struct_80043D18* c) {
     f32 temp_ret;
     CollisionPoly* sp48;
     s32 sp44;
-    struct_80045714 sp3C;
+    VecSph sp3C;
 
     colCtx = &camera->globalCtx->colCtx;
     func_8007C490(&sp3C, b, &c->unk_00);
-    sp3C.unk_00 += 8.0f;
+    sp3C.r += 8.0f;
     func_80043C28(&sp5C, b, &sp3C);
 
     if (func_8003DD6C(colCtx, b, &sp5C, &sp68, &c->unk_18, 1, 1, 1, -1, &c->unk_24) == 0) {
@@ -417,12 +415,12 @@ void* func_8004545C(Vec3f* a, s32 b, s32 c, struct_80043D18* d, struct_80043D18*
 #ifdef NON_MATCHING
 // CLOSE: stack is 4 bytes too big
 f32 func_80045714(Vec3f* a, s16 b, s16 c, f32 arg3) {
-    struct_80045714 sp1C;
+    VecSph sp1C;
     f32 sp18;
 
     func_8007C3F4(&sp1C, a);
-    sp18 = Math_Coss(sp1C.unk_04);
-    sp18 = fabsf(Math_Coss(b - sp1C.unk_06) * sp18);
+    sp18 = Math_Coss(sp1C.phi);
+    sp18 = fabsf(Math_Coss(b - sp1C.theta) * sp18);
     return Math_Coss(b - c) * (sp18 * arg3);
 }
 #else
@@ -432,7 +430,7 @@ f32 func_80045714(Vec3f* a, s16 b, s16 c, f32 arg3);
 
 f32 func_8007C0A8(f32, f32);
 
-s32 func_800457A8(Camera* camera, struct_80045714* b, f32 c, s16 d) {
+s32 func_800457A8(Camera* camera, VecSph* b, f32 c, s16 d) {
     f32 unused;
     Vec3f sp50;
     Vec3f sp44;
@@ -448,7 +446,7 @@ s32 func_800457A8(Camera* camera, struct_80045714* b, f32 c, s16 d) {
 
     sp2C = &camera->unk_94;
     if (d != 0) {
-        sp50.y -= func_8007C0A8(func_80045714(&camera->unk_108, sp2C->rot.y, b->unk_06, OREG(9)), temp_ret);
+        sp50.y -= func_8007C0A8(func_80045714(&camera->unk_108, sp2C->rot.y, b->theta, OREG(9)), temp_ret);
     }
     func_80043A3C(&sp50, &camera->unk_E4, camera->unk_CC.y, camera->unk_CC.x, 0.1f);
 
@@ -464,7 +462,7 @@ f32 func_8007C028(Vec3f*, Vec3f*);
 
 #ifdef NON_MATCHING
 // CLOSE: regalloc
-s32 func_800458D4(Camera* camera, struct_80045714* b, f32 c, f32* d, s16 e) {
+s32 func_800458D4(Camera* camera, VecSph* b, f32 c, f32* d, s16 e) {
     f32 phi_f2;
     Vec3f sp60;
     Vec3f sp54;
@@ -479,7 +477,7 @@ s32 func_800458D4(Camera* camera, struct_80045714* b, f32 c, f32* d, s16 e) {
 
     temp_s1 = &camera->unk_94;
     if (e != 0) {
-        sp60.y -= func_80045714(&camera->unk_108, temp_s1->rot.y, b->unk_06, OREG(9));
+        sp60.y -= func_80045714(&camera->unk_108, temp_s1->rot.y, b->theta, OREG(9));
     }
 
     sp48 = temp_s1->pos.y - *d;
@@ -507,7 +505,7 @@ s32 func_800458D4(Camera* camera, struct_80045714* b, f32 c, f32* d, s16 e) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800458D4.s")
 #endif
 
-s32 func_80045B08(Camera* camera, struct_80045714* b, f32 c, s16 d) {
+s32 func_80045B08(Camera* camera, VecSph* b, f32 c, s16 d) {
     f32 phi_f2;
     Vec3f sp48;
     Vec3f sp3C;
@@ -523,9 +521,9 @@ s32 func_80045B08(Camera* camera, struct_80045714* b, f32 c, s16 d) {
     temp_s1 = &camera->unk_94;
 
     if (temp_ret < 0.0f) {
-        phi_f2 = Math_Coss(temp_s1->rot.y - b->unk_06);
+        phi_f2 = Math_Coss(temp_s1->rot.y - b->theta);
     } else {
-        phi_f2 = -Math_Coss(temp_s1->rot.y - b->unk_06);
+        phi_f2 = -Math_Coss(temp_s1->rot.y - b->theta);
     }
 
     sp48.y -= temp_ret * phi_f2 * OREG(9);
@@ -541,7 +539,7 @@ s32 func_80045B08(Camera* camera, struct_80045714* b, f32 c, s16 d) {
 
 /*
 // someone who's not me can have fun with this function
-s32 func_80045C74(Camera* camera, struct_80045714* b, f32 c, f32* d, s16 arg4) {
+s32 func_80045C74(Camera* camera, VecSph* b, f32 c, f32* d, s16 arg4) {
     Vec3f sp70;
     Vec3f sp64;
     f32 sp54;
@@ -618,7 +616,7 @@ s32 func_80045C74(Camera* camera, struct_80045714* b, f32 c, f32* d, s16 arg4) {
 // 421 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800460A8.s")
 
-s32 func_800466F8(Camera* camera, struct_80045714* b, f32 c, f32* d, s16 e) {
+s32 func_800466F8(Camera* camera, VecSph* b, f32 c, f32* d, s16 e) {
     s32 phi_v0;
     Vec3f sp60;
     Vec3f sp54;
@@ -651,7 +649,7 @@ s32 func_800466F8(Camera* camera, struct_80045714* b, f32 c, f32* d, s16 e) {
     sp60.y = sp48 + c;
 
     if (e != 0) {
-        sp60.y -= func_80045714(&camera->unk_108, camera->unk_94.rot.y, b->unk_06, OREG(9));
+        sp60.y -= func_80045714(&camera->unk_108, camera->unk_94.rot.y, b->theta, OREG(9));
     }
 
     func_80043A3C(&sp60, &camera->unk_E4, camera->unk_CC.y, camera->unk_CC.x, 0.1f);
@@ -919,7 +917,7 @@ s32 func_800529F8(Camera* camera) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80052B90.s")
 
-s32 func_80052DEC(Camera *camera) {
+s32 func_80052DEC(Camera* camera) {
     return func_80047394(camera);
 }
 
@@ -1030,13 +1028,17 @@ void func_80057C14(Camera* camera) {
 #ifdef NON_MATCHING
 
 s16 D_80119EE0[] = {
-    0xC471, 0xC000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0005, 0x0005, 0x0005, 0x38A4, 0x0014, 0x0010, 0x0096, 0x0019, 0x0096, 0x0006, 0x000A, 0x000A, 0x0000, 0x0000, 0x0001, 0x0064, 0x00FA, 0x0078, 0x0050, 0x001E, 0x0078, 0x0004, 0x0001, 0x0032, 0x0014, 0x0708, 0x0032, 0x0032, 0x0032, 0x0014, 0x0014, 0xFFF6, 0xEAAC, 0xDC74, 0xFFFA, 0x0008, 0x000F, 0x004B, 0x003C, 0x000C, 0x006E, 0x0028, 0x0032, 0x00FA,
+    0xC471, 0xC000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0005, 0x0005, 0x0005, 0x38A4,
+    0x0014, 0x0010, 0x0096, 0x0019, 0x0096, 0x0006, 0x000A, 0x000A, 0x0000, 0x0000, 0x0001, 0x0064, 0x00FA, 0x0078,
+    0x0050, 0x001E, 0x0078, 0x0004, 0x0001, 0x0032, 0x0014, 0x0708, 0x0032, 0x0032, 0x0032, 0x0014, 0x0014, 0xFFF6,
+    0xEAAC, 0xDC74, 0xFFFA, 0x0008, 0x000F, 0x004B, 0x003C, 0x000C, 0x006E, 0x0028, 0x0032, 0x00FA,
 };
 
 s16 D_80119F4C = 53;
 
 s16 D_80119F50[] = {
-    0xFFEC, 0x00C8, 0x012C, 0x000A, 0x000C, 0x000A, 0x0023, 0x003C, 0x003C, 0x0003, 0x0000, 0xFFD8, 0x0014, 0x0019, 0x002D, 0xFFFB, 0x000F, 0x000F, 0x0014, 0x0000, 0x0000, 0x0000, 0x0006, 0x003C, 0x001E, 0x0000, 0x0005,
+    0xFFEC, 0x00C8, 0x012C, 0x000A, 0x000C, 0x000A, 0x0023, 0x003C, 0x003C, 0x0003, 0x0000, 0xFFD8, 0x0014, 0x0019,
+    0x002D, 0xFFFB, 0x000F, 0x000F, 0x0014, 0x0000, 0x0000, 0x0000, 0x0006, 0x003C, 0x001E, 0x0000, 0x0005,
 };
 
 s16 D_80119F88 = 27;
@@ -1065,11 +1067,11 @@ void func_80057C6C(Camera* camera, View* view, CollisionContext* colCtx, GlobalC
     s32 temp_v1;
     s32 temp_v1_2;
     s16 temp_v1_3;
-    Camera *temp_t8;
-    void *phi_a0;
+    Camera* temp_t8;
+    void* phi_a0;
     s32 phi_v0;
     s32 phi_v1;
-    void *phi_a0_2;
+    void* phi_a0_2;
     s32 phi_v0_2;
     s32 phi_v1_2;
     s32 phi_a1;
@@ -1079,11 +1081,11 @@ void func_80057C6C(Camera* camera, View* view, CollisionContext* colCtx, GlobalC
 
     func_80106860(camera, 0, sizeof(*camera));
     if (D_8011D390 != 0) {
-        for(phi_v1 = 0; phi_v1 < D_80119F4C; phi_v1++){
+        for (phi_v1 = 0; phi_v1 < D_80119F4C; phi_v1++) {
             QREG(phi_v1) = D_80119EE0[phi_v1];
         }
 
-        for(phi_v1 = 0; phi_v1 < D_80119F88; phi_v1++){
+        for (phi_v1 = 0; phi_v1 < D_80119F88; phi_v1++) {
             YREG(phi_v1) = D_80119F50[phi_v1];
         }
 
@@ -1093,18 +1095,18 @@ void func_80057C6C(Camera* camera, View* view, CollisionContext* colCtx, GlobalC
     }
     camera->globalCtx = D_8015BD7C = globalCtx;
     func_800B4D58(&D_8015BD80, camera);
-    temp_a1 = (s32) (D_8011D39C << 0x10) >> 0x10;
+    temp_a1 = (s32)(D_8011D39C << 0x10) >> 0x10;
     D_8011D39C++;
     phi_a1_2 = temp_a1;
     if (temp_a1 != 0) {
 
         phi_a1 = temp_a1;
-loop_11:
+    loop_11:
         if (phi_a1 == 0) {
-            D_8011D39C = (s16) (D_8011D39C + 1);
+            D_8011D39C = (s16)(D_8011D39C + 1);
         }
         phi_v1_3 = 0;
-loop_14:
+    loop_14:
         temp_t8 = camera->globalCtx->cameraPtrs[phi_v1_3];
         if ((temp_t8 == 0) || (phi_v1_4 = phi_v1_3, (phi_a1 != temp_t8->uid))) {
             temp_v1_3 = phi_v1_3 + 1;
@@ -1115,7 +1117,7 @@ loop_14:
             }
         }
 
-        phi_a1_2 = (s16) phi_a1;
+        phi_a1_2 = (s16)phi_a1;
         if (phi_v1_4 != 4) {
             temp_a1_2 = D_8011D39C;
             D_8011D39C++;
@@ -1166,7 +1168,6 @@ loop_14:
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057C6C.s")
 #endif
-#undef NON_MATCHING
 
 s32 func_8005AD40(Camera* camera, s32 a, s16 b, f32 c, s16 d, s16 e, s16 f);
 
@@ -1206,20 +1207,29 @@ void Camera_Stub80058140(Camera* camera) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80058148.s")
 
 typedef struct {
+    s16 val;
+    s16 preg;
+} PRegSet;
+typedef struct {
+    s16 unk_00;
+    s16 unk_02;
+    PRegSet* unk_04;
+} unk_D_8011D064_unk4;
+typedef struct {
     s32 unk_00;
-    void* unk_04;
+    unk_D_8011D064_unk4* unk_04;
 } unk_D_8011D064;
 extern unk_D_8011D064 D_8011D064[];
 
 // 109 lines (unknown arrays)
 #ifdef NON_MATCHING
-void Camera_ChangeStatus(Camera *camera, s16 status) {
+void Camera_ChangeStatus(Camera* camera, s16 status) {
     s32 temp_s1;
-    void *temp_v0;
+    unk_D_8011D064_unk4* temp_v0;
     s32 phi_a1;
     s32 phi_a2;
     s16 phi_v0;
-    void *phi_s0;
+    PRegSet* phi_s0;
     s32 phi_s1;
 
     if (PREG(82)) {
@@ -1231,19 +1241,19 @@ void Camera_ChangeStatus(Camera *camera, s16 status) {
         osSyncPrintf("camera: res: stat (%d/%d/%d)\n", camera->unk_164, camera->unk_142, camera->unk_144);
     }
     if (status == 7 && camera->status != 7) {
-        temp_v0 = (&D_8011D064 + (camera->unk_142 * 8))->unk4 + (camera->unk_144 * 8);
-        if (temp_v0->unk2 > 0) {
-            phi_s0 = temp_v0->unk4;
+        temp_v0 = &D_8011D064[camera->unk_142].unk_04[camera->unk_144];
+        if (temp_v0->unk_02 > 0) {
+            phi_s0 = temp_v0->unk_04;
             phi_s1 = 0;
-loop_12:
-            (gGameInfo + (phi_s0->unk2 * 2))->unk254 = (s16) phi_s0->unk0;
-            if (gGameInfo->unk2F8 != 0) {
-                osSyncPrintf("camera: change camera status: PREG(%02d) = %d\n", phi_s0->unk2, phi_s0->unk0);
+        loop_12:
+            PREG(phi_s0->preg) = phi_s0->val;
+            if (PREG(82) != 0) {
+                osSyncPrintf("camera: change camera status: PREG(%02d) = %d\n", phi_s0->preg, phi_s0->val);
             }
             temp_s1 = phi_s1 + 1;
             phi_s0 = phi_s0 + 4;
             phi_s1 = temp_s1;
-            if (temp_s1 < ((&D_8011D064 + (camera->unk_142 * 8))->unk4 + (camera->unk_144 * 8))->unk2) {
+            if (temp_s1 < D_8011D064[camera->unk_142].unk_04[camera->unk_144].unk_02) {
                 goto loop_12;
             }
         }
@@ -1345,7 +1355,7 @@ char D_80119F8C[][12] = {
 #endif
 extern GlobalContext* D_8015BD7C;
 extern s32 D_8011D398;
-s32 func_80058D34(Camera *camera) {
+s32 func_80058D34(Camera* camera) {
     s32 phi_a2 = 0;
 
     if (D_8011D394 == 0) {
@@ -1429,12 +1439,11 @@ s32 func_8005A02C(Camera* camera) {
 }
 
 // 275 lines (has 2 jtbls)
-#undef NON_MATCHING
 #ifdef NON_MATCHING
 extern char D_8011A2A4[21][12];
 extern char D_80119F8C[66][12];
 extern s32 D_8011DB14;
-s32 func_8005A04C(Camera *camera, s16 type, u8 arg2) {
+s32 func_8005A04C(Camera* camera, s16 type, u8 arg2) {
     s32 phi_v0;
     u32 temp_t8;
     s32 phi_at;
@@ -1446,21 +1455,22 @@ s32 func_8005A04C(Camera *camera, s16 type, u8 arg2) {
     if ((camera->unk_14C & 0x20) && (arg2 == 0)) {
         camera->unk_14A |= 0x20;
         return -1;
-    } else if(!((D_8011D064[camera->unk_142].unk_00 & 0x3FFFFFFF) & (1 << type))){
+    } else if (!((D_8011D064[camera->unk_142].unk_00 & 0x3FFFFFFF) & (1 << type))) {
         if (type == 6) {
             camera = camera;
             osSyncPrintf("camera: error sound\n", camera);
             func_80078884(NA_SE_SY_ERROR);
         }
         if (camera->unk_144 != 0) {
-            osSyncPrintf("\x1b[43;30mcamera: change camera mode: force NORMAL: %s %s refused\n\x1b[m", D_80119F8C[camera->unk_142], D_8011A2A4[type]);
+            osSyncPrintf("\x1b[43;30mcamera: change camera mode: force NORMAL: %s %s refused\n\x1b[m",
+                         D_80119F8C[camera->unk_142], D_8011A2A4[type]);
             camera->unk_144 = 0;
             func_80045128(camera, camera->unk_144);
             func_8005A02C(camera);
             phi_at = 0xC0000000;
         } else {
-            camera->unk_14A = (s16) (camera->unk_14A | 0x20);
-            camera->unk_14A = (s16) (camera->unk_14A | 2);
+            camera->unk_14A = (s16)(camera->unk_14A | 0x20);
+            camera->unk_14A = (s16)(camera->unk_14A | 2);
             return 0;
         }
     } else if ((type == camera->unk_144) && (arg2 == 0)) {
@@ -1474,7 +1484,7 @@ s32 func_8005A04C(Camera *camera, s16 type, u8 arg2) {
         func_80045128(camera, type);
         temp_t8 = type - 1;
         phi_v0 = 0;
-        switch(type){
+        switch (type) {
             default:
                 break;
             case 5: // switch 1
@@ -1485,23 +1495,23 @@ s32 func_8005A04C(Camera *camera, s16 type, u8 arg2) {
                 break;
             case 1: // switch 1
                 phi_v0 = 0;
-                if (camera->unk_A8 != 0) {
+                if (camera->unk_A8 != NULL) {
                     phi_v0 = 0;
-                    if (*camera->unk_A8 != 0x32) {
+                    if (camera->unk_A8->x != 0x32) {
                         phi_v0 = 8;
                     }
                 }
                 break;
-            case 0: // switch 1
-            case 2: // switch 1
-            case 7: // switch 1
+            case 0:  // switch 1
+            case 2:  // switch 1
+            case 7:  // switch 1
             case 14: // switch 1
             case 18: // switch 1
                 phi_v0 = 2;
                 break;
         }
 
-        switch(camera->unk_144){
+        switch (camera->unk_144) {
             default:
                 break;
             case 6: // switch 2
@@ -1530,7 +1540,7 @@ s32 func_8005A04C(Camera *camera, s16 type, u8 arg2) {
                 }
                 phi_v0 |= 1;
                 break;
-            case 8: // switch 2
+            case 8:  // switch 2
             case 15: // switch 2
             case 19: // switch 2
                 phi_v0 |= 1;
@@ -1544,7 +1554,7 @@ s32 func_8005A04C(Camera *camera, s16 type, u8 arg2) {
         phi_v0 &= ~0x10;
         D_8011DB14 = phi_v0;
         if (camera->status == 7) {
-            switch(phi_v0){
+            switch (phi_v0) {
                 case 1:
                     func_80078884(NA_SE_PL_WALK_GROUND);
                     break;
@@ -1604,11 +1614,11 @@ s32 func_8005A77C(Camera* camera, s16 b) {
 
 #ifdef NON_MATCHING
 // Ordering
-s32 func_8005AA90(Camera *arg0, s32 arg1, Vec3f *arg2) {
+s32 func_8005AA90(Camera* arg0, s32 arg1, Vec3f* arg2) {
     Vec3f sp4;
 
     if (arg2 != NULL) {
-        switch(arg1){
+        switch (arg1) {
             case 1:
                 arg0->unk_15C &= ~0x19;
                 arg0->at = *arg2;

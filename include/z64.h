@@ -375,12 +375,6 @@ typedef struct {
 } View; // size = 0x128
 
 typedef struct {
-    f32 unk_00;
-    s16 unk_04;
-    s16 unk_06;
-} struct_80045714; // used in z_camera.c and code_8007BF90
-
-typedef struct {
     /* 0x0000 */ s32 unk_00;
     /* 0x0004 */ s16 unk_04;
     /* 0x0006 */ s16 unk_06;

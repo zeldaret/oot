@@ -1082,7 +1082,7 @@ u8 func_80090480(GlobalContext* globalCtx, Collider* collider, UNK_PTR a2, Vec3f
 // ? func_80091880(?);
 // ? func_80091A24(?);
 void PreNMI_Init(PreNMIContext* prenmiCtx);
-Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, struct_80045714* arg2);
+Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, VecSph* arg2);
 void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x);
 s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake);
 s16 Quake_Callback2(QuakeRequest* req, ShakeInfo* shake);
