@@ -268,7 +268,40 @@ void func_80A535BC(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frames, 2, -10.0f);
     this->actionFunc = func_80A53638;
 }
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A53638.s")
+
+void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
+
+    Actor* thisx;
+    f32 frameCount;
+    BgSpot15Saku* gate;
+
+    frameCount = this->skelAnime.animCurrentFrame;
+    thisx = &this->actor;
+    gate = (BgSpot15Saku*)(globalCtx->actorCtx.actorList[7].first);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if ((frameCount >= 12.0f) && (!this->audioFlag)) {
+        Audio_PlayActorSound2(thisx, NA_SE_EV_SPEAR_HIT);
+        this->audioFlag = 1;
+    }
+    if (this->unk_2EC <= frameCount) {
+        if (gate != NULL) {
+
+            do {
+                if (ACTOR_BG_SPOT15_SAKU != gate->dyna.actor.id) {
+                    gate = (BgSpot15Saku*)(gate->dyna.actor.next);
+                }
+
+                else {
+                    this->attached = gate;
+                    gate->unk_168 = 1;
+                    break;
+                }
+            } while (gate != NULL);
+        }
+        osSyncPrintf("\x1b[35m☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n\x1b[m", gate->dyna.actor.next);
+        this->actionFunc = func_80A5372C;
+    }
+}
 
 void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f,
@@ -394,10 +427,6 @@ void func_80A54038(EnHeishi2* this, GlobalContext* globalCtx) {
     }
 }
 
-//
-
-#ifdef NON_MATCHING
-// regalloc
 void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
@@ -408,7 +437,7 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
                 func_8008F08C(globalCtx);
                 gSaveContext.infTable[7] |= 0x80;
                 gSaveContext.itemGetInf[3] |= 0x100;
-                Item_Give(globalCtx, 0x2C);
+                Item_Give(globalCtx, ITEM_SOLD_OUT);
                 if (this->unk_30A != 0) {
                     this->unk_30A = 2;
                     this->unk_30E = 1;
@@ -419,6 +448,7 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
                     this->unk_30E = 0;
                     this->actionFunc = func_80A541FC;
                 }
+
                 break;
 
             case 1:
@@ -436,9 +466,6 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A540C0.s")
-#endif
 
 void func_80A541FC(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);

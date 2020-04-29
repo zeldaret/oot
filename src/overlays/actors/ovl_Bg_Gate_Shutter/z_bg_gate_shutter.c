@@ -43,9 +43,7 @@ void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx) {
     DynaPolyInfo_SetActorMove(thisx, 0);
     DynaPolyInfo_Alloc(&D_06001DA8, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
-    this->somePosX = thisx->posRot.pos.x;
-    this->somePosY = thisx->posRot.pos.y;
-    this->somePosZ = thisx->posRot.pos.z;
+    VEC_SET(this->somePos, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z);
     if ((gSaveContext.infTable[7] & 0x40) || (gSaveContext.eventChkInf[4] & 0x20)) {
         if (globalCtx->sceneNum == SCENE_SPOT01) {
             thisx->posRot.pos.x = -89.0f;

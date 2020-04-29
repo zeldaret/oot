@@ -6,6 +6,7 @@
 #include <vt.h>
 #include "../ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
 #include "../ovl_En_Bom/z_en_bom.h"
+#include "../ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 
 typedef struct {
     /* 0x0000 */ Actor actor;
