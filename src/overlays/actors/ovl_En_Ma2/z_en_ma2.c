@@ -164,15 +164,15 @@ u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
     if (gSaveContext.linkAge == 1) {
         return 0;
     }
-    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == 0x36) && (gSaveContext.nightFlag == 0) &&
-        (this->actor.shape.rot.z == 5)) {
+    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_MALON_STABLE) &&
+        (gSaveContext.nightFlag == 0) && (this->actor.shape.rot.z == 5)) {
         return 1;
     }
-    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == 0x63) && (gSaveContext.nightFlag == 1) &&
-        (this->actor.shape.rot.z == 6)) {
+    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_SPOT20) &&
+        (gSaveContext.nightFlag == 1) && (this->actor.shape.rot.z == 6)) {
         return 2;
     }
-    if ((!(gSaveContext.eventChkInf[1] & 0x100)) || (globalCtx->sceneNum != 0x63)) {
+    if ((!(gSaveContext.eventChkInf[1] & 0x100)) || (globalCtx->sceneNum != SCENE_SPOT20)) {
         return 0;
     }
     if ((this->actor.shape.rot.z == 7) && (gSaveContext.nightFlag == 0)) {
@@ -398,7 +398,7 @@ void EnMa2_Draw(EnMa2* this, GlobalContext* globalCtx) {
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma2.c", 955);
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
-    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->unk_5C);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
