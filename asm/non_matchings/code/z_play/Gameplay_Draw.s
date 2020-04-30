@@ -336,15 +336,15 @@ glabel Gameplay_Draw
 /* B36464 800BF2C4 8FAF01D0 */  lw    $t7, 0x1d0($sp)
 /* B36468 800BF2C8 AE2F02C0 */  sw    $t7, 0x2c0($s1)
 .L800BF2CC:
-/* B3646C 800BF2CC 3C188016 */  lui   $t8, %hi(trnsnUnkState) # $t8, 0x8016
-/* B36470 800BF2D0 8F181490 */  lw    $t8, %lo(trnsnUnkState)($t8)
+/* B3646C 800BF2CC 3C188016 */  lui   $t8, %hi(gTrnsnUnkState) # $t8, 0x8016
+/* B36470 800BF2D0 8F181490 */  lw    $t8, %lo(gTrnsnUnkState)($t8)
 /* B36474 800BF2D4 24010003 */  li    $at, 3
 /* B36478 800BF2D8 24050140 */  li    $a1, 320
 /* B3647C 800BF2DC 1701000D */  bne   $t8, $at, .L800BF314
 /* B36480 800BF2E0 240600F0 */   li    $a2, 240
 /* B36484 800BF2E4 8E2902C0 */  lw    $t1, 0x2c0($s1)
-/* B36488 800BF2E8 3C048016 */  lui   $a0, %hi(trnsnUnk) # $a0, 0x8016
-/* B3648C 800BF2EC 248413B0 */  addiu $a0, %lo(trnsnUnk) # addiu $a0, $a0, 0x13b0
+/* B36488 800BF2E8 3C048016 */  lui   $a0, %hi(sTrnsnUnk) # $a0, 0x8016
+/* B3648C 800BF2EC 248413B0 */  addiu $a0, %lo(sTrnsnUnk) # addiu $a0, $a0, 0x13b0
 /* B36490 800BF2F0 27A50088 */  addiu $a1, $sp, 0x88
 /* B36494 800BF2F4 0C02C862 */  jal   TransitionUnk_Draw
 /* B36498 800BF2F8 AFA90088 */   sw    $t1, 0x88($sp)
@@ -787,10 +787,10 @@ glabel Gameplay_Draw
 /* B36AD0 800BF930 844B0190 */  lh    $t3, 0x190($v0)
 .L800BF934:
 /* B36AD4 800BF934 24010001 */  li    $at, 1
-/* B36AD8 800BF938 3C0D8016 */  lui   $t5, %hi(trnsnUnkState) # $t5, 0x8016
+/* B36AD8 800BF938 3C0D8016 */  lui   $t5, %hi(gTrnsnUnkState) # $t5, 0x8016
 /* B36ADC 800BF93C 11610005 */  beq   $t3, $at, .L800BF954
 /* B36AE0 800BF940 3C0F8017 */   lui   $t7, %hi(D_801759C0) # $t7, 0x8017
-/* B36AE4 800BF944 8DAD1490 */  lw    $t5, %lo(trnsnUnkState)($t5)
+/* B36AE4 800BF944 8DAD1490 */  lw    $t5, %lo(gTrnsnUnkState)($t5)
 /* B36AE8 800BF948 24010001 */  li    $at, 1
 /* B36AEC 800BF94C 55A10030 */  bnel  $t5, $at, .L800BFA10
 /* B36AF0 800BF950 84431074 */   lh    $v1, 0x1074($v0)
@@ -828,8 +828,8 @@ glabel Gameplay_Draw
 /* B36B6C 800BF9CC 10000003 */  b     .L800BF9DC
 /* B36B70 800BF9D0 A56A0190 */   sh    $t2, 0x190($t3)
 .L800BF9D4:
-/* B36B74 800BF9D4 3C018016 */  lui   $at, %hi(trnsnUnkState) # $at, 0x8016
-/* B36B78 800BF9D8 AC2D1490 */  sw    $t5, %lo(trnsnUnkState)($at)
+/* B36B74 800BF9D4 3C018016 */  lui   $at, %hi(gTrnsnUnkState) # $at, 0x8016
+/* B36B78 800BF9D8 AC2D1490 */  sw    $t5, %lo(gTrnsnUnkState)($at)
 .L800BF9DC:
 /* B36B7C 800BF9DC 8FAC0070 */  lw    $t4, 0x70($sp)
 /* B36B80 800BF9E0 3C010001 */  lui   $at, 1

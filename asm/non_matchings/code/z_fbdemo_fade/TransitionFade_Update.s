@@ -5,7 +5,7 @@ glabel D_801430C0
     .balign 4
 
 .text
-glabel TransitionFade_Move
+glabel TransitionFade_Update
 /* B2A708 800B3568 27BDFFD0 */  addiu $sp, $sp, -0x30
 /* B2A70C 800B356C AFBF0014 */  sw    $ra, 0x14($sp)
 /* B2A710 800B3570 90820000 */  lbu   $v0, ($a0)

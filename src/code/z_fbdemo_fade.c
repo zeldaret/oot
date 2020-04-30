@@ -36,7 +36,7 @@ void TransitionFade_Destroy(TransitionFade* this) {
 }
 
 #ifdef NON_MATCHING
-void TransitionFade_Move(TransitionFade* this, s32 updateRate) {
+void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
     char pad[2];
     s16 newAlpha;
     s32 alpha;
@@ -77,7 +77,7 @@ void TransitionFade_Move(TransitionFade* this, s32 updateRate) {
     }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo_fade/TransitionFade_Move.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo_fade/TransitionFade_Update.s")
 #endif
 
 void TransitionFade_Draw(TransitionFade* this, Gfx** gfxP) {

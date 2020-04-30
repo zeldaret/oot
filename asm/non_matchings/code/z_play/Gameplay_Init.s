@@ -392,8 +392,8 @@ glabel Gameplay_Init
 /* B34124 800BCF84 00003825 */  move  $a3, $zero
 /* B34128 800BCF88 0C0303B6 */  jal   func_800C0ED8
 /* B3412C 800BCF8C AFA00010 */   sw    $zero, 0x10($sp)
-/* B34130 800BCF90 3C018016 */  lui   $at, %hi(trnsnUnkState) # $at, 0x8016
-/* B34134 800BCF94 AC201490 */  sw    $zero, %lo(trnsnUnkState)($at)
+/* B34130 800BCF90 3C018016 */  lui   $at, %hi(gTrnsnUnkState) # $at, 0x8016
+/* B34134 800BCF94 AC201490 */  sw    $zero, %lo(gTrnsnUnkState)($at)
 /* B34138 800BCF98 3C010001 */  lui   $at, 1
 /* B3413C 800BCF9C 00310821 */  addu  $at, $at, $s1
 /* B34140 800BCFA0 A020241B */  sb    $zero, 0x241b($at)

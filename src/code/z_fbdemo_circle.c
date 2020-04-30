@@ -307,9 +307,9 @@ void TransitionCircle_Start(TransitionCircle* this) {
     }
 
     if (this->typeColor == 0) {
-        this->color.rgba = 0x000000FF;
+        this->color.rgba = RGBA8(0x00, 0x00, 0x00, 0xFF);
     } else if (this->typeColor == 1) {
-        this->color.rgba = 0xA0A0A0FF;
+        this->color.rgba = RGBA8(0xA0, 0xA0, 0xA0, 0xFF);
     } else if (this->typeColor == 2) {
         // yes, really.
         this->color.r = 0x64;
@@ -318,7 +318,7 @@ void TransitionCircle_Start(TransitionCircle* this) {
         this->color.a = 0xFF;
     } else {
         this->step = 0x28;
-        this->color.rgba = this->effect == 1 ? 0x000000FF : 0xA0A0A0FF;
+        this->color.rgba = this->effect == 1 ? RGBA8(0x00, 0x00, 0x00, 0xFF) : RGBA8(0xA0, 0xA0, 0xA0, 0xFF);
     }
     if (this->unk_14 != 0) {
         this->texY = 0;
@@ -343,7 +343,7 @@ TransitionCircle* TransitionCircle_Init(TransitionCircle* this) {
 void TransitionCircle_Destroy(TransitionCircle* this) {
 }
 
-void TransitionCircle_Move(TransitionCircle* this, s32 updateRate) {
+void TransitionCircle_Update(TransitionCircle* this, s32 updateRate) {
     s32 temp_t2;
     s32 temp_t3;
 

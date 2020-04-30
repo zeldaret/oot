@@ -183,7 +183,7 @@ TransitionWipe* TransitionWipe_Init(TransitionWipe* this) {
 void TransitionWipe_Destroy(TransitionWipe* this) {
 }
 
-void TransitionWipe_Move(TransitionWipe* this, s32 updateRate) {
+void TransitionWipe_Update(TransitionWipe* this, s32 updateRate) {
     u8 unk1419;
 
     if (this->direction != 0) {

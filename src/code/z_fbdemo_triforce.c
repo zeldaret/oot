@@ -43,7 +43,7 @@ TransitionTriforce* TransitionTriforce_Init(TransitionTriforce* this) {
 void TransitionTriforce_Destroy(TransitionTriforce* this) {
 }
 
-void TransitionTriforce_Move(TransitionTriforce* this, s32 updateRate) {
+void TransitionTriforce_Update(TransitionTriforce* this, s32 updateRate) {
     f32 temp_f0;
     s32 i;
     for (i = updateRate; i > 0; i--) {
