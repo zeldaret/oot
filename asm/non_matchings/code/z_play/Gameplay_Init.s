@@ -392,8 +392,8 @@ glabel Gameplay_Init
 /* B34124 800BCF84 00003825 */  move  $a3, $zero
 /* B34128 800BCF88 0C0303B6 */  jal   func_800C0ED8
 /* B3412C 800BCF8C AFA00010 */   sw    $zero, 0x10($sp)
-/* B34130 800BCF90 3C018016 */  lui   $at, %hi(D_80161490) # $at, 0x8016
-/* B34134 800BCF94 AC201490 */  sw    $zero, %lo(D_80161490)($at)
+/* B34130 800BCF90 3C018016 */  lui   $at, %hi(gTrnsnUnkState) # $at, 0x8016
+/* B34134 800BCF94 AC201490 */  sw    $zero, %lo(gTrnsnUnkState)($at)
 /* B34138 800BCF98 3C010001 */  lui   $at, 1
 /* B3413C 800BCF9C 00310821 */  addu  $at, $at, $s1
 /* B34140 800BCFA0 A020241B */  sb    $zero, 0x241b($at)
@@ -463,16 +463,16 @@ glabel Gameplay_Init
 /* B34234 800BD094 3C010001 */  lui   $at, (0x0001241C >> 16) # lui $at, 1
 /* B34238 800BD098 3421241C */  ori   $at, (0x0001241C & 0xFFFF) # ori $at, $at, 0x241c
 /* B3423C 800BD09C 02218021 */  addu  $s0, $s1, $at
-/* B34240 800BD0A0 0C02CD4E */  jal   func_800B3538
+/* B34240 800BD0A0 0C02CD4E */  jal   TransitionFade_Init
 /* B34244 800BD0A4 02002025 */   move  $a0, $s0
 /* B34248 800BD0A8 02002025 */  move  $a0, $s0
-/* B3424C 800BD0AC 0C02CDFB */  jal   func_800B37EC
+/* B3424C 800BD0AC 0C02CDFB */  jal   TransitionFade_SetType
 /* B34250 800BD0B0 24050003 */   li    $a1, 3
 /* B34254 800BD0B4 3C05A0A0 */  lui   $a1, (0xA0A0A0FF >> 16) # lui $a1, 0xa0a0
 /* B34258 800BD0B8 34A5A0FF */  ori   $a1, (0xA0A0A0FF & 0xFFFF) # ori $a1, $a1, 0xa0ff
-/* B3425C 800BD0BC 0C02CDF9 */  jal   func_800B37E4
+/* B3425C 800BD0BC 0C02CDF9 */  jal   TransitionFade_SetColor
 /* B34260 800BD0C0 02002025 */   move  $a0, $s0
-/* B34264 800BD0C4 0C02CD38 */  jal   func_800B34E0
+/* B34264 800BD0C4 0C02CD38 */  jal   TransitionFade_Start
 /* B34268 800BD0C8 02002025 */   move  $a0, $s0
 /* B3426C 800BD0CC 3C048016 */  lui   $a0, %hi(D_80161498) # $a0, 0x8016
 /* B34270 800BD0D0 0C02B400 */  jal   func_800AD000

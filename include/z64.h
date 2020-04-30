@@ -17,6 +17,7 @@
 #include <z64animation.h>
 #include <z64dma.h>
 #include <z64math.h>
+#include <z64transition.h>
 #include <bgm.h>
 #include <sfx.h>
 #include <color.h>
@@ -909,27 +910,24 @@ typedef struct {
 } PreRenderContext; // size = 0xA4
 
 typedef struct {
-    /* 0x00 */ char unk_00[0xDC];
-    /* 0xDC */ u16* unk_DC;
-} TransitionStruct; // size = 0xE0
-
-typedef struct {
-    /* 0x000 */ char   unk_00[0x228];
-    /* 0x228 */ s32    unk_228;
-    /* 0x22C */ void (*unk_22C)(UNK_ARGS);
-    /* 0x230 */ void (*unk_230)(UNK_ARGS);
-    /* 0x234 */ void (*unk_234)(UNK_ARGS);
-    /* 0x238 */ void (*unk_238)(UNK_ARGS);
-    /* 0x23C */ void (*unk_23C)(UNK_ARGS);
-    /* 0x240 */ void (*unk_240)(UNK_ARGS);
-    /* 0x244 */ void (*unk_244)(UNK_ARGS);
-    /* 0x248 */ void (*unk_248)(UNK_ARGS);
-    /* 0x24C */ s32  (*unk_24C)(UNK_ARGS);
+    union {
+        TransitionFade fade;
+        TransitionCircle circle;
+        TransitionTriforce triforce;
+        TransitionWipe wipe;
+        char data[0x228];
+    };
+    /* 0x228 */ s32    transitionType;
+    /* 0x22C */ void* (*init)(void* transition);
+    /* 0x230 */ void  (*destroy)(void* transition);
+    /* 0x234 */ void  (*update)(void* transition, s32 updateRate);
+    /* 0x238 */ void  (*draw)(void* transition, Gfx** gfxP);
+    /* 0x23C */ void  (*start)(void* transition);
+    /* 0x240 */ void  (*setType)(void* transition, s32 type);
+    /* 0x244 */ void  (*setColor)(void* transition, u32 color);
+    /* 0x248 */ void  (*setEnvColor)(void* transition, u32 color);
+    /* 0x24C */ s32   (*isDone)(void* transition);
 } TransitionContext; // size = 0x250
-
-typedef struct {
-    /* 0x00 */ char unk_00[0x0C];
-} SubGlobalContext1241C; // size = 0xC
 
 typedef struct {
     /* 0x00 */ s16   id;
@@ -1083,8 +1081,8 @@ typedef struct GlobalContext {
     /* 0x12124 */ PreRenderContext preRenderCtx;
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];
-    /* 0x1241B */ u8 unk_1241B; // "fbdemo_wipe_modem"
-    /* 0x1241C */ SubGlobalContext1241C sub_1241C;
+    /* 0x1241B */ u8 transitionMode; // "fbdemo_wipe_modem"
+    /* 0x1241C */ TransitionFade transitionFade;
     /* 0x12428 */ char unk_12428[0x3];
     /* 0x1242B */ u8 unk_1242B;
     /* 0x1242C */ Scene* loadedScene;

@@ -1371,21 +1371,17 @@ void func_80094D4C(GraphicsContext* gfxCtx) {
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_rcp.c", 2116);
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
-void Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height) {
+Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height) {
     Gfx* displayList = Graph_DlistAlloc(gfxp, 3 * sizeof(Gfx));
 
     gDPTileSync(displayList);
     gDPSetTileSize(displayList + 1, 0, x, y, (x + ((width - 1) << 2)), (y + ((height - 1) << 2)));
     gSPEndDisplayList(displayList + 2);
+    return displayList;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_rcp/Gfx_BranchTexScroll.s")
-#endif
 
-void func_80094E54(Gfx** gfxp, u32 x, u32 y) {
-    Gfx_BranchTexScroll(gfxp, x, y, 0, 0);
+Gfx* func_80094E54(Gfx** gfxp, u32 x, u32 y) {
+    return Gfx_BranchTexScroll(gfxp, x, y, 0, 0);
 }
 
 Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y) {
@@ -1474,7 +1470,7 @@ void func_80095248(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b) {
     gDPSetDepthImage(gfxCtx->polyXlu.p++, gZBuffer);
     gDPSetDepthImage(gfxCtx->overlay.p++, gZBuffer);
 
-    if ((R_PAUSE_MENU_MODE < 2) && (D_80161490 < 2)) {
+    if ((R_PAUSE_MENU_MODE < 2) && (gTrnsnUnkState < 2)) {
         ret = func_800B38FC();
 
         if (HREG(80) == 16) {

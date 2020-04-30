@@ -3491,7 +3491,7 @@ extern u8 D_801610DA;
 //extern ? D_801612F0;
 //extern ? D_80161358;
 //extern ? D_80161360;
-extern s32 D_80161490;
+extern s32 gTrnsnUnkState;
 extern Color_RGBA8 D_801614B0;
 //extern ? D_801664D0;
 //extern ? D_801664F0;

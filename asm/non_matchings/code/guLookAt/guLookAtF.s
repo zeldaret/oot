@@ -1,4 +1,4 @@
-glabel guLookAtReflectF
+glabel guLookAtF
 /* B78D30 80101B90 27BDFF88 */  addiu $sp, $sp, -0x78
 /* B78D34 80101B94 AFBF0044 */  sw    $ra, 0x44($sp)
 /* B78D38 80101B98 F7BE0038 */  sdc1  $f30, 0x38($sp)
@@ -36,9 +36,9 @@ glabel guLookAtReflectF
 /* B78DB8 80101C18 462A4103 */  div.d $f4, $f8, $f10
 /* B78DBC 80101C1C 46202420 */  cvt.s.d $f16, $f4
 /* B78DC0 80101C20 46101702 */  mul.s $f28, $f2, $f16
-/* B78DC4 80101C24 00000000 */  nop   
+/* B78DC4 80101C24 00000000 */  nop
 /* B78DC8 80101C28 46106182 */  mul.s $f6, $f12, $f16
-/* B78DCC 80101C2C 00000000 */  nop   
+/* B78DCC 80101C2C 00000000 */  nop
 /* B78DD0 80101C30 46107282 */  mul.s $f10, $f14, $f16
 /* B78DD4 80101C34 E7A60054 */  swc1  $f6, 0x54($sp)
 /* B78DD8 80101C38 C7A60098 */  lwc1  $f6, 0x98($sp)
@@ -79,21 +79,21 @@ glabel guLookAtReflectF
 /* B78E64 80101CC4 46245183 */  div.d $f6, $f10, $f4
 /* B78E68 80101CC8 46203520 */  cvt.s.d $f20, $f6
 /* B78E6C 80101CCC 4614B582 */  mul.s $f22, $f22, $f20
-/* B78E70 80101CD0 00000000 */  nop   
+/* B78E70 80101CD0 00000000 */  nop
 /* B78E74 80101CD4 4614C602 */  mul.s $f24, $f24, $f20
-/* B78E78 80101CD8 00000000 */  nop   
+/* B78E78 80101CD8 00000000 */  nop
 /* B78E7C 80101CDC 4614D682 */  mul.s $f26, $f26, $f20
-/* B78E80 80101CE0 00000000 */  nop   
+/* B78E80 80101CE0 00000000 */  nop
 /* B78E84 80101CE4 461AF202 */  mul.s $f8, $f30, $f26
-/* B78E88 80101CE8 00000000 */  nop   
+/* B78E88 80101CE8 00000000 */  nop
 /* B78E8C 80101CEC 46188282 */  mul.s $f10, $f16, $f24
-/* B78E90 80101CF0 00000000 */  nop   
+/* B78E90 80101CF0 00000000 */  nop
 /* B78E94 80101CF4 46168102 */  mul.s $f4, $f16, $f22
-/* B78E98 80101CF8 00000000 */  nop   
+/* B78E98 80101CF8 00000000 */  nop
 /* B78E9C 80101CFC 461AE182 */  mul.s $f6, $f28, $f26
 /* B78EA0 80101D00 460A4081 */  sub.s $f2, $f8, $f10
 /* B78EA4 80101D04 4618E202 */  mul.s $f8, $f28, $f24
-/* B78EA8 80101D08 00000000 */  nop   
+/* B78EA8 80101D08 00000000 */  nop
 /* B78EAC 80101D0C 4616F282 */  mul.s $f10, $f30, $f22
 /* B78EB0 80101D10 46062301 */  sub.s $f12, $f4, $f6
 /* B78EB4 80101D14 46021102 */  mul.s $f4, $f2, $f2
@@ -117,7 +117,7 @@ glabel guLookAtReflectF
 /* B78EFC 80101D5C C7A4007C */  lwc1  $f4, 0x7c($sp)
 /* B78F00 80101D60 C7A80080 */  lwc1  $f8, 0x80($sp)
 /* B78F04 80101D64 46162182 */  mul.s $f6, $f4, $f22
-/* B78F08 80101D68 00000000 */  nop   
+/* B78F08 80101D68 00000000 */  nop
 /* B78F0C 80101D6C 46184282 */  mul.s $f10, $f8, $f24
 /* B78F10 80101D70 C7A80084 */  lwc1  $f8, 0x84($sp)
 /* B78F14 80101D74 460A3100 */  add.s $f4, $f6, $f10
@@ -148,7 +148,7 @@ glabel guLookAtReflectF
 /* B78F78 80101DD8 E480002C */  swc1  $f0, 0x2c($a0)
 /* B78F7C 80101DDC 46085100 */  add.s $f4, $f10, $f8
 /* B78F80 80101DE0 461CD282 */  mul.s $f10, $f26, $f28
-/* B78F84 80101DE4 00000000 */  nop   
+/* B78F84 80101DE4 00000000 */  nop
 /* B78F88 80101DE8 461EC202 */  mul.s $f8, $f24, $f30
 /* B78F8C 80101DEC 46002187 */  neg.s $f6, $f4
 /* B78F90 80101DF0 E4860034 */  swc1  $f6, 0x34($a0)
@@ -168,4 +168,3 @@ glabel guLookAtReflectF
 /* B78FC8 80101E28 D7B40010 */  ldc1  $f20, 0x10($sp)
 /* B78FCC 80101E2C 03E00008 */  jr    $ra
 /* B78FD0 80101E30 27BD0078 */   addiu $sp, $sp, 0x78
-

@@ -16,7 +16,7 @@ glabel D_80142F28
     .balign 4
 
 .text
-glabel func_800B18B0
+glabel TransitionUnk_InitGraphics
 /* B28A50 800B18B0 27BDFF90 */  addiu $sp, $sp, -0x70
 /* B28A54 800B18B4 AFB00028 */  sw    $s0, 0x28($sp)
 /* B28A58 800B18B8 00808025 */  move  $s0, $a0
@@ -110,7 +110,7 @@ glabel func_800B18B0
 /* B28BA0 800B1A00 2BE10002 */  slti  $at, $ra, 2
 .L800B1A04:
 /* B28BA4 800B1A04 1420FFD0 */  bnez  $at, .L800B1948
-/* B28BA8 800B1A08 00000000 */   nop   
+/* B28BA8 800B1A08 00000000 */   nop
 /* B28BAC 800B1A0C 18600087 */  blez  $v1, .L800B1C2C
 /* B28BB0 800B1A10 8E0700D8 */   lw    $a3, 0xd8($s0)
 /* B28BB4 800B1A14 3C16FD10 */  lui   $s6, (0xFD10013F >> 16) # lui $s6, 0xfd10
@@ -277,7 +277,7 @@ glabel func_800B18B0
 /* B28E28 800B1C88 00002812 */  mflo  $a1
 /* B28E2C 800B1C8C 24A50002 */  addiu $a1, $a1, 2
 /* B28E30 800B1C90 0C00084C */  jal   osSyncPrintf
-/* B28E34 800B1C94 00000000 */   nop   
+/* B28E34 800B1C94 00000000 */   nop
 /* B28E38 800B1C98 8FA70050 */  lw    $a3, 0x50($sp)
 /* B28E3C 800B1C9C 3C048014 */  lui   $a0, %hi(D_80142F18) # $a0, 0x8014
 /* B28E40 800B1CA0 24842F18 */  addiu $a0, %lo(D_80142F18) # addiu $a0, $a0, 0x2f18
