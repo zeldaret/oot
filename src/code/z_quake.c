@@ -9,7 +9,7 @@ s16 (*sQuakeCallbacks[])(QuakeRequest*, ShakeInfo*) = {
     NULL, Quake_Callback1, Quake_Callback2, Quake_Callback3, Quake_Callback4, Quake_Callback5, Quake_Callback6,
 };
 
-Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, struct_80045714* arg2) {
+Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, VecSph* arg2) {
     Vec3f vec1;
     Vec3f vec2;
 
@@ -22,12 +22,12 @@ Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, struct_80045714* arg2) {
 }
 
 void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
-    Vec3f* unk50 = &req->cam->unk_50;
-    Vec3f* unk5C = &req->cam->unk_5C;
+    Vec3f* unk50 = &req->cam->at;
+    Vec3f* unk5C = &req->cam->eye;
 
     Vec3f vec;
-    struct_80045714 struc2;
-    struct_80045714 struc1;
+    VecSph struc2;
+    VecSph struc1;
     Vec3f vec2;
 
     if (req->unk_1C) {
@@ -35,21 +35,21 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
         vec.y = 0;
         vec.z = 0;
         func_8007C490(&struc1, unk5C, unk50);
-        struc2.unk_00 = req->y * y;
-        struc2.unk_04 = struc1.unk_04 + req->unk_14.unk_00 + 0x4000;
-        struc2.unk_06 = struc1.unk_06 + req->unk_14.unk_02;
+        struc2.r = req->y * y;
+        struc2.phi = struc1.phi + req->unk_14.unk_00 + 0x4000;
+        struc2.theta = struc1.theta + req->unk_14.unk_02;
         Quake_AddVec(&vec, &vec, &struc2);
-        struc2.unk_00 = req->x * x;
-        struc2.unk_04 = struc1.unk_04 + req->unk_14.unk_00;
-        struc2.unk_06 = struc1.unk_06 + req->unk_14.unk_02 + 0x4000;
+        struc2.r = req->x * x;
+        struc2.phi = struc1.phi + req->unk_14.unk_00;
+        struc2.theta = struc1.theta + req->unk_14.unk_02 + 0x4000;
         Quake_AddVec(&vec, &vec, &struc2);
     } else {
         vec.x = 0;
         vec.y = req->y * y;
         vec.z = 0;
-        struc2.unk_00 = req->x * x;
-        struc2.unk_04 = req->unk_14.unk_00;
-        struc2.unk_06 = req->unk_14.unk_02;
+        struc2.r = req->x * x;
+        struc2.phi = req->unk_14.unk_00;
+        struc2.theta = req->unk_14.unk_02;
         Quake_AddVec(&vec, &vec, &struc2);
     }
 
