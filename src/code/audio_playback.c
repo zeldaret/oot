@@ -134,10 +134,10 @@ void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) 
 void Audio_NoteInit(Note* note) {
     if (note->playbackState.parentLayer->adsr.releaseRate == 0) {
         Audio_AdsrInit(&note->playbackState.adsr, note->playbackState.parentLayer->seqChannel->adsr.envelope,
-                  &note->playbackState.adsrVolScale);
+                       &note->playbackState.adsrVolScale);
     } else {
         Audio_AdsrInit(&note->playbackState.adsr, note->playbackState.parentLayer->adsr.envelope,
-                  &note->playbackState.adsrVolScale);
+                       &note->playbackState.adsrVolScale);
     }
 
     note->playbackState.unk_04 = 0;
@@ -576,8 +576,7 @@ Note* Audio_PopNodeWithValueLessEqual(AudioListItem* list, s32 limit) {
     }
 
     for (best = cur; cur != list; cur = cur->next) {
-        if (((Note*)best->u.value)->playbackState.priority >=
-            ((Note*)cur->u.value)->playbackState.priority) {
+        if (((Note*)best->u.value)->playbackState.priority >= ((Note*)cur->u.value)->playbackState.priority) {
             best = cur;
         }
     }

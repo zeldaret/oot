@@ -147,7 +147,7 @@ glabel EnKarebaba_Draw
 /* 013BC 80A9670C 866400B4 */  lh      $a0, 0x00B4($s3)           ## 000000B4
 /* 013C0 80A96710 866500B6 */  lh      $a1, 0x00B6($s3)           ## 000000B6
 /* 013C4 80A96714 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 013C8 80A96718 0C034421 */  jal     Matrix_RotateZYX
+/* 013C8 80A96718 0C034421 */  jal     Matrix_RotateRPY
 /* 013CC 80A9671C 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 013D0 80A96720 8E6F0190 */  lw      $t7, 0x0190($s3)           ## 00000190
 /* 013D4 80A96724 3C0380A9 */  lui     $v1, %hi(func_80A95D90)    ## $v1 = 80A90000
@@ -283,7 +283,7 @@ glabel EnKarebaba_Draw
 /* 015BC 80A9690C 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 015C0 80A96910 016C2823 */  subu    $a1, $t3, $t4
 /* 015C4 80A96914 00052C00 */  sll     $a1, $a1, 16
-/* 015C8 80A96918 0C034421 */  jal     Matrix_RotateZYX
+/* 015C8 80A96918 0C034421 */  jal     Matrix_RotateRPY
 /* 015CC 80A9691C 00052C03 */  sra     $a1, $a1, 16
 /* 015D0 80A96920 8E5002C0 */  lw      $s0, 0x02C0($s2)           ## 000002C0
 /* 015D4 80A96924 3C0EDA38 */  lui     $t6, 0xDA38                ## $t6 = DA380000

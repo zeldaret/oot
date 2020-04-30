@@ -51,7 +51,7 @@ glabel func_8008F87C
 /* B06AB4 8008F914 0C034213 */  jal   Matrix_Push
 /* B06AB8 8008F918 46062501 */   sub.s $f20, $f4, $f6
 /* B06ABC 8008F91C 8FA400BC */  lw    $a0, 0xbc($sp)
-/* B06AC0 8008F920 0C0344D0 */  jal   Matrix_TranslateThenRotateZYX
+/* B06AC0 8008F920 0C0344D0 */  jal   Matrix_JointPosition
 /* B06AC4 8008F924 8FA500C0 */   lw    $a1, 0xc0($sp)
 /* B06AC8 8008F928 3C048012 */  lui   $a0, %hi(D_8012602C) # $a0, 0x8012
 /* B06ACC 8008F92C 2484602C */  addiu $a0, %lo(D_8012602C) # addiu $a0, $a0, 0x602c
@@ -73,7 +73,7 @@ glabel func_8008F87C
 /* B06B0C 8008F96C 00021040 */  sll   $v0, $v0, 1
 /* B06B10 8008F970 AFA20038 */  sw    $v0, 0x38($sp)
 /* B06B14 8008F974 01F82021 */  addu  $a0, $t7, $t8
-/* B06B18 8008F978 0C0344D0 */  jal   Matrix_TranslateThenRotateZYX
+/* B06B18 8008F978 0C0344D0 */  jal   Matrix_JointPosition
 /* B06B1C 8008F97C 03222821 */   addu  $a1, $t9, $v0
 /* B06B20 8008F980 3C038016 */  lui   $v1, %hi(gSaveContext+4)
 /* B06B24 8008F984 8C63E664 */  lw    $v1, %lo(gSaveContext+4)($v1)
