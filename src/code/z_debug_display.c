@@ -83,7 +83,7 @@ void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, GlobalCont
     Matrix_Translate(dispObj->pos.x, dispObj->pos.y, dispObj->pos.z, MTXMODE_NEW);
     Matrix_Scale(dispObj->scale.x, dispObj->scale.y, dispObj->scale.z, MTXMODE_APPLY);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-    Matrix_RotateZYX(dispObj->rot.x, dispObj->rot.y, dispObj->rot.z, MTXMODE_APPLY);
+    Matrix_RotateRPY(dispObj->rot.x, dispObj->rot.y, dispObj->rot.z, MTXMODE_APPLY);
 
     gDPLoadTextureBlock(gfxCtx->polyXlu.p++, texture, G_IM_FMT_I, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);

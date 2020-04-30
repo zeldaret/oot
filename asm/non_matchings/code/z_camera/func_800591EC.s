@@ -163,7 +163,7 @@ glabel func_800591EC
 /* AD04E4 80059344 AD2B0004 */  sw    $t3, 4($t1)
 /* AD04E8 80059348 8D4C0008 */  lw    $t4, 8($t2)
 /* AD04EC 8005934C AD2C0008 */  sw    $t4, 8($t1)
-/* AD04F0 80059350 0C00B721 */  jal   func_8002DC84
+/* AD04F0 80059350 0C00B721 */  jal   Player_GetCameraYOffset
 /* AD04F4 80059354 8E040090 */   lw    $a0, 0x90($s0)
 /* AD04F8 80059358 C7AA00B0 */  lwc1  $f10, 0xb0($sp)
 /* AD04FC 8005935C 3C068016 */  lui   $a2, %hi(D_8015CE4C) # $a2, 0x8016

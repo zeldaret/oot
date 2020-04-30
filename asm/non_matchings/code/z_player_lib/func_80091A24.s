@@ -312,7 +312,7 @@ glabel func_80091A24
 /* B09074 80091ED4 E7A00024 */  swc1  $f0, 0x24($sp)
 /* B09078 80091ED8 E7A0001C */  swc1  $f0, 0x1c($sp)
 /* B0907C 80091EDC E7A60020 */  swc1  $f6, 0x20($sp)
-/* B09080 80091EE0 0C04078D */  jal   guLookAtReflect
+/* B09080 80091EE0 0C04078D */  jal   guLookAt
 /* B09084 80091EE4 E7A40018 */   swc1  $f4, 0x18($sp)
 /* B09088 80091EE8 8FA30114 */  lw    $v1, 0x114($sp)
 /* B0908C 80091EEC 3C0FDA38 */  lui   $t7, (0xDA380005 >> 16) # lui $t7, 0xda38
@@ -466,5 +466,5 @@ glabel func_80091A24
 /* B092DC 8009213C 8FBF0034 */  lw    $ra, 0x34($sp)
 /* B092E0 80092140 27BD0130 */  addiu $sp, $sp, 0x130
 /* B092E4 80092144 03E00008 */  jr    $ra
-/* B092E8 80092148 00000000 */   nop   
+/* B092E8 80092148 00000000 */   nop
 

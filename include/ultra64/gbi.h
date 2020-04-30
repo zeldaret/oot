@@ -121,7 +121,7 @@
 #define G_TEXRECT		0xe4	/* -28 */
 
 
-/* 
+/*
  * The following commands are the "generated" RDP commands; the user
  * never sees them, the RSP microcode generates them.
  *
@@ -154,8 +154,8 @@
 /* masks to build RDP triangle commands: */
 #define G_RDP_TRI_FILL_MASK	0x08
 #define G_RDP_TRI_SHADE_MASK	0x04
-#define G_RDP_TRI_TXTR_MASK	0x02		
-#define G_RDP_TRI_ZBUFF_MASK	0x01		
+#define G_RDP_TRI_TXTR_MASK	0x02
+#define G_RDP_TRI_ZBUFF_MASK	0x01
 
 /*
  * HACK:
@@ -241,7 +241,7 @@
  *
  * DO NOT USE THE LOW 8 BITS OF GEOMETRYMODE:
  * The weird bit-ordering is for the micro-code: the lower byte
- * can be OR'd in with G_TRI_SHADE (11001100) to construct 
+ * can be OR'd in with G_TRI_SHADE (11001100) to construct
  * the triangle command directly. Don't break it...
  *
  * DO NOT USE THE HIGH 8 BITS OF GEOMETRYMODE:
@@ -255,7 +255,7 @@
  * appropriately and use primcolor to see anything.
  *
  * G_SHADING_SMOOTH enabled means use all 3 colors of the triangle.
- * If it is not set, then do 'flat shading', where only one vertex color 
+ * If it is not set, then do 'flat shading', where only one vertex color
  * is used (and all 3 vertices are set to that same color by the ucode)
  * See the man page for gSP1Triangle().
  *
@@ -760,27 +760,27 @@
 	Z_CMP | Z_UPD | CVG_DST_FULL | ALPHA_CVG_SEL |		\
 	ZMODE_OPA |						\
 	GBL_c##clk(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)
-	
+
 #define	RM_ZB_XLU_SURF(clk)					\
 	Z_CMP | IM_RD | CVG_DST_FULL | FORCE_BL | ZMODE_XLU |	\
 	GBL_c##clk(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA)
-	
+
 #define	RM_ZB_OPA_DECAL(clk)					\
 	Z_CMP | CVG_DST_FULL | ALPHA_CVG_SEL | ZMODE_DEC |	\
 	GBL_c##clk(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_A_MEM)
-	
+
 #define	RM_ZB_XLU_DECAL(clk)					\
 	Z_CMP | IM_RD | CVG_DST_FULL | FORCE_BL | ZMODE_DEC |	\
 	GBL_c##clk(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA)
-	
+
 #define	RM_ZB_CLD_SURF(clk)					\
 	Z_CMP | IM_RD | CVG_DST_SAVE | FORCE_BL | ZMODE_XLU |	\
 	GBL_c##clk(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA)
-	
+
 #define	RM_ZB_OVL_SURF(clk)					\
 	Z_CMP | IM_RD | CVG_DST_SAVE | FORCE_BL | ZMODE_DEC |	\
 	GBL_c##clk(G_BL_CLR_IN, G_BL_A_IN, G_BL_CLR_MEM, G_BL_1MA)
-	
+
 #define	RM_ZB_PCL_SURF(clk)					\
 	Z_CMP | Z_UPD | CVG_DST_FULL | ZMODE_OPA |		\
 	G_AC_DITHER | 						\
@@ -967,7 +967,7 @@
  * element, we can't depend on the C compiler to align things
  * properly.
  *
- * 64-bit structure alignment is enforced by wrapping structures with 
+ * 64-bit structure alignment is enforced by wrapping structures with
  * unions that contain a dummy "long long int".  Why this works is
  * explained in the ANSI C Spec, or on page 186 of the second edition
  * of K&R, "The C Programming Language".
@@ -1031,14 +1031,14 @@ typedef struct {
   /* 20 bytes for above */
 
   /* padding to bring structure size to 64 bit allignment */
-  char dummy[4]; 
+  char dummy[4];
 
 } uSprite_t;
 
-typedef union {	
+typedef union {
   uSprite_t  s;
 
-  /* Need to make sure this is 64 bit aligned */   
+  /* Need to make sure this is 64 bit aligned */
   long long int         force_structure_allignment[3];
 } uSprite;
 
@@ -1105,7 +1105,7 @@ typedef union {
  */
 #ifdef	F3DEX_GBI_2
 /* 0,4 are reserved by G_MTX */
-# define G_MV_MMTX	2	
+# define G_MV_MMTX	2
 # define G_MV_PMTX	6
 # define G_MV_VIEWPORT	8
 # define G_MV_LIGHT	10
@@ -1163,7 +1163,7 @@ typedef union {
 
 /*
  * These are offsets from the address in the dmem table
- */ 
+ */
 #define G_MWO_NUMLIGHT		0x00
 #define G_MWO_CLIP_RNX		0x04
 #define G_MWO_CLIP_RNY		0x0c
@@ -1245,7 +1245,7 @@ typedef union {
  *
  * Note: only directional (infinite) lights are currently supported.
  *
- * Note: the weird order is for the DMEM alignment benefit of 
+ * Note: the weird order is for the DMEM alignment benefit of
  * the microcode.
  *
  */
@@ -1566,7 +1566,7 @@ typedef struct {
 
 /*
  * Textured rectangles are 128 bits not 64 bits
- */	
+ */
 typedef struct {
     unsigned long w0;
     unsigned long w1;
@@ -1714,7 +1714,7 @@ _DW({									\
                 gsDma1p(G_VTX, v, sizeof(Vtx)*(n), ((n)-1)<<4|(v0))
 #endif
 
-	
+
 #ifdef	F3DEX_GBI_2
 # define gSPViewport(pkt, v)	\
 		gDma2p((pkt), G_MOVEMEM, (v), sizeof(Vp), G_MV_VIEWPORT, 0)
@@ -1898,13 +1898,13 @@ _DW({									\
  ***  1 Triangle
  ***/
 #define gSP1Triangle(pkt, v0, v1, v2, flag)				\
-{									\
+_DW({									\
 	Gfx *_g = (Gfx *)(pkt);						\
 									\
 	_g->words.w0 = _SHIFTL(G_TRI1, 24, 8)|				\
 			__gsSP1Triangle_w1f(v0, v1, v2, flag);		\
 	_g->words.w1 = 0;						\
-}
+})
 #define gsSP1Triangle(v0, v1, v2, flag)					\
 {									\
 	_SHIFTL(G_TRI1, 24, 8)|__gsSP1Triangle_w1f(v0, v1, v2, flag),	\
@@ -1973,7 +1973,7 @@ _DW({                                                                       \
 
 /***
  ***  1 Triangle
- ***/	
+ ***/
 #define gSP1Triangle(pkt, v0, v1, v2, flag)				\
 {									\
 	Gfx *_g = (Gfx *)(pkt);						\
@@ -2050,13 +2050,13 @@ _DW({                                                                       \
  ***  2 Triangles
  ***/
 #define gSP2Triangles(pkt, v00, v01, v02, flag0, v10, v11, v12, flag1)	\
-{									\
+_DW({									\
 	Gfx *_g = (Gfx *)(pkt);						\
 									\
 	_g->words.w0 = (_SHIFTL(G_TRI2, 24, 8)|				\
 			__gsSP1Triangle_w1f(v00, v01, v02, flag0));	\
         _g->words.w1 =  __gsSP1Triangle_w1f(v10, v11, v12, flag1); 	\
-}
+})
 
 #define gsSP2Triangles(v00, v01, v02, flag0, v10, v11, v12, flag1)	\
 {									\
@@ -2141,7 +2141,7 @@ _DW({                                                                       \
  * Insert values into Matrix
  *
  * where = element of matrix (byte offset)
- * num   = new element (32 bit value replacing 2 int or 2 frac matrix 
+ * num   = new element (32 bit value replacing 2 int or 2 frac matrix
  *                                 componants
  */
 #ifdef	F3DEX_GBI_2
@@ -2169,7 +2169,7 @@ _DW({                                                                       \
 #define	gsSPForceMatrix(mptr)						\
 	gsDma2p(G_MOVEMEM,(mptr),sizeof(Mtx),G_MV_MATRIX,0),		\
 	gsMoveWd(G_MW_FORCEMTX,0,0x00010000)
-	
+
 #else	/* F3DEX_GBI_2 */
 #define	gSPForceMatrix(pkt, mptr)					\
 {									\
@@ -2217,7 +2217,7 @@ _DW({                                                                       \
 /*
  *  gSPBranchLessZ   Branch DL if (vtx.z) less than or equal (zval).
  *
- *  dl	 = DL branch to 
+ *  dl	 = DL branch to
  *  vtx  = Vertex
  *  zval = Screen depth
  *  near = Near plane
@@ -2264,7 +2264,7 @@ _DW({                                                                       \
 /*
  *  gSPBranchLessZraw   Branch DL if (vtx.z) less than or equal (raw zval).
  *
- *  dl	 = DL branch to 
+ *  dl	 = DL branch to
  *  vtx  = Vertex
  *  zval = Raw value of screen depth
  */
@@ -2365,7 +2365,7 @@ _DW({									\
 #define NUMLIGHTS_7	7
 /*
  * n should be one of: NUMLIGHTS_0, NUMLIGHTS_1, ..., NUMLIGHTS_7
- * NOTE: in addition to the number of directional lights specified, 
+ * NOTE: in addition to the number of directional lights specified,
  *       there is always 1 ambient light
  */
 #define gSPNumLights(pkt, n)						\
@@ -2377,7 +2377,7 @@ _DW({									\
 #define LIGHT_2		2
 #define LIGHT_3		3
 #define LIGHT_4		4
-#define LIGHT_5		5	
+#define LIGHT_5		5
 #define LIGHT_6		6
 #define LIGHT_7		7
 #define LIGHT_8		8
@@ -2607,7 +2607,7 @@ _DW({									\
  * min, max: range 0 to 1000: 0=nearplane, 1000=farplane
  * min is where fog begins (usually less than max and often 0)
  * max is where fog is thickest (usually 1000)
- * 
+ *
  */
 #define gSPFogFactor(pkt, fm, fo)				\
         gMoveWd(pkt, G_MW_FOG, G_MWO_FOG, 			\
@@ -2647,7 +2647,7 @@ _DW({									\
 	 _SHIFTL((level),11,3) | _SHIFTL((tile),8,3) | _SHIFTL((on),1,7)),\
         (_SHIFTL((s),16,16) | _SHIFTL((t),0,16))			\
 }
-/* 
+/*
  * Different version of SPTexture macro, has an additional parameter
  * which is currently reserved in the microcode.
  */
@@ -2686,7 +2686,7 @@ _DW({									\
 	 _SHIFTL((level),11,3)|_SHIFTL((tile),8,3)|_SHIFTL((on),0,8)),	\
         (_SHIFTL((s),16,16)|_SHIFTL((t),0,16))				\
 }
-/* 
+/*
  * Different version of SPTexture macro, has an additional parameter
  * which is currently reserved in the microcode.
  */
@@ -2886,7 +2886,7 @@ _DW({									\
 	gsSPSetOtherMode(G_SETOTHERMODE_H, G_MDSFT_ALPHADITHER, 2, mode)
 #endif
 
-/* 'blendmask' is not supported anymore. 
+/* 'blendmask' is not supported anymore.
  * The bits are reserved for future use.
  * Fri May 26 13:45:55 PDT 1995
  */
@@ -3092,7 +3092,7 @@ _DW({									\
  *
  * This command makes all othermode parameters set.
  * Do not use this command in the same DL with another g*SPSetOtherMode DLs.
- * 
+ *
  * [Usage]
  *	gDPSetOtherMode(pkt, modeA, modeB)
  *
@@ -3345,9 +3345,9 @@ _DW({									\
 		((height)-1) << G_TEXTURE_IMAGE_FRAC);			\
 }
 
-/* 
+/*
  *  Allow tmem address and render tile to be specified.
- *  The S at the end means odd lines are already word Swapped 
+ *  The S at the end means odd lines are already word Swapped
  */
 #define	gDPLoadMultiBlockS(pkt, timg, tmem, rtile, fmt, siz, width, 	\
 		   height, pal, cms, cmt, masks, maskt, shifts, shiftt)	\
@@ -3563,13 +3563,13 @@ _DW({									\
 		((width)-1) << G_TEXTURE_IMAGE_FRAC,			\
 		((height)-1) << G_TEXTURE_IMAGE_FRAC)
 
-/* 
+/*
  *  Allows tmem and render tile to be specified.  Useful when loading
  *  several tiles at a time.
  *
  *  Here is the static form of the pre-swapped texture block loading
  *  See gDPLoadTextureBlockS() for reference.  Basically, just don't
- *  calculate DxT, use 0 
+ *  calculate DxT, use 0
  */
 
 #define	gsDPLoadMultiBlockS(timg, tmem, rtile, fmt, siz, width, height,	\
@@ -3653,7 +3653,7 @@ _DW({									\
 }
 
 /*
- *  4-bit load block.  Allows tmem and render tile to be specified.  Useful when  
+ *  4-bit load block.  Allows tmem and render tile to be specified.  Useful when
  *  loading multiple tiles.  The S means odd lines are already word swapped.
  */
 #define	gDPLoadMultiBlock_4bS(pkt, timg, tmem, rtile, fmt, width, height,\
@@ -4088,7 +4088,7 @@ _DW({									\
                 G_IM_FMT_RGBA, G_IM_SIZ_16b, 4*16, 1,                   \
                 pal, 0, 0, 0, 0, 0, 0)
 
-#endif /* _HW_VERSION_1 */ 
+#endif /* _HW_VERSION_1 */
 
 /*
  *  Load a 256-entry palette (for 8-bit CI textures)
@@ -4130,7 +4130,7 @@ _DW({									\
 	gsDPLoadSync(),							\
 	gsDPLoadTLUTCmd(G_TX_LOADTILE, 255),				\
 	gsDPPipeSync()
- 
+
 #else /* **** WORKAROUND hardware 1 load_tlut bug ****** */
 
 #define gsDPLoadTLUT_pal256(dram)                                       \
@@ -4185,7 +4185,7 @@ _DW({									\
                 G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, count,                  \
                 0, 0, 0, 0, 0, 0, 0)
 
-#endif /* _HW_VERSION_1 */ 
+#endif /* _HW_VERSION_1 */
 
 #define gDPSetScissor(pkt, mode, ulx, uly, lrx, lry)			\
 _DW({									\
@@ -4340,7 +4340,7 @@ _DW({									\
 }
 
 /* Notice that textured rectangles are 128-bit commands, therefore
- * gsDPTextureRectangle() should not be used in display lists 
+ * gsDPTextureRectangle() should not be used in display lists
  * under normal circumstances (use gsSPTextureRectangle()).
  * That is also why there is no gDPTextureRectangle() macros.
  */
@@ -4495,6 +4495,6 @@ _DW({									\
 #endif
 
 /* Private macro to wrap other macros in do {...} while (0) */
-#define _DW(macro) do {macro} while (0)	
+#define _DW(macro) do {macro} while (0)
 
 #endif

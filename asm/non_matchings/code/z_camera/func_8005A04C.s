@@ -10,51 +10,51 @@ glabel D_80139BD8
 glabel D_80139BF0
     .asciz "\x1B[43;30mcamera: change camera mode: force NORMAL: %s %s refused\n\x1B[m"
     .balign 4
-    
+
 .late_rodata
 glabel jtbl_8013A450
-    .word 0x8005A28C # 1 
-    .word 0x8005A268 # 2
-    .word 0x8005A28C # 3
-    .word 0x8005A260 # 4
-    .word 0x8005A290 
-    .word 0x8005A258 # 6
-    .word 0x8005A290 
-    .word 0x8005A28C # 8
-    .word 0x8005A290 
-    .word 0x8005A290 
-    .word 0x8005A290 
-    .word 0x8005A290 
-    .word 0x8005A290 
-    .word 0x8005A290 
-    .word 0x8005A28C # 15 
-    .word 0x8005A290 
-    .word 0x8005A290 
-    .word 0x8005A290 
-    .word 0x8005A28C # 19
-    
+    .word L8005A28C # 1
+    .word L8005A268 # 2
+    .word L8005A28C # 3
+    .word L8005A260 # 4
+    .word L8005A290
+    .word L8005A258 # 6
+    .word L8005A290
+    .word L8005A28C # 8
+    .word L8005A290
+    .word L8005A290
+    .word L8005A290
+    .word L8005A290
+    .word L8005A290
+    .word L8005A290
+    .word L8005A28C # 15
+    .word L8005A290
+    .word L8005A290
+    .word L8005A290
+    .word L8005A28C # 19
+
 glabel jtbl_8013A49C
-    .word 0x8005A320 # 0
-    .word 0x8005A2C8 # 1
-    .word 0x8005A2E8 # 2
-    .word 0x8005A330 
-    .word 0x8005A300 # 4 
-    .word 0x8005A330 
-    .word 0x8005A2B4 # 6
-    .word 0x8005A330 
-    .word 0x8005A318 # 8
-    .word 0x8005A330 
-    .word 0x8005A330 
-    .word 0x8005A330 
-    .word 0x8005A330 
-    .word 0x8005A330 
-    .word 0x8005A330 
-    .word 0x8005A318 # 15
-    .word 0x8005A330 
-    .word 0x8005A2E0 # 17
-    .word 0x8005A330 
-    .word 0x8005A318 # 19
-    
+    .word L8005A320 # 0
+    .word L8005A2C8 # 1
+    .word L8005A2E8 # 2
+    .word L8005A330
+    .word L8005A300 # 4
+    .word L8005A330
+    .word L8005A2B4 # 6
+    .word L8005A330
+    .word L8005A318 # 8
+    .word L8005A330
+    .word L8005A330
+    .word L8005A330
+    .word L8005A330
+    .word L8005A330
+    .word L8005A330
+    .word L8005A318 # 15
+    .word L8005A330
+    .word L8005A2E0 # 17
+    .word L8005A330
+    .word L8005A318 # 19
+
 .text
 glabel func_8005A04C
 /* AD11EC 8005A04C 27BDFFE8 */  addiu $sp, $sp, -0x18
@@ -194,11 +194,17 @@ glabel func_8005A04C
 /* AD13E8 8005A248 00380821 */  addu  $at, $at, $t8
 /* AD13EC 8005A24C 8C38A450 */  lw    $t8, %lo(jtbl_8013A450)($at)
 /* AD13F0 8005A250 03000008 */  jr    $t8
-/* AD13F4 8005A254 00000000 */   nop   
+/* AD13F4 8005A254 00000000 */   nop
+
+glabel L8005A258
 /* AD13F8 8005A258 1000000D */  b     .L8005A290
 /* AD13FC 8005A25C 24020020 */   li    $v0, 32
+
+glabel L8005A260
 /* AD1400 8005A260 1000000B */  b     .L8005A290
 /* AD1404 8005A264 24020004 */   li    $v0, 4
+
+glabel L8005A268
 /* AD1408 8005A268 8CE300A8 */  lw    $v1, 0xa8($a3)
 /* AD140C 8005A26C 50600009 */  beql  $v1, $zero, .L8005A294
 /* AD1410 8005A270 94EA0144 */   lhu   $t2, 0x144($a3)
@@ -208,8 +214,12 @@ glabel func_8005A04C
 /* AD1420 8005A280 94EA0144 */   lhu   $t2, 0x144($a3)
 /* AD1424 8005A284 10000002 */  b     .L8005A290
 /* AD1428 8005A288 24020008 */   li    $v0, 8
+
+glabel L8005A28C
 /* AD142C 8005A28C 24020002 */  li    $v0, 2
+
 .L8005A290:
+glabel L8005A290
 /* AD1430 8005A290 94EA0144 */  lhu   $t2, 0x144($a3)
 .L8005A294:
 /* AD1434 8005A294 2D410014 */  sltiu $at, $t2, 0x14
@@ -219,12 +229,16 @@ glabel func_8005A04C
 /* AD1444 8005A2A4 002A0821 */  addu  $at, $at, $t2
 /* AD1448 8005A2A8 8C2AA49C */  lw    $t2, %lo(jtbl_8013A49C)($at)
 /* AD144C 8005A2AC 01400008 */  jr    $t2
-/* AD1450 8005A2B0 00000000 */   nop   
+/* AD1450 8005A2B0 00000000 */   nop
+
+glabel L8005A2B4
 /* AD1454 8005A2B4 30480020 */  andi  $t0, $v0, 0x20
 /* AD1458 8005A2B8 1100001D */  beqz  $t0, .L8005A330
 /* AD145C 8005A2BC 240B000A */   li    $t3, 10
 /* AD1460 8005A2C0 1000001B */  b     .L8005A330
 /* AD1464 8005A2C4 A4EB015E */   sh    $t3, 0x15e($a3)
+
+glabel L8005A2C8
 /* AD1468 8005A2C8 304C0010 */  andi  $t4, $v0, 0x10
 /* AD146C 8005A2CC 11800002 */  beqz  $t4, .L8005A2D8
 /* AD1470 8005A2D0 2409000A */   li    $t1, 10
@@ -232,8 +246,12 @@ glabel func_8005A04C
 .L8005A2D8:
 /* AD1478 8005A2D8 10000015 */  b     .L8005A330
 /* AD147C 8005A2DC 34420001 */   ori   $v0, $v0, 1
+
+glabel L8005A2E0
 /* AD1480 8005A2E0 10000013 */  b     .L8005A330
 /* AD1484 8005A2E4 34420001 */   ori   $v0, $v0, 1
+
+glabel L8005A2E8
 /* AD1488 8005A2E8 304D0008 */  andi  $t5, $v0, 8
 /* AD148C 8005A2EC 11A00002 */  beqz  $t5, .L8005A2F8
 /* AD1490 8005A2F0 240E000A */   li    $t6, 10
@@ -241,6 +259,8 @@ glabel func_8005A04C
 .L8005A2F8:
 /* AD1498 8005A2F8 1000000D */  b     .L8005A330
 /* AD149C 8005A2FC 34420001 */   ori   $v0, $v0, 1
+
+glabel L8005A300
 /* AD14A0 8005A300 304F0004 */  andi  $t7, $v0, 4
 /* AD14A4 8005A304 11E00002 */  beqz  $t7, .L8005A310
 /* AD14A8 8005A308 2418000A */   li    $t8, 10
@@ -248,13 +268,19 @@ glabel func_8005A04C
 .L8005A310:
 /* AD14B0 8005A310 10000007 */  b     .L8005A330
 /* AD14B4 8005A314 34420001 */   ori   $v0, $v0, 1
+
+glabel L8005A318
 /* AD14B8 8005A318 10000005 */  b     .L8005A330
 /* AD14BC 8005A31C 34420001 */   ori   $v0, $v0, 1
+
+glabel L8005A320
 /* AD14C0 8005A320 30590010 */  andi  $t9, $v0, 0x10
 /* AD14C4 8005A324 13200002 */  beqz  $t9, .L8005A330
 /* AD14C8 8005A328 240A000A */   li    $t2, 10
 /* AD14CC 8005A32C A4EA015E */  sh    $t2, 0x15e($a3)
+
 .L8005A330:
+glabel L8005A330
 /* AD14D0 8005A330 2401FFEF */  li    $at, -17
 /* AD14D4 8005A334 00411024 */  and   $v0, $v0, $at
 /* AD14D8 8005A338 3C018012 */  lui   $at, %hi(D_8011DB14) # $at, 0x8012
@@ -294,7 +320,7 @@ glabel func_8005A04C
 /* AD1558 8005A3B8 018B6021 */  addu  $t4, $t4, $t3
 /* AD155C 8005A3BC 918C1CBF */  lbu   $t4, 0x1cbf($t4)
 /* AD1560 8005A3C0 146C0006 */  bne   $v1, $t4, .L8005A3DC
-/* AD1564 8005A3C4 00000000 */   nop   
+/* AD1564 8005A3C4 00000000 */   nop
 /* AD1568 8005A3C8 24044837 */  li    $a0, 18487
 /* AD156C 8005A3CC 0C01E221 */  jal   func_80078884
 /* AD1570 8005A3D0 AFA70018 */   sw    $a3, 0x18($sp)
@@ -331,5 +357,5 @@ glabel func_8005A04C
 /* AD15D4 8005A434 8FBF0014 */  lw    $ra, 0x14($sp)
 /* AD15D8 8005A438 27BD0018 */  addiu $sp, $sp, 0x18
 /* AD15DC 8005A43C 03E00008 */  jr    $ra
-/* AD15E0 8005A440 00000000 */   nop   
+/* AD15E0 8005A440 00000000 */   nop
 
