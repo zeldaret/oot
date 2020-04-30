@@ -3,6 +3,7 @@
 
 #include <z64animation.h>
 #include <z64math.h>
+#include <z64collision_check.h>
 
 #define ACTOR_DLF_MAX 471
 #define ACTOR_NUMBER_MAX 200

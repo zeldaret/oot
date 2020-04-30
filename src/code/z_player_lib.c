@@ -228,26 +228,12 @@ void func_8008EDF0(Player* player) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EE08.s")
 /* void func_8008EE08(Player* player) {
-    if ((player->actor.bgCheckFlags & 1) == 0) {
-        if ((player->stateFlags1 & 0x8A00000) == 0) {
-            if ((player->stateFlags1 & 0xC0000) == 0) {
-                if ((player->actor.posRot.pos.y - player->actor.unk_80) < 100.0f) {
-block_4:
-                    player->stateFlags1 &= 0xBFF07FFF;
-                } else {
-block_5:
-                    if ((player->stateFlags1 & 0x2C0000) == 0) {
-                        player->stateFlags1 |= 0x80000;
-                    }
-                }
-            } else {
-                goto block_5;
-            }
-        } else {
-            goto block_4;
+    if ((player->actor.bgCheckFlags & 1) == 0 && (player->stateFlags1 & 0x8A00000) == 0) {
+        if ((player->stateFlags1 & 0xC0000) == 0 && (player->actor.posRot.pos.y - player->actor.unk_80) < 100.0f) {
+            player->stateFlags1 &= 0xBFF07FFF;
+        } else if ((player->stateFlags1 & 0x2C0000) == 0) {
+            player->stateFlags1 |= 0x80000;
         }
-    } else {
-        goto block_4;
     }
     func_8008EDF0(player);
 } */
@@ -394,19 +380,16 @@ s32 func_8008F29C(Player* player) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008F2BC.s")
-/* s32 func_8008F2BC(UNK_TYPE arg0, UNK_TYPE arg1) {
+/* s32 func_8008F2BC(s32 arg0, s32 arg1) {
     s32 temp_v0;
+    s32 phi_v1;
 
-    if (arg1 == 1) {
-        return 0;
-    } else {
+    phi_v1 = 0;
+    if (arg1 != 1) {
         temp_v0 = arg1 - 3;
-        if (temp_v0 >= 0 && temp_v0 < 3) {
-            return temp_v0;
-        } else {
-            return -1;
-        }
+        phi_v1 = (temp_v0 >= 0 && temp_v0 < 3) ? temp_v0 : -1;
     }
+    return phi_v1;
 } */
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008F2F8.s")
@@ -425,24 +408,21 @@ s32 func_8008F29C(Player* player) {
         if (player->unk_840 >= 0x51) {
             if (player->currentBoots != 1) {
                 if (player->unk_840 >= 0x12C) {
-block_5:
-                    if (player->currentBoots == 1 && (player->actor.bgCheckFlags & 1) != 0) {
-                        phi_v1 = 1;
-                    } else {
-                        phi_v1 = 3;
-                    }
+                    phi_v1 = (player->currentBoots == 1 && (player->actor.bgCheckFlags & 1) != 0) ? 1 : 3;
                 } else {
-block_9:
                     if ((player->stateFlags1 * 0x10) >= 0) {
                         return 0;
                     }
                     phi_v1 = 2;
                 }
             } else {
-                goto block_5;
+                phi_v1 = (player->currentBoots == 1 && (player->actor.bgCheckFlags & 1) != 0) ? 1 : 3;
             }
         } else {
-            goto block_9;
+            if ((player->stateFlags1 * 0x10) >= 0) {
+                return 0;
+            }
+            phi_v1 = 2;
         }
     }
     if (func_8008E988(globalCtx) == 0) {
@@ -485,9 +465,10 @@ block_21:
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090014.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_800902F0.s")
-/* s32 func_800902F0(s32 arg1, UNK_PTR* arg2, GlobalContext* globalCtx, Player* player) {
-    if (func_8008FCC8(globalCtx, player) == 0) {
+#ifdef NON_MATCHING
+// Regalloc only
+s32 func_800902F0(s32 arg0, s32 arg1, UNK_PTR** arg2, s32 arg3, s32 arg4, Player* player) {
+    if (func_8008FCC8(arg0, arg1, arg2, arg3, arg4, player) == 0) {
         if (player->unk_6AD != 2) {
             *arg2 = NULL;
         } else {
@@ -500,87 +481,83 @@ block_21:
             } else  if (arg1 == 0x12) {
                 *arg2 = D_80125F30[gSaveContext.linkAge];
             } else if (arg1 == 0x13) {
-                if (func_8008F104(player) != 0) {
-                    *arg2 = D_0602A738;
-                } else {
-                    *arg2 = D_80125F38[gSaveContext.linkAge];
-                }
+                *arg2 = func_8008F104(player) ? &D_0602A738 : D_80125F38[gSaveContext.linkAge];
             } else {
                 *arg2 = NULL;
             }
-        }
+        } 
     }
     return 0;
-} */
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_800902F0.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090440.s")
-/* s32 func_80090440(s32 arg0, s32 arg1, s32* arg2, s32 arg3, s32 arg4, s32 arg5) {
-    if (func_8008FCC8(arg4, arg5) == 0) {
-        *arg2 = 0;
+//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090440.s")
+s32 func_80090440(s32 arg0, s32 arg1, UNK_PTR** arg2, s32 arg3, s32 arg4, Player* player) {
+    if (func_8008FCC8(arg0, arg1, arg2, arg3, arg4, player) == 0) {
+        *arg2 = NULL;
     }
     return 0;
-} */
+}
 
-/* 
 typedef struct {
     s32 unk_0;
     Vec3f unk_4;
     Vec3f unk_10;
-} UnkProjectileStruct;
- */
+} UnkPlayerLibStruct;
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090480.s")
-/* u8 func_80090480(GlobalContext *globalCtx, Collider *collider, UnkProjectileStruct* a2, Vec3f *a3, Vec3f *arg4) {
+//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090480.s")
+u8 func_80090480(GlobalContext* globalCtx, Collider* collider, u32* arg2, Vec3f* a3, Vec3f* arg4) {
+    UnkPlayerLibStruct* a2 = (UnkPlayerLibStruct*)arg2;
     if (a2->unk_0 == 0) {
-        if (collider != 0) {
-            func_8005D160(globalCtx, collider);
+        if (collider != NULL) {
+            Collider_QuadSetAT(globalCtx, collider);
         }
         Math_Vec3f_Copy(&a2->unk_4, a3);
         Math_Vec3f_Copy(&a2->unk_10, arg4);
         a2->unk_0 = 1;
+        return 1;
     } else {
-        if (a3->x == a2->unk_4.x && a3->y == a2->unk_4.y && a3->z == a2->unk_4.z) {
-            if (arg4->x == a2->unk_10.x && arg4->y == a2->unk_10.y && arg4->z == a2->unk_10.z) {
-                if (collider != NULL) {
-                    func_8005D160(globalCtx, collider);
-                }
-                return 0;
+        if (a2->unk_4.x == a3->x && a2->unk_4.y == a3->y && a2->unk_4.z == a3->z &&
+            a2->unk_10.x == arg4->x && a2->unk_10.y == arg4->y && a2->unk_10.z == arg4->z) {
+            if (collider != NULL) {
+                Collider_QuadSetAT(globalCtx, collider);
             }
+            return 0;
         }
         if (collider != NULL) {
             func_80062734(collider, arg4, a3, &a2->unk_10, &a2->unk_4);
-            Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, collider);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, collider);
         }
         Math_Vec3f_Copy(&a2->unk_10, arg4);
         Math_Vec3f_Copy(&a2->unk_4, a3);
         a2->unk_0 = 1;
+        return 1;
     }
-    return 1;
-} */
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090604.s")
-// TODO arg3 is ColliderQuadDimInit
-void func_80090604(GlobalContext* globalCtx, Player* player, Collider* collider, s32 arg3) {
-    Vec3f sp4C;
-    Vec3f sp40;
-    Vec3f sp34;
-    Vec3f sp28;
+void func_80090604(GlobalContext* globalCtx, Player* player, ColliderQuad* collider, ColliderQuadDimInit* quadInit) {
+    Vec3f d;
+    Vec3f c;
+    Vec3f b;
+    Vec3f a;
 
     if ((s32)(player->stateFlags1 << 9) < 0) {
         player->unk_5F8 = D_8012607C[player->currentShield];
-        Matrix_MultVec3f((Vec3f*)(arg3 + 0x00), &sp28);
-        Matrix_MultVec3f((Vec3f*)(arg3 + 0x0C), &sp34);
-        Matrix_MultVec3f((Vec3f*)(arg3 + 0x18), &sp40);
-        Matrix_MultVec3f((Vec3f*)(arg3 + 0x24), &sp4C);
-        func_80062734(collider, &sp28, &sp34, &sp40, &sp4C);
-        Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, collider);
-        Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, collider);
+        Matrix_MultVec3f(&quadInit->quad[0], &a);
+        Matrix_MultVec3f(&quadInit->quad[1], &b);
+        Matrix_MultVec3f(&quadInit->quad[2], &c);
+        Matrix_MultVec3f(&quadInit->quad[3], &d);
+        func_80062734(collider, &a, &b, &c, &d);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider->base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);
     }
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_800906D4.s")
-// TODO arg2 is ColliderTrisItemDimInit
-void func_800906D4(GlobalContext* globalCtx, Player* player, s32 arg2) {
+void func_800906D4(GlobalContext* globalCtx, Player* player, ColliderTrisItemDimInit* trisInit) {
     Vec3f sp44;
     Vec3f sp38;
     Vec3f sp2C;
@@ -588,12 +565,12 @@ void func_800906D4(GlobalContext* globalCtx, Player* player, s32 arg2) {
     Matrix_MultVec3f(&D_801260A4, &sp2C);
     Matrix_MultVec3f(&D_801260B0, &sp38);
     Matrix_MultVec3f(&D_801260BC, &sp44);
-    if (func_80090480(globalCtx, NULL, &player->unk_8B4, (Vec3f*)(arg2 + 0x00), &sp2C) != 0 && (s32)(player->stateFlags1 << 9) >= 0) {
+    if (func_80090480(globalCtx, NULL, &player->unk_8B4, &trisInit->vtx[0], &sp2C) != 0 && (s32)(player->stateFlags1 << 9) >= 0) {
         func_8001FDF0(func_80026B0C(player->unk_670), &player->swordTipPos, &player->unk_8C4);
     }
     if (player->swordState > 0 && ((player->swordAnimation < 0x18) || ((s32)(player->stateFlags2 << 0xE) < 0))) {
-        func_80090480(globalCtx, &player->unk_4E4, &player->unk_8D0, (Vec3f*)(arg2 + 0x0C), &sp38);
-        func_80090480(globalCtx, &player->unk_564, &player->unk_8EC, (Vec3f*)(arg2 + 0x18), &sp44);
+        func_80090480(globalCtx, &player->unk_4E4, &player->unk_8D0, &trisInit->vtx[1], &sp38);
+        func_80090480(globalCtx, &player->unk_564, &player->unk_8EC, &trisInit->vtx[2], &sp44);
     }
 }
 
@@ -635,8 +612,7 @@ void func_800909B4(GlobalContext* globalCtx, Player* player) {
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090A28.s")
-// TODO arg1 is ColliderTrisItemDimInit
-void func_80090A28(Player* player, s32 arg1) {
+void func_80090A28(Player* player, ColliderTrisItemDimInit* trisInit) {
     D_8012608C.x = D_80126080.x;
     if (player->unk_845 >= 3) {
         player->unk_845 += 1;
@@ -644,9 +620,9 @@ void func_80090A28(Player* player, s32 arg1) {
     }
     D_8012608C.x += 1200.0f;
     D_80126098.x = D_8012608C.x;
-    Matrix_MultVec3f(&D_80126080, (Vec3f*)(arg1 + 0x00));
-    Matrix_MultVec3f(&D_8012608C, (Vec3f*)(arg1 + 0x0C));
-    Matrix_MultVec3f(&D_80126098, (Vec3f*)(arg1 + 0x18));
+    Matrix_MultVec3f(&D_80126080, &trisInit->vtx[0]);
+    Matrix_MultVec3f(&D_8012608C, &trisInit->vtx[1]);
+    Matrix_MultVec3f(&D_80126098, &trisInit->vtx[2]);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090AFC.s")
@@ -656,18 +632,19 @@ void func_80090A28(Player* player, s32 arg1) {
     Vec3f sp8C;
     Vec3f sp80;
     Vec3f sp74;
-    f32 sp68;
+    Vec3f sp68;
     f32 sp64;
     f32 sp60;
     Gfx* dispRefs[3]; // TODO confirm size
     GraphicsContext* gfxCtx;
 
-    gfxCtx = globalCtx->state.gfxCtx;
     D_801260D0 = 0.0f;
     Matrix_MultVec3f(&D_801260C8, &sp8C);
     D_801260D0 = arg2;
     Matrix_MultVec3f(&D_801260C8, &sp80);
+
     if (func_8003E188(&globalCtx->colCtx, &sp8C, &sp80, &sp74, &sp9C, 1, 1, 1, 1, &sp98) != 0) {
+        gfxCtx = globalCtx->state.gfxCtx;
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_player_lib.c", 0xA0C);
 
         gfxCtx->overlay.p = Gfx_CallSetupDL(gfxCtx->overlay.p, 7);
@@ -690,22 +667,31 @@ void func_80090A28(Player* player, s32 arg1) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090D20.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80091738.s")
-/* s32 func_80091738(GlobalContext* globalCtx, u32 arg1, SkelAnime* skelAnime) {
-    s16 objId;
-    s32 sp34;
-    s32 objSize;
-    Vec3s* temp_v1;
+/* s32 func_80091738(GlobalContext *globalCtx, u32 arg1, SkelAnime *skelAnime) {
+    s16 sp46;
+    s32 temp_v1;
+    u32 temp_a0;
+    u32 objSize;
 
-    objId = gLinkObjectIds[gSaveContext.linkAge];
+    sp46 = gLinkObjectIds[gSaveContext.linkAge];
+
     DmaMgr_SendRequest1(arg1 + 0x3800, gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, 
                         gObjectTable[OBJECT_GAMEPLAY_KEEP].vromEnd - gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, "../z_player_lib.c", 0xBA6);
-    objSize = gObjectTable[objId].vromEnd - gObjectTable[objId].vromStart;
-    sp34 = arg1 + 0x8800;
-    DmaMgr_SendRequest1(sp34, gObjectTable[objId].vromStart, objSize, "../z_player_lib.c", 0xBAC);
-    temp_v1 = ALIGN16(sp34 + objSize);
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(arg1 + 3800);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(arg1 + 8800);
-    SkelAnime_InitLinkAnimetion(globalCtx, skelAnime, D_80125B70[gSaveContext.linkAge], &D_04003238, 9, temp_v1, temp_v1, 0x16);
+
+    objSize = gObjectTable[sp46].vromEnd - gObjectTable[sp46].vromStart;
+
+    temp_a0 = arg1 + 0x8800;
+
+    DmaMgr_SendRequest1(temp_a0, gObjectTable[sp46].vromStart, objSize, "../z_player_lib.c", 0xBAC);
+
+    temp_v1 = ALIGN16(temp_a0 + objSize);
+
+    gSegments[4] = PHYSICAL_TO_VIRTUAL(arg1 + 0x3800);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(arg1 + 0x8800);
+
+    SkelAnime_InitLinkAnimetion(globalCtx, skelAnime, (SkeletonHeader*)D_80125B70[gSaveContext.linkAge], 
+                    (LinkAnimetionEntry*)&D_04003238, 9, temp_v1, temp_v1, 0x16);
+
     return objSize + 0x8890;
 } */
 
