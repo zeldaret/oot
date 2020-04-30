@@ -1,7 +1,5 @@
 #include <global.h>
 
-extern Gfx D_08000000[];
-
 Vtx sWipeVtx[] = {
     VTX(-1299, 750, 0, 13653, 2048, 0xAD, 0x30, 0xB8, 0xFF),  VTX(-750, 1299, 0, 15019, 2048, 0xD0, 0x53, 0xB8, 0xFF),
     VTX(0, 0, -500, 14336, 0, 0xCE, 0xCE, 0xA0, 0xFF),        VTX(0, 1500, 0, 16384, 2048, 0x00, 0x60, 0xB8, 0xFF),
@@ -146,7 +144,7 @@ Gfx sWipeDList[] = {
                           G_TX_MIRROR | G_TX_WRAP, 6, 6, 11, 1),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsSPDisplayList(D_08000000),
+    gsSPDisplayList(0x08000000),
     gsSPVertex(sWipeVtx, 25, 0),
     gsSP2Triangles(0, 1, 2, 0, 1, 3, 4, 0),
     gsSP2Triangles(5, 6, 7, 0, 6, 8, 9, 0),

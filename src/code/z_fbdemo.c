@@ -1,12 +1,10 @@
 #include <ultra64.h>
 #include <global.h>
 
-extern u16 COLOR_BUFFER_SEG[];
-
 Gfx D_8012AFB0[] = {
     gsDPPipeSync(),
     gsDPSetCycleType(G_CYC_FILL),
-    gsDPSetColorImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, COLOR_BUFFER_SEG),
+    gsDPSetColorImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, 0x0F000000),
     gsDPSetFillColor(RGBA8(0x42, 0x11, 0x42, 0x11)),
     gsDPFillRectangle(0, 0, 319, 239),
     gsDPPipeSync(),
