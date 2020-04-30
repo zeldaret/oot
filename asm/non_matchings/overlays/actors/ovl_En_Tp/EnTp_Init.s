@@ -45,7 +45,7 @@ glabel EnTp_Init
 /* 00098 80B20E78 0260A825 */  or      $s5, $s3, $zero            ## $s5 = 00000000
 /* 0009C 80B20E7C A679015E */  sh      $t9, 0x015E($s3)           ## 0000015E
 /* 000A0 80B20E80 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000174
-/* 000A4 80B20E84 0C016EFE */  jal     func_8005BBF8              
+/* 000A4 80B20E84 0C016EFE */  jal     Collider_InitJntSph              
 /* 000A8 80B20E88 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
 /* 000AC 80B20E8C 3C0780B2 */  lui     $a3, %hi(D_80B22AB4)       ## $a3 = 80B20000
 /* 000B0 80B20E90 26680194 */  addiu   $t0, $s3, 0x0194           ## $t0 = 00000194
@@ -53,7 +53,7 @@ glabel EnTp_Init
 /* 000B8 80B20E98 24E72AB4 */  addiu   $a3, $a3, %lo(D_80B22AB4)  ## $a3 = 80B22AB4
 /* 000BC 80B20E9C 02C02025 */  or      $a0, $s6, $zero            ## $a0 = 00000000
 /* 000C0 80B20EA0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000174
-/* 000C4 80B20EA4 0C017014 */  jal     func_8005C050              
+/* 000C4 80B20EA4 0C017014 */  jal     Collider_SetJntSph              
 /* 000C8 80B20EA8 02603025 */  or      $a2, $s3, $zero            ## $a2 = 00000000
 /* 000CC 80B20EAC 8663001C */  lh      $v1, 0x001C($s3)           ## 0000001C
 /* 000D0 80B20EB0 24090006 */  addiu   $t1, $zero, 0x0006         ## $t1 = 00000006

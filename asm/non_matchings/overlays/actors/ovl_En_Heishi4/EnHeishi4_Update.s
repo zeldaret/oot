@@ -78,14 +78,14 @@ glabel EnHeishi4_Update
 /* 00D04 80A56DD4 260602BC */  addiu   $a2, $s0, 0x02BC           ## $a2 = 000002BC
 /* 00D08 80A56DD8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 000002BC
 /* 00D0C 80A56DDC AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 00D10 80A56DE0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00D10 80A56DE0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00D14 80A56DE4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00D18 80A56DE8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00D1C 80A56DEC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00D20 80A56DF0 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 00D24 80A56DF4 02212821 */  addu    $a1, $s1, $at              
-/* 00D28 80A56DF8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00D28 80A56DF8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00D2C 80A56DFC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00D30 80A56E00 8FBF0024 */  lw      $ra, 0x0024($sp)           

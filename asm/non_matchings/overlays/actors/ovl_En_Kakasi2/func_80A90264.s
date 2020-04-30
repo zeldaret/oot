@@ -44,14 +44,14 @@ glabel func_80A90264
 /* 002D4 80A902E4 AC880134 */  sw      $t0, 0x0134($a0)           ## 00000134
 /* 002D8 80A902E8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 002DC 80A902EC 260501AC */  addiu   $a1, $s0, 0x01AC           ## $a1 = 000001AC
-/* 002E0 80A902F0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 002E0 80A902F0 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 002E4 80A902F4 AFA50030 */  sw      $a1, 0x0030($sp)
 /* 002E8 80A902F8 3C0780A9 */  lui     $a3, %hi(D_80A909A0)       ## $a3 = 80A90000
 /* 002EC 80A902FC 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 002F0 80A90300 24E709A0 */  addiu   $a3, $a3, %lo(D_80A909A0)  ## $a3 = 80A909A0
 /* 002F4 80A90304 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 002F8 80A90308 0C01712B */  jal     ActorCollider_InitCylinder
+/* 002F8 80A90308 0C01712B */  jal     Collider_SetCylinder
 
 /* 002FC 80A9030C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00300 80A90310 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
@@ -139,14 +139,14 @@ glabel func_80A90264
 /* 0042C 80A9043C AE180134 */  sw      $t8, 0x0134($s0)           ## 00000134
 /* 00430 80A90440 260501AC */  addiu   $a1, $s0, 0x01AC           ## $a1 = 000001AC
 /* 00434 80A90444 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00438 80A90448 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00438 80A90448 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 0043C 80A9044C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00440 80A90450 3C0780A9 */  lui     $a3, %hi(D_80A909A0)       ## $a3 = 80A90000
 /* 00444 80A90454 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 00448 80A90458 24E709A0 */  addiu   $a3, $a3, %lo(D_80A909A0)  ## $a3 = 80A909A0
 /* 0044C 80A9045C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00450 80A90460 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00450 80A90460 0C01712B */  jal     Collider_SetCylinder
 
 /* 00454 80A90464 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00458 80A90468 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000

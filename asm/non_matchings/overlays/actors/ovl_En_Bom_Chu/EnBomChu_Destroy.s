@@ -13,7 +13,7 @@ glabel EnBomChu_Destroy
 /* 001C8 809C59F8 8DE50180 */  lw      $a1, 0x0180($t7)           ## 00000180
 /* 001CC 809C59FC 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 001D0 809C5A00 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 001D4 809C5A04 0C016F32 */  jal     func_8005BCC8              
+/* 001D4 809C5A04 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 001D8 809C5A08 24A50184 */  addiu   $a1, $a1, 0x0184           ## $a1 = 00000184
 /* 001DC 809C5A0C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 001E0 809C5A10 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

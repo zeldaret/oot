@@ -63,14 +63,14 @@ glabel EnHorseNormal_Update
 /* 01840 80A6CA90 AE0A0040 */  sw      $t2, 0x0040($s0)           ## 00000040
 /* 01844 80A6CA94 AE0C020C */  sw      $t4, 0x020C($s0)           ## 0000020C
 /* 01848 80A6CA98 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 0184C 80A6CA9C 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0184C 80A6CA9C 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 01850 80A6CAA0 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000228
 /* 01854 80A6CAA4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01858 80A6CAA8 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 0185C 80A6CAAC 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01860 80A6CAB0 02212821 */  addu    $a1, $s1, $at              
-/* 01864 80A6CAB4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01864 80A6CAB4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01868 80A6CAB8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0186C 80A6CABC 44804000 */  mtc1    $zero, $f8                 ## $f8 = 0.00

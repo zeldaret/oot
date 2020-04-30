@@ -37,14 +37,14 @@ glabel EnHs2_Init
 /* 00070 80A6F010 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00074 80A6F014 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00078 80A6F018 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 0007C 80A6F01C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0007C 80A6F01C 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00080 80A6F020 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00084 80A6F024 3C0780A7 */  lui     $a3, %hi(D_80A6F4A0)       ## $a3 = 80A70000
 /* 00088 80A6F028 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 0008C 80A6F02C 24E7F4A0 */  addiu   $a3, $a3, %lo(D_80A6F4A0)  ## $a3 = 80A6F4A0
 /* 00090 80A6F030 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 00094 80A6F034 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00094 80A6F034 0C01712B */  jal     Collider_SetCylinder
 
 /* 00098 80A6F038 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0009C 80A6F03C 241900FF */  addiu   $t9, $zero, 0x00FF         ## $t9 = 000000FF

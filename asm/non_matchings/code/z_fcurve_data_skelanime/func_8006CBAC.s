@@ -120,7 +120,7 @@ glabel func_8006CBAC
 /* AE3EB4 8006CD14 448A3000 */  mtc1  $t2, $f6
 /* AE3EB8 8006CD18 00000000 */  nop
 /* AE3EBC 8006CD1C 46803220 */  cvt.s.w $f8, $f6
-/* AE3EC0 8006CD20 0C0344D0 */  jal   Matrix_TranslateThenRotateZYX
+/* AE3EC0 8006CD20 0C0344D0 */  jal   Matrix_JointPosition
 /* AE3EC4 8006CD24 E7A80068 */   swc1  $f8, 0x68($sp)
 /* AE3EC8 8006CD28 C7AC0074 */  lwc1  $f12, 0x74($sp)
 /* AE3ECC 8006CD2C C7AE0078 */  lwc1  $f14, 0x78($sp)

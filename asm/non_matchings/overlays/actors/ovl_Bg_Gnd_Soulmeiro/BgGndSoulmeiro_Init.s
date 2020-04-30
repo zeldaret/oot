@@ -24,14 +24,14 @@ glabel BgGndSoulmeiro_Init
 /* 00054 8087AE14 10000036 */  beq     $zero, $zero, .L8087AEF0   
 /* 00058 8087AE18 8FBF0034 */  lw      $ra, 0x0034($sp)           
 .L8087AE1C:
-/* 0005C 8087AE1C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0005C 8087AE1C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00060 8087AE20 AFA50038 */  sw      $a1, 0x0038($sp)           
 /* 00064 8087AE24 3C078088 */  lui     $a3, %hi(D_8087B530)       ## $a3 = 80880000
 /* 00068 8087AE28 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 0006C 8087AE2C 24E7B530 */  addiu   $a3, $a3, %lo(D_8087B530)  ## $a3 = 8087B530
 /* 00070 8087AE30 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00074 8087AE34 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00074 8087AE34 0C01712B */  jal     Collider_SetCylinder
               
 /* 00078 8087AE38 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0007C 8087AE3C 8605001C */  lh      $a1, 0x001C($s0)           ## 0000001C

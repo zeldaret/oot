@@ -12,7 +12,7 @@ glabel EnPoRelay_Destroy
 /* 001A8 80AD78E8 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 001AC 80AD78EC 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 001B0 80AD78F0 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 001B4 80AD78F4 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 001B4 80AD78F4 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001B8 80AD78F8 24A50290 */  addiu   $a1, $a1, 0x0290           ## $a1 = 00000290
 /* 001BC 80AD78FC 8FBF0014 */  lw      $ra, 0x0014($sp)           

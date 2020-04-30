@@ -6,14 +6,14 @@ glabel EnJs_Update
 /* 00538 80A89348 AFA5004C */  sw      $a1, 0x004C($sp)           
 /* 0053C 80A8934C 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 00540 80A89350 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
-/* 00544 80A89354 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00544 80A89354 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00548 80A89358 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 0054C 80A8935C 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 00550 80A89360 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00554 80A89364 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00558 80A89368 8FA60034 */  lw      $a2, 0x0034($sp)           
-/* 0055C 80A8936C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0055C 80A8936C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00560 80A89370 00812821 */  addu    $a1, $a0, $at              
 /* 00564 80A89374 0C00B638 */  jal     Actor_MoveForward

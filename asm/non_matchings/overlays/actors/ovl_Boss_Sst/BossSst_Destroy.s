@@ -5,11 +5,11 @@ glabel BossSst_Destroy
 /* 00490 8092CA60 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00494 8092CA64 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00498 8092CA68 AFBF0014 */  sw      $ra, 0x0014($sp)           
-/* 0049C 8092CA6C 0C016F32 */  jal     func_8005BCC8              
+/* 0049C 8092CA6C 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 004A0 8092CA70 24A503D4 */  addiu   $a1, $a1, 0x03D4           ## $a1 = 000003D4
 /* 004A4 8092CA74 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 004A8 8092CA78 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 004AC 8092CA7C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 004AC 8092CA7C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 004B0 8092CA80 24A506B4 */  addiu   $a1, $a1, 0x06B4           ## $a1 = 000006B4
 /* 004B4 8092CA84 8FA40018 */  lw      $a0, 0x0018($sp)           

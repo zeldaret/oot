@@ -12,12 +12,12 @@ glabel EnCow_Update
 /* 00E44 809DFC44 AFA50034 */  sw      $a1, 0x0034($sp)
 /* 00E48 809DFC48 AFA70054 */  sw      $a3, 0x0054($sp)
 /* 00E4C 809DFC4C 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
-/* 00E50 809DFC50 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00E50 809DFC50 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00E54 809DFC54 AFAE0040 */  sw      $t6, 0x0040($sp)
 /* 00E58 809DFC58 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 00E5C 809DFC5C 8FA50034 */  lw      $a1, 0x0034($sp)
-/* 00E60 809DFC60 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00E60 809DFC60 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00E64 809DFC64 26060198 */  addiu   $a2, $s0, 0x0198           ## $a2 = 00000198
 /* 00E68 809DFC68 0C00B638 */  jal     Actor_MoveForward

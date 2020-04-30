@@ -55,7 +55,7 @@ void EnDs_Init(EnDs* this, GlobalContext* globalCtx) {
     SkelAnime_InitSV(globalCtx, skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600039C);
 
-    this->actor.sub_98.mass = 0xFF;
+    this->actor.colChkInfo.mass = 0xFF;
 
     Actor_SetScale(this, 0.013f);
 

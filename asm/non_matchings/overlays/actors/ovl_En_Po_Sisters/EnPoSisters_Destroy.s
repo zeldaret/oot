@@ -21,7 +21,7 @@ glabel EnPoSisters_Destroy
 /* 00290 80AD9220 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 00294 80AD9224 8FA4001C */  lw      $a0, 0x001C($sp)           
 .L80AD9228:
-/* 00298 80AD9228 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00298 80AD9228 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0029C 80AD922C 24E502AC */  addiu   $a1, $a3, 0x02AC           ## $a1 = 000002AC
 /* 002A0 80AD9230 8FBF0014 */  lw      $ra, 0x0014($sp)           

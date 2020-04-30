@@ -3,7 +3,7 @@ glabel func_80984D4C
 /* 00170 80984D50 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 00174 80984D54 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00178 80984D58 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 0017C 80984D5C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0017C 80984D5C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00180 80984D60 24C50284 */  addiu   $a1, $a2, 0x0284           ## $a1 = 00000284
 /* 00184 80984D64 8FBF0014 */  lw      $ra, 0x0014($sp)           

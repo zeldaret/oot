@@ -234,7 +234,7 @@ glabel BgHidanRsekizou_Update
 /* 004D8 8088C6D8 00000000 */  nop
 /* 004DC 8088C6DC A4580034 */  sh      $t8, 0x0034($v0)           ## 000001F4
 /* 004E0 8088C6E0 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 004E4 8088C6E4 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 004E4 8088C6E4 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 004E8 8088C6E8 00812821 */  addu    $a1, $a0, $at              
 /* 004EC 8088C6EC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

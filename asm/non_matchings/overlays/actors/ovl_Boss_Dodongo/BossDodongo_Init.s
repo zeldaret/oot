@@ -89,7 +89,7 @@ glabel BossDodongo_Init
 /* 008D8 808C1A68 26110440 */  addiu   $s1, $s0, 0x0440           ## $s1 = 00000440
 /* 008DC 808C1A6C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000440
 /* 008E0 808C1A70 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 008E4 808C1A74 0C016EFE */  jal     func_8005BBF8
+/* 008E4 808C1A74 0C016EFE */  jal     Collider_InitJntSph
 /* 008E8 808C1A78 E6100228 */  swc1    $f16, 0x0228($s0)          ## 00000228
 /* 008EC 808C1A7C 3C07808C */  lui     $a3, %hi(D_808C73AC)       ## $a3 = 808C0000
 /* 008F0 808C1A80 26190460 */  addiu   $t9, $s0, 0x0460           ## $t9 = 00000460
@@ -97,7 +97,7 @@ glabel BossDodongo_Init
 /* 008F8 808C1A88 24E773AC */  addiu   $a3, $a3, %lo(D_808C73AC)  ## $a3 = 808C73AC
 /* 008FC 808C1A8C 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00900 808C1A90 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000440
-/* 00904 808C1A94 0C017014 */  jal     func_8005C050
+/* 00904 808C1A94 0C017014 */  jal     Collider_SetJntSph
 /* 00908 808C1A98 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0090C 808C1A9C 3C050001 */  lui     $a1, 0x0001                ## $a1 = 00010000
 /* 00910 808C1AA0 00B32821 */  addu    $a1, $a1, $s3

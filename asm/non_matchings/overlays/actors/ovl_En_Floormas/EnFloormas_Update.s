@@ -86,7 +86,7 @@ glabel EnFloormas_Update
 /* 02AD0 80A19FE0 00000000 */  nop
 /* 02AD4 80A19FE4 260502C8 */  addiu   $a1, $s0, 0x02C8           ## $a1 = 000002C8
 /* 02AD8 80A19FE8 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 02ADC 80A19FEC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 02ADC 80A19FEC 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 02AE0 80A19FF0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02AE4 80A19FF4 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
@@ -102,7 +102,7 @@ glabel EnFloormas_Update
 /* 02B0C 80A1A01C AE0E0004 */  sw      $t6, 0x0004($s0)           ## 00000004
 /* 02B10 80A1A020 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02B14 80A1A024 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 02B18 80A1A028 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 02B18 80A1A028 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 02B1C 80A1A02C 00812821 */  addu    $a1, $a0, $at              
 /* 02B20 80A1A030 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
@@ -122,7 +122,7 @@ glabel EnFloormas_Update
 /* 02B54 80A1A064 15000005 */  bne     $t0, $zero, .L80A1A07C     
 /* 02B58 80A1A068 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 02B5C 80A1A06C 00812821 */  addu    $a1, $a0, $at              
-/* 02B60 80A1A070 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 02B60 80A1A070 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 02B64 80A1A074 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 02B68 80A1A078 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
@@ -143,7 +143,7 @@ glabel EnFloormas_Update
 /* 02B9C 80A1A0AC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02BA0 80A1A0B0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02BA4 80A1A0B4 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 02BA8 80A1A0B8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02BA8 80A1A0B8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02BAC 80A1A0BC 00812821 */  addu    $a1, $a0, $at              
 .L80A1A0C0:

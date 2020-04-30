@@ -25,14 +25,14 @@ glabel EnPoDesert_Init
 /* 00054 80AD2D04 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00058 80AD2D08 26050238 */  addiu   $a1, $s0, 0x0238           ## $a1 = 00000238
 /* 0005C 80AD2D0C AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00060 80AD2D10 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00060 80AD2D10 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00064 80AD2D14 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00068 80AD2D18 3C0780AD */  lui     $a3, %hi(D_80AD39A0)       ## $a3 = 80AD0000
 /* 0006C 80AD2D1C 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 00070 80AD2D20 24E739A0 */  addiu   $a3, $a3, %lo(D_80AD39A0)  ## $a3 = 80AD39A0
 /* 00074 80AD2D24 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00078 80AD2D28 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00078 80AD2D28 0C01712B */  jal     Collider_SetCylinder
               
 /* 0007C 80AD2D2C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00080 80AD2D30 240300FF */  addiu   $v1, $zero, 0x00FF         ## $v1 = 000000FF
