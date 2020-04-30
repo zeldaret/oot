@@ -43,7 +43,7 @@ typedef struct {
     /* 0x08 */ s32  regCur;    // selected register within page
     /* 0x0C */ s32  dpadLast;
     /* 0x10 */ s32  repeat;
-    /* 0x14 */ s16  data[REG_GROUPS * REG_PER_GROUP]; // 0xAE0 bytes
+    /* 0x14 */ s16  data[REG_GROUPS * REG_PER_GROUP]; // 0xAE0 entries
 } GameInfo; // size = 0x15D4
 
 typedef struct {
@@ -348,7 +348,7 @@ typedef struct {
 } Viewport; // size = 0x10
 
 
-typedef struct { 
+typedef struct {
     /* 0x0000 */ s32    magic; // string literal "VIEW" / 0x56494557
     /* 0x0004 */ GraphicsContext* gfxCtx;
     /* 0x0008 */ Viewport viewport;
@@ -371,14 +371,8 @@ typedef struct {
     /* 0x0110 */ Vec3f  unk_110;
     /* 0x011C */ u16    normal; // used to normalize the projection matrix
     /* 0x0120 */ u32    flags;
-    /* 0x0124 */ s32    unk_124; 
+    /* 0x0124 */ s32    unk_124;
 } View; // size = 0x128
-
-typedef struct {
-    f32 unk_00;
-    s16 unk_04;
-    s16 unk_06;
-} struct_80045714; // used in z_camera.c and code_8007BF90
 
 typedef struct {
     /* 0x0000 */ s32 unk_00;
@@ -386,16 +380,20 @@ typedef struct {
     /* 0x0006 */ s16 unk_06;
     /* 0x0008 */ s16 unk_08;
     /* 0x000A */ s16 unk_0A;
-    /* 0x000C */ char unk_0C[0x44];
-    /* 0x0050 */ Vec3f unk_50;
-    /* 0x005C */ Vec3f unk_5C;
-    /* 0x0068 */ char unk_68[0x0C];
+    /* 0x000C */ char unk_0C[0x16];
+    /* 0x0022 */ s16 unk_22;
+    /* 0x0024 */ char unk_24[0x2C];
+    /* 0x0050 */ Vec3f at;
+    /* 0x005C */ Vec3f eye;
+    /* 0x0068 */ Vec3f unk_68;
     /* 0x0074 */ Vec3f unk_74;
     /* 0x0080 */ Vec3f unk_80;
     /* 0x008C */ struct GlobalContext* globalCtx;
     /* 0x0090 */ Player* player;
     /* 0x0094 */ PosRot unk_94;
-    /* 0x00A8 */ char unk_A8[0x18];
+    /* 0x00A8 */ Vec3f* unk_A8;
+    /* 0x00AC */ Vec3f unk_AC;
+    /* 0x00B8 */ char unk_B8[8];
     /* 0x00C0 */ Vec3f unk_C0;
     /* 0x00CC */ Vec3f unk_CC;
     /* 0x00D8 */ f32 unk_D8;
@@ -412,9 +410,11 @@ typedef struct {
     /* 0x0128 */ s32 unk_128;
     /* 0x012C */ s16 unk_12C;
     /* 0x012E */ s16 unk_12E;
-    /* 0x0130 */ s16 unk_130;
-    /* 0x0132 */ char unk_132[0x0E];
-    /* 0x0140 */ s16 unk_140;
+    /* 0x0130 */ s16 uid;    // Unique identifier of the camera.
+    /* 0x0132 */ char unk_132[0x02];
+    /* 0x0134 */ Vec3s unk_134;
+    /* 0x013A */ Vec3s unk_13A;
+    /* 0x0140 */ s16 status;
     /* 0x0142 */ s16 unk_142; // related to door camera (see func_8005AD40)
     /* 0x0144 */ s16 unk_144;
     /* 0x0146 */ s16 unk_146; // unknown if used
@@ -1545,7 +1545,7 @@ typedef struct {
 typedef struct {
     /* 0x000 */ u8 codeOffs[16];
     /* 0x010 */ u16 dcCodes[120];
-    /* 0x100 */ u16 acCodes[256]; 
+    /* 0x100 */ u16 acCodes[256];
 } JpegHuffmanTableOld; // size = 0x300
 
 typedef struct {
@@ -1588,7 +1588,7 @@ typedef struct {
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 
-typedef struct { 
+typedef struct {
     /* 0x00 */ char unk_00[0x08];
     /* 0x08 */ Color_RGBA8 color;
     /* 0x0C */ char unk_0C[0x0C];

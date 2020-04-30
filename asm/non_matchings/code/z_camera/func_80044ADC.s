@@ -31,7 +31,7 @@ glabel func_80044ADC
 /* ABBCA0 80044B00 0C01DE0D */  jal   Math_Coss
 /* ABBCA4 80044B04 87A40076 */   lh    $a0, 0x76($sp)
 /* ABBCA8 80044B08 8E040090 */  lw    $a0, 0x90($s0)
-/* ABBCAC 80044B0C 0C00B721 */  jal   func_8002DC84
+/* ABBCAC 80044B0C 0C00B721 */  jal   Player_GetCameraYOffset
 /* ABBCB0 80044B10 E7A00038 */   swc1  $f0, 0x38($sp)
 /* ABBCB4 80044B14 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* ABBCB8 80044B18 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)

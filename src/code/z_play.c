@@ -232,7 +232,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     }
 
     globalCtx->cameraPtrs[0] = &globalCtx->cameras[0];
-    globalCtx->cameraPtrs[0]->unk_130 = 0;
+    globalCtx->cameraPtrs[0]->uid = 0;
     globalCtx->activeCamera = 0;
     func_8005AC48(&globalCtx->cameras[0], 0xFF);
     func_800A9D28(globalCtx, &globalCtx->sub_1F74);
@@ -1719,7 +1719,7 @@ s16 func_800C09A4(GlobalContext* globalCtx, s16 camId) {
     Camera* camera = globalCtx->cameraPtrs[camId];
 
     if (camera != NULL) {
-        return camera->unk_130;
+        return camera->uid;
     } else {
         return -1;
     }
@@ -1730,9 +1730,9 @@ s16 func_800C09D8(GlobalContext* globalCtx, s16 camId, s16 arg2) {
 
     if (camera != NULL) {
         return 0;
-    } else if (camera->unk_130 != arg2) {
+    } else if (camera->uid != arg2) {
         return 0;
-    } else if (camera->unk_140 != 7) {
+    } else if (camera->status != 7) {
         return 2;
     } else {
         return 1;
