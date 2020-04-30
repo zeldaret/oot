@@ -108,7 +108,7 @@ glabel func_800907E4
 /* B07AE0 80090940 00A12821 */  addu  $a1, $a1, $at
 /* B07AE4 80090944 000528C0 */  sll   $a1, $a1, 3
 /* B07AE8 80090948 00052C00 */  sll   $a1, $a1, 0x10
-/* B07AEC 8009094C 0C034421 */  jal   Matrix_RotateZYX
+/* B07AEC 8009094C 0C034421 */  jal   Matrix_RotateRPY
 /* B07AF0 80090950 00052C03 */   sra   $a1, $a1, 0x10
 /* B07AF4 80090954 3C018014 */  lui   $at, %hi(D_8013E930)
 /* B07AF8 80090958 C42CE930 */  lwc1  $f12, %lo(D_8013E930)($at)

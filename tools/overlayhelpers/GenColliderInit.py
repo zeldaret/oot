@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import struct
 
 T_DEFAULT = ''
@@ -8,7 +10,7 @@ TYPE_ENUM = [
     "COLTYPE_UNK0",
     "COLTYPE_UNK1",
     "COLTYPE_UNK2",
-    "COLTYPE_UNK3", 
+    "COLTYPE_UNK3",
     "COLTYPE_UNK4",
     "COLTYPE_UNK5",
     "COLTYPE_UNK6",
@@ -17,14 +19,14 @@ TYPE_ENUM = [
     "COLTYPE_METAL_SHIELD",
     "COLTYPE_UNK10",
     "COLTYPE_WOODEN_SHIELD",
-    "COLTYPE_UNK12", 
+    "COLTYPE_UNK12",
     "COLTYPE_UNK13"  ]
 
-SHAPE_ENUM = [ 
+SHAPE_ENUM = [
     "COLSHAPE_JNTSPH",
     "COLSHAPE_CYLINDER",
     "COLSHAPE_TRIS",
-    "COLSHAPE_QUAD" ]    
+    "COLSHAPE_QUAD" ]
 
 sf_ColliderInit = ">BBBBBB"
 sf_ColliderInit_Set3 = ">BBBBB"
@@ -40,7 +42,7 @@ sf_Quad = ">12f"
 f_ColliderInit = "{{ {0}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, 0x{4:02X}, {5} }}"
 f_ColliderInit_Set3 = "{{ {0}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, {4} }}"
 f_ColliderInit_Actor = "{{ {0}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, {4} }}"
-f_ColliderBodyInit = "{{ 0x{0:02X}, {{ 0x{1:08X}, 0x{2:02X}, 0x{3:02X} }}, {{ 0x{4:08X}, 0x{5:02X}, 0x{6:02X} }}, 0x{7:02X} 0x{8:02X} 0x{9:02X} }}"
+f_ColliderBodyInit = "{{ 0x{0:02X}, {{ 0x{1:08X}, 0x{2:02X}, 0x{3:02X} }}, {{ 0x{4:08X}, 0x{5:02X}, 0x{6:02X} }}, 0x{7:02X}, 0x{8:02X}, 0x{9:02X} }}"
 f_JntSph = "{{ {0}, D_{1:08X} }}"
 f_JntSphItem = "{{ {0}, {{ {{ {1}, {2}, {3} }}, {4} }}, {5} }}"
 f_Cylinder16 = "{{ {0}, {1}, {2}, {{ {3}, {4}, {5} }} }}"
@@ -56,7 +58,7 @@ def GetColliderFormat(type):
     if type == T_ACTOR:
         return (sf_ColliderInit_Actor, f_ColliderInit_Actor)
     return None
-    
+
 def GetColliderStr(data, off, type):
     cf = GetColliderFormat(type)
     cBase = list(struct.unpack_from(cf[0], data, off))
@@ -70,16 +72,16 @@ def GetColliderStr(data, off, type):
             cBase[0] = TYPE_ENUM[cBase[0]]
         else:
             cBase[0] = '0x{0:02X}'.format(cBase[0])
-            
+
     i = 4
     if type == T_DEFAULT:
         i = 5
-    
+
     if cBase[i] < 4:
         cBase[i] = SHAPE_ENUM[cBase[i]]
     else:
         cBase[i] = '0x{0:02X}'.format(cBase[i])
-    
+
     return cf[1].format(*cBase);
 
 def GetItems(data, off, count, structf, fmt, size):
@@ -94,7 +96,7 @@ def GetItems(data, off, count, structf, fmt, size):
         {1},
     }},'''.format(f_ColliderBodyInit.format(*cBody), fmt.format(*cItem))
     return result
-    
+
 def GetJntSphItems(data, off, count):
     items = GetItems(data, off, count, sf_JntSphItem, f_JntSphItem, 0x0C)
     print('''
@@ -105,7 +107,7 @@ ColliderJntSphItemInit jntsphItemsInit[{0}] = {{{1}
 def GetJntSph(data, off, type):
     sBase = GetColliderStr(data, off, type)
     cJntSph = struct.unpack_from(sf_JntSph, data, off + 8)
-    
+
     print('''
 ColliderJntSphInit{0} jntsphInit = 
 {{
@@ -121,13 +123,13 @@ def GetTrisItems(data, off, count):
 ColliderTrisItemInit trisItemsInit[{0}] = {{{1}
 }};
 '''.format(count, items))
-    
+
 
 def GetCylinder(data, off, type):
     sBase = GetColliderStr(data, off, type)
     cBody = struct.unpack_from(sf_ColliderBodyInit, data, off + 0x08)
     cCyl16 = struct.unpack_from(sf_Cylinder16, data, off + 0x20)
-    
+
     print('''
 ColliderCylinderInit{0} cylinderInit = 
 {{
@@ -136,11 +138,11 @@ ColliderCylinderInit{0} cylinderInit =
     {3},
 }};
     '''.format(type, sBase, f_ColliderBodyInit.format(*cBody),f_Cylinder16.format(*cCyl16)))
-    
+
 def GetTris(data, off, type):
     sBase = GetColliderStr(data, off, type)
     cTris = struct.unpack_from(sf_Tris, data, off + 8)
-    
+
     print('''
 ColliderTrisInit{0} trisInit = 
 {{
@@ -164,8 +166,8 @@ ColliderQuadInit{0} quadInit =
     '''.format(type, sBase, f_ColliderBodyInit.format(*cBody), f_Quad.format(*cQuad)))
 
 TYPE_DICT = {
-    'ColliderJntSphInit' : (GetCylinder, 'Shape', T_DEFAULT),
-    'ColliderCylinderInit' : (GetJntSph, 'Shape', T_DEFAULT),
+    'ColliderJntSphInit' : (GetJntSph, 'Shape', T_DEFAULT),
+    'ColliderCylinderInit' : (GetCylinder, 'Shape', T_DEFAULT),
     'ColliderTrisInit': (GetTris, 'Shape', T_DEFAULT),
     'ColliderQuadInit': (GetQuad, 'Shape', T_DEFAULT),
     'ColliderJntSphItemInit' : (GetJntSphItems, 'Item'),
