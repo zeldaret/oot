@@ -59,8 +59,8 @@ typedef struct {
     /* 0x08 */ u32   clear;
     /* 0x0C */ u32   collect;
     /* 0x10 */ u32   unk;
-    /* 0x14 */ u32   rooms1;
-    /* 0x18 */ u32   rooms2;
+    /* 0x14 */ u32   rooms;
+    /* 0x18 */ u32   floors;
 } SaveSceneFlags; // size = 0x1C
 
 typedef struct {
@@ -186,7 +186,7 @@ typedef struct {
     /* 0x13F6 */ s16          unk_13F6;
     /* 0x13F8 */ s16          unk_13F8;
     /* 0x13FA */ u16          eventInf[4]; // "event_inf"
-    /* 0x1402 */ u16          dungeonIndex;
+    /* 0x1402 */ u16          mapIndex; // intended for maps/minimaps but commonly used as the dungeon index
     /* 0x1404 */ u16          minigameState;
     /* 0x1406 */ u16          minigameScore; // "yabusame_total"
     /* 0x1408 */ char         unk_1408[0x0001];
@@ -440,13 +440,6 @@ typedef struct {
 } Camera; // size = 0x16C
 
 typedef struct {
-    /* 0x0000 */ Camera  cameras[4];
-    /* 0x05B0 */ Camera* cameraPtrs[4];
-    /* 0x05C0 */ s16     activeCamera;
-    /* 0x05C2 */ s16     nextCamera;
-} CameraContext; // size = 0x5C4
-
-typedef struct {
     /* 0x00 */ u8   musicSeq;
     /* 0x01 */ u8   nighttimeSFX;
     /* 0x02 */ char unk_02[0x2];
@@ -631,7 +624,7 @@ typedef struct {
     /* 0x0134 */ void*  do_actionSegment;
     /* 0x0138 */ void*  icon_itemSegment;
     /* 0x013C */ void*  mapSegment;
-    /* 0x0140 */ char   unk_140[0x20];
+    /* 0x0140 */ u8     unk_140[32];
     /* 0x0160 */ DmaRequest dmaRequest_160;
     /* 0x0180 */ DmaRequest dmaRequest_180;
     /* 0x01A0 */ char   unk_1A0[0x20];
@@ -673,9 +666,10 @@ typedef struct {
     /* 0x0252 */ u16    magicAlpha; // also Rupee and Key counters alpha
     /* 0x0254 */ u16    minimapAlpha;
     /* 0x0256 */ s16    startAlpha;
-    /* 0x0258 */ char   unk_258[0x004];
-    /* 0x025C */ s16    roomNum;
-    /* 0x025E */ char   unk_25E[0x002];
+    /* 0x0258 */ s16    unk_258;
+    /* 0x025A */ s16    unk_25A;
+    /* 0x025C */ s16    mapRoomNum;
+    /* 0x025E */ s16    mapPaletteNum; // "map_palete_no"
     /* 0x0260 */ u8     unk_260;
     /* 0x0261 */ u8     unk_261;
     struct {
@@ -1201,6 +1195,40 @@ typedef struct PreNMIContext {
     /* 0xA4 */ u32      timer;
     /* 0xA8 */ UNK_TYPE unk_A8;
 } PreNMIContext; // size = 0xAC
+
+// All arrays pointed in this struct are indexed by "map indexes"
+// In dungeons, the map index corresponds to the dungeon index (which also indexes keys, items, etc)
+// In overworld areas, the map index corresponds to the overworld area index (spot 00, 01, etc)
+typedef struct {
+    /* 0x00 */ s16 (*floorTexIndexOffset)[8]; // dungeon texture index offset by floor
+    /* 0x04 */ s16*  bossFloor; // floor the boss is on
+    /* 0x08 */ s16 (*roomPalette)[32]; // map palette by room
+    /* 0x0C */ s16*  maxPaletteCount; // max number of palettes in a same floor
+    /* 0x10 */ s16 (*paletteRoom)[8][14]; // room by palette by floor
+    /* 0x14 */ s16 (*roomCompassOffsetX)[44]; // dungeon compass icon X offset by room
+    /* 0x18 */ s16 (*roomCompassOffsetY)[44]; // dungeon compass icon Y offset by room
+    /* 0x1C */ u8*   dgnMinimapCount; // number of room minimaps
+    /* 0x20 */ u16*  dgnMinimapTexIndexOffset; // dungeon minimap texture index offset
+    /* 0x24 */ u16*  owMinimapTexSize;
+    /* 0x28 */ u16*  owMinimapTexOffset;
+    /* 0x2C */ s16*  owMinimapPosX;
+    /* 0x30 */ s16*  owMinimapPosY;
+    /* 0x34 */ s16 (*owCompassInfo)[4]; // [X scale, Y scale, X offset, Y offset]
+    /* 0x38 */ s16*  dgnMinimapTexIndexBase; // dungeon minimap texture index base
+    /* 0x3C */ s16 (*dgnCompassInfo)[4]; // [X scale, Y scale, X offset, Y offset]
+    /* 0x40 */ s16*  owMinimapWidth;
+    /* 0x44 */ s16*  owMinimapHeight;
+    /* 0x48 */ s16*  owEntranceIconPosX; // "dungeon entrance" icon X pos
+    /* 0x4C */ s16*  owEntranceIconPosY; // "dungeon entrance" icon Y pos
+    /* 0x50 */ u16*  owEntranceFlag; // flag in inf_table[26] based on which entrance icons are shown (0xFFFF = always shown)
+    /* 0x54 */ f32 (*floorCoordY)[8]; // Y coordinate of each floor
+    /* 0x58 */ u16*  switchEntryCount; // number of "room switch" entries, which correspond to the next 3 arrays
+    /* 0x5C */ u8  (*switchFromRoom)[51]; // room to come from
+    /* 0x60 */ u8  (*switchFromFloor)[51]; // floor to come from
+    /* 0x64 */ u8  (*switchToRoom)[51]; // room to go to
+    /* 0x68 */ UNK_PTR unk_68;
+    /* 0x6C */ UNK_PTR unk_6C;
+} MapData; // size = 0x70
 
 typedef struct {
     /* 0x00 */ s8 chestFlag; // chest icon is only displayed if this flag is not set for the current room

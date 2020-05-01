@@ -48,6 +48,12 @@ typedef enum {
 } QuestItem;
 
 typedef enum {
+    /* 0x00 */ DUNGEON_KEY_BOSS,
+    /* 0x01 */ DUNGEON_COMPASS,
+    /* 0x02 */ DUNGEON_MAP
+} DungeonItem;
+
+typedef enum {
     /* 0x00 */ SLOT_STICK,
     /* 0x01 */ SLOT_NUT,
     /* 0x02 */ SLOT_BOMB,
