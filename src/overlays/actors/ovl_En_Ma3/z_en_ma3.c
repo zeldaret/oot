@@ -131,10 +131,8 @@ u16 func_80AA2AA0(GlobalContext *globalCtx, Actor *this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ma3/func_80AA2BD4.s")
-/*s16 func_80AA2BD4(GlobalContext *globalCtx, Actor *this) {
+s16 func_80AA2BD4(GlobalContext *globalCtx, Actor *this) {
     s16 ret = 1;
-    s32 blah;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 5:
@@ -162,43 +160,35 @@ u16 func_80AA2AA0(GlobalContext *globalCtx, Actor *this) {
             }
             break;
         case 2:
-            blah = this->textId - 0x2000;
-            if (this->textId == 0x208F) {
-                gSaveContext.eventChkInf[1] |= 0x4000;
-            } else if (this->textId < 0x208F) {
-                if (this->textId == 0x208E) {
-                    gSaveContext.eventInf[0] &= ~0x100;
+            switch (this->textId) {
+                case 0x2000:
+                    gSaveContext.infTable[11] |= 0x100;
+                    ret = 0;
+                    break;
+                case 0x208F:
+                    gSaveContext.eventChkInf[1] |= 0x4000;
+                case 0x2004:
+                case 0x2012:
+                    if (gSaveContext.unk_EC4 > gSaveContext.timer1Value) {
+                        gSaveContext.unk_EC4 = gSaveContext.timer1Value;
+                    }
+                case 0x208E:
+                    gSaveContext.eventInf[0] &= ~0x400;
                     this->flags &= ~0x10000;
                     ret = 0;
                     gSaveContext.timer1State = 0xA;
-                } else if (this->textId < 0x2013) {
-                    switch (blah) {
-                        case 0:
-                            ret = 0;
-                            gSaveContext.infTable[11] |= 0x100;
-                            break;
-                        case 4:
-                        case 18:
-                            if ((s32)gSaveContext.timer1Value < gSaveContext.unk_EC4) {
-                                gSaveContext.unk_EC4 = gSaveContext.timer1Value;
-                            }
-                            gSaveContext.eventInf[0] &= ~0x400;
-                            this->flags &= ~0x10000;
-                            ret = 0;
-                            gSaveContext.timer1State = 0xA;
-                            break;
-                        case 2:
-                            gSaveContext.infTable[11] |= 0x200;
-                        case 3:
-                            if (!(gSaveContext.eventInf[0] & 0x400)) {
-                                ret = 0;
-                            }
-                            break;
+                    break;
+                case 0x2002:
+                    gSaveContext.infTable[11] |= 0x200;
+                case 0x2003:
+                    if (!(gSaveContext.eventInf[0] & 0x400)) {
+                        ret = 0;
                     }
                     break;
-                }
+                default:
+                    ret = 0;
             }
-            ret = 0;
+            break;
         case 0:
         case 1:
         case 3:
@@ -209,7 +199,7 @@ u16 func_80AA2AA0(GlobalContext *globalCtx, Actor *this) {
             break;
         }
     return ret;
-}*/
+}
 
 void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -255,13 +245,11 @@ s32 func_80AA2F28(EnMa3* this) {
 }
 
 void func_80AA2F80(EnMa3* this) {
-    if (!func_80AA2F28(this)) {
-        if (DECR(this->unk_20C) == 0) {
-            this->unk_20E += 1;
-            if (this->unk_20E >= 3) {
-                this->unk_20C = Math_Rand_S16Offset(0x1E, 0x1E);
-                this->unk_20E = 0;
-            }
+    if ((!func_80AA2F28(this)) && (DECR(this->unk_20C) == 0)) {
+        this->unk_20E += 1;
+        if (this->unk_20E >= 3) {
+            this->unk_20C = Math_Rand_S16Offset(0x1E, 0x1E);
+            this->unk_20E = 0;
         }
     }
 }
@@ -390,7 +378,7 @@ void EnMa3_Draw(EnMa3* this, GlobalContext* globalCtx) {
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
-    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->unk_5C);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
