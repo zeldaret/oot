@@ -31,9 +31,9 @@ CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -Wall -Wex
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
 ELF2ROM    := tools/elf2rom
-ZAP2        := tools/ZAP2/ZAP2.out
+ZAP2       := tools/ZAP2/ZAP2.out
 
-OPTIMIZATION := -O2
+OPTFLAGS := -O2
 ASFLAGS := -march=vr4300 -32 -Iinclude
 
 # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
@@ -55,25 +55,19 @@ ELF := $(ROM:.z64=.elf)
 # description of ROM segments
 SPEC := spec
 
-# baserom files
-include baserom_files.mk
+SRC_DIRS := $(shell find src -type d)
+ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
+SCENE_DIRS := $(shell find scenes -type d -not -path "scenes/xml*")
+TEXTURE_DIRS := assets/textures
+TEXTURE_BIN_DIRS := $(shell find assets/textures/* -type d -not -path "assets/textures/xml*")
 
-SRC_DIRS := src src/libultra_boot_O1 src/libultra_boot_O2 src/libultra_code src/boot src/code src/buffers
-ASM_DIRS := asm data data/overlays data/overlays/actors data/overlays/effects data/overlays/gamestates asm/overlays asm/overlays/actors
-
-include overlays.mk
-include overlays_asm.mk
-
-include textures.mk
-include scenes.mk
-
-# source code
+# source files
 C_FILES       := $(foreach dir,$(SRC_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 #TEXTURE_FILES := $(foreach dir,$(TEXTURE_DIRS),$(wildcard $(dir)/*.xml))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
-                 $(foreach f,$(BASEROM_FILES),build/$f.o)
+                 $(foreach f,$(wildcard baserom/*),build/$f.o)
 #		         $(foreach f,$(TEXTURE_FILES:.xml=.o),build/$f)
 
 #TEXTURE_FILES_RGBA32 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.rgba32.png))
@@ -99,16 +93,27 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
 $(shell mkdir -p build/baserom)
 $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(TEXTURE_BIN_DIRS) $(SCENE_DIRS),$(shell mkdir -p build/$(dir)))
 
-build/src/libultra_boot_O1/%.o: OPTIMIZATION := -O1
-build/src/libultra_boot_O2/%.o: OPTIMIZATION := -O2
+build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
+build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
 build/src/code/fault.o: CFLAGS += -trapuv
-build/src/code/fault.o: OPTIMIZATION := -O2 -g3
+build/src/code/fault.o: OPTFLAGS := -O2 -g3
 build/src/code/fault_drawer.o: CFLAGS += -trapuv
-build/src/code/fault_drawer.o: OPTIMIZATION := -O2 -g3
-build/src/code/code_801068B0.o: OPTIMIZATION := -g
-build/src/code/code_80106860.o: OPTIMIZATION := -g
-build/src/code/code_801067F0.o: OPTIMIZATION := -g
+build/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
+build/src/code/code_801068B0.o: OPTFLAGS := -g
+build/src/code/code_80106860.o: OPTFLAGS := -g
+build/src/code/code_801067F0.o: OPTFLAGS := -g
 
+build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
+build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
+
+build/src/libultra_code/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
+build/src/code/jpegutils.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
+
+build/src/boot/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+build/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+build/src/overlays/actors/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+build/src/overlays/effects/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+build/src/overlays/gamestates/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
 #### Main Targets ###
 
@@ -158,44 +163,24 @@ build/data/%.o: data/%.s
 #	cp $(<:.c=.xml) $@
 
 build/scenes/%.o: scenes/%.c
-	$(CC) -c $(CFLAGS) $(OPTIMIZATION) -o $@ $^
+	$(CC) -c $(CFLAGS) $(OPTFLAGS) -o $@ $^
 	$(OBJCOPY) -O binary $@ $@.bin
 
 build/assets/%.o: assets/%.c
-	$(CC) -c $(CFLAGS) $(OPTIMIZATION) -o $@ $^
-#	$(CC_CHECK) $^
+	$(CC) -c $(CFLAGS) $(OPTFLAGS) -o $@ $^
 	$(OBJCOPY) -O binary $@ $@.bin
 
 build/src/overlays/%.o: src/overlays/%.c
-	$(CC) -c $(CFLAGS) $(OPTIMIZATION) -o $@ $^
+	$(CC) -c $(CFLAGS) $(OPTFLAGS) -o $@ $^
 	$(CC_CHECK) $^
 	$(ZAP2) bovl $@ $^ $(@:.o=_reloc.s)
 	$(AS) $(ASFLAGS) $(@:.o=_reloc.s) -o $(@:.o=_reloc.o)
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
-    
-build/asm/overlays/%.o: asm/overlays/%.s
-	iconv --from UTF-8 --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
 
 build/src/%.o: src/%.c
-	$(CC) -c $(CFLAGS) $(OPTIMIZATION) -o $@ $^
+	$(CC) -c $(CFLAGS) $(OPTFLAGS) -o $@ $^
 	$(CC_CHECK) $^
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
-
-
-# This line is redundant because of the asm_processor line below, but keeping it here because
-# it is one of the directories that has to be compiled with CC_OLD.
-# build/src/libultra_code/%.o: CC := $(CC_OLD)
-build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
-build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
-
-build/src/boot/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-build/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-build/src/libultra_code/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
-build/src/overlays/actors/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-build/src/overlays/effects/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-build/src/overlays/gamestates/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-
-build/src/code/jpegutils.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 
 #build/assets/textures/%.o: assets/textures/%.zdata
 #	$(OBJCOPY) -I binary -O elf32-big $< $@

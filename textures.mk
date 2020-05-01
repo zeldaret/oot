@@ -1,4 +1,0 @@
-
-TEXTURE_DIRS = assets/textures
-TEXTURE_BIN_DIRS = assets/textures/icon_item_24_static assets/textures/icon_item_dungeon_static \
-assets/textures/icon_item_field_static assets/textures/icon_item_gameover_static assets/textures/icon_item_nes_static assets/textures/icon_item_static
