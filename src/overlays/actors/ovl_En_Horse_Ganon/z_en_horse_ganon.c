@@ -140,24 +140,27 @@ void func_80A686A8(EnHorseGanon *this, GlobalContext* globalCtx) {
     this->actor.speedXZ -= 0.5f;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68870.s")
-// void func_80A68870(EnHorseGanon* this)
-// // regalloc mismatch
-// {
-//     if (this->skelAnime.animCurrentFrame > (f32) D_80A692B8[this->soundCount])
-//     {
-//         if (D_80A692B8[this->soundCount] != 0 || !(this->skelAnime.animCurrentFrame > (f32) D_80A692B8[1]))
-//         {
-//             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+#ifdef NON_MATCHING
+void func_80A68870(EnHorseGanon* this)
+// regalloc mismatch
+{
+    if (this->skelAnime.animCurrentFrame > (f32) D_80A692B8[this->soundCount])
+    {
+        if (D_80A692B8[this->soundCount] != 0 || !(this->skelAnime.animCurrentFrame > (f32) D_80A692B8[1]))
+        {
+            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
-//             this->soundCount += 1;
-//             if (this->soundCount >= 2)
-//             {
-//                 this->soundCount = 0;
-//             }
-//         }
-//     }
-// }
+            this->soundCount += 1;
+            if (this->soundCount >= 2)
+            {
+                this->soundCount = 0;
+            }
+        }
+    }
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/func_80A68870.s")
+#endif
 
 void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx)
 {
@@ -282,21 +285,23 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx)
     this->actor.shape.rot.x = D_80A692D0 * Math_atan2f(this->actor.posRot.pos.y - temp_ret, 30.0f);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/EnHorseGanon_Update.s")
-// void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx)
-// // simply needs to store a0 in s0 a few instructions earlier
-// {
-//     u32 padding1;
-//     u32 padding2;
+#ifdef NON_MATCHING
+void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx)
+// simply needs to store a0 in s0 a few instructions earlier
+{
+    u8 padding[8];
 
-//     D_80A692C4[this->updateFnIndex]();
-//     Actor_MoveForward(&this->actor);
-//     func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 29);
-//     this->actor.posRot2.pos = this->actor.posRot.pos;
-//     this->actor.posRot2.pos.y += 70.0f;
-//     ActorCollider_Cylinder_Update(&this->actor, &this->colliderCylinder);
-//     Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder);
-// }
+    D_80A692C4[this->updateFnIndex](this, globalCtx);
+    Actor_MoveForward(&this->actor);
+    func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 29);
+    this->actor.posRot2.pos = this->actor.posRot.pos;
+    this->actor.posRot2.pos.y += 70.0f;
+    Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/EnHorseGanon_Update.s")
+#endif
 
 void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderJntSphItem* colliderSphereItem)
 {
