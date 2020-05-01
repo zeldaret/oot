@@ -23,7 +23,7 @@ glabel D_8013DC10
     .float -1.6
 
 .text
-glabel func_80081240
+glabel Minimap_DrawCompassIcons
 /* AF83E0 80081240 27BDFF90 */  addiu $sp, $sp, -0x70
 /* AF83E4 80081244 AFBF001C */  sw    $ra, 0x1c($sp)
 /* AF83E8 80081248 AFB00018 */  sw    $s0, 0x18($sp)
@@ -199,12 +199,12 @@ glabel func_80081240
 /* AF867C 800814DC AE1802B0 */  sw    $t8, 0x2b0($s0)
 /* AF8680 800814E0 AC450004 */  sw    $a1, 4($v0)
 /* AF8684 800814E4 AC590000 */  sw    $t9, ($v0)
-/* AF8688 800814E8 3C028012 */  lui   $v0, %hi(D_80123A50) # $v0, 0x8012
-/* AF868C 800814EC 84423A50 */  lh    $v0, %lo(D_80123A50)($v0)
+/* AF8688 800814E8 3C028012 */  lui   $v0, %hi(sPlayerInitialPosX) # $v0, 0x8012
+/* AF868C 800814EC 84423A50 */  lh    $v0, %lo(sPlayerInitialPosX)($v0)
 /* AF8690 800814F0 3C038016 */  lui   $v1, %hi(gGameInfo) # $v1, 0x8016
 /* AF8694 800814F4 8C63FA90 */  lw    $v1, %lo(gGameInfo)($v1)
-/* AF8698 800814F8 3C048012 */  lui   $a0, %hi(D_80123A54) # $a0, 0x8012
-/* AF869C 800814FC 84843A54 */  lh    $a0, %lo(D_80123A54)($a0)
+/* AF8698 800814F8 3C048012 */  lui   $a0, %hi(sPlayerInitialPosZ) # $a0, 0x8012
+/* AF869C 800814FC 84843A54 */  lh    $a0, %lo(sPlayerInitialPosZ)($a0)
 /* AF86A0 80081500 84690F30 */  lh    $t1, 0xf30($v1)
 /* AF86A4 80081504 3C014120 */  li    $at, 0x41200000 # 0.000000
 /* AF86A8 80081508 44810000 */  mtc1  $at, $f0
@@ -277,8 +277,8 @@ glabel func_80081240
 /* AF87A4 80081604 468021A0 */  cvt.s.w $f6, $f4
 /* AF87A8 80081608 0C0342DC */  jal   Matrix_RotateX
 /* AF87AC 8008160C 46083303 */   div.s $f12, $f6, $f8
-/* AF87B0 80081610 3C098012 */  lui   $t1, %hi(D_80123A58) # $t1, 0x8012
-/* AF87B4 80081614 85293A58 */  lh    $t1, %lo(D_80123A58)($t1)
+/* AF87B0 80081610 3C098012 */  lui   $t1, %hi(sPlayerInitialDirection) # $t1, 0x8012
+/* AF87B4 80081614 85293A58 */  lh    $t1, %lo(sPlayerInitialDirection)($t1)
 /* AF87B8 80081618 3C014120 */  li    $at, 0x41200000 # 0.000000
 /* AF87BC 8008161C 44819000 */  mtc1  $at, $f18
 /* AF87C0 80081620 44895000 */  mtc1  $t1, $f10

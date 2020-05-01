@@ -2753,11 +2753,10 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
             overlayEntry->nbLoaded = 0;
         }
 
-        actorInit =
-            (ActorInit*)((u32)(overlayEntry->initInfo != NULL
-                                   ? (ActorInit*)((u32)overlayEntry->initInfo - (s32)((u32)overlayEntry->vramStart -
-                                                                                      (u32)overlayEntry->loadedRamAddr))
-                                   : NULL));
+        actorInit = (void*)(u32)((overlayEntry->initInfo != NULL)
+                                     ? (void*)((u32)overlayEntry->initInfo -
+                                               (s32)((u32)overlayEntry->vramStart - (u32)overlayEntry->loadedRamAddr))
+                                     : NULL);
     }
 
     objBankIndex = Object_GetIndex(&globalCtx->objectCtx, actorInit->objectId);

@@ -46,7 +46,7 @@ glabel jtbl_8013DC8C
     .word L8008255C
 
 .text
-glabel func_8008226C
+glabel Map_Update
 /* AF940C 8008226C 27BDFFB0 */  addiu $sp, $sp, -0x50
 /* AF9410 80082270 3C010001 */  lui   $at, 1
 /* AF9414 80082274 AFBF002C */  sw    $ra, 0x2c($sp)
@@ -86,7 +86,7 @@ glabel L800822DC
 /* AF9498 800822F8 910900A8 */  lbu   $t1, 0xa8($t0)
 /* AF949C 800822FC 8CF90008 */  lw    $t9, 8($a3)
 /* AF94A0 80082300 0013C0C0 */  sll   $t8, $s3, 3
-/* AF94A4 80082304 3C0C8016 */  lui   $t4, %hi(D_8015FFD0) # $t4, 0x8016
+/* AF94A4 80082304 3C0C8016 */  lui   $t4, %hi(gMapData) # $t4, 0x8016
 /* AF94A8 80082308 03295024 */  and   $t2, $t9, $t1
 /* AF94AC 8008230C 11400004 */  beqz  $t2, .L80082320
 /* AF94B0 80082310 0313C023 */   subu  $t8, $t8, $s3
@@ -96,7 +96,7 @@ glabel L800822DC
 .L80082320:
 /* AF94C0 80082320 A240015F */  sb    $zero, 0x15f($s2)
 .L80082324:
-/* AF94C4 80082324 8D8CFFD0 */  lw    $t4, %lo(D_8015FFD0)($t4)
+/* AF94C4 80082324 8D8CFFD0 */  lw    $t4, %lo(gMapData)($t4)
 /* AF94C8 80082328 00137140 */  sll   $t6, $s3, 5
 /* AF94CC 8008232C 00008825 */  move  $s1, $zero
 /* AF94D0 80082330 8D8D0054 */  lw    $t5, 0x54($t4)
@@ -129,7 +129,7 @@ glabel L800822DC
 /* AF9534 80082394 AC6A00EC */  sw    $t2, 0xec($v1)
 /* AF9538 80082398 8D6BFA90 */  lw    $t3, %lo(gGameInfo)($t3)
 /* AF953C 8008239C 02202825 */  move  $a1, $s1
-/* AF9540 800823A0 0C020892 */  jal   func_80082248
+/* AF9540 800823A0 0C020892 */  jal   Map_GetFloorTextIndexOffset
 /* AF9544 800823A4 A5710F50 */   sh    $s1, 0xf50($t3)
 /* AF9548 800823A8 3C038016 */  lui   $v1, %hi(gGameInfo) # $v1, 0x8016
 /* AF954C 800823AC 8C63FA90 */  lw    $v1, %lo(gGameInfo)($v1)
@@ -139,7 +139,7 @@ glabel L800822DC
 /* AF955C 800823BC 004D7021 */  addu  $t6, $v0, $t5
 /* AF9560 800823C0 118E0008 */  beq   $t4, $t6, .L800823E4
 /* AF9564 800823C4 00000000 */   nop   
-/* AF9568 800823C8 0C020892 */  jal   func_80082248
+/* AF9568 800823C8 0C020892 */  jal   Map_GetFloorTextIndexOffset
 /* AF956C 800823CC 02202825 */   move  $a1, $s1
 /* AF9570 800823D0 3C038016 */  lui   $v1, %hi(gGameInfo) # $v1, 0x8016
 /* AF9574 800823D4 8C63FA90 */  lw    $v1, %lo(gGameInfo)($v1)
@@ -147,13 +147,13 @@ glabel L800822DC
 /* AF957C 800823DC 004FC021 */  addu  $t8, $v0, $t7
 /* AF9580 800823E0 A4780F2E */  sh    $t8, 0xf2e($v1)
 .L800823E4:
-/* AF9584 800823E4 3C198012 */  lui   $t9, %hi(D_80123A60) # $t9, 0x8012
-/* AF9588 800823E8 87393A60 */  lh    $t9, %lo(D_80123A60)($t9)
+/* AF9584 800823E4 3C198012 */  lui   $t9, %hi(sLastRoomNum) # $t9, 0x8012
+/* AF9588 800823E8 87393A60 */  lh    $t9, %lo(sLastRoomNum)($t9)
 /* AF958C 800823EC 8646025C */  lh    $a2, 0x25c($s2)
-/* AF9590 800823F0 3C088016 */  lui   $t0, %hi(D_8015FFD0) # $t0, 0x8016
+/* AF9590 800823F0 3C088016 */  lui   $t0, %hi(gMapData) # $t0, 0x8016
 /* AF9594 800823F4 1326000D */  beq   $t9, $a2, .L8008242C
 /* AF9598 800823F8 00000000 */   nop   
-/* AF959C 800823FC 8D08FFD0 */  lw    $t0, %lo(D_8015FFD0)($t0)
+/* AF959C 800823FC 8D08FFD0 */  lw    $t0, %lo(gMapData)($t0)
 /* AF95A0 80082400 00135040 */  sll   $t2, $s3, 1
 /* AF95A4 80082404 3C048014 */  lui   $a0, %hi(D_8013D998) # $a0, 0x8014
 /* AF95A8 80082408 8D090058 */  lw    $t1, 0x58($t0)
@@ -163,11 +163,11 @@ glabel L800822DC
 /* AF95B8 80082418 0C00084C */  jal   osSyncPrintf
 /* AF95BC 8008241C 95670000 */   lhu   $a3, ($t3)
 /* AF95C0 80082420 8646025C */  lh    $a2, 0x25c($s2)
-/* AF95C4 80082424 3C018012 */  lui   $at, %hi(D_80123A60) # $at, 0x8012
-/* AF95C8 80082428 A4263A60 */  sh    $a2, %lo(D_80123A60)($at)
+/* AF95C4 80082424 3C018012 */  lui   $at, %hi(sLastRoomNum) # $at, 0x8012
+/* AF95C8 80082428 A4263A60 */  sh    $a2, %lo(sLastRoomNum)($at)
 .L8008242C:
-/* AF95CC 8008242C 3C028016 */  lui   $v0, %hi(D_8015FFD0) # $v0, 0x8016
-/* AF95D0 80082430 8C42FFD0 */  lw    $v0, %lo(D_8015FFD0)($v0)
+/* AF95CC 8008242C 3C028016 */  lui   $v0, %hi(gMapData) # $v0, 0x8016
+/* AF95D0 80082430 8C42FFD0 */  lw    $v0, %lo(gMapData)($v0)
 /* AF95D4 80082434 00136840 */  sll   $t5, $s3, 1
 /* AF95D8 80082438 AFAD0034 */  sw    $t5, 0x34($sp)
 /* AF95DC 8008243C 8C4C0058 */  lw    $t4, 0x58($v0)
@@ -220,14 +220,14 @@ glabel L800822DC
 /* AF9694 800824F4 0C00084C */  jal   osSyncPrintf
 /* AF9698 800824F8 2484D9D8 */   addiu $a0, %lo(D_8013D9D8) # addiu $a0, $a0, -0x2628
 /* AF969C 800824FC 02802025 */  move  $a0, $s4
-/* AF96A0 80082500 0C0202AD */  jal   func_80080AB4
+/* AF96A0 80082500 0C0202AD */  jal   Map_InitData
 /* AF96A4 80082504 8645025C */   lh    $a1, 0x25c($s2)
 /* AF96A8 80082508 3C018016 */  lui   $at, %hi(gSaveContext+0x1422) # $at, 0x8016
 /* AF96AC 8008250C A420FA82 */  sh    $zero, %lo(gSaveContext+0x1422)($at)
-/* AF96B0 80082510 0C0201E8 */  jal   func_800807A0
+/* AF96B0 80082510 0C0201E8 */  jal   Map_SavePlayerInitialInfo
 /* AF96B4 80082514 02802025 */   move  $a0, $s4
-/* AF96B8 80082518 3C028016 */  lui   $v0, %hi(D_8015FFD0) # $v0, 0x8016
-/* AF96BC 8008251C 8C42FFD0 */  lw    $v0, %lo(D_8015FFD0)($v0)
+/* AF96B8 80082518 3C028016 */  lui   $v0, %hi(gMapData) # $v0, 0x8016
+/* AF96BC 8008251C 8C42FFD0 */  lw    $v0, %lo(gMapData)($v0)
 /* AF96C0 80082520 8FAD0034 */  lw    $t5, 0x34($sp)
 /* AF96C4 80082524 8646025C */  lh    $a2, 0x25c($s2)
 /* AF96C8 80082528 8C4B0058 */  lw    $t3, 0x58($v0)
@@ -246,8 +246,8 @@ glabel L800822DC
 /* AF96F4 80082554 10000019 */  b     .L800825BC
 /* AF96F8 80082558 A5C60F28 */   sh    $a2, 0xf28($t6)
 glabel L8008255C
-/* AF96FC 8008255C 3C0F8016 */  lui   $t7, %hi(D_8015FFD0) # $t7, 0x8016
-/* AF9700 80082560 8DEFFFD0 */  lw    $t7, %lo(D_8015FFD0)($t7)
+/* AF96FC 8008255C 3C0F8016 */  lui   $t7, %hi(gMapData) # $t7, 0x8016
+/* AF9700 80082560 8DEFFFD0 */  lw    $t7, %lo(gMapData)($t7)
 /* AF9704 80082564 0002C840 */  sll   $t9, $v0, 1
 /* AF9708 80082568 3C0A8016 */  lui   $t2, %hi(gGameInfo) # $t2, 0x8016
 /* AF970C 8008256C 8DF80004 */  lw    $t8, 4($t7)
@@ -255,9 +255,9 @@ glabel L8008255C
 /* AF9714 80082574 3C038016 */  lui   $v1, %hi(gGameInfo) # $v1, 0x8016
 /* AF9718 80082578 03194021 */  addu  $t0, $t8, $t9
 /* AF971C 8008257C 8509FFDE */  lh    $t1, -0x22($t0)
-/* AF9720 80082580 3C0B8016 */  lui   $t3, %hi(D_8015FFD0) # $t3, 0x8016
+/* AF9720 80082580 3C0B8016 */  lui   $t3, %hi(gMapData) # $t3, 0x8016
 /* AF9724 80082584 A5490F50 */  sh    $t1, 0xf50($t2)
-/* AF9728 80082588 8D6BFFD0 */  lw    $t3, %lo(D_8015FFD0)($t3)
+/* AF9728 80082588 8D6BFFD0 */  lw    $t3, %lo(gMapData)($t3)
 /* AF972C 8008258C 8C63FA90 */  lw    $v1, %lo(gGameInfo)($v1)
 /* AF9730 80082590 868C00A4 */  lh    $t4, 0xa4($s4)
 /* AF9734 80082594 8D6D0000 */  lw    $t5, ($t3)
