@@ -511,7 +511,7 @@ void EnWallmas_Update(EnWallmas* this, GlobalContext* globalCtx) {
     char pad[4];
 
     EnWallmas_ColUpdate(this2, globalCtx);
-    this2->actionFunc(&this->actor, globalCtx);
+    this2->actionFunc(this, globalCtx);
 
     if ((this2->actionFunc == (ActorFunc)&EnWallmas_WaitToDrop) ||
         (this2->actionFunc == (ActorFunc)&EnWallmas_WaitForProximity) ||

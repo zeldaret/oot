@@ -6,7 +6,7 @@
 
 typedef struct {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc updateFunc;
+    /* 0x014C */ ActorFunc actionFunc;
 } EnSceneChange; // size = 0x0150
 
 extern const ActorInit En_Scene_Change_InitVars;

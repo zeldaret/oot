@@ -10,7 +10,7 @@
 
 #define FLAGS 0x02000010
 
-void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* newActionFunc);
+void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* actionFunc);
 void EnOkarinaEffect_Init(EnOkarinaEffect* this, GlobalContext* globalCtx);
 void EnOkarinaEffect_Destroy(EnOkarinaEffect* this, GlobalContext* globalCtx);
 void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCtx);
@@ -29,8 +29,8 @@ const ActorInit En_Okarina_Effect_InitVars = {
     NULL,
 };
 
-void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* newActionFunc) {
-    this->actionFunc = newActionFunc;
+void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* actionFunc) {
+    this->actionFunc = actionFunc;
 }
 
 void EnOkarinaEffect_Destroy(EnOkarinaEffect* this, GlobalContext* globalCtx) {

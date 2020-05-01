@@ -7,7 +7,7 @@
 typedef struct {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ ActorFunc updateFunc;
+    /* 0x0190 */ ActorFunc actionFunc;
     /* 0x0194 */ u32 unk_194;
     /* 0x0198 */ s32 unk_198;
     /* 0x019C */ s16 unk_19C;
