@@ -1,7 +1,7 @@
 #include <global.h>
 
 // unused
-Gfx sCirlceNullDList[] = {
+Gfx sCircleNullDList[] = {
     gsSPEndDisplayList(),
 };
 
