@@ -250,7 +250,7 @@ D_060004D0 = 0x060004D0;
 D_06000040 = 0x06000040;
 D_06000170 = 0x06000170;
 
-// z_effect_ss_kirakira
+// z_eff_ss_kirakira
 D_04037880 = 0x04037880;
 
 // z_en_bird
@@ -261,7 +261,7 @@ D_06002190 = 0x06002190;
 D_06001F10 = 0x06001F10;
 D_06000B70 = 0x06000B70;
 
-// z_effect_ss_extra
+// z_eff_ss_extra
 D_06000DC0 = 0x06000DC0;
 
 // z_bg_gate_shutter
@@ -279,7 +279,7 @@ D_06008010 = 0x06008010;
 // z_bg_spot15_saku
 D_060003C0 = 0x060003C0;
 
-// z_effect_ss_ice_smoke
+// z_eff_ss_ice_smoke
 D_060030A0 = 0x060030A0;
 D_06003158 = 0x06003158;
 
@@ -294,7 +294,7 @@ D_06000118 = 0x06000118;
 // z_bg_spot01_fusya
 D_06000100 = 0x06000100;
 
-// z_effect_ss_g_ripple
+// z_eff_ss_g_ripple
 D_040254B0 = 0x040254B0;
 D_040244B0 = 0x040244B0;
 
@@ -306,7 +306,7 @@ D_01000000 = 0x01000000;
 // z_shot_sun
 D_02007020 = 0x02007020;
 
-// z_effect_ss_g_splash
+// z_eff_ss_g_splash
 D_04027DF0 = 0x04027DF0;
 
 // z_demo_geff
