@@ -41,7 +41,7 @@ void ObjRoomtimer_Init(ObjRoomtimer* this, GlobalContext* globalCtx) {
         }
     }
 
-    this->updateFunc = (ActorFunc)func_80B9D054;
+    this->actionFunc = (ActorFunc)func_80B9D054;
 }
 
 void ObjRoomtimer_Destroy(ObjRoomtimer* this, GlobalContext* globalCtx) {
@@ -58,7 +58,7 @@ void func_80B9D054(ObjRoomtimer* this, GlobalContext* globalCtx) {
     }
 
     Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_PROP);
-    this->updateFunc = (ActorFunc)func_80B9D0B0;
+    this->actionFunc = (ActorFunc)func_80B9D0B0;
 }
 
 void func_80B9D0B0(ObjRoomtimer* this, GlobalContext* globalCtx) {
@@ -83,5 +83,5 @@ void func_80B9D0B0(ObjRoomtimer* this, GlobalContext* globalCtx) {
 }
 
 void ObjRoomtimer_Update(ObjRoomtimer* this, GlobalContext* globalCtx) {
-    this->updateFunc(this, globalCtx);
+    this->actionFunc(this, globalCtx);
 }

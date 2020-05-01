@@ -71,7 +71,7 @@ void BgJyaKanaami_Destroy(BgJyaKanaami* this, GlobalContext* globalCtx) {
 }
 
 void func_80899880(BgJyaKanaami* this) {
-    this->updateFunc = func_80899894;
+    this->actionFunc = func_80899894;
     this->unk_16A = 0;
 }
 
@@ -88,7 +88,7 @@ void func_80899894(BgJyaKanaami* this, GlobalContext* globalCtx) {
 }
 
 void func_8089993C(BgJyaKanaami* this) {
-    this->updateFunc = func_80899950;
+    this->actionFunc = func_80899950;
     this->unk_168 = 0;
 }
 
@@ -107,13 +107,13 @@ void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
 }
 
 void func_80899A08(BgJyaKanaami* this) {
-    this->updateFunc = 0;
+    this->actionFunc = 0;
     this->actor.posRot.rot.x = 0x4000;
 }
 
 void BgJyaKanaami_Update(BgJyaKanaami* this, GlobalContext* globalCtx) {
-    if (this->updateFunc) {
-        this->updateFunc(this, globalCtx);
+    if (this->actionFunc != NULL) {
+        this->actionFunc(this, globalCtx);
     }
     this->actor.shape.rot.x = this->actor.posRot.rot.x;
 }
