@@ -9,8 +9,8 @@
 #define INVISIBLE_ACTOR_MAX 20
 #define AM_FIELD_SIZE 0x27A0
 
-// From z64.h
 struct Actor;
+// From z64.h
 struct GlobalContext;
 
 // From z64light.h
@@ -21,16 +21,6 @@ typedef struct {
     Vec3s rot;
 } PosRot; // size = 0x14
 
-typedef struct {
-    /* 0x00 */ u16    type;
-    /* 0x02 */ u16    unk02_h : 3;
-    /* 0x02 */ u16    vIA : 13;
-    /* 0x04 */ u16    unk04_h : 3;
-    /* 0x04 */ u16    vIB : 13;
-    /* 0x06 */ u16    vIC;
-    /* 0x08 */ Vec3s  norm;  // Normal vector
-    /* 0x0E */ s16    dist;  // Plane distance from origin
-} CollisionPoly; // size = 0x10
 
 typedef void (*ActorFunc)(struct Actor*, struct GlobalContext*);
 
@@ -126,13 +116,7 @@ typedef struct Actor {
     /* 0x068 */ f32     speedXZ; // Always positive, stores how fast the actor is traveling along the XZ plane
     /* 0x06C */ f32     gravity; // Acceleration due to gravity; value is added to Y velocity every frame
     /* 0x070 */ f32     minVelocityY; // Sets the lower bounds cap on velocity along the Y axis
-    /* 0x074 */ CollisionPoly* wallPoly; // Wall polygon an actor is touching
-    /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon an actor is over/touching
-    /* 0x07C */ u8      wallPolySource; // Complex Poly Surface Source. 0x32 = Scene
-    /* 0x07D */ u8      floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
-    /* 0x07E */ s16     unk_7E;
-    /* 0x080 */ f32     unk_80; // Floor poly height?
-    /* 0x084 */ f32     unk_84;
+    /* 0x074 */ BgCheckInfo bgChkInfo;
     /* 0x088 */ u16     bgCheckFlags;
     /* 0x08A */ s16     rotTowardsLinkY; // Rotation y (give item, possibly next facing dir?/face toward link?)
     /* 0x08C */ f32     waterSurfaceDist;
@@ -178,19 +162,6 @@ typedef struct Actor {
     /* From here on, the structure and size varies for each actor */
 } Actor; // size = 0x14C
 
-typedef struct {
-    /* 0x00 */ char unk_00[0x04];
-    /* 0x04 */ Actor* actor;
-    /* 0x08 */ void* unk_08; // Struct800417A0*
-    /* 0x0C */ char  unk_0C[0x0C];
-    /* 0x18 */ Vec3f scale1;
-    /* 0x24 */ Vec3s rot1;
-    /* 0x2C */ Vec3f pos1;
-    /* 0x38 */ Vec3f scale2;
-    /* 0x44 */ Vec3s rot2;
-    /* 0x4C */ Vec3f pos2;
-    /* 0x58 */ char  unk_58[0x0C];
-} ActorMesh; // size = 0x64
 
 typedef struct {
     /* 0x000 */ Actor actor;

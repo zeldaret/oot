@@ -5,7 +5,9 @@
 #include <ultra64/gbi.h>
 #include <ultra64/gs2dex.h>
 #include <ultra64/controller.h>
+#include <z64math.h>
 #include <z64light.h>
+#include <z64bgcheck.h>
 #include <z64actor.h>
 #include <z64audio.h>
 #include <z64object.h>
@@ -16,7 +18,6 @@
 #include <z64item.h>
 #include <z64animation.h>
 #include <z64dma.h>
-#include <z64math.h>
 #include <bgm.h>
 #include <sfx.h>
 #include <color.h>
@@ -455,59 +456,6 @@ typedef struct {
     /* 0x00 */ s32  unk_0;
     /* 0x04 */ char unk_4[0x4];
 } SubGlobalContext7B8; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ char unk_00[0x2];
-    /* 0x02 */ s16  unk_02;
-    /* 0x04 */ char unk_04[0xC];
-} WaterBox; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ Vec3s     colAbsMin;
-    /* 0x06 */ Vec3s     colAbsMax;
-    /* 0x0C */ s16       nbVertices;
-    /* 0x10 */ void*     vertexArray;
-    /* 0x14 */ s16       nbPolygons;
-    /* 0x18 */ void*     polygonArray;
-    /* 0x1C */ void*     polygonTypes;
-    /* 0x20 */ void*     cameraData;
-    /* 0x24 */ s16       nbWaterBoxes;
-    /* 0x28 */ WaterBox* waterBoxes;
-} CollisionHeader;
-
-typedef struct {
-    u16 unk_00;
-    u16 unk_02;
-} SSLink_s;
-
-typedef struct {
-    u16 max;
-    u16 count;
-    SSLink_s* tbl;
-} PolyLinksList_s;
-
-typedef struct {
-    /* 0x00 */ CollisionHeader* colHeader;
-    /* 0x04 */ char             unk_04[0x40];
-    /* 0x44 */ PolyLinksList_s  polyLinksList;
-    /* 0x4C */ void* checks;
-} StaticCollisionContext; // size = 0x50
-
-
-typedef struct {
-    SSLink_s* tbl;
-    int count;
-    int max;
-} DynaList_s;
-
-typedef struct {
-    /* 0x0000 */ ActorMesh actorMeshArr[50];
-    /* 0x1388 */ char   unk_1388[0x04];
-    /* 0x138C */ u16    flags[50];
-    /* 0x13F0 */ char   unk_13F0[0x8];
-    /* 0x13F8 */ DynaList_s  dyn_list;
-    /* 0x1404 */ char   unk_13FC[0x10];
-} DynaCollisionContext; // size = 0x1414
 
 typedef struct {
     /* 0x0000 */ StaticCollisionContext stat;

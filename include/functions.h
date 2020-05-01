@@ -518,11 +518,11 @@ s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u3
 // ? func_8003E934(?);
 // ? func_8003E954(?);
 // ? func_8003E9A0(?);
-void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, u32 dynaPolyId);
-void func_8003EC50(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, u32 dynaPolyId);
-u32 func_8003EA74(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, Actor* actor, u32 arg3);
-DynaPolyActor* func_8003EB84(CollisionContext* colCtx, u32 dynaPolyId);
-void func_8003ED58(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, u32 dynaPolyId);
+void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, s32 dynaPolyId);
+void func_8003EC50(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, s32 dynaPolyId);
+u32 func_8003EA74(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, DynaPolyActor* actor, CollisionHeader* arg3);
+DynaPolyActor* func_8003EB84(CollisionContext* colCtx, s32 dynaPolyId);
+void func_8003ED58(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, s32 dynaPolyId);
 // ? func_8003EE80(?);
 // ? func_8003F8EC(?);
 // ? func_8003F984(?);

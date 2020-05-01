@@ -7,42 +7,6 @@
 
 .section .bss
 
-glabel D_8015BC30
-    .space 0xC
-
-glabel D_8015BC3C
-    .space 0xC
-
-glabel D_8015BC48
-    .space 0x10
-
-glabel D_8015BC58
-    .space 0xC
-
-glabel D_8015BC64
-    .space 0xC
-
-glabel D_8015BC70
-    .space 0x10
-
-glabel D_8015BC80
-    .space 0xC
-
-glabel D_8015BC8C
-    .space 0xC
-
-glabel D_8015BC98
-    .space 0x10
-
-glabel D_8015BCA8
-    .space 0xC
-
-glabel D_8015BCB4
-    .space 0xC
-
-glabel D_8015BCC0
-    .space 0x10
-
 glabel D_8015BCD0
     .space 0xC
 
