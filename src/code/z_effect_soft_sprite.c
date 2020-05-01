@@ -36,7 +36,7 @@ void Effect_SS_Clear(GlobalContext* globalCtx) {
 
 void Effect_SS_Delete(LoadedParticleEntry* particle) {
     if (particle->flags & 2) {
-        func_800F89E8(particle);
+        func_800F89E8(&particle->position);
     }
 
     if (particle->flags & 4) {

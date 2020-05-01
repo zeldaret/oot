@@ -81,7 +81,7 @@ void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx) {
 void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 0x1E, NA_SE_EV_METALDOOR_CLOSE);
+        Audio_PlaySoundAtPosition(globalCtx, &thisx->posRot.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
         Actor_SetHeight(thisx, 50.0f);
         func_80080480(globalCtx, thisx);
         this->actionFunc = func_808AE630;

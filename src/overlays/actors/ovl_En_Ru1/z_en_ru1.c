@@ -1930,7 +1930,7 @@ void func_80AEF40C(EnRu1* this) {
 }
 
 void func_80AEF4A8(EnRu1* this, GlobalContext* globalCtx) {
-    Audio_PlaySoundAtPosition(globalCtx, &this->actor.unk_E4, 0x14, NA_SE_VO_RT_FALL);
+    Audio_PlaySoundAtPosition(globalCtx, &this->actor.unk_E4, 20, NA_SE_VO_RT_FALL);
 }
 
 void func_80AEF4E0(EnRu1* this) {

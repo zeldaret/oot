@@ -9,7 +9,9 @@ RUN apt-get update && \
 	python3-pip \
         wget \
 	git \
-	unzip
+	unzip \
+	vbindiff \
+	nano
 
 RUN wget \
         https://github.com/n64decomp/qemu-irix/releases/download/v2.11-deb/qemu-irix-2.11.0-2169-g32ab296eef_amd64.deb \
