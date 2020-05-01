@@ -2,7 +2,7 @@
 #include <global.h>
 
 void func_80110990(GlobalContext* globalCtx) {
-    func_80080F44(globalCtx);
+    Map_Destroy(globalCtx);
 }
 
 #ifdef NON_MATCHING
@@ -165,7 +165,7 @@ void func_801109B0(GlobalContext* globalCtx) {
     osSyncPrintf("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300);
 
     Health_InitData(globalCtx);
-    func_80080F68(globalCtx);
+    Map_Init(globalCtx);
 
     interfaceCtx->unk_242 = 0;
     interfaceCtx->unk_23C = 0;
@@ -483,9 +483,9 @@ void func_80111070(void) {
     WREG(26) = -0x28;
     WREG(27) = 0;
     WREG(28) = 0;
-    WREG(29) = 0xEE;
-    WREG(30) = 0xA4;
-    WREG(31) = 0;
+    R_OW_MINIMAP_X = 0xEE;
+    R_OW_MINIMAP_Y = 0xA4;
+    R_MINIMAP_TOGGLED = 0;
     WREG(32) = 0x7A;
     WREG(33) = 0x3C;
     WREG(35) = 0;
@@ -520,8 +520,8 @@ void func_80111070(void) {
     WREG(64) = -0x25;
     WREG(65) = 0x1E;
     WREG(66) = -0x32;
-    WREG(68) = 0xCC;
-    WREG(69) = 0x8C;
+    R_DGN_MINIMAP_X = 0xCC;
+    R_DGN_MINIMAP_Y = 0x8C;
     WREG(87) = 0x50;
     WREG(88) = 0x46;
     WREG(89) = 0x28;
@@ -543,13 +543,13 @@ void func_80111070(void) {
         VREG(7) = 0x4E;
         VREG(8) = 0xA6;
         VREG(9) = 0x28;
-        VREG(14) = 0x20;
-        VREG(15) = 0x20;
-        VREG(16) = 0x6E;
-        VREG(17) = -0x2E4;
-        VREG(18) = 0;
-        VREG(19) = 0xFF;
-        VREG(20) = 0xFF;
+        R_COMPASS_SCALE_X = 0x20;
+        R_COMPASS_SCALE_Y = 0x20;
+        R_COMPASS_OFFSET_X = 0x6E;
+        R_COMPASS_OFFSET_Y = -0x2E4;
+        R_MINIMAP_COLOR(0) = 0;
+        R_MINIMAP_COLOR(1) = 0xFF;
+        R_MINIMAP_COLOR(2) = 0xFF;
     }
 
     VREG(21) = 0;

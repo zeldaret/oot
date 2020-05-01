@@ -349,7 +349,7 @@ glabel func_80846CD8
 /* 14FB0 808471C0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 14FB4 808471C4 A64013C0 */  sh      $zero, 0x13C0($s2)         ## 8015FA20
 .L808471C8:
-/* 14FB8 808471C8 0C0201E8 */  jal     func_800807A0              
+/* 14FB8 808471C8 0C0201E8 */  jal     Map_SavePlayerInitialInfo              
 /* 14FBC 808471CC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 14FC0 808471D0 3C0B8016 */  lui     $t3, %hi(gGameInfo)
 /* 14FC4 808471D4 8D6BFA90 */  lw      $t3, %lo(gGameInfo)($t3)

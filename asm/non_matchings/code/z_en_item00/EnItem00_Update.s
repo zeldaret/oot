@@ -55,7 +55,7 @@ glabel jtbl_80135064
     .word L8001EC60
 
 .text
-glabel En_Item00_Update
+glabel EnItem00_Update
 /* A958BC 8001E71C 27BDFFB8 */  addiu $sp, $sp, -0x48
 /* A958C0 8001E720 AFBF0024 */  sw    $ra, 0x24($sp)
 /* A958C4 8001E724 AFB10020 */  sw    $s1, 0x20($sp)
@@ -518,7 +518,7 @@ glabel L8001EC8C
 /* A95F14 8001ED74 3C058002 */  lui   $a1, %hi(func_8001E5C8) # $a1, 0x8002
 /* A95F18 8001ED78 A6000152 */  sh    $zero, 0x152($s0)
 /* A95F1C 8001ED7C 24A5E5C8 */  addiu $a1, %lo(func_8001E5C8) # addiu $a1, $a1, -0x1a38
-/* A95F20 8001ED80 0C00764C */  jal   En_Item00_SetNewUpdate
+/* A95F20 8001ED80 0C00764C */  jal   EnItem00_SetupAction
 /* A95F24 8001ED84 02002025 */   move  $a0, $s0
 .L8001ED88:
 /* A95F28 8001ED88 8FBF0024 */  lw    $ra, 0x24($sp)
