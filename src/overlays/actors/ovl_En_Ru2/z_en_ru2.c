@@ -56,7 +56,7 @@ static u32 D_80AF410C[] = {
 
 static u32 D_80AF4118 = 0;
 
-#include "z_en_ru2_cutscene_data.c"
+#include "z_en_ru2_cutscene_data.c" EARLY
 
 static ActorFunc D_80AF50BC[] = {
     (ActorFunc)func_80AF2CB4, (ActorFunc)func_80AF2CD4, (ActorFunc)func_80AF2CF4, (ActorFunc)func_80AF2D2C,

@@ -19,7 +19,7 @@ void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx);
 
 extern u32 D_06001BD0;
 
-#include "z_bg_toki_swd_cutscene_data.c"
+#include "z_bg_toki_swd_cutscene_data.c" EARLY
 
 const ActorInit Bg_Toki_Swd_InitVars = {
     ACTOR_BG_TOKI_SWD,

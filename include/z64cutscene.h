@@ -1,6 +1,8 @@
 #ifndef _Z64CUTSCENE_H_
 #define _Z64CUTSCENE_H_
 
+#include <ultra64.h>
+
 typedef struct {
     /* 0x00 */ u16 entrance;       // entrance index upon which the cutscene should trigger
     /* 0x02 */ u8  ageRestriction; // 0 for adult only, 1 for child only, 2 for both ages
@@ -118,6 +120,25 @@ typedef enum {
     CS_CMD_TERMINATOR = 0x03E8,
     CS_CMD_END = 0xFFFF
 } CutsceneCmd;
+
+/**
+ * Special type for blocks of cutscene data, asm-processor checks
+ * arrays for static CutsceneData type and converts floats within
+ * the array to their IEEE-754 representation. The array must close
+ * with }; on its own line.
+ * 
+ * Files that contain this type that are included in other C files
+ * must include an 'EARLY' qualifier to inform asm-processor that it
+ * must recursively process that include.
+ * 
+ * Example: #include "file.c" EARLY
+ */
+typedef union CutsceneData {
+    s32 i;
+    f32 f;
+    s16 s[2];
+    s8  b[4];
+} CutsceneData;
 
 #define CS_CMD_CONTINUE 0x00
 #define CS_CMD_STOP 0xFF
