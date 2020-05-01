@@ -29,6 +29,8 @@ typedef struct {
     /* 0x17C */ ColliderCylinder collider;
 } EnAObj; // size = 0x1C8
 
+#define FLAGS 0x00000010
+
 void func_8001D204(EnAObj* this, GlobalContext* globalCtx);
 void func_8001D25C(EnAObj* this, GlobalContext* globalCtx);
 void func_8001D360(EnAObj* this, GlobalContext* globalCtx);
@@ -40,8 +42,24 @@ void func_8001D310(EnAObj* this, s16 params);
 void func_8001D480(EnAObj* this, s16 params);
 void func_8001D5C8(EnAObj* this, s16 params);
 
-// TODO: Define this part of code .data here and rename the symbols
-extern ActorInit En_A_Obj_InitVars;
+void EnAObj_Init(EnAObj* this, GlobalContext* globalCtx);
+void EnAObj_Destroy(EnAObj* this, GlobalContext* globalCtx);
+void EnAObj_Update(EnAObj* this, GlobalContext* globalCtx);
+void EnAObj_Draw(EnAObj* this, GlobalContext* globalCtx);
+
+const ActorInit En_A_Obj_InitVars = {
+    ACTOR_EN_A_OBJ,
+    ACTORTYPE_PROP,
+    FLAGS,
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(EnAObj),
+    (ActorFunc)EnAObj_Init,
+    (ActorFunc)EnAObj_Destroy,
+    (ActorFunc)EnAObj_Update,
+    (ActorFunc)EnAObj_Draw,
+};
+
+// TODO: Define this section of .data here and rename the symbols
 extern ColliderCylinderInit D_80115440;
 extern u32 D_8011546C[];
 extern u32 D_80115484[];

@@ -41,15 +41,33 @@ typedef struct {
     /* 0x15A */ s16 unk_15A;
     /* 0x15C */ f32 unk_15C;
     /* 0x160 */ ColliderCylinder collider;
-} EnItem00;
+} EnItem00; // size = 0x1AC
+
+#define FLAGS 0x00000000
+
+void EnItem00_Init(EnItem00* this, GlobalContext* globalCtx);
+void EnItem00_Destroy(EnItem00* this, GlobalContext* globalCtx);
+void EnItem00_Update(EnItem00* this, GlobalContext* globalCtx);
+void EnItem00_Draw(EnItem00* this, GlobalContext* globalCtx);
 
 void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx);
 void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx);
 void func_8001E304(EnItem00* this, GlobalContext* globalCtx);
 void func_8001E5C8(EnItem00* this, GlobalContext* globalCtx);
 
-// TODO: Define this part of code .data here and rename the symbols
-extern ActorInit En_Item00_InitVars;
+const ActorInit En_Item00_InitVars = {
+    ACTOR_EN_ITEM00,
+    ACTORTYPE_MISC,
+    FLAGS,
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(EnItem00),
+    (ActorFunc)EnItem00_Init,
+    (ActorFunc)EnItem00_Destroy,
+    (ActorFunc)EnItem00_Update,
+    (ActorFunc)EnItem00_Draw,
+};
+
+// TODO: Define this section of .data here and rename the symbols
 extern ColliderCylinderInit D_801154E0;
 extern InitChainEntry D_8011550C[];
 extern Color_RGB8 D_80115510;
