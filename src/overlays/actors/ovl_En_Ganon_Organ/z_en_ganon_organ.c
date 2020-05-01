@@ -6,6 +6,8 @@
 
 #include "z_en_ganon_organ.h"
 
+#include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
+
 #define FLAGS 0x00000030
 
 void EnGanonOrgan_Init(EnGanonOrgan* this, GlobalContext* globalCtx);
@@ -24,14 +26,6 @@ const ActorInit En_Ganon_Organ_InitVars = {
     (ActorFunc)EnGanonOrgan_Update,
     (ActorFunc)EnGanonOrgan_Draw,
 };
-
-// temp local struct to represent ganondorf, remove when we can reference other overlays
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x5CC];
-    /* 0x0718 */ s16 organFadeTimer;
-    /* 0x071A */ char unk_71A[0x2];
-} BossGanon; // size = 0x071C
 
 extern D_80A2CCA8; // remove when data is decompiled
 extern D_80A2EAB0; // remove when data is decompiled

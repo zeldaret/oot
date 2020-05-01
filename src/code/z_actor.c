@@ -2,6 +2,8 @@
 #include <global.h>
 #include <vt.h>
 
+#include "overlays/actors/ovl_En_Part/z_en_part.h"
+
 void ActorShape_Init(ActorShape* shape, f32 arg1, void* shadowDrawFunc, f32 arg3) {
     shape->unk_08 = arg1;
     shape->shadowDrawFunc = shadowDrawFunc;
@@ -3155,17 +3157,8 @@ void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4
     arg0->unk_14 = arg1;
 }
 
-typedef struct {
-    /* 0x000 */ Actor actor;
-    /* 0x14C */ u8 unk_14C;
-    /* 0x14E */ s16 unk_14E;
-    /* 0x150 */ s32 unk_150;
-    /* 0x154 */ f32 unk_154;
-    /* 0x158 */ f32 unk_158;
-} ActorEnPart;
-
 s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx, s16 params) {
-    ActorEnPart* spawnedEnPart;
+    EnPart* spawnedEnPart;
     MtxF* mtx;
     s16 objBankIndex;
 
@@ -3187,8 +3180,8 @@ s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx,
         }
 
         mtx = &arg1->unk_00[arg1->unk_08];
-        spawnedEnPart = (ActorEnPart*)Actor_SpawnAttached(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART,
-                                                          mtx->wx, mtx->wy, mtx->wz, 0, 0, objBankIndex, params);
+        spawnedEnPart = (EnPart*)Actor_SpawnAttached(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->wx,
+                                                     mtx->wy, mtx->wz, 0, 0, objBankIndex, params);
         if (spawnedEnPart != NULL) {
             func_800D20CC(&arg1->unk_00[arg1->unk_08], &spawnedEnPart->actor.shape.rot, 0);
             spawnedEnPart->unk_150 = arg1->unk_0C[arg1->unk_08];
@@ -4158,13 +4151,13 @@ void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3) {
 /**
  * Spawns En_Part (Dissipating Flames) actor attached to the given actor.
  */
-ActorEnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, Vec3f* arg3, s32 arg4, s32 unused,
-                           GlobalContext* globalCtx, s16 params, s32 arg8) {
-    ActorEnPart* spawnedEnPart;
+EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, Vec3f* arg3, s32 arg4, s32 unused,
+                      GlobalContext* globalCtx, s16 params, s32 arg8) {
+    EnPart* spawnedEnPart;
 
-    spawnedEnPart = (ActorEnPart*)Actor_SpawnAttached(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART,
-                                                      spawnPos->x, spawnPos->y, spawnPos->z, spawnRot->x, spawnRot->y,
-                                                      actor->objBankIndex, params);
+    spawnedEnPart =
+        (EnPart*)Actor_SpawnAttached(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, spawnPos->x, spawnPos->y,
+                                     spawnPos->z, spawnRot->x, spawnRot->y, actor->objBankIndex, params);
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
         spawnedEnPart->actor.speedXZ = arg3->x;
