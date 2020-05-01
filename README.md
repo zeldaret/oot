@@ -57,7 +57,7 @@ sudo apt-get install git build-essential binutils-mips-linux-gnu python3
 
 #### 2. Download qemu-irix
 
-Download qemu-irix.zip from the Releases section in the repository. Extract it to a folder of your choosing.
+Download qemu-irix from the Releases section in the repository. Place it at a location of your choosing.
 
 #### 3. Set environment variables
 
