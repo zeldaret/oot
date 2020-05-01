@@ -4,13 +4,7 @@
  * Description: Unknown (Broken Actor)
  */
 
-#include <ultra64.h>
-#include <global.h>
-
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc updateFunc;
-} EnSceneChange; // size = 0x0150
+#include "z_en_scene_change.h"
 
 #define FLAGS 0x00000000
 
