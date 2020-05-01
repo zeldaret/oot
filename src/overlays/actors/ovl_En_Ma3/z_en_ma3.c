@@ -97,7 +97,7 @@ extern AnimationHeader D_06009EE0;
 
 u16 func_80AA2AA0(GlobalContext *globalCtx, Actor *this) {
     Player* player = PLAYER;
-    s16* timer1ValuePtr;
+    s16* timer1ValuePtr; // weirdness with this necessary to match
 
     if (!(gSaveContext.infTable[11] & 0x100)) {
         return 0x2000;
