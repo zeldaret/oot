@@ -73,7 +73,7 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCt
 }
 
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx) {
-    func_8006C438(globalCtx, 5); // clear bean grow env flag
+    Flags_UnsetEnv(globalCtx, 5); // clear storms env flag
     if (((globalCtx->pauseCtx.state == 0) && (globalCtx->unk_10A20 == 0) && (globalCtx->msgCtx.unk_E300 == 0) &&
          (func_800C0D28(globalCtx) == 0) && ((globalCtx->transitionMode == 0) || (gSaveContext.gameMode != 0))) ||
         (this->timer >= 250)) {
@@ -84,7 +84,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
         if (this->timer == 308) {
             // "Let's grow some beans"
             osSyncPrintf("\n\n\n豆よ のびろ 指定\n\n\n");
-            func_8006C3D0(globalCtx, 5); // set bean grow env flag
+            Flags_SetEnv(globalCtx, 5); // set storms env flag
         }
     }
 
