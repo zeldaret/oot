@@ -168,12 +168,6 @@ void __osSetHWIntrRoutine(s32 idx, OSMesgQueue* queue, OSMesg msg);
 void __osGetHWIntrRoutine(s32 idx, OSMesgQueue** outQueue, OSMesg* outMsg);
 void __osSetWatchLo(u32);
 
-// ? func_80009320(?);
-// ? func_800093F0(?);
-// ? func_8001D234(?);
-// ? func_8001D310(?);
-// ? func_8001D480(?);
-// ? func_8001D5C8(?);
 Actor* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params);
 Actor* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 params);
 void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3f* spawnPos, s16 params);
