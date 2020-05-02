@@ -85,7 +85,7 @@ s32 D_80A692B8[] = { 0, 0x00000010 };
 static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_F8, 1200, ICHAIN_STOP),
 };
-static void (*updateFn[])(EnHorseGanon*, GlobalContext*) = { &func_80A68AF0, &func_80A68DB0, 0 };
+static void (*updateFn[])(EnHorseGanon*, GlobalContext*) = { func_80A68AF0, func_80A68DB0, NULL };
 
 const f32 D_80A692D0 = 10430.3779f;
 
