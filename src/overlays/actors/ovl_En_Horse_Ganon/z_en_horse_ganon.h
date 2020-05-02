@@ -6,13 +6,20 @@
 #include <z64.h>
 #include <z64collision_check.h>
 
+// stolen from krim's z_skin branch, I edited the type of the 1st arg of the 1st function
+typedef struct {
+    char unk_00[0x48];
+    void* avbTbl;
+    SkelAnime skelAnime;
+} PSkinAwb;
+void func_800A6408(ColliderJntSphItem* arg0, s32 arg1, Vec3f* arg2, Vec3f* arg3);
+void func_800A663C(GlobalContext* globalCtx, PSkinAwb*, SkeletonHeader*, AnimationHeader*);
+
 typedef struct {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 updateFnIndex;
     /* 0x0150 */ s32 currentAnimation;
-    /* 0x0154 */ s32 unk_154; // some struct
-    /* 0x0158 */ u8 unk_158[0x48];
-    /* 0x01a0 */ SkelAnime skelAnime;
+    /* 0x0154 */ PSkinAwb skin;
     /* 0x01e4 */ u8 unk_1e4[0x04];
     /* 0x01e8 */ s32 soundCount;
     /* 0x01ec */ s32 unk_1ec;

@@ -25,14 +25,9 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx);
 void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderJntSphItem* colliderSphereItem);
 
 // external functions
-void func_800A6888(GlobalContext*, s32*); // not exactly sure on 2nd arg type
-// not exactly sure on most of these
-void func_800A6330(Actor* this, GlobalContext* globalCtx, s32*,
+void func_800A6888(GlobalContext*, PSkinAwb*);
+void func_800A6330(Actor* this, GlobalContext* globalCtx, PSkinAwb*,
                    void(fn)(EnHorseGanon*, GlobalContext*, ColliderJntSphItem*), s32);
-
-// stolen from krim's z_skin branch, I edited the type of the 1st arg of the 1st function
-void func_800A6408(ColliderJntSphItem* arg0, s32 arg1, Vec3f* arg2, Vec3f* arg3);
-void func_800A663C(GlobalContext* globalCtx, UNK_PTR, SkeletonHeader*, AnimationHeader*);
 
 const ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
@@ -90,7 +85,7 @@ s32 D_80A692B8[] = { 0, 0x00000010 };
 static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_F8, 1200, ICHAIN_STOP),
 };
-void (*D_80A692C4[])(EnHorseGanon*, GlobalContext*) = { &func_80A68AF0, &func_80A68DB0, 0 };
+static void (*updateFn[])(EnHorseGanon*, GlobalContext*) = { &func_80A68AF0, &func_80A68DB0, 0 };
 
 const f32 D_80A692D0 = 10430.3779f;
 
@@ -149,8 +144,9 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
 void func_80A68870(EnHorseGanon* this)
 // regalloc mismatch
 {
-    if (this->skelAnime.animCurrentFrame > (f32)D_80A692B8[this->soundCount]) {
-        if (D_80A692B8[this->soundCount] != 0 || !(this->skelAnime.animCurrentFrame > (f32)D_80A692B8[1])) {
+    f32 animFrame = this->skin.skelAnime.animCurrentFrame;
+    if (animFrame > (f32)D_80A692B8[this->soundCount]) {
+        if (D_80A692B8[this->soundCount] != 0 || !(animFrame > (f32)D_80A692B8[1])) {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
             this->soundCount += 1;
@@ -177,9 +173,9 @@ void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx) {
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->updateFnIndex = 0;
     this->actor.posRot2.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->unk_154, &D_06008668, &D_06004AA4);
+    func_800A663C(globalCtx, &this->skin, &D_06008668, &D_06004AA4);
     this->currentAnimation = 0;
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, D_80A691B0[0]);
+    SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, D_80A691B0[0]);
 
     Collider_InitCylinder(globalCtx, colliderCylinder);
     Collider_SetCylinder(globalCtx, colliderCylinder, &this->actor, &cylinderInit);
@@ -191,19 +187,19 @@ void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx) {
 }
 
 void EnHorseGanon_Destroy(EnHorseGanon* this, GlobalContext* globalCtx) {
-    func_800A6888(globalCtx, &this->unk_154);
+    func_800A6888(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
     Collider_DestroyJntSph(globalCtx, &this->colliderSphere);
 }
 
 void func_80A68AC4(EnHorseGanon* this) {
     this->updateFnIndex = 0;
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, D_80A691C0[0]);
+    SkelAnime_ChangeAnimDefaultRepeat(&this->skin.skelAnime, D_80A691C0[0]);
 }
 
 void func_80A68AF0(EnHorseGanon* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
 }
 
 void func_80A68B20(EnHorseGanon* this) {
@@ -242,11 +238,11 @@ void func_80A68B20(EnHorseGanon* this) {
     }
 
     if (animationChanged == 1) {
-        SkelAnime_ChangeAnim(&this->skelAnime, D_80A691B0[this->currentAnimation],
+        SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A691B0[this->currentAnimation],
                              animPlaybackSpeed[this->currentAnimation] * sp30 * 1.5f, 0.0f,
                              SkelAnime_GetFrameCount(&D_80A691B0[this->currentAnimation]->genericHeader), 2, -3.0f);
     } else {
-        SkelAnime_ChangeAnim(&this->skelAnime, D_80A691B0[this->currentAnimation],
+        SkelAnime_ChangeAnim(&this->skin.skelAnime, D_80A691B0[this->currentAnimation],
                              animPlaybackSpeed[this->currentAnimation] * sp30 * 1.5f, 0.0f,
                              SkelAnime_GetFrameCount(&D_80A691B0[this->currentAnimation]->genericHeader), 2, 0.0f);
     }
@@ -259,7 +255,7 @@ void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx) {
 
     func_80A686A8(this, globalCtx);
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime) != 0) {
         func_80A68B20(this);
     }
 }
@@ -281,13 +277,11 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.x = D_80A692D0 * Math_atan2f(this->actor.posRot.pos.y - temp_ret, 30.0f);
 }
 
-#ifdef NON_MATCHING
 void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx)
-// simply needs to store a0 in s0 a few instructions earlier
 {
     u8 padding[8];
 
-    D_80A692C4[this->updateFnIndex](this, globalCtx);
+    updateFn[this->updateFnIndex](this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 29);
     this->actor.posRot2.pos = this->actor.posRot.pos;
@@ -295,9 +289,6 @@ void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx)
     Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Horse_Ganon/EnHorseGanon_Update.s")
-#endif
 
 void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderJntSphItem* colliderSphereItem) {
     Vec3f sp4C;
@@ -331,5 +322,5 @@ void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderJntSphI
 void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx) {
     func_80A68E14(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6330(&this->actor, globalCtx, &this->unk_154, func_80A68FA8, 1);
+    func_800A6330(&this->actor, globalCtx, &this->skin, func_80A68FA8, 1);
 }
