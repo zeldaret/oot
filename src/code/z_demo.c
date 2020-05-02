@@ -193,9 +193,9 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 3:
             if (sp3F != 0) {
-                func_8006C3D0(globalCtx, 0);
+                Flags_SetEnv(globalCtx, 0);
                 if (gSaveContext.entranceIndex == 0x0053) {
-                    func_8006C3D0(globalCtx, 2);
+                    Flags_SetEnv(globalCtx, 2);
                 }
             }
             break;
@@ -225,7 +225,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             globalCtx->envCtx.unk_EE[3] = 0x10;
             break;
         case 10:
-            func_8006C3D0(globalCtx, 1);
+            Flags_SetEnv(globalCtx, 1);
             break;
         case 11:
             if (globalCtx->unk_11D30[0] < 0x672) {
@@ -350,10 +350,10 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             globalCtx->unk_11DE9 = 0;
             break;
         case 30:
-            func_8006C3D0(globalCtx, 3);
+            Flags_SetEnv(globalCtx, 3);
             break;
         case 31:
-            func_8006C3D0(globalCtx, 4);
+            Flags_SetEnv(globalCtx, 4);
             break;
         case 32:
             if (sp3F != 0) {
@@ -1935,7 +1935,7 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     }
 
     if ((gSaveContext.cutsceneIndex >= 0xFFF0) && (csCtx->state == CS_STATE_IDLE)) {
-        func_8006C438(globalCtx, 0);
+        Flags_UnsetEnv(globalCtx, 0);
 
         D_8011E1C0 = 0;
         D_8011E1C4 = 0;

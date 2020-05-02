@@ -17,6 +17,7 @@
 #include <z64animation.h>
 #include <z64dma.h>
 #include <z64math.h>
+#include <z64transition.h>
 #include <bgm.h>
 #include <sfx.h>
 #include <color.h>
@@ -43,7 +44,7 @@ typedef struct {
     /* 0x08 */ s32  regCur;    // selected register within page
     /* 0x0C */ s32  dpadLast;
     /* 0x10 */ s32  repeat;
-    /* 0x14 */ s16  data[REG_GROUPS * REG_PER_GROUP]; // 0xAE0 bytes
+    /* 0x14 */ s16  data[REG_GROUPS * REG_PER_GROUP]; // 0xAE0 entries
 } GameInfo; // size = 0x15D4
 
 typedef struct {
@@ -58,8 +59,8 @@ typedef struct {
     /* 0x08 */ u32   clear;
     /* 0x0C */ u32   collect;
     /* 0x10 */ u32   unk;
-    /* 0x14 */ u32   rooms1;
-    /* 0x18 */ u32   rooms2;
+    /* 0x14 */ u32   rooms;
+    /* 0x18 */ u32   floors;
 } SaveSceneFlags; // size = 0x1C
 
 typedef struct {
@@ -185,7 +186,7 @@ typedef struct {
     /* 0x13F6 */ s16          unk_13F6;
     /* 0x13F8 */ s16          unk_13F8;
     /* 0x13FA */ u16          eventInf[4]; // "event_inf"
-    /* 0x1402 */ u16          dungeonIndex;
+    /* 0x1402 */ u16          mapIndex; // intended for maps/minimaps but commonly used as the dungeon index
     /* 0x1404 */ u16          minigameState;
     /* 0x1406 */ u16          minigameScore; // "yabusame_total"
     /* 0x1408 */ char         unk_1408[0x0001];
@@ -348,7 +349,7 @@ typedef struct {
 } Viewport; // size = 0x10
 
 
-typedef struct { 
+typedef struct {
     /* 0x0000 */ s32    magic; // string literal "VIEW" / 0x56494557
     /* 0x0004 */ GraphicsContext* gfxCtx;
     /* 0x0008 */ Viewport viewport;
@@ -371,14 +372,8 @@ typedef struct {
     /* 0x0110 */ Vec3f  unk_110;
     /* 0x011C */ u16    normal; // used to normalize the projection matrix
     /* 0x0120 */ u32    flags;
-    /* 0x0124 */ s32    unk_124; 
+    /* 0x0124 */ s32    unk_124;
 } View; // size = 0x128
-
-typedef struct {
-    f32 unk_00;
-    s16 unk_04;
-    s16 unk_06;
-} struct_80045714; // used in z_camera.c and code_8007BF90
 
 typedef struct {
     /* 0x0000 */ s32 unk_00;
@@ -386,16 +381,20 @@ typedef struct {
     /* 0x0006 */ s16 unk_06;
     /* 0x0008 */ s16 unk_08;
     /* 0x000A */ s16 unk_0A;
-    /* 0x000C */ char unk_0C[0x44];
-    /* 0x0050 */ Vec3f unk_50;
-    /* 0x005C */ Vec3f unk_5C;
-    /* 0x0068 */ char unk_68[0x0C];
+    /* 0x000C */ char unk_0C[0x16];
+    /* 0x0022 */ s16 unk_22;
+    /* 0x0024 */ char unk_24[0x2C];
+    /* 0x0050 */ Vec3f at;
+    /* 0x005C */ Vec3f eye;
+    /* 0x0068 */ Vec3f unk_68;
     /* 0x0074 */ Vec3f unk_74;
     /* 0x0080 */ Vec3f unk_80;
     /* 0x008C */ struct GlobalContext* globalCtx;
     /* 0x0090 */ Player* player;
     /* 0x0094 */ PosRot unk_94;
-    /* 0x00A8 */ char unk_A8[0x18];
+    /* 0x00A8 */ Vec3f* unk_A8;
+    /* 0x00AC */ Vec3f unk_AC;
+    /* 0x00B8 */ char unk_B8[8];
     /* 0x00C0 */ Vec3f unk_C0;
     /* 0x00CC */ Vec3f unk_CC;
     /* 0x00D8 */ f32 unk_D8;
@@ -412,9 +411,11 @@ typedef struct {
     /* 0x0128 */ s32 unk_128;
     /* 0x012C */ s16 unk_12C;
     /* 0x012E */ s16 unk_12E;
-    /* 0x0130 */ s16 unk_130;
-    /* 0x0132 */ char unk_132[0x0E];
-    /* 0x0140 */ s16 unk_140;
+    /* 0x0130 */ s16 uid;    // Unique identifier of the camera.
+    /* 0x0132 */ char unk_132[0x02];
+    /* 0x0134 */ Vec3s unk_134;
+    /* 0x013A */ Vec3s unk_13A;
+    /* 0x0140 */ s16 status;
     /* 0x0142 */ s16 unk_142; // related to door camera (see func_8005AD40)
     /* 0x0144 */ s16 unk_144;
     /* 0x0146 */ s16 unk_146; // unknown if used
@@ -437,13 +438,6 @@ typedef struct {
     /* 0x0168 */ s16 unk_168;
     /* 0x016A */ s16 unk_16A; // unknown if used
 } Camera; // size = 0x16C
-
-typedef struct {
-    /* 0x0000 */ Camera  cameras[4];
-    /* 0x05B0 */ Camera* cameraPtrs[4];
-    /* 0x05C0 */ s16     activeCamera;
-    /* 0x05C2 */ s16     nextCamera;
-} CameraContext; // size = 0x5C4
 
 typedef struct {
     /* 0x00 */ u8   musicSeq;
@@ -579,6 +573,12 @@ typedef struct {
 } CutsceneContext; // size = 0x50
 
 typedef struct {
+    /* 0x00 */ u16 countdown;
+    /* 0x04 */ Vec3f originPos;
+    /* 0x10 */ Vec3f relativePos;
+} SoundSource; // size = 0x1C
+
+typedef struct {
     /* 0x00 */ char unk_0[0x4];
 } SubGlobalContext1F74; // size = 0x4
 
@@ -624,7 +624,7 @@ typedef struct {
     /* 0x0134 */ void*  do_actionSegment;
     /* 0x0138 */ void*  icon_itemSegment;
     /* 0x013C */ void*  mapSegment;
-    /* 0x0140 */ char   unk_140[0x20];
+    /* 0x0140 */ u8     unk_140[32];
     /* 0x0160 */ DmaRequest dmaRequest_160;
     /* 0x0180 */ DmaRequest dmaRequest_180;
     /* 0x01A0 */ char   unk_1A0[0x20];
@@ -666,9 +666,10 @@ typedef struct {
     /* 0x0252 */ u16    magicAlpha; // also Rupee and Key counters alpha
     /* 0x0254 */ u16    minimapAlpha;
     /* 0x0256 */ s16    startAlpha;
-    /* 0x0258 */ char   unk_258[0x004];
-    /* 0x025C */ s16    roomNum;
-    /* 0x025E */ char   unk_25E[0x002];
+    /* 0x0258 */ s16    unk_258;
+    /* 0x025A */ s16    unk_25A;
+    /* 0x025C */ s16    mapRoomNum;
+    /* 0x025E */ s16    mapPaletteNum; // "map_palete_no"
     /* 0x0260 */ u8     unk_260;
     /* 0x0261 */ u8     unk_261;
     struct {
@@ -909,27 +910,24 @@ typedef struct {
 } PreRenderContext; // size = 0xA4
 
 typedef struct {
-    /* 0x00 */ char unk_00[0xDC];
-    /* 0xDC */ u16* unk_DC;
-} TransitionStruct; // size = 0xE0
-
-typedef struct {
-    /* 0x000 */ char   unk_00[0x228];
-    /* 0x228 */ s32    unk_228;
-    /* 0x22C */ void (*unk_22C)(UNK_ARGS);
-    /* 0x230 */ void (*unk_230)(UNK_ARGS);
-    /* 0x234 */ void (*unk_234)(UNK_ARGS);
-    /* 0x238 */ void (*unk_238)(UNK_ARGS);
-    /* 0x23C */ void (*unk_23C)(UNK_ARGS);
-    /* 0x240 */ void (*unk_240)(UNK_ARGS);
-    /* 0x244 */ void (*unk_244)(UNK_ARGS);
-    /* 0x248 */ void (*unk_248)(UNK_ARGS);
-    /* 0x24C */ s32  (*unk_24C)(UNK_ARGS);
+    union {
+        TransitionFade fade;
+        TransitionCircle circle;
+        TransitionTriforce triforce;
+        TransitionWipe wipe;
+        char data[0x228];
+    };
+    /* 0x228 */ s32    transitionType;
+    /* 0x22C */ void* (*init)(void* transition);
+    /* 0x230 */ void  (*destroy)(void* transition);
+    /* 0x234 */ void  (*update)(void* transition, s32 updateRate);
+    /* 0x238 */ void  (*draw)(void* transition, Gfx** gfxP);
+    /* 0x23C */ void  (*start)(void* transition);
+    /* 0x240 */ void  (*setType)(void* transition, s32 type);
+    /* 0x244 */ void  (*setColor)(void* transition, u32 color);
+    /* 0x248 */ void  (*setEnvColor)(void* transition, u32 color);
+    /* 0x24C */ s32   (*isDone)(void* transition);
 } TransitionContext; // size = 0x250
-
-typedef struct {
-    /* 0x00 */ char unk_00[0x0C];
-} SubGlobalContext1241C; // size = 0xC
 
 typedef struct {
     /* 0x00 */ s16   id;
@@ -1032,7 +1030,7 @@ typedef struct GlobalContext {
     /* 0x007C0 */ CollisionContext colCtx;
     /* 0x01C24 */ ActorContext actorCtx;
     /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"
-    /* 0x01DB4 */ char unk_1DB4[0x1C0];
+    /* 0x01DB4 */ SoundSource soundSources[16];
     /* 0x01F74 */ SubGlobalContext1F74 sub_1F74;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
     /* 0x020C8 */ char unk_20C8[0x10];
@@ -1077,14 +1075,13 @@ typedef struct GlobalContext {
     /* 0x11E5C */ s8 unk_11E5C;
     /* 0x11E5D */ s8 bombchuBowlingAmmo; // "bombchu_game_flag"
     /* 0x11E5E */ u8 fadeTransition;
-    /* 0x11E5F */ char unk_11E5F[0x1];
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
-    /* 0x120FC */ char unk_120FC[0x28];
+    /* 0x120FC */ u16 envFlags[20];
     /* 0x12124 */ PreRenderContext preRenderCtx;
     /* 0x121C8 */ TransitionContext transitionCtx;
     /* 0x12418 */ char unk_12418[0x3];
-    /* 0x1241B */ u8 unk_1241B; // "fbdemo_wipe_modem"
-    /* 0x1241C */ SubGlobalContext1241C sub_1241C;
+    /* 0x1241B */ u8 transitionMode; // "fbdemo_wipe_modem"
+    /* 0x1241C */ TransitionFade transitionFade;
     /* 0x12428 */ char unk_12428[0x3];
     /* 0x1242B */ u8 unk_1242B;
     /* 0x1242C */ Scene* loadedScene;
@@ -1198,6 +1195,40 @@ typedef struct PreNMIContext {
     /* 0xA4 */ u32      timer;
     /* 0xA8 */ UNK_TYPE unk_A8;
 } PreNMIContext; // size = 0xAC
+
+// All arrays pointed in this struct are indexed by "map indexes"
+// In dungeons, the map index corresponds to the dungeon index (which also indexes keys, items, etc)
+// In overworld areas, the map index corresponds to the overworld area index (spot 00, 01, etc)
+typedef struct {
+    /* 0x00 */ s16 (*floorTexIndexOffset)[8]; // dungeon texture index offset by floor
+    /* 0x04 */ s16*  bossFloor; // floor the boss is on
+    /* 0x08 */ s16 (*roomPalette)[32]; // map palette by room
+    /* 0x0C */ s16*  maxPaletteCount; // max number of palettes in a same floor
+    /* 0x10 */ s16 (*paletteRoom)[8][14]; // room by palette by floor
+    /* 0x14 */ s16 (*roomCompassOffsetX)[44]; // dungeon compass icon X offset by room
+    /* 0x18 */ s16 (*roomCompassOffsetY)[44]; // dungeon compass icon Y offset by room
+    /* 0x1C */ u8*   dgnMinimapCount; // number of room minimaps
+    /* 0x20 */ u16*  dgnMinimapTexIndexOffset; // dungeon minimap texture index offset
+    /* 0x24 */ u16*  owMinimapTexSize;
+    /* 0x28 */ u16*  owMinimapTexOffset;
+    /* 0x2C */ s16*  owMinimapPosX;
+    /* 0x30 */ s16*  owMinimapPosY;
+    /* 0x34 */ s16 (*owCompassInfo)[4]; // [X scale, Y scale, X offset, Y offset]
+    /* 0x38 */ s16*  dgnMinimapTexIndexBase; // dungeon minimap texture index base
+    /* 0x3C */ s16 (*dgnCompassInfo)[4]; // [X scale, Y scale, X offset, Y offset]
+    /* 0x40 */ s16*  owMinimapWidth;
+    /* 0x44 */ s16*  owMinimapHeight;
+    /* 0x48 */ s16*  owEntranceIconPosX; // "dungeon entrance" icon X pos
+    /* 0x4C */ s16*  owEntranceIconPosY; // "dungeon entrance" icon Y pos
+    /* 0x50 */ u16*  owEntranceFlag; // flag in inf_table[26] based on which entrance icons are shown (0xFFFF = always shown)
+    /* 0x54 */ f32 (*floorCoordY)[8]; // Y coordinate of each floor
+    /* 0x58 */ u16*  switchEntryCount; // number of "room switch" entries, which correspond to the next 3 arrays
+    /* 0x5C */ u8  (*switchFromRoom)[51]; // room to come from
+    /* 0x60 */ u8  (*switchFromFloor)[51]; // floor to come from
+    /* 0x64 */ u8  (*switchToRoom)[51]; // room to go to
+    /* 0x68 */ UNK_PTR unk_68;
+    /* 0x6C */ UNK_PTR unk_6C;
+} MapData; // size = 0x70
 
 typedef struct {
     /* 0x00 */ s8 chestFlag; // chest icon is only displayed if this flag is not set for the current room
@@ -1545,7 +1576,7 @@ typedef struct {
 typedef struct {
     /* 0x000 */ u8 codeOffs[16];
     /* 0x010 */ u16 dcCodes[120];
-    /* 0x100 */ u16 acCodes[256]; 
+    /* 0x100 */ u16 acCodes[256];
 } JpegHuffmanTableOld; // size = 0x300
 
 typedef struct {
@@ -1588,7 +1619,7 @@ typedef struct {
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 
-typedef struct { 
+typedef struct {
     /* 0x00 */ char unk_00[0x08];
     /* 0x08 */ Color_RGBA8 color;
     /* 0x0C */ char unk_0C[0x0C];

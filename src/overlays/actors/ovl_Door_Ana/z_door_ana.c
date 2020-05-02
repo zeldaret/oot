@@ -87,7 +87,7 @@ void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
     bool openGrotto = false;
     if ((this->actor.params & 0x200) == 0) {
         // opening with song of storms
-        if (this->actor.waterSurfaceDist < 40000.0f && func_8006C4A4(globalCtx, 5) != 0) {
+        if (this->actor.waterSurfaceDist < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
             openGrotto = true;
             this->actor.flags &= ~0x10;
         }

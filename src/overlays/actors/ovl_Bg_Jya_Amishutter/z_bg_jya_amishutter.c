@@ -69,7 +69,7 @@ void BgJyaAmishutter_Destroy(BgJyaAmishutter* this, GlobalContext* globalCtx) {
 }
 
 void func_808933BC(BgJyaAmishutter* this) {
-    this->updateFunc = func_808933CC;
+    this->actionFunc = func_808933CC;
 }
 
 void func_808933CC(BgJyaAmishutter* this) {
@@ -81,7 +81,7 @@ void func_808933CC(BgJyaAmishutter* this) {
 }
 
 void func_80893428(BgJyaAmishutter* this) {
-    this->updateFunc = func_80893438;
+    this->actionFunc = func_80893438;
 }
 
 void func_80893438(BgJyaAmishutter* this) {
@@ -94,7 +94,7 @@ void func_80893438(BgJyaAmishutter* this) {
 }
 
 void func_808934B0(BgJyaAmishutter* this) {
-    this->updateFunc = func_808934C0;
+    this->actionFunc = func_808934C0;
 }
 
 void func_808934C0(BgJyaAmishutter* this) {
@@ -104,7 +104,7 @@ void func_808934C0(BgJyaAmishutter* this) {
 }
 
 void func_808934FC(BgJyaAmishutter* this) {
-    this->updateFunc = func_8089350C;
+    this->actionFunc = func_8089350C;
 }
 
 void func_8089350C(BgJyaAmishutter* this) {
@@ -117,7 +117,7 @@ void func_8089350C(BgJyaAmishutter* this) {
 }
 
 void BgJyaAmishutter_Update(BgJyaAmishutter* this, GlobalContext* globalCtx) {
-    this->updateFunc(this);
+    this->actionFunc(this);
 }
 
 void BgJyaAmishutter_Draw(BgJyaAmishutter* this, GlobalContext* globalCtx) {

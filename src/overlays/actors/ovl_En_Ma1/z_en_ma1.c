@@ -37,7 +37,7 @@ const ActorInit En_Ma1_InitVars = {
     (ActorFunc)EnMa1_Draw,
 };
 
-ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit cylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 18, 46, 0, { 0, 0, 0 } },
@@ -432,7 +432,7 @@ void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx) {
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma1.c", 1226);
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
-    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->unk_5C);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 

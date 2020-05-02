@@ -43,7 +43,7 @@ void BgHidanSyoku_Init(BgHidanSyoku* this, GlobalContext* globalCtx) {
     DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
     DynaPolyInfo_Alloc(&D_0600E568, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
-    this->updateFunc = func_8088F4B8;
+    this->actionFunc = func_8088F4B8;
     this->dyna.actor.initPosRot.pos.y += 540.0f;
 }
 
@@ -54,13 +54,13 @@ void BgHidanSyoku_Destroy(BgHidanSyoku* this, GlobalContext* globalCtx) {
 void func_8088F47C(BgHidanSyoku* this) {
     this->unk_16A = 0x3C;
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-    this->updateFunc = func_8088F62C;
+    this->actionFunc = func_8088F62C;
 }
 
 void func_8088F4B8(BgHidanSyoku* this, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, this->dyna.actor.room) && func_8004356C(&this->dyna.actor)) {
         this->unk_16A = 0x8C;
-        this->updateFunc = func_8088F514;
+        this->actionFunc = func_8088F514;
     }
 }
 
@@ -95,15 +95,15 @@ void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx) {
     if (this->unk_16A == 0) {
         this->unk_16A = 0x8c;
         if (this->dyna.actor.posRot.pos.y < this->dyna.actor.initPosRot.pos.y) {
-            this->updateFunc = func_8088F514;
+            this->actionFunc = func_8088F514;
         } else {
-            this->updateFunc = func_8088F5A0;
+            this->actionFunc = func_8088F5A0;
         }
     }
 }
 
 void BgHidanSyoku_Update(BgHidanSyoku* this, GlobalContext* globalCtx) {
-    this->updateFunc(this, globalCtx);
+    this->actionFunc(this, globalCtx);
     if (func_8004356C(&this->dyna.actor)) {
         if (this->unk_168 == 0) {
             this->unk_168 = 3;

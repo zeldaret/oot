@@ -6,8 +6,8 @@
 
 typedef struct {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ColliderCylinder capsule;
-    /* 0x0198 */ f32 unk_0198;
+    /* 0x014C */ ColliderCylinder collider;
+    /* 0x0198 */ f32 unk_198;
 } EnMFire1; // size = 0x019C
 
 extern const ActorInit En_M_Fire1_InitVars;

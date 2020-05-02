@@ -184,7 +184,7 @@ s32 func_80078E84(GlobalContext* globalCtx) {
     return 0;
 }
 
-void Interface_DrawHealth(GlobalContext* globalCtx) {
+void Health_Draw(GlobalContext* globalCtx) {
     s32 pad[5];
     u8* heartBgImg;
     u32 curColorSet;
