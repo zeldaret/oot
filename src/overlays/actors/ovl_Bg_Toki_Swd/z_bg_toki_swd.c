@@ -263,13 +263,13 @@ void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx) {
 }
 
 void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx) {
-    if ((func_8006C4A4(globalCtx, 1) != 0) && (globalCtx->unk_11D30[0] < 0xFF)) {
+    if (Flags_GetEnv(globalCtx, 1) && (globalCtx->unk_11D30[0] < 0xFF)) {
         globalCtx->unk_11D30[0] += 5;
     }
 }
 
 void BgTokiSwd_Update(BgTokiSwd* this, GlobalContext* globalCtx) {
-    this->actionFunc(&this->actor, globalCtx);
+    this->actionFunc(this, globalCtx);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 

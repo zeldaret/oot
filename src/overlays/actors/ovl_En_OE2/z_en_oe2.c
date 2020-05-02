@@ -28,7 +28,7 @@ const ActorInit En_OE2_InitVars = {
 };
 
 void EnOE2_SetupAction(EnOE2* this, ActorFunc actionFunc) {
-    this->updateFunc = actionFunc;
+    this->actionFunc = actionFunc;
 }
 
 void EnOE2_Init(EnOE2* this, GlobalContext* globalCtx) {

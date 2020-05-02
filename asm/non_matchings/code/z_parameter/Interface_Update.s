@@ -381,7 +381,7 @@ glabel L8008D93C
 /* B04B54 8008D9B4 03017821 */  addu  $t7, $t8, $at
 /* B04B58 8008D9B8 AFAF0028 */  sw    $t7, 0x28($sp)
 .L8008D9BC:
-/* B04B5C 8008D9BC 0C02089B */  jal   func_8008226C
+/* B04B5C 8008D9BC 0C02089B */  jal   Map_Update
 /* B04B60 8008D9C0 8FA40048 */   lw    $a0, 0x48($sp)
 /* B04B64 8008D9C4 3C088016 */  lui   $t0, %hi(gSaveContext) # $t0, 0x8016
 /* B04B68 8008D9C8 2508E660 */  addiu $t0, %lo(gSaveContext) # addiu $t0, $t0, -0x19a0

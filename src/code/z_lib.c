@@ -2,16 +2,11 @@
 #include <global.h>
 
 void Lib_MemSet(u8* dest, size_t size, u8 val) {
-    u32 i = 0;
+    u32 i;
 
-    // TODO: Convert this to while/for if possible
-    if (i == size) {
-        return;
-    }
-    do {
-        *dest++ = val;
-        i++;
-    } while (i != size);
+    // clang-format off
+    for (i = 0; i < size; i++) { *dest++ = val; }
+    // clang-format on
 }
 
 f32 Math_Coss(s16 angle) {

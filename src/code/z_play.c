@@ -367,7 +367,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     TransitionFade_Start(&globalCtx->transitionFade);
     func_800AD000(&D_80161498);
     D_801614B0.a = 0x00;
-    func_8006C3A0(globalCtx);
+    Flags_UnsetAllEnv(globalCtx);
 
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&globalCtx->state.tha));
     zAllocSize = THA_GetSize(&globalCtx->state.tha);

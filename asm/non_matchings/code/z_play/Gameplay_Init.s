@@ -479,7 +479,7 @@ glabel Gameplay_Init
 /* B34274 800BD0D4 24841498 */   addiu $a0, %lo(D_80161498) # addiu $a0, $a0, 0x1498
 /* B34278 800BD0D8 3C018016 */  lui   $at, %hi(D_801614B0+3) # $at, 0x8016
 /* B3427C 800BD0DC A02014B3 */  sb    $zero, %lo(D_801614B0+3)($at)
-/* B34280 800BD0E0 0C01B0E8 */  jal   func_8006C3A0
+/* B34280 800BD0E0 0C01B0E8 */  jal   Flags_UnsetAllEnv
 /* B34284 800BD0E4 02202025 */   move  $a0, $s1
 /* B34288 800BD0E8 26300074 */  addiu $s0, $s1, 0x74
 /* B3428C 800BD0EC 0C030EE2 */  jal   THA_GetSize
