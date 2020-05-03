@@ -593,8 +593,10 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1426);
 }
 
-s32 EnWallMas_UpdatePos(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    EnWallmas* this = (EnWallmas*)actor;
+s32 EnWallMas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                               Actor* thisx) {
+    EnWallmas* this = THIS;
+
     if (limbIndex == 1) {
         if (this->actionFunc != (ActorFunc)EnWallmas_TakePlayer) {
             pos->z -= 1600.0f;
@@ -606,7 +608,7 @@ s32 EnWallMas_UpdatePos(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     return 0;
 }
 
-void EnWallmas_DrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+void EnWallMas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
@@ -634,7 +636,7 @@ void EnWallmas_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != (ActorFunc)&EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);
         SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         &EnWallMas_UpdatePos, &EnWallmas_DrawOpa, &this->actor);
+                         EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, &this->actor);
     }
 
     EnWallmas_DrawXlu(this, globalCtx);

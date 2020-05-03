@@ -2309,30 +2309,32 @@ void func_80AF0278(EnRu1* this, GlobalContext* globalCtx, s32 limbIndex, Vec3s* 
     }
 }
 
-s32 func_80AF02E8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnRu1* actor,
-                  Gfx** gfx) {
-    if ((actor->unk_290 < 0) || (actor->unk_290 > 0) || (*D_80AF19F4[actor->unk_290] == NULL)) {
+s32 EnRu1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnRu1* thisx,
+                           Gfx** gfx) {
+    EnRu1* this = THIS;
+
+    if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*D_80AF19F4[this->unk_290] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        D_80AF19F4[actor->unk_290](actor, globalCtx, limbIndex, rot);
+        D_80AF19F4[this->unk_290](this, globalCtx, limbIndex, rot);
     }
     return 0;
 }
 
-void func_80AF0368(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx) {
-    s32 pad;
+void EnRu1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+    EnRu1* this = THIS;
     Vec3f vec1;
     Vec3f vec2;
 
     if (limbIndex == 15) {
         vec1 = D_80AF19F8;
         Matrix_MultVec3f(&vec1, &vec2);
-        actor->posRot2.pos.x = vec2.x;
-        actor->posRot2.pos.y = vec2.y;
-        actor->posRot2.pos.z = vec2.z;
-        actor->posRot2.rot.x = actor->posRot.rot.x;
-        actor->posRot2.rot.y = actor->posRot.rot.y;
-        actor->posRot2.rot.z = actor->posRot.rot.z;
+        thisx->posRot2.pos.x = vec2.x;
+        thisx->posRot2.pos.y = vec2.y;
+        thisx->posRot2.pos.z = vec2.z;
+        thisx->posRot2.rot.x = thisx->posRot.rot.x;
+        thisx->posRot2.rot.y = thisx->posRot.rot.y;
+        thisx->posRot2.rot.z = thisx->posRot.rot.z;
     }
 }
 
@@ -2359,7 +2361,7 @@ void func_80AF0400(EnRu1* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
     gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          func_80AF02E8, func_80AF0368, &this->actor, gfxCtx->polyOpa.p);
+                                          EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, gfxCtx->polyOpa.p);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1309);
 }
@@ -2384,7 +2386,7 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          func_80AF02E8, NULL, &this->actor, gfxCtx->polyXlu.p);
+                                          EnRu1_OverrideLimbDraw, NULL, &this->actor, gfxCtx->polyXlu.p);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
 }

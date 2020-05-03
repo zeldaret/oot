@@ -27,8 +27,6 @@ void func_809B0988(EnAni* this, GlobalContext* globalCtx);
 void func_809B0994(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A28(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A6C(EnAni* this, GlobalContext* globalCtx);
-s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnAni* enAni);
-void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnAni* enAni);
 
 extern SkeletonHeader D_060000F0;
 extern AnimationHeader D_060067B8;
@@ -298,20 +296,19 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnAni* enAni) {
-    EnAni* temp;
+s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    EnAni* this = THIS;
 
-    temp = enAni;
     if (limbIndex == 15) {
-        rot->x += temp->unk_29C.y;
-        rot->z += temp->unk_29C.x;
+        rot->x += this->unk_29C.y;
+        rot->z += this->unk_29C.x;
     }
     return 0;
 }
 
-void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnAni* enAni) {
+void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&EnAniVec, &enAni->actor.posRot2.pos);
+        Matrix_MultVec3f(&EnAniVec, &thisx->posRot2.pos);
     }
 }
 

@@ -349,7 +349,7 @@ s32 EnTk_Orient(EnTk* this, GlobalContext* globalCtx) {
     }
 }
 
-u16 func_80B1C54C(GlobalContext* globalCtx, Actor* a1) {
+u16 func_80B1C54C(GlobalContext* globalCtx, Actor* thisx) {
     u16 ret;
 
     ret = Text_GetFaceReaction(globalCtx, 14);
@@ -366,7 +366,7 @@ u16 func_80B1C54C(GlobalContext* globalCtx, Actor* a1) {
     }
 }
 
-s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* actor) {
+s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
     s32 ret = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
@@ -375,7 +375,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* actor) {
             break;
         case 2:
             /* "I am the boss of the carpenters ..." (wtf?) */
-            if (actor->textId == 0x5028) {
+            if (thisx->textId == 0x5028) {
                 gSaveContext.infTable[13] |= 0x0100;
             }
             ret = 0;
@@ -383,25 +383,25 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* actor) {
         case 3:
             break;
         case 4:
-            if (func_80106BC8(globalCtx) != 0 && (actor->textId == 0x5018 || actor->textId == 0x5019)) {
+            if (func_80106BC8(globalCtx) != 0 && (thisx->textId == 0x5018 || thisx->textId == 0x5019)) {
                 if (globalCtx->msgCtx.choiceIndex == 1) {
                     /* "Thanks a lot!" */
-                    actor->textId = 0x0084;
+                    thisx->textId = 0x0084;
                 } else if (gSaveContext.rupees < 10) {
                     /* "You don't have enough Rupees!" */
-                    actor->textId = 0x0085;
+                    thisx->textId = 0x0085;
                 } else {
                     globalCtx->msgCtx.msgMode = 0x37;
                     Rupees_ChangeBy(-10);
                     gSaveContext.infTable[13] |= 0x0200;
                     return 2;
                 }
-                func_8010B720(globalCtx, actor->textId);
+                func_8010B720(globalCtx, thisx->textId);
                 gSaveContext.infTable[13] |= 0x0200;
             }
             break;
         case 5:
-            if (func_80106BC8(globalCtx) != 0 && (actor->textId == 0x0084 || actor->textId == 0x0085)) {
+            if (func_80106BC8(globalCtx) != 0 && (thisx->textId == 0x0084 || thisx->textId == 0x0085)) {
                 func_80106CCC(globalCtx);
                 ret = 0;
             }
@@ -706,26 +706,26 @@ void func_80B1D200(GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1190);
 }
 
-s32 func_80B1D278(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    EnTk* tk = (EnTk*)actor;
+s32 EnTk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    EnTk* this = THIS;
 
     switch (limbIndex) {
         /* Limb 15 - Head */
         case 15:
-            tk->h_21E = rot->y;
+            this->h_21E = rot->y;
             break;
         /* Limb 16 - Jaw */
         case 16:
-            tk->h_21E += rot->y;
-            rot->y += tk->headRot;
+            this->h_21E += rot->y;
+            rot->y += this->headRot;
             break;
     }
 
     return 0;
 }
 
-void func_80B1D2E4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
-    EnTk* this = (EnTk*)actor;
+void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    EnTk* this = THIS;
     Vec3f sp28 = { 0.f, 0.f, 4600.f };
     Vec3f sp1C = { 0.f, 0.f, 0.f };
 
@@ -763,8 +763,8 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(eyeImages[this->eyeImageIdx]));
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl,
-                     this->skelAnim.dListCount, func_80B1D278, func_80B1D2E4, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnim.skeleton, this->skelAnim.limbDrawTbl, this->skelAnim.dListCount,
+                     EnTk_OverrideLimbDraw, EnTk_PostLimbDraw, &this->actor);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_tk.c", 1312);
 }

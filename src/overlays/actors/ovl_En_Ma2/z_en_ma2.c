@@ -94,7 +94,7 @@ extern SkeletonHeader D_06008D90;
 extern AnimationHeader D_060093BC;
 extern AnimationHeader D_06009EE0;
 
-u16 func_80AA19A0(GlobalContext* globalCtx, Actor* this) {
+u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 23);
     if (faceReaction != 0) {
         return faceReaction;
@@ -114,12 +114,12 @@ u16 func_80AA19A0(GlobalContext* globalCtx, Actor* this) {
     return 0x204C;
 }
 
-s16 func_80AA1A38(GlobalContext* globalCtx, Actor* this) {
+s16 func_80AA1A38(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 2:
-            switch (this->textId) {
+            switch (thisx->textId) {
                 case 0x2051:
                     gSaveContext.infTable[8] |= 0x1000;
                     ret = 2;
@@ -349,34 +349,34 @@ void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* this) {
-    EnMa2* thisx = (EnMa2*)this;
-    Vec3s tempVec;
+s32 EnMa2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    EnMa2* this = THIS;
+    Vec3s vec;
 
     if ((limbIndex == 3) || (limbIndex == 6)) {
         *dList = NULL;
     }
     if (limbIndex == 18) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        tempVec = thisx->unk_1E0.unk_08;
-        Matrix_RotateX((tempVec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((tempVec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        vec = this->unk_1E0.unk_08;
+        Matrix_RotateX((vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateZ((vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 11) {
-        tempVec = thisx->unk_1E0.unk_0E;
-        Matrix_RotateY((-tempVec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateX((-tempVec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        vec = this->unk_1E0.unk_0E;
+        Matrix_RotateY((-vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX((-vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }
     if ((limbIndex == 11) || (limbIndex == 12) || (limbIndex == 15)) {
-        rot->y += Math_Sins(thisx->unk_212[limbIndex].y) * 200.0f;
-        rot->z += Math_Coss(thisx->unk_212[limbIndex].z) * 200.0f;
+        rot->y += Math_Sins(this->unk_212[limbIndex].y) * 200.0f;
+        rot->z += Math_Coss(this->unk_212[limbIndex].z) * 200.0f;
     }
     return 0;
 }
 
-void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* this) {
-    EnMa2* thisx = (EnMa2*)this;
+void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+    EnMa2* this = THIS;
     Vec3f vec = D_80AA28A8;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
@@ -384,9 +384,9 @@ void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma2.c", 904);
 
     if (limbIndex == 18) {
-        Matrix_MultVec3f(&vec, &this->posRot2.pos);
+        Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
     }
-    if ((limbIndex == 14) && (thisx->skelAnime.animCurrentSeg == &D_060093BC)) {
+    if ((limbIndex == 14) && (this->skelAnime.animCurrentSeg == &D_060093BC)) {
         gSPDisplayList(gfxCtx->polyOpa.p++, &D_06005420);
     }
 

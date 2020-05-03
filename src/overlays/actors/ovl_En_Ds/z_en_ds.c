@@ -30,9 +30,6 @@ void EnDs_GiveBluePotion(EnDs* this, GlobalContext* globalCtx);
 void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx);
 void EnDs_Wait(EnDs* this, GlobalContext* globalCtx);
 
-UNK_TYPE func_809FDA38(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnDs* this);
-void func_809FDA7C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* this);
-
 const ActorInit En_Ds_InitVars = {
     ACTOR_EN_DS,
     ACTORTYPE_NPC,
@@ -272,8 +269,8 @@ void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-UNK_TYPE func_809FDA38(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnDs* this) {
-    EnDs* enDs = this;
+s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+    EnDs* this = THIS;
 
     if (limbIndex == 5) {
         rot->x += this->unk_1D8.y;
@@ -282,9 +279,9 @@ UNK_TYPE func_809FDA38(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     return 0;
 }
 
-void func_809FDA7C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     if (limbIndex == 5) {
-        Matrix_MultVec3f(&mtxSrc, &actor->posRot2.pos);
+        Matrix_MultVec3f(&mtxSrc, &thisx->posRot2.pos);
     }
 }
 
@@ -293,5 +290,5 @@ void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     &func_809FDA38, &func_809FDA7C, this);
+                     EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
 }
