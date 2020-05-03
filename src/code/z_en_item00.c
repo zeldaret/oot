@@ -85,25 +85,23 @@ void EnItem00_SetupAction(EnItem00* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-#ifdef NON_MATCHING
-// Very close to matching, just a single ordering issue
 void EnItem00_Init(EnItem00* this, GlobalContext* globalCtx) {
     s32 pad1;
     s32 pad2;
     f32 sp34;
     f32 sp30;
-    s32 sp2C;
+    s32 getItemId;
     s16 spawnParam8000;
     s32 pad3;
 
     sp34 = 980.0f;
     sp30 = 6.0f;
-    sp2C = 0;
+    getItemId = 0;
 
     spawnParam8000 = this->actor.params & 0x8000;
     this->collectibleFlag = (this->actor.params & 0x3F00) >> 8;
 
-    this->actor.params = this->actor.params & 0x00FF;
+    this->actor.params &= 0xFF;
 
     if (Flags_GetCollectible(globalCtx, this->collectibleFlag)) {
         Actor_Kill(&this->actor);
@@ -227,7 +225,6 @@ void EnItem00_Init(EnItem00* this, GlobalContext* globalCtx) {
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->unk_152 = 0;
 
-    // MISMATCH: minor ordering issues here
     if (!spawnParam8000) {
         EnItem00_SetupAction(this, (ActorFunc)func_8001DFC8);
         this->unk_15A = -1;
@@ -279,23 +276,23 @@ void EnItem00_Init(EnItem00* this, GlobalContext* globalCtx) {
         case ITEM00_ARROWS_LARGE:
             Item_Give(globalCtx, ITEM_ARROWS_LARGE);
             break;
-        case ITEM00_MAGIC_SMALL:
-            sp2C = GI_MAGIC_SMALL;
-            break;
         case ITEM00_MAGIC_LARGE:
-            sp2C = GI_MAGIC_LARGE;
+            getItemId = GI_MAGIC_SMALL;
+            break;
+        case ITEM00_MAGIC_SMALL:
+            getItemId = GI_MAGIC_LARGE;
             break;
         case ITEM00_SMALL_KEY:
             Item_Give(globalCtx, ITEM_KEY_SMALL);
             break;
         case ITEM00_SEEDS:
-            sp2C = GI_SEEDS_5;
+            getItemId = GI_SEEDS_5;
             break;
         case ITEM00_NUTS:
-            sp2C = GI_NUTS_5;
+            getItemId = GI_NUTS_5;
             break;
         case ITEM00_STICK:
-            sp2C = GI_STICKS_1;
+            getItemId = GI_STICKS_1;
             break;
         case ITEM00_HEART_PIECE:
         case ITEM00_HEART_CONTAINER:
@@ -307,16 +304,13 @@ void EnItem00_Init(EnItem00* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if ((sp2C != 0) && !func_8002F410(&this->actor, globalCtx)) {
-        func_8002F554(&this->actor, globalCtx, sp2C);
+    if ((getItemId != 0) && !func_8002F410(&this->actor, globalCtx)) {
+        func_8002F554(&this->actor, globalCtx, getItemId);
     }
 
     EnItem00_SetupAction(this, (ActorFunc)func_8001E5C8);
     this->actionFunc(this, globalCtx);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_en_item00/EnItem00_Init.s")
-#endif
 
 void EnItem00_Destroy(EnItem00* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider = &this->collider;
@@ -486,17 +480,15 @@ extern s32 D_80157D90;
 extern u32 D_80157D90_; // these must be defined separately for EnItem00_Update to match
 extern s16 D_80157D94;
 
-#ifdef NON_MATCHING
-// Almost matching, just a few minor ordering issues
 void EnItem00_Update(EnItem00* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
-    s32 sp3C;
+    s32 pad;
+    s16* params;
+    s32 getItemId;
     s16 sp3A;
     Actor* dynaActor;
     s16 i;
 
-    sp3C = 0;
+    getItemId = 0;
     sp3A = 0;
 
     if (this->unk_15A > 0) {
@@ -565,7 +557,6 @@ void EnItem00_Update(EnItem00* this, GlobalContext* globalCtx) {
         return;
     }
 
-    // MISMATCH: The first function argument is loaded too early here
     if (!((this->actor.xzDistanceFromLink <= 30.0f) && (this->actor.yDistanceFromLink >= -50.0f) &&
           (this->actor.yDistanceFromLink <= 50.0f))) {
         if (!func_8002F410(&this->actor, globalCtx)) {
@@ -594,10 +585,10 @@ void EnItem00_Update(EnItem00* this, GlobalContext* globalCtx) {
             Item_Give(globalCtx, ITEM_RUPEE_GOLD);
             break;
         case ITEM00_STICK:
-            sp3C = GI_STICKS_1;
+            getItemId = GI_STICKS_1;
             break;
         case ITEM00_NUTS:
-            sp3C = GI_NUTS_5;
+            getItemId = GI_NUTS_5;
             break;
         case ITEM00_HEART:
             Item_Give(globalCtx, ITEM_HEART);
@@ -622,45 +613,46 @@ void EnItem00_Update(EnItem00* this, GlobalContext* globalCtx) {
             Item_Give(globalCtx, ITEM_ARROWS_LARGE);
             break;
         case ITEM00_SEEDS:
-            sp3C = GI_SEEDS_5;
+            getItemId = GI_SEEDS_5;
             break;
         case ITEM00_SMALL_KEY:
-            sp3C = GI_KEY_SMALL;
+            getItemId = GI_KEY_SMALL;
             break;
         case ITEM00_HEART_PIECE:
-            sp3C = GI_HEART_PIECE;
+            getItemId = GI_HEART_PIECE;
             break;
         case ITEM00_HEART_CONTAINER:
-            sp3C = GI_HEART_CONTAINER;
+            getItemId = GI_HEART_CONTAINER;
             break;
         case ITEM00_MAGIC_LARGE:
-            sp3C = GI_MAGIC_LARGE;
+            getItemId = GI_MAGIC_LARGE;
             break;
         case ITEM00_MAGIC_SMALL:
-            sp3C = GI_MAGIC_SMALL;
+            getItemId = GI_MAGIC_SMALL;
             break;
         case ITEM00_SHIELD_DEKU:
-            sp3C = GI_SHIELD_DEKU;
+            getItemId = GI_SHIELD_DEKU;
             break;
         case ITEM00_SHIELD_HYLIAN:
-            sp3C = GI_SHIELD_HYLIAN;
+            getItemId = GI_SHIELD_HYLIAN;
             break;
         case ITEM00_TUNIC_ZORA:
-            sp3C = GI_TUNIC_ZORA;
+            getItemId = GI_TUNIC_ZORA;
             break;
         case ITEM00_TUNIC_GORON:
-            sp3C = GI_TUNIC_GORON;
+            getItemId = GI_TUNIC_GORON;
             break;
         case ITEM00_BOMBS_SPECIAL:
             break;
     }
 
-    // MISMATCH: The first function argument is also loaded too early here
-    if ((sp3C != 0) && !func_8002F410(&this->actor, globalCtx)) {
-        func_8002F554(&this->actor, globalCtx, sp3C);
+    params = &this->actor.params;
+
+    if ((getItemId != 0) && !func_8002F410(&this->actor, globalCtx)) {
+        func_8002F554(&this->actor, globalCtx, getItemId);
     }
 
-    switch (this->actor.params) {
+    switch (*params) {
         case ITEM00_HEART_PIECE:
         case ITEM00_HEART_CONTAINER:
         case ITEM00_SMALL_KEY:
@@ -675,9 +667,9 @@ void EnItem00_Update(EnItem00* this, GlobalContext* globalCtx) {
             return;
     }
 
-    if ((this->actor.params <= ITEM00_RUPEE_RED) || (this->actor.params == ITEM00_RUPEE_ORANGE)) {
+    if ((*params <= ITEM00_RUPEE_RED) || (*params == ITEM00_RUPEE_ORANGE)) {
         Audio_PlaySoundGeneral(NA_SE_SY_GET_RUPY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    } else if (sp3C != 0) {
+    } else if (getItemId != 0) {
         if (func_8002F410(&this->actor, globalCtx)) {
             Flags_SetCollectible(globalCtx, this->collectibleFlag);
             Actor_Kill(&this->actor);
@@ -701,9 +693,6 @@ void EnItem00_Update(EnItem00* this, GlobalContext* globalCtx) {
     this->unk_152 = 0;
     EnItem00_SetupAction(this, (ActorFunc)func_8001E5C8);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_en_item00/EnItem00_Update.s")
-#endif
 
 // Draw Function prototypes (used in EnItem00_Draw)
 void func_8001EF30(EnItem00* this, GlobalContext* globalCtx);
