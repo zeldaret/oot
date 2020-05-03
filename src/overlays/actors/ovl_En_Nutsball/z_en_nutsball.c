@@ -8,12 +8,15 @@
 
 #define FLAGS 0x00000010
 
-void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx);
-void EnNutsball_Destroy(EnNutsball* this, GlobalContext* globalCtx);
-void EnNutsball_Update(EnNutsball* this, GlobalContext* globalCtx);
+#define THIS ((EnNutsball*)thisx)
+
+void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnNutsball_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnNutsball_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80ABBB34(EnNutsball* this, GlobalContext* globalCtx);
 void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx);
-void EnNutsball_Draw(EnNutsball* this, GlobalContext* globalCtx);
 
 const ActorInit En_Nutsball_InitVars = {
     ACTOR_EN_NUTSBALL,
@@ -36,8 +39,9 @@ static ColliderCylinderInit cylinderInitData = {
 static s16 objectTbl[] = { OBJECT_DEKUNUTS, OBJECT_HINTNUTS, OBJECT_SHOPNUTS, OBJECT_DNS, OBJECT_DNK };
 static u32 dListTbl[] = { 0x06002028, 0x060012F0, 0x06004008, 0x06002410, 0x06001890 };
 
-void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx) {
-    s32 pad[2];
+void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnNutsball* this = THIS;
+    s32 pad;
 
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawFunc_Circle, 13.0f);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -51,15 +55,16 @@ void EnNutsball_Init(EnNutsball* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnNutsball_Destroy(EnNutsball* this, GlobalContext* globalCtx) {
-    ColliderCylinder* collider = &this->collider;
-    Collider_DestroyCylinder(globalCtx, collider);
+void EnNutsball_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnNutsball* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void func_80ABBB34(EnNutsball* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         this->actor.objBankIndex = this->objBankIndex;
-        this->actor.draw = (ActorFunc)EnNutsball_Draw;
+        this->actor.draw = EnNutsball_Draw;
         this->actor.shape.rot.y = 0;
         this->timer = 30;
         this->actionFunc = (ActorFunc)func_80ABBBA8;
@@ -112,27 +117,27 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnNutsball_Update(EnNutsball* this, GlobalContext* globalCtx) {
-    EnNutsball* nutsball = this;
+void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnNutsball* this = THIS;
     Player* player = PLAYER;
     s32 pad;
 
-    if (!(player->stateFlags1 & 0x300000C0) || (nutsball->actionFunc == (ActorFunc)func_80ABBB34)) {
-        nutsball->actionFunc(nutsball, globalCtx);
+    if (!(player->stateFlags1 & 0x300000C0) || (this->actionFunc == (ActorFunc)func_80ABBB34)) {
+        this->actionFunc(this, globalCtx);
 
-        Actor_MoveForward(&nutsball->actor);
-        func_8002E4B4(globalCtx, &nutsball->actor, 10, cylinderInitData.dim.radius, cylinderInitData.dim.height, 5);
-        Collider_CylinderUpdate(&nutsball->actor, &nutsball->collider);
+        Actor_MoveForward(&this->actor);
+        func_8002E4B4(globalCtx, &this->actor, 10, cylinderInitData.dim.radius, cylinderInitData.dim.height, 5);
+        Collider_CylinderUpdate(&this->actor, &this->collider);
 
-        nutsball->actor.flags |= 0x1000000;
+        this->actor.flags |= 0x1000000;
 
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &nutsball->collider);
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &nutsball->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &nutsball->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 }
 
-void EnNutsball_Draw(EnNutsball* this, GlobalContext* globalCtx) {
+void EnNutsball_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[5];
 
@@ -140,10 +145,10 @@ void EnNutsball_Draw(EnNutsball* this, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-    Matrix_RotateZ(this->actor.initPosRot.rot.z * 9.58738e-05f, MTXMODE_APPLY);
+    Matrix_RotateZ(thisx->initPosRot.rot.z * 9.58738e-05f, MTXMODE_APPLY);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nutsball.c", 333),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(gfxCtx->polyOpa.p++, dListTbl[this->actor.params]);
+    gSPDisplayList(gfxCtx->polyOpa.p++, dListTbl[thisx->params]);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_nutsball.c", 337);
 }

@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void BgSpot01Fusya_Init(BgSpot01Fusya* this, GlobalContext* globalCtx);
-void BgSpot01Fusya_Destroy(BgSpot01Fusya* this, GlobalContext* globalCtx);
-void BgSpot01Fusya_Update(BgSpot01Fusya* this, GlobalContext* globalCtx);
-void BgSpot01Fusya_Draw(BgSpot01Fusya* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot01Fusya*)thisx)
+
+void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Fusya_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Fusya_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Fusya_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx);
 
@@ -40,7 +42,9 @@ void BgSpot01Fusya_SetupAction(BgSpot01Fusya* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void BgSpot01Fusya_Init(BgSpot01Fusya* this, GlobalContext* globalCtx) {
+void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Fusya* this = THIS;
+
     Actor_ProcessInitChain(&this->actor, initChain);
     this->unk_154 = 100.0f;
     this->unk_158 = 100.0f;
@@ -51,12 +55,13 @@ void BgSpot01Fusya_Init(BgSpot01Fusya* this, GlobalContext* globalCtx) {
     BgSpot01Fusya_SetupAction(this, func_808AAA50);
 }
 
-void BgSpot01Fusya_Destroy(BgSpot01Fusya* this, GlobalContext* globalCtx) {
+void BgSpot01Fusya_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx) {
     f32 temp;
     Actor* thisx = &this->actor;
+
     if (gSaveContext.eventChkInf[6] & 0x20) {
         this->unk_158 = 1800.0f;
     }
@@ -66,11 +71,13 @@ void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->unk_154, this->unk_158, this->unk_15C, 100.0f);
 }
 
-void BgSpot01Fusya_Update(BgSpot01Fusya* this, GlobalContext* globalCtx) {
+void BgSpot01Fusya_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Fusya* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
-void BgSpot01Fusya_Draw(BgSpot01Fusya* this, GlobalContext* globalCtx) {
+void BgSpot01Fusya_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 

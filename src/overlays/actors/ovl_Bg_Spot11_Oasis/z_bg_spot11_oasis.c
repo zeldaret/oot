@@ -2,8 +2,10 @@
 
 #define FLAGS 0x00000010
 
-void BgSpot11Oasis_Init(BgSpot11Oasis* this, GlobalContext* globalCtx);
-void BgSpot11Oasis_Update(BgSpot11Oasis* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot11Oasis*)thisx)
+
+void BgSpot11Oasis_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot11_Oasis_InitVars = {

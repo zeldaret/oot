@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000030
 
-void BgHakaShip_Init(BgHakaShip* this, GlobalContext* globalCtx);
-void BgHakaShip_Destroy(BgHakaShip* this, GlobalContext* globalCtx);
-void BgHakaShip_Update(BgHakaShip* this, GlobalContext* globalCtx);
-void BgHakaShip_Draw(BgHakaShip* this, GlobalContext* globalCtx);
+#define THIS ((BgHakaShip*)thisx)
+
+void BgHakaShip_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaShip_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaShip_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaShip_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8087F27C(BgHakaShip* this, GlobalContext* globalCtx);
 void func_8087F2D8(BgHakaShip* this, GlobalContext* globalCtx);
 void func_8087F364(BgHakaShip* this, GlobalContext* globalCtx);

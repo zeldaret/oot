@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void BgHidanFslift_Init(BgHidanFslift* this, GlobalContext* globalCtx);
-void BgHidanFslift_Destroy(BgHidanFslift* this, GlobalContext* globalCtx);
-void BgHidanFslift_Update(BgHidanFslift* this, GlobalContext* globalCtx);
-void BgHidanFslift_Draw(BgHidanFslift* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanFslift*)thisx)
+
+void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanFslift_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanFslift_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80886FCC(BgHidanFslift* this, GlobalContext* globalCtx);
 void func_8088706C(BgHidanFslift* this, GlobalContext* globalCtx);
@@ -39,10 +41,11 @@ static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_F4, 2000, ICHAIN_STOP),
 };
 
-void BgHidanFslift_Init(BgHidanFslift* this, GlobalContext* globalCtx) {
-    s32 pad[2];
+void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanFslift* this = THIS;
+    s32 pad1;
     s32 local_c = 0;
-    Actor* thisx = &this->dyna.actor;
+    s32 pad2;
 
     Actor_ProcessInitChain(thisx, initChain);
     DynaPolyInfo_SetActorMove(thisx, 1);
@@ -58,6 +61,7 @@ void BgHidanFslift_Init(BgHidanFslift* this, GlobalContext* globalCtx) {
 
 void func_80886F24(BgHidanFslift* this) {
     Actor* thisx = &this->dyna.actor;
+
     if (thisx->attachedB != NULL && thisx->attachedB->update != NULL) {
         thisx->attachedB->posRot.pos.x = thisx->posRot.pos.x;
         thisx->attachedB->posRot.pos.y = thisx->posRot.pos.y + 40.0f;
@@ -67,7 +71,9 @@ void func_80886F24(BgHidanFslift* this) {
     thisx->attachedB = NULL;
 }
 
-void BgHidanFslift_Destroy(BgHidanFslift* this, GlobalContext* globalCtx) {
+void BgHidanFslift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanFslift* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
@@ -101,6 +107,7 @@ void func_80886FCC(BgHidanFslift* this, GlobalContext* globalCtx) {
 
 void func_8088706C(BgHidanFslift* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
+
     if (Math_ApproxF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y, 4.0f)) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
         func_80886FB4(this);
@@ -112,6 +119,7 @@ void func_8088706C(BgHidanFslift* this, GlobalContext* globalCtx) {
 
 void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
+
     if (func_80043590(thisx)) {
         if (Math_ApproxF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y + 790.0f, 4.0f)) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
@@ -125,8 +133,9 @@ void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx) {
     func_80886F24(this);
 }
 
-void BgHidanFslift_Update(BgHidanFslift* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanFslift* this = THIS;
+
     this->actionFunc(this, globalCtx);
     if (func_8004356C(thisx)) {
         if (this->unk_16A == 0) {
@@ -143,6 +152,6 @@ void BgHidanFslift_Update(BgHidanFslift* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgHidanFslift_Draw(BgHidanFslift* this, GlobalContext* globalCtx) {
+void BgHidanFslift_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_0600B630);
 }

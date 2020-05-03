@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void BgRelayObjects_Init(BgRelayObjects* this, GlobalContext* globalCtx);
-void BgRelayObjects_Destroy(BgRelayObjects* this, GlobalContext* globalCtx);
-void BgRelayObjects_Update(BgRelayObjects* this, GlobalContext* globalCtx);
-void BgRelayObjects_Draw(BgRelayObjects* this, GlobalContext* globalCtx);
+#define THIS ((BgRelayObjects*)thisx)
+
+void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgRelayObjects_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgRelayObjects_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgRelayObjects_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Relay_Objects_InitVars = {

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void EnSda_Init(EnSda* this, GlobalContext* globalCtx);
-void EnSda_Destroy(EnSda* this, GlobalContext* globalCtx);
-void EnSda_Update(EnSda* this, GlobalContext* globalCtx);
-void EnSda_Draw(EnSda* this, GlobalContext* globalCtx);
+#define THIS ((EnSda*)thisx)
+
+void EnSda_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSda_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSda_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSda_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Sda_InitVars = {

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000415
 
-void EnFz_Init(EnFz* this, GlobalContext* globalCtx);
-void EnFz_Destroy(EnFz* this, GlobalContext* globalCtx);
-void EnFz_Update(EnFz* this, GlobalContext* globalCtx);
-void EnFz_Draw(EnFz* this, GlobalContext* globalCtx);
+#define THIS ((EnFz*)thisx)
+
+void EnFz_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnFz_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnFz_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Fz_InitVars = {

@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00000010
 
-void EnVase_Init(EnVase* this, GlobalContext* globalCtx);
-void EnVase_Destroy(EnVase* this, GlobalContext* globalCtx);
-void EnVase_Draw(EnVase* this, GlobalContext* globalCtx);
+#define THIS ((EnVase*)thisx)
+
+void EnVase_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnVase_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnVase_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Vase_InitVars = {
     ACTOR_EN_VASE,
@@ -26,15 +28,17 @@ const ActorInit En_Vase_InitVars = {
 
 extern u32 DL_VASE;
 
-void EnVase_Init(EnVase* this, GlobalContext* globalCtx) {
+void EnVase_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnVase* this = THIS;
+
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 6.0f);
 }
 
-void EnVase_Destroy(EnVase* this, GlobalContext* globalCtx) {
+void EnVase_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void EnVase_Draw(EnVase* this, GlobalContext* globalCtx) {
+void EnVase_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &DL_VASE);
 }

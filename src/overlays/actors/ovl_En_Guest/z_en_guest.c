@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000019
 
-void EnGuest_Init(EnGuest* this, GlobalContext* globalCtx);
-void EnGuest_Destroy(EnGuest* this, GlobalContext* globalCtx);
-void EnGuest_Update(EnGuest* this, GlobalContext* globalCtx);
+#define THIS ((EnGuest*)thisx)
+
+void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Guest_InitVars = {

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void BgMizuWater_Init(BgMizuWater* this, GlobalContext* globalCtx);
-void BgMizuWater_Destroy(BgMizuWater* this, GlobalContext* globalCtx);
-void BgMizuWater_Update(BgMizuWater* this, GlobalContext* globalCtx);
-void BgMizuWater_Draw(BgMizuWater* this, GlobalContext* globalCtx);
+#define THIS ((BgMizuWater*)thisx)
+
+void BgMizuWater_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuWater_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuWater_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuWater_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mizu_Water_InitVars = {

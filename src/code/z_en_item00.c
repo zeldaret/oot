@@ -45,10 +45,12 @@ typedef struct {
 
 #define FLAGS 0x00000000
 
-void EnItem00_Init(EnItem00* this, GlobalContext* globalCtx);
-void EnItem00_Destroy(EnItem00* this, GlobalContext* globalCtx);
-void EnItem00_Update(EnItem00* this, GlobalContext* globalCtx);
-void EnItem00_Draw(EnItem00* this, GlobalContext* globalCtx);
+#define THIS ((EnItem00*)thisx)
+
+void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnItem00_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx);
 void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx);
@@ -85,8 +87,8 @@ void EnItem00_SetupAction(EnItem00* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void EnItem00_Init(EnItem00* this, GlobalContext* globalCtx) {
-    s32 pad1;
+void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnItem00* this = THIS;
     s32 pad2;
     f32 sp34;
     f32 sp30;
@@ -312,9 +314,10 @@ void EnItem00_Init(EnItem00* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void EnItem00_Destroy(EnItem00* this, GlobalContext* globalCtx) {
-    ColliderCylinder* collider = &this->collider;
-    Collider_DestroyCylinder(globalCtx, collider);
+void EnItem00_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnItem00* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx) {
@@ -480,8 +483,8 @@ extern s32 D_80157D90;
 extern u32 D_80157D90_; // these must be defined separately for EnItem00_Update to match
 extern s16 D_80157D94;
 
-void EnItem00_Update(EnItem00* this, GlobalContext* globalCtx) {
-    s32 pad;
+void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnItem00* this = THIS;
     s16* params;
     s32 getItemId;
     s16 sp3A;
@@ -700,8 +703,8 @@ void func_8001F080(EnItem00* this, GlobalContext* globalCtx);
 void func_8001F1F4(EnItem00* this, GlobalContext* globalCtx);
 void func_8001F334(EnItem00* this, GlobalContext* globalCtx);
 
-void EnItem00_Draw(EnItem00* this, GlobalContext* globalCtx) {
-    s32 pad;
+void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnItem00* this = THIS;
     f32 unkFloat;
 
     if (!(this->unk_156 & this->unk_158)) {

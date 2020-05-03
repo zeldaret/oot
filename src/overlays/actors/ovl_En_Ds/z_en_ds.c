@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000009
 
-void EnDs_Init(EnDs* this, GlobalContext* globalCtx);
-void EnDs_Destroy(EnDs* this, GlobalContext* globalCtx);
-void EnDs_Update(EnDs* this, GlobalContext* globalCtx);
-void EnDs_Draw(EnDs* this, GlobalContext* globalCtx);
+#define THIS ((EnDs*)thisx)
+
+void EnDs_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDs_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnDs_Talk(EnDs* this, GlobalContext* globalCtx);
 void EnDs_TalkNoEmptyBottle(EnDs* this, GlobalContext* globalCtx);
@@ -48,11 +50,11 @@ extern AnimationHeader D_0600039C;
 
 Vec3f mtxSrc = { 1100.0f, 500.0f, 0.0f };
 
-void EnDs_Init(EnDs* this, GlobalContext* globalCtx) {
-    SkelAnime* skelAnime = &this->skelAnime;
+void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnDs* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600039C);
 
     this->actor.colChkInfo.mass = 0xFF;
@@ -66,7 +68,7 @@ void EnDs_Init(EnDs* this, GlobalContext* globalCtx) {
     this->unk_1E4 = 0.0f;
 }
 
-void EnDs_Destroy(EnDs* this, GlobalContext* globalCtx) {
+void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
@@ -251,7 +253,9 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDs_Update(EnDs* this, GlobalContext* globalCtx) {
+void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnDs* this = THIS;
+
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         this->skelAnime.animCurrentFrame = 0.0f;
     }
@@ -284,7 +288,9 @@ void func_809FDA7C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-void EnDs_Draw(EnDs* this, GlobalContext* globalCtx) {
+void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnDs* this = THIS;
+
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      &func_809FDA38, &func_809FDA7C, this);

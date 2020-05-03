@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000019
 
-void EnSth_Init(EnSth* this, GlobalContext* globalCtx);
-void EnSth_Destroy(EnSth* this, GlobalContext* globalCtx);
-void EnSth_Update(EnSth* this, GlobalContext* globalCtx);
+#define THIS ((EnSth*)thisx)
+
+void EnSth_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSth_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSth_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Sth_InitVars = {

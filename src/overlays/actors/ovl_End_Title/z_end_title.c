@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000030
 
-void EndTitle_Init(EndTitle* this, GlobalContext* globalCtx);
-void EndTitle_Destroy(EndTitle* this, GlobalContext* globalCtx);
-void EndTitle_Update(EndTitle* this, GlobalContext* globalCtx);
-void EndTitle_Draw(EndTitle* this, GlobalContext* globalCtx);
+#define THIS ((EndTitle*)thisx)
+
+void EndTitle_Init(Actor* thisx, GlobalContext* globalCtx);
+void EndTitle_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EndTitle_Update(Actor* thisx, GlobalContext* globalCtx);
+void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit End_Title_InitVars = {

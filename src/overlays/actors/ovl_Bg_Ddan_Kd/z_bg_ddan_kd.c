@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000010
 
-void BgDdanKd_Init(BgDdanKd* this, GlobalContext* globalCtx);
-void BgDdanKd_Destroy(BgDdanKd* this, GlobalContext* globalCtx);
-void BgDdanKd_Update(BgDdanKd* this, GlobalContext* globalCtx);
-void BgDdanKd_Draw(BgDdanKd* this, GlobalContext* globalCtx);
+#define THIS ((BgDdanKd*)thisx)
+
+void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgDdanKd_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgDdanKd_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void BgDdanKd_SetupAction(BgDdanKd* this, ActorFunc actionFunc);
 void func_80871234(BgDdanKd* this, GlobalContext* globalCtx);
 void func_80873164(BgDdanKd* this, GlobalContext* globalCtx);

@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void ObjLift_Init(ObjLift* this, GlobalContext* globalCtx);
-void ObjLift_Destroy(ObjLift* this, GlobalContext* globalCtx);
-void ObjLift_Update(ObjLift* this, GlobalContext* globalCtx);
-void ObjLift_Draw(ObjLift* this, GlobalContext* globalCtx);
+#define THIS ((ObjLift*)thisx)
+
+void ObjLift_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjLift_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjLift_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Lift_InitVars = {

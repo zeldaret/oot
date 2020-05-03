@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000000
 
-void BgDodoago_Init(BgDodoago* this, GlobalContext* globalCtx);
-void BgDodoago_Destroy(BgDodoago* this, GlobalContext* globalCtx);
-void BgDodoago_Update(BgDodoago* this, GlobalContext* globalCtx);
-void BgDodoago_Draw(BgDodoago* this, GlobalContext* globalCtx);
+#define THIS ((BgDodoago*)thisx)
+
+void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void BgDodoago_SetupAction(BgDodoago* this, ActorFunc actionFunc);
 // void func_80871A08(Vec3f* vec, GlobalContext* globalCtx); // Not 100% sure
 void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx);

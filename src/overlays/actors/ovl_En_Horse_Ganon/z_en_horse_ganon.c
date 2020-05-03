@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void EnHorseGanon_Init(EnHorseGanon* this, GlobalContext* globalCtx);
-void EnHorseGanon_Destroy(EnHorseGanon* this, GlobalContext* globalCtx);
-void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx);
-void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx);
+#define THIS ((EnHorseGanon*)thisx)
+
+void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseGanon_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseGanon_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Horse_Ganon_InitVars = {

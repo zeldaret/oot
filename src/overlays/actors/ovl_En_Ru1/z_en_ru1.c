@@ -10,10 +10,12 @@
 
 #define FLAGS 0x04000011
 
-void EnRu1_Init(EnRu1* this, GlobalContext* globalCtx);
-void EnRu1_Destroy(EnRu1* this, GlobalContext* globalCtx);
-void EnRu1_Update(EnRu1* this, GlobalContext* globalCtx);
-void EnRu1_Draw(EnRu1* this, GlobalContext* globalCtx);
+#define THIS ((EnRu1*)thisx)
+
+void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnRu1_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnRu1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80AEC0B4(EnRu1* this, GlobalContext* globalCtx);
 void func_80AEC100(EnRu1* this, GlobalContext* globalCtx);
@@ -218,7 +220,9 @@ u8 func_80AEADF0(EnRu1* this) {
     return params;
 }
 
-void EnRu1_Destroy(EnRu1* this, GlobalContext* globalCtx) {
+void EnRu1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
+
     func_80AEAD98(this, globalCtx);
 }
 
@@ -2239,7 +2243,9 @@ void func_80AF0050(EnRu1* this, GlobalContext* globalCtx) {
     this->actor.room = -1;
 }
 
-void EnRu1_Update(EnRu1* this, GlobalContext* globalCtx) {
+void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
+
     if (this->action < 0 || this->action >= 46 || D_80AF193C[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
@@ -2247,9 +2253,9 @@ void EnRu1_Update(EnRu1* this, GlobalContext* globalCtx) {
     D_80AF193C[this->action](this, globalCtx);
 }
 
-void EnRu1_Init(EnRu1* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->actor;
-    u32 temp_ret;
+void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
+    s32 pad;
 
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06012700, NULL, &this->limbDrawTable, &this->transitionDrawTable,
@@ -2383,7 +2389,9 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
 }
 
-void EnRu1_Draw(EnRu1* this, GlobalContext* globalCtx) {
+void EnRu1_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
+
     if (this->drawConfig < 0 || this->drawConfig >= 3 || D_80AF1A04[this->drawConfig] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

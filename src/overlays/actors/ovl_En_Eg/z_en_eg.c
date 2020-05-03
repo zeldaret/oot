@@ -10,11 +10,14 @@
 
 #define FLAGS 0x00000010
 
-void EnEg_Init(EnEg* this, GlobalContext* globalCtx);
-void EnEg_Destroy(EnEg* this, GlobalContext* globalCtx);
+#define THIS ((EnEg*)thisx)
+
+void EnEg_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnEg_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnEg_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnEg_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_809FFDC8(EnEg* this, GlobalContext* globalCtx);
-void EnEg_Update(EnEg* this, GlobalContext* globalCtx);
-void EnEg_Draw(EnEg* this, GlobalContext* globalCtx);
 
 static bool hasVoidedOut = false;
 static const ActorFunc funcTbl[] = {
@@ -37,10 +40,12 @@ void EnEg_PlayVoidOutSFX() {
     func_800788CC(NA_SE_OC_ABYSS);
 }
 
-void EnEg_Destroy(EnEg* this, GlobalContext* globalCtx) {
+void EnEg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void EnEg_Init(EnEg* this, GlobalContext* globalCtx) {
+void EnEg_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnEg* this = THIS;
+
     this->funcIndex = 0;
 }
 
@@ -56,7 +61,8 @@ void func_809FFDC8(EnEg* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnEg_Update(EnEg* this, GlobalContext* globalCtx) {
+void EnEg_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnEg* this = THIS;
     s32 funcIndex = this->funcIndex;
 
     if (((funcIndex < 0) || (0 < funcIndex)) || (funcTbl[funcIndex] == NULL)) {
@@ -67,5 +73,5 @@ void EnEg_Update(EnEg* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnEg_Draw(EnEg* this, GlobalContext* globalCtx) {
+void EnEg_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }

@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void BgSpot01Idosoko_Init(BgSpot01Idosoko* this, GlobalContext* globalCtx);
-void BgSpot01Idosoko_Destroy(BgSpot01Idosoko* this, GlobalContext* globalCtx);
-void BgSpot01Idosoko_Update(BgSpot01Idosoko* this, GlobalContext* globalCtx);
-void BgSpot01Idosoko_Draw(BgSpot01Idosoko* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot01Idosoko*)thisx)
+
+void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idosoko_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx);
 
@@ -37,10 +39,12 @@ void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void BgSpot01Idosoko_Init(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
-    s32 pad[2];
+void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Idosoko* this = THIS;
+    s32 pad;
     s32 local_c = 0;
-    Actor* thisx = &this->dyna.actor;
+    s32 pad2;
+
     DynaPolyInfo_SetActorMove(thisx, 1);
     Actor_ProcessInitChain(thisx, initChain);
     DynaPolyInfo_Alloc(&D_06003C64, &local_c);
@@ -52,20 +56,24 @@ void BgSpot01Idosoko_Init(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot01Idosoko_Destroy(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
+void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Idosoko* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
 void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
 }
 
-void BgSpot01Idosoko_Update(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
+void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Idosoko* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
 extern u32 D_06003B20;
 
-void BgSpot01Idosoko_Draw(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
+void BgSpot01Idosoko_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 

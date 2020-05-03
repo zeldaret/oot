@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void BgSpot12Saku_Init(BgSpot12Saku* this, GlobalContext* globalCtx);
-void BgSpot12Saku_Destroy(BgSpot12Saku* this, GlobalContext* globalCtx);
-void BgSpot12Saku_Update(BgSpot12Saku* this, GlobalContext* globalCtx);
-void BgSpot12Saku_Draw(BgSpot12Saku* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot12Saku*)thisx)
+
+void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot12Saku_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot12Saku_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot12Saku_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808B3550(BgSpot12Saku* this);
 void func_808B357C(BgSpot12Saku* this, GlobalContext* globalCtx);
@@ -56,8 +58,8 @@ void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, UNK_TYPE collis
     }
 }
 
-void BgSpot12Saku_Init(BgSpot12Saku* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot12Saku* this = THIS;
 
     func_808B3420(this, globalCtx, &D_0600238C, 0);
     Actor_ProcessInitChain(thisx, initChain);
@@ -68,7 +70,9 @@ void BgSpot12Saku_Init(BgSpot12Saku* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot12Saku_Destroy(BgSpot12Saku* this, GlobalContext* globalCtx) {
+void BgSpot12Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot12Saku* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
@@ -125,13 +129,15 @@ void func_808B3714(BgSpot12Saku* this) {
 void func_808B37AC(BgSpot12Saku* this, GlobalContext* globalCtx) {
 }
 
-void BgSpot12Saku_Update(BgSpot12Saku* this, GlobalContext* globalCtx) {
+void BgSpot12Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot12Saku* this = THIS;
+
     if (this->unk_168 > 0) {
         this->unk_168 -= 1;
     }
     this->actionFunc(this, globalCtx);
 }
 
-void BgSpot12Saku_Draw(BgSpot12Saku* this, GlobalContext* globalCtx) {
+void BgSpot12Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_06002260);
 }

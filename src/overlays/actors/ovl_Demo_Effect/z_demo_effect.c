@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000030
 
-void DemoEffect_Init(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_Destroy(DemoEffect* this, GlobalContext* globalCtx);
-void DemoEffect_Update(DemoEffect* this, GlobalContext* globalCtx);
+#define THIS ((DemoEffect*)thisx)
+
+void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoEffect_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Demo_Effect_InitVars = {

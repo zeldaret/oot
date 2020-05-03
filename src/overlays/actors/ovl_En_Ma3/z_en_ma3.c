@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000039
 
-void EnMa3_Init(EnMa3* this, GlobalContext* globalCtx);
-void EnMa3_Destroy(EnMa3* this, GlobalContext* globalCtx);
-void EnMa3_Update(EnMa3* this, GlobalContext* globalCtx);
-void EnMa3_Draw(EnMa3* this, GlobalContext* globalCtx);
+#define THIS ((EnMa3*)thisx)
+
+void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMa3_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMa3_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ma3_InitVars = {

@@ -8,10 +8,12 @@
 
 #define FLAGS 0x02000039
 
-void EnMa1_Init(EnMa1* this, GlobalContext* globalCtx);
-void EnMa1_Destroy(EnMa1* this, GlobalContext* globalCtx);
-void EnMa1_Update(EnMa1* this, GlobalContext* globalCtx);
-void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx);
+#define THIS ((EnMa1*)thisx)
+
+void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* this);
 s16 func_80AA0778(GlobalContext* globalCtx, Actor* this);
@@ -242,14 +244,14 @@ void func_80AA0B74(EnMa1* this) {
     }
 }
 
-void EnMa1_Init(EnMa1* this, GlobalContext* globalCtx) {
+void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnMa1* this = THIS;
     s32 pad;
-    ColliderCylinder* collider = &this->collider;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008460, NULL, NULL, NULL, 0);
-    Collider_InitCylinder(globalCtx, collider);
-    Collider_SetCylinder(globalCtx, collider, &this->actor, &cylinderInit);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
     func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &D_80AA166C);
 
     if (!func_80AA08C4(this, globalCtx)) {
@@ -271,7 +273,9 @@ void EnMa1_Init(EnMa1* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnMa1_Destroy(EnMa1* this, GlobalContext* globalCtx) {
+void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnMa1* this = THIS;
+
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -376,12 +380,12 @@ void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
 void func_80AA11C8(EnMa1* this, GlobalContext* globalCtx) {
 }
 
-void EnMa1_Update(EnMa1* this, GlobalContext* globalCtx) {
-    ColliderCylinder* collider = &this->collider;
+void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnMa1* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_80AA0A0C(this);
     this->actionFunc(this, globalCtx);
@@ -424,11 +428,12 @@ void EnMa1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     }
 }
 
-void EnMa1_Draw(EnMa1* this, GlobalContext* globalCtx) {
+void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnMa1* this = THIS;
     Camera* camera;
     f32 someFloat;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[6];
+    Gfx* dispRefs[5];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma1.c", 1226);
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void BgSpot18Basket_Init(BgSpot18Basket* this, GlobalContext* globalCtx);
-void BgSpot18Basket_Destroy(BgSpot18Basket* this, GlobalContext* globalCtx);
-void BgSpot18Basket_Update(BgSpot18Basket* this, GlobalContext* globalCtx);
-void BgSpot18Basket_Draw(BgSpot18Basket* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot18Basket*)thisx)
+
+void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot18Basket_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot18Basket_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot18Basket_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot18_Basket_InitVars = {

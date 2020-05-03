@@ -8,12 +8,15 @@
 
 #define FLAGS 0x00000000
 
+#define THIS ((BgPushbox*)thisx)
+
+void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgPushbox_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_808A8AE0(BgPushbox* this, ActorFunc actionFunc);
-void BgPushbox_Init(BgPushbox* this, GlobalContext* globalCtx);
-void BgPushbox_Destroy(BgPushbox* this, GlobalContext* globalCtx);
 void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx);
-void BgPushbox_Update(BgPushbox* this, GlobalContext* globalCtx);
-void BgPushbox_Draw(BgPushbox* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Pushbox_InitVars = {
     ACTOR_BG_PUSHBOX,
@@ -38,10 +41,11 @@ void func_808A8AE0(BgPushbox* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void BgPushbox_Init(BgPushbox* this, GlobalContext* globalCtx) {
-    s32 pad[2];
+void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgPushbox* this = THIS;
+    s32 pad;
     u32 local_c = 0;
-    Actor* thisx = &this->dyna.actor;
+    s32 pad2;
 
     Actor_ProcessInitChain(thisx, initChain);
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
@@ -51,7 +55,9 @@ void BgPushbox_Init(BgPushbox* this, GlobalContext* globalCtx) {
     func_808A8AE0(this, &func_808A8BAC);
 }
 
-void BgPushbox_Destroy(BgPushbox* this, GlobalContext* globalCtx) {
+void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgPushbox* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
@@ -66,12 +72,14 @@ void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, thisx, 20.0f, 40.0f, 40.0f, 0x1D);
 }
 
-void BgPushbox_Update(BgPushbox* this, GlobalContext* globalCtx) {
+void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgPushbox* this = THIS;
+
     this->actionFunc(this, globalCtx);
     func_8002DF90(this);
 }
 
-void BgPushbox_Draw(BgPushbox* this, GlobalContext* globalCtx) {
+void BgPushbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[5];
 

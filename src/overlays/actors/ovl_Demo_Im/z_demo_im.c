@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000011
 
-void DemoIm_Init(DemoIm* this, GlobalContext* globalCtx);
-void DemoIm_Destroy(DemoIm* this, GlobalContext* globalCtx);
-void DemoIm_Update(DemoIm* this, GlobalContext* globalCtx);
-void DemoIm_Draw(DemoIm* this, GlobalContext* globalCtx);
+#define THIS ((DemoIm*)thisx)
+
+void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoIm_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoIm_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Demo_Im_InitVars = {

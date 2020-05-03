@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000001
 
-void EnBubble_Init(EnBubble* this, GlobalContext* globalCtx);
-void EnBubble_Destroy(EnBubble* this, GlobalContext* globalCtx);
-void EnBubble_Update(EnBubble* this, GlobalContext* globalCtx);
-void EnBubble_Draw(EnBubble* this, GlobalContext* globalCtx);
+#define THIS ((EnBubble*)thisx)
+
+void EnBubble_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBubble_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBubble_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Bubble_InitVars = {

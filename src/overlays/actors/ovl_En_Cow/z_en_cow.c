@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000009
 
-void EnCow_Init(EnCow* this, GlobalContext* globalCtx);
-void EnCow_Destroy(EnCow* this, GlobalContext* globalCtx);
-void EnCow_Update(EnCow* this, GlobalContext* globalCtx);
-void EnCow_Draw(EnCow* this, GlobalContext* globalCtx);
+#define THIS ((EnCow*)thisx)
+
+void EnCow_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnCow_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnCow_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnCow_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Cow_InitVars = {

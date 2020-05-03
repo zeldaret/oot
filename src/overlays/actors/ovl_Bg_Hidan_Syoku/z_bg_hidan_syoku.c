@@ -8,13 +8,16 @@
 
 #define FLAGS 0x00000010
 
-void BgHidanSyoku_Init(BgHidanSyoku* this, GlobalContext* globalCtx);
-void BgHidanSyoku_Destroy(BgHidanSyoku* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanSyoku*)thisx)
+
+void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanSyoku_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8088F4B8(BgHidanSyoku* this, GlobalContext* globalCtx);
 void func_8088F514(BgHidanSyoku* this, GlobalContext* globalCtx);
 void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx);
-void BgHidanSyoku_Update(BgHidanSyoku* this, GlobalContext* globalCtx);
-void BgHidanSyoku_Draw(BgHidanSyoku* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Hidan_Syoku_InitVars = {
     ACTOR_BG_HIDAN_SYOKU,
@@ -35,19 +38,22 @@ static InitChainEntry initChain[] = {
 extern UNK_PTR D_0600A7E0;
 extern UNK_PTR D_0600E568;
 
-void BgHidanSyoku_Init(BgHidanSyoku* this, GlobalContext* globalCtx) {
-    s32 pad[2];
+void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanSyoku* this = THIS;
+    s32 pad;
     u32 local_c = 0;
 
     Actor_ProcessInitChain(&this->dyna.actor, initChain);
-    DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
+    DynaPolyInfo_SetActorMove(&this->dyna, 1);
     DynaPolyInfo_Alloc(&D_0600E568, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
     this->actionFunc = func_8088F4B8;
     this->dyna.actor.initPosRot.pos.y += 540.0f;
 }
 
-void BgHidanSyoku_Destroy(BgHidanSyoku* this, GlobalContext* globalCtx) {
+void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanSyoku* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
@@ -102,7 +108,9 @@ void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgHidanSyoku_Update(BgHidanSyoku* this, GlobalContext* globalCtx) {
+void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanSyoku* this = THIS;
+
     this->actionFunc(this, globalCtx);
     if (func_8004356C(&this->dyna.actor)) {
         if (this->unk_168 == 0) {
@@ -119,6 +127,6 @@ void BgHidanSyoku_Update(BgHidanSyoku* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgHidanSyoku_Draw(BgHidanSyoku* this, GlobalContext* globalCtx) {
+void BgHidanSyoku_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_0600A7E0);
 }

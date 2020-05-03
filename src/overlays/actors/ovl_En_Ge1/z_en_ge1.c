@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000009
 
-void EnGe1_Init(EnGe1* this, GlobalContext* globalCtx);
-void EnGe1_Destroy(EnGe1* this, GlobalContext* globalCtx);
-void EnGe1_Update(EnGe1* this, GlobalContext* globalCtx);
-void EnGe1_Draw(EnGe1* this, GlobalContext* globalCtx);
+#define THIS ((EnGe1*)thisx)
+
+void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGe1_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnGe1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ge1_InitVars = {
