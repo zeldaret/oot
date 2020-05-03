@@ -60,13 +60,13 @@ void BgDdanKd_Init(BgDdanKd* this, GlobalContext* globalCtx) {
 
     this->previousCollidingExplosion = NULL;
 
-    Actor_ProcessInitChain(&this->dyna, &initChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 1);
+    Actor_ProcessInitChain(&this->dyna.actor, &initChain);
+    DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->dyna, &cylinderInit);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &cylinderInit);
     DynaPolyInfo_Alloc(&D_06004F30, &sp24);
 
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna, sp24);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
 
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) == 0) {
         BgDdanKd_SetupAction(this, &BgDdanKd_CheckForExplosions);
@@ -104,7 +104,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
                 this->previousCollidingExplosionPos = currentCollidingExplosion->posRot.pos;
             }
         }
-        Collider_CylinderUpdate(this, &this->collider);
+        Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 }
