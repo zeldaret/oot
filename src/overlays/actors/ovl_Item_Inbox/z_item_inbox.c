@@ -27,7 +27,7 @@ const ActorInit Item_Inbox_InitVars = {
 };
 
 void ItemInbox_Init(ItemInbox* this, GlobalContext* globalCtx) {
-    this->updateFunc = func_80B86020;
+    this->actionFunc = func_80B86020;
     Actor_SetScale(&this->actor, 0.2);
 }
 
@@ -41,7 +41,7 @@ void func_80B86020(ItemInbox* this, GlobalContext* globalCtx) {
 }
 
 void ItemInbox_Update(ItemInbox* this, GlobalContext* globalCtx) {
-    this->updateFunc(this, globalCtx);
+    this->actionFunc(this, globalCtx);
 }
 
 void ItemInbox_Draw(ItemInbox* this, GlobalContext* globalCtx) {

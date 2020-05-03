@@ -269,7 +269,7 @@ void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx) {
 }
 
 void BgTokiSwd_Update(BgTokiSwd* this, GlobalContext* globalCtx) {
-    this->actionFunc(&this->actor, globalCtx);
+    this->actionFunc(this, globalCtx);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 

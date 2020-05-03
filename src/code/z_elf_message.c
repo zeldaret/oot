@@ -25,7 +25,7 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
             return ((msg->byte0 & 1) == 1) == !!(gSaveContext.eventChkInf[(msg->byte1 & 0xF0) >> 4] & temp);
         case 2:
             return ((msg->byte0 & 1) == 1) ==
-                   !!(gBitFlags[msg->byte1 - ITEM_KEY_BOSS] & gSaveContext.dungeonItems[gSaveContext.dungeonIndex]);
+                   !!(gBitFlags[msg->byte1 - ITEM_KEY_BOSS] & gSaveContext.dungeonItems[gSaveContext.mapIndex]);
         case 4:
             return ((msg->byte0 & 1) == 1) == (msg->byte3 == INV_CONTENT(msg->byte1));
         case 6:

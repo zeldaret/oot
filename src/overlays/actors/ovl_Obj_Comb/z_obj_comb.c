@@ -176,7 +176,7 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
 
 void ObjComb_Update(ObjComb* this, GlobalContext* globalCtx) {
     this->unk_1B2 += 12000;
-    this->actionFunc(&this->actor, globalCtx);
+    this->actionFunc(this, globalCtx);
     this->actor.shape.rot.x = Math_Sins(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
 }
 

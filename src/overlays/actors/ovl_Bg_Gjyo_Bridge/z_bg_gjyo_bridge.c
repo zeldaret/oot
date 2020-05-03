@@ -92,7 +92,7 @@ void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx) {
 }
 
 void BgGjyoBridge_Update(BgGjyoBridge* this, GlobalContext* globalCtx) {
-    this->actionFunc(&this->dyna.actor, globalCtx);
+    this->actionFunc(this, globalCtx);
 }
 
 void BgGjyoBridge_Draw(BgGjyoBridge* this, GlobalContext* globalCtx) {

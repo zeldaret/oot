@@ -6,8 +6,8 @@
 
 typedef struct {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc updateFunc;
-} ItemInbox; // size = 0x0154
+    /* 0x014C */ ActorFunc actionFunc;
+} ItemInbox; // size = 0x0150
 
 extern const ActorInit Item_Inbox_InitVars;
 

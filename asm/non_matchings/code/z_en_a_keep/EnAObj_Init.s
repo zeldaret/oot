@@ -22,7 +22,7 @@ glabel jtbl_80134D88
     .word L8001D104
 
 .text
-glabel En_A_Obj_Init
+glabel EnAObj_Init
 /* A94008 8001CE68 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* A9400C 8001CE6C 3C0140C0 */  li    $at, 0x40C00000 # 0.000000
 /* A94010 8001CE70 44812000 */  mtc1  $at, $f4

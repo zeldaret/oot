@@ -655,9 +655,9 @@ void func_80097534(GlobalContext* globalCtx, RoomContext* roomCtx) {
     roomCtx->prevRoom.segment = NULL;
     func_80031B14(globalCtx, &globalCtx->actorCtx);
     Actor_SpawnTransitionActors(globalCtx, &globalCtx->actorCtx);
-    func_80080E04(globalCtx, roomCtx->curRoom.num);
+    Map_InitRoomData(globalCtx, roomCtx->curRoom.num);
     if (!((globalCtx->sceneNum >= SCENE_SPOT00) && (globalCtx->sceneNum <= SCENE_SPOT20))) {
-        func_800807A0(globalCtx);
+        Map_SavePlayerInitialInfo(globalCtx);
     }
     func_800F66C0(globalCtx->roomCtx.curRoom.echo);
 }

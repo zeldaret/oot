@@ -116,7 +116,7 @@ glabel jtbl_80134F7C
     .word L8001DF3C
 
 .text
-glabel En_Item00_Init
+glabel EnItem00_Init
 /* A94AD8 8001D938 3C014475 */  li    $at, 0x44750000 # 0.000000
 /* A94ADC 8001D93C 44811000 */  mtc1  $at, $f2
 /* A94AE0 8001D940 27BDFFC0 */  addiu $sp, $sp, -0x40
@@ -420,7 +420,7 @@ glabel L8001DCFC
 /* A94F44 8001DDA4 44800000 */   mtc1  $zero, $f0
 /* A94F48 8001DDA8 3C058002 */  lui   $a1, %hi(func_8001DFC8)
 /* A94F4C 8001DDAC 24A5DFC8 */  addiu $a1, %lo(func_8001DFC8) # addiu $a1, $a1, -0x2038
-/* A94F50 8001DDB0 0C00764C */  jal   En_Item00_SetNewUpdate
+/* A94F50 8001DDB0 0C00764C */  jal   EnItem00_SetupAction
 /* A94F54 8001DDB4 02002025 */   move  $a0, $s0
 /* A94F58 8001DDB8 2409FFFF */  li    $t1, -1
 /* A94F5C 8001DDBC 10000073 */  b     .L8001DF8C
@@ -555,7 +555,7 @@ glabel L8001DF3C
 .L8001DF68:
 /* A95108 8001DF68 3C058002 */  lui   $a1, %hi(func_8001E5C8) # $a1, 0x8002
 /* A9510C 8001DF6C 24A5E5C8 */  addiu $a1, %lo(func_8001E5C8) # addiu $a1, $a1, -0x1a38
-/* A95110 8001DF70 0C00764C */  jal   En_Item00_SetNewUpdate
+/* A95110 8001DF70 0C00764C */  jal   EnItem00_SetupAction
 /* A95114 8001DF74 02002025 */   move  $a0, $s0
 /* A95118 8001DF78 8E19014C */  lw    $t9, 0x14c($s0)
 /* A9511C 8001DF7C 02002025 */  move  $a0, $s0

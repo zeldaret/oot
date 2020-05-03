@@ -7,9 +7,6 @@
 
 .section .data
 
-glabel En_Item00_InitVars
-    .incbin "baserom.z64", 0xB8C660, 0x20
-
 glabel D_801154E0
     .incbin "baserom.z64", 0xB8C680, 0x2C
 

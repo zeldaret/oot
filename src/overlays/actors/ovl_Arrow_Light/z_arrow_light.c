@@ -6,7 +6,7 @@
 
 #include "z_arrow_light.h"
 
-#include "../ovl_En_Arrow/z_en_arrow.h"
+#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
 #define FLAGS 0x02000010
 

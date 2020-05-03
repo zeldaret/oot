@@ -1413,14 +1413,14 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         gSaveContext.equipment |= (gBitFlags[item - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_BOOTS]);
         return ITEM_NONE;
     } else if ((item == ITEM_KEY_BOSS) || (item == ITEM_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
-        gSaveContext.dungeonItems[gSaveContext.dungeonIndex] |= gBitFlags[item - ITEM_KEY_BOSS];
+        gSaveContext.dungeonItems[gSaveContext.mapIndex] |= gBitFlags[item - ITEM_KEY_BOSS];
         return ITEM_NONE;
     } else if (item == ITEM_KEY_SMALL) {
-        if (gSaveContext.dungeonKeys[gSaveContext.dungeonIndex] < 0) {
-            gSaveContext.dungeonKeys[gSaveContext.dungeonIndex] = 1;
+        if (gSaveContext.dungeonKeys[gSaveContext.mapIndex] < 0) {
+            gSaveContext.dungeonKeys[gSaveContext.mapIndex] = 1;
             return ITEM_NONE;
         } else {
-            gSaveContext.dungeonKeys[gSaveContext.dungeonIndex]++;
+            gSaveContext.dungeonKeys[gSaveContext.mapIndex]++;
             return ITEM_NONE;
         }
     } else if ((item == ITEM_QUIVER_30) || (item == ITEM_BOW)) {
@@ -2130,9 +2130,8 @@ void Interface_SetNaviCall(GlobalContext* globalCtx, u16 naviCallState) {
     if (((naviCallState == 0x1D) || (naviCallState == 0x1E)) && !interfaceCtx->naviCalling &&
         (globalCtx->csCtx.state == 0)) {
         // clang-format off
-        // NOLINTNEXTLINE
-        if (naviCallState == 0x1E) Audio_PlaySoundGeneral(NA_SE_VO_NAVY_CALL, &D_801333D4, 4,
-                                                          &D_801333E0, &D_801333E0, &D_801333E8);
+        if (naviCallState == 0x1E) { Audio_PlaySoundGeneral(NA_SE_VO_NAVY_CALL, &D_801333D4, 4,
+                                                            &D_801333E0, &D_801333E0, &D_801333E8); }
         // clang-format on
 
         if (naviCallState == 0x1D) {
@@ -2178,10 +2177,9 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
                  gSaveContext.healthCapacity);
 
     // clang-format off
-    // NOLINTNEXTLINE
-    if (healthChange > 0) Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4,
-                                                 &D_801333E0, &D_801333E0, &D_801333E8);
-    else if ((gSaveContext.doubleDefense != 0) && (healthChange < 0)) {
+    if (healthChange > 0) { Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4,
+                                                   &D_801333E0, &D_801333E0, &D_801333E8);
+    } else if ((gSaveContext.doubleDefense != 0) && (healthChange < 0)) {
         healthChange >>= 1;
         // Translates to: "Heart decrease halved!!＝%d"
         osSyncPrintf("ハート減少半分！！＝%d\n", healthChange);
@@ -3161,7 +3159,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     if (pauseCtx->flag == 0) {
         Interface_InitVertices(globalCtx);
         func_8008A994(interfaceCtx);
-        Interface_DrawHealth(globalCtx);
+        Health_Draw(globalCtx);
 
         func_80094520(globalCtx->state.gfxCtx);
 
@@ -3185,7 +3183,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             case SCENE_GANON_SONOGO:
             case SCENE_GANONTIKA_SONOGO:
             case SCENE_TAKARAYA:
-                if (gSaveContext.dungeonKeys[gSaveContext.dungeonIndex] >= 0) {
+                if (gSaveContext.dungeonKeys[gSaveContext.mapIndex] >= 0) {
                     // Small Key Icon
                     gDPPipeSync(gfxCtx->overlay.p++);
                     gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0, 0xC8, 0xE6, 0xFF, interfaceCtx->magicAlpha);
@@ -3200,7 +3198,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                       PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
 
                     interfaceCtx->counterDigits[2] = 0;
-                    interfaceCtx->counterDigits[3] = gSaveContext.dungeonKeys[gSaveContext.dungeonIndex];
+                    interfaceCtx->counterDigits[3] = gSaveContext.dungeonKeys[gSaveContext.mapIndex];
 
                     while (interfaceCtx->counterDigits[3] >= 10) {
                         interfaceCtx->counterDigits[2]++;
@@ -3268,7 +3266,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         }
 
         Interface_DrawMagicBar(globalCtx);
-        Interface_DrawMinimap(globalCtx);
+        Minimap_Draw(globalCtx);
 
         if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3)) {
             func_8002C124(&globalCtx->actorCtx.targetCtx, globalCtx); // Draw Z-Target
@@ -4099,7 +4097,7 @@ void Interface_Update(GlobalContext* globalCtx) {
             break;
     }
 
-    func_8008226C(globalCtx);
+    Map_Update(globalCtx);
 
     if (gSaveContext.healthAccumulator != 0) {
         gSaveContext.healthAccumulator -= 4;
