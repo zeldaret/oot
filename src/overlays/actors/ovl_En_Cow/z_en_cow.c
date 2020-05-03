@@ -210,7 +210,7 @@ void func_809DF778(EnCow* this, GlobalContext* globalCtx) {
         this->actor.attachedA = NULL;
         this->actionFunc = (ActorFunc)func_809DF730;
     } else {
-        func_8002F434(&this->actor, globalCtx, 0x50, 10000.0f, 100.0f);
+        func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 100.0f);
     }
 }
 
@@ -219,7 +219,7 @@ void func_809DF7D8(EnCow* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10000;
         func_80106CCC(globalCtx);
         this->actionFunc = (ActorFunc)func_809DF778;
-        func_8002F434(&this->actor, globalCtx, 0x50, 10000.0f, 100.0f);
+        func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 100.0f);
     }
 }
 
@@ -241,7 +241,7 @@ void func_809DF8FC(EnCow* this, GlobalContext* globalCtx) {
     } else {
         this->actor.flags |= 0x10000;
         func_8002F2CC(&this->actor, globalCtx, 170.0f);
-        this->actor.textId = (u16)0x2006U;
+        this->actor.textId = 0x2006;
     }
     func_809DF494(this, globalCtx);
 }
@@ -297,9 +297,7 @@ void EnCow_Update(EnCow* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     CollisionCheck_SetOC(globalCtx, colChckCtx, &this->colliders[0].base);
-    if (globalCtx) {
-        // necessary to match
-    }
+    if (globalCtx) {} // necessary to match
     CollisionCheck_SetOC(globalCtx, colChckCtx, &this->colliders[1].base);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
