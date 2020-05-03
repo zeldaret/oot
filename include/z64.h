@@ -1641,4 +1641,10 @@ typedef struct {
     /* 0x10D */ u8 unk_10D;
 } UnkRumbleStruct; // size = 0x10E
 
+typedef struct {
+    char unk_00[0x48];
+    void* avbTbl;
+    SkelAnime skelAnime;
+} PSkinAwb; // size = 0x90
+
 #endif

@@ -13,7 +13,7 @@ void EnHorseGanon_Destroy(EnHorseGanon* this, GlobalContext* globalCtx);
 void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx);
 void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx);
 
-void func_80A68660(Vec3s* data, s32 index, Vec3f* vec);
+void func_80A68660(unk_D_80A69248* data, s32 index, Vec3f* vec);
 void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx);
 void func_80A68870(EnHorseGanon* this);
 void func_80A68AC4(EnHorseGanon* this);
@@ -22,15 +22,6 @@ void func_80A68B20(EnHorseGanon* this);
 void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx);
 void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx);
 void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderJntSphItem* colliderSphereItem);
-
-// external functions
-void func_800A6888(GlobalContext*, PSkinAwb*);
-void func_800A6330(Actor* this, GlobalContext* globalCtx, PSkinAwb*,
-                   void(fn)(EnHorseGanon*, GlobalContext*, ColliderJntSphItem*), s32);
-
-// stolen from krim's z_skin branch, I edited the type of the 1st arg of the 1st function
-void func_800A6408(ColliderJntSphItem* arg0, s32 arg1, Vec3f* arg2, Vec3f* arg3);
-void func_800A663C(GlobalContext* globalCtx, PSkinAwb*, SkeletonHeader*, AnimationHeader*);
 
 const ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
@@ -45,6 +36,7 @@ const ActorInit En_Horse_Ganon_InitVars = {
 };
 
 extern SkeletonHeader D_06008668;
+
 extern AnimationHeader D_06004AA4;
 extern AnimationHeader D_06005264;
 extern AnimationHeader D_06005B78;
@@ -55,6 +47,7 @@ extern AnimationHeader D_06003858;
 AnimationHeader* D_80A691B0[] = { &D_06004AA4, &D_06005264, &D_06005B78, &D_06002CE4 };
 AnimationHeader* D_80A691C0[] = { &D_06002650, &D_06003858 };
 static f32 animPlaybackSpeed[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
+
 static ColliderCylinderInit cylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x12, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
@@ -71,33 +64,36 @@ static ColliderJntSphInit jntsphInit = {
     1,
     jntsphItemsInit,
 };
+
 static CollisionCheckInfoInit collisionCheckInfoInit = {
     0x0A,
     0x0023,
     0x0064,
     0xFE,
 };
-s8 D_80A69248[] = { 0x09, 0xB8, 0x01, 0x26, 0x0E, 0x2C, 0x07, 0x00, 0x0C, 0x11, 0x01, 0x7A, 0x12, 0x69, 0x07, 0x00,
-                    0x06, 0x4E, 0xFE, 0xFB, 0x1D, 0xAC, 0x07, 0x00, 0x02, 0xF2, 0xFF, 0x45, 0x24, 0x4F, 0x07, 0x00,
-                    0xF9, 0x6E, 0xFE, 0x0C, 0x31, 0x22, 0x07, 0x00, 0xF3, 0x28, 0xFE, 0x0C, 0x32, 0xD5, 0x07, 0x00,
-                    0xEB, 0xEA, 0xFE, 0x5F, 0x2D, 0x6E, 0x07, 0x00, 0xE9, 0x5E, 0xFE, 0x27, 0x25, 0x65, 0x07, 0x00,
-                    0xE5, 0x93, 0xFE, 0x0C, 0x20, 0xAC, 0x07, 0x00, 0xE6, 0x25, 0xFE, 0x77, 0x1B, 0x07, 0x07, 0x00,
-                    0xEB, 0xB7, 0x00, 0x7C, 0x15, 0x39, 0x07, 0x00, 0xF4, 0x66, 0x00, 0x02, 0x11, 0xB9, 0x07, 0x00,
-                    0xF4, 0x7B, 0xFF, 0xDD, 0x11, 0xAF, 0x07, 0x00, 0xF8, 0x8D, 0xFF, 0xD1, 0x0B, 0xA2, 0x07, 0x00 };
+
+unk_D_80A69248 D_80A69248[] = { { 0x09B8, 0x0126, 0x0E2C, 0x07 }, { 0x0C11, 0x017A, 0x1269, 0x07 },
+                                { 0x064E, 0xFEFB, 0x1DAC, 0x07 }, { 0x02F2, 0xFF45, 0x244F, 0x07 },
+                                { 0xF96E, 0xFE0C, 0x3122, 0x07 }, { 0xF328, 0xFE0C, 0x32D5, 0x07 },
+                                { 0xEBEA, 0xFE5F, 0x2D6E, 0x07 }, { 0xE95E, 0xFE27, 0x2565, 0x07 },
+                                { 0xE593, 0xFE0C, 0x20AC, 0x07 }, { 0xE625, 0xFE77, 0x1B07, 0x07 },
+                                { 0xEBB7, 0x007C, 0x1539, 0x07 }, { 0xF466, 0x0002, 0x11B9, 0x07 },
+                                { 0xF47B, 0xFFDD, 0x11AF, 0x07 }, { 0xF88D, 0xFFD1, 0x0BA2, 0x07 } };
+
 s32 D_80A692B8[] = { 0, 0x00000010 };
+
 static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_F8, 1200, ICHAIN_STOP),
 };
+
 static void (*actionFuncs[])(EnHorseGanon*, GlobalContext*) = { func_80A68AF0, func_80A68DB0, NULL };
 
 const f32 D_80A692D0 = 10430.3779f;
 
-void func_80A68660(Vec3s* data, s32 index, Vec3f* vec) {
-    Vec3s* temp = (Vec3s*)((u64*)data + index);
-
-    vec->x = (f32)temp->x;
-    vec->y = (f32)temp->y;
-    vec->z = (f32)temp->z;
+void func_80A68660(unk_D_80A69248* data, s32 index, Vec3f* vec) {
+    vec->x = data[index].unk_0.x;
+    vec->y = data[index].unk_0.y;
+    vec->z = data[index].unk_0.z;
 }
 
 void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
@@ -105,12 +101,12 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
     Vec3f vec;
     s16 y;
 
-    func_80A68660((Vec3s*)D_80A69248, this->unk_1EC, &vec);
+    func_80A68660(D_80A69248, this->unk_1EC, &vec);
     if (Math3D_Vec3f_DistXYZ(&vec, &this->actor.posRot.pos) <= 400.0f) {
         this->unk_1EC += 1;
         if (this->unk_1EC >= 14) {
             this->unk_1EC = 0;
-            func_80A68660((Vec3s*)D_80A69248, 0, &vec);
+            func_80A68660(D_80A69248, 0, &vec);
         }
     }
 
@@ -119,10 +115,9 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
     if (y >= 301) {
         this->actor.posRot.rot.y += 300;
     } else if (y < -300) {
-            this->actor.posRot.rot.y -= 300;
-        } else {
-            this->actor.posRot.rot.y += y;
-        }
+        this->actor.posRot.rot.y -= 300;
+    } else {
+        this->actor.posRot.rot.y += y;
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 
@@ -132,7 +127,7 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
         } else {
             this->actor.speedXZ -= 1.0f;
         }
-    } else if (this->actor.speedXZ < (f32)((u8*)D_80A69248 + 6)[this->unk_1EC * 8]) {
+    } else if (this->actor.speedXZ < D_80A69248[this->unk_1EC].unk_6) {
         this->actor.speedXZ += 0.5f;
     } else {
         this->actor.speedXZ -= 0.5f;
@@ -140,11 +135,10 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-void func_80A68870(EnHorseGanon* this)
 // regalloc mismatch
-{
-    if (this->skin.skelAnime.animCurrentFrame > (f32)D_80A692B8[this->soundCount]) {
-        if (D_80A692B8[this->soundCount] != 0 || !(this->skin.skelAnime.animCurrentFrame > (f32)D_80A692B8[1])) {
+void func_80A68870(EnHorseGanon* this) {
+    if (this->skin.skelAnime.animCurrentFrame > D_80A692B8[this->soundCount]) {
+        if (D_80A692B8[this->soundCount] != 0 || !(this->skin.skelAnime.animCurrentFrame > D_80A692B8[1])) {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 
             this->soundCount += 1;
@@ -300,12 +294,12 @@ void func_80A68FA8(EnHorseGanon* this, GlobalContext* globalCtx, ColliderJntSphI
 
         func_800A6408(colliderSphereItem, this->colliderSphere.list[index].dim.joint, &sp4C, &sp40);
 
-        this->colliderSphere.list[index].dim.worldSphere.center.x = (s16)sp40.x;
-        this->colliderSphere.list[index].dim.worldSphere.center.y = (s16)sp40.y;
-        this->colliderSphere.list[index].dim.worldSphere.center.z = (s16)sp40.z;
+        this->colliderSphere.list[index].dim.worldSphere.center.x = sp40.x;
+        this->colliderSphere.list[index].dim.worldSphere.center.y = sp40.y;
+        this->colliderSphere.list[index].dim.worldSphere.center.z = sp40.z;
 
         temp_v0 = &this->colliderSphere.list[index];
-        temp_v0->dim.worldSphere.radius = (s16)(temp_v0->dim.scale * (f32)temp_v0->dim.modelSphere.radius);
+        temp_v0->dim.worldSphere.radius = temp_v0->dim.scale * temp_v0->dim.modelSphere.radius;
     }
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
 }
