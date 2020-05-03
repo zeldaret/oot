@@ -42,5 +42,5 @@ tools/asmsplitter/c/*
 *.ci4.png
 *.ci8.png
 
-#Per-user configuration
+# Per-user configuration
 .python-version

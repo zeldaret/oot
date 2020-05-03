@@ -61,5 +61,5 @@ void func_80B983D4(ObjMakekinsuta* this, GlobalContext* globalCtx) {
 }
 
 void ObjMakekinsuta_Update(ObjMakekinsuta* this, GlobalContext* globalCtx) {
-    this->actionFunc(&this->actor, globalCtx);
+    this->actionFunc(this, globalCtx);
 }

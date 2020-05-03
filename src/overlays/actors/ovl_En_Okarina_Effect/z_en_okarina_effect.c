@@ -4,20 +4,13 @@
  * Description: Manages the storm created when playing Song of Storms
  */
 
-#include <ultra64.h>
-#include <global.h>
+#include "z_en_okarina_effect.h"
 
 #include <vt.h>
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ u16 timer;
-    /* 0x0150 */ ActorFunc actionFunc;
-} EnOkarinaEffect; // size = 0x0154
-
 #define FLAGS 0x02000010
 
-void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* newActionFunc);
+void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* actionFunc);
 void EnOkarinaEffect_Init(EnOkarinaEffect* this, GlobalContext* globalCtx);
 void EnOkarinaEffect_Destroy(EnOkarinaEffect* this, GlobalContext* globalCtx);
 void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCtx);
@@ -36,8 +29,8 @@ const ActorInit En_Okarina_Effect_InitVars = {
     NULL,
 };
 
-void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* newActionFunc) {
-    this->actionFunc = newActionFunc;
+void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* actionFunc) {
+    this->actionFunc = actionFunc;
 }
 
 void EnOkarinaEffect_Destroy(EnOkarinaEffect* this, GlobalContext* globalCtx) {
@@ -73,9 +66,9 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCt
 }
 
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx) {
-    func_8006C438(globalCtx, 5); // clear bean grow env flag
+    Flags_UnsetEnv(globalCtx, 5); // clear storms env flag
     if (((globalCtx->pauseCtx.state == 0) && (globalCtx->unk_10A20 == 0) && (globalCtx->msgCtx.unk_E300 == 0) &&
-         (func_800C0D28(globalCtx) == 0) && ((globalCtx->unk_1241B == 0) || (gSaveContext.gameMode != 0))) ||
+         (func_800C0D28(globalCtx) == 0) && ((globalCtx->transitionMode == 0) || (gSaveContext.gameMode != 0))) ||
         (this->timer >= 250)) {
         if (globalCtx->envCtx.unk_1E != 0 || globalCtx->envCtx.unk_1F != 1) {
             this->timer--;
@@ -84,7 +77,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
         if (this->timer == 308) {
             // "Let's grow some beans"
             osSyncPrintf("\n\n\n豆よ のびろ 指定\n\n\n");
-            func_8006C3D0(globalCtx, 5); // set bean grow env flag
+            Flags_SetEnv(globalCtx, 5); // set storms env flag
         }
     }
 

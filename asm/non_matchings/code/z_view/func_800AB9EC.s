@@ -90,7 +90,7 @@ glabel func_800AB9EC
 /* B22C64 800ABAC4 468021A0 */  cvt.s.w $f6, $f4
 /* B22C68 800ABAC8 468084A0 */  cvt.s.w $f18, $f16
 /* B22C6C 800ABACC 46003202 */  mul.s $f8, $f6, $f0
-/* B22C70 800ABAD0 00000000 */  nop   
+/* B22C70 800ABAD0 00000000 */  nop
 /* B22C74 800ABAD4 46009102 */  mul.s $f4, $f18, $f0
 /* B22C78 800ABAD8 4600428D */  trunc.w.s $f10, $f8
 /* B22C7C 800ABADC 4600218D */  trunc.w.s $f6, $f4
@@ -111,7 +111,7 @@ glabel func_800AB9EC
 /* B22CB8 800ABB18 37180008 */  ori   $t8, (0xDC080008 & 0xFFFF) # ori $t8, $t8, 8
 /* B22CBC 800ABB1C 468021A0 */  cvt.s.w $f6, $f4
 /* B22CC0 800ABB20 46005402 */  mul.s $f16, $f10, $f0
-/* B22CC4 800ABB24 00000000 */  nop   
+/* B22CC4 800ABB24 00000000 */  nop
 /* B22CC8 800ABB28 46003202 */  mul.s $f8, $f6, $f0
 /* B22CCC 800ABB2C 4600848D */  trunc.w.s $f18, $f16
 /* B22CD0 800ABB30 4600428D */  trunc.w.s $f10, $f8
@@ -157,9 +157,9 @@ glabel func_800AB9EC
 /* B22D6C 800ABBCC 46000487 */  neg.s $f18, $f0
 /* B22D70 800ABBD0 46001287 */  neg.s $f10, $f2
 /* B22D74 800ABBD4 460C9102 */  mul.s $f4, $f18, $f12
-/* B22D78 800ABBD8 00000000 */  nop   
+/* B22D78 800ABBD8 00000000 */  nop
 /* B22D7C 800ABBDC 460C0182 */  mul.s $f6, $f0, $f12
-/* B22D80 800ABBE0 00000000 */  nop   
+/* B22D80 800ABBE0 00000000 */  nop
 /* B22D84 800ABBE4 460C5402 */  mul.s $f16, $f10, $f12
 /* B22D88 800ABBE8 44052000 */  mfc1  $a1, $f4
 /* B22D8C 800ABBEC 460C1482 */  mul.s $f18, $f2, $f12
@@ -232,7 +232,7 @@ glabel func_800AB9EC
 /* B22E90 800ABCF0 E7B20018 */  swc1  $f18, 0x18($sp)
 /* B22E94 800ABCF4 44073000 */  mfc1  $a3, $f6
 /* B22E98 800ABCF8 0C0404C0 */  jal   guPerspective
-/* B22E9C 800ABCFC 00000000 */   nop   
+/* B22E9C 800ABCFC 00000000 */   nop
 /* B22EA0 800ABD00 02405025 */  move  $t2, $s2
 /* B22EA4 800ABD04 0200C025 */  move  $t8, $s0
 /* B22EA8 800ABD08 2659003C */  addiu $t9, $s2, 0x3c
@@ -296,7 +296,7 @@ glabel func_800AB9EC
 /* B22F88 800ABDE8 C60A0044 */  lwc1  $f10, 0x44($s0)
 /* B22F8C 800ABDEC E7AA0020 */  swc1  $f10, 0x20($sp)
 /* B22F90 800ABDF0 C6120048 */  lwc1  $f18, 0x48($s0)
-/* B22F94 800ABDF4 0C04078D */  jal   guLookAtReflect
+/* B22F94 800ABDF4 0C04078D */  jal   guLookAt
 /* B22F98 800ABDF8 E7B20024 */   swc1  $f18, 0x24($sp)
 /* B22F9C 800ABDFC 0240C025 */  move  $t8, $s2
 /* B22FA0 800ABE00 02007025 */  move  $t6, $s0

@@ -12,7 +12,7 @@ glabel func_80058148
 /* ACF2F8 80058158 AFA5006C */  sw    $a1, 0x6c($sp)
 /* ACF2FC 8005815C 0C00BBD1 */  jal   func_8002EF44
 /* ACF300 80058160 27A40054 */   addiu $a0, $sp, 0x54
-/* ACF304 80058164 0C00B721 */  jal   func_8002DC84
+/* ACF304 80058164 0C00B721 */  jal   Player_GetCameraYOffset
 /* ACF308 80058168 8FA4006C */   lw    $a0, 0x6c($sp)
 /* ACF30C 8005816C 8FAE006C */  lw    $t6, 0x6c($sp)
 /* ACF310 80058170 27A20054 */  addiu $v0, $sp, 0x54

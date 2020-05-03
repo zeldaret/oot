@@ -16,8 +16,7 @@ s32 osReadMempak(OSMesgQueue* ctrlrqueue, s32 ctrlridx, u16 addr, PIF_mempak_dat
             _osCont_lastPollType = 2;
             D_80134D20 = ctrlridx;
             // clang-format off
-            // NOLINTNEXTLINE
-            for (i = 0; i < ctrlridx; i++) *bufptr++ = 0;
+            for (i = 0; i < ctrlridx; i++) { *bufptr++ = 0; }
             // clang-format on
             pifMempakBuf.status_control = 1;
             ((PIF_header_t*)bufptr)->slot_type = 0xff;

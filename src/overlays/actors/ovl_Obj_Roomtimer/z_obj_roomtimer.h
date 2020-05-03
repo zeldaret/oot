@@ -7,7 +7,7 @@
 
 typedef struct {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc updateFunc;
+    /* 0x014C */ ActorFunc actionFunc;
     /* 0x0150 */ u32 switchFlag;
 } ObjRoomtimer; // size = 0x0154
 

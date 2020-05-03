@@ -21,7 +21,7 @@ typedef struct {
     /* 0x022E */ u16 unk_22e;
     /* 0x0230 */ char unk_230[0x94];
     /* 0x02C4 */ f32 unk_2c4;
-    /* 0x02C8 */ ColliderCylinder colCylinder;
+    /* 0x02C8 */ ColliderCylinder collider;
 } EnWallmas; // size = 0x0314
 
 extern const ActorInit En_Wallmas_InitVars;
