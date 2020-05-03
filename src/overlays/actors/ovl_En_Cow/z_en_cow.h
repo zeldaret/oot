@@ -13,7 +13,7 @@ typedef struct {
     /* 0x0270 */ Vec3s someRot;
     /* 0x0276 */ u16 unk_276;
     /* 0x0278 */ u16 unk_278;
-    /* 0x027A */ s16 unk_27A;
+    /* 0x027A */ u16 unk_27A;
     /* 0x027C */ ActorFunc actionFunc;
 } EnCow; // size = 0x0280
 

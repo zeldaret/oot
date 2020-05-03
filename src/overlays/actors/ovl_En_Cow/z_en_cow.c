@@ -50,6 +50,7 @@ Vec3f D_809E010C = {
 
 extern AnimationHeader D_060001CC;
 extern SkeletonHeader D_06004010;
+extern AnimationHeader D_06004264;
 extern AnimationHeader D_06004348;
 extern SkeletonHeader D_06004C30;
 extern AnimationHeader D_06004E98;
@@ -65,22 +66,38 @@ void func_809DEE00(Vec3f* vec, s16 rotY) {
     vec->x = xCalc;
 }
 
-void func_809DEE9C(EnCow* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Cow/func_809DEE9C.s")
-
-void func_809DEF94(EnCow* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Cow/func_809DEF94.s")
-/*void func_809DEF94(EnCow *this) {
+void func_809DEE9C(EnCow* this) {
     Vec3f vec;
+
+    vec.y = 0.0f;
     vec.x = 0.0f;
-    vec.y = 57.0f;
-    vec.z = -36.0f;
+    vec.z = 30.0f;
+    func_809DEE00(&vec, this->actor.shape.rot.y);
+    this->colliders[0].dim.pos.x = this->actor.posRot.pos.x + vec.x;
+    this->colliders[0].dim.pos.y = this->actor.posRot.pos.y;
+    this->colliders[0].dim.pos.z = this->actor.posRot.pos.z + vec.z;
+
+    vec.x = 0.0f;
+    vec.y = 0.0f;
+    vec.z = -20.0f;
+    func_809DEE00(&vec, this->actor.shape.rot.y);
+    this->colliders[1].dim.pos.x = this->actor.posRot.pos.x + vec.x;
+    this->colliders[1].dim.pos.y = this->actor.posRot.pos.y;
+    this->colliders[1].dim.pos.z = this->actor.posRot.pos.z + vec.z;
+}
+
+void func_809DEF94(EnCow* this) {
+    Vec3f vec;
+
+    // clang-format off
+    vec.x = 0.0f; vec.y = 57.0f; vec.z = -36.0f;
+    // clang-format on
 
     func_809DEE00(&vec, this->actor.shape.rot.y);
     this->actor.posRot.pos.x += vec.x;
     this->actor.posRot.pos.y += vec.y;
     this->actor.posRot.pos.z += vec.z;
-}*/
+}
 
 void EnCow_Init(EnCow* this, GlobalContext* globalCtx) {
     s32 pad[2];
@@ -138,7 +155,40 @@ void EnCow_Destroy(EnCow* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Cow/func_809DF494.s")
+void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
+    if (this->unk_278 > 0) {
+        this->unk_278 -= 1;
+    } else {
+        this->unk_278 = Math_Rand_ZeroFloat(500.0f) + 40.0f;
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_060001CC, 1.0f, this->skelAnime.animCurrentFrame,
+                             SkelAnime_GetFrameCount(&D_060001CC.genericHeader), 2, 1.0f);
+    }
+
+    if ((this->actor.xzDistanceFromLink < 150.0f) && (!(this->unk_276 & 2))) {
+        this->unk_276 |= 2;
+        if (this->skelAnime.animCurrentSeg == &D_060001CC) {
+            this->unk_278 = 0;
+        }
+    }
+
+    this->unk_27A += 1;
+    if (this->unk_27A >= 0x31) {
+        this->unk_27A = 0;
+    }
+
+    // (1.0f / 100.0f) instead of 0.01f below is necessary so 0.01f doesn't get reused mistakenly
+    if (this->unk_27A < 0x20) {
+        this->actor.scale.x = ((Math_Sins(this->unk_27A << 0xA) * (1.0f / 100.0f)) + 1.0f) * 0.01f;
+    } else {
+        this->actor.scale.x = 0.01f;
+    }
+
+    if (this->unk_27A >= 0x11) {
+        this->actor.scale.y = ((Math_Sins((this->unk_27A << 0xA) - 0x4000) * (1.0f / 100.0f)) + 1.0f) * 0.01f;
+    } else {
+        this->actor.scale.y = 0.01f;
+    }
+}
 
 void func_809DF6BC(EnCow* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
@@ -196,7 +246,30 @@ void func_809DF8FC(EnCow* this, GlobalContext* globalCtx) {
     func_809DF494(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Cow/func_809DF96C.s")
+void func_809DF96C(EnCow* this, GlobalContext* globalCtx) {
+    if ((globalCtx->msgCtx.unk_E3EE == 0) || (globalCtx->msgCtx.unk_E3EE == 4)) {
+        if (DREG(53) != 0) {
+            if (this->unk_276 & 4) {
+                this->unk_276 &= ~0x4;
+                DREG(53) = 0;
+            } else {
+                if ((this->actor.xzDistanceFromLink < 150.0f) &&
+                    (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) < 0x61A8)) {
+                    DREG(53) = 0;
+                    this->actionFunc = (ActorFunc)func_809DF8FC;
+                    this->actor.flags |= 0x10000;
+                    func_8002F2CC(&this->actor, globalCtx, 170.0f);
+                    this->actor.textId = 0x2006;
+                } else {
+                    this->unk_276 |= 4;
+                }
+            }
+        } else {
+            this->unk_276 &= ~0x4;
+        }
+    }
+    func_809DF494(this, globalCtx);
+}
 
 void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
     if (this->unk_278 > 0) {
@@ -216,19 +289,68 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Cow/EnCow_Update.s")
+void EnCow_Update(EnCow* this, GlobalContext* globalCtx) {
+    s32 pad;
+    CollisionCheckContext* colChckCtx = &globalCtx->colChkCtx;
+    s16 targetX;
+    s16 targetY;
+    Player* player = PLAYER;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Cow/func_809DFE98.s")
-void func_809DFE98(EnCow *this, GlobalContext *globalCtx) {
+    CollisionCheck_SetOC(globalCtx, colChckCtx, &this->colliders[0].base);
+    if (globalCtx) {
+        // necessary to match
+    }
+    CollisionCheck_SetOC(globalCtx, colChckCtx, &this->colliders[1].base);
+    Actor_MoveForward(&this->actor);
+    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+        if (this->skelAnime.animCurrentSeg == &D_060001CC) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EV_COW_CRY);
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_06004264, 1.0f, 0.0f,
+                                 SkelAnime_GetFrameCount(&D_06004264.genericHeader), 2, 1.0f);
+        } else {
+            SkelAnime_ChangeAnim(&this->skelAnime, &D_060001CC, 1.0f, 0.0f,
+                                 SkelAnime_GetFrameCount(&D_060001CC.genericHeader), 0, 1.0f);
+        }
+    }
+    this->actionFunc(this, globalCtx);
+    if ((this->actor.xzDistanceFromLink < 150.0f) &&
+        (ABS(Math_Vec3f_Yaw(&this->actor.posRot.pos, &player->actor.posRot.pos)) < 0xC000)) {
+        targetX = Math_Vec3f_Pitch(&this->actor.posRot2.pos, &player->actor.posRot2.pos);
+        targetY = Math_Vec3f_Yaw(&this->actor.posRot2.pos, &player->actor.posRot2.pos) - this->actor.shape.rot.y;
+
+        if (targetX > 0x1000) {
+            targetX = 0x1000;
+        } else if (targetX < -0x1000) {
+            targetX = -0x1000;
+        }
+
+        if (targetY > 0x2500) {
+            targetY = 0x2500;
+        } else if (targetY < -0x2500) {
+            targetY = -0x2500;
+        }
+
+    } else {
+        targetY = 0;
+        targetX = 0;
+    }
+    Math_SmoothScaleMaxMinS(&this->someRot.x, targetX, 0xA, 0xC8, 0xA);
+    Math_SmoothScaleMaxMinS(&this->someRot.y, targetY, 0xA, 0xC8, 0xA);
+}
+
+void func_809DFE98(EnCow* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
     AnimationHeader* temp_a0 = &D_06004348;
-    if (this->skelAnime.animCurrentSeg){} // necessary to match
+    if (this->skelAnime.animCurrentSeg) {} // necessary to match
 
     if (SkelAnime_FrameUpdateMatrix(skelAnime) != 0) {
         if (this->skelAnime.animCurrentSeg == temp_a0) {
-            SkelAnime_ChangeAnim(skelAnime, &D_06004E98, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&D_06004E98.genericHeader), 2, 1.0f);
+            SkelAnime_ChangeAnim(skelAnime, &D_06004E98, 1.0f, 0.0f,
+                                 (f32)SkelAnime_GetFrameCount(&D_06004E98.genericHeader), 2, 1.0f);
         } else {
-            SkelAnime_ChangeAnim(skelAnime, temp_a0, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&temp_a0->genericHeader), 0, 1.0f);
+            SkelAnime_ChangeAnim(skelAnime, temp_a0, 1.0f, 0.0f, (f32)SkelAnime_GetFrameCount(&temp_a0->genericHeader),
+                                 0, 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);
