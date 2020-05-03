@@ -13,7 +13,6 @@ void EnHorseGanon_Destroy(EnHorseGanon* this, GlobalContext* globalCtx);
 void EnHorseGanon_Update(EnHorseGanon* this, GlobalContext* globalCtx);
 void EnHorseGanon_Draw(EnHorseGanon* this, GlobalContext* globalCtx);
 
-// internal functions
 void func_80A68660(Vec3s* data, s32 index, Vec3f* vec);
 void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx);
 void func_80A68870(EnHorseGanon* this);
@@ -119,8 +118,7 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
     y = Math_Vec3f_Yaw(tempPos, &vec) - this->actor.posRot.rot.y;
     if (y >= 301) {
         this->actor.posRot.rot.y += 300;
-    } else {
-        if (y < -300) {
+    } else if (y < -300) {
             this->actor.posRot.rot.y -= 300;
         } else {
             this->actor.posRot.rot.y += y;
@@ -128,7 +126,7 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y = this->actor.posRot.rot.y;
 
-    if (func_8002DB8C(&this->actor, globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first) <= 300.0f) {
+    if (func_8002DB8C(&this->actor, &PLAYER->actor) <= 300.0f) {
         if (this->actor.speedXZ < 12.0f) {
             this->actor.speedXZ += 1.0f;
         } else {
