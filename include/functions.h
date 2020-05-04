@@ -2153,6 +2153,7 @@ void func_800F59E8(u16);
 // ? func_800F5E18(?);
 // ? func_800F5E90(?);
 void func_800F6268(f32, UNK_TYPE);
+void func_800F6584(UNK_TYPE);
 // ? func_800F64E0(?);
 void func_800F6584(UNK_TYPE);
 // ? func_800F66C0(?);
