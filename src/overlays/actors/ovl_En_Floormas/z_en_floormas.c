@@ -117,11 +117,11 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFloormas* this = THIS;
     GlobalContext* gctx = globalCtx;
     s32 invisble;
-    char pad[4];
+    s32 pad;
 
     Actor_ProcessInitChain(&this->actor, initChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 50.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->limbDrawTable, &this->transDrawTable,
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->limbDrawTable, &this->transitionDrawTable,
                      25);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
@@ -305,7 +305,6 @@ void EnFloormas_SmDecideActionBegin(EnFloormas* this) {
     this->actor.speedXZ = 5.0f;
 }
 
-// EnFloormas_WaitBegin
 void EnFloormas_SmShrinkBegin(EnFloormas* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
@@ -963,9 +962,8 @@ void EnFloormas_Freeze(EnFloormas* this, GlobalContext* globalCtx) {
     }
 }
 
-// EnFloormas_ColliderCheck
 void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
-    char pad[4];
+    s32 pad;
     s32 isSmall;
 
     if ((this->collider.base.acFlags & 2) != 0) {
@@ -1011,7 +1009,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
 
 void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFloormas* this = THIS;
-    char pad[4];
+    s32 pad;
 
     if (this->actionFunc != EnFloormas_SmWait) {
         if (this->collider.base.atFlags & 2) {
@@ -1071,15 +1069,15 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnFloormas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                Actor* actor, Gfx** gfx) {
-    EnFloormas* this = (EnFloormas*)actor;
+                                Actor* thisx, Gfx** gfx) {
+    EnFloormas* this = THIS;
     if (limbIndex == 1) {
         pos->z += this->zOffset;
     }
     return 0;
 }
 
-void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor,
+void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx,
                              Gfx** gfx) {
     if (limbIndex == 2) {
         Matrix_Push();
@@ -1097,7 +1095,7 @@ void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFloormas* this = THIS;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfx[4];
-    char pad[4];
+    s32 pad;
 
     Graph_OpenDisps(gfx, globalCtx->state.gfxCtx, "../z_en_floormas.c", 2318);
     func_80093D18(globalCtx->state.gfxCtx);
