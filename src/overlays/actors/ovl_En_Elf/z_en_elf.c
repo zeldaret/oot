@@ -2,10 +2,12 @@
 
 #define FLAGS 0x02000030
 
-void EnElf_Init(EnElf* this, GlobalContext* globalCtx);
-void EnElf_Destroy(EnElf* this, GlobalContext* globalCtx);
-void EnElf_Update(EnElf* this, GlobalContext* globalCtx);
-void EnElf_Draw(EnElf* this, GlobalContext* globalCtx);
+#define THIS ((EnElf*)thisx)
+
+void EnElf_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnElf_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnElf_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Elf_InitVars = {

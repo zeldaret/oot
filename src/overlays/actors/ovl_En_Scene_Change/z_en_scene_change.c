@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000000
 
-void EnSceneChange_Init(EnSceneChange* this, GlobalContext* globalCtx);
-void EnSceneChange_Destroy(EnSceneChange* this, GlobalContext* globalCtx);
-void EnSceneChange_Update(EnSceneChange* this, GlobalContext* globalCtx);
-void EnSceneChange_Draw(EnSceneChange* this, GlobalContext* globalCtx);
+#define THIS ((EnSceneChange*)thisx)
+
+void EnSceneChange_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSceneChange_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSceneChange_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSceneChange_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void EnSceneChange_SetupAction(EnSceneChange* this, ActorFunc actionFunc);
 void func_80AF8CAC(EnSceneChange* this, GlobalContext* globalCtx);
 
@@ -31,24 +34,28 @@ void EnSceneChange_SetupAction(EnSceneChange* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void EnSceneChange_Init(EnSceneChange* this, GlobalContext* globalCtx) {
+void EnSceneChange_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnSceneChange* this = THIS;
+
     EnSceneChange_SetupAction(this, func_80AF8CAC);
 }
 
-void EnSceneChange_Destroy(EnSceneChange* this, GlobalContext* globalCtx) {
+void EnSceneChange_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AF8CAC(EnSceneChange* this, GlobalContext* globalCtx) {
 }
 
-void EnSceneChange_Update(EnSceneChange* this, GlobalContext* globalCtx) {
+void EnSceneChange_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnSceneChange* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
-void EnSceneChange_Draw(EnSceneChange* this, GlobalContext* globalCtx) {
-    s32 pad[0x2];
+void EnSceneChange_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad[2];
     Gfx* displayList;
-    s32 pad1[0x2];
+    s32 pad2[2];
     Gfx* displayListHead;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];

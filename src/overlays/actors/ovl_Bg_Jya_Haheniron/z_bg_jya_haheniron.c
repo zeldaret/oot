@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void BgJyaHaheniron_Init(BgJyaHaheniron* this, GlobalContext* globalCtx);
-void BgJyaHaheniron_Destroy(BgJyaHaheniron* this, GlobalContext* globalCtx);
-void BgJyaHaheniron_Update(BgJyaHaheniron* this, GlobalContext* globalCtx);
-void BgJyaHaheniron_Draw(BgJyaHaheniron* this, GlobalContext* globalCtx);
+#define THIS ((BgJyaHaheniron*)thisx)
+
+void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaHaheniron_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaHaheniron_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaHaheniron_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Jya_Haheniron_InitVars = {

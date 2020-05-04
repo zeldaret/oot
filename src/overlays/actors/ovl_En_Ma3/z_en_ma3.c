@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000039
 
-void EnMa3_Init(EnMa3* this, GlobalContext* globalCtx);
-void EnMa3_Destroy(EnMa3* this, GlobalContext* globalCtx);
-void EnMa3_Update(EnMa3* this, GlobalContext* globalCtx);
-void EnMa3_Draw(EnMa3* this, GlobalContext* globalCtx);
+#define THIS ((EnMa3*)thisx)
+
+void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMa3_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMa3_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* this);
 s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* this);
@@ -95,7 +97,7 @@ extern SkeletonHeader D_06008D90;
 extern AnimationHeader D_060093BC;
 extern AnimationHeader D_06009EE0;
 
-u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* this) {
+u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = PLAYER;
     s16* timer1ValuePtr; // weirdness with this necessary to match
 
@@ -105,7 +107,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* this) {
     timer1ValuePtr = &gSaveContext.timer1Value;
     if (gSaveContext.eventInf[0] & 0x400) {
         gSaveContext.timer1Value = gSaveContext.timer1Value;
-        this->flags |= 0x10000;
+        thisx->flags |= 0x10000;
         if (gSaveContext.timer1Value >= 0xD3) {
             return 0x208E;
         }
@@ -122,7 +124,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* this) {
         }
     }
     if ((!(player->stateFlags1 & 0x800000)) &&
-        (Actor_FindNearby(globalCtx, this, ACTOR_EN_HORSE, 1, 1200.0f) == NULL)) {
+        (Actor_FindNearby(globalCtx, thisx, ACTOR_EN_HORSE, 1, 1200.0f) == NULL)) {
         return 0x2001;
     }
     if (!(gSaveContext.infTable[11] & 0x200)) {
@@ -132,7 +134,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* this) {
     }
 }
 
-s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* this) {
+s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
@@ -161,7 +163,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* this) {
             }
             break;
         case 2:
-            switch (this->textId) {
+            switch (thisx->textId) {
                 case 0x2000:
                     gSaveContext.infTable[11] |= 0x100;
                     ret = 0;
@@ -175,7 +177,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* this) {
                     }
                 case 0x208E:
                     gSaveContext.eventInf[0] &= ~0x400;
-                    this->flags &= ~0x10000;
+                    thisx->flags &= ~0x10000;
                     ret = 0;
                     gSaveContext.timer1State = 0xA;
                     break;
@@ -262,15 +264,14 @@ void func_80AA3004(EnMa3* this, s32 idx) {
                          D_80AA3848[idx].transitionRate);
 }
 
-void EnMa3_Init(EnMa3* this, GlobalContext* globalCtx) {
-    ColliderCylinder* collider;
+void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnMa3* this = THIS;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008D90, NULL, 0, 0, 0);
-    collider = &this->collider;
-    Collider_InitCylinder(globalCtx, collider);
-    Collider_SetCylinder(globalCtx, collider, &this->actor, &cylinderInit);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
     func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &D_80AA383C);
 
     switch (func_80AA2EC8(this, globalCtx)) {
@@ -292,7 +293,9 @@ void EnMa3_Init(EnMa3* this, GlobalContext* globalCtx) {
     this->unk_1E0.unk_00 = (u16)0;
 }
 
-void EnMa3_Destroy(EnMa3* this, GlobalContext* globalCtx) {
+void EnMa3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnMa3* this = THIS;
+
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -304,18 +307,18 @@ void func_80AA3200(EnMa3* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnMa3_Update(EnMa3* this, GlobalContext* globalCtx) {
+void EnMa3_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnMa3* this = THIS;
     s32 pad;
-    ColliderCylinder* collider = &this->collider;
 
-    Collider_CylinderUpdate(&this->actor, collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_80AA2F80(this);
     this->actionFunc(this, globalCtx);
     func_80AA2E54(this, globalCtx);
     func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.dim.radius + 150.0f,
-                  &func_80AA2AA0, &func_80AA2BD4);
+                  func_80AA2AA0, func_80AA2BD4);
     if (this->unk_1E0.unk_00 == 0) {
         if (this->unk_20A != 0) {
             func_800F6584(0);
@@ -328,23 +331,23 @@ void EnMa3_Update(EnMa3* this, GlobalContext* globalCtx) {
 }
 
 s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
-    EnMa3* this = (EnMa3*)thisx;
-    Vec3s tempVec;
+    EnMa3* this = THIS;
+    Vec3s vec;
 
     if ((limbIndex == 3) || (limbIndex == 6)) {
         *dList = NULL;
     }
     if (limbIndex == 18) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        tempVec = this->unk_1E0.unk_08;
-        Matrix_RotateX((tempVec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((tempVec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        vec = this->unk_1E0.unk_08;
+        Matrix_RotateX((vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateZ((vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 11) {
-        tempVec = this->unk_1E0.unk_0E;
-        Matrix_RotateY((-tempVec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateX((-tempVec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        vec = this->unk_1E0.unk_0E;
+        Matrix_RotateY((-vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX((-vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }
     if ((limbIndex == 11) || (limbIndex == 12) || (limbIndex == 15)) {
         rot->y += Math_Sins(this->unk_212[limbIndex].y) * 200.0f;
@@ -354,7 +357,7 @@ s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
-    EnMa3* this = (EnMa3*)thisx;
+    EnMa3* this = THIS;
     Vec3f vec = D_80AA3898;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
@@ -371,11 +374,12 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 950);
 }
 
-void EnMa3_Draw(EnMa3* this, GlobalContext* globalCtx) {
+void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnMa3* this = THIS;
     Camera* camera;
     f32 someFloat;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[6];
+    Gfx* dispRefs[5];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void EnHorse_Init(EnHorse* this, GlobalContext* globalCtx);
-void EnHorse_Destroy(EnHorse* this, GlobalContext* globalCtx);
-void EnHorse_Update(EnHorse* this, GlobalContext* globalCtx);
-void EnHorse_Draw(EnHorse* this, GlobalContext* globalCtx);
+#define THIS ((EnHorse*)thisx)
+
+void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHorse_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHorse_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Horse_InitVars = {

@@ -10,10 +10,12 @@
 
 #define FLAGS 0x00000030
 
-void DemoGeff_Init(DemoGeff* this, GlobalContext* globalCtx);
-void DemoGeff_Destroy(DemoGeff* this, GlobalContext* globalCtx);
-void DemoGeff_Update(DemoGeff* this, GlobalContext* globalCtx);
-void DemoGeff_Draw(DemoGeff* this, GlobalContext* globalCtx);
+#define THIS ((DemoGeff*)thisx)
+
+void DemoGeff_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoGeff_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoGeff_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80978030(DemoGeff* this, GlobalContext* globalCtx);
 
@@ -55,10 +57,12 @@ const ActorInit Demo_Geff_InitVars = {
 
 extern UNK_TYPE D_06000EA0;
 
-void DemoGeff_Destroy(DemoGeff* this, GlobalContext* globalCtx) {
+void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void DemoGeff_Init(DemoGeff* this, GlobalContext* globalCtx) {
+void DemoGeff_Init(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGeff* this = THIS;
+
     if (this->actor.params < 0 || this->actor.params >= 9) {
         osSyncPrintf(VT_FGCOL(RED) "Demo_Geff_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n" VT_RST);
         Actor_Kill(&this->actor);
@@ -102,6 +106,7 @@ void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
 
 void func_80978030(DemoGeff* this, GlobalContext* globalCtx) {
     Vec3f* thisScale = &this->actor.scale;
+
     this->action = 1;
     this->drawConfig = 1;
 
@@ -201,7 +206,9 @@ void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
     }
 }
 
-void DemoGeff_Update(DemoGeff* this, GlobalContext* globalCtx) {
+void DemoGeff_Update(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGeff* this = THIS;
+
     if (this->action < 0 || this->action >= 2 || actionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
@@ -212,9 +219,10 @@ void DemoGeff_Update(DemoGeff* this, GlobalContext* globalCtx) {
 void func_809784D4(DemoGeff* this, GlobalContext* globalCtx) {
 }
 
-void DemoGeff_Draw(DemoGeff* this, GlobalContext* globalCtx) {
+void DemoGeff_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGeff* this = THIS;
     s32 drawConfig = this->drawConfig;
-    s16 pad;
+
     if (drawConfig < 0 || drawConfig >= 2 || drawFuncs[drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

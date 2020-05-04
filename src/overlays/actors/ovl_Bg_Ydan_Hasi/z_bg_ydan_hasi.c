@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void BgYdanHasi_Init(BgYdanHasi* this, GlobalContext* globalCtx);
-void BgYdanHasi_Destroy(BgYdanHasi* this, GlobalContext* globalCtx);
-void BgYdanHasi_Update(BgYdanHasi* this, GlobalContext* globalCtx);
-void BgYdanHasi_Draw(BgYdanHasi* this, GlobalContext* globalCtx);
+#define THIS ((BgYdanHasi*)thisx)
+
+void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgYdanHasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgYdanHasi_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Ydan_Hasi_InitVars = {

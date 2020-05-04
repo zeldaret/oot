@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000405
 
-void EnFloormas_Init(EnFloormas* this, GlobalContext* globalCtx);
-void EnFloormas_Destroy(EnFloormas* this, GlobalContext* globalCtx);
-void EnFloormas_Update(EnFloormas* this, GlobalContext* globalCtx);
-void EnFloormas_Draw(EnFloormas* this, GlobalContext* globalCtx);
+#define THIS ((EnFloormas*)thisx)
+
+void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnFloormas_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Floormas_InitVars = {

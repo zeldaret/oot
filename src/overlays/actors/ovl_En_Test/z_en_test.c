@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000015
 
-void EnTest_Init(EnTest* this, GlobalContext* globalCtx);
-void EnTest_Destroy(EnTest* this, GlobalContext* globalCtx);
-void EnTest_Update(EnTest* this, GlobalContext* globalCtx);
-void EnTest_Draw(EnTest* this, GlobalContext* globalCtx);
+#define THIS ((EnTest*)thisx)
+
+void EnTest_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnTest_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_SetupAction(EnTest* this, ActorFunc actionFunc);
 void func_8085F938(EnTest* this, GlobalContext* globalCtx);
 void func_8085FAB0(EnTest* this, GlobalContext* globalCtx);

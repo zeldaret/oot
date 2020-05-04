@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void BgJyaIronobj_Init(BgJyaIronobj* this, GlobalContext* globalCtx);
-void BgJyaIronobj_Destroy(BgJyaIronobj* this, GlobalContext* globalCtx);
-void BgJyaIronobj_Update(BgJyaIronobj* this, GlobalContext* globalCtx);
-void BgJyaIronobj_Draw(BgJyaIronobj* this, GlobalContext* globalCtx);
+#define THIS ((BgJyaIronobj*)thisx)
+
+void BgJyaIronobj_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaIronobj_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaIronobj_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaIronobj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Jya_Ironobj_InitVars = {

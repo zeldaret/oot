@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000030
 
-void BgSpot03Taki_Init(BgSpot03Taki* this, GlobalContext* globalCtx);
-void BgSpot03Taki_Destroy(BgSpot03Taki* this, GlobalContext* globalCtx);
-void BgSpot03Taki_Update(BgSpot03Taki* this, GlobalContext* globalCtx);
-void BgSpot03Taki_Draw(BgSpot03Taki* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot03Taki*)thisx)
+
+void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot03Taki_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot03_Taki_InitVars = {

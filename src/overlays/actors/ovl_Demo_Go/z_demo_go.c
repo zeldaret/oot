@@ -10,10 +10,12 @@
 
 #define FLAGS 0x00000010
 
-void DemoGo_Init(DemoGo* this, GlobalContext* globalCtx);
-void DemoGo_Destroy(DemoGo* this, GlobalContext* globalCtx);
-void DemoGo_Update(DemoGo* this, GlobalContext* globalCtx);
-void DemoGo_Draw(DemoGo* this, GlobalContext* globalCtx);
+#define THIS ((DemoGo*)thisx)
+
+void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoGo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoGo_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoGo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8097CE10(DemoGo* this, GlobalContext* globalCtx);
 void func_8097CFDC(DemoGo* this, GlobalContext* globalCtx);
@@ -56,6 +58,7 @@ extern SkeletonHeader D_0600FEF0;
 
 UNK_TYPE func_8097C870(DemoGo* this) {
     s32 ret;
+
     switch (this->actor.params) {
         case 0:
             ret = 3;
@@ -84,7 +87,9 @@ void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
     }
 }
 
-void DemoGo_Destroy(DemoGo* this, GlobalContext* globalCtx) {
+void DemoGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGo* this = THIS;
+
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
 
@@ -305,7 +310,9 @@ void func_8097D130(DemoGo* this, GlobalContext* globalCtx) {
     func_8097C9DC(this);
 }
 
-void DemoGo_Update(DemoGo* this, GlobalContext* globalCtx) {
+void DemoGo_Update(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGo* this = THIS;
+
     if (this->action < 0 || this->action >= 7 || D_8097D44C[this->action] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
@@ -313,8 +320,8 @@ void DemoGo_Update(DemoGo* this, GlobalContext* globalCtx) {
     D_8097D44C[this->action](this, globalCtx);
 }
 
-void DemoGo_Init(DemoGo* this, GlobalContext* globalCtx) {
-    s16 pad;
+void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGo* this = THIS;
     AnimationHeader* animation = &D_06004930;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
@@ -348,7 +355,9 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
 }
 
-void DemoGo_Draw(DemoGo* this, GlobalContext* globalCtx) {
+void DemoGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGo* this = THIS;
+
     if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

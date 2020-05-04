@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000019
 
-void EnDivingGame_Init(EnDivingGame* this, GlobalContext* globalCtx);
-void EnDivingGame_Destroy(EnDivingGame* this, GlobalContext* globalCtx);
-void EnDivingGame_Update(EnDivingGame* this, GlobalContext* globalCtx);
-void EnDivingGame_Draw(EnDivingGame* this, GlobalContext* globalCtx);
+#define THIS ((EnDivingGame*)thisx)
+
+void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDivingGame_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDivingGame_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Diving_Game_InitVars = {

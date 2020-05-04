@@ -31,6 +31,13 @@ typedef struct {
 
 #define FLAGS 0x00000010
 
+#define THIS ((EnAObj*)thisx)
+
+void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnAObj_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8001D204(EnAObj* this, GlobalContext* globalCtx);
 void func_8001D25C(EnAObj* this, GlobalContext* globalCtx);
 void func_8001D360(EnAObj* this, GlobalContext* globalCtx);
@@ -41,11 +48,6 @@ void func_8001D234(EnAObj* this, s16 params);
 void func_8001D310(EnAObj* this, s16 params);
 void func_8001D480(EnAObj* this, s16 params);
 void func_8001D5C8(EnAObj* this, s16 params);
-
-void EnAObj_Init(EnAObj* this, GlobalContext* globalCtx);
-void EnAObj_Destroy(EnAObj* this, GlobalContext* globalCtx);
-void EnAObj_Update(EnAObj* this, GlobalContext* globalCtx);
-void EnAObj_Draw(EnAObj* this, GlobalContext* globalCtx);
 
 const ActorInit En_A_Obj_InitVars = {
     ACTOR_EN_A_OBJ,
@@ -68,119 +70,118 @@ void EnAObj_SetupAction(EnAObj* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void EnAObj_Init(EnAObj* this, GlobalContext* globalCtx) {
-    u32 sp34;
+void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
+    u32 sp34 = 0;
     s32 pad;
-    EnAObj* this2 = this;
+    EnAObj* this = THIS;
     f32 sp28;
 
-    sp34 = 0;
     sp28 = 6.0f;
 
-    this->textId = (this->dyna.actor.params >> 8) & 0xFF;
-    this->dyna.actor.params &= 0xFF;
+    this->textId = (thisx->params >> 8) & 0xFF;
+    thisx->params &= 0xFF;
 
-    switch (this->dyna.actor.params) {
+    switch (thisx->params) {
         case A_OBJ_BLOCK_SMALL:
-            Actor_SetScale(&this->dyna.actor, 0.025f);
+            Actor_SetScale(thisx, 0.025f);
             break;
         case A_OBJ_BLOCK_LARGE:
-            Actor_SetScale(&this->dyna.actor, 0.05f);
+            Actor_SetScale(thisx, 0.05f);
             break;
         case A_OBJ_BLOCK_HUGE:
         case A_OBJ_CUBE_SMALL:
         case A_OBJ_UNKNOWN_6:
-            Actor_SetScale(&this->dyna.actor, 0.1f);
+            Actor_SetScale(thisx, 0.1f);
             break;
         case A_OBJ_BLOCK_SMALL_ROT:
-            Actor_SetScale(&this->dyna.actor, 0.005f);
+            Actor_SetScale(thisx, 0.005f);
             break;
         case A_OBJ_BLOCK_LARGE_ROT:
         default:
-            Actor_SetScale(&this->dyna.actor, 0.01f);
+            Actor_SetScale(thisx, 0.01f);
             break;
     }
 
-    if (this->dyna.actor.params >= 9) {
+    if (thisx->params >= 9) {
         sp28 = 12.0f;
     }
 
-    ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, sp28);
+    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, sp28);
 
-    this->dyna.actor.posRot2.pos = this->dyna.actor.posRot.pos;
+    thisx->posRot2.pos = thisx->posRot.pos;
     this->dyna.dynaPolyId = -1;
     this->dyna.unk_160 = 0;
     this->dyna.unk_15C = 0;
-    this->dyna.actor.unk_FC = 1200.0f;
-    this->dyna.actor.unk_F8 = 200.0f;
+    thisx->unk_FC = 1200.0f;
+    thisx->unk_F8 = 200.0f;
 
-    switch (this->dyna.actor.params) {
+    switch (thisx->params) {
         case A_OBJ_BLOCK_LARGE:
         case A_OBJ_BLOCK_HUGE:
-            this2->dyna.dynaPolyId = 1;
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->dyna.actor, ACTORTYPE_BG);
-            func_8001D5C8(this2, this->dyna.actor.params);
+            this->dyna.dynaPolyId = 1;
+            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_BG);
+            func_8001D5C8(this, thisx->params);
             break;
         case A_OBJ_BLOCK_SMALL_ROT:
         case A_OBJ_BLOCK_LARGE_ROT:
-            this2->dyna.dynaPolyId = 3;
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->dyna.actor, ACTORTYPE_BG);
-            func_8001D310(this2, this->dyna.actor.params);
+            this->dyna.dynaPolyId = 3;
+            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_BG);
+            func_8001D310(this, thisx->params);
             break;
         case A_OBJ_UNKNOWN_6:
             // clang-format off
-            this->dyna.actor.flags |= 0x1; this2->dyna.dynaPolyId = 5; this2->unk_178 = 10.0f;
+            thisx->flags |= 0x1; this->dyna.dynaPolyId = 5; this->unk_178 = 10.0f;
             // clang-format on
-            this->dyna.actor.gravity = -2.0f;
-            func_8001D234(this2, this->dyna.actor.params);
+            thisx->gravity = -2.0f;
+            func_8001D234(this, thisx->params);
             break;
         case A_OBJ_GRASS_CLUMP:
         case A_OBJ_TREE_STUMP:
-            this2->dyna.dynaPolyId = 0;
-            func_8001D234(this2, this->dyna.actor.params);
+            this->dyna.dynaPolyId = 0;
+            func_8001D234(this, thisx->params);
             break;
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
-            this->dyna.actor.textId = (this2->textId & 0xFF) | 0x300;
+            thisx->textId = (this->textId & 0xFF) | 0x300;
             // clang-format off
-            this->dyna.actor.flags |= 0x1 | 0x8; this->dyna.actor.unk_4C = 500.0f;
+            thisx->flags |= 0x1 | 0x8; thisx->unk_4C = 500.0f;
             // clang-format on
-            this2->unk_178 = 45.0f;
-            func_8001D234(this2, this->dyna.actor.params);
-            Collider_InitCylinder(globalCtx, &this2->collider);
-            Collider_SetCylinder(globalCtx, &this2->collider, &this->dyna.actor, &D_80115440);
-            this->dyna.actor.colChkInfo.mass = 0xFF;
-            this->dyna.actor.unk_1F = 0;
+            this->unk_178 = 45.0f;
+            func_8001D234(this, thisx->params);
+            Collider_InitCylinder(globalCtx, &this->collider);
+            Collider_SetCylinder(globalCtx, &this->collider, thisx, &D_80115440);
+            thisx->colChkInfo.mass = 0xFF;
+            thisx->unk_1F = 0;
             break;
         case A_OBJ_KNOB:
-            this->dyna.actor.gravity = -1.5f;
-            func_8001D480(this2, this->dyna.actor.params);
+            thisx->gravity = -1.5f;
+            func_8001D480(this, thisx->params);
             break;
         default:
-            this->dyna.actor.gravity = -2.0f;
-            func_8001D234(this2, this->dyna.actor.params);
+            thisx->gravity = -2.0f;
+            func_8001D234(this, thisx->params);
             break;
     }
 
-    if (this->dyna.actor.params < 5) {
-        this->dyna.actor.colChkInfo.mass = 0xFF;
+    if (thisx->params < 5) {
+        thisx->colChkInfo.mass = 0xFF;
     }
 
     if (this->dyna.dynaPolyId != -1) {
         DynaPolyInfo_Alloc(D_8011546C[this->dyna.dynaPolyId], &sp34);
-        this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp34);
+        this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp34);
     }
 }
 
-void EnAObj_Destroy(EnAObj* this, GlobalContext* globalCtx) {
-    ColliderCylinder* collider = &this->collider;
+void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnAObj* this = THIS;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 
     switch (this->dyna.actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
-            Collider_DestroyCylinder(globalCtx, collider);
+            Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
 
@@ -308,8 +309,8 @@ void func_8001D608(EnAObj* this, GlobalContext* globalCtx) {
     this->dyna.unk_150 = 0.0f;
 }
 
-void EnAObj_Update(EnAObj* this, GlobalContext* globalCtx) {
-    Collider* collider;
+void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnAObj* this = THIS;
 
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->dyna.actor);
@@ -328,14 +329,13 @@ void EnAObj_Update(EnAObj* this, GlobalContext* globalCtx) {
     switch (this->dyna.actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
-            collider = (Collider*)&this->collider;
             Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 }
 
-void EnAObj_Draw(EnAObj* this, GlobalContext* globalCtx) {
-    s32 type = this->dyna.actor.params;
+void EnAObj_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 type = thisx->params;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 
@@ -347,7 +347,7 @@ void EnAObj_Draw(EnAObj* this, GlobalContext* globalCtx) {
         type = A_OBJ_KNOB;
     }
 
-    if (this->dyna.actor.params == A_OBJ_KNOB) {
+    if (thisx->params == A_OBJ_KNOB) {
         gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 1, 0x3C, 0x3C, 0x3C, 0x32);
     }
 

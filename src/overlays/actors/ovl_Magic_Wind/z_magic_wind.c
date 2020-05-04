@@ -8,10 +8,12 @@
 
 #define FLAGS 0x02000010
 
-void MagicWind_Init(MagicWind* this, GlobalContext* globalCtx);
-void MagicWind_Destroy(MagicWind* this, GlobalContext* globalCtx);
-void MagicWind_Update(MagicWind* this, GlobalContext* globalCtx);
-void MagicWind_Draw(MagicWind* this, GlobalContext* globalCtx);
+#define THIS ((MagicWind*)thisx)
+
+void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx);
+void MagicWind_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void MagicWind_Update(Actor* thisx, GlobalContext* globalCtx);
+void MagicWind_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Magic_Wind_InitVars = {

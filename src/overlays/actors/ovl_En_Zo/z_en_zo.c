@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000009
 
-void EnZo_Init(EnZo* this, GlobalContext* globalCtx);
-void EnZo_Destroy(EnZo* this, GlobalContext* globalCtx);
-void EnZo_Update(EnZo* this, GlobalContext* globalCtx);
-void EnZo_Draw(EnZo* this, GlobalContext* globalCtx);
+#define THIS ((EnZo*)thisx)
+
+void EnZo_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnZo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnZo_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnZo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Zo_InitVars = {

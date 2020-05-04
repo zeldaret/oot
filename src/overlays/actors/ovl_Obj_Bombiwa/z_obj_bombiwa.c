@@ -8,12 +8,14 @@
 
 #define FLAGS 0x00000000
 
-void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx);
-void ObjBombiwa_Destroy(ObjBombiwa* this, GlobalContext* globalCtx);
-void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx);
-void ObjBombiwa_Draw(ObjBombiwa* this, GlobalContext* globalCtx);
+#define THIS ((ObjBombiwa*)thisx)
 
-void ObjBombiwa_InitCollision(ObjBombiwa* this, GlobalContext* globalCtx);
+void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjBombiwa_InitCollision(Actor* thisx, GlobalContext* globalCtx);
+void ObjBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Bombiwa_InitVars = {
@@ -54,32 +56,33 @@ static s16 effectScales[] = {
 
 extern Gfx* D_060009E0; // dlist
 
-void ObjBombiwa_InitCollision(ObjBombiwa* this, GlobalContext* globalCtx) {
-    ObjBombiwa* thisLocal = this;
-    Collider_InitCylinder(globalCtx, &thisLocal->collider);
-    Collider_SetCylinder(globalCtx, &thisLocal->collider, &thisLocal->actor, &colliderInit);
-    Collider_CylinderUpdate(&thisLocal->actor, &thisLocal->collider);
+void ObjBombiwa_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
+    ObjBombiwa* this = THIS;
+
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &colliderInit);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
 }
 
-void ObjBombiwa_Init(ObjBombiwa* this, GlobalContext* globalCtx) {
-    Actor_ProcessInitChain(&this->actor, initChain);
-    ObjBombiwa_InitCollision(this, globalCtx);
-    if ((Flags_GetSwitch(globalCtx, this->actor.params & 0x3F) != 0)) {
-        Actor_Kill(&this->actor);
+void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
+    Actor_ProcessInitChain(thisx, initChain);
+    ObjBombiwa_InitCollision(thisx, globalCtx);
+    if ((Flags_GetSwitch(globalCtx, thisx->params & 0x3F) != 0)) {
+        Actor_Kill(thisx);
     } else {
-        func_80061ED4(&this->actor.colChkInfo, NULL, &colChkInfoInit);
-        if (this->actor.shape.rot.y == 0) {
+        func_80061ED4(&thisx->colChkInfo, NULL, &colChkInfoInit);
+        if (thisx->shape.rot.y == 0) {
             s16 rand = (s16)Math_Rand_ZeroFloat(65536.0f);
-            this->actor.posRot.rot.y = rand;
-            this->actor.shape.rot.y = rand;
+            thisx->posRot.rot.y = rand;
+            thisx->shape.rot.y = rand;
         }
-        this->actor.shape.unk_08 = -200.0f;
-        this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + 20.0f;
+        thisx->shape.unk_08 = -200.0f;
+        thisx->posRot.pos.y = thisx->initPosRot.pos.y + 20.0f;
     }
 }
 
-void ObjBombiwa_Destroy(ObjBombiwa* this, GlobalContext* globalCtx) {
-    Collider_DestroyCylinder(globalCtx, &this->collider);
+void ObjBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    Collider_DestroyCylinder(globalCtx, &THIS->collider);
 }
 
 void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
@@ -106,9 +109,9 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
     func_80033480(globalCtx, &this->actor.posRot.pos, 60.0f, 8, 100, 160, 1);
 }
 
-void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx) {
-    CollisionCheckContext* colChkCtx;
-    ColliderCylinder* collider;
+void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ObjBombiwa* this = THIS;
+    s32 pad;
 
     if (func_80033684(globalCtx, &this->actor) != NULL ||
         ((this->collider.base.acFlags & 2) != 0 && (this->collider.body.acHitItem->toucher.flags & 0x40000040) != 0)) {
@@ -122,14 +125,12 @@ void ObjBombiwa_Update(ObjBombiwa* this, GlobalContext* globalCtx) {
     } else {
         this->collider.base.acFlags &= ~0x2;
         if (this->actor.xzDistanceFromLink < 800.0f) {
-            colChkCtx = &globalCtx->colChkCtx;
-            collider = &this->collider;
-            CollisionCheck_SetAC(globalCtx, colChkCtx, collider);
-            CollisionCheck_SetOC(globalCtx, colChkCtx, collider);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
         }
     }
 }
 
-void ObjBombiwa_Draw(ObjBombiwa* this, GlobalContext* globalCtx) {
+void ObjBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_060009E0);
 }

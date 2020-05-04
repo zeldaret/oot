@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000000
 
-void BgMoriKaitenkabe_Init(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
-void BgMoriKaitenkabe_Destroy(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
-void BgMoriKaitenkabe_Update(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
+#define THIS ((BgMoriKaitenkabe*)thisx)
+
+void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriKaitenkabe_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mori_Kaitenkabe_InitVars = {

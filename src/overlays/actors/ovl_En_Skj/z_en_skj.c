@@ -2,10 +2,12 @@
 
 #define FLAGS 0x02000015
 
-void EnSkj_Init(EnSkj* this, GlobalContext* globalCtx);
-void EnSkj_Destroy(EnSkj* this, GlobalContext* globalCtx);
-void EnSkj_Update(EnSkj* this, GlobalContext* globalCtx);
-void EnSkj_Draw(EnSkj* this, GlobalContext* globalCtx);
+#define THIS ((EnSkj*)thisx)
+
+void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSkj_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSkj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Skj_InitVars = {

@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void EnHorseZelda_Init(EnHorseZelda* this, GlobalContext* globalCtx);
-void EnHorseZelda_Destroy(EnHorseZelda* this, GlobalContext* globalCtx);
-void EnHorseZelda_Update(EnHorseZelda* this, GlobalContext* globalCtx);
-void EnHorseZelda_Draw(EnHorseZelda* this, GlobalContext* globalCtx);
+#define THIS ((EnHorseZelda*)thisx)
+
+void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseZelda_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseZelda_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Horse_Zelda_InitVars = {

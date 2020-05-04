@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000000
 
-void BgHakaTrap_Init(BgHakaTrap* this, GlobalContext* globalCtx);
-void BgHakaTrap_Destroy(BgHakaTrap* this, GlobalContext* globalCtx);
-void BgHakaTrap_Update(BgHakaTrap* this, GlobalContext* globalCtx);
-void BgHakaTrap_Draw(BgHakaTrap* this, GlobalContext* globalCtx);
+#define THIS ((BgHakaTrap*)thisx)
+
+void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaTrap_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8087FFC0(BgHakaTrap* this, GlobalContext* globalCtx);
 void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx);
 void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx);

@@ -8,11 +8,13 @@
 
 #define FLAGS 0x00000010
 
-void BgDdanKd_Init(BgDdanKd* this, GlobalContext* globalCtx);
-void BgDdanKd_Destroy(BgDdanKd* this, GlobalContext* globalCtx);
-void BgDdanKd_Update(BgDdanKd* this, GlobalContext* globalCtx);
-void BgDdanKd_Draw(BgDdanKd* this, GlobalContext* globalCtx);
-void BgDdanKd_SetupAction(BgDdanKd* this, ActorFunc actionFunc);
+#define THIS ((BgDdanKd*)thisx)
+
+void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgDdanKd_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgDdanKd_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx);
 void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx);
 void func_80871838(BgDdanKd* this, GlobalContext* globalCtx);
@@ -53,9 +55,9 @@ void BgDdanKd_SetupAction(BgDdanKd* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void BgDdanKd_Init(BgDdanKd* this, GlobalContext* globalCtx) {
+void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgDdanKd* this = THIS;
     s32 pad;
-    s32 pad2;
     s32 sp24 = 0;
 
     this->previousCollidingExplosion = NULL;
@@ -76,7 +78,9 @@ void BgDdanKd_Init(BgDdanKd* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgDdanKd_Destroy(BgDdanKd* this, GlobalContext* globalCtx) {
+void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgDdanKd* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -164,10 +168,12 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
 void func_80871838(BgDdanKd* this, GlobalContext* globalCtx) {
 }
 
-void BgDdanKd_Update(BgDdanKd* this, GlobalContext* globalCtx) {
+void BgDdanKd_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgDdanKd* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
-void BgDdanKd_Draw(BgDdanKd* this, GlobalContext* globalCtx) {
+void BgDdanKd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_060048A8);
 }

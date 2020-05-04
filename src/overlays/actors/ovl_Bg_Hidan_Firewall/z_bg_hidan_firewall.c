@@ -8,16 +8,19 @@
 
 #define FLAGS 0x00000000
 
-void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx);
-void BgHidanFirewall_Destroy(BgHidanFirewall* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanFirewall*)thisx)
+
+void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanFirewall_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanFirewall_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 s32 BgHidanFirewall_CheckProximity(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Wait(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Countdown(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Collide(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* globalCtx);
-void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx);
-void BgHidanFirewall_Draw(BgHidanFirewall* this, GlobalContext* globalCtx);
 
 extern Gfx D_0600DA80[];
 
@@ -50,15 +53,11 @@ UNK_PTR D_80886D04[] = {
     0x06015D20, 0x06016120, 0x06016520, 0x06016920, 0x06016D20, 0x06017120, 0x06017520, 0x06017920,
 };
 
-void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx) {
+void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanFirewall* this = THIS;
 
-    f32 scale;
-
-    scale = 0.12f;
-    this->actor.scale.x = scale;
-    this->actor.scale.z = scale;
-
-    scale = 0.01f;
+    this->actor.scale.x = 0.12f;
+    this->actor.scale.z = 0.12f;
     this->actor.scale.y = 0.01f;
 
     this->unk_150 = 0;
@@ -73,8 +72,9 @@ void BgHidanFirewall_Init(BgHidanFirewall* this, GlobalContext* globalCtx) {
     this->actionFunc = (ActorFunc)BgHidanFirewall_Wait;
 }
 
-void BgHidanFirewall_Destroy(BgHidanFirewall* this, GlobalContext* globalCtx) {
-    BgHidanFirewall* thing = this;
+void BgHidanFirewall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanFirewall* this = THIS;
+
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -170,9 +170,9 @@ void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* 
     this->collider.dim.pos.z = this->actor.posRot.pos.z - sp30.x * sp28 + sp30.z * temp_ret;
 }
 
-void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanFirewall* this = THIS;
+    s32 pad;
 
     this->unk_150 = (this->unk_150 + 1) % 8;
 
@@ -190,8 +190,8 @@ void BgHidanFirewall_Update(BgHidanFirewall* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgHidanFirewall_Draw(BgHidanFirewall* this, GlobalContext* globalCtx) {
-    UNK_PTR* temp;
+void BgHidanFirewall_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanFirewall* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
@@ -200,9 +200,7 @@ void BgHidanFirewall_Draw(BgHidanFirewall* this, GlobalContext* globalCtx) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 448);
     gfxCtx->polyXlu.p = Gfx_CallSetupDL(gfxCtx->polyXlu.p, 0x14);
 
-    temp = D_80886D04;
-
-    gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(temp[this->unk_150]));
+    gSPSegment(gfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_80886D04[this->unk_150]));
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0x01, 0xFF, 0xFF, 0x00, 0x96);
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0xFF, 0x00, 0x00, 0xFF);
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 458),
