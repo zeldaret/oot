@@ -8,10 +8,12 @@
 
 #define FLAGS 0x02000010
 
-void MagicFire_Init(MagicFire* this, GlobalContext* globalCtx);
-void MagicFire_Destroy(MagicFire* this, GlobalContext* globalCtx);
-void MagicFire_Update(MagicFire* this, GlobalContext* globalCtx);
-void MagicFire_Draw(MagicFire* this, GlobalContext* globalCtx);
+#define THIS ((MagicFire*)thisx)
+
+void MagicFire_Init(Actor* thisx, GlobalContext* globalCtx);
+void MagicFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx);
+void MagicFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Magic_Fire_InitVars = {

@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000030
 
-void BgDdanJd_Init(BgDdanJd* this, GlobalContext* globalCtx);
-void BgDdanJd_Destroy(BgDdanJd* this, GlobalContext* globalCtx);
-void BgDdanJd_Update(BgDdanJd* this, GlobalContext* globalCtx);
-void BgDdanJd_Draw(BgDdanJd* this, GlobalContext* globalCtx);
+#define THIS ((BgDdanJd*)thisx)
+
+void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgDdanJd_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgDdanJd_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgDdanJd_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80870B88(BgDdanJd* this, GlobalContext* globalCtx);
 void func_80870D2C(BgDdanJd* this, GlobalContext* globalCtx);
 void func_80870F00(BgDdanJd* this, GlobalContext* globalCtx);

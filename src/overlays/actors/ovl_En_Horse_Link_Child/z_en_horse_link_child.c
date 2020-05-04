@@ -8,10 +8,12 @@
 
 #define FLAGS 0x02000010
 
-void EnHorseLinkChild_Init(EnHorseLinkChild* this, GlobalContext* globalCtx);
-void EnHorseLinkChild_Destroy(EnHorseLinkChild* this, GlobalContext* globalCtx);
-void EnHorseLinkChild_Update(EnHorseLinkChild* this, GlobalContext* globalCtx);
-void EnHorseLinkChild_Draw(EnHorseLinkChild* this, GlobalContext* globalCtx);
+#define THIS ((EnHorseLinkChild*)thisx)
+
+void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseLinkChild_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseLinkChild_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Horse_Link_Child_InitVars = {

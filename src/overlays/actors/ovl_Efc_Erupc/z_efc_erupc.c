@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void EfcErupc_Init(EfcErupc* this, GlobalContext* globalCtx);
-void EfcErupc_Destroy(EfcErupc* this, GlobalContext* globalCtx);
-void EfcErupc_Update(EfcErupc* this, GlobalContext* globalCtx);
-void EfcErupc_Draw(EfcErupc* this, GlobalContext* globalCtx);
+#define THIS ((EfcErupc*)thisx)
+
+void EfcErupc_Init(Actor* thisx, GlobalContext* globalCtx);
+void EfcErupc_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EfcErupc_Update(Actor* thisx, GlobalContext* globalCtx);
+void EfcErupc_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Efc_Erupc_InitVars = {

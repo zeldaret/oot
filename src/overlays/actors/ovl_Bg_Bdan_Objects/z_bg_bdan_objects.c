@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx);
-void BgBdanObjects_Destroy(BgBdanObjects* this, GlobalContext* globalCtx);
-void BgBdanObjects_Update(BgBdanObjects* this, GlobalContext* globalCtx);
-void BgBdanObjects_Draw(BgBdanObjects* this, GlobalContext* globalCtx);
+#define THIS ((BgBdanObjects*)thisx)
+
+void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgBdanObjects_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgBdanObjects_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgBdanObjects_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx);
 void func_8086C1A0(BgBdanObjects* this, GlobalContext* globalCtx);
@@ -94,9 +96,9 @@ void BgBdanObjects_SetContactRu1(BgBdanObjects* this, s32 arg1) {
     }
 }
 
-void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
-    s16 pad;
+void BgBdanObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgBdanObjects* this = THIS;
+    s32 pad;
     s32 localC = 0;
 
     Actor_ProcessInitChain(this, initChain);
@@ -152,8 +154,8 @@ void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, this, localC);
 }
 
-void BgBdanObjects_Destroy(BgBdanObjects* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+void BgBdanObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgBdanObjects* this = THIS;
 
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
     if (thisx->params == 0) {
@@ -428,23 +430,27 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgBdanObjects_Update(BgBdanObjects* this, GlobalContext* globalCtx) {
-    Actor_SetHeight(&this->dyna.actor, 50.0f);
+void BgBdanObjects_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgBdanObjects* this = THIS;
+
+    Actor_SetHeight(thisx, 50.0f);
     this->actionFunc(this, globalCtx);
 }
 
-void BgBdanObjects_Draw(BgBdanObjects* this, GlobalContext* globalCtx) {
-    if (this->dyna.actor.params == 0) {
+void BgBdanObjects_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgBdanObjects* this = THIS;
+
+    if (thisx->params == 0) {
         if (this->actionFunc == (ActorFunc)func_8086C054) {
-            if (((this->dyna.actor.initPosRot.pos.y + -79.0f) - 5.0f) < this->dyna.actor.posRot.pos.y) {
+            if (((thisx->initPosRot.pos.y + -79.0f) - 5.0f) < thisx->posRot.pos.y) {
                 Matrix_Translate(0.0f, -50.0f, 0.0f, MTXMODE_APPLY);
             }
         }
     }
 
-    if (this->dyna.actor.params == 2) {
+    if (thisx->params == 2) {
         Gfx_DrawDListXlu(globalCtx, &D_060038E8);
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_8086CDA0[this->dyna.actor.params]);
+        Gfx_DrawDListOpa(globalCtx, D_8086CDA0[thisx->params]);
     }
 }

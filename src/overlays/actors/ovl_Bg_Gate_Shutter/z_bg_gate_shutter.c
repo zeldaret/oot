@@ -10,10 +10,12 @@
 
 #define FLAGS 0x00000000
 
-void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx);
-void BgGateShutter_Destroy(BgGateShutter* this, GlobalContext* globalCtx);
-void BgGateShutter_Update(BgGateShutter* this, GlobalContext* globalCtx);
-void BgGateShutter_Draw(BgGateShutter* this, GlobalContext* globalCtx);
+#define THIS ((BgGateShutter*)thisx)
+
+void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgGateShutter_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgGateShutter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx);
 void func_80878300(BgGateShutter* this, GlobalContext* globalCtx);
@@ -35,12 +37,12 @@ const ActorInit Bg_Gate_Shutter_InitVars = {
 extern UNK_TYPE D_06001CD0;
 extern UNK_TYPE D_06001DA8;
 
-void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx) {
+void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgGateShutter* this = THIS;
     s32 pad[2];
-    Actor* thisx = &this->dyna.actor;
     s32 local_c = 0;
 
-    DynaPolyInfo_SetActorMove(thisx, 0);
+    DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_06001DA8, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
     this->somePosX = thisx->posRot.pos.x;
@@ -60,7 +62,9 @@ void BgGateShutter_Init(BgGateShutter* this, GlobalContext* globalCtx) {
     this->actionFunc = (ActorFunc)func_8087828C;
 }
 
-void BgGateShutter_Destroy(BgGateShutter* this, GlobalContext* globalCtx) {
+void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgGateShutter* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
@@ -115,14 +119,16 @@ void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgGateShutter_Update(BgGateShutter* this, GlobalContext* globalCtx) {
+void BgGateShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgGateShutter* this = THIS;
+
     if (this->unk_178 != 0) {
         this->unk_178 -= 1;
     }
     this->actionFunc(this, globalCtx);
 }
 
-void BgGateShutter_Draw(BgGateShutter* this, GlobalContext* globalCtx) {
+void BgGateShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
 

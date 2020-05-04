@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void BgIceObjects_Init(BgIceObjects* this, GlobalContext* globalCtx);
-void BgIceObjects_Destroy(BgIceObjects* this, GlobalContext* globalCtx);
-void BgIceObjects_Update(BgIceObjects* this, GlobalContext* globalCtx);
-void BgIceObjects_Draw(BgIceObjects* this, GlobalContext* globalCtx);
+#define THIS ((BgIceObjects*)thisx)
+
+void BgIceObjects_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgIceObjects_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgIceObjects_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgIceObjects_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Ice_Objects_InitVars = {

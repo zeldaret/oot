@@ -8,12 +8,12 @@
 
 #define FLAGS 0x00000000
 
-#define SIZE_PARAM 1
+#define THIS ((ObjElevator*)thisx)
 
-void ObjElevator_Init(ObjElevator* this, GlobalContext* globalCtx);
-void ObjElevator_Destroy(ObjElevator* this, GlobalContext* globalCtx);
-void ObjElevator_Update(ObjElevator* this, GlobalContext* globalCtx);
-void ObjElevator_Draw(ObjElevator* this, GlobalContext* globalCtx);
+void ObjElevator_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjElevator_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjElevator_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjElevator_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80B92C5C(ObjElevator* this);
 void func_80B92C80(ObjElevator* this, GlobalContext* globalCtx);
@@ -62,12 +62,12 @@ void func_80B92B08(ObjElevator* this, GlobalContext* globalCtx, u32 collision, D
     }
 }
 
-void ObjElevator_Init(ObjElevator* this, GlobalContext* globalCtx) {
+void ObjElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ObjElevator* this = THIS;
     f32 temp_f0;
-    Actor* thisx = &this->dyna.actor;
 
     func_80B92B08(this, globalCtx, &D_06000360, 1);
-    Actor_SetScale(thisx, sizes[thisx->params & SIZE_PARAM]);
+    Actor_SetScale(thisx, sizes[thisx->params & 1]);
     Actor_ProcessInitChain(thisx, initChain);
     temp_f0 = (thisx->params >> 8) & 0xF;
     this->unk_16C = temp_f0 + temp_f0;
@@ -75,7 +75,9 @@ void ObjElevator_Init(ObjElevator* this, GlobalContext* globalCtx) {
     osSyncPrintf("(Dungeon Elevator)(arg_data 0x%04x)\n", thisx->params);
 }
 
-void ObjElevator_Destroy(ObjElevator* this, GlobalContext* globalCtx) {
+void ObjElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    ObjElevator* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
@@ -111,13 +113,15 @@ void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx) {
     }
 }
 
-void ObjElevator_Update(ObjElevator* this, GlobalContext* globalCtx) {
+void ObjElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ObjElevator* this = THIS;
+
     if (this->actionFunc) {
         this->actionFunc(this, globalCtx);
     }
     this->unk_170 = this->dyna.unk_160;
 }
 
-void ObjElevator_Draw(ObjElevator* this, GlobalContext* globalCtx) {
+void ObjElevator_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_06000180);
 }

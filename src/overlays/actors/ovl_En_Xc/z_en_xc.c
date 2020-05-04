@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void EnXc_Init(EnXc* this, GlobalContext* globalCtx);
-void EnXc_Destroy(EnXc* this, GlobalContext* globalCtx);
-void EnXc_Update(EnXc* this, GlobalContext* globalCtx);
-void EnXc_Draw(EnXc* this, GlobalContext* globalCtx);
+#define THIS ((EnXc*)thisx)
+
+void EnXc_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnXc_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnXc_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnXc_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Xc_InitVars = {

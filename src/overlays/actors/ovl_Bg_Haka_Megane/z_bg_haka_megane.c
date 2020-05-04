@@ -8,14 +8,16 @@
 
 #define FLAGS 0x000000B0
 
-void BgHakaMegane_Init(BgHakaMegane* this, GlobalContext* globalCtx);
-void BgHakaMegane_Destroy(BgHakaMegane* this, GlobalContext* globalCtx);
-void BgHakaMegane_Update(BgHakaMegane* this, GlobalContext* globalCtx);
+#define THIS ((BgHakaMegane*)thisx)
+
+void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaMegane_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaMegane_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaMegane_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx);
 void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx);
 void func_8087DC64(BgHakaMegane* this, GlobalContext* globalCtx);
-void func_8087DC94(BgHakaMegane* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Haka_Megane_InitVars = {
     ACTOR_BG_HAKA_MEGANE,
@@ -45,11 +47,11 @@ static UNK_TYPE dlists[] = {
 
 extern UNK_TYPE D_06001250;
 
-void BgHakaMegane_Init(BgHakaMegane* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgHakaMegane* this = THIS;
 
     Actor_ProcessInitChain(thisx, initChain);
-    DynaPolyInfo_SetActorMove(thisx, 0);
+    DynaPolyInfo_SetActorMove(&this->dyna, 0);
 
     if (thisx->params < 3) {
         this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKACH_OBJECTS);
@@ -64,7 +66,9 @@ void BgHakaMegane_Init(BgHakaMegane* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgHakaMegane_Destroy(BgHakaMegane* this, GlobalContext* globalCtx) {
+void BgHakaMegane_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgHakaMegane* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
@@ -74,7 +78,7 @@ void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         this->dyna.actor.objBankIndex = this->objBankIndex;
-        this->dyna.actor.draw = (ActorFunc)func_8087DC94;
+        this->dyna.actor.draw = BgHakaMegane_Draw;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
         if (globalCtx->roomCtx.curRoom.showInvisActors) {
             this->actionFunc = (ActorFunc)func_8087DBF0;
@@ -104,12 +108,14 @@ void func_8087DBF0(BgHakaMegane* this, GlobalContext* globalCtx) {
 void func_8087DC64(BgHakaMegane* this, GlobalContext* globalCtx) {
 }
 
-void BgHakaMegane_Update(BgHakaMegane* this, GlobalContext* globalCtx) {
+void BgHakaMegane_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgHakaMegane* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
-void func_8087DC94(BgHakaMegane* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+void BgHakaMegane_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgHakaMegane* this = THIS;
 
     if ((thisx->flags & 0x80) == 0x80) {
         Gfx_DrawDListXlu(globalCtx, dlists[thisx->params]);

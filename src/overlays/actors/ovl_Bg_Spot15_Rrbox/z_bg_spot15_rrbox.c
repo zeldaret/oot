@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void BgSpot15Rrbox_Init(BgSpot15Rrbox* this, GlobalContext* globalCtx);
-void BgSpot15Rrbox_Destroy(BgSpot15Rrbox* this, GlobalContext* globalCtx);
-void BgSpot15Rrbox_Update(BgSpot15Rrbox* this, GlobalContext* globalCtx);
-void BgSpot15Rrbox_Draw(BgSpot15Rrbox* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot15Rrbox*)thisx)
+
+void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot15Rrbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot15_Rrbox_InitVars = {

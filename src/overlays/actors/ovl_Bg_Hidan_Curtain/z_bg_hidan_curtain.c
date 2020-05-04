@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void BgHidanCurtain_Init(BgHidanCurtain* this, GlobalContext* globalCtx);
-void BgHidanCurtain_Destroy(BgHidanCurtain* this, GlobalContext* globalCtx);
-void BgHidanCurtain_Update(BgHidanCurtain* this, GlobalContext* globalCtx);
-void BgHidanCurtain_Draw(BgHidanCurtain* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanCurtain*)thisx)
+
+void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanCurtain_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanCurtain_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Hidan_Curtain_InitVars = {

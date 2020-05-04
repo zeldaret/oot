@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void EnDog_Init(EnDog* this, GlobalContext* globalCtx);
-void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx);
-void EnDog_Update(EnDog* this, GlobalContext* globalCtx);
-void EnDog_Draw(EnDog* this, GlobalContext* globalCtx);
+#define THIS ((EnDog*)thisx)
+
+void EnDog_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDog_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDog_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx);
 void EnDog_ChooseMovement(EnDog* this, GlobalContext* globalCtx);
@@ -218,16 +220,14 @@ s32 EnDog_Orient(EnDog* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
-    SkelAnime* skelAnime;
+void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnDog* this = THIS;
     s16 followingDog;
-    ColliderCylinder* collider;
+    s32 pad;
 
-    collider = &this->collider;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 24.0f);
-    skelAnime = &this->skelAnime;
-    SkelAnime_InitSV(globalCtx, skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
-    func_80034EC0(skelAnime, animations, 0);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06007290, NULL, &this->unk_1F4, &this->unk_242, 13);
+    func_80034EC0(&this->skelAnime, animations, 0);
 
     if ((this->actor.params & 0x8000) == 0) {
         this->actor.params = (this->actor.params & 0xF0FF) | ((((this->actor.params & 0x0F00) >> 8) + 1) << 8);
@@ -239,8 +239,8 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
         return;
     }
 
-    Collider_InitCylinder(globalCtx, collider);
-    Collider_SetCylinder(globalCtx, collider, &this->actor, &cylinderInit);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
     func_80061EFC(&this->actor.colChkInfo, 0, &colChkInfoInit);
     Actor_SetScale(&this->actor, 0.0075f);
     this->waypoint = 0;
@@ -277,9 +277,9 @@ void EnDog_Init(EnDog* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDog_Destroy(EnDog* this, GlobalContext* globalCtx) {
-    ColliderCylinder* collider = &this->collider;
-    Collider_DestroyCylinder(globalCtx, collider);
+void EnDog_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnDog* this = THIS;
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
@@ -428,9 +428,9 @@ void EnDog_Wait(EnDog* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDog_Update(EnDog* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnDog* this = THIS;
+    s32 pad;
 
     EnDog_PlayAnimAndSFX(this);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -441,15 +441,15 @@ void EnDog_Update(EnDog* this, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
-s32 EnDog_Callback1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
+s32 EnDog_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     return 0;
 }
 
-void EnDog_Callback2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+void EnDog_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
 }
 
-void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
-    s32 pad;
+void EnDog_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnDog* this = THIS;
     Color_RGBA8 colors[] = { { 0xFF, 0xFF, 0xC8, 0x00 }, { 0x96, 0x64, 0x32, 0x00 } };
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
@@ -463,6 +463,6 @@ void EnDog_Draw(EnDog* this, GlobalContext* globalCtx) {
                    colors[this->actor.params & 0xF].b, colors[this->actor.params & 0xF].a);
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnDog_Callback1, EnDog_Callback2, &this->actor);
+                     EnDog_OverrideLimbDraw, EnDog_PostLimbDraw, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_dog.c", 994);
 }

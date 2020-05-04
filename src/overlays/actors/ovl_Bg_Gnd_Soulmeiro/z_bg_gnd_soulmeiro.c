@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000000
 
-void BgGndSoulmeiro_Init(BgGndSoulmeiro* this, GlobalContext* globalCtx);
-void BgGndSoulmeiro_Destroy(BgGndSoulmeiro* this, GlobalContext* globalCtx);
-void BgGndSoulmeiro_Update(BgGndSoulmeiro* this, GlobalContext* globalCtx);
-void BgGndSoulmeiro_Draw(BgGndSoulmeiro* this, GlobalContext* globalCtx);
+#define THIS ((BgGndSoulmeiro*)thisx)
+
+void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgGndSoulmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgGndSoulmeiro_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgGndSoulmeiro_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 void func_8087B284(BgGndSoulmeiro* this, GlobalContext* globalCtx);
 void func_8087B350(BgGndSoulmeiro* this, GlobalContext* globalCtx);

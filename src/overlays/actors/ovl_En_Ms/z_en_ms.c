@@ -8,15 +8,18 @@
 
 #define FLAGS 0x00000009
 
+#define THIS ((EnMs*)thisx)
+
+void EnMs_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMs_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMs_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMs_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx);
-void EnMs_Init(EnMs* this, GlobalContext* globalCtx);
-void EnMs_Destroy(EnMs* this, GlobalContext* globalCtx);
 void EnMs_Wait(EnMs* this, GlobalContext* globalCtx);
 void EnMs_Talk(EnMs* this, GlobalContext* globalCtx);
 void EnMs_Sell(EnMs* this, GlobalContext* globalCtx);
 void EnMs_TalkAfterBuy(EnMs* this, GlobalContext* globalCtx);
-void EnMs_Update(EnMs* this, GlobalContext* globalCtx);
-void EnMs_Draw(EnMs* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ms_InitVars = {
     ACTOR_EN_MS,
@@ -63,9 +66,9 @@ void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void EnMs_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnMs* this = THIS;
+    s32 pad;
 
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
         Actor_Kill(&this->actor);
@@ -89,9 +92,10 @@ void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
     this->actionFunc = EnMs_Wait;
 }
 
-void EnMs_Destroy(EnMs* this, GlobalContext* globalCtx) {
-    ColliderCylinder* collider = &this->collider;
-    Collider_DestroyCylinder(globalCtx, collider);
+void EnMs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnMs* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
@@ -155,9 +159,9 @@ void EnMs_TalkAfterBuy(EnMs* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnMs_Update(EnMs* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void EnMs_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnMs* this = THIS;
+    s32 pad;
 
     this->activeTimer += 1;
     Actor_SetHeight(&this->actor, 20.0f);
@@ -175,7 +179,9 @@ void EnMs_Update(EnMs* this, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
-void EnMs_Draw(EnMs* this, GlobalContext* globalCtx) {
+void EnMs_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnMs* this = THIS;
+
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
                      NULL, &this->actor);

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void BgTreemouth_Init(BgTreemouth* this, GlobalContext* globalCtx);
-void BgTreemouth_Destroy(BgTreemouth* this, GlobalContext* globalCtx);
-void BgTreemouth_Update(BgTreemouth* this, GlobalContext* globalCtx);
-void BgTreemouth_Draw(BgTreemouth* this, GlobalContext* globalCtx);
+#define THIS ((BgTreemouth*)thisx)
+
+void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgTreemouth_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Treemouth_InitVars = {

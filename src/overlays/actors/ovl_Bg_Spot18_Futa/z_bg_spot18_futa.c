@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void BgSpot18Futa_Init(BgSpot18Futa* this, GlobalContext* globalCtx);
-void BgSpot18Futa_Destroy(BgSpot18Futa* this, GlobalContext* globalCtx);
-void BgSpot18Futa_Update(BgSpot18Futa* this, GlobalContext* globalCtx);
-void BgSpot18Futa_Draw(BgSpot18Futa* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot18Futa*)thisx)
+
+void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot18Futa_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot18Futa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot18_Futa_InitVars = {
     ACTOR_BG_SPOT18_FUTA,
@@ -35,8 +37,9 @@ static InitChainEntry initChain[] = {
 extern u32 DL_SPOT18_FUTA;  // 0x6000368
 extern u32 DL_SPOT18_FUTA2; // 0x6000150
 
-void BgSpot18Futa_Init(BgSpot18Futa* this, GlobalContext* globalCtx) {
-    s32 pad[2];
+void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot18Futa* this = THIS;
+    s32 pad;
     u32 sp1C = 0;
 
     DynaPolyInfo_SetActorMove(&this->actor, 0);
@@ -45,11 +48,14 @@ void BgSpot18Futa_Init(BgSpot18Futa* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, initChain);
 }
 
-void BgSpot18Futa_Destroy(BgSpot18Futa* this, GlobalContext* globalCtx) {
+void BgSpot18Futa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot18Futa* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
-void BgSpot18Futa_Update(BgSpot18Futa* this, GlobalContext* globalCtx) {
+void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot18Futa* this = THIS;
     s32 iVar1;
 
     if (this->actor.attachedA == NULL) {
@@ -64,6 +70,6 @@ void BgSpot18Futa_Update(BgSpot18Futa* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot18Futa_Draw(BgSpot18Futa* this, GlobalContext* globalCtx) {
+void BgSpot18Futa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &DL_SPOT18_FUTA2);
 }

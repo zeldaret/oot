@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void BgYdanSp_Init(BgYdanSp* this, GlobalContext* globalCtx);
-void BgYdanSp_Destroy(BgYdanSp* this, GlobalContext* globalCtx);
-void BgYdanSp_Update(BgYdanSp* this, GlobalContext* globalCtx);
-void BgYdanSp_Draw(BgYdanSp* this, GlobalContext* globalCtx);
+#define THIS ((BgYdanSp*)thisx)
+
+void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgYdanSp_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Ydan_Sp_InitVars = {

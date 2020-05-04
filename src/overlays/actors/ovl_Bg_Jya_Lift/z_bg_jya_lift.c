@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void BgJyaLift_Init(BgJyaLift* this, GlobalContext* globalCtx);
-void BgJyaLift_Destroy(BgJyaLift* this, GlobalContext* globalCtx);
-void BgJyaLift_Update(BgJyaLift* this, GlobalContext* globalCtx);
-void BgJyaLift_Draw(BgJyaLift* this, GlobalContext* globalCtx);
+#define THIS ((BgJyaLift*)thisx)
+
+void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Jya_Lift_InitVars = {

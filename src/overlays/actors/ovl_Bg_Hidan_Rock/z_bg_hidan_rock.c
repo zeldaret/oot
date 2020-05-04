@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void BgHidanRock_Init(BgHidanRock* this, GlobalContext* globalCtx);
-void BgHidanRock_Destroy(BgHidanRock* this, GlobalContext* globalCtx);
-void BgHidanRock_Update(BgHidanRock* this, GlobalContext* globalCtx);
-void BgHidanRock_Draw(BgHidanRock* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanRock*)thisx)
+
+void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Hidan_Rock_InitVars = {

@@ -10,8 +10,11 @@
 
 #define FLAGS 0x00000010
 
-void ObjMakekinsuta_Init(ObjMakekinsuta* this, GlobalContext* globalCtx);
-void ObjMakekinsuta_Update(ObjMakekinsuta* this, GlobalContext* globalCtx);
+#define THIS ((ObjMakekinsuta*)thisx)
+
+void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjMakekinsuta_Update(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx);
 void func_80B983D4(ObjMakekinsuta* this, GlobalContext* globalCtx);
 
@@ -27,7 +30,9 @@ const ActorInit Obj_Makekinsuta_InitVars = {
     NULL,
 };
 
-void ObjMakekinsuta_Init(ObjMakekinsuta* this, GlobalContext* globalCtx) {
+void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ObjMakekinsuta* this = THIS;
+
     if ((this->actor.params & 0x6000) == 0x4000) {
         osSyncPrintf(VT_FGCOL(BLUE));
         // Translation: Gold Star Enemy(arg_data %x)
@@ -60,6 +65,8 @@ void func_80B98320(ObjMakekinsuta* this, GlobalContext* globalCtx) {
 void func_80B983D4(ObjMakekinsuta* this, GlobalContext* globalCtx) {
 }
 
-void ObjMakekinsuta_Update(ObjMakekinsuta* this, GlobalContext* globalCtx) {
+void ObjMakekinsuta_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ObjMakekinsuta* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }

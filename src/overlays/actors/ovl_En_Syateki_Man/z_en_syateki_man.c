@@ -2,10 +2,12 @@
 
 #define FLAGS 0x08000019
 
-void EnSyatekiMan_Init(EnSyatekiMan* this, GlobalContext* globalCtx);
-void EnSyatekiMan_Destroy(EnSyatekiMan* this, GlobalContext* globalCtx);
-void EnSyatekiMan_Update(EnSyatekiMan* this, GlobalContext* globalCtx);
-void EnSyatekiMan_Draw(EnSyatekiMan* this, GlobalContext* globalCtx);
+#define THIS ((EnSyatekiMan*)thisx)
+
+void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSyatekiMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSyatekiMan_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Syateki_Man_InitVars = {

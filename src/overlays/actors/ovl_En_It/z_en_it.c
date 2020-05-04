@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00000000
 
-void EnIt_Init(EnIt* this, GlobalContext* globalCtx);
-void EnIt_Destroy(EnIt* this, GlobalContext* globalCtx);
-void EnIt_Update(EnIt* this, GlobalContext* globalCtx);
+#define THIS ((EnIt*)thisx)
+
+void EnIt_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnIt_Update(Actor* thisx, GlobalContext* globalCtx);
 
 static ColliderCylinderInit cylinderInitData = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x05, 0x10, COLSHAPE_CYLINDER },
@@ -34,25 +36,25 @@ const ActorInit En_It_InitVars = {
     (ActorFunc)NULL,
 };
 
-void EnIt_Init(EnIt* this, GlobalContext* globalCtx) {
-    EnIt* it = this;
+void EnIt_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnIt* this = THIS;
 
-    it->actor.params = 0x0D05;
-    Collider_InitCylinder(globalCtx, &it->collider);
-    Collider_SetCylinder(globalCtx, &it->collider, &it->actor, &cylinderInitData);
-    func_80061EFC(&it->actor.colChkInfo, 0, &colChkInfoInit); // Init Damage Chart
+    this->actor.params = 0x0D05;
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
+    func_80061EFC(&this->actor.colChkInfo, 0, &colChkInfoInit); // Init Damage Chart
 }
 
-void EnIt_Destroy(EnIt* this, GlobalContext* globalCtx) {
-    EnIt* it = this;
+void EnIt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnIt* this = THIS;
 
-    Collider_DestroyCylinder(globalCtx, &it->collider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void EnIt_Update(EnIt* this, GlobalContext* globalCtx) {
+void EnIt_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnIt* this = THIS;
     s32 pad;
-    EnIt* it = this;
 
-    Collider_CylinderUpdate(&it->actor, &it->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &it->collider);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }

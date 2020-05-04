@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000009
 
-void EnCs_Init(EnCs* this, GlobalContext* globalCtx);
-void EnCs_Destroy(EnCs* this, GlobalContext* globalCtx);
-void EnCs_Update(EnCs* this, GlobalContext* globalCtx);
-void EnCs_Draw(EnCs* this, GlobalContext* globalCtx);
+#define THIS ((EnCs*)thisx)
+
+void EnCs_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnCs_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnCs_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Cs_InitVars = {
