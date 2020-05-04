@@ -40,12 +40,13 @@ void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A541FC(EnHeishi2* this, GlobalContext* globalCtx);
+void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06005C30;
 extern AnimationHeader D_06005500;
 extern ColliderCylinderInit D_80A54F10;
 extern SkeletonHeader D_0600BAC8;
-extern Gfx* D_0602B060; // Keaton Mask 
+extern Gfx* D_0602B060; // Keaton Mask
 extern Gfx* D_06002C10;
 
 /*
@@ -324,20 +325,20 @@ void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A53850.s")
 
-void func_80A53850(EnHeishi2 *this, GlobalContext *globalCtx) {
+void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
     BgSpot15Saku* gate;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
-    gate = (BgSpot15Saku *) this->attached;
+    gate = (BgSpot15Saku*)this->attached;
     if ((this->gateTimer == 0) || (gate->unk_168 == 0)) {
-            Gameplay_ClearCamera(globalCtx, this->cameraId);
-            Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
-            func_80106CCC(globalCtx);
-            this->unk_30C = 1;
-            func_8002DF54(globalCtx, NULL, 7);
-            this->actionFunc = func_80A531E4;
-        }
-    } 
+        Gameplay_ClearCamera(globalCtx, this->cameraId);
+        Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
+        func_80106CCC(globalCtx);
+        this->unk_30C = 1;
+        func_8002DF54(globalCtx, NULL, 7);
+        this->actionFunc = func_80A531E4;
+    }
+}
 
 void func_80A53908(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
@@ -345,9 +346,8 @@ void func_80A53908(EnHeishi2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A5399C;
 }
 
-
 #ifdef NON_MATCHING
-void func_80A5399C(EnHeishi2 *this, GlobalContext *globalCtx) {
+void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
     Actor* thisx;
     s16 phi_v1;
 
@@ -377,8 +377,8 @@ void func_80A5399C(EnHeishi2 *this, GlobalContext *globalCtx) {
         }
         if (Text_GetFaceReaction(globalCtx, 5) != 0) {
             if (phi_v1 == 0) {
-                    thisx->textId = Text_GetFaceReaction(globalCtx, 5);
-                    this->unk_30B = 1;
+                thisx->textId = Text_GetFaceReaction(globalCtx, 5);
+                this->unk_30B = 1;
                 this->unk_300 = 6;
                 this->unk_30E = 0;
             }
@@ -452,7 +452,39 @@ void func_80A53C90(EnHeishi2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A53D0C;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A53D0C.s")
+void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
+    s32 pad;
+    f32 frameCount;
+    BgGateShutter* gate;
+    Actor* thisx = &this->actor;
+
+    frameCount = this->skelAnime.animCurrentFrame;
+    gate = (BgGateShutter*)globalCtx->actorCtx.actorList[7].first;
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (12.0f <= frameCount) {
+        if (this->audioFlag == 0) {
+            Audio_PlayActorSound2(thisx, NA_SE_EV_SPEAR_HIT);
+            this->audioFlag = 1;
+        }
+    }
+    if (this->unk_2EC <= frameCount) {
+        if (gate != NULL) {
+            do {
+                if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
+                    gate = (BgGateShutter*)gate->dyna.actor.next;
+                }
+
+                else {
+                    this->attached = gate;
+                    gate->isOpening = 1;
+                    break;
+                }
+            } while (gate != NULL);
+        }
+        osSyncPrintf("\x1b[35m☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n\x1b[m", gate->dyna.actor.next);
+        this->actionFunc = func_80A53DF8;
+    }
+}
 
 void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f,
@@ -478,38 +510,35 @@ void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A53F30.s")
 
-void func_80A53F30(EnHeishi2 *this, GlobalContext *globalCtx) {
+void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
     BgGateShutter* gate;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
-    gate = (BgGateShutter *)this->attached;
+    gate = (BgGateShutter*)this->attached;
     if ((this->gateTimer == 0) || (gate->isOpening == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
         Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
         if ((this->unk_30A != 2)) {
-            if (this->unk_30A == 0) 
-            {
+            if (this->unk_30A == 0) {
                 this->actor.textId = 0x2015;
                 func_8010B720(globalCtx, this->actor.textId);
                 this->actionFunc = func_80A54038;
-            }   
+            }
 
-            else
-            {
+            else {
                 func_80106CCC(globalCtx);
                 func_8002DF54(globalCtx, NULL, (u8)7U);
                 this->actionFunc = func_80A53908;
             }
 
             return;
-            
         }
         this->unk_30E = 0;
         this->actor.textId = 0x2021;
         Rupees_ChangeBy(0xF);
         func_8010B720(globalCtx, this->actor.textId);
         this->actionFunc = func_80A5427C;
-    } 
+    }
 }
 
 void func_80A54038(EnHeishi2* this, GlobalContext* globalCtx) {
