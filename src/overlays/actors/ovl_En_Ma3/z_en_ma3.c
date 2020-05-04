@@ -35,7 +35,7 @@ const ActorInit En_Ma3_InitVars = {
     (ActorFunc)EnMa3_Draw,
 };
 
-ColliderCylinderInit cylinderInit = {
+static ColliderCylinderInit cylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 18, 46, 0, { 0, 0, 0 } },

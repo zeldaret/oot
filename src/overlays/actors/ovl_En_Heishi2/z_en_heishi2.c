@@ -44,12 +44,10 @@ void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06005C30;
 extern AnimationHeader D_06005500;
-extern ColliderCylinderInit D_80A54F10;
 extern SkeletonHeader D_0600BAC8;
 extern Gfx* D_0602B060; // Keaton Mask
 extern Gfx* D_06002C10;
 
-/*
 const ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
     ACTORTYPE_NPC,
@@ -61,7 +59,13 @@ const ActorInit En_Heishi2_InitVars = {
     (ActorFunc)EnHeishi2_Update,
     (ActorFunc)EnHeishi2_Draw,
 };
-*/
+
+static ColliderCylinderInit cylinderInit = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 33, 40, 0, { 0, 0, 0 } },
+};
+
 void EnHeishi2_Init(EnHeishi2* this, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
     Actor* thisx = &this->actor;
@@ -102,7 +106,7 @@ void EnHeishi2_Init(EnHeishi2* this, GlobalContext* globalCtx) {
                    this->transitionDrawTable, 17);
     collider = &this->collider;
     Collider_InitCylinder(globalCtx, collider);
-    Collider_SetCylinder(globalCtx, collider, thisx, &D_80A54F10);
+    Collider_SetCylinder(globalCtx, collider, thisx, &cylinderInit);
     this->collider.dim.yShift = 0;
     this->collider.dim.radius = 0xF;
     this->collider.dim.height = 0x46;
@@ -301,7 +305,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
             } while (gate != NULL);
         }
         // "I've come!"
-        osSyncPrintf("\x1b[35m☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n\x1b[m", gate->dyna.actor.next);
+        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, gate->dyna.actor.next);
         this->actionFunc = func_80A5372C;
     }
 }
@@ -313,17 +317,11 @@ void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     this->cameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
     Gameplay_ChangeCameraStatus(globalCtx, this->cameraId, 7);
-    this->unk_280.x = 947.0f;
-    this->unk_280.y = 1195.0f;
-    this->unk_280.z = 2682.0f;
-    this->unk_28C.x = 1164.0f;
-    this->unk_28C.y = 1145.0f;
-    this->unk_28C.z = 3014.0f;
+    VEC_SET(this->unk_280, 947.0f, 1195.0f, 2682.0f);
+    VEC_SET(this->unk_28C, 1164.0f, 1145.0f, 3014.0f);
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     this->actionFunc = func_80A53850;
 }
-
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A53850.s")
 
 void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
     BgSpot15Saku* gate;
@@ -346,38 +344,36 @@ void func_80A53908(EnHeishi2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A5399C;
 }
 
-#ifdef NON_MATCHING
 void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
-    Actor* thisx;
-    s16 phi_v1;
+    s16 var;
 
     this->unk_30B = 0;
-    phi_v1 = 0;
+    var = 0;
     if ((gSaveContext.infTable[7] & 0x40) != 0) {
         if ((gSaveContext.infTable[7] & 0x80) == 0) {
             if (func_8008F080(globalCtx) == 1) {
                 if (this->unk_309 == 0) {
-                    thisx->textId = 0x200A;
+                    this->actor.textId = 0x200A; // "Wha-ha-ha-hah! Do you think you're in disguise, Mr. Hero?"
                 } else {
-                    thisx->textId = 0x200B;
+                    this->actor.textId = 0x200B; // "Will you sell it to me? Yes/No way"
                 }
                 this->unk_300 = 4;
                 this->unk_30B = 1;
-                phi_v1 = 1;
+                var = 1;
             } else {
-                thisx->textId = 0x2016;
+                this->actor.textId =
+                    0x2016; // "I wish I could go to the mask shop in town to buy a present for my kid..sigh.."
                 this->unk_300 = 6;
-                phi_v1 = 1;
+                var = 1;
             }
         } else {
-            thisx->textId = 0x2020;
+            this->actor.textId = 0x2020; // "My boy will be very happy with this!"
             this->unk_300 = 5;
             this->unk_30E = 0;
-            phi_v1 = 0;
         }
         if (Text_GetFaceReaction(globalCtx, 5) != 0) {
-            if (phi_v1 == 0) {
-                thisx->textId = Text_GetFaceReaction(globalCtx, 5);
+            if (var == 0) {
+                this->actor.textId = Text_GetFaceReaction(globalCtx, 5);
                 this->unk_30B = 1;
                 this->unk_300 = 6;
                 this->unk_30E = 0;
@@ -386,12 +382,11 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A5475C;
         return;
     }
-    osSyncPrintf("\x1b[35m ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n\x1b[m", thisx);
+
+    // "I don't know"
+    osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n" VT_RST);
     this->actionFunc = func_80A53AD4;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A5399C.s")
-#endif
 
 void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -481,7 +476,8 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
                 }
             } while (gate != NULL);
         }
-        osSyncPrintf("\x1b[35m☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n\x1b[m", gate->dyna.actor.next);
+        // "I've come!"
+        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, gate->dyna.actor.next);
         this->actionFunc = func_80A53DF8;
     }
 }
@@ -508,7 +504,6 @@ void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     this->actionFunc = func_80A53F30;
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A53F30.s")
 
 void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
     BgGateShutter* gate;
@@ -520,21 +515,21 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
         Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
         if ((this->unk_30A != 2)) {
             if (this->unk_30A == 0) {
-                this->actor.textId = 0x2015;
+                this->actor.textId = 0x2015; // "By the way Mr. Hero..If you're going to climb Death Mountain..."
                 func_8010B720(globalCtx, this->actor.textId);
                 this->actionFunc = func_80A54038;
             }
 
             else {
                 func_80106CCC(globalCtx);
-                func_8002DF54(globalCtx, NULL, (u8)7U);
+                func_8002DF54(globalCtx, NULL, 7);
                 this->actionFunc = func_80A53908;
             }
 
             return;
         }
         this->unk_30E = 0;
-        this->actor.textId = 0x2021;
+        this->actor.textId = 0x2021; // "You sold the 10-Rupee mask for 15 Rupees. You earned a little profit."
         Rupees_ChangeBy(0xF);
         func_8010B720(globalCtx, this->actor.textId);
         this->actionFunc = func_80A5427C;
@@ -558,7 +553,7 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
-                this->actor.textId = 0x2020;
+                this->actor.textId = 0x2020; // "My boy will be very happy with this!.."
                 func_8010B720(globalCtx, this->actor.textId);
                 func_8008F08C(globalCtx);
                 gSaveContext.infTable[7] |= 0x80;
@@ -579,7 +574,7 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
 
             case 1:
                 this->unk_30E = 1;
-                this->actor.textId = 0x200C;
+                this->actor.textId = 0x200C; // "I won't give up! I have plenty of patience.."
                 func_8010B720(globalCtx, this->actor.textId);
                 this->unk_300 = 5;
                 if (this->unk_30A == 0) {
@@ -688,27 +683,31 @@ void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// cant get this one matching
+// ordering and float stuff
 void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
     EnBom* bomb;
     Vec3f vec;
     Actor* thisx = &this->actor;
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_8002DF54(globalCtx, (void*)0, 7);
-        func_80106CCC(globalCtx);
-        vec.x = Math_Rand_CenteredFloat(20.0f) + this->unk_274.x;
-        vec.y = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.y - 40.0f);
-        vec.z = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.z - 20.0f);
-        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, vec.x, vec.y, vec.z, 0,
-                                   (s16)(Math_Rand_CenteredFloat(7000.0f) + thisx->rotTowardsLinkY), 0, 0);
+    s16 temp;
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5)) {
+        if (func_80106BC8(globalCtx) != 0) {
 
-        if (&bomb->actor != ((void*)0)) {
-            bomb->actor.speedXZ = Math_Rand_CenteredFloat(5.0f) + 10.0f;
-            bomb->actor.velocity.y = Math_Rand_CenteredFloat(5.0f) + 10.0f;
+            func_8002DF54(globalCtx, NULL, 7);
+            func_80106CCC(globalCtx);
+            vec.x = Math_Rand_CenteredFloat(20.0f) + this->unk_274.x;
+            vec.y = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.y - 40.0f);
+            vec.z = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.z - 20.0f);
+            bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, vec.x, vec.y, vec.z, 0,
+                                       (s16)(Math_Rand_CenteredFloat(7000.0f) + thisx->rotTowardsLinkY), 0, 0);
+
+            if (bomb != NULL) {
+                bomb->actor.speedXZ = Math_Rand_CenteredFloat(5.0f) + 10.0f;
+                bomb->actor.velocity.y = Math_Rand_CenteredFloat(5.0f) + 10.0f;
+            }
+            // This is down!
+            osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n" VT_RST);
+            this->actionFunc = func_80A546DC;
         }
-
-        osSyncPrintf("\x1b[33m ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n\x1b[m");
-        this->actionFunc = func_80A546DC;
     }
 }
 #else
@@ -725,7 +724,99 @@ void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx) {
     }
 }
 
+#ifdef NON_MATCHING
+// can't get this to match, i think it's mostly functionally equivalent
+void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
+    Actor* thisx;
+    s16 angleDiff;
+    s16 newAngleDiff;
+    s16 phi_v0;
+
+    thisx = &this->actor;
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    if (Text_GetFaceReaction(globalCtx, 5) != 0) {
+        if (this->unk_30B == 0) {
+            if (this->initParams == 2) {
+                this->actionFunc = func_80A53278;
+                return;
+            }
+            if (this->initParams == ((((u16)5) & 0xFFu))) {
+                this->actionFunc = func_80A5399C;
+                return;
+            }
+        }
+    }
+
+    else {
+        if (this->unk_30B != 0) {
+            if (this->initParams == 2) {
+                this->actionFunc = func_80A53278;
+                return;
+            }
+            if (5 == this->initParams) {
+                this->actionFunc = func_80A5399C;
+                return;
+            }
+        }
+    }
+    if ((func_8002F194(thisx, globalCtx) != 0)) {
+        if (this->initParams == 2) {
+            if (this->unk_30E == 1) {
+                this->actionFunc = func_80A5344C;
+                return;
+            }
+            this->actionFunc = func_80A53278;
+            return;
+        }
+
+        if (this->initParams == 5) {
+            phi_v0 = this->unk_300;
+
+            if (phi_v0 == 6) {
+                this->actionFunc = func_80A5399C;
+                phi_v0 = this->unk_300;
+                do {
+                    phi_v0 = this->unk_300;
+                } while (0);
+            }
+
+            if (phi_v0 == 5) {
+                this->actionFunc = func_80A54954;
+                phi_v0 = this->unk_300;
+                do {
+                    phi_v0 = this->unk_300;
+                } while (0);
+            }
+
+            if (phi_v0 != 4) {
+                return;
+            }
+            this->unk_309 = 1;
+            func_80078884(0x4807);
+            this->actionFunc = func_80A540C0;
+            return;
+        }
+
+        phi_v0 = this->initParams;
+    } else {
+        if (this->initParams == 2) {
+            angleDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+            if (angleDiff >= 0) {
+                newAngleDiff = angleDiff;
+            } else {
+                newAngleDiff = -angleDiff;
+            }
+            if (!(120.0f < this->actor.xzDistanceFromLink)) {
+                if (newAngleDiff < 0x4300) {
+                    func_8002F2F4(thisx, globalCtx);
+                }
+            }
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A5475C.s")
+#endif
 
 void func_80A54954(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
