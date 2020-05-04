@@ -13,11 +13,10 @@ void BgDdanKd_Destroy(BgDdanKd* this, GlobalContext* globalCtx);
 void BgDdanKd_Update(BgDdanKd* this, GlobalContext* globalCtx);
 void BgDdanKd_Draw(BgDdanKd* this, GlobalContext* globalCtx);
 void BgDdanKd_SetupAction(BgDdanKd* this, ActorFunc actionFunc);
-void func_80871234(BgDdanKd* this, GlobalContext* globalCtx);
-void func_80873164(BgDdanKd* this, GlobalContext* globalCtx);
+void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx);
+void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx);
 void func_80871838(BgDdanKd* this, GlobalContext* globalCtx);
 
-/*
 const ActorInit Bg_Ddan_Kd_InitVars = {
     ACTOR_BG_DDAN_KD,
     ACTORTYPE_BG,
@@ -29,19 +28,146 @@ const ActorInit Bg_Ddan_Kd_InitVars = {
     (ActorFunc)BgDdanKd_Update,
     (ActorFunc)BgDdanKd_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Kd/BgDdanKd_SetupAction.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Kd/BgDdanKd_Init.s")
+static ColliderCylinderInit cylinderInit = {
+    { COLTYPE_UNK10, 0x00, 0x39, 0x00, 0x00, COLSHAPE_CYLINDER },
+    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    { 245, 180, -400, { 0, 0, 0 } },
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Kd/BgDdanKd_Destroy.s")
+static InitChainEntry initChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_F8, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_FC, 32767, ICHAIN_CONTINUE),
+    ICHAIN_F32(unk_F4, 32767, ICHAIN_STOP),
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Kd/func_80871234.s")
+static f32 D_808718FC[] = { 0.0f, 5.0f };
+static f32 D_80871904[] = { 0.0f };
+static f32 D_80871908[] = { 0.0f, -0.45f, 0.0f, 0.0f, 0.0f, 0.0f };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Kd/func_80871364.s")
+extern UNK_TYPE D_06004F30;
+extern UNK_TYPE D_060048A8;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Kd/func_80871838.s")
+void BgDdanKd_SetupAction(BgDdanKd* this, ActorFunc actionFunc) {
+    this->actionFunc = actionFunc;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Kd/BgDdanKd_Update.s")
+void BgDdanKd_Init(BgDdanKd* this, GlobalContext* globalCtx) {
+    s32 pad;
+    s32 pad2;
+    s32 sp24 = 0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Ddan_Kd/BgDdanKd_Draw.s")
+    this->previousCollidingExplosion = NULL;
+
+    Actor_ProcessInitChain(&this->dyna.actor, &initChain);
+    DynaPolyInfo_SetActorMove(&this->dyna.actor, 1);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &cylinderInit);
+    DynaPolyInfo_Alloc(&D_06004F30, &sp24);
+
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) == 0) {
+        BgDdanKd_SetupAction(this, &BgDdanKd_CheckForExplosions);
+    } else {
+        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y - 200.0f - 20.0f;
+        BgDdanKd_SetupAction(this, &func_80871838);
+    }
+}
+
+void BgDdanKd_Destroy(BgDdanKd* this, GlobalContext* globalCtx) {
+    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
+}
+
+void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
+    Actor* currentCollidingExplosion;
+
+    currentCollidingExplosion = func_80033640(globalCtx, &this->collider);
+    if (currentCollidingExplosion != NULL) {
+        osSyncPrintf("dam    %d\n", this->dyna.actor.colChkInfo.damage);
+        currentCollidingExplosion->params = 2;
+    }
+    if ((currentCollidingExplosion != NULL) && (this->previousCollidingExplosion != NULL) &&
+        (currentCollidingExplosion != this->previousCollidingExplosion) &&
+        (Math_Vec3f_DistXZ(&this->previousCollidingExplosionPos, &currentCollidingExplosion->posRot.pos) > 80.0f)) {
+        BgDdanKd_SetupAction(this, &BgDdanKd_LowerStairs);
+        func_800800F8(globalCtx, 0xBEA, 0x3E7, this, 0);
+    } else {
+        if (this->timer != 0) {
+            this->timer -= 1;
+        } else {
+            this->previousCollidingExplosion = currentCollidingExplosion;
+            if (currentCollidingExplosion != NULL) {
+                this->timer = 13;
+                this->previousCollidingExplosionPos = currentCollidingExplosion->posRot.pos;
+            }
+        }
+        Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    }
+}
+
+void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
+    Vec3f sp5C;
+    Vec3f sp50;
+    f32 sp4C;
+
+    Math_SmoothScaleMaxMinF(&this->dyna.actor.speedXZ, 4.0f, 0.5f, 0.025f, 0.0f);
+    func_800AA000(500.0f, 0x78, 0x14, 0xA);
+
+    if (Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, (this->dyna.actor.initPosRot.pos.y - 200.0f) - 20.0f,
+                                0.075f, this->dyna.actor.speedXZ, 0.0075f) == 0.0f) {
+        Flags_SetSwitch(globalCtx, this->dyna.actor.params);
+        BgDdanKd_SetupAction(this, &func_80871838);
+    } else {
+        sp4C = (this->dyna.actor.pos4.y - this->dyna.actor.posRot.pos.y) + (this->dyna.actor.speedXZ * 0.25f);
+
+        if (globalCtx->state.frames & 1) {
+            sp5C = sp50 = this->dyna.actor.posRot.pos;
+
+            if (globalCtx->state.frames & 2) {
+                sp5C.z += 210.0f + Math_Rand_ZeroOne() * 230.0f;
+                sp50.z += 210.0f + Math_Rand_ZeroOne() * 230.0f;
+            } else {
+                sp5C.z += 330.0f + Math_Rand_ZeroOne() * 240.0f;
+                sp50.z += 330.0f + Math_Rand_ZeroOne() * 240.0f;
+            }
+            sp5C.x += 80.0f + Math_Rand_ZeroOne() * 10.0f;
+            sp50.x -= 80.0f + Math_Rand_ZeroOne() * 10.0f;
+            sp5C.y = this->dyna.actor.unk_80 + 20.0f + Math_Rand_ZeroOne();
+            sp50.y = this->dyna.actor.unk_80 + 20.0f + Math_Rand_ZeroOne();
+
+            func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
+            func_80033480(globalCtx, &sp50, 20.0f, 1, sp4C * 135.0f, 60, 1);
+
+            D_808718FC[0] = Math_Rand_CenteredFloat(3.0f);
+            D_80871904[0] = Math_Rand_CenteredFloat(3.0f);
+
+            func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);
+            func_8003555C(globalCtx, &sp50, &D_808718FC, &D_80871908);
+
+            sp5C = this->dyna.actor.posRot.pos;
+            sp5C.z += 560.0f + Math_Rand_ZeroOne() * 5.0f;
+            sp5C.x += (Math_Rand_ZeroOne() - 0.5f) * 160.0f;
+            sp5C.y = Math_Rand_ZeroOne() * 3.0f + (this->dyna.actor.unk_80 + 20.0f);
+
+            func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
+            func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);
+        }
+        func_8005AA1C(&globalCtx->cameras, 0, sp4C * 0.6f, 3);
+        Audio_PlaySoundGeneral(0x2027, &this->dyna.actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    }
+}
+
+void func_80871838(BgDdanKd* this, GlobalContext* globalCtx) {
+}
+
+void BgDdanKd_Update(BgDdanKd* this, GlobalContext* globalCtx) {
+    this->actionFunc(this, globalCtx);
+}
+
+void BgDdanKd_Draw(BgDdanKd* this, GlobalContext* globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, &D_060048A8);
+}

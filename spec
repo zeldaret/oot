@@ -707,8 +707,7 @@ endseg
 beginseg
     name "ovl_Bg_Ddan_Kd"
     include "build/src/overlays/actors/ovl_Bg_Ddan_Kd/z_bg_ddan_kd.o"
-    include "build/data/overlays/actors/z_bg_ddan_kd.data.o"
-    include "build/data/overlays/actors/z_bg_ddan_kd.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ddan_Kd/z_bg_ddan_kd_reloc.o"
 endseg
 
 beginseg
