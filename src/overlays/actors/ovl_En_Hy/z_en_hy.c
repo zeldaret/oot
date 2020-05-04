@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000019
 
-void EnHy_Init(EnHy* this, GlobalContext* globalCtx);
-void EnHy_Destroy(EnHy* this, GlobalContext* globalCtx);
-void EnHy_Update(EnHy* this, GlobalContext* globalCtx);
-void EnHy_Draw(EnHy* this, GlobalContext* globalCtx);
+#define THIS ((EnHy*)thisx)
+
+void EnHy_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHy_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHy_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Hy_InitVars = {

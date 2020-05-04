@@ -8,10 +8,12 @@
 
 #define FLAGS 0x02000030
 
-void ObjectKankyo_Init(ObjectKankyo* this, GlobalContext* globalCtx);
-void ObjectKankyo_Destroy(ObjectKankyo* this, GlobalContext* globalCtx);
-void ObjectKankyo_Update(ObjectKankyo* this, GlobalContext* globalCtx);
-void ObjectKankyo_Draw(ObjectKankyo* this, GlobalContext* globalCtx);
+#define THIS ((ObjectKankyo*)thisx)
+
+void ObjectKankyo_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjectKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjectKankyo_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjectKankyo_Draw(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_SetupAction(ObjectKankyo* this, ActorFunc actionFunc);
 
 /*

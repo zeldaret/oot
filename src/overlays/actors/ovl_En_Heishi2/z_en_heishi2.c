@@ -1,8 +1,16 @@
+/*
+ * File: z_en_heishi2.c
+ * Overlay: ovl_En_Heishi2
+ * Description: Hyrulian Guards
+ */
+
 #include "z_en_heishi2.h"
 
 #define FLAGS 0x00000009
 
 #define DEGREE_70_RAD 1.2217304706573486f
+
+#define THIS ((EnHeishi2*)thisx)
 
 void EnHeishi2_Init(EnHeishi2* this, GlobalContext* globalCtx);
 void EnHeishi2_Destroy(EnHeishi2* this, GlobalContext* globalCtx);

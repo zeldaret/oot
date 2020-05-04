@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000000
 
-void BgIngate_Init(BgIngate* this, GlobalContext* globalCtx);
-void BgIngate_Destroy(BgIngate* this, GlobalContext* globalCtx);
-void BgIngate_Update(BgIngate* this, GlobalContext* globalCtx);
-void BgIngate_Draw(BgIngate* this, GlobalContext* globalCtx);
+#define THIS ((BgIngate*)thisx)
+
+void BgIngate_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgIngate_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgIngate_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgIngate_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void BgIngate_SetupAction(BgIngate* this, ActorFunc actionFunc);
 void func_80892890(BgIngate* this, GlobalContext* globalCtx);
 void func_80892990(BgIngate* this, GlobalContext* globalCtx);

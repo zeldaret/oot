@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void BgSpot00Break_Init(BgSpot00Break* this, GlobalContext* globalCtx);
-void BgSpot00Break_Destroy(BgSpot00Break* this, GlobalContext* globalCtx);
-void BgSpot00Break_Update(BgSpot00Break* this, GlobalContext* globalCtx);
-void BgSpot00Break_Draw(BgSpot00Break* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot00Break*)thisx)
+
+void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot00Break_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot00Break_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot00Break_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot00_Break_InitVars = {
     ACTOR_BG_SPOT00_BREAK,
@@ -37,8 +39,9 @@ extern D_06000908; // segmented address: 0x06000908
 extern D_06000980; // segmented address: 0x06000980
 extern D_06000440; // segmented address: 0x06000440
 
-void BgSpot00Break_Init(BgSpot00Break* this, GlobalContext* globalCtx) {
-    s32 pad[2];
+void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot00Break* this = THIS;
+    s32 pad;
     u32 local_c = 0;
 
     Actor_ProcessInitChain(&this->actor, initChain);
@@ -57,14 +60,18 @@ void BgSpot00Break_Init(BgSpot00Break* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot00Break_Destroy(BgSpot00Break* this, GlobalContext* globalCtx) {
+void BgSpot00Break_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot00Break* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
-void BgSpot00Break_Update(BgSpot00Break* this, GlobalContext* globalCtx) {
+void BgSpot00Break_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void BgSpot00Break_Draw(BgSpot00Break* this, GlobalContext* globalCtx) {
+void BgSpot00Break_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot00Break* this = THIS;
+
     if (this->actor.params == 1) {
         Gfx_DrawDListOpa(globalCtx, &D_06000980);
     } else {

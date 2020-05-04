@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void EnHeishi3_Init(EnHeishi3* this, GlobalContext* globalCtx);
-void EnHeishi3_Destroy(EnHeishi3* this, GlobalContext* globalCtx);
-void EnHeishi3_Update(EnHeishi3* this, GlobalContext* globalCtx);
-void EnHeishi3_Draw(EnHeishi3* this, GlobalContext* globalCtx);
+#define THIS ((EnHeishi3*)thisx)
+
+void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHeishi3_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHeishi3_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHeishi3_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Heishi3_InitVars = {

@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void ObjOshihiki_Init(ObjOshihiki* this, GlobalContext* globalCtx);
-void ObjOshihiki_Destroy(ObjOshihiki* this, GlobalContext* globalCtx);
-void ObjOshihiki_Update(ObjOshihiki* this, GlobalContext* globalCtx);
-void ObjOshihiki_Draw(ObjOshihiki* this, GlobalContext* globalCtx);
+#define THIS ((ObjOshihiki*)thisx)
+
+void ObjOshihiki_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjOshihiki_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjOshihiki_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Oshihiki_InitVars = {

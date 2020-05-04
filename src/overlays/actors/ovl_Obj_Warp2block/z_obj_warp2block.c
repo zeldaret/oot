@@ -8,10 +8,13 @@
 
 #define FLAGS 0x0A000011
 
-void ObjWarp2block_Init(ObjWarp2block* this, GlobalContext* globalCtx);
-void ObjWarp2block_Destroy(ObjWarp2block* this, GlobalContext* globalCtx);
-void ObjWarp2block_Update(ObjWarp2block* this, GlobalContext* globalCtx);
-void ObjWarp2block_Draw(ObjWarp2block* this, GlobalContext* globalCtx);
+#define THIS ((ObjWarp2block*)thisx)
+
+void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjWarp2block_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjWarp2block_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjWarp2block_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 // func_80BA1DF0
 // func_80BA1EEC
 void func_80BA2048(ObjWarp2block* this, GlobalContext* globalCtx);
@@ -24,6 +27,7 @@ void func_80BA24DC(ObjWarp2block* this, GlobalContext* globalCtx);
 void func_80BA24F8(ObjWarp2block* this, GlobalContext* globalCtx);
 // func_80BA2600
 void func_80BA2610(ObjWarp2block* this, GlobalContext* globalCtx);
+
 /*
 const ActorInit Obj_Warp2block_InitVars = {
     ACTOR_OBJ_WARP2BLOCK,

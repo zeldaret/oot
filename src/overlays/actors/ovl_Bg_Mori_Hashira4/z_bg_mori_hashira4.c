@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000010
 
-void BgMoriHashira4_Init(BgMoriHashira4* this, GlobalContext* globalCtx);
-void BgMoriHashira4_Destroy(BgMoriHashira4* this, GlobalContext* globalCtx);
-void BgMoriHashira4_Update(BgMoriHashira4* this, GlobalContext* globalCtx);
+#define THIS ((BgMoriHashira4*)thisx)
+
+void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriHashira4_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriHashira4_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mori_Hashira4_InitVars = {

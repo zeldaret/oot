@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000020
 
-void BgSpot01Idomizu_Init(BgSpot01Idomizu* this, GlobalContext* globalCtx);
-void BgSpot01Idomizu_Destroy(BgSpot01Idomizu* this, GlobalContext* globalCtx);
-void BgSpot01Idomizu_Update(BgSpot01Idomizu* this, GlobalContext* globalCtx);
-void BgSpot01Idomizu_Draw(BgSpot01Idomizu* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot01Idomizu*)thisx)
+
+void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idomizu_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idomizu_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idomizu_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx);
 
 /*

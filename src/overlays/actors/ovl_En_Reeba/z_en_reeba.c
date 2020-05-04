@@ -2,10 +2,12 @@
 
 #define FLAGS 0x08000015
 
-void EnReeba_Init(EnReeba* this, GlobalContext* globalCtx);
-void EnReeba_Destroy(EnReeba* this, GlobalContext* globalCtx);
-void EnReeba_Update(EnReeba* this, GlobalContext* globalCtx);
-void EnReeba_Draw(EnReeba* this, GlobalContext* globalCtx);
+#define THIS ((EnReeba*)thisx)
+
+void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Reeba_InitVars = {

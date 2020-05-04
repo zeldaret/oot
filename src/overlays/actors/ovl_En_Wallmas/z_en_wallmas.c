@@ -8,6 +8,8 @@
 
 #define FLAGS 0x00000015
 
+#define THIS ((EnWallmas*)thisx)
+
 #define TIMER_SCALE ((f32)OS_CLOCK_RATE / 10000000000)
 #define DEGREE_60_RAD 1.0471975803375244140625f
 #define DEGREE_15_RAD 0.261799395084381103515625f
@@ -16,8 +18,11 @@
 #define DAMAGE_EFFECT_STUN_WHITE 4
 #define DAMAGE_EFFECT_STUN_BLUE 1
 
-void EnWallmas_Init(EnWallmas* this, GlobalContext* globalCtx);
-void EnWallmas_Destroy(EnWallmas* this, GlobalContext* globalCtx);
+void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnWallmas_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnWallmas_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx);
 void EnWallmas_ProximityOrSwitchInit(EnWallmas* this);
 void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx);
@@ -33,9 +38,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx);
 void EnWallmas_WaitForProximity(EnWallmas* this, GlobalContext* globalCtx);
 void EnWallmas_WaitForSwitchFlag(EnWallmas* this, GlobalContext* globalCtx);
 void EnWallmas_Stun(EnWallmas* this, GlobalContext* globalCtx);
-void EnWallmas_Update(EnWallmas* this, GlobalContext* globalCtx);
 void EnWallmas_Walk(EnWallmas* this, GlobalContext* globalCtx);
-void EnWallmas_Draw(EnWallmas* this, GlobalContext* globalCtx);
 
 const ActorInit En_Wallmas_InitVars = {
     ACTOR_EN_WALLMAS,
@@ -87,37 +90,38 @@ extern AnimationHeader D_060041F4;
 extern AnimationHeader D_0600A054;
 extern Gfx D_06008688[];
 
-void EnWallmas_Init(EnWallmas* this, GlobalContext* globalCtx) {
-    EnWallmas* this2 = this;
+void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnWallmas* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, initChain);
-    ActorShape_Init(&this->actor.shape, 0, NULL, 0.5f);
+    Actor_ProcessInitChain(thisx, initChain);
+    ActorShape_Init(&thisx->shape, 0, NULL, 0.5f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->unkSkelAnimeStruct, &this->unk_22e,
                      0x19);
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &colCylinderInit);
-    func_80061ED4(&this->actor.colChkInfo, &damageTable, &colChkInfoInit);
-    this2->switchFlag = (u8)(this2->actor.params >> 0x8);
-    this->actor.params = this->actor.params & 0xFF;
+    Collider_SetCylinder(globalCtx, &this->collider, thisx, &colCylinderInit);
+    func_80061ED4(&thisx->colChkInfo, &damageTable, &colChkInfoInit);
+    this->switchFlag = (u8)(thisx->params >> 0x8);
+    thisx->params = thisx->params & 0xFF;
 
-    if (this->actor.params == WMT_FLAG) {
+    if (thisx->params == WMT_FLAG) {
         if (Flags_GetSwitch(globalCtx, this->switchFlag) != 0) {
-            Actor_Kill(&this->actor);
+            Actor_Kill(thisx);
             return;
         }
 
         EnWallmas_ProximityOrSwitchInit(this);
-    } else if (this->actor.params == WMT_PROXIMITY) {
+    } else if (thisx->params == WMT_PROXIMITY) {
         EnWallmas_ProximityOrSwitchInit(this);
     } else {
         EnWallmas_TimerInit(this, globalCtx);
     }
 }
 
-void EnWallmas_Destroy(EnWallmas* this, GlobalContext* globalCtx) {
-    ColliderCylinder* col = &this->collider;
-    Collider_DestroyCylinder(globalCtx, col);
+void EnWallmas_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnWallmas* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
@@ -129,7 +133,7 @@ void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
     this->actor.velocity.y = 0.0f;
     this->actor.posRot.pos.y = player->actor.posRot.pos.y;
     this->actor.unk_80 = player->actor.unk_80;
-    this->actor.draw = (ActorFunc)&EnWallmas_Draw;
+    this->actor.draw = EnWallmas_Draw;
     this->actionFunc = (ActorFunc)&EnWallmas_WaitToDrop;
 }
 
@@ -506,50 +510,50 @@ void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnWallmas_Update(EnWallmas* this, GlobalContext* globalCtx) {
-    EnWallmas* this2 = this;
+void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnWallmas* this = THIS;
     char pad[4];
 
-    EnWallmas_ColUpdate(this2, globalCtx);
-    this2->actionFunc(this, globalCtx);
+    EnWallmas_ColUpdate(this, globalCtx);
+    this->actionFunc(this, globalCtx);
 
-    if ((this2->actionFunc == (ActorFunc)&EnWallmas_WaitToDrop) ||
-        (this2->actionFunc == (ActorFunc)&EnWallmas_WaitForProximity) ||
-        (this2->actionFunc == (ActorFunc)&EnWallmas_TakePlayer) ||
-        (this2->actionFunc == (ActorFunc)&EnWallmas_WaitForSwitchFlag)) {
+    if ((this->actionFunc == (ActorFunc)&EnWallmas_WaitToDrop) ||
+        (this->actionFunc == (ActorFunc)&EnWallmas_WaitForProximity) ||
+        (this->actionFunc == (ActorFunc)&EnWallmas_TakePlayer) ||
+        (this->actionFunc == (ActorFunc)&EnWallmas_WaitForSwitchFlag)) {
         return;
     }
 
-    if ((this2->actionFunc != (ActorFunc)&EnWallmas_ReturnToCeiling) &&
-        (this2->actionFunc != (ActorFunc)&EnWallmas_TakePlayer)) {
+    if ((this->actionFunc != (ActorFunc)&EnWallmas_ReturnToCeiling) &&
+        (this->actionFunc != (ActorFunc)&EnWallmas_TakePlayer)) {
         Actor_MoveForward(&this->actor);
     }
 
-    if (this2->actionFunc != (ActorFunc)&EnWallmas_Drop) {
-        func_8002E4B4(globalCtx, &this2->actor, 20.0f, 25.0f, 0.0f, 0x1D);
-    } else if (this2->actor.posRot.pos.y <= this2->unk_2c4) {
-        this2->actor.posRot.pos.y = this2->unk_2c4;
-        this2->actor.velocity.y = 0.0f;
-        EnWallmas_LandStart(this2, globalCtx);
+    if (this->actionFunc != (ActorFunc)&EnWallmas_Drop) {
+        func_8002E4B4(globalCtx, &this->actor, 20.0f, 25.0f, 0.0f, 0x1D);
+    } else if (this->actor.posRot.pos.y <= this->unk_2c4) {
+        this->actor.posRot.pos.y = this->unk_2c4;
+        this->actor.velocity.y = 0.0f;
+        EnWallmas_LandStart(this, globalCtx);
     }
 
-    if ((this2->actionFunc != (ActorFunc)&EnWallmas_Die) && (this2->actionFunc != (ActorFunc)&EnWallmas_Drop)) {
-        Collider_CylinderUpdate(&this2->actor, &this2->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this2->collider);
+    if ((this->actionFunc != (ActorFunc)&EnWallmas_Die) && (this->actionFunc != (ActorFunc)&EnWallmas_Drop)) {
+        Collider_CylinderUpdate(&this->actor, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 
-        if ((this2->actionFunc != (ActorFunc)&EnWallmas_TakeDamage) && (this2->actor.bgCheckFlags & 1) != 0 &&
-            (this2->actor.freeze == 0)) {
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this2->collider);
+        if ((this->actionFunc != (ActorFunc)&EnWallmas_TakeDamage) && (this->actor.bgCheckFlags & 1) != 0 &&
+            (this->actor.freeze == 0)) {
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
         }
     }
 
-    Actor_SetHeight(&this2->actor, 25.0f);
+    Actor_SetHeight(&this->actor, 25.0f);
 
     if (this->actionFunc == (ActorFunc)&EnWallmas_TakeDamage) {
         return;
     }
 
-    this2->actor.shape.rot.y = this2->actor.posRot.rot.y;
+    this->actor.shape.rot.y = this->actor.posRot.rot.y;
 }
 
 void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
@@ -589,8 +593,10 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1426);
 }
 
-s32 EnWallMas_UpdatePos(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    EnWallmas* this = (EnWallmas*)actor;
+s32 EnWallMas_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                               Actor* thisx) {
+    EnWallmas* this = THIS;
+
     if (limbIndex == 1) {
         if (this->actionFunc != (ActorFunc)EnWallmas_TakePlayer) {
             pos->z -= 1600.0f;
@@ -602,7 +608,7 @@ s32 EnWallMas_UpdatePos(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     return 0;
 }
 
-void EnWallmas_DrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
+void EnWallMas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
@@ -624,11 +630,13 @@ void EnWallmas_DrawOpa(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     }
 }
 
-void EnWallmas_Draw(EnWallmas* this, GlobalContext* globalCtx) {
+void EnWallmas_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnWallmas* this = THIS;
+
     if (this->actionFunc != (ActorFunc)&EnWallmas_WaitToDrop) {
         func_80093D18(globalCtx->state.gfxCtx);
         SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         &EnWallMas_UpdatePos, &EnWallmas_DrawOpa, &this->actor);
+                         EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, &this->actor);
     }
 
     EnWallmas_DrawXlu(this, globalCtx);

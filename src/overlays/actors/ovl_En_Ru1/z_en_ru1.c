@@ -10,10 +10,12 @@
 
 #define FLAGS 0x04000011
 
-void EnRu1_Init(EnRu1* this, GlobalContext* globalCtx);
-void EnRu1_Destroy(EnRu1* this, GlobalContext* globalCtx);
-void EnRu1_Update(EnRu1* this, GlobalContext* globalCtx);
-void EnRu1_Draw(EnRu1* this, GlobalContext* globalCtx);
+#define THIS ((EnRu1*)thisx)
+
+void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnRu1_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnRu1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80AEC0B4(EnRu1* this, GlobalContext* globalCtx);
 void func_80AEC100(EnRu1* this, GlobalContext* globalCtx);
@@ -218,7 +220,9 @@ u8 func_80AEADF0(EnRu1* this) {
     return params;
 }
 
-void EnRu1_Destroy(EnRu1* this, GlobalContext* globalCtx) {
+void EnRu1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
+
     func_80AEAD98(this, globalCtx);
 }
 
@@ -2239,7 +2243,9 @@ void func_80AF0050(EnRu1* this, GlobalContext* globalCtx) {
     this->actor.room = -1;
 }
 
-void EnRu1_Update(EnRu1* this, GlobalContext* globalCtx) {
+void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
+
     if (this->action < 0 || this->action >= 46 || D_80AF193C[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
@@ -2247,9 +2253,9 @@ void EnRu1_Update(EnRu1* this, GlobalContext* globalCtx) {
     D_80AF193C[this->action](this, globalCtx);
 }
 
-void EnRu1_Init(EnRu1* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->actor;
-    u32 temp_ret;
+void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
+    s32 pad;
 
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06012700, NULL, &this->limbDrawTable, &this->transitionDrawTable,
@@ -2303,30 +2309,32 @@ void func_80AF0278(EnRu1* this, GlobalContext* globalCtx, s32 limbIndex, Vec3s* 
     }
 }
 
-s32 func_80AF02E8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnRu1* actor,
-                  Gfx** gfx) {
-    if ((actor->unk_290 < 0) || (actor->unk_290 > 0) || (*D_80AF19F4[actor->unk_290] == NULL)) {
+s32 EnRu1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnRu1* thisx,
+                           Gfx** gfx) {
+    EnRu1* this = THIS;
+
+    if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*D_80AF19F4[this->unk_290] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        D_80AF19F4[actor->unk_290](actor, globalCtx, limbIndex, rot);
+        D_80AF19F4[this->unk_290](this, globalCtx, limbIndex, rot);
     }
     return 0;
 }
 
-void func_80AF0368(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx) {
-    s32 pad;
+void EnRu1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+    EnRu1* this = THIS;
     Vec3f vec1;
     Vec3f vec2;
 
     if (limbIndex == 15) {
         vec1 = D_80AF19F8;
         Matrix_MultVec3f(&vec1, &vec2);
-        actor->posRot2.pos.x = vec2.x;
-        actor->posRot2.pos.y = vec2.y;
-        actor->posRot2.pos.z = vec2.z;
-        actor->posRot2.rot.x = actor->posRot.rot.x;
-        actor->posRot2.rot.y = actor->posRot.rot.y;
-        actor->posRot2.rot.z = actor->posRot.rot.z;
+        thisx->posRot2.pos.x = vec2.x;
+        thisx->posRot2.pos.y = vec2.y;
+        thisx->posRot2.pos.z = vec2.z;
+        thisx->posRot2.rot.x = thisx->posRot.rot.x;
+        thisx->posRot2.rot.y = thisx->posRot.rot.y;
+        thisx->posRot2.rot.z = thisx->posRot.rot.z;
     }
 }
 
@@ -2353,7 +2361,7 @@ void func_80AF0400(EnRu1* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
     gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          func_80AF02E8, func_80AF0368, &this->actor, gfxCtx->polyOpa.p);
+                                          EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, gfxCtx->polyOpa.p);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1309);
 }
@@ -2378,12 +2386,14 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          func_80AF02E8, NULL, &this->actor, gfxCtx->polyXlu.p);
+                                          EnRu1_OverrideLimbDraw, NULL, &this->actor, gfxCtx->polyXlu.p);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
 }
 
-void EnRu1_Draw(EnRu1* this, GlobalContext* globalCtx) {
+void EnRu1_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
+
     if (this->drawConfig < 0 || this->drawConfig >= 3 || D_80AF1A04[this->drawConfig] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

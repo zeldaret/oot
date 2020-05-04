@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000019
 
-void EnDntJiji_Init(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_Destroy(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_Update(EnDntJiji* this, GlobalContext* globalCtx);
-void EnDntJiji_Draw(EnDntJiji* this, GlobalContext* globalCtx);
+#define THIS ((EnDntJiji*)thisx)
+
+void EnDntJiji_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDntJiji_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDntJiji_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Dnt_Jiji_InitVars = {

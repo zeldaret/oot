@@ -10,10 +10,13 @@
 
 #define FLAGS 0x00000010
 
-void BgZg_Init(BgZg* this, GlobalContext* globalCtx);
-void BgZg_Destroy(BgZg* this, GlobalContext* globalCtx);
-void BgZg_Update(BgZg* this, GlobalContext* globalCtx);
-void BgZg_Draw(BgZg* this, GlobalContext* globalCtx);
+#define THIS ((BgZg*)thisx)
+
+void BgZg_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgZg_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgZg_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_808C0C50(BgZg* this);
 s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx);
 s32 func_808C0CC8(BgZg* this);
@@ -49,7 +52,9 @@ const ActorInit Bg_Zg_InitVars = {
 extern u32 D_06001080;
 extern u32 D_060011D4;
 
-void BgZg_Destroy(BgZg* this, GlobalContext* globalCtx) {
+void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgZg* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
@@ -84,7 +89,8 @@ void func_808C0D08(BgZg* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgZg_Update(BgZg* this, GlobalContext* globalCtx) {
+void BgZg_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgZg* this = THIS;
     s32 action = this->action;
 
     if (((action < 0) || (1 < action)) || (actionFuncs[action] == NULL)) {
@@ -95,9 +101,9 @@ void BgZg_Update(BgZg* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgZg_Init(BgZg* this, GlobalContext* globalCtx) {
-    s32 sp20[2];
-    Actor* thisx = &this->dyna.actor;
+void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgZg* this = THIS;
+    s32 pad[2];
     u32 local_c;
 
     Actor_ProcessInitChain(thisx, initChain);
@@ -119,7 +125,6 @@ void BgZg_Init(BgZg* this, GlobalContext* globalCtx) {
 }
 
 void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
-
     GraphicsContext* gfxCtx;
     GraphicsContext* tempgfxCtx; // oddly needs this to match
     Gfx* dispRefs[4];
@@ -136,7 +141,8 @@ void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_bg_zg.c", 320);
 }
 
-void BgZg_Draw(BgZg* this, GlobalContext* globalCtx) {
+void BgZg_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgZg* this = THIS;
     s32 action = this->drawConfig;
 
     if (((action < 0) || (action > 0)) || drawFuncs[action] == NULL) {

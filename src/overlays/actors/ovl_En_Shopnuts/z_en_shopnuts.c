@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000005
 
-void EnShopnuts_Init(EnShopnuts* this, GlobalContext* globalCtx);
-void EnShopnuts_Destroy(EnShopnuts* this, GlobalContext* globalCtx);
-void EnShopnuts_Update(EnShopnuts* this, GlobalContext* globalCtx);
-void EnShopnuts_Draw(EnShopnuts* this, GlobalContext* globalCtx);
+#define THIS ((EnShopnuts*)thisx)
+
+void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnShopnuts_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnShopnuts_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Shopnuts_InitVars = {

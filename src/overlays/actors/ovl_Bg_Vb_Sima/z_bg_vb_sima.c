@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void BgVbSima_Init(BgVbSima* this, GlobalContext* globalCtx);
-void BgVbSima_Destroy(BgVbSima* this, GlobalContext* globalCtx);
-void BgVbSima_Update(BgVbSima* this, GlobalContext* globalCtx);
-void BgVbSima_Draw(BgVbSima* this, GlobalContext* globalCtx);
+#define THIS ((BgVbSima*)thisx)
+
+void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Vb_Sima_InitVars = {

@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00000010
 
-void BgHakaZou_Init(BgHakaZou* this, GlobalContext* globalCtx);
-void BgHakaZou_Destroy(BgHakaZou* this, GlobalContext* globalCtx);
-void BgHakaZou_Update(BgHakaZou* this, GlobalContext* globalCtx);
+#define THIS ((BgHakaZou*)thisx)
+
+void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaZou_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Haka_Zou_InitVars = {

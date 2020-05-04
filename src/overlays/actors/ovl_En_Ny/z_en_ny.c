@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000005
 
-void EnNy_Init(EnNy* this, GlobalContext* globalCtx);
-void EnNy_Destroy(EnNy* this, GlobalContext* globalCtx);
-void EnNy_Update(EnNy* this, GlobalContext* globalCtx);
-void EnNy_Draw(EnNy* this, GlobalContext* globalCtx);
+#define THIS ((EnNy*)thisx)
+
+void EnNy_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnNy_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnNy_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ny_InitVars = {

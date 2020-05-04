@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000010
 
-void BgHakaTubo_Init(BgHakaTubo* this, GlobalContext* globalCtx);
-void BgHakaTubo_Destroy(BgHakaTubo* this, GlobalContext* globalCtx);
-void BgHakaTubo_Update(BgHakaTubo* this, GlobalContext* globalCtx);
-void BgHakaTubo_Draw(BgHakaTubo* this, GlobalContext* globalCtx);
+#define THIS ((BgHakaTubo*)thisx)
+
+void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaTubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaTubo_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaTubo_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_808813A0(BgHakaTubo* this, GlobalContext* globalCtx);
 void func_80881608(BgHakaTubo* this, GlobalContext* globalCtx);
 void func_80881904(BgHakaTubo* this, GlobalContext* globalCtx);

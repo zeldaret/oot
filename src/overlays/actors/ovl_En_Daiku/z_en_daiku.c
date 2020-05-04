@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000019
 
-void EnDaiku_Init(EnDaiku* this, GlobalContext* globalCtx);
-void EnDaiku_Destroy(EnDaiku* this, GlobalContext* globalCtx);
-void EnDaiku_Update(EnDaiku* this, GlobalContext* globalCtx);
-void EnDaiku_Draw(EnDaiku* this, GlobalContext* globalCtx);
+#define THIS ((EnDaiku*)thisx)
+
+void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDaiku_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDaiku_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Daiku_InitVars = {

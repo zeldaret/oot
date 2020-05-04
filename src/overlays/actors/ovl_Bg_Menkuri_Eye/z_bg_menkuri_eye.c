@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000020
 
-void BgMenkuriEye_Init(BgMenkuriEye* this, GlobalContext* globalCtx);
-void BgMenkuriEye_Destroy(BgMenkuriEye* this, GlobalContext* globalCtx);
-void BgMenkuriEye_Update(BgMenkuriEye* this, GlobalContext* globalCtx);
-void BgMenkuriEye_Draw(BgMenkuriEye* this, GlobalContext* globalCtx);
+#define THIS ((BgMenkuriEye*)thisx)
+
+void BgMenkuriEye_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMenkuriEye_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMenkuriEye_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgMenkuriEye_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Menkuri_Eye_InitVars = {

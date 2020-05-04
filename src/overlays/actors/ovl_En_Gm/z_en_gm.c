@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000019
 
-void EnGm_Init(EnGm* this, GlobalContext* globalCtx);
-void EnGm_Destroy(EnGm* this, GlobalContext* globalCtx);
-void EnGm_Update(EnGm* this, GlobalContext* globalCtx);
+#define THIS ((EnGm*)thisx)
+
+void EnGm_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGm_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Gm_InitVars = {

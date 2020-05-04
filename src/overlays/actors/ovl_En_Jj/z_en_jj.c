@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000030
 
-void EnJj_Init(EnJj* this, GlobalContext* globalCtx);
-void EnJj_Destroy(EnJj* this, GlobalContext* globalCtx);
-void EnJj_Update(EnJj* this, GlobalContext* globalCtx);
-void EnJj_Draw(EnJj* this, GlobalContext* globalCtx);
+#define THIS ((EnJj*)thisx)
+
+void EnJj_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnJj_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Jj_InitVars = {

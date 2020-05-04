@@ -646,6 +646,7 @@ s32 func_8005A77C(Camera* camera, s16 button);
 // ? func_8005A8C4(?);
 s16 func_8005A970(Vec3s, Camera*);
 s16 func_8005A9F4(Camera* camera);
+void func_8005AA1C(Camera* camera, s32, s16, s32);
 s32 func_8005AA90(Camera*, s32, Vec3f*);
 // ? func_8005AC48(?);
 // ? func_8005AC60(?);

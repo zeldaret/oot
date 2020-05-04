@@ -10,10 +10,12 @@
 
 #define FLAGS 0x02000010
 
-void ArrowFire_Init(ArrowFire* this, GlobalContext* globalCtx);
-void ArrowFire_Destroy(ArrowFire* this, GlobalContext* globalCtx);
-void ArrowFire_Update(ArrowFire* this, GlobalContext* globalCtx);
-void ArrowFire_Draw(ArrowFire* this, GlobalContext* globalCtx);
+#define THIS ((ArrowFire*)thisx)
+
+void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx);
+void ArrowFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ArrowFire_Update(Actor* thisx, GlobalContext* globalCtx);
+void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx);
 void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx);
@@ -41,7 +43,9 @@ void ArrowFire_SetupAction(ArrowFire* this, ActorFunc* actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void ArrowFire_Init(ArrowFire* this, GlobalContext* globalCtx) {
+void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ArrowFire* this = THIS;
+
     Actor_ProcessInitChain(&this->actor, initChain);
     this->radius = 0;
     this->unk_158 = 1.0f;
@@ -52,7 +56,7 @@ void ArrowFire_Init(ArrowFire* this, GlobalContext* globalCtx) {
     this->unk_15C = 0.0f;
 }
 
-void ArrowFire_Destroy(ArrowFire* this, GlobalContext* globalCtx) {
+void ArrowFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
     // Translates to: "Disappearance"
     LOG_STRING("消滅", "../z_arrow_fire.c", 421);
@@ -177,7 +181,9 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
     }
 }
 
-void ArrowFire_Update(ArrowFire* this, GlobalContext* globalCtx) {
+void ArrowFire_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ArrowFire* this = THIS;
+
     if (globalCtx->msgCtx.msgMode == 0xD || globalCtx->msgCtx.msgMode == 0x11) {
         Actor_Kill(&this->actor);
     } else {
@@ -185,9 +191,9 @@ void ArrowFire_Update(ArrowFire* this, GlobalContext* globalCtx) {
     }
 }
 
-void ArrowFire_Draw(ArrowFire* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    ArrowFire* this = THIS;
+    s32 pad;
     u32 stateFrames;
     GraphicsContext* gfxCtx;
     Actor* tranform;

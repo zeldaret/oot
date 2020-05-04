@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000030
 
-void DemoShd_Init(DemoShd* this, GlobalContext* globalCtx);
-void DemoShd_Destroy(DemoShd* this, GlobalContext* globalCtx);
-void DemoShd_Update(DemoShd* this, GlobalContext* globalCtx);
-void DemoShd_Draw(DemoShd* this, GlobalContext* globalCtx);
+#define THIS ((DemoShd*)thisx)
+
+void DemoShd_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoShd_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoShd_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoShd_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void DemoShd_SetupAction(DemoShd* this, ActorFunc actionFunc);
 void func_80991298(DemoShd* this, GlobalContext* globalCtx);
 

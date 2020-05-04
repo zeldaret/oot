@@ -10,12 +10,15 @@
 
 #define FLAGS 0x00000010
 
-void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx);
-void EnAnubiceTag_Destroy(EnAnubiceTag* this, GlobalContext* globalCtx);
+#define THIS ((EnAnubiceTag*)thisx)
+
+void EnAnubiceTag_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnAnubiceTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnAnubiceTag_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnAnubiceTag_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
 void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
-void EnAnubiceTag_Update(EnAnubiceTag* this, GlobalContext* globalCtx);
-void EnAnubiceTag_Draw(EnAnubiceTag* this, GlobalContext* globalCtx);
 
 const ActorInit En_Anubice_Tag_InitVars = {
     ACTOR_EN_ANUBICE_TAG,
@@ -29,12 +32,14 @@ const ActorInit En_Anubice_Tag_InitVars = {
     (ActorFunc)EnAnubiceTag_Draw,
 };
 
-void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnAnubiceTag* this = THIS;
+
     osSyncPrintf("\n\n");
     // "Anubis control tag generated"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ アヌビス制御タグ発生 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
 
-    if (this->actor.params < (s16)0xFFFF) {
+    if (this->actor.params < -1) {
         this->actor.params = 0;
     }
     if (this->actor.params != 0) {
@@ -43,7 +48,7 @@ void EnAnubiceTag_Init(EnAnubiceTag* this, GlobalContext* globalCtx) {
     this->actionFunc = &EnAnubiceTag_SpawnAnubis;
 }
 
-void EnAnubiceTag_Destroy(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
@@ -94,11 +99,15 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnAnubiceTag_Update(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnAnubiceTag* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
-void EnAnubiceTag_Draw(EnAnubiceTag* this, GlobalContext* globalCtx) {
+void EnAnubiceTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnAnubiceTag* this = THIS;
+
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
                                this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,

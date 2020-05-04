@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void BgMizuBwall_Init(BgMizuBwall* this, GlobalContext* globalCtx);
-void BgMizuBwall_Destroy(BgMizuBwall* this, GlobalContext* globalCtx);
-void BgMizuBwall_Update(BgMizuBwall* this, GlobalContext* globalCtx);
-void BgMizuBwall_Draw(BgMizuBwall* this, GlobalContext* globalCtx);
+#define THIS ((BgMizuBwall*)thisx)
+
+void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuBwall_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuBwall_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuBwall_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mizu_Bwall_InitVars = {

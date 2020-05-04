@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000005
 
-void EnDodojr_Init(EnDodojr* this, GlobalContext* globalCtx);
-void EnDodojr_Destroy(EnDodojr* this, GlobalContext* globalCtx);
-void EnDodojr_Update(EnDodojr* this, GlobalContext* globalCtx);
-void EnDodojr_Draw(EnDodojr* this, GlobalContext* globalCtx);
+#define THIS ((EnDodojr*)thisx)
+
+void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDodojr_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDodojr_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Dodojr_InitVars = {

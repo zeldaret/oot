@@ -8,12 +8,15 @@
 
 #define FLAGS 0x00000009
 
+#define THIS ((EnOE2*)thisx)
+
+void EnOE2_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnOE2_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnOE2_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnOE2_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80ABE6A0(EnOE2* this, ActorFunc func);
-void EnOE2_Init(EnOE2* this, GlobalContext* globalCtx);
-void EnOE2_Destroy(EnOE2* this, GlobalContext* globalCtx);
 void func_80ABE6DC(EnOE2* this, GlobalContext* globalCtx);
-void EnOE2_Update(EnOE2* this, GlobalContext* globalCtx);
-void EnOE2_Draw(EnOE2* this, GlobalContext* globalCtx);
 
 const ActorInit En_OE2_InitVars = {
     ACTOR_EN_OE2,
@@ -31,18 +34,20 @@ void EnOE2_SetupAction(EnOE2* this, ActorFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void EnOE2_Init(EnOE2* this, GlobalContext* globalCtx) {
+void EnOE2_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnOE2* this = THIS;
+
     EnOE2_SetupAction(this, func_80ABE6DC);
 }
 
-void EnOE2_Destroy(EnOE2* this, GlobalContext* globalCtx) {
+void EnOE2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80ABE6DC(EnOE2* this, GlobalContext* globalCtx) {
 }
 
-void EnOE2_Update(EnOE2* this, GlobalContext* globalCtx) {
+void EnOE2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void EnOE2_Draw(EnOE2* this, GlobalContext* globalCtx) {
+void EnOE2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
