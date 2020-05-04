@@ -1114,6 +1114,7 @@ void func_80094044(GraphicsContext* gfxCtx);
 void func_800940B0(GraphicsContext* gfxCtx);
 void func_800942F0(GraphicsContext* gfxCtx);
 void func_8009435C(GraphicsContext* gfxCtx);
+void func_800943C8(GraphicsContext* gfxCtx);
 Gfx* func_800944A0(Gfx* gfx);
 void func_80094520(GraphicsContext* gfxCtx);
 void func_8009457C(Gfx** gfxp);
