@@ -110,28 +110,28 @@ s16 func_80AA0778(GlobalContext* globalCtx, Actor* this) {
     s16 ret = 1;
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 2:
-            switch (this->textId - 0x2041) {
-                case 0:
+            switch (this->textId) {
+                case 0x2041:
                     gSaveContext.infTable[8] |= 0x10;
                     gSaveContext.eventChkInf[1] |= 1;
                     ret = 0;
                     break;
-                case 2:
+                case 0x2043:
                     ret = 1;
                     break;
-                case 6:
+                case 0x2047:
                     gSaveContext.eventChkInf[1] |= 0x20;
                     ret = 0;
                     break;
-                case 7:
+                case 0x2048:
                     gSaveContext.infTable[8] |= 0x20;
                     ret = 0;
                     break;
-                case 8:
+                case 0x2049:
                     gSaveContext.eventChkInf[1] |= 0x40;
                     ret = 0;
                     break;
-                case 32:
+                case 0x2061:
                     ret = 2;
                     break;
                 default:
