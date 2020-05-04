@@ -45,7 +45,7 @@ extern AnimationHeader D_06005C30;
 extern AnimationHeader D_06005500;
 extern ColliderCylinderInit D_80A54F10;
 extern SkeletonHeader D_0600BAC8;
-extern Gfx* D_0602B060;
+extern Gfx* D_0602B060; // Keaton Mask 
 extern Gfx* D_06002C10;
 
 /*
@@ -155,6 +155,7 @@ void func_80A531E4(EnHeishi2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A53278;
 }
 
+// CastleGuard_SetTextId
 void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
     this->unk_30B = 0;
     this->unk_30E = 0;
@@ -298,6 +299,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
                 }
             } while (gate != NULL);
         }
+        // "I've come!"
         osSyncPrintf("\x1b[35m☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n\x1b[m", gate->dyna.actor.next);
         this->actionFunc = func_80A5372C;
     }
@@ -320,7 +322,22 @@ void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A53850;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A53850.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A53850.s")
+
+void func_80A53850(EnHeishi2 *this, GlobalContext *globalCtx) {
+    BgSpot15Saku* gate;
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    gate = (BgSpot15Saku *) this->attached;
+    if ((this->gateTimer == 0) || (gate->unk_168 == 0)) {
+            Gameplay_ClearCamera(globalCtx, this->cameraId);
+            Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
+            func_80106CCC(globalCtx);
+            this->unk_30C = 1;
+            func_8002DF54(globalCtx, NULL, 7);
+            this->actionFunc = func_80A531E4;
+        }
+    } 
 
 void func_80A53908(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
@@ -732,7 +749,7 @@ void func_80A54C6C(EnHeishi2* this, GlobalContext* globalCtx) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1772);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002C10);
+    gSPDisplayList(gfxCtx->polyOpa.p++, &D_06002C10); // 2D Guard in Window
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
 }
 
