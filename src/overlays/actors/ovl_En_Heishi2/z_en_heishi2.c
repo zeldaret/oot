@@ -476,7 +476,41 @@ void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     this->actionFunc = func_80A53F30;
 }
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A53F30.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi2/func_80A53F30.s")
+
+void func_80A53F30(EnHeishi2 *this, GlobalContext *globalCtx) {
+    BgGateShutter* gate;
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
+    gate = (BgGateShutter *)this->attached;
+    if ((this->gateTimer == 0) || (gate->isOpening == 0)) {
+        Gameplay_ClearCamera(globalCtx, this->cameraId);
+        Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
+        if ((this->unk_30A != 2)) {
+            if (this->unk_30A == 0) 
+            {
+                this->actor.textId = 0x2015;
+                func_8010B720(globalCtx, this->actor.textId);
+                this->actionFunc = func_80A54038;
+            }   
+
+            else
+            {
+                func_80106CCC(globalCtx);
+                func_8002DF54(globalCtx, NULL, (u8)7U);
+                this->actionFunc = func_80A53908;
+            }
+
+            return;
+            
+        }
+        this->unk_30E = 0;
+        this->actor.textId = 0x2021;
+        Rupees_ChangeBy(0xF);
+        func_8010B720(globalCtx, this->actor.textId);
+        this->actionFunc = func_80A5427C;
+    } 
+}
 
 void func_80A54038(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
