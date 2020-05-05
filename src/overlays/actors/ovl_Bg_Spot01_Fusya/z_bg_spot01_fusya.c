@@ -38,7 +38,7 @@ static InitChainEntry initChain[] = {
 
 extern u32 D_06000100;
 
-void BgSpot01Fusya_SetupAction(BgSpot01Fusya* this, ActorFunc actionFunc) {
+void BgSpot01Fusya_SetupAction(BgSpot01Fusya* this, BgSpot01FusyaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 

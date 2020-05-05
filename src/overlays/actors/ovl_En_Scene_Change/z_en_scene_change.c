@@ -15,7 +15,6 @@ void EnSceneChange_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSceneChange_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSceneChange_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnSceneChange_SetupAction(EnSceneChange* this, ActorFunc actionFunc);
 void func_80AF8CAC(EnSceneChange* this, GlobalContext* globalCtx);
 
 const ActorInit En_Scene_Change_InitVars = {
@@ -30,7 +29,7 @@ const ActorInit En_Scene_Change_InitVars = {
     (ActorFunc)EnSceneChange_Draw,
 };
 
-void EnSceneChange_SetupAction(EnSceneChange* this, ActorFunc actionFunc) {
+void EnSceneChange_SetupAction(EnSceneChange* this, EnSceneChangeActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 

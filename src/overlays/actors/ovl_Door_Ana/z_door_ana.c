@@ -15,8 +15,6 @@ void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorAna_Update(Actor* thisx, GlobalContext* globalCtx);
 void DoorAna_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void DoorAna_SetupAction(DoorAna* this, ActorFunc func);
-
 void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx);
 void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx);
 void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx);
@@ -49,9 +47,8 @@ static s16 entrances[] = {
 // display list
 extern Gfx D_05001390[];
 
-// sets current actionFunc to be ran on next update call
-void DoorAna_SetupAction(DoorAna* this, ActorFunc func) {
-    this->actionFunc = func;
+void DoorAna_SetupAction(DoorAna* this, DoorAnaActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
 }
 
 void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -69,9 +66,9 @@ void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.flags |= 0x10;
         }
         Actor_SetScale(&this->actor, 0);
-        DoorAna_SetupAction(this, (ActorFunc)&DoorAna_Update_Hidden);
+        DoorAna_SetupAction(this, DoorAna_Update_Hidden);
     } else {
-        DoorAna_SetupAction(this, (ActorFunc)&DoorAna_Update_Open);
+        DoorAna_SetupAction(this, DoorAna_Update_Open);
     }
     this->actor.unk_1F = 0;
 }
@@ -107,7 +104,7 @@ void DoorAna_Update_Hidden(DoorAna* this, GlobalContext* globalCtx) {
     // open the grotto
     if (openGrotto) {
         this->actor.params &= ~0x0300;
-        DoorAna_SetupAction(this, (ActorFunc)&DoorAna_Update_Open);
+        DoorAna_SetupAction(this, DoorAna_Update_Open);
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
     func_8002F5F0(&this->actor, globalCtx);
@@ -131,7 +128,7 @@ void DoorAna_Update_Open(DoorAna* this, GlobalContext* globalCtx) {
                 destinationIdx = this->actor.initPosRot.rot.z + 1;
             }
             globalCtx->nextEntranceIndex = entrances[destinationIdx];
-            DoorAna_SetupAction(this, (ActorFunc)&DoorAna_Update_Entering);
+            DoorAna_SetupAction(this, DoorAna_Update_Entering);
         } else {
             if (!func_8008E988(globalCtx) && !(player->stateFlags1 & 0x8800000) &&
                 this->actor.xzDistanceFromLink <= 15.0f && -50.0f <= this->actor.yDistanceFromLink &&

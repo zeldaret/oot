@@ -43,7 +43,7 @@ static f32 sizes[] = { 0.1f, 0.05f };
 extern u32 D_06000180;
 extern u32 D_06000360;
 
-void ObjElevator_SetupAction(ObjElevator* this, ActorFunc actionFunc) {
+void ObjElevator_SetupAction(ObjElevator* this, ObjElevatorActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 

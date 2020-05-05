@@ -45,7 +45,7 @@ void EnAnubiceTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params != 0) {
         this->triggerRange = this->actor.params * 40.0f;
     }
-    this->actionFunc = &EnAnubiceTag_SpawnAnubis;
+    this->actionFunc = EnAnubiceTag_SpawnAnubis;
 }
 
 void EnAnubiceTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -57,7 +57,7 @@ void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
                             this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.rotTowardsLinkY, 0, 0);
 
     if (this->anubis != NULL) {
-        this->actionFunc = &EnAnubiceTag_ManageAnubis;
+        this->actionFunc = EnAnubiceTag_ManageAnubis;
     }
 }
 

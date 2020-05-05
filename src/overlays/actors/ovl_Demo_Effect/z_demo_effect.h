@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct DemoEffect;
+
+typedef struct DemoEffect {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x54];
 } DemoEffect; // size = 0x01A0

@@ -51,7 +51,7 @@ static f32 D_80871908[] = { 0.0f, -0.45f, 0.0f, 0.0f, 0.0f, 0.0f };
 extern UNK_TYPE D_06004F30;
 extern UNK_TYPE D_060048A8;
 
-void BgDdanKd_SetupAction(BgDdanKd* this, ActorFunc actionFunc) {
+void BgDdanKd_SetupAction(BgDdanKd* this, BgDdanKdActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -71,10 +71,10 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
 
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) == 0) {
-        BgDdanKd_SetupAction(this, &BgDdanKd_CheckForExplosions);
+        BgDdanKd_SetupAction(this, BgDdanKd_CheckForExplosions);
     } else {
         this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y - 200.0f - 20.0f;
-        BgDdanKd_SetupAction(this, &func_80871838);
+        BgDdanKd_SetupAction(this, func_80871838);
     }
 }
 
@@ -96,7 +96,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
     if ((currentCollidingExplosion != NULL) && (this->previousCollidingExplosion != NULL) &&
         (currentCollidingExplosion != this->previousCollidingExplosion) &&
         (Math_Vec3f_DistXZ(&this->previousCollidingExplosionPos, &currentCollidingExplosion->posRot.pos) > 80.0f)) {
-        BgDdanKd_SetupAction(this, &BgDdanKd_LowerStairs);
+        BgDdanKd_SetupAction(this, BgDdanKd_LowerStairs);
         func_800800F8(globalCtx, 0xBEA, 0x3E7, this, 0);
     } else {
         if (this->timer != 0) {
@@ -124,7 +124,7 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
     if (Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, (this->dyna.actor.initPosRot.pos.y - 200.0f) - 20.0f,
                                 0.075f, this->dyna.actor.speedXZ, 0.0075f) == 0.0f) {
         Flags_SetSwitch(globalCtx, this->dyna.actor.params);
-        BgDdanKd_SetupAction(this, &func_80871838);
+        BgDdanKd_SetupAction(this, func_80871838);
     } else {
         sp4C = (this->dyna.actor.pos4.y - this->dyna.actor.posRot.pos.y) + (this->dyna.actor.speedXZ * 0.25f);
 

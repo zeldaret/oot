@@ -14,7 +14,6 @@ void ObjectKankyo_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Draw(Actor* thisx, GlobalContext* globalCtx);
-void ObjectKankyo_SetupAction(ObjectKankyo* this, ActorFunc actionFunc);
 
 /*
 const ActorInit Object_Kankyo_InitVars = {

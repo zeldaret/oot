@@ -593,8 +593,6 @@ beginseg
     include "build/src/overlays/gamestates/ovl_opening/z_opening_reloc.o"
 endseg
 
-// note: increment commands account for segments who have BSS data but reflect a Virt addr range difference.
-
 beginseg
     name "ovl_file_choose"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_choose.o"
@@ -2193,9 +2191,9 @@ endseg
 
 beginseg
     name "ovl_En_Box"
-    increment 0x10
     include "build/src/overlays/actors/ovl_En_Box/z_en_box.o"
     include "build/data/overlays/actors/z_en_box.data.o"
+    include "build/data/overlays/actors/z_en_box.bss.o"
     include "build/data/overlays/actors/z_en_box.reloc.o"
 endseg
 
@@ -3267,9 +3265,9 @@ endseg
 
 beginseg
     name "ovl_En_Sw"
-    increment 0x80
     include "build/src/overlays/actors/ovl_En_Sw/z_en_sw.o"
     include "build/data/overlays/actors/z_en_sw.data.o"
+    include "build/data/overlays/actors/z_en_sw.bss.o"
     include "build/data/overlays/actors/z_en_sw.reloc.o"
 endseg
 

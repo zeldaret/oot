@@ -229,7 +229,7 @@ void func_8086D548(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
 void func_8086D5C4(BgBdanSwitch* this) {
-    this->actionFunc = &func_8086D5E0;
+    this->actionFunc = func_8086D5E0;
     this->unk_1C8 = 1.0f;
 }
 
@@ -250,7 +250,7 @@ void func_8086D5E0(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
 void func_8086D67C(BgBdanSwitch* this) {
-    this->actionFunc = &func_8086D694;
+    this->actionFunc = func_8086D694;
     this->unk_1DA = 0x64;
 }
 
@@ -267,7 +267,7 @@ void func_8086D694(BgBdanSwitch* this, GlobalContext* globalCtx) {
 
 void func_8086D730(BgBdanSwitch* this) {
     this->unk_1C8 = 0.1f;
-    this->actionFunc = &func_8086D754;
+    this->actionFunc = func_8086D754;
     this->unk_1D8 = 6;
 }
 
@@ -291,7 +291,7 @@ void func_8086D754(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
 void func_8086D7FC(BgBdanSwitch* this) {
-    this->actionFunc = &func_8086D80C;
+    this->actionFunc = func_8086D80C;
 }
 
 void func_8086D80C(BgBdanSwitch* this, GlobalContext* globalCtx) {
@@ -303,7 +303,7 @@ void func_8086D80C(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
 void func_8086D86C(BgBdanSwitch* this) {
-    this->actionFunc = &func_8086D888;
+    this->actionFunc = func_8086D888;
     this->unk_1C8 = 1.0f;
 }
 
@@ -314,7 +314,7 @@ void func_8086D888(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
 void func_8086D8BC(BgBdanSwitch* this) {
-    this->actionFunc = &func_8086D8CC;
+    this->actionFunc = func_8086D8CC;
 }
 
 void func_8086D8CC(BgBdanSwitch* this, GlobalContext* globalCtx) {
@@ -327,7 +327,7 @@ void func_8086D8CC(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
 void func_8086D944(BgBdanSwitch* this) {
-    this->actionFunc = &func_8086D95C;
+    this->actionFunc = func_8086D95C;
     this->unk_1DA = 0x64;
 }
 
@@ -344,7 +344,7 @@ void func_8086D95C(BgBdanSwitch* this, GlobalContext* globalCtx) {
 
 void func_8086D9F8(BgBdanSwitch* this) {
     this->unk_1C8 = 0.6f;
-    this->actionFunc = &func_8086DA1C;
+    this->actionFunc = func_8086DA1C;
     this->unk_1D8 = 6;
 }
 
@@ -368,7 +368,7 @@ void func_8086DA1C(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
 void func_8086DAB4(BgBdanSwitch* this) {
-    this->actionFunc = &func_8086DAC4;
+    this->actionFunc = func_8086DAC4;
 }
 
 void func_8086DAC4(BgBdanSwitch* this, GlobalContext* globalCtx) {
@@ -381,14 +381,14 @@ void func_8086DAC4(BgBdanSwitch* this, GlobalContext* globalCtx) {
 
 void func_8086DB24(BgBdanSwitch* this) {
     this->unk_1C8 = 0.1f;
-    this->actionFunc = &func_8086DB40;
+    this->actionFunc = func_8086DB40;
 }
 
 void func_8086DB40(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
 void func_8086DB4C(BgBdanSwitch* this) {
-    this->actionFunc = &func_8086DB68;
+    this->actionFunc = func_8086DB68;
     this->unk_1C8 = 2.0f;
 }
 
@@ -413,7 +413,7 @@ void func_8086DB68(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
 void func_8086DC30(BgBdanSwitch* this) {
-    this->actionFunc = &func_8086DC48;
+    this->actionFunc = func_8086DC48;
     this->unk_1DA = 0x64;
 }
 
@@ -428,7 +428,7 @@ void func_8086DC48(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
 void func_8086DCCC(BgBdanSwitch* this) {
-    this->actionFunc = &func_8086DCE8;
+    this->actionFunc = func_8086DCE8;
     this->unk_1C8 = 1.0f;
 }
 
@@ -449,7 +449,7 @@ void func_8086DCE8(BgBdanSwitch* this, GlobalContext* globalCtx) {
 }
 
 void func_8086DDA8(BgBdanSwitch* this) {
-    this->actionFunc = &func_8086DDC0;
+    this->actionFunc = func_8086DDC0;
     this->unk_1DA = 0x64;
 }
 

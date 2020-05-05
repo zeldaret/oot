@@ -82,7 +82,7 @@ void BgSpot12Gate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_808B30C0(BgSpot12Gate* this) {
     Actor* thisx = &this->dyna.actor;
 
-    this->actionFunc = (ActorFunc)func_808B30D8;
+    this->actionFunc = func_808B30D8;
     thisx->posRot.pos.y = thisx->initPosRot.pos.y;
 }
 
@@ -96,7 +96,7 @@ void func_808B30D8(BgSpot12Gate* this, GlobalContext* globalCtx) {
 }
 
 void func_808B3134(BgSpot12Gate* this) {
-    this->actionFunc = (ActorFunc)func_808B314C;
+    this->actionFunc = func_808B314C;
     this->unk_168 = 0x28;
 }
 
@@ -107,7 +107,7 @@ void func_808B314C(BgSpot12Gate* this, GlobalContext* globalCtx) {
 }
 
 void func_808B317C(BgSpot12Gate* this) {
-    this->actionFunc = (ActorFunc)func_808B318C;
+    this->actionFunc = func_808B318C;
 }
 
 void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
@@ -130,7 +130,7 @@ void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
 void func_808B3274(BgSpot12Gate* this) {
     Actor* thisx = &this->dyna.actor;
 
-    this->actionFunc = (ActorFunc)func_808B3298;
+    this->actionFunc = func_808B3298;
     thisx->posRot.pos.y = thisx->initPosRot.pos.y + 200.0f;
 }
 

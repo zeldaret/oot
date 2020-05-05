@@ -4,9 +4,13 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct ObjMakekinsuta;
+
+typedef void (*ObjMakekinsutaActionFunc)(struct ObjMakekinsuta*, GlobalContext*);
+
+typedef struct ObjMakekinsuta {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc actionFunc;
+    /* 0x014C */ ObjMakekinsutaActionFunc actionFunc;
     /* 0x150  */ s16 unk_150;
     /* 0x152  */ s16 unk_152;
 } ObjMakekinsuta; // size = 0x0154

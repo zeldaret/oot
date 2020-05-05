@@ -14,7 +14,6 @@ void BgBreakwall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBreakwall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgBreakwall_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void BgBreakwall_SetupAction(BgBreakwall* this, ActorFunc actionFunc);
 void func_80870290(BgBreakwall* this, GlobalContext* globalCtx);
 void func_80870394(BgBreakwall* this, GlobalContext* globalCtx);
 void func_80870564(BgBreakwall* this, GlobalContext* globalCtx);

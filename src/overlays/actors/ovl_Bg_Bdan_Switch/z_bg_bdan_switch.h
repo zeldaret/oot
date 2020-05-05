@@ -13,7 +13,11 @@ typedef enum {
     /* 0x04 */ YELLOW_TALL_2
 } BgBdanSwitchType;
 
-typedef struct {
+struct BgBdanSwitch;
+
+typedef void (*BgBdanSwitchActionFunc)(struct BgBdanSwitch*, GlobalContext*);
+
+typedef struct BgBdanSwitch {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ u32 dynaPolyId;
     /* 0x0150 */ f32 unk_150;
@@ -21,7 +25,7 @@ typedef struct {
     /* 0x0158 */ u32 unk_158;
     /* 0x015C */ u32 unk_15C;
     /* 0x0160 */ u8 unk_160;
-    /* 0x0164 */ ActorFunc actionFunc;
+    /* 0x0164 */ BgBdanSwitchActionFunc actionFunc;
     /* 0x0168 */ ColliderJntSph collider;
     /* 0x0188 */ ColliderJntSphItem colliderItems[1];
     /* 0x01C8 */ f32 unk_1C8;

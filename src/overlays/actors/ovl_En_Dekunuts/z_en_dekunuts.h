@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnDekunuts;
+
+typedef struct EnDekunuts {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x1C8];
 } EnDekunuts; // size = 0x0314
