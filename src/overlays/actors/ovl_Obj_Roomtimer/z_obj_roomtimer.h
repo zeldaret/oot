@@ -5,9 +5,13 @@
 #include <global.h>
 #include <z64.h>
 
-typedef struct {
+struct ObjRoomtimer;
+
+typedef void (*ObjRoomtimerActionFunc)(struct ObjRoomtimer*, GlobalContext*);
+
+typedef struct ObjRoomtimer {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc actionFunc;
+    /* 0x014C */ ObjRoomtimerActionFunc actionFunc;
     /* 0x0150 */ u32 switchFlag;
 } ObjRoomtimer; // size = 0x0154
 

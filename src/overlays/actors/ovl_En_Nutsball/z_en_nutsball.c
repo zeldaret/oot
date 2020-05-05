@@ -51,7 +51,7 @@ void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->objBankIndex < 0) {
         Actor_Kill(&this->actor);
     } else {
-        this->actionFunc = (ActorFunc)func_80ABBB34;
+        this->actionFunc = func_80ABBB34;
     }
 }
 
@@ -67,7 +67,7 @@ void func_80ABBB34(EnNutsball* this, GlobalContext* globalCtx) {
         this->actor.draw = EnNutsball_Draw;
         this->actor.shape.rot.y = 0;
         this->timer = 30;
-        this->actionFunc = (ActorFunc)func_80ABBBA8;
+        this->actionFunc = func_80ABBBA8;
         this->actor.speedXZ = 10.0f;
     }
 }
@@ -122,7 +122,7 @@ void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 pad;
 
-    if (!(player->stateFlags1 & 0x300000C0) || (this->actionFunc == (ActorFunc)func_80ABBB34)) {
+    if (!(player->stateFlags1 & 0x300000C0) || (this->actionFunc == func_80ABBB34)) {
         this->actionFunc(this, globalCtx);
 
         Actor_MoveForward(&this->actor);

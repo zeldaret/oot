@@ -9,7 +9,11 @@ typedef struct {
     /* 0x6 */ u8 unk_6;
 } unk_D_80A69248; // size = 0x8
 
-typedef struct {
+struct EnHorseGanon;
+
+typedef void (*EnHorseGanonActionFunc)(struct EnHorseGanon*, GlobalContext*);
+
+typedef struct EnHorseGanon {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 action;
     /* 0x0150 */ s32 currentAnimation;

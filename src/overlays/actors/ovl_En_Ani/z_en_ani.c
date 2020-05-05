@@ -15,7 +15,6 @@ void EnAni_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAni_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnAni_SetupAction(EnAni* this, ActorFunc actionFunc);
 s32 EnAni_SetText(EnAni* this, GlobalContext* globalCtx, u16 textId);
 void func_809B04F0(EnAni* this, GlobalContext* globalCtx);
 void func_809B0524(EnAni* this, GlobalContext* globalCtx);
@@ -64,7 +63,7 @@ UNK_PTR D_809B0F80[] = {
     0x06001D18,
 };
 
-void EnAni_SetupAction(EnAni* this, ActorFunc actionFunc) {
+void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 

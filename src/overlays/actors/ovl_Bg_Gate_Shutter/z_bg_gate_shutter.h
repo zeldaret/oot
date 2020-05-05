@@ -4,9 +4,13 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgGateShutter;
+
+typedef void (*BgGateShutterActionFunc)(struct BgGateShutter*, GlobalContext*);
+
+typedef struct BgGateShutter {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ ActorFunc actionFunc;
+    /* 0x0164 */ BgGateShutterActionFunc actionFunc;
     /* 0x0168 */ s16 unk_168;
     /* 0x016C */ f32 somePosX;
     /* 0x0170 */ f32 somePosY;

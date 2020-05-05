@@ -277,11 +277,11 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (func_80AA2EC8(this, globalCtx)) {
         case 0:
             func_80AA3004(this, 0);
-            this->actionFunc = (ActorFunc)func_80AA3200;
+            this->actionFunc = func_80AA3200;
             break;
         case 1:
             func_80AA3004(this, 0);
-            this->actionFunc = (ActorFunc)func_80AA3200;
+            this->actionFunc = func_80AA3200;
             break;
         case 2:
             Actor_Kill(&this->actor);

@@ -59,7 +59,7 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->scale.z = 1.0f;
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 柵でたなぁ ☆☆☆☆☆ \n" VT_RST);
-    this->actionFunc = (ActorFunc)func_8087828C;
+    this->actionFunc = func_8087828C;
 }
 
 void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -71,13 +71,13 @@ void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {
     if (this->unk_168 == 1 && !(gSaveContext.infTable[7] & 0x40)) {
         this->unk_178 = 2;
-        this->actionFunc = (ActorFunc)func_80878300;
+        this->actionFunc = func_80878300;
     } else if (this->unk_168 == 2) {
         this->unk_178 = 2;
-        this->actionFunc = (ActorFunc)func_80878300;
+        this->actionFunc = func_80878300;
     } else if (this->unk_168 < 0) {
         this->unk_178 = 2;
-        this->actionFunc = (ActorFunc)func_808783D4;
+        this->actionFunc = func_808783D4;
     }
 }
 
@@ -91,7 +91,7 @@ void func_80878300(BgGateShutter* this, GlobalContext* globalCtx) {
         if (thisx->posRot.pos.x < -89.0f) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_178 = 0x1E;
-            this->actionFunc = (ActorFunc)func_808783AC;
+            this->actionFunc = func_808783AC;
         }
     }
 }
@@ -99,7 +99,7 @@ void func_80878300(BgGateShutter* this, GlobalContext* globalCtx) {
 void func_808783AC(BgGateShutter* this, GlobalContext* globalCtx) {
     if (this->unk_178 == 0) {
         this->unk_168 = 0;
-        this->actionFunc = (ActorFunc)func_8087828C;
+        this->actionFunc = func_8087828C;
     }
 }
 
@@ -114,7 +114,7 @@ void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
             thisx->posRot.pos.x = 91.0f;
             Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_178 = 30;
-            this->actionFunc = (ActorFunc)func_808783AC;
+            this->actionFunc = func_808783AC;
         }
     }
 }

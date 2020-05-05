@@ -17,14 +17,14 @@ typedef struct {
     /* 0x002C */ Vec3f      accel;
 } EnTkEff; // size = 0x0038
 
-typedef struct EnTk EnTk;
+struct EnTk;
 
-typedef void EnTkFunc(EnTk* this, GlobalContext* globalCtx);
+typedef void (*EnTkActionFunc)(struct EnTk*, GlobalContext*);
 
-struct EnTk {
+typedef struct EnTk {
     /* 0x0000 */ Actor      actor;
     /* 0x014C */ SkelAnime  skelAnim;
-    /* 0x0190 */ EnTkFunc*  actionFunc;
+    /* 0x0190 */ EnTkActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ s16        h_1E0;
     /* 0x01E2 */ char       unk_1E2[0x26];
@@ -45,7 +45,7 @@ struct EnTk {
     /* 0x022A */ u16        hz_296[55];
     /* 0x0304 */ Vec3f      v3f_304;
     /* 0x0310 */ EnTkEff    eff[20];
-}; // size = 0x0770
+} EnTk; // size = 0x0770
 
 extern const ActorInit En_Tk_InitVars;
 
