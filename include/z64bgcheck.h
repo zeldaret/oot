@@ -6,8 +6,6 @@ struct DynaPolyActor;
 
 typedef u16 SSNode; 
 
-
-
 typedef struct {
     SSNode floor;
     SSNode wall;
@@ -17,10 +15,20 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u16    type;
-    /* 0x02 */ u16    unk02_h : 3;
-    /* 0x02 */ u16    vIA : 13;
-    /* 0x04 */ u16    unk04_h : 3;
-    /* 0x04 */ u16    vIB : 13;
+    /* 0x02 */ union {
+        u16    flags_vIA;
+        struct {
+            u16     polyFlags : 3;
+            u16     vIA : 13;
+        };
+    };
+    /* 0x04 */ union {
+        u16    flags_vIB;
+        struct {
+            u16    flags : 3;
+            u16    vIB : 13;
+        };
+    };
     /* 0x06 */ u16    vIC;
     /* 0x08 */ Vec3s  norm;  // Normal vector
     /* 0x0E */ s16    dist;  // Plane distance from origin
@@ -79,8 +87,8 @@ typedef struct {
 } CollisionHeader;
 
 typedef struct {
-    u16 unk_00;
-    u16 unk_02;
+    u16 polyId; //poly
+    u16 next; //next
 } SSLink_s;
 
 typedef struct {

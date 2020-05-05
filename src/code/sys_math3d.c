@@ -877,26 +877,26 @@ s32 func_800CD2D8(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 z, f32 x, f
     return 0;
 }
 
-s32 func_800CD34C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+s32 func_800CD34C(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     f32 temp_f6;
     f32 temp_f10;
     f32 temp_f8;
     f32 sp60;
     f32 sq6;
 
-    if (func_800CB1F8(arg0->y, arg0->z, arg1->y, arg1->z, arg2->y, arg2->z, arg3, arg4, arg6) == 0) {
+    if (func_800CB1F8(v0->y, v0->z, v1->y, v1->z, v2->y, v2->z, arg3, arg4, arg6) == 0) {
         return 0;
     }
 
     sq6 = SQ(arg6);
-    if (((SQ(arg0->y - arg3) + SQ(arg0->z - arg4)) < sq6) || ((SQ(arg1->y - arg3) + SQ(arg1->z - arg4)) < sq6) ||
-        ((SQ(arg2->y - arg3) + SQ(arg2->z - arg4)) < sq6)) {
+    if (((SQ(v0->y - arg3) + SQ(v0->z - arg4)) < sq6) || ((SQ(v1->y - arg3) + SQ(v1->z - arg4)) < sq6) ||
+        ((SQ(v2->y - arg3) + SQ(v2->z - arg4)) < sq6)) {
         return 1;
     }
 
-    temp_f6 = ((arg0->y - arg3) * (arg1->z - arg4)) - ((arg0->z - arg4) * (arg1->y - arg3));
-    temp_f10 = ((arg1->y - arg3) * (arg2->z - arg4)) - ((arg1->z - arg4) * (arg2->y - arg3));
-    temp_f8 = ((arg2->y - arg3) * (arg0->z - arg4)) - ((arg2->z - arg4) * (arg0->y - arg3));
+    temp_f6 = ((v0->y - arg3) * (v1->z - arg4)) - ((v0->z - arg4) * (v1->y - arg3));
+    temp_f10 = ((v1->y - arg3) * (v2->z - arg4)) - ((v1->z - arg4) * (v2->y - arg3));
+    temp_f8 = ((v2->y - arg3) * (v0->z - arg4)) - ((v2->z - arg4) * (v0->y - arg3));
 
     if (((temp_f6 <= arg5) && (temp_f10 <= arg5) && (temp_f8 <= arg5)) ||
         ((-arg5 <= temp_f6) && (-arg5 <= temp_f10) && (-arg5 <= temp_f8))) {
@@ -905,19 +905,19 @@ s32 func_800CD34C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
 
     if (0.5f < fabsf(arg7)) {
 
-        if (func_800CE4B8(arg3, arg4, arg0->y, arg0->z, arg1->y, arg1->z, &sp60)) {
+        if (func_800CE4B8(arg3, arg4, v0->y, v0->z, v1->y, v1->z, &sp60)) {
             if (sp60 < sq6) {
                 return 1;
             }
         }
 
-        if (func_800CE4B8(arg3, arg4, arg1->y, arg1->z, arg2->y, arg2->z, &sp60)) {
+        if (func_800CE4B8(arg3, arg4, v1->y, v1->z, v2->y, v2->z, &sp60)) {
             if (sp60 < sq6) {
                 return 1;
             }
         }
 
-        if (func_800CE4B8(arg3, arg4, arg2->y, arg2->z, arg0->y, arg0->z, &sp60)) {
+        if (func_800CE4B8(arg3, arg4, v2->y, v2->z, v0->y, v0->z, &sp60)) {
             if (sp60 < sq6) {
                 return 1;
             }
@@ -980,11 +980,11 @@ s32 func_800CD7D8(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
     return 0;
 }
 
-s32 func_800CD95C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32* arg3, f32 arg4, f32 arg5, f32 arg6) {
-    if (fabsf(*arg3) < 0.008f) {
+s32 func_800CD95C(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 arg4, f32 arg5, f32 arg6) {
+    if (fabsf(plane->normal.x) < 0.008f) {
         return 0;
     }
-    if (func_800CD34C(arg0, arg1, arg2, arg4, arg5, 0.0f, arg6, *arg3)) {
+    if (func_800CD34C(v0, v1, v2, arg4, arg5, 0.0f, arg6, plane->normal.x)) {
         return 1;
     }
     return 0;
@@ -1086,11 +1086,11 @@ s32 func_800CDE88(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
     return 0;
 }
 
-s32 func_800CE010(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, f32 arg6) {
-    if (fabsf(arg3->z) < 0.008f) {
+s32 func_800CE010(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 arg4, f32 arg5, f32 arg6) {
+    if (fabsf(plane->normal.z) < 0.008f) {
         return 0;
     }
-    if (func_800CD9D0(arg0, arg1, arg2, arg4, arg5, 0.0f, arg6, arg3->z)) {
+    if (func_800CD9D0(v0, v1, v2, arg4, arg5, 0.0f, arg6, plane->normal.z)) {
         return 1;
     }
     return 0;

@@ -465,7 +465,7 @@ void func_80038A28(CollisionPoly*, f32, f32, f32, MtxF*);
 // ? func_8003AB28(?);
 // ? func_8003AC54(?);
 // ? func_8003AD00(?);
-// ? func_8003ADC8(?);
+void func_8003ADC8(StaticCollisionContext* arg0, Vec3f* pos, Vec3i* arg2);
 // ? func_8003AEA8(?);
 // ? func_8003B04C(?);
 // ? func_8003B218(?);
@@ -476,7 +476,7 @@ void func_80038A28(CollisionPoly*, f32, f32, f32, MtxF*);
 // ? func_8003BFF4(?);
 // ? func_8003C078(?);
 // ? func_8003C4C4(?);
-// ? func_8003C55C(?);
+s32 func_8003C55C(StaticCollisionContext* arg0, Vec3f* pos);
 // ? func_8003C614(?);
 f32 func_8003C8EC(GlobalContext*, CollisionContext*, CollisionPoly**, Vec3f*);
 f32 func_8003C940(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
@@ -1654,12 +1654,12 @@ s32 func_800CD6B0(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32
                   f32* arg9);
 s32 func_800CD7D8(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
                   f32* arg9, f32 argA, f32 argB);
-s32 func_800CD95C(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32* arg3, f32 arg4, f32 arg5, f32 arg6);
+s32 func_800CD95C(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 arg4, f32 arg5, f32 arg6);
 s32 func_800CDD60(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
                   f32* arg9);
 s32 func_800CDE88(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8,
                   f32* arg9, f32 argA, f32 argB);
-s32 func_800CE010(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, f32 arg5, f32 arg6);
+s32 func_800CE010(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane, f32 arg4, f32 arg5, f32 arg6);
 s32 func_800CE15C(f32 arg0, f32 arg1, f32 arg2, f32 arg3, Vec3f* arg4, Vec3f* arg5, Vec3f* arg6, s32 arg7);
 void Math3D_TriNorm(TriNorm* tri, Vec3f* va, Vec3f* vb, Vec3f* vc);
 s32 func_800CE4B8(f32 param_1, f32 param_2, f32 param_3, f32 param_4, f32 param_5, f32 param_6, f32* param_7);
