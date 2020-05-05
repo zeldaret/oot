@@ -6,7 +6,10 @@
 
 typedef struct {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x8];
+    /* 0x014C */ s16 unk_14C;
+    /* 0x014E */ u8 unk_14E;
+    /* 0x014F */ u8 unk_14F;
+    /* 0x0150 */ ActorFunc actionFunc;
 } EnHoll; // size = 0x0154
 
 extern const ActorInit En_Holl_InitVars;
