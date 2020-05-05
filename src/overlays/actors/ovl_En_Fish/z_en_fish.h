@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnFish;
+
+typedef struct EnFish {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x108];
 } EnFish; // size = 0x0254

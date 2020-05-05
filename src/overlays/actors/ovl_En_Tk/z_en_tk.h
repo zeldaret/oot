@@ -5,7 +5,9 @@
 #include <global.h>
 
 /* Dirt particle effect */
-typedef struct {
+struct EnTkEff;
+
+typedef struct EnTkEff {
     /* 0x0000 */ u8         active;
     /* 0x0001 */ u8         timeLeft;
     /* 0x0002 */ u8         timeTotal;

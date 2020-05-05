@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnCs;
+
+typedef struct EnCs {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x1F8];
 } EnCs; // size = 0x0344

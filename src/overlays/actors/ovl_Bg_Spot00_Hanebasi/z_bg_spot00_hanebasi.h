@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgSpot00Hanebasi;
+
+typedef struct BgSpot00Hanebasi {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ char unk_164[0x1C];
 } BgSpot00Hanebasi; // size = 0x0180

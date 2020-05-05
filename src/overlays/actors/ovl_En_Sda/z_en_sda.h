@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnSda;
+
+typedef struct EnSda {
     /* 0x0000 */ Actor actor;
 } EnSda; // size = 0x014C
 
