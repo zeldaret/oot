@@ -4,9 +4,13 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgSpot01Fusya;
+
+typedef void (*BgSpot01FusyaActionFunc)(struct BgSpot01Fusya*, GlobalContext*);
+
+typedef struct BgSpot01Fusya {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc actionFunc;
+    /* 0x014C */ BgSpot01FusyaActionFunc actionFunc;
     /* 0x0150 */ char unk_150[0x4];
     /* 0x0154 */ f32 unk_154;
     /* 0x0158 */ f32 unk_158;

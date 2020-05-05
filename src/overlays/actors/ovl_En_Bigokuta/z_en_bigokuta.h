@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnBigokuta;
+
+typedef struct EnBigokuta {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x238];
 } EnBigokuta; // size = 0x0384

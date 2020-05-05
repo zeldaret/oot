@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnArrow;
+
+typedef struct EnArrow {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0xFC];
     /* 0x0248 */ u8 timer; // used for dissapearing when flying or hitting a wall

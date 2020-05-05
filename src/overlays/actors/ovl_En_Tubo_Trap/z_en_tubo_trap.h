@@ -4,9 +4,13 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnTuboTrap;
+
+typedef void (*EnTuboTrapActionFunc)(struct EnTuboTrap*, GlobalContext*);
+
+typedef struct EnTuboTrap {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc actionFunc;
+    /* 0x014C */ EnTuboTrapActionFunc actionFunc;
     /* 0x0150 */ f32 targetY;
     /* 0x0154 */ Vec3f originPos;
     /* 0x0160 */ ColliderCylinder collider;

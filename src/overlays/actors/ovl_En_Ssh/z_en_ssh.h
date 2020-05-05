@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnSsh;
+
+typedef struct EnSsh {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x488];
 } EnSsh; // size = 0x05D4

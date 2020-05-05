@@ -15,7 +15,6 @@ void DemoShd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoShd_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoShd_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void DemoShd_SetupAction(DemoShd* this, ActorFunc actionFunc);
 void func_80991298(DemoShd* this, GlobalContext* globalCtx);
 
 /*

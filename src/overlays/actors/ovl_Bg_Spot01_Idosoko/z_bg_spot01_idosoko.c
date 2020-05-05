@@ -35,7 +35,7 @@ static InitChainEntry initChain[] = {
 
 extern u32 D_06003C64;
 
-void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, ActorFunc actionFunc) {
+void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, BgSpot01IdosokoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 

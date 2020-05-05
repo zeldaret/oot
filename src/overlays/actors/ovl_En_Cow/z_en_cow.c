@@ -116,7 +116,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             Collider_InitCylinder(globalCtx, &this->colliders[1]);
             Collider_SetCylinder(globalCtx, &this->colliders[1], &this->actor, &cylinderInit);
             func_809DEE9C(this);
-            this->actionFunc = (ActorFunc)func_809DF96C;
+            this->actionFunc = func_809DF96C;
             if (globalCtx->sceneNum == SCENE_LINK_HOME) {
                 if (gSaveContext.linkAge != 0) {
                     Actor_Kill(&this->actor);
@@ -140,7 +140,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_06004348);
             this->actor.update = func_809DFE98;
             this->actor.draw = func_809E0070;
-            this->actionFunc = (ActorFunc)func_809DFA84;
+            this->actionFunc = func_809DFA84;
             func_809DEF94(this);
             this->actor.flags &= ~0x1;
             this->unk_278 = ((u32)(Math_Rand_ZeroFloat(1000.0f)) & 0xFFFF) + 40.0f;
@@ -199,21 +199,21 @@ void func_809DF6BC(EnCow* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         this->actor.flags &= ~0x10000;
         func_80106CCC(globalCtx);
-        this->actionFunc = (ActorFunc)func_809DF96C;
+        this->actionFunc = func_809DF96C;
     }
 }
 
 void func_809DF730(EnCow* this, GlobalContext* globalCtx) {
     if (func_8002F334(&this->actor, globalCtx)) {
         this->actor.flags &= ~0x10000;
-        this->actionFunc = (ActorFunc)func_809DF96C;
+        this->actionFunc = func_809DF96C;
     }
 }
 
 void func_809DF778(EnCow* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx)) {
         this->actor.attachedA = NULL;
-        this->actionFunc = (ActorFunc)func_809DF730;
+        this->actionFunc = func_809DF730;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 100.0f);
     }
@@ -223,7 +223,7 @@ void func_809DF7D8(EnCow* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         this->actor.flags &= ~0x10000;
         func_80106CCC(globalCtx);
-        this->actionFunc = (ActorFunc)func_809DF778;
+        this->actionFunc = func_809DF778;
         func_8002F434(&this->actor, globalCtx, GI_MILK, 10000.0f, 100.0f);
     }
 }
@@ -232,17 +232,17 @@ void func_809DF870(EnCow* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         if (Inventory_HasEmptyBottle()) {
             func_8010B720(globalCtx, 0x2007);
-            this->actionFunc = (ActorFunc)func_809DF7D8;
+            this->actionFunc = func_809DF7D8;
         } else {
             func_8010B720(globalCtx, 0x2013);
-            this->actionFunc = (ActorFunc)func_809DF6BC;
+            this->actionFunc = func_809DF6BC;
         }
     }
 }
 
 void func_809DF8FC(EnCow* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
-        this->actionFunc = (ActorFunc)func_809DF870;
+        this->actionFunc = func_809DF870;
     } else {
         this->actor.flags |= 0x10000;
         func_8002F2CC(&this->actor, globalCtx, 170.0f);
@@ -261,7 +261,7 @@ void func_809DF96C(EnCow* this, GlobalContext* globalCtx) {
                 if ((this->actor.xzDistanceFromLink < 150.0f) &&
                     (ABS((s16)(this->actor.rotTowardsLinkY - this->actor.shape.rot.y)) < 0x61A8)) {
                     DREG(53) = 0;
-                    this->actionFunc = (ActorFunc)func_809DF8FC;
+                    this->actionFunc = func_809DF8FC;
                     this->actor.flags |= 0x10000;
                     func_8002F2CC(&this->actor, globalCtx, 170.0f);
                     this->actor.textId = 0x2006;

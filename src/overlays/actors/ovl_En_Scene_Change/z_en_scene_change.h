@@ -4,9 +4,13 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnSceneChange;
+
+typedef void (*EnSceneChangeActionFunc)(struct EnSceneChange*, GlobalContext*);
+
+typedef struct EnSceneChange {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc actionFunc;
+    /* 0x014C */ EnSceneChangeActionFunc actionFunc;
 } EnSceneChange; // size = 0x0150
 
 extern const ActorInit En_Scene_Change_InitVars;

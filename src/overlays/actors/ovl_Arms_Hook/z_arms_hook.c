@@ -9,7 +9,6 @@ void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ArmsHook_Update(Actor* thisx, GlobalContext* globalCtx);
 void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void ArmsHook_SetupAction(ArmsHook* this, ActorFunc actionFunc);
 void func_80864FC4(ArmsHook* this, GlobalContext* globalCtx);
 
 /*

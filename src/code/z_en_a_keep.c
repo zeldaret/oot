@@ -16,9 +16,13 @@ typedef enum {
     /* 0x0B */ A_OBJ_KNOB
 } AObjType;
 
-typedef struct {
+struct EnAObj;
+
+typedef void (*EnAObjActionFunc)(struct EnAObj*, GlobalContext*);
+
+typedef struct EnAObj {
     /* 0x000 */ DynaPolyActor dyna;
-    /* 0x164 */ ActorFunc actionFunc;
+    /* 0x164 */ EnAObjActionFunc actionFunc;
     /* 0x168 */ s32 unk_168;
     /* 0x16C */ s16 textId;
     /* 0x16E */ s16 unk_16E;
@@ -66,7 +70,7 @@ extern ColliderCylinderInit D_80115440;
 extern u32 D_8011546C[];
 extern u32 D_80115484[];
 
-void EnAObj_SetupAction(EnAObj* this, ActorFunc actionFunc) {
+void EnAObj_SetupAction(EnAObj* this, EnAObjActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -192,7 +196,7 @@ void func_8001D204(EnAObj* this, GlobalContext* globalCtx) {
 }
 
 void func_8001D234(EnAObj* this, s16 params) {
-    EnAObj_SetupAction(this, (ActorFunc)func_8001D25C);
+    EnAObj_SetupAction(this, func_8001D25C);
 }
 
 void func_8001D25C(EnAObj* this, GlobalContext* globalCtx) {
@@ -202,7 +206,7 @@ void func_8001D25C(EnAObj* this, GlobalContext* globalCtx) {
         var = this->dyna.actor.rotTowardsLinkY - this->dyna.actor.shape.rot.y;
         if ((ABS(var) < 0x2800) || ((this->dyna.actor.params == 0xA) && (ABS(var) > 0x5800))) {
             if (func_8002F194(&this->dyna.actor, globalCtx)) {
-                EnAObj_SetupAction(this, (ActorFunc)func_8001D204);
+                EnAObj_SetupAction(this, func_8001D204);
             } else {
                 func_8002F2F4(&this->dyna.actor, globalCtx);
             }
@@ -215,7 +219,7 @@ void func_8001D310(EnAObj* this, s16 params) {
     this->unk_168 = 10;
     this->dyna.actor.posRot.rot.y = 0;
     this->dyna.actor.shape.rot = this->dyna.actor.posRot.rot;
-    EnAObj_SetupAction(this, (ActorFunc)func_8001D360);
+    EnAObj_SetupAction(this, func_8001D360);
 }
 
 void func_8001D360(EnAObj* this, GlobalContext* globalCtx) {
@@ -258,7 +262,7 @@ void func_8001D360(EnAObj* this, GlobalContext* globalCtx) {
 }
 
 void func_8001D480(EnAObj* this, s16 params) {
-    EnAObj_SetupAction(this, (ActorFunc)func_8001D4A8);
+    EnAObj_SetupAction(this, func_8001D4A8);
 }
 
 void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
@@ -288,7 +292,7 @@ void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
 void func_8001D5C8(EnAObj* this, s16 params) {
     this->dyna.actor.unk_FC = 1200.0f;
     this->dyna.actor.unk_F8 = 720.0f;
-    EnAObj_SetupAction(this, (ActorFunc)func_8001D608);
+    EnAObj_SetupAction(this, func_8001D608);
 }
 
 void func_8001D608(EnAObj* this, GlobalContext* globalCtx) {

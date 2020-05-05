@@ -20,8 +20,8 @@ void EnEg_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_809FFDC8(EnEg* this, GlobalContext* globalCtx);
 
 static bool hasVoidedOut = false;
-static const ActorFunc funcTbl[] = {
-    (ActorFunc)func_809FFDC8,
+static const EnEgActionFunc actionFuncs[] = {
+    func_809FFDC8,
 };
 
 const ActorInit En_Eg_InitVars = {
@@ -46,7 +46,7 @@ void EnEg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnEg_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnEg* this = THIS;
 
-    this->funcIndex = 0;
+    this->action = 0;
 }
 
 void func_809FFDC8(EnEg* this, GlobalContext* globalCtx) {
@@ -63,13 +63,13 @@ void func_809FFDC8(EnEg* this, GlobalContext* globalCtx) {
 
 void EnEg_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnEg* this = THIS;
-    s32 funcIndex = this->funcIndex;
+    s32 action = this->action;
 
-    if (((funcIndex < 0) || (0 < funcIndex)) || (funcTbl[funcIndex] == NULL)) {
+    if (((action < 0) || (0 < action)) || (actionFuncs[action] == NULL)) {
         // Translates to: "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        funcTbl[funcIndex](this, globalCtx);
+        actionFuncs[action](this, globalCtx);
     }
 }
 

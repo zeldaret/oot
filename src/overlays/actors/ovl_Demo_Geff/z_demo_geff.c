@@ -29,18 +29,19 @@ s16 objectIds[] = {
     OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF,
 };
 
-ActorFunc scaleFuncs[] = {
-    (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
-    (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
-    (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
+DemoGeffInitFunc initFuncs[] = {
+    func_80978030, func_80978030, func_80978030, func_80978030, func_80978030,
+    func_80978030, func_80978030, func_80978030, func_80978030,
 };
-ActorFunc actionFuncs[] = {
-    (ActorFunc)func_809783D4,
-    (ActorFunc)func_80978308,
+
+DemoGeffActionFunc actionFuncs[] = {
+    func_809783D4,
+    func_80978308,
 };
-ActorFunc drawFuncs[] = {
-    (ActorFunc)func_809784D4,
-    (ActorFunc)func_80978344,
+
+DemoGeffDrawFunc drawFuncs[] = {
+    func_809784D4,
+    func_80978344,
 };
 
 const ActorInit Demo_Geff_InitVars = {
@@ -178,13 +179,13 @@ void func_80978344(DemoGeff* this, GlobalContext* globalCtx) {
 
 void func_80978370(DemoGeff* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params;
-    ActorFunc actorFunc = scaleFuncs[params];
-    if (actorFunc == NULL) {
+    DemoGeffInitFunc initFunc = initFuncs[params];
+    if (initFunc == NULL) {
         osSyncPrintf(VT_FGCOL(RED) " Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n" VT_RST, params);
         Actor_Kill(&this->actor);
         return;
     }
-    actorFunc(this, globalCtx);
+    initFunc(this, globalCtx);
 }
 
 void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {

@@ -265,10 +265,10 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_1E8.unk_00 = 0;
 
     if ((!(gSaveContext.eventChkInf[1] & 0x10)) || (CHECK_QUEST_ITEM(QUEST_SONG_EPONA))) {
-        this->actionFunc = (ActorFunc)func_80AA0D88;
+        this->actionFunc = func_80AA0D88;
         func_80AA0A84(this, 2);
     } else {
-        this->actionFunc = (ActorFunc)func_80AA0F44;
+        this->actionFunc = func_80AA0F44;
         func_80AA0A84(this, 2);
     }
 }
@@ -295,7 +295,7 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else if ((!(gSaveContext.eventChkInf[1] & 0x10)) || (CHECK_QUEST_ITEM(QUEST_SONG_EPONA))) {
         if (this->unk_1E8.unk_00 == 2) {
-            this->actionFunc = (ActorFunc)func_80AA0EA0;
+            this->actionFunc = func_80AA0EA0;
             globalCtx->msgCtx.unk_E3E7 = 4;
             globalCtx->msgCtx.msgMode = 0x36;
         }
@@ -305,7 +305,7 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
 void func_80AA0EA0(EnMa1* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx)) {
         this->actor.attachedA = NULL;
-        this->actionFunc = (ActorFunc)func_80AA0EFC;
+        this->actionFunc = func_80AA0EFC;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_WEIRD_EGG, 120.0f, 10.0f);
     }
@@ -314,7 +314,7 @@ void func_80AA0EA0(EnMa1* this, GlobalContext* globalCtx) {
 void func_80AA0EFC(EnMa1* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 == 3) {
         this->unk_1E8.unk_00 = 0;
-        this->actionFunc = (ActorFunc)func_80AA0D88;
+        this->actionFunc = func_80AA0D88;
         gSaveContext.eventChkInf[1] |= 4;
         globalCtx->msgCtx.msgMode = 0x36;
     }
@@ -341,7 +341,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             func_8010B680(globalCtx, this->actor.textId, 0);
             this->unk_1E8.unk_00 = 1;
             this->actor.flags |= 0x10000;
-            this->actionFunc = (ActorFunc)func_80AA106C;
+            this->actionFunc = func_80AA106C;
         } else if (this->actor.xzDistanceFromLink < 30.0f + (f32)this->collider.dim.radius) {
             player->stateFlags2 |= 0x800000;
         }
@@ -354,7 +354,7 @@ void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
         func_800ED858(2);
         func_8010BD58(globalCtx, 9);
         this->actor.flags &= ~0x10000;
-        this->actionFunc = (ActorFunc)func_80AA10EC;
+        this->actionFunc = func_80AA10EC;
     }
 }
 
@@ -362,7 +362,7 @@ void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
     PLAYER->stateFlags2 |= 0x800000;
     if (func_8010BDBC(&globalCtx->msgCtx) == 7) {
         func_8010BD58(globalCtx, 0x16);
-        this->actionFunc = (ActorFunc)func_80AA1150;
+        this->actionFunc = func_80AA1150;
     }
 }
 
@@ -373,7 +373,7 @@ void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
         gSaveContext.nextCutsceneIndex = 0xFFF1;
         globalCtx->fadeTransition = 42;
         globalCtx->sceneLoadFlag = 0x14;
-        this->actionFunc = (ActorFunc)func_80AA11C8;
+        this->actionFunc = func_80AA11C8;
     }
 }
 
@@ -389,7 +389,7 @@ void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_80AA0A0C(this);
     this->actionFunc(this, globalCtx);
-    if (this->actionFunc != (ActorFunc)func_80AA11C8) {
+    if (this->actionFunc != func_80AA11C8) {
         func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, (f32)this->collider.dim.radius + 30.0f,
                       EnMa1_GetText, func_80AA0778);
     }
