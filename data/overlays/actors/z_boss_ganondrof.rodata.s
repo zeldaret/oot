@@ -248,28 +248,28 @@ glabel D_809154C0
     .float 0.001
     .balign 4
 
-glabel D_809154C4
- .word func_809145BC
-.word func_809145BC
-.word func_809145BC
-.word func_80914610
-.word func_80914610
-.word func_80914610
+glabel jtbl_80A3F02C
+ .word L809145BC
+.word L809145BC
+.word L809145BC
+.word L80914610
+.word L80914610
+.word L80914610
 .word L80914678
 .word L80914678
-.word func_80914664
+.word L80914664
 .word L80914678
 .word L8091430C
 .word L80914678
 .word L80914678
 .word L80914678
-.word func_80914394
-.word func_809143F0
-.word func_8091444C
+.word L80914394
+.word L809143F0
+.word L8091444C
 .word L80914678
-.word func_809144A8
-.word func_80914504
-.word func_80914560
+.word L809144A8
+.word L80914504
+.word L80914560
 glabel D_80915518
  .word 0x40490FF9, 0x00000000
 

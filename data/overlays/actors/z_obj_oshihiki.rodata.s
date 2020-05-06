@@ -82,12 +82,12 @@ glabel jtbl_80B9CCBC
 glabel jtbl_80B9CCDC
 .word L80B9B658
 .word L80B9B658
-.word func_80B9B668
-.word func_80B9B678
+.word L80B9B668
+.word L80B9B678
 .word L80B9B658
 .word L80B9B658
-.word func_80B9B668
-.word func_80B9B678
+.word L80B9B668
+.word L80B9B678
 glabel D_80B9CCFC
  .word 0xBA83126F
 glabel D_80B9CD00
