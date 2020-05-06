@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00001035
 
-void EnPoField_Init(EnPoField* this, GlobalContext* globalCtx);
-void EnPoField_Destroy(EnPoField* this, GlobalContext* globalCtx);
-void EnPoField_Update(EnPoField* this, GlobalContext* globalCtx);
-void EnPoField_Draw(EnPoField* this, GlobalContext* globalCtx);
+#define THIS ((EnPoField*)thisx)
+
+void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnPoField_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnPoField_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Po_Field_InitVars = {

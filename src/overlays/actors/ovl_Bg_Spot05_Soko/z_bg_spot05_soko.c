@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx);
-void BgSpot05Soko_Destroy(BgSpot05Soko* this, GlobalContext* globalCtx);
-void BgSpot05Soko_Update(BgSpot05Soko* this, GlobalContext* globalCtx);
-void BgSpot05Soko_Draw(BgSpot05Soko* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot05Soko*)thisx)
+
+void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot05Soko_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot05Soko_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx);
 void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx);
 void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx);
@@ -40,9 +42,8 @@ static Gfx* dListTbl[] = {
     0x06001190,
 };
 
-void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx) {
-
-    Actor* thisx = &this->dyna.actor;
+void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot05Soko* this = THIS;
     u32 pad1;
     u32 sp24;
     u32 pad2;
@@ -71,7 +72,9 @@ void BgSpot05Soko_Init(BgSpot05Soko* this, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, sp24);
 }
 
-void BgSpot05Soko_Destroy(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot05Soko* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
@@ -98,10 +101,12 @@ void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot05Soko_Update(BgSpot05Soko* this, GlobalContext* globalCtx) {
+void BgSpot05Soko_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot05Soko* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
-void BgSpot05Soko_Draw(BgSpot05Soko* this, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, dListTbl[this->dyna.actor.params]);
+void BgSpot05Soko_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, dListTbl[thisx->params]);
 }

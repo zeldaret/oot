@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000011
 
-void EnBombf_Init(EnBombf* this, GlobalContext* globalCtx);
-void EnBombf_Destroy(EnBombf* this, GlobalContext* globalCtx);
-void EnBombf_Update(EnBombf* this, GlobalContext* globalCtx);
-void EnBombf_Draw(EnBombf* this, GlobalContext* globalCtx);
+#define THIS ((EnBombf*)thisx)
+
+void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBombf_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Bombf_InitVars = {

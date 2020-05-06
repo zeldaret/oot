@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000019
 
-void EnKo_Init(EnKo* this, GlobalContext* globalCtx);
-void EnKo_Destroy(EnKo* this, GlobalContext* globalCtx);
-void EnKo_Update(EnKo* this, GlobalContext* globalCtx);
-void EnKo_Draw(EnKo* this, GlobalContext* globalCtx);
+#define THIS ((EnKo*)thisx)
+
+void EnKo_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnKo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnKo_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ko_InitVars = {

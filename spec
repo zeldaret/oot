@@ -593,8 +593,6 @@ beginseg
     include "build/src/overlays/gamestates/ovl_opening/z_opening_reloc.o"
 endseg
 
-// note: increment commands account for segments who have BSS data but reflect a Virt addr range difference.
-
 beginseg
     name "ovl_file_choose"
     include "build/src/overlays/gamestates/ovl_file_choose/z_file_choose.o"
@@ -707,8 +705,7 @@ endseg
 beginseg
     name "ovl_Bg_Ddan_Kd"
     include "build/src/overlays/actors/ovl_Bg_Ddan_Kd/z_bg_ddan_kd.o"
-    include "build/data/overlays/actors/z_bg_ddan_kd.data.o"
-    include "build/data/overlays/actors/z_bg_ddan_kd.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ddan_Kd/z_bg_ddan_kd_reloc.o"
 endseg
 
 beginseg
@@ -2194,9 +2191,9 @@ endseg
 
 beginseg
     name "ovl_En_Box"
-    increment 0x10
     include "build/src/overlays/actors/ovl_En_Box/z_en_box.o"
     include "build/data/overlays/actors/z_en_box.data.o"
+    include "build/data/overlays/actors/z_en_box.bss.o"
     include "build/data/overlays/actors/z_en_box.reloc.o"
 endseg
 
@@ -2253,8 +2250,7 @@ endseg
 beginseg
     name "ovl_En_Cow"
     include "build/src/overlays/actors/ovl_En_Cow/z_en_cow.o"
-    include "build/data/overlays/actors/z_en_cow.data.o"
-    include "build/data/overlays/actors/z_en_cow.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Cow/z_en_cow_reloc.o"
 endseg
 
 beginseg
@@ -2710,7 +2706,6 @@ endseg
 beginseg
     name "ovl_En_Horse_Ganon"
     include "build/src/overlays/actors/ovl_En_Horse_Ganon/z_en_horse_ganon.o"
-    include "build/data/overlays/actors/z_en_horse_ganon.data.o"
     include "build/data/overlays/actors/z_en_horse_ganon.reloc.o"
 endseg
 
@@ -2918,8 +2913,7 @@ endseg
 beginseg
     name "ovl_En_Ma3"
     include "build/src/overlays/actors/ovl_En_Ma3/z_en_ma3.o"
-    include "build/data/overlays/actors/z_en_ma3.data.o"
-    include "build/data/overlays/actors/z_en_ma3.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ma3/z_en_ma3_reloc.o"
 endseg
 
 beginseg
@@ -3271,9 +3265,9 @@ endseg
 
 beginseg
     name "ovl_En_Sw"
-    increment 0x80
     include "build/src/overlays/actors/ovl_En_Sw/z_en_sw.o"
     include "build/data/overlays/actors/z_en_sw.data.o"
+    include "build/data/overlays/actors/z_en_sw.bss.o"
     include "build/data/overlays/actors/z_en_sw.reloc.o"
 endseg
 

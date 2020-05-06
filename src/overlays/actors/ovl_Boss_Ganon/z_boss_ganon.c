@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000035
 
-void BossGanon_Init(BossGanon* this, GlobalContext* globalCtx);
-void BossGanon_Destroy(BossGanon* this, GlobalContext* globalCtx);
-void BossGanon_Update(BossGanon* this, GlobalContext* globalCtx);
-void BossGanon_Draw(BossGanon* this, GlobalContext* globalCtx);
+#define THIS ((BossGanon*)thisx)
+
+void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx);
+void BossGanon_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx);
+void BossGanon_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Boss_Ganon_InitVars = {

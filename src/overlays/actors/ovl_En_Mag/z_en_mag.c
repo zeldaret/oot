@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000030
 
-void EnMag_Init(EnMag* this, GlobalContext* globalCtx);
-void EnMag_Destroy(EnMag* this, GlobalContext* globalCtx);
-void EnMag_Update(EnMag* this, GlobalContext* globalCtx);
-void EnMag_Draw(EnMag* this, GlobalContext* globalCtx);
+#define THIS ((EnMag*)thisx)
+
+void EnMag_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMag_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMag_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMag_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Mag_InitVars = {

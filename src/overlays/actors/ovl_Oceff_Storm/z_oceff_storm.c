@@ -2,10 +2,12 @@
 
 #define FLAGS 0x02000030
 
-void OceffStorm_Init(OceffStorm* this, GlobalContext* globalCtx);
-void OceffStorm_Destroy(OceffStorm* this, GlobalContext* globalCtx);
-void OceffStorm_Update(OceffStorm* this, GlobalContext* globalCtx);
-void OceffStorm_Draw(OceffStorm* this, GlobalContext* globalCtx);
+#define THIS ((OceffStorm*)thisx)
+
+void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx);
+void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void OceffStorm_Update(Actor* thisx, GlobalContext* globalCtx);
+void OceffStorm_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Oceff_Storm_InitVars = {

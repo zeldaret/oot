@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000005
 
-void EnDekunuts_Init(EnDekunuts* this, GlobalContext* globalCtx);
-void EnDekunuts_Destroy(EnDekunuts* this, GlobalContext* globalCtx);
-void EnDekunuts_Update(EnDekunuts* this, GlobalContext* globalCtx);
-void EnDekunuts_Draw(EnDekunuts* this, GlobalContext* globalCtx);
+#define THIS ((EnDekunuts*)thisx)
+
+void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDekunuts_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDekunuts_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Dekunuts_InitVars = {

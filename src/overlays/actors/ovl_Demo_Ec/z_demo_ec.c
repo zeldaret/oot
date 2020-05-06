@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void DemoEc_Init(DemoEc* this, GlobalContext* globalCtx);
-void DemoEc_Destroy(DemoEc* this, GlobalContext* globalCtx);
-void DemoEc_Update(DemoEc* this, GlobalContext* globalCtx);
-void DemoEc_Draw(DemoEc* this, GlobalContext* globalCtx);
+#define THIS ((DemoEc*)thisx)
+
+void DemoEc_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoEc_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoEc_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoEc_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Demo_Ec_InitVars = {

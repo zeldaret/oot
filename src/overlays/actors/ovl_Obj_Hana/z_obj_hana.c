@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void ObjHana_Init(ObjHana* this, GlobalContext* globalCtx);
-void ObjHana_Destroy(ObjHana* this, GlobalContext* globalCtx);
-void ObjHana_Update(ObjHana* this, GlobalContext* globalCtx);
-void ObjHana_Draw(ObjHana* this, GlobalContext* globalCtx);
+#define THIS ((ObjHana*)thisx)
+
+void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjHana_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjHana_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Hana_InitVars = {

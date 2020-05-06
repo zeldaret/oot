@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00000009
 
-void ShotSun_Init(ShotSun* this, GlobalContext* globalCtx);
-void ShotSun_Destroy(ShotSun* this, GlobalContext* globalCtx);
-void ShotSun_Update(ShotSun* this, GlobalContext* globalCtx);
+#define THIS ((ShotSun*)thisx)
+
+void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx);
+void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Shot_Sun_InitVars = {

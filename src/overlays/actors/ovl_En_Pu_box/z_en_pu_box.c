@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void EnPubox_Init(EnPubox* this, GlobalContext* globalCtx);
-void EnPubox_Destroy(EnPubox* this, GlobalContext* globalCtx);
-void EnPubox_Update(EnPubox* this, GlobalContext* globalCtx);
-void EnPubox_Draw(EnPubox* this, GlobalContext* globalCtx);
+#define THIS ((EnPubox*)thisx)
+
+void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Pu_box_InitVars = {
     ACTOR_EN_PU_BOX,
@@ -28,9 +30,9 @@ const ActorInit En_Pu_box_InitVars = {
 extern u32 D_06000380;
 extern u32 D_060006D0;
 
-void EnPubox_Init(EnPubox* this, GlobalContext* globalCtx) {
+void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 local_c = 0;
-    Actor* thisx = &this->dyna.actor;
+    EnPubox* this = THIS;
 
     switch (thisx->params) {
         case 0:
@@ -61,12 +63,14 @@ void EnPubox_Init(EnPubox* this, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 }
 
-void EnPubox_Destroy(EnPubox* this, GlobalContext* globalCtx) {
+void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnPubox* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-void EnPubox_Update(EnPubox* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnPubox* this = THIS;
 
     thisx->speedXZ += this->dyna.unk_150;
     thisx->posRot.rot.y = this->dyna.unk_158;
@@ -82,6 +86,6 @@ void EnPubox_Update(EnPubox* this, GlobalContext* globalCtx) {
     thisx->posRot2.pos = thisx->posRot.pos;
 }
 
-void EnPubox_Draw(EnPubox* this, GlobalContext* globalCtx) {
+void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_06000380);
 }

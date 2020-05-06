@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void BgJyaGoroiwa_Init(BgJyaGoroiwa* this, GlobalContext* globalCtx);
-void BgJyaGoroiwa_Destroy(BgJyaGoroiwa* this, GlobalContext* globalCtx);
-void BgJyaGoroiwa_Update(BgJyaGoroiwa* this, GlobalContext* globalCtx);
-void BgJyaGoroiwa_Draw(BgJyaGoroiwa* this, GlobalContext* globalCtx);
+#define THIS ((BgJyaGoroiwa*)thisx)
+
+void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Jya_Goroiwa_InitVars = {

@@ -4,9 +4,13 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgSpot15Saku;
+
+typedef void (*BgSpot15SakuActionFunc)(struct BgSpot15Saku*, GlobalContext*);
+
+typedef struct BgSpot15Saku {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ ActorFunc actionFunc;
+    /* 0x0164 */ BgSpot15SakuActionFunc actionFunc;
     /* 0x0168 */ u64 unk_168;
     /* 0x0170 */ f32 unk_170;
     /* 0x0174 */ f32 unk_174;

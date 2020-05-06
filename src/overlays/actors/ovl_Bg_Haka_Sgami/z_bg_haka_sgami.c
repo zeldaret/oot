@@ -8,9 +8,12 @@
 
 #define FLAGS 0x00000011
 
-void BgHakaSgami_Init(BgHakaSgami* this, GlobalContext* globalCtx);
-void BgHakaSgami_Destroy(BgHakaSgami* this, GlobalContext* globalCtx);
-void BgHakaSgami_Update(BgHakaSgami* this, GlobalContext* globalCtx);
+#define THIS ((BgHakaSgami*)thisx)
+
+void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaSgami_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaSgami_Update(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8087E7E4(BgHakaSgami* this, GlobalContext* globalCtx);
 void func_8087E858(BgHakaSgami* this, GlobalContext* globalCtx);
 void func_8087EDC0(BgHakaSgami* this, GlobalContext* globalCtx);

@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnTest;
+
+typedef struct EnTest {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x03C];
     /* 0x0188 */ SkelAnime skelAnime_188;

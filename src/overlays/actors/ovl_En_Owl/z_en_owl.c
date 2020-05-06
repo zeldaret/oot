@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000019
 
-void EnOwl_Init(EnOwl* this, GlobalContext* globalCtx);
-void EnOwl_Destroy(EnOwl* this, GlobalContext* globalCtx);
-void EnOwl_Update(EnOwl* this, GlobalContext* globalCtx);
-void EnOwl_Draw(EnOwl* this, GlobalContext* globalCtx);
+#define THIS ((EnOwl*)thisx)
+
+void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnOwl_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Owl_InitVars = {

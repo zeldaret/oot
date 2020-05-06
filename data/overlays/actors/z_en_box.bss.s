@@ -5,7 +5,7 @@
  .set noreorder # don't insert nops after branches
  .set gp=64     # allow use of 64-bit general purposee registers
 
-.section .rodata
-glabel D_809E0140
+.bss
 
-.incbin "baserom/ovl_En_Cow", 0x1340, 0x00000100
+glabel D_809CAB00
+    .space 0x10

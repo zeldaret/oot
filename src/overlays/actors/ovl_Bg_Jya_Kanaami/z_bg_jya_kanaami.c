@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void BgJyaKanaami_Init(BgJyaKanaami* this, GlobalContext* globalCtx);
-void BgJyaKanaami_Destroy(BgJyaKanaami* this, GlobalContext* globalCtx);
-void BgJyaKanaami_Update(BgJyaKanaami* this, GlobalContext* globalCtx);
-void BgJyaKanaami_Draw(BgJyaKanaami* this, GlobalContext* globalCtx);
+#define THIS ((BgJyaKanaami*)thisx)
+
+void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaKanaami_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80899880(BgJyaKanaami* this);
 void func_80899894(BgJyaKanaami* this, GlobalContext* globalCtx);
@@ -55,7 +57,9 @@ void func_80899740(BgJyaKanaami* this, GlobalContext* globalCtx, u32 collision, 
     }
 }
 
-void BgJyaKanaami_Init(BgJyaKanaami* this, GlobalContext* globalCtx) {
+void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgJyaKanaami* this = THIS;
+
     func_80899740(this, globalCtx, &D_0600F208, 0);
     Actor_ProcessInitChain(&this->actor, initChain);
     if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F)) {
@@ -66,7 +70,9 @@ void BgJyaKanaami_Init(BgJyaKanaami* this, GlobalContext* globalCtx) {
     osSyncPrintf("(jya 金網)(arg_data 0x%04x)\n", this->actor.params);
 }
 
-void BgJyaKanaami_Destroy(BgJyaKanaami* this, GlobalContext* globalCtx) {
+void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgJyaKanaami* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
@@ -111,13 +117,15 @@ void func_80899A08(BgJyaKanaami* this) {
     this->actor.posRot.rot.x = 0x4000;
 }
 
-void BgJyaKanaami_Update(BgJyaKanaami* this, GlobalContext* globalCtx) {
+void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgJyaKanaami* this = THIS;
+
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
     }
     this->actor.shape.rot.x = this->actor.posRot.rot.x;
 }
 
-void BgJyaKanaami_Draw(BgJyaKanaami* this, GlobalContext* globalCtx) {
+void BgJyaKanaami_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_0600F000);
 }

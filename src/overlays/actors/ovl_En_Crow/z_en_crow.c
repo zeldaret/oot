@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00005005
 
-void EnCrow_Init(EnCrow* this, GlobalContext* globalCtx);
-void EnCrow_Destroy(EnCrow* this, GlobalContext* globalCtx);
-void EnCrow_Update(EnCrow* this, GlobalContext* globalCtx);
-void EnCrow_Draw(EnCrow* this, GlobalContext* globalCtx);
+#define THIS ((EnCrow*)thisx)
+
+void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnCrow_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Crow_InitVars = {

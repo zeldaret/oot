@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnLightbox;
+
+typedef struct EnLightbox {
     /* 0x0000 */ DynaPolyActor dyna;
 } EnLightbox; // size = 0x0164
 

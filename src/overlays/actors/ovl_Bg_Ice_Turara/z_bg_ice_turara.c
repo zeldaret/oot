@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void BgIceTurara_Init(BgIceTurara* this, GlobalContext* globalCtx);
-void BgIceTurara_Destroy(BgIceTurara* this, GlobalContext* globalCtx);
-void BgIceTurara_Update(BgIceTurara* this, GlobalContext* globalCtx);
-void BgIceTurara_Draw(BgIceTurara* this, GlobalContext* globalCtx);
+#define THIS ((BgIceTurara*)thisx)
+
+void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgIceTurara_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgIceTurara_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Ice_Turara_InitVars = {

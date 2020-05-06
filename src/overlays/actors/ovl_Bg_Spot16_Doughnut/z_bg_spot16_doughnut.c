@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void BgSpot16Doughnut_Init(BgSpot16Doughnut* this, GlobalContext* globalCtx);
-void BgSpot16Doughnut_Destroy(BgSpot16Doughnut* this, GlobalContext* globalCtx);
-void BgSpot16Doughnut_Update(BgSpot16Doughnut* this, GlobalContext* globalCtx);
-void BgSpot16Doughnut_Draw(BgSpot16Doughnut* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot16Doughnut*)thisx)
+
+void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot16Doughnut_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot16Doughnut_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot16Doughnut_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot16_Doughnut_InitVars = {

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void EnDyExtra_Init(EnDyExtra* this, GlobalContext* globalCtx);
-void EnDyExtra_Destroy(EnDyExtra* this, GlobalContext* globalCtx);
-void EnDyExtra_Update(EnDyExtra* this, GlobalContext* globalCtx);
-void EnDyExtra_Draw(EnDyExtra* this, GlobalContext* globalCtx);
+#define THIS ((EnDyExtra*)thisx)
+
+void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Dy_Extra_InitVars = {

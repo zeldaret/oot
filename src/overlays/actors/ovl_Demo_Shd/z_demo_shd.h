@@ -4,11 +4,15 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct DemoShd;
+
+typedef void (*DemoShdActionFunc)(struct DemoShd*, GlobalContext*);
+
+typedef struct DemoShd {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s16 unk_14C;
     /* 0x014E */ s16 unk_14E;
-    /* 0x0150 */ ActorFunc actionFunc;
+    /* 0x0150 */ DemoShdActionFunc actionFunc;
 } DemoShd; // size = 0x0154
 
 extern const ActorInit Demo_Shd_InitVars;

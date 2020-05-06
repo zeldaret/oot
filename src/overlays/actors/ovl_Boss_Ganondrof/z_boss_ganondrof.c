@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000035
 
-void BossGanondrof_Init(BossGanondrof* this, GlobalContext* globalCtx);
-void BossGanondrof_Destroy(BossGanondrof* this, GlobalContext* globalCtx);
-void BossGanondrof_Update(BossGanondrof* this, GlobalContext* globalCtx);
-void BossGanondrof_Draw(BossGanondrof* this, GlobalContext* globalCtx);
+#define THIS ((BossGanondrof*)thisx)
+
+void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx);
+void BossGanondrof_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx);
+void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Boss_Ganondrof_InitVars = {

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000035
 
-void BossMo_Init(BossMo* this, GlobalContext* globalCtx);
-void BossMo_Destroy(BossMo* this, GlobalContext* globalCtx);
-void BossMo_Update(BossMo* this, GlobalContext* globalCtx);
-void BossMo_Draw(BossMo* this, GlobalContext* globalCtx);
+#define THIS ((BossMo*)thisx)
+
+void BossMo_Init(Actor* thisx, GlobalContext* globalCtx);
+void BossMo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BossMo_Update(Actor* thisx, GlobalContext* globalCtx);
+void BossMo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Boss_Mo_InitVars = {

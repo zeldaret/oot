@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000010
 
-void EnBomBowlPit_Init(EnBomBowlPit* this, GlobalContext* globalCtx);
-void EnBomBowlPit_Destroy(EnBomBowlPit* this, GlobalContext* globalCtx);
-void EnBomBowlPit_Update(EnBomBowlPit* this, GlobalContext* globalCtx);
+#define THIS ((EnBomBowlPit*)thisx)
+
+void EnBomBowlPit_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBomBowlPit_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBomBowlPit_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Bom_Bowl_Pit_InitVars = {

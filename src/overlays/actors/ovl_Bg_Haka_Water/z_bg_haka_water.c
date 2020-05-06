@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000030
 
-void BgHakaWater_Init(BgHakaWater* this, GlobalContext* globalCtx);
-void BgHakaWater_Destroy(BgHakaWater* this, GlobalContext* globalCtx);
-void BgHakaWater_Update(BgHakaWater* this, GlobalContext* globalCtx);
-void BgHakaWater_Draw(BgHakaWater* this, GlobalContext* globalCtx);
+#define THIS ((BgHakaWater*)thisx)
+
+void BgHakaWater_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaWater_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaWater_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaWater_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 // ? func_80881D94(BgHakaWater* this, GlobalContext* globalCtx) // not entirely sure on this one
 void func_80881EDC(BgHakaWater* this, GlobalContext* globalCtx);
 void func_80881F98(BgHakaWater* this, GlobalContext* globalCtx);

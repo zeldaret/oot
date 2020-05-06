@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000019
 
-void EnZl1_Init(EnZl1* this, GlobalContext* globalCtx);
-void EnZl1_Destroy(EnZl1* this, GlobalContext* globalCtx);
-void EnZl1_Update(EnZl1* this, GlobalContext* globalCtx);
-void EnZl1_Draw(EnZl1* this, GlobalContext* globalCtx);
+#define THIS ((EnZl1*)thisx)
+
+void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnZl1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80B4AE18(EnZl1* this);
 void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx);

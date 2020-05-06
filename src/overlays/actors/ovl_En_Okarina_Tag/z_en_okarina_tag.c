@@ -2,9 +2,11 @@
 
 #define FLAGS 0x02000010
 
-void EnOkarinaTag_Init(EnOkarinaTag* this, GlobalContext* globalCtx);
-void EnOkarinaTag_Destroy(EnOkarinaTag* this, GlobalContext* globalCtx);
-void EnOkarinaTag_Update(EnOkarinaTag* this, GlobalContext* globalCtx);
+#define THIS ((EnOkarinaTag*)thisx)
+
+void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnOkarinaTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnOkarinaTag_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Okarina_Tag_InitVars = {

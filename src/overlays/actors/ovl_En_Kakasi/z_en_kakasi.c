@@ -2,10 +2,12 @@
 
 #define FLAGS 0x02000009
 
-void EnKakasi_Init(EnKakasi* this, GlobalContext* globalCtx);
-void EnKakasi_Destroy(EnKakasi* this, GlobalContext* globalCtx);
-void EnKakasi_Update(EnKakasi* this, GlobalContext* globalCtx);
-void EnKakasi_Draw(EnKakasi* this, GlobalContext* globalCtx);
+#define THIS ((EnKakasi*)thisx)
+
+void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnKakasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Kakasi_InitVars = {
