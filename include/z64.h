@@ -9,7 +9,7 @@
 #include <z64actor.h>
 #include <z64audio.h>
 #include <z64object.h>
-#include <z64cutscene_commands.h>
+#include <z64cutscene.h>
 #include <z64collision_check.h>
 #include <z64scene.h>
 #include <z64effect.h>

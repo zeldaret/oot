@@ -1,4 +1,5 @@
 #include "z_en_ru2.h"
+#include <z64cutscene_commands.h>
 
 static CutsceneData D_80AF411C[] = {
     // clang-format off
