@@ -16,8 +16,10 @@ void EnZl1_Draw(EnZl1* this, GlobalContext* globalCtx);
 void func_80B4AE18(EnZl1* this);
 void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx);
 void func_80B4B010(EnZl1* this, GlobalContext* globalCtx);
+void func_80B4B240(EnZl1* this, GlobalContext* globalCtx);
 void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx);
 void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx);
+void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx);
 
 u32 D_80B4C5D0[] = {
     0x0000001C, 0x00000BB8, 0x0000000A, 0x00000003, 0x00050190, 0x04BB0000, 0xC0000000, 0xFFFFFE5A, 0x00000054,
@@ -325,9 +327,9 @@ ColliderCylinderInit D_80B4E5F0 =
 
 u32 D_80B4E61C[] = { 0x06007208, 0x06009848, 0x06009C48, 0x06009848 };
 u32 D_80B4E62C[] = { 0x06007608 };
-u32 D_80B4E630[] = { 0xC3E60000, 0x42EC0000, 0x00000000 };
-u32 D_80B4E63C[] = { 0xC3CB0000, 0x42DC0000, 0x00000000 };
-u32 D_80B4E648[] = { 0xC3C70000, 0x42A80000, 0x00000000 };
+Vec3f D_80B4E630 = { -460.0f, 118.0f, 0.0f };
+Vec3f D_80B4E63C = { -406.0f, 110.0f, 0.0f };
+Vec3f D_80B4E648 = { -398.0f, 84.0f, 0.0f };
 u32 D_80B4E654[] = { 0xC3D58000, 0x42D80000, 0x41D00000 };
 u32 D_80B4E660[] = { 0xC3AA0000, 0x42D80000, 0x42C40000 };
 u32 D_80B4E66C[] = { 0xC3D90000, 0x42A80000, 0x00000000 };
@@ -349,10 +351,13 @@ u32 D_80B4E708[] = { 0x00000000, 0x00000000, 0x00000000 };
 Vec3f D_80B4E714 = { 0.0f, 0.0f, 0.0f };
 
 extern AnimationHeader D_06000438;
-extern AnimationHeader D_06012118;
 extern SkeletonHeader D_0600F5D8;
+extern AnimationHeader D_06012118;
+extern AnimationHeader D_06010B38;
+extern s32* D_060173B8;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4AB40.s")
+void func_80B4AB40() {};
+void func_80B4AB48() {};
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/EnZl1_Init.s")
 /*void EnZl1_Init(EnZl1 *this, GlobalContext *globalCtx) {
@@ -395,10 +400,92 @@ void EnZl1_Destroy(EnZl1* this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4AE18.s")
+/*void func_80B4AE18(EnZl1 *this) {
+    if (this->skelAnime.animCurrentSeg == &D_06010B38) {
+        if (this->skelAnime.animCurrentFrame < 26.0f) {
+            this->unk_1F4 = 0x060173B8;
+            this->unk_1F8 = 0x060173B8;
+            this->unk_1FC = 2;
+            return;
+        }
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4AF18.s")
+    if (DECR(this->unk_1FC) == 0) {
+        this->unk_1FC = Math_Rand_S16Offset(0x1E, 0xA);
+    }
+    if (this->unk_1FC < 4) {
+        this->unk_1FC = this->unk_1FC;
+    } else {
+        this->unk_1FC = 0;
+    }
+    this->unk_1F4 = D_80B4E61C[this->unk_1FC];
+    this->unk_1F8 = D_80B4E61C[this->unk_1FC];
+    this->unk_1EC = D_80B4E62C[this->unk_1F2];
+}*/
+
+void func_80B4AF18(EnZl1 *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    ColliderCylinder* collider = &this->collider;
+
+    func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.posRot2.pos);
+
+    if (this->unk_1E6 != 0) {
+        if (func_8002F334(&this->actor, globalCtx) != 0) {
+            this->unk_1E6 = 0;
+        }
+    } else {
+        if (func_8002F194(&this->actor, globalCtx)) {
+            this->unk_1E6 = 1;
+        } else {
+            if (this->actor.posRot.pos.y <= player->actor.posRot.pos.y) {
+                func_8002F2F4(&this->actor, globalCtx);
+            }
+        }
+    }
+
+    Collider_CylinderUpdate(&this->actor, collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B010.s")
+/*void func_80B4B010(EnZl1 *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    Actor* thisx = &this->actor;
+    s32 pad[2];
+    Vec3f vec1 = D_80B4E630;
+    Vec3f vec2 = D_80B4E63C;
+    Vec3f vec3 = D_80B4E648;
+    s16 temp;
+
+    if (func_8002F194(thisx, globalCtx)) {
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06010B38, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06010B38.genericHeader), 3, -10.0f);
+        this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
+        Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+        Gameplay_ChangeCameraStatus(globalCtx, this->unk_1E8, 7);
+        func_800C0808(globalCtx, this->unk_1E8, player, 0x21);
+        globalCtx->envCtx.unk_E2[0] = 0xFF;
+        globalCtx->envCtx.unk_E2[1] = 0x18;
+        globalCtx->envCtx.unk_E2[2] = 0xFF;
+        globalCtx->envCtx.unk_E2[3] = 0xFF;
+        globalCtx->envCtx.unk_E1 = 1;
+        func_800C04D8(globalCtx, this->unk_1E8, &vec1, &vec2);
+        func_800C0704(globalCtx, this->unk_1E8, 30.0f);
+        func_800B3840(0x20);
+        Interface_ChangeAlpha(2);
+        player->actor.posRot.pos = vec3;
+        player->actor.speedXZ = 0.0f;
+        this->unk_1E2 = 0;
+        this->actionFunc = (ActorFunc)func_80B4B240;
+        func_800F5C64(0x51);
+    } else {
+        temp = ABS(thisx->rotTowardsLinkY - thisx->shape.rot.y);
+        if (temp < 0x238E) {
+            if (!(player->actor.posRot.pos.y < thisx->posRot.pos.y)) {
+                func_8002F2F4(&this->actor, globalCtx);
+            }
+        }
+    }
+}*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B240.s")
 
@@ -410,7 +497,19 @@ void EnZl1_Destroy(EnZl1* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B8B4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4BBC4.s")
+void func_80B4BBC4(EnZl1 *this, GlobalContext *globalCtx) {
+    s32 pad;
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06000438.genericHeader);
+    Player* player = PLAYER;
+
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    func_8002DF54(globalCtx, &this->actor, 1);
+    func_8002F7DC(&player->actor, 0x6836);
+    this->actor.textId = 0x7039;
+    func_8010B680(globalCtx, this->actor.textId, 0);
+    this->unk_1E2 = 0;
+    this->actionFunc = (ActorFunc)func_80B4BF2C;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4BC78.s")
 
@@ -442,14 +541,14 @@ s32 func_80B4C340(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *p
 
     if (limbIndex != 0xA) {
         if (limbIndex == 0x11) {
-            rot->x += this->unk_202;
-            rot->y += this->unk_204;
-            rot->z += this->unk_200;
+            rot->x += this->unk_200.y;
+            rot->y += this->unk_200.z;
+            rot->z += this->unk_200.x;
         }
     } else {
-        rot->x += this->unk_208;
-        rot->y += this->unk_206;
-        rot->z += this->unk_20A;
+        rot->x += this->unk_206.y;
+        rot->y += this->unk_206.x;
+        rot->z += this->unk_206.z;
     }
     return 0;
 }
