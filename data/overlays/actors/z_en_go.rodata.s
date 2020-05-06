@@ -236,8 +236,8 @@ glabel jtbl_80A41F40
 .word L80A3EA1C
 .word L80A3EAD8
 .word L80A3EA38
-glabel D_80A41F84
- .word func_80A3F02C
+glabel jtbl_80A41F84
+ .word L80A3F02C
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
@@ -253,7 +253,7 @@ glabel D_80A41F84
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
-.word func_80A3F02C
+.word L80A3F02C
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
@@ -269,7 +269,7 @@ glabel D_80A41F84
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
-.word func_80A3F03C
+.word L80A3F03C
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
@@ -285,7 +285,7 @@ glabel D_80A41F84
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
-.word func_80A3F02C
+.word L80A3F02C
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
@@ -301,7 +301,7 @@ glabel D_80A41F84
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
-.word func_80A3F02C
+.word L80A3F02C
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
@@ -317,7 +317,7 @@ glabel D_80A41F84
 .word L80A3F04C
 .word L80A3F04C
 .word L80A3F04C
-.word func_80A3F02C
+.word L80A3F02C
 glabel D_80A420C8
  .word 0x462AA000
 glabel D_80A420CC

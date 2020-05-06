@@ -19,33 +19,33 @@ glabel D_80A9A7AC
     .asciz "../z_en_ko.c"
     .balign 4
 
-glabel D_80A9A7BC
- .word func_80A97068
-.word func_80A970B0
-.word func_80A97110
-.word func_80A97138
-.word func_80A97198
-.word func_80A971F8
-.word func_80A97258
+glabel jtbl_80A9A7BC
+ .word L80A97068
+.word L80A970B0
+.word L80A97110
+.word L80A97138
+.word L80A97198
+.word L80A971F8
+.word L80A97258
 .word L80A972B8
 .word L80A972C0
-.word func_80A972C8
-.word func_80A972F8
+.word L80A972C8
+.word L80A972F8
 .word L80A97328
 .word L80A97000
-glabel D_80A9A7F0
- .word func_80A97378
-.word func_80A973C0
-.word func_80A973F0
-.word func_80A97438
-.word func_80A97468
+glabel jtbl_80A9A7F0
+ .word L80A97378
+.word L80A973C0
+.word L80A973F0
+.word L80A97438
+.word L80A97468
 .word L80A97498
-.word func_80A974A0
-.word func_80A974E8
-.word func_80A97518
-.word func_80A97560
-.word func_80A97590
-.word func_80A975C0
+.word L80A974A0
+.word L80A974E8
+.word L80A97518
+.word L80A97560
+.word L80A97590
+.word L80A975C0
 .word L80A97368
 glabel jtbl_80A9A824
 .word L80A97890
@@ -144,15 +144,15 @@ glabel jtbl_80A9A958
 .word L80A98744
 .word L80A98754
 .word L80A98764
-glabel D_80A9A98C
- .word func_80A989F4
-.word func_80A98A28
-.word func_80A98AA4
-.word func_80A98B04
+glabel jtbl_80A9A98C
+ .word L80A989F4
+.word L80A98A28
+.word L80A98AA4
+.word L80A98B04
 .word L80A98C0C
 .word L80A98C0C
 .word L80A98C0C
-.word func_80A98B5C
+.word L80A98B5C
 glabel jtbl_80A9A9AC
 .word L80A98F3C
 .word L80A98F4C
