@@ -1,4 +1,5 @@
 #include "z_en_holl.h"
+#include <alloca.h>
 
 #define FLAGS 0x00000010
 
@@ -8,8 +9,6 @@ void EnHoll_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHoll_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHoll_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-void func_80A58C10(EnHoll* this, ActorFunc func);
 
 s32 func_80A58C18();
 void func_80A58C48(EnHoll* this);
@@ -43,7 +42,7 @@ const ActorInit En_Holl_InitVars = {
     (ActorFunc)EnHoll_Draw,
 };
 
-ActorFunc D_80A59A40[] = {
+EnHollActionFunc D_80A59A40[] = {
     func_80A58DD4,
     func_80A591C0,
     func_80A59520,
@@ -81,7 +80,7 @@ Gfx D_80A59AC8[] = {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A58C10.s")
 //EnHoll_SetupAction
-void func_80A58C10(EnHoll* this, ActorFunc func) {
+void func_80A58C10(EnHoll* this, EnHollActionFunc func) {
     this->actionFunc = func;
 }
 
@@ -90,31 +89,26 @@ s32 func_80A58C18() {
     return gSaveContext.entranceIndex == 0xEE && gSaveContext.sceneSetupIndex == 8;
 }
 
-#ifdef NON_MATCHING
-// Stack only
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A58C48.s")
 void func_80A58C48(EnHoll* this) {
-    ActorFunc* temp_v1;
-    s32 pad;
-    s32 pad1;
+    s32 index;
 
-    pad = (this->actor.params >> 6) & 7;
-    temp_v1 = &D_80A59A40[pad];
-    func_80A58C10(this, *temp_v1);
-    if (temp_v1 != &D_80A59A40[0]) {
+    index = (this->actor.params >> 6) & 7;
+    func_80A58C10(this, D_80A59A40[index]);
+    if (&D_80A59A40[0] != &D_80A59A40[index]) {
         this->actor.draw = NULL;
     } else {
         this->unk_14C = 0xFF;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A58C48.s")
-#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/EnHoll_Init.s")
 void EnHoll_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnHoll* this = THIS;
+
     Actor_ProcessInitChain(thisx, &D_80A59A5C);
     func_80A58C48(thisx);
-    THIS->unk_14F = 0;
+    this->unk_14F = 0;
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/EnHoll_Destroy.s")
@@ -127,61 +121,51 @@ void EnHoll_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     transitionEntry->id = -transitionEntry->id;
 }
 
-#ifdef NON_MATCHING
-// Stack size only
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A58D18.s")
 void func_80A58D18(GlobalContext* globalCtx) {
-    RoomContext* roomCtx;
-    Room* prevRoom;
     Room tempRoom;
+    RoomContext* roomCtx;
 
     roomCtx = &globalCtx->roomCtx;
-    prevRoom = &roomCtx->prevRoom;
-
     tempRoom = roomCtx->curRoom;
-    roomCtx->curRoom = *prevRoom;
-    *prevRoom = tempRoom;
+
+    roomCtx->curRoom = roomCtx->prevRoom;
+    roomCtx->prevRoom = tempRoom;
 
     globalCtx->roomCtx.unk_30 ^= 1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A58D18.s")
-#endif
 
 #ifdef NON_MATCHING
-// Regalloc
+// Regalloc, Some stack weirdness
 void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
-    f32 temp_f2;
+    f32 temp_f2; /* sp48 */
     s32 temp_a1;
-    Vec3f sp3C;
-    EnHoll_Struct* temp_v0;
-    Player* player;
-    s32 phi_t0;
+    Vec3f sp3C; /* sp3C */
+    EnHoll_Struct* temp_v0; /* sp38 */
+    Player* player; /* sp34 */
+    s16 phi_t0; /* sp30 */
+    s16 new_var;
 
     player = PLAYER;
-    phi_t0 = (globalCtx->sceneNum == 6) ? 1 : 0;
+    new_var = (globalCtx->sceneNum == 6) ? 1 : 0;
+    phi_t0 = new_var;
     func_8002DBD0(&this->actor, &sp3C, &player->actor.posRot.pos);
-    if (sp3C.z < 0.0f) {
-        this->unk_14E = 0;
-    } else {
-        this->unk_14E = 1;
-    }
+    this->unk_14E = (sp3C.z < 0.0f) ? 0 : 1;
     temp_f2 = fabsf(sp3C.z);
-    if (-50.0f < sp3C.y && sp3C.y < 200.0f) {
-        temp_v0 = &D_80A59A68[phi_t0];
-        if (fabsf(sp3C.x) < 100.0f && temp_f2 < temp_v0->unk_0) {
-            temp_a1 = (u16)this->actor.params >> 0xA;
-            if (temp_v0->unk_4 < temp_f2) {
-                if (globalCtx->roomCtx.prevRoom.num >= 0 && globalCtx->roomCtx.status == 0) {
-                    this->actor.room = globalCtx->transitionActorList[temp_a1].info[this->unk_14E].room;
-                    func_80A58D18(globalCtx);
-                    func_80097534(globalCtx, &globalCtx->roomCtx);
-                }
+    temp_v0 = &D_80A59A68[phi_t0];
+    if (-50.0f < sp3C.y && sp3C.y < 200.0f && fabsf(sp3C.x) < 100.0f && temp_f2 < temp_v0->unk_0) {
+        temp_a1 = (u16)this->actor.params >> 0xA;
+        if (temp_v0->unk_4 < temp_f2) {
+            if (globalCtx->roomCtx.prevRoom.num >= 0 && globalCtx->roomCtx.status == 0) {
+                this->actor.room = globalCtx->transitionActorList[temp_a1].info[this->unk_14E].room;
+                func_80A58D18(globalCtx);
+                func_80097534(globalCtx, &globalCtx->roomCtx);
+            }
+        } else {
+            this->actor.room = globalCtx->transitionActorList[temp_a1].info[this->unk_14E ^ 1].room;
+            if (globalCtx->roomCtx.prevRoom.num < 0) {
+                func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room);
             } else {
-                this->actor.room = globalCtx->transitionActorList[temp_a1].info[this->unk_14E ^ 1].room;
-                if (globalCtx->roomCtx.prevRoom.num < 0) {
-                    func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room);
-                    return;
-                }
                 this->unk_14C = (temp_f2 - temp_v0->unk_C) * (255.0f / (temp_v0->unk_8 - temp_v0->unk_C));
                 this->unk_14C = CLAMP(this->unk_14C, 0, 0xFF);
                 if (globalCtx->roomCtx.curRoom.num != this->actor.room) {
@@ -195,15 +179,15 @@ void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A58DD4.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A59014.s")
-// A bit
-/* void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
+#ifdef NON_MATCHING
+// Regalloc
+void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
     s32 pad2;
     s32 pad3;
     Vec3f sp44;
-    s32 pad;
+    s32 new_var2;
     f32 phi_f2;
-    s32 pad1;
+    s8 new_var;
     s32 phi_a2;
     s32 phi_a3;
     f32 temp_f0;
@@ -222,35 +206,37 @@ void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
 
         phi_a3 = (u16)this->actor.params >> 0xA;
 
-        this->actor.room = globalCtx->transitionActorList[phi_a3].info[(sp44.z < 0.0f) ? 0 : 1].room;
+        new_var = globalCtx->transitionActorList[phi_a3].info[(sp44.z < 0.0f) ? 0 : 1].room;
+        this->actor.room = new_var;
         if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
             func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
             func_80A58C10(this, func_80A59828);
         }
     }
-} */
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A59014.s")
+#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A591C0.s")
 void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
     Player* player;
-    f32 temp_f0;
-    s32 phi_v0;
+    f32 absY;
+    s32 index;
 
     player = PLAYER;
-    temp_f0 = fabsf(this->actor.yDistanceFromLink);
-    if ((this->actor.xzDistanceFromLink < 500.0f) && (temp_f0 < 700.0f)) {
-        phi_v0 = (u16)this->actor.params >> 0xA;
-        if (temp_f0 < 95.0f) {
+    absY = fabsf(this->actor.yDistanceFromLink);
+    if ((this->actor.xzDistanceFromLink < 500.0f) && (absY < 700.0f)) {
+        index = (u16)this->actor.params >> 0xA;
+        if (absY < 95.0f) {
             globalCtx->unk_11E18 = 0xFF;
+        } else if (605.0f < absY) {
+            globalCtx->unk_11E18 = 0;
         } else {
-            if (605.0f < temp_f0) {
-                globalCtx->unk_11E18 = 0;
-            } else {
-                globalCtx->unk_11E18 = ((f32) ((s32) ((s32) (605.0f - temp_f0) << 0x10) >> 0x10) * 0.5f); // TODO make prettier
-            }
+            globalCtx->unk_11E18 = ((s16)(605.0f - absY)) * 0.5f;
         }
-        if (temp_f0 < 95.0f) {
-            this->actor.room = (&globalCtx->transitionActorList[phi_v0])->backRoom;
+        if (absY < 95.0f) {
+            this->actor.room = (&globalCtx->transitionActorList[index])->backRoom;
             Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 1.0f, 50.0f, 10.0f);
             Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 1.0f, 50.0f, 10.0f);
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
@@ -260,11 +246,9 @@ void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
                 player->actor.speedXZ = 0.0f;
             }
         }
-    } else {
-        if (this->unk_14F != 0) {
-            globalCtx->unk_11E18 = 0;
-            this->unk_14F = 0;
-        }
+    } else if (this->unk_14F != 0) {
+        globalCtx->unk_11E18 = 0;
+        this->unk_14F = 0;
     }
 }
 
@@ -374,20 +358,18 @@ void EnHoll_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-#ifdef NON_MATCHING
-// Regalloc
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/EnHoll_Draw.s")
 void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx *phi_a3;
-    Gfx *phi_a3_2; /* sp40 */
+    s32 pad;
+    Gfx* phi_a3;
     u32 phi_a1;
     GraphicsContext* gfxCtx;
     EnHoll* this;
-    Gfx* dispRefs[3]; // TODO check size
+    Gfx* dispRefs[3];
 
     this = THIS;
     if (this->unk_14C != 0) {
         gfxCtx = globalCtx->state.gfxCtx;
-
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_holl.c", 0x325);
 
         if (this->unk_14C == 0xFF) {
@@ -397,27 +379,22 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
             phi_a3 = gfxCtx->polyXlu.p;
             phi_a1 = 0;
         }
-
-        phi_a3_2 = Gfx_CallSetupDL(phi_a3, phi_a1);
+        phi_a3 = Gfx_CallSetupDL(phi_a3, phi_a1);
 
         if (this->unk_14E == 0) {
             Matrix_RotateY(3.1415927410125732f, MTXMODE_APPLY);
         }
 
-        gSPMatrix(phi_a3_2++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_holl.c", 0x338), 
+        gSPMatrix(phi_a3++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_holl.c", 0x338), 
                 G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gDPSetPrimColor(phi_a3_2++, 0, 0, 0, 0, 0, (u8)this->unk_14C);
-        gSPDisplayList(phi_a3_2++, &D_80A59AC8);
+        gDPSetPrimColor(phi_a3++, 0, 0, 0, 0, 0, (u8)this->unk_14C);
+        gSPDisplayList(phi_a3++, &D_80A59AC8);
 
         if (this->unk_14C == 0xFF) {
-            gfxCtx->polyOpa.p = phi_a3_2;
+            gfxCtx->polyOpa.p = phi_a3;
         } else {
-            gfxCtx->polyXlu.p = phi_a3_2;
+            gfxCtx->polyXlu.p = phi_a3;
         }
-
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_holl.c", 0x33F);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/EnHoll_Draw.s")
-#endif
