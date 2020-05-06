@@ -17,11 +17,11 @@ typedef struct EnZl1 {
     /* 0x01E6 */ s16 unk_1E6;
     /* 0x01E8 */ s16 unk_1E8;
     /* 0x01EA */ char unk_1EA[0x2];
-    /* 0x01EC */ s32 unk_1EC;
+    /* 0x01EC */ u32 unk_1EC;
     /* 0x01F0 */ char unk_1F0[0x2];
     /* 0x01F2 */ s16 unk_1F2;
-    /* 0x01F4 */ s32 unk_1F4;
-    /* 0x01F8 */ s32 unk_1F8;
+    /* 0x01F4 */ u32 unk_1F4;
+    /* 0x01F8 */ u32 unk_1F8;
     /* 0x01FC */ s16 unk_1FC;
     /* 0x01FE */ s16 unk_1FE;
     /* 0x0200 */ Vec3s unk_200;
