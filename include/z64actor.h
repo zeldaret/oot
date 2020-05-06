@@ -163,8 +163,8 @@ typedef struct Actor {
 } Actor; // size = 0x14C
 
 
-typedef struct {
-    /* 0x000 */ Actor actor;
+typedef struct DynaPolyActor {
+    /* 0x000 */ struct Actor actor;
     /* 0x14C */ u32 dynaPolyId;
     /* 0x150 */ f32 unk_150;
     /* 0x154 */ f32 unk_154;

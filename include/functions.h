@@ -540,7 +540,7 @@ void func_8003ED58(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, s
 // ? func_80041510(?);
 // ? func_80041648(?);
 // ? func_800417A0(?);
-void func_80041880(u32 collision, void* collisionPtr);
+void func_80041880(void* colHeader, CollisionHeader** arg1);
 // ? func_80041978(?);
 // ? func_800419B0(?);
 // ? func_80041A28(?);

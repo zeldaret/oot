@@ -799,25 +799,25 @@ s32 func_800CCF48(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x) {
     return func_800CCBE4(v0, v1, v2, z, x, 300.0f, 1.0f, 0.6f);
 }
 
-s32 func_800CCF98(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 arg3, f32 normMagnitude, f32 arg5, f32 arg6, f32 z, f32 x,
+s32 func_800CCF98(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 normX, f32 normY, f32 normZ, f32 originDist, f32 z, f32 x,
                   f32* pointDist, f32 argA) {
-    if (fabsf(normMagnitude) < 0.008f) {
+    if (fabsf(normY) < 0.008f) {
         return 0;
     }
-    if (func_800CCBE4(v0, v1, v2, z, x, 300.0f, argA, normMagnitude)) {
-        *pointDist = (f32)((((-arg3 * x) - (arg5 * z)) - arg6) / normMagnitude);
+    if (func_800CCBE4(v0, v1, v2, z, x, 300.0f, argA, normY)) {
+        *pointDist = (f32)((((-normX * x) - (normZ * z)) - originDist) / normY);
         return 1;
     }
     return 0;
-}
+} 
 
-s32 func_800CD044(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 arg3, f32 ny, f32 arg5, f32 arg6, f32 z, f32 x, f32* arg9,
+s32 func_800CD044(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 normX, f32 normY, f32 normZ, f32 originDist, f32 z, f32 x, f32* arg9,
                   f32 argA) {
-    if (fabsf(ny) < 0.008f) {
+    if (fabsf(normY) < 0.008f) {
         return 0;
     }
-    if (func_800CCBE4(v0, v1, v2, z, x, 0.0f, argA, ny)) {
-        *arg9 = (f32)((((-arg3 * x) - (arg5 * z)) - arg6) / ny);
+    if (func_800CCBE4(v0, v1, v2, z, x, 0.0f, argA, normY)) {
+        *arg9 = (f32)((((-normX * x) - (normZ * z)) - originDist) / normY);
         return 1;
     }
     return 0;

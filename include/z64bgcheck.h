@@ -84,7 +84,7 @@ typedef struct {
     /* 0x20 */ CamData*  cameraData;
     /* 0x24 */ s16       nbWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
-} CollisionHeader;
+} CollisionHeader; //BGDataInfo
 
 typedef struct {
     u16 polyId; //poly
@@ -93,8 +93,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u16 max;  // original name: short_slist_node_size
-    /* 0x02 */ u16 count;
-    /* 0x04 */ SSLink_s* tbl;
+    /* 0x02 */ u16 count; // original name: short_slist_node_last_index
+    /* 0x04 */ SSLink_s* tbl; //original name: short_slist_node_tbl
     /* 0x08 */ u8* polyCheckTbl; //set to 1 if polygon has already been tested
 } PolyLinksList_s;
 
@@ -112,12 +112,24 @@ typedef struct {
 } ScaleRotPos;
 
 typedef struct {
+    u16 unk_00;
+    u16 unk_02;
+    u16 unk_04;
+    u16 unk_06;
+} DynaLookup;
+
+typedef struct {
     /* 0x00 */ struct DynaPolyActor* actor;
     /* 0x04 */ CollisionHeader* colHeader;
-    /* 0x08 */ char  unk_08[0x0C];
+    /* 0x08 */ DynaLookup dynaLookup;
+    /* 0x10 */ u16 unk_10;
     /* 0x14 */ ScaleRotPos srp1;
     /* 0x34 */ ScaleRotPos srp2;
-    /* 0x54 */ char  unk_54[0x10];
+    /* 0x54 */ s16  unk_54;
+    /* 0x56 */ s16  unk_56;
+    /* 0x58 */ u16  unk_58;
+    /* 0x5A */ u16  unk_5A;
+    /* 0x5C */ char unk_5C[0x08];
 } ActorMesh; // size = 0x64
 
 typedef struct {
@@ -135,8 +147,8 @@ typedef struct {
     /* 0x0000 */ u8             unk_00;
     /* 0x0004 */ ActorMesh      actorMeshArr[50];
     /* 0x138C */ u16            flags[50];
-    /* 0x13F0 */ CollisionPoly* dyn_poly;
-    /* 0x13F4 */ Vec3s*         dyn_vtx;
+    /* 0x13F0 */ CollisionPoly* dyn_poly; //pbuf
+    /* 0x13F4 */ Vec3s*         dyn_vtx; //pbuf
     /* 0x13F8 */ DynaList_s     dyn_list;
     /* 0x1404 */ char           unk_13FC[0x10];
 } DynaCollisionContext; // size = 0x1414 //810
