@@ -6,8 +6,8 @@ glabel EnHeishi3_Draw
 /* 008BC 80A55EFC 0C024F46 */  jal     func_80093D18              
 /* 008C0 80A55F00 8CA40000 */  lw      $a0, 0x0000($a1)           ## 00000000
 /* 008C4 80A55F04 8FA20020 */  lw      $v0, 0x0020($sp)           
-/* 008C8 80A55F08 3C0780A5 */  lui     $a3, %hi(func_80A55E88)    ## $a3 = 80A50000
-/* 008CC 80A55F0C 24E75E88 */  addiu   $a3, $a3, %lo(func_80A55E88) ## $a3 = 80A55E88
+/* 008C8 80A55F08 3C0780A5 */  lui     $a3, %hi(EnHeishi3_OverrideLimbDraw)    ## $a3 = 80A50000
+/* 008CC 80A55F0C 24E75E88 */  addiu   $a3, $a3, %lo(EnHeishi3_OverrideLimbDraw) ## $a3 = 80A55E88
 /* 008D0 80A55F10 8C450150 */  lw      $a1, 0x0150($v0)           ## 00000150
 /* 008D4 80A55F14 8C46016C */  lw      $a2, 0x016C($v0)           ## 0000016C
 /* 008D8 80A55F18 AFA00010 */  sw      $zero, 0x0010($sp)         

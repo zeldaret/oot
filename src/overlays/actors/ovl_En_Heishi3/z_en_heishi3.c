@@ -21,7 +21,8 @@ void func_80A55B2C(EnHeishi3* this, GlobalContext* globalCtx);
 void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx);
 void func_80A55C6C(EnHeishi3* this, GlobalContext* globalCtx);
 void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx);
-s32 EnHeishi3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
+s32 EnHeishi3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                               Actor* thisx);
 
 /*
 const ActorInit En_Heishi3_InitVars = {
@@ -190,7 +191,7 @@ void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnHeishi3_Update(Actor* thisx, GlobalContext *globalCtx) {
+void EnHeishi3_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi3* this = THIS;
     ColliderCylinder* cylinderCollider;
     Actor_SetHeight(&this->actor, 60.0f);
@@ -207,6 +208,24 @@ void EnHeishi3_Update(Actor* thisx, GlobalContext *globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, cylinderCollider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi3/func_80A55E88.s")
+s32 EnHeishi3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                               Actor* thisx) {
+    EnHeishi3* this = THIS;
+    if (limbIndex == 9) {
+        rot->x += this->unk_26E;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Heishi3/EnHeishi3_Draw.s")
+    if (limbIndex == 16) {
+        rot->x += this->unk_262;
+        rot->z += this->unk_264;
+    }
+
+    return 0;
+}
+
+void EnHeishi3_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnHeishi3* this = THIS;
+    func_80093D18(globalCtx->state.gfxCtx);
+    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi3_OverrideLimbDraw, NULL,
+                   &this->actor);
+}

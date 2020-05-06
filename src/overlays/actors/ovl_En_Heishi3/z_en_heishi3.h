@@ -15,8 +15,12 @@ typedef struct EnHeishi3 {
     /* 0x0190 */ Vec3s limbDrawTable[17];
     /* 0x01F6 */ Vec3s transitionDrawTable[17];
     /* 0x025C */ EnHeishi3ActionFunc actionFunc;
-    /* 0x0260 */ Vec3s vec_260;
-    /* 0x0266 */ char unk_266[0xC];
+    /* 0x0260 */ char unk_260[0x2];
+    /* 0x0262 */ s16 unk_262;
+    /* 0x0264 */ s16 unk_264;
+    /* 0x0266 */ char unk_266[0x8];
+    /* 0x026E */ s16 unk_26E; // All these s16 are probably part of a Vec3s
+    /* 0x0270 */ char unk_270[0x2];
     /* 0x0272 */ s16 unk_272;
     /* 0x0274 */ s16 unk_274;
     /* 0x0276 */ u8 unk_276;

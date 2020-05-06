@@ -1,4 +1,4 @@
-glabel func_80A55E88
+glabel EnHeishi3_OverrideLimbDraw
 /* 00848 80A55E88 24010009 */  addiu   $at, $zero, 0x0009         ## $at = 00000009
 /* 0084C 80A55E8C AFA40000 */  sw      $a0, 0x0000($sp)           
 /* 00850 80A55E90 AFA60008 */  sw      $a2, 0x0008($sp)           
