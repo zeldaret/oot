@@ -395,7 +395,7 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 flag;
-    s16 angleDiff;
+    s16 yawDiffTemp;
     s16 yawDiff;
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
@@ -416,16 +416,10 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
             player->actor.textId = 0x200F; // "I don't want that!"
         }
     } else {
-        angleDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
-        if (angleDiff >= 0) {
-            yawDiff = angleDiff;
-        } else {
-            yawDiff = -angleDiff;
-        }
-        if (!(120.0f < this->actor.xzDistanceFromLink)) {
-            if (yawDiff < 0x4300) {
-                func_8002F298(&this->actor, globalCtx, 100.0f, 1);
-            }
+        yawDiffTemp = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
+        yawDiff = ABS(yawDiffTemp);
+        if (!(120.0f < this->actor.xzDistanceFromLink) && (yawDiff < 0x4300)) {
+            func_8002F298(&this->actor, globalCtx, 100.0f, 1);
         }
     }
 }
