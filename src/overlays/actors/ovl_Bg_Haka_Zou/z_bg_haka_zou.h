@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgHakaZou;
+
+typedef struct BgHakaZou {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x6C];
 } BgHakaZou; // size = 0x01B8

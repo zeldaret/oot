@@ -15,7 +15,6 @@ void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiSwd_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgTokiSwd_SetupAction(BgTokiSwd* this, ActorFunc actionFunc);
 void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx);
 void func_808BB0AC(BgTokiSwd* this, GlobalContext* globalCtx);
 void func_808BB128(BgTokiSwd* this, GlobalContext* globalCtx);
@@ -181,7 +180,7 @@ static InitChainEntry initChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x19, ICHAIN_STOP),
 };
 
-void BgTokiSwd_SetupAction(BgTokiSwd* this, ActorFunc actionFunc) {
+void BgTokiSwd_SetupAction(BgTokiSwd* this, BgTokiSwdActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 

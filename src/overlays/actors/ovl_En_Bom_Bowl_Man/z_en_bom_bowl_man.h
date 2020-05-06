@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnBomBowlMan;
+
+typedef struct EnBomBowlMan {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x10C];
     /* 0x0258 */ u8 unk_258;

@@ -247,11 +247,11 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (func_80AA1B58(this, globalCtx)) {
         case 1:
             func_80AA1D44(this, 2);
-            this->actionFunc = (ActorFunc)func_80AA2018;
+            this->actionFunc = func_80AA2018;
             break;
         case 2:
             func_80AA1D44(this, 3);
-            this->actionFunc = (ActorFunc)func_80AA204C;
+            this->actionFunc = func_80AA204C;
             break;
         case 3:
             if (gSaveContext.infTable[8] & 0x2000) {
@@ -259,7 +259,7 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 func_80AA1D44(this, 3);
             }
-            this->actionFunc = (ActorFunc)func_80AA2018;
+            this->actionFunc = func_80AA2018;
             break;
         case 0:
             Actor_Kill(&this->actor);
@@ -293,7 +293,7 @@ void func_80AA204C(EnMa2* this, GlobalContext* globalCtx) {
         player->unk_6A8 = &this->actor;
         player->stateFlags2 |= 0x2000000;
         func_8010BD58(globalCtx, 0x23);
-        this->actionFunc = (ActorFunc)func_80AA20E4;
+        this->actionFunc = func_80AA20E4;
     } else if (this->actor.xzDistanceFromLink < 30.0f + (f32)this->collider.dim.radius) {
         player->stateFlags2 |= 0x800000;
     }
@@ -303,13 +303,13 @@ void func_80AA20E4(EnMa2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (globalCtx->msgCtx.unk_E3EE >= 4) {
-        this->actionFunc = (ActorFunc)func_80AA204C;
+        this->actionFunc = func_80AA204C;
         globalCtx->msgCtx.unk_E3EE = 4;
     } else if (globalCtx->msgCtx.unk_E3EE == 3) {
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         this->unk_208 = 0x1E;
         gSaveContext.infTable[8] |= 0x4000;
-        this->actionFunc = (ActorFunc)func_80AA21C8;
+        this->actionFunc = func_80AA21C8;
         globalCtx->msgCtx.unk_E3EE = 4;
     } else {
         player->stateFlags2 |= 0x800000;
@@ -327,7 +327,7 @@ void func_80AA21C8(EnMa2* this, GlobalContext* globalCtx) {
             func_80106CCC(globalCtx);
         } else {
             this->actor.flags &= ~0x10000;
-            this->actionFunc = (ActorFunc)func_80AA2018;
+            this->actionFunc = func_80AA2018;
         }
     }
 }
@@ -343,7 +343,7 @@ void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     func_80AA1DB4(this, globalCtx);
     func_80AA1AE4(this, globalCtx);
-    if (this->actionFunc != (ActorFunc)func_80AA20E4) {
+    if (this->actionFunc != func_80AA20E4) {
         func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.dim.radius + 30.0f,
                       func_80AA19A0, func_80AA1A38);
     }

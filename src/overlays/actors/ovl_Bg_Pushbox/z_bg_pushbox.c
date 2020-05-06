@@ -15,7 +15,6 @@ void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgPushbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_808A8AE0(BgPushbox* this, ActorFunc actionFunc);
 void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Pushbox_InitVars = {
@@ -37,7 +36,7 @@ static InitChainEntry initChain[] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
 };
 
-void func_808A8AE0(BgPushbox* this, ActorFunc actionFunc) {
+void BgPushbox_SetupAction(BgPushbox* this, BgPushboxActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -52,7 +51,7 @@ void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_Alloc(&D_06000350, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
-    func_808A8AE0(this, &func_808A8BAC);
+    BgPushbox_SetupAction(this, func_808A8BAC);
 }
 
 void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {

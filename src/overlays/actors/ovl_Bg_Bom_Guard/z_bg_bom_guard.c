@@ -34,7 +34,7 @@ const ActorInit Bg_Bom_Guard_InitVars = {
 
 extern u32 D_06001C40;
 
-void BgBomGuard_SetupAction(BgBomGuard* this, ActorFunc actionFunc) {
+void BgBomGuard_SetupAction(BgBomGuard* this, BgBomGuardActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 

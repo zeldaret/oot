@@ -10,10 +10,14 @@ typedef enum {
     /* 0x02 */ WMT_FLAG
 } WallmasType;
 
-typedef struct {
+struct EnWallmas;
+
+typedef void (*EnWallmasActionFunc)(struct EnWallmas*, GlobalContext*);
+
+typedef struct EnWallmas {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ ActorFunc actionFunc;
+    /* 0x0190 */ EnWallmasActionFunc actionFunc;
     /* 0x0194 */ s16 timer;
     /* 0x0196 */ s16 switchFlag;
     /* 0x0198 */ UNK_PTR unkSkelAnimeStruct;

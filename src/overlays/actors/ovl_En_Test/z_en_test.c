@@ -14,7 +14,7 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx);
-void EnTest_SetupAction(EnTest* this, ActorFunc actionFunc);
+
 void func_8085F938(EnTest* this, GlobalContext* globalCtx);
 void func_8085FAB0(EnTest* this, GlobalContext* globalCtx);
 void func_8085FE48(EnTest* this, GlobalContext* globalCtx);
@@ -42,8 +42,6 @@ void func_80862E6C(EnTest* this, GlobalContext* globalCtx);
 void func_80863044(EnTest* this, GlobalContext* globalCtx);
 void func_8086318C(EnTest* this, GlobalContext* globalCtx);
 void func_80863294(EnTest* this, GlobalContext* globalCtx);
-s32 func_80863AB8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnTest* this);
-void func_80863CC4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, EnTest* this);
 
 /*
 const ActorInit En_Test_InitVars = {

@@ -69,7 +69,7 @@ void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80061ED4(&this->actor.colChkInfo, NULL, &colChkInfoInit);
 
-    this->actionFunc = (ActorFunc)BgHidanFirewall_Wait;
+    this->actionFunc = BgHidanFirewall_Wait;
 }
 
 void BgHidanFirewall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -95,7 +95,7 @@ void BgHidanFirewall_Wait(BgHidanFirewall* this, GlobalContext* globalCtx) {
     if (BgHidanFirewall_CheckProximity(this, globalCtx) != 0) {
         this->actor.draw = BgHidanFirewall_Draw;
         this->actor.params = 5;
-        this->actionFunc = (ActorFunc)BgHidanFirewall_Countdown;
+        this->actionFunc = BgHidanFirewall_Countdown;
     }
 }
 
@@ -105,7 +105,7 @@ void BgHidanFirewall_Countdown(BgHidanFirewall* this, GlobalContext* globalCtx) 
         this->actor.params--;
     }
     if (this->actor.params == 0) {
-        this->actionFunc = (ActorFunc)BgHidanFirewall_Erupt;
+        this->actionFunc = BgHidanFirewall_Erupt;
     }
 }
 
@@ -115,7 +115,7 @@ void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx) {
     } else {
         if (Math_ApproxF(&this->actor.scale.y, 0.01f, 0.01f) != 0) {
             this->actor.draw = NULL;
-            this->actionFunc = (ActorFunc)BgHidanFirewall_Wait;
+            this->actionFunc = BgHidanFirewall_Wait;
         } else {
             this->actor.params = 0;
         }
@@ -182,7 +182,7 @@ void BgHidanFirewall_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->actionFunc(this, globalCtx);
-    if (this->actionFunc == (ActorFunc)BgHidanFirewall_Erupt) {
+    if (this->actionFunc == BgHidanFirewall_Erupt) {
         BgHidanFirewall_ColliderFollowPlayer(this, globalCtx);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);

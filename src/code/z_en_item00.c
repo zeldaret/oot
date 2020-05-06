@@ -30,9 +30,13 @@ typedef enum {
     /* 0x19 */ ITEM00_BOMBS_SPECIAL
 } Item00Type;
 
-typedef struct {
+struct EnItem00;
+
+typedef void (*EnItem00ActionFunc)(struct EnItem00*, GlobalContext*);
+
+typedef struct EnItem00 {
     /* 0x000 */ Actor actor;
-    /* 0x14C */ ActorFunc actionFunc;
+    /* 0x14C */ EnItem00ActionFunc actionFunc;
     /* 0x150 */ s16 collectibleFlag;
     /* 0x152 */ s16 unk_152;
     /* 0x154 */ s16 unk_154;
@@ -83,7 +87,7 @@ extern u8 D_80115664[];
 
 // Internal Actor Functions
 
-void EnItem00_SetupAction(EnItem00* this, ActorFunc actionFunc) {
+void EnItem00_SetupAction(EnItem00* this, EnItem00ActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -228,7 +232,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_152 = 0;
 
     if (!spawnParam8000) {
-        EnItem00_SetupAction(this, (ActorFunc)func_8001DFC8);
+        EnItem00_SetupAction(this, func_8001DFC8);
         this->unk_15A = -1;
         return;
     }
@@ -310,7 +314,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_8002F554(&this->actor, globalCtx, getItemId);
     }
 
-    EnItem00_SetupAction(this, (ActorFunc)func_8001E5C8);
+    EnItem00_SetupAction(this, func_8001E5C8);
     this->actionFunc(this, globalCtx);
 }
 
@@ -362,7 +366,7 @@ void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.gravity != 0.0f) && !(this->actor.bgCheckFlags & 0x0001)) {
-        EnItem00_SetupAction(this, (ActorFunc)func_8001E1C8);
+        EnItem00_SetupAction(this, func_8001E1C8);
     }
 }
 
@@ -384,7 +388,7 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 0x0003) {
         originalVelocity = this->actor.velocity.y;
         if (originalVelocity > -2.0f) {
-            EnItem00_SetupAction(this, (ActorFunc)func_8001DFC8);
+            EnItem00_SetupAction(this, func_8001DFC8);
             this->actor.velocity.y = 0.0f;
         } else {
             this->actor.velocity.y = originalVelocity * -0.8f;
@@ -440,7 +444,7 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.bgCheckFlags & 0x0003) {
-        EnItem00_SetupAction(this, (ActorFunc)func_8001DFC8);
+        EnItem00_SetupAction(this, func_8001DFC8);
         this->actor.shape.rot.z = 0;
         this->actor.velocity.y = 0.0f;
         this->actor.speedXZ = 0.0f;
@@ -694,7 +698,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, this->unk_15C);
 
     this->unk_152 = 0;
-    EnItem00_SetupAction(this, (ActorFunc)func_8001E5C8);
+    EnItem00_SetupAction(this, func_8001E5C8);
 }
 
 // Draw Function prototypes (used in EnItem00_Draw)
@@ -939,7 +943,7 @@ Actor* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 param
                 spawnedActor->actor.gravity = -0.9f;
                 spawnedActor->actor.posRot.rot.y = Math_Rand_CenteredFloat(65536.0f);
                 Actor_SetScale(&spawnedActor->actor, 0.0f);
-                EnItem00_SetupAction(spawnedActor, (ActorFunc)func_8001E304);
+                EnItem00_SetupAction(spawnedActor, func_8001E304);
                 spawnedActor->unk_15A = 220;
                 if ((spawnedActor->actor.params != ITEM00_SMALL_KEY) &&
                     (spawnedActor->actor.params != ITEM00_HEART_PIECE) &&
@@ -1090,7 +1094,7 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
                         spawnedActor->actor.gravity = -0.9f;
                         spawnedActor->actor.posRot.rot.y = Math_Rand_ZeroOne() * 40000.0f;
                         Actor_SetScale(&spawnedActor->actor, 0.0f);
-                        EnItem00_SetupAction(spawnedActor, (ActorFunc)func_8001E304);
+                        EnItem00_SetupAction(spawnedActor, func_8001E304);
                         spawnedActor->actor.flags |= 0x0010;
                         if ((spawnedActor->actor.params != ITEM00_SMALL_KEY) &&
                             (spawnedActor->actor.params != ITEM00_HEART_PIECE) &&

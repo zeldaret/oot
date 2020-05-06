@@ -4,10 +4,14 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnMa2;
+
+typedef void (*EnMa2ActionFunc)(struct EnMa2*, GlobalContext*);
+
+typedef struct EnMa2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ ActorFunc actionFunc;
+    /* 0x0190 */ EnMa2ActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ struct_80034A14_arg1 unk_1E0;
     /* 0x0208 */ s16 unk_208;

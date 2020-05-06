@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnTorch;
+
+typedef struct EnTorch {
     /* 0x0000 */ Actor actor;
 } EnTorch; // size = 0x014C
 

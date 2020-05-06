@@ -4,11 +4,13 @@
 #include <ultra64.h>
 #include <global.h>
 #include <vt.h>
-#include "../ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
-#include "../ovl_En_Bom/z_en_bom.h"
-#include "../ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
+#include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
+#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 
-typedef struct {
+struct EnHeishi2;
+
+typedef struct EnHeishi2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s limbDrawTable[17];

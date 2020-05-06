@@ -60,18 +60,18 @@ static u32 D_80AF4118 = 0;
 
 #include "z_en_ru2_cutscene_data.c"
 
-static ActorFunc D_80AF50BC[] = {
-    (ActorFunc)func_80AF2CB4, (ActorFunc)func_80AF2CD4, (ActorFunc)func_80AF2CF4, (ActorFunc)func_80AF2D2C,
-    (ActorFunc)func_80AF2D6C, (ActorFunc)func_80AF2DAC, (ActorFunc)func_80AF2DEC, (ActorFunc)func_80AF3144,
-    (ActorFunc)func_80AF3174, (ActorFunc)func_80AF31C8, (ActorFunc)func_80AF3604, (ActorFunc)func_80AF3624,
-    (ActorFunc)func_80AF366C, (ActorFunc)func_80AF36AC, (ActorFunc)func_80AF3BC8, (ActorFunc)func_80AF3C04,
-    (ActorFunc)func_80AF3C64, (ActorFunc)func_80AF3CB8, (ActorFunc)func_80AF3D0C, (ActorFunc)func_80AF3D60,
+static EnRu2ActionFunc D_80AF50BC[] = {
+    func_80AF2CB4, func_80AF2CD4, func_80AF2CF4, func_80AF2D2C,
+    func_80AF2D6C, func_80AF2DAC, func_80AF2DEC, func_80AF3144,
+    func_80AF3174, func_80AF31C8, func_80AF3604, func_80AF3624,
+    func_80AF366C, func_80AF36AC, func_80AF3BC8, func_80AF3C04,
+    func_80AF3C64, func_80AF3CB8, func_80AF3D0C, func_80AF3D60,
 };
 
-static ActorFunc D_80AF510C[] = {
-    (ActorFunc)func_80AF3F14,
-    (ActorFunc)func_80AF3F20,
-    (ActorFunc)func_80AF321C,
+static EnRu2DrawFunc D_80AF510C[] = {
+    func_80AF3F14,
+    func_80AF3F20,
+    func_80AF321C,
 };
 
 const ActorInit En_Ru2_InitVars = {

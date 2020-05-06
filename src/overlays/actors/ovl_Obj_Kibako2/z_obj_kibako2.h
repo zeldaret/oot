@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct ObjKibako2;
+
+typedef struct ObjKibako2 {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ char unk_164[0x54];
 } ObjKibako2; // size = 0x01B8
