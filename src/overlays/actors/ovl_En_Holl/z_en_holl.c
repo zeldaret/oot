@@ -1,5 +1,4 @@
 #include "z_en_holl.h"
-#include <alloca.h>
 
 #define FLAGS 0x00000010
 
@@ -361,8 +360,8 @@ void EnHoll_Update(Actor* thisx, GlobalContext* globalCtx) {
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/EnHoll_Draw.s")
 void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    Gfx* phi_a3;
-    u32 phi_a1;
+    Gfx* gfxP;
+    u32 setupDLIdx;
     GraphicsContext* gfxCtx;
     EnHoll* this;
     Gfx* dispRefs[3];
@@ -373,27 +372,27 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_holl.c", 0x325);
 
         if (this->unk_14C == 0xFF) {
-            phi_a3 = gfxCtx->polyOpa.p;
-            phi_a1 = 37;
+            gfxP = gfxCtx->polyOpa.p;
+            setupDLIdx = 37;
         } else {
-            phi_a3 = gfxCtx->polyXlu.p;
-            phi_a1 = 0;
+            gfxP = gfxCtx->polyXlu.p;
+            setupDLIdx = 0;
         }
-        phi_a3 = Gfx_CallSetupDL(phi_a3, phi_a1);
+        gfxP = Gfx_CallSetupDL(gfxP, setupDLIdx);
 
         if (this->unk_14E == 0) {
             Matrix_RotateY(3.1415927410125732f, MTXMODE_APPLY);
         }
 
-        gSPMatrix(phi_a3++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_holl.c", 0x338), 
+        gSPMatrix(gfxP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_holl.c", 0x338), 
                 G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gDPSetPrimColor(phi_a3++, 0, 0, 0, 0, 0, (u8)this->unk_14C);
-        gSPDisplayList(phi_a3++, &D_80A59AC8);
+        gDPSetPrimColor(gfxP++, 0, 0, 0, 0, 0, (u8)this->unk_14C);
+        gSPDisplayList(gfxP++, &D_80A59AC8);
 
         if (this->unk_14C == 0xFF) {
-            gfxCtx->polyOpa.p = phi_a3;
+            gfxCtx->polyOpa.p = gfxP;
         } else {
-            gfxCtx->polyXlu.p = phi_a3;
+            gfxCtx->polyXlu.p = gfxP;
         }
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_holl.c", 0x33F);
     }
