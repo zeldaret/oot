@@ -157,7 +157,7 @@ void DoorAna_Update_Entering(DoorAna* this, GlobalContext* globalCtx) {
 void DoorAna_Update(DoorAna* this, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     // changes the grottos facing angle based on camera angle
-    this->actor.shape.rot.y = func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x8000;
+    this->actor.shape.rot.y = func_8005A9F4(CUR_CAM) + 0x8000;
 }
 
 void DoorAna_Draw(DoorAna* this, GlobalContext* globalCtx) {

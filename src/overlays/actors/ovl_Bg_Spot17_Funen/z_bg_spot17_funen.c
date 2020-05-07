@@ -58,7 +58,7 @@ void func_808B7478(BgSpot17Funen* this, GlobalContext* globalCtx) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_funen.c", 153);
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_RotateY(
-        (s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->actor.shape.rot.y + 0x8000) *
+        (s16)(func_8005A9F4(CUR_CAM) - this->actor.shape.rot.y + 0x8000) *
             9.58738019108e-05f,
         MTXMODE_APPLY);
 
