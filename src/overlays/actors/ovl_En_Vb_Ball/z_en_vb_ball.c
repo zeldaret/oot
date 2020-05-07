@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000030
 
-void EnVbBall_Init(EnVbBall* this, GlobalContext* globalCtx);
-void EnVbBall_Destroy(EnVbBall* this, GlobalContext* globalCtx);
-void EnVbBall_Update(EnVbBall* this, GlobalContext* globalCtx);
-void EnVbBall_Draw(EnVbBall* this, GlobalContext* globalCtx);
+#define THIS ((EnVbBall*)thisx)
+
+void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Vb_Ball_InitVars = {

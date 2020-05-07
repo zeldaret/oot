@@ -8,14 +8,13 @@
 
 #define FLAGS 0x00000030
 
-void BgSpot17Funen_Init(BgSpot17Funen* this, GlobalContext* globalCtx);
-void BgSpot17Funen_Destroy(BgSpot17Funen* this, GlobalContext* globalCtx);
-void BgSpot17Funen_Update(BgSpot17Funen* this, GlobalContext* globalCtx);
-void func_808B746C(BgSpot17Funen* this, GlobalContext* globalCtx);
-void func_808B7478(BgSpot17Funen* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot17Funen*)thisx)
 
-void func_808B7478(BgSpot17Funen* this, GlobalContext* globalCtx);
-void func_808B746C(BgSpot17Funen* this, GlobalContext* globalCtx);
+void BgSpot17Funen_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot17Funen_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot17Funen_Update(Actor* thisx, GlobalContext* globalCtx);
+void func_808B746C(Actor* thisx, GlobalContext* globalCtx);
+void func_808B7478(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot17_Funen_InitVars = {
     ACTOR_BG_SPOT17_FUNEN,
@@ -35,32 +34,35 @@ static InitChainEntry initChain[] = {
 
 extern Gfx D_06000B40[];
 
-void BgSpot17Funen_Init(BgSpot17Funen* this, GlobalContext* globalCtx) {
+void BgSpot17Funen_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot17Funen* this = THIS;
+
     Actor_ProcessInitChain(&this->actor, initChain);
     osSyncPrintf("spot17 obj. 噴煙 (arg_data 0x%04x)\n", this->actor.params);
 }
 
-void BgSpot17Funen_Destroy(BgSpot17Funen* this, GlobalContext* globalCtx) {
+void BgSpot17Funen_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void BgSpot17Funen_Update(BgSpot17Funen* this, GlobalContext* globalCtx) {
-    this->actor.draw = (ActorFunc)func_808B7478;
-    this->actor.update = (ActorFunc)func_808B746C;
+void BgSpot17Funen_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot17Funen* this = THIS;
+
+    this->actor.draw = func_808B7478;
+    this->actor.update = func_808B746C;
 }
 
-void func_808B746C(BgSpot17Funen* this, GlobalContext* globalCtx) {
+void func_808B746C(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void func_808B7478(BgSpot17Funen* this, GlobalContext* globalCtx) {
+void func_808B7478(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[5];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot17_funen.c", 153);
     func_80093D84(globalCtx->state.gfxCtx);
-    Matrix_RotateY(
-        (s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - this->actor.shape.rot.y + 0x8000) *
-            9.58738019108e-05f,
-        MTXMODE_APPLY);
+    Matrix_RotateY((s16)(func_8005A9F4(globalCtx->cameraPtrs[globalCtx->activeCamera]) - thisx->shape.rot.y + 0x8000) *
+                       9.58738019108e-05f,
+                   MTXMODE_APPLY);
 
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_funen.c", 161),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

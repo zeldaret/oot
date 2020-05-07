@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnDntJiji;
+
+typedef struct EnDntJiji {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x15C];
 } EnDntJiji; // size = 0x02A8

@@ -2,10 +2,13 @@
 
 #define FLAGS 0x00000000
 
-void BgHakaMeganeBG_Init(BgHakaMeganeBG* this, GlobalContext* globalCtx);
-void BgHakaMeganeBG_Destroy(BgHakaMeganeBG* this, GlobalContext* globalCtx);
-void BgHakaMeganeBG_Update(BgHakaMeganeBG* this, GlobalContext* globalCtx);
-void BgHakaMeganeBG_Draw(BgHakaMeganeBG* this, GlobalContext* globalCtx);
+#define THIS ((BgHakaMeganeBG*)thisx)
+
+void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaMeganeBG_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaMeganeBG_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaMeganeBG_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8087E258(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 void func_8087E288(BgHakaMeganeBG* this, GlobalContext* globalCtx);
 void func_8087E2D8(BgHakaMeganeBG* this, GlobalContext* globalCtx);

@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00000010
 
-void EnArowTrap_Init(EnArowTrap* this, GlobalContext* globalCtx);
-void EnArowTrap_Destroy(EnArowTrap* this, GlobalContext* globalCtx);
-void EnArowTrap_Update(EnArowTrap* this, GlobalContext* globalCtx);
+#define THIS ((EnArowTrap*)thisx)
+
+void EnArowTrap_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnArowTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnArowTrap_Update(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Arow_Trap_InitVars = {
     ACTOR_EN_AROW_TRAP,
@@ -24,17 +26,21 @@ const ActorInit En_Arow_Trap_InitVars = {
     NULL,
 };
 
-void EnArowTrap_Init(EnArowTrap* this, GlobalContext* globalCtx) {
+void EnArowTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnArowTrap* this = THIS;
+
     Actor_SetScale(&this->actor, 0.01);
     this->unk_14C = 0;
     this->attackTimer = 80;
     this->actor.posRot2.pos = this->actor.posRot.pos;
 }
 
-void EnArowTrap_Destroy(EnArowTrap* this, GlobalContext* globalCtx) {
+void EnArowTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void EnArowTrap_Update(EnArowTrap* this, GlobalContext* globalCtx) {
+void EnArowTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnArowTrap* this = THIS;
+
     if (this->actor.xzDistanceFromLink <= 400) {
         this->attackTimer--;
 

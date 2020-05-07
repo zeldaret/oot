@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void BgJyaAmishutter_Init(BgJyaAmishutter* this, GlobalContext* globalCtx);
-void BgJyaAmishutter_Destroy(BgJyaAmishutter* this, GlobalContext* globalCtx);
-void BgJyaAmishutter_Update(BgJyaAmishutter* this, GlobalContext* globalCtx);
-void BgJyaAmishutter_Draw(BgJyaAmishutter* this, GlobalContext* globalCtx);
+#define THIS ((BgJyaAmishutter*)thisx)
+
+void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaAmishutter_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaAmishutter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_808933BC(BgJyaAmishutter* this);
 void func_808933CC(BgJyaAmishutter* this);
@@ -58,13 +60,17 @@ void func_808932C0(BgJyaAmishutter* this, GlobalContext* globalCtx, u32 collisio
     }
 }
 
-void BgJyaAmishutter_Init(BgJyaAmishutter* this, GlobalContext* globalCtx) {
+void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgJyaAmishutter* this = THIS;
+
     func_808932C0(this, globalCtx, &D_0600C4C8, 0);
     Actor_ProcessInitChain(&this->actor, initChain);
     func_808933BC(this);
 }
 
-void BgJyaAmishutter_Destroy(BgJyaAmishutter* this, GlobalContext* globalCtx) {
+void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgJyaAmishutter* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
 }
 
@@ -116,10 +122,12 @@ void func_8089350C(BgJyaAmishutter* this) {
     }
 }
 
-void BgJyaAmishutter_Update(BgJyaAmishutter* this, GlobalContext* globalCtx) {
+void BgJyaAmishutter_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgJyaAmishutter* this = THIS;
+
     this->actionFunc(this);
 }
 
-void BgJyaAmishutter_Draw(BgJyaAmishutter* this, GlobalContext* globalCtx) {
+void BgJyaAmishutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, &D_0600C0A0);
 }

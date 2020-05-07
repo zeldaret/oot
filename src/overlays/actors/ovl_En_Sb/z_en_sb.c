@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000005
 
-void EnSb_Init(EnSb* this, GlobalContext* globalCtx);
-void EnSb_Destroy(EnSb* this, GlobalContext* globalCtx);
-void EnSb_Update(EnSb* this, GlobalContext* globalCtx);
-void EnSb_Draw(EnSb* this, GlobalContext* globalCtx);
+#define THIS ((EnSb*)thisx)
+
+void EnSb_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSb_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSb_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Sb_InitVars = {

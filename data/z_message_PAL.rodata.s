@@ -669,12 +669,12 @@ glabel D_80154B00
 glabel jtbl_80154B28
     .word L80107934
     .word L801076F4
-    .word func_8010773C
-    .word func_801077B4
-    .word func_80107804
-    .word func_8010787C
-    .word func_801078CC
-    .word func_80107918
+    .word L8010773C
+    .word L801077B4
+    .word L80107804
+    .word L8010787C
+    .word L801078CC
+    .word L80107918
 
 glabel jtbl_80154B48
     .word L801087EC

@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct ItemOcarina;
+
+typedef struct ItemOcarina {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x8];
 } ItemOcarina; // size = 0x0154

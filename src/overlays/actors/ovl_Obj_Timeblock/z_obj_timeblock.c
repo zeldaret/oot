@@ -8,10 +8,12 @@
 
 #define FLAGS 0x0A000011
 
-void ObjTimeblock_Init(ObjTimeblock* this, GlobalContext* globalCtx);
-void ObjTimeblock_Destroy(ObjTimeblock* this, GlobalContext* globalCtx);
-void ObjTimeblock_Update(ObjTimeblock* this, GlobalContext* globalCtx);
-void ObjTimeblock_Draw(ObjTimeblock* this, GlobalContext* globalCtx);
+#define THIS ((ObjTimeblock*)thisx)
+
+void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Timeblock_InitVars = {

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void BgMizuMovebg_Init(BgMizuMovebg* this, GlobalContext* globalCtx);
-void BgMizuMovebg_Destroy(BgMizuMovebg* this, GlobalContext* globalCtx);
-void BgMizuMovebg_Update(BgMizuMovebg* this, GlobalContext* globalCtx);
-void BgMizuMovebg_Draw(BgMizuMovebg* this, GlobalContext* globalCtx);
+#define THIS ((BgMizuMovebg*)thisx)
+
+void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuMovebg_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuMovebg_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mizu_Movebg_InitVars = {

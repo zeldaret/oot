@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00000000
 
-void ObjBlockstop_Init(ObjBlockstop* this, GlobalContext* globalCtx);
-void ObjBlockstop_Destroy(ObjBlockstop* this, GlobalContext* globalCtx);
-void ObjBlockstop_Update(ObjBlockstop* this, GlobalContext* globalCtx);
+#define THIS ((ObjBlockstop*)thisx)
+
+void ObjBlockstop_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjBlockstop_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Obj_Blockstop_InitVars = {
     ACTOR_OBJ_BLOCKSTOP,
@@ -24,7 +26,9 @@ const ActorInit Obj_Blockstop_InitVars = {
     NULL,
 };
 
-void ObjBlockstop_Init(ObjBlockstop* this, GlobalContext* globalCtx) {
+void ObjBlockstop_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ObjBlockstop* this = THIS;
+
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         Actor_Kill(&this->actor);
     } else {
@@ -32,15 +36,15 @@ void ObjBlockstop_Init(ObjBlockstop* this, GlobalContext* globalCtx) {
     }
 }
 
-void ObjBlockstop_Destroy(ObjBlockstop* this, GlobalContext* globalCtx) {
+void ObjBlockstop_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void ObjBlockstop_Update(ObjBlockstop* this, GlobalContext* globalCtx) {
+void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ObjBlockstop* this = THIS;
     DynaPolyActor* dynaActor;
-    s32 pad;
     Vec3f sp4C;
     u32 sp48;
-    s32 pad2;
+    s32 pad;
 
     if (func_8003DF10(&globalCtx->colCtx, &this->actor.initPosRot.pos, &this->actor.posRot.pos, &sp4C,
                       &this->actor.floorPoly, 0, 0, 1, 1, &sp48, &this->actor)) {

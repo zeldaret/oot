@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct ObjSwitch;
+
+typedef struct ObjSwitch {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ char unk_164[0xF4];
 } ObjSwitch; // size = 0x0258

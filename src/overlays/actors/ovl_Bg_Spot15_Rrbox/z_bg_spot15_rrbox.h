@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgSpot15Rrbox;
+
+typedef struct BgSpot15Rrbox {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x38];
 } BgSpot15Rrbox; // size = 0x0184

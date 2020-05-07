@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00000000
 
-void EnYabusameMark_Init(EnYabusameMark* this, GlobalContext* globalCtx);
-void EnYabusameMark_Destroy(EnYabusameMark* this, GlobalContext* globalCtx);
-void EnYabusameMark_Update(EnYabusameMark* this, GlobalContext* globalCtx);
+#define THIS ((EnYabusameMark*)thisx)
+
+void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnYabusameMark_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Yabusame_Mark_InitVars = {

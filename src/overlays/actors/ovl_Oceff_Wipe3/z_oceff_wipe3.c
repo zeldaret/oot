@@ -8,10 +8,12 @@
 
 #define FLAGS 0x02000010
 
-void OceffWipe3_Init(OceffWipe3* this, GlobalContext* globalCtx);
-void OceffWipe3_Destroy(OceffWipe3* this, GlobalContext* globalCtx);
-void OceffWipe3_Update(OceffWipe3* this, GlobalContext* globalCtx);
-void OceffWipe3_Draw(OceffWipe3* this, GlobalContext* globalCtx);
+#define THIS ((OceffWipe3*)thisx)
+
+void OceffWipe3_Init(Actor* thisx, GlobalContext* globalCtx);
+void OceffWipe3_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void OceffWipe3_Update(Actor* thisx, GlobalContext* globalCtx);
+void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Oceff_Wipe3_InitVars = {

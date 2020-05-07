@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnOkarinaTag;
+
+typedef struct EnOkarinaTag {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x14];
 } EnOkarinaTag; // size = 0x0160

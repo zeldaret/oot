@@ -8,10 +8,12 @@
 
 #define FLAGS 0x02000019
 
-void EnFu_Init(EnFu* this, GlobalContext* globalCtx);
-void EnFu_Destroy(EnFu* this, GlobalContext* globalCtx);
-void EnFu_Update(EnFu* this, GlobalContext* globalCtx);
-void EnFu_Draw(EnFu* this, GlobalContext* globalCtx);
+#define THIS ((EnFu*)thisx)
+
+void EnFu_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnFu_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Fu_InitVars = {

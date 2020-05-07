@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void BgHidanKousi_Init(BgHidanKousi* this, GlobalContext* globalCtx);
-void BgHidanKousi_Destroy(BgHidanKousi* this, GlobalContext* globalCtx);
-void BgHidanKousi_Update(BgHidanKousi* this, GlobalContext* globalCtx);
-void BgHidanKousi_Draw(BgHidanKousi* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanKousi*)thisx)
+
+void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanKousi_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanKousi_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanKousi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Hidan_Kousi_InitVars = {

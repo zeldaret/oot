@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnPoField;
+
+typedef struct EnPoField {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x190];
 } EnPoField; // size = 0x02DC

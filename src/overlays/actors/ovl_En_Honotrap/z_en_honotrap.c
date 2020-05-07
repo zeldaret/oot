@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void EnHonotrap_Init(EnHonotrap* this, GlobalContext* globalCtx);
-void EnHonotrap_Destroy(EnHonotrap* this, GlobalContext* globalCtx);
-void EnHonotrap_Update(EnHonotrap* this, GlobalContext* globalCtx);
-void EnHonotrap_Draw(EnHonotrap* this, GlobalContext* globalCtx);
+#define THIS ((EnHonotrap*)thisx)
+
+void EnHonotrap_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHonotrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHonotrap_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Honotrap_InitVars = {
