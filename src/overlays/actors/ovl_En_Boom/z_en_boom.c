@@ -15,7 +15,6 @@ void EnBoom_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnBoom_SetupAction(EnBoom* this, ActorFunc* actionFunc);
 void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx);
 
 const ActorInit En_Boom_InitVars = {
@@ -46,7 +45,7 @@ static Vec3f mtxSrc2 = { 960.0f, 0.0f, 0.0f };
 
 extern D_0400C808;
 
-void EnBoom_SetupAction(EnBoom* this, ActorFunc* actionFunc) {
+void EnBoom_SetupAction(EnBoom* this, EnBoomActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -87,7 +86,7 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitQuad(globalCtx, &this->collider);
     Collider_SetQuad(globalCtx, &this->collider, this, &col);
 
-    EnBoom_SetupAction(this, &EnBoom_Fly);
+    EnBoom_SetupAction(this, EnBoom_Fly);
 }
 
 void EnBoom_Destroy(Actor* thisx, GlobalContext* globalCtx) {

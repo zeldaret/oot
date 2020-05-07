@@ -4,10 +4,14 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct ObjTimeblock;
+
+typedef void (*ObjTimeblockActionFunc)(struct ObjTimeblock*, GlobalContext*);
+
+typedef struct ObjTimeblock {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ char unk_164[0x4];
-    /* 0x0168 */ ActorFunc actionFunc;
+    /* 0x0168 */ ObjTimeblockActionFunc actionFunc;
     /* 0x016C */ char unk_16C[0x10];
 } ObjTimeblock; // size = 0x017C
 

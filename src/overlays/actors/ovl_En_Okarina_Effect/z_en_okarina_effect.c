@@ -16,7 +16,6 @@ void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOkarinaEffect_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* actionFunc);
 void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCtx);
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx);
 
@@ -32,7 +31,7 @@ const ActorInit En_Okarina_Effect_InitVars = {
     NULL,
 };
 
-void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, ActorFunc* actionFunc) {
+void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, EnOkarinaEffectActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -57,7 +56,7 @@ void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->envCtx.unk_EE[1] != 0) {
         Actor_Kill(&this->actor); // kill if an instance is already spawned
     }
-    EnOkarinaEffect_SetupAction(this, &EnOkarinaEffect_TriggerStorm);
+    EnOkarinaEffect_SetupAction(this, EnOkarinaEffect_TriggerStorm);
 }
 
 void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCtx) {
@@ -69,7 +68,7 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCt
     }
     globalCtx->envCtx.lightning = 1; // start lightning
     func_80077624(globalCtx);
-    EnOkarinaEffect_SetupAction(this, &EnOkarinaEffect_ManageStorm);
+    EnOkarinaEffect_SetupAction(this, EnOkarinaEffect_ManageStorm);
 }
 
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx) {

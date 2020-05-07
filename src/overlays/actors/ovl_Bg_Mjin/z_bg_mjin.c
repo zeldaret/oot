@@ -15,7 +15,6 @@ void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgMjin_SetupAction(BgMjin* this, ActorFunc actionFunc);
 void func_808A0850(BgMjin* this, GlobalContext* globalCtx);
 void func_808A0920(BgMjin* this, GlobalContext* globalCtx);
 
@@ -46,7 +45,7 @@ static InitChainEntry initChain[] = {
 static s16 objectTbl[] = { OBJECT_MJIN_FLASH, OBJECT_MJIN_DARK, OBJECT_MJIN_FLAME,
                            OBJECT_MJIN_ICE,   OBJECT_MJIN_SOUL, OBJECT_MJIN_WIND };
 
-void BgMjin_SetupAction(BgMjin* this, ActorFunc actionFunc) {
+void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -60,7 +59,7 @@ void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (objBankIndex < 0) {
         Actor_Kill(thisx);
     } else {
-        BgMjin_SetupAction(this, &func_808A0850);
+        BgMjin_SetupAction(this, func_808A0850);
     }
 }
 
@@ -84,7 +83,7 @@ void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
         DynaPolyInfo_Alloc(collision, &local_c);
         this->dyna.dynaPolyId =
             DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
-        BgMjin_SetupAction(this, &func_808A0920);
+        BgMjin_SetupAction(this, func_808A0920);
         this->dyna.actor.draw = BgMjin_Draw;
     }
 }

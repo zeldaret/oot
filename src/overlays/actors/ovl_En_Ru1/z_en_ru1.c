@@ -98,31 +98,31 @@ s32 D_80AF087C = 0;
 
 u32 D_80AF1938 = 0;
 
-ActorFunc D_80AF193C[] = {
-    (ActorFunc)func_80AEC0B4, (ActorFunc)func_80AEC100, (ActorFunc)func_80AEC130, (ActorFunc)func_80AEC17C,
-    (ActorFunc)func_80AEC1D4, (ActorFunc)func_80AEC244, (ActorFunc)func_80AEC2C0, (ActorFunc)func_80AECA94,
-    (ActorFunc)func_80AECAB4, (ActorFunc)func_80AECAD4, (ActorFunc)func_80AECB18, (ActorFunc)func_80AECB60,
-    (ActorFunc)func_80AECBB8, (ActorFunc)func_80AECC1C, (ActorFunc)func_80AECC84, (ActorFunc)func_80AED304,
-    (ActorFunc)func_80AED324, (ActorFunc)func_80AED344, (ActorFunc)func_80AED374, (ActorFunc)func_80AED3A4,
-    (ActorFunc)func_80AED3E0, (ActorFunc)func_80AED414, (ActorFunc)func_80AEF29C, (ActorFunc)func_80AEF2AC,
-    (ActorFunc)func_80AEF2D0, (ActorFunc)func_80AEF354, (ActorFunc)func_80AEF3A8, (ActorFunc)func_80AEEBD4,
-    (ActorFunc)func_80AEEC5C, (ActorFunc)func_80AEECF0, (ActorFunc)func_80AEED58, (ActorFunc)func_80AEEDCC,
-    (ActorFunc)func_80AEEE34, (ActorFunc)func_80AEEE9C, (ActorFunc)func_80AEEF08, (ActorFunc)func_80AEEF5C,
-    (ActorFunc)func_80AEF9D8, (ActorFunc)func_80AEFA2C, (ActorFunc)func_80AEFAAC, (ActorFunc)func_80AEFB04,
-    (ActorFunc)func_80AEFB68, (ActorFunc)func_80AEFCE8, (ActorFunc)func_80AEFBC8, (ActorFunc)func_80AEFC24,
-    (ActorFunc)func_80AEFECC, (ActorFunc)func_80AEFF40,
+EnRu1ActionFunc D_80AF193C[] = {
+    func_80AEC0B4, func_80AEC100, func_80AEC130, func_80AEC17C,
+    func_80AEC1D4, func_80AEC244, func_80AEC2C0, func_80AECA94,
+    func_80AECAB4, func_80AECAD4, func_80AECB18, func_80AECB60,
+    func_80AECBB8, func_80AECC1C, func_80AECC84, func_80AED304,
+    func_80AED324, func_80AED344, func_80AED374, func_80AED3A4,
+    func_80AED3E0, func_80AED414, func_80AEF29C, func_80AEF2AC,
+    func_80AEF2D0, func_80AEF354, func_80AEF3A8, func_80AEEBD4,
+    func_80AEEC5C, func_80AEECF0, func_80AEED58, func_80AEEDCC,
+    func_80AEEE34, func_80AEEE9C, func_80AEEF08, func_80AEEF5C,
+    func_80AEF9D8, func_80AEFA2C, func_80AEFAAC, func_80AEFB04,
+    func_80AEFB68, func_80AEFCE8, func_80AEFBC8, func_80AEFC24,
+    func_80AEFECC, func_80AEFF40,
 };
 
-void (*D_80AF19F4[])(EnRu1* this, GlobalContext* globalCtx, s32 limbIndex, Vec3s* rot) = {
+EnRu1PreLimbDrawFunc D_80AF19F4[]= {
     func_80AF0278,
 };
 
 Vec3f D_80AF19F8 = { 0.0f, 10.0f, 0.0f };
 
-ActorFunc D_80AF1A04[] = {
-    (ActorFunc)func_80AF03F4,
-    (ActorFunc)func_80AF0400,
-    (ActorFunc)func_80AF05D4,
+EnRu1DrawFunc D_80AF1A04[] = {
+    func_80AF03F4,
+    func_80AF0400,
+    func_80AF05D4,
 };
 
 const ActorInit En_Ru1_InitVars = {

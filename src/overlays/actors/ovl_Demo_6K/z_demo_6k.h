@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct Demo6K;
+
+typedef struct Demo6K {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x148];
 } Demo6K; // size = 0x0294

@@ -39,7 +39,7 @@ static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_F4, 2000, ICHAIN_STOP),
 };
 
-void ArrowLight_SetupAction(ArrowLight* this, ActorFunc* actionFunc) {
+void ArrowLight_SetupAction(ArrowLight* this, ArrowLightActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 

@@ -15,7 +15,6 @@ void EnOE2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOE2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnOE2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80ABE6A0(EnOE2* this, ActorFunc func);
 void func_80ABE6DC(EnOE2* this, GlobalContext* globalCtx);
 
 const ActorInit En_OE2_InitVars = {
@@ -30,7 +29,7 @@ const ActorInit En_OE2_InitVars = {
     (ActorFunc)EnOE2_Draw,
 };
 
-void EnOE2_SetupAction(EnOE2* this, ActorFunc actionFunc) {
+void EnOE2_SetupAction(EnOE2* this, EnOE2ActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 

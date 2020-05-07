@@ -62,7 +62,7 @@ void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->objBankIndex < 0) {
         Actor_Kill(thisx);
     } else {
-        this->actionFunc = (ActorFunc)func_8087DB24;
+        this->actionFunc = func_8087DB24;
     }
 }
 
@@ -81,7 +81,7 @@ void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
         this->dyna.actor.draw = BgHakaMegane_Draw;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
         if (globalCtx->roomCtx.curRoom.showInvisActors) {
-            this->actionFunc = (ActorFunc)func_8087DBF0;
+            this->actionFunc = func_8087DBF0;
             collision = collisions[this->dyna.actor.params];
             if (collision != 0) {
                 DynaPolyInfo_Alloc(collision, &localC);
@@ -89,7 +89,7 @@ void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
                     DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localC);
             }
         } else {
-            this->actionFunc = (ActorFunc)func_8087DC64;
+            this->actionFunc = func_8087DC64;
         }
     }
 }

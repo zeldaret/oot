@@ -51,7 +51,7 @@ void EnTuboTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
     Actor_SetScale(&this->actor, 0.1f);
-    this->actionFunc = (ActorFunc)EnTuboTrap_WaitForProximity;
+    this->actionFunc = EnTuboTrap_WaitForProximity;
 }
 
 void EnTuboTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -251,7 +251,7 @@ void EnTuboTrap_WaitForProximity(EnTuboTrap* this, GlobalContext* globalCtx) {
 
         this->originPos = this->actor.posRot.pos;
         Audio_PlayActorSound2(this, NA_SE_EV_POT_MOVE_START);
-        this->actionFunc = (ActorFunc)EnTuboTrap_Levitate;
+        this->actionFunc = EnTuboTrap_Levitate;
     }
 }
 
@@ -262,7 +262,7 @@ void EnTuboTrap_Levitate(EnTuboTrap* this, GlobalContext* globalCtx) {
     if (fabsf(this->actor.posRot.pos.y - this->targetY) < 10.0f) {
         this->actor.speedXZ = 10.0f;
         this->actor.posRot.rot.y = this->actor.rotTowardsLinkY;
-        this->actionFunc = (ActorFunc)EnTuboTrap_Fly;
+        this->actionFunc = EnTuboTrap_Fly;
     }
 }
 

@@ -17,7 +17,6 @@ void EnBird_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_809C1E00(EnBird* this, s16 params);
 void func_809C1E40(EnBird* this, GlobalContext* globalCtx);
-void EnBird_SetupAction(EnBird* this, ActorFunc actionFunc);
 void func_809C1D60(EnBird* this, GlobalContext* globalCtx);
 void func_809C1CAC(EnBird* this, s16 params);
 
@@ -40,7 +39,7 @@ static InitChainEntry initChain[] = {
 extern AnimationHeader D_0600006C;
 extern SkeletonHeader D_06002190;
 
-void EnBird_SetupAction(EnBird* this, ActorFunc actionFunc) {
+void EnBird_SetupAction(EnBird* this, EnBirdActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -98,7 +97,7 @@ void func_809C1D60(EnBird* this, GlobalContext* globalCtx) {
 
 void func_809C1E00(EnBird* this, s16 params) {
     this->unk_198 = Math_Rand_S16Offset(0x14, 0x2D);
-    EnBird_SetupAction(this, (ActorFunc)func_809C1E40);
+    EnBird_SetupAction(this, func_809C1E40);
 }
 
 void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
