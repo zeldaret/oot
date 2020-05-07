@@ -125,7 +125,7 @@ typedef struct Actor {
     /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon an actor is over/touching
     /* 0x07C */ u8      wallPolySource; // Complex Poly Surface Source. 0x32 = Scene
     /* 0x07D */ u8      floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
-    /* 0x07E */ s16     unk_7E;
+    /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly
     /* 0x080 */ f32     unk_80; // Floor poly height?
     /* 0x084 */ f32     unk_84;
     /* 0x088 */ u16     bgCheckFlags;
