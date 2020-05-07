@@ -1,4 +1,4 @@
-glabel func_80A557A0
+glabel EnHeishi3_SetupGuardType
 /* 00160 80A557A0 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00164 80A557A4 AFA40028 */  sw      $a0, 0x0028($sp)
 /* 00168 80A557A8 AFBF0024 */  sw      $ra, 0x0024($sp)
@@ -31,11 +31,11 @@ glabel func_80A557A0
 
 /* 001D0 80A55810 E7B00010 */  swc1    $f16, 0x0010($sp)
 /* 001D4 80A55814 8FA30028 */  lw      $v1, 0x0028($sp)
-/* 001D8 80A55818 3C0980A5 */  lui     $t1, %hi(func_80A55850)    ## $t1 = 80A50000
-/* 001DC 80A5581C 3C0A80A5 */  lui     $t2, %hi(func_80A559B4)    ## $t2 = 80A50000
+/* 001D8 80A55818 3C0980A5 */  lui     $t1, %hi(EnHeishi3_GroundsHandler)    ## $t1 = 80A50000
+/* 001DC 80A5581C 3C0A80A5 */  lui     $t2, %hi(EnHeishi3_CastleHandler)    ## $t2 = 80A50000
 /* 001E0 80A55820 84680278 */  lh      $t0, 0x0278($v1)           ## 00000278
-/* 001E4 80A55824 25295850 */  addiu   $t1, $t1, %lo(func_80A55850) ## $t1 = 80A55850
-/* 001E8 80A55828 254A59B4 */  addiu   $t2, $t2, %lo(func_80A559B4) ## $t2 = 80A559B4
+/* 001E4 80A55824 25295850 */  addiu   $t1, $t1, %lo(EnHeishi3_GroundsHandler) ## $t1 = 80A55850
+/* 001E8 80A55828 254A59B4 */  addiu   $t2, $t2, %lo(EnHeishi3_CastleHandler) ## $t2 = 80A559B4
 /* 001EC 80A5582C 55000004 */  bnel    $t0, $zero, .L80A55840
 /* 001F0 80A55830 AC6A025C */  sw      $t2, 0x025C($v1)           ## 0000025C
 /* 001F4 80A55834 10000002 */  beq     $zero, $zero, .L80A55840

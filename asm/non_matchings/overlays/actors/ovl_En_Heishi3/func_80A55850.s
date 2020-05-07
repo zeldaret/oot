@@ -4,7 +4,7 @@ glabel D_80A55FC4
     .balign 4
 
 .text
-glabel func_80A55850
+glabel EnHeishi3_GroundsHandler
 /* 00210 80A55850 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00214 80A55854 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00218 80A55858 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -94,8 +94,8 @@ glabel func_80A55850
 /* 00348 80A55988 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0034C 80A5598C 0C00B7D5 */  jal     func_8002DF54              
 /* 00350 80A55990 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 00354 80A55994 3C0D80A5 */  lui     $t5, %hi(func_80A55B2C)    ## $t5 = 80A50000
-/* 00358 80A55998 25AD5B2C */  addiu   $t5, $t5, %lo(func_80A55B2C) ## $t5 = 80A55B2C
+/* 00354 80A55994 3C0D80A5 */  lui     $t5, %hi(EnHeishi3_Caught)    ## $t5 = 80A50000
+/* 00358 80A55998 25AD5B2C */  addiu   $t5, $t5, %lo(EnHeishi3_Caught) ## $t5 = 80A55B2C
 /* 0035C 80A5599C AE0D025C */  sw      $t5, 0x025C($s0)           ## 0000025C
 .L80A559A0:
 /* 00360 80A559A0 8FBF001C */  lw      $ra, 0x001C($sp)           

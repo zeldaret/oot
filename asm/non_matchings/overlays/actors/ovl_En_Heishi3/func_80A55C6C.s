@@ -1,4 +1,4 @@
-glabel func_80A55C6C
+glabel EnHeishi3_SetupRespawn
 /* 0062C 80A55C6C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00630 80A55C70 AFA40028 */  sw      $a0, 0x0028($sp)
 /* 00634 80A55C74 AFBF0024 */  sw      $ra, 0x0024($sp)

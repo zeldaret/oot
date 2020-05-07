@@ -28,8 +28,8 @@ glabel func_80A55BD4
 /* 005EC 80A55C2C 15C00007 */  bne     $t6, $zero, .L80A55C4C     
 /* 005F0 80A55C30 24070BB8 */  addiu   $a3, $zero, 0x0BB8         ## $a3 = 00000BB8
 /* 005F4 80A55C34 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
-/* 005F8 80A55C38 3C0F80A5 */  lui     $t7, %hi(func_80A55C6C)    ## $t7 = 80A50000
-/* 005FC 80A55C3C 25EF5C6C */  addiu   $t7, $t7, %lo(func_80A55C6C) ## $t7 = 80A55C6C
+/* 005F8 80A55C38 3C0F80A5 */  lui     $t7, %hi(EnHeishi3_SetupRespawn)    ## $t7 = 80A50000
+/* 005FC 80A55C3C 25EF5C6C */  addiu   $t7, $t7, %lo(EnHeishi3_SetupRespawn) ## $t7 = 80A55C6C
 /* 00600 80A55C40 AE0F025C */  sw      $t7, 0x025C($s0)           ## 0000025C
 /* 00604 80A55C44 10000004 */  beq     $zero, $zero, .L80A55C58   
 /* 00608 80A55C48 E6040068 */  swc1    $f4, 0x0068($s0)           ## 00000068

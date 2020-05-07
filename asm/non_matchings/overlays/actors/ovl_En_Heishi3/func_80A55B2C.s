@@ -1,4 +1,4 @@
-glabel func_80A55B2C
+glabel EnHeishi3_Caught
 /* 004EC 80A55B2C 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 004F0 80A55B30 AFA40028 */  sw      $a0, 0x0028($sp)
 /* 004F4 80A55B34 AFBF0024 */  sw      $ra, 0x0024($sp)

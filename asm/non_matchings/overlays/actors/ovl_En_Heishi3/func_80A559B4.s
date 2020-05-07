@@ -4,7 +4,7 @@ glabel D_80A55FEC
     .balign 4
 
 .text
-glabel func_80A559B4
+glabel EnHeishi3_CastleHandler
 /* 00374 80A559B4 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00378 80A559B8 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 0037C 80A559BC AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -95,8 +95,8 @@ glabel func_80A559B4
 /* 004C0 80A55B00 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 004C4 80A55B04 0C00B7D5 */  jal     func_8002DF54              
 /* 004C8 80A55B08 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
-/* 004CC 80A55B0C 3C1980A5 */  lui     $t9, %hi(func_80A55B2C)    ## $t9 = 80A50000
-/* 004D0 80A55B10 27395B2C */  addiu   $t9, $t9, %lo(func_80A55B2C) ## $t9 = 80A55B2C
+/* 004CC 80A55B0C 3C1980A5 */  lui     $t9, %hi(EnHeishi3_Caught)    ## $t9 = 80A50000
+/* 004D0 80A55B10 27395B2C */  addiu   $t9, $t9, %lo(EnHeishi3_Caught) ## $t9 = 80A55B2C
 /* 004D4 80A55B14 AE19025C */  sw      $t9, 0x025C($s0)           ## 0000025C
 /* 004D8 80A55B18 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80A55B1C:

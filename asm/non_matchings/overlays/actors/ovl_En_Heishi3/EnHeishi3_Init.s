@@ -80,8 +80,8 @@ glabel EnHeishi3_Init
 /* 00100 80A55740 AE0D0038 */  sw      $t5, 0x0038($s0)           ## 00000038
 /* 00104 80A55744 8E0D002C */  lw      $t5, 0x002C($s0)           ## 0000002C
 /* 00108 80A55748 8E0C0028 */  lw      $t4, 0x0028($s0)           ## 00000028
-/* 0010C 80A5574C 3C0E80A5 */  lui     $t6, %hi(func_80A557A0)    ## $t6 = 80A50000
-/* 00110 80A55750 25CE57A0 */  addiu   $t6, $t6, %lo(func_80A557A0) ## $t6 = 80A557A0
+/* 0010C 80A5574C 3C0E80A5 */  lui     $t6, %hi(EnHeishi3_SetupGuardType)    ## $t6 = 80A50000
+/* 00110 80A55750 25CE57A0 */  addiu   $t6, $t6, %lo(EnHeishi3_SetupGuardType) ## $t6 = 80A557A0
 /* 00114 80A55754 AE0E025C */  sw      $t6, 0x025C($s0)           ## 0000025C
 /* 00118 80A55758 E608006C */  swc1    $f8, 0x006C($s0)           ## 0000006C
 /* 0011C 80A5575C AE0D0040 */  sw      $t5, 0x0040($s0)           ## 00000040
