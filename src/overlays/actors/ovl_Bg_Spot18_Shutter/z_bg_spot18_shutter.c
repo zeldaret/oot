@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void BgSpot18Shutter_Init(BgSpot18Shutter* this, GlobalContext* globalCtx);
-void BgSpot18Shutter_Destroy(BgSpot18Shutter* this, GlobalContext* globalCtx);
-void BgSpot18Shutter_Update(BgSpot18Shutter* this, GlobalContext* globalCtx);
-void BgSpot18Shutter_Draw(BgSpot18Shutter* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot18Shutter*)thisx)
+
+void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot18Shutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot18Shutter_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot18Shutter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot18_Shutter_InitVars = {

@@ -143,7 +143,9 @@ typedef struct {
     }                         fw;
     /* 0x0E8C */ char         unk_E8C[0x0010];
     /* 0x0E9C */ u8           gsFlags[24];
-    /* 0x0EB4 */ char         unk_EB4[0x0020];
+    /* 0x0EB4 */ char         unk_EB4[0x0010];
+    /* 0x0EC4 */ s32          unk_EC4;
+    /* 0x0EC8 */ char         unk_EC8[0x000C];
     /* 0x0ED4 */ u16          eventChkInf[14]; // "event_chk_inf"
     /* 0x0EF0 */ u16          itemGetInf[4]; // "item_get_inf"
     /* 0x0EF8 */ u16          infTable[30]; // "inf_table"
@@ -1640,5 +1642,11 @@ typedef struct {
     /* 0x10C */ u8 unk_10C;
     /* 0x10D */ u8 unk_10D;
 } UnkRumbleStruct; // size = 0x10E
+
+typedef struct {
+    char unk_00[0x48];
+    void* avbTbl;
+    SkelAnime skelAnime;
+} PSkinAwb; // size = 0x90
 
 #endif

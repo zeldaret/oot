@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnDivingGame;
+
+typedef struct EnDivingGame {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x24C];
 } EnDivingGame; // size = 0x0398

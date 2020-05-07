@@ -5,7 +5,9 @@
 #include <global.h>
 #include <vt.h>
 
-typedef struct {
+struct OceffWipe4;
+
+typedef struct OceffWipe4 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s16 counter;
 } OceffWipe4; // size = 0x0150

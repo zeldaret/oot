@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000410
 
-void ObjSyokudai_Init(ObjSyokudai* this, GlobalContext* globalCtx);
-void ObjSyokudai_Destroy(ObjSyokudai* this, GlobalContext* globalCtx);
-void ObjSyokudai_Update(ObjSyokudai* this, GlobalContext* globalCtx);
-void ObjSyokudai_Draw(ObjSyokudai* this, GlobalContext* globalCtx);
+#define THIS ((ObjSyokudai*)thisx)
+
+void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Syokudai_InitVars = {

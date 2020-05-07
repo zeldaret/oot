@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000015
 
-void EnGeldB_Init(EnGeldB* this, GlobalContext* globalCtx);
-void EnGeldB_Destroy(EnGeldB* this, GlobalContext* globalCtx);
-void EnGeldB_Update(EnGeldB* this, GlobalContext* globalCtx);
-void EnGeldB_Draw(EnGeldB* this, GlobalContext* globalCtx);
+#define THIS ((EnGeldB*)thisx)
+
+void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGeldB_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGeldB_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_GeldB_InitVars = {

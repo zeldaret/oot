@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgJyaBlock;
+
+typedef struct BgJyaBlock {
     /* 0x0000 */ DynaPolyActor dyna;
 } BgJyaBlock; // size = 0x0164
 

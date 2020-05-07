@@ -2,11 +2,13 @@
  * File: z_oceff_wipe.c
  * Overlay: ovl_Oceff_Wipe
  * Description: Zelda's Lullaby Effect
-*/
+ */
 
 #include "z_oceff_wipe.h"
 
 #define FLAGS 0x02000010
+
+#define THIS ((OceffWipe*)thisx)
 
 void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -28,21 +30,20 @@ const ActorInit Oceff_Wipe_InitVars = {
 #include "z_oceff_wipe_gfx.c"
 
 u8 sOceffWipeAlphaIndices[] = {
-    0x01, 0x10, 0x22, 0x01, 0x20, 0x12, 0x01, 0x20, 0x12, 0x01, 0x10, 0x22, 0x01, 0x20, 0x12, 0x01, 0x12, 0x21, 0x01, 0x02, 
+    0x01, 0x10, 0x22, 0x01, 0x20, 0x12, 0x01, 0x20, 0x12, 0x01,
+    0x10, 0x22, 0x01, 0x20, 0x12, 0x01, 0x12, 0x21, 0x01, 0x02,
 };
 
-void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx)
-{
-    OceffWipe* this = (OceffWipe*)thisx;
+void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx) {
+    OceffWipe* this = THIS;
     Actor_SetScale(this, 0.1F);
     this->counter = 0;
     this->actor.posRot.pos = CUR_CAM->eye;
-    osSyncPrintf(VT_FGCOL(CYAN)" WIPE arg_data = %d\n"VT_RST, this->actor.params);
+    osSyncPrintf(VT_FGCOL(CYAN) " WIPE arg_data = %d\n" VT_RST, this->actor.params);
 }
 
-void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx)
-{
-    OceffWipe* this = (OceffWipe*)thisx;
+void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    OceffWipe* this = THIS;
     Player* player = PLAYER;
 
     func_800876C8(globalCtx);
@@ -51,28 +52,25 @@ void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx)
     }
 }
 
-void OceffWipe_Update(Actor* thisx, GlobalContext* globalCtx)
-{
-    OceffWipe* this = (OceffWipe*)thisx;
+void OceffWipe_Update(Actor* thisx, GlobalContext* globalCtx) {
+    OceffWipe* this = THIS;
     this->actor.posRot.pos = CUR_CAM->eye;
     if (this->counter < 100) {
         this->counter++;
-    }
-    else {
+    } else {
         Actor_Kill(this);
-    } 
+    }
 }
 
-void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx)
-{
+void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 scroll;
-    OceffWipe* this = (OceffWipe*)thisx;
+    OceffWipe* this = THIS;
     f32 z;
     GraphicsContext* gfxCtx;
     u8 alphaTable[3];
     s32 i;
     Vec3f eye;
-    Vtx_tn (*vtxPtr)[2];
+    Vtx_tn(*vtxPtr)[2];
     Vec3f vec;
     Gfx* dispRefs[5];
 
@@ -84,8 +82,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx)
     Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 346);
     if (this->counter < 32) {
         z = Math_Sins(this->counter << 9) * 1400;
-    }
-    else {
+    } else {
         z = 1400;
     }
 
@@ -93,8 +90,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx)
         alphaTable[0] = 0;
         alphaTable[1] = (0x64 - this->counter) * 8;
         alphaTable[2] = (0x64 - this->counter) * 12;
-    }
-    else {
+    } else {
         alphaTable[0] = 0;
         alphaTable[1] = 0xA0;
         alphaTable[2] = 0xFF;
@@ -113,19 +109,20 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx)
     func_800D1FD4(&globalCtx->mf_11DA0);
     Matrix_Translate(0, 0, -z, MTXMODE_APPLY);
 
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 375), G_MTX_NOPUSH|G_MTX_LOAD|G_MTX_MODELVIEW);
-    
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 375),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
     if (this->actor.params) {
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 170, 255, 255, 255);
         gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 150, 255, 128);
-    }
-    else {
+    } else {
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 255, 255, 200, 255);
         gDPSetEnvColor(gfxCtx->polyXlu.p++, 100, 0, 255, 128);
     }
 
     gSPDisplayList(gfxCtx->polyXlu.p++, textureDL);
-    gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 - scroll, scroll*(-2), 32, 32, 1, 0 - scroll, scroll*(-2), 32, 32));
+    gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 - scroll, scroll * (-2), 32, 32,
+                                                         1, 0 - scroll, scroll * (-2), 32, 32));
     gSPDisplayList(gfxCtx->polyXlu.p++, frustrumDl);
 
     Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 398);

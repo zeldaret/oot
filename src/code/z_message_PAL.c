@@ -23,18 +23,6 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801076CC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010773C.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801077B4.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107804.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010787C.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801078CC.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107918.s")
-
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107980.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_801080B4.s")

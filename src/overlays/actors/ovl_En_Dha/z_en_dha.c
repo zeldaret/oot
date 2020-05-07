@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000015
 
-void EnDha_Init(EnDha* this, GlobalContext* globalCtx);
-void EnDha_Destroy(EnDha* this, GlobalContext* globalCtx);
-void EnDha_Update(EnDha* this, GlobalContext* globalCtx);
-void EnDha_Draw(EnDha* this, GlobalContext* globalCtx);
+#define THIS ((EnDha*)thisx)
+
+void EnDha_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDha_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Dha_InitVars = {

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00005005
 
-void EnBili_Init(EnBili* this, GlobalContext* globalCtx);
-void EnBili_Destroy(EnBili* this, GlobalContext* globalCtx);
-void EnBili_Update(EnBili* this, GlobalContext* globalCtx);
-void EnBili_Draw(EnBili* this, GlobalContext* globalCtx);
+#define THIS ((EnBili*)thisx)
+
+void EnBili_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBili_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Bili_InitVars = {

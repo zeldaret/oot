@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000000
 
-void BgGjyoBridge_Init(BgGjyoBridge* this, GlobalContext* globalCtx);
-void BgGjyoBridge_Destroy(BgGjyoBridge* this, GlobalContext* globalCtx);
-void BgGjyoBridge_Update(BgGjyoBridge* this, GlobalContext* globalCtx);
-void BgGjyoBridge_Draw(BgGjyoBridge* this, GlobalContext* globalCtx);
+#define THIS ((BgGjyoBridge*)thisx)
+
+void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgGjyoBridge_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgGjyoBridge_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_808787A4(BgGjyoBridge* this, GlobalContext* globalCtx);
 void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, GlobalContext* globalCtx);
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx);
@@ -37,31 +40,31 @@ extern UNK_TYPE D_06000600;
 extern UNK_TYPE D_06000DB8;
 extern UNK_TYPE D_02002640;
 
-void BgGjyoBridge_Init(BgGjyoBridge* this, GlobalContext* globalCtx) {
+void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgGjyoBridge* this = THIS;
     s32 pad;
-    DynaCollisionContext* dynaCollisionContext;
     s32 local_c;
 
     local_c = 0;
 
-    Actor_ProcessInitChain(&this->dyna, &initChain);
-    DynaPolyInfo_SetActorMove(this, 0);
+    Actor_ProcessInitChain(thisx, &initChain);
+    DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_06000DB8, &local_c);
 
-    dynaCollisionContext = &globalCtx->colCtx.dyna;
-
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, dynaCollisionContext, this, local_c);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 
     if (gSaveContext.eventChkInf[4] & 0x2000) {
         this->actionFunc = func_808787A4;
     } else {
         this->dyna.actor.draw = NULL;
-        func_8003EBF8(globalCtx, dynaCollisionContext, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
         this->actionFunc = BgGjyoBridge_TriggerCutscene;
     }
 }
 
-void BgGjyoBridge_Destroy(BgGjyoBridge* this, GlobalContext* globalCtx) {
+void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgGjyoBridge* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
@@ -85,18 +88,20 @@ void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, GlobalContext* globalCtx) 
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx) {
     if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.actorActions[2] != NULL) &&
         (globalCtx->csCtx.actorActions[2]->action == 2)) {
-        this->dyna.actor.draw = &BgGjyoBridge_Draw;
+        this->dyna.actor.draw = BgGjyoBridge_Draw;
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
         gSaveContext.eventChkInf[4] |= 0x2000;
     }
 }
 
-void BgGjyoBridge_Update(BgGjyoBridge* this, GlobalContext* globalCtx) {
+void BgGjyoBridge_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgGjyoBridge* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
-void BgGjyoBridge_Draw(BgGjyoBridge* this, GlobalContext* globalCtx) {
-    s32 pad;
+void BgGjyoBridge_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgGjyoBridge* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 

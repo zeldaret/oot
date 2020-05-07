@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00000010
 
-void EnWallTubo_Init(EnWallTubo* this, GlobalContext* globalCtx);
-void EnWallTubo_Destroy(EnWallTubo* this, GlobalContext* globalCtx);
-void EnWallTubo_Update(EnWallTubo* this, GlobalContext* globalCtx);
+#define THIS ((EnWallTubo*)thisx)
+
+void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnWallTubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnWallTubo_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Wall_Tubo_InitVars = {

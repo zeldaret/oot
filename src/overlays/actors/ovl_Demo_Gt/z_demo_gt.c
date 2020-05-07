@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void DemoGt_Init(DemoGt* this, GlobalContext* globalCtx);
-void DemoGt_Destroy(DemoGt* this, GlobalContext* globalCtx);
-void DemoGt_Update(DemoGt* this, GlobalContext* globalCtx);
-void DemoGt_Draw(DemoGt* this, GlobalContext* globalCtx);
+#define THIS ((DemoGt*)thisx)
+
+void DemoGt_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Demo_Gt_InitVars = {

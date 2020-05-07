@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void EnZl2_Init(EnZl2* this, GlobalContext* globalCtx);
-void EnZl2_Destroy(EnZl2* this, GlobalContext* globalCtx);
-void EnZl2_Update(EnZl2* this, GlobalContext* globalCtx);
-void EnZl2_Draw(EnZl2* this, GlobalContext* globalCtx);
+#define THIS ((EnZl2*)thisx)
+
+void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnZl2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Zl2_InitVars = {

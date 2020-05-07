@@ -10,10 +10,12 @@
 
 #define FLAGS 0x04000011
 
-void EnRu1_Init(EnRu1* this, GlobalContext* globalCtx);
-void EnRu1_Destroy(EnRu1* this, GlobalContext* globalCtx);
-void EnRu1_Update(EnRu1* this, GlobalContext* globalCtx);
-void EnRu1_Draw(EnRu1* this, GlobalContext* globalCtx);
+#define THIS ((EnRu1*)thisx)
+
+void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnRu1_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnRu1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80AEC0B4(EnRu1* this, GlobalContext* globalCtx);
 void func_80AEC100(EnRu1* this, GlobalContext* globalCtx);
@@ -96,31 +98,26 @@ s32 D_80AF087C = 0;
 
 u32 D_80AF1938 = 0;
 
-ActorFunc D_80AF193C[] = {
-    (ActorFunc)func_80AEC0B4, (ActorFunc)func_80AEC100, (ActorFunc)func_80AEC130, (ActorFunc)func_80AEC17C,
-    (ActorFunc)func_80AEC1D4, (ActorFunc)func_80AEC244, (ActorFunc)func_80AEC2C0, (ActorFunc)func_80AECA94,
-    (ActorFunc)func_80AECAB4, (ActorFunc)func_80AECAD4, (ActorFunc)func_80AECB18, (ActorFunc)func_80AECB60,
-    (ActorFunc)func_80AECBB8, (ActorFunc)func_80AECC1C, (ActorFunc)func_80AECC84, (ActorFunc)func_80AED304,
-    (ActorFunc)func_80AED324, (ActorFunc)func_80AED344, (ActorFunc)func_80AED374, (ActorFunc)func_80AED3A4,
-    (ActorFunc)func_80AED3E0, (ActorFunc)func_80AED414, (ActorFunc)func_80AEF29C, (ActorFunc)func_80AEF2AC,
-    (ActorFunc)func_80AEF2D0, (ActorFunc)func_80AEF354, (ActorFunc)func_80AEF3A8, (ActorFunc)func_80AEEBD4,
-    (ActorFunc)func_80AEEC5C, (ActorFunc)func_80AEECF0, (ActorFunc)func_80AEED58, (ActorFunc)func_80AEEDCC,
-    (ActorFunc)func_80AEEE34, (ActorFunc)func_80AEEE9C, (ActorFunc)func_80AEEF08, (ActorFunc)func_80AEEF5C,
-    (ActorFunc)func_80AEF9D8, (ActorFunc)func_80AEFA2C, (ActorFunc)func_80AEFAAC, (ActorFunc)func_80AEFB04,
-    (ActorFunc)func_80AEFB68, (ActorFunc)func_80AEFCE8, (ActorFunc)func_80AEFBC8, (ActorFunc)func_80AEFC24,
-    (ActorFunc)func_80AEFECC, (ActorFunc)func_80AEFF40,
+EnRu1ActionFunc D_80AF193C[] = {
+    func_80AEC0B4, func_80AEC100, func_80AEC130, func_80AEC17C, func_80AEC1D4, func_80AEC244, func_80AEC2C0,
+    func_80AECA94, func_80AECAB4, func_80AECAD4, func_80AECB18, func_80AECB60, func_80AECBB8, func_80AECC1C,
+    func_80AECC84, func_80AED304, func_80AED324, func_80AED344, func_80AED374, func_80AED3A4, func_80AED3E0,
+    func_80AED414, func_80AEF29C, func_80AEF2AC, func_80AEF2D0, func_80AEF354, func_80AEF3A8, func_80AEEBD4,
+    func_80AEEC5C, func_80AEECF0, func_80AEED58, func_80AEEDCC, func_80AEEE34, func_80AEEE9C, func_80AEEF08,
+    func_80AEEF5C, func_80AEF9D8, func_80AEFA2C, func_80AEFAAC, func_80AEFB04, func_80AEFB68, func_80AEFCE8,
+    func_80AEFBC8, func_80AEFC24, func_80AEFECC, func_80AEFF40,
 };
 
-void (*D_80AF19F4[])(EnRu1* this, GlobalContext* globalCtx, s32 limbIndex, Vec3s* rot) = {
+EnRu1PreLimbDrawFunc D_80AF19F4[] = {
     func_80AF0278,
 };
 
 Vec3f D_80AF19F8 = { 0.0f, 10.0f, 0.0f };
 
-ActorFunc D_80AF1A04[] = {
-    (ActorFunc)func_80AF03F4,
-    (ActorFunc)func_80AF0400,
-    (ActorFunc)func_80AF05D4,
+EnRu1DrawFunc D_80AF1A04[] = {
+    func_80AF03F4,
+    func_80AF0400,
+    func_80AF05D4,
 };
 
 const ActorInit En_Ru1_InitVars = {
@@ -218,7 +215,9 @@ u8 func_80AEADF0(EnRu1* this) {
     return params;
 }
 
-void EnRu1_Destroy(EnRu1* this, GlobalContext* globalCtx) {
+void EnRu1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
+
     func_80AEAD98(this, globalCtx);
 }
 
@@ -2239,7 +2238,9 @@ void func_80AF0050(EnRu1* this, GlobalContext* globalCtx) {
     this->actor.room = -1;
 }
 
-void EnRu1_Update(EnRu1* this, GlobalContext* globalCtx) {
+void EnRu1_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
+
     if (this->action < 0 || this->action >= 46 || D_80AF193C[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
@@ -2247,9 +2248,9 @@ void EnRu1_Update(EnRu1* this, GlobalContext* globalCtx) {
     D_80AF193C[this->action](this, globalCtx);
 }
 
-void EnRu1_Init(EnRu1* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->actor;
-    u32 temp_ret;
+void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
+    s32 pad;
 
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06012700, NULL, &this->limbDrawTable, &this->transitionDrawTable,
@@ -2303,30 +2304,32 @@ void func_80AF0278(EnRu1* this, GlobalContext* globalCtx, s32 limbIndex, Vec3s* 
     }
 }
 
-s32 func_80AF02E8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnRu1* actor,
-                  Gfx** gfx) {
-    if ((actor->unk_290 < 0) || (actor->unk_290 > 0) || (*D_80AF19F4[actor->unk_290] == NULL)) {
+s32 EnRu1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, EnRu1* thisx,
+                           Gfx** gfx) {
+    EnRu1* this = THIS;
+
+    if ((this->unk_290 < 0) || (this->unk_290 > 0) || (*D_80AF19F4[this->unk_290] == NULL)) {
         osSyncPrintf(VT_FGCOL(RED) "首回しモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        D_80AF19F4[actor->unk_290](actor, globalCtx, limbIndex, rot);
+        D_80AF19F4[this->unk_290](this, globalCtx, limbIndex, rot);
     }
     return 0;
 }
 
-void func_80AF0368(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx) {
-    s32 pad;
+void EnRu1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+    EnRu1* this = THIS;
     Vec3f vec1;
     Vec3f vec2;
 
     if (limbIndex == 15) {
         vec1 = D_80AF19F8;
         Matrix_MultVec3f(&vec1, &vec2);
-        actor->posRot2.pos.x = vec2.x;
-        actor->posRot2.pos.y = vec2.y;
-        actor->posRot2.pos.z = vec2.z;
-        actor->posRot2.rot.x = actor->posRot.rot.x;
-        actor->posRot2.rot.y = actor->posRot.rot.y;
-        actor->posRot2.rot.z = actor->posRot.rot.z;
+        thisx->posRot2.pos.x = vec2.x;
+        thisx->posRot2.pos.y = vec2.y;
+        thisx->posRot2.pos.z = vec2.z;
+        thisx->posRot2.rot.x = thisx->posRot.rot.x;
+        thisx->posRot2.rot.y = thisx->posRot.rot.y;
+        thisx->posRot2.rot.z = thisx->posRot.rot.z;
     }
 }
 
@@ -2353,7 +2356,7 @@ void func_80AF0400(EnRu1* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, &D_80116280[2]);
 
     gfxCtx->polyOpa.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          func_80AF02E8, func_80AF0368, &this->actor, gfxCtx->polyOpa.p);
+                                          EnRu1_OverrideLimbDraw, EnRu1_PostLimbDraw, &this->actor, gfxCtx->polyOpa.p);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1309);
 }
@@ -2378,12 +2381,14 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx) {
     gSPSegment(gfxCtx->polyXlu.p++, 0x0C, &D_80116280[0]);
 
     gfxCtx->polyXlu.p = SkelAnime_DrawSV2(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount,
-                                          func_80AF02E8, NULL, &this->actor, gfxCtx->polyXlu.p);
+                                          EnRu1_OverrideLimbDraw, NULL, &this->actor, gfxCtx->polyXlu.p);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ru1.c", 1353);
 }
 
-void EnRu1_Draw(EnRu1* this, GlobalContext* globalCtx) {
+void EnRu1_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
+
     if (this->drawConfig < 0 || this->drawConfig >= 3 || D_80AF1A04[this->drawConfig] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

@@ -8,13 +8,15 @@
 
 #define FLAGS 0x00000000
 
-void EnBird_Init(EnBird* this, GlobalContext* globalCtx);
-void EnBird_Destroy(EnBird* this, GlobalContext* globalCtx);
-void EnBird_Update(EnBird* this, GlobalContext* globalCtx);
-void EnBird_Draw(EnBird* this, GlobalContext* globalCtx);
+#define THIS ((EnBird*)thisx)
+
+void EnBird_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBird_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBird_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBird_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_809C1E00(EnBird* this, s16 params);
 void func_809C1E40(EnBird* this, GlobalContext* globalCtx);
-void EnBird_SetupAction(EnBird* this, ActorFunc actionFunc);
 void func_809C1D60(EnBird* this, GlobalContext* globalCtx);
 void func_809C1CAC(EnBird* this, s16 params);
 
@@ -37,11 +39,13 @@ static InitChainEntry initChain[] = {
 extern AnimationHeader D_0600006C;
 extern SkeletonHeader D_06002190;
 
-void EnBird_SetupAction(EnBird* this, ActorFunc actionFunc) {
+void EnBird_SetupAction(EnBird* this, EnBirdActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void EnBird_Init(EnBird* this, GlobalContext* globalCtx) {
+void EnBird_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnBird* this = THIS;
+
     Actor_ProcessInitChain(&this->actor, initChain);
     Actor_SetScale(&this->actor, 0.01);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002190, &D_0600006C, 0, 0, 0);
@@ -60,7 +64,7 @@ void EnBird_Init(EnBird* this, GlobalContext* globalCtx) {
     func_809C1CAC(this, this->actor.params);
 }
 
-void EnBird_Destroy(EnBird* this, GlobalContext* globalCtx) {
+void EnBird_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809C1CAC(EnBird* this, s16 params) {
@@ -93,7 +97,7 @@ void func_809C1D60(EnBird* this, GlobalContext* globalCtx) {
 
 void func_809C1E00(EnBird* this, s16 params) {
     this->unk_198 = Math_Rand_S16Offset(0x14, 0x2D);
-    EnBird_SetupAction(this, (ActorFunc)func_809C1E40);
+    EnBird_SetupAction(this, func_809C1E40);
 }
 
 void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
@@ -117,11 +121,15 @@ void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnBird_Update(EnBird* this, GlobalContext* globalCtx) {
+void EnBird_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnBird* this = THIS;
+
     this->unk_1B4 += this->unk_1B8;
     this->actionFunc(this, globalCtx);
 }
 
-void EnBird_Draw(EnBird* this, GlobalContext* globalCtx) {
+void EnBird_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnBird* this = THIS;
+
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 0, NULL, NULL);
 }

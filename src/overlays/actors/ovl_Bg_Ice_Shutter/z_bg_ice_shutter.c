@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void BgIceShutter_Init(BgIceShutter* this, GlobalContext* globalCtx);
-void BgIceShutter_Destroy(BgIceShutter* this, GlobalContext* globalCtx);
-void BgIceShutter_Update(BgIceShutter* this, GlobalContext* globalCtx);
-void BgIceShutter_Draw(BgIceShutter* this, GlobalContext* globalCtx);
+#define THIS ((BgIceShutter*)thisx)
+
+void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgIceShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgIceShutter_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgIceShutter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Ice_Shutter_InitVars = {

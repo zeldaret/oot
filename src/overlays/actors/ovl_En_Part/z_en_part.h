@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnPart;
+
+typedef struct EnPart {
     /* 0x000 */ Actor actor;
     /* 0x14C */ u8 unk_14C;
     /* 0x14E */ s16 unk_14E;

@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgMenkuriNisekabe;
+
+typedef struct BgMenkuriNisekabe {
     /* 0x0000 */ Actor actor;
 } BgMenkuriNisekabe; // size = 0x014C
 

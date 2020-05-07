@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000005
 
-void EnWeiyer_Init(EnWeiyer* this, GlobalContext* globalCtx);
-void EnWeiyer_Destroy(EnWeiyer* this, GlobalContext* globalCtx);
-void EnWeiyer_Update(EnWeiyer* this, GlobalContext* globalCtx);
-void EnWeiyer_Draw(EnWeiyer* this, GlobalContext* globalCtx);
+#define THIS ((EnWeiyer*)thisx)
+
+void EnWeiyer_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnWeiyer_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnWeiyer_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnWeiyer_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Weiyer_InitVars = {

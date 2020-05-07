@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000030
 
-void EnEncount2_Init(EnEncount2* this, GlobalContext* globalCtx);
-void EnEncount2_Update(EnEncount2* this, GlobalContext* globalCtx);
-void EnEncount2_Draw(EnEncount2* this, GlobalContext* globalCtx);
+#define THIS ((EnEncount2*)thisx)
+
+void EnEncount2_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnEncount2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Encount2_InitVars = {

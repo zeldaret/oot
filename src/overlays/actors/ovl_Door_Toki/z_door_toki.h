@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct DoorToki;
+
+typedef struct DoorToki {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ u32 dynaPolyId;
     /* 0x0150 */ u8 unk_150[0x18];

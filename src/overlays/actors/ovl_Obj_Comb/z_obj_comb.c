@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx);
-void ObjComb_Destroy(ObjComb* this, GlobalContext* globalCtx);
-void ObjComb_Update(ObjComb* this, GlobalContext* globalCtx);
-void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx);
+#define THIS ((ObjComb*)thisx)
+
+void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx);
 void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx);
@@ -130,8 +132,8 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
     }
 }
 
-void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx) {
-    s32 pad;
+void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ObjComb* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, &initChain);
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -139,8 +141,8 @@ void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx) {
     ObjComb_SetWait(this);
 }
 
-void ObjComb_Destroy(ObjComb* this, GlobalContext* globalCtx) {
-    Collider_DestroyJntSph(globalCtx, &this->collider);
+void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    Collider_DestroyJntSph(globalCtx, &THIS->collider);
 }
 
 void ObjComb_SetWait(ObjComb* this) {
@@ -174,14 +176,16 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
     }
 }
 
-void ObjComb_Update(ObjComb* this, GlobalContext* globalCtx) {
+void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ObjComb* this = THIS;
+
     this->unk_1B2 += 12000;
     this->actionFunc(this, globalCtx);
     this->actor.shape.rot.x = Math_Sins(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
 }
 
-void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx) {
-    s32 pad;
+void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    ObjComb* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 

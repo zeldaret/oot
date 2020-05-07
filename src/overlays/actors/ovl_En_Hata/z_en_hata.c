@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void EnHata_Init(EnHata* this, GlobalContext* globalCtx);
-void EnHata_Destroy(EnHata* this, GlobalContext* globalCtx);
-void EnHata_Update(EnHata* this, GlobalContext* globalCtx);
-void EnHata_Draw(EnHata* this, GlobalContext* globalCtx);
+#define THIS ((EnHata*)thisx)
+
+void EnHata_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHata_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHata_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Hata_InitVars = {

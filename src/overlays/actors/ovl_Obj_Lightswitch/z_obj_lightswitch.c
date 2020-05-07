@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void ObjLightswitch_Init(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_Destroy(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_Update(ObjLightswitch* this, GlobalContext* globalCtx);
-void ObjLightswitch_Draw(ObjLightswitch* this, GlobalContext* globalCtx);
+#define THIS ((ObjLightswitch*)thisx)
+
+void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjLightswitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjLightswitch_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjLightswitch_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Lightswitch_InitVars = {

@@ -8,6 +8,8 @@
 
 #define FLAGS 0x02000010
 
+#define THIS ((OceffWipe4*)thisx)
+
 void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -28,28 +30,26 @@ const ActorInit Oceff_Wipe4_InitVars = {
 #include "z_oceff_wipe4_gfx.c"
 
 void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe4* this = (OceffWipe4*)thisx;
+    OceffWipe4* this = THIS;
     Actor_SetScale(this, 0.1F);
     this->counter = 0;
     this->actor.posRot.pos = CUR_CAM->eye;
-    osSyncPrintf(VT_FGCOL(CYAN)" WIPE4 arg_data = %d\n"VT_RST, this->actor.params);
+    osSyncPrintf(VT_FGCOL(CYAN) " WIPE4 arg_data = %d\n" VT_RST, this->actor.params);
 }
 
 void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    OceffWipe4* this = (OceffWipe4*)thisx;
+    OceffWipe4* this = THIS;
     func_800876C8(globalCtx);
 }
 
-void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx)
-{
-    OceffWipe4* this = (OceffWipe4*)thisx;
+void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {
+    OceffWipe4* this = THIS;
     this->actor.posRot.pos = CUR_CAM->eye;
     if (this->counter < 50) {
         this->counter++;
-    }
-    else {
+    } else {
         Actor_Kill(this);
-    } 
+    }
 }
 
 void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -57,45 +57,34 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 scroll;
     OceffWipe4* this;
     f32 z;
-    GraphicsContext* gfxCtx;    
+    GraphicsContext* gfxCtx;
     u8 alpha;
     u32 pad1;
     Vec3f eye;
-    Vtx_t *vtxPtr;
+    Vtx_t* vtxPtr;
     Vec3f vec;
     Gfx* dispRefs[5];
-    this = (OceffWipe4*)thisx;
+    this = THIS;
     scroll = globalCtx->state.frames & 0xFFF;
 
     eye = CUR_CAM->eye;
     func_8005AFB4(&vec, CUR_CAM);
     if (this->counter < 16) {
         z = Math_Sins(this->counter << 10) * 1330;
-    }
-    else {
+    } else {
         z = 1330;
     }
 
     vtxPtr = (Vtx_t*)vertices;
     if (this->counter >= 30) {
-        alpha = 12*(50-this->counter);
-    }
-    else {
+        alpha = 12 * (50 - this->counter);
+    } else {
         alpha = 0xFF;
     }
 
-    vtxPtr[1].cn[3] =
-    vtxPtr[3].cn[3] =
-    vtxPtr[5].cn[3] =
-    vtxPtr[7].cn[3] =
-    vtxPtr[9].cn[3] =
-    vtxPtr[11].cn[3] =
-    vtxPtr[13].cn[3] =
-    vtxPtr[15].cn[3] =
-    vtxPtr[17].cn[3] =
-    vtxPtr[19].cn[3] =
-    vtxPtr[21].cn[3] = alpha;
-    
+    vtxPtr[1].cn[3] = vtxPtr[3].cn[3] = vtxPtr[5].cn[3] = vtxPtr[7].cn[3] = vtxPtr[9].cn[3] = vtxPtr[11].cn[3] =
+        vtxPtr[13].cn[3] = vtxPtr[15].cn[3] = vtxPtr[17].cn[3] = vtxPtr[19].cn[3] = vtxPtr[21].cn[3] = alpha;
+
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 314);
 
@@ -106,17 +95,18 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800D1FD4(&globalCtx->mf_11DA0);
     Matrix_Translate(0, 0, -z, MTXMODE_APPLY);
 
-    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 324), G_MTX_NOPUSH|G_MTX_LOAD|G_MTX_MODELVIEW);
+    gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 324),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params == 1) {
         gSPDisplayList(gfxCtx->polyXlu.p++, textureDl1);
-    }
-    else {
+    } else {
         gSPDisplayList(gfxCtx->polyXlu.p++, textureDl0);
     }
 
     gSPDisplayList(gfxCtx->polyXlu.p++, textureDl2);
-    gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll*2, scroll*(-2), 32, 64, 1, scroll*(-1), scroll, 32, 32));
+    gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64,
+                                                         1, scroll * (-1), scroll, 32, 32));
     gSPDisplayList(gfxCtx->polyXlu.p++, frustrumDl);
 
     Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 344);

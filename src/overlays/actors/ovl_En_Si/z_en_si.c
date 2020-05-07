@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000201
 
-void EnSi_Init(EnSi* this, GlobalContext* globalCtx);
-void EnSi_Destroy(EnSi* this, GlobalContext* globalCtx);
-void EnSi_Update(EnSi* this, GlobalContext* globalCtx);
-void EnSi_Draw(EnSi* this, GlobalContext* globalCtx);
+#define THIS ((EnSi*)thisx)
+
+void EnSi_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSi_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSi_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSi_Draw(Actor* thisx, GlobalContext* globalCtx);
 s32 func_80AFB748(EnSi* this, GlobalContext* globalCtx);
 void func_80AFB768(EnSi* this, GlobalContext* globalCtx);
 void func_80AFB89C(EnSi* this, GlobalContext* globalCtx);
