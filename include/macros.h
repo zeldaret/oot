@@ -21,7 +21,7 @@
 
 #define PLAYER ((Player*)globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first)
 
-#define CUR_CAM globalCtx->cameraPtrs[globalCtx->activeCamera]
+#define ACTIVE_CAM globalCtx->cameraPtrs[globalCtx->activeCamera]
 
 #define YEARS_CHILD 5
 #define YEARS_ADULT 17

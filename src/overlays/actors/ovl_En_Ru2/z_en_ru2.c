@@ -670,7 +670,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
             if (this->unk_2C2 % 6 == 3) {
                 player = PLAYER;
                 osSyncPrintf("うおりゃー！ \n");
-                func_8005B1A4(CUR_CAM);
+                func_8005B1A4(ACTIVE_CAM);
                 player->actor.posRot.pos.x = 820.0f;
                 player->actor.posRot.pos.y = 0.0f;
                 player->actor.posRot.pos.z = 180.0f;
@@ -681,7 +681,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C3 = dialogState;
     if (func_8010BDBC(msgCtx) == 2) {
         this->action = 18;
-        func_8005B1A4(CUR_CAM);
+        func_8005B1A4(ACTIVE_CAM);
     }
 }
 

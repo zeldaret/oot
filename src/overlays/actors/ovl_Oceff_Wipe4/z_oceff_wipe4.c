@@ -33,7 +33,7 @@ void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
     Actor_SetScale(this, 0.1F);
     this->counter = 0;
-    this->actor.posRot.pos = CUR_CAM->eye;
+    this->actor.posRot.pos = ACTIVE_CAM->eye;
     osSyncPrintf(VT_FGCOL(CYAN) " WIPE4 arg_data = %d\n" VT_RST, this->actor.params);
 }
 
@@ -44,7 +44,7 @@ void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
-    this->actor.posRot.pos = CUR_CAM->eye;
+    this->actor.posRot.pos = ACTIVE_CAM->eye;
     if (this->counter < 50) {
         this->counter++;
     } else {
@@ -67,8 +67,8 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     this = THIS;
     scroll = globalCtx->state.frames & 0xFFF;
 
-    eye = CUR_CAM->eye;
-    func_8005AFB4(&vec, CUR_CAM);
+    eye = ACTIVE_CAM->eye;
+    func_8005AFB4(&vec, ACTIVE_CAM);
     if (this->counter < 16) {
         z = Math_Sins(this->counter << 10) * 1330;
     } else {

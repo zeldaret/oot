@@ -38,7 +38,7 @@ void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe* this = THIS;
     Actor_SetScale(this, 0.1F);
     this->counter = 0;
-    this->actor.posRot.pos = CUR_CAM->eye;
+    this->actor.posRot.pos = ACTIVE_CAM->eye;
     osSyncPrintf(VT_FGCOL(CYAN) " WIPE arg_data = %d\n" VT_RST, this->actor.params);
 }
 
@@ -54,7 +54,7 @@ void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffWipe_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe* this = THIS;
-    this->actor.posRot.pos = CUR_CAM->eye;
+    this->actor.posRot.pos = ACTIVE_CAM->eye;
     if (this->counter < 100) {
         this->counter++;
     } else {
@@ -76,8 +76,8 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     scroll = globalCtx->state.frames & 0xFF;
 
-    eye = CUR_CAM->eye;
-    func_8005AFB4(&vec, CUR_CAM);
+    eye = ACTIVE_CAM->eye;
+    func_8005AFB4(&vec, ACTIVE_CAM);
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 346);
     if (this->counter < 32) {
