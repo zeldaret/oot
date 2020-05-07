@@ -10,6 +10,13 @@
 
 #define THIS ((EnFloormas*)thisx)
 
+#define SPAWN_INVISIBLE 0x8000
+#define SPAWN_SMALL 0x10
+
+// Merge params
+#define MERGE_MASTER 0x40
+#define MERGE_SLAVE 0x20
+
 void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFloormas_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -18,7 +25,7 @@ void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx);
 void EnFloormas_Split(EnFloormas* this, GlobalContext* globalCtx);
 void EnFloormas_Recover(EnFloormas* this, GlobalContext* globalCtx);
-void EnFloormas_DrawXLU(Actor* this, GlobalContext* globalCtx);
+void EnFloormas_DrawHighlighted(Actor* this, GlobalContext* globalCtx);
 void EnFloormas_SmWait(EnFloormas* this, GlobalContext* globalCtx);
 void EnFloormas_BigDecideActionBegin(EnFloormas* this);
 void EnFloormas_Freeze(EnFloormas* this, GlobalContext* globalCtx);
@@ -129,10 +136,11 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->zOffset = -1600;
     invisble = this->actor.params & SPAWN_INVISIBLE;
 
-    this->actor.params &= 0x7FFF;
+    // s16 cast needed
+    this->actor.params &= (s16)~(SPAWN_INVISIBLE);
     if (invisble) {
         this->actor.flags |= 0x80;
-        this->actor.draw = EnFloormas_DrawXLU;
+        this->actor.draw = EnFloormas_DrawHighlighted;
     }
 
     if (this->actor.params == SPAWN_SMALL) {
@@ -173,13 +181,13 @@ void EnFloormas_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, col);
 }
 
-void EnFloormas_Invulnerable(EnFloormas* this) {
+void EnFloormas_MakeInvulnerable(EnFloormas* this) {
     this->collider.base.type = COLTYPE_UNK12;
     this->collider.base.acFlags |= 4;
     this->actionTarget = 0x28;
 }
 
-void EnFloormas_Vulnerable(EnFloormas* this) {
+void EnFloormas_MakeVulnerable(EnFloormas* this) {
     this->collider.base.type = COLTYPE_UNK0;
     this->actionTarget = 0;
     this->collider.base.acFlags &= ~4;
@@ -244,7 +252,7 @@ void EnFloormas_HoverBegin(EnFloormas* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06009520, 3.0f, 0, SkelAnime_GetFrameCount(&D_06009520), 2, -3.0f);
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = 0.0f;
-    EnFloormas_Invulnerable(this);
+    EnFloormas_MakeInvulnerable(this);
     func_80033260(globalCtx, &this->actor, &this->actor.posRot.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_ATTACK);
     this->actionFunc = EnFloormas_Hover;
@@ -273,7 +281,7 @@ void EnFloormas_SplitBegin(EnFloormas* this) {
     Actor_SetScale(&this->actor, 0.004f);
     this->actor.flags |= 0x10;
     if ((this->actor.flags & 0x80) == 0x80) {
-        this->actor.draw = EnFloormas_DrawXLU;
+        this->actor.draw = EnFloormas_DrawHighlighted;
     } else {
         this->actor.draw = EnFloormas_Draw;
     }
@@ -337,7 +345,7 @@ void EnFloormas_GrabLinkBegin(EnFloormas* this, Player* player) {
     this->actor.flags &= ~1;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
-    EnFloormas_Invulnerable(this);
+    EnFloormas_MakeInvulnerable(this);
     if (LINK_IS_CHILD) {
         yDelta = CLAMP(-this->actor.yDistanceFromLink, 20.0f, 30.0f);
         xzDelta = -10.0f;
@@ -356,7 +364,7 @@ void EnFloormas_MergeBegin(EnFloormas* this) {
     SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06009DB0);
     this->actionTimer = 0;
     this->smActionTimer += 1500;
-    EnFloormas_Invulnerable(this);
+    EnFloormas_MakeInvulnerable(this);
     this->actionFunc = EnFloormas_Merge;
 }
 
@@ -414,15 +422,15 @@ void EnFloormas_FreezeBegin(EnFloormas* this) {
 }
 
 void EnFloormas_Die(EnFloormas* this, GlobalContext* globalCtx) {
-    // split
     if (this->actor.scale.x > 0.004f) {
+        // split
         this->actor.shape.rot.y = this->actor.rotTowardsLinkY + 0x8000;
         EnFloormas_SplitBegin((EnFloormas*)this->actor.attachedB);
         EnFloormas_SplitBegin((EnFloormas*)this->actor.attachedA);
         EnFloormas_SplitBegin(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SPLIT);
-        // Die
     } else {
+        // Die
         Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x90);
         EnFloormas_SmShrinkBegin(this, globalCtx);
     }
@@ -605,7 +613,7 @@ void EnFloormas_Land(EnFloormas* this, GlobalContext* globalCtx) {
     isOnGround = this->actor.bgCheckFlags & 1;
     if (this->actor.bgCheckFlags & 2) {
         if (this->actor.params != MERGE_MASTER) {
-            EnFloormas_Vulnerable(this);
+            EnFloormas_MakeVulnerable(this);
         }
 
         if (this->actor.velocity.y < -4.0f) {
@@ -902,7 +910,7 @@ void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         if (this->actor.scale.x >= 0.01f) {
             this->actor.flags &= ~0x10;
-            EnFloormas_Vulnerable(this);
+            EnFloormas_MakeVulnerable(this);
             this->actor.params = 0;
             this->collider.body.bumperFlags |= 4;
             this->actor.colChkInfo.health = colCheckInfoInit.health;
@@ -1112,7 +1120,7 @@ void EnFloormas_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Graph_CloseDisps(gfx, globalCtx->state.gfxCtx, "../z_en_floormas.c", 2340);
 }
 
-void EnFloormas_DrawXLU(Actor* thisx, GlobalContext* globalCtx) {
+void EnFloormas_DrawHighlighted(Actor* thisx, GlobalContext* globalCtx) {
     EnFloormas* this = THIS;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* gfx[4];
