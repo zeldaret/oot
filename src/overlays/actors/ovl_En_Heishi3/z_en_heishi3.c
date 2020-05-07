@@ -20,11 +20,16 @@ void EnHeishi3_CastleHandler(EnHeishi3* this, GlobalContext* globalCtx);
 void EnHeishi3_Caught(EnHeishi3* this, GlobalContext* globalCtx);
 void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx);
 void EnHeishi3_SetupRespawn(EnHeishi3* this, GlobalContext* globalCtx);
-void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx);
+void EnHeishi3_Respawn(EnHeishi3* this, GlobalContext* globalCtx);
 s32 EnHeishi3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                Actor* thisx);
 
-/*
+extern SkeletonHeader D_0600BAC8;
+extern AnimationHeader D_06005C30; // EnHeishi3_IdleAnimation
+extern AnimationHeader D_06005880; // EnHeishi3_WalkAnimation
+
+static s16 isCaught = 0;
+
 const ActorInit En_Heishi3_InitVars = {
     ACTOR_EN_HEISHI3,
     ACTORTYPE_NPC,
@@ -36,17 +41,17 @@ const ActorInit En_Heishi3_InitVars = {
     (ActorFunc)EnHeishi3_Update,
     (ActorFunc)EnHeishi3_Draw,
 };
-*/
 
-extern s16 D_80A55F40;
-extern SkeletonHeader D_0600BAC8;
-extern AnimationHeader D_06005C30; // EnHeishi3_IdleAnimation
-extern AnimationHeader D_06005880; // EnHeishi3_WalkAnimation
-extern ColliderCylinderInit D_80A55F64;
+static ColliderCylinderInit cylinderInit = {
+    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    { 15, 70, 0, { 0, 0, 0 } },
+};
+
 void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi3* this = THIS;
 
-    D_80A55F40 = 0;
+    isCaught = 0;
     if (this->actor.params <= 0) {
         this->unk_278 = 0;
     } else {
@@ -62,7 +67,7 @@ void EnHeishi3_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = -1;
     this->actor.unk_1F = 6;
     Collider_InitCylinder(globalCtx, &this->cylinderCollider);
-    Collider_SetCylinder(globalCtx, &this->cylinderCollider, &this->actor, &D_80A55F64);
+    Collider_SetCylinder(globalCtx, &this->cylinderCollider, &this->actor, &cylinderInit);
     // "Castle Gate Soldier - Power Up"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 城門兵パワーアップ ☆☆☆☆☆ \n" VT_RST);
 
@@ -113,11 +118,11 @@ void EnHeishi3_GroundsHandler(EnHeishi3* this, GlobalContext* globalCtx) {
         }
     }
     if ((this->actor.xzDistanceFromLink < sightRange) &&
-        (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 100.0f) && (D_80A55F40 == 0)) {
-        D_80A55F40 = 1;
+        (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 100.0f) && (isCaught == 0)) {
+        isCaught = 1;
         func_8010B680(globalCtx, 0x702D, &this->actor); // "Hey you! Stop! You, kid, over there!"
         func_80078884(NA_SE_SY_FOUND);
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!
+        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(globalCtx, &this->actor, 1);
         this->actionFunc = EnHeishi3_Caught;
     }
@@ -132,7 +137,7 @@ void EnHeishi3_CastleHandler(EnHeishi3* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((player->actor.posRot.pos.x < -190.0f) && (player->actor.posRot.pos.x > -380.0f) &&
         (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 100.0f) &&
-        (player->actor.posRot.pos.z < 1020.0f) && (player->actor.posRot.pos.z > 700.0f) && (D_80A55F40 == 0)) {
+        (player->actor.posRot.pos.z < 1020.0f) && (player->actor.posRot.pos.z > 700.0f) && (isCaught == 0)) {
         if (this->unk_278 == 1) {
             if ((player->actor.posRot.pos.x < -290.0f)) {
                 return;
@@ -144,7 +149,7 @@ void EnHeishi3_CastleHandler(EnHeishi3* this, GlobalContext* globalCtx) {
                 return;
             }
         }
-        D_80A55F40 = 1;
+        isCaught = 1;
         func_8010B680(globalCtx, 0x702D, &this->actor); // "Hey you! Stop! You, kid, over there!"
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
@@ -178,7 +183,7 @@ void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx) {
 void EnHeishi3_SetupRespawn(EnHeishi3* this, GlobalContext* globalCtx) {
     f32 frames = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)(f32)frames, 0, -10.0f);
-    this->actionFunc = func_80A55D00;
+    this->actionFunc = EnHeishi3_Respawn;
 }
 
 void EnHeishi3_Respawn(EnHeishi3* this, GlobalContext* globalCtx) {
