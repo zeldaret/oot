@@ -5,20 +5,21 @@
 #define FLAGS 0x00000000
 
 void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgHeavyBlock_Destroy(BgHeavyBlock* this, GlobalContext* globalCtx);
+void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHeavyBlock_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgHeavyBlock_Draw(BgHeavyBlock* this, GlobalContext* globalCtx);
+void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx);
+
+void func_80884DB4(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80883C90(BgHeavyBlock* this, GlobalContext* globalCtx);
 void func_808843B0(BgHeavyBlock* this, GlobalContext* globalCtx);
 void func_808844D0(BgHeavyBlock* this, GlobalContext* globalCtx);
 void func_80884658(BgHeavyBlock* this, GlobalContext* globalCtx);
 void func_80884978(BgHeavyBlock* this, GlobalContext* globalCtx);
+void func_8088496C(BgHeavyBlock* this, GlobalContext* globalCtx);
 
-void func_8088496C(BgHeavyBlock* this, GlobalContext* globalCtx); //unused
 
-void func_80884DB4(BgHeavyBlock* this, GlobalContext* globalCtx);
-/*
+
 const ActorInit Bg_Heavy_Block_InitVars = {
     ACTOR_BG_HEAVY_BLOCK,
     ACTORTYPE_BG,
@@ -30,21 +31,60 @@ const ActorInit Bg_Heavy_Block_InitVars = {
     (ActorFunc)BgHeavyBlock_Update,
     (ActorFunc)BgHeavyBlock_Draw,
 };
-*/
 
-static InitChainEntry initChain[] = {
+
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F4, 4000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_F8, 400, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_FC, 400, ICHAIN_STOP),
 };
 
+Vec3f D_80884E80[] = {
+        {0.0f, 300.0f, -20.0f}, 
+        {50.0f, 200.0f, -20.0f}, 
+        {-50.0f, 200.0f, -20.0f}, 
+        {0.0f, 100.0f, 30.0f}, 
+        {0.0f, 100.0f, -70.0f}, 
+        {0.0f, 0.0f, -20.0f},
+};
+
+
 extern UNK_TYPE D_0600169C;
+extern Gfx D_060013C0;
+extern Gfx D_06001A30;
+extern Gfx D_060018A0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Heavy_Block/func_80883790.s")
+void func_80883790(BgHeavyBlock* this, f32 scale) {
+    this->dyna.actor.posRot.rot.x = Math_Rand_CenteredFloat(1024.0f) * scale;
+    this->dyna.actor.posRot.rot.y = Math_Rand_CenteredFloat(1024.0f) * scale;
+    this->dyna.actor.posRot.rot.z = Math_Rand_CenteredFloat(1024.0f) * scale;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Heavy_Block/func_80883820.s")
-void func_80883820(BgHeavyBlock* this, f32 unkf);
+void func_80883820(BgHeavyBlock* this, f32 scale) {
+    f32 randScale;
+    f32 sp20;
+    f32 randFloat;
+
+    this->dyna.actor.gravity = -0.6000000238418579f; //try to use beter float
+    this->dyna.actor.minVelocityY = -12.0f;
+    randFloat = Math_Rand_CenteredFloat(12.0f * scale);
+    if (randFloat < 0.0f) {
+        randScale = randFloat - 2.0f;
+    } else {
+        randScale = randFloat + 2.0f;
+    }
+    this->dyna.actor.velocity.y = (Math_Rand_ZeroFloat(8.0f) + 4.0f) * scale;
+    this->dyna.actor.velocity.z = Math_Rand_ZeroFloat(-8.0f * scale);
+    sp20 = Math_Coss(this->dyna.actor.posRot.rot.y);
+    this->dyna.actor.velocity.x = (Math_Sins(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z + 
+                                  (sp20 * randScale));
+    sp20 = Math_Sins(this->dyna.actor.posRot.rot.y);
+    this->dyna.actor.velocity.z = (Math_Coss(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z) + 
+                                  (-sp20 * randScale);
+    func_80883790(this, scale);
+    Actor_SetScale(&this->dyna.actor, Math_Rand_CenteredFloat(0.20000000298023224f) + 1.0f); //try to use beter float
+}
 
 // sets up dynapoly stuff
 void func_80883998(BgHeavyBlock* this, GlobalContext* globalCtx) {
@@ -61,7 +101,7 @@ void func_80883998(BgHeavyBlock* this, GlobalContext* globalCtx) {
 void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHeavyBlock* this = THIS;
 
-    Actor_ProcessInitChain(thisx, initChain);
+    Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     this->unk_172 = 0;
 
@@ -71,23 +111,23 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     switch (thisx->params & 0xFF) {
-        case 2: //bigger broken piece that bounces
+        case 2: // bigger broken piece
             thisx->draw = func_80884DB4;
             this->actionFunc = func_80883C90;
             func_80883820(this, 1.0f);
             this->timer = 0x78;
             thisx->flags |= 0x10;
-            this->unk_168 = -50.0f;
+            this->unk_164.y = -50.0f;
             break;
-        case 3: //smaller broken piece that bounces
+        case 3: // smaller broken piece
             thisx->draw = func_80884DB4;
             this->actionFunc = func_80883C90;
             func_80883820(this, 2.0f);
             this->timer = 0x78;
             thisx->flags |= 0x10;
-            this->unk_168 = -20.0f;
+            this->unk_164.y = -20.0f;
             break;
-        case 1: //light trial?
+        case 1: // breaks on impact (light trial)
             func_80883998(this, globalCtx);
             if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F)) {
                 Actor_Kill(thisx);
@@ -108,7 +148,7 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             this->actionFunc = func_808843B0;
             break;
-        case 0: // gets thrown and stays, fire trial
+        case 0: // gets thrown and stays (fire trial)
             func_80883998(this, globalCtx);
             this->actionFunc = func_808843B0;
             break;
@@ -121,19 +161,110 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(CYAN)" 最大 ブロック セーブビット %x\n"VT_RST, thisx->params);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Heavy_Block/BgHeavyBlock_Destroy.s")
+void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgHeavyBlock* this = THIS;
+    switch(this->dyna.actor.params & 0xFF) {
+        case 2:
+            break;
+        case 3:
+            break;
+        default:
+            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Heavy_Block/func_80883C90.s")
+void func_80883C90(BgHeavyBlock *this, GlobalContext *globalCtx) {
+    Actor* thisx = &this->dyna.actor;
 
+    thisx->velocity.y += thisx->gravity;
+    if (thisx->velocity.y < thisx->minVelocityY) {
+        thisx->velocity.y = thisx->minVelocityY;
+    }
+    thisx->velocity.x *= 0.98f; //0.9800000190734863
+    thisx->velocity.z *= 0.98f;
+    // updates position based on speed and displacement
+    func_8002D7EC(thisx);
+    thisx->shape.rot.x += thisx->posRot.rot.x;
+    thisx->shape.rot.y += thisx->posRot.rot.y;
+    thisx->shape.rot.z += thisx->posRot.rot.z;
+    if ((this->unk_172 & 1) == 0) {
+        thisx->posRot.pos.y += this->unk_164.y;
+        thisx->pos4.y += this->unk_164.y;
+        func_8002E4B4(globalCtx, thisx, 50.0f, 50.0f, 0.0f, 5);
+        thisx->posRot.pos.y -= this->unk_164.y;
+        thisx->pos4.y -= this->unk_164.y;
+        if (thisx->bgCheckFlags & 1) {
+            this->unk_172 |= 1;
+            thisx->velocity.y = Math_Rand_ZeroFloat(4.0f) + 2.0f;
+            thisx->velocity.x = Math_Rand_CenteredFloat(8.0f);
+            thisx->velocity.z = Math_Rand_CenteredFloat(8.0f);
+            func_80883790(this, 1.0f);
+            Audio_PlayActorSound2(thisx, 0x2852);
+            // rumble
+            func_800AA000(thisx->xzDistanceFromLink, 0x96, 0xA, 8);
+        }
+    }
+    if (this->timer > 0) {
+        this->timer -= 1;
+    } else {
+        Actor_Kill(thisx);
+    }
+}
+
+// related to dust particles. probbaly wont decopmile until we know more about effects
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Heavy_Block/func_80883E54.s")
 void func_80883E54(GlobalContext* globalCtx, f32 x, f32 y, f32 z, f32 arg4, f32 arg5, f32 arg6, s32 arg7);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Heavy_Block/func_808841B8.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Heavy_Block/func_808841B8.s")
+void func_808841B8(BgHeavyBlock* this, GlobalContext* globalCtx) {
+    
+    Vec3f spA4[6];
+    f32 sp8C;
+    f32 sp88;
+    f32 sp7C;
+    f32 temp_f12;
+    f32 temp_f20;
+    f32 temp_f20_2;
+    f32 temp_f22;
+    f32 temp_f24;
+    f32 temp_f28;
+    f32 temp_f30;
+    Vec3f *phi_t7;
+    Vec3f *phi_t6;
+    Vec3f *phi_s0;
+    /*
+    phi_t7 = D_80884E80;
+    phi_t6 = spA4;
+
+    while(phi_t7 < D_80884E80 + 6){
+        *phi_t6++ = *phi_t7++;
+    }
+    */
+   for(phi_t7 = D_80884E80, phi_t6 = spA4, phi_t7 < D_80884E80 + 6; phi_t7++, phi_t6++;){
+    *phi_t6 = *phi_t7;
+}
+    temp_f30 = Math_Sins(this->dyna.actor.posRot.rot.x);
+    sp8C = Math_Coss(this->dyna.actor.posRot.rot.x);
+    sp88 = Math_Sins(this->dyna.actor.posRot.rot.y);
+    temp_f28 = Math_Coss(this->dyna.actor.posRot.rot.y);
+    sp7C = -sp88;
+    phi_s0 = spA4;
+    while(phi_s0 < spA4 + 6){
+        temp_f20 = (phi_s0->z * sp8C) + (phi_s0->y * temp_f30);
+        temp_f22 = ((phi_s0->x * temp_f28) + this->dyna.actor.posRot.pos.x) + (sp88 * temp_f20);
+        temp_f24 = (-phi_s0->z * temp_f30) + (this->dyna.actor.posRot.pos.y + (phi_s0->y * sp8C));
+        temp_f20_2 = ((phi_s0->x * sp7C) + this->dyna.actor.posRot.pos.z) + (temp_f28 * temp_f20);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx,  ACTOR_BG_HEAVY_BLOCK, temp_f22, temp_f24, temp_f20_2, this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, 2);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_HEAVY_BLOCK, temp_f22, temp_f24, temp_f20_2, this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, 3);
+        func_80883E54(globalCtx, temp_f22, temp_f24, temp_f20_2, 0.0f, 0.0f, 0.0f, 0);
+        phi_s0++;
+    }
+}
 
 void func_808843B0(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 quakeIndex; //s16?
 
-    // if attached A is set
+    // if attached A is set, start onepointdemo (cutscene)
     if (func_8002F410(&this->dyna.actor, globalCtx)) {
         this->timer = 0;
         switch (this->dyna.actor.params & 0xFF) {
@@ -193,7 +324,7 @@ void func_808844D0(BgHeavyBlock *this, GlobalContext *globalCtx) {
     }
 }
 
-//BgHeavyBlock_Impact
+//BgHeavyBlock_
 void func_80884658(BgHeavyBlock* this, GlobalContext* globalCtx) {
     UNK_PTR raycast_arg2;
     s32 quakeIndex;
@@ -260,7 +391,7 @@ void func_80884658(BgHeavyBlock* this, GlobalContext* globalCtx) {
     this->dyna.actor.shape.rot.x = atan2s(this->dyna.actor.velocity.y, this->dyna.actor.speedXZ);
 }
 
-//BgHeavyBlock_Wait
+//BgHeavyBlock_DoNothing
 void func_8088496C(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
 }
@@ -300,7 +431,45 @@ void BgHeavyBlock_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Heavy_Block/BgHeavyBlock_Draw.s")
+void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static Vec3f D_80884ED4 = {0.0f, 0.0f, 0.0f};
+    static Vec3f D_80884EC8 = {0.0f, 0.0f, 0.0f};
+    BgHeavyBlock* this;
+    s32 pad;
+    Player* player;
+    GraphicsContext* gfxCtx;
+    Gfx* dispRefs[4];
 
-//BgHeavyBlock_DrawDust
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Heavy_Block/func_80884DB4.s")
+    this = THIS;
+    player = PLAYER;
+    gfxCtx = globalCtx->state.gfxCtx;
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 904);
+    if ((ActorFunc)func_808844D0 == this->actionFunc) {
+        func_800D1694(player->unk_3B0.x, player->unk_3B0.y, player->unk_3B0.z, &thisx->shape.rot);
+        Matrix_Translate(-this->unk_164.x, -this->unk_164.y, -this->unk_164.z, MTXMODE_APPLY);
+    } else if ((thisx->gravity == 0.0f) && ((ActorFunc)func_80884978 == this->actionFunc)) {
+        func_800D1694(thisx->initPosRot.pos.x, thisx->initPosRot.pos.y, thisx->initPosRot.pos.z, &thisx->shape);
+        Matrix_Translate(-D_80884ED4.x, -D_80884ED4.y, -D_80884ED4.z, MTXMODE_APPLY);
+    }
+    Matrix_MultVec3f(&D_80884EC8, &thisx->posRot);
+    Matrix_MultVec3f(&D_80884ED4, &thisx->initPosRot);
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 931), 
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(gfxCtx->polyOpa.p++, &D_060013C0);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 935);    
+}
+
+//BgHeavyBlock_DrawPieces
+void func_80884DB4(Actor* thisx, GlobalContext *globalCtx) {
+    switch (thisx->params & 0xFF) {
+        case 2:
+            Matrix_Translate(50.0f, -260.0f, -20.0f, MTXMODE_APPLY);
+            Gfx_DrawDListOpa(globalCtx, &D_060018A0);
+            break;
+        case 3:
+            Matrix_Translate(45.0f, -280.0f, -5.0f, MTXMODE_APPLY);
+            Gfx_DrawDListOpa(globalCtx, &D_06001A30);
+            break;
+    }
+}
