@@ -1253,7 +1253,7 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
                                             &actor->wallPoly, &sp60, actor, arg2))) {
             sp5C = actor->wallPoly;
             Math_Vec3f_Copy(&actor->posRot.pos, &sp64);
-            actor->unk_7E = atan2s(sp5C->norm.z, sp5C->norm.x);
+            actor->wallPolyRot = atan2s(sp5C->norm.z, sp5C->norm.x);
             actor->bgCheckFlags |= 8;
             actor->wallPolySource = sp60;
         } else {

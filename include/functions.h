@@ -183,10 +183,12 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
 // ? func_80022A10(?);
 // ? func_8002389C(?);
 void func_80024F0C(UNK_TYPE);
+void func_80026230(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
 void func_80026400(GlobalContext*, Color_RGBA8*, u8, s16);
-// ? func_80026608(?);
+void func_80026608(GlobalContext*);
+void func_80026690(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 arg3);
 void func_80026860(GlobalContext*, Color_RGBA8*, u8, s16);
-// ? func_80026A6C(?);
+void func_80026A6C(GlobalContext* globalCtx);
 GlobalContext* func_80026B00(void);
 // ? func_80026B0C(?);
 // ? func_80026C1C(?);
@@ -237,7 +239,7 @@ void func_80029CA4(GlobalContext* globalCtx, s32 a, Vec3f* pos);
 // ? func_80029F44(?);
 // ? func_8002A32C(?);
 // ? func_8002A3C4(?);
-void func_8002A65C(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, u32 arg3, u32 arg4);
+void func_8002A65C(GlobalContext* globalCtx, Actor* actor, Vec3f* pos, s16 arg3, s16 arg4);
 void func_8002A6B8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* arg2, Vec3f* arg3, u32 arg4, s32 arg5, u32 arg6,
                    u32 arg7, u32 arg8, u32 arg9, u32 arg10, u32 arg11, u32 arg12, u32 arg13, u32 arg14, u32 arg15);
 // ? func_8002A894(?);
