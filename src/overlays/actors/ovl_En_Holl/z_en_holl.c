@@ -27,7 +27,7 @@ typedef struct {
     f32 unk_4;
     f32 unk_8;
     f32 unk_C;
-} EnHoll_Struct; // size = 0x10
+} EnHollUnkStruct; // size = 0x10
 
 const ActorInit En_Holl_InitVars = {
     ACTOR_EN_HOLL,
@@ -57,7 +57,7 @@ InitChainEntry D_80A59A5C[] = {
     ICHAIN_F32(unk_FC, 0x190, ICHAIN_STOP)
 };
 
-EnHoll_Struct D_80A59A68[] = {
+EnHollUnkStruct D_80A59A68[] = {
     {200.0f, 150.0f, 100.0f, 50.0f}, 
     {100.0f, 75.0f, 50.0f, 25.0f},
 };
@@ -90,11 +90,11 @@ s32 func_80A58C18() {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A58C48.s")
 void func_80A58C48(EnHoll* this) {
-    s32 index;
+    s32 actionIdx;
 
-    index = (this->actor.params >> 6) & 7;
-    func_80A58C10(this, D_80A59A40[index]);
-    if (&D_80A59A40[0] != &D_80A59A40[index]) {
+    actionIdx = (this->actor.params >> 6) & 7;
+    func_80A58C10(this, D_80A59A40[actionIdx]);
+    if (&D_80A59A40[0] != &D_80A59A40[actionIdx]) {
         this->actor.draw = NULL;
     } else {
         this->unk_14C = 0xFF;
@@ -112,15 +112,16 @@ void EnHoll_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/EnHoll_Destroy.s")
 void EnHoll_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    u32 index;
+    s32 transitionActorIdx;
     TransitionActorEntry* transitionEntry;
 
-    index = (u16)thisx->params >> 0xA;
-    transitionEntry = &globalCtx->transitionActorList[index];
+    transitionActorIdx = (u16)thisx->params >> 0xA;
+    transitionEntry = &globalCtx->transitionActorList[transitionActorIdx];
     transitionEntry->id = -transitionEntry->id;
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A58D18.s")
+//EnHoll_SwapRooms
 void func_80A58D18(GlobalContext* globalCtx) {
     Room tempRoom;
     RoomContext* roomCtx;
@@ -135,18 +136,18 @@ void func_80A58D18(GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// Regalloc, Some stack weirdness
+// Stack, single regalloc
 void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
-    f32 temp_f2; /* sp48 */
+    f32 temp_f2;
     s32 temp_a1;
-    Vec3f sp3C; /* sp3C */
-    EnHoll_Struct* temp_v0; /* sp38 */
-    Player* player; /* sp34 */
-    s16 phi_t0; /* sp30 */
-    s16 new_var;
+    Vec3f sp3C;
+    EnHollUnkStruct* temp_v0;
+    s32 new_var;
+    s32 phi_t0;
+    Player* player;
 
     player = PLAYER;
-    new_var = (globalCtx->sceneNum == 6) ? 1 : 0;
+    new_var = (globalCtx->sceneNum == SCENE_JYASINZOU) ? 1 : 0;
     phi_t0 = new_var;
     func_8002DBD0(&this->actor, &sp3C, &player->actor.posRot.pos);
     this->unk_14E = (sp3C.z < 0.0f) ? 0 : 1;
@@ -181,10 +182,10 @@ void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // Regalloc
 void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
+    s32 pad;
     s32 pad2;
-    s32 pad3;
     Vec3f sp44;
-    s32 new_var2;
+    s32 pad3;
     f32 phi_f2;
     s8 new_var;
     s32 phi_a2;
@@ -221,12 +222,12 @@ void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
 void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
     Player* player;
     f32 absY;
-    s32 index;
+    s32 transitionActorIdx;
 
     player = PLAYER;
     absY = fabsf(this->actor.yDistanceFromLink);
     if ((this->actor.xzDistanceFromLink < 500.0f) && (absY < 700.0f)) {
-        index = (u16)this->actor.params >> 0xA;
+        transitionActorIdx = (u16)this->actor.params >> 0xA;
         if (absY < 95.0f) {
             globalCtx->unk_11E18 = 0xFF;
         } else if (605.0f < absY) {
@@ -235,7 +236,7 @@ void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
             globalCtx->unk_11E18 = ((s16)(605.0f - absY)) * 0.5f;
         }
         if (absY < 95.0f) {
-            this->actor.room = (&globalCtx->transitionActorList[index])->backRoom;
+            this->actor.room = (&globalCtx->transitionActorList[transitionActorIdx])->backRoom;
             Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 1.0f, 50.0f, 10.0f);
             Math_SmoothScaleMaxMinF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 1.0f, 50.0f, 10.0f);
             if (this->actor.room != globalCtx->roomCtx.curRoom.num &&
@@ -253,21 +254,21 @@ void func_80A591C0(EnHoll* this, GlobalContext* globalCtx) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A593A4.s")
 void func_80A593A4(EnHoll* this, GlobalContext* globalCtx) {
-    f32 temp_f0;
-    s32 phi_v1;
-    s32 phi_v0;
+    f32 absY;
+    s32 frontOrBack;
+    s32 transitionActorIdx;
 
     if ((this->actor.xzDistanceFromLink < 120.0f) && 
-        (temp_f0 = fabsf(this->actor.yDistanceFromLink), temp_f0 < 200.0f)) {
-        if (temp_f0 < 50.0f) {
+        (absY = fabsf(this->actor.yDistanceFromLink), absY < 200.0f)) {
+        if (absY < 50.0f) {
             globalCtx->unk_11E18 = 0xFF;
         } else {
-            globalCtx->unk_11E18 = (200.0f - temp_f0) * 1.7000000476837158f;
+            globalCtx->unk_11E18 = (200.0f - absY) * 1.7000000476837158f;
         }
-        if (50.0f < temp_f0) {
-            phi_v0 = (u16)this->actor.params >> 0xA;
-            phi_v1 = (0.0f < this->actor.yDistanceFromLink) ? 0 : 1;
-            this->actor.room = globalCtx->transitionActorList[phi_v0].info[phi_v1].room;
+        if (50.0f < absY) {
+            transitionActorIdx = (u16)this->actor.params >> 0xA;
+            frontOrBack = (0.0f < this->actor.yDistanceFromLink) ? 0 : 1;
+            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].info[frontOrBack].room;
             if (this->actor.room != globalCtx->roomCtx.curRoom.num && 
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                 func_80A58C10(this, &func_80A59828);
@@ -282,16 +283,16 @@ void func_80A593A4(EnHoll* this, GlobalContext* globalCtx) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Holl/func_80A59520.s")
 void func_80A59520(EnHoll* this, GlobalContext* globalCtx) {
-    f32 temp_f0;
-    s8 phi_v1;
-    s32 phi_v0;
+    f32 absY;
+    s8 frontOrBack;
+    s32 transitionActorIdx;
 
     if (this->actor.xzDistanceFromLink < 120.0f) {
-        temp_f0 = fabsf(this->actor.yDistanceFromLink);
-        if (temp_f0 < 200.0f && 50.0f < temp_f0) {
-            phi_v0 = (u16)this->actor.params >> 0xA;
-            phi_v1 = (0.0f < this->actor.yDistanceFromLink) ? 0 : 1;
-            this->actor.room = globalCtx->transitionActorList[phi_v0].info[phi_v1].room;
+        absY = fabsf(this->actor.yDistanceFromLink);
+        if (absY < 200.0f && 50.0f < absY) {
+            transitionActorIdx = (u16)this->actor.params >> 0xA;
+            frontOrBack = (0.0f < this->actor.yDistanceFromLink) ? 0 : 1;
+            this->actor.room = globalCtx->transitionActorList[transitionActorIdx].info[frontOrBack].room;
             if (this->actor.room != globalCtx->roomCtx.curRoom.num && 
                 func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                 func_80A58C10(this, func_80A59828);
@@ -305,8 +306,8 @@ void func_80A59618(EnHoll* this, GlobalContext* globalCtx) {
     Player* player;
     Vec3f sp38;
     f32 temp_f2;
-    s32 phi_v0;
-    s32 phi_v1;
+    s32 frontOrBack;
+    s32 transitionActorIdx;
 
     player = PLAYER;
     if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F) == 0) {
@@ -319,16 +320,18 @@ void func_80A59618(EnHoll* this, GlobalContext* globalCtx) {
         temp_f2 = fabsf(sp38.z);
         if ((-50.0f < sp38.y) && (sp38.y < 200.0f) && (fabsf(sp38.x) < 200.0f) && (temp_f2 < 100.0f)) {
             this->unk_14F = 1;
-            phi_v1 = (u16)this->actor.params >> 0xA;
+            transitionActorIdx = (u16)this->actor.params >> 0xA;
             globalCtx->unk_11E18 = 0xFF - (s32)((temp_f2 - 50.0f) * 5.900000095367432f);
+
             if (globalCtx->unk_11E18 >= 0x100) {
                 globalCtx->unk_11E18 = 0xFF;
             } else if (globalCtx->unk_11E18 < 0) {
                 globalCtx->unk_11E18 = 0;
             }
+
             if (temp_f2 < 50.0f) {
-                phi_v0 = (sp38.z < 0.0f) ? 0 : 1;
-                this->actor.room = globalCtx->transitionActorList[phi_v1].info[phi_v0].room;
+                frontOrBack = (sp38.z < 0.0f) ? 0 : 1;
+                this->actor.room = globalCtx->transitionActorList[transitionActorIdx].info[frontOrBack].room;
                 if (this->actor.room != globalCtx->roomCtx.curRoom.num && func_8009728C(globalCtx, &globalCtx->roomCtx, this->actor.room) != 0) {
                     func_80A58C10(this, func_80A59828);
                 }
