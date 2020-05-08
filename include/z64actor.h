@@ -292,7 +292,7 @@ typedef struct {
     /* 0x0838 */ f32        linearVelocity;
     /* 0x083C */ s16        currentYaw;
     /* 0x083E */ s16        targetYaw;
-    /* 0x0840 */ s16        unk_840;
+    /* 0x0840 */ u16        unk_840;
     /* 0x0842 */ s8         swordAnimation;
     /* 0x0843 */ s8         swordState;
     /* 0x0844 */ u8         unk_844;

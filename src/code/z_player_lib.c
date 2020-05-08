@@ -1,6 +1,11 @@
 #include <ultra64.h>
 #include <global.h>
 
+typedef struct {
+    u8 unk_0;
+    s16 unk_2;
+} PlayerLibStruct1;
+
 // TODO decompile data
 
 extern u32 D_80125B70[];
@@ -8,6 +13,8 @@ extern u32 D_80125B70[];
 extern s16 D_80125B78[];
 
 extern u8 D_80125C44[];
+
+extern PlayerLibStruct1 D_80125C88[];
 
 extern u8 D_80125C98[];
 
@@ -226,17 +233,16 @@ void func_8008EDF0(Player* player) {
     player->stateFlags2 &= ~0x2000;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EE08.s")
-/* void func_8008EE08(Player* player) {
-    if ((player->actor.bgCheckFlags & 1) == 0 && (player->stateFlags1 & 0x8A00000) == 0) {
-        if ((player->stateFlags1 & 0xC0000) == 0 && (player->actor.posRot.pos.y - player->actor.unk_80) < 100.0f) {
-            player->stateFlags1 &= 0xBFF07FFF;
-        } else if ((player->stateFlags1 & 0x2C0000) == 0) {
-            player->stateFlags1 |= 0x80000;
-        }
+//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EE08.s")
+void func_8008EE08(Player *player) {
+    if ((player->actor.bgCheckFlags & 1) || (player->stateFlags1 & 0x8A00000) || 
+        ((player->stateFlags1 & 0xC0000) == 0 && (player->actor.posRot.pos.y - player->actor.unk_80) < 100.0f)) {
+        player->stateFlags1 &= 0xBFF07FFF;
+    } else if ((player->stateFlags1 & 0x2C0000) == 0) {
+        player->stateFlags1 |= 0x80000;
     }
     func_8008EDF0(player);
-} */
+}
 
 #ifdef NON_MATCHING
 // v1 instead of v0
@@ -384,73 +390,48 @@ s32 func_8008F29C(Player* player) {
     s32 temp_v0;
     s32 phi_v1;
 
-    phi_v1 = 0;
     if (arg1 != 1) {
         temp_v0 = arg1 - 3;
-        phi_v1 = (temp_v0 >= 0 && temp_v0 < 3) ? temp_v0 : -1;
+        if (temp_v0 >= 0 && temp_v0 < 3) {
+            return temp_v0;
+        }
+    } else {
+        return 0;
     }
-    return phi_v1;
+    return -1;
 } */
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008F2F8.s")
 /* s32 func_8008F2F8(GlobalContext* globalCtx) {
-    s32 sp1C;
-    void *sp18;
-    s32 temp_v1;
-    void *temp_a3;
-    s32 phi_v1;
     Player* player;
+    PlayerLibStruct1* temp_a3;
+    s32 phi_v1;
 
     player = PLAYER;
     if (globalCtx->roomCtx.curRoom.unk_02 == 3) {
         phi_v1 = 0;
     } else {
-        if (player->unk_840 >= 0x51) {
-            if (player->currentBoots != 1) {
-                if (player->unk_840 >= 0x12C) {
-                    phi_v1 = (player->currentBoots == 1 && (player->actor.bgCheckFlags & 1) != 0) ? 1 : 3;
-                } else {
-                    if ((player->stateFlags1 * 0x10) >= 0) {
-                        return 0;
-                    }
-                    phi_v1 = 2;
-                }
+        if (((s32)player->unk_840 >= 0x51) && (player->currentBoots == 1 || (s32)player->unk_840 >= 0x12C)) {
+            if (player->currentBoots != 1 || (player->actor.bgCheckFlags & 1)) {
+                phi_v1 = 1;
             } else {
-                phi_v1 = (player->currentBoots == 1 && (player->actor.bgCheckFlags & 1) != 0) ? 1 : 3;
+                phi_v1 = 3;
             }
         } else {
-            if ((player->stateFlags1 * 0x10) >= 0) {
+            // TODO some issues here
+            if (((s32)player->stateFlags1 * 0x10) >= 0) {
                 return 0;
             }
             phi_v1 = 2;
         }
     }
+    // TODO some control flow issues down here
     if (func_8008E988(globalCtx) == 0) {
-        temp_a3 = (phi_v1 * 4) + &D_80125C88;
-        if (temp_a3->unk0 != 0) {
-            if ((gSaveContext.unk_13C6 & temp_a3->unk0) == 0) {
-                if (phi_v1 == 0) {
-                    if (1 == player->currentTunic) {
-block_17:
-                        if (phi_v1 != 1) {
-                            if (phi_v1 == 3) {
-block_19:
-                                if (1 == player->currentBoots && player->currentTunic != 2) {
-block_21:
-                                    sp18 = temp_a3;
-                                    func_8010B680(globalCtx, temp_a3->unk2, 0);
-                                    gSaveContext.unk_13C6 |= temp_a3->unk0;
-                                }
-                            }
-                        } else {
-                            goto block_19;
-                        }
-                    } else {
-                        goto block_21;
-                    }
-                } else {
-                    goto block_17;
-                }
+        temp_a3 = &D_80125C88[phi_v1];
+        if (temp_a3->unk_0 != 0 && !(gSaveContext.unk_13C6 & temp_a3->unk_0)) {
+            if (phi_v1 != 0 || player->currentTunic != 1 || ((phi_v1 == 1 || phi_v1 == 3) && player->currentBoots == 1 && player->currentTunic != 2)) {
+                func_8010B680(globalCtx, temp_a3->unk_2, 0);
+                gSaveContext.unk_13C6 |= temp_a3->unk_0;
             }
         }
     }
@@ -627,15 +608,15 @@ void func_80090A28(Player* player, ColliderTrisItemDimInit* trisInit) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090AFC.s")
 /* void func_80090AFC(GlobalContext* globalCtx, Player* player, f32 arg2) {
-    Vec3f sp9C;
-    Vec3f sp98;
+    f32 sp9C;
+    f32 sp98;
     Vec3f sp8C;
     Vec3f sp80;
     Vec3f sp74;
     Vec3f sp68;
     f32 sp64;
     f32 sp60;
-    Gfx* dispRefs[3]; // TODO confirm size
+    Gfx* dispRefs[5]; // TODO confirm size
     GraphicsContext* gfxCtx;
 
     D_801260D0 = 0.0f;
