@@ -24,6 +24,7 @@
 #include <ichain.h>
 #include <stdarg.h>
 #include <regs.h>
+#include <sched.h>
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240

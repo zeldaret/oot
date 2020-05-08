@@ -1,3 +1,10 @@
+.rdata
+glabel D_80144CBC
+    # EUC-JP: オーディオマネージャスレッド実行開始 | Start running audio manager thread
+    .asciz "オーディオマネージャスレッド実行開始\n"
+    .balign 4
+
+.text
 glabel func_800C3E70
 /* B3B010 800C3E70 27BDFFB8 */  addiu $sp, $sp, -0x48
 /* B3B014 800C3E74 AFB50028 */  sw    $s5, 0x28($sp)

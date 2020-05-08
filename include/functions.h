@@ -2,6 +2,7 @@
 #define _FUNCTIONS_H_
 
 #include "z64.h"
+#include "sched.h"
 
 float fabsf(float f);
 #pragma intrinsic(fabsf)
@@ -1947,7 +1948,7 @@ s32 func_800E18B0(s32);
 // ? func_800E2BE0(?);
 // ? func_800E2CE0(?);
 // ? func_800E2FEC(?);
-// ? func_800E301C(?);
+void func_800E301C(void* callback);
 // ? func_800E3034(?);
 // ? func_800E3094(?);
 // ? func_800E3400(?);
@@ -2170,13 +2171,13 @@ void func_800F68BC(s8);
 void func_800F6964(u16);
 // ? func_800F6B68(?);
 // ? func_800F6BB8(?);
-// ? func_800F6C14(?);
+void func_800F6C14();
 // ? func_800F6C34(?);
 // ? func_800F6D58(?);
 // ? func_800F6E7C(?);
 // ? func_800F6FB4(?);
-// ? func_800F70F8(?);
-// ? func_800F711C(?);
+void func_800F70F8();
+void func_800F711C();
 // ? func_800F7170(?);
 // ? func_800F71BC(?);
 void func_800F7260(u16);

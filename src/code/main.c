@@ -22,7 +22,7 @@ StackEntry sSchedStackInfo;
 StackEntry sAudioStackInfo;
 StackEntry sPadMgrStackInfo;
 StackEntry sIrqMgrStackInfo;
-u8 gAudioMgr[0x298]; // type should be AudioMgr
+AudioMgr gAudioMgr;
 OSMesgQueue sSiIntMsgQ;
 OSMesg sSiIntMsgBuf[1];
 
