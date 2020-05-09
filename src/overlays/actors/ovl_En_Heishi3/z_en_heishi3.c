@@ -20,8 +20,8 @@ void EnHeishi3_SetupGuardType(EnHeishi3* this, GlobalContext* globalCtx);
 void EnHeishi3_StandSentinelInGrounds(EnHeishi3* this, GlobalContext* globalCtx);
 void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx);
 void EnHeishi3_CatchStart(EnHeishi3* this, GlobalContext* globalCtx);
-void EnHeishi3_SetupRespawn(EnHeishi3* this, GlobalContext* globalCtx);
-void EnHeishi3_Respawn(EnHeishi3* this, GlobalContext* globalCtx);
+void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, GlobalContext* globalCtx);
+void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx);
 void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx);
 
 extern SkeletonHeader D_0600BAC8;
@@ -173,20 +173,21 @@ void func_80A55BD4(EnHeishi3* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_KNIGHT_WALK);
     }
     if (this->caughtTimer == 0) {
-        this->actionFunc = EnHeishi3_SetupRespawn;
+        this->actionFunc = EnHeishi3_ResetAnimationToIdle;
         this->actor.speedXZ = 0.0f;
     } else {
         Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.rotTowardsLinkY, 5, 3000, 0);
     }
 }
 
-void EnHeishi3_SetupRespawn(EnHeishi3* this, GlobalContext* globalCtx) {
+void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, GlobalContext* globalCtx) {
     f32 frames = SkelAnime_GetFrameCount(&D_06005C30.genericHeader);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)(f32)frames, 0, -10.0f);
-    this->actionFunc = EnHeishi3_Respawn;
+    this->actionFunc = func_80A55D00;
 }
 
-void EnHeishi3_Respawn(EnHeishi3* this, GlobalContext* globalCtx) {
+void func_80A55D00(EnHeishi3* this,
+                   GlobalContext* globalCtx) { // This function initiates the respawn after the player gets caught.
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0) && (this->respawnFlag == 0)) {
         gSaveContext.eventChkInf[4] |= 0x4000;
