@@ -615,7 +615,8 @@ typedef struct {
     /* 0xE3F4 */ u16    unk_E3F4;
     /* 0xE3F6 */ char   unk_E3F6[0x16];
     /* 0xE40C */ u16    unk_E40C;
-    /* 0xE40E */ char   unk_E40E[0x0A];
+    /* 0xE40E */ s16    unk_E40E;
+    /* 0xE410 */ char   unk_E410[0x08];
 } MessageContext; // size = 0xE418
 
 typedef struct {
