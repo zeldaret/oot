@@ -4,12 +4,22 @@
 #include <ultra64.h>
 #include <global.h>
 
-struct EnFloormas;
+typedef struct EnFloormas EnFloormas;
 
-typedef struct EnFloormas {
+typedef void (*EnFloormasActionFunc)(EnFloormas* this, GlobalContext* globalCtx);
+
+struct EnFloormas{
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x1C8];
-} EnFloormas; // size = 0x0314
+    /* 0x014C */ SkelAnime skelAnime;
+    /* 0x0190 */ EnFloormasActionFunc actionFunc;
+    /* 0x0194 */ s16 actionTimer;
+    /* 0x0196 */ s16 actionTarget;
+    /* 0x0198 */ s16 zOffset;
+    /* 0x019A */ s16 smActionTimer;
+    /* 0x019C */ Vec3s limbDrawTable[25];
+    /* 0x0232 */ Vec3s transitionDrawTable[25];
+    /* 0x02C8 */ ColliderCylinder collider;
+}; // size = 0x0314
 
 extern const ActorInit En_Floormas_InitVars;
 

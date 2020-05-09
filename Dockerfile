@@ -11,7 +11,7 @@ RUN apt-get update && \
         git \
         unzip \
         clang-tidy \
-        clang-format
+        clang-format \
         nano
 
 RUN wget \
