@@ -186,8 +186,8 @@ void EnHeishi3_ResetAnimationToIdle(EnHeishi3* this, GlobalContext* globalCtx) {
     this->actionFunc = func_80A55D00;
 }
 
-void func_80A55D00(EnHeishi3* this,
-                   GlobalContext* globalCtx) { // This function initiates the respawn after the player gets caught.
+// This function initiates the respawn after the player gets caught.
+void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0) && (this->respawnFlag == 0)) {
         gSaveContext.eventChkInf[4] |= 0x4000;
