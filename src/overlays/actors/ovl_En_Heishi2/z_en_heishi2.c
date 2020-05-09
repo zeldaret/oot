@@ -5,11 +5,12 @@
  */
 
 #include "z_en_heishi2.h"
+#include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
+#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 #include <vt.h>
 
 #define FLAGS 0x00000009
-
-#define DEGREE_70_RAD 1.2217304706573486f
 
 #define THIS ((EnHeishi2*)thisx)
 
@@ -52,8 +53,8 @@ void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx);
 extern AnimationHeader D_06005C30;
 extern AnimationHeader D_06005500;
 extern SkeletonHeader D_0600BAC8;
-extern Gfx* D_0602B060; // Keaton Mask
-extern Gfx* D_06002C10;
+extern Gfx D_0602B060[]; // Keaton Mask
+extern Gfx D_06002C10[];
 
 const ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
@@ -177,35 +178,27 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_30B = 1;
         this->unk_300 = 6;
         this->actionFunc = func_80A5475C;
-        return;
-    }
-    if (((gSaveContext.eventChkInf[0] & 0x200) != 0) && ((gSaveContext.eventChkInf[2] & 0x20) != 0)) {
-        if ((gSaveContext.eventChkInf[3] & 0x80) != 0) {
-            // "Get all spiritual stones!"
-            osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 全部の精霊石GET！ ☆☆☆☆☆ \n" VT_RST);
-            this->unk_300 = 6;
-            this->actor.textId = 0x7006; // "There's a lot going on in the castle right now. I can't allow even..."
-            this->actionFunc = func_80A5475C;
-            return;
-        }
-    }
-    if (gSaveContext.nightFlag != 0) {
+    } else if ((gSaveContext.eventChkInf[0] & 0x200) && (gSaveContext.eventChkInf[2] & 0x20) &&
+               (gSaveContext.eventChkInf[3] & 0x80)) {
+        // "Get all spiritual stones!"
+        osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 全部の精霊石GET！ ☆☆☆☆☆ \n" VT_RST);
+        this->unk_300 = 6;
+        this->actor.textId = 0x7006; // "There's a lot going on in the castle right now. I can't allow even..."
+        this->actionFunc = func_80A5475C;
+    } else if (gSaveContext.nightFlag) {
         // "Sleep early for children!"
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = 6;
         this->actor.textId = 0x7002; // "Welcome to Hyrule Castle Town. It's a peaceful, prosperous town."
         this->actionFunc = func_80A5475C;
-        return;
-    }
-    if (this->unk_30C != 0) {
+
+    } else if (this->unk_30C != 0) {
         // "Anything passes"
         osSyncPrintf(VT_FGCOL(BLUE) " ☆☆☆☆☆ なんでも通るよ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = 6;
         this->actor.textId = 0x7099; // "KEEP IT A SECRET FROM EVERYONE"
         this->actionFunc = func_80A5475C;
-        return;
-    }
-    if ((gSaveContext.eventChkInf[1] & 4) != 0) {
+    } else if (gSaveContext.eventChkInf[1] & 4) {
         if (this->unk_30E == 0) {
             // "Start under the first sleeve!"
             osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
@@ -229,10 +222,8 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5344C(EnHeishi2* this, GlobalContext* globalCtx) {
-
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
-
         this->unk_300 = 5;
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
@@ -281,30 +272,28 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
 
     Actor* thisx;
     f32 frameCount;
-    BgSpot15Saku* gate;
+    BgSpot15Saku* actor;
 
     frameCount = this->skelAnime.animCurrentFrame;
     thisx = &this->actor;
-    gate = (BgSpot15Saku*)(globalCtx->actorCtx.actorList[ACTORTYPE_ITEMACTION].first);
+    actor = globalCtx->actorCtx.actorList[ACTORTYPE_ITEMACTION].first;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_SPEAR_HIT);
         this->audioFlag = 1;
     }
     if (this->unk_2EC <= frameCount) {
-
-        while (gate != NULL) {
-            if (ACTOR_BG_SPOT15_SAKU != gate->dyna.actor.id) {
-                gate = (BgSpot15Saku*)(gate->dyna.actor.next);
+        while (actor != NULL) {
+            if (ACTOR_BG_SPOT15_SAKU != actor->dyna.actor.id) {
+                actor = (BgSpot15Saku*)(actor->dyna.actor.next);
             } else {
-                this->attached = gate;
-                gate->unk_168 = 1;
+                this->attachedGate = actor;
+                actor->unk_168 = 1;
                 break;
             }
         }
-
         // "I've come!"
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, gate->dyna.actor.next);
+        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, actor->dyna.actor.next);
         this->actionFunc = func_80A5372C;
     }
 }
@@ -316,8 +305,14 @@ void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     this->cameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
     Gameplay_ChangeCameraStatus(globalCtx, this->cameraId, 7);
-    VEC_SET(this->unk_280, 947.0f, 1195.0f, 2682.0f);
-    VEC_SET(this->unk_28C, 1164.0f, 1145.0f, 3014.0f);
+    this->unk_280.x = 947.0f;
+    this->unk_280.y = 1195.0f;
+    this->unk_280.z = 2682.0f;
+    
+    this->unk_28C.x = 1164.0f;
+    this->unk_28C.y = 1145.0f;
+    this->unk_28C.z = 3014.0f;
+
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     this->actionFunc = func_80A53850;
 }
@@ -326,7 +321,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
     BgSpot15Saku* gate;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
-    gate = (BgSpot15Saku*)this->attached;
+    gate = (BgSpot15Saku*)this->attachedGate;
     if ((this->gateTimer == 0) || (gate->unk_168 == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
         Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
@@ -348,8 +343,8 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
 
     this->unk_30B = 0;
     var = 0;
-    if ((gSaveContext.infTable[7] & 0x40) != 0) {
-        if ((gSaveContext.infTable[7] & 0x80) == 0) {
+    if (gSaveContext.infTable[7] & 0x40) {
+        if (!(gSaveContext.infTable[7] & 0x80)) {
             if (func_8008F080(globalCtx) == 1) {
                 if (this->unk_309 == 0) {
                     this->actor.textId = 0x200A; // "Wha-ha-ha-hah! Do you think you're in disguise, Mr. Hero?"
@@ -388,7 +383,7 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
 
 void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s32 flag;
+    s32 exchangeItemId;
     s16 yawDiffTemp;
     s16 yawDiff;
 
@@ -400,13 +395,13 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
     }
     this->unk_300 = 6;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
-        flag = func_8002F368(globalCtx);
-        if (flag == 1) {
+        exchangeItemId = func_8002F368(globalCtx);
+        if (exchangeItemId == 1) { // exchangeItemId = zelda's letter
             func_80078884(NA_SE_SY_CORRECT_CHIME);
             player->actor.textId = 0x2010; // "Oh, this is...this is surely Princess Zelda's handwriting!"
             this->unk_300 = 5;
             this->actionFunc = func_80A53C0C;
-        } else if (flag != 0) {
+        } else if (exchangeItemId != 0) { // exchangeItemId != nothing
             player->actor.textId = 0x200F; // "I don't want that!"
         }
     } else {
@@ -430,7 +425,7 @@ void func_80A53C0C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53C90(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount = (f32)SkelAnime_GetFrameCount(&D_06005500.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500.genericHeader);
     this->unk_2EC = frameCount;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
     this->actionFunc = func_80A53D0C;
@@ -455,8 +450,8 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
             if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
                 gate = (BgGateShutter*)gate->dyna.actor.next;
             } else {
-                this->attached = gate;
-                gate->isOpening = 1;
+                this->attachedGate = gate;
+                gate->openingState = 1;
                 break;
             }
         }
@@ -493,8 +488,8 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
     BgGateShutter* gate;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
-    gate = (BgGateShutter*)this->attached;
-    if ((this->gateTimer == 0) || (gate->isOpening == 0)) {
+    gate = (BgGateShutter*)this->attachedGate;
+    if ((this->gateTimer == 0) || (gate->openingState == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
         Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
         if ((this->unk_30A != 2)) {
@@ -590,9 +585,7 @@ void func_80A5427C(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A54320(EnHeishi2* this, GlobalContext* globalCtx) {
-    f32 frameCount;
-
-    frameCount = (f32)SkelAnime_GetFrameCount(&D_06005500.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06005500.genericHeader);
     this->unk_2EC = frameCount;
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
     this->audioFlag = 0;
@@ -617,12 +610,12 @@ void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
             if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
                 gate = (BgGateShutter*)(gate->dyna.actor.next);
             } else {
-                this->attached = gate;
+                this->attachedGate = gate;
                 if (this->unk_30A != 2) {
-                    gate->isOpening = -1;
+                    gate->openingState = -1;
                     break;
                 } else {
-                    gate->isOpening = 2;
+                    gate->openingState = 2;
                     break;
                 }
             }
@@ -814,7 +807,7 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
             heishi2Temp->gateTimer--;
         }
 
-        heishi2Temp = (EnHeishi2*)&(heishi2Temp->actor.type); // why is the actor being set to the type?
+        heishi2Temp = (EnHeishi2*)&(heishi2Temp->actor.type);
     }
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
@@ -874,7 +867,7 @@ void func_80A54C6C(Actor* thisx, GlobalContext* globalCtx) {
 void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi2* this;
     GraphicsContext* gfxCtx;
-    s32 objBankIndex;
+    s32 linkObjBankIndex;
     Mtx* mtx;
     Gfx* dispRefs[4];
 
@@ -885,14 +878,14 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi2_OverrideLimbDraw,
                    EnHeishi2_PostLimbDraw, &this->actor);
     if ((this->initParams == 5) && (gSaveContext.infTable[7] & 0x80)) {
-        objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
-        if (objBankIndex >= 0) {
+        linkObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
+        if (linkObjBankIndex >= 0) {
             Matrix_Put(&this->mtxf_330);
-            Matrix_Translate(-570.0f, 0.0f, 0.0f, 1);
-            Matrix_RotateZ(DEGREE_70_RAD, 1);
+            Matrix_Translate(-570.0f, 0.0f, 0.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(DEGTORAD(70.0), MTXMODE_APPLY);
             mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
 
-            gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
+            gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[linkObjBankIndex].segment);
             gSPSegment(gfxCtx->polyOpa.p++, 0x0D, mtx);
             gSPDisplayList(gfxCtx->polyOpa.p++, &D_0602B060);
             gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);

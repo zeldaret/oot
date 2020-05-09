@@ -3,9 +3,7 @@
 
 #include <ultra64.h>
 #include <global.h>
-#include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
-#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
-#include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
+
 
 struct EnHeishi2;
 
@@ -46,7 +44,7 @@ typedef struct EnHeishi2 {
     /* 0x030D */ char unk_30D;
     /* 0x030E */ s16 unk_30E;
     /* 0x0310 */ s16 cameraId;
-    /* 0x0314 */ Actor* attached;
+    /* 0x0314 */ Actor* attachedGate;
     /* 0x0318 */ char unk_318[0x18];
     /* 0x0330 */ MtxF mtxf_330;
     /* 0x0370 */ char unk_370[0x28];

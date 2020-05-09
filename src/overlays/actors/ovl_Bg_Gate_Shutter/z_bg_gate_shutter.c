@@ -1,7 +1,7 @@
 /*
  * File: z_bg_gate_shutter.c
  * Overlay: Bg_Gate_Shutter
- * Description:
+ * Description: Death Mountain Trail Gate
  */
 
 #include "z_bg_gate_shutter.h"
@@ -34,8 +34,8 @@ const ActorInit Bg_Gate_Shutter_InitVars = {
     (ActorFunc)BgGateShutter_Draw,
 };
 
-extern UNK_TYPE D_06001CD0;
-extern UNK_TYPE D_06001DA8;
+extern Gfx D_06001CD0[];
+extern Gfx D_06001DA8[];
 
 void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGateShutter* this = THIS;
@@ -45,12 +45,13 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyInfo_SetActorMove(&this->dyna, 0);
     DynaPolyInfo_Alloc(&D_06001DA8, &local_c);
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
-    VEC_SET(this->somePos, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z);
-    if ((gSaveContext.infTable[7] & 0x40) || (gSaveContext.eventChkInf[4] & 0x20)) {
-        if (globalCtx->sceneNum == SCENE_SPOT01) {
-            thisx->posRot.pos.x = -89.0f;
-            thisx->posRot.pos.z = -1375.0f;
-        }
+    this->somePos.x = thisx->posRot.pos.x;
+    this->somePos.y = thisx->posRot.pos.y;
+    this->somePos.z = thisx->posRot.pos.z;
+    if (((gSaveContext.infTable[7] & 0x40) || (gSaveContext.eventChkInf[4] & 0x20)) &&
+        (globalCtx->sceneNum == SCENE_SPOT01)) {
+        thisx->posRot.pos.x = -89.0f;
+        thisx->posRot.pos.z = -1375.0f;
     }
     thisx->scale.x = 1.0f;
     thisx->scale.y = 1.0f;
@@ -67,13 +68,13 @@ void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {
-    if (this->isOpening == 1 && !(gSaveContext.infTable[7] & 0x40)) {
+    if (this->openingState == 1 && !(gSaveContext.infTable[7] & 0x40)) {
         this->unk_178 = 2;
         this->actionFunc = func_80878300;
-    } else if (this->isOpening == 2) {
+    } else if (this->openingState == 2) {
         this->unk_178 = 2;
         this->actionFunc = func_80878300;
-    } else if (this->isOpening < 0) {
+    } else if (this->openingState < 0) {
         this->unk_178 = 2;
         this->actionFunc = func_808783D4;
     }
@@ -96,7 +97,7 @@ void func_80878300(BgGateShutter* this, GlobalContext* globalCtx) {
 
 void func_808783AC(BgGateShutter* this, GlobalContext* globalCtx) {
     if (this->unk_178 == 0) {
-        this->isOpening = 0;
+        this->openingState = 0;
         this->actionFunc = func_8087828C;
     }
 }
