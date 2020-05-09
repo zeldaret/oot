@@ -3,7 +3,6 @@
 
 #include <ultra64.h>
 #include <global.h>
-#include <vt.h>
 
 struct EnHeishi3;
 
@@ -26,7 +25,7 @@ typedef struct EnHeishi3 {
     /* 0x0276 */ u8 respawnFlag; // set to 1 when reloading area after being thrown out
     /* 0x0278 */ s16 unk_278;
     /* 0x027A */ char unk_27A[0x2];
-    /* 0x027C */ ColliderCylinder cylinderCollider;
+    /* 0x027C */ ColliderCylinder collider;
 } EnHeishi3; // size = 0x02C8
 
 extern const ActorInit En_Heishi3_InitVars;
