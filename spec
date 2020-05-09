@@ -2485,8 +2485,7 @@ endseg
 beginseg
     name "ovl_En_Floormas"
     include "build/src/overlays/actors/ovl_En_Floormas/z_en_floormas.o"
-    include "build/data/overlays/actors/z_en_floormas.data.o"
-    include "build/data/overlays/actors/z_en_floormas.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Floormas/z_en_floormas_reloc.o"
 endseg
 
 beginseg

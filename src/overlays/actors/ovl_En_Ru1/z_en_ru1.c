@@ -1352,7 +1352,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
     f32* velocityY;
     f32* speedXZ;
     f32* gravity;
-    s16 unk_7E;
+    s16 wallPolyRot;
     s16 rotY;
     s32 temp_a1_2;
     s32 temp_a0;
@@ -1411,13 +1411,13 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
         speedXZ = &this->actor.speedXZ;
         if (*speedXZ != 0.0f) {
             rotY = this->actor.posRot.rot.y;
-            unk_7E = this->actor.unk_7E;
-            temp_a0 = (unk_7E * 2) - rotY;
+            wallPolyRot = this->actor.wallPolyRot;
+            temp_a0 = (wallPolyRot * 2) - rotY;
             temp_a1_2 = temp_a0 + 0x8000;
-            if ((s16)((temp_a0 - unk_7E) + 0x8000) >= 0) {
-                phi_v1 = (s16)(temp_a1_2 - unk_7E);
+            if ((s16)((temp_a0 - wallPolyRot) + 0x8000) >= 0) {
+                phi_v1 = (s16)(temp_a1_2 - wallPolyRot);
             } else {
-                phi_v1 = -(s16)(temp_a1_2 - unk_7E);
+                phi_v1 = -(s16)(temp_a1_2 - wallPolyRot);
             }
             if (phi_v1 < 0x4001) {
                 if (*speedXZ >= (kREG(27) * 0.01f) + 3.0f) {
