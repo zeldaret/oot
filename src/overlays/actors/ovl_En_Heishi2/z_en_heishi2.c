@@ -17,6 +17,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_80A54C6C(Actor* thisx, GlobalContext* globalCtx);
 void func_80A531CC(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A531D8(EnHeishi2* this, GlobalContext* globalCtx);
