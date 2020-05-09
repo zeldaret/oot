@@ -24,7 +24,6 @@
 #include <ichain.h>
 #include <stdarg.h>
 #include <regs.h>
-#include <sched.h>
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -1423,37 +1422,6 @@ typedef struct {
     /* 0x258 */ OSTimer timer;
     /* 0x278 */ OSTime retraceTime;
 } IrqMgr; // size = 0x280
-
-struct SchedContext;
-
-typedef struct {
-    /* 0x0000 */ char          unk_0[0x40];
-    /* 0x0040 */ OSMesgQueue*  unk_40;
-} Sub_AudioMgr_70; // size >= 0x44
-
-typedef struct {
-    /* 0x0000 */ IrqMgr*       irqMgr;
-    /* 0x0004 */ SchedContext* sched;
-    /* 0x0008 */ OSMesg        unk_8;
-    /* 0x000C */ char          unk_C[0x04];
-    /* 0x0010 */ s32           unk_10;
-    /* 0x0014 */ s32           unk_14;
-    /* 0x0018 */ char          unk_18[0x40];
-    /* 0x0058 */ OSMesgQueue*  unk_58;
-    /* 0x005C */ UNK_PTR       unk_5C;
-    /* 0x0060 */ char          unk_60[0x10];
-    /* 0x0070 */ Sub_AudioMgr_70* unk_70;
-    /* 0x0074 */ OSMesgQueue   unk_74;
-    /* 0x008C */ OSMesg        unk_8C;
-    /* 0x0090 */ OSMesgQueue   unk_90;
-    /* 0x00A8 */ OSMesg        unk_A8;
-    /* 0x00AC */ OSMesgQueue   unk_AC;
-    /* 0x00C4 */ OSMesg        unk_C4;
-    /* 0x00C8 */ OSMesgQueue   unk_C8;
-    /* 0x00E0 */ OSMesg        unk_E0;
-    /* 0x00E4 */ char          unk_E4[0x04];
-    /* 0x00E8 */ OSThread      unk_E8;
-} AudioMgr; // size = 0x298
 
 struct ArenaNode;
 

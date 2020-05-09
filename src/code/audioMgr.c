@@ -1,21 +1,62 @@
 #include <ultra64.h>
 #include <global.h>
-#include <sched.h>
+#include <audiomgr.h>
+
+void func_800C3C80(AudioMgr* audioMgr);
+// ? func_800C3CB8(?);
+void func_800C3E40(AudioMgr* audioMgr);
+void func_800C3E70(AudioMgr* audioMgr);
+void func_800C3FC4(AudioMgr* audioMgr);
+void func_800C3FEC(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr);
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/pad_800C3C70.s")
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/func_800C3C80.s")
 void func_800C3C80(AudioMgr* audioMgr) {
-    Sub_AudioMgr_70* sub_70;
+    Sub_AudioMgr_18* sub;
 
-    sub_70 = audioMgr->unk_70;
+    sub = audioMgr->unk_70;
     if (audioMgr->unk_70->unk_40 != NULL) {
-        osSendMesg(sub_70->unk_40, NULL, OS_MESG_BLOCK);
+        osSendMesg(sub->unk_40, NULL, OS_MESG_BLOCK);
     }
 }
 
-// references un-decompiled data in sched .bss
-#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/func_800C3CB8.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/func_800C3CB8.s")
+void func_800C3CB8(AudioMgr* audioMgr) {
+    void *sp24;
+    OSTime temp_t7;
+    OSTime temp_ret;
+    OSTime temp_ret_2;
+
+    if (SREG(20) > 0) {
+        audioMgr->unk_70 = NULL;
+    }
+    if (audioMgr->unk_70 != NULL) {
+        audioMgr->unk_8 = NULL;
+        audioMgr->unk_10 = 2;
+        audioMgr->unk_14 = 0;
+
+        audioMgr->unk_18.unk_0 = audioMgr->unk_70->unk_0;
+        audioMgr->unk_18.unk_40 = &audioMgr->unk_AC;
+
+        audioMgr->unk_5C = NULL;
+        osSendMesg(&audioMgr->sched->cmdQ, &audioMgr->unk_8, OS_MESG_BLOCK);
+        func_800C95F8(audioMgr->sched);
+    }
+    D_8016A550 = osGetTime();
+    if (SREG(20) >= 2) {
+        sp24 = NULL;
+    } else {
+        sp24 = func_800E4FE0();
+    }
+    D_8016A558 += osGetTime() - D_8016A550;
+    D_8016A550 = 0;
+    if (audioMgr->unk_70 != NULL) {
+        osRecvMesg(&audioMgr->unk_AC, NULL, OS_MESG_BLOCK);
+        func_800C3C80(audioMgr);
+    }
+    audioMgr->unk_70 = sp24;
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/func_800C3E40.s")
 void func_800C3E40(AudioMgr* audioMgr) {
@@ -25,7 +66,7 @@ void func_800C3E40(AudioMgr* audioMgr) {
 }
 
 #ifdef NON_MATCHING
-// minor regalloc (branches involving *msg swapped, s5 is unused but should be)
+// branches involving *msg swapped, s5 goes unused but should be
 void func_800C3E70(AudioMgr* audioMgr) {
     OSMesgQueue* queue1;
     IrqMgrClient irqClient;

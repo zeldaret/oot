@@ -2,7 +2,6 @@
 #define _FUNCTIONS_H_
 
 #include "z64.h"
-#include "sched.h"
 
 float fabsf(float f);
 #pragma intrinsic(fabsf)
@@ -1516,12 +1515,12 @@ void THA_Init(TwoHeadArena* tha);
 void THA_Ct(TwoHeadArena* tha, void* ptr, u32 size);
 void THA_Dt(TwoHeadArena* tha);
 // ? func_800C3C20(?);
-void func_800C3C80(AudioMgr* audioMgr);
+// void func_800C3C80(AudioMgr* audioMgr);
 // ? func_800C3CB8(?);
-void func_800C3E40(AudioMgr* audioMgr);
-void func_800C3E70(AudioMgr* audioMgr);
-void func_800C3FC4(AudioMgr* audioMgr);
-void func_800C3FEC(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr);
+// void func_800C3E40(AudioMgr* audioMgr);
+// void func_800C3E70(AudioMgr* audioMgr);
+// void func_800C3FC4(AudioMgr* audioMgr);
+// void func_800C3FEC(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr);
 void TitleSetup_InitImpl(GameState* gameState);
 void TitleSetup_Destroy(GameState* gameState);
 void TitleSetup_Init(GameState* gameState);
