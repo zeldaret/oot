@@ -436,7 +436,7 @@ void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx* dispRefs[5];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ma1.c", 1226);
-    camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
+    camera = ACTIVE_CAM;
     someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);

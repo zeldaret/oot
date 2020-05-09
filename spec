@@ -3830,29 +3830,25 @@ endseg
 beginseg
     name "ovl_Oceff_Wipe"
     include "build/src/overlays/actors/ovl_Oceff_Wipe/z_oceff_wipe.o"
-    include "build/data/overlays/actors/z_oceff_wipe.data.o"
-    include "build/data/overlays/actors/z_oceff_wipe.reloc.o"
+    include "build/src/overlays/actors/ovl_Oceff_Wipe/z_oceff_wipe_reloc.o"
 endseg
 
 beginseg
     name "ovl_Oceff_Wipe2"
     include "build/src/overlays/actors/ovl_Oceff_Wipe2/z_oceff_wipe2.o"
-    include "build/data/overlays/actors/z_oceff_wipe2.data.o"
-    include "build/data/overlays/actors/z_oceff_wipe2.reloc.o"
+    include "build/src/overlays/actors/ovl_Oceff_Wipe2/z_oceff_wipe2_reloc.o"
 endseg
 
 beginseg
     name "ovl_Oceff_Wipe3"
     include "build/src/overlays/actors/ovl_Oceff_Wipe3/z_oceff_wipe3.o"
-    include "build/data/overlays/actors/z_oceff_wipe3.data.o"
-    include "build/data/overlays/actors/z_oceff_wipe3.reloc.o"
+    include "build/src/overlays/actors/ovl_Oceff_Wipe3/z_oceff_wipe3_reloc.o"
 endseg
 
 beginseg
     name "ovl_Oceff_Wipe4"
     include "build/src/overlays/actors/ovl_Oceff_Wipe4/z_oceff_wipe4.o"
-    include "build/data/overlays/actors/z_oceff_wipe4.data.o"
-    include "build/data/overlays/actors/z_oceff_wipe4.reloc.o"
+    include "build/src/overlays/actors/ovl_Oceff_Wipe4/z_oceff_wipe4_reloc.o"
 endseg
 
 beginseg

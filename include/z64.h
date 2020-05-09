@@ -164,7 +164,7 @@ typedef struct {
     /* 0x13C4 */ s16          dogParams;
     /* 0x13C6 */ char         unk_13C6[0x0001];
     /* 0x13C7 */ u8           unk_13C7;
-    /* 0x13C8 */ u16          nayrusLoveTimer;
+    /* 0x13C8 */ s16          nayrusLoveTimer;
     /* 0x13CA */ char         unk_13CA[0x0002];
     /* 0x13CC */ s16          rupeeAccumulator;
     /* 0x13CE */ s16          timer1State;

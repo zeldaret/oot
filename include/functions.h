@@ -655,7 +655,7 @@ s32 func_8005AA90(Camera*, s32, Vec3f*);
 // ? func_8005AC6C(?);
 // ? func_8005AD40(?);
 // ? func_8005AE64(?);
-// ? func_8005AFB4(?);
+Vec3f* func_8005AFB4(Vec3f* dst, Camera* camera);
 // ? func_8005B044(?);
 // ? func_8005B1A4(?);
 DamageTable* DamageTable_Get(s32 index);
