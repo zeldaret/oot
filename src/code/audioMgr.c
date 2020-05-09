@@ -3,15 +3,12 @@
 #include <audiomgr.h>
 
 void func_800C3C80(AudioMgr* audioMgr);
-// ? func_800C3CB8(?);
-void func_800C3E40(AudioMgr* audioMgr);
-void func_800C3E70(AudioMgr* audioMgr);
-void func_800C3FC4(AudioMgr* audioMgr);
-void func_800C3FEC(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr);
+void AudioMgr_HandleRetrace(AudioMgr* audioMgr);
+void AudioMgr_HandlePRENMI(AudioMgr* audioMgr);
+void AudioMgr_ThreadEntry(void* arg0);
+void AudioMgr_Unlock(AudioMgr* audioMgr);
+void AudioMgr_Start(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/pad_800C3C70.s")
-
-//#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/func_800C3C80.s")
 void func_800C3C80(AudioMgr* audioMgr) {
     Sub_AudioMgr_18* sub;
 
@@ -21,8 +18,7 @@ void func_800C3C80(AudioMgr* audioMgr) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/func_800C3CB8.s")
-void func_800C3CB8(AudioMgr* audioMgr) {
+void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
     Sub_AudioMgr_18* sub;
 
     if (SREG(20) > 0) {
@@ -55,20 +51,18 @@ void func_800C3CB8(AudioMgr* audioMgr) {
     audioMgr->unk_70 = sub;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/func_800C3E40.s")
-void func_800C3E40(AudioMgr* audioMgr) {
+void AudioMgr_HandlePRENMI(AudioMgr* audioMgr) {
     // Audio manager received OS_SC_PRE_NMI_MSG
     osSyncPrintf("オーディオマネージャが OS_SC_PRE_NMI_MSG を受け取りました\n");
     func_800F6C14();
 }
 
-#ifdef NON_MATCHING
-// branches involving *msg swapped, s5 goes unused but should be
-void func_800C3E70(AudioMgr* audioMgr) {
-    OSMesgQueue* queue1;
+void AudioMgr_ThreadEntry(void* arg0) {
+    AudioMgr* audioMgr;
     IrqMgrClient irqClient;
     s16* msg;
 
+    audioMgr = (AudioMgr*)arg0;
     msg = NULL;
     // Start running audio manager thread
     osSyncPrintf("オーディオマネージャスレッド実行開始\n");
@@ -76,43 +70,36 @@ void func_800C3E70(AudioMgr* audioMgr) {
     func_800E301C(DmaMgr_DmaCallback0);
     func_800F711C();
     osSendMesg(&audioMgr->unk_C8, NULL, OS_MESG_BLOCK);
-    queue1 = &audioMgr->unk_74;
-    IrqMgr_AddClient(audioMgr->irqMgr, &irqClient, queue1);
+    IrqMgr_AddClient(audioMgr->irqMgr, &irqClient, &audioMgr->unk_74);
 
     while (true) {
-        osRecvMesg(queue1, (OSMesg*)&msg, OS_MESG_BLOCK);
-        if (*msg != 1) {
-            if (*msg != OS_SC_PRE_NMI_MSG) {
-                continue;
-            }
-        } else {
-            func_800C3CB8(audioMgr);
-            if (audioMgr->unk_74.validCount == 0) {
-                continue;
-            } else {
-                do {
-                    osRecvMesg(queue1, (OSMesg*)&msg, OS_MESG_BLOCK);
-                    if (*msg != 1 && *msg == OS_SC_PRE_NMI_MSG) {
-                        func_800C3E40(audioMgr);
+        osRecvMesg(&audioMgr->unk_74, (OSMesg*)&msg, OS_MESG_BLOCK);
+        switch (*msg) {
+            case OS_SC_RETRACE_MSG:
+                AudioMgr_HandleRetrace(audioMgr);
+                while (audioMgr->unk_74.validCount != 0) {
+                    osRecvMesg(&audioMgr->unk_74, (OSMesg*)&msg, OS_MESG_BLOCK);
+                    switch (*msg) {
+                        case OS_SC_RETRACE_MSG:
+                            break;
+                        case OS_SC_PRE_NMI_MSG:
+                            AudioMgr_HandlePRENMI(audioMgr);
+                            break;
                     }
-                } while (audioMgr->unk_74.validCount != 0);
-            }
-            continue;
+                }
+                break;
+            case OS_SC_PRE_NMI_MSG:
+                AudioMgr_HandlePRENMI(audioMgr);
+                break;
         }
-        func_800C3E40(audioMgr);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/func_800C3E70.s")
-#endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/func_800C3FC4.s")
-void func_800C3FC4(AudioMgr* audioMgr) {
+void AudioMgr_Unlock(AudioMgr* audioMgr) {
     osRecvMesg(&audioMgr->unk_C8, NULL, OS_MESG_BLOCK);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/func_800C3FEC.s")
-void func_800C3FEC(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr) {
+void AudioMgr_Start(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr) {
     bzero(audioMgr, sizeof(AudioMgr));
 
     audioMgr->sched = sched;
@@ -125,6 +112,6 @@ void func_800C3FEC(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedCon
 
     osSendMesg(&audioMgr->unk_AC, NULL, OS_MESG_BLOCK);
 
-    osCreateThread(&audioMgr->unk_E8, id, func_800C3E70, audioMgr, stack, pri);
+    osCreateThread(&audioMgr->unk_E8, id, AudioMgr_ThreadEntry, audioMgr, stack, pri);
     osStartThread(&audioMgr->unk_E8);
 }
