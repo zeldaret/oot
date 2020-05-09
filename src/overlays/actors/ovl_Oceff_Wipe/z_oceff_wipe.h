@@ -3,7 +3,6 @@
 
 #include <ultra64.h>
 #include <global.h>
-#include <vt.h>
 
 struct OceffWipe;
 

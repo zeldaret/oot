@@ -5,6 +5,7 @@
  */
 
 #include "z_oceff_wipe3.h"
+#include <vt.h>
 
 #define FLAGS 0x02000010
 
@@ -31,7 +32,7 @@ const ActorInit Oceff_Wipe3_InitVars = {
 
 void OceffWipe3_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe3* this = THIS;
-    Actor_SetScale(this, 0.1F);
+    Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
     this->actor.posRot.pos = ACTIVE_CAM->eye;
     // it's actually WIPE3...
@@ -54,7 +55,7 @@ void OceffWipe3_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->counter < 100) {
         this->counter++;
     } else {
-        Actor_Kill(this);
+        Actor_Kill(&this->actor);
     }
 }
 
@@ -67,7 +68,7 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u8 alpha;
     u32 pad1;
     Vec3f eye;
-    Vtx_t* vtxPtr;
+    Vtx* vtxPtr;
     Vec3f vec;
     Gfx* dispRefs[5];
     this = THIS;
@@ -81,35 +82,35 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
         z = 1330;
     }
 
-    vtxPtr = (Vtx_t*)vertices;
+    vtxPtr = vertices;
     if (this->counter >= 80) {
         alpha = 12 * (100 - this->counter);
     } else {
         alpha = 0xFF;
     }
 
-    vtxPtr[1].cn[3] = vtxPtr[3].cn[3] = vtxPtr[5].cn[3] = vtxPtr[7].cn[3] = vtxPtr[9].cn[3] = vtxPtr[11].cn[3] =
-        vtxPtr[13].cn[3] = vtxPtr[15].cn[3] = vtxPtr[17].cn[3] = vtxPtr[19].cn[3] = vtxPtr[21].cn[3] = alpha;
+    vtxPtr[1].v.cn[3] = vtxPtr[3].v.cn[3] = vtxPtr[5].v.cn[3] = vtxPtr[7].v.cn[3] = vtxPtr[9].v.cn[3] = vtxPtr[11].v.cn[3] =
+        vtxPtr[13].v.cn[3] = vtxPtr[15].v.cn[3] = vtxPtr[17].v.cn[3] = vtxPtr[19].v.cn[3] = vtxPtr[21].v.cn[3] = alpha;
 
     gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 343);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 343);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
     Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
-    Matrix_Scale(0.1, 0.1, 0.1, MTXMODE_APPLY);
+    Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
     func_800D1FD4(&globalCtx->mf_11DA0);
-    Matrix_Translate(0, 0, -z, MTXMODE_APPLY);
+    Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 353),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 255, 255, 170, 255);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 100, 200, 0, 128);
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0xFF, 0xFF, 0xAA, 0xFF);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x64, 0xC8, 0x00, 0x80);
     gSPDisplayList(gfxCtx->polyXlu.p++, textureDl);
     gSPDisplayList(gfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 12, scroll * (-12), 64,
                                                          64, 1, scroll * 8, scroll * (-8), 64, 64));
     gSPDisplayList(gfxCtx->polyXlu.p++, frustrumDl);
 
-    Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 370);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 370);
 }

@@ -5,6 +5,7 @@
  */
 
 #include "z_oceff_wipe.h"
+#include <vt.h>
 
 #define FLAGS 0x02000010
 
@@ -36,7 +37,7 @@ u8 sOceffWipeAlphaIndices[] = {
 
 void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe* this = THIS;
-    Actor_SetScale(this, 0.1F);
+    Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
     this->actor.posRot.pos = ACTIVE_CAM->eye;
     osSyncPrintf(VT_FGCOL(CYAN) " WIPE arg_data = %d\n" VT_RST, this->actor.params);
@@ -58,7 +59,7 @@ void OceffWipe_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->counter < 100) {
         this->counter++;
     } else {
-        Actor_Kill(this);
+        Actor_Kill(&this->actor);
     }
 }
 
@@ -70,7 +71,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u8 alphaTable[3];
     s32 i;
     Vec3f eye;
-    Vtx_tn(*vtxPtr)[2];
+    Vtx(*vtxPtr)[2];
     Vec3f vec;
     Gfx* dispRefs[5];
 
@@ -79,7 +80,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     eye = ACTIVE_CAM->eye;
     func_8005AFB4(&vec, ACTIVE_CAM);
     gfxCtx = globalCtx->state.gfxCtx;
-    Graph_OpenDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 346);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 346);
     if (this->counter < 32) {
         z = Math_Sins(this->counter << 9) * 1400;
     } else {
@@ -97,27 +98,27 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     for (i = 0; i < 20; i++) {
-        vtxPtr = (Vtx_t(*)[2])vertices;
-        vtxPtr[i][0].n[3] = alphaTable[((sOceffWipeAlphaIndices[i] & 0xF0) >> 4)];
-        vtxPtr[i][1].n[3] = alphaTable[sOceffWipeAlphaIndices[i] & 0xF];
+        vtxPtr = (Vtx(*)[2])vertices;
+        vtxPtr[i][0].v.cn[3] = alphaTable[((sOceffWipeAlphaIndices[i] & 0xF0) >> 4)];
+        vtxPtr[i][1].v.cn[3] = alphaTable[sOceffWipeAlphaIndices[i] & 0xF];
     }
 
     func_80093D84(globalCtx->state.gfxCtx);
 
     Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
-    Matrix_Scale(0.1, 0.1, 0.1, MTXMODE_APPLY);
+    Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
     func_800D1FD4(&globalCtx->mf_11DA0);
-    Matrix_Translate(0, 0, -z, MTXMODE_APPLY);
+    Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
     gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 375),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params) {
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 170, 255, 255, 255);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0, 150, 255, 128);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0xAA, 0xFF, 0xFF, 0xFF);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x96, 0xFF, 0x80);
     } else {
-        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 255, 255, 200, 255);
-        gDPSetEnvColor(gfxCtx->polyXlu.p++, 100, 0, 255, 128);
+        gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0xFF, 0xFF, 0xC8, 0xFF);
+        gDPSetEnvColor(gfxCtx->polyXlu.p++, 100, 0x00, 0xFF, 0x80);
     }
 
     gSPDisplayList(gfxCtx->polyXlu.p++, textureDL);
@@ -125,5 +126,5 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                                          1, 0 - scroll, scroll * (-2), 32, 32));
     gSPDisplayList(gfxCtx->polyXlu.p++, frustrumDl);
 
-    Graph_CloseDisps(&dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 398);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 398);
 }
