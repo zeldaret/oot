@@ -13,7 +13,7 @@ typedef struct EnZl1 {
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ char unk_1E0[0x2];
     /* 0x01E2 */ s16 unk_1E2;
-    /* 0x01E4 */ char unk_1E4[0x2];
+    /* 0x01E4 */ s16 unk_1E4;
     /* 0x01E6 */ s16 unk_1E6;
     /* 0x01E8 */ s16 unk_1E8;
     /* 0x01EA */ char unk_1EA[0x2];

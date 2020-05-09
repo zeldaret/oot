@@ -321,13 +321,19 @@ ColliderCylinderInit D_80B4E5F0 = {
 
 u32 D_80B4E61C[] = { 0x06007208, 0x06009848, 0x06009C48, 0x06009848 };
 u32 D_80B4E62C[] = { 0x06007608 };
+
+typedef struct {
+    u8 unk_00[0x3];
+} u8_3;
+
 Vec3f D_80B4E630 = { -460.0f, 118.0f, 0.0f };
 Vec3f D_80B4E63C = { -406.0f, 110.0f, 0.0f };
 Vec3f D_80B4E648 = { -398.0f, 84.0f, 0.0f };
-u32 D_80B4E654[] = { 0xC3D58000, 0x42D80000, 0x41D00000 };
-u32 D_80B4E660[] = { 0xC3AA0000, 0x42D80000, 0x42C40000 };
-u32 D_80B4E66C[] = { 0xC3D90000, 0x42A80000, 0x00000000 };
-u32 D_80B4E678[] = { 0x00000200 };
+Vec3f D_80B4E654 = { -427.0f, 108.0, 26.0 };
+Vec3f D_80B4E660 = { -340.0f, 108.0f, 98.0f };
+Vec3f D_80B4E66C = { -434.0f, 84.0f, 0.0f };
+u8_3 D_80B4E678 = { 0, 0, 2 };
+
 u32 D_80B4E67C[] = {
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
     0x00000000, 0x00000000, 0x06012B04, 0x06012118, 0x06010B38,
@@ -336,21 +342,29 @@ u32 D_80B4E6A4[] = { 0x00000000, 0x00000002, 0x00020000 };
 Vec3f D_80B4E6B0 = { -421.0f, 143.0f, -5.0f };
 Vec3f D_80B4E6BC = { -512.0f, 105.0f, -4.0f };
 Vec3f D_80B4E6C8 = { 0.0f, 0.0f, 0.0f };
-u32 D_80B4E6D4[] = {
+AnimationHeader* D_80B4E6D4[] = {
     0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
     0x00000000, 0x00000000, 0x06012B04, 0x06012118, 0x06010B38,
 };
-u32 D_80B4E6FC[] = { 0x00000000, 0x00000002, 0x00020000 };
+u8 D_80B4E6FC[] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
+};
 Vec3f D_80B4E708 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80B4E714 = { 0.0f, 0.0f, 0.0f };
 
 extern AnimationHeader D_06000438;
 extern u32 D_06008848;
 extern u32 D_06008C48;
-extern AnimationHeader D_06001348;
 extern SkeletonHeader D_0600F5D8;
-extern AnimationHeader D_06012118;
 extern AnimationHeader D_06010B38;
+extern AnimationHeader D_06011348;
+extern AnimationHeader D_060116E4;
+extern AnimationHeader D_06011B88;
+extern AnimationHeader D_06012118;
+extern AnimationHeader D_060132D8;
+extern AnimationHeader D_060138E0;
+extern AnimationHeader D_06013F10;
+extern AnimationHeader D_060143A8;
 
 void func_80B4AB40(){};
 void func_80B4AB48(){};
@@ -401,8 +415,7 @@ void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4AE18.s")
-void func_80B4AE18(EnZl1 *this) {
+void func_80B4AE18(EnZl1* this) {
     if ((this->skelAnime.animCurrentSeg == &D_06010B38) && (this->skelAnime.animCurrentFrame < 26.0f)) {
         this->unk_1F4 = &D_06008C48;
         this->unk_1F8 = &D_06008848;
@@ -449,17 +462,18 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B010.s")
-/*void func_80B4B010(Actor* thisx, GlobalContext *globalCtx) {
+/*void func_80B4B010(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s32 pad[2];
     EnZl1* this = THIS;
+    s32 pad[2];
     Vec3f vec1 = D_80B4E630;
     Vec3f vec2 = D_80B4E63C;
     Vec3f vec3 = D_80B4E648;
     s16 temp;
 
     if (func_8002F194(thisx, globalCtx)) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_06010B38, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06010B38.genericHeader), 3, -10.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_06010B38, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&D_06010B38.genericHeader), 3, -10.0f);
         this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
         Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
         Gameplay_ChangeCameraStatus(globalCtx, this->unk_1E8, 7);
@@ -481,7 +495,9 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         temp = ABS(thisx->rotTowardsLinkY - thisx->shape.rot.y);
         if (temp < 0x238E) {
-            if (!(player->actor.posRot.pos.y < thisx->posRot.pos.y)) {
+            if (player->actor.posRot.pos.y < thisx->posRot.pos.y) {
+                // nothing
+            } else {
                 func_8002F2F4(thisx, globalCtx);
             }
         }
@@ -489,6 +505,138 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
 }*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B240.s")
+/*void func_80B4B240(Actor* thisx, GlobalContext* globalCtx) {
+    Vec3f sp74 = D_80B4E654;
+    Vec3f sp68 = D_80B4E660;
+    s32 pad;
+    Vec3f sp58 = D_80B4E66C;
+    u8_3 sp54 = D_80B4E678;
+    EnZl1* this = THIS;
+    Player* sp4C = PLAYER;
+    AnimationHeader* sp48;
+    MessageContext* sp44 = &globalCtx->msgCtx;
+    s32 pad2;
+    s32 sp3C = 0;
+
+    switch (this->unk_1E2) {
+        case 0:
+            switch ((s16)this->skelAnime.animCurrentFrame) {
+                case 0xE:
+                    this->unk_1E4 = 0;
+                    break;
+                case 0xF:
+                    if (DECR(this->unk_1E4) != 0) {
+                        this->skelAnime.animCurrentFrame = 15.0f;
+                    }
+                    break;
+                case 0x40:
+                    sp48 = &D_06011348;
+                    sp3C = 1;
+                    thisx->textId = 0x702E;
+                    func_8010B680(globalCtx, thisx->textId, 0);
+                    this->unk_1E2 += 1;
+                    break;
+            }
+            break;
+        case 1:
+            if ((func_8010BDBC(sp44) == 5) && (func_80106BC8(globalCtx) != 0)) {
+                globalCtx->envCtx.unk_E1 = 0;
+                func_800C04D8(globalCtx, this->unk_1E8, &sp74, &sp68);
+                func_800C0704(globalCtx, this->unk_1E8, 25.0f);
+                sp4C->actor.posRot.pos = sp58;
+                thisx->textId = 0x702F;
+                func_8010B720(globalCtx, thisx->textId);
+                this->unk_1E2 += 1;
+            }
+            break;
+        case 2:
+            if ((func_8010BDBC(sp44) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                if (sp44->choiceIndex == 0) {
+                    sp48 = &D_06013F10;
+                    sp3C = 2;
+                    this->unk_1E2 += 1;
+                } else {
+                    sp48 = &D_060116E4;
+                    sp3C = 2;
+                    this->unk_1E2 = 6;
+                }
+            }
+            break;
+        case 3:
+            if (this->skelAnime.animCurrentFrame == SkelAnime_GetFrameCount(&D_06013F10.genericHeader)) {
+                sp48 = &D_060143A8;
+                sp3C = 1;
+                thisx->textId = 0x7032;
+                func_8010B720(globalCtx, thisx->textId);
+                this->unk_1E2 += 1;
+            }
+            break;
+        case 4:
+            if ((func_8010BDBC(sp44) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                if (sp44->choiceIndex == 0) {
+                    sp48 = &D_060132D8;
+                    sp3C = 2;
+                    this->unk_1E2 = 9;
+                } else {
+                    thisx->textId = 0x7034;
+                    func_8010B720(globalCtx, thisx->textId);
+                    this->unk_1E2 += 1;
+                }
+            }
+            break;
+        case 5:
+            if ((func_8010BDBC(sp44) == 5) && (func_80106BC8(globalCtx) != 0)) {
+                thisx->textId = 0x7033;
+                func_8010B720(globalCtx, thisx->textId);
+                this->unk_1E2 -= 1;
+            }
+            break;
+        case 6:
+            if (this->skelAnime.animCurrentFrame == SkelAnime_GetFrameCount(&D_060116E4.genericHeader)) {
+                sp48 = &D_06011B88;
+                sp3C = 1;
+                thisx->textId = 0x7031;
+                func_8010B720(globalCtx, thisx->textId);
+                this->unk_1E2 += 1;
+            }
+            break;
+        case 7:
+            if ((func_8010BDBC(sp44) == 5) && (func_80106BC8(globalCtx) != 0)) {
+                thisx->textId = 0x7030;
+                func_8010B720(globalCtx, thisx->textId);
+                this->unk_1E2 += 1;
+            }
+            break;
+        case 8:
+            if ((func_8010BDBC(sp44) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                if (sp44->choiceIndex == 0) {
+                    sp48 = &D_060138E0;
+                    sp3C = 2;
+                    this->unk_1E2 = 3;
+                } else {
+                    thisx->textId = 0x7031;
+                    func_8010B720(globalCtx, thisx->textId);
+                    this->unk_1E2 -= 1;
+                }
+            }
+            break;
+        case 9:
+            if (this->skelAnime.animCurrentFrame == SkelAnime_GetFrameCount(&D_060132D8.genericHeader)) {
+                sp48 = &D_06000438;
+                sp3C = 1;
+                globalCtx->csCtx.segment = D_80B4C5D0;
+                gSaveContext.cutsceneTrigger = 1;
+                this->actionFunc = func_80B4B8B4;
+                this->unk_1E2 += 1;
+            }
+            break;
+    }
+    if (sp3C != 0) {
+        SkelAnime_ChangeAnim(&this->skelAnime, sp48, 1.0f, 0.0f, SkelAnime_GetFrameCount(&sp48->genericHeader),
+                             sp54.unk_00[sp3C], -10.0f);
+    }
+    func_80038290(globalCtx, thisx, &this->unk_200, &this->unk_206, thisx->posRot2.pos);
+}*/
 
 void func_80B4B7F4(CsCmdActorAction* actorAction, Vec3f* pos) {
     pos->x = actorAction->startPos.x;
@@ -496,7 +644,6 @@ void func_80B4B7F4(CsCmdActorAction* actorAction, Vec3f* pos) {
     pos->z = actorAction->startPos.z;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B834.s")
 void func_80B4B834(CsCmdActorAction* actorAction, Vec3f* pos) {
     pos->x = actorAction->endPos.x;
     pos->y = actorAction->endPos.y;
@@ -561,8 +708,9 @@ void func_80B4B874(EnZl1* this, GlobalContext* globalCtx) {
             thisx->posRot.pos = sp48;
         }
         if (this->unk_1E6 != globalCtx->csCtx.actorActions[0]->action) {
-            //SkelAnime_ChangeAnim(&this->skelAnime, (sp + (globalCtx->csCtx.actorActions->unk0 * 4))->unkB0, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount((sp + (globalCtx->csCtx.actorActions->unk0 * 4))->unkB0), (?32) (sp + globalCtx->csCtx.actorActions->unk0)->unkA4, -10.0f);
-            this->unk_1E6 = globalCtx->csCtx.actorActions[0]->action;
+            //SkelAnime_ChangeAnim(&this->skelAnime, (sp + (globalCtx->csCtx.actorActions->unk0 * 4))->unkB0, 1.0f,
+0.0f, (f32) SkelAnime_GetFrameCount((sp + (globalCtx->csCtx.actorActions->unk0 * 4))->unkB0), (?32) (sp +
+globalCtx->csCtx.actorActions->unk0)->unkA4, -10.0f); this->unk_1E6 = globalCtx->csCtx.actorActions[0]->action;
         }
         thisx->velocity = sp5C;
         if (globalCtx->csCtx.frames < globalCtx->csCtx.actorActions[0]->endFrame) {
@@ -596,26 +744,26 @@ void func_80B4BBC4(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4BC78.s")
-/*void func_80B4BC78(Actor *thisx, GlobalContext *globalCtx) {
+/*void func_80B4BC78(Actor* thisx, GlobalContext* globalCtx) {
     EnZl1* this = THIS;
 
-    u32* sp90;
-    u32* sp84;
+    AnimationHeader* sp90;
+    u8* sp84;
     Vec3f sp70;
     Vec3f sp64;
     Vec3f sp58;
     Vec3f sp40;
-    u32* temp_t6;
-    SkelAnime* skelAnime;
-    GenericAnimationHeader *temp_s1;
+    SkelAnime* sp3C;
+    AnimationHeader* temp_t6;
     f32 temp_f0;
-    u32 *temp_t7;
-    u32 *phi_t7;
-    u32* phi_t6;
+    AnimationHeader* temp_t7;
+    AnimationHeader* phi_t7;
+    AnimationHeader* phi_t6;
 
     phi_t7 = D_80B4E6D4;
     phi_t6 = sp90;
-    while (temp_t7 != &D_80B4E6D4[9]) {
+
+    while (temp_t7 != D_80B4E6D4[9]) {
         temp_t7 = &phi_t7[3];
         temp_t6 = &phi_t6[3];
         temp_t6[3] = *phi_t7;
@@ -625,13 +773,14 @@ void func_80B4BBC4(Actor* thisx, GlobalContext* globalCtx) {
         phi_t6 = temp_t6;
     }
 
-    temp_t6 = temp_t7;
+    *temp_t6 = *temp_t7;
     sp84 = D_80B4E6FC;
     sp58 = D_80B4E708;
-    skelAnime = &this->skelAnime;
-    if (SkelAnime_FrameUpdateMatrix(skelAnime) != 0) {
-        if (this->skelAnime.animCurrentSeg == &D_06010B38) {
-            SkelAnime_ChangeAnim(skelAnime, &D_06001348, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06001348.genericHeader), 0, -10.0f);
+    sp3C = &this->skelAnime;
+    if (SkelAnime_FrameUpdateMatrix(sp3C) != 0) {
+        if (&D_06010B38 == sp3C->animCurrentSeg) {
+            SkelAnime_ChangeAnim(sp3C, &D_06011348, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06011348.genericHeader), 0,
+                                 -10.0f);
         }
     }
     func_80B4B874(this, globalCtx);
@@ -643,16 +792,18 @@ void func_80B4BBC4(Actor* thisx, GlobalContext* globalCtx) {
             thisx->initPosRot.pos = sp40;
             thisx->posRot.pos = sp40;
         }
-        if (this->unk_1E6 != globalCtx->csCtx.actorActions[0]->action) {
-            SkelAnime_ChangeAnim(skelAnime, sp90[0], 1.0f, 0.0f, sp90[0], sp84[0], -10.0f);
+        if (globalCtx->csCtx.actorActions[0]->action != this->unk_1E6) {
+            SkelAnime_ChangeAnim(sp3C, &sp90[globalCtx->csCtx.actorActions[0]->action], 1.0f, 0.0f,
+                                 SkelAnime_GetFrameCount(&sp90[globalCtx->csCtx.actorActions[0]->action].genericHeader),
+                                 sp84[globalCtx->csCtx.actorActions[0]->action], -10.0f);
             this->unk_1E6 = globalCtx->csCtx.actorActions[0]->action;
         }
         thisx->velocity = sp58;
-        if (globalCtx->csCtx.frames < globalCtx->csCtx.actorActions[0]->endFrame) {
+        if ((s32)globalCtx->csCtx.frames < (s32)globalCtx->csCtx.actorActions[0]->endFrame) {
             temp_f0 = globalCtx->csCtx.actorActions[0]->endFrame - globalCtx->csCtx.actorActions[0]->startFrame;
             thisx->velocity.x = (sp64.x - sp70.x) / temp_f0;
             thisx->velocity.y = (sp64.y - sp70.y) / temp_f0;
-            thisx->velocity.y = thisx->velocity.y + thisx->gravity;
+            thisx->velocity.y += thisx->gravity;
             if (thisx->velocity.y < thisx->minVelocityY) {
                 thisx->velocity.y = thisx->minVelocityY;
             }
@@ -661,7 +812,82 @@ void func_80B4BBC4(Actor* thisx, GlobalContext* globalCtx) {
     }
 }*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4BF2C.s")
+void func_80B4BF2C(Actor* thisx, GlobalContext* globalCtx) {
+    MessageContext* msgCtx = &globalCtx->msgCtx;
+    EnZl1* this = THIS;
+    Player* player = PLAYER;
+
+    switch (this->unk_1E2) {
+        case 0:
+            if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                if (msgCtx->choiceIndex == 0) {
+                    thisx->textId = 0x703B;
+                    func_8010B720(globalCtx, thisx->textId);
+                    this->unk_1E2 += 1;
+                } else {
+                    thisx->textId = 0x703A;
+                    func_8010B720(globalCtx, thisx->textId);
+                    this->unk_1E2 = 0;
+                }
+            }
+            break;
+        case 1:
+            if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+                thisx->textId = 0xFFFF;
+                globalCtx->unk_11D5C(globalCtx, thisx);
+                func_8002F434(thisx, globalCtx, GI_LETTER_ZELDA, 120.0f, 10.0f);
+                globalCtx->msgCtx.msgMode = 0x36;
+                globalCtx->msgCtx.unk_E3E7 = 4;
+                this->unk_1E2 += 1;
+            } else {
+                break;
+            }
+        case 2:
+            if (func_8002F410(thisx, globalCtx) != 0) {
+                func_800C078C(globalCtx, 0, this->unk_1E8);
+                Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
+                Gameplay_ClearCamera(globalCtx, this->unk_1E8);
+                thisx->attachedA = NULL;
+                this->unk_1E2 += 1;
+            } else {
+                func_8002F434(thisx, globalCtx, 0xB, 120.0f, 10.0f);
+            }
+            break;
+        case 3:
+            if ((func_8010BDBC(msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+                thisx->textId = 0x703C;
+                func_8010B720(globalCtx, thisx->textId);
+                Flags_SetEventChkInf(0x40);
+                this->unk_1E2 = 6;
+            }
+            break;
+        case 4:
+            if (player->actor.posRot.pos.y < thisx->posRot.pos.y) {
+                break;
+            } else {
+                if (func_8002F194(thisx, globalCtx) != 0) {
+                    this->unk_1E2 += 1;
+                } else {
+                    func_8002F2F4(thisx, globalCtx);
+                }
+            }
+            break;
+        case 5:
+            if (func_8002F334(thisx, globalCtx) != 0) {
+                this->unk_1E2 -= 1;
+            }
+            break;
+        case 6:
+            if (func_8002F334(thisx, globalCtx) != 0) {
+                func_8002DF54(globalCtx, thisx, 7);
+                Interface_ChangeAlpha(0x32);
+                thisx->flags &= ~0x100;
+                this->unk_1E2 = 4;
+            }
+            break;
+    }
+    func_80038290(globalCtx, thisx, &this->unk_200, &this->unk_206, thisx->posRot2.pos);
+}
 
 void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
