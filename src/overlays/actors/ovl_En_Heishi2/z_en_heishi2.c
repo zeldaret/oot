@@ -295,9 +295,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
         while (gate != NULL) {
             if (ACTOR_BG_SPOT15_SAKU != gate->dyna.actor.id) {
                 gate = (BgSpot15Saku*)(gate->dyna.actor.next);
-            }
-
-            else {
+            } else {
                 this->attached = gate;
                 gate->unk_168 = 1;
                 break;
@@ -455,9 +453,7 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
         while (gate != NULL) {
             if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
                 gate = (BgGateShutter*)gate->dyna.actor.next;
-            }
-
-            else {
+            } else {
                 this->attached = gate;
                 gate->isOpening = 1;
                 break;
@@ -619,9 +615,7 @@ void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
         while (gate != NULL) {
             if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
                 gate = (BgGateShutter*)(gate->dyna.actor.next);
-            }
-
-            else {
+            } else {
                 this->attached = gate;
                 if (this->unk_30A != 2) {
                     gate->isOpening = -1;
@@ -712,9 +706,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
                 return;
             }
         }
-    }
-
-    else {
+    } else {
         if (this->unk_30B != 0) {
             if (this->initParams == 2) {
                 this->actionFunc = func_80A53278;
