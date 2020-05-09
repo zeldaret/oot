@@ -308,7 +308,7 @@ void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     this->unk_280.x = 947.0f;
     this->unk_280.y = 1195.0f;
     this->unk_280.z = 2682.0f;
-    
+
     this->unk_28C.x = 1164.0f;
     this->unk_28C.y = 1145.0f;
     this->unk_28C.z = 3014.0f;
@@ -401,7 +401,7 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
             player->actor.textId = 0x2010; // "Oh, this is...this is surely Princess Zelda's handwriting!"
             this->unk_300 = 5;
             this->actionFunc = func_80A53C0C;
-        } else if (exchangeItemId != 0) { // exchangeItemId != nothing
+        } else if (exchangeItemId != 0) {  // exchangeItemId != nothing
             player->actor.textId = 0x200F; // "I don't want that!"
         }
     } else {
