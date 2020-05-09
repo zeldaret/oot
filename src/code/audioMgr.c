@@ -23,10 +23,7 @@ void func_800C3C80(AudioMgr* audioMgr) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/func_800C3CB8.s")
 void func_800C3CB8(AudioMgr* audioMgr) {
-    void *sp24;
-    OSTime temp_t7;
-    OSTime temp_ret;
-    OSTime temp_ret_2;
+    Sub_AudioMgr_18* sub;
 
     if (SREG(20) > 0) {
         audioMgr->unk_70 = NULL;
@@ -45,9 +42,9 @@ void func_800C3CB8(AudioMgr* audioMgr) {
     }
     D_8016A550 = osGetTime();
     if (SREG(20) >= 2) {
-        sp24 = NULL;
+        sub = NULL;
     } else {
-        sp24 = func_800E4FE0();
+        sub = func_800E4FE0();
     }
     D_8016A558 += osGetTime() - D_8016A550;
     D_8016A550 = 0;
@@ -55,7 +52,7 @@ void func_800C3CB8(AudioMgr* audioMgr) {
         osRecvMesg(&audioMgr->unk_AC, NULL, OS_MESG_BLOCK);
         func_800C3C80(audioMgr);
     }
-    audioMgr->unk_70 = sp24;
+    audioMgr->unk_70 = sub;
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/audioMgr/func_800C3E40.s")
