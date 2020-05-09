@@ -3,7 +3,6 @@
 
 #include <ultra64.h>
 #include <global.h>
-#include <vt.h>
 #include "overlays/actors/ovl_Bg_Gate_Shutter/z_bg_gate_shutter.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
