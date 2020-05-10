@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80B2EC10
+    .float 0.1
+
+glabel D_80B2EC14
+    .float 0.1
+
+.text
 glabel func_80B2DA7C
 /* 0061C 80B2DA7C 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00620 80B2DA80 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -146,7 +154,7 @@ glabel func_80B2DA7C
 /* 00820 80B2DC80 14200004 */  bne     $at, $zero, .L80B2DC94     
 /* 00824 80B2DC84 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00828 80B2DC88 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
-/* 0082C 80B2DC8C 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 0082C 80B2DC8C 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00830 80B2DC90 00812821 */  addu    $a1, $a0, $at              
 .L80B2DC94:
@@ -167,5 +175,3 @@ glabel func_80B2DA7C
 /* 0085C 80B2DCBC 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00860 80B2DCC0 03E00008 */  jr      $ra                        
 /* 00864 80B2DCC4 00000000 */  nop
-
-

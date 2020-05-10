@@ -8,5 +8,3 @@ glabel BgMizuShutter_Update
 /* 005EC 8089F43C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 005F0 8089F440 03E00008 */  jr      $ra                        
 /* 005F4 8089F444 00000000 */  nop
-
-

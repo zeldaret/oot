@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B1B6F0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B1B6F4
+    .asciz "[32m☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n[m"
+    .balign 4
+
+glabel D_80B1B720
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel EnTite_Destroy
 /* 0015C 80B18BDC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00160 80B18BE0 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -30,11 +44,9 @@ glabel EnTite_Destroy
 /* 001BC 80B18C3C 8FA50020 */  lw      $a1, 0x0020($sp)           
 .L80B18C40:
 /* 001C0 80B18C40 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 001C4 80B18C44 0C016F32 */  jal     func_8005BCC8              
+/* 001C4 80B18C44 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 001C8 80B18C48 24A502E8 */  addiu   $a1, $a1, 0x02E8           ## $a1 = 000002E8
 /* 001CC 80B18C4C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 001D0 80B18C50 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 001D4 80B18C54 03E00008 */  jr      $ra                        
 /* 001D8 80B18C58 00000000 */  nop
-
-

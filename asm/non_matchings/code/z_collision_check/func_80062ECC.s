@@ -491,4 +491,3 @@ glabel func_80062ECC
 .L800635C8:
 /* ADA768 800635C8 03E00008 */  jr    $ra
 /* ADA76C 800635CC 27BD0078 */   addiu $sp, $sp, 0x78
-

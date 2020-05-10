@@ -6,7 +6,7 @@ glabel EnGb_Destroy
 /* 0043C 80A2F5BC 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00440 80A2F5C0 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00444 80A2F5C4 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 00448 80A2F5C8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00448 80A2F5C8 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0044C 80A2F5CC 24A5023C */  addiu   $a1, $a1, 0x023C           ## $a1 = 0000023C
 /* 00450 80A2F5D0 8FA4001C */  lw      $a0, 0x001C($sp)           
@@ -25,5 +25,3 @@ glabel EnGb_Destroy
 /* 0047C 80A2F5FC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00480 80A2F600 03E00008 */  jr      $ra                        
 /* 00484 80A2F604 00000000 */  nop
-
-

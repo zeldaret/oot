@@ -1,3 +1,21 @@
+.rdata
+glabel D_80AC9330
+    .asciz "\x1b[41;37m"
+    .balign 4
+
+glabel D_80AC933C
+    .asciz "★★★ 警告！！ 棚がないよ！！ ★★★\n"
+    .balign 4
+
+glabel D_80AC9364
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80AC9368
+    .asciz "\x1b[33m◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇\x1b[m\n"
+    .balign 4
+
+.text
 glabel func_80AC7094
 /* 043F4 80AC7094 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 043F8 80AC7098 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -62,9 +80,9 @@ glabel func_80AC7094
 /* 044C8 80AC7168 E6080024 */  swc1    $f8, 0x0024($s0)           ## 00000024
 /* 044CC 80AC716C C4500004 */  lwc1    $f16, 0x0004($v0)          ## 00000004
 /* 044D0 80AC7170 012A5821 */  addu    $t3, $t1, $t2              
-/* 044D4 80AC7174 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 044D4 80AC7174 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 044D8 80AC7178 46105480 */  add.s   $f18, $f10, $f16           
-/* 044DC 80AC717C 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 044DC 80AC717C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 044E0 80AC7180 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 044E4 80AC7184 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 044E8 80AC7188 E6120028 */  swc1    $f18, 0x0028($s0)          ## 00000028
@@ -197,5 +215,3 @@ glabel func_80AC7094
 /* 046D4 80AC7374 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 046D8 80AC7378 03E00008 */  jr      $ra                        
 /* 046DC 80AC737C 00000000 */  nop
-
-

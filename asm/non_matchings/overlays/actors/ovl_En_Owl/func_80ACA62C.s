@@ -1,3 +1,9 @@
+.rdata
+glabel D_80ACD730
+    .asciz "\x1B[36m Actor_Environment_sw = %d\n\x1B[m"
+    .balign 4
+
+.text
 glabel func_80ACA62C
 /* 0070C 80ACA62C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00710 80ACA630 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -28,5 +34,3 @@ glabel func_80ACA62C
 /* 00764 80ACA684 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00768 80ACA688 03E00008 */  jr      $ra                        
 /* 0076C 80ACA68C 00000000 */  nop
-
-

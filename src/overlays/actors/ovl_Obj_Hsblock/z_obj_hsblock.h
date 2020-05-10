@@ -4,9 +4,11 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x1C];
+struct ObjHsblock;
+
+typedef struct ObjHsblock {
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ char unk_164[0x4];
 } ObjHsblock; // size = 0x0168
 
 extern const ActorInit Obj_Hsblock_InitVars;

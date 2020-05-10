@@ -4,10 +4,14 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgTokiSwd;
+
+typedef void (*BgTokiSwdActionFunc)(struct BgTokiSwd*, GlobalContext*);
+
+typedef struct BgTokiSwd {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc actionFunc;
-    /* 0x0150 */ ColliderCylinderMain collider;
+    /* 0x014C */ BgTokiSwdActionFunc actionFunc;
+    /* 0x0150 */ ColliderCylinder collider;
 } BgTokiSwd; // size = 0x019C
 
 extern const ActorInit Bg_Toki_Swd_InitVars;

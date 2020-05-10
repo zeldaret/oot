@@ -44,8 +44,8 @@ glabel BgSpot08Iceblock_Init
 /* 00884 808B11E4 0C22C25A */  jal     func_808B0968              
 /* 00888 808B11E8 8FA5002C */  lw      $a1, 0x002C($sp)           
 .L808B11EC:
-/* 0088C 808B11EC 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00890 808B11F0 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 0088C 808B11EC 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 00890 808B11F0 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 00894 808B11F4 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 00898 808B11F8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0089C 808B11FC 11C00003 */  beq     $t6, $zero, .L808B120C     
@@ -155,5 +155,3 @@ glabel L808B133C
 /* 009EC 808B134C 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 009F0 808B1350 03E00008 */  jr      $ra                        
 /* 009F4 808B1354 00000000 */  nop
-
-

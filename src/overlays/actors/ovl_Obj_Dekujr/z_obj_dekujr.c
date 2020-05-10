@@ -1,19 +1,24 @@
+/*
+ * File: z_obj_dekujr.c
+ * Overlay: ovl_Obj_Dekujr
+ * Description: Deku Tree Sprout
+ */
+
 #include "z_obj_dekujr.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
-void ObjDekujr_Init(ObjDekujr* this, GlobalContext* globalCtx);
-void ObjDekujr_Destroy(ObjDekujr* this, GlobalContext* globalCtx);
-void ObjDekujr_Update(ObjDekujr* this, GlobalContext* globalCtx);
-void ObjDekujr_Draw(ObjDekujr* this, GlobalContext* globalCtx);
+#define THIS ((ObjDekujr*)thisx)
+
+void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjDekujr_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjDekujr_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
-const ActorInit Obj_Dekujr_InitVars =
-{
+const ActorInit Obj_Dekujr_InitVars = {
     ACTOR_OBJ_DEKUJR,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_DEKUJR,
     sizeof(ObjDekujr),

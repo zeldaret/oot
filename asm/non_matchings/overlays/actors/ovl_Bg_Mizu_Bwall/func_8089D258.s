@@ -32,12 +32,12 @@ glabel func_8089D258
 /* 00E4C 8089D2CC 0C00BE0A */  jal     Audio_PlayActorSound2
               
 /* 00E50 8089D2D0 24052810 */  addiu   $a1, $zero, 0x2810         ## $a1 = 00002810
-/* 00E54 8089D2D4 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 00E58 8089D2D8 3C198013 */  lui     $t9, 0x8013                ## $t9 = 80130000
-/* 00E5C 8089D2DC 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 00E60 8089D2E0 273933E8 */  addiu   $t9, $t9, 0x33E8           ## $t9 = 801333E8
-/* 00E64 8089D2E4 3C058013 */  lui     $a1, 0x8013                ## $a1 = 80130000
-/* 00E68 8089D2E8 24A533D4 */  addiu   $a1, $a1, 0x33D4           ## $a1 = 801333D4
+/* 00E54 8089D2D4 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 00E58 8089D2D8 3C198013 */  lui     $t9, %hi(D_801333E8)
+/* 00E5C 8089D2DC 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 00E60 8089D2E0 273933E8 */  addiu   $t9, %lo(D_801333E8)
+/* 00E64 8089D2E4 3C058013 */  lui     $a1, %hi(D_801333D4)
+/* 00E68 8089D2E8 24A533D4 */  addiu   $a1, %lo(D_801333D4)
 /* 00E6C 8089D2EC AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 00E70 8089D2F0 AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 00E74 8089D2F4 24044802 */  addiu   $a0, $zero, 0x4802         ## $a0 = 00004802
@@ -58,7 +58,7 @@ glabel func_8089D258
 /* 00EA8 8089D328 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00EAC 8089D32C 45020004 */  bc1fl   .L8089D340                 
 /* 00EB0 8089D330 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 00EB4 8089D334 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00EB4 8089D334 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00EB8 8089D338 26060164 */  addiu   $a2, $s0, 0x0164           ## $a2 = 00000164
 .L8089D33C:
@@ -68,5 +68,3 @@ glabel func_8089D258
 /* 00EC4 8089D344 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00EC8 8089D348 03E00008 */  jr      $ra                        
 /* 00ECC 8089D34C 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

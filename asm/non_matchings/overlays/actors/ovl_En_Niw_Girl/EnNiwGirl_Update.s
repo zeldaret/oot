@@ -45,7 +45,7 @@ glabel EnNiwGirl_Update
 /* 006E0 80AB9660 17280024 */  bne     $t9, $t0, .L80AB96F4       
 /* 006E4 80AB9664 26040268 */  addiu   $a0, $s0, 0x0268           ## $a0 = 00000268
 /* 006E8 80AB9668 8FA2002C */  lw      $v0, 0x002C($sp)           
-/* 006EC 80AB966C 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 006EC 80AB966C 3C0B8016 */  lui     $t3, %hi(gSaveContext+4)
 /* 006F0 80AB9670 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 006F4 80AB9674 8C4A0024 */  lw      $t2, 0x0024($v0)           ## 00000024
 /* 006F8 80AB9678 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -56,7 +56,7 @@ glabel EnNiwGirl_Update
 /* 0070C 80AB968C AE0902F0 */  sw      $t1, 0x02F0($s0)           ## 000002F0
 /* 00710 80AB9690 8C4A002C */  lw      $t2, 0x002C($v0)           ## 0000002C
 /* 00714 80AB9694 AE0A02F4 */  sw      $t2, 0x02F4($s0)           ## 000002F4
-/* 00718 80AB9698 8D6BE664 */  lw      $t3, -0x199C($t3)          ## 8015E664
+/* 00718 80AB9698 8D6BE664 */  lw      $t3, %lo(gSaveContext+4)($t3)
 /* 0071C 80AB969C 11600006 */  beq     $t3, $zero, .L80AB96B8     
 /* 00720 80AB96A0 00000000 */  nop
 /* 00724 80AB96A4 C4460028 */  lwc1    $f6, 0x0028($v0)           ## 00000028
@@ -135,14 +135,14 @@ glabel EnNiwGirl_Update
 /* 00824 80AB97A4 26060288 */  addiu   $a2, $s0, 0x0288           ## $a2 = 00000288
 /* 00828 80AB97A8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000288
 /* 0082C 80AB97AC AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 00830 80AB97B0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00830 80AB97B0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00834 80AB97B4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00838 80AB97B8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 0083C 80AB97BC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00840 80AB97C0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00844 80AB97C4 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 00848 80AB97C8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00848 80AB97C8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0084C 80AB97CC 00812821 */  addu    $a1, $a0, $at              
 /* 00850 80AB97D0 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -150,5 +150,3 @@ glabel EnNiwGirl_Update
 /* 00858 80AB97D8 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 0085C 80AB97DC 03E00008 */  jr      $ra                        
 /* 00860 80AB97E0 00000000 */  nop
-
-

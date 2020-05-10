@@ -1,3 +1,24 @@
+.rdata
+glabel D_80A740BC
+    .asciz "ありえない値(ratio = %f)\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A74160
+    .float 0.1
+
+glabel D_80A74164
+    .float 0.05
+
+glabel D_80A74168
+ .word 0x3ED9999A
+glabel D_80A7416C
+    .float 0.7
+
+glabel D_80A74170
+    .float 0.2
+
+.text
 glabel EnIceHono_Update
 /* 00C38 80A73C28 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00C3C 80A73C2C AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -132,5 +153,3 @@ glabel EnIceHono_Update
 /* 00E10 80A73E00 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00E14 80A73E04 03E00008 */  jr      $ra                        
 /* 00E18 80A73E08 00000000 */  nop
-
-

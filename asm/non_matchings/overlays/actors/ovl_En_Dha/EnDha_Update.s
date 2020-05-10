@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809ED788
+    .float 10000.0
+
+.text
 glabel EnDha_Update
 /* 00AEC 809ED36C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00AF0 809ED370 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -32,12 +37,12 @@ glabel EnDha_Update
 /* 00B5C 809ED3DC 26060200 */  addiu   $a2, $s0, 0x0200           ## $a2 = 00000200
 /* 00B60 809ED3E0 AFA60028 */  sw      $a2, 0x0028($sp)           
 /* 00B64 809ED3E4 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 00B68 809ED3E8 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00B68 809ED3E8 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00B6C 809ED3EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B70 809ED3F0 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 00B74 809ED3F4 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 00B78 809ED3F8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00B78 809ED3F8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00B7C 809ED3FC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B80 809ED400 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -45,5 +50,3 @@ glabel EnDha_Update
 /* 00B88 809ED408 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00B8C 809ED40C 03E00008 */  jr      $ra                        
 /* 00B90 809ED410 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

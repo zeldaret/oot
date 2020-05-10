@@ -1,3 +1,25 @@
+.rdata
+glabel D_808B85F0
+    .asciz "[31m"
+    .balign 4
+
+glabel D_808B85F8
+    .asciz "Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n"
+    .balign 4
+
+glabel D_808B8620
+    .asciz "../z_bg_spot18_basket.c"
+    .balign 4
+
+glabel D_808B8638
+    .asciz "\x1b[m"
+    .balign 4
+
+.late_rodata
+glabel D_808B863C
+    .float 0.01
+
+.text
 glabel BgSpot18Basket_Init
 /* 0021C 808B792C 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00220 808B7930 AFB10038 */  sw      $s1, 0x0038($sp)           
@@ -29,8 +51,8 @@ glabel BgSpot18Basket_Init
 /* 0027C 808B798C 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 00280 808B7990 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00284 808B7994 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00288 808B7998 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00284 808B7994 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00288 808B7998 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0028C 808B799C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00290 808B79A0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00294 808B79A4 0C00AC78 */  jal     ActorShape_Init
@@ -106,5 +128,3 @@ glabel BgSpot18Basket_Init
 /* 00388 808B7A98 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 0038C 808B7A9C 03E00008 */  jr      $ra                        
 /* 00390 808B7AA0 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

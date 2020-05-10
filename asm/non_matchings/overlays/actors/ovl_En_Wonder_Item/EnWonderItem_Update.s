@@ -32,14 +32,14 @@ glabel EnWonderItem_Update
 .L80B38C58:
 /* 00BF8 80B38C58 26060180 */  addiu   $a2, $s0, 0x0180           ## $a2 = 00000180
 /* 00BFC 80B38C5C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000180
-/* 00C00 80B38C60 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00C00 80B38C60 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00C04 80B38C64 AFA60050 */  sw      $a2, 0x0050($sp)           
 /* 00C08 80B38C68 8FA40064 */  lw      $a0, 0x0064($sp)           
 /* 00C0C 80B38C6C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00C10 80B38C70 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00C14 80B38C74 8FA60050 */  lw      $a2, 0x0050($sp)           
-/* 00C18 80B38C78 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00C18 80B38C78 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00C1C 80B38C7C 00812821 */  addu    $a1, $a0, $at              
 /* 00C20 80B38C80 86020154 */  lh      $v0, 0x0154($s0)           ## 00000154
@@ -49,8 +49,8 @@ glabel EnWonderItem_Update
 /* 00C2C 80B38C8C 00401825 */  or      $v1, $v0, $zero            ## $v1 = 00000000
 /* 00C30 80B38C90 00001825 */  or      $v1, $zero, $zero          ## $v1 = 00000000
 .L80B38C94:
-/* 00C34 80B38C94 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00C38 80B38C98 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 00C34 80B38C94 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 00C38 80B38C98 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 00C3C 80B38C9C 3C0B80B4 */  lui     $t3, %hi(D_80B38DC0)       ## $t3 = 80B40000
 /* 00C40 80B38CA0 256B8DC0 */  addiu   $t3, $t3, %lo(D_80B38DC0)  ## $t3 = 80B38DC0
 /* 00C44 80B38CA4 85F812D4 */  lh      $t8, 0x12D4($t7)           ## 801612D4
@@ -94,4 +94,3 @@ glabel EnWonderItem_Update
 /* 00CD4 80B38D34 00000000 */  nop
 /* 00CD8 80B38D38 00000000 */  nop
 /* 00CDC 80B38D3C 00000000 */  nop
-

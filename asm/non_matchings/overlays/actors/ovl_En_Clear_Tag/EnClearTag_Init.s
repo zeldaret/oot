@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809DC0E4
+    .float 0.4
+
+.text
 glabel EnClearTag_Init
 /* 0040C 809D39BC 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00410 809D39C0 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -7,7 +12,7 @@ glabel EnClearTag_Init
 /* 00420 809D39D0 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00424 809D39D4 26250194 */  addiu   $a1, $s1, 0x0194           ## $a1 = 00000194
 /* 00428 809D39D8 AFB00014 */  sw      $s0, 0x0014($sp)           
-/* 0042C 809D39DC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0042C 809D39DC 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00430 809D39E0 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 00434 809D39E4 862E001C */  lh      $t6, 0x001C($s1)           ## 0000001C
@@ -52,7 +57,7 @@ glabel EnClearTag_Init
 /* 004CC 809D3A7C 24E75C6C */  addiu   $a3, $a3, %lo(D_809D5C6C)  ## $a3 = 809D5C6C
 /* 004D0 809D3A80 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 004D4 809D3A84 8FA50020 */  lw      $a1, 0x0020($sp)           
-/* 004D8 809D3A88 0C01712B */  jal     ActorCollider_InitCylinder
+/* 004D8 809D3A88 0C01712B */  jal     Collider_SetCylinder
               
 /* 004DC 809D3A8C 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00000000
 /* 004E0 809D3A90 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
@@ -69,7 +74,7 @@ glabel EnClearTag_Init
 /* 00504 809D3AB4 AE2A0004 */  sw      $t2, 0x0004($s1)           ## 00000004
 /* 00508 809D3AB8 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 0050C 809D3ABC 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 00510 809D3AC0 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00510 809D3AC0 0C01712B */  jal     Collider_SetCylinder
               
 /* 00514 809D3AC4 24E75C40 */  addiu   $a3, $a3, %lo(D_809D5C40)  ## $a3 = 809D5C40
 /* 00518 809D3AC8 862D001C */  lh      $t5, 0x001C($s1)           ## 0000001C
@@ -122,5 +127,3 @@ glabel EnClearTag_Init
 /* 005C4 809D3B74 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 005C8 809D3B78 03E00008 */  jr      $ra                        
 /* 005CC 809D3B7C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

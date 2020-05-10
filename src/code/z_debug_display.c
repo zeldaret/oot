@@ -8,8 +8,8 @@ typedef struct {
 
 typedef void (*DebugDispObject_DrawFunc)(DebugDispObject*, u32, GlobalContext*);
 
-static void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, GlobalContext* globalCtx);
-static void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, GlobalContext* globalCtx);
+void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, GlobalContext* globalCtx);
+void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, GlobalContext* globalCtx);
 
 static DebugDispObject_DrawFunc sDebugObjectDrawFuncTable[] = {
     DebugDisplay_DrawSpriteI8,
@@ -70,11 +70,11 @@ void DebugDisplay_DrawObjects(GlobalContext* globalCtx) {
     }
 }
 
-static void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, GlobalContext* globalCtx) {
+void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_debug_display.c", 169);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_debug_display.c", 169);
 
     func_80094678(globalCtx->state.gfxCtx);
 
@@ -83,7 +83,7 @@ static void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, Glo
     Matrix_Translate(dispObj->pos.x, dispObj->pos.y, dispObj->pos.z, MTXMODE_NEW);
     Matrix_Scale(dispObj->scale.x, dispObj->scale.y, dispObj->scale.z, MTXMODE_APPLY);
     Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-    Matrix_RotateXYZ(dispObj->rot.x, dispObj->rot.y, dispObj->rot.z, MTXMODE_APPLY);
+    Matrix_RotateRPY(dispObj->rot.x, dispObj->rot.y, dispObj->rot.z, MTXMODE_APPLY);
 
     gDPLoadTextureBlock(gfxCtx->polyXlu.p++, texture, G_IM_FMT_I, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -92,14 +92,14 @@ static void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, Glo
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, &D_04004298);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_debug_display.c", 192);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_debug_display.c", 192);
 }
 
-static void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, GlobalContext* globalCtx) {
+void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_debug_display.c", 211);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_debug_display.c", 211);
     func_8009435C(globalCtx->state.gfxCtx);
 
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, dispObj->color.r, dispObj->color.g, dispObj->color.b, dispObj->color.a);
@@ -113,5 +113,5 @@ static void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, u32 dlist, Global
               G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyXlu.p++, dlist);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_debug_display.c", 231);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_debug_display.c", 231);
 }

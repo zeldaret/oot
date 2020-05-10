@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809CE4C8
+    .float 5000.0
+
+.text
 glabel EnButte_Update
 /* 010AC 809CE11C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 010B0 809CE120 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -70,7 +75,7 @@ glabel EnButte_Update
 /* 011A8 809CE218 00812821 */  addu    $a1, $a0, $at              
 /* 011AC 809CE21C 45020004 */  bc1fl   .L809CE230                 
 /* 011B0 809CE220 C60800BC */  lwc1    $f8, 0x00BC($s0)           ## 000000BC
-/* 011B4 809CE224 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 011B4 809CE224 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 011B8 809CE228 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 011BC 809CE22C C60800BC */  lwc1    $f8, 0x00BC($s0)           ## 000000BC
@@ -88,5 +93,3 @@ glabel EnButte_Update
 /* 011E0 809CE250 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 011E4 809CE254 03E00008 */  jr      $ra                        
 /* 011E8 809CE258 00000000 */  nop
-
-

@@ -34,7 +34,7 @@ glabel func_808887C4
 .L8088883C:
 /* 007FC 8088883C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00001E60
 /* 00800 80888840 00812821 */  addu    $a1, $a0, $at              
-/* 00804 80888844 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00804 80888844 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00808 80888848 26060164 */  addiu   $a2, $s0, 0x0164           ## $a2 = 00000164
 /* 0080C 8088884C 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -43,5 +43,3 @@ glabel func_808887C4
 /* 00814 80888854 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00818 80888858 03E00008 */  jr      $ra                        
 /* 0081C 8088885C 00000000 */  nop
-
-

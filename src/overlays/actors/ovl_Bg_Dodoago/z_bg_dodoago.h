@@ -4,9 +4,14 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x104];
+struct BgDodoago;
+
+typedef void (*BgDodoagoActionFunc)(struct BgDodoago*, GlobalContext*);
+
+typedef struct BgDodoago {
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ char unk_164[0xE8];
+    /* 0x024C */ BgDodoagoActionFunc actionFunc;
 } BgDodoago; // size = 0x0250
 
 extern const ActorInit Bg_Dodoago_InitVars;

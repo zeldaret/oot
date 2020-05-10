@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B94154
+    .asciz "../z_obj_hsblock.c"
+    .balign 4
+
+glabel D_80B94168
+    .asciz "../z_obj_hsblock.c"
+    .balign 4
+
+glabel D_80B9417C
+    .asciz "../z_obj_hsblock.c"
+    .balign 4
+
+.text
 glabel ObjHsblock_Draw
 /* 003F0 80B93F50 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 003F4 80B93F54 AFB10018 */  sw      $s1, 0x0018($sp)           
@@ -10,7 +24,7 @@ glabel ObjHsblock_Draw
 /* 00410 80B93F70 24C64154 */  addiu   $a2, $a2, %lo(D_80B94154)  ## $a2 = 80B94154
 /* 00414 80B93F74 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFE4
 /* 00418 80B93F78 2407016D */  addiu   $a3, $zero, 0x016D         ## $a3 = 0000016D
-/* 0041C 80B93F7C 0C031AB1 */  jal     func_800C6AC4              
+/* 0041C 80B93F7C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00420 80B93F80 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00424 80B93F84 0C024F46 */  jal     func_80093D18              
 /* 00428 80B93F88 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -31,13 +45,13 @@ glabel ObjHsblock_Draw
 /* 00464 80B93FC4 3C0480B9 */  lui     $a0, %hi(D_80B940E8)       ## $a0 = 80B90000
 /* 00468 80B93FC8 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 0046C 80B93FCC 863800A4 */  lh      $t8, 0x00A4($s1)           ## 000000A4
-/* 00470 80B93FD0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00470 80B93FD0 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 00474 80B93FD4 17010003 */  bne     $t8, $at, .L80B93FE4       
 /* 00478 80B93FD8 00000000 */  nop
 /* 0047C 80B93FDC 10000009 */  beq     $zero, $zero, .L80B94004   
 /* 00480 80B93FE0 248440E8 */  addiu   $a0, $a0, %lo(D_80B940E8)  ## $a0 = 80B940E8
 .L80B93FE4:
-/* 00484 80B93FE4 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00484 80B93FE4 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 00488 80B93FE8 27A40048 */  addiu   $a0, $sp, 0x0048           ## $a0 = FFFFFFF8
 /* 0048C 80B93FEC 8459116E */  lh      $t9, 0x116E($v0)           ## 8016116E
 /* 00490 80B93FF0 A3B90048 */  sb      $t9, 0x0048($sp)           
@@ -78,11 +92,10 @@ glabel ObjHsblock_Draw
 /* 00518 80B94078 010A4021 */  addu    $t0, $t0, $t2              
 /* 0051C 80B9407C 8D0840EC */  lw      $t0, %lo(D_80B940EC)($t0)  
 /* 00520 80B94080 AC480004 */  sw      $t0, 0x0004($v0)           ## 80160004
-/* 00524 80B94084 0C031AD5 */  jal     func_800C6B54              
+/* 00524 80B94084 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00528 80B94088 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 0052C 80B9408C 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00530 80B94090 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 00534 80B94094 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00538 80B94098 03E00008 */  jr      $ra                        
 /* 0053C 80B9409C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-

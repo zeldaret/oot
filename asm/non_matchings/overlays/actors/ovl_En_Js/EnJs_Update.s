@@ -6,14 +6,14 @@ glabel EnJs_Update
 /* 00538 80A89348 AFA5004C */  sw      $a1, 0x004C($sp)           
 /* 0053C 80A8934C 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 00540 80A89350 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
-/* 00544 80A89354 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00544 80A89354 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00548 80A89358 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 0054C 80A8935C 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 00550 80A89360 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00554 80A89364 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00558 80A89368 8FA60034 */  lw      $a2, 0x0034($sp)           
-/* 0055C 80A8936C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0055C 80A8936C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00560 80A89370 00812821 */  addu    $a1, $a0, $at              
 /* 00564 80A89374 0C00B638 */  jal     Actor_MoveForward
@@ -30,7 +30,7 @@ glabel EnJs_Update
 /* 0058C 80A8939C E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00590 80A893A0 960F0088 */  lhu     $t7, 0x0088($s0)           ## 00000088
 /* 00594 80A893A4 8FA4004C */  lw      $a0, 0x004C($sp)           
-/* 00598 80A893A8 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 00598 80A893A8 3C098016 */  lui     $t1, %hi(gGameInfo)
 /* 0059C 80A893AC 31F80001 */  andi    $t8, $t7, 0x0001           ## $t8 = 00000000
 /* 005A0 80A893B0 1300001F */  beq     $t8, $zero, .L80A89430     
 /* 005A4 80A893B4 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
@@ -39,8 +39,8 @@ glabel EnJs_Update
 /* 005B0 80A893C0 9206007D */  lbu     $a2, 0x007D($s0)           ## 0000007D
 /* 005B4 80A893C4 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 005B8 80A893C8 14410028 */  bne     $v0, $at, .L80A8946C       
-/* 005BC 80A893CC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 005C0 80A893D0 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 005BC 80A893CC 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 005C0 80A893D0 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 005C4 80A893D4 3C01C4FA */  lui     $at, 0xC4FA                ## $at = C4FA0000
 /* 005C8 80A893D8 44814000 */  mtc1    $at, $f8                   ## $f8 = -2000.00
 /* 005CC 80A893DC 84590CB4 */  lh      $t9, 0x0CB4($v0)           ## 80160CB4
@@ -66,7 +66,7 @@ glabel EnJs_Update
 /* 00618 80A89428 10000010 */  beq     $zero, $zero, .L80A8946C   
 /* 0061C 80A8942C 00000000 */  nop
 .L80A89430:
-/* 00620 80A89430 8D29FA90 */  lw      $t1, -0x0570($t1)          ## FFFFFA90
+/* 00620 80A89430 8D29FA90 */  lw      $t1, %lo(gGameInfo)($t1)
 /* 00624 80A89434 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 00628 80A89438 44812000 */  mtc1    $at, $f4                   ## $f4 = 10.00
 /* 0062C 80A8943C 852A0CB6 */  lh      $t2, 0x0CB6($t1)           ## 00000CB6
@@ -181,5 +181,3 @@ glabel EnJs_Update
 /* 007A4 80A895B4 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 007A8 80A895B8 03E00008 */  jr      $ra                        
 /* 007AC 80A895BC 00000000 */  nop
-
-

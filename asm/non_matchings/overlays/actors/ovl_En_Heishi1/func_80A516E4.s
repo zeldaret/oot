@@ -1,3 +1,35 @@
+.rdata
+glabel D_80A52B1C
+    .asciz "[31m 種類  %d\n[m"
+    .balign 4
+
+glabel D_80A52B30
+    .asciz "[31m ぱす  %d\n[m"
+    .balign 4
+
+glabel D_80A52B44
+    .asciz "[31m 反転  %d\n[m"
+    .balign 4
+
+glabel D_80A52B58
+    .asciz "[31m 時間  %d\n[m"
+    .balign 4
+
+glabel D_80A52B6C
+    .asciz "[31m 点座  %d\n[m"
+    .balign 4
+
+glabel D_80A52B80
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A52C2C
+ .word 0x4622F983
+glabel D_80A52C30
+    .float 1.99000000954
+
+.text
 glabel func_80A516E4
 /* 00414 80A516E4 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00418 80A516E8 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -30,7 +62,7 @@ glabel func_80A516E4
 /* 00474 80A51744 030FC021 */  addu    $t8, $t8, $t7              
 /* 00478 80A51748 8619026C */  lh      $t9, 0x026C($s0)           ## 0000026C
 /* 0047C 80A5174C 8F181E08 */  lw      $t8, 0x1E08($t8)           ## 00011E08
-/* 00480 80A51750 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 00480 80A51750 3C0D8016 */  lui     $t5, %hi(gSegments)
 /* 00484 80A51754 001948C0 */  sll     $t1, $t9,  3               
 /* 00488 80A51758 03094021 */  addu    $t0, $t8, $t1              
 /* 0048C 80A5175C 8D030004 */  lw      $v1, 0x0004($t0)           ## 00000004
@@ -40,7 +72,7 @@ glabel func_80A516E4
 /* 0049C 80A5176C 000A5F02 */  srl     $t3, $t2, 28               
 /* 004A0 80A51770 000B6080 */  sll     $t4, $t3,  2               
 /* 004A4 80A51774 01AC6821 */  addu    $t5, $t5, $t4              
-/* 004A8 80A51778 8DAD6FA8 */  lw      $t5, 0x6FA8($t5)           ## 80166FA8
+/* 004A8 80A51778 8DAD6FA8 */  lw      $t5, %lo(gSegments)($t5)
 /* 004AC 80A5177C 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 004B0 80A51780 00617024 */  and     $t6, $v1, $at              
 /* 004B4 80A51784 000FC880 */  sll     $t9, $t7,  2               
@@ -160,8 +192,8 @@ glabel func_80A516E4
 /* 0065C 80A5192C 0C01E107 */  jal     Math_SmoothScaleMaxF
               
 /* 00660 80A51930 8E0702A0 */  lw      $a3, 0x02A0($s0)           ## 000002A0
-/* 00664 80A51934 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00668 80A51938 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00664 80A51934 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 00668 80A51938 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 0066C 80A5193C 8605026C */  lh      $a1, 0x026C($s0)           ## 0000026C
 /* 00670 80A51940 844912D6 */  lh      $t1, 0x12D6($v0)           ## 801612D6
 /* 00674 80A51944 54A90020 */  bnel    $a1, $t1, .L80A519C8       
@@ -262,5 +294,3 @@ glabel func_80A516E4
 /* 007BC 80A51A8C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 007C0 80A51A90 03E00008 */  jr      $ra                        
 /* 007C4 80A51A94 00000000 */  nop
-
-

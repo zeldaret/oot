@@ -1,3 +1,25 @@
+.rdata
+glabel D_809269F8
+    .asciz "MO : Move mode = <%d>\n"
+    .balign 4
+
+.late_rodata
+glabel D_80926E58
+ .word 0x463B8000
+glabel D_80926E5C
+ .word 0x469C4000
+glabel D_80926E60
+ .word 0x3F2AA64C
+glabel D_80926E64
+    .float 6.28318548203
+
+glabel D_80926E68
+    .float 0.05
+
+glabel D_80926E6C
+    .float 0.2
+
+.text
 glabel BossMo_Update
 /* 07474 80922F74 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 07478 80922F78 AFB30038 */  sw      $s3, 0x0038($sp)           
@@ -537,12 +559,12 @@ glabel BossMo_Update
 /* 07C10 80923710 00818021 */  addu    $s0, $a0, $at              
 /* 07C14 80923714 2651101C */  addiu   $s1, $s2, 0x101C           ## $s1 = 0000101C
 /* 07C18 80923718 02203025 */  or      $a2, $s1, $zero            ## $a2 = 0000101C
-/* 07C1C 8092371C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 07C1C 8092371C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 07C20 80923720 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000024
 /* 07C24 80923724 8FA400BC */  lw      $a0, 0x00BC($sp)           
 /* 07C28 80923728 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000024
-/* 07C2C 8092372C 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 07C2C 8092372C 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 07C30 80923730 02203025 */  or      $a2, $s1, $zero            ## $a2 = 0000101C
 .L80923734:
@@ -553,7 +575,7 @@ glabel BossMo_Update
 /* 07C40 80923740 17000004 */  bne     $t8, $zero, .L80923754     
 /* 07C44 80923744 8FA400BC */  lw      $a0, 0x00BC($sp)           
 /* 07C48 80923748 00812821 */  addu    $a1, $a0, $at              
-/* 07C4C 8092374C 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 07C4C 8092374C 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 07C50 80923750 2646101C */  addiu   $a2, $s2, 0x101C           ## $a2 = 0000101C
 .L80923754:
@@ -588,5 +610,3 @@ glabel BossMo_Update
 /* 07CB8 809237B8 8FB50040 */  lw      $s5, 0x0040($sp)           
 /* 07CBC 809237BC 03E00008 */  jr      $ra                        
 /* 07CC0 809237C0 27BD00B8 */  addiu   $sp, $sp, 0x00B8           ## $sp = 00000000
-
-

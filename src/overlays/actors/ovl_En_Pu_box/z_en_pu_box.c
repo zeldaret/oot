@@ -6,18 +6,18 @@
 
 #include "z_en_pu_box.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void EnPubox_Init(EnPubox* this, GlobalContext* globalCtx);
-static void EnPubox_Destroy(EnPubox* this, GlobalContext* globalCtx);
-static void EnPubox_Update(EnPubox* this, GlobalContext* globalCtx);
-static void EnPubox_Draw(EnPubox* this, GlobalContext* globalCtx);
+#define THIS ((EnPubox*)thisx)
+
+void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Pu_box_InitVars = {
     ACTOR_EN_PU_BOX,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_PU_BOX,
     sizeof(EnPubox),
@@ -30,9 +30,9 @@ const ActorInit En_Pu_box_InitVars = {
 extern u32 D_06000380;
 extern u32 D_060006D0;
 
-static void EnPubox_Init(EnPubox* this, GlobalContext* globalCtx) {
+void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 local_c = 0;
-    Actor* thisx = &this->dyna.actor;
+    EnPubox* this = THIS;
 
     switch (thisx->params) {
         case 0:
@@ -50,8 +50,8 @@ static void EnPubox_Init(EnPubox* this, GlobalContext* globalCtx) {
             break;
     }
     this->unk_164 = 1;
-    thisx->sub_98.unk_10 = 0x14;
-    thisx->sub_98.unk_12 = 0x32;
+    thisx->colChkInfo.unk_10 = 0x14;
+    thisx->colChkInfo.unk_12 = 0x32;
     thisx->unk_FC = 1200.0f;
     thisx->unk_F8 = 720.0f;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 6.0f);
@@ -63,12 +63,14 @@ static void EnPubox_Init(EnPubox* this, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 }
 
-static void EnPubox_Destroy(EnPubox* this, GlobalContext* globalCtx) {
+void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnPubox* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void EnPubox_Update(EnPubox* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnPubox* this = THIS;
 
     thisx->speedXZ += this->dyna.unk_150;
     thisx->posRot.rot.y = this->dyna.unk_158;
@@ -80,10 +82,10 @@ static void EnPubox_Update(EnPubox* this, GlobalContext* globalCtx) {
     this->dyna.unk_154 = 0.0f;
     this->dyna.unk_150 = 0.0f;
     Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, thisx->sub_98.unk_12, thisx->sub_98.unk_10, thisx->sub_98.unk_10, 0x1D);
+    func_8002E4B4(globalCtx, thisx, thisx->colChkInfo.unk_12, thisx->colChkInfo.unk_10, thisx->colChkInfo.unk_10, 0x1D);
     thisx->posRot2.pos = thisx->posRot.pos;
 }
 
-static void EnPubox_Draw(EnPubox* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_06000380);
+void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, &D_06000380);
 }

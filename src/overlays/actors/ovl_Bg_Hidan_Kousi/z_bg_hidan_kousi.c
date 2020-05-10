@@ -1,19 +1,18 @@
 #include "z_bg_hidan_kousi.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void BgHidanKousi_Init(BgHidanKousi* this, GlobalContext* globalCtx);
-void BgHidanKousi_Destroy(BgHidanKousi* this, GlobalContext* globalCtx);
-void BgHidanKousi_Update(BgHidanKousi* this, GlobalContext* globalCtx);
-void BgHidanKousi_Draw(BgHidanKousi* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanKousi*)thisx)
+
+void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanKousi_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanKousi_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanKousi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Hidan_Kousi_InitVars =
-{
+const ActorInit Bg_Hidan_Kousi_InitVars = {
     ACTOR_BG_HIDAN_KOUSI,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanKousi),
@@ -23,7 +22,7 @@ const ActorInit Bg_Hidan_Kousi_InitVars =
     (ActorFunc)BgHidanKousi_Draw,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Kousi/func_80889960.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Kousi/BgHidanKousi_SetupAction.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Kousi/BgHidanKousi_Init.s")
 

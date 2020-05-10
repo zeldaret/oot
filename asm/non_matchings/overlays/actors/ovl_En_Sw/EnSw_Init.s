@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B0F208
+    .float 0.02
+
+.text
 glabel EnSw_Init
 /* 00750 80B0C500 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00754 80B0C504 3C0F80B1 */  lui     $t7, %hi(D_80B0F0E0)       ## $t7 = 80B10000
@@ -31,7 +36,7 @@ glabel EnSw_Init
 /* 007C0 80B0C570 304CE000 */  andi    $t4, $v0, 0xE000           ## $t4 = 00000000
 /* 007C4 80B0C574 000C6B43 */  sra     $t5, $t4, 13               
 /* 007C8 80B0C578 19A00009 */  blez    $t5, .L80B0C5A0            
-/* 007CC 80B0C57C 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 007CC 80B0C57C 3C098016 */  lui     $t1, %hi(gSaveContext+0xe9c)
 /* 007D0 80B0C580 30431F00 */  andi    $v1, $v0, 0x1F00           ## $v1 = 00000000
 /* 007D4 80B0C584 00031A03 */  sra     $v1, $v1,  8               
 /* 007D8 80B0C588 2463FFFF */  addiu   $v1, $v1, 0xFFFF           ## $v1 = FFFFFFFF
@@ -47,14 +52,14 @@ glabel EnSw_Init
 /* 007FC 80B0C5AC 0003C883 */  sra     $t9, $v1,  2               
 /* 00800 80B0C5B0 00194080 */  sll     $t0, $t9,  2               
 /* 00804 80B0C5B4 00042080 */  sll     $a0, $a0,  2               
-/* 00808 80B0C5B8 3C0A8012 */  lui     $t2, 0x8012                ## $t2 = 80120000
+/* 00808 80B0C5B8 3C0A8012 */  lui     $t2, %hi(D_8012723C)
 /* 0080C 80B0C5BC 01445021 */  addu    $t2, $t2, $a0              
 /* 00810 80B0C5C0 01284821 */  addu    $t1, $t1, $t0              
-/* 00814 80B0C5C4 3C0C8012 */  lui     $t4, 0x8012                ## $t4 = 80120000
-/* 00818 80B0C5C8 8D29F4FC */  lw      $t1, -0x0B04($t1)          ## 8015F4FC
-/* 0081C 80B0C5CC 8D4A723C */  lw      $t2, 0x723C($t2)           ## 8012723C
+/* 00814 80B0C5C4 3C0C8012 */  lui     $t4, %hi(D_8012724C)
+/* 00818 80B0C5C8 8D29F4FC */  lw      $t1, %lo(gSaveContext+0xe9c)($t1)
+/* 0081C 80B0C5CC 8D4A723C */  lw      $t2, %lo(D_8012723C)($t2)
 /* 00820 80B0C5D0 01846021 */  addu    $t4, $t4, $a0              
-/* 00824 80B0C5D4 8D8C724C */  lw      $t4, 0x724C($t4)           ## 8012724C
+/* 00824 80B0C5D4 8D8C724C */  lw      $t4, %lo(D_8012724C)($t4)
 /* 00828 80B0C5D8 012A5824 */  and     $t3, $t1, $t2              
 /* 0082C 80B0C5DC 304E00FF */  andi    $t6, $v0, 0x00FF           ## $t6 = 00000000
 /* 00830 80B0C5E0 018B6806 */  srlv    $t5, $t3, $t4              
@@ -94,7 +99,7 @@ glabel EnSw_Init
 /* 008A8 80B0C658 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 008AC 80B0C65C 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 008B0 80B0C660 AFA50040 */  sw      $a1, 0x0040($sp)           
-/* 008B4 80B0C664 0C016EFE */  jal     func_8005BBF8              
+/* 008B4 80B0C664 0C016EFE */  jal     Collider_InitJntSph              
 /* 008B8 80B0C668 8FA40064 */  lw      $a0, 0x0064($sp)           
 /* 008BC 80B0C66C 3C0780B1 */  lui     $a3, %hi(D_80B0F064)       ## $a3 = 80B10000
 /* 008C0 80B0C670 260901B4 */  addiu   $t1, $s0, 0x01B4           ## $t1 = 000001B4
@@ -102,9 +107,9 @@ glabel EnSw_Init
 /* 008C8 80B0C678 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 008CC 80B0C67C 24E7F064 */  addiu   $a3, $a3, %lo(D_80B0F064)  ## $a3 = 80B0F064
 /* 008D0 80B0C680 8FA40064 */  lw      $a0, 0x0064($sp)           
-/* 008D4 80B0C684 0C017014 */  jal     func_8005C050              
+/* 008D4 80B0C684 0C017014 */  jal     Collider_SetJntSph              
 /* 008D8 80B0C688 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 008DC 80B0C68C 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 008DC 80B0C68C 0C016C80 */  jal     DamageTable_Get
               
 /* 008E0 80B0C690 2404000E */  addiu   $a0, $zero, 0x000E         ## $a0 = 0000000E
 /* 008E4 80B0C694 3C0680B1 */  lui     $a2, %hi(D_80B0F074)       ## $a2 = 80B10000
@@ -209,17 +214,17 @@ glabel EnSw_Init
 /* 00A54 80B0C804 AFAC0038 */  sw      $t4, 0x0038($sp)           
 .L80B0C808:
 /* 00A58 80B0C808 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
-/* 00A5C 80B0C80C 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 00A60 80B0C810 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
+/* 00A5C 80B0C80C 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 00A60 80B0C810 24E733E0 */  addiu   $a3, %lo(D_801333E0)
 /* 00A64 80B0C814 3042E000 */  andi    $v0, $v0, 0xE000           ## $v0 = 00000000
 /* 00A68 80B0C818 00021343 */  sra     $v0, $v0, 13               
 /* 00A6C 80B0C81C 28410003 */  slti    $at, $v0, 0x0003           
 /* 00A70 80B0C820 1420000C */  bne     $at, $zero, .L80B0C854     
 /* 00A74 80B0C824 24044802 */  addiu   $a0, $zero, 0x4802         ## $a0 = 00004802
-/* 00A78 80B0C828 3C0F8013 */  lui     $t7, 0x8013                ## $t7 = 80130000
-/* 00A7C 80B0C82C 25EF33E8 */  addiu   $t7, $t7, 0x33E8           ## $t7 = 801333E8
-/* 00A80 80B0C830 3C058013 */  lui     $a1, 0x8013                ## $a1 = 80130000
-/* 00A84 80B0C834 24A533D4 */  addiu   $a1, $a1, 0x33D4           ## $a1 = 801333D4
+/* 00A78 80B0C828 3C0F8013 */  lui     $t7, %hi(D_801333E8)
+/* 00A7C 80B0C82C 25EF33E8 */  addiu   $t7, %lo(D_801333E8)
+/* 00A80 80B0C830 3C058013 */  lui     $a1, %hi(D_801333D4)
+/* 00A84 80B0C834 24A533D4 */  addiu   $a1, %lo(D_801333D4)
 /* 00A88 80B0C838 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 00A8C 80B0C83C 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
 /* 00A90 80B0C840 0C03DCE3 */  jal     Audio_PlaySoundGeneral
@@ -334,5 +339,3 @@ glabel EnSw_Init
 /* 00C0C 80B0C9BC 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
 /* 00C10 80B0C9C0 03E00008 */  jr      $ra                        
 /* 00C14 80B0C9C4 00000000 */  nop
-
-

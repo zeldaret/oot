@@ -1,20 +1,21 @@
 /*
  * File: z_demo_go.c
  * Overlay: Demo_Go
- * Description:
+ * Description: Gorons (Cutscene)
  */
 
 #include "z_demo_go.h"
 
 #include <vt.h>
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void DemoGo_Init(DemoGo* this, GlobalContext* globalCtx);
-void DemoGo_Destroy(DemoGo* this, GlobalContext* globalCtx);
-void DemoGo_Update(DemoGo* this, GlobalContext* globalCtx);
-void DemoGo_Draw(DemoGo* this, GlobalContext* globalCtx);
+#define THIS ((DemoGo*)thisx)
+
+void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoGo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoGo_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoGo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8097CE10(DemoGo* this, GlobalContext* globalCtx);
 void func_8097CFDC(DemoGo* this, GlobalContext* globalCtx);
@@ -29,11 +30,11 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx);
 
 UNK_PTR D_8097D440[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
 
-ActorFunc D_8097D44C[] = {
+DemoGoActionFunc D_8097D44C[] = {
     func_8097CFDC, func_8097CFFC, func_8097D01C, func_8097D058, func_8097D088, func_8097D0D0, func_8097D130,
 };
 
-ActorFunc D_8097D468[] = {
+DemoGoDrawFunc D_8097D468[] = {
     func_8097D290,
     func_8097D29C,
 };
@@ -41,7 +42,6 @@ ActorFunc D_8097D468[] = {
 const ActorInit Demo_Go_InitVars = {
     ACTOR_DEMO_GO,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(DemoGo),
@@ -51,13 +51,14 @@ const ActorInit Demo_Go_InitVars = {
     (ActorFunc)DemoGo_Draw,
 };
 
-extern UNK_TYPE D_060029A8;
-extern UNK_TYPE D_06004930;
+extern AnimationHeader D_060029A8;
+extern AnimationHeader D_06004930;
 extern UNK_TYPE D_0600E680;
-extern UNK_TYPE D_0600FEF0;
+extern SkeletonHeader D_0600FEF0;
 
 UNK_TYPE func_8097C870(DemoGo* this) {
     s32 ret;
+
     switch (this->actor.params) {
         case 0:
             ret = 3;
@@ -82,12 +83,14 @@ void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
         func_800A6E10(&globalCtx->mf_11D60, &thisx->posRot.pos, &sp20, &sp1C);
-        Audio_PlaySoundAtPosition(globalCtx, &sp20, 0x14, 0x28A0);
+        Audio_PlaySoundAtPosition(globalCtx, &sp20, 20, 0x28A0);
     }
 }
 
-void DemoGo_Destroy(DemoGo* this, GlobalContext* globalCtx) {
-    func_800A56F0(&this->skelAnime, globalCtx);
+void DemoGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGo* this = THIS;
+
+    SkelAnime_Free(&this->skelAnime, globalCtx);
 }
 
 void func_8097C930(DemoGo* this) {
@@ -246,10 +249,10 @@ void func_8097CEEC(DemoGo* this, GlobalContext* globalCtx) {
 }
 
 void func_8097CF20(DemoGo* this, GlobalContext* globalCtx, UNK_TYPE arg2) {
-    UNK_PTR animation = &D_060029A8;
+    AnimationHeader* animation = &D_060029A8;
     if (arg2 != 0) {
-        SkelAnime_ChangeAnimation(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(animation), 0,
-                                  -8.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&animation->genericHeader), 0, -8.0f);
         this->action = 5;
         this->unk_19C = 0.0f;
     }
@@ -307,7 +310,9 @@ void func_8097D130(DemoGo* this, GlobalContext* globalCtx) {
     func_8097C9DC(this);
 }
 
-void DemoGo_Update(DemoGo* this, GlobalContext* globalCtx) {
+void DemoGo_Update(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGo* this = THIS;
+
     if (this->action < 0 || this->action >= 7 || D_8097D44C[this->action] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
@@ -315,13 +320,14 @@ void DemoGo_Update(DemoGo* this, GlobalContext* globalCtx) {
     D_8097D44C[this->action](this, globalCtx);
 }
 
-void DemoGo_Init(DemoGo* this, GlobalContext* globalCtx) {
-    UNK_PTR animation = &D_06004930;
-    s16 pad;
+void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGo* this = THIS;
+    AnimationHeader* animation = &D_06004930;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    func_800A46F8(globalCtx, &this->skelAnime, &D_0600FEF0, 0, 0, 0, 0);
-    SkelAnime_ChangeAnimation(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(animation), 2, 0.0f);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
+    SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f, SkelAnime_GetFrameCount(&animation->genericHeader), 2,
+                         0.0f);
     this->action = 0;
 }
 
@@ -335,21 +341,23 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
     void* srcSegment8 = D_8097D440[temp];
     void* srcSegment9 = &D_0600E680;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(srcSegment8));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(srcSegment9));
 
-    func_800A1AC8(globalCtx, skelAnime->limbIndex, skelAnime->actorDrawTbl, skelAnime->dListCount, NULL, NULL,
-                  &this->actor);
+    SkelAnime_DrawSV(globalCtx, skelAnime->skeleton, skelAnime->limbDrawTbl, skelAnime->dListCount, NULL, NULL,
+                     &this->actor);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_demo_go.c", 746);
 }
 
-void DemoGo_Draw(DemoGo* this, GlobalContext* globalCtx) {
+void DemoGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGo* this = THIS;
+
     if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == 0) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

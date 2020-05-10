@@ -1,3 +1,13 @@
+.late_rodata
+glabel D_80A7DFD0
+ .word 0xBE4CCCCD
+glabel D_80A7DFD4
+    .float 0.3
+
+glabel D_80A7DFD8
+    .float 0.4
+
+.text
 glabel EnInsect_Init
 /* 002CC 80A7C0EC 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 002D0 80A7C0F0 AFB3003C */  sw      $s3, 0x003C($sp)           
@@ -34,7 +44,7 @@ glabel EnInsect_Init
 /* 00344 80A7C164 262501AC */  addiu   $a1, $s1, 0x01AC           ## $a1 = 000001AC
 /* 00348 80A7C168 2630014C */  addiu   $s0, $s1, 0x014C           ## $s0 = 0000014C
 /* 0034C 80A7C16C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000014C
-/* 00350 80A7C170 0C016EFE */  jal     func_8005BBF8              
+/* 00350 80A7C170 0C016EFE */  jal     Collider_InitJntSph              
 /* 00354 80A7C174 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00358 80A7C178 3C0780A8 */  lui     $a3, %hi(D_80A7DF00)       ## $a3 = 80A80000
 /* 0035C 80A7C17C 2639016C */  addiu   $t9, $s1, 0x016C           ## $t9 = 0000016C
@@ -42,7 +52,7 @@ glabel EnInsect_Init
 /* 00364 80A7C184 24E7DF00 */  addiu   $a3, $a3, %lo(D_80A7DF00)  ## $a3 = 80A7DF00
 /* 00368 80A7C188 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 0036C 80A7C18C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000014C
-/* 00370 80A7C190 0C017014 */  jal     func_8005C050              
+/* 00370 80A7C190 0C017014 */  jal     Collider_SetJntSph              
 /* 00374 80A7C194 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00000000
 /* 00378 80A7C198 96230314 */  lhu     $v1, 0x0314($s1)           ## 00000314
 /* 0037C 80A7C19C 2408001E */  addiu   $t0, $zero, 0x001E         ## $t0 = 0000001E
@@ -161,5 +171,3 @@ glabel EnInsect_Init
 /* 00508 80A7C328 8FB40040 */  lw      $s4, 0x0040($sp)           
 /* 0050C 80A7C32C 03E00008 */  jr      $ra                        
 /* 00510 80A7C330 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

@@ -1,19 +1,18 @@
 #include "z_en_md.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000019
 
-void EnMd_Init(EnMd* this, GlobalContext* globalCtx);
-void EnMd_Destroy(EnMd* this, GlobalContext* globalCtx);
-void EnMd_Update(EnMd* this, GlobalContext* globalCtx);
-void EnMd_Draw(EnMd* this, GlobalContext* globalCtx);
+#define THIS ((EnMd*)thisx)
+
+void EnMd_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMd_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Md_InitVars =
-{
+const ActorInit En_Md_InitVars = {
     ACTOR_EN_MD,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_MD,
     sizeof(EnMd),

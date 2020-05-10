@@ -19,7 +19,7 @@ glabel ObjBean_Destroy
 /* 01290 80B8FD10 13000005 */  beq     $t8, $zero, .L80B8FD28     
 /* 01294 80B8FD14 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 01298 80B8FD18 24E50168 */  addiu   $a1, $a3, 0x0168           ## $a1 = 00000168
-/* 0129C 80B8FD1C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0129C 80B8FD1C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 012A0 80B8FD20 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 012A4 80B8FD24 8FA70018 */  lw      $a3, 0x0018($sp)           
@@ -35,5 +35,3 @@ glabel ObjBean_Destroy
 /* 012C4 80B8FD44 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 012C8 80B8FD48 03E00008 */  jr      $ra                        
 /* 012CC 80B8FD4C 00000000 */  nop
-
-

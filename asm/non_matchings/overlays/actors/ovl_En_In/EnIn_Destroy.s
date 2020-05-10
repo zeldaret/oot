@@ -8,7 +8,7 @@ glabel EnIn_Destroy
 /* 00FDC 80A79F8C 25CE9FB0 */  addiu   $t6, $t6, %lo(func_80A79FB0) ## $t6 = 80A79FB0
 /* 00FE0 80A79F90 11C20003 */  beq     $t6, $v0, .L80A79FA0       
 /* 00FE4 80A79F94 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00FE8 80A79F98 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00FE8 80A79F98 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00FEC 80A79F9C 24C50194 */  addiu   $a1, $a2, 0x0194           ## $a1 = 00000194
 .L80A79FA0:
@@ -16,5 +16,3 @@ glabel EnIn_Destroy
 /* 00FF4 80A79FA4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00FF8 80A79FA8 03E00008 */  jr      $ra                        
 /* 00FFC 80A79FAC 00000000 */  nop
-
-

@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80B91070
+    .float 9.58738019108e-05
+
+glabel D_80B91074
+    .float 0.1
+
+.text
 glabel func_80B90C7C
 /* 021FC 80B90C7C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 02200 80B90C80 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -27,12 +35,10 @@ glabel func_80B90C7C
 /* 02260 80B90CE0 46006386 */  mov.s   $f14, $f12                 
 /* 02264 80B90CE4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 02268 80B90CE8 24A50650 */  addiu   $a1, $a1, 0x0650           ## $a1 = 06000650
-/* 0226C 80B90CEC 0C00D498 */  jal     Draw_DListOpa
+/* 0226C 80B90CEC 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 02270 80B90CF0 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 02274 80B90CF4 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 02278 80B90CF8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0227C 80B90CFC 03E00008 */  jr      $ra                        
 /* 02280 80B90D00 00000000 */  nop
-
-

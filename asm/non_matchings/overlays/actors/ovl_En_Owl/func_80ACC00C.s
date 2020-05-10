@@ -1,3 +1,37 @@
+.rdata
+glabel D_80ACD754
+    .asciz "\x1B[36m"
+    .balign 4
+
+glabel D_80ACD75C
+    .asciz "%dのフクロウ\n"
+    .balign 4
+
+glabel D_80ACD76C
+    .asciz "\x1B[m"
+    .balign 4
+
+glabel D_80ACD770
+    .asciz "\x1B[36m"
+    .balign 4
+
+glabel D_80ACD778
+    .asciz "SPOT 06 の デモがはしった\n"
+    .balign 4
+
+glabel D_80ACD794
+    .asciz "\x1B[m"
+    .balign 4
+
+glabel D_80ACD798
+    .asciz "0"
+    .balign 4
+
+glabel D_80ACD79C
+    .asciz "../z_en_owl.c"
+    .balign 4
+
+.text
 glabel func_80ACC00C
 /* 020EC 80ACC00C 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 020F0 80ACC010 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -20,7 +54,7 @@ glabel func_80ACC00C
 /* 02130 80ACC050 A60F00B6 */  sh      $t7, 0x00B6($s0)           ## 000000B6
 /* 02134 80ACC054 45020060 */  bc1fl   .L80ACC1D8                 
 /* 02138 80ACC058 3C014214 */  lui     $at, 0x4214                ## $at = 42140000
-/* 0213C 80ACC05C 0C02FF21 */  jal     func_800BFC84              
+/* 0213C 80ACC05C 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 02140 80ACC060 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 02144 80ACC064 5440005C */  bnel    $v0, $zero, .L80ACC1D8     
 /* 02148 80ACC068 3C014214 */  lui     $at, 0x4214                ## $at = 42140000
@@ -47,7 +81,7 @@ glabel func_80ACC00C
 /* 02190 80ACC0B0 10410008 */  beq     $v0, $at, .L80ACC0D4       
 /* 02194 80ACC0B4 24010008 */  addiu   $at, $zero, 0x0008         ## $at = 00000008
 /* 02198 80ACC0B8 10410020 */  beq     $v0, $at, .L80ACC13C       
-/* 0219C 80ACC0BC 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 0219C 80ACC0BC 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 021A0 80ACC0C0 24010009 */  addiu   $at, $zero, 0x0009         ## $at = 00000009
 /* 021A4 80ACC0C4 1041001D */  beq     $v0, $at, .L80ACC13C       
 /* 021A8 80ACC0C8 3C0480AD */  lui     $a0, %hi(D_80ACD798)       ## $a0 = 80AD0000
@@ -70,10 +104,10 @@ glabel func_80ACC00C
 /* 021DC 80ACC0FC 00024900 */  sll     $t1, $v0,  4               
 /* 021E0 80ACC100 00095702 */  srl     $t2, $t1, 28               
 /* 021E4 80ACC104 000A5880 */  sll     $t3, $t2,  2               
-/* 021E8 80ACC108 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
+/* 021E8 80ACC108 3C0C8016 */  lui     $t4, %hi(gSegments)
 /* 021EC 80ACC10C 018B6021 */  addu    $t4, $t4, $t3              
 /* 021F0 80ACC110 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 021F4 80ACC114 8D8C6FA8 */  lw      $t4, 0x6FA8($t4)           ## 80166FA8
+/* 021F4 80ACC114 8D8C6FA8 */  lw      $t4, %lo(gSegments)($t4)
 /* 021F8 80ACC118 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 021FC 80ACC11C 00416824 */  and     $t5, $v0, $at              
 /* 02200 80ACC120 8FB80034 */  lw      $t8, 0x0034($sp)           
@@ -91,7 +125,7 @@ glabel func_80ACC00C
 /* 0222C 80ACC14C 00084880 */  sll     $t1, $t0,  2               
 /* 02230 80ACC150 01495021 */  addu    $t2, $t2, $t1              
 /* 02234 80ACC154 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
-/* 02238 80ACC158 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 00006FA8
+/* 02238 80ACC158 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 0223C 80ACC15C 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 02240 80ACC160 00415824 */  and     $t3, $v0, $at              
 /* 02244 80ACC164 8FAE0034 */  lw      $t6, 0x0034($sp)           
@@ -111,8 +145,8 @@ glabel func_80ACC00C
 /* 02270 80ACC190 0C01E221 */  jal     func_80078884              
 /* 02274 80ACC194 24044807 */  addiu   $a0, $zero, 0x4807         ## $a0 = 00004807
 /* 02278 80ACC198 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001
-/* 0227C 80ACC19C 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 02280 80ACC1A0 A02FFA74 */  sb      $t7, -0x058C($at)          ## 8015FA74
+/* 0227C 80ACC19C 3C018016 */  lui     $at, %hi(gSaveContext+0x1414)
+/* 02280 80ACC1A0 A02FFA74 */  sb      $t7, %lo(gSaveContext+0x1414)($at)
 /* 02284 80ACC1A4 24040014 */  addiu   $a0, $zero, 0x0014         ## $a0 = 00000014
 /* 02288 80ACC1A8 0C03D13B */  jal     func_800F44EC              
 /* 0228C 80ACC1AC 2405000A */  addiu   $a1, $zero, 0x000A         ## $a1 = 0000000A
@@ -123,8 +157,8 @@ glabel func_80ACC00C
 /* 022A0 80ACC1C0 AE18040C */  sw      $t8, 0x040C($s0)           ## 0000040C
 /* 022A4 80ACC1C4 A200040A */  sb      $zero, 0x040A($s0)         ## 0000040A
 /* 022A8 80ACC1C8 A60803FC */  sh      $t0, 0x03FC($s0)           ## 000003FC
-/* 022AC 80ACC1CC 3C018012 */  lui     $at, 0x8012                ## $at = 80120000
-/* 022B0 80ACC1D0 A420FB40 */  sh      $zero, -0x04C0($at)        ## 8011FB40
+/* 022AC 80ACC1CC 3C018012 */  lui     $at, %hi(D_8011FB40)
+/* 022B0 80ACC1D0 A420FB40 */  sh      $zero, %lo(D_8011FB40)($at)
 /* 022B4 80ACC1D4 3C014214 */  lui     $at, 0x4214                ## $at = 42140000
 .L80ACC1D8:
 /* 022B8 80ACC1D8 44815000 */  mtc1    $at, $f10                  ## $f10 = 37.00
@@ -155,5 +189,3 @@ glabel func_80ACC00C
 /* 02310 80ACC230 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 02314 80ACC234 03E00008 */  jr      $ra                        
 /* 02318 80ACC238 00000000 */  nop
-
-

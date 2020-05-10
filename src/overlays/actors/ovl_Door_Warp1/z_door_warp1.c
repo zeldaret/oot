@@ -1,14 +1,15 @@
 #include "z_door_warp1.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void DoorWarp1_Init(DoorWarp1* this, GlobalContext* globalCtx);
-void DoorWarp1_Destroy(DoorWarp1* this, GlobalContext* globalCtx);
-void DoorWarp1_Update(DoorWarp1* this, GlobalContext* globalCtx);
-void DoorWarp1_Draw(DoorWarp1* this, GlobalContext* globalCtx);
+#define THIS ((DoorWarp1*)thisx)
 
-void func_80998780(DoorWarp1* this, ActorFunc func);
+void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx);
+void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx);
+void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx);
+
+void func_80998780(DoorWarp1* this, DoorWarp1ActionFunc func);
 
 void func_809991C8(DoorWarp1* this, GlobalContext* globalCtx);
 void func_80999214(DoorWarp1* this, GlobalContext* globalCtx);
@@ -41,7 +42,6 @@ const ActorInit Door_Warp1_InitVars =
 {
     ACTOR_DOOR_WARP1,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_WARP1,
     sizeof(DoorWarp1),
@@ -67,7 +67,7 @@ extern Gfx* D_06001374; //0x06001374
 extern Gfx* D_06002CA8; //0x06002CA8
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998780.s")
-void func_80998780(DoorWarp1* this, ActorFunc func) {
+void func_80998780(DoorWarp1* this, DoorWarp1ActionFunc func) {
     this->actionFunc = func;
 }
 
@@ -985,7 +985,8 @@ void func_8099B020(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_Update.s")
-void DoorWarp1_Update(DoorWarp1* this, GlobalContext* globalCtx) {
+void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx) {
+    DoorWarp1* this = THIS;
     this->actionFunc(this, globalCtx);
     if (this->actor.params != 3) {
         Actor_SetScale(this, (f32) this->unk_1AC / 100.0f);
@@ -1185,7 +1186,8 @@ void DoorWarp1_Update(DoorWarp1* this, GlobalContext* globalCtx) {
 }*/
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_Draw.s")
-void DoorWarp1_Draw(DoorWarp1* this, GlobalContext* globalCtx) {
+void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    DoorWarp1* this = THIS;
     switch (this->actor.params + 2) {
         case 1:
             func_8099B140(this, globalCtx);

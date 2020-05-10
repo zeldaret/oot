@@ -1,7 +1,18 @@
+.late_rodata
+glabel D_808554FC
+    .float 0.8
+
+glabel D_80855500
+    .float 0.02
+
+glabel D_80855504
+    .float 0.05
+
+.text
 glabel func_8084AEEC
 /* 18CDC 8084AEEC 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
-/* 18CE0 8084AEF0 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 18CE4 8084AEF4 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 18CE0 8084AEF0 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 18CE4 8084AEF4 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 18CE8 8084AEF8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 18CEC 8084AEFC AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 18CF0 8084AF00 AFA5001C */  sw      $a1, 0x001C($sp)           
@@ -72,5 +83,3 @@ glabel func_8084AEEC
 /* 18DE4 8084AFF4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 18DE8 8084AFF8 03E00008 */  jr      $ra                        
 /* 18DEC 8084AFFC 00000000 */  nop
-
-

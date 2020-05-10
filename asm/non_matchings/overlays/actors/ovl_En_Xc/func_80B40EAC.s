@@ -1,3 +1,32 @@
+.rdata
+glabel D_80B420B8
+    .asciz "En_Oa2_Stalker_Check_DemoMode:そんな動作は無い!!!!!!!!\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B42260
+.word L80B40F10
+.word L80B40FCC
+.word L80B40FCC
+.word L80B40FCC
+.word L80B40FCC
+.word L80B40F20
+.word L80B40FCC
+.word L80B40FCC
+.word L80B40FBC
+.word L80B40FCC
+.word L80B40FCC
+.word L80B40FCC
+.word L80B40FCC
+.word L80B40F58
+.word L80B40F80
+.word L80B40F94
+.word L80B40FA8
+.word L80B40F44
+.word L80B40F6C
+.word L80B40F34
+
+.text
 glabel func_80B40EAC
 /* 04CCC 80B40EAC 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 04CD0 80B40EB0 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -101,5 +130,3 @@ glabel L80B40FCC
 /* 04E14 80B40FF4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 04E18 80B40FF8 03E00008 */  jr      $ra                        
 /* 04E1C 80B40FFC 00000000 */  nop
-
-

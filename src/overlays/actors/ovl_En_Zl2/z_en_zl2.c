@@ -1,19 +1,24 @@
+/*
+ * File: z_en_zl2.c
+ * Overlay: ovl_En_Zl2
+ * Description: Adult Zelda (Cutscenes)
+ */
+
 #include "z_en_zl2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void EnZl2_Init(EnZl2* this, GlobalContext* globalCtx);
-void EnZl2_Destroy(EnZl2* this, GlobalContext* globalCtx);
-void EnZl2_Update(EnZl2* this, GlobalContext* globalCtx);
-void EnZl2_Draw(EnZl2* this, GlobalContext* globalCtx);
+#define THIS ((EnZl2*)thisx)
+
+void EnZl2_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnZl2_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnZl2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Zl2_InitVars =
-{
+const ActorInit En_Zl2_InitVars = {
     ACTOR_EN_ZL2,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_ZL2,
     sizeof(EnZl2),

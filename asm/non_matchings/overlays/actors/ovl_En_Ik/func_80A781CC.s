@@ -3,7 +3,7 @@ glabel func_80A781CC
 /* 03EC0 80A781D0 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 03EC4 80A781D4 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 03EC8 80A781D8 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 03ECC 80A781DC 0C02FF21 */  jal     func_800BFC84              
+/* 03ECC 80A781DC 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 03ED0 80A781E0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 03ED4 80A781E4 1440001A */  bne     $v0, $zero, .L80A78250     
 /* 03ED8 80A781E8 3C0E80A7 */  lui     $t6, %hi(EnIk_Update)    ## $t6 = 80A70000
@@ -19,15 +19,15 @@ glabel func_80A781CC
               
 /* 03F00 80A78210 24A53F80 */  addiu   $a1, $a1, 0x3F80           ## $a1 = 02003F80
 /* 03F04 80A78214 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
-/* 03F08 80A78218 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 03F08 80A78218 3C018016 */  lui     $at, %hi(gSaveContext+0x1414)
 /* 03F0C 80A7821C 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000
-/* 03F10 80A78220 A038FA74 */  sb      $t8, -0x058C($at)          ## 8015FA74
+/* 03F10 80A78220 A038FA74 */  sb      $t8, %lo(gSaveContext+0x1414)($at)
 /* 03F14 80A78224 34A5D70A */  ori     $a1, $a1, 0xD70A           ## $a1 = 3C23D70A
 /* 03F18 80A78228 0C00B58B */  jal     Actor_SetScale
               
 /* 03F1C 80A7822C 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 03F20 80A78230 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 03F24 80A78234 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 03F20 80A78230 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 03F24 80A78234 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 03F28 80A78238 94590EDA */  lhu     $t9, 0x0EDA($v0)           ## 8015F53A
 /* 03F2C 80A7823C 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 03F30 80A78240 8FA5001C */  lw      $a1, 0x001C($sp)           
@@ -39,5 +39,3 @@ glabel func_80A781CC
 /* 03F44 80A78254 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 03F48 80A78258 03E00008 */  jr      $ra                        
 /* 03F4C 80A7825C 00000000 */  nop
-
-

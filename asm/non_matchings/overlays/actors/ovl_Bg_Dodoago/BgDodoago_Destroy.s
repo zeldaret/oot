@@ -12,17 +12,17 @@ glabel BgDodoago_Destroy
 /* 002AC 80871CAC 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 002B0 80871CB0 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 002B4 80871CB4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 002B8 80871CB8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002B8 80871CB8 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 002BC 80871CBC 24A50168 */  addiu   $a1, $a1, 0x0168           ## $a1 = 00000168
 /* 002C0 80871CC0 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 002C4 80871CC4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 002C8 80871CC8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002C8 80871CC8 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 002CC 80871CCC 24A501B4 */  addiu   $a1, $a1, 0x01B4           ## $a1 = 000001B4
 /* 002D0 80871CD0 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 002D4 80871CD4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 002D8 80871CD8 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 002D8 80871CD8 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 002DC 80871CDC 24A50200 */  addiu   $a1, $a1, 0x0200           ## $a1 = 00000200
 /* 002E0 80871CE0 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -30,5 +30,3 @@ glabel BgDodoago_Destroy
 /* 002E8 80871CE8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 002EC 80871CEC 03E00008 */  jr      $ra                        
 /* 002F0 80871CF0 00000000 */  nop
-
-

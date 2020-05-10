@@ -1,3 +1,65 @@
+.rdata
+glabel D_80A9504C
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A95060
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A95074
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A95088
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A9509C
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+glabel D_80A950B0
+    .asciz "../z_en_kanban.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A95108
+    .float 3.14159274101
+
+glabel D_80A9510C
+    .float 3.14159274101
+
+glabel D_80A95110
+    .float 3.14159274101
+
+glabel D_80A95114
+    .float 3.14159274101
+
+glabel D_80A95118
+ .word 0x45898000
+glabel D_80A9511C
+ .word 0xC53B8000
+glabel D_80A95120
+ .word 0x3B343958
+glabel D_80A95124
+    .float 0.01
+
+glabel D_80A95128
+ .word 0xBF20D97C
+glabel D_80A9512C
+    .float 3.14159274101
+
+glabel D_80A95130
+    .float 3.14159274101
+
+glabel D_80A95134
+    .float 3.14159274101
+
+glabel D_80A95138
+    .float 3.14159274101
+
+.text
 glabel EnKanban_Draw
 /* 01BE8 80A93B88 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 01BEC 80A93B8C AFB00014 */  sw      $s0, 0x0014($sp)           
@@ -16,7 +78,7 @@ glabel EnKanban_Draw
 /* 01C1C 80A93BBC 24C6504C */  addiu   $a2, $a2, %lo(D_80A9504C)  ## $a2 = 80A9504C
 /* 01C20 80A93BC0 27A40078 */  addiu   $a0, $sp, 0x0078           ## $a0 = FFFFFFD8
 /* 01C24 80A93BC4 2407067B */  addiu   $a3, $zero, 0x067B         ## $a3 = 0000067B
-/* 01C28 80A93BC8 0C031AB1 */  jal     func_800C6AC4              
+/* 01C28 80A93BC8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 01C2C 80A93BCC 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 01C30 80A93BD0 8FB800A4 */  lw      $t8, 0x00A4($sp)           
 /* 01C34 80A93BD4 0C024F46 */  jal     func_80093D18              
@@ -357,8 +419,8 @@ glabel EnKanban_Draw
 /* 0213C 80A940DC 450200D6 */  bc1fl   .L80A94438                 
 /* 02140 80A940E0 8FAF00A4 */  lw      $t7, 0x00A4($sp)           
 /* 02144 80A940E4 860C0176 */  lh      $t4, 0x0176($s0)           ## 00000176
-/* 02148 80A940E8 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
-/* 0214C 80A940EC 2484E660 */  addiu   $a0, $a0, 0xE660           ## $a0 = 8015E660
+/* 02148 80A940E8 3C048016 */  lui     $a0, %hi(gSaveContext)
+/* 0214C 80A940EC 2484E660 */  addiu   $a0, %lo(gSaveContext)
 /* 02150 80A940F0 55800005 */  bnel    $t4, $zero, .L80A94108     
 /* 02154 80A940F4 9482000C */  lhu     $v0, 0x000C($a0)           ## 8015E66C
 /* 02158 80A940F8 860D0178 */  lh      $t5, 0x0178($s0)           ## 00000178
@@ -558,11 +620,11 @@ glabel EnKanban_Draw
 /* 0243C 80A943DC AE2C02D0 */  sw      $t4, 0x02D0($s1)           ## 000002D0
 /* 02440 80A943E0 000FC080 */  sll     $t8, $t7,  2               
 /* 02444 80A943E4 35AD0020 */  ori     $t5, $t5, 0x0020           ## $t5 = DB060020
-/* 02448 80A943E8 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 02448 80A943E8 3C198016 */  lui     $t9, %hi(gSegments)
 /* 0244C 80A943EC 0338C821 */  addu    $t9, $t9, $t8              
 /* 02450 80A943F0 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 02454 80A943F4 AC4D0000 */  sw      $t5, 0x0000($v0)           ## 00000001
-/* 02458 80A943F8 8F396FA8 */  lw      $t9, 0x6FA8($t9)           ## 80166FA8
+/* 02458 80A943F8 8F396FA8 */  lw      $t9, %lo(gSegments)($t9)
 /* 0245C 80A943FC 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 02460 80A94400 00A14824 */  and     $t1, $a1, $at              
 /* 02464 80A94404 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
@@ -583,7 +645,7 @@ glabel EnKanban_Draw
 /* 0249C 80A9443C 24C650B0 */  addiu   $a2, $a2, %lo(D_80A950B0)  ## $a2 = 80A950B0
 /* 024A0 80A94440 27A40078 */  addiu   $a0, $sp, 0x0078           ## $a0 = FFFFFFD8
 /* 024A4 80A94444 24070741 */  addiu   $a3, $zero, 0x0741         ## $a3 = 00000741
-/* 024A8 80A94448 0C031AD5 */  jal     func_800C6B54              
+/* 024A8 80A94448 0C031AD5 */  jal     Graph_CloseDisps              
 /* 024AC 80A9444C 8DE50000 */  lw      $a1, 0x0000($t7)           ## 00000000
 /* 024B0 80A94450 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 024B4 80A94454 8FB00014 */  lw      $s0, 0x0014($sp)           
@@ -593,4 +655,3 @@ glabel EnKanban_Draw
 /* 024C4 80A94464 00000000 */  nop
 /* 024C8 80A94468 00000000 */  nop
 /* 024CC 80A9446C 00000000 */  nop
-

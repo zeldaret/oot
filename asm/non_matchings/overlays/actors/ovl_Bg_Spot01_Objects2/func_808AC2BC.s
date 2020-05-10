@@ -1,3 +1,9 @@
+.rdata
+glabel D_808AC56C
+	.asciz "-----バンク切り換え成功！！\n"
+	.balign 4
+
+.text
 glabel func_808AC2BC
 /* 0017C 808AC2BC 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00180 808AC2C0 AFB00034 */  sw      $s0, 0x0034($sp)           
@@ -29,8 +35,8 @@ glabel func_808AC2BC
 /* 001E0 808AC320 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 001E4 808AC324 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 001E8 808AC328 03214021 */  addu    $t0, $t9, $at              
-/* 001EC 808AC32C 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 001F0 808AC330 AC286FC0 */  sw      $t0, 0x6FC0($at)           ## 80166FC0
+/* 001EC 808AC32C 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 001F0 808AC330 AC286FC0 */  sw      $t0, %lo(gSegments+0x18)($at)
 /* 001F4 808AC334 8209017C */  lb      $t1, 0x017C($s0)           ## 0000017C
 /* 001F8 808AC338 0C010D20 */  jal     DynaPolyInfo_SetActorMove
               
@@ -72,8 +78,8 @@ glabel L808AC394
               ## DynaPolyInfo_setActor
 /* 00274 808AC3B4 8FA70054 */  lw      $a3, 0x0054($sp)           
 /* 00278 808AC3B8 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
-/* 0027C 808AC3BC 3C0C8016 */  lui     $t4, 0x8016                ## $t4 = 80160000
-/* 00280 808AC3C0 8D8CE670 */  lw      $t4, -0x1990($t4)          ## 8015E670
+/* 0027C 808AC3BC 3C0C8016 */  lui     $t4, %hi(gSaveContext+0x10)
+/* 00280 808AC3C0 8D8CE670 */  lw      $t4, %lo(gSaveContext+0x10)($t4)
 /* 00284 808AC3C4 3C040001 */  lui     $a0, 0x0001                ## $a0 = 00010000
 /* 00288 808AC3C8 00912021 */  addu    $a0, $a0, $s1              
 /* 0028C 808AC3CC 1580001E */  bne     $t4, $zero, .L808AC448     
@@ -122,5 +128,3 @@ glabel L808AC448
 /* 00328 808AC468 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 0032C 808AC46C 03E00008 */  jr      $ra                        
 /* 00330 808AC470 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

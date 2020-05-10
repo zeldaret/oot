@@ -27,7 +27,7 @@ glabel func_80B9DA64
 /* 008B8 80B9DAC8 8FA40024 */  lw      $a0, 0x0024($sp)           
 .L80B9DACC:
 /* 008BC 80B9DACC 26060180 */  addiu   $a2, $s0, 0x0180           ## $a2 = 00000180
-/* 008C0 80B9DAD0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 008C0 80B9DAD0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 008C4 80B9DAD4 00812821 */  addu    $a1, $a0, $at              
 /* 008C8 80B9DAD8 1000003B */  beq     $zero, $zero, .L80B9DBC8   
@@ -101,5 +101,3 @@ glabel func_80B9DA64
 /* 009BC 80B9DBCC 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 009C0 80B9DBD0 03E00008 */  jr      $ra                        
 /* 009C4 80B9DBD4 00000000 */  nop
-
-

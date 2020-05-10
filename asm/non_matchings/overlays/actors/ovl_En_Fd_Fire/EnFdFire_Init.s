@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A0F12C
+ .word 0xBF19999A
+
+.text
 glabel EnFdFire_Init
 /* 0012C 80A0E5DC 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00130 80A0E5E0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -5,8 +10,8 @@ glabel EnFdFire_Init
 /* 00138 80A0E5E8 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 0013C 80A0E5EC 8CAF1C44 */  lw      $t7, 0x1C44($a1)           ## 00001C44
 /* 00140 80A0E5F0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00144 80A0E5F4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00148 80A0E5F8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00144 80A0E5F4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00148 80A0E5F8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0014C 80A0E5FC 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00150 80A0E600 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00154 80A0E604 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
@@ -15,14 +20,14 @@ glabel EnFdFire_Init
 /* 0015C 80A0E60C AFAF0024 */  sw      $t7, 0x0024($sp)           
 /* 00160 80A0E610 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 00164 80A0E614 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00168 80A0E618 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00168 80A0E618 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 0016C 80A0E61C 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00170 80A0E620 3C0780A1 */  lui     $a3, %hi(D_80A0F030)       ## $a3 = 80A10000
 /* 00174 80A0E624 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00178 80A0E628 24E7F030 */  addiu   $a3, $a3, %lo(D_80A0F030)  ## $a3 = 80A0F030
 /* 0017C 80A0E62C 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 00180 80A0E630 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00180 80A0E630 0C01712B */  jal     Collider_SetCylinder
               
 /* 00184 80A0E634 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00188 80A0E638 3C0580A1 */  lui     $a1, %hi(D_80A0F068)       ## $a1 = 80A10000
@@ -70,5 +75,3 @@ glabel EnFdFire_Init
 /* 00228 80A0E6D8 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0022C 80A0E6DC 03E00008 */  jr      $ra                        
 /* 00230 80A0E6E0 00000000 */  nop
-
-

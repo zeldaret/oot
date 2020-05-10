@@ -4,7 +4,11 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct DoorWarp1;
+
+typedef void (*DoorWarp1ActionFunc)(struct DoorWarp1*, GlobalContext*);
+
+typedef struct DoorWarp1 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ char unk_190[0x2];

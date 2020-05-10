@@ -4,8 +4,7 @@
 
 // TODO: rename these
 //      SM64                OOT
-#define guMtxIdentF         func_80101B40
-#define guMtxF2L            func_801064E0
+#define guMtxF2L            func_801064E0 // believed to be correct name, needs confirmation.
 
 s32 __osDisableInt();
 void __osRestoreInt(s32);
@@ -29,7 +28,7 @@ s32 __osSiRawWriteIo(void*, u32);
 s32 osPiRawReadIo(u32 a0, u32 *a1);
 void __osSpSetStatus(u32);
 u32 __osSpGetStatus();
-s32 __osSpSetPc(void*);
+s32 __osSpSetPc(u32 data);
 s32 __osSpDeviceBusy();
 s32 __osSiDeviceBusy();
 s32 __osSpRawStartDma(u32 dir, void *sp_ptr, void *dram_ptr, size_t size);

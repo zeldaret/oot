@@ -9,7 +9,7 @@ glabel ShotSun_Destroy
 /* 000E8 80BADDA8 24010041 */  addiu   $at, $zero, 0x0041         ## $at = 00000041
 /* 000EC 80BADDAC 10410003 */  beq     $v0, $at, .L80BADDBC       
 /* 000F0 80BADDB0 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 000F4 80BADDB4 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 000F4 80BADDB4 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 000F8 80BADDB8 24C5014C */  addiu   $a1, $a2, 0x014C           ## $a1 = 0000014C
 .L80BADDBC:
@@ -17,5 +17,3 @@ glabel ShotSun_Destroy
 /* 00100 80BADDC0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00104 80BADDC4 03E00008 */  jr      $ra                        
 /* 00108 80BADDC8 00000000 */  nop
-
-

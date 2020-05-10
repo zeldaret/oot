@@ -1,19 +1,24 @@
+/*
+ * File: z_bg_jya_block.c
+ * Overlay: ovl_Bg_Jya_Block
+ * Description: Silver Block (Child Link)
+ */
+
 #include "z_bg_jya_block.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void BgJyaBlock_Init(BgJyaBlock* this, GlobalContext* globalCtx);
-void BgJyaBlock_Destroy(BgJyaBlock* this, GlobalContext* globalCtx);
-void BgJyaBlock_Update(BgJyaBlock* this, GlobalContext* globalCtx);
-void BgJyaBlock_Draw(BgJyaBlock* this, GlobalContext* globalCtx);
+#define THIS ((BgJyaBlock*)thisx)
+
+void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaBlock_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaBlock_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaBlock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
-const ActorInit Bg_Jya_Block_InitVars =
-{
+const ActorInit Bg_Jya_Block_InitVars = {
     ACTOR_BG_JYA_BLOCK,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(BgJyaBlock),

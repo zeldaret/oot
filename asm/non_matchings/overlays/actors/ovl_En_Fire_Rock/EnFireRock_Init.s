@@ -1,3 +1,45 @@
+.rdata
+glabel D_80A12D00
+    .asciz "[33m☆☆☆☆☆ 天井待ち岩 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A12D2C
+    .asciz "[33m☆☆☆☆☆ 床岩 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A12D54
+    .asciz "[33m☆☆☆☆☆ そんな岩はねぇ！ERR!!!!!! ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80A12E94
+.word L80A11D9C
+.word L80A11E70
+.word L80A11F50
+.word L80A11DD8
+.word L80A12008
+.word L80A11CF4
+.word L80A11D14
+glabel D_80A12EB0
+    .float 0.02
+
+glabel D_80A12EB4
+ .word 0x477FFF00
+glabel D_80A12EB8
+    .float 0.02
+
+glabel D_80A12EBC
+ .word 0x477FFF00
+glabel D_80A12EC0
+    .float 0.01
+
+glabel D_80A12EC4
+    .float -1.2
+
+glabel D_80A12EC8
+ .word 0x477FFF00
+
+.text
 glabel EnFireRock_Init
 /* 00000 80A11C20 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 80A11C24 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -5,11 +47,11 @@ glabel EnFireRock_Init
 /* 0000C 80A11C2C AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 00010 80A11C30 8CAF1C44 */  lw      $t7, 0x1C44($a1)           ## 00001C44
 /* 00014 80A11C34 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
-/* 00018 80A11C38 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00018 80A11C38 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 0001C 80A11C3C AFAF0030 */  sw      $t7, 0x0030($sp)           
 /* 00020 80A11C40 8498001C */  lh      $t8, 0x001C($a0)           ## 0000001C
 /* 00024 80A11C44 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00028 80A11C48 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00028 80A11C48 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0002C 80A11C4C A498018C */  sh      $t8, 0x018C($a0)           ## 0000018C
 /* 00030 80A11C50 8482018C */  lh      $v0, 0x018C($a0)           ## 0000018C
 /* 00034 80A11C54 3C074170 */  lui     $a3, 0x4170                ## $a3 = 41700000
@@ -76,14 +118,14 @@ glabel L80A11D14
 /* 00100 80A11D20 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00104 80A11D24 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00108 80A11D28 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 0010C 80A11D2C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0010C 80A11D2C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00110 80A11D30 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00114 80A11D34 3C0780A1 */  lui     $a3, %hi(D_80A12CCC)       ## $a3 = 80A10000
 /* 00118 80A11D38 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 0011C 80A11D3C 24E72CCC */  addiu   $a3, $a3, %lo(D_80A12CCC)  ## $a3 = 80A12CCC
 /* 00120 80A11D40 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00124 80A11D44 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00124 80A11D44 0C01712B */  jal     Collider_SetCylinder
               
 /* 00128 80A11D48 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0012C 80A11D4C 3C0480A1 */  lui     $a0, %hi(D_80A12D2C)       ## $a0 = 80A10000
@@ -145,14 +187,14 @@ glabel L80A11DD8
 /* 001EC 80A11E0C E602016C */  swc1    $f2, 0x016C($s0)           ## 0000016C
 /* 001F0 80A11E10 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 001F4 80A11E14 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 001F8 80A11E18 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001F8 80A11E18 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 001FC 80A11E1C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00200 80A11E20 3C0780A1 */  lui     $a3, %hi(D_80A12CA0)       ## $a3 = 80A10000
 /* 00204 80A11E24 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00208 80A11E28 24E72CA0 */  addiu   $a3, $a3, %lo(D_80A12CA0)  ## $a3 = 80A12CA0
 /* 0020C 80A11E2C 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00210 80A11E30 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00210 80A11E30 0C01712B */  jal     Collider_SetCylinder
               
 /* 00214 80A11E34 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00218 80A11E38 3C0180A1 */  lui     $at, %hi(D_80A12EB4)       ## $at = 80A10000
@@ -208,14 +250,14 @@ glabel L80A11E70
 /* 002C8 80A11EE8 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 002CC 80A11EEC E610006C */  swc1    $f16, 0x006C($s0)          ## 0000006C
 /* 002D0 80A11EF0 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 002D4 80A11EF4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 002D4 80A11EF4 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 002D8 80A11EF8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 002DC 80A11EFC 3C0780A1 */  lui     $a3, %hi(D_80A12CA0)       ## $a3 = 80A10000
 /* 002E0 80A11F00 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 002E4 80A11F04 24E72CA0 */  addiu   $a3, $a3, %lo(D_80A12CA0)  ## $a3 = 80A12CA0
 /* 002E8 80A11F08 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 002EC 80A11F0C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 002EC 80A11F0C 0C01712B */  jal     Collider_SetCylinder
               
 /* 002F0 80A11F10 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 002F4 80A11F14 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
@@ -301,5 +343,3 @@ glabel L80A12008
 /* 00404 80A12024 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00408 80A12028 03E00008 */  jr      $ra                        
 /* 0040C 80A1202C 00000000 */  nop
-
-

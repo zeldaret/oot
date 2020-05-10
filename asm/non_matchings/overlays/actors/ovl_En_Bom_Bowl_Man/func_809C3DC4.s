@@ -1,3 +1,33 @@
+.rdata
+glabel D_809C4B2C
+    .asciz "[31m☆ game_play->bomchu_game_flag ☆ %d\n[m"
+    .balign 4
+
+glabel D_809C4B5C
+    .asciz "[31m☆ 壁１の状態どう？ ☆ %d\n[m"
+    .balign 4
+
+glabel D_809C4B80
+    .asciz "[31m☆ 壁２の状態どう？ ☆ %d\n[m"
+    .balign 4
+
+glabel D_809C4BA4
+    .asciz "[31m☆ 穴情報	     ☆ %d\n[m"
+    .balign 4
+
+glabel D_809C4BC4
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809C4BC8
+    .asciz "[35m☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809C4BFC
+    .asciz "[35m☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_809C3DC4
 /* 00794 809C3DC4 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00798 809C3DC8 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -7,8 +37,8 @@ glabel func_809C3DC4
 /* 007A8 809C3DD8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
               
 /* 007AC 809C3DDC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 007B0 809C3DE0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 007B4 809C3DE4 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 007B0 809C3DE0 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 007B4 809C3DE4 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 007B8 809C3DE8 8FB8002C */  lw      $t8, 0x002C($sp)           
 /* 007BC 809C3DEC 3C050001 */  lui     $a1, 0x0001                ## $a1 = 00010000
 /* 007C0 809C3DF0 85CF12DA */  lh      $t7, 0x12DA($t6)           ## 801612DA
@@ -181,5 +211,3 @@ glabel func_809C3DC4
 /* 00A04 809C4034 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00A08 809C4038 03E00008 */  jr      $ra                        
 /* 00A0C 809C403C 00000000 */  nop
-
-

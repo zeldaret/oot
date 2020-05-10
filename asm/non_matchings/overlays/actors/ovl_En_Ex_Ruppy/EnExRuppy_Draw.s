@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A0B4D0
+    .asciz "../z_en_ex_ruppy.c"
+    .balign 4
+
+glabel D_80A0B4E4
+    .asciz "../z_en_ex_ruppy.c"
+    .balign 4
+
+glabel D_80A0B4F8
+    .asciz "../z_en_ex_ruppy.c"
+    .balign 4
+
+.text
 glabel EnExRuppy_Draw
 /* 00DCC 80A0B1DC 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00DD0 80A0B1E0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -12,7 +26,7 @@ glabel EnExRuppy_Draw
 /* 00DF4 80A0B204 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
 /* 00DF8 80A0B208 24C6B4D0 */  addiu   $a2, $a2, %lo(D_80A0B4D0)  ## $a2 = 80A0B4D0
 /* 00DFC 80A0B20C 24070306 */  addiu   $a3, $zero, 0x0306         ## $a3 = 00000306
-/* 00E00 80A0B210 0C031AB1 */  jal     func_800C6AC4              
+/* 00E00 80A0B210 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00E04 80A0B214 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00E08 80A0B218 0C024F46 */  jal     func_80093D18              
 /* 00E0C 80A0B21C 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -38,7 +52,7 @@ glabel EnExRuppy_Draw
 /* 00E5C 80A0B26C AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00E60 80A0B270 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 00E64 80A0B274 3C0480A1 */  lui     $a0, %hi(D_80A0B3B8)       ## $a0 = 80A10000
-/* 00E68 80A0B278 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 00E68 80A0B278 3C198016 */  lui     $t9, %hi(gSegments)
 /* 00E6C 80A0B27C 24480008 */  addiu   $t0, $v0, 0x0008           ## $t0 = 00000008
 /* 00E70 80A0B280 AE0802C0 */  sw      $t0, 0x02C0($s0)           ## 000002C0
 /* 00E74 80A0B284 AC490000 */  sw      $t1, 0x0000($v0)           ## 00000000
@@ -57,7 +71,7 @@ glabel EnExRuppy_Draw
 /* 00EA8 80A0B2B8 000E7F02 */  srl     $t7, $t6, 28               
 /* 00EAC 80A0B2BC 000FC080 */  sll     $t8, $t7,  2               
 /* 00EB0 80A0B2C0 0338C821 */  addu    $t9, $t9, $t8              
-/* 00EB4 80A0B2C4 8F396FA8 */  lw      $t9, 0x6FA8($t9)           ## 80166FA8
+/* 00EB4 80A0B2C4 8F396FA8 */  lw      $t9, %lo(gSegments)($t9)
 /* 00EB8 80A0B2C8 00816824 */  and     $t5, $a0, $at              
 /* 00EBC 80A0B2CC 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00EC0 80A0B2D0 01B94021 */  addu    $t0, $t5, $t9              
@@ -71,7 +85,7 @@ glabel EnExRuppy_Draw
 /* 00EE0 80A0B2F0 AC4C0004 */  sw      $t4, 0x0004($v0)           ## 00000004
 /* 00EE4 80A0B2F4 AC4B0000 */  sw      $t3, 0x0000($v0)           ## 00000000
 /* 00EE8 80A0B2F8 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 00EEC 80A0B2FC 0C031AD5 */  jal     func_800C6B54              
+/* 00EEC 80A0B2FC 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00EF0 80A0B300 24070310 */  addiu   $a3, $zero, 0x0310         ## $a3 = 00000310
 .L80A0B304:
 /* 00EF4 80A0B304 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -81,4 +95,3 @@ glabel EnExRuppy_Draw
 /* 00F04 80A0B314 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00F08 80A0B318 00000000 */  nop
 /* 00F0C 80A0B31C 00000000 */  nop
-

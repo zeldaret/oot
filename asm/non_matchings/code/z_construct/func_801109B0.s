@@ -128,7 +128,7 @@ glabel func_801109B0
 /* B87B80 801109E0 00818021 */  addu  $s0, $a0, $at
 /* B87B84 801109E4 8CC50000 */  lw    $a1, ($a2)
 /* B87B88 801109E8 AFA60058 */  sw    $a2, 0x58($sp)
-/* B87B8C 801109EC 0C02A89E */  jal   func_800AA278
+/* B87B8C 801109EC 0C02A89E */  jal   View_Init
 /* B87B90 801109F0 02002025 */   move  $a0, $s0
 /* B87B94 801109F4 A60001FC */  sh    $zero, 0x1fc($s0)
 /* B87B98 801109F8 920201FD */  lbu   $v0, 0x1fd($s0)
@@ -463,7 +463,7 @@ glabel func_801109B0
 /* B8805C 80110EBC 24A55300 */   addiu $a1, $a1, 0x5300
 /* B88060 80110EC0 0C01E258 */  jal   Health_InitData
 /* B88064 80110EC4 8FA40058 */   lw    $a0, 0x58($sp)
-/* B88068 80110EC8 0C0203DA */  jal   func_80080F68
+/* B88068 80110EC8 0C0203DA */  jal   Map_Init
 /* B8806C 80110ECC 8FA40058 */   lw    $a0, 0x58($sp)
 /* B88070 80110ED0 3C058016 */  lui   $a1, %hi(gGameInfo) # $a1, 0x8016
 /* B88074 80110ED4 24A5FA90 */  addiu $a1, %lo(gGameInfo) # addiu $a1, $a1, -0x570

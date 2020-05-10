@@ -35,5 +35,3 @@ glabel BgJyaBombchuiwa_Init
 /* 000E0 80894580 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 000E4 80894584 03E00008 */  jr      $ra                        
 /* 000E8 80894588 00000000 */  nop
-
-

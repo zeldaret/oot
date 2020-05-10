@@ -1,3 +1,21 @@
+.rdata
+glabel D_808975C4
+    .asciz "[31m"
+    .balign 4
+
+glabel D_808975CC
+    .asciz "Ｅｒｒｏｒ : Mir Ray 発生失敗 (%s %d)\n"
+    .balign 4
+
+glabel D_808975F4
+    .asciz "../z_bg_jya_cobra.c"
+    .balign 4
+
+glabel D_80897608
+    .asciz "\x1b[m"
+    .balign 4
+
+.text
 glabel func_808959C4
 /* 000D4 808959C4 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 000D8 808959C8 00A03025 */  or      $a2, $a1, $zero            ## $a2 = 00000000
@@ -47,5 +65,3 @@ glabel func_808959C4
 /* 00174 80895A64 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00178 80895A68 03E00008 */  jr      $ra                        
 /* 0017C 80895A6C 00000000 */  nop
-
-

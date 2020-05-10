@@ -28,4 +28,3 @@ glabel BgJyaMegami_Draw
 /* 00E84 8089AFB4 00000000 */  nop
 /* 00E88 8089AFB8 00000000 */  nop
 /* 00E8C 8089AFBC 00000000 */  nop
-

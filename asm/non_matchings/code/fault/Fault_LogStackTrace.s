@@ -1,6 +1,4 @@
 .rdata
-
-
 glabel D_80147300
     .asciz    "STACK TRACE\nSP       PC       (VPC)\n"
     .balign 4
@@ -15,7 +13,6 @@ glabel D_80147340
     .balign 4
 
 .text
-
 glabel Fault_LogStackTrace
 /* B4CEA8 800D5D08 3C08FFFA */  lui   $t0, (0xFFFA5A5A >> 16) # lui $t0, 0xfffa
 /* B4CEAC 800D5D0C 03A04825 */  move  $t1, $sp

@@ -1,19 +1,24 @@
+/*
+ * File: z_en_hata.c
+ * Overlay: ovl_En_Hata
+ * Description: Wooden post with red cloth
+ */
+
 #include "z_en_hata.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void EnHata_Init(EnHata* this, GlobalContext* globalCtx);
-void EnHata_Destroy(EnHata* this, GlobalContext* globalCtx);
-void EnHata_Update(EnHata* this, GlobalContext* globalCtx);
-void EnHata_Draw(EnHata* this, GlobalContext* globalCtx);
+#define THIS ((EnHata*)thisx)
+
+void EnHata_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHata_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHata_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Hata_InitVars =
-{
+const ActorInit En_Hata_InitVars = {
     ACTOR_EN_HATA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_HATA,
     sizeof(EnHata),

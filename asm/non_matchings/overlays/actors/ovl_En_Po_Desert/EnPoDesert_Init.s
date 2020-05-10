@@ -25,14 +25,14 @@ glabel EnPoDesert_Init
 /* 00054 80AD2D04 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00058 80AD2D08 26050238 */  addiu   $a1, $s0, 0x0238           ## $a1 = 00000238
 /* 0005C 80AD2D0C AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00060 80AD2D10 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00060 80AD2D10 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00064 80AD2D14 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00068 80AD2D18 3C0780AD */  lui     $a3, %hi(D_80AD39A0)       ## $a3 = 80AD0000
 /* 0006C 80AD2D1C 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 00070 80AD2D20 24E739A0 */  addiu   $a3, $a3, %lo(D_80AD39A0)  ## $a3 = 80AD39A0
 /* 00074 80AD2D24 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00078 80AD2D28 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00078 80AD2D28 0C01712B */  jal     Collider_SetCylinder
               
 /* 0007C 80AD2D2C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00080 80AD2D30 240300FF */  addiu   $v1, $zero, 0x00FF         ## $v1 = 000000FF
@@ -74,8 +74,8 @@ glabel EnPoDesert_Init
 /* 0010C 80AD2DBC 0C01E763 */  jal     Lights_InitType0PositionalLight
               
 /* 00110 80AD2DC0 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 00114 80AD2DC4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00118 80AD2DC8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00114 80AD2DC4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00118 80AD2DC8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0011C 80AD2DCC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00120 80AD2DD0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00124 80AD2DD4 0C00AC78 */  jal     ActorShape_Init
@@ -97,5 +97,3 @@ glabel EnPoDesert_Init
 /* 00160 80AD2E10 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 00164 80AD2E14 03E00008 */  jr      $ra                        
 /* 00168 80AD2E18 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

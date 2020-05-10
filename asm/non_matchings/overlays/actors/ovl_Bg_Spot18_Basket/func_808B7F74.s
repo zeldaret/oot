@@ -22,5 +22,3 @@ glabel func_808B7F74
 .L808B7FB8:
 /* 008A8 808B7FB8 03E00008 */  jr      $ra                        
 /* 008AC 808B7FBC A4800216 */  sh      $zero, 0x0216($a0)         ## 00000216
-
-

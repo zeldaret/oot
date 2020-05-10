@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A5B124
+ .word 0x43FF8000
+
+.text
 glabel func_80A59F08
 /* 002D8 80A59F08 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 002DC 80A59F0C AFA50034 */  sw      $a1, 0x0034($sp)           
@@ -10,18 +15,18 @@ glabel func_80A59F08
 /* 002F4 80A59F24 34A5B717 */  ori     $a1, $a1, 0xB717           ## $a1 = 38D1B717
 /* 002F8 80A59F28 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 002FC 80A59F2C AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 00300 80A59F30 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00300 80A59F30 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00304 80A59F34 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00308 80A59F38 3C0780A6 */  lui     $a3, %hi(D_80A5B008)       ## $a3 = 80A60000
 /* 0030C 80A59F3C 24E7B008 */  addiu   $a3, $a3, %lo(D_80A5B008)  ## $a3 = 80A5B008
 /* 00310 80A59F40 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00314 80A59F44 8FA50024 */  lw      $a1, 0x0024($sp)           
-/* 00318 80A59F48 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00318 80A59F48 0C01712B */  jal     Collider_SetCylinder
               
 /* 0031C 80A59F4C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00320 80A59F50 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00324 80A59F54 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00324 80A59F54 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00328 80A59F58 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 0032C 80A59F5C 3C01BF80 */  lui     $at, 0xBF80                ## $at = BF800000
@@ -32,8 +37,8 @@ glabel func_80A59F08
 /* 00340 80A59F70 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00344 80A59F74 0C0187B5 */  jal     func_80061ED4              
 /* 00348 80A59F78 E6040070 */  swc1    $f4, 0x0070($s0)           ## 00000070
-/* 0034C 80A59F7C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00350 80A59F80 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0034C 80A59F7C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00350 80A59F80 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00354 80A59F84 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00358 80A59F88 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0035C 80A59F8C 0C00AC78 */  jal     ActorShape_Init
@@ -86,5 +91,3 @@ glabel func_80A59F08
 /* 00408 80A5A038 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0040C 80A5A03C 03E00008 */  jr      $ra                        
 /* 00410 80A5A040 00000000 */  nop
-
-

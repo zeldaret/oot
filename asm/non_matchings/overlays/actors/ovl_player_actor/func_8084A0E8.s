@@ -1,3 +1,33 @@
+.rdata
+glabel D_808552A0
+    .asciz "../z_player.c"
+    .balign 4
+
+glabel D_808552B0
+    .asciz "../z_player.c"
+    .balign 4
+
+glabel D_808552C0
+    .asciz "../z_player.c"
+    .balign 4
+
+glabel D_808552D0
+    .asciz "../z_player.c"
+    .balign 4
+
+glabel D_808552E0
+    .asciz "../z_player.c"
+    .balign 4
+
+.late_rodata
+glabel D_808554DC
+ .word 0xC4966000
+glabel D_808554E0
+ .word 0xC4966000
+glabel D_808554E4
+ .word 0x3DE38E39
+
+.text
 glabel func_8084A0E8
 /* 17ED8 8084A0E8 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 17EDC 8084A0EC AFB00034 */  sw      $s0, 0x0034($sp)           
@@ -12,7 +42,7 @@ glabel func_8084A0E8
 /* 17F00 8084A110 24C652A0 */  addiu   $a2, $a2, %lo(D_808552A0)  ## $a2 = 808552A0
 /* 17F04 8084A114 27A4007C */  addiu   $a0, $sp, 0x007C           ## $a0 = FFFFFFEC
 /* 17F08 8084A118 24074B1C */  addiu   $a3, $zero, 0x4B1C         ## $a3 = 00004B1C
-/* 17F0C 8084A11C 0C031AB1 */  jal     func_800C6AC4              
+/* 17F0C 8084A11C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 17F10 8084A120 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 17F14 8084A124 8E2302C0 */  lw      $v1, 0x02C0($s1)           ## 000002C0
 /* 17F18 8084A128 8FA5009C */  lw      $a1, 0x009C($sp)           
@@ -23,8 +53,8 @@ glabel func_8084A0E8
 /* 17F2C 8084A13C AC640000 */  sw      $a0, 0x0000($v1)           ## 00000000
 /* 17F30 8084A140 AC650004 */  sw      $a1, 0x0004($v1)           ## 00000004
 /* 17F34 8084A144 8E2202D0 */  lw      $v0, 0x02D0($s1)           ## 000002D0
-/* 17F38 8084A148 3C0C8009 */  lui     $t4, 0x8009                ## $t4 = 80090000
-/* 17F3C 8084A14C 258C0D20 */  addiu   $t4, $t4, 0x0D20           ## $t4 = 80090D20
+/* 17F38 8084A148 3C0C8009 */  lui     $t4, %hi(func_80090D20)
+/* 17F3C 8084A14C 258C0D20 */  addiu   $t4, %lo(func_80090D20)
 /* 17F40 8084A150 24580008 */  addiu   $t8, $v0, 0x0008           ## $t8 = 00000008
 /* 17F44 8084A154 AE3802D0 */  sw      $t8, 0x02D0($s1)           ## 000002D0
 /* 17F48 8084A158 AC450004 */  sw      $a1, 0x0004($v0)           ## 00000004
@@ -47,8 +77,8 @@ glabel func_8084A0E8
 /* 17F8C 8084A19C 0C023D1C */  jal     func_8008F470              
 /* 17F90 8084A1A0 AFAA001C */  sw      $t2, 0x001C($sp)           
 /* 17F94 8084A1A4 8FAD00A0 */  lw      $t5, 0x00A0($sp)           
-/* 17F98 8084A1A8 3C0E8009 */  lui     $t6, 0x8009                ## $t6 = 80090000
-/* 17F9C 8084A1AC 25CE0014 */  addiu   $t6, $t6, 0x0014           ## $t6 = 80090014
+/* 17F98 8084A1A8 3C0E8009 */  lui     $t6, %hi(func_80090014)
+/* 17F9C 8084A1AC 25CE0014 */  addiu   $t6, %lo(func_80090014)
 /* 17FA0 8084A1B0 55AE0051 */  bnel    $t5, $t6, .L8084A2F8       
 /* 17FA4 8084A1B4 8209014F */  lb      $t1, 0x014F($s0)           ## 0000014F
 /* 17FA8 8084A1B8 920F015F */  lbu     $t7, 0x015F($s0)           ## 0000015F
@@ -274,7 +304,7 @@ glabel func_8084A0E8
 /* 182FC 8084A50C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 18300 8084A510 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 18304 8084A514 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 18308 8084A518 0C0253D0 */  jal     Draw_TwoTexScroll              
+/* 18308 8084A518 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 1830C 8084A51C 00408025 */  or      $s0, $v0, $zero            ## $s0 = 00000000
 /* 18310 8084A520 AE020004 */  sw      $v0, 0x0004($s0)           ## 00000004
 /* 18314 8084A524 8E2202D0 */  lw      $v0, 0x02D0($s1)           ## 000002D0
@@ -312,12 +342,10 @@ glabel func_8084A0E8
 /* 1838C 8084A59C 24C652E0 */  addiu   $a2, $a2, %lo(D_808552E0)  ## $a2 = 808552E0
 /* 18390 8084A5A0 27A4007C */  addiu   $a0, $sp, 0x007C           ## $a0 = FFFFFFEC
 /* 18394 8084A5A4 24074B80 */  addiu   $a3, $zero, 0x4B80         ## $a3 = 00004B80
-/* 18398 8084A5A8 0C031AD5 */  jal     func_800C6B54              
+/* 18398 8084A5A8 0C031AD5 */  jal     Graph_CloseDisps              
 /* 1839C 8084A5AC 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000008
 /* 183A0 8084A5B0 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 183A4 8084A5B4 8FB00034 */  lw      $s0, 0x0034($sp)           
 /* 183A8 8084A5B8 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 183AC 8084A5BC 03E00008 */  jr      $ra                        
 /* 183B0 8084A5C0 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-
-

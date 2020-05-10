@@ -4,28 +4,22 @@
  * Description: Unknown (Broken Actor)
  */
 
-#include <ultra64.h>
-#include <global.h>
+#include "z_en_scene_change.h"
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ ActorFunc updateFunc;
-} EnSceneChange; // size = 0x0150
-
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void EnSceneChange_Init(EnSceneChange* this, GlobalContext* globalCtx);
-static void EnSceneChange_Destroy(EnSceneChange* this, GlobalContext* globalCtx);
-static void EnSceneChange_Update(EnSceneChange* this, GlobalContext* globalCtx);
-static void EnSceneChange_Draw(EnSceneChange* this, GlobalContext* globalCtx);
-static void func_80AF8C70(EnSceneChange* this, ActorFunc updateFunc);
-static void func_80AF8CAC(EnSceneChange* this, GlobalContext* globalCtx);
+#define THIS ((EnSceneChange*)thisx)
+
+void EnSceneChange_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSceneChange_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSceneChange_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSceneChange_Draw(Actor* thisx, GlobalContext* globalCtx);
+
+void func_80AF8CAC(EnSceneChange* this, GlobalContext* globalCtx);
 
 const ActorInit En_Scene_Change_InitVars = {
     ACTOR_EN_SCENE_CHANGE,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_JJ,
     sizeof(EnSceneChange),
@@ -35,41 +29,45 @@ const ActorInit En_Scene_Change_InitVars = {
     (ActorFunc)EnSceneChange_Draw,
 };
 
-static void func_80AF8C70(EnSceneChange* this, ActorFunc updateFunc) {
-    this->updateFunc = updateFunc;
+void EnSceneChange_SetupAction(EnSceneChange* this, EnSceneChangeActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
 }
 
-static void EnSceneChange_Init(EnSceneChange* this, GlobalContext* globalCtx) {
-    func_80AF8C70(this, func_80AF8CAC);
+void EnSceneChange_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnSceneChange* this = THIS;
+
+    EnSceneChange_SetupAction(this, func_80AF8CAC);
 }
 
-static void EnSceneChange_Destroy(EnSceneChange* this, GlobalContext* globalCtx) {
+void EnSceneChange_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-static void func_80AF8CAC(EnSceneChange* this, GlobalContext* globalCtx) {
+void func_80AF8CAC(EnSceneChange* this, GlobalContext* globalCtx) {
 }
 
-static void EnSceneChange_Update(EnSceneChange* this, GlobalContext* globalCtx) {
-    this->updateFunc(&this->actor, globalCtx);
+void EnSceneChange_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnSceneChange* this = THIS;
+
+    this->actionFunc(this, globalCtx);
 }
 
-static void EnSceneChange_Draw(EnSceneChange* this, GlobalContext* globalCtx) {
-    s32 pad[0x2];
+void EnSceneChange_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad[2];
     Gfx* displayList;
-    s32 pad1[0x2];
+    s32 pad2[2];
     Gfx* displayListHead;
     GraphicsContext* gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
     displayList = Graph_Alloc(globalCtx->state.gfxCtx, 0x3C0);
 
     gfxCtx = globalCtx->state.gfxCtx;
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 290);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 290);
 
     displayListHead = displayList;
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, displayListHead);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 386);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_scene_change.c", 386);
 }

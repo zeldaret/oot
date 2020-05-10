@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80AC9604
+    .float 0.85
+
+.text
 glabel func_80AC6490
 /* 037F0 80AC6490 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 037F4 80AC6494 44810000 */  mtc1    $at, $f0                   ## $f0 = 1.00
@@ -41,5 +46,3 @@ glabel func_80AC6490
 /* 03880 80AC6520 8FB00018 */  lw      $s0, 0x0018($sp)           
 /* 03884 80AC6524 03E00008 */  jr      $ra                        
 /* 03888 80AC6528 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

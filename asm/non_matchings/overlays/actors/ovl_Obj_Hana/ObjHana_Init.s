@@ -28,18 +28,18 @@ glabel ObjHana_Init
 /* 00060 80B938C0 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00064 80B938C4 05200015 */  bltz    $t1, .L80B9391C            
 /* 00068 80B938C8 00000000 */  nop
-/* 0006C 80B938CC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0006C 80B938CC 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00070 80B938D0 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00074 80B938D4 3C0780B9 */  lui     $a3, %hi(D_80B93A70)       ## $a3 = 80B90000
 /* 00078 80B938D8 24E73A70 */  addiu   $a3, $a3, %lo(D_80B93A70)  ## $a3 = 80B93A70
 /* 0007C 80B938DC 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00080 80B938E0 8FA50024 */  lw      $a1, 0x0024($sp)           
-/* 00084 80B938E4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00084 80B938E4 0C01712B */  jal     Collider_SetCylinder
               
 /* 00088 80B938E8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0008C 80B938EC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00090 80B938F0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00090 80B938F0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00094 80B938F4 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00098 80B938F8 862A000C */  lh      $t2, 0x000C($s1)           ## 0000000C
@@ -55,8 +55,8 @@ glabel ObjHana_Init
 /* 000BC 80B9391C 3C0C80B9 */  lui     $t4, %hi(D_80B93AC4)       ## $t4 = 80B90000
 /* 000C0 80B93920 258C3AC4 */  addiu   $t4, $t4, %lo(D_80B93AC4)  ## $t4 = 80B93AC4
 /* 000C4 80B93924 162C0007 */  bne     $s1, $t4, .L80B93944       
-/* 000C8 80B93928 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
-/* 000CC 80B9392C 95ADF53C */  lhu     $t5, -0x0AC4($t5)          ## 8015F53C
+/* 000C8 80B93928 3C0D8016 */  lui     $t5, %hi(gSaveContext+0xedc)
+/* 000CC 80B9392C 95ADF53C */  lhu     $t5, %lo(gSaveContext+0xedc)($t5)
 /* 000D0 80B93930 31AE0001 */  andi    $t6, $t5, 0x0001           ## $t6 = 00000000
 /* 000D4 80B93934 51C00004 */  beql    $t6, $zero, .L80B93948     
 /* 000D8 80B93938 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -70,5 +70,3 @@ glabel ObjHana_Init
 /* 000EC 80B9394C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 000F0 80B93950 03E00008 */  jr      $ra                        
 /* 000F4 80B93954 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

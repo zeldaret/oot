@@ -4,9 +4,11 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct OceffWipe4;
+
+typedef struct OceffWipe4 {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x4];
+    /* 0x014C */ s16 counter;
 } OceffWipe4; // size = 0x0150
 
 extern const ActorInit Oceff_Wipe4_InitVars;

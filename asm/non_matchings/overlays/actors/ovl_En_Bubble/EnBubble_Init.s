@@ -4,17 +4,17 @@ glabel EnBubble_Init
 /* 00C94 809CC894 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00C98 809CC898 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00C9C 809CC89C AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 00CA0 809CC8A0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00CA0 809CC8A0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00CA4 809CC8A4 3C073E4C */  lui     $a3, 0x3E4C                ## $a3 = 3E4C0000
 /* 00CA8 809CC8A8 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3E4CCCCD
-/* 00CAC 809CC8AC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00CAC 809CC8AC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00CB0 809CC8B0 3C054180 */  lui     $a1, 0x4180                ## $a1 = 41800000
 /* 00CB4 809CC8B4 0C00AC78 */  jal     ActorShape_Init
               
 /* 00CB8 809CC8B8 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00CBC 809CC8BC 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 00CC0 809CC8C0 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 00CC4 809CC8C4 0C016EFE */  jal     func_8005BBF8              
+/* 00CC4 809CC8C4 0C016EFE */  jal     Collider_InitJntSph              
 /* 00CC8 809CC8C8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00CCC 809CC8CC 3C07809D */  lui     $a3, %hi(D_809CCE78)       ## $a3 = 809D0000
 /* 00CD0 809CC8D0 260E0170 */  addiu   $t6, $s0, 0x0170           ## $t6 = 00000170
@@ -22,9 +22,9 @@ glabel EnBubble_Init
 /* 00CD8 809CC8D8 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 00CDC 809CC8DC 24E7CE78 */  addiu   $a3, $a3, %lo(D_809CCE78)  ## $a3 = 809CCE78
 /* 00CE0 809CC8E0 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00CE4 809CC8E4 0C017014 */  jal     func_8005C050              
+/* 00CE4 809CC8E4 0C017014 */  jal     Collider_SetJntSph              
 /* 00CE8 809CC8E8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00CEC 809CC8EC 0C016C80 */  jal     CollisionBtlTbl_Get
+/* 00CEC 809CC8EC 0C016C80 */  jal     DamageTable_Get
               
 /* 00CF0 809CC8F0 24040009 */  addiu   $a0, $zero, 0x0009         ## $a0 = 00000009
 /* 00CF4 809CC8F4 3C06809D */  lui     $a2, %hi(D_809CCE88)       ## $a2 = 809D0000
@@ -68,5 +68,3 @@ glabel EnBubble_Init
 /* 00D80 809CC980 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00D84 809CC984 03E00008 */  jr      $ra                        
 /* 00D88 809CC988 00000000 */  nop
-
-

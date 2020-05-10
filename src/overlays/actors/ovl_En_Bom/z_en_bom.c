@@ -1,19 +1,18 @@
 #include "z_en_bom.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-void EnBom_Init(EnBom* this, GlobalContext* globalCtx);
-void EnBom_Destroy(EnBom* this, GlobalContext* globalCtx);
-void EnBom_Update(EnBom* this, GlobalContext* globalCtx);
-void EnBom_Draw(EnBom* this, GlobalContext* globalCtx);
+#define THIS ((EnBom*)thisx)
+
+void EnBom_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBom_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Bom_InitVars =
-{
+const ActorInit En_Bom_InitVars = {
     ACTOR_EN_BOM,
     ACTORTYPE_EXPLOSIVES,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBom),

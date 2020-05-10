@@ -16,5 +16,3 @@ glabel EnGe3_Update
 /* 0082C 80A34E4C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00830 80A34E50 03E00008 */  jr      $ra                        
 /* 00834 80A34E54 00000000 */  nop
-
-

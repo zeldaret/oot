@@ -29,5 +29,3 @@ glabel BgSpot15Rrbox_Update
 /* 00BEC 808B454C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00BF0 808B4550 03E00008 */  jr      $ra                        
 /* 00BF4 808B4554 00000000 */  nop
-
-

@@ -31,7 +31,7 @@ glabel BgJyaBombiwa_Update
 /* 004F4 80895694 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00001E60
 /* 004F8 80895698 02012821 */  addu    $a1, $s0, $at              
 /* 004FC 8089569C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00500 808956A0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00500 808956A0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00504 808956A4 26260168 */  addiu   $a2, $s1, 0x0168           ## $a2 = 00000168
 /* 00508 808956A8 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -40,5 +40,3 @@ glabel BgJyaBombiwa_Update
 /* 00510 808956B0 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00514 808956B4 03E00008 */  jr      $ra                        
 /* 00518 808956B8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

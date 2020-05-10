@@ -2,7 +2,7 @@
 
 FORMAT_OPTS="-i -style=file"
 TIDY_OPTS="-p . --fix --fix-errors"
-COMPILER_OPTS="-fno-builtin -std=gnu90 -Iinclude -Isrc -D_LANGUAGE_C"
+COMPILER_OPTS="-fno-builtin -std=gnu90 -Iinclude -Isrc -D_LANGUAGE_C -DNON_MATCHING"
 
 shopt -s globstar
 

@@ -24,7 +24,7 @@ glabel func_80889C90
 /* 00384 80889CE4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00388 80889CE8 3C058089 */  lui     $a1, %hi(func_80889D28)    ## $a1 = 80890000
 /* 0038C 80889CEC 24A59D28 */  addiu   $a1, $a1, %lo(func_80889D28) ## $a1 = 80889D28
-/* 00390 80889CF0 0C222658 */  jal     func_80889960              
+/* 00390 80889CF0 0C222658 */  jal     BgHidanKousi_SetupAction              
 /* 00394 80889CF4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00398 80889CF8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0039C 80889CFC 0C00BE0A */  jal     Audio_PlayActorSound2
@@ -41,5 +41,3 @@ glabel func_80889C90
 /* 003BC 80889D1C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 003C0 80889D20 03E00008 */  jr      $ra                        
 /* 003C4 80889D24 00000000 */  nop
-
-

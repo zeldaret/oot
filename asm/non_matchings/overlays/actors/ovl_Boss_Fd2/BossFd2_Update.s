@@ -1,3 +1,9 @@
+.rdata
+glabel D_808D63A0
+    .asciz "FD2 move start \n"
+    .balign 4
+
+.text
 glabel BossFd2_Update
 /* 02764 808D4DD4 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 02768 808D4DD8 AFB00014 */  sw      $s0, 0x0014($sp)           
@@ -65,12 +71,12 @@ glabel BossFd2_Update
 /* 02848 808D4EB8 2606141C */  addiu   $a2, $s0, 0x141C           ## $a2 = 0000141C
 /* 0284C 808D4EBC AFA60024 */  sw      $a2, 0x0024($sp)           
 /* 02850 808D4EC0 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 02854 808D4EC4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 02854 808D4EC4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 02858 808D4EC8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0285C 808D4ECC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02860 808D4ED0 8FA50028 */  lw      $a1, 0x0028($sp)           
-/* 02864 808D4ED4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02864 808D4ED4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02868 808D4ED8 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 0286C 808D4EDC 92180194 */  lbu     $t8, 0x0194($s0)           ## 00000194
@@ -78,7 +84,7 @@ glabel BossFd2_Update
 /* 02874 808D4EE4 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 02878 808D4EE8 57000004 */  bnel    $t8, $zero, .L808D4EFC     
 /* 0287C 808D4EEC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 02880 808D4EF0 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 02880 808D4EF0 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 02884 808D4EF4 8FA60024 */  lw      $a2, 0x0024($sp)           
 /* 02888 808D4EF8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -123,5 +129,3 @@ glabel BossFd2_Update
 /* 02918 808D4F88 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 0291C 808D4F8C 03E00008 */  jr      $ra                        
 /* 02920 808D4F90 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

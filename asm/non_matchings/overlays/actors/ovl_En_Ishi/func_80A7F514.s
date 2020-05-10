@@ -58,12 +58,12 @@ glabel func_80A7F514
 /* 0118C 80A7F5EC 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
 /* 01190 80A7F5F0 000E7880 */  sll     $t7, $t6,  2               
 /* 01194 80A7F5F4 022FC021 */  addu    $t8, $s1, $t7              
-/* 01198 80A7F5F8 0C024BE2 */  jal     func_80092F88              
+/* 01198 80A7F5F8 0C024BE2 */  jal     Quake_Add              
 /* 0119C 80A7F5FC 8F040790 */  lw      $a0, 0x0790($t8)           ## 00000790
 /* 011A0 80A7F600 00022400 */  sll     $a0, $v0, 16               
 /* 011A4 80A7F604 AFA20040 */  sw      $v0, 0x0040($sp)           
 /* 011A8 80A7F608 00042403 */  sra     $a0, $a0, 16               
-/* 011AC 80A7F60C 0C024B6B */  jal     func_80092DAC              
+/* 011AC 80A7F60C 0C024B6B */  jal     Quake_SetSpeed              
 /* 011B0 80A7F610 2405C350 */  addiu   $a1, $zero, 0xC350         ## $a1 = FFFFC350
 /* 011B4 80A7F614 87B10042 */  lh      $s1, 0x0042($sp)           
 /* 011B8 80A7F618 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
@@ -71,11 +71,11 @@ glabel func_80A7F514
 /* 011C0 80A7F620 00112400 */  sll     $a0, $s1, 16               
 /* 011C4 80A7F624 00042403 */  sra     $a0, $a0, 16               
 /* 011C8 80A7F628 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 011CC 80A7F62C 0C024B9C */  jal     func_80092E70              
+/* 011CC 80A7F62C 0C024B9C */  jal     Quake_SetQuakeValues              
 /* 011D0 80A7F630 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 011D4 80A7F634 00112400 */  sll     $a0, $s1, 16               
 /* 011D8 80A7F638 00042403 */  sra     $a0, $a0, 16               
-/* 011DC 80A7F63C 0C024B7C */  jal     func_80092DF0              
+/* 011DC 80A7F63C 0C024B7C */  jal     Quake_SetCountdown              
 /* 011E0 80A7F640 24050007 */  addiu   $a1, $zero, 0x0007         ## $a1 = 00000007
 /* 011E4 80A7F644 C60C008C */  lwc1    $f12, 0x008C($s0)          ## 0000008C
 /* 011E8 80A7F648 240500FF */  addiu   $a1, $zero, 0x00FF         ## $a1 = 000000FF
@@ -214,14 +214,14 @@ glabel func_80A7F514
 /* 013DC 80A7F83C 26060150 */  addiu   $a2, $s0, 0x0150           ## $a2 = 00000150
 /* 013E0 80A7F840 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000150
 /* 013E4 80A7F844 AFA60030 */  sw      $a2, 0x0030($sp)           
-/* 013E8 80A7F848 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 013E8 80A7F848 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 013EC 80A7F84C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 013F0 80A7F850 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 013F4 80A7F854 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 013F8 80A7F858 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 013FC 80A7F85C 02212821 */  addu    $a1, $s1, $at              
-/* 01400 80A7F860 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01400 80A7F860 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01404 80A7F864 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01408 80A7F868 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -230,5 +230,3 @@ glabel func_80A7F514
 /* 01410 80A7F870 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 01414 80A7F874 03E00008 */  jr      $ra                        
 /* 01418 80A7F878 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

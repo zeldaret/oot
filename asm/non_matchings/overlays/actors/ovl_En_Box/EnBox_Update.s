@@ -87,5 +87,3 @@ glabel EnBox_Update
 /* 0150C 809CA2CC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 01510 809CA2D0 03E00008 */  jr      $ra                        
 /* 01514 809CA2D4 00000000 */  nop
-
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A11868
+    .asciz "FF MOVE 1\n"
+    .balign 4
+
+glabel D_80A11874
+    .asciz "FF MOVE 2\n"
+    .balign 4
+
+.text
 glabel func_80A0FA90
 /* 00830 80A0FA90 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00834 80A0FA94 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -125,5 +135,3 @@ glabel func_80A0FA90
 /* 009DC 80A0FC3C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 009E0 80A0FC40 03E00008 */  jr      $ra                        
 /* 009E4 80A0FC44 00000000 */  nop
-
-

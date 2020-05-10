@@ -33,7 +33,7 @@ glabel func_80A734F8
 /* 0057C 80A7356C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00580 80A73570 45020004 */  bc1fl   .L80A73584                 
 /* 00584 80A73574 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00588 80A73578 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00588 80A73578 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 0058C 80A7357C 2606015C */  addiu   $a2, $s0, 0x015C           ## $a2 = 0000015C
 /* 00590 80A73580 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -45,5 +45,3 @@ glabel func_80A734F8
 /* 005A4 80A73594 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 005A8 80A73598 03E00008 */  jr      $ra                        
 /* 005AC 80A7359C 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

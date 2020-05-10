@@ -2,7 +2,7 @@
 #include <global.h>
 
 void func_80110990(GlobalContext* globalCtx) {
-    func_80080F44(globalCtx);
+    Map_Destroy(globalCtx);
 }
 
 #ifdef NON_MATCHING
@@ -19,7 +19,7 @@ void func_801109B0(GlobalContext* globalCtx) {
     gSaveContext.unk_13EA = 0;
     gSaveContext.unk_13E8 = 0;
 
-    func_800AA278(&interfaceCtx->view, globalCtx->state.gfxCtx);
+    View_Init(&interfaceCtx->view, globalCtx->state.gfxCtx);
 
     interfaceCtx->unk_1EC = interfaceCtx->unk_1EE = 0;
     interfaceCtx->unk_1FA = interfaceCtx->unk_261 = interfaceCtx->unk_1FC = 0;
@@ -44,8 +44,9 @@ void func_801109B0(GlobalContext* globalCtx) {
 
     osSyncPrintf("parameter->parameterSegment=%x", interfaceCtx->parameterSegment);
 
-    if (interfaceCtx->parameterSegment == NULL)
+    if (interfaceCtx->parameterSegment == NULL) {
         __assert("parameter->parameterSegment != NULL", "../z_construct.c", 161);
+    }
 
     DmaMgr_SendRequest1(interfaceCtx->parameterSegment, parameterStart, parameterSize, "../z_construct.c", 162);
 
@@ -55,27 +56,30 @@ void func_801109B0(GlobalContext* globalCtx) {
     osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 0x480);
     osSyncPrintf("parameter->do_actionSegment=%x", interfaceCtx->do_actionSegment);
 
-    if (interfaceCtx->do_actionSegment == NULL)
+    if (interfaceCtx->do_actionSegment == NULL) {
         __assert("parameter->do_actionSegment != NULL", "../z_construct.c", 169);
+    }
 
     do_actionStart = _do_action_staticSegmentRomStart;
 
-    if (gSaveContext.language == 0)
+    if (gSaveContext.language == 0) {
         do_actionOffset = 0;
-    else if (gSaveContext.language == 1)
+    } else if (gSaveContext.language == 1) {
         do_actionOffset = 0x2B80;
-    else
+    } else {
         do_actionOffset = 0x5700;
+    }
 
     DmaMgr_SendRequest1(interfaceCtx->do_actionSegment, do_actionStart + do_actionOffset, 0x300, "../z_construct.c",
                         174);
 
-    if (gSaveContext.language == 0)
+    if (gSaveContext.language == 0) {
         do_actionOffset = 0x480;
-    else if (gSaveContext.language == 1)
+    } else if (gSaveContext.language == 1) {
         do_actionOffset = 0x3000;
-    else
+    } else {
         do_actionOffset = 0x5B80;
+    }
 
     DmaMgr_SendRequest1((void*)((u32)interfaceCtx->do_actionSegment + 0x300), do_actionStart + do_actionOffset, 0x180,
                         "../z_construct.c", 178);
@@ -86,75 +90,82 @@ void func_801109B0(GlobalContext* globalCtx) {
     osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", 0x4000);
     osSyncPrintf("parameter->icon_itemSegment=%x\n", interfaceCtx->icon_itemSegment);
 
-    if (interfaceCtx->icon_itemSegment == NULL)
+    if (interfaceCtx->icon_itemSegment == NULL) {
         __assert("parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
+    }
 
-    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.equips.button_items[0],
-                 gSaveContext.equips.button_items[1], gSaveContext.equips.button_items[2],
-                 gSaveContext.equips.button_items[3]);
+    osSyncPrintf("Register_Item[%x, %x, %x, %x]\n", gSaveContext.equips.buttonItems[0],
+                 gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],
+                 gSaveContext.equips.buttonItems[3]);
 
-    if (gSaveContext.equips.button_items[0] < 0xF0)
+    if (gSaveContext.equips.buttonItems[0] < 0xF0) {
         DmaMgr_SendRequest1(interfaceCtx->icon_itemSegment,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[0] * 0x80, 0x1000,
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x80, 0x1000,
                             "../z_construct.c", 198);
-    else if (gSaveContext.equips.button_items[0] != 0xFF)
+    } else if (gSaveContext.equips.buttonItems[0] != 0xFF) {
         DmaMgr_SendRequest1(interfaceCtx->icon_itemSegment,
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[0] * 0x80, 0x1000,
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x80, 0x1000,
                             "../z_construct.c", 203);
+    }
 
-    if (gSaveContext.equips.button_items[1] < 0xF0)
+    if (gSaveContext.equips.buttonItems[1] < 0xF0) {
         DmaMgr_SendRequest1((void*)((u32)interfaceCtx->icon_itemSegment + 0x1000),
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[1] * 0x80, 0x1000,
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[1] * 0x80, 0x1000,
                             "../z_construct.c", 209);
+    }
 
-    if (gSaveContext.equips.button_items[2] < 0xF0)
+    if (gSaveContext.equips.buttonItems[2] < 0xF0) {
         DmaMgr_SendRequest1((void*)((u32)interfaceCtx->icon_itemSegment + 0x2000),
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[2] * 0x80, 0x1000,
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[2] * 0x80, 0x1000,
                             "../z_construct.c", 214);
+    }
 
-    if (gSaveContext.equips.button_items[3] < 0xF0)
+    if (gSaveContext.equips.buttonItems[3] < 0xF0) {
         DmaMgr_SendRequest1((void*)((u32)interfaceCtx->icon_itemSegment + 0x3000),
-                            _icon_item_staticSegmentRomStart + gSaveContext.equips.button_items[3] * 0x80, 0x1000,
+                            _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[3] * 0x80, 0x1000,
                             "../z_construct.c", 219);
+    }
 
-    osSyncPrintf("ＥＶＥＮＴ＝%d\n", gSaveContext.timer_1_state);
+    osSyncPrintf("ＥＶＥＮＴ＝%d\n", gSaveContext.timer1State);
 
-    if ((gSaveContext.timer_1_state == 4) || (gSaveContext.timer_1_state == 8) || (gSaveContext.timer_2_state == 4) ||
-        (gSaveContext.timer_2_state == 10)) {
-        osSyncPrintf("restart_flag=%d\n", gSaveContext.respawn_flag);
+    if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8) || (gSaveContext.timer2State == 4) ||
+        (gSaveContext.timer2State == 10)) {
+        osSyncPrintf("restart_flag=%d\n", gSaveContext.respawnFlag);
 
-        if ((gSaveContext.respawn_flag == -1) || (gSaveContext.respawn_flag == 1)) {
-            if (gSaveContext.timer_1_state == 4) {
-                gSaveContext.timer_1_state = 1;
-                gSaveContext.timer_x[0] = 140;
-                gSaveContext.timer_y[0] = 80;
+        if ((gSaveContext.respawnFlag == -1) || (gSaveContext.respawnFlag == 1)) {
+            if (gSaveContext.timer1State == 4) {
+                gSaveContext.timer1State = 1;
+                gSaveContext.timerX[0] = 140;
+                gSaveContext.timerY[0] = 80;
             }
         }
 
-        if ((gSaveContext.timer_1_state == 4) || (gSaveContext.timer_1_state == 8))
+        if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8)) {
             temp = 0;
-        else
+        } else {
             temp = 1;
+        }
 
-        gSaveContext.timer_x[temp] = 26;
+        gSaveContext.timerX[temp] = 26;
 
-        if (gSaveContext.health_capacity > 0xA0)
-            gSaveContext.timer_y[temp] = 54;
-        else
-            gSaveContext.timer_y[temp] = 46;
+        if (gSaveContext.healthCapacity > 0xA0) {
+            gSaveContext.timerY[temp] = 54;
+        } else {
+            gSaveContext.timerY[temp] = 46;
+        }
     }
 
-    if ((gSaveContext.timer_1_state >= 11) && (gSaveContext.timer_1_state < 16)) {
-        gSaveContext.timer_1_state = 0;
+    if ((gSaveContext.timer1State >= 11) && (gSaveContext.timer1State < 16)) {
+        gSaveContext.timer1State = 0;
         // Translates to: "Timer Stop!!!!!!!!!!!!!!!!!!!!!!"
-        osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timer_1_state);
+        osSyncPrintf("タイマー停止！！！！！！！！！！！！！！！！！！！！！  = %d\n", gSaveContext.timer1State);
     }
 
     // Translates to: "Parameter Area = %x"
     osSyncPrintf("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300);
 
     Health_InitData(globalCtx);
-    func_80080F68(globalCtx);
+    Map_Init(globalCtx);
 
     interfaceCtx->unk_242 = 0;
     interfaceCtx->unk_23C = 0;
@@ -188,7 +199,7 @@ void func_80110F68(GlobalContext* globalCtx) {
     msgCtx->unk_E2F8 = msgCtx->unk_E3E4 = msgCtx->choiceIndex = msgCtx->unk_E3F0 = msgCtx->unk_E3D6 = 0;
     msgCtx->unk_E3E2 = 0xFF;
 
-    func_800AA278(&msgCtx->view, globalCtx->state.gfxCtx);
+    View_Init(&msgCtx->view, globalCtx->state.gfxCtx);
 
     msgCtx->textboxSegment = Game_Alloc(&globalCtx->state, 0x2200, "../z_construct.c", 349);
 
@@ -472,9 +483,9 @@ void func_80111070(void) {
     WREG(26) = -0x28;
     WREG(27) = 0;
     WREG(28) = 0;
-    WREG(29) = 0xEE;
-    WREG(30) = 0xA4;
-    WREG(31) = 0;
+    R_OW_MINIMAP_X = 0xEE;
+    R_OW_MINIMAP_Y = 0xA4;
+    R_MINIMAP_TOGGLED = 0;
     WREG(32) = 0x7A;
     WREG(33) = 0x3C;
     WREG(35) = 0;
@@ -509,8 +520,8 @@ void func_80111070(void) {
     WREG(64) = -0x25;
     WREG(65) = 0x1E;
     WREG(66) = -0x32;
-    WREG(68) = 0xCC;
-    WREG(69) = 0x8C;
+    R_DGN_MINIMAP_X = 0xCC;
+    R_DGN_MINIMAP_Y = 0x8C;
     WREG(87) = 0x50;
     WREG(88) = 0x46;
     WREG(89) = 0x28;
@@ -521,7 +532,7 @@ void func_80111070(void) {
     WREG(94) = 3;
     WREG(95) = 6;
 
-    if (gSaveContext.game_mode == 0) {
+    if (gSaveContext.gameMode == 0) {
         VREG(0) = 0x34;
         VREG(1) = 0x24;
         VREG(2) = 0xD6;
@@ -532,13 +543,13 @@ void func_80111070(void) {
         VREG(7) = 0x4E;
         VREG(8) = 0xA6;
         VREG(9) = 0x28;
-        VREG(14) = 0x20;
-        VREG(15) = 0x20;
-        VREG(16) = 0x6E;
-        VREG(17) = -0x2E4;
-        VREG(18) = 0;
-        VREG(19) = 0xFF;
-        VREG(20) = 0xFF;
+        R_COMPASS_SCALE_X = 0x20;
+        R_COMPASS_SCALE_Y = 0x20;
+        R_COMPASS_OFFSET_X = 0x6E;
+        R_COMPASS_OFFSET_Y = -0x2E4;
+        R_MINIMAP_COLOR(0) = 0;
+        R_MINIMAP_COLOR(1) = 0xFF;
+        R_MINIMAP_COLOR(2) = 0xFF;
     }
 
     VREG(21) = 0;

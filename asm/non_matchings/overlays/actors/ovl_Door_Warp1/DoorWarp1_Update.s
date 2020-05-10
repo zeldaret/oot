@@ -26,5 +26,3 @@ glabel DoorWarp1_Update
 /* 029B4 8099B134 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 029B8 8099B138 03E00008 */  jr      $ra                        
 /* 029BC 8099B13C 00000000 */  nop
-
-

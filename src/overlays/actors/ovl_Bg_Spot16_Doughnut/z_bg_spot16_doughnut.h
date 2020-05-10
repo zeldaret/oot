@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct BgSpot16Doughnut;
+
+typedef struct BgSpot16Doughnut {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x8];
 } BgSpot16Doughnut; // size = 0x0154

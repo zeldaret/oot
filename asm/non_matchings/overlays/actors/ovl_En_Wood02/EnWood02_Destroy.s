@@ -7,7 +7,7 @@ glabel EnWood02_Destroy
 /* 0078C 80B3B6FC 29C1000B */  slti    $at, $t6, 0x000B           
 /* 00790 80B3B700 50200004 */  beql    $at, $zero, .L80B3B714     
 /* 00794 80B3B704 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00798 80B3B708 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00798 80B3B708 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0079C 80B3B70C 24C50158 */  addiu   $a1, $a2, 0x0158           ## $a1 = 00000158
 /* 007A0 80B3B710 8FBF0014 */  lw      $ra, 0x0014($sp)           
@@ -15,5 +15,3 @@ glabel EnWood02_Destroy
 /* 007A4 80B3B714 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 007A8 80B3B718 03E00008 */  jr      $ra                        
 /* 007AC 80B3B71C 00000000 */  nop
-
-

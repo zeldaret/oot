@@ -1,19 +1,24 @@
+/*
+ * File: z_en_dha.c
+ * Overlay: ovl_En_Dha
+ * Description: Dead Hand's Hand
+ */
+
 #include "z_en_dha.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000015
 
-void EnDha_Init(EnDha* this, GlobalContext* globalCtx);
-void EnDha_Destroy(EnDha* this, GlobalContext* globalCtx);
-void EnDha_Update(EnDha* this, GlobalContext* globalCtx);
-void EnDha_Draw(EnDha* this, GlobalContext* globalCtx);
+#define THIS ((EnDha*)thisx)
+
+void EnDha_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDha_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Dha_InitVars =
-{
+const ActorInit En_Dha_InitVars = {
     ACTOR_EN_DHA,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_DH,
     sizeof(EnDha),

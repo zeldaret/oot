@@ -51,7 +51,7 @@ glabel BgHidanKowarerukabe_Update
 /* 00CB4 8088ACD4 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00CB8 8088ACD8 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00CBC 8088ACDC 02012821 */  addu    $a1, $s0, $at              
-/* 00CC0 8088ACE0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00CC0 8088ACE0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00CC4 8088ACE4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00CC8 8088ACE8 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -60,5 +60,3 @@ glabel BgHidanKowarerukabe_Update
 /* 00CD0 8088ACF0 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00CD4 8088ACF4 03E00008 */  jr      $ra                        
 /* 00CD8 8088ACF8 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

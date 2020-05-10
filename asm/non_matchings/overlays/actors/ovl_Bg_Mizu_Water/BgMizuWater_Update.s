@@ -1,6 +1,20 @@
+.rdata
+glabel D_808A059C
+    .asciz "%x %x %x\n"
+    .balign 4
+
+.late_rodata
+glabel D_808A062C
+ .word 0xC450C000
+glabel D_808A0630
+ .word 0x43DE8000
+glabel D_808A0634
+ .word 0x443F4000, 0x00000000, 0x00000000
+
+.text
 glabel BgMizuWater_Update
-/* 00924 808A01D4 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00928 808A01D8 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 00924 808A01D4 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 00928 808A01D8 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 0092C 808A01DC 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00930 808A01E0 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00934 808A01E4 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -122,5 +136,3 @@ glabel BgMizuWater_Update
 /* 00ADC 808A038C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00AE0 808A0390 03E00008 */  jr      $ra                        
 /* 00AE4 808A0394 00000000 */  nop
-
-

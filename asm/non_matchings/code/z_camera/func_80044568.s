@@ -5,7 +5,7 @@ glabel D_80139060
 
 .late_rodata
 glabel D_80139DB4
-    .float 0.00003051851
+    .float 0.00003051851 # (1.0f / 32767.0f)
 
 .text
 glabel func_80044568

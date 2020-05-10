@@ -1,3 +1,9 @@
+.rdata
+glabel D_80A78978
+    .asciz "[31m描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel EnIk_Draw
 /* 03D64 80A78074 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 03D68 80A78078 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -26,5 +32,3 @@ glabel EnIk_Draw
 /* 03DB4 80A780C4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 03DB8 80A780C8 03E00008 */  jr      $ra                        
 /* 03DBC 80A780CC 00000000 */  nop
-
-

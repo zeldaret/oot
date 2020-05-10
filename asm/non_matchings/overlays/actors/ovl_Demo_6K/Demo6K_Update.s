@@ -8,5 +8,3 @@ glabel Demo6K_Update
 /* 016A0 80967FF0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 016A4 80967FF4 03E00008 */  jr      $ra                        
 /* 016A8 80967FF8 00000000 */  nop
-
-

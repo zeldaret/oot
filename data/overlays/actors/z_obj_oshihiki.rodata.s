@@ -67,7 +67,9 @@ glabel jtbl_80B9CC98
 .word L80B9B2B4
 .word L80B9B2BC
 glabel D_80B9CCB8
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel jtbl_80B9CCBC
 .word L80B9B5B8
 .word L80B9B5B8
@@ -80,12 +82,12 @@ glabel jtbl_80B9CCBC
 glabel jtbl_80B9CCDC
 .word L80B9B658
 .word L80B9B658
-.word func_80B9B668
-.word func_80B9B678
+.word L80B9B668
+.word L80B9B678
 .word L80B9B658
 .word L80B9B658
-.word func_80B9B668
-.word func_80B9B678
+.word L80B9B668
+.word L80B9B678
 glabel D_80B9CCFC
  .word 0xBA83126F
 glabel D_80B9CD00
@@ -97,11 +99,17 @@ glabel D_80B9CD08
 glabel D_80B9CD0C
  .word 0xBA83126F
 glabel D_80B9CD10
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80B9CD14
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel D_80B9CD18
- .word 0x3A83126F
+    .float 0.001
+    .balign 4
+
 glabel jtbl_80B9CD1C
 .word L80B9C8B8
 .word L80B9C8B8

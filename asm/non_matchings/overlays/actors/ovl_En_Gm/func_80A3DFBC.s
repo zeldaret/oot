@@ -13,8 +13,8 @@ glabel func_80A3DFBC
 /* 00908 80A3DFE8 8F3917B4 */  lw      $t9, 0x17B4($t9)           ## 000117B4
 /* 0090C 80A3DFEC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00910 80A3DFF0 03214021 */  addu    $t0, $t9, $at              
-/* 00914 80A3DFF4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00918 80A3DFF8 AC286FC0 */  sw      $t0, 0x6FC0($at)           ## 80166FC0
+/* 00914 80A3DFF4 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 00918 80A3DFF8 AC286FC0 */  sw      $t0, %lo(gSegments+0x18)($at)
 /* 0091C 80A3DFFC 848902BE */  lh      $t1, 0x02BE($a0)           ## 000002BE
 /* 00920 80A3E000 252A0001 */  addiu   $t2, $t1, 0x0001           ## $t2 = 00000001
 /* 00924 80A3E004 A48A02BE */  sh      $t2, 0x02BE($a0)           ## 000002BE
@@ -37,7 +37,7 @@ glabel func_80A3DFBC
 /* 00964 80A3E044 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00968 80A3E048 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 0096C 80A3E04C 26060270 */  addiu   $a2, $s0, 0x0270           ## $a2 = 00000270
-/* 00970 80A3E050 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00970 80A3E050 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00974 80A3E054 00812821 */  addu    $a1, $a0, $at              
 /* 00978 80A3E058 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -45,5 +45,3 @@ glabel func_80A3DFBC
 /* 00980 80A3E060 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00984 80A3E064 03E00008 */  jr      $ra                        
 /* 00988 80A3E068 00000000 */  nop
-
-

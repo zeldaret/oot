@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct OceffStorm;
+
+typedef struct OceffStorm {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0xC];
 } OceffStorm; // size = 0x0158

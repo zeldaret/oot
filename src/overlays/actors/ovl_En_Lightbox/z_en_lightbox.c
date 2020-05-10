@@ -6,18 +6,18 @@
 
 #include "z_en_lightbox.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx);
-static void EnLightbox_Destroy(EnLightbox* this, GlobalContext* globalCtx);
-static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx);
-static void EnLightbox_Draw(EnLightbox* this, GlobalContext* globalCtx);
+#define THIS ((EnLightbox*)thisx)
+
+void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnLightbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnLightbox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Lightbox_InitVars = {
     ACTOR_EN_LIGHTBOX,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_LIGHTBOX,
     sizeof(EnLightbox),
@@ -30,9 +30,9 @@ const ActorInit En_Lightbox_InitVars = {
 extern u32 D_06000B70;
 extern u32 D_06001F10;
 
-static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx) {
+void EnLightbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     u32 local_c = 0;
-    Actor* thisx = &this->dyna.actor;
+    EnLightbox* this = THIS;
     s32 pad[4];
 
     switch (thisx->params) {
@@ -52,8 +52,8 @@ static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx) {
     }
 
     thisx->posRot2.pos = thisx->posRot.pos;
-    thisx->sub_98.unk_10 = 0x1E;
-    thisx->sub_98.unk_12 = 0x32;
+    thisx->colChkInfo.unk_10 = 0x1E;
+    thisx->colChkInfo.unk_12 = 0x32;
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 6.0f);
     this->dyna.unk_160 = 0;
     this->dyna.unk_15C = 0;
@@ -63,12 +63,14 @@ static void EnLightbox_Init(EnLightbox* this, GlobalContext* globalCtx) {
     this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
 }
 
-static void EnLightbox_Destroy(EnLightbox* this, GlobalContext* globalCtx) {
+void EnLightbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnLightbox* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnLightbox* this = THIS;
 
     if (this->dyna.unk_162 != 0) {
         if (func_8002F5A0(thisx, globalCtx)) {
@@ -80,7 +82,7 @@ static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx) {
         } else {
             if (thisx->speedXZ) {
                 if (thisx->bgCheckFlags & 8) {
-                    thisx->posRot.rot.y = (thisx->posRot.rot.y + thisx->unk_7E) - thisx->posRot.rot.y;
+                    thisx->posRot.rot.y = (thisx->posRot.rot.y + thisx->wallPolyRot) - thisx->posRot.rot.y;
                     Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->unk_E4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     thisx->speedXZ *= 0.7f;
@@ -104,10 +106,10 @@ static void EnLightbox_Update(EnLightbox* this, GlobalContext* globalCtx) {
         }
     }
     Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, thisx->sub_98.unk_12, thisx->sub_98.unk_10, thisx->sub_98.unk_10, 0x1D);
+    func_8002E4B4(globalCtx, thisx, thisx->colChkInfo.unk_12, thisx->colChkInfo.unk_10, thisx->colChkInfo.unk_10, 0x1D);
     thisx->posRot2.pos = thisx->posRot.pos;
 }
 
-static void EnLightbox_Draw(EnLightbox* this, GlobalContext* globalCtx) {
-    Draw_DListOpa(globalCtx, &D_06000B70);
+void EnLightbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, &D_06000B70);
 }

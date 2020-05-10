@@ -20,5 +20,3 @@ glabel func_80AD4140
 /* 00684 80AD4184 254A4ED8 */  addiu   $t2, $t2, %lo(func_80AD4ED8) ## $t2 = 80AD4ED8
 /* 00688 80AD4188 03E00008 */  jr      $ra                        
 /* 0068C 80AD418C AC8A0190 */  sw      $t2, 0x0190($a0)           ## 00000190
-
-

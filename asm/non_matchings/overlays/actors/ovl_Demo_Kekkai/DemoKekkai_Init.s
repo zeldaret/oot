@@ -1,3 +1,18 @@
+.late_rodata
+glabel jtbl_8098E290
+.word L8098D0F0
+.word L8098D148
+.word L8098D148
+.word L8098D148
+.word L8098D148
+.word L8098D148
+.word L8098D148
+glabel D_8098E2AC
+    .float 6100.0
+glabel D_8098E2B0
+    .float 5000.0
+
+.text
 glabel DemoKekkai_Init
 /* 00044 8098D014 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00048 8098D018 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -16,34 +31,34 @@ glabel DemoKekkai_Init
 /* 00078 8098D048 A20E00AE */  sb      $t6, 0x00AE($s0)           ## 000000AE
 /* 0007C 8098D04C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00080 8098D050 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00084 8098D054 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00084 8098D054 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00088 8098D058 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 0008C 8098D05C 3C078099 */  lui     $a3, %hi(D_8098E0B0)       ## $a3 = 80990000
 /* 00090 8098D060 24E7E0B0 */  addiu   $a3, $a3, %lo(D_8098E0B0)  ## $a3 = 8098E0B0
 /* 00094 8098D064 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00098 8098D068 8FA50020 */  lw      $a1, 0x0020($sp)           
-/* 0009C 8098D06C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0009C 8098D06C 0C01712B */  jal     Collider_SetCylinder
               
 /* 000A0 8098D070 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000A4 8098D074 26050198 */  addiu   $a1, $s0, 0x0198           ## $a1 = 00000198
 /* 000A8 8098D078 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 000AC 8098D07C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000AC 8098D07C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 000B0 8098D080 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000B4 8098D084 3C078099 */  lui     $a3, %hi(D_8098E0B0)       ## $a3 = 80990000
 /* 000B8 8098D088 24E7E0B0 */  addiu   $a3, $a3, %lo(D_8098E0B0)  ## $a3 = 8098E0B0
 /* 000BC 8098D08C 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000C0 8098D090 8FA50024 */  lw      $a1, 0x0024($sp)           
-/* 000C4 8098D094 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000C4 8098D094 0C01712B */  jal     Collider_SetCylinder
               
 /* 000C8 8098D098 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000CC 8098D09C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000D0 8098D0A0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 000D0 8098D0A0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 000D4 8098D0A4 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 000D8 8098D0A8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000DC 8098D0AC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 000DC 8098D0AC 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 000E0 8098D0B0 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 000E4 8098D0B4 8604001C */  lh      $a0, 0x001C($s0)           ## 0000001C
@@ -152,5 +167,3 @@ glabel L8098D148
 /* 00264 8098D234 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00268 8098D238 03E00008 */  jr      $ra                        
 /* 0026C 8098D23C 00000000 */  nop
-
-

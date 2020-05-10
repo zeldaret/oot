@@ -1,3 +1,25 @@
+.late_rodata
+glabel jtbl_80B5FC10
+.word L80B5C9C0
+.word L80B5C9E4
+.word L80B5CA68
+.word L80B5CA88
+.word L80B5CAE0
+.word L80B5CB10
+.word L80B5CB70
+.word L80B5CBAC
+.word L80B5CC08
+.word L80B5CC28
+.word L80B5CC64
+.word L80B5CD18
+.word L80B5CD84
+.word L80B5CDCC
+.word L80B5CE30
+.word L80B5CE5C
+.word L80B5CE98
+.word L80B5CED4
+
+.text
 glabel func_80B5C984
 /* 011D4 80B5C984 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 011D8 80B5C988 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -383,8 +405,8 @@ glabel L80B5CED4
 /* 01758 80B5CF08 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0175C 80B5CF0C 00310821 */  addu    $at, $at, $s1              
 /* 01760 80B5CF10 A42D1E1A */  sh      $t5, 0x1E1A($at)           ## 00011E1A
-/* 01764 80B5CF14 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 01768 80B5CF18 A42EFA72 */  sh      $t6, -0x058E($at)          ## 8015FA72
+/* 01764 80B5CF14 3C018016 */  lui     $at, %hi(gSaveContext+0x1412)
+/* 01768 80B5CF18 A42EFA72 */  sh      $t6, %lo(gSaveContext+0x1412)($at)
 /* 0176C 80B5CF1C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01770 80B5CF20 00310821 */  addu    $at, $at, $s1              
 /* 01774 80B5CF24 A02F1E15 */  sb      $t7, 0x1E15($at)           ## 00011E15
@@ -410,5 +432,3 @@ glabel L80B5CED4
 /* 017B4 80B5CF64 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 017B8 80B5CF68 03E00008 */  jr      $ra                        
 /* 017BC 80B5CF6C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

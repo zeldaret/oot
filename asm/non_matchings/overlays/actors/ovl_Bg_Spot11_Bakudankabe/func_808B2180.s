@@ -6,14 +6,14 @@ glabel func_808B2180
 /* 00010 808B2190 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00014 808B2194 24C50164 */  addiu   $a1, $a2, 0x0164           ## $a1 = 00000164
 /* 00018 808B2198 AFA50018 */  sw      $a1, 0x0018($sp)           
-/* 0001C 808B219C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0001C 808B219C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00020 808B21A0 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 00024 808B21A4 3C07808B */  lui     $a3, %hi(D_808B2700)       ## $a3 = 808B0000
 /* 00028 808B21A8 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 0002C 808B21AC 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 00030 808B21B0 24E72700 */  addiu   $a3, $a3, %lo(D_808B2700)  ## $a3 = 808B2700
-/* 00034 808B21B4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00034 808B21B4 0C01712B */  jal     Collider_SetCylinder
               
 /* 00038 808B21B8 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 0003C 808B21BC 8FA60020 */  lw      $a2, 0x0020($sp)           
@@ -39,5 +39,3 @@ glabel func_808B2180
 /* 0008C 808B220C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00090 808B2210 03E00008 */  jr      $ra                        
 /* 00094 808B2214 00000000 */  nop
-
-

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A11910
+    .asciz "EFC 1\n"
+    .balign 4
+
+glabel D_80A11918
+    .asciz "EFC 2\n"
+    .balign 4
+
+.text
 glabel func_80A10F18
 /* 01CB8 80A10F18 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 01CBC 80A10F1C AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -133,5 +143,3 @@ glabel func_80A10F18
 /* 01E7C 80A110DC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 01E80 80A110E0 03E00008 */  jr      $ra                        
 /* 01E84 80A110E4 00000000 */  nop
-
-

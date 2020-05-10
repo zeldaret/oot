@@ -29,8 +29,8 @@ glabel EnTite_Init
 /* 0006C 80B18AEC 0C02915F */  jal     SkelAnime_Init
               
 /* 00070 80B18AF0 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 00074 80B18AF4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00078 80B18AF8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00074 80B18AF4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00078 80B18AF8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0007C 80B18AFC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00080 80B18B00 3C05C348 */  lui     $a1, 0xC348                ## $a1 = C3480000
 /* 00084 80B18B04 0C00AC78 */  jal     ActorShape_Init
@@ -59,7 +59,7 @@ glabel EnTite_Init
 /* 000DC 80B18B5C 260502E8 */  addiu   $a1, $s0, 0x02E8           ## $a1 = 000002E8
 /* 000E0 80B18B60 AE0A0040 */  sw      $t2, 0x0040($s0)           ## 00000040
 /* 000E4 80B18B64 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 000E8 80B18B68 0C016EFE */  jal     func_8005BBF8              
+/* 000E8 80B18B68 0C016EFE */  jal     Collider_InitJntSph              
 /* 000EC 80B18B6C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000F0 80B18B70 3C0780B2 */  lui     $a3, %hi(D_80B1B5F4)       ## $a3 = 80B20000
 /* 000F4 80B18B74 260D0308 */  addiu   $t5, $s0, 0x0308           ## $t5 = 00000308
@@ -67,7 +67,7 @@ glabel EnTite_Init
 /* 000FC 80B18B7C AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 00100 80B18B80 24E7B5F4 */  addiu   $a3, $a3, %lo(D_80B1B5F4)  ## $a3 = 80B1B5F4
 /* 00104 80B18B84 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00108 80B18B88 0C017014 */  jal     func_8005C050              
+/* 00108 80B18B88 0C017014 */  jal     Collider_SetJntSph              
 /* 0010C 80B18B8C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00110 80B18B90 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C
 /* 00114 80B18B94 240E001D */  addiu   $t6, $zero, 0x001D         ## $t6 = 0000001D
@@ -89,5 +89,3 @@ glabel EnTite_Init
 /* 00150 80B18BD0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00154 80B18BD4 03E00008 */  jr      $ra                        
 /* 00158 80B18BD8 00000000 */  nop
-
-

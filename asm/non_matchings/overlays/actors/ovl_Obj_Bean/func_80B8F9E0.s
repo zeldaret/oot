@@ -15,5 +15,3 @@ glabel func_80B8F9E0
 /* 00F94 80B8FA14 A48001CC */  sh      $zero, 0x01CC($a0)         ## 000001CC
 /* 00F98 80B8FA18 03E00008 */  jr      $ra                        
 /* 00F9C 80B8FA1C A48901C0 */  sh      $t1, 0x01C0($a0)           ## 000001C0
-
-

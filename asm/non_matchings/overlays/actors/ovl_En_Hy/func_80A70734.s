@@ -57,12 +57,10 @@ glabel func_80A70734
 /* 01260 80A70810 972E0004 */  lhu     $t6, 0x0004($t9)           ## FFFFFFFC
 /* 01264 80A70814 A48E01E6 */  sh      $t6, 0x01E6($a0)           ## 000001E6
 /* 01268 80A70818 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 0126C 80A7081C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0126C 80A7081C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01270 80A70820 00812821 */  addu    $a1, $a0, $at              
 /* 01274 80A70824 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 01278 80A70828 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0127C 80A7082C 03E00008 */  jr      $ra                        
 /* 01280 80A70830 00000000 */  nop
-
-

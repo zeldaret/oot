@@ -5,7 +5,7 @@ glabel EnDivingGame_Update
 /* 0132C 809EEB9C AFA5004C */  sw      $a1, 0x004C($sp)           
 /* 01330 809EEBA0 8CAF1C44 */  lw      $t7, 0x1C44($a1)           ## 00001C44
 /* 01334 809EEBA4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 01338 809EEBA8 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 01338 809EEBA8 3C0A8016 */  lui     $t2, %hi(gSaveContext+0x13d0)
 /* 0133C 809EEBAC AFAF003C */  sw      $t7, 0x003C($sp)           
 /* 01340 809EEBB0 84820294 */  lh      $v0, 0x0294($a0)           ## 00000294
 /* 01344 809EEBB4 10400002 */  beq     $v0, $zero, .L809EEBC0     
@@ -27,7 +27,7 @@ glabel EnDivingGame_Update
 /* 01378 809EEBE8 2449FFFF */  addiu   $t1, $v0, 0xFFFF           ## $t1 = FFFFFFFF
 /* 0137C 809EEBEC A609029A */  sh      $t1, 0x029A($s0)           ## 0000029A
 .L809EEBF0:
-/* 01380 809EEBF0 854AFA30 */  lh      $t2, -0x05D0($t2)          ## 8015FA30
+/* 01380 809EEBF0 854AFA30 */  lh      $t2, %lo(gSaveContext+0x13d0)($t2)
 /* 01384 809EEBF4 2401000A */  addiu   $at, $zero, 0x000A         ## $at = 0000000A
 /* 01388 809EEBF8 55410004 */  bnel    $t2, $at, .L809EEC0C       
 /* 0138C 809EEBFC 860B0298 */  lh      $t3, 0x0298($s0)           ## 00000298
@@ -134,14 +134,14 @@ glabel EnDivingGame_Update
 /* 01508 809EED78 2606034C */  addiu   $a2, $s0, 0x034C           ## $a2 = 0000034C
 /* 0150C 809EED7C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000034C
 /* 01510 809EED80 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 01514 809EED84 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 01514 809EED84 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 01518 809EED88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0151C 809EED8C 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 01520 809EED90 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01524 809EED94 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01528 809EED98 8FA6002C */  lw      $a2, 0x002C($sp)           
-/* 0152C 809EED9C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0152C 809EED9C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01530 809EEDA0 00812821 */  addu    $a1, $a0, $at              
 /* 01534 809EEDA4 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -149,5 +149,3 @@ glabel EnDivingGame_Update
 /* 0153C 809EEDAC 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 01540 809EEDB0 03E00008 */  jr      $ra                        
 /* 01544 809EEDB4 00000000 */  nop
-
-

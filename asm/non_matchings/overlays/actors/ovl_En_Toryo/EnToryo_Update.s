@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80B20CD0
+ .word 0x46638C00
+glabel D_80B20CD4
+ .word 0xC6638C00, 0x00000000, 0x00000000
+
+.text
 glabel EnToryo_Update
 /* 00808 80B20978 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0080C 80B2097C AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -8,14 +15,14 @@ glabel EnToryo_Update
 /* 00820 80B20990 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 00824 80B20994 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 00828 80B20998 AFA60024 */  sw      $a2, 0x0024($sp)           
-/* 0082C 80B2099C 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0082C 80B2099C 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00830 80B209A0 AFAF002C */  sw      $t7, 0x002C($sp)           
 /* 00834 80B209A4 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00838 80B209A8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0083C 80B209AC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00840 80B209B0 8FA60024 */  lw      $a2, 0x0024($sp)           
-/* 00844 80B209B4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00844 80B209B4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00848 80B209B8 00812821 */  addu    $a1, $a0, $at              
 /* 0084C 80B209BC 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190
@@ -80,5 +87,3 @@ glabel EnToryo_Update
 /* 0092C 80B20A9C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00930 80B20AA0 03E00008 */  jr      $ra                        
 /* 00934 80B20AA4 00000000 */  nop
-
-

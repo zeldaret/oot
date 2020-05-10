@@ -29,9 +29,9 @@ glabel func_80AD8174
 /* 00A98 80AD81D8 0C00B55C */  jal     Actor_Kill
               
 /* 00A9C 80AD81DC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00AA0 80AD81E0 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 00AA0 80AD81E0 3C018016 */  lui     $at, %hi(gSaveContext+0x13ce)
 /* 00AA4 80AD81E4 1000000B */  beq     $zero, $zero, .L80AD8214   
-/* 00AA8 80AD81E8 A420FA2E */  sh      $zero, -0x05D2($at)        ## 8015FA2E
+/* 00AA8 80AD81E8 A420FA2E */  sh      $zero, %lo(gSaveContext+0x13ce)($at)
 .L80AD81EC:
 /* 00AAC 80AD81EC 0C00B84B */  jal     func_8002E12C              
 /* 00AB0 80AD81F0 24063000 */  addiu   $a2, $zero, 0x3000         ## $a2 = 00003000
@@ -53,5 +53,3 @@ glabel func_80AD8174
 /* 00AE8 80AD8228 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00AEC 80AD822C 03E00008 */  jr      $ra                        
 /* 00AF0 80AD8230 00000000 */  nop
-
-

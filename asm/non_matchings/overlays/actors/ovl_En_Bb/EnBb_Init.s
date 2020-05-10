@@ -1,3 +1,12 @@
+.late_rodata
+glabel jtbl_809BBC6C
+.word L809B882C
+.word L809B8858
+.word L809B8764
+.word L809B872C
+.word L809B86E4
+
+.text
 glabel EnBb_Init
 /* 00280 809B8560 27BDFE18 */  addiu   $sp, $sp, 0xFE18           ## $sp = FFFFFE18
 /* 00284 809B8564 AFA501EC */  sw      $a1, 0x01EC($sp)           
@@ -27,7 +36,7 @@ glabel EnBb_Init
 /* 002DC 809B85BC A21900AF */  sb      $t9, 0x00AF($s0)           ## 000000AF
 /* 002E0 809B85C0 260502AC */  addiu   $a1, $s0, 0x02AC           ## $a1 = 000002AC
 /* 002E4 809B85C4 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 002E8 809B85C8 0C016EFE */  jal     func_8005BBF8              
+/* 002E8 809B85C8 0C016EFE */  jal     Collider_InitJntSph              
 /* 002EC 809B85CC 8FA401EC */  lw      $a0, 0x01EC($sp)           
 /* 002F0 809B85D0 3C07809C */  lui     $a3, %hi(D_809BBB24)       ## $a3 = 809C0000
 /* 002F4 809B85D4 260802CC */  addiu   $t0, $s0, 0x02CC           ## $t0 = 000002CC
@@ -35,7 +44,7 @@ glabel EnBb_Init
 /* 002FC 809B85DC AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 00300 809B85E0 24E7BB24 */  addiu   $a3, $a3, %lo(D_809BBB24)  ## $a3 = 809BBB24
 /* 00304 809B85E4 8FA401EC */  lw      $a0, 0x01EC($sp)           
-/* 00308 809B85E8 0C017014 */  jal     func_8005C050              
+/* 00308 809B85E8 0C017014 */  jal     Collider_SetJntSph              
 /* 0030C 809B85EC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00310 809B85F0 8609001C */  lh      $t1, 0x001C($s0)           ## 0000001C
 /* 00314 809B85F4 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
@@ -50,8 +59,8 @@ glabel EnBb_Init
 .L809B8618:
 /* 00338 809B8618 04410006 */  bgez    $v0, .L809B8634            
 /* 0033C 809B861C 3C054348 */  lui     $a1, 0x4348                ## $a1 = 43480000
-/* 00340 809B8620 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00344 809B8624 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00340 809B8620 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00344 809B8624 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00348 809B8628 0C00AC78 */  jal     ActorShape_Init
               
 /* 0034C 809B862C 3C07420C */  lui     $a3, 0x420C                ## $a3 = 420C0000
@@ -250,5 +259,3 @@ glabel L809B8858
 /* 0061C 809B88FC 27BD01E8 */  addiu   $sp, $sp, 0x01E8           ## $sp = 00000000
 /* 00620 809B8900 03E00008 */  jr      $ra                        
 /* 00624 809B8904 00000000 */  nop
-
-

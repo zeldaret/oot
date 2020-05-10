@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80AD291C
+ .word 0x477FFF00
+
+.text
 glabel func_80ACFEF8
 /* 00A58 80ACFEF8 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00A5C 80ACFEFC AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -10,8 +15,8 @@ glabel func_80ACFEF8
 /* 00A74 80ACFF14 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
               
 /* 00A78 80ACFF18 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 00A7C 80ACFF1C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00A80 80ACFF20 8DCEE670 */  lw      $t6, -0x1990($t6)          ## 8015E670
+/* 00A7C 80ACFF1C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x10)
+/* 00A80 80ACFF20 8DCEE670 */  lw      $t6, %lo(gSaveContext+0x10)($t6)
 /* 00A84 80ACFF24 15C00007 */  bne     $t6, $zero, .L80ACFF44     
 /* 00A88 80ACFF28 00000000 */  nop
 /* 00A8C 80ACFF2C C6000090 */  lwc1    $f0, 0x0090($s0)           ## 00000090
@@ -104,5 +109,3 @@ glabel func_80ACFEF8
 /* 00BC4 80AD0064 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00BC8 80AD0068 03E00008 */  jr      $ra                        
 /* 00BCC 80AD006C 00000000 */  nop
-
-

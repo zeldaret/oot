@@ -8,12 +8,12 @@ glabel EnGoma_Destroy
 /* 003A0 80A49260 29C1000A */  slti    $at, $t6, 0x000A           
 /* 003A4 80A49264 10200007 */  beq     $at, $zero, .L80A49284     
 /* 003A8 80A49268 24C5030C */  addiu   $a1, $a2, 0x030C           ## $a1 = 0000030C
-/* 003AC 80A4926C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 003AC 80A4926C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 003B0 80A49270 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 003B4 80A49274 8FA60018 */  lw      $a2, 0x0018($sp)           
 /* 003B8 80A49278 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 003BC 80A4927C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 003BC 80A4927C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 003C0 80A49280 24C50358 */  addiu   $a1, $a2, 0x0358           ## $a1 = 00000358
 .L80A49284:
@@ -21,5 +21,3 @@ glabel EnGoma_Destroy
 /* 003C8 80A49288 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 003CC 80A4928C 03E00008 */  jr      $ra                        
 /* 003D0 80A49290 00000000 */  nop
-
-

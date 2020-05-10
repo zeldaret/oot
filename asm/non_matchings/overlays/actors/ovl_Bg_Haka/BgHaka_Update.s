@@ -8,5 +8,3 @@ glabel BgHaka_Update
 /* 004C4 8087BB74 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 004C8 8087BB78 03E00008 */  jr      $ra                        
 /* 004CC 8087BB7C 00000000 */  nop
-
-

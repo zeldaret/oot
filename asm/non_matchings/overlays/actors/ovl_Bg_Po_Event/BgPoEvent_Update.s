@@ -19,7 +19,7 @@ glabel BgPoEvent_Update
 /* 017E8 808A79F8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 017EC 808A79FC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 017F0 808A7A00 00812821 */  addu    $a1, $a0, $at              
-/* 017F4 808A7A04 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 017F4 808A7A04 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 017F8 808A7A08 24E60170 */  addiu   $a2, $a3, 0x0170           ## $a2 = 00000170
 .L808A7A0C:
@@ -27,5 +27,3 @@ glabel BgPoEvent_Update
 /* 01800 808A7A10 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01804 808A7A14 03E00008 */  jr      $ra                        
 /* 01808 808A7A18 00000000 */  nop
-
-

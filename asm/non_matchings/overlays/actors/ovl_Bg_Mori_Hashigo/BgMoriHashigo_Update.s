@@ -16,5 +16,3 @@ glabel BgMoriHashigo_Update
 /* 006BC 808A2C1C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 006C0 808A2C20 03E00008 */  jr      $ra                        
 /* 006C4 808A2C24 00000000 */  nop
-
-

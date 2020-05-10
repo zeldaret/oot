@@ -139,16 +139,16 @@ glabel BgHidanCurtain_Update
 /* 007B4 80885954 00000000 */  nop
 /* 007B8 80885958 A608019A */  sh      $t0, 0x019A($s0)           ## 0000019A
 /* 007BC 8088595C AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 007C0 80885960 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 007C0 80885960 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 007C4 80885964 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 007C8 80885968 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 007CC 8088596C 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 007D0 80885970 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 007D0 80885970 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 007D4 80885974 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 007D8 80885978 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 007DC 8088597C 8D29F9C0 */  lw      $t1, -0x0640($t1)          ## 8015F9C0
+/* 007D8 80885978 3C098016 */  lui     $t1, %hi(gSaveContext+0x1360)
+/* 007DC 8088597C 8D29F9C0 */  lw      $t1, %lo(gSaveContext+0x1360)($t1)
 /* 007E0 80885980 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 007E4 80885984 29210004 */  slti    $at, $t1, 0x0004           
 /* 007E8 80885988 50200011 */  beql    $at, $zero, .L808859D0     
@@ -181,5 +181,3 @@ glabel BgHidanCurtain_Update
 /* 00840 808859E0 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00844 808859E4 03E00008 */  jr      $ra                        
 /* 00848 808859E8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

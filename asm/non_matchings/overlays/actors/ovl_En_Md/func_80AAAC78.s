@@ -34,5 +34,3 @@ glabel func_80AAAC78
 /* 00A9C 80AAACEC 00801025 */  or      $v0, $a0, $zero            ## $v0 = 00000000
 /* 00AA0 80AAACF0 03E00008 */  jr      $ra                        
 /* 00AA4 80AAACF4 00000000 */  nop
-
-

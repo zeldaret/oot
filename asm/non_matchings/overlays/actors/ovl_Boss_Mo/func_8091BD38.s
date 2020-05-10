@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_80926B6C
+    .float 0.0025
+
+glabel D_80926B70
+    .float 0.05
+
+glabel D_80926B74
+    .float 0.1
+
+.text
 glabel func_8091BD38
 /* 00238 8091BD38 44866000 */  mtc1    $a2, $f12                  ## $f12 = 0.00
 /* 0023C 8091BD3C 87A60016 */  lh      $a2, 0x0016($sp)           
@@ -76,5 +87,3 @@ glabel func_8091BD38
 .L8091BE54:
 /* 00354 8091BE54 03E00008 */  jr      $ra                        
 /* 00358 8091BE58 00000000 */  nop
-
-

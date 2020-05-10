@@ -26,10 +26,10 @@ glabel EnKo_Update
 /* 029B4 80A99764 8D6B17B4 */  lw      $t3, 0x17B4($t3)           ## 000117B4
 /* 029B8 80A99768 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 029BC 80A9976C 01616021 */  addu    $t4, $t3, $at              
-/* 029C0 80A99770 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 029C0 80A99770 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 029C4 80A99774 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
               
-/* 029C8 80A99778 AC2C6FC0 */  sw      $t4, 0x6FC0($at)           ## 80166FC0
+/* 029C8 80A99778 AC2C6FC0 */  sw      $t4, %lo(gSegments+0x18)($at)
 /* 029CC 80A9977C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 029D0 80A99780 0C2A636D */  jal     func_80A98DB4              
 /* 029D4 80A99784 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
@@ -82,14 +82,14 @@ glabel EnKo_Update
 /* 02A74 80A99824 26060198 */  addiu   $a2, $s0, 0x0198           ## $a2 = 00000198
 /* 02A78 80A99828 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000198
 /* 02A7C 80A9982C AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 02A80 80A99830 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 02A80 80A99830 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 02A84 80A99834 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02A88 80A99838 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02A8C 80A9983C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02A90 80A99840 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 02A94 80A99844 02212821 */  addu    $a1, $s1, $at              
-/* 02A98 80A99848 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02A98 80A99848 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02A9C 80A9984C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02AA0 80A99850 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -97,5 +97,3 @@ glabel EnKo_Update
 /* 02AA8 80A99858 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 02AAC 80A9985C 03E00008 */  jr      $ra                        
 /* 02AB0 80A99860 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

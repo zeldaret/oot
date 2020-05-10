@@ -8,5 +8,3 @@ glabel ObjectKankyo_Destroy
 /* 0031C 80BA2DBC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00320 80BA2DC0 03E00008 */  jr      $ra                        
 /* 00324 80BA2DC4 00000000 */  nop
-
-

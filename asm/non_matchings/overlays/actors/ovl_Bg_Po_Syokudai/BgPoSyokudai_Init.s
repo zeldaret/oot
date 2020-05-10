@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808A8A30
+ .word 0xC4C3C000
+
+.text
 glabel BgPoSyokudai_Init
 /* 00000 808A80B0 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00004 808A80B4 AFB10030 */  sw      $s1, 0x0030($sp)           
@@ -49,14 +54,14 @@ glabel BgPoSyokudai_Init
 /* 000B8 808A8168 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 000BC 808A816C 26050164 */  addiu   $a1, $s0, 0x0164           ## $a1 = 00000164
 /* 000C0 808A8170 AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 000C4 808A8174 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000C4 808A8174 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 000C8 808A8178 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 000CC 808A817C 3C07808B */  lui     $a3, %hi(D_808A8960)       ## $a3 = 808B0000
 /* 000D0 808A8180 8FA5003C */  lw      $a1, 0x003C($sp)           
 /* 000D4 808A8184 24E78960 */  addiu   $a3, $a3, %lo(D_808A8960)  ## $a3 = 808A8960
 /* 000D8 808A8188 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000DC 808A818C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000DC 808A818C 0C01712B */  jal     Collider_SetCylinder
               
 /* 000E0 808A8190 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000E4 808A8194 C6040024 */  lwc1    $f4, 0x0024($s0)           ## 00000024
@@ -182,5 +187,3 @@ glabel BgPoSyokudai_Init
 /* 00290 808A8340 8FB0002C */  lw      $s0, 0x002C($sp)           
 /* 00294 808A8344 03E00008 */  jr      $ra                        
 /* 00298 808A8348 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

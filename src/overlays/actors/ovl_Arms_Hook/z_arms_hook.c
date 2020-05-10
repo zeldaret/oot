@@ -1,19 +1,20 @@
 #include "z_arms_hook.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-void ArmsHook_Init(ArmsHook* this, GlobalContext* globalCtx);
-void ArmsHook_Destroy(ArmsHook* this, GlobalContext* globalCtx);
-void ArmsHook_Update(ArmsHook* this, GlobalContext* globalCtx);
-void ArmsHook_Draw(ArmsHook* this, GlobalContext* globalCtx);
+#define THIS ((ArmsHook*)thisx)
+
+void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx);
+void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ArmsHook_Update(Actor* thisx, GlobalContext* globalCtx);
+void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx);
+
+void func_80864FC4(ArmsHook* this, GlobalContext* globalCtx);
 
 /*
-const ActorInit Arms_Hook_InitVars =
-{
+const ActorInit Arms_Hook_InitVars = {
     ACTOR_ARMS_HOOK,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_LINK_BOY,
     sizeof(ArmsHook),
@@ -23,7 +24,7 @@ const ActorInit Arms_Hook_InitVars =
     (ActorFunc)ArmsHook_Draw,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Arms_Hook/func_80864F00.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Arms_Hook/ArmsHook_SetupAction.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Arms_Hook/ArmsHook_Init.s")
 

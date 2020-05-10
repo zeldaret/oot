@@ -78,7 +78,7 @@ glabel func_808C0464
 /* 0116C 808C057C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01170 808C0580 02212821 */  addu    $a1, $s1, $at              
 /* 01174 808C0584 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01178 808C0588 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01178 808C0588 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 0117C 808C058C 26060170 */  addiu   $a2, $s0, 0x0170           ## $a2 = 00000170
 /* 01180 808C0590 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -86,5 +86,3 @@ glabel func_808C0464
 /* 01188 808C0598 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 0118C 808C059C 03E00008 */  jr      $ra                        
 /* 01190 808C05A0 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

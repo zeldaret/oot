@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8087EFE0
+    .float 0.19634955
+
+.text
 glabel func_8087E858
 /* 00378 8087E858 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 0037C 8087E85C AFBF005C */  sw      $ra, 0x005C($sp)           
@@ -318,12 +323,12 @@ glabel func_8087E858
 /* 00820 8087ED00 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00824 8087ED04 00818821 */  addu    $s1, $a0, $at              
 /* 00828 8087ED08 02202825 */  or      $a1, $s1, $zero            ## $a1 = FFFFFFF8
-/* 0082C 8087ED0C 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 0082C 8087ED0C 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00830 8087ED10 02C03025 */  or      $a2, $s6, $zero            ## $a2 = 000001A8
 /* 00834 8087ED14 8FA400BC */  lw      $a0, 0x00BC($sp)           
 /* 00838 8087ED18 02202825 */  or      $a1, $s1, $zero            ## $a1 = FFFFFFF8
-/* 0083C 8087ED1C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0083C 8087ED1C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00840 8087ED20 2606015C */  addiu   $a2, $s0, 0x015C           ## $a2 = 0000015C
 /* 00844 8087ED24 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -344,5 +349,3 @@ glabel func_8087E858
 /* 00880 8087ED60 8FBE0058 */  lw      $s8, 0x0058($sp)           
 /* 00884 8087ED64 03E00008 */  jr      $ra                        
 /* 00888 8087ED68 27BD00B8 */  addiu   $sp, $sp, 0x00B8           ## $sp = 00000000
-
-

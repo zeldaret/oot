@@ -1,6 +1,6 @@
 glabel func_80A40B1C
-/* 025AC 80A40B1C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 025B0 80A40B20 95CEF574 */  lhu     $t6, -0x0A8C($t6)          ## 8015F574
+/* 025AC 80A40B1C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xf14)
+/* 025B0 80A40B20 95CEF574 */  lhu     $t6, %lo(gSaveContext+0xf14)($t6)
 /* 025B4 80A40B24 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 025B8 80A40B28 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 025BC 80A40B2C 31CF0800 */  andi    $t7, $t6, 0x0800           ## $t7 = 00000000
@@ -23,5 +23,3 @@ glabel func_80A40B1C
 /* 025F8 80A40B68 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 025FC 80A40B6C 03E00008 */  jr      $ra                        
 /* 02600 80A40B70 00000000 */  nop
-
-

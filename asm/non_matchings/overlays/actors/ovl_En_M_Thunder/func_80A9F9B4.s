@@ -1,3 +1,11 @@
+.late_rodata
+glabel D_80AA050C
+    .float 0.6
+
+glabel D_80AA0510
+ .word 0x3FD55555
+
+.text
 glabel func_80A9F9B4
 /* 009D4 80A9F9B4 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 009D8 80A9F9B8 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -48,14 +56,14 @@ glabel func_80A9F9B4
 /* 00A78 80A9FA58 44089000 */  mfc1    $t0, $f18                  
 /* 00A7C 80A9FA5C 00000000 */  nop
 /* 00A80 80A9FA60 A608018C */  sh      $t0, 0x018C($s0)           ## 0000018C
-/* 00A84 80A9FA64 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00A84 80A9FA64 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00A88 80A9FA68 AFA60028 */  sw      $a2, 0x0028($sp)           
 /* 00A8C 80A9FA6C 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00A90 80A9FA70 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00A94 80A9FA74 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00A98 80A9FA78 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 00A9C 80A9FA7C 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00A9C 80A9FA7C 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00AA0 80A9FA80 00812821 */  addu    $a1, $a0, $at              
 /* 00AA4 80A9FA84 960201C4 */  lhu     $v0, 0x01C4($s0)           ## 000001C4
@@ -89,7 +97,7 @@ glabel func_80A9F9B4
 .L80A9FAE8:
 /* 00B08 80A9FAE8 0C2A7E4E */  jal     func_80A9F938              
 /* 00B0C 80A9FAEC 8FA50034 */  lw      $a1, 0x0034($sp)           
-/* 00B10 80A9FAF0 0C02FF21 */  jal     func_800BFC84              
+/* 00B10 80A9FAF0 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 00B14 80A9FAF4 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00B18 80A9FAF8 50400004 */  beql    $v0, $zero, .L80A9FB0C     
 /* 00B1C 80A9FAFC 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -102,5 +110,3 @@ glabel func_80A9F9B4
 /* 00B30 80A9FB10 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00B34 80A9FB14 03E00008 */  jr      $ra                        
 /* 00B38 80A9FB18 00000000 */  nop
-
-

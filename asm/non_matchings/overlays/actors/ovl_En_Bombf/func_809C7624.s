@@ -31,7 +31,7 @@ glabel func_809C7624
 /* 00734 809C7694 15010004 */  bne     $t0, $at, .L809C76A8       
 /* 00738 809C7698 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0073C 809C769C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
-/* 00740 809C76A0 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00740 809C76A0 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00744 809C76A4 00812821 */  addu    $a1, $a0, $at              
 .L809C76A8:
@@ -96,5 +96,3 @@ glabel func_809C7624
 /* 0080C 809C776C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00810 809C7770 03E00008 */  jr      $ra                        
 /* 00814 809C7774 00000000 */  nop
-
-

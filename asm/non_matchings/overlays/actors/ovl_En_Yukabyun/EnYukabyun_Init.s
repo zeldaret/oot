@@ -8,24 +8,24 @@ glabel EnYukabyun_Init
 /* 00018 80B439D8 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 0001C 80B439DC 24A53F5C */  addiu   $a1, $a1, %lo(D_80B43F5C)  ## $a1 = 80B43F5C
-/* 00020 80B439E0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00020 80B439E0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00024 80B439E4 3C073ECC */  lui     $a3, 0x3ECC                ## $a3 = 3ECC0000
 /* 00028 80B439E8 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 3ECCCCCD
-/* 0002C 80B439EC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0002C 80B439EC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00030 80B439F0 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00034 80B439F4 0C00AC78 */  jal     ActorShape_Init
               
 /* 00038 80B439F8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0003C 80B439FC 26050154 */  addiu   $a1, $s0, 0x0154           ## $a1 = 00000154
 /* 00040 80B43A00 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00044 80B43A04 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00044 80B43A04 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00048 80B43A08 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 0004C 80B43A0C 3C0780B4 */  lui     $a3, %hi(D_80B43F30)       ## $a3 = 80B40000
 /* 00050 80B43A10 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00054 80B43A14 24E73F30 */  addiu   $a3, $a3, %lo(D_80B43F30)  ## $a3 = 80B43F30
 /* 00058 80B43A18 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 0005C 80B43A1C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0005C 80B43A1C 0C01712B */  jal     Collider_SetCylinder
               
 /* 00060 80B43A20 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00064 80B43A24 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
@@ -46,5 +46,3 @@ glabel EnYukabyun_Init
 /* 000A0 80B43A60 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 000A4 80B43A64 03E00008 */  jr      $ra                        
 /* 000A8 80B43A68 00000000 */  nop
-
-

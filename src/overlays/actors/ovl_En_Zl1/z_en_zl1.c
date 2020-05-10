@@ -1,19 +1,24 @@
+/*
+ * File: z_en_zl1.c
+ * Overlay: ovl_En_Zl1
+ * Description: Child Princess Zelda (at window)
+ */
+
 #include "z_en_zl1.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000019
 
-void EnZl1_Init(EnZl1* this, GlobalContext* globalCtx);
-void EnZl1_Destroy(EnZl1* this, GlobalContext* globalCtx);
-void EnZl1_Update(EnZl1* this, GlobalContext* globalCtx);
-void EnZl1_Draw(EnZl1* this, GlobalContext* globalCtx);
+#define THIS ((EnZl1*)thisx)
+
+void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnZl1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
-const ActorInit En_Zl1_InitVars =
-{
+const ActorInit En_Zl1_InitVars = {
     ACTOR_EN_ZL1,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_ZL1,
     sizeof(EnZl1),

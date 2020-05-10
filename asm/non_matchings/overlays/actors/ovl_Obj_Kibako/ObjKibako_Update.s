@@ -8,5 +8,3 @@ glabel ObjKibako_Update
 /* 00B4C 80B957EC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00B50 80B957F0 03E00008 */  jr      $ra                        
 /* 00B54 80B957F4 00000000 */  nop
-
-

@@ -8,5 +8,3 @@ glabel ItemShield_Update
 /* 0076C 80B8708C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00770 80B87090 03E00008 */  jr      $ra                        
 /* 00774 80B87094 00000000 */  nop
-
-

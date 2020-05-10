@@ -4,35 +4,31 @@
  * Description: Stops blocks and sets relevant flags when the block is in position.
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
+#include "z_obj_blockstop.h"
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-} ActorObjBlockstop; // size = 0x014C
-
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void Init(ActorObjBlockstop* this, GlobalContext* globalCtx);
-static void Destroy(ActorObjBlockstop* this, GlobalContext* globalCtx);
-static void Update(ActorObjBlockstop* this, GlobalContext* globalCtx);
+#define THIS ((ObjBlockstop*)thisx)
+
+void ObjBlockstop_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjBlockstop_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Obj_Blockstop_InitVars = {
     ACTOR_OBJ_BLOCKSTOP,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
-    sizeof(ActorObjBlockstop),
-    (ActorFunc)Init,
-    (ActorFunc)Destroy,
-    (ActorFunc)Update,
+    sizeof(ObjBlockstop),
+    (ActorFunc)ObjBlockstop_Init,
+    (ActorFunc)ObjBlockstop_Destroy,
+    (ActorFunc)ObjBlockstop_Update,
     NULL,
 };
 
-static void Init(ActorObjBlockstop* this, GlobalContext* globalCtx) {
+void ObjBlockstop_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ObjBlockstop* this = THIS;
+
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         Actor_Kill(&this->actor);
     } else {
@@ -40,15 +36,15 @@ static void Init(ActorObjBlockstop* this, GlobalContext* globalCtx) {
     }
 }
 
-static void Destroy(ActorObjBlockstop* this, GlobalContext* globalCtx) {
+void ObjBlockstop_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-static void Update(ActorObjBlockstop* this, GlobalContext* globalCtx) {
+void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ObjBlockstop* this = THIS;
     DynaPolyActor* dynaActor;
-    s32 pad;
     Vec3f sp4C;
     u32 sp48;
-    s32 pad2;
+    s32 pad;
 
     if (func_8003DF10(&globalCtx->colCtx, &this->actor.initPosRot.pos, &this->actor.posRot.pos, &sp4C,
                       &this->actor.floorPoly, 0, 0, 1, 1, &sp48, &this->actor)) {

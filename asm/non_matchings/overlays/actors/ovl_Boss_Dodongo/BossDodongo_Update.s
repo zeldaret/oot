@@ -1,3 +1,57 @@
+.late_rodata
+glabel D_808CA6D8
+    .float 0.1
+
+glabel D_808CA6DC
+    .float 1.9
+
+glabel D_808CA6E0
+    .float 1.7
+
+glabel D_808CA6E4
+    .float 1.4
+
+glabel D_808CA6E8
+    .float 1.9
+
+glabel D_808CA6EC
+    .float 1.1
+
+glabel D_808CA6F0
+    .float 1.9
+
+glabel D_808CA6F4
+    .float 6.28
+
+glabel D_808CA6F8
+ .word 0xC45E8000
+glabel D_808CA6FC
+ .word 0xC4BE7852
+glabel D_808CA700
+ .word 0xC54E8000
+glabel D_808CA704
+    .float 6.28
+
+glabel D_808CA708
+ .word 0xC45E8000
+glabel D_808CA70C
+ .word 0xC4BE7852
+glabel D_808CA710
+ .word 0xC54E8000
+glabel D_808CA714
+    .float 0.4
+
+glabel D_808CA718
+    .float 6.28
+
+glabel D_808CA71C
+ .word 0xC45E8000
+glabel D_808CA720
+ .word 0xC4BD3852
+glabel D_808CA724
+ .word 0xC54E8000
+
+.text
 glabel BossDodongo_Update
 /* 02970 808C3B00 27BDFF50 */  addiu   $sp, $sp, 0xFF50           ## $sp = FFFFFF50
 /* 02974 808C3B04 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -802,8 +856,8 @@ glabel BossDodongo_Update
 /* 034AC 808C463C 8E270224 */  lw      $a3, 0x0224($s1)           ## 00000224
 /* 034B0 808C4640 862E01C6 */  lh      $t6, 0x01C6($s1)           ## 000001C6
 .L808C4644:
-/* 034B4 808C4644 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 034B8 808C4648 24E76FA8 */  addiu   $a3, $a3, 0x6FA8           ## $a3 = 80166FA8
+/* 034B4 808C4644 3C078016 */  lui     $a3, %hi(gSegments)
+/* 034B8 808C4648 24E76FA8 */  addiu   $a3, %lo(gSegments)
 /* 034BC 808C464C 11C00031 */  beq     $t6, $zero, .L808C4714     
 /* 034C0 808C4650 3C0800FF */  lui     $t0, 0x00FF                ## $t0 = 00FF0000
 /* 034C4 808C4654 3C02808C */  lui     $v0, %hi(D_808C73C8)       ## $v0 = 808C0000
@@ -868,7 +922,7 @@ glabel BossDodongo_Update
 /* 035A4 808C4734 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 035A8 808C4738 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 035AC 808C473C 00812821 */  addu    $a1, $a0, $at              
-/* 035B0 808C4740 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 035B0 808C4740 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 035B4 808C4744 26260440 */  addiu   $a2, $s1, 0x0440           ## $a2 = 00000440
 .L808C4748:
@@ -878,7 +932,7 @@ glabel BossDodongo_Update
 /* 035C4 808C4754 26260440 */  addiu   $a2, $s1, 0x0440           ## $a2 = 00000440
 /* 035C8 808C4758 00818021 */  addu    $s0, $a0, $at              
 /* 035CC 808C475C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000001
-/* 035D0 808C4760 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 035D0 808C4760 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 035D4 808C4764 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 035D8 808C4768 8E2F0190 */  lw      $t7, 0x0190($s1)           ## 00000190
@@ -887,7 +941,7 @@ glabel BossDodongo_Update
 /* 035E4 808C4774 146F0004 */  bne     $v1, $t7, .L808C4788       
 /* 035E8 808C4778 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 035EC 808C477C 8FA400B4 */  lw      $a0, 0x00B4($sp)           
-/* 035F0 808C4780 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 035F0 808C4780 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 035F4 808C4784 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000001
 .L808C4788:
@@ -939,16 +993,16 @@ glabel BossDodongo_Update
 /* 03690 808C4820 00000000 */  nop
 /* 03694 808C4824 44808000 */  mtc1    $zero, $f16                ## $f16 = 0.00
 /* 03698 808C4828 C6320244 */  lwc1    $f18, 0x0244($s1)          ## 00000244
-/* 0369C 808C482C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 036A0 808C4830 2442FA90 */  addiu   $v0, $v0, 0xFA90           ## $v0 = 8015FA90
+/* 0369C 808C482C 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 036A0 808C4830 2442FA90 */  addiu   $v0, %lo(gGameInfo)
 /* 036A4 808C4834 46128032 */  c.eq.s  $f16, $f18                 
 /* 036A8 808C4838 26240244 */  addiu   $a0, $s1, 0x0244           ## $a0 = 00000244
 /* 036AC 808C483C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 036B0 808C4840 3C074000 */  lui     $a3, 0x4000                ## $a3 = 40000000
 /* 036B4 808C4844 45030033 */  bc1tl   .L808C4914                 
 /* 036B8 808C4848 8C4E0000 */  lw      $t6, 0x0000($v0)           ## 8015FA90
-/* 036BC 808C484C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 036C0 808C4850 2442FA90 */  addiu   $v0, $v0, 0xFA90           ## $v0 = 8015FA90
+/* 036BC 808C484C 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 036C0 808C4850 2442FA90 */  addiu   $v0, %lo(gGameInfo)
 /* 036C4 808C4854 8C4C0000 */  lw      $t4, 0x0000($v0)           ## 8015FA90
 /* 036C8 808C4858 240B0001 */  addiu   $t3, $zero, 0x0001         ## $t3 = 00000001
 /* 036CC 808C485C 240D00FF */  addiu   $t5, $zero, 0x00FF         ## $t5 = 000000FF
@@ -1014,5 +1068,3 @@ glabel BossDodongo_Update
 /* 037A4 808C4934 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 037A8 808C4938 03E00008 */  jr      $ra                        
 /* 037AC 808C493C 27BD00B0 */  addiu   $sp, $sp, 0x00B0           ## $sp = 00000000
-
-

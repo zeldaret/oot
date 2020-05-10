@@ -1,19 +1,18 @@
 #include "z_oceff_spot.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000010
 
-void OceffSpot_Init(OceffSpot* this, GlobalContext* globalCtx);
-void OceffSpot_Destroy(OceffSpot* this, GlobalContext* globalCtx);
-void OceffSpot_Update(OceffSpot* this, GlobalContext* globalCtx);
-void OceffSpot_Draw(OceffSpot* this, GlobalContext* globalCtx);
+#define THIS ((OceffSpot*)thisx)
+
+void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx);
+void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx);
+void OceffSpot_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
-const ActorInit Oceff_Spot_InitVars =
-{
+const ActorInit Oceff_Spot_InitVars = {
     ACTOR_OCEFF_SPOT,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffSpot),

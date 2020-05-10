@@ -12,12 +12,10 @@ glabel EnPoDesert_Destroy
 /* 00190 80AD2E40 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 00194 80AD2E44 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00198 80AD2E48 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 0019C 80AD2E4C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0019C 80AD2E4C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 001A0 80AD2E50 24A50238 */  addiu   $a1, $a1, 0x0238           ## $a1 = 00000238
 /* 001A4 80AD2E54 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 001A8 80AD2E58 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 001AC 80AD2E5C 03E00008 */  jr      $ra                        
 /* 001B0 80AD2E60 00000000 */  nop
-
-

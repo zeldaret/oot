@@ -1,3 +1,40 @@
+.late_rodata
+glabel jtbl_80B3BFF0
+.word L80B3B3C4
+.word L80B3B40C
+.word L80B3B438
+.word L80B3B3FC
+.word L80B3B400
+.word L80B3B40C
+.word L80B3B3FC
+.word L80B3B400
+.word L80B3B3FC
+.word L80B3B400
+.word L80B3B40C
+.word L80B3B40C
+.word L80B3B3C4
+.word L80B3B3FC
+.word L80B3B400
+.word L80B3B3B4
+.word L80B3B3B8
+.word L80B3B40C
+.word L80B3B3C4
+.word L80B3B3FC
+.word L80B3B400
+.word L80B3B3B4
+.word L80B3B3B8
+.word L80B3B470
+.word L80B3B470
+glabel D_80B3C054
+    .float 0.6
+
+glabel D_80B3C058
+    .float 0.02
+
+glabel D_80B3C05C
+ .word 0xC0466666
+
+.text
 glabel EnWood02_Init
 /* 0033C 80B3B2AC 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00340 80B3B2B0 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -51,14 +88,14 @@ glabel EnWood02_Init
 /* 003F0 80B3B360 26050158 */  addiu   $a1, $s0, 0x0158           ## $a1 = 00000158
 /* 003F4 80B3B364 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 003F8 80B3B368 8FA40054 */  lw      $a0, 0x0054($sp)           
-/* 003FC 80B3B36C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 003FC 80B3B36C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00400 80B3B370 A7A8004E */  sh      $t0, 0x004E($sp)           
 /* 00404 80B3B374 3C0780B4 */  lui     $a3, %hi(D_80B3BF00)       ## $a3 = 80B40000
 /* 00408 80B3B378 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 0040C 80B3B37C 24E7BF00 */  addiu   $a3, $a3, %lo(D_80B3BF00)  ## $a3 = 80B3BF00
 /* 00410 80B3B380 8FA40054 */  lw      $a0, 0x0054($sp)           
-/* 00414 80B3B384 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00414 80B3B384 0C01712B */  jal     Collider_SetCylinder
               
 /* 00418 80B3B388 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0041C 80B3B38C 87A8004E */  lh      $t0, 0x004E($sp)           
@@ -306,5 +343,3 @@ glabel L80B3B470
 /* 0076C 80B3B6DC 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00770 80B3B6E0 03E00008 */  jr      $ra                        
 /* 00774 80B3B6E4 00000000 */  nop
-
-

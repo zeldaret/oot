@@ -1,3 +1,23 @@
+.rdata
+glabel D_808A1618
+    .asciz "Warning : 第３-1スタルフォス発生失敗\n"
+    .balign 4
+
+glabel D_808A1640
+    .asciz "Warning : 第３-2スタルフォス発生失敗\n"
+    .balign 4
+
+.late_rodata
+glabel D_808A16B8
+    .float 827.0
+glabel D_808A16BC
+    .float -3383.0
+glabel D_808A16C0
+    .float 827.0
+glabel D_808A16C4
+    .float -3260.0
+
+.text
 glabel func_808A1190
 /* 005D0 808A1190 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 005D4 808A1194 AFB10038 */  sw      $s1, 0x0038($sp)           
@@ -86,5 +106,3 @@ glabel func_808A1190
 /* 006F8 808A12B8 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 006FC 808A12BC 03E00008 */  jr      $ra                        
 /* 00700 808A12C0 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

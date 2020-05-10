@@ -1,3 +1,61 @@
+.rdata
+glabel D_80B3AC18
+    .asciz "[35m☆☆☆☆☆ きょり %f\n[m"
+    .balign 4
+
+glabel D_80B3AC38
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B3AC3C
+    .asciz "[32m☆☆☆☆☆ 透明メッセージ君せっと %x\n[m"
+    .balign 4
+
+glabel D_80B3AC6C
+    .asciz "[33m☆☆☆☆☆ セーブ情報 	           %x\n[m"
+    .balign 4
+
+glabel D_80B3AC9C
+    .asciz "[35m☆☆☆☆☆ 指定メッセージ種類     %x\n[m"
+    .balign 4
+
+glabel D_80B3ACCC
+    .asciz "[36m☆☆☆☆☆ 実質メッセージ種類     %x\n[m"
+    .balign 4
+
+glabel D_80B3ACFC
+    .asciz "[32m☆☆☆☆☆ 指定範囲               %d\n[m"
+    .balign 4
+
+glabel D_80B3AD2C
+    .asciz "[33m☆☆☆☆☆ 処理範囲               %f\n[m"
+    .balign 4
+
+glabel D_80B3AD5C
+    .asciz "[35m☆☆☆☆☆ レンジは？ 		   %d\n[m"
+    .balign 4
+
+glabel D_80B3AD84
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B3AD88
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B3AD8C
+    .asciz "[35m ☆☆ 強制 ☆☆ \n[m"
+    .balign 4
+
+glabel D_80B3ADA8
+    .asciz "[31m ☆☆ ゲルドの修練場強制チェックのみ ☆☆ \n[m"
+    .balign 4
+
+glabel D_80B3ADDC
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel func_80B3A4F8
 /* 00628 80B3A4F8 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 0062C 80B3A4FC AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -31,14 +89,14 @@ glabel func_80B3A4F8
 /* 00694 80B3A564 860C0154 */  lh      $t4, 0x0154($s0)           ## 00000154
 .L80B3A568:
 /* 00698 80B3A568 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
-/* 0069C 80B3A56C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 0069C 80B3A56C 3C0E8016 */  lui     $t6, %hi(gGameInfo)
 /* 006A0 80B3A570 15810004 */  bne     $t4, $at, .L80B3A584       
 /* 006A4 80B3A574 00000000 */  nop
 /* 006A8 80B3A578 920D015A */  lbu     $t5, 0x015A($s0)           ## 0000015A
 /* 006AC 80B3A57C 55A00078 */  bnel    $t5, $zero, .L80B3A760     
 /* 006B0 80B3A580 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80B3A584:
-/* 006B4 80B3A584 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 006B4 80B3A584 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 006B8 80B3A588 85CF12D8 */  lh      $t7, 0x12D8($t6)           ## 801612D8
 /* 006BC 80B3A58C 51E0000A */  beql    $t7, $zero, .L80B3A5B8     
 /* 006C0 80B3A590 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
@@ -72,7 +130,7 @@ glabel func_80B3A4F8
 /* 00728 80B3A5F8 00000000 */  nop
 /* 0072C 80B3A5FC 45020057 */  bc1fl   .L80B3A75C                 
 /* 00730 80B3A600 A6000156 */  sh      $zero, 0x0156($s0)         ## 00000156
-/* 00734 80B3A604 0C02FF21 */  jal     func_800BFC84              
+/* 00734 80B3A604 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 00738 80B3A608 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 0073C 80B3A60C 54400053 */  bnel    $v0, $zero, .L80B3A75C     
 /* 00740 80B3A610 A6000156 */  sh      $zero, 0x0156($s0)         ## 00000156
@@ -182,5 +240,3 @@ glabel func_80B3A4F8
 /* 00894 80B3A764 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00898 80B3A768 03E00008 */  jr      $ra                        
 /* 0089C 80B3A76C 00000000 */  nop
-
-

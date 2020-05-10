@@ -10,7 +10,7 @@ glabel EnHeishi2_Destroy
 /* 0030C 80A531AC 51E00004 */  beql    $t7, $zero, .L80A531C0     
 /* 00310 80A531B0 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80A531B4:
-/* 00314 80A531B4 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00314 80A531B4 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00318 80A531B8 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 0031C 80A531BC 8FBF0014 */  lw      $ra, 0x0014($sp)           
@@ -18,5 +18,3 @@ glabel EnHeishi2_Destroy
 /* 00320 80A531C0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00324 80A531C4 03E00008 */  jr      $ra                        
 /* 00328 80A531C8 00000000 */  nop
-
-

@@ -24,7 +24,7 @@ glabel BgHakaTrap_Draw
 /* 011B8 80880E58 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 011BC 80880E5C 0018C880 */  sll     $t9, $t8,  2               
 /* 011C0 80880E60 00B92821 */  addu    $a1, $a1, $t9              
-/* 011C4 80880E64 0C00D498 */  jal     Draw_DListOpa
+/* 011C4 80880E64 0C00D498 */  jal     Gfx_DrawDListOpa
               
 /* 011C8 80880E68 8CA51028 */  lw      $a1, %lo(D_80881028)($a1)  
 /* 011CC 80880E6C 8E020164 */  lw      $v0, 0x0164($s0)           ## 00000164
@@ -79,4 +79,3 @@ glabel BgHakaTrap_Draw
 /* 01284 80880F24 00000000 */  nop
 /* 01288 80880F28 00000000 */  nop
 /* 0128C 80880F2C 00000000 */  nop
-
