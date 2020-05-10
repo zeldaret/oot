@@ -62,45 +62,38 @@ InitChainEntry D_8099C5A0[] =
 s16 D_8099CCA0;
 s16 D_8099CCA2;
 
-extern Gfx* D_060001A0; //0x060001A0
-extern Gfx* D_06001374; //0x06001374
-extern Gfx* D_06002CA8; //0x06002CA8
+extern Gfx* D_060001A0;
+extern AnimationHeader D_06001374;
+extern SkeletonHeader D_06002CA8;
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998780.s")
 void func_80998780(DoorWarp1* this, DoorWarp1ActionFunc func) {
     this->actionFunc = func;
 }
 
-#ifdef NON_MATCHING
-//stack only
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_Init.s")
 void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx) {
     DoorWarp1* this = THIS;
     GlobalContext* localGlobal = globalCtx;
-    LightInfoPositional* light;
 
-    this->unk_1B8 = (u16)0;
+    this->unk_1B8 = 0;
     this->unk_1B4 = 0.0f;
     Actor_ProcessInitChain(&this->actor, D_8099C5A0);
     ActorShape_Init(&this->actor.shape, 0, NULL, 0);
     if (this->actor.params != 2 && this->actor.params != -2 && this->actor.params != 4 && this->actor.params != 6) {
 
-        light = &this->unk_1C8;
-        Lights_InitType0PositionalLight(light, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
-        this->unk_1C4 = Lights_Insert(localGlobal, &localGlobal->lightCtx, light);
+        Lights_InitType0PositionalLight(&this->unk_1C8, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+        this->unk_1C4 = Lights_Insert(localGlobal, &localGlobal->lightCtx, &this->unk_1C8);
 
-        light = &this->unk_1DC;
-        Lights_InitType0PositionalLight(light, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
-        this->unk_1D8 = Lights_Insert(localGlobal, &localGlobal->lightCtx, light);
+        Lights_InitType0PositionalLight(&this->unk_1DC, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+        this->unk_1D8 = Lights_Insert(localGlobal, &localGlobal->lightCtx, &this->unk_1DC);
     }
     osSyncPrintf("\nBOSSWARP arg_data=[%d]", this->actor.params);
     func_80999508(this, localGlobal);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_Init.s")
-#endif
 
 #ifdef NON_MATCHING
-//regalloc
+// Regalloc
 void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DoorWarp1* this;
     LightingContext* lightCtx;
@@ -110,11 +103,8 @@ void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     lightCtx = &globalCtx->lightCtx;
     Lights_Remove(globalCtx, lightCtx, this->unk_1C4);
     Lights_Remove(globalCtx, lightCtx, this->unk_1D8);
-    for (i=0;i<3;i+=1)
-    {
-        globalCtx->envCtx.unk_8C[i+3] = 0;
-        globalCtx->envCtx.unk_8C[i+6] = globalCtx->envCtx.unk_8C[i+3];
-        globalCtx->envCtx.unk_8C[i+0] = globalCtx->envCtx.unk_8C[i+3];
+    for (i=0;i<3;i+=1) {
+        globalCtx->envCtx.unk_8C[i+0] = globalCtx->envCtx.unk_8C[i+6] = globalCtx->envCtx.unk_8C[i+3] = 0;
     }
 }
 #else
@@ -210,10 +200,10 @@ void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }*/
 
-#ifdef NON_MATCHING
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998C90.s")
 void func_80998C90(DoorWarp1* this, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002CA8, &D_06001374, NULL, NULL, 0);
-    func_800A4FE4(&this->skelAnime, &D_06001374, 1.0f, 1.0f, 1.0f, 2, 40.0f, 1);
+    SkelAnime_ChangeAnimImpl(&this->skelAnime, &D_06001374, 1.0f, 1.0f, 1.0f, 2, 40.0f, 1);
     this->unk_1AC = 0;
     this->unk_1AE = -0x8C;
     this->unk_1B0 = -0x50;
@@ -231,21 +221,16 @@ void func_80998C90(DoorWarp1* this, GlobalContext* globalCtx) {
     Lights_InitType0PositionalLight(&this->unk_1DC, this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0xC8, 0xFF, 0xFF, 0xFF);
     func_80998780(this, func_8099A3A4);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998C90.s")
-#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998E5C.s")
-/*void func_80998E5C(DoorWarp1* this, GlobalContext* globalCtx) {
-    SkelAnime* skelAnime;
-    s16 frames;
+#ifdef NON_MATCHING
+// Stack only
+void func_80998E5C(DoorWarp1* this, GlobalContext* globalCtx) {
     s16 i;
+    SkelAnime* skelAnime;
 
     skelAnime = &this->skelAnime;
     SkelAnime_Init(globalCtx, skelAnime, &D_06002CA8, &D_06001374, NULL, NULL, 0);
-    frames = (s16) SkelAnime_GetFrameCount(&D_06001374);
-    func_800A4FE4(skelAnime, &D_06001374, 0, frames, 
-                    SkelAnime_GetFrameCount(&D_06001374), 2, 0.0f, 1);
+    SkelAnime_ChangeAnimImpl(skelAnime, &D_06001374, 0, SkelAnime_GetFrameCount(&D_06001374), SkelAnime_GetFrameCount(&D_06001374), 2, 0.0f, 1);
     this->skelAnime.animCurrentFrame = SkelAnime_GetFrameCount(&D_06001374);
     this->unk_1AC = (u16)0xA;
     this->unk_1AE = (u16)0x78;
@@ -262,29 +247,29 @@ void func_80998C90(DoorWarp1* this, GlobalContext* globalCtx) {
 
     for (i=0;i<3;i+=1)
     {
-        globalCtx->unk_10AB0[i+3] = -0xFF;
-        globalCtx->unk_10AB0[i+6] = globalCtx->unk_10AB0[i+3];
-        globalCtx->unk_10AB0[i+0] = globalCtx->unk_10AB0[i+3];
+        globalCtx->envCtx.unk_8C[i+0] =  globalCtx->envCtx.unk_8C[i+6] = globalCtx->envCtx.unk_8C[i+3] = -0xFF;
     }
-    globalCtx->unk_10AB0[9] = -0x1F4;
+    globalCtx->envCtx.unk_9E = -0x1F4;
 
     this->unk_192 = (u16)0x1E;
     this->unk_1B8 = (u16)0xFA0;
     func_80998780(this, func_809991C8);
-}*/
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998E5C.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998FF4.s")
-/*void func_80998FF4(DoorWarp1* this, GlobalContext* globalCtx) {
-    s16 sp3C;
+#ifdef NON_MATCHING
+// Regalloc, stack, not inefficient use of 1.0f
+void func_80998FF4(DoorWarp1* this, GlobalContext* globalCtx) {
     SkelAnime* sp34;
-    SkelAnime* temp_a1;
+    s32 pad;
+    s32 pad1;
 
-    temp_a1 = &this->skelAnime;
-    sp34 = temp_a1;
-    SkelAnime_Init(globalCtx, temp_a1, &D_06002CA8, &D_06001374, 0, 0, 0);
-    sp3C = SkelAnime_GetFrameCount(&D_06001374);
-    func_800A4FE4(sp34, &D_06001374, 0, (f32) sp3C, (f32) SkelAnime_GetFrameCount(&D_06001374), 2, 0.0f, 1);
-    this->skelAnime.animCurrentFrame = (f32) SkelAnime_GetFrameCount(&D_06001374);
+    sp34 = &this->skelAnime;
+    SkelAnime_Init(globalCtx, sp34, &D_06002CA8, &D_06001374, 0, 0, 0);
+    SkelAnime_ChangeAnimImpl(sp34, &D_06001374, 0, SkelAnime_GetFrameCount(&D_06001374), SkelAnime_GetFrameCount(&D_06001374), 2, 0.0f, 1);
+    this->skelAnime.animCurrentFrame = SkelAnime_GetFrameCount(&D_06001374);
     this->unk_1AE = (u16)0x78;
     this->unk_1B0 = (u16)0xE6;
     this->unk_192 = (u16)0xC8;
@@ -300,7 +285,7 @@ void func_80998C90(DoorWarp1* this, GlobalContext* globalCtx) {
     this->unk_19C = 0.0f;
     this->unk_1BC = 1.0f;
     this->actor.shape.unk_08 = 800.0f;
-    if (gSaveContext.entrance_index!=0x0053) {
+    if (gSaveContext.entranceIndex != 0x0053) {
         this->actor.scale.x = 0.0498999990523f;
         this->actor.scale.y = 0.0769999995828f;
         this->actor.scale.z = 0.0900000035763f;
@@ -309,7 +294,10 @@ void func_80998C90(DoorWarp1* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_SHUT_BY_CRYSTAL);
     }
     func_80998780(this, func_80999428);
-}*/
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80998FF4.s")
+#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999194.s")
 void func_80999194(DoorWarp1* this, GlobalContext* globalCtx) {
@@ -330,8 +318,8 @@ void func_809991C8(DoorWarp1* this, GlobalContext* globalCtx) {
     func_80999194(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999214.s")
-/*void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999214.s")
+void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
     f32 temp_f0;
     s32 temp_f4;
     s32 temp_v1;
@@ -347,13 +335,11 @@ void func_809991C8(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 
     temp_f4 = (s32) (-255.0f * phi_f0);
-    for (i=0;i<3;i++)
+    for (i = 0; i < 3; i++)
     {
-        globalCtx->unk_10AB0[i+3] = temp_f4;
-        globalCtx->unk_10AB0[i+6] = temp_f4;
-        globalCtx->unk_10AB0[i+0] = temp_f4;
+        globalCtx->envCtx.unk_8C[i+0] = globalCtx->envCtx.unk_8C[i+6] = globalCtx->envCtx.unk_8C[i+3] = temp_f4;
     }
-    globalCtx->unk_10AB0[9] = (s32) (-500.0f * phi_f0); //problems here
+    globalCtx->envCtx.unk_9E = (s16) (-500.0f * phi_f0); //problems here
 
     this->unk_192 += 1;
     if (phi_f0 <= 0.0f) {
@@ -361,8 +347,7 @@ void func_809991C8(DoorWarp1* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y += 0x320;
     func_80999194(this, globalCtx);
-}*/
-
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999348.s")
 void func_80999348(DoorWarp1* this, GlobalContext* globalCtx) {
@@ -654,8 +639,7 @@ void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099A098.s")
-/*
-void func_8099A098(DoorWarp1* this, GlobalContext* globalCtx) {
+/* void func_8099A098(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player;
 
     player = PLAYER;
@@ -666,20 +650,20 @@ void func_8099A098(DoorWarp1* this, GlobalContext* globalCtx) {
     }
     Math_SmoothScaleMaxMinF(&this->unk_1A0, 0.0f, 0.20000000298f, 6.0f, 0.00999999977648f);
     this->unk_192 += 1;
-    if (D_8099CCA0 < (this->unk_192 & 0xFFFF) && gSaveContext.next_cutscene_index == 0xFFEF) {
-        gSaveContext.event_chk_inf[3] |= 0x80;
+    if (D_8099CCA0 < (this->unk_192 & 0xFFFF) && gSaveContext.nextCutsceneIndex == 0xFFEF) {
+        gSaveContext.eventChkInf[3] |= 0x80;
         Item_Give(globalCtx, 0x6E);
         globalCtx->nextEntranceIndex = 0x010E;
-        gSaveContext.next_cutscene_index = 0xFFF0;
+        gSaveContext.nextCutsceneIndex = 0xFFF0;
         globalCtx->sceneLoadFlag = 0x14;
-        globalCtx->fadeOutTransition = 7;
+        globalCtx->fadeTransition = 7;
     }
     Math_ApproxF(&this->unk_194, 2.0f, 0.00999999977648f);
     Math_ApproxF(&this->unk_198, 10.0f, 0.019999999553f);
-    Lights_InitType0PositionalLight(&this->unk_1C8, ((s32) ((f32) ((s32) ((s32) player->actor.posRot.pos.x << 0x10) >> 0x10) + 10.0f) << 0x10) >> 0x10, ((s32) ((f32) ((s32) ((s32) player->actor.posRot.pos.y << 0x10) >> 0x10) + 10.0f) << 0x10) >> 0x10, ((s32) ((f32) ((s32) ((s32) player->actor.posRot.pos.z << 0x10) >> 0x10) + 10.0f) << 0x10) >> 0x10, 0xEB, 0xFF, 0xFF, 0xFF);
-    Lights_InitType0PositionalLight(&this->unk_1DC, ((s32) ((f32) ((s32) ((s32) player->actor.posRot.pos.x << 0x10) >> 0x10) - 10.0f) << 0x10) >> 0x10, ((s32) ((f32) ((s32) ((s32) player->actor.posRot.pos.y << 0x10) >> 0x10) - 10.0f) << 0x10) >> 0x10, ((s32) ((f32) ((s32) ((s32) player->actor.posRot.pos.z << 0x10) >> 0x10) - 10.0f) << 0x10) >> 0x10, 0xEB, 0xFF, 0xFF, 0xFF);
+    Lights_InitType0PositionalLight(&this->unk_1C8, (s16)player->actor.posRot.pos.x + 10.0f, (s16)player->actor.posRot.pos.y + 10.0f, (s16)player->actor.posRot.pos.z + 10.0f, 0xEB, 0xFF, 0xFF, 0xFF);
+    Lights_InitType0PositionalLight(&this->unk_1DC, (s16)player->actor.posRot.pos.x - 10.0f, (s16)player->actor.posRot.pos.y - 10.0f, (s16)player->actor.posRot.pos.z - 10.0f, 0xEB, 0xFF, 0xFF, 0xFF);
     Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0, 0.5f, 2.0f, 0.10000000149f);
-}*/
+} */
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099A3A4.s")
 void func_8099A3A4(DoorWarp1* this, GlobalContext* globalCtx) {
@@ -999,49 +983,54 @@ void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B140.s")
-/*void func_8099B140(DoorWarp1* this, GlobalContext* globalCtx) {
-    Gfx* gfxArr[3];
+#ifdef NON_MATCHING
+// Regalloc, stack
+void func_8099B140(DoorWarp1* this, GlobalContext* globalCtx) {
+    Gfx* dispRefs[3];
     GraphicsContext* gfxCtx;
 
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_door_warp1.c", 0x81E);
-    
-    func_80093D84(gfxCtx);
+    func_800C6AC4(dispRefs, globalCtx->state.gfxCtx, "../z_door_warp1.c", 0x81E);
 
-    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0.996094, 0.996094, 0xC8, 0xFF, 0xFF, this->unk_1A8);
-    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x64, 0xFF, 0x00, this->unk_1A8);
+    func_80093D84(globalCtx->state.gfxCtx);
 
-    gfxCtx->polyXlu.p = func_800A2288(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, 0, 0);
+    gDPSetPrimColor(gfxCtx->polyXlu.p++, 0xFF, 0xFF, 0xC8, 0xFF, 0xFF, this->unk_1A8);
+    gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x64, 0xFF, this->unk_1A8);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_door_warp1.c", 0x832);
+    gfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, &this->actor, gfxCtx->polyXlu.p);
+
+    func_800C6B54(dispRefs, globalCtx->state.gfxCtx, "../z_door_warp1.c", 0x832);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-} */
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B140.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B33C.s")
-/*void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
+// Multiplication won't generate multu
+/* void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
     Vec3f eye;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
     GraphicsContext* gfxCtx;
 
     gfxCtx = globalCtx->state.gfxCtx;
-    eye.x = -(Math_Sins(globalCtx->state.frames * (u32)200) * 120.0f) * 80.0f;
-    eye.y =  (Math_Coss(globalCtx->state.frames * (u32)200) * 120.0f) * 80.0f;
-    eye.z =  (Math_Coss(globalCtx->state.frames * (u32)200) * 120.0f) * 80.0f;
-    func_800C6AC4(gfxArr, gfxCtx, "../z_door_warp1.c", 2122);
-    func_80093D84(gfxCtx);
-    func_8002EB44(&this->actor.posRot.pos, &eye, &eye, gfxCtx);
+    eye.x = -(Math_Sins(globalCtx->state.frames * 200) * 120.0f) * 80.0f;
+    eye.y =  (Math_Coss(globalCtx->state.frames * 200) * 120.0f) * 80.0f;
+    eye.z =  (Math_Coss(globalCtx->state.frames * 200) * 120.0f) * 80.0f;
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_door_warp1.c", 2122);
+    func_80093D84(globalCtx->state.gfxCtx);
+    func_8002EB44(&this->actor.posRot.pos, &eye, &eye, globalCtx->state.gfxCtx);
 
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0xFF, 0xFF, 0xFF, this->unk_1A8);
     gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x96, 0x00, 0x64, this->unk_1A8);
 
-    func_800A2288(globalCtx, this->skelAnime.limbIndex, this->skelAnime.actorDrawTbl, 0, 0);
-    func_800C6B54(gfxArr, gfxCtx, "../z_door_warp1.c", 2152);
+    gfxCtx->polyXlu.p = SkelAnime_Draw2(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, NULL, NULL, &this->actor, gfxCtx->polyXlu.p);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_door_warp1.c", 2152);
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-}*/
+} */
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_8099B5EC.s")
-/*void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
+/* void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
     s32 spEC;
     f32 spE8;
     f32 spE4;
@@ -1079,7 +1068,7 @@ void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx) {
         spE4 = (f32) (1.0f - this->unk_198);
     }
     gfxCtx = globalCtx->state.gfxCtx;
-    func_800C6AC4(gfxArr, gfxCtx, "../z_door_warp1.c", 0x87D);
+    Graph_OpenDisps(gfxArr, gfxCtx, "../z_door_warp1.c", 0x87D);
     temp_f0 = 1.0f - (2.0f - this->unk_194) / 1.70000004768f;
     if (this->actor.params != 4 && this->actor.params != 6 && this->actor.params != 8 &&
         this->actor.params != 9 && this->actor.params != 0xA) {
@@ -1188,8 +1177,8 @@ void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(gfxCtx->polyXlu.p++, 0x09, Matrix_NewMtx(gfxCtx, "../z_door_warp1.c", 0x920));
         gSPDisplayList(gfxCtx->polyXlu.p++, sp40);
     }
-    func_800C6B54(gfxArr, gfxCtx, "../z_door_warp1.c", 2340);
-}*/
+    Graph_CloseDisps(gfxArr, gfxCtx, "../z_door_warp1.c", 2340);
+} */
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/DoorWarp1_Draw.s")
 void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx) {

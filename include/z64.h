@@ -741,7 +741,8 @@ typedef struct {
     /* 0x2C */ s8       unk_2C;
     /* 0x2D */ char     unk_2D[0x5E];
     /* 0x8C */ s16      unk_8C[6];
-    /* 0x98 */ char     unk_98[0x08];
+    /* 0x98 */ char     unk_98[0x06];
+    /* 0x98 */ s16      unk_9E;
     /* 0xA0 */ s16      unk_A0;
     /* 0xA2 */ char     unk_A2[0x06];
     /* 0xA8 */ s16      unk_A8;
