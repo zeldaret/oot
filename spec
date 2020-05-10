@@ -2656,8 +2656,7 @@ endseg
 beginseg
     name "ovl_En_Heishi3"
     include "build/src/overlays/actors/ovl_En_Heishi3/z_en_heishi3.o"
-    include "build/data/overlays/actors/z_en_heishi3.data.o"
-    include "build/data/overlays/actors/z_en_heishi3.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Heishi3/z_en_heishi3_reloc.o"
 endseg
 
 beginseg
