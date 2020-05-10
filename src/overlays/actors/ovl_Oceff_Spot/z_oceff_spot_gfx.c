@@ -61,10 +61,12 @@ static Gfx textureDl[] = {
     gsDPSetTileSize(1, 0, 0, (31 << 2), (31 << 2)),
     gsDPSetCombineLERP(TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, TEXEL1, TEXEL0, ENVIRONMENT, TEXEL0, PRIMITIVE,
                        ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, SHADE, 0),
-    gsSPSetOtherMode(G_SETOTHERMODE_L, G_MDSFT_RENDERMODE, 29, 0xC1849D8),
+    gsDPSetRenderMode(AA_EN | Z_CMP | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
+                          GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1),
+                      G_RM_AA_ZB_XLU_SURF2),
     gsSPClearGeometryMode(G_TEXTURE_ENABLE | G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
-    gsDPSetPrimColor(0x00, 0x00, 255, 255, 170, 255),
-    gsDPSetEnvColor(200, 255, 0, 128),
+    gsDPSetPrimColor(0x00, 0x00, 0xFF, 0xFF, 0xAA, 0xFF),
+    gsDPSetEnvColor(0xC8, 0xFF, 0x00, 0x80),
     gsSPEndDisplayList(),
 };
 

@@ -3,8 +3,6 @@
 
 #include <ultra64.h>
 #include <global.h>
-#include <z64light.h>
-#include <vt.h>
 
 struct OceffSpot;
 
