@@ -12,7 +12,7 @@ glabel D_80BA8C90
     .float 0.01
 
 .text
-glabel func_80BA7200
+glabel OceffStorm_DefaultAction
 /* 00120 80BA7200 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00124 80BA7204 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00128 80BA7208 AFA5001C */  sw      $a1, 0x001C($sp)           
