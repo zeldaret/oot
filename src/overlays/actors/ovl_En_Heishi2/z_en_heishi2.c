@@ -301,7 +301,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f,
                          (s16)(f32)SkelAnime_GetFrameCount(&D_06005C30.genericHeader), 0, -10.0f);
-    this->gateTimer = 200;
+    this->unk_2F2[0] = 200;
     this->cameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
     Gameplay_ChangeCameraStatus(globalCtx, this->cameraId, 7);
@@ -322,7 +322,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     gate = (BgSpot15Saku*)this->attachedGate;
-    if ((this->gateTimer == 0) || (gate->unk_168 == 0)) {
+    if ((this->unk_2F2[0] == 0) || (gate->unk_168 == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
         Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
         func_80106CCC(globalCtx);
@@ -464,7 +464,7 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f,
                          (s16)(f32)SkelAnime_GetFrameCount(&D_06005C30.genericHeader), 0, -10.0f);
-    this->gateTimer = 200;
+    this->unk_2F2[0] = 200;
     this->cameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
     Gameplay_ChangeCameraStatus(globalCtx, this->cameraId, 7);
@@ -489,7 +489,7 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     func_800C04D8(globalCtx, this->cameraId, &this->unk_280, &this->unk_28C);
     gate = (BgGateShutter*)this->attachedGate;
-    if ((this->gateTimer == 0) || (gate->openingState == 0)) {
+    if ((this->unk_2F2[0] == 0) || (gate->openingState == 0)) {
         Gameplay_ClearCamera(globalCtx, this->cameraId);
         Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
         if ((this->unk_30A != 2)) {
@@ -787,7 +787,7 @@ void func_80A549E8(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi2* heishi2Temp;
+    s32 pad;
     EnHeishi2* this = THIS;
     s32 i;
 
@@ -799,15 +799,11 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_2FC++;
-    i = 0;
-    heishi2Temp = this;
 
-    for (i; i != 10; i += 2) {
-        if (heishi2Temp->gateTimer != 0) {
-            heishi2Temp->gateTimer--;
+    for (i = 0; i != 5; i++) {
+        if (this->unk_2F2[i] != 0) {
+            this->unk_2F2[i]--;
         }
-
-        heishi2Temp = (EnHeishi2*)&(heishi2Temp->actor.type);
     }
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);

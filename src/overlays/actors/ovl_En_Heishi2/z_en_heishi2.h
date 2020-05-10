@@ -30,8 +30,7 @@ typedef struct EnHeishi2 {
     /* 0x02E8 */ char unk_2E8[0x4];
     /* 0x02EC */ f32 unk_2EC;
     /* 0x02F0 */ u16 unk_2F0;
-    /* 0x02F2 */ s16 gateTimer; // starts counting down when guard starts to open gate.
-    /* 0x02F4 */ char unk_2F4[0x8];
+    /* 0x02F2 */ s16 unk_2F2[0x5]; // starts counting down when guard starts to open gate.
     /* 0x02FC */ s16 unk_2FC;
     /* 0x02FE */ s16 initParams; // copy of actor params at init
     /* 0x0300 */ s16 unk_300; // mask related
