@@ -739,11 +739,11 @@ def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None)
                 include_src.write('#line ' + str(line_no) + '\n')
                 include_src.close()
             else:
-                if (re.match(re.compile(r"(static CutsceneData (.|\n)*\[\] = {)"), line)):
+                if re.compile(r"(CutsceneData (.|\n)*\[\] = {)").search(line) is not None:
                     is_cutscene_data = True
-                elif (line.endswith("};")):
+                elif line.endswith("};"):
                     is_cutscene_data = False
-                if(is_cutscene_data):
+                if is_cutscene_data:
                     raw_line = re.sub(re.compile(r"[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?f"), repl_float_hex, raw_line)
                 output_lines[-1] = raw_line
 

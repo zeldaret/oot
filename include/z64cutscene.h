@@ -123,9 +123,9 @@ typedef enum {
 
 /**
  * Special type for blocks of cutscene data, asm-processor checks
- * arrays for static CutsceneData type and converts floats within
- * the array to their IEEE-754 representation. The array must close
- * with }; on its own line.
+ * arrays for CutsceneData type and converts floats within the array 
+ * to their IEEE-754 representation. The array must close with }; 
+ * on its own line.
  * 
  * Files that contain this type that are included in other C files
  * must include an 'EARLY' qualifier to inform asm-processor that it

@@ -94,7 +94,7 @@ u32 D_80AF0870[] = {
 
 s32 D_80AF087C = 0;
 
-#include "z_en_ru1_cutscene_data.c"
+#include "z_en_ru1_cutscene_data.c" EARLY
 
 u32 D_80AF1938 = 0;
 

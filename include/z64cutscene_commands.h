@@ -93,13 +93,13 @@
  *   s16 setting (m), s16 startFrame (s), s16 endFrame (e)
  * FORMAT
  *   Capital U is Unused
- *   mmmmssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU
+ *   mmmmssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU 00000000 00000000 00000000 
  *   size = 0x30
  */
-#define CS_LIGHTING(setting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
+#define CS_LIGHTING(setting, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
     CMD_HH(setting, startFrame), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
+    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * ARGS
@@ -347,13 +347,13 @@
  *   s16 sequence (q), s16 startFrame (s), s16 endFrame (e)
  * FORMAT
  *   Capital U is Unused
- *   qqqqssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU
+ *   qqqqssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU 00000000 00000000 00000000
  *   size = 0x30
  */
-#define CS_PLAY_BGM(sequence, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
+#define CS_PLAY_BGM(sequence, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
     CMD_HH(sequence, startFrame), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
+    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * ARGS
@@ -369,13 +369,13 @@
  *   s16 sequence (q), s16 startFrame (s), s16 endFrame (e)
  * FORMAT
  *   Capital U is Unused
- *   uuqqssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU
+ *   uuqqssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU 00000000 00000000 00000000
  *   size = 0x30
  */
-#define CS_STOP_BGM(sequence, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
+#define CS_STOP_BGM(sequence, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
     CMD_HH(sequence, startFrame), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
+    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * ARGS
@@ -391,13 +391,13 @@
  *   s16 fadeType (t), s16 startFrame (s), s16 endFrame (e)
  * FORMAT
  *   Capital U is Unused
- *   ttttssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU
+ *   ttttssss eeeeUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU UUUUUUUU 00000000 00000000 00000000
  *   size = 0x30
  */
-#define CS_FADE_BGM(fadeType, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7, unused8, unused9, unused10) \
+#define CS_FADE_BGM(fadeType, startFrame, endFrame, unused0, unused1, unused2, unused3, unused4, unused5, unused6, unused7) \
     CMD_HH(fadeType, startFrame), CMD_HH(endFrame, unused0), \
     CMD_W(unused1), CMD_W(unused2), CMD_W(unused3), CMD_W(unused4), CMD_W(unused5), \
-    CMD_W(unused6), CMD_W(unused7), CMD_W(unused8), CMD_W(unused9), CMD_W(unused10)
+    CMD_W(unused6), CMD_W(unused7), 0x00000000, 0x00000000, 0x00000000
 
 /**
  * ARGS
