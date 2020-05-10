@@ -73,7 +73,8 @@ void func_80998780(DoorWarp1* this, DoorWarp1ActionFunc func) {
 
 #ifdef NON_MATCHING
 //stack only
-void DoorWarp1_Init(DoorWarp1* this, GlobalContext* globalCtx) {
+void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx) {
+    DoorWarp1* this = THIS;
     GlobalContext* localGlobal = globalCtx;
     LightInfoPositional* light;
 
@@ -100,19 +101,20 @@ void DoorWarp1_Init(DoorWarp1* this, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 //regalloc
-void DoorWarp1_Destroy(DoorWarp1* this, GlobalContext* globalCtx) {
-    s32 pad;
+void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    DoorWarp1* this;
     LightingContext* lightCtx;
     u8 i;
 
+    this = THIS;
     lightCtx = &globalCtx->lightCtx;
     Lights_Remove(globalCtx, lightCtx, this->unk_1C4);
     Lights_Remove(globalCtx, lightCtx, this->unk_1D8);
     for (i=0;i<3;i+=1)
     {
-        globalCtx->unk_10AB0[i+3] = 0;
-        globalCtx->unk_10AB0[i+6] = globalCtx->unk_10AB0[i+3];
-        globalCtx->unk_10AB0[i+0] = globalCtx->unk_10AB0[i+3];
+        globalCtx->envCtx.unk_8C[i+3] = 0;
+        globalCtx->envCtx.unk_8C[i+6] = globalCtx->envCtx.unk_8C[i+3];
+        globalCtx->envCtx.unk_8C[i+0] = globalCtx->envCtx.unk_8C[i+3];
     }
 }
 #else
@@ -547,8 +549,8 @@ void func_80999A68(DoorWarp1* this, GlobalContext* globalCtx) {
     this->unk_192 += 1;
     if (D_8099CCA0 < (this->unk_192 & 0xFFFF)) {
         //u16 temp;
-        //temp = gSaveContext.next_cutscene_index;
-        if (gSaveContext.next_cutscene_index == 0xFFEF) {
+        //temp = gSaveContext.nextCutsceneIndex;
+        if (gSaveContext.nextCutsceneIndex == 0xFFEF) {
             // It's time for me
             osSyncPrintf("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", globalCtx->sceneLoadFlag, 0x14);
             if (globalCtx->sceneNum == 0x12) {
@@ -556,10 +558,10 @@ void func_80999A68(DoorWarp1* this, GlobalContext* globalCtx) {
                     Flags_SetEventChkInf(37);
                     Item_Give(globalCtx, 0x6D);
                     globalCtx->nextEntranceIndex = 0x013D;
-                    gSaveContext.next_cutscene_index = 0xFFF1;
+                    gSaveContext.nextCutsceneIndex = 0xFFF1;
                 } else {
                     globalCtx->nextEntranceIndex = 0x047A;
-                    gSaveContext.next_cutscene_index = 0;
+                    gSaveContext.nextCutsceneIndex = 0;
                 }
             } else {
                 if (globalCtx->sceneNum == 0x11) {
@@ -568,23 +570,23 @@ void func_80999A68(DoorWarp1* this, GlobalContext* globalCtx) {
                         Flags_SetEventChkInf(9);
                         Item_Give(globalCtx, 0x6C);
                         globalCtx->nextEntranceIndex = 0x00EE;
-                        gSaveContext.next_cutscene_index = 0xFFF1;
+                        gSaveContext.nextCutsceneIndex = 0xFFF1;
                     } else {
                         globalCtx->nextEntranceIndex = 0x0457;
-                        gSaveContext.next_cutscene_index = 0;
+                        gSaveContext.nextCutsceneIndex = 0;
                     }
                 } else {
                     if (globalCtx->sceneNum == 0x13) {
                         globalCtx->nextEntranceIndex = 0x010E;
-                        gSaveContext.next_cutscene_index = 0;
+                        gSaveContext.nextCutsceneIndex = 0;
                     }
                 }
             }
             // End
             osSyncPrintf("\n\n\nおわりおわり");
             globalCtx->sceneLoadFlag = 0x14;
-            globalCtx->fadeOutTransition = 7;
-            gSaveContext.transition_type = 3;
+            globalCtx->fadeTransition = 7;
+            gSaveContext.nextTransition = 3;
         }
     }
     Math_ApproxF(&this->unk_194, 2.0f, 0.00999999977648f);
@@ -610,7 +612,8 @@ void func_80999E64(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999EE0.s")
+#ifdef NON_MATCHING
+// Single regalloc
 void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
     Vec3f vec1;
     Vec3f vec2;
@@ -618,9 +621,9 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
     if (this->unk_1EC == 3) {
-        func_800C0314(globalCtx, 0, 1);
-        D_8099CCA2 = func_800C0230(globalCtx);
-        func_800C0314(globalCtx, D_8099CCA2, 7);
+        Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+        D_8099CCA2 = Gameplay_CreateSubCamera(globalCtx);
+        Gameplay_ChangeCameraStatus(globalCtx, D_8099CCA2, 7);
         vec1.x = this->actor.posRot.pos.x;
         vec1.y = 49.0f;
         vec1.z = this->actor.posRot.pos.z;
@@ -634,6 +637,9 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
         func_80998780(this, func_80999FE4);
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999EE0.s")
+#endif
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Warp1/func_80999FE4.s")
 void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
@@ -641,7 +647,7 @@ void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
         Audio_PlaySoundGeneral(0x2826, &this->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         func_800800F8(globalCtx, 0x25E9, 0x3E7, &this->actor, 0);
         func_800C078C(globalCtx, -1, D_8099CCA2);
-        func_800C0314(globalCtx, D_8099CCA2, 1);
+        Gameplay_ChangeCameraStatus(globalCtx, D_8099CCA2, 1);
         this->unk_1EC = 5;
         func_80998780(this, func_8099A098);
     }
@@ -723,7 +729,7 @@ void func_8099A508(DoorWarp1* this, GlobalContext* globalCtx) {
     } else {
         Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.unk_E4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         //function starting on the same line matches, doesn't match otherwise.
-        frames = (s16) SkelAnime_GetFrameCount(animation); func_800A4FE4(&this->skelAnime, 
+        frames = (s16) SkelAnime_GetFrameCount(animation); SkelAnime_ChangeAnimImpl(&this->skelAnime, 
                 animation, 1.0f, (f32) frames, (f32) SkelAnime_GetFrameCount(animation), 2, 40.0f, 1);
         this->unk_1B2 = (u16)0x32;
         func_80998780(this, &func_8099A5EC);

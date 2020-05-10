@@ -74,15 +74,6 @@ glabel D_8099C6EC
     .word 0x3E6B851F
 
 glabel D_8099C6F0
-<<<<<<< HEAD
-    .word 0x3F19999A
-
-glabel D_8099C6F4
-    .word 0x3E99999A
-
-glabel D_8099C6F8
-    .word 0x3E99999A
-=======
     .float 0.6
     .balign 4
 
@@ -93,7 +84,6 @@ glabel D_8099C6F4
 glabel D_8099C6F8
     .float 0.3
     .balign 4
->>>>>>> 40836f5d82b8ee65c30ce93f8ea8eb7eba3d4904
 
 glabel jtbl_8099C6FC
     .word L80998B6C
@@ -108,15 +98,6 @@ glabel jtbl_8099C6FC
     .word L80998B6C
 
 glabel D_8099C724
-<<<<<<< HEAD
-    .word 0x3E99999A
-
-glabel D_8099C728
-    .word 0x3E99999A
-
-glabel D_8099C72C
-    .word 0x3E99999A
-=======
     .float 0.3
     .balign 4
 
@@ -127,7 +108,6 @@ glabel D_8099C728
 glabel D_8099C72C
     .float 0.3
     .balign 4
->>>>>>> 40836f5d82b8ee65c30ce93f8ea8eb7eba3d4904
 
 glabel D_8099C730
     .word 0x3D4C63F1
@@ -139,12 +119,8 @@ glabel D_8099C738
     .word 0x3DB851EC
 
 glabel D_8099C73C
-<<<<<<< HEAD
-    .word 0x3DCCCCCD
-=======
     .float 0.1
     .balign 4
->>>>>>> 40836f5d82b8ee65c30ce93f8ea8eb7eba3d4904
 
 glabel D_8099C740
     .word 0xBDCCCCCD
@@ -153,18 +129,6 @@ glabel D_8099C744
     .word 0xBDCCCCCD
 
 glabel D_8099C748
-<<<<<<< HEAD
-    .word 0x3A83126F
-
-glabel D_8099C74C
-    .word 0x3A83126F
-
-glabel D_8099C750
-    .word 0x3A83126F
-
-glabel D_8099C754
-    .word 0x3DCCCCCD
-=======
     .float 0.001
     .balign 4
 
@@ -179,7 +143,6 @@ glabel D_8099C750
 glabel D_8099C754
     .float 0.1
     .balign 4
->>>>>>> 40836f5d82b8ee65c30ce93f8ea8eb7eba3d4904
 
 glabel jtbl_8099C758
     .word L80999558
@@ -203,42 +166,6 @@ glabel D_8099C790
     .word 0xC549C000
 
 glabel D_8099C794
-<<<<<<< HEAD
-    .word 0x3C23D70A
-
-glabel D_8099C798
-    .word 0x3C23D70A
-
-glabel D_8099C79C
-    .word 0x3C23D70A
-
-glabel D_8099C7A0
-    .word 0x3C23D70A
-
-glabel D_8099C7A4
-    .word 0x3DCCCCCD
-
-glabel D_8099C7A8
-    .word 0x3C23D70A
-
-glabel D_8099C7AC
-    .word 0x3DCCCCCD
-
-glabel D_8099C7B0
-    .word 0x3CA3D70A
-
-glabel D_8099C7B4
-    .word 0x3C23D70A
-
-glabel D_8099C7B8
-    .word 0x3DCCCCCD
-
-glabel D_8099C7BC
-    .word 0x3DCCCCCD
-
-glabel D_8099C7C0
-    .word 0x3DCCCCCD
-=======
     .float 0.01
     .balign 4
 
@@ -285,42 +212,11 @@ glabel D_8099C7BC
 glabel D_8099C7C0
     .float 0.1
     .balign 4
->>>>>>> 40836f5d82b8ee65c30ce93f8ea8eb7eba3d4904
 
 glabel D_8099C7C4
     .word 0x3C656041
 
 glabel D_8099C7C8
-<<<<<<< HEAD
-    .word 0x3C23D70A
-
-glabel D_8099C7CC
-    .word 0x3C23D70A
-
-glabel D_8099C7D0
-    .word 0x3DCCCCCD
-
-glabel D_8099C7D4
-    .word 0x3C23D70A
-    
-glabel D_8099C7D8
-    .word 0x3C23D70A
-
-glabel D_8099C7DC
-    .word 0x3C23D70A
-
-glabel D_8099C7E0
-    .word 0x3C23D70A
-
-glabel D_8099C7E4
-    .word 0x3DCCCCCD
-
-glabel D_8099C7E8
-    .word 0x3DCCCCCD
-
-glabel D_8099C7EC
-    .word 0x3FD9999A
-=======
     .float 0.01
     .balign 4
 
@@ -359,23 +255,6 @@ glabel D_8099C7E8
 glabel D_8099C7EC
     .float 1.7
     .balign 4
-
-glabel jtbl_8099C7F0
-.word L8099C550
-.word L8099C520
-.word L8099C540
-.word L8099C540
-.word L8099C540
-.word L8099C560
-.word L8099C540
-.word L8099C540
-.word L8099C540
-.word L8099C540
-.word L8099C540
-.word L8099C540
-.word L8099C540
-.word 0x00000000, 0x00000000, 0x00000000
->>>>>>> 40836f5d82b8ee65c30ce93f8ea8eb7eba3d4904
 
 glabel jtbl_8099C7F0
     .word L8099C550
