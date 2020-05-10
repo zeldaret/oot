@@ -1,6 +1,5 @@
 #include <ultra64.h>
 #include <global.h>
-#include <audiomgr.h>
 
 void func_800C3C80(AudioMgr* audioMgr);
 void AudioMgr_HandleRetrace(AudioMgr* audioMgr);
