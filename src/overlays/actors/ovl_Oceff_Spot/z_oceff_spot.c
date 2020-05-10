@@ -1,3 +1,9 @@
+/*
+ * File: z_oceff_spot.c
+ * Overlay: ovl_Oceff_Spot
+ * Description: Sun's Song Effect
+ */
+
 #include "z_oceff_spot.h"
 
 #define FLAGS 0x02000010
@@ -30,7 +36,7 @@ static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_F4, 1500, ICHAIN_STOP),
 };
 
-void OceffSpot_SetActionFunc(OceffSpot* this, OceffSpotActionFunc actionFunc) {
+void OceffSpot_SetupAction(OceffSpot* this, OceffSpotActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -39,7 +45,7 @@ void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffSpot* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, initChain);
-    OceffSpot_SetActionFunc(this, OceffSpot_GrowCylinder);
+    OceffSpot_SetupAction(this, OceffSpot_GrowCylinder);
 
     Lights_InitType0PositionalLight(&this->lightInfo1, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
                                     this->actor.posRot.pos.z, 0x00, 0x00, 0x00, 0);
@@ -97,7 +103,7 @@ void OceffSpot_Wait(OceffSpot* this, GlobalContext* globalCtx) {
     if (this->timer > 0) {
         this->timer--;
     } else {
-        OceffSpot_SetActionFunc(this, OceffSpot_End);
+        OceffSpot_SetupAction(this, OceffSpot_End);
     }
 }
 
@@ -105,7 +111,7 @@ void OceffSpot_GrowCylinder(OceffSpot* this, GlobalContext* globalCtx) {
     if (this->unk_174 < 1.0f) {
         this->unk_174 += 0.05f;
     } else {
-        OceffSpot_SetActionFunc(this, OceffSpot_Wait);
+        OceffSpot_SetupAction(this, OceffSpot_Wait);
         this->timer = 60;
     }
 }

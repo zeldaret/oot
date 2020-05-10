@@ -1,3 +1,9 @@
+/*
+ * File: z_oceff_storm.c
+ * Overlay: ovl_Oceff_Storm
+ * Description: Song of Storms Effect
+ */
+
 #include "z_oceff_storm.h"
 
 #define FLAGS 0x02000030
@@ -27,13 +33,13 @@ const ActorInit Oceff_Storm_InitVars = {
 
 #include "z_oceff_storm_gfx.c"
 
-void OceffStorm_SetActionFunc(OceffStorm* this, OceffStormActionFunc actionFunc) {
+void OceffStorm_SetupAction(OceffStorm* this, OceffStormActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffStorm* this = THIS;
-    OceffStorm_SetActionFunc(this, OceffStorm_DefaultAction);
+    OceffStorm_SetupAction(this, OceffStorm_DefaultAction);
     this->posYOffAdd = 0;
     this->counter = 0;
     this->primColorAlpha = 0;
@@ -44,7 +50,7 @@ void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->posYOff = this->posYOffAdd;
 
     if (this->actor.params == 1) {
-        OceffStorm_SetActionFunc(this, OceffStorm_UnkAction);
+        OceffStorm_SetupAction(this, OceffStorm_UnkAction);
         this->actor.draw = OceffStorm_Draw2;
     } else {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_OKARINA_EFFECT, this->actor.posRot.pos.x,
