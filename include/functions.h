@@ -1047,7 +1047,7 @@ void func_8008EDF0(Player*);
 s32 func_8008EF44(GlobalContext*, s32);
 // ? func_8008F034(?);
 u8 func_8008F080(GlobalContext*);
-void func_8008F08C(GlobalContext*);
+Player* func_8008F08C(GlobalContext*);
 s32 func_8008F098(GlobalContext*);
 s32 func_8008F0AC(GlobalContext*);
 s32 func_8008F0D8(Player* player, s32);
