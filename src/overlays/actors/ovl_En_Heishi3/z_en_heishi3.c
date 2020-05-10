@@ -142,9 +142,7 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) 
             if ((player->actor.posRot.pos.x < -290.0f)) {
                 return;
             }
-        }
-
-        else {
+        } else {
             if (player->actor.posRot.pos.x > -290.0f) {
                 return;
             }
