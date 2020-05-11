@@ -22,7 +22,6 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx);
 void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx);
 void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx);
 void func_80A1DBA0(EnFu* this, GlobalContext* globalCtx);
-void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx);
 void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx);
 void func_80A1DB60(EnFu* this, GlobalContext* globalCtx);
 
@@ -38,8 +37,7 @@ const ActorInit En_Fu_InitVars = {
     (ActorFunc)EnFu_Draw,
 };
 
-static ColliderCylinderInit sCylinderInit =
-{
+static ColliderCylinderInit sCylinderInit = {
     { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
     { 30, 40, 0, { 0, 0, 0 } },
@@ -48,15 +46,16 @@ static ColliderCylinderInit sCylinderInit =
 static Vec3f sMtxSrc = {
     700.0f,
     700.0f,
+    0.0f,
 };
 
 static UNK_PTR sEyesSegments[] = {
-    0x06005F20, 
+    0x06005F20,
     0x06006320,
 };
 
 static UNK_PTR sMouthSegments[] = {
-    0x06006720, 
+    0x06006720,
     0x06006920,
 };
 
@@ -109,7 +108,7 @@ s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFu
     s16 yawDiff;
 
     // func_8002F194 returns 1 if actor flags & 0x100 is set and unsets it
-    if (func_8002F194(&this->actor, globalCtx)) { 
+    if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         return 1;
     }
@@ -130,8 +129,8 @@ void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
         this->actionFunc = EnFu_WaitChild;
 
         if (this->skelanime.animCurrentSeg == &D_0600057C) {
-            SkelAnime_ChangeAnim(&this->skelanime, &D_06000B04, 1.0f, 0.0f, 
-                                 SkelAnime_GetFrameCount(&D_06000B04), 2, -4.0f);
+            SkelAnime_ChangeAnim(&this->skelanime, &D_06000B04, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000B04), 2,
+                                 -4.0f);
         }
     }
 }
@@ -144,14 +143,14 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
         textID = (gSaveContext.eventChkInf[6] & 0x80) ? 0x5033 : 0x5032;
         // 0x5032: "Go around!..I'm so happy!..I'm trying to come up with a musical theme inspired by this windmill..."
         // 0x5033: "Go around, go around, go around... What? It's going way too fast!"
-        }
+    }
 
     // if actor flags & 0x100 is set and textID is 0x5033, change animation
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, globalCtx, textID, func_80A1DA04)) {
         if (textID == 0x5033) {
-            SkelAnime_ChangeAnim(&this->skelanime, &D_0600057C, 1.0f, 0.0f, 
-                                 SkelAnime_GetFrameCount(&D_0600057C), 2, -4.0f);
+            SkelAnime_ChangeAnim(&this->skelanime, &D_0600057C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600057C), 2,
+                                 -4.0f);
         }
     }
 }
@@ -161,12 +160,12 @@ void func_80A1DB60(EnFu* this, GlobalContext* globalCtx) {
         this->actionFunc = EnFu_WaitAdult;
         gSaveContext.eventChkInf[5] |= 0x800;
         globalCtx->msgCtx.unk_E3EE = 4;
-    }  
+    }
 }
 
-void func_80A1DBA0(EnFu *this, GlobalContext *globalCtx) {
+void func_80A1DBA0(EnFu* this, GlobalContext* globalCtx) {
     // if dialog state is 2 set action to WaitAdult
-    if (func_8002F334(this, globalCtx)) { 
+    if (func_8002F334(this, globalCtx)) {
         this->actionFunc = EnFu_WaitAdult;
     }
 }
@@ -195,7 +194,7 @@ void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnFu_WaitForPlayback(EnFu *this, GlobalContext *globalCtx) {
+void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     player->stateFlags2 |= 0x800000;
     // if dialog state is 7, player has played back the song
@@ -205,13 +204,13 @@ void EnFu_WaitForPlayback(EnFu *this, GlobalContext *globalCtx) {
     }
 }
 
-void EnFu_TeachSong(EnFu *this, GlobalContext *globalCtx) {
+void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     player->stateFlags2 |= 0x800000;
     // if dialog state is 2, start song demonstration
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         this->behavior &= ~FU_WAIT;
-        func_800ED858(4); // seems to be related to setting instrument type
+        func_800ED858(4);              // seems to be related to setting instrument type
         func_8010BD58(globalCtx, 0xD); // play song demonstration, song 0xD = SoS
         this->actionFunc = EnFu_WaitForPlayback;
     }
@@ -249,7 +248,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     if ((!(this->behavior & FU_WAIT)) && (SkelAnime_FrameUpdateMatrix(&this->skelanime) != 0)) {
-        SkelAnime_ChangeAnim(&this->skelanime, this->skelanime.animCurrentSeg, 1.0f, 0.0f, 
+        SkelAnime_ChangeAnim(&this->skelanime, this->skelanime.animCurrentSeg, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(this->skelanime.animCurrentSeg), 2, 0.0f);
     }
     this->actionFunc(this, globalCtx);
@@ -264,7 +263,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f *pos, Vec3s* rot, Actor* thisx) {
+s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     EnFu* this = THIS;
     s32 pad1;
 
@@ -272,11 +271,11 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         return 0;
     }
     switch (limbIndex) {
-        case 14: 
+        case 14:
             rot->x += this->lookAngleOffset.y;
             rot->z += this->lookAngleOffset.x;
             break;
-        case 8: 
+        case 8:
             break;
     }
 
@@ -302,7 +301,7 @@ void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnFu* this = THIS;
-    GraphicsContext *gfxCtx;
+    GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
     gfxCtx = globalCtx->state.gfxCtx;
@@ -310,7 +309,7 @@ void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->facialExpression]));
     gSPSegment(gfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthSegments[this->facialExpression]));
-    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, 
-                     this->skelanime.dListCount, EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
+                     EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_fu.c", 791);
 }

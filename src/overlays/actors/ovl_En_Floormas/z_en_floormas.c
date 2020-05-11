@@ -47,15 +47,8 @@ void EnFloormas_BigDecideAction(EnFloormas* this, GlobalContext* globalCtx);
 void EnFloormas_Charge(EnFloormas* this, GlobalContext* globalCtx);
 
 const ActorInit En_Floormas_InitVars = {
-    ACTOR_EN_FLOORMAS,
-    ACTORTYPE_ENEMY,
-    FLAGS,
-    OBJECT_WALLMASTER,
-    sizeof(EnFloormas),
-    EnFloormas_Init,
-    EnFloormas_Destroy,
-    EnFloormas_Update,
-    EnFloormas_Draw,
+    ACTOR_EN_FLOORMAS,  ACTORTYPE_ENEMY,   FLAGS,           OBJECT_WALLMASTER, sizeof(EnFloormas), EnFloormas_Init,
+    EnFloormas_Destroy, EnFloormas_Update, EnFloormas_Draw,
 };
 
 static ColliderCylinderInit cylinderInit = {
@@ -89,11 +82,7 @@ static Vec3f D_80A1A4DC = {
     0.0f,
 };
 
-static Vec3f dustPos = {
-    0.0f,
-    0.0f,
-    0.0f
-};
+static Vec3f dustPos = { 0.0f, 0.0f, 0.0f };
 
 static Color_RGBA8 mergeColor = {
     0x00,
@@ -128,8 +117,8 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, initChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 50.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->limbDrawTable, &this->transitionDrawTable,
-                     25);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, &this->limbDrawTable,
+                     &this->transitionDrawTable, 25);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInit);
     func_80061ED4(&this->actor.colChkInfo, &damageTable, &colCheckInfoInit);
@@ -137,7 +126,7 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
     invisble = this->actor.params & SPAWN_INVISIBLE;
 
     // s16 cast needed
-    this->actor.params &= (s16)~(SPAWN_INVISIBLE);
+    this->actor.params &= (s16) ~(SPAWN_INVISIBLE);
     if (invisble) {
         this->actor.flags |= 0x80;
         this->actor.draw = EnFloormas_DrawHighlighted;
