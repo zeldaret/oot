@@ -47,7 +47,7 @@ def main():
 
     output = import_c_file(c_file_path)
 
-    with open(os.path.join(build_dir, "ctx.c"), "w") as f:
+    with open(os.path.join(build_dir, "ctx.c"), "w", encoding="UTF-8") as f:
         f.write(output)
 
 

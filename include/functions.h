@@ -550,7 +550,7 @@ void DynaPolyInfo_Alloc(u32 collision, void* collisionPtr);
 // ? func_80041DB8(?);
 // ? func_80041EC8(?);
 // ? func_80041F10(?);
-// ? func_80041F34(?);
+u16 func_80041F34(CollisionContext*, CollisionPoly*, u8);
 // ? func_80042048(?);
 // ? func_80042108(?);
 s32 func_8004213C(GlobalContext*, CollisionContext*, f32, f32, f32*, UNK_PTR);
