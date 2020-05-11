@@ -61,10 +61,7 @@ void Sample_SetupView(SampleContext* this) {
     gfxCtx = this->state.gfxCtx;
     View_Init(view, gfxCtx);
 
-    // clang-format off
-    viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH; 
-    viewport.topY = 0; viewport.leftX = 0;
-    // clang-format on
+    VIEWPORT_INIT(viewport, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0);
 
     View_SetViewport(view, &viewport);
     func_800AA460(view, 60, 10, 12800);

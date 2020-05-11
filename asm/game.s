@@ -512,17 +512,17 @@ glabel func_800C46EC
 /* B3BA20 800C4880 8FA40084 */   lw    $a0, 0x84($sp)
 /* B3BA24 800C4884 3C0E8016 */  lui   $t6, %hi(gGameInfo) # $t6, 0x8016
 /* B3BA28 800C4888 8DCEFA90 */  lw    $t6, %lo(gGameInfo)($t6)
-/* B3BA2C 800C488C 3C048016 */  lui   $a0, %hi(D_801664D0) # $a0, 0x8016
-/* B3BA30 800C4890 248464D0 */  addiu $a0, %lo(D_801664D0) # addiu $a0, $a0, 0x64d0
+/* B3BA2C 800C488C 3C048016 */  lui   $a0, %hi(gSpeedMeter) # $a0, 0x8016
+/* B3BA30 800C4890 248464D0 */  addiu $a0, %lo(gSpeedMeter) # addiu $a0, $a0, 0x64d0
 /* B3BA34 800C4894 85D800D4 */  lh    $t8, 0xd4($t6)
 /* B3BA38 800C4898 53000009 */  beql  $t8, $zero, .L800C48C0
 /* B3BA3C 800C489C 8FBF0014 */   lw    $ra, 0x14($sp)
-/* B3BA40 800C48A0 0C032671 */  jal   func_800C99C4
+/* B3BA40 800C48A0 0C032671 */  jal   SpeedMeter_DrawTimeEntries
 /* B3BA44 800C48A4 8FA50084 */   lw    $a1, 0x84($sp)
-/* B3BA48 800C48A8 3C048016 */  lui   $a0, %hi(D_801664D0) # $a0, 0x8016
-/* B3BA4C 800C48AC 248464D0 */  addiu $a0, %lo(D_801664D0) # addiu $a0, $a0, 0x64d0
+/* B3BA48 800C48A8 3C048016 */  lui   $a0, %hi(gSpeedMeter) # $a0, 0x8016
+/* B3BA4C 800C48AC 248464D0 */  addiu $a0, %lo(gSpeedMeter) # addiu $a0, $a0, 0x64d0
 /* B3BA50 800C48B0 8FA50084 */  lw    $a1, 0x84($sp)
-/* B3BA54 800C48B4 0C032841 */  jal   func_800CA104
+/* B3BA54 800C48B4 0C032841 */  jal   SpeedMeter_DrawAllocEntries
 /* B3BA58 800C48B8 8FA60080 */   lw    $a2, 0x80($sp)
 /* B3BA5C 800C48BC 8FBF0014 */  lw    $ra, 0x14($sp)
 .L800C48C0:
@@ -1202,9 +1202,9 @@ glabel func_800C5080
 /* B3C440 800C52A0 0C02B28A */  jal   func_800ACA28
 /* B3C444 800C52A4 24846528 */   addiu $a0, %lo(D_80166528) # addiu $a0, $a0, 0x6528
 .L800C52A8:
-/* B3C448 800C52A8 3C048016 */  lui   $a0, %hi(D_801664D0) # $a0, 0x8016
-/* B3C44C 800C52AC 0C032666 */  jal   func_800C9998
-/* B3C450 800C52B0 248464D0 */   addiu $a0, %lo(D_801664D0) # addiu $a0, $a0, 0x64d0
+/* B3C448 800C52A8 3C048016 */  lui   $a0, %hi(gSpeedMeter) # $a0, 0x8016
+/* B3C44C 800C52AC 0C032666 */  jal   SpeedMeter_Init
+/* B3C450 800C52B0 248464D0 */   addiu $a0, %lo(gSpeedMeter) # addiu $a0, $a0, 0x64d0
 /* B3C454 800C52B4 0C02A82D */  jal   func_800AA0B4
 /* B3C458 800C52B8 00000000 */   nop   
 /* B3C45C 800C52BC 8E040000 */  lw    $a0, ($s0)
@@ -1281,9 +1281,9 @@ glabel func_800C5360
 .L800C53D0:
 /* B3C570 800C53D0 0C02A83C */  jal   func_800AA0F0
 /* B3C574 800C53D4 00000000 */   nop   
-/* B3C578 800C53D8 3C048016 */  lui   $a0, %hi(D_801664D0) # $a0, 0x8016
-/* B3C57C 800C53DC 0C03266F */  jal   func_800C99BC
-/* B3C580 800C53E0 248464D0 */   addiu $a0, %lo(D_801664D0) # addiu $a0, $a0, 0x64d0
+/* B3C578 800C53D8 3C048016 */  lui   $a0, %hi(gSpeedMeter) # $a0, 0x8016
+/* B3C57C 800C53DC 0C03266F */  jal   SpeedMeter_Destroy
+/* B3C580 800C53E0 248464D0 */   addiu $a0, %lo(gSpeedMeter) # addiu $a0, $a0, 0x64d0
 /* B3C584 800C53E4 3C048016 */  lui   $a0, %hi(D_801664F0) # $a0, 0x8016
 /* B3C588 800C53E8 0C02B3A4 */  jal   func_800ACE90
 /* B3C58C 800C53EC 248464F0 */   addiu $a0, %lo(D_801664F0) # addiu $a0, $a0, 0x64f0

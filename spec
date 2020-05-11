@@ -417,7 +417,6 @@ beginseg
     include "build/data/sched.data.o"
     include "build/data/sched.bss.o"
     include "build/src/code/speed_meter.o"
-    include "build/data/speed_meter.data.o"
     include "build/src/code/sys_cfb.o"
     include "build/src/code/sys_math.o"
     include "build/src/code/sys_math3d.o"
