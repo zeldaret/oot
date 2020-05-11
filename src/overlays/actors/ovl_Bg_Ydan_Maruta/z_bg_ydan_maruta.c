@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void BgYdanMaruta_Init(BgYdanMaruta* this, GlobalContext* globalCtx);
-void BgYdanMaruta_Destroy(BgYdanMaruta* this, GlobalContext* globalCtx);
-void BgYdanMaruta_Update(BgYdanMaruta* this, GlobalContext* globalCtx);
-void BgYdanMaruta_Draw(BgYdanMaruta* this, GlobalContext* globalCtx);
+#define THIS ((BgYdanMaruta*)thisx)
+
+void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgYdanMaruta_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgYdanMaruta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Ydan_Maruta_InitVars = {

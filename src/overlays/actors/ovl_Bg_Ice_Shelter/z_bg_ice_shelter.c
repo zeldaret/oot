@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void BgIceShelter_Init(BgIceShelter* this, GlobalContext* globalCtx);
-void BgIceShelter_Destroy(BgIceShelter* this, GlobalContext* globalCtx);
-void BgIceShelter_Update(BgIceShelter* this, GlobalContext* globalCtx);
-void BgIceShelter_Draw(BgIceShelter* this, GlobalContext* globalCtx);
+#define THIS ((BgIceShelter*)thisx)
+
+void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgIceShelter_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgIceShelter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Ice_Shelter_InitVars = {

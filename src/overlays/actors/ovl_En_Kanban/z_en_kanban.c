@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000019
 
-void EnKanban_Init(EnKanban* this, GlobalContext* globalCtx);
-void EnKanban_Destroy(EnKanban* this, GlobalContext* globalCtx);
-void EnKanban_Update(EnKanban* this, GlobalContext* globalCtx);
-void EnKanban_Draw(EnKanban* this, GlobalContext* globalCtx);
+#define THIS ((EnKanban*)thisx)
+
+void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnKanban_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Kanban_InitVars = {

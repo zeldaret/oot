@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000009
 
-void EnJs_Init(EnJs* this, GlobalContext* globalCtx);
-void EnJs_Destroy(EnJs* this, GlobalContext* globalCtx);
-void EnJs_Update(EnJs* this, GlobalContext* globalCtx);
-void EnJs_Draw(EnJs* this, GlobalContext* globalCtx);
+#define THIS ((EnJs*)thisx)
+
+void EnJs_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnJs_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnJs_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Js_InitVars = {

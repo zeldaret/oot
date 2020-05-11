@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void ItemBHeart_Init(ItemBHeart* this, GlobalContext* globalCtx);
-void ItemBHeart_Destroy(ItemBHeart* this, GlobalContext* globalCtx);
-void ItemBHeart_Update(ItemBHeart* this, GlobalContext* globalCtx);
-void ItemBHeart_Draw(ItemBHeart* this, GlobalContext* globalCtx);
+#define THIS ((ItemBHeart*)thisx)
+
+void ItemBHeart_Init(Actor* thisx, GlobalContext* globalCtx);
+void ItemBHeart_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx);
+void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Item_B_Heart_InitVars = {

@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct ObjBlockstop;
+
+typedef struct ObjBlockstop {
     /* 0x0000 */ Actor actor;
 } ObjBlockstop; // size = 0x014C
 

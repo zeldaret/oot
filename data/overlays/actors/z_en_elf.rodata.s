@@ -8,14 +8,16 @@
 .section .rodata
 
 glabel D_80A060B0
-    .float 4.656612873077393e-10
+    .asciz "0"
+    .balign 4
 
 glabel D_80A060B4
     .asciz "../z_en_elf.c"
     .balign 4
 
 glabel D_80A060C4
-    .float 4.656612873077393e-10
+    .asciz "0"
+    .balign 4
 
 glabel D_80A060C8
     .asciz "../z_en_elf.c"
@@ -39,18 +41,18 @@ glabel D_80A06134
 
 glabel jtbl_80A06144
 .word L80A01C60
-.word func_80A01DE0
-.word func_80A01E24
-.word func_80A01E68
-.word func_80A01E94
-.word func_80A01ED0
-.word func_80A01F04
-.word func_80A01D70
-.word func_80A01DA8
-.word func_80A01D2C
-.word func_80A01CF0
-.word func_80A01F48
-.word func_80A01CAC
+.word L80A01DE0
+.word L80A01E24
+.word L80A01E68
+.word L80A01E94
+.word L80A01ED0
+.word L80A01F04
+.word L80A01D70
+.word L80A01DA8
+.word L80A01D2C
+.word L80A01CF0
+.word L80A01F48
+.word L80A01CAC
 glabel D_80A06178
     .float 32767.0
 

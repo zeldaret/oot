@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void EnYukabyun_Init(EnYukabyun* this, GlobalContext* globalCtx);
-void EnYukabyun_Destroy(EnYukabyun* this, GlobalContext* globalCtx);
-void EnYukabyun_Update(EnYukabyun* this, GlobalContext* globalCtx);
-void EnYukabyun_Draw(EnYukabyun* this, GlobalContext* globalCtx);
+#define THIS ((EnYukabyun*)thisx)
+
+void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnYukabyun_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnYukabyun_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Yukabyun_InitVars = {

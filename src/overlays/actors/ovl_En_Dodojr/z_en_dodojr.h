@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnDodojr;
+
+typedef struct EnDodojr {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x174];
 } EnDodojr; // size = 0x02C0

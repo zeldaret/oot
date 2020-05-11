@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000030
 
-void BgMoriHineri_Init(BgMoriHineri* this, GlobalContext* globalCtx);
-void BgMoriHineri_Destroy(BgMoriHineri* this, GlobalContext* globalCtx);
-void BgMoriHineri_Update(BgMoriHineri* this, GlobalContext* globalCtx);
+#define THIS ((BgMoriHineri*)thisx)
+
+void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriHineri_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mori_Hineri_InitVars = {

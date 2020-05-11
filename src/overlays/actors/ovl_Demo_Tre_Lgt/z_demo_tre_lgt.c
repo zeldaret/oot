@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void DemoTreLgt_Init(DemoTreLgt* this, GlobalContext* globalCtx);
-void DemoTreLgt_Destroy(DemoTreLgt* this, GlobalContext* globalCtx);
-void DemoTreLgt_Update(DemoTreLgt* this, GlobalContext* globalCtx);
-void DemoTreLgt_Draw(DemoTreLgt* this, GlobalContext* globalCtx);
+#define THIS ((DemoTreLgt*)thisx)
+
+void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoTreLgt_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoTreLgt_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Demo_Tre_Lgt_InitVars = {

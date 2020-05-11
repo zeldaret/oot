@@ -1,6 +1,5 @@
 #include <global.h>
 #include <vt.h>
-#include <sched.h>
 
 s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
@@ -22,7 +21,7 @@ StackEntry sSchedStackInfo;
 StackEntry sAudioStackInfo;
 StackEntry sPadMgrStackInfo;
 StackEntry sIrqMgrStackInfo;
-u8 gAudioMgr[0x298]; // type should be AudioMgr
+AudioMgr gAudioMgr;
 OSMesgQueue sSiIntMsgQ;
 OSMesg sSiIntMsgBuf[1];
 
@@ -85,12 +84,12 @@ void Main(void* arg0) {
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQ);
 
     StackCheck_Init(&sAudioStackInfo, sAudioStack, sAudioStack + sizeof(sAudioStack), 0, 0x100, "audio");
-    func_800C3FEC(&gAudioMgr, sAudioStack + sizeof(sAudioStack), 0xc, 0xa, &gSchedContext, &gIrqMgr);
+    AudioMgr_Start(&gAudioMgr, sAudioStack + sizeof(sAudioStack), 0xc, 0xa, &gSchedContext, &gIrqMgr);
 
     StackCheck_Init(&sPadMgrStackInfo, sPadMgrStack, sPadMgrStack + sizeof(sPadMgrStack), 0, 0x100, "padmgr");
     PadMgr_Init(&gPadMgr, &sSiIntMsgQ, &gIrqMgr, 7, 0xe, &sIrqMgrStack);
 
-    func_800C3FC4(&gAudioMgr);
+    AudioMgr_Unlock(&gAudioMgr);
 
     StackCheck_Init(&sGraphStackInfo, sGraphStack, sGraphStack + sizeof(sGraphStack), 0, 0x100, "graph");
     osCreateThread(&sGraphThread, 4, Graph_ThreadEntry, arg0, sGraphStack + sizeof(sGraphStack), 0xb);

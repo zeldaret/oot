@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void EnFhgFire_Init(EnFhgFire* this, GlobalContext* globalCtx);
-void EnFhgFire_Destroy(EnFhgFire* this, GlobalContext* globalCtx);
-void EnFhgFire_Update(EnFhgFire* this, GlobalContext* globalCtx);
-void EnFhgFire_Draw(EnFhgFire* this, GlobalContext* globalCtx);
+#define THIS ((EnFhgFire*)thisx)
+
+void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Fhg_Fire_InitVars = {

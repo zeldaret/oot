@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000030
 
-void BgMoriIdomizu_Init(BgMoriIdomizu* this, GlobalContext* globalCtx);
-void BgMoriIdomizu_Destroy(BgMoriIdomizu* this, GlobalContext* globalCtx);
-void BgMoriIdomizu_Update(BgMoriIdomizu* this, GlobalContext* globalCtx);
+#define THIS ((BgMoriIdomizu*)thisx)
+
+void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriIdomizu_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriIdomizu_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mori_Idomizu_InitVars = {

@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnVase;
+
+typedef struct EnVase {
     /* 0x0000 */ Actor actor;
 } EnVase; // size = 0x014C
 

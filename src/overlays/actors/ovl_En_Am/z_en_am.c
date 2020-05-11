@@ -8,10 +8,12 @@
 
 #define FLAGS 0x04000015
 
-void EnAm_Init(EnAm* this, GlobalContext* globalCtx);
-void EnAm_Destroy(EnAm* this, GlobalContext* globalCtx);
-void EnAm_Update(EnAm* this, GlobalContext* globalCtx);
-void EnAm_Draw(EnAm* this, GlobalContext* globalCtx);
+#define THIS ((EnAm*)thisx)
+
+void EnAm_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnAm_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnAm_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnAm_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Am_InitVars = {

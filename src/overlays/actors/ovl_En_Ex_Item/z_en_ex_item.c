@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void EnExItem_Init(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_Destroy(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_Update(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_Draw(EnExItem* this, GlobalContext* globalCtx);
+#define THIS ((EnExItem*)thisx)
+
+void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnExItem_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnExItem_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnExItem_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ex_Item_InitVars = {

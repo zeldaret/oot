@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00400000
 
-void BgBombwall_Init(BgBombwall* this, GlobalContext* globalCtx);
-void BgBombwall_Destroy(BgBombwall* this, GlobalContext* globalCtx);
-void BgBombwall_Update(BgBombwall* this, GlobalContext* globalCtx);
-void BgBombwall_Draw(BgBombwall* this, GlobalContext* globalCtx);
+#define THIS ((BgBombwall*)thisx)
+
+void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgBombwall_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgBombwall_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgBombwall_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8086E7D0(BgBombwall* this, GlobalContext* globalCtx);
 void func_8086EAC0(BgBombwall* this, GlobalContext* globalCtx);
 void func_8086EB5C(BgBombwall* this, GlobalContext* globalCtx);

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000009
 
-void EnDns_Init(EnDns* this, GlobalContext* globalCtx);
-void EnDns_Destroy(EnDns* this, GlobalContext* globalCtx);
-void EnDns_Update(EnDns* this, GlobalContext* globalCtx);
-void EnDns_Draw(EnDns* this, GlobalContext* globalCtx);
+#define THIS ((EnDns*)thisx)
+
+void EnDns_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDns_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDns_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Dns_InitVars = {

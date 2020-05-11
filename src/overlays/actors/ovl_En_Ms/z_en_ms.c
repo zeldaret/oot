@@ -8,15 +8,18 @@
 
 #define FLAGS 0x00000009
 
+#define THIS ((EnMs*)thisx)
+
+void EnMs_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMs_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMs_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMs_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx);
-void EnMs_Init(EnMs* this, GlobalContext* globalCtx);
-void EnMs_Destroy(EnMs* this, GlobalContext* globalCtx);
 void EnMs_Wait(EnMs* this, GlobalContext* globalCtx);
 void EnMs_Talk(EnMs* this, GlobalContext* globalCtx);
 void EnMs_Sell(EnMs* this, GlobalContext* globalCtx);
 void EnMs_TalkAfterBuy(EnMs* this, GlobalContext* globalCtx);
-void EnMs_Update(EnMs* this, GlobalContext* globalCtx);
-void EnMs_Draw(EnMs* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ms_InitVars = {
     ACTOR_EN_MS,
@@ -63,9 +66,9 @@ void EnMs_SetOfferText(EnMs* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void EnMs_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnMs* this = THIS;
+    s32 pad;
 
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
         Actor_Kill(&this->actor);
@@ -89,9 +92,10 @@ void EnMs_Init(EnMs* this, GlobalContext* globalCtx) {
     this->actionFunc = EnMs_Wait;
 }
 
-void EnMs_Destroy(EnMs* this, GlobalContext* globalCtx) {
-    ColliderCylinder* collider = &this->collider;
-    Collider_DestroyCylinder(globalCtx, collider);
+void EnMs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnMs* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
@@ -100,7 +104,7 @@ void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
     unkAngle = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
     EnMs_SetOfferText(&this->actor, globalCtx);
     if (func_8002F194(&this->actor, globalCtx) != 0) { // if talk is initiated
-        this->actionFunc = &EnMs_Talk;
+        this->actionFunc = EnMs_Talk;
         return;
     }
 
@@ -115,7 +119,7 @@ void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
     dialogState = func_8010BDBC(&globalCtx->msgCtx);
     if (dialogState != 4) {
         if ((dialogState == 6) && (func_80106BC8(globalCtx) != 0)) { // advanced final textbox
-            this->actionFunc = &EnMs_Wait;
+            this->actionFunc = EnMs_Wait;
         }
     } else {
         if (func_80106BC8(globalCtx) != 0) {
@@ -126,7 +130,7 @@ void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
                         return;
                     }
                     func_8002F434(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
-                    this->actionFunc = &EnMs_Sell;
+                    this->actionFunc = EnMs_Sell;
                     return;
                 case 1: // no
                     func_8010B720(globalCtx, 0x4068);
@@ -141,7 +145,7 @@ void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
     if (func_8002F410(&this->actor, globalCtx) != 0) { // if attached is set
         Rupees_ChangeBy(-prices[BEANS_BOUGHT]);
         this->actor.attachedA = NULL;
-        this->actionFunc = &EnMs_TalkAfterBuy;
+        this->actionFunc = EnMs_TalkAfterBuy;
         return;
     }
     func_8002F434(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
@@ -151,13 +155,13 @@ void EnMs_TalkAfterBuy(EnMs* this, GlobalContext* globalCtx) {
     // if dialog state is 6 and player responded to textbox
     if ((func_8010BDBC(&globalCtx->msgCtx)) == 6 && (func_80106BC8(globalCtx) != 0)) {
         func_8010B720(globalCtx, 0x406C);
-        this->actionFunc = &EnMs_Talk;
+        this->actionFunc = EnMs_Talk;
     }
 }
 
-void EnMs_Update(EnMs* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void EnMs_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnMs* this = THIS;
+    s32 pad;
 
     this->activeTimer += 1;
     Actor_SetHeight(&this->actor, 20.0f);
@@ -175,7 +179,9 @@ void EnMs_Update(EnMs* this, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
 }
 
-void EnMs_Draw(EnMs* this, GlobalContext* globalCtx) {
+void EnMs_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnMs* this = THIS;
+
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
                      NULL, &this->actor);
