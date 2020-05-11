@@ -201,6 +201,12 @@ typedef struct {
 } DynaPolyActor; // size = 0x164
 
 typedef struct {
+    /* 0x00 */ s32 active;
+    /* 0x04 */ Vec3f tip;
+    /* 0x10 */ Vec3f base;
+} Struct_80090480_arg2;
+
+typedef struct {
     /* 0x0000 */ Actor      actor;
     /* 0x014C */ s8         currentTunic;
     /* 0x014D */ s8         currentSword;
@@ -258,7 +264,7 @@ typedef struct {
     /* 0x0664 */ Actor*     unk_664;
     /* 0x0668 */ char       unk_668[0x004];
     /* 0x066C */ s32        unk_66C;
-    /* 0x0670 */ u32        unk_670; // effect related
+    /* 0x0670 */ u32        unk_670; // (sword?) effect related
     /* 0x0674 */ ActorFunc  actionFunc;
     /* 0x0678 */ u32        ageProperties;
     /* 0x067C */ u32        stateFlags1;
@@ -320,11 +326,9 @@ typedef struct {
     /* 0x08AC */ f32        fanWindSpeed;
     /* 0x08B0 */ s16        fanWindDirection;
     /* 0x08B2 */ char       unk_8B2[0x002];
-    /* 0x08B4 */ s32        unk_8B4; // TODO group this, swordTipPos and unk_8C4 into a single struct
-    /* 0x08B8 */ Vec3f      swordTipPos;
-    /* 0x08C4 */ Vec3f      unk_8C4;
-    /* 0x08D0 */ u32        unk_8D0[0x7]; // TODO replace with proper struct
-    /* 0x08EC */ u32        unk_8EC[0x7]; // TODO replace with proper struct
+    /* 0x08B4 */ Struct_80090480_arg2 swordDimensions; // Trail active, tip, base?
+    /* 0x08D0 */ Struct_80090480_arg2 unk_8D0;
+    /* 0x08EC */ Struct_80090480_arg2 unk_8EC;
     /* 0x0908 */ char       unk_908[0x118];
     /* 0x0A20 */ MtxF       mf_A20;
     /* 0x0A60 */ char       unk_A60[0x08];

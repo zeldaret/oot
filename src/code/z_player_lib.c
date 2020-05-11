@@ -3,18 +3,18 @@
 
 typedef struct {
     u8 unk_0;
-    s16 unk_2;
-} PlayerLibStruct1;
+    u16 unk_2;
+} Struct_8008F2F8;
 
 // TODO decompile data
 
-extern u32 D_80125B70[];
+extern SkeletonHeader* D_80125B70[];
 
 extern s16 D_80125B78[];
 
 extern u8 D_80125C44[];
 
-extern PlayerLibStruct1 D_80125C88[];
+extern Struct_8008F2F8 D_80125C88[];
 
 extern u8 D_80125C98[];
 
@@ -47,14 +47,12 @@ extern Vec3f D_80126098;
 
 extern u8 D_80160008[]; // TODO check type
 
-
 // Segment Addresses
 
-extern u32 D_04003238;
+extern LinkAnimetionEntry D_04003238;
 extern u32 D_0602A738;
 extern u32 D_0602CB48;
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008E750.s")
 void func_8008E750(GlobalContext* globalCtx, Player* player) {
     s32 currentBoots;
     s16* temp_var;
@@ -117,7 +115,6 @@ s32 func_8008E9D0(Player* player) {
     return LINK_IS_CHILD && player->currentShield == 2;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008E9F8.s")
 s32 func_8008E9F8(Player* player, s32 arg1) {
     s32 temp_v1 = D_80125C44[arg1];
 
@@ -158,7 +155,6 @@ void func_8008EA40(Player* player) {
 #ifdef NON_MATCHING
 // Regalloc, gSaveContext and D_80125F40 hi/lo pairs swapped
 void func_8008EB2C(Player* player, s32 arg1) {
-
     player->unk_15C = D_80125C98[(arg1 * 5) + 1];
     player->unk_15D = D_80125C98[(arg1 * 5) + 2];
     player->unk_15E = D_80125C98[(arg1 * 5) + 3];
@@ -172,7 +168,6 @@ void func_8008EB2C(Player* player, s32 arg1) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EB2C.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EC04.s")
 void func_8008EC04(Player* player, s32 arg1) {
     player->unk_158 = arg1;
     if (arg1 == 1) {
@@ -261,7 +256,6 @@ void func_8008EEAC(GlobalContext* globalCtx, UNK_PTR arg1) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EEAC.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EF40.s")
 s32 func_8008EF40(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     return player->stateFlags1 & 0x800000;
@@ -272,7 +266,6 @@ s32 func_8008EF44(GlobalContext* globalCtx, s32 arg1) {
     return 1;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EF5C.s")
 s32 func_8008EF5C(GlobalContext* globalCtx, Vec3f* pos, f32 radius, f32 arg3) {
     s32 pad;
     Vec3f diff;
@@ -280,14 +273,13 @@ s32 func_8008EF5C(GlobalContext* globalCtx, Vec3f* pos, f32 radius, f32 arg3) {
 
     player = PLAYER;
     if ((player->heldItemActionParam == 6) && (player->stickFlameTimer != 0)) {
-        Math_Vec3f_Diff(&player->swordTipPos, pos, &diff);
+        Math_Vec3f_Diff(&player->swordDimensions.tip, pos, &diff);
         return ((diff.x * diff.x) + (diff.z * diff.z)) <= (radius * radius) && 0.0f <= diff.y && diff.y <= arg3;
     } else {
         return false;
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008F034.s")
 s32 func_8008F034() {
     s32 temp_v1;
 
@@ -357,7 +349,6 @@ s32 func_8008F1A0(Player* player) {
     return 0;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008F1CC.s")
 s32 func_8008F1CC(Player* player) {
     return player->heldItemActionParam == 5 && gSaveContext.bgsHitsLeft <= 0.0f;
 }
@@ -387,57 +378,33 @@ s32 func_8008F29C(Player* player) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008F2BC.s")
-/* s32 func_8008F2BC(s32 arg0, s32 arg1) {
-    s32 temp_v0;
-    s32 phi_v1;
 
-    if (arg1 != 1) {
-        temp_v0 = arg1 - 3;
-        if (temp_v0 >= 0 && temp_v0 < 3) {
-            return temp_v0;
-        }
-    } else {
-        return 0;
-    }
-    return -1;
-} */
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008F2F8.s")
-/* s32 func_8008F2F8(GlobalContext* globalCtx) {
+s32 func_8008F2F8(GlobalContext* globalCtx) {
     Player* player;
-    PlayerLibStruct1* temp_a3;
+    Struct_8008F2F8* temp_a3;
     s32 phi_v1;
 
     player = PLAYER;
     if (globalCtx->roomCtx.curRoom.unk_02 == 3) {
         phi_v1 = 0;
+    } else if (((s32)player->unk_840 >= 0x51) && (player->currentBoots == 1 || (s32)player->unk_840 >= 0x12C)) {
+        phi_v1 = (player->currentBoots == 1 && (player->actor.bgCheckFlags & 1)) ? 1 : 3;
+    } else if (((s32)player->stateFlags1 * 0x10) < 0) {
+        phi_v1 = 2;
     } else {
-        if (((s32)player->unk_840 >= 0x51) && (player->currentBoots == 1 || (s32)player->unk_840 >= 0x12C)) {
-            if (player->currentBoots != 1 || (player->actor.bgCheckFlags & 1)) {
-                phi_v1 = 1;
-            } else {
-                phi_v1 = 3;
-            }
-        } else {
-            // TODO some issues here
-            if (((s32)player->stateFlags1 * 0x10) >= 0) {
-                return 0;
-            }
-            phi_v1 = 2;
-        }
+        return 0;
     }
-    // TODO some control flow issues down here
     if (func_8008E988(globalCtx) == 0) {
         temp_a3 = &D_80125C88[phi_v1];
-        if (temp_a3->unk_0 != 0 && !(gSaveContext.unk_13C6 & temp_a3->unk_0)) {
-            if (phi_v1 != 0 || player->currentTunic != 1 || ((phi_v1 == 1 || phi_v1 == 3) && player->currentBoots == 1 && player->currentTunic != 2)) {
-                func_8010B680(globalCtx, temp_a3->unk_2, 0);
-                gSaveContext.unk_13C6 |= temp_a3->unk_0;
-            }
+        if (!temp_a3) {}
+        if (temp_a3->unk_0 != 0 && !(gSaveContext.unk_13C6 & temp_a3->unk_0) && 
+            ((phi_v1 == 0 && player->currentTunic != 1) || ((phi_v1 == 1 || phi_v1 == 3) && player->currentBoots == 1 && player->currentTunic != 2))) {
+            func_8010B680(globalCtx, temp_a3->unk_2, 0);
+            gSaveContext.unk_13C6 |= temp_a3->unk_0;
         }
     }
     return phi_v1 + 1;
-} */
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008F470.s")
 
@@ -475,7 +442,6 @@ s32 func_800902F0(s32 arg0, s32 arg1, UNK_PTR** arg2, s32 arg3, s32 arg4, Player
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_800902F0.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090440.s")
 s32 func_80090440(s32 arg0, s32 arg1, UNK_PTR** arg2, s32 arg3, s32 arg4, Player* player) {
     if (func_8008FCC8(arg0, arg1, arg2, arg3, arg4, player) == 0) {
         *arg2 = NULL;
@@ -483,43 +449,34 @@ s32 func_80090440(s32 arg0, s32 arg1, UNK_PTR** arg2, s32 arg3, s32 arg4, Player
     return 0;
 }
 
-typedef struct {
-    s32 unk_0;
-    Vec3f unk_4;
-    Vec3f unk_10;
-} UnkPlayerLibStruct;
-
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090480.s")
-u8 func_80090480(GlobalContext* globalCtx, Collider* collider, u32* arg2, Vec3f* a3, Vec3f* arg4) {
-    UnkPlayerLibStruct* a2 = (UnkPlayerLibStruct*)arg2;
-    if (a2->unk_0 == 0) {
+u8 func_80090480(GlobalContext* globalCtx, Collider* collider, Struct_80090480_arg2* arg2, Vec3f* arg3, Vec3f* arg4) {
+    if (arg2->active == 0) {
         if (collider != NULL) {
             Collider_QuadSetAT(globalCtx, collider);
         }
-        Math_Vec3f_Copy(&a2->unk_4, a3);
-        Math_Vec3f_Copy(&a2->unk_10, arg4);
-        a2->unk_0 = 1;
+        Math_Vec3f_Copy(&arg2->tip, arg3);
+        Math_Vec3f_Copy(&arg2->base, arg4);
+        arg2->active = 1;
         return 1;
     } else {
-        if (a2->unk_4.x == a3->x && a2->unk_4.y == a3->y && a2->unk_4.z == a3->z &&
-            a2->unk_10.x == arg4->x && a2->unk_10.y == arg4->y && a2->unk_10.z == arg4->z) {
+        if (arg2->tip.x == arg3->x && arg2->tip.y == arg3->y && arg2->tip.z == arg3->z &&
+            arg2->base.x == arg4->x && arg2->base.y == arg4->y && arg2->base.z == arg4->z) {
             if (collider != NULL) {
                 Collider_QuadSetAT(globalCtx, collider);
             }
             return 0;
         }
         if (collider != NULL) {
-            func_80062734(collider, arg4, a3, &a2->unk_10, &a2->unk_4);
+            func_80062734(collider, arg4, arg3, &arg2->base, &arg2->tip);
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, collider);
         }
-        Math_Vec3f_Copy(&a2->unk_10, arg4);
-        Math_Vec3f_Copy(&a2->unk_4, a3);
-        a2->unk_0 = 1;
+        Math_Vec3f_Copy(&arg2->base, arg4);
+        Math_Vec3f_Copy(&arg2->tip, arg3);
+        arg2->active = 1;
         return 1;
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090604.s")
 void func_80090604(GlobalContext* globalCtx, Player* player, ColliderQuad* collider, ColliderQuadDimInit* quadInit) {
     Vec3f d;
     Vec3f c;
@@ -538,7 +495,6 @@ void func_80090604(GlobalContext* globalCtx, Player* player, ColliderQuad* colli
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_800906D4.s")
 void func_800906D4(GlobalContext* globalCtx, Player* player, ColliderTrisItemDimInit* trisInit) {
     Vec3f sp44;
     Vec3f sp38;
@@ -547,8 +503,8 @@ void func_800906D4(GlobalContext* globalCtx, Player* player, ColliderTrisItemDim
     Matrix_MultVec3f(&D_801260A4, &sp2C);
     Matrix_MultVec3f(&D_801260B0, &sp38);
     Matrix_MultVec3f(&D_801260BC, &sp44);
-    if (func_80090480(globalCtx, NULL, &player->unk_8B4, &trisInit->vtx[0], &sp2C) != 0 && (s32)(player->stateFlags1 << 9) >= 0) {
-        func_8001FDF0(func_80026B0C(player->unk_670), &player->swordTipPos, &player->unk_8C4);
+    if (func_80090480(globalCtx, NULL, &player->swordDimensions, &trisInit->vtx[0], &sp2C) != 0 && (s32)(player->stateFlags1 << 9) >= 0) {
+        func_8001FDF0(func_80026B0C(player->unk_670), &player->swordDimensions.tip, &player->swordDimensions.base);
     }
     if (player->swordState > 0 && ((player->swordAnimation < 0x18) || ((s32)(player->stateFlags2 << 0xE) < 0))) {
         func_80090480(globalCtx, &player->unk_4E4, &player->unk_8D0, &trisInit->vtx[1], &sp38);
@@ -585,7 +541,6 @@ void func_800907E4(GlobalContext* globalCtx, Player* player, Vec3f* arg2, s32 ar
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_800907E4.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_800909B4.s")
 void func_800909B4(GlobalContext* globalCtx, Player* player) {
     if ((player->unk_170 == 0) || !osRecvMesg(&player->unk_194, NULL, OS_MESG_NOBLOCK)) {
         player->unk_170 = 0;
@@ -593,7 +548,6 @@ void func_800909B4(GlobalContext* globalCtx, Player* player) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090A28.s")
 void func_80090A28(Player* player, ColliderTrisItemDimInit* trisInit) {
     D_8012608C.x = D_80126080.x;
     if (player->unk_845 >= 3) {
@@ -607,8 +561,11 @@ void func_80090A28(Player* player, ColliderTrisItemDimInit* trisInit) {
     Matrix_MultVec3f(&D_80126098, &trisInit->vtx[2]);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090AFC.s")
-/* void func_80090AFC(GlobalContext* globalCtx, Player* player, f32 arg2) {
+#ifdef NON_MATCHING
+// This function needs a bit of work still, but should be functionally equivalent.
+// The biggest differences are in loads/stores of .data variables, 
+// also regalloc past Matrix_NewMtx and a minor stack difference.
+void func_80090AFC(GlobalContext* globalCtx, Player* player, f32 arg2) {
     f32 sp9C;
     f32 sp98;
     Vec3f sp8C;
@@ -644,38 +601,14 @@ void func_80090A28(Player* player, ColliderTrisItemDimInit* trisInit) {
 
         Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_player_lib.c", 0xA20);
     }
-} */
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090AFC.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090D20.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80091738.s")
-/* s32 func_80091738(GlobalContext *globalCtx, u32 arg1, SkelAnime *skelAnime) {
-    s16 sp46;
-    s32 temp_v1;
-    u32 temp_a0;
-    u32 objSize;
-
-    sp46 = gLinkObjectIds[gSaveContext.linkAge];
-
-    DmaMgr_SendRequest1(arg1 + 0x3800, gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, 
-                        gObjectTable[OBJECT_GAMEPLAY_KEEP].vromEnd - gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, "../z_player_lib.c", 0xBA6);
-
-    objSize = gObjectTable[sp46].vromEnd - gObjectTable[sp46].vromStart;
-
-    temp_a0 = arg1 + 0x8800;
-
-    DmaMgr_SendRequest1(temp_a0, gObjectTable[sp46].vromStart, objSize, "../z_player_lib.c", 0xBAC);
-
-    temp_v1 = ALIGN16(temp_a0 + objSize);
-
-    gSegments[4] = PHYSICAL_TO_VIRTUAL(arg1 + 0x3800);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(arg1 + 0x8800);
-
-    SkelAnime_InitLinkAnimetion(globalCtx, skelAnime, (SkeletonHeader*)D_80125B70[gSaveContext.linkAge], 
-                    (LinkAnimetionEntry*)&D_04003238, 9, temp_v1, temp_v1, 0x16);
-
-    return objSize + 0x8890;
-} */
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80091880.s")
 
