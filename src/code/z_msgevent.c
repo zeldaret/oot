@@ -1,6 +1,5 @@
 #include <ultra64.h>
 #include <global.h>
-#include <sched.h>
 
 void MsgEvent_SendNullTask() {
     u32 pad[4];

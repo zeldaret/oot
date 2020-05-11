@@ -403,7 +403,6 @@ beginseg
     include "build/asm/code_800C3C20.o"
     include "build/data/code_800C3C20.data.o"
     include "build/src/code/audioMgr.o"
-    include "build/data/audioMgr.rodata.o"
     include "build/src/code/title_setup.o"
     include "build/asm/game.o"
     include "build/data/game.data.o"

@@ -3503,7 +3503,7 @@ extern Color_RGBA8 D_801614B0;
 //extern ? D_801665F0;
 //extern ? D_80166648;
 extern PreNmiBuff* gAppNmiBufferPtr;
-//extern ? gSchedContext;
+extern SchedContext gSchedContext;
 extern PadMgr gPadMgr;
 //extern ? D_80166D28;
 extern u32 gSegments[NUM_SEGMENTS];
