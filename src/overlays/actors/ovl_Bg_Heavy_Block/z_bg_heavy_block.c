@@ -1,8 +1,9 @@
 #include "z_bg_heavy_block.h"
 #include <vt.h>
 
-#define THIS ((BgHeavyBlock*)thisx)
 #define FLAGS 0x00000000
+
+#define THIS ((BgHeavyBlock*)thisx)
 
 void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -17,8 +18,6 @@ void func_808844D0(BgHeavyBlock* this, GlobalContext* globalCtx);
 void func_80884658(BgHeavyBlock* this, GlobalContext* globalCtx);
 void func_80884978(BgHeavyBlock* this, GlobalContext* globalCtx);
 void func_8088496C(BgHeavyBlock* this, GlobalContext* globalCtx);
-
-
 
 const ActorInit Bg_Heavy_Block_InitVars = {
     ACTOR_BG_HEAVY_BLOCK,
@@ -86,7 +85,7 @@ void func_80883820(BgHeavyBlock* this, f32 scale) {
     Actor_SetScale(&this->dyna.actor, Math_Rand_CenteredFloat(0.20000000298023224f) + 1.0f); //try to use beter float
 }
 
-// sets up dynapoly stuff
+// BgHeavyBlock_SetupDynapoly
 void func_80883998(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 pad[2];
     UNK_TYPE unk_a1;
@@ -182,8 +181,7 @@ void func_80883C90(BgHeavyBlock *this, GlobalContext *globalCtx) {
     }
     thisx->velocity.x *= 0.98f; //0.9800000190734863
     thisx->velocity.z *= 0.98f;
-    // updates position based on speed and displacement
-    func_8002D7EC(thisx);
+    func_8002D7EC(thisx); // updates position based on speed and displacement
     thisx->shape.rot.x += thisx->posRot.rot.x;
     thisx->shape.rot.y += thisx->posRot.rot.y;
     thisx->shape.rot.z += thisx->posRot.rot.z;
@@ -216,6 +214,7 @@ void func_80883C90(BgHeavyBlock *this, GlobalContext *globalCtx) {
 void func_80883E54(GlobalContext* globalCtx, f32 x, f32 y, f32 z, f32 arg4, f32 arg5, f32 arg6, s32 arg7);
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Heavy_Block/func_808841B8.s")
+//BgHeavyBlock_SpawnPieces
 void func_808841B8(BgHeavyBlock* this, GlobalContext* globalCtx) {
     
     Vec3f spA4[6];
@@ -232,17 +231,14 @@ void func_808841B8(BgHeavyBlock* this, GlobalContext* globalCtx) {
     Vec3f *phi_t7;
     Vec3f *phi_t6;
     Vec3f *phi_s0;
-    /*
+    
     phi_t7 = D_80884E80;
     phi_t6 = spA4;
 
-    while(phi_t7 < D_80884E80 + 6){
+    while(phi_t7 != D_80884E80 + 6){
         *phi_t6++ = *phi_t7++;
     }
-    */
-   for(phi_t7 = D_80884E80, phi_t6 = spA4, phi_t7 < D_80884E80 + 6; phi_t7++, phi_t6++;){
-    *phi_t6 = *phi_t7;
-}
+    
     temp_f30 = Math_Sins(this->dyna.actor.posRot.rot.x);
     sp8C = Math_Coss(this->dyna.actor.posRot.rot.x);
     sp88 = Math_Sins(this->dyna.actor.posRot.rot.y);
@@ -260,7 +256,7 @@ void func_808841B8(BgHeavyBlock* this, GlobalContext* globalCtx) {
         phi_s0++;
     }
 }
-
+// BgHeavyBlock_Wait
 void func_808843B0(BgHeavyBlock* this, GlobalContext* globalCtx) {
     s32 quakeIndex; //s16?
 
@@ -286,7 +282,7 @@ void func_808843B0(BgHeavyBlock* this, GlobalContext* globalCtx) {
     }
 }
 
-//BgHeavyBlock_Lift
+// BgHeavyBlock_Lift
 void func_808844D0(BgHeavyBlock *this, GlobalContext *globalCtx) {
     Player* player;
     s32 pad;
@@ -324,7 +320,7 @@ void func_808844D0(BgHeavyBlock *this, GlobalContext *globalCtx) {
     }
 }
 
-//BgHeavyBlock_
+//BgHeavyBlock_Fly
 void func_80884658(BgHeavyBlock* this, GlobalContext* globalCtx) {
     UNK_PTR raycast_arg2;
     s32 quakeIndex;
@@ -396,6 +392,7 @@ void func_8088496C(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
 }
 
+//BgHeavyBlock_Land
 void func_80884978(BgHeavyBlock *this, GlobalContext *globalCtx) {
     s32 pad;
     
