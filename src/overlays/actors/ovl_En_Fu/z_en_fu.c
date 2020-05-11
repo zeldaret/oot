@@ -254,13 +254,13 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     if ((this->behavior & FU_RESET_LOOK_ANGLE)) {
-        Math_SmoothScaleMaxMinS(&this->lookDirectionOffset.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->lookDirectionOffset.y, 0, 6, 6200, 100);
+        Math_SmoothScaleMaxMinS(&this->lookAngleOffset.x, 0, 6, 6200, 100);
+        Math_SmoothScaleMaxMinS(&this->lookAngleOffset.y, 0, 6, 6200, 100);
         Math_SmoothScaleMaxMinS(&this->unk_2A2.x, 0, 6, 6200, 100);
         Math_SmoothScaleMaxMinS(&this->unk_2A2.y, 0, 6, 6200, 100);
         this->behavior &= ~FU_RESET_LOOK_ANGLE;
     } else {
-        func_80038290(globalCtx, &this->actor, &this->lookDirectionOffset, &this->unk_2A2, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->lookAngleOffset, &this->unk_2A2, this->actor.posRot2.pos);
     }
 }
 
@@ -273,8 +273,8 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     }
     switch (limbIndex) {
         case 14: 
-            rot->x += this->lookDirectionOffset.y;
-            rot->z += this->lookDirectionOffset.x;
+            rot->x += this->lookAngleOffset.y;
+            rot->z += this->lookAngleOffset.x;
             break;
         case 8: 
             break;

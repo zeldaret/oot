@@ -220,7 +220,7 @@ void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
         if (this->unk_16A == 0) {
-            temp = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 1);
+            temp = Quake_Add(ACTIVE_CAM, 1);
             Quake_SetSpeed(temp, 0x3A98);
             Quake_SetQuakeValues(temp, 0, 1, 0xFA, 1);
             Quake_SetCountdown(temp, 0xA);
@@ -234,7 +234,7 @@ void func_8086C29C(BgBdanObjects* this, GlobalContext* globalCtx) {
         BgBdanObjects_SetContactRu1(this, 4);
         this->unk_16A = 0xA;
         this->actionFunc = func_8086C55C;
-        func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
+        func_8005B1A4(ACTIVE_CAM);
     }
 }
 

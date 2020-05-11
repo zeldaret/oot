@@ -265,7 +265,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 16:
             if (sp3F != 0) {
-                D_8015FCCA = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 6);
+                D_8015FCCA = Quake_Add(ACTIVE_CAM, 6);
                 Quake_SetSpeed(D_8015FCCA, 0x7FFF);
                 Quake_SetQuakeValues(D_8015FCCA, 4, 0, 1000, 0);
                 Quake_SetCountdown(D_8015FCCA, 800);

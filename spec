@@ -403,7 +403,6 @@ beginseg
     include "build/asm/code_800C3C20.o"
     include "build/data/code_800C3C20.data.o"
     include "build/src/code/audioMgr.o"
-    include "build/data/audioMgr.rodata.o"
     include "build/src/code/title_setup.o"
     include "build/asm/game.o"
     include "build/data/game.data.o"
@@ -2649,15 +2648,13 @@ endseg
 beginseg
     name "ovl_En_Heishi2"
     include "build/src/overlays/actors/ovl_En_Heishi2/z_en_heishi2.o"
-    include "build/data/overlays/actors/z_en_heishi2.data.o"
     include "build/data/overlays/actors/z_en_heishi2.reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Heishi3"
     include "build/src/overlays/actors/ovl_En_Heishi3/z_en_heishi3.o"
-    include "build/data/overlays/actors/z_en_heishi3.data.o"
-    include "build/data/overlays/actors/z_en_heishi3.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Heishi3/z_en_heishi3_reloc.o"
 endseg
 
 beginseg
@@ -3816,43 +3813,37 @@ endseg
 beginseg
     name "ovl_Oceff_Spot"
     include "build/src/overlays/actors/ovl_Oceff_Spot/z_oceff_spot.o"
-    include "build/data/overlays/actors/z_oceff_spot.data.o"
-    include "build/data/overlays/actors/z_oceff_spot.reloc.o"
+    include "build/src/overlays/actors/ovl_Oceff_Spot/z_oceff_spot_reloc.o"
 endseg
 
 beginseg
     name "ovl_Oceff_Storm"
     include "build/src/overlays/actors/ovl_Oceff_Storm/z_oceff_storm.o"
-    include "build/data/overlays/actors/z_oceff_storm.data.o"
     include "build/data/overlays/actors/z_oceff_storm.reloc.o"
 endseg
 
 beginseg
     name "ovl_Oceff_Wipe"
     include "build/src/overlays/actors/ovl_Oceff_Wipe/z_oceff_wipe.o"
-    include "build/data/overlays/actors/z_oceff_wipe.data.o"
-    include "build/data/overlays/actors/z_oceff_wipe.reloc.o"
+    include "build/src/overlays/actors/ovl_Oceff_Wipe/z_oceff_wipe_reloc.o"
 endseg
 
 beginseg
     name "ovl_Oceff_Wipe2"
     include "build/src/overlays/actors/ovl_Oceff_Wipe2/z_oceff_wipe2.o"
-    include "build/data/overlays/actors/z_oceff_wipe2.data.o"
-    include "build/data/overlays/actors/z_oceff_wipe2.reloc.o"
+    include "build/src/overlays/actors/ovl_Oceff_Wipe2/z_oceff_wipe2_reloc.o"
 endseg
 
 beginseg
     name "ovl_Oceff_Wipe3"
     include "build/src/overlays/actors/ovl_Oceff_Wipe3/z_oceff_wipe3.o"
-    include "build/data/overlays/actors/z_oceff_wipe3.data.o"
-    include "build/data/overlays/actors/z_oceff_wipe3.reloc.o"
+    include "build/src/overlays/actors/ovl_Oceff_Wipe3/z_oceff_wipe3_reloc.o"
 endseg
 
 beginseg
     name "ovl_Oceff_Wipe4"
     include "build/src/overlays/actors/ovl_Oceff_Wipe4/z_oceff_wipe4.o"
-    include "build/data/overlays/actors/z_oceff_wipe4.data.o"
-    include "build/data/overlays/actors/z_oceff_wipe4.reloc.o"
+    include "build/src/overlays/actors/ovl_Oceff_Wipe4/z_oceff_wipe4_reloc.o"
 endseg
 
 beginseg

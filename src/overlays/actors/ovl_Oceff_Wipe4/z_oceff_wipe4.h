@@ -8,8 +8,7 @@ struct OceffWipe4;
 
 typedef struct OceffWipe4 {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ s16 unk_14C;
-    /* 0x014E */ char unk_14E[0x2];
+    /* 0x014C */ s16 counter;
 } OceffWipe4; // size = 0x0150
 
 extern const ActorInit Oceff_Wipe4_InitVars;
