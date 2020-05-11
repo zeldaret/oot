@@ -4,20 +4,18 @@
  * Description: The organ that Ganondorf plays in the cutscene before the fight. Includes carpet and scenery as well.
  */
 
-#include <ultra64.h>
-#include <global.h>
+#include "z_en_ganon_organ.h"
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x4];
-} EnGanonOrgan; // size = 0x0150
+#include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
 #define FLAGS 0x00000030
 
-void EnGanonOrgan_Init(EnGanonOrgan* this, GlobalContext* globalCtx);
-void EnGanonOrgan_Destroy(EnGanonOrgan* this, GlobalContext* globalCtx);
-void EnGanonOrgan_Update(EnGanonOrgan* this, GlobalContext* globalCtx);
-void EnGanonOrgan_Draw(EnGanonOrgan* this, GlobalContext* globalCtx);
+#define THIS ((EnGanonOrgan*)thisx)
+
+void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGanonOrgan_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Ganon_Organ_InitVars = {
     ACTOR_EN_GANON_ORGAN,
@@ -31,32 +29,24 @@ const ActorInit En_Ganon_Organ_InitVars = {
     (ActorFunc)EnGanonOrgan_Draw,
 };
 
-// temp local struct to represent ganondorf, remove when we can reference other overlays
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x5CC];
-    /* 0x0718 */ s16 organFadeTimer;
-    /* 0x071A */ char unk_71A[0x2];
-} BossGanon; // size = 0x071C
-
 extern D_80A2CCA8; // remove when data is decompiled
 extern D_80A2EAB0; // remove when data is decompiled
 
-void EnGanonOrgan_Init(EnGanonOrgan* this, GlobalContext* globalCtx) {
-    this->actor.flags &= ~1;
+void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx) {
+    thisx->flags &= ~1;
 }
 
-void EnGanonOrgan_Destroy(EnGanonOrgan* this, GlobalContext* globalCtx) {
+void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void EnGanonOrgan_Update(EnGanonOrgan* this, GlobalContext* globalCtx) {
+void EnGanonOrgan_Update(Actor* thisx, GlobalContext* globalCtx) {
     BossGanon* dorf;
 
     osSyncPrintf("ORGAN MOVE 1\n");
-    if (this->actor.params == 1) {
-        dorf = (BossGanon*)this->actor.attachedA;
+    if (thisx->params == 1) {
+        dorf = (BossGanon*)thisx->attachedA;
         if (dorf->organFadeTimer == 0) {
-            Actor_Kill(&this->actor);
+            Actor_Kill(thisx);
         }
     }
     osSyncPrintf("ORGAN MOVE 2\n");
@@ -103,17 +93,17 @@ Gfx* func_80A28148(GraphicsContext* gfxCtx, BossGanon* dorf) {
     return displayList;
 }
 
-void EnGanonOrgan_Draw(EnGanonOrgan* this, GlobalContext* globalCtx) {
+void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BossGanon* dorf;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
-    dorf = (BossGanon*)this->actor.attachedA;
+    dorf = (BossGanon*)thisx->attachedA;
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 205);
     osSyncPrintf("ORGAN DRAW  1\n");
     func_80093D18(globalCtx->state.gfxCtx);
-    if ((this->actor.params == 1) && (dorf->organFadeTimer != 0xff)) {
+    if ((thisx->params == 1) && (dorf->organFadeTimer != 0xff)) {
         gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80A280BC(globalCtx->state.gfxCtx, dorf));
         gSPSegment(gfxCtx->polyOpa.p++, 0x09, func_80A28148(globalCtx->state.gfxCtx, dorf));
     } else {

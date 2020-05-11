@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnHeishi3;
+
+typedef struct EnHeishi3 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x17C];
 } EnHeishi3; // size = 0x02C8

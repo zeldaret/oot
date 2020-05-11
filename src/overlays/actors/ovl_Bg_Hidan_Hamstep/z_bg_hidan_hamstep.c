@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void BgHidanHamstep_Init(BgHidanHamstep* this, GlobalContext* globalCtx);
-void BgHidanHamstep_Destroy(BgHidanHamstep* this, GlobalContext* globalCtx);
-void BgHidanHamstep_Update(BgHidanHamstep* this, GlobalContext* globalCtx);
-void BgHidanHamstep_Draw(BgHidanHamstep* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanHamstep*)thisx)
+
+void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanHamstep_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanHamstep_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanHamstep_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Hidan_Hamstep_InitVars = {

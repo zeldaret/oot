@@ -2,9 +2,11 @@
 
 #define FLAGS 0x00000000
 
-void BgMoriHashigo_Init(BgMoriHashigo* this, GlobalContext* globalCtx);
-void BgMoriHashigo_Destroy(BgMoriHashigo* this, GlobalContext* globalCtx);
-void BgMoriHashigo_Update(BgMoriHashigo* this, GlobalContext* globalCtx);
+#define THIS ((BgMoriHashigo*)thisx)
+
+void BgMoriHashigo_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriHashigo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMoriHashigo_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mori_Hashigo_InitVars = {

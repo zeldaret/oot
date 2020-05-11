@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00000000
 
-void ObjMure3_Init(ObjMure3* this, GlobalContext* globalCtx);
-void ObjMure3_Destroy(ObjMure3* this, GlobalContext* globalCtx);
-void ObjMure3_Update(ObjMure3* this, GlobalContext* globalCtx);
+#define THIS ((ObjMure3*)thisx)
+
+void ObjMure3_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjMure3_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjMure3_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Mure3_InitVars = {

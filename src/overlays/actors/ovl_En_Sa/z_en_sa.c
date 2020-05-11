@@ -2,10 +2,12 @@
 
 #define FLAGS 0x02000019
 
-void EnSa_Init(EnSa* this, GlobalContext* globalCtx);
-void EnSa_Destroy(EnSa* this, GlobalContext* globalCtx);
-void EnSa_Update(EnSa* this, GlobalContext* globalCtx);
-void EnSa_Draw(EnSa* this, GlobalContext* globalCtx);
+#define THIS ((EnSa*)thisx)
+
+void EnSa_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSa_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSa_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Sa_InitVars = {

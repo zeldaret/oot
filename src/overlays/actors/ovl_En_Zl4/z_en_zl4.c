@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000019
 
-void EnZl4_Init(EnZl4* this, GlobalContext* globalCtx);
-void EnZl4_Destroy(EnZl4* this, GlobalContext* globalCtx);
-void EnZl4_Update(EnZl4* this, GlobalContext* globalCtx);
-void EnZl4_Draw(EnZl4* this, GlobalContext* globalCtx);
+#define THIS ((EnZl4*)thisx)
+
+void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnZl4_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnZl4_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnZl4_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Zl4_InitVars = {

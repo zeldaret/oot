@@ -8,12 +8,14 @@
 
 #define FLAGS 0x00000030
 
-void EnBoom_SetupAction(EnBoom* this, ActorFunc* actionFunc);
-void EnBoom_Init(EnBoom* this, GlobalContext* globalCtx);
-void EnBoom_Destroy(EnBoom* this, GlobalContext* globalCtx);
+#define THIS ((EnBoom*)thisx)
+
+void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBoom_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx);
-void EnBoom_Update(EnBoom* this, GlobalContext* globalCtx);
-void EnBoom_Draw(EnBoom* this, GlobalContext* globalCtx);
 
 const ActorInit En_Boom_InitVars = {
     ACTOR_EN_BOOM,
@@ -43,12 +45,12 @@ static Vec3f mtxSrc2 = { 960.0f, 0.0f, 0.0f };
 
 extern D_0400C808;
 
-void EnBoom_SetupAction(EnBoom* this, ActorFunc* actionFunc) {
+void EnBoom_SetupAction(EnBoom* this, EnBoomActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void EnBoom_Init(EnBoom* this, GlobalContext* globalCtx) {
-    u32 pad;
+void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnBoom* this = THIS;
     TrailEffect trail;
 
     this->actor.room = -1;
@@ -84,10 +86,12 @@ void EnBoom_Init(EnBoom* this, GlobalContext* globalCtx) {
     Collider_InitQuad(globalCtx, &this->collider);
     Collider_SetQuad(globalCtx, &this->collider, this, &col);
 
-    EnBoom_SetupAction(this, &EnBoom_Fly);
+    EnBoom_SetupAction(this, EnBoom_Fly);
 }
 
-void EnBoom_Destroy(EnBoom* this, GlobalContext* globalCtx) {
+void EnBoom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnBoom* this = THIS;
+
     func_8002709C(globalCtx, this->effect);
     Collider_DestroyQuad(globalCtx, &this->collider);
 }
@@ -224,8 +228,10 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnBoom_Update(EnBoom* this, GlobalContext* globalCtx) {
+void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnBoom* this = THIS;
     Player* player = PLAYER;
+
     if (!(player->stateFlags1 & 0x20000000)) {
         this->actionFunc(this, globalCtx);
         Actor_SetHeight(&this->actor, 0.0f);
@@ -233,8 +239,8 @@ void EnBoom_Update(EnBoom* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnBoom_Draw(EnBoom* this, GlobalContext* globalCtx) {
-    s32 pad;
+void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnBoom* this = THIS;
     Vec3f mtxDest1;
     Vec3f mtxDest2;
     GraphicsContext* gfxCtx;

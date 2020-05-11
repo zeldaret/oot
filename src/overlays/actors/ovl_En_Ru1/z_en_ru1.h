@@ -7,7 +7,13 @@
 #include <overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h>
 #include <overlays/actors/ovl_Door_Warp1/z_door_warp1.h>
 
-typedef struct {
+struct EnRu1;
+
+typedef void (*EnRu1ActionFunc)(struct EnRu1*, GlobalContext*);
+typedef void (*EnRu1DrawFunc)(struct EnRu1*, GlobalContext*);
+typedef void (*EnRu1PreLimbDrawFunc)(struct EnRu1*, GlobalContext*, s32, Vec3s*);
+
+typedef struct EnRu1 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s limbDrawTable[17];

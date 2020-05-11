@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000035
 
-void EnGoma_Init(EnGoma* this, GlobalContext* globalCtx);
-void EnGoma_Destroy(EnGoma* this, GlobalContext* globalCtx);
-void EnGoma_Update(EnGoma* this, GlobalContext* globalCtx);
-void EnGoma_Draw(EnGoma* this, GlobalContext* globalCtx);
+#define THIS ((EnGoma*)thisx)
+
+void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Goma_InitVars = {

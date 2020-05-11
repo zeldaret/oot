@@ -6,14 +6,16 @@
 
 #include "z_arrow_ice.h"
 
-#include "../ovl_En_Arrow/z_en_arrow.h"
+#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
 #define FLAGS 0x02000010
 
-void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx);
-void ArrowIce_Destroy(ArrowIce* this, GlobalContext* globalCtx);
-void ArrowIce_Update(ArrowIce* this, GlobalContext* globalCtx);
-void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx);
+#define THIS ((ArrowIce*)thisx)
+
+void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx);
+void ArrowIce_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ArrowIce_Update(Actor* thisx, GlobalContext* globalCtx);
+void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx);
 void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx);
@@ -37,11 +39,13 @@ static InitChainEntry initChain[] = {
     ICHAIN_F32(unk_F4, 2000, ICHAIN_STOP),
 };
 
-void ArrowIce_SetupAction(ArrowIce* this, ActorFunc* actionFunc) {
+void ArrowIce_SetupAction(ArrowIce* this, ArrowIceActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx) {
+void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ArrowIce* this = THIS;
+
     Actor_ProcessInitChain(&this->actor, initChain);
     this->radius = 0;
     this->unk_160 = 1.0f;
@@ -52,7 +56,7 @@ void ArrowIce_Init(ArrowIce* this, GlobalContext* globalCtx) {
     this->unk_164 = 0.0f;
 }
 
-void ArrowIce_Destroy(ArrowIce* this, GlobalContext* globalCtx) {
+void ArrowIce_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
     // Translates to: "Disappearance"
     LOG_STRING("消滅", "../z_arrow_ice.c", 415);
@@ -177,7 +181,9 @@ void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx) {
     }
 }
 
-void ArrowIce_Update(ArrowIce* this, GlobalContext* globalCtx) {
+void ArrowIce_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ArrowIce* this = THIS;
+
     if (globalCtx->msgCtx.msgMode == 0xD || globalCtx->msgCtx.msgMode == 0x11) {
         Actor_Kill(&this->actor);
     } else {
@@ -185,9 +191,9 @@ void ArrowIce_Update(ArrowIce* this, GlobalContext* globalCtx) {
     }
 }
 
-void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx) {
-    s32 pad1;
-    s32 pad2;
+void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    ArrowIce* this = THIS;
+    s32 pad;
     Actor* tranform;
     u32 stateFrames;
     GraphicsContext* gfxCtx;
@@ -224,7 +230,7 @@ void ArrowIce_Draw(ArrowIce* this, GlobalContext* globalCtx) {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(gfxCtx->polyXlu.p++, 0x80, 0x80, 0xAA, 0xFF, 0xFF, this->alpha);
         gDPSetEnvColor(gfxCtx->polyXlu.p++, 0x00, 0x00, 0xFF, 0x80);
-        Matrix_RotateZYX(0x4000, 0x0, 0x0, MTXMODE_APPLY);
+        Matrix_RotateRPY(0x4000, 0x0, 0x0, MTXMODE_APPLY);
         if (this->timer != 0) {
             Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         } else {

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00005005
 
-void EnFirefly_Init(EnFirefly* this, GlobalContext* globalCtx);
-void EnFirefly_Destroy(EnFirefly* this, GlobalContext* globalCtx);
-void EnFirefly_Update(EnFirefly* this, GlobalContext* globalCtx);
-void EnFirefly_Draw(EnFirefly* this, GlobalContext* globalCtx);
+#define THIS ((EnFirefly*)thisx)
+
+void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnFirefly_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Firefly_InitVars = {

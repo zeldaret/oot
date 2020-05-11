@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000020
 
-void BgTokiHikari_Init(BgTokiHikari* this, GlobalContext* globalCtx);
-void BgTokiHikari_Destroy(BgTokiHikari* this, GlobalContext* globalCtx);
-void BgTokiHikari_Update(BgTokiHikari* this, GlobalContext* globalCtx);
-void BgTokiHikari_Draw(BgTokiHikari* this, GlobalContext* globalCtx);
+#define THIS ((BgTokiHikari*)thisx)
+
+void BgTokiHikari_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgTokiHikari_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgTokiHikari_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgTokiHikari_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Toki_Hikari_InitVars = {

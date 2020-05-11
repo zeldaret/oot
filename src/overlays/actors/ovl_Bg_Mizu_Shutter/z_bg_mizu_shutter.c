@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void BgMizuShutter_Init(BgMizuShutter* this, GlobalContext* globalCtx);
-void BgMizuShutter_Destroy(BgMizuShutter* this, GlobalContext* globalCtx);
-void BgMizuShutter_Update(BgMizuShutter* this, GlobalContext* globalCtx);
-void BgMizuShutter_Draw(BgMizuShutter* this, GlobalContext* globalCtx);
+#define THIS ((BgMizuShutter*)thisx)
+
+void BgMizuShutter_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuShutter_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuShutter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mizu_Shutter_InitVars = {

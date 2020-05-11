@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000010
 
-void EnHorseGameCheck_Init(EnHorseGameCheck* this, GlobalContext* globalCtx);
-void EnHorseGameCheck_Destroy(EnHorseGameCheck* this, GlobalContext* globalCtx);
-void EnHorseGameCheck_Update(EnHorseGameCheck* this, GlobalContext* globalCtx);
-void EnHorseGameCheck_Draw(EnHorseGameCheck* this, GlobalContext* globalCtx);
+#define THIS ((EnHorseGameCheck*)thisx)
+
+void EnHorseGameCheck_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseGameCheck_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseGameCheck_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseGameCheck_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Horse_Game_Check_InitVars = {

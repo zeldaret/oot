@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00000000
 
-void EnWonderItem_Init(EnWonderItem* this, GlobalContext* globalCtx);
-void EnWonderItem_Destroy(EnWonderItem* this, GlobalContext* globalCtx);
-void EnWonderItem_Update(EnWonderItem* this, GlobalContext* globalCtx);
+#define THIS ((EnWonderItem*)thisx)
+
+void EnWonderItem_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnWonderItem_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnWonderItem_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Wonder_Item_InitVars = {

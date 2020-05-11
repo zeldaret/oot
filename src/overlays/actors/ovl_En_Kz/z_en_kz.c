@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000009
 
-void EnKz_Init(EnKz* this, GlobalContext* globalCtx);
-void EnKz_Destroy(EnKz* this, GlobalContext* globalCtx);
-void EnKz_Update(EnKz* this, GlobalContext* globalCtx);
-void EnKz_Draw(EnKz* this, GlobalContext* globalCtx);
+#define THIS ((EnKz*)thisx)
+
+void EnKz_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnKz_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnKz_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Kz_InitVars = {

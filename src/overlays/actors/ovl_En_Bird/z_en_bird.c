@@ -4,38 +4,19 @@
  * Description: A brown bird. Tweet tweet.
  */
 
-#include <ultra64.h>
-#include <global.h>
-
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ ActorFunc updateFunc;
-    /* 0x0194 */ u32 unk_194;
-    /* 0x0198 */ s32 unk_198;
-    /* 0x019C */ s16 unk_19C;
-    /* 0x019E */ char unk_19E[0x2];
-    /* 0x01A0 */ f32 unk_1A0;
-    /* 0x01A4 */ f32 unk_1A4;
-    /* 0x01A8 */ f32 unk_1A8;
-    /* 0x01AC */ f32 unk_1AC;
-    /* 0x01B0 */ f32 unk_1B0;
-    /* 0x01B4 */ f32 unk_1B4;
-    /* 0x01B8 */ f32 unk_1B8;
-    /* 0x01BC */ f32 unk_1BC;
-    /* 0x01C0 */ s16 unk_1C0;
-    /* 0x01C2 */ char unk_1C2[0x1A];
-} EnBird; // size = 0x01C4
+#include "z_en_bird.h"
 
 #define FLAGS 0x00000000
 
-void EnBird_Init(EnBird* this, GlobalContext* globalCtx);
-void EnBird_Destroy(EnBird* this, GlobalContext* globalCtx);
-void EnBird_Update(EnBird* this, GlobalContext* globalCtx);
-void EnBird_Draw(EnBird* this, GlobalContext* globalCtx);
+#define THIS ((EnBird*)thisx)
+
+void EnBird_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBird_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBird_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBird_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_809C1E00(EnBird* this, s16 params);
 void func_809C1E40(EnBird* this, GlobalContext* globalCtx);
-void EnBird_SetNewUpdate(EnBird* this, ActorFunc updateFunc);
 void func_809C1D60(EnBird* this, GlobalContext* globalCtx);
 void func_809C1CAC(EnBird* this, s16 params);
 
@@ -58,11 +39,13 @@ static InitChainEntry initChain[] = {
 extern AnimationHeader D_0600006C;
 extern SkeletonHeader D_06002190;
 
-void EnBird_SetNewUpdate(EnBird* this, ActorFunc newUpdateFunc) {
-    this->updateFunc = newUpdateFunc;
+void EnBird_SetupAction(EnBird* this, EnBirdActionFunc actionFunc) {
+    this->actionFunc = actionFunc;
 }
 
-void EnBird_Init(EnBird* this, GlobalContext* globalCtx) {
+void EnBird_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnBird* this = THIS;
+
     Actor_ProcessInitChain(&this->actor, initChain);
     Actor_SetScale(&this->actor, 0.01);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002190, &D_0600006C, 0, 0, 0);
@@ -81,7 +64,7 @@ void EnBird_Init(EnBird* this, GlobalContext* globalCtx) {
     func_809C1CAC(this, this->actor.params);
 }
 
-void EnBird_Destroy(EnBird* this, GlobalContext* globalCtx) {
+void EnBird_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809C1CAC(EnBird* this, s16 params) {
@@ -91,7 +74,7 @@ void func_809C1CAC(EnBird* this, s16 params) {
 
     this->unk_198 = Math_Rand_S16Offset(5, 0x23);
     SkelAnime_ChangeAnim(&this->skelAnime, anim, playbackSpeed, 0.0f, frameCount, 0, 0.0f);
-    EnBird_SetNewUpdate(this, func_809C1D60);
+    EnBird_SetupAction(this, func_809C1D60);
 }
 
 void func_809C1D60(EnBird* this, GlobalContext* globalCtx) {
@@ -114,7 +97,7 @@ void func_809C1D60(EnBird* this, GlobalContext* globalCtx) {
 
 void func_809C1E00(EnBird* this, s16 params) {
     this->unk_198 = Math_Rand_S16Offset(0x14, 0x2D);
-    EnBird_SetNewUpdate(this, (ActorFunc)func_809C1E40);
+    EnBird_SetupAction(this, func_809C1E40);
 }
 
 void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
@@ -138,11 +121,15 @@ void func_809C1E40(EnBird* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnBird_Update(EnBird* this, GlobalContext* globalCtx) {
+void EnBird_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnBird* this = THIS;
+
     this->unk_1B4 += this->unk_1B8;
-    this->updateFunc(this, globalCtx);
+    this->actionFunc(this, globalCtx);
 }
 
-void EnBird_Draw(EnBird* this, GlobalContext* globalCtx) {
+void EnBird_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnBird* this = THIS;
+
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 0, NULL, NULL);
 }

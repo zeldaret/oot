@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000005
 
-void EnBrob_Init(EnBrob* this, GlobalContext* globalCtx);
-void EnBrob_Destroy(EnBrob* this, GlobalContext* globalCtx);
-void EnBrob_Update(EnBrob* this, GlobalContext* globalCtx);
-void EnBrob_Draw(EnBrob* this, GlobalContext* globalCtx);
+#define THIS ((EnBrob*)thisx)
+
+void EnBrob_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBrob_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBrob_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBrob_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Brob_InitVars = {

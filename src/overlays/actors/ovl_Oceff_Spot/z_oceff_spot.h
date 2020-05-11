@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct OceffSpot;
+
+typedef struct OceffSpot {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0x34];
 } OceffSpot; // size = 0x0180

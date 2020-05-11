@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00000010
 
-void ItemEtcetera_Init(ItemEtcetera* this, GlobalContext* globalCtx);
-void ItemEtcetera_Destroy(ItemEtcetera* this, GlobalContext* globalCtx);
-void ItemEtcetera_Update(ItemEtcetera* this, GlobalContext* globalCtx);
+#define THIS ((ItemEtcetera*)thisx)
+
+void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx);
+void ItemEtcetera_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ItemEtcetera_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Item_Etcetera_InitVars = {

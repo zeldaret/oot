@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void EnIk_Init(EnIk* this, GlobalContext* globalCtx);
-void EnIk_Destroy(EnIk* this, GlobalContext* globalCtx);
-void EnIk_Update(EnIk* this, GlobalContext* globalCtx);
-void EnIk_Draw(EnIk* this, GlobalContext* globalCtx);
+#define THIS ((EnIk*)thisx)
+
+void EnIk_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnIk_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ik_InitVars = {

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void BgSpot02Objects_Init(BgSpot02Objects* this, GlobalContext* globalCtx);
-void BgSpot02Objects_Destroy(BgSpot02Objects* this, GlobalContext* globalCtx);
-void BgSpot02Objects_Update(BgSpot02Objects* this, GlobalContext* globalCtx);
-void BgSpot02Objects_Draw(BgSpot02Objects* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot02Objects*)thisx)
+
+void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot02Objects_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot02Objects_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot02Objects_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot02_Objects_InitVars = {

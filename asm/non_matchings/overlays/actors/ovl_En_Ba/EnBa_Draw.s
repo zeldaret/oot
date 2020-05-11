@@ -152,7 +152,7 @@ glabel EnBa_Draw
 /* 01AD0 809B7E20 024B1021 */  addu    $v0, $s2, $t3
 /* 01AD4 809B7E24 844402A8 */  lh      $a0, 0x02A8($v0)           ## 000002A8
 /* 01AD8 809B7E28 844502AA */  lh      $a1, 0x02AA($v0)           ## 000002AA
-/* 01ADC 809B7E2C 0C034421 */  jal     Matrix_RotateZYX
+/* 01ADC 809B7E2C 0C034421 */  jal     Matrix_RotateRPY
 /* 01AE0 809B7E30 844602AC */  lh      $a2, 0x02AC($v0)           ## 000002AC
 /* 01AE4 809B7E34 C60C0200 */  lwc1    $f12, 0x0200($s0)          ## 00000200
 /* 01AE8 809B7E38 C60E0204 */  lwc1    $f14, 0x0204($s0)          ## 00000204
