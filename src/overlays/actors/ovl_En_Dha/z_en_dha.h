@@ -14,12 +14,10 @@ typedef struct EnDha {
     /* 0x0190 */ Vec3s limbDrawTable[4];
     /* 0x01A8 */ Vec3s transitionDrawTable[4];
     /* 0x01C0 */ u8 unk_1C0;
-    /* 0x01C1 */ char unk_1C1[0x3];
     /* 0x01C4 */ EnDhaActionFunc actionFunc;
     /* 0x01C8 */ s16 unk_1C8;
     /* 0x01CA */ s16 unk_1CA;
     /* 0x01CC */ u8 unk_1CC;
-    /* 0x01CD */ char unk_1CD[1];
     /* 0x01CE */ s16 unk_1CE;
     /* 0x01D0 */ Vec3s unk_1D0;
     /* 0x01D6 */ Vec3s unk_1D6;
