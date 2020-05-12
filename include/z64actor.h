@@ -270,7 +270,8 @@ typedef struct {
     /* 0x084B */ s8         unk_84B[UNK_SIZE];
     /* 0x084C */ char       unk_84C[0x003];
     /* 0x084F */ s8         unk_84F;
-    /* 0x0850 */ char       unk_850[0x050];
+    /* 0x0850 */ s16        unk_850;
+    /* 0x0852 */ char       unk_852[0x04E];
     /* 0x08A0 */ u8         unk_8A0;
     /* 0x08A1 */ u8         unk_8A1;
     /* 0x08A2 */ u16        unk_8A2;

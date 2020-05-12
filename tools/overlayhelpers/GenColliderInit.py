@@ -98,7 +98,7 @@ def GetItems(data, off, count, structf, fmt, size):
     return result
 
 def GetJntSphItems(data, off, count):
-    items = GetItems(data, off, count, sf_JntSphItem, f_JntSphItem, 0x0C)
+    items = GetItems(data, off, count, sf_JntSphItem, f_JntSphItem, 0x24)
     print('''
 ColliderJntSphItemInit jntsphItemsInit[{0}] = {{{1}
 }};
