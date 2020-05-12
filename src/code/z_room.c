@@ -343,7 +343,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 628);
 
-    camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
+    camera = ACTIVE_CAM;
     polygon1 = &room->mesh->polygon1;
     sp9C = (camera->unk_142 ^ 25) == 0;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
@@ -405,7 +405,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
     BgImage* bgImage;
     s32 i;
 
-    camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
+    camera = ACTIVE_CAM;
     camId = camera->unk_148;
     camId2 = func_80041C10(&globalCtx->colCtx, camId, 50)->unk_0E;
     if (camId2 >= 0) {
@@ -449,7 +449,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 752);
 
-    camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
+    camera = ACTIVE_CAM;
     sp98 = (camera->unk_142 ^ 25) == 0;
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);

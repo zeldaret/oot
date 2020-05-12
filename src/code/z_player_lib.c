@@ -70,9 +70,10 @@ u8 func_8008F080(GlobalContext* globalCtx) {
     return player->currentMask;
 }
 
-void func_8008F08C(GlobalContext* globalCtx) {
+Player* func_8008F08C(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     player->currentMask = 0;
+    return player;
 }
 
 s32 func_8008F098(GlobalContext* globalCtx) {

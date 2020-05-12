@@ -1,6 +1,5 @@
 #include <ultra64.h>
 #include <global.h>
-#include <sched.h>
 #include <vt.h>
 
 #define MARKER_SOI 0xD8

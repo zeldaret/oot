@@ -1,6 +1,5 @@
 #include <global.h>
 #include <ultra64/hardware.h>
-#include <sched.h>
 #include <vt.h>
 #include <PR/os_cont.h>
 

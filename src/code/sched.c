@@ -1,6 +1,5 @@
 #include <ultra64.h>
 #include <global.h>
-#include <sched.h>
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/sched/func_800C82A0.s")
 
