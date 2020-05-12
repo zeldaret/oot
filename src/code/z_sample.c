@@ -62,7 +62,7 @@ void Sample_SetupView(SampleContext* this) {
     View_Init(view, gfxCtx);
 
     // clang-format off
-    viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH; 
+    viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH;
     viewport.topY = 0; viewport.leftX = 0;
     // clang-format on
 
@@ -85,7 +85,7 @@ void Sample_SetupView(SampleContext* this) {
 void Sample_LoadTitleStatic(SampleContext* this) {
     u32 size = _title_staticSegmentRomEnd - _title_staticSegmentRomStart;
 
-    this->staticSegment = Game_Alloc(&this->state, size, "../z_sample.c", 163);
+    this->staticSegment = GameState_AllocEnd(&this->state, size, "../z_sample.c", 163);
     DmaMgr_SendRequest1(this->staticSegment, _title_staticSegmentRomStart, size, "../z_sample.c", 164);
 }
 
