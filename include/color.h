@@ -1,11 +1,8 @@
 #ifndef _COLOR_H_
 #define _COLOR_H_
 
-typedef union {
-    struct {
-        u8 r, g, b;
-    };
-    u32 rgb;
+typedef struct {
+    u8 r, g, b;
 } Color_RGB8;
 
 typedef union {

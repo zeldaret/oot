@@ -633,8 +633,7 @@ endseg
 beginseg
     name "ovl_Arms_Hook"
     include "build/src/overlays/actors/ovl_Arms_Hook/z_arms_hook.o"
-    include "build/data/overlays/actors/z_arms_hook.data.o"
-    include "build/data/overlays/actors/z_arms_hook.reloc.o"
+    include "build/src/overlays/actors/ovl_Arms_Hook/z_arms_hook_reloc.o"
 endseg
 
 beginseg
