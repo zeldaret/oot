@@ -123,7 +123,8 @@ void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
         0xFFC1, 0xFFC1, 0xFFC1, 0xFFC1, 0x7BDF, 0x7BDF, 0x07FF, 0xF83F,
         0x7BDF, 0x7BDF, 0x7BDF, 0x7BDF, 0xF801, 0x7BDF, 0x07C1, 0x003F,
     };
-    s32 i, j, k;
+    s32 i, j;
+    s32 lrx, lry, ulx, uly;
     Gfx* gfxP = *gfx;
     gDPPipeSync(gfxP++);
     gDPSetOtherMode(gfxP++,
@@ -131,19 +132,18 @@ void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
                         G_TD_CLAMP | G_TP_NONE | G_CYC_FILL | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
 
-    for (i = 0, j = 1, k = 2; i < 0x10; i += 2, j += 2, k += 2) {
+    for (i = 0, j = 1; i < 0x10; i++, j++) {
         if (input & (1 << i)) {
             gDPSetFillColor(gfxP++, (sInpDispBtnColors[i] << 0x10) | sInpDispBtnColors[i]);
-            gDPFillRectangle(gfxP++, i * 4 + 226, 220, j * 4 + 225, 223);
-            gDPPipeSync(gfxP++);
-        }
-
-        if (input & (1 << j)) {
-            gDPSetFillColor(gfxP++, (sInpDispBtnColors[j] << 0x10) | sInpDispBtnColors[j]);
-            gDPFillRectangle(gfxP++, j * 4 + 226, 220, k * 4 + 225, 223);
+            ulx = i * 4 + 226;
+            uly = 220;
+            lrx = j * 4 + 225;
+            lry = 223;
+            gDPFillRectangle(gfxP++, ulx, uly, lrx, lry);
             gDPPipeSync(gfxP++);
         }
     };
+
     *gfx = gfxP;
 }
 #else
