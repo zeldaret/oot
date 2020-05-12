@@ -46,48 +46,49 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     uly = this->y;
     lry = this->y + 2;
 
-    /*! @bug Graph_OpenDisps is outside the if block while Graph_CloseDisps is inside */
     Graph_OpenDisps(dispRefs, gfxCtx, "../speed_meter.c", 225);
 
-    if (gIrqMgrRetraceTime) {
-        if (1) {}
-        gSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray;
-        for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
-            temp = ((f64)*gSpeedMeterTimeEntryPtr->time / gIrqMgrRetraceTime) * 64.0;
-            gSpeedMeterTimeEntryPtr->x = temp + baseX;
-            gSpeedMeterTimeEntryPtr++;
-        }
-
-        View_Init(&view, gfxCtx);
-        view.flags = 0xA;
-
-        VIEWPORT_INIT(viewport, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0);
-        View_SetViewport(&view, &viewport);
-        gfx = gfxCtx->overlay.p;
-        func_800AB9EC(&view, 0xF, &gfx);
-
-        gDPPipeSync(gfx++);
-        gDPSetOtherMode(gfx++,
-                        G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
-                            G_TD_CLAMP | G_TP_NONE | G_CYC_FILL | G_PM_NPRIMITIVE,
-                        G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
-
-        DrawRec(gfx++, GPACK_RGBA5551(0x00, 0x00, 0xFF, 1), baseX + 64 * 0, uly, baseX + 64 * 1, lry);
-        DrawRec(gfx++, GPACK_RGBA5551(0x00, 0xFF, 0x00, 1), baseX + 64 * 1, uly, baseX + 64 * 2, lry);
-        DrawRec(gfx++, GPACK_RGBA5551(0xFF, 0x00, 0x00, 1), baseX + 64 * 2, uly, baseX + 64 * 3, lry);
-        DrawRec(gfx++, GPACK_RGBA5551(0xFF, 0x00, 0xFF, 1), baseX + 64 * 3, uly, baseX + 64 * 4, lry);
-
-        gSpeedMeterTimeEntryPtr = sSpeedMeterTimeEntryArray;
-        for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
-            DrawRec(gfx++, gSpeedMeterTimeEntryPtr->color, baseX, lry + gSpeedMeterTimeEntryPtr->y,
-                    gSpeedMeterTimeEntryPtr->x, lry + gSpeedMeterTimeEntryPtr->y + 1);
-            gSpeedMeterTimeEntryPtr++;
-        }
-        gDPPipeSync(gfx++);
-
-        gfxCtx->overlay.p = gfx;
-        Graph_CloseDisps(dispRefs, gfxCtx, "../speed_meter.c", 276);
+    /*! @bug if gIrqMgrRetraceTime is 0, the function won't call Graph_CloseDisps */
+    if (gIrqMgrRetraceTime == 0) {
+        return;
     }
+
+    gSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray;
+    for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
+        temp = ((f64)*gSpeedMeterTimeEntryPtr->time / gIrqMgrRetraceTime) * 64.0;
+        gSpeedMeterTimeEntryPtr->x = temp + baseX;
+        gSpeedMeterTimeEntryPtr++;
+    }
+
+    View_Init(&view, gfxCtx);
+    view.flags = 0xA;
+
+    VIEWPORT_INIT(viewport, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0);
+    View_SetViewport(&view, &viewport);
+    gfx = gfxCtx->overlay.p;
+    func_800AB9EC(&view, 0xF, &gfx);
+
+    gDPPipeSync(gfx++);
+    gDPSetOtherMode(gfx++,
+                    G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
+                        G_TD_CLAMP | G_TP_NONE | G_CYC_FILL | G_PM_NPRIMITIVE,
+                    G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
+
+    DrawRec(gfx++, GPACK_RGBA5551(0x00, 0x00, 0xFF, 1), baseX + 64 * 0, uly, baseX + 64 * 1, lry);
+    DrawRec(gfx++, GPACK_RGBA5551(0x00, 0xFF, 0x00, 1), baseX + 64 * 1, uly, baseX + 64 * 2, lry);
+    DrawRec(gfx++, GPACK_RGBA5551(0xFF, 0x00, 0x00, 1), baseX + 64 * 2, uly, baseX + 64 * 3, lry);
+    DrawRec(gfx++, GPACK_RGBA5551(0xFF, 0x00, 0xFF, 1), baseX + 64 * 3, uly, baseX + 64 * 4, lry);
+
+    gSpeedMeterTimeEntryPtr = sSpeedMeterTimeEntryArray;
+    for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
+        DrawRec(gfx++, gSpeedMeterTimeEntryPtr->color, baseX, lry + gSpeedMeterTimeEntryPtr->y,
+                gSpeedMeterTimeEntryPtr->x, lry + gSpeedMeterTimeEntryPtr->y + 1);
+        gSpeedMeterTimeEntryPtr++;
+    }
+    gDPPipeSync(gfx++);
+
+    gfxCtx->overlay.p = gfx;
+    Graph_CloseDisps(dispRefs, gfxCtx, "../speed_meter.c", 276);
 }
 
 void SpeedMeter_InitAllocEntry(SpeedMeterAllocEntry* this, u32 maxval, u32 val, u16 backColor, u16 foreColor, u32 ulx,
