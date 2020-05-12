@@ -1735,7 +1735,7 @@ typedef struct {
     /* 0x10 */ s32 lrx;
     /* 0x14 */ s32 uly;
     /* 0x18 */ s32 lry;
-} SpeedMeterAllocEntry; // 0x1C
+} SpeedMeterAllocEntry; // size = 0x1C
 
 typedef struct {
     /* 0x00 */ OSTime* time;
