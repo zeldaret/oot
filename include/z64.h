@@ -1720,4 +1720,28 @@ typedef struct {
     SkelAnime skelAnime;
 } PSkinAwb; // size = 0x90
 
+typedef struct {
+    /* 0x00 */ char unk_00[0x18];
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ s32 y;
+} SpeedMeter; // size = 0x20
+
+typedef struct {
+    /* 0x00 */ s32 maxval;
+    /* 0x04 */ s32 val;
+    /* 0x08 */ u16 backColor;
+    /* 0x0A */ u16 foreColor;
+    /* 0x0C */ s32 ulx;
+    /* 0x10 */ s32 lrx;
+    /* 0x14 */ s32 uly;
+    /* 0x18 */ s32 lry;
+} SpeedMeterAllocEntry; // size = 0x1C
+
+typedef struct {
+    /* 0x00 */ OSTime* time;
+    /* 0x04 */ u8 x;
+    /* 0x05 */ u8 y;
+    /* 0x06 */ u16 color;
+} SpeedMeterTimeEntry; // size = 0x08
+
 #endif

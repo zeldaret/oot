@@ -69,4 +69,10 @@
 */
 #define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a }, }, }
 
+#define VIEWPORT_INIT(viewport, by, rx, ty, lx) \
+     viewport.bottomY = by; \
+     viewport.rightX = rx; \
+     viewport.topY = ty; \
+     viewport.leftX = lx;
+
 #endif
