@@ -107,7 +107,7 @@ s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFu
     // func_8002F194 returns 1 if actor flags & 0x100 is set and unsets it
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
-        return 1;
+        return true;
     }
     this->actor.textId = textID;
     yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
@@ -117,7 +117,7 @@ s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFu
     } else {
         this->behaviorFlags |= FU_RESET_LOOK_ANGLE;
     }
-    return 0;
+    return false;
 }
 
 void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
