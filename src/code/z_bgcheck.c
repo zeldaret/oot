@@ -21,8 +21,8 @@ s32 func_80038600(Vec3f* pos, char* file, s32 line) {
 }
 
 //mzxOK
-//Set SSLink_s
-void func_80038708(SSLink_s* arg0, s16* polyId, u16 next) {
+//Set SSNode
+void func_80038708(SSNode* arg0, s16* polyId, u16 next) {
     arg0->polyId = *polyId;
     arg0->next = next;
 }
@@ -33,29 +33,26 @@ void func_8003871C(u16* arg0) {
     *arg0 = SS_NULL;
 }
 
-u16 func_8003E4DC(PolyLinksList_s*);
-u16 func_80038878(DynaList_s*);
-
 //mzxOK
-//Set static PolyLinksList_s
-void func_80038728(PolyLinksList_s* arg0, u16* arg1, s16* arg2) {
+//Set static StaticList_s
+void func_80038728(StaticList_s* arg0, u16* next, s16* polyId) {
     u16 newNode = func_8003E4DC(arg0); 
 
-    func_80038708(&arg0->tbl[newNode], arg2, *arg1);
-    *arg1 = newNode;
+    func_80038708(&arg0->tbl[newNode], polyId, *next);
+    *next = newNode;
 }
 
 //mzxOK
 //Set dynamic DynaList_s
-void func_80038780(DynaList_s* arg0, u16* arg1, s16* arg2) {
+void func_80038780(DynaList_s* arg0, u16* next, s16* polyId) {
     u16 newNode = func_80038878(arg0); 
 
     if (!(newNode != SS_NULL)) {
         __assert("new_node != SS_NULL", "../z_bgcheck.c", 1776);
     }
 
-    func_80038708(&arg0->tbl[newNode], arg2, *arg1);
-    *arg1 = newNode;
+    func_80038708(&arg0->tbl[newNode], polyId, *next);
+    *next = newNode;
 }
 
 //mzxOK
@@ -84,7 +81,7 @@ void func_80038870(DynaList_s* arg0) {
     arg0->count = 0;
 }
 
-//mzx
+//mzxOK
 //Get next DynaList_s item
 u16 func_80038878(DynaList_s* arg0) {
     u16 var = arg0->count++;
@@ -110,44 +107,29 @@ void func_800388E8(Vec3s* dst, Vec3f* src) {
     dst->z = src->z;
 }
 
-#ifdef NON_MATCHING
+//get lowest y point
 s16 func_80038924(CollisionPoly* poly, Vec3s* vtxList) {
-    //Vec3s* temp1;
-    //Vec3s* temp2;
-    //Vec3s* temp3;
     s32 a, b, c;
     s16 min;
 
     if (poly->norm.y == 0x7FFF || poly->norm.y == -0x7FFF) {
-        return vtxList[poly->vIA].y;
+        return vtxList[poly->flags_vIA & 0x1FFF].y;
     }
 
-    //temp1 = &vtxList[poly->vIA];
-    //temp2 = &vtxList[poly->vIB];
-    //temp3 = &vtxList[poly->vIC];
-
-    a = poly->vIA;
-    b = poly->vIB;
+    a = poly->flags_vIA & 0x1FFF;
+    b = poly->flags_vIB & 0x1FFF;
     c = poly->vIC;
 
-    //min = temp1->y;
     min = vtxList[a].y;
 
-    //if (min > temp2->y) {
     if (min > vtxList[b].y) {
-        //min = temp2->y;
         min = vtxList[b].y;
     }
-    //if (min < temp3->y) {
     if (min < vtxList[c].y) {
         return min;
     }
-    //return temp3->y;
     return vtxList[c].y;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80038924.s")
-#endif
 
 //mzxOK
 //CollisionPoly get unit normal
@@ -219,8 +201,8 @@ f32 func_80038B7C(CollisionPoly* poly, Vec3f* point) {
 //mzxOK
 //Get Poly Verts
 void func_80038BE0(CollisionPoly* arg0, Vec3s* vtxList, Vec3f* dest) {
-    func_800388A8(&vtxList[arg0->vIA], &dest[0]);
-    func_800388A8(&vtxList[arg0->vIB], &dest[1]);
+    func_800388A8(&vtxList[arg0->flags_vIA & 0x1FFF], &dest[0]);
+    func_800388A8(&vtxList[arg0->flags_vIB & 0x1FFF], &dest[1]);
     func_800388A8(&vtxList[arg0->vIC], &dest[2]);
 }
 
@@ -266,9 +248,9 @@ void func_80038D48(CollisionPoly* poly, Vec3s* vtxList, f32 arg2, f32 arg3, f32*
     Vec3s* vB;
     Vec3s* vC;
 
-    vA = &vtxList[poly->vIA];
+    vA = &vtxList[poly->flags_vIA & 0x1FFF];
     Math_Vec3s_ToVec3f(&polyVtxs[0], vA);
-    vB = &vtxList[poly->vIB];
+    vB = &vtxList[poly->flags_vIB & 0x1FFF];
     Math_Vec3s_ToVec3f(&polyVtxs[1], vB);
     vC = &vtxList[poly->vIC];
     Math_Vec3s_ToVec3f(&polyVtxs[2], vC);
@@ -362,84 +344,83 @@ s32 func_8003937C(CollisionPoly* poly, Vec3s* vtxList, Vec3f* arg2, f32 arg3) {
     return func_800CE934(&sphere, &tri, &sp1C);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80039448.s")
-//void func_80039448(CollisionContext* arg0, u16* arg1, CollisionPoly* polyList, Vec3s* vtxList, s16 index) {
-//    void* sp24;
-//    s32 temp_ret;
-//    s32 temp_ret_2;
-//    s32 temp_ret_3;
-//    u16 temp_v1;
-//    void* temp_a0;
-//    void* temp_a1;
-//    void* temp_a1_2;
-//    void* temp_t1;
-//    void* phi_t1;
-//    void* phi_a1;
-//    s16 phi_a2;
-//
-//    if (SS_NULL == *arg1) {
-//        func_80038728(&arg0->stat.polyLinksList, arg1, &index);
-//        return;
-//    }
-//    temp_ret = func_80038924(polyList[index], vtxList);
-//    temp_t1 = arg0->unk48 + (*arg1 * 4);
-//    temp_a1 = polyList + (*temp_t1 * 0x10);
-//    phi_a1 = temp_a1;
-//    if (temp_ret >= (s32)(vtxList + ((temp_a1->unk2 & 0x1FFF) * 6))->unk2) {
-//    block_6:
-//        phi_t1 = temp_t1;
-//        phi_a2 = *temp_t1;
-//    loop_7:
-//        temp_v1 = phi_t1->unk2;
-//        if (SS_NULL == temp_v1) {
-//            sp24 = phi_t1;
-//            temp_ret_2 = func_8003E4DC(arg0 + 0x44, phi_a1, phi_a2, vtxList);
-//            func_80038708(arg0->unk48 + (temp_ret_2 * 4), &index, 0xFFFF);
-//            phi_t1->unk2 = (s16)(temp_ret_2 & 0xFFFF);
-//            return;
-//        }
-//        temp_a0 = arg0->unk48 + (temp_v1 * 4);
-//        temp_a1_2 = polyList + (*temp_a0 * 0x10);
-//        if (temp_ret >= (s32)(vtxList + ((temp_a1_2->unk2 & 0x1FFF) * 6))->unk2) {
-//        block_13:
-//            phi_t1 = temp_a0;
-//            phi_a1 = temp_a1_2;
-//            phi_a2 = *temp_a0;
-//            goto loop_7;
-//        }
-//        if (temp_ret >= (s32)(vtxList + ((temp_a1_2->unk4 & 0x1FFF) * 6))->unk2) {
-//            goto block_13;
-//        }
-//        if (temp_ret >= (s32)(vtxList + (temp_a1_2->unk6 * 6))->unk2) {
-//            goto block_13;
-//        }
-//        sp24 = phi_t1;
-//        temp_ret_3 = func_8003E4DC(arg0 + 0x44, temp_a1_2, *temp_a0, vtxList);
-//        func_80038708(arg0->unk48 + (temp_ret_3 * 4), &index, phi_t1->unk2);
-//        phi_t1->unk2 = (s16)(temp_ret_3 & 0xFFFF);
-//        return;
-//    }
-//    phi_a1 = temp_a1;
-//    if (temp_ret >= (s32)(vtxList + ((temp_a1->unk4 & 0x1FFF) * 6))->unk2) {
-//        goto block_6;
-//    }
-//    phi_a1 = arg1;
-//    if (temp_ret >= (s32)(vtxList + (temp_a1->unk6 * 6))->unk2) {
-//        goto block_6;
-//    }
-//    func_80038728(&arg0->stat.polyLinksList, arg1, &index);
-//    return;
-//}
+#ifdef NON_MATCHING
+//Add poly to lookup table. Table is sorted by poly's smallest y vertex component
+//lookupId = StaticList_s insert id
+//polyList = CollisionPoly lookup list
+//vtxList = vertex lookup list
+//polyId = index into polyList of CollisionPoly to insert into the lookup table
+void func_80039448(CollisionContext* colCtx, u16* lookupId, CollisionPoly* polyList, Vec3s* vtxList, s16 polyId) {
+    SSNode* ssCur; //t1, sp24
+    SSNode* ssNext;
+    CollisionPoly* colp;
+    s32 yMin;
+    u16 temp_ret;
 
-void func_8003965C(Lookup* arg0, CollisionContext* colCtx, CollisionPoly* polyList, Vec3s* vtxList, s16 index) {
+    //if list is null
+    if (SS_NULL == *lookupId) {
+        func_80038728(&colCtx->stat.polyNodes, lookupId, &polyId);
+        return;
+    }
+    yMin = func_80038924(polyList + polyId, vtxList);
+    //e9c:    lw      t5,0x2c(sp)
+    ssCur = colCtx->stat.polyNodes.tbl;
+    ssCur += *lookupId;
+
+    colp = polyList + ssCur->polyId;
+
+    //if the poly being inserted is already the poly with the lowest y component
+    if (yMin < vtxList[colp->flags_vIA & 0x1FFF].y
+        && yMin < vtxList[colp->flags_vIB & 0x1FFF].y
+        && yMin < vtxList[colp->vIC].y) {
+
+        func_80038728(&colCtx->stat.polyNodes, lookupId, &polyId);
+        return;
+    }
+    //f4c: ~> li      t3,6
+    while (1)
+    {
+        //if list->next is null
+        if (SS_NULL == ssCur->next) {
+            temp_ret = func_8003E4DC(&colCtx->stat.polyNodes);
+            func_80038708(colCtx->stat.polyNodes.tbl + temp_ret, &polyId, 0xFFFF);
+            ssCur->next = temp_ret;
+            return;
+        }
+        //f90: ~> addu    a0,t2,t9
+        ssNext = colCtx->stat.polyNodes.tbl;
+        ssNext += ssCur->next;
+
+        colp = polyList + ssNext->polyId;
+
+        //if the poly being inserted is lower than the next poly
+        if (yMin < vtxList[colp->flags_vIA & 0x1FFF].y
+            && yMin < vtxList[colp->flags_vIB & 0x1FFF].y
+            && yMin < vtxList[colp->vIC].y) {
+
+            temp_ret = func_8003E4DC(&colCtx->stat.polyNodes);
+            func_80038708(colCtx->stat.polyNodes.tbl + temp_ret, &polyId, ssCur->next);
+            ssCur->next = temp_ret;
+            return;
+        }
+        ssCur = ssNext;
+    }
+} //temp_t1 temp_a0 prev
+#else
+void func_80039448(CollisionContext* colCtx, u16* lookupId, CollisionPoly* polyList, Vec3s* vtxList, s16 polyId);
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80039448.s")
+#endif
+
+//Add CollisionPoly to static lookup list
+void func_8003965C(Lookup* lookup, CollisionContext* colCtx, CollisionPoly* polyList, Vec3s* vtxList, s16 index) {
     if (polyList[index].norm.y >= 0x4000) {
-        func_80039448(colCtx, &arg0->floor, polyList, vtxList, index);
+        func_80039448(colCtx, &lookup->floor, polyList, vtxList, index);
 
     } else if (polyList[index].norm.y <= -0x6666) {
-        func_80039448(colCtx, &arg0->ceiling, polyList, vtxList, index);
+        func_80039448(colCtx, &lookup->ceiling, polyList, vtxList, index);
 
     } else {
-        func_80039448(colCtx, &arg0->wall, polyList, vtxList, index);
+        func_80039448(colCtx, &lookup->wall, polyList, vtxList, index);
     }
 }
 
@@ -508,79 +489,71 @@ s32 func_80039A3C(CollisionContext* arg0, CollisionPoly* poly, f32* arg2, f32* a
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003A7D8.s")
 
-s32 func_8003A95C(SSLink_s* arg0, u16 arg1, CollisionContext* arg2, Vec3f* arg3, f32 arg4, CollisionPoly* arg5);
+#ifdef  NON_MATCHING
+s32 func_8003A95C(SSNode* arg0, u16 arg1, StaticCollisionContext* arg2, Vec3f* arg3, f32 arg4, CollisionPoly** arg5) {
+    CollisionPoly* curPoly; //temp_s0
+    f32 temp_f0;
+    u32 ssNext; //v0
+    SSNode* curSSNode;
+    CollisionHeader* colHeader;
+    CollisionPoly* polygonArray;
+    SSNode* new_var;
+    s32 cond;
+
+    curSSNode = arg0;
+    colHeader = arg2->colHeader;
+    while (1) {
+
+        polygonArray = colHeader->polygonArray;
+        curPoly = polygonArray + curSSNode->polyId;
+        cond = curPoly->flags_vIA & ((arg1 & 7) << 0x0D);
+        if (cond) {
+            if (SS_NULL != curSSNode->next) {
+                ssNext = curSSNode->next;
+                curSSNode = arg2->polyNodes.tbl + ssNext;
+                continue;
+            }
+            break;
+
+        }
+        temp_f0 = arg3->y + arg4;
+        new_var = curSSNode;
+        if (!(temp_f0 < colHeader->vertexArray[(polygonArray + new_var->polyId)->flags_vIA & 0x1FFF].y)
+            || !(temp_f0 < colHeader->vertexArray[(polygonArray + new_var->polyId)->flags_vIB & 0x1FFF].y)
+            || !(temp_f0 < colHeader->vertexArray[(polygonArray + new_var->polyId)->vIC].y)) {
+
+            if (func_8003937C((polygonArray + new_var->polyId), colHeader->vertexArray, arg3, arg4)) {
+                *arg5 = curPoly;
+                return 1;
+            }
+            if (SS_NULL != new_var->next) {
+                ssNext = new_var->next;
+                curSSNode = arg2->polyNodes.tbl + ssNext;
+                continue;
+            }
+        }
+        break;
+    }
+    return 0;
+}
+#else
+s32 func_8003A95C(SSNode* arg0, u16 arg1, StaticCollisionContext* arg2, Vec3f* arg3, f32 arg4, CollisionPoly** arg5);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003A95C.s")
+#endif //  NON_MATCHING
 
-//s32 func_8003A95C(SSLink_s* arg0, u16 arg1, StaticCollisionContext* arg2, Vec3f* arg3, f32 arg4, CollisionPoly** arg5) {
-//    CollisionPoly* temp_s0;
-//    f32 temp_f0;
-//    u16 temp_v0;
-//    s32 flags; 
-//    //s32 temp_v1;
-//    CollisionPoly* polyList;
-//    Vec3s* vtxList;
-//    SSLink_s* phi_s1;
-//
-//    polyList = arg2->colHeader->polygonArray;
-//    vtxList = arg2->colHeader->vertexArray;
-//    phi_s1 = arg0;
-//    do {
-//
-//        flags = ((arg1 & 7) << 0x0D);
-//        temp_v0 = phi_s1->polyId;
-//        temp_s0 = &polyList[temp_v0];
-//        if (temp_s0->flags_vIA & flags) {
-//            temp_v0 = phi_s1->next;
-//            if (SS_NULL != temp_v0) {
-//                polyList = arg2->colHeader->polygonArray;
-//                phi_s1 = &arg2->polyLinksList.tbl[temp_v0];
-//                //goto loop_1;
-//                continue;
-//            }
-//            else
-//            {
-//                break;
-//            }
-//        }
-//        else {
-//            temp_f0 = arg3->y + arg4;
-//            if (
-//                !(temp_f0 < vtxList[temp_s0->vIA].y)
-//                || !(temp_f0 < vtxList[temp_s0->vIB].y)
-//                || !(temp_f0 < vtxList[temp_s0->vIC].y)) {
-//
-//                if (func_8003937C(temp_s0, vtxList, arg3, arg4) != 0) {
-//                    *arg5 = temp_s0;
-//                    return 1;
-//                }
-//                temp_v0 = phi_s1->polyId;
-//                if (SS_NULL != temp_v0) {
-//                    polyList = arg2->colHeader->polygonArray;
-//                    phi_s1 = &arg2->polyLinksList.tbl[temp_v0];
-//                    continue;
-//                }
-//            }
-//            else {
-//                break;
-//            }
-//        }
-//    } while (1);
-//    return 0;
-//}
-
-s32 func_8003AB28(Lookup* arg0, u16 arg1, CollisionContext* arg2, Vec3f* arg3, f32 arg4, CollisionPoly* arg5, u16 arg6) {
+s32 func_8003AB28(Lookup* arg0, u16 arg1, StaticCollisionContext* colCtx, Vec3f* arg3, f32 arg4, CollisionPoly** arg5, u16 arg6) {
     if (arg0->floor != SS_NULL && (arg6 & 4) == 0 
-        && func_8003A95C(&arg2->stat.polyLinksList.tbl[arg0->floor], arg1, arg2, arg3, arg4, arg5)) {
+        && func_8003A95C(&colCtx->polyNodes.tbl[arg0->floor], arg1, colCtx, arg3, arg4, arg5)) {
         return true;
     }
 
     if (arg0->wall != SS_NULL && (arg6 & 2) == 0 
-        && func_8003A95C(&arg2->stat.polyLinksList.tbl[arg0->wall], arg1, arg2, arg3, arg4, arg5)) {
+        && func_8003A95C(&colCtx->polyNodes.tbl[arg0->wall], arg1, colCtx, arg3, arg4, arg5)) {
         return true;
     }
 
     if (arg0->ceiling != SS_NULL && (arg6 & 1) == 0 
-        && func_8003A95C(&arg2->stat.polyLinksList.tbl[arg0->ceiling], arg1, arg2, arg3, arg4, arg5)) {
+        && func_8003A95C(&colCtx->polyNodes.tbl[arg0->ceiling], arg1, colCtx, arg3, arg4, arg5)) {
         return true;
     }
 
@@ -719,7 +692,7 @@ CollisionHeader* func_8003C4C4(CollisionContext* arg0, s32 bgId) {
         osSyncPrintf(VT_RST);
         return 0;
     }
-    return arg0->dyna.actorMeshArr[bgId].colHeader;
+    return arg0->dyna.bgActors[bgId].colHeader;
 }
 
 //Test if pos is near collision boundaries
@@ -766,25 +739,59 @@ s32 func_8003C55C(StaticCollisionContext* arg0, Vec3f* pos) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003D7A0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003D7F0.s")
+void func_8003D7F0(CollisionContext* arg0, s32 arg1, s32 arg2, Vec3f* arg3, s32 arg4, Vec3f* arg5, Vec3f* arg6, UNK_TYPE arg7, s32 arg8, f32 arg9, s32 arg10);
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003DD28.s")
+s32 func_8003DD28(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    s32 phi_v1;
+
+    phi_v1 = 0;
+    if (arg0 != 0) {
+        phi_v1 = 1;
+    }
+    if (arg1 != 0) {
+        phi_v1 |= 2;
+    }
+    if (arg2 != 0) {
+        phi_v1 |= 4;
+    }
+    if (arg3 != 0) {
+        phi_v1 |= 8;
+    }
+    if (arg4 != 0) {
+        phi_v1 |= 0x10;
+    }
+    return phi_v1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003DD6C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003DFA0.s")
+void func_8003DFA0(CollisionContext* arg0, Vec3f* arg1, s32 arg2, Vec3f* arg3, Vec3f* arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9, s32 argA, f32 argB) {
+    func_8003D7F0(arg0, 2, 0, arg1, arg2, arg3, arg4, arg9, argA, argB, func_8003DD28(arg5, arg6, arg7, arg8, 1));
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003E02C.s")
+void func_8003E02C(CollisionContext* arg0, Vec3f* arg1, s32 arg2, Vec3f* arg3, Vec3f* arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
+    func_8003D7F0(arg0, 4, 0, arg1, arg2, arg3, arg4, arg9, 0, 1.0f, func_8003DD28(arg5, arg6, arg7, arg8, 1));
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003E0B8.s")
+void func_8003E0B8(CollisionContext* arg0, Vec3f* arg1, s32 arg2, Vec3f* arg3, Vec3f* arg4, s32 arg5) {
+    func_8003E0FC(arg0, arg1, arg2, arg3, arg4, 1, 1, 1, arg5);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003E0FC.s")
+//arg1 is actor pos (torch slug +24)
+//arg2 is ? (torch slug + 264)
+void func_8003E0FC(CollisionContext* arg0, Vec3f* arg1, s32 arg2, Vec3f* arg3, Vec3f* arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8) {
+    UNK_TYPE sp3C;
+
+    func_8003D7F0(arg0, 0, 0, arg1, arg2, arg3, arg4, &sp3C, 0, 1.0f, func_8003DD28(arg5, arg6, arg7, arg8, 1));
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003E188.s")
 
-s32 func_80041648(CollisionContext* arg0, u16 arg1, CollisionPoly* arg2, s32* arg3,
+s32 func_80041648(CollisionContext* arg0, u16 arg1, CollisionPoly** arg2, s32* arg3,
     Vec3f* arg4, f32 arg5, s16* arg6, u16 arg7);
 
-s32 func_8003E214(CollisionContext* colCtx, u16 arg1, CollisionPoly* arg2, s32* arg3,
+s32 func_8003E214(CollisionContext* colCtx, u16 arg1, CollisionPoly** arg2, s32* arg3,
     Vec3f* arg4, f32 arg5, s16* arg6, u16 arg7) {
     Lookup* lookup;
 
@@ -799,7 +806,7 @@ s32 func_8003E214(CollisionContext* colCtx, u16 arg1, CollisionPoly* arg2, s32* 
         return 0;
     }
     else {
-        if (func_8003AB28(lookup, arg1, colCtx, arg4, arg5, arg2, arg7) 
+        if (func_8003AB28(lookup, arg1, &colCtx->stat, arg4, arg5, arg2, arg7)
             || func_80041648(colCtx, arg1, arg2, arg3, arg4, arg5, arg6, arg7)) {
             return 1;
         }
@@ -822,21 +829,21 @@ void func_8003E350(CollisionContext* colCtx, Vec3f* arg1, f32 arg2) {
 }
 
 //mzxOK
-//init PolyLinksList_s
-void func_8003E398(PolyLinksList_s* this) {
+//init StaticList_s
+void func_8003E398(StaticList_s* this) {
     this->max = 0;
     this->count = 0;
     this->tbl = NULL;
     this->polyCheckTbl = NULL;
 }
 
-//Allocate PolyLinksList_s
-//tblMax is the number of SSLink_s records to allocate
+//Allocate StaticList_s
+//tblMax is the number of SSNode records to allocate
 //numPolys is the number of polygons defined within the CollisionHeader
-void func_8003E3AC(GlobalContext* globalCtx , PolyLinksList_s* arg1, s32 tblMax, s32 numPolys) {
+void func_8003E3AC(GlobalContext* globalCtx , StaticList_s* arg1, s32 tblMax, s32 numPolys) {
     arg1->max = tblMax;
     arg1->count = 0;
-    arg1->tbl = THA_AllocEndAlign(&globalCtx->state.tha, tblMax * sizeof(SSLink_s), -2);
+    arg1->tbl = THA_AllocEndAlign(&globalCtx->state.tha, tblMax * sizeof(SSNode), -2);
 
     if (!(arg1->tbl != NULL)) {
         __assert("this->short_slist_node_tbl != NULL", "../z_bgcheck.c", 5975);
@@ -848,14 +855,14 @@ void func_8003E3AC(GlobalContext* globalCtx , PolyLinksList_s* arg1, s32 tblMax,
 }
 
 #ifdef  NON_MATCHING
-SSLink_s* func_8003E458(PolyLinksList_s* arg0) {
-    SSLink_s* result;
-    result = &arg0->tbl[arg0->count++];
+SSNode* func_8003E458(StaticList_s* this) {
+    SSNode* result;
+    result = &this->tbl[this->count++]; 
 
-    if (!(arg0->count < arg0->max)) {
-        __assert("this->short_slist_node_last_index < this->short_slist_node_size", "../z_bgcheck.c", 5998);
-    }
-    if (!(arg0->count < arg0->max)) {
+        if (!(this->count < this->max)) {
+            __assert("this->short_slist_node_last_index < this->short_slist_node_size", "../z_bgcheck.c", 5998); 
+        }
+    if (!(this->count < this->max)) {
         return NULL;
     }
     return result;
@@ -865,8 +872,8 @@ SSLink_s* func_8003E458(PolyLinksList_s* arg0) {
 #endif //  NON_MATCHING
 
 //mzxOK
-//Get PolyLinksList_s Next
-u16 func_8003E4DC(PolyLinksList_s* arg0) {
+//Get StaticList_s Next
+u16 func_8003E4DC(StaticList_s* arg0) {
     u16 new_index;
 
     new_index = arg0->count++;
@@ -883,9 +890,27 @@ void func_8003E530(ScaleRotPos* arg0) {
     arg0->rot.x = arg0->rot.y = arg0->rot.z = 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003E568.s")
+void func_8003E568(ScaleRotPos* arg0, Vec3f* scale, Vec3s* rot, Vec3f* pos) {
+    arg0->scale = *scale;
+    arg0->rot = *rot;
+    arg0->pos = *pos;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003E5B4.s")
+//ScaleRotPos equality test
+s32 func_8003E5B4(ScaleRotPos* a, ScaleRotPos* b) {
+    if (a->scale.x != b->scale.x
+        || a->scale.y != b->scale.y 
+        || a->scale.z != b->scale.z
+        || a->rot.x != b->rot.x 
+        || a->rot.y != b->rot.y
+        || a->rot.z != b->rot.z
+        || a->pos.x != b->pos.x
+        || a->pos.y != b->pos.y
+        || a->pos.z != b->pos.z) {
+        return false;
+    }
+    return true;
+}
 
 void func_8003E688(DynaLookup* arg0) {
     func_8003871C(&arg0->unk_02);
@@ -910,8 +935,8 @@ void func_8003E6EC(GlobalContext* globalCtx, ActorMesh* arg1) {
     func_8003E530(&arg1->srp2);
     func_8003E6C4(&arg1->dynaLookup);
     func_8003E6E4(&arg1->unk_10);
-    arg1->unk_54 = arg1->unk_56 = arg1->unk_58 = 0;
-    arg1->unk_5A = 0;
+    arg1->unk_54.x = arg1->unk_54.y = arg1->unk_54.z = 0;
+    arg1->unk_54.unk_06 = 0;
 }
 
 //mzxOK
@@ -930,8 +955,8 @@ void func_8003E750(ActorMesh* a0, DynaPolyActor* actor, CollisionHeader* colHead
 }
 
 //mzxOK
-void func_8003E804(ActorMesh* arg0) {
-    func_8003E5B4(&arg0->srp1.scale, &arg0->srp2.scale);
+s32 func_8003E804(ActorMesh* arg0) {
+    return func_8003E5B4(&arg0->srp1, &arg0->srp2);
 }
 
 //mzxOK
@@ -1012,7 +1037,7 @@ u32 func_8003EA74(GlobalContext* globalCtx, DynaCollisionContext* arg1, DynaPoly
         return BG_ACTOR_MAX;
     }
 
-    func_8003E750(&arg1->actorMeshArr[i], arg2, arg3);
+    func_8003E750(&arg1->bgActors[i], arg2, arg3);
     arg1->unk_00 |= 1;
 
     arg1->flags[i] &= 0xFFFD;
@@ -1029,7 +1054,7 @@ DynaPolyActor* func_8003EB84(CollisionContext* arg0, s32 bgId) {
         || arg0->dyna.flags[bgId] & 2) {
         return NULL;
     }
-    return arg0->dyna.actorMeshArr[bgId].actor;
+    return arg0->dyna.bgActors[bgId].actor;
 }
 
 void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* arg1, s32 bgId) {
@@ -1055,6 +1080,316 @@ void func_8003EC50(GlobalContext* globalCtx, DynaCollisionContext* arg1, s32 bgI
 
 // original name: DynaPolyInfo_expandSRT
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003EE80.s")
+//arg3 = dyna vtx index, arg4 = dyna poly index
+//void func_8003EE80(GlobalContext* arg0, DynaCollisionContext* arg1, s32 arg2, s32* arg3, s32* arg4) {
+//    MtxF sp128;
+//    s32 pad114[5];
+//    Vec3f sp108;
+//    s32 padFC[3];
+//    Vec3f spF0;
+//    f32 phi_f2;//f32 spEC;
+//    Vec3f spDC;
+//    Vec3f spD0;
+//    Vec3f spC4;
+//    Vec3f spB8;
+//    Vec3f spAC;
+//    s32 padA4[2];
+//    s16 spA0;
+//    s16 sp9E;
+//    s16 sp9C;
+//    Vec3f sp90;
+//    Vec3f sp84;
+//    s32 pad78[4];
+//    s16 sp76;
+//    s16 sp74;
+//    s16 sp72;
+//    DynaList_s* temp_s5_3;
+//    f32 temp_f0;
+//    f32 temp_f20;
+//    f32 temp_ret;
+//    f32 temp_ret_2;
+//    s32 temp_a0;
+//    u16 temp_t1;
+//    CollisionPoly* temp_s0_2;
+//    //ActorMesh* temp_s4;
+//    Vec4s* temp_s5_2;
+//    //void* temp_s6;
+//    CollisionPoly* temp_v0;
+//    Vec3s* temp_v0_2;
+//    s32 phi_v1;
+//    s32 phi_s1;
+//    s32 phi_s0;
+//    s32 phi_s3;
+//    s32 phi_s3_2;
+//    s32 phi_s3_3;
+//    s32 pad[0x2E];
+//
+//    //temp_s4 = &arg1->bgActors[arg2]; //remember all temp_s4 values must be -4
+//    arg1->bgActors[arg2].dynaLookup.unk_00 = (s16)*arg4;
+//    arg1->bgActors[arg2].unk_10 = (s16)*arg3;
+//    //sp108.unk0 = (s32)temp_s4->unk4->unk24;
+//    //sp108.unk4 = (s32)temp_s4->unk4->unk28;
+//    //sp108.unk8 = (s32)temp_s4->unk4->unk2C;
+//    sp108 = arg1->bgActors[arg2].actor->actor.posRot.pos;
+//
+//    sp108.y += arg1->bgActors[arg2].actor->actor.shape.unk_08 * arg1->bgActors[arg2].actor->actor.scale.y;  // ->unkBC * temp_s4->unk4->unk54);
+//    //temp_s6 = arg1 + (arg2 * 2);
+//    func_8003E568(&arg1->bgActors[arg2].srp2, &arg1->bgActors[arg2].actor->actor.scale, &arg1->bgActors[arg2].actor->actor.shape, &sp108);
+//    if ((arg1->flags[arg2] & 4) != 0) {
+//        //goto block_48;
+//        return;
+//    }
+//    if (!(arg1->dyn_poly_max >= (*arg4 + arg1->bgActors[arg2].colHeader->nbPolygons))) {
+//        osSyncPrintf("\x1b[31m");
+//        osSyncPrintf("DynaPolyInfo_expandSRT():polygon over %dが%dを越えるとダメ\n", *arg4 + arg1->bgActors[arg2].colHeader->nbPolygons, arg1->dyn_poly_max);
+//    }
+//    if (!(arg1->unk_140C >= (*arg3 + arg1->bgActors[arg2].colHeader->nbVertices))) {
+//        osSyncPrintf("\x1b[31m");
+//        osSyncPrintf("DynaPolyInfo_expandSRT():vertex over %dが%dを越えるとダメ\n", *arg3 + arg1->bgActors[arg2].colHeader->nbVertices, arg1->unk_140C);
+//    }
+//    if (!(arg1->dyn_poly_max < (*arg4 + arg1->bgActors[arg2].colHeader->nbPolygons))) {
+//        phi_v1 = *arg3 + arg1->bgActors[arg2].colHeader->nbVertices;
+//    }
+//    else {
+//        __assert("pdyna_poly_info->poly_num >= *pstart_poly_index + pbgdata->poly_num", "../z_bgcheck.c", 0x1A1F);
+//        phi_v1 = *arg3 + arg1->bgActors[arg2].colHeader->nbVertices;
+//    }
+//    if (!(arg1->unk_140C >= phi_v1)) {
+//        __assert("pdyna_poly_info->vert_num >= *pstart_vert_index + pbgdata->vtx_num", "../z_bgcheck.c", 0x1A20);
+//    }
+//    if (!((arg1->unk_00 & 1) || func_8003E804(&arg1->bgActors[arg2]) != 1)) {
+//
+//        //temp_s5 = &sp9C.u_00;
+//        //temp_a0 = *arg4 + arg1->bgActors[arg2].colHeader->nbPolygons;
+//        for (phi_s0 = *arg4; phi_s0 < *arg4 + arg1->bgActors[arg2].colHeader->nbPolygons; phi_s0++) {
+//            //phi_a0_2 = temp_a0;
+//            //if (*arg4 >= temp_a0) {
+//            //    goto block_21;
+//            //}
+//            //phi_s1 = *arg4 * 0x10;
+//            //phi_s0 = (s16)*arg4;
+//            //phi_a0 = temp_a0;
+//        //loop_14:
+//            //temp_a2 = ;
+//            temp_v0 = arg1->dyn_poly + phi_s1;
+//            if (!(temp_v0->norm.y < 0x4000)) {
+//                //goto block_16;
+//
+//                spA0 = phi_s0;
+//                func_80038780(&arg1->dyn_list, &arg1->bgActors[arg2].dynaLookup.unk_06, &spA0);
+//                //phi_a0 = *arg4 + arg1->bgActors[arg2].colHeader->nbPolygons;
+//                //goto block_20;
+//            }
+//            //block_16:
+//            else if (!(temp_v0->norm.y >= -0x6665)) {
+//                //goto block_19;
+//
+//                //temp_a2_2 = &sp9C.u_02;
+//                if ((arg1->flags[arg2] & 8) != 0) { //temp_s6
+//                    //goto block_20;
+//                    continue;
+//                }
+//                sp9E = phi_s0;
+//                func_80038780(&arg1->dyn_list, &arg1->bgActors[arg2].dynaLookup.unk_02, &sp9E);
+//                //phi_a0 = *arg4 + arg1->bgActors[arg2].colHeader->nbPolygons;
+//                //goto block_20;
+//            }
+//            //block_19:
+//            else {
+//                sp9C = phi_s0;
+//                func_80038780(&arg1->dyn_list, &arg1->bgActors[arg2].dynaLookup.unk_04, &sp9C);
+//                //phi_a0 = *arg4 + arg1->bgActors[arg2].colHeader->nbPolygons;
+//            }
+//            //block_20:
+//            //    temp_s0 = phi_s0 + 1;
+//            //    phi_s1 = phi_s1 + 0x10;
+//            //    phi_s0 = (s16)temp_s0;
+//            //    phi_a0_2 = phi_a0;
+//            //    phi_a0 = phi_a0;
+//            //    if (temp_s0 < phi_a0) {
+//            //        goto loop_14;
+//            //    }
+//        }
+//        //block_21: //*arg4
+//        *arg4 += arg1->bgActors[arg2].colHeader->nbPolygons; //temp_a0;//phi_a0_2;
+//        *arg3 += arg1->bgActors[arg2].colHeader->nbVertices;
+//        return;
+//    }
+//    func_800A7B04(&sp128,
+//        arg1->bgActors[arg2].srp2.scale.x, arg1->bgActors[arg2].srp2.scale.y, arg1->bgActors[arg2].srp2.scale.z,
+//        arg1->bgActors[arg2].srp2.rot.x, arg1->bgActors[arg2].srp2.rot.y, arg1->bgActors[arg2].srp2.rot.z,
+//        arg1->bgActors[arg2].srp2.pos.x, arg1->bgActors[arg2].srp2.pos.y, arg1->bgActors[arg2].srp2.pos.z);
+//
+//    //ab6374
+//
+//    temp_f20 = 1.0f / (f32)(u32)arg1->bgActors[arg2].colHeader->nbVertices;
+//    //if (!((s32)arg1->bgActors[arg2].colHeader->nbVertices <= 0)) {
+//        //goto block_32;
+//
+//    spF0.x = spF0.y = spF0.z = 0.0f;
+//    //phi_s0_2 = 0;
+//    for (phi_s3 = 0; phi_s3 < arg1->bgActors[arg2].colHeader->nbVertices; phi_s3++) {
+//        //loop_24:
+//        Math_Vec3s_ToVec3f(&sp90, &arg1->bgActors[arg2].colHeader->vertexArray[phi_s3]);// + phi_s0_2);
+//        func_800A6EF4(&sp128, &sp90, &sp84);
+//        func_800388E8(&arg1->dyn_vtx[*arg3 + phi_s3], &sp84);
+//        if (phi_s3 == 0) {
+//            //goto block_26;
+//
+//            arg1->bgActors[arg2].unk_5C = arg1->bgActors[arg2].unk_60 = sp84.y;
+//        }
+//        //goto block_30;
+//
+//        //block_26:
+//        else if (sp84.y < arg1->bgActors[arg2].unk_5C) {
+//            //goto block_28;
+//
+//            arg1->bgActors[arg2].unk_5C = sp84.y;
+//        }
+//        //goto block_30;
+//    //block_28:
+//        else if (arg1->bgActors[arg2].unk_60 < sp84.y) {
+//            //goto block_30;
+//
+//            arg1->bgActors[arg2].unk_60 = sp84.y;
+//        }
+//
+//    //block_30:
+//        spF0.x += sp84.x;
+//        //temp_s3 = phi_s3 + 1;
+//        spF0.y += sp84.y;
+//        spF0.z += sp84.z;
+//        /*phi_s0_2 = phi_s0_2 + 6;
+//        phi_s3 = temp_s3;
+//        if (temp_s3 < (s32)arg1->bgActors[arg2].colHeader->nbVertices) {
+//            goto loop_24;
+//        }*/
+//    }
+//    //block_32:
+//    //temp_f10 = spF0.x * temp_f20;
+//    temp_s5_2 = &arg1->bgActors[arg2].unk_54;
+//    spF0.x *= temp_f20;//temp_f10;
+//    spF0.y *= temp_f20;
+//    spF0.z *= temp_f20;
+//    temp_s5_2->x = (s16)(s32)spF0.x;//temp_f10;
+//    temp_s5_2->y = (s16)(s32)spF0.y;
+//    temp_s5_2->z = (s16)(s32)spF0.z;
+//    //phi_s0_3 = 0;
+//    phi_f2 = -100.0f;
+//    //phi_s3_2 = 0;
+//    //phi_f2_2 = -100.0f;
+//    //phi_s3_3 = 0;
+//
+//    for (phi_s3_2 = 0; phi_s3_2 < arg1->bgActors[arg2].colHeader->nbVertices; phi_s3_2++) {
+//        //if ((s32)arg1->bgActors[arg2].colHeader->nbVertices <= 0) {
+//        //    goto block_37;
+//
+//    //loop_33:
+//        spDC.x = (f32)arg1->dyn_vtx[*arg3 + phi_s3_2].x;
+//        spDC.y = (f32)arg1->dyn_vtx[*arg3 + phi_s3_2].y;
+//        //spEC = phi_f2;
+//        spDC.z = (f32)arg1->dyn_vtx[*arg3 + phi_s3_2].z;
+//        temp_ret = func_800CB650(&spDC, &spF0);
+//        //temp_f2 = phi_f2;
+//        //phi_f2_3 = temp_f2;
+//        if ((phi_f2 < temp_ret)) {
+//            //goto block_35;
+//
+//            phi_f2 = temp_ret;
+//            //block_35:
+//        }
+//        //temp_s3_2 = phi_s3_2 + 1;
+//        //phi_s0_3 = phi_s0_3 + 6;
+//        //phi_f2 = phi_f2_3;
+//        //phi_s3_2 = temp_s3_2;
+//        //if (temp_s3_2 < (s32)arg1->bgActors[arg2].colHeader->nbVertices) {
+//        //    goto loop_33;
+//        //}
+//        //phi_f2_2 = phi_f2_3;
+//    }
+//    //phi_s3_3 = 0;
+//    //block_37:
+//    temp_s5_2->unk_06 = (s16)(s32)(sqrtf(phi_f2) * 1.1f);
+//    temp_s5_3 = &arg1->dyn_list;
+//    for (phi_s3_3 = 0; phi_s3_3 < arg1->bgActors[arg2].colHeader->nbPolygons; phi_s3_3++) {
+//        //if ((s32)arg1->bgActors[arg2].colHeader->nbPolygons <= 0) {
+//            //goto block_47;
+//        //}
+//    //loop_39:
+//        //*temp_s0_2 =
+//        temp_s0_2 = &arg1->dyn_poly[*arg4 + phi_s3_3];
+//        *temp_s0_2 = arg1->bgActors[arg2].colHeader->polygonArray[phi_s3_3];
+//        //temp_a0_3 = &spD0;
+//        //temp_a1 = &spC4;
+//        temp_t1 = (temp_s0_2->flags_vIA & 0xE000) | ((temp_s0_2->flags_vIA & 0x1FFF) + *arg3);
+//        temp_s0_2->flags_vIA = temp_t1;
+//        //temp_a2_3 = &spB8;
+//        temp_s0_2->flags_vIB = (u16)((temp_s0_2->flags_vIB & 0xE000) | ((temp_s0_2->flags_vIB & 0x1FFF) + *arg3));
+//        temp_s0_2->vIC = (u16)(*arg3 + temp_s0_2->vIC);
+//        spD0.x = (f32)arg1->dyn_vtx[temp_s0_2->flags_vIA & 0x1FFF].x;
+//        spD0.y = (f32)arg1->dyn_vtx[temp_s0_2->flags_vIA & 0x1FFF].y;
+//        spD0.z = (f32)arg1->dyn_vtx[temp_s0_2->flags_vIA & 0x1FFF].z;
+//        spC4.x = (f32)arg1->dyn_vtx[temp_s0_2->flags_vIB & 0x1FFF].x;
+//        spC4.y = (f32)arg1->dyn_vtx[temp_s0_2->flags_vIB & 0x1FFF].y;
+//        spC4.z = (f32)arg1->dyn_vtx[temp_s0_2->flags_vIB & 0x1FFF].z;
+//        spB8.x = (f32)arg1->dyn_vtx[temp_s0_2->vIC].x;
+//        spB8.y = (f32)arg1->dyn_vtx[temp_s0_2->vIC].y;
+//        spB8.z = (f32)arg1->dyn_vtx[temp_s0_2->vIC].z;
+//        Math3D_SurfaceNorm(&spD0, &spC4, &spB8, &spAC);
+//        temp_ret_2 = Math3D_Vec3fMagnitude(&spAC);
+//        if (!(fabsf(temp_ret_2) < 0.008f)) {
+//            //goto block_41;
+//
+//            temp_f0 = 1.0f / temp_ret_2;
+//            //temp_f10_2 = spAC.x * ;
+//            //temp_f16 = spAC.y * ;
+//            //temp_f6 = spAC.z * ;
+//            spAC.x *= temp_f0;
+//            spAC.y *= temp_f0;
+//            spAC.z *= temp_f0;
+//            temp_s0_2->norm.x = (s16)(s32)(spAC.x * 32767.0f); //temp_f10_2
+//            temp_s0_2->norm.y = (s16)(s32)(spAC.y * 32767.0f); //temp_f16
+//            temp_s0_2->norm.z = (s16)(s32)(spAC.z * 32767.0f);
+//        }
+//    //block_41:
+//        temp_v0_2 = &arg1->dyn_vtx[temp_s0_2->flags_vIA & 0x1FFF];
+//        temp_s0_2->dist = (s16)(s32)-(((f32)temp_v0_2->z * spAC.z) + ((spAC.x * (f32)temp_v0_2->x) + (spAC.y * (f32)temp_v0_2->y)));
+//        if (0.5f < spAC.y) {
+//            //goto block_43;
+//
+//        //temp_a2_4 = ;
+//            sp76 = *arg4 + phi_s3_3;
+//            func_80038780(temp_s5_3, &arg1->bgActors[arg2].dynaLookup.unk_06, &sp76);
+//            //goto block_46;
+//
+//        //block_43:
+//        }
+//        else if (spAC.y < -0.8f) {
+//            //goto block_45;
+//
+//            //temp_a2_5 = &sp74;
+//            sp74 = *arg4 + phi_s3_3;
+//            func_80038780(temp_s5_3, &arg1->bgActors[arg2].dynaLookup.unk_02, &sp74);
+//            //goto block_46;
+//        //block_45:
+//        }
+//        else {
+//            //temp_a2_6 = &sp72;
+//            sp72 = *arg4 + phi_s3_3;
+//            func_80038780(temp_s5_3, &arg1->bgActors[arg2].dynaLookup.unk_04, &sp72);
+//        //block_46:
+//        }
+//        //temp_s3_3 = phi_s3_3 + 1;
+//        //phi_s3_3 = temp_s3_3;
+//        //if (temp_s3_3 < (s32)arg1->bgActors[arg2].unk8->unk14) {
+//        //    goto loop_39;
+//        //}
+//    //block_47:
+//    }
+//    *arg4 = (*arg4 + arg1->bgActors[arg2].colHeader->nbPolygons);
+//    *arg3 = (*arg3 + arg1->bgActors[arg2].colHeader->nbVertices);
+////block_48:
+//}
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_8003F8EC.s")
 
@@ -1068,7 +1403,7 @@ void func_8003F984(GlobalContext* arg0, DynaCollisionContext* arg1) {
     func_80038870(&arg1->dyn_list);
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
-        func_8003E688(&arg1->actorMeshArr[i].dynaLookup);
+        func_8003E688(&arg1->bgActors[i].dynaLookup);
     }
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
@@ -1079,11 +1414,11 @@ void func_8003F984(GlobalContext* arg0, DynaCollisionContext* arg1) {
             osSyncPrintf("\x1b[m");
 
             arg1->flags[i] = 0;
-            func_8003E6EC(arg0, &arg1->actorMeshArr[i]);
+            func_8003E6EC(arg0, &arg1->bgActors[i]);
             arg1->unk_00 |= 1;
         }
-        if (arg1->actorMeshArr[i].actor != NULL
-            && arg1->actorMeshArr[i].actor->actor.update == NULL)
+        if (arg1->bgActors[i].actor != NULL
+            && arg1->bgActors[i].actor->actor.update == NULL)
         {
             osSyncPrintf("\x1b[32m");
             osSyncPrintf("DynaPolyInfo_setup():削除 index=%d\n", i);
@@ -1095,7 +1430,7 @@ void func_8003F984(GlobalContext* arg0, DynaCollisionContext* arg1) {
             temp_ret->dynaPolyId = -1;
             arg1->flags[i] = 0;
 
-            func_8003E6EC(arg0, &arg1->actorMeshArr[i]);
+            func_8003E6EC(arg0, &arg1->bgActors[i]);
             arg1->unk_00 |= 1;
         }
     }
@@ -1161,15 +1496,15 @@ void func_800418D0(CollisionContext* colCtx, GlobalContext* globalCtx) {
     for (i = 0; i < BG_ACTOR_MAX; i++) {
         flag = dynaColCtx->flags[i];
         if ((flag & 1) && !(flag & 2)) {
-            Actor_SetObjectDependency(globalCtx, dynaColCtx->actorMeshArr[i].actor);
-            func_800417A0(dynaColCtx->actorMeshArr[i].colHeader);
+            Actor_SetObjectDependency(globalCtx, &dynaColCtx->bgActors[i].actor->actor);
+            func_800417A0(dynaColCtx->bgActors[i].colHeader);
         }
     }
 }
 
 //mzxOK
-//Reset PolyLinksList_s polyCheckTbl
-void func_80041978(PolyLinksList_s* arg0, int numPolys) {
+//Reset StaticList_s polyCheckTbl
+void func_80041978(StaticList_s* arg0, int numPolys) {
     u8* t;
 
     for (t = arg0->polyCheckTbl; t < arg0->polyCheckTbl + numPolys; t++)

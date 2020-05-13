@@ -184,7 +184,7 @@ glabel func_8003EE80
 /* AB6220 8003F080 26840004 */   addiu $a0, $s4, 4
 /* AB6224 8003F084 24010001 */  li    $at, 1
 /* AB6228 8003F088 14410040 */  bne   $v0, $at, .L8003F18C
-/* AB622C 8003F08C 8FAE0178 */   lw    $t6, 0x178($sp)
+/* AB622C 8003F08C 8FAE0178 */   lw    $t6, 0x178($sp) #arg4
 /* AB6230 8003F090 8DC20000 */  lw    $v0, ($t6)
 /* AB6234 8003F094 97CF0014 */  lhu   $t7, 0x14($fp)
 /* AB6238 8003F098 27B5009C */  addiu $s5, $sp, 0x9c
@@ -448,36 +448,36 @@ glabel func_8003EE80
 /* AB65FC 8003F45C 026A082A */  slt   $at, $s3, $t2
 /* AB6600 8003F460 5420FFCD */  bnezl $at, .L8003F398
 /* AB6604 8003F464 8FA20174 */   lw    $v0, 0x174($sp)
-/* AB6608 8003F468 00009825 */  move  $s3, $zero
+/* AB6608 8003F468 00009825 */  move  $s3, $zero #block_37
 /* AB660C 8003F46C 46001004 */  sqrt.s $f0, $f2
 .L8003F470:
 /* AB6610 8003F470 3C018014 */  lui   $at, %hi(D_80138F9C)
 /* AB6614 8003F474 C42A8F9C */  lwc1  $f10, %lo(D_80138F9C)($at)
 /* AB6618 8003F478 3C018014 */  lui   $at, %hi(D_80138FA0)
-/* AB661C 8003F47C 0000B025 */  move  $s6, $zero
-/* AB6620 8003F480 24120006 */  li    $s2, 6
+/* AB661C 8003F47C 0000B025 */  move  $s6, $zero #poly iterator
+/* AB6620 8003F480 24120006 */  li    $s2, 6 #vertex size
 /* AB6624 8003F484 460A0202 */  mul.s $f8, $f0, $f10
 /* AB6628 8003F488 4600440D */  trunc.w.s $f16, $f8
 /* AB662C 8003F48C 440B8000 */  mfc1  $t3, $f16
 /* AB6630 8003F490 00000000 */  nop
-/* AB6634 8003F494 A6AB0006 */  sh    $t3, 6($s5)
-/* AB6638 8003F498 97C20014 */  lhu   $v0, 0x14($fp)
-/* AB663C 8003F49C 26F513F8 */  addiu $s5, $s7, 0x13f8
+/* AB6634 8003F494 A6AB0006 */  sh    $t3, 6($s5) # sqrt(phi_f2) * 1.1
+/* AB6638 8003F498 97C20014 */  lhu   $v0, 0x14($fp) #fp = colHeader
+/* AB663C 8003F49C 26F513F8 */  addiu $s5, $s7, 0x13f8 #s5 = dyn_list
 /* AB6640 8003F4A0 584000FD */  blezl $v0, .L8003F898
-/* AB6644 8003F4A4 8FAA0178 */   lw    $t2, 0x178($sp)
-/* AB6648 8003F4A8 C4348FA0 */  lwc1  $f20, %lo(D_80138FA0)($at)
-/* AB664C 8003F4AC 8FB80178 */  lw    $t8, 0x178($sp)
+/* AB6644 8003F4A4 8FAA0178 */   lw    $t2, 0x178($sp) 
+/* AB6648 8003F4A8 C4348FA0 */  lwc1  $f20, %lo(D_80138FA0)($at) #f20 = 32767
+/* AB664C 8003F4AC 8FB80178 */  lw    $t8, 0x178($sp) #t8 = arg4
 .L8003F4B0:
-/* AB6650 8003F4B0 8FCE0018 */  lw    $t6, 0x18($fp)
-/* AB6654 8003F4B4 8EE913F0 */  lw    $t1, 0x13f0($s7)
-/* AB6658 8003F4B8 8F0C0000 */  lw    $t4, ($t8)
-/* AB665C 8003F4BC 01D65021 */  addu  $t2, $t6, $s6
+/* AB6650 8003F4B0 8FCE0018 */  lw    $t6, 0x18($fp) #t6 = colHeader->polygonArray
+/* AB6654 8003F4B4 8EE913F0 */  lw    $t1, 0x13f0($s7) #t1 = dyn_poly
+/* AB6658 8003F4B8 8F0C0000 */  lw    $t4, ($t8) #t4 = *arg4
+/* AB665C 8003F4BC 01D65021 */  addu  $t2, $t6, $s6 #t2 = colHeader->polygonArray[s6, or s3_3]
 /* AB6660 8003F4C0 894B0000 */  lwl   $t3, ($t2)
 /* AB6664 8003F4C4 994B0003 */  lwr   $t3, 3($t2)
-/* AB6668 8003F4C8 0193C821 */  addu  $t9, $t4, $s3
-/* AB666C 8003F4CC 00196900 */  sll   $t5, $t9, 4
-/* AB6670 8003F4D0 8FA80174 */  lw    $t0, 0x174($sp)
-/* AB6674 8003F4D4 01A98021 */  addu  $s0, $t5, $t1
+/* AB6668 8003F4C8 0193C821 */  addu  $t9, $t4, $s3 #t9 = *arg4 + s3_3
+/* AB666C 8003F4CC 00196900 */  sll   $t5, $t9, 4   #t5 = [*arg4 + s3_3]
+/* AB6670 8003F4D0 8FA80174 */  lw    $t0, 0x174($sp) #t0 = arg3
+/* AB6674 8003F4D4 01A98021 */  addu  $s0, $t5, $t1 #s0 = 
 /* AB6678 8003F4D8 AA0B0000 */  swl   $t3, ($s0)
 /* AB667C 8003F4DC BA0B0003 */  swr   $t3, 3($s0)
 /* AB6680 8003F4E0 894F0004 */  lwl   $t7, 4($t2)
@@ -498,7 +498,7 @@ glabel func_8003EE80
 /* AB66BC 8003F51C 27A500C4 */  addiu $a1, $sp, 0xc4
 /* AB66C0 8003F520 AA0F000C */  swl   $t7, 0xc($s0)
 /* AB66C4 8003F524 BA0F000F */  swr   $t7, 0xf($s0)
-/* AB66C8 8003F528 8D0C0000 */  lw    $t4, ($t0)
+/* AB66C8 8003F528 8D0C0000 */  lw    $t4, ($t0) # t4 = *arg3
 /* AB66CC 8003F52C 306E1FFF */  andi  $t6, $v1, 0x1fff
 /* AB66D0 8003F530 306BE000 */  andi  $t3, $v1, 0xe000
 /* AB66D4 8003F534 030CC821 */  addu  $t9, $t8, $t4

@@ -4,33 +4,21 @@
 struct Actor;
 struct DynaPolyActor;
 
-typedef u16 SSNode; 
-
 typedef struct {
-    SSNode floor;
-    SSNode wall;
-    SSNode ceiling;
+    u16 floor;
+    u16 wall;
+    u16 ceiling;
 
 } Lookup;
 
 typedef struct {
     /* 0x00 */ u16    type;
-    /* 0x02 */ union {
-        u16    flags_vIA;
-        struct {
-            u16     polyFlags : 3;
-            u16     vIA : 13;
-        };
-    };
-    /* 0x04 */ union {
-        u16    flags_vIB;
-        struct {
-            u16    flags : 3;
-            u16    vIB : 13;
-        };
-    };
+    /* 0x02 */ u16    flags_vIA; // 0xE000 is poly exclusion flags, 0x1FFF is vtxId
+    /* 0x04 */ u16    flags_vIB; // 0xE000 is ? flags, 0x1FFF is vtxId
     /* 0x06 */ u16    vIC;
-    /* 0x08 */ Vec3s  norm;  // Normal vector
+    /* 0x08 */ Vec3s  norm;  // Unit normal vector.
+                             //Value ranges from -0x7FFF to 0x7FFF, representing -1 to 1. 0x8000 is invalid
+                            
     /* 0x0E */ s16    dist;  // Plane distance from origin
 } CollisionPoly; // size = 0x10 //RoomPoly
 
@@ -76,9 +64,9 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Vec3s     minBounds; //colAbsMin
     /* 0x06 */ Vec3s     maxBounds; //colAbsMax
-    /* 0x0C */ s16       nbVertices;
+    /* 0x0C */ u16       nbVertices;
     /* 0x10 */ Vec3s*    vertexArray;
-    /* 0x14 */ s16       nbPolygons;
+    /* 0x14 */ u16       nbPolygons;
     /* 0x18 */ CollisionPoly* polygonArray;
     /* 0x1C */ SurfaceType*   polygonTypes;
     /* 0x20 */ CamData*  cameraData;
@@ -87,20 +75,20 @@ typedef struct {
 } CollisionHeader; //BGDataInfo
 
 typedef struct {
-    u16 polyId; //poly
-    u16 next; //next
-} SSLink_s;
+    s16 polyId; 
+    u16 next; //next SSNode index
+} SSNode;
 
 typedef struct {
     /* 0x00 */ u16 max;  // original name: short_slist_node_size
     /* 0x02 */ u16 count; // original name: short_slist_node_last_index
-    /* 0x04 */ SSLink_s* tbl; //original name: short_slist_node_tbl
+    /* 0x04 */ SSNode* tbl; //original name: short_slist_node_tbl
     /* 0x08 */ u8* polyCheckTbl; //set to 1 if polygon has already been tested
-} PolyLinksList_s;
+} StaticList_s;
 
 
 typedef struct {
-    SSLink_s* tbl;
+    SSNode* tbl;
     int count;
     int max;
 } DynaList_s;
@@ -112,24 +100,29 @@ typedef struct {
 } ScaleRotPos;
 
 typedef struct {
-    u16 unk_00;
+    u16 unk_00; //dyna ? index start?
     u16 unk_02;
     u16 unk_04;
     u16 unk_06;
 } DynaLookup;
 
 typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    s16 unk_06;
+} Vec4s;
+
+typedef struct {
     /* 0x00 */ struct DynaPolyActor* actor;
     /* 0x04 */ CollisionHeader* colHeader;
     /* 0x08 */ DynaLookup dynaLookup;
-    /* 0x10 */ u16 unk_10;
+    /* 0x10 */ u16 unk_10; //dyna ? index start
     /* 0x14 */ ScaleRotPos srp1;
     /* 0x34 */ ScaleRotPos srp2;
-    /* 0x54 */ s16  unk_54;
-    /* 0x56 */ s16  unk_56;
-    /* 0x58 */ u16  unk_58;
-    /* 0x5A */ u16  unk_5A;
-    /* 0x5C */ char unk_5C[0x08];
+    /* 0x54 */ Vec4s  unk_54;
+    /* 0x5C */ f32  unk_5C; //min y ?
+    /* 0x60 */ f32  unk_60; //max y ?
 } ActorMesh; // size = 0x64
 
 typedef struct {
@@ -140,17 +133,20 @@ typedef struct {
     /* 0x28 */ Vec3f unitSize;
     /* 0x34 */ Vec3f inverseUnitSize;
     /* 0x40 */ Lookup* lookupTbl;
-    /* 0x44 */ PolyLinksList_s  polyLinksList;
+    /* 0x44 */ StaticList_s  polyNodes;
 } StaticCollisionContext; // size = 0x50 //7C0
 
 typedef struct {
     /* 0x0000 */ u8             unk_00;
-    /* 0x0004 */ ActorMesh      actorMeshArr[50];
+    /* 0x0004 */ ActorMesh      bgActors[50];
     /* 0x138C */ u16            flags[50];
     /* 0x13F0 */ CollisionPoly* dyn_poly; //pbuf
     /* 0x13F4 */ Vec3s*         dyn_vtx; //pbuf
     /* 0x13F8 */ DynaList_s     dyn_list;
-    /* 0x1404 */ char           unk_13FC[0x10];
+    /* 0x1404 */ s32            dyn_list_max; //dyn_list_max
+    /* 0x1408 */ s32            dyn_poly_max; //dyn_poly_max
+    /* 0x140C */ s32            unk_140C; //dyn_vtx_max
+    /* 0x1410 */ s32            unk_1410; //mem_size
 } DynaCollisionContext; // size = 0x1414 //810
 
 typedef struct {
@@ -158,7 +154,7 @@ typedef struct {
     /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon an actor is over/touching
     /* 0x07C */ u8      wallPolySource; // Complex Poly Surface Source. 0x32 = Scene
     /* 0x07D */ u8      floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
-    /* 0x07E */ s16     unk_7E;
+    /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly
     /* 0x080 */ f32     unk_80; // Floor poly height?
     /* 0x084 */ f32     unk_84;
 } BgCheckInfo;
