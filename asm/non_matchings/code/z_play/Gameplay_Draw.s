@@ -321,7 +321,7 @@ glabel Gameplay_Draw
 /* B3642C 800BF28C 8FAC01D0 */   lw    $t4, 0x1d0($sp)
 /* B36430 800BF290 8C4B0000 */  lw    $t3, ($v0)
 /* B36434 800BF294 27A501D0 */  addiu $a1, $sp, 0x1d0
-/* B36438 800BF298 0C02B570 */  jal   func_800AD5C0
+/* B36438 800BF298 0C02B570 */  jal   VisMono_Draw
 /* B3643C 800BF29C AC8B0008 */   sw    $t3, 8($a0)
 /* B36440 800BF2A0 8FAC01D0 */  lw    $t4, 0x1d0($sp)
 .L800BF2A4:

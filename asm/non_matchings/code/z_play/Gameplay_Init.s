@@ -475,7 +475,7 @@ glabel Gameplay_Init
 /* B34264 800BD0C4 0C02CD38 */  jal   TransitionFade_Start
 /* B34268 800BD0C8 02002025 */   move  $a0, $s0
 /* B3426C 800BD0CC 3C048016 */  lui   $a0, %hi(D_80161498) # $a0, 0x8016
-/* B34270 800BD0D0 0C02B400 */  jal   func_800AD000
+/* B34270 800BD0D0 0C02B400 */  jal   VisMono_Init
 /* B34274 800BD0D4 24841498 */   addiu $a0, %lo(D_80161498) # addiu $a0, $a0, 0x1498
 /* B34278 800BD0D8 3C018016 */  lui   $at, %hi(D_801614B0+3) # $at, 0x8016
 /* B3427C 800BD0DC A02014B3 */  sb    $zero, %lo(D_801614B0+3)($at)
