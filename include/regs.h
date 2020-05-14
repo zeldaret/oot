@@ -46,8 +46,6 @@
 #define R_FB_FILTER_PRIM_COLOR(c)   SREG(81 + c)
 #define R_FB_FILTER_A               SREG(84)
 #define R_FB_FILTER_ENV_COLOR(c)    SREG(85 + c)
-#define R_FB_FILTER_ENV_G           SREG(86)
-#define R_FB_FILTER_ENV_B           SREG(87)
 #define R_ENABLE_FB_FILTER          SREG(88)
 #define R_PAUSE_MENU_MODE           SREG(94)
 #define R_C_UP_ICON_X               YREG(88)

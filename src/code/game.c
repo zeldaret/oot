@@ -120,8 +120,12 @@ void func_800C4344(GameState* gameState) {
 // Regalloc mostly
 void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
     static const u16 sInpDispBtnColors[] = {
-        0xFFC1, 0xFFC1, 0xFFC1, 0xFFC1, 0x7BDF, 0x7BDF, 0x07FF, 0xF83F,
-        0x7BDF, 0x7BDF, 0x7BDF, 0x7BDF, 0xF801, 0x7BDF, 0x07C1, 0x003F,
+        GPACK_RGBA5551(31, 31, 0, 1),  GPACK_RGBA5551(31, 31, 0, 1),  GPACK_RGBA5551(31, 31, 0, 1),
+        GPACK_RGBA5551(31, 31, 0, 1),  GPACK_RGBA5551(15, 15, 15, 1), GPACK_RGBA5551(15, 15, 15, 1),
+        GPACK_RGBA5551(31, 0, 31, 1),  GPACK_RGBA5551(0, 31, 31, 1),  GPACK_RGBA5551(15, 15, 15, 1),
+        GPACK_RGBA5551(15, 15, 15, 1), GPACK_RGBA5551(15, 15, 15, 1), GPACK_RGBA5551(15, 15, 15, 1),
+        GPACK_RGBA5551(31, 0, 0, 1),   GPACK_RGBA5551(15, 15, 15, 1), GPACK_RGBA5551(0, 31, 15, 1),
+        GPACK_RGBA5551(0, 0, 31, 1),
     };
     s32 i, j;
     s32 lrx, lry, ulx, uly;
@@ -150,19 +154,16 @@ void GameState_DrawInputDisplay(u16 input, Gfx** gfx) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/game/GameState_DrawInputDisplay.s")
 #endif
 
-#ifdef NON_MATCHING
-// very close, dispRefs are off by 0x4 bytes
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     Gfx* newDList;
     Gfx* polyOpaP;
-    Gfx* dispRefs[4];
-    GfxPrint printChars[3];
+    Gfx* dispRefs[5];
+    char pad[0x10];
+    GfxPrint printChars[2];
 
     Graph_OpenDisps(dispRefs, gfxCtx, "../game.c", 746);
-    do {
-        newDList = Graph_GfxPlusOne(polyOpaP = gfxCtx->polyOpa.p);
-        gSPDisplayList(gfxCtx->overlay.p++, newDList);
-    } while (0);
+    newDList = Graph_GfxPlusOne(polyOpaP = gfxCtx->polyOpa.p);
+    gSPDisplayList(gfxCtx->overlay.p++, newDList);
 
     if (R_ENABLE_FB_FILTER == 1) {
         GameState_SetFBFilter(&newDList);
@@ -189,11 +190,11 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
         R_ENABLE_ARENA_DBG = 0;
     }
 
-    do {
+    if (1) {
         gSPEndDisplayList(newDList++);
         Graph_BranchDlist(polyOpaP, newDList);
         gfxCtx->polyOpa.p = newDList;
-    } while (0);
+    }
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../game.c", 800);
 
@@ -204,13 +205,9 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
         SpeedMeter_DrawAllocEntries(&D_801664D0, gfxCtx, gameState);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/game/GameState_Draw.s")
-#endif
 
-void GameState_SetupFrameBuffer(GraphicsContext* gfxCtx) {
-    s32 pad;
-    Gfx* dispRef[4];
+void GameState_SetFrameBuffer(GraphicsContext* gfxCtx) {
+    Gfx* dispRef[5];
 
     Graph_OpenDisps(dispRef, gfxCtx, "../game.c", 814);
 
@@ -234,16 +231,15 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
 
     Graph_OpenDisps(dispRefs, gfxCtx, "../game.c", 846);
 
-    do {
-        newDlist = Graph_GfxPlusOne(polyOpaP = gfxCtx->polyOpa.p);
-        gSPDisplayList(gfxCtx->overlay.p++, newDlist);
-    } while (0);
+    newDlist = Graph_GfxPlusOne(polyOpaP = gfxCtx->polyOpa.p);
+    gSPDisplayList(gfxCtx->overlay.p++, newDlist);
 
-    do {
+    // necessary to match
+    if (1) {
         gSPEndDisplayList(newDlist++);
         Graph_BranchDlist(polyOpaP, newDlist);
         gfxCtx->polyOpa.p = newDlist;
-    } while (0);
+    }
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../game.c", 865);
 }
@@ -256,7 +252,7 @@ void GameState_ReqPadData(GameState* gameState) {
 // Minor reodering and regalloc
 void GameState_Update(GameState* gameState) {
     GraphicsContext* gfxCtx = gameState->gfxCtx;
-    GameState_SetupFrameBuffer(gameState->gfxCtx);
+    GameState_SetFrameBuffer(gameState->gfxCtx);
 
     gameState->main(gameState);
 
@@ -443,7 +439,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     }
     SpeedMeter_Init(&D_801664D0);
     func_800AA0B4();
-    osSendMesg(&gameState->gfxCtx->queue, NULL, 1);
+    osSendMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
 
     endTime = osGetTime();
     // Other initialization processing time% d us
@@ -460,7 +456,7 @@ void GameState_Destroy(GameState* gameState) {
     osSyncPrintf("game デストラクタ開始\n");
     func_800C3C20();
     func_800F3054();
-    osRecvMesg(&gameState->gfxCtx->queue, NULL, 1);
+    osRecvMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
     LogUtils_CheckNullPointer("this->cleanup", gameState->destroy, "../game.c", 1139);
     if (gameState->destroy != NULL) {
         gameState->destroy(gameState);

@@ -9,7 +9,7 @@ glabel GameState_Update
 /* B3BC70 800C4AD0 AFA40020 */  sw    $a0, 0x20($sp)
 /* B3BC74 800C4AD4 8C860000 */  lw    $a2, ($a0)
 /* B3BC78 800C4AD8 00C02025 */  move  $a0, $a2
-/* B3BC7C 800C4ADC 0C031233 */  jal   GameState_SetupFrameBuffer
+/* B3BC7C 800C4ADC 0C031233 */  jal   GameState_SetFrameBuffer
 /* B3BC80 800C4AE0 AFA6001C */   sw    $a2, 0x1c($sp)
 /* B3BC84 800C4AE4 8FA40020 */  lw    $a0, 0x20($sp)
 /* B3BC88 800C4AE8 8C990004 */  lw    $t9, 4($a0)

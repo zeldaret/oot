@@ -1529,7 +1529,7 @@ void GameState_SetFBFilter(Gfx** gfx);
 // ? func_800C4344(?);
 void GameState_DrawInputDisplay(u16 input, Gfx** gfx);
 void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx);
-void GameState_SetupFrameBuffer(GraphicsContext* gfxCtx);
+void GameState_SetFrameBuffer(GraphicsContext* gfxCtx);
 // ? func_800C49F4(?);
 void GameState_ReqPadData(GameState* gameState);
 void GameState_Update(GameState* gameState);
