@@ -79,5 +79,5 @@ glabel D_8016A574
 glabel D_8016A580
     .space 0x8
 
-glabel D_8016A588
+glabel gSpeedMeterTimeEntryPtr
     .space 0x8
