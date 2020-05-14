@@ -1140,10 +1140,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 View_Init(&view, gfxCtx);
                 view.flags = 2 | 8;
 
-                // clang-format off
-                viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH;
-                viewport.topY = 0; viewport.leftX = 0;
-                // clang-format on
+                VIEWPORT_INIT(viewport, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0);
 
                 View_SetViewport(&view, &viewport);
                 func_800AB9EC(&view, 15, &gfxP);
