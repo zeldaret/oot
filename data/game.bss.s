@@ -7,7 +7,7 @@
 
 .section .bss
 
-glabel D_801664D0
+glabel gSpeedMeter
     .space 0x20
 
 glabel D_801664F0
