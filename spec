@@ -417,7 +417,6 @@ beginseg
     include "build/data/sched.data.o"
     include "build/data/sched.bss.o"
     include "build/src/code/speed_meter.o"
-    include "build/data/speed_meter.data.o"
     include "build/src/code/sys_cfb.o"
     include "build/src/code/sys_math.o"
     include "build/src/code/sys_math3d.o"
@@ -2497,9 +2496,7 @@ endseg
 beginseg
     name "ovl_En_Fu"
     include "build/src/overlays/actors/ovl_En_Fu/z_en_fu.o"
-    include "build/data/overlays/actors/z_en_fu.data.o"
-    include "build/data/overlays/actors/z_en_fu.bss.o"
-    include "build/data/overlays/actors/z_en_fu.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Fu/z_en_fu_reloc.o"
 endseg
 
 beginseg

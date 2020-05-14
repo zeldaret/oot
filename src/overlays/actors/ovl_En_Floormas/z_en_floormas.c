@@ -47,8 +47,15 @@ void EnFloormas_BigDecideAction(EnFloormas* this, GlobalContext* globalCtx);
 void EnFloormas_Charge(EnFloormas* this, GlobalContext* globalCtx);
 
 const ActorInit En_Floormas_InitVars = {
-    ACTOR_EN_FLOORMAS,  ACTORTYPE_ENEMY,   FLAGS,           OBJECT_WALLMASTER, sizeof(EnFloormas), EnFloormas_Init,
-    EnFloormas_Destroy, EnFloormas_Update, EnFloormas_Draw,
+    ACTOR_EN_FLOORMAS,
+    ACTORTYPE_ENEMY,
+    FLAGS,
+    OBJECT_WALLMASTER,
+    sizeof(EnFloormas),
+    (ActorFunc)EnFloormas_Init,
+    (ActorFunc)EnFloormas_Destroy,
+    (ActorFunc)EnFloormas_Update,
+    (ActorFunc)EnFloormas_Draw,
 };
 
 static ColliderCylinderInit cylinderInit = {
@@ -82,7 +89,11 @@ static Vec3f D_80A1A4DC = {
     0.0f,
 };
 
-static Vec3f dustPos = { 0.0f, 0.0f, 0.0f };
+static Vec3f dustPos = {
+    0.0f,
+    0.0f,
+    0.0f,
+};
 
 static Color_RGBA8 mergeColor = {
     0x00,
