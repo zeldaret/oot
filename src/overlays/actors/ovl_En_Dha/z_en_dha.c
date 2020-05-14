@@ -20,9 +20,9 @@ void EnDha_SetAnimation(EnDha* this);
 void EnDha_GrabLink(EnDha* this, GlobalContext* globalCtx);
 void EnDha_SetAnimation2(EnDha* this);
 void EnDha_FreeLink(EnDha* this, GlobalContext* globalCtx);
-void EnDha_SetDeadAction(EnDha* this);
+void EnDha_SetupDeath(EnDha* this);
 void EnDha_Die(EnDha* this, GlobalContext* globalCtx);
-void EnDha_Hurt(EnDha* this, GlobalContext* globalCtx);
+void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx);
 s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
 void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx);
 
@@ -72,7 +72,7 @@ static ColliderJntSphItemInit colliderItemsInit[] = {
 static ColliderJntSphInit colliderInit = {
     { COLTYPE_UNK6, 0x00, 0x09, 0x19, 0x10, COLSHAPE_JNTSPH },
     5,
-    &colliderItemsInit,
+    colliderItemsInit,
 };
 
 static InitChainEntry initChain[] = {
@@ -88,18 +88,18 @@ void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
 void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDha* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, &initChain);
-    this->actor.colChkInfo.damageTable = &damageTable;
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06000BD8, &D_060015B0, this->limbDrawTable,
+    Actor_ProcessInitChain(&this->actor, initChain);
+    this->actor.colChkInfo.damageTable = damageTable;
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, D_06000BD8, D_060015B0, this->limbDrawTable,
                      this->transitionDrawTable, 4);
-    ActorShape_Init(&this->actor.shape, 0, &ActorShadow_DrawFunc_Teardrop, 90.0f);
+    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Teardrop, 90.0f);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 50.0f;
     this->actor.colChkInfo.mass = 0xFE;
     this->actor.colChkInfo.health = 8;
     this->unk_1CE = -0x4000;
-    Collider_InitJntSph(globalCtx, &this->colliderSphere);
-    Collider_SetJntSph(globalCtx, &this->colliderSphere, &this->actor, &colliderInit, &this->colliderSphereItem);
+    Collider_InitJntSph(globalCtx, &this->collider);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, colliderInit, &this->colliderItem);
     this->actor.flags &= ~1;
     EnDha_SetAnimation(this);
 }
@@ -107,11 +107,11 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnDha* this = THIS;
 
-    Collider_DestroyJntSph(globalCtx, &this->colliderSphere);
+    Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void EnDha_SetAnimation(EnDha* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060015B0);
+    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, D_060015B0);
     this->unk_1C0 = 0;
     this->unk_1C8 = ((Math_Rand_ZeroOne() * 10.0f) + 5.0f);
     this->actor.speedXZ = 0.0f;
@@ -124,9 +124,7 @@ void EnDha_GrabLink(EnDha* this, GlobalContext* globalCtx) {
     Vec3f D_809ED740 = { 0.0f, 0.0f, 0.0f };
     Vec3f D_809ED74C = { 0.0f, 0.0f, 55.0f };
     Vec3f D_809ED758 = { 0.0f, 0.0f, -54.0f };
-
     Player* player = PLAYER;
-
     char pad[4];
     s32 unkVar;
     Vec3f playerPos;
@@ -136,7 +134,6 @@ void EnDha_GrabLink(EnDha* this, GlobalContext* globalCtx) {
     s32 result;
     s32 resultAbs;
     char pad3[4];
-
     playerPos = player->actor.posRot.pos;
 
     playerPos.x += (Math_Sins(player->actor.shape.rot.y) * -5.0f);
@@ -150,7 +147,7 @@ void EnDha_GrabLink(EnDha* this, GlobalContext* globalCtx) {
         this->unk_1D0.y = 0;
         this->unk_1D0.z = this->unk_1D0.y;
         this->unk_1D6.x = this->unk_1D0.y;
-        if (Math_Vec3f_DistXYZ(&playerPos, &this->unk_1DC) <= 12.0f) {
+        if (Math_Vec3f_DistXYZ(playerPos, &this->unk_1DC) <= 12.0f) {
             if (this->unk_1CC == 0) {
                 if (globalCtx->unk_11D4C(globalCtx, player) != 0) {
                     this->unk_1CA = 0;
@@ -172,13 +169,13 @@ void EnDha_GrabLink(EnDha* this, GlobalContext* globalCtx) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_GRIP);
                 }
             }
-            func_80035844(&this->unk_1E8, &playerPos, &this->unk_1D0.z, 0);
+            func_80035844(&this->unk_1E8, playerPos, &this->unk_1D0.z, 0);
             this->unk_1D6.x = ((this->unk_1D6.x - this->actor.shape.rot.y) - this->unk_1D0.y);
             this->unk_1D0.z = (((this->unk_1D0.z - this->actor.shape.rot.x) - this->unk_1CE) - this->unk_1D0.x);
         } else {
             if ((player->stateFlags2 & 0x80) != 0) {
                 if (&this->actor == player->actor.attachedA) {
-                    player->stateFlags2 &= -0x81;
+                    player->stateFlags2 &= ~0x80;
                     player->actor.attachedA = NULL;
                     player->unk_850 = 200;
                 }
@@ -188,16 +185,16 @@ void EnDha_GrabLink(EnDha* this, GlobalContext* globalCtx) {
                 this->actor.initPosRot.rot.z = 0;
             }
         }
-        this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.posRot, &playerPos);
+        this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.posRot, playerPos);
         Math_SmoothScaleMaxMinF(&this->unk_1DC, playerPos.x, 1.0f, 16.0f, 0.0f);
         Math_SmoothScaleMaxMinF(&this->unk_1DC.y, playerPos.y, 1.0f, 16.0f, 0.0f);
         Math_SmoothScaleMaxMinF(&this->unk_1DC.z, playerPos.z, 1.0f, 16.0f, 0.0f);
-        func_80035844(&this->unk_1F4, &this->unk_1DC, &unkVar3, 0);
+        func_80035844(&this->unk_1F4, &this->unk_1DC, unkVar3, 0);
         Matrix_Translate(this->unk_1DC.x, this->unk_1DC.y, this->unk_1DC.z, 0);
         Matrix_RotateRPY(unkVar3, unkVar2, 0, 1);
-        Matrix_MultVec3f(&D_809ED758, &this->unk_1F4);
+        Matrix_MultVec3f(D_809ED758, &this->unk_1F4);
         Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0);
-        func_80035844(&this->actor.posRot, &this->unk_1F4, &unkVar3, 0);
+        func_80035844(&this->actor.posRot, &this->unk_1F4, unkVar3, 0);
         Matrix_RotateRPY(unkVar3, unkVar2, 0, 1);
         Matrix_MultVec3f(&D_809ED74C, &this->unk_1F4);
         this->unk_1CE = Math_Vec3f_Pitch(&this->actor.posRot, &this->unk_1F4);
@@ -253,10 +250,9 @@ void EnDha_FreeLink(EnDha* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDha_SetDeadAction(EnDha* this) {
+void EnDha_SetupDeath(EnDha* this) {
     this->unk_1C0 = 8;
     this->unk_1C8 = 300;
-
     if (this->actor.attachedA != NULL) {
         if (this->actor.attachedA->params != 0xA) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HAND_DEAD);
@@ -289,7 +285,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
         if (this->unk_1C8 != 0) {
             if (-12000.0f < this->actor.shape.unk_08) {
                 this->actor.shape.unk_08 -= 1000.0f;
-                func_80033480(globalCtx, &vector, 7.0f, 1, 0x5A, 0x14, 1);
+                func_80033480(globalCtx, vector, 7.0f, 1, 0x5A, 0x14, 1);
                 return;
             }
             this->unk_1C8--;
@@ -301,7 +297,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
             }
         } else {
             this->actor.shape.unk_08 += 500.0f;
-            func_80033480(globalCtx, &vector, 7.0f, 1, 0x5A, 0x14, 1);
+            func_80033480(globalCtx, vector, 7.0f, 1, 0x5A, 0x14, 1);
             if (0.0f == this->actor.shape.unk_08) {
                 EnDha_SetAnimation(this);
             }
@@ -309,15 +305,15 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDha_Hurt(EnDha* this, GlobalContext* globalCtx) {
-    if (!((this->unk_1C0 >= 8) || ((this->colliderSphere.base.acFlags & 2) == 0))) {
-        this->colliderSphere.base.acFlags &= ~2;
+void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
+    if (!((this->unk_1C0 >= 8) || ((this->collider.base.acFlags & 2) == 0))) {
+        this->collider.base.acFlags &= ~2;
         if (this->actor.colChkInfo.damageEffect == 0 || this->actor.colChkInfo.damageEffect == 6) {
             return;
         } else {
             func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                EnDha_SetDeadAction(this);
+                EnDha_SetupDeath(this);
                 this->actor.colChkInfo.health = 8;
                 Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xE0);
             } else {
@@ -329,7 +325,7 @@ void EnDha_Hurt(EnDha* this, GlobalContext* globalCtx) {
     }
     if (this->actor.attachedA != NULL) {
         if (this->actor.attachedA->params == 0xA) {
-            EnDha_SetDeadAction(this);
+            EnDha_SetupDeath(this);
         }
     }
 }
@@ -337,16 +333,15 @@ void EnDha_Hurt(EnDha* this, GlobalContext* globalCtx) {
 void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDha* this = THIS;
     s32* colChkCtxTemp;
-
     colChkCtxTemp = &globalCtx->colChkCtx;
 
     if (this->actor.attachedA == NULL) {
         this->actor.attachedA = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_DH, 5, 10000.0f);
     }
-    EnDha_Hurt(this, globalCtx);
+    EnDha_UpdateHealth(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    CollisionCheck_SetAC(globalCtx, colChkCtxTemp, &this->colliderSphere);
-    CollisionCheck_SetOC(globalCtx, colChkCtxTemp, &this->colliderSphere);
+    CollisionCheck_SetAC(globalCtx, colChkCtxTemp, &this->collider);
+    CollisionCheck_SetOC(globalCtx, colChkCtxTemp, &this->collider);
 }
 
 s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
@@ -374,25 +369,24 @@ s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
     Vec3f D_809ED764 = { 1100.0f, 0.0f, 0.0f };
     Vec3f D_809ED770 = { 0.0f, 0.0f, 0.0f };
-
     EnDha* this = THIS;
 
     switch (limbIndex) {
         case 1:
-            func_800628A4(2, &this->colliderSphere);
-            func_800628A4(3, &this->colliderSphere);
+            func_800628A4(2, &this->collider);
+            func_800628A4(3, &this->collider);
             break;
 
         case 2:
-            func_800628A4(4, &this->colliderSphere);
-            func_800628A4(5, &this->colliderSphere);
+            func_800628A4(4, &this->collider);
+            func_800628A4(5, &this->collider);
             Matrix_MultVec3f(&D_809ED770, &this->unk_1F4);
             break;
 
         case 3:
-            func_800628A4(1, &this->colliderSphere);
-            Matrix_MultVec3f(&D_809ED764, &this->unk_1DC);
-            Matrix_MultVec3f(&D_809ED770, &this->unk_1E8);
+            func_800628A4(1, &this->collider);
+            Matrix_MultVec3f(D_809ED764, &this->unk_1DC);
+            Matrix_MultVec3f(D_809ED770, &this->unk_1E8);
             break;
     }
 }
