@@ -202,12 +202,14 @@ typedef struct {
     /* 0x0000 */ u8* refIndex;
     /* 0x0004 */ TransformData *transformData;
     /* 0x0008 */ s16* copyValues;
-} TransformUpdateIndex; // size 0xC
+    /* 0x000C */ s16 unk_0C;
+    /* 0x000E */ s16 unk_10;
+} TransformUpdateIndex; // size 0x10
 
 typedef struct {
     /* 0x0000 */ u8 firstChildIdx;
     /* 0x0001 */ u8 nextLimbIdx;
-    /* 0x0004 */ Gfx* dList[1];
+    /* 0x0004 */ Gfx* dList[2];
 } SkelCurveLimb; // size >= 0x8
 
 typedef struct {
