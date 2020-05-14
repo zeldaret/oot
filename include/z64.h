@@ -1716,7 +1716,7 @@ typedef struct {
     /* 0x04 */ u32 setScissor;
     /* 0x08 */ Color_RGBA8 primColor;
     /* 0x08 */ Color_RGBA8 envColor;
-} struct_80166500; // 0x10
+} struct_80166500; // size = 0x10
 
 typedef struct {
     /* 0x000 */ u8 rumbleEnable[4];

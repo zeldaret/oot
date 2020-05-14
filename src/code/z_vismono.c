@@ -78,8 +78,8 @@ Gfx* VisMono_DrawTexture(VisMono* this, Gfx* gfx) {
 void VisMono_Draw(VisMono* this, Gfx** gfxp) {
     Gfx* gfx;
     u16* tlut;
-    Gfx* mono_dl;
-    Gfx* glistp_end;
+    Gfx* monoDL;
+    Gfx* glistpEnd;
 
     gfx = *gfxp;
 
@@ -91,19 +91,19 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp) {
     }
 
     if (this->monoDl) {
-        mono_dl = this->monoDl;
+        monoDL = this->monoDl;
     } else {
-        mono_dl = Graph_DlistAlloc(&gfx, DLSIZE * sizeof(Gfx));
-        glistp_end = VisMono_DrawTexture(this, mono_dl);
+        monoDL = Graph_DlistAlloc(&gfx, DLSIZE * sizeof(Gfx));
+        glistpEnd = VisMono_DrawTexture(this, monoDL);
 
-        if (!(glistp_end <= mono_dl + DLSIZE)) {
-            LOG_ADDRESS("glistp_end", glistp_end, "../z_vismono.c", 257);
-            LOG_ADDRESS("mono_dl", mono_dl, "../z_vismono.c", 258);
-            LOG_ADDRESS("mono_dl + (1+3+1+1+80*(7+2+2+3)+1)", mono_dl + DLSIZE, "../z_vismono.c", 259);
+        if (!(glistpEnd <= monoDL + DLSIZE)) {
+            LOG_ADDRESS("glistp_end", glistpEnd, "../z_vismono.c", 257);
+            LOG_ADDRESS("mono_dl", monoDL, "../z_vismono.c", 258);
+            LOG_ADDRESS("mono_dl + (1+3+1+1+80*(7+2+2+3)+1)", monoDL + DLSIZE, "../z_vismono.c", 259);
             LOG_ADDRESS("(1+3+1+1+80*(7+2+2+3)+1)", DLSIZE, "../z_vismono.c", 260);
         }
 
-        if (!(glistp_end <= mono_dl + DLSIZE)) {
+        if (!(glistpEnd <= monoDL + DLSIZE)) {
             __assert("glistp_end <= mono_dl + DLSIZE", "../z_vismono.c", 262);
         }
     }
@@ -118,14 +118,14 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp) {
 
     gDPLoadTLUT_pal256(gfx++, tlut);
 
-    gSPDisplayList(gfx++, mono_dl);
+    gSPDisplayList(gfx++, monoDL);
     gDPPipeSync(gfx++);
 
     *gfxp = gfx;
 }
 
 void VisMono_DrawOld(VisMono* this) {
-    Gfx* glistp_end;
+    Gfx* glistpEnd;
 
     if (!this->tlut) {
         this->tlut = SystemArena_MallocDebug(256 * sizeof(u16), "../z_vismono.c", 283);
@@ -134,8 +134,8 @@ void VisMono_DrawOld(VisMono* this) {
 
     if (!this->monoDl) {
         this->monoDl = SystemArena_MallocDebug(DLSIZE * sizeof(Gfx), "../z_vismono.c", 289);
-        glistp_end = VisMono_DrawTexture(this, this->monoDl);
-        if (!(glistp_end <= this->monoDl + DLSIZE)) {
+        glistpEnd = VisMono_DrawTexture(this, this->monoDl);
+        if (!(glistpEnd <= this->monoDl + DLSIZE)) {
             __assert("glistp_end <= this->mono_dl + DLSIZE", "../z_vismono.c", 292);
         }
     }
