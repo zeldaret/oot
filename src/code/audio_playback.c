@@ -1,62 +1,59 @@
 #include <ultra64.h>
 #include <global.h>
 
-#ifdef NON_MATCHING
-// 630 score, primarily regalloc left. Issues seem based around the usage of pan.
-// Currently the array of pan and reverb solves a lot, but doesn't make a ton of logical sense.
 void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     f32 volRight, volLeft;
-    // u16 unkMask = 0x7F;
-    s32 stereoHeadsetEffects = note->playbackState.stereoHeadsetEffects;
-    // u8 reverbT = reverb->reverb;
-    Note* tNote = note;
+    s32 smallPanIndex;
+    u64 pad;
+    u8 strongLeft;
+    u8 strongRight;
+    f32 vel;
+    u8 pan;
+    u8 reverbVol;
     ReverbBits sp24;
-    u8 pan[2];
-    f32 vel = reverb->unk_8;
-    u32 temp;
+    s32 stereoHeadsetEffects = note->playbackState.stereoHeadsetEffects;
+    vel = reverb->unk_8;
 
-    pan[1] = reverb->pan;
-    pan[0] = reverb->reverb;
+    pan = reverb->pan;
+    reverbVol = reverb->reverb;
     sp24 = reverb->reverbBits;
 
-    sub->bitField0.asByte = tNote->noteSubEu.bitField0.asByte & 0xFF;
-    sub->bitField1.asByte = tNote->noteSubEu.bitField1.asByte & 0xFF;
-    sub->sound.samples = tNote->noteSubEu.sound.samples;
-    sub->unk_06 = tNote->noteSubEu.unk_06;
+    sub->bitField0.asByte = note->noteSubEu.bitField0.asByte & 0xFF;
+    sub->bitField1.asByte = note->noteSubEu.bitField1.asByte & 0xFF;
+    sub->sound.samples = note->noteSubEu.sound.samples;
+    sub->unk_06 = note->noteSubEu.unk_06;
 
     Audio_NoteSetResamplingRate(sub, reverb->velocity);
 
-    pan[1] &= 0x7F;
+    pan &= 0x7F;
 
     sub->bitField0.asBitfields.stereoStrongRight = 0;
     sub->bitField0.asBitfields.stereoStrongLeft = 0;
     sub->bitField0.asBitfields.stereoHeadsetEffects = sp24.stereoHeadsetEffects;
     sub->bitField0.asBitfields.usesHeadsetPanEffects = sp24.usesHeadsetPanEffects;
     if (stereoHeadsetEffects && gSoundMode == 1) {
-        s32 smallPanIndex = pan[1] >> 1;
-        if (smallPanIndex >= 0x40) {
+        smallPanIndex = pan >> 1;
+        if (smallPanIndex > 0x3f) {
             smallPanIndex = 0x3f;
         }
 
         sub->headsetPanLeft = gHeadsetPanQuantization[smallPanIndex];
-        sub->headsetPanRight = gHeadsetPanQuantization[15 - smallPanIndex];
+        sub->headsetPanRight = gHeadsetPanQuantization[0x3f - smallPanIndex];
         sub->bitField1.asBitfields.hasTwoAdpcmParts = 1;
 
-        volLeft = gHeadsetPanVolume[pan[1]];
-        volRight = gHeadsetPanVolume[127 - pan[1]];
+        volLeft = gHeadsetPanVolume[pan];
+        volRight = gHeadsetPanVolume[0x7f - pan];
     } else if (stereoHeadsetEffects && gSoundMode == 0) {
-        u8 strongLeft = 0;
-        u8 strongRight = 0;
+        strongLeft = strongRight = 0;
         sub->headsetPanRight = 0;
         sub->headsetPanLeft = 0;
         sub->bitField1.asBitfields.hasTwoAdpcmParts = 0;
 
-        volLeft = gStereoPanVolume[pan[1]];
-        volRight = gStereoPanVolume[127 - pan[1]];
-        temp = pan[1];
-        if ((s32)temp < 0x20) {
+        volLeft = gStereoPanVolume[pan];
+        volRight = gStereoPanVolume[0x7f - pan];
+        if (pan < 0x20) {
             strongLeft = 1;
-        } else if ((s32)(u8)temp > 0x60) {
+        } else if (pan > 0x60) {
             strongRight = 1;
         }
 
@@ -88,8 +85,8 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     } else {
         sub->bitField0.asBitfields.stereoStrongRight = sp24.strongRight;
         sub->bitField0.asBitfields.stereoStrongLeft = sp24.strongLeft;
-        volLeft = gDefaultPanVolume[pan[1]];
-        volRight = gDefaultPanVolume[127 - pan[1]];
+        volLeft = gDefaultPanVolume[pan];
+        volRight = gDefaultPanVolume[0x7f - pan];
     }
 
     vel = 0.0f > vel ? 0.0f : vel;
@@ -102,11 +99,8 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     sub->unk_14 = reverb->unk_10;
     sub->unk_07 = reverb->unk_14;
     sub->unk_10 = reverb->unk_16;
-    sub->reverbVol = pan[1];
+    sub->reverbVol = reverbVol;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_playback/Audio_NoteSetVelPanReverb.s")
-#endif
 
 void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) {
     f32 resamplingRate = 0.0f;
