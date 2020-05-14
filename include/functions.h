@@ -828,13 +828,16 @@ void Flags_UnsetAllEnv(GlobalContext* globalCtx);
 void Flags_SetEnv(GlobalContext* globalCtx, s16 flag);
 void Flags_UnsetEnv(GlobalContext* globalCtx, s16 flag);
 s32 Flags_GetEnv(GlobalContext* globalCtx, s16 flag);
-f32 func_8006C5A8(f32 target, TransformData *transData, s32 refIdx);
+f32 func_8006C5A8(f32 target, TransformData* transData, s32 refIdx);
 void SkelCurve_Zero(SkelAnimeCurve* skelCurve);
-s32 SkelCurve_Init(GlobalContext* globalCtx, SkelAnimeCurve *skelCurve, SkelCurveLimbList* limbListSeg, TransformData* transData);
-void SkelCurve_Destroy(GlobalContext* globalCtx, SkelAnimeCurve *skelCurve);
-void SkelCurve_SetAnim(SkelAnimeCurve *skelCurve, TransformUpdateIndex *transUpdIdx, f32 arg2, f32 animFinalFrame, f32 animCurFrame, f32 animSpeed);
-s32 SkelCurve_Update(GlobalContext *globalCtx, SkelAnimeCurve *skelCurve);
-void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelAnimeCurve *skelCurve, OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, Actor* actor2);
+s32 SkelCurve_Init(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, SkelCurveLimbList* limbListSeg,
+                   TransformData* transData);
+void SkelCurve_Destroy(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve);
+void SkelCurve_SetAnim(SkelAnimeCurve* skelCurve, TransformUpdateIndex* transUpdIdx, f32 arg2, f32 animFinalFrame,
+                       f32 animCurFrame, f32 animSpeed);
+s32 SkelCurve_Update(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve);
+void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelAnimeCurve* skelCurve,
+                    OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, Actor* actor2);
 // ? func_8006CFC0(?);
 // ? func_8006D074(?);
 // ? func_8006D0AC(?);
@@ -1610,7 +1613,8 @@ void SpeedMeter_InitImpl(SpeedMeter* this, u32 arg1, u32 y);
 void SpeedMeter_Init(SpeedMeter* this);
 void SpeedMeter_Destroy(SpeedMeter* this);
 void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx);
-void SpeedMeter_InitAllocEntry(SpeedMeterAllocEntry* entry, u32 maxval, u32 val, u16 backColor, u16 foreColor, u32 ulx, u32 lrx, u32 uly, u32 lry);
+void SpeedMeter_InitAllocEntry(SpeedMeterAllocEntry* entry, u32 maxval, u32 val, u16 backColor, u16 foreColor, u32 ulx,
+                               u32 lrx, u32 uly, u32 lry);
 void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxCtx);
 void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, GameState* state);
 void SysCfb_Init(s32 n64dd);
