@@ -1582,7 +1582,8 @@ s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzR
     s32 abs_var;
 
     if (!(player->stateFlags1 & 0x3C7080) && func_8008F29C(player) < 0) {
-        if ((((player->heldActor != NULL) || (actor == player->naviTargetActor)) && (getItemId > 0) && (getItemId < 0x7E)) ||
+        if ((((player->heldActor != NULL) || (actor == player->naviTargetActor)) && (getItemId > 0) &&
+             (getItemId < 0x7E)) ||
             (!(player->stateFlags1 & 0x20000800))) {
             if ((actor->xzDistanceFromLink < xzRange) && (fabsf(actor->yDistanceFromLink) < yRange)) {
                 var = actor->rotTowardsLinkY - player->actor.shape.rot.y;

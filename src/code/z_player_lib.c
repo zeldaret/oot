@@ -229,8 +229,8 @@ void func_8008EDF0(Player* player) {
 }
 
 //#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EE08.s")
-void func_8008EE08(Player *player) {
-    if ((player->actor.bgCheckFlags & 1) || (player->stateFlags1 & 0x8A00000) || 
+void func_8008EE08(Player* player) {
+    if ((player->actor.bgCheckFlags & 1) || (player->stateFlags1 & 0x8A00000) ||
         ((player->stateFlags1 & 0xC0000) == 0 && (player->actor.posRot.pos.y - player->actor.unk_80) < 100.0f)) {
         player->stateFlags1 &= 0xBFF07FFF;
     } else if ((player->stateFlags1 & 0x2C0000) == 0) {
@@ -283,7 +283,7 @@ s32 func_8008EF5C(GlobalContext* globalCtx, Vec3f* pos, f32 radius, f32 arg3) {
 s32 func_8008F034() {
     s32 temp_v1;
 
-    temp_v1 = (s32) (gSaveContext.upgrades & gUpgradeMasks[2]) >> gUpgradeShifts[2];
+    temp_v1 = (s32)(gSaveContext.upgrades & gUpgradeMasks[2]) >> gUpgradeShifts[2];
     if (LINK_IS_ADULT) {
         return temp_v1;
     } else if (temp_v1 != 0) {
@@ -397,8 +397,9 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
     if (func_8008E988(globalCtx) == 0) {
         temp_a3 = &D_80125C88[phi_v1];
         if (!temp_a3) {}
-        if (temp_a3->unk_0 != 0 && !(gSaveContext.unk_13C6 & temp_a3->unk_0) && 
-            ((phi_v1 == 0 && player->currentTunic != 1) || ((phi_v1 == 1 || phi_v1 == 3) && player->currentBoots == 1 && player->currentTunic != 2))) {
+        if (temp_a3->unk_0 != 0 && !(gSaveContext.unk_13C6 & temp_a3->unk_0) &&
+            ((phi_v1 == 0 && player->currentTunic != 1) ||
+             ((phi_v1 == 1 || phi_v1 == 3) && player->currentBoots == 1 && player->currentTunic != 2))) {
             func_8010B680(globalCtx, temp_a3->unk_2, 0);
             gSaveContext.unk_13C6 |= temp_a3->unk_0;
         }
@@ -427,14 +428,14 @@ s32 func_800902F0(s32 arg0, s32 arg1, UNK_PTR** arg2, s32 arg3, s32 arg4, Player
                 *arg2 = D_80125F20[gSaveContext.linkAge];
             } else if (arg1 == 0x11) {
                 *arg2 = D_80125F28[gSaveContext.linkAge];
-            } else  if (arg1 == 0x12) {
+            } else if (arg1 == 0x12) {
                 *arg2 = D_80125F30[gSaveContext.linkAge];
             } else if (arg1 == 0x13) {
                 *arg2 = func_8008F104(player) ? &D_0602A738 : D_80125F38[gSaveContext.linkAge];
             } else {
                 *arg2 = NULL;
             }
-        } 
+        }
     }
     return 0;
 }
@@ -459,8 +460,8 @@ u8 func_80090480(GlobalContext* globalCtx, Collider* collider, Struct_80090480_a
         arg2->active = 1;
         return 1;
     } else {
-        if (arg2->tip.x == arg3->x && arg2->tip.y == arg3->y && arg2->tip.z == arg3->z &&
-            arg2->base.x == arg4->x && arg2->base.y == arg4->y && arg2->base.z == arg4->z) {
+        if (arg2->tip.x == arg3->x && arg2->tip.y == arg3->y && arg2->tip.z == arg3->z && arg2->base.x == arg4->x &&
+            arg2->base.y == arg4->y && arg2->base.z == arg4->z) {
             if (collider != NULL) {
                 Collider_QuadSetAT(globalCtx, collider);
             }
@@ -503,7 +504,8 @@ void func_800906D4(GlobalContext* globalCtx, Player* player, ColliderTrisItemDim
     Matrix_MultVec3f(&D_801260A4, &sp2C);
     Matrix_MultVec3f(&D_801260B0, &sp38);
     Matrix_MultVec3f(&D_801260BC, &sp44);
-    if (func_80090480(globalCtx, NULL, &player->swordDimensions, &trisInit->vtx[0], &sp2C) != 0 && (s32)(player->stateFlags1 << 9) >= 0) {
+    if (func_80090480(globalCtx, NULL, &player->swordDimensions, &trisInit->vtx[0], &sp2C) != 0 &&
+        (s32)(player->stateFlags1 << 9) >= 0) {
         func_8001FDF0(func_80026B0C(player->unk_670), &player->swordDimensions.tip, &player->swordDimensions.base);
     }
     if (player->swordState > 0 && ((player->swordAnimation < 0x18) || ((s32)(player->stateFlags2 << 0xE) < 0))) {
@@ -530,7 +532,9 @@ void func_800907E4(GlobalContext* globalCtx, Player* player, Vec3f* arg2, s32 ar
     gSPSegment(gfxCtx->polyXlu.p++, 0x06, player->getItemModelPtr);
 
     sp28 = Math_Sins(player->actor.shape.rot.y);
-    Matrix_Translate((sp28 * 3.299999952316284f) + arg2->x, arg2->y + sp4C, (Math_Coss(player->actor.shape.rot.y) * (3.299999952316284f + (IREG(90) / 10.0f))) + arg2->z, MTXMODE_NEW);
+    Matrix_Translate((sp28 * 3.299999952316284f) + arg2->x, arg2->y + sp4C,
+                     (Math_Coss(player->actor.shape.rot.y) * (3.299999952316284f + (IREG(90) / 10.0f))) + arg2->z,
+                     MTXMODE_NEW);
     temp_at = globalCtx->gameplayFrames;
     Matrix_RotateZYX(0.0f, ((((globalCtx->gameplayFrames << 5) - temp_at) * 4) + temp_at) * 8, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(0.20000000298023224f, 0.20000000298023224f, 0.20000000298023224f, MTXMODE_APPLY);
@@ -563,7 +567,7 @@ void func_80090A28(Player* player, ColliderTrisItemDimInit* trisInit) {
 
 #ifdef NON_MATCHING
 // This function needs a bit of work still, but should be functionally equivalent.
-// The biggest differences are in loads/stores of .data variables, 
+// The biggest differences are in loads/stores of .data variables,
 // also regalloc past Matrix_NewMtx and a minor stack difference.
 void func_80090AFC(GlobalContext* globalCtx, Player* player, f32 arg2) {
     f32 sp9C;
@@ -595,7 +599,8 @@ void func_80090AFC(GlobalContext* globalCtx, Player* player, f32 arg2) {
         Matrix_Translate(sp74.x, sp74.y, sp74.z, MTXMODE_NEW);
         Matrix_Scale(sp60, sp60, sp60, MTXMODE_APPLY);
 
-        gSPMatrix(gfxCtx->overlay.p++, Matrix_NewMtx(gfxCtx, "../z_player_lib.c", 0xA1B), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPMatrix(gfxCtx->overlay.p++, Matrix_NewMtx(gfxCtx, "../z_player_lib.c", 0xA1B),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(gfxCtx->overlay.p++, 0x06, globalCtx->objectCtx.status[player->actor.objBankIndex].segment);
         gSPDisplayList(gfxCtx->overlay.p++, &D_0602CB48);
 
