@@ -2366,7 +2366,7 @@ endseg
 beginseg
     name "ovl_En_Door"
     include "build/src/overlays/actors/ovl_En_Door/z_en_door.o"
-    include "build/data/overlays/actors/z_en_door.data.o"
+    //include "build/data/overlays/actors/z_en_door.data.o"
     include "build/data/overlays/actors/z_en_door.reloc.o"
 endseg
 

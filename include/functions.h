@@ -229,6 +229,7 @@ void Effect_SpawnFragment(GlobalContext* globalCtx, Vec3f* burstDepthY, Vec3f* b
                           s32 duration, s16 u3, s16 objNumber, u32 dList);
 // ? func_800292DC(?);
 // ? func_80029320(?);
+void func_800293E4(GlobalContext* globalCtx, Vec3f* v, f32, f32, f32, f32);
 // ? func_80029444(?);
 // ? func_80029568(?);
 // ? func_80029724(?);
