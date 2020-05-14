@@ -128,12 +128,12 @@ glabel GameState_Draw
 /* B3BA34 800C4894 85D800D4 */  lh    $t8, 0xd4($t6)
 /* B3BA38 800C4898 53000009 */  beql  $t8, $zero, .L800C48C0
 /* B3BA3C 800C489C 8FBF0014 */   lw    $ra, 0x14($sp)
-/* B3BA40 800C48A0 0C032671 */  jal   func_800C99C4
+/* B3BA40 800C48A0 0C032671 */  jal   SpeedMeter_DrawTimeEntries
 /* B3BA44 800C48A4 8FA50084 */   lw    $a1, 0x84($sp)
 /* B3BA48 800C48A8 3C048016 */  lui   $a0, %hi(D_801664D0) # $a0, 0x8016
 /* B3BA4C 800C48AC 248464D0 */  addiu $a0, %lo(D_801664D0) # addiu $a0, $a0, 0x64d0
 /* B3BA50 800C48B0 8FA50084 */  lw    $a1, 0x84($sp)
-/* B3BA54 800C48B4 0C032841 */  jal   func_800CA104
+/* B3BA54 800C48B4 0C032841 */  jal   SpeedMeter_DrawAllocEntries
 /* B3BA58 800C48B8 8FA60080 */   lw    $a2, 0x80($sp)
 /* B3BA5C 800C48BC 8FBF0014 */  lw    $ra, 0x14($sp)
 .L800C48C0:

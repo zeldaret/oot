@@ -8,7 +8,7 @@ typedef struct {
     /* 0x0084 */ char unk_84[4];
 } unk_80166528;
 
-UNK_TYPE1 D_801664D0[0x20];
+SpeedMeter D_801664D0;
 struct_801664F0 D_801664F0;
 struct_801664F0 D_80166500;
 VisMonoStruct sMonoColors;
@@ -200,8 +200,8 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     func_80063D7C(gfxCtx);
 
     if (R_ENABLE_ARENA_DBG != 0) {
-        func_800C99C4(&D_801664D0, gfxCtx);
-        func_800CA104(&D_801664D0, gfxCtx, gameState);
+        SpeedMeter_DrawTimeEntries(&D_801664D0, gfxCtx);
+        SpeedMeter_DrawAllocEntries(&D_801664D0, gfxCtx, gameState);
     }
 }
 #else
@@ -441,7 +441,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     if (SREG(48) == 0) {
         func_800ACA28(&D_80166528);
     }
-    func_800C9998(&D_801664D0);
+    SpeedMeter_Init(&D_801664D0);
     func_800AA0B4();
     osSendMesg(&gameState->gfxCtx->queue, NULL, 1);
 
@@ -466,7 +466,7 @@ void GameState_Destroy(GameState* gameState) {
         gameState->destroy(gameState);
     }
     func_800AA0F0();
-    func_800C99BC(&D_801664D0);
+    SpeedMeter_Destroy(&D_801664D0);
     func_800ACE90(&D_801664F0);
     func_800AD950(&D_80166500);
     func_800AD054(&sMonoColors);
