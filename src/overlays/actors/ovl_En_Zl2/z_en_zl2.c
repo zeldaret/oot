@@ -137,24 +137,21 @@ void EnZl2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4E9B0.s")
-/*void func_80B4E9B0(EnZl2 *this) {
+void func_80B4E9B0(EnZl2 *this) {
     s32 pad[4];
     s16* unk_194 = &this->unk_194;
     s16* unk_192 = &this->unk_192;
     s16* unk_190 = &this->unk_190;
-    s16 temp;
 
     if (DECR(*unk_192) == 0) {
         *unk_192 = Math_Rand_S16Offset(0x3C, 0x3C);
     }
     *unk_190 = *unk_192;
-    if (*unk_192 >= 3) {
-        *unk_192 = 0;
+    if (*unk_190 >= 3) {
+        *unk_190 = 0;
     }
-    temp = *unk_192;
-    *unk_194 = temp;
-}*/
+    *unk_194 = *unk_190;
+}
 
 void func_80B4EA40(EnZl2* this) {
     s16* unk_190 = &this->unk_190;
@@ -476,6 +473,7 @@ void func_80B4EF64(EnZl2* this, s16 arg1, s32 arg2);
     this->unk_20C[arg2 * 2] = arg1;
 }*/
 
+void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4F230.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4F45C.s")
@@ -597,8 +595,8 @@ void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4FB74.s")
 /*void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
     EnZl2* this = THIS;
-    s32 pad;
     CutsceneContext* csCtx = &globalCtx->csCtx;
+    s32 pad;
     Player* player;
 
     if (limbIndex == 10) {
@@ -1559,19 +1557,19 @@ void func_80B51D0C(EnZl2* this, GlobalContext* globalCtx) {
     this->actor.shape.unk_14 = 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B51D24.s")
-/*void func_80B51D24(EnZl2 *this, GlobalContext *globalCtx) {
-    s32 pad[3];
+void func_80B51D24(EnZl2 *this, GlobalContext *globalCtx) {
+    s32 pad[2];
     u32 sfxId;
     SkelAnime* skelAnime = &this->skelAnime;
 
-    if (((func_800A56C8(skelAnime, 6.0f) || (func_800A56C8(skelAnime, 0.0f))))) {
+    if ((func_800A56C8(skelAnime, 6.0f)) || (func_800A56C8(skelAnime, 0.0f))) {
         if (this->actor.bgCheckFlags & 1) {
-            sfxId = func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource) + 0x800;
+            sfxId = 0x800;
+            sfxId += func_80041F34(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
             func_80078914(&this->actor.unk_E4, sfxId);
         }
     }
-}*/
+}
 
 void func_80B51DA4(EnZl2* this, GlobalContext* globalCtx) {
     CsCmdActorAction* actorAction = func_80B4ED94(globalCtx, 0);
