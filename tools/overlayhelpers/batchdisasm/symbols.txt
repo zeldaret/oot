@@ -113,7 +113,7 @@ func_800A2000 SkelAnime_GetFrameCount
 func_800A457C SkelAnime_Init
 func_800A49FC SkelAnime_FrameUpdateMatrix
 func_800A51A0 SkelAnime_ChangeAnim
-func_800C5484 Game_Alloc
+func_800C5484 GameState_AllocEnd
 func_800C69CC Graph_Alloc
 func_800D0664 atan2s
 func_800D07D4 atan2f

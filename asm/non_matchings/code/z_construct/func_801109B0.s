@@ -108,7 +108,7 @@ glabel D_80154FE8
     .balign 4
 
 glabel D_80155028
-    .asciz "ＰＡＲＡＭＥＴＥＲ領域＝%x\n" 
+    .asciz "ＰＡＲＡＭＥＴＥＲ領域＝%x\n"
     .balign 4
 
 .text
@@ -173,7 +173,7 @@ glabel func_801109B0
 /* B87C34 80110A94 24C64D78 */  addiu $a2, %lo(D_80154D78) # addiu $a2, $a2, 0x4d78
 /* B87C38 80110A98 8FA40058 */  lw    $a0, 0x58($sp)
 /* B87C3C 80110A9C 8FA5002C */  lw    $a1, 0x2c($sp)
-/* B87C40 80110AA0 0C031521 */  jal   Game_Alloc
+/* B87C40 80110AA0 0C031521 */  jal   GameState_AllocEnd
 /* B87C44 80110AA4 2407009F */   li    $a3, 159
 /* B87C48 80110AA8 3C048015 */  lui   $a0, %hi(D_80154D8C) # $a0, 0x8015
 /* B87C4C 80110AAC AE020130 */  sw    $v0, 0x130($s0)
@@ -182,7 +182,7 @@ glabel func_801109B0
 /* B87C58 80110AB8 00402825 */   move  $a1, $v0
 /* B87C5C 80110ABC 8E040130 */  lw    $a0, 0x130($s0)
 /* B87C60 80110AC0 14800008 */  bnez  $a0, .L80110AE4
-/* B87C64 80110AC4 00000000 */   nop   
+/* B87C64 80110AC4 00000000 */   nop
 /* B87C68 80110AC8 3C048015 */  lui   $a0, %hi(D_80154DAC) # $a0, 0x8015
 /* B87C6C 80110ACC 3C058015 */  lui   $a1, %hi(D_80154DD0) # $a1, 0x8015
 /* B87C70 80110AD0 24A54DD0 */  addiu $a1, %lo(D_80154DD0) # addiu $a1, $a1, 0x4dd0
@@ -202,7 +202,7 @@ glabel func_801109B0
 /* B87CA4 80110B04 24C64DF8 */  addiu $a2, %lo(D_80154DF8) # addiu $a2, $a2, 0x4df8
 /* B87CA8 80110B08 8FA40058 */  lw    $a0, 0x58($sp)
 /* B87CAC 80110B0C 24050480 */  li    $a1, 1152
-/* B87CB0 80110B10 0C031521 */  jal   Game_Alloc
+/* B87CB0 80110B10 0C031521 */  jal   GameState_AllocEnd
 /* B87CB4 80110B14 240700A6 */   li    $a3, 166
 /* B87CB8 80110B18 3C048015 */  lui   $a0, %hi(D_80154E0C) # $a0, 0x8015
 /* B87CBC 80110B1C AE020134 */  sw    $v0, 0x134($s0)
@@ -270,7 +270,7 @@ glabel func_801109B0
 /* B87DA0 80110C00 24C64EB0 */  addiu $a2, %lo(D_80154EB0) # addiu $a2, $a2, 0x4eb0
 /* B87DA4 80110C04 8FA40058 */  lw    $a0, 0x58($sp)
 /* B87DA8 80110C08 24054000 */  li    $a1, 16384
-/* B87DAC 80110C0C 0C031521 */  jal   Game_Alloc
+/* B87DAC 80110C0C 0C031521 */  jal   GameState_AllocEnd
 /* B87DB0 80110C10 240700BE */   li    $a3, 190
 /* B87DB4 80110C14 3C048015 */  lui   $a0, %hi(D_80154EC4) # $a0, 0x8015
 /* B87DB8 80110C18 AE020138 */  sw    $v0, 0x138($s0)

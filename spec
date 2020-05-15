@@ -404,10 +404,7 @@ beginseg
     include "build/data/code_800C3C20.data.o"
     include "build/src/code/audioMgr.o"
     include "build/src/code/title_setup.o"
-    include "build/asm/game.o"
-    include "build/data/game.data.o"
-    include "build/data/game.rodata.o"
-    include "build/data/game.bss.o"
+    include "build/src/code/game.o"
     include "build/src/code/gamealloc.o"
     include "build/src/code/graph.o"
     include "build/src/code/listalloc.o"
@@ -910,8 +907,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Kousi"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Kousi/z_bg_hidan_kousi.o"
-    include "build/data/overlays/actors/z_bg_hidan_kousi.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_kousi.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Kousi/z_bg_hidan_kousi_reloc.o"
 endseg
 
 beginseg

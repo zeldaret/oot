@@ -1,12 +1,5 @@
 #include <global.h>
 
-typedef struct {
-    /* 0x00 */ u32 type;
-    /* 0x04 */ u32 setScissor;
-    /* 0x08 */ Color_RGBA8 color;
-    /* 0x0C */ u32 unk_0C;
-} struct_801664F0;
-
 Gfx D_8012AC00[] = {
     gsDPSetOtherMode(G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
