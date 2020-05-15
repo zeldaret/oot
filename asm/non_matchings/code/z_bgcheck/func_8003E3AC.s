@@ -28,7 +28,7 @@ glabel func_8003E3AC
 /* AB55B0 8003E410 24C68AB4 */  addiu $a2, %lo(D_80138AB4) # addiu $a2, $a2, -0x754c
 /* AB55B4 8003E414 8FA40018 */  lw    $a0, 0x18($sp)
 /* AB55B8 8003E418 8FA50024 */  lw    $a1, 0x24($sp)
-/* AB55BC 8003E41C 0C031521 */  jal   Game_Alloc
+/* AB55BC 8003E41C 0C031521 */  jal   GameState_AllocEnd
 /* AB55C0 8003E420 2407175B */   li    $a3, 5979
 /* AB55C4 8003E424 8FA8001C */  lw    $t0, 0x1c($sp)
 /* AB55C8 8003E428 3C048014 */  lui   $a0, %hi(D_80138AC4) # $a0, 0x8014
@@ -43,7 +43,7 @@ glabel func_8003E3AC
 /* AB55E8 8003E448 8FBF0014 */  lw    $ra, 0x14($sp)
 /* AB55EC 8003E44C 27BD0018 */  addiu $sp, $sp, 0x18
 /* AB55F0 8003E450 03E00008 */  jr    $ra
-/* AB55F4 8003E454 00000000 */   nop   
+/* AB55F4 8003E454 00000000 */   nop
 
 /* AB55F8 8003E458 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* AB55FC 8003E45C AFBF0014 */  sw    $ra, 0x14($sp)

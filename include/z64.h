@@ -971,11 +971,15 @@ typedef struct {
     /* 0x10 */ GameAllocEntry* head;
 } GameAlloc; // size = 0x14
 
+struct GameState;
+
+typedef void (*GameStateFunc)(struct GameState* gameState);
+
 typedef struct GameState {
     /* 0x00 */ GraphicsContext* gfxCtx;
-    /* 0x04 */ void (*main)(struct GameState*);
-    /* 0x08 */ void (*destroy)(struct GameState*); // "cleanup"
-    /* 0x0C */ void (*init)(struct GameState*);
+    /* 0x04 */ GameStateFunc main;
+    /* 0x08 */ GameStateFunc destroy; // "cleanup"
+    /* 0x0C */ GameStateFunc init;
     /* 0x10 */ u32 size;
     /* 0x14 */ Input input[4];
     /* 0x74 */ TwoHeadArena tha;
@@ -1698,7 +1702,7 @@ typedef struct {
     /* 0x00 */ u32 type;
     /* 0x04 */ u32 setScissor;
     /* 0x08 */ Color_RGBA8 color;
-    /* 0x0C */ u32 unk_0C;
+    /* 0x0C */ Color_RGBA8 envColor;
 } struct_801664F0; // size = 0x10
 
 typedef struct {
