@@ -944,7 +944,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3708);
             }
 
-            VrBoxDraw_Update(&globalCtx->skyboxCtx);
+            SkyboxDraw_Update(&globalCtx->skyboxCtx);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3716);
@@ -1188,11 +1188,11 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         if ((globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
                             if ((globalCtx->skyboxId == 1) || (skyboxId == 5)) {
                                 func_8006FC88(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
-                                VrBoxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
+                                SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
                                               globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,
                                               globalCtx->view.eye.z);
                             } else if (globalCtx->skyboxCtx.unk_140 == 0) {
-                                VrBoxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, skyboxId, 0, globalCtx->view.eye.x,
+                                SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, skyboxId, 0, globalCtx->view.eye.x,
                                               globalCtx->view.eye.y, globalCtx->view.eye.z);
                             }
                         }
@@ -1238,7 +1238,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         if (ACTIVE_CAM->unk_142 != 0x19) {
                             Vec3f sp74;
                             func_8005AFB4(&sp74, ACTIVE_CAM);
-                            VrBoxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
+                            SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
                                           globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
                                           globalCtx->view.eye.z + sp74.z);
                         }
@@ -1323,7 +1323,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         func_800AB944(&globalCtx->view);
         globalCtx->view.unk_124 = 0;
         if ((globalCtx->skyboxId != 0) && (globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
-            VrBoxDraw_UpdateMatrix(&globalCtx->skyboxCtx, globalCtx->view.eye.x, globalCtx->view.eye.y, globalCtx->view.eye.z);
+            SkyboxDraw_UpdateMatrix(&globalCtx->skyboxCtx, globalCtx->view.eye.x, globalCtx->view.eye.y, globalCtx->view.eye.z);
         }
     }
 
