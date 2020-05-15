@@ -3812,7 +3812,7 @@ endseg
 beginseg
     name "ovl_Oceff_Storm"
     include "build/src/overlays/actors/ovl_Oceff_Storm/z_oceff_storm.o"
-    include "build/data/overlays/actors/z_oceff_storm.reloc.o"
+    include "build/src/overlays/actors/ovl_Oceff_Storm/z_oceff_storm_reloc.o"
 endseg
 
 beginseg
