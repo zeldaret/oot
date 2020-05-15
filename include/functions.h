@@ -515,7 +515,7 @@ u16 func_8003E4DC(StaticList_s*);
 // ? func_8003E888(?);
 // ? func_8003E890(?);
 // ? func_8003E8EC(?);
-// ? func_8003E934(?);
+s32 func_8003E934(int bgId);
 // ? func_8003E954(?);
 // ? func_8003E9A0(?);
 void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, s32 dynaPolyId);

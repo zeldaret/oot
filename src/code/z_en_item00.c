@@ -501,9 +501,9 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx) {
             if (D_80157D90 != globalCtx->gameplayFrames) {
                 D_80157D90_ = globalCtx->gameplayFrames;
                 D_80157D94 = 0;
-                for (i = 0; i < 50; i++) {
+                for (i = 0; i < BG_ACTOR_MAX; i++) {
                     if (globalCtx->colCtx.dyna.flags[i] & 1) {
-                        dynaActor = globalCtx->colCtx.dyna.actorMeshArr[i].actor;
+                        dynaActor = &globalCtx->colCtx.dyna.bgActors[i].actor->actor;
                         if ((dynaActor != NULL) && (dynaActor->update != NULL) &&
                             ((dynaActor->posRot.pos.x != dynaActor->pos4.x) ||
                              (dynaActor->posRot.pos.y != dynaActor->pos4.y) ||
@@ -522,7 +522,7 @@ void En_Item00_Update(ActorEnItem00* this, GlobalContext* globalCtx) {
         if (sp3A || D_80157D94) {
             func_8002E4B4(globalCtx, &this->actor, 10.0f, 15.0f, 15.0f, 0x1D);
 
-            if (this->actor.unk_80 <= -10000.0f) {
+            if (this->actor.bgChkInfo.unk_80 <= -10000.0f) {
                 Actor_Kill(&this->actor);
                 return;
             }

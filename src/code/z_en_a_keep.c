@@ -263,7 +263,7 @@ void func_8001D4A8(ActorEnAObj* this, GlobalContext* globalCtx) {
 
     if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & 0x8)) {
         if (1) { // Necessary to match
-            this->actor.posRot.rot.y = ((this->actor.unk_7E - this->actor.posRot.rot.y) + this->actor.unk_7E) - 0x8000;
+            this->actor.posRot.rot.y = ((this->actor.bgChkInfo.wallPolyRot - this->actor.posRot.rot.y) + this->actor.bgChkInfo.wallPolyRot) - 0x8000;
         }
         this->actor.bgCheckFlags &= ~0x8;
     }

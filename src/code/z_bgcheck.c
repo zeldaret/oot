@@ -4,7 +4,6 @@
 #include <z64actor.h>
 
 #define SS_NULL 0xFFFF
-#define BG_ACTOR_MAX 50
 
 // original name: T_BGCheck_PosErrorCheck
 s32 func_80038600(Vec3f* pos, char* file, s32 line) {
@@ -1572,6 +1571,7 @@ u32 func_80041F10(CollisionContext* arg0, CollisionPoly* poly, s32 bgId) {
     return func_800419B0(arg0, poly, bgId, 1) & 0xf;
 }
 
+//sfxId = func_80041F34(&globalCtx->colCtx, actor->bgChkInfo.floorPoly, actor->bgChkInfo.floorPolySource, actor);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041F34.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_bgcheck/func_80041F7C.s")

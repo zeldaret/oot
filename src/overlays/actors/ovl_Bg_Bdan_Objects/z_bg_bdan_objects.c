@@ -105,7 +105,7 @@ void BgBdanObjects_Init(BgBdanObjects* this, GlobalContext* globalCtx) {
     thisx->params &= 0xFF;
     if (thisx->params == 2) {
         thisx->flags |= 0x30;
-        globalCtx->colCtx.stat.colHeader->waterBoxes[7].unk_02 = thisx->posRot.pos.y;
+        globalCtx->colCtx.stat.colHeader->waterBoxes[7].ySurface = thisx->posRot.pos.y;
         this->actionFunc = (ActorFunc)func_8086C9A8;
         return;
     }
@@ -391,7 +391,7 @@ void func_8086C9F0(BgBdanObjects* this, GlobalContext* globalCtx) {
         }
         func_8002F948(this, 0x205E);
     }
-    globalCtx->colCtx.stat.colHeader->waterBoxes[7].unk_02 = this->dyna.actor.posRot.pos.y;
+    globalCtx->colCtx.stat.colHeader->waterBoxes[7].ySurface = this->dyna.actor.posRot.pos.y;
 }
 
 void func_8086CABC(BgBdanObjects* this, GlobalContext* globalCtx) {
@@ -407,7 +407,7 @@ void func_8086CABC(BgBdanObjects* this, GlobalContext* globalCtx) {
 void func_8086CB10(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->dyna.actor)) {
         Flags_SetSwitch(globalCtx, this->unk_168);
-        this->unk_16A = 0x32;
+        this->unk_16A = 50;
         this->actionFunc = (ActorFunc)func_8086CB8C;
         this->dyna.actor.initPosRot.pos.y -= 200.0f;
         func_800800F8(globalCtx, 0xC1C, 0x33, &this->dyna.actor, 0);

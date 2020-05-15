@@ -4,6 +4,9 @@
 struct Actor;
 struct DynaPolyActor;
 
+#define BG_ACTOR_MAX 50
+#define BGCHECK_SCENE BG_ACTOR_MAX
+
 typedef struct {
     u16 floor;
     u16 wall;

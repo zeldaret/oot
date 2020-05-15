@@ -16,8 +16,8 @@ void func_8002B200(Actor* actor, LightMapper* lightMapper, GlobalContext* global
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
-    if (actor->floorPoly != NULL) {
-        temp1 = actor->posRot.pos.y - actor->unk_80;
+    if (actor->bgChkInfo.floorPoly != NULL) {
+        temp1 = actor->posRot.pos.y - actor->bgChkInfo.unk_80;
 
         if (temp1 >= -50.0f && temp1 < 500.0f) {
             gfxCtx = globalCtx->state.gfxCtx;
@@ -38,7 +38,7 @@ void func_8002B200(Actor* actor, LightMapper* lightMapper, GlobalContext* global
                 gDPSetPrimColor(gfxCtx->polyOpa.p++, 0, 0, 0, 0, 0, (u32)(actor->shape.unk_14 * temp2) & 0xFF);
             }
 
-            func_80038A28(actor->floorPoly, actor->posRot.pos.x, actor->unk_80, actor->posRot.pos.z, &sp60);
+            func_80038A28(actor->bgChkInfo.floorPoly, actor->posRot.pos.x, actor->bgChkInfo.unk_80, actor->posRot.pos.z, &sp60);
             Matrix_Put(&sp60);
 
             if (dlist != D_04049210) {
@@ -120,7 +120,7 @@ void ActorShadow_DrawFunc_Teardrop(Actor* actor, LightMapper* lightMapper, Globa
     s32 phi_s1;
     s32 phi_s2;
 
-    temp_f20 = actor->posRot.pos.y - actor->unk_80;
+    temp_f20 = actor->posRot.pos.y - actor->bgChkInfo.unk_80;
 
     if (temp_f20 > 20.0f) {
         temp_10 = actor->shape.unk_10;
@@ -843,7 +843,7 @@ void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     actor->unk_F8 = 350.0f;
     actor->unk_FC = 700.0f;
     func_80061E48(&actor->colChkInfo);
-    actor->floorPolySource = 0x32;
+    actor->bgChkInfo.floorPolySource = BGCHECK_SCENE;
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
     if (Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
         Actor_SetObjectDependency(globalCtx, actor);
@@ -1178,15 +1178,15 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
 
     arg2->y += 50.0f;
 
-    actor->unk_80 = func_8003CA0C(globalCtx, &globalCtx->colCtx, &actor->floorPoly, &sp30, actor, arg2);
+    actor->bgChkInfo.unk_80 = func_8003CA0C(globalCtx, &globalCtx->colCtx, &actor->bgChkInfo.floorPoly, &sp30, actor, arg2);
     actor->bgCheckFlags &= ~0x0086;
 
-    if (actor->unk_80 <= -32000.0f) {
+    if (actor->bgChkInfo.unk_80 <= -32000.0f) {
         return func_8002E234(actor, -32000.0f, arg3);
     }
 
-    sp34 = actor->unk_80 - actor->posRot.pos.y;
-    actor->floorPolySource = sp30;
+    sp34 = actor->bgChkInfo.unk_80 - actor->posRot.pos.y;
+    actor->bgChkInfo.floorPolySource = sp30;
 
     if (sp34 >= 0.0f) {
         actor->bgCheckFlags |= 0x80;
@@ -1202,7 +1202,7 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
             }
         }
 
-        actor->posRot.pos.y = actor->unk_80;
+        actor->posRot.pos.y = actor->bgChkInfo.unk_80;
 
         if (actor->velocity.y <= 0.0f) {
             if (!(actor->bgCheckFlags & 0x1)) {
@@ -1214,11 +1214,11 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
             }
 
             actor->bgCheckFlags |= 0x1;
-            func_80043334(&globalCtx->colCtx, actor, actor->floorPolySource);
+            func_80043334(&globalCtx->colCtx, actor, actor->bgChkInfo.floorPolySource);
         }
     } else {
         if ((actor->bgCheckFlags & 0x1) && (sp34 >= -11.0f)) {
-            func_80043334(&globalCtx->colCtx, actor, actor->floorPolySource);
+            func_80043334(&globalCtx->colCtx, actor, actor->bgChkInfo.floorPolySource);
         }
 
         return func_8002E234(actor, sp34, arg3);
@@ -1240,20 +1240,20 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
 
     sp74 = actor->posRot.pos.y - actor->pos4.y;
 
-    if ((actor->floorPolySource != 0x32) && (actor->bgCheckFlags & 1)) {
-        func_800433A4(&globalCtx->colCtx, actor->floorPolySource, actor);
+    if ((actor->bgChkInfo.floorPolySource != BGCHECK_SCENE) && (actor->bgCheckFlags & 1)) {
+        func_800433A4(&globalCtx->colCtx, actor->bgChkInfo.floorPolySource, actor);
     }
 
     if (arg5 & 1) {
         if ((!(arg5 & 0x80) && func_8003D52C(&globalCtx->colCtx, &sp64, &actor->posRot.pos, &actor->pos4, arg3,
-                                             &actor->wallPoly, &sp60, actor, arg2)) ||
+                                             &actor->bgChkInfo.wallPoly, &sp60, actor, arg2)) ||
             ((arg5 & 0x80) && func_8003D594(&globalCtx->colCtx, &sp64, &actor->posRot.pos, &actor->pos4, arg3,
-                                            &actor->wallPoly, &sp60, actor, arg2))) {
-            sp5C = actor->wallPoly;
+                                            &actor->bgChkInfo.wallPoly, &sp60, actor, arg2))) {
+            sp5C = actor->bgChkInfo.wallPoly;
             Math_Vec3f_Copy(&actor->posRot.pos, &sp64);
-            actor->unk_7E = atan2s(sp5C->norm.z, sp5C->norm.x);
+            actor->bgChkInfo.wallPolyRot = atan2s(sp5C->norm.z, sp5C->norm.x);
             actor->bgCheckFlags |= 8;
-            actor->wallPolySource = sp60;
+            actor->bgChkInfo.wallPolySource = sp60;
         } else {
             actor->bgCheckFlags &= ~8;
         }
@@ -1277,8 +1277,8 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
         func_8002E2AC(globalCtx, actor, &sp64, arg5);
         sp50 = actor->posRot.pos.y;
         if (func_8004213C(globalCtx, &globalCtx->colCtx, actor->posRot.pos.x, actor->posRot.pos.z, &sp50, &sp54)) {
-            actor->unk_84 = sp50 - actor->posRot.pos.y;
-            if (actor->unk_84 < 0.0f) {
+            actor->bgChkInfo.unk_84 = sp50 - actor->posRot.pos.y;
+            if (actor->bgChkInfo.unk_84 < 0.0f) {
                 actor->bgCheckFlags &= ~0x60;
             } else {
                 if (!(actor->bgCheckFlags & 0x20)) {
@@ -1296,7 +1296,7 @@ void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f
             }
         } else {
             actor->bgCheckFlags &= ~0x60;
-            actor->unk_84 = -32000.0f;
+            actor->bgChkInfo.unk_84 = -32000.0f;
         }
     }
 }
@@ -1701,13 +1701,13 @@ void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
     s32 sfxId;
 
     if (actor->bgCheckFlags & 0x20) {
-        if (actor->unk_84 < 20.0f) {
+        if (actor->bgChkInfo.unk_84 < 20.0f) {
             sfxId = NA_SE_PL_WALK_WATER0;
         } else {
             sfxId = NA_SE_PL_WALK_WATER1;
         }
     } else {
-        sfxId = func_80041F34(&globalCtx->colCtx, actor->floorPoly, actor->floorPolySource, actor);
+        sfxId = func_80041F34(&globalCtx->colCtx, actor->bgChkInfo.floorPoly, actor->bgChkInfo.floorPolySource, actor);
     }
 
     func_80078914(&actor->unk_E4, NA_SE_EV_BOMB_BOUND);
@@ -3216,7 +3216,7 @@ void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3
     s32 i;
 
     var = (Math_Rand_ZeroOne() - 0.5f) * 6.28f;
-    sp9C.y = actor->unk_80;
+    sp9C.y = actor->bgChkInfo.unk_80;
     sp84.y += (Math_Rand_ZeroOne() - 0.5f) * 0.2f;
 
     for (i = arg4; i >= 0; i--) {
@@ -4193,8 +4193,8 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
     CollisionPoly* floorPoly;
     s32 pad;
 
-    if (actor->floorPoly != NULL) {
-        floorPoly = actor->floorPoly;
+    if (actor->bgChkInfo.floorPoly != NULL) {
+        floorPoly = actor->bgChkInfo.floorPoly;
         sp44 = floorPoly->norm.x * (1.f / 32767);
         sp40 = floorPoly->norm.y * (1.f / 32767);
         sp3C = floorPoly->norm.z * (1.f / 32767);

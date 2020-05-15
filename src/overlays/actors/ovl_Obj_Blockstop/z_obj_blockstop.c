@@ -43,10 +43,10 @@ void ObjBlockstop_Update(ObjBlockstop* this, GlobalContext* globalCtx) {
     s32 pad2;
 
     if (func_8003DF10(&globalCtx->colCtx, &this->actor.initPosRot.pos, &this->actor.posRot.pos, &sp4C,
-                      &this->actor.floorPoly, 0, 0, 1, 1, &sp48, &this->actor)) {
+                      &this->actor.bgChkInfo.floorPoly, 0, 0, 1, 1, &sp48, &this->actor)) {
         dynaActor = func_8003EB84(&globalCtx->colCtx, sp48);
 
-        if ((dynaActor != NULL) && (dynaActor->actor.id == 0xFF)) {
+        if ((dynaActor != NULL) && (dynaActor->actor.id == ACTOR_OBJ_OSHIHIKI)) {
             if (((dynaActor->actor.params & 0x000F) == 3) || ((dynaActor->actor.params & 0x000F) == 7)) {
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
             } else {

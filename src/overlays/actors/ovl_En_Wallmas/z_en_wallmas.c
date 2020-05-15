@@ -128,7 +128,7 @@ void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
     this->timer = 0x82;
     this->actor.velocity.y = 0.0f;
     this->actor.posRot.pos.y = player->actor.posRot.pos.y;
-    this->actor.unk_80 = player->actor.unk_80;
+    this->actor.bgChkInfo.unk_80 = player->actor.bgChkInfo.unk_80;
     this->actor.draw = (ActorFunc)&EnWallmas_Draw;
     this->actionFunc = (ActorFunc)&EnWallmas_WaitToDrop;
 }
@@ -143,7 +143,7 @@ void EnWallmas_DropStart(EnWallmas* this, GlobalContext* globalCtx) {
     this->unk_2c4 = player->actor.posRot.pos.y;
     this->actor.posRot.pos.y = player->actor.posRot.pos.y + 300.0f;
     this->actor.posRot.rot.y = player->actor.shape.rot.y + 0x8000;
-    this->actor.unk_80 = player->actor.unk_80;
+    this->actor.bgChkInfo.unk_80 = player->actor.bgChkInfo.unk_80;
     this->actor.flags |= 1;
     this->actor.flags &= ~0x20;
     this->actionFunc = (ActorFunc)&EnWallmas_Drop;
@@ -268,8 +268,8 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
     player = PLAYER;
     playerPos = &player->actor.posRot.pos;
     this->actor.posRot.pos = *playerPos;
-    this->actor.unk_80 = player->actor.unk_80;
-    this->actor.floorPoly = player->actor.floorPoly;
+    this->actor.bgChkInfo.unk_80 = player->actor.bgChkInfo.unk_80;
+    this->actor.bgChkInfo.floorPoly = player->actor.bgChkInfo.floorPoly;
 
     if (this->timer != 0) {
         this->timer--;
@@ -559,7 +559,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     f32 xzScale;
     Gfx* dispRefs[3];
 
-    if ((this->actor.floorPoly == NULL) ||
+    if ((this->actor.bgChkInfo.floorPoly == NULL) ||
         ((this->timer >= 0x51) && (this->actionFunc != (ActorFunc)&EnWallmas_Stun))) {
         return;
     }
@@ -571,7 +571,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     func_80094044(globalCtx->state.gfxCtx);
     gDPSetPrimColor(gfxCtx->polyXlu.p++, 0, 0, 0x00, 0x00, 0x00, 0xFF);
 
-    func_80038A28(this->actor.floorPoly, this->actor.posRot.pos.x, this->actor.unk_80, this->actor.posRot.pos.z, &mf);
+    func_80038A28(this->actor.bgChkInfo.floorPoly, this->actor.posRot.pos.x, this->actor.bgChkInfo.unk_80, this->actor.posRot.pos.z, &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);
 
     if ((this->actionFunc != (ActorFunc)EnWallmas_WaitToDrop) &&

@@ -441,7 +441,7 @@ void func_80AEB4A8(EnRu1* this, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
     Actor* thisx = &this->actor;
 
     sp24.x = thisx->posRot.pos.x;
-    sp24.y = thisx->posRot.pos.y + thisx->unk_84;
+    sp24.y = thisx->posRot.pos.y + thisx->bgChkInfo.unk_84;
     sp24.z = thisx->posRot.pos.z;
     func_80029444(globalCtx, &sp24, 100, arg2, arg3);
 }
@@ -468,7 +468,7 @@ void func_80AEB680(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
 
     pos.x = thisx->posRot.pos.x;
-    pos.y = thisx->posRot.pos.y + thisx->unk_84;
+    pos.y = thisx->posRot.pos.y + thisx->bgChkInfo.unk_84;
     pos.z = thisx->posRot.pos.z;
 
     func_8002949C(globalCtx, &pos, 0, 0, 1, 0);
@@ -1249,7 +1249,7 @@ s32 func_80AED624(EnRu1* this, GlobalContext* globalCtx) {
         Actor_Kill(thisx);
         return 0;
     } else if (((this->roomNum1 != curRoomNum) || (this->roomNum2 != curRoomNum)) &&
-               (thisx->unk_84 > kREG(16) + 50.0f) && (this->action != 33)) {
+               (thisx->bgChkInfo.unk_84 > kREG(16) + 50.0f) && (this->action != 33)) {
         this->action = 33;
         this->drawConfig = 2;
         this->unk_2A8 = 0xFF;
@@ -1336,7 +1336,7 @@ void func_80AED8DC(EnRu1* this) {
 
 void func_80AEDAE0(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    DynaPolyActor* dyna = func_8003EB84(&globalCtx->colCtx, thisx->floorPolySource);
+    DynaPolyActor* dyna = func_8003EB84(&globalCtx->colCtx, thisx->bgChkInfo.floorPolySource);
 
     if ((dyna == NULL) || (dyna->actor.id == ACTOR_EN_BOX)) {
         thisx->bgCheckFlags &= ~0x19;
@@ -1348,7 +1348,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
     f32* velocityY;
     f32* speedXZ;
     f32* gravity;
-    s16 unk_7E;
+    s16 wallPolyRot;
     s16 rotY;
     s32 temp_a1_2;
     s32 temp_a0;
@@ -1356,7 +1356,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 1) {
         velocityY = &this->actor.velocity.y;
-        temp_dyna = func_8003EB84(&globalCtx->colCtx, this->actor.floorPolySource);
+        temp_dyna = func_8003EB84(&globalCtx->colCtx, this->actor.bgChkInfo.floorPolySource);
         if (*velocityY <= 0.0f) {
             speedXZ = &this->actor.speedXZ;
             if (temp_dyna != NULL) {
@@ -1407,13 +1407,13 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
         speedXZ = &this->actor.speedXZ;
         if (*speedXZ != 0.0f) {
             rotY = this->actor.posRot.rot.y;
-            unk_7E = this->actor.unk_7E;
-            temp_a0 = (unk_7E * 2) - rotY;
+            wallPolyRot = this->actor.bgChkInfo.wallPolyRot;
+            temp_a0 = (wallPolyRot * 2) - rotY;
             temp_a1_2 = temp_a0 + 0x8000;
-            if ((s16)((temp_a0 - unk_7E) + 0x8000) >= 0) {
-                phi_v1 = (s16)(temp_a1_2 - unk_7E);
+            if ((s16)((temp_a0 - wallPolyRot) + 0x8000) >= 0) {
+                phi_v1 = (s16)(temp_a1_2 - wallPolyRot);
             } else {
-                phi_v1 = -(s16)(temp_a1_2 - unk_7E);
+                phi_v1 = -(s16)(temp_a1_2 - wallPolyRot);
             }
             if (phi_v1 < 0x4001) {
                 if (*speedXZ >= (kREG(27) * 0.01f) + 3.0f) {
@@ -1431,7 +1431,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEDEF4(EnRu1* this, GlobalContext* globalCtx) {
     f32* speedXZ = &this->actor.speedXZ;
-    DynaPolyActor* dyna = func_8003EB84(&globalCtx->colCtx, this->actor.floorPolySource);
+    DynaPolyActor* dyna = func_8003EB84(&globalCtx->colCtx, this->actor.bgChkInfo.floorPolySource);
 
     if ((dyna != NULL) && (dyna->actor.id == ACTOR_EN_BOX)) {
         if (*speedXZ != 0.0f) {
@@ -1476,7 +1476,7 @@ void func_80AEE050(EnRu1* this) {
             this->unk_350 = 1;
             func_80AEE02C(this);
             this->unk_35C = 0;
-            this->unk_358 = (this->actor.unk_84 - 10.0f) * 0.5f;
+            this->unk_358 = (this->actor.bgChkInfo.unk_84 - 10.0f) * 0.5f;
             this->unk_354 = this->actor.posRot.pos.y + thisx->unk_358; // thisx only used here
         } else {
             this->actor.gravity = 0.0f;
@@ -1540,8 +1540,8 @@ s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
     DynaPolyActor* dyna;
     u32 floorPolySource;
-    if ((this->actor.bgCheckFlags & 1) && (this->actor.floorPolySource != 0x32)) {
-        floorPolySource = this->actor.floorPolySource;
+    if ((this->actor.bgCheckFlags & 1) && (this->actor.bgChkInfo.floorPolySource != BGCHECK_SCENE)) {
+        floorPolySource = this->actor.bgChkInfo.floorPolySource;
         dyna = func_8003EB84(&globalCtx->colCtx, floorPolySource);
         if ((dyna != NULL) && (dyna->actor.id == ACTOR_BG_BDAN_SWITCH)) {
             if ((((dyna->actor.params) >> 8) & 0x3F) == 0x38) {
@@ -1559,10 +1559,10 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
     DynaPolyActor* dynaActor;
     s32 floorPolySource;
 
-    if ((this->actor.bgCheckFlags & 1) && (this->actor.floorPolySource != 0x32)) {
+    if ((this->actor.bgCheckFlags & 1) && (this->actor.bgChkInfo.floorPolySource != BGCHECK_SCENE)) {
         colCtx = &globalCtx->colCtx;
         floorPolySource =
-            this->actor.floorPolySource; // necessary match, can't move this out of this block unfortunately
+            this->actor.bgChkInfo.floorPolySource; // necessary match, can't move this out of this block unfortunately
         dynaActor = func_8003EB84(colCtx, floorPolySource);
         if ((dynaActor != NULL) && (dynaActor->actor.id == ACTOR_BG_BDAN_OBJECTS) && (dynaActor->actor.params == 0) &&
             (!func_8008E988(globalCtx)) && (globalCtx->msgCtx.unk_E300 == 0)) {
@@ -1604,7 +1604,7 @@ void func_80AEE568(EnRu1* this, GlobalContext* globalCtx) {
             func_8002F580(this, globalCtx);
             this->action = 27;
             func_80AEADD8(this);
-        } else if (thisx->unk_84 > 0.0f) {
+        } else if (thisx->bgChkInfo.unk_84 > 0.0f) {
             this->action = 29;
             this->unk_350 = 0;
         }
