@@ -2,23 +2,23 @@
 #include <global.h>
 
 // The latest generated random number, used to generate the next number in the sequence.
-u32 randomNumber = 1;
+static u32 sRandInt = 1;
 
 // Space to store a value to be re-interpreted as a float.
-u32 floatStore;
+static u32 sRandFloat;
 
 /**
  * Gets the next integer in the sequence of pseudo-random numbers.
  */
 u32 Math_Rand_Next() {
-    return randomNumber = (randomNumber * 1664525) + 1013904223;
+    return sRandInt = (sRandInt * 1664525) + 1013904223;
 }
 
 /**
  * Seeds the pseudo-random number generator by providing a starting value.
  */
 void Math_Rand_Seed(u32 seed) {
-    randomNumber = seed;
+    sRandInt = seed;
 }
 
 /**
@@ -27,9 +27,9 @@ void Math_Rand_Seed(u32 seed) {
  * between 1.0f and 2.0f, returning the result subtract 1.0f.
  */
 f32 Math_Rand_ZeroOne() {
-    randomNumber = (randomNumber * 1664525) + 1013904223;
-    floatStore = ((randomNumber >> 9) | 0x3F800000);
-    return *((f32*)&floatStore) - 1.0f;
+    sRandInt = (sRandInt * 1664525) + 1013904223;
+    sRandFloat = ((sRandInt >> 9) | 0x3F800000);
+    return *((f32*)&sRandFloat) - 1.0f;
 }
 
 /**
@@ -37,9 +37,9 @@ f32 Math_Rand_ZeroOne() {
  * manner in which Math_Rand_ZeroOne generates its result.
  */
 f32 Math_Rand_Centered() {
-    randomNumber = (randomNumber * 1664525) + 1013904223;
-    floatStore = ((randomNumber >> 9) | 0x3F800000);
-    return *((f32*)&floatStore) - 1.5f;
+    sRandInt = (sRandInt * 1664525) + 1013904223;
+    sRandFloat = ((sRandInt >> 9) | 0x3F800000);
+    return *((f32*)&sRandFloat) - 1.5f;
 }
 
 /**
@@ -65,9 +65,9 @@ f32 Math_Rand_ZeroOne_Variable(u32* rndNum) {
 
     next = (*rndNum * 1664525) + 1013904223;
     // clang-format off
-    *rndNum = next; floatStore = (next >> 9) | 0x3F800000;
+    *rndNum = next; sRandFloat = (next >> 9) | 0x3F800000;
     // clang-format on
-    return *((f32*)&floatStore) - 1.0f;
+    return *((f32*)&sRandFloat) - 1.0f;
 }
 
 /**
@@ -79,7 +79,7 @@ f32 Math_Rand_Centered_Variable(u32* rndNum) {
 
     next = (*rndNum * 1664525) + 1013904223;
     // clang-format off
-    *rndNum = next; floatStore = (next >> 9) | 0x3F800000;
+    *rndNum = next; sRandFloat = (next >> 9) | 0x3F800000;
     // clang-format on
-    return *((f32*)&floatStore) - 1.5f;
+    return *((f32*)&sRandFloat) - 1.5f;
 }
