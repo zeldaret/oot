@@ -446,7 +446,7 @@ glabel Gameplay_Draw
 /* B365FC 800BF45C 02202825 */  move  $a1, $s1
 /* B36600 800BF460 E7A80014 */  swc1  $f8, 0x14($sp)
 /* B36604 800BF464 C60A00E8 */  lwc1  $f10, 0xe8($s0)
-/* B36608 800BF468 0C02C431 */  jal   func_800B10C4
+/* B36608 800BF468 0C02C431 */  jal   SkyboxDraw_Draw
 /* B3660C 800BF46C E7AA0018 */   swc1  $f10, 0x18($sp)
 /* B36610 800BF470 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B36614 800BF474 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)
@@ -466,7 +466,7 @@ glabel Gameplay_Draw
 /* B36648 800BF4A8 E7B20014 */  swc1  $f18, 0x14($sp)
 /* B3664C 800BF4AC C60400E8 */  lwc1  $f4, 0xe8($s0)
 /* B36650 800BF4B0 00003825 */  move  $a3, $zero
-/* B36654 800BF4B4 0C02C431 */  jal   func_800B10C4
+/* B36654 800BF4B4 0C02C431 */  jal   SkyboxDraw_Draw
 /* B36658 800BF4B8 E7A40018 */   swc1  $f4, 0x18($sp)
 /* B3665C 800BF4BC 3C028016 */  lui   $v0, %hi(gGameInfo) # $v0, 0x8016
 /* B36660 800BF4C0 8C42FA90 */  lw    $v0, %lo(gGameInfo)($v0)
@@ -620,7 +620,7 @@ glabel Gameplay_Draw
 /* B36878 800BF6D8 E7A40014 */  swc1  $f4, 0x14($sp)
 /* B3687C 800BF6DC C60600E8 */  lwc1  $f6, 0xe8($s0)
 /* B36880 800BF6E0 46083280 */  add.s $f10, $f6, $f8
-/* B36884 800BF6E4 0C02C431 */  jal   func_800B10C4
+/* B36884 800BF6E4 0C02C431 */  jal   SkyboxDraw_Draw
 /* B36888 800BF6E8 E7AA0018 */   swc1  $f10, 0x18($sp)
 /* B3688C 800BF6EC 8FAD004C */  lw    $t5, 0x4c($sp)
 .L800BF6F0:
@@ -883,7 +883,7 @@ glabel Gameplay_Draw
 /* B36C30 800BFA90 860F07A0 */   lh    $t7, 0x7a0($s0)
 /* B36C34 800BFA94 8E0500E0 */  lw    $a1, 0xe0($s0)
 /* B36C38 800BFA98 8E0600E4 */  lw    $a2, 0xe4($s0)
-/* B36C3C 800BFA9C 0C02C40C */  jal   func_800B1030
+/* B36C3C 800BFA9C 0C02C40C */  jal   SkyboxDraw_UpdateMatrix
 /* B36C40 800BFAA0 8E0700E8 */   lw    $a3, 0xe8($s0)
 /* B36C44 800BFAA4 860F07A0 */  lh    $t7, 0x7a0($s0)
 .L800BFAA8:

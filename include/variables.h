@@ -3455,7 +3455,6 @@ extern u8 D_80161010;
 extern u8 D_801610D4;
 extern u8 D_801610D5;
 extern u8 D_801610DA;
-//extern ? D_801610E0;
 //extern ? D_80161100;
 //extern ? D_80161104;
 //extern ? D_80161108;
