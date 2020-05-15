@@ -373,11 +373,10 @@ beginseg
     include "build/src/code/z_vimode.o"
     include "build/src/code/code_800ACE70.o"
     include "build/src/code/z_vismono.o"
-    include "build/asm/code_800AD920.o"
+    include "build/src/code/code_800AD920.o"
     include "build/src/code/z_vr_box.o"
     include "build/data/z_vr_box.data.o"
     include "build/src/code/z_vr_box_draw.o"
-    include "build/data/z_vr_box_draw.bss.o"
     include "build/src/code/z_player_call.o"
     include "build/src/code/z_fbdemo.o"
     include "build/src/code/z_fbdemo_triforce.o"
@@ -404,10 +403,7 @@ beginseg
     include "build/data/code_800C3C20.data.o"
     include "build/src/code/audioMgr.o"
     include "build/src/code/title_setup.o"
-    include "build/asm/game.o"
-    include "build/data/game.data.o"
-    include "build/data/game.rodata.o"
-    include "build/data/game.bss.o"
+    include "build/src/code/game.o"
     include "build/src/code/gamealloc.o"
     include "build/src/code/graph.o"
     include "build/src/code/listalloc.o"
@@ -908,8 +904,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Kousi"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Kousi/z_bg_hidan_kousi.o"
-    include "build/data/overlays/actors/z_bg_hidan_kousi.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_kousi.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Kousi/z_bg_hidan_kousi_reloc.o"
 endseg
 
 beginseg
@@ -3814,7 +3809,7 @@ endseg
 beginseg
     name "ovl_Oceff_Storm"
     include "build/src/overlays/actors/ovl_Oceff_Storm/z_oceff_storm.o"
-    include "build/data/overlays/actors/z_oceff_storm.reloc.o"
+    include "build/src/overlays/actors/ovl_Oceff_Storm/z_oceff_storm_reloc.o"
 endseg
 
 beginseg

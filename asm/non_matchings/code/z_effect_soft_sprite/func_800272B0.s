@@ -52,8 +52,8 @@ glabel func_800272B0
 /* A9E4CC 8002732C 8FA40028 */  lw    $a0, 0x28($sp)
 /* A9E4D0 80027330 24070121 */  li    $a3, 289
 /* A9E4D4 80027334 00002812 */  mflo  $a1
-/* A9E4D8 80027338 0C031521 */  jal   Game_Alloc
-/* A9E4DC 8002733C 00000000 */   nop   
+/* A9E4D8 80027338 0C031521 */  jal   GameState_AllocEnd
+/* A9E4DC 8002733C 00000000 */   nop
 /* A9E4E0 80027340 3C118011 */  lui   $s1, %hi(EffectSS2Info) # $s1, 0x8011
 /* A9E4E4 80027344 263158B0 */  addiu $s1, %lo(EffectSS2Info) # addiu $s1, $s1, 0x58b0
 /* A9E4E8 80027348 AE220000 */  sw    $v0, ($s1)
@@ -76,7 +76,7 @@ glabel func_800272B0
 /* A9E528 80027388 01636021 */  addu  $t4, $t3, $v1
 /* A9E52C 8002738C 006C082B */  sltu  $at, $v1, $t4
 /* A9E530 80027390 1020000C */  beqz  $at, .L800273C4
-/* A9E534 80027394 00000000 */   nop   
+/* A9E534 80027394 00000000 */   nop
 .L80027398:
 /* A9E538 80027398 0C009D4F */  jal   Effect_SS_ResetEntry
 /* A9E53C 8002739C 02002025 */   move  $a0, $s0
@@ -88,7 +88,7 @@ glabel func_800272B0
 /* A9E554 800273B4 01CFC021 */  addu  $t8, $t6, $t7
 /* A9E558 800273B8 0218082B */  sltu  $at, $s0, $t8
 /* A9E55C 800273BC 1420FFF6 */  bnez  $at, .L80027398
-/* A9E560 800273C0 00000000 */   nop   
+/* A9E560 800273C0 00000000 */   nop
 .L800273C4:
 /* A9E564 800273C4 3C018011 */  lui   $at, %hi(D_801159C0) # $at, 0x8011
 /* A9E568 800273C8 3C028011 */  lui   $v0, %hi(D_801159CC) # $v0, 0x8011
