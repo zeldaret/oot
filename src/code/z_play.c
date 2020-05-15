@@ -8,7 +8,7 @@ Input* D_8012D1F8 = NULL;
 
 TransitionUnk sTrnsnUnk;
 s32 gTrnsnUnkState;
-VisMonoStruct D_80161498;
+VisMono D_80161498;
 Color_RGBA8 D_801614B0;
 FaultClient D_801614B8;
 s16 D_801614C8;
@@ -174,7 +174,7 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
 
     func_800B3968();
     TransitionFade_Destroy(&globalCtx->transitionFade);
-    func_800AD054(&D_80161498);
+    VisMono_Destroy(&D_80161498);
 
     if (gSaveContext.linkAge != globalCtx->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
@@ -365,7 +365,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     TransitionFade_SetType(&globalCtx->transitionFade, 3);
     TransitionFade_SetColor(&globalCtx->transitionFade, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
     TransitionFade_Start(&globalCtx->transitionFade);
-    func_800AD000(&D_80161498);
+    VisMono_Init(&D_80161498);
     D_801614B0.a = 0x00;
     Flags_UnsetAllEnv(globalCtx);
 
@@ -1151,7 +1151,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             if (D_801614B0.a > 0x00) {
                 D_80161498.primColor.rgba = D_801614B0.rgba;
-                func_800AD5C0(&D_80161498, &gfxP);
+                VisMono_Draw(&D_80161498, &gfxP);
             }
 
             gSPEndDisplayList(gfxP++);

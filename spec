@@ -373,7 +373,7 @@ beginseg
     include "build/src/code/z_vimode.o"
     include "build/src/code/code_800ACE70.o"
     include "build/src/code/z_vismono.o"
-    include "build/asm/code_800AD920.o"
+    include "build/src/code/code_800AD920.o"
     include "build/src/code/z_vr_box.o"
     include "build/data/z_vr_box.data.o"
     include "build/src/code/z_vr_box_draw.o"

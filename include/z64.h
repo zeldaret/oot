@@ -1696,21 +1696,31 @@ typedef struct {
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 
-typedef struct {
-    /* 0x00 */ s32 colorFormat;
-    /* 0x04 */ s32 setScissor;
-    /* 0x08 */ Color_RGBA8 primColor;
-    /* 0x0C */ Color_RGBA8 envColor;
-    /* 0x10 */ u16* texture;
-    /* 0x14 */ Gfx* monoDList;
-} VisMonoStruct; // size = 0x18
 
+// Vis...
 typedef struct {
     /* 0x00 */ u32 type;
     /* 0x04 */ u32 setScissor;
     /* 0x08 */ Color_RGBA8 color;
     /* 0x0C */ Color_RGBA8 envColor;
 } struct_801664F0; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ u32 unk_00;
+    /* 0x04 */ u32 setScissor;
+    /* 0x08 */ Color_RGBA8 primColor;
+    /* 0x0C */ Color_RGBA8 envColor;
+    /* 0x10 */ u16* tlut;
+    /* 0x14 */ Gfx* monoDl;
+} VisMono; // size = 0x18
+
+// Vis...
+typedef struct {
+    /* 0x00 */ u32 useRgba;
+    /* 0x04 */ u32 setScissor;
+    /* 0x08 */ Color_RGBA8 primColor;
+    /* 0x08 */ Color_RGBA8 envColor;
+} struct_80166500; // size = 0x10
 
 typedef struct {
     /* 0x000 */ u8 rumbleEnable[4];

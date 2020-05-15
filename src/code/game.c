@@ -10,8 +10,8 @@ typedef struct {
 
 SpeedMeter D_801664D0;
 struct_801664F0 D_801664F0;
-struct_801664F0 D_80166500;
-VisMonoStruct sMonoColors;
+struct_80166500 D_80166500;
+VisMono sMonoColors;
 unk_80166528 D_80166528;
 FaultClient sGameFaultClient;
 u16 sLastButtonPressed;
@@ -42,18 +42,18 @@ void GameState_SetFBFilter(Gfx** gfx) {
         D_801664F0.color.a = R_FB_FILTER_A;
         func_800ACE98(&D_801664F0, &gfxP);
     } else if ((R_FB_FILTER_TYPE == 5) || (R_FB_FILTER_TYPE == 6)) {
-        D_80166500.type = (R_FB_FILTER_TYPE == 6);
-        D_80166500.color.r = R_FB_FILTER_PRIM_COLOR(0);
-        D_80166500.color.g = R_FB_FILTER_PRIM_COLOR(1);
-        D_80166500.color.b = R_FB_FILTER_PRIM_COLOR(2);
-        D_80166500.color.a = R_FB_FILTER_A;
+        D_80166500.useRgba = (R_FB_FILTER_TYPE == 6);
+        D_80166500.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
+        D_80166500.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
+        D_80166500.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
+        D_80166500.primColor.a = R_FB_FILTER_A;
         D_80166500.envColor.r = R_FB_FILTER_ENV_COLOR(0);
         D_80166500.envColor.g = R_FB_FILTER_ENV_COLOR(1);
         D_80166500.envColor.b = R_FB_FILTER_ENV_COLOR(2);
         D_80166500.envColor.a = R_FB_FILTER_A;
         func_800AD958(&D_80166500, &gfxP);
     } else if (R_FB_FILTER_TYPE == 7) {
-        sMonoColors.colorFormat = 0;
+        sMonoColors.unk_00 = 0;
         sMonoColors.primColor.r = R_FB_FILTER_PRIM_COLOR(0);
         sMonoColors.primColor.g = R_FB_FILTER_PRIM_COLOR(1);
         sMonoColors.primColor.b = R_FB_FILTER_PRIM_COLOR(2);
@@ -62,7 +62,7 @@ void GameState_SetFBFilter(Gfx** gfx) {
         sMonoColors.envColor.g = R_FB_FILTER_ENV_COLOR(1);
         sMonoColors.envColor.b = R_FB_FILTER_ENV_COLOR(2);
         sMonoColors.envColor.a = R_FB_FILTER_A;
-        func_800AD5C0(&sMonoColors, &gfxP);
+        VisMono_Draw(&sMonoColors, &gfxP);
     }
     *gfx = gfxP;
 }
@@ -433,7 +433,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     LogUtils_CheckNullPointer("this->cleanup", gameState->destroy, "../game.c", 1088);
     func_800ACE70(&D_801664F0);
     func_800AD920(&D_80166500);
-    func_800AD000(&sMonoColors);
+    VisMono_Init(&sMonoColors);
     if (SREG(48) == 0) {
         func_800ACA28(&D_80166528);
     }
@@ -465,7 +465,7 @@ void GameState_Destroy(GameState* gameState) {
     SpeedMeter_Destroy(&D_801664D0);
     func_800ACE90(&D_801664F0);
     func_800AD950(&D_80166500);
-    func_800AD054(&sMonoColors);
+    VisMono_Destroy(&sMonoColors);
     if (SREG(48) == 0) {
         func_800ACA90(&D_80166528);
     }
