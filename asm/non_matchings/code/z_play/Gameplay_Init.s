@@ -401,7 +401,7 @@ glabel Gameplay_Init
 /* B34148 800BCFA8 262407B8 */   addiu $a0, $s1, 0x7b8
 /* B3414C 800BCFAC 0C001A78 */  jal   osGetTime
 /* B34150 800BCFB0 00000000 */   nop
-/* B34154 800BCFB4 0C03F668 */  jal   func_800FD9A0
+/* B34154 800BCFB4 0C03F668 */  jal   Math_Rand_Seed
 /* B34158 800BCFB8 00602025 */   move  $a0, $v1
 /* B3415C 800BCFBC 0C034204 */  jal   Matrix_Init
 /* B34160 800BCFC0 02202025 */   move  $a0, $s1
