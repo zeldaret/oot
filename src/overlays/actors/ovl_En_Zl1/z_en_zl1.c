@@ -492,7 +492,7 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc = func_80B4B240;
         func_800F5C64(0x51);
     } else {
-        temp = ABS(thisx->rotTowardsLinkY - thisx->shape.rot.y);
+        temp = ABS(this->actor.rotTowardsLinkY - this->actor.shape.rot.y);
         if (temp < 0x238E) {
             if (player->actor.posRot.pos.y < thisx->posRot.pos.y) {
                 // nothing
@@ -503,8 +503,8 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
     }
 }*/
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B240.s")
-void func_80B4B240(Actor* thisx, GlobalContext* globalCtx) {
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B240.s")
+/*void func_80B4B240(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f sp74 = D_80B4E654;
     Vec3f sp68 = D_80B4E660;
     s32 pad;
@@ -635,7 +635,7 @@ void func_80B4B240(Actor* thisx, GlobalContext* globalCtx) {
                              sp54.unk_00[sp3C], -10.0f);
     }
     func_80038290(globalCtx, thisx, &this->unk_200, &this->unk_206, thisx->posRot2.pos);
-}
+}*/
 
 void func_80B4B7F4(CsCmdActorAction* actorAction, Vec3f* pos) {
     pos->x = actorAction->startPos.x;
@@ -772,9 +772,9 @@ void func_80B4BBC4(Actor* thisx, GlobalContext* globalCtx) {
         phi_t6 = temp_t6;
     }
 
-    *temp_t6 = *temp_t7;
-    sp84 = D_80B4E6FC;
-    sp58 = D_80B4E708;
+    //*temp_t6 = *temp_t7;
+    //sp84 = D_80B4E6FC;
+    //sp58 = D_80B4E708;
     sp3C = &this->skelAnime;
     if (SkelAnime_FrameUpdateMatrix(sp3C) != 0) {
         if (&D_06010B38 == sp3C->animCurrentSeg) {
