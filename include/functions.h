@@ -1997,7 +1997,7 @@ void func_800E301C(void* callback);
 // ? func_800E6818(?);
 // ? func_800E6840(?);
 // ? func_800E6880(?);
-// ? func_800E68C0(?);
+s32 osAiSetNextBuffer(void *, u32);
 void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb);
 void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput);
 void Audio_NoteInit(Note* note);
