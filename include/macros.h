@@ -21,6 +21,8 @@
 
 #define PLAYER ((Player*)globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first)
 
+#define ACTIVE_CAM globalCtx->cameraPtrs[globalCtx->activeCamera]
+
 #define YEARS_CHILD 5
 #define YEARS_ADULT 17
 #define LINK_IS_CHILD (gSaveContext.linkAge != 0)
@@ -66,5 +68,11 @@
  * `a` alpha
 */
 #define VTX(x,y,z,s,t,crnx,cgny,cbnz,a) { { { x, y, z }, 0, { s, t }, { crnx, cgny, cbnz, a }, }, }
+
+#define VIEWPORT_INIT(viewport, by, rx, ty, lx) \
+     viewport.bottomY = by; \
+     viewport.rightX = rx; \
+     viewport.topY = ty; \
+     viewport.leftX = lx;
 
 #endif

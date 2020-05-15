@@ -15,7 +15,7 @@ s16 D_801614C8;
 u64 D_801614D0[0xA00];
 
 void func_800BC450(GlobalContext* globalCtx) {
-    func_8005A7A8(globalCtx->cameraPtrs[globalCtx->activeCamera], globalCtx->unk_1242B - 1);
+    func_8005A7A8(ACTIVE_CAM, globalCtx->unk_1242B - 1);
 }
 
 void func_800BC490(GlobalContext* globalCtx, s16 point) {
@@ -213,7 +213,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     }
 
     SystemArena_Display();
-    func_800C4F20(globalCtx, 0x1D4790);
+    GameState_Realloc(globalCtx, 0x1D4790);
     KaleidoManager_Init(globalCtx);
     View_Init(&globalCtx->view, gfxCtx);
     func_800F6828(0);
@@ -371,7 +371,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
 
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&globalCtx->state.tha));
     zAllocSize = THA_GetSize(&globalCtx->state.tha);
-    zAlloc = Game_Alloc(&globalCtx->state, zAllocSize, "../z_play.c", 2918);
+    zAlloc = GameState_AllocEnd(&globalCtx->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (void*)(((u32)zAlloc + 8) & ~0xF);
     ZeldaArena_Init(zAllocAligned, zAllocSize - (u32)zAllocAligned + (u32)zAlloc);
     osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned,
@@ -1140,10 +1140,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 View_Init(&view, gfxCtx);
                 view.flags = 2 | 8;
 
-                // clang-format off
-                viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH;
-                viewport.topY = 0; viewport.leftX = 0;
-                // clang-format on
+                VIEWPORT_INIT(viewport, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0);
 
                 View_SetViewport(&view, &viewport);
                 func_800AB9EC(&view, 15, &gfxP);
@@ -1153,7 +1150,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             TransitionFade_Draw(&globalCtx->transitionFade, &gfxP);
 
             if (D_801614B0.a > 0x00) {
-                D_80161498.color.rgba = D_801614B0.rgba;
+                D_80161498.primColor.rgba = D_801614B0.rgba;
                 func_800AD5C0(&D_80161498, &gfxP);
             }
 
@@ -1238,9 +1235,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if (globalCtx->skyboxCtx.unk_140 != 0) {
-                        if (globalCtx->cameraPtrs[globalCtx->activeCamera]->unk_142 != 0x19) {
+                        if (ACTIVE_CAM->unk_142 != 0x19) {
                             Vec3f sp74;
-                            func_8005AFB4(&sp74, globalCtx->cameraPtrs[globalCtx->activeCamera]);
+                            func_8005AFB4(&sp74, ACTIVE_CAM);
                             func_800B10C4(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
                                           globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
                                           globalCtx->view.eye.z + sp74.z);
@@ -1322,7 +1319,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
     if (globalCtx->view.unk_124 != 0) {
         Vec3s sp50;
-        func_800591EC(&sp50, globalCtx->cameraPtrs[globalCtx->activeCamera]);
+        func_800591EC(&sp50, ACTIVE_CAM);
         func_800AB944(&globalCtx->view);
         globalCtx->view.unk_124 = 0;
         if ((globalCtx->skyboxId != 0) && (globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
@@ -1330,7 +1327,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         }
     }
 
-    func_80059EC8(globalCtx->cameraPtrs[globalCtx->activeCamera]);
+    func_80059EC8(ACTIVE_CAM);
 
     Graph_CloseDisps(dispRefs, gfxCtx, "../z_play.c", 4508);
 }
@@ -1459,7 +1456,7 @@ void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
     void* allocp;
 
     size = file->vromEnd - file->vromStart;
-    allocp = Game_Alloc(&globalCtx->state, size, "../z_play.c", 4692);
+    allocp = GameState_AllocEnd(&globalCtx->state, size, "../z_play.c", 4692);
     DmaMgr_SendRequest1(allocp, file->vromStart, size, "../z_play.c", 4694);
 
     return allocp;

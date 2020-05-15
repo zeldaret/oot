@@ -99,21 +99,16 @@ s32 D_80AF087C = 0;
 u32 D_80AF1938 = 0;
 
 EnRu1ActionFunc D_80AF193C[] = {
-    func_80AEC0B4, func_80AEC100, func_80AEC130, func_80AEC17C,
-    func_80AEC1D4, func_80AEC244, func_80AEC2C0, func_80AECA94,
-    func_80AECAB4, func_80AECAD4, func_80AECB18, func_80AECB60,
-    func_80AECBB8, func_80AECC1C, func_80AECC84, func_80AED304,
-    func_80AED324, func_80AED344, func_80AED374, func_80AED3A4,
-    func_80AED3E0, func_80AED414, func_80AEF29C, func_80AEF2AC,
-    func_80AEF2D0, func_80AEF354, func_80AEF3A8, func_80AEEBD4,
-    func_80AEEC5C, func_80AEECF0, func_80AEED58, func_80AEEDCC,
-    func_80AEEE34, func_80AEEE9C, func_80AEEF08, func_80AEEF5C,
-    func_80AEF9D8, func_80AEFA2C, func_80AEFAAC, func_80AEFB04,
-    func_80AEFB68, func_80AEFCE8, func_80AEFBC8, func_80AEFC24,
-    func_80AEFECC, func_80AEFF40,
+    func_80AEC0B4, func_80AEC100, func_80AEC130, func_80AEC17C, func_80AEC1D4, func_80AEC244, func_80AEC2C0,
+    func_80AECA94, func_80AECAB4, func_80AECAD4, func_80AECB18, func_80AECB60, func_80AECBB8, func_80AECC1C,
+    func_80AECC84, func_80AED304, func_80AED324, func_80AED344, func_80AED374, func_80AED3A4, func_80AED3E0,
+    func_80AED414, func_80AEF29C, func_80AEF2AC, func_80AEF2D0, func_80AEF354, func_80AEF3A8, func_80AEEBD4,
+    func_80AEEC5C, func_80AEECF0, func_80AEED58, func_80AEEDCC, func_80AEEE34, func_80AEEE9C, func_80AEEF08,
+    func_80AEEF5C, func_80AEF9D8, func_80AEFA2C, func_80AEFAAC, func_80AEFB04, func_80AEFB68, func_80AEFCE8,
+    func_80AEFBC8, func_80AEFC24, func_80AEFECC, func_80AEFF40,
 };
 
-EnRu1PreLimbDrawFunc D_80AF19F4[]= {
+EnRu1PreLimbDrawFunc D_80AF19F4[] = {
     func_80AF0278,
 };
 

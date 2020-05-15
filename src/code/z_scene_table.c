@@ -1499,14 +1499,14 @@ void func_8009BEEC(GlobalContext* globalCtx) {
     s32 var;
 
     if (globalCtx->gameplayFrames % 128 == 13) {
-        var = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 2);
+        var = Quake_Add(ACTIVE_CAM, 2);
         Quake_SetSpeed(var, 10000);
         Quake_SetQuakeValues(var, 4, 0, 0, 0);
         Quake_SetCountdown(var, 127);
     }
 
     if ((globalCtx->gameplayFrames % 64 == 0) && (Math_Rand_ZeroOne() > 0.6f)) {
-        var = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 3);
+        var = Quake_Add(ACTIVE_CAM, 3);
         Quake_SetSpeed(var, 32000.0f + (Math_Rand_ZeroOne() * 3000.0f));
         Quake_SetQuakeValues(var, 10.0f - (Math_Rand_ZeroOne() * 9.0f), 0, 0, 0);
         Quake_SetCountdown(var, 48.0f - (Math_Rand_ZeroOne() * 15.0f));

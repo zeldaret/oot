@@ -61,11 +61,9 @@ static u32 D_80AF4118 = 0;
 #include "z_en_ru2_cutscene_data.c"
 
 static EnRu2ActionFunc D_80AF50BC[] = {
-    func_80AF2CB4, func_80AF2CD4, func_80AF2CF4, func_80AF2D2C,
-    func_80AF2D6C, func_80AF2DAC, func_80AF2DEC, func_80AF3144,
-    func_80AF3174, func_80AF31C8, func_80AF3604, func_80AF3624,
-    func_80AF366C, func_80AF36AC, func_80AF3BC8, func_80AF3C04,
-    func_80AF3C64, func_80AF3CB8, func_80AF3D0C, func_80AF3D60,
+    func_80AF2CB4, func_80AF2CD4, func_80AF2CF4, func_80AF2D2C, func_80AF2D6C, func_80AF2DAC, func_80AF2DEC,
+    func_80AF3144, func_80AF3174, func_80AF31C8, func_80AF3604, func_80AF3624, func_80AF366C, func_80AF36AC,
+    func_80AF3BC8, func_80AF3C04, func_80AF3C64, func_80AF3CB8, func_80AF3D0C, func_80AF3D60,
 };
 
 static EnRu2DrawFunc D_80AF510C[] = {
@@ -672,7 +670,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
             if (this->unk_2C2 % 6 == 3) {
                 player = PLAYER;
                 osSyncPrintf("うおりゃー！ \n");
-                func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
+                func_8005B1A4(ACTIVE_CAM);
                 player->actor.posRot.pos.x = 820.0f;
                 player->actor.posRot.pos.y = 0.0f;
                 player->actor.posRot.pos.z = 180.0f;
@@ -683,7 +681,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C3 = dialogState;
     if (func_8010BDBC(msgCtx) == 2) {
         this->action = 18;
-        func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
+        func_8005B1A4(ACTIVE_CAM);
     }
 }
 
