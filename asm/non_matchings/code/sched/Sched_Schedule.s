@@ -1,4 +1,4 @@
-glabel func_800C8A94
+glabel Sched_Schedule
 /* B3FC34 800C8A94 27BDFFD8 */  addiu $sp, $sp, -0x28
 /* B3FC38 800C8A98 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B3FC3C 800C8A9C AFB00018 */  sw    $s0, 0x18($sp)
@@ -11,7 +11,7 @@ glabel func_800C8A94
 /* B3FC58 800C8AB8 8C820220 */   lw    $v0, 0x220($a0)
 /* B3FC5C 800C8ABC 30EF0002 */  andi  $t7, $a3, 2
 /* B3FC60 800C8AC0 11E0000B */  beqz  $t7, .L800C8AF0
-/* B3FC64 800C8AC4 00000000 */   nop   
+/* B3FC64 800C8AC4 00000000 */   nop
 /* B3FC68 800C8AC8 ACA20000 */  sw    $v0, ($a1)
 /* B3FC6C 800C8ACC 8C990220 */  lw    $t9, 0x220($a0)
 /* B3FC70 800C8AD0 AC80023C */  sw    $zero, 0x23c($a0)
@@ -29,12 +29,12 @@ glabel func_800C8A94
 /* B3FC9C 800C8AFC 30EE0002 */  andi  $t6, $a3, 2
 /* B3FCA0 800C8B00 314B0020 */  andi  $t3, $t2, 0x20
 /* B3FCA4 800C8B04 15600006 */  bnez  $t3, .L800C8B20
-/* B3FCA8 800C8B08 00000000 */   nop   
+/* B3FCA8 800C8B08 00000000 */   nop
 /* B3FCAC 800C8B0C 8E0C0008 */  lw    $t4, 8($s0)
 /* B3FCB0 800C8B10 24010003 */  li    $at, 3
 /* B3FCB4 800C8B14 318D0001 */  andi  $t5, $t4, 1
 /* B3FCB8 800C8B18 15A0000C */  bnez  $t5, .L800C8B4C
-/* B3FCBC 800C8B1C 00000000 */   nop   
+/* B3FCBC 800C8B1C 00000000 */   nop
 .L800C8B20:
 /* B3FCC0 800C8B20 11C00023 */  beqz  $t6, .L800C8BB0
 /* B3FCC4 800C8B24 8FAF002C */   lw    $t7, 0x2c($sp)

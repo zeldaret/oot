@@ -9,7 +9,7 @@
 
 .align 4
 
-glabel func_80103DC0
+glabel osSpTaskYielded
 /* B7AF60 80103DC0 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* B7AF64 80103DC4 AFBF0014 */  sw    $ra, 0x14($sp)
 /* B7AF68 80103DC8 0C04191C */  jal   __osSpGetStatus
