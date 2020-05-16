@@ -16,7 +16,7 @@ typedef struct EnGuest {
     /* 0x0250 */ void* unk_250;
     /* 0x0254 */ ColliderCylinder unk_254;
     /* 0x02C0 */ char unk_2C0[0x02A];
-    /* 0x02CA */ u16 unk_2CA;
+    /* 0x02CA */ s16 unk_2CA;
     /* 0x02C0 */ char unk_2CC[0x040];
     /* 0x030C */ s8 unk_30C;
     /* 0x030D */ u8 unk_30D;

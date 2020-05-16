@@ -8,9 +8,11 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx);
 
+void func_80A5046C(EnGuest *this);
 void func_80A509D4(Actor* thisx, GlobalContext* globalCtx);
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx);
 void func_80A50518(Actor* thisx, GlobalContext* globalCtx);
+void func_80A5057C(Actor* thisx, GlobalContext* globalCtx);
 s32 func_80A50774(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor *actor);
 
 extern SkeletonHeader D_060000F0;
@@ -92,9 +94,39 @@ void EnGuest_Update(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Guest/func_80A5046C.s")
+void func_80A5046C(EnGuest *this) {
+    if (this->unk_30D == 0) {
+        if (this->unk_2CA != 0) {
+            this->unk_2CA -= 1;
+        } else {
+            this->unk_30D = 1;
+        }
+    } else {
+        if (this->unk_2CA != 0) {
+            this->unk_2CA -= 1;
+        } else {
+            this->unk_30E += 1;
+            if (this->unk_30E >= 3) {
+                this->unk_30E = 0;
+                this->unk_30D = 0;
+                this->unk_2CA = (s32) Math_Rand_ZeroFloat(60.0f) + 20;
+            } else {
+                this->unk_2CA = 1;
+            }
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Guest/func_80A50518.s")
+void func_80A50518(Actor *thisx, GlobalContext *globalCtx) {
+    EnGuest* this = THIS;
+
+    if (func_8002F194(&this->actor, globalCtx) != 0) {
+        this->unk_250 = &func_80A5057C;
+    }
+    else if (this->actor.xzDistanceFromLink < 100.0f) {
+        func_8002F2CC(&this->actor, globalCtx, 100.0f);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Guest/func_80A5057C.s")
 
