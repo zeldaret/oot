@@ -15,7 +15,8 @@ s32 osAiSetNextBuffer(void* buf, u32 size) {
         D_80130500 = false;
     }
 
-    if (status = HW_REG(AI_STATUS_REG, s32), status & AI_STATUS_AI_FULL) {
+    status = HW_REG(AI_STATUS_REG, s32);
+    if (status & AI_STATUS_AI_FULL) {
         return -1;
     }
 
