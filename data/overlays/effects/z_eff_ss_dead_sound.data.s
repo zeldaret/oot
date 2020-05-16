@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_Dead_Sound_InitVars
 .word 0x00000023
 .word func_809A1B30
 .word 0x00000000, 0x00000000

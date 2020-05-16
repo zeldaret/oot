@@ -1,4 +1,4 @@
-glabel Effect_SpawnFragment
+glabel func_80029E8C
 /* AA102C 80029E8C 27BDFFA8 */  addiu $sp, $sp, -0x58
 /* AA1030 80029E90 AFBF0014 */  sw    $ra, 0x14($sp)
 /* AA1034 80029E94 AFA40058 */  sw    $a0, 0x58($sp)
@@ -39,7 +39,7 @@ glabel Effect_SpawnFragment
 /* AA10C0 80029F20 AFAC004C */  sw    $t4, 0x4c($sp)
 /* AA10C4 80029F24 A7AD0050 */  sh    $t5, 0x50($sp)
 /* AA10C8 80029F28 A7AE0052 */  sh    $t6, 0x52($sp)
-/* AA10CC 80029F2C 0C009DE6 */  jal   func_80027798
+/* AA10CC 80029F2C 0C009DE6 */  jal   EffectSs_Spawn
 /* AA10D0 80029F30 AFAF0054 */   sw    $t7, 0x54($sp)
 /* AA10D4 80029F34 8FBF0014 */  lw    $ra, 0x14($sp)
 /* AA10D8 80029F38 27BD0058 */  addiu $sp, $sp, 0x58

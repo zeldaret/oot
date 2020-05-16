@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_Solder_Srch_Ball_InitVars
 .word 0x00000018
 .word func_809AC130
 .word 0x00000000, 0x00000000

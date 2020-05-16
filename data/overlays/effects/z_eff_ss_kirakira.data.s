@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_KiraKira_InitVars
 .word 0x00000001
 .word func_809AA810
 .word 0x00000000, 0x00000000

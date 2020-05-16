@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_En_Fire_InitVars
 .word 0x0000001D
 .word func_809A2B60
 glabel D_809A3248

@@ -1795,7 +1795,7 @@ void func_8002FA60(GlobalContext* globalCtx) {
 
     Lights_InitType0PositionalLight(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, -1);
 
-    D_8015BC10 = Lights_Insert(globalCtx, &globalCtx->lightCtx, (LightInfo*)&D_8015BC00);
+    D_8015BC10 = Lights_Insert(globalCtx, &globalCtx->lightCtx, &D_8015BC00);
     D_8015BC14 = 0;
     D_8015BC18 = 0.0f;
 }
@@ -2038,7 +2038,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
     if (0) {
         // This assert is optimized out but it exists due to its presence in rodata
-        if (gMaxProfile != ACTOR_DLF_MAX) {
+        if (gMaxActorId != ACTOR_ID_MAX) {
             __assert("MaxProfile == ACTOR_DLF_MAX", "../z_actor.c", UNK_LINE);
         }
     }
@@ -2459,11 +2459,11 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     }
 
     if ((HREG(64) != 1) || (HREG(73) != 0)) {
-        func_80026E74(globalCtx->state.gfxCtx);
+        Effect_DrawAll(globalCtx->state.gfxCtx);
     }
 
     if ((HREG(64) != 1) || (HREG(74) != 0)) {
-        func_80027BDC(globalCtx);
+        EffectSs_DrawAll(globalCtx);
     }
 
     if ((HREG(64) != 1) || (HREG(72) != 0)) {
@@ -2683,7 +2683,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
 
     overlayEntry = &gActorOverlayTable[actorId];
 
-    if (actorId >= ACTOR_DLF_MAX) {
+    if (actorId >= ACTOR_ID_MAX) {
         __assert("profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
     }
 
@@ -3134,7 +3134,7 @@ void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx) {
 }
 
 void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, s32* arg5, s16 arg6) {
-    GlobalContext* globalCtx = func_80026B00();
+    GlobalContext* globalCtx = Effect_GetGlobalCtx();
 
     if ((globalCtx->actorCtx.unk_00 == 0) && (arg0->unk_10 > 0)) {
         if ((arg1 >= arg2) && (arg3 >= arg1) && (*arg5 != 0)) {

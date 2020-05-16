@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_Dead_Ds_InitVars
 .word 0x00000022
 .word func_809A1610
 .word 0x00000000, 0x00000000

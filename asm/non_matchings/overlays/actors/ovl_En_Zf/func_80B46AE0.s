@@ -32,9 +32,9 @@ glabel func_80B46AE0
 /* 02ADC 80B46B2C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 02AE0 80B46B30 50400088 */  beql    $v0, $zero, .L80B46D54     
 /* 02AE4 80B46B34 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 02AE8 80B46B38 0C009AC3 */  jal     func_80026B0C              
+/* 02AE8 80B46B38 0C009AC3 */  jal     Effect_GetByIndex              
 /* 02AEC 80B46B3C 8E040414 */  lw      $a0, 0x0414($s0)           ## 00000414
-/* 02AF0 80B46B40 0C008048 */  jal     func_80020120              
+/* 02AF0 80B46B40 0C008048 */  jal     EffectBlure_AddSpace              
 /* 02AF4 80B46B44 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 02AF8 80B46B48 8608001C */  lh      $t0, 0x001C($s0)           ## 0000001C
 /* 02AFC 80B46B4C 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE

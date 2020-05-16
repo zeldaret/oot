@@ -6,7 +6,7 @@ glabel EnGeldB_Destroy
 /* 00238 80A35548 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 0023C 80A3554C 8FAE0018 */  lw      $t6, 0x0018($sp)           
 /* 00240 80A35550 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00244 80A35554 0C009C27 */  jal     func_8002709C              
+/* 00244 80A35554 0C009C27 */  jal     Effect_Delete              
 /* 00248 80A35558 8DC5031C */  lw      $a1, 0x031C($t6)           ## 0000031C
 /* 0024C 80A3555C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00250 80A35560 8FA4001C */  lw      $a0, 0x001C($sp)           

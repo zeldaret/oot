@@ -1707,7 +1707,7 @@ glabel L800BE148
 /* B357E4 800BE644 0C00084C */  jal   osSyncPrintf
 /* B357E8 800BE648 24050001 */   li    $a1, 1
 .L800BE64C:
-/* B357EC 800BE64C 0C009BDC */  jal   func_80026F70
+/* B357EC 800BE64C 0C009BDC */  jal   Effect_UpdateAll
 /* B357F0 800BE650 02002025 */   move  $a0, $s0
 /* B357F4 800BE654 3C0C8016 */  lui   $t4, %hi(gGameInfo) # $t4, 0x8016
 /* B357F8 800BE658 8D8CFA90 */  lw    $t4, %lo(gGameInfo)($t4)
@@ -1723,7 +1723,7 @@ glabel L800BE148
 /* B35820 800BE680 0C00084C */  jal   osSyncPrintf
 /* B35824 800BE684 24050001 */   li    $a1, 1
 .L800BE688:
-/* B35828 800BE688 0C009EB8 */  jal   Effect_SS_UpdateAllParticles
+/* B35828 800BE688 0C009EB8 */  jal   EffectSs_UpdateAll
 /* B3582C 800BE68C 02002025 */   move  $a0, $s0
 /* B35830 800BE690 3C0E8016 */  lui   $t6, %hi(gGameInfo) # $t6, 0x8016
 /* B35834 800BE694 8DCEFA90 */  lw    $t6, %lo(gGameInfo)($t6)
