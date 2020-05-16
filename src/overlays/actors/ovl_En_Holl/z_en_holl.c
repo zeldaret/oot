@@ -136,19 +136,17 @@ void func_80A58D18(GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// Stack, single regalloc
+// Regalloc
 void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
     f32 temp_f2;
-    s32 temp_a1;
-    Vec3f sp3C;
     EnHollUnkStruct* temp_v0;
-    s32 new_var;
+    Vec3f sp3C;
     s32 phi_t0;
     Player* player;
+    s32 temp_a1;
 
     player = PLAYER;
-    new_var = (globalCtx->sceneNum == SCENE_JYASINZOU) ? 1 : 0;
-    phi_t0 = new_var;
+    phi_t0 = (globalCtx->sceneNum == SCENE_JYASINZOU) ? 1 : 0;
     func_8002DBD0(&this->actor, &sp3C, &player->actor.posRot.pos);
     this->unk_14E = (sp3C.z < 0.0f) ? 0 : 1;
     temp_f2 = fabsf(sp3C.z);
