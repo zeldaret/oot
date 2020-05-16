@@ -4605,7 +4605,7 @@ glabel func_800E5000
 /* B5C338 800E5198 00022880 */   sll   $a1, $v0, 2
 /* B5C33C 800E519C 8C642968 */  lw    $a0, 0x2968($v1)
 /* B5C340 800E51A0 AFA30034 */  sw    $v1, 0x34($sp)
-/* B5C344 800E51A4 0C039A30 */  jal   func_800E68C0
+/* B5C344 800E51A4 0C039A30 */  jal   osAiSetNextBuffer
 /* B5C348 800E51A8 AFA6003C */   sw    $a2, 0x3c($sp)
 .L800E51AC:
 /* B5C34C 800E51AC 3C028017 */  lui   $v0, %hi(D_801755D0) # $v0, 0x8017

@@ -175,9 +175,9 @@ glabel Graph_Update
 /* B3D42C 800C628C AC4D0004 */  sw    $t5, 4($v0)
 /* B3D430 800C6290 0C031AD5 */  jal   Graph_CloseDisps
 /* B3D434 800C6294 AC480000 */   sw    $t0, ($v0)
-/* B3D438 800C6298 0C0312A6 */  jal   func_800C4A98
+/* B3D438 800C6298 0C0312A6 */  jal   GameState_ReqPadData
 /* B3D43C 800C629C 8FA400CC */   lw    $a0, 0xcc($sp)
-/* B3D440 800C62A0 0C0312B2 */  jal   func_800C4AC8
+/* B3D440 800C62A0 0C0312B2 */  jal   GameState_Update
 /* B3D444 800C62A4 8FA400CC */   lw    $a0, 0xcc($sp)
 /* B3D448 800C62A8 3C068014 */  lui   $a2, %hi(D_80145308) # $a2, 0x8014
 /* B3D44C 800C62AC 24C65308 */  addiu $a2, %lo(D_80145308) # addiu $a2, $a2, 0x5308

@@ -105,10 +105,10 @@ void* Graph_InitTHGA(GraphicsContext* gfxCtx) {
     gfxCtx->unk_014 = 0;
 }
 
-GameStateOverlay* Graph_GetNextGameState() {
+GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
     void* gameStateInitFunc;
 
-    gameStateInitFunc = func_800C546C();
+    gameStateInitFunc = GameState_GetInit(gameState);
     if (gameStateInitFunc == TitleSetup_Init) {
         return &gGameStateOverlayTable[0];
     }
@@ -285,8 +285,8 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
     gDPNoOpString(gfxCtx->overlay.p++, "OVERLAY_DISP 開始", 0);
     Graph_CloseDisps(dispRefs, gfxCtx, "../graph.c", 975);
 
-    func_800C4A98(gameState); // Game_ReqPadData
-    func_800C4AC8(gameState); // Game_SetGameFrame
+    GameState_ReqPadData(gameState);
+    GameState_Update(gameState);
 
     Graph_OpenDisps(dispRefs2, gfxCtx, "../graph.c", 987);
     gDPNoOpString(gfxCtx->work.p++, "WORK_DISP 終了", 0);
@@ -435,14 +435,14 @@ void Graph_ThreadEntry(void* arg0) {
             sprintf(faultMsg, "CLASS SIZE= %d bytes", size);
             Fault_AddHungupAndCrashImpl("GAME CLASS MALLOC FAILED", faultMsg);
         }
-        func_800C5080(gameState, ovl->init, &gfxCtx); // Game_Ct
+        GameState_Init(gameState, ovl->init, &gfxCtx);
 
-        while (func_800C547C(gameState)) { // Game_IsGameStateRunning
+        while (GameState_IsRunning(gameState)) {
             Graph_Update(&gfxCtx, gameState);
         }
 
         nextOvl = Graph_GetNextGameState(gameState);
-        func_800C5360(gameState); // Game_Dt
+        GameState_Destroy(gameState);
         SystemArena_FreeDebug(gameState, "../graph.c", 1227);
         Overlay_FreeGameState(ovl);
     }

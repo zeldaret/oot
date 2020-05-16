@@ -1874,7 +1874,7 @@ glabel L800BE148
 /* B35A4C 800BE8AC 0C00084C */  jal   osSyncPrintf
 /* B35A50 800BE8B0 24050001 */   li    $a1, 1
 .L800BE8B4:
-/* B35A54 800BE8B4 0C02C5D1 */  jal   func_800B1744
+/* B35A54 800BE8B4 0C02C5D1 */  jal   SkyboxDraw_Update
 /* B35A58 800BE8B8 26041F78 */   addiu $a0, $s0, 0x1f78
 /* B35A5C 800BE8BC 3C0E8016 */  lui   $t6, %hi(gGameInfo) # $t6, 0x8016
 /* B35A60 800BE8C0 8DCEFA90 */  lw    $t6, %lo(gGameInfo)($t6)
