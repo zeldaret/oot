@@ -272,7 +272,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
 
     if ((player->stateFlags2 & 0x80) != 0) {
         if (&this->actor == player->actor.attachedA) {
-            player->stateFlags2 = player->stateFlags2 & -0x81;
+            player->stateFlags2 &= ~0x80;
             player->actor.attachedA = NULL;
             player->unk_850 = 200;
         }
