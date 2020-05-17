@@ -338,7 +338,7 @@ void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
     colChkCtxTemp = &globalCtx->colChkCtx;
 
     if (this->actor.attachedA == NULL) {
-        this->actor.attachedA = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_DH, 5, 10000.0f);
+        this->actor.attachedA = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_DH, ACTORTYPE_ENEMY, 10000.0f);
     }
     EnDha_UpdateHealth(this, globalCtx);
     this->actionFunc(this, globalCtx);
