@@ -170,7 +170,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
             this->unk_1D6.x = ((this->unk_1D6.x - this->actor.shape.rot.y) - this->unk_1D0.y);
             this->unk_1D0.z = (((this->unk_1D0.z - this->actor.shape.rot.x) - this->unk_1CE) - this->unk_1D0.x);
         } else {
-            if ((player->stateFlags2 & 0x80) != 0) {
+            if (player->stateFlags2 & 0x80) {
                 if (&this->actor == player->actor.attachedA) {
                     player->stateFlags2 &= ~0x80;
                     player->actor.attachedA = NULL;
@@ -195,7 +195,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
         Matrix_RotateRPY(unkVar3, unkVar2, 0, 1);
         Matrix_MultVec3f(&D_809ED74C, &this->unk_1F4);
         this->unk_1CE = Math_Vec3f_Pitch(&this->actor.posRot, &this->unk_1F4);
-        result = ((Math_Vec3f_Yaw(&this->actor.posRot, &this->unk_1F4) - this->actor.shape.rot.y) << 0x10) >> 0x10;
+        result = (s16)(Math_Vec3f_Yaw(&this->actor.posRot, &this->unk_1F4) - this->actor.shape.rot.y);
         resultAbs = ABS(result);
         if (resultAbs >= 0x4000) {
             this->unk_1CE = -0x8000 - this->unk_1CE;
@@ -207,8 +207,8 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
             return;
         }
     } else {
-        unkVar = -0x81;
-        if ((player->stateFlags2 & 0x80) != 0) {
+        unkVar = ~0x80;
+       if (player->stateFlags2 & 0x80) {
             if (&this->actor == player->actor.attachedA) {
                 player->stateFlags2 &= unkVar;
                 player->actor.attachedA = NULL;
@@ -230,7 +230,7 @@ void func_809ECF60(EnDha* this) {
 void func_809ECF8C(EnDha* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((player->stateFlags2 & 0x80) != 0) {
+   if (player->stateFlags2 & 0x80) {
         if (&this->actor == player->actor.attachedA) {
             player->stateFlags2 &= ~0x80;
             player->actor.attachedA = NULL;
@@ -267,7 +267,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
     Vec3f vector;
     Player* player = PLAYER;
 
-    if ((player->stateFlags2 & 0x80) != 0) {
+   if (player->stateFlags2 & 0x80) {
         if (&this->actor == player->actor.attachedA) {
             player->stateFlags2 &= ~0x80;
             player->actor.attachedA = NULL;
@@ -296,7 +296,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
         } else {
             this->actor.shape.unk_08 += 500.0f;
             func_80033480(globalCtx, &vector, 7.0f, 1, 0x5A, 0x14, 1);
-            if (0.0f == this->actor.shape.unk_08) {
+            if (this->actor.shape.unk_08 == 0.0f) {
                 func_809EC9C8(this);
             }
         }
@@ -332,15 +332,15 @@ void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDha* this = THIS;
     CollisionCheckContext* colChkCtx;
 
-    colChkCtxTemp = &globalCtx->colChkCtx;
+    colChkCtx = &globalCtx->colChkCtx;
 
     if (this->actor.attachedA == NULL) {
         this->actor.attachedA = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_DH, ACTORTYPE_ENEMY, 10000.0f);
     }
     EnDha_UpdateHealth(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    CollisionCheck_SetAC(globalCtx, colChkCtxTemp, &this->collider);
-    CollisionCheck_SetOC(globalCtx, colChkCtxTemp, &this->collider);
+    CollisionCheck_SetAC(globalCtx, colChkCtx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, colChkCtx, &this->collider);
 }
 
 s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
