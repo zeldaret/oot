@@ -160,7 +160,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
             } else {
                 this->unk_1CA += 0x1194;
                 this->unk_1D0.y = (Math_Sins(this->unk_1CA) * 1820.0f);
-                if ((player->stateFlags2 & 0x80) == 0) {
+                if (!(player->stateFlags2 & 0x80)) {
                     this->unk_1CC = 0;
                     func_809ECF60(this);
                     return;
