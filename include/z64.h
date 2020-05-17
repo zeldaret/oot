@@ -1010,6 +1010,40 @@ typedef struct {
 } TitleContext; // size = 0x1E8
 
 typedef struct {
+    /* 0x00 */ char* locationName; //Display name of the location
+    /* 0x04 */ void (*functionPtr)(struct SelectContext*, s32);  //possibly custom function for initializing game state
+    /* 0x08 */ u32 entranceIndex;  //Location entrance index
+} SelectSlot; // size = 0xC
+
+typedef struct {
+    /* 0x0000 */ GameState state;
+    /* 0x00A4 */ s32 unk_A4; // staticSegment?
+    /* 0x00A8 */ View view;
+    /* 0x01D0 */ s32 slotCount;
+    /* 0x01D4 */ SelectSlot* slots;
+    /* 0x01D8 */ s32 currentSlot;
+    /* 0x01DC */ s32 unk_1DC;
+    /* 0x01E0 */ s32 unk_1E0[7];
+    /* 0x01FC */ s32 unk_1FC;
+    /* 0x0200 */ s32 unk_200;
+    /* 0x0204 */ s32 unk_204;
+    /* 0x0208 */ s32 unk_208;
+    /* 0x020C */ s32 unk_20C;
+    /* 0x0210 */ s32 unk_210;
+    /* 0x0214 */ s32 unk_214;
+    /* 0x0218 */ s32 unk_218;
+    /* 0x021C */ s32 unk_21C;
+    /* 0x0220 */ s32 unk_220;
+    /* 0x0224 */ s32 unk_224;
+    /* 0x0228 */ s32 unk_228;
+    /* 0x022C */ s32 unk_22C;
+    /* 0x0230 */ s32 unk_230;
+    /* 0x0234 */ s32 unk_234;
+    /* 0x0238 */ void* unk_238;
+    /* 0x023C */ s32 unk_23C;
+} SelectContext; // size = 0x240
+
+typedef struct {
     /* 0x0000 */ GameState state;
     /* 0x00A4 */ void* staticSegment;
     /* 0x00A8 */ View view;
