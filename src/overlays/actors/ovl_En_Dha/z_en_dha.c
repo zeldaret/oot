@@ -15,7 +15,6 @@ void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDha_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc);
 void func_809EC9C8(EnDha* this);
 void func_809ECA50(EnDha* this, GlobalContext* globalCtx);
 void func_809ECF60(EnDha* this);
@@ -23,8 +22,6 @@ void func_809ECF8C(EnDha* this, GlobalContext* globalCtx);
 void EnDha_SetDeadAction(EnDha* this);
 void EnDha_Die(EnDha* this, GlobalContext* globalCtx);
 void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx);
-s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
-void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx);
 
 extern SkeletonHeader D_06000BD8;
 extern AnimationHeader D_060015B0;
