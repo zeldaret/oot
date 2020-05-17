@@ -333,7 +333,7 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
 
 void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDha* this = THIS;
-    s32* colChkCtxTemp;
+    CollisionCheckContext* colChkCtx;
 
     colChkCtxTemp = &globalCtx->colChkCtx;
 
