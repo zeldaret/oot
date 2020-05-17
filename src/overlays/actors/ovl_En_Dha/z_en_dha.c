@@ -307,7 +307,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
 }
 
 void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
-    if (!((this->unk_1C0 >= 8) || ((this->collider.base.acFlags & 2) == 0))) {
+    if (!((this->unk_1C0 >= 8) || !(this->collider.base.acFlags & 2))) {
         this->collider.base.acFlags &= ~2;
         if (this->actor.colChkInfo.damageEffect == 0 || this->actor.colChkInfo.damageEffect == 6) {
             return;
