@@ -944,10 +944,20 @@ typedef struct {
 } ActorEntry; // size = 0x10
 
 typedef struct {
+    /* 0x00 */ s8 room;
+    /* 0x01 */ s8 effects;
+} TransitionInfo;
+
+typedef struct {
+    union {
+        struct {
     /* 0x00 */ s8    frontRoom;    // Room to switch to when triggered from the front of the object
     /* 0x01 */ s8    frontEffects; // How the camera reacts during the front transition
     /* 0x02 */ s8    backRoom;     // Room to switch to when triggered from the back of the object
     /* 0x03 */ s8    backEffects;  // How the camera reacts during the back transition
+        };
+    /* 0x00 */ TransitionInfo info[2]; // En_Holl actors (and possibly others) access the above data as an array
+    };
     /* 0x04 */ s16   id;
     /* 0x06 */ Vec3s pos;
     /* 0x0C */ s16   rotY;

@@ -643,7 +643,7 @@ s32 func_8005AA90(Camera*, s32, Vec3f*);
 // ? func_8005AC48(?);
 // ? func_8005AC60(?);
 // ? func_8005AC6C(?);
-// ? func_8005AD40(?);
+s32 func_8005AD40(Camera* camera, s32, s16, f32, s16, s16, s16);
 // ? func_8005AE64(?);
 Vec3f* func_8005AFB4(Vec3f* dst, Camera* camera);
 // ? func_8005B044(?);

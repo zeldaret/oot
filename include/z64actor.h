@@ -219,7 +219,11 @@ typedef struct {
     /* 0x01B4 */ SkelAnime  skelAnime;
     /* 0x01F8 */ char       unk_1F8[0x1B4];
     /* 0x03AC */ Actor*     heldActor;
-    /* 0x03B0 */ char       unk_3B0[0x084];
+    /* 0x03B0 */ char       unk_3B0[0x07C];
+    /* 0x042C */ u8         unk_42C;
+    /* 0x042D */ u8         unk_42D;
+    /* 0x042E */ s16        unk_42E;
+    /* 0x0430 */ Actor*     unk_430;
     /* 0x0434 */ u8         getItemId;
     /* 0x0436 */ u16        getItemDirection;
     /* 0x0438 */ Actor*     interactRangeActor;
@@ -243,7 +247,7 @@ typedef struct {
     /* 0x0680 */ u32        stateFlags2;
     /* 0x0684 */ char       unk_684[0x008];
     /* 0x068C */ Actor*     unk_68C;
-    /* 0x0690 */ char       unk_690[0x002];
+    /* 0x0690 */ s16        unk_690;
     /* 0x0692 */ u8         unk_692;
     /* 0x0693 */ s8         exchangeItemId;
     /* 0x0694 */ Actor*     unk_694;
