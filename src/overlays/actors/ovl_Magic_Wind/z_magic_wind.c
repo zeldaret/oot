@@ -14,6 +14,7 @@ void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicWind_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MagicWind_Update(Actor* thisx, GlobalContext* globalCtx);
 void MagicWind_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void MagicWind_Shrink(MagicWind* this, GlobalContext* globalCtx);
 void MagicWind_WaitForTimer(MagicWind* this, GlobalContext* globalCtx);
 void MagicWind_FadeOut(MagicWind* this, GlobalContext* globalCtx);
