@@ -206,7 +206,7 @@ typedef struct {
 } Struct_80090480_arg2;
 
 struct Player;
-typedef void (*PlayerActionFunc)(struct Player*, GlobalContext*);
+typedef void (*PlayerActionFunc)(struct Player*, struct GlobalContext*);
 
 typedef struct Player {
     /* 0x0000 */ Actor      actor;
@@ -266,7 +266,7 @@ typedef struct Player {
     /* 0x0664 */ Actor*     unk_664;
     /* 0x0668 */ char       unk_668[0x004];
     /* 0x066C */ s32        unk_66C;
-    /* 0x0670 */ u32        unk_670; // (sword?) effect related
+    /* 0x0670 */ u32        swordEffectId;
     /* 0x0674 */ PlayerActionFunc  actionFunc;
     /* 0x0678 */ u32        ageProperties;
     /* 0x067C */ u32        stateFlags1;
