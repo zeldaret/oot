@@ -215,7 +215,7 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ SkelCurveLimb** limbs;
     /* 0x0004 */ u8 limbCount;
-} SkelCurveLimbList; // size = 0x5
+} SkelCurveLimbList; // size = 0x8
 
 typedef struct {
     /* 0x0000 */ Vec3s scale;
@@ -232,7 +232,7 @@ typedef struct {
     /* 0x0014 */ f32 animSpeed;
     /* 0x0018 */ f32 animCurFrame;
     /* 0x001C */ LimbTransform* transforms;
-} SkelAnimeCurve;
+} SkelAnimeCurve; // size = 0x20
 
 typedef s32 (*OverrideCurveLimbDraw)(struct GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIndex, struct Actor* actor);
 typedef void (*PostCurveLimbDraw)(struct GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIndex, struct Actor* actor);

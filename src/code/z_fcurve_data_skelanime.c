@@ -1,7 +1,7 @@
 #include <ultra64.h>
 #include <global.h>
 
-void SkelCurve_Zero(SkelAnimeCurve* skelCurve) {
+void SkelCurve_Clear(SkelAnimeCurve* skelCurve) {
     skelCurve->limbCount = 0;
     skelCurve->limbList = NULL;
     skelCurve->transUpdIdx = NULL;
@@ -113,7 +113,7 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad;
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 0x117);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 279);
     Matrix_Push();
     if (overrideLimbDraw == NULL ||
         (overrideLimbDraw != NULL && overrideLimbDraw(globalCtx, skelCurve, limbIndex, actor))) {
@@ -164,17 +164,17 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
         postLimbDraw(globalCtx, skelCurve, limbIndex, actor);
     }
 
-    if (limb->firstChildIdx != 0xFF) {
+    if (limb->firstChildIdx != LIMB_DONE) {
         SkelCurve_DrawLimb(globalCtx, limb->firstChildIdx, skelCurve, overrideLimbDraw, postLimbDraw, lod, actor);
     }
 
     Matrix_Pull();
 
-    if (limb->nextLimbIdx != 0xFF) {
+    if (limb->nextLimbIdx != LIMB_DONE) {
         SkelCurve_DrawLimb(globalCtx, limb->nextLimbIdx, skelCurve, overrideLimbDraw, postLimbDraw, lod, actor);
     }
 
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 0x173);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 371);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_fcurve_data_skelanime/SkelCurve_DrawLimb.s")

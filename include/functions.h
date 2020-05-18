@@ -819,7 +819,7 @@ void Flags_SetEnv(GlobalContext* globalCtx, s16 flag);
 void Flags_UnsetEnv(GlobalContext* globalCtx, s16 flag);
 s32 Flags_GetEnv(GlobalContext* globalCtx, s16 flag);
 f32 func_8006C5A8(f32 target, TransformData* transData, s32 refIdx);
-void SkelCurve_Zero(SkelAnimeCurve* skelCurve);
+void SkelCurve_Clear(SkelAnimeCurve* skelCurve);
 s32 SkelCurve_Init(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, SkelCurveLimbList* limbListSeg,
                    TransformData* transData);
 void SkelCurve_Destroy(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve);
