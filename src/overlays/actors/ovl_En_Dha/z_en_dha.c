@@ -19,7 +19,7 @@ void func_809EC9C8(EnDha* this);
 void func_809ECA50(EnDha* this, GlobalContext* globalCtx);
 void func_809ECF60(EnDha* this);
 void func_809ECF8C(EnDha* this, GlobalContext* globalCtx);
-void EnDha_SetDeadAction(EnDha* this);
+void EnDha_SetupDeath(EnDha* this);
 void EnDha_Die(EnDha* this, GlobalContext* globalCtx);
 void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx);
 
@@ -122,15 +122,15 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
     Vec3f D_809ED74C = { 0.0f, 0.0f, 55.0f };
     Vec3f D_809ED758 = { 0.0f, 0.0f, -54.0f };
     Player* player = PLAYER;
-    char pad[4];
+    s32 pad;
     s32 unkVar;
     Vec3f playerPos;
-    char pad2[4];
+    s32 pad2;
     s16 unkVar2;
     s16 unkVar3;
     s32 result;
     s32 resultAbs;
-    char pad3[4];
+    s32 pad3;
     playerPos = player->actor.posRot.pos;
 
     playerPos.x += (Math_Sins(player->actor.shape.rot.y) * -5.0f);
@@ -247,7 +247,7 @@ void func_809ECF8C(EnDha* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDha_SetDeadAction(EnDha* this) {
+void EnDha_SetupDeath(EnDha* this) {
     this->unk_1C0 = 8;
     this->unk_1C8 = 300;
 
@@ -311,7 +311,7 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
         } else {
             func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
             if (Actor_ApplyDamage(&this->actor) == 0) {
-                EnDha_SetDeadAction(this);
+                EnDha_SetupDeath(this);
                 this->actor.colChkInfo.health = 8;
                 Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xE0);
             } else {
@@ -323,7 +323,7 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
     }
     if (this->actor.attachedA != NULL) {
         if (this->actor.attachedA->params == 0xA) {
-            EnDha_SetDeadAction(this);
+            EnDha_SetupDeath(this);
         }
     }
 }
