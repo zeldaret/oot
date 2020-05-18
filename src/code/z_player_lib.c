@@ -18,17 +18,17 @@ extern Struct_8008F2F8 D_80125C88[];
 
 extern u8 D_80125C98[];
 
-extern u32 D_80125F18[];
+extern UNK_TYPE D_80125F18[];
 
-extern u32 D_80125F20[];
+extern UNK_TYPE D_80125F20[];
 
-extern u32 D_80125F28[];
+extern UNK_TYPE D_80125F28[];
 
-extern u32 D_80125F30[];
+extern UNK_TYPE D_80125F30[];
 
-extern u32 D_80125F38[];
+extern UNK_TYPE D_80125F38[];
 
-extern u32* D_80125F40[];
+extern UNK_PTR D_80125F40[];
 
 extern u8 D_8012607C[];
 
@@ -50,8 +50,8 @@ extern u8 D_80160008[]; // TODO check type
 // Segment Addresses
 
 extern LinkAnimetionEntry D_04003238;
-extern u32 D_0602A738;
-extern u32 D_0602CB48;
+extern UNK_TYPE D_0602A738;
+extern UNK_TYPE D_0602CB48;
 
 void func_8008E750(GlobalContext* globalCtx, Player* player) {
     s32 currentBoots;
@@ -228,7 +228,6 @@ void func_8008EDF0(Player* player) {
     player->stateFlags2 &= ~0x2000;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_8008EE08.s")
 void func_8008EE08(Player* player) {
     if ((player->actor.bgCheckFlags & 1) || (player->stateFlags1 & 0x8A00000) ||
         ((player->stateFlags1 & 0xC0000) == 0 && (player->actor.posRot.pos.y - player->actor.unk_80) < 100.0f)) {
@@ -526,10 +525,10 @@ void func_800907E4(GlobalContext* globalCtx, Player* player, Vec3f* arg2, s32 ar
     sp4C = (player->exchangeItemId != 0) ? 6.0f : 14.0f;
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_player_lib.c", 0x961);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(player->getItemModelPtr);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(player->getItemModel);
 
-    gSPSegment(gfxCtx->polyOpa.p++, 0x06, player->getItemModelPtr);
-    gSPSegment(gfxCtx->polyXlu.p++, 0x06, player->getItemModelPtr);
+    gSPSegment(gfxCtx->polyOpa.p++, 0x06, player->getItemModel);
+    gSPSegment(gfxCtx->polyXlu.p++, 0x06, player->getItemModel);
 
     sp28 = Math_Sins(player->actor.shape.rot.y);
     Matrix_Translate((sp28 * 3.299999952316284f) + arg2->x, arg2->y + sp4C,

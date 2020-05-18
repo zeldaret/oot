@@ -233,7 +233,7 @@ typedef struct {
     /* 0x0171 */ char       unk_171[0x023];
     /* 0x0194 */ OSMesgQueue unk_194;
     /* 0x01AC */ char       unk_1AC[0x004];
-    /* 0x01B0 */ u32        getItemModelPtr;
+    /* 0x01B0 */ void*      getItemModel; // Pointer to the space where the get item model is allocated
     /* 0x01B4 */ SkelAnime  skelAnime;
     /* 0x01F8 */ char       unk_1F8[0x1B4];
     /* 0x03AC */ Actor*     heldActor;
@@ -312,11 +312,11 @@ typedef struct {
     /* 0x0860 */ s16        stickFlameTimer;
     /* 0x0862 */ s8         overheadItemId;
     /* 0x0863 */ char       unk_863[0x021];
-    /* 0x0884 */ f32        ledgeDistance;
-    /* 0x0888 */ f32        wallDistance;
+    /* 0x0884 */ f32        ledgeDistance; // The distance from link to a grabbable ledge, only updates if pushing against a wall with a grabbable ledge above, if the ledge is too high to grab the value is 399.96f
+    /* 0x0888 */ f32        wallDistance; // Only updates if pushing against a wall with a grabbable ledge above
     /* 0x088C */ char       unk_88C[0x008];
-    /* 0x0894 */ s16        dropY;
-    /* 0x0896 */ s16        dropDistance;
+    /* 0x0894 */ s16        dropY; // Truncated copy of y position that does not update while falling
+    /* 0x0896 */ s16        fallY; // The truncated y distance link has moved in that frame, positive is down, negative is up
     /* 0x0898 */ char       unk_898[0x008];
     /* 0x08A0 */ u8         unk_8A0;
     /* 0x08A1 */ u8         unk_8A1;
@@ -332,9 +332,9 @@ typedef struct {
     /* 0x0908 */ char       unk_908[0x118];
     /* 0x0A20 */ MtxF       mf_A20;
     /* 0x0A60 */ char       unk_A60[0x08];
-    /* 0x0A68 */ s8         invincibilityFrames;
+    /* 0x0A68 */ s8         unk_A68;
     /* 0x0A69 */ char       unk_A6A[0x0F];
-    /* 0x0A78 */ s8         unk_A78;
+    /* 0x0A78 */ s8         invincible; // Take no damage if this value is nonzero, positive induces red flashing, negative is "invisible" invincibility
     /* 0x0A79 */ char       unk_A79[0x1B];
 } Player; // size = 0xA94
 
