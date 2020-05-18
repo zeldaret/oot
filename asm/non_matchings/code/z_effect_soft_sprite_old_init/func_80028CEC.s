@@ -47,7 +47,7 @@ glabel func_80028CEC
 /* A9FF40 80028DA0 46000100 */  add.s $f4, $f0, $f0
 /* A9FF44 80028DA4 4600218D */  trunc.w.s $f6, $f4
 /* A9FF48 80028DA8 440C3000 */  mfc1  $t4, $f6
-/* A9FF4C 80028DAC 0C009DE6 */  jal   func_80027798
+/* A9FF4C 80028DAC 0C009DE6 */  jal   EffectSs_Spawn
 /* A9FF50 80028DB0 A7AC0048 */   sh    $t4, 0x48($sp)
 /* A9FF54 80028DB4 8FBF0014 */  lw    $ra, 0x14($sp)
 /* A9FF58 80028DB8 27BD0058 */  addiu $sp, $sp, 0x58

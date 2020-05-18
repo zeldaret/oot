@@ -104,7 +104,7 @@ glabel func_80898114
 /* 001B0 80898270 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 001B4 80898274 AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 001B8 80898278 AFB6003C */  sw      $s6, 0x003C($sp)           
-/* 001BC 8089827C 0C00A7A3 */  jal     Effect_SpawnFragment
+/* 001BC 8089827C 0C00A7A3 */  jal     func_80029E8C
               
 /* 001C0 80898280 AFB90024 */  sw      $t9, 0x0024($sp)           
 /* 001C4 80898284 26310002 */  addiu   $s1, $s1, 0x0002           ## $s1 = 80898776

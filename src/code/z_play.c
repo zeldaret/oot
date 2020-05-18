@@ -157,8 +157,8 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
     R_PAUSE_MENU_MODE = 0;
 
     func_800C0F08(&globalCtx->preRenderCtx);
-    func_800271A8(globalCtx);
-    Effect_SS_Clear(globalCtx);
+    Effect_DeleteAll(globalCtx);
+    EffectSs_ClearAll(globalCtx);
     CollisionCheck_DestroyContext(globalCtx, &globalCtx->colChkCtx);
 
     if (gTrnsnUnkState == 3) {
@@ -240,8 +240,8 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     func_80110F68(globalCtx);
     func_80110450(globalCtx);
     func_8006BA00(globalCtx);
-    func_80026C2C(globalCtx);
-    func_800272B0(globalCtx, 0x55);
+    Effect_InitContext(globalCtx);
+    EffectSs_InitInfo(globalCtx, 0x55);
     func_8005D3BC(globalCtx, &globalCtx->colChkCtx);
     SkelAnime_AnimationCtxReset(&globalCtx->animationCtx);
     func_8006450C(globalCtx, &globalCtx->csCtx);
@@ -891,13 +891,13 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         LOG_NUM("1", 1, "../z_play.c", 3651);
                     }
 
-                    func_80026F70(globalCtx);
+                    Effect_UpdateAll(globalCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3657);
                     }
 
-                    Effect_SS_UpdateAllParticles(globalCtx);
+                    EffectSs_UpdateAll(globalCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3662);

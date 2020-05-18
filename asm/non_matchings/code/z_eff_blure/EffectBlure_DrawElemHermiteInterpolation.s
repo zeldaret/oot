@@ -29,7 +29,7 @@ glabel D_801352B8
     .balign 4
 
 .text
-glabel func_800214D0
+glabel EffectBlure_DrawElemHermiteInterpolation
 /* A98670 800214D0 27BDFE08 */  addiu $sp, $sp, -0x1f8
 /* A98674 800214D4 AFB40060 */  sw    $s4, 0x60($sp)
 /* A98678 800214D8 00A0A025 */  move  $s4, $a1
@@ -79,7 +79,7 @@ glabel func_800214D0
 /* A98724 80021584 02403825 */  move  $a3, $s2
 /* A98728 80021588 AFB30010 */  sw    $s3, 0x10($sp)
 /* A9872C 8002158C 44060000 */  mfc1  $a2, $f0
-/* A98730 80021590 0C008294 */  jal   func_80020A50
+/* A98730 80021590 0C008294 */  jal   EffectBlure_GetComputedValues
 /* A98734 80021594 00000000 */   nop   
 /* A98738 80021598 27A401CC */  addiu $a0, $sp, 0x1cc
 /* A9873C 8002159C 0C01DF97 */  jal   Math_Vec3s_ToVec3f
@@ -110,7 +110,7 @@ glabel func_800214D0
 /* A9879C 800215FC AFB30010 */  sw    $s3, 0x10($sp)
 /* A987A0 80021600 24A50001 */  addiu $a1, $a1, 1
 /* A987A4 80021604 44060000 */  mfc1  $a2, $f0
-/* A987A8 80021608 0C008294 */  jal   func_80020A50
+/* A987A8 80021608 0C008294 */  jal   EffectBlure_GetComputedValues
 /* A987AC 8002160C 00000000 */   nop   
 /* A987B0 80021610 27A4018C */  addiu $a0, $sp, 0x18c
 /* A987B4 80021614 0C01DF97 */  jal   Math_Vec3s_ToVec3f
@@ -166,7 +166,7 @@ glabel func_800214D0
 /* A98870 800216D0 02403825 */  move  $a3, $s2
 /* A98874 800216D4 AFB30010 */  sw    $s3, 0x10($sp)
 /* A98878 800216D8 44060000 */  mfc1  $a2, $f0
-/* A9887C 800216DC 0C008294 */  jal   func_80020A50
+/* A9887C 800216DC 0C008294 */  jal   EffectBlure_GetComputedValues
 /* A98880 800216E0 00000000 */   nop   
 /* A98884 800216E4 27B00118 */  addiu $s0, $sp, 0x118
 /* A98888 800216E8 02002025 */  move  $a0, $s0
@@ -246,7 +246,7 @@ glabel func_800214D0
 /* A989A0 80021800 02403825 */  move  $a3, $s2
 /* A989A4 80021804 AFB30010 */  sw    $s3, 0x10($sp)
 /* A989A8 80021808 44060000 */  mfc1  $a2, $f0
-/* A989AC 8002180C 0C008294 */  jal   func_80020A50
+/* A989AC 8002180C 0C008294 */  jal   EffectBlure_GetComputedValues
 /* A989B0 80021810 00000000 */   nop   
 /* A989B4 80021814 27B00100 */  addiu $s0, $sp, 0x100
 /* A989B8 80021818 02002025 */  move  $a0, $s0
