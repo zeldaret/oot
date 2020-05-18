@@ -4,7 +4,6 @@
 #include <z64animation.h>
 #include <z64math.h>
 
-#define ACTOR_DLF_MAX 471
 #define ACTOR_NUMBER_MAX 200
 #define INVISIBLE_ACTOR_MAX 20
 #define AM_FIELD_SIZE 0x27A0
@@ -770,7 +769,8 @@ typedef enum {
     /* 0x01D3 */ ACTOR_EN_ZL4,
     /* 0x01D4 */ ACTOR_EN_MM2,
     /* 0x01D5 */ ACTOR_BG_JYA_BLOCK,
-    /* 0x01D6 */ ACTOR_OBJ_WARP2BLOCK
+    /* 0x01D6 */ ACTOR_OBJ_WARP2BLOCK,
+    /* 0x01D7 */ ACTOR_ID_MAX // originally "ACTOR_DLF_MAX"
 } ActorID;
 
 #endif

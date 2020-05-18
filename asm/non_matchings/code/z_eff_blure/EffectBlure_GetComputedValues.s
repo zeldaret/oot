@@ -7,7 +7,7 @@ glabel jtbl_80135434
     .word L80020C34
 
 .text
-glabel func_80020A50
+glabel EffectBlure_GetComputedValues
 /* A97BF0 80020A50 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* A97BF4 80020A54 AFBF002C */  sw    $ra, 0x2c($sp)
 /* A97BF8 80020A58 AFB20028 */  sw    $s2, 0x28($sp)

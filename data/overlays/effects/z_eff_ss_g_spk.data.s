@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_G_Spk_InitVars
 .word 0x00000005
 .word func_809A6F30
 glabel D_809A7498

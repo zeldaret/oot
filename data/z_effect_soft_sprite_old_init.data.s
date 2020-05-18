@@ -7,15 +7,6 @@
 
 .section .data
 
-glabel EffectSS2Info
-    .incbin "baserom.z64", 0xB8CA50, 0x4
-
-glabel D_801158B4
-    .incbin "baserom.z64", 0xB8CA54, 0x4
-
-glabel D_801158B8
-    .incbin "baserom.z64", 0xB8CA58, 0x8
-
 glabel D_801158C0
     .incbin "baserom.z64", 0xB8CA60, 0xC
 
@@ -88,11 +79,4 @@ glabel D_801159A9
 glabel D_801159AA
     .incbin "baserom.z64", 0xB8CB4A, 0x6
 
-glabel sParticleOverlayTable
-    .incbin "baserom.z64", 0xB8CB50, 0x10
 
-glabel D_801159C0
-    .incbin "baserom.z64", 0xB8CB60, 0xC
-
-glabel D_801159CC
-    .incbin "baserom.z64", 0xB8CB6C, 0x3F4

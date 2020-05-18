@@ -33,7 +33,7 @@ glabel func_8002A140
 /* AA1358 8002A1B8 8FA40058 */  lw    $a0, 0x58($sp)
 /* AA135C 8002A1BC 2405001B */  li    $a1, 27
 /* AA1360 8002A1C0 24060050 */  li    $a2, 80
-/* AA1364 8002A1C4 0C009DE6 */  jal   func_80027798
+/* AA1364 8002A1C4 0C009DE6 */  jal   EffectSs_Spawn
 /* AA1368 8002A1C8 27A7001C */   addiu $a3, $sp, 0x1c
 /* AA136C 8002A1CC 8FBF0014 */  lw    $ra, 0x14($sp)
 /* AA1370 8002A1D0 27BD0058 */  addiu $sp, $sp, 0x58

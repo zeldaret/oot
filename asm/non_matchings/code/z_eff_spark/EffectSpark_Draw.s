@@ -13,7 +13,7 @@ glabel D_80135594
     .balign 4
 
 .text
-glabel func_80025000
+glabel EffectSpark_Draw
 /* A9C1A0 80025000 27BDFE18 */  addiu $sp, $sp, -0x1e8
 /* A9C1A4 80025004 AFBF0034 */  sw    $ra, 0x34($sp)
 /* A9C1A8 80025008 AFB70030 */  sw    $s7, 0x30($sp)
@@ -26,7 +26,7 @@ glabel func_80025000
 /* A9C1C4 80025024 AFB2001C */  sw    $s2, 0x1c($sp)
 /* A9C1C8 80025028 AFB10018 */  sw    $s1, 0x18($sp)
 /* A9C1CC 8002502C AFB00014 */  sw    $s0, 0x14($sp)
-/* A9C1D0 80025030 0C009AC0 */  jal   func_80026B00
+/* A9C1D0 80025030 0C009AC0 */  jal   Effect_GetGlobalCtx
 /* A9C1D4 80025034 AFA401E0 */   sw    $a0, 0x1e0($sp)
 /* A9C1D8 80025038 3C068013 */  lui   $a2, %hi(D_80135548) # $a2, 0x8013
 /* A9C1DC 8002503C 00409825 */  move  $s3, $v0

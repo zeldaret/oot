@@ -1113,24 +1113,6 @@ typedef enum {
     DPM_ENEMY = 2
 } DynaPolyMoveFlag;
 
-typedef struct LoadedParticleEntry {
-    /* 0x0000 */ Vec3f position;
-    /* 0x000C */ Vec3f velocity;
-    /* 0x0018 */ Vec3f acceleration;
-    /* 0x0024 */ void(*update)(GlobalContext*, s32, struct LoadedParticleEntry*);
-    /* 0x0028 */ void(*draw)(GlobalContext*, s32, struct LoadedParticleEntry*);
-    /* 0x002C */ f32 unk_2C; // Probaly a Vec3f
-    /* 0x0030 */ f32 unk_30;
-    /* 0x0034 */ f32 unk_34;
-    /* 0x0038 */ u32 unk_38;
-    /* 0x003C */ u32 unk_3C;
-    /* 0x0042 */ u16 unk_40[13];
-    /* 0x005A */ u16 flags; // bit 0: set if this entry is not considered free on a priority tie bit 1: ? bit 2: ?
-    /* 0x005C */ s16 life; // -1 means this entry is free
-    /* 0x005E */ u8 priority; // Lower value means higher priority
-    /* 0x005F */ u8 type;
-} LoadedParticleEntry; // size = 0x60
-
 // Some animation related structure
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
@@ -1160,27 +1142,6 @@ typedef struct {
     /* 0x18 */ Vec3f unk_18;
     /* 0x24 */ char unk_24[0x4];
 } struct_80034A14_arg1;
-
-typedef struct {
-    /* 0x00 */ u32 unk_00;
-    /* 0x04 */ u32(*init)(GlobalContext*, u32, LoadedParticleEntry*, void*);
-} ParticleOverlayInfo;
-
-typedef struct {
-    /* 0x00 */ u32 vromStart;
-    /* 0x04 */ u32 vromEnd;
-    /* 0x0C */ void* vramStart;
-    /* 0x08 */ void* vramEnd;
-    /* 0x10 */ void* loadedRamAddr;
-    /* 0x14 */ ParticleOverlayInfo* overlayInfo;
-    /* 0x18 */ u32 unk_18; // Always 0x01000000?
-} ParticleOverlay;
-
-typedef struct {
-    /* 0x00 */ LoadedParticleEntry* data_table; // Name from debug assert
-    /* 0x04 */ s32 searchIndex;
-    /* 0x08 */ s32 size;
-} EffectTableInfo;
 
 typedef struct {
     /* 0x00 */ s8  scene;
