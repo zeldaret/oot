@@ -206,7 +206,10 @@ typedef struct {
     /* 0x10 */ Vec3f base;
 } Struct_80090480_arg2;
 
-typedef struct {
+struct Player;
+typedef void (*PlayerActionFunc)(struct Player*, GlobalContext*);
+
+typedef struct Player {
     /* 0x0000 */ Actor      actor;
     /* 0x014C */ s8         currentTunic;
     /* 0x014D */ s8         currentSword;
@@ -265,7 +268,7 @@ typedef struct {
     /* 0x0668 */ char       unk_668[0x004];
     /* 0x066C */ s32        unk_66C;
     /* 0x0670 */ u32        unk_670; // (sword?) effect related
-    /* 0x0674 */ ActorFunc  actionFunc;
+    /* 0x0674 */ PlayerActionFunc  actionFunc;
     /* 0x0678 */ u32        ageProperties;
     /* 0x067C */ u32        stateFlags1;
     /* 0x0680 */ u32        stateFlags2;
