@@ -40,8 +40,8 @@ static InitChainEntry initChain[] = {
     ICHAIN_VEC3S(shape.rot, 0, ICHAIN_STOP),
 };
 
-static Vec3f mtxSrc1 = { -960.0f, 0.0f, 0.0f };
-static Vec3f mtxSrc2 = { 960.0f, 0.0f, 0.0f };
+static Vec3f mult1 = { -960.0f, 0.0f, 0.0f };
+static Vec3f mult2 = { 960.0f, 0.0f, 0.0f };
 
 extern D_0400C808;
 
@@ -51,37 +51,37 @@ void EnBoom_SetupAction(EnBoom* this, EnBoomActionFunc actionFunc) {
 
 void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBoom* this = THIS;
-    TrailEffect trail;
+    EffectBlureInit1 trail;
 
     this->actor.room = -1;
 
     Actor_ProcessInitChain(&this->actor, initChain);
 
-    trail.p1Start.r = 0xFF;
-    trail.p1Start.g = 0xFF;
-    trail.p1Start.b = 0x64;
-    trail.p1Start.a = 0xFF;
+    trail.p1StartColor.r = 0xFF;
+    trail.p1StartColor.g = 0xFF;
+    trail.p1StartColor.b = 0x64;
+    trail.p1StartColor.a = 0xFF;
 
-    trail.p2Start.r = 0xFF;
-    trail.p2Start.g = 0xFF;
-    trail.p2Start.b = 0x64;
-    trail.p2Start.a = 0x40;
+    trail.p2StartColor.r = 0xFF;
+    trail.p2StartColor.g = 0xFF;
+    trail.p2StartColor.b = 0x64;
+    trail.p2StartColor.a = 0x40;
 
-    trail.p1End.r = 0xFF;
-    trail.p1End.g = 0xFF;
-    trail.p1End.b = 0x64;
-    trail.p1End.a = 0x00;
+    trail.p1EndColor.r = 0xFF;
+    trail.p1EndColor.g = 0xFF;
+    trail.p1EndColor.b = 0x64;
+    trail.p1EndColor.a = 0x00;
 
-    trail.p2End.r = 0xFF;
-    trail.p2End.g = 0xFF;
-    trail.p2End.b = 0x64;
-    trail.p2End.a = 0x00;
+    trail.p2EndColor.r = 0xFF;
+    trail.p2EndColor.g = 0xFF;
+    trail.p2EndColor.b = 0x64;
+    trail.p2EndColor.a = 0x00;
 
-    trail.unk_194 = 0x00000008;
-    trail.unk_198 = 0x00000000;
-    trail.unk_19C = 0x00000000;
+    trail.elemDuration = 8;
+    trail.unkFlag = 0;
+    trail.calcMode = 0;
 
-    Effect_Add(globalCtx, &this->effect, 1, 0, 0, &trail);
+    Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE1, 0, 0, &trail);
 
     Collider_InitQuad(globalCtx, &this->collider);
     Collider_SetQuad(globalCtx, &this->collider, this, &col);
@@ -92,7 +92,7 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnBoom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnBoom* this = THIS;
 
-    func_8002709C(globalCtx, this->effect);
+    Effect_Delete(globalCtx, this->effectIndex);
     Collider_DestroyQuad(globalCtx, &this->collider);
 }
 
@@ -241,8 +241,8 @@ void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBoom* this = THIS;
-    Vec3f mtxDest1;
-    Vec3f mtxDest2;
+    Vec3f vec1;
+    Vec3f vec2;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 
@@ -251,11 +251,11 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_RotateY(this->actor.posRot.rot.y * 0.0000958738f, MTXMODE_APPLY);
     Matrix_RotateZ(0.7669904f, MTXMODE_APPLY);
     Matrix_RotateX(this->actor.posRot.rot.x * 0.0000958738f, MTXMODE_APPLY);
-    Matrix_MultVec3f(&mtxSrc1, &mtxDest1);
-    Matrix_MultVec3f(&mtxSrc2, &mtxDest2);
+    Matrix_MultVec3f(&mult1, &vec1);
+    Matrix_MultVec3f(&mult2, &vec2);
 
-    if (func_80090480(globalCtx, &this->collider, &this->unk_1DC, &mtxDest1, &mtxDest2) != 0) {
-        func_8001FDF0(func_80026B0C(this->effect), &mtxDest1, &mtxDest2);
+    if (func_80090480(globalCtx, &this->collider, &this->unk_1DC, &vec1, &vec2) != 0) {
+        EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &vec1, &vec2);
     }
 
     func_80093D18(globalCtx->state.gfxCtx);

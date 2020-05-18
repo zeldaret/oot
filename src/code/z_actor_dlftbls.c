@@ -488,7 +488,7 @@ ActorOverlay gActorOverlayTable[] = {
     ACTOR_OVERLAY(Obj_Warp2block, ALLOCTYPE_NORMAL),
 };
 
-s32 gMaxProfile = 0;
+s32 gMaxActorId = 0;
 
 static FaultClient sFaultClient;
 
@@ -496,10 +496,10 @@ void ActorOverlayTable_LogPrint(void) {
     ActorOverlay* overlayEntry;
     u32 i;
 
-    osSyncPrintf("actor_dlftbls %u\n", gMaxProfile);
+    osSyncPrintf("actor_dlftbls %u\n", gMaxActorId);
     osSyncPrintf("RomStart RomEnd   SegStart SegEnd   allocp   profile  segname\n");
 
-    for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < gMaxProfile; i++, overlayEntry++) {
+    for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < gMaxActorId; i++, overlayEntry++) {
         osSyncPrintf("%08x %08x %08x %08x %08x %08x %s\n", overlayEntry->vromStart, overlayEntry->vromEnd,
                      overlayEntry->vramStart, overlayEntry->vramEnd, overlayEntry->loadedRamAddr,
                      &overlayEntry->initInfo->id, overlayEntry->name != NULL ? overlayEntry->name : "?");
@@ -513,10 +513,10 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
 
     FaultDrawer_SetCharPad(-2, 0);
 
-    FaultDrawer_Printf("actor_dlftbls %u\n", gMaxProfile);
+    FaultDrawer_Printf("actor_dlftbls %u\n", gMaxActorId);
     FaultDrawer_Printf("No. RamStart- RamEnd cn  Name\n");
 
-    for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < gMaxProfile; i++, overlayEntry++) {
+    for (i = 0, overlayEntry = &gActorOverlayTable[0]; i < gMaxActorId; i++, overlayEntry++) {
         overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
         if (overlayEntry->loadedRamAddr != NULL) {
             FaultDrawer_Printf("%3d %08x-%08x %3d %s\n", i, overlayEntry->loadedRamAddr,
@@ -527,11 +527,11 @@ void ActorOverlayTable_FaultPrint(void* arg0, void* arg1) {
 }
 
 void ActorOverlayTable_Init(void) {
-    gMaxProfile = ACTOR_DLF_MAX;
+    gMaxActorId = ACTOR_ID_MAX;
     Fault_AddClient(&sFaultClient, ActorOverlayTable_FaultPrint, NULL, NULL);
 }
 
 void ActorOverlayTable_Cleanup(void) {
     Fault_RemoveClient(&sFaultClient);
-    gMaxProfile = 0;
+    gMaxActorId = 0;
 }

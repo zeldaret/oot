@@ -27,7 +27,7 @@ glabel EnZf_Destroy
 .L80B44670:
 /* 00620 80B44670 8FA4002C */  lw      $a0, 0x002C($sp)           
 .L80B44674:
-/* 00624 80B44674 0C009C27 */  jal     func_8002709C              
+/* 00624 80B44674 0C009C27 */  jal     Effect_Delete              
 /* 00628 80B44678 8E050414 */  lw      $a1, 0x0414($s0)           ## 00000414
 /* 0062C 80B4467C 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00630 80B44680 0C0170EB */  jal     Collider_DestroyCylinder

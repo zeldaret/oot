@@ -25,7 +25,7 @@ glabel func_80029320
 /* AA051C 8002937C A7AF003E */  sh    $t7, 0x3e($sp)
 /* AA0520 80029380 A7B80040 */  sh    $t8, 0x40($sp)
 /* AA0524 80029384 A7B90042 */  sh    $t9, 0x42($sp)
-/* AA0528 80029388 0C009DE6 */  jal   func_80027798
+/* AA0528 80029388 0C009DE6 */  jal   EffectSs_Spawn
 /* AA052C 8002938C AFA80044 */   sw    $t0, 0x44($sp)
 /* AA0530 80029390 8FBF0014 */  lw    $ra, 0x14($sp)
 /* AA0534 80029394 27BD0048 */  addiu $sp, $sp, 0x48

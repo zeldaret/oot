@@ -160,22 +160,22 @@ glabel EnBomChu_Update
 /* 00FF0 809C6820 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00FF4 809C6824 0C271927 */  jal     func_809C649C              
 /* 00FF8 809C6828 27A60048 */  addiu   $a2, $sp, 0x0048           ## $a2 = FFFFFFD0
-/* 00FFC 809C682C 0C009AC3 */  jal     func_80026B0C              
+/* 00FFC 809C682C 0C009AC3 */  jal     Effect_GetByIndex              
 /* 01000 809C6830 8E04017C */  lw      $a0, 0x017C($s0)           ## 0000017C
 /* 01004 809C6834 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 01008 809C6838 27A50054 */  addiu   $a1, $sp, 0x0054           ## $a1 = FFFFFFDC
-/* 0100C 809C683C 0C007F7C */  jal     func_8001FDF0              
+/* 0100C 809C683C 0C007F7C */  jal     EffectBlure_AddVertex              
 /* 01010 809C6840 27A60048 */  addiu   $a2, $sp, 0x0048           ## $a2 = FFFFFFD0
 /* 01014 809C6844 3C05809C */  lui     $a1, %hi(D_809C6D94)       ## $a1 = 809C0000
 /* 01018 809C6848 24A56D94 */  addiu   $a1, $a1, %lo(D_809C6D94)  ## $a1 = 809C6D94
 /* 0101C 809C684C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01020 809C6850 0C271927 */  jal     func_809C649C              
 /* 01024 809C6854 27A60048 */  addiu   $a2, $sp, 0x0048           ## $a2 = FFFFFFD0
-/* 01028 809C6858 0C009AC3 */  jal     func_80026B0C              
+/* 01028 809C6858 0C009AC3 */  jal     Effect_GetByIndex              
 /* 0102C 809C685C 8E040180 */  lw      $a0, 0x0180($s0)           ## 00000180
 /* 01030 809C6860 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 01034 809C6864 27A50054 */  addiu   $a1, $sp, 0x0054           ## $a1 = FFFFFFDC
-/* 01038 809C6868 0C007F7C */  jal     func_8001FDF0              
+/* 01038 809C6868 0C007F7C */  jal     EffectBlure_AddVertex              
 /* 0103C 809C686C 27A60048 */  addiu   $a2, $sp, 0x0048           ## $a2 = FFFFFFD0
 /* 01040 809C6870 C6080028 */  lwc1    $f8, 0x0028($s0)           ## 00000028
 /* 01044 809C6874 27AD0040 */  addiu   $t5, $sp, 0x0040           ## $t5 = FFFFFFC8

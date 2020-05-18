@@ -275,11 +275,11 @@ glabel func_8087E858
 /* 0076C 8087EC4C 46168482 */  mul.s   $f18, $f16, $f22           
 /* 00770 8087EC50 46123201 */  sub.s   $f8, $f6, $f18             
 /* 00774 8087EC54 E7A800A0 */  swc1    $f8, 0x00A0($sp)           
-/* 00778 8087EC58 0C009AC3 */  jal     func_80026B0C              
+/* 00778 8087EC58 0C009AC3 */  jal     Effect_GetByIndex              
 /* 0077C 8087EC5C 8E040154 */  lw      $a0, 0x0154($s0)           ## 00000154
 /* 00780 8087EC60 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 00784 8087EC64 02E02825 */  or      $a1, $s7, $zero            ## $a1 = FFFFFFD4
-/* 00788 8087EC68 0C007F7C */  jal     func_8001FDF0              
+/* 00788 8087EC68 0C007F7C */  jal     EffectBlure_AddVertex              
 /* 0078C 8087EC6C 03C03025 */  or      $a2, $s8, $zero            ## $a2 = FFFFFFE0
 /* 00790 8087EC70 27A2008C */  addiu   $v0, $sp, 0x008C           ## $v0 = FFFFFFD4
 /* 00794 8087EC74 27A300A4 */  addiu   $v1, $sp, 0x00A4           ## $v1 = FFFFFFEC
@@ -311,11 +311,11 @@ glabel func_8087E858
 /* 007F4 8087ECD4 4612A482 */  mul.s   $f18, $f20, $f18           
 /* 007F8 8087ECD8 46109401 */  sub.s   $f16, $f18, $f16           
 /* 007FC 8087ECDC E450FFFC */  swc1    $f16, -0x0004($v0)         ## FFFFFFE8
-/* 00800 8087ECE0 0C009AC3 */  jal     func_80026B0C              
+/* 00800 8087ECE0 0C009AC3 */  jal     Effect_GetByIndex              
 /* 00804 8087ECE4 8E040158 */  lw      $a0, 0x0158($s0)           ## 00000158
 /* 00808 8087ECE8 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 0080C 8087ECEC 02E02825 */  or      $a1, $s7, $zero            ## $a1 = FFFFFFD4
-/* 00810 8087ECF0 0C007F7C */  jal     func_8001FDF0              
+/* 00810 8087ECF0 0C007F7C */  jal     EffectBlure_AddVertex              
 /* 00814 8087ECF4 03C03025 */  or      $a2, $s8, $zero            ## $a2 = FFFFFFE0
 /* 00818 8087ECF8 8FA400BC */  lw      $a0, 0x00BC($sp)           
 .L8087ECFC:
