@@ -173,7 +173,7 @@ glabel D_80141CA0
 
 glabel D_80141CB0
     .asciz "ＳＩＺＥ = %d\n"
-    # EUC-JP: ＳＩＺＥ = %d 
+    # EUC-JP: ＳＩＺＥ = %d
     .balign 4
 
 glabel D_80141CC0
@@ -326,7 +326,7 @@ glabel D_80141FD8
 
 glabel D_80141FE8
     .asciz "ＳＩＺＥ = %d\n"
-    # EUC-JP: ＳＩＺＥ = %d 
+    # EUC-JP: ＳＩＺＥ = %d
     .balign 4
 
 glabel D_80141FF8
@@ -434,15 +434,15 @@ glabel D_80142218
     .balign 4
 
 glabel D_80142240
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142250
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142260
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142270
@@ -450,15 +450,15 @@ glabel D_80142270
     .balign 4
 
 glabel D_80142298
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_801422A8
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_801422B8
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_801422C8
@@ -466,15 +466,15 @@ glabel D_801422C8
     .balign 4
 
 glabel D_801422F0
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142300
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142310
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142320
@@ -482,15 +482,15 @@ glabel D_80142320
     .balign 4
 
 glabel D_80142348
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142358
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142368
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142378
@@ -498,15 +498,15 @@ glabel D_80142378
     .balign 4
 
 glabel D_801423A0
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_801423B0
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_801423C0
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_801423D0
@@ -514,11 +514,11 @@ glabel D_801423D0
     .balign 4
 
 glabel D_801423F8
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142408
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142418
@@ -530,15 +530,15 @@ glabel D_80142428
     .balign 4
 
 glabel D_80142450
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142460
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142470
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_80142480
@@ -546,15 +546,15 @@ glabel D_80142480
     .balign 4
 
 glabel D_801424A8
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_801424B8
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_801424C8
-    .asciz "../z_vr_box.c" 
+    .asciz "../z_vr_box.c"
     .balign 4
 
 glabel D_801424D8
@@ -977,7 +977,7 @@ glabel func_800AF218
 /* B263EC 800AF24C 002E0821 */  addu  $at, $at, $t6
 /* B263F0 800AF250 8C2E2DC0 */  lw    $t6, %lo(jtbl_80142DC0)($at)
 /* B263F4 800AF254 01C00008 */  jr    $t6
-/* B263F8 800AF258 00000000 */   nop   
+/* B263F8 800AF258 00000000 */   nop
 
 glabel L800AF25C
 /* B263FC 800AF25C 3C088016 */  lui   $t0, %hi(gSaveContext) # $t0, 0x8016
@@ -1052,10 +1052,10 @@ glabel L800AF25C
 /* B26500 800AF360 8FAC0048 */  lw    $t4, 0x48($sp)
 /* B26504 800AF364 444AF800 */  cfc1  $t2, $31
 /* B26508 800AF368 44CBF800 */  ctc1  $t3, $31
-/* B2650C 800AF36C 00000000 */  nop   
+/* B2650C 800AF36C 00000000 */  nop
 /* B26510 800AF370 46003224 */  cvt.w.s $f8, $f6
 /* B26514 800AF374 444BF800 */  cfc1  $t3, $31
-/* B26518 800AF378 00000000 */  nop   
+/* B26518 800AF378 00000000 */  nop
 /* B2651C 800AF37C 316B0078 */  andi  $t3, $t3, 0x78
 /* B26520 800AF380 51600013 */  beql  $t3, $zero, .L800AF3D0
 /* B26524 800AF384 440B4000 */   mfc1  $t3, $f8
@@ -1063,13 +1063,13 @@ glabel L800AF25C
 /* B2652C 800AF38C 240B0001 */  li    $t3, 1
 /* B26530 800AF390 46083201 */  sub.s $f8, $f6, $f8
 /* B26534 800AF394 44CBF800 */  ctc1  $t3, $31
-/* B26538 800AF398 00000000 */  nop   
+/* B26538 800AF398 00000000 */  nop
 /* B2653C 800AF39C 46004224 */  cvt.w.s $f8, $f8
 /* B26540 800AF3A0 444BF800 */  cfc1  $t3, $31
-/* B26544 800AF3A4 00000000 */  nop   
+/* B26544 800AF3A4 00000000 */  nop
 /* B26548 800AF3A8 316B0078 */  andi  $t3, $t3, 0x78
 /* B2654C 800AF3AC 15600005 */  bnez  $t3, .L800AF3C4
-/* B26550 800AF3B0 00000000 */   nop   
+/* B26550 800AF3B0 00000000 */   nop
 /* B26554 800AF3B4 440B4000 */  mfc1  $t3, $f8
 /* B26558 800AF3B8 3C018000 */  lui   $at, 0x8000
 /* B2655C 800AF3BC 10000007 */  b     .L800AF3DC
@@ -1079,9 +1079,9 @@ glabel L800AF25C
 /* B26568 800AF3C8 240BFFFF */   li    $t3, -1
 /* B2656C 800AF3CC 440B4000 */  mfc1  $t3, $f8
 .L800AF3D0:
-/* B26570 800AF3D0 00000000 */  nop   
+/* B26570 800AF3D0 00000000 */  nop
 /* B26574 800AF3D4 0560FFFB */  bltz  $t3, .L800AF3C4
-/* B26578 800AF3D8 00000000 */   nop   
+/* B26578 800AF3D8 00000000 */   nop
 .L800AF3DC:
 /* B2657C 800AF3DC 3C010001 */  lui   $at, 1
 /* B26580 800AF3E0 002C0821 */  addu  $at, $at, $t4
@@ -1110,7 +1110,7 @@ glabel L800AF25C
 /* B265CC 800AF42C AFA50044 */  sw    $a1, 0x44($sp)
 /* B265D0 800AF430 AFA20030 */  sw    $v0, 0x30($sp)
 /* B265D4 800AF434 8FA40048 */  lw    $a0, 0x48($sp)
-/* B265D8 800AF438 0C031521 */  jal   Game_Alloc
+/* B265D8 800AF438 0C031521 */  jal   GameState_AllocEnd
 /* B265DC 800AF43C 2407041E */   li    $a3, 1054
 /* B265E0 800AF440 14400007 */  bnez  $v0, .L800AF460
 /* B265E4 800AF444 AE020128 */   sw    $v0, 0x128($s0)
@@ -1143,7 +1143,7 @@ glabel L800AF25C
 /* B2664C 800AF4AC AFA50044 */  sw    $a1, 0x44($sp)
 /* B26650 800AF4B0 AFA3002C */  sw    $v1, 0x2c($sp)
 /* B26654 800AF4B4 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26658 800AF4B8 0C031521 */  jal   Game_Alloc
+/* B26658 800AF4B8 0C031521 */  jal   GameState_AllocEnd
 /* B2665C 800AF4BC 24070424 */   li    $a3, 1060
 /* B26660 800AF4C0 14400007 */  bnez  $v0, .L800AF4E0
 /* B26664 800AF4C4 AE02012C */   sw    $v0, 0x12c($s0)
@@ -1180,7 +1180,7 @@ glabel L800AF25C
 /* B266DC 800AF53C 24070430 */  li    $a3, 1072
 /* B266E0 800AF540 01CF1023 */  subu  $v0, $t6, $t7
 /* B266E4 800AF544 00022840 */  sll   $a1, $v0, 1
-/* B266E8 800AF548 0C031521 */  jal   Game_Alloc
+/* B266E8 800AF548 0C031521 */  jal   GameState_AllocEnd
 /* B266EC 800AF54C AFA20044 */   sw    $v0, 0x44($sp)
 /* B266F0 800AF550 14400007 */  bnez  $v0, .L800AF570
 /* B266F4 800AF554 AE020130 */   sw    $v0, 0x130($s0)
@@ -1219,7 +1219,7 @@ glabel L800AF25C
 /* B26770 800AF5D0 2407043D */  li    $a3, 1085
 /* B26774 800AF5D4 01CF1023 */  subu  $v0, $t6, $t7
 /* B26778 800AF5D8 00022840 */  sll   $a1, $v0, 1
-/* B2677C 800AF5DC 0C031521 */  jal   Game_Alloc
+/* B2677C 800AF5DC 0C031521 */  jal   GameState_AllocEnd
 /* B26780 800AF5E0 AFA20044 */   sw    $v0, 0x44($sp)
 /* B26784 800AF5E4 14400007 */  bnez  $v0, .L800AF604
 /* B26788 800AF5E8 AE020130 */   sw    $v0, 0x130($s0)
@@ -1265,7 +1265,7 @@ glabel L800AF658
 /* B2681C 800AF67C AFA5002C */  sw    $a1, 0x2c($sp)
 /* B26820 800AF680 AFA20030 */  sw    $v0, 0x30($sp)
 /* B26824 800AF684 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26828 800AF688 0C031521 */  jal   Game_Alloc
+/* B26828 800AF688 0C031521 */  jal   GameState_AllocEnd
 /* B2682C 800AF68C 24070467 */   li    $a3, 1127
 /* B26830 800AF690 14400007 */  bnez  $v0, .L800AF6B0
 /* B26834 800AF694 AE020128 */   sw    $v0, 0x128($s0)
@@ -1294,7 +1294,7 @@ glabel L800AF658
 /* B2688C 800AF6EC AFA5002C */  sw    $a1, 0x2c($sp)
 /* B26890 800AF6F0 AFA30030 */  sw    $v1, 0x30($sp)
 /* B26894 800AF6F4 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26898 800AF6F8 0C031521 */  jal   Game_Alloc
+/* B26898 800AF6F8 0C031521 */  jal   GameState_AllocEnd
 /* B2689C 800AF6FC 2407046C */   li    $a3, 1132
 /* B268A0 800AF700 14400007 */  bnez  $v0, .L800AF720
 /* B268A4 800AF704 AE020130 */   sw    $v0, 0x130($s0)
@@ -1329,7 +1329,7 @@ glabel L800AF750
 /* B2690C 800AF76C AFA5002C */  sw    $a1, 0x2c($sp)
 /* B26910 800AF770 AFA20030 */  sw    $v0, 0x30($sp)
 /* B26914 800AF774 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26918 800AF778 0C031521 */  jal   Game_Alloc
+/* B26918 800AF778 0C031521 */  jal   GameState_AllocEnd
 /* B2691C 800AF77C 24070483 */   li    $a3, 1155
 /* B26920 800AF780 14400007 */  bnez  $v0, .L800AF7A0
 /* B26924 800AF784 AE020128 */   sw    $v0, 0x128($s0)
@@ -1352,7 +1352,7 @@ glabel L800AF750
 /* B26964 800AF7C4 24C61B98 */  addiu $a2, %lo(D_80141B98) # addiu $a2, $a2, 0x1b98
 /* B26968 800AF7C8 8FA40048 */  lw    $a0, 0x48($sp)
 /* B2696C 800AF7CC 8FA5002C */  lw    $a1, 0x2c($sp)
-/* B26970 800AF7D0 0C031521 */  jal   Game_Alloc
+/* B26970 800AF7D0 0C031521 */  jal   GameState_AllocEnd
 /* B26974 800AF7D4 2407048A */   li    $a3, 1162
 /* B26978 800AF7D8 14400007 */  bnez  $v0, .L800AF7F8
 /* B2697C 800AF7DC AE02012C */   sw    $v0, 0x12c($s0)
@@ -1382,7 +1382,7 @@ glabel L800AF750
 /* B269D8 800AF838 AFA8002C */  sw    $t0, 0x2c($sp)
 /* B269DC 800AF83C AFA30030 */  sw    $v1, 0x30($sp)
 /* B269E0 800AF840 8FA40048 */  lw    $a0, 0x48($sp)
-/* B269E4 800AF844 0C031521 */  jal   Game_Alloc
+/* B269E4 800AF844 0C031521 */  jal   GameState_AllocEnd
 /* B269E8 800AF848 24070492 */   li    $a3, 1170
 /* B269EC 800AF84C 14400007 */  bnez  $v0, .L800AF86C
 /* B269F0 800AF850 AE020130 */   sw    $v0, 0x130($s0)
@@ -1426,7 +1426,7 @@ glabel L800AF8B8
 /* B26A7C 800AF8DC AFA5002C */  sw    $a1, 0x2c($sp)
 /* B26A80 800AF8E0 AFA20030 */  sw    $v0, 0x30($sp)
 /* B26A84 800AF8E4 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26A88 800AF8E8 0C031521 */  jal   Game_Alloc
+/* B26A88 800AF8E8 0C031521 */  jal   GameState_AllocEnd
 /* B26A8C 800AF8EC 2407049E */   li    $a3, 1182
 /* B26A90 800AF8F0 14400007 */  bnez  $v0, .L800AF910
 /* B26A94 800AF8F4 AE020128 */   sw    $v0, 0x128($s0)
@@ -1459,7 +1459,7 @@ glabel L800AF8B8
 /* B26AFC 800AF95C 24C61CC0 */  addiu $a2, %lo(D_80141CC0) # addiu $a2, $a2, 0x1cc0
 /* B26B00 800AF960 8FA40048 */  lw    $a0, 0x48($sp)
 /* B26B04 800AF964 8FA5002C */  lw    $a1, 0x2c($sp)
-/* B26B08 800AF968 0C031521 */  jal   Game_Alloc
+/* B26B08 800AF968 0C031521 */  jal   GameState_AllocEnd
 /* B26B0C 800AF96C 240704A4 */   li    $a3, 1188
 /* B26B10 800AF970 14400007 */  bnez  $v0, .L800AF990
 /* B26B14 800AF974 AE020130 */   sw    $v0, 0x130($s0)
@@ -1492,7 +1492,7 @@ glabel L800AF9B8
 /* B26B74 800AF9D4 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B26B78 800AF9D8 AFA20030 */  sw    $v0, 0x30($sp)
 /* B26B7C 800AF9DC 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26B80 800AF9E0 0C031521 */  jal   Game_Alloc
+/* B26B80 800AF9E0 0C031521 */  jal   GameState_AllocEnd
 /* B26B84 800AF9E4 240704AC */   li    $a3, 1196
 /* B26B88 800AF9E8 14400007 */  bnez  $v0, .L800AFA08
 /* B26B8C 800AF9EC AE020128 */   sw    $v0, 0x128($s0)
@@ -1521,7 +1521,7 @@ glabel L800AF9B8
 /* B26BE4 800AFA44 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B26BE8 800AFA48 AFA30030 */  sw    $v1, 0x30($sp)
 /* B26BEC 800AFA4C 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26BF0 800AFA50 0C031521 */  jal   Game_Alloc
+/* B26BF0 800AFA50 0C031521 */  jal   GameState_AllocEnd
 /* B26BF4 800AFA54 240704B3 */   li    $a3, 1203
 /* B26BF8 800AFA58 14400007 */  bnez  $v0, .L800AFA78
 /* B26BFC 800AFA5C AE02012C */   sw    $v0, 0x12c($s0)
@@ -1551,7 +1551,7 @@ glabel L800AF9B8
 /* B26C58 800AFAB8 AFA8002C */  sw    $t0, 0x2c($sp)
 /* B26C5C 800AFABC AFA30030 */  sw    $v1, 0x30($sp)
 /* B26C60 800AFAC0 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26C64 800AFAC4 0C031521 */  jal   Game_Alloc
+/* B26C64 800AFAC4 0C031521 */  jal   GameState_AllocEnd
 /* B26C68 800AFAC8 240704BB */   li    $a3, 1211
 /* B26C6C 800AFACC 14400007 */  bnez  $v0, .L800AFAEC
 /* B26C70 800AFAD0 AE020130 */   sw    $v0, 0x130($s0)
@@ -1596,7 +1596,7 @@ glabel L800AFB3C
 /* B26D00 800AFB60 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B26D04 800AFB64 AFA20030 */  sw    $v0, 0x30($sp)
 /* B26D08 800AFB68 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26D0C 800AFB6C 0C031521 */  jal   Game_Alloc
+/* B26D0C 800AFB6C 0C031521 */  jal   GameState_AllocEnd
 /* B26D10 800AFB70 240704CA */   li    $a3, 1226
 /* B26D14 800AFB74 14400007 */  bnez  $v0, .L800AFB94
 /* B26D18 800AFB78 AE020128 */   sw    $v0, 0x128($s0)
@@ -1625,7 +1625,7 @@ glabel L800AFB3C
 /* B26D70 800AFBD0 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B26D74 800AFBD4 AFA30030 */  sw    $v1, 0x30($sp)
 /* B26D78 800AFBD8 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26D7C 800AFBDC 0C031521 */  jal   Game_Alloc
+/* B26D7C 800AFBDC 0C031521 */  jal   GameState_AllocEnd
 /* B26D80 800AFBE0 240704CF */   li    $a3, 1231
 /* B26D84 800AFBE4 14400007 */  bnez  $v0, .L800AFC04
 /* B26D88 800AFBE8 AE020130 */   sw    $v0, 0x130($s0)
@@ -1660,7 +1660,7 @@ glabel L800AFC2C
 /* B26DF0 800AFC50 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B26DF4 800AFC54 AFA20030 */  sw    $v0, 0x30($sp)
 /* B26DF8 800AFC58 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26DFC 800AFC5C 0C031521 */  jal   Game_Alloc
+/* B26DFC 800AFC5C 0C031521 */  jal   GameState_AllocEnd
 /* B26E00 800AFC60 240704E9 */   li    $a3, 1257
 /* B26E04 800AFC64 14400007 */  bnez  $v0, .L800AFC84
 /* B26E08 800AFC68 AE020128 */   sw    $v0, 0x128($s0)
@@ -1689,7 +1689,7 @@ glabel L800AFC2C
 /* B26E60 800AFCC0 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B26E64 800AFCC4 AFA30030 */  sw    $v1, 0x30($sp)
 /* B26E68 800AFCC8 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26E6C 800AFCCC 0C031521 */  jal   Game_Alloc
+/* B26E6C 800AFCCC 0C031521 */  jal   GameState_AllocEnd
 /* B26E70 800AFCD0 240704EE */   li    $a3, 1262
 /* B26E74 800AFCD4 14400007 */  bnez  $v0, .L800AFCF4
 /* B26E78 800AFCD8 AE020130 */   sw    $v0, 0x130($s0)
@@ -1724,7 +1724,7 @@ glabel L800AFD1C
 /* B26EE0 800AFD40 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B26EE4 800AFD44 AFA20030 */  sw    $v0, 0x30($sp)
 /* B26EE8 800AFD48 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26EEC 800AFD4C 0C031521 */  jal   Game_Alloc
+/* B26EEC 800AFD4C 0C031521 */  jal   GameState_AllocEnd
 /* B26EF0 800AFD50 240704F7 */   li    $a3, 1271
 /* B26EF4 800AFD54 14400007 */  bnez  $v0, .L800AFD74
 /* B26EF8 800AFD58 AE020128 */   sw    $v0, 0x128($s0)
@@ -1757,7 +1757,7 @@ glabel L800AFD1C
 /* B26F60 800AFDC0 24C61FF8 */  addiu $a2, %lo(D_80141FF8) # addiu $a2, $a2, 0x1ff8
 /* B26F64 800AFDC4 8FA40048 */  lw    $a0, 0x48($sp)
 /* B26F68 800AFDC8 8FA5002C */  lw    $a1, 0x2c($sp)
-/* B26F6C 800AFDCC 0C031521 */  jal   Game_Alloc
+/* B26F6C 800AFDCC 0C031521 */  jal   GameState_AllocEnd
 /* B26F70 800AFDD0 240704FD */   li    $a3, 1277
 /* B26F74 800AFDD4 14400007 */  bnez  $v0, .L800AFDF4
 /* B26F78 800AFDD8 AE020130 */   sw    $v0, 0x130($s0)
@@ -1792,7 +1792,7 @@ glabel L800AFE1C
 /* B26FE0 800AFE40 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B26FE4 800AFE44 AFA20030 */  sw    $v0, 0x30($sp)
 /* B26FE8 800AFE48 8FA40048 */  lw    $a0, 0x48($sp)
-/* B26FEC 800AFE4C 0C031521 */  jal   Game_Alloc
+/* B26FEC 800AFE4C 0C031521 */  jal   GameState_AllocEnd
 /* B26FF0 800AFE50 24070506 */   li    $a3, 1286
 /* B26FF4 800AFE54 14400007 */  bnez  $v0, .L800AFE74
 /* B26FF8 800AFE58 AE020128 */   sw    $v0, 0x128($s0)
@@ -1821,7 +1821,7 @@ glabel L800AFE1C
 /* B27050 800AFEB0 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27054 800AFEB4 AFA30030 */  sw    $v1, 0x30($sp)
 /* B27058 800AFEB8 8FA40048 */  lw    $a0, 0x48($sp)
-/* B2705C 800AFEBC 0C031521 */  jal   Game_Alloc
+/* B2705C 800AFEBC 0C031521 */  jal   GameState_AllocEnd
 /* B27060 800AFEC0 2407050B */   li    $a3, 1291
 /* B27064 800AFEC4 14400007 */  bnez  $v0, .L800AFEE4
 /* B27068 800AFEC8 AE020130 */   sw    $v0, 0x130($s0)
@@ -1858,7 +1858,7 @@ glabel L800AFF14
 /* B270D8 800AFF38 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B270DC 800AFF3C AFA20030 */  sw    $v0, 0x30($sp)
 /* B270E0 800AFF40 8FA40048 */  lw    $a0, 0x48($sp)
-/* B270E4 800AFF44 0C031521 */  jal   Game_Alloc
+/* B270E4 800AFF44 0C031521 */  jal   GameState_AllocEnd
 /* B270E8 800AFF48 24070515 */   li    $a3, 1301
 /* B270EC 800AFF4C 14400007 */  bnez  $v0, .L800AFF6C
 /* B270F0 800AFF50 AE020128 */   sw    $v0, 0x128($s0)
@@ -1887,7 +1887,7 @@ glabel L800AFF14
 /* B27148 800AFFA8 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B2714C 800AFFAC AFA30030 */  sw    $v1, 0x30($sp)
 /* B27150 800AFFB0 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27154 800AFFB4 0C031521 */  jal   Game_Alloc
+/* B27154 800AFFB4 0C031521 */  jal   GameState_AllocEnd
 /* B27158 800AFFB8 2407051A */   li    $a3, 1306
 /* B2715C 800AFFBC 14400007 */  bnez  $v0, .L800AFFDC
 /* B27160 800AFFC0 AE020130 */   sw    $v0, 0x130($s0)
@@ -1922,7 +1922,7 @@ glabel L800B0004
 /* B271C8 800B0028 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B271CC 800B002C AFA20030 */  sw    $v0, 0x30($sp)
 /* B271D0 800B0030 8FA40048 */  lw    $a0, 0x48($sp)
-/* B271D4 800B0034 0C031521 */  jal   Game_Alloc
+/* B271D4 800B0034 0C031521 */  jal   GameState_AllocEnd
 /* B271D8 800B0038 24070533 */   li    $a3, 1331
 /* B271DC 800B003C 14400007 */  bnez  $v0, .L800B005C
 /* B271E0 800B0040 AE020128 */   sw    $v0, 0x128($s0)
@@ -1951,7 +1951,7 @@ glabel L800B0004
 /* B27238 800B0098 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B2723C 800B009C AFA30030 */  sw    $v1, 0x30($sp)
 /* B27240 800B00A0 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27244 800B00A4 0C031521 */  jal   Game_Alloc
+/* B27244 800B00A4 0C031521 */  jal   GameState_AllocEnd
 /* B27248 800B00A8 24070538 */   li    $a3, 1336
 /* B2724C 800B00AC 14400007 */  bnez  $v0, .L800B00CC
 /* B27250 800B00B0 AE020130 */   sw    $v0, 0x130($s0)
@@ -1986,7 +1986,7 @@ glabel L800B00F4
 /* B272B8 800B0118 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B272BC 800B011C AFA20030 */  sw    $v0, 0x30($sp)
 /* B272C0 800B0120 8FA40048 */  lw    $a0, 0x48($sp)
-/* B272C4 800B0124 0C031521 */  jal   Game_Alloc
+/* B272C4 800B0124 0C031521 */  jal   GameState_AllocEnd
 /* B272C8 800B0128 24070541 */   li    $a3, 1345
 /* B272CC 800B012C 14400007 */  bnez  $v0, .L800B014C
 /* B272D0 800B0130 AE020128 */   sw    $v0, 0x128($s0)
@@ -2015,7 +2015,7 @@ glabel L800B00F4
 /* B27328 800B0188 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B2732C 800B018C AFA30030 */  sw    $v1, 0x30($sp)
 /* B27330 800B0190 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27334 800B0194 0C031521 */  jal   Game_Alloc
+/* B27334 800B0194 0C031521 */  jal   GameState_AllocEnd
 /* B27338 800B0198 24070546 */   li    $a3, 1350
 /* B2733C 800B019C 14400007 */  bnez  $v0, .L800B01BC
 /* B27340 800B01A0 AE020130 */   sw    $v0, 0x130($s0)
@@ -2050,7 +2050,7 @@ glabel L800B01E4
 /* B273A8 800B0208 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B273AC 800B020C AFA20030 */  sw    $v0, 0x30($sp)
 /* B273B0 800B0210 8FA40048 */  lw    $a0, 0x48($sp)
-/* B273B4 800B0214 0C031521 */  jal   Game_Alloc
+/* B273B4 800B0214 0C031521 */  jal   GameState_AllocEnd
 /* B273B8 800B0218 2407054F */   li    $a3, 1359
 /* B273BC 800B021C 14400007 */  bnez  $v0, .L800B023C
 /* B273C0 800B0220 AE020128 */   sw    $v0, 0x128($s0)
@@ -2079,7 +2079,7 @@ glabel L800B01E4
 /* B27418 800B0278 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B2741C 800B027C AFA30030 */  sw    $v1, 0x30($sp)
 /* B27420 800B0280 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27424 800B0284 0C031521 */  jal   Game_Alloc
+/* B27424 800B0284 0C031521 */  jal   GameState_AllocEnd
 /* B27428 800B0288 24070554 */   li    $a3, 1364
 /* B2742C 800B028C 14400007 */  bnez  $v0, .L800B02AC
 /* B27430 800B0290 AE020130 */   sw    $v0, 0x130($s0)
@@ -2114,7 +2114,7 @@ glabel L800B02D4
 /* B27498 800B02F8 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B2749C 800B02FC AFA20030 */  sw    $v0, 0x30($sp)
 /* B274A0 800B0300 8FA40048 */  lw    $a0, 0x48($sp)
-/* B274A4 800B0304 0C031521 */  jal   Game_Alloc
+/* B274A4 800B0304 0C031521 */  jal   GameState_AllocEnd
 /* B274A8 800B0308 2407055D */   li    $a3, 1373
 /* B274AC 800B030C 14400007 */  bnez  $v0, .L800B032C
 /* B274B0 800B0310 AE020128 */   sw    $v0, 0x128($s0)
@@ -2143,7 +2143,7 @@ glabel L800B02D4
 /* B27508 800B0368 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B2750C 800B036C AFA30030 */  sw    $v1, 0x30($sp)
 /* B27510 800B0370 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27514 800B0374 0C031521 */  jal   Game_Alloc
+/* B27514 800B0374 0C031521 */  jal   GameState_AllocEnd
 /* B27518 800B0378 24070562 */   li    $a3, 1378
 /* B2751C 800B037C 14400007 */  bnez  $v0, .L800B039C
 /* B27520 800B0380 AE020130 */   sw    $v0, 0x130($s0)
@@ -2180,7 +2180,7 @@ glabel L800B03CC
 /* B27590 800B03F0 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27594 800B03F4 AFA20030 */  sw    $v0, 0x30($sp)
 /* B27598 800B03F8 8FA40048 */  lw    $a0, 0x48($sp)
-/* B2759C 800B03FC 0C031521 */  jal   Game_Alloc
+/* B2759C 800B03FC 0C031521 */  jal   GameState_AllocEnd
 /* B275A0 800B0400 2407057D */   li    $a3, 1405
 /* B275A4 800B0404 14400007 */  bnez  $v0, .L800B0424
 /* B275A8 800B0408 AE020128 */   sw    $v0, 0x128($s0)
@@ -2209,7 +2209,7 @@ glabel L800B03CC
 /* B27600 800B0460 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27604 800B0464 AFA30030 */  sw    $v1, 0x30($sp)
 /* B27608 800B0468 8FA40048 */  lw    $a0, 0x48($sp)
-/* B2760C 800B046C 0C031521 */  jal   Game_Alloc
+/* B2760C 800B046C 0C031521 */  jal   GameState_AllocEnd
 /* B27610 800B0470 24070582 */   li    $a3, 1410
 /* B27614 800B0474 14400007 */  bnez  $v0, .L800B0494
 /* B27618 800B0478 AE020130 */   sw    $v0, 0x130($s0)
@@ -2246,7 +2246,7 @@ glabel L800B04C4
 /* B27688 800B04E8 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B2768C 800B04EC AFA20030 */  sw    $v0, 0x30($sp)
 /* B27690 800B04F0 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27694 800B04F4 0C031521 */  jal   Game_Alloc
+/* B27694 800B04F4 0C031521 */  jal   GameState_AllocEnd
 /* B27698 800B04F8 2407058C */   li    $a3, 1420
 /* B2769C 800B04FC 14400007 */  bnez  $v0, .L800B051C
 /* B276A0 800B0500 AE020128 */   sw    $v0, 0x128($s0)
@@ -2275,7 +2275,7 @@ glabel L800B04C4
 /* B276F8 800B0558 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B276FC 800B055C AFA30030 */  sw    $v1, 0x30($sp)
 /* B27700 800B0560 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27704 800B0564 0C031521 */  jal   Game_Alloc
+/* B27704 800B0564 0C031521 */  jal   GameState_AllocEnd
 /* B27708 800B0568 24070591 */   li    $a3, 1425
 /* B2770C 800B056C 14400007 */  bnez  $v0, .L800B058C
 /* B27710 800B0570 AE020130 */   sw    $v0, 0x130($s0)
@@ -2312,7 +2312,7 @@ glabel L800B05BC
 /* B27780 800B05E0 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27784 800B05E4 AFA20030 */  sw    $v0, 0x30($sp)
 /* B27788 800B05E8 8FA40048 */  lw    $a0, 0x48($sp)
-/* B2778C 800B05EC 0C031521 */  jal   Game_Alloc
+/* B2778C 800B05EC 0C031521 */  jal   GameState_AllocEnd
 /* B27790 800B05F0 240705AB */   li    $a3, 1451
 /* B27794 800B05F4 14400007 */  bnez  $v0, .L800B0614
 /* B27798 800B05F8 AE020128 */   sw    $v0, 0x128($s0)
@@ -2341,7 +2341,7 @@ glabel L800B05BC
 /* B277F0 800B0650 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B277F4 800B0654 AFA30030 */  sw    $v1, 0x30($sp)
 /* B277F8 800B0658 8FA40048 */  lw    $a0, 0x48($sp)
-/* B277FC 800B065C 0C031521 */  jal   Game_Alloc
+/* B277FC 800B065C 0C031521 */  jal   GameState_AllocEnd
 /* B27800 800B0660 240705B0 */   li    $a3, 1456
 /* B27804 800B0664 14400007 */  bnez  $v0, .L800B0684
 /* B27808 800B0668 AE020130 */   sw    $v0, 0x130($s0)
@@ -2378,7 +2378,7 @@ glabel L800B06B4
 /* B27878 800B06D8 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B2787C 800B06DC AFA20030 */  sw    $v0, 0x30($sp)
 /* B27880 800B06E0 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27884 800B06E4 0C031521 */  jal   Game_Alloc
+/* B27884 800B06E4 0C031521 */  jal   GameState_AllocEnd
 /* B27888 800B06E8 240705BA */   li    $a3, 1466
 /* B2788C 800B06EC 14400007 */  bnez  $v0, .L800B070C
 /* B27890 800B06F0 AE020128 */   sw    $v0, 0x128($s0)
@@ -2407,7 +2407,7 @@ glabel L800B06B4
 /* B278E8 800B0748 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B278EC 800B074C AFA30030 */  sw    $v1, 0x30($sp)
 /* B278F0 800B0750 8FA40048 */  lw    $a0, 0x48($sp)
-/* B278F4 800B0754 0C031521 */  jal   Game_Alloc
+/* B278F4 800B0754 0C031521 */  jal   GameState_AllocEnd
 /* B278F8 800B0758 240705BF */   li    $a3, 1471
 /* B278FC 800B075C 14400007 */  bnez  $v0, .L800B077C
 /* B27900 800B0760 AE020130 */   sw    $v0, 0x130($s0)
@@ -2444,7 +2444,7 @@ glabel L800B07AC
 /* B27970 800B07D0 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27974 800B07D4 AFA20030 */  sw    $v0, 0x30($sp)
 /* B27978 800B07D8 8FA40048 */  lw    $a0, 0x48($sp)
-/* B2797C 800B07DC 0C031521 */  jal   Game_Alloc
+/* B2797C 800B07DC 0C031521 */  jal   GameState_AllocEnd
 /* B27980 800B07E0 240705C9 */   li    $a3, 1481
 /* B27984 800B07E4 14400007 */  bnez  $v0, .L800B0804
 /* B27988 800B07E8 AE020128 */   sw    $v0, 0x128($s0)
@@ -2473,7 +2473,7 @@ glabel L800B07AC
 /* B279E0 800B0840 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B279E4 800B0844 AFA30030 */  sw    $v1, 0x30($sp)
 /* B279E8 800B0848 8FA40048 */  lw    $a0, 0x48($sp)
-/* B279EC 800B084C 0C031521 */  jal   Game_Alloc
+/* B279EC 800B084C 0C031521 */  jal   GameState_AllocEnd
 /* B279F0 800B0850 240705CE */   li    $a3, 1486
 /* B279F4 800B0854 14400007 */  bnez  $v0, .L800B0874
 /* B279F8 800B0858 AE020130 */   sw    $v0, 0x130($s0)
@@ -2510,7 +2510,7 @@ glabel L800B08A4
 /* B27A68 800B08C8 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27A6C 800B08CC AFA20030 */  sw    $v0, 0x30($sp)
 /* B27A70 800B08D0 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27A74 800B08D4 0C031521 */  jal   Game_Alloc
+/* B27A74 800B08D4 0C031521 */  jal   GameState_AllocEnd
 /* B27A78 800B08D8 240705E8 */   li    $a3, 1512
 /* B27A7C 800B08DC 14400007 */  bnez  $v0, .L800B08FC
 /* B27A80 800B08E0 AE020128 */   sw    $v0, 0x128($s0)
@@ -2539,7 +2539,7 @@ glabel L800B08A4
 /* B27AD8 800B0938 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27ADC 800B093C AFA30030 */  sw    $v1, 0x30($sp)
 /* B27AE0 800B0940 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27AE4 800B0944 0C031521 */  jal   Game_Alloc
+/* B27AE4 800B0944 0C031521 */  jal   GameState_AllocEnd
 /* B27AE8 800B0948 240705ED */   li    $a3, 1517
 /* B27AEC 800B094C 14400007 */  bnez  $v0, .L800B096C
 /* B27AF0 800B0950 AE020130 */   sw    $v0, 0x130($s0)
@@ -2574,7 +2574,7 @@ glabel L800B0994
 /* B27B58 800B09B8 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27B5C 800B09BC AFA20030 */  sw    $v0, 0x30($sp)
 /* B27B60 800B09C0 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27B64 800B09C4 0C031521 */  jal   Game_Alloc
+/* B27B64 800B09C4 0C031521 */  jal   GameState_AllocEnd
 /* B27B68 800B09C8 240705F6 */   li    $a3, 1526
 /* B27B6C 800B09CC 14400007 */  bnez  $v0, .L800B09EC
 /* B27B70 800B09D0 AE020128 */   sw    $v0, 0x128($s0)
@@ -2603,7 +2603,7 @@ glabel L800B0994
 /* B27BC8 800B0A28 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27BCC 800B0A2C AFA30030 */  sw    $v1, 0x30($sp)
 /* B27BD0 800B0A30 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27BD4 800B0A34 0C031521 */  jal   Game_Alloc
+/* B27BD4 800B0A34 0C031521 */  jal   GameState_AllocEnd
 /* B27BD8 800B0A38 240705FB */   li    $a3, 1531
 /* B27BDC 800B0A3C 14400007 */  bnez  $v0, .L800B0A5C
 /* B27BE0 800B0A40 AE020130 */   sw    $v0, 0x130($s0)
@@ -2638,7 +2638,7 @@ glabel L800B0A84
 /* B27C48 800B0AA8 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27C4C 800B0AAC AFA20030 */  sw    $v0, 0x30($sp)
 /* B27C50 800B0AB0 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27C54 800B0AB4 0C031521 */  jal   Game_Alloc
+/* B27C54 800B0AB4 0C031521 */  jal   GameState_AllocEnd
 /* B27C58 800B0AB8 24070604 */   li    $a3, 1540
 /* B27C5C 800B0ABC 14400007 */  bnez  $v0, .L800B0ADC
 /* B27C60 800B0AC0 AE020128 */   sw    $v0, 0x128($s0)
@@ -2667,7 +2667,7 @@ glabel L800B0A84
 /* B27CB8 800B0B18 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27CBC 800B0B1C AFA30030 */  sw    $v1, 0x30($sp)
 /* B27CC0 800B0B20 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27CC4 800B0B24 0C031521 */  jal   Game_Alloc
+/* B27CC4 800B0B24 0C031521 */  jal   GameState_AllocEnd
 /* B27CC8 800B0B28 24070609 */   li    $a3, 1545
 /* B27CCC 800B0B2C 14400007 */  bnez  $v0, .L800B0B4C
 /* B27CD0 800B0B30 AE020130 */   sw    $v0, 0x130($s0)
@@ -2702,7 +2702,7 @@ glabel L800B0B74
 /* B27D38 800B0B98 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27D3C 800B0B9C AFA20030 */  sw    $v0, 0x30($sp)
 /* B27D40 800B0BA0 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27D44 800B0BA4 0C031521 */  jal   Game_Alloc
+/* B27D44 800B0BA4 0C031521 */  jal   GameState_AllocEnd
 /* B27D48 800B0BA8 24070618 */   li    $a3, 1560
 /* B27D4C 800B0BAC 14400007 */  bnez  $v0, .L800B0BCC
 /* B27D50 800B0BB0 AE020128 */   sw    $v0, 0x128($s0)
@@ -2731,7 +2731,7 @@ glabel L800B0B74
 /* B27DA8 800B0C08 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27DAC 800B0C0C AFA30030 */  sw    $v1, 0x30($sp)
 /* B27DB0 800B0C10 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27DB4 800B0C14 0C031521 */  jal   Game_Alloc
+/* B27DB4 800B0C14 0C031521 */  jal   GameState_AllocEnd
 /* B27DB8 800B0C18 2407061D */   li    $a3, 1565
 /* B27DBC 800B0C1C 14400007 */  bnez  $v0, .L800B0C3C
 /* B27DC0 800B0C20 AE020130 */   sw    $v0, 0x130($s0)
@@ -2766,7 +2766,7 @@ glabel L800B0C64
 /* B27E28 800B0C88 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27E2C 800B0C8C AFA20030 */  sw    $v0, 0x30($sp)
 /* B27E30 800B0C90 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27E34 800B0C94 0C031521 */  jal   Game_Alloc
+/* B27E34 800B0C94 0C031521 */  jal   GameState_AllocEnd
 /* B27E38 800B0C98 24070626 */   li    $a3, 1574
 /* B27E3C 800B0C9C 14400007 */  bnez  $v0, .L800B0CBC
 /* B27E40 800B0CA0 AE020128 */   sw    $v0, 0x128($s0)
@@ -2795,7 +2795,7 @@ glabel L800B0C64
 /* B27E98 800B0CF8 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27E9C 800B0CFC AFA30030 */  sw    $v1, 0x30($sp)
 /* B27EA0 800B0D00 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27EA4 800B0D04 0C031521 */  jal   Game_Alloc
+/* B27EA4 800B0D04 0C031521 */  jal   GameState_AllocEnd
 /* B27EA8 800B0D08 2407062B */   li    $a3, 1579
 /* B27EAC 800B0D0C 14400007 */  bnez  $v0, .L800B0D2C
 /* B27EB0 800B0D10 AE020130 */   sw    $v0, 0x130($s0)
@@ -2830,7 +2830,7 @@ glabel L800B0D54
 /* B27F18 800B0D78 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27F1C 800B0D7C AFA20030 */  sw    $v0, 0x30($sp)
 /* B27F20 800B0D80 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27F24 800B0D84 0C031521 */  jal   Game_Alloc
+/* B27F24 800B0D84 0C031521 */  jal   GameState_AllocEnd
 /* B27F28 800B0D88 24070634 */   li    $a3, 1588
 /* B27F2C 800B0D8C 14400007 */  bnez  $v0, .L800B0DAC
 /* B27F30 800B0D90 AE020128 */   sw    $v0, 0x128($s0)
@@ -2859,7 +2859,7 @@ glabel L800B0D54
 /* B27F88 800B0DE8 AFA5002C */  sw    $a1, 0x2c($sp)
 /* B27F8C 800B0DEC AFA30030 */  sw    $v1, 0x30($sp)
 /* B27F90 800B0DF0 8FA40048 */  lw    $a0, 0x48($sp)
-/* B27F94 800B0DF4 0C031521 */  jal   Game_Alloc
+/* B27F94 800B0DF4 0C031521 */  jal   GameState_AllocEnd
 /* B27F98 800B0DF8 24070639 */   li    $a3, 1593
 /* B27F9C 800B0DFC 14400007 */  bnez  $v0, .L800B0E1C
 /* B27FA0 800B0E00 AE020130 */   sw    $v0, 0x130($s0)
@@ -2886,5 +2886,5 @@ glabel L800B0E3C
 /* B27FE0 800B0E40 8FB00020 */  lw    $s0, 0x20($sp)
 /* B27FE4 800B0E44 27BD0048 */  addiu $sp, $sp, 0x48
 /* B27FE8 800B0E48 03E00008 */  jr    $ra
-/* B27FEC 800B0E4C 00000000 */   nop   
+/* B27FEC 800B0E4C 00000000 */   nop
 

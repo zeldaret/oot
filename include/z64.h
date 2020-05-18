@@ -585,9 +585,13 @@ typedef struct {
 } SubGlobalContext1F74; // size = 0x4
 
 typedef struct {
-    /* 0x000 */ char unk_00[0x140];
+    /* 0x000 */ char unk_00[0x128];
+    /* 0x128 */ void* staticSegments[3];
+    /* 0x134 */ Gfx* dpList;
+    /* 0x138 */ Gfx* unk_138;
+    /* 0x13C */ void* roomVtx;
     /* 0x140 */ s16  unk_140;
-    /* 0x142 */ char unk_142[0x0E];
+    /* 0x144 */ Vec3f rot;
 } SkyboxContext; // size = 0x150
 
 typedef struct {
@@ -971,11 +975,15 @@ typedef struct {
     /* 0x10 */ GameAllocEntry* head;
 } GameAlloc; // size = 0x14
 
+struct GameState;
+
+typedef void (*GameStateFunc)(struct GameState* gameState);
+
 typedef struct GameState {
     /* 0x00 */ GraphicsContext* gfxCtx;
-    /* 0x04 */ void (*main)(struct GameState*);
-    /* 0x08 */ void (*destroy)(struct GameState*); // "cleanup"
-    /* 0x0C */ void (*init)(struct GameState*);
+    /* 0x04 */ GameStateFunc main;
+    /* 0x08 */ GameStateFunc destroy; // "cleanup"
+    /* 0x0C */ GameStateFunc init;
     /* 0x10 */ u32 size;
     /* 0x14 */ Input input[4];
     /* 0x74 */ TwoHeadArena tha;
@@ -1049,7 +1057,7 @@ typedef struct GlobalContext {
     /* 0x11D34 */ u8 nbTransitionActors;
     /* 0x11D38 */ TransitionActorEntry* transitionActorList;
     /* 0x11D3C */ char unk_11D3C[0x10];
-    /* 0x11D4C */ void (*unk_11D4C)(struct GlobalContext*, Actor*);
+    /* 0x11D4C */ s32 (*unk_11D4C)(struct GlobalContext*, Actor*);
     /* 0x11D50 */ char unk_11D50[0x8];
     /* 0x11D58 */ void (*unk_11D58)(struct GlobalContext*, s32);
     /* 0x11D5C */ char unk_11D5C[0x4];
@@ -1692,11 +1700,31 @@ typedef struct {
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 
+
+// Vis...
 typedef struct {
-    /* 0x00 */ char unk_00[0x08];
+    /* 0x00 */ u32 type;
+    /* 0x04 */ u32 setScissor;
     /* 0x08 */ Color_RGBA8 color;
-    /* 0x0C */ char unk_0C[0x0C];
-} VisMonoStruct; // size = 0x18
+    /* 0x0C */ Color_RGBA8 envColor;
+} struct_801664F0; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ u32 unk_00;
+    /* 0x04 */ u32 setScissor;
+    /* 0x08 */ Color_RGBA8 primColor;
+    /* 0x0C */ Color_RGBA8 envColor;
+    /* 0x10 */ u16* tlut;
+    /* 0x14 */ Gfx* monoDl;
+} VisMono; // size = 0x18
+
+// Vis...
+typedef struct {
+    /* 0x00 */ u32 useRgba;
+    /* 0x04 */ u32 setScissor;
+    /* 0x08 */ Color_RGBA8 primColor;
+    /* 0x08 */ Color_RGBA8 envColor;
+} struct_80166500; // size = 0x10
 
 typedef struct {
     /* 0x000 */ u8 rumbleEnable[4];

@@ -307,7 +307,8 @@ typedef struct {
     /* 0x0847 */ char       unk_847[0x004];
     /* 0x084B */ s8         unk_84B[4];
     /* 0x084F */ s8         unk_84F;
-    /* 0x0850 */ char       unk_850[0x00C];
+    /* 0x0850 */ s16        unk_850;
+    /* 0x0852 */ char       unk_852[0x00A];
     /* 0x085C */ f32        stickLength;
     /* 0x0860 */ s16        stickFlameTimer;
     /* 0x0862 */ s8         overheadItemId;
