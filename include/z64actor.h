@@ -315,7 +315,11 @@ typedef struct Player {
     /* 0x0860 */ s16        stickFlameTimer;
     /* 0x0862 */ s8         overheadItemId;
     /* 0x0863 */ char       unk_863[0x021];
-    /* 0x0884 */ f32        ledgeDistance; // The distance from link to a grabbable ledge, only updates if pushing against a wall with a grabbable ledge above, if the ledge is too high to grab the value is 399.96f
+
+    /* 0x0884 */ f32        ledgeDistance; // The distance from link to a grabbable ledge
+    // Only updates if pushing against a wall with a grabbable ledge above
+    // If the ledge is too high to grab the value is 399.96f
+
     /* 0x0888 */ f32        wallDistance; // Only updates if pushing against a wall with a grabbable ledge above
     /* 0x088C */ char       unk_88C[0x008];
     /* 0x0894 */ s16        dropY; // Truncated copy of y position that does not update while falling
@@ -337,7 +341,11 @@ typedef struct Player {
     /* 0x0A60 */ char       unk_A60[0x08];
     /* 0x0A68 */ s8         unk_A68;
     /* 0x0A69 */ char       unk_A6A[0x0F];
-    /* 0x0A78 */ s8         invincible; // Take no damage if this value is nonzero, positive induces red flashing, negative is "invisible" invincibility
+
+    /* 0x0A78 */ s8         invincibilityTimer; // Take no damage if this value is nonzero
+    // Positive induces red flashing, negative does not
+    // Counts towards zero each frame
+
     /* 0x0A79 */ char       unk_A79[0x1B];
 } Player; // size = 0xA94
 
