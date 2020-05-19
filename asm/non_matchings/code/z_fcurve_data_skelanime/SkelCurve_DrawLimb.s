@@ -25,7 +25,7 @@ glabel D_8013BAFC
     .balign 4
 
 .text
-glabel func_8006CBAC
+glabel SkelCurve_DrawLimb
 /* AE3D4C 8006CBAC 27BDFF68 */  addiu $sp, $sp, -0x98
 /* AE3D50 8006CBB0 AFBF002C */  sw    $ra, 0x2c($sp)
 /* AE3D54 8006CBB4 AFB00028 */  sw    $s0, 0x28($sp)
@@ -243,7 +243,7 @@ glabel func_8006CBAC
 /* AE4088 8006CEE8 8FAD00B0 */  lw    $t5, 0xb0($sp)
 /* AE408C 8006CEEC AFB00010 */  sw    $s0, 0x10($sp)
 /* AE4090 8006CEF0 AFA90014 */  sw    $t1, 0x14($sp)
-/* AE4094 8006CEF4 0C01B2EB */  jal   func_8006CBAC
+/* AE4094 8006CEF4 0C01B2EB */  jal   SkelCurve_DrawLimb
 /* AE4098 8006CEF8 AFAD0018 */   sw    $t5, 0x18($sp)
 .L8006CEFC:
 /* AE409C 8006CEFC 0C034221 */  jal   Matrix_Pull
@@ -260,7 +260,7 @@ glabel func_8006CBAC
 /* AE40C8 8006CF28 8FAF00B0 */  lw    $t7, 0xb0($sp)
 /* AE40CC 8006CF2C AFB00010 */  sw    $s0, 0x10($sp)
 /* AE40D0 8006CF30 AFB80014 */  sw    $t8, 0x14($sp)
-/* AE40D4 8006CF34 0C01B2EB */  jal   func_8006CBAC
+/* AE40D4 8006CF34 0C01B2EB */  jal   SkelCurve_DrawLimb
 /* AE40D8 8006CF38 AFAF0018 */   sw    $t7, 0x18($sp)
 /* AE40DC 8006CF3C 8FB90098 */  lw    $t9, 0x98($sp)
 .L8006CF40:
