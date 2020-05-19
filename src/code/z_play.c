@@ -1790,7 +1790,7 @@ void Gameplay_TriggerVoidOut(GlobalContext* globalCtx) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].tempCollectFlags = globalCtx->actorCtx.flags.tempCollect;
     gSaveContext.respawnFlag = 1;
     globalCtx->sceneLoadFlag = 0x14;
-    globalCtx->nextEntranceIndex = gSaveContext.respawn[0].entranceIndex;
+    globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex;
     globalCtx->fadeTransition = 2;
 }
 
