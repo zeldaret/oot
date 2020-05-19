@@ -122,7 +122,7 @@ u8 sAlphaUpdVals[] = {
     0x00, 0x03, 0x04, 0x07, 0x09, 0x0A, 0x0D, 0x0F, 0x11, 0x12, 0x15, 0x16, 0x19, 0x1B, 0x1C, 0x1F, 0x21, 0x23,
 };
 
-void MagicWind_SetAction(MagicWind* this, MagicWindFunc actionFunc) {
+void MagicWind_SetupAction(MagicWind* this, MagicWindFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -139,15 +139,14 @@ void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 0:
             SkelCurve_SetAnim(&this->skelCurve, &sTransformUpdIdx, 0.0f, 60.0f, 0.0f, 1.0f);
             this->timer = 29;
-            MagicWind_SetAction(this, MagicWind_WaitForTimer);
+            MagicWind_SetupAction(this, MagicWind_WaitForTimer);
             break;
         case 1:
             SkelCurve_SetAnim(&this->skelCurve, &sTransformUpdIdx, 60.0f, 0.0f, 60.0f, -1.0f);
-            MagicWind_SetAction(this, MagicWind_Shrink);
-            LogUtils_LogThreadId("../z_magic_wind.c", 486);
+            MagicWind_SetupAction(this, MagicWind_Shrink);
             // "Indicates start" = %s
             // Means start
-            osSyncPrintf("\"表示開始\" = %s\n", "表示開始");
+            LOG_STRING("表示開始", "../z_magic_wind.c", 486);
             func_8002F7DC(player, 0x087B);
             break;
     }
@@ -180,13 +179,13 @@ void MagicWind_WaitForTimer(MagicWind* this, GlobalContext* globalCtx) {
     LOG_STRING("表示開始", "../z_magic_wind.c", 539);
     func_8002F7DC(&player->actor, 0x87A);
     MagicWind_UpdateAlpha(1.0f);
-    MagicWind_SetAction(this, MagicWind_Grow);
+    MagicWind_SetupAction(this, MagicWind_Grow);
     SkelCurve_Update(globalCtx, &this->skelCurve);
 }
 
 void MagicWind_Grow(MagicWind* this, GlobalContext* globalCtx) {
     if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
-        MagicWind_SetAction(this, MagicWind_WaitAtFullSize);
+        MagicWind_SetupAction(this, MagicWind_WaitAtFullSize);
         this->timer = 50;
     }
 }
@@ -195,7 +194,7 @@ void MagicWind_WaitAtFullSize(MagicWind* this, GlobalContext* globalCtx) {
     if (this->timer > 0) {
         this->timer--;
     } else {
-        MagicWind_SetAction(this, MagicWind_FadeOut);
+        MagicWind_SetupAction(this, MagicWind_FadeOut);
         this->timer = 30;
     }
 }
