@@ -28,7 +28,7 @@ s32 __osSiRawWriteIo(void*, u32);
 s32 osPiRawReadIo(u32 a0, u32 *a1);
 void __osSpSetStatus(u32);
 u32 __osSpGetStatus();
-s32 __osSpSetPc(u32 data);
+s32 __osSpSetPc(void*);
 s32 __osSpDeviceBusy();
 s32 __osSiDeviceBusy();
 s32 __osSpRawStartDma(u32 dir, void *sp_ptr, void *dram_ptr, size_t size);

@@ -3600,8 +3600,7 @@ endseg
 beginseg
     name "ovl_Magic_Wind"
     include "build/src/overlays/actors/ovl_Magic_Wind/z_magic_wind.o"
-    include "build/data/overlays/actors/z_magic_wind.data.o"
-    include "build/data/overlays/actors/z_magic_wind.reloc.o"
+    include "build/src/overlays/actors/ovl_Magic_Wind/z_magic_wind_reloc.o"
 endseg
 
 beginseg
