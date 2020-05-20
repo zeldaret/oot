@@ -8327,7 +8327,7 @@ beginseg
     name "syotes2_scene"
     romalign 0x1000
     include "build/scenes/test_levels/syotes2/syotes2_scene.o"
-    address SEGMENT_SCENE
+    address SEGMENT_SCENE   
 endseg
 
 beginseg
@@ -8711,6 +8711,7 @@ endseg
 beginseg
     name "spot18_scene"
     romalign 0x1000
+    //include "build/baserom/spot18_scene.o"
     include "build/scenes/overworld/spot18/spot18_scene.o"
     address SEGMENT_SCENE
 endseg
@@ -8718,6 +8719,7 @@ endseg
 beginseg
     name "spot18_room_0"
     romalign 0x1000
+    //include "build/baserom/spot18_room_0.o"
     include "build/scenes/overworld/spot18/spot18_room_0.o"
     address SEGMENT_ROOM
 endseg
@@ -8725,6 +8727,7 @@ endseg
 beginseg
     name "spot18_room_1"
     romalign 0x1000
+    //include "build/baserom/spot18_room_1.o"
     include "build/scenes/overworld/spot18/spot18_room_1.o"
     address SEGMENT_ROOM
 endseg
@@ -8732,6 +8735,7 @@ endseg
 beginseg
     name "spot18_room_2"
     romalign 0x1000
+    //include "build/baserom/spot18_room_2.o"
     include "build/scenes/overworld/spot18/spot18_room_2.o"
     address SEGMENT_ROOM
 endseg
@@ -8739,7 +8743,8 @@ endseg
 beginseg
     name "spot18_room_3"
     romalign 0x1000
-    include "build/scenes/overworld/spot18/spot18_room_3.o"
+    //include "build/baserom/spot18_room_3.o"
+     include "build/scenes/overworld/spot18/spot18_room_3.o"
     address SEGMENT_ROOM
 endseg
 
@@ -9887,6 +9892,7 @@ endseg
 beginseg
     name "hakaana2_scene"
     romalign 0x1000
+    //include "build/baserom/hakaana2_scene.o"
     include "build/scenes/misc/hakaana2/hakaana2_scene.o"
     address SEGMENT_SCENE
 endseg
@@ -9894,6 +9900,7 @@ endseg
 beginseg
     name "hakaana2_room_0"
     romalign 0x1000
+    //include "build/baserom/hakaana2_room_0.o"
     include "build/scenes/misc/hakaana2/hakaana2_room_0.o"
     address SEGMENT_ROOM
 endseg
