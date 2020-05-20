@@ -9,15 +9,22 @@ void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorShutter_Update(Actor* thisx, GlobalContext* globalCtx);
 void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+s32 func_809962AC(DoorShutter* this, GlobalContext* globalCtx);
+f32 func_80996840(GlobalContext* globalCtx, DoorShutter* this, f32 arg2, f32 arg3, f32 arg4);
 s32 func_809968D4(DoorShutter* this, GlobalContext* globalCtx);
 Gfx* func_80997838(GlobalContext* globalCtx, DoorShutter* this, Gfx* p);
 void func_8099803C(GlobalContext* globalCtx, s16 y, s16 countdown, s16 arg3);
 
 void func_8099670C(DoorShutter* this, GlobalContext* globalCtx);
+void func_80996A54(DoorShutter* this, GlobalContext* globalCtx);
+void func_80996B00(DoorShutter* this, GlobalContext* globalCtx);
 void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx);
 void func_80996EE8(DoorShutter* this, GlobalContext* globalCtx);
+void func_80996F98(DoorShutter* this, GlobalContext* globalCtx);
 void func_80997004(DoorShutter* this, GlobalContext* globalCtx);
 void func_80997150(DoorShutter* this, GlobalContext* globalCtx);
+void func_809973E8(DoorShutter* this, GlobalContext* globalCtx);
+void func_80997528(DoorShutter* this, GlobalContext* globalCtx);
 void func_80997568(DoorShutter* this, GlobalContext* globalCtx);
 void func_809975C0(DoorShutter* this, GlobalContext* globalCtx);
 void func_809976B8(DoorShutter* this, GlobalContext* globalCtx);
@@ -129,8 +136,8 @@ u32 D_809982D4[] = {
 extern DoorShutterUnk_1 D_809980F0[];
 extern DoorShutterUnk_2 D_80998134[];
 extern InitChainEntry D_80998230[];
+extern Gfx* D_809982B4[];
 extern Gfx* D_809982D4[];
-
 
 extern Gfx D_0601EDD0;
 extern Gfx D_06012FD0;
@@ -143,7 +150,7 @@ void func_809962A0(DoorShutter* this, DoorShutterActionFunc actionFunc) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_809962AC.s")
-/* void func_809962AC(DoorShutter* this, GlobalContext* globalCtx) {
+/* s32 func_809962AC(DoorShutter* this, GlobalContext* globalCtx) {
     s16 temp_a1_2;
     s32 temp_v1_2;
     s8 temp_a1;
@@ -165,7 +172,6 @@ void func_809962A0(DoorShutter* this, DoorShutterActionFunc actionFunc) {
         if (temp_v1->frontRoom == temp_v1->backRoom && ABS(this->dyna.actor.shape.rot.y - this->dyna.actor.rotTowardsLinkY) < 0x4000) {
             phi_a3 = -1;
         }
-        phi_v0 = this->unk_16A;
         if (phi_a3 == this->dyna.actor.room) {
             if (this->unk_16A == 7) {
                 phi_v0 = 1;
@@ -178,6 +184,7 @@ void func_809962A0(DoorShutter* this, DoorShutterActionFunc actionFunc) {
     }
     this->unk_16C = (phi_v0 == 0) ? temp_t0->c : temp_t0->d;
 
+    /
     if (phi_v0 == 1) {
         if (Flags_GetClear(globalCtx, this->dyna.actor.room) == 0) {
             func_809962A0(this, func_80996A54);
@@ -197,6 +204,31 @@ block_25:
         func_809962A0(this, func_80996B00);
     } else {
         goto block_25;
+    }
+    *
+
+    switch (phi_v0) {
+        case 1:
+            if (!Flags_GetClear(globalCtx, this->dyna.actor.room)) {
+                func_809962A0(this, func_80996A54);
+                this->unk_170 = 1.0f;
+                return 1;
+            }
+        default:
+            func_809962A0(this, func_80996B0C);
+            break;
+        case 2:
+        case 7:
+            if (!Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
+                func_809962A0(this, func_80996EE8);
+                this->unk_170 = 1.0f;
+                return 1;
+            }
+            func_809962A0(this, func_80996F98); 
+            break;
+        case 3:
+            func_809962A0(this, func_80996B00);
+            break;
     }
     return 0;
 } */
@@ -371,8 +403,8 @@ f32 func_80996840(GlobalContext* globalCtx, DoorShutter* this, f32 arg2, f32 arg
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_80996840.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_809968D4.s")
-/* f32 func_809968D4(DoorShutter* this, GlobalContext* globalCtx) {
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_809968D4.s")
+s32 func_809968D4(DoorShutter* this, GlobalContext* globalCtx) {
     Player* player;
     f32 temp_f2;
     DoorShutterUnk_2* temp_v1;
@@ -394,7 +426,7 @@ f32 func_80996840(GlobalContext* globalCtx, DoorShutter* this, f32 arg2, f32 arg
         }
     }
     return 0.0f;
-} */
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_80996A54.s")
 void func_80996A54(DoorShutter* this, GlobalContext* globalCtx) {
@@ -472,7 +504,7 @@ void func_80996C60(DoorShutter* this, GlobalContext* globalCtx) {
         player = PLAYER;
         sp34 = 0xF;
         sp38 = this->unk_16C;
-        if (func_809962AC() != 0) {
+        if (func_809962AC(this, globalCtx) != 0) {
             sp34 = 0x20;
         }
         func_809962A0(this, func_80997004);
@@ -557,33 +589,26 @@ void func_80996F98(DoorShutter* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_80997004.s")
-// Some kind of ancient evil lurks in this function
-/* s32 func_80997A34(DoorShutter* this, GlobalContext* globalCtx) {
-    s32 temp_a0;
-    s32 temp_a1;
-    s32 phi_a1;
-    s32 phi_a0;
-    s32 phi_return;
-
-    if (func_8008E988(globalCtx) != 0) {
-        return 1;
-    }
-    temp_a0 = func_8002DAC0(&this->dyna.actor, &globalCtx->view.eye) - this->dyna.actor.shape.rot.y;
-    temp_a1 = this->dyna.actor.rotTowardsLinkY - this->dyna.actor.shape.rot.y;
-    phi_a0 = ABS(temp_a0);
-    phi_a1 = ABS(temp_a1);
-    if ((phi_a1 >= 0x4000) || (phi_a0 < 0x4001)) {
-        phi_return = 1;
-        if (phi_a1 >= 0x4001 && phi_a0 < 0x4000) {
-block_10:
-                phi_return = 0;
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_80997004.s")
+void func_80997004(DoorShutter* this, GlobalContext* globalCtx) {
+    if (DECR(this->unk_16E) == 0 && globalCtx->roomCtx.status == 0 && func_80996D14(this, globalCtx) != 0) {
+        if (((this->unk_16A == 5) ? 20.0f : 50.0f) < this->dyna.actor.xzDistanceFromLink) {
+            if (func_809962AC(this, globalCtx) != 0) {
+                this->dyna.actor.velocity.y = 30.0f;
+            }
+            if (this->unk_16C != 3) {
+                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
+                func_809962A0(this, func_809973E8);
+                return;
+            }
+            Audio_PlayActorSound2(this, NA_SE_EV_BUYODOOR_CLOSE);
+            if (((this->unk_16A == 2) || (this->unk_16A == 7)) && !Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
+                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSHUTTER_CLOSE);
+            }
+            func_809962A0(this, func_80997528);
         }
-    } else {
-        goto block_10;
     }
-    return phi_return;
-} */
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_80997150.s")
 void func_80997150(DoorShutter* this, GlobalContext* globalCtx) {
@@ -649,17 +674,14 @@ void func_80997220(DoorShutter* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_80997220.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_809973E8.s")
-// Some reorderings, stack
-/* void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_809973E8.s")
+void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
     s32 quakeId;
-    f32 phi_f0;
 
-    phi_f0 = this->dyna.actor.velocity.y;
     if (this->dyna.actor.velocity.y < 20.0f) {
         Math_ApproxF(&this->dyna.actor.velocity.y, 20.0f, 8.0f);
     }
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, phi_f0) != 0) {
+    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y) != 0) {
         if (20.0f < this->dyna.actor.velocity.y) {
             this->dyna.actor.unk_80 = this->dyna.actor.initPosRot.pos.y;
             func_80033260(globalCtx, &this->dyna.actor, &this->dyna.actor.posRot.pos, 45.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
@@ -672,7 +694,7 @@ void func_80997220(DoorShutter* this, GlobalContext* globalCtx) {
         func_800AA000(this->dyna.actor.waterSurfaceDist, 0xB4, 0x14, 0x64);
         func_80997220(this, globalCtx);
     }
-} */
+}
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_80997528.s")
 void func_80997528(DoorShutter* this, GlobalContext* globalCtx) {
@@ -746,24 +768,23 @@ void DoorShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 sp80;
     s32 temp_s1;
     void *temp_s0;
-    void *temp_s2;
     void *temp_v0;
     f32 phi_f22;
-    s32 phi_s1;
-    void *phi_s2;
+    s32 i;
+    Gfx* phi_s2;
     Gfx** phi_s3;
 
     sp80 = this->unk_166 * 0.009999999776482582f;
     Matrix_Get(&sp88);
     phi_f22 = 0.0f;
-    phi_s1 = 0;
+    i = 0;
     phi_s2 = p;
     phi_s3 = &D_809982B4;
 loop_1:
     Matrix_RotateZ(phi_f22, MTXMODE_APPLY);
-    if ((phi_s1 & 1) == 0) {
+    if (!(i & 1)) {
         Matrix_Translate(0.0f, 800.0f, 0.0f, MTXMODE_APPLY);
-    } else if ((phi_s1 == 1) || (phi_s1 == 7)) {
+    } else if ((i == 1) || (i == 7)) {
         Matrix_Translate(0.0f, 848.52001953125f, 0.0f, MTXMODE_APPLY);
     } else {
         Matrix_Translate(0.0f, 989.9400024414062f, 0.0f, MTXMODE_APPLY);
@@ -771,29 +792,22 @@ loop_1:
     if (0x64 != this->unk_166) {
         Matrix_Scale(1.0f, sp80, 1.0f, MTXMODE_APPLY);
     }
-    temp_s0 = phi_s2;
-    temp_s0->unk0 = 0xDA380003;
-    temp_s2 = phi_s2 + 8;
-    temp_s0->unk4 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_shutter.c", 0x7C7);
 
-    temp_v0 = temp_s2;
-    temp_v0->unk0 = 0xDE000000;
-    temp_s2 = temp_s2 + 8;
-    temp_v0->unk4 = (s32) *phi_s3;
+    gSPMatrix(phi_s2++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_shutter.c", 0x7C7), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(phi_s2++, *phi_s3);
 
     Matrix_Put(&sp88);
-    temp_s1 = phi_s1 + 1;
-    phi_f22 = phi_f22 - 0.7853981852531433f;
-    phi_s1 = temp_s1;
-    phi_s2 = temp_s2;
-    phi_s3 = phi_s3 + 4;
-    if (temp_s1 != 8) {
+    i++;
+    phi_f22 -= 0.7853981852531433f;
+    phi_s3++;
+    if (i != 8) {
         goto loop_1;
     }
-    return temp_s2;
+    return phi_s2;
 } */
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Door_Shutter/func_80997A34.s")
+// Some kind of ancient evil lurks in this function
 /* s32 func_80997A34(DoorShutter* this, GlobalContext* globalCtx) {
     s32 temp_a0;
     s32 temp_a1;
@@ -807,6 +821,31 @@ loop_1:
     phi_a0 = ABS(func_8002DAC0(this, &globalCtx->view.eye) - this->dyna.actor.shape.rot.y);
     phi_a1 = ABS(this->dyna.actor.rotTowardsLinkY - this->dyna.actor.shape.rot.y);
     if (phi_a1 >= 0x4000 || phi_a0 < 0x4001) {
+        phi_return = 1;
+        if (phi_a1 >= 0x4001 && phi_a0 < 0x4000) {
+block_10:
+                phi_return = 0;
+        }
+    } else {
+        goto block_10;
+    }
+    return phi_return;
+} */
+/* s32 func_80997A34(DoorShutter* this, GlobalContext* globalCtx) {
+    s32 temp_a0;
+    s32 temp_a1;
+    s32 phi_a1;
+    s32 phi_a0;
+    s32 phi_return;
+
+    if (func_8008E988(globalCtx) != 0) {
+        return 1;
+    }
+    temp_a0 = func_8002DAC0(&this->dyna.actor, &globalCtx->view.eye) - this->dyna.actor.shape.rot.y;
+    temp_a1 = this->dyna.actor.rotTowardsLinkY - this->dyna.actor.shape.rot.y;
+    phi_a0 = ABS(temp_a0);
+    phi_a1 = ABS(temp_a1);
+    if ((phi_a1 >= 0x4000) || (phi_a0 < 0x4001)) {
         phi_return = 1;
         if (phi_a1 >= 0x4001 && phi_a0 < 0x4000) {
 block_10:
