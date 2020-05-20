@@ -76,17 +76,16 @@ void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
-    SkelAnime* skelAnime;
+    u32 padding;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex) != 0) {
         this->actor.flags &= ~0x10;
         Actor_ProcessInitChain(&this->actor, initChain);
 
-        skelAnime = &this->skelAnime;
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->limbDrawTable, this->transitionDrawTable,
                          0x10);
         gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
-        SkelAnime_ChangeAnim(skelAnime, &D_060042AC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060042AC.genericHeader), 0,
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_060042AC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060042AC.genericHeader), 0,
                              0.0f);
 
         this->actor.draw = &EnGuest_Draw;
