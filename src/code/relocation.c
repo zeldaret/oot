@@ -2,6 +2,7 @@
 
 #ifdef NON_MATCHING
 void Overlay_DoRelocation(void* allocatedVRamAddress, OverlayRelocationSection* overlayInfo, void* vRamAddress) {
+    // mostly regalloc, more specific issues described below.
     u32 sections[4];
     u32 unrelocatedAddress;
     u32 dbg;
@@ -91,6 +92,9 @@ void Overlay_DoRelocation(void* allocatedVRamAddress, OverlayRelocationSection* 
                     *luiInstRef = (luiInst & 0xFFFF0000) | (((addrToLoad >> 0x10) & 0xFFFF) + isLoNeg);
                     unrelocatedAddress = (luiInst << 0x10) + (((s16)relocData) & (0xFFFFFFFFFFFFFFFFu));
                     relocatedValue = (*relocDataP & 0xFFFF0000) | (addrToLoad & 0xFFFF);
+
+                    // The conversion of relocatedAddress to s16 is wrapped around the OR operation of
+                    // relocated value
                     relocatedAddress = (*luiInstRef << 0x10) + (s16)relocatedValue;
                     *relocDataP = relocatedValue;
                 }
@@ -116,6 +120,8 @@ void Overlay_DoRelocation(void* allocatedVRamAddress, OverlayRelocationSection* 
                     continue;
             }
         }
+        // The loop seems to be incremented, then checked, but the conditional is a likely vs non, so it could
+        // potentially resolve itself.
     }
 }
 #else
