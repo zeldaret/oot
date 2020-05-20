@@ -85,8 +85,8 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->limbDrawTable, this->transitionDrawTable,
                          0x10);
         gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060042AC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060042AC.genericHeader), 0,
-                             0.0f);
+        SkelAnime_ChangeAnim(&this->skelAnime, &D_060042AC, 1.0f, 0.0f,
+                             SkelAnime_GetFrameCount(&D_060042AC.genericHeader), 0, 0.0f);
 
         this->actor.draw = &EnGuest_Draw;
         this->actor.update = &func_80A505CC;
