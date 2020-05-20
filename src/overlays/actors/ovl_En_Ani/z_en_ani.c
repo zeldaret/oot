@@ -211,7 +211,7 @@ void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
     GenericAnimationHeader* objSegFrameCount = &D_060070F0.genericHeader;
     AnimationHeader* objSegChangeAnime = &D_060070F0;
 
-    if (globalCtx->csCtx.actorActions[0]->action == 4) {
+    if (globalCtx->csCtx.npcActions[0]->action == 4) {
         SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 1.0f, 0.0f,
                              (f32)SkelAnime_GetFrameCount(objSegFrameCount), 2, -4.0f);
         this->unk_2AA += 1;
@@ -229,7 +229,7 @@ void func_809B0A6C(EnAni* this, GlobalContext* globalCtx) {
     if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
         this->skelAnime.animCurrentFrame = 0.0f;
     }
-    if (globalCtx->csCtx.actorActions[0]->action == 2) {
+    if (globalCtx->csCtx.npcActions[0]->action == 2) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060067B8, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_060067B8.genericHeader), 2, 0.0f);
         this->actor.shape.shadowDrawFunc = NULL;
@@ -245,7 +245,7 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.actorActions[0] != NULL)) {
+    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[0] != NULL)) {
         switch (this->unk_2AA) {
             case 0:
                 func_809B0A6C(this, globalCtx);
