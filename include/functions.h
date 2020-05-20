@@ -1114,7 +1114,7 @@ s32 func_8008F2F8(GlobalContext*);
 // ? func_8008FCC8(?);
 // ? func_800902F0(?);
 // ? func_80090440(?);
-u8 func_80090480(GlobalContext* globalCtx, Collider* collider, UNK_PTR a2, Vec3f* a3, Vec3f* a4);
+u8 func_80090480(GlobalContext* globalCtx, Collider* collider, Struct_80090480_arg2* arg2, Vec3f* arg3, Vec3f* arg4);
 // ? func_80090604(?);
 // ? func_800906D4(?);
 // ? func_800907E4(?);
