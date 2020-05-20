@@ -8,7 +8,9 @@
 .section .data
 
 glabel D_809A4060
- .word 0x001E003C, 0x00640000, 0x0000001E
+ .word 0x001E003C, 0x00640000
+glabel Effect_Ss_Extra_InitVars
+.word 0x0000001E
 .word func_809A3CC0
 glabel D_809A4070
  .word 0x06000000, 0x06000480, 0x06000900, 0x00000000

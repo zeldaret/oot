@@ -297,7 +297,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
 
 void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    if (!func_8008E988(globalCtx) && (player->stateFlags2 & 0x10) == 0 && (player->unk_A78 >= 0) &&
+    if (!func_8008E988(globalCtx) && (player->stateFlags2 & 0x10) == 0 && (player->invincibilityTimer >= 0) &&
         (this->actor.xzDistanceFromLink < 30.0f) && (this->actor.yDistanceFromLink < -5.0f) &&
         (-(f32)(player->unk_4DA + 0xA) < this->actor.yDistanceFromLink)) {
         EnWallmas_TakePlayerBegin(this, globalCtx);

@@ -126,10 +126,10 @@ glabel Gameplay_Init
 /* B33D54 800BCBB4 02202025 */   move  $a0, $s1
 /* B33D58 800BCBB8 0C01AE80 */  jal   func_8006BA00
 /* B33D5C 800BCBBC 02202025 */   move  $a0, $s1
-/* B33D60 800BCBC0 0C009B0B */  jal   func_80026C2C
+/* B33D60 800BCBC0 0C009B0B */  jal   Effect_InitContext
 /* B33D64 800BCBC4 02202025 */   move  $a0, $s1
 /* B33D68 800BCBC8 02202025 */  move  $a0, $s1
-/* B33D6C 800BCBCC 0C009CAC */  jal   func_800272B0
+/* B33D6C 800BCBCC 0C009CAC */  jal   EffectSs_InitInfo
 /* B33D70 800BCBD0 24050055 */   li    $a1, 85
 /* B33D74 800BCBD4 3C010001 */  lui   $at, (0x00011E60 >> 16) # lui $at, 1
 /* B33D78 800BCBD8 34211E60 */  ori   $at, (0x00011E60 & 0xFFFF) # ori $at, $at, 0x1e60

@@ -249,10 +249,11 @@ void GameState_ReqPadData(GameState* gameState) {
 }
 
 #ifdef NON_MATCHING
-// Minor reodering and regalloc
+// regalloc differences and additional redundant instructions
 void GameState_Update(GameState* gameState) {
     GraphicsContext* gfxCtx = gameState->gfxCtx;
-    GameState_SetFrameBuffer(gameState->gfxCtx);
+
+    GameState_SetFrameBuffer(gfxCtx);
 
     gameState->main(gameState);
 
@@ -268,9 +269,9 @@ void GameState_Update(GameState* gameState) {
         } else if (SREG(48) > 0) {
             func_800ACAF8(&D_80166528, gameState->input, gfxCtx);
             gfxCtx->viMode = &D_80166528.viMode;
+            gfxCtx->viFeatures = D_80166528.viFeatures;
             gfxCtx->xScale = 1.0f;
             gfxCtx->yScale = 1.0f;
-            gfxCtx->viFeatures = D_80166528.viFeatures;
         }
     } else if (SREG(63) >= 2) {
         gfxCtx->viMode = &gViConfigMode;
@@ -309,20 +310,25 @@ void GameState_Update(GameState* gameState) {
             HREG(84) = 0;
         }
 
-        HREG(82) = CLAMP(HREG(82), 0, 0x30);
+        if (HREG(82) < 0) {
+            HREG(82) = 0;
+        }
+        if (HREG(82) > 0x30) {
+            HREG(82) = 0x30;
+        }
 
         if ((HREG(83) != HREG(82)) || HREG(84) != HREG(81)) {
             HREG(83) = HREG(82);
             HREG(84) = HREG(81);
             gViConfigAdditionalScanLines = HREG(82);
-            gViConfigYScale = HREG(81) == 0 ? 240.0f / ((u8)HREG(82) + 240.0f) : 1.0f;
+            gViConfigYScale = HREG(81) == 0 ? 240.0f / (gViConfigAdditionalScanLines + 240.0f) : 1.0f;
             D_80009430 = 1;
         }
     }
 
-    if (SREG(94) != 2) {
-        GameState_Draw(gameState, gameState->gfxCtx);
-        func_800C49F4(gameState->gfxCtx);
+    if (R_PAUSE_MENU_MODE != 2) {
+        GameState_Draw(gameState, gfxCtx);
+        func_800C49F4(gfxCtx);
     }
 
     gameState->frames++;

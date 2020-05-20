@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_Kakera_InitVars
 .word 0x00000019
 .word func_809A9680
 glabel D_809AA528

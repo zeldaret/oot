@@ -70,7 +70,7 @@ void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
             pauseCtx->unk_1EC = 0;
             pauseCtx->state++;
         } else if (pauseCtx->state == 2 || pauseCtx->state == 9) {
-            osSyncPrintf("R_PAUSE_MENU_MODE=%d\n", R_PAUSE_MENU_MODE);
+            osSyncPrintf("PR_KAREIDOSCOPE_MODE=%d\n", R_PAUSE_MENU_MODE);
             if (R_PAUSE_MENU_MODE >= 3) {
                 pauseCtx->state++;
             }

@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_Sibuki2_InitVars
 .word 0x00000012
 .word func_809ABD60
 glabel D_809AC068

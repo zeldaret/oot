@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_G_Magma_InitVars
 .word 0x0000000B
 .word func_809A6150
 glabel D_809A6328

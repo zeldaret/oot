@@ -276,19 +276,17 @@ beginseg
     include "build/data/z_en_item00.data.o"
     include "build/data/z_en_item00.bss.o"
     include "build/src/code/z_eff_blure.o"
-    include "build/data/z_eff_blure.data.o"
     include "build/src/code/z_eff_shield_particle.o"
-    include "build/data/z_eff_shield_particle.data.o"
     include "build/src/code/z_eff_spark.o"
     include "build/src/code/z_eff_ss_dead.o"
     include "build/src/code/z_effect.o"
-    include "build/data/z_effect.data.o"
-    include "build/data/z_effect.bss.o"
     include "build/src/code/z_effect_soft_sprite.o"
-    include "build/data/z_effect_soft_sprite.data.o"
     include "build/src/code/z_effect_soft_sprite_old_init.o"
+    include "build/data/z_effect_soft_sprite_old_init.data.o"
+    include "build/src/code/z_effect_soft_sprite_dlftbls.o"
     include "build/src/code/flg_set.o"
     include "build/data/flg_set.data.o"
+    include "build/data/flg_set.bss.o"
     include "build/src/code/z_DLF.o"
     include "build/src/code/z_actor.o"
     include "build/src/code/z_actor_dlftbls.o"
@@ -2295,8 +2293,7 @@ endseg
 beginseg
     name "ovl_En_Dha"
     include "build/src/overlays/actors/ovl_En_Dha/z_en_dha.o"
-    include "build/data/overlays/actors/z_en_dha.data.o"
-    include "build/data/overlays/actors/z_en_dha.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dha/z_en_dha_reloc.o"
 endseg
 
 beginseg
@@ -3602,8 +3599,7 @@ endseg
 beginseg
     name "ovl_Magic_Wind"
     include "build/src/overlays/actors/ovl_Magic_Wind/z_magic_wind.o"
-    include "build/data/overlays/actors/z_magic_wind.data.o"
-    include "build/data/overlays/actors/z_magic_wind.reloc.o"
+    include "build/src/overlays/actors/ovl_Magic_Wind/z_magic_wind_reloc.o"
 endseg
 
 beginseg

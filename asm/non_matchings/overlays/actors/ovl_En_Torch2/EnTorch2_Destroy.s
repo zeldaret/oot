@@ -6,7 +6,7 @@ glabel EnTorch2_Destroy
 /* 001B8 80B1DB38 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 001BC 80B1DB3C AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 001C0 80B1DB40 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 001C4 80B1DB44 0C009C27 */  jal     func_8002709C              
+/* 001C4 80B1DB44 0C009C27 */  jal     Effect_Delete              
 /* 001C8 80B1DB48 8E050670 */  lw      $a1, 0x0670($s0)           ## 00000670
 /* 001CC 80B1DB4C 0C03D6D6 */  jal     func_800F5B58              
 /* 001D0 80B1DB50 00000000 */  nop
