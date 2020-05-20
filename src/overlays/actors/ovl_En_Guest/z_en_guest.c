@@ -61,7 +61,7 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
         if (this->objBankIndex < 0) {
             osSyncPrintf(VT_COL(RED, WHITE));
-            osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129); // There is no bank! !
+            osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129); // No such bank!!
             osSyncPrintf(VT_RST);
             __assert("0", "../z_en_guest.c", 132);
         }
