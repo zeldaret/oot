@@ -1,4 +1,5 @@
 #include "z_en_guest.h"
+#include <vt.h>
 
 #define FLAGS 0x00000019
 
@@ -9,11 +10,11 @@ void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80A5046C(EnGuest *this);
-void func_80A509D4(Actor* thisx, GlobalContext* globalCtx);
-void func_80A505CC(Actor* thisx, GlobalContext* globalCtx);
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx);
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx);
+void func_80A505CC(Actor* thisx, GlobalContext* globalCtx);
 s32 func_80A50774(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor *actor);
+void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern SkeletonHeader D_060000F0;
 extern AnimationHeader D_060042AC;
@@ -55,11 +56,11 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     if ((gSaveContext.infTable[7] & 0x40) != 0) {
         Actor_Kill(&this->actor);
     } else {
-        this->unk_30C = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
-        if (this->unk_30C < 0) {
-            osSyncPrintf("\x1b[41;37m");
-            osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
-            osSyncPrintf("\x1b[m");
+        this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
+        if (this->objBankIndex < 0) {
+            osSyncPrintf(VT_COL(RED, WHITE));
+            osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129); // There is no bank! !
+            osSyncPrintf(VT_RST);
             __assert("0", "../z_en_guest.c", 132);
         }
     }
@@ -68,30 +69,35 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnGuest_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     EnGuest* this = THIS;
 
-    Collider_DestroyCylinder(globalCtx, &this->unk_254);
+    Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
 }
 
 void EnGuest_Update(Actor *thisx, GlobalContext *globalCtx) {
     EnGuest* this = THIS;
-    SkelAnime *sp30;
+    SkelAnime *skelAnime;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, (s32) this->unk_30C) != 0) {
-        this->actor.flags = (u32) (this->actor.flags & -0x11);
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex) != 0) {
+        this->actor.flags &= ~0x10;
         Actor_ProcessInitChain(&this->actor, initChain);
-        sp30 = &this->unk_14C;
-        SkelAnime_InitSV(globalCtx, &this->unk_14C, &D_060000F0, NULL, &this->unk_190, &this->unk_1F0, 0x10);
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->unk_30C].segment);
-        SkelAnime_ChangeAnim(sp30, &D_060042AC, 1.0f, 0.0f, (f32) SkelAnime_GetFrameCount(&D_060042AC.genericHeader), 0, 0.0f);
-        this->actor.draw = &func_80A509D4;
+
+        skelAnime = &this->skelAnime;
+        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->limbDrawTable, this->transitionDrawTable, 0x10);
+        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
+        SkelAnime_ChangeAnim(skelAnime, &D_060042AC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060042AC.genericHeader), 0, 0.0f);
+
+        this->actor.draw = &EnGuest_Draw;
         this->actor.update = &func_80A505CC;
-        Collider_InitCylinder(globalCtx, &this->unk_254);
-        Collider_SetCylinder_Set3(globalCtx, &this->unk_254, &this->actor, &colliderInit);
+
+        Collider_InitCylinder(globalCtx, &this->colliderCylinder);
+        Collider_SetCylinder_Set3(globalCtx, &this->colliderCylinder, &this->actor, &colliderInit);
+
         Actor_SetHeight(&this->actor, 60.0f);
+
         this->unk_30E = 0;
         this->unk_30D = 0;
         this->unk_2CA = 0;
-        this->actor.textId = 0x700DU;
-        this->unk_250 = func_80A50518;
+        this->actor.textId = 0x700D;
+        this->actionFunc = func_80A50518;
     }
 }
 
@@ -120,7 +126,7 @@ void func_80A5046C(EnGuest *this) {
 
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
-        this->unk_250 = &func_80A5057C;
+        this->actionFunc = &func_80A5057C;
     }
     else if (this->actor.xzDistanceFromLink < 100.0f) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -130,23 +136,23 @@ void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
         if (func_80106BC8(globalCtx) != 0) {
-            this->unk_250 = &func_80A50518;
+            this->actionFunc = &func_80A50518;
         }
     }
 }
 
 void func_80A505CC(Actor *thisx, GlobalContext *globalCtx) {
     EnGuest* this = THIS;
-    char padding;
-    Player *sp24;
+    u32 padding;
+    Player *player;
 
-    sp24 = PLAYER;
+    player = PLAYER;
     this->unk_2C8 += 1;
 
     func_80A5046C(this);
-    this->unk_250(this, globalCtx);
+    this->actionFunc(this, globalCtx);
 
-    this->unk_2A0.unk_18 = sp24->actor.posRot.pos;
+    this->unk_2A0.unk_18 = player->actor.posRot.pos;
     if (gSaveContext.linkAge == 0) {
         this->unk_2A0.unk_14 = 10.0f;
     } else {
@@ -154,22 +160,22 @@ void func_80A505CC(Actor *thisx, GlobalContext *globalCtx) {
     }
     func_80034A14(&this->actor, &this->unk_2A0, 6, 2);
 
-    func_80034F54(globalCtx, this->unk_2CC, this->unk_2EC, 0x10);
+    func_80034F54(globalCtx, this->unk_2CC, this->unk_2EC, 16);
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->unk_30C].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
 
-    SkelAnime_FrameUpdateMatrix(&this->unk_14C);
+    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Actor_SetHeight(&this->actor, 60.0f);
 
-    Collider_CylinderUpdate(&this->actor, &this->unk_254);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_254.base);
+    Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }
 
-Gfx* func_80A50708(GraphicsContext *arg0, u8 arg1, u8 arg2, u8 arg3, u8 arg4) {
+Gfx* func_80A50708(GraphicsContext *globalCtx, u8 r, u8 g, u8 b, u8 a) {
     Gfx* temp_ret;
 
-    temp_ret = Graph_Alloc(arg0, 0x10U);
-    gDPSetEnvColor(temp_ret, arg1, arg2, arg3, arg4);
+    temp_ret = Graph_Alloc(globalCtx, 0x10);
+    gDPSetEnvColor(temp_ret, r, g, b, a);
     gSPEndDisplayList(temp_ret + 1);
 
     return temp_ret;
@@ -178,12 +184,11 @@ Gfx* func_80A50708(GraphicsContext *arg0, u8 arg1, u8 arg2, u8 arg3, u8 arg4) {
 s32 func_80A50774(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor* thisx) {
     EnGuest* this = THIS;
     Vec3s sp3C;
-    u32 padding[0x4];
-    Gfx* sp28;
+    Gfx* dispRefs[5];
 
-    Graph_OpenDisps(&sp28, globalCtx->state.gfxCtx, "../z_en_guest.c", 352);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 352);
 
-    if (limbIndex == 0xF) {
+    if (limbIndex == 15) {
         *dList = &D_060059B0;
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp3C = this->unk_2A0.unk_08;
@@ -198,57 +203,28 @@ s32 func_80A50774(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *p
         Matrix_RotateZ((sp3C.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }
 
-    if (limbIndex == 8 || limbIndex == 9 || limbIndex == 0xC) {
+    if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {
         rot->y += Math_Sins(this->unk_2CC[limbIndex]) * 200.0f;
         rot->z += Math_Coss(this->unk_2EC[limbIndex]) * 200.0f;
     }
 
-    Graph_CloseDisps(&sp28, globalCtx->state.gfxCtx, "../z_en_guest.c", 388);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 388);
 
     return 0;
 }
 
-
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Guest/func_80A509D4.s")
-void func_80A509D4(Actor* thisx, GlobalContext *globalCtx) {
+void EnGuest_Draw(Actor* thisx, GlobalContext *globalCtx) {
     EnGuest* this = THIS;
-    Gfx *sp4C;
-    Gfx *sp48;
-    Gfx *sp44;
-    Gfx *temp_v0;
-    Gfx *temp_v0_2;
-    Gfx *temp_v0_3;
-    void *temp_a0;
-    s32 index;
-    Gfx* gfx;
-    s32* temp;
+    GraphicsContext* gfxCtxTemp = globalCtx->state.gfxCtx;
+    Gfx* dispRefs[5];
 
-    Graph_OpenDisps(&sp4C, globalCtx->state.gfxCtx, "../z_en_guest.c", 404);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 404);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    // temp_v0 = globalCtx->state.gfxCtx->polyOpa.p;
-    // globalCtx->state.gfxCtx->polyOpa.p = (Gfx *) (temp_v0 + 8);
-    // temp_v0->words.w0 = 0xDB060020U;
-    // sp48 = temp_v0;
-    // sp48->words.w1 = func_80A50708(globalCtx->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0xFF);
-    gSPSegment(globalCtx->state.gfxCtx->polyOpa.p++, 0x08, func_80A50708(globalCtx->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0xFF));
+    gSPSegment(gfxCtxTemp->polyOpa.p++, 0x08, func_80A50708(globalCtx->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0xFF));
+    gSPSegment(gfxCtxTemp->polyOpa.p++, 0x09, func_80A50708(globalCtx->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
+    gSPSegment(gfxCtxTemp->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->unk_30E]));
 
-    // temp_v0_2 = globalCtx->state.gfxCtx->polyOpa.p;
-    // globalCtx->state.gfxCtx->polyOpa.p = (Gfx *) (temp_v0_2 + 8);
-    // temp_v0_2->words.w0 = 0xDB060024U;
-    // sp44 = temp_v0_2;
-    // sp44->words.w1 = func_80A50708(globalCtx->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF);
-    gSPSegment(globalCtx->state.gfxCtx->polyOpa.p++, 0x09, func_80A50708(globalCtx->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
-
-    // temp_v0_3 = globalCtx->state.gfxCtx->polyOpa.p;
-    // globalCtx->state.gfxCtx->polyOpa.p = (Gfx *) (temp_v0_3 + 8);
-    // temp_v0_3->words.w0 = 0xDB060028U;
-    // temp = D_80A50BA4[this->unk_30E];
-    // // temp_v0_3->words.w1 = (u32) ((((s32) D_80A50BA4[thisx->unk30E] & 0xFFFFFF) + gSegments[((u32) ((s32) D_80A50BA4[thisx->unk30E] * 0x10) >> 0x1C)]) + 0x80000000);
-    // temp_v0_3->words.w1 = PHYSICAL_TO_VIRTUAL((*temp & 0x00FFFFFF) + gSegments[((u32) (*temp * 0x10) >> 0x1C)]);
-    temp = D_80A50BA4[this->unk_30E];
-    gSPSegment(globalCtx->state.gfxCtx->polyOpa.p++, 0x0A, PHYSICAL_TO_VIRTUAL((*temp & 0x00FFFFFF) + gSegments[((u32) (*temp * 0x10) >> 0x1C)]));
-
-    SkelAnime_DrawSV(globalCtx, this->unk_14C.skeleton, this->unk_14C.limbDrawTbl, (s32) this->unk_14C.dListCount, func_80A50774, NULL, thisx);
-    Graph_CloseDisps(&sp4C, globalCtx->state.gfxCtx, "../z_en_guest.c", 421);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_80A50774, NULL, &this->actor);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 421);
 }
