@@ -881,7 +881,7 @@ void func_80AEC780(EnRu1* this, GlobalContext* globalCtx) {
 
         globalCtx->csCtx.segment = &D_80AF0880;
         gSaveContext.cutsceneTrigger = 1;
-        player->unk_838 = 0.0f;
+        player->linearVelocity = 0.0f;
         this->action = 8;
     }
 }

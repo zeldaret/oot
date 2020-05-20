@@ -788,7 +788,7 @@ void EnFloormas_GrabLink(EnFloormas* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.z = Math_Coss(this->actor.shape.rot.y) * (xzDelta * 0.1f) + player->actor.posRot.pos.z;
 
     // let go
-    if (!(player->stateFlags2 & 0x80) || (player->unk_A78 < 0)) {
+    if (!(player->stateFlags2 & 0x80) || (player->invincibilityTimer < 0)) {
         attachedA = this->actor.attachedA;
         attachedB = this->actor.attachedB;
 
