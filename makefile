@@ -136,6 +136,9 @@ setup:
 	python3 extract_baserom.py
 	python3 extract_assets.py
 
+resources:
+	python3 extract_assets.py
+
 #### Various Recipes ####
 
 build/baserom/%.o: baserom/%
@@ -166,7 +169,7 @@ build/assets/%.o: assets/%.c
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(OPTIMIZATION) -o $@ $^
 	$(CC_CHECK) $^
-	$(ZAP2) bovl $@ $^ $(@:.o=_reloc.s)
+	$(ZAP2) bovl -i $@ -cfg $^ -o $(@:.o=_reloc.s)
 	$(AS) $(ASFLAGS) $(@:.o=_reloc.s) -o $(@:.o=_reloc.o)
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
     

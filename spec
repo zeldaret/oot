@@ -2,6 +2,9 @@
  * ROM spec file
  */
 
+#define SEGMENT_SCENE 0x02000000
+#define SEGMENT_ROOM 0x03000000
+
 beginseg
     name "makerom"
     include "build/baserom/makerom.o"
@@ -6953,1393 +6956,1625 @@ endseg
 beginseg
     name "ydan_scene"
     romalign 0x1000
-    include "build/baserom/ydan_scene.o"
+    include "build/scenes/dungeons/ydan/ydan_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "ydan_room_0"
     romalign 0x1000
-    include "build/baserom/ydan_room_0.o"
+    include "build/scenes/dungeons/ydan/ydan_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_room_1"
     romalign 0x1000
-    include "build/baserom/ydan_room_1.o"
+    include "build/scenes/dungeons/ydan/ydan_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_room_2"
     romalign 0x1000
-    include "build/baserom/ydan_room_2.o"
+    include "build/scenes/dungeons/ydan/ydan_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_room_3"
     romalign 0x1000
-    include "build/baserom/ydan_room_3.o"
+    include "build/scenes/dungeons/ydan/ydan_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_room_4"
     romalign 0x1000
-    include "build/baserom/ydan_room_4.o"
+    include "build/scenes/dungeons/ydan/ydan_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_room_5"
     romalign 0x1000
-    include "build/baserom/ydan_room_5.o"
+    include "build/scenes/dungeons/ydan/ydan_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_room_6"
     romalign 0x1000
-    include "build/baserom/ydan_room_6.o"
+    include "build/scenes/dungeons/ydan/ydan_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_room_7"
     romalign 0x1000
-    include "build/baserom/ydan_room_7.o"
+    include "build/scenes/dungeons/ydan/ydan_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_room_8"
     romalign 0x1000
-    include "build/baserom/ydan_room_8.o"
+    include "build/scenes/dungeons/ydan/ydan_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_room_9"
     romalign 0x1000
-    include "build/baserom/ydan_room_9.o"
+    include "build/scenes/dungeons/ydan/ydan_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_room_10"
     romalign 0x1000
-    include "build/baserom/ydan_room_10.o"
+    include "build/scenes/dungeons/ydan/ydan_room_10.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_room_11"
     romalign 0x1000
-    include "build/baserom/ydan_room_11.o"
+    include "build/scenes/dungeons/ydan/ydan_room_11.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_scene"
     romalign 0x1000
-    include "build/baserom/ddan_scene.o"
+    include "build/scenes/dungeons/ddan/ddan_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "ddan_room_0"
     romalign 0x1000
-    include "build/baserom/ddan_room_0.o"
+    include "build/scenes/dungeons/ddan/ddan_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_1"
     romalign 0x1000
-    include "build/baserom/ddan_room_1.o"
+    include "build/scenes/dungeons/ddan/ddan_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_2"
     romalign 0x1000
-    include "build/baserom/ddan_room_2.o"
+    include "build/scenes/dungeons/ddan/ddan_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_3"
     romalign 0x1000
-    include "build/baserom/ddan_room_3.o"
+    include "build/scenes/dungeons/ddan/ddan_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_4"
     romalign 0x1000
-    include "build/baserom/ddan_room_4.o"
+    include "build/scenes/dungeons/ddan/ddan_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_5"
     romalign 0x1000
-    include "build/baserom/ddan_room_5.o"
+    include "build/scenes/dungeons/ddan/ddan_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_6"
     romalign 0x1000
-    include "build/baserom/ddan_room_6.o"
+    include "build/scenes/dungeons/ddan/ddan_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_7"
     romalign 0x1000
-    include "build/baserom/ddan_room_7.o"
+    include "build/scenes/dungeons/ddan/ddan_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_8"
     romalign 0x1000
-    include "build/baserom/ddan_room_8.o"
+    include "build/scenes/dungeons/ddan/ddan_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_9"
     romalign 0x1000
-    include "build/baserom/ddan_room_9.o"
+    include "build/scenes/dungeons/ddan/ddan_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_10"
     romalign 0x1000
-    include "build/baserom/ddan_room_10.o"
+    include "build/scenes/dungeons/ddan/ddan_room_10.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_11"
     romalign 0x1000
-    include "build/baserom/ddan_room_11.o"
+    include "build/scenes/dungeons/ddan/ddan_room_11.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_12"
     romalign 0x1000
-    include "build/baserom/ddan_room_12.o"
+    include "build/scenes/dungeons/ddan/ddan_room_12.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_13"
     romalign 0x1000
-    include "build/baserom/ddan_room_13.o"
+    include "build/scenes/dungeons/ddan/ddan_room_13.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_14"
     romalign 0x1000
-    include "build/baserom/ddan_room_14.o"
+    include "build/scenes/dungeons/ddan/ddan_room_14.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_15"
     romalign 0x1000
-    include "build/baserom/ddan_room_15.o"
+    include "build/scenes/dungeons/ddan/ddan_room_15.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_room_16"
     romalign 0x1000
-    include "build/baserom/ddan_room_16.o"
+    include "build/scenes/dungeons/ddan/ddan_room_16.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_scene"
     romalign 0x1000
-    include "build/baserom/bdan_scene.o"
+    include "build/scenes/dungeons/bdan/bdan_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "bdan_room_0"
     romalign 0x1000
-    include "build/baserom/bdan_room_0.o"
+    include "build/scenes/dungeons/bdan/bdan_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_1"
     romalign 0x1000
-    include "build/baserom/bdan_room_1.o"
+    include "build/scenes/dungeons/bdan/bdan_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_2"
     romalign 0x1000
-    include "build/baserom/bdan_room_2.o"
+    include "build/scenes/dungeons/bdan/bdan_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_3"
     romalign 0x1000
-    include "build/baserom/bdan_room_3.o"
+    include "build/scenes/dungeons/bdan/bdan_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_4"
     romalign 0x1000
-    include "build/baserom/bdan_room_4.o"
+    include "build/scenes/dungeons/bdan/bdan_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_5"
     romalign 0x1000
-    include "build/baserom/bdan_room_5.o"
+    include "build/scenes/dungeons/bdan/bdan_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_6"
     romalign 0x1000
-    include "build/baserom/bdan_room_6.o"
+    include "build/scenes/dungeons/bdan/bdan_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_7"
     romalign 0x1000
-    include "build/baserom/bdan_room_7.o"
+    include "build/scenes/dungeons/bdan/bdan_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_8"
     romalign 0x1000
-    include "build/baserom/bdan_room_8.o"
+    include "build/scenes/dungeons/bdan/bdan_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_9"
     romalign 0x1000
-    include "build/baserom/bdan_room_9.o"
+    include "build/scenes/dungeons/bdan/bdan_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_10"
     romalign 0x1000
-    include "build/baserom/bdan_room_10.o"
+    include "build/scenes/dungeons/bdan/bdan_room_10.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_11"
     romalign 0x1000
-    include "build/baserom/bdan_room_11.o"
+    include "build/scenes/dungeons/bdan/bdan_room_11.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_12"
     romalign 0x1000
-    include "build/baserom/bdan_room_12.o"
+    include "build/scenes/dungeons/bdan/bdan_room_12.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_13"
     romalign 0x1000
-    include "build/baserom/bdan_room_13.o"
+    include "build/scenes/dungeons/bdan/bdan_room_13.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_14"
     romalign 0x1000
-    include "build/baserom/bdan_room_14.o"
+    include "build/scenes/dungeons/bdan/bdan_room_14.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_room_15"
     romalign 0x1000
-    include "build/baserom/bdan_room_15.o"
+    include "build/scenes/dungeons/bdan/bdan_room_15.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_scene"
     romalign 0x1000
-    include "build/baserom/Bmori1_scene.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "Bmori1_room_0"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_0.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_1"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_1.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_2"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_2.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_3"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_3.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_4"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_4.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_5"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_5.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_6"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_6.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_7"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_7.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_8"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_8.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_9"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_9.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_10"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_10.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_10.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_11"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_11.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_11.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_12"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_12.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_12.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_13"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_13.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_13.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_14"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_14.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_14.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_15"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_15.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_15.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_16"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_16.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_16.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_17"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_17.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_17.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_18"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_18.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_18.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_19"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_19.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_19.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_20"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_20.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_20.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_21"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_21.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_21.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "Bmori1_room_22"
     romalign 0x1000
-    include "build/baserom/Bmori1_room_22.o"
+    include "build/scenes/dungeons/Bmori1/Bmori1_room_22.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_scene"
     romalign 0x1000
-    include "build/baserom/HIDAN_scene.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "HIDAN_room_0"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_0.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_1"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_1.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_2"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_2.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_3"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_3.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_4"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_4.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_5"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_5.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_6"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_6.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_7"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_7.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_8"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_8.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_9"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_9.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_10"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_10.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_10.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_11"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_11.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_11.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_12"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_12.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_12.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_13"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_13.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_13.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_14"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_14.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_14.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_15"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_15.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_15.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_16"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_16.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_16.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_17"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_17.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_17.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_18"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_18.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_18.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_19"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_19.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_19.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_20"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_20.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_20.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_21"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_21.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_21.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_22"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_22.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_22.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_23"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_23.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_23.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_24"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_24.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_24.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_25"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_25.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_25.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HIDAN_room_26"
     romalign 0x1000
-    include "build/baserom/HIDAN_room_26.o"
+    include "build/scenes/dungeons/HIDAN/HIDAN_room_26.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_scene"
     romalign 0x1000
-    include "build/baserom/MIZUsin_scene.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "MIZUsin_room_0"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_0.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_1"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_1.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_2"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_2.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_3"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_3.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_4"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_4.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_5"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_5.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_6"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_6.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_7"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_7.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_8"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_8.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_9"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_9.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_10"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_10.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_10.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_11"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_11.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_11.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_12"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_12.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_12.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_13"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_13.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_13.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_14"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_14.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_14.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_15"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_15.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_15.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_16"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_16.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_16.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_17"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_17.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_17.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_18"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_18.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_18.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_19"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_19.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_19.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_20"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_20.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_20.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_21"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_21.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_21.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_room_22"
     romalign 0x1000
-    include "build/baserom/MIZUsin_room_22.o"
+    include "build/scenes/dungeons/MIZUsin/MIZUsin_room_22.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_scene"
     romalign 0x1000
-    include "build/baserom/jyasinzou_scene.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "jyasinzou_room_0"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_0.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_1"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_1.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_2"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_2.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_3"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_3.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_4"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_4.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_5"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_5.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_6"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_6.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_7"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_7.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_8"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_8.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_9"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_9.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_10"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_10.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_10.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_11"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_11.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_11.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_12"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_12.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_12.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_13"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_13.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_13.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_14"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_14.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_14.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_15"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_15.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_15.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_16"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_16.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_16.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_17"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_17.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_17.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_18"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_18.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_18.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_19"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_19.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_19.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_20"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_20.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_20.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_21"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_21.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_21.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_22"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_22.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_22.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_23"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_23.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_23.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_24"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_24.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_24.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_25"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_25.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_25.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_26"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_26.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_26.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_27"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_27.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_27.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "jyasinzou_room_28"
     romalign 0x1000
-    include "build/baserom/jyasinzou_room_28.o"
+    include "build/scenes/dungeons/jyasinzou/jyasinzou_room_28.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_scene"
     romalign 0x1000
-    include "build/baserom/HAKAdan_scene.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "HAKAdan_room_0"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_0.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_1"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_1.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_2"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_2.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_3"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_3.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_4"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_4.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_5"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_5.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_6"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_6.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_7"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_7.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_8"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_8.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_9"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_9.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_10"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_10.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_10.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_11"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_11.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_11.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_12"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_12.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_12.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_13"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_13.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_13.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_14"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_14.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_14.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_15"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_15.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_15.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_16"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_16.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_16.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_17"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_17.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_17.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_18"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_18.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_18.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_19"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_19.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_19.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_20"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_20.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_20.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_21"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_21.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_21.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_room_22"
     romalign 0x1000
-    include "build/baserom/HAKAdan_room_22.o"
+    include "build/scenes/dungeons/HAKAdan/HAKAdan_room_22.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdanCH_scene"
     romalign 0x1000
-    include "build/baserom/HAKAdanCH_scene.o"
+    include "build/scenes/dungeons/HAKAdanCH/HAKAdanCH_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "HAKAdanCH_room_0"
     romalign 0x1000
-    include "build/baserom/HAKAdanCH_room_0.o"
+    include "build/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdanCH_room_1"
     romalign 0x1000
-    include "build/baserom/HAKAdanCH_room_1.o"
+    include "build/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdanCH_room_2"
     romalign 0x1000
-    include "build/baserom/HAKAdanCH_room_2.o"
+    include "build/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdanCH_room_3"
     romalign 0x1000
-    include "build/baserom/HAKAdanCH_room_3.o"
+    include "build/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdanCH_room_4"
     romalign 0x1000
-    include "build/baserom/HAKAdanCH_room_4.o"
+    include "build/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdanCH_room_5"
     romalign 0x1000
-    include "build/baserom/HAKAdanCH_room_5.o"
+    include "build/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdanCH_room_6"
     romalign 0x1000
-    include "build/baserom/HAKAdanCH_room_6.o"
+    include "build/scenes/dungeons/HAKAdanCH/HAKAdanCH_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ice_doukutu_scene"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_scene.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "ice_doukutu_room_0"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_room_0.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ice_doukutu_room_1"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_room_1.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ice_doukutu_room_2"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_room_2.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ice_doukutu_room_3"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_room_3.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ice_doukutu_room_4"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_room_4.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ice_doukutu_room_5"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_room_5.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ice_doukutu_room_6"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_room_6.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ice_doukutu_room_7"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_room_7.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ice_doukutu_room_8"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_room_8.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ice_doukutu_room_9"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_room_9.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ice_doukutu_room_10"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_room_10.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_room_10.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ice_doukutu_room_11"
     romalign 0x1000
-    include "build/baserom/ice_doukutu_room_11.o"
+    include "build/scenes/dungeons/ice_doukutu/ice_doukutu_room_11.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "men_scene"
     romalign 0x1000
-    include "build/baserom/men_scene.o"
+    include "build/scenes/dungeons/men/men_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "men_room_0"
     romalign 0x1000
-    include "build/baserom/men_room_0.o"
+    include "build/scenes/dungeons/men/men_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "men_room_1"
     romalign 0x1000
-    include "build/baserom/men_room_1.o"
+    include "build/scenes/dungeons/men/men_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "men_room_2"
     romalign 0x1000
-    include "build/baserom/men_room_2.o"
+    include "build/scenes/dungeons/men/men_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "men_room_3"
     romalign 0x1000
-    include "build/baserom/men_room_3.o"
+    include "build/scenes/dungeons/men/men_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "men_room_4"
     romalign 0x1000
-    include "build/baserom/men_room_4.o"
+    include "build/scenes/dungeons/men/men_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "men_room_5"
     romalign 0x1000
-    include "build/baserom/men_room_5.o"
+    include "build/scenes/dungeons/men/men_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "men_room_6"
     romalign 0x1000
-    include "build/baserom/men_room_6.o"
+    include "build/scenes/dungeons/men/men_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "men_room_7"
     romalign 0x1000
-    include "build/baserom/men_room_7.o"
+    include "build/scenes/dungeons/men/men_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "men_room_8"
     romalign 0x1000
-    include "build/baserom/men_room_8.o"
+    include "build/scenes/dungeons/men/men_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "men_room_9"
     romalign 0x1000
-    include "build/baserom/men_room_9.o"
+    include "build/scenes/dungeons/men/men_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "men_room_10"
     romalign 0x1000
-    include "build/baserom/men_room_10.o"
+    include "build/scenes/dungeons/men/men_room_10.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_scene"
     romalign 0x1000
-    include "build/baserom/ganontika_scene.o"
+    include "build/scenes/dungeons/ganontika/ganontika_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "ganontika_room_0"
     romalign 0x1000
-    include "build/baserom/ganontika_room_0.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_1"
     romalign 0x1000
-    include "build/baserom/ganontika_room_1.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_2"
     romalign 0x1000
-    include "build/baserom/ganontika_room_2.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_3"
     romalign 0x1000
-    include "build/baserom/ganontika_room_3.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_4"
     romalign 0x1000
-    include "build/baserom/ganontika_room_4.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_5"
     romalign 0x1000
-    include "build/baserom/ganontika_room_5.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_6"
     romalign 0x1000
-    include "build/baserom/ganontika_room_6.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_7"
     romalign 0x1000
-    include "build/baserom/ganontika_room_7.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_8"
     romalign 0x1000
-    include "build/baserom/ganontika_room_8.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_9"
     romalign 0x1000
-    include "build/baserom/ganontika_room_9.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_10"
     romalign 0x1000
-    include "build/baserom/ganontika_room_10.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_10.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_11"
     romalign 0x1000
-    include "build/baserom/ganontika_room_11.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_11.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_12"
     romalign 0x1000
-    include "build/baserom/ganontika_room_12.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_12.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_13"
     romalign 0x1000
-    include "build/baserom/ganontika_room_13.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_13.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_14"
     romalign 0x1000
-    include "build/baserom/ganontika_room_14.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_14.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_15"
     romalign 0x1000
-    include "build/baserom/ganontika_room_15.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_15.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_16"
     romalign 0x1000
-    include "build/baserom/ganontika_room_16.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_16.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_17"
     romalign 0x1000
-    include "build/baserom/ganontika_room_17.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_17.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_18"
     romalign 0x1000
-    include "build/baserom/ganontika_room_18.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_18.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontika_room_19"
     romalign 0x1000
-    include "build/baserom/ganontika_room_19.o"
+    include "build/scenes/dungeons/ganontika/ganontika_room_19.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -8357,13 +8592,15 @@ endseg
 beginseg
     name "syotes2_scene"
     romalign 0x1000
-    include "build/baserom/syotes2_scene.o"
+    include "build/scenes/test_levels/syotes2/syotes2_scene.o"
+    address SEGMENT_SCENE   
 endseg
 
 beginseg
     name "syotes2_room_0"
     romalign 0x1000
-    include "build/baserom/syotes2_room_0.o"
+    include "build/scenes/test_levels/syotes2/syotes2_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -8381,337 +8618,398 @@ endseg
 beginseg
     name "spot00_scene"
     romalign 0x1000
-    include "build/baserom/spot00_scene.o"
+    include "build/scenes/overworld/spot00/spot00_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot00_room_0"
     romalign 0x1000
-    include "build/baserom/spot00_room_0.o"
+    include "build/scenes/overworld/spot00/spot00_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot01_scene"
     romalign 0x1000
-    include "build/baserom/spot01_scene.o"
+    include "build/scenes/overworld/spot01/spot01_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot01_room_0"
     romalign 0x1000
-    include "build/baserom/spot01_room_0.o"
+    include "build/scenes/overworld/spot01/spot01_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot02_scene"
     romalign 0x1000
-    include "build/baserom/spot02_scene.o"
+    include "build/scenes/overworld/spot02/spot02_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot02_room_0"
     romalign 0x1000
-    include "build/baserom/spot02_room_0.o"
+    include "build/scenes/overworld/spot02/spot02_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot02_room_1"
     romalign 0x1000
-    include "build/baserom/spot02_room_1.o"
+    include "build/scenes/overworld/spot02/spot02_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot03_scene"
     romalign 0x1000
-    include "build/baserom/spot03_scene.o"
+    include "build/scenes/overworld/spot03/spot03_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot03_room_0"
     romalign 0x1000
-    include "build/baserom/spot03_room_0.o"
+    include "build/scenes/overworld/spot03/spot03_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot03_room_1"
     romalign 0x1000
-    include "build/baserom/spot03_room_1.o"
+    include "build/scenes/overworld/spot03/spot03_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot04_scene"
     romalign 0x1000
-    include "build/baserom/spot04_scene.o"
+    include "build/scenes/overworld/spot04/spot04_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot04_room_0"
     romalign 0x1000
-    include "build/baserom/spot04_room_0.o"
+    include "build/scenes/overworld/spot04/spot04_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot04_room_1"
     romalign 0x1000
-    include "build/baserom/spot04_room_1.o"
+    include "build/scenes/overworld/spot04/spot04_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot04_room_2"
     romalign 0x1000
-    include "build/baserom/spot04_room_2.o"
+    include "build/scenes/overworld/spot04/spot04_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot05_scene"
     romalign 0x1000
-    include "build/baserom/spot05_scene.o"
+    include "build/scenes/overworld/spot05/spot05_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot05_room_0"
     romalign 0x1000
-    include "build/baserom/spot05_room_0.o"
+    include "build/scenes/overworld/spot05/spot05_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot06_scene"
     romalign 0x1000
-    include "build/baserom/spot06_scene.o"
+    include "build/scenes/overworld/spot06/spot06_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot06_room_0"
     romalign 0x1000
-    include "build/baserom/spot06_room_0.o"
+    include "build/scenes/overworld/spot06/spot06_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot07_scene"
     romalign 0x1000
-    include "build/baserom/spot07_scene.o"
+    include "build/scenes/overworld/spot07/spot07_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot07_room_0"
     romalign 0x1000
-    include "build/baserom/spot07_room_0.o"
+    include "build/scenes/overworld/spot07/spot07_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot07_room_1"
     romalign 0x1000
-    include "build/baserom/spot07_room_1.o"
+    include "build/scenes/overworld/spot07/spot07_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot08_scene"
     romalign 0x1000
-    include "build/baserom/spot08_scene.o"
+    include "build/scenes/overworld/spot08/spot08_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot08_room_0"
     romalign 0x1000
-    include "build/baserom/spot08_room_0.o"
+    include "build/scenes/overworld/spot08/spot08_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot09_scene"
     romalign 0x1000
-    include "build/baserom/spot09_scene.o"
+    include "build/scenes/overworld/spot09/spot09_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot09_room_0"
     romalign 0x1000
-    include "build/baserom/spot09_room_0.o"
+    include "build/scenes/overworld/spot09/spot09_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot10_scene"
     romalign 0x1000
-    include "build/baserom/spot10_scene.o"
+    include "build/scenes/overworld/spot10/spot10_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot10_room_0"
     romalign 0x1000
-    include "build/baserom/spot10_room_0.o"
+    include "build/scenes/overworld/spot10/spot10_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot10_room_1"
     romalign 0x1000
-    include "build/baserom/spot10_room_1.o"
+    include "build/scenes/overworld/spot10/spot10_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot10_room_2"
     romalign 0x1000
-    include "build/baserom/spot10_room_2.o"
+    include "build/scenes/overworld/spot10/spot10_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot10_room_3"
     romalign 0x1000
-    include "build/baserom/spot10_room_3.o"
+    include "build/scenes/overworld/spot10/spot10_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot10_room_4"
     romalign 0x1000
-    include "build/baserom/spot10_room_4.o"
+    include "build/scenes/overworld/spot10/spot10_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot10_room_5"
     romalign 0x1000
-    include "build/baserom/spot10_room_5.o"
+    include "build/scenes/overworld/spot10/spot10_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot10_room_6"
     romalign 0x1000
-    include "build/baserom/spot10_room_6.o"
+    include "build/scenes/overworld/spot10/spot10_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot10_room_7"
     romalign 0x1000
-    include "build/baserom/spot10_room_7.o"
+    include "build/scenes/overworld/spot10/spot10_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot10_room_8"
     romalign 0x1000
-    include "build/baserom/spot10_room_8.o"
+    include "build/scenes/overworld/spot10/spot10_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot10_room_9"
     romalign 0x1000
-    include "build/baserom/spot10_room_9.o"
+    include "build/scenes/overworld/spot10/spot10_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot11_scene"
     romalign 0x1000
-    include "build/baserom/spot11_scene.o"
+    include "build/scenes/overworld/spot11/spot11_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot11_room_0"
     romalign 0x1000
-    include "build/baserom/spot11_room_0.o"
+    include "build/scenes/overworld/spot11/spot11_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot12_scene"
     romalign 0x1000
-    include "build/baserom/spot12_scene.o"
+    include "build/scenes/overworld/spot12/spot12_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot12_room_0"
     romalign 0x1000
-    include "build/baserom/spot12_room_0.o"
+    include "build/scenes/overworld/spot12/spot12_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot12_room_1"
     romalign 0x1000
-    include "build/baserom/spot12_room_1.o"
+    include "build/scenes/overworld/spot12/spot12_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot13_scene"
     romalign 0x1000
-    include "build/baserom/spot13_scene.o"
+    include "build/scenes/overworld/spot13/spot13_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot13_room_0"
     romalign 0x1000
-    include "build/baserom/spot13_room_0.o"
+    include "build/scenes/overworld/spot13/spot13_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot13_room_1"
     romalign 0x1000
-    include "build/baserom/spot13_room_1.o"
+    include "build/scenes/overworld/spot13/spot13_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot15_scene"
     romalign 0x1000
-    include "build/baserom/spot15_scene.o"
+    include "build/scenes/overworld/spot15/spot15_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot15_room_0"
     romalign 0x1000
-    include "build/baserom/spot15_room_0.o"
+    include "build/scenes/overworld/spot15/spot15_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot16_scene"
     romalign 0x1000
-    include "build/baserom/spot16_scene.o"
+    include "build/scenes/overworld/spot16/spot16_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot16_room_0"
     romalign 0x1000
-    include "build/baserom/spot16_room_0.o"
+    include "build/scenes/overworld/spot16/spot16_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot17_scene"
     romalign 0x1000
-    include "build/baserom/spot17_scene.o"
+    include "build/scenes/overworld/spot17/spot17_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot17_room_0"
     romalign 0x1000
-    include "build/baserom/spot17_room_0.o"
+    include "build/scenes/overworld/spot17/spot17_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot17_room_1"
     romalign 0x1000
-    include "build/baserom/spot17_room_1.o"
+    include "build/scenes/overworld/spot17/spot17_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot18_scene"
     romalign 0x1000
-    include "build/baserom/spot18_scene.o"
+    //include "build/baserom/spot18_scene.o"
+    include "build/scenes/overworld/spot18/spot18_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot18_room_0"
     romalign 0x1000
-    include "build/baserom/spot18_room_0.o"
+    //include "build/baserom/spot18_room_0.o"
+    include "build/scenes/overworld/spot18/spot18_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot18_room_1"
     romalign 0x1000
-    include "build/baserom/spot18_room_1.o"
+    //include "build/baserom/spot18_room_1.o"
+    include "build/scenes/overworld/spot18/spot18_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot18_room_2"
     romalign 0x1000
-    include "build/baserom/spot18_room_2.o"
+    //include "build/baserom/spot18_room_2.o"
+    include "build/scenes/overworld/spot18/spot18_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "spot18_room_3"
     romalign 0x1000
-    include "build/baserom/spot18_room_3.o"
+    //include "build/baserom/spot18_room_3.o"
+     include "build/scenes/overworld/spot18/spot18_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -8741,95 +9039,92 @@ endseg
 beginseg
     name "testroom_scene"
     romalign 0x1000
-    //include "build/baserom/testroom_scene.o"
     include "build/scenes/test_levels/testroom/testroom_scene.o"
-    address 0x02000000
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "testroom_room_0"
     romalign 0x1000
-    //include "build/baserom/testroom_room_0.o"
     include "build/scenes/test_levels/testroom/testroom_room_0.o"
-    address 0x03000000
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "testroom_room_1"
     romalign 0x1000
-    //include "build/baserom/testroom_room_1.o"
     include "build/scenes/test_levels/testroom/testroom_room_1.o"
-    address 0x03000000
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "testroom_room_2"
     romalign 0x1000
-    //include "build/baserom/testroom_room_2.o"
     include "build/scenes/test_levels/testroom/testroom_room_2.o"
-    address 0x03000000
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "testroom_room_3"
     romalign 0x1000
-    //include "build/baserom/testroom_room_3.o"
     include "build/scenes/test_levels/testroom/testroom_room_3.o"
-    address 0x03000000
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "testroom_room_4"
     romalign 0x1000
-    //include "build/baserom/testroom_room_4.o"
     include "build/scenes/test_levels/testroom/testroom_room_4.o"
-    address 0x03000000
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kenjyanoma_scene"
     romalign 0x1000
-    include "build/baserom/kenjyanoma_scene.o"
+    include "build/scenes/indoors/kenjyanoma/kenjyanoma_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "kenjyanoma_room_0"
     romalign 0x1000
-    include "build/baserom/kenjyanoma_room_0.o"
+    include "build/scenes/indoors/kenjyanoma/kenjyanoma_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "tokinoma_scene"
     romalign 0x1000
-    include "build/baserom/tokinoma_scene.o"
+    include "build/scenes/indoors/tokinoma/tokinoma_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "tokinoma_room_0"
     romalign 0x1000
-    include "build/baserom/tokinoma_room_0.o"
+    include "build/scenes/indoors/tokinoma/tokinoma_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "tokinoma_room_1"
     romalign 0x1000
-    include "build/baserom/tokinoma_room_1.o"
+    include "build/scenes/indoors/tokinoma/tokinoma_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "sutaru_scene"
     romalign 0x1000
-    //include "build/baserom/sutaru_scene.o"
     include "build/scenes/test_levels/sutaru/sutaru_scene.o"
-    address 0x02000000
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "sutaru_room_0"
     romalign 0x1000
-    //include "build/baserom/sutaru_room_0.o"
     include "build/scenes/test_levels/sutaru/sutaru_room_0.o"
-    address 0x03000000
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -8871,91 +9166,106 @@ endseg
 beginseg
     name "kakusiana_scene"
     romalign 0x1000
-    include "build/baserom/kakusiana_scene.o"
+    include "build/scenes/misc/kakusiana/kakusiana_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "kakusiana_room_0"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_0.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_1"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_1.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_2"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_2.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_3"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_3.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_4"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_4.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_5"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_5.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_5.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_6"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_6.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_6.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_7"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_7.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_7.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_8"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_8.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_8.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_9"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_9.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_9.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_10"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_10.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_10.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_11"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_11.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_11.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_12"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_12.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_12.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "kakusiana_room_13"
     romalign 0x1000
-    include "build/baserom/kakusiana_room_13.o"
+    include "build/scenes/misc/kakusiana/kakusiana_room_13.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -8973,31 +9283,36 @@ endseg
 beginseg
     name "moribossroom_scene"
     romalign 0x1000
-    include "build/baserom/moribossroom_scene.o"
+    include "build/scenes/dungeons/moribossroom/moribossroom_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "moribossroom_room_0"
     romalign 0x1000
-    include "build/baserom/moribossroom_room_0.o"
+    include "build/scenes/dungeons/moribossroom/moribossroom_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "moribossroom_room_1"
     romalign 0x1000
-    include "build/baserom/moribossroom_room_1.o"
+    include "build/scenes/dungeons/moribossroom/moribossroom_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "syatekijyou_scene"
     romalign 0x1000
-    include "build/baserom/syatekijyou_scene.o"
+    include "build/scenes/indoors/syatekijyou/syatekijyou_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "syatekijyou_room_0"
     romalign 0x1000
-    include "build/baserom/syatekijyou_room_0.o"
+    include "build/scenes/indoors/syatekijyou/syatekijyou_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -9027,13 +9342,15 @@ endseg
 beginseg
     name "ganon_tou_scene"
     romalign 0x1000
-    include "build/baserom/ganon_tou_scene.o"
+    include "build/scenes/dungeons/ganon_tou/ganon_tou_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "ganon_tou_room_0"
     romalign 0x1000
-    include "build/baserom/ganon_tou_room_0.o"
+    include "build/scenes/dungeons/ganon_tou/ganon_tou_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -9063,13 +9380,15 @@ endseg
 beginseg
     name "spot20_scene"
     romalign 0x1000
-    include "build/baserom/spot20_scene.o"
+    include "build/scenes/overworld/spot20/spot20_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "spot20_room_0"
     romalign 0x1000
-    include "build/baserom/spot20_room_0.o"
+    include "build/scenes/overworld/spot20/spot20_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -9171,19 +9490,22 @@ endseg
 beginseg
     name "bdan_boss_scene"
     romalign 0x1000
-    include "build/baserom/bdan_boss_scene.o"
+    include "build/scenes/dungeons/bdan_boss/bdan_boss_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "bdan_boss_room_0"
     romalign 0x1000
-    include "build/baserom/bdan_boss_room_0.o"
+    include "build/scenes/dungeons/bdan_boss/bdan_boss_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "bdan_boss_room_1"
     romalign 0x1000
-    include "build/baserom/bdan_boss_room_1.o"
+    include "build/scenes/dungeons/bdan_boss/bdan_boss_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -9231,13 +9553,15 @@ endseg
 beginseg
     name "hakaana_scene"
     romalign 0x1000
-    include "build/baserom/hakaana_scene.o"
+    include "build/scenes/misc/hakaana/hakaana_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "hakaana_room_0"
     romalign 0x1000
-    include "build/baserom/hakaana_room_0.o"
+    include "build/scenes/misc/hakaana/hakaana_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -9375,75 +9699,85 @@ endseg
 beginseg
     name "ddan_boss_scene"
     romalign 0x1000
-    include "build/baserom/ddan_boss_scene.o"
-    //include "build/scenes/dungeons/ddan_boss/ddan_boss_scene.o"
-    //address 0x02000000
+    include "build/scenes/dungeons/ddan_boss/ddan_boss_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "ddan_boss_room_0"
     romalign 0x1000
-    include "build/baserom/ddan_boss_room_0.o"
+    include "build/scenes/dungeons/ddan_boss/ddan_boss_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ddan_boss_room_1"
     romalign 0x1000
-    include "build/baserom/ddan_boss_room_1.o"
+    include "build/scenes/dungeons/ddan_boss/ddan_boss_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_boss_scene"
     romalign 0x1000
-    include "build/baserom/ydan_boss_scene.o"
+    include "build/scenes/dungeons/ydan_boss/ydan_boss_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "ydan_boss_room_0"
     romalign 0x1000
-    include "build/baserom/ydan_boss_room_0.o"
+    include "build/scenes/dungeons/ydan_boss/ydan_boss_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ydan_boss_room_1"
     romalign 0x1000
-    include "build/baserom/ydan_boss_room_1.o"
+    include "build/scenes/dungeons/ydan_boss/ydan_boss_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_bs_scene"
     romalign 0x1000
-    include "build/baserom/HAKAdan_bs_scene.o"
+    include "build/scenes/dungeons/HAKAdan_bs/HAKAdan_bs_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "HAKAdan_bs_room_0"
     romalign 0x1000
-    include "build/baserom/HAKAdan_bs_room_0.o"
+    include "build/scenes/dungeons/HAKAdan_bs/HAKAdan_bs_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "HAKAdan_bs_room_1"
     romalign 0x1000
-    include "build/baserom/HAKAdan_bs_room_1.o"
+    include "build/scenes/dungeons/HAKAdan_bs/HAKAdan_bs_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_bs_scene"
     romalign 0x1000
-    include "build/baserom/MIZUsin_bs_scene.o"
+    include "build/scenes/dungeons/MIZUsin_bs/MIZUsin_bs_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "MIZUsin_bs_room_0"
     romalign 0x1000
-    include "build/baserom/MIZUsin_bs_room_0.o"
+    include "build/scenes/dungeons/MIZUsin_bs/MIZUsin_bs_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "MIZUsin_bs_room_1"
     romalign 0x1000
-    include "build/baserom/MIZUsin_bs_room_1.o"
+    include "build/scenes/dungeons/MIZUsin_bs/MIZUsin_bs_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -9713,13 +10047,17 @@ endseg
 beginseg
     name "hakaana2_scene"
     romalign 0x1000
-    include "build/baserom/hakaana2_scene.o"
+    //include "build/baserom/hakaana2_scene.o"
+    include "build/scenes/misc/hakaana2/hakaana2_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "hakaana2_room_0"
     romalign 0x1000
-    include "build/baserom/hakaana2_room_0.o"
+    //include "build/baserom/hakaana2_room_0.o"
+    include "build/scenes/misc/hakaana2/hakaana2_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -9791,89 +10129,99 @@ endseg
 beginseg
     name "hakaana_ouke_scene"
     romalign 0x1000
-    include "build/baserom/hakaana_ouke_scene.o"
+    include "build/scenes/misc/hakaana_ouke/hakaana_ouke_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "hakaana_ouke_room_0"
     romalign 0x1000
-    include "build/baserom/hakaana_ouke_room_0.o"
+    include "build/scenes/misc/hakaana_ouke/hakaana_ouke_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "hakaana_ouke_room_1"
     romalign 0x1000
-    include "build/baserom/hakaana_ouke_room_1.o"
+    include "build/scenes/misc/hakaana_ouke/hakaana_ouke_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "hakaana_ouke_room_2"
     romalign 0x1000
-    include "build/baserom/hakaana_ouke_room_2.o"
+    include "build/scenes/misc/hakaana_ouke/hakaana_ouke_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "hylia_labo_scene"
     romalign 0x1000
-    include "build/baserom/hylia_labo_scene.o"
+    include "build/scenes/indoors/hylia_labo/hylia_labo_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "hylia_labo_room_0"
     romalign 0x1000
-    include "build/baserom/hylia_labo_room_0.o"
+    include "build/scenes/indoors/hylia_labo/hylia_labo_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "souko_scene"
     romalign 0x1000
-    include "build/baserom/souko_scene.o"
+    include "build/scenes/overworld/souko/souko_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "souko_room_0"
     romalign 0x1000
-    include "build/baserom/souko_room_0.o"
+    include "build/scenes/overworld/souko/souko_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "souko_room_1"
     romalign 0x1000
-    include "build/baserom/souko_room_1.o"
+    include "build/scenes/overworld/souko/souko_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "souko_room_2"
     romalign 0x1000
-    include "build/baserom/souko_room_2.o"
+    include "build/scenes/overworld/souko/souko_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "miharigoya_scene"
     romalign 0x1000
-    //include "build/baserom/miharigoya_scene.o"
-    include "build/scenes/misc/miharigoya/miharigoya_scene.o"
-    address 0x02000000
+    include "build/scenes/indoors/miharigoya/miharigoya_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "miharigoya_room_0"
     romalign 0x1000
-    //include "build/baserom/miharigoya_room_0.o"
-    include "build/scenes/misc/miharigoya/miharigoya_room_0.o"
-    address 0x03000000
+    include "build/scenes/indoors/miharigoya/miharigoya_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "mahouya_scene"
     romalign 0x1000
-    include "build/baserom/mahouya_scene.o"
+    include "build/scenes/indoors/mahouya/mahouya_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "mahouya_room_0"
     romalign 0x1000
-    include "build/baserom/mahouya_room_0.o"
+    include "build/scenes/indoors/mahouya/mahouya_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -9927,61 +10275,71 @@ endseg
 beginseg
     name "ganon_sonogo_scene"
     romalign 0x1000
-    include "build/baserom/ganon_sonogo_scene.o"
+    include "build/scenes/dungeons/ganon_sonogo/ganon_sonogo_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "ganon_sonogo_room_0"
     romalign 0x1000
-    include "build/baserom/ganon_sonogo_room_0.o"
+    include "build/scenes/dungeons/ganon_sonogo/ganon_sonogo_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganon_sonogo_room_1"
     romalign 0x1000
-    include "build/baserom/ganon_sonogo_room_1.o"
+    include "build/scenes/dungeons/ganon_sonogo/ganon_sonogo_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganon_sonogo_room_2"
     romalign 0x1000
-    include "build/baserom/ganon_sonogo_room_2.o"
+    include "build/scenes/dungeons/ganon_sonogo/ganon_sonogo_room_2.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganon_sonogo_room_3"
     romalign 0x1000
-    include "build/baserom/ganon_sonogo_room_3.o"
+    include "build/scenes/dungeons/ganon_sonogo/ganon_sonogo_room_3.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganon_sonogo_room_4"
     romalign 0x1000
-    include "build/baserom/ganon_sonogo_room_4.o"
+    include "build/scenes/dungeons/ganon_sonogo/ganon_sonogo_room_4.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganon_demo_scene"
     romalign 0x1000
-    include "build/baserom/ganon_demo_scene.o"
+    include "build/scenes/dungeons/ganon_demo/ganon_demo_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "ganon_demo_room_0"
     romalign 0x1000
-    include "build/baserom/ganon_demo_room_0.o"
+    include "build/scenes/dungeons/ganon_demo/ganon_demo_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "besitu_scene"
     romalign 0x1000
-    include "build/baserom/besitu_scene.o"
+    include "build/scenes/test_levels/besitu/besitu_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "besitu_room_0"
     romalign 0x1000
-    include "build/baserom/besitu_room_0.o"
+    include "build/scenes/test_levels/besitu/besitu_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
@@ -9999,51 +10357,50 @@ endseg
 beginseg
     name "kinsuta_scene"
     romalign 0x1000
-    //include "build/baserom/kinsuta_scene.o"
     include "build/scenes/misc/kinsuta/kinsuta_scene.o"
-    address 0x02000000
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "kinsuta_room_0"
     romalign 0x1000
-    //include "build/baserom/kinsuta_room_0.o"
     include "build/scenes/misc/kinsuta/kinsuta_room_0.o"
-    address 0x03000000
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontikasonogo_scene"
     romalign 0x1000
-    include "build/baserom/ganontikasonogo_scene.o"
+    include "build/scenes/dungeons/ganontikasonogo/ganontikasonogo_scene.o"
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "ganontikasonogo_room_0"
     romalign 0x1000
-    include "build/baserom/ganontikasonogo_room_0.o"
+    include "build/scenes/dungeons/ganontikasonogo/ganontikasonogo_room_0.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "ganontikasonogo_room_1"
     romalign 0x1000
-    include "build/baserom/ganontikasonogo_room_1.o"
+    include "build/scenes/dungeons/ganontikasonogo/ganontikasonogo_room_1.o"
+    address SEGMENT_ROOM
 endseg
 
 beginseg
     name "test01_scene"
     romalign 0x1000
-    //include "build/baserom/test01_scene.o"
     include "build/scenes/test_levels/test01/test01_scene.o"
-    address 0x02000000
+    address SEGMENT_SCENE
 endseg
 
 beginseg
     name "test01_room_0"
     romalign 0x1000
-    //include "build/baserom/test01_room_0.o"
     include "build/scenes/test_levels/test01/test01_room_0.o"
-    address 0x03000000
+    address SEGMENT_ROOM
 endseg
 
 beginseg

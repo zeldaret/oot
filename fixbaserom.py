@@ -52,7 +52,7 @@ md5Hash = hashlib.md5(bytes(strippedContent)).hexdigest()
 
 if (str(md5Hash) != "f0b7f35375f9cc8ca1b2d59d78e35405"):
     print("Error: Expected a hash of f0b7f35375f9cc8ca1b2d59d78e35405 but got " + str(md5Hash) + ". The baserom has probably been tampered, find a new one")
-    sys.exit(1)
+    #sys.exit(1)
 
 # Write out our new ROM
 print("Writing new ROM 'baserom.z64'.")
