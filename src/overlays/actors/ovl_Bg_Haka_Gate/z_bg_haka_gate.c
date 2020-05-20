@@ -8,10 +8,13 @@
 
 #define FLAGS 0x00000000
 
-void BgHakaGate_Init(BgHakaGate* this, GlobalContext* globalCtx);
-void BgHakaGate_Destroy(BgHakaGate* this, GlobalContext* globalCtx);
-void BgHakaGate_Update(BgHakaGate* this, GlobalContext* globalCtx);
-void BgHakaGate_Draw(BgHakaGate* this, GlobalContext* globalCtx);
+#define THIS ((BgHakaGate*)thisx)
+
+void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaGate_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaGate_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaGate_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_8087C114(BgHakaGate* this, GlobalContext* globalCtx);
 void func_8087C120(BgHakaGate* this, GlobalContext* globalCtx);
 void func_8087C158(BgHakaGate* this, GlobalContext* globalCtx);

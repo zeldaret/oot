@@ -101,8 +101,8 @@ glabel func_809F2720
 /* 00CF4 809F27D4 0C00084C */  jal     osSyncPrintf
               
 /* 00CF8 809F27D8 24843058 */  addiu   $a0, $a0, %lo(D_809F3058)  ## $a0 = 809F3058
-/* 00CFC 809F27DC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00D00 809F27E0 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00CFC 809F27DC 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00D00 809F27E0 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00D04 809F27E4 944E0EF2 */  lhu     $t6, 0x0EF2($v0)           ## 8015F552
 /* 00D08 809F27E8 35CF8000 */  ori     $t7, $t6, 0x8000           ## $t7 = 00008000
 /* 00D0C 809F27EC 10000018 */  beq     $zero, $zero, .L809F2850   
@@ -132,8 +132,8 @@ glabel func_809F2720
 /* 00D54 809F2834 0C00084C */  jal     osSyncPrintf
               
 /* 00D58 809F2838 24843088 */  addiu   $a0, $a0, %lo(D_809F3088)  ## $a0 = 809F3088
-/* 00D5C 809F283C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00D60 809F2840 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00D5C 809F283C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00D60 809F2840 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00D64 809F2844 94580EF2 */  lhu     $t8, 0x0EF2($v0)           ## 8015F552
 /* 00D68 809F2848 37194000 */  ori     $t9, $t8, 0x4000           ## $t9 = 00004000
 /* 00D6C 809F284C A4590EF2 */  sh      $t9, 0x0EF2($v0)           ## 8015F552

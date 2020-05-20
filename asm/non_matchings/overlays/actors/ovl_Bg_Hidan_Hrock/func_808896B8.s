@@ -33,7 +33,7 @@ glabel func_808896B8
 /* 005F8 80889728 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00001E60
 /* 005FC 8088972C 00E12821 */  addu    $a1, $a3, $at              
 /* 00600 80889730 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
-/* 00604 80889734 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00604 80889734 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00608 80889738 2606016C */  addiu   $a2, $s0, 0x016C           ## $a2 = 0000016C
 .L8088973C:

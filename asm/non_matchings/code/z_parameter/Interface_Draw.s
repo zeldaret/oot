@@ -140,7 +140,7 @@ glabel Interface_Draw
 /* B01C74 8008AAD4 02E02025 */   move  $a0, $s7
 /* B01C78 8008AAD8 0C022A65 */  jal   func_8008A994
 /* B01C7C 8008AADC 02C02025 */   move  $a0, $s6
-/* B01C80 8008AAE0 0C01E3C7 */  jal   Interface_DrawHealth
+/* B01C80 8008AAE0 0C01E3C7 */  jal   Health_Draw
 /* B01C84 8008AAE4 02E02025 */   move  $a0, $s7
 /* B01C88 8008AAE8 0C025148 */  jal   func_80094520
 /* B01C8C 8008AAEC 8EE40000 */   lw    $a0, ($s7)
@@ -499,7 +499,7 @@ glabel L8008ABB0
 .L8008B02C:
 /* B021CC 8008B02C 0C0220A1 */  jal   Interface_DrawMagicBar
 /* B021D0 8008B030 02E02025 */   move  $a0, $s7
-/* B021D4 8008B034 0C0205B8 */  jal   Interface_DrawMinimap
+/* B021D4 8008B034 0C0205B8 */  jal   Minimap_Draw
 /* B021D8 8008B038 02E02025 */   move  $a0, $s7
 /* B021DC 8008B03C 3C0A8016 */  lui   $t2, %hi(gGameInfo) # $t2, 0x8016
 /* B021E0 8008B040 8D4AFA90 */  lw    $t2, %lo(gGameInfo)($t2)
@@ -1905,7 +1905,7 @@ glabel L8008ABB0
 /* B03718 8008C578 914E241B */  lbu   $t6, 0x241b($t2)
 /* B0371C 8008C57C 55C003E6 */  bnezl $t6, .L8008D518
 /* B03720 8008C580 8FB80068 */   lw    $t8, 0x68($sp)
-/* B03724 8008C584 0C02FF21 */  jal   func_800BFC84
+/* B03724 8008C584 0C02FF21 */  jal   Gameplay_InCsMode
 /* B03728 8008C588 02E02025 */   move  $a0, $s7
 /* B0372C 8008C58C 544003E2 */  bnezl $v0, .L8008D518
 /* B03730 8008C590 8FB80068 */   lw    $t8, 0x68($sp)

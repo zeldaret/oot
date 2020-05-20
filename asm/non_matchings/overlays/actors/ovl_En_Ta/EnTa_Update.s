@@ -6,14 +6,14 @@ glabel EnTa_Update
 /* 02F00 80B169A0 AFA50044 */  sw      $a1, 0x0044($sp)           
 /* 02F04 80B169A4 26060264 */  addiu   $a2, $s0, 0x0264           ## $a2 = 00000264
 /* 02F08 80B169A8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000264
-/* 02F0C 80B169AC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 02F0C 80B169AC 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 02F10 80B169B0 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 02F14 80B169B4 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 02F18 80B169B8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02F1C 80B169BC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02F20 80B169C0 8FA60034 */  lw      $a2, 0x0034($sp)           
-/* 02F24 80B169C4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 02F24 80B169C4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 02F28 80B169C8 00812821 */  addu    $a1, $a0, $at              
 /* 02F2C 80B169CC 0C00B638 */  jal     Actor_MoveForward

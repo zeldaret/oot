@@ -19,7 +19,7 @@ glabel EnBomBowlMan_Init
 /* 0000C 809C363C 00A09825 */  or      $s3, $a1, $zero            ## $s3 = 00000000
 /* 00010 809C3640 0080F025 */  or      $s8, $a0, $zero            ## $s8 = 00000000
 /* 00014 809C3644 AFBF0054 */  sw      $ra, 0x0054($sp)
-/* 00018 809C3648 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00018 809C3648 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 0001C 809C364C AFB7004C */  sw      $s7, 0x004C($sp)
 /* 00020 809C3650 AFB60048 */  sw      $s6, 0x0048($sp)
 /* 00024 809C3654 AFB50044 */  sw      $s5, 0x0044($sp)
@@ -27,7 +27,7 @@ glabel EnBomBowlMan_Init
 /* 0002C 809C365C AFB20038 */  sw      $s2, 0x0038($sp)
 /* 00030 809C3660 AFB10034 */  sw      $s1, 0x0034($sp)
 /* 00034 809C3664 AFB00030 */  sw      $s0, 0x0030($sp)
-/* 00038 809C3668 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00038 809C3668 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0003C 809C366C 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00040 809C3670 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00044 809C3674 0C00AC78 */  jal     ActorShape_Init

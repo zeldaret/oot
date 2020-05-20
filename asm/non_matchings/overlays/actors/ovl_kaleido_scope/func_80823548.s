@@ -48,12 +48,12 @@ glabel func_80823548
 /* 0FDD8 808235F8 1701001A */  bne     $t8, $at, .L80823664       
 /* 0FDDC 808235FC 3C048083 */  lui     $a0, %hi(D_8082FD00)       ## $a0 = 80830000
 /* 0FDE0 80823600 8739ABA8 */  lh      $t9, %lo(D_8082ABA8)($t9)  
-/* 0FDE4 80823604 3C0E0088 */  lui     $t6, 0x0088                ## $t6 = 00880000
+/* 0FDE4 80823604 3C0E0088 */  lui     $t6, %hi(_map_name_staticSegmentRomStart)
 /* 0FDE8 80823608 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 0FDEC 8082360C 17200015 */  bne     $t9, $zero, .L80823664     
-/* 0FDF0 80823610 25CEE000 */  addiu   $t6, $t6, 0xE000           ## $t6 = 0087E000
-/* 0FDF4 80823614 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
-/* 0FDF8 80823618 9084FA69 */  lbu     $a0, -0x0597($a0)          ## 8015FA69
+/* 0FDF0 80823610 25CEE000 */  addiu   $t6, %lo(_map_name_staticSegmentRomStart)
+/* 0FDF4 80823614 3C048016 */  lui     $a0, %hi(gSaveContext+0x1409)
+/* 0FDF8 80823618 9084FA69 */  lbu     $a0, %lo(gSaveContext+0x1409)($a0)
 /* 0FDFC 8082361C 3C078083 */  lui     $a3, %hi(D_8082FCE4)       ## $a3 = 80830000
 /* 0FE00 80823620 24E7FCE4 */  addiu   $a3, $a3, %lo(D_8082FCE4)  ## $a3 = 8082FCE4
 /* 0FE04 80823624 10800003 */  beq     $a0, $zero, .L80823634     
@@ -80,8 +80,8 @@ glabel func_80823548
 /* 0FE4C 8082366C 0C00084C */  jal     osSyncPrintf
               
 /* 0FE50 80823670 A7A3002A */  sh      $v1, 0x002A($sp)           
-/* 0FE54 80823674 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
-/* 0FE58 80823678 9084FA69 */  lbu     $a0, -0x0597($a0)          ## 8015FA69
+/* 0FE54 80823674 3C048016 */  lui     $a0, %hi(gSaveContext+0x1409)
+/* 0FE58 80823678 9084FA69 */  lbu     $a0, %lo(gSaveContext+0x1409)($a0)
 /* 0FE5C 8082367C 8FA20024 */  lw      $v0, 0x0024($sp)           
 /* 0FE60 80823680 97A3002A */  lhu     $v1, 0x002A($sp)           
 /* 0FE64 80823684 10800003 */  beq     $a0, $zero, .L80823694     
@@ -103,8 +103,8 @@ glabel func_80823548
 /* 0FE98 808236B8 AFA30020 */  sw      $v1, 0x0020($sp)           
 /* 0FE9C 808236BC 8FA20024 */  lw      $v0, 0x0024($sp)           
 /* 0FEA0 808236C0 8FAA0020 */  lw      $t2, 0x0020($sp)           
-/* 0FEA4 808236C4 3C0C0082 */  lui     $t4, 0x0082                ## $t4 = 00820000
-/* 0FEA8 808236C8 258C1000 */  addiu   $t4, $t4, 0x1000           ## $t4 = 00821000
+/* 0FEA4 808236C4 3C0C0082 */  lui     $t4, %hi(_item_name_staticSegmentRomStart)
+/* 0FEA8 808236C8 258C1000 */  addiu   $t4, %lo(_item_name_staticSegmentRomStart)
 /* 0FEAC 808236CC 3C078083 */  lui     $a3, %hi(D_8082FD24)       ## $a3 = 80830000
 /* 0FEB0 808236D0 240D0848 */  addiu   $t5, $zero, 0x0848         ## $t5 = 00000848
 /* 0FEB4 808236D4 8C440138 */  lw      $a0, 0x0138($v0)           ## 00000138
@@ -151,10 +151,10 @@ glabel func_80823548
 /* 0FF40 80823760 51010011 */  beql    $t0, $at, .L808237A8       
 /* 0FF44 80823764 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 0FF48 80823768 944E025C */  lhu     $t6, 0x025C($v0)           ## 0000025C
-/* 0FF4C 8082376C 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 0FF4C 8082376C 3C0A8016 */  lui     $t2, %hi(gGameInfo)
 /* 0FF50 80823770 25C90001 */  addiu   $t1, $t6, 0x0001           ## $t1 = 00000001
 /* 0FF54 80823774 A449025C */  sh      $t1, 0x025C($v0)           ## 0000025C
-/* 0FF58 80823778 8D4AFA90 */  lw      $t2, -0x0570($t2)          ## 8015FA90
+/* 0FF58 80823778 8D4AFA90 */  lw      $t2, %lo(gGameInfo)($t2)
 /* 0FF5C 8082377C 312CFFFF */  andi    $t4, $t1, 0xFFFF           ## $t4 = 00000001
 /* 0FF60 80823780 854B0E44 */  lh      $t3, 0x0E44($t2)           ## 80160E44
 /* 0FF64 80823784 016C082A */  slt     $at, $t3, $t4              

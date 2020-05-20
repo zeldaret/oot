@@ -59,7 +59,7 @@ glabel func_800460A8
 /* ABD25C 800460BC AFA500AC */  sw    $a1, 0xac($sp)
 /* ABD260 800460C0 AFA600B0 */  sw    $a2, 0xb0($sp)
 /* ABD264 800460C4 AFA700B4 */  sw    $a3, 0xb4($sp)
-/* ABD268 800460C8 0C00B721 */  jal   func_8002DC84
+/* ABD268 800460C8 0C00B721 */  jal   Player_GetCameraYOffset
 /* ABD26C 800460CC 8C840090 */   lw    $a0, 0x90($a0)
 /* ABD270 800460D0 C7A400B4 */  lwc1  $f4, 0xb4($sp)
 /* ABD274 800460D4 44801000 */  mtc1  $zero, $f2

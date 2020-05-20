@@ -83,7 +83,7 @@ glabel func_8088BC40
 /* 00CC4 8088BD44 00052C03 */  sra     $a1, $a1, 16
 /* 00CC8 8088BD48 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 00CCC 8088BD4C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 00CD0 8088BD50 0C034421 */  jal     Matrix_RotateZYX
+/* 00CD0 8088BD50 0C034421 */  jal     Matrix_RotateRPY
 /* 00CD4 8088BD54 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00CD8 8088BD58 44807000 */  mtc1    $zero, $f14                ## $f14 = 0.00
 /* 00CDC 8088BD5C 3C01C128 */  lui     $at, 0xC128                ## $at = C1280000
@@ -109,7 +109,7 @@ glabel func_8088BC40
 /* 00D2C 8088BDAC 01074021 */  addu    $t0, $t0, $a3
 /* 00D30 8088BDB0 8D081DE4 */  lw      $t0, 0x1DE4($t0)           ## 00011DE4
 /* 00D34 8088BDB4 3C048089 */  lui     $a0, %hi(D_8088BFC4)       ## $a0 = 80890000
-/* 00D38 8088BDB8 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 00D38 8088BDB8 3C0F8016 */  lui     $t7, %hi(gSegments)
 /* 00D3C 8088BDBC 31090007 */  andi    $t1, $t0, 0x0007           ## $t1 = 00000000
 /* 00D40 8088BDC0 00095080 */  sll     $t2, $t1,  2
 /* 00D44 8088BDC4 008A2021 */  addu    $a0, $a0, $t2
@@ -120,7 +120,7 @@ glabel func_8088BC40
 /* 00D58 8088BDD8 000C6F02 */  srl     $t5, $t4, 28
 /* 00D5C 8088BDDC 000D7080 */  sll     $t6, $t5,  2
 /* 00D60 8088BDE0 01EE7821 */  addu    $t7, $t7, $t6
-/* 00D64 8088BDE4 8DEF6FA8 */  lw      $t7, 0x6FA8($t7)           ## 80166FA8
+/* 00D64 8088BDE4 8DEF6FA8 */  lw      $t7, %lo(gSegments)($t7)
 /* 00D68 8088BDE8 00815824 */  and     $t3, $a0, $at
 /* 00D6C 8088BDEC 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00D70 8088BDF0 016FC021 */  addu    $t8, $t3, $t7

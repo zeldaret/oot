@@ -12,7 +12,7 @@ glabel BgSpot11Bakudankabe_Destroy
 /* 00478 808B25F8 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 0047C 808B25FC 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00480 808B2600 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00484 808B2604 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00484 808B2604 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00488 808B2608 24A50164 */  addiu   $a1, $a1, 0x0164           ## $a1 = 00000164
 /* 0048C 808B260C 8FBF0014 */  lw      $ra, 0x0014($sp)           

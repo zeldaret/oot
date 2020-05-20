@@ -8,8 +8,8 @@ glabel EnMk_Init
 /* 00018 80AAC918 AFB00028 */  sw      $s0, 0x0028($sp)
 /* 0001C 80AAC91C AFA50044 */  sw      $a1, 0x0044($sp)
 /* 00020 80AAC920 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00024 80AAC924 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00028 80AAC928 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00024 80AAC924 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00028 80AAC928 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0002C 80AAC92C 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00030 80AAC930 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00034 80AAC934 3C074210 */  lui     $a3, 0x4210                ## $a3 = 42100000
@@ -37,14 +37,14 @@ glabel EnMk_Init
 /* 00088 80AAC988 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 0008C 80AAC98C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00090 80AAC990 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00094 80AAC994 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00094 80AAC994 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00098 80AAC998 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0009C 80AAC99C 3C0780AB */  lui     $a3, %hi(D_80AAD620)       ## $a3 = 80AB0000
 /* 000A0 80AAC9A0 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 000A4 80AAC9A4 24E7D620 */  addiu   $a3, $a3, %lo(D_80AAD620)  ## $a3 = 80AAD620
 /* 000A8 80AAC9A8 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 000AC 80AAC9AC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000AC 80AAC9AC 0C01712B */  jal     Collider_SetCylinder
 
 /* 000B0 80AAC9B0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000B4 80AAC9B4 241900FF */  addiu   $t9, $zero, 0x00FF         ## $t9 = 000000FF
@@ -61,8 +61,8 @@ glabel EnMk_Init
 /* 000DC 80AAC9DC A600027E */  sh      $zero, 0x027E($s0)         ## 0000027E
 /* 000E0 80AAC9E0 A6000280 */  sh      $zero, 0x0280($s0)         ## 00000280
 /* 000E4 80AAC9E4 A209001F */  sb      $t1, 0x001F($s0)           ## 0000001F
-/* 000E8 80AAC9E8 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
-/* 000EC 80AAC9EC 954AF552 */  lhu     $t2, -0x0AAE($t2)          ## 8015F552
+/* 000E8 80AAC9E8 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xef2)
+/* 000EC 80AAC9EC 954AF552 */  lhu     $t2, %lo(gSaveContext+0xef2)($t2)
 /* 000F0 80AAC9F0 340D0004 */  ori     $t5, $zero, 0x0004         ## $t5 = 00000004
 /* 000F4 80AAC9F4 314B0001 */  andi    $t3, $t2, 0x0001           ## $t3 = 00000000
 /* 000F8 80AAC9F8 51600003 */  beql    $t3, $zero, .L80AACA08

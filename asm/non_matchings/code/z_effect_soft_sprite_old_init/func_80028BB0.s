@@ -72,7 +72,7 @@ glabel func_80028BB0
 /* A9FE68 80028CC8 46021100 */  add.s $f4, $f2, $f2
 /* A9FE6C 80028CCC 4600218D */  trunc.w.s $f6, $f4
 /* A9FE70 80028CD0 44093000 */  mfc1  $t1, $f6
-/* A9FE74 80028CD4 0C009DE6 */  jal   func_80027798
+/* A9FE74 80028CD4 0C009DE6 */  jal   EffectSs_Spawn
 /* A9FE78 80028CD8 A7A90048 */   sh    $t1, 0x48($sp)
 /* A9FE7C 80028CDC 8FBF0014 */  lw    $ra, 0x14($sp)
 /* A9FE80 80028CE0 27BD0058 */  addiu $sp, $sp, 0x58

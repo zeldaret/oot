@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void EnFireRock_Init(EnFireRock* this, GlobalContext* globalCtx);
-void EnFireRock_Destroy(EnFireRock* this, GlobalContext* globalCtx);
-void EnFireRock_Update(EnFireRock* this, GlobalContext* globalCtx);
-void EnFireRock_Draw(EnFireRock* this, GlobalContext* globalCtx);
+#define THIS ((EnFireRock*)thisx)
+
+void EnFireRock_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnFireRock_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnFireRock_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnFireRock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Fire_Rock_InitVars = {

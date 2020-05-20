@@ -5,8 +5,8 @@ glabel func_8097A9E4
 /* 020C0 8097A9F0 0C00B638 */  jal     Actor_MoveForward
               
 /* 020C4 8097A9F4 AFA40018 */  sw      $a0, 0x0018($sp)           
-/* 020C8 8097A9F8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 020CC 8097A9FC 2442FA90 */  addiu   $v0, $v0, 0xFA90           ## $v0 = 8015FA90
+/* 020C8 8097A9F8 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 020CC 8097A9FC 2442FA90 */  addiu   $v0, %lo(gGameInfo)
 /* 020D0 8097AA00 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 020D4 8097AA04 8C4F0000 */  lw      $t7, 0x0000($v0)           ## 8015FA90
 /* 020D8 8097AA08 848E016C */  lh      $t6, 0x016C($a0)           ## 0000016C

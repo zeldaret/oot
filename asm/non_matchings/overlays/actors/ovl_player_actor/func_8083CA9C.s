@@ -4,8 +4,8 @@ glabel D_80855394
 
 .text
 glabel func_8083CA9C
-/* 0A88C 8083CA9C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 0A890 8083CAA0 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 0A88C 8083CA9C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 0A890 8083CAA0 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 0A894 8083CAA4 3C018085 */  lui     $at, %hi(D_80855394)       ## $at = 80850000
 /* 0A898 8083CAA8 C4225394 */  lwc1    $f2, %lo(D_80855394)($at)  
 /* 0A89C 8083CAAC C44013BC */  lwc1    $f0, 0x13BC($v0)           ## 8015FA1C

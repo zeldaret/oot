@@ -50,7 +50,7 @@ glabel func_80B58014
 /* 04D1C 80B580CC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 04D20 80B580D0 10400014 */  beq     $v0, $zero, .L80B58124     
 /* 04D24 80B580D4 00000000 */  nop
-/* 04D28 80B580D8 0C02FF21 */  jal     func_800BFC84              
+/* 04D28 80B580D8 0C02FF21 */  jal     Gameplay_InCsMode              
 /* 04D2C 80B580DC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 04D30 80B580E0 14400010 */  bne     $v0, $zero, .L80B58124     
 /* 04D34 80B580E4 2418001F */  addiu   $t8, $zero, 0x001F         ## $t8 = 0000001F

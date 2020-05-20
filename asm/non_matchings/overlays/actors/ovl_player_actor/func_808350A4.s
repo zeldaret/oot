@@ -17,8 +17,8 @@ glabel func_808350A4
 /* 02ED0 808350E0 27A60034 */  addiu   $a2, $sp, 0x0034           ## $a2 = FFFFFFFC
 /* 02ED4 808350E4 0C20D0E0 */  jal     func_80834380              
 /* 02ED8 808350E8 27A70030 */  addiu   $a3, $sp, 0x0030           ## $a3 = FFFFFFF8
-/* 02EDC 808350EC 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 02EE0 808350F0 95EFFA64 */  lhu     $t7, -0x059C($t7)          ## 8015FA64
+/* 02EDC 808350EC 3C0F8016 */  lui     $t7, %hi(gSaveContext+0x1404)
+/* 02EE0 808350F0 95EFFA64 */  lhu     $t7, %lo(gSaveContext+0x1404)($t7)
 /* 02EE4 808350F4 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 02EE8 808350F8 15E10007 */  bne     $t7, $at, .L80835118       
 /* 02EEC 808350FC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

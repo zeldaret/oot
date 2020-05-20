@@ -18,8 +18,8 @@ glabel func_809AC42C
 /* 0019C 809AC46C 8E260008 */  lw      $a2, 0x0008($s1)           ## 00000008
 /* 001A0 809AC470 0C034261 */  jal     Matrix_Translate
 /* 001A4 809AC474 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 001A8 809AC478 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 001AC 809AC47C 8DEFE664 */  lw      $t7, -0x199C($t7)          ## 8015E664
+/* 001A8 809AC478 3C0F8016 */  lui     $t7, %hi(gSaveContext+4)
+/* 001AC 809AC47C 8DEFE664 */  lw      $t7, %lo(gSaveContext+4)($t7)
 /* 001B0 809AC480 3C01809B */  lui     $at, %hi(D_809AC684)       ## $at = 809B0000
 /* 001B4 809AC484 11E0000F */  beq     $t7, $zero, .L809AC4C4
 /* 001B8 809AC488 00000000 */  nop
@@ -33,7 +33,7 @@ glabel func_809AC42C
 /* 001D8 809AC4A8 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
 /* 001DC 809AC4AC 86250042 */  lh      $a1, 0x0042($s1)           ## 00000042
 /* 001E0 809AC4B0 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 001E4 809AC4B4 0C034421 */  jal     Matrix_RotateZYX
+/* 001E4 809AC4B4 0C034421 */  jal     Matrix_RotateRPY
 /* 001E8 809AC4B8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 001EC 809AC4BC 10000017 */  beq     $zero, $zero, .L809AC51C
 /* 001F0 809AC4C0 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
@@ -57,7 +57,7 @@ glabel func_809AC42C
 /* 00234 809AC504 00C13021 */  addu    $a2, $a2, $at
 /* 00238 809AC508 00063100 */  sll     $a2, $a2,  4
 /* 0023C 809AC50C 00063400 */  sll     $a2, $a2, 16
-/* 00240 809AC510 0C034421 */  jal     Matrix_RotateZYX
+/* 00240 809AC510 0C034421 */  jal     Matrix_RotateRPY
 /* 00244 809AC514 00063403 */  sra     $a2, $a2, 16
 /* 00248 809AC518 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 .L809AC51C:
@@ -92,10 +92,10 @@ glabel func_809AC42C
 /* 002BC 809AC58C 01EE7821 */  addu    $t7, $t7, $t6
 /* 002C0 809AC590 8DEF17B4 */  lw      $t7, 0x17B4($t7)           ## 000117B4
 /* 002C4 809AC594 3C19DB06 */  lui     $t9, 0xDB06                ## $t9 = DB060000
-/* 002C8 809AC598 3C088012 */  lui     $t0, 0x8012                ## $t0 = 80120000
+/* 002C8 809AC598 3C088012 */  lui     $t0, %hi(D_80125F98)
 /* 002CC 809AC59C AC4F0004 */  sw      $t7, 0x0004($v0)           ## 00000004
 /* 002D0 809AC5A0 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
-/* 002D4 809AC5A4 25085F98 */  addiu   $t0, $t0, 0x5F98           ## $t0 = 80125F98
+/* 002D4 809AC5A4 25085F98 */  addiu   $t0, %lo(D_80125F98)
 /* 002D8 809AC5A8 37390030 */  ori     $t9, $t9, 0x0030           ## $t9 = DB060030
 /* 002DC 809AC5AC 24580008 */  addiu   $t8, $v0, 0x0008           ## $t8 = 00000008
 /* 002E0 809AC5B0 AE1802C0 */  sw      $t8, 0x02C0($s0)           ## 000002C0

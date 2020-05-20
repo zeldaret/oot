@@ -13,10 +13,10 @@ glabel func_808AAF34
 /* 00260 808AAF40 AFA40058 */  sw      $a0, 0x0058($sp)           
 /* 00264 808AAF44 AFA5005C */  sw      $a1, 0x005C($sp)           
 /* 00268 808AAF48 8C8F0170 */  lw      $t7, 0x0170($a0)           ## 00000170
-/* 0026C 808AAF4C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 0026C 808AAF4C 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 00270 808AAF50 51E00064 */  beql    $t7, $zero, .L808AB0E4     
 /* 00274 808AAF54 8FBF002C */  lw      $ra, 0x002C($sp)           
-/* 00278 808AAF58 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00278 808AAF58 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 0027C 808AAF5C 3C01808B */  lui     $at, %hi(D_808AB9C4)       ## $at = 808B0000
 /* 00280 808AAF60 C428B9C4 */  lwc1    $f8, %lo(D_808AB9C4)($at)  
 /* 00284 808AAF64 8458147C */  lh      $t8, 0x147C($v0)           ## 8016147C
@@ -38,8 +38,8 @@ glabel func_808AAF34
 /* 002C4 808AAFA4 46049180 */  add.s   $f6, $f18, $f4             
 /* 002C8 808AAFA8 0C0346BD */  jal     Matrix_MultVec3f              
 /* 002CC 808AAFAC E7A6003C */  swc1    $f6, 0x003C($sp)           
-/* 002D0 808AAFB0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 002D4 808AAFB4 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 002D0 808AAFB0 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 002D4 808AAFB4 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 002D8 808AAFB8 3C0142A0 */  lui     $at, 0x42A0                ## $at = 42A00000
 /* 002DC 808AAFBC 44819000 */  mtc1    $at, $f18                  ## $f18 = 80.00
 /* 002E0 808AAFC0 84481474 */  lh      $t0, 0x1474($v0)           ## 80161474
@@ -63,8 +63,8 @@ glabel func_808AAF34
 /* 00328 808AB008 02002825 */  or      $a1, $s0, $zero            ## $a1 = FFFFFFEC
 /* 0032C 808AB00C 0C22AB4F */  jal     func_808AAD3C              
 /* 00330 808AB010 24060003 */  addiu   $a2, $zero, 0x0003         ## $a2 = 00000003
-/* 00334 808AB014 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00338 808AB018 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00334 808AB014 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 00338 808AB018 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 0033C 808AB01C 3C01808B */  lui     $at, %hi(D_808AB9C8)       ## $at = 808B0000
 /* 00340 808AB020 C42AB9C8 */  lwc1    $f10, %lo(D_808AB9C8)($at) 
 /* 00344 808AB024 844C147C */  lh      $t4, 0x147C($v0)           ## 8016147C
@@ -86,8 +86,8 @@ glabel func_808AAF34
 /* 00384 808AB064 46083280 */  add.s   $f10, $f6, $f8             
 /* 00388 808AB068 0C0346BD */  jal     Matrix_MultVec3f              
 /* 0038C 808AB06C E7AA003C */  swc1    $f10, 0x003C($sp)          
-/* 00390 808AB070 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00394 808AB074 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00390 808AB070 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 00394 808AB074 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 00398 808AB078 3C0142A0 */  lui     $at, 0x42A0                ## $at = 42A00000
 /* 0039C 808AB07C 44813000 */  mtc1    $at, $f6                   ## $f6 = 80.00
 /* 003A0 808AB080 844E1474 */  lh      $t6, 0x1474($v0)           ## 80161474

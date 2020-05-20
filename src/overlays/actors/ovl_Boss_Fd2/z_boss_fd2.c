@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000035
 
-void BossFd2_Init(BossFd2* this, GlobalContext* globalCtx);
-void BossFd2_Destroy(BossFd2* this, GlobalContext* globalCtx);
-void BossFd2_Update(BossFd2* this, GlobalContext* globalCtx);
-void BossFd2_Draw(BossFd2* this, GlobalContext* globalCtx);
+#define THIS ((BossFd2*)thisx)
+
+void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx);
+void BossFd2_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx);
+void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Boss_Fd2_InitVars = {

@@ -15,8 +15,8 @@ glabel DemoIm_Init
 /* 027F8 809873D8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 027FC 809873DC 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 02800 809873E0 AFBF002C */  sw      $ra, 0x002C($sp)
-/* 02804 809873E4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 02808 809873E8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 02804 809873E4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 02808 809873E8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0280C 809873EC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 02810 809873F0 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 02814 809873F4 0C00AC78 */  jal     ActorShape_Init

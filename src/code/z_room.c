@@ -29,7 +29,7 @@ void (*sRoomDrawHandlers[])(GlobalContext* globalCtx, Room* room, u32 flags) = {
     func_80095D04,
 };
 
-void func_80095AA0(GlobalContext* globalCtx, Room* room, UNK_TYPE arg2, UNK_TYPE arg3) {
+void func_80095AA0(GlobalContext* globalCtx, Room* room, Input* arg2, UNK_TYPE arg3) {
 }
 
 // Room Draw Polygon Type 0
@@ -343,7 +343,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 628);
 
-    camera = globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0];
+    camera = ACTIVE_CAM;
     polygon1 = &room->mesh->polygon1;
     sp9C = (camera->unk_142 ^ 25) == 0;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
@@ -405,7 +405,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
     BgImage* bgImage;
     s32 i;
 
-    camera = globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0];
+    camera = ACTIVE_CAM;
     camId = camera->unk_148;
     camId2 = func_80041C10(&globalCtx->colCtx, camId, 50)->unk_0E;
     if (camId2 >= 0) {
@@ -449,7 +449,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     gfxCtx = globalCtx->state.gfxCtx;
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 752);
 
-    camera = globalCtx->cameraCtx.activeCameraPtrs[globalCtx->cameraCtx.unk_5C0];
+    camera = ACTIVE_CAM;
     sp98 = (camera->unk_142 ^ 25) == 0;
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
@@ -566,7 +566,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     osSyncPrintf(VT_FGCOL(YELLOW));
     // Translates to: "ROOM BUFFER SIZE=%08x(%5.1fK)"
     osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, (f64)(maxRoomSize * 0.0009765625f));
-    roomCtx->bufPtrs[0] = Game_Alloc(&globalCtx->state, maxRoomSize, "../z_room.c", 946);
+    roomCtx->bufPtrs[0] = GameState_AllocEnd(&globalCtx->state, maxRoomSize, "../z_room.c", 946);
     // Translates to: "ROOM BUFFER INITIAL POINTER=%08x"
     osSyncPrintf("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
     roomCtx->bufPtrs[1] = (void*)((s32)roomCtx->bufPtrs[0] + maxRoomSize);
@@ -576,8 +576,8 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     roomCtx->unk_30 = 0;
     roomCtx->status = 0;
 
-    if (gSaveContext.respawn_flag > 0) {
-        nextRoomNum = gSaveContext.respawn[gSaveContext.respawn_flag - 1].room_index;
+    if (gSaveContext.respawnFlag > 0) {
+        nextRoomNum = gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex;
     } else {
         nextRoomNum = globalCtx->setupEntranceList[globalCtx->curSpawn].room;
     }
@@ -655,9 +655,9 @@ void func_80097534(GlobalContext* globalCtx, RoomContext* roomCtx) {
     roomCtx->prevRoom.segment = NULL;
     func_80031B14(globalCtx, &globalCtx->actorCtx);
     Actor_SpawnTransitionActors(globalCtx, &globalCtx->actorCtx);
-    func_80080E04(globalCtx, roomCtx->curRoom.num);
+    Map_InitRoomData(globalCtx, roomCtx->curRoom.num);
     if (!((globalCtx->sceneNum >= SCENE_SPOT00) && (globalCtx->sceneNum <= SCENE_SPOT20))) {
-        func_800807A0(globalCtx);
+        Map_SavePlayerInitialInfo(globalCtx);
     }
     func_800F66C0(globalCtx->roomCtx.curRoom.echo);
 }

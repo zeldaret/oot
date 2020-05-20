@@ -559,7 +559,7 @@ glabel L80A922CC
 /* 009AC 80A9294C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000001A0
 /* 009B0 80A92950 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 009B4 80A92954 E626003C */  swc1    $f6, 0x003C($s1)           ## 0000003C
-/* 009B8 80A92958 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 009B8 80A92958 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 009BC 80A9295C AE2A0040 */  sw      $t2, 0x0040($s1)           ## 00000040
 /* 009C0 80A92960 8FA40104 */  lw      $a0, 0x0104($sp)           
@@ -567,12 +567,12 @@ glabel L80A922CC
 /* 009C8 80A92968 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 009CC 80A9296C 00812821 */  addu    $a1, $a0, $at              
 /* 009D0 80A92970 AFA50054 */  sw      $a1, 0x0054($sp)           
-/* 009D4 80A92974 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 009D4 80A92974 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 009D8 80A92978 02003025 */  or      $a2, $s0, $zero            ## $a2 = 000001A0
 /* 009DC 80A9297C 8FA50054 */  lw      $a1, 0x0054($sp)           
 /* 009E0 80A92980 8FA40104 */  lw      $a0, 0x0104($sp)           
-/* 009E4 80A92984 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 009E4 80A92984 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 009E8 80A92988 02003025 */  or      $a2, $s0, $zero            ## $a2 = 000001A0
 /* 009EC 80A9298C 3C0143FA */  lui     $at, 0x43FA                ## $at = 43FA0000
@@ -1663,16 +1663,16 @@ glabel L80A930DC
 /* 01930 80A938D0 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 01934 80A938D4 960B04CA */  lhu     $t3, 0x04CA($s0)           ## 00000532
 /* 01938 80A938D8 24010008 */  addiu   $at, $zero, 0x0008         ## $at = 00000008
-/* 0193C 80A938DC 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
+/* 0193C 80A938DC 3C078013 */  lui     $a3, %hi(D_801333E0)
 /* 01940 80A938E0 156100A4 */  bne     $t3, $at, .L80A93B74       
-/* 01944 80A938E4 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
+/* 01944 80A938E4 24E733E0 */  addiu   $a3, %lo(D_801333E0)
 /* 01948 80A938E8 24180005 */  addiu   $t8, $zero, 0x0005         ## $t8 = 00000005
-/* 0194C 80A938EC 3C0D8013 */  lui     $t5, 0x8013                ## $t5 = 80130000
+/* 0194C 80A938EC 3C0D8013 */  lui     $t5, %hi(D_801333E8)
 /* 01950 80A938F0 A2380154 */  sb      $t8, 0x0154($s1)           ## 00000154
 /* 01954 80A938F4 A6280176 */  sh      $t0, 0x0176($s1)           ## 00000176
-/* 01958 80A938F8 25AD33E8 */  addiu   $t5, $t5, 0x33E8           ## $t5 = 801333E8
-/* 0195C 80A938FC 3C058013 */  lui     $a1, 0x8013                ## $a1 = 80130000
-/* 01960 80A93900 24A533D4 */  addiu   $a1, $a1, 0x33D4           ## $a1 = 801333D4
+/* 01958 80A938F8 25AD33E8 */  addiu   $t5, %lo(D_801333E8)
+/* 0195C 80A938FC 3C058013 */  lui     $a1, %hi(D_801333D4)
+/* 01960 80A93900 24A533D4 */  addiu   $a1, %lo(D_801333D4)
 /* 01964 80A93904 AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 01968 80A93908 AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 0196C 80A9390C 24044807 */  addiu   $a0, $zero, 0x4807         ## $a0 = 00004807

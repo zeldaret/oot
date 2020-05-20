@@ -175,9 +175,9 @@ glabel Graph_Update
 /* B3D42C 800C628C AC4D0004 */  sw    $t5, 4($v0)
 /* B3D430 800C6290 0C031AD5 */  jal   Graph_CloseDisps
 /* B3D434 800C6294 AC480000 */   sw    $t0, ($v0)
-/* B3D438 800C6298 0C0312A6 */  jal   func_800C4A98
+/* B3D438 800C6298 0C0312A6 */  jal   GameState_ReqPadData
 /* B3D43C 800C629C 8FA400CC */   lw    $a0, 0xcc($sp)
-/* B3D440 800C62A0 0C0312B2 */  jal   func_800C4AC8
+/* B3D440 800C62A0 0C0312B2 */  jal   GameState_Update
 /* B3D444 800C62A4 8FA400CC */   lw    $a0, 0xcc($sp)
 /* B3D448 800C62A8 3C068014 */  lui   $a2, %hi(D_80145308) # $a2, 0x8014
 /* B3D44C 800C62AC 24C65308 */  addiu $a2, %lo(D_80145308) # addiu $a2, $a2, 0x5308
@@ -327,7 +327,7 @@ glabel Graph_Update
 .L800C64E4:
 /* B3D684 800C64E4 3C04A404 */  lui   $a0, 0xa404
 /* B3D688 800C64E8 04610009 */  bgez  $v1, .L800C6510
-/* B3D68C 800C64EC 00000000 */   nop   
+/* B3D68C 800C64EC 00000000 */   nop
 /* B3D690 800C64F0 0C000AC4 */  jal   LogUtils_LogHexDump
 /* B3D694 800C64F4 24050020 */   li    $a1, 32
 /* B3D698 800C64F8 3C04A410 */  lui   $a0, 0xa410
@@ -431,7 +431,7 @@ glabel Graph_Update
 .L800C6668:
 /* B3D808 800C6668 8FA900C4 */  lw    $t1, 0xc4($sp)
 /* B3D80C 800C666C 15200009 */  bnez  $t1, .L800C6694
-/* B3D810 800C6670 00000000 */   nop   
+/* B3D810 800C6670 00000000 */   nop
 /* B3D814 800C6674 0C031770 */  jal   Graph_TaskSet00
 /* B3D818 800C6678 02002025 */   move  $a0, $s0
 /* B3D81C 800C667C 8E0A02D8 */  lw    $t2, 0x2d8($s0)
@@ -442,9 +442,9 @@ glabel Graph_Update
 /* B3D830 800C6690 AE0D02E8 */  sw    $t5, 0x2e8($s0)
 .L800C6694:
 /* B3D834 800C6694 0C03CC15 */  jal   func_800F3054
-/* B3D838 800C6698 00000000 */   nop   
+/* B3D838 800C6698 00000000 */   nop
 /* B3D83C 800C669C 0C001A78 */  jal   osGetTime
-/* B3D840 800C66A0 00000000 */   nop   
+/* B3D840 800C66A0 00000000 */   nop
 /* B3D844 800C66A4 3C048017 */  lui   $a0, %hi(D_8016A568) # $a0, 0x8017
 /* B3D848 800C66A8 2484A568 */  addiu $a0, %lo(D_8016A568) # addiu $a0, $a0, -0x5a98
 /* B3D84C 800C66AC 8C8E0000 */  lw    $t6, ($a0)
@@ -510,7 +510,7 @@ glabel Graph_Update
 /* B3D934 800C6794 94580020 */  lhu   $t8, 0x20($v0)
 /* B3D938 800C6798 0301C827 */  nor   $t9, $t8, $at
 /* B3D93C 800C679C 1720000F */  bnez  $t9, .L800C67DC
-/* B3D940 800C67A0 00000000 */   nop   
+/* B3D940 800C67A0 00000000 */   nop
 /* B3D944 800C67A4 944A0014 */  lhu   $t2, 0x14($v0)
 /* B3D948 800C67A8 2401FFCF */  li    $at, -49
 /* B3D94C 800C67AC 3C0C8080 */  lui   $t4, %hi(func_80801E44) # $t4, 0x8080
@@ -553,4 +553,4 @@ glabel Graph_Update
 /* B3D9D4 800C6834 8FB00018 */  lw    $s0, 0x18($sp)
 /* B3D9D8 800C6838 27BD00C8 */  addiu $sp, $sp, 0xc8
 /* B3D9DC 800C683C 03E00008 */  jr    $ra
-/* B3D9E0 800C6840 00000000 */   nop   
+/* B3D9E0 800C6840 00000000 */   nop

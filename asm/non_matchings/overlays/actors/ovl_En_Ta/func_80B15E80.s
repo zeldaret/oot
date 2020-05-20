@@ -14,8 +14,8 @@ glabel func_80B15E80
 /* 02410 80B15EB0 AE000118 */  sw      $zero, 0x0118($s0)         ## 00000118
 /* 02414 80B15EB4 15E00007 */  bne     $t7, $zero, .L80B15ED4     
 /* 02418 80B15EB8 AE0E025C */  sw      $t6, 0x025C($s0)           ## 0000025C
-/* 0241C 80B15EBC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 02420 80B15EC0 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 0241C 80B15EBC 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 02420 80B15EC0 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 02424 80B15EC4 94780EF0 */  lhu     $t8, 0x0EF0($v1)           ## 8015F550
 /* 02428 80B15EC8 37190004 */  ori     $t9, $t8, 0x0004           ## $t9 = 00000004
 /* 0242C 80B15ECC A4790EF0 */  sh      $t9, 0x0EF0($v1)           ## 8015F550

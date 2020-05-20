@@ -6,18 +6,22 @@
 
 #include "z_en_eg.h"
 
+#include <vt.h>
+
 #define FLAGS 0x00000010
 
-void EnEg_PlayVoidOutSFX();
-void EnEg_Init(EnEg* this, GlobalContext* globalCtx);
-void EnEg_Destroy(EnEg* this, GlobalContext* globalCtx);
+#define THIS ((EnEg*)thisx)
+
+void EnEg_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnEg_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnEg_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnEg_Draw(Actor* thisx, GlobalContext* globalCtx);
+
 void func_809FFDC8(EnEg* this, GlobalContext* globalCtx);
-void EnEg_Update(EnEg* this, GlobalContext* globalCtx);
-void EnEg_Draw(EnEg* this, GlobalContext* globalCtx);
 
 static bool hasVoidedOut = false;
-static const ActorFunc funcTbl[] = {
-    (ActorFunc)func_809FFDC8,
+static const EnEgActionFunc actionFuncs[] = {
+    func_809FFDC8,
 };
 
 const ActorInit En_Eg_InitVars = {
@@ -32,39 +36,42 @@ const ActorInit En_Eg_InitVars = {
     (ActorFunc)EnEg_Draw,
 };
 
-void PlayVoidOutSFX() {
+void EnEg_PlayVoidOutSFX() {
     func_800788CC(NA_SE_OC_ABYSS);
 }
 
-void EnEg_Destroy(EnEg* this, GlobalContext* globalCtx) {
+void EnEg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void EnEg_Init(EnEg* this, GlobalContext* globalCtx) {
-    this->funcIndex = 0;
+void EnEg_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnEg* this = THIS;
+
+    this->action = 0;
 }
 
 void func_809FFDC8(EnEg* this, GlobalContext* globalCtx) {
-    if (!hasVoidedOut && (gSaveContext.timer_2_value < 1) && Flags_GetSwitch(globalCtx, 0x36) && (kREG(0) == 0)) {
+    if (!hasVoidedOut && (gSaveContext.timer2Value < 1) && Flags_GetSwitch(globalCtx, 0x36) && (kREG(0) == 0)) {
         // Void the player out
-        func_800C0C88(globalCtx);
-        gSaveContext.respawn_flag = -2;
+        Gameplay_TriggerRespawn(globalCtx);
+        gSaveContext.respawnFlag = -2;
         Audio_SetBGM(NA_BGM_STOP);
-        globalCtx->fadeOutTransition = 2;
-        PlayVoidOutSFX();
+        globalCtx->fadeTransition = 2;
+        EnEg_PlayVoidOutSFX();
         hasVoidedOut = true;
     }
 }
 
-void EnEg_Update(EnEg* this, GlobalContext* globalCtx) {
-    s32 funcIndex = this->funcIndex;
+void EnEg_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnEg* this = THIS;
+    s32 action = this->action;
 
-    if (((funcIndex < 0) || (0 < funcIndex)) || (funcTbl[funcIndex] == NULL)) {
+    if (((action < 0) || (0 < action)) || (actionFuncs[action] == NULL)) {
         // Translates to: "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        funcTbl[funcIndex](this, globalCtx);
+        actionFuncs[action](this, globalCtx);
     }
 }
 
-void EnEg_Draw(EnEg* this, GlobalContext* globalCtx) {
+void EnEg_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }

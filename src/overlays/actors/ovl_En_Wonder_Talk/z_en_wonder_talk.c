@@ -8,9 +8,11 @@
 
 #define FLAGS 0x08000009
 
-void EnWonderTalk_Init(EnWonderTalk* this, GlobalContext* globalCtx);
-void EnWonderTalk_Destroy(EnWonderTalk* this, GlobalContext* globalCtx);
-void EnWonderTalk_Update(EnWonderTalk* this, GlobalContext* globalCtx);
+#define THIS ((EnWonderTalk*)thisx)
+
+void EnWonderTalk_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnWonderTalk_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnWonderTalk_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Wonder_Talk_InitVars = {

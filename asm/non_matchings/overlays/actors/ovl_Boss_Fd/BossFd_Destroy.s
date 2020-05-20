@@ -15,7 +15,7 @@ glabel BossFd_Destroy
 /* 00898 808CB658 248401D4 */  addiu   $a0, $a0, 0x01D4           ## $a0 = 000001D4
 /* 0089C 808CB65C 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 008A0 808CB660 8FA4001C */  lw      $a0, 0x001C($sp)
-/* 008A4 808CB664 0C016F32 */  jal     func_8005BCC8
+/* 008A4 808CB664 0C016F32 */  jal     Collider_DestroyJntSph
 /* 008A8 808CB668 24A51490 */  addiu   $a1, $a1, 0x1490           ## $a1 = 00001490
 /* 008AC 808CB66C 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 008B0 808CB670 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

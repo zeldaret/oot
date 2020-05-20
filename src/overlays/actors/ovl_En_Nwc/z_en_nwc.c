@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000030
 
-void EnNwc_Init(EnNwc* this, GlobalContext* globalCtx);
-void EnNwc_Destroy(EnNwc* this, GlobalContext* globalCtx);
-void EnNwc_Update(EnNwc* this, GlobalContext* globalCtx);
-void EnNwc_Draw(EnNwc* this, GlobalContext* globalCtx);
+#define THIS ((EnNwc*)thisx)
+
+void EnNwc_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnNwc_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnNwc_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnNwc_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Nwc_InitVars = {

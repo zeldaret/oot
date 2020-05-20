@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void BgJyaBlock_Init(BgJyaBlock* this, GlobalContext* globalCtx);
-void BgJyaBlock_Destroy(BgJyaBlock* this, GlobalContext* globalCtx);
-void BgJyaBlock_Update(BgJyaBlock* this, GlobalContext* globalCtx);
-void BgJyaBlock_Draw(BgJyaBlock* this, GlobalContext* globalCtx);
+#define THIS ((BgJyaBlock*)thisx)
+
+void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaBlock_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaBlock_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaBlock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Jya_Block_InitVars = {

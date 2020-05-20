@@ -3,7 +3,7 @@ glabel EnToryo_Destroy
 /* 00244 80B203B4 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 00248 80B203B8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0024C 80B203BC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00250 80B203C0 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00250 80B203C0 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00254 80B203C4 24C50194 */  addiu   $a1, $a2, 0x0194           ## $a1 = 00000194
 /* 00258 80B203C8 8FBF0014 */  lw      $ra, 0x0014($sp)           

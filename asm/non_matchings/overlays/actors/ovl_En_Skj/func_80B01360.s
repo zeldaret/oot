@@ -15,10 +15,10 @@ glabel func_80B01360
 /* 030E4 80B01394 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 030E8 80B01398 8FAF0044 */  lw      $t7, 0x0044($sp)
 /* 030EC 80B0139C 2401000B */  addiu   $at, $zero, 0x000B         ## $at = 0000000B
-/* 030F0 80B013A0 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 030F0 80B013A0 3C188016 */  lui     $t8, %hi(gSaveContext+0xef6)
 /* 030F4 80B013A4 55E10028 */  bnel    $t7, $at, .L80B01448
 /* 030F8 80B013A8 8FAF0040 */  lw      $t7, 0x0040($sp)
-/* 030FC 80B013AC 9718F556 */  lhu     $t8, -0x0AAA($t8)          ## 8015F556
+/* 030FC 80B013AC 9718F556 */  lhu     $t8, %lo(gSaveContext+0xef6)($t8)
 /* 03100 80B013B0 8FA80040 */  lw      $t0, 0x0040($sp)
 /* 03104 80B013B4 33190200 */  andi    $t9, $t8, 0x0200           ## $t9 = 00000000
 /* 03108 80B013B8 53200023 */  beql    $t9, $zero, .L80B01448
@@ -30,7 +30,7 @@ glabel func_80B01360
 /* 03120 80B013D0 2404C000 */  addiu   $a0, $zero, 0xC000         ## $a0 = FFFFC000
 /* 03124 80B013D4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 03128 80B013D8 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 0312C 80B013DC 0C034421 */  jal     Matrix_RotateZYX
+/* 0312C 80B013DC 0C034421 */  jal     Matrix_RotateRPY
 /* 03130 80B013E0 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 03134 80B013E4 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 03138 80B013E8 3C0ADA38 */  lui     $t2, 0xDA38                ## $t2 = DA380000

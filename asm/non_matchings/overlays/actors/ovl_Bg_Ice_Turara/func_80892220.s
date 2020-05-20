@@ -19,7 +19,7 @@ glabel func_80892220
 .L80892260:
 /* 00340 80892260 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00344 80892264 24E6016C */  addiu   $a2, $a3, 0x016C           ## $a2 = 0000016C
-/* 00348 80892268 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00348 80892268 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 0034C 8089226C 00812821 */  addu    $a1, $a0, $at              
 /* 00350 80892270 8FBF0014 */  lw      $ra, 0x0014($sp)           

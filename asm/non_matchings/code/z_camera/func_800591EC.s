@@ -52,7 +52,7 @@ glabel D_8013A434
     .float 0.01
 
 glabel D_8013A438
-    .float 0.00003051851 # (1.f / 32767)
+    .float 0.00003051851 # (1.0f / 32767.0f)
 
 glabel D_8013A43C
     .float 0.00549325 # (180 / 32767.5f)
@@ -163,7 +163,7 @@ glabel func_800591EC
 /* AD04E4 80059344 AD2B0004 */  sw    $t3, 4($t1)
 /* AD04E8 80059348 8D4C0008 */  lw    $t4, 8($t2)
 /* AD04EC 8005934C AD2C0008 */  sw    $t4, 8($t1)
-/* AD04F0 80059350 0C00B721 */  jal   func_8002DC84
+/* AD04F0 80059350 0C00B721 */  jal   Player_GetCameraYOffset
 /* AD04F4 80059354 8E040090 */   lw    $a0, 0x90($s0)
 /* AD04F8 80059358 C7AA00B0 */  lwc1  $f10, 0xb0($sp)
 /* AD04FC 8005935C 3C068016 */  lui   $a2, %hi(D_8015CE4C) # $a2, 0x8016
@@ -758,12 +758,12 @@ glabel func_800591EC
 /* AD0DB0 80059C10 00000000 */  nop   
 /* AD0DB4 80059C14 45000005 */  bc1f  .L80059C2C
 /* AD0DB8 80059C18 00000000 */   nop   
-/* AD0DBC 80059C1C 0C02A90F */  jal   func_800AA43C
+/* AD0DBC 80059C1C 0C02A90F */  jal   View_SetScale
 /* AD0DC0 80059C20 24C400B8 */   addiu $a0, $a2, 0xb8
 /* AD0DC4 80059C24 10000004 */  b     .L80059C38
 /* AD0DC8 80059C28 C7A800B8 */   lwc1  $f8, 0xb8($sp)
 .L80059C2C:
-/* AD0DCC 80059C2C 0C02A90F */  jal   func_800AA43C
+/* AD0DCC 80059C2C 0C02A90F */  jal   View_SetScale
 /* AD0DD0 80059C30 3C053F80 */   lui   $a1, 0x3f80
 /* AD0DD4 80059C34 C7A800B8 */  lwc1  $f8, 0xb8($sp)
 .L80059C38:

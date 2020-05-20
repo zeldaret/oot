@@ -3,12 +3,12 @@ glabel func_80AAB5A4
 /* 01358 80AAB5A8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0135C 80AAB5AC 84A200A4 */  lh      $v0, 0x00A4($a1)           ## 000000A4
 /* 01360 80AAB5B0 24010028 */  addiu   $at, $zero, 0x0028         ## $at = 00000028
-/* 01364 80AAB5B4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 01364 80AAB5B4 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 01368 80AAB5B8 1041001E */  beq     $v0, $at, .L80AAB634       
 /* 0136C 80AAB5BC 240A00FF */  addiu   $t2, $zero, 0x00FF         ## $t2 = 000000FF
-/* 01370 80AAB5C0 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
-/* 01374 80AAB5C4 3C0E8012 */  lui     $t6, 0x8012                ## $t6 = 80120000
-/* 01378 80AAB5C8 8DCE7168 */  lw      $t6, 0x7168($t6)           ## 80127168
+/* 01370 80AAB5C0 2463E660 */  addiu   $v1, %lo(gSaveContext)
+/* 01374 80AAB5C4 3C0E8012 */  lui     $t6, %hi(gBitFlags+0x48)
+/* 01378 80AAB5C8 8DCE7168 */  lw      $t6, %lo(gBitFlags+0x48)($t6)
 /* 0137C 80AAB5CC 8C6F00A4 */  lw      $t7, 0x00A4($v1)           ## 8015E704
 /* 01380 80AAB5D0 01CFC024 */  and     $t8, $t6, $t7              
 /* 01384 80AAB5D4 5300000C */  beql    $t8, $zero, .L80AAB608     

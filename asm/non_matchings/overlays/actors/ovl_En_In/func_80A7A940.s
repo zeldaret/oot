@@ -38,8 +38,8 @@ glabel func_80A7A940
 /* 01A10 80A7A9C0 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 01A14 80A7A9C4 0C29E6EB */  jal     func_80A79BAC              
 /* 01A18 80A7A9C8 8FA5001C */  lw      $a1, 0x001C($sp)           
-/* 01A1C 80A7A9CC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 01A20 80A7A9D0 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 01A1C 80A7A9CC 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 01A20 80A7A9D0 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 01A24 80A7A9D4 944C13FA */  lhu     $t4, 0x13FA($v0)           ## 8015FA5A
 /* 01A28 80A7A9D8 3C01FFFF */  lui     $at, 0xFFFF                ## $at = FFFF0000
 /* 01A2C 80A7A9DC 34217FFF */  ori     $at, $at, 0x7FFF           ## $at = FFFF7FFF

@@ -7,7 +7,7 @@ glabel EnOssan_Destroy
 /* 00A80 80AC3720 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00A84 80AC3724 8FA50018 */  lw      $a1, 0x0018($sp)
 /* 00A88 80AC3728 8FA4001C */  lw      $a0, 0x001C($sp)
-/* 00A8C 80AC372C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00A8C 80AC372C 0C0170EB */  jal     Collider_DestroyCylinder
 
 /* 00A90 80AC3730 24A50198 */  addiu   $a1, $a1, 0x0198           ## $a1 = 00000198
 /* 00A94 80AC3734 8FBF0014 */  lw      $ra, 0x0014($sp)

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000000
 
-void EnLight_Init(EnLight* this, GlobalContext* globalCtx);
-void EnLight_Destroy(EnLight* this, GlobalContext* globalCtx);
-void EnLight_Update(EnLight* this, GlobalContext* globalCtx);
-void EnLight_Draw(EnLight* this, GlobalContext* globalCtx);
+#define THIS ((EnLight*)thisx)
+
+void EnLight_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnLight_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnLight_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Light_InitVars = {

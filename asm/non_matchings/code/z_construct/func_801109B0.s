@@ -108,7 +108,7 @@ glabel D_80154FE8
     .balign 4
 
 glabel D_80155028
-    .asciz "ＰＡＲＡＭＥＴＥＲ領域＝%x\n" 
+    .asciz "ＰＡＲＡＭＥＴＥＲ領域＝%x\n"
     .balign 4
 
 .text
@@ -128,7 +128,7 @@ glabel func_801109B0
 /* B87B80 801109E0 00818021 */  addu  $s0, $a0, $at
 /* B87B84 801109E4 8CC50000 */  lw    $a1, ($a2)
 /* B87B88 801109E8 AFA60058 */  sw    $a2, 0x58($sp)
-/* B87B8C 801109EC 0C02A89E */  jal   func_800AA278
+/* B87B8C 801109EC 0C02A89E */  jal   View_Init
 /* B87B90 801109F0 02002025 */   move  $a0, $s0
 /* B87B94 801109F4 A60001FC */  sh    $zero, 0x1fc($s0)
 /* B87B98 801109F8 920201FD */  lbu   $v0, 0x1fd($s0)
@@ -173,7 +173,7 @@ glabel func_801109B0
 /* B87C34 80110A94 24C64D78 */  addiu $a2, %lo(D_80154D78) # addiu $a2, $a2, 0x4d78
 /* B87C38 80110A98 8FA40058 */  lw    $a0, 0x58($sp)
 /* B87C3C 80110A9C 8FA5002C */  lw    $a1, 0x2c($sp)
-/* B87C40 80110AA0 0C031521 */  jal   Game_Alloc
+/* B87C40 80110AA0 0C031521 */  jal   GameState_AllocEnd
 /* B87C44 80110AA4 2407009F */   li    $a3, 159
 /* B87C48 80110AA8 3C048015 */  lui   $a0, %hi(D_80154D8C) # $a0, 0x8015
 /* B87C4C 80110AAC AE020130 */  sw    $v0, 0x130($s0)
@@ -182,7 +182,7 @@ glabel func_801109B0
 /* B87C58 80110AB8 00402825 */   move  $a1, $v0
 /* B87C5C 80110ABC 8E040130 */  lw    $a0, 0x130($s0)
 /* B87C60 80110AC0 14800008 */  bnez  $a0, .L80110AE4
-/* B87C64 80110AC4 00000000 */   nop   
+/* B87C64 80110AC4 00000000 */   nop
 /* B87C68 80110AC8 3C048015 */  lui   $a0, %hi(D_80154DAC) # $a0, 0x8015
 /* B87C6C 80110ACC 3C058015 */  lui   $a1, %hi(D_80154DD0) # $a1, 0x8015
 /* B87C70 80110AD0 24A54DD0 */  addiu $a1, %lo(D_80154DD0) # addiu $a1, $a1, 0x4dd0
@@ -202,7 +202,7 @@ glabel func_801109B0
 /* B87CA4 80110B04 24C64DF8 */  addiu $a2, %lo(D_80154DF8) # addiu $a2, $a2, 0x4df8
 /* B87CA8 80110B08 8FA40058 */  lw    $a0, 0x58($sp)
 /* B87CAC 80110B0C 24050480 */  li    $a1, 1152
-/* B87CB0 80110B10 0C031521 */  jal   Game_Alloc
+/* B87CB0 80110B10 0C031521 */  jal   GameState_AllocEnd
 /* B87CB4 80110B14 240700A6 */   li    $a3, 166
 /* B87CB8 80110B18 3C048015 */  lui   $a0, %hi(D_80154E0C) # $a0, 0x8015
 /* B87CBC 80110B1C AE020134 */  sw    $v0, 0x134($s0)
@@ -270,7 +270,7 @@ glabel func_801109B0
 /* B87DA0 80110C00 24C64EB0 */  addiu $a2, %lo(D_80154EB0) # addiu $a2, $a2, 0x4eb0
 /* B87DA4 80110C04 8FA40058 */  lw    $a0, 0x58($sp)
 /* B87DA8 80110C08 24054000 */  li    $a1, 16384
-/* B87DAC 80110C0C 0C031521 */  jal   Game_Alloc
+/* B87DAC 80110C0C 0C031521 */  jal   GameState_AllocEnd
 /* B87DB0 80110C10 240700BE */   li    $a3, 190
 /* B87DB4 80110C14 3C048015 */  lui   $a0, %hi(D_80154EC4) # $a0, 0x8015
 /* B87DB8 80110C18 AE020138 */  sw    $v0, 0x138($s0)
@@ -463,7 +463,7 @@ glabel func_801109B0
 /* B8805C 80110EBC 24A55300 */   addiu $a1, $a1, 0x5300
 /* B88060 80110EC0 0C01E258 */  jal   Health_InitData
 /* B88064 80110EC4 8FA40058 */   lw    $a0, 0x58($sp)
-/* B88068 80110EC8 0C0203DA */  jal   func_80080F68
+/* B88068 80110EC8 0C0203DA */  jal   Map_Init
 /* B8806C 80110ECC 8FA40058 */   lw    $a0, 0x58($sp)
 /* B88070 80110ED0 3C058016 */  lui   $a1, %hi(gGameInfo) # $a1, 0x8016
 /* B88074 80110ED4 24A5FA90 */  addiu $a1, %lo(gGameInfo) # addiu $a1, $a1, -0x570

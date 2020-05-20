@@ -16,12 +16,12 @@ glabel func_808A90F4
 /* 002D8 808A9128 0C00BE0A */  jal     Audio_PlayActorSound2
               
 /* 002DC 808A912C 24052814 */  addiu   $a1, $zero, 0x2814         ## $a1 = 00002814
-/* 002E0 808A9130 3C0F8012 */  lui     $t7, 0x8012                ## $t7 = 80120000
-/* 002E4 808A9134 91EF746E */  lbu     $t7, 0x746E($t7)           ## 8012746E
-/* 002E8 808A9138 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 002E0 808A9130 3C0F8012 */  lui     $t7, %hi(gItemSlots+0xa)
+/* 002E4 808A9134 91EF746E */  lbu     $t7, %lo(gItemSlots+0xa)($t7)
+/* 002E8 808A9138 3C188016 */  lui     $t8, %hi(gSaveContext+0x74)
 /* 002EC 808A913C 240100FF */  addiu   $at, $zero, 0x00FF         ## $at = 000000FF
 /* 002F0 808A9140 030FC021 */  addu    $t8, $t8, $t7              
-/* 002F4 808A9144 9318E6D4 */  lbu     $t8, -0x192C($t8)          ## 8015E6D4
+/* 002F4 808A9144 9318E6D4 */  lbu     $t8, %lo(gSaveContext+0x74)($t8)
 /* 002F8 808A9148 24190078 */  addiu   $t9, $zero, 0x0078         ## $t9 = 00000078
 /* 002FC 808A914C 240800A0 */  addiu   $t0, $zero, 0x00A0         ## $t0 = 000000A0
 /* 00300 808A9150 53010004 */  beql    $t8, $at, .L808A9164       

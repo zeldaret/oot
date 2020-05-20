@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000015
 
-void EnTite_Init(EnTite* this, GlobalContext* globalCtx);
-void EnTite_Destroy(EnTite* this, GlobalContext* globalCtx);
-void EnTite_Update(EnTite* this, GlobalContext* globalCtx);
-void EnTite_Draw(EnTite* this, GlobalContext* globalCtx);
+#define THIS ((EnTite*)thisx)
+
+void EnTite_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnTite_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnTite_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Tite_InitVars = {

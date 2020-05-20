@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00400000
 
-void ObjBean_Init(ObjBean* this, GlobalContext* globalCtx);
-void ObjBean_Destroy(ObjBean* this, GlobalContext* globalCtx);
-void ObjBean_Update(ObjBean* this, GlobalContext* globalCtx);
-void ObjBean_Draw(ObjBean* this, GlobalContext* globalCtx);
+#define THIS ((ObjBean*)thisx)
+
+void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjBean_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjBean_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Bean_InitVars = {

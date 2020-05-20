@@ -2,9 +2,9 @@
 #define _Z64ACTOR_H_
 
 #include <z64animation.h>
-#include <z64vec.h>
+#include <z64math.h>
+#include <z64collision_check.h>
 
-#define ACTOR_DLF_MAX 471
 #define ACTOR_NUMBER_MAX 200
 #define INVISIBLE_ACTOR_MAX 20
 #define AM_FIELD_SIZE 0x27A0
@@ -60,14 +60,26 @@ typedef struct {
 } ActorOverlay; // size = 0x20
 
 typedef struct {
-    struct {
-        char damage : 4;
-        char effect : 4;
-    } attack[32];
-} ActorDamageChart;
+    u8 table[32];
+} DamageTable;
 
 typedef struct {
-    /* 0x00 */ ActorDamageChart* damageChart;  // For actors which contain a damage chart (example: Stalfos)...
+    /* 0x00 */ u8 health;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ u8 mass;
+} CollisionCheckInfoInit;
+
+typedef struct {
+    /* 0x00 */ u8 health;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ s16 unk_06;
+    /* 0x08 */ u8 mass;
+} CollisionCheckInfoInit2;
+
+typedef struct {
+    /* 0x00 */ DamageTable* damageTable;  // For actors which contain one (example: Stalfos)...
     /* 0x04 */ Vec3f displacement; // Amount to correct velocity (0x5C) by when colliding into a body
     /* 0x10 */ s16   unk_10;
     /* 0x12 */ s16   unk_12;
@@ -76,9 +88,9 @@ typedef struct {
     /* 0x17 */ u8    health;
     /* 0x18 */ u8    damage; // Amount to decrement health by
     /* 0x19 */ u8    damageEffect; // Stores what effect should occur when hit by a weapon
-    /* 0x1A */ u8    impactEffect; // Maybe? set on deku nut when deku nut collides with gossip stone
-    /* 0x1B */ u8    unk_1B;
-} SubActorStruct98; // size = 0x1C
+    /* 0x1A */ u8    atHitEffect; // Stores what effect should occur when AT connects with an AC
+    /* 0x1B */ u8    acHitEffect; // Stores what effect should occur when AC is touched by an AT
+} CollisionCheckInfo; // size = 0x1C
 
 typedef struct {
     /* 0x00 */ Vec3s  rot; // Current actor shape rotation
@@ -113,7 +125,7 @@ typedef struct Actor {
     /* 0x078 */ CollisionPoly* floorPoly; // Floor polygon an actor is over/touching
     /* 0x07C */ u8      wallPolySource; // Complex Poly Surface Source. 0x32 = Scene
     /* 0x07D */ u8      floorPolySource; // Complex Poly Surface Source. 0x32 = Scene. related to 0x80/88
-    /* 0x07E */ s16     unk_7E;
+    /* 0x07E */ s16     wallPolyRot; // Rotation of the wall poly
     /* 0x080 */ f32     unk_80; // Floor poly height?
     /* 0x084 */ f32     unk_84;
     /* 0x088 */ u16     bgCheckFlags;
@@ -121,7 +133,7 @@ typedef struct Actor {
     /* 0x08C */ f32     waterSurfaceDist;
     /* 0x090 */ f32     xzDistanceFromLink;
     /* 0x094 */ f32     yDistanceFromLink;
-    /* 0x098 */ SubActorStruct98 sub_98;
+    /* 0x098 */ CollisionCheckInfo colChkInfo;
     /* 0x0B4 */ ActorShape shape;
     /* 0x0CC */ Vec3f   unk_CC[2];
     /* 0x0E4 */ Vec3f   unk_E4; // Stores result of some vector transformation involving actor xyz vector, and a matrix at Global Context + 11D60
@@ -162,127 +174,17 @@ typedef struct Actor {
 } Actor; // size = 0x14C
 
 typedef struct {
-    /* 0x00 */ u8 health;
-    /* 0x02 */ s16 unk_02;
-    /* 0x04 */ s16 unk_04;
-    /* 0x06 */ u8 mass;
-} Sub98Init4;
-
-typedef struct {
-    /* 0x00 */ u8 health;
-    /* 0x02 */ s16 unk_10;
-    /* 0x04 */ s16 unk_12;
-    /* 0x06 */ u16 unk_14;
-    /* 0x08 */ u8 mass;
-} Sub98Init5;
-
-typedef enum {
-    COLTYPE_CYLINDER = 1,
-    COLTYPE_CYLINDER_GROUP = 0,
-    COLTYPE_QUAD = 3,
-    COLTYPE_TRIANGLE_GROUP = 2
-} ColliderType;
-
-typedef struct {
-    /* 0x00 */ Actor* actor;
-    /* 0x04 */ Actor* at;
-    /* 0x08 */ Actor* ac;
-    /* 0x0C */ Actor* ot;
-    /* 0x10 */ u8 colliderFlags; /* Compared to 0x11 */
-    /* 0x11 */ u8 collideFlags; /* Compared to 0x10 */
-    /* 0x12 */ u8 maskA; /* Bitwise-and compared to 0x13 */
-    /* 0x13 */ u8 maskB; /* Bitwise-and compared to 0x12 */
-    /* 0x14 */ u8 unk_14;
-    /* 0x15 */ u8 type; /* Cylinder Collection, Cylinder, Triangle Collection, Quad */
-} Collider; // size = 0x18
-
-typedef struct {
-    /* 0x00 */ s32 flags; /* Toucher Attack Identifier Flags */
-    /* 0x04 */ u8 unk_04;
-    /* 0x05 */ u8 damage; /* Damage or Stun Timer */
-} ColliderTouch; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ s32 flags; /* Collision Exclusion Mask */
-    /* 0x04 */ u8 effect; /* Damage Effect (Knockback, Fire, etc.) */
-    /* 0x05 */ u8 unk_05;
-    /* 0x06 */ s16 unk_06;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ s16 unk_0A;
-} ColliderBump; // size = 0x0C
-
-typedef struct ColliderBody {
-    /* 0x00 */ ColliderTouch toucher;
-    /* 0x08 */ ColliderBump bumper;
-    /* 0x14 */ u8 flags;
-    /* 0x15 */ u8 toucherFlags;
-    /* 0x16 */ u8 bumperFlags;
-    /* 0x17 */ u8 flags2;
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ struct ColliderBodyEntry* colBuf;
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ struct ColliderBody* colliding;
-} ColliderBody; // size = 0x28
-
-typedef struct ColliderBodyEntry {
-    /* 0x00 */ ColliderBody c;
-    /* 0x28 */ char unk_28[0x18];
-} ColliderBodyEntry; // size = 0x40
-
-typedef struct {
-    /* 0x00 */ u8 bodyFlags;
-    /* 0x01 */ u8 unk_09[0x3]; /* 000000 */
-    /* 0x04 */ s32 toucherMask; /* Attack Toucher Exclusion Mask */
-    /* 0x08 */ u8 bumperEffect; /* Damage Effect (Knockback, Fire, etc.) */
-    /* 0x09 */ u8 toucherDamage; /* Damage Amount or Stun Timer */
-    /* 0x0A */ u8 unk_12[0x2]; /* 0000 */
-    /* 0x0C */ s32 bumperMask; /* Bumper Exclusion Mask */
-    /* 0x10 */ u8 unk_18[0x4]; /* 00000000 */
-    /* 0x14 */ u8 toucherFlags; /* Attack Toucher Flags */
-    /* 0x15 */ u8 bumperFlags; /* Bumper Flags */
-    /* 0x16 */ u8 bodyFlags2;
-    /* 0x17 */ u8 unk_1F; /* 00 */
-} ColliderBodyInfoInner; // size = 0x1A
-
-typedef struct {
-    /* 0x00 */ u8 unk_00;
-    /* 0x01 */ u8 colliderFlags; /* Collider Flags */
-    /* 0x02 */ u8 collideFlags; /* Collide Flags */
-    /* 0x03 */ u8 maskA; /* Bitwise-And with Mask B */
-    /* 0x04 */ u8 maskB; /* Bitwise-And with Mask A */
-    /* 0x05 */ u8 type; /* Collider Type */
-    /* 0x06 */ u8 unk_06[0x2]; /* 0000 */
-} ColliderBodyInfo; // size = 0x08
-
-typedef struct {
-    /* 0x00 */ s16 radius; /* Cylinder Radius */
-    /* 0x02 */ s16 height; /* Cylinder Height */
-    /* 0x04 */ s16 yShift; /* Shift Cylinder on Y Axis */
-    /* 0x06 */ Vec3s position; /* {X, Y, Z} position of Cylinder */
-} ColliderDimensions; // size = 0xC
-
-typedef struct {
-    /* 0x00 */ Collider base;
-    /* 0x18 */ ColliderBody body;
-    /* 0x40 */ ColliderDimensions dim;
-} ColliderCylinderMain; // size = 0x4C
-
-typedef struct {
-    /* 0x00 */ ColliderBodyInfo body;
-    /* 0x08 */ ColliderBodyInfoInner inner;
-    /* 0x22 */ ColliderDimensions dim;
-} ColliderCylinderInit; // size = 0x2E
-
-typedef struct {
-    /* 0x00 */ Actor* actor;
-    /* 0x04 */ char unk_04[0x10];
-    /* 0x14 */ Vec3f scale1;
-    /* 0x20 */ Vec3s rot1;
-    /* 0x28 */ Vec3f pos1;
-    /* 0x34 */ Vec3f scale2;
-    /* 0x40 */ Vec3s rot2;
-    /* 0x48 */ Vec3f pos2;
-    /* 0x54 */ char unk_54[0x10];
+    /* 0x00 */ char unk_00[0x04];
+    /* 0x04 */ Actor* actor;
+    /* 0x08 */ void* unk_08; // Struct800417A0*
+    /* 0x0C */ char  unk_0C[0x0C];
+    /* 0x18 */ Vec3f scale1;
+    /* 0x24 */ Vec3s rot1;
+    /* 0x2C */ Vec3f pos1;
+    /* 0x38 */ Vec3f scale2;
+    /* 0x44 */ Vec3s rot2;
+    /* 0x4C */ Vec3f pos2;
+    /* 0x58 */ char  unk_58[0x0C];
 } ActorMesh; // size = 0x64
 
 typedef struct {
@@ -298,82 +200,152 @@ typedef struct {
 } DynaPolyActor; // size = 0x164
 
 typedef struct {
+    /* 0x00 */ s32 active;
+    /* 0x04 */ Vec3f tip;
+    /* 0x10 */ Vec3f base;
+} Struct_80090480_arg2;
+
+struct Player;
+typedef void (*PlayerActionFunc)(struct Player*, struct GlobalContext*);
+
+typedef struct Player {
     /* 0x0000 */ Actor      actor;
     /* 0x014C */ s8         currentTunic;
     /* 0x014D */ s8         currentSword;
     /* 0x014E */ s8         currentShield;
     /* 0x014F */ s8         currentBoots;
-    /* 0x0150 */ s8         unk_150;
-    /* 0x0151 */ s8         unk_151;
+    /* 0x0150 */ s8         heldItemCButtonIdx;
+    /* 0x0151 */ s8         heldItemActionParam;
     /* 0x0152 */ s8         unk_152;
     /* 0x0153 */ s8         unk_153;
     /* 0x0154 */ s8         unk_154;
-    /* 0x0155 */ char       unk_155[0x008];
+    /* 0x0155 */ char       unk_155[0x003];
+    /* 0x0158 */ s8         unk_158;
+    /* 0x0159 */ char       unk_159[0x002];
+    /* 0x015B */ u8         unk_15B;
+    /* 0x015C */ u8         unk_15C;
     /* 0x015D */ u8         unk_15D;
     /* 0x015E */ u8         unk_15E;
     /* 0x015F */ u8         currentMask;
-    /* 0x0160 */ char       unk_160[0x050];
-    /* 0x01B0 */ u32        unk_1B0;
+    /* 0x0160 */ UNK_PTR    unk_160;
+    /* 0x0164 */ UNK_PTR    unk_164;
+    /* 0x0168 */ UNK_PTR    unk_168;
+    /* 0x016C */ UNK_PTR    unk_16C;
+    /* 0x0170 */ u8         unk_170;
+    /* 0x0171 */ char       unk_171[0x023];
+    /* 0x0194 */ OSMesgQueue unk_194;
+    /* 0x01AC */ char       unk_1AC[0x004];
+    /* 0x01B0 */ void*      getItemModel; // Pointer to the space where the get item model is allocated
     /* 0x01B4 */ SkelAnime  skelAnime;
     /* 0x01F8 */ char       unk_1F8[0x1B4];
     /* 0x03AC */ Actor*     heldActor;
     /* 0x03B0 */ char       unk_3B0[0x084];
     /* 0x0434 */ u8         getItemId;
+    /* 0x0435 */ char       unk_435[0x001];
     /* 0x0436 */ u16        getItemDirection;
     /* 0x0438 */ Actor*     interactRangeActor;
     /* 0x043C */ s8         unk_43C;
+    /* 0x043D */ char       unk_43D[0x003];
     /* 0x0440 */ Actor*     rideActor;
     /* 0x0444 */ u8         action;
     /* 0x0445 */ char       unk_445[0x003];
     /* 0x0448 */ Actor*     unk_448;
-    /* 0x0445 */ char       unk_44C[0x01E];
+    /* 0x044C */ char       unk_44C[0x004];
+    /* 0x0450 */ Vec3f      unk_450;
+    /* 0x045C */ char       unk_45C[0x00E];
     /* 0x046A */ u16        unk_46A;
-    /* 0x046C */ char       unk_46C[0x6E];
+    /* 0x046C */ char       unk_46C[0x06E];
     /* 0x04DA */ s16        unk_4DA;
-    /* 0x04DC */ char       unk_4DC[0x188];
+    /* 0x04DC */ char       unk_4DC[0x008];
+    /* 0x04E4 */ Collider   unk_4E4; // TODO determine type
+    /* 0x04FC */ char       unk_4FC[0x068];
+    /* 0x0564 */ Collider   unk_564; // TODO determine type
+    /* 0x057C */ char       unk_57C[0x07C];
+    /* 0x05F8 */ u8         unk_5F8;
+    /* 0x05F9 */ char       unk_5F9[0x06B];
     /* 0x0664 */ Actor*     unk_664;
     /* 0x0668 */ char       unk_668[0x004];
     /* 0x066C */ s32        unk_66C;
-    /* 0x0670 */ char       unk_670[0x00C];
+    /* 0x0670 */ u32        swordEffectId;
+    /* 0x0674 */ PlayerActionFunc  actionFunc;
+    /* 0x0678 */ u32        ageProperties;
     /* 0x067C */ u32        stateFlags1;
     /* 0x0680 */ u32        stateFlags2;
-    /* 0x0684 */ char       unk_684[0x008];
-    /* 0x068C */ Actor*     unk_68C;
-    /* 0x0690 */ char       unk_690[0x002];
+    /* 0x0684 */ s32        unk_684;
+    /* 0x0688 */ char       unk_688[0x004];
+    /* 0x068C */ Actor*     navi;
+    /* 0x0690 */ u16        naviMessageId;
     /* 0x0692 */ u8         unk_692;
     /* 0x0693 */ s8         exchangeItemId;
-    /* 0x0694 */ Actor*     unk_694;
-    /* 0x0698 */ f32        unk_698;
+    /* 0x0694 */ Actor*     naviTargetActor;
+    /* 0x0698 */ f32        targetActorDistance;
     /* 0x069C */ char       unk_69C[0x008];
     /* 0x06A4 */ f32        unk_6A4;
-    /* 0x06A8 */ char       unk_6A8[0x5];
+    /* 0x06A8 */ Actor*     unk_6A8;
+    /* 0x06AC */ char       unk_6AC[0x001];
     /* 0x06AD */ u8         unk_6AD;
-    /* 0x06AE */ char       unk_6AE[0x1A];
+    /* 0x06AE */ char       unk_6AE[0x2];
+    /* 0x06B0 */ s16        unk_6B0;
+    /* 0x06B2 */ char       unk_6B4[0x4];
+    /* 0x06B6 */ Vec3s      unk_6B6;
+    /* 0x06BC */ s16        unk_6BC;
+    /* 0x06BE */ s16        unk_6BE;
+    /* 0x06C0 */ s16        unk_6C0;
+    /* 0x06C2 */ s16        unk_6C2;
+    /* 0x06C4 */ f32        unk_6C4;
     /* 0x06C8 */ SkelAnime  skelAnime2;
     /* 0x070C */ char       unk_70C[0x128];
     /* 0x0834 */ s16        unk_834;
-    /* 0x0836 */ char       unk_836[0x006];
-    /* 0x083C */ s16        unk_83C;
-    /* 0x083E */ char       unk_83E[0x004];
+    /* 0x0836 */ char       unk_836[0x002];
+    /* 0x0838 */ f32        linearVelocity;
+    /* 0x083C */ s16        currentYaw;
+    /* 0x083E */ s16        targetYaw;
+    /* 0x0840 */ u16        unk_840;
     /* 0x0842 */ s8         swordAnimation;
     /* 0x0843 */ s8         swordState;
     /* 0x0844 */ u8         unk_844;
     /* 0x0845 */ u8         unk_845;
     /* 0x0846 */ u8         unk_846;
     /* 0x0847 */ char       unk_847[0x004];
-    /* 0x084B */ s8         unk_84B[UNK_SIZE];
-    /* 0x084C */ char       unk_84C[0x003];
+    /* 0x084B */ s8         unk_84B[4];
     /* 0x084F */ s8         unk_84F;
-    /* 0x0850 */ char       unk_850[0x050];
+    /* 0x0850 */ s16        unk_850;
+    /* 0x0852 */ char       unk_852[0x00A];
+    /* 0x085C */ f32        stickLength;
+    /* 0x0860 */ s16        stickFlameTimer;
+    /* 0x0862 */ s8         overheadItemId;
+    /* 0x0863 */ char       unk_863[0x021];
+
+    /* 0x0884 */ f32        ledgeDistance; // The distance from link to a grabbable ledge
+    // Only updates if pushing against a wall with a grabbable ledge above
+    // If the ledge is too high to grab the value is 399.96f
+
+    /* 0x0888 */ f32        wallDistance; // Only updates if pushing against a wall with a grabbable ledge above
+    /* 0x088C */ char       unk_88C[0x008];
+    /* 0x0894 */ s16        dropY; // Truncated copy of y position that does not update while falling
+    /* 0x0896 */ s16        fallY; // The truncated y distance link has moved in that frame, positive is down, negative is up
+    /* 0x0898 */ char       unk_898[0x008];
     /* 0x08A0 */ u8         unk_8A0;
     /* 0x08A1 */ u8         unk_8A1;
     /* 0x08A2 */ u16        unk_8A2;
     /* 0x08A4 */ f32        unk_8A4;
     /* 0x08A8 */ f32        unk_8A8;
-    /* 0x08AC */ char       unk_8AC[0x174];
+    /* 0x08AC */ f32        fanWindSpeed;
+    /* 0x08B0 */ s16        fanWindDirection;
+    /* 0x08B2 */ char       unk_8B2[0x002];
+    /* 0x08B4 */ Struct_80090480_arg2 swordDimensions; // Trail active, tip, base?
+    /* 0x08D0 */ Struct_80090480_arg2 unk_8D0;
+    /* 0x08EC */ Struct_80090480_arg2 unk_8EC;
+    /* 0x0908 */ char       unk_908[0x118];
     /* 0x0A20 */ MtxF       mf_A20;
-    /* 0x0A60 */ char       unk_A60[0x18];
-    /* 0x0A78 */ s8         unk_A78;
+    /* 0x0A60 */ char       unk_A60[0x08];
+    /* 0x0A68 */ s8         unk_A68;
+    /* 0x0A69 */ char       unk_A6A[0x0F];
+
+    /* 0x0A78 */ s8         invincibilityTimer; // Take no damage if this value is nonzero
+    // Positive induces red flashing, negative does not
+    // Counts towards zero each frame
+
     /* 0x0A79 */ char       unk_A79[0x1B];
 } Player; // size = 0xA94
 
@@ -863,7 +835,8 @@ typedef enum {
     /* 0x01D3 */ ACTOR_EN_ZL4,
     /* 0x01D4 */ ACTOR_EN_MM2,
     /* 0x01D5 */ ACTOR_BG_JYA_BLOCK,
-    /* 0x01D6 */ ACTOR_OBJ_WARP2BLOCK
+    /* 0x01D6 */ ACTOR_OBJ_WARP2BLOCK,
+    /* 0x01D7 */ ACTOR_ID_MAX // originally "ACTOR_DLF_MAX"
 } ActorID;
 
 #endif

@@ -3,7 +3,7 @@ glabel EnMk_Destroy
 /* 0011C 80AACA1C 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 00120 80AACA20 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00124 80AACA24 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00128 80AACA28 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00128 80AACA28 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0012C 80AACA2C 24C5014C */  addiu   $a1, $a2, 0x014C           ## $a1 = 0000014C
 /* 00130 80AACA30 8FBF0014 */  lw      $ra, 0x0014($sp)           

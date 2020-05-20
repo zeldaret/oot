@@ -50,20 +50,20 @@ glabel func_80A4561C
 /* 029A0 80A456D0 10410003 */  beq     $v0, $at, .L80A456E0       
 /* 029A4 80A456D4 2401000D */  addiu   $at, $zero, 0x000D         ## $at = 0000000D
 /* 029A8 80A456D8 14410003 */  bne     $v0, $at, .L80A456E8       
-/* 029AC 80A456DC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 029AC 80A456DC 3C038016 */  lui     $v1, %hi(gSaveContext)
 .L80A456E0:
 /* 029B0 80A456E0 10000012 */  beq     $zero, $zero, .L80A4572C   
 /* 029B4 80A456E4 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 .L80A456E8:
-/* 029B8 80A456E8 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
-/* 029BC 80A456EC 3C028012 */  lui     $v0, 0x8012                ## $v0 = 80120000
-/* 029C0 80A456F0 8C427124 */  lw      $v0, 0x7124($v0)           ## 80127124
+/* 029B8 80A456E8 2463E660 */  addiu   $v1, %lo(gSaveContext)
+/* 029BC 80A456EC 3C028012 */  lui     $v0, %hi(gBitFlags+4)
+/* 029C0 80A456F0 8C427124 */  lw      $v0, %lo(gBitFlags+4)($v0)
 /* 029C4 80A456F4 8C6A00A4 */  lw      $t2, 0x00A4($v1)           ## 8015E704
-/* 029C8 80A456F8 3C0C8012 */  lui     $t4, 0x8012                ## $t4 = 80120000
+/* 029C8 80A456F8 3C0C8012 */  lui     $t4, %hi(gEquipShifts+2)
 /* 029CC 80A456FC 004A5824 */  and     $t3, $v0, $t2              
 /* 029D0 80A45700 5560000A */  bnel    $t3, $zero, .L80A4572C     
 /* 029D4 80A45704 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
-/* 029D8 80A45708 918C71F2 */  lbu     $t4, 0x71F2($t4)           ## 801271F2
+/* 029D8 80A45708 918C71F2 */  lbu     $t4, %lo(gEquipShifts+2)($t4)
 /* 029DC 80A4570C 946E009C */  lhu     $t6, 0x009C($v1)           ## 8015E6FC
 /* 029E0 80A45710 01826804 */  sllv    $t5, $v0, $t4              
 /* 029E4 80A45714 01AEC024 */  and     $t8, $t5, $t6              

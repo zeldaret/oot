@@ -36,7 +36,7 @@ glabel func_80045C74
 /* ABCE28 80045C88 AFBF002C */  sw    $ra, 0x2c($sp)
 /* ABCE2C 80045C8C AFA50084 */  sw    $a1, 0x84($sp)
 /* ABCE30 80045C90 AFA7008C */  sw    $a3, 0x8c($sp)
-/* ABCE34 80045C94 0C00B721 */  jal   func_8002DC84
+/* ABCE34 80045C94 0C00B721 */  jal   Player_GetCameraYOffset
 /* ABCE38 80045C98 8C840090 */   lw    $a0, 0x90($a0)
 /* ABCE3C 80045C9C 46140100 */  add.s $f4, $f0, $f20
 /* ABCE40 80045CA0 44801000 */  mtc1  $zero, $f2

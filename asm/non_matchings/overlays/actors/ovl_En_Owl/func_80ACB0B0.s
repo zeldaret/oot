@@ -4,10 +4,10 @@ glabel func_80ACB0B0
 /* 01198 80ACB0B8 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 0119C 80ACB0BC 0C2B28EE */  jal     func_80ACA3B8              
 /* 011A0 80ACB0C0 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 011A4 80ACB0C4 3C038012 */  lui     $v1, 0x8012                ## $v1 = 80120000
-/* 011A8 80ACB0C8 24637120 */  addiu   $v1, $v1, 0x7120           ## $v1 = 80127120
-/* 011AC 80ACB0CC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 011B0 80ACB0D0 8C42E704 */  lw      $v0, -0x18FC($v0)          ## 8015E704
+/* 011A4 80ACB0C4 3C038012 */  lui     $v1, %hi(gBitFlags)
+/* 011A8 80ACB0C8 24637120 */  addiu   $v1, %lo(gBitFlags)
+/* 011AC 80ACB0CC 3C028016 */  lui     $v0, %hi(gSaveContext+0xa4)
+/* 011B0 80ACB0D0 8C42E704 */  lw      $v0, %lo(gSaveContext+0xa4)($v0)
 /* 011B4 80ACB0D4 8C6E0038 */  lw      $t6, 0x0038($v1)           ## 80127158
 /* 011B8 80ACB0D8 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 011BC 80ACB0DC 8FA50024 */  lw      $a1, 0x0024($sp)           

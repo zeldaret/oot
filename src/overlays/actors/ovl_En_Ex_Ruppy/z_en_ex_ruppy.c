@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void EnExRuppy_Init(EnExRuppy* this, GlobalContext* globalCtx);
-void EnExRuppy_Destroy(EnExRuppy* this, GlobalContext* globalCtx);
-void EnExRuppy_Update(EnExRuppy* this, GlobalContext* globalCtx);
-void EnExRuppy_Draw(EnExRuppy* this, GlobalContext* globalCtx);
+#define THIS ((EnExRuppy*)thisx)
+
+void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnExRuppy_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ex_Ruppy_InitVars = {

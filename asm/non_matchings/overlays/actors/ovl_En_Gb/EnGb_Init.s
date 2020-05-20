@@ -49,14 +49,14 @@ glabel EnGb_Init
 /* 000DC 80A2F25C 26450164 */  addiu   $a1, $s2, 0x0164           ## $a1 = 00000164
 /* 000E0 80A2F260 2650023C */  addiu   $s0, $s2, 0x023C           ## $s0 = 0000023C
 /* 000E4 80A2F264 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000023C
-/* 000E8 80A2F268 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000E8 80A2F268 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 000EC 80A2F26C 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 000F0 80A2F270 3C0780A3 */  lui     $a3, %hi(D_80A30690)       ## $a3 = 80A30000
 /* 000F4 80A2F274 24E70690 */  addiu   $a3, $a3, %lo(D_80A30690)  ## $a3 = 80A30690
 /* 000F8 80A2F278 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 000FC 80A2F27C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000023C
-/* 00100 80A2F280 0C017114 */  jal     func_8005C450
+/* 00100 80A2F280 0C017114 */  jal     Collider_SetCylinder_Set3
 /* 00104 80A2F284 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 /* 00108 80A2F288 3C1080A3 */  lui     $s0, %hi(D_80A306BC)       ## $s0 = 80A30000
 /* 0010C 80A2F28C 3C1480A3 */  lui     $s4, %hi(D_80A30740)       ## $s4 = 80A30000
@@ -65,13 +65,13 @@ glabel EnGb_Init
 /* 00118 80A2F298 26510288 */  addiu   $s1, $s2, 0x0288           ## $s1 = 00000288
 .L80A2F29C:
 /* 0011C 80A2F29C 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 00120 80A2F2A0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00120 80A2F2A0 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00124 80A2F2A4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000288
 /* 00128 80A2F2A8 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 0012C 80A2F2AC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000288
 /* 00130 80A2F2B0 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 00134 80A2F2B4 0C017114 */  jal     func_8005C450
+/* 00134 80A2F2B4 0C017114 */  jal     Collider_SetCylinder_Set3
 /* 00138 80A2F2B8 02003825 */  or      $a3, $s0, $zero            ## $a3 = 80A306BC
 /* 0013C 80A2F2BC 2610002C */  addiu   $s0, $s0, 0x002C           ## $s0 = 80A306E8
 /* 00140 80A2F2C0 0214082B */  sltu    $at, $s0, $s4
@@ -111,8 +111,8 @@ glabel EnGb_Init
 
 /* 001C4 80A2F344 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000370
 /* 001C8 80A2F348 4480C000 */  mtc1    $zero, $f24                ## $f24 = 0.00
-/* 001CC 80A2F34C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 001D0 80A2F350 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 001CC 80A2F34C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 001D0 80A2F350 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 001D4 80A2F354 4405C000 */  mfc1    $a1, $f24
 /* 001D8 80A2F358 264400B4 */  addiu   $a0, $s2, 0x00B4           ## $a0 = 000000B4
 /* 001DC 80A2F35C 0C00AC78 */  jal     ActorShape_Init
@@ -239,7 +239,7 @@ glabel EnGb_Init
 /* 0039C 80A2F51C 86440030 */  lh      $a0, 0x0030($s2)           ## 00000030
 /* 003A0 80A2F520 86450032 */  lh      $a1, 0x0032($s2)           ## 00000032
 /* 003A4 80A2F524 86460034 */  lh      $a2, 0x0034($s2)           ## 00000034
-/* 003A8 80A2F528 0C034421 */  jal     Matrix_RotateZYX
+/* 003A8 80A2F528 0C034421 */  jal     Matrix_RotateRPY
 /* 003AC 80A2F52C 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 003B0 80A2F530 3C014230 */  lui     $at, 0x4230                ## $at = 42300000
 /* 003B4 80A2F534 44812000 */  mtc1    $at, $f4                   ## $f4 = 44.00

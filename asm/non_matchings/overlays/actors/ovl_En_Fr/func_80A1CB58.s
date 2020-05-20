@@ -1,6 +1,6 @@
 glabel func_80A1CB58
-/* 021B8 80A1CB58 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 021BC 80A1CB5C 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 021B8 80A1CB58 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 021BC 80A1CB5C 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 021C0 80A1CB60 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 021C4 80A1CB64 AFBF0044 */  sw      $ra, 0x0044($sp)           
 /* 021C8 80A1CB68 AFA5004C */  sw      $a1, 0x004C($sp)           

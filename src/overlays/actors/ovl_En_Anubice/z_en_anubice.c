@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000015
 
-void EnAnubice_Init(EnAnubice* this, GlobalContext* globalCtx);
-void EnAnubice_Destroy(EnAnubice* this, GlobalContext* globalCtx);
-void EnAnubice_Update(EnAnubice* this, GlobalContext* globalCtx);
-void EnAnubice_Draw(EnAnubice* this, GlobalContext* globalCtx);
+#define THIS ((EnAnubice*)thisx)
+
+void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnAnubice_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Anubice_InitVars = {

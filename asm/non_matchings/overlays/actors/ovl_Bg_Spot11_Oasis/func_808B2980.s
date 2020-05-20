@@ -4,7 +4,7 @@ glabel func_808B2980
 /* 00198 808B2988 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 0019C 808B298C AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 001A0 808B2990 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 001A4 808B2994 0C01B129 */  jal     func_8006C4A4              
+/* 001A4 808B2994 0C01B129 */  jal     Flags_GetEnv              
 /* 001A8 808B2998 24050005 */  addiu   $a1, $zero, 0x0005         ## $a1 = 00000005
 /* 001AC 808B299C 5040000D */  beql    $v0, $zero, .L808B29D4     
 /* 001B0 808B29A0 8FBF001C */  lw      $ra, 0x001C($sp)           

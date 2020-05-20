@@ -15,10 +15,10 @@ glabel EnDntJiji_Update
               
 /* 01144 809F2C24 34A5C28F */  ori     $a1, $a1, 0xC28F           ## $a1 = 3C75C28F
 /* 01148 809F2C28 860E0246 */  lh      $t6, 0x0246($s0)           ## 00000246
-/* 0114C 809F2C2C 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 0114C 809F2C2C 3C188016 */  lui     $t8, %hi(gGameInfo)
 /* 01150 809F2C30 25CF0001 */  addiu   $t7, $t6, 0x0001           ## $t7 = 00000001
 /* 01154 809F2C34 A60F0246 */  sh      $t7, 0x0246($s0)           ## 00000246
-/* 01158 809F2C38 8F18FA90 */  lw      $t8, -0x0570($t8)          ## 8015FA90
+/* 01158 809F2C38 8F18FA90 */  lw      $t8, %lo(gGameInfo)($t8)
 /* 0115C 809F2C3C 871912D4 */  lh      $t9, 0x12D4($t8)           ## 801612D4
 /* 01160 809F2C40 13200004 */  beq     $t9, $zero, .L809F2C54     
 /* 01164 809F2C44 3C04809F */  lui     $a0, %hi(D_809F3090)       ## $a0 = 809F0000
@@ -135,7 +135,7 @@ glabel EnDntJiji_Update
 /* 012D8 809F2DB8 2606025C */  addiu   $a2, $s0, 0x025C           ## $a2 = 0000025C
 /* 012DC 809F2DBC 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000025C
 /* 012E0 809F2DC0 AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 012E4 809F2DC4 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 012E4 809F2DC4 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 012E8 809F2DC8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 012EC 809F2DCC 9208023C */  lbu     $t0, 0x023C($s0)           ## 0000023C
@@ -144,7 +144,7 @@ glabel EnDntJiji_Update
 /* 012F8 809F2DD8 11000004 */  beq     $t0, $zero, .L809F2DEC     
 /* 012FC 809F2DDC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01300 809F2DE0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
-/* 01304 809F2DE4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01304 809F2DE4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01308 809F2DE8 00812821 */  addu    $a1, $a0, $at              
 .L809F2DEC:

@@ -13,8 +13,8 @@ glabel func_80AB1B68
 /* 00E04 80AB1B94 24820280 */  addiu   $v0, $a0, 0x0280           ## $v0 = 00000280
 /* 00E08 80AB1B98 C4440000 */  lwc1    $f4, 0x0000($v0)           ## 00000280
 /* 00E0C 80AB1B9C 44813000 */  mtc1    $at, $f6                   ## $f6 = 1.00
-/* 00E10 80AB1BA0 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
-/* 00E14 80AB1BA4 24A5FA90 */  addiu   $a1, $a1, 0xFA90           ## $a1 = 8015FA90
+/* 00E10 80AB1BA0 3C058016 */  lui     $a1, %hi(gGameInfo)
+/* 00E14 80AB1BA4 24A5FA90 */  addiu   $a1, %lo(gGameInfo)
 /* 00E18 80AB1BA8 46062200 */  add.s   $f8, $f4, $f6              
 /* 00E1C 80AB1BAC 24180009 */  addiu   $t8, $zero, 0x0009         ## $t8 = 00000009
 /* 00E20 80AB1BB0 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
@@ -63,8 +63,8 @@ glabel func_80AB1B68
 /* 00EC8 80AB1C58 10000014 */  beq     $zero, $zero, .L80AB1CAC   
 /* 00ECC 80AB1C5C A08000C8 */  sb      $zero, 0x00C8($a0)         ## 000000C8
 .L80AB1C60:
-/* 00ED0 80AB1C60 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
-/* 00ED4 80AB1C64 24A5FA90 */  addiu   $a1, $a1, 0xFA90           ## $a1 = 8015FA90
+/* 00ED0 80AB1C60 3C058016 */  lui     $a1, %hi(gGameInfo)
+/* 00ED4 80AB1C64 24A5FA90 */  addiu   $a1, %lo(gGameInfo)
 /* 00ED8 80AB1C68 8CAB0000 */  lw      $t3, 0x0000($a1)           ## 8015FA90
 /* 00EDC 80AB1C6C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 00EE0 80AB1C70 44811000 */  mtc1    $at, $f2                   ## $f2 = 10.00

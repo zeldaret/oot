@@ -1,6 +1,6 @@
 glabel func_80AC31A0
-/* 00500 80AC31A0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00504 80AC31A4 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 00500 80AC31A0 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 00504 80AC31A4 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 00508 80AC31A8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 0050C 80AC31AC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00510 80AC31B0 11C00003 */  beq     $t6, $zero, .L80AC31C0     

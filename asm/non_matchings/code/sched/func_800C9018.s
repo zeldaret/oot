@@ -31,7 +31,7 @@ glabel func_800C9018
 /* B40204 800C9064 0C000DDE */  jal   __ull_div
 /* B40208 800C9068 24070BB8 */   li    $a3, 3000
 /* B4020C 800C906C AFA20048 */  sw    $v0, 0x48($sp)
-/* B40210 800C9070 0C0419D8 */  jal   func_80106760
+/* B40210 800C9070 0C0419D8 */  jal   osViGetCurrentFramebuffer
 /* B40214 800C9074 AFA3004C */   sw    $v1, 0x4c($sp)
 /* B40218 800C9078 3C048014 */  lui   $a0, %hi(D_801460B0) # $a0, 0x8014
 /* B4021C 800C907C 248460B0 */  addiu $a0, %lo(D_801460B0) # addiu $a0, $a0, 0x60b0
@@ -43,7 +43,7 @@ glabel func_800C9018
 /* B40230 800C9090 00000000 */   nop   
 /* B40234 800C9094 8E090238 */  lw    $t1, 0x238($s0)
 /* B40238 800C9098 252A0001 */  addiu $t2, $t1, 1
-/* B4023C 800C909C 0C0419D8 */  jal   func_80106760
+/* B4023C 800C909C 0C0419D8 */  jal   osViGetCurrentFramebuffer
 /* B40240 800C90A0 AE0A0238 */   sw    $t2, 0x238($s0)
 /* B40244 800C90A4 8E050244 */  lw    $a1, 0x244($s0)
 /* B40248 800C90A8 00004025 */  move  $t0, $zero
@@ -93,7 +93,7 @@ glabel func_800C9018
 /* B402E0 800C9140 8DCF0000 */  lw    $t7, ($t6)
 /* B402E4 800C9144 11E00016 */  beqz  $t7, .L800C91A0
 /* B402E8 800C9148 00000000 */   nop   
-/* B402EC 800C914C 0C0419D8 */  jal   func_80106760
+/* B402EC 800C914C 0C0419D8 */  jal   osViGetCurrentFramebuffer
 /* B402F0 800C9150 00000000 */   nop   
 /* B402F4 800C9154 0C0011D0 */  jal   osViGetNextFramebuffer
 /* B402F8 800C9158 AFA2002C */   sw    $v0, 0x2c($sp)

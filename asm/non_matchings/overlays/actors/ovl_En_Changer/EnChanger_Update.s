@@ -7,7 +7,7 @@ glabel EnChanger_Update
 /* 00948 809D2FD8 0320F809 */  jalr    $ra, $t9                   
 /* 0094C 809D2FDC 00000000 */  nop
 /* 00950 809D2FE0 8FA40048 */  lw      $a0, 0x0048($sp)           
-/* 00954 809D2FE4 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 00954 809D2FE4 3C0F8016 */  lui     $t7, %hi(gGameInfo)
 /* 00958 809D2FE8 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 0095C 809D2FEC 84820166 */  lh      $v0, 0x0166($a0)           ## 00000166
 /* 00960 809D2FF0 240A00FF */  addiu   $t2, $zero, 0x00FF         ## $t2 = 000000FF
@@ -16,7 +16,7 @@ glabel EnChanger_Update
 /* 0096C 809D2FFC 244EFFFF */  addiu   $t6, $v0, 0xFFFF           ## $t6 = FFFFFFFF
 /* 00970 809D3000 A48E0166 */  sh      $t6, 0x0166($a0)           ## 00000166
 .L809D3004:
-/* 00974 809D3004 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 00974 809D3004 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 00978 809D3008 240C00FF */  addiu   $t4, $zero, 0x00FF         ## $t4 = 000000FF
 /* 0097C 809D300C 240D0004 */  addiu   $t5, $zero, 0x0004         ## $t5 = 00000004
 /* 00980 809D3010 85F812D4 */  lh      $t8, 0x12D4($t7)           ## 801612D4

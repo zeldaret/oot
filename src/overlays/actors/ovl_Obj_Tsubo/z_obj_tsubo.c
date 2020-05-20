@@ -8,9 +8,11 @@
 
 #define FLAGS 0x00800010
 
-void ObjTsubo_Init(ObjTsubo* this, GlobalContext* globalCtx);
-void ObjTsubo_Destroy(ObjTsubo* this, GlobalContext* globalCtx);
-void ObjTsubo_Update(ObjTsubo* this, GlobalContext* globalCtx);
+#define THIS ((ObjTsubo*)thisx)
+
+void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjTsubo_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Tsubo_InitVars = {

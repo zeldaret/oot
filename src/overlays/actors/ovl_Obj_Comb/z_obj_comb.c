@@ -8,10 +8,12 @@
 
 #define FLAGS 0x00000000
 
-void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx);
-void ObjComb_Destroy(ObjComb* this, GlobalContext* globalCtx);
-void ObjComb_Update(ObjComb* this, GlobalContext* globalCtx);
-void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx);
+#define THIS ((ObjComb*)thisx)
+
+void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx);
 void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx);
@@ -30,15 +32,17 @@ const ActorInit Obj_Comb_InitVars = {
     (ActorFunc)ObjComb_Draw,
 };
 
-UNK_TYPE D_80B922E0[] = {
-    0x00000000, 0x00000000, 0x00000000, 0x4001FFFE, 0x00000000, 0x00010100, 0x00000000, 0x00000000, 0x000F0064,
+ColliderJntSphItemInit colliderItemsInit[1] = {
+    {
+        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        { 0x00, { { 0, 0, 0 }, 15 }, 100 },
+    },
 };
 
-UNK_TYPE D_80B92304[] = {
-    0x0A000909,
-    0x20000000,
-    0x00000001,
-    &D_80B922E0,
+ColliderJntSphInit colliderInit = {
+    { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
+    1,
+    &colliderItemsInit,
 };
 
 static InitChainEntry initChain[] = {
@@ -99,8 +103,8 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
         } else {
             u0 = 32;
         }
-        Effect_SpawnFragment(globalCtx, &posSum, &pos2, &posSum, gravityInfluence, u0, rotSpeed, 4, 0, scale, 0, 0, 80,
-                             -1, 2, dlist);
+        func_80029E8C(globalCtx, &posSum, &pos2, &posSum, gravityInfluence, u0, rotSpeed, 4, 0, scale, 0, 0, 80, -1, 2,
+                      dlist);
     }
 
     posSum.x = this->actor.posRot.pos.x;
@@ -128,17 +132,17 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
     }
 }
 
-void ObjComb_Init(ObjComb* this, GlobalContext* globalCtx) {
-    s32 pad;
+void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ObjComb* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, &initChain);
-    func_8005BBF8(globalCtx, &this->collider);
-    func_8005C050(globalCtx, &this->collider, this, &D_80B92304, &this->colliderBody);
+    Collider_InitJntSph(globalCtx, &this->collider);
+    Collider_SetJntSph(globalCtx, &this->collider, this, &colliderInit, &this->colliderItems);
     ObjComb_SetWait(this);
 }
 
-void ObjComb_Destroy(ObjComb* this, GlobalContext* globalCtx) {
-    func_8005BCC8(globalCtx, &this->collider);
+void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    Collider_DestroyJntSph(globalCtx, &THIS->collider);
 }
 
 void ObjComb_SetWait(ObjComb* this) {
@@ -153,9 +157,9 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
         this->unk_1B0 = 0;
     }
 
-    if ((this->collider.collideFlags & 0x2) != 0) {
-        this->collider.collideFlags &= ~0x2;
-        toucherFlags = this->colliderBodyPtr->colliding->toucher.flags;
+    if ((this->collider.base.acFlags & 0x2) != 0) {
+        this->collider.base.acFlags &= ~0x2;
+        toucherFlags = this->collider.list->body.acHitItem->toucher.flags;
         if (toucherFlags & 0x4001F866) {
             this->unk_1B0 = 1500;
         } else {
@@ -164,22 +168,24 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
             Actor_Kill(this);
         }
     } else {
-        Actor_CollisionCheck_SetAC(globalCtx, &globalCtx->sub_11E60, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 
     if (this->actor.update != NULL) {
-        Actor_CollisionCheck_SetOT(globalCtx, &globalCtx->sub_11E60, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 }
 
-void ObjComb_Update(ObjComb* this, GlobalContext* globalCtx) {
+void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
+    ObjComb* this = THIS;
+
     this->unk_1B2 += 12000;
-    this->actionFunc(&this->actor, globalCtx);
+    this->actionFunc(this, globalCtx);
     this->actor.shape.rot.x = Math_Sins(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
 }
 
-void ObjComb_Draw(ObjComb* this, GlobalContext* globalCtx) {
-    s32 pad;
+void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    ObjComb* this = THIS;
     GraphicsContext* gfxCtx;
     Gfx* dispRefs[4];
 

@@ -77,7 +77,7 @@ glabel EnPoSisters_Update
 /* 03454 80ADC3E4 260502AC */  addiu   $a1, $s0, 0x02AC           ## $a1 = 000002AC
 .L80ADC3E8:
 /* 03458 80ADC3E8 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 0345C 80ADC3EC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 0345C 80ADC3EC 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 03460 80ADC3F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03464 80ADC3F4 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
@@ -131,7 +131,7 @@ glabel EnPoSisters_Update
 /* 0350C 80ADC49C AE0B0004 */  sw      $t3, 0x0004($s0)           ## 00000004
 /* 03510 80ADC4A0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 03514 80ADC4A4 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 03518 80ADC4A8 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 03518 80ADC4A8 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 0351C 80ADC4AC 00812821 */  addu    $a1, $a0, $at              
 /* 03520 80ADC4B0 920C0199 */  lbu     $t4, 0x0199($s0)           ## 00000199
@@ -142,7 +142,7 @@ glabel EnPoSisters_Update
 /* 03530 80ADC4C0 11A00004 */  beq     $t5, $zero, .L80ADC4D4     
 /* 03534 80ADC4C4 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 03538 80ADC4C8 00812821 */  addu    $a1, $a0, $at              
-/* 0353C 80ADC4CC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0353C 80ADC4CC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 03540 80ADC4D0 8FA60028 */  lw      $a2, 0x0028($sp)           
 .L80ADC4D4:
@@ -154,7 +154,7 @@ glabel EnPoSisters_Update
 /* 03558 80ADC4E8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0355C 80ADC4EC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 03560 80ADC4F0 00812821 */  addu    $a1, $a0, $at              
-/* 03564 80ADC4F4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 03564 80ADC4F4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 03568 80ADC4F8 8FA60028 */  lw      $a2, 0x0028($sp)           
 .L80ADC4FC:

@@ -13,8 +13,8 @@ glabel EnHorseGameCheck_Init
 /* 00DE8 80A68338 8FA5001C */  lw      $a1, 0x001C($sp)           
 /* 00DEC 80A6833C 14400005 */  bne     $v0, $zero, .L80A68354     
 /* 00DF0 80A68340 8FA60018 */  lw      $a2, 0x0018($sp)           
-/* 00DF4 80A68344 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00DF8 80A68348 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 00DF4 80A68344 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 00DF8 80A68348 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 00DFC 80A6834C 85F80556 */  lh      $t8, 0x0556($t7)           ## 80160556
 /* 00E00 80A68350 13000002 */  beq     $t8, $zero, .L80A6835C     
 .L80A68354:

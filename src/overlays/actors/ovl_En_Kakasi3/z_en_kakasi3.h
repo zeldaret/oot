@@ -4,7 +4,9 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct EnKakasi3;
+
+typedef struct EnKakasi3 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ char unk_14C[0xC0];
 } EnKakasi3; // size = 0x020C

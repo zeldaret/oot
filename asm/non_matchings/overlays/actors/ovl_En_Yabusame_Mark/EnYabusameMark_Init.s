@@ -87,13 +87,13 @@ glabel EnYabusameMark_Init
 .L80B42ECC:
 /* 0010C 80B42ECC 8FA40034 */  lw      $a0, 0x0034($sp)           
 .L80B42ED0:
-/* 00110 80B42ED0 0C017406 */  jal     func_8005D018              
+/* 00110 80B42ED0 0C017406 */  jal     Collider_InitQuad              
 /* 00114 80B42ED4 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00118 80B42ED8 3C0780B4 */  lui     $a3, %hi(D_80B434F0)       ## $a3 = 80B40000
 /* 0011C 80B42EDC 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00120 80B42EE0 24E734F0 */  addiu   $a3, $a3, %lo(D_80B434F0)  ## $a3 = 80B434F0
 /* 00124 80B42EE4 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 00128 80B42EE8 0C017441 */  jal     func_8005D104              
+/* 00128 80B42EE8 0C017441 */  jal     Collider_SetQuad              
 /* 0012C 80B42EEC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00130 80B42EF0 8E0D0024 */  lw      $t5, 0x0024($s0)           ## 00000024
 /* 00134 80B42EF4 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
@@ -102,10 +102,10 @@ glabel EnYabusameMark_Init
 /* 00140 80B42F00 8E0D002C */  lw      $t5, 0x002C($s0)           ## 0000002C
 /* 00144 80B42F04 35CF0010 */  ori     $t7, $t6, 0x0010           ## $t7 = 00000010
 /* 00148 80B42F08 AE0F0004 */  sw      $t7, 0x0004($s0)           ## 00000004
-/* 0014C 80B42F0C 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
+/* 0014C 80B42F0C 3C188016 */  lui     $t8, %hi(gSaveContext+0x1360)
 /* 00150 80B42F10 AE0C0158 */  sw      $t4, 0x0158($s0)           ## 00000158
 /* 00154 80B42F14 AE0D015C */  sw      $t5, 0x015C($s0)           ## 0000015C
-/* 00158 80B42F18 8F18F9C0 */  lw      $t8, -0x0640($t8)          ## 8015F9C0
+/* 00158 80B42F18 8F18F9C0 */  lw      $t8, %lo(gSaveContext+0x1360)($t8)
 /* 0015C 80B42F1C 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
 /* 00160 80B42F20 3C0480B4 */  lui     $a0, %hi(D_80B436EC)       ## $a0 = 80B40000
 /* 00164 80B42F24 13010005 */  beq     $t8, $at, .L80B42F3C       

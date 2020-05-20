@@ -217,7 +217,7 @@ glabel func_80956EE0
 /* 07F1C 809571DC 00812821 */  addu    $a1, $a0, $at              
 /* 07F20 809571E0 AFA50040 */  sw      $a1, 0x0040($sp)           
 /* 07F24 809571E4 00E03025 */  or      $a2, $a3, $zero            ## $a2 = 000002D8
-/* 07F28 809571E8 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 07F28 809571E8 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 07F2C 809571EC AFA7003C */  sw      $a3, 0x003C($sp)           
 /* 07F30 809571F0 3C018096 */  lui     $at, %hi(D_80966936)       ## $at = 80960000
@@ -236,12 +236,12 @@ glabel func_80956EE0
 /* 07F5C 8095721C 8FA4006C */  lw      $a0, 0x006C($sp)           
 /* 07F60 80957220 26060338 */  addiu   $a2, $s0, 0x0338           ## $a2 = 00000338
 /* 07F64 80957224 AFA50040 */  sw      $a1, 0x0040($sp)           
-/* 07F68 80957228 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 07F68 80957228 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 07F6C 8095722C AFA7003C */  sw      $a3, 0x003C($sp)           
 /* 07F70 80957230 8FA50040 */  lw      $a1, 0x0040($sp)           
 /* 07F74 80957234 8FA6003C */  lw      $a2, 0x003C($sp)           
-/* 07F78 80957238 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 07F78 80957238 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 07F7C 8095723C 8FA4006C */  lw      $a0, 0x006C($sp)           
 /* 07F80 80957240 8FB90044 */  lw      $t9, 0x0044($sp)           

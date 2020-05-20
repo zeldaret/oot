@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000035
 
-void BossDodongo_Init(BossDodongo* this, GlobalContext* globalCtx);
-void BossDodongo_Destroy(BossDodongo* this, GlobalContext* globalCtx);
-void BossDodongo_Update(BossDodongo* this, GlobalContext* globalCtx);
-void BossDodongo_Draw(BossDodongo* this, GlobalContext* globalCtx);
+#define THIS ((BossDodongo*)thisx)
+
+void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx);
+void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx);
+void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Boss_Dodongo_InitVars = {

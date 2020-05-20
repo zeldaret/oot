@@ -7,12 +7,12 @@ glabel EnHonotrap_Destroy
 /* 00480 80A5A0B0 15C00006 */  bne     $t6, $zero, .L80A5A0CC     
 /* 00484 80A5A0B4 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 00488 80A5A0B8 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 0048C 80A5A0BC 0C017232 */  jal     func_8005C8C8              
+/* 0048C 80A5A0BC 0C017232 */  jal     Collider_DestroyTris              
 /* 00490 80A5A0C0 24C50150 */  addiu   $a1, $a2, 0x0150           ## $a1 = 00000150
 /* 00494 80A5A0C4 10000004 */  beq     $zero, $zero, .L80A5A0D8   
 /* 00498 80A5A0C8 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80A5A0CC:
-/* 0049C 80A5A0CC 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0049C 80A5A0CC 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 004A0 80A5A0D0 24C50150 */  addiu   $a1, $a2, 0x0150           ## $a1 = 00000150
 /* 004A4 80A5A0D4 8FBF0014 */  lw      $ra, 0x0014($sp)           

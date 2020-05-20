@@ -20,8 +20,8 @@ glabel func_80A79BAC
 /* 00C44 80A79BF4 A4281E1A */  sh      $t0, 0x1E1A($at)           ## 00011E1A
 /* 00C48 80A79BF8 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 00C4C 80A79BFC 14C10002 */  bne     $a2, $at, .L80A79C08       
-/* 00C50 80A79C00 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00C54 80A79C04 A42AFA72 */  sh      $t2, -0x058E($at)          ## 8015FA72
+/* 00C50 80A79C00 3C018016 */  lui     $at, %hi(gSaveContext+0x1412)
+/* 00C54 80A79C04 A42AFA72 */  sh      $t2, %lo(gSaveContext+0x1412)($at)
 .L80A79C08:
 /* 00C58 80A79C08 8FAB002C */  lw      $t3, 0x002C($sp)           
 /* 00C5C 80A79C0C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -41,14 +41,14 @@ glabel func_80A79BAC
 /* 00C94 80A79C44 24040001 */  addiu   $a0, $zero, 0x0001         ## $a0 = 00000001
 /* 00C98 80A79C48 8FA2001C */  lw      $v0, 0x001C($sp)           
 /* 00C9C 80A79C4C 27AE0020 */  addiu   $t6, $sp, 0x0020           ## $t6 = FFFFFFF8
-/* 00CA0 80A79C50 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 00CA0 80A79C50 3C0F8016 */  lui     $t7, %hi(gGameInfo)
 /* 00CA4 80A79C54 544E0004 */  bnel    $v0, $t6, .L80A79C68       
 /* 00CA8 80A79C58 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00CAC 80A79C5C 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 00CAC 80A79C5C 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 00CB0 80A79C60 A5E00E60 */  sh      $zero, 0x0E60($t7)         ## 80160E60
 /* 00CB4 80A79C64 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80A79C68:
-/* 00CB8 80A79C68 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00CBC 80A79C6C A420FA2E */  sh      $zero, -0x05D2($at)        ## 8015FA2E
+/* 00CB8 80A79C68 3C018016 */  lui     $at, %hi(gSaveContext+0x13ce)
+/* 00CBC 80A79C6C A420FA2E */  sh      $zero, %lo(gSaveContext+0x13ce)($at)
 /* 00CC0 80A79C70 03E00008 */  jr      $ra                        
 /* 00CC4 80A79C74 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

@@ -2,10 +2,12 @@
 
 #define FLAGS 0x00000010
 
-void EnRl_Init(EnRl* this, GlobalContext* globalCtx);
-void EnRl_Destroy(EnRl* this, GlobalContext* globalCtx);
-void EnRl_Update(EnRl* this, GlobalContext* globalCtx);
-void EnRl_Draw(EnRl* this, GlobalContext* globalCtx);
+#define THIS ((EnRl*)thisx)
+
+void EnRl_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnRl_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnRl_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnRl_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Rl_InitVars = {

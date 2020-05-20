@@ -37,8 +37,8 @@ glabel func_809C3DC4
 /* 007A8 809C3DD8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
               
 /* 007AC 809C3DDC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 007B0 809C3DE0 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 007B4 809C3DE4 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 007B0 809C3DE0 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 007B4 809C3DE4 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 007B8 809C3DE8 8FB8002C */  lw      $t8, 0x002C($sp)           
 /* 007BC 809C3DEC 3C050001 */  lui     $a1, 0x0001                ## $a1 = 00010000
 /* 007C0 809C3DF0 85CF12DA */  lh      $t7, 0x12DA($t6)           ## 801612DA

@@ -31,10 +31,10 @@ glabel func_80ABEF2C
 .L80ABEF84:
 /* 00264 80ABEF84 860A0152 */  lh      $t2, 0x0152($s0)           ## 00000152
 /* 00268 80ABEF88 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
-/* 0026C 80ABEF8C 3C0B8016 */  lui     $t3, 0x8016                ## $t3 = 80160000
+/* 0026C 80ABEF8C 3C0B8016 */  lui     $t3, %hi(gSaveContext+0x12c5)
 /* 00270 80ABEF90 55410005 */  bnel    $t2, $at, .L80ABEFA8       
 /* 00274 80ABEF94 8D0C0680 */  lw      $t4, 0x0680($t0)           ## 00000680
-/* 00278 80ABEF98 916BF925 */  lbu     $t3, -0x06DB($t3)          ## 8015F925
+/* 00278 80ABEF98 916BF925 */  lbu     $t3, %lo(gSaveContext+0x12c5)($t3)
 /* 0027C 80ABEF9C 51600047 */  beql    $t3, $zero, .L80ABF0BC     
 /* 00280 80ABEFA0 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00284 80ABEFA4 8D0C0680 */  lw      $t4, 0x0680($t0)           ## 00000680
