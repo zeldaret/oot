@@ -9,11 +9,11 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A5046C(EnGuest *this);
+void func_80A5046C(EnGuest* this);
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx);
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx);
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx);
-s32 func_80A50774(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor *actor);
+s32 func_80A50774(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
 void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern SkeletonHeader D_060000F0;
@@ -47,12 +47,14 @@ static InitChainEntry initChain[] = {
 };
 
 UNK_PTR D_80A50BA4[] = {
-    &D_060005FC, &D_060006FC, &D_060007FC,
+    &D_060005FC,
+    &D_060006FC,
+    &D_060007FC,
 };
 
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
-    
+
     if ((gSaveContext.infTable[7] & 0x40) != 0) {
         Actor_Kill(&this->actor);
     } else {
@@ -66,24 +68,26 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnGuest_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
 
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
 }
 
-void EnGuest_Update(Actor *thisx, GlobalContext *globalCtx) {
+void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
-    SkelAnime *skelAnime;
+    SkelAnime* skelAnime;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex) != 0) {
         this->actor.flags &= ~0x10;
         Actor_ProcessInitChain(&this->actor, initChain);
 
         skelAnime = &this->skelAnime;
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->limbDrawTable, this->transitionDrawTable, 0x10);
+        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->limbDrawTable, this->transitionDrawTable,
+                         0x10);
         gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
-        SkelAnime_ChangeAnim(skelAnime, &D_060042AC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060042AC.genericHeader), 0, 0.0f);
+        SkelAnime_ChangeAnim(skelAnime, &D_060042AC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060042AC.genericHeader), 0,
+                             0.0f);
 
         this->actor.draw = &EnGuest_Draw;
         this->actor.update = &func_80A505CC;
@@ -101,7 +105,7 @@ void EnGuest_Update(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-void func_80A5046C(EnGuest *this) {
+void func_80A5046C(EnGuest* this) {
     if (this->unk_30D == 0) {
         if (this->unk_2CA != 0) {
             this->unk_2CA -= 1;
@@ -116,7 +120,7 @@ void func_80A5046C(EnGuest *this) {
             if (this->unk_30E >= 3) {
                 this->unk_30E = 0;
                 this->unk_30D = 0;
-                this->unk_2CA = (s32) Math_Rand_ZeroFloat(60.0f) + 20;
+                this->unk_2CA = (s32)Math_Rand_ZeroFloat(60.0f) + 20;
             } else {
                 this->unk_2CA = 1;
             }
@@ -127,8 +131,7 @@ void func_80A5046C(EnGuest *this) {
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = &func_80A5057C;
-    }
-    else if (this->actor.xzDistanceFromLink < 100.0f) {
+    } else if (this->actor.xzDistanceFromLink < 100.0f) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
 }
@@ -141,10 +144,10 @@ void func_80A5057C(EnGuest* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A505CC(Actor *thisx, GlobalContext *globalCtx) {
+void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
     u32 padding;
-    Player *player;
+    Player* player;
 
     player = PLAYER;
     this->unk_2C8 += 1;
@@ -171,7 +174,7 @@ void func_80A505CC(Actor *thisx, GlobalContext *globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }
 
-Gfx* func_80A50708(GraphicsContext *globalCtx, u8 r, u8 g, u8 b, u8 a) {
+Gfx* func_80A50708(GraphicsContext* globalCtx, u8 r, u8 g, u8 b, u8 a) {
     Gfx* temp_ret;
 
     temp_ret = Graph_Alloc(globalCtx, 0x10);
@@ -181,7 +184,7 @@ Gfx* func_80A50708(GraphicsContext *globalCtx, u8 r, u8 g, u8 b, u8 a) {
     return temp_ret;
 }
 
-s32 func_80A50774(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, Actor* thisx) {
+s32 func_80A50774(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     EnGuest* this = THIS;
     Vec3s sp3C;
     Gfx* dispRefs[5];
@@ -213,7 +216,7 @@ s32 func_80A50774(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *p
     return 0;
 }
 
-void EnGuest_Draw(Actor* thisx, GlobalContext *globalCtx) {
+void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
     GraphicsContext* gfxCtxTemp = globalCtx->state.gfxCtx;
     Gfx* dispRefs[5];
@@ -225,6 +228,7 @@ void EnGuest_Draw(Actor* thisx, GlobalContext *globalCtx) {
     gSPSegment(gfxCtxTemp->polyOpa.p++, 0x09, func_80A50708(globalCtx->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
     gSPSegment(gfxCtxTemp->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->unk_30E]));
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_80A50774, NULL, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+                     func_80A50774, NULL, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 421);
 }
