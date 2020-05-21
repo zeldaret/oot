@@ -65,7 +65,7 @@ glabel func_80052A18
 /* AC9CA0 80052B00 C7A40030 */  lwc1  $f4, 0x30($sp)
 /* AC9CA4 80052B04 AFA20020 */  sw    $v0, 0x20($sp)
 /* AC9CA8 80052B08 46002180 */  add.s $f6, $f4, $f0
-/* AC9CAC 80052B0C 0C01EFE4 */  jal   func_8007BF90
+/* AC9CAC 80052B0C 0C01EFE4 */  jal   SphCoord_Vec3fDist
 /* AC9CB0 80052B10 E7A60030 */   swc1  $f6, 0x30($sp)
 /* AC9CB4 80052B14 8FA20020 */  lw    $v0, 0x20($sp)
 /* AC9CB8 80052B18 E60000DC */  swc1  $f0, 0xdc($s0)
@@ -83,7 +83,7 @@ glabel func_80052A18
 /* AC9CE8 80052B48 10000004 */  b     .L80052B5C
 /* AC9CEC 80052B4C E61000EC */   swc1  $f16, 0xec($s0)
 .L80052B50:
-/* AC9CF0 80052B50 0C01EFE4 */  jal   func_8007BF90
+/* AC9CF0 80052B50 0C01EFE4 */  jal   SphCoord_Vec3fDist
 /* AC9CF4 80052B54 26040050 */   addiu $a0, $s0, 0x50
 /* AC9CF8 80052B58 E60000DC */  swc1  $f0, 0xdc($s0)
 .L80052B5C:

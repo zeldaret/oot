@@ -3,7 +3,7 @@ glabel D_80139614
     .asciz "\x1B[1m%06u:\x1B[m camera: spline demo: start %s \n"
     .balign 4
 
-glabel D_80139644 
+glabel D_80139644
     .asciz "絶対" # actually japanese?
     .balign 4
 
@@ -144,14 +144,14 @@ glabel func_800544D0
 /* ACB81C 8005467C 26050074 */  addiu $a1, $s0, 0x74
 /* ACB820 80054680 87290000 */  lh    $t1, ($t9)
 /* ACB824 80054684 1120001C */  beqz  $t1, .L800546F8
-/* ACB828 80054688 00000000 */   nop   
+/* ACB828 80054688 00000000 */   nop
 /* ACB82C 8005468C 8E050090 */  lw    $a1, 0x90($s0)
 /* ACB830 80054690 3C048014 */  lui   $a0, %hi(D_80139664)
 /* ACB834 80054694 10A00012 */  beqz  $a1, .L800546E0
-/* ACB838 80054698 00000000 */   nop   
+/* ACB838 80054698 00000000 */   nop
 /* ACB83C 8005469C 8CAA0130 */  lw    $t2, 0x130($a1)
 /* ACB840 800546A0 1140000F */  beqz  $t2, .L800546E0
-/* ACB844 800546A4 00000000 */   nop   
+/* ACB844 800546A4 00000000 */   nop
 /* ACB848 800546A8 0C00BBC5 */  jal   func_8002EF14
 /* ACB84C 800546AC 27A40068 */   addiu $a0, $sp, 0x68
 /* ACB850 800546B0 26060074 */  addiu $a2, $s0, 0x74
@@ -198,7 +198,7 @@ glabel func_800544D0
 /* ACB8E8 80054748 46083282 */  mul.s $f10, $f6, $f8
 /* ACB8EC 8005474C 4600540D */  trunc.w.s $f16, $f10
 /* ACB8F0 80054750 44198000 */  mfc1  $t9, $f16
-/* ACB8F4 80054754 0C01EFE4 */  jal   func_8007BF90
+/* ACB8F4 80054754 0C01EFE4 */  jal   SphCoord_Vec3fDist
 /* ACB8F8 80054758 A619015A */   sh    $t9, 0x15a($s0)
 /* ACB8FC 8005475C E60000DC */  swc1  $f0, 0xdc($s0)
 /* ACB900 80054760 8FBF0024 */  lw    $ra, 0x24($sp)

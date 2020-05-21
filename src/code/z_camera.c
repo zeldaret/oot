@@ -138,7 +138,7 @@ Vec3f* func_80043BC4(Vec3f* a, Vec3s* b) {
 
 Vec3f* func_80043C28(Vec3f* a, Vec3f* b, VecSph* c) {
     Vec3f sp24, sp18;
-    func_8007C25C(&sp18, c);
+    SphCoord_SphToVec3fRot90(&sp18, c);
 
     sp24.x = b->x + sp18.x;
     sp24.y = b->y + sp18.y;
@@ -168,12 +168,12 @@ s32 func_80043D18(Camera* camera, Vec3f* b, struct_80043D18* c) {
     VecSph sp3C;
 
     colCtx = &camera->globalCtx->colCtx;
-    func_8007C490(&sp3C, b, &c->unk_00);
+    SphCoord_Vec3fToSphDiffRot90(&sp3C, b, &c->unk_00);
     sp3C.r += 8.0f;
     func_80043C28(&sp5C, b, &sp3C);
 
     if (func_8003DD6C(colCtx, b, &sp5C, &sp68, &c->unk_18, 1, 1, 1, -1, &c->unk_24) == 0) {
-        func_8007C0F8(&sp50, b, &c->unk_00);
+        SphCoord_NormalizeDiff(&sp50, b, &c->unk_00);
 
         c->unk_0C.x = -sp50.x;
         c->unk_0C.y = -sp50.y;
@@ -418,7 +418,7 @@ f32 func_80045714(Vec3f* a, s16 b, s16 c, f32 arg3) {
     VecSph sp1C;
     f32 sp18;
 
-    func_8007C3F4(&sp1C, a);
+    SphCoord_Vec3fToSphRot90(&sp1C, a);
     sp18 = Math_Coss(sp1C.phi);
     sp18 = fabsf(Math_Coss(b - sp1C.theta) * sp18);
     return Math_Coss(b - c) * (sp18 * arg3);
@@ -428,7 +428,7 @@ f32 func_80045714(Vec3f* a, s16 b, s16 c, f32 arg3);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045714.s")
 #endif
 
-f32 func_8007C0A8(f32, f32);
+f32 SphCoord_MinAbsf(f32, f32);
 
 s32 func_800457A8(Camera* camera, VecSph* b, f32 c, s16 d) {
     f32 unused;
@@ -446,7 +446,7 @@ s32 func_800457A8(Camera* camera, VecSph* b, f32 c, s16 d) {
 
     sp2C = &camera->unk_94;
     if (d != 0) {
-        sp50.y -= func_8007C0A8(func_80045714(&camera->unk_108, sp2C->rot.y, b->theta, OREG(9)), temp_ret);
+        sp50.y -= SphCoord_MinAbsf(func_80045714(&camera->unk_108, sp2C->rot.y, b->theta, OREG(9)), temp_ret);
     }
     func_80043A3C(&sp50, &camera->unk_E4, camera->unk_CC.y, camera->unk_CC.x, 0.1f);
 
@@ -458,7 +458,7 @@ s32 func_800457A8(Camera* camera, VecSph* b, f32 c, s16 d) {
     return 1;
 }
 
-f32 func_8007C028(Vec3f*, Vec3f*);
+f32 SphCoord_XZDistDiff(Vec3f*, Vec3f*);
 
 #ifdef NON_MATCHING
 // CLOSE: regalloc
@@ -481,7 +481,7 @@ s32 func_800458D4(Camera* camera, VecSph* b, f32 c, f32* d, s16 e) {
     }
 
     sp48 = temp_s1->pos.y - *d;
-    temp_ret = Math_atan2f(sp48, func_8007C028(&camera->at, &camera->eye)); // f2 and f14 are swapped
+    temp_ret = Math_atan2f(sp48, SphCoord_XZDistDiff(&camera->at, &camera->eye)); // f2 and f14 are swapped
 
     if (OREG(32) * (M_PI / 180) < temp_ret) {
         phi_f2 = 1.0f - sinf(temp_ret - OREG(32) * (M_PI / 180));
@@ -570,7 +570,7 @@ s32 func_80045C74(Camera* camera, VecSph* b, f32 c, f32* d, s16 arg4) {
     } else {
         temp = sp3C->pos.y - *d;
         if (PREG(75) == 0) {
-            sp54 = func_8007C028(&camera->at, &camera->eye);
+            sp54 = SphCoord_XZDistDiff(&camera->at, &camera->eye);
             Math_atan2f(temp, sp54);
             temp_f2 = Math_tanf(camera->unk_FC * 0.4f * (M_PI / 180)) * sp54;
 
@@ -586,7 +586,7 @@ s32 func_80045C74(Camera* camera, VecSph* b, f32 c, f32* d, s16 arg4) {
             }
             sp70.y -= phi_f20;
         } else {
-            temp_ret_3 = Math_atan2f(temp, func_8007C028(&camera->at, &camera->eye));
+            temp_ret_3 = Math_atan2f(temp, SphCoord_XZDistDiff(&camera->at, &camera->eye));
 
             if (OREG(32) * (M_PI / 180) < temp_ret_3)
                 phi_f16 = 1.0f - sinf(temp_ret_3 - OREG(32) * (M_PI / 180));
@@ -1749,7 +1749,7 @@ s32 func_8005AE64(Camera* camera, Camera* otherCamera) {
     camera->unk_74 = sp30;
     camera->eye = sp30;
 
-    camera->unk_DC = func_8007BF90(&camera->at, &camera->eye);
+    camera->unk_DC = SphCoord_Vec3fDist(&camera->at, &camera->eye);
     camera->unk_FC = otherCamera->unk_FC;
     camera->unk_15A = otherCamera->unk_15A;
     func_80043B60(camera);
@@ -1759,7 +1759,7 @@ s32 func_8005AE64(Camera* camera, Camera* otherCamera) {
         camera->unk_E4.x = camera->at.x - camera->unk_94.pos.x;
         camera->unk_E4.y = camera->at.y - camera->unk_94.pos.y;
         camera->unk_E4.z = camera->at.z - camera->unk_94.pos.z;
-        camera->unk_DC = func_8007BF90(&camera->unk_94.pos, &camera->eye);
+        camera->unk_DC = SphCoord_Vec3fDist(&camera->unk_94.pos, &camera->eye);
         camera->unk_CC.x = 1.0f;
         camera->unk_CC.y = 1.0f;
     }
