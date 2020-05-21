@@ -2,13 +2,6 @@
 #include <global.h>
 #include <vt.h>
 
-/*
-DATA
-*/
-
-// Non-matchings functions marked with CLOSE are either a matter of regalloc or stack size and can possibly be fixed
-// with the permutator.
-
 typedef struct {
     Vec3f unk_00;
     Vec3f unk_0C;
@@ -41,70 +34,70 @@ f32 func_800437F0(f32 arg0, f32 arg1) {
     return ret;
 }
 
-f32 func_8004389C(f32 a, f32 b, f32 c, f32 d) {
-    f32 temp1 = a - b;
+f32 func_8004389C(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
+    f32 temp1 = arg0 - arg1;
     f32 temp2;
     f32 ret;
 
-    if (fabsf(temp1) >= d) {
-        temp2 = temp1 * c;
-        ret = b + temp2;
+    if (fabsf(temp1) >= arg3) {
+        temp2 = temp1 * arg2;
+        ret = arg1 + temp2;
     } else {
-        ret = a;
+        ret = arg0;
     }
 
     return ret;
 }
 
-f32 func_800438DC(f32 a, f32 b, f32 c, f32 d) {
-    f32 temp1 = a - b;
+f32 func_800438DC(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
+    f32 temp1 = arg0 - arg1;
     f32 temp2;
     f32 ret;
 
-    if (fabsf(temp1) >= d) {
-        temp2 = temp1 * c;
-        ret = b + temp2;
+    if (fabsf(temp1) >= arg3) {
+        temp2 = temp1 * arg2;
+        ret = arg1 + temp2;
     } else {
-        ret = b;
+        ret = arg1;
     }
 
     return ret;
 }
 
-s16 func_8004391C(s16 a, s16 b, f32 c, s16 d) {
-    s16 temp1 = a - b;
+s16 func_8004391C(s16 arg0, s16 arg1, f32 arg2, s16 arg3) {
+    s16 temp1 = arg0 - arg1;
     s16 temp2;
     s32 ret;
 
-    if (ABS(temp1) >= d) {
-        temp2 = temp1 * c + 0.5f;
-        ret = b + temp2;
+    if (ABS(temp1) >= arg3) {
+        temp2 = temp1 * arg2 + 0.5f;
+        ret = arg1 + temp2;
     } else {
-        ret = a;
+        ret = arg0;
     }
 
     return ret;
 }
 
-s16 func_800439AC(s16 a, s16 b, f32 c, s16 d) {
-    s16 temp1 = a - b;
+s16 func_800439AC(s16 arg0, s16 arg1, f32 arg2, s16 arg3) {
+    s16 temp1 = arg0 - arg1;
     s16 temp2;
     s32 ret;
 
-    if (ABS(temp1) >= d) {
-        temp2 = temp1 * c + 0.5f;
-        ret = b + temp2;
+    if (ABS(temp1) >= arg3) {
+        temp2 = temp1 * arg2 + 0.5f;
+        ret = arg1 + temp2;
     } else {
-        ret = b;
+        ret = arg1;
     }
 
     return ret;
 }
 
-void func_80043A3C(Vec3f* a, Vec3f* b, f32 c, f32 d, f32 e) {
-    b->x = func_8004389C(a->x, b->x, d, e);
-    b->y = func_8004389C(a->y, b->y, c, e);
-    b->z = func_8004389C(a->z, b->z, d, e);
+void func_80043A3C(Vec3f* arg0, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
+    arg1->x = func_8004389C(arg0->x, arg1->x, arg3, arg4);
+    arg1->y = func_8004389C(arg0->y, arg1->y, arg2, arg4);
+    arg1->z = func_8004389C(arg0->z, arg1->z, arg3, arg4);
 }
 
 void func_80043ABC(Camera* camera) {
@@ -125,41 +118,41 @@ void func_80043B60(Camera* camera) {
     camera->unk_CC.z = 0.001f;
 }
 
-Vec3f* func_80043BC4(Vec3f* a, Vec3s* b) {
+Vec3f* func_80043BC4(Vec3f* arg0, Vec3s* arg1) {
     Vec3f sp4;
 
-    sp4.x = b->x;
-    sp4.y = b->y;
-    sp4.z = b->z;
+    sp4.x = arg1->x;
+    sp4.y = arg1->y;
+    sp4.z = arg1->z;
 
-    *a = sp4;
-    return a;
+    *arg0 = sp4;
+    return arg0;
 }
 
-Vec3f* func_80043C28(Vec3f* a, Vec3f* b, VecSph* c) {
+Vec3f* func_80043C28(Vec3f* arg0, Vec3f* arg1, VecSph* arg2) {
     Vec3f sp24, sp18;
-    func_8007C25C(&sp18, c);
+    func_8007C25C(&sp18, arg2);
 
-    sp24.x = b->x + sp18.x;
-    sp24.y = b->y + sp18.y;
-    sp24.z = b->z + sp18.z;
+    sp24.x = arg1->x + sp18.x;
+    sp24.y = arg1->y + sp18.y;
+    sp24.z = arg1->z + sp18.z;
 
-    *a = sp24;
-    return a;
+    *arg0 = sp24;
+    return arg0;
 }
 
-Vec3f* func_80043CAC(Vec3f* a, Vec3f* b, Vec3f* c, f32 d) {
+Vec3f* func_80043CAC(Vec3f* arg0, Vec3f* arg1, Vec3f* arg2, f32 arg3) {
     Vec3f sp4;
 
-    sp4.x = b->x + (c->x * d);
-    sp4.y = b->y + (c->y * d);
-    sp4.z = b->z + (c->z * d);
+    sp4.x = arg1->x + (arg2->x * arg3);
+    sp4.y = arg1->y + (arg2->y * arg3);
+    sp4.z = arg1->z + (arg2->z * arg3);
 
-    *a = sp4;
-    return a;
+    *arg0 = sp4;
+    return arg0;
 }
 
-s32 func_80043D18(Camera* camera, Vec3f* b, struct_80043D18* c) {
+s32 func_80043D18(Camera* camera, Vec3f* arg1, struct_80043D18* arg2) {
     CollisionContext* colCtx;
     Vec3f sp68, sp5C, sp50;
     f32 temp_ret;
@@ -168,69 +161,67 @@ s32 func_80043D18(Camera* camera, Vec3f* b, struct_80043D18* c) {
     VecSph sp3C;
 
     colCtx = &camera->globalCtx->colCtx;
-    func_8007C490(&sp3C, b, &c->unk_00);
+    func_8007C490(&sp3C, arg1, &arg2->unk_00);
     sp3C.r += 8.0f;
-    func_80043C28(&sp5C, b, &sp3C);
+    func_80043C28(&sp5C, arg1, &sp3C);
 
-    if (func_8003DD6C(colCtx, b, &sp5C, &sp68, &c->unk_18, 1, 1, 1, -1, &c->unk_24) == 0) {
-        func_8007C0F8(&sp50, b, &c->unk_00);
+    if (func_8003DD6C(colCtx, arg1, &sp5C, &sp68, &arg2->unk_18, 1, 1, 1, -1, &arg2->unk_24) == 0) {
+        func_8007C0F8(&sp50, arg1, &arg2->unk_00);
 
-        c->unk_0C.x = -sp50.x;
-        c->unk_0C.y = -sp50.y;
-        c->unk_0C.z = -sp50.z;
+        arg2->unk_0C.x = -sp50.x;
+        arg2->unk_0C.y = -sp50.y;
+        arg2->unk_0C.z = -sp50.z;
 
-        sp68 = c->unk_00;
+        sp68 = arg2->unk_00;
         sp68.y += 5.0f;
         temp_ret = func_8003CCA4(colCtx, &sp48, &sp44, &sp68);
 
-        if ((c->unk_00.y - temp_ret) > 5.0f) {
-            c->unk_00.x += c->unk_0C.x;
-            c->unk_00.y += c->unk_0C.y;
-            c->unk_00.z += c->unk_0C.z;
+        if ((arg2->unk_00.y - temp_ret) > 5.0f) {
+            arg2->unk_00.x += arg2->unk_0C.x;
+            arg2->unk_00.y += arg2->unk_0C.y;
+            arg2->unk_00.z += arg2->unk_0C.z;
             return 0;
         }
 
-        c->unk_18 = sp48;
+        arg2->unk_18 = sp48;
         sp68.y = temp_ret + 1.0f;
-        c->unk_24 = sp44;
+        arg2->unk_24 = sp44;
     }
 
-    c->unk_0C.x = c->unk_18->norm.x * (1.f / 32767);
-    c->unk_0C.y = c->unk_18->norm.y * (1.f / 32767);
-    c->unk_0C.z = c->unk_18->norm.z * (1.f / 32767);
-    c->unk_00.x = c->unk_0C.x + sp68.x;
-    c->unk_00.y = c->unk_0C.y + sp68.y;
-    c->unk_00.z = c->unk_0C.z + sp68.z;
+    arg2->unk_0C.x = arg2->unk_18->norm.x * (1.f / 32767);
+    arg2->unk_0C.y = arg2->unk_18->norm.y * (1.f / 32767);
+    arg2->unk_0C.z = arg2->unk_18->norm.z * (1.f / 32767);
+    arg2->unk_00.x = arg2->unk_0C.x + sp68.x;
+    arg2->unk_00.y = arg2->unk_0C.y + sp68.y;
+    arg2->unk_00.z = arg2->unk_0C.z + sp68.z;
 
     return sp44 + 1;
 }
 
-void func_80043F34(Camera* camera, Vec3f* b, Vec3f* c) {
+void func_80043F34(Camera* camera, Vec3f* arg1, Vec3f* arg2) {
     struct_80043D18 sp20;
     Vec3s unused;
 
-    sp20.unk_00 = *c;
-    func_80043D18(camera, b, &sp20);
-    *c = sp20.unk_00;
+    sp20.unk_00 = *arg2;
+    func_80043D18(camera, arg1, &sp20);
+    *arg2 = sp20.unk_00;
 }
 
 // 242 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80043F94.s")
 
-void func_80044340(Camera* camera, Vec3f* b, Vec3f* c) {
+void func_80044340(Camera* camera, Vec3f* arg1, Vec3f* arg2) {
     struct_80043D18 sp20;
     Vec3s unused;
 
-    sp20.unk_00 = *c;
-    func_80043F94(camera, b, &sp20);
-    *c = sp20.unk_00;
+    sp20.unk_00 = *arg2;
+    func_80043F94(camera, arg1, &sp20);
+    *arg2 = sp20.unk_00;
 }
-
-f32 func_80038B7C();
 
 #ifdef NON_MATCHING
 // ordering
-s32 func_800443A0(Camera* camera, Vec3f* b, Vec3f* c) {
+s32 func_800443A0(Camera* camera, Vec3f* arg1, Vec3f* arg2) {
     s32 sp4C;
     Vec3f sp40;
     s32 sp3C;
@@ -238,8 +229,8 @@ s32 func_800443A0(Camera* camera, Vec3f* b, Vec3f* c) {
     CollisionPoly* sp34;
 
     sp34 = NULL; // this is moved to the top when it should be done in the middle of the function args being loaded
-    if (func_8003DD6C(&camera->globalCtx->colCtx, b, c, &sp40, &sp34, 1, 1, 1, 0, &sp38) != 0) {
-        if (func_80038B7C(sp34, b) < 0.0f) {
+    if (func_8003DD6C(&camera->globalCtx->colCtx, arg1, arg2, &sp40, &sp34, 1, 1, 1, 0, &sp38) != 0) {
+        if (func_80038B7C(sp34, arg1) < 0.0f) {
             return 1;
         }
     }
@@ -249,29 +240,29 @@ s32 func_800443A0(Camera* camera, Vec3f* b, Vec3f* c) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800443A0.s")
 #endif
 
-f32 func_80044434(Camera* camera, Vec3f* b, Vec3f* c, s32* d) {
+f32 func_80044434(Camera* camera, Vec3f* arg1, Vec3f* arg2, s32* arg3) {
     s32 sp2C; // unused
     CollisionPoly* sp28;
-    f32 temp_ret = func_8003C940(&camera->globalCtx->colCtx, &sp28, d, c);
+    f32 temp_ret = func_8003C940(&camera->globalCtx->colCtx, &sp28, arg3, arg2);
 
     if (temp_ret == -32000.0f) {
-        b->x = 0.0f;
-        b->z = 0.0f;
-        b->y = 1.0f;
+        arg1->x = 0.0f;
+        arg1->z = 0.0f;
+        arg1->y = 1.0f;
     } else {
-        b->x = sp28->norm.x * (1.f / 32767);
-        b->y = sp28->norm.y * (1.f / 32767);
-        b->z = sp28->norm.z * (1.f / 32767);
+        arg1->x = sp28->norm.x * (1.f / 32767);
+        arg1->y = sp28->norm.y * (1.f / 32767);
+        arg1->z = sp28->norm.z * (1.f / 32767);
     }
 
     return temp_ret;
 }
 
-void func_80044510(Camera* camera, Vec3f* b) {
+void func_80044510(Camera* camera, Vec3f* arg1) {
     Vec3f sp2C, sp20;
     s32 sp1C;
 
-    sp2C = *b;
+    sp2C = *arg1;
     sp2C.y += 80.0f;
 
     func_80044434(camera, &sp20, &sp2C, &sp1C);
@@ -280,23 +271,23 @@ void func_80044510(Camera* camera, Vec3f* b) {
 // 125 lines (loop)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80044568.s")
 
-s16 func_80044740(Camera* camera, s32 b) {
-    return func_80041A4C(&camera->globalCtx->colCtx, b, 50);
+s16 func_80044740(Camera* camera, s32 arg1) {
+    return func_80041A4C(&camera->globalCtx->colCtx, arg1, 50);
 }
 
 s32 func_8004476C(Camera* camera) {
     return func_80041C10(&camera->globalCtx->colCtx, camera->unk_148, 50);
 }
 
-s32 func_8004479C(Camera* camera, s32* b, Vec3f* c) {
+s32 func_8004479C(Camera* camera, s32* arg1, Vec3f* arg2) {
     s32 temp_ret;
     PosRot sp20;
     s32 ret;
 
     func_8002EF44(&sp20, &camera->player->actor);
-    temp_ret = func_80041A28(&camera->globalCtx->colCtx, c, *b);
+    temp_ret = func_80041A28(&camera->globalCtx->colCtx, arg2, *arg1);
 
-    if (func_80041A4C(&camera->globalCtx->colCtx, temp_ret, *b) == 0) {
+    if (func_80041A4C(&camera->globalCtx->colCtx, temp_ret, *arg1) == 0) {
         ret = -1;
     } else {
         ret = temp_ret;
@@ -319,20 +310,20 @@ s32 func_8004481C(Camera* camera, s16* arg1) {
     return func_80041C98(&camera->globalCtx->colCtx, sp44, sp3C);
 }
 
-s32 func_800448CC(Camera* camera, f32* b) {
+s32 func_800448CC(Camera* camera, f32* arg1) {
     PosRot sp34;
     s32 sp30;
     s32 temp_ret;
 
     func_8002EF44(&sp34, &camera->player->actor);
-    *b = sp34.pos.y;
+    *arg1 = sp34.pos.y;
 
-    if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, sp34.pos.x, sp34.pos.z, b, &sp30) == 0) {
-        *b = -32000.0f;
+    if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, sp34.pos.x, sp34.pos.z, arg1, &sp30) == 0) {
+        *arg1 = -32000.0f;
         return -1;
     }
     if (!(camera->player->stateFlags1 & 0x8000000)) {
-        *b = -32000.0f;
+        *arg1 = -32000.0f;
         return -1;
     }
 
@@ -344,7 +335,7 @@ s32 func_800448CC(Camera* camera, f32* b) {
     return temp_ret;
 }
 
-f32 func_800449AC(Camera* camera, Vec3f* b, s32* arg2) {
+f32 func_800449AC(Camera* camera, Vec3f* arg1, s32* arg2) {
     PosRot sp2C;
     f32 sp28;
     s32 sp24;
@@ -352,10 +343,10 @@ f32 func_800449AC(Camera* camera, Vec3f* b, s32* arg2) {
     func_8002EF44(&sp2C, &camera->player->actor);
     sp28 = sp2C.pos.y;
 
-    if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, b->x, b->z, &sp28, &sp24) == 0) {
+    if (func_8004213C(camera->globalCtx, &camera->globalCtx->colCtx, arg1->x, arg1->z, &sp28, &sp24) == 0) {
         return -32000.f;
     }
-    if (sp28 < b->y) {
+    if (sp28 < arg1->y) {
         return -32000.f;
     }
 
@@ -363,23 +354,21 @@ f32 func_800449AC(Camera* camera, Vec3f* b, s32* arg2) {
     return sp28;
 }
 
-s16 func_80044A74(Vec3f* a, Vec3f* b) {
-    return Math_atan2f(b->x - a->x, b->z - a->z) * (180 / M_PI) * (32767.5f / 180) + 0.5f;
+s16 func_80044A74(Vec3f* arg0, Vec3f* arg1) {
+    return Math_atan2f(arg1->x - arg0->x, arg1->z - arg0->z) * (180.0f / M_PI) * (32767.5f / 180.0f) + 0.5f;
 }
 
-// 234 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80044ADC.s")
 
-// 143 lines (extremely confusing)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80044E68.s")
 
-f32 func_800450A4(Camera* camera, f32 b) {
+f32 func_800450A4(Camera* camera, f32 arg1) {
     f32 ret;
 
     if (camera->unk_100 < (OREG(41) * 0.01f)) {
         ret = OREG(41) * 0.01f;
-    } else if (b <= camera->unk_100) {
-        ret = b;
+    } else if (arg1 <= camera->unk_100) {
+        ret = arg1;
     } else {
         ret = OREG(42) * 0.01f * camera->unk_100;
     }
@@ -387,29 +376,25 @@ f32 func_800450A4(Camera* camera, f32 b) {
     return ret;
 }
 
-// 79 lines (unknown arrays)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045128.s")
 
-// 66 lines (unknown arrays)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045254.s")
 
-// 76 lines (unknown types)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045350.s")
 
-void* func_8004545C(Vec3f* a, s32 b, s32 c, struct_80043D18* d, struct_80043D18* e) {
+void* func_8004545C(Vec3f* arg0, s32 arg1, s32 arg2, struct_80043D18* arg3, struct_80043D18* arg4) {
     Vec3f sp24;
 
-    if (func_800427B4(d->unk_18, e->unk_18, b, c, &sp24) == 0) {
-        osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: corner check no cross point %x %x\n" VT_RST, d, e);
-        *a = d->unk_00;
-        return a;
+    if (func_800427B4(arg3->unk_18, arg4->unk_18, arg1, arg2, &sp24) == 0) {
+        osSyncPrintf(VT_COL(YELLOW, BLACK) "camera: corner check no cross point %x %x\n" VT_RST, arg3, arg4);
+        *arg0 = arg3->unk_00;
+        return arg0;
     }
 
-    *a = sp24;
-    return a;
+    *arg0 = sp24;
+    return arg0;
 }
 
-// 141 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045508.s")
 
 #ifdef NON_MATCHING
@@ -430,7 +415,7 @@ f32 func_80045714(Vec3f* a, s16 b, s16 c, f32 arg3);
 
 f32 func_8007C0A8(f32, f32);
 
-s32 func_800457A8(Camera* camera, VecSph* b, f32 c, s16 d) {
+s32 func_800457A8(Camera* camera, VecSph* arg1, f32 arg2, s16 arg3) {
     f32 unused;
     Vec3f sp50;
     Vec3f sp44;
@@ -442,11 +427,11 @@ s32 func_800457A8(Camera* camera, VecSph* b, f32 c, s16 d) {
 
     sp50.x = 0.f;
     sp50.z = 0.f;
-    sp50.y = temp_ret + c;
+    sp50.y = temp_ret + arg2;
 
     sp2C = &camera->unk_94;
-    if (d != 0) {
-        sp50.y -= func_8007C0A8(func_80045714(&camera->unk_108, sp2C->rot.y, b->theta, OREG(9)), temp_ret);
+    if (arg3 != 0) {
+        sp50.y -= func_8007C0A8(func_80045714(&camera->unk_108, sp2C->rot.y, arg1->theta, OREG(9)), temp_ret);
     }
     func_80043A3C(&sp50, &camera->unk_E4, camera->unk_CC.y, camera->unk_CC.x, 0.1f);
 
@@ -458,11 +443,9 @@ s32 func_800457A8(Camera* camera, VecSph* b, f32 c, s16 d) {
     return 1;
 }
 
-f32 func_8007C028(Vec3f*, Vec3f*);
-
 #ifdef NON_MATCHING
 // CLOSE: regalloc
-s32 func_800458D4(Camera* camera, VecSph* b, f32 c, f32* d, s16 e) {
+s32 func_800458D4(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
     f32 phi_f2;
     Vec3f sp60;
     Vec3f sp54;
@@ -471,16 +454,16 @@ s32 func_800458D4(Camera* camera, VecSph* b, f32 c, f32* d, s16 e) {
     f32 sp48;
     s32 pad[2];
 
-    sp60.y = Player_GetCameraYOffset(camera->player) + c;
+    sp60.y = Player_GetCameraYOffset(camera->player) + arg2;
     sp60.x = 0.0f;
     sp60.z = 0.0f;
 
     temp_s1 = &camera->unk_94;
-    if (e != 0) {
-        sp60.y -= func_80045714(&camera->unk_108, temp_s1->rot.y, b->theta, OREG(9));
+    if (arg4 != 0) {
+        sp60.y -= func_80045714(&camera->unk_108, temp_s1->rot.y, arg1->theta, OREG(9));
     }
 
-    sp48 = temp_s1->pos.y - *d;
+    sp48 = temp_s1->pos.y - *arg3;
     temp_ret = Math_atan2f(sp48, func_8007C028(&camera->at, &camera->eye)); // f2 and f14 are swapped
 
     if (OREG(32) * (M_PI / 180) < temp_ret) {
@@ -505,7 +488,7 @@ s32 func_800458D4(Camera* camera, VecSph* b, f32 c, f32* d, s16 e) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800458D4.s")
 #endif
 
-s32 func_80045B08(Camera* camera, VecSph* b, f32 c, s16 d) {
+s32 func_80045B08(Camera* camera, VecSph* arg1, f32 arg2, s16 arg3) {
     f32 phi_f2;
     Vec3f sp48;
     Vec3f sp3C;
@@ -513,17 +496,17 @@ s32 func_80045B08(Camera* camera, VecSph* b, f32 c, s16 d) {
     f32 temp_ret;
     PosRot* temp_s1;
 
-    sp48.y = Player_GetCameraYOffset(camera->player) + c;
+    sp48.y = Player_GetCameraYOffset(camera->player) + arg2;
     sp48.x = 0.0f;
     sp48.z = 0.0f;
 
-    temp_ret = Math_Sins((s32)d);
+    temp_ret = Math_Sins(arg3);
     temp_s1 = &camera->unk_94;
 
     if (temp_ret < 0.0f) {
-        phi_f2 = Math_Coss(temp_s1->rot.y - b->theta);
+        phi_f2 = Math_Coss(temp_s1->rot.y - arg1->theta);
     } else {
-        phi_f2 = -Math_Coss(temp_s1->rot.y - b->theta);
+        phi_f2 = -Math_Coss(temp_s1->rot.y - arg1->theta);
     }
 
     sp48.y -= temp_ret * phi_f2 * OREG(9);
@@ -537,86 +520,11 @@ s32 func_80045B08(Camera* camera, VecSph* b, f32 c, s16 d) {
     return 1;
 }
 
-/*
-// someone who's not me can have fun with this function
-s32 func_80045C74(Camera* camera, VecSph* b, f32 c, f32* d, s16 arg4) {
-    Vec3f sp70;
-    Vec3f sp64;
-    f32 sp54;
-    PosRot* sp3C;
-    f32 temp;
-    f32 temp_f2;
-    f32 temp_ret_3;
-    f32 phi_f16;
-    f32 phi_f20;
-
-    sp70.y = Player_GetCameraYOffset(camera->player) + c;
-    sp70.x = 0.0f;
-    sp70.z = 0.0f;
-
-    if (PREG(76) != 0) {
-        if (arg4 != 0) {
-            sp70.y -= func_80045714(&camera->unk_108, sp3C->rot.y, b->unk_06, OREG(9));
-        }
-    }
-
-    sp3C = &camera->unk_94;
-
-    if ((sp3C->pos.y == camera->unk_104) || (camera->player->actor.gravity > -0.1f) ||
-        (camera->player->stateFlags1 & 0x200000)) {
-        *d = func_8004389C(sp3C->pos.y, *d, OREG(43) * 0.01f, 0.1f);
-        sp70.y -= sp3C->pos.y - *d;
-        func_80043A3C(&sp70, &camera->unk_E4, camera->unk_CC.y, camera->unk_CC.x, 0.1f);
-    } else {
-        temp = sp3C->pos.y - *d;
-        if (PREG(75) == 0) {
-            sp54 = func_8007C028(&camera->at, &camera->eye);
-            Math_atan2f(temp, sp54);
-            temp_f2 = Math_tanf(camera->unk_FC * 0.4f * (M_PI / 180)) * sp54;
-
-            if (temp > temp_f2) {
-                *d += temp - temp_f2;
-                phi_f20 = temp_f2;
-            } else {
-                phi_f20 = temp;
-                if (temp < -temp_f2) {
-                    *d += temp + temp_f2;
-                    phi_f20 = -temp_f2;
-                }
-            }
-            sp70.y -= phi_f20;
-        } else {
-            temp_ret_3 = Math_atan2f(temp, func_8007C028(&camera->at, &camera->eye));
-
-            if (OREG(32) * (M_PI / 180) < temp_ret_3)
-                phi_f16 = 1.0f - sinf(temp_ret_3 - OREG(32) * (M_PI / 180));
-            else if (temp_ret_3 < OREG(33) * (M_PI / 180))
-                phi_f16 = 1.0f - sinf(OREG(33) * (M_PI / 180) - temp_ret_3);
-            else
-                phi_f16 = 1.0f;
-
-            sp70.y -= temp * phi_f16;
-        }
-
-        func_80043A3C(&sp70, &camera->unk_E4, OREG(29) * 0.01f, OREG(30) * 0.01f, 0.1f);
-        camera->unk_CC.y = OREG(29) * 0.01f;
-        camera->unk_CC.x = OREG(30) * 0.01f;
-    }
-
-    sp64.x = sp3C->pos.x + camera->unk_E4.x;
-    sp64.y = sp3C->pos.y + camera->unk_E4.y;
-    sp64.z = sp3C->pos.z + camera->unk_E4.z;
-    func_80043A3C(&sp64, &camera->at, camera->unk_100, camera->unk_100, 0.2f);
-
-    return 1;
-}
-*/
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80045C74.s")
 
-// 421 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800460A8.s")
 
-s32 func_800466F8(Camera* camera, VecSph* b, f32 c, f32* d, s16 e) {
+s32 func_800466F8(Camera* camera, VecSph* arg1, f32 arg2, f32* arg3, s16 arg4) {
     s32 phi_v0;
     Vec3f sp60;
     Vec3f sp54;
@@ -638,18 +546,18 @@ s32 func_800466F8(Camera* camera, VecSph* b, f32 c, f32* d, s16 e) {
 
     if (phi_v0 != 0) {
         sp30.pos.y -= 49.f;
-        *d = func_8004389C(sp30.pos.y, *d, 0.1f, 0.2f);
+        *arg3 = func_8004389C(sp30.pos.y, *arg3, 0.1f, 0.2f);
         camera->unk_100 = func_8004389C(0.4f, camera->unk_100, 0.2f, 0.02f);
     } else {
-        *d = func_8004389C(sp30.pos.y, *d, 0.5f, 0.2f);
+        *arg3 = func_8004389C(sp30.pos.y, *arg3, 0.5f, 0.2f);
     }
 
     sp60.x = 0.0f;
     sp60.z = 0.0f;
-    sp60.y = sp48 + c;
+    sp60.y = sp48 + arg2;
 
-    if (e != 0) {
-        sp60.y -= func_80045714(&camera->unk_108, camera->unk_94.rot.y, b->theta, OREG(9));
+    if (arg4 != 0) {
+        sp60.y -= func_80045714(&camera->unk_108, camera->unk_94.rot.y, arg1->theta, OREG(9));
     }
 
     func_80043A3C(&sp60, &camera->unk_E4, camera->unk_CC.y, camera->unk_CC.x, 0.1f);
@@ -662,18 +570,18 @@ s32 func_800466F8(Camera* camera, VecSph* b, f32 c, f32* d, s16 e) {
     return 1;
 }
 
-void func_800468CC(Camera* camera, f32 b, f32 c, f32 d) {
+void func_800468CC(Camera* camera, f32 arg1, f32 arg2, f32 arg3) {
     f32 sp1C;
     f32 phi_f12;
 
-    if (b < c) {
-        sp1C = c;
+    if (arg1 < arg2) {
+        sp1C = arg2;
         phi_f12 = OREG(6);
-    } else if (d < b) {
-        sp1C = d;
+    } else if (arg3 < arg1) {
+        sp1C = arg3;
         phi_f12 = OREG(6);
     } else {
-        sp1C = b;
+        sp1C = arg1;
         phi_f12 = 1.0f;
     }
 
@@ -681,30 +589,30 @@ void func_800468CC(Camera* camera, f32 b, f32 c, f32 d) {
     func_8004389C(sp1C, camera->unk_DC, 1.f / camera->unk_C0.x, 0.2f);
 }
 
-void func_800469C0(Camera* camera, f32 b, f32 c, f32 d, s16 e) {
+void func_800469C0(Camera* camera, f32 arg1, f32 arg2, f32 arg3, s16 arg4) {
     f32 sp1C;
     f32 phi_f12;
 
-    if (b < c) {
-        sp1C = c;
+    if (arg1 < arg2) {
+        sp1C = arg2;
 
-        if (e != 0) {
+        if (arg4 != 0) {
             phi_f12 = OREG(6) * 0.5f;
         } else {
             phi_f12 = OREG(6);
         }
-    } else if (d < b) {
-        sp1C = d;
+    } else if (arg3 < arg1) {
+        sp1C = arg3;
 
-        if (e != 0) {
+        if (arg4 != 0) {
             phi_f12 = OREG(6) * 0.5f;
         } else {
             phi_f12 = OREG(6);
         }
     } else {
-        sp1C = b;
+        sp1C = arg1;
 
-        if (e != 0) {
+        if (arg4 != 0) {
             phi_f12 = OREG(6);
         } else {
             phi_f12 = 1.0f;
@@ -717,25 +625,25 @@ void func_800469C0(Camera* camera, f32 b, f32 c, f32 d, s16 e) {
 
 #ifdef NON_MATCHING
 // lots of regalloc and stack issues, but that's it
-void func_80046B44(Camera* camera, s16 b, s16 c, s16 d) {
+void func_80046B44(Camera* camera, s16 arg1, s16 arg2, s16 arg3) {
     s16 sp1C;
     s16 phi_v1;
     s16 phi_v0;
     f32 phi_a2;
 
-    phi_v1 = ABS(b);
-    if (d > 0) {
-        phi_v0 = Math_Coss(d) * d;
+    phi_v1 = ABS(arg1);
+    if (arg3 > 0) {
+        phi_v0 = Math_Coss(arg3) * arg3;
     } else {
-        phi_v0 = d;
+        phi_v0 = arg3;
     }
-    sp1C = c - phi_v0;
+    sp1C = arg2 - phi_v0;
     if (ABS(sp1C) < phi_v1) {
         phi_a2 = (1.0f / camera->unk_C0.y) * 3.0f;
     } else {
         phi_a2 = (1.0f / camera->unk_C0.y) * func_800437F0(0.8f, 1.0f - phi_v0 * (1.0f / OREG(5)));
     }
-    func_8004391C(sp1C, b, phi_a2, 0xa);
+    func_8004391C(sp1C, arg1, phi_a2, 0xa);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046B44.s")
@@ -743,7 +651,7 @@ void func_80046B44(Camera* camera, s16 b, s16 c, s16 d) {
 
 #ifdef NON_MATCHING
 // stack, regalloc, tiny bit of ordering
-s16 func_80046CB4(Camera* camera, s16 b, s16 c, f32 d, f32 e) {
+s16 func_80046CB4(Camera* camera, s16 arg1, s16 arg2, f32 arg3, f32 arg4) {
     f32 sp34;
     s16 sp1C;
     f32 temp_ret;
@@ -751,27 +659,26 @@ s16 func_80046CB4(Camera* camera, s16 b, s16 c, f32 d, f32 e) {
     s16 temp;
 
     if (camera->unk_D8 > 0.001f) {
-        temp = b - 0x7fff; // this is probably some kind of cast that I'm too stupid to know
-        sp1C = c - temp;
+        temp = arg1 - 0x7fff; // this is probably some kind of cast that I'm too stupid to know
+        sp1C = arg2 - temp;
         phi_f14 = (s16)(sp1C - 0x7fff) * (1.0f / 32767.0f);
     } else {
-        temp = b - 0x7fff;
-        sp1C = c - temp;
+        temp = arg1 - 0x7fff;
+        sp1C = arg2 - temp;
         phi_f14 = OREG(48) * 0.01f;
     }
-    temp_ret = func_800437F0(d, phi_f14);
-    sp34 = ((1.0f - temp_ret) * e) + temp_ret;
+    temp_ret = func_800437F0(arg3, phi_f14);
+    sp34 = ((1.0f - temp_ret) * arg4) + temp_ret;
     if (sp34 < 0.0f) {
         sp34 = 0.0f;
     }
     // ordering stuff here
-    return (s16)((sp1C * sp34) * (1.0f / camera->unk_C0.z) * func_800437F0(0.5f, camera->unk_E0)) + b;
+    return (s16)((sp1C * sp34) * (1.0f / camera->unk_C0.z) * func_800437F0(0.5f, camera->unk_E0)) + arg1;
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046CB4.s")
 #endif
 
-// 364 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80046E20.s")
 
 s32 func_80047394(Camera* camera) {
@@ -921,7 +828,6 @@ s32 func_80052DEC(Camera* camera) {
     return func_80047394(camera);
 }
 
-// Very long function (1,444 lines), 1 jtbl
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80052E0C.s")
 
 void Camera_DebugPrintSplineArray(char* name, s16 length, SplineData splines[]) {
@@ -1024,152 +930,9 @@ void func_80057C14(Camera* camera) {
     }
 }
 
-// 225 lines
-#ifdef NON_MATCHING
-
-s16 D_80119EE0[] = {
-    0xC471, 0xC000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0005, 0x0005, 0x0005, 0x38A4,
-    0x0014, 0x0010, 0x0096, 0x0019, 0x0096, 0x0006, 0x000A, 0x000A, 0x0000, 0x0000, 0x0001, 0x0064, 0x00FA, 0x0078,
-    0x0050, 0x001E, 0x0078, 0x0004, 0x0001, 0x0032, 0x0014, 0x0708, 0x0032, 0x0032, 0x0032, 0x0014, 0x0014, 0xFFF6,
-    0xEAAC, 0xDC74, 0xFFFA, 0x0008, 0x000F, 0x004B, 0x003C, 0x000C, 0x006E, 0x0028, 0x0032, 0x00FA,
-};
-
-s16 D_80119F4C = 53;
-
-s16 D_80119F50[] = {
-    0xFFEC, 0x00C8, 0x012C, 0x000A, 0x000C, 0x000A, 0x0023, 0x003C, 0x003C, 0x0003, 0x0000, 0xFFD8, 0x0014, 0x0019,
-    0x002D, 0xFFFB, 0x000F, 0x000F, 0x0014, 0x0000, 0x0000, 0x0000, 0x0006, 0x003C, 0x001E, 0x0000, 0x0005,
-};
-
-s16 D_80119F88 = 27;
-
-// gameInfoRegs init'd?
-s32 D_8011D390 = 0;
-
-// Number of times func_80057C6C has been called? used for the camera ID
-s16 D_8011D39C = 0;
-
-s32 D_8011D3A4 = 0x02;
-s32 D_8011D3A8 = 0x20;
-
-s16 D_8011D3A0 = 0;
-s32 D_8011D398 = -1;
-s32 D_8011D3F0 = 0;
-
-GlobalContext* D_8015BD7C;
-void* D_8015BD80;
-
-void func_800B958C(Camera* camera, void*);
-
-void func_80057C6C(Camera* camera, View* view, CollisionContext* colCtx, GlobalContext* globalCtx) {
-    s32 temp_a1;
-    s32 temp_a1_2;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s16 temp_v1_3;
-    Camera* temp_t8;
-    void* phi_a0;
-    s32 phi_v0;
-    s32 phi_v1;
-    void* phi_a0_2;
-    s32 phi_v0_2;
-    s32 phi_v1_2;
-    s32 phi_a1;
-    s16 phi_v1_3;
-    s32 phi_v1_4;
-    s16 phi_a1_2;
-
-    func_80106860(camera, 0, sizeof(*camera));
-    if (D_8011D390 != 0) {
-        for (phi_v1 = 0; phi_v1 < D_80119F4C; phi_v1++) {
-            QREG(phi_v1) = D_80119EE0[phi_v1];
-        }
-
-        for (phi_v1 = 0; phi_v1 < D_80119F88; phi_v1++) {
-            YREG(phi_v1) = D_80119F50[phi_v1];
-        }
-
-        func_800B958C(camera, &D_8015BD80);
-        D_8011D390 = 0;
-        PREG(88) = -1;
-    }
-    camera->globalCtx = D_8015BD7C = globalCtx;
-    func_800B4D58(&D_8015BD80, camera);
-    temp_a1 = (s32)(D_8011D39C << 0x10) >> 0x10;
-    D_8011D39C++;
-    phi_a1_2 = temp_a1;
-    if (temp_a1 != 0) {
-
-        phi_a1 = temp_a1;
-    loop_11:
-        if (phi_a1 == 0) {
-            D_8011D39C = (s16)(D_8011D39C + 1);
-        }
-        phi_v1_3 = 0;
-    loop_14:
-        temp_t8 = camera->globalCtx->cameraPtrs[phi_v1_3];
-        if ((temp_t8 == 0) || (phi_v1_4 = phi_v1_3, (phi_a1 != temp_t8->uid))) {
-            temp_v1_3 = phi_v1_3 + 1;
-            phi_v1_3 = temp_v1_3;
-            phi_v1_4 = temp_v1_3;
-            if (temp_v1_3 < 4) {
-                goto loop_14;
-            }
-        }
-
-        phi_a1_2 = (s16)phi_a1;
-        if (phi_v1_4 != 4) {
-            temp_a1_2 = D_8011D39C;
-            D_8011D39C++;
-            phi_a1 = temp_a1_2;
-            phi_a1_2 = temp_a1_2;
-            if (temp_a1_2 != 0) {
-                goto loop_11;
-            }
-        }
-    }
-    camera->unk_134.y = 0x3FFF;
-    camera->unk_13A = camera->unk_134;
-    camera->uid = phi_a1_2;
-    camera->unk_C0.x = 10.0f;
-    camera->unk_C0.z = 10.0f;
-    camera->unk_68.y = 1.0f;
-    camera->unk_68.x = 0.0f;
-    camera->unk_68.z = 0.0f;
-    camera->unk_FC = 60.0f;
-    camera->unk_C0.y = OREG(7);
-    camera->unk_CC.x = OREG(2) * 0.01f;
-    camera->unk_CC.y = OREG(3) * 0.01f;
-    camera->unk_CC.z = OREG(4) * 0.01f;
-    D_8011D3A8 = 0x20;
-    D_8011D3A4 = 0;
-    camera->unk_14C = 0;
-    camera->unk_154 = 0x21;
-    camera->unk_166 = -1;
-    camera->unk_144 = 0;
-    camera->unk_146 = 0x32;
-    camera->unk_168 = 0x7FFF;
-    camera->unk_160 = -1;
-    camera->unk_14C |= 0x4000;
-    camera->unk_68.y = 1.0f;
-    camera->unk_68.z = 0.0f;
-    camera->unk_68.x = 0.0f;
-    camera->unk_80.x = 0.0f;
-    camera->unk_80.y = 0.0f;
-    camera->unk_80.z = 0.0f;
-    camera->unk_142 = camera->unk_154;
-    camera->unk_148 = camera->unk_166;
-    camera->unk_100 = 1.0f;
-    D_8011D3A0 = 0xFF00;
-    D_8011D398 = -1;
-    D_8011D3F0 = 3;
-    osSyncPrintf("\x1b[34mcamera: initialize --- \x1b[m UID %d\n", camera->uid);
-}
-#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80057C6C.s")
-#endif
 
-s32 func_8005AD40(Camera* camera, s32 a, s16 b, f32 c, s16 d, s16 e, s16 f);
+s32 func_8005AD40(Camera* camera, s32 arg1, s16 arg2, f32 arg3, s16 arg4, s16 arg5, s16 arg6);
 
 void func_80057FC4(Camera* camera) {
     if (camera != &camera->globalCtx->cameras[0]) {
@@ -1203,7 +966,6 @@ void func_80057FC4(Camera* camera) {
 void Camera_Stub80058140(Camera* camera) {
 }
 
-// 135 lines (has lwl/lwr)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80058148.s")
 
 typedef struct {
@@ -1221,7 +983,6 @@ typedef struct {
 } unk_D_8011D064;
 extern unk_D_8011D064 D_8011D064[];
 
-// 109 lines (unknown arrays)
 #ifdef NON_MATCHING
 void Camera_ChangeStatus(Camera* camera, s16 status) {
     s32 temp_s1;
@@ -1264,10 +1025,8 @@ void Camera_ChangeStatus(Camera* camera, s16 status) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/Camera_ChangeStatus.s")
 #endif
 
-// 261 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800584E8.s")
 
-// 296 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800588B4.s")
 
 s32 func_80058CF8(Camera* camera) {
@@ -1280,7 +1039,6 @@ s32 func_80058CF8(Camera* camera) {
     return 1;
 }
 
-// 92 lines (unknown arrays)
 extern s16 D_8011DAFC[];
 extern char D_80119F8C[][12];
 #if 0
@@ -1386,10 +1144,8 @@ s32 func_80058D34(Camera* camera) {
     return 1;
 }
 
-// 224 lines
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_80058E8C.s")
 
-// Long function, 866 lines (lots of debug symbols)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_800591EC.s")
 
 void func_80059EC8(Camera* camera) {
@@ -1438,7 +1194,6 @@ s32 func_8005A02C(Camera* camera) {
     return 1;
 }
 
-// 275 lines (has 2 jtbls)
 #ifdef NON_MATCHING
 extern char D_8011A2A4[21][12];
 extern char D_80119F8C[66][12];
@@ -1583,29 +1338,24 @@ s32 func_8005A04C(Camera* camera, s16 type, u8 arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8005A04C.s")
 #endif
 
-void func_8005A444(Camera* camera, s16 b) {
-    func_8005A04C(camera, b, 0);
+void func_8005A444(Camera* camera, s16 arg1) {
+    func_8005A04C(camera, arg1, 0);
 }
 
-// 57 lines (unknown arrays)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8005A470.s")
 
-// 154 lines (unknown arrays)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8005A548.s")
 
-s32 func_8005A77C(Camera* camera, s16 b) {
-    return func_8005A548(camera, b, 0);
+s32 func_8005A77C(Camera* camera, s16 arg1) {
+    return func_8005A548(camera, arg1, 0);
 }
 
-// 79 lines (unknown arrays)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8005A7A8.s")
 
-// 47 lines (has lwl/lwr)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8005A8C4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8005A948.s")
 
-// 80 lines (has lwl/lwr)
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8005A970.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8005A9CC.s")
@@ -1659,8 +1409,8 @@ s32 func_8005AA90(Camera* arg0, s32 arg1, Vec3f* arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_camera/func_8005AA90.s")
 #endif
 
-s32 func_8005AC48(Camera* camera, s16 b) {
-    camera->unk_14C = b;
+s32 func_8005AC48(Camera* camera, s16 arg1) {
+    camera->unk_14C = arg1;
     return 1;
 }
 
@@ -1669,16 +1419,16 @@ s32 func_8005AC60(Camera* camera) {
     return 1;
 }
 
-s32 func_8005AC6C(Camera* camera, s32 b, s32 c, Player* d, s16 e) {
+s32 func_8005AC6C(Camera* camera, s32 arg1, s32 arg2, Player* player, s16 arg4) {
     PosRot sp24;
 
-    camera->unk_124 = b;
-    camera->unk_128 = c;
-    camera->unk_12C = e;
+    camera->unk_124 = arg1;
+    camera->unk_128 = arg2;
+    camera->unk_12C = arg4;
 
     if (camera->unk_12C != 0) {
-        camera->player = d;
-        func_8002EF44(&sp24, &d->actor);
+        camera->player = player;
+        func_8002EF44(&sp24, &player->actor);
         camera->unk_94 = sp24;
 
         camera->unk_156 = -1;
@@ -1689,41 +1439,41 @@ s32 func_8005AC6C(Camera* camera, s32 b, s32 c, Player* d, s16 e) {
     return 1;
 }
 
-s16 func_8005ACFC(Camera* camera, s16 b) {
-    camera->unk_14C |= b;
+s16 func_8005ACFC(Camera* camera, s16 arg1) {
+    camera->unk_14C |= arg1;
     return camera->unk_14C;
 }
 
-s16 func_8005AD1C(Camera* camera, s16 b) {
-    camera->unk_14C &= ~b;
+s16 func_8005AD1C(Camera* camera, s16 arg1) {
+    camera->unk_14C &= ~arg1;
     return camera->unk_14C;
 }
 
-s32 func_8005AD40(Camera* camera, s32 a, s16 b, f32 c, s16 d, s16 e, s16 f) {
+s32 func_8005AD40(Camera* camera, s32 arg1, s16 arg2, f32 arg3, s16 arg4, s16 arg5, s16 arg6) {
     if ((camera->unk_142 == 43) || (camera->unk_142 == 29)) {
         return 0;
     }
 
-    camera->unk_00 = a;
-    camera->unk_06 = d;
-    camera->unk_08 = e;
-    camera->unk_0A = f;
-    camera->unk_04 = b;
+    camera->unk_00 = arg1;
+    camera->unk_06 = arg4;
+    camera->unk_08 = arg5;
+    camera->unk_0A = arg6;
+    camera->unk_04 = arg2;
 
-    if (b == -99) {
+    if (arg2 == -99) {
         func_80045128(camera, camera->unk_144);
         return -99;
     }
 
-    if (b == -1) {
+    if (arg2 == -1) {
         func_8005A77C(camera, 29);
         osSyncPrintf(".... change default door camera (set %d)\n", 29);
     } else {
-        s32 ret = func_80044740(camera, b);
+        s32 ret = func_80044740(camera, arg2);
         camera->unk_14A |= 0x40;
 
         if (func_8005A77C(camera, ret) >= 0) {
-            camera->unk_148 = b;
+            camera->unk_148 = arg2;
             camera->unk_14A |= 4;
         }
 
@@ -1775,26 +1525,25 @@ Vec3f* func_8005AFB4(Vec3f* dst, Camera* camera) {
     return dst;
 }
 
-// Unused
-void Camera_SetCameraData(Camera* camera, s16 b, s32 c, s32 d, s16 e, s16 f) {
-    if (b & 0x1) {
-        camera->unk_124 = c;
+void Camera_SetCameraData(Camera* camera, s16 arg1, s32 arg2, s32 arg3, s16 arg4, s16 arg5) {
+    if (arg1 & 0x1) {
+        camera->unk_124 = arg2;
     }
 
-    if (b & 0x2) {
-        camera->unk_128 = d;
+    if (arg1 & 0x2) {
+        camera->unk_128 = arg3;
     }
 
-    if (b & 0x4) {
-        camera->unk_12C = e;
+    if (arg1 & 0x4) {
+        camera->unk_12C = arg4;
     }
 
-    if (b & 0x8) {
-        camera->unk_12E = f;
+    if (arg1 & 0x8) {
+        camera->unk_12E = arg5;
     }
 
-    if (b & 0x10) {
-        osSyncPrintf(VT_COL(RED, WHITE) "camera: setCameraData: last argument not alive!\n" VT_RST, b);
+    if (arg1 & 0x10) {
+        osSyncPrintf(VT_COL(RED, WHITE) "camera: setCameraData: last argument not alive!\n" VT_RST);
     }
 }
 
