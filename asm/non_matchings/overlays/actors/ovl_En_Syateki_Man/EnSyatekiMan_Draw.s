@@ -20,5 +20,3 @@ glabel EnSyatekiMan_Draw
 /* 00CF0 80B11560 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00CF4 80B11564 03E00008 */  jr      $ra
 /* 00CF8 80B11568 00000000 */  nop
-
-

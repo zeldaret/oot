@@ -1,17 +1,23 @@
+/*
+ * File: z_en_wonder_talk.c
+ * Overlay: ovl_En_Wonder_Talk
+ * Description: Checkable spot (Green Navi)
+ */
+
 #include "z_en_wonder_talk.h"
 
-#define ROOM 0x00
 #define FLAGS 0x08000009
 
-void EnWonderTalk_Init(EnWonderTalk* this, GlobalContext* globalCtx);
-void EnWonderTalk_Destroy(EnWonderTalk* this, GlobalContext* globalCtx);
-void EnWonderTalk_Update(EnWonderTalk* this, GlobalContext* globalCtx);
+#define THIS ((EnWonderTalk*)thisx)
+
+void EnWonderTalk_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnWonderTalk_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnWonderTalk_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Wonder_Talk_InitVars = {
     ACTOR_EN_WONDER_TALK,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWonderTalk),

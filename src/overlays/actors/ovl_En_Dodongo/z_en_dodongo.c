@@ -1,18 +1,18 @@
 #include "z_en_dodongo.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000015
 
-void EnDodongo_Init(EnDodongo* this, GlobalContext* globalCtx);
-void EnDodongo_Destroy(EnDodongo* this, GlobalContext* globalCtx);
-void EnDodongo_Update(EnDodongo* this, GlobalContext* globalCtx);
-void EnDodongo_Draw(EnDodongo* this, GlobalContext* globalCtx);
+#define THIS ((EnDodongo*)thisx)
+
+void EnDodongo_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDodongo_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDodongo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_DODONGO,
     sizeof(EnDodongo),

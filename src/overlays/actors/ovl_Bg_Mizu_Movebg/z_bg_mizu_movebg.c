@@ -1,18 +1,18 @@
 #include "z_bg_mizu_movebg.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void BgMizuMovebg_Init(BgMizuMovebg* this, GlobalContext* globalCtx);
-void BgMizuMovebg_Destroy(BgMizuMovebg* this, GlobalContext* globalCtx);
-void BgMizuMovebg_Update(BgMizuMovebg* this, GlobalContext* globalCtx);
-void BgMizuMovebg_Draw(BgMizuMovebg* this, GlobalContext* globalCtx);
+#define THIS ((BgMizuMovebg*)thisx)
+
+void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuMovebg_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuMovebg_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Mizu_Movebg_InitVars = {
     ACTOR_BG_MIZU_MOVEBG,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuMovebg),

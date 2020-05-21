@@ -1,18 +1,24 @@
+/*
+ * File: z_en_ba.c
+ * Overlay: ovl_En_Ba
+ * Description: Tentacle from inside Lord Jabu-Jabu
+ */
+
 #include "z_en_ba.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000015
 
-void EnBa_Init(EnBa* this, GlobalContext* globalCtx);
-void EnBa_Destroy(EnBa* this, GlobalContext* globalCtx);
-void EnBa_Update(EnBa* this, GlobalContext* globalCtx);
-void EnBa_Draw(EnBa* this, GlobalContext* globalCtx);
+#define THIS ((EnBa*)thisx)
+
+void EnBa_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBa_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBa_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ba_InitVars = {
     ACTOR_EN_BA,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_BXA,
     sizeof(EnBa),

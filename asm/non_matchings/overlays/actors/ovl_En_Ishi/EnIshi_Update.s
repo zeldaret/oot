@@ -8,5 +8,3 @@ glabel EnIshi_Update
 /* 01434 80A7F894 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01438 80A7F898 03E00008 */  jr      $ra                        
 /* 0143C 80A7F89C 00000000 */  nop
-
-

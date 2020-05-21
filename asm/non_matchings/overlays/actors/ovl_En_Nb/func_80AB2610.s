@@ -1,6 +1,6 @@
 glabel func_80AB2610
-/* 01880 80AB2610 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 01884 80AB2614 8DEFFA90 */  lw      $t7, -0x0570($t7)          ## 8015FA90
+/* 01880 80AB2610 3C0F8016 */  lui     $t7, %hi(gGameInfo)
+/* 01884 80AB2614 8DEFFA90 */  lw      $t7, %lo(gGameInfo)($t7)
 /* 01888 80AB2618 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0188C 80AB261C AFBF002C */  sw      $ra, 0x002C($sp)           
 /* 01890 80AB2620 AFA40030 */  sw      $a0, 0x0030($sp)           
@@ -30,5 +30,3 @@ glabel func_80AB2610
 /* 018EC 80AB267C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 018F0 80AB2680 03E00008 */  jr      $ra                        
 /* 018F4 80AB2684 00000000 */  nop
-
-

@@ -1,3 +1,46 @@
+.rdata
+glabel D_80A4FE50
+    .asciz "../z_en_gs.c"
+    .balign 4
+
+glabel D_80A4FE60
+    .asciz "../z_en_gs.c"
+    .balign 4
+
+glabel D_80A4FE70
+    .asciz "../z_en_gs.c"
+    .balign 4
+
+glabel D_80A4FE80
+    .asciz "../z_en_gs.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A4FF38
+    .float 9.58738019108e-05
+
+glabel D_80A4FF3C
+    .float 9.58738019108e-05
+
+glabel D_80A4FF40
+    .float 9.58738019108e-05
+
+glabel D_80A4FF44
+    .float 9.58738019108e-05
+
+glabel D_80A4FF48
+    .float 9.58738019108e-05
+
+glabel D_80A4FF4C
+    .float 9.58738019108e-05
+
+glabel D_80A4FF50
+    .float 0.05
+
+glabel D_80A4FF54
+ .word 0xBD4CCCCD, 0x00000000, 0x00000000
+
+.text
 glabel EnGs_Draw
 /* 01668 80A4F988 27BDFF70 */  addiu   $sp, $sp, 0xFF70           ## $sp = FFFFFF70
 /* 0166C 80A4F98C AFBF003C */  sw      $ra, 0x003C($sp)           
@@ -13,7 +56,7 @@ glabel EnGs_Draw
 /* 01694 80A4F9B4 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
 /* 01698 80A4F9B8 24C6FE50 */  addiu   $a2, $a2, %lo(D_80A4FE50)  ## $a2 = 80A4FE50
 /* 0169C 80A4F9BC 24070416 */  addiu   $a3, $zero, 0x0416         ## $a3 = 00000416
-/* 016A0 80A4F9C0 0C031AB1 */  jal     func_800C6AC4              
+/* 016A0 80A4F9C0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 016A4 80A4F9C4 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 016A8 80A4F9C8 8FA20094 */  lw      $v0, 0x0094($sp)           
 /* 016AC 80A4F9CC 3C190001 */  lui     $t9, 0x0001                ## $t9 = 00010000
@@ -250,7 +293,7 @@ glabel EnGs_Draw
 /* 01A38 80A4FD58 24C6FE80 */  addiu   $a2, $a2, %lo(D_80A4FE80)  ## $a2 = 80A4FE80
 /* 01A3C 80A4FD5C 27A40070 */  addiu   $a0, $sp, 0x0070           ## $a0 = FFFFFFE0
 /* 01A40 80A4FD60 2407044D */  addiu   $a3, $zero, 0x044D         ## $a3 = 0000044D
-/* 01A44 80A4FD64 0C031AD5 */  jal     func_800C6B54              
+/* 01A44 80A4FD64 0C031AD5 */  jal     Graph_CloseDisps              
 /* 01A48 80A4FD68 8DA50000 */  lw      $a1, 0x0000($t5)           ## 00000000
 .L80A4FD6C:
 /* 01A4C 80A4FD6C 8FBF003C */  lw      $ra, 0x003C($sp)           
@@ -258,4 +301,3 @@ glabel EnGs_Draw
 /* 01A54 80A4FD74 8FB10038 */  lw      $s1, 0x0038($sp)           
 /* 01A58 80A4FD78 03E00008 */  jr      $ra                        
 /* 01A5C 80A4FD7C 27BD0090 */  addiu   $sp, $sp, 0x0090           ## $sp = 00000000
-

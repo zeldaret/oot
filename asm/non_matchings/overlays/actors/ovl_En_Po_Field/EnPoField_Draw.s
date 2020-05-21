@@ -1,3 +1,17 @@
+.rdata
+glabel D_80AD71B0
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+glabel D_80AD71C4
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+glabel D_80AD71D8
+    .asciz "../z_en_po_field.c"
+    .balign 4
+
+.text
 glabel EnPoField_Draw
 /* 02DE4 80AD68E4 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 02DE8 80AD68E8 AFBF0034 */  sw      $ra, 0x0034($sp)
@@ -21,7 +35,7 @@ glabel EnPoField_Draw
 /* 02E30 80AD6930 AFA80078 */  sw      $t0, 0x0078($sp)
 /* 02E34 80AD6934 27A40064 */  addiu   $a0, $sp, 0x0064           ## $a0 = FFFFFFE4
 /* 02E38 80AD6938 240707B8 */  addiu   $a3, $zero, 0x07B8         ## $a3 = 000007B8
-/* 02E3C 80AD693C 0C031AB1 */  jal     func_800C6AC4
+/* 02E3C 80AD693C 0C031AB1 */  jal     Graph_OpenDisps
 /* 02E40 80AD6940 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 02E44 80AD6944 0C024F46 */  jal     func_80093D18
 /* 02E48 80AD6948 8E440000 */  lw      $a0, 0x0000($s2)           ## 00000000
@@ -67,10 +81,10 @@ glabel EnPoField_Draw
 /* 02EE4 80AD69E4 AFAF0010 */  sw      $t7, 0x0010($sp)
 /* 02EE8 80AD69E8 8FA3005C */  lw      $v1, 0x005C($sp)
 /* 02EEC 80AD69EC 3C19DB06 */  lui     $t9, 0xDB06                ## $t9 = DB060000
-/* 02EF0 80AD69F0 3C098011 */  lui     $t1, 0x8011                ## $t1 = 80110000
+/* 02EF0 80AD69F0 3C098011 */  lui     $t1, %hi(D_80116280+0x10)
 /* 02EF4 80AD69F4 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 02EF8 80AD69F8 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
-/* 02EFC 80AD69FC 25296290 */  addiu   $t1, $t1, 0x6290           ## $t1 = 80116290
+/* 02EFC 80AD69FC 25296290 */  addiu   $t1, %lo(D_80116280+0x10)
 /* 02F00 80AD6A00 37390030 */  ori     $t9, $t9, 0x0030           ## $t9 = DB060030
 /* 02F04 80AD6A04 24580008 */  addiu   $t8, $v0, 0x0008           ## $t8 = 00000008
 /* 02F08 80AD6A08 AE1802C0 */  sw      $t8, 0x02C0($s0)           ## 000002C0
@@ -107,10 +121,10 @@ glabel EnPoField_Draw
 /* 02F80 80AD6A80 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 02F84 80AD6A84 8FA30054 */  lw      $v1, 0x0054($sp)
 /* 02F88 80AD6A88 3C18DB06 */  lui     $t8, 0xDB06                ## $t8 = DB060000
-/* 02F8C 80AD6A8C 3C198011 */  lui     $t9, 0x8011                ## $t9 = 80110000
+/* 02F8C 80AD6A8C 3C198011 */  lui     $t9, %hi(D_80116280)
 /* 02F90 80AD6A90 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 02F94 80AD6A94 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
-/* 02F98 80AD6A98 27396280 */  addiu   $t9, $t9, 0x6280           ## $t9 = 80116280
+/* 02F98 80AD6A98 27396280 */  addiu   $t9, %lo(D_80116280)
 /* 02F9C 80AD6A9C 37180030 */  ori     $t8, $t8, 0x0030           ## $t8 = DB060030
 /* 02FA0 80AD6AA0 244F0008 */  addiu   $t7, $v0, 0x0008           ## $t7 = 00000008
 /* 02FA4 80AD6AA4 AE0F02D0 */  sw      $t7, 0x02D0($s0)           ## 000002D0
@@ -187,7 +201,7 @@ glabel EnPoField_Draw
 /* 030BC 80AD6BBC 8E450000 */  lw      $a1, 0x0000($s2)           ## 00000000
 /* 030C0 80AD6BC0 27A40064 */  addiu   $a0, $sp, 0x0064           ## $a0 = FFFFFFE4
 /* 030C4 80AD6BC4 24C671D8 */  addiu   $a2, $a2, %lo(D_80AD71D8)  ## $a2 = 80AD71D8
-/* 030C8 80AD6BC8 0C031AD5 */  jal     func_800C6B54
+/* 030C8 80AD6BC8 0C031AD5 */  jal     Graph_CloseDisps
 /* 030CC 80AD6BCC 240707F7 */  addiu   $a3, $zero, 0x07F7         ## $a3 = 000007F7
 .L80AD6BD0:
 /* 030D0 80AD6BD0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
@@ -199,5 +213,3 @@ glabel EnPoField_Draw
 /* 030E8 80AD6BE8 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 030EC 80AD6BEC 03E00008 */  jr      $ra
 /* 030F0 80AD6BF0 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
-
-

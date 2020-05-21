@@ -1,18 +1,30 @@
+/*
+ * File: z_bg_bowl_wall.c
+ * Overlay: Bg_Bowl_Wall
+ * Description: Bombchu Bowling Alley Wall
+ */
+
 #include "z_bg_bowl_wall.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-void BgBowlWall_Init(BgBowlWall* this, GlobalContext* globalCtx);
-void BgBowlWall_Destroy(BgBowlWall* this, GlobalContext* globalCtx);
-void BgBowlWall_Update(BgBowlWall* this, GlobalContext* globalCtx);
-void BgBowlWall_Draw(BgBowlWall* this, GlobalContext* globalCtx);
+#define THIS ((BgBowlWall*)thisx)
+
+void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgBowlWall_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgBowlWall_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgBowlWall_Draw(Actor* thisx, GlobalContext* globalCtx);
+
+void func_8086F260(BgBowlWall* this, GlobalContext* globalCtx);
+void func_8086F440(BgBowlWall* this, GlobalContext* globalCtx);
+void func_8086F464(BgBowlWall* this, GlobalContext* globalCtx);
+void func_8086F718(BgBowlWall* this, GlobalContext* globalCtx);
+void func_8086F7F8(BgBowlWall* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_BOWL,
     sizeof(BgBowlWall),

@@ -12,4 +12,3 @@ glabel BgIceShutter_Draw
 /* 003C4 80891E84 03E00008 */  jr      $ra                        
 /* 003C8 80891E88 00000000 */  nop
 /* 003CC 80891E8C 00000000 */  nop
-

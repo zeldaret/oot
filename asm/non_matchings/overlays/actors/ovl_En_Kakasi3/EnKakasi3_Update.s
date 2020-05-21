@@ -1,7 +1,17 @@
+.rdata
+glabel D_80A91E04
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A91E08
+    .asciz "[33m☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+.text
 glabel EnKakasi3_Update
 /* 00E6C 80A91B8C 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
-/* 00E70 80A91B90 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00E74 80A91B94 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 00E70 80A91B90 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 00E74 80A91B94 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 00E78 80A91B98 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00E7C 80A91B9C AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 00E80 80A91BA0 AFA5003C */  sw      $a1, 0x003C($sp)           
@@ -14,8 +24,8 @@ glabel EnKakasi3_Update
               
 /* 00E9C 80A91BBC 24841E04 */  addiu   $a0, $a0, %lo(D_80A91E04)  ## $a0 = 80A91E04
 /* 00EA0 80A91BC0 3C0480A9 */  lui     $a0, %hi(D_80A91E08)       ## $a0 = 80A90000
-/* 00EA4 80A91BC4 3C058016 */  lui     $a1, 0x8016                ## $a1 = 80160000
-/* 00EA8 80A91BC8 90A5F925 */  lbu     $a1, -0x06DB($a1)          ## 8015F925
+/* 00EA4 80A91BC4 3C058016 */  lui     $a1, %hi(gSaveContext+0x12c5)
+/* 00EA8 80A91BC8 90A5F925 */  lbu     $a1, %lo(gSaveContext+0x12c5)($a1)
 /* 00EAC 80A91BCC 0C00084C */  jal     osSyncPrintf
               
 /* 00EB0 80A91BD0 24841E08 */  addiu   $a0, $a0, %lo(D_80A91E08)  ## $a0 = 80A91E08
@@ -68,14 +78,14 @@ glabel EnKakasi3_Update
 /* 00F58 80A91C78 260601BC */  addiu   $a2, $s0, 0x01BC           ## $a2 = 000001BC
 /* 00F5C 80A91C7C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 000001BC
 /* 00F60 80A91C80 AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 00F64 80A91C84 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00F64 80A91C84 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00F68 80A91C88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00F6C 80A91C8C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00F70 80A91C90 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00F74 80A91C94 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00F78 80A91C98 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 00F7C 80A91C9C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00F7C 80A91C9C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00F80 80A91CA0 00812821 */  addu    $a1, $a0, $at              
 /* 00F84 80A91CA4 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -83,5 +93,3 @@ glabel EnKakasi3_Update
 /* 00F8C 80A91CAC 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00F90 80A91CB0 03E00008 */  jr      $ra                        
 /* 00F94 80A91CB4 00000000 */  nop
-
-

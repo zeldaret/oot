@@ -1,18 +1,24 @@
+/*
+ * File: z_en_trap.c
+ * Overlay: ovl_En_Trap
+ * Description: Metal Spike Trap
+ */
+
 #include "z_en_trap.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void EnTrap_Init(EnTrap* this, GlobalContext* globalCtx);
-void EnTrap_Destroy(EnTrap* this, GlobalContext* globalCtx);
-void EnTrap_Update(EnTrap* this, GlobalContext* globalCtx);
-void EnTrap_Draw(EnTrap* this, GlobalContext* globalCtx);
+#define THIS ((EnTrap*)thisx)
+
+void EnTrap_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnTrap_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Trap_InitVars = {
     ACTOR_EN_TRAP,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_TRAP,
     sizeof(EnTrap),

@@ -1,3 +1,17 @@
+.rdata
+glabel D_809C4AC0
+    .asciz "[32m☆ もー 肩こっちゃうよねぇ〜 		 ☆ \n[m"
+    .balign 4
+
+glabel D_809C4AF0
+    .asciz "[32m☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n[m"
+    .balign 4
+
+.late_rodata
+glabel D_809C4C74
+ .word 0x409FAE14
+
+.text
 glabel EnBomBowlMan_Init
 /* 00000 809C3630 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00004 809C3634 AFBE0050 */  sw      $s8, 0x0050($sp)
@@ -5,7 +19,7 @@ glabel EnBomBowlMan_Init
 /* 0000C 809C363C 00A09825 */  or      $s3, $a1, $zero            ## $s3 = 00000000
 /* 00010 809C3640 0080F025 */  or      $s8, $a0, $zero            ## $s8 = 00000000
 /* 00014 809C3644 AFBF0054 */  sw      $ra, 0x0054($sp)
-/* 00018 809C3648 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00018 809C3648 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 0001C 809C364C AFB7004C */  sw      $s7, 0x004C($sp)
 /* 00020 809C3650 AFB60048 */  sw      $s6, 0x0048($sp)
 /* 00024 809C3654 AFB50044 */  sw      $s5, 0x0044($sp)
@@ -13,7 +27,7 @@ glabel EnBomBowlMan_Init
 /* 0002C 809C365C AFB20038 */  sw      $s2, 0x0038($sp)
 /* 00030 809C3660 AFB10034 */  sw      $s1, 0x0034($sp)
 /* 00034 809C3664 AFB00030 */  sw      $s0, 0x0030($sp)
-/* 00038 809C3668 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00038 809C3668 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0003C 809C366C 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00040 809C3670 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00044 809C3674 0C00AC78 */  jal     ActorShape_Init
@@ -128,5 +142,3 @@ glabel EnBomBowlMan_Init
 /* 001D8 809C3808 8FB00030 */  lw      $s0, 0x0030($sp)
 /* 001DC 809C380C 03E00008 */  jr      $ra
 /* 001E0 809C3810 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

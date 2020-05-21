@@ -13,7 +13,7 @@ glabel EnFhgFire_Destroy
 /* 00458 80A0F6B8 14410005 */  bne     $v0, $at, .L80A0F6D0       
 .L80A0F6BC:
 /* 0045C 80A0F6BC 24E501B0 */  addiu   $a1, $a3, 0x01B0           ## $a1 = 000001B0
-/* 00460 80A0F6C0 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00460 80A0F6C0 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00464 80A0F6C4 AFA70018 */  sw      $a3, 0x0018($sp)           
 /* 00468 80A0F6C8 8FA70018 */  lw      $a3, 0x0018($sp)           
@@ -31,5 +31,3 @@ glabel EnFhgFire_Destroy
 /* 0048C 80A0F6EC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00490 80A0F6F0 03E00008 */  jr      $ra                        
 /* 00494 80A0F6F4 00000000 */  nop
-
-

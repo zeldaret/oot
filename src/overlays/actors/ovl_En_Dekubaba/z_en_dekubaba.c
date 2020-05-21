@@ -1,18 +1,18 @@
 #include "z_en_dekubaba.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000005
 
-void EnDekubaba_Init(EnDekubaba* this, GlobalContext* globalCtx);
-void EnDekubaba_Destroy(EnDekubaba* this, GlobalContext* globalCtx);
-void EnDekubaba_Update(EnDekubaba* this, GlobalContext* globalCtx);
-void EnDekubaba_Draw(EnDekubaba* this, GlobalContext* globalCtx);
+#define THIS ((EnDekubaba*)thisx)
+
+void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDekubaba_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Dekubaba_InitVars = {
     ACTOR_EN_DEKUBABA,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_DEKUBABA,
     sizeof(EnDekubaba),

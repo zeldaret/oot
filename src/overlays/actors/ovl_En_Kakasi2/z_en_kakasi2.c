@@ -1,17 +1,17 @@
 #include "z_en_kakasi2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x0A000031
 
-void EnKakasi2_Init(EnKakasi2* this, GlobalContext* globalCtx);
-void EnKakasi2_Destroy(EnKakasi2* this, GlobalContext* globalCtx);
-void EnKakasi2_Update(EnKakasi2* this, GlobalContext* globalCtx);
+#define THIS ((EnKakasi2*)thisx)
+
+void EnKakasi2_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnKakasi2_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnKakasi2_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Kakasi2_InitVars = {
     ACTOR_EN_KAKASI2,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_KA,
     sizeof(EnKakasi2),

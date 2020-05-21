@@ -1,18 +1,24 @@
+/*
+ * File: z_en_torch2.c
+ * Overlay: ovl_En_Torch2
+ * Description: Dark Link
+ */
+
 #include "z_en_torch2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000035
 
-void EnTorch2_Init(EnTorch2* this, GlobalContext* globalCtx);
-void EnTorch2_Destroy(EnTorch2* this, GlobalContext* globalCtx);
-void EnTorch2_Update(EnTorch2* this, GlobalContext* globalCtx);
-void EnTorch2_Draw(EnTorch2* this, GlobalContext* globalCtx);
+#define THIS ((EnTorch2*)thisx)
+
+void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnTorch2_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Torch2_InitVars = {
     ACTOR_EN_TORCH2,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_TORCH2,
     sizeof(EnTorch2),

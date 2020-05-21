@@ -31,7 +31,7 @@ glabel func_808BF078
 .L808BF0E8:
 /* 003A8 808BF0E8 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 003AC 808BF0EC 24E6016C */  addiu   $a2, $a3, 0x016C           ## $a2 = 0000016C
-/* 003B0 808BF0F0 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 003B0 808BF0F0 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 003B4 808BF0F4 00812821 */  addu    $a1, $a0, $at              
 /* 003B8 808BF0F8 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -39,5 +39,3 @@ glabel func_808BF078
 /* 003BC 808BF0FC 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 003C0 808BF100 03E00008 */  jr      $ra                        
 /* 003C4 808BF104 00000000 */  nop
-
-

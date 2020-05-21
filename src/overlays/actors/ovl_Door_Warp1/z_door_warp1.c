@@ -1,18 +1,18 @@
 #include "z_door_warp1.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void DoorWarp1_Init(DoorWarp1* this, GlobalContext* globalCtx);
-void DoorWarp1_Destroy(DoorWarp1* this, GlobalContext* globalCtx);
-void DoorWarp1_Update(DoorWarp1* this, GlobalContext* globalCtx);
-void DoorWarp1_Draw(DoorWarp1* this, GlobalContext* globalCtx);
+#define THIS ((DoorWarp1*)thisx)
+
+void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx);
+void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx);
+void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Door_Warp1_InitVars = {
     ACTOR_DOOR_WARP1,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_WARP1,
     sizeof(DoorWarp1),

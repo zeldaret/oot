@@ -45,15 +45,15 @@ glabel EnJj_Init
 /* 000A8 80A878A8 AFA50044 */  sw      $a1, 0x0044($sp)
 /* 000AC 80A878AC 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 000B0 80A878B0 24A51F4C */  addiu   $a1, $a1, 0x1F4C           ## $a1 = 06001F4C
-/* 000B4 80A878B4 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 000B4 80A878B4 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 000B8 80A878B8 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 000BC 80A878BC A600030A */  sh      $zero, 0x030A($s0)         ## 0000030A
 /* 000C0 80A878C0 A200030E */  sb      $zero, 0x030E($s0)         ## 0000030E
 /* 000C4 80A878C4 A200030F */  sb      $zero, 0x030F($s0)         ## 0000030F
 /* 000C8 80A878C8 A2000310 */  sb      $zero, 0x0310($s0)         ## 00000310
 /* 000CC 80A878CC A2000311 */  sb      $zero, 0x0311($s0)         ## 00000311
-/* 000D0 80A878D0 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 000D4 80A878D4 9739F53A */  lhu     $t9, -0x0AC6($t9)          ## 8015F53A
+/* 000D0 80A878D0 3C198016 */  lui     $t9, %hi(gSaveContext+0xeda)
+/* 000D4 80A878D4 9739F53A */  lhu     $t9, %lo(gSaveContext+0xeda)($t9)
 /* 000D8 80A878D8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 000DC 80A878DC 3C0580A8 */  lui     $a1, %hi(func_80A87C30)    ## $a1 = 80A80000
 /* 000E0 80A878E0 33280400 */  andi    $t0, $t9, 0x0400           ## $t0 = 00000000
@@ -108,14 +108,14 @@ glabel EnJj_Init
 /* 0018C 80A8798C AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 00190 80A87990 260502B0 */  addiu   $a1, $s0, 0x02B0           ## $a1 = 000002B0
 /* 00194 80A87994 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 00198 80A87998 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00198 80A87998 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 0019C 80A8799C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 001A0 80A879A0 3C0780A9 */  lui     $a3, %hi(D_80A88CB4)       ## $a3 = 80A90000
 /* 001A4 80A879A4 8FA50044 */  lw      $a1, 0x0044($sp)
 /* 001A8 80A879A8 24E78CB4 */  addiu   $a3, $a3, %lo(D_80A88CB4)  ## $a3 = 80A88CB4
 /* 001AC 80A879AC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 001B0 80A879B0 0C01712B */  jal     ActorCollider_InitCylinder
+/* 001B0 80A879B0 0C01712B */  jal     Collider_SetCylinder
 
 /* 001B4 80A879B4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 001B8 80A879B8 240A00FF */  addiu   $t2, $zero, 0x00FF         ## $t2 = 000000FF
@@ -185,5 +185,3 @@ glabel EnJj_Init
 /* 00288 80A87A88 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 0028C 80A87A8C 03E00008 */  jr      $ra
 /* 00290 80A87A90 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

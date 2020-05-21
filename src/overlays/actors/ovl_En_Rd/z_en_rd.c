@@ -1,18 +1,18 @@
 #include "z_en_rd.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000415
 
-void EnRd_Init(EnRd* this, GlobalContext* globalCtx);
-void EnRd_Destroy(EnRd* this, GlobalContext* globalCtx);
-void EnRd_Update(EnRd* this, GlobalContext* globalCtx);
-void EnRd_Draw(EnRd* this, GlobalContext* globalCtx);
+#define THIS ((EnRd*)thisx)
+
+void EnRd_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnRd_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Rd_InitVars = {
     ACTOR_EN_RD,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_RD,
     sizeof(EnRd),

@@ -10,7 +10,7 @@ glabel EnWonderItem_Destroy
 /* 00020 80B38080 51E00004 */  beql    $t7, $zero, .L80B38094     
 /* 00024 80B38084 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80B38088:
-/* 00028 80B38088 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00028 80B38088 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0002C 80B3808C 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 00030 80B38090 8FBF0014 */  lw      $ra, 0x0014($sp)           
@@ -18,5 +18,3 @@ glabel EnWonderItem_Destroy
 /* 00034 80B38094 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00038 80B38098 03E00008 */  jr      $ra                        
 /* 0003C 80B3809C 00000000 */  nop
-
-

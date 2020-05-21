@@ -1,3 +1,17 @@
+.rdata
+glabel D_80ABB620
+    .asciz "[32m☆☆☆☆☆ ハート ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80ABB64C
+    .asciz "[33m☆☆☆☆☆ 爆弾   ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80ABB678
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel func_80ABA654
 /* 00A14 80ABA654 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00A18 80ABA658 AFB0001C */  sw      $s0, 0x001C($sp)           
@@ -32,8 +46,8 @@ glabel func_80ABA654
 /* 00A80 80ABA6C0 2484B678 */  addiu   $a0, $a0, %lo(D_80ABB678)  ## $a0 = 80ABB678
 /* 00A84 80ABA6C4 240F000B */  addiu   $t7, $zero, 0x000B         ## $t7 = 0000000B
 /* 00A88 80ABA6C8 A60F026E */  sh      $t7, 0x026E($s0)           ## 0000026E
-/* 00A8C 80ABA6CC 3C188016 */  lui     $t8, 0x8016                ## $t8 = 80160000
-/* 00A90 80ABA6D0 9718F550 */  lhu     $t8, -0x0AB0($t8)          ## 8015F550
+/* 00A8C 80ABA6CC 3C188016 */  lui     $t8, %hi(gSaveContext+0xef0)
+/* 00A90 80ABA6D0 9718F550 */  lhu     $t8, %lo(gSaveContext+0xef0)($t8)
 /* 00A94 80ABA6D4 2408000F */  addiu   $t0, $zero, 0x000F         ## $t0 = 0000000F
 /* 00A98 80ABA6D8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00A9C 80ABA6DC 33191000 */  andi    $t9, $t8, 0x1000           ## $t9 = 00000000
@@ -79,5 +93,3 @@ glabel func_80ABA654
 /* 00B2C 80ABA76C 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00B30 80ABA770 03E00008 */  jr      $ra                        
 /* 00B34 80ABA774 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

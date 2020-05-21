@@ -1,18 +1,24 @@
+/*
+ * File: z_en_zl3.c
+ * Overlay: ovl_En_Zl3
+ * Description: Adult Zelda
+ */
+
 #include "z_en_zl3.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void EnZl3_Init(EnZl3* this, GlobalContext* globalCtx);
-void EnZl3_Destroy(EnZl3* this, GlobalContext* globalCtx);
-void EnZl3_Update(EnZl3* this, GlobalContext* globalCtx);
-void EnZl3_Draw(EnZl3* this, GlobalContext* globalCtx);
+#define THIS ((EnZl3*)thisx)
+
+void EnZl3_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnZl3_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnZl3_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnZl3_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Zl3_InitVars = {
     ACTOR_EN_ZL3,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_ZL2,
     sizeof(EnZl3),

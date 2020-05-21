@@ -11,7 +11,7 @@ glabel func_809A16F4
 /* 00108 809A1718 24C61A80 */  addiu   $a2, $a2, %lo(D_809A1A80)  ## $a2 = 809A1A80
 /* 0010C 809A171C 27A40060 */  addiu   $a0, $sp, 0x0060           ## $a0 = FFFFFF88
 /* 00110 809A1720 2407009D */  addiu   $a3, $zero, 0x009D         ## $a3 = 0000009D
-/* 00114 809A1724 0C031AB1 */  jal     func_800C6AC4
+/* 00114 809A1724 0C031AB1 */  jal     Graph_OpenDisps
 /* 00118 809A1728 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 0011C 809A172C 860F0040 */  lh      $t7, 0x0040($s0)           ## 00000040
 /* 00120 809A1730 3C01809A */  lui     $at, %hi(D_809A1AC8)       ## $at = 809A0000
@@ -146,7 +146,7 @@ glabel func_809A16F4
 /* 00314 809A1924 86040044 */  lh      $a0, 0x0044($s0)           ## 00000044
 /* 00318 809A1928 86050046 */  lh      $a1, 0x0046($s0)           ## 00000046
 /* 0031C 809A192C 86060048 */  lh      $a2, 0x0048($s0)           ## 00000048
-/* 00320 809A1930 0C034421 */  jal     Matrix_RotateZYX
+/* 00320 809A1930 0C034421 */  jal     Matrix_RotateRPY
 /* 00324 809A1934 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00328 809A1938 3C01809A */  lui     $at, %hi(D_809A1ACC)       ## $at = 809A0000
 /* 0032C 809A193C C42C1ACC */  lwc1    $f12, %lo(D_809A1ACC)($at)
@@ -193,12 +193,10 @@ glabel func_809A16F4
 /* 003D0 809A19E0 24C61AB0 */  addiu   $a2, $a2, %lo(D_809A1AB0)  ## $a2 = 809A1AB0
 /* 003D4 809A19E4 27A40060 */  addiu   $a0, $sp, 0x0060           ## $a0 = FFFFFF88
 /* 003D8 809A19E8 240700FF */  addiu   $a3, $zero, 0x00FF         ## $a3 = 000000FF
-/* 003DC 809A19EC 0C031AD5 */  jal     func_800C6B54
+/* 003DC 809A19EC 0C031AD5 */  jal     Graph_CloseDisps
 /* 003E0 809A19F0 8DC50000 */  lw      $a1, 0x0000($t6)           ## 00000000
 /* 003E4 809A19F4 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 003E8 809A19F8 8FB00024 */  lw      $s0, 0x0024($sp)
 /* 003EC 809A19FC 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 003F0 809A1A00 03E00008 */  jr      $ra
 /* 003F4 809A1A04 27BD00D8 */  addiu   $sp, $sp, 0x00D8           ## $sp = 00000000
-
-

@@ -8,44 +8,45 @@
 
 #include <vt.h>
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-static void DemoGeff_Init(DemoGeff* this, GlobalContext* globalCtx);
-static void DemoGeff_Destroy(DemoGeff* this, GlobalContext* globalCtx);
-static void DemoGeff_Update(DemoGeff* this, GlobalContext* globalCtx);
-static void DemoGeff_Draw(DemoGeff* this, GlobalContext* globalCtx);
+#define THIS ((DemoGeff*)thisx)
 
-static void func_80978030(DemoGeff* this, GlobalContext* globalCtx);
+void DemoGeff_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoGeff_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoGeff_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-static void func_809783D4(DemoGeff* this, GlobalContext* globalCtx);
-static void func_80978308(DemoGeff* this, GlobalContext* globalCtx);
+void func_80978030(DemoGeff* this, GlobalContext* globalCtx);
 
-static void func_809784D4(DemoGeff* this, GlobalContext* globalCtx);
-static void func_80978344(DemoGeff* this, GlobalContext* globalCtx);
+void func_809783D4(DemoGeff* this, GlobalContext* globalCtx);
+void func_80978308(DemoGeff* this, GlobalContext* globalCtx);
+
+void func_809784D4(DemoGeff* this, GlobalContext* globalCtx);
+void func_80978344(DemoGeff* this, GlobalContext* globalCtx);
 
 s16 objectIds[] = {
     OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF,
 };
 
-ActorFunc scaleFuncs[] = {
-    (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
-    (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
-    (ActorFunc)func_80978030, (ActorFunc)func_80978030, (ActorFunc)func_80978030,
+DemoGeffInitFunc initFuncs[] = {
+    func_80978030, func_80978030, func_80978030, func_80978030, func_80978030,
+    func_80978030, func_80978030, func_80978030, func_80978030,
 };
-ActorFunc actionFuncs[] = {
-    (ActorFunc)func_809783D4,
-    (ActorFunc)func_80978308,
+
+DemoGeffActionFunc actionFuncs[] = {
+    func_809783D4,
+    func_80978308,
 };
-ActorFunc drawFuncs[] = {
-    (ActorFunc)func_809784D4,
-    (ActorFunc)func_80978344,
+
+DemoGeffDrawFunc drawFuncs[] = {
+    func_809784D4,
+    func_80978344,
 };
 
 const ActorInit Demo_Geff_InitVars = {
     ACTOR_DEMO_GEFF,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_GEFF,
     sizeof(DemoGeff),
@@ -57,10 +58,12 @@ const ActorInit Demo_Geff_InitVars = {
 
 extern UNK_TYPE D_06000EA0;
 
-static void DemoGeff_Destroy(DemoGeff* this, GlobalContext* globalCtx) {
+void DemoGeff_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-static void DemoGeff_Init(DemoGeff* this, GlobalContext* globalCtx) {
+void DemoGeff_Init(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGeff* this = THIS;
+
     if (this->actor.params < 0 || this->actor.params >= 9) {
         osSyncPrintf(VT_FGCOL(RED) "Demo_Geff_Actor_ct:arg_dataがおかしい!!!!!!!!!!!!\n" VT_RST);
         Actor_Kill(&this->actor);
@@ -70,11 +73,11 @@ static void DemoGeff_Init(DemoGeff* this, GlobalContext* globalCtx) {
     this->drawConfig = 0;
 }
 
-static void func_80977EA8(GlobalContext* globalCtx, u32 dlist) {
+void func_80977EA8(GlobalContext* globalCtx, u32 dlist) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_demo_geff.c", 181);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 181);
     func_80093D18(gfxCtx);
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(gfxCtx, "../z_demo_geff.c", 183),
@@ -82,16 +85,16 @@ static void func_80977EA8(GlobalContext* globalCtx, u32 dlist) {
     gSPDisplayList(gfxCtx->polyOpa.p++, dlist);
     gSPPopMatrix(gfxCtx->polyOpa.p++, G_MTX_MODELVIEW);
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_demo_geff.c", 188);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 188);
 }
 
-static void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
+void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 objBankIndex = this->objBankIndex;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[5];
+    Gfx* dispRefs[5];
 
-    func_800C6AC4(gfxArr, gfxCtx, "../z_demo_geff.c", 204);
+    Graph_OpenDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 204);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objBankIndex].segment);
@@ -99,11 +102,12 @@ static void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
     // Necessary to match
     if (!globalCtx) {}
 
-    func_800C6B54(gfxArr, gfxCtx, "../z_demo_geff.c", 212);
+    Graph_CloseDisps(dispRefs, gfxCtx, "../z_demo_geff.c", 212);
 }
 
-static void func_80978030(DemoGeff* this, GlobalContext* globalCtx) {
+void func_80978030(DemoGeff* this, GlobalContext* globalCtx) {
     Vec3f* thisScale = &this->actor.scale;
+
     this->action = 1;
     this->drawConfig = 1;
 
@@ -130,7 +134,7 @@ static void func_80978030(DemoGeff* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_809781FC(DemoGeff* this, GlobalContext* globalCtx) {
+void func_809781FC(DemoGeff* this, GlobalContext* globalCtx) {
     s32 targetParams = 2;
     Actor* propIt;
 
@@ -153,7 +157,7 @@ static void func_809781FC(DemoGeff* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_809782A0(DemoGeff* this, GlobalContext* globalCtx) {
+void func_809782A0(DemoGeff* this, GlobalContext* globalCtx) {
     DemoGt* demoGt = this->demoGt;
     s16 params = this->actor.params;
     if (demoGt != NULL && (params != 6) && (params != 7) && (params != 8)) {
@@ -163,28 +167,28 @@ static void func_809782A0(DemoGeff* this, GlobalContext* globalCtx) {
     }
 }
 
-static void func_80978308(DemoGeff* this, GlobalContext* globalCtx) {
+void func_80978308(DemoGeff* this, GlobalContext* globalCtx) {
     func_809781FC(this, globalCtx);
     func_809782A0(this, globalCtx);
     func_80978030(this, globalCtx);
 }
 
-static void func_80978344(DemoGeff* this, GlobalContext* globalCtx) {
+void func_80978344(DemoGeff* this, GlobalContext* globalCtx) {
     func_80977EA8(globalCtx, &D_06000EA0);
 }
 
-static void func_80978370(DemoGeff* this, GlobalContext* globalCtx) {
+void func_80978370(DemoGeff* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params;
-    ActorFunc actorFunc = scaleFuncs[params];
-    if (actorFunc == NULL) {
+    DemoGeffInitFunc initFunc = initFuncs[params];
+    if (initFunc == NULL) {
         osSyncPrintf(VT_FGCOL(RED) " Demo_Geff_main_init:初期化処理がおかしいarg_data = %d!\n" VT_RST, params);
         Actor_Kill(&this->actor);
         return;
     }
-    actorFunc(this, globalCtx);
+    initFunc(this, globalCtx);
 }
 
-static void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
+void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
     ObjectContext* objCtx = &globalCtx->objectCtx;
     Actor* thisx = &this->actor;
     s32 params = thisx->params;
@@ -203,7 +207,9 @@ static void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
     }
 }
 
-static void DemoGeff_Update(DemoGeff* this, GlobalContext* globalCtx) {
+void DemoGeff_Update(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGeff* this = THIS;
+
     if (this->action < 0 || this->action >= 2 || actionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
@@ -211,12 +217,13 @@ static void DemoGeff_Update(DemoGeff* this, GlobalContext* globalCtx) {
     actionFuncs[this->action](this, globalCtx);
 }
 
-static void func_809784D4(DemoGeff* this, GlobalContext* globalCtx) {
+void func_809784D4(DemoGeff* this, GlobalContext* globalCtx) {
 }
 
-static void DemoGeff_Draw(DemoGeff* this, GlobalContext* globalCtx) {
+void DemoGeff_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGeff* this = THIS;
     s32 drawConfig = this->drawConfig;
-    s16 pad;
+
     if (drawConfig < 0 || drawConfig >= 2 || drawFuncs[drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

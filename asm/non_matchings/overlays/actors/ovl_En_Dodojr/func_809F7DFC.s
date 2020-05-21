@@ -4,5 +4,3 @@ glabel func_809F7DFC
 /* 01A44 809F7E04 AFA60008 */  sw      $a2, 0x0008($sp)           
 /* 01A48 809F7E08 03E00008 */  jr      $ra                        
 /* 01A4C 809F7E0C AFA7000C */  sw      $a3, 0x000C($sp)           
-
-

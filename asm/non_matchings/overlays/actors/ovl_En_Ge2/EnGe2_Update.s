@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A343E4
+    .asciz "\x1b[32m発見!!!!!!!!!!!!\n\x1b[m"
+    .balign 4
+
+glabel D_80A34400
+    .asciz "\x1b[32m発見!!!!!!!!!!!!\n\x1b[m"
+    .balign 4
+
+.text
 glabel EnGe2_Update
 /* 01264 80A33E34 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 01268 80A33E38 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -114,7 +124,7 @@ glabel EnGe2_Update
 .L80A33FCC:
 /* 013FC 80A33FCC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01400 80A33FD0 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
-/* 01404 80A33FD4 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 01404 80A33FD4 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 01408 80A33FD8 00812821 */  addu    $a1, $a0, $at              
 .L80A33FDC:
@@ -141,5 +151,3 @@ glabel EnGe2_Update
 /* 01450 80A34020 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 01454 80A34024 03E00008 */  jr      $ra                        
 /* 01458 80A34028 00000000 */  nop
-
-

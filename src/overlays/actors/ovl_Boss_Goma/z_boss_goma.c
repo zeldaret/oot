@@ -1,18 +1,18 @@
 #include "z_boss_goma.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000035
 
-void BossGoma_Init(BossGoma* this, GlobalContext* globalCtx);
-void BossGoma_Destroy(BossGoma* this, GlobalContext* globalCtx);
-void BossGoma_Update(BossGoma* this, GlobalContext* globalCtx);
-void BossGoma_Draw(BossGoma* this, GlobalContext* globalCtx);
+#define THIS ((BossGoma*)thisx)
+
+void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx);
+void BossGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx);
+void BossGoma_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Boss_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_GOMA,
     sizeof(BossGoma),

@@ -22,5 +22,3 @@ glabel BgTokiHikari_Draw
 /* 0010C 808BA00C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00110 808BA010 03E00008 */  jr      $ra                        
 /* 00114 808BA014 00000000 */  nop
-
-

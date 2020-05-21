@@ -1,18 +1,24 @@
+/*
+ * File: z_en_am.c
+ * Overlay: ovl_En_Am
+ * Description: Armos Statue
+ */
+
 #include "z_en_am.h"
 
-#define ROOM 0x00
 #define FLAGS 0x04000015
 
-void EnAm_Init(EnAm* this, GlobalContext* globalCtx);
-void EnAm_Destroy(EnAm* this, GlobalContext* globalCtx);
-void EnAm_Update(EnAm* this, GlobalContext* globalCtx);
-void EnAm_Draw(EnAm* this, GlobalContext* globalCtx);
+#define THIS ((EnAm*)thisx)
+
+void EnAm_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnAm_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnAm_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnAm_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Am_InitVars = {
     ACTOR_EN_AM,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_AM,
     sizeof(EnAm),

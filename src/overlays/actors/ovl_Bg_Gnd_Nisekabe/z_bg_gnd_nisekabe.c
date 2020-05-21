@@ -4,46 +4,44 @@
  * Description: 2D Stone Wall
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
+#include "z_bg_gnd_nisekabe.h"
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-} ActorGndNisekabe; // size = 0x014C
-
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void Init(ActorGndNisekabe* this, GlobalContext* globalCtx);
-static void Destroy(ActorGndNisekabe* this, GlobalContext* globalCtx);
-static void Update(ActorGndNisekabe* this, GlobalContext* globalCtx);
-static void Draw(ActorGndNisekabe* this, GlobalContext* globalCtx);
+#define THIS ((BgGndNisekabe*)thisx)
+
+void BgGndNisekabe_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgGndNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgGndNisekabe_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgGndNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Gnd_Nisekabe_InitVars = {
     ACTOR_BG_GND_NISEKABE,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_DEMO_KEKKAI,
-    sizeof(ActorGndNisekabe),
-    (ActorFunc)Init,
-    (ActorFunc)Destroy,
-    (ActorFunc)Update,
-    (ActorFunc)Draw,
+    sizeof(BgGndNisekabe),
+    (ActorFunc)BgGndNisekabe_Init,
+    (ActorFunc)BgGndNisekabe_Destroy,
+    (ActorFunc)BgGndNisekabe_Update,
+    (ActorFunc)BgGndNisekabe_Draw,
 };
 
 static u32 segmentAddr[] = { 0x06009230, 0x0600A390, 0x0600B4A0 };
 
-static void Init(ActorGndNisekabe* this, GlobalContext* globalCtx) {
+void BgGndNisekabe_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgGndNisekabe* this = THIS;
+
     Actor_SetScale(&this->actor, 0.1);
     this->actor.unk_F4 = 3000.0;
 }
 
-static void Destroy(ActorGndNisekabe* this, GlobalContext* globalCtx) {
+void BgGndNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-static void Update(ActorGndNisekabe* this, GlobalContext* globalCtx) {
+void BgGndNisekabe_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgGndNisekabe* this = THIS;
+
     if (globalCtx->actorCtx.unk_03 != 0) {
         this->actor.flags |= 0x80;
     } else {
@@ -51,7 +49,8 @@ static void Update(ActorGndNisekabe* this, GlobalContext* globalCtx) {
     }
 }
 
-static void Draw(ActorGndNisekabe* this, GlobalContext* globalCtx) {
+void BgGndNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgGndNisekabe* this = THIS;
     u32 index = this->actor.params & 0xFF;
 
     if ((this->actor.flags & 0x80) == 0x80) {

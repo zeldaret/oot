@@ -53,4 +53,3 @@ glabel BgJyaBombchuiwa_Draw
 /* 00A74 80894F14 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00A78 80894F18 03E00008 */  jr      $ra                        
 /* 00A7C 80894F1C 00000000 */  nop
-

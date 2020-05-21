@@ -22,7 +22,7 @@ glabel Fishing_Destroy
 .L80B6AF08:
 /* 01568 80B6AF08 14410003 */  bne     $v0, $at, .L80B6AF18
 /* 0156C 80B6AF0C 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
-/* 01570 80B6AF10 0C016F32 */  jal     func_8005BCC8
+/* 01570 80B6AF10 0C016F32 */  jal     Collider_DestroyJntSph
 /* 01574 80B6AF14 24650230 */  addiu   $a1, $v1, 0x0230           ## $a1 = 00000230
 .L80B6AF18:
 /* 01578 80B6AF18 8FBF0014 */  lw      $ra, 0x0014($sp)
@@ -30,5 +30,3 @@ glabel Fishing_Destroy
 /* 0157C 80B6AF1C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 01580 80B6AF20 03E00008 */  jr      $ra
 /* 01584 80B6AF24 00000000 */  nop
-
-

@@ -198,7 +198,7 @@ glabel func_80B18E7C
 /* 006B0 80B19130 13230004 */  beq     $t9, $v1, .L80B19144
 /* 006B4 80B19134 3C0580B2 */  lui     $a1, %hi(D_80B1B634)       ## $a1 = 80B20000
 /* 006B8 80B19138 00A82821 */  addu    $a1, $a1, $t0
-/* 006BC 80B1913C 0C02947A */  jal     func_800A51E8
+/* 006BC 80B1913C 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 006C0 80B19140 8CA5B634 */  lw      $a1, %lo(D_80B1B634)($a1)
 .L80B19144:
 /* 006C4 80B19144 860202E0 */  lh      $v0, 0x02E0($s0)           ## 000002E0
@@ -297,7 +297,7 @@ glabel func_80B18E7C
 /* 00818 80B19298 13000006 */  beq     $t8, $zero, .L80B192B4
 /* 0081C 80B1929C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00820 80B192A0 00812821 */  addu    $a1, $a0, $at
-/* 00824 80B192A4 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 00824 80B192A4 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 00828 80B192A8 260602E8 */  addiu   $a2, $s0, 0x02E8           ## $a2 = 000002E8
 /* 0082C 80B192AC 1000001B */  beq     $zero, $zero, .L80B1931C
@@ -308,7 +308,7 @@ glabel func_80B18E7C
 /* 0083C 80B192BC 8FA40038 */  lw      $a0, 0x0038($sp)
 /* 00840 80B192C0 24A512E4 */  addiu   $a1, $a1, 0x12E4           ## $a1 = 000012E4
 /* 00844 80B192C4 3C064080 */  lui     $a2, 0x4080                ## $a2 = 40800000
-/* 00848 80B192C8 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 00848 80B192C8 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 0084C 80B192CC AFA70040 */  sw      $a3, 0x0040($sp)
 /* 00850 80B192D0 8FA70040 */  lw      $a3, 0x0040($sp)
 /* 00854 80B192D4 8E0A02EC */  lw      $t2, 0x02EC($s0)           ## 000002EC
@@ -480,5 +480,3 @@ glabel func_80B18E7C
 /* 00A98 80B19518 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 00A9C 80B1951C 03E00008 */  jr      $ra
 /* 00AA0 80B19520 00000000 */  nop
-
-

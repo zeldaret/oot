@@ -21,7 +21,7 @@ MtxF* sMatrixStack;   // "Matrix_stack"
 MtxF* sCurrentMatrix; // "Matrix_now"
 
 void Matrix_Init(GameState* gameState) {
-    sCurrentMatrix = Game_Alloc(gameState, 20 * sizeof(MtxF), "../sys_matrix.c", 153);
+    sCurrentMatrix = GameState_AllocEnd(gameState, 20 * sizeof(MtxF), "../sys_matrix.c", 153);
     sMatrixStack = sCurrentMatrix;
 }
 
@@ -298,10 +298,10 @@ void Matrix_RotateZ(f32 z, u8 mode) {
 /*
  * Rotates the top of the matrix stack by `z` degrees, then
  * rotates that matrix by `y` degrees, then rotates that matrix
- * by `x` degrees.
+ * by `x` degrees. (roll-pitch-yaw)
  * Original Name: Matrix_RotateXYZ, changed to reflect rotation order.
  */
-void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
+void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
     MtxF* cmf = sCurrentMatrix;
     f32 temp1;
     f32 temp2;
@@ -387,10 +387,9 @@ void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode) {
 }
 
 /*
- * Translates the top of the matrix stack by `translation` units,
- * then rotates that matrix by `rotation` in Z-Y-X order
+ * Roll-pitch-yaw rotation and position
  */
-void Matrix_TranslateThenRotateZYX(Vec3f* translation, Vec3s* rotation) {
+void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
     MtxF* cmf = sCurrentMatrix;
     f32 sin;
     f32 cos;
@@ -402,25 +401,25 @@ void Matrix_TranslateThenRotateZYX(Vec3f* translation, Vec3s* rotation) {
 
     temp1 = cmf->xx;
     temp2 = cmf->yx;
-    cmf->wx += temp1 * translation->x + temp2 * translation->y + cmf->zx * translation->z;
+    cmf->wx += temp1 * position->x + temp2 * position->y + cmf->zx * position->z;
     cmf->xx = temp1 * cos + temp2 * sin;
     cmf->yx = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->xy;
     temp2 = cmf->yy;
-    cmf->wy += temp1 * translation->x + temp2 * translation->y + cmf->zy * translation->z;
+    cmf->wy += temp1 * position->x + temp2 * position->y + cmf->zy * position->z;
     cmf->xy = temp1 * cos + temp2 * sin;
     cmf->yy = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->xz;
     temp2 = cmf->yz;
-    cmf->wz += temp1 * translation->x + temp2 * translation->y + cmf->zz * translation->z;
+    cmf->wz += temp1 * position->x + temp2 * position->y + cmf->zz * position->z;
     cmf->xz = temp1 * cos + temp2 * sin;
     cmf->yz = temp2 * cos - temp1 * sin;
 
     temp1 = cmf->xw;
     temp2 = cmf->yw;
-    cmf->ww += temp1 * translation->x + temp2 * translation->y + cmf->zw * translation->z;
+    cmf->ww += temp1 * position->x + temp2 * position->y + cmf->zw * position->z;
     cmf->xw = temp1 * cos + temp2 * sin;
     cmf->yw = temp2 * cos - temp1 * sin;
 
@@ -898,8 +897,11 @@ MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
             if (!(-32768.0f <= mf->mf[i][j]) || !(mf->mf[i][j] < 32768.0f)) {
-                osSyncPrintf("%s %d: [%s] =\n/ %12.6f %12.6f %12.6f %12.6f \\\n| %12.6f %12.6f %12.6f %12.6f |\n| "
-                             "%12.6f %12.6f %12.6f %12.6f |\n\\ %12.6f %12.6f %12.6f %12.6f /\n",
+                osSyncPrintf("%s %d: [%s] =\n"
+                             "/ %12.6f %12.6f %12.6f %12.6f \\\n"
+                             "| %12.6f %12.6f %12.6f %12.6f |\n"
+                             "| %12.6f %12.6f %12.6f %12.6f |\n"
+                             "\\ %12.6f %12.6f %12.6f %12.6f /\n",
                              file, line, "mf", mf->xx, mf->yx, mf->zx, mf->wx, mf->xy, mf->yy, mf->zy, mf->wy, mf->xz,
                              mf->yz, mf->zz, mf->wz, mf->xw, mf->yw, mf->zw, mf->ww);
                 Fault_AddHungupAndCrash(file, line);

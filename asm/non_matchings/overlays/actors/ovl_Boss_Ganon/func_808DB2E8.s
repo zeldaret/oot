@@ -92,7 +92,7 @@ glabel L808DB404
 /* 04BB8 808DB428 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06001B0C
 /* 04BBC 808DB42C 468042A0 */  cvt.s.w $f10, $f8
 /* 04BC0 808DB430 E62A01CC */  swc1    $f10, 0x01CC($s1)          ## 000001CC
-/* 04BC4 808DB434 0C029490 */  jal     func_800A5240
+/* 04BC4 808DB434 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 04BC8 808DB438 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 04BCC 808DB43C 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
 /* 04BD0 808DB440 100001A4 */  beq     $zero, $zero, .L808DBAD4
@@ -112,7 +112,7 @@ glabel L808DB448
 /* 04C00 808DB470 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06001FF8
 /* 04C04 808DB474 468084A0 */  cvt.s.w $f18, $f16
 /* 04C08 808DB478 E63201CC */  swc1    $f18, 0x01CC($s1)          ## 000001CC
-/* 04C0C 808DB47C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 04C0C 808DB47C 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 04C10 808DB480 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 04C14 808DB484 24190002 */  addiu   $t9, $zero, 0x0002         ## $t9 = 00000002
 /* 04C18 808DB488 24080064 */  addiu   $t0, $zero, 0x0064         ## $t0 = 00000064
@@ -189,7 +189,7 @@ glabel L808DB498
 /* 04D14 808DB584 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06000540
 /* 04D18 808DB588 46803220 */  cvt.s.w $f8, $f6
 /* 04D1C 808DB58C E62801CC */  swc1    $f8, 0x01CC($s1)           ## 000001CC
-/* 04D20 808DB590 0C029490 */  jal     func_800A5240
+/* 04D20 808DB590 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
 /* 04D24 808DB594 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 04D28 808DB598 240A0003 */  addiu   $t2, $zero, 0x0003         ## $t2 = 00000003
 /* 04D2C 808DB59C 240B0006 */  addiu   $t3, $zero, 0x0006         ## $t3 = 00000006
@@ -292,10 +292,10 @@ glabel L808DB498
 /* 04E78 808DB6E8 8E2B0278 */  lw      $t3, 0x0278($s1)           ## 00000278
 /* 04E7C 808DB6EC 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 04E80 808DB6F0 24080002 */  addiu   $t0, $zero, 0x0002         ## $t0 = 00000002
-/* 04E84 808DB6F4 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 04E84 808DB6F4 3C098016 */  lui     $t1, %hi(D_8015FCF8)
 /* 04E88 808DB6F8 A639066E */  sh      $t9, 0x066E($s1)           ## 0000066E
 /* 04E8C 808DB6FC A228066C */  sb      $t0, 0x066C($s1)           ## 0000066C
-/* 04E90 808DB700 2529FCF8 */  addiu   $t1, $t1, 0xFCF8           ## $t1 = 8015FCF8
+/* 04E90 808DB700 2529FCF8 */  addiu   $t1, %lo(D_8015FCF8)
 /* 04E94 808DB704 AD2B0000 */  sw      $t3, 0x0000($t1)           ## 8015FCF8
 /* 04E98 808DB708 8E2A027C */  lw      $t2, 0x027C($s1)           ## 0000027C
 /* 04E9C 808DB70C AD2A0004 */  sw      $t2, 0x0004($t1)           ## 8015FCFC
@@ -474,7 +474,7 @@ glabel L808DB864
 /* 050FC 808DB96C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06000FE8
 /* 05100 808DB970 468084A0 */  cvt.s.w $f18, $f16
 /* 05104 808DB974 E63201CC */  swc1    $f18, 0x01CC($s1)          ## 000001CC
-/* 05108 808DB978 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 05108 808DB978 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 0510C 808DB97C 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 05110 808DB980 240D0004 */  addiu   $t5, $zero, 0x0004         ## $t5 = 00000004
 /* 05114 808DB984 A62D01C2 */  sh      $t5, 0x01C2($s1)           ## 000001C2
@@ -556,7 +556,7 @@ glabel L808DB99C
 /* 05220 808DBA90 02002825 */  or      $a1, $s0, $zero            ## $a1 = 06001440
 /* 05224 808DBA94 468084A0 */  cvt.s.w $f18, $f16
 /* 05228 808DBA98 E63201CC */  swc1    $f18, 0x01CC($s1)          ## 000001CC
-/* 0522C 808DBA9C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 0522C 808DBA9C 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 05230 808DBAA0 8FA4005C */  lw      $a0, 0x005C($sp)
 /* 05234 808DBAA4 24080005 */  addiu   $t0, $zero, 0x0005         ## $t0 = 00000005
 /* 05238 808DBAA8 1000000A */  beq     $zero, $zero, .L808DBAD4
@@ -580,5 +580,3 @@ glabel L808DBAB0
 /* 05274 808DBAE4 8FB10048 */  lw      $s1, 0x0048($sp)
 /* 05278 808DBAE8 03E00008 */  jr      $ra
 /* 0527C 808DBAEC 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
-
-

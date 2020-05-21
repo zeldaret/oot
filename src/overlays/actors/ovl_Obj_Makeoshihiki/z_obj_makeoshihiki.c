@@ -1,16 +1,22 @@
+/*
+ * File: z_obj_makeoshihiki.c
+ * Overlay: ovl_Obj_Makeoshihiki
+ * Description: Push Block (Hardcoded)
+ */
+
 #include "z_obj_makeoshihiki.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000020
 
-void ObjMakeoshihiki_Init(ObjMakeoshihiki* this, GlobalContext* globalCtx);
-void ObjMakeoshihiki_Draw(ObjMakeoshihiki* this, GlobalContext* globalCtx);
+#define THIS ((ObjMakeoshihiki*)thisx)
+
+void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Makeoshihiki_InitVars = {
     ACTOR_OBJ_MAKEOSHIHIKI,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjMakeoshihiki),

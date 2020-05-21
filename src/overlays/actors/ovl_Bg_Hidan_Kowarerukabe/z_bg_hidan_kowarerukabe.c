@@ -1,18 +1,18 @@
 #include "z_bg_hidan_kowarerukabe.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void BgHidanKowarerukabe_Init(BgHidanKowarerukabe* this, GlobalContext* globalCtx);
-void BgHidanKowarerukabe_Destroy(BgHidanKowarerukabe* this, GlobalContext* globalCtx);
-void BgHidanKowarerukabe_Update(BgHidanKowarerukabe* this, GlobalContext* globalCtx);
-void BgHidanKowarerukabe_Draw(BgHidanKowarerukabe* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanKowarerukabe*)thisx)
+
+void BgHidanKowarerukabe_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanKowarerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanKowarerukabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     ACTOR_BG_HIDAN_KOWARERUKABE,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanKowarerukabe),

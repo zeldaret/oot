@@ -135,7 +135,7 @@ glabel func_80B93164
 /* 003B4 80B93344 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 003B8 80B93348 AFA0002C */  sw      $zero, 0x002C($sp)         
 /* 003BC 80B9334C AFBE003C */  sw      $s8, 0x003C($sp)           
-/* 003C0 80B93350 0C00A7A3 */  jal     Effect_SpawnFragment
+/* 003C0 80B93350 0C00A7A3 */  jal     func_80029E8C
               
 /* 003C4 80B93354 AFB80024 */  sw      $t8, 0x0024($sp)           
 /* 003C8 80B93358 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001
@@ -184,5 +184,3 @@ glabel func_80B93164
 /* 00474 80B93404 8FBE0098 */  lw      $s8, 0x0098($sp)           
 /* 00478 80B93408 03E00008 */  jr      $ra                        
 /* 0047C 80B9340C 27BD00D8 */  addiu   $sp, $sp, 0x00D8           ## $sp = 00000000
-
-

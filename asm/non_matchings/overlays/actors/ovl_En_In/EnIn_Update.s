@@ -17,14 +17,14 @@ glabel EnIn_Update
 /* 02198 80A7B148 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 0219C 80A7B14C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 021A0 80A7B150 AFA60030 */  sw      $a2, 0x0030($sp)           
-/* 021A4 80A7B154 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 021A4 80A7B154 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 021A8 80A7B158 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 021AC 80A7B15C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 021B0 80A7B160 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 021B4 80A7B164 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 021B8 80A7B168 02212821 */  addu    $a1, $s1, $at              
-/* 021BC 80A7B16C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 021BC 80A7B16C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 021C0 80A7B170 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 021C4 80A7B174 3C0F80A8 */  lui     $t7, %hi(func_80A7A304)    ## $t7 = 80A80000
@@ -42,8 +42,8 @@ glabel EnIn_Update
 /* 021F0 80A7B1A0 27391BE0 */  addiu   $t9, $t9, 0x1BE0           ## $t9 = 06001BE0
 /* 021F4 80A7B1A4 1728000A */  bne     $t9, $t0, .L80A7B1D0       
 /* 021F8 80A7B1A8 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 021FC 80A7B1AC 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 02200 80A7B1B0 9529FA5A */  lhu     $t1, -0x05A6($t1)          ## 8015FA5A
+/* 021FC 80A7B1AC 3C098016 */  lui     $t1, %hi(gSaveContext+0x13fa)
+/* 02200 80A7B1B0 9529FA5A */  lhu     $t1, %lo(gSaveContext+0x13fa)($t1)
 /* 02204 80A7B1B4 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
 /* 02208 80A7B1B8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0220C 80A7B1BC 312A000F */  andi    $t2, $t1, 0x000F           ## $t2 = 00000000
@@ -77,13 +77,13 @@ glabel EnIn_Update
 /* 02270 80A7B220 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 02274 80A7B224 0C29E6AD */  jal     func_80A79AB4              
 /* 02278 80A7B228 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
-/* 0227C 80A7B22C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 02280 80A7B230 85CEFA34 */  lh      $t6, -0x05CC($t6)          ## 8015FA34
-/* 02284 80A7B234 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
+/* 0227C 80A7B22C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x13d4)
+/* 02280 80A7B230 85CEFA34 */  lh      $t6, %lo(gSaveContext+0x13d4)($t6)
+/* 02284 80A7B234 3C0F8016 */  lui     $t7, %hi(gSaveContext+0x13d2)
 /* 02288 80A7B238 29C10006 */  slti    $at, $t6, 0x0006           
 /* 0228C 80A7B23C 5020000F */  beql    $at, $zero, .L80A7B27C     
 /* 02290 80A7B240 8208001F */  lb      $t0, 0x001F($s0)           ## 0000001F
-/* 02294 80A7B244 85EFFA32 */  lh      $t7, -0x05CE($t7)          ## 8015FA32
+/* 02294 80A7B244 85EFFA32 */  lh      $t7, %lo(gSaveContext+0x13d2)($t7)
 /* 02298 80A7B248 51E0000C */  beql    $t7, $zero, .L80A7B27C     
 /* 0229C 80A7B24C 8208001F */  lb      $t0, 0x001F($s0)           ## 0000001F
 /* 022A0 80A7B250 86180308 */  lh      $t8, 0x0308($s0)           ## 00000308
@@ -143,5 +143,3 @@ glabel EnIn_Update
 /* 02364 80A7B314 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 02368 80A7B318 03E00008 */  jr      $ra                        
 /* 0236C 80A7B31C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

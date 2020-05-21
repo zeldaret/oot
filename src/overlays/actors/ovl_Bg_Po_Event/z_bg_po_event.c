@@ -1,18 +1,18 @@
 #include "z_bg_po_event.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void BgPoEvent_Init(BgPoEvent* this, GlobalContext* globalCtx);
-void BgPoEvent_Destroy(BgPoEvent* this, GlobalContext* globalCtx);
-void BgPoEvent_Update(BgPoEvent* this, GlobalContext* globalCtx);
-void BgPoEvent_Draw(BgPoEvent* this, GlobalContext* globalCtx);
+#define THIS ((BgPoEvent*)thisx)
+
+void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgPoEvent_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Po_Event_InitVars = {
     ACTOR_BG_PO_EVENT,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_PO_SISTERS,
     sizeof(BgPoEvent),

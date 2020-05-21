@@ -5,7 +5,7 @@ glabel EnTa_Destroy
 /* 007E8 80B14288 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 007EC 80B1428C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 007F0 80B14290 24C50264 */  addiu   $a1, $a2, 0x0264           ## $a1 = 00000264
-/* 007F4 80B14294 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 007F4 80B14294 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 007F8 80B14298 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 007FC 80B1429C 8FA60018 */  lw      $a2, 0x0018($sp)           
@@ -18,8 +18,8 @@ glabel EnTa_Destroy
 /* 00818 80B142B8 85CF00A4 */  lh      $t7, 0x00A4($t6)           ## 000000A4
 /* 0081C 80B142BC 2401004C */  addiu   $at, $zero, 0x004C         ## $at = 0000004C
 /* 00820 80B142C0 15E10002 */  bne     $t7, $at, .L80B142CC       
-/* 00824 80B142C4 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00828 80B142C8 A420FA2E */  sh      $zero, -0x05D2($at)        ## 8015FA2E
+/* 00824 80B142C4 3C018016 */  lui     $at, %hi(gSaveContext+0x13ce)
+/* 00828 80B142C8 A420FA2E */  sh      $zero, %lo(gSaveContext+0x13ce)($at)
 .L80B142CC:
 /* 0082C 80B142CC 94D802E0 */  lhu     $t8, 0x02E0($a2)           ## 000002E0
 /* 00830 80B142D0 33190200 */  andi    $t9, $t8, 0x0200           ## $t9 = 00000000
@@ -32,5 +32,3 @@ glabel EnTa_Destroy
 /* 00848 80B142E8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0084C 80B142EC 03E00008 */  jr      $ra                        
 /* 00850 80B142F0 00000000 */  nop
-
-

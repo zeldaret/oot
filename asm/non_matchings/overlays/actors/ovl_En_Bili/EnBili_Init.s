@@ -8,8 +8,8 @@ glabel EnBili_Init
 /* 00018 809BF8B8 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 0001C 809BF8BC 24A51698 */  addiu   $a1, $a1, %lo(D_809C1698)  ## $a1 = 809C1698
-/* 00020 809BF8C0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00024 809BF8C4 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00020 809BF8C0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00024 809BF8C4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00028 809BF8C8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0002C 809BF8CC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00030 809BF8D0 0C00AC78 */  jal     ActorShape_Init
@@ -33,14 +33,14 @@ glabel EnBili_Init
 /* 00070 809BF910 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00074 809BF914 260501D4 */  addiu   $a1, $s0, 0x01D4           ## $a1 = 000001D4
 /* 00078 809BF918 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 0007C 809BF91C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0007C 809BF91C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00080 809BF920 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00084 809BF924 3C07809C */  lui     $a3, %hi(D_809C1640)       ## $a3 = 809C0000
 /* 00088 809BF928 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 0008C 809BF92C 24E71640 */  addiu   $a3, $a3, %lo(D_809C1640)  ## $a3 = 809C1640
 /* 00090 809BF930 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00094 809BF934 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00094 809BF934 0C01712B */  jal     Collider_SetCylinder
               
 /* 00098 809BF938 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0009C 809BF93C 3C05809C */  lui     $a1, %hi(D_809C1678)       ## $a1 = 809C0000
@@ -67,5 +67,3 @@ glabel EnBili_Init
 /* 000E8 809BF988 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 000EC 809BF98C 03E00008 */  jr      $ra                        
 /* 000F0 809BF990 00000000 */  nop
-
-

@@ -1,3 +1,32 @@
+.rdata
+glabel D_80A0F0F0
+    .asciz "../z_en_fd_fire.c"
+    .balign 4
+
+glabel D_80A0F104
+    .asciz "../z_en_fd_fire.c"
+    .balign 4
+
+glabel D_80A0F118
+    .asciz "../z_en_fd_fire.c"
+    .balign 4
+
+.late_rodata
+glabel D_80A0F138
+    .float 9.58738019108e-05
+
+glabel D_80A0F13C
+ .word 0x3C8EFA35
+glabel D_80A0F140
+    .float 0.001
+
+glabel D_80A0F144
+    .float 0.1
+
+glabel D_80A0F148
+ .word 0xBE199999, 0x00000000
+
+.text
 glabel EnFdFire_Draw
 /* 00730 80A0EBE0 27BDFF40 */  addiu   $sp, $sp, 0xFF40           ## $sp = FFFFFF40
 /* 00734 80A0EBE4 3C0F80A1 */  lui     $t7, %hi(D_80A0F0C4)       ## $t7 = 80A10000
@@ -42,7 +71,7 @@ glabel EnFdFire_Draw
 /* 007D0 80A0EC80 24C6F0F0 */  addiu   $a2, $a2, %lo(D_80A0F0F0)  ## $a2 = 80A0F0F0
 /* 007D4 80A0EC84 27A4006C */  addiu   $a0, $sp, 0x006C           ## $a0 = FFFFFFAC
 /* 007D8 80A0EC88 2407023C */  addiu   $a3, $zero, 0x023C         ## $a3 = 0000023C
-/* 007DC 80A0EC8C 0C031AB1 */  jal     func_800C6AC4              
+/* 007DC 80A0EC8C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 007E0 80A0EC90 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 007E4 80A0EC94 8FA200C0 */  lw      $v0, 0x00C0($sp)           
 /* 007E8 80A0EC98 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
@@ -263,7 +292,7 @@ glabel EnFdFire_Draw
 /* 00B30 80A0EFE0 AE0C02D0 */  sw      $t4, 0x02D0($s0)           ## 000002D0
 /* 00B34 80A0EFE4 AC4E0004 */  sw      $t6, 0x0004($v0)           ## 00000004
 /* 00B38 80A0EFE8 AC590000 */  sw      $t9, 0x0000($v0)           ## 00000000
-/* 00B3C 80A0EFEC 0C031AD5 */  jal     func_800C6B54              
+/* 00B3C 80A0EFEC 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00B40 80A0EFF0 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
 /* 00B44 80A0EFF4 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 00B48 80A0EFF8 8FB00034 */  lw      $s0, 0x0034($sp)           
@@ -272,4 +301,3 @@ glabel EnFdFire_Draw
 /* 00B54 80A0F004 27BD00C0 */  addiu   $sp, $sp, 0x00C0           ## $sp = 00000000
 /* 00B58 80A0F008 00000000 */  nop
 /* 00B5C 80A0F00C 00000000 */  nop
-

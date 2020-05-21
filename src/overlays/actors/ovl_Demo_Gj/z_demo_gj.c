@@ -1,18 +1,18 @@
 #include "z_demo_gj.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-void DemoGj_Init(DemoGj* this, GlobalContext* globalCtx);
-void DemoGj_Destroy(DemoGj* this, GlobalContext* globalCtx);
-void DemoGj_Update(DemoGj* this, GlobalContext* globalCtx);
-void DemoGj_Draw(DemoGj* this, GlobalContext* globalCtx);
+#define THIS ((DemoGj*)thisx)
+
+void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Demo_Gj_InitVars = {
     ACTOR_DEMO_GJ,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GJ,
     sizeof(DemoGj),

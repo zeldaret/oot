@@ -1,6 +1,6 @@
 glabel func_80AA4EB8
-/* 013B8 80AA4EB8 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 013BC 80AA4EBC 2463FA90 */  addiu   $v1, $v1, 0xFA90           ## $v1 = 8015FA90
+/* 013B8 80AA4EB8 3C038016 */  lui     $v1, %hi(gGameInfo)
+/* 013BC 80AA4EBC 2463FA90 */  addiu   $v1, %lo(gGameInfo)
 /* 013C0 80AA4EC0 8C680000 */  lw      $t0, 0x0000($v1)           ## 8015FA90
 /* 013C4 80AA4EC4 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 013C8 80AA4EC8 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
@@ -112,5 +112,3 @@ glabel func_80AA4EB8
 /* 01570 80AA5070 ACB80004 */  sw      $t8, 0x0004($a1)           ## 0000004C
 /* 01574 80AA5074 03E00008 */  jr      $ra                        
 /* 01578 80AA5078 AC820000 */  sw      $v0, 0x0000($a0)           ## 00000000
-
-

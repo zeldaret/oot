@@ -39,5 +39,3 @@ glabel func_808CAF5C
 /* 00228 808CAFE8 2484003C */  addiu   $a0, $a0, 0x003C           ## $a0 = 0000003C
 /* 0022C 808CAFEC 03E00008 */  jr      $ra                        
 /* 00230 808CAFF0 00000000 */  nop
-
-

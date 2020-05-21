@@ -8,8 +8,8 @@ glabel EnShopnuts_Init
 /* 00018 80AFA738 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 0001C 80AFA73C 24A5B514 */  addiu   $a1, $a1, %lo(D_80AFB514)  ## $a1 = 80AFB514
-/* 00020 80AFA740 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00024 80AFA744 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00020 80AFA740 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00024 80AFA744 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00028 80AFA748 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0002C 80AFA74C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00030 80AFA750 0C00AC78 */  jal     ActorShape_Init
@@ -30,14 +30,14 @@ glabel EnShopnuts_Init
 /* 00068 80AFA788 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0006C 80AFA78C 26050270 */  addiu   $a1, $s0, 0x0270           ## $a1 = 00000270
 /* 00070 80AFA790 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00074 80AFA794 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00074 80AFA794 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00078 80AFA798 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 0007C 80AFA79C 3C0780B0 */  lui     $a3, %hi(D_80AFB4E0)       ## $a3 = 80B00000
 /* 00080 80AFA7A0 24E7B4E0 */  addiu   $a3, $a3, %lo(D_80AFB4E0)  ## $a3 = 80AFB4E0
 /* 00084 80AFA7A4 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00088 80AFA7A8 8FA50030 */  lw      $a1, 0x0030($sp)
-/* 0008C 80AFA7AC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0008C 80AFA7AC 0C01712B */  jal     Collider_SetCylinder
 
 /* 00090 80AFA7B0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00094 80AFA7B4 3C0680B0 */  lui     $a2, %hi(D_80AFB50C)       ## $a2 = 80B00000
@@ -46,22 +46,22 @@ glabel EnShopnuts_Init
 /* 000A0 80AFA7C0 0C0187B5 */  jal     func_80061ED4
 /* 000A4 80AFA7C4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 000A8 80AFA7C8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 000AC 80AFA7CC 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 000AC 80AFA7CC 0C0189B7 */  jal     Collider_CylinderUpdate
 
 /* 000B0 80AFA7D0 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 000B4 80AFA7D4 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
 /* 000B8 80AFA7D8 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
-/* 000BC 80AFA7DC 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 000BC 80AFA7DC 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 000C0 80AFA7E0 14410004 */  bne     $v0, $at, .L80AFA7F4
-/* 000C4 80AFA7E4 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 000C4 80AFA7E4 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 000C8 80AFA7E8 94790EF0 */  lhu     $t9, 0x0EF0($v1)           ## 8015F550
 /* 000CC 80AFA7EC 33280800 */  andi    $t0, $t9, 0x0800           ## $t0 = 00000000
 /* 000D0 80AFA7F0 1500000E */  bne     $t0, $zero, .L80AFA82C
 .L80AFA7F4:
-/* 000D4 80AFA7F4 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
+/* 000D4 80AFA7F4 3C038016 */  lui     $v1, %hi(gSaveContext)
 /* 000D8 80AFA7F8 24010009 */  addiu   $at, $zero, 0x0009         ## $at = 00000009
 /* 000DC 80AFA7FC 14410004 */  bne     $v0, $at, .L80AFA810
-/* 000E0 80AFA800 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 000E0 80AFA800 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 000E4 80AFA804 94690F2A */  lhu     $t1, 0x0F2A($v1)           ## 8015F58A
 /* 000E8 80AFA808 312A0004 */  andi    $t2, $t1, 0x0004           ## $t2 = 00000000
 /* 000EC 80AFA80C 15400007 */  bne     $t2, $zero, .L80AFA82C
@@ -88,5 +88,3 @@ glabel EnShopnuts_Init
 /* 0012C 80AFA84C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00130 80AFA850 03E00008 */  jr      $ra
 /* 00134 80AFA854 00000000 */  nop
-
-

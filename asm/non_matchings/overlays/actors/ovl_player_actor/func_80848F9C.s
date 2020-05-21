@@ -1,3 +1,15 @@
+.late_rodata
+glabel D_808554CC
+    .float 0.1
+
+glabel D_808554D0
+ .word 0x7F7FFFFF
+glabel D_808554D4
+ .word 0x7F7FFFFF
+glabel D_808554D8
+    .float 0.8
+
+.text
 glabel func_80848F9C
 /* 16D8C 80848F9C 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 16D90 80848FA0 3C018086 */  lui     $at, %hi(D_80858AB4)       ## $at = 80860000
@@ -97,20 +109,20 @@ glabel func_80848F9C
 /* 16ED4 808490E4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 16ED8 808490E8 92190692 */  lbu     $t9, 0x0692($s0)           ## 00000692
 .L808490EC:
-/* 16EDC 808490EC 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 16EDC 808490EC 3C098016 */  lui     $t1, %hi(gSaveContext+0x13c8)
 /* 16EE0 808490F0 33280040 */  andi    $t0, $t9, 0x0040           ## $t0 = 00000000
 /* 16EE4 808490F4 51000012 */  beql    $t0, $zero, .L80849140
 /* 16EE8 808490F8 8E0E0680 */  lw      $t6, 0x0680($s0)           ## 00000680
-/* 16EEC 808490FC 8529FA28 */  lh      $t1, -0x05D8($t1)          ## 8015FA28
-/* 16EF0 80849100 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 16EEC 808490FC 8529FA28 */  lh      $t1, %lo(gSaveContext+0x13c8)($t1)
+/* 16EF0 80849100 3C0A8016 */  lui     $t2, %hi(gSaveContext+0x13f0)
 /* 16EF4 80849104 5120000E */  beql    $t1, $zero, .L80849140
 /* 16EF8 80849108 8E0E0680 */  lw      $t6, 0x0680($s0)           ## 00000680
-/* 16EFC 8084910C 854AFA50 */  lh      $t2, -0x05B0($t2)          ## 8015FA50
+/* 16EFC 8084910C 854AFA50 */  lh      $t2, %lo(gSaveContext+0x13f0)($t2)
 /* 16F00 80849110 240B0003 */  addiu   $t3, $zero, 0x0003         ## $t3 = 00000003
-/* 16F04 80849114 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 16F04 80849114 3C018016 */  lui     $at, %hi(gSaveContext+0x13f0)
 /* 16F08 80849118 15400008 */  bne     $t2, $zero, .L8084913C
 /* 16F0C 8084911C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 16F10 80849120 A42BFA50 */  sh      $t3, -0x05B0($at)          ## 8015FA50
+/* 16F10 80849120 A42BFA50 */  sh      $t3, %lo(gSaveContext+0x13f0)($at)
 /* 16F14 80849124 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 16F18 80849128 0C211A80 */  jal     func_80846A00
 /* 16F1C 8084912C 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
@@ -500,8 +512,8 @@ glabel func_80848F9C
 /* 17480 80849690 0C20E40D */  jal     func_80839034
 /* 17484 80849694 8FA70058 */  lw      $a3, 0x0058($sp)
 /* 17488 80849698 10400009 */  beq     $v0, $zero, .L808496C0
-/* 1748C 8084969C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 17490 808496A0 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 1748C 8084969C 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 17490 808496A0 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 17494 808496A4 240C0001 */  addiu   $t4, $zero, 0x0001         ## $t4 = 00000001
 /* 17498 808496A8 844B0586 */  lh      $t3, 0x0586($v0)           ## 80160586
 /* 1749C 808496AC 51600004 */  beql    $t3, $zero, .L808496C0
@@ -627,10 +639,10 @@ glabel func_80848F9C
 /* 17640 80849850 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 17644 80849854 920A0002 */  lbu     $t2, 0x0002($s0)           ## 00000002
 /* 17648 80849858 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
-/* 1764C 8084985C 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 1764C 8084985C 3C098016 */  lui     $t1, %hi(gSaveContext+0x30)
 /* 17650 80849860 5541002D */  bnel    $t2, $at, .L80849918
 /* 17654 80849864 8E180118 */  lw      $t8, 0x0118($s0)           ## 00000118
-/* 17658 80849868 8529E690 */  lh      $t1, -0x1970($t1)          ## 8015E690
+/* 17658 80849868 8529E690 */  lh      $t1, %lo(gSaveContext+0x30)($t1)
 /* 1765C 8084986C 5520002A */  bnel    $t1, $zero, .L80849918
 /* 17660 80849870 8E180118 */  lw      $t8, 0x0118($s0)           ## 00000118
 /* 17664 80849874 8E03067C */  lw      $v1, 0x067C($s0)           ## 0000067C
@@ -981,7 +993,7 @@ glabel func_80848F9C
 /* 17B4C 80849D5C 00000000 */  nop
 /* 17B50 80849D60 A60904DA */  sh      $t1, 0x04DA($s0)           ## 000004DA
 .L80849D64:
-/* 17B54 80849D64 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 17B54 80849D64 0C0189B7 */  jal     Collider_CylinderUpdate
 
 /* 17B58 80849D68 AFA5002C */  sw      $a1, 0x002C($sp)
 /* 17B5C 80849D6C 8E0B0680 */  lw      $t3, 0x0680($s0)           ## 00000680
@@ -997,7 +1009,7 @@ glabel func_80848F9C
 /* 17B84 80849D94 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 17B88 80849D98 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 17B8C 80849D9C 00812821 */  addu    $a1, $a0, $at
-/* 17B90 80849DA0 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 17B90 80849DA0 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 17B94 80849DA4 8FA6002C */  lw      $a2, 0x002C($sp)
 /* 17B98 80849DA8 8E03067C */  lw      $v1, 0x067C($s0)           ## 0000067C
@@ -1014,7 +1026,7 @@ glabel func_80848F9C
 /* 17BC0 80849DD0 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 17BC4 80849DD4 00812821 */  addu    $a1, $a0, $at
 /* 17BC8 80849DD8 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 17BCC 80849DDC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 17BCC 80849DDC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 17BD0 80849DE0 8FA6002C */  lw      $a2, 0x002C($sp)
 /* 17BD4 80849DE4 820A0A78 */  lb      $t2, 0x0A78($s0)           ## 00000A78
@@ -1022,7 +1034,7 @@ glabel func_80848F9C
 /* 17BDC 80849DEC 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 17BE0 80849DF0 05410003 */  bgez    $t2, .L80849E00
 /* 17BE4 80849DF4 00000000 */  nop
-/* 17BE8 80849DF8 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 17BE8 80849DF8 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 17BEC 80849DFC 8FA6002C */  lw      $a2, 0x002C($sp)
 .L80849E00:
@@ -1053,25 +1065,23 @@ glabel func_80848F9C
 /* 17C3C 80849E4C 31AEFFFB */  andi    $t6, $t5, 0xFFFB           ## $t6 = 00000000
 /* 17C40 80849E50 A20E0692 */  sb      $t6, 0x0692($s0)           ## 00000692
 /* 17C44 80849E54 8FA5002C */  lw      $a1, 0x002C($sp)
-/* 17C48 80849E58 0C017150 */  jal     func_8005C540
+/* 17C48 80849E58 0C017150 */  jal     Collider_CylinderSetAC
 /* 17C4C 80849E5C 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 17C50 80849E60 8FA40084 */  lw      $a0, 0x0084($sp)
-/* 17C54 80849E64 0C017458 */  jal     func_8005D160
+/* 17C54 80849E64 0C017458 */  jal     Collider_QuadSetAT
 /* 17C58 80849E68 260504E4 */  addiu   $a1, $s0, 0x04E4           ## $a1 = 000004E4
 /* 17C5C 80849E6C 8FA40084 */  lw      $a0, 0x0084($sp)
-/* 17C60 80849E70 0C017458 */  jal     func_8005D160
+/* 17C60 80849E70 0C017458 */  jal     Collider_QuadSetAT
 /* 17C64 80849E74 26050564 */  addiu   $a1, $s0, 0x0564           ## $a1 = 00000564
 /* 17C68 80849E78 260505E4 */  addiu   $a1, $s0, 0x05E4           ## $a1 = 000005E4
 /* 17C6C 80849E7C AFA50034 */  sw      $a1, 0x0034($sp)
-/* 17C70 80849E80 0C01746A */  jal     func_8005D1A8
+/* 17C70 80849E80 0C01746A */  jal     Collider_QuadSetAC
 /* 17C74 80849E84 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 17C78 80849E88 8FA50034 */  lw      $a1, 0x0034($sp)
-/* 17C7C 80849E8C 0C017458 */  jal     func_8005D160
+/* 17C7C 80849E8C 0C017458 */  jal     Collider_QuadSetAT
 /* 17C80 80849E90 8FA40084 */  lw      $a0, 0x0084($sp)
 /* 17C84 80849E94 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 17C88 80849E98 8FB00020 */  lw      $s0, 0x0020($sp)
 /* 17C8C 80849E9C 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 17C90 80849EA0 03E00008 */  jr      $ra
 /* 17C94 80849EA4 00000000 */  nop
-
-

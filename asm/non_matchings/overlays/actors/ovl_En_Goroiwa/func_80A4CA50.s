@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80A4E070
+    .float 0.01
+
+.text
 glabel func_80A4CA50
 /* 00DB0 80A4CA50 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 00DB4 80A4CA54 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -10,16 +15,16 @@ glabel func_80A4CA50
 /* 00DD0 80A4CA70 001948C0 */  sll     $t1, $t9,  3               
 /* 00DD4 80A4CA74 01E91821 */  addu    $v1, $t7, $t1              
 /* 00DD8 80A4CA78 8C620004 */  lw      $v0, 0x0004($v1)           ## 00000004
-/* 00DDC 80A4CA7C 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 00DE0 80A4CA80 8D29FA90 */  lw      $t1, -0x0570($t1)          ## 8015FA90
+/* 00DDC 80A4CA7C 3C098016 */  lui     $t1, %hi(gGameInfo)
+/* 00DE0 80A4CA80 8D29FA90 */  lw      $t1, %lo(gGameInfo)($t1)
 /* 00DE4 80A4CA84 00025100 */  sll     $t2, $v0,  4               
 /* 00DE8 80A4CA88 000A5F02 */  srl     $t3, $t2, 28               
 /* 00DEC 80A4CA8C 849901CE */  lh      $t9, 0x01CE($a0)           ## 000001CE
 /* 00DF0 80A4CA90 852A116C */  lh      $t2, 0x116C($t1)           ## 8016116C
 /* 00DF4 80A4CA94 000B6080 */  sll     $t4, $t3,  2               
-/* 00DF8 80A4CA98 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 00DF8 80A4CA98 3C0D8016 */  lui     $t5, %hi(gSegments)
 /* 00DFC 80A4CA9C 01AC6821 */  addu    $t5, $t5, $t4              
-/* 00E00 80A4CAA0 8DAD6FA8 */  lw      $t5, 0x6FA8($t5)           ## 80166FA8
+/* 00E00 80A4CAA0 8DAD6FA8 */  lw      $t5, %lo(gSegments)($t5)
 /* 00E04 80A4CAA4 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 00E08 80A4CAA8 448A2000 */  mtc1    $t2, $f4                   ## $f4 = 0.00
 /* 00E0C 80A4CAAC 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
@@ -75,5 +80,3 @@ glabel func_80A4CA50
 /* 00ECC 80A4CB6C 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 00ED0 80A4CB70 03E00008 */  jr      $ra                        
 /* 00ED4 80A4CB74 00000000 */  nop
-
-

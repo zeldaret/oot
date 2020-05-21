@@ -13,4 +13,3 @@ glabel ObjKibako2_Draw
 /* 005D4 80B95FA4 00000000 */  nop
 /* 005D8 80B95FA8 00000000 */  nop
 /* 005DC 80B95FAC 00000000 */  nop
-

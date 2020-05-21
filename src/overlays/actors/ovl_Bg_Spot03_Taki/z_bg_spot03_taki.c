@@ -1,18 +1,24 @@
+/*
+ * File: z_bg_spot03_taki.c
+ * Overlay: ovl_Bg_Spot03_Taki
+ * Description: Zora's River Waterfall
+ */
+
 #include "z_bg_spot03_taki.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-void BgSpot03Taki_Init(BgSpot03Taki* this, GlobalContext* globalCtx);
-void BgSpot03Taki_Destroy(BgSpot03Taki* this, GlobalContext* globalCtx);
-void BgSpot03Taki_Update(BgSpot03Taki* this, GlobalContext* globalCtx);
-void BgSpot03Taki_Draw(BgSpot03Taki* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot03Taki*)thisx)
+
+void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot03Taki_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot03Taki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot03_Taki_InitVars = {
     ACTOR_BG_SPOT03_TAKI,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT03_OBJECT,
     sizeof(BgSpot03Taki),

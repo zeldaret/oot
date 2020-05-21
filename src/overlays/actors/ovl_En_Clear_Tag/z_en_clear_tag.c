@@ -1,18 +1,18 @@
 #include "z_en_clear_tag.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000035
 
-void EnClearTag_Init(EnClearTag* this, GlobalContext* globalCtx);
-void EnClearTag_Destroy(EnClearTag* this, GlobalContext* globalCtx);
-void EnClearTag_Update(EnClearTag* this, GlobalContext* globalCtx);
-void EnClearTag_Draw(EnClearTag* this, GlobalContext* globalCtx);
+#define THIS ((EnClearTag*)thisx)
+
+void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Clear_Tag_InitVars = {
     ACTOR_EN_CLEAR_TAG,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnClearTag),

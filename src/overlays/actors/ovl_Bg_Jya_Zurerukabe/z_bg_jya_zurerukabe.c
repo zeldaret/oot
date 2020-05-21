@@ -1,18 +1,18 @@
 #include "z_bg_jya_zurerukabe.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void BgJyaZurerukabe_Init(BgJyaZurerukabe* this, GlobalContext* globalCtx);
-void BgJyaZurerukabe_Destroy(BgJyaZurerukabe* this, GlobalContext* globalCtx);
-void BgJyaZurerukabe_Update(BgJyaZurerukabe* this, GlobalContext* globalCtx);
-void BgJyaZurerukabe_Draw(BgJyaZurerukabe* this, GlobalContext* globalCtx);
+#define THIS ((BgJyaZurerukabe*)thisx)
+
+void BgJyaZurerukabe_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaZurerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaZurerukabe_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaZurerukabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Jya_Zurerukabe_InitVars = {
     ACTOR_BG_JYA_ZURERUKABE,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaZurerukabe),

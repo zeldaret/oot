@@ -1,18 +1,24 @@
+/*
+ * File: z_mir_ray.c
+ * Overlay: ovl_Mir_Ray
+ * Description: Reflectable Light Beam
+ */
+
 #include "z_mir_ray.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-void MirRay_Init(MirRay* this, GlobalContext* globalCtx);
-void MirRay_Destroy(MirRay* this, GlobalContext* globalCtx);
-void MirRay_Update(MirRay* this, GlobalContext* globalCtx);
-void MirRay_Draw(MirRay* this, GlobalContext* globalCtx);
+#define THIS ((MirRay*)thisx)
+
+void MirRay_Init(Actor* thisx, GlobalContext* globalCtx);
+void MirRay_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void MirRay_Update(Actor* thisx, GlobalContext* globalCtx);
+void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_MIR_RAY,
     sizeof(MirRay),

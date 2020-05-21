@@ -1,3 +1,23 @@
+.rdata
+glabel D_80996060
+    .asciz "bank_ID = %d\n"
+    .balign 4
+
+glabel D_80996070
+    .asciz "status = %d\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_809960A8
+.word L80994D4C
+.word L80994E88
+.word L80994E88
+.word L80994E88
+.word L80994E88
+glabel D_809960BC
+ .word 0xBF19999A
+
+.text
 glabel DoorKiller_Init
 /* 00000 80994C50 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 00004 80994C54 AFB10028 */  sw      $s1, 0x0028($sp)
@@ -92,19 +112,19 @@ glabel L80994D4C
 /* 0014C 80994D9C 265001C8 */  addiu   $s0, $s2, 0x01C8           ## $s0 = 000001C8
 /* 00150 80994DA0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000001C8
 /* 00154 80994DA4 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
-/* 00158 80994DA8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00158 80994DA8 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 0015C 80994DAC A64D0198 */  sh      $t5, 0x0198($s2)           ## 00000198
 /* 00160 80994DB0 3C078099 */  lui     $a3, %hi(D_80995FB0)       ## $a3 = 80990000
 /* 00164 80994DB4 24E75FB0 */  addiu   $a3, $a3, %lo(D_80995FB0)  ## $a3 = 80995FB0
 /* 00168 80994DB8 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
 /* 0016C 80994DBC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 000001C8
-/* 00170 80994DC0 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00170 80994DC0 0C01712B */  jal     Collider_SetCylinder
 
 /* 00174 80994DC4 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 /* 00178 80994DC8 26500220 */  addiu   $s0, $s2, 0x0220           ## $s0 = 00000220
 /* 0017C 80994DCC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000220
-/* 00180 80994DD0 0C016EFE */  jal     func_8005BBF8
+/* 00180 80994DD0 0C016EFE */  jal     Collider_InitJntSph
 /* 00184 80994DD4 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
 /* 00188 80994DD8 3C078099 */  lui     $a3, %hi(D_80996000)       ## $a3 = 80990000
 /* 0018C 80994DDC 264E0240 */  addiu   $t6, $s2, 0x0240           ## $t6 = 00000240
@@ -112,7 +132,7 @@ glabel L80994D4C
 /* 00194 80994DE4 24E76000 */  addiu   $a3, $a3, %lo(D_80996000)  ## $a3 = 80996000
 /* 00198 80994DE8 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
 /* 0019C 80994DEC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000220
-/* 001A0 80994DF0 0C017014 */  jal     func_8005C050
+/* 001A0 80994DF0 0C017014 */  jal     Collider_SetJntSph
 /* 001A4 80994DF4 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 /* 001A8 80994DF8 8E58023C */  lw      $t8, 0x023C($s2)           ## 0000023C
 /* 001AC 80994DFC 240F0050 */  addiu   $t7, $zero, 0x0050         ## $t7 = 00000050
@@ -248,5 +268,3 @@ glabel L80994E88
 /* 00378 80994FC8 8FB50038 */  lw      $s5, 0x0038($sp)
 /* 0037C 80994FCC 03E00008 */  jr      $ra
 /* 00380 80994FD0 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

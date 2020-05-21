@@ -1,18 +1,18 @@
 #include "z_bg_heavy_block.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void BgHeavyBlock_Init(BgHeavyBlock* this, GlobalContext* globalCtx);
-void BgHeavyBlock_Destroy(BgHeavyBlock* this, GlobalContext* globalCtx);
-void BgHeavyBlock_Update(BgHeavyBlock* this, GlobalContext* globalCtx);
-void BgHeavyBlock_Draw(BgHeavyBlock* this, GlobalContext* globalCtx);
+#define THIS ((BgHeavyBlock*)thisx)
+
+void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHeavyBlock_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHeavyBlock_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Heavy_Block_InitVars = {
     ACTOR_BG_HEAVY_BLOCK,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HEAVY_OBJECT,
     sizeof(BgHeavyBlock),

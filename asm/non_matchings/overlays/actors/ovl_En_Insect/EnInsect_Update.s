@@ -123,7 +123,7 @@ glabel EnInsect_Update
 /* 01F8C 80A7DDAC 10200005 */  beq     $at, $zero, .L80A7DDC4     
 /* 01F90 80A7DDB0 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01F94 80A7DDB4 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
-/* 01F98 80A7DDB8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 01F98 80A7DDB8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 01F9C 80A7DDBC 00812821 */  addu    $a1, $a0, $at              
 /* 01FA0 80A7DDC0 96030314 */  lhu     $v1, 0x0314($s0)           ## 00000314
@@ -166,5 +166,3 @@ glabel EnInsect_Update
 /* 0201C 80A7DE3C 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 02020 80A7DE40 03E00008 */  jr      $ra                        
 /* 02024 80A7DE44 00000000 */  nop
-
-

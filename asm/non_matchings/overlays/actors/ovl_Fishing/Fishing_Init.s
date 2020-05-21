@@ -1,3 +1,29 @@
+.late_rodata
+glabel D_80B7B374
+    .float 0.7
+
+glabel D_80B7B378
+    .float 2.3
+
+glabel D_80B7B37C
+    .float 4.6
+
+glabel D_80B7B380
+    .float 982.0
+
+glabel D_80B7B384
+    .float 4.99998998642
+
+glabel D_80B7B388
+    .float 0.05
+
+glabel D_80B7B38C
+    .float 7.99998998642
+
+glabel D_80B7B390
+    .float 0.73
+
+.text
 glabel Fishing_Init
 /* 00BA0 80B6A540 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 00BA4 80B6A544 AFB30050 */  sw      $s3, 0x0050($sp)
@@ -21,17 +47,17 @@ glabel Fishing_Init
 /* 00BE8 80B6A588 0C00AC78 */  jal     ActorShape_Init
 
 /* 00BEC 80B6A58C 00000000 */  nop
-/* 00BF0 80B6A590 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00BF4 80B6A594 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
-/* 00BF8 80B6A598 3C118016 */  lui     $s1, 0x8016                ## $s1 = 80160000
-/* 00BFC 80B6A59C 2631E660 */  addiu   $s1, $s1, 0xE660           ## $s1 = 8015E660
+/* 00BF0 80B6A590 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 00BF4 80B6A594 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
+/* 00BF8 80B6A598 3C118016 */  lui     $s1, %hi(gSaveContext)
+/* 00BFC 80B6A59C 2631E660 */  addiu   $s1, %lo(gSaveContext)
 /* 00C00 80B6A5A0 85CF09DE */  lh      $t7, 0x09DE($t6)           ## 801609DE
 /* 00C04 80B6A5A4 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
 /* 00C08 80B6A5A8 3C0180B8 */  lui     $at, %hi(D_80B7E075)       ## $at = 80B80000
 /* 00C0C 80B6A5AC 11E00005 */  beq     $t7, $zero, .L80B6A5C4
 /* 00C10 80B6A5B0 3C1080B8 */  lui     $s0, %hi(D_80B7E070)       ## $s0 = 80B80000
-/* 00C14 80B6A5B4 3C118016 */  lui     $s1, 0x8016                ## $s1 = 80160000
-/* 00C18 80B6A5B8 2631E660 */  addiu   $s1, $s1, 0xE660           ## $s1 = 8015E660
+/* 00C14 80B6A5B4 3C118016 */  lui     $s1, %hi(gSaveContext)
+/* 00C18 80B6A5B8 2631E660 */  addiu   $s1, %lo(gSaveContext)
 /* 00C1C 80B6A5BC 10000004 */  beq     $zero, $zero, .L80B6A5D0
 /* 00C20 80B6A5C0 A038E075 */  sb      $t8, %lo(D_80B7E075)($at)
 .L80B6A5C4:
@@ -49,7 +75,7 @@ glabel Fishing_Init
 /* 00C4C 80B6A5EC AC32E070 */  sw      $s2, %lo(D_80B7E070)($at)
 /* 00C50 80B6A5F0 8E050000 */  lw      $a1, 0x0000($s0)           ## 80B7E070
 /* 00C54 80B6A5F4 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 00C58 80B6A5F8 0C016EFE */  jal     func_8005BBF8
+/* 00C58 80B6A5F8 0C016EFE */  jal     Collider_InitJntSph
 /* 00C5C 80B6A5FC 24A50230 */  addiu   $a1, $a1, 0x0230           ## $a1 = 00000230
 /* 00C60 80B6A600 8E030000 */  lw      $v1, 0x0000($s0)           ## 80B7E070
 /* 00C64 80B6A604 3C0780B8 */  lui     $a3, %hi(D_80B7A888)       ## $a3 = 80B80000
@@ -58,7 +84,7 @@ glabel Fishing_Init
 /* 00C70 80B6A610 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 00C74 80B6A614 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00C78 80B6A618 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 00C7C 80B6A61C 0C017014 */  jal     func_8005C050
+/* 00C7C 80B6A61C 0C017014 */  jal     Collider_SetJntSph
 /* 00C80 80B6A620 24650230 */  addiu   $a1, $v1, 0x0230           ## $a1 = 00000230
 /* 00C84 80B6A624 24090001 */  addiu   $t1, $zero, 0x0001         ## $t1 = 00000001
 /* 00C88 80B6A628 A649001C */  sh      $t1, 0x001C($s2)           ## 0000001C
@@ -76,7 +102,7 @@ glabel Fishing_Init
 /* 00CB8 80B6A658 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00CBC 80B6A65C 24A5453C */  addiu   $a1, $a1, 0x453C           ## $a1 = 0600453C
 /* 00CC0 80B6A660 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
-/* 00CC4 80B6A664 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 00CC4 80B6A664 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 00CC8 80B6A668 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 00CCC 80B6A66C 3C014320 */  lui     $at, 0x4320                ## $at = 43200000
 /* 00CD0 80B6A670 44812000 */  mtc1    $at, $f4                   ## $f4 = 160.00
@@ -144,9 +170,9 @@ glabel Fishing_Init
 /* 00DB8 80B6A758 261030B8 */  addiu   $s0, $s0, %lo(D_80B830B8)  ## $s0 = 80B830B8
 /* 00DBC 80B6A75C 00330821 */  addu    $at, $at, $s3
 /* 00DC0 80B6A760 AC301E10 */  sw      $s0, 0x1E10($at)           ## 00011E10
-/* 00DC4 80B6A764 3C018012 */  lui     $at, 0x8012                ## $at = 80120000
+/* 00DC4 80B6A764 3C018012 */  lui     $at, %hi(D_8011FB40)
 /* 00DC8 80B6A768 240D0001 */  addiu   $t5, $zero, 0x0001         ## $t5 = 00000001
-/* 00DCC 80B6A76C A42DFB40 */  sh      $t5, -0x04C0($at)          ## 8011FB40
+/* 00DCC 80B6A76C A42DFB40 */  sh      $t5, %lo(D_8011FB40)($at)
 /* 00DD0 80B6A770 3C0180B8 */  lui     $at, %hi(D_80B7E0AC)       ## $at = 80B80000
 /* 00DD4 80B6A774 A420E0AC */  sh      $zero, %lo(D_80B7E0AC)($at)
 /* 00DD8 80B6A778 3C0180B8 */  lui     $at, %hi(D_80B7E0A6)       ## $at = 80B80000
@@ -222,14 +248,14 @@ glabel Fishing_Init
 /* 00ED4 80B6A874 318D0007 */  andi    $t5, $t4, 0x0007           ## $t5 = 00000000
 /* 00ED8 80B6A878 11A10006 */  beq     $t5, $at, .L80B6A894
 /* 00EDC 80B6A87C 3C0480B8 */  lui     $a0, %hi(D_80B830B0)       ## $a0 = 80B80000
-/* 00EE0 80B6A880 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00EE4 80B6A884 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 00EE0 80B6A880 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 00EE4 80B6A884 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 00EE8 80B6A888 3C0180B8 */  lui     $at, %hi(D_80B7E077)       ## $at = 80B80000
 /* 00EEC 80B6A88C 85CF09DA */  lh      $t7, 0x09DA($t6)           ## 801609DA
 /* 00EF0 80B6A890 11E00012 */  beq     $t7, $zero, .L80B6A8DC
 .L80B6A894:
-/* 00EF4 80B6A894 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00EF8 80B6A898 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00EF4 80B6A894 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 00EF8 80B6A898 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 00EFC 80B6A89C 24180064 */  addiu   $t8, $zero, 0x0064         ## $t8 = 00000064
 /* 00F00 80B6A8A0 3C0180B8 */  lui     $at, %hi(D_80B7E077)       ## $at = 80B80000
 /* 00F04 80B6A8A4 A038E077 */  sb      $t8, %lo(D_80B7E077)($at)
@@ -435,8 +461,8 @@ glabel Fishing_Init
 /* 011D0 80B6AB70 0C00C7D4 */  jal     Actor_Spawn
               ## ActorSpawn
 /* 011D4 80B6AB74 E7A00014 */  swc1    $f0, 0x0014($sp)
-/* 011D8 80B6AB78 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
-/* 011DC 80B6AB7C 8DADFA90 */  lw      $t5, -0x0570($t5)          ## 8015FA90
+/* 011D8 80B6AB78 3C0D8016 */  lui     $t5, %hi(gGameInfo)
+/* 011DC 80B6AB7C 8DADFA90 */  lw      $t5, %lo(gGameInfo)($t5)
 /* 011E0 80B6AB80 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 011E4 80B6AB84 3C0F80B8 */  lui     $t7, %hi(D_80B7E07D)       ## $t7 = 80B80000
 /* 011E8 80B6AB88 85AE09D6 */  lh      $t6, 0x09D6($t5)           ## 801609D6
@@ -527,7 +553,7 @@ glabel Fishing_Init
 /* 0131C 80B6ACBC AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01320 80B6ACC0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 01324 80B6ACC4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0600007C
-/* 01328 80B6ACC8 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 01328 80B6ACC8 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 0132C 80B6ACCC 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 01330 80B6ACD0 10000010 */  beq     $zero, $zero, .L80B6AD14
 /* 01334 80B6ACD4 00000000 */  nop
@@ -545,7 +571,7 @@ glabel Fishing_Init
 /* 01360 80B6AD00 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01364 80B6AD04 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 01368 80B6AD08 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0600CFE0
-/* 0136C 80B6AD0C 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 0136C 80B6AD0C 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 01370 80B6AD10 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 .L80B6AD14:
 /* 01374 80B6AD14 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
@@ -634,8 +660,8 @@ glabel Fishing_Init
 /* 014A0 80B6AE40 46005480 */  add.s   $f18, $f10, $f0
 /* 014A4 80B6AE44 E65201AC */  swc1    $f18, 0x01AC($s2)          ## 000001AC
 .L80B6AE48:
-/* 014A8 80B6AE48 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 014AC 80B6AE4C 8D08FA90 */  lw      $t0, -0x0570($t0)          ## 8015FA90
+/* 014A8 80B6AE48 3C088016 */  lui     $t0, %hi(gGameInfo)
+/* 014AC 80B6AE4C 8D08FA90 */  lw      $t0, %lo(gGameInfo)($t0)
 /* 014B0 80B6AE50 3C0980B8 */  lui     $t1, %hi(D_80B7E075)       ## $t1 = 80B80000
 /* 014B4 80B6AE54 850209E0 */  lh      $v0, 0x09E0($t0)           ## 801609E0
 /* 014B8 80B6AE58 10400007 */  beq     $v0, $zero, .L80B6AE78
@@ -666,5 +692,3 @@ glabel Fishing_Init
 /* 01510 80B6AEB0 8FB30050 */  lw      $s3, 0x0050($sp)
 /* 01514 80B6AEB4 03E00008 */  jr      $ra
 /* 01518 80B6AEB8 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
-
-

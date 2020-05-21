@@ -1,18 +1,18 @@
 #include "z_bg_jya_megami.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void BgJyaMegami_Init(BgJyaMegami* this, GlobalContext* globalCtx);
-void BgJyaMegami_Destroy(BgJyaMegami* this, GlobalContext* globalCtx);
-void BgJyaMegami_Update(BgJyaMegami* this, GlobalContext* globalCtx);
-void BgJyaMegami_Draw(BgJyaMegami* this, GlobalContext* globalCtx);
+#define THIS ((BgJyaMegami*)thisx)
+
+void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaMegami_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaMegami_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaMegami_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Jya_Megami_InitVars = {
     ACTOR_BG_JYA_MEGAMI,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaMegami),

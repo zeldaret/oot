@@ -1,3 +1,21 @@
+.rdata
+glabel D_80A11840
+    .asciz "yari hikari ct 1\n"
+    .balign 4
+
+glabel D_80A11854
+    .asciz "yari hikari ct 2\n"
+    .balign 4
+
+.late_rodata
+glabel D_80A119C4
+ .word 0x3E051EB8
+glabel D_80A119C8
+ .word 0x4622F983
+glabel D_80A119CC
+ .word 0x4622F983
+
+.text
 glabel EnFhgFire_Init
 /* 00008 80A0F268 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 0000C 80A0F26C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
@@ -25,14 +43,14 @@ glabel EnFhgFire_Init
 /* 00060 80A0F2C0 5441000A */  bnel    $v0, $at, .L80A0F2EC       
 /* 00064 80A0F2C4 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
 .L80A0F2C8:
-/* 00068 80A0F2C8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00068 80A0F2C8 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 0006C 80A0F2CC AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 00070 80A0F2D0 3C0780A1 */  lui     $a3, %hi(D_80A11790)       ## $a3 = 80A10000
 /* 00074 80A0F2D4 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 00078 80A0F2D8 24E71790 */  addiu   $a3, $a3, %lo(D_80A11790)  ## $a3 = 80A11790
 /* 0007C 80A0F2DC 8FA4005C */  lw      $a0, 0x005C($sp)           
-/* 00080 80A0F2E0 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00080 80A0F2E0 0C01712B */  jal     Collider_SetCylinder
               
 /* 00084 80A0F2E4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00088 80A0F2E8 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
@@ -291,5 +309,3 @@ glabel EnFhgFire_Init
 /* 00420 80A0F680 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
 /* 00424 80A0F684 03E00008 */  jr      $ra                        
 /* 00428 80A0F688 00000000 */  nop
-
-

@@ -1,18 +1,24 @@
+/*
+ * File: z_item_ocarina.c
+ * Overlay: ovl_Item_Ocarina
+ * Description: Ocarina of Time
+ */
+
 #include "z_item_ocarina.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void ItemOcarina_Init(ItemOcarina* this, GlobalContext* globalCtx);
-void ItemOcarina_Destroy(ItemOcarina* this, GlobalContext* globalCtx);
-void ItemOcarina_Update(ItemOcarina* this, GlobalContext* globalCtx);
-void ItemOcarina_Draw(ItemOcarina* this, GlobalContext* globalCtx);
+#define THIS ((ItemOcarina*)thisx)
+
+void ItemOcarina_Init(Actor* thisx, GlobalContext* globalCtx);
+void ItemOcarina_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ItemOcarina_Update(Actor* thisx, GlobalContext* globalCtx);
+void ItemOcarina_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Item_Ocarina_InitVars = {
     ACTOR_ITEM_OCARINA,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GI_OCARINA,
     sizeof(ItemOcarina),

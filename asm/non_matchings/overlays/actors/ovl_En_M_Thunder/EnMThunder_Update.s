@@ -121,5 +121,3 @@ glabel EnMThunder_Update
 /* 00CFC 80A9FCDC 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00D00 80A9FCE0 03E00008 */  jr      $ra                        
 /* 00D04 80A9FCE4 00000000 */  nop
-
-

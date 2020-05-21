@@ -1,17 +1,23 @@
+/*
+ * File: z_en_yabusame_mark.c
+ * Overlay: ovl_En_Yabusame_Mark
+ * Description: Horseback Archery Target (arrow hitbox)
+ */
+
 #include "z_en_yabusame_mark.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void EnYabusameMark_Init(EnYabusameMark* this, GlobalContext* globalCtx);
-void EnYabusameMark_Destroy(EnYabusameMark* this, GlobalContext* globalCtx);
-void EnYabusameMark_Update(EnYabusameMark* this, GlobalContext* globalCtx);
+#define THIS ((EnYabusameMark*)thisx)
+
+void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnYabusameMark_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Yabusame_Mark_InitVars = {
     ACTOR_EN_YABUSAME_MARK,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnYabusameMark),

@@ -1,18 +1,18 @@
 #include "z_elf_msg2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void ElfMsg2_Init(ElfMsg2* this, GlobalContext* globalCtx);
-void ElfMsg2_Destroy(ElfMsg2* this, GlobalContext* globalCtx);
-void ElfMsg2_Update(ElfMsg2* this, GlobalContext* globalCtx);
-void ElfMsg2_Draw(ElfMsg2* this, GlobalContext* globalCtx);
+#define THIS ((ElfMsg2*)thisx)
+
+void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx);
+void ElfMsg2_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ElfMsg2_Update(Actor* thisx, GlobalContext* globalCtx);
+void ElfMsg2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Elf_Msg2_InitVars = {
     ACTOR_ELF_MSG2,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ElfMsg2),

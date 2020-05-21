@@ -1,18 +1,24 @@
+/*
+ * File: z_en_brob.c
+ * Overlay: ovl_En_Brob
+ * Description: Flobbery Muscle Block (Jabu-Jabu's Belly)
+ */
+
 #include "z_en_brob.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000005
 
-void EnBrob_Init(EnBrob* this, GlobalContext* globalCtx);
-void EnBrob_Destroy(EnBrob* this, GlobalContext* globalCtx);
-void EnBrob_Update(EnBrob* this, GlobalContext* globalCtx);
-void EnBrob_Draw(EnBrob* this, GlobalContext* globalCtx);
+#define THIS ((EnBrob*)thisx)
+
+void EnBrob_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBrob_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBrob_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBrob_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Brob_InitVars = {
     ACTOR_EN_BROB,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_BROB,
     sizeof(EnBrob),

@@ -1,3 +1,17 @@
+.rdata
+glabel D_808AB938
+    .asciz "../z_bg_spot01_idohashira.c"
+    .balign 4
+
+glabel D_808AB954
+    .asciz "../z_bg_spot01_idohashira.c"
+    .balign 4
+
+glabel D_808AB970
+    .asciz "../z_bg_spot01_idohashira.c"
+    .balign 4
+
+.text
 glabel func_808AB700
 /* 00A20 808AB700 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00A24 808AB704 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -9,7 +23,7 @@ glabel func_808AB700
 /* 00A3C 808AB71C 24C6B938 */  addiu   $a2, $a2, %lo(D_808AB938)  ## $a2 = 808AB938
 /* 00A40 808AB720 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 00A44 808AB724 240702B1 */  addiu   $a3, $zero, 0x02B1         ## $a3 = 000002B1
-/* 00A48 808AB728 0C031AB1 */  jal     func_800C6AC4              
+/* 00A48 808AB728 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00A4C 808AB72C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00A50 808AB730 0C024F46 */  jal     func_80093D18              
 /* 00A54 808AB734 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -42,12 +56,10 @@ glabel func_808AB700
 /* 00AC0 808AB7A0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00AC4 808AB7A4 240702C4 */  addiu   $a3, $zero, 0x02C4         ## $a3 = 000002C4
 /* 00AC8 808AB7A8 AC680000 */  sw      $t0, 0x0000($v1)           ## 00000000
-/* 00ACC 808AB7AC 0C031AD5 */  jal     func_800C6B54              
+/* 00ACC 808AB7AC 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00AD0 808AB7B0 AC690004 */  sw      $t1, 0x0004($v1)           ## 00000004
 /* 00AD4 808AB7B4 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 00AD8 808AB7B8 8FB00018 */  lw      $s0, 0x0018($sp)           
 /* 00ADC 808AB7BC 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00AE0 808AB7C0 03E00008 */  jr      $ra                        
 /* 00AE4 808AB7C4 00000000 */  nop
-
-

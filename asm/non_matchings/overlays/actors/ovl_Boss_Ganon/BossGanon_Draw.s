@@ -16,7 +16,7 @@ glabel BossGanon_Draw
 /* 0A49C 808E0D0C 24C67C58 */  addiu   $a2, $a2, %lo(D_808F7C58)  ## $a2 = 808F7C58
 /* 0A4A0 808E0D10 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE0
 /* 0A4A4 808E0D14 240723B2 */  addiu   $a3, $zero, 0x23B2         ## $a3 = 000023B2
-/* 0A4A8 808E0D18 0C031AB1 */  jal     func_800C6AC4
+/* 0A4A8 808E0D18 0C031AB1 */  jal     Graph_OpenDisps
 /* 0A4AC 808E0D1C 00A09025 */  or      $s2, $a1, $zero            ## $s2 = 00000000
 /* 0A4B0 808E0D20 0C024F46 */  jal     func_80093D18
 /* 0A4B4 808E0D24 8E240000 */  lw      $a0, 0x0000($s1)           ## 00000000
@@ -48,11 +48,11 @@ glabel BossGanon_Draw
 /* 0A518 808E0D88 AE4802D0 */  sw      $t0, 0x02D0($s2)           ## 000002D0
 /* 0A51C 808E0D8C 35290020 */  ori     $t1, $t1, 0x0020           ## $t1 = DB060020
 /* 0A520 808E0D90 000B6080 */  sll     $t4, $t3,  2
-/* 0A524 808E0D94 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 0A524 808E0D94 3C0D8016 */  lui     $t5, %hi(gSegments)
 /* 0A528 808E0D98 01AC6821 */  addu    $t5, $t5, $t4
 /* 0A52C 808E0D9C 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 0A530 808E0DA0 AC690000 */  sw      $t1, 0x0000($v1)           ## 00000000
-/* 0A534 808E0DA4 8DAD6FA8 */  lw      $t5, 0x6FA8($t5)           ## 80166FA8
+/* 0A534 808E0DA4 8DAD6FA8 */  lw      $t5, %lo(gSegments)($t5)
 /* 0A538 808E0DA8 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 0A53C 808E0DAC 00817024 */  and     $t6, $a0, $at
 /* 0A540 808E0DB0 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
@@ -150,7 +150,7 @@ glabel BossGanon_Draw
 /* 0A6B0 808E0F20 24C67C6C */  addiu   $a2, $a2, %lo(D_808F7C6C)  ## $a2 = 808F7C6C
 /* 0A6B4 808E0F24 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE0
 /* 0A6B8 808E0F28 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 0A6BC 808E0F2C 0C031AD5 */  jal     func_800C6B54
+/* 0A6BC 808E0F2C 0C031AD5 */  jal     Graph_CloseDisps
 /* 0A6C0 808E0F30 240724B1 */  addiu   $a3, $zero, 0x24B1         ## $a3 = 000024B1
 /* 0A6C4 808E0F34 8FBF0034 */  lw      $ra, 0x0034($sp)
 /* 0A6C8 808E0F38 8FB00028 */  lw      $s0, 0x0028($sp)
@@ -158,5 +158,3 @@ glabel BossGanon_Draw
 /* 0A6D0 808E0F40 8FB20030 */  lw      $s2, 0x0030($sp)
 /* 0A6D4 808E0F44 03E00008 */  jr      $ra
 /* 0A6D8 808E0F48 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-

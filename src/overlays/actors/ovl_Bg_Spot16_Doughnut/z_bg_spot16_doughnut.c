@@ -1,18 +1,18 @@
 #include "z_bg_spot16_doughnut.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void BgSpot16Doughnut_Init(BgSpot16Doughnut* this, GlobalContext* globalCtx);
-void BgSpot16Doughnut_Destroy(BgSpot16Doughnut* this, GlobalContext* globalCtx);
-void BgSpot16Doughnut_Update(BgSpot16Doughnut* this, GlobalContext* globalCtx);
-void BgSpot16Doughnut_Draw(BgSpot16Doughnut* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot16Doughnut*)thisx)
+
+void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot16Doughnut_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot16Doughnut_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot16Doughnut_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot16_Doughnut_InitVars = {
     ACTOR_BG_SPOT16_DOUGHNUT,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_EFC_DOUGHNUT,
     sizeof(BgSpot16Doughnut),

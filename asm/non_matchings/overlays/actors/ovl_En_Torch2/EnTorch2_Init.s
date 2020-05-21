@@ -54,8 +54,8 @@ glabel EnTorch2_Init
 /* 000D0 80B1DA50 A20405F4 */  sb      $a0, 0x05F4($s0)           ## 000005F4
 /* 000D4 80B1DA54 A20605F5 */  sb      $a2, 0x05F5($s0)           ## 000005F5
 /* 000D8 80B1DA58 AE090098 */  sw      $t1, 0x0098($s0)           ## 00000098
-/* 000DC 80B1DA5C 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 000E0 80B1DA60 8739E68E */  lh      $t9, -0x1972($t9)          ## 8015E68E
+/* 000DC 80B1DA5C 3C198016 */  lui     $t9, %hi(gSaveContext+0x2e)
+/* 000E0 80B1DA60 8739E68E */  lh      $t9, %lo(gSaveContext+0x2e)($t9)
 /* 000E4 80B1DA64 240B003C */  addiu   $t3, $zero, 0x003C         ## $t3 = 0000003C
 /* 000E8 80B1DA68 240C0064 */  addiu   $t4, $zero, 0x0064         ## $t4 = 00000064
 /* 000EC 80B1DA6C 001950C3 */  sra     $t2, $t9,  3               
@@ -105,5 +105,3 @@ glabel EnTorch2_Init
 /* 0019C 80B1DB1C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 001A0 80B1DB20 03E00008 */  jr      $ra                        
 /* 001A4 80B1DB24 00000000 */  nop
-
-

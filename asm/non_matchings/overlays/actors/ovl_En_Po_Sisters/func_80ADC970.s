@@ -1,3 +1,16 @@
+.rdata
+glabel D_80ADD810
+    .asciz "../z_en_po_sisters.c"
+    .balign 4
+
+.late_rodata
+glabel D_80ADD8A0
+    .float 0.3
+
+glabel D_80ADD8A4
+    .float 0.7
+
+.text
 glabel func_80ADC970
 /* 039E0 80ADC970 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 039E4 80ADC974 AFB00028 */  sw      $s0, 0x0028($sp)           
@@ -476,5 +489,3 @@ glabel func_80ADC970
 /* 040A8 80ADD038 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 040AC 80ADD03C 03E00008 */  jr      $ra                        
 /* 040B0 80ADD040 00000000 */  nop
-
-

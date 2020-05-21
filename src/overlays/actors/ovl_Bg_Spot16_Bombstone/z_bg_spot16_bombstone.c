@@ -1,18 +1,18 @@
 #include "z_bg_spot16_bombstone.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void BgSpot16Bombstone_Init(BgSpot16Bombstone* this, GlobalContext* globalCtx);
-void BgSpot16Bombstone_Destroy(BgSpot16Bombstone* this, GlobalContext* globalCtx);
-void BgSpot16Bombstone_Update(BgSpot16Bombstone* this, GlobalContext* globalCtx);
-void BgSpot16Bombstone_Draw(BgSpot16Bombstone* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot16Bombstone*)thisx)
+
+void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot16Bombstone_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot16Bombstone_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot16_Bombstone_InitVars = {
     ACTOR_BG_SPOT16_BOMBSTONE,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_SPOT16_OBJ,
     sizeof(BgSpot16Bombstone),

@@ -17,12 +17,10 @@ glabel BgMoriHashigo_Destroy
 /* 003F4 808A2954 2401FFFF */  addiu   $at, $zero, 0xFFFF         ## $at = FFFFFFFF
 /* 003F8 808A2958 14410003 */  bne     $v0, $at, .L808A2968       
 /* 003FC 808A295C 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00400 808A2960 0C016F32 */  jal     func_8005BCC8              
+/* 00400 808A2960 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 00404 808A2964 24E50164 */  addiu   $a1, $a3, 0x0164           ## $a1 = 00000164
 .L808A2968:
 /* 00408 808A2968 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 0040C 808A296C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00410 808A2970 03E00008 */  jr      $ra                        
 /* 00414 808A2974 00000000 */  nop
-
-

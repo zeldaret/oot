@@ -18,8 +18,8 @@ glabel EnZl4_Init
 /* 0063C 80B5BDEC AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 00640 80B5BDF0 0C0291BE */  jal     SkelAnime_InitSV
 /* 00644 80B5BDF4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00648 80B5BDF8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0064C 80B5BDFC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00648 80B5BDF8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0064C 80B5BDFC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00650 80B5BE00 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00654 80B5BE04 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00658 80B5BE08 0C00AC78 */  jal     ActorShape_Init
@@ -32,14 +32,14 @@ glabel EnZl4_Init
 /* 00670 80B5BE20 24060015 */  addiu   $a2, $zero, 0x0015         ## $a2 = 00000015
 /* 00674 80B5BE24 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00678 80B5BE28 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 0067C 80B5BE2C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0067C 80B5BE2C 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00680 80B5BE30 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00684 80B5BE34 3C0780B6 */  lui     $a3, %hi(D_80B5E780)       ## $a3 = 80B60000
 /* 00688 80B5BE38 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 0068C 80B5BE3C 24E7E780 */  addiu   $a3, $a3, %lo(D_80B5E780)  ## $a3 = 80B5E780
 /* 00690 80B5BE40 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 00694 80B5BE44 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00694 80B5BE44 0C01712B */  jal     Collider_SetCylinder
 
 /* 00698 80B5BE48 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0069C 80B5BE4C 3C0680B6 */  lui     $a2, %hi(D_80B5E7AC)       ## $a2 = 80B60000
@@ -52,10 +52,10 @@ glabel EnZl4_Init
 /* 006B8 80B5BE68 0C00B58B */  jal     Actor_SetScale
 
 /* 006BC 80B5BE6C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 006C0 80B5BE70 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 006C0 80B5BE70 3C028016 */  lui     $v0, %hi(gSaveContext)
 /* 006C4 80B5BE74 24190006 */  addiu   $t9, $zero, 0x0006         ## $t9 = 00000006
 /* 006C8 80B5BE78 3408FFFF */  ori     $t0, $zero, 0xFFFF         ## $t0 = 0000FFFF
-/* 006CC 80B5BE7C 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 006CC 80B5BE7C 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 006D0 80B5BE80 A219001F */  sb      $t9, 0x001F($s0)           ## 0000001F
 /* 006D4 80B5BE84 A608010E */  sh      $t0, 0x010E($s0)           ## 0000010E
 /* 006D8 80B5BE88 A200020E */  sb      $zero, 0x020E($s0)         ## 0000020E
@@ -119,5 +119,3 @@ glabel EnZl4_Init
 /* 007AC 80B5BF5C 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 007B0 80B5BF60 03E00008 */  jr      $ra
 /* 007B4 80B5BF64 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

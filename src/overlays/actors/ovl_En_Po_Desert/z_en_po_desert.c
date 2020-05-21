@@ -1,18 +1,24 @@
+/*
+ * File: z_en_po_desert.c
+ * Overlay: ovl_En_Po_Desert
+ * Description: Guide Poe (Haunted Wasteland)
+ */
+
 #include "z_en_po_desert.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00001090
 
-void EnPoDesert_Init(EnPoDesert* this, GlobalContext* globalCtx);
-void EnPoDesert_Destroy(EnPoDesert* this, GlobalContext* globalCtx);
-void EnPoDesert_Update(EnPoDesert* this, GlobalContext* globalCtx);
-void EnPoDesert_Draw(EnPoDesert* this, GlobalContext* globalCtx);
+#define THIS ((EnPoDesert*)thisx)
+
+void EnPoDesert_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnPoDesert_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnPoDesert_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Po_Desert_InitVars = {
     ACTOR_EN_PO_DESERT,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_PO_FIELD,
     sizeof(EnPoDesert),

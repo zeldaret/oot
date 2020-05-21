@@ -1,7 +1,7 @@
 glabel func_80AE7590
 /* 002E0 80AE7590 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
-/* 002E4 80AE7594 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 002E8 80AE7598 8DCEF9C0 */  lw      $t6, -0x0640($t6)          ## 8015F9C0
+/* 002E4 80AE7594 3C0E8016 */  lui     $t6, %hi(gSaveContext+0x1360)
+/* 002E8 80AE7598 8DCEF9C0 */  lw      $t6, %lo(gSaveContext+0x1360)($t6)
 /* 002EC 80AE759C AFBF0034 */  sw      $ra, 0x0034($sp)           
 /* 002F0 80AE75A0 AFB00030 */  sw      $s0, 0x0030($sp)           
 /* 002F4 80AE75A4 AFA40038 */  sw      $a0, 0x0038($sp)           
@@ -56,5 +56,3 @@ glabel func_80AE7590
 /* 003AC 80AE765C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 003B0 80AE7660 03E00008 */  jr      $ra                        
 /* 003B4 80AE7664 00000000 */  nop
-
-

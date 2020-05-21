@@ -6,21 +6,21 @@
 
 #include "z_bg_mjin.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void BgMjin_SetupAction(BgMjin* this, ActorFunc actionFunc);
-static void BgMjin_Init(BgMjin* this, GlobalContext* globalCtx);
-static void BgMjin_Destroy(BgMjin* this, GlobalContext* globalCtx);
-static void func_808A0850(BgMjin* this, GlobalContext* globalCtx);
-static void func_808A0920(BgMjin* this, GlobalContext* globalCtx);
-static void BgMjin_Update(BgMjin* this, GlobalContext* globalCtx);
-static void BgMjin_Draw(BgMjin* this, GlobalContext* globalCtx);
+#define THIS ((BgMjin*)thisx)
+
+void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx);
+
+void func_808A0850(BgMjin* this, GlobalContext* globalCtx);
+void func_808A0920(BgMjin* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Mjin_InitVars = {
     ACTOR_BG_MJIN,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgMjin),
@@ -45,12 +45,12 @@ static InitChainEntry initChain[] = {
 static s16 objectTbl[] = { OBJECT_MJIN_FLASH, OBJECT_MJIN_DARK, OBJECT_MJIN_FLAME,
                            OBJECT_MJIN_ICE,   OBJECT_MJIN_SOUL, OBJECT_MJIN_WIND };
 
-static void BgMjin_SetupAction(BgMjin* this, ActorFunc actionFunc) {
+void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-static void BgMjin_Init(BgMjin* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgMjin* this = THIS;
     s8 objBankIndex;
 
     Actor_ProcessInitChain(thisx, initChain);
@@ -59,15 +59,17 @@ static void BgMjin_Init(BgMjin* this, GlobalContext* globalCtx) {
     if (objBankIndex < 0) {
         Actor_Kill(thisx);
     } else {
-        BgMjin_SetupAction(this, &func_808A0850);
+        BgMjin_SetupAction(this, func_808A0850);
     }
 }
 
-static void BgMjin_Destroy(BgMjin* this, GlobalContext* globalCtx) {
+void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgMjin* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
+void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
     u32 local_c;
     u32 collision;
 
@@ -81,28 +83,30 @@ static void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
         DynaPolyInfo_Alloc(collision, &local_c);
         this->dyna.dynaPolyId =
             DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
-        BgMjin_SetupAction(this, &func_808A0920);
-        this->dyna.actor.draw = &BgMjin_Draw;
+        BgMjin_SetupAction(this, func_808A0920);
+        this->dyna.actor.draw = BgMjin_Draw;
     }
 }
 
-static void func_808A0920(BgMjin* this, GlobalContext* globalCtx) {
+void func_808A0920(BgMjin* this, GlobalContext* globalCtx) {
 }
 
-static void BgMjin_Update(BgMjin* this, GlobalContext* globalCtx) {
+void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgMjin* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
-static void BgMjin_Draw(BgMjin* this, GlobalContext* globalCtx) {
-    s32 objBankIndex;
+void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgMjin* this = THIS;
     u32 dlist;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
-    s32 pad;
+    Gfx* dispRefs[4];
+    s32 objBankIndex;
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
-    if (this->dyna.actor.params != 0) {
-        objBankIndex = Object_GetIndex(&globalCtx->objectCtx, objectTbl[this->dyna.actor.params - 1]);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
+    if (thisx->params != 0) {
+        objBankIndex = Object_GetIndex(&globalCtx->objectCtx, objectTbl[thisx->params - 1]);
         if (objBankIndex >= 0) {
             gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objBankIndex].segment);
         }
@@ -115,5 +119,5 @@ static void BgMjin_Draw(BgMjin* this, GlobalContext* globalCtx) {
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 285),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, dlist);
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_mjin.c", 288);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_mjin.c", 288);
 }

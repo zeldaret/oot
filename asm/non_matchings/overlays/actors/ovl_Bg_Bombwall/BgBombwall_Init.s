@@ -1,3 +1,9 @@
+.rdata
+glabel D_8086F088
+    .asciz "(field keep 汎用爆弾壁)(arg_data 0x%04x)(angY %d)\n"
+    .balign 4
+
+.text
 glabel BgBombwall_Init
 /* 000CC 8086E89C 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 000D0 8086E8A0 AFB30044 */  sw      $s3, 0x0044($sp)           
@@ -53,7 +59,7 @@ glabel BgBombwall_Init
 /* 00180 8086E950 02E02825 */  or      $a1, $s7, $zero            ## $a1 = 00000164
 /* 00184 8086E954 35CF0002 */  ori     $t7, $t6, 0x0002           ## $t7 = 00000002
 /* 00188 8086E958 A26F02A2 */  sb      $t7, 0x02A2($s3)           ## 000002A2
-/* 0018C 8086E95C 0C0171F8 */  jal     func_8005C7E0              
+/* 0018C 8086E95C 0C0171F8 */  jal     Collider_InitTris              
 /* 00190 8086E960 8FA400BC */  lw      $a0, 0x00BC($sp)           
 /* 00194 8086E964 3C148087 */  lui     $s4, %hi(D_8086EFD4)       ## $s4 = 80870000
 /* 00198 8086E968 2694EFD4 */  addiu   $s4, $s4, %lo(D_8086EFD4)  ## $s4 = 8086EFD4
@@ -62,7 +68,7 @@ glabel BgBombwall_Init
 /* 001A4 8086E974 02803825 */  or      $a3, $s4, $zero            ## $a3 = 8086EFD4
 /* 001A8 8086E978 8FA400BC */  lw      $a0, 0x00BC($sp)           
 /* 001AC 8086E97C 02E02825 */  or      $a1, $s7, $zero            ## $a1 = 00000164
-/* 001B0 8086E980 0C0172EB */  jal     func_8005CBAC              
+/* 001B0 8086E980 0C0172EB */  jal     Collider_SetTris              
 /* 001B4 8086E984 02603025 */  or      $a2, $s3, $zero            ## $a2 = 00000000
 /* 001B8 8086E988 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
 /* 001BC 8086E98C 4481A000 */  mtc1    $at, $f20                  ## $f20 = 2.00
@@ -146,5 +152,3 @@ glabel BgBombwall_Init
 /* 002E4 8086EAB4 8FBE0058 */  lw      $s8, 0x0058($sp)           
 /* 002E8 8086EAB8 03E00008 */  jr      $ra                        
 /* 002EC 8086EABC 27BD00B8 */  addiu   $sp, $sp, 0x00B8           ## $sp = 00000000
-
-

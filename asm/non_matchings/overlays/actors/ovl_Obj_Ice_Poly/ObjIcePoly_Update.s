@@ -8,5 +8,3 @@ glabel ObjIcePoly_Update
 /* 00710 80B94970 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00714 80B94974 03E00008 */  jr      $ra                        
 /* 00718 80B94978 00000000 */  nop
-
-

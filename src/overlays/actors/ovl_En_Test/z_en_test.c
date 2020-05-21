@@ -1,18 +1,52 @@
+/*
+ * File: z_en_test.c
+ * Overlay: ovl_En_Test
+ * Description: Stalfos
+ */
+
 #include "z_en_test.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000015
 
-void EnTest_Init(EnTest* this, GlobalContext* globalCtx);
-void EnTest_Destroy(EnTest* this, GlobalContext* globalCtx);
-void EnTest_Update(EnTest* this, GlobalContext* globalCtx);
-void EnTest_Draw(EnTest* this, GlobalContext* globalCtx);
+#define THIS ((EnTest*)thisx)
+
+void EnTest_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnTest_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx);
+
+void func_8085F938(EnTest* this, GlobalContext* globalCtx);
+void func_8085FAB0(EnTest* this, GlobalContext* globalCtx);
+void func_8085FE48(EnTest* this, GlobalContext* globalCtx);
+void func_8085FF9C(EnTest* this, GlobalContext* globalCtx);
+void func_80860318(EnTest* this, GlobalContext* globalCtx);
+void func_808603CC(EnTest* this, GlobalContext* globalCtx);
+void func_80863360(EnTest* this, GlobalContext* globalCtx);
+void func_808600EC(EnTest* this, GlobalContext* globalCtx);
+void func_808604FC(EnTest* this, GlobalContext* globalCtx);
+void func_80860C24(EnTest* this, GlobalContext* globalCtx);
+void func_80860F84(EnTest* this, GlobalContext* globalCtx);
+void func_8086149C(EnTest* this, GlobalContext* globalCtx);
+void func_808615F4(EnTest* this, GlobalContext* globalCtx);
+void func_80861898(EnTest* this, GlobalContext* globalCtx);
+void func_808619EC(EnTest* this, GlobalContext* globalCtx);
+void func_80861C40(EnTest* this, GlobalContext* globalCtx);
+void func_80861DC8(EnTest* this, GlobalContext* globalCtx);
+void func_80861F80(EnTest* this, GlobalContext* globalCtx);
+void func_8086209C(EnTest* this, GlobalContext* globalCtx);
+void func_808621D4(EnTest* this, GlobalContext* globalCtx);
+void func_80862418(EnTest* this, GlobalContext* globalCtx);
+void func_80862650(EnTest* this, GlobalContext* globalCtx);
+void func_808628C8(EnTest* this, GlobalContext* globalCtx);
+void func_80862E6C(EnTest* this, GlobalContext* globalCtx);
+void func_80863044(EnTest* this, GlobalContext* globalCtx);
+void func_8086318C(EnTest* this, GlobalContext* globalCtx);
+void func_80863294(EnTest* this, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Test_InitVars = {
     ACTOR_EN_TEST,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_SK2,
     sizeof(EnTest),
@@ -22,7 +56,8 @@ const ActorInit En_Test_InitVars = {
     (ActorFunc)EnTest_Draw,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_8085F650.s")
+
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/EnTest_SetupAction.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/EnTest_Init.s")
 

@@ -1,18 +1,18 @@
 #include "z_demo_kekkai.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-void DemoKekkai_Init(DemoKekkai* this, GlobalContext* globalCtx);
-void DemoKekkai_Destroy(DemoKekkai* this, GlobalContext* globalCtx);
-void DemoKekkai_Update(DemoKekkai* this, GlobalContext* globalCtx);
-void DemoKekkai_Draw(DemoKekkai* this, GlobalContext* globalCtx);
+#define THIS ((DemoKekkai*)thisx)
+
+void DemoKekkai_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoKekkai_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoKekkai_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoKekkai_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Demo_Kekkai_InitVars = {
     ACTOR_DEMO_KEKKAI,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_DEMO_KEKKAI,
     sizeof(DemoKekkai),

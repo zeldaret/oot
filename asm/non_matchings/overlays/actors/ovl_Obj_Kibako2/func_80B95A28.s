@@ -1,3 +1,16 @@
+.late_rodata
+glabel D_80B96038
+    .float 0.2
+
+glabel D_80B9603C
+    .float 0.2
+
+glabel D_80B96040
+    .float 0.05
+glabel D_80B96044
+    .float 0.7
+
+.text
 glabel func_80B95A28
 /* 00058 80B95A28 27BDFF18 */  addiu   $sp, $sp, 0xFF18           ## $sp = FFFFFF18
 /* 0005C 80B95A2C F7BE0070 */  sdc1    $f30, 0x0070($sp)          
@@ -132,7 +145,7 @@ glabel func_80B95A28
 /* 00238 80B95C08 AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 0023C 80B95C0C AFA0002C */  sw      $zero, 0x002C($sp)         
 /* 00240 80B95C10 AFB7003C */  sw      $s7, 0x003C($sp)           
-/* 00244 80B95C14 0C00A7A3 */  jal     Effect_SpawnFragment
+/* 00244 80B95C14 0C00A7A3 */  jal     func_80029E8C
               
 /* 00248 80B95C18 AFA80024 */  sw      $t0, 0x0024($sp)           
 /* 0024C 80B95C1C 26314E20 */  addiu   $s1, $s1, 0x4E20           ## $s1 = 00004E20
@@ -169,5 +182,3 @@ glabel func_80B95A28
 /* 002C8 80B95C98 8FBE0098 */  lw      $s8, 0x0098($sp)           
 /* 002CC 80B95C9C 03E00008 */  jr      $ra                        
 /* 002D0 80B95CA0 27BD00E8 */  addiu   $sp, $sp, 0x00E8           ## $sp = 00000000
-
-

@@ -40,7 +40,7 @@ void Title_Calc(TitleContext* this) {
     this->exit = 1;
 }
 
-void Title_InitView(TitleContext* this, f32 x, f32 y, f32 z) {
+void Title_SetupView(TitleContext* this, f32 x, f32 y, f32 z) {
     View* view;
     Vec3f v1;
     Vec3f v2;
@@ -75,9 +75,9 @@ void Title_Draw(TitleContext* this) {
     Vec3f v2;
     char pad2[0x8];
     GraphicsContext* gfxCtx = this->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(&gfxArr, this->state.gfxCtx, "../z_title.c", 395);
+    Graph_OpenDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 395);
 
     v3.x = 69;
     v3.y = 69;
@@ -91,11 +91,11 @@ void Title_Draw(TitleContext* this) {
 
     func_8002EABC(&v1, &v2, &v3, this->state.gfxCtx);
     gSPSetLights1(gfxCtx->polyOpa.p++, sTitleLights);
-    Title_InitView(this, 0, 150.0, 300.0);
+    Title_SetupView(this, 0, 150.0, 300.0);
     func_80093D18(this->state.gfxCtx);
     Matrix_Translate(-53.0, -5.0, 0, MTXMODE_NEW);
     Matrix_Scale(1.0, 1.0, 1.0, MTXMODE_APPLY);
-    Matrix_RotateZYX(0, sTitleRotY, 0, MTXMODE_APPLY);
+    Matrix_RotateRPY(0, sTitleRotY, 0, MTXMODE_APPLY);
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(this->state.gfxCtx, "../z_title.c", 424), G_MTX_LOAD);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_01002720);
@@ -124,17 +124,16 @@ void Title_Draw(TitleContext* this) {
 
     sTitleRotY += 300;
 
-    func_800C6B54(&gfxArr, this->state.gfxCtx, "../z_title.c", 483);
+    Graph_CloseDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 483);
 }
 
-void Title_Update(TitleContext* this) {
+void Title_Main(TitleContext* this) {
     GraphicsContext* gfxCtx = this->state.gfxCtx;
-    u32 pad;
-    Gfx* gfxArr[4];
-    u32 pad2;
-    Gfx* gfx[2];
+    Gfx* dispRefs[5];
+    u32 pad[2];
+    Gfx* gfx;
 
-    func_800C6AC4(&gfxArr, this->state.gfxCtx, "../z_title.c", 494);
+    Graph_OpenDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 494);
 
     gSPSegment(gfxCtx->polyOpa.p++, 0, NULL);
     gSPSegment(gfxCtx->polyOpa.p++, 1, this->staticSegment);
@@ -142,19 +141,19 @@ void Title_Update(TitleContext* this) {
     Title_Calc(this);
     Title_Draw(this);
     if (D_8012DBC0) {
-        gfx[0] = gfxCtx->polyOpa.p;
+        gfx = gfxCtx->polyOpa.p;
         Title_PrintBuildInfo(&gfx);
-        gfxCtx->polyOpa.p = gfx[0];
+        gfxCtx->polyOpa.p = gfx;
     }
     if (this->exit) {
-        gSaveContext.seq_index = -1;
-        gSaveContext.night_sfx = -1;
-        gSaveContext.game_mode = 1;
+        gSaveContext.seqIndex = 0xFF;
+        gSaveContext.nightSeqIndex = 0xFF;
+        gSaveContext.gameMode = 1;
         this->state.running = false;
         SET_NEXT_GAMESTATE(&this->state, Opening_Init, OpeningContext);
     }
 
-    func_800C6B54(&gfxArr, this->state.gfxCtx, "../z_title.c", 541);
+    Graph_CloseDisps(dispRefs, this->state.gfxCtx, "../z_title.c", 541);
 }
 
 void Title_Destroy(TitleContext* this) {
@@ -165,7 +164,7 @@ void Title_Init(TitleContext* this) {
     u32 size = (u32)_nintendo_rogo_staticSegmentRomEnd - (u32)_nintendo_rogo_staticSegmentRomStart;
     u32 pad;
 
-    this->staticSegment = Game_Alloc(&this->state, size, "../z_title.c", 611);
+    this->staticSegment = GameState_AllocEnd(&this->state, size, "../z_title.c", 611);
     osSyncPrintf("z_title.c\n");
     if (this->staticSegment == NULL) {
         __assert("this->staticSegment != NULL", "../z_title.c", 614);
@@ -173,11 +172,11 @@ void Title_Init(TitleContext* this) {
     DmaMgr_SendRequest1(this->staticSegment, (u32)_nintendo_rogo_staticSegmentRomStart, size, "../z_title.c", 615);
     R_UPDATE_RATE = 1;
     Matrix_Init(&this->state);
-    func_800AA278(&this->view, this->state.gfxCtx);
-    this->state.main = Title_Update;
+    View_Init(&this->view, this->state.gfxCtx);
+    this->state.main = Title_Main;
     this->state.destroy = Title_Destroy;
     this->exit = false;
-    gSaveContext.file_num = 0xFF;
+    gSaveContext.fileNum = 0xFF;
     func_800A9CD4(&this->state, &this->sram);
     this->ult = 0;
     this->unk_1D4 = 0x14;

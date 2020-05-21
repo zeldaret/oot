@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8098E2C0
+    .float 0.99
+
+.text
 glabel DemoKekkai_Update
 /* 00620 8098D5F0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00624 8098D5F4 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -37,23 +42,23 @@ glabel DemoKekkai_Update
 /* 006A4 8098D674 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 006A8 8098D678 AFA60030 */  sw      $a2, 0x0030($sp)           
 /* 006AC 8098D67C 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
-/* 006B0 8098D680 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 006B0 8098D680 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 006B4 8098D684 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 006B8 8098D688 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 006BC 8098D68C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 006C0 8098D690 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 006C0 8098D690 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 006C4 8098D694 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 006C8 8098D698 26060198 */  addiu   $a2, $s0, 0x0198           ## $a2 = 00000198
 /* 006CC 8098D69C AFA60030 */  sw      $a2, 0x0030($sp)           
 /* 006D0 8098D6A0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 006D4 8098D6A4 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 006D4 8098D6A4 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 006D8 8098D6A8 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 006DC 8098D6AC 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 006E0 8098D6B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 006E4 8098D6B4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 006E4 8098D6B4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 006E8 8098D6B8 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 006EC 8098D6BC 8E1901F8 */  lw      $t9, 0x01F8($s0)           ## 000001F8
@@ -82,5 +87,3 @@ glabel DemoKekkai_Update
 /* 00740 8098D710 8FB20028 */  lw      $s2, 0x0028($sp)           
 /* 00744 8098D714 03E00008 */  jr      $ra                        
 /* 00748 8098D718 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

@@ -1,3 +1,49 @@
+.rdata
+glabel D_80B52900
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52910
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52920
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52930
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52940
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52950
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+glabel D_80B52960
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B52BB4
+ .word 0xC47EC000
+glabel D_80B52BB8
+ .word 0x43E98000
+glabel D_80B52BBC
+ .word 0x43848000
+glabel D_80B52BC0
+ .word 0xC3D58000
+glabel D_80B52BC4
+ .word 0x43E98000
+glabel D_80B52BC8
+ .word 0x43848000
+glabel D_80B52BCC
+ .word 0xC3D58000
+
+.text
 glabel func_80B4F45C
 /* 00ACC 80B4F45C 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 00AD0 80B4F460 2401000E */  addiu   $at, $zero, 0x000E         ## $at = 0000000E
@@ -30,7 +76,7 @@ glabel func_80B4F45C
 /* 00B38 80B4F4C8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00B3C 80B4F4CC 84440000 */  lh      $a0, 0x0000($v0)           ## 00000000
 /* 00B40 80B4F4D0 84450002 */  lh      $a1, 0x0002($v0)           ## 00000002
-/* 00B44 80B4F4D4 0C034421 */  jal     Matrix_RotateZYX
+/* 00B44 80B4F4D4 0C034421 */  jal     Matrix_RotateRPY
 /* 00B48 80B4F4D8 84460004 */  lh      $a2, 0x0004($v0)           ## 00000004
 /* 00B4C 80B4F4DC 0C034213 */  jal     Matrix_Push
 /* 00B50 80B4F4E0 00000000 */  nop
@@ -64,8 +110,8 @@ glabel func_80B4F45C
 /* 00BC0 80B4F550 0C2D3BD9 */  jal     func_80B4EF64
 /* 00BC4 80B4F554 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
 .L80B4F558:
-/* 00BC8 80B4F558 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00BCC 80B4F55C 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00BC8 80B4F558 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 00BCC 80B4F55C 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 00BD0 80B4F560 8FA30094 */  lw      $v1, 0x0094($sp)
 /* 00BD4 80B4F564 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00BD8 80B4F568 84591492 */  lh      $t9, 0x1492($v0)           ## 80161492
@@ -84,7 +130,7 @@ glabel func_80B4F45C
 /* 00C0C 80B4F59C AFA3001C */  sw      $v1, 0x001C($sp)
 /* 00C10 80B4F5A0 00063403 */  sra     $a2, $a2, 16
 /* 00C14 80B4F5A4 00052C03 */  sra     $a1, $a1, 16
-/* 00C18 80B4F5A8 0C034421 */  jal     Matrix_RotateZYX
+/* 00C18 80B4F5A8 0C034421 */  jal     Matrix_RotateRPY
 /* 00C1C 80B4F5AC 00042403 */  sra     $a0, $a0, 16
 /* 00C20 80B4F5B0 3C01C33C */  lui     $at, 0xC33C                ## $at = C33C0000
 /* 00C24 80B4F5B4 44816000 */  mtc1    $at, $f12                  ## $f12 = -188.00
@@ -117,9 +163,9 @@ glabel func_80B4F45C
 /* 00C90 80B4F620 0C2D3C8C */  jal     func_80B4F230
 /* 00C94 80B4F624 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
 .L80B4F628:
-/* 00C98 80B4F628 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00C98 80B4F628 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 00C9C 80B4F62C 8FA3001C */  lw      $v1, 0x001C($sp)
-/* 00CA0 80B4F630 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00CA0 80B4F630 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 00CA4 80B4F634 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00CA8 80B4F638 846F0006 */  lh      $t7, 0x0006($v1)           ## 00000006
 /* 00CAC 80B4F63C 84790008 */  lh      $t9, 0x0008($v1)           ## 00000008
@@ -135,7 +181,7 @@ glabel func_80B4F45C
 /* 00CD4 80B4F664 00042400 */  sll     $a0, $a0, 16
 /* 00CD8 80B4F668 00042403 */  sra     $a0, $a0, 16
 /* 00CDC 80B4F66C 00052C03 */  sra     $a1, $a1, 16
-/* 00CE0 80B4F670 0C034421 */  jal     Matrix_RotateZYX
+/* 00CE0 80B4F670 0C034421 */  jal     Matrix_RotateRPY
 /* 00CE4 80B4F674 00063403 */  sra     $a2, $a2, 16
 /* 00CE8 80B4F678 3C01C3CD */  lui     $at, 0xC3CD                ## $at = C3CD0000
 /* 00CEC 80B4F67C 44816000 */  mtc1    $at, $f12                  ## $f12 = -410.00
@@ -169,9 +215,9 @@ glabel func_80B4F45C
 /* 00D5C 80B4F6EC 0C2D3C8C */  jal     func_80B4F230
 /* 00D60 80B4F6F0 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 .L80B4F6F4:
-/* 00D64 80B4F6F4 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00D64 80B4F6F4 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 00D68 80B4F6F8 8FA3001C */  lw      $v1, 0x001C($sp)
-/* 00D6C 80B4F6FC 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00D6C 80B4F6FC 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 00D70 80B4F700 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00D74 80B4F704 846C000C */  lh      $t4, 0x000C($v1)           ## 0000000C
 /* 00D78 80B4F708 846E000E */  lh      $t6, 0x000E($v1)           ## 0000000E
@@ -187,7 +233,7 @@ glabel func_80B4F45C
 /* 00DA0 80B4F730 00042400 */  sll     $a0, $a0, 16
 /* 00DA4 80B4F734 00042403 */  sra     $a0, $a0, 16
 /* 00DA8 80B4F738 00052C03 */  sra     $a1, $a1, 16
-/* 00DAC 80B4F73C 0C034421 */  jal     Matrix_RotateZYX
+/* 00DAC 80B4F73C 0C034421 */  jal     Matrix_RotateRPY
 /* 00DB0 80B4F740 00063403 */  sra     $a2, $a2, 16
 /* 00DB4 80B4F744 3C0180B5 */  lui     $at, %hi(D_80B52BB4)       ## $at = 80B50000
 /* 00DB8 80B4F748 C42C2BB4 */  lwc1    $f12, %lo(D_80B52BB4)($at)
@@ -237,9 +283,9 @@ glabel func_80B4F45C
 /* 00E68 80B4F7F8 0C2D3BD9 */  jal     func_80B4EF64
 /* 00E6C 80B4F7FC 2406000B */  addiu   $a2, $zero, 0x000B         ## $a2 = 0000000B
 .L80B4F800:
-/* 00E70 80B4F800 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00E70 80B4F800 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 00E74 80B4F804 8FA3001C */  lw      $v1, 0x001C($sp)
-/* 00E78 80B4F808 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00E78 80B4F808 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 00E7C 80B4F80C 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00E80 80B4F810 84690012 */  lh      $t1, 0x0012($v1)           ## 00000012
 /* 00E84 80B4F814 846B0014 */  lh      $t3, 0x0014($v1)           ## 00000014
@@ -255,7 +301,7 @@ glabel func_80B4F45C
 /* 00EAC 80B4F83C 00042400 */  sll     $a0, $a0, 16
 /* 00EB0 80B4F840 00042403 */  sra     $a0, $a0, 16
 /* 00EB4 80B4F844 00052C03 */  sra     $a1, $a1, 16
-/* 00EB8 80B4F848 0C034421 */  jal     Matrix_RotateZYX
+/* 00EB8 80B4F848 0C034421 */  jal     Matrix_RotateRPY
 /* 00EBC 80B4F84C 00063403 */  sra     $a2, $a2, 16
 /* 00EC0 80B4F850 3C0180B5 */  lui     $at, %hi(D_80B52BC0)       ## $at = 80B50000
 /* 00EC4 80B4F854 C42C2BC0 */  lwc1    $f12, %lo(D_80B52BC0)($at)
@@ -293,9 +339,9 @@ glabel func_80B4F45C
 /* 00F44 80B4F8D4 0C2D3BD9 */  jal     func_80B4EF64
 /* 00F48 80B4F8D8 2406000E */  addiu   $a2, $zero, 0x000E         ## $a2 = 0000000E
 .L80B4F8DC:
-/* 00F4C 80B4F8DC 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 00F4C 80B4F8DC 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 00F50 80B4F8E0 8FA3001C */  lw      $v1, 0x001C($sp)
-/* 00F54 80B4F8E4 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 00F54 80B4F8E4 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 00F58 80B4F8E8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00F5C 80B4F8EC 846F0018 */  lh      $t7, 0x0018($v1)           ## 00000018
 /* 00F60 80B4F8F0 8479001A */  lh      $t9, 0x001A($v1)           ## 0000001A
@@ -311,7 +357,7 @@ glabel func_80B4F45C
 /* 00F88 80B4F918 00042400 */  sll     $a0, $a0, 16
 /* 00F8C 80B4F91C 00042403 */  sra     $a0, $a0, 16
 /* 00F90 80B4F920 00052C03 */  sra     $a1, $a1, 16
-/* 00F94 80B4F924 0C034421 */  jal     Matrix_RotateZYX
+/* 00F94 80B4F924 0C034421 */  jal     Matrix_RotateRPY
 /* 00F98 80B4F928 00063403 */  sra     $a2, $a2, 16
 /* 00F9C 80B4F92C 3C01C3DF */  lui     $at, 0xC3DF                ## $at = C3DF0000
 /* 00FA0 80B4F930 44816000 */  mtc1    $at, $f12                  ## $f12 = -446.00
@@ -361,9 +407,9 @@ glabel func_80B4F45C
 /* 01050 80B4F9E0 0C2D3BD9 */  jal     func_80B4EF64
 /* 01054 80B4F9E4 24060011 */  addiu   $a2, $zero, 0x0011         ## $a2 = 00000011
 .L80B4F9E8:
-/* 01058 80B4F9E8 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
+/* 01058 80B4F9E8 3C028016 */  lui     $v0, %hi(gGameInfo)
 /* 0105C 80B4F9EC 8FA3001C */  lw      $v1, 0x001C($sp)
-/* 01060 80B4F9F0 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 01060 80B4F9F0 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 01064 80B4F9F4 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 01068 80B4F9F8 846C001E */  lh      $t4, 0x001E($v1)           ## 0000001E
 /* 0106C 80B4F9FC 846E0020 */  lh      $t6, 0x0020($v1)           ## 00000020
@@ -379,7 +425,7 @@ glabel func_80B4F45C
 /* 01094 80B4FA24 00042400 */  sll     $a0, $a0, 16
 /* 01098 80B4FA28 00042403 */  sra     $a0, $a0, 16
 /* 0109C 80B4FA2C 00052C03 */  sra     $a1, $a1, 16
-/* 010A0 80B4FA30 0C034421 */  jal     Matrix_RotateZYX
+/* 010A0 80B4FA30 0C034421 */  jal     Matrix_RotateRPY
 /* 010A4 80B4FA34 00063403 */  sra     $a2, $a2, 16
 /* 010A8 80B4FA38 3C0180B5 */  lui     $at, %hi(D_80B52BCC)       ## $at = 80B50000
 /* 010AC 80B4FA3C C42C2BCC */  lwc1    $f12, %lo(D_80B52BCC)($at)
@@ -416,8 +462,8 @@ glabel func_80B4F45C
 /* 01128 80B4FAB8 0C2D3BD9 */  jal     func_80B4EF64
 /* 0112C 80B4FABC 24060014 */  addiu   $a2, $zero, 0x0014         ## $a2 = 00000014
 .L80B4FAC0:
-/* 01130 80B4FAC0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 01134 80B4FAC4 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 01130 80B4FAC0 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 01134 80B4FAC4 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 01138 80B4FAC8 8FA9001C */  lw      $t1, 0x001C($sp)
 /* 0113C 80B4FACC 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 01140 80B4FAD0 845914B6 */  lh      $t9, 0x14B6($v0)           ## 801614B6
@@ -434,7 +480,7 @@ glabel func_80B4F45C
 /* 0116C 80B4FAFC 00042400 */  sll     $a0, $a0, 16
 /* 01170 80B4FB00 00042403 */  sra     $a0, $a0, 16
 /* 01174 80B4FB04 00052C03 */  sra     $a1, $a1, 16
-/* 01178 80B4FB08 0C034421 */  jal     Matrix_RotateZYX
+/* 01178 80B4FB08 0C034421 */  jal     Matrix_RotateRPY
 /* 0117C 80B4FB0C 00063403 */  sra     $a2, $a2, 16
 /* 01180 80B4FB10 3C01C3DF */  lui     $at, 0xC3DF                ## $at = C3DF0000
 /* 01184 80B4FB14 44816000 */  mtc1    $at, $f12                  ## $f12 = -446.00
@@ -462,5 +508,3 @@ glabel func_80B4F45C
 /* 011D8 80B4FB68 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
 /* 011DC 80B4FB6C 03E00008 */  jr      $ra
 /* 011E0 80B4FB70 00000000 */  nop
-
-

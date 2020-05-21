@@ -1,18 +1,24 @@
+/*
+ * File: z_en_tite.c
+ * Overlay: ovl_En_Tite
+ * Description: Tektite
+ */
+
 #include "z_en_tite.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000015
 
-void EnTite_Init(EnTite* this, GlobalContext* globalCtx);
-void EnTite_Destroy(EnTite* this, GlobalContext* globalCtx);
-void EnTite_Update(EnTite* this, GlobalContext* globalCtx);
-void EnTite_Draw(EnTite* this, GlobalContext* globalCtx);
+#define THIS ((EnTite*)thisx)
+
+void EnTite_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnTite_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnTite_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Tite_InitVars = {
     ACTOR_EN_TITE,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_TITE,
     sizeof(EnTite),

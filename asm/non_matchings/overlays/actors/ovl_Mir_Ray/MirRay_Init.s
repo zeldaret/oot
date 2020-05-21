@@ -1,3 +1,41 @@
+.rdata
+glabel D_80B8E850
+    .asciz "反射用 光の発生!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n"
+    .balign 4
+
+glabel D_80B8E880
+    .asciz "../z_mir_ray.c"
+    .balign 4
+
+glabel D_80B8E890
+    .asciz "this->actor.arg_data = %d\n"
+    .balign 4
+
+glabel D_80B8E8AC
+    .asciz "../z_mir_ray.c"
+    .balign 4
+
+glabel D_80B8E8BC
+    .asciz "\"反射光 発生失敗\" = %s\n"
+    .balign 4
+
+glabel D_80B8E8D4
+    .asciz "反射光 発生失敗"
+    .balign 4
+
+.late_rodata
+glabel D_80B8E924
+    .float 758.0
+glabel D_80B8E928
+    .float -939.0
+glabel D_80B8E92C
+    .float -1690.0
+glabel D_80B8E930
+    .float 938.0
+glabel D_80B8E934
+    .float 921.0
+
+.text
 glabel MirRay_Init
 /* 00260 80B8D2B0 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00264 80B8D2B4 AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -152,7 +190,7 @@ glabel MirRay_Init
 /* 0048C 80B8D4DC 31AE0002 */  andi    $t6, $t5, 0x0002           ## $t6 = 00000000
 /* 00490 80B8D4E0 51C00012 */  beql    $t6, $zero, .L80B8D52C     
 /* 00494 80B8D4E4 261101AC */  addiu   $s1, $s0, 0x01AC           ## $s1 = 000001AC
-/* 00498 80B8D4E8 0C016EFE */  jal     func_8005BBF8              
+/* 00498 80B8D4E8 0C016EFE */  jal     Collider_InitJntSph              
 /* 0049C 80B8D4EC AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 004A0 80B8D4F0 3C0780B9 */  lui     $a3, %hi(D_80B8E6E8)       ## $a3 = 80B90000
 /* 004A4 80B8D4F4 260F016C */  addiu   $t7, $s0, 0x016C           ## $t7 = 0000016C
@@ -160,7 +198,7 @@ glabel MirRay_Init
 /* 004AC 80B8D4FC AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 004B0 80B8D500 24E7E6E8 */  addiu   $a3, $a3, %lo(D_80B8E6E8)  ## $a3 = 80B8E6E8
 /* 004B4 80B8D504 8FA40044 */  lw      $a0, 0x0044($sp)           
-/* 004B8 80B8D508 0C017014 */  jal     func_8005C050              
+/* 004B8 80B8D508 0C017014 */  jal     Collider_SetJntSph              
 /* 004BC 80B8D50C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 004C0 80B8D510 9238001F */  lbu     $t8, 0x001F($s1)           ## 000001CB
 /* 004C4 80B8D514 33190004 */  andi    $t9, $t8, 0x0004           ## $t9 = 00000000
@@ -171,13 +209,13 @@ glabel MirRay_Init
 /* 004D8 80B8D528 261101AC */  addiu   $s1, $s0, 0x01AC           ## $s1 = 000001AC
 .L80B8D52C:
 /* 004DC 80B8D52C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 000001AC
-/* 004E0 80B8D530 0C017406 */  jal     func_8005D018              
+/* 004E0 80B8D530 0C017406 */  jal     Collider_InitQuad              
 /* 004E4 80B8D534 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 004E8 80B8D538 3C0780B9 */  lui     $a3, %hi(D_80B8E674)       ## $a3 = 80B90000
 /* 004EC 80B8D53C 24E7E674 */  addiu   $a3, $a3, %lo(D_80B8E674)  ## $a3 = 80B8E674
 /* 004F0 80B8D540 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 004F4 80B8D544 02202825 */  or      $a1, $s1, $zero            ## $a1 = 000001AC
-/* 004F8 80B8D548 0C017441 */  jal     func_8005D104              
+/* 004F8 80B8D548 0C017441 */  jal     Collider_SetQuad              
 /* 004FC 80B8D54C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00500 80B8D550 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C
 /* 00504 80B8D554 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
@@ -196,5 +234,3 @@ glabel MirRay_Init
 /* 00530 80B8D580 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 00534 80B8D584 03E00008 */  jr      $ra                        
 /* 00538 80B8D588 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

@@ -12,7 +12,7 @@ glabel BossGanon_Destroy
 /* 00EF0 808D7760 54200006 */  bnel    $at, $zero, .L808D777C
 /* 00EF4 808D7764 28410064 */  slti    $at, $v0, 0x0064
 .L808D7768:
-/* 00EF8 808D7768 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00EF8 808D7768 0C0170EB */  jal     Collider_DestroyCylinder
 
 /* 00EFC 808D776C AFA60018 */  sw      $a2, 0x0018($sp)
 /* 00F00 808D7770 8FA60018 */  lw      $a2, 0x0018($sp)
@@ -28,5 +28,3 @@ glabel BossGanon_Destroy
 /* 00F20 808D7790 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00F24 808D7794 03E00008 */  jr      $ra
 /* 00F28 808D7798 00000000 */  nop
-
-

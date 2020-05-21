@@ -1,18 +1,18 @@
 #include "z_en_fd.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000215
 
-void EnFd_Init(EnFd* this, GlobalContext* globalCtx);
-void EnFd_Destroy(EnFd* this, GlobalContext* globalCtx);
-void EnFd_Update(EnFd* this, GlobalContext* globalCtx);
-void EnFd_Draw(EnFd* this, GlobalContext* globalCtx);
+#define THIS ((EnFd*)thisx)
+
+void EnFd_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnFd_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnFd_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Fd_InitVars = {
     ACTOR_EN_FD,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_FW,
     sizeof(EnFd),

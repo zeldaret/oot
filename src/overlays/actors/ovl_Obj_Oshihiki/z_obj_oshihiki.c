@@ -1,18 +1,24 @@
+/*
+ * File: z_obj_oshihiki.c
+ * Overlay: ovl_Obj_Oshihiki
+ * Description: Movable Block
+ */
+
 #include "z_obj_oshihiki.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void ObjOshihiki_Init(ObjOshihiki* this, GlobalContext* globalCtx);
-void ObjOshihiki_Destroy(ObjOshihiki* this, GlobalContext* globalCtx);
-void ObjOshihiki_Update(ObjOshihiki* this, GlobalContext* globalCtx);
-void ObjOshihiki_Draw(ObjOshihiki* this, GlobalContext* globalCtx);
+#define THIS ((ObjOshihiki*)thisx)
+
+void ObjOshihiki_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjOshihiki_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjOshihiki_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Oshihiki_InitVars = {
     ACTOR_OBJ_OSHIHIKI,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjOshihiki),
@@ -41,10 +47,6 @@ const ActorInit Obj_Oshihiki_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Oshihiki/func_80B9B5F4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Oshihiki/func_80B9B62C.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Oshihiki/func_80B9B668.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Oshihiki/func_80B9B678.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Oshihiki/func_80B9B68C.s")
 

@@ -16,7 +16,7 @@ glabel func_808627C4
 .L808627FC:
 /* 031AC 808627FC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 031B0 80862800 24A5E2B0 */  addiu   $a1, $a1, 0xE2B0           ## $a1 = 0600E2B0
-/* 031B4 80862804 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 031B4 80862804 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 031B8 80862808 3C06C000 */  lui     $a2, 0xC000                ## $a2 = C0000000
 /* 031BC 8086280C 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 031C0 80862810 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
@@ -59,7 +59,7 @@ glabel func_808627C4
 /* 03244 80862894 46024280 */  add.s   $f10, $f8, $f2
 /* 03248 80862898 4600540D */  trunc.w.s $f16, $f10
 /* 0324C 8086289C 440B8000 */  mfc1    $t3, $f16
-/* 03250 808628A0 0C217D94 */  jal     func_8085F650
+/* 03250 808628A0 0C217D94 */  jal     EnTest_SetupAction
 /* 03254 808628A4 AE0B07E8 */  sw      $t3, 0x07E8($s0)           ## 000007E8
 /* 03258 808628A8 44809000 */  mtc1    $zero, $f18                ## $f18 = 0.00
 /* 0325C 808628AC 00000000 */  nop
@@ -70,5 +70,3 @@ glabel func_808627C4
 /* 0326C 808628BC 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 03270 808628C0 03E00008 */  jr      $ra
 /* 03274 808628C4 00000000 */  nop
-
-

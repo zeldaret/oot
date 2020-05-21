@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80A1D28C
+ .word 0x38D1B717
+glabel D_80A1D290
+ .word 0xC61C3C00
+
+.text
 glabel EnFr_Update
 /* 002A4 80A1AC44 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 002A8 80A1AC48 AFB00024 */  sw      $s0, 0x0024($sp)
@@ -93,8 +100,8 @@ glabel EnFr_Update
 /* 003FC 80A1AD9C 3C0D80A2 */  lui     $t5, %hi(D_80A1D008)       ## $t5 = 80A20000
 /* 00400 80A1ADA0 016A5821 */  addu    $t3, $t3, $t2
 /* 00404 80A1ADA4 916BD018 */  lbu     $t3, %lo(D_80A1D018)($t3)
-/* 00408 80A1ADA8 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 0040C 80A1ADAC 95CEF54E */  lhu     $t6, -0x0AB2($t6)          ## 8015F54E
+/* 00408 80A1ADA8 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xeee)
+/* 0040C 80A1ADAC 95CEF54E */  lhu     $t6, %lo(gSaveContext+0xeee)($t6)
 /* 00410 80A1ADB0 000B6040 */  sll     $t4, $t3,  1
 /* 00414 80A1ADB4 01AC6821 */  addu    $t5, $t5, $t4
 /* 00418 80A1ADB8 95ADD008 */  lhu     $t5, %lo(D_80A1D008)($t5)
@@ -201,5 +208,3 @@ glabel EnFr_Update
 /* 00590 80A1AF30 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 00594 80A1AF34 03E00008 */  jr      $ra
 /* 00598 80A1AF38 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

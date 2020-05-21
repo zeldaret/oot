@@ -1,18 +1,24 @@
+/*
+ * File: z_obj_ice_poly.c
+ * Overlay: ovl_Obj_Ice_Poly
+ * Description: Ice / Frozen Actors
+ */
+
 #include "z_obj_ice_poly.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void ObjIcePoly_Init(ObjIcePoly* this, GlobalContext* globalCtx);
-void ObjIcePoly_Destroy(ObjIcePoly* this, GlobalContext* globalCtx);
-void ObjIcePoly_Update(ObjIcePoly* this, GlobalContext* globalCtx);
-void ObjIcePoly_Draw(ObjIcePoly* this, GlobalContext* globalCtx);
+#define THIS ((ObjIcePoly*)thisx)
+
+void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjIcePoly_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjIcePoly_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjIcePoly_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Ice_Poly_InitVars = {
     ACTOR_OBJ_ICE_POLY,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjIcePoly),

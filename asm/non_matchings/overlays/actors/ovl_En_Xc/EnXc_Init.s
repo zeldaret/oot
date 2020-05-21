@@ -1,3 +1,23 @@
+.rdata
+glabel D_80B4215C
+    .asciz "[31m En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80B422B0
+.word L80B41A48
+.word L80B41994
+.word L80B419A8
+.word L80B419BC
+.word L80B419D0
+.word L80B419E4
+.word L80B419F8
+.word L80B41A0C
+.word L80B41A20
+.word L80B41A34
+.word 0x00000000, 0x00000000
+
+.text
 glabel EnXc_Init
 /* 05720 80B41900 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 05724 80B41904 AFB10028 */  sw      $s1, 0x0028($sp)
@@ -5,8 +25,8 @@ glabel EnXc_Init
 /* 0572C 80B4190C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 05730 80B41910 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 05734 80B41914 AFBF002C */  sw      $ra, 0x002C($sp)
-/* 05738 80B41918 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0573C 80B4191C 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 05738 80B41918 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0573C 80B4191C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 05740 80B41920 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 05744 80B41924 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 05748 80B41928 0C00AC78 */  jal     ActorShape_Init
@@ -111,5 +131,3 @@ glabel L80B41A48
 /* 0589C 80B41A7C 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 058A0 80B41A80 03E00008 */  jr      $ra
 /* 058A4 80B41A84 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

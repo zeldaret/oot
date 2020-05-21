@@ -152,7 +152,7 @@ void GfxPrint_InitDlist(GfxPrint* this) {
                     G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_IA16 | G_TL_TILE |
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_XLU_SURF | G_RM_XLU_SURF2);
-    gDPSetCombineLERP(this->dlist++, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0);
+    gDPSetCombineMode(this->dlist++, G_CC_DECALRGBA, G_CC_DECALRGBA);
 
     gDPSetTextureImage(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_4b_LOAD_BLOCK, 1, sGfxPrintFontData);
     gDPSetTile(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_4b_LOAD_BLOCK, 0, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
@@ -174,7 +174,7 @@ void GfxPrint_InitDlist(GfxPrint* this) {
         gDPSetTileSize(this->dlist++, i * 2, 0, 0, 60, 1020);
     }
 
-    gDPSetPrimColorMod(this->dlist++, 0, 0, *(u32*)&this->color);
+    gDPSetPrimColorMod(this->dlist++, 0, 0, this->color.rgba);
 
     gDPSetTextureImage(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_8b, 1, sGfxPrintUnkData);
     gDPSetTile(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_8b, 1, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, 3,
@@ -204,7 +204,7 @@ void GfxPrint_SetColor(GfxPrint* this, u32 r, u32 g, u32 b, u32 a) {
     this->color.b = b;
     this->color.a = a;
     gDPPipeSync(this->dlist++);
-    gDPSetPrimColorMod(this->dlist++, 0, 0, *(u32*)&this->color);
+    gDPSetPrimColorMod(this->dlist++, 0, 0, this->color.rgba);
 }
 
 void GfxPrint_SetPosPx(GfxPrint* this, s32 x, s32 y) {
@@ -232,14 +232,12 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
             gDPSetTextureLUT(this->dlist++, G_TT_RGBA16);
             gDPSetCycleType(this->dlist++, G_CYC_2CYCLE);
             gDPSetRenderMode(this->dlist++, G_RM_OPA_CI, G_RM_XLU_SURF2);
-            gDPSetCombineLERP(this->dlist++, TEXEL0, 0, TEXEL1, 0, TEXEL0, 0, TEXEL1, 0, 0, 0, 0, COMBINED, 0, 0, 0,
-                              COMBINED);
+            gDPSetCombineMode(this->dlist++, G_CC_INTERFERENCE, G_CC_PASS2);
         } else {
             gDPSetTextureLUT(this->dlist++, G_TT_IA16);
             gDPSetCycleType(this->dlist++, G_CYC_1CYCLE);
             gDPSetRenderMode(this->dlist++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
-            gDPSetCombineLERP(this->dlist++, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, TEXEL0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0,
-                              TEXEL0);
+            gDPSetCombineMode(this->dlist++, G_CC_MODULATEIDECALA_PRIM, G_CC_MODULATEIDECALA_PRIM);
         }
     }
 
@@ -254,7 +252,7 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
                                 c * 2, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1024, 1024);
         }
 
-        gDPSetPrimColorMod(this->dlist++, 0, 0, *(u32*)&this->color);
+        gDPSetPrimColorMod(this->dlist++, 0, 0, this->color.rgba);
     }
 
     if (this->flag & GFXPRINT_FLAG64) {
@@ -352,7 +350,7 @@ void GfxPrint_Ctor(GfxPrint* this) {
     this->posY = 0;
     this->baseX = 0;
     this->baseY = 0;
-    *(u32*)&this->color = 0;
+    this->color.rgba = 0;
 
     this->flag &= ~GFXPRINT_FLAG1;
     this->flag &= ~GFXPRINT_USE_RGBA16;
@@ -390,7 +388,7 @@ Gfx* GfxPrint_Close(GfxPrint* this) {
 }
 
 void GfxPrint_VPrintf(GfxPrint* this, const char* fmt, va_list args) {
-    func_800FF340(&this->callback, fmt, args);
+    PrintUtils_VPrintf(&this->callback, fmt, args);
 }
 
 void GfxPrint_Printf(GfxPrint* this, const char* fmt, ...) {

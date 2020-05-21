@@ -1,3 +1,33 @@
+.rdata
+glabel D_80A78650
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A78668
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A78680
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A78698
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A786B0
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A786C8
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+glabel D_80A786E0
+    .asciz "../z_en_ik_inFight.c"
+    .balign 4
+
+.text
 glabel func_80A76330
 /* 02020 80A76330 27BDFF00 */  addiu   $sp, $sp, 0xFF00           ## $sp = FFFFFF00
 /* 02024 80A76334 AFB00024 */  sw      $s0, 0x0024($sp)           
@@ -16,7 +46,7 @@ glabel func_80A76330
 /* 02058 80A76368 24C68650 */  addiu   $a2, $a2, %lo(D_80A78650)  ## $a2 = 80A78650
 /* 0205C 80A7636C 27A400D0 */  addiu   $a0, $sp, 0x00D0           ## $a0 = FFFFFFD0
 /* 02060 80A76370 240704B1 */  addiu   $a3, $zero, 0x04B1         ## $a3 = 000004B1
-/* 02064 80A76374 0C031AB1 */  jal     func_800C6AC4              
+/* 02064 80A76374 0C031AB1 */  jal     Graph_OpenDisps              
 /* 02068 80A76378 00A0A825 */  or      $s5, $a1, $zero            ## $s5 = 00000000
 /* 0206C 80A7637C 8FB40110 */  lw      $s4, 0x0110($sp)           
 /* 02070 80A76380 8FA50104 */  lw      $a1, 0x0104($sp)           
@@ -114,20 +144,20 @@ glabel func_80A76330
 /* 021D4 80A764E4 828202FE */  lb      $v0, 0x02FE($s4)           ## 000002FE
 /* 021D8 80A764E8 18400009 */  blez    $v0, .L80A76510            
 /* 021DC 80A764EC 00000000 */  nop
-/* 021E0 80A764F0 0C009AC3 */  jal     func_80026B0C              
+/* 021E0 80A764F0 0C009AC3 */  jal     Effect_GetByIndex              
 /* 021E4 80A764F4 8E8404C4 */  lw      $a0, 0x04C4($s4)           ## 000004C4
 /* 021E8 80A764F8 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 021EC 80A764FC 02002825 */  or      $a1, $s0, $zero            ## $a1 = FFFFFFF4
-/* 021F0 80A76500 0C007F7C */  jal     func_8001FDF0              
+/* 021F0 80A76500 0C007F7C */  jal     EffectBlure_AddVertex              
 /* 021F4 80A76504 02203025 */  or      $a2, $s1, $zero            ## $a2 = FFFFFFE8
 /* 021F8 80A76508 1000000A */  beq     $zero, $zero, .L80A76534   
 /* 021FC 80A7650C 929902F8 */  lbu     $t9, 0x02F8($s4)           ## 000002F8
 .L80A76510:
 /* 02200 80A76510 54400008 */  bnel    $v0, $zero, .L80A76534     
 /* 02204 80A76514 929902F8 */  lbu     $t9, 0x02F8($s4)           ## 000002F8
-/* 02208 80A76518 0C009AC3 */  jal     func_80026B0C              
+/* 02208 80A76518 0C009AC3 */  jal     Effect_GetByIndex              
 /* 0220C 80A7651C 8E8404C4 */  lw      $a0, 0x04C4($s4)           ## 000004C4
-/* 02210 80A76520 0C008048 */  jal     func_80020120              
+/* 02210 80A76520 0C008048 */  jal     EffectBlure_AddSpace              
 /* 02214 80A76524 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 02218 80A76528 2418FFFF */  addiu   $t8, $zero, 0xFFFF         ## $t8 = FFFFFFFF
 /* 0221C 80A7652C A29802FE */  sb      $t8, 0x02FE($s4)           ## 000002FE
@@ -283,7 +313,7 @@ glabel func_80A76330
 /* 02450 80A76760 24C686E0 */  addiu   $a2, $a2, %lo(D_80A786E0)  ## $a2 = 80A786E0
 /* 02454 80A76764 27A400D0 */  addiu   $a0, $sp, 0x00D0           ## $a0 = FFFFFFD0
 /* 02458 80A76768 2407050E */  addiu   $a3, $zero, 0x050E         ## $a3 = 0000050E
-/* 0245C 80A7676C 0C031AD5 */  jal     func_800C6B54              
+/* 0245C 80A7676C 0C031AD5 */  jal     Graph_CloseDisps              
 /* 02460 80A76770 8D650000 */  lw      $a1, 0x0000($t3)           ## 00000000
 /* 02464 80A76774 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 02468 80A76778 8FB00024 */  lw      $s0, 0x0024($sp)           
@@ -294,5 +324,3 @@ glabel func_80A76330
 /* 0247C 80A7678C 8FB50038 */  lw      $s5, 0x0038($sp)           
 /* 02480 80A76790 03E00008 */  jr      $ra                        
 /* 02484 80A76794 27BD0100 */  addiu   $sp, $sp, 0x0100           ## $sp = 00000000
-
-

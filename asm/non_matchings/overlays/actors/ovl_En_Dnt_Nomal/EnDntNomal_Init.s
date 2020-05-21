@@ -1,3 +1,29 @@
+.rdata
+glabel D_809F5EB0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809F5EB4
+    .asciz "[32m☆☆☆☆☆ デグナッツ的当て ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F5EE8
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_809F5EEC
+    .asciz "[32m☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_809F5F28
+    .asciz "[35m なにみの？ %d\n[m\n"
+    .balign 4
+
+glabel D_809F5F44
+    .asciz "[36m バンクおかしいしぞ！%d\n[m\n"
+    .balign 4
+
+.text
 glabel EnDntNomal_Init
 /* 00000 809F32C0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 809F32C4 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -31,13 +57,13 @@ glabel EnDntNomal_Init
 /* 00068 809F3328 24845EB4 */  addiu   $a0, $a0, %lo(D_809F5EB4)  ## $a0 = 809F5EB4
 /* 0006C 809F332C 26050294 */  addiu   $a1, $s0, 0x0294           ## $a1 = 00000294
 /* 00070 809F3330 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00074 809F3334 0C017406 */  jal     func_8005D018              
+/* 00074 809F3334 0C017406 */  jal     Collider_InitQuad              
 /* 00078 809F3338 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 0007C 809F333C 3C07809F */  lui     $a3, %hi(D_809F5DFC)       ## $a3 = 809F0000
 /* 00080 809F3340 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00084 809F3344 24E75DFC */  addiu   $a3, $a3, %lo(D_809F5DFC)  ## $a3 = 809F5DFC
 /* 00088 809F3348 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 0008C 809F334C 0C017441 */  jal     func_8005D104              
+/* 0008C 809F334C 0C017441 */  jal     Collider_SetQuad              
 /* 00090 809F3350 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00094 809F3354 8603008A */  lh      $v1, 0x008A($s0)           ## 0000008A
 /* 00098 809F3358 24090164 */  addiu   $t1, $zero, 0x0164         ## $t1 = 00000164
@@ -56,14 +82,14 @@ glabel EnDntNomal_Init
 /* 000C0 809F3380 24845EEC */  addiu   $a0, $a0, %lo(D_809F5EEC)  ## $a0 = 809F5EEC
 /* 000C4 809F3384 26050314 */  addiu   $a1, $s0, 0x0314           ## $a1 = 00000314
 /* 000C8 809F3388 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 000CC 809F338C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000CC 809F338C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 000D0 809F3390 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 000D4 809F3394 3C07809F */  lui     $a3, %hi(D_809F5DD0)       ## $a3 = 809F0000
 /* 000D8 809F3398 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 000DC 809F339C 24E75DD0 */  addiu   $a3, $a3, %lo(D_809F5DD0)  ## $a3 = 809F5DD0
 /* 000E0 809F33A0 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 000E4 809F33A4 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000E4 809F33A4 0C01712B */  jal     Collider_SetCylinder
               
 /* 000E8 809F33A8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000EC 809F33AC 240A0172 */  addiu   $t2, $zero, 0x0172         ## $t2 = 00000172
@@ -110,5 +136,3 @@ glabel EnDntNomal_Init
 /* 0016C 809F342C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00170 809F3430 03E00008 */  jr      $ra                        
 /* 00174 809F3434 00000000 */  nop
-
-

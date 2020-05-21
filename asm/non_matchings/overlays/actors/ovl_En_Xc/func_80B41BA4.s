@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B421A0
+    .asciz "../z_en_oA2.c"
+    .balign 4
+
+glabel D_80B421B0
+    .asciz "../z_en_oA2.c"
+    .balign 4
+
+.text
 glabel func_80B41BA4
 /* 059C4 80B41BA4 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 059C8 80B41BA8 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -15,7 +25,7 @@ glabel func_80B41BA4
 /* 059F8 80B41BD8 AFB80068 */  sw      $t8, 0x0068($sp)
 /* 059FC 80B41BDC 8CB00000 */  lw      $s0, 0x0000($a1)           ## 00000000
 /* 05A00 80B41BE0 2407048C */  addiu   $a3, $zero, 0x048C         ## $a3 = 0000048C
-/* 05A04 80B41BE4 0C031AB1 */  jal     func_800C6AC4
+/* 05A04 80B41BE4 0C031AB1 */  jal     Graph_OpenDisps
 /* 05A08 80B41BE8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 05A0C 80B41BEC 8FA40078 */  lw      $a0, 0x0078($sp)
 /* 05A10 80B41BF0 8FA5007C */  lw      $a1, 0x007C($sp)
@@ -28,10 +38,10 @@ glabel func_80B41BA4
 /* 05A2C 80B41C0C 3C09DB06 */  lui     $t1, 0xDB06                ## $t1 = DB060000
 /* 05A30 80B41C10 00075100 */  sll     $t2, $a3,  4
 /* 05A34 80B41C14 000A5F02 */  srl     $t3, $t2, 28
-/* 05A38 80B41C18 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 05A38 80B41C18 3C0D8016 */  lui     $t5, %hi(gSegments)
 /* 05A3C 80B41C1C 24680008 */  addiu   $t0, $v1, 0x0008           ## $t0 = 00000008
 /* 05A40 80B41C20 AE0802C0 */  sw      $t0, 0x02C0($s0)           ## 000002C0
-/* 05A44 80B41C24 25AD6FA8 */  addiu   $t5, $t5, 0x6FA8           ## $t5 = 80166FA8
+/* 05A44 80B41C24 25AD6FA8 */  addiu   $t5, %lo(gSegments)
 /* 05A48 80B41C28 000B6080 */  sll     $t4, $t3,  2
 /* 05A4C 80B41C2C 35290020 */  ori     $t1, $t1, 0x0020           ## $t1 = DB060020
 /* 05A50 80B41C30 018D2021 */  addu    $a0, $t4, $t5
@@ -72,12 +82,10 @@ glabel func_80B41BA4
 /* 05ADC 80B41CBC 24C621B0 */  addiu   $a2, $a2, %lo(D_80B421B0)  ## $a2 = 80B421B0
 /* 05AE0 80B41CC0 27A40048 */  addiu   $a0, $sp, 0x0048           ## $a0 = FFFFFFD0
 /* 05AE4 80B41CC4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 05AE8 80B41CC8 0C031AD5 */  jal     func_800C6B54
+/* 05AE8 80B41CC8 0C031AD5 */  jal     Graph_CloseDisps
 /* 05AEC 80B41CCC 240704B7 */  addiu   $a3, $zero, 0x04B7         ## $a3 = 000004B7
 /* 05AF0 80B41CD0 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 05AF4 80B41CD4 8FB00028 */  lw      $s0, 0x0028($sp)
 /* 05AF8 80B41CD8 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 05AFC 80B41CDC 03E00008 */  jr      $ra
 /* 05B00 80B41CE0 00000000 */  nop
-
-

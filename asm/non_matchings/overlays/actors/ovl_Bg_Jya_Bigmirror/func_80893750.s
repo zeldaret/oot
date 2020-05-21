@@ -1,3 +1,21 @@
+.rdata
+glabel D_80893F60
+    .asciz "Error : コブラ削除された (%s %d)\n"
+    .balign 4
+
+glabel D_80893F84
+    .asciz "../z_bg_jya_bigmirror.c"
+    .balign 4
+
+glabel D_80893F9C
+    .asciz "Error : コブラ発生失敗 (%s %d)\n"
+    .balign 4
+
+glabel D_80893FBC
+    .asciz "../z_bg_jya_bigmirror.c"
+    .balign 4
+
+.text
 glabel func_80893750
 /* 00070 80893750 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 00074 80893754 AFBF005C */  sw      $ra, 0x005C($sp)           
@@ -142,5 +160,3 @@ glabel func_80893750
 /* 00260 80893940 8FBE0058 */  lw      $s8, 0x0058($sp)           
 /* 00264 80893944 03E00008 */  jr      $ra                        
 /* 00268 80893948 27BD0060 */  addiu   $sp, $sp, 0x0060           ## $sp = 00000000
-
-

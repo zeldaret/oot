@@ -1,18 +1,24 @@
+/*
+ * File: z_en_bdfire.c
+ * Overlay: ovl_En_Bdfire
+ * Description: King Dodongo's Fire
+ */
+
 #include "z_en_bdfire.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-void EnBdfire_Init(EnBdfire* this, GlobalContext* globalCtx);
-void EnBdfire_Destroy(EnBdfire* this, GlobalContext* globalCtx);
-void EnBdfire_Update(EnBdfire* this, GlobalContext* globalCtx);
-void EnBdfire_Draw(EnBdfire* this, GlobalContext* globalCtx);
+#define THIS ((EnBdfire*)thisx)
+
+void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBdfire_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBdfire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Bdfire_InitVars = {
     ACTOR_PLAYER,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_KINGDODONGO,
     sizeof(EnBdfire),

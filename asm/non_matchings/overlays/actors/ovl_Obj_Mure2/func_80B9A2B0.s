@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B9A880
+    .asciz "Warning : 既に子供がいる(%s %d)(arg_data 0x%04x)\n"
+    .balign 4
+
+glabel D_80B9A8B4
+    .asciz "../z_obj_mure2.c"
+    .balign 4
+
+.text
 glabel func_80B9A2B0
 /* 00370 80B9A2B0 27BDFEF8 */  addiu   $sp, $sp, 0xFEF8           ## $sp = FFFFFEF8
 /* 00374 80B9A2B4 AFBF0054 */  sw      $ra, 0x0054($sp)           
@@ -104,5 +114,3 @@ glabel func_80B9A2B0
 /* 004EC 80B9A42C 8FBE0050 */  lw      $s8, 0x0050($sp)           
 /* 004F0 80B9A430 03E00008 */  jr      $ra                        
 /* 004F4 80B9A434 27BD0108 */  addiu   $sp, $sp, 0x0108           ## $sp = 00000000
-
-

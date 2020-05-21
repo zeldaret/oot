@@ -1,3 +1,26 @@
+.rdata
+glabel D_809EF0F0
+    .asciz "[32m☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.balign 4
+
+glabel D_809EF120
+    .asciz "[32m☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.balign 4
+
+.late_rodata
+glabel D_809EF1AC
+    .float 0.01
+
+glabel D_809EF1B0
+ .word 0x3C54FDF3
+glabel D_809EF1B4
+ .word 0x3C656041
+
+.text
 glabel EnDivingGame_Init
 /* 00000 809ED870 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00004 809ED874 3C01C040 */  lui     $at, 0xC040                ## $at = C0400000
@@ -6,8 +29,8 @@ glabel EnDivingGame_Init
 /* 00010 809ED880 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00014 809ED884 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00018 809ED888 AFA5003C */  sw      $a1, 0x003C($sp)
-/* 0001C 809ED88C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00020 809ED890 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0001C 809ED88C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00020 809ED890 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00024 809ED894 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00028 809ED898 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 0002C 809ED89C 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
@@ -29,14 +52,14 @@ glabel EnDivingGame_Init
 /* 00068 809ED8D8 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 0006C 809ED8DC 2605034C */  addiu   $a1, $s0, 0x034C           ## $a1 = 0000034C
 /* 00070 809ED8E0 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00074 809ED8E4 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00074 809ED8E4 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00078 809ED8E8 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 0007C 809ED8EC 3C07809F */  lui     $a3, %hi(D_809EF0B4)       ## $a3 = 809F0000
 /* 00080 809ED8F0 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 00084 809ED8F4 24E7F0B4 */  addiu   $a3, $a3, %lo(D_809EF0B4)  ## $a3 = 809EF0B4
 /* 00088 809ED8F8 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 0008C 809ED8FC 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0008C 809ED8FC 0C01712B */  jal     Collider_SetCylinder
 
 /* 00090 809ED900 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00094 809ED904 3C04809F */  lui     $a0, %hi(D_809EF0F0)       ## $a0 = 809F0000
@@ -84,5 +107,3 @@ glabel EnDivingGame_Init
 /* 00128 809ED998 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 0012C 809ED99C 03E00008 */  jr      $ra
 /* 00130 809ED9A0 00000000 */  nop
-
-

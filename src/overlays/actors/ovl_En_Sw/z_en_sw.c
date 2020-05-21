@@ -1,18 +1,18 @@
 #include "z_en_sw.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000015
 
-void EnSw_Init(EnSw* this, GlobalContext* globalCtx);
-void EnSw_Destroy(EnSw* this, GlobalContext* globalCtx);
-void EnSw_Update(EnSw* this, GlobalContext* globalCtx);
-void EnSw_Draw(EnSw* this, GlobalContext* globalCtx);
+#define THIS ((EnSw*)thisx)
+
+void EnSw_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSw_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSw_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSw_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Sw_InitVars = {
     ACTOR_EN_SW,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_ST,
     sizeof(EnSw),

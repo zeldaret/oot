@@ -1,18 +1,18 @@
 #include "z_bg_jya_bombchuiwa.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000001
 
-void BgJyaBombchuiwa_Init(BgJyaBombchuiwa* this, GlobalContext* globalCtx);
-void BgJyaBombchuiwa_Destroy(BgJyaBombchuiwa* this, GlobalContext* globalCtx);
-void BgJyaBombchuiwa_Update(BgJyaBombchuiwa* this, GlobalContext* globalCtx);
-void BgJyaBombchuiwa_Draw(BgJyaBombchuiwa* this, GlobalContext* globalCtx);
+#define THIS ((BgJyaBombchuiwa*)thisx)
+
+void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaBombchuiwa_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaBombchuiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Jya_Bombchuiwa_InitVars = {
     ACTOR_BG_JYA_BOMBCHUIWA,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaBombchuiwa),

@@ -1,3 +1,28 @@
+.rdata
+glabel D_808D1CBC
+    .asciz "FD MOVE START \n"
+    .balign 4
+
+glabel D_808D1CCC
+    .asciz "FD MOVE END 1\n"
+    .balign 4
+
+glabel D_808D1CDC
+    .asciz "FD MOVE END 2\n"
+    .balign 4
+
+.late_rodata
+glabel D_808D1F88
+    .float 0.4
+
+glabel D_808D1F8C
+ .word 0x410E6666
+glabel D_808D1F90
+ .word 0x41EF3333
+glabel D_808D1F94
+    .float 0.4
+
+.text
 glabel BossFd_Update
 /* 03F24 808CECE4 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 03F28 808CECE8 AFB30054 */  sw      $s3, 0x0054($sp)           
@@ -72,12 +97,12 @@ glabel BossFd_Update
 /* 04020 808CEDE0 26711490 */  addiu   $s1, $s3, 0x1490           ## $s1 = 00001490
 /* 04024 808CEDE4 00818021 */  addu    $s0, $a0, $at              
 /* 04028 808CEDE8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 0402C 808CEDEC 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0402C 808CEDEC 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 04030 808CEDF0 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00001490
 /* 04034 808CEDF4 8FA400DC */  lw      $a0, 0x00DC($sp)           
 /* 04038 808CEDF8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 0403C 808CEDFC 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 0403C 808CEDFC 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 04040 808CEE00 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00001490
 /* 04044 808CEE04 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
@@ -530,5 +555,3 @@ glabel BossFd_Update
 /* 0467C 808CF43C 8FB40058 */  lw      $s4, 0x0058($sp)           
 /* 04680 808CF440 03E00008 */  jr      $ra                        
 /* 04684 808CF444 27BD00D8 */  addiu   $sp, $sp, 0x00D8           ## $sp = 00000000
-
-

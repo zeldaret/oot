@@ -11,7 +11,7 @@ const char* sDmaMgrCurFileName;
 s32 sDmaMgrCurFileLine;
 
 u32 D_80009460 = 0;
-u32 sDmaMgrDmaBuffSize = 0x2000;
+u32 gDmaMgrDmaBuffSize = 0x2000;
 u32 sDmaMgrDataExistError = 0;
 const char* sDmaMgrFileNames[0x5FC] = {
     "makerom",
@@ -1577,7 +1577,7 @@ s32 DmaMgr_DMARomToRam(u32 rom, u32 ram, u32 size) {
     u32 buffSize;
     u32 pad[2];
 
-    buffSize = sDmaMgrDmaBuffSize;
+    buffSize = gDmaMgrDmaBuffSize;
     if (buffSize == 0) {
         buffSize = 0x2000;
     }
@@ -1884,9 +1884,8 @@ s32 DmaMgr_SendRequestImpl(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk
             osSyncPrintf("%c", 7);
             osSyncPrintf(VT_FGCOL(RED));
             osSyncPrintf("dmaEntryMsgQが一杯です。キューサイズの再検討をおすすめします。");
-            LogUtils_LogThreadId("../z_std_dma.c", 952);
-            osSyncPrintf("(sizeof(dmaEntryMsgBufs) / sizeof(dmaEntryMsgBufs[0])) = %d\n",
-                         (sizeof(sDmaMgrMsgs) / sizeof(sDmaMgrMsgs[0])));
+            LOG_NUM("(sizeof(dmaEntryMsgBufs) / sizeof(dmaEntryMsgBufs[0]))", ARRAY_COUNT(sDmaMgrMsgs),
+                    "../z_std_dma.c", 952);
             osSyncPrintf(VT_RST);
         }
     }

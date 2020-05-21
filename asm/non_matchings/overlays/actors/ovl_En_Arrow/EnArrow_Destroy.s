@@ -9,14 +9,14 @@ glabel EnArrow_Destroy
 /* 00248 809B3B68 29C10006 */  slti    $at, $t6, 0x0006
 /* 0024C 809B3B6C 50200004 */  beql    $at, $zero, .L809B3B80
 /* 00250 809B3B70 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 00254 809B3B74 0C009C27 */  jal     func_8002709C
+/* 00254 809B3B74 0C009C27 */  jal     Effect_Delete
 /* 00258 809B3B78 8E050228 */  lw      $a1, 0x0228($s0)           ## 00000228
 /* 0025C 809B3B7C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 .L809B3B80:
 /* 00260 809B3B80 0C0295BC */  jal     SkelAnime_Free
 /* 00264 809B3B84 8FA50024 */  lw      $a1, 0x0024($sp)
 /* 00268 809B3B88 8FA40024 */  lw      $a0, 0x0024($sp)
-/* 0026C 809B3B8C 0C017418 */  jal     func_8005D060
+/* 0026C 809B3B8C 0C017418 */  jal     Collider_DestroyQuad
 /* 00270 809B3B90 26050190 */  addiu   $a1, $s0, 0x0190           ## $a1 = 00000190
 /* 00274 809B3B94 8E02024C */  lw      $v0, 0x024C($s0)           ## 0000024C
 /* 00278 809B3B98 5040000A */  beql    $v0, $zero, .L809B3BC4
@@ -35,5 +35,3 @@ glabel EnArrow_Destroy
 /* 002A8 809B3BC8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 002AC 809B3BCC 03E00008 */  jr      $ra
 /* 002B0 809B3BD0 00000000 */  nop
-
-

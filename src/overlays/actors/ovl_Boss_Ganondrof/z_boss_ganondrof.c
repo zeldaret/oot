@@ -1,18 +1,18 @@
 #include "z_boss_ganondrof.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000035
 
-void BossGanondrof_Init(BossGanondrof* this, GlobalContext* globalCtx);
-void BossGanondrof_Destroy(BossGanondrof* this, GlobalContext* globalCtx);
-void BossGanondrof_Update(BossGanondrof* this, GlobalContext* globalCtx);
-void BossGanondrof_Draw(BossGanondrof* this, GlobalContext* globalCtx);
+#define THIS ((BossGanondrof*)thisx)
+
+void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx);
+void BossGanondrof_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx);
+void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Boss_Ganondrof_InitVars = {
     ACTOR_BOSS_GANONDROF,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_GND,
     sizeof(BossGanondrof),
@@ -81,22 +81,6 @@ const ActorInit Boss_Ganondrof_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/BossGanondrof_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_809142E0.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_80914394.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_809143F0.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_8091444C.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_809144A8.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_80914504.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_80914560.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_809145BC.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_80914610.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganondrof/func_80914664.s")
 

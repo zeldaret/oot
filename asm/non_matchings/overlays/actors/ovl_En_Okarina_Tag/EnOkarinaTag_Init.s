@@ -1,3 +1,51 @@
+.rdata
+glabel D_80AC0300
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AC0304
+    .asciz "[32m☆☆☆☆☆ オカリナタグ発生 ☆☆☆☆☆ %x\n[m"
+    .balign 4
+
+glabel D_80AC0338
+    .asciz "[32m☆☆☆☆☆ セーブ情報	 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AC0368
+    .asciz "[33m☆☆☆☆☆ 種類インデックス ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AC039C
+    .asciz "[35m☆☆☆☆☆ 正解情報	 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AC03C8
+    .asciz "[36m☆☆☆☆☆ 範囲情報	 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AC03F4
+    .asciz "[36m☆☆☆☆☆ 処理範囲情報	 ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80AC0424
+    .asciz "[32m☆☆☆☆☆ 当り？		 ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AC0450
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80AC0508
+.word L80ABEEE8
+.word L80ABEEC8
+.word L80ABEF10
+.word L80ABEEE8
+.word L80ABEEF8
+.word L80ABEEE8
+.word L80ABEEB8
+
+.text
 glabel EnOkarinaTag_Init
 /* 0000C 80ABED2C 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00010 80ABED30 AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -119,8 +167,8 @@ glabel L80ABEEB8
 /* 001A0 80ABEEC0 10000015 */  beq     $zero, $zero, .L80ABEF18   
 /* 001A4 80ABEEC4 AE08014C */  sw      $t0, 0x014C($s0)           ## 0000014C
 glabel L80ABEEC8
-/* 001A8 80ABEEC8 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
-/* 001AC 80ABEECC 8D29E664 */  lw      $t1, -0x199C($t1)          ## 8015E664
+/* 001A8 80ABEEC8 3C098016 */  lui     $t1, %hi(gSaveContext+4)
+/* 001AC 80ABEECC 8D29E664 */  lw      $t1, %lo(gSaveContext+4)($t1)
 /* 001B0 80ABEED0 15200005 */  bne     $t1, $zero, .L80ABEEE8     
 /* 001B4 80ABEED4 00000000 */  nop
 /* 001B8 80ABEED8 0C00B55C */  jal     Actor_Kill
@@ -153,5 +201,3 @@ glabel L80ABEF10
 /* 00200 80ABEF20 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00204 80ABEF24 03E00008 */  jr      $ra                        
 /* 00208 80ABEF28 00000000 */  nop
-
-

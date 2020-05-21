@@ -4,28 +4,22 @@
  * Description: Stone blocking entrance to Bottom of the Well
  */
 
-#include <ultra64.h>
-#include <global.h>
+#include "z_bg_spot01_idosoko.h"
 
-typedef struct {
-    /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ ActorFunc actionFunc;
-} BgSpot01Idosoko; // size = 0x0168
-
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-static void BgSpot01Idosoko_Init(BgSpot01Idosoko* this, GlobalContext* globalCtx);
-static void BgSpot01Idosoko_Destroy(BgSpot01Idosoko* this, GlobalContext* globalCtx);
-static void BgSpot01Idosoko_Update(BgSpot01Idosoko* this, GlobalContext* globalCtx);
-static void BgSpot01Idosoko_Draw(BgSpot01Idosoko* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot01Idosoko*)thisx)
 
-static void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx);
+void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Idosoko_Draw(Actor* thisx, GlobalContext* globalCtx);
+
+void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot01_Idosoko_InitVars = {
     ACTOR_BG_SPOT01_IDOSOKO,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT01_MATOYA,
     sizeof(BgSpot01Idosoko),
@@ -41,14 +35,16 @@ static InitChainEntry initChain[] = {
 
 extern u32 D_06003C64;
 
-static void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, ActorFunc actionFunc) {
+void BgSpot01Idosoko_SetupAction(BgSpot01Idosoko* this, BgSpot01IdosokoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-static void BgSpot01Idosoko_Init(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
-    s32 pad[2];
+void BgSpot01Idosoko_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Idosoko* this = THIS;
+    s32 pad;
     s32 local_c = 0;
-    Actor* thisx = &this->dyna.actor;
+    s32 pad2;
+
     DynaPolyInfo_SetActorMove(thisx, 1);
     Actor_ProcessInitChain(thisx, initChain);
     DynaPolyInfo_Alloc(&D_06003C64, &local_c);
@@ -60,29 +56,33 @@ static void BgSpot01Idosoko_Init(BgSpot01Idosoko* this, GlobalContext* globalCtx
     }
 }
 
-static void BgSpot01Idosoko_Destroy(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
+void BgSpot01Idosoko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Idosoko* this = THIS;
+
     DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
 }
 
-static void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
+void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
 }
 
-static void BgSpot01Idosoko_Update(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
+void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgSpot01Idosoko* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }
 
 extern u32 D_06003B20;
 
-static void BgSpot01Idosoko_Draw(BgSpot01Idosoko* this, GlobalContext* globalCtx) {
+void BgSpot01Idosoko_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* gfxArr[4];
+    Gfx* dispRefs[4];
 
-    func_800C6AC4(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 162);
+    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 162);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 166),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_06003B20);
 
-    func_800C6B54(gfxArr, globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 171);
+    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 171);
 }

@@ -38,5 +38,3 @@ glabel BgIceObjects_Init
 /* 0007C 8088F88C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00080 8088F890 03E00008 */  jr      $ra                        
 /* 00084 8088F894 00000000 */  nop
-
-

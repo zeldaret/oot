@@ -3,7 +3,7 @@
 
 volatile u32 gIrqMgrResetStatus = 0;
 volatile OSTime sIrqMgrResetTime = 0;
-volatile OSTime sIrqMgrRetraceTime = 0;
+volatile OSTime gIrqMgrRetraceTime = 0;
 u32 sIrqMgrRetraceCount = 0;
 
 #define RETRACE_MSG 666
@@ -142,7 +142,7 @@ void IrqMgr_HandlePRENMI450(IrqMgr* this) {
 void IrqMgr_HandlePRENMI480(IrqMgr* this) {
     u32 ret;
     osSetTimer(&this->timer, OS_USEC_TO_CYCLES(20000), 0ull, &this->queue, (OSMesg)PRENMI500_MSG);
-    ret = func_801031F0(); // osAfterPreNMI
+    ret = osAfterPreNMI();
     if (ret) {
         osSyncPrintf("osAfterPreNMIが %d を返しました！？\n", ret); // osAfterPreNMI returned %d !?
         osSetTimer(&this->timer, OS_USEC_TO_CYCLES(1000), 0ull, &this->queue, (OSMesg)PRENMI480_MSG);
@@ -154,11 +154,11 @@ void IrqMgr_HandlePRENMI500(IrqMgr* this) {
 }
 
 void IrqMgr_HandleRetrace(IrqMgr* this) {
-    if (sIrqMgrRetraceTime == 0ull) {
+    if (gIrqMgrRetraceTime == 0ull) {
         if (this->retraceTime == 0) {
             this->retraceTime = osGetTime();
         } else {
-            sIrqMgrRetraceTime = osGetTime() - this->retraceTime;
+            gIrqMgrRetraceTime = osGetTime() - this->retraceTime;
         }
     }
     sIrqMgrRetraceCount++;

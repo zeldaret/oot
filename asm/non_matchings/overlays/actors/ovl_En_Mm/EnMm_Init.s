@@ -8,8 +8,8 @@ glabel EnMm_Init
 /* 00138 80AAD8A8 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 0013C 80AAD8AC 24A5EBE8 */  addiu   $a1, $a1, %lo(D_80AAEBE8)  ## $a1 = 80AAEBE8
-/* 00140 80AAD8B0 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00144 80AAD8B4 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00140 80AAD8B0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00144 80AAD8B4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00148 80AAD8B8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0014C 80AAD8BC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00150 80AAD8C0 0C00AC78 */  jal     ActorShape_Init
@@ -30,14 +30,14 @@ glabel EnMm_Init
 /* 00188 80AAD8F8 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0018C 80AAD8FC 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00190 80AAD900 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00194 80AAD904 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00194 80AAD904 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00198 80AAD908 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 0019C 80AAD90C 3C0780AB */  lui     $a3, %hi(D_80AAEAE0)       ## $a3 = 80AB0000
 /* 001A0 80AAD910 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 001A4 80AAD914 24E7EAE0 */  addiu   $a3, $a3, %lo(D_80AAEAE0)  ## $a3 = 80AAEAE0
 /* 001A8 80AAD918 8FA4004C */  lw      $a0, 0x004C($sp)
-/* 001AC 80AAD91C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 001AC 80AAD91C 0C01712B */  jal     Collider_SetCylinder
 
 /* 001B0 80AAD920 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 001B4 80AAD924 3C0580AB */  lui     $a1, %hi(D_80AAEB18)       ## $a1 = 80AB0000
@@ -72,7 +72,7 @@ glabel EnMm_Init
 /* 00224 80AAD994 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00228 80AAD998 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 0022C 80AAD99C AFA80014 */  sw      $t0, 0x0014($sp)
-/* 00230 80AAD9A0 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00230 80AAD9A0 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00234 80AAD9A4 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 00238 80AAD9A8 3C01BF80 */  lui     $at, 0xBF80                ## $at = BF800000
@@ -117,5 +117,3 @@ glabel EnMm_Init
 /* 002CC 80AADA3C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 002D0 80AADA40 03E00008 */  jr      $ra
 /* 002D4 80AADA44 00000000 */  nop
-
-

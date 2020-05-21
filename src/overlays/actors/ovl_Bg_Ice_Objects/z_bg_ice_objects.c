@@ -1,18 +1,24 @@
+/*
+ * File: z_bg_ice_objects.c
+ * Overlay: ovl_Bg_Ice_Objects
+ * Description: Movable Ice Block.
+ */
+
 #include "z_bg_ice_objects.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void BgIceObjects_Init(BgIceObjects* this, GlobalContext* globalCtx);
-void BgIceObjects_Destroy(BgIceObjects* this, GlobalContext* globalCtx);
-void BgIceObjects_Update(BgIceObjects* this, GlobalContext* globalCtx);
-void BgIceObjects_Draw(BgIceObjects* this, GlobalContext* globalCtx);
+#define THIS ((BgIceObjects*)thisx)
+
+void BgIceObjects_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgIceObjects_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgIceObjects_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgIceObjects_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Ice_Objects_InitVars = {
     ACTOR_BG_ICE_OBJECTS,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_ICE_OBJECTS,
     sizeof(BgIceObjects),

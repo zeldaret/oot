@@ -38,7 +38,7 @@ glabel func_800281E8
 /* A9F418 80028278 A7AD0044 */  sh    $t5, 0x44($sp)
 /* A9F41C 8002827C A7AE0046 */  sh    $t6, 0x46($sp)
 /* A9F420 80028280 A7AF0048 */  sh    $t7, 0x48($sp)
-/* A9F424 80028284 0C009DE6 */  jal   func_80027798
+/* A9F424 80028284 0C009DE6 */  jal   EffectSs_Spawn
 /* A9F428 80028288 A3B8004C */   sb    $t8, 0x4c($sp)
 /* A9F42C 8002828C 8FBF0014 */  lw    $ra, 0x14($sp)
 /* A9F430 80028290 27BD0050 */  addiu $sp, $sp, 0x50

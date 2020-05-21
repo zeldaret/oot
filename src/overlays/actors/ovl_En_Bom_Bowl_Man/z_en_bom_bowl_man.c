@@ -1,18 +1,18 @@
 #include "z_en_bom_bowl_man.h"
 
-#define ROOM 0x00
 #define FLAGS 0x08000039
 
-void EnBomBowlMan_Init(EnBomBowlMan* this, GlobalContext* globalCtx);
-void EnBomBowlMan_Destroy(EnBomBowlMan* this, GlobalContext* globalCtx);
-void EnBomBowlMan_Update(EnBomBowlMan* this, GlobalContext* globalCtx);
-void EnBomBowlMan_Draw(EnBomBowlMan* this, GlobalContext* globalCtx);
+#define THIS ((EnBomBowlMan*)thisx)
+
+void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBomBowlMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBomBowlMan_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_BG,
     sizeof(EnBomBowlMan),

@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B37B20
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80B37B24
+    .asciz "[32m☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n[m"
+    .balign 4
+
+glabel D_80B37B50
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel EnWf_Destroy
 /* 00238 80B33EE8 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 0023C 80B33EEC AFB00018 */  sw      $s0, 0x0018($sp)           
@@ -5,14 +19,14 @@ glabel EnWf_Destroy
 /* 00244 80B33EF4 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00248 80B33EF8 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 0024C 80B33EFC 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00250 80B33F00 0C016F32 */  jal     func_8005BCC8              
+/* 00250 80B33F00 0C016F32 */  jal     Collider_DestroyJntSph              
 /* 00254 80B33F04 26050304 */  addiu   $a1, $s0, 0x0304           ## $a1 = 00000304
 /* 00258 80B33F08 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 0025C 80B33F0C 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 0025C 80B33F0C 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00260 80B33F10 26050424 */  addiu   $a1, $s0, 0x0424           ## $a1 = 00000424
 /* 00264 80B33F14 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00268 80B33F18 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00268 80B33F18 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 0026C 80B33F1C 26050470 */  addiu   $a1, $s0, 0x0470           ## $a1 = 00000470
 /* 00270 80B33F20 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
@@ -58,5 +72,3 @@ glabel EnWf_Destroy
 /* 002F4 80B33FA4 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 002F8 80B33FA8 03E00008 */  jr      $ra                        
 /* 002FC 80B33FAC 00000000 */  nop
-
-

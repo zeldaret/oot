@@ -1,18 +1,18 @@
 #include "z_bg_spot08_iceblock.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void BgSpot08Iceblock_Init(BgSpot08Iceblock* this, GlobalContext* globalCtx);
-void BgSpot08Iceblock_Destroy(BgSpot08Iceblock* this, GlobalContext* globalCtx);
-void BgSpot08Iceblock_Update(BgSpot08Iceblock* this, GlobalContext* globalCtx);
-void BgSpot08Iceblock_Draw(BgSpot08Iceblock* this, GlobalContext* globalCtx);
+#define THIS ((BgSpot08Iceblock*)thisx)
+
+void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot08Iceblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot08Iceblock_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot08Iceblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Spot08_Iceblock_InitVars = {
     ACTOR_BG_SPOT08_ICEBLOCK,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_SPOT08_OBJ,
     sizeof(BgSpot08Iceblock),

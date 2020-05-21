@@ -1,18 +1,18 @@
 #include "z_en_heishi1.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void EnHeishi1_Init(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_Destroy(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_Update(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_Draw(EnHeishi1* this, GlobalContext* globalCtx);
+#define THIS ((EnHeishi1*)thisx)
+
+void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Heishi1_InitVars = {
     ACTOR_PLAYER,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_SD,
     sizeof(EnHeishi1),

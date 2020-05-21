@@ -1,6 +1,6 @@
 glabel func_808A9BE8
-/* 00468 808A9BE8 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 0046C 808A9BEC 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 00468 808A9BE8 3C078016 */  lui     $a3, %hi(gSaveContext)
+/* 0046C 808A9BEC 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 00470 808A9BF0 8CE31360 */  lw      $v1, 0x1360($a3)           ## 8015F9C0
 /* 00474 808A9BF4 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00478 808A9BF8 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -9,8 +9,8 @@ glabel func_808A9BE8
 /* 00484 808A9C04 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
 /* 00488 808A9C08 10200014 */  beq     $at, $zero, .L808A9C5C     
 /* 0048C 808A9C0C 8C88011C */  lw      $t0, 0x011C($a0)           ## 0000011C
-/* 00490 808A9C10 3C048012 */  lui     $a0, 0x8012                ## $a0 = 80120000
-/* 00494 808A9C14 24847120 */  addiu   $a0, $a0, 0x7120           ## $a0 = 80127120
+/* 00490 808A9C10 3C048012 */  lui     $a0, %hi(gBitFlags)
+/* 00494 808A9C14 24847120 */  addiu   $a0, %lo(gBitFlags)
 /* 00498 808A9C18 8C8E0048 */  lw      $t6, 0x0048($a0)           ## 80127168
 /* 0049C 808A9C1C 8CE200A4 */  lw      $v0, 0x00A4($a3)           ## 8015E704
 /* 004A0 808A9C20 01C27824 */  and     $t7, $t6, $v0              
@@ -36,10 +36,10 @@ glabel func_808A9BE8
 /* 004E8 808A9C68 51A00016 */  beql    $t5, $zero, .L808A9CC4     
 /* 004EC 808A9C6C 84D800B4 */  lh      $t8, 0x00B4($a2)           ## 000000B4
 /* 004F0 808A9C70 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 004F4 808A9C74 0C01B129 */  jal     func_8006C4A4              
+/* 004F4 808A9C74 0C01B129 */  jal     Flags_GetEnv              
 /* 004F8 808A9C78 AFA8001C */  sw      $t0, 0x001C($sp)           
-/* 004FC 808A9C7C 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
-/* 00500 808A9C80 24E7E660 */  addiu   $a3, $a3, 0xE660           ## $a3 = 8015E660
+/* 004FC 808A9C7C 3C078016 */  lui     $a3, %hi(gSaveContext)
+/* 00500 808A9C80 24E7E660 */  addiu   $a3, %lo(gSaveContext)
 /* 00504 808A9C84 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 00508 808A9C88 14400007 */  bne     $v0, $zero, .L808A9CA8     
 /* 0050C 808A9C8C 8FA8001C */  lw      $t0, 0x001C($sp)           
@@ -82,5 +82,3 @@ glabel func_808A9BE8
 /* 0058C 808A9D0C 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 00590 808A9D10 03E00008 */  jr      $ra                        
 /* 00594 808A9D14 00000000 */  nop
-
-

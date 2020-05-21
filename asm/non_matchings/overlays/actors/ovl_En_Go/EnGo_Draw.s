@@ -10,7 +10,7 @@ glabel EnGo_Draw
 /* 02EE8 80A41458 24C61C60 */  addiu   $a2, $a2, %lo(D_80A41C60)  ## $a2 = 80A41C60
 /* 02EEC 80A4145C 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 02EF0 80A41460 240709AF */  addiu   $a3, $zero, 0x09AF         ## $a3 = 000009AF
-/* 02EF4 80A41464 0C031AB1 */  jal     func_800C6AC4
+/* 02EF4 80A41464 0C031AB1 */  jal     Graph_OpenDisps
 /* 02EF8 80A41468 AFA50050 */  sw      $a1, 0x0050($sp)
 /* 02EFC 80A4146C 0C2905AA */  jal     func_80A416A8
 /* 02F00 80A41470 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -58,11 +58,11 @@ glabel EnGo_Draw
 /* 02F98 80A41508 8CA302C0 */  lw      $v1, 0x02C0($a1)           ## 000002C0
 /* 02F9C 80A4150C 00045100 */  sll     $t2, $a0,  4
 /* 02FA0 80A41510 000A5F02 */  srl     $t3, $t2, 28
-/* 02FA4 80A41514 3C068016 */  lui     $a2, 0x8016                ## $a2 = 80160000
+/* 02FA4 80A41514 3C068016 */  lui     $a2, %hi(gSegments)
 /* 02FA8 80A41518 3C09DB06 */  lui     $t1, 0xDB06                ## $t1 = DB060000
 /* 02FAC 80A4151C 24790008 */  addiu   $t9, $v1, 0x0008           ## $t9 = 00000008
 /* 02FB0 80A41520 35290020 */  ori     $t1, $t1, 0x0020           ## $t1 = DB060020
-/* 02FB4 80A41524 24C66FA8 */  addiu   $a2, $a2, 0x6FA8           ## $a2 = 80166FA8
+/* 02FB4 80A41524 24C66FA8 */  addiu   $a2, %lo(gSegments)
 /* 02FB8 80A41528 000B6080 */  sll     $t4, $t3,  2
 /* 02FBC 80A4152C ACB902C0 */  sw      $t9, 0x02C0($a1)           ## 000002C0
 /* 02FC0 80A41530 00CC6821 */  addu    $t5, $a2, $t4
@@ -108,7 +108,7 @@ glabel EnGo_Draw
 /* 03060 80A415D0 24C61C70 */  addiu   $a2, $a2, %lo(D_80A41C70)  ## $a2 = 80A41C70
 /* 03064 80A415D4 27A40040 */  addiu   $a0, $sp, 0x0040           ## $a0 = FFFFFFE8
 /* 03068 80A415D8 8E250000 */  lw      $a1, 0x0000($s1)           ## 00000000
-/* 0306C 80A415DC 0C031AD5 */  jal     func_800C6B54
+/* 0306C 80A415DC 0C031AD5 */  jal     Graph_CloseDisps
 /* 03070 80A415E0 240709DD */  addiu   $a3, $zero, 0x09DD         ## $a3 = 000009DD
 /* 03074 80A415E4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03078 80A415E8 0C2905ED */  jal     func_80A417B4
@@ -119,5 +119,3 @@ glabel EnGo_Draw
 /* 03088 80A415F8 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 0308C 80A415FC 03E00008 */  jr      $ra
 /* 03090 80A41600 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

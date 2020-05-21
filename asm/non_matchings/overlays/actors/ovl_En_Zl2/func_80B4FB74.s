@@ -1,3 +1,15 @@
+.rdata
+glabel D_80B52970
+    .asciz "../z_en_zl2.c"
+    .balign 4
+
+.late_rodata
+glabel D_80B52BD0
+ .word 0x4474C000
+glabel D_80B52BD4
+    .float 1.2
+
+.text
 glabel func_80B4FB74
 /* 011E4 80B4FB74 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 011E8 80B4FB78 2401000A */  addiu   $at, $zero, 0x000A         ## $at = 0000000A
@@ -48,7 +60,7 @@ glabel func_80B4FB74
 /* 01298 80B4FC28 2404A219 */  addiu   $a0, $zero, 0xA219         ## $a0 = FFFFA219
 /* 0129C 80B4FC2C 2405AC17 */  addiu   $a1, $zero, 0xAC17         ## $a1 = FFFFAC17
 /* 012A0 80B4FC30 24063333 */  addiu   $a2, $zero, 0x3333         ## $a2 = 00003333
-/* 012A4 80B4FC34 0C034421 */  jal     Matrix_RotateZYX
+/* 012A4 80B4FC34 0C034421 */  jal     Matrix_RotateRPY
 /* 012A8 80B4FC38 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 012AC 80B4FC3C 3C0180B5 */  lui     $at, %hi(D_80B52BD4)       ## $at = 80B50000
 /* 012B0 80B4FC40 C42C2BD4 */  lwc1    $f12, %lo(D_80B52BD4)($at)
@@ -88,5 +100,3 @@ glabel func_80B4FB74
 /* 01330 80B4FCC0 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 01334 80B4FCC4 03E00008 */  jr      $ra
 /* 01338 80B4FCC8 00000000 */  nop
-
-

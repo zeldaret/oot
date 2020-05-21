@@ -1,17 +1,17 @@
 #include "z_en_g_switch.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-void EnGSwitch_Init(EnGSwitch* this, GlobalContext* globalCtx);
-void EnGSwitch_Destroy(EnGSwitch* this, GlobalContext* globalCtx);
-void EnGSwitch_Update(EnGSwitch* this, GlobalContext* globalCtx);
+#define THIS ((EnGSwitch*)thisx)
+
+void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_G_Switch_InitVars = {
     ACTOR_EN_G_SWITCH,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnGSwitch),

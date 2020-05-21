@@ -3,11 +3,12 @@
 import os
 import re
 import sys
+import struct
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = script_dir + "/../"
 data_dir = root_dir + "data/"
-
+asm_dir = root_dir + "asm/"
 
 def try_text(text_bytes):
     bad_bytes = 0
@@ -16,8 +17,8 @@ def try_text(text_bytes):
             bad_bytes += 1
 
     # Arbitrary string detection heuristic
-    if bad_bytes / len(text_bytes) >= 0.3:
-        return None
+    #if bad_bytes / len(text_bytes) >= 0.3:
+    #    return None
 
     try:
         text = text_bytes.decode("EUC-JP")
@@ -29,9 +30,29 @@ def try_text(text_bytes):
         text = text.replace("\\x00", "")
         text = text.replace("\n", "\\n")
         text = text.replace("\"", "\\\"")
-        ret = "\n    .asciz \"" + text + "\"\n    .balign 4\n"
-        return ret
+        return text
 
+
+def is_zeros(stuff):
+    for piece in stuff:
+        if piece.strip() != "0x00000000":
+            return False
+    return True
+
+
+def try_float(word):
+    if (word[:3] == "0x3") or (word[:3] == "0x4") or \
+        (word[:3] == "0xB") or (word[:3] == "0xC"):
+        return struct.unpack('!f', bytes.fromhex(word[2:10]))[0]
+
+
+def quick_convert(words_string):
+    words = words_string.split(",")
+    byte_array = b""
+    for word in words:
+        data = word.strip()[2:]
+        byte_array += bytearray.fromhex(data)
+    return byte_array.decode("EUC-JP")
 
 def word_convert(byte_string):
     try:
@@ -43,10 +64,18 @@ def word_convert(byte_string):
     except ValueError:
         return byte_string
 
-    if len(words) > 1:
+    if byte_array[0] == 63 and byte_array[-1] == 45:
+        return byte_string
+    if data == '0A0A0000':
+        return "\\n\\n"
+    if len(words) > 1 and not is_zeros(words[1:]):
         res = try_text(byte_array)
         if res is not None:
-            return res
+            return "    .asciz \"" + res + "\"\n    .balign 4\n"
+    if len(words) == 1 or is_zeros(words[1:]):
+        res = str(try_float(words[0].strip()))
+        if res is not None:
+            return "    .float " + res + "\n"
 
     return byte_string
 
@@ -73,18 +102,16 @@ def process_data_file(file_path):
 
 
 def main():
-    skip_list = ['z_en_kanban.rodata.s', 'z_demo_tre_lgt.rodata.s', 'z_en_light.rodata.s']
-
     i = 0
-    for root, dirs, files in os.walk(data_dir):
+    for root, dirs, files in os.walk(asm_dir):
         for file in files:
-            if i == 10:
-                return
-            if file.endswith(".rodata.s") and file not in skip_list:
+            #if i == 10:
+            #    return
+            if file.endswith(".s"):
                 path = os.path.join(root, file)
                 if process_data_file(path):
                     print("Processed " + path)
                     i += 1
 
 
-main()
+#main()

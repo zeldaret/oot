@@ -1,18 +1,18 @@
 #include "z_en_go.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000039
 
-void EnGo_Init(EnGo* this, GlobalContext* globalCtx);
-void EnGo_Destroy(EnGo* this, GlobalContext* globalCtx);
-void EnGo_Update(EnGo* this, GlobalContext* globalCtx);
-void EnGo_Draw(EnGo* this, GlobalContext* globalCtx);
+#define THIS ((EnGo*)thisx)
+
+void EnGo_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGo_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(EnGo),
@@ -35,10 +35,6 @@ const ActorInit En_Go_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3EE8C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3EFE8.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F02C.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F03C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go/func_80A3F060.s")
 

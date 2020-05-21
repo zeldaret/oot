@@ -1,18 +1,18 @@
 #include "z_en_syateki_niw.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void EnSyatekiNiw_Init(EnSyatekiNiw* this, GlobalContext* globalCtx);
-void EnSyatekiNiw_Destroy(EnSyatekiNiw* this, GlobalContext* globalCtx);
-void EnSyatekiNiw_Update(EnSyatekiNiw* this, GlobalContext* globalCtx);
-void EnSyatekiNiw_Draw(EnSyatekiNiw* this, GlobalContext* globalCtx);
+#define THIS ((EnSyatekiNiw*)thisx)
+
+void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSyatekiNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_NIW,
     sizeof(EnSyatekiNiw),

@@ -1,17 +1,17 @@
 #include "z_en_guest.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000019
 
-void EnGuest_Init(EnGuest* this, GlobalContext* globalCtx);
-void EnGuest_Destroy(EnGuest* this, GlobalContext* globalCtx);
-void EnGuest_Update(EnGuest* this, GlobalContext* globalCtx);
+#define THIS ((EnGuest*)thisx)
+
+void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Guest_InitVars = {
     ACTOR_EN_GUEST,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_BOJ,
     sizeof(EnGuest),

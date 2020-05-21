@@ -17,7 +17,7 @@ glabel func_8084EFC0
 /* 1CDEC 8084EFFC 0C20F03A */  jal     func_8083C0E8              
 /* 1CDF0 8084F000 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 1CDF4 8084F004 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 1CDF8 8084F008 0C030129 */  jal     func_800C04A4              
+/* 1CDF8 8084F008 0C030129 */  jal     Gameplay_GetCamera              
 /* 1CDFC 8084F00C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 1CE00 8084F010 0C016C69 */  jal     func_8005B1A4              
 /* 1CE04 8084F014 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
@@ -86,5 +86,3 @@ glabel func_8084EFC0
 /* 1CEE8 8084F0F8 8FB10030 */  lw      $s1, 0x0030($sp)           
 /* 1CEEC 8084F0FC 03E00008 */  jr      $ra                        
 /* 1CEF0 8084F100 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

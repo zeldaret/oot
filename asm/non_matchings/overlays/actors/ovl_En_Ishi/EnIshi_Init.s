@@ -112,5 +112,3 @@ glabel EnIshi_Init
 /* 00C04 80A7F064 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00C08 80A7F068 03E00008 */  jr      $ra                        
 /* 00C0C 80A7F06C 00000000 */  nop
-
-

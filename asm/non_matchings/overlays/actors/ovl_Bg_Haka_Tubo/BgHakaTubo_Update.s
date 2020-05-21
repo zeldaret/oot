@@ -13,5 +13,3 @@ glabel BgHakaTubo_Update
 /* 006A8 808818F8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 006AC 808818FC 03E00008 */  jr      $ra                        
 /* 006B0 80881900 00000000 */  nop
-
-

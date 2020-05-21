@@ -1,3 +1,20 @@
+.rdata
+glabel D_80B65330
+    .asciz "KABE IN !!\n"
+    .balign 4
+
+glabel D_80B6533C
+    .asciz "ac1 = %x `````````````````````````````````````````````````\n"
+    .balign 4
+
+.late_rodata
+glabel D_80B6544C
+    .float 0.001
+
+glabel D_80B65450
+ .word 0x40BFAE14
+
+.text
 glabel func_80B64AA8
 /* 020E8 80B64AA8 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 020EC 80B64AAC AFB10040 */  sw      $s1, 0x0040($sp)           
@@ -165,5 +182,3 @@ glabel func_80B64AA8
 /* 02328 80B64CE8 8FB10040 */  lw      $s1, 0x0040($sp)           
 /* 0232C 80B64CEC 03E00008 */  jr      $ra                        
 /* 02330 80B64CF0 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

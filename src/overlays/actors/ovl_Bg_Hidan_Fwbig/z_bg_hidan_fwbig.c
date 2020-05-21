@@ -1,18 +1,18 @@
 #include "z_bg_hidan_fwbig.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void BgHidanFwbig_Init(BgHidanFwbig* this, GlobalContext* globalCtx);
-void BgHidanFwbig_Destroy(BgHidanFwbig* this, GlobalContext* globalCtx);
-void BgHidanFwbig_Update(BgHidanFwbig* this, GlobalContext* globalCtx);
-void BgHidanFwbig_Draw(BgHidanFwbig* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanFwbig*)thisx)
+
+void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanFwbig_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanFwbig_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanFwbig_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Hidan_Fwbig_InitVars = {
     ACTOR_BG_HIDAN_FWBIG,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanFwbig),

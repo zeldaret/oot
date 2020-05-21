@@ -46,5 +46,3 @@ glabel func_80A58D18
 /* 001B8 80A58DC8 394B0001 */  xori    $t3, $t2, 0x0001           ## $t3 = 00010001
 /* 001BC 80A58DCC 03E00008 */  jr      $ra                        
 /* 001C0 80A58DD0 A02B1CEC */  sb      $t3, 0x1CEC($at)           ## 00011CEC
-
-

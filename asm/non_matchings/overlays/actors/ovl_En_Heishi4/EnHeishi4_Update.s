@@ -22,7 +22,7 @@ glabel EnHeishi4_Update
 /* 00C30 80A56D00 11C10021 */  beq     $t6, $at, .L80A56D88       
 /* 00C34 80A56D04 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00C38 80A56D08 8C580024 */  lw      $t8, 0x0024($v0)           ## 00000024
-/* 00C3C 80A56D0C 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 00C3C 80A56D0C 3C198016 */  lui     $t9, %hi(gSaveContext+4)
 /* 00C40 80A56D10 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 00C44 80A56D14 AE1802A4 */  sw      $t8, 0x02A4($s0)           ## 000002A4
 /* 00C48 80A56D18 8C4F0028 */  lw      $t7, 0x0028($v0)           ## 00000028
@@ -31,7 +31,7 @@ glabel EnHeishi4_Update
 /* 00C54 80A56D24 AE0F02A8 */  sw      $t7, 0x02A8($s0)           ## 000002A8
 /* 00C58 80A56D28 8C58002C */  lw      $t8, 0x002C($v0)           ## 0000002C
 /* 00C5C 80A56D2C AE1802AC */  sw      $t8, 0x02AC($s0)           ## 000002AC
-/* 00C60 80A56D30 8F39E664 */  lw      $t9, -0x199C($t9)          ## 8015E664
+/* 00C60 80A56D30 8F39E664 */  lw      $t9, %lo(gSaveContext+4)($t9)
 /* 00C64 80A56D34 13200006 */  beq     $t9, $zero, .L80A56D50     
 /* 00C68 80A56D38 00000000 */  nop
 /* 00C6C 80A56D3C C44A0028 */  lwc1    $f10, 0x0028($v0)          ## 00000028
@@ -78,14 +78,14 @@ glabel EnHeishi4_Update
 /* 00D04 80A56DD4 260602BC */  addiu   $a2, $s0, 0x02BC           ## $a2 = 000002BC
 /* 00D08 80A56DD8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 000002BC
 /* 00D0C 80A56DDC AFA60028 */  sw      $a2, 0x0028($sp)           
-/* 00D10 80A56DE0 0C0189B7 */  jal     ActorCollider_Cylinder_Update
+/* 00D10 80A56DE0 0C0189B7 */  jal     Collider_CylinderUpdate
               
 /* 00D14 80A56DE4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00D18 80A56DE8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00D1C 80A56DEC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00D20 80A56DF0 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 00D24 80A56DF4 02212821 */  addu    $a1, $s1, $at              
-/* 00D28 80A56DF8 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 00D28 80A56DF8 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 00D2C 80A56DFC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00D30 80A56E00 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -93,5 +93,3 @@ glabel EnHeishi4_Update
 /* 00D38 80A56E08 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 00D3C 80A56E0C 03E00008 */  jr      $ra                        
 /* 00D40 80A56E10 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

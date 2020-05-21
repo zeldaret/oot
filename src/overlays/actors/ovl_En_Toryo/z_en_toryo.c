@@ -1,18 +1,24 @@
+/*
+ * File: z_en_tory.c
+ * Overlay: ovl_En_Toryo
+ * Description: Boss Carpenter
+ */
+
 #include "z_en_toryo.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
-void EnToryo_Init(EnToryo* this, GlobalContext* globalCtx);
-void EnToryo_Destroy(EnToryo* this, GlobalContext* globalCtx);
-void EnToryo_Update(EnToryo* this, GlobalContext* globalCtx);
-void EnToryo_Draw(EnToryo* this, GlobalContext* globalCtx);
+#define THIS ((EnToryo*)thisx)
+
+void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnToryo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnToryo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Toryo_InitVars = {
     ACTOR_EN_TORYO,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_TORYO,
     sizeof(EnToryo),

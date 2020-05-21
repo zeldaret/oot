@@ -12,11 +12,11 @@ glabel EnGeldB_Init
 /* 0002C 80A3533C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00030 80A35340 3C0E80A4 */  lui     $t6, %hi(D_80A3A0E4)       ## $t6 = 80A40000
 /* 00034 80A35344 25CEA0E4 */  addiu   $t6, $t6, %lo(D_80A3A0E4)  ## $t6 = 80A3A0E4
-/* 00038 80A35348 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 00038 80A35348 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Teardrop)
 /* 0003C 80A3534C 44050000 */  mfc1    $a1, $f0
 /* 00040 80A35350 44070000 */  mfc1    $a3, $f0
 /* 00044 80A35354 AE0E0098 */  sw      $t6, 0x0098($s0)           ## 00000098
-/* 00048 80A35358 24C6B8C4 */  addiu   $a2, $a2, 0xB8C4           ## $a2 = 8002B8C4
+/* 00048 80A35358 24C6B8C4 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Teardrop)
 /* 0004C 80A3535C 0C00AC78 */  jal     ActorShape_Init
 
 /* 00050 80A35360 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
@@ -55,19 +55,19 @@ glabel EnGeldB_Init
 /* 000D4 80A353E4 26050188 */  addiu   $a1, $s0, 0x0188           ## $a1 = 00000188
 /* 000D8 80A353E8 26050320 */  addiu   $a1, $s0, 0x0320           ## $a1 = 00000320
 /* 000DC 80A353EC AFA50030 */  sw      $a1, 0x0030($sp)
-/* 000E0 80A353F0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000E0 80A353F0 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 000E4 80A353F4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 000E8 80A353F8 3C0780A4 */  lui     $a3, %hi(D_80A39FE0)       ## $a3 = 80A40000
 /* 000EC 80A353FC 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 000F0 80A35400 24E79FE0 */  addiu   $a3, $a3, %lo(D_80A39FE0)  ## $a3 = 80A39FE0
 /* 000F4 80A35404 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000F8 80A35408 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000F8 80A35408 0C01712B */  jal     Collider_SetCylinder
 
 /* 000FC 80A3540C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00100 80A35410 260503EC */  addiu   $a1, $s0, 0x03EC           ## $a1 = 000003EC
 /* 00104 80A35414 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00108 80A35418 0C0171F8 */  jal     func_8005C7E0
+/* 00108 80A35418 0C0171F8 */  jal     Collider_InitTris
 /* 0010C 80A3541C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00110 80A35420 3C0780A4 */  lui     $a3, %hi(D_80A3A084)       ## $a3 = 80A40000
 /* 00114 80A35424 260B040C */  addiu   $t3, $s0, 0x040C           ## $t3 = 0000040C
@@ -75,17 +75,17 @@ glabel EnGeldB_Init
 /* 0011C 80A3542C AFAB0010 */  sw      $t3, 0x0010($sp)
 /* 00120 80A35430 24E7A084 */  addiu   $a3, $a3, %lo(D_80A3A084)  ## $a3 = 80A3A084
 /* 00124 80A35434 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00128 80A35438 0C0172EB */  jal     func_8005CBAC
+/* 00128 80A35438 0C0172EB */  jal     Collider_SetTris
 /* 0012C 80A3543C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00130 80A35440 2605036C */  addiu   $a1, $s0, 0x036C           ## $a1 = 0000036C
 /* 00134 80A35444 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00138 80A35448 0C017406 */  jal     func_8005D018
+/* 00138 80A35448 0C017406 */  jal     Collider_InitQuad
 /* 0013C 80A3544C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00140 80A35450 3C0780A4 */  lui     $a3, %hi(D_80A3A094)       ## $a3 = 80A40000
 /* 00144 80A35454 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 00148 80A35458 24E7A094 */  addiu   $a3, $a3, %lo(D_80A3A094)  ## $a3 = 80A3A094
 /* 0014C 80A3545C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00150 80A35460 0C017441 */  jal     func_8005D104
+/* 00150 80A35460 0C017441 */  jal     Collider_SetQuad
 /* 00154 80A35464 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00158 80A35468 240300FF */  addiu   $v1, $zero, 0x00FF         ## $v1 = 000000FF
 /* 0015C 80A3546C 240C0040 */  addiu   $t4, $zero, 0x0040         ## $t4 = 00000040
@@ -144,5 +144,3 @@ glabel EnGeldB_Init
 /* 0021C 80A3552C 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 00220 80A35530 03E00008 */  jr      $ra
 /* 00224 80A35534 27BD01E8 */  addiu   $sp, $sp, 0x01E8           ## $sp = 00000000
-
-

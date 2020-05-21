@@ -50,13 +50,13 @@ glabel BgHidanFwbig_Update
 /* 00818 80887B08 44814000 */  mtc1    $at, $f8                   ## $f8 = 200.00
 /* 0081C 80887B0C C606000C */  lwc1    $f6, 0x000C($s0)           ## 0000000C
 /* 00820 80887B10 C6100028 */  lwc1    $f16, 0x0028($s0)          ## 00000028
-/* 00824 80887B14 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 00824 80887B14 3C0D8016 */  lui     $t5, %hi(gSaveContext+0x1360)
 /* 00828 80887B18 46083281 */  sub.s   $f10, $f6, $f8             
 /* 0082C 80887B1C 4610503C */  c.lt.s  $f10, $f16                 
 /* 00830 80887B20 00000000 */  nop
 /* 00834 80887B24 45020026 */  bc1fl   .L80887BC0                 
 /* 00838 80887B28 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 0083C 80887B2C 8DADF9C0 */  lw      $t5, -0x0640($t5)          ## 8015F9C0
+/* 0083C 80887B2C 8DADF9C0 */  lw      $t5, %lo(gSaveContext+0x1360)($t5)
 /* 00840 80887B30 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00844 80887B34 29A10004 */  slti    $at, $t5, 0x0004           
 /* 00848 80887B38 50200006 */  beql    $at, $zero, .L80887B54     
@@ -88,12 +88,12 @@ glabel BgHidanFwbig_Update
 /* 008A8 80887B98 26060154 */  addiu   $a2, $s0, 0x0154           ## $a2 = 00000154
 /* 008AC 80887B9C AFA60028 */  sw      $a2, 0x0028($sp)           
 /* 008B0 80887BA0 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 008B4 80887BA4 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 008B4 80887BA4 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 008B8 80887BA8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 008BC 80887BAC 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 008C0 80887BB0 8FA60028 */  lw      $a2, 0x0028($sp)           
-/* 008C4 80887BB4 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 008C4 80887BB4 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 008C8 80887BB8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 008CC 80887BBC 8FBF0024 */  lw      $ra, 0x0024($sp)           
@@ -102,5 +102,3 @@ glabel BgHidanFwbig_Update
 /* 008D4 80887BC4 8FB10020 */  lw      $s1, 0x0020($sp)           
 /* 008D8 80887BC8 03E00008 */  jr      $ra                        
 /* 008DC 80887BCC 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
-
-

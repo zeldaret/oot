@@ -1,3 +1,25 @@
+.rdata
+glabel D_809BBC30
+    .asciz "../z_en_bb.c"
+    .balign 4
+
+glabel D_809BBC40
+    .asciz "../z_en_bb.c"
+    .balign 4
+
+glabel D_809BBC50
+    .asciz "../z_en_bb.c"
+    .balign 4
+
+.late_rodata
+glabel D_809BBCFC
+    .float 0.8
+glabel D_809BBD00
+    .float 0.0000958738019107841
+glabel D_809BBD04
+    .float 0.009999999776482582
+
+.text
 glabel EnBb_Draw
 /* 03264 809BB544 27BDFF38 */  addiu   $sp, $sp, 0xFF38           ## $sp = FFFFFF38
 /* 03268 809BB548 3C0F809C */  lui     $t7, %hi(D_809BBC18)       ## $t7 = 809C0000
@@ -28,7 +50,7 @@ glabel EnBb_Draw
 /* 032CC 809BB5AC 8DE50000 */  lw      $a1, 0x0000($t7)           ## 809BBC18
 /* 032D0 809BB5B0 27A4007C */  addiu   $a0, $sp, 0x007C           ## $a0 = FFFFFFB4
 /* 032D4 809BB5B4 240707FC */  addiu   $a3, $zero, 0x07FC         ## $a3 = 000007FC
-/* 032D8 809BB5B8 0C031AB1 */  jal     func_800C6AC4              
+/* 032D8 809BB5B8 0C031AB1 */  jal     Graph_OpenDisps              
 /* 032DC 809BB5BC AFA5008C */  sw      $a1, 0x008C($sp)           
 /* 032E0 809BB5C0 3C0142A0 */  lui     $at, 0x42A0                ## $at = 42A00000
 /* 032E4 809BB5C4 44810000 */  mtc1    $at, $f0                   ## $f0 = 80.00
@@ -310,11 +332,11 @@ glabel EnBb_Draw
 /* 03718 809BB9F8 920E00AF */  lbu     $t6, 0x00AF($s0)           ## 000000AF
 /* 0371C 809BB9FC 51C0000A */  beql    $t6, $zero, .L809BBA28     
 /* 03720 809BBA00 8E190250 */  lw      $t9, 0x0250($s0)           ## 00000250
-/* 03724 809BBA04 0C009AC3 */  jal     func_80026B0C              
+/* 03724 809BBA04 0C009AC3 */  jal     Effect_GetByIndex              
 /* 03728 809BBA08 8E0402A4 */  lw      $a0, 0x02A4($s0)           ## 000002A4
 /* 0372C 809BBA0C 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 03730 809BBA10 27A5009C */  addiu   $a1, $sp, 0x009C           ## $a1 = FFFFFFD4
-/* 03734 809BBA14 0C007F7C */  jal     func_8001FDF0              
+/* 03734 809BBA14 0C007F7C */  jal     EffectBlure_AddVertex              
 /* 03738 809BBA18 27A60090 */  addiu   $a2, $sp, 0x0090           ## $a2 = FFFFFFC8
 /* 0373C 809BBA1C 1000000A */  beq     $zero, $zero, .L809BBA48   
 /* 03740 809BBA20 8FB800CC */  lw      $t8, 0x00CC($sp)           
@@ -324,9 +346,9 @@ glabel EnBb_Draw
 /* 03748 809BBA28 24010008 */  addiu   $at, $zero, 0x0008         ## $at = 00000008
 /* 0374C 809BBA2C 53210006 */  beql    $t9, $at, .L809BBA48       
 /* 03750 809BBA30 8FB800CC */  lw      $t8, 0x00CC($sp)           
-/* 03754 809BBA34 0C009AC3 */  jal     func_80026B0C              
+/* 03754 809BBA34 0C009AC3 */  jal     Effect_GetByIndex              
 /* 03758 809BBA38 8E0402A4 */  lw      $a0, 0x02A4($s0)           ## 000002A4
-/* 0375C 809BBA3C 0C008048 */  jal     func_80020120              
+/* 0375C 809BBA3C 0C008048 */  jal     EffectBlure_AddSpace              
 /* 03760 809BBA40 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 .L809BBA44:
 /* 03764 809BBA44 8FB800CC */  lw      $t8, 0x00CC($sp)           
@@ -335,7 +357,7 @@ glabel EnBb_Draw
 /* 0376C 809BBA4C 24C6BC50 */  addiu   $a2, $a2, %lo(D_809BBC50)  ## $a2 = 809BBC50
 /* 03770 809BBA50 27A4007C */  addiu   $a0, $sp, 0x007C           ## $a0 = FFFFFFB4
 /* 03774 809BBA54 2407084F */  addiu   $a3, $zero, 0x084F         ## $a3 = 0000084F
-/* 03778 809BBA58 0C031AD5 */  jal     func_800C6B54              
+/* 03778 809BBA58 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0377C 809BBA5C 8F050000 */  lw      $a1, 0x0000($t8)           ## 00000000
 /* 03780 809BBA60 8FBF003C */  lw      $ra, 0x003C($sp)           
 /* 03784 809BBA64 8FB00038 */  lw      $s0, 0x0038($sp)           
@@ -345,4 +367,3 @@ glabel EnBb_Draw
 /* 03794 809BBA74 00000000 */  nop
 /* 03798 809BBA78 00000000 */  nop
 /* 0379C 809BBA7C 00000000 */  nop
-

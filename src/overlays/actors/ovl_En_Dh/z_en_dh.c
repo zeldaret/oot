@@ -1,18 +1,18 @@
 #include "z_en_dh.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000415
 
-void EnDh_Init(EnDh* this, GlobalContext* globalCtx);
-void EnDh_Destroy(EnDh* this, GlobalContext* globalCtx);
-void EnDh_Update(EnDh* this, GlobalContext* globalCtx);
-void EnDh_Draw(EnDh* this, GlobalContext* globalCtx);
+#define THIS ((EnDh*)thisx)
+
+void EnDh_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDh_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDh_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnDh_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Dh_InitVars = {
     ACTOR_EN_DH,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_DH,
     sizeof(EnDh),

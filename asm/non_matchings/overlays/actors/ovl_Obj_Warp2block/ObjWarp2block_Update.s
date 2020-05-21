@@ -15,5 +15,3 @@ glabel ObjWarp2block_Update
 /* 008F8 80BA26E8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 008FC 80BA26EC 03E00008 */  jr      $ra                        
 /* 00900 80BA26F0 00000000 */  nop
-
-

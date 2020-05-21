@@ -1,18 +1,18 @@
 #include "z_boss_va.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000035
 
-void BossVa_Init(BossVa* this, GlobalContext* globalCtx);
-void BossVa_Destroy(BossVa* this, GlobalContext* globalCtx);
-void BossVa_Update(BossVa* this, GlobalContext* globalCtx);
-void BossVa_Draw(BossVa* this, GlobalContext* globalCtx);
+#define THIS ((BossVa*)thisx)
+
+void BossVa_Init(Actor* thisx, GlobalContext* globalCtx);
+void BossVa_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BossVa_Update(Actor* thisx, GlobalContext* globalCtx);
+void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Boss_Va_InitVars = {
     ACTOR_BOSS_VA,
     ACTORTYPE_BOSS,
-    ROOM,
     FLAGS,
     OBJECT_BV,
     sizeof(BossVa),

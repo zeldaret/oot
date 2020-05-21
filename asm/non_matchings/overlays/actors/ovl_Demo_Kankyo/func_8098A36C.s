@@ -1,3 +1,25 @@
+.rdata
+glabel D_8098C8D4
+    .asciz "../z_demo_kankyo.c"
+    .balign 4
+
+glabel D_8098C8E8
+    .asciz "../z_demo_kankyo.c"
+    .balign 4
+
+glabel D_8098C8FC
+    .asciz "../z_demo_kankyo.c"
+    .balign 4
+
+.late_rodata
+glabel D_8098CB38
+ .word 0x3C8EFA35
+glabel D_8098CB3C
+ .word 0x3C8EFA35
+glabel D_8098CB40
+ .word 0x3C8EFA35
+
+.text
 glabel func_8098A36C
 /* 014EC 8098A36C 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 014F0 8098A370 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -10,7 +32,7 @@ glabel func_8098A36C
 /* 0150C 8098A38C 24C6C8D4 */  addiu   $a2, $a2, %lo(D_8098C8D4)  ## $a2 = 8098C8D4
 /* 01510 8098A390 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFE4
 /* 01514 8098A394 24070560 */  addiu   $a3, $zero, 0x0560         ## $a3 = 00000560
-/* 01518 8098A398 0C031AB1 */  jal     func_800C6AC4              
+/* 01518 8098A398 0C031AB1 */  jal     Graph_OpenDisps              
 /* 0151C 8098A39C 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 01520 8098A3A0 8FAF0054 */  lw      $t7, 0x0054($sp)           
 /* 01524 8098A3A4 0C024F46 */  jal     func_80093D18              
@@ -89,12 +111,10 @@ glabel func_8098A36C
 /* 01648 8098A4C8 24C6C8FC */  addiu   $a2, $a2, %lo(D_8098C8FC)  ## $a2 = 8098C8FC
 /* 0164C 8098A4CC 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFE4
 /* 01650 8098A4D0 24070581 */  addiu   $a3, $zero, 0x0581         ## $a3 = 00000581
-/* 01654 8098A4D4 0C031AD5 */  jal     func_800C6B54              
+/* 01654 8098A4D4 0C031AD5 */  jal     Graph_CloseDisps              
 /* 01658 8098A4D8 8D050000 */  lw      $a1, 0x0000($t0)           ## 00000000
 /* 0165C 8098A4DC 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 01660 8098A4E0 8FB00014 */  lw      $s0, 0x0014($sp)           
 /* 01664 8098A4E4 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 01668 8098A4E8 03E00008 */  jr      $ra                        
 /* 0166C 8098A4EC 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

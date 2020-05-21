@@ -1,18 +1,18 @@
 #include "z_en_peehat.h"
 
-#define ROOM 0x00
 #define FLAGS 0x01000015
 
-void EnPeehat_Init(EnPeehat* this, GlobalContext* globalCtx);
-void EnPeehat_Destroy(EnPeehat* this, GlobalContext* globalCtx);
-void EnPeehat_Update(EnPeehat* this, GlobalContext* globalCtx);
-void EnPeehat_Draw(EnPeehat* this, GlobalContext* globalCtx);
+#define THIS ((EnPeehat*)thisx)
+
+void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnPeehat_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnPeehat_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Peehat_InitVars = {
     ACTOR_EN_PEEHAT,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_PEEHAT,
     sizeof(EnPeehat),

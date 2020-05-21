@@ -1,3 +1,13 @@
+.rdata
+glabel D_809B4EB0
+    .asciz "../z_en_arrow.c"
+    .balign 4
+
+glabel D_809B4EC0
+    .asciz "this->at_info.cl_elem.at_btl_info.at_type = %x\n"
+    .balign 4
+
+.text
 glabel EnArrow_Init
 /* 00008 809B3928 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0000C 809B392C AFA5003C */  sw      $a1, 0x003C($sp)           
@@ -106,13 +116,13 @@ glabel EnArrow_Init
 /* 00170 809B3A90 26050190 */  addiu   $a1, $s0, 0x0190           ## $a1 = 00000190
 .L809B3A94:
 /* 00174 809B3A94 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00178 809B3A98 0C017406 */  jal     func_8005D018              
+/* 00178 809B3A98 0C017406 */  jal     Collider_InitQuad              
 /* 0017C 809B3A9C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00180 809B3AA0 3C07809B */  lui     $a3, %hi(D_809B4D50)       ## $a3 = 809B0000
 /* 00184 809B3AA4 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 00188 809B3AA8 24E74D50 */  addiu   $a3, $a3, %lo(D_809B4D50)  ## $a3 = 809B4D50
 /* 0018C 809B3AAC 8FA4003C */  lw      $a0, 0x003C($sp)           
-/* 00190 809B3AB0 0C017441 */  jal     func_8005D104              
+/* 00190 809B3AB0 0C017441 */  jal     Collider_SetQuad              
 /* 00194 809B3AB4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00198 809B3AB8 8602001C */  lh      $v0, 0x001C($s0)           ## 0000001C
 /* 0019C 809B3ABC 240F0011 */  addiu   $t7, $zero, 0x0011         ## $t7 = 00000011
@@ -156,5 +166,3 @@ glabel EnArrow_Init
 /* 00220 809B3B40 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00224 809B3B44 03E00008 */  jr      $ra                        
 /* 00228 809B3B48 00000000 */  nop
-
-

@@ -1,17 +1,23 @@
+/*
+ * File: z_bg_haka_zou.c
+ * Overlay: ovl_Bg_Haka_Zou
+ * Description: Statue and Wall (Shadow Temple)
+ */
+
 #include "z_bg_haka_zou.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void BgHakaZou_Init(BgHakaZou* this, GlobalContext* globalCtx);
-void BgHakaZou_Destroy(BgHakaZou* this, GlobalContext* globalCtx);
-void BgHakaZou_Update(BgHakaZou* this, GlobalContext* globalCtx);
+#define THIS ((BgHakaZou*)thisx)
+
+void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaZou_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Haka_Zou_InitVars = {
     ACTOR_BG_HAKA_ZOU,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgHakaZou),

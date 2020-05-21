@@ -45,4 +45,3 @@ glabel ObjLightswitch_Draw
 /* 01354 80B97EF4 03E00008 */  jr      $ra                        
 /* 01358 80B97EF8 00000000 */  nop
 /* 0135C 80B97EFC 00000000 */  nop
-

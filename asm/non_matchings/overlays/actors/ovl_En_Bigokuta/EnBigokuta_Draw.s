@@ -1,3 +1,28 @@
+.rdata
+glabel D_809BF500
+    .asciz "../z_en_bigokuta.c"
+    .balign 4
+
+glabel D_809BF514
+    .asciz "../z_en_bigokuta.c"
+    .balign 4
+
+.late_rodata
+glabel D_809BF580
+    .float 6.28318548203
+
+glabel D_809BF584
+    .float 6.28318548203
+
+glabel D_809BF588
+ .word 0x3F4A3D70
+glabel D_809BF58C
+    .float 1.3
+
+glabel D_809BF590
+ .word 0x45F17A2F, 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel EnBigokuta_Draw
 /* 0244C 809BF0AC 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 02450 809BF0B0 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -9,7 +34,7 @@ glabel EnBigokuta_Draw
 /* 02468 809BF0C8 24C6F500 */  addiu   $a2, $a2, %lo(D_809BF500)  ## $a2 = 809BF500
 /* 0246C 809BF0CC 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE8
 /* 02470 809BF0D0 240707E1 */  addiu   $a3, $zero, 0x07E1         ## $a3 = 000007E1
-/* 02474 809BF0D4 0C031AB1 */  jal     func_800C6AC4
+/* 02474 809BF0D4 0C031AB1 */  jal     Graph_OpenDisps
 /* 02478 809BF0D8 AFA50068 */  sw      $a1, 0x0068($sp)
 /* 0247C 809BF0DC 8E0F0190 */  lw      $t7, 0x0190($s0)           ## 00000190
 /* 02480 809BF0E0 3C05809C */  lui     $a1, %hi(func_809BE26C)    ## $a1 = 809C0000
@@ -34,8 +59,8 @@ glabel EnBigokuta_Draw
 /* 024C4 809BF124 8FA5003C */  lw      $a1, 0x003C($sp)
 /* 024C8 809BF128 3C0BDB06 */  lui     $t3, 0xDB06                ## $t3 = DB060000
 /* 024CC 809BF12C 8D0302C0 */  lw      $v1, 0x02C0($t0)           ## 000002C0
-/* 024D0 809BF130 3C0C8011 */  lui     $t4, 0x8011                ## $t4 = 80110000
-/* 024D4 809BF134 258C6290 */  addiu   $t4, $t4, 0x6290           ## $t4 = 80116290
+/* 024D0 809BF130 3C0C8011 */  lui     $t4, %hi(D_80116280+0x10)
+/* 024D4 809BF134 258C6290 */  addiu   $t4, %lo(D_80116280+0x10)
 /* 024D8 809BF138 246A0008 */  addiu   $t2, $v1, 0x0008           ## $t2 = 00000008
 /* 024DC 809BF13C AD0A02C0 */  sw      $t2, 0x02C0($t0)           ## 000002C0
 /* 024E0 809BF140 356B0030 */  ori     $t3, $t3, 0x0030           ## $t3 = DB060030
@@ -118,9 +143,9 @@ glabel EnBigokuta_Draw
 /* 025F8 809BF258 AFA80068 */  sw      $t0, 0x0068($sp)
 /* 025FC 809BF25C 8FA80068 */  lw      $t0, 0x0068($sp)
 /* 02600 809BF260 3C0CDB06 */  lui     $t4, 0xDB06                ## $t4 = DB060000
-/* 02604 809BF264 3C0D8011 */  lui     $t5, 0x8011                ## $t5 = 80110000
+/* 02604 809BF264 3C0D8011 */  lui     $t5, %hi(D_80116280)
 /* 02608 809BF268 8D0302D0 */  lw      $v1, 0x02D0($t0)           ## 000002D0
-/* 0260C 809BF26C 25AD6280 */  addiu   $t5, $t5, 0x6280           ## $t5 = 80116280
+/* 0260C 809BF26C 25AD6280 */  addiu   $t5, %lo(D_80116280)
 /* 02610 809BF270 358C0030 */  ori     $t4, $t4, 0x0030           ## $t4 = DB060030
 /* 02614 809BF274 246B0008 */  addiu   $t3, $v1, 0x0008           ## $t3 = 00000008
 /* 02618 809BF278 AD0B02D0 */  sw      $t3, 0x02D0($t0)           ## 000002D0
@@ -192,7 +217,7 @@ glabel EnBigokuta_Draw
 /* 02710 809BF370 24C6F514 */  addiu   $a2, $a2, %lo(D_809BF514)  ## $a2 = 809BF514
 /* 02714 809BF374 27A40058 */  addiu   $a0, $sp, 0x0058           ## $a0 = FFFFFFE8
 /* 02718 809BF378 2407081C */  addiu   $a3, $zero, 0x081C         ## $a3 = 0000081C
-/* 0271C 809BF37C 0C031AD5 */  jal     func_800C6B54
+/* 0271C 809BF37C 0C031AD5 */  jal     Graph_CloseDisps
 /* 02720 809BF380 8D650000 */  lw      $a1, 0x0000($t3)           ## 00000000
 /* 02724 809BF384 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 02728 809BF388 8FB00028 */  lw      $s0, 0x0028($sp)
@@ -201,4 +226,3 @@ glabel EnBigokuta_Draw
 /* 02734 809BF394 00000000 */  nop
 /* 02738 809BF398 00000000 */  nop
 /* 0273C 809BF39C 00000000 */  nop
-

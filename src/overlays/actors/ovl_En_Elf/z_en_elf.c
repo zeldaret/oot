@@ -1,18 +1,18 @@
 #include "z_en_elf.h"
 
-#define ROOM 0x00
 #define FLAGS 0x02000030
 
-void EnElf_Init(EnElf* this, GlobalContext* globalCtx);
-void EnElf_Destroy(EnElf* this, GlobalContext* globalCtx);
-void EnElf_Update(EnElf* this, GlobalContext* globalCtx);
-void EnElf_Draw(EnElf* this, GlobalContext* globalCtx);
+#define THIS ((EnElf*)thisx)
+
+void EnElf_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnElf_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnElf_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Elf_InitVars = {
     ACTOR_EN_ELF,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnElf),
@@ -25,30 +25,6 @@ const ActorInit En_Elf_InitVars = {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01C30.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01C38.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01CAC.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01CF0.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01D2C.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01D70.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01DA8.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01DE0.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01E24.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01E68.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01E94.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01ED0.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01F04.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01F48.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Elf/func_80A01F90.s")
 

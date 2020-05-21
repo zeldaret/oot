@@ -4,8 +4,8 @@ glabel EnTg_Init
 /* 00158 80B184B8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0015C 80B184BC AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00160 80B184C0 AFA5003C */  sw      $a1, 0x003C($sp)
-/* 00164 80B184C4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00168 80B184C8 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00164 80B184C4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00168 80B184C8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0016C 80B184CC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00170 80B184D0 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00174 80B184D4 0C00AC78 */  jal     ActorShape_Init
@@ -23,14 +23,14 @@ glabel EnTg_Init
 /* 001A0 80B18500 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 001A4 80B18504 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 001A8 80B18508 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 001AC 80B1850C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001AC 80B1850C 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 001B0 80B18510 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 001B4 80B18514 3C0780B2 */  lui     $a3, %hi(D_80B18910)       ## $a3 = 80B20000
 /* 001B8 80B18518 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 001BC 80B1851C 24E78910 */  addiu   $a3, $a3, %lo(D_80B18910)  ## $a3 = 80B18910
 /* 001C0 80B18520 8FA4003C */  lw      $a0, 0x003C($sp)
-/* 001C4 80B18524 0C01712B */  jal     ActorCollider_InitCylinder
+/* 001C4 80B18524 0C01712B */  jal     Collider_SetCylinder
 
 /* 001C8 80B18528 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 001CC 80B1852C 3C0680B2 */  lui     $a2, %hi(D_80B1893C)       ## $a2 = 80B20000
@@ -57,5 +57,3 @@ glabel EnTg_Init
 /* 0021C 80B1857C 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00220 80B18580 03E00008 */  jr      $ra
 /* 00224 80B18584 00000000 */  nop
-
-

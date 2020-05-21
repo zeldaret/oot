@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_8094AEC4
+    .float 1.99000000954
+
+.text
 glabel BossTw_Init
 /* 009F0 809396C0 27BDFFA8 */  addiu   $sp, $sp, 0xFFA8           ## $sp = FFFFFFA8
 /* 009F4 809396C4 AFB10038 */  sw      $s1, 0x0038($sp)
@@ -40,14 +45,14 @@ glabel BossTw_Init
 /* 00A7C 8093974C AE0E0004 */  sw      $t6, 0x0004($s0)           ## 00000004
 /* 00A80 80939750 260505AC */  addiu   $a1, $s0, 0x05AC           ## $a1 = 000005AC
 /* 00A84 80939754 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 00A88 80939758 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00A88 80939758 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00A8C 8093975C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00A90 80939760 3C078095 */  lui     $a3, %hi(D_8094A7E8)       ## $a3 = 80950000
 /* 00A94 80939764 8FA50044 */  lw      $a1, 0x0044($sp)
 /* 00A98 80939768 24E7A7E8 */  addiu   $a3, $a3, %lo(D_8094A7E8)  ## $a3 = 8094A7E8
 /* 00A9C 8093976C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00AA0 80939770 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00AA0 80939770 0C01712B */  jal     Collider_SetCylinder
 
 /* 00AA4 80939774 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00AA8 80939778 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C
@@ -112,7 +117,7 @@ glabel BossTw_Init
 /* 00B74 80939844 A20000AF */  sb      $zero, 0x00AF($s0)         ## 000000AF
 /* 00B78 80939848 260505AC */  addiu   $a1, $s0, 0x05AC           ## $a1 = 000005AC
 /* 00B7C 8093984C AFA50044 */  sw      $a1, 0x0044($sp)
-/* 00B80 80939850 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00B80 80939850 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00B84 80939854 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B88 80939858 3C198095 */  lui     $t9, %hi(D_8094A89C)       ## $t9 = 80950000
@@ -262,7 +267,7 @@ glabel BossTw_Init
 /* 00DB0 80939A80 14600030 */  bne     $v1, $zero, .L80939B44
 /* 00DB4 80939A84 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 00DB8 80939A88 3C078095 */  lui     $a3, %hi(D_8094A814)       ## $a3 = 80950000
-/* 00DBC 80939A8C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00DBC 80939A8C 0C01712B */  jal     Collider_SetCylinder
 
 /* 00DC0 80939A90 24E7A814 */  addiu   $a3, $a3, %lo(D_8094A814)  ## $a3 = 8094A814
 /* 00DC4 80939A94 240E0033 */  addiu   $t6, $zero, 0x0033         ## $t6 = 00000033
@@ -278,8 +283,8 @@ glabel BossTw_Init
 /* 00DEC 80939ABC AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00DF0 80939AC0 0C0291BE */  jal     SkelAnime_InitSV
 /* 00DF4 80939AC4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00DF8 80939AC8 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00DFC 80939ACC 95EFF542 */  lhu     $t7, -0x0ABE($t7)          ## 8015F542
+/* 00DF8 80939AC8 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xee2)
+/* 00DFC 80939ACC 95EFF542 */  lhu     $t7, %lo(gSaveContext+0xee2)($t7)
 /* 00E00 80939AD0 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00E04 80939AD4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00E08 80939AD8 31F80020 */  andi    $t8, $t7, 0x0020           ## $t8 = 00000000
@@ -307,7 +312,7 @@ glabel BossTw_Init
 /* 00E54 80939B24 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00E58 80939B28 24A56F28 */  addiu   $a1, $a1, 0x6F28           ## $a1 = 06006F28
 /* 00E5C 80939B2C 8FA40048 */  lw      $a0, 0x0048($sp)
-/* 00E60 80939B30 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 00E60 80939B30 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 00E64 80939B34 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
 /* 00E68 80939B38 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 00E6C 80939B3C 100000BF */  beq     $zero, $zero, .L80939E3C
@@ -318,7 +323,7 @@ glabel BossTw_Init
 /* 00E7C 80939B4C 3C078095 */  lui     $a3, %hi(D_8094A814)       ## $a3 = 80950000
 /* 00E80 80939B50 24E7A814 */  addiu   $a3, $a3, %lo(D_8094A814)  ## $a3 = 8094A814
 /* 00E84 80939B54 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00E88 80939B58 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00E88 80939B58 0C01712B */  jal     Collider_SetCylinder
 
 /* 00E8C 80939B5C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00E90 80939B60 240E0032 */  addiu   $t6, $zero, 0x0032         ## $t6 = 00000032
@@ -334,8 +339,8 @@ glabel BossTw_Init
 /* 00EB8 80939B88 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00EBC 80939B8C 0C0291BE */  jal     SkelAnime_InitSV
 /* 00EC0 80939B90 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00EC4 80939B94 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 00EC8 80939B98 95EFF542 */  lhu     $t7, -0x0ABE($t7)          ## 8015F542
+/* 00EC4 80939B94 3C0F8016 */  lui     $t7, %hi(gSaveContext+0xee2)
+/* 00EC8 80939B98 95EFF542 */  lhu     $t7, %lo(gSaveContext+0xee2)($t7)
 /* 00ECC 80939B9C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00ED0 80939BA0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00ED4 80939BA4 31F80020 */  andi    $t8, $t7, 0x0020           ## $t8 = 00000000
@@ -359,7 +364,7 @@ glabel BossTw_Init
 /* 00F14 80939BE4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 00F18 80939BE8 24A56F28 */  addiu   $a1, $a1, 0x6F28           ## $a1 = 06006F28
 /* 00F1C 80939BEC 8FA40048 */  lw      $a0, 0x0048($sp)
-/* 00F20 80939BF0 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 00F20 80939BF0 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 00F24 80939BF4 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
 /* 00F28 80939BF8 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 00F2C 80939BFC 1000008F */  beq     $zero, $zero, .L80939E3C
@@ -367,7 +372,7 @@ glabel BossTw_Init
 .L80939C04:
 /* 00F34 80939C04 3C078095 */  lui     $a3, %hi(D_8094A840)       ## $a3 = 80950000
 /* 00F38 80939C08 24E7A840 */  addiu   $a3, $a3, %lo(D_8094A840)  ## $a3 = 8094A840
-/* 00F3C 80939C0C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00F3C 80939C0C 0C01712B */  jal     Collider_SetCylinder
 
 /* 00F40 80939C10 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00F44 80939C14 3C188094 */  lui     $t8, %hi(func_80940D48)    ## $t8 = 80940000
@@ -394,10 +399,10 @@ glabel BossTw_Init
 /* 00F98 80939C68 3C050602 */  lui     $a1, 0x0602                ## $a1 = 06020000
 /* 00F9C 80939C6C 24A544B4 */  addiu   $a1, $a1, 0x44B4           ## $a1 = 060244B4
 /* 00FA0 80939C70 8FA40048 */  lw      $a0, 0x0048($sp)
-/* 00FA4 80939C74 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 00FA4 80939C74 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 00FA8 80939C78 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
-/* 00FAC 80939C7C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00FB0 80939C80 95CEF542 */  lhu     $t6, -0x0ABE($t6)          ## 8015F542
+/* 00FAC 80939C7C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xee2)
+/* 00FB0 80939C80 95CEF542 */  lhu     $t6, %lo(gSaveContext+0xee2)($t6)
 /* 00FB4 80939C84 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00FB8 80939C88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00FBC 80939C8C 31CF0020 */  andi    $t7, $t6, 0x0020           ## $t7 = 00000000
@@ -562,5 +567,3 @@ glabel BossTw_Init
 /* 011FC 80939ECC 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 01200 80939ED0 03E00008 */  jr      $ra
 /* 01204 80939ED4 27BD0058 */  addiu   $sp, $sp, 0x0058           ## $sp = 00000000
-
-

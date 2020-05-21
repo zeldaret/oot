@@ -30,11 +30,11 @@ glabel func_80AB9F24
 /* 0034C 80AB9F8C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00350 80AB9F90 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
 /* 00354 80AB9F94 03214021 */  addu    $t0, $t9, $at
-/* 00358 80AB9F98 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
+/* 00358 80AB9F98 3C018016 */  lui     $at, %hi(gSegments+0x18)
 /* 0035C 80AB9F9C 26090190 */  addiu   $t1, $s0, 0x0190           ## $t1 = 00000190
 /* 00360 80AB9FA0 260A01F0 */  addiu   $t2, $s0, 0x01F0           ## $t2 = 000001F0
 /* 00364 80AB9FA4 240B0010 */  addiu   $t3, $zero, 0x0010         ## $t3 = 00000010
-/* 00368 80AB9FA8 AC286FC0 */  sw      $t0, 0x6FC0($at)           ## 80166FC0
+/* 00368 80AB9FA8 AC286FC0 */  sw      $t0, %lo(gSegments+0x18)($at)
 /* 0036C 80AB9FAC AFAB0018 */  sw      $t3, 0x0018($sp)
 /* 00370 80AB9FB0 AFAA0014 */  sw      $t2, 0x0014($sp)
 /* 00374 80AB9FB4 AFA90010 */  sw      $t1, 0x0010($sp)
@@ -54,8 +54,8 @@ glabel func_80AB9F24
 /* 003AC 80AB9FEC 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 003B0 80AB9FF0 24080001 */  addiu   $t0, $zero, 0x0001         ## $t0 = 00000001
 /* 003B4 80AB9FF4 0301C821 */  addu    $t9, $t8, $at
-/* 003B8 80AB9FF8 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 003BC 80AB9FFC AC396FC0 */  sw      $t9, 0x6FC0($at)           ## 80166FC0
+/* 003B8 80AB9FF8 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 003BC 80AB9FFC AC396FC0 */  sw      $t9, %lo(gSegments+0x18)($at)
 /* 003C0 80ABA000 3C01C040 */  lui     $at, 0xC040                ## $at = C0400000
 /* 003C4 80ABA004 44812000 */  mtc1    $at, $f4                   ## $f4 = -3.00
 /* 003C8 80ABA008 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000
@@ -65,8 +65,8 @@ glabel func_80AB9F24
 /* 003D8 80ABA018 0C00B58B */  jal     Actor_SetScale
 
 /* 003DC 80ABA01C E604006C */  swc1    $f4, 0x006C($s0)           ## 0000006C
-/* 003E0 80ABA020 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 003E4 80ABA024 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 003E0 80ABA020 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 003E4 80ABA024 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 003E8 80ABA028 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 003EC 80ABA02C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 003F0 80ABA030 0C00AC78 */  jal     ActorShape_Init
@@ -74,14 +74,14 @@ glabel func_80AB9F24
 /* 003F4 80ABA034 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
 /* 003F8 80ABA038 260502B0 */  addiu   $a1, $s0, 0x02B0           ## $a1 = 000002B0
 /* 003FC 80ABA03C AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00400 80ABA040 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00400 80ABA040 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00404 80ABA044 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 00408 80ABA048 3C0780AC */  lui     $a3, %hi(D_80ABB3C4)       ## $a3 = 80AC0000
 /* 0040C 80ABA04C 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 00410 80ABA050 24E7B3C4 */  addiu   $a3, $a3, %lo(D_80ABB3C4)  ## $a3 = 80ABB3C4
 /* 00414 80ABA054 8FA4004C */  lw      $a0, 0x004C($sp)
-/* 00418 80ABA058 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00418 80ABA058 0C01712B */  jal     Collider_SetCylinder
 
 /* 0041C 80ABA05C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00420 80ABA060 86030278 */  lh      $v1, 0x0278($s0)           ## 00000278
@@ -98,8 +98,8 @@ glabel func_80AB9F24
 /* 0044C 80ABA08C 1000005F */  beq     $zero, $zero, .L80ABA20C
 /* 00450 80ABA090 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80ABA094:
-/* 00454 80ABA094 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00458 80ABA098 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00454 80ABA094 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00458 80ABA098 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 0045C 80ABA09C 944B0EF0 */  lhu     $t3, 0x0EF0($v0)           ## 8015F550
 /* 00460 80ABA0A0 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
 /* 00464 80ABA0A4 316D1000 */  andi    $t5, $t3, 0x1000           ## $t5 = 00000000
@@ -130,7 +130,7 @@ glabel func_80AB9F24
 /* 004C4 80ABA104 44998000 */  mtc1    $t9, $f16                  ## $f16 = 0.00
 /* 004C8 80ABA108 00000000 */  nop
 /* 004CC 80ABA10C 468084A0 */  cvt.s.w $f18, $f16
-/* 004D0 80ABA110 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 004D0 80ABA110 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 004D4 80ABA114 E7B20010 */  swc1    $f18, 0x0010($sp)
 /* 004D8 80ABA118 10000017 */  beq     $zero, $zero, .L80ABA178
@@ -157,12 +157,12 @@ glabel func_80AB9F24
 /* 00524 80ABA164 448B5000 */  mtc1    $t3, $f10                  ## $f10 = 0.00
 /* 00528 80ABA168 00000000 */  nop
 /* 0052C 80ABA16C 46805420 */  cvt.s.w $f16, $f10
-/* 00530 80ABA170 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00530 80ABA170 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00534 80ABA174 E7B00010 */  swc1    $f16, 0x0010($sp)
 .L80ABA178:
-/* 00538 80ABA178 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
-/* 0053C 80ABA17C 8DADE664 */  lw      $t5, -0x199C($t5)          ## 8015E664
+/* 00538 80ABA178 3C0D8016 */  lui     $t5, %hi(gSaveContext+4)
+/* 0053C 80ABA17C 8DADE664 */  lw      $t5, %lo(gSaveContext+4)($t5)
 /* 00540 80ABA180 3C0E80AC */  lui     $t6, %hi(func_80ABA21C)    ## $t6 = 80AC0000
 /* 00544 80ABA184 3C0C80AC */  lui     $t4, %hi(func_80ABA778)    ## $t4 = 80AC0000
 /* 00548 80ABA188 15A00004 */  bne     $t5, $zero, .L80ABA19C
@@ -195,7 +195,7 @@ glabel func_80AB9F24
 /* 005A8 80ABA1E8 44884000 */  mtc1    $t0, $f8                   ## $f8 = 0.00
 /* 005AC 80ABA1EC 00000000 */  nop
 /* 005B0 80ABA1F0 468042A0 */  cvt.s.w $f10, $f8
-/* 005B4 80ABA1F4 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 005B4 80ABA1F4 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 005B8 80ABA1F8 E7AA0010 */  swc1    $f10, 0x0010($sp)
 /* 005BC 80ABA1FC 3C0980AC */  lui     $t1, %hi(func_80ABAD38)    ## $t1 = 80AC0000
@@ -208,5 +208,3 @@ glabel func_80AB9F24
 /* 005D0 80ABA210 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 005D4 80ABA214 03E00008 */  jr      $ra
 /* 005D8 80ABA218 00000000 */  nop
-
-

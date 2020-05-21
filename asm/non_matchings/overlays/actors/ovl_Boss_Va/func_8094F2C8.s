@@ -1,3 +1,13 @@
+.late_rodata
+glabel jtbl_8095C560
+.word L8094F350
+.word L8094F350
+.word L8094F350
+.word L8094F39C
+.word L8094F39C
+.word L8094F39C
+
+.text
 glabel func_8094F2C8
 /* 00008 8094F2C8 27BDFFD8 */  addiu   $sp, $sp, 0xFFD8           ## $sp = FFFFFFD8
 /* 0000C 8094F2CC AFBF001C */  sw      $ra, 0x001C($sp)
@@ -13,7 +23,7 @@ glabel func_8094F2C8
 /* 00034 8094F2F4 862400B4 */  lh      $a0, 0x00B4($s1)           ## 000000B4
 /* 00038 8094F2F8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0003C 8094F2FC 862600B8 */  lh      $a2, 0x00B8($s1)           ## 000000B8
-/* 00040 8094F300 0C034421 */  jal     Matrix_RotateZYX
+/* 00040 8094F300 0C034421 */  jal     Matrix_RotateRPY
 /* 00044 8094F304 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00048 8094F308 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
 /* 0004C 8094F30C 3C188096 */  lui     $t8, %hi(D_8095C044)       ## $t8 = 80960000
@@ -151,5 +161,3 @@ glabel L8094F39C
 /* 00240 8094F500 8FB00014 */  lw      $s0, 0x0014($sp)
 /* 00244 8094F504 03E00008 */  jr      $ra
 /* 00248 8094F508 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
-
-

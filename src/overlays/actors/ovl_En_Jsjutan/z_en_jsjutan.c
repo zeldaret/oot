@@ -1,18 +1,18 @@
 #include "z_en_jsjutan.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
-void EnJsjutan_Init(EnJsjutan* this, GlobalContext* globalCtx);
-void EnJsjutan_Destroy(EnJsjutan* this, GlobalContext* globalCtx);
-void EnJsjutan_Update(EnJsjutan* this, GlobalContext* globalCtx);
-void EnJsjutan_Draw(EnJsjutan* this, GlobalContext* globalCtx);
+#define THIS ((EnJsjutan*)thisx)
+
+void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnJsjutan_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Jsjutan_InitVars = {
     ACTOR_EN_JSJUTAN,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnJsjutan),

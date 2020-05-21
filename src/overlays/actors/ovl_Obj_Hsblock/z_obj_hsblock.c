@@ -1,18 +1,24 @@
+/*
+ * File: z_obj_hsblock.c
+ * Overlay: ovl_Obj_Hsblock
+ * Description: Stone Hookshot Target
+ */
+
 #include "z_obj_hsblock.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void ObjHsblock_Init(ObjHsblock* this, GlobalContext* globalCtx);
-void ObjHsblock_Destroy(ObjHsblock* this, GlobalContext* globalCtx);
-void ObjHsblock_Update(ObjHsblock* this, GlobalContext* globalCtx);
-void ObjHsblock_Draw(ObjHsblock* this, GlobalContext* globalCtx);
+#define THIS ((ObjHsblock*)thisx)
+
+void ObjHsblock_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjHsblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjHsblock_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjHsblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Hsblock_InitVars = {
     ACTOR_OBJ_HSBLOCK,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_D_HSBLOCK,
     sizeof(ObjHsblock),

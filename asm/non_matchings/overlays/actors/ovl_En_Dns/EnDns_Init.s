@@ -1,3 +1,57 @@
+.rdata
+glabel D_809F0560
+    .asciz "デクの実売り            "
+    .balign 4
+
+glabel D_809F057C
+    .asciz "デクの棒売り            "
+    .balign 4
+
+glabel D_809F0598
+    .asciz "ハートの欠片売り        "
+    .balign 4
+
+glabel D_809F05B4
+    .asciz "デクの種売り            "
+    .balign 4
+
+glabel D_809F05D0
+    .asciz "デクの盾売り            "
+    .balign 4
+
+glabel D_809F05EC
+    .asciz "バクダン売り            "
+    .balign 4
+
+glabel D_809F0608
+    .asciz "矢売り                  "
+    .balign 4
+
+glabel D_809F0624
+    .asciz "赤のくすり売り          "
+    .balign 4
+
+glabel D_809F0640
+    .asciz "緑のくすり売り          "
+    .balign 4
+
+glabel D_809F065C
+    .asciz "デクの棒持てる数を増やす"
+    .balign 4
+
+glabel D_809F0678
+    .asciz "デクの実持てる数を増やす"
+    .balign 4
+
+glabel D_809F0694
+    .asciz "\x1B[31m引数エラー（売りナッツ）[ arg_data = %d ]\x1B[m\n"
+    .balign 4
+
+glabel D_809F06C8
+    .asciz "\x1B[32m◆◆◆ 売りナッツ『%s』 ◆◆◆\x1B[m\n"
+    .balign 4
+
+.text
 glabel EnDns_Init
 /* 00000 809EF350 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00004 809EF354 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -21,8 +75,8 @@ glabel EnDns_Init
 .L809EF394:
 /* 00044 809EF394 14C1000D */  bne     $a2, $at, .L809EF3CC
 /* 00048 809EF398 248406C8 */  addiu   $a0, $a0, %lo(D_809F06C8)  ## $a0 = 000006C8
-/* 0004C 809EF39C 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00050 809EF3A0 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 0004C 809EF39C 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 00050 809EF3A0 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 00054 809EF3A4 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 00058 809EF3A8 24020011 */  addiu   $v0, $zero, 0x0011         ## $v0 = 00000011
 /* 0005C 809EF3AC 11C00003 */  beq     $t6, $zero, .L809EF3BC
@@ -62,17 +116,17 @@ glabel EnDns_Init
 /* 000D0 809EF420 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000D4 809EF424 2605026C */  addiu   $a1, $s0, 0x026C           ## $a1 = 0000026C
 /* 000D8 809EF428 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 000DC 809EF42C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000DC 809EF42C 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 000E0 809EF430 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 000E4 809EF434 3C07809F */  lui     $a3, %hi(D_809F03E0)       ## $a3 = 809F0000
 /* 000E8 809EF438 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 000EC 809EF43C 24E703E0 */  addiu   $a3, $a3, %lo(D_809F03E0)  ## $a3 = 809F03E0
 /* 000F0 809EF440 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 000F4 809EF444 0C017114 */  jal     func_8005C450
+/* 000F4 809EF444 0C017114 */  jal     Collider_SetCylinder_Set3
 /* 000F8 809EF448 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 000FC 809EF44C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00100 809EF450 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 000FC 809EF44C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00100 809EF450 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00104 809EF454 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00108 809EF458 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0010C 809EF45C 0C00AC78 */  jal     ActorShape_Init
@@ -116,5 +170,3 @@ glabel EnDns_Init
 /* 00198 809EF4E8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 0019C 809EF4EC 03E00008 */  jr      $ra
 /* 001A0 809EF4F0 00000000 */  nop
-
-

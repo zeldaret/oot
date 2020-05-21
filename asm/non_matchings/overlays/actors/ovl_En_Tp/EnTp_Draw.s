@@ -1,3 +1,21 @@
+.rdata
+glabel D_80B22B40
+    .asciz "../z_en_tp.c"
+    .balign 4
+
+glabel D_80B22B50
+    .asciz "../z_en_tp.c"
+    .balign 4
+
+glabel D_80B22B60
+    .asciz "../z_en_tp.c"
+    .balign 4
+
+glabel D_80B22B70
+    .asciz "../z_en_tp.c"
+    .balign 4
+
+.text
 glabel EnTp_Draw
 /* 019CC 80B227AC 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 019D0 80B227B0 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -8,7 +26,7 @@ glabel EnTp_Draw
 /* 019E4 80B227C4 24C62B40 */  addiu   $a2, $a2, %lo(D_80B22B40)  ## $a2 = 80B22B40
 /* 019E8 80B227C8 27A40044 */  addiu   $a0, $sp, 0x0044           ## $a0 = FFFFFFE4
 /* 019EC 80B227CC 240705AB */  addiu   $a3, $zero, 0x05AB         ## $a3 = 000005AB
-/* 019F0 80B227D0 0C031AB1 */  jal     func_800C6AC4              
+/* 019F0 80B227D0 0C031AB1 */  jal     Graph_OpenDisps              
 /* 019F4 80B227D4 AFA50054 */  sw      $a1, 0x0054($sp)           
 /* 019F8 80B227D8 8FAF0060 */  lw      $t7, 0x0060($sp)           
 /* 019FC 80B227DC 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
@@ -115,11 +133,11 @@ glabel EnTp_Draw
 /* 01B88 80B22968 35AD0020 */  ori     $t5, $t5, 0x0020           ## $t5 = DB060020
 /* 01B8C 80B2296C 244E0008 */  addiu   $t6, $v0, 0x0008           ## $t6 = 00000008
 /* 01B90 80B22970 000FC880 */  sll     $t9, $t7,  2               
-/* 01B94 80B22974 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 01B94 80B22974 3C0A8016 */  lui     $t2, %hi(gSegments)
 /* 01B98 80B22978 AD0E02D0 */  sw      $t6, 0x02D0($t0)           ## 000002D0
 /* 01B9C 80B2297C 01595021 */  addu    $t2, $t2, $t9              
 /* 01BA0 80B22980 AC4D0000 */  sw      $t5, 0x0000($v0)           ## 00000000
-/* 01BA4 80B22984 8D4A6FA8 */  lw      $t2, 0x6FA8($t2)           ## 80166FA8
+/* 01BA4 80B22984 8D4A6FA8 */  lw      $t2, %lo(gSegments)($t2)
 /* 01BA8 80B22988 00815824 */  and     $t3, $a0, $at              
 /* 01BAC 80B2298C 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 01BB0 80B22990 014B6021 */  addu    $t4, $t2, $t3              
@@ -160,7 +178,7 @@ glabel EnTp_Draw
 /* 01C38 80B22A18 24C62B70 */  addiu   $a2, $a2, %lo(D_80B22B70)  ## $a2 = 80B22B70
 /* 01C3C 80B22A1C 27A40044 */  addiu   $a0, $sp, 0x0044           ## $a0 = FFFFFFE4
 /* 01C40 80B22A20 240705D7 */  addiu   $a3, $zero, 0x05D7         ## $a3 = 000005D7
-/* 01C44 80B22A24 0C031AD5 */  jal     func_800C6B54              
+/* 01C44 80B22A24 0C031AD5 */  jal     Graph_CloseDisps              
 /* 01C48 80B22A28 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 01C4C 80B22A2C 8FA30060 */  lw      $v1, 0x0060($sp)           
 /* 01C50 80B22A30 2401000B */  addiu   $at, $zero, 0x000B         ## $at = 0000000B
@@ -181,4 +199,3 @@ glabel EnTp_Draw
 /* 01C84 80B22A64 00000000 */  nop
 /* 01C88 80B22A68 00000000 */  nop
 /* 01C8C 80B22A6C 00000000 */  nop
-

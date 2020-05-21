@@ -1,18 +1,18 @@
 #include "z_demo_du.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void DemoDu_Init(DemoDu* this, GlobalContext* globalCtx);
-void DemoDu_Destroy(DemoDu* this, GlobalContext* globalCtx);
-void DemoDu_Update(DemoDu* this, GlobalContext* globalCtx);
-void DemoDu_Draw(DemoDu* this, GlobalContext* globalCtx);
+#define THIS ((DemoDu*)thisx)
+
+void DemoDu_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Demo_Du_InitVars = {
     ACTOR_DEMO_DU,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_DU,
     sizeof(DemoDu),

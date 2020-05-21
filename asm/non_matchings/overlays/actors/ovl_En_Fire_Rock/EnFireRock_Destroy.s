@@ -1,3 +1,17 @@
+.rdata
+glabel D_80A12D90
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A12D94
+    .asciz "[32m☆☆☆☆☆ 発生数回復 ☆☆☆☆☆%d\n[m"
+    .balign 4
+
+glabel D_80A12DC0
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel EnFireRock_Destroy
 /* 00410 80A12030 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00414 80A12034 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -37,12 +51,10 @@ glabel EnFireRock_Destroy
 .L80A120B0:
 /* 00490 80A120B0 8FA40024 */  lw      $a0, 0x0024($sp)           
 .L80A120B4:
-/* 00494 80A120B4 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00494 80A120B4 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00498 80A120B8 24C50194 */  addiu   $a1, $a2, 0x0194           ## $a1 = 00000194
 /* 0049C 80A120BC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 004A0 80A120C0 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 004A4 80A120C4 03E00008 */  jr      $ra                        
 /* 004A8 80A120C8 00000000 */  nop
-
-

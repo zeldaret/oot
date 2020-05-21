@@ -1,17 +1,17 @@
 #include "z_en_encount2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-void EnEncount2_Init(EnEncount2* this, GlobalContext* globalCtx);
-void EnEncount2_Update(EnEncount2* this, GlobalContext* globalCtx);
-void EnEncount2_Draw(EnEncount2* this, GlobalContext* globalCtx);
+#define THIS ((EnEncount2*)thisx)
+
+void EnEncount2_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnEncount2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_EFC_STAR_FIELD,
     sizeof(EnEncount2),

@@ -1,3 +1,9 @@
+.rdata
+glabel D_808AB98C
+    .asciz "[31m描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel BgSpot01Idohashira_Draw
 /* 00AE8 808AB7C8 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00AEC 808AB7CC AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -29,4 +35,3 @@ glabel BgSpot01Idohashira_Draw
 /* 00B44 808AB824 00000000 */  nop
 /* 00B48 808AB828 00000000 */  nop
 /* 00B4C 808AB82C 00000000 */  nop
-

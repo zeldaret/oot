@@ -1,18 +1,24 @@
+/*
+ * File: z_en_wood02.c
+ * Overlay: ovl_En_Wood02
+ * Description: Trees & Bushes
+ */
+
 #include "z_en_wood02.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void EnWood02_Init(EnWood02* this, GlobalContext* globalCtx);
-void EnWood02_Destroy(EnWood02* this, GlobalContext* globalCtx);
-void EnWood02_Update(EnWood02* this, GlobalContext* globalCtx);
-void EnWood02_Draw(EnWood02* this, GlobalContext* globalCtx);
+#define THIS ((EnWood02*)thisx)
+
+void EnWood02_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnWood02_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnWood02_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnWood02_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Wood02_InitVars = {
     ACTOR_EN_WOOD02,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_WOOD02,
     sizeof(EnWood02),

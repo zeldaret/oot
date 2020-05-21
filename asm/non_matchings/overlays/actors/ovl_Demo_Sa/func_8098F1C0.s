@@ -1,3 +1,13 @@
+.rdata
+glabel D_80990DE0
+    .asciz "../z_demo_sa_inKenjyanomaDemo02.c"
+    .balign 4
+
+glabel D_80990E04
+    .asciz "../z_demo_sa_inKenjyanomaDemo02.c"
+    .balign 4
+
+.text
 glabel func_8098F1C0
 /* 00D60 8098F1C0 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 00D64 8098F1C4 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -21,14 +31,14 @@ glabel func_8098F1C0
 /* 00DAC 8098F20C 8D4A00F4 */  lw      $t2, %lo(D_809900F4)($t2)
 /* 00DB0 8098F210 AFAA006C */  sw      $t2, 0x006C($sp)
 /* 00DB4 8098F214 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
-/* 00DB8 8098F218 0C031AB1 */  jal     func_800C6AC4
+/* 00DB8 8098F218 0C031AB1 */  jal     Graph_OpenDisps
 /* 00DBC 8098F21C 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00DC0 8098F220 8FAC008C */  lw      $t4, 0x008C($sp)
 /* 00DC4 8098F224 0C024F61 */  jal     func_80093D84
 /* 00DC8 8098F228 8D840000 */  lw      $a0, 0x0000($t4)           ## 00000000
 /* 00DCC 8098F22C 8FA90078 */  lw      $t1, 0x0078($sp)
 /* 00DD0 8098F230 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
-/* 00DD4 8098F234 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
+/* 00DD4 8098F234 3C078016 */  lui     $a3, %hi(gSegments)
 /* 00DD8 8098F238 0009C100 */  sll     $t8, $t1,  4
 /* 00DDC 8098F23C 00187702 */  srl     $t6, $t8, 28
 /* 00DE0 8098F240 3C0FDB06 */  lui     $t7, 0xDB06                ## $t7 = DB060000
@@ -36,7 +46,7 @@ glabel func_8098F1C0
 /* 00DE8 8098F248 AE0D02D0 */  sw      $t5, 0x02D0($s0)           ## 000002D0
 /* 00DEC 8098F24C 35EF0020 */  ori     $t7, $t7, 0x0020           ## $t7 = DB060020
 /* 00DF0 8098F250 000EC880 */  sll     $t9, $t6,  2
-/* 00DF4 8098F254 24E76FA8 */  addiu   $a3, $a3, 0x6FA8           ## $a3 = 80166FA8
+/* 00DF4 8098F254 24E76FA8 */  addiu   $a3, %lo(gSegments)
 /* 00DF8 8098F258 00F92021 */  addu    $a0, $a3, $t9
 /* 00DFC 8098F25C AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
 /* 00E00 8098F260 8C8A0000 */  lw      $t2, 0x0000($a0)           ## 00000000
@@ -76,7 +86,7 @@ glabel func_8098F1C0
 /* 00E88 8098F2E8 AC4B0004 */  sw      $t3, 0x0004($v0)           ## 00000004
 /* 00E8C 8098F2EC 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00E90 8098F2F0 8FA80088 */  lw      $t0, 0x0088($sp)
-/* 00E94 8098F2F4 3C0A8011 */  lui     $t2, 0x8011                ## $t2 = 80110000
+/* 00E94 8098F2F4 3C0A8011 */  lui     $t2, %hi(D_80116280)
 /* 00E98 8098F2F8 244C0008 */  addiu   $t4, $v0, 0x0008           ## $t4 = 00000008
 /* 00E9C 8098F2FC AE0C02D0 */  sw      $t4, 0x02D0($s0)           ## 000002D0
 /* 00EA0 8098F300 AC4D0000 */  sw      $t5, 0x0000($v0)           ## 00000000
@@ -86,7 +96,7 @@ glabel func_8098F1C0
 /* 00EB0 8098F310 31F800FF */  andi    $t8, $t7, 0x00FF           ## $t8 = 00000024
 /* 00EB4 8098F314 AC580004 */  sw      $t8, 0x0004($v0)           ## 00000004
 /* 00EB8 8098F318 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
-/* 00EBC 8098F31C 254A6280 */  addiu   $t2, $t2, 0x6280           ## $t2 = 80116280
+/* 00EBC 8098F31C 254A6280 */  addiu   $t2, %lo(D_80116280)
 /* 00EC0 8098F320 244E0008 */  addiu   $t6, $v0, 0x0008           ## $t6 = 00000008
 /* 00EC4 8098F324 AE0E02D0 */  sw      $t6, 0x02D0($s0)           ## 000002D0
 /* 00EC8 8098F328 AC4A0004 */  sw      $t2, 0x0004($v0)           ## 00000004
@@ -108,12 +118,10 @@ glabel func_8098F1C0
 /* 00F08 8098F368 24C60E04 */  addiu   $a2, $a2, %lo(D_80990E04)  ## $a2 = 80990E04
 /* 00F0C 8098F36C 27A40054 */  addiu   $a0, $sp, 0x0054           ## $a0 = FFFFFFCC
 /* 00F10 8098F370 24070145 */  addiu   $a3, $zero, 0x0145         ## $a3 = 00000145
-/* 00F14 8098F374 0C031AD5 */  jal     func_800C6B54
+/* 00F14 8098F374 0C031AD5 */  jal     Graph_CloseDisps
 /* 00F18 8098F378 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 00F1C 8098F37C 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 00F20 8098F380 8FB00028 */  lw      $s0, 0x0028($sp)
 /* 00F24 8098F384 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
 /* 00F28 8098F388 03E00008 */  jr      $ra
 /* 00F2C 8098F38C 00000000 */  nop
-
-

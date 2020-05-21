@@ -1,18 +1,18 @@
 #include "z_en_ishi.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00800000
 
-void EnIshi_Init(EnIshi* this, GlobalContext* globalCtx);
-void EnIshi_Destroy(EnIshi* this, GlobalContext* globalCtx);
-void EnIshi_Update(EnIshi* this, GlobalContext* globalCtx);
-void EnIshi_Draw(EnIshi* this, GlobalContext* globalCtx);
+#define THIS ((EnIshi*)thisx)
+
+void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnIshi_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ishi_InitVars = {
     ACTOR_EN_ISHI,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(EnIshi),

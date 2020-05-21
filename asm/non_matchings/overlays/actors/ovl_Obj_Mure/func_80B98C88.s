@@ -11,5 +11,3 @@ glabel func_80B98C88
 .L80B98CAC:
 /* 0020C 80B98CAC 03E00008 */  jr      $ra                        
 /* 00210 80B98CB0 00000000 */  nop
-
-

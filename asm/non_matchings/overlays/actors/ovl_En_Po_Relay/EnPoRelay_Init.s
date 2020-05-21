@@ -9,8 +9,8 @@ glabel EnPoRelay_Init
 /* 0001C 80AD775C 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 00020 80AD7760 24A58D28 */  addiu   $a1, $a1, %lo(D_80AD8D28)  ## $a1 = 80AD8D28
-/* 00024 80AD7764 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00028 80AD7768 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00024 80AD7764 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00028 80AD7768 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0002C 80AD776C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00030 80AD7770 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00034 80AD7774 0C00AC78 */  jal     ActorShape_Init
@@ -31,14 +31,14 @@ glabel EnPoRelay_Init
 /* 0006C 80AD77AC 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00070 80AD77B0 26050290 */  addiu   $a1, $s0, 0x0290           ## $a1 = 00000290
 /* 00074 80AD77B4 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 00078 80AD77B8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00078 80AD77B8 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 0007C 80AD77BC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00080 80AD77C0 3C0780AE */  lui     $a3, %hi(D_80AD8CF8)       ## $a3 = 80AE0000
 /* 00084 80AD77C4 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 00088 80AD77C8 24E78CF8 */  addiu   $a3, $a3, %lo(D_80AD8CF8)  ## $a3 = 80AD8CF8
 /* 0008C 80AD77CC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00090 80AD77D0 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00090 80AD77D0 0C01712B */  jal     Collider_SetCylinder
 
 /* 00094 80AD77D4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00098 80AD77D8 26060280 */  addiu   $a2, $s0, 0x0280           ## $a2 = 00000280
@@ -106,5 +106,3 @@ glabel EnPoRelay_Init
 /* 00178 80AD78B8 8FB00024 */  lw      $s0, 0x0024($sp)
 /* 0017C 80AD78BC 03E00008 */  jr      $ra
 /* 00180 80AD78C0 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

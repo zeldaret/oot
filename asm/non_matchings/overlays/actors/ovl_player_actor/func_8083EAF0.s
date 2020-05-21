@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808553CC
+    .float 1.1
+
+.text
 glabel func_8083EAF0
 /* 0C8E0 8083EAF0 10A00012 */  beq     $a1, $zero, .L8083EB3C     
 /* 0C8E4 8083EAF4 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
@@ -22,5 +27,3 @@ glabel func_8083EAF0
 .L8083EB3C:
 /* 0C92C 8083EB3C 03E00008 */  jr      $ra                        
 /* 0C930 8083EB40 00000000 */  nop
-
-

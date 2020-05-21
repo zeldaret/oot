@@ -1,7 +1,21 @@
+.rdata
+glabel D_8097BFF0
+    .asciz "../z_demo_gj.c"
+    .balign 4
+
+glabel D_8097C000
+    .asciz "../z_demo_gj.c"
+    .balign 4
+
+glabel D_8097C010
+    .asciz "../z_demo_gj.c"
+    .balign 4
+
+.text
 glabel func_80979030
 /* 00700 80979030 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
-/* 00704 80979034 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 00708 80979038 8DCEFA90 */  lw      $t6, -0x0570($t6)          ## 8015FA90
+/* 00704 80979034 3C0E8016 */  lui     $t6, %hi(gGameInfo)
+/* 00708 80979038 8DCEFA90 */  lw      $t6, %lo(gGameInfo)($t6)
 /* 0070C 8097903C AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00710 80979040 AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 00714 80979044 AFA40048 */  sw      $a0, 0x0048($sp)           
@@ -14,7 +28,7 @@ glabel func_80979030
 /* 00730 80979060 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFE8
 /* 00734 80979064 8CB00000 */  lw      $s0, 0x0000($a1)           ## 00000000
 /* 00738 80979068 2407048B */  addiu   $a3, $zero, 0x048B         ## $a3 = 0000048B
-/* 0073C 8097906C 0C031AB1 */  jal     func_800C6AC4              
+/* 0073C 8097906C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00740 80979070 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00744 80979074 0C024F46 */  jal     func_80093D18              
 /* 00748 80979078 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -51,7 +65,7 @@ glabel func_80979030
 /* 007C4 809790F4 AE0C02C0 */  sw      $t4, 0x02C0($s0)           ## 000002C0
 /* 007C8 809790F8 24070491 */  addiu   $a3, $zero, 0x0491         ## $a3 = 00000491
 /* 007CC 809790FC AC4E0004 */  sw      $t6, 0x0004($v0)           ## 00000004
-/* 007D0 80979100 0C031AD5 */  jal     func_800C6B54              
+/* 007D0 80979100 0C031AD5 */  jal     Graph_CloseDisps              
 /* 007D4 80979104 AC4D0000 */  sw      $t5, 0x0000($v0)           ## 00000000
 .L80979108:
 /* 007D8 80979108 8FBF001C */  lw      $ra, 0x001C($sp)           
@@ -59,5 +73,3 @@ glabel func_80979030
 /* 007E0 80979110 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 007E4 80979114 03E00008 */  jr      $ra                        
 /* 007E8 80979118 00000000 */  nop
-
-

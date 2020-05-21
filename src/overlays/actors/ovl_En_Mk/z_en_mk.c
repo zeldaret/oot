@@ -1,18 +1,24 @@
+/*
+ * File: z_en_mk.c
+ * Overlay: ovl_En_Mk
+ * Description: Lakeside Professor
+ */
+
 #include "z_en_mk.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000019
 
-void EnMk_Init(EnMk* this, GlobalContext* globalCtx);
-void EnMk_Destroy(EnMk* this, GlobalContext* globalCtx);
-void EnMk_Update(EnMk* this, GlobalContext* globalCtx);
-void EnMk_Draw(EnMk* this, GlobalContext* globalCtx);
+#define THIS ((EnMk*)thisx)
+
+void EnMk_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMk_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMk_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Mk_InitVars = {
     ACTOR_EN_MK,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_MK,
     sizeof(EnMk),

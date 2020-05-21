@@ -1,18 +1,18 @@
 #include "z_en_fz.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000415
 
-void EnFz_Init(EnFz* this, GlobalContext* globalCtx);
-void EnFz_Destroy(EnFz* this, GlobalContext* globalCtx);
-void EnFz_Update(EnFz* this, GlobalContext* globalCtx);
-void EnFz_Draw(EnFz* this, GlobalContext* globalCtx);
+#define THIS ((EnFz*)thisx)
+
+void EnFz_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnFz_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnFz_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Fz_InitVars = {
     ACTOR_EN_FZ,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_FZ,
     sizeof(EnFz),

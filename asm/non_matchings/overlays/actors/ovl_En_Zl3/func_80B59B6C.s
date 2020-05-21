@@ -1,3 +1,9 @@
+.rdata
+glabel D_80B5A8CC
+    .asciz "[31m En_Oa3 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n[m"
+    .balign 4
+
+.text
 glabel func_80B59B6C
 /* 067BC 80B59B6C 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 067C0 80B59B70 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -11,9 +17,9 @@ glabel func_80B59B6C
 /* 067E0 80B59B90 3C030601 */  lui     $v1, 0x0601                ## $v1 = 06010000
 /* 067E4 80B59B94 246391D8 */  addiu   $v1, $v1, 0x91D8           ## $v1 = 060091D8
 /* 067E8 80B59B98 00037100 */  sll     $t6, $v1,  4               
-/* 067EC 80B59B9C 3C118016 */  lui     $s1, 0x8016                ## $s1 = 80160000
+/* 067EC 80B59B9C 3C118016 */  lui     $s1, %hi(gSegments)
 /* 067F0 80B59BA0 000E7F02 */  srl     $t7, $t6, 28               
-/* 067F4 80B59BA4 26316FA8 */  addiu   $s1, $s1, 0x6FA8           ## $s1 = 80166FA8
+/* 067F4 80B59BA4 26316FA8 */  addiu   $s1, %lo(gSegments)
 /* 067F8 80B59BA8 000FC080 */  sll     $t8, $t7,  2               
 /* 067FC 80B59BAC 0238C821 */  addu    $t9, $s1, $t8              
 /* 06800 80B59BB0 8F280000 */  lw      $t0, 0x0000($t9)           ## 00000000
@@ -160,5 +166,3 @@ glabel func_80B59B6C
 /* 069FC 80B59DAC 8FB30020 */  lw      $s3, 0x0020($sp)           
 /* 06A00 80B59DB0 03E00008 */  jr      $ra                        
 /* 06A04 80B59DB4 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

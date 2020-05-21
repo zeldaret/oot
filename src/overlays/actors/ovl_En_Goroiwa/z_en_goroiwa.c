@@ -1,18 +1,18 @@
 #include "z_en_goroiwa.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void EnGoroiwa_Init(EnGoroiwa* this, GlobalContext* globalCtx);
-void EnGoroiwa_Destroy(EnGoroiwa* this, GlobalContext* globalCtx);
-void EnGoroiwa_Update(EnGoroiwa* this, GlobalContext* globalCtx);
-void EnGoroiwa_Draw(EnGoroiwa* this, GlobalContext* globalCtx);
+#define THIS ((EnGoroiwa*)thisx)
+
+void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GOROIWA,
     sizeof(EnGoroiwa),

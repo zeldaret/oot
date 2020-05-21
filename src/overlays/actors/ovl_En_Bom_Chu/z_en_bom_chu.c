@@ -1,18 +1,18 @@
 #include "z_en_bom_chu.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void EnBomChu_Init(EnBomChu* this, GlobalContext* globalCtx);
-void EnBomChu_Destroy(EnBomChu* this, GlobalContext* globalCtx);
-void EnBomChu_Update(EnBomChu* this, GlobalContext* globalCtx);
-void EnBomChu_Draw(EnBomChu* this, GlobalContext* globalCtx);
+#define THIS ((EnBomChu*)thisx)
+
+void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBomChu_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Bom_Chu_InitVars = {
     ACTOR_EN_BOM_CHU,
     ACTORTYPE_EXPLOSIVES,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBomChu),

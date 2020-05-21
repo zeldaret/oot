@@ -1,18 +1,18 @@
 #include "z_en_light.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void EnLight_Init(EnLight* this, GlobalContext* globalCtx);
-void EnLight_Destroy(EnLight* this, GlobalContext* globalCtx);
-void EnLight_Update(EnLight* this, GlobalContext* globalCtx);
-void EnLight_Draw(EnLight* this, GlobalContext* globalCtx);
+#define THIS ((EnLight*)thisx)
+
+void EnLight_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnLight_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnLight_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Light_InitVars = {
     ACTOR_EN_LIGHT,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnLight),

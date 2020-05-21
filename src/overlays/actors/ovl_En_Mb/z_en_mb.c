@@ -1,18 +1,18 @@
 #include "z_en_mb.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000015
 
-void EnMb_Init(EnMb* this, GlobalContext* globalCtx);
-void EnMb_Destroy(EnMb* this, GlobalContext* globalCtx);
-void EnMb_Update(EnMb* this, GlobalContext* globalCtx);
-void EnMb_Draw(EnMb* this, GlobalContext* globalCtx);
+#define THIS ((EnMb*)thisx)
+
+void EnMb_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMb_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMb_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMb_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Mb_InitVars = {
     ACTOR_EN_MB,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_MB,
     sizeof(EnMb),

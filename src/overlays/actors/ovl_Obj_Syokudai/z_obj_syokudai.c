@@ -1,18 +1,24 @@
+/*
+ * File: z_obj_syokudai.c
+ * Overlay: ovl_Obj_Syokudai
+ * Description: Torch
+ */
+
 #include "z_obj_syokudai.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000410
 
-void ObjSyokudai_Init(ObjSyokudai* this, GlobalContext* globalCtx);
-void ObjSyokudai_Destroy(ObjSyokudai* this, GlobalContext* globalCtx);
-void ObjSyokudai_Update(ObjSyokudai* this, GlobalContext* globalCtx);
-void ObjSyokudai_Draw(ObjSyokudai* this, GlobalContext* globalCtx);
+#define THIS ((ObjSyokudai*)thisx)
+
+void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Syokudai_InitVars = {
     ACTOR_OBJ_SYOKUDAI,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_SYOKUDAI,
     sizeof(ObjSyokudai),

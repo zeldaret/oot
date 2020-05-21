@@ -1,18 +1,18 @@
 #include "z_demo_sa.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void DemoSa_Init(DemoSa* this, GlobalContext* globalCtx);
-void DemoSa_Destroy(DemoSa* this, GlobalContext* globalCtx);
-void DemoSa_Update(DemoSa* this, GlobalContext* globalCtx);
-void DemoSa_Draw(DemoSa* this, GlobalContext* globalCtx);
+#define THIS ((DemoSa*)thisx)
+
+void DemoSa_Init(Actor* thisx, GlobalContext* globalCtx);
+void DemoSa_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void DemoSa_Update(Actor* thisx, GlobalContext* globalCtx);
+void DemoSa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Demo_Sa_InitVars = {
     ACTOR_DEMO_SA,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_SA,
     sizeof(DemoSa),

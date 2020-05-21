@@ -1,18 +1,24 @@
+/*
+ * File: z_en_horse_game_check.c
+ * Overlay: ovl_En_Horse_Game_Check
+ * Description: Horseback Minigames
+ */
+
 #include "z_en_horse_game_check.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void EnHorseGameCheck_Init(EnHorseGameCheck* this, GlobalContext* globalCtx);
-void EnHorseGameCheck_Destroy(EnHorseGameCheck* this, GlobalContext* globalCtx);
-void EnHorseGameCheck_Update(EnHorseGameCheck* this, GlobalContext* globalCtx);
-void EnHorseGameCheck_Draw(EnHorseGameCheck* this, GlobalContext* globalCtx);
+#define THIS ((EnHorseGameCheck*)thisx)
+
+void EnHorseGameCheck_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseGameCheck_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseGameCheck_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHorseGameCheck_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Horse_Game_Check_InitVars = {
     ACTOR_EN_HORSE_GAME_CHECK,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnHorseGameCheck),

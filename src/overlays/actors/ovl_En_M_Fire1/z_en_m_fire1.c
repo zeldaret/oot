@@ -4,60 +4,60 @@
  * Description: The attack from a Deku Nut. Spawned by ovl_En_Arrow.
  */
 
-#include <ultra64.h>
-#include <global.h>
-#include <z64.h>
+#include "z_en_m_fire1.h"
 
-typedef struct {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ ColliderCylinderMain capsule;
-    /* 0x0198 */ f32 unk_0198;
-} ActorMFire; // size = 0x019C
-
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-static void Init(ActorMFire* this, GlobalContext* globalCtx);
-static void Destroy(ActorMFire* this, GlobalContext* globalCtx);
-static void Update(ActorMFire* this, GlobalContext* globalCtx);
+#define THIS ((EnMFire1*)thisx)
+
+void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMFire1_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMFire1_Update(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_M_Fire1_InitVars = {
-    ACTOR_EN_M_FIRE1,   ACTORTYPE_MISC,    ROOM, FLAGS, OBJECT_GAMEPLAY_KEEP, sizeof(ActorMFire), (ActorFunc)Init,
-    (ActorFunc)Destroy, (ActorFunc)Update, NULL,
+    ACTOR_EN_M_FIRE1,
+    ACTORTYPE_MISC,
+    FLAGS,
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(EnMFire1),
+    (ActorFunc)EnMFire1_Init,
+    (ActorFunc)EnMFire1_Destroy,
+    (ActorFunc)EnMFire1_Update,
+    NULL,
 };
 
 static ColliderCylinderInit cylinderInitData = {
-    0x0A, 0x09, 0x00,       0x00, 0x08, 0x01, 0x00, 0x00, 0x02,   0x00,   0x00,   0x00,   0x00000001, 0x00,   0x00,
-    0x00, 0x00, 0xFFCFFFFF, 0x00, 0x00, 0x00, 0x00, 0x19, 0x0000, 0x0000, 0x0000, 0x00C8, 0x00C8,     0x0000,
+    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x08, COLSHAPE_CYLINDER },
+    { 0x02, { 0x00000001, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
+    { 200, 200, 0, { 0 } }
 };
 
-static void Init(ActorMFire* this, GlobalContext* globalCtx) {
+void EnMFire1_Init(Actor* thisx, GlobalContext* globalCtx) {
+    EnMFire1* this = THIS;
     s32 pad;
-    ActorMFire* thisLocal;
-
-    thisLocal = this;
 
     if (this->actor.params < 0) {
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &thisLocal->actor, ACTORTYPE_ITEMACTION);
+        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ITEMACTION);
     }
 
-    ActorCollider_AllocCylinder(globalCtx, &thisLocal->capsule);
-    ActorCollider_InitCylinder(globalCtx, &thisLocal->capsule, &thisLocal->actor, &cylinderInitData);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &cylinderInitData);
 }
 
-static void Destroy(ActorMFire* this, GlobalContext* globalCtx) {
-    ColliderCylinderMain* capsule = &this->capsule;
-    ActorCollider_FreeCylinder(globalCtx, capsule);
+void EnMFire1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnMFire1* this = THIS;
+
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-static void Update(ActorMFire* this, GlobalContext* globalCtx) {
+void EnMFire1_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnMFire1* this = THIS;
     s32 pad;
-    ActorMFire* thisLocal = this;
 
-    if (Math_ApproxF(&thisLocal->unk_0198, 1.0, 0.2)) {
+    if (Math_ApproxF(&this->unk_198, 1.0f, 0.2f)) {
         Actor_Kill(&this->actor);
     } else {
-        ActorCollider_Cylinder_Update(&thisLocal->actor, &thisLocal->capsule);
-        Actor_CollisionCheck_SetAT(globalCtx, &globalCtx->sub_11E60, &thisLocal->capsule);
+        Collider_CylinderUpdate(&this->actor, &this->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
     }
 }

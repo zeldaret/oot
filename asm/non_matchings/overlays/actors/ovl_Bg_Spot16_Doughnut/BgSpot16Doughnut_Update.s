@@ -41,5 +41,3 @@ glabel BgSpot16Doughnut_Update
 .L808B6678:
 /* 00238 808B6678 03E00008 */  jr      $ra                        
 /* 0023C 808B667C 00000000 */  nop
-
-

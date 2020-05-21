@@ -1,18 +1,24 @@
+/*
+ * File: z_en_tg.c
+ * Overlay: ovl_En_Tg
+ * Description: Honey & Darling
+ */
+
 #include "z_en_tg.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
-void EnTg_Init(EnTg* this, GlobalContext* globalCtx);
-void EnTg_Destroy(EnTg* this, GlobalContext* globalCtx);
-void EnTg_Update(EnTg* this, GlobalContext* globalCtx);
-void EnTg_Draw(EnTg* this, GlobalContext* globalCtx);
+#define THIS ((EnTg*)thisx)
+
+void EnTg_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnTg_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnTg_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Tg_InitVars = {
     ACTOR_EN_TG,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_MU,
     sizeof(EnTg),

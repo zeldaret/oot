@@ -1,3 +1,13 @@
+.rdata
+glabel D_80B5AA4C
+    .asciz "../z_en_zl3.c"
+    .balign 4
+
+glabel D_80B5AA5C
+    .asciz "../z_en_zl3.c"
+    .balign 4
+
+.text
 glabel func_80B59FF4
 /* 06C44 80B59FF4 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 06C48 80B59FF8 AFBF002C */  sw      $ra, 0x002C($sp)
@@ -21,14 +31,14 @@ glabel func_80B59FF4
 /* 06C90 80B5A040 8D4AA45C */  lw      $t2, %lo(D_80B5A45C)($t2)
 /* 06C94 80B5A044 AFAA006C */  sw      $t2, 0x006C($sp)
 /* 06C98 80B5A048 8CA50000 */  lw      $a1, 0x0000($a1)           ## 00000000
-/* 06C9C 80B5A04C 0C031AB1 */  jal     func_800C6AC4
+/* 06C9C 80B5A04C 0C031AB1 */  jal     Graph_OpenDisps
 /* 06CA0 80B5A050 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 06CA4 80B5A054 8FAC008C */  lw      $t4, 0x008C($sp)
 /* 06CA8 80B5A058 0C024F46 */  jal     func_80093D18
 /* 06CAC 80B5A05C 8D840000 */  lw      $a0, 0x0000($t4)           ## 00000000
 /* 06CB0 80B5A060 8FA90078 */  lw      $t1, 0x0078($sp)
 /* 06CB4 80B5A064 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
-/* 06CB8 80B5A068 3C078016 */  lui     $a3, 0x8016                ## $a3 = 80160000
+/* 06CB8 80B5A068 3C078016 */  lui     $a3, %hi(gSegments)
 /* 06CBC 80B5A06C 0009C100 */  sll     $t8, $t1,  4
 /* 06CC0 80B5A070 00187702 */  srl     $t6, $t8, 28
 /* 06CC4 80B5A074 3C0FDB06 */  lui     $t7, 0xDB06                ## $t7 = DB060000
@@ -36,7 +46,7 @@ glabel func_80B59FF4
 /* 06CCC 80B5A07C AE0D02C0 */  sw      $t5, 0x02C0($s0)           ## 000002C0
 /* 06CD0 80B5A080 35EF0020 */  ori     $t7, $t7, 0x0020           ## $t7 = DB060020
 /* 06CD4 80B5A084 000EC880 */  sll     $t9, $t6,  2
-/* 06CD8 80B5A088 24E76FA8 */  addiu   $a3, $a3, 0x6FA8           ## $a3 = 80166FA8
+/* 06CD8 80B5A088 24E76FA8 */  addiu   $a3, %lo(gSegments)
 /* 06CDC 80B5A08C 00F92021 */  addu    $a0, $a3, $t9
 /* 06CE0 80B5A090 AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
 /* 06CE4 80B5A094 8C8A0000 */  lw      $t2, 0x0000($a0)           ## 00000000
@@ -76,7 +86,7 @@ glabel func_80B59FF4
 /* 06D6C 80B5A11C AC4B0004 */  sw      $t3, 0x0004($v0)           ## 00000004
 /* 06D70 80B5A120 8E0202C0 */  lw      $v0, 0x02C0($s0)           ## 000002C0
 /* 06D74 80B5A124 3C0DFB00 */  lui     $t5, 0xFB00                ## $t5 = FB000000
-/* 06D78 80B5A128 3C198011 */  lui     $t9, 0x8011                ## $t9 = 80110000
+/* 06D78 80B5A128 3C198011 */  lui     $t9, %hi(D_80116280+0x10)
 /* 06D7C 80B5A12C 244C0008 */  addiu   $t4, $v0, 0x0008           ## $t4 = 00000008
 /* 06D80 80B5A130 AE0C02C0 */  sw      $t4, 0x02C0($s0)           ## 000002C0
 /* 06D84 80B5A134 AC4F0004 */  sw      $t7, 0x0004($v0)           ## 00000004
@@ -86,7 +96,7 @@ glabel func_80B59FF4
 /* 06D94 80B5A144 35CE002C */  ori     $t6, $t6, 0x002C           ## $t6 = DB06002C
 /* 06D98 80B5A148 24580008 */  addiu   $t8, $v0, 0x0008           ## $t8 = 00000008
 /* 06D9C 80B5A14C AE1802C0 */  sw      $t8, 0x02C0($s0)           ## 000002C0
-/* 06DA0 80B5A150 27396290 */  addiu   $t9, $t9, 0x6290           ## $t9 = 80116290
+/* 06DA0 80B5A150 27396290 */  addiu   $t9, %lo(D_80116280+0x10)
 /* 06DA4 80B5A154 AC590004 */  sw      $t9, 0x0004($v0)           ## 00000004
 /* 06DA8 80B5A158 AC4E0000 */  sw      $t6, 0x0000($v0)           ## 00000000
 /* 06DAC 80B5A15C 8FA30088 */  lw      $v1, 0x0088($sp)
@@ -111,12 +121,10 @@ glabel func_80B59FF4
 /* 06DF8 80B5A1A8 24C6AA5C */  addiu   $a2, $a2, %lo(D_80B5AA5C)  ## $a2 = 80B5AA5C
 /* 06DFC 80B5A1AC 27A40054 */  addiu   $a0, $sp, 0x0054           ## $a0 = FFFFFFCC
 /* 06E00 80B5A1B0 2407088E */  addiu   $a3, $zero, 0x088E         ## $a3 = 0000088E
-/* 06E04 80B5A1B4 0C031AD5 */  jal     func_800C6B54
+/* 06E04 80B5A1B4 0C031AD5 */  jal     Graph_CloseDisps
 /* 06E08 80B5A1B8 8DA50000 */  lw      $a1, 0x0000($t5)           ## 00000000
 /* 06E0C 80B5A1BC 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 06E10 80B5A1C0 8FB00028 */  lw      $s0, 0x0028($sp)
 /* 06E14 80B5A1C4 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
 /* 06E18 80B5A1C8 03E00008 */  jr      $ra
 /* 06E1C 80B5A1CC 00000000 */  nop
-
-

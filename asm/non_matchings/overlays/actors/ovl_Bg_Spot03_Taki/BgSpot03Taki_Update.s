@@ -8,5 +8,3 @@ glabel BgSpot03Taki_Update
 /* 005F8 808AE0D8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 005FC 808AE0DC 03E00008 */  jr      $ra                        
 /* 00600 808AE0E0 00000000 */  nop
-
-

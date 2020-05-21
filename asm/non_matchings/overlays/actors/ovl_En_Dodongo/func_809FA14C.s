@@ -1,3 +1,58 @@
+.late_rodata
+glabel jtbl_809FABAC
+.word L809FA2E4
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA338
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA40C
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA494
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4BC
+.word L809FA4AC
+glabel jtbl_809FAC18
+.word L809FA4F0
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA504
+.word L809FA50C
+.word L809FA514
+.word L809FA51C
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA534
+.word L809FA524
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA540
+.word L809FA53C
+.word L809FA52C
+
+.text
 glabel func_809FA14C
 /* 01EFC 809FA14C 27BDFE78 */  addiu   $sp, $sp, 0xFE78           ## $sp = FFFFFE78
 /* 01F00 809FA150 3C0E80A0 */  lui     $t6, %hi(D_809FAA9C)       ## $t6 = 80A00000
@@ -197,11 +252,11 @@ glabel L809FA40C
 /* 021EC 809FA43C 02202825 */  or      $a1, $s1, $zero            ## $a1 = FFFFFF60
 /* 021F0 809FA440 0C0346BD */  jal     Matrix_MultVec3f              
 /* 021F4 809FA444 27A40170 */  addiu   $a0, $sp, 0x0170           ## $a0 = FFFFFFE8
-/* 021F8 809FA448 0C009AC3 */  jal     func_80026B0C              
+/* 021F8 809FA448 0C009AC3 */  jal     Effect_GetByIndex              
 /* 021FC 809FA44C 8EC403D0 */  lw      $a0, 0x03D0($s6)           ## 000003D0
 /* 02200 809FA450 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 02204 809FA454 02002825 */  or      $a1, $s0, $zero            ## $a1 = FFFFFF6C
-/* 02208 809FA458 0C007F7C */  jal     func_8001FDF0              
+/* 02208 809FA458 0C007F7C */  jal     EffectBlure_AddVertex              
 /* 0220C 809FA45C 02203025 */  or      $a2, $s1, $zero            ## $a2 = FFFFFF60
 /* 02210 809FA460 10000017 */  beq     $zero, $zero, .L809FA4C0   
 /* 02214 809FA464 86CF0312 */  lh      $t7, 0x0312($s6)           ## 00000312
@@ -211,9 +266,9 @@ glabel L809FA40C
 /* 02220 809FA470 86CC030C */  lh      $t4, 0x030C($s6)           ## 0000030C
 /* 02224 809FA474 51800012 */  beql    $t4, $zero, .L809FA4C0     
 /* 02228 809FA478 86CF0312 */  lh      $t7, 0x0312($s6)           ## 00000312
-/* 0222C 809FA47C 0C009AC3 */  jal     func_80026B0C              
+/* 0222C 809FA47C 0C009AC3 */  jal     Effect_GetByIndex              
 /* 02230 809FA480 8EC403D0 */  lw      $a0, 0x03D0($s6)           ## 000003D0
-/* 02234 809FA484 0C008048 */  jal     func_80020120              
+/* 02234 809FA484 0C008048 */  jal     EffectBlure_AddSpace              
 /* 02238 809FA488 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 0223C 809FA48C 1000000C */  beq     $zero, $zero, .L809FA4C0   
 /* 02240 809FA490 86CF0312 */  lh      $t7, 0x0312($s6)           ## 00000312
@@ -295,5 +350,3 @@ glabel L809FA540
 /* 0232C 809FA57C 8FB60038 */  lw      $s6, 0x0038($sp)           
 /* 02330 809FA580 03E00008 */  jr      $ra                        
 /* 02334 809FA584 27BD0188 */  addiu   $sp, $sp, 0x0188           ## $sp = 00000000
-
-

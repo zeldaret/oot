@@ -37,8 +37,8 @@ glabel EnTest_Init
 /* 0008C 8085F6DC 0C02915F */  jal     SkelAnime_Init
               
 /* 00090 8085F6E0 260504A8 */  addiu   $a1, $s0, 0x04A8           ## $a1 = 000004A8
-/* 00094 8085F6E4 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00098 8085F6E8 24C6B8C4 */  addiu   $a2, $a2, 0xB8C4           ## $a2 = 8002B8C4
+/* 00094 8085F6E4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Teardrop)
+/* 00098 8085F6E8 24C6B8C4 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Teardrop)
 /* 0009C 8085F6EC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 000A0 8085F6F0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 000A4 8085F6F4 0C00AC78 */  jal     ActorShape_Init
@@ -64,37 +64,37 @@ glabel EnTest_Init
 /* 000F0 8085F740 26050810 */  addiu   $a1, $s0, 0x0810           ## $a1 = 00000810
 /* 000F4 8085F744 AE0D0040 */  sw      $t5, 0x0040($s0)           ## 00000040
 /* 000F8 8085F748 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 000FC 8085F74C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000FC 8085F74C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00100 8085F750 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00104 8085F754 3C078086 */  lui     $a3, %hi(D_80864570)       ## $a3 = 80860000
 /* 00108 8085F758 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 0010C 8085F75C 24E74570 */  addiu   $a3, $a3, %lo(D_80864570)  ## $a3 = 80864570
 /* 00110 8085F760 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00114 8085F764 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00114 8085F764 0C01712B */  jal     Collider_SetCylinder
               
 /* 00118 8085F768 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0011C 8085F76C 260508DC */  addiu   $a1, $s0, 0x08DC           ## $a1 = 000008DC
 /* 00120 8085F770 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00124 8085F774 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00124 8085F774 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00128 8085F778 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0012C 8085F77C 3C078086 */  lui     $a3, %hi(D_8086459C)       ## $a3 = 80860000
 /* 00130 8085F780 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 00134 8085F784 24E7459C */  addiu   $a3, $a3, %lo(D_8086459C)  ## $a3 = 8086459C
 /* 00138 8085F788 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0013C 8085F78C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0013C 8085F78C 0C01712B */  jal     Collider_SetCylinder
               
 /* 00140 8085F790 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00144 8085F794 2605085C */  addiu   $a1, $s0, 0x085C           ## $a1 = 0000085C
 /* 00148 8085F798 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 0014C 8085F79C 0C017406 */  jal     func_8005D018              
+/* 0014C 8085F79C 0C017406 */  jal     Collider_InitQuad              
 /* 00150 8085F7A0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00154 8085F7A4 3C078086 */  lui     $a3, %hi(D_808645C8)       ## $a3 = 80860000
 /* 00158 8085F7A8 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 0015C 8085F7AC 24E745C8 */  addiu   $a3, $a3, %lo(D_808645C8)  ## $a3 = 808645C8
 /* 00160 8085F7B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00164 8085F7B4 0C017441 */  jal     func_8005D104              
+/* 00164 8085F7B4 0C017441 */  jal     Collider_SetQuad              
 /* 00168 8085F7B8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0016C 8085F7BC 240F00FE */  addiu   $t7, $zero, 0x00FE         ## $t7 = 000000FE
 /* 00170 8085F7C0 2418000A */  addiu   $t8, $zero, 0x000A         ## $t8 = 0000000A
@@ -157,5 +157,3 @@ glabel EnTest_Init
 /* 00244 8085F894 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 00248 8085F898 03E00008 */  jr      $ra                        
 /* 0024C 8085F89C 27BD01E8 */  addiu   $sp, $sp, 0x01E8           ## $sp = 00000000
-
-

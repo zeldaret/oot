@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809CE47C
+ .word 0x3B449BA6
+
+.text
 glabel func_809CD110
 /* 000A0 809CD110 3C02809D */  lui     $v0, %hi(D_809CE3BC)       ## $v0 = 809D0000
 /* 000A4 809CD114 2442E3BC */  addiu   $v0, $v0, %lo(D_809CE3BC)  ## $v0 = 809CE3BC
@@ -12,5 +17,3 @@ glabel func_809CD110
 /* 000C8 809CD138 A46F0000 */  sh      $t7, 0x0000($v1)           ## 809CE3C0
 /* 000CC 809CD13C 03E00008 */  jr      $ra                        
 /* 000D0 809CD140 E4480000 */  swc1    $f8, 0x0000($v0)           ## 809CE3BC
-
-

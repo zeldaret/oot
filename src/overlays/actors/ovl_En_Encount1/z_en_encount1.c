@@ -1,16 +1,16 @@
 #include "z_en_encount1.h"
 
-#define ROOM 0x00
 #define FLAGS 0x08000010
 
-void EnEncount1_Init(EnEncount1* this, GlobalContext* globalCtx);
-void EnEncount1_Update(EnEncount1* this, GlobalContext* globalCtx);
+#define THIS ((EnEncount1*)thisx)
+
+void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnEncount1_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Encount1_InitVars = {
     ACTOR_EN_ENCOUNT1,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnEncount1),

@@ -4,7 +4,11 @@
 #include <ultra64.h>
 #include <global.h>
 
-typedef struct {
+struct ArrowLight;
+
+typedef void (*ArrowLightActionFunc)(struct ArrowLight*, GlobalContext*);
+
+typedef struct ArrowLight {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s16 radius;
     /* 0x014E */ u16 timer;
@@ -12,7 +16,7 @@ typedef struct {
     /* 0x0154 */ Vec3f unkPos;
     /* 0x0160 */ f32 unk_160;
     /* 0x0164 */ f32 unk_164;
-    /* 0x0168 */ ActorFunc actionFunc;
+    /* 0x0168 */ ArrowLightActionFunc actionFunc;
 } ArrowLight; // size = 0x016C
 
 extern const ActorInit Arrow_Light_InitVars;

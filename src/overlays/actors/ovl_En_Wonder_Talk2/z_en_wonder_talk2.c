@@ -1,17 +1,23 @@
+/*
+ * File: z_en_wonder_talk2.c
+ * Overlay: ovl_En_Wonder_Talk2
+ * Description: Dialog spot
+ */
+
 #include "z_en_wonder_talk2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x08000009
 
-void EnWonderTalk2_Init(EnWonderTalk2* this, GlobalContext* globalCtx);
-void EnWonderTalk2_Destroy(EnWonderTalk2* this, GlobalContext* globalCtx);
-void EnWonderTalk2_Update(EnWonderTalk2* this, GlobalContext* globalCtx);
+#define THIS ((EnWonderTalk2*)thisx)
+
+void EnWonderTalk2_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnWonderTalk2_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnWonderTalk2_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Wonder_Talk2_InitVars = {
     ACTOR_EN_WONDER_TALK2,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWonderTalk2),

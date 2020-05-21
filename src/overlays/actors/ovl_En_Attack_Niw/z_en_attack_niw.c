@@ -1,18 +1,24 @@
+/*
+ * File: z_en_attack_niw.c
+ * Overlay: ovl_En_Attack_Niw
+ * Description: Attacking Cucco, not solid
+ */
+
 #include "z_en_attack_niw.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void EnAttackNiw_Init(EnAttackNiw* this, GlobalContext* globalCtx);
-void EnAttackNiw_Destroy(EnAttackNiw* this, GlobalContext* globalCtx);
-void EnAttackNiw_Update(EnAttackNiw* this, GlobalContext* globalCtx);
-void EnAttackNiw_Draw(EnAttackNiw* this, GlobalContext* globalCtx);
+#define THIS ((EnAttackNiw*)thisx)
+
+void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnAttackNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnAttackNiw_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Attack_Niw_InitVars = {
     ACTOR_EN_ATTACK_NIW,
     ACTORTYPE_ENEMY,
-    ROOM,
     FLAGS,
     OBJECT_NIW,
     sizeof(EnAttackNiw),

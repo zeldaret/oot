@@ -68,12 +68,12 @@ glabel ObjHamishi_Update
 /* 00680 80B93610 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00684 80B93614 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 00688 80B93618 AFA60020 */  sw      $a2, 0x0020($sp)           
-/* 0068C 80B9361C 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 0068C 80B9361C 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00690 80B93620 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 00694 80B93624 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00698 80B93628 8FA60020 */  lw      $a2, 0x0020($sp)           
-/* 0069C 80B9362C 0C017713 */  jal     Actor_CollisionCheck_SetOT
+/* 0069C 80B9362C 0C017713 */  jal     CollisionCheck_SetOC
               ## CollisionCheck_setOT
 /* 006A0 80B93630 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L80B93634:
@@ -83,5 +83,3 @@ glabel ObjHamishi_Update
 /* 006AC 80B9363C 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 006B0 80B93640 03E00008 */  jr      $ra                        
 /* 006B4 80B93644 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

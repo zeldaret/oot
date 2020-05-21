@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_80B22B84
+    .float 0.2
+
+.text
 glabel func_80B212C0
 /* 004E0 80B212C0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 004E4 80B212C4 AFBF0024 */  sw      $ra, 0x0024($sp)           
@@ -18,10 +23,10 @@ glabel func_80B212C0
 /* 00520 80B21300 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
               
 /* 00524 80B21304 E7AA0010 */  swc1    $f10, 0x0010($sp)          
-/* 00528 80B21308 3C078013 */  lui     $a3, 0x8013                ## $a3 = 80130000
-/* 0052C 80B2130C 3C0F8013 */  lui     $t7, 0x8013                ## $t7 = 80130000
-/* 00530 80B21310 24E733E0 */  addiu   $a3, $a3, 0x33E0           ## $a3 = 801333E0
-/* 00534 80B21314 25EF33E8 */  addiu   $t7, $t7, 0x33E8           ## $t7 = 801333E8
+/* 00528 80B21308 3C078013 */  lui     $a3, %hi(D_801333E0)
+/* 0052C 80B2130C 3C0F8013 */  lui     $t7, %hi(D_801333E8)
+/* 00530 80B21310 24E733E0 */  addiu   $a3, %lo(D_801333E0)
+/* 00534 80B21314 25EF33E8 */  addiu   $t7, %lo(D_801333E8)
 /* 00538 80B21318 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 0053C 80B2131C AFA70010 */  sw      $a3, 0x0010($sp)           
 /* 00540 80B21320 24043064 */  addiu   $a0, $zero, 0x3064         ## $a0 = 00003064
@@ -111,5 +116,3 @@ glabel func_80B212C0
 /* 00668 80B21448 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 0066C 80B2144C 03E00008 */  jr      $ra                        
 /* 00670 80B21450 00000000 */  nop
-
-

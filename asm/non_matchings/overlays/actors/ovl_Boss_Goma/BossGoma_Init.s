@@ -9,8 +9,8 @@ glabel BossGoma_Init
 /* 00250 80915C60 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 00254 80915C64 24A5B2A8 */  addiu   $a1, $a1, %lo(D_8091B2A8)  ## $a1 = 8091B2A8
-/* 00258 80915C68 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0025C 80915C6C 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00258 80915C68 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0025C 80915C6C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00260 80915C70 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00264 80915C74 3C05457A */  lui     $a1, 0x457A                ## $a1 = 457A0000
 /* 00268 80915C78 0C00AC78 */  jal     ActorShape_Init
@@ -30,7 +30,7 @@ glabel BossGoma_Init
 /* 00298 80915CA8 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 0029C 80915CAC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 002A0 80915CB0 24A52678 */  addiu   $a1, $a1, 0x2678           ## $a1 = 06012678
-/* 002A4 80915CB4 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 002A4 80915CB4 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 002A8 80915CB8 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 002AC 80915CBC 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 002B0 80915CC0 44810000 */  mtc1    $at, $f0                   ## $f0 = 1.00
@@ -56,7 +56,7 @@ glabel BossGoma_Init
 /* 00300 80915D10 A21800AE */  sb      $t8, 0x00AE($s0)           ## 000000AE
 /* 00304 80915D14 260507BC */  addiu   $a1, $s0, 0x07BC           ## $a1 = 000007BC
 /* 00308 80915D18 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 0030C 80915D1C 0C016EFE */  jal     func_8005BBF8
+/* 0030C 80915D1C 0C016EFE */  jal     Collider_InitJntSph
 /* 00310 80915D20 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00314 80915D24 3C078092 */  lui     $a3, %hi(D_8091B034)       ## $a3 = 80920000
 /* 00318 80915D28 261907DC */  addiu   $t9, $s0, 0x07DC           ## $t9 = 000007DC
@@ -64,7 +64,7 @@ glabel BossGoma_Init
 /* 00320 80915D30 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 00324 80915D34 24E7B034 */  addiu   $a3, $a3, %lo(D_8091B034)  ## $a3 = 8091B034
 /* 00328 80915D38 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0032C 80915D3C 0C017014 */  jal     func_8005C050
+/* 0032C 80915D3C 0C017014 */  jal     Collider_SetJntSph
 /* 00330 80915D40 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00334 80915D44 3C050001 */  lui     $a1, 0x0001                ## $a1 = 00010000
 /* 00338 80915D48 00B12821 */  addu    $a1, $a1, $s1
@@ -116,5 +116,3 @@ glabel BossGoma_Init
 /* 003DC 80915DEC 8FB10038 */  lw      $s1, 0x0038($sp)
 /* 003E0 80915DF0 03E00008 */  jr      $ra
 /* 003E4 80915DF4 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

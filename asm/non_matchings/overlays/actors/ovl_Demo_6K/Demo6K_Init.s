@@ -1,3 +1,52 @@
+.rdata
+glabel D_809693E0
+    .asciz "no = %d\n"
+    .balign 4
+
+glabel D_809693EC
+    .asciz "bank_ID = %d\n"
+    .balign 4
+
+glabel D_809693FC
+    .asciz "0"
+    .balign 4
+
+glabel D_80969400
+    .asciz "../z_demo_6k.c"
+    .balign 4
+
+glabel D_80969410
+    .asciz "0"
+    .balign 4
+
+glabel D_80969414
+    .asciz "../z_demo_6k.c"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80969588
+.word L80966A38
+.word L80966AA4
+.word L80966AD4
+.word L80966B1C
+.word L80966B1C
+.word L80966B1C
+.word L80966B1C
+.word L80966B1C
+.word L80966B1C
+.word L80966B54
+.word L80966B54
+.word L80966B80
+.word L80966BCC
+.word L80966C14
+.word L80966C48
+.word L80966C48
+.word L80966C48
+.word L80966C48
+.word L80966C48
+.word L80966C48
+
+.text
 glabel Demo6K_Init
 /* 00008 80966958 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 0000C 8096695C AFBF002C */  sw      $ra, 0x002C($sp)           
@@ -304,5 +353,3 @@ glabel L80966C48
 /* 00424 80966D74 8FB00024 */  lw      $s0, 0x0024($sp)           
 /* 00428 80966D78 03E00008 */  jr      $ra                        
 /* 0042C 80966D7C 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

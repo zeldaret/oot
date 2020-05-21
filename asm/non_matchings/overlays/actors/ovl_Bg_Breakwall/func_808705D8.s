@@ -1,3 +1,17 @@
+.rdata
+glabel D_80870970
+    .asciz "../z_bg_breakwall.c"
+    .balign 4
+
+glabel D_80870984
+    .asciz "../z_bg_breakwall.c"
+    .balign 4
+
+glabel D_80870998
+    .asciz "../z_bg_breakwall.c"
+    .balign 4
+
+.text
 glabel func_808705D8
 /* 009F8 808705D8 27BDFF60 */  addiu   $sp, $sp, 0xFF60           ## $sp = FFFFFF60
 /* 009FC 808705DC AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -16,7 +30,7 @@ glabel func_808705D8
 /* 00A30 80870610 3C068087 */  lui     $a2, %hi(D_80870970)       ## $a2 = 80870000
 /* 00A34 80870614 24C60970 */  addiu   $a2, $a2, %lo(D_80870970)  ## $a2 = 80870970
 /* 00A38 80870618 240702FF */  addiu   $a3, $zero, 0x02FF         ## $a3 = 000002FF
-/* 00A3C 8087061C 0C031AB1 */  jal     func_800C6AC4              
+/* 00A3C 8087061C 0C031AB1 */  jal     Graph_OpenDisps              
 /* 00A40 80870620 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 00A44 80870624 0C024F46 */  jal     func_80093D18              
 /* 00A48 80870628 8EA40000 */  lw      $a0, 0x0000($s5)           ## 00000000
@@ -72,7 +86,7 @@ glabel func_808705D8
 /* 00B0C 808706EC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00B10 808706F0 02A12821 */  addu    $a1, $s5, $at              
 /* 00B14 808706F4 02A02025 */  or      $a0, $s5, $zero            ## $a0 = 00000000
-/* 00B18 808706F8 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00B18 808706F8 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00B1C 808706FC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 0000016C
 .L80870700:
@@ -80,7 +94,7 @@ glabel func_808705D8
 /* 00B24 80870704 24C60998 */  addiu   $a2, $a2, %lo(D_80870998)  ## $a2 = 80870998
 /* 00B28 80870708 27A40084 */  addiu   $a0, $sp, 0x0084           ## $a0 = FFFFFFE4
 /* 00B2C 8087070C 8EA50000 */  lw      $a1, 0x0000($s5)           ## 00000000
-/* 00B30 80870710 0C031AD5 */  jal     func_800C6B54              
+/* 00B30 80870710 0C031AD5 */  jal     Graph_CloseDisps              
 /* 00B34 80870714 24070336 */  addiu   $a3, $zero, 0x0336         ## $a3 = 00000336
 .L80870718:
 /* 00B38 80870718 8FBF0034 */  lw      $ra, 0x0034($sp)           
@@ -93,4 +107,3 @@ glabel func_808705D8
 /* 00B54 80870734 03E00008 */  jr      $ra                        
 /* 00B58 80870738 27BD00A0 */  addiu   $sp, $sp, 0x00A0           ## $sp = 00000000
 /* 00B5C 8087073C 00000000 */  nop
-

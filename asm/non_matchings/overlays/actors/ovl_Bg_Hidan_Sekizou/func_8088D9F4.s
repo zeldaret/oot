@@ -1,3 +1,18 @@
+.rdata
+glabel D_8088E2A0
+    .asciz "../z_bg_hidan_sekizou.c"
+    .balign 4
+
+.late_rodata
+glabel D_8088E300
+ .word 0x3E124925
+glabel D_8088E304
+    .float 0.7
+
+glabel D_8088E308
+    .float 0.7
+
+.text
 glabel func_8088D9F4
 /* 00B34 8088D9F4 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00B38 8088D9F8 87AE0062 */  lh      $t6, 0x0062($sp)           
@@ -24,7 +39,7 @@ glabel func_8088D9F4
 /* 00B88 8088DA48 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000000
 /* 00B8C 8088DA4C 468021A0 */  cvt.s.w $f6, $f4                   
 /* 00B90 8088DA50 3C048089 */  lui     $a0, %hi(D_8088E27C)       ## $a0 = 80890000
-/* 00B94 8088DA54 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 00B94 8088DA54 3C198016 */  lui     $t9, %hi(gSegments)
 /* 00B98 8088DA58 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 00B9C 8088DA5C 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
 /* 00BA0 8088DA60 24C60001 */  addiu   $a2, $a2, 0x0001           ## $a2 = 00000001
@@ -47,7 +62,7 @@ glabel func_8088D9F4
 /* 00BE4 8088DAA4 000E7F02 */  srl     $t7, $t6, 28               
 /* 00BE8 8088DAA8 000FC080 */  sll     $t8, $t7,  2               
 /* 00BEC 8088DAAC 0338C821 */  addu    $t9, $t9, $t8              
-/* 00BF0 8088DAB0 8F396FA8 */  lw      $t9, 0x6FA8($t9)           ## 80166FA8
+/* 00BF0 8088DAB0 8F396FA8 */  lw      $t9, %lo(gSegments)($t9)
 /* 00BF4 8088DAB4 00816824 */  and     $t5, $a0, $at              
 /* 00BF8 8088DAB8 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00BFC 8088DABC 01B94021 */  addu    $t0, $t5, $t9              
@@ -154,5 +169,3 @@ glabel func_8088D9F4
 /* 00D84 8088DC44 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000008
 /* 00D88 8088DC48 03E00008 */  jr      $ra                        
 /* 00D8C 8088DC4C 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
-
-

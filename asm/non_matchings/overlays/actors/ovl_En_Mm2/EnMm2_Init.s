@@ -1,3 +1,9 @@
+.rdata
+glabel D_80AAFB80
+    .asciz "[36m マラソン 開始されていない \n[m\n"
+    .balign 4
+
+.text
 glabel EnMm2_Init
 /* 001EC 80AAF03C 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 001F0 80AAF040 AFA50044 */  sw      $a1, 0x0044($sp)
@@ -8,8 +14,8 @@ glabel EnMm2_Init
 /* 00204 80AAF054 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 00208 80AAF058 24A5FB5C */  addiu   $a1, $a1, %lo(D_80AAFB5C)  ## $a1 = 80AAFB5C
-/* 0020C 80AAF05C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00210 80AAF060 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0020C 80AAF05C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00210 80AAF060 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00214 80AAF064 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00218 80AAF068 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0021C 80AAF06C 0C00AC78 */  jal     ActorShape_Init
@@ -45,21 +51,21 @@ glabel EnMm2_Init
 /* 0028C 80AAF0DC E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00290 80AAF0E0 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 00294 80AAF0E4 AFB90014 */  sw      $t9, 0x0014($sp)
-/* 00298 80AAF0E8 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 00298 80AAF0E8 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 0029C 80AAF0EC E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 002A0 80AAF0F0 24080002 */  addiu   $t0, $zero, 0x0002         ## $t0 = 00000002
 /* 002A4 80AAF0F4 AE0801F8 */  sw      $t0, 0x01F8($s0)           ## 000001F8
 /* 002A8 80AAF0F8 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 002AC 80AAF0FC AFA50030 */  sw      $a1, 0x0030($sp)
-/* 002B0 80AAF100 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 002B0 80AAF100 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 002B4 80AAF104 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 002B8 80AAF108 3C0780AB */  lui     $a3, %hi(D_80AAFAC0)       ## $a3 = 80AB0000
 /* 002BC 80AAF10C 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 002C0 80AAF110 24E7FAC0 */  addiu   $a3, $a3, %lo(D_80AAFAC0)  ## $a3 = 80AAFAC0
 /* 002C4 80AAF114 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 002C8 80AAF118 0C01712B */  jal     ActorCollider_InitCylinder
+/* 002C8 80AAF118 0C01712B */  jal     Collider_SetCylinder
 
 /* 002CC 80AAF11C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 002D0 80AAF120 960B01F4 */  lhu     $t3, 0x01F4($s0)           ## 000001F4
@@ -88,16 +94,16 @@ glabel EnMm2_Init
 /* 00328 80AAF178 25EFF57C */  addiu   $t7, $t7, %lo(func_80AAF57C) ## $t7 = 80AAF57C
 /* 0032C 80AAF17C AE0F0190 */  sw      $t7, 0x0190($s0)           ## 00000190
 .L80AAF180:
-/* 00330 80AAF180 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00334 80AAF184 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 00330 80AAF180 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00334 80AAF184 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00338 80AAF188 8C580004 */  lw      $t8, 0x0004($v0)           ## 8015E664
 /* 0033C 80AAF18C 53000006 */  beql    $t8, $zero, .L80AAF1A8
 /* 00340 80AAF190 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 /* 00344 80AAF194 0C00B55C */  jal     Actor_Kill
 
 /* 00348 80AAF198 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0034C 80AAF19C 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 00350 80AAF1A0 2442E660 */  addiu   $v0, $v0, 0xE660           ## $v0 = 8015E660
+/* 0034C 80AAF19C 3C028016 */  lui     $v0, %hi(gSaveContext)
+/* 00350 80AAF1A0 2442E660 */  addiu   $v0, %lo(gSaveContext)
 /* 00354 80AAF1A4 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 .L80AAF1A8:
 /* 00358 80AAF1A8 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
@@ -125,5 +131,3 @@ glabel EnMm2_Init
 /* 003A0 80AAF1F0 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 003A4 80AAF1F4 03E00008 */  jr      $ra
 /* 003A8 80AAF1F8 00000000 */  nop
-
-

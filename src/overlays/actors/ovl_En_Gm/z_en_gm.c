@@ -1,17 +1,17 @@
 #include "z_en_gm.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000019
 
-void EnGm_Init(EnGm* this, GlobalContext* globalCtx);
-void EnGm_Destroy(EnGm* this, GlobalContext* globalCtx);
-void EnGm_Update(EnGm* this, GlobalContext* globalCtx);
+#define THIS ((EnGm*)thisx)
+
+void EnGm_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGm_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Gm_InitVars = {
     ACTOR_EN_GM,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(EnGm),

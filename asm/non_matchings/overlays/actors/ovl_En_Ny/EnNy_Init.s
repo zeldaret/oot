@@ -1,3 +1,21 @@
+.rdata
+glabel D_80ABE3E0
+    .asciz "ニュウ イニシャル[ %d ] ！！\n"
+    .balign 4
+
+glabel D_80ABE400
+    .asciz "ダミーニュウ イニシャル[ %d ] ！！\n"
+    .balign 4
+
+glabel D_80ABE424
+    .asciz "En_Ny_actor_move2[ %x ] ！！\n"
+    .balign 4
+
+.late_rodata
+glabel D_80ABE4B4
+ .word 0xBECCCCCD
+
+.text
 glabel EnNy_Init
 /* 00000 80ABCBB0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 80ABCBB4 AFA50034 */  sw      $a1, 0x0034($sp)           
@@ -15,7 +33,7 @@ glabel EnNy_Init
 /* 00030 80ABCBE0 A20F00AF */  sb      $t7, 0x00AF($s0)           ## 000000AF
 /* 00034 80ABCBE4 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 00038 80ABCBE8 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 0003C 80ABCBEC 0C016EFE */  jal     func_8005BBF8              
+/* 0003C 80ABCBEC 0C016EFE */  jal     Collider_InitJntSph              
 /* 00040 80ABCBF0 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00044 80ABCBF4 3C0780AC */  lui     $a3, %hi(D_80ABE354)       ## $a3 = 80AC0000
 /* 00048 80ABCBF8 26180170 */  addiu   $t8, $s0, 0x0170           ## $t8 = 00000170
@@ -23,10 +41,10 @@ glabel EnNy_Init
 /* 00050 80ABCC00 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 00054 80ABCC04 24E7E354 */  addiu   $a3, $a3, %lo(D_80ABE354)  ## $a3 = 80ABE354
 /* 00058 80ABCC08 8FA40034 */  lw      $a0, 0x0034($sp)           
-/* 0005C 80ABCC0C 0C017014 */  jal     func_8005C050              
+/* 0005C 80ABCC0C 0C017014 */  jal     Collider_SetJntSph              
 /* 00060 80ABCC10 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00064 80ABCC14 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00068 80ABCC18 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00064 80ABCC14 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00068 80ABCC18 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 0006C 80ABCC1C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00070 80ABCC20 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00074 80ABCC24 0C00AC78 */  jal     ActorShape_Init
@@ -97,5 +115,3 @@ glabel EnNy_Init
 /* 0015C 80ABCD0C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 00160 80ABCD10 03E00008 */  jr      $ra                        
 /* 00164 80ABCD14 00000000 */  nop
-
-

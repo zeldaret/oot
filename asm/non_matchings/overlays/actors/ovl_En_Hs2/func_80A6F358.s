@@ -1,3 +1,15 @@
+.late_rodata
+.late_rodata_alignment 8
+
+glabel D_80A6F500
+ .word func_80A6F390
+.word L80A6F3BC
+.word func_80A6F3C8
+.word L80A6F384
+.word L80A6F384
+.word 0x00000000, 0x00000000, 0x00000000
+
+.text
 glabel func_80A6F358
 /* 003B8 80A6F358 24AEFFF7 */  addiu   $t6, $a1, 0xFFF7           ## $t6 = FFFFFFF7
 /* 003BC 80A6F35C 2DC10005 */  sltiu   $at, $t6, 0x0005           
@@ -14,5 +26,3 @@ glabel L80A6F384
 /* 003E4 80A6F384 ACC00000 */  sw      $zero, 0x0000($a2)         ## 00000000
 /* 003E8 80A6F388 03E00008 */  jr      $ra                        
 /* 003EC 80A6F38C 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000
-
-

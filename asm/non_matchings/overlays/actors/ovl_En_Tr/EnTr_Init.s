@@ -1,12 +1,22 @@
+.rdata
+glabel D_80B24400
+    .asciz "0"
+    .balign 4
+
+glabel D_80B24404
+    .asciz "../z_en_tr.c"
+    .balign 4
+
+.text
 glabel EnTr_Init
 /* 00008 80B22CF8 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 0000C 80B22CFC AFB00024 */  sw      $s0, 0x0024($sp)
 /* 00010 80B22D00 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00014 80B22D04 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00018 80B22D08 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 0001C 80B22D0C 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 0001C 80B22D0C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00020 80B22D10 AFB10028 */  sw      $s1, 0x0028($sp)
-/* 00024 80B22D14 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00024 80B22D14 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00028 80B22D18 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0002C 80B22D1C 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00030 80B22D20 0C00AC78 */  jal     ActorShape_Init
@@ -47,7 +57,7 @@ glabel EnTr_Init
 /* 000B0 80B22DA0 24C61688 */  addiu   $a2, $a2, 0x1688           ## $a2 = 06011688
 /* 000B4 80B22DA4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 000B8 80B22DA8 24A53FC8 */  addiu   $a1, $a1, 0x3FC8           ## $a1 = 06003FC8
-/* 000BC 80B22DAC 0C02947A */  jal     func_800A51E8
+/* 000BC 80B22DAC 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 000C0 80B22DB0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 0000014C
 /* 000C4 80B22DB4 3C0580B2 */  lui     $a1, %hi(func_80B23A88)    ## $a1 = 80B20000
 /* 000C8 80B22DB8 AE0002E4 */  sw      $zero, 0x02E4($s0)         ## 000002E4
@@ -73,7 +83,7 @@ glabel EnTr_Init
 /* 00114 80B22E04 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0000014C
 /* 00118 80B22E08 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 0011C 80B22E0C 24A51CDC */  addiu   $a1, $a1, 0x1CDC           ## $a1 = 06001CDC
-/* 00120 80B22E10 0C02947A */  jal     func_800A51E8
+/* 00120 80B22E10 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
 /* 00124 80B22E14 02202025 */  or      $a0, $s1, $zero            ## $a0 = 0000014C
 /* 00128 80B22E18 3C0580B2 */  lui     $a1, %hi(func_80B23A88)    ## $a1 = 80B20000
 /* 0012C 80B22E1C AE0002E4 */  sw      $zero, 0x02E4($s0)         ## 000002E4
@@ -96,5 +106,3 @@ glabel EnTr_Init
 /* 00164 80B22E54 8FB10028 */  lw      $s1, 0x0028($sp)
 /* 00168 80B22E58 03E00008 */  jr      $ra
 /* 0016C 80B22E5C 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
-
-

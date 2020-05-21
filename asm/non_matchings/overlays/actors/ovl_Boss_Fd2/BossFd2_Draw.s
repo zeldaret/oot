@@ -1,3 +1,17 @@
+.rdata
+glabel D_808D6444
+    .asciz "../z_boss_fd2.c"
+    .balign 4
+
+glabel D_808D6454
+    .asciz "FD2 draw start \n"
+    .balign 4
+
+glabel D_808D6468
+    .asciz "../z_boss_fd2.c"
+    .balign 4
+
+.text
 glabel BossFd2_Draw
 /* 036E0 808D5D50 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 036E4 808D5D54 AFB20040 */  sw      $s2, 0x0040($sp)
@@ -11,7 +25,7 @@ glabel BossFd2_Draw
 /* 03704 808D5D74 24C66444 */  addiu   $a2, $a2, %lo(D_808D6444)  ## $a2 = 808D6444
 /* 03708 808D5D78 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFE4
 /* 0370C 808D5D7C 24070A39 */  addiu   $a3, $zero, 0x0A39         ## $a3 = 00000A39
-/* 03710 808D5D80 0C031AB1 */  jal     func_800C6AC4
+/* 03710 808D5D80 0C031AB1 */  jal     Graph_OpenDisps
 /* 03714 808D5D84 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 03718 808D5D88 3C04808D */  lui     $a0, %hi(D_808D6454)       ## $a0 = 808D0000
 /* 0371C 808D5D8C 0C00084C */  jal     osSyncPrintf
@@ -47,7 +61,7 @@ glabel BossFd2_Draw
 /* 0378C 808D5DFC AC4B0000 */  sw      $t3, 0x0000($v0)           ## 00000000
 /* 03790 808D5E00 922C0223 */  lbu     $t4, 0x0223($s1)           ## 00000223
 /* 03794 808D5E04 3C04808D */  lui     $a0, %hi(D_808D62C0)       ## $a0 = 808D0000
-/* 03798 808D5E08 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
+/* 03798 808D5E08 3C088016 */  lui     $t0, %hi(gSegments)
 /* 0379C 808D5E0C 000C6880 */  sll     $t5, $t4,  2
 /* 037A0 808D5E10 008D2021 */  addu    $a0, $a0, $t5
 /* 037A4 808D5E14 8C8462C0 */  lw      $a0, %lo(D_808D62C0)($a0)
@@ -57,7 +71,7 @@ glabel BossFd2_Draw
 /* 037B4 808D5E24 000FC702 */  srl     $t8, $t7, 28
 /* 037B8 808D5E28 0018C880 */  sll     $t9, $t8,  2
 /* 037BC 808D5E2C 01194021 */  addu    $t0, $t0, $t9
-/* 037C0 808D5E30 8D086FA8 */  lw      $t0, 0x6FA8($t0)           ## 80166FA8
+/* 037C0 808D5E30 8D086FA8 */  lw      $t0, %lo(gSegments)($t0)
 /* 037C4 808D5E34 00817024 */  and     $t6, $a0, $at
 /* 037C8 808D5E38 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 037CC 808D5E3C 01C84821 */  addu    $t1, $t6, $t0
@@ -144,7 +158,7 @@ glabel BossFd2_Draw
 /* 0390C 808D5F7C 24C66468 */  addiu   $a2, $a2, %lo(D_808D6468)  ## $a2 = 808D6468
 /* 03910 808D5F80 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFE4
 /* 03914 808D5F84 8E450000 */  lw      $a1, 0x0000($s2)           ## 00000000
-/* 03918 808D5F88 0C031AD5 */  jal     func_800C6B54
+/* 03918 808D5F88 0C031AD5 */  jal     Graph_CloseDisps
 /* 0391C 808D5F8C 24070A80 */  addiu   $a3, $zero, 0x0A80         ## $a3 = 00000A80
 /* 03920 808D5F90 8FBF0044 */  lw      $ra, 0x0044($sp)
 /* 03924 808D5F94 8FB00038 */  lw      $s0, 0x0038($sp)
@@ -154,4 +168,3 @@ glabel BossFd2_Draw
 /* 03934 808D5FA4 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000
 /* 03938 808D5FA8 00000000 */  nop
 /* 0393C 808D5FAC 00000000 */  nop
-

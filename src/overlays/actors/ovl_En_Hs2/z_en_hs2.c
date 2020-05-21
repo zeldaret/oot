@@ -1,18 +1,24 @@
+/*
+ * File: z_en_hs2.c
+ * Overlay: ovl_En_Hs2
+ * Description: Carpenter's Son (Child Link version)
+ */
+
 #include "z_en_hs2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
-void EnHs2_Init(EnHs2* this, GlobalContext* globalCtx);
-void EnHs2_Destroy(EnHs2* this, GlobalContext* globalCtx);
-void EnHs2_Update(EnHs2* this, GlobalContext* globalCtx);
-void EnHs2_Draw(EnHs2* this, GlobalContext* globalCtx);
+#define THIS ((EnHs2*)thisx)
+
+void EnHs2_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHs2_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHs2_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHs2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Hs2_InitVars = {
     ACTOR_EN_HS2,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_HS,
     sizeof(EnHs2),

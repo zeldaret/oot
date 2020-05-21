@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A0B460
+    .asciz "[32m☆☆☆☆☆ そ、そんなばかな！エラー！！！！！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A0B4A4
+    .asciz "[32m☆☆☆☆☆ バカめ！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+.text
 glabel func_80A0AF24
 /* 00B14 80A0AF24 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00B18 80A0AF28 3C0F80A1 */  lui     $t7, %hi(D_80A0B3A0)       ## $t7 = 80A10000
@@ -91,5 +101,3 @@ glabel func_80A0AF24
 /* 00C54 80A0B064 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 00C58 80A0B068 03E00008 */  jr      $ra                        
 /* 00C5C 80A0B06C 00000000 */  nop
-
-

@@ -17,8 +17,8 @@ glabel func_80B07734
 /* 00230 80B07770 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 00234 80B07774 3C0680B1 */  lui     $a2, %hi(D_80B0B43C)       ## $a2 = 80B10000
 /* 00238 80B07778 03214021 */  addu    $t0, $t9, $at
-/* 0023C 80B0777C 3C018016 */  lui     $at, 0x8016                ## $at = 80160000
-/* 00240 80B07780 AC286FC0 */  sw      $t0, 0x6FC0($at)           ## 80166FC0
+/* 0023C 80B0777C 3C018016 */  lui     $at, %hi(gSegments+0x18)
+/* 00240 80B07780 AC286FC0 */  sw      $t0, %lo(gSegments+0x18)($at)
 /* 00244 80B07784 8609001C */  lh      $t1, 0x001C($s0)           ## 0000001C
 /* 00248 80B07788 26050198 */  addiu   $a1, $s0, 0x0198           ## $a1 = 00000198
 /* 0024C 80B0778C 260B01DC */  addiu   $t3, $s0, 0x01DC           ## $t3 = 000001DC
@@ -38,18 +38,18 @@ glabel func_80B07734
 /* 00284 80B077C4 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 00288 80B077C8 000E7880 */  sll     $t7, $t6,  2
 /* 0028C 80B077CC 00AF2821 */  addu    $a1, $a1, $t7
-/* 00290 80B077D0 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 00290 80B077D0 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 00294 80B077D4 8CA5B454 */  lw      $a1, %lo(D_80B0B454)($a1)
 /* 00298 80B077D8 8618001C */  lh      $t8, 0x001C($s0)           ## 0000001C
 /* 0029C 80B077DC 3C0880B1 */  lui     $t0, %hi(D_80B0B484)       ## $t0 = 80B10000
-/* 002A0 80B077E0 3C098016 */  lui     $t1, 0x8016                ## $t1 = 80160000
+/* 002A0 80B077E0 3C098016 */  lui     $t1, %hi(gSaveContext+0xeee)
 /* 002A4 80B077E4 0018C840 */  sll     $t9, $t8,  1
 /* 002A8 80B077E8 01194021 */  addu    $t0, $t0, $t9
 /* 002AC 80B077EC 9508B484 */  lhu     $t0, %lo(D_80B0B484)($t0)
 /* 002B0 80B077F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 002B4 80B077F4 3C0580B0 */  lui     $a1, %hi(func_80B07D7C)    ## $a1 = 80B00000
 /* 002B8 80B077F8 A608029C */  sh      $t0, 0x029C($s0)           ## 0000029C
-/* 002BC 80B077FC 9529F54E */  lhu     $t1, -0x0AB2($t1)          ## 8015F54E
+/* 002BC 80B077FC 9529F54E */  lhu     $t1, %lo(gSaveContext+0xeee)($t1)
 /* 002C0 80B07800 310AFFFF */  andi    $t2, $t0, 0xFFFF           ## $t2 = 00000000
 /* 002C4 80B07804 012A5824 */  and     $t3, $t1, $t2
 /* 002C8 80B07808 1160000A */  beq     $t3, $zero, .L80B07834
@@ -72,5 +72,3 @@ glabel func_80B07734
 /* 00304 80B07844 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00308 80B07848 03E00008 */  jr      $ra
 /* 0030C 80B0784C 00000000 */  nop
-
-

@@ -26,14 +26,14 @@ glabel EnZo_Init
 /* 01518 80B61738 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 0151C 80B6173C 260501BC */  addiu   $a1, $s0, 0x01BC           ## $a1 = 000001BC
 /* 01520 80B61740 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 01524 80B61744 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 01524 80B61744 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 01528 80B61748 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0152C 80B6174C 3C0780B6 */  lui     $a3, %hi(D_80B6248C)       ## $a3 = 80B60000
 /* 01530 80B61750 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 01534 80B61754 24E7248C */  addiu   $a3, $a3, %lo(D_80B6248C)  ## $a3 = 80B6248C
 /* 01538 80B61758 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 0153C 80B6175C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0153C 80B6175C 0C01712B */  jal     Collider_SetCylinder
 
 /* 01540 80B61760 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 01544 80B61764 3C0680B6 */  lui     $a2, %hi(D_80B624B8)       ## $a2 = 80B60000
@@ -41,8 +41,8 @@ glabel EnZo_Init
 /* 0154C 80B6176C 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 01550 80B61770 0C0187BF */  jal     func_80061EFC
 /* 01554 80B61774 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 01558 80B61778 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
-/* 0155C 80B6177C 8F39E664 */  lw      $t9, -0x199C($t9)          ## 8015E664
+/* 01558 80B61778 3C198016 */  lui     $t9, %hi(gSaveContext+4)
+/* 0155C 80B6177C 8F39E664 */  lw      $t9, %lo(gSaveContext+4)($t9)
 /* 01560 80B61780 3C0580B6 */  lui     $a1, %hi(D_80B624E4)       ## $a1 = 80B60000
 /* 01564 80B61784 24A524E4 */  addiu   $a1, $a1, %lo(D_80B624E4)  ## $a1 = 80B624E4
 /* 01568 80B61788 1720000A */  bne     $t9, $zero, .L80B617B4
@@ -96,10 +96,10 @@ glabel EnZo_Init
 /* 0161C 80B6183C 3C014258 */  lui     $at, 0x4258                ## $at = 42580000
 /* 01620 80B61840 44815000 */  mtc1    $at, $f10                  ## $f10 = 54.00
 /* 01624 80B61844 C6080084 */  lwc1    $f8, 0x0084($s0)           ## 00000084
-/* 01628 80B61848 3C198003 */  lui     $t9, 0x8003                ## $t9 = 80030000
+/* 01628 80B61848 3C198003 */  lui     $t9, %hi(ActorShadow_DrawFunc_Circle)
 /* 0162C 80B6184C 3C0580B6 */  lui     $a1, %hi(D_80B624E4)       ## $a1 = 80B60000
 /* 01630 80B61850 460A403C */  c.lt.s  $f8, $f10
-/* 01634 80B61854 2739B5EC */  addiu   $t9, $t9, 0xB5EC           ## $t9 = 8002B5EC
+/* 01634 80B61854 2739B5EC */  addiu   $t9, %lo(ActorShadow_DrawFunc_Circle)
 /* 01638 80B61858 24A524E4 */  addiu   $a1, $a1, %lo(D_80B624E4)  ## $a1 = 80B624E4
 /* 0163C 80B6185C 45030008 */  bc1tl   .L80B61880
 /* 01640 80B61860 3C0141C0 */  lui     $at, 0x41C0                ## $at = 41C00000
@@ -139,5 +139,3 @@ glabel EnZo_Init
 /* 016B8 80B618D8 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 016BC 80B618DC 03E00008 */  jr      $ra
 /* 016C0 80B618E0 00000000 */  nop
-
-

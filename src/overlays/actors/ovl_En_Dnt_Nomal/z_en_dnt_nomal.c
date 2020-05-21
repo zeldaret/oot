@@ -1,17 +1,17 @@
 #include "z_en_dnt_nomal.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000030
 
-void EnDntNomal_Init(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_Destroy(EnDntNomal* this, GlobalContext* globalCtx);
-void EnDntNomal_Update(EnDntNomal* this, GlobalContext* globalCtx);
+#define THIS ((EnDntNomal*)thisx)
+
+void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnDntNomal_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Dnt_Nomal_InitVars = {
     ACTOR_EN_DNT_NOMAL,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnDntNomal),

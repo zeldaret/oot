@@ -1,3 +1,41 @@
+.rdata
+glabel D_80A909F0
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80A909F4
+    .asciz "[32m☆☆☆☆☆ 梅田参号見参！ ☆☆☆☆☆ \n[m"
+    .balign 4
+
+glabel D_80A90A24
+    .asciz "[33m☆☆☆☆☆ 元？(引数０) ☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A90A54
+    .asciz "[33m☆☆☆☆☆ 元？(Ｚアングル) ☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A90A84
+    .asciz "[33m☆☆☆☆☆ 補正座標Ｘ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A90AB4
+    .asciz "[33m☆☆☆☆☆ 補正座標Ｙ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A90AE4
+    .asciz "[33m☆☆☆☆☆ 補正座標Ｚ ☆☆☆☆☆ %f\n[m"
+    .balign 4
+
+glabel D_80A90B14
+    .asciz "[33m☆☆☆☆☆ SAVE       ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80A90B44
+    .asciz "\n\n"
+    .balign 4
+
+.text
 glabel EnKakasi2_Init
 /* 00000 80A90010 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 00004 80A90014 AFB00028 */  sw      $s0, 0x0028($sp)
@@ -117,14 +155,14 @@ glabel EnKakasi2_Init
 /* 0019C 80A901AC AE0F0134 */  sw      $t7, 0x0134($s0)           ## 00000134
 /* 001A0 80A901B0 260501AC */  addiu   $a1, $s0, 0x01AC           ## $a1 = 000001AC
 /* 001A4 80A901B4 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 001A8 80A901B8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 001A8 80A901B8 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 001AC 80A901BC 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 001B0 80A901C0 3C0780A9 */  lui     $a3, %hi(D_80A909A0)       ## $a3 = 80A90000
 /* 001B4 80A901C4 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 001B8 80A901C8 24E709A0 */  addiu   $a3, $a3, %lo(D_80A909A0)  ## $a3 = 80A909A0
 /* 001BC 80A901CC 8FA4004C */  lw      $a0, 0x004C($sp)
-/* 001C0 80A901D0 0C01712B */  jal     ActorCollider_InitCylinder
+/* 001C0 80A901D0 0C01712B */  jal     Collider_SetCylinder
 
 /* 001C4 80A901D4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 001C8 80A901D8 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
@@ -154,5 +192,3 @@ glabel EnKakasi2_Init
 /* 00220 80A90230 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 00224 80A90234 03E00008 */  jr      $ra
 /* 00228 80A90238 00000000 */  nop
-
-

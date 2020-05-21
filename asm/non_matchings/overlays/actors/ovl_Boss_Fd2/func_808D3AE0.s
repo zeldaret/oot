@@ -130,7 +130,7 @@ glabel func_808D3AE0
 /* 01638 808D3CA8 8FA40060 */  lw      $a0, 0x0060($sp)
 /* 0163C 808D3CAC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 01640 808D3CB0 24A5A86C */  addiu   $a1, $a1, 0xA86C           ## $a1 = 0600A86C
-/* 01644 808D3CB4 0C0294D3 */  jal     SkelAnime_ChangeAnimationTransitionRate
+/* 01644 808D3CB4 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
 /* 01648 808D3CB8 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 0164C 808D3CBC 24090001 */  addiu   $t1, $zero, 0x0001         ## $t1 = 00000001
 /* 01650 808D3CC0 240A003C */  addiu   $t2, $zero, 0x003C         ## $t2 = 0000003C
@@ -168,5 +168,3 @@ glabel func_808D3AE0
 /* 016BC 808D3D2C 8FB40050 */  lw      $s4, 0x0050($sp)
 /* 016C0 808D3D30 03E00008 */  jr      $ra
 /* 016C4 808D3D34 27BD0098 */  addiu   $sp, $sp, 0x0098           ## $sp = 00000000
-
-

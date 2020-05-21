@@ -16,8 +16,8 @@ glabel func_80846660
 /* 14488 80846698 24C63298 */  addiu   $a2, $a2, 0x3298           ## $a2 = 04003298
 /* 1448C 8084669C 15C10008 */  bne     $t6, $at, .L808466C0
 /* 14490 808466A0 260501B4 */  addiu   $a1, $s0, 0x01B4           ## $a1 = 000001B4
-/* 14494 808466A4 3C0F8016 */  lui     $t7, 0x8016                ## $t7 = 80160000
-/* 14498 808466A8 8DEFF9C0 */  lw      $t7, -0x0640($t7)          ## 8015F9C0
+/* 14494 808466A4 3C0F8016 */  lui     $t7, %hi(gSaveContext+0x1360)
+/* 14498 808466A8 8DEFF9C0 */  lw      $t7, %lo(gSaveContext+0x1360)($t7)
 /* 1449C 808466AC 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
 /* 144A0 808466B0 29E10004 */  slti    $at, $t7, 0x0004
 /* 144A4 808466B4 54200003 */  bnel    $at, $zero, .L808466C4
@@ -37,7 +37,7 @@ glabel func_80846660
 /* 144D4 808466E4 E7A0001C */  swc1    $f0, 0x001C($sp)
 /* 144D8 808466E8 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 144DC 808466EC 34E7AAAB */  ori     $a3, $a3, 0xAAAB           ## $a3 = 3F2AAAAB
-/* 144E0 808466F0 0C028FC2 */  jal     SkelAnime_LinkChangeAnimation
+/* 144E0 808466F0 0C028FC2 */  jal     SkelAnime_ChangeLinkAnim
 /* 144E4 808466F4 E7A40014 */  swc1    $f4, 0x0014($sp)
 /* 144E8 808466F8 3C014448 */  lui     $at, 0x4448                ## $at = 44480000
 /* 144EC 808466FC 44814000 */  mtc1    $at, $f8                   ## $f8 = 800.00
@@ -49,5 +49,3 @@ glabel func_80846660
 /* 14504 80846714 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 14508 80846718 03E00008 */  jr      $ra
 /* 1450C 8084671C 00000000 */  nop
-
-

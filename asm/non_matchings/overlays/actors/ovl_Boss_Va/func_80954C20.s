@@ -1,3 +1,14 @@
+.late_rodata
+glabel D_8095C764
+    .float 0.12
+
+glabel D_8095C768
+    .float 0.005
+
+glabel D_8095C76C
+    .float 0.1
+
+.text
 glabel func_80954C20
 /* 05960 80954C20 27BDFF58 */  addiu   $sp, $sp, 0xFF58           ## $sp = FFFFFF58
 /* 05964 80954C24 AFBF0034 */  sw      $ra, 0x0034($sp)           
@@ -17,7 +28,7 @@ glabel func_80954C20
 /* 0599C 80954C5C 50600004 */  beql    $v1, $zero, .L80954C70     
 /* 059A0 80954C60 8D2B0024 */  lw      $t3, 0x0024($t1)           ## 00000024
 /* 059A4 80954C64 17030010 */  bne     $t8, $v1, .L80954CA8       
-/* 059A8 80954C68 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
+/* 059A8 80954C68 3C0D8016 */  lui     $t5, %hi(gGameInfo)
 .L80954C6C:
 /* 059AC 80954C6C 8D2B0024 */  lw      $t3, 0x0024($t1)           ## 00000024
 .L80954C70:
@@ -36,7 +47,7 @@ glabel func_80954C20
 /* 059E0 80954CA0 10000091 */  beq     $zero, $zero, .L80954EE8   
 /* 059E4 80954CA4 E7A80080 */  swc1    $f8, 0x0080($sp)           
 .L80954CA8:
-/* 059E8 80954CA8 8DADFA90 */  lw      $t5, -0x0570($t5)          ## 8015FA90
+/* 059E8 80954CA8 8DADFA90 */  lw      $t5, %lo(gGameInfo)($t5)
 /* 059EC 80954CAC 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
 /* 059F0 80954CB0 44819000 */  mtc1    $at, $f18                  ## $f18 = 0.50
 /* 059F4 80954CB4 85AE0110 */  lh      $t6, 0x0110($t5)           ## 80160110
@@ -660,12 +671,12 @@ glabel func_80954C20
 /* 0628C 8095554C 26060338 */  addiu   $a2, $s0, 0x0338           ## $a2 = 00000338
 /* 06290 80955550 00812821 */  addu    $a1, $a0, $at              
 /* 06294 80955554 AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 06298 80955558 0C0175E7 */  jal     Actor_CollisionCheck_SetAT
+/* 06298 80955558 0C0175E7 */  jal     CollisionCheck_SetAT
               ## CollisionCheck_setAT
 /* 0629C 8095555C AFA60038 */  sw      $a2, 0x0038($sp)           
 /* 062A0 80955560 8FA5003C */  lw      $a1, 0x003C($sp)           
 /* 062A4 80955564 8FA60038 */  lw      $a2, 0x0038($sp)           
-/* 062A8 80955568 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 062A8 80955568 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 062AC 8095556C 8FA400AC */  lw      $a0, 0x00AC($sp)           
 /* 062B0 80955570 1000002D */  beq     $zero, $zero, .L80955628   
@@ -732,5 +743,3 @@ glabel func_80954C20
 /* 0638C 8095564C 27BD00A8 */  addiu   $sp, $sp, 0x00A8           ## $sp = 00000000
 /* 06390 80955650 03E00008 */  jr      $ra                        
 /* 06394 80955654 00000000 */  nop
-
-

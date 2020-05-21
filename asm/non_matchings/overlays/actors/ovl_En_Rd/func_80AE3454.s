@@ -1,3 +1,12 @@
+.late_rodata
+glabel jtbl_80AE49A4
+.word L80AE3508
+.word L80AE34B4
+.word L80AE3538
+.word L80AE3724
+.word L80AE3754
+
+.text
 glabel func_80AE3454
 /* 01054 80AE3454 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 01058 80AE3458 AFB00028 */  sw      $s0, 0x0028($sp)
@@ -28,7 +37,7 @@ glabel func_80AE3454
 glabel L80AE34B4
 /* 010B4 80AE34B4 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 010B8 80AE34B8 24A54268 */  addiu   $a1, $a1, 0x4268           ## $a1 = 06004268
-/* 010BC 80AE34BC 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 010BC 80AE34BC 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 010C0 80AE34C0 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 010C4 80AE34C4 92090304 */  lbu     $t1, 0x0304($s0)           ## 00000304
 /* 010C8 80AE34C8 8FA4004C */  lw      $a0, 0x004C($sp)
@@ -65,7 +74,7 @@ glabel L80AE3508
 glabel L80AE3538
 /* 01138 80AE3538 8FAC0040 */  lw      $t4, 0x0040($sp)
 /* 0113C 80AE353C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 01140 80AE3540 3C0A8016 */  lui     $t2, 0x8016                ## $t2 = 80160000
+/* 01140 80AE3540 3C0A8016 */  lui     $t2, %hi(gSaveContext+4)
 /* 01144 80AE3544 8D8D0680 */  lw      $t5, 0x0680($t4)           ## 00000680
 /* 01148 80AE3548 31AE0080 */  andi    $t6, $t5, 0x0080           ## $t6 = 00000000
 /* 0114C 80AE354C 15C00016 */  bne     $t6, $zero, .L80AE35A8
@@ -84,7 +93,7 @@ glabel L80AE3538
 /* 0117C 80AE357C 8FA40034 */  lw      $a0, 0x0034($sp)
 /* 01180 80AE3580 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 01184 80AE3584 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 01188 80AE3588 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 01188 80AE3588 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 0118C 80AE358C E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 01190 80AE3590 92180304 */  lbu     $t8, 0x0304($s0)           ## 00000304
@@ -94,7 +103,7 @@ glabel L80AE3538
 /* 011A0 80AE35A0 10000081 */  beq     $zero, $zero, .L80AE37A8
 /* 011A4 80AE35A4 A2080304 */  sb      $t0, 0x0304($s0)           ## 00000304
 .L80AE35A8:
-/* 011A8 80AE35A8 8D4AE664 */  lw      $t2, -0x199C($t2)          ## FFFFE664
+/* 011A8 80AE35A8 8D4AE664 */  lw      $t2, %lo(gSaveContext+4)($t2)
 /* 011AC 80AE35AC 3C05C4BB */  lui     $a1, 0xC4BB                ## $a1 = C4BB0000
 /* 011B0 80AE35B0 34A58000 */  ori     $a1, $a1, 0x8000           ## $a1 = C4BB8000
 /* 011B4 80AE35B4 11400006 */  beq     $t2, $zero, .L80AE35D0
@@ -200,8 +209,8 @@ glabel L80AE3538
 /* 0131C 80AE371C 10000023 */  beq     $zero, $zero, .L80AE37AC
 /* 01320 80AE3720 8FBF002C */  lw      $ra, 0x002C($sp)
 glabel L80AE3724
-/* 01324 80AE3724 3C0D8016 */  lui     $t5, 0x8016                ## $t5 = 80160000
-/* 01328 80AE3728 8DADE664 */  lw      $t5, -0x199C($t5)          ## 8015E664
+/* 01324 80AE3724 3C0D8016 */  lui     $t5, %hi(gSaveContext+4)
+/* 01328 80AE3728 8DADE664 */  lw      $t5, %lo(gSaveContext+4)($t5)
 /* 0132C 80AE372C 260400BC */  addiu   $a0, $s0, 0x00BC           ## $a0 = 000000BC
 /* 01330 80AE3730 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01334 80AE3734 11A0001C */  beq     $t5, $zero, .L80AE37A8
@@ -214,8 +223,8 @@ glabel L80AE3724
 /* 0134C 80AE374C 10000017 */  beq     $zero, $zero, .L80AE37AC
 /* 01350 80AE3750 8FBF002C */  lw      $ra, 0x002C($sp)
 glabel L80AE3754
-/* 01354 80AE3754 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
-/* 01358 80AE3758 8DCEE664 */  lw      $t6, -0x199C($t6)          ## 8015E664
+/* 01354 80AE3754 3C0E8016 */  lui     $t6, %hi(gSaveContext+4)
+/* 01358 80AE3758 8DCEE664 */  lw      $t6, %lo(gSaveContext+4)($t6)
 /* 0135C 80AE375C 260400BC */  addiu   $a0, $s0, 0x00BC           ## $a0 = 000000BC
 /* 01360 80AE3760 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01364 80AE3764 11C00005 */  beq     $t6, $zero, .L80AE377C
@@ -244,5 +253,3 @@ glabel L80AE3754
 /* 013B0 80AE37B0 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 013B4 80AE37B4 03E00008 */  jr      $ra
 /* 013B8 80AE37B8 00000000 */  nop
-
-

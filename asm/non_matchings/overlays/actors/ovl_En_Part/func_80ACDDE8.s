@@ -1,3 +1,52 @@
+.late_rodata
+glabel D_80ACF240
+ .word 0x469C4000
+glabel jtbl_80ACF244
+.word L80ACDE58
+.word L80ACDF68
+.word L80ACDF98
+.word L80ACE010
+.word L80ACDF68
+.word L80ACE0AC
+.word L80ACE0AC
+.word L80ACE0AC
+.word L80ACE0AC
+.word L80ACDF68
+.word L80ACDF68
+.word L80ACDFEC
+.word L80ACDEBC
+.word L80ACDEB4
+.word L80ACDF44
+glabel D_80ACF280
+ .word 0xBE99999A
+glabel D_80ACF284
+    .float 0.3
+
+glabel D_80ACF288
+ .word 0xBF19999A
+glabel D_80ACF28C
+    .float 0.15
+
+glabel D_80ACF290
+ .word 0xBF19999A
+glabel D_80ACF294
+    .float 0.15
+
+glabel D_80ACF298
+ .word 0xBF19999A
+glabel D_80ACF29C
+    .float 0.3
+
+glabel D_80ACF2A0
+    .float 0.15
+
+glabel D_80ACF2A4
+    .float -1.2
+
+glabel D_80ACF2A8
+    .float 0.15
+
+.text
 glabel func_80ACDDE8
 /* 00018 80ACDDE8 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 0001C 80ACDDEC 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -215,9 +264,9 @@ glabel L80ACE0AC
 /* 00310 80ACE0E0 3C0180AD */  lui     $at, %hi(D_80ACF2A4)       ## $at = 80AD0000
 /* 00314 80ACE0E4 46029182 */  mul.s   $f6, $f18, $f2             
 /* 00318 80ACE0E8 E6000060 */  swc1    $f0, 0x0060($s0)           ## 00000060
-/* 0031C 80ACE0EC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 0031C 80ACE0EC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 00320 80ACE0F0 44050000 */  mfc1    $a1, $f0                   
-/* 00324 80ACE0F4 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00324 80ACE0F4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00328 80ACE0F8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0032C 80ACE0FC 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
 /* 00330 80ACE100 E6060068 */  swc1    $f6, 0x0068($s0)           ## 00000068
@@ -237,5 +286,3 @@ glabel L80ACE0AC
 /* 00360 80ACE130 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00364 80ACE134 03E00008 */  jr      $ra                        
 /* 00368 80ACE138 00000000 */  nop
-
-

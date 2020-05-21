@@ -1,3 +1,25 @@
+.late_rodata
+glabel jtbl_8098CAE4
+.word L809899F8
+.word L809899F8
+.word L80989AA8
+.word L80989AA8
+.word L80989AA8
+.word L80989AA8
+.word L80989AA8
+.word L80989ABC
+.word L80989B1C
+.word L80989B1C
+.word L80989B1C
+.word L80989B1C
+.word L80989B1C
+.word L80989AD0
+.word L80989AE4
+.word L80989AF8
+.word L80989AF8
+.word L80989B0C
+
+.text
 glabel DemoKankyo_Draw
 /* 00B2C 809899AC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00B30 809899B0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -24,7 +46,7 @@ glabel L809899F8
 /* 00B80 80989A00 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B84 80989A04 57010024 */  bnel    $t8, $at, .L80989A98       
 /* 00B88 80989A08 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00B8C 80989A0C 0C01B129 */  jal     func_8006C4A4              
+/* 00B8C 80989A0C 0C01B129 */  jal     Flags_GetEnv              
 /* 00B90 80989A10 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 00B94 80989A14 14400003 */  bne     $v0, $zero, .L80989A24     
 /* 00B98 80989A18 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -35,11 +57,11 @@ glabel L809899F8
 /* 00BA8 80989A28 0C00B84B */  jal     func_8002E12C              
 /* 00BAC 80989A2C 24067530 */  addiu   $a2, $zero, 0x7530         ## $a2 = 00007530
 /* 00BB0 80989A30 14400003 */  bne     $v0, $zero, .L80989A40     
-/* 00BB4 80989A34 3C198016 */  lui     $t9, 0x8016                ## $t9 = 80160000
+/* 00BB4 80989A34 3C198016 */  lui     $t9, %hi(gSaveContext+4)
 /* 00BB8 80989A38 10000038 */  beq     $zero, $zero, .L80989B1C   
 /* 00BBC 80989A3C 9206014C */  lbu     $a2, 0x014C($s0)           ## 0000014C
 .L80989A40:
-/* 00BC0 80989A40 8F39E664 */  lw      $t9, -0x199C($t9)          ## 8015E664
+/* 00BC0 80989A40 8F39E664 */  lw      $t9, %lo(gSaveContext+4)($t9)
 /* 00BC4 80989A44 5320000B */  beql    $t9, $zero, .L80989A74     
 /* 00BC8 80989A48 962A1D74 */  lhu     $t2, 0x1D74($s1)           ## 00001D74
 /* 00BCC 80989A4C 96281D74 */  lhu     $t0, 0x1D74($s1)           ## 00001D74
@@ -123,5 +145,3 @@ glabel L80989B1C
 /* 00CC8 80989B48 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 00CCC 80989B4C 03E00008 */  jr      $ra                        
 /* 00CD0 80989B50 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

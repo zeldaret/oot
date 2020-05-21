@@ -23,5 +23,3 @@ glabel EnSw_Update
 /* 02D08 80B0EAB8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 02D0C 80B0EABC 03E00008 */  jr      $ra                        
 /* 02D10 80B0EAC0 00000000 */  nop
-
-

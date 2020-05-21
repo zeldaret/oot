@@ -1,3 +1,21 @@
+.rdata
+glabel D_809828E8
+    .asciz "../z_demo_gt_part4_3.c"
+    .balign 4
+
+glabel D_80982900
+    .asciz "../z_demo_gt_part4_3.c"
+    .balign 4
+
+glabel D_80982918
+    .asciz "../z_demo_gt_part4_3.c"
+    .balign 4
+
+.late_rodata
+glabel D_80982B38
+    .float 9.58738019108e-05
+
+.text
 glabel func_80981AA0
 /* 04430 80981AA0 27BDFF80 */  addiu   $sp, $sp, 0xFF80           ## $sp = FFFFFF80
 /* 04434 80981AA4 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -7,8 +25,8 @@ glabel func_80981AA0
 /* 04444 80981AB4 3C018098 */  lui     $at, %hi(D_80982B38)       ## $at = 80980000
 /* 04448 80981AB8 C4282B38 */  lwc1    $f8, %lo(D_80982B38)($at)  
 /* 0444C 80981ABC 44872000 */  mtc1    $a3, $f4                   ## $f4 = 0.00
-/* 04450 80981AC0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 04454 80981AC4 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 04450 80981AC0 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 04454 80981AC4 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 04458 80981AC8 468021A0 */  cvt.s.w $f6, $f4                   
 /* 0445C 80981ACC 46083002 */  mul.s   $f0, $f6, $f8              
 /* 04460 80981AD0 46000005 */  abs.s   $f0, $f0                   
@@ -41,7 +59,7 @@ glabel func_80981AA0
 /* 044C4 80981B34 27A40034 */  addiu   $a0, $sp, 0x0034           ## $a0 = FFFFFFB4
 /* 044C8 80981B38 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 044CC 80981B3C 24070114 */  addiu   $a3, $zero, 0x0114         ## $a3 = 00000114
-/* 044D0 80981B40 0C031AB1 */  jal     func_800C6AC4              
+/* 044D0 80981B40 0C031AB1 */  jal     Graph_OpenDisps              
 /* 044D4 80981B44 E7A40048 */  swc1    $f4, 0x0048($sp)           
 /* 044D8 80981B48 0C01DE0D */  jal     Math_Coss
               ## coss?
@@ -124,12 +142,10 @@ glabel func_80981AA0
 /* 045FC 80981C6C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 04600 80981C70 24070133 */  addiu   $a3, $zero, 0x0133         ## $a3 = 00000133
 /* 04604 80981C74 AC590004 */  sw      $t9, 0x0004($v0)           ## 00000004
-/* 04608 80981C78 0C031AD5 */  jal     func_800C6B54              
+/* 04608 80981C78 0C031AD5 */  jal     Graph_CloseDisps              
 /* 0460C 80981C7C AC580000 */  sw      $t8, 0x0000($v0)           ## 00000000
 /* 04610 80981C80 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 04614 80981C84 8FB00018 */  lw      $s0, 0x0018($sp)           
 /* 04618 80981C88 27BD0080 */  addiu   $sp, $sp, 0x0080           ## $sp = 00000000
 /* 0461C 80981C8C 03E00008 */  jr      $ra                        
 /* 04620 80981C90 00000000 */  nop
-
-

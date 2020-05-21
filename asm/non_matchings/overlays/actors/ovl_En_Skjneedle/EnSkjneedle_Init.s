@@ -10,17 +10,17 @@ glabel EnSkjneedle_Init
 /* 0001C 80B01ECC 24A521AC */  addiu   $a1, $a1, %lo(D_80B021AC)  ## $a1 = 80B021AC
 /* 00020 80B01ED0 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00024 80B01ED4 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 00028 80B01ED8 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00028 80B01ED8 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 0002C 80B01EDC 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00030 80B01EE0 3C0780B0 */  lui     $a3, %hi(D_80B02180)       ## $a3 = 80B00000
 /* 00034 80B01EE4 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00038 80B01EE8 24E72180 */  addiu   $a3, $a3, %lo(D_80B02180)  ## $a3 = 80B02180
 /* 0003C 80B01EEC 8FA4002C */  lw      $a0, 0x002C($sp)           
-/* 00040 80B01EF0 0C017114 */  jal     func_8005C450              
+/* 00040 80B01EF0 0C017114 */  jal     Collider_SetCylinder_Set3              
 /* 00044 80B01EF4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00048 80B01EF8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 0004C 80B01EFC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00048 80B01EF8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0004C 80B01EFC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00050 80B01F00 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00054 80B01F04 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00058 80B01F08 0C00AC78 */  jal     ActorShape_Init
@@ -40,5 +40,3 @@ glabel EnSkjneedle_Init
 /* 00088 80B01F38 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000
 /* 0008C 80B01F3C 03E00008 */  jr      $ra                        
 /* 00090 80B01F40 00000000 */  nop
-
-

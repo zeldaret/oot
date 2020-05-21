@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_809E16F8
+    .float 0.03
+
+.text
 glabel func_809E0770
 /* 00530 809E0770 3C02809E */  lui     $v0, %hi(D_809E16C8)       ## $v0 = 809E0000
 /* 00534 809E0774 244216C8 */  addiu   $v0, $v0, %lo(D_809E16C8)  ## $v0 = 809E16C8
@@ -38,7 +43,7 @@ glabel func_809E0770
 /* 005B8 809E07F8 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
 /* 005BC 809E07FC 24A500F0 */  addiu   $a1, $a1, 0x00F0           ## $a1 = 060000F0
 /* 005C0 809E0800 24C4017C */  addiu   $a0, $a2, 0x017C           ## $a0 = 0000017C
-/* 005C4 809E0804 0C0294BE */  jal     SkelAnime_ChangeAnimationDefault
+/* 005C4 809E0804 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
 /* 005C8 809E0808 AFA60018 */  sw      $a2, 0x0018($sp)
 /* 005CC 809E080C 8FA60018 */  lw      $a2, 0x0018($sp)
 /* 005D0 809E0810 24C40024 */  addiu   $a0, $a2, 0x0024           ## $a0 = 00000024
@@ -63,5 +68,3 @@ glabel func_809E0770
 /* 00618 809E0858 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 0061C 809E085C 03E00008 */  jr      $ra
 /* 00620 809E0860 00000000 */  nop
-
-

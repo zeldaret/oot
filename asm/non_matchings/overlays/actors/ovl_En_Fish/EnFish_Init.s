@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80A17194
+    .float 65535.5
+glabel D_80A17198
+    .float 65535.5
+
+.text
 glabel EnFish_Init
 /* 001E8 80A15468 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 001EC 80A1546C AFBF002C */  sw      $ra, 0x002C($sp)
@@ -25,7 +32,7 @@ glabel EnFish_Init
 /* 00240 80A154C0 260501AC */  addiu   $a1, $s0, 0x01AC           ## $a1 = 000001AC
 /* 00244 80A154C4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00248 80A154C8 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 0024C 80A154CC 0C016EFE */  jal     func_8005BBF8
+/* 0024C 80A154CC 0C016EFE */  jal     Collider_InitJntSph
 /* 00250 80A154D0 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00254 80A154D4 3C0780A1 */  lui     $a3, %hi(D_80A17040)       ## $a3 = 80A10000
 /* 00258 80A154D8 2608016C */  addiu   $t0, $s0, 0x016C           ## $t0 = 0000016C
@@ -33,7 +40,7 @@ glabel EnFish_Init
 /* 00260 80A154E0 AFA80010 */  sw      $t0, 0x0010($sp)
 /* 00264 80A154E4 24E77040 */  addiu   $a3, $a3, %lo(D_80A17040)  ## $a3 = 80A17040
 /* 00268 80A154E8 8FA40044 */  lw      $a0, 0x0044($sp)
-/* 0026C 80A154EC 0C017014 */  jal     func_8005C050
+/* 0026C 80A154EC 0C017014 */  jal     Collider_SetJntSph
 /* 00270 80A154F0 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00274 80A154F4 24090032 */  addiu   $t1, $zero, 0x0032         ## $t1 = 00000032
 /* 00278 80A154F8 0C03F66B */  jal     Math_Rand_ZeroOne
@@ -53,14 +60,14 @@ glabel EnFish_Init
 /* 002A8 80A15528 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 002AC 80A1552C 460A0402 */  mul.s   $f16, $f0, $f10
 /* 002B0 80A15530 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
-/* 002B4 80A15534 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
+/* 002B4 80A15534 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 002B8 80A15538 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 002BC 80A1553C 4600848D */  trunc.w.s $f18, $f16
 /* 002C0 80A15540 440D9000 */  mfc1    $t5, $f18
 /* 002C4 80A15544 1440000B */  bne     $v0, $zero, .L80A15574
 /* 002C8 80A15548 A60D024E */  sh      $t5, 0x024E($s0)           ## 0000024E
 /* 002CC 80A1554C 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004
-/* 002D0 80A15550 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 002D0 80A15550 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 002D4 80A15554 3C074100 */  lui     $a3, 0x4100                ## $a3 = 41000000
 /* 002D8 80A15558 35CF0010 */  ori     $t7, $t6, 0x0010           ## $t7 = 00000010
 /* 002DC 80A1555C 0C00AC78 */  jal     ActorShape_Init
@@ -86,5 +93,3 @@ glabel EnFish_Init
 /* 0031C 80A1559C 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
 /* 00320 80A155A0 03E00008 */  jr      $ra
 /* 00324 80A155A4 00000000 */  nop
-
-

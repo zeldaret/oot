@@ -14,12 +14,12 @@ glabel EnPoField_Destroy
 /* 00234 80AD3D34 24A507A8 */  addiu   $a1, $a1, 0x07A8           ## $a1 = 000007A8
 /* 00238 80AD3D38 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 0023C 80AD3D3C 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00240 80AD3D40 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00240 80AD3D40 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00244 80AD3D44 24A50290 */  addiu   $a1, $a1, 0x0290           ## $a1 = 00000290
 /* 00248 80AD3D48 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 0024C 80AD3D4C 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 00250 80AD3D50 0C0170EB */  jal     ActorCollider_FreeCylinder
+/* 00250 80AD3D50 0C0170EB */  jal     Collider_DestroyCylinder
               
 /* 00254 80AD3D54 24A50244 */  addiu   $a1, $a1, 0x0244           ## $a1 = 00000244
 .L80AD3D58:
@@ -27,5 +27,3 @@ glabel EnPoField_Destroy
 /* 0025C 80AD3D5C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00260 80AD3D60 03E00008 */  jr      $ra                        
 /* 00264 80AD3D64 00000000 */  nop
-
-

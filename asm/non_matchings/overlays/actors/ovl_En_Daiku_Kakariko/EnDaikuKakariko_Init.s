@@ -1,6 +1,6 @@
 glabel EnDaikuKakariko_Init
-/* 000B0 809E43D0 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 000B4 809E43D4 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 000B0 809E43D0 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 000B4 809E43D4 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 000B8 809E43D8 8C6E0004 */  lw      $t6, 0x0004($v1)           ## 8015E664
 /* 000BC 809E43DC 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 000C0 809E43E0 AFB00028 */  sw      $s0, 0x0028($sp)
@@ -62,8 +62,8 @@ glabel EnDaikuKakariko_Init
 /* 00188 809E44A8 0C00B55C */  jal     Actor_Kill
 
 /* 0018C 809E44AC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00190 809E44B0 3C038016 */  lui     $v1, 0x8016                ## $v1 = 80160000
-/* 00194 809E44B4 2463E660 */  addiu   $v1, $v1, 0xE660           ## $v1 = 8015E660
+/* 00190 809E44B0 3C038016 */  lui     $v1, %hi(gSaveContext)
+/* 00194 809E44B4 2463E660 */  addiu   $v1, %lo(gSaveContext)
 /* 00198 809E44B8 8C690010 */  lw      $t1, 0x0010($v1)           ## 8015E670
 .L809E44BC:
 /* 0019C 809E44BC 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
@@ -74,8 +74,8 @@ glabel EnDaikuKakariko_Init
 /* 001B0 809E44D0 35AE0008 */  ori     $t6, $t5, 0x0008           ## $t6 = 00000008
 /* 001B4 809E44D4 A60E0200 */  sh      $t6, 0x0200($s0)           ## 00000200
 .L809E44D8:
-/* 001B8 809E44D8 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 001BC 809E44DC 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 001B8 809E44D8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 001BC 809E44DC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 001C0 809E44E0 0C00AC78 */  jal     ActorShape_Init
 
 /* 001C4 809E44E4 3C074220 */  lui     $a3, 0x4220                ## $a3 = 42200000
@@ -94,14 +94,14 @@ glabel EnDaikuKakariko_Init
 /* 001F8 809E4518 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 001FC 809E451C 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 00200 809E4520 AFA50030 */  sw      $a1, 0x0030($sp)
-/* 00204 809E4524 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00204 809E4524 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00208 809E4528 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 0020C 809E452C 3C07809E */  lui     $a3, %hi(D_809E54B0)       ## $a3 = 809E0000
 /* 00210 809E4530 8FA50030 */  lw      $a1, 0x0030($sp)
 /* 00214 809E4534 24E754B0 */  addiu   $a3, $a3, %lo(D_809E54B0)  ## $a3 = 809E54B0
 /* 00218 809E4538 8FA4004C */  lw      $a0, 0x004C($sp)
-/* 0021C 809E453C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 0021C 809E453C 0C01712B */  jal     Collider_SetCylinder
 
 /* 00220 809E4540 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00224 809E4544 3C05809E */  lui     $a1, %hi(D_809E54E8)       ## $a1 = 809E0000
@@ -127,7 +127,7 @@ glabel EnDaikuKakariko_Init
 /* 00270 809E4590 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 00274 809E4594 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
 /* 00278 809E4598 AFA80014 */  sw      $t0, 0x0014($sp)
-/* 0027C 809E459C 0C029468 */  jal     SkelAnime_ChangeAnimation
+/* 0027C 809E459C 0C029468 */  jal     SkelAnime_ChangeAnim
 
 /* 00280 809E45A0 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 00284 809E45A4 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
@@ -236,5 +236,3 @@ glabel EnDaikuKakariko_Init
 /* 003F8 809E4718 27BD0048 */  addiu   $sp, $sp, 0x0048           ## $sp = 00000000
 /* 003FC 809E471C 03E00008 */  jr      $ra
 /* 00400 809E4720 00000000 */  nop
-
-

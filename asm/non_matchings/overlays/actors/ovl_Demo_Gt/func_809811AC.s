@@ -1,3 +1,21 @@
+.rdata
+glabel D_80982858
+    .asciz "../z_demo_gt_part4_1.c"
+    .balign 4
+
+glabel D_80982870
+    .asciz "../z_demo_gt_part4_1.c"
+    .balign 4
+
+glabel D_80982888
+    .asciz "../z_demo_gt_part4_1.c"
+    .balign 4
+
+.late_rodata
+glabel D_80982B18
+    .float 9.58738019108e-05
+
+.text
 glabel func_809811AC
 /* 03B3C 809811AC 27BDFF78 */  addiu   $sp, $sp, 0xFF78           ## $sp = FFFFFF78
 /* 03B40 809811B0 AFBF001C */  sw      $ra, 0x001C($sp)           
@@ -12,8 +30,8 @@ glabel func_809811AC
 /* 03B64 809811D4 3C018098 */  lui     $at, %hi(D_80982B18)       ## $at = 80980000
 /* 03B68 809811D8 C4282B18 */  lwc1    $f8, %lo(D_80982B18)($at)  
 /* 03B6C 809811DC 44862000 */  mtc1    $a2, $f4                   ## $f4 = 0.00
-/* 03B70 809811E0 3C028016 */  lui     $v0, 0x8016                ## $v0 = 80160000
-/* 03B74 809811E4 8C42FA90 */  lw      $v0, -0x0570($v0)          ## 8015FA90
+/* 03B70 809811E0 3C028016 */  lui     $v0, %hi(gGameInfo)
+/* 03B74 809811E4 8C42FA90 */  lw      $v0, %lo(gGameInfo)($v0)
 /* 03B78 809811E8 468021A0 */  cvt.s.w $f6, $f4                   
 /* 03B7C 809811EC 46083002 */  mul.s   $f0, $f6, $f8              
 /* 03B80 809811F0 46000005 */  abs.s   $f0, $f0                   
@@ -46,7 +64,7 @@ glabel func_809811AC
 /* 03BE4 80981254 27A40030 */  addiu   $a0, $sp, 0x0030           ## $a0 = FFFFFFA8
 /* 03BE8 80981258 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 03BEC 8098125C 240700D9 */  addiu   $a3, $zero, 0x00D9         ## $a3 = 000000D9
-/* 03BF0 80981260 0C031AB1 */  jal     func_800C6AC4              
+/* 03BF0 80981260 0C031AB1 */  jal     Graph_OpenDisps              
 /* 03BF4 80981264 E7A40044 */  swc1    $f4, 0x0044($sp)           
 /* 03BF8 80981268 0C01DE0D */  jal     Math_Coss
               ## coss?
@@ -136,7 +154,7 @@ glabel func_809811AC
 /* 03D34 809813A4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 03D38 809813A8 240700F6 */  addiu   $a3, $zero, 0x00F6         ## $a3 = 000000F6
 /* 03D3C 809813AC AC590004 */  sw      $t9, 0x0004($v0)           ## 00000004
-/* 03D40 809813B0 0C031AD5 */  jal     func_800C6B54              
+/* 03D40 809813B0 0C031AD5 */  jal     Graph_CloseDisps              
 /* 03D44 809813B4 AC580000 */  sw      $t8, 0x0000($v0)           ## 00000000
 /* 03D48 809813B8 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L809813BC:
@@ -144,5 +162,3 @@ glabel func_809811AC
 /* 03D50 809813C0 27BD0088 */  addiu   $sp, $sp, 0x0088           ## $sp = 00000000
 /* 03D54 809813C4 03E00008 */  jr      $ra                        
 /* 03D58 809813C8 00000000 */  nop
-
-

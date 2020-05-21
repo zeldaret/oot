@@ -1,18 +1,24 @@
+/*
+ * File: z_en_zo.c
+ * Overlay: ovl_En_Zo
+ * Description: Zora
+ */
+
 #include "z_en_zo.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000009
 
-void EnZo_Init(EnZo* this, GlobalContext* globalCtx);
-void EnZo_Destroy(EnZo* this, GlobalContext* globalCtx);
-void EnZo_Update(EnZo* this, GlobalContext* globalCtx);
-void EnZo_Draw(EnZo* this, GlobalContext* globalCtx);
+#define THIS ((EnZo*)thisx)
+
+void EnZo_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnZo_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnZo_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnZo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Zo_InitVars = {
     ACTOR_EN_ZO,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_ZO,
     sizeof(EnZo),

@@ -1,3 +1,13 @@
+.rdata
+glabel D_80A9C2D8
+    .asciz "Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n"
+    .balign 4
+
+glabel D_80A9C308
+    .asciz "../z_en_kusa.c"
+    .balign 4
+
+.text
 glabel EnKusa_Init
 /* 006E8 80A9B688 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 006EC 80A9B68C AFA50024 */  sw      $a1, 0x0024($sp)           
@@ -89,5 +99,3 @@ glabel EnKusa_Init
 /* 00818 80A9B7B8 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
 /* 0081C 80A9B7BC 03E00008 */  jr      $ra                        
 /* 00820 80A9B7C0 00000000 */  nop
-
-

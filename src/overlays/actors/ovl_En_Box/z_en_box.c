@@ -1,18 +1,18 @@
 #include "z_en_box.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void EnBox_Init(EnBox* this, GlobalContext* globalCtx);
-void EnBox_Destroy(EnBox* this, GlobalContext* globalCtx);
-void EnBox_Update(EnBox* this, GlobalContext* globalCtx);
-void EnBox_Draw(EnBox* this, GlobalContext* globalCtx);
+#define THIS ((EnBox*)thisx)
+
+void EnBox_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnBox_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Box_InitVars = {
     Chest,
     ACTORTYPE_CHEST,
-    ROOM,
     FLAGS,
     OBJECT_BOX,
     sizeof(EnBox),

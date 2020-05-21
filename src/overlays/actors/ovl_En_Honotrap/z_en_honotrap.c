@@ -1,18 +1,18 @@
 #include "z_en_honotrap.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void EnHonotrap_Init(EnHonotrap* this, GlobalContext* globalCtx);
-void EnHonotrap_Destroy(EnHonotrap* this, GlobalContext* globalCtx);
-void EnHonotrap_Update(EnHonotrap* this, GlobalContext* globalCtx);
-void EnHonotrap_Draw(EnHonotrap* this, GlobalContext* globalCtx);
+#define THIS ((EnHonotrap*)thisx)
+
+void EnHonotrap_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnHonotrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnHonotrap_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Honotrap_InitVars = {
     ACTOR_EN_HONOTRAP,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(EnHonotrap),

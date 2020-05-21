@@ -1,18 +1,24 @@
+/*
+ * File: z_obj_timeblock.c
+ * Overlay: ovl_Obj_Timeblock
+ * Description: Song of Time Block
+ */
+
 #include "z_obj_timeblock.h"
 
-#define ROOM 0x00
 #define FLAGS 0x0A000011
 
-void ObjTimeblock_Init(ObjTimeblock* this, GlobalContext* globalCtx);
-void ObjTimeblock_Destroy(ObjTimeblock* this, GlobalContext* globalCtx);
-void ObjTimeblock_Update(ObjTimeblock* this, GlobalContext* globalCtx);
-void ObjTimeblock_Draw(ObjTimeblock* this, GlobalContext* globalCtx);
+#define THIS ((ObjTimeblock*)thisx)
+
+void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx);
+void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_TIMEBLOCK,
     sizeof(ObjTimeblock),

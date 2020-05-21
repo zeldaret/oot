@@ -1,18 +1,18 @@
 #include "z_en_po_relay.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00011019
 
-void EnPoRelay_Init(EnPoRelay* this, GlobalContext* globalCtx);
-void EnPoRelay_Destroy(EnPoRelay* this, GlobalContext* globalCtx);
-void EnPoRelay_Update(EnPoRelay* this, GlobalContext* globalCtx);
-void EnPoRelay_Draw(EnPoRelay* this, GlobalContext* globalCtx);
+#define THIS ((EnPoRelay*)thisx)
+
+void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnPoRelay_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnPoRelay_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnPoRelay_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Po_Relay_InitVars = {
     ACTOR_EN_PO_RELAY,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_TK,
     sizeof(EnPoRelay),

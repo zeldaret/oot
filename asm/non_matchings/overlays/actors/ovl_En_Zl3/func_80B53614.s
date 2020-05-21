@@ -1,3 +1,10 @@
+.late_rodata
+glabel D_80B5AAC4
+ .word 0x45803000
+glabel D_80B5AAC8
+ .word 0xC3B98000
+
+.text
 glabel func_80B53614
 /* 00264 80B53614 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00268 80B53618 3C0180B6 */  lui     $at, %hi(D_80B5AAC4)       ## $at = 80B60000
@@ -22,5 +29,3 @@ glabel func_80B53614
 /* 002B0 80B53660 27BD0030 */  addiu   $sp, $sp, 0x0030           ## $sp = 00000000
 /* 002B4 80B53664 03E00008 */  jr      $ra                        
 /* 002B8 80B53668 00000000 */  nop
-
-

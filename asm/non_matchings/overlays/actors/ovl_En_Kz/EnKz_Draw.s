@@ -1,5 +1,4 @@
 .rdata
-
 glabel D_80A9D970
     .asciz "../z_en_kz.c"
     .balign 4
@@ -20,14 +19,14 @@ glabel EnKz_Draw
 /* 0126C 80A9D7BC 24C6D970 */  addiu   $a2, $a2, %lo(D_80A9D970)  ## $a2 = 80A9D970
 /* 01270 80A9D7C0 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 01274 80A9D7C4 240704EB */  addiu   $a3, $zero, 0x04EB         ## $a3 = 000004EB
-/* 01278 80A9D7C8 0C031AB1 */  jal     func_800C6AC4
+/* 01278 80A9D7C8 0C031AB1 */  jal     Graph_OpenDisps
 /* 0127C 80A9D7CC AFA50048 */  sw      $a1, 0x0048($sp)
 /* 01280 80A9D7D0 8FA80048 */  lw      $t0, 0x0048($sp)
 /* 01284 80A9D7D4 3C18DB06 */  lui     $t8, 0xDB06                ## $t8 = DB060000
 /* 01288 80A9D7D8 37180020 */  ori     $t8, $t8, 0x0020           ## $t8 = DB060020
 /* 0128C 80A9D7DC 8D0302C0 */  lw      $v1, 0x02C0($t0)           ## 000002C0
 /* 01290 80A9D7E0 3C0480AA */  lui     $a0, %hi(D_80A9D964)       ## $a0 = 80AA0000
-/* 01294 80A9D7E4 3C0E8016 */  lui     $t6, 0x8016                ## $t6 = 80160000
+/* 01294 80A9D7E4 3C0E8016 */  lui     $t6, %hi(gSegments)
 /* 01298 80A9D7E8 246F0008 */  addiu   $t7, $v1, 0x0008           ## $t7 = 00000008
 /* 0129C 80A9D7EC AD0F02C0 */  sw      $t7, 0x02C0($t0)           ## 000002C0
 /* 012A0 80A9D7F0 AC780000 */  sw      $t8, 0x0000($v1)           ## 00000000
@@ -41,7 +40,7 @@ glabel EnKz_Draw
 /* 012C0 80A9D810 000B6702 */  srl     $t4, $t3, 28
 /* 012C4 80A9D814 000C6880 */  sll     $t5, $t4,  2
 /* 012C8 80A9D818 01CD7021 */  addu    $t6, $t6, $t5
-/* 012CC 80A9D81C 8DCE6FA8 */  lw      $t6, 0x6FA8($t6)           ## 80166FA8
+/* 012CC 80A9D81C 8DCE6FA8 */  lw      $t6, %lo(gSegments)($t6)
 /* 012D0 80A9D820 00815024 */  and     $t2, $a0, $at
 /* 012D4 80A9D824 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 012D8 80A9D828 014E7821 */  addu    $t7, $t2, $t6
@@ -67,11 +66,10 @@ glabel EnKz_Draw
 /* 01328 80A9D878 24C6D980 */  addiu   $a2, $a2, %lo(D_80A9D980)  ## $a2 = 80A9D980
 /* 0132C 80A9D87C 27A40038 */  addiu   $a0, $sp, 0x0038           ## $a0 = FFFFFFE8
 /* 01330 80A9D880 24070501 */  addiu   $a3, $zero, 0x0501         ## $a3 = 00000501
-/* 01334 80A9D884 0C031AD5 */  jal     func_800C6B54
+/* 01334 80A9D884 0C031AD5 */  jal     Graph_CloseDisps
 /* 01338 80A9D888 8D850000 */  lw      $a1, 0x0000($t4)           ## 00000000
 /* 0133C 80A9D88C 8FBF002C */  lw      $ra, 0x002C($sp)
 /* 01340 80A9D890 8FB00028 */  lw      $s0, 0x0028($sp)
 /* 01344 80A9D894 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
 /* 01348 80A9D898 03E00008 */  jr      $ra
 /* 0134C 80A9D89C 00000000 */  nop
-

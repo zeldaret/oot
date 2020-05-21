@@ -49,7 +49,7 @@ glabel func_80B95DFC
 /* 004DC 80B95EAC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 004E0 80B95EB0 45020004 */  bc1fl   .L80B95EC4                 
 /* 004E4 80B95EB4 8FBF001C */  lw      $ra, 0x001C($sp)           
-/* 004E8 80B95EB8 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 004E8 80B95EB8 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 004EC 80B95EBC 26060164 */  addiu   $a2, $s0, 0x0164           ## $a2 = 00000164
 .L80B95EC0:
@@ -59,5 +59,3 @@ glabel func_80B95DFC
 /* 004F8 80B95EC8 8FB10018 */  lw      $s1, 0x0018($sp)           
 /* 004FC 80B95ECC 03E00008 */  jr      $ra                        
 /* 00500 80B95ED0 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000
-
-

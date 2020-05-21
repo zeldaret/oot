@@ -1,3 +1,8 @@
+.late_rodata
+glabel D_808AB9D0
+    .float 1100.0
+
+.text
 glabel BgSpot01Idohashira_Init
 /* 0090C 808AB5EC 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 00910 808AB5F0 AFA5003C */  sw      $a1, 0x003C($sp)           
@@ -24,8 +29,8 @@ glabel BgSpot01Idohashira_Init
 /* 00958 808AB638 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
               ## DynaPolyInfo_setActor
 /* 0095C 808AB63C 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 00960 808AB640 3C048016 */  lui     $a0, 0x8016                ## $a0 = 80160000
-/* 00964 808AB644 2484E660 */  addiu   $a0, $a0, 0xE660           ## $a0 = 8015E660
+/* 00960 808AB640 3C048016 */  lui     $a0, %hi(gSaveContext)
+/* 00964 808AB644 2484E660 */  addiu   $a0, %lo(gSaveContext)
 /* 00968 808AB648 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 0096C 808AB64C 8C831360 */  lw      $v1, 0x1360($a0)           ## 8015F9C0
 /* 00970 808AB650 28610004 */  slti    $at, $v1, 0x0004           
@@ -51,8 +56,8 @@ glabel BgSpot01Idohashira_Init
 /* 009B4 808AB694 1461000E */  bne     $v1, $at, .L808AB6D0       
 /* 009B8 808AB698 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 009BC 808AB69C AE190164 */  sw      $t9, 0x0164($s0)           ## 00000164
-/* 009C0 808AB6A0 3C088016 */  lui     $t0, 0x8016                ## $t0 = 80160000
-/* 009C4 808AB6A4 8D08FA90 */  lw      $t0, -0x0570($t0)          ## 8015FA90
+/* 009C0 808AB6A0 3C088016 */  lui     $t0, %hi(gGameInfo)
+/* 009C4 808AB6A4 8D08FA90 */  lw      $t0, %lo(gGameInfo)($t0)
 /* 009C8 808AB6A8 3C01808B */  lui     $at, %hi(D_808AB9D0)       ## $at = 808B0000
 /* 009CC 808AB6AC C428B9D0 */  lwc1    $f8, %lo(D_808AB9D0)($at)  
 /* 009D0 808AB6B0 85091468 */  lh      $t1, 0x1468($t0)           ## 80161468
@@ -80,5 +85,3 @@ glabel BgSpot01Idohashira_Init
 /* 00A14 808AB6F4 27BD0038 */  addiu   $sp, $sp, 0x0038           ## $sp = 00000000
 /* 00A18 808AB6F8 03E00008 */  jr      $ra                        
 /* 00A1C 808AB6FC 00000000 */  nop
-
-

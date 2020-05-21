@@ -1,18 +1,24 @@
+/*
+ * File: z_en_takara_man.c
+ * Overlay: ovl_En_Takara_Man
+ * Description: Treasure Chest Game Man
+ */
+
 #include "z_en_takara_man.h"
 
-#define ROOM 0x00
 #define FLAGS 0x08000039
 
-void EnTakaraMan_Init(EnTakaraMan* this, GlobalContext* globalCtx);
-void EnTakaraMan_Destroy(EnTakaraMan* this, GlobalContext* globalCtx);
-void EnTakaraMan_Update(EnTakaraMan* this, GlobalContext* globalCtx);
-void EnTakaraMan_Draw(EnTakaraMan* this, GlobalContext* globalCtx);
+#define THIS ((EnTakaraMan*)thisx)
+
+void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Takara_Man_InitVars = {
     ACTOR_EN_TAKARA_MAN,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_TS,
     sizeof(EnTakaraMan),

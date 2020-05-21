@@ -1,18 +1,18 @@
 #include "z_en_ge2.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000019
 
-void EnGe2_Init(EnGe2* this, GlobalContext* globalCtx);
-void EnGe2_Destroy(EnGe2* this, GlobalContext* globalCtx);
-void EnGe2_Update(EnGe2* this, GlobalContext* globalCtx);
-void EnGe2_Draw(EnGe2* this, GlobalContext* globalCtx);
+#define THIS ((EnGe2*)thisx)
+
+void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnGe2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Ge2_InitVars = {
     ACTOR_EN_GE2,
     ACTORTYPE_NPC,
-    ROOM,
     FLAGS,
     OBJECT_GLA,
     sizeof(EnGe2),

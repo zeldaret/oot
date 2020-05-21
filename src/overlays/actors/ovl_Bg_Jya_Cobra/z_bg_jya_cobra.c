@@ -1,18 +1,18 @@
 #include "z_bg_jya_cobra.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000010
 
-void BgJyaCobra_Init(BgJyaCobra* this, GlobalContext* globalCtx);
-void BgJyaCobra_Destroy(BgJyaCobra* this, GlobalContext* globalCtx);
-void BgJyaCobra_Update(BgJyaCobra* this, GlobalContext* globalCtx);
-void BgJyaCobra_Draw(BgJyaCobra* this, GlobalContext* globalCtx);
+#define THIS ((BgJyaCobra*)thisx)
+
+void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaCobra_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaCobra),

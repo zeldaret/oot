@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_80937990
+ .word 0xC4228000
+glabel D_80937994
+ .word 0xC4228000
+glabel D_80937998
+    .float 5000.0
+
+.text
 glabel BossSst_Init
 /* 00000 8092C5D0 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00004 8092C5D4 AFB10030 */  sw      $s1, 0x0030($sp)
@@ -11,12 +20,12 @@ glabel BossSst_Init
 /* 00020 8092C5F0 24A5788C */  addiu   $a1, $a1, %lo(D_8093788C)  ## $a1 = 8093788C
 /* 00024 8092C5F4 260506B4 */  addiu   $a1, $s0, 0x06B4           ## $a1 = 000006B4
 /* 00028 8092C5F8 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 0002C 8092C5FC 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 0002C 8092C5FC 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00030 8092C600 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00034 8092C604 260503D4 */  addiu   $a1, $s0, 0x03D4           ## $a1 = 000003D4
 /* 00038 8092C608 AFA50040 */  sw      $a1, 0x0040($sp)
-/* 0003C 8092C60C 0C016EFE */  jal     func_8005BBF8
+/* 0003C 8092C60C 0C016EFE */  jal     Collider_InitJntSph
 /* 00040 8092C610 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00044 8092C614 3C058093 */  lui     $a1, %hi(D_8093782C)       ## $a1 = 80930000
 /* 00048 8092C618 3C068093 */  lui     $a2, %hi(D_80937824)       ## $a2 = 80930000
@@ -66,8 +75,8 @@ glabel BossSst_Init
 /* 000F0 8092C6C0 0C0291BE */  jal     SkelAnime_InitSV
 /* 000F4 8092C6C4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 000F8 8092C6C8 3C054788 */  lui     $a1, 0x4788                ## $a1 = 47880000
-/* 000FC 8092C6CC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00100 8092C6D0 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 000FC 8092C6CC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00100 8092C6D0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00104 8092C6D4 34A5B800 */  ori     $a1, $a1, 0xB800           ## $a1 = 4788B800
 /* 00108 8092C6D8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0010C 8092C6DC 0C00AC78 */  jal     ActorShape_Init
@@ -79,13 +88,13 @@ glabel BossSst_Init
 /* 00120 8092C6F0 24E777BC */  addiu   $a3, $a3, %lo(D_809377BC)  ## $a3 = 809377BC
 /* 00124 8092C6F4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00128 8092C6F8 8FA50040 */  lw      $a1, 0x0040($sp)
-/* 0012C 8092C6FC 0C017014 */  jal     func_8005C050
+/* 0012C 8092C6FC 0C017014 */  jal     Collider_SetJntSph
 /* 00130 8092C700 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00134 8092C704 3C078093 */  lui     $a3, %hi(D_809377CC)       ## $a3 = 80930000
 /* 00138 8092C708 24E777CC */  addiu   $a3, $a3, %lo(D_809377CC)  ## $a3 = 809377CC
 /* 0013C 8092C70C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00140 8092C710 8FA50044 */  lw      $a1, 0x0044($sp)
-/* 00144 8092C714 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00144 8092C714 0C01712B */  jal     Collider_SetCylinder
 
 /* 00148 8092C718 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0014C 8092C71C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
@@ -234,13 +243,13 @@ glabel BossSst_Init
 /* 00364 8092C934 260D03F4 */  addiu   $t5, $s0, 0x03F4           ## $t5 = 000003F4
 /* 00368 8092C938 AFAD0010 */  sw      $t5, 0x0010($sp)
 /* 0036C 8092C93C 24E77620 */  addiu   $a3, $a3, %lo(D_80937620)  ## $a3 = 80937620
-/* 00370 8092C940 0C017014 */  jal     func_8005C050
+/* 00370 8092C940 0C017014 */  jal     Collider_SetJntSph
 /* 00374 8092C944 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00378 8092C948 3C078093 */  lui     $a3, %hi(D_809377F8)       ## $a3 = 80930000
 /* 0037C 8092C94C 24E777F8 */  addiu   $a3, $a3, %lo(D_809377F8)  ## $a3 = 809377F8
 /* 00380 8092C950 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00384 8092C954 8FA50044 */  lw      $a1, 0x0044($sp)
-/* 00388 8092C958 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00388 8092C958 0C01712B */  jal     Collider_SetCylinder
 
 /* 0038C 8092C95C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00390 8092C960 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
@@ -284,8 +293,8 @@ glabel BossSst_Init
 /* 00424 8092C9F4 240D0001 */  addiu   $t5, $zero, 0x0001         ## $t5 = 00000001
 /* 00428 8092C9F8 A20D0194 */  sb      $t5, 0x0194($s0)           ## 00000194
 .L8092C9FC:
-/* 0042C 8092C9FC 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00430 8092CA00 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 0042C 8092C9FC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00430 8092CA00 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00434 8092CA04 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00438 8092CA08 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0043C 8092CA0C 0C00AC78 */  jal     ActorShape_Init
@@ -308,5 +317,3 @@ glabel BossSst_Init
 /* 00478 8092CA48 8FB10030 */  lw      $s1, 0x0030($sp)
 /* 0047C 8092CA4C 03E00008 */  jr      $ra
 /* 00480 8092CA50 27BD0050 */  addiu   $sp, $sp, 0x0050           ## $sp = 00000000
-
-

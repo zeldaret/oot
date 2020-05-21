@@ -1,3 +1,12 @@
+.late_rodata
+glabel D_80AD2908
+ .word 0x45834000
+glabel D_80AD290C
+ .word 0x3BC49BA6
+glabel D_80AD2910
+ .word 0x3B449BA6
+
+.text
 glabel EnPeehat_Init
 /* 00008 80ACF4A8 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 0000C 80ACF4AC AFB10028 */  sw      $s1, 0x0028($sp)           
@@ -28,8 +37,8 @@ glabel EnPeehat_Init
 /* 00068 80ACF508 0C02915F */  jal     SkelAnime_Init
               
 /* 0006C 80ACF50C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 00070 80ACF510 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00074 80ACF514 24C6B5EC */  addiu   $a2, $a2, 0xB5EC           ## $a2 = 8002B5EC
+/* 00070 80ACF510 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00074 80ACF514 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
 /* 00078 80ACF518 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0007C 80ACF51C 3C0542C8 */  lui     $a1, 0x42C8                ## $a1 = 42C80000
 /* 00080 80ACF520 0C00AC78 */  jal     ActorShape_Init
@@ -54,29 +63,29 @@ glabel EnPeehat_Init
 /* 000C8 80ACF568 E6040080 */  swc1    $f4, 0x0080($s0)           ## 00000080
 /* 000CC 80ACF56C AE080040 */  sw      $t0, 0x0040($s0)           ## 00000040
 /* 000D0 80ACF570 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 000D4 80ACF574 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 000D4 80ACF574 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 000D8 80ACF578 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 000DC 80ACF57C 3C0780AD */  lui     $a3, %hi(D_80AD2740)       ## $a3 = 80AD0000
 /* 000E0 80ACF580 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 000E4 80ACF584 24E72740 */  addiu   $a3, $a3, %lo(D_80AD2740)  ## $a3 = 80AD2740
 /* 000E8 80ACF588 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000EC 80ACF58C 0C01712B */  jal     ActorCollider_InitCylinder
+/* 000EC 80ACF58C 0C01712B */  jal     Collider_SetCylinder
               
 /* 000F0 80ACF590 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000F4 80ACF594 260503AC */  addiu   $a1, $s0, 0x03AC           ## $a1 = 000003AC
 /* 000F8 80ACF598 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 000FC 80ACF59C 0C017406 */  jal     func_8005D018              
+/* 000FC 80ACF59C 0C017406 */  jal     Collider_InitQuad              
 /* 00100 80ACF5A0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00104 80ACF5A4 3C0780AD */  lui     $a3, %hi(D_80AD27A0)       ## $a3 = 80AD0000
 /* 00108 80ACF5A8 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 0010C 80ACF5AC 24E727A0 */  addiu   $a3, $a3, %lo(D_80AD27A0)  ## $a3 = 80AD27A0
 /* 00110 80ACF5B0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00114 80ACF5B4 0C017441 */  jal     func_8005D104              
+/* 00114 80ACF5B4 0C017441 */  jal     Collider_SetQuad              
 /* 00118 80ACF5B8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0011C 80ACF5BC 2605034C */  addiu   $a1, $s0, 0x034C           ## $a1 = 0000034C
 /* 00120 80ACF5C0 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 00124 80ACF5C4 0C016EFE */  jal     func_8005BBF8              
+/* 00124 80ACF5C4 0C016EFE */  jal     Collider_InitJntSph              
 /* 00128 80ACF5C8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0012C 80ACF5CC 3C0780AD */  lui     $a3, %hi(D_80AD2790)       ## $a3 = 80AD0000
 /* 00130 80ACF5D0 260C036C */  addiu   $t4, $s0, 0x036C           ## $t4 = 0000036C
@@ -84,7 +93,7 @@ glabel EnPeehat_Init
 /* 00138 80ACF5D8 AFAC0010 */  sw      $t4, 0x0010($sp)           
 /* 0013C 80ACF5DC 24E72790 */  addiu   $a3, $a3, %lo(D_80AD2790)  ## $a3 = 80AD2790
 /* 00140 80ACF5E0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00144 80ACF5E4 0C017014 */  jal     func_8005C050              
+/* 00144 80ACF5E4 0C017014 */  jal     Collider_SetJntSph              
 /* 00148 80ACF5E8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0014C 80ACF5EC 3C014439 */  lui     $at, 0x4439                ## $at = 44390000
 /* 00150 80ACF5F0 44813000 */  mtc1    $at, $f6                   ## $f6 = 740.00
@@ -165,5 +174,3 @@ glabel EnPeehat_Init
 /* 00268 80ACF708 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 0026C 80ACF70C 03E00008 */  jr      $ra                        
 /* 00270 80ACF710 27BD0040 */  addiu   $sp, $sp, 0x0040           ## $sp = 00000000
-
-

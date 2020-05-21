@@ -26,8 +26,8 @@ glabel EnZf_Init
 /* 002FC 80B4434C 344CFF00 */  ori     $t4, $v0, 0xFF00           ## $t4 = 0000FF00
 /* 00300 80B44350 A60C001C */  sh      $t4, 0x001C($s0)           ## 0000001C
 .L80B44354:
-/* 00304 80B44354 3C068003 */  lui     $a2, 0x8003                ## $a2 = 80030000
-/* 00308 80B44358 24C6B8C4 */  addiu   $a2, $a2, 0xB8C4           ## $a2 = 8002B8C4
+/* 00304 80B44354 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Teardrop)
+/* 00308 80B44358 24C6B8C4 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Teardrop)
 /* 0030C 80B4435C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00310 80B44360 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00314 80B44364 0C00AC78 */  jal     ActorShape_Init
@@ -90,25 +90,25 @@ glabel EnZf_Init
 /* 003F0 80B44440 A60D00AA */  sh      $t5, 0x00AA($s0)           ## 000000AA
 /* 003F4 80B44444 26050418 */  addiu   $a1, $s0, 0x0418           ## $a1 = 00000418
 /* 003F8 80B44448 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 003FC 80B4444C 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 003FC 80B4444C 0C0170D9 */  jal     Collider_InitCylinder
               
 /* 00400 80B44450 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00404 80B44454 3C0780B5 */  lui     $a3, %hi(D_80B4A1D8)       ## $a3 = 80B50000
 /* 00408 80B44458 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 0040C 80B4445C 24E7A1D8 */  addiu   $a3, $a3, %lo(D_80B4A1D8)  ## $a3 = 80B4A1D8
 /* 00410 80B44460 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00414 80B44464 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00414 80B44464 0C01712B */  jal     Collider_SetCylinder
               
 /* 00418 80B44468 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0041C 80B4446C 26050464 */  addiu   $a1, $s0, 0x0464           ## $a1 = 00000464
 /* 00420 80B44470 AFA50030 */  sw      $a1, 0x0030($sp)           
-/* 00424 80B44474 0C017406 */  jal     func_8005D018              
+/* 00424 80B44474 0C017406 */  jal     Collider_InitQuad              
 /* 00428 80B44478 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0042C 80B4447C 3C0780B5 */  lui     $a3, %hi(D_80B4A204)       ## $a3 = 80B50000
 /* 00430 80B44480 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 00434 80B44484 24E7A204 */  addiu   $a3, $a3, %lo(D_80B4A204)  ## $a3 = 80B4A204
 /* 00438 80B44488 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0043C 80B4448C 0C017441 */  jal     func_8005D104              
+/* 0043C 80B4448C 0C017441 */  jal     Collider_SetQuad              
 /* 00440 80B44490 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00444 80B44494 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
 /* 00448 80B44498 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE
@@ -222,5 +222,3 @@ glabel EnZf_Init
 /* 005C8 80B44618 8FB10028 */  lw      $s1, 0x0028($sp)           
 /* 005CC 80B4461C 03E00008 */  jr      $ra                        
 /* 005D0 80B44620 27BD01F8 */  addiu   $sp, $sp, 0x01F8           ## $sp = 00000000
-
-

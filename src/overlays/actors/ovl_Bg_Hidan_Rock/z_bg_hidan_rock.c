@@ -1,18 +1,18 @@
 #include "z_bg_hidan_rock.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void BgHidanRock_Init(BgHidanRock* this, GlobalContext* globalCtx);
-void BgHidanRock_Destroy(BgHidanRock* this, GlobalContext* globalCtx);
-void BgHidanRock_Update(BgHidanRock* this, GlobalContext* globalCtx);
-void BgHidanRock_Draw(BgHidanRock* this, GlobalContext* globalCtx);
+#define THIS ((BgHidanRock*)thisx)
+
+void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit Bg_Hidan_Rock_InitVars = {
     ACTOR_BG_HIDAN_ROCK,
     ACTORTYPE_BG,
-    ROOM,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanRock),

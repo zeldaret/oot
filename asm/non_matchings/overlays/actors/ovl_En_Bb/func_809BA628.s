@@ -1,3 +1,18 @@
+.late_rodata
+glabel D_809BBCB0
+    .float 0.05
+glabel D_809BBCB4
+    .float 0.009999999776482582
+glabel D_809BBCB8
+    .float 0.002
+glabel D_809BBCBC
+    .float 0.05
+glabel D_809BBCC0
+    .float 0.1
+glabel D_809BBCC4
+    .float 0.1
+
+.text
 glabel func_809BA628
 /* 02348 809BA628 27BDFF90 */  addiu   $sp, $sp, 0xFF90           ## $sp = FFFFFF90
 /* 0234C 809BA62C 3C18809C */  lui     $t8, %hi(D_809BBB5C)       ## $t8 = 809C0000
@@ -277,7 +292,7 @@ glabel func_809BA628
 /* 02708 809BA9E8 86040030 */  lh      $a0, 0x0030($s0)           ## 00000030
 /* 0270C 809BA9EC 86050032 */  lh      $a1, 0x0032($s0)           ## 00000032
 /* 02710 809BA9F0 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
-/* 02714 809BA9F4 0C034421 */  jal     Matrix_RotateZYX
+/* 02714 809BA9F4 0C034421 */  jal     Matrix_RotateRPY
 /* 02718 809BA9F8 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 0271C 809BA9FC C60C0274 */  lwc1    $f12, 0x0274($s0)          ## 00000274
 /* 02720 809BAA00 0C0343B5 */  jal     Matrix_RotateZ
@@ -466,5 +481,3 @@ glabel func_809BA628
 /* 029A4 809BAC84 27BD0070 */  addiu   $sp, $sp, 0x0070           ## $sp = 00000000
 /* 029A8 809BAC88 03E00008 */  jr      $ra
 /* 029AC 809BAC8C 00000000 */  nop
-
-

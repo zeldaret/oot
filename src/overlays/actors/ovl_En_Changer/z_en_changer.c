@@ -1,17 +1,17 @@
 #include "z_en_changer.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void EnChanger_Init(EnChanger* this, GlobalContext* globalCtx);
-void EnChanger_Destroy(EnChanger* this, GlobalContext* globalCtx);
-void EnChanger_Update(EnChanger* this, GlobalContext* globalCtx);
+#define THIS ((EnChanger*)thisx)
+
+void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnChanger_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnChanger_Update(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_Changer_InitVars = {
     ACTOR_EN_CHANGER,
     ACTORTYPE_PROP,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnChanger),

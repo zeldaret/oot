@@ -1,18 +1,18 @@
 #include "z_en_m_thunder.h"
 
-#define ROOM 0x00
 #define FLAGS 0x00000000
 
-void EnMThunder_Init(EnMThunder* this, GlobalContext* globalCtx);
-void EnMThunder_Destroy(EnMThunder* this, GlobalContext* globalCtx);
-void EnMThunder_Update(EnMThunder* this, GlobalContext* globalCtx);
-void EnMThunder_Draw(EnMThunder* this, GlobalContext* globalCtx);
+#define THIS ((EnMThunder*)thisx)
+
+void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 /*
 const ActorInit En_M_Thunder_InitVars = {
     ACTOR_EN_M_THUNDER,
     ACTORTYPE_ITEMACTION,
-    ROOM,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnMThunder),

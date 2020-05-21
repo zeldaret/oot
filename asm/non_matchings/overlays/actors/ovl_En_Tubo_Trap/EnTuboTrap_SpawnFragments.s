@@ -141,7 +141,7 @@ glabel EnTuboTrap_SpawnFragments
 /* 00304 80B25BF4 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00308 80B25BF8 AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 0030C 80B25BFC AFB6003C */  sw      $s6, 0x003C($sp)           
-/* 00310 80B25C00 0C00A7A3 */  jal     Effect_SpawnFragment
+/* 00310 80B25C00 0C00A7A3 */  jal     func_80029E8C
               
 /* 00314 80B25C04 AFA80024 */  sw      $t0, 0x0024($sp)           
 /* 00318 80B25C08 26524E20 */  addiu   $s2, $s2, 0x4E20           ## $s2 = 00004E20
@@ -177,5 +177,3 @@ glabel EnTuboTrap_SpawnFragments
 /* 00390 80B25C80 8FBE0098 */  lw      $s8, 0x0098($sp)           
 /* 00394 80B25C84 03E00008 */  jr      $ra                        
 /* 00398 80B25C88 27BD00E0 */  addiu   $sp, $sp, 0x00E0           ## $sp = 00000000
-
-

@@ -1,3 +1,37 @@
+.rdata
+glabel D_80AB99F0
+    .asciz "[32m☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AB9A34
+    .asciz "[33m☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AB9A70
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AB9A74
+    .asciz "\n\n"
+    .balign 4
+
+glabel D_80AB9A78
+    .asciz "[32m☆☆☆☆☆ なぜか、セットできむぅあせん ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AB9AB8
+    .asciz "[33m☆☆☆☆☆ んんがくく ☆☆☆☆☆ %d\n[m"
+    .balign 4
+
+glabel D_80AB9AE8
+    .asciz "\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80AB9B14
+    .float 3.14159274101
+
+.text
 glabel EnNiwGirl_Init
 /* 00000 80AB8F80 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 00004 80AB8F84 AFB00038 */  sw      $s0, 0x0038($sp)
@@ -19,14 +53,14 @@ glabel EnNiwGirl_Init
 /* 00044 80AB8FC4 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 00048 80AB8FC8 26050288 */  addiu   $a1, $s0, 0x0288           ## $a1 = 00000288
 /* 0004C 80AB8FCC AFA50040 */  sw      $a1, 0x0040($sp)
-/* 00050 80AB8FD0 0C0170D9 */  jal     ActorCollider_AllocCylinder
+/* 00050 80AB8FD0 0C0170D9 */  jal     Collider_InitCylinder
 
 /* 00054 80AB8FD4 8FA4006C */  lw      $a0, 0x006C($sp)
 /* 00058 80AB8FD8 3C0780AC */  lui     $a3, %hi(D_80AB99A0)       ## $a3 = 80AC0000
 /* 0005C 80AB8FDC 8FA50040 */  lw      $a1, 0x0040($sp)
 /* 00060 80AB8FE0 24E799A0 */  addiu   $a3, $a3, %lo(D_80AB99A0)  ## $a3 = 80AB99A0
 /* 00064 80AB8FE4 8FA4006C */  lw      $a0, 0x006C($sp)
-/* 00068 80AB8FE8 0C01712B */  jal     ActorCollider_InitCylinder
+/* 00068 80AB8FE8 0C01712B */  jal     Collider_SetCylinder
 
 /* 0006C 80AB8FEC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00070 80AB8FF0 8603001C */  lh      $v1, 0x001C($s0)           ## 0000001C
@@ -141,5 +175,3 @@ glabel EnNiwGirl_Init
 /* 001F4 80AB9174 27BD0068 */  addiu   $sp, $sp, 0x0068           ## $sp = 00000000
 /* 001F8 80AB9178 03E00008 */  jr      $ra
 /* 001FC 80AB917C 00000000 */  nop
-
-

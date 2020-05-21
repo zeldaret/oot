@@ -11,12 +11,10 @@ glabel EnNwc_Update
 /* 00934 80ABCA14 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00938 80ABCA18 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 0093C 80ABCA1C 00812821 */  addu    $a1, $a0, $at              
-/* 00940 80ABCA20 0C01767D */  jal     Actor_CollisionCheck_SetAC
+/* 00940 80ABCA20 0C01767D */  jal     CollisionCheck_SetAC
               ## CollisionCheck_setAC
 /* 00944 80ABCA24 24E6014C */  addiu   $a2, $a3, 0x014C           ## $a2 = 0000014C
 /* 00948 80ABCA28 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 0094C 80ABCA2C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
 /* 00950 80ABCA30 03E00008 */  jr      $ra                        
 /* 00954 80ABCA34 00000000 */  nop
-
-
