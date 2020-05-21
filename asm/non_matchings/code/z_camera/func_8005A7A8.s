@@ -37,7 +37,7 @@ glabel func_8005A7A8
 /* AD19B4 8005A814 352A0040 */  ori   $t2, $t1, 0x40
 /* AD19B8 8005A818 A60A014A */  sh    $t2, 0x14a($s0)
 /* AD19BC 8005A81C 02002025 */  move  $a0, $s0
-/* AD19C0 8005A820 0C016952 */  jal   func_8005A548
+/* AD19C0 8005A820 0C016952 */  jal   Camera_ChangeSetting
 /* AD19C4 8005A824 24060005 */   li    $a2, 5
 /* AD19C8 8005A828 28430000 */  slti  $v1, $v0, 0
 /* AD19CC 8005A82C 38630001 */  xori  $v1, $v1, 1
@@ -53,7 +53,7 @@ glabel func_8005A7A8
 /* AD19F4 8005A854 8DADD064 */  lw    $t5, %lo(D_8011D064)($t5)
 /* AD19F8 8005A858 000D7000 */  sll   $t6, $t5, 0
 /* AD19FC 8005A85C 05C10009 */  bgez  $t6, .L8005A884
-/* AD1A00 8005A860 00000000 */   nop   
+/* AD1A00 8005A860 00000000 */   nop
 .L8005A864:
 /* AD1A04 8005A864 860F014A */  lh    $t7, 0x14a($s0)
 /* AD1A08 8005A868 A6110148 */  sh    $s1, 0x148($s0)

@@ -403,7 +403,7 @@ typedef struct {
     /* 0x00DC */ f32 unk_DC; // possibly a Vec3f
     /* 0x00E0 */ f32 unk_E0;
     /* 0x00E4 */ Vec3f unk_E4;
-    /* 0x00F0 */ char unk_F0[0x0C];
+    /* 0x00F0 */ Vec3f unk_F0;
     /* 0x00FC */ f32 unk_FC;
     /* 0x0100 */ f32 unk_100;
     /* 0x0104 */ f32 unk_104;

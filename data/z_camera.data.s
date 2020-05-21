@@ -7,22 +7,22 @@
 
 .section .data
 
-glabel D_80119EE0
+glabel sOREGInit
     .incbin "baserom.z64", 0xB91080, 0x6C
 
-glabel D_80119F4C
+glabel sOREGInitCnt
     .incbin "baserom.z64", 0xB910EC, 0x4
 
-glabel D_80119F50
+glabel sPREGInit
     .incbin "baserom.z64", 0xB910F0, 0x38
 
-glabel D_80119F88
+glabel sPREGInitCnt
     .incbin "baserom.z64", 0xB91128, 0x4
 
-glabel D_80119F8C
+glabel sCameraSettingNames
     .incbin "baserom.z64", 0xB9112C, 0x318
 
-glabel D_8011A2A4
+glabel sCameraTypeNames
     .incbin "baserom.z64", 0xB91444, 0x2DC0
 
 glabel D_8011D064
@@ -34,7 +34,7 @@ glabel D_8011D068
 glabel D_8011D274
     .incbin "baserom.z64", 0xB94414, 0x11C
 
-glabel D_8011D390
+glabel sInitRegs
     .incbin "baserom.z64", 0xB94530, 0x4
 
 glabel D_8011D394

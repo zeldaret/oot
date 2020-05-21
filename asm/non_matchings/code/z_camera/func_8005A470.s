@@ -17,21 +17,21 @@ glabel func_8005A470
 /* AD1634 8005A494 2402000C */   li    $v0, 12
 /* AD1638 8005A498 03020019 */  multu $t8, $v0
 /* AD163C 8005A49C 84E90142 */  lh    $t1, 0x142($a3)
-/* AD1640 8005A4A0 3C088012 */  lui   $t0, %hi(D_8011A2A4) # $t0, 0x8012
-/* AD1644 8005A4A4 3C0B8012 */  lui   $t3, %hi(D_80119F8C) # $t3, 0x8012
-/* AD1648 8005A4A8 256B9F8C */  addiu $t3, %lo(D_80119F8C) # addiu $t3, $t3, -0x6074
-/* AD164C 8005A4AC 2508A2A4 */  addiu $t0, %lo(D_8011A2A4) # addiu $t0, $t0, -0x5d5c
+/* AD1640 8005A4A0 3C088012 */  lui   $t0, %hi(sCameraTypeNames) # $t0, 0x8012
+/* AD1644 8005A4A4 3C0B8012 */  lui   $t3, %hi(sCameraSettingNames) # $t3, 0x8012
+/* AD1648 8005A4A8 256B9F8C */  addiu $t3, %lo(sCameraSettingNames) # addiu $t3, $t3, -0x6074
+/* AD164C 8005A4AC 2508A2A4 */  addiu $t0, %lo(sCameraTypeNames) # addiu $t0, $t0, -0x5d5c
 /* AD1650 8005A4B0 3C048014 */  lui   $a0, %hi(D_80139C34) # $a0, 0x8014
 /* AD1654 8005A4B4 24849C34 */  addiu $a0, %lo(D_80139C34) # addiu $a0, $a0, -0x63cc
 /* AD1658 8005A4B8 AFA70018 */  sw    $a3, 0x18($sp)
 /* AD165C 8005A4BC 0000C812 */  mflo  $t9
 /* AD1660 8005A4C0 03282821 */  addu  $a1, $t9, $t0
-/* AD1664 8005A4C4 00000000 */  nop   
+/* AD1664 8005A4C4 00000000 */  nop
 /* AD1668 8005A4C8 01220019 */  multu $t1, $v0
 /* AD166C 8005A4CC 00005012 */  mflo  $t2
 /* AD1670 8005A4D0 014B3021 */  addu  $a2, $t2, $t3
 /* AD1674 8005A4D4 0C00084C */  jal   osSyncPrintf
-/* AD1678 8005A4D8 00000000 */   nop   
+/* AD1678 8005A4D8 00000000 */   nop
 /* AD167C 8005A4DC 8FA70018 */  lw    $a3, 0x18($sp)
 .L8005A4E0:
 /* AD1680 8005A4E0 84EC0142 */  lh    $t4, 0x142($a3)
