@@ -448,8 +448,8 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ s32  unk_0;
-    /* 0x04 */ char unk_4[0x4];
+    /* 0x00 */ u32 toggle;
+    /* 0x04 */ s32 counter;
 } SubGlobalContext7B8; // size = 0x8
 
 typedef struct {

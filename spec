@@ -343,7 +343,7 @@ beginseg
     include "build/data/z_map_data.data.o"
     include "build/src/code/z_parameter.o"
     include "build/src/code/z_path.o"
-    include "build/asm/code_8008E6A0.o"
+    include "build/src/code//code_8008E6A0.o"
     include "build/src/code/z_player_lib.o"
     include "build/data/z_player_lib.data.o"
     include "build/data/z_player_lib.bss.o"
