@@ -1360,19 +1360,19 @@ s32 func_80058D34(Camera* camera) {
 
     if (D_8011D394 == 0) {
         if (camera->globalCtx->activeCamera == 0) {
-            if (~(D_8015BD7C->state.input[2].press.in.button | ~U_CBUTTONS) == 0) {
+            if (CHECK_PAD(D_8015BD7C->state.input[2].press, U_CBUTTONS)) {
                 osSyncPrintf("attention sound URGENCY\n");
                 func_80078884(NA_SE_SY_ATTENTION_URGENCY);
             }
-            if (~(D_8015BD7C->state.input[2].press.in.button | ~D_CBUTTONS) == 0) {
+            if (CHECK_PAD(D_8015BD7C->state.input[2].press, D_CBUTTONS)) {
                 osSyncPrintf("attention sound NORMAL\n");
                 func_80078884(NA_SE_SY_ATTENTION_ON);
             }
 
-            if (~(D_8015BD7C->state.input[2].press.in.button | ~R_CBUTTONS) == 0) {
+            if (CHECK_PAD(D_8015BD7C->state.input[2].press, R_CBUTTONS)) {
                 phi_a2 = 1;
             }
-            if (~(D_8015BD7C->state.input[2].press.in.button | ~L_CBUTTONS) == 0) {
+            if (CHECK_PAD(D_8015BD7C->state.input[2].press, L_CBUTTONS)) {
                 phi_a2 = -1;
             }
             if (phi_a2 != 0) {

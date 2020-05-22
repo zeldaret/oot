@@ -924,7 +924,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             if (globalCtx->unk_1242B != 0) {
-                if (!~(input[0].press.in.button | ~8)) {
+                if (CHECK_PAD(input[0].press, U_CBUTTONS)) {
                     if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
                         // Translates to: "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
@@ -1823,7 +1823,7 @@ s32 func_800C0CB8(GlobalContext* globalCtx) {
 }
 
 s32 func_800C0D28(GlobalContext* globalCtx) {
-    return (globalCtx->sub_7B8.unk_0 != 0);
+    return (globalCtx->sub_7B8.toggle != 0);
 }
 
 s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {
