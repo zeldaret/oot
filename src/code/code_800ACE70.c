@@ -1,5 +1,8 @@
 #include <global.h>
 
+// Note : This file is related to z_vismono, the original name was probably z_vis<something before "mono"
+// alphabetically>
+
 Gfx D_8012AC00[] = {
     gsDPSetOtherMode(G_AD_PATTERN | G_CD_MAGICSQ | G_CK_NONE | G_TC_CONV | G_TF_POINT | G_TT_NONE | G_TL_TILE |
                          G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
@@ -46,7 +49,7 @@ Gfx D_8012AC58[] = {
     gsSPEndDisplayList(),
 };
 
-// Init func
+// Init
 void func_800ACE70(struct_801664F0* this) {
     this->type = 0;
     this->setScissor = false;
@@ -56,11 +59,11 @@ void func_800ACE70(struct_801664F0* this) {
     this->color.a = 0xFF;
 }
 
-// Destroy func
+// Destroy
 void func_800ACE90(struct_801664F0* this) {
 }
 
-// Update func
+// Draw
 void func_800ACE98(struct_801664F0* this, Gfx** gfxp) {
     Gfx* gfx;
 

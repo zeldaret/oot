@@ -9,7 +9,7 @@ glabel EnArrow_Destroy
 /* 00248 809B3B68 29C10006 */  slti    $at, $t6, 0x0006
 /* 0024C 809B3B6C 50200004 */  beql    $at, $zero, .L809B3B80
 /* 00250 809B3B70 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 00254 809B3B74 0C009C27 */  jal     func_8002709C
+/* 00254 809B3B74 0C009C27 */  jal     Effect_Delete
 /* 00258 809B3B78 8E050228 */  lw      $a1, 0x0228($s0)           ## 00000228
 /* 0025C 809B3B7C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 .L809B3B80:

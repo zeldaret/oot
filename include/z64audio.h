@@ -114,8 +114,8 @@ typedef struct {
     /* 0x02 */ char unk_02[0x02];
     /* 0x04 */ u16 numUnkInstruments;
     /* 0x08 */ Instrument** instruments;
-    /* 0x10 */ Drum** drums;
-    /* 0x1C */ UnkInstrument* unkInstruments;
+    /* 0x0C */ Drum** drums;
+    /* 0x10 */ UnkInstrument* unkInstruments;
 } CtlEntry; // size = 0x14
 
 typedef struct {

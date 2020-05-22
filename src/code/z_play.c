@@ -8,7 +8,7 @@ Input* D_8012D1F8 = NULL;
 
 TransitionUnk sTrnsnUnk;
 s32 gTrnsnUnkState;
-VisMonoStruct D_80161498;
+VisMono D_80161498;
 Color_RGBA8 D_801614B0;
 FaultClient D_801614B8;
 s16 D_801614C8;
@@ -157,8 +157,8 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
     R_PAUSE_MENU_MODE = 0;
 
     func_800C0F08(&globalCtx->preRenderCtx);
-    func_800271A8(globalCtx);
-    Effect_SS_Clear(globalCtx);
+    Effect_DeleteAll(globalCtx);
+    EffectSs_ClearAll(globalCtx);
     CollisionCheck_DestroyContext(globalCtx, &globalCtx->colChkCtx);
 
     if (gTrnsnUnkState == 3) {
@@ -174,7 +174,7 @@ void Gameplay_Destroy(GlobalContext* globalCtx) {
 
     func_800B3968();
     TransitionFade_Destroy(&globalCtx->transitionFade);
-    func_800AD054(&D_80161498);
+    VisMono_Destroy(&D_80161498);
 
     if (gSaveContext.linkAge != globalCtx->linkAgeOnLoad) {
         Inventory_SwapAgeEquipment();
@@ -240,8 +240,8 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     func_80110F68(globalCtx);
     func_80110450(globalCtx);
     func_8006BA00(globalCtx);
-    func_80026C2C(globalCtx);
-    func_800272B0(globalCtx, 0x55);
+    Effect_InitContext(globalCtx);
+    EffectSs_InitInfo(globalCtx, 0x55);
     func_8005D3BC(globalCtx, &globalCtx->colChkCtx);
     SkelAnime_AnimationCtxReset(&globalCtx->animationCtx);
     func_8006450C(globalCtx, &globalCtx->csCtx);
@@ -339,7 +339,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     gTrnsnUnkState = 0;
     globalCtx->transitionMode = 0;
     func_8008E6A0(&globalCtx->sub_7B8);
-    func_800FD9A0((u32)osGetTime());
+    Math_Rand_Seed((u32)osGetTime());
     Matrix_Init(&globalCtx->state);
     globalCtx->state.main = Gameplay_Main;
     globalCtx->state.destroy = Gameplay_Destroy;
@@ -365,7 +365,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
     TransitionFade_SetType(&globalCtx->transitionFade, 3);
     TransitionFade_SetColor(&globalCtx->transitionFade, RGBA8(0xA0, 0xA0, 0xA0, 0xFF));
     TransitionFade_Start(&globalCtx->transitionFade);
-    func_800AD000(&D_80161498);
+    VisMono_Init(&D_80161498);
     D_801614B0.a = 0x00;
     Flags_UnsetAllEnv(globalCtx);
 
@@ -891,13 +891,13 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         LOG_NUM("1", 1, "../z_play.c", 3651);
                     }
 
-                    func_80026F70(globalCtx);
+                    Effect_UpdateAll(globalCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3657);
                     }
 
-                    Effect_SS_UpdateAllParticles(globalCtx);
+                    EffectSs_UpdateAll(globalCtx);
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1, "../z_play.c", 3662);
@@ -924,7 +924,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             if (globalCtx->unk_1242B != 0) {
-                if (!~(input[0].press.in.button | ~8)) {
+                if (CHECK_PAD(input[0].press, U_CBUTTONS)) {
                     if ((globalCtx->pauseCtx.state != 0) || (globalCtx->pauseCtx.flag != 0)) {
                         // Translates to: "Changing viewpoint is prohibited due to the kaleidoscope"
                         osSyncPrintf(VT_FGCOL(CYAN) "カレイドスコープ中につき視点変更を禁止しております\n" VT_RST);
@@ -944,7 +944,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3708);
             }
 
-            func_800B1744(&globalCtx->skyboxCtx);
+            SkyboxDraw_Update(&globalCtx->skyboxCtx);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3716);
@@ -1151,7 +1151,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             if (D_801614B0.a > 0x00) {
                 D_80161498.primColor.rgba = D_801614B0.rgba;
-                func_800AD5C0(&D_80161498, &gfxP);
+                VisMono_Draw(&D_80161498, &gfxP);
             }
 
             gSPEndDisplayList(gfxP++);
@@ -1188,12 +1188,12 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         if ((globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
                             if ((globalCtx->skyboxId == 1) || (skyboxId == 5)) {
                                 func_8006FC88(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
-                                func_800B10C4(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
-                                              globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,
-                                              globalCtx->view.eye.z);
+                                SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
+                                                globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,
+                                                globalCtx->view.eye.z);
                             } else if (globalCtx->skyboxCtx.unk_140 == 0) {
-                                func_800B10C4(&globalCtx->skyboxCtx, gfxCtx, skyboxId, 0, globalCtx->view.eye.x,
-                                              globalCtx->view.eye.y, globalCtx->view.eye.z);
+                                SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, skyboxId, 0, globalCtx->view.eye.x,
+                                                globalCtx->view.eye.y, globalCtx->view.eye.z);
                             }
                         }
                     }
@@ -1238,9 +1238,9 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         if (ACTIVE_CAM->unk_142 != 0x19) {
                             Vec3f sp74;
                             func_8005AFB4(&sp74, ACTIVE_CAM);
-                            func_800B10C4(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
-                                          globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
-                                          globalCtx->view.eye.z + sp74.z);
+                            SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
+                                            globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
+                                            globalCtx->view.eye.z + sp74.z);
                         }
                     }
                 }
@@ -1323,7 +1323,8 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         func_800AB944(&globalCtx->view);
         globalCtx->view.unk_124 = 0;
         if ((globalCtx->skyboxId != 0) && (globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
-            func_800B1030(&globalCtx->skyboxCtx, globalCtx->view.eye.x, globalCtx->view.eye.y, globalCtx->view.eye.z);
+            SkyboxDraw_UpdateMatrix(&globalCtx->skyboxCtx, globalCtx->view.eye.x, globalCtx->view.eye.y,
+                                    globalCtx->view.eye.z);
         }
     }
 
@@ -1789,7 +1790,7 @@ void Gameplay_TriggerVoidOut(GlobalContext* globalCtx) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].tempCollectFlags = globalCtx->actorCtx.flags.tempCollect;
     gSaveContext.respawnFlag = 1;
     globalCtx->sceneLoadFlag = 0x14;
-    globalCtx->nextEntranceIndex = gSaveContext.respawn[0].entranceIndex;
+    globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex;
     globalCtx->fadeTransition = 2;
 }
 
@@ -1822,7 +1823,7 @@ s32 func_800C0CB8(GlobalContext* globalCtx) {
 }
 
 s32 func_800C0D28(GlobalContext* globalCtx) {
-    return (globalCtx->sub_7B8.unk_0 != 0);
+    return (globalCtx->sub_7B8.toggle != 0);
 }
 
 s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {

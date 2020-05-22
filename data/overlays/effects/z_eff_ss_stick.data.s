@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_Stick_InitVars
 .word 0x00000010
 .word func_809AC2D0
 glabel D_809AC628

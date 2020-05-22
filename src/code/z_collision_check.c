@@ -1232,17 +1232,17 @@ void func_8005DF9C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
 }
 
 #ifdef NON_MATCHING
-// Blue EffSpark
-//.bss problems
+// Blue EffectSpark
+// .bss problems
 void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+    static EffectSparkInit D_8015D8A0;
     s32 sp24;
-    static EffSparkParams D_8015D8A0;
 
     D_8015D8A0.position.x = (s32)v->x;
     D_8015D8A0.position.y = (s32)v->y;
     D_8015D8A0.position.z = (s32)v->z;
-    D_8015D8A0.particleFactor1 = 5;
-    D_8015D8A0.particleFactor2 = 5;
+    D_8015D8A0.uDiv = 5;
+    D_8015D8A0.vDiv = 5;
     D_8015D8A0.colorStart[0].r = 0x0A;
     D_8015D8A0.colorStart[0].g = 0x0A;
     D_8015D8A0.colorStart[0].b = 0xC8;
@@ -1275,11 +1275,12 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     D_8015D8A0.colorEnd[3].g = 0x00;
     D_8015D8A0.colorEnd[3].b = 0x40;
     D_8015D8A0.colorEnd[3].a = 0x00;
-    D_8015D8A0.age = 0;
+    D_8015D8A0.timer = 0;
     D_8015D8A0.duration = 16;
-    D_8015D8A0.velocity = 8.0f;
+    D_8015D8A0.speed = 8.0f;
     D_8015D8A0.gravity = -1.0f;
-    Effect_Add(globalCtx, &sp24, 0, 0, 1, &D_8015D8A0);
+
+    Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015D8A0);
 }
 #else
 void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
@@ -1287,17 +1288,17 @@ void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
 #endif // NON_MATCHING
 
 #ifdef NON_MATCHING
-// Green EffSpark
-//.bss problems
+// Green EffectSpark
+// .bss problems
 void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
+    static EffectSparkInit D_8015DD68;
     s32 sp24;
-    static EffSparkParams D_8015DD68;
-    // D_8015DD68
+
     D_8015DD68.position.x = (s32)v->x;
     D_8015DD68.position.y = (s32)v->y;
     D_8015DD68.position.z = (s32)v->z;
-    D_8015DD68.particleFactor1 = 5;
-    D_8015DD68.particleFactor2 = 5;
+    D_8015DD68.uDiv = 5;
+    D_8015DD68.vDiv = 5;
     D_8015DD68.colorStart[0].r = 0x0A;
     D_8015DD68.colorStart[0].g = 0xC8;
     D_8015DD68.colorStart[0].b = 0x0A;
@@ -1330,11 +1331,12 @@ void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v) {
     D_8015DD68.colorEnd[3].g = 0x40;
     D_8015DD68.colorEnd[3].b = 0x00;
     D_8015DD68.colorEnd[3].a = 0x00;
-    D_8015DD68.age = 0;
+    D_8015DD68.timer = 0;
     D_8015DD68.duration = 16;
-    D_8015DD68.velocity = 8.0f;
+    D_8015DD68.speed = 8.0f;
     D_8015DD68.gravity = -1.0f;
-    Effect_Add(globalCtx, &sp24, 0, 0, 1, &D_8015DD68);
+
+    Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015DD68);
 }
 #else
 void func_8005E10C(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
@@ -2936,17 +2938,17 @@ void func_800628A4(s32 arg0, ColliderJntSph* collider) {
 #endif // NON_MATCHING
 
 #ifdef NON_MATCHING
-// Purple EffSpark
-//.bss section problems
+// Purple EffectSpark
+// .bss section problems
 void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
+    static EffectSparkInit D_8015CF10;
     s32 sp24;
-    static EffSparkParams D_8015CF10;
 
     D_8015CF10.position.x = (s32)v->x;
     D_8015CF10.position.y = (s32)v->y;
     D_8015CF10.position.z = (s32)v->z;
-    D_8015CF10.particleFactor1 = 5;
-    D_8015CF10.particleFactor2 = 5;
+    D_8015CF10.uDiv = 5;
+    D_8015CF10.vDiv = 5;
     D_8015CF10.colorStart[0].r = 0x80;
     D_8015CF10.colorStart[0].g = 0x00;
     D_8015CF10.colorStart[0].b = 0x40;
@@ -2979,28 +2981,29 @@ void func_80062A28(GlobalContext* globalCtx, Vec3f* v) {
     D_8015CF10.colorEnd[3].g = 0x00;
     D_8015CF10.colorEnd[3].b = 0x40;
     D_8015CF10.colorEnd[3].a = 0x00;
-    D_8015CF10.age = 0;
+    D_8015CF10.timer = 0;
     D_8015CF10.duration = 16;
-    D_8015CF10.velocity = 8.0f;
+    D_8015CF10.speed = 8.0f;
     D_8015CF10.gravity = -1.0f;
-    Effect_Add(globalCtx, &sp24, 0, 0, 1, &D_8015CF10);
+
+    Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015CF10);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062A28.s")
 #endif // NON_MATCHING
 
 #ifdef NON_MATCHING
-// White EffSpark (Bubbles?)
-//.bss section problems
+// White EffectSpark (Bubbles?)
+// .bss section problems
 void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
+    static EffectSparkInit D_8015D3D8;
     s32 sp24;
-    static EffSparkParams D_8015D3D8;
 
     D_8015D3D8.position.x = (s32)v->x;
     D_8015D3D8.position.y = (s32)v->y;
     D_8015D3D8.position.z = (s32)v->z;
-    D_8015D3D8.particleFactor1 = 5;
-    D_8015D3D8.particleFactor2 = 5;
+    D_8015D3D8.uDiv = 5;
+    D_8015D3D8.vDiv = 5;
     D_8015D3D8.colorStart[0].r = 0xFF;
     D_8015D3D8.colorStart[0].g = 0xFF;
     D_8015D3D8.colorStart[0].b = 0xFF;
@@ -3033,27 +3036,27 @@ void func_80062B80(GlobalContext* globalCtx, Vec3f* v) {
     D_8015D3D8.colorEnd[3].g = 0x00;
     D_8015D3D8.colorEnd[3].b = 0x00;
     D_8015D3D8.colorEnd[3].a = 0x00;
-    D_8015D3D8.age = 0;
+    D_8015D3D8.timer = 0;
     D_8015D3D8.duration = 16;
-    D_8015D3D8.velocity = 8.0f;
+    D_8015D3D8.speed = 8.0f;
     D_8015D3D8.gravity = -1.0f;
-    Effect_Add(globalCtx, &sp24, 0, 0, 1, &D_8015D3D8);
+
+    Effect_Add(globalCtx, &sp24, EFFECT_SPARK, 0, 1, &D_8015D3D8);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_collision_check/func_80062B80.s")
 #endif // NON_MATCHING
 
 void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
-    s32 sp24;
-    static EffShieldParticleInit init = {
+    static EffectShieldParticleInit init = {
         16,
-        { 0, 0, 0 },
-        { { 0x00, 0xC8, 0xFF, 0xFF } },
-        { { 0xFF, 0xFF, 0xFF, 0xFF } },
-        { { 0xFF, 0xFF, 0x80, 0xFF } },
-        { { 0xFF, 0xFF, 0x00, 0xFF } },
-        { { 0xFF, 0x40, 0x00, 0xC8 } },
-        { { 0xFF, 0x00, 0x00, 0xFF } },
+        { 0.0f, 0.0f, 0.0f },
+        { 0x00, 0xC8, 0xFF, 0xFF },
+        { 0xFF, 0xFF, 0xFF, 0xFF },
+        { 0xFF, 0xFF, 0x80, 0xFF },
+        { 0xFF, 0xFF, 0x00, 0xFF },
+        { 0xFF, 0x40, 0x00, 0xC8 },
+        { 0xFF, 0x00, 0x00, 0xFF },
         2.1f,
         35.0f,
         30.0f,
@@ -3061,6 +3064,7 @@ void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
         { 0, 0, 0, 0x00, 0x80, 0xFF, 0x00, 300 },
         1,
     };
+    s32 sp24;
 
     init.position.x = (s32)v->x;
     init.position.y = (s32)v->y;
@@ -3068,7 +3072,8 @@ void func_80062CD4(GlobalContext* globalCtx, Vec3f* v) {
     init.lightParams.posX = init.position.x;
     init.lightParams.posY = init.position.y;
     init.lightParams.posZ = init.position.z;
-    Effect_Add(globalCtx, &sp24, 3, 0, 1, &init);
+
+    Effect_Add(globalCtx, &sp24, EFFECT_SHIELD_PARTICLE, 0, 1, &init);
 }
 
 void func_80062D60(GlobalContext* globalCtx, Vec3f* v) {
@@ -3086,16 +3091,15 @@ void func_80062DF4(GlobalContext* globalCtx, Vec3f* v) {
 }
 
 void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
-    s32 sp24;
-    static EffShieldParticleInit init = {
+    static EffectShieldParticleInit init = {
         16,
-        { 0, 0, 0 },
-        { { 0x00, 0xC8, 0xFF, 0xFF } },
-        { { 0xFF, 0xFF, 0xFF, 0xFF } },
-        { { 0xFF, 0xFF, 0x80, 0xFF } },
-        { { 0xFF, 0xFF, 0x00, 0xFF } },
-        { { 0xFF, 0x40, 0x00, 0xC8 } },
-        { { 0xFF, 0x00, 0x00, 0xFF } },
+        { 0.0f, 0.0f, 0.0f },
+        { 0x00, 0xC8, 0xFF, 0xFF },
+        { 0xFF, 0xFF, 0xFF, 0xFF },
+        { 0xFF, 0xFF, 0x80, 0xFF },
+        { 0xFF, 0xFF, 0x00, 0xFF },
+        { 0xFF, 0x40, 0x00, 0xC8 },
+        { 0xFF, 0x00, 0x00, 0xFF },
         2.1f,
         35.0f,
         30.0f,
@@ -3103,6 +3107,7 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
         { 0, 0, 0, 0x00, 0x80, 0xFF, 0x00, 300 },
         0,
     };
+    s32 sp24;
 
     init.position.x = (s32)v->x;
     init.position.y = (s32)v->y;
@@ -3111,7 +3116,7 @@ void func_80062E14(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2) {
     init.lightParams.posY = init.position.y;
     init.lightParams.posZ = init.position.z;
 
-    Effect_Add(globalCtx, &sp24, 3, 0, 1, &init);
+    Effect_Add(globalCtx, &sp24, EFFECT_SHIELD_PARTICLE, 0, 1, &init);
     Audio_PlaySoundGeneral(NA_SE_IT_REFLECTION_WOOD, arg2, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 

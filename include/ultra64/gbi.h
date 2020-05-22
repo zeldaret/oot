@@ -2762,12 +2762,12 @@ _DW({									\
 
 #else	/* F3DEX_GBI_2 */
 #define	gSPSetGeometryMode(pkt, word)					\
-{									\
+_DW({									\
 	Gfx *_g = (Gfx *)(pkt);						\
 									\
 	_g->words.w0 = _SHIFTL(G_SETGEOMETRYMODE, 24, 8);		\
 	_g->words.w1 = (unsigned int)(word);				\
-}
+})
 
 #define	gsSPSetGeometryMode(word)					\
 {									\
@@ -2775,12 +2775,12 @@ _DW({									\
 }
 
 #define	gSPClearGeometryMode(pkt, word)					\
-{									\
+_DW({									\
 	Gfx *_g = (Gfx *)(pkt);						\
 									\
 	_g->words.w0 = _SHIFTL(G_CLEARGEOMETRYMODE, 24, 8);		\
 	_g->words.w1 = (unsigned int)(word);				\
-}
+})
 
 #define	gsSPClearGeometryMode(word)					\
 {									\

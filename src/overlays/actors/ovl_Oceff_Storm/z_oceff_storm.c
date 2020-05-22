@@ -68,8 +68,6 @@ void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// very close from matching, single regalloc difference
-#ifdef NON_MATCHING
 void OceffStorm_DefaultAction(OceffStorm* this, GlobalContext* globalCtx) {
     if (this->counter < 20) {
         this->primColorAlpha = (s8)(this->counter * 5.0f);
@@ -97,10 +95,9 @@ void OceffStorm_DefaultAction(OceffStorm* this, GlobalContext* globalCtx) {
     }
 
     if (this->counter > 60) {
-        f32 f = this->actor.posRot.pos.y + (this->posYOff * 0.1f);
+        this->actor.posRot.pos.y += this->posYOff * 0.01f;
         this->posYOff += this->posYOffAdd;
         this->posYOffAdd += 10;
-        this->actor.posRot.pos.y = f;
     }
 
     if (this->counter < 100) {
@@ -109,9 +106,6 @@ void OceffStorm_DefaultAction(OceffStorm* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Oceff_Storm/OceffStorm_DefaultAction.s")
-#endif
 
 void OceffStorm_UnkAction(OceffStorm* this, GlobalContext* globalCtx) {
     if (this->primColorAlpha < 100) {
