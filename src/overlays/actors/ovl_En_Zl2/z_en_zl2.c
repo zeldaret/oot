@@ -254,7 +254,7 @@ s32 EnZl2_FrameUpdateMatrix(EnZl2* this) {
 
 CsCmdActorAction* func_80B4ED94(GlobalContext* globalCtx, s32 idx) {
     if (globalCtx->csCtx.state != 0) {
-        return globalCtx->csCtx.actorActions[idx];
+        return globalCtx->csCtx.npcActions[idx];
     }
     return NULL;
 }
