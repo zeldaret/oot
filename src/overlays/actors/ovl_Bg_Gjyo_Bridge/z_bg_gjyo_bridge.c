@@ -86,8 +86,8 @@ void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, GlobalContext* globalCtx) 
 }
 
 void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx) {
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.actorActions[2] != NULL) &&
-        (globalCtx->csCtx.actorActions[2]->action == 2)) {
+    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[2] != NULL) &&
+        (globalCtx->csCtx.npcActions[2]->action == 2)) {
         this->dyna.actor.draw = BgGjyoBridge_Draw;
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
         gSaveContext.eventChkInf[4] |= 0x2000;

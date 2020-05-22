@@ -148,7 +148,7 @@ glabel func_80B950B8
 /* 00624 80B952C4 AFA00020 */  sw      $zero, 0x0020($sp)         
 /* 00628 80B952C8 AFA00028 */  sw      $zero, 0x0028($sp)         
 /* 0062C 80B952CC AFB7003C */  sw      $s7, 0x003C($sp)           
-/* 00630 80B952D0 0C00A7A3 */  jal     Effect_SpawnFragment
+/* 00630 80B952D0 0C00A7A3 */  jal     func_80029E8C
               
 /* 00634 80B952D4 AFAB0024 */  sw      $t3, 0x0024($sp)           
 /* 00638 80B952D8 26524E20 */  addiu   $s2, $s2, 0x4E20           ## $s2 = 00004E20

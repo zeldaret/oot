@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_Bubble_InitVars
 .word 0x00000007
 .word func_809A0040
 .word 0x00000000, 0x00000000

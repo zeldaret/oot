@@ -162,7 +162,7 @@ typedef struct {
     /* 0x1368 */ RespawnData  respawn[3]; // "restart_data"
     /* 0x13BC */ char         unk_13BC[0x0008];
     /* 0x13C4 */ s16          dogParams;
-    /* 0x13C6 */ char         unk_13C6[0x0001];
+    /* 0x13C6 */ u8           unk_13C6;
     /* 0x13C7 */ u8           unk_13C7;
     /* 0x13C8 */ s16          nayrusLoveTimer;
     /* 0x13CA */ char         unk_13CA[0x0002];
@@ -448,8 +448,8 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ s32  unk_0;
-    /* 0x04 */ char unk_4[0x4];
+    /* 0x00 */ u32 toggle;
+    /* 0x04 */ s32 counter;
 } SubGlobalContext7B8; // size = 0x8
 
 typedef struct {
@@ -571,7 +571,7 @@ typedef struct {
     /* 0x1C */ CutsceneCameraPoint* cameraFocus;
     /* 0x20 */ CutsceneCameraPoint* cameraPosition;
     /* 0x24 */ CsCmdActorAction* linkAction;
-    /* 0x28 */ CsCmdActorAction* actorActions[10]; // "npcdemopnt"
+    /* 0x28 */ CsCmdActorAction* npcActions[10]; // "npcdemopnt"
 } CutsceneContext; // size = 0x50
 
 typedef struct {
@@ -585,9 +585,13 @@ typedef struct {
 } SubGlobalContext1F74; // size = 0x4
 
 typedef struct {
-    /* 0x000 */ char unk_00[0x140];
+    /* 0x000 */ char unk_00[0x128];
+    /* 0x128 */ void* staticSegments[3];
+    /* 0x134 */ Gfx* dpList;
+    /* 0x138 */ Gfx* unk_138;
+    /* 0x13C */ void* roomVtx;
     /* 0x140 */ s16  unk_140;
-    /* 0x142 */ char unk_142[0x0E];
+    /* 0x144 */ Vec3f rot;
 } SkyboxContext; // size = 0x150
 
 typedef struct {
@@ -1053,7 +1057,7 @@ typedef struct GlobalContext {
     /* 0x11D34 */ u8 nbTransitionActors;
     /* 0x11D38 */ TransitionActorEntry* transitionActorList;
     /* 0x11D3C */ char unk_11D3C[0x10];
-    /* 0x11D4C */ void (*unk_11D4C)(struct GlobalContext*, Actor*);
+    /* 0x11D4C */ s32 (*unk_11D4C)(struct GlobalContext*, Actor*);
     /* 0x11D50 */ char unk_11D50[0x8];
     /* 0x11D58 */ void (*unk_11D58)(struct GlobalContext*, s32);
     /* 0x11D5C */ void (*unk_11D5C)(struct GlobalContext*, Actor*);
@@ -1109,24 +1113,6 @@ typedef enum {
     DPM_ENEMY = 2
 } DynaPolyMoveFlag;
 
-typedef struct LoadedParticleEntry {
-    /* 0x0000 */ Vec3f position;
-    /* 0x000C */ Vec3f velocity;
-    /* 0x0018 */ Vec3f acceleration;
-    /* 0x0024 */ void(*update)(GlobalContext*, s32, struct LoadedParticleEntry*);
-    /* 0x0028 */ void(*draw)(GlobalContext*, s32, struct LoadedParticleEntry*);
-    /* 0x002C */ f32 unk_2C; // Probaly a Vec3f
-    /* 0x0030 */ f32 unk_30;
-    /* 0x0034 */ f32 unk_34;
-    /* 0x0038 */ u32 unk_38;
-    /* 0x003C */ u32 unk_3C;
-    /* 0x0042 */ u16 unk_40[13];
-    /* 0x005A */ u16 flags; // bit 0: set if this entry is not considered free on a priority tie bit 1: ? bit 2: ?
-    /* 0x005C */ s16 life; // -1 means this entry is free
-    /* 0x005E */ u8 priority; // Lower value means higher priority
-    /* 0x005F */ u8 type;
-} LoadedParticleEntry; // size = 0x60
-
 // Some animation related structure
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
@@ -1156,27 +1142,6 @@ typedef struct {
     /* 0x18 */ Vec3f unk_18;
     /* 0x24 */ char unk_24[0x4];
 } struct_80034A14_arg1;
-
-typedef struct {
-    /* 0x00 */ u32 unk_00;
-    /* 0x04 */ u32(*init)(GlobalContext*, u32, LoadedParticleEntry*, void*);
-} ParticleOverlayInfo;
-
-typedef struct {
-    /* 0x00 */ u32 vromStart;
-    /* 0x04 */ u32 vromEnd;
-    /* 0x0C */ void* vramStart;
-    /* 0x08 */ void* vramEnd;
-    /* 0x10 */ void* loadedRamAddr;
-    /* 0x14 */ ParticleOverlayInfo* overlayInfo;
-    /* 0x18 */ u32 unk_18; // Always 0x01000000?
-} ParticleOverlay;
-
-typedef struct {
-    /* 0x00 */ LoadedParticleEntry* data_table; // Name from debug assert
-    /* 0x04 */ s32 searchIndex;
-    /* 0x08 */ s32 size;
-} EffectTableInfo;
 
 typedef struct {
     /* 0x00 */ s8  scene;
@@ -1696,21 +1661,31 @@ typedef struct {
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 
-typedef struct {
-    /* 0x00 */ s32 colorFormat;
-    /* 0x04 */ s32 setScissor;
-    /* 0x08 */ Color_RGBA8 primColor;
-    /* 0x0C */ Color_RGBA8 envColor;
-    /* 0x10 */ u16* texture;
-    /* 0x14 */ Gfx* monoDList;
-} VisMonoStruct; // size = 0x18
 
+// Vis...
 typedef struct {
     /* 0x00 */ u32 type;
     /* 0x04 */ u32 setScissor;
     /* 0x08 */ Color_RGBA8 color;
     /* 0x0C */ Color_RGBA8 envColor;
 } struct_801664F0; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ u32 unk_00;
+    /* 0x04 */ u32 setScissor;
+    /* 0x08 */ Color_RGBA8 primColor;
+    /* 0x0C */ Color_RGBA8 envColor;
+    /* 0x10 */ u16* tlut;
+    /* 0x14 */ Gfx* monoDl;
+} VisMono; // size = 0x18
+
+// Vis...
+typedef struct {
+    /* 0x00 */ u32 useRgba;
+    /* 0x04 */ u32 setScissor;
+    /* 0x08 */ Color_RGBA8 primColor;
+    /* 0x08 */ Color_RGBA8 envColor;
+} struct_80166500; // size = 0x10
 
 typedef struct {
     /* 0x000 */ u8 rumbleEnable[4];

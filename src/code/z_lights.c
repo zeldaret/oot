@@ -151,7 +151,7 @@ void Lights_RemoveAll(GlobalContext* globalCtx, LightingContext* lightCtx) {
     }
 }
 
-z_Light* Lights_Insert(GlobalContext* globalCtx, LightingContext* lightCtx, LightInfo* info) {
+z_Light* Lights_Insert(GlobalContext* globalCtx, LightingContext* lightCtx, void* info) {
     z_Light* light;
 
     light = Lights_FindFreeSlot();

@@ -255,8 +255,6 @@ UnkInstrument* Audio_GetUnkInstrument(s32 bankId, s32 unkInstrumentId) {
     return unkInstrument;
 }
 
-#ifdef NON_MATCHING
-// Regalloc in case 1.
 s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
     UnkInstrument* temp_t7;
 
@@ -280,9 +278,7 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
             if (instId >= (gAudioContext.gCtlEntries[bankId].numUnkInstruments)) {
                 return -3;
             }
-            temp_t7 = &gAudioContext.gCtlEntries[bankId].unkInstruments[instId];
-            temp_t7->unk_0 = arg3->unk_0;
-            temp_t7->unk_4 = arg3->unk_4;
+            gAudioContext.gCtlEntries[bankId].unkInstruments[instId] = *arg3;
             break;
 
         default:
@@ -295,9 +291,6 @@ s32 func_800E7744(s32 instrument, s32 bankId, s32 instId, UnkInstrument* arg3) {
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_playback/func_800E7744.s")
-#endif
 
 #if 0
 // This code is SM64 PAL's version with changes made to build here (and a couple legitimate changes made in the function).

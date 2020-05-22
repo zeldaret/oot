@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_Fhg_Flash_InitVars
 .word 0x00000016
 .word func_809A4660
 glabel D_809A5088

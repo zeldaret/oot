@@ -5,7 +5,7 @@ glabel func_809AAFD4
 /* 000F0 809AAFE0 AFA5007C */  sw      $a1, 0x007C($sp)           
 /* 000F4 809AAFE4 AFA60080 */  sw      $a2, 0x0080($sp)           
 /* 000F8 809AAFE8 AFA70084 */  sw      $a3, 0x0084($sp)           
-/* 000FC 809AAFEC 0C009D38 */  jal     Effect_SS_Delete
+/* 000FC 809AAFEC 0C009D38 */  jal     EffectSs_Delete
 /* 00100 809AAFF0 27A40018 */  addiu   $a0, $sp, 0x0018           ## $a0 = FFFFFFA0
 /* 00104 809AAFF4 8FAE0084 */  lw      $t6, 0x0084($sp)           
 /* 00108 809AAFF8 27A50018 */  addiu   $a1, $sp, 0x0018           ## $a1 = FFFFFFA0
@@ -35,7 +35,7 @@ glabel func_809AAFD4
 /* 00164 809AB054 A7AD0068 */  sh      $t5, 0x0068($sp)           
 /* 00168 809AB058 8FA40078 */  lw      $a0, 0x0078($sp)           
 /* 0016C 809AB05C A7A8006C */  sh      $t0, 0x006C($sp)           
-/* 00170 809AB060 0C009DC1 */  jal     func_80027704              
+/* 00170 809AB060 0C009DC1 */  jal     EffectSs_Insert              
 /* 00174 809AB064 A7AE0074 */  sh      $t6, 0x0074($sp)           
 /* 00178 809AB068 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 0017C 809AB06C 27BD0078 */  addiu   $sp, $sp, 0x0078           ## $sp = 00000000

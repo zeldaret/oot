@@ -7,6 +7,7 @@ import sys
 import re
 import os
 from collections import namedtuple
+from io import StringIO
 
 MAX_FN_SIZE = 100
 
@@ -660,6 +661,9 @@ class GlobalAsmBlock:
                 })
         return src, fn
 
+def repl_float_hex(m):
+    return str(struct.unpack(">I", struct.pack(">f", float(m.group(0).strip().rstrip("f"))))[0])
+
 def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None):
     if opt in ['O2', 'O1']:
         if framepointer:
@@ -688,6 +692,7 @@ def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None)
     state = GlobalState(min_instr_count, skip_instr_count)
 
     global_asm = None
+    is_cutscene_data = False
     asm_functions = []
     output_lines = []
 
@@ -724,15 +729,34 @@ def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None)
                 output_lines[-1] = ''.join(src)
                 asm_functions.append(fn)
                 global_asm = None
+            elif ((line.startswith('#include "')) and line.endswith('" EARLY')):
+                fpath = os.path.dirname(f.name)
+                fname = line[line.index(' ') + 2 : -7]
+                include_src = StringIO()
+                with open(fpath + os.path.sep + fname, encoding=input_enc) as include_file:
+                    parse_source(include_file, opt, framepointer, input_enc, output_enc, include_src)
+                output_lines[-1] = include_src.getvalue()
+                include_src.write('#line ' + str(line_no) + '\n')
+                include_src.close()
             else:
+                if re.compile(r"(CutsceneData (.|\n)*\[\] = {)").search(line) is not None:
+                    is_cutscene_data = True
+                elif line.endswith("};"):
+                    is_cutscene_data = False
+                if is_cutscene_data:
+                    raw_line = re.sub(re.compile(r"[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?f"), repl_float_hex, raw_line)
                 output_lines[-1] = raw_line
 
     if print_source:
-        for line in output_lines:
-            print_source.write(line.encode(output_enc) + b'\n')
-        print_source.flush()
-        if print_source != sys.stdout.buffer:
-            print_source.close()
+        if isinstance(print_source, StringIO):
+            for line in output_lines:
+                print_source.write(line + '\n')
+        else:
+            for line in output_lines:
+                print_source.write(line.encode(output_enc) + b'\n')
+            print_source.flush()
+            if print_source != sys.stdout.buffer:
+                print_source.close()
 
     return asm_functions
 

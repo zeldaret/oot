@@ -32,7 +32,7 @@ glabel func_8002949C
 .L80029510:
 /* AA06B0 80029510 8FA40030 */  lw    $a0, 0x30($sp)
 /* AA06B4 80029514 24060080 */  li    $a2, 128
-/* AA06B8 80029518 0C009DE6 */  jal   func_80027798
+/* AA06B8 80029518 0C009DE6 */  jal   EffectSs_Spawn
 /* AA06BC 8002951C 27A70018 */   addiu $a3, $sp, 0x18
 /* AA06C0 80029520 8FBF0014 */  lw    $ra, 0x14($sp)
 /* AA06C4 80029524 27BD0030 */  addiu $sp, $sp, 0x30

@@ -80,11 +80,11 @@ glabel func_809B4800
 .L809B4934:
 /* 01014 809B4934 50600008 */  beql    $v1, $zero, .L809B4958     
 /* 01018 809B4938 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 0101C 809B493C 0C009AC3 */  jal     func_80026B0C              
+/* 0101C 809B493C 0C009AC3 */  jal     Effect_GetByIndex              
 /* 01020 809B4940 8E040228 */  lw      $a0, 0x0228($s0)           ## 00000228
 /* 01024 809B4944 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 01028 809B4948 27A50044 */  addiu   $a1, $sp, 0x0044           ## $a1 = FFFFFFF4
-/* 0102C 809B494C 0C007F7C */  jal     func_8001FDF0              
+/* 0102C 809B494C 0C007F7C */  jal     EffectBlure_AddVertex              
 /* 01030 809B4950 27A60038 */  addiu   $a2, $sp, 0x0038           ## $a2 = FFFFFFE8
 .L809B4954:
 /* 01034 809B4954 8FBF0024 */  lw      $ra, 0x0024($sp)           

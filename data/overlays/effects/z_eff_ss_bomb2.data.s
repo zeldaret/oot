@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_Bomb2_InitVars
 .word 0x00000003
 .word func_8099F650
 glabel D_8099FED8

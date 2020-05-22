@@ -8,7 +8,7 @@ void func_800432A0(CollisionContext* colCtx, u32 floorPolySource, Actor* actor) 
         s16 v1 = colCtx->dyna.actorMeshArr[floorPolySource].rot2.y - colCtx->dyna.actorMeshArr[floorPolySource].rot1.y;
 
         if (actor->id == 0) {
-            ((Player*)actor)->unk_83C += v1;
+            ((Player*)actor)->currentYaw += v1;
         }
 
         actor->shape.rot.y += v1;
