@@ -13,7 +13,7 @@ void func_80A5046C(EnGuest* this);
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx);
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx);
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx);
-s32 func_80A50774(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
+s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
 void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern SkeletonHeader D_060000F0;
@@ -149,7 +149,7 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     Player* player;
 
     player = PLAYER;
-    this->unk_2C8++
+    this->unk_2C8++;
 
     func_80A5046C(this);
     this->actionFunc(this, globalCtx);
@@ -228,6 +228,6 @@ void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(gfxCtxTemp->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->unk_30E]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     func_80A50774, NULL, &this->actor);
+                     EnGuest_OverrideLimbDraw, NULL, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 421);
 }
