@@ -107,13 +107,13 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A5046C(EnGuest* this) {
     if (this->unk_30D == 0) {
         if (this->unk_2CA != 0) {
-            this->unk_2CA -= 1;
+            this->unk_2CA--;
         } else {
             this->unk_30D = 1;
         }
     } else {
         if (this->unk_2CA != 0) {
-            this->unk_2CA -= 1;
+            this->unk_2CA--;
         } else {
             this->unk_30E += 1;
             if (this->unk_30E >= 3) {
@@ -149,13 +149,13 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     Player* player;
 
     player = PLAYER;
-    this->unk_2C8 += 1;
+    this->unk_2C8++
 
     func_80A5046C(this);
     this->actionFunc(this, globalCtx);
 
     this->unk_2A0.unk_18 = player->actor.posRot.pos;
-    if (gSaveContext.linkAge == 0) {
+    if (LINK_IS_ADULT) {
         this->unk_2A0.unk_14 = 10.0f;
     } else {
         this->unk_2A0.unk_14 = 20.0f;
@@ -183,7 +183,7 @@ Gfx* func_80A50708(GraphicsContext* globalCtx, u8 r, u8 g, u8 b, u8 a) {
     return temp_ret;
 }
 
-s32 func_80A50774(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
     EnGuest* this = THIS;
     Vec3s sp3C;
     Gfx* dispRefs[5];
@@ -201,7 +201,7 @@ s32 func_80A50774(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 
     if (limbIndex == 8) {
         sp3C = this->unk_2A0.unk_0E;
-        Matrix_RotateX(((0 - sp3C.y) / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX((-sp3C.y / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_RotateZ((sp3C.x / 32768.0f) * M_PI, MTXMODE_APPLY);
     }
 
