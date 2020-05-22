@@ -1107,7 +1107,7 @@ s32 func_8008F0D8(Player* player, s32);
 s32 func_8008F104(Player* player);
 s32 func_8008F128(Player* player);
 s32 func_8008F158(s32);
-void func_8008F180(Player* player);
+s32 func_8008F180(Player* player);
 s32 func_8008F1A0(Player* player);
 // ? func_8008F1CC(?);
 s32 func_8008F224(Player* player, s32);

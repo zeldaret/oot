@@ -737,7 +737,7 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_80846AAC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_80846CD8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/Player_Init.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_808471F4.s")
 
@@ -761,13 +761,13 @@
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_80848F9C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_80849EA8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/Player_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_8084A0E8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_8084A5C4.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/Player_Draw.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_8084AB54.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/Player_Destroy.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/func_8084ABD8.s")
 

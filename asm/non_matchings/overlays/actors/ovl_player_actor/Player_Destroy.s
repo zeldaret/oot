@@ -1,4 +1,4 @@
-glabel func_8084AB54
+glabel Player_Destroy
 /* 18944 8084AB54 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 18948 8084AB58 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 1894C 8084AB5C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000

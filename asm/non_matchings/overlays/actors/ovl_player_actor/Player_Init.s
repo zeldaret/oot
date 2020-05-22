@@ -4,7 +4,7 @@ glabel D_80855290
     .balign 4
 
 .text
-glabel func_80846CD8
+glabel Player_Init
 /* 14AC8 80846CD8 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 14ACC 80846CDC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 14AD0 80846CE0 AFBF0034 */  sw      $ra, 0x0034($sp)           

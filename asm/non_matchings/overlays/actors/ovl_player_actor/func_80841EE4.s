@@ -3,7 +3,7 @@ glabel D_80855444
     .float 1.2
 
 glabel D_80855448
- .word 0x3F308D3E
+    .float 0.689655184746
 
 .text
 glabel func_80841EE4

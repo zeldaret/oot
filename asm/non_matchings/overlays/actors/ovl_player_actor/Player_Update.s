@@ -1,4 +1,4 @@
-glabel func_80849EA8
+glabel Player_Update
 /* 17C98 80849EA8 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 17C9C 80849EAC AFBF0034 */  sw      $ra, 0x0034($sp)           
 /* 17CA0 80849EB0 AFB10030 */  sw      $s1, 0x0030($sp)           

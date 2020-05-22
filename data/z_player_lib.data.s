@@ -18,7 +18,7 @@ glabel D_80125B78
 glabel D_80125C44
     .incbin "baserom.z64", 0xB9CDE4, 0x44
 
-glabel D_80125C88
+glabel sTextTriggers
     .incbin "baserom.z64", 0xB9CE28, 0x10
 
 glabel D_80125C98

@@ -21,11 +21,13 @@ glabel D_808552E0
 
 .late_rodata
 glabel D_808554DC
- .word 0xC4966000
+    .float -1203.0
+
 glabel D_808554E0
- .word 0xC4966000
+    .float -1203.0
+
 glabel D_808554E4
- .word 0x3DE38E39
+    .float 0.111111111
 
 .text
 glabel func_8084A0E8

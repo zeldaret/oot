@@ -237,7 +237,7 @@ typedef struct Player {
     /* 0x0171 */ char       unk_171[0x023];
     /* 0x0194 */ OSMesgQueue unk_194;
     /* 0x01AC */ char       unk_1AC[0x004];
-    /* 0x01B0 */ void*      getItemModel; // Pointer to the space where the get item model is allocated
+    /* 0x01B0 */ void*      giObjectSegment;
     /* 0x01B4 */ SkelAnime  skelAnime;
     /* 0x01F8 */ char        unk_1F8[0x1B4];
     /* 0x03AC */ Actor*     heldActor;

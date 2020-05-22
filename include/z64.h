@@ -164,7 +164,7 @@ typedef struct {
     /* 0x1368 */ RespawnData  respawn[3]; // "restart_data"
     /* 0x13BC */ char         unk_13BC[0x0008];
     /* 0x13C4 */ s16          dogParams;
-    /* 0x13C6 */ u8           unk_13C6;
+    /* 0x13C6 */ u8           textTriggerFlags;
     /* 0x13C7 */ u8           unk_13C7;
     /* 0x13C8 */ s16          nayrusLoveTimer;
     /* 0x13CA */ char         unk_13CA[0x0002];
@@ -1284,6 +1284,11 @@ typedef struct {
     /* 0x00A4 */ char unk_A4[4];
     /* 0x00A8 */ View view;
 } OpeningContext; // size = 0x1D0
+
+typedef struct {
+    /* 0x00 */ u8 flag;
+    /* 0x02 */ u16 textId;
+} TextTriggerEntry; // size = 0x04
 
 typedef enum {
     DPM_UNK = 0,

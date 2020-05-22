@@ -9,7 +9,7 @@ glabel D_8085536C
     .float 0.008
 
 glabel D_80855370
- .word 0x3E0F5C29
+    .float 0.14
 
 .text
 glabel func_80836FAC

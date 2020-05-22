@@ -1,10 +1,13 @@
 .late_rodata
 glabel D_80855508
- .word 0xBDCCCCCD
+    .float -0.1
+
 glabel D_8085550C
- .word 0xBE4CCCCD
+    .float -0.2
+
 glabel D_80855510
- .word 0xBE99999A
+    .float -0.3
+
 glabel D_80855514
     .float 0.1
 

@@ -6,17 +6,19 @@ glabel D_8085539C
     .float 0.3
 
 glabel D_808553A0
- .word 0x469C4000
+    .float 20000.0
+
 glabel D_808553A4
     .float 0.02
 
 glabel D_808553A8
- .word 0x3B83126F
+    .float 0.004
+
 glabel D_808553AC
     .float 0.2
 
 glabel D_808553B0
- .word 0x3E051EB8
+    .float 0.13
 
 .text
 glabel func_8083D6EC

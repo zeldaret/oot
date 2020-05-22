@@ -6,7 +6,8 @@ glabel D_808554B0
     .float 0.2
 
 glabel D_808554B4
- .word 0x3E4CCCCC
+    .float 0.19999999
+
 glabel D_808554B8
     .float 0.01
 

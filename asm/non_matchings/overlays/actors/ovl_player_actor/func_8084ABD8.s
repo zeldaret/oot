@@ -3,7 +3,7 @@ glabel D_808554F4
     .float 1500.0
 
 glabel D_808554F8
- .word 0xC4BB8000
+    .float -1500.0
 
 .text
 glabel func_8084ABD8
