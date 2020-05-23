@@ -442,6 +442,7 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
 void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw2 overrideLimbDraw,
                    PostLimbDraw2 postLimbDraw, Actor* actor, s16 alpha);
 void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2);
+void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3);
 void Actor_Noop(Actor* actor, GlobalContext* globalCtx);
 void Gfx_DrawDListOpa(GlobalContext* globalCtx, u32 dlist);
 void Gfx_DrawDListXlu(GlobalContext* globalCtx, u32 dlist);
@@ -868,9 +869,16 @@ void Flags_UnsetAllEnv(GlobalContext* globalCtx);
 void Flags_SetEnv(GlobalContext* globalCtx, s16 flag);
 void Flags_UnsetEnv(GlobalContext* globalCtx, s16 flag);
 s32 Flags_GetEnv(GlobalContext* globalCtx, s16 flag);
-// ? func_8006C510(?);
-// ? func_8006C5A8(?);
-// ? func_8006CBAC(?);
+f32 func_8006C5A8(f32 target, TransformData* transData, s32 refIdx);
+void SkelCurve_Clear(SkelAnimeCurve* skelCurve);
+s32 SkelCurve_Init(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, SkelCurveLimbList* limbListSeg,
+                   TransformData* transData);
+void SkelCurve_Destroy(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve);
+void SkelCurve_SetAnim(SkelAnimeCurve* skelCurve, TransformUpdateIndex* transUpdIdx, f32 arg2, f32 animFinalFrame,
+                       f32 animCurFrame, f32 animSpeed);
+s32 SkelCurve_Update(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve);
+void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelAnimeCurve* skelCurve,
+                    OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, Actor* actor2);
 // ? func_8006CFC0(?);
 // ? func_8006D074(?);
 // ? func_8006D0AC(?);
@@ -1107,7 +1115,7 @@ s32 func_8008F2F8(GlobalContext*);
 // ? func_8008FCC8(?);
 // ? func_800902F0(?);
 // ? func_80090440(?);
-u8 func_80090480(GlobalContext* globalCtx, Collider* collider, UNK_PTR a2, Vec3f* a3, Vec3f* a4);
+u8 func_80090480(GlobalContext* globalCtx, Collider* collider, Struct_80090480_arg2* arg2, Vec3f* arg3, Vec3f* arg4);
 // ? func_80090604(?);
 // ? func_800906D4(?);
 // ? func_800907E4(?);

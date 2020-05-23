@@ -343,7 +343,7 @@ beginseg
     include "build/data/z_map_data.data.o"
     include "build/src/code/z_parameter.o"
     include "build/src/code/z_path.o"
-    include "build/asm/code_8008E6A0.o"
+    include "build/src/code//code_8008E6A0.o"
     include "build/src/code/z_player_lib.o"
     include "build/data/z_player_lib.data.o"
     include "build/data/z_player_lib.bss.o"
@@ -2614,8 +2614,7 @@ endseg
 beginseg
     name "ovl_En_Guest"
     include "build/src/overlays/actors/ovl_En_Guest/z_en_guest.o"
-    include "build/data/overlays/actors/z_en_guest.data.o"
-    include "build/data/overlays/actors/z_en_guest.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Guest/z_en_guest_reloc.o"
 endseg
 
 beginseg
@@ -3599,8 +3598,7 @@ endseg
 beginseg
     name "ovl_Magic_Wind"
     include "build/src/overlays/actors/ovl_Magic_Wind/z_magic_wind.o"
-    include "build/data/overlays/actors/z_magic_wind.data.o"
-    include "build/data/overlays/actors/z_magic_wind.reloc.o"
+    include "build/src/overlays/actors/ovl_Magic_Wind/z_magic_wind_reloc.o"
 endseg
 
 beginseg

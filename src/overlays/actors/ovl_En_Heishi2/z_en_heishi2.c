@@ -639,31 +639,30 @@ void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// ordering and float stuff
+// regalloc differences
 void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
-    EnBom* bomb;
-    Vec3f vec;
     Actor* thisx = &this->actor;
-    s16 temp;
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5)) {
-        if (func_80106BC8(globalCtx) != 0) {
+    Vec3f pos;
+    s32 rotY;
+    EnBom* bomb;
 
-            func_8002DF54(globalCtx, NULL, 7);
-            func_80106CCC(globalCtx);
-            vec.x = Math_Rand_CenteredFloat(20.0f) + this->unk_274.x;
-            vec.y = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.y - 40.0f);
-            vec.z = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.z - 20.0f);
-            bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, vec.x, vec.y, vec.z, 0,
-                                       (s16)(Math_Rand_CenteredFloat(7000.0f) + thisx->rotTowardsLinkY), 0, 0);
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+        func_8002DF54(globalCtx, NULL, 7);
+        func_80106CCC(globalCtx);
 
-            if (bomb != NULL) {
-                bomb->actor.speedXZ = Math_Rand_CenteredFloat(5.0f) + 10.0f;
-                bomb->actor.velocity.y = Math_Rand_CenteredFloat(5.0f) + 10.0f;
-            }
-            // This is down!
-            osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n" VT_RST);
-            this->actionFunc = func_80A546DC;
+        pos.x = Math_Rand_CenteredFloat(20.0f) + this->unk_274.x;
+        pos.y = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.y - 40.0f);
+        pos.z = Math_Rand_CenteredFloat(20.0f) + (this->unk_274.z - 20.0f);
+        rotY = Math_Rand_CenteredFloat(7000.0f) + thisx->rotTowardsLinkY;
+        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, pos.x, pos.y, pos.z, 0, rotY, 0, 0);
+        if (bomb != NULL) {
+            bomb->actor.speedXZ = Math_Rand_CenteredFloat(5.0f) + 10.0f;
+            bomb->actor.velocity.y = Math_Rand_CenteredFloat(5.0f) + 10.0f;
         }
+
+        // This is down!
+        osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ これでダウンだ！ ☆☆☆☆☆ \n" VT_RST);
+        this->actionFunc = func_80A546DC;
     }
 }
 #else

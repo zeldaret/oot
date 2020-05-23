@@ -162,7 +162,7 @@ typedef struct {
     /* 0x1368 */ RespawnData  respawn[3]; // "restart_data"
     /* 0x13BC */ char         unk_13BC[0x0008];
     /* 0x13C4 */ s16          dogParams;
-    /* 0x13C6 */ char         unk_13C6[0x0001];
+    /* 0x13C6 */ u8           unk_13C6;
     /* 0x13C7 */ u8           unk_13C7;
     /* 0x13C8 */ s16          nayrusLoveTimer;
     /* 0x13CA */ char         unk_13CA[0x0002];
@@ -448,8 +448,8 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ s32  unk_0;
-    /* 0x04 */ char unk_4[0x4];
+    /* 0x00 */ u32 toggle;
+    /* 0x04 */ s32 counter;
 } SubGlobalContext7B8; // size = 0x8
 
 typedef struct {
@@ -571,7 +571,7 @@ typedef struct {
     /* 0x1C */ CutsceneCameraPoint* cameraFocus;
     /* 0x20 */ CutsceneCameraPoint* cameraPosition;
     /* 0x24 */ CsCmdActorAction* linkAction;
-    /* 0x28 */ CsCmdActorAction* actorActions[10]; // "npcdemopnt"
+    /* 0x28 */ CsCmdActorAction* npcActions[10]; // "npcdemopnt"
 } CutsceneContext; // size = 0x50
 
 typedef struct {
@@ -1141,7 +1141,7 @@ typedef struct {
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ Vec3f unk_18;
     /* 0x24 */ char unk_24[0x4];
-} struct_80034A14_arg1;
+} struct_80034A14_arg1; // size = 0x28
 
 typedef struct {
     /* 0x00 */ s8  scene;
