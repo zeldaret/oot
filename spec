@@ -2614,8 +2614,7 @@ endseg
 beginseg
     name "ovl_En_Guest"
     include "build/src/overlays/actors/ovl_En_Guest/z_en_guest.o"
-    include "build/data/overlays/actors/z_en_guest.data.o"
-    include "build/data/overlays/actors/z_en_guest.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Guest/z_en_guest_reloc.o"
 endseg
 
 beginseg
