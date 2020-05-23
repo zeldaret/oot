@@ -583,7 +583,7 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
             count--;
             Fault_Sleep(0x10);
             Fault_UpdatePadImpl();
-            if (!~(curInput->press.in.button | ~L_TRIG)) {
+            if (CHECK_PAD(curInput->press, L_TRIG)) {
                 sFaultStructPtr->faultActive = false;
             }
         }
@@ -593,40 +593,40 @@ void Fault_DrawMemDump(u32 pc, u32 sp, u32 unk0, u32 unk1) {
             Fault_UpdatePadImpl();
         } while (curInput->press.in.button == 0);
 
-        if (!~(curInput->press.in.button | ~START_BUTTON)) {
+        if (CHECK_PAD(curInput->press, START_BUTTON)) {
             return;
         }
 
-        if (!~(curInput->cur.in.button | ~A_BUTTON)) {
+        if (CHECK_PAD(curInput->cur, A_BUTTON)) {
             return;
         }
 
         off = 0x10;
-        if (!~(curInput->cur.in.button | ~Z_TRIG)) {
+        if (CHECK_PAD(curInput->cur, Z_TRIG)) {
             off = 0x100;
         }
-        if (!~(curInput->cur.in.button | ~B_BUTTON)) {
+        if (CHECK_PAD(curInput->cur, B_BUTTON)) {
             off <<= 8;
         }
-        if (!~(curInput->cur.in.button | ~U_JPAD)) {
+        if (CHECK_PAD(curInput->cur, U_JPAD)) {
             addr -= off;
         }
-        if (!~(curInput->cur.in.button | ~D_JPAD)) {
+        if (CHECK_PAD(curInput->cur, D_JPAD)) {
             addr += off;
         }
-        if (!~(curInput->cur.in.button | ~U_CBUTTONS)) {
+        if (CHECK_PAD(curInput->cur, U_CBUTTONS)) {
             addr = pc;
         }
-        if (!~(curInput->cur.in.button | ~D_CBUTTONS)) {
+        if (CHECK_PAD(curInput->cur, D_CBUTTONS)) {
             addr = sp;
         }
-        if (!~(curInput->cur.in.button | ~L_CBUTTONS)) {
+        if (CHECK_PAD(curInput->cur, L_CBUTTONS)) {
             addr = unk0;
         }
-        if (!~(curInput->cur.in.button | ~R_CBUTTONS)) {
+        if (CHECK_PAD(curInput->cur, R_CBUTTONS)) {
             addr = unk1;
         }
-        if (!~(curInput->cur.in.button | ~L_TRIG)) {
+        if (CHECK_PAD(curInput->cur, L_TRIG)) {
             break;
         }
     }
