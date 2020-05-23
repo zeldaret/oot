@@ -8,13 +8,11 @@
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A5046C(EnGuest* this);
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx);
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx);
 void func_80A505CC(Actor* thisx, GlobalContext* globalCtx);
-s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor);
-void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern SkeletonHeader D_060000F0;
 extern AnimationHeader D_060042AC;
@@ -46,7 +44,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(unk_4C, 500, ICHAIN_STOP),
 };
 
-UNK_PTR D_80A50BA4[] = {
+UNK_PTR gD_80A50BA4[] = {
     &D_060005FC,
     &D_060006FC,
     &D_060007FC,
@@ -55,13 +53,14 @@ UNK_PTR D_80A50BA4[] = {
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
 
-    if ((gSaveContext.infTable[7] & 0x40) != 0) {
+    if (gSaveContext.infTable[7] & 0x40) {
         Actor_Kill(&this->actor);
     } else {
         this->osAnimeBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
-        if (this->objBankIndex < 0) {
+        if (this->osAnimeBankIndex < 0) {
             osSyncPrintf(VT_COL(RED, WHITE));
-            osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129); // No such bank!!
+            // No such bank!!
+            osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
             osSyncPrintf(VT_RST);
             __assert("0", "../z_en_guest.c", 132);
         }
@@ -71,28 +70,28 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
 
-    Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
     u32 padding;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex) != 0) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex) != 0) {
         this->actor.flags &= ~0x10;
-        Actor_ProcessInitChain(&this->actor, initChain);
+        Actor_ProcessInitChain(&this->actor, sInitChain);
 
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->limbDrawTable, this->transitionDrawTable,
                          16);
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
+        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060042AC, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_060042AC.genericHeader), 0, 0.0f);
 
-        this->actor.draw = &EnGuest_Draw;
-        this->actor.update = &func_80A505CC;
+        this->actor.draw = EnGuest_Draw;
+        this->actor.update = func_80A505CC;
 
-        Collider_InitCylinder(globalCtx, &this->colliderCylinder);
-        Collider_SetCylinder_Set3(globalCtx, &this->colliderCylinder, &this->actor, &colliderInit);
+        Collider_InitCylinder(globalCtx, &this->collider);
+        Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sColliderInit);
 
         Actor_SetHeight(&this->actor, 60.0f);
 
@@ -129,7 +128,7 @@ void func_80A5046C(EnGuest* this) {
 
 void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
-        this->actionFunc = &func_80A5057C;
+        this->actionFunc = func_80A5057C;
     } else if (this->actor.xzDistanceFromLink < 100.0f) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
@@ -138,7 +137,7 @@ void func_80A50518(EnGuest* this, GlobalContext* globalCtx) {
 void func_80A5057C(EnGuest* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
         if (func_80106BC8(globalCtx) != 0) {
-            this->actionFunc = &func_80A50518;
+            this->actionFunc = func_80A50518;
         }
     }
 }
@@ -164,26 +163,27 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80034F54(globalCtx, this->unk_2CC, this->unk_2EC, 16);
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
 
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     Actor_SetHeight(&this->actor, 60.0f);
 
-    Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 Gfx* func_80A50708(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
-    Gfx* temp_ret;
+    Gfx* dlist;
 
-    temp_ret = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
-    gDPSetEnvColor(temp_ret, r, g, b, a);
-    gSPEndDisplayList(temp_ret + 1);
+    dlist = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
+    gDPSetEnvColor(dlist, r, g, b, a);
+    gSPEndDisplayList(dlist + 1);
 
-    return temp_ret;
+    return dlist;
 }
 
-s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                             Actor* thisx) {
     EnGuest* this = THIS;
     Vec3s sp3C;
     Gfx* dispRefs[5];
@@ -217,15 +217,15 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
 void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = THIS;
-    GraphicsContext* gfxCtxTemp = globalCtx->state.gfxCtx;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[5];
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 404);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(gfxCtxTemp->polyOpa.p++, 0x08, func_80A50708(globalCtx->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0xFF));
-    gSPSegment(gfxCtxTemp->polyOpa.p++, 0x09, func_80A50708(globalCtx->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
-    gSPSegment(gfxCtxTemp->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80A50BA4[this->unk_30E]));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x08, func_80A50708(globalCtx->state.gfxCtx, 0xFF, 0xFF, 0xFF, 0xFF));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x09, func_80A50708(globalCtx->state.gfxCtx, 0xA0, 0x3C, 0xDC, 0xFF));
+    gSPSegment(gfxCtx->polyOpa.p++, 0x0A, SEGMENTED_TO_VIRTUAL(gD_80A50BA4[this->unk_30E]));
 
     SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
                      EnGuest_OverrideLimbDraw, NULL, &this->actor);
