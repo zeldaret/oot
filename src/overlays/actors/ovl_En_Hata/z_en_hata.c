@@ -27,32 +27,31 @@ const ActorInit En_Hata_InitVars = {
     (ActorFunc)EnHata_Draw,
 };
 
-static UNK_TYPE4 EnHata_UnusedData[] = { 0x0A000939, 0x20010000, 0x00000000, 0x00000000, 0x00000000,
-                                         0x00000080, 0x00000000, 0x00050100, 0x001000F6, 0x00000000,
-                                         0x00000000, 0x00000000, 0x00000000, 0xFF000000 };
+static UNK_TYPE4 sUnusedData[] = {
+    0x0A000939, 0x20010000, 0x00000000, 0x00000000, 0x00000000, 0x00000080, 0x00000000,
+    0x00050100, 0x001000F6, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0xFF000000,
+};
 
-static Vec3f EnHata_Vec = { 0, 0, 0 };
+static Vec3f sVec = { 0, 0, 0 };
 
 extern AnimationHeader D_06000444;
 extern SkeletonHeader D_06002FD0;
-extern u32 D_060000C0;
+extern UNK_TYPE D_060000C0;
 
 void EnHata_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHata* this = THIS;
-    SkelAnime* skelAnime;
-    void* collisionPtr;
+    u32 pad;
+    u32 temp;
     f32 frameCount;
 
-    collisionPtr = NULL;
+    temp = 0;
     frameCount = (f32)SkelAnime_GetFrameCount(&D_06000444.genericHeader);
-    Actor_SetScale(&this->dyna.actor, 0.0133333336562f);
-    skelAnime = &this->skelAnime;
-    SkelAnime_Init(globalCtx, skelAnime, &D_06002FD0, &D_06000444, NULL, NULL, 0);
-    SkelAnime_ChangeAnim(skelAnime, &D_06000444, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    Actor_SetScale(&this->dyna.actor, 1.0f / 75.0f);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002FD0, &D_06000444, NULL, NULL, 0);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000444, 1.0f, 0.0f, frameCount, 0, 0.0f);
     DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
-    DynaPolyInfo_Alloc(&D_060000C0, &collisionPtr);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, (u32)collisionPtr);
+    DynaPolyInfo_Alloc(&D_060000C0, &temp);
+    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, temp);
     this->dyna.actor.unk_F8 = 500.0f;
     this->dyna.actor.unk_FC = 550.0f;
     this->dyna.actor.unk_F4 = 2200.0f;
@@ -70,17 +69,16 @@ void EnHata_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnHata_Update(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* gblCtx;
-    s32 pitch;
     s32 target;
+    s32 pitch;
     Vec3f sp48;
     Vec3f sp3C;
     f32 sin;
 
-    sp48 = EnHata_Vec;
+    sp48 = sVec;
     SkelAnime_FrameUpdateMatrix(&THIS->skelAnime);
     gblCtx = globalCtx;
-    THIS->limbs[12].y = -0x4000;
-    THIS->limbs[3].y = THIS->limbs[12].y;
+    THIS->limbs[3].y = THIS->limbs[12].y = -0x4000;
     sp3C.x = gblCtx->envCtx.unk_A8;
     sp3C.y = gblCtx->envCtx.unk_AA;
     sp3C.z = gblCtx->envCtx.unk_AC;
@@ -125,7 +123,7 @@ void EnHata_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 void EnHata_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHata* this = THIS;
     func_800943C8(globalCtx->state.gfxCtx);
-    Matrix_Scale(1.0f, 1.1f, 1.0f, 1);
+    Matrix_Scale(1.0f, 1.1f, 1.0f, MTXMODE_APPLY);
     SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHata_OverrideLimbDraw,
                    EnHata_PostLimbDraw, &this->dyna.actor);
 }
