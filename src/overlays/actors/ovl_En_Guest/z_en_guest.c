@@ -21,7 +21,7 @@ extern AnimationHeader D_060042AC;
 extern UNK_TYPE D_060005FC;
 extern UNK_TYPE D_060006FC;
 extern UNK_TYPE D_060007FC;
-extern Gfx D_060059B0;
+extern Gfx D_060059B0[];
 
 const ActorInit En_Guest_InitVars = {
     ACTOR_EN_GUEST,
@@ -35,13 +35,13 @@ const ActorInit En_Guest_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit_Set3 colliderInit = {
+static ColliderCylinderInit_Set3 sColliderInit = {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 10, 60, 0, { 0, 0, 0 } },
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 6, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 500, ICHAIN_STOP),
 };
@@ -58,7 +58,7 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     if ((gSaveContext.infTable[7] & 0x40) != 0) {
         Actor_Kill(&this->actor);
     } else {
-        this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
+        this->osAnimeBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
         if (this->objBankIndex < 0) {
             osSyncPrintf(VT_COL(RED, WHITE));
             osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129); // No such bank!!
@@ -83,7 +83,7 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_ProcessInitChain(&this->actor, initChain);
 
         SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->limbDrawTable, this->transitionDrawTable,
-                         0x10);
+                         16);
         gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060042AC, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&D_060042AC.genericHeader), 0, 0.0f);
@@ -173,10 +173,10 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }
 
-Gfx* func_80A50708(GraphicsContext* globalCtx, u8 r, u8 g, u8 b, u8 a) {
+Gfx* func_80A50708(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
     Gfx* temp_ret;
 
-    temp_ret = Graph_Alloc(globalCtx, 0x10);
+    temp_ret = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
     gDPSetEnvColor(temp_ret, r, g, b, a);
     gSPEndDisplayList(temp_ret + 1);
 
@@ -191,7 +191,7 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_guest.c", 352);
 
     if (limbIndex == 15) {
-        *dList = &D_060059B0;
+        *dList = D_060059B0;
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp3C = this->unk_2A0.unk_08;
         Matrix_RotateX((sp3C.y / 32768.0f) * M_PI, MTXMODE_APPLY);
