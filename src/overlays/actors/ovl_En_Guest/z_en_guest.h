@@ -5,6 +5,7 @@
 #include <global.h>
 
 struct EnGuest;
+
 typedef void (*EnGuestActionFunc)(struct EnGuest* this, GlobalContext* globalCtx);
 
 typedef struct EnGuest {
