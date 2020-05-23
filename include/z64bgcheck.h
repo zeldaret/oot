@@ -1,6 +1,7 @@
 #ifndef _Z_BGCHECK_
 #define _Z_BGCHECK_
 
+struct GlobalContext;
 struct Actor;
 struct DynaPolyActor;
 
@@ -60,9 +61,7 @@ typedef struct {
     s32 f_007F_FFFF : 23;
 } SurfaceTypeLo;
 
-typedef struct {
-    u32 properties[2];
-} SurfaceType;
+typedef u32 SurfaceType[2];
 
 typedef struct {
     /* 0x00 */ Vec3s     minBounds; //colAbsMin
@@ -114,7 +113,7 @@ typedef struct {
     s16 y;
     s16 z;
     s16 unk_06;
-} Vec4s;
+} Vec4s; //don't use
 
 typedef struct {
     /* 0x00 */ struct DynaPolyActor* actor;
@@ -123,7 +122,7 @@ typedef struct {
     /* 0x10 */ u16 unk_10; //dyna ? index start
     /* 0x14 */ ScaleRotPos srp1;
     /* 0x34 */ ScaleRotPos srp2;
-    /* 0x54 */ Vec4s  unk_54;
+    /* 0x54 */ Sphere16  unk_54;
     /* 0x5C */ f32  unk_5C; //min y ?
     /* 0x60 */ f32  unk_60; //max y ?
 } ActorMesh; // size = 0x64
@@ -161,5 +160,21 @@ typedef struct {
     /* 0x080 */ f32     unk_80; // Floor poly height?
     /* 0x084 */ f32     unk_84;
 } BgCheckInfo;
+
+typedef struct {
+    /* 0x00 */ struct GlobalContext* globalCtx;
+    /* 0x04 */ StaticCollisionContext* colCtx;
+    /* 0x08 */ u16 unk_08;
+    /* 0x0A */ u16 unk_0A; //might not exist
+    /* 0x0C */ CollisionPoly** unk_0C;
+    /* 0x10 */ f32 unk_10;
+    /* 0x14 */ Vec3f* unk_14;
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ s32 unk_1C;
+    /* 0x20 */ u32 unk_20;
+    /* 0x24 */ f32 unk_24;
+    /* 0x28 */ DynaCollisionContext* dyna;
+    /* 0x2C */ u16* unk_2C;
+} s8003FBF4;
 
 #endif

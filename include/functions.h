@@ -1254,7 +1254,7 @@ void func_800A6EF4(MtxF* arg0, Vec3f* arg1, Vec3f* arg2);
 // ? func_800A72FC(?);
 // ? func_800A730C(?);
 // ? func_800A735C(?);
-// ? func_800A73E0(?);
+s32 func_800A73E0(MtxF*, MtxF*);
 void func_800A76A4(MtxF* dest, f32 x, f32 y, f32 z);
 // ? func_800A7704(?);
 // ? func_800A7894(?);

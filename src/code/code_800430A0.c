@@ -1,7 +1,38 @@
 #include <ultra64.h>
 #include <global.h>
+#include <vt.h>
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800430A0/func_800430A0.s")
+void func_800430A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
+    MtxF spD0;
+    MtxF sp90;
+    MtxF sp50;
+    Vec3f pos;
+    Vec3f sp38;
+
+    if (func_8003E934(bgId)) {
+        func_800A7B04(&spD0, colCtx->dyna.bgActors[bgId].srp1.scale.x, colCtx->dyna.bgActors[bgId].srp1.scale.y, colCtx->dyna.bgActors[bgId].srp1.scale.z,
+            colCtx->dyna.bgActors[bgId].srp1.rot.x, colCtx->dyna.bgActors[bgId].srp1.rot.y, colCtx->dyna.bgActors[bgId].srp1.rot.z,
+            colCtx->dyna.bgActors[bgId].srp1.pos.x, colCtx->dyna.bgActors[bgId].srp1.pos.y, colCtx->dyna.bgActors[bgId].srp1.pos.z);
+        if (func_800A73E0(&spD0, &sp90) != 2) {
+            func_800A7B04(&sp50, colCtx->dyna.bgActors[bgId].srp2.scale.x, colCtx->dyna.bgActors[bgId].srp2.scale.y, colCtx->dyna.bgActors[bgId].srp2.scale.z,
+                colCtx->dyna.bgActors[bgId].srp2.rot.x, colCtx->dyna.bgActors[bgId].srp2.rot.y, colCtx->dyna.bgActors[bgId].srp2.rot.z,
+                colCtx->dyna.bgActors[bgId].srp2.pos.x, colCtx->dyna.bgActors[bgId].srp2.pos.y, colCtx->dyna.bgActors[bgId].srp2.pos.z);
+            func_800A6EF4(&sp90, &actor->posRot.pos, &sp38);
+            func_800A6EF4(&sp50, &sp38, &pos);
+            actor->posRot.pos = pos;
+            if (32760.0f <= pos.x || pos.x <= -32760.0f
+                || 32760.0f <= pos.y || pos.y <= -32760.0f
+                || 32760.0f <= pos.z || (pos.z <= -32760.0f)) {
+
+                osSyncPrintf(VT_FGCOL(RED));
+                // @bug file and line are not passed to osSyncPrintf
+                osSyncPrintf("BGCheckCollection_typicalActorPos():位置が妥当ではありません。\npos (%f,%f,%f) file:%s line:%d\n", pos.x, pos.y, pos.z);
+                // EUC-JP: 位置が妥当ではありません。 | Position is not valid
+                osSyncPrintf(VT_RST);
+            }
+        }
+    }
+}
 
 void func_800432A0(CollisionContext* colCtx, s32 bgId, Actor* actor) {
     if (func_8003E934(bgId) != 0) {
