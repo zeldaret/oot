@@ -32,15 +32,14 @@ const ActorInit En_Sb_InitVars = {
     (ActorFunc)EnSb_Draw,
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit =
-{
+static ColliderCylinderInit_Set3 sCylinderInit = {
     { COLTYPE_UNK10, 0x11, 0x09, 0x39, COLSHAPE_CYLINDER },
     { 0x00, { 0xFFCFFFFF, 0x04, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
 static DamageTable sDamageTable[] = {
-    0x00, 0x00, 0x00, 0xF2, 0x00, 0xF2, 0xF2, 0x12, 0xD1, 0xD2, 0xD4, 0x24, 0xF2, 0xF2, 0xE4, 0xF2,  
+    0x00, 0x00, 0x00, 0xF2, 0x00, 0xF2, 0xF2, 0x12, 0xD1, 0xD2, 0xD4, 0x24, 0xF2, 0xF2, 0xE4, 0xF2,
     0xF2, 0x24, 0x00, 0x00, 0x00, 0x00, 0xD1, 0xD4, 0xD2, 0xD2, 0xD8, 0xD4, 0x00, 0x00, 0x00, 0x00,
 };
 
@@ -51,10 +50,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 static Vec3f sFlamePosOffsets[] = {
-    {5.0f, 0.0f, 0.0f}, 
-    {-5.0f, 0.0f, 0.0f}, 
-    {0.0f, 0.0f, 5.0f}, 
-    {0.0f, 0.0f, -5.0f},
+    { 5.0f, 0.0f, 0.0f },
+    { -5.0f, 0.0f, 0.0f },
+    { 0.0f, 0.0f, 5.0f },
+    { 0.0f, 0.0f, -5.0f },
 };
 
 typedef enum {
@@ -110,23 +109,23 @@ void EnSb_SpawnBubbles(GlobalContext* globalCtx, EnSb* this) {
 }
 
 void EnSb_SetupWaitClosed(EnSb* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600004C, 1.0f, 0, 
-                         SkelAnime_GetFrameCount(&D_0600004C.genericHeader), 2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600004C, 1.0f, 0, SkelAnime_GetFrameCount(&D_0600004C.genericHeader), 2,
+                         0.0f);
     this->behavior = SHELLBLADE_WAIT_CLOSED;
     this->actionFunc = EnSb_WaitClosed;
 }
 
 void EnSb_SetupOpen(EnSb* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000194, 1.0f, 0, 
-                         SkelAnime_GetFrameCount(&D_06000194.genericHeader), 2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000194, 1.0f, 0, SkelAnime_GetFrameCount(&D_06000194.genericHeader), 2,
+                         0.0f);
     this->behavior = SHELLBLADE_OPEN;
     this->actionFunc = EnSb_Open;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHELL_MOUTH);
 }
 
 void EnSb_SetupWaitOpen(EnSb* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06002C8C, 1.0f, 0, 
-                         SkelAnime_GetFrameCount(&D_06002C8C.genericHeader), 0, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_06002C8C, 1.0f, 0, SkelAnime_GetFrameCount(&D_06002C8C.genericHeader), 0,
+                         0.0f);
     this->behavior = SHELLBLADE_WAIT_OPEN;
     this->actionFunc = EnSb_WaitOpen;
 }
@@ -142,16 +141,16 @@ void EnSb_SetupLunge(EnSb* this) {
 }
 
 void EnSb_SetupBounce(EnSb* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000B4, 1.0f, 0, 
-                         SkelAnime_GetFrameCount(&D_060000B4.genericHeader), 2, 0.0f);
+    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000B4, 1.0f, 0, SkelAnime_GetFrameCount(&D_060000B4.genericHeader), 2,
+                         0.0f);
     this->behavior = SHELLBLADE_BOUNCE;
     this->actionFunc = EnSb_Bounce;
 }
 
-void EnSb_SetupCooldown(EnSb *this, s32 changeSpeed) {
+void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
     f32 frameCount = SkelAnime_GetFrameCount(&D_0600004C.genericHeader);
 
-    if (this->behavior != 1) {
+    if (this->behavior != SHELLBLADE_WAIT_CLOSED) {
         SkelAnime_ChangeAnim(&this->skelAnime, &D_0600004C.genericHeader, 1.0f, 0, frameCount, 2, 0.0f);
     }
     this->behavior = SHELLBLADE_WAIT_CLOSED;
@@ -159,12 +158,12 @@ void EnSb_SetupCooldown(EnSb *this, s32 changeSpeed) {
         if (this->actor.unk_84 > 0.0f) {
             this->actor.speedXZ = -5.0f;
             if (this->actor.velocity.y < 0.0f) {
-                this->actor.velocity.y = 2.1f; // 2.0999999046325684f
+                this->actor.velocity.y = 2.1f;
             }
         } else {
             this->actor.speedXZ = -6.0f;
             if (this->actor.velocity.y < 0.0f) {
-                this->actor.velocity.y = 1.4f; // 1.399999976158142f
+                this->actor.velocity.y = 1.4f;
             }
         }
     }
@@ -183,7 +182,7 @@ void EnSb_WaitClosed(EnSb* this, GlobalContext* globalCtx) {
 
 void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
     f32 currentFrame = this->skelAnime.animCurrentFrame;
-    
+
     if (SkelAnime_GetFrameCount(&D_06000194.genericHeader) <= currentFrame) {
         this->timer = 15;
         EnSb_SetupWaitOpen(this);
@@ -195,8 +194,7 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
     }
 }
 
-//EnSb_WaitOpen
-void EnSb_WaitOpen(EnSb *this, GlobalContext *globalCtx) {
+void EnSb_WaitOpen(EnSb* this, GlobalContext* globalCtx) {
     s16 timer = this->timer;
 
     Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 10, 2000, 0);
@@ -214,8 +212,7 @@ void EnSb_WaitOpen(EnSb *this, GlobalContext *globalCtx) {
     }
 }
 
-
-void EnSb_TurnAround(EnSb *this, GlobalContext *globalCtx) { 
+void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
     s16 invertedYaw;
 
     invertedYaw = this->attackYaw + 0x8000;
@@ -234,13 +231,13 @@ void EnSb_TurnAround(EnSb *this, GlobalContext *globalCtx) {
         }
         EnSb_SpawnBubbles(globalCtx, this);
         this->bouncesLeft = 3;
-        EnSb_SetupLunge(this); 
+        EnSb_SetupLunge(this);
         // Attack!!
         osSyncPrintf("アタァ〜ック！！\n");
     }
 }
 
-void EnSb_Lunge(EnSb* this, GlobalContext* globalCtx) { 
+void EnSb_Lunge(EnSb* this, GlobalContext* globalCtx) {
     Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.2f);
     if ((this->actor.velocity.y <= -0.1f) || ((this->actor.bgCheckFlags & 2))) {
         if (!(this->actor.unk_84 > 0.0f)) {
@@ -251,8 +248,7 @@ void EnSb_Lunge(EnSb* this, GlobalContext* globalCtx) {
     }
 }
 
-
-void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) { 
+void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 currentFrame;
     f32 frameCount;
@@ -260,6 +256,7 @@ void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) {
     currentFrame = this->skelAnime.animCurrentFrame;
     frameCount = SkelAnime_GetFrameCount(&D_060000B4.genericHeader);
     Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.2f);
+
     if (currentFrame == frameCount) {
         if (this->bouncesLeft != 0) {
             this->bouncesLeft--;
@@ -275,13 +272,13 @@ void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) {
             }
             EnSb_SpawnBubbles(globalCtx, this);
             EnSb_SetupLunge(this);
-        } else if ((this->actor.bgCheckFlags & 1)) {
+        } else if (this->actor.bgCheckFlags & 1) {
             this->actor.bgCheckFlags &= ~2;
             this->actor.speedXZ = 0.0f;
             this->timer = 1;
             EnSb_SetupWaitClosed(this);
             // "Attack Complete!"
-            osSyncPrintf(VT_FGCOL(RED)"攻撃終了！！"VT_RST"\n"); //might be wrong
+            osSyncPrintf(VT_FGCOL(RED) "攻撃終了！！" VT_RST "\n");
         }
     }
 }
@@ -289,12 +286,12 @@ void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) {
 void EnSb_Cooldown(EnSb* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
-        if ((this->actor.bgCheckFlags & 1)) {
+        if (this->actor.bgCheckFlags & 1) {
             this->actor.bgCheckFlags &= ~1;
             this->actor.speedXZ = 0.0f;
         }
     } else {
-        if ((this->actor.bgCheckFlags & 1)) {
+        if (this->actor.bgCheckFlags & 1) {
             this->actor.bgCheckFlags &= ~1;
             this->actionFunc = EnSb_WaitClosed;
             this->actor.speedXZ = 0.0f;
@@ -335,7 +332,7 @@ s32 EnSb_IsVulnerable(EnSb* this) {
 
 s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
     Vec3f hitPoint;
-    f32 someYPos;
+    f32 hitY;
     s16 yawDiff;
     s32 tookDamage;
     u8 hitByWindArrow;
@@ -352,32 +349,32 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
         tookDamage = false;
         this->collider.base.acFlags &= ~2;
 
-        switch(this->actor.colChkInfo.damageEffect) {
+        switch (this->actor.colChkInfo.damageEffect) {
             case 14: // wind arrow
                 hitByWindArrow = true;
             case 15: // explosions, arrow, hammer, ice arrow, light arrow, spirit arrow, shadow arrow
                 if (EnSb_IsVulnerable(this)) {
-                    someYPos = this->collider.body.bumper.unk_06.y - this->actor.posRot.pos.y;
+                    hitY = this->collider.body.bumper.unk_06.y - this->actor.posRot.pos.y;
                     yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
-                    if ((someYPos < 30.0f) && (someYPos > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)){
+                    if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
                         func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                         tookDamage = true;
                     }
                 }
                 break;
-            case 2: //fire arrow, dins fire
+            case 2: // fire arrow, dins fire
                 this->fire = 4;
                 Actor_ApplyDamage(&this->actor);
                 func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                 tookDamage = 1;
                 break;
-            case 1: // hookshot/longshot
+            case 1:  // hookshot/longshot
             case 13: // all sword damage
                 if (EnSb_IsVulnerable(this)) {
-                    someYPos = this->collider.body.bumper.unk_06.y - this->actor.posRot.pos.y;
+                    hitY = this->collider.body.bumper.unk_06.y - this->actor.posRot.pos.y;
                     yawDiff = this->actor.rotTowardsLinkY - this->actor.shape.rot.y;
-                    if ((someYPos < 30.0f) && (someYPos > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)){
+                    if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
                         func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                         tookDamage = 1;
@@ -397,7 +394,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             return 1;
         }
 
-        // if player attack didn't hit, play recoil sound and spawn sparks
+        // if player attack didn't do damage, play recoil sound and spawn sparks
         if (tookDamage == 0) {
             hitPoint.x = this->collider.body.bumper.unk_06.x;
             hitPoint.y = this->collider.body.bumper.unk_06.y;
@@ -414,7 +411,6 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->isDead) {
-        // setting params does not do anything
         if (this->actor.unk_84 > 0.0f) {
             this->actor.params = 4;
         } else {
@@ -444,25 +440,26 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnSb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx,
-                             Gfx** gfx) {
+void EnSb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
     EnSb* this = THIS;
 
     func_80032F54(&this->unk_1E0, limbIndex, 0, 6, 8, dList, -1);
 }
 
-void EnSb_Draw(Actor* thisx, GlobalContext *globalCtx) {
+void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnSb* this = THIS;
     Vec3f flamePos;
     Vec3f* offset;
     s16 fireDecr;
 
     func_8002EBCC(&this->actor, globalCtx, 1);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     NULL, EnSb_PostLimbDraw, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, NULL,
+                     EnSb_PostLimbDraw, &this->actor);
     if (this->fire != 0) {
         this->actor.unk_114++;
         fireDecr = this->fire - 1;
+        // this is intended to draw flames after being burned, but the condition is never met to run this code
+        // fire gets set to 4 when burned, decrements to 3 and fails the "& 1" check and never stores the decrement
         if ((fireDecr & 1) == 0) {
             offset = &sFlamePosOffsets[(fireDecr & 3)];
             flamePos.x = Math_Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.x + offset->x);
@@ -472,4 +469,3 @@ void EnSb_Draw(Actor* thisx, GlobalContext *globalCtx) {
         }
     }
 }
-
