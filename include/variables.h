@@ -3386,8 +3386,6 @@ extern u8 D_80157D30[];
 //extern ? D_8015E638;
 //extern ? D_8015E648;
 extern SaveContext gSaveContext; // 0x8015E660
-extern u32 D_8015FA88;
-extern u32 D_8015FA8C;
 extern GameInfo* gGameInfo; // 0x8015FA90
 //extern ? D_8015FA98;
 //extern ? D_8015FA9B;
