@@ -278,45 +278,36 @@ void func_80B4EDB8(EnZl2* this, GlobalContext* globalCtx, s32 arg2) {
     s16* unk_1AC = &this->unk_1AC[arg2];
     s16* unk_1DC = &this->unk_1DC[arg2];
     s16* unk_20C = &this->unk_20C[arg2];
-    s32 temp_v1;
     s32 phi_a3;
+    s32 temp_v1;
     s32 phi_v0;
-    s32 phi_t5;
-    s32 temp_t4;
+    s16 someSub16;
 
     if (this->unk_24C != 0) {
-        temp_v1 = arg1 - (*unk_20C);
-        phi_a3 = temp_v1;
-        temp_v1 = (s16) (arg1 + (*unk_1DC));
+        temp_v1 = (s16)(arg1 + *unk_1DC);
+        phi_a3 = arg1 - *unk_20C;
         phi_v0 = *unk_1AC;
 
         if ((s32)fabsf((f32)phi_a3) >= 0x8001) {
             if (arg1 > 0) {
-                phi_a3 += 0xFFFF0000;
+                phi_a3 -= 0x10000;
             } else {
                 phi_a3 += 0x10000;
             }
         }
-        temp_t4 = phi_a3 - *unk_1AC;
         if (phi_a3 != 0) {
-            phi_t5 = temp_t4 >> 4;
-            if (temp_t4 < 0) {
-                temp_v1 = temp_t4 + 0xF;
-                phi_t5 = temp_v1 >> 4;
-            }
-            phi_v0 += phi_t5;
+            phi_v0 += (phi_a3 - phi_v0) / 16;
         }
         if (phi_v0 != 0) {
             phi_v0 -= (phi_v0 / 10);
-            phi_v0 = (s16)phi_v0;
         }
-        if ((temp_v1 - arg1) != 0) {
-            phi_v0 -= ((temp_v1 - arg1) / 50);
+        someSub16 = temp_v1 - arg1;
+        if (someSub16 != 0) {
+            phi_v0 -= (someSub16 / 50);
         }
         temp_v1 += phi_v0;
-        temp_v1 -= arg1;
-        temp_v1 = (s16)temp_v1;
-        if (((*unk_1AC * phi_v0) <= 0) && (temp_v1 >= -0x63) && (temp_v1 < 0x64)) {
+        someSub16 = temp_v1 - arg1;
+        if (((*unk_1AC * phi_v0) <= 0) && (someSub16 >= -0x63) && (someSub16 < 0x64)) {
             temp_v1 = arg1;
             phi_v0 = 0;
         }
@@ -594,13 +585,12 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2);
 void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor, Gfx** gfx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl2/func_80B4FB74.s")
 /*void func_80B4FB74(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx, Gfx** gfx) {
+    s32 pad[2];
     EnZl2* this = THIS;
-    CutsceneContext* csCtx = &globalCtx->csCtx;
-    s32 pad;
     Player* player;
 
     if (limbIndex == 10) {
-        if ((this->unk_254 != 0) && (csCtx->frames >= 0x384)) {
+        if ((this->unk_254 != 0) && (globalCtx->csCtx.frames >= 0x384)) {
             gSPDisplayList(gfx[0]++, &D_0600BAE8);
         }
 
