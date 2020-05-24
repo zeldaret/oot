@@ -222,7 +222,7 @@ glabel PadMgr_ProcessInputs
 /* B3ED30 800C7B90 014C6825 */  or    $t5, $t2, $t4
 /* B3ED34 800C7B94 A609000C */  sh    $t1, 0xc($s0)
 /* B3ED38 800C7B98 A60D0012 */  sh    $t5, 0x12($s0)
-/* B3ED3C 800C7B9C 0C03F31B */  jal   func_800FCC6C
+/* B3ED3C 800C7B9C 0C03F31B */  jal   PadUtils_UpdateRelXY
 /* B3ED40 800C7BA0 02002025 */   move  $a0, $s0
 /* B3ED44 800C7BA4 820E0002 */  lb    $t6, 2($s0)
 /* B3ED48 800C7BA8 820F0008 */  lb    $t7, 8($s0)

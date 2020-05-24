@@ -100,7 +100,7 @@ extern u32 gCurrentRegion;
 extern u32 __osPiAccessQueueEnabled;
 extern OSViMode osViModePalLan1;
 extern u64 osClockRate;
-extern u32 osViClock;
+extern s32 osViClock;
 extern u32 __osShutdown;
 extern u32 __OSGlobalIntMask;
 extern __osHwInt __osHwIntTable[];

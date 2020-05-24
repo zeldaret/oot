@@ -9,7 +9,7 @@
 
 .align 4
 
-glabel func_80103B60
+glabel guMtxIdent
 /* B7AD00 80103B60 20080001 */  addi  $t0, $zero, 1
 /* B7AD04 80103B64 00084C00 */  sll   $t1, $t0, 0x10
 /* B7AD08 80103B68 AC890000 */  sw    $t1, ($a0)

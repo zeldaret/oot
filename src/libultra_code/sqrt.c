@@ -1,0 +1,11 @@
+#include <math.h>
+#include <global.h>
+
+#ifndef __GNUC__
+#pragma intrinsic(sqrt)
+#define __builtin_sqrt sqrt
+#endif
+
+f64 sqrt(f64 f) {
+    return __builtin_sqrt(f);
+}
