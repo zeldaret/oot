@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Karebaba_InitVars
  .word 0x00C70500, 0x00000005, 0x00390000, 0x00000290
 .word EnKarebaba_Init

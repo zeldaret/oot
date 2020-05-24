@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Demo_Shd_InitVars
  .word 0x01190700, 0x00000030, 0x00010000, 0x00000154
 .word DemoShd_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Nwc_InitVars
  .word 0x01350600, 0x00000030, 0x01240000, 0x00000734
 .word EnNwc_Init

@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_808BAD70
 
-.incbin "baserom/ovl_Bg_Toki_Hikari", 0xE70, 0x000000D0
+.align 4
+
+glabel D_808BAD70
+    .incbin "baserom/ovl_Bg_Toki_Hikari", 0xE70, 0x000000D0

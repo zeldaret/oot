@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Toryo_InitVars
  .word 0x01320400, 0x00000009, 0x01210000, 0x000002E0
 .word EnToryo_Init

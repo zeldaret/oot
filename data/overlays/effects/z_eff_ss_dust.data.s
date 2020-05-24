@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Dust_InitVars
 .word 0x00000000
 .word func_809A22D0

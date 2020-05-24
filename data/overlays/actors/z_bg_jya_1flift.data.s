@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_808930E0
  .word 0x00000000
 glabel Bg_Jya_1flift_InitVars

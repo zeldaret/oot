@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_KiraKira_InitVars
 .word 0x00000001
 .word func_809AA810

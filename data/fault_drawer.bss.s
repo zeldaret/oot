@@ -7,6 +7,8 @@
 
 .section .bss
 
+.align 4
+
 glabel sFaultDrawerStruct
     .space 0x3C
 

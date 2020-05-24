@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A8670
     .asciz "../z_eff_ss_hitmark.c"
     .balign 4

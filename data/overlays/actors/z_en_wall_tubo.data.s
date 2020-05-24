@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Wall_Tubo_InitVars
  .word 0x01BE0600, 0x00000010, 0x00010000, 0x00000170
 .word EnWallTubo_Init

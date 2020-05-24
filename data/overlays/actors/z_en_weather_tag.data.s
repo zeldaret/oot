@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Weather_Tag_InitVars
  .word 0x01650600, 0x00000010, 0x00010000, 0x00000154
 .word EnWeatherTag_Init

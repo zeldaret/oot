@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Ingate_InitVars
  .word 0x01400600, 0x00000000, 0x01290000, 0x00000168
 .word BgIngate_Init

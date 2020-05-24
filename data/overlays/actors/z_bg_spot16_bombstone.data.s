@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_808B5DD0
  .word 0x00000000
 glabel D_808B5DD4

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Light_InitVars
  .word 0x00080700, 0x00000000, 0x00010000, 0x00000164
 .word EnLight_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Boss_Mo_InitVars
  .word 0x00C40900, 0x00000035, 0x00B40000, 0x0000158C
 .word BossMo_Init

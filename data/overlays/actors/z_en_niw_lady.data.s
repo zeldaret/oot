@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Niw_Lady_InitVars
  .word 0x013C0400, 0x00000019, 0x01100000, 0x000002FC
 .word EnNiwLady_Init

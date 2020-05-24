@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_fHG_InitVars
  .word 0x00670100, 0x00000010, 0x005A0000, 0x00000294
 .word EnfHG_Init

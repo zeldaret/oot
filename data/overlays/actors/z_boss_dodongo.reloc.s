@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_808CA7E0
 
-.incbin "baserom/ovl_Boss_Dodongo", 0x9650, 0x000005E0
+.align 4
+
+glabel D_808CA7E0
+    .incbin "baserom/ovl_Boss_Dodongo", 0x9650, 0x000005E0

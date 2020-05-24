@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Bom_InitVars
  .word 0x00100300, 0x00000030, 0x00010000, 0x00000208
 .word EnBom_Init

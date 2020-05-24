@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel End_Title_InitVars
  .word 0x017F0700, 0x00000030, 0x00010000, 0x00000150
 .word EndTitle_Init

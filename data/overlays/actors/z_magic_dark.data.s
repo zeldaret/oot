@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Magic_Dark_InitVars
  .word 0x00F40700, 0x02000010, 0x00010000, 0x00000164
 .word MagicDark_Init

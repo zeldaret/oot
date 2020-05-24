@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Wonder_Talk_InitVars
  .word 0x01470600, 0x08000009, 0x00010000, 0x00000168
 .word EnWonderTalk_Init

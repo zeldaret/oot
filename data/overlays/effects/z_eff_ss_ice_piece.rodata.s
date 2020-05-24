@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A8B20
     .asciz "../z_eff_ice_piece.c"
     .balign 4

@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A90C0
     .asciz "Effect_SS_Ice_Smoke_ct():バンク Object_Bank_Fzが有りません。\n"
     .balign 4

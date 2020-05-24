@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Mir_Ray_InitVars
  .word 0x00B70700, 0x00000030, 0x00AB0000, 0x000002B0
 .word MirRay_Init

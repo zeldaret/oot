@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Bubble_InitVars
 .word 0x00000007
 .word func_809A0040

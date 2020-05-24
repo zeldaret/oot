@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_808A5E60
  .word 0x00000000
 glabel Bg_Mori_Rakkatenjo_InitVars

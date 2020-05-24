@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Vali_InitVars
  .word 0x00630500, 0x00001015, 0x00560000, 0x00000448
 .word EnVali_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Okuta_InitVars
  .word 0x000E0500, 0x00000005, 0x00070000, 0x000003BC
 .word EnOkuta_Init

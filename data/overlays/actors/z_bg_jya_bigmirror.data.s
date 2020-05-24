@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80893ED0
  .word 0x00000000
 glabel Bg_Jya_Bigmirror_InitVars

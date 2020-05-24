@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Spot08_Iceblock_InitVars
  .word 0x00D10100, 0x00000000, 0x00740000, 0x0000019C
 .word BgSpot08Iceblock_Init

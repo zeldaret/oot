@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Menkuri_Eye_InitVars
  .word 0x00620100, 0x00000020, 0x004D0000, 0x000001B0
 .word BgMenkuriEye_Init

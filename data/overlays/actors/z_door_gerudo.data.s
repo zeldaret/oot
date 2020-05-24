@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Door_Gerudo_InitVars
  .word 0x01720700, 0x00000000, 0x014B0000, 0x0000016C
 .word DoorGerudo_Init

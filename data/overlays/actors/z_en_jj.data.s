@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Jj_InitVars
  .word 0x005A0700, 0x00000030, 0x00400000, 0x00000314
 .word EnJj_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Warp2block_InitVars
  .word 0x01D60700, 0x0A000011, 0x01900000, 0x00000178
 .word ObjWarp2block_Init

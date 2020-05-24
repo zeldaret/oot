@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Dnt_Demo_InitVars
  .word 0x01A10600, 0x00000000, 0x00010000, 0x00000200
 .word EnDntDemo_Init

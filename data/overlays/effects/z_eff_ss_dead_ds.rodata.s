@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A1A80
     .asciz "../z_eff_ss_dead_ds.c"
     .balign 4

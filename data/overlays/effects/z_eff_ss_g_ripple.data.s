@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_G_Ripple_InitVars
 .word 0x00000009
 .word func_809A6960

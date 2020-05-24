@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Ice_Piece_InitVars
 .word 0x0000001A
 .word func_809A8700

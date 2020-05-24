@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Spot07_Taki_InitVars
  .word 0x01200100, 0x00000030, 0x01130000, 0x00000168
 .word BgSpot07Taki_Init

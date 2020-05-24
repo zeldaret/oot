@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Sda_InitVars
  .word 0x013A0900, 0x00000030, 0x00010000, 0x0000014C
 .word EnSda_Init

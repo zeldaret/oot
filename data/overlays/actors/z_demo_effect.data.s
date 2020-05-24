@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Demo_Effect_InitVars
  .word 0x008B0100, 0x00000030, 0x00010000, 0x000001A0
 .word DemoEffect_Init

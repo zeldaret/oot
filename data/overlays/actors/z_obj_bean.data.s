@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80B90E30
  .word 0x00000000
 glabel Obj_Bean_InitVars

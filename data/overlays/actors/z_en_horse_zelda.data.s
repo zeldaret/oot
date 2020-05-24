@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Horse_Zelda_InitVars
  .word 0x005B0100, 0x00000010, 0x00460000, 0x000002A8
 .word EnHorseZelda_Init

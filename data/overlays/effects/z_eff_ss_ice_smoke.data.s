@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Ice_Smoke_InitVars
 .word 0x00000024
 .word func_809A8BF0

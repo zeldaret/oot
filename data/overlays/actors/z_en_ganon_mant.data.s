@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Ganon_Mant_InitVars
  .word 0x016F0900, 0x00000030, 0x00010000, 0x00001708
 .word EnGanonMant_Init

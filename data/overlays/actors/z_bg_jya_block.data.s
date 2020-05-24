@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Jya_Block_InitVars
  .word 0x01D50600, 0x00000000, 0x00030000, 0x00000164
 .word BgJyaBlock_Init

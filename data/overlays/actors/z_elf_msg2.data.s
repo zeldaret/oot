@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Elf_Msg2_InitVars
  .word 0x01730100, 0x00000010, 0x00010000, 0x00000150
 .word ElfMsg2_Init

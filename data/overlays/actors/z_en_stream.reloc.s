@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80B0BD20
 
-.incbin "baserom/ovl_En_Stream", 0x580, 0x00000090
+.align 4
+
+glabel D_80B0BD20
+    .incbin "baserom/ovl_En_Stream", 0x580, 0x00000090

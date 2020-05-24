@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_8094B230
 
-.incbin "baserom/ovl_Boss_Tw", 0x12560, 0x00001610
+.align 4
+
+glabel D_8094B230
+    .incbin "baserom/ovl_Boss_Tw", 0x12560, 0x00001610

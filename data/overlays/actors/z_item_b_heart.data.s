@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Item_B_Heart_InitVars
  .word 0x005F0800, 0x00000000, 0x00BD0000, 0x0000016C
 .word ItemBHeart_Init

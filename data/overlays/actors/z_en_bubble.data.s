@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Bubble_InitVars
  .word 0x002D0500, 0x00000001, 0x00120000, 0x00000260
 .word EnBubble_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Ge3_InitVars
  .word 0x01D00400, 0x00000019, 0x01690000, 0x00000314
 .word EnGe3_Init

@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80813020
 
-.incbin "baserom/ovl_file_choose", 0xF2E0, 0x000007E0
+.align 4
+
+glabel D_80813020
+    .incbin "baserom/ovl_file_choose", 0xF2E0, 0x000007E0

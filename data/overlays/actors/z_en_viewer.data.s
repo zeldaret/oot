@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80B2CEC0
  .word 0x00000000
 glabel En_Viewer_InitVars

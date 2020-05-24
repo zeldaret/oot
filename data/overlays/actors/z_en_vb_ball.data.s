@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Vb_Ball_InitVars
  .word 0x00000900, 0x00000030, 0x009C0000, 0x000001B4
 .word EnVbBall_Init

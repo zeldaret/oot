@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Bomb_InitVars
 .word 0x00000002
 .word func_8099F1B0

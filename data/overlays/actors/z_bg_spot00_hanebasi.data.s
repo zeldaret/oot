@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Spot00_Hanebasi_InitVars
  .word 0x004A0100, 0x00000010, 0x002F0000, 0x00000180
 .word BgSpot00Hanebasi_Init

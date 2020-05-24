@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80B20CE0
 
-.incbin "baserom/ovl_En_Toryo", 0xB70, 0x00000100
+.align 4
+
+glabel D_80B20CE0
+    .incbin "baserom/ovl_En_Toryo", 0xB70, 0x00000100

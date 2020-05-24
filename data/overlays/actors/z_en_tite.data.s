@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Tite_InitVars
  .word 0x001B0500, 0x00000015, 0x00160000, 0x00000378
 .word EnTite_Init

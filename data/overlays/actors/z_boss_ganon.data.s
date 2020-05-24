@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Boss_Ganon_InitVars
  .word 0x00E80900, 0x00000035, 0x00E10000, 0x0000071C
 .word BossGanon_Init

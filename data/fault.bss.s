@@ -7,6 +7,8 @@
 
 .section .bss
 
+.align 4
+
 glabel sFaultStructPtr
     .space 4
 

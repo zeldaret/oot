@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Rd_InitVars
  .word 0x00900500, 0x00000415, 0x00980000, 0x0000036C
 .word EnRd_Init

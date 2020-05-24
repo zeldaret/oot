@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Demo_Kekkai_InitVars
  .word 0x01A70700, 0x00000030, 0x01790000, 0x000001FC
 .word DemoKekkai_Init

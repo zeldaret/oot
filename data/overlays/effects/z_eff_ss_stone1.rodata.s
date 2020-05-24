@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809ACA70
     .asciz "../z_eff_ss_stone1.c"
     .balign 4

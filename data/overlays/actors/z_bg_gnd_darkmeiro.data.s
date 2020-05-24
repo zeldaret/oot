@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Gnd_Darkmeiro_InitVars
  .word 0x01B40600, 0x00000030, 0x01790000, 0x00000170
 .word BgGndDarkmeiro_Init

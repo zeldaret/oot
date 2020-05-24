@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Efc_Erupc_InitVars
  .word 0x01760700, 0x00000030, 0x014D0000, 0x000018CC
 .word EfcErupc_Init

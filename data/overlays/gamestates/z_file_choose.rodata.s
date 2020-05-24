@@ -7,11 +7,13 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_80812A60
-    .asciz "connect_alpha=%d  decision_alpha[%d]=%d\n\x00\x00\x00\x00"
+    .asciz "connect_alpha=%d  decision_alpha[%d]=%d\n"
     .balign 4
 
-.balign 4
+.align 4
 
 glabel D_80812A90
     .asciz "../z_file_nameset_PAL.c"

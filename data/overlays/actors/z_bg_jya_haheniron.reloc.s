@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_808987E0
 
-.incbin "baserom/ovl_Bg_Jya_Haheniron", 0x720, 0x000000C0
+.align 4
+
+glabel D_808987E0
+    .incbin "baserom/ovl_Bg_Jya_Haheniron", 0x720, 0x000000C0

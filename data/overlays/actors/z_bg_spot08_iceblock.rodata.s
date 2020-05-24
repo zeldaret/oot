@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_808B1710
     .asciz "Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n"
     .balign 4

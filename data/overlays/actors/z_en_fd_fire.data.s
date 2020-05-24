@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Fd_Fire_InitVars
  .word 0x00A30500, 0x00000015, 0x00030000, 0x000001AC
 .word EnFdFire_Init

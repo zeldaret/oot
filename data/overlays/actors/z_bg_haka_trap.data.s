@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80880F30
  .word 0x00000000
 glabel Bg_Haka_Trap_InitVars

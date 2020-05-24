@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_808A4C10
  .word 0x00000000
 glabel Bg_Mori_Idomizu_InitVars

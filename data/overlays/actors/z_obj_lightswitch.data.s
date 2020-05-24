@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Lightswitch_InitVars
  .word 0x01500000, 0x00000010, 0x012A0000, 0x000001C4
 .word ObjLightswitch_Init

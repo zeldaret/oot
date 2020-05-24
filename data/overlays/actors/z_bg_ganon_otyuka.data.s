@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Ganon_Otyuka_InitVars
  .word 0x01060600, 0x00000030, 0x00E10000, 0x0000018C
 .word BgGanonOtyuka_Init

@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A0A10
     .asciz "../z_eff_ss_d_fire.c"
     .balign 4

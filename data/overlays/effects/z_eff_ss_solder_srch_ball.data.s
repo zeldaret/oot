@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Solder_Srch_Ball_InitVars
 .word 0x00000018
 .word func_809AC130

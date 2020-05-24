@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Haka_Huta_InitVars
  .word 0x00BD0100, 0x00000010, 0x008D0000, 0x0000016C
 .word BgHakaHuta_Init

@@ -7,6 +7,8 @@
 
 .section .bss
 
+.align 4
+
 glabel D_80157D90
 glabel D_80157D90_
     .space 0x4

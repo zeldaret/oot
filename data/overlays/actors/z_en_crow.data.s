@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_809E1640
  .word 0x00000000, 0x00000000, 0x00000000
 glabel En_Crow_InitVars

@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_8087A790
     .asciz "../z_bg_gnd_iceblock.c"
     .balign 4

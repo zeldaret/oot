@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Ice_Shutter_InitVars
  .word 0x01C80600, 0x00000010, 0x006B0000, 0x00000168
 .word BgIceShutter_Init

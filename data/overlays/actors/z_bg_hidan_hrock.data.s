@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Hidan_Hrock_InitVars
  .word 0x00410100, 0x00000000, 0x002C0000, 0x00000244
 .word BgHidanHrock_Init

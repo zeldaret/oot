@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Spot18_Basket_InitVars
  .word 0x015C0600, 0x00000010, 0x00AF0000, 0x0000021C
 .word BgSpot18Basket_Init

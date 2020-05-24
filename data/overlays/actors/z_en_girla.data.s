@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_GirlA_InitVars
  .word 0x00040600, 0x00000019, 0x00010000, 0x000001D4
 .word EnGirlA_Init

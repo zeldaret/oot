@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Bom_Bowl_Man_InitVars
  .word 0x014B0400, 0x08000039, 0x01600000, 0x00000264
 .word EnBomBowlMan_Init

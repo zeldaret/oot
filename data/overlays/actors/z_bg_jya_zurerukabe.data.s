@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_8089B9C0
  .word 0x00000000, 0x00000000, 0x00000000, 0x00000000
 glabel Bg_Jya_Zurerukabe_InitVars

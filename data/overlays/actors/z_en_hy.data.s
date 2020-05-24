@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Hy_InitVars
  .word 0x016E0400, 0x00000019, 0x00010000, 0x00000334
 .word EnHy_Init

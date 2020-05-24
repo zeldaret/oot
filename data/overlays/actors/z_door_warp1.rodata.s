@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_8099C5B0
     .asciz "\nBOSSWARP arg_data=[%d]"
     .balign 4

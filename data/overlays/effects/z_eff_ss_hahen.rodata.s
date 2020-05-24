@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A8020
     .asciz "../z_eff_hahen.c"
     .balign 4

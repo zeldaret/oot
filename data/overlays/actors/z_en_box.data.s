@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Box_InitVars
  .word 0x000A0B00, 0x00000000, 0x000E0000, 0x000001FC
 .word EnBox_Init

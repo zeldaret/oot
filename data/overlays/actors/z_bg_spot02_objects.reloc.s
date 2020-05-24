@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_808AD9A0
 
-.incbin "baserom/ovl_Bg_Spot02_Objects", 0x1340, 0x00000140
+.align 4
+
+glabel D_808AD9A0
+    .incbin "baserom/ovl_Bg_Spot02_Objects", 0x1340, 0x00000140

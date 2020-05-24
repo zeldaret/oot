@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_808A2210
  .word 0x00000000
 glabel Bg_Mori_Elevator_InitVars

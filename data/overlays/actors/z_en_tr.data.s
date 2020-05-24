@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Tr_InitVars
  .word 0x00CC0400, 0x00000010, 0x00C10000, 0x000002E8
 .word EnTr_Init

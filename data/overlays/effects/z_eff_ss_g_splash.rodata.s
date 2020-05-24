@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A7980
  .word 0x3B03126F, 0x00000000, 0x00000000, 0x00000000
 

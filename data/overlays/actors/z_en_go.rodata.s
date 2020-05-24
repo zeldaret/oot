@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_80A41C00
     .asciz "../z_en_go.c"
     .balign 4

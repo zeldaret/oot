@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80B96AB0
 
-.incbin "baserom/ovl_Obj_Lift", 0x9E0, 0x000000F0
+.align 4
+
+glabel D_80B96AB0
+    .incbin "baserom/ovl_Obj_Lift", 0x9E0, 0x000000F0

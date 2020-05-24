@@ -7,11 +7,11 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_80B9CAF0
     .asciz "Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n"
     .balign 4
-
-.balign 4
 
 glabel D_80B9CB30
     .asciz "../z_obj_oshihiki.c"

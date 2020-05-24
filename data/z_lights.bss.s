@@ -7,6 +7,8 @@
 
 .section .bss
 
+.align 4
+
 glabel sLightsList
     .space 0x8
 

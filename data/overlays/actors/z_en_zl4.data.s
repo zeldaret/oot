@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Zl4_InitVars
  .word 0x01D30400, 0x00000019, 0x01910000, 0x000002F0
 .word EnZl4_Init

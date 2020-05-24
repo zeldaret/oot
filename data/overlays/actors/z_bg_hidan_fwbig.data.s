@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Hidan_Fwbig_InitVars
  .word 0x008D0600, 0x00000010, 0x002C0000, 0x000001A0
 .word BgHidanFwbig_Init

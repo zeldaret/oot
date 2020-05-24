@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80A6B000
 
-.incbin "baserom/ovl_En_Horse_Link_Child", 0x1C30, 0x00000250
+.align 4
+
+glabel D_80A6B000
+    .incbin "baserom/ovl_En_Horse_Link_Child", 0x1C30, 0x00000250

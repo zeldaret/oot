@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Makeoshihiki_InitVars
  .word 0x017D0600, 0x00000020, 0x00030000, 0x0000014C
 .word ObjMakeoshihiki_Init

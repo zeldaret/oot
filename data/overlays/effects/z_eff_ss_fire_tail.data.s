@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Fire_Tail_InitVars
 .word 0x0000001C
 .word func_809A5740

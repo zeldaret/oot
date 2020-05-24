@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Jya_Goroiwa_InitVars
  .word 0x00F90600, 0x00000010, 0x011F0000, 0x000001BC
 .word BgJyaGoroiwa_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Shot_Sun_InitVars
  .word 0x01830600, 0x00000009, 0x00010000, 0x000001A8
 .word ShotSun_Init

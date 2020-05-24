@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_809ACAC0
 
-.incbin "baserom/ovl_Effect_Ss_Stone1", 0x3C0, 0x00000060
+.align 4
+
+glabel D_809ACAC0
+    .incbin "baserom/ovl_Effect_Ss_Stone1", 0x3C0, 0x00000060

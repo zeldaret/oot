@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Torch2_InitVars
  .word 0x00330900, 0x00000035, 0x00200000, 0x00000A94
 .word EnTorch2_Init

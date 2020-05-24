@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_8082F420
     .asciz "../z_kaleido_collect.c"
     .balign 4
@@ -32,8 +34,10 @@ glabel D_8082F484
     .balign 4
 
 glabel D_8082F4A0
-    .asciz "../z_kaleido_collect.c\x00\x00\x00\x00\x00\x00\x00\x00"
+    .asciz "../z_kaleido_collect.c"
     .balign 4
+
+.align 4
 
 glabel D_8082F4C0
  .word 0x25730000
@@ -248,8 +252,10 @@ glabel D_8082FA28
     .balign 4
 
 glabel D_8082FA40
-    .asciz "../z_kaleido_map_PAL.c\x00\x00\x00\x00\x00\x00"
+    .asciz "../z_kaleido_map_PAL.c"
     .balign 4
+
+.align 4
 
 glabel D_8082FA60
     .asciz "../z_kaleido_scope_PAL.c"

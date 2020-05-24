@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A68B0
     .asciz "../z_eff_ss_g_magma2.c"
     .balign 4
@@ -18,6 +20,4 @@ glabel D_809A68C8
 glabel D_809A68E0
     .asciz "../z_eff_ss_g_magma2.c"
     .balign 4
-
-.align 4
 

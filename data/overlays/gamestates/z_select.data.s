@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80801FC0
  .word D_80802608
 .word func_80800BAC

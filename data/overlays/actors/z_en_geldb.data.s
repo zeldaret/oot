@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_GeldB_InitVars
  .word 0x01970500, 0x00000015, 0x01690000, 0x000004E4
 .word EnGeldB_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Eiyer_InitVars
  .word 0x003A0500, 0x00000005, 0x00260000, 0x000002D4
 .word EnEiyer_Init

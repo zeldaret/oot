@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Sibuki2_InitVars
 .word 0x00000012
 .word func_809ABD60

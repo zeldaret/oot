@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Mizu_Bwall_InitVars
  .word 0x01BA0100, 0x00000010, 0x00590000, 0x000002BC
 .word BgMizuBwall_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Shopnuts_InitVars
  .word 0x01950500, 0x00000005, 0x01680000, 0x000002BC
 .word EnShopnuts_Init

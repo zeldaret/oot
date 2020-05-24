@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Ice_Poly_InitVars
  .word 0x011E0600, 0x00000010, 0x00010000, 0x000001EC
 .word ObjIcePoly_Init

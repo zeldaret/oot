@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A3BA0
     .asciz "Effect_Ss_En_Ice_ct():pid->mode_swがエラーです。\n"
     .balign 4

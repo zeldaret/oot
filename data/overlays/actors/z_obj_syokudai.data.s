@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Syokudai_InitVars
  .word 0x005E0600, 0x00000410, 0x00A40000, 0x000001FC
 .word ObjSyokudai_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Brob_InitVars
  .word 0x00B60500, 0x00000005, 0x00AC0000, 0x000002C0
 .word EnBrob_Init

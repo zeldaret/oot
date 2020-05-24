@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Syateki_Man_InitVars
  .word 0x00C10400, 0x08000019, 0x005B0000, 0x0000022C
 .word EnSyatekiMan_Init

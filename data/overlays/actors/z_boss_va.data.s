@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Boss_Va_InitVars
  .word 0x00BA0900, 0x00000035, 0x008C0000, 0x000003B8
 .word BossVa_Init

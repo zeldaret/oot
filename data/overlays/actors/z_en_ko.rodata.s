@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_80A9A780
     .asciz "[44m  アングルＺ->(%d)\n[m"
     .balign 4

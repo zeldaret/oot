@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Hidan_Kowarerukabe_InitVars
  .word 0x00CF0100, 0x00000000, 0x002C0000, 0x000001C4
 .word BgHidanKowarerukabe_Init

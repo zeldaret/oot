@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_80A060B0
     .asciz "0"
     .balign 4

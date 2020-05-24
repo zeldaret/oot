@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Haka_Sgami_InitVars
  .word 0x00B10600, 0x00000011, 0x00010000, 0x00000338
 .word BgHakaSgami_Init

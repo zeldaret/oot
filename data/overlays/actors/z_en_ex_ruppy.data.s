@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80A0B320
  .word 0x00000001, 0x00020013, 0x00140000, 0x00010005, 0x001401F4, 0x00320000
 glabel En_Ex_Ruppy_InitVars

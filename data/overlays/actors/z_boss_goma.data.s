@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Boss_Goma_InitVars
  .word 0x00280900, 0x00000035, 0x001C0000, 0x00000B1C
 .word BossGoma_Init

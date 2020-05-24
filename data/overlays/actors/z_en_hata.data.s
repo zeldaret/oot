@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Hata_InitVars
  .word 0x00260600, 0x00000000, 0x00760000, 0x0000027C
 .word EnHata_Init

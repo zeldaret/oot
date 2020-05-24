@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80882530
 
-.incbin "baserom/ovl_Bg_Haka_Water", 0x830, 0x00000090
+.align 4
+
+glabel D_80882530
+    .incbin "baserom/ovl_Bg_Haka_Water", 0x830, 0x00000090

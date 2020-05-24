@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Syateki_Itm_InitVars
  .word 0x00C00600, 0x00000010, 0x00010000, 0x000001D8
 .word EnSyatekiItm_Init

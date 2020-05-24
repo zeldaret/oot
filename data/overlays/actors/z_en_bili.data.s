@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Bili_InitVars
  .word 0x00340500, 0x00005005, 0x00210000, 0x00000220
 .word EnBili_Init

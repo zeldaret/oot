@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Jya_Haheniron_InitVars
  .word 0x018F0600, 0x00000010, 0x016C0000, 0x000001B4
 .word BgJyaHaheniron_Init

@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80A2F000
 
-.incbin "baserom/ovl_En_Ganon_Organ", 0x7000, 0x00000180
+.align 4
+
+glabel D_80A2F000
+    .incbin "baserom/ovl_En_Ganon_Organ", 0x7000, 0x00000180

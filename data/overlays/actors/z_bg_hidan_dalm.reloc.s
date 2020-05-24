@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_808865C0
 
-.incbin "baserom/ovl_Bg_Hidan_Dalm", 0x7A0, 0x000000A0
+.align 4
+
+glabel D_808865C0
+    .incbin "baserom/ovl_Bg_Hidan_Dalm", 0x7A0, 0x000000A0

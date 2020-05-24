@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Vm_InitVars
  .word 0x008A0500, 0x00000011, 0x008B0000, 0x000003B4
 .word EnVm_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Stream_InitVars
  .word 0x01600100, 0x00000010, 0x013B0000, 0x00000158
 .word EnStream_Init

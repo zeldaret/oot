@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_8099F120
     .asciz "../z_eff_ss_blast.c"
     .balign 4

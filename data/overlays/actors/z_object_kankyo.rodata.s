@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_80BA5A40
     .asciz "../z_object_kankyo.c"
     .balign 4

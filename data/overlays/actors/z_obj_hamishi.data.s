@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Hamishi_InitVars
  .word 0x01D20600, 0x00000000, 0x00020000, 0x000001A8
 .word ObjHamishi_Init

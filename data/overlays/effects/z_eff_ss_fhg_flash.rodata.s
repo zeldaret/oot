@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A5580
     .asciz "Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n"
     .balign 4

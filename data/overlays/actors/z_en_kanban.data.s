@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Kanban_InitVars
  .word 0x01410600, 0x00000019, 0x012F0000, 0x000001EC
 .word EnKanban_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_M_Thunder_InitVars
  .word 0x00570700, 0x00000000, 0x00010000, 0x000001CC
 .word EnMThunder_Init

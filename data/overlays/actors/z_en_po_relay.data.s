@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80AD8C30
  .byte 0xFF, 0xC4
 glabel D_80AD8C32

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Peehat_InitVars
  .word 0x001D0500, 0x01000015, 0x00180000, 0x0000042C
 .word EnPeehat_Init

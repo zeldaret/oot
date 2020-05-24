@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Hidan_Sekizou_InitVars
  .word 0x00450100, 0x00000000, 0x002C0000, 0x00000314
 .word BgHidanSekizou_Init

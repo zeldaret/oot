@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Mag_InitVars
  .word 0x01710600, 0x00000030, 0x014A0000, 0x0000E328
 .word EnMag_Init

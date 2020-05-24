@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Mizu_Movebg_InitVars
  .word 0x00640100, 0x00000010, 0x00590000, 0x00000188
 .word BgMizuMovebg_Init

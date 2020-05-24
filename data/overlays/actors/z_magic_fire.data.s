@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Magic_Fire_InitVars
  .word 0x009F0700, 0x02000010, 0x00010000, 0x000001AC
 .word MagicFire_Init

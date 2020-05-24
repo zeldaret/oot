@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Door_Killer_InitVars
  .word 0x01C10100, 0x00000010, 0x018E0000, 0x00000284
 .word DoorKiller_Init

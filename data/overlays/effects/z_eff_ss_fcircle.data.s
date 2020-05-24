@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Fcircle_InitVars
 .word 0x0000001F
 .word func_809A4120

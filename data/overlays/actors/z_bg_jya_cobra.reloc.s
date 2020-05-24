@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80897750
 
-.incbin "baserom/ovl_Bg_Jya_Cobra", 0x1E60, 0x00000220
+.align 4
+
+glabel D_80897750
+    .incbin "baserom/ovl_Bg_Jya_Cobra", 0x1E60, 0x00000220

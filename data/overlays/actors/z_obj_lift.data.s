@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Lift_InitVars
  .word 0x012C0100, 0x00000010, 0x011D0000, 0x00000170
 .word ObjLift_Init

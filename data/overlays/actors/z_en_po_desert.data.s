@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Po_Desert_InitVars
  .word 0x01BF0100, 0x00001090, 0x006D0000, 0x00000284
 .word EnPoDesert_Init

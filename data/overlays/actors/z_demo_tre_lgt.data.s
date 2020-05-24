@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80993D70
  .word 0x3F800000, 0x43080000, 0x433E0000, 0x42200000, 0x3F800000, 0x43080000, 0x435C0000, 0x42480000
 glabel Demo_Tre_Lgt_InitVars

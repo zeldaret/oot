@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Jya_Megami_InitVars
  .word 0x01560100, 0x00000000, 0x00F10000, 0x0000033C
 .word BgJyaMegami_Init

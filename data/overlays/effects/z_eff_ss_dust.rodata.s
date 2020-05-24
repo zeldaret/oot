@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A2A70
     .asciz "../z_eff_ss_dust.c"
     .balign 4

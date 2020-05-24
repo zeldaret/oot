@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Door_Shutter_InitVars
  .word 0x002E0A00, 0x00000010, 0x00010000, 0x00000178
 .word DoorShutter_Init

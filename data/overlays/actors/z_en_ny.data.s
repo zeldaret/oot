@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Ny_InitVars
  .word 0x00EC0500, 0x00000005, 0x00E50000, 0x000002B8
 .word EnNy_Init

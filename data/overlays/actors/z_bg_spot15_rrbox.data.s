@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_808B4590
  .word 0x00000000
 glabel Bg_Spot15_Rrbox_InitVars

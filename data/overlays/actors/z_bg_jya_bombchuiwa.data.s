@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Jya_Bombchuiwa_InitVars
  .word 0x01590100, 0x00000001, 0x00F10000, 0x000001B8
 .word BgJyaBombchuiwa_Init

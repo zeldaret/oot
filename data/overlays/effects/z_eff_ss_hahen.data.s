@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Hahen_InitVars
 .word 0x0000000F
 .word func_809A7A60

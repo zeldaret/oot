@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Dodoago_InitVars
  .word 0x003F0100, 0x00000000, 0x002B0000, 0x00000250
 .word BgDodoago_Init

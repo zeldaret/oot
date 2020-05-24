@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Hsblock_InitVars
  .word 0x012D0100, 0x00000000, 0x011C0000, 0x00000168
 .word ObjHsblock_Init

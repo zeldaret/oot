@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809AAE10
     .asciz "../z_eff_ss_kirakira.c"
     .balign 4

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Eff_Dust_InitVars
  .word 0x01010400, 0x00000030, 0x00010000, 0x00000568
 .word EffDust_Init

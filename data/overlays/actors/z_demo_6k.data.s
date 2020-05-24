@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Demo_6K_InitVars
  .word 0x00F50600, 0x00000010, 0x00010000, 0x00000294
 .word Demo6K_Init

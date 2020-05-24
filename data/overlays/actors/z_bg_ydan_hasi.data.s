@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Ydan_Hasi_InitVars
  .word 0x00500100, 0x00000030, 0x00360000, 0x0000016C
 .word BgYdanHasi_Init

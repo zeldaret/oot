@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Hana_InitVars
  .word 0x014F0600, 0x00000000, 0x00020000, 0x00000198
 .word ObjHana_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Door_Warp1_InitVars
  .word 0x005D0700, 0x00000000, 0x00480000, 0x000001F0
 .word DoorWarp1_Init

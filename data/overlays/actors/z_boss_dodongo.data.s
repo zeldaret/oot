@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Boss_Dodongo_InitVars
  .word 0x00120900, 0x00000035, 0x00190000, 0x00001820
 .word BossDodongo_Init

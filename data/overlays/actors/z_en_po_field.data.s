@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Po_Field_InitVars
  .word 0x01750500, 0x00001035, 0x006D0000, 0x000002DC
 .word EnPoField_Init

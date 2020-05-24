@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Bdfire_InitVars
  .word 0x00000500, 0x00000030, 0x00190000, 0x000001E4
 .word EnBdfire_Init

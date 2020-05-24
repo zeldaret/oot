@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel gWaveSamples
     .incbin "baserom.z64", 0xBA6230, 0x8
 

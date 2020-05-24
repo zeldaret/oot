@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Dekujr_InitVars
  .word 0x00D30400, 0x00000009, 0x00CC0000, 0x000001A4
 .word ObjDekujr_Init

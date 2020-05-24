@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Kz_InitVars
  .word 0x01640400, 0x00000009, 0x00FF0000, 0x000002D8
 .word EnKz_Init

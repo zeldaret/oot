@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Spot18_Shutter_InitVars
  .word 0x01C40600, 0x00000030, 0x00AF0000, 0x00000168
 .word BgSpot18Shutter_Init

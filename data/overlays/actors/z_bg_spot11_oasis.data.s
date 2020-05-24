@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Spot11_Oasis_InitVars
  .word 0x01C20100, 0x00000010, 0x016F0000, 0x00000154
 .word BgSpot11Oasis_Init

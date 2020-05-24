@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Hidan_Dalm_InitVars
  .word 0x00400100, 0x00000000, 0x002C0000, 0x000002FC
 .word BgHidanDalm_Init

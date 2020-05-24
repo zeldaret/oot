@@ -7,6 +7,8 @@
 
 .section .bss
 
+.align 4
+
 glabel D_80175660
     .space 0x4
 

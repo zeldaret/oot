@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Owl_InitVars
  .word 0x014D0400, 0x00000019, 0x01310000, 0x00000414
 .word EnOwl_Init

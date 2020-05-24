@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Fire_Rock_InitVars
  .word 0x00B50500, 0x00000030, 0x00920000, 0x000001E0
 .word EnFireRock_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Door_InitVars
  .word 0x00090A00, 0x00000010, 0x00010000, 0x000001D8
 .word EnDoor_Init

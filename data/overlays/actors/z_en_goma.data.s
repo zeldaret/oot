@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Goma_InitVars
  .word 0x00280500, 0x00000035, 0x001E0000, 0x000003A4
 .word EnGoma_Init

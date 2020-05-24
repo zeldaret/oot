@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Mb_InitVars
  .word 0x004B0500, 0x00000015, 0x00300000, 0x0000050C
 .word EnMb_Init

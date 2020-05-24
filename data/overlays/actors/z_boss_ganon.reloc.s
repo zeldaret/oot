@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_808F8280
 
-.incbin "baserom/ovl_Boss_Ganon", 0x21A10, 0x00001140
+.align 4
+
+glabel D_808F8280
+    .incbin "baserom/ovl_Boss_Ganon", 0x21A10, 0x00001140

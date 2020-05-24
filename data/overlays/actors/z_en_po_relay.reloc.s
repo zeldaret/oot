@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80AD8E10
 
-.incbin "baserom/ovl_En_Po_Relay", 0x16D0, 0x00000180
+.align 4
+
+glabel D_80AD8E10
+    .incbin "baserom/ovl_En_Po_Relay", 0x16D0, 0x00000180

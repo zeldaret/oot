@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Dy_Extra_InitVars
  .word 0x01840600, 0x00000030, 0x000A0000, 0x00000174
 .word EnDyExtra_Init

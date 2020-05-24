@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Mure2_InitVars
  .word 0x01510600, 0x00000000, 0x00010000, 0x00000188
 .word ObjMure2_Init

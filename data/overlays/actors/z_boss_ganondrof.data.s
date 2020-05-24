@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Boss_Ganondrof_InitVars
  .word 0x00520900, 0x00000035, 0x00370000, 0x00000578
 .word BossGanondrof_Init

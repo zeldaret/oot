@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809ABC90
     .asciz "../z_eff_ss_sibuki.c"
     .balign 4

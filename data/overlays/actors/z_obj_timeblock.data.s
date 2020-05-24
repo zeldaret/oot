@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Timeblock_InitVars
  .word 0x01D10700, 0x0A000011, 0x01900000, 0x0000017C
 .word ObjTimeblock_Init

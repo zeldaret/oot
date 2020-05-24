@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_River_Sound_InitVars
  .word 0x003B0100, 0x00000030, 0x00010000, 0x00000150
 .word EnRiverSound_Init

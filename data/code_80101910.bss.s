@@ -7,5 +7,7 @@
 
 .section .bss
 
+.align 4
+
 glabel pifMempakBuf
     .space 0x40

@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_80B017D0
     .asciz "Player_X : %f\n"
     .balign 4

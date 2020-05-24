@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Trap_InitVars
  .word 0x00800100, 0x00000010, 0x00850000, 0x000001EC
 .word EnTrap_Init

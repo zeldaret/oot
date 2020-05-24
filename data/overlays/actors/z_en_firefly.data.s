@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Firefly_InitVars
  .word 0x00130500, 0x00005005, 0x000D0000, 0x00000374
 .word EnFirefly_Init

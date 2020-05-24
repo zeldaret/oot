@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Mm2_InitVars
  .word 0x01D40400, 0x00000019, 0x013C0000, 0x000002BC
 .word EnMm2_Init

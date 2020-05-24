@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Dekunuts_InitVars
  .word 0x00600500, 0x00000005, 0x004A0000, 0x00000314
 .word EnDekunuts_Init

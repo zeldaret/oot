@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Haka_Ship_InitVars
  .word 0x00B00100, 0x00000030, 0x00690000, 0x00000178
 .word BgHakaShip_Init

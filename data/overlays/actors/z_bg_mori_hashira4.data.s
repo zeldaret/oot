@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Mori_Hashira4_InitVars
  .word 0x00E30100, 0x00000010, 0x00720000, 0x0000016C
 .word BgMoriHashira4_Init

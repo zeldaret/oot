@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Attack_Niw_InitVars
  .word 0x01440500, 0x00000010, 0x00130000, 0x000002E8
 .word EnAttackNiw_Init

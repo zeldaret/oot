@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_808B18B0
 
-.incbin "baserom/ovl_Bg_Spot08_Iceblock", 0xF50, 0x00000230
+.align 4
+
+glabel D_808B18B0
+    .incbin "baserom/ovl_Bg_Spot08_Iceblock", 0xF50, 0x00000230

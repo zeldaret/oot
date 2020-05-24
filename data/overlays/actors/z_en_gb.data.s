@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Gb_InitVars
  .word 0x01B80400, 0x00000009, 0x01890000, 0x00000438
 .word EnGb_Init

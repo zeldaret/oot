@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80892620
  .word 0x0A110900, 0x20010000, 0x00000000, 0xFFCFFFFF, 0x00040000, 0x4FC007CA, 0x00000000, 0x01010000, 0x000D0078, 0x00000000, 0x00000000
 glabel Bg_Ice_Turara_InitVars

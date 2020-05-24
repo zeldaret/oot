@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Gnd_Firemeiro_InitVars
  .word 0x01B30600, 0x00000030, 0x01790000, 0x00000178
 .word BgGndFiremeiro_Init

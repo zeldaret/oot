@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Heishi4_InitVars
  .word 0x01780400, 0x00000009, 0x00970000, 0x00000308
 .word EnHeishi4_Init

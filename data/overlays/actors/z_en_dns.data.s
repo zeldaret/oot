@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Dns_InitVars
  .word 0x011A0100, 0x00000009, 0x01680000, 0x000002C8
 .word EnDns_Init

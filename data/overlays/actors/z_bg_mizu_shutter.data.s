@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Mizu_Shutter_InitVars
  .word 0x01BB0600, 0x00000010, 0x00590000, 0x00000190
 .word BgMizuShutter_Init

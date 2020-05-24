@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Honotrap_InitVars
  .word 0x011C0600, 0x00000010, 0x00030000, 0x00000244
 .word EnHonotrap_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Po_Event_InitVars
  .word 0x00930100, 0x00000000, 0x00990000, 0x00000248
 .word BgPoEvent_Init

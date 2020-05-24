@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Item_Ocarina_InitVars
  .word 0x00F10700, 0x00000010, 0x00DE0000, 0x00000154
 .word ItemOcarina_Init

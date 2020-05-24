@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Bowl_Wall_InitVars
  .word 0x01BD0600, 0x00000030, 0x01780000, 0x00000188
 .word BgBowlWall_Init

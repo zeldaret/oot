@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Ta_InitVars
  .word 0x00840400, 0x00000009, 0x00880000, 0x000002E8
 .word EnTa_Init

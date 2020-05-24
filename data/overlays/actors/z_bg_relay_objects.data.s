@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Relay_Objects_InitVars
  .word 0x01230100, 0x00000010, 0x006C0000, 0x0000016C
 .word BgRelayObjects_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Haka_Water_InitVars
  .word 0x00D70600, 0x00000030, 0x008D0000, 0x00000154
 .word BgHakaWater_Init

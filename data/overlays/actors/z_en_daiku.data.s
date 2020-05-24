@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Daiku_InitVars
  .word 0x01330400, 0x00000019, 0x01220000, 0x0000034C
 .word EnDaiku_Init

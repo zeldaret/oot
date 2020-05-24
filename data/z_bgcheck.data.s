@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80119D90
     .incbin "baserom.z64", 0xB90F30, 0x80
 

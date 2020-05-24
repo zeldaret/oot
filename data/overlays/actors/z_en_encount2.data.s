@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Encount2_InitVars
  .word 0x00B40500, 0x00000030, 0x00920000, 0x00000A20
 .word EnEncount2_Init

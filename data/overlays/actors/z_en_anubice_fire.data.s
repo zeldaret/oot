@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Anubice_Fire_InitVars
  .word 0x00E10500, 0x00000010, 0x00D60000, 0x000001F4
 .word EnAnubiceFire_Init

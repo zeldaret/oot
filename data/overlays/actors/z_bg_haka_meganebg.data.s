@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Haka_MeganeBG_InitVars
  .word 0x00AF0100, 0x00000000, 0x00690000, 0x0000016C
 .word BgHakaMeganeBG_Init

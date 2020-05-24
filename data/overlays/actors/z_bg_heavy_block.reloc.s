@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80884FE0
 
-.incbin "baserom/ovl_Bg_Heavy_Block", 0x1850, 0x000001C0
+.align 4
+
+glabel D_80884FE0
+    .incbin "baserom/ovl_Bg_Heavy_Block", 0x1850, 0x000001C0

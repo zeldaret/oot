@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_G_Splash_InitVars
 .word 0x0000000A
 .word func_809A7540

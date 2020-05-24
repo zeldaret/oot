@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Dh_InitVars
  .word 0x00A40500, 0x00000415, 0x00A60000, 0x00000324
 .word EnDh_Init

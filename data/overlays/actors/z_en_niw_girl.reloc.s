@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80AB9B40
 
-.incbin "baserom/ovl_En_Niw_Girl", 0xBC0, 0x00000100
+.align 4
+
+glabel D_80AB9B40
+    .incbin "baserom/ovl_En_Niw_Girl", 0xBC0, 0x00000100

@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80891EC0
 
-.incbin "baserom/ovl_Bg_Ice_Shutter", 0x400, 0x00000060
+.align 4
+
+glabel D_80891EC0
+    .incbin "baserom/ovl_Bg_Ice_Shutter", 0x400, 0x00000060

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Gnd_Soulmeiro_InitVars
  .word 0x01B50600, 0x00000000, 0x01790000, 0x000001A0
 .word BgGndSoulmeiro_Init

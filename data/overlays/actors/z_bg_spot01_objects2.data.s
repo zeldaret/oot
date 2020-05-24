@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Spot01_Objects2_InitVars
  .word 0x019D0100, 0x00000010, 0x00010000, 0x00000180
 .word BgSpot01Objects2_Init

@@ -5,7 +5,9 @@
  .set noreorder # don't insert nops after branches
  .set gp=64     # allow use of 64-bit general purposee registers
 
-.bss
+.section .bss
+
+.align 4
 
 glabel D_80B3C1D0
  .space 0x04

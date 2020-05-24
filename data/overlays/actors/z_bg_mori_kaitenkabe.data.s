@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Mori_Kaitenkabe_InitVars
  .word 0x00880100, 0x00000000, 0x00720000, 0x00000188
 .word BgMoriKaitenkabe_Init

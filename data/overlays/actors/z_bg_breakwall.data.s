@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Breakwall_InitVars
  .word 0x00590100, 0x00000010, 0x00010000, 0x000001F0
 .word BgBreakwall_Init

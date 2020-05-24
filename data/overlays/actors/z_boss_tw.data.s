@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Boss_Tw_InitVars
  .word 0x00DC0900, 0x00000035, 0x00D30000, 0x000006B4
 .word BossTw_Init

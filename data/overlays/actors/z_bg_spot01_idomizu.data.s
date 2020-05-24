@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Spot01_Idomizu_InitVars
  .word 0x01040100, 0x00000020, 0x00F90000, 0x00000158
 .word BgSpot01Idomizu_Init

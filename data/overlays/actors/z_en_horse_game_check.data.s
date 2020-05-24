@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Horse_Game_Check_InitVars
  .word 0x00DB0100, 0x00000010, 0x00010000, 0x000001A4
 .word EnHorseGameCheck_Init

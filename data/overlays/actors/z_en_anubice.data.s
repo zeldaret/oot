@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Anubice_InitVars
  .word 0x00E00500, 0x00000015, 0x00D60000, 0x00000314
 .word EnAnubice_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Bx_InitVars
  .word 0x00DF0500, 0x00000010, 0x00D50000, 0x00000298
 .word EnBx_Init

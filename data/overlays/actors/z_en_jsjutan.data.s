@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Jsjutan_InitVars
  .word 0x016B0400, 0x00000009, 0x00010000, 0x00000178
 .word EnJsjutan_Init

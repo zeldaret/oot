@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_808A43E0
  .word 0xFFFF0000
 glabel Bg_Mori_Hineri_InitVars

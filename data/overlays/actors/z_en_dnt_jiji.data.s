@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Dnt_Jiji_InitVars
  .word 0x01A20400, 0x00000019, 0x01710000, 0x000002A8
 .word EnDntJiji_Init

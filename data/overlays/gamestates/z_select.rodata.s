@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_808025E0
     .asciz "[34m"
     .balign 4

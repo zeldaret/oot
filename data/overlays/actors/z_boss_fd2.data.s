@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Boss_Fd2_InitVars
  .word 0x00A20900, 0x00000035, 0x00A50000, 0x0000167C
 .word BossFd2_Init

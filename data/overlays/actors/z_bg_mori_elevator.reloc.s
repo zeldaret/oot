@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_808A23E0
 
-.incbin "baserom/ovl_Bg_Mori_Elevator", 0xBE0, 0x00000180
+.align 4
+
+glabel D_808A23E0
+    .incbin "baserom/ovl_Bg_Mori_Elevator", 0xBE0, 0x00000180

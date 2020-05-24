@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80B98A10
 
-.incbin "baserom/ovl_Obj_Makeoshihiki", 0x500, 0x00000090
+.align 4
+
+glabel D_80B98A10
+    .incbin "baserom/ovl_Obj_Makeoshihiki", 0x500, 0x00000090

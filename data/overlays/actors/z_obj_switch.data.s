@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Switch_InitVars
  .word 0x012A0000, 0x00000010, 0x00030000, 0x00000258
 .word ObjSwitch_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Yukabyun_InitVars
  .word 0x006B0500, 0x00000010, 0x005F0000, 0x000001A0
 .word EnYukabyun_Init

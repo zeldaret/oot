@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A04A0
     .asciz "../z_eff_ss_bubble.c"
     .balign 4

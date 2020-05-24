@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Dead_Sound_InitVars
 .word 0x00000023
 .word func_809A1B30

@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_809A6110
 
-.incbin "baserom/ovl_Effect_Ss_G_Fire", 0x240, 0x00000040
+.align 4
+
+glabel D_809A6110
+    .incbin "baserom/ovl_Effect_Ss_G_Fire", 0x240, 0x00000040

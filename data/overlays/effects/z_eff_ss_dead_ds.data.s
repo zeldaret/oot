@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Dead_Ds_InitVars
 .word 0x00000022
 .word func_809A1610

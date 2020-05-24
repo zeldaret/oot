@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_809AC2A0
 
-.incbin "baserom/ovl_Effect_Ss_Solder_Srch_Ball", 0x170, 0x00000030
+.align 4
+
+glabel D_809AC2A0
+    .incbin "baserom/ovl_Effect_Ss_Solder_Srch_Ball", 0x170, 0x00000030

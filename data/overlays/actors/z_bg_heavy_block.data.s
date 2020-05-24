@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Heavy_Block_InitVars
  .word 0x00920100, 0x00000000, 0x009A0000, 0x00000178
 .word BgHeavyBlock_Init

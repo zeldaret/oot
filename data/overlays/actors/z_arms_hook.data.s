@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Arms_Hook_InitVars
  .word 0x00660700, 0x00000030, 0x00140000, 0x00000218
 .word ArmsHook_Init

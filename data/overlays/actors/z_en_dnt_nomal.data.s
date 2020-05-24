@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Dnt_Nomal_InitVars
  .word 0x01A30600, 0x00000030, 0x00010000, 0x00000360
 .word EnDntNomal_Init

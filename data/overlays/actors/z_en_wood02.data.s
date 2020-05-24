@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Wood02_InitVars
  .word 0x00770600, 0x00000000, 0x007C0000, 0x000001A4
 .word EnWood02_Init

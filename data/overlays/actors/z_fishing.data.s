@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Fishing_InitVars
  .word 0x00FE0400, 0x00000010, 0x015B0000, 0x00000550
 .word Fishing_Init

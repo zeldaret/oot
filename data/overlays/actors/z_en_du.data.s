@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Du_InitVars
  .word 0x00980400, 0x02000009, 0x009D0000, 0x0000021C
 .word EnDu_Init

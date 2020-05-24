@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Ydan_Sp_InitVars
  .word 0x000F0100, 0x00000000, 0x00360000, 0x00000248
 .word BgYdanSp_Init

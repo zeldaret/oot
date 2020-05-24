@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Dodojr_InitVars
  .word 0x002F0500, 0x00000005, 0x001F0000, 0x000002C0
 .word EnDodojr_Init

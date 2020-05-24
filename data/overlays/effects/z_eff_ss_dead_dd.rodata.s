@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A1550
     .asciz "Effect_SS_Dd_disp_mode():mode_swが変です。\n"
     .balign 4

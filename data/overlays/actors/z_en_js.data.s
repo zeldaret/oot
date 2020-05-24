@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Js_InitVars
  .word 0x016A0400, 0x00000009, 0x01440000, 0x00000290
 .word EnJs_Init

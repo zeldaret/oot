@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_8099F5E0
 
-.incbin "baserom/ovl_Effect_Ss_Bomb", 0x430, 0x00000070
+.align 4
+
+glabel D_8099F5E0
+    .incbin "baserom/ovl_Effect_Ss_Bomb", 0x430, 0x00000070

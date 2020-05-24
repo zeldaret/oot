@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A4080
     .asciz "../z_eff_ss_extra.c"
     .balign 4
@@ -18,6 +20,3 @@ glabel D_809A4094
 glabel D_809A40A8
     .asciz "../z_eff_ss_extra.c"
     .balign 4
-
-.balign 8
-

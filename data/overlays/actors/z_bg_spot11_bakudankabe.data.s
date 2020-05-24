@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Spot11_Bakudankabe_InitVars
  .word 0x019F0100, 0x00000030, 0x016F0000, 0x000001B0
 .word BgSpot11Bakudankabe_Init

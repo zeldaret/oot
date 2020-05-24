@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Toki_Hikari_InitVars
  .word 0x006A0100, 0x00000020, 0x005E0000, 0x00000154
 .word BgTokiHikari_Init

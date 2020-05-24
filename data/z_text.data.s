@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 # temporary file name, rename to something more appropriate when decompiled
 
 glabel gLetterTLUT

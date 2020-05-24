@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_808F7A50
     .asciz "../z_boss_ganon.c"
     .balign 4

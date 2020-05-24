@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80AE6560
  .word 0x00E2E1E2, 0xC1E2E2D2, 0xE1E4E6E2, 0x34E2E2E2, 0xE2003400, 0x0000E2E8, 0xE4E2E8E4, 0x10000000
 glabel En_Reeba_InitVars

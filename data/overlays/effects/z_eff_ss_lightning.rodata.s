@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809AB560
     .asciz "../z_eff_ss_lightning.c"
     .balign 4

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Horse_Link_Child_InitVars
  .word 0x009A0100, 0x02000010, 0x00A00000, 0x000002A4
 .word EnHorseLinkChild_Init

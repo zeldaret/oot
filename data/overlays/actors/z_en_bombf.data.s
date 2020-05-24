@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Bombf_InitVars
  .word 0x004C0600, 0x00000011, 0x00310000, 0x00000210
 .word EnBombf_Init

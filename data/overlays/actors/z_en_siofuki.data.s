@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Siofuki_InitVars
  .word 0x015F0100, 0x00000030, 0x013A0000, 0x000001A0
 .word EnSiofuki_Init

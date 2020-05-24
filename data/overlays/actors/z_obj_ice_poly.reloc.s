@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80B94BF0
 
-.incbin "baserom/ovl_Obj_Ice_Poly", 0x990, 0x000000B0
+.align 4
+
+glabel D_80B94BF0
+    .incbin "baserom/ovl_Obj_Ice_Poly", 0x990, 0x000000B0

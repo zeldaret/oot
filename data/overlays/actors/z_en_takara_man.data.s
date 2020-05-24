@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Takara_Man_InitVars
  .word 0x017C0400, 0x08000039, 0x01550000, 0x00000238
 .word EnTakaraMan_Init

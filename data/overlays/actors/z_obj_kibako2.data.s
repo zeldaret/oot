@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Obj_Kibako2_InitVars
  .word 0x01A00100, 0x00000000, 0x01700000, 0x000001B8
 .word ObjKibako2_Init

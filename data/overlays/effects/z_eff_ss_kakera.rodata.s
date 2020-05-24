@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809AA5C0
     .asciz "shape_modelがNULL\n"
     .balign 4

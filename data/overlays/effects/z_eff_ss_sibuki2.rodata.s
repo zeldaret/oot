@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809AC090
     .asciz "../z_eff_ss_sibuki2.c"
     .balign 4
@@ -18,6 +20,4 @@ glabel D_809AC0A8
 glabel D_809AC0C0
     .asciz "../z_eff_ss_sibuki2.c"
     .balign 4
-
-.align 4
 

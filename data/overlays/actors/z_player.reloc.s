@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80855550
 
-.incbin "baserom/ovl_player_actor", 0x23340, 0x00003550
+.align 4
+
+glabel D_80855550
+    .incbin "baserom/ovl_player_actor", 0x23340, 0x00003550

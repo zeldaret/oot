@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Hidan_Sima_InitVars
  .word 0x00460100, 0x00000000, 0x002C0000, 0x0000020C
 .word BgHidanSima_Init

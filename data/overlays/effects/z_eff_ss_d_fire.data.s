@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_D_Fire_InitVars
 .word 0x00000006
 .word func_809A0550

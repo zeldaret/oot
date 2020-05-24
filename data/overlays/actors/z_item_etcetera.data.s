@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Item_Etcetera_InitVars
  .word 0x010F0600, 0x00000010, 0x00010000, 0x00000160
 .word ItemEtcetera_Init

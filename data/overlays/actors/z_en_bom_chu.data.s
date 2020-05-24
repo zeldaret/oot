@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Bom_Chu_InitVars
  .word 0x00DA0300, 0x00000010, 0x00010000, 0x000001E4
 .word EnBomChu_Init

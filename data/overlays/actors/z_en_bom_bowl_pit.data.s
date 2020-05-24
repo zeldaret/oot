@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_809C56E0
  .word 0x00000033, 0x0000003E, 0x00000003, 0x00000065, 0x00000055
 glabel En_Bom_Bowl_Pit_InitVars

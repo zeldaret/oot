@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Dodongo_InitVars
  .word 0x00120500, 0x00000015, 0x000C0000, 0x00000728
 .word EnDodongo_Init

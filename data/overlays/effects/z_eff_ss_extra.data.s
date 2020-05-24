@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_809A4060
  .word 0x001E003C, 0x00640000
 glabel Effect_Ss_Extra_InitVars

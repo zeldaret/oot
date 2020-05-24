@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_808AE410
 
-.incbin "baserom/ovl_Bg_Spot03_Taki", 0x930, 0x00000060
+.align 4
+
+glabel D_808AE410
+    .incbin "baserom/ovl_Bg_Spot03_Taki", 0x930, 0x00000060

@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_8087B5F0
 
-.incbin "baserom/ovl_Bg_Gnd_Soulmeiro", 0x830, 0x000000C0
+.align 4
+
+glabel D_8087B5F0
+    .incbin "baserom/ovl_Bg_Gnd_Soulmeiro", 0x830, 0x000000C0

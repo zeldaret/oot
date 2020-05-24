@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Goroiwa_InitVars
  .word 0x01300600, 0x00000010, 0x011F0000, 0x000001D4
 .word EnGoroiwa_Init

@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_8099FF20
     .asciz "../z_eff_ss_bomb2.c"
     .balign 4

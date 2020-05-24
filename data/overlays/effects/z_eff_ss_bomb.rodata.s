@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_8099F5A0
     .asciz "../z_eff_ss_bomb.c"
     .balign 4

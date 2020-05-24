@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Horse_Normal_InitVars
  .word 0x003C0100, 0x00000000, 0x00270000, 0x00000328
 .word EnHorseNormal_Init

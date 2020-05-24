@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Mori_Hashigo_InitVars
  .word 0x00E20100, 0x00000000, 0x00720000, 0x000001D0
 .word BgMoriHashigo_Init

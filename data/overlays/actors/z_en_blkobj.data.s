@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Blkobj_InitVars
  .word 0x01360600, 0x00000030, 0x01250000, 0x0000016C
 .word EnBlkobj_Init

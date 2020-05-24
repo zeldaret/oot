@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80A527A0
  .word 0x00000000
 glabel En_Heishi1_InitVars

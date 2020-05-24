@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Fw_InitVars
  .word 0x00AB0500, 0x00000215, 0x009E0000, 0x00000700
 .word EnFw_Init

@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Elf_InitVars
  .word 0x00180700, 0x02000030, 0x00010000, 0x000002D0
 .word EnElf_Init

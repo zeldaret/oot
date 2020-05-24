@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Diving_Game_InitVars
  .word 0x01240400, 0x00000019, 0x00FE0000, 0x00000398
 .word EnDivingGame_Init

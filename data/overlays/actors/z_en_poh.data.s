@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel D_80AE1A50
  .word 0x00000000
 glabel En_Poh_InitVars

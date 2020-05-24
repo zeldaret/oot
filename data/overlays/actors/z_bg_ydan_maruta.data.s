@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Ydan_Maruta_InitVars
  .word 0x00510600, 0x00000000, 0x00360000, 0x00000244
 .word BgYdanMaruta_Init

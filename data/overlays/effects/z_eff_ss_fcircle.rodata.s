@@ -7,6 +7,8 @@
 
 .section .rodata
 
+.align 4
+
 glabel D_809A45A0
     .asciz "../z_eff_fcircle.c"
     .balign 4

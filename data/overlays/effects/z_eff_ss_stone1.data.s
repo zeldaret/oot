@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Effect_Ss_Stone1_InitVars
 .word 0x00000014
 .word func_809AC700

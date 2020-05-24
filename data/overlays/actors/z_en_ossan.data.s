@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Ossan_InitVars
  .word 0x003D0400, 0x00000019, 0x00010000, 0x000002D8
 .word EnOssan_Init

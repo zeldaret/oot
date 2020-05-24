@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80865C20
 
-.incbin "baserom/ovl_Arms_Hook", 0xD20, 0x000000F0
+.align 4
+
+glabel D_80865C20
+    .incbin "baserom/ovl_Arms_Hook", 0xD20, 0x000000F0

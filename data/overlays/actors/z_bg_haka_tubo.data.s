@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel Bg_Haka_Tubo_InitVars
  .word 0x00BB0100, 0x00000010, 0x00690000, 0x00000204
 .word BgHakaTubo_Init

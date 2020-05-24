@@ -6,6 +6,8 @@
  .set gp=64     # allow use of 64-bit general purposee registers
 
 .section .rodata
-glabel D_80B937F0
 
-.incbin "baserom/ovl_Obj_Hamishi", 0x860, 0x00000070
+.align 4
+
+glabel D_80B937F0
+    .incbin "baserom/ovl_Obj_Hamishi", 0x860, 0x00000070

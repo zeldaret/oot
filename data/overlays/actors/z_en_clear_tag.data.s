@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Clear_Tag_InitVars
  .word 0x013B0900, 0x00000035, 0x00010000, 0x00000204
 .word EnClearTag_Init

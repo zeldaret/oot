@@ -7,6 +7,8 @@
 
 .section .data
 
+.align 4
+
 glabel En_Hs2_InitVars
  .word 0x01A60400, 0x00000009, 0x01280000, 0x000002B0
 .word EnHs2_Init
