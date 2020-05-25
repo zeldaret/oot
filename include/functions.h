@@ -2447,7 +2447,7 @@ void guPosition(Mtx*, f32, f32, f32, f32, f32, f32, f32);
 void guRotate(Mtx*, f32 angle, f32 x, f32 y, f32 z);
 // ? func_80103FF0(?);
 // ? __osGetActiveQueue(?);
-// ? func_80104160(?);
+// ? guNormalize(?);
 u32 osDpGetStatus(void);
 void osDpSetStatus(u32 status);
 // ? func_801041E0(?);

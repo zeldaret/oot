@@ -48,7 +48,7 @@ glabel func_80103E20
 /* B7AFD8 80103E38 AFA70054 */  sw    $a3, 0x54($sp)
 /* B7AFDC 80103E3C 27A60058 */  addiu $a2, $sp, 0x58
 /* B7AFE0 80103E40 27A50054 */  addiu $a1, $sp, 0x54
-/* B7AFE4 80103E44 0C041058 */  jal   func_80104160
+/* B7AFE4 80103E44 0C041058 */  jal   guNormalize
 /* B7AFE8 80103E48 27A40050 */   addiu $a0, $sp, 0x50
 /* B7AFEC 80103E4C 3C018013 */  lui   $at, %hi(D_80134D10)
 /* B7AFF0 80103E50 C7AC004C */  lwc1  $f12, 0x4c($sp)

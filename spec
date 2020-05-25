@@ -511,7 +511,7 @@ beginseg
     include "build/asm/code_80103DC0.o"
     include "build/data/code_80103DC0.data.o"
     include "build/src/libultra_code/__osGetActiveQueue.o"
-    include "build/asm/code_80104160.o"
+    include "build/asm/guNormalize.o"
     include "build/src/libultra_code/osDpGetStatus.o"
     include "build/src/libultra_code/osDpSetStatus.o"
     include "build/asm/code_801041E0.o"
