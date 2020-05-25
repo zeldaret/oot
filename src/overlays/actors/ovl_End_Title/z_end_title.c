@@ -145,7 +145,7 @@ void func_80B65DA8(Actor* thisx, GlobalContext* globalCtx) {
     Gfx* dispRefs[4];
 
     frames = globalCtx->csCtx.frames;
-    if ((frames >= 1101) && (this->theEndTitleCardAlpha < 0xFF)) {
+    if ((frames >= 1101) && (this->theEndTitleCardAlpha < 255)) {
         this->theEndTitleCardAlpha += 3;
     }
     gfxCtx = globalCtx->state.gfxCtx;
