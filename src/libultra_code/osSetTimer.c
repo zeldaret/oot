@@ -4,7 +4,7 @@ s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* m
     OSTime time;
     OSTimer* next;
     u32 count;
-    u32 value; 
+    u32 value;
     s32 prevInt;
 
     timer->next = NULL;
@@ -12,8 +12,7 @@ s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* m
     timer->interval = interval;
     if (countdown != 0) {
         timer->value = countdown;
-    }
-    else {
+    } else {
         timer->value = interval;
     }
     timer->mq = mq;
@@ -21,19 +20,17 @@ s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* m
 
     prevInt = __osDisableInt();
     if (__osTimerList->next != __osTimerList) {
-        
+
         if (1) {}
         next = __osTimerList->next;
         count = osGetCount();
         value = count - __osTimerCounter;
-        
+
         if (value < next->value) {
             next->value -= value;
-        }
-        else {
+        } else {
             next->value = 1;
         }
-        
     }
 
     time = __osInsertTimer(timer);

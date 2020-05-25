@@ -1,18 +1,17 @@
 #include <global.h>
 
-s32 osStopTimer(OSTimer* timer)
-{
+s32 osStopTimer(OSTimer* timer) {
     register s32 prevInt;
     OSTimer* next;
 
-    if (!timer->next)
+    if (!timer->next) {
         return -1;
+    }
 
     prevInt = __osDisableInt();
 
     next = timer->next;
-    if (next != __osTimerList)
-    {
+    if (next != __osTimerList) {
         next->value += timer->value;
     }
 

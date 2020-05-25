@@ -1,6 +1,6 @@
 #include <global.h>
 
-void guS2DInitBg(uObjBg *bg) {
+void guS2DInitBg(uObjBg* bg) {
     u16 shift;
     u32 size;
     s32 tmem;
@@ -15,8 +15,7 @@ void guS2DInitBg(uObjBg *bg) {
         bg->b.tmemSize = bg->b.tmemH * bg->b.tmemSizeW;
         bg->b.tmemLoadSH = (bg->b.tmemSize >> 1) - 1;
         bg->b.tmemLoadTH = (0x7FF / bg->b.tmemW) + 1;
-    }
-    else // G_BGLT_LOADTILE
+    } else // G_BGLT_LOADTILE
     {
         bg->b.tmemW = (bg->b.frameW >> shift) + 3;
         bg->b.tmemH = (tmem / bg->b.tmemW) * 4;
