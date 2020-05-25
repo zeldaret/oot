@@ -2653,8 +2653,7 @@ endseg
 beginseg
     name "ovl_En_Hintnuts"
     include "build/src/overlays/actors/ovl_En_Hintnuts/z_en_hintnuts.o"
-    include "build/data/overlays/actors/z_en_hintnuts.data.o"
-    include "build/data/overlays/actors/z_en_hintnuts.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Hintnuts/z_en_hintnuts_reloc.o"
 endseg
 
 beginseg
