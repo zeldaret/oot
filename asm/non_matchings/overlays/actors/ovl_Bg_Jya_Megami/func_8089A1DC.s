@@ -107,7 +107,7 @@ glabel func_8089A1DC
 /* 00224 8089A354 AFA30014 */  sw      $v1, 0x0014($sp)           
 /* 00228 8089A358 AFB90018 */  sw      $t9, 0x0018($sp)           
 /* 0022C 8089A35C AFAD0030 */  sw      $t5, 0x0030($sp)           
-/* 00230 8089A360 0C00A7A3 */  jal     Effect_SpawnFragment
+/* 00230 8089A360 0C00A7A3 */  jal     func_80029E8C
               
 /* 00234 8089A364 AFA90024 */  sw      $t1, 0x0024($sp)           
 /* 00238 8089A368 0C03F66B */  jal     Math_Rand_ZeroOne

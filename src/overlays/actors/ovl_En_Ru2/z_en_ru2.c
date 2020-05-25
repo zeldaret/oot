@@ -58,14 +58,12 @@ static u32 D_80AF410C[] = {
 
 static u32 D_80AF4118 = 0;
 
-#include "z_en_ru2_cutscene_data.c"
+#include "z_en_ru2_cutscene_data.c" EARLY
 
 static EnRu2ActionFunc D_80AF50BC[] = {
-    func_80AF2CB4, func_80AF2CD4, func_80AF2CF4, func_80AF2D2C,
-    func_80AF2D6C, func_80AF2DAC, func_80AF2DEC, func_80AF3144,
-    func_80AF3174, func_80AF31C8, func_80AF3604, func_80AF3624,
-    func_80AF366C, func_80AF36AC, func_80AF3BC8, func_80AF3C04,
-    func_80AF3C64, func_80AF3CB8, func_80AF3D0C, func_80AF3D60,
+    func_80AF2CB4, func_80AF2CD4, func_80AF2CF4, func_80AF2D2C, func_80AF2D6C, func_80AF2DAC, func_80AF2DEC,
+    func_80AF3144, func_80AF3174, func_80AF31C8, func_80AF3604, func_80AF3624, func_80AF366C, func_80AF36AC,
+    func_80AF3BC8, func_80AF3C04, func_80AF3C64, func_80AF3CB8, func_80AF3D0C, func_80AF3D60,
 };
 
 static EnRu2DrawFunc D_80AF510C[] = {
@@ -178,15 +176,15 @@ s32 EnRu2_FrameUpdateMatrix(EnRu2* this) {
     return SkelAnime_FrameUpdateMatrix(&this->skelAnime);
 }
 
-CsCmdActorAction* func_80AF27AC(GlobalContext* globalCtx, s32 actorActionIdx) {
+CsCmdActorAction* func_80AF27AC(GlobalContext* globalCtx, s32 npcActionIdx) {
     if (globalCtx->csCtx.state != 0) {
-        return globalCtx->csCtx.actorActions[actorActionIdx];
+        return globalCtx->csCtx.npcActions[npcActionIdx];
     }
     return NULL;
 }
 
-s32 func_80AF27D0(EnRu2* this, GlobalContext* globalCtx, u16 arg2, s32 actorActionIdx) {
-    CsCmdActorAction* csCmdActorAction = func_80AF27AC(globalCtx, actorActionIdx);
+s32 func_80AF27D0(EnRu2* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionIdx) {
+    CsCmdActorAction* csCmdActorAction = func_80AF27AC(globalCtx, npcActionIdx);
 
     if (csCmdActorAction != NULL && csCmdActorAction->action == arg2) {
         return 1;
@@ -194,25 +192,25 @@ s32 func_80AF27D0(EnRu2* this, GlobalContext* globalCtx, u16 arg2, s32 actorActi
     return 0;
 }
 
-s32 func_80AF281C(EnRu2* this, GlobalContext* globalCtx, u16 arg2, s32 actorActionIdx) {
-    CsCmdActorAction* csCmdActorAction = func_80AF27AC(globalCtx, actorActionIdx);
+s32 func_80AF281C(EnRu2* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionIdx) {
+    CsCmdActorAction* csCmdNPCAction = func_80AF27AC(globalCtx, npcActionIdx);
 
-    if (csCmdActorAction != NULL && csCmdActorAction->action != arg2) {
+    if (csCmdNPCAction != NULL && csCmdNPCAction->action != arg2) {
         return 1;
     }
     return 0;
 }
 
-void func_80AF2868(EnRu2* this, GlobalContext* globalCtx, u32 actorActionIdx) {
-    CsCmdActorAction* csCmdActorAction = func_80AF27AC(globalCtx, actorActionIdx);
+void func_80AF2868(EnRu2* this, GlobalContext* globalCtx, u32 npcActionIdx) {
+    CsCmdActorAction* csCmdNPCAction = func_80AF27AC(globalCtx, npcActionIdx);
     s16 newRotY;
     Actor* thisx = &this->actor;
 
-    if (csCmdActorAction != NULL) {
-        thisx->posRot.pos.x = csCmdActorAction->startPos.x;
-        thisx->posRot.pos.y = csCmdActorAction->startPos.y;
-        thisx->posRot.pos.z = csCmdActorAction->startPos.z;
-        newRotY = csCmdActorAction->rot.y;
+    if (csCmdNPCAction != NULL) {
+        thisx->posRot.pos.x = csCmdNPCAction->startPos.x;
+        thisx->posRot.pos.y = csCmdNPCAction->startPos.y;
+        thisx->posRot.pos.z = csCmdNPCAction->startPos.z;
+        newRotY = csCmdNPCAction->rot.y;
         thisx->shape.rot.y = newRotY;
         thisx->posRot.rot.y = newRotY;
     }
@@ -284,10 +282,10 @@ void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx) {
 
 void func_80AF2B44(EnRu2* this, GlobalContext* globalCtx) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
-    CsCmdActorAction* csCmdActorAction;
+    CsCmdActorAction* csCmdNPCAction;
     if (csCtx->state != 0) {
-        csCmdActorAction = csCtx->actorActions[3];
-        if (csCmdActorAction != NULL && csCmdActorAction->action == 2) {
+        csCmdNPCAction = csCtx->npcActions[3];
+        if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
             this->action = 2;
             this->drawConfig = 1;
             func_80AF29DC(this, globalCtx);
@@ -304,10 +302,10 @@ void func_80AF2B94(EnRu2* this) {
 
 void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
     AnimationHeader* animation = &D_0600D3DC;
-    CsCmdActorAction* csCmdActorAction;
+    CsCmdActorAction* csCmdNPCAction;
     if (globalCtx->csCtx.state != 0) {
-        csCmdActorAction = globalCtx->csCtx.actorActions[3];
-        if (csCmdActorAction != NULL && csCmdActorAction->action == 3) {
+        csCmdNPCAction = globalCtx->csCtx.npcActions[3];
+        if (csCmdNPCAction != NULL && csCmdNPCAction->action == 3) {
             SkelAnime_ChangeAnim(&this->skelAnime, animation, 1.0f, 0.0f,
                                  SkelAnime_GetFrameCount(&animation->genericHeader), 2, 0.0f);
             this->action = 4;
@@ -322,10 +320,10 @@ void func_80AF2C54(EnRu2* this, UNK_TYPE arg1) {
 }
 
 void func_80AF2C68(EnRu2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* csCmdActorAction;
+    CsCmdActorAction* csCmdNPCAction;
     if (globalCtx->csCtx.state != 0) {
-        csCmdActorAction = globalCtx->csCtx.actorActions[6];
-        if (csCmdActorAction != NULL && csCmdActorAction->action == 2) {
+        csCmdNPCAction = globalCtx->csCtx.npcActions[6];
+        if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
             this->action = 6;
             func_80AF2A38(this, globalCtx);
         }
@@ -539,12 +537,12 @@ void func_80AF3530(EnRu2* this, UNK_TYPE arg1) {
 }
 
 void func_80AF3564(EnRu2* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* csCmdActorAction = func_80AF27AC(globalCtx, 3);
+    CsCmdActorAction* csCmdNPCAction = func_80AF27AC(globalCtx, 3);
     s32 action;
     s32 unk_2BC;
 
-    if (csCmdActorAction != NULL) {
-        action = csCmdActorAction->action;
+    if (csCmdNPCAction != NULL) {
+        action = csCmdNPCAction->action;
         unk_2BC = this->unk_2BC;
         if (action != unk_2BC) {
             switch (action) {
@@ -672,7 +670,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
             if (this->unk_2C2 % 6 == 3) {
                 player = PLAYER;
                 osSyncPrintf("うおりゃー！ \n");
-                func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
+                func_8005B1A4(ACTIVE_CAM);
                 player->actor.posRot.pos.x = 820.0f;
                 player->actor.posRot.pos.y = 0.0f;
                 player->actor.posRot.pos.z = 180.0f;
@@ -683,7 +681,7 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C3 = dialogState;
     if (func_8010BDBC(msgCtx) == 2) {
         this->action = 18;
-        func_8005B1A4(globalCtx->cameraPtrs[globalCtx->activeCamera]);
+        func_8005B1A4(ACTIVE_CAM);
     }
 }
 

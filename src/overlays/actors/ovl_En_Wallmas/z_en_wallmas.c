@@ -297,7 +297,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
 
 void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    if (!func_8008E988(globalCtx) && (player->stateFlags2 & 0x10) == 0 && (player->unk_A78 >= 0) &&
+    if (!func_8008E988(globalCtx) && (player->stateFlags2 & 0x10) == 0 && (player->invincibilityTimer >= 0) &&
         (this->actor.xzDistanceFromLink < 30.0f) && (this->actor.yDistanceFromLink < -5.0f) &&
         (-(f32)(player->unk_4DA + 0xA) < this->actor.yDistanceFromLink)) {
         EnWallmas_TakePlayerBegin(this, globalCtx);
@@ -517,15 +517,12 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnWallmas_ColUpdate(this, globalCtx);
     this->actionFunc(this, globalCtx);
 
-    if ((this->actionFunc == EnWallmas_WaitToDrop) ||
-        (this->actionFunc == EnWallmas_WaitForProximity) ||
-        (this->actionFunc == EnWallmas_TakePlayer) ||
-        (this->actionFunc == EnWallmas_WaitForSwitchFlag)) {
+    if ((this->actionFunc == EnWallmas_WaitToDrop) || (this->actionFunc == EnWallmas_WaitForProximity) ||
+        (this->actionFunc == EnWallmas_TakePlayer) || (this->actionFunc == EnWallmas_WaitForSwitchFlag)) {
         return;
     }
 
-    if ((this->actionFunc != EnWallmas_ReturnToCeiling) &&
-        (this->actionFunc != EnWallmas_TakePlayer)) {
+    if ((this->actionFunc != EnWallmas_ReturnToCeiling) && (this->actionFunc != EnWallmas_TakePlayer)) {
         Actor_MoveForward(&this->actor);
     }
 
@@ -563,8 +560,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     f32 xzScale;
     Gfx* dispRefs[3];
 
-    if ((this->actor.floorPoly == NULL) ||
-        ((this->timer >= 0x51) && (this->actionFunc != EnWallmas_Stun))) {
+    if ((this->actor.floorPoly == NULL) || ((this->timer >= 0x51) && (this->actionFunc != EnWallmas_Stun))) {
         return;
     }
 
@@ -578,10 +574,8 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
     func_80038A28(this->actor.floorPoly, this->actor.posRot.pos.x, this->actor.unk_80, this->actor.posRot.pos.z, &mf);
     Matrix_Mult(&mf, MTXMODE_NEW);
 
-    if ((this->actionFunc != EnWallmas_WaitToDrop) &&
-        (this->actionFunc != EnWallmas_ReturnToCeiling) &&
-        (this->actionFunc != EnWallmas_TakePlayer) &&
-        (this->actionFunc != EnWallmas_WaitForSwitchFlag)) {
+    if ((this->actionFunc != EnWallmas_WaitToDrop) && (this->actionFunc != EnWallmas_ReturnToCeiling) &&
+        (this->actionFunc != EnWallmas_TakePlayer) && (this->actionFunc != EnWallmas_WaitForSwitchFlag)) {
         xzScale = this->actor.scale.x * 50.0f;
     } else {
         xzScale = ((0x50 - this->timer) >= 0x51 ? 0x50 : (0x50 - this->timer)) * TIMER_SCALE;

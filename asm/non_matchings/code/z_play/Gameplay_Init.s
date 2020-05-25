@@ -61,7 +61,7 @@ glabel Gameplay_Init
 /* B33C58 800BCAB8 00000000 */   nop
 /* B33C5C 800BCABC 3C05001D */  lui   $a1, (0x001D4790 >> 16) # lui $a1, 0x1d
 /* B33C60 800BCAC0 34A54790 */  ori   $a1, (0x001D4790 & 0xFFFF) # ori $a1, $a1, 0x4790
-/* B33C64 800BCAC4 0C0313C8 */  jal   func_800C4F20
+/* B33C64 800BCAC4 0C0313C8 */  jal   GameState_Realloc
 /* B33C68 800BCAC8 02202025 */   move  $a0, $s1
 /* B33C6C 800BCACC 0C02EF6D */  jal   KaleidoManager_Init
 /* B33C70 800BCAD0 02202025 */   move  $a0, $s1
@@ -126,10 +126,10 @@ glabel Gameplay_Init
 /* B33D54 800BCBB4 02202025 */   move  $a0, $s1
 /* B33D58 800BCBB8 0C01AE80 */  jal   func_8006BA00
 /* B33D5C 800BCBBC 02202025 */   move  $a0, $s1
-/* B33D60 800BCBC0 0C009B0B */  jal   func_80026C2C
+/* B33D60 800BCBC0 0C009B0B */  jal   Effect_InitContext
 /* B33D64 800BCBC4 02202025 */   move  $a0, $s1
 /* B33D68 800BCBC8 02202025 */  move  $a0, $s1
-/* B33D6C 800BCBCC 0C009CAC */  jal   func_800272B0
+/* B33D6C 800BCBCC 0C009CAC */  jal   EffectSs_InitInfo
 /* B33D70 800BCBD0 24050055 */   li    $a1, 85
 /* B33D74 800BCBD4 3C010001 */  lui   $at, (0x00011E60 >> 16) # lui $at, 1
 /* B33D78 800BCBD8 34211E60 */  ori   $at, (0x00011E60 & 0xFFFF) # ori $at, $at, 0x1e60
@@ -401,7 +401,7 @@ glabel Gameplay_Init
 /* B34148 800BCFA8 262407B8 */   addiu $a0, $s1, 0x7b8
 /* B3414C 800BCFAC 0C001A78 */  jal   osGetTime
 /* B34150 800BCFB0 00000000 */   nop
-/* B34154 800BCFB4 0C03F668 */  jal   func_800FD9A0
+/* B34154 800BCFB4 0C03F668 */  jal   Math_Rand_Seed
 /* B34158 800BCFB8 00602025 */   move  $a0, $v1
 /* B3415C 800BCFBC 0C034204 */  jal   Matrix_Init
 /* B34160 800BCFC0 02202025 */   move  $a0, $s1
@@ -475,7 +475,7 @@ glabel Gameplay_Init
 /* B34264 800BD0C4 0C02CD38 */  jal   TransitionFade_Start
 /* B34268 800BD0C8 02002025 */   move  $a0, $s0
 /* B3426C 800BD0CC 3C048016 */  lui   $a0, %hi(D_80161498) # $a0, 0x8016
-/* B34270 800BD0D0 0C02B400 */  jal   func_800AD000
+/* B34270 800BD0D0 0C02B400 */  jal   VisMono_Init
 /* B34274 800BD0D4 24841498 */   addiu $a0, %lo(D_80161498) # addiu $a0, $a0, 0x1498
 /* B34278 800BD0D8 3C018016 */  lui   $at, %hi(D_801614B0+3) # $at, 0x8016
 /* B3427C 800BD0DC A02014B3 */  sb    $zero, %lo(D_801614B0+3)($at)
@@ -495,7 +495,7 @@ glabel Gameplay_Init
 /* B342B4 800BD114 24C64244 */  addiu $a2, %lo(D_80144244) # addiu $a2, $a2, 0x4244
 /* B342B8 800BD118 02202025 */  move  $a0, $s1
 /* B342BC 800BD11C 00402825 */  move  $a1, $v0
-/* B342C0 800BD120 0C031521 */  jal   Game_Alloc
+/* B342C0 800BD120 0C031521 */  jal   GameState_AllocEnd
 /* B342C4 800BD124 24070B66 */   li    $a3, 2918
 /* B342C8 800BD128 8FA9007C */  lw    $t1, 0x7c($sp)
 /* B342CC 800BD12C 24460008 */  addiu $a2, $v0, 8

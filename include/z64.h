@@ -162,9 +162,9 @@ typedef struct {
     /* 0x1368 */ RespawnData  respawn[3]; // "restart_data"
     /* 0x13BC */ char         unk_13BC[0x0008];
     /* 0x13C4 */ s16          dogParams;
-    /* 0x13C6 */ char         unk_13C6[0x0001];
+    /* 0x13C6 */ u8           unk_13C6;
     /* 0x13C7 */ u8           unk_13C7;
-    /* 0x13C8 */ u16          nayrusLoveTimer;
+    /* 0x13C8 */ s16          nayrusLoveTimer;
     /* 0x13CA */ char         unk_13CA[0x0002];
     /* 0x13CC */ s16          rupeeAccumulator;
     /* 0x13CE */ s16          timer1State;
@@ -448,8 +448,8 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ s32  unk_0;
-    /* 0x04 */ char unk_4[0x4];
+    /* 0x00 */ u32 toggle;
+    /* 0x04 */ s32 counter;
 } SubGlobalContext7B8; // size = 0x8
 
 typedef struct {
@@ -571,7 +571,7 @@ typedef struct {
     /* 0x1C */ CutsceneCameraPoint* cameraFocus;
     /* 0x20 */ CutsceneCameraPoint* cameraPosition;
     /* 0x24 */ CsCmdActorAction* linkAction;
-    /* 0x28 */ CsCmdActorAction* actorActions[10]; // "npcdemopnt"
+    /* 0x28 */ CsCmdActorAction* npcActions[10]; // "npcdemopnt"
 } CutsceneContext; // size = 0x50
 
 typedef struct {
@@ -585,9 +585,13 @@ typedef struct {
 } SubGlobalContext1F74; // size = 0x4
 
 typedef struct {
-    /* 0x000 */ char unk_00[0x140];
+    /* 0x000 */ char unk_00[0x128];
+    /* 0x128 */ void* staticSegments[3];
+    /* 0x134 */ Gfx* dpList;
+    /* 0x138 */ Gfx* unk_138;
+    /* 0x13C */ void* roomVtx;
     /* 0x140 */ s16  unk_140;
-    /* 0x142 */ char unk_142[0x0E];
+    /* 0x144 */ Vec3f rot;
 } SkyboxContext; // size = 0x150
 
 typedef struct {
@@ -615,7 +619,8 @@ typedef struct {
     /* 0xE3F4 */ u16    unk_E3F4;
     /* 0xE3F6 */ char   unk_E3F6[0x16];
     /* 0xE40C */ u16    unk_E40C;
-    /* 0xE40E */ char   unk_E40E[0x0A];
+    /* 0xE40E */ s16    unk_E40E;
+    /* 0xE410 */ char   unk_E410[0x08];
 } MessageContext; // size = 0xE418
 
 typedef struct {
@@ -970,11 +975,15 @@ typedef struct {
     /* 0x10 */ GameAllocEntry* head;
 } GameAlloc; // size = 0x14
 
+struct GameState;
+
+typedef void (*GameStateFunc)(struct GameState* gameState);
+
 typedef struct GameState {
     /* 0x00 */ GraphicsContext* gfxCtx;
-    /* 0x04 */ void (*main)(struct GameState*);
-    /* 0x08 */ void (*destroy)(struct GameState*); // "cleanup"
-    /* 0x0C */ void (*init)(struct GameState*);
+    /* 0x04 */ GameStateFunc main;
+    /* 0x08 */ GameStateFunc destroy; // "cleanup"
+    /* 0x0C */ GameStateFunc init;
     /* 0x10 */ u32 size;
     /* 0x14 */ Input input[4];
     /* 0x74 */ TwoHeadArena tha;
@@ -1047,7 +1056,9 @@ typedef struct GlobalContext {
     /* 0x11D30 */ s16 unk_11D30[2];
     /* 0x11D34 */ u8 nbTransitionActors;
     /* 0x11D38 */ TransitionActorEntry* transitionActorList;
-    /* 0x11D3C */ char unk_11D3C[0x1C];
+    /* 0x11D3C */ char unk_11D3C[0x10];
+    /* 0x11D4C */ s32 (*unk_11D4C)(struct GlobalContext*, Actor*);
+    /* 0x11D50 */ char unk_11D50[0x8];
     /* 0x11D58 */ void (*unk_11D58)(struct GlobalContext*, s32);
     /* 0x11D5C */ char unk_11D5C[0x4];
     /* 0x11D60 */ MtxF mf_11D60;
@@ -1102,24 +1113,6 @@ typedef enum {
     DPM_ENEMY = 2
 } DynaPolyMoveFlag;
 
-typedef struct LoadedParticleEntry {
-    /* 0x0000 */ Vec3f position;
-    /* 0x000C */ Vec3f velocity;
-    /* 0x0018 */ Vec3f acceleration;
-    /* 0x0024 */ void(*update)(GlobalContext*, s32, struct LoadedParticleEntry*);
-    /* 0x0028 */ void(*draw)(GlobalContext*, s32, struct LoadedParticleEntry*);
-    /* 0x002C */ f32 unk_2C; // Probaly a Vec3f
-    /* 0x0030 */ f32 unk_30;
-    /* 0x0034 */ f32 unk_34;
-    /* 0x0038 */ u32 unk_38;
-    /* 0x003C */ u32 unk_3C;
-    /* 0x0042 */ u16 unk_40[13];
-    /* 0x005A */ u16 flags; // bit 0: set if this entry is not considered free on a priority tie bit 1: ? bit 2: ?
-    /* 0x005C */ s16 life; // -1 means this entry is free
-    /* 0x005E */ u8 priority; // Lower value means higher priority
-    /* 0x005F */ u8 type;
-} LoadedParticleEntry; // size = 0x60
-
 // Some animation related structure
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
@@ -1148,28 +1141,7 @@ typedef struct {
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ Vec3f unk_18;
     /* 0x24 */ char unk_24[0x4];
-} struct_80034A14_arg1;
-
-typedef struct {
-    /* 0x00 */ u32 unk_00;
-    /* 0x04 */ u32(*init)(GlobalContext*, u32, LoadedParticleEntry*, void*);
-} ParticleOverlayInfo;
-
-typedef struct {
-    /* 0x00 */ u32 vromStart;
-    /* 0x04 */ u32 vromEnd;
-    /* 0x0C */ void* vramStart;
-    /* 0x08 */ void* vramEnd;
-    /* 0x10 */ void* loadedRamAddr;
-    /* 0x14 */ ParticleOverlayInfo* overlayInfo;
-    /* 0x18 */ u32 unk_18; // Always 0x01000000?
-} ParticleOverlay;
-
-typedef struct {
-    /* 0x00 */ LoadedParticleEntry* data_table; // Name from debug assert
-    /* 0x04 */ s32 searchIndex;
-    /* 0x08 */ s32 size;
-} EffectTableInfo;
+} struct_80034A14_arg1; // size = 0x28
 
 typedef struct {
     /* 0x00 */ s8  scene;
@@ -1392,6 +1364,43 @@ typedef struct {
     /* 0x10 */ u32 data[1];
 } Yaz0Header; // size = 0x10 ("data" is not part of the header)
 
+// == Previously sched.h
+
+#define OS_SC_NEEDS_RDP         0x0001
+#define OS_SC_NEEDS_RSP         0x0002
+#define OS_SC_DRAM_DLIST        0x0004
+#define OS_SC_PARALLEL_TASK     0x0010
+#define OS_SC_LAST_TASK         0x0020
+#define OS_SC_SWAPBUFFER        0x0040
+
+#define OS_SC_RCP_MASK          0x0003
+#define OS_SC_TYPE_MASK         0x0007
+
+typedef struct {
+    /* 0x00 */ char     unk_00[0x12];
+    /* 0x12 */ s8       unk_12;
+} struct_800C8BC4;
+
+typedef struct {
+    /* 0x0000 */ OSMesgQueue  interruptQ;
+    /* 0x0018 */ OSMesg       intBuf[8];
+    /* 0x0038 */ OSMesgQueue  cmdQ;
+    /* 0x0050 */ OSMesg       cmdMsgBuf[8];
+    /* 0x0070 */ OSThread     thread;
+    /* 0x0220 */ char         unk_220[0x10];
+    /* 0x0230 */ OSScTask*    curRSPTask;
+    /* 0x0234 */ OSScTask*    curRDPTask;
+    /* 0x0238 */ char         unk_238[0x08];
+    /* 0x0240 */ struct_800C8BC4* unk_240;
+    /* 0x0244 */ UNK_TYPE     pendingSwapBuf1;
+    /* 0x0220 */ char         unk_248[0x04];
+    /* 0x0220 */ UNK_TYPE     unk_24C;
+    /* 0x0220 */ UNK_TYPE     unk_250;
+    /* 0x0220 */ char         unk_254[0x04];
+} SchedContext; // size = 0x258
+
+// ========================
+
 #define OS_SC_RETRACE_MSG       1
 #define OS_SC_DONE_MSG          2
 #define OS_SC_NMI_MSG           3 // name is made up, 3 is OS_SC_RDP_DONE_MSG in the original sched.c
@@ -1420,6 +1429,37 @@ typedef struct {
     /* 0x258 */ OSTimer timer;
     /* 0x278 */ OSTime retraceTime;
 } IrqMgr; // size = 0x280
+
+typedef struct {
+    struct {
+    /* 0x0000 */ s32          unk_0[0x10]; // not char to avoid generating lwl/lwr swl/swr in a struct copy
+    } unk_0;
+    /* 0x0040 */ OSMesgQueue*  unk_40;
+} Sub_AudioMgr_18; // size = 0x44
+
+typedef struct {
+    /* 0x0000 */ IrqMgr*       irqMgr;
+    /* 0x0004 */ SchedContext* sched;
+    /* 0x0008 */ OSMesg        unk_8;
+    /* 0x000C */ char          unk_C[0x04];
+    /* 0x0010 */ s32           unk_10;
+    /* 0x0014 */ s32           unk_14;
+    /* 0x0018 */ Sub_AudioMgr_18 unk_18;
+    /* 0x005C */ UNK_PTR       unk_5C;
+    /* 0x0060 */ char          unk_60[0x10];
+    /* 0x0070 */ Sub_AudioMgr_18* unk_70;
+    /* 0x0074 */ OSMesgQueue   unk_74;
+    /* 0x008C */ OSMesg        unk_8C;
+    /* 0x0090 */ OSMesgQueue   unk_90;
+    /* 0x00A8 */ OSMesg        unk_A8;
+    /* 0x00AC */ OSMesgQueue   unk_AC;
+    /* 0x00C4 */ OSMesg        unk_C4;
+    /* 0x00C8 */ OSMesgQueue   unk_C8;
+    /* 0x00E0 */ OSMesg        unk_E0;
+    /* 0x00E4 */ char          unk_E4[0x04];
+    /* 0x00E8 */ OSThread      unk_E8;
+} AudioMgr; // size = 0x298
+
 
 struct ArenaNode;
 
@@ -1621,11 +1661,31 @@ typedef struct {
     /* 0xB4 */ JpegWork* workBuf;
 } JpegContext; // size = 0xB8
 
+
+// Vis...
 typedef struct {
-    /* 0x00 */ char unk_00[0x08];
+    /* 0x00 */ u32 type;
+    /* 0x04 */ u32 setScissor;
     /* 0x08 */ Color_RGBA8 color;
-    /* 0x0C */ char unk_0C[0x0C];
-} VisMonoStruct; // size = 0x18
+    /* 0x0C */ Color_RGBA8 envColor;
+} struct_801664F0; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ u32 unk_00;
+    /* 0x04 */ u32 setScissor;
+    /* 0x08 */ Color_RGBA8 primColor;
+    /* 0x0C */ Color_RGBA8 envColor;
+    /* 0x10 */ u16* tlut;
+    /* 0x14 */ Gfx* monoDl;
+} VisMono; // size = 0x18
+
+// Vis...
+typedef struct {
+    /* 0x00 */ u32 useRgba;
+    /* 0x04 */ u32 setScissor;
+    /* 0x08 */ Color_RGBA8 primColor;
+    /* 0x08 */ Color_RGBA8 envColor;
+} struct_80166500; // size = 0x10
 
 typedef struct {
     /* 0x000 */ u8 rumbleEnable[4];
@@ -1648,5 +1708,29 @@ typedef struct {
     void* avbTbl;
     SkelAnime skelAnime;
 } PSkinAwb; // size = 0x90
+
+typedef struct {
+    /* 0x00 */ char unk_00[0x18];
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ s32 y;
+} SpeedMeter; // size = 0x20
+
+typedef struct {
+    /* 0x00 */ s32 maxval;
+    /* 0x04 */ s32 val;
+    /* 0x08 */ u16 backColor;
+    /* 0x0A */ u16 foreColor;
+    /* 0x0C */ s32 ulx;
+    /* 0x10 */ s32 lrx;
+    /* 0x14 */ s32 uly;
+    /* 0x18 */ s32 lry;
+} SpeedMeterAllocEntry; // size = 0x1C
+
+typedef struct {
+    /* 0x00 */ OSTime* time;
+    /* 0x04 */ u8 x;
+    /* 0x05 */ u8 y;
+    /* 0x06 */ u16 color;
+} SpeedMeterTimeEntry; // size = 0x08
 
 #endif

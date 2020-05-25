@@ -94,26 +94,21 @@ u32 D_80AF0870[] = {
 
 s32 D_80AF087C = 0;
 
-#include "z_en_ru1_cutscene_data.c"
+#include "z_en_ru1_cutscene_data.c" EARLY
 
 u32 D_80AF1938 = 0;
 
 EnRu1ActionFunc D_80AF193C[] = {
-    func_80AEC0B4, func_80AEC100, func_80AEC130, func_80AEC17C,
-    func_80AEC1D4, func_80AEC244, func_80AEC2C0, func_80AECA94,
-    func_80AECAB4, func_80AECAD4, func_80AECB18, func_80AECB60,
-    func_80AECBB8, func_80AECC1C, func_80AECC84, func_80AED304,
-    func_80AED324, func_80AED344, func_80AED374, func_80AED3A4,
-    func_80AED3E0, func_80AED414, func_80AEF29C, func_80AEF2AC,
-    func_80AEF2D0, func_80AEF354, func_80AEF3A8, func_80AEEBD4,
-    func_80AEEC5C, func_80AEECF0, func_80AEED58, func_80AEEDCC,
-    func_80AEEE34, func_80AEEE9C, func_80AEEF08, func_80AEEF5C,
-    func_80AEF9D8, func_80AEFA2C, func_80AEFAAC, func_80AEFB04,
-    func_80AEFB68, func_80AEFCE8, func_80AEFBC8, func_80AEFC24,
-    func_80AEFECC, func_80AEFF40,
+    func_80AEC0B4, func_80AEC100, func_80AEC130, func_80AEC17C, func_80AEC1D4, func_80AEC244, func_80AEC2C0,
+    func_80AECA94, func_80AECAB4, func_80AECAD4, func_80AECB18, func_80AECB60, func_80AECBB8, func_80AECC1C,
+    func_80AECC84, func_80AED304, func_80AED324, func_80AED344, func_80AED374, func_80AED3A4, func_80AED3E0,
+    func_80AED414, func_80AEF29C, func_80AEF2AC, func_80AEF2D0, func_80AEF354, func_80AEF3A8, func_80AEEBD4,
+    func_80AEEC5C, func_80AEECF0, func_80AEED58, func_80AEEDCC, func_80AEEE34, func_80AEEE9C, func_80AEEF08,
+    func_80AEEF5C, func_80AEF9D8, func_80AEFA2C, func_80AEFAAC, func_80AEFB04, func_80AEFB68, func_80AEFCE8,
+    func_80AEFBC8, func_80AEFC24, func_80AEFECC, func_80AEFF40,
 };
 
-EnRu1PreLimbDrawFunc D_80AF19F4[]= {
+EnRu1PreLimbDrawFunc D_80AF19F4[] = {
     func_80AF0278,
 };
 
@@ -265,27 +260,27 @@ s32 func_80AEAF38(GlobalContext* globalCtx) {
     return 0;
 }
 
-CsCmdActorAction* func_80AEAF58(GlobalContext* globalCtx, s32 actorActionIdx) {
+CsCmdActorAction* func_80AEAF58(GlobalContext* globalCtx, s32 npcActionIdx) {
     s32 pad[2];
     CsCmdActorAction* ret = NULL;
 
     if (!func_80AEAF38(globalCtx)) {
-        ret = globalCtx->csCtx.actorActions[actorActionIdx];
+        ret = globalCtx->csCtx.npcActions[npcActionIdx];
     }
     return ret;
 }
 
-s32 func_80AEAFA0(GlobalContext* globalCtx, u16 action, s32 actorActionIdx) {
-    CsCmdActorAction* csCmdActorAction = func_80AEAF58(globalCtx, actorActionIdx);
-    if ((csCmdActorAction != NULL) && (csCmdActorAction->action == action)) {
+s32 func_80AEAFA0(GlobalContext* globalCtx, u16 action, s32 npcActionIdx) {
+    CsCmdActorAction* csCmdNPCAction = func_80AEAF58(globalCtx, npcActionIdx);
+    if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == action)) {
         return 1;
     }
     return 0;
 }
 
-s32 func_80AEAFE0(GlobalContext* globalCtx, u16 action, s32 actorActionIdx) {
-    CsCmdActorAction* csCmdActorAction = func_80AEAF58(globalCtx, actorActionIdx);
-    if ((csCmdActorAction != NULL) && (csCmdActorAction->action != action)) {
+s32 func_80AEAFE0(GlobalContext* globalCtx, u16 action, s32 npcActionIdx) {
+    CsCmdActorAction* csCmdNPCAction = func_80AEAF58(globalCtx, npcActionIdx);
+    if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action != action)) {
         return 1;
     }
     return 0;
@@ -502,11 +497,11 @@ void func_80AEB7D0(EnRu1* this) {
     this->skelAnime.flags &= ~0x3;
 }
 
-f32 func_80AEB7E0(CsCmdActorAction* csCmdActorAction, GlobalContext* globalCtx) {
+f32 func_80AEB7E0(CsCmdActorAction* csCmdNPCAction, GlobalContext* globalCtx) {
     s32 csCtxFrames = globalCtx->csCtx.frames;
-    if ((csCtxFrames < csCmdActorAction->endFrame) && (csCmdActorAction->endFrame - csCmdActorAction->startFrame > 0)) {
-        return (Math_Coss(((csCtxFrames - csCmdActorAction->startFrame) /
-                           (f32)(csCmdActorAction->endFrame - csCmdActorAction->startFrame)) *
+    if ((csCtxFrames < csCmdNPCAction->endFrame) && (csCmdNPCAction->endFrame - csCmdNPCAction->startFrame > 0)) {
+        return (Math_Coss(((csCtxFrames - csCmdNPCAction->startFrame) /
+                           (f32)(csCmdNPCAction->endFrame - csCmdNPCAction->startFrame)) *
                           32768.0f) *
                 -0.5f) +
                0.5f;
@@ -520,16 +515,16 @@ f32 func_80AEB87C(f32 arg0, s32 arg1, s32 arg2) {
 
 void func_80AEB89C(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    CsCmdActorAction* actorAction = func_80AEB438(globalCtx);
-    s16 actorActionRotY;
+    CsCmdActorAction* npcAction = func_80AEB438(globalCtx);
+    s16 npcActionRotY;
 
-    if (actorAction != NULL) {
-        actorActionRotY = actorAction->rot.y;
-        thisx->shape.rot.y = actorActionRotY;
-        thisx->posRot.rot.y = actorActionRotY;
-        thisx->posRot.pos.x = actorAction->startPos.x;
-        thisx->posRot.pos.y = actorAction->startPos.y;
-        thisx->posRot.pos.z = actorAction->startPos.z;
+    if (npcAction != NULL) {
+        npcActionRotY = npcAction->rot.y;
+        thisx->shape.rot.y = npcActionRotY;
+        thisx->posRot.rot.y = npcActionRotY;
+        thisx->posRot.pos.x = npcAction->startPos.x;
+        thisx->posRot.pos.y = npcAction->startPos.y;
+        thisx->posRot.pos.z = npcAction->startPos.z;
     }
 }
 
@@ -548,15 +543,15 @@ void func_80AEB954(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEB974(EnRu1* this, GlobalContext* globalCtx) {
     Vec3f* thisPos;
     f32 sp30;
-    CsCmdActorAction* csCmdActorAction = func_80AEB438(globalCtx);
+    CsCmdActorAction* csCmdNPCAction = func_80AEB438(globalCtx);
     Actor* thisx = &this->actor;
 
-    if (csCmdActorAction != NULL) {
-        sp30 = func_80AEB7E0(csCmdActorAction, globalCtx);
+    if (csCmdNPCAction != NULL) {
+        sp30 = func_80AEB7E0(csCmdNPCAction, globalCtx);
         thisPos = &thisx->posRot.pos;
-        thisPos->x = func_80AEB87C(sp30, csCmdActorAction->startPos.x, csCmdActorAction->endPos.x);
-        thisPos->y = func_80AEB87C(sp30, csCmdActorAction->startPos.y, csCmdActorAction->endPos.y);
-        thisPos->z = func_80AEB87C(sp30, csCmdActorAction->startPos.z, csCmdActorAction->endPos.z);
+        thisPos->x = func_80AEB87C(sp30, csCmdNPCAction->startPos.x, csCmdNPCAction->endPos.x);
+        thisPos->y = func_80AEB87C(sp30, csCmdNPCAction->startPos.y, csCmdNPCAction->endPos.y);
+        thisPos->z = func_80AEB87C(sp30, csCmdNPCAction->startPos.z, csCmdNPCAction->endPos.z);
     }
 }
 
@@ -569,15 +564,15 @@ void func_80AEBA2C(EnRu1* this, GlobalContext* globalCtx) {
     Vec3f* unk_364 = &this->unk_364;
     Vec3f* thisPos;
     f32 temp_ret_2;
-    CsCmdActorAction* csCmdActorAction = func_80AEB438(globalCtx);
+    CsCmdActorAction* csCmdNPCAction = func_80AEB438(globalCtx);
     Actor* thisx = &this->actor;
 
-    if (csCmdActorAction != NULL) {
-        temp_ret_2 = func_80AEB7E0(csCmdActorAction, globalCtx);
+    if (csCmdNPCAction != NULL) {
+        temp_ret_2 = func_80AEB7E0(csCmdNPCAction, globalCtx);
         thisPos = &thisx->posRot.pos;
-        thisPos->x = func_80AEB87C(temp_ret_2, unk_364->x, csCmdActorAction->endPos.x);
-        thisPos->y = func_80AEB87C(temp_ret_2, unk_364->y, csCmdActorAction->endPos.y);
-        thisPos->z = func_80AEB87C(temp_ret_2, unk_364->z, csCmdActorAction->endPos.z);
+        thisPos->x = func_80AEB87C(temp_ret_2, unk_364->x, csCmdNPCAction->endPos.x);
+        thisPos->y = func_80AEB87C(temp_ret_2, unk_364->y, csCmdNPCAction->endPos.y);
+        thisPos->z = func_80AEB87C(temp_ret_2, unk_364->z, csCmdNPCAction->endPos.z);
     }
 }
 
@@ -695,15 +690,15 @@ void func_80AEBF60(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEBFD8(EnRu1* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* csCmdActorAction = func_80AEB438(globalCtx);
+    CsCmdActorAction* csCmdNPCAction = func_80AEB438(globalCtx);
     f32 frameCount;
     u16 csCtxFrames;
-    u16 csCmdActorActionEndFrame;
+    u16 endFrame;
 
-    if (csCmdActorAction != NULL) {
+    if (csCmdNPCAction != NULL) {
         csCtxFrames = globalCtx->csCtx.frames;
-        csCmdActorActionEndFrame = csCmdActorAction->endFrame;
-        if (csCtxFrames >= csCmdActorActionEndFrame - 2) {
+        endFrame = csCmdNPCAction->endFrame;
+        if (csCtxFrames >= endFrame - 2) {
             frameCount = SkelAnime_GetFrameCount(&D_06008100.genericHeader);
             SkelAnime_ChangeAnim(&this->skelAnime, &D_06008100, 1.0, 0, frameCount, 2, -8.0f);
             this->action = 6;
@@ -886,21 +881,21 @@ void func_80AEC780(EnRu1* this, GlobalContext* globalCtx) {
 
         globalCtx->csCtx.segment = &D_80AF0880;
         gSaveContext.cutsceneTrigger = 1;
-        player->unk_838 = 0.0f;
+        player->linearVelocity = 0.0f;
         this->action = 8;
     }
 }
 
 void func_80AEC81C(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    CsCmdActorAction* csCmdActorAction;
+    CsCmdActorAction* csCmdNPCAction;
     s16 newRotY;
     if (func_80AEAFE0(globalCtx, 1, 3)) {
-        csCmdActorAction = globalCtx->csCtx.actorActions[3];
-        thisx->posRot.pos.x = csCmdActorAction->startPos.x;
-        thisx->posRot.pos.y = csCmdActorAction->startPos.y;
-        thisx->posRot.pos.z = csCmdActorAction->startPos.z;
-        newRotY = csCmdActorAction->rot.y;
+        csCmdNPCAction = globalCtx->csCtx.npcActions[3];
+        thisx->posRot.pos.x = csCmdNPCAction->startPos.x;
+        thisx->posRot.pos.y = csCmdNPCAction->startPos.y;
+        thisx->posRot.pos.z = csCmdNPCAction->startPos.z;
+        newRotY = csCmdNPCAction->rot.y;
         thisx->shape.rot.y = newRotY;
         thisx->posRot.rot.y = newRotY;
         this->action = 9;
@@ -1352,7 +1347,7 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
     f32* velocityY;
     f32* speedXZ;
     f32* gravity;
-    s16 unk_7E;
+    s16 wallPolyRot;
     s16 rotY;
     s32 temp_a1_2;
     s32 temp_a0;
@@ -1411,13 +1406,13 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
         speedXZ = &this->actor.speedXZ;
         if (*speedXZ != 0.0f) {
             rotY = this->actor.posRot.rot.y;
-            unk_7E = this->actor.unk_7E;
-            temp_a0 = (unk_7E * 2) - rotY;
+            wallPolyRot = this->actor.wallPolyRot;
+            temp_a0 = (wallPolyRot * 2) - rotY;
             temp_a1_2 = temp_a0 + 0x8000;
-            if ((s16)((temp_a0 - unk_7E) + 0x8000) >= 0) {
-                phi_v1 = (s16)(temp_a1_2 - unk_7E);
+            if ((s16)((temp_a0 - wallPolyRot) + 0x8000) >= 0) {
+                phi_v1 = (s16)(temp_a1_2 - wallPolyRot);
             } else {
-                phi_v1 = -(s16)(temp_a1_2 - unk_7E);
+                phi_v1 = -(s16)(temp_a1_2 - wallPolyRot);
             }
             if (phi_v1 < 0x4001) {
                 if (*speedXZ >= (kREG(27) * 0.01f) + 3.0f) {
@@ -1974,25 +1969,25 @@ void func_80AEF5B8(EnRu1* this) {
 void func_80AEF624(EnRu1* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     f32 frameCount;
-    CsCmdActorAction* csCmdActorAction;
-    CsCmdActorAction* csCmdActorAction2;
+    CsCmdActorAction* csCmdNPCAction;
+    CsCmdActorAction* csCmdNPCAction2;
     s16 newRotTmp;
 
     if (func_80AEAFE0(globalCtx, 1, 3)) {
         frameCount = SkelAnime_GetFrameCount(&D_060063F4.genericHeader);
         // this weird part with the redundant variable is necessary to match for some reason
-        csCmdActorAction2 = globalCtx->csCtx.actorActions[3];
-        csCmdActorAction = csCmdActorAction2;
-        thisx->posRot.pos.x = csCmdActorAction->startPos.x;
-        thisx->posRot.pos.y = csCmdActorAction->startPos.y;
-        thisx->posRot.pos.z = csCmdActorAction->startPos.z;
-        newRotTmp = csCmdActorAction->rot.x;
+        csCmdNPCAction2 = globalCtx->csCtx.npcActions[3];
+        csCmdNPCAction = csCmdNPCAction2;
+        thisx->posRot.pos.x = csCmdNPCAction->startPos.x;
+        thisx->posRot.pos.y = csCmdNPCAction->startPos.y;
+        thisx->posRot.pos.z = csCmdNPCAction->startPos.z;
+        newRotTmp = csCmdNPCAction->rot.x;
         thisx->shape.rot.x = newRotTmp;
         thisx->posRot.rot.x = newRotTmp;
-        newRotTmp = csCmdActorAction->rot.y;
+        newRotTmp = csCmdNPCAction->rot.y;
         thisx->shape.rot.y = newRotTmp;
         thisx->posRot.rot.y = newRotTmp;
-        newRotTmp = csCmdActorAction->rot.z;
+        newRotTmp = csCmdNPCAction->rot.z;
         thisx->shape.rot.z = newRotTmp;
         thisx->posRot.rot.z = newRotTmp;
         SkelAnime_ChangeAnim(&this->skelAnime, &D_060063F4, 1.0f, 0.0f, frameCount, 2, 0.0f);

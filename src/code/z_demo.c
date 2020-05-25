@@ -99,13 +99,13 @@ void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx) {
 void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     Input* pad1 = &globalCtx->state.input[0];
 
-    if (!~(pad1->press.in.button | ~L_JPAD) && (csCtx->state == CS_STATE_IDLE) && (gSaveContext.sceneSetupIndex >= 4)) {
+    if (CHECK_PAD(pad1->press, L_JPAD) && (csCtx->state == CS_STATE_IDLE) && (gSaveContext.sceneSetupIndex >= 4)) {
         D_8015FCC8 = 0;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
     }
 
-    if (!~(pad1->press.in.button | ~U_JPAD) && (csCtx->state == CS_STATE_IDLE) && (gSaveContext.sceneSetupIndex >= 4) &&
+    if (CHECK_PAD(pad1->press, U_JPAD) && (csCtx->state == CS_STATE_IDLE) && (gSaveContext.sceneSetupIndex >= 4) &&
         (D_8011D394 == 0)) {
         D_8015FCC8 = 1;
         gSaveContext.cutsceneIndex = 0xFFFD;
@@ -259,13 +259,13 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 15:
             if (sp3F != 0) {
-                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, player->unk_1B0, 0xA0, 0x78, 0x90,
-                                        0x18, 0x14);
+                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, player->getItemModel, 0xA0, 0x78,
+                                        0x90, 0x18, 0x14);
             }
             break;
         case 16:
             if (sp3F != 0) {
-                D_8015FCCA = Quake_Add(globalCtx->cameraPtrs[globalCtx->activeCamera], 6);
+                D_8015FCCA = Quake_Add(ACTIVE_CAM, 6);
                 Quake_SetSpeed(D_8015FCCA, 0x7FFF);
                 Quake_SetQuakeValues(D_8015FCCA, 4, 0, 1000, 0);
                 Quake_SetCountdown(D_8015FCCA, 800);
@@ -443,16 +443,15 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
 
     if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3) && (globalCtx->sceneNum != SCENE_SPOT00) &&
         (csCtx->frames > 20) &&
-        (!~(globalCtx->state.input[0].press.in.button | ~A_BUTTON) ||
-         !~(globalCtx->state.input[0].press.in.button | ~B_BUTTON) ||
-         !~(globalCtx->state.input[0].press.in.button | ~START_BUTTON)) &&
+        (CHECK_PAD(globalCtx->state.input[0].press, A_BUTTON) || CHECK_PAD(globalCtx->state.input[0].press, B_BUTTON) ||
+         CHECK_PAD(globalCtx->state.input[0].press, START_BUTTON)) &&
         (gSaveContext.fileNum != 0xFEDC) && (globalCtx->sceneLoadFlag == 0)) {
         Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         temp = 1;
     }
 
     if ((csCtx->frames == cmd->startFrame) || (temp != 0) ||
-        ((csCtx->frames > 20) && (!~(globalCtx->state.input[0].press.in.button | ~START_BUTTON)) &&
+        ((csCtx->frames > 20) && CHECK_PAD(globalCtx->state.input[0].press, START_BUTTON) &&
          (gSaveContext.fileNum != 0xFEDC))) {
         csCtx->state = CS_STATE_UNSKIPPABLE_EXEC;
         func_800F68BC(0);
@@ -1524,7 +1523,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
         return;
     }
 
-    if (!~(globalCtx->state.input[0].press.in.button | ~R_JPAD)) {
+    if (CHECK_PAD(globalCtx->state.input[0].press, R_JPAD)) {
         csCtx->state = CS_STATE_UNSKIPPABLE_INIT;
         return;
     }
@@ -1594,7 +1593,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                     cutscenePtr += 0xC;
                 }
                 break;
-            case CS_CMD_SET_ACTOR_ACTION_0:
+            case CS_CMD_SET_PLAYER_ACTION:
                 MemCopy(&cmdEntries, cutscenePtr, 4);
                 cutscenePtr += 4;
                 for (j = 0; j < cmdEntries; j++) {
@@ -1628,12 +1627,12 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdBase*)cutscenePtr;
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->actorActions[0] = (void*)cutscenePtr;
+                        csCtx->npcActions[0] = (void*)cutscenePtr;
                     }
                     cutscenePtr += 0x30;
                 }
                 break;
-            case 14:
+            case CS_CMD_SET_ACTOR_ACTION_2:
             case 16:
             case 24:
             case 35:
@@ -1656,12 +1655,12 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdBase*)cutscenePtr;
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->actorActions[1] = (void*)cutscenePtr;
+                        csCtx->npcActions[1] = (void*)cutscenePtr;
                     }
                     cutscenePtr += 0x30;
                 }
                 break;
-            case 25:
+            case CS_CMD_SET_ACTOR_ACTION_3:
             case 36:
             case 41:
             case 50:
@@ -1680,12 +1679,12 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdBase*)cutscenePtr;
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->actorActions[2] = (void*)cutscenePtr;
+                        csCtx->npcActions[2] = (void*)cutscenePtr;
                     }
                     cutscenePtr += 0x30;
                 }
                 break;
-            case 29:
+            case CS_CMD_SET_ACTOR_ACTION_4:
             case 37:
             case 42:
             case 51:
@@ -1703,12 +1702,12 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdBase*)cutscenePtr;
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->actorActions[3] = (void*)cutscenePtr;
+                        csCtx->npcActions[3] = (void*)cutscenePtr;
                     }
                     cutscenePtr += 0x30;
                 }
                 break;
-            case 30:
+            case CS_CMD_SET_ACTOR_ACTION_5:
             case 38:
             case 43:
             case 47:
@@ -1722,12 +1721,12 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdBase*)cutscenePtr;
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->actorActions[4] = (void*)cutscenePtr;
+                        csCtx->npcActions[4] = (void*)cutscenePtr;
                     }
                     cutscenePtr += 0x30;
                 }
                 break;
-            case 44:
+            case CS_CMD_SET_ACTOR_ACTION_6:
             case 55:
             case 77:
             case 84:
@@ -1739,12 +1738,12 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdBase*)cutscenePtr;
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->actorActions[5] = (void*)cutscenePtr;
+                        csCtx->npcActions[5] = (void*)cutscenePtr;
                     }
                     cutscenePtr += 0x30;
                 }
                 break;
-            case 31:
+            case CS_CMD_SET_ACTOR_ACTION_7:
             case 52:
             case 57:
             case 58:
@@ -1757,12 +1756,12 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdBase*)cutscenePtr;
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->actorActions[6] = (void*)cutscenePtr;
+                        csCtx->npcActions[6] = (void*)cutscenePtr;
                     }
                     cutscenePtr += 0x30;
                 }
                 break;
-            case 49:
+            case CS_CMD_SET_ACTOR_ACTION_8:
             case 60:
             case 89:
             case 111:
@@ -1774,18 +1773,18 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdBase*)cutscenePtr;
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->actorActions[7] = (void*)cutscenePtr;
+                        csCtx->npcActions[7] = (void*)cutscenePtr;
                     }
                     cutscenePtr += 0x30;
                 }
                 break;
-            case 62:
+            case CS_CMD_SET_ACTOR_ACTION_9:
                 MemCopy(&cmdEntries, cutscenePtr, 4);
                 cutscenePtr += 4;
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdBase*)cutscenePtr;
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->actorActions[8] = (void*)cutscenePtr;
+                        csCtx->npcActions[8] = (void*)cutscenePtr;
                     }
                     cutscenePtr += 0x30;
                 }
@@ -1796,7 +1795,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdBase*)cutscenePtr;
                     if ((cmd->startFrame < csCtx->frames) && (csCtx->frames <= cmd->endFrame)) {
-                        csCtx->actorActions[9] = (void*)cutscenePtr;
+                        csCtx->npcActions[9] = (void*)cutscenePtr;
                     }
                     cutscenePtr += 0x30;
                 }
@@ -1804,13 +1803,13 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
             case CS_CMD_CAMERA_POS:
                 cutscenePtr += Cutscene_Command_CameraPositions(globalCtx, csCtx, (void*)cutscenePtr, 0);
                 break;
-            case CS_CMD_CAMERA_POS_LINK:
+            case CS_CMD_CAMERA_POS_PLAYER:
                 cutscenePtr += Cutscene_Command_CameraPositions(globalCtx, csCtx, (void*)cutscenePtr, 1);
                 break;
             case CS_CMD_CAMERA_FOCUS:
                 cutscenePtr += Cutscene_Command_CameraFocus(globalCtx, csCtx, (void*)cutscenePtr, 0);
                 break;
-            case CS_CMD_CAMERA_FOCUS_LINK:
+            case CS_CMD_CAMERA_FOCUS_PLAYER:
                 cutscenePtr += Cutscene_Command_CameraFocus(globalCtx, csCtx, (void*)cutscenePtr, 1);
                 break;
             case CS_CMD_07:
@@ -1900,7 +1899,7 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         csCtx->linkAction = NULL;
 
         for (i = 0; i < 10; i++) {
-            csCtx->actorActions[i] = NULL;
+            csCtx->npcActions[i] = NULL;
         }
 
         // Translates to: "RIGHT HERE, HUH"
@@ -1943,7 +1942,7 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         csCtx->linkAction = NULL;
 
         for (i = 0; i < 10; i++) {
-            csCtx->actorActions[i] = NULL;
+            csCtx->npcActions[i] = NULL;
         }
 
         csCtx->state++;

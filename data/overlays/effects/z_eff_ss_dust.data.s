@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_Dust_InitVars
 .word 0x00000000
 .word func_809A22D0
 glabel D_809A2A48

@@ -7,6 +7,7 @@
 
 .section .data
 
+glabel Effect_Ss_Lightning_InitVars
 .word 0x0000000D
 .word func_809AAEF0
 glabel D_809AB538

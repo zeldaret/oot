@@ -144,20 +144,20 @@ glabel func_80A76330
 /* 021D4 80A764E4 828202FE */  lb      $v0, 0x02FE($s4)           ## 000002FE
 /* 021D8 80A764E8 18400009 */  blez    $v0, .L80A76510            
 /* 021DC 80A764EC 00000000 */  nop
-/* 021E0 80A764F0 0C009AC3 */  jal     func_80026B0C              
+/* 021E0 80A764F0 0C009AC3 */  jal     Effect_GetByIndex              
 /* 021E4 80A764F4 8E8404C4 */  lw      $a0, 0x04C4($s4)           ## 000004C4
 /* 021E8 80A764F8 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 021EC 80A764FC 02002825 */  or      $a1, $s0, $zero            ## $a1 = FFFFFFF4
-/* 021F0 80A76500 0C007F7C */  jal     func_8001FDF0              
+/* 021F0 80A76500 0C007F7C */  jal     EffectBlure_AddVertex              
 /* 021F4 80A76504 02203025 */  or      $a2, $s1, $zero            ## $a2 = FFFFFFE8
 /* 021F8 80A76508 1000000A */  beq     $zero, $zero, .L80A76534   
 /* 021FC 80A7650C 929902F8 */  lbu     $t9, 0x02F8($s4)           ## 000002F8
 .L80A76510:
 /* 02200 80A76510 54400008 */  bnel    $v0, $zero, .L80A76534     
 /* 02204 80A76514 929902F8 */  lbu     $t9, 0x02F8($s4)           ## 000002F8
-/* 02208 80A76518 0C009AC3 */  jal     func_80026B0C              
+/* 02208 80A76518 0C009AC3 */  jal     Effect_GetByIndex              
 /* 0220C 80A7651C 8E8404C4 */  lw      $a0, 0x04C4($s4)           ## 000004C4
-/* 02210 80A76520 0C008048 */  jal     func_80020120              
+/* 02210 80A76520 0C008048 */  jal     EffectBlure_AddSpace              
 /* 02214 80A76524 00402025 */  or      $a0, $v0, $zero            ## $a0 = 00000000
 /* 02218 80A76528 2418FFFF */  addiu   $t8, $zero, 0xFFFF         ## $t8 = FFFFFFFF
 /* 0221C 80A7652C A29802FE */  sb      $t8, 0x02FE($s4)           ## 000002FE

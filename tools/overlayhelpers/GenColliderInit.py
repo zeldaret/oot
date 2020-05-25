@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import struct
+import argparse
+from filemap import FileResult, GetFromVRam, GetFromRom
 
 T_DEFAULT = ''
 T_SET3 = '_Set3'
@@ -43,12 +45,12 @@ f_ColliderInit = "{{ {0}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, 0x{4:02X}, {5} }}"
 f_ColliderInit_Set3 = "{{ {0}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, {4} }}"
 f_ColliderInit_Actor = "{{ {0}, 0x{1:02X}, 0x{2:02X}, 0x{3:02X}, {4} }}"
 f_ColliderBodyInit = "{{ 0x{0:02X}, {{ 0x{1:08X}, 0x{2:02X}, 0x{3:02X} }}, {{ 0x{4:08X}, 0x{5:02X}, 0x{6:02X} }}, 0x{7:02X}, 0x{8:02X}, 0x{9:02X} }}"
-f_JntSph = "{{ {0}, D_{1:08X} }}"
+f_JntSph = "{0}, D_{1:08X}"
 f_JntSphItem = "{{ {0}, {{ {{ {1}, {2}, {3} }}, {4} }}, {5} }}"
 f_Cylinder16 = "{{ {0}, {1}, {2}, {{ {3}, {4}, {5} }} }}"
-f_Tris = "{{ {0}, D_{1:08X} }}"
-f_TrisItem = "{{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}f, {8}f }} }}"
-f_Quad = "{{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}f, {8}f }}, {{ {9}f, {10}f, {11}f }} }}"
+f_Tris = "{0}, D_{1:08X}"
+f_TrisItem = "{{ {{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}f, {8}f }} }} }}"
+f_Quad = "{{ {{ {{ {0}f, {1}f, {2}f }}, {{ {3}f, {4}f, {5}f }}, {{ {6}f, {7}f, {8}f }}, {{ {9}f, {10}f, {11}f }} }} }}"
 
 def GetColliderFormat(type):
     if type == T_DEFAULT:
@@ -98,7 +100,7 @@ def GetItems(data, off, count, structf, fmt, size):
     return result
 
 def GetJntSphItems(data, off, count):
-    items = GetItems(data, off, count, sf_JntSphItem, f_JntSphItem, 0x0C)
+    items = GetItems(data, off, count, sf_JntSphItem, f_JntSphItem, 0x24)
     print('''
 ColliderJntSphItemInit jntsphItemsInit[{0}] = {{{1}
 }};
@@ -155,7 +157,6 @@ def GetQuad(data, off, type):
     sBase = GetColliderStr(data, off, type)
     cBody = struct.unpack_from(sf_ColliderBodyInit, data, off + 0x08)
     cQuad = struct.unpack_from(sf_Quad, data, off + 0x20)
-    print(cQuad)
     print('''
 ColliderQuadInit{0} quadInit = 
 {{
@@ -187,19 +188,43 @@ for i in update:
 #address = 0x0007D0
 #inputType = 'ColliderQuadInit'
 
-ovlName = input("Overlay Name (baserom): ")
-ovlFile = open("../../baserom/" + ovlName, "rb")
-ovlData = bytearray(ovlFile.read())
-ovlFile.close()
+#ovlName = input("Overlay Name (baserom): ")
 
-address = int(input("Address: 0x"), 16)
-inputType = input("Type (e.g. ColliderQuadInit): ")
+def HexParse(s):
+    return int(s, 16)
 
-selectedType = TYPE_DICT[inputType]
+parser = argparse.ArgumentParser()
+parser.add_argument('address', help="VRam or Rom address of the struct", type=HexParse)
+parser.add_argument('type', help="Type name (e.g. ColliderQuadInit)")
+parser.add_argument('num', nargs='?', default=0, type=HexParse, help="Number of elements. Only applies to ItemInit types")
+
+args = parser.parse_args()
+
+fileResult = None
+
+if args.address >= 0x80000000:
+    fileResult = GetFromVRam(args.address)
+else:
+    fileResult = GetFromRom(args.address)
+
+if fileResult is None:
+    print("Invalid address")
+    exit()
+
+print(fileResult)
+
+selectedType = TYPE_DICT[args.type]
 arg2 = None
 if selectedType[1] == 'Shape':
     arg2 = selectedType[2]
+elif args.num > 0:
+    arg2 = args.num
 else:
-    arg2 = int(input("Number of items: "))
+    print("ItemInit type must specify number of elements")
+    exit()
 
-selectedType[0](ovlData, address, arg2)
+ovlFile = open("../../baserom/" + fileResult.name, "rb")
+ovlData = bytearray(ovlFile.read())
+ovlFile.close()
+
+selectedType[0](ovlData, fileResult.offset, arg2)

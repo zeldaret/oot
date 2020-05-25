@@ -5,7 +5,7 @@ glabel EnDodongo_Destroy
 /* 00728 809F8978 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0072C 809F897C AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00730 809F8980 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 00734 809F8984 0C009C27 */  jal     func_8002709C              
+/* 00734 809F8984 0C009C27 */  jal     Effect_Delete              
 /* 00738 809F8988 8DC503D0 */  lw      $a1, 0x03D0($t6)           ## 000003D0
 /* 0073C 809F898C 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00740 809F8990 8FA4001C */  lw      $a0, 0x001C($sp)           

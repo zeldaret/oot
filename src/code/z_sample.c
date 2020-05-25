@@ -3,7 +3,7 @@
 #include <PR/os_cont.h>
 
 void Sample_HandleStateChange(SampleContext* this) {
-    if (!~(this->state.input[0].press.in.button | ~START_BUTTON)) {
+    if (CHECK_PAD(this->state.input[0].press, START_BUTTON)) {
         SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
         this->state.running = false;
     }
@@ -61,10 +61,7 @@ void Sample_SetupView(SampleContext* this) {
     gfxCtx = this->state.gfxCtx;
     View_Init(view, gfxCtx);
 
-    // clang-format off
-    viewport.bottomY = SCREEN_HEIGHT; viewport.rightX = SCREEN_WIDTH; 
-    viewport.topY = 0; viewport.leftX = 0;
-    // clang-format on
+    VIEWPORT_INIT(viewport, SCREEN_HEIGHT, SCREEN_WIDTH, 0, 0);
 
     View_SetViewport(view, &viewport);
     func_800AA460(view, 60, 10, 12800);
@@ -85,7 +82,7 @@ void Sample_SetupView(SampleContext* this) {
 void Sample_LoadTitleStatic(SampleContext* this) {
     u32 size = _title_staticSegmentRomEnd - _title_staticSegmentRomStart;
 
-    this->staticSegment = Game_Alloc(&this->state, size, "../z_sample.c", 163);
+    this->staticSegment = GameState_AllocEnd(&this->state, size, "../z_sample.c", 163);
     DmaMgr_SendRequest1(this->staticSegment, _title_staticSegmentRomStart, size, "../z_sample.c", 164);
 }
 
