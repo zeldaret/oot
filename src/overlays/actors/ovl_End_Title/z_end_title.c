@@ -155,6 +155,6 @@ void func_80B65DA8(Actor* thisx, GlobalContext* globalCtx) {
     gfxCtx->overlay.p = func_80093F34(gfxCtx->overlay.p);
 
     gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0x80, 0, 0, 0, this->theEndTitleCardAlpha);
-    gSPDisplayList(gfxCtx->overlay.p++, D_80B69720);
+    gSPDisplayList(gfxCtx->overlay.p++, dList_80B69720);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_end_title.c", 600);
 }
