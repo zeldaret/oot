@@ -1,0 +1,96 @@
+/*
+ * File: z_en_skjneedle.c
+ * Overlay: ovl_En_Skjneedle
+ * Description: Skullkid Needle Attack
+ */
+
+#include "z_en_skjneedle.h"
+
+#define FLAGS 0x00000205
+
+#define THIS ((EnSkjneedle*)thisx)
+
+void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx);
+void EnSkjneedle_Destroy(Actor* thisx, GlobalContext* globalCtx);
+void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSkjneedle_Draw(Actor* thisx, GlobalContext* globalCtx);
+int func_80B01F6C(Actor* thisx);
+/*
+const ActorInit En_Skjneedle_InitVars = {
+    ACTOR_EN_SKJNEEDLE,
+    ACTORTYPE_ENEMY,
+    FLAGS,
+    OBJECT_SKJ,
+    sizeof(EnSkjneedle),
+    (ActorFunc)EnSkjneedle_Init,
+    (ActorFunc)EnSkjneedle_Destroy,
+    (ActorFunc)EnSkjneedle_Update,
+    (ActorFunc)EnSkjneedle_Draw,
+};
+*/
+/*
+static ColliderCylinderInit_Set3 cylinderInit = 
+{
+	{ COLTYPE_UNK1, 0x11, 0x09, 0x00, COLSHAPE_CYLINDER },
+	{ 0x00, { 0xFFCFFFFF, 0x00, 0x08, }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+	{ 10, 4, -2, { 0, 0, 0 } },
+};
+
+static InitChainEntry initChain[] = {
+	ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
+	ICHAIN_F32(unk_4C, 30, ICHAIN_STOP)
+};
+*/
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skjneedle/EnSkjneedle_Init.s")
+/*
+void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx){
+	EnSkjneedle* this = (EnSkjneedle*)thisx;
+	Actor_ProcessInitChain(&this->actor, &initChain);
+	Collider_InitCylinder(globalCtx, &this->collider);
+	Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &cylinderInit);
+	ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 20.0f);
+	thisx->flags &= ~0x1;
+	Actor_SetScale(&this->actor, 0.01f);
+}*/
+
+void EnSkjneedle_Destroy(Actor* thisx, GlobalContext* globalCtx){
+	EnSkjneedle* this = (EnSkjneedle*)thisx;
+	Collider_DestroyCylinder(globalCtx, &this->collider);
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skjneedle/func_80B01F6C.s")
+int func_80B01F6C(Actor* thisx){
+	EnSkjneedle* this = (EnSkjneedle*)thisx;
+	if ((this->collider.base.atFlags & 2) != 0){
+		this->collider.base.acFlags &= ~2;
+		return 1;
+	}
+	return 0;
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skjneedle/EnSkjneedle_Update.s")
+void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx){
+	EnSkjneedle* this = (EnSkjneedle*)thisx;
+	//EnSkjneedle* this = THIS;
+	this->unk_1e0 += 1;
+	if(this->unk_1e2 != 0){
+		this->unk_1e2 += -1;
+	}
+	if (func_80B01F6C(thisx) == 0){
+	
+		if (this->unk_1e2 == 0){
+			Actor_Kill(&this->actor);
+		}
+	else{
+			Actor_SetScale(thisx, 0.01f);
+			Collider_CylinderUpdate(&this->actor,  &this->collider);
+			CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+			CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+			Actor_MoveForward(thisx);
+			func_8002E4B4(globalCtx, thisx, 20.0f, 40.0f, 40.0f, 0x1d);
+		}
+	}
+}
+
+
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skjneedle/EnSkjneedle_Draw.s")
