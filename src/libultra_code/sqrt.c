@@ -1,4 +1,3 @@
-#include <math.h>
 #include <global.h>
 
 #ifndef __GNUC__
