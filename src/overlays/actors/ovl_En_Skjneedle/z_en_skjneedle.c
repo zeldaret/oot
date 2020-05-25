@@ -14,7 +14,7 @@ void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkjneedle_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSkjneedle_Draw(Actor* thisx, GlobalContext* globalCtx);
-int func_80B01F6C(Actor* thisx);
+s32 func_80B01F6C(EnSkjneedle* this);
 
 extern Gfx D_06000EB0[];
 
@@ -31,23 +31,23 @@ const ActorInit En_Skjneedle_InitVars = {
 };
 
 
-static ColliderCylinderInit_Set3 cylinderInit = 
+static ColliderCylinderInit_Set3 sCylinderInit = 
 {
 	{ COLTYPE_UNK1, 0x11, 0x09, 0x00, COLSHAPE_CYLINDER },
 	{ 0x00, { 0xFFCFFFFF, 0x00, 0x08, }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
 	{ 10, 4, -2, { 0, 0, 0 } },
 };
 
-static InitChainEntry initChain[] = {
+static InitChainEntry sInitChain[] = {
 	ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
 	ICHAIN_F32(unk_4C, 30, ICHAIN_STOP)
 };
 
 void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx){
-	EnSkjneedle* this = (EnSkjneedle*)thisx;
-	Actor_ProcessInitChain(&this->actor, initChain);
+	EnSkjneedle* this = THIS;
+	Actor_ProcessInitChain(&this->actor, sInitChain);
 	Collider_InitCylinder(globalCtx, &this->collider);
-	Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &cylinderInit);
+	Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 	ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 20.0f);
 	thisx->flags &= ~0x1;
 	Actor_SetScale(&this->actor, 0.01f);
@@ -58,8 +58,7 @@ void EnSkjneedle_Destroy(Actor* thisx, GlobalContext* globalCtx){
 	Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-int func_80B01F6C(Actor* thisx){
-	EnSkjneedle* this = THIS;
+s32 func_80B01F6C(EnSkjneedle* this){
 	if ((this->collider.base.atFlags & 2) != 0){
 		this->collider.base.acFlags &= ~2;
 		return 1;
@@ -74,7 +73,7 @@ void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx){
 	if (this->unk_1E2 != 0){
 		this->unk_1E2--;
 	}
-	if (func_80B01F6C(&this->actor) || this->unk_1E2 == 0){
+	if (func_80B01F6C(this) || this->unk_1E2 == 0){
 		Actor_Kill(&this->actor);
 	}
 	else {
