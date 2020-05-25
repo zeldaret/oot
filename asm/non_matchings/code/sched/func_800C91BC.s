@@ -127,7 +127,7 @@ glabel func_800C91BC
 /* B404D8 800C9338 24E40010 */  addiu $a0, $a3, 0x10
 /* B404DC 800C933C 51C0000C */  beql  $t6, $zero, .L800C9370
 /* B404E0 800C9340 8CEF0004 */   lw    $t7, 4($a3)
-/* B404E4 800C9344 0C040F70 */  jal   func_80103DC0
+/* B404E4 800C9344 0C040F70 */  jal   osSpTaskYielded
 /* B404E8 800C9348 AFA7004C */   sw    $a3, 0x4c($sp)
 /* B404EC 800C934C 8FA7004C */  lw    $a3, 0x4c($sp)
 /* B404F0 800C9350 3C048014 */  lui   $a0, %hi(D_801460FC) # $a0, 0x8014
@@ -143,7 +143,7 @@ glabel func_800C91BC
 /* B40514 800C9374 31E80010 */  andi  $t0, $t7, 0x10
 /* B40518 800C9378 1100001A */  beqz  $t0, .L800C93E4
 /* B4051C 800C937C 00000000 */   nop   
-/* B40520 800C9380 0C040F70 */  jal   func_80103DC0
+/* B40520 800C9380 0C040F70 */  jal   osSpTaskYielded
 /* B40524 800C9384 AFA7004C */   sw    $a3, 0x4c($sp)
 /* B40528 800C9388 10400016 */  beqz  $v0, .L800C93E4
 /* B4052C 800C938C 8FA7004C */   lw    $a3, 0x4c($sp)
