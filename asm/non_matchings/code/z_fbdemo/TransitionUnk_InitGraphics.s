@@ -29,9 +29,9 @@ glabel TransitionUnk_InitGraphics
 /* B28A74 800B18D4 AFB30034 */  sw    $s3, 0x34($sp)
 /* B28A78 800B18D8 AFB20030 */  sw    $s2, 0x30($sp)
 /* B28A7C 800B18DC AFB1002C */  sw    $s1, 0x2c($sp)
-/* B28A80 800B18E0 0C040ED8 */  jal   func_80103B60
+/* B28A80 800B18E0 0C040ED8 */  jal   guMtxIdent
 /* B28A84 800B18E4 24840058 */   addiu $a0, $a0, 0x58
-/* B28A88 800B18E8 0C040ED8 */  jal   func_80103B60
+/* B28A88 800B18E8 0C040ED8 */  jal   guMtxIdent
 /* B28A8C 800B18EC 26040098 */   addiu $a0, $s0, 0x98
 /* B28A90 800B18F0 3C01C47A */  li    $at, 0xC47A0000 # 0.000000
 /* B28A94 800B18F4 44812000 */  mtc1  $at, $f4
