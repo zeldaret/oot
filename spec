@@ -3536,7 +3536,6 @@ endseg
 beginseg
     name "ovl_End_Title"
     include "build/src/overlays/actors/ovl_End_Title/z_end_title.o"
-    include "build/data/overlays/actors/z_end_title.data.o"
     include "build/data/overlays/actors/z_end_title.reloc.o"
 endseg
 
