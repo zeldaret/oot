@@ -2452,7 +2452,7 @@ u32 osDpGetStatus(void);
 void osDpSetStatus(u32 status);
 // ? func_801041E0(?);
 // ? func_801043B8(?);
-// ? guOrthoF(?);
+void guOrthoF(f32[4][4], f32, f32, f32, f32, f32, f32, f32); 
 void guOrtho(Mtx*, f32, f32, f32, f32, f32, f32, f32);
 f32 cosf(f32);
 s16 coss(u16);
