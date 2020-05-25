@@ -151,7 +151,7 @@ glabel guRotate
 /* B7B16C 80103FCC 0C040F88 */  jal   func_80103E20
 /* B7B170 80103FD0 E7A40010 */   swc1  $f4, 0x10($sp)
 /* B7B174 80103FD4 27A40020 */  addiu $a0, $sp, 0x20
-/* B7B178 80103FD8 0C041938 */  jal   func_801064E0
+/* B7B178 80103FD8 0C041938 */  jal   guMtxF2L
 /* B7B17C 80103FDC 8FA50060 */   lw    $a1, 0x60($sp)
 /* B7B180 80103FE0 8FBF001C */  lw    $ra, 0x1c($sp)
 /* B7B184 80103FE4 27BD0060 */  addiu $sp, $sp, 0x60
