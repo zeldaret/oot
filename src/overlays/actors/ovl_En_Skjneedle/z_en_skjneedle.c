@@ -16,7 +16,7 @@ void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSkjneedle_Draw(Actor* thisx, GlobalContext* globalCtx);
 int func_80B01F6C(Actor* thisx);
 
-extern Gfx* D_06000EB0[];
+extern Gfx D_06000EB0[];
 
 const ActorInit En_Skjneedle_InitVars = {
     ACTOR_EN_SKJNEEDLE,
