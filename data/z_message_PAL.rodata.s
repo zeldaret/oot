@@ -788,30 +788,3 @@ glabel jtbl_80154CC4
     .word L8010FDB0
     .word L8010FE10
     .word L8010FE58
-    .balign 16
-
-glabel jtbl_80154CF0
-    .word L80110520
-    .word L80110960
-    .word L80110748
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L80110960
-    .word L8011079C
-    .word L801107D8
-    .word L801108A4
-    .word L801108E8
-    .word L8011092C

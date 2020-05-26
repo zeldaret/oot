@@ -303,7 +303,6 @@ beginseg
     include "build/src/code/z_collision_check.o"
     include "build/data/z_collision_check.bss.o"
     include "build/src/code/z_common_data.o"
-    include "build/data/z_common_data.bss.o"
     include "build/src/code/z_debug.o"
     include "build/src/code/z_debug_display.o"
     include "build/src/code/z_demo.o"
@@ -551,6 +550,8 @@ beginseg
     include "build/src/code/z_message_PAL.o"
     include "build/data/z_message_PAL.rodata.o"
     include "build/data/z_message_PAL.bss.o"
+    include "build/src/code/code_80110450.o"
+    include "build/data/code_80110450.rodata.o"
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"
     include "build/data/rsp.rodata.o"
@@ -3212,8 +3213,7 @@ endseg
 beginseg
     name "ovl_En_Skjneedle"
     include "build/src/overlays/actors/ovl_En_Skjneedle/z_en_skjneedle.o"
-    include "build/data/overlays/actors/z_en_skjneedle.data.o"
-    include "build/data/overlays/actors/z_en_skjneedle.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Skjneedle/z_en_skjneedle_reloc.o"
 endseg
 
 beginseg
