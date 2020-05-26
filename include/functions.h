@@ -239,7 +239,7 @@ void func_80028B74(GlobalContext*, Vec3f*, UNK_PTR, UNK_PTR, Color_RGB8*, Color_
 // ? func_800292DC(?);
 // ? func_80029320(?);
 // ? func_800293A0(?);
-// ? func_800293E4(?);
+void func_800293E4(GlobalContext*, Vec3f* pos, f32, f32, f32, f32);
 // ? func_80029444(?);
 // ? func_8002949C(?);
 // ? func_80029530(?);
@@ -411,6 +411,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
 Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** actorPtr, Player* player);
 Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorType);
 void func_80032C7C(GlobalContext* globalCtx, Actor* actor);
+void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx);
 void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 arg6,
                    s16 arg7, u8 arg8);
 void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s16 arg4, s16 arg5, u8 arg6);
