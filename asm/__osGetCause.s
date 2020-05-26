@@ -3,11 +3,11 @@
 # assembler directives
 .set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section .text
 
-.align 4
+.balign 16
 
 glabel __osGetCause
 /* 008790 80007B90 40026800 */  mfc0  $v0, $13
