@@ -21,7 +21,7 @@ pipeline {
             }
             steps {
                 sh 'python3 progress.py -j'
-                sh 'mv build/progress.json /var/www/html/progress.json'
+                sh 'mv build/progress.json /var/www/html/reports/progress.json'
             }
         }
     }
