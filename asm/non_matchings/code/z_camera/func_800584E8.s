@@ -149,8 +149,8 @@ glabel func_800584E8
 /* ACF86C 800586CC 0C018DDB */  jal   func_8006376C
 /* ACF870 800586D0 24060005 */   li    $a2, 5
 /* ACF874 800586D4 860F0144 */  lh    $t7, 0x144($s0)
-/* ACF878 800586D8 3C0E8012 */  lui   $t6, %hi(sCameraTypeNames) # $t6, 0x8012
-/* ACF87C 800586DC 25CEA2A4 */  addiu $t6, %lo(sCameraTypeNames) # addiu $t6, $t6, -0x5d5c
+/* ACF878 800586D8 3C0E8012 */  lui   $t6, %hi(sCameraModeNames) # $t6, 0x8012
+/* ACF87C 800586DC 25CEA2A4 */  addiu $t6, %lo(sCameraModeNames) # addiu $t6, $t6, -0x5d5c
 /* ACF880 800586E0 01F10019 */  multu $t7, $s1
 /* ACF884 800586E4 24040005 */  li    $a0, 5
 /* ACF888 800586E8 24050018 */  li    $a1, 24

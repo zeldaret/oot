@@ -1411,7 +1411,7 @@ glabel Camera_Unique9
 /* ACB30C 8005416C 00035080 */  sll   $t2, $v1, 2
 /* ACB310 80054170 24060001 */  li    $a2, 1
 /* ACB314 80054174 030A6021 */  addu  $t4, $t8, $t2
-/* ACB318 80054178 0C016813 */  jal   func_8005A04C
+/* ACB318 80054178 0C016813 */  jal   Camera_ChangeMode
 /* ACB31C 8005417C 8D840790 */   lw    $a0, 0x790($t4)
 /* ACB320 80054180 86220162 */  lh    $v0, 0x162($s1)
 /* ACB324 80054184 8FAF0034 */  lw    $t7, 0x34($sp)

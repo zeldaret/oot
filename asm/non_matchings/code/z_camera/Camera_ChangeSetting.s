@@ -136,7 +136,7 @@ glabel Camera_ChangeSetting
 /* AD18AC 8005A70C A6070142 */  sh    $a3, 0x142($s0)
 /* AD18B0 8005A710 86050144 */  lh    $a1, 0x144($s0)
 /* AD18B4 8005A714 A7A70026 */  sh    $a3, 0x26($sp)
-/* AD18B8 8005A718 0C016813 */  jal   func_8005A04C
+/* AD18B8 8005A718 0C016813 */  jal   Camera_ChangeMode
 /* AD18BC 8005A71C 02002025 */   move  $a0, $s0
 /* AD18C0 8005A720 04400003 */  bltz  $v0, .L8005A730
 /* AD18C4 8005A724 02002025 */   move  $a0, $s0

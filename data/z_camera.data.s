@@ -22,7 +22,7 @@ glabel sPREGInitCnt
 glabel sCameraSettingNames
     .incbin "baserom.z64", 0xB9112C, 0x318
 
-glabel sCameraTypeNames
+glabel sCameraModeNames
     .incbin "baserom.z64", 0xB91444, 0x2DC0
 
 glabel D_8011D064

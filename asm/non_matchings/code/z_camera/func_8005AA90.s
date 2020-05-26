@@ -160,14 +160,3 @@ glabel L8005AC0C
 .L8005AC1C:
 /* AD1DBC 8005AC1C 03E00008 */  jr    $ra
 /* AD1DC0 8005AC20 27BD0020 */   addiu $sp, $sp, 0x20
-
-/* AD1DC4 8005AC24 AFA50004 */  sw    $a1, 4($sp)
-/* AD1DC8 8005AC28 848E015C */  lh    $t6, 0x15c($a0)
-/* AD1DCC 8005AC2C 00052C00 */  sll   $a1, $a1, 0x10
-/* AD1DD0 8005AC30 00052C03 */  sra   $a1, $a1, 0x10
-/* AD1DD4 8005AC34 00A07827 */  not   $t7, $a1
-/* AD1DD8 8005AC38 01CFC024 */  and   $t8, $t6, $t7
-/* AD1DDC 8005AC3C A498015C */  sh    $t8, 0x15c($a0)
-/* AD1DE0 8005AC40 03E00008 */  jr    $ra
-/* AD1DE4 8005AC44 24020001 */   li    $v0, 1
-

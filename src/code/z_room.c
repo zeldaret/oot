@@ -345,7 +345,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     camera = ACTIVE_CAM;
     polygon1 = &room->mesh->polygon1;
-    sp9C = (camera->unk_142 ^ 25) == 0;
+    sp9C = (camera->setting ^ 25) == 0;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     sp98 = (flags & 1) && sp9C && polygon1->single.source && !(SREG(25) & 1);
     sp94 = (flags & 1) && polygonDlist->opa && !(SREG(25) & 2);
@@ -389,13 +389,6 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 691);
 }
-
-typedef struct {
-    char unk_00[0x0E];
-    s16 unk_0E;
-} struct_80041C10_ret;
-
-extern struct_80041C10_ret* func_80041C10(CollisionContext*, s32, s32);
 
 BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
     Camera* camera;
@@ -450,7 +443,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_room.c", 752);
 
     camera = ACTIVE_CAM;
-    sp98 = (camera->unk_142 ^ 25) == 0;
+    sp98 = (camera->setting ^ 25) == 0;
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     bgImage = func_80096A74(polygon1, globalCtx);

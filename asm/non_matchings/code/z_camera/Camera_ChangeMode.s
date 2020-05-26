@@ -56,7 +56,7 @@ glabel jtbl_8013A49C
     .word L8005A318 # 19
 
 .text
-glabel func_8005A04C
+glabel Camera_ChangeMode
 /* AD11EC 8005A04C 27BDFFE8 */  addiu $sp, $sp, -0x18
 /* AD11F0 8005A050 3C0E8016 */  lui   $t6, %hi(gGameInfo) # $t6, 0x8016
 /* AD11F4 8005A054 8DCEFA90 */  lw    $t6, %lo(gGameInfo)($t6)
@@ -70,11 +70,11 @@ glabel func_8005A04C
 /* AD1214 8005A074 24849BB4 */   addiu $a0, %lo(D_80139BB4) # addiu $a0, $a0, -0x644c
 /* AD1218 8005A078 87B9001E */  lh    $t9, 0x1e($sp)
 /* AD121C 8005A07C 8CF8008C */  lw    $t8, 0x8c($a3)
-/* AD1220 8005A080 3C098012 */  lui   $t1, %hi(sCameraTypeNames) # $t1, 0x8012
+/* AD1220 8005A080 3C098012 */  lui   $t1, %hi(sCameraModeNames) # $t1, 0x8012
 /* AD1224 8005A084 00194080 */  sll   $t0, $t9, 2
 /* AD1228 8005A088 01194023 */  subu  $t0, $t0, $t9
 /* AD122C 8005A08C 00084080 */  sll   $t0, $t0, 2
-/* AD1230 8005A090 2529A2A4 */  addiu $t1, %lo(sCameraTypeNames) # addiu $t1, $t1, -0x5d5c
+/* AD1230 8005A090 2529A2A4 */  addiu $t1, %lo(sCameraModeNames) # addiu $t1, $t1, -0x5d5c
 /* AD1234 8005A094 8F05009C */  lw    $a1, 0x9c($t8)
 /* AD1238 8005A098 AFA70018 */  sw    $a3, 0x18($sp)
 /* AD123C 8005A09C 0C00084C */  jal   osSyncPrintf
@@ -125,14 +125,14 @@ glabel func_8005A04C
 /* AD12E0 8005A140 3C188012 */   lui   $t8, %hi(sCameraSettingNames) # $t8, 0x8012
 /* AD12E4 8005A144 84EE0142 */  lh    $t6, 0x142($a3)
 /* AD12E8 8005A148 87B9001E */  lh    $t9, 0x1e($sp)
-/* AD12EC 8005A14C 3C088012 */  lui   $t0, %hi(sCameraTypeNames) # $t0, 0x8012
+/* AD12EC 8005A14C 3C088012 */  lui   $t0, %hi(sCameraModeNames) # $t0, 0x8012
 /* AD12F0 8005A150 000E7880 */  sll   $t7, $t6, 2
 /* AD12F4 8005A154 00195080 */  sll   $t2, $t9, 2
 /* AD12F8 8005A158 01EE7823 */  subu  $t7, $t7, $t6
 /* AD12FC 8005A15C 01595023 */  subu  $t2, $t2, $t9
 /* AD1300 8005A160 000A5080 */  sll   $t2, $t2, 2
 /* AD1304 8005A164 000F7880 */  sll   $t7, $t7, 2
-/* AD1308 8005A168 2508A2A4 */  addiu $t0, %lo(sCameraTypeNames) # addiu $t0, $t0, -0x5d5c
+/* AD1308 8005A168 2508A2A4 */  addiu $t0, %lo(sCameraModeNames) # addiu $t0, $t0, -0x5d5c
 /* AD130C 8005A16C 27189F8C */  addiu $t8, %lo(sCameraSettingNames) # addiu $t8, $t8, -0x6074
 /* AD1310 8005A170 01F82821 */  addu  $a1, $t7, $t8
 /* AD1314 8005A174 01483021 */  addu  $a2, $t2, $t0

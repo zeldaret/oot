@@ -1235,7 +1235,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
                     if (globalCtx->skyboxCtx.unk_140 != 0) {
-                        if (ACTIVE_CAM->unk_142 != 0x19) {
+                        if (ACTIVE_CAM->setting != 0x19) {
                             Vec3f sp74;
                             func_8005AFB4(&sp74, ACTIVE_CAM);
                             SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,

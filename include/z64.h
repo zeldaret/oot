@@ -377,8 +377,19 @@ typedef struct {
     /* 0x0124 */ s32    unk_124;
 } View; // size = 0x128
 
+typedef union {
+    s16 sh[2];
+    s32 w;
+    f32 f;
+} camera_unk_00;
+
 typedef struct {
-    /* 0x0000 */ s32 unk_00;
+    char unk_00[0x0E];
+    s16 unk_0E;
+} struct_80041C10_ret;
+
+typedef struct {
+    /* 0x0000 */ camera_unk_00 unk_00;
     /* 0x0004 */ s16 unk_04;
     /* 0x0006 */ s16 unk_06;
     /* 0x0008 */ s16 unk_08;
@@ -394,7 +405,7 @@ typedef struct {
     /* 0x008C */ struct GlobalContext* globalCtx;
     /* 0x0090 */ Player* player;
     /* 0x0094 */ PosRot unk_94;
-    /* 0x00A8 */ Vec3f* unk_A8;
+    /* 0x00A8 */ Actor* unk_A8;
     /* 0x00AC */ Vec3f unk_AC;
     /* 0x00B8 */ char unk_B8[8];
     /* 0x00C0 */ Vec3f unk_C0;
@@ -408,7 +419,10 @@ typedef struct {
     /* 0x0100 */ f32 unk_100;
     /* 0x0104 */ f32 unk_104;
     /* 0x0108 */ Vec3f unk_108;
-    /* 0x0114 */ char unk_114[0x10];
+    /* 0x0114 */ char unk_114[0x4];
+    /* 0x0118 */ s32 unk_118;
+    /* 0x011C */ s32 unk_11C;
+    /* 0x0120 */ char unk_120[0x4];
     /* 0x0124 */ s32 unk_124;
     /* 0x0128 */ s32 unk_128;
     /* 0x012C */ s16 unk_12C;
@@ -418,8 +432,8 @@ typedef struct {
     /* 0x0134 */ Vec3s unk_134;
     /* 0x013A */ Vec3s unk_13A;
     /* 0x0140 */ s16 status;
-    /* 0x0142 */ s16 unk_142; // related to door camera (see func_8005AD40)
-    /* 0x0144 */ s16 unk_144;
+    /* 0x0142 */ s16 setting; // referred to as set
+    /* 0x0144 */ s16 mode;
     /* 0x0146 */ s16 unk_146; // unknown if used
     /* 0x0148 */ s16 unk_148; // ID for door camera? (see func_8005AD40)
     /* 0x014A */ s16 unk_14A; // unknown if used
@@ -432,7 +446,7 @@ typedef struct {
     /* 0x0158 */ s16 unk_158; // unknown if used
     /* 0x015E */ s16 unk_15A;
     /* 0x015E */ s16 unk_15C; // unknown if used
-    /* 0x015E */ u16 unk_15E;
+    /* 0x015E */ s16 unk_15E;
     /* 0x0160 */ s16 unk_160;
     /* 0x0162 */ s16 unk_162;
     /* 0x0164 */ s16 unk_164;

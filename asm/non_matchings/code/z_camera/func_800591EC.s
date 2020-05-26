@@ -525,10 +525,10 @@ glabel func_800591EC
 /* AD0A38 80059898 00480019 */  multu $v0, $t0
 /* AD0A3C 8005989C 3C098012 */  lui   $t1, %hi(D_8011D3F8) # $t1, 0x8012
 /* AD0A40 800598A0 2529D3F8 */  addiu $t1, %lo(D_8011D3F8) # addiu $t1, $t1, -0x2c08
-/* AD0A44 800598A4 3C0C8012 */  lui   $t4, %hi(sCameraTypeNames) # $t4, 0x8012
+/* AD0A44 800598A4 3C0C8012 */  lui   $t4, %hi(sCameraModeNames) # $t4, 0x8012
 /* AD0A48 800598A8 0003C0C0 */  sll   $t8, $v1, 3
 /* AD0A4C 800598AC 03095021 */  addu  $t2, $t8, $t1
-/* AD0A50 800598B0 258CA2A4 */  addiu $t4, %lo(sCameraTypeNames) # addiu $t4, $t4, -0x5d5c
+/* AD0A50 800598B0 258CA2A4 */  addiu $t4, %lo(sCameraModeNames) # addiu $t4, $t4, -0x5d5c
 /* AD0A54 800598B4 3C048014 */  lui   $a0, %hi(D_80139AA8) # $a0, 0x8014
 /* AD0A58 800598B8 24849AA8 */  addiu $a0, %lo(D_80139AA8) # addiu $a0, $a0, -0x6558
 /* AD0A5C 800598BC AFAA0014 */  sw    $t2, 0x14($sp)
