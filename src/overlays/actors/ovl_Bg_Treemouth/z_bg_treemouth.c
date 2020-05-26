@@ -222,29 +222,30 @@ void BgTreemouth_Update(Actor* thisx, GlobalContext* globalCtx) {
     thisx->posRot.pos.z = (unk_168 * 92.0f) + -1255.0f;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Treemouth/BgTreemouth_Draw.s")
-/*void BgTreemouth_Draw(Actor *thisx, GlobalContext *globalCtx) {
+void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    u16 alpha = 0x1F4;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
-    u32 phi_t1;
 
     Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 893);
     func_80093D18(globalCtx->state.gfxCtx);
+
     if ((gSaveContext.sceneSetupIndex < 4) || (LINK_IS_ADULT)) {
-        phi_t1 = 0x1F4;
-        if (gSaveContext.eventChkInf[0] & 0x800) {
-            phi_t1 = 0x866;
+        if (gSaveContext.eventChkInf[0] & 0x80) {
+            alpha = 0x866;
         }
+    } else { // neeeded to match
     }
 
     if (gSaveContext.sceneSetupIndex == 6) {
-        phi_t1 = (globalCtx->unk_11D30[0] + 0x1F4) & 0xFFFF;
+        alpha = (globalCtx->unk_11D30[0] + 0x1F4);
     }
 
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x00, 0x00, 0x00, ((u32)(phi_t1 * 0.1f) | 0x80808000));
+    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0x80, 0x80, 0x80, alpha * 0.1f);
     gSPMatrix(gfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 932),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfxCtx->polyOpa.p++, &D_060009D0);
 
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 937);
-}*/
+}
