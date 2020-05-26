@@ -103,11 +103,18 @@ build/src/code/code_801068B0.o: OPTFLAGS := -g
 build/src/code/code_80106860.o: OPTFLAGS := -g
 build/src/code/code_801067F0.o: OPTFLAGS := -g
 
+# Todo: split libultra_code into libultra_code_O1, etc..
+build/src/libultra_code/sqrt.o: OPTFLAGS := -O2 -g3
+build/src/libultra_code/absf.o: OPTFLAGS := -O2 -g3
+build/src/libultra_code/osSetTimer.o: OPTFLAGS := -O1
+build/src/libultra_code/osStopTimer.o: OPTFLAGS := -O1
+
 build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
 build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
 
 build/src/libultra_code/%.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
 build/src/code/jpegutils.o: CC := python3 tools/asm_processor/build.py $(CC_OLD) -- $(AS) $(ASFLAGS) --
+
 
 build/src/boot/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --

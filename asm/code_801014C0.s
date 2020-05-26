@@ -9,16 +9,6 @@
 
 .align 4
 
-glabel osSpTaskYield
-/* B78640 801014A0 27BDFFE8 */  addiu $sp, $sp, -0x18
-/* B78644 801014A4 AFBF0014 */  sw    $ra, 0x14($sp)
-/* B78648 801014A8 0C041920 */  jal   __osSpSetStatus
-/* B7864C 801014AC 24040400 */   li    $a0, 1024
-/* B78650 801014B0 8FBF0014 */  lw    $ra, 0x14($sp)
-/* B78654 801014B4 27BD0018 */  addiu $sp, $sp, 0x18
-/* B78658 801014B8 03E00008 */  jr    $ra
-/* B7865C 801014BC 00000000 */   nop   
-
 glabel func_801014C0
 /* B78660 801014C0 27BDFFE0 */  addiu $sp, $sp, -0x20
 /* B78664 801014C4 AFBF001C */  sw    $ra, 0x1c($sp)

@@ -1733,4 +1733,9 @@ typedef struct {
     /* 0x06 */ u16 color;
 } SpeedMeterTimeEntry; // size = 0x08
 
+typedef struct {
+    /* 0x00 */ s16 intPart[4][4];
+    /* 0x20 */ u16 fracPart[4][4];
+} MatrixInternal; // size = 0x40
+
 #endif
