@@ -367,7 +367,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
                 this->fire = 4;
                 Actor_ApplyDamage(&this->actor);
                 func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
-                tookDamage = 1;
+                tookDamage = true;
                 break;
             case 1:  // hookshot/longshot
             case 13: // all sword damage
@@ -377,7 +377,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
                         func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
-                        tookDamage = 1;
+                        tookDamage = true;
                         EnSb_SetupCooldown(this, 0);
                     }
                 }
@@ -395,7 +395,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
         }
 
         // if player attack didn't do damage, play recoil sound and spawn sparks
-        if (tookDamage == 0) {
+        if (!tookDamage) {
             hitPoint.x = this->collider.body.bumper.unk_06.x;
             hitPoint.y = this->collider.body.bumper.unk_06.y;
             hitPoint.z = this->collider.body.bumper.unk_06.z;
@@ -417,13 +417,12 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.params = 1;
         }
         if (func_8003305C(this, &this->unk_1E0, globalCtx, this->actor.params) != 0) {
-            if (this->hitByWindArrow == false) {
+            if (!this->hitByWindArrow) {
                 Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x80);
             } else {
                 Item_DropCollectible(globalCtx, &this->actor.posRot.pos, 8);
             }
             Actor_Kill(&this->actor);
-            return;
         }
     } else {
         Actor_SetHeight(&this->actor, 20.0f);
