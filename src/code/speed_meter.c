@@ -2,6 +2,21 @@
 #include <global.h>
 #include <vt.h>
 
+volatile OSTime D_8016A520;
+volatile OSTime D_8016A528;
+volatile OSTime D_8016A530;
+volatile OSTime D_8016A538;
+volatile OSTime D_8016A540;
+volatile OSTime D_8016A548;
+volatile OSTime D_8016A550;
+volatile OSTime D_8016A558;
+volatile OSTime gRSPAudioTotalTime;
+volatile OSTime gRSPGFXTotalTime;
+volatile OSTime gRSPOtherTotalTime;
+volatile OSTime D_8016A578;
+volatile OSTime gRDPTotalTime;
+SpeedMeterTimeEntry* gSpeedMeterTimeEntryPtr;
+
 SpeedMeterTimeEntry sSpeedMeterTimeEntryArray[] = {
     { &D_8016A520, 0, 0, GPACK_RGBA5551(0xFF, 0x00, 0x00, 1) },
     { &D_8016A528, 0, 2, GPACK_RGBA5551(0xFF, 0xFF, 0x00, 1) },

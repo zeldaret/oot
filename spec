@@ -407,8 +407,6 @@ beginseg
     include "build/src/code/main.o"
     include "build/src/code/padmgr.o"
     include "build/src/code/sched.o"
-    include "build/data/sched.data.o"
-    include "build/data/sched.bss.o"
     include "build/src/code/speed_meter.o"
     include "build/src/code/sys_cfb.o"
     include "build/src/code/sys_math.o"
