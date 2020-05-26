@@ -164,7 +164,7 @@ void Title_Init(TitleContext* this) {
     u32 size = (u32)_nintendo_rogo_staticSegmentRomEnd - (u32)_nintendo_rogo_staticSegmentRomStart;
     u32 pad;
 
-    this->staticSegment = GameState_AllocEnd(&this->state, size, "../z_title.c", 611);
+    this->staticSegment = GameState_Alloc(&this->state, size, "../z_title.c", 611);
     osSyncPrintf("z_title.c\n");
     if (this->staticSegment == NULL) {
         __assert("this->staticSegment != NULL", "../z_title.c", 614);
