@@ -118,7 +118,7 @@ glabel func_801045A4
 /* B7B784 801045E4 0C041114 */  jal   func_80104450
 /* B7B788 801045E8 E7AA001C */   swc1  $f10, 0x1c($sp)
 /* B7B78C 801045EC 27A40028 */  addiu $a0, $sp, 0x28
-/* B7B790 801045F0 0C041938 */  jal   func_801064E0
+/* B7B790 801045F0 0C041938 */  jal   guMtxF2L
 /* B7B794 801045F4 8FA50068 */   lw    $a1, 0x68($sp)
 /* B7B798 801045F8 8FBF0024 */  lw    $ra, 0x24($sp)
 /* B7B79C 801045FC 27BD0068 */  addiu $sp, $sp, 0x68
