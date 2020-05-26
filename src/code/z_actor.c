@@ -3088,16 +3088,6 @@ s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
     return arg0[0];
 }
 
-typedef struct {
-    /* 0x00 */ MtxF* unk_00;
-    /* 0x04 */ s16* unk_04;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ char unk_0A[0x02];
-    /* 0x0C */ s32* unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-} struct_80032E24;
-
 void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx) {
     u32 sp28;
     u32 sp24;

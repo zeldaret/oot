@@ -1,0 +1,54 @@
+<Root>
+    <File Name="bdan_scene">
+        <Scene Name="bdan_scene"/>
+    </File>
+    <File Name="bdan_room_0">
+        <Room Name="bdan_room_0"/>
+    </File>
+    <File Name="bdan_room_1">
+        <Room Name="bdan_room_1"/>
+    </File>
+    <File Name="bdan_room_2">
+        <Room Name="bdan_room_2">
+        </Room>
+    </File>
+    <File Name="bdan_room_3">
+        <Room Name="bdan_room_3"/>
+    </File>
+    <File Name="bdan_room_4">
+        <Room Name="bdan_room_4"/>
+    </File>
+    <File Name="bdan_room_5">
+        <Room Name="bdan_room_5"/>
+    </File>
+    <File Name="bdan_room_6">
+        <Room Name="bdan_room_6"/>
+    </File>
+    <File Name="bdan_room_7">
+        <Room Name="bdan_room_7"/>
+    </File>
+    <File Name="bdan_room_8">
+        <Room Name="bdan_room_8"/>
+    </File>
+    <File Name="bdan_room_9">
+        <Room Name="bdan_room_9"/>
+    </File>
+    <File Name="bdan_room_10">
+        <Room Name="bdan_room_10"/>
+    </File>
+    <File Name="bdan_room_11">
+        <Room Name="bdan_room_11"/>
+    </File>
+    <File Name="bdan_room_12">
+        <Room Name="bdan_room_12"/>
+    </File>
+    <File Name="bdan_room_13">
+        <Room Name="bdan_room_13"/>
+    </File>
+    <File Name="bdan_room_14">
+        <Room Name="bdan_room_14"/>
+    </File>
+    <File Name="bdan_room_15">
+        <Room Name="bdan_room_15"/>
+    </File>
+</Root>

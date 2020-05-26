@@ -1,0 +1,18 @@
+<Root>
+    <File Name="spot18_scene">
+        <Scene Name="spot18_scene">
+        </Scene>
+    </File>
+    <File Name="spot18_room_0">
+        <Room Name="spot18_room_0"/>
+    </File>
+    <File Name="spot18_room_1">
+        <Room Name="spot18_room_1"/>
+    </File>
+    <File Name="spot18_room_2">
+        <Room Name="spot18_room_2"/>
+    </File>
+    <File Name="spot18_room_3">
+        <Room Name="spot18_room_3"/>
+    </File>
+</Root>

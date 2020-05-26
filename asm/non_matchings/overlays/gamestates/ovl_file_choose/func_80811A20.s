@@ -22,7 +22,7 @@ glabel func_80811A20
 /* 0DD2C 80811A6C 24C62F54 */  addiu   $a2, $a2, %lo(D_80812F54)  ## $a2 = 80812F54
 /* 0DD30 80811A70 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0DD34 80811A74 8FA5002C */  lw      $a1, 0x002C($sp)
-/* 0DD38 80811A78 0C031521 */  jal     GameState_AllocEnd
+/* 0DD38 80811A78 0C031521 */  jal     GameState_Alloc
 
 /* 0DD3C 80811A7C 24070D40 */  addiu   $a3, $zero, 0x0D40         ## $a3 = 00000D40
 /* 0DD40 80811A80 14400007 */  bne     $v0, $zero, .L80811AA0
@@ -53,7 +53,7 @@ glabel func_80811A20
 /* 0DD9C 80811ADC AFA5002C */  sw      $a1, 0x002C($sp)
 /* 0DDA0 80811AE0 AFA30030 */  sw      $v1, 0x0030($sp)
 /* 0DDA4 80811AE4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0DDA8 80811AE8 0C031521 */  jal     GameState_AllocEnd
+/* 0DDA8 80811AE8 0C031521 */  jal     GameState_Alloc
 
 /* 0DDAC 80811AEC 24070D46 */  addiu   $a3, $zero, 0x0D46         ## $a3 = 00000D46
 /* 0DDB0 80811AF0 14400007 */  bne     $v0, $zero, .L80811B10
