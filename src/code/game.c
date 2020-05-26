@@ -496,7 +496,7 @@ u32 GameState_IsRunning(GameState* gameState) {
     return gameState->running;
 }
 
-void* GameState_AllocEnd(GameState* gameState, size_t size, char* file, s32 line) {
+void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line) {
     void* ret;
 
     if (THA_IsCrash(&gameState->tha)) {

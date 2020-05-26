@@ -445,23 +445,23 @@ glabel Graph_Update
 /* B3D838 800C6698 00000000 */   nop
 /* B3D83C 800C669C 0C001A78 */  jal   osGetTime
 /* B3D840 800C66A0 00000000 */   nop
-/* B3D844 800C66A4 3C048017 */  lui   $a0, %hi(D_8016A568) # $a0, 0x8017
-/* B3D848 800C66A8 2484A568 */  addiu $a0, %lo(D_8016A568) # addiu $a0, $a0, -0x5a98
+/* B3D844 800C66A4 3C048017 */  lui   $a0, %hi(gRSPGFXTotalTime) # $a0, 0x8017
+/* B3D848 800C66A8 2484A568 */  addiu $a0, %lo(gRSPGFXTotalTime) # addiu $a0, $a0, -0x5a98
 /* B3D84C 800C66AC 8C8E0000 */  lw    $t6, ($a0)
 /* B3D850 800C66B0 8C8F0004 */  lw    $t7, 4($a0)
 /* B3D854 800C66B4 3C188017 */  lui   $t8, %hi(D_8016A538) # $t8, 0x8017
 /* B3D858 800C66B8 2718A538 */  addiu $t8, %lo(D_8016A538) # addiu $t8, $t8, -0x5ac8
-/* B3D85C 800C66BC 3C058017 */  lui   $a1, %hi(D_8016A560) # $a1, 0x8017
+/* B3D85C 800C66BC 3C058017 */  lui   $a1, %hi(gRSPAudioTotalTime) # $a1, 0x8017
 /* B3D860 800C66C0 AF0E0000 */  sw    $t6, ($t8)
-/* B3D864 800C66C4 24A5A560 */  addiu $a1, %lo(D_8016A560) # addiu $a1, $a1, -0x5aa0
+/* B3D864 800C66C4 24A5A560 */  addiu $a1, %lo(gRSPAudioTotalTime) # addiu $a1, $a1, -0x5aa0
 /* B3D868 800C66C8 AF0F0004 */  sw    $t7, 4($t8)
 /* B3D86C 800C66CC 8CAA0000 */  lw    $t2, ($a1)
 /* B3D870 800C66D0 8CAB0004 */  lw    $t3, 4($a1)
 /* B3D874 800C66D4 3C198017 */  lui   $t9, %hi(D_8016A530) # $t9, 0x8017
 /* B3D878 800C66D8 2739A530 */  addiu $t9, %lo(D_8016A530) # addiu $t9, $t9, -0x5ad0
-/* B3D87C 800C66DC 3C068017 */  lui   $a2, %hi(D_8016A580) # $a2, 0x8017
+/* B3D87C 800C66DC 3C068017 */  lui   $a2, %hi(gRDPTotalTime) # $a2, 0x8017
 /* B3D880 800C66E0 AF2A0000 */  sw    $t2, ($t9)
-/* B3D884 800C66E4 24C6A580 */  addiu $a2, %lo(D_8016A580) # addiu $a2, $a2, -0x5a80
+/* B3D884 800C66E4 24C6A580 */  addiu $a2, %lo(gRDPTotalTime) # addiu $a2, $a2, -0x5a80
 /* B3D888 800C66E8 AF2B0004 */  sw    $t3, 4($t9)
 /* B3D88C 800C66EC 8CCC0000 */  lw    $t4, ($a2)
 /* B3D890 800C66F0 8CCD0004 */  lw    $t5, 4($a2)

@@ -1,0 +1,27 @@
+<Root>
+    <File Name="HAKAdanCH_scene">
+        <Scene Name="HAKAdanCH_scene"/>
+    </File>
+    <File Name="HAKAdanCH_room_0">
+        <Room Name="HAKAdanCH_room_0"/>
+    </File>
+    <File Name="HAKAdanCH_room_1">
+        <Room Name="HAKAdanCH_room_1"/>
+    </File>
+    <File Name="HAKAdanCH_room_2">
+        <Room Name="HAKAdanCH_room_2">
+        </Room>
+    </File>
+    <File Name="HAKAdanCH_room_3">
+        <Room Name="HAKAdanCH_room_3"/>
+    </File>
+    <File Name="HAKAdanCH_room_4">
+        <Room Name="HAKAdanCH_room_4"/>
+    </File>
+    <File Name="HAKAdanCH_room_5">
+        <Room Name="HAKAdanCH_room_5"/>
+    </File>
+    <File Name="HAKAdanCH_room_6">
+        <Room Name="HAKAdanCH_room_6"/>
+    </File>
+</Root>

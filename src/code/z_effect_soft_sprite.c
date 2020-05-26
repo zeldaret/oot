@@ -16,7 +16,7 @@ void EffectSs_InitInfo(GlobalContext* globalCtx, s32 tableSize) {
     }
 
     sEffectSsInfo.table =
-        GameState_AllocEnd(&globalCtx->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
+        GameState_Alloc(&globalCtx->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
     if (sEffectSsInfo.table == NULL) {
         __assert("EffectSS2Info.data_table != NULL", "../z_effect_soft_sprite.c", 290);
     }
