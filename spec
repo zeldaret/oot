@@ -1441,7 +1441,6 @@ endseg
 beginseg
     name "ovl_Bg_Treemouth"
     include "build/src/overlays/actors/ovl_Bg_Treemouth/z_bg_treemouth.o"
-    include "build/data/overlays/actors/z_bg_treemouth.data.o"
     include "build/data/overlays/actors/z_bg_treemouth.reloc.o"
 endseg
 
