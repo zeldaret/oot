@@ -20,6 +20,15 @@ void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx);
 void func_80AE538C(EnReeba* this, GlobalContext* globalCtx);
 void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx);
 
+void func_80AE561C(EnReeba* this, GlobalContext* globalCtx);
+
+void func_80AE58EC(EnReeba* this, GlobalContext* globalCtx);
+void func_80AE5BC4(EnReeba* this, GlobalContext* globalCtx);
+void func_80AE5E48(EnReeba* this, GlobalContext* globalCtx);
+void func_80AE57F0(EnReeba* this, GlobalContext* globalCtx);
+void func_80AE5C38(EnReeba* this, GlobalContext* globalCtx);
+void func_80AE5854(EnReeba* this, GlobalContext* globalCtx);
+
 static DamageTable sDamageTable = {
     0x00, 0xE2, 0xE1, 0xE2, 0xC1, 0xE2, 0xE2, 0xD2, 0xE1, 0xE4, 0xE6, 0xE2, 0x34, 0xE2, 0xE2, 0xE2, 
     0xE2, 0x00, 0x34, 0x00, 0x00, 0x00, 0xE2, 0xE8, 0xE4, 0xE2, 0xE8, 0xE4, 0x10, 0x00, 0x00, 0x00,
@@ -66,18 +75,18 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->isMega = this->actor.params;
-    this->unk_28C = 0.04f; //0.03999999910593033f
+    this->scale = 0.04f; //0.03999999910593033f
     if (this->isMega != 0) {
         this->collider.dim.radius = 0x23;
         this->collider.dim.height = 0x2D;
-        this->unk_28C *= 1.5f;
-        osSyncPrintf(VT_FGCOL(YELLOW)"☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n"VT_RST, this->unk_28C);
+        this->scale *= 1.5f;
+        osSyncPrintf(VT_FGCOL(YELLOW)"☆☆☆☆☆ リーバぼす登場 ☆☆☆☆☆ %f\n"VT_RST, this->scale);
         this->actor.colChkInfo.health = 20;
         this->collider.body.toucher.effect = 4;
         this->collider.body.toucher.damage = 16;
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ENEMY);
     }
-    temp_f0 = this->unk_28C * -27500.0f;
+    temp_f0 = this->scale * -27500.0f;
     this->unk_284 = temp_f0;
     this->actor.shape.unk_08 = temp_f0;
     ActorShape_Init(&this->actor.shape, temp_f0, ActorShadow_DrawFunc_Circle, 0.0f);
@@ -219,6 +228,53 @@ void func_80AE538C(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/func_80AE53AC.s")
+/*
+void func_80AE53AC(EnReeba *this, GlobalContext *globalCtx) {
+    f32 temp_f0;
+    s16 temp_a0;
+    s32 temp_ret;
+    s16 temp_v0;
+    s16 phi_v0;
+    f32 distDiff;
+    f32 rand;
+
+    SkelAnime_FrameUpdateMatrix(&this->skelanime);
+    if (this->actor.shape.unk_10 < 12.0f) {
+        Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
+    }
+    temp_ret = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
+
+    if (((temp_ret != 4) && (temp_ret != 7)) || (400.0f < this->actor.xzDistanceFromLink) || (this->actor.bgCheckFlags & 8)) {
+            this->actionfunc = func_80AE5688;
+    } else {
+        if ((this->actor.xzDistanceFromLink < 70.0f) && (this->unk_270 == 0)) {
+            this->unk_270 = 0x1E;
+        }
+        rand = (Math_Rand_ZeroOne() * 50.0f );
+        distDiff = (this->actor.xzDistanceFromLink - 20.0f);
+        rand += 150.0f; //maybe dont reuse?
+        distDiff /= rand;
+        distDiff *= 1.8f;
+        this->actor.speedXZ += distDiff;
+
+        if (this->actor.speedXZ >= 3.0f) {
+            this->actor.speedXZ = 3.0f;
+        }
+        if (this->actor.speedXZ < -3.0f) {
+            this->actor.speedXZ = -3.0f;
+        }
+        phi_v0 = this->unk_270 == 0 ? this->actor.rotTowardsLinkY : -this->actor.rotTowardsLinkY;
+        temp_v0 = phi_v0 - this->actor.posRot.rot.y;
+        temp_a0 = temp_v0 > 0 ? ((temp_v0 / 31.0f) + 10.0f) : ((temp_v0 / 31.0f) - 10.0f);
+        temp_f0 = temp_a0;
+        this->actor.posRot.rot.y += (temp_f0 + temp_f0);
+        if (this->unk_274 == 0) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
+            this->unk_274 = 0x14;
+        }
+    }
+}
+*/
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/func_80AE561C.s")
 
@@ -250,54 +306,6 @@ void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/func_80AE57F0.s")
-void func_80AE53AC(EnReeba *this, GlobalContext *globalCtx) {
-    f32 temp_f0;
-    s32 temp_ret;
-    s32 temp_v0;
-    s32 phi_v0;
-    s32 phi_a0;
-
-    SkelAnime_FrameUpdateMatrix(&this->skelanime);
-    if (this->actor.shape.unk_10 < 12.0f) {
-        Math_SmoothScaleMaxF(&this->actor.shape.unk_10, 12.0f, 3.0f, 1.0f);
-    }
-    temp_ret = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
-
-    if (((temp_ret != 4) && (temp_ret != 7)) || (400.0f < this->actor.xzDistanceFromLink) || (this->actor.bgCheckFlags & 8)) {
-            this->actionfunc = func_80AE5688;
-    } else {
-        if ((this->actor.xzDistanceFromLink < 70.0f) && (this->unk_270 == 0)) {
-            this->unk_270 = 0x1E;
-        }
-        this->actor.speedXZ += (((this->actor.xzDistanceFromLink - 20.0f) / ((Math_Rand_ZeroOne () * 50.0f) + 150.0f)) * 1.8f);
-        if (3.0f <= this->actor.speedXZ) {
-            this->actor.speedXZ = 3.0f;
-        }
-        if (this->actor.speedXZ < -3.0f) {
-            this->actor.speedXZ = -3.0f;
-        }
-        if ((s16) this->unk_270 == 0) {
-            phi_v0 = (s32) this->actor.rotTowardsLinkY;
-        } else {
-            phi_v0 = (s32) ((0 - this->actor.rotTowardsLinkY) << 0x10) >> 0x10;
-        }
-        temp_v0 = (s32) ((phi_v0 - this->actor.posRot.rot.y) << 0x10) >> 0x10;
-        if (temp_v0 > 0) {
-            phi_a0 = (s32) (((f32) temp_v0 / 31.0f) + 10.0f) << 0x10;
-        } else {
-            phi_a0 = (s32) (((f32) temp_v0 / 31.0f) - 10.0f) << 0x10;
-        }
-        temp_f0 = (f32) (phi_a0 >> 0x10);
-        this->actor.posRot.rot.y = (s16) (s32) ((f32) this->actor.posRot.rot.y + (temp_f0 + temp_f0));
-        if (this->unk_274 == 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
-            this->unk_274 = 0x14;
-        }
-    }
-
-
-}
-
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/func_80AE5854.s")
 
@@ -313,8 +321,142 @@ void func_80AE53AC(EnReeba *this, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/func_80AE5E48.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/func_80AE5EDC.s")
+void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
+    if ((this->collider.base.acFlags & 2)) {
+        this->collider.base.acFlags &= ~2;
+        if ((this->actionfunc != func_80AE5C38) && (this->actionfunc != func_80AE5854)){
+            this->actor.shape.rot.z = 0;
+            this->unk_27E = 0;
+            this->actor.shape.rot.x = this->actor.shape.rot.z;
+            switch (this->actor.colChkInfo.damageEffect) {
+                case 11:
+                case 12:
+                    if (this->actor.colChkInfo.health > 1) {
+                        if (this->unk_27E != 4) {
+                            this->unk_27E = 4;
+                            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                            func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+                            this->actionfunc = func_80AE58EC;
+                            break;
+                        }
+                    }
+                case 13:
+                    if (this->actor.colChkInfo.health > 2) {
+                        if (this->unk_27E != 4) {
+                            this->unk_27E = 4;
+                            func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+                            Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+                            this->actionfunc = func_80AE58EC;
+                            break;
+                        }
+                    }
+                case 14:
+                    this->unk_27C = 6;
+                    Actor_ApplyDamage(&this->actor);
+                    if (this->actor.colChkInfo.health == 0) {
+                        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DEAD);
+                        func_80032C7C(globalCtx, &this->actor);
+                        this->actionfunc = func_80AE5BC4;
+                        break;
+                    }
+                    if (this->actionfunc == func_80AE5E48) {
+                        this->actor.shape.rot.z = 0; //stack?
+                        this->actor.shape.rot.x = this->actor.shape.rot.z;
+                    }
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_DAMAGE);
+                    this->actionfunc = func_80AE57F0;
+                    break;
+                case 3:
+                    Actor_ApplyDamage(&this->actor);
+                    this->unk_27C = 2;
+                    this->unk_27E = 2;
+                    func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+                    this->actionfunc = func_80AE58EC;
+                    break;
+                case 1:
+                    if (this->unk_27E != 4) {
+                        this->unk_27E = 4;
+                        func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+                        this->actionfunc = func_80AE58EC;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/EnReeba_Update.s")
+/*
+void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx) {
+    EnReeba* this = THIS;
+    EnReebaActionFunc pad;
+    Player* player = PLAYER;
+
+    func_80AE5EDC(this, globalCtx);
+    this->actionfunc(this, globalCtx);
+    Actor_SetScale(&this->actor, this->scale);
+
+    if (this->unk_270 != 0) {
+        this->unk_270--;
+    }
+    if (this->unk_272 != 0) {
+        this->unk_272--;
+    }
+    if (this->unk_278 != 0) {
+        this->unk_278--;
+    }
+    if (this->unk_274 != 0) {
+        this->unk_274--;
+    }
+    if (this->unk_276 != 0) {
+        this->unk_276--;
+    }
+
+    Actor_MoveForward(&this->actor);
+    func_8002E4B4(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
+    
+    if (this->collider.base.atFlags & 4) {
+        this->collider.base.atFlags &= ~4;
+        if ((this->actionfunc == func_80AE5270) || (this->actionfunc == func_80AE53AC)) {
+            this->actor.speedXZ = 8.0f;
+            this->actor.posRot.rot.y *= -1.0f;
+            this->unk_272 = 0xE;
+            this->actionfunc = func_80AE561C;
+            return;
+        }
+    } 
+    if (this->collider.base.atFlags & 2) {
+        this->collider.base.atFlags &= ~2;
+        if (&player->actor == this->collider.base.at) {
+            if (this->isMega == 0) {
+                if (this->actionfunc != func_80AE56E0) {
+                    this->actionfunc = func_80AE5688;
+                }
+            }
+        }
+    }
+    this->actor.posRot2.pos = this->actor.posRot.pos;
+    if (this->isMega == 0) {
+        this->actor.posRot2.pos.y += 15.0f;
+    } else {
+        this->actor.posRot2.pos.y += 30.0f;
+    }
+    Collider_CylinderUpdate(&this->actor, &this->collider);
+    if ((this->actor.shape.unk_08 >= -700.0f) && (this->actor.colChkInfo.health > 0)) {
+        if (this->actionfunc != func_80AE56E0) {
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+            if (!(this->actor.shape.unk_08 < 0.0f)) {
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+                if ((this->actionfunc == func_80AE5270) || (this->actionfunc == func_80AE53AC)) {
+                    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+                }
+            }
+        }
+    }
+}
+*/
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Reeba/EnReeba_Draw.s")
