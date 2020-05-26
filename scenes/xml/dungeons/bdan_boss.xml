@@ -1,0 +1,11 @@
+<Root>
+    <File Name="bdan_boss_scene">
+        <Scene Name="bdan_boss_scene"/>
+    </File>
+    <File Name="bdan_boss_room_0">
+        <Room Name="bdan_boss_room_0"/>
+    </File>
+    <File Name="bdan_boss_room_1">
+        <Room Name="bdan_boss_room_1"/>
+    </File>
+</Root>
