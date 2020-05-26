@@ -5,10 +5,8 @@
 #define RDP_DONE_MSG 668
 #define ENTRY_MSG 670
 
-#define ENSURE_PTR(ptr, member) (ptr != NULL ? ptr->member : NULL)
-
 // data
-volatile s32 sLogScheduler = 0;
+volatile s32 sLogScheduler = false;
 
 // bss
 OSTime sRSPGFXStartTime;
@@ -24,7 +22,7 @@ void Sched_SwapFrameBuffer(CfbInfo* cfbInfo) {
         cfbInfo->updateRate2 = cfbInfo->updateRate;
         if (sLogScheduler) {
             osSyncPrintf("osViSwapBuffer %08x %08x %08x\n", osViGetCurrentFramebuffer(), osViGetNextFramebuffer(),
-                         ENSURE_PTR(cfbInfo, swapBuffer));
+                         (cfbInfo != NULL ? cfbInfo->swapBuffer : NULL));
         }
         width = cfbInfo->viMode != NULL ? cfbInfo->viMode->comRegs.width : gScreenWidth;
         Fault_SetFB(cfbInfo->swapBuffer, width, 0x10);
@@ -73,18 +71,18 @@ void Sched_HandleReset(SchedContext* sc) {
         now = osGetTime();
         if (sc->curRSPTask->framebuffer == NULL) {
             LOG_TIME("(((u64)(now - audio_rsp_start_time)*(1000000LL/15625LL))/((62500000LL*3/4)/15625LL))",
-                     OS_CYCLES_TO_USEC(now - sRSPAudioStartTime), "../sched.c", 0x1A5);
+                     OS_CYCLES_TO_USEC(now - sRSPAudioStartTime), "../sched.c", 421);
         } else if (OS_CYCLES_TO_USEC(now - sRSPGFXStartTime) > 1000000 ||
                    OS_CYCLES_TO_USEC(now - sRDPStartTime) > 1000000) {
             func_800FBFD8();
             if (sc->curRSPTask != NULL) {
                 LOG_TIME("(((u64)(now - graph_rsp_start_time)*(1000000LL/15625LL))/((62500000LL*3/4)/15625LL))",
-                         OS_CYCLES_TO_USEC(now - sRSPGFXStartTime), "../sched.c", 0x1AB);
+                         OS_CYCLES_TO_USEC(now - sRSPGFXStartTime), "../sched.c", 427);
                 osSendMesg(&sc->interruptQ, RSP_DONE_MSG, OS_MESG_NOBLOCK);
             }
             if (sc->curRDPTask != NULL) {
                 LOG_TIME("(((u64)(now - rdp_start_time)*(1000000LL/15625LL))/((62500000LL*3/4)/15625LL))",
-                         OS_CYCLES_TO_USEC(now - sRDPStartTime), "../sched.c", 0x1AF);
+                         OS_CYCLES_TO_USEC(now - sRDPStartTime), "../sched.c", 431);
                 osSendMesg(&sc->interruptQ, RDP_DONE_MSG, 0);
             }
         }
@@ -99,7 +97,7 @@ void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
     s32 type = task->list.t.type;
     if (!((type == M_AUDTASK) || (type == M_GFXTASK) || (type == M_NJPEGTASK) || (type == M_NULTASK))) {
         __assert("(type == M_AUDTASK) || (type == M_GFXTASK) || (type == M_NJPEGTASK) || (type == M_NULTASK)",
-                 "../sched.c", 0x1CF);
+                 "../sched.c", 463);
     }
 
     if (type == M_AUDTASK) {
@@ -154,24 +152,23 @@ OSScTask* func_800C89D4(SchedContext* sc, OSScTask* task) {
 
     if (sc->pendingSwapBuf1 != NULL) {
         if (0) {
-            __assert("sc->pending_swapbuffer1", "../sched.c", 0);
+            __assert("sc->pending_swapbuffer1", "../sched.c", UNK_LINE);
         }
         return NULL;
     }
 
     if (sc->pendingSwapBuf2 != NULL) {
         if (0) {
-            __assert("sc->pending_swapbuffer2", "../sched.c", 0);
+            __assert("sc->pending_swapbuffer2", "../sched.c", UNK_LINE);
         }
         return NULL;
     }
 
-    if (ENSURE_PTR(sc->pendingSwapBuf2, swapBuffer) == task->framebuffer->fb1) {
-
+    if ((sc->pendingSwapBuf2 != NULL ? sc->pendingSwapBuf2->swapBuffer : NULL) == task->framebuffer->fb1) {
         return NULL;
     }
 
-    if (ENSURE_PTR(sc->pendingSwapBuf1, swapBuffer) == task->framebuffer->fb1) {
+    if ((sc->pendingSwapBuf1 != NULL ? sc->pendingSwapBuf1->swapBuffer : NULL) == task->framebuffer->fb1) {
         return NULL;
     }
 
@@ -293,11 +290,9 @@ void Sched_RunTask(SchedContext* sc, OSScTask* spTask, OSScTask* dpTask) {
                 (spTask->list.t.type == M_AUDTASK ? "AUDIO" : (spTask->list.t.type == M_GFXTASK ? "GRAPH" : "OTHER")));
         }
         sc->curRSPTask = spTask;
-        if (spTask == dpTask) {
-            if (sc->curRDPTask == NULL) {
-                sc->curRDPTask = dpTask;
-                sRDPStartTime = sRSPGFXStartTime;
-            }
+        if (spTask == dpTask && sc->curRDPTask == NULL) {
+            sc->curRDPTask = dpTask;
+            sRDPStartTime = sRSPGFXStartTime;
         }
     }
 }
