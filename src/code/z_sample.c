@@ -3,7 +3,7 @@
 #include <PR/os_cont.h>
 
 void Sample_HandleStateChange(SampleContext* this) {
-    if (!~(this->state.input[0].press.in.button | ~START_BUTTON)) {
+    if (CHECK_PAD(this->state.input[0].press, START_BUTTON)) {
         SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
         this->state.running = false;
     }

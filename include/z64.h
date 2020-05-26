@@ -461,8 +461,8 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ s32  unk_0;
-    /* 0x04 */ char unk_4[0x4];
+    /* 0x00 */ u32 toggle;
+    /* 0x04 */ s32 counter;
 } SubGlobalContext7B8; // size = 0x8
 
 typedef struct {
@@ -1154,7 +1154,7 @@ typedef struct {
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ Vec3f unk_18;
     /* 0x24 */ char unk_24[0x4];
-} struct_80034A14_arg1;
+} struct_80034A14_arg1; // size = 0x28
 
 typedef struct {
     /* 0x00 */ s8  scene;
@@ -1740,5 +1740,10 @@ typedef struct {
     /* 0x05 */ u8 y;
     /* 0x06 */ u16 color;
 } SpeedMeterTimeEntry; // size = 0x08
+
+typedef struct {
+    /* 0x00 */ s16 intPart[4][4];
+    /* 0x20 */ u16 fracPart[4][4];
+} MatrixInternal; // size = 0x40
 
 #endif

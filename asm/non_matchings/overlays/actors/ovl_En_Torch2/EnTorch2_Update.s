@@ -1243,7 +1243,7 @@ glabel EnTorch2_Update
 /* 015E8 80B1EF68 3C0480B2 */  lui     $a0, %hi(D_80B20130)       ## $a0 = 80B20000
 /* 015EC 80B1EF6C A4380136 */  sh      $t8, %lo(D_80B20136)($at)  
 /* 015F0 80B1EF70 24840130 */  addiu   $a0, $a0, %lo(D_80B20130)  ## $a0 = 80B20130
-/* 015F4 80B1EF74 0C03F31B */  jal     func_800FCC6C              
+/* 015F4 80B1EF74 0C03F31B */  jal     PadUtils_UpdateRelXY              
 /* 015F8 80B1EF78 A4260130 */  sh      $a2, %lo(D_80B20130)($at)  
 /* 015FC 80B1EF7C 3C0F80B2 */  lui     $t7, %hi(D_80B20132)       ## $t7 = 80B20000
 /* 01600 80B1EF80 3C0A80B2 */  lui     $t2, %hi(D_80B20138)       ## $t2 = 80B20000
