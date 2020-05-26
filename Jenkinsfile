@@ -15,6 +15,15 @@ pipeline {
                 sh 'make -j`nproc`'
             }
         }
+        stage('Report Progress') {
+            when {
+                branch 'master'
+            }
+            steps {
+                sh 'python3 progress.py -j'
+                sh 'mv build/progress.json /var/www/html/progress.json'
+            }
+        }
     }
     post {
         always {

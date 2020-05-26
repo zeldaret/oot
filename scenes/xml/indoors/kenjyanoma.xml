@@ -1,0 +1,8 @@
+<Root>
+    <File Name="kenjyanoma_scene">
+        <Scene Name="kenjyanoma_scene"/>
+    </File>
+    <File Name="kenjyanoma_room_0">
+        <Room Name="kenjyanoma_room_0"/>
+    </File>
+</Root>

@@ -371,7 +371,7 @@ void Gameplay_Init(GlobalContext* globalCtx) {
 
     osSyncPrintf("ZELDA ALLOC SIZE=%x\n", THA_GetSize(&globalCtx->state.tha));
     zAllocSize = THA_GetSize(&globalCtx->state.tha);
-    zAlloc = GameState_AllocEnd(&globalCtx->state, zAllocSize, "../z_play.c", 2918);
+    zAlloc = GameState_Alloc(&globalCtx->state, zAllocSize, "../z_play.c", 2918);
     zAllocAligned = (void*)(((u32)zAlloc + 8) & ~0xF);
     ZeldaArena_Init(zAllocAligned, zAllocSize - (u32)zAllocAligned + (u32)zAlloc);
     osSyncPrintf("ゼルダヒープ %08x-%08x\n", zAllocAligned,
@@ -1457,7 +1457,7 @@ void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file) {
     void* allocp;
 
     size = file->vromEnd - file->vromStart;
-    allocp = GameState_AllocEnd(&globalCtx->state, size, "../z_play.c", 4692);
+    allocp = GameState_Alloc(&globalCtx->state, size, "../z_play.c", 4692);
     DmaMgr_SendRequest1(allocp, file->vromStart, size, "../z_play.c", 4694);
 
     return allocp;

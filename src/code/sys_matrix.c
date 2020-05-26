@@ -21,7 +21,7 @@ MtxF* sMatrixStack;   // "Matrix_stack"
 MtxF* sCurrentMatrix; // "Matrix_now"
 
 void Matrix_Init(GameState* gameState) {
-    sCurrentMatrix = GameState_AllocEnd(gameState, 20 * sizeof(MtxF), "../sys_matrix.c", 153);
+    sCurrentMatrix = GameState_Alloc(gameState, 20 * sizeof(MtxF), "../sys_matrix.c", 153);
     sMatrixStack = sCurrentMatrix;
 }
 
@@ -935,7 +935,7 @@ void func_800D2A98(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     MtxF mf;
 
     func_800D2A34(&mf, arg1, arg2, arg3, arg4);
-    func_801064E0(&mf, mtx);
+    guMtxF2L(&mf, mtx);
 }
 
 void func_800D2AE4(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
