@@ -550,6 +550,8 @@ beginseg
     include "build/src/code/z_message_PAL.o"
     include "build/data/z_message_PAL.rodata.o"
     include "build/data/z_message_PAL.bss.o"
+    include "build/src/code/code_80110450.o"
+    include "build/data/code_80110450.rodata.o"
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"
     include "build/data/rsp.rodata.o"
