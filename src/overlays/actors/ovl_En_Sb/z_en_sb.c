@@ -82,7 +82,7 @@ void EnSb_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->isDead = false;
     this->actor.colChkInfo.mass = 0;
-    Actor_SetScale(&this->actor, 0.006);
+    Actor_SetScale(&this->actor, 0.006f);
     this->actor.shape.rot.y = 0;
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = -0.35f;
@@ -173,7 +173,7 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
 
 void EnSb_WaitClosed(EnSb* this, GlobalContext* globalCtx) {
     // always face toward link
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 10, 2000, 0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 0xA, 0x7D0, 0x0);
 
     if ((this->actor.xzDistanceFromLink <= 160.0f) && (this->actor.xzDistanceFromLink > 40.0f)) {
         EnSb_SetupOpen(this);
@@ -187,7 +187,7 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
         this->timer = 15;
         EnSb_SetupWaitOpen(this);
     } else {
-        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 10, 2000, 0);
+        Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 0xA, 0x7D0, 0x0);
         if ((this->actor.xzDistanceFromLink > 160.0f) || (this->actor.xzDistanceFromLink <= 40.0f)) {
             EnSb_SetupWaitClosed(this);
         }
@@ -197,7 +197,7 @@ void EnSb_Open(EnSb* this, GlobalContext* globalCtx) {
 void EnSb_WaitOpen(EnSb* this, GlobalContext* globalCtx) {
     s16 timer = this->timer;
 
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 10, 2000, 0);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, this->actor.rotTowardsLinkY, 0xA, 0x7D0, 0x0);
 
     if ((this->actor.xzDistanceFromLink > 160.0f) || (this->actor.xzDistanceFromLink <= 40.0f)) {
         EnSb_SetupWaitClosed(this);
@@ -216,7 +216,7 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
     s16 invertedYaw;
 
     invertedYaw = this->attackYaw + 0x8000;
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, invertedYaw, 1, 8000, 10);
+    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, invertedYaw, 0x1, 0x1F40, 0xA);
 
     if (this->actor.shape.rot.y == invertedYaw) {
         this->actor.posRot.rot.y = this->attackYaw;
