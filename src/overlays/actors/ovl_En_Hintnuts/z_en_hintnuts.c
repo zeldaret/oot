@@ -234,7 +234,7 @@ void EnHintnuts_Wait(EnHintnuts* this, GlobalContext* globalCtx) {
     if (func_800A56C8(&this->skelAnime, 9.0f) != 0) {
         this->collider.base.acFlags |= 1;
     } else if (func_800A56C8(&this->skelAnime, 8.0f) != 0) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     }
     if (this->skelAnime.animCurrentFrame < 9.0f) {
         boundedCurrentFrame = 9.0f;
