@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser(description="Computes current progress througho
 parser.add_argument("-m", "--matching", dest='matching', action='store_true',
                     help="Output matching progress instead of decompilation progress")
 parser.add_argument("-j", "--json", dest="json", action="store_true",
-                    help="Output results as a json file at progress.json")
+                    help="Output results as a json file at build/progress.json")
 args = parser.parse_args()
 
 NON_MATCHING_PATTERN = r"#ifdef\s+NON_MATCHING.*?#pragma\s+GLOBAL_ASM\s*\(\s*\"(.*?)\"\s*\).*?#endif"
