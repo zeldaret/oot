@@ -194,8 +194,10 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B010.s")
-/*void func_80B4B010(Actor* thisx, GlobalContext* globalCtx) {
+#ifdef NON_MATCHING
+// regalloc issues with the envCtx.unk_E2 section - using v0 instead of v1
+// silly if (rotDiff) line added because it fixes almost every regalloc issue
+void func_80B4B010(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     EnZl1* this = THIS;
     AnimationHeader* animationHeader;
@@ -215,6 +217,7 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
         func_800C0808(globalCtx, this->unk_1E8, player, 0x21);
         globalCtx->envCtx.unk_E2[0] = 0xFF;
         globalCtx->envCtx.unk_E2[1] = 0xFF;
+        if (rotDiff) {} // fixes a lot of regalloc issues but is definitely a fake match improvement
         globalCtx->envCtx.unk_E2[2] = 0xFF;
         globalCtx->envCtx.unk_E2[3] = 0x18;
         globalCtx->envCtx.unk_E1 = 1;
@@ -237,9 +240,13 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     }
-}*/
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B010.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B240.s")
+#ifdef NON_MATCHING
+// stack issue in cases that use msgCtx->choiceIndex - something is wonky with msgCtx
 /*void func_80B4B240(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f sp74 = D_80B4E654;
     Vec3f sp68 = D_80B4E660;
@@ -249,7 +256,7 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
     EnZl1* this = THIS;
     Player* player = PLAYER;
     AnimationHeader* animationHeader;
-    MessageContext* sp34;
+    MessageContext* msgCtx = &globalCtx->msgCtx;
     f32 frameCount;
     s32 sp3C = 0;
 
@@ -274,7 +281,7 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
                 globalCtx->envCtx.unk_E1 = 0;
                 func_800C04D8(globalCtx, this->unk_1E8, &sp74, &sp68);
                 func_800C0704(globalCtx, this->unk_1E8, 25.0f);
@@ -285,9 +292,8 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 2:
-            sp34 = &globalCtx->msgCtx;
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
-                if (sp34->choiceIndex == 0) {
+            if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                if (msgCtx->choiceIndex == 0) {
                     animationHeader = &D_06013F10;
                     sp3C = 2;
                     this->unk_1E2 += 1;
@@ -309,9 +315,8 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 4:
-            sp34 = &globalCtx->msgCtx;
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
-                if (sp34->choiceIndex == 0) {
+            if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                if (msgCtx->choiceIndex == 0) {
                     animationHeader = &D_060132D8;
                     sp3C = 2;
                     this->unk_1E2 = 9;
@@ -323,7 +328,7 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 5:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
                 thisx->textId = 0x7033;
                 func_8010B720(globalCtx, thisx->textId);
                 this->unk_1E2 -= 1;
@@ -340,16 +345,15 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 7:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+            if ((func_8010BDBC(msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
                 thisx->textId = 0x7030;
                 func_8010B720(globalCtx, thisx->textId);
                 this->unk_1E2 += 1;
             }
             break;
         case 8:
-            sp34 = &globalCtx->msgCtx;
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
-                if (sp34->choiceIndex == 0) {
+            if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+                if (msgCtx->choiceIndex == 0) {
                     animationHeader = &D_060138E0;
                     sp3C = 2;
                     this->unk_1E2 = 3;
@@ -374,10 +378,13 @@ void func_80B4AF18(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (sp3C != 0) {
         SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, 1.0f, 0.0f,
-SkelAnime_GetFrameCount(&animationHeader->genericHeader), sp54.unk_00[sp3C], -10.0f);
+                             SkelAnime_GetFrameCount(&animationHeader->genericHeader), sp54.unk_00[sp3C], -10.0f);
     }
     func_80038290(globalCtx, thisx, &this->unk_200, &this->unk_206, thisx->posRot2.pos);
 }*/
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B240.s")
+#endif
 
 void func_80B4B7F4(CsCmdActorAction* actorAction, Vec3f* pos) {
     pos->x = actorAction->startPos.x;
