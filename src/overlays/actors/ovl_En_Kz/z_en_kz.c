@@ -118,32 +118,22 @@ u16 func_80A9C658(GlobalContext* globalCtx, EnKz* this) {
     }
 }
 
-//u16 func_80A9C6C0(GlobalContext* globalCtx, EnKz* this);
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Kz/func_80A9C6C0.s")
-
 s16 func_80A9C6C0(GlobalContext* globalCtx, EnKz* this) {
     s32 pad;
     s16 ret = 1;
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 6:
+            ret = 0;
             switch (this->actor.textId) {
                 case 0x4012:
                     gSaveContext.infTable[19] |= 0x200;
                     ret = 2;
                     break;
                 case 0x401B:
-                    if (func_80106BC8(globalCtx) == 0) {
-                        ret = 1;
-                    } else {
-                        ret = 2;
-                    }
+                    ret = func_80106BC8(globalCtx) == 0 ? 1 : 2;
                     break;
                 case 0x401F:
                     gSaveContext.infTable[19] |= 0x200;
-                    ret = 0;
-                    break;
-                default:
-                    ret = 0;
                     break;
             }
             break;
@@ -153,35 +143,30 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, EnKz* this) {
                     Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, 
                                            &D_801333E0, &D_801333E8);
                     this->unk_208 = 1;
-                    ret = 1;
                 }
             } else {
                 if (this->unk_208 == 0) {
                     Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, 
                                            &D_801333E0, &D_801333E8);
                     this->unk_208 = 1;
-                    ret = 1;
                 }
             }
             break;
         case 4:
-            if (func_80106BC8(globalCtx) != 0) {
-                ret = 1;
-                if (this->actor.textId == 0x4014) {
-                    switch (globalCtx->msgCtx.choiceIndex) {
-                        case 0: // yes
-                            func_80A9D490(this, globalCtx);
-                            ret = 2;
-                        case 1: // no
-                            this->actor.textId = 0x4016;
-                            func_8010B720(globalCtx, 0x4016);
-                            ret = 1;
-                    }
+            if (func_80106BC8(globalCtx) == 0) {
+                break;
+            }
+            if (this->actor.textId == 0x4014) {
+                if (globalCtx->msgCtx.choiceIndex == 0) {
+                    func_80A9D490(this, globalCtx);
+                    ret = 2;
+                } else {
+                    this->actor.textId = 0x4016;
+                    func_8010B720(globalCtx, this->actor.textId);
                 }
             }
             break;
         case 5:
-            ret = 1;
             if (func_80106BC8(globalCtx) != 0) {
                 ret = 2;
             }
