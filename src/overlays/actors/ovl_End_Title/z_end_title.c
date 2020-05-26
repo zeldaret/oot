@@ -33,9 +33,9 @@ const ActorInit End_Title_InitVars = {
 void EndTitle_Init(Actor* thisx, GlobalContext* globalCtx) {
     EndTitle* this = THIS;
 
-    this->theEndTitleCardAlpha = 0;
-    this->zeldaTitleCardAlpha = 0;
-    this->ocarinaTitleCardAlpha = 0;
+    this->endAlpha = 0;
+    this->tlozAlpha = 0;
+    this->ootAlpha = 0;
     if (this->actor.params == 1) {
         this->actor.draw = func_80B65DA8;
     }
@@ -54,6 +54,7 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     mf = &player->mf_9E0;
     {
+        // Draws the Triforce on Link's left hand
         GraphicsContext* gfxCtx;
         Gfx* dispRefs[4];
         gfxCtx = globalCtx->state.gfxCtx;
@@ -71,29 +72,30 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     {
+        // Makes the screen sepia and draws the title cards
         GraphicsContext* gfxCtx;
         Gfx* dispRefs[4];
         gfxCtx = globalCtx->state.gfxCtx;
         Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_end_title.c", 419);
 
-        if ((frameCount >= 891) && (this->theEndTitleCardAlpha < 200)) {
-            this->theEndTitleCardAlpha += 7;
+        if ((frameCount >= 891) && (this->endAlpha < 200)) {
+            this->endAlpha += 7;
         }
-        if ((frameCount >= 811) && (this->zeldaTitleCardAlpha < 200)) {
-            this->zeldaTitleCardAlpha += 15;
+        if ((frameCount >= 811) && (this->tlozAlpha < 200)) {
+            this->tlozAlpha += 15;
         }
-        if ((frameCount >= 851) && (this->ocarinaTitleCardAlpha < 200)) {
-            this->ocarinaTitleCardAlpha += 15;
+        if ((frameCount >= 851) && (this->ootAlpha < 200)) {
+            this->ootAlpha += 15;
         }
         gfxCtx->overlay.p = func_80093F34(gfxCtx->overlay.p);
         gDPSetTextureLUT(gfxCtx->overlay.p++, G_TT_NONE);
-        gDPSetEnvColor(gfxCtx->overlay.p++, 255, 120, 30, 0);
+        gDPSetEnvColor(gfxCtx->overlay.p++, 0xFF, 0x78, 0x1E, 0x00);
         gDPSetRenderMode(gfxCtx->overlay.p++, G_RM_PASS, G_RM_XLU_SURF2);
         gSPClearGeometryMode(gfxCtx->overlay.p++, G_TEXTURE_ENABLE | G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
                                                       G_TEXTURE_GEN_LINEAR);
         gDPSetCombineLERP(gfxCtx->overlay.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 0,
                           0, 0, COMBINED, 0, 0, 0, COMBINED);
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0x00, 0x80, 0, 0, 0, this->theEndTitleCardAlpha);
+        gDPSetPrimColor(gfxCtx->overlay.p++, 0x00, 0x80, 0, 0, 0, this->endAlpha);
         gDPSetTextureImage(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_8b, 80, D_80B670E0);
         gDPSetTile(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_8b, 11, 0x0, G_TX_LOADTILE, 0,
                    G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
@@ -106,7 +108,7 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPTextureRectangle(gfxCtx->overlay.p++, (120 << 2), (90 << 2), (200 << 2), (113 << 2), G_TX_RENDERTILE, 0, 0,
                             (32 << 5), (32 << 5));
         gDPPipeSync(gfxCtx->overlay.p++);
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0x00, 0x80, 0, 0, 0, this->zeldaTitleCardAlpha);
+        gDPSetPrimColor(gfxCtx->overlay.p++, 0x00, 0x80, 0, 0, 0, this->tlozAlpha);
         gDPSetTextureImage(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_8b, 120, D_80B65EA0);
         gDPSetTile(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 0x0, G_TX_LOADTILE, 0,
                    G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
@@ -119,7 +121,7 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPTextureRectangle(gfxCtx->overlay.p++, (100 << 2), (160 << 2), (220 << 2), (183 << 2), G_TX_RENDERTILE, 0, 0,
                             (32 << 5), (32 << 5));
         gDPPipeSync(gfxCtx->overlay.p++);
-        gDPSetPrimColor(gfxCtx->overlay.p++, 0x00, 0x80, 0, 0, 0, this->ocarinaTitleCardAlpha);
+        gDPSetPrimColor(gfxCtx->overlay.p++, 0x00, 0x80, 0, 0, 0, this->ootAlpha);
         gDPSetTextureImage(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_8b, 112, D_80B669E0);
         gDPSetTile(gfxCtx->overlay.p++, G_IM_FMT_IA, G_IM_SIZ_8b, 15, 0x0, G_TX_LOADTILE, 0,
                    G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0);
@@ -135,8 +137,11 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// This function is never executed in normal gameplay because actor params are never set to 1
-// Produces the same results as the other draw function, except without the title cards on the end screen
+/*
+ This function is never executed in normal gameplay because actor params are never set to 1
+ Produces the same results as the sepia subroutine in the main draw function, except without the title cards on the
+ end screen
+*/
 void func_80B65DA8(Actor* thisx, GlobalContext* globalCtx) {
     EndTitle* this = THIS;
     s32 pad;
@@ -145,8 +150,8 @@ void func_80B65DA8(Actor* thisx, GlobalContext* globalCtx) {
     Gfx* dispRefs[4];
 
     frames = globalCtx->csCtx.frames;
-    if ((frames >= 1101) && (this->theEndTitleCardAlpha < 255)) {
-        this->theEndTitleCardAlpha += 3;
+    if ((frames >= 1101) && (this->endAlpha < 255)) {
+        this->endAlpha += 3;
     }
     gfxCtx = globalCtx->state.gfxCtx;
 
@@ -154,7 +159,7 @@ void func_80B65DA8(Actor* thisx, GlobalContext* globalCtx) {
 
     gfxCtx->overlay.p = func_80093F34(gfxCtx->overlay.p);
 
-    gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0x80, 0, 0, 0, this->theEndTitleCardAlpha);
+    gDPSetPrimColor(gfxCtx->overlay.p++, 0, 0x80, 0, 0, 0, this->endAlpha);
     gSPDisplayList(gfxCtx->overlay.p++, dList_80B69720);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_end_title.c", 600);
 }
