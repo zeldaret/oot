@@ -204,11 +204,9 @@ void func_80B4AF18(EnZl1* this, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-#ifdef NON_MATCHING
-// regalloc issues with the envCtx.unk_E2 section - using v0 instead of v1
-// silly if (rotDiff) line added because it fixes almost every regalloc issue
 void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
+    s32 pad2;
     AnimationHeader* animationHeader;
     s32 pad;
     Vec3f vec1 = D_80B4E630;
@@ -216,7 +214,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     Vec3f playerPos = D_80B4E648;
     s16 rotDiff;
 
-    if (func_8002F194(this, globalCtx)) {
+    if (func_8002F194(&this->actor, globalCtx)) {
         animationHeader = &D_06010B38;
         SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, 1.0f, 0.0f,
                              SkelAnime_GetFrameCount(&animationHeader->genericHeader), 3, -10.0f);
@@ -226,7 +224,6 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         func_800C0808(globalCtx, this->unk_1E8, player, 0x21);
         globalCtx->envCtx.unk_E2[0] = 0xFF;
         globalCtx->envCtx.unk_E2[1] = 0xFF;
-        if (rotDiff) {} // fixes a lot of regalloc issues but is definitely a fake match improvement
         globalCtx->envCtx.unk_E2[2] = 0xFF;
         globalCtx->envCtx.unk_E2[3] = 0x18;
         globalCtx->envCtx.unk_E1 = 1;
@@ -240,29 +237,23 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80B4B240;
         func_800F5C64(0x51);
     } else {
+        if (1) {}; // necessary to match
         rotDiff = ABS(this->actor.rotTowardsLinkY - this->actor.shape.rot.y);
         if (rotDiff < 0x238E) {
-            if (player->actor.posRot.pos.y < this->actor.posRot.pos.y) {
-                // nothing
-            } else {
+            if (!(player->actor.posRot.pos.y < this->actor.posRot.pos.y)) {
                 func_8002F2F4(this, globalCtx);
             }
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B010.s")
-#endif
 
-#ifdef NON_MATCHING
-// stack issue in cases that use msgCtx->choiceIndex - something is wonky with msgCtx
-/*void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
+void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
     Vec3f sp74 = D_80B4E654;
     Vec3f sp68 = D_80B4E660;
     s32 pad;
     Vec3f sp58 = D_80B4E66C;
     u8_3 sp54 = D_80B4E678;
-    EnZl1* this = THIS;
+    s32 pad2;
     Player* player = PLAYER;
     AnimationHeader* animationHeader;
     MessageContext* msgCtx = &globalCtx->msgCtx;
@@ -386,14 +377,12 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
             break;
     }
     if (sp3C != 0) {
+        frameCount = SkelAnime_GetFrameCount(&animationHeader->genericHeader);
         SkelAnime_ChangeAnim(&this->skelAnime, animationHeader, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&animationHeader->genericHeader), sp54.unk_00[sp3C], -10.0f);
+                             frameCount, sp54.unk_00[sp3C], -10.0f);
     }
     func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.posRot2.pos);
-}*/
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zl1/func_80B4B240.s")
-#endif
+}
 
 void func_80B4B7F4(CsCmdActorAction* npcAction, Vec3f* pos) {
     pos->x = npcAction->startPos.x;
