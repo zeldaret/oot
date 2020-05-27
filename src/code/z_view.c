@@ -401,7 +401,7 @@ s32 func_800AB0A8(View* view) {
     view->projectionPtr = projection;
 
     guOrtho(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
-                  (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
+            (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
 
     view->projection = *projection;
 
@@ -439,7 +439,7 @@ s32 func_800AB2C4(View* view) {
     view->projectionPtr = projection;
 
     guOrtho(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
-                  (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
+            (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
 
     view->projection = *projection;
 
@@ -552,7 +552,7 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
         view->projectionPtr = projection;
 
         guOrtho(projection, -(f32)gScreenWidth * 0.5f, (f32)gScreenWidth * 0.5f, -(f32)gScreenHeight * 0.5f,
-                      (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
+                (f32)gScreenHeight * 0.5f, view->zNear, view->zFar, view->scale);
 
         view->projection = *projection;
 

@@ -63,7 +63,7 @@ def handle_word_l(match):
 
 
 def main():
-    preamble = ".include \"macro.inc\"\n\n # assembler directives\n .set noat      # allow manual use of $at\n .set noreorder # don't insert nops after branches\n .set gp=64     # allow use of 64-bit general purposee registers\n\n"
+    preamble = ".include \"macro.inc\"\n\n # assembler directives\n .set noat      # allow manual use of $at\n .set noreorder # don't insert nops after branches\n .set gp=64     # allow use of 64-bit general purpose registers\n\n"
 
     for root, dirs, files in os.walk(data_dir):
         for file in files:

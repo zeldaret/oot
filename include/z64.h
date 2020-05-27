@@ -238,11 +238,24 @@ typedef struct {
     /* 0x000C */ Gfx*   d;
 } TwoHeadGfxArena; // size = 0x10
 
+typedef struct {
+    /* 0x00 */ u16* fb1;
+    /* 0x04 */ u16* swapBuffer;
+    /* 0x08 */ OSViMode* viMode;
+    /* 0x0C */ u32 features;
+    /* 0x10 */ u8 unk_10;
+    /* 0x11 */ s8 updateRate;
+    /* 0x12 */ s8 updateRate2;
+    /* 0x13 */ u8 unk_13;
+    /* 0x14 */ f32 xScale;
+    /* 0x18 */ f32 yScale;
+} CfbInfo; // size = 0x1C
+
 typedef struct OSScTask {
     /* 0x00 */ struct OSScTask* next;
     /* 0x04 */ u32            state;
     /* 0x08 */ u32            flags;
-    /* 0x0C */ void*          framebuffer;
+    /* 0x0C */ CfbInfo*          framebuffer;
     /* 0x10 */ OSTask         list;
     /* 0x50 */ OSMesgQueue*   msgQ;
     /* 0x54 */ OSMesg         msg;
@@ -1364,48 +1377,6 @@ typedef struct {
     /* 0x10 */ u32 data[1];
 } Yaz0Header; // size = 0x10 ("data" is not part of the header)
 
-// == Previously sched.h
-
-#define OS_SC_NEEDS_RDP         0x0001
-#define OS_SC_NEEDS_RSP         0x0002
-#define OS_SC_DRAM_DLIST        0x0004
-#define OS_SC_PARALLEL_TASK     0x0010
-#define OS_SC_LAST_TASK         0x0020
-#define OS_SC_SWAPBUFFER        0x0040
-
-#define OS_SC_RCP_MASK          0x0003
-#define OS_SC_TYPE_MASK         0x0007
-
-typedef struct {
-    /* 0x00 */ char     unk_00[0x12];
-    /* 0x12 */ s8       unk_12;
-} struct_800C8BC4;
-
-typedef struct {
-    /* 0x0000 */ OSMesgQueue  interruptQ;
-    /* 0x0018 */ OSMesg       intBuf[8];
-    /* 0x0038 */ OSMesgQueue  cmdQ;
-    /* 0x0050 */ OSMesg       cmdMsgBuf[8];
-    /* 0x0070 */ OSThread     thread;
-    /* 0x0220 */ char         unk_220[0x10];
-    /* 0x0230 */ OSScTask*    curRSPTask;
-    /* 0x0234 */ OSScTask*    curRDPTask;
-    /* 0x0238 */ char         unk_238[0x08];
-    /* 0x0240 */ struct_800C8BC4* unk_240;
-    /* 0x0244 */ UNK_TYPE     pendingSwapBuf1;
-    /* 0x0220 */ char         unk_248[0x04];
-    /* 0x0220 */ UNK_TYPE     unk_24C;
-    /* 0x0220 */ UNK_TYPE     unk_250;
-    /* 0x0220 */ char         unk_254[0x04];
-} SchedContext; // size = 0x258
-
-// ========================
-
-#define OS_SC_RETRACE_MSG       1
-#define OS_SC_DONE_MSG          2
-#define OS_SC_NMI_MSG           3 // name is made up, 3 is OS_SC_RDP_DONE_MSG in the original sched.c
-#define OS_SC_PRE_NMI_MSG       4
-
 typedef struct {
     /* 0x00 */ s16 type;
     /* 0x02 */ char  misc[0x1E];
@@ -1429,6 +1400,56 @@ typedef struct {
     /* 0x258 */ OSTimer timer;
     /* 0x278 */ OSTime retraceTime;
 } IrqMgr; // size = 0x280
+
+// == Previously sched.h
+
+#define OS_SC_NEEDS_RDP         0x0001
+#define OS_SC_NEEDS_RSP         0x0002
+#define OS_SC_DRAM_DLIST        0x0004
+#define OS_SC_PARALLEL_TASK     0x0010
+#define OS_SC_LAST_TASK         0x0020
+#define OS_SC_SWAPBUFFER        0x0040
+
+#define OS_SC_RCP_MASK          0x0003
+#define OS_SC_TYPE_MASK         0x0007
+
+typedef struct {
+    /* 0x0000 */ u16*   curBuffer;
+    /* 0x0004 */ u16*   nextBuffer;
+} FrameBufferSwap;
+
+typedef struct {
+    /* 0x0000 */ OSMesgQueue  interruptQ;
+    /* 0x0018 */ OSMesg       intBuf[8];
+    /* 0x0038 */ OSMesgQueue  cmdQ;
+    /* 0x0050 */ OSMesg       cmdMsgBuf[8];
+    /* 0x0070 */ OSThread     thread;
+    /* 0x0220 */ OSScTask*    audioListHead;
+    /* 0x0224 */ OSScTask*    gfxListHead;
+    /* 0x0228 */ OSScTask*    audioListTail;
+    /* 0x022C */ OSScTask*    gfxListTail;
+    /* 0x0230 */ OSScTask*    curRSPTask;
+    /* 0x0234 */ OSScTask*    curRDPTask;
+    /* 0x0238 */ s32          retraceCnt;
+    /* 0x023C */ s32          doAudio;
+    /* 0x0240 */ CfbInfo* curBuf;
+    /* 0x0244 */ CfbInfo*        pendingSwapBuf1;
+    /* 0x0220 */ CfbInfo* pendingSwapBuf2;
+    /* 0x0220 */ UNK_TYPE     unk_24C;
+    /* 0x0250 */ IrqMgrClient   irqClient;
+} SchedContext; // size = 0x258
+
+// ========================
+
+#define OS_SC_RETRACE_MSG       1
+#define OS_SC_DONE_MSG          2
+#define OS_SC_NMI_MSG           3 // name is made up, 3 is OS_SC_RDP_DONE_MSG in the original sched.c
+#define OS_SC_PRE_NMI_MSG       4
+
+#define OS_SC_DP                0x0001
+#define OS_SC_SP                0x0002
+#define OS_SC_YIELD             0x0010
+#define OS_SC_YIELDED           0x0020
 
 typedef struct {
     struct {
@@ -1589,19 +1610,6 @@ typedef struct {
     /* 0xD0 */ u32 modeL;
     /* 0xD4 */ u32 geometryMode;
 } UCodeDisas; // size = 0xD8
-
-typedef struct {
-    /* 0x00 */ u16* fb1;
-    /* 0x04 */ u16* swapbuffer;
-    /* 0x08 */ OSViMode* viMode;
-    /* 0x0C */ u32 features;
-    /* 0x10 */ u8 unk_10;
-    /* 0x11 */ u8 updateRate;
-    /* 0x12 */ u8 updateRate2;
-    /* 0x13 */ u8 unk_13;
-    /* 0x14 */ f32 xScale;
-    /* 0x18 */ f32 yScale;
-} CfbInfo; // size = 0x1C
 
 typedef struct {
     /* 0x00 */ u16 table[8*8];
