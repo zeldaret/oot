@@ -1,3 +1,15 @@
+.late_rodata
+glabel jtbl_80154B28
+    .word L80107934
+    .word L801076F4
+    .word L8010773C
+    .word L801077B4
+    .word L80107804
+    .word L8010787C
+    .word L801078CC
+    .word L80107918
+
+.text
 glabel func_801076CC
 /* B7E86C 801076CC AFA50004 */  sw    $a1, 4($sp)
 /* B7E870 801076D0 30A5FFFF */  andi  $a1, $a1, 0xffff

@@ -1,3 +1,297 @@
+.rdata
+glabel D_80154464
+    # On Stage Performance
+    .asciz "台上演奏\n"
+    .balign 4
+
+glabel D_80154470
+    .asciz "Na_StartOcarinaSinglePlayCheck2( message->ocarina_no );\n"
+    .balign 4
+
+glabel D_801544AC
+    # Performance Check=%d
+    .asciz "演奏チェック=%d\n"
+    .balign 4
+
+glabel D_801544C0
+    # locate=%d note_pt=%d
+    .asciz "locate=%d  onpu_pt=%d\n"
+    .balign 4
+
+glabel D_801544D8
+    # Ocarina_Frog Correct Example Performance=%x
+    .asciz "Ocarina_Flog 正解模範演奏=%x\n"
+    .balign 4
+
+glabel D_801544F8
+    # Ocarina_Frog Correct Example Performance=%x
+    .asciz "Ocarina_Flog 正解模範演奏=%x\n"
+    .balign 4
+
+glabel D_80154518
+    # Ocarina_Free Correct Example Performance=%x
+    .asciz "Ocarina_Free 正解模範演奏=%x\n"
+    .balign 4
+
+glabel D_80154538
+    # Correct Example Performance=%x
+    .asciz "正解模範演奏=%x\n"
+    .balign 4
+
+glabel D_8015454C
+    # kokokokokoko
+    .asciz "ここここここ\n"
+    .balign 4
+
+glabel D_8015455C
+    # Cancel
+    .asciz "キャンセル\n"
+    .balign 4
+
+glabel D_80154568
+    .asciz "\x1b[32m"
+    .balign 4
+
+glabel D_80154570
+    .asciz "Na_StopOcarinaMode();\n"
+    .balign 4
+
+glabel D_80154588
+    .asciz "Na_StopOcarinaMode();\n"
+    .balign 4
+
+glabel D_801545A0
+    .asciz "Na_StopOcarinaMode();\n"
+    .balign 4
+
+glabel D_801545B8
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_801545BC
+    # ocarina_no=%d Song Chosen=%d
+    .asciz "ocarina_no=%d  選曲=%d\n"
+    .balign 4
+
+glabel D_801545D4
+    # Example Performance=%x
+    .asciz "模範演奏=%x\n"
+    .balign 4
+
+glabel D_801545E4
+    .asciz "\x1b[33m"
+    .balign 4
+
+glabel D_801545EC
+    .asciz "☆☆☆ocarina=%d   message->ocarina_no=%d  "
+    .balign 4
+
+glabel D_80154618
+    .asciz "\x1b[33m"
+    .balign 4
+
+glabel D_80154620
+    .asciz "Ocarina_PC_Wind=%d(%d) ☆☆☆   "
+    .balign 4
+
+glabel D_80154644
+    .asciz "\x1b[32m"
+    .balign 4
+
+glabel D_8015464C
+    .asciz "Ocarina_C_Wind=%d(%d) ☆☆☆   "
+    .balign 4
+
+glabel D_8015466C
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80154670
+    .asciz "→  OCARINA_MODE=%d\n"
+    .balign 4
+
+glabel D_80154688
+    # note_buff[%d]=%x
+    .asciz "onpu_buff[%d]=%x\n"
+    .balign 4
+
+glabel D_8015469C
+    .asciz "M_OCARINA20 : ocarina_no=%x    status=%x\n"
+    .balign 4
+
+glabel D_801546C8
+    .asciz "\x1b[33m"
+    .balign 4
+
+glabel D_801546D0
+    # z_message.c Melody Acquired＝%d
+    .asciz "z_message.c 取得メロディ＝%d\n"
+    .balign 4
+
+glabel D_801546F0
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_801546F4
+    # Scarecrow Recording Initialization
+    .asciz "案山子録音 初期化\n"
+    .balign 4
+
+glabel D_80154708
+    # note_pt=%d, locate=%d
+    .asciz "\nonpu_pt=%d, locate=%d"
+    .balign 4
+
+glabel D_80154720
+    # Button Entered【%d】=%d
+    .asciz "    入力ボタン【%d】=%d"
+    .balign 4
+
+glabel D_80154738
+    # Recording complete！！！！！！！！！ message->info->status=%d
+    .asciz "録音終了！！！！！！！！！  message->info->status=%d \n"
+    .balign 4
+
+glabel D_80154770
+    .asciz "aaaaaaaaaaaaaa\n"
+    .balign 4
+
+glabel D_80154780
+    # Recording complete！！！！！！！！！Recording Complete
+    .asciz "録音終了！！！！！！！！！録音終了\n"
+    .balign 4
+
+glabel D_801547A4
+    .asciz "\x1b[33m"
+    .balign 4
+
+glabel D_801547AC
+    .asciz "\n====================================================================\n"
+    .balign 4
+
+glabel D_801547F4
+    .asciz "%d, "
+    .balign 4
+
+glabel D_801547FC
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_80154800
+    .asciz "\n====================================================================\n"
+    .balign 4
+
+glabel D_80154848
+    .asciz "status=%d (%d)\n"
+    .balign 4
+
+glabel D_80154858
+    .asciz "bbbbbbbbbbb\n"
+    .balign 4
+
+glabel D_80154868
+    # 8 Note Recording ＯＫ！
+    .asciz "８音録音ＯＫ！\n"
+    .balign 4
+
+glabel D_80154878
+    .asciz "\x1b[33m"
+    .balign 4
+
+glabel D_80154880
+    .asciz "\n====================================================================\n"
+    .balign 4
+
+glabel D_801548C8
+    .asciz "%d, "
+    .balign 4
+
+glabel D_801548D0
+    .asciz "\x1b[m"
+    .balign 4
+
+glabel D_801548D4
+    .asciz "\n====================================================================\n"
+    .balign 4
+
+glabel D_8015491C
+    # Played an existing song！！！
+    .asciz "すでに存在する曲吹いた！！！ \n"
+    .balign 4
+
+glabel D_8015493C
+    .asciz "cccccccccccc\n"
+    .balign 4
+
+glabel D_8015494C
+    # Musical round failed！！！！！！！！！
+    .asciz "輪唱失敗！！！！！！！！！\n"
+    .balign 4
+
+glabel D_80154968
+    # Musical round succeeded！！！！！！！！！
+    .asciz "輪唱成功！！！！！！！！！\n"
+    .balign 4
+
+.late_rodata
+glabel jtbl_80154BE8
+    .word L8010C4F4
+    .word L8010C4F4
+    .word L8010C4F4
+    .word L8010C4F4
+    .word L8010C4FC
+    .word L8010C564
+    .word L8010C578
+    .word L8010C564
+    .word L8010C5AC
+    .word L8010C5AC
+    .word L8010C5AC
+    .word L8010C750
+    .word L8010CBFC
+    .word L8010D500
+    .word L8010D50C
+    .word L8010D594
+    .word L8010D65C
+    .word L8010D768
+    .word L8010DC10
+    .word L8010D924
+    .word L8010D968
+    .word L8010D9A0
+    .word L8010D9D8
+    .word L8010D824
+    .word L8010DC10
+    .word L8010DD08
+    .word L8010DD1C
+    .word L8010CBFC
+    .word L8010D500
+    .word L8010D594
+    .word L8010DEAC
+    .word L8010EC60
+    .word L8010DED8
+    .word L8010DF4C
+    .word L8010E1D8
+    .word L8010E334
+    .word L8010E364
+    .word L8010E544
+    .word L8010CBFC
+    .word L8010E1D8
+    .word L8010E580
+    .word L8010E5F0
+    .word L8010E730
+    .word L8010E5F0
+    .word L8010E730
+    .word L8010E79C
+    .word L8010E904
+    .word L8010EA20
+    .word L8010EA70
+    .word L8010EAE0
+    .word L8010EB44
+    .word L8010C578
+    .word L8010EB4C
+    .word L8010EC58
+    .word L8010EC58
+
+.text
 glabel func_8010C39C
 /* B8353C 8010C39C 27BDFEA8 */  addiu $sp, $sp, -0x158
 /* B83540 8010C3A0 AFBF003C */  sw    $ra, 0x3c($sp)
@@ -1305,16 +1599,16 @@ glabel L8010D594
 /* B84794 8010D5F4 241900FF */   li    $t9, 255
 /* B84798 8010D5F8 3C018015 */  lui   $at, %hi(D_8015394C) # $at, 0x8015
 /* B8479C 8010D5FC A039394C */  sb    $t9, %lo(D_8015394C)($at)
-/* B847A0 8010D600 3C018015 */  lui   $at, %hi(D_80153960) # $at, 0x8015
-/* B847A4 8010D604 A4203968 */  sh    $zero, %lo(D_80153968)($at)
-/* B847A8 8010D608 A4203966 */  sh    $zero, %lo(D_80153966)($at)
-/* B847AC 8010D60C A4203964 */  sh    $zero, %lo(D_80153964)($at)
-/* B847B0 8010D610 A4203962 */  sh    $zero, %lo(D_80153962)($at)
-/* B847B4 8010D614 A4203960 */  sh    $zero, %lo(D_80153960)($at)
+/* B847A0 8010D600 3C018015 */  lui   $at, %hi(D_80153958 + 0x8) # $at, 0x8015
+/* B847A4 8010D604 A4203968 */  sh    $zero, %lo(D_80153958 + 0x10)($at)
+/* B847A8 8010D608 A4203966 */  sh    $zero, %lo(D_80153958 + 0xE)($at)
+/* B847AC 8010D60C A4203964 */  sh    $zero, %lo(D_80153958 + 0xC)($at)
+/* B847B0 8010D610 A4203962 */  sh    $zero, %lo(D_80153958 + 0xA)($at)
+/* B847B4 8010D614 A4203960 */  sh    $zero, %lo(D_80153958 + 0x8)($at)
 /* B847B8 8010D618 3C018015 */  lui   $at, %hi(D_80153958) # $at, 0x8015
-/* B847BC 8010D61C A420395E */  sh    $zero, %lo(D_8015395E)($at)
-/* B847C0 8010D620 A420395C */  sh    $zero, %lo(D_8015395C)($at)
-/* B847C4 8010D624 A420395A */  sh    $zero, %lo(D_8015395A)($at)
+/* B847BC 8010D61C A420395E */  sh    $zero, %lo(D_80153958 + 0x6)($at)
+/* B847C0 8010D620 A420395C */  sh    $zero, %lo(D_80153958 + 0x4)($at)
+/* B847C4 8010D624 A420395A */  sh    $zero, %lo(D_80153958 + 0x2)($at)
 /* B847C8 8010D628 A4203958 */  sh    $zero, %lo(D_80153958)($at)
 /* B847CC 8010D62C 920F6304 */  lbu   $t7, 0x6304($s0)
 /* B847D0 8010D630 2401001E */  li    $at, 30

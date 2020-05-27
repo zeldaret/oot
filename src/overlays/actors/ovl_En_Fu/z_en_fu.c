@@ -222,7 +222,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
         func_80A1D94C(this, globalCtx, 0x508E, func_80A1DBA0);
     } else if (player->stateFlags2 & 0x1000000) {
         this->actor.textId = 0x5035;
-        func_8010B680(globalCtx, this->actor.textId, 0);
+        func_8010B680(globalCtx, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
         this->behaviorFlags |= FU_WAIT;
     } else if (func_8002F194(&this->actor, globalCtx) != 0) {

@@ -338,7 +338,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             player->stateFlags2 |= 0x2000000;
             player->unk_6A8 = &this->actor;
             this->actor.textId = 0x2061;
-            func_8010B680(globalCtx, this->actor.textId, 0);
+            func_8010B680(globalCtx, this->actor.textId, NULL);
             this->unk_1E8.unk_00 = 1;
             this->actor.flags |= 0x10000;
             this->actionFunc = func_80AA106C;

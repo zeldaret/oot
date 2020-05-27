@@ -631,7 +631,7 @@ void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
     Math_SmoothScaleMaxF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
     this->actor.posRot.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z < -6000) {
-        func_8010B680(globalCtx, 0x708F, 0);
+        func_8010B680(globalCtx, 0x708F, NULL);
         this->actor.flags |= 0x10000;
         this->actionFunc = func_80A5455C;
         this->unk_2E4 = 0.0f;

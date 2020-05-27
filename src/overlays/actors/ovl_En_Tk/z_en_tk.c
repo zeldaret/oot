@@ -661,7 +661,7 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
     if (func_800A56C8(&this->skelAnim, this->skelAnim.animFrameCount) != 0) {
         if (this->currentReward < 0) {
             /* "Nope, nothing here!" */
-            func_8010B680(globalCtx, 0x501A, 0);
+            func_8010B680(globalCtx, 0x501A, NULL);
         } else {
             func_80106CCC(globalCtx);
         }
