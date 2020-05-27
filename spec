@@ -8739,7 +8739,7 @@ endseg
 beginseg
     name "spot18_room_3"
     romalign 0x1000
-     include "build/scenes/overworld/spot18/spot18_room_3.o"
+    include "build/scenes/overworld/spot18/spot18_room_3.o"
     address SEGMENT_ROOM
 endseg
 
