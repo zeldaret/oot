@@ -279,59 +279,57 @@ void func_80098958(GlobalContext* globalCtx, SceneCmd* cmd) {
 }
 
 // Scene Command 0x0B: Object List
-#ifdef NON_MATCHING
-// this function still needs some work but it should be functionally equivalent
 void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
     s32 i, j, k;
-    s16* objectEntry;
     ObjectStatus* status;
     ObjectStatus* status2;
-    ObjectStatus* status3;
+    ObjectStatus* firstStatus;
+    s16* objectEntry;
     void* nextPtr;
 
     objectEntry = SEGMENTED_TO_VIRTUAL(cmd->objectList.segment);
-    status2 = &globalCtx->objectCtx.status[globalCtx->objectCtx.unk_09];
     k = 0;
-    status = status2;
     i = globalCtx->objectCtx.unk_09;
+    firstStatus = &globalCtx->objectCtx.status[0];
+    status = &globalCtx->objectCtx.status[i];
+    
     while (i < globalCtx->objectCtx.num) {
         if (status->id != *objectEntry) {
-            status3 = status2;
+            status2 = &globalCtx->objectCtx.status[i];
             for (j = i; j < globalCtx->objectCtx.num; j++) {
-                status3->id = 0;
-                status3++;
+                status2->id = 0;
+                status2++;
             }
             globalCtx->objectCtx.num = i;
             func_80031A28(globalCtx, &globalCtx->actorCtx);
-        } else {
-            i++;
-            status++;
-            k++;
-            objectEntry++;
-            status2++;
+            
+            continue;
         }
-    }
-
-    if (cmd->objectList.num > OBJECT_EXCHANGE_BANK_MAX) {
-        __assert("scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
-    }
-
-    while (k < cmd->objectList.num) {
-        nextPtr = func_800982FC(&globalCtx->objectCtx, i, *objectEntry);
-        if (i < OBJECT_EXCHANGE_BANK_MAX - 1) {
-            globalCtx->objectCtx.status[i + 1].segment = nextPtr;
-        }
+        
+        i++;
         k++;
         objectEntry++;
         status++;
     }
+    
+    if (cmd->objectList.num > OBJECT_EXCHANGE_BANK_MAX) {
+        __assert("scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
+    }
+    
+    if (1) {}
 
-    globalCtx->objectCtx.num = k;
+    while (k < cmd->objectList.num) {
+        nextPtr = func_800982FC(&globalCtx->objectCtx, i, *objectEntry);
+        if (i < OBJECT_EXCHANGE_BANK_MAX - 1) {
+            firstStatus[i + 1].segment = nextPtr;
+        }
+        i++;
+        k++;
+        objectEntry++;
+    }
+
+    globalCtx->objectCtx.num = i;
 }
-#else
-void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_scene/func_8009899C.s")
-#endif
 
 // Scene Command 0x0C: Light List
 void func_80098B74(GlobalContext* globalCtx, SceneCmd* cmd) {
