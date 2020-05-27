@@ -3551,7 +3551,7 @@ endseg
 beginseg
     name "ovl_End_Title"
     include "build/src/overlays/actors/ovl_End_Title/z_end_title.o"
-    include "build/src/overlays/actors/ovl_End_Title/z_end_title_reloc.o"
+    include "build/src/overlays/actors/ovl_End_Title/ovl_End_Title_reloc.o"
 endseg
 
 beginseg
