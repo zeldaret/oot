@@ -1,3 +1,101 @@
+.rdata
+glabel D_801540A8
+    .asciz "ＪＪ＝%d\n"
+    .balign 4
+
+glabel D_801540B4
+    .asciz "NZ_NEXTMSG=%x, %x, %x\n"
+    .balign 4
+
+glabel D_801540CC
+    # Name ＝
+    .asciz "\n名前 ＝ "
+    .balign 4
+
+glabel D_801540D8
+    .asciz "%x "
+    .balign 4
+
+glabel D_801540DC
+    # ＥＶＥＮＴ TIMER ＝
+    .asciz "\nＥＶＥＮＴタイマー ＝ "
+    .balign 4
+
+glabel D_801540F4
+    # Horseback Archery Score ＝ %d
+    .asciz "\n流鏑馬スコア ＝ %d\n"
+    .balign 4
+
+glabel D_8015410C
+    # Total Gold Skulltula Tokens ＝ %d
+    .asciz "\n金スタ合計数 ＝ %d"
+    .balign 4
+
+glabel D_80154120
+    .asciz "%x(%x) "
+    .balign 4
+
+glabel D_80154128
+    # Fishing Pond Fish Size ＝
+    .asciz "\n釣り堀魚サイズ ＝ "
+    .balign 4
+
+glabel D_8015413C
+    .asciz "%x(%x) "
+    .balign 4
+
+glabel D_80154144
+    # Ranking＝%d
+    .asciz "ランキング＝%d\n"
+    .balign 4
+
+glabel D_80154154
+    .asciz "HI_SCORE( kanfont->mbuff.nes_mes_buf[message->rdp] & 0xff000000 ) = %x\n"
+    .balign 4
+
+glabel D_8015419C
+    .asciz "score=%d\n"
+    .balign 4
+
+glabel D_801541A8
+    # Zelda Time ＝
+    .asciz "\nゼルダ時間 ＝ "
+    .balign 4
+
+glabel D_801541B8
+    .asciz "ITEM_NO=(%d) (%d)\n"
+    .balign 4
+
+glabel D_801541CC
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+glabel D_801541E0
+    .asciz "../z_message_PAL.c"
+    .balign 4
+
+glabel D_801541F4
+    .asciz "NZ_TIMER_END (key_off_flag=%d)\n"
+    .balign 4
+
+glabel D_80154214
+    .asciz "NZ_BGM (key_off_flag=%d)\n"
+    .balign 4
+
+.late_rodata
+glabel D_80154BC8
+    .float 0.00359999993816
+
+glabel jtbl_80154BCC
+    .word L8010A6FC
+    .word L8010A6FC
+    .word L8010A6FC
+    .word L8010A850
+    .word L8010A850
+    .word L8010B06C
+    .word L8010A850
+
+.text
 glabel func_80109B3C
 /* B80CDC 80109B3C 27BDFF68 */  addiu $sp, $sp, -0x98
 /* B80CE0 80109B40 3C010001 */  lui   $at, 1

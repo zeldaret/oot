@@ -1,3 +1,25 @@
+.rdata
+glabel D_801549AC
+    .asciz "%s"
+    .balign 4
+
+glabel D_801549B0
+    .asciz "MESSAGE"
+    .balign 4
+
+glabel D_801549B8
+    .asciz "%s"
+    .balign 4
+
+glabel D_801549BC
+    .asciz "="
+    .balign 4
+
+glabel D_801549C0
+    .asciz "%x"
+    .balign 4
+
+.text
 glabel func_8010F494
 /* B86634 8010F494 27BDFFA0 */  addiu $sp, $sp, -0x60
 /* B86638 8010F498 AFB00020 */  sw    $s0, 0x20($sp)
