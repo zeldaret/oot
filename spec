@@ -652,7 +652,7 @@ endseg
 beginseg
     name "ovl_Arrow_Fire"
     include "build/src/overlays/actors/ovl_Arrow_Fire/z_arrow_fire.o"
-    include "build/src/overlays/actors/ovl_Arrow_Fire/ovl_arrow_fire_reloc.o"
+    include "build/src/overlays/actors/ovl_Arrow_Fire/ovl_Arrow_Fire_reloc.o"
 endseg
 
 beginseg
