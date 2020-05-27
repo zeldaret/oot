@@ -1025,7 +1025,7 @@ f32 func_8007BF90(Vec3f*, Vec3f*);
 // ? func_8007C25C(?);
 // ? func_8007C29C(?);
 VecSph* func_8007C3F4(VecSph* arg0, Vec3f* arg1);
-// ? func_8007C490(?);
+void func_8007C490(VecSph* arg0, Vec3f* a, Vec3f* b);
 // ? func_8007C4E0(?);
 // ? func_8007C680(?);
 // ? func_8007C704(?);

@@ -21,11 +21,11 @@ glabel Camera_Unique7
 /* AC9D68 80052BC8 00000000 */   nop
 .L80052BCC:
 /* AC9D6C 80052BCC 860F0142 */  lh    $t7, 0x142($s0)
-/* AC9D70 80052BD0 3C198012 */  lui   $t9, %hi(D_8011D068)
+/* AC9D70 80052BD0 3C198012 */  lui   $t9, %hi(sCameraSettings)
 /* AC9D74 80052BD4 86080144 */  lh    $t0, 0x144($s0)
 /* AC9D78 80052BD8 000FC0C0 */  sll   $t8, $t7, 3
 /* AC9D7C 80052BDC 0338C821 */  addu  $t9, $t9, $t8
-/* AC9D80 80052BE0 8F39D068 */  lw    $t9, %lo(D_8011D068)($t9)
+/* AC9D80 80052BE0 8F39D068 */  lw    $t9, %lo(sCameraSettings+4)($t9)
 /* AC9D84 80052BE4 000848C0 */  sll   $t1, $t0, 3
 /* AC9D88 80052BE8 3C0D8016 */  lui   $t5, %hi(gGameInfo) # $t5, 0x8016
 /* AC9D8C 80052BEC 03295021 */  addu  $t2, $t9, $t1

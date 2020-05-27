@@ -55,13 +55,13 @@ glabel Camera_Battle4
 /* AC3834 8004C694 860F0142 */  lh    $t7, 0x142($s0)
 /* AC3838 8004C698 856C01F0 */  lh    $t4, 0x1f0($t3)
 /* AC383C 8004C69C 46008483 */  div.s $f18, $f16, $f0
-/* AC3840 8004C6A0 3C198012 */  lui   $t9, %hi(D_8011D068)
+/* AC3840 8004C6A0 3C198012 */  lui   $t9, %hi(sCameraSettings)
 /* AC3844 8004C6A4 448C2000 */  mtc1  $t4, $f4
 /* AC3848 8004C6A8 000FC0C0 */  sll   $t8, $t7, 3
 /* AC384C 8004C6AC 86080144 */  lh    $t0, 0x144($s0)
 /* AC3850 8004C6B0 468021A0 */  cvt.s.w $f6, $f4
 /* AC3854 8004C6B4 0338C821 */  addu  $t9, $t9, $t8
-/* AC3858 8004C6B8 8F39D068 */  lw    $t9, %lo(D_8011D068)($t9)
+/* AC3858 8004C6B8 8F39D068 */  lw    $t9, %lo(sCameraSettings+4)($t9)
 /* AC385C 8004C6BC 000848C0 */  sll   $t1, $t0, 3
 /* AC3860 8004C6C0 3C018014 */  lui   $at, %hi(D_8013A054)
 /* AC3864 8004C6C4 03295021 */  addu  $t2, $t9, $t1

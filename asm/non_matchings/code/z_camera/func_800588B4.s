@@ -23,11 +23,11 @@ glabel func_800588B4
 /* ACFA70 800588D0 11C0000A */  beqz  $t6, .L800588FC
 /* ACFA74 800588D4 00000000 */   nop
 /* ACFA78 800588D8 848F0142 */  lh    $t7, 0x142($a0)
-/* ACFA7C 800588DC 3C198012 */  lui   $t9, %hi(D_8011D064)
+/* ACFA7C 800588DC 3C198012 */  lui   $t9, %hi(sCameraSettings)
 /* ACFA80 800588E0 30690200 */  andi  $t1, $v1, 0x200
 /* ACFA84 800588E4 000FC0C0 */  sll   $t8, $t7, 3
 /* ACFA88 800588E8 0338C821 */  addu  $t9, $t9, $t8
-/* ACFA8C 800588EC 8F39D064 */  lw    $t9, %lo(D_8011D064)($t9)
+/* ACFA8C 800588EC 8F39D064 */  lw    $t9, %lo(sCameraSettings)($t9)
 /* ACFA90 800588F0 00194040 */  sll   $t0, $t9, 1
 /* ACFA94 800588F4 05010003 */  bgez  $t0, .L80058904
 /* ACFA98 800588F8 00000000 */   nop

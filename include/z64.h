@@ -397,7 +397,9 @@ typedef union {
 } camera_unk_00;
 
 typedef struct {
-    char unk_00[0x0E];
+    Vec3s unk_00;
+    Vec3s unk_06;
+    s16 unk_0C;
     s16 unk_0E;
 } struct_80041C10_ret;
 
@@ -419,8 +421,7 @@ typedef struct {
     /* 0x0090 */ Player* player;
     /* 0x0094 */ PosRot unk_94;
     /* 0x00A8 */ Actor* unk_A8;
-    /* 0x00AC */ Vec3f unk_AC;
-    /* 0x00B8 */ char unk_B8[8];
+    /* 0x00AC */ PosRot unk_AC;
     /* 0x00C0 */ Vec3f unk_C0;
     /* 0x00CC */ Vec3f unk_CC;
     /* 0x00D8 */ f32 unk_D8;

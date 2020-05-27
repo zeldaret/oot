@@ -37,11 +37,11 @@ glabel Camera_Fixed1
 /* AC688C 8004F6EC 00000000 */   nop
 .L8004F6F0:
 /* AC6890 8004F6F0 860F0142 */  lh    $t7, 0x142($s0)
-/* AC6894 8004F6F4 3C198012 */  lui   $t9, %hi(D_8011D068)
+/* AC6894 8004F6F4 3C198012 */  lui   $t9, %hi(sCameraSettings)
 /* AC6898 8004F6F8 86080144 */  lh    $t0, 0x144($s0)
 /* AC689C 8004F6FC 000FC0C0 */  sll   $t8, $t7, 3
 /* AC68A0 8004F700 0338C821 */  addu  $t9, $t9, $t8
-/* AC68A4 8004F704 8F39D068 */  lw    $t9, %lo(D_8011D068)($t9)
+/* AC68A4 8004F704 8F39D068 */  lw    $t9, %lo(sCameraSettings+4)($t9)
 /* AC68A8 8004F708 000848C0 */  sll   $t1, $t0, 3
 /* AC68AC 8004F70C 02002025 */  move  $a0, $s0
 /* AC68B0 8004F710 03295021 */  addu  $t2, $t9, $t1

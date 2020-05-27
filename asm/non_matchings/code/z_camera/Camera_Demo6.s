@@ -35,11 +35,11 @@ glabel Camera_Demo6
 .L80055CE8:
 /* ACCE88 80055CE8 860A0142 */  lh    $t2, 0x142($s0)
 .L80055CEC:
-/* ACCE8C 80055CEC 3C0C8012 */  lui   $t4, %hi(D_8011D068)
+/* ACCE8C 80055CEC 3C0C8012 */  lui   $t4, %hi(sCameraSettings)
 /* ACCE90 80055CF0 860D0144 */  lh    $t5, 0x144($s0)
 /* ACCE94 80055CF4 000A58C0 */  sll   $t3, $t2, 3
 /* ACCE98 80055CF8 018B6021 */  addu  $t4, $t4, $t3
-/* ACCE9C 80055CFC 8D8CD068 */  lw    $t4, %lo(D_8011D068)($t4)
+/* ACCE9C 80055CFC 8D8CD068 */  lw    $t4, %lo(sCameraSettings+4)($t4)
 /* ACCEA0 80055D00 000D70C0 */  sll   $t6, $t5, 3
 /* ACCEA4 80055D04 3C198016 */  lui   $t9, %hi(gGameInfo) # $t9, 0x8016
 /* ACCEA8 80055D08 018E7821 */  addu  $t7, $t4, $t6

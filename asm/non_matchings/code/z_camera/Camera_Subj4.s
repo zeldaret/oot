@@ -26,11 +26,11 @@ glabel Camera_Subj4
 .L80050B70:
 /* AC7D10 80050B70 862F0142 */  lh    $t7, 0x142($s1)
 .L80050B74:
-/* AC7D14 80050B74 3C198012 */  lui   $t9, %hi(D_8011D068)
+/* AC7D14 80050B74 3C198012 */  lui   $t9, %hi(sCameraSettings)
 /* AC7D18 80050B78 86280144 */  lh    $t0, 0x144($s1)
 /* AC7D1C 80050B7C 000FC0C0 */  sll   $t8, $t7, 3
 /* AC7D20 80050B80 0338C821 */  addu  $t9, $t9, $t8
-/* AC7D24 80050B84 8F39D068 */  lw    $t9, %lo(D_8011D068)($t9)
+/* AC7D24 80050B84 8F39D068 */  lw    $t9, %lo(sCameraSettings+4)($t9)
 /* AC7D28 80050B88 000848C0 */  sll   $t1, $t0, 3
 /* AC7D2C 80050B8C 3C0C8016 */  lui   $t4, %hi(gGameInfo) # $t4, 0x8016
 /* AC7D30 80050B90 03295021 */  addu  $t2, $t9, $t1

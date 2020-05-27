@@ -32,11 +32,11 @@ glabel Camera_Unique0
 .L800524B8:
 /* AC9658 800524B8 86180142 */  lh    $t8, 0x142($s0)
 .L800524BC:
-/* AC965C 800524BC 3C098012 */  lui   $t1, %hi(D_8011D068)
+/* AC965C 800524BC 3C098012 */  lui   $t1, %hi(sCameraSettings)
 /* AC9660 800524C0 860A0144 */  lh    $t2, 0x144($s0)
 /* AC9664 800524C4 0018C8C0 */  sll   $t9, $t8, 3
 /* AC9668 800524C8 01394821 */  addu  $t1, $t1, $t9
-/* AC966C 800524CC 8D29D068 */  lw    $t1, %lo(D_8011D068)($t1)
+/* AC966C 800524CC 8D29D068 */  lw    $t1, %lo(sCameraSettings+4)($t1)
 /* AC9670 800524D0 000A58C0 */  sll   $t3, $t2, 3
 /* AC9674 800524D4 3C0E8016 */  lui   $t6, %hi(gGameInfo) # $t6, 0x8016
 /* AC9678 800524D8 012B6021 */  addu  $t4, $t1, $t3

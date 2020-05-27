@@ -39,13 +39,13 @@ glabel Camera_Fixed4
 /* AC7278 800500D8 860F0142 */  lh    $t7, 0x142($s0)
 /* AC727C 800500DC 468021A0 */  cvt.s.w $f6, $f4
 /* AC7280 800500E0 44812000 */  mtc1  $at, $f4
-/* AC7284 800500E4 3C198012 */  lui   $t9, %hi(D_8011D068)
+/* AC7284 800500E4 3C198012 */  lui   $t9, %hi(sCameraSettings)
 /* AC7288 800500E8 000FC0C0 */  sll   $t8, $t7, 3
 /* AC728C 800500EC 86080144 */  lh    $t0, 0x144($s0)
 /* AC7290 800500F0 0338C821 */  addu  $t9, $t9, $t8
 /* AC7294 800500F4 460C3082 */  mul.s $f2, $f6, $f12
 /* AC7298 800500F8 46002183 */  div.s $f6, $f4, $f0
-/* AC729C 800500FC 8F39D068 */  lw    $t9, %lo(D_8011D068)($t9)
+/* AC729C 800500FC 8F39D068 */  lw    $t9, %lo(sCameraSettings+4)($t9)
 /* AC72A0 80050100 000848C0 */  sll   $t1, $t0, 3
 /* AC72A4 80050104 02002025 */  move  $a0, $s0
 /* AC72A8 80050108 03295021 */  addu  $t2, $t9, $t1

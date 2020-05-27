@@ -83,7 +83,7 @@ glabel Camera_ChangeMode
 .L8005A0A8:
 /* AD1248 8005A0A8 84EA014C */  lh    $t2, 0x14c($a3)
 /* AD124C 8005A0AC 93AC0023 */  lbu   $t4, 0x23($sp)
-/* AD1250 8005A0B0 3C198012 */  lui   $t9, %hi(D_8011D064)
+/* AD1250 8005A0B0 3C198012 */  lui   $t9, %hi(sCameraSettings)
 /* AD1254 8005A0B4 314B0020 */  andi  $t3, $t2, 0x20
 /* AD1258 8005A0B8 11600008 */  beqz  $t3, .L8005A0DC
 /* AD125C 8005A0BC 3C013FFF */   lui   $at, (0x3FFFFFFF >> 16) # lui $at, 0x3fff
@@ -101,7 +101,7 @@ glabel Camera_ChangeMode
 /* AD1284 8005A0E4 3421FFFF */  ori   $at, (0x3FFFFFFF & 0xFFFF) # ori $at, $at, 0xffff
 /* AD1288 8005A0E8 000FC0C0 */  sll   $t8, $t7, 3
 /* AD128C 8005A0EC 0338C821 */  addu  $t9, $t9, $t8
-/* AD1290 8005A0F0 8F39D064 */  lw    $t9, %lo(D_8011D064)($t9)
+/* AD1290 8005A0F0 8F39D064 */  lw    $t9, %lo(sCameraSettings)($t9)
 /* AD1294 8005A0F4 240A0001 */  li    $t2, 1
 /* AD1298 8005A0F8 012A5804 */  sllv  $t3, $t2, $t1
 /* AD129C 8005A0FC 03214024 */  and   $t0, $t9, $at

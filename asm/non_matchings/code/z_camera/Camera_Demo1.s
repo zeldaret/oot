@@ -49,11 +49,11 @@ glabel Camera_Demo1
 .L80054524:
 /* ACB6C4 80054524 86090142 */  lh    $t1, 0x142($s0)
 .L80054528:
-/* ACB6C8 80054528 3C0B8012 */  lui   $t3, %hi(D_8011D068)
+/* ACB6C8 80054528 3C0B8012 */  lui   $t3, %hi(sCameraSettings)
 /* ACB6CC 8005452C 860C0144 */  lh    $t4, 0x144($s0)
 /* ACB6D0 80054530 000950C0 */  sll   $t2, $t1, 3
 /* ACB6D4 80054534 016A5821 */  addu  $t3, $t3, $t2
-/* ACB6D8 80054538 8D6BD068 */  lw    $t3, %lo(D_8011D068)($t3)
+/* ACB6D8 80054538 8D6BD068 */  lw    $t3, %lo(sCameraSettings+4)($t3)
 /* ACB6DC 8005453C 000C68C0 */  sll   $t5, $t4, 3
 /* ACB6E0 80054540 016D7021 */  addu  $t6, $t3, $t5
 /* ACB6E4 80054544 8DC20004 */  lw    $v0, 4($t6)

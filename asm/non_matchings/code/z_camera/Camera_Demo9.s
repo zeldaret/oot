@@ -36,11 +36,11 @@ glabel Camera_Demo9
 .L80056010:
 /* ACD1B0 80056010 86180142 */  lh    $t8, 0x142($s0)
 .L80056014:
-/* ACD1B4 80056014 3C098012 */  lui   $t1, %hi(D_8011D068)
+/* ACD1B4 80056014 3C098012 */  lui   $t1, %hi(sCameraSettings)
 /* ACD1B8 80056018 860A0144 */  lh    $t2, 0x144($s0)
 /* ACD1BC 8005601C 0018C8C0 */  sll   $t9, $t8, 3
 /* ACD1C0 80056020 01394821 */  addu  $t1, $t1, $t9
-/* ACD1C4 80056024 8D29D068 */  lw    $t1, %lo(D_8011D068)($t1)
+/* ACD1C4 80056024 8D29D068 */  lw    $t1, %lo(sCameraSettings+4)($t1)
 /* ACD1C8 80056028 000A58C0 */  sll   $t3, $t2, 3
 /* ACD1CC 8005602C 3C0E8016 */  lui   $t6, %hi(gGameInfo) # $t6, 0x8016
 /* ACD1D0 80056030 012B6021 */  addu  $t4, $t1, $t3

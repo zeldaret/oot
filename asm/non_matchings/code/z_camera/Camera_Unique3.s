@@ -47,13 +47,13 @@ glabel Camera_Unique3
 /* AC9168 80051FC8 86190142 */  lh    $t9, 0x142($s0)
 /* AC916C 80051FCC 85AE01F0 */  lh    $t6, 0x1f0($t5)
 /* AC9170 80051FD0 46008483 */  div.s $f18, $f16, $f0
-/* AC9174 80051FD4 3C098012 */  lui   $t1, %hi(D_8011D068)
+/* AC9174 80051FD4 3C098012 */  lui   $t1, %hi(sCameraSettings)
 /* AC9178 80051FD8 448E2000 */  mtc1  $t6, $f4
 /* AC917C 80051FDC 001940C0 */  sll   $t0, $t9, 3
 /* AC9180 80051FE0 860A0144 */  lh    $t2, 0x144($s0)
 /* AC9184 80051FE4 468021A0 */  cvt.s.w $f6, $f4
 /* AC9188 80051FE8 01284821 */  addu  $t1, $t1, $t0
-/* AC918C 80051FEC 8D29D068 */  lw    $t1, %lo(D_8011D068)($t1)
+/* AC918C 80051FEC 8D29D068 */  lw    $t1, %lo(sCameraSettings+4)($t1)
 /* AC9190 80051FF0 000A58C0 */  sll   $t3, $t2, 3
 /* AC9194 80051FF4 2604000C */  addiu $a0, $s0, 0xc
 /* AC9198 80051FF8 012B6021 */  addu  $t4, $t1, $t3

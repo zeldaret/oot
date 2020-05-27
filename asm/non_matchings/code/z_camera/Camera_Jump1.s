@@ -71,13 +71,13 @@ glabel Camera_Jump1
 /* AC0C4C 80049AAC 860F0142 */  lh    $t7, 0x142($s0)
 /* AC0C50 80049AB0 856C01F0 */  lh    $t4, 0x1f0($t3)
 /* AC0C54 80049AB4 46008483 */  div.s $f18, $f16, $f0
-/* AC0C58 80049AB8 3C198012 */  lui   $t9, %hi(D_8011D068)
+/* AC0C58 80049AB8 3C198012 */  lui   $t9, %hi(sCameraSettings)
 /* AC0C5C 80049ABC 448C2000 */  mtc1  $t4, $f4
 /* AC0C60 80049AC0 000FC0C0 */  sll   $t8, $t7, 3
 /* AC0C64 80049AC4 86080144 */  lh    $t0, 0x144($s0)
 /* AC0C68 80049AC8 468021A0 */  cvt.s.w $f6, $f4
 /* AC0C6C 80049ACC 0338C821 */  addu  $t9, $t9, $t8
-/* AC0C70 80049AD0 8F39D068 */  lw    $t9, %lo(D_8011D068)($t9)
+/* AC0C70 80049AD0 8F39D068 */  lw    $t9, %lo(sCameraSettings+4)($t9)
 /* AC0C74 80049AD4 000848C0 */  sll   $t1, $t0, 3
 /* AC0C78 80049AD8 3C0B8016 */  lui   $t3, %hi(gGameInfo) # $t3, 0x8016
 /* AC0C7C 80049ADC 03295021 */  addu  $t2, $t9, $t1

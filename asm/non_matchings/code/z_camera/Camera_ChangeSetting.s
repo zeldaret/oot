@@ -23,8 +23,8 @@ glabel Camera_ChangeSetting
 /* AD1714 8005A574 11C00015 */  beqz  $t6, .L8005A5CC
 /* AD1718 8005A578 00808025 */   move  $s0, $a0
 /* AD171C 8005A57C 848F0142 */  lh    $t7, 0x142($a0)
-/* AD1720 8005A580 3C058012 */  lui   $a1, %hi(D_8011D064) # $a1, 0x8012
-/* AD1724 8005A584 24A5D064 */  addiu $a1, %lo(D_8011D064) # addiu $a1, $a1, -0x2f9c
+/* AD1720 8005A580 3C058012 */  lui   $a1, %hi(sCameraSettings) # $a1, 0x8012
+/* AD1724 8005A584 24A5D064 */  addiu $a1, %lo(sCameraSettings) # addiu $a1, $a1, -0x2f9c
 /* AD1728 8005A588 000758C0 */  sll   $t3, $a3, 3
 /* AD172C 8005A58C 000FC0C0 */  sll   $t8, $t7, 3
 /* AD1730 8005A590 00B8C821 */  addu  $t9, $a1, $t8
@@ -43,10 +43,10 @@ glabel Camera_ChangeSetting
 /* AD1764 8005A5C4 10000068 */  b     .L8005A768
 /* AD1768 8005A5C8 2402FFFE */   li    $v0, -2
 .L8005A5CC:
-/* AD176C 8005A5CC 3C058012 */  lui   $a1, %hi(D_8011D064) # $a1, 0x8012
+/* AD176C 8005A5CC 3C058012 */  lui   $a1, %hi(sCameraSettings) # $a1, 0x8012
 /* AD1770 8005A5D0 24010035 */  li    $at, 53
 /* AD1774 8005A5D4 10E10003 */  beq   $a3, $at, .L8005A5E4
-/* AD1778 8005A5D8 24A5D064 */   addiu $a1, %lo(D_8011D064) # addiu $a1, $a1, -0x2f9c
+/* AD1778 8005A5D8 24A5D064 */   addiu $a1, %lo(sCameraSettings) # addiu $a1, $a1, -0x2f9c
 /* AD177C 8005A5DC 24010036 */  li    $at, 54
 /* AD1780 8005A5E0 14E1000D */  bne   $a3, $at, .L8005A618
 .L8005A5E4:

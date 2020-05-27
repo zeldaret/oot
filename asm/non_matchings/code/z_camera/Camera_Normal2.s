@@ -79,11 +79,11 @@ glabel Camera_Normal2
 /* ABF1B4 80048014 00000000 */   nop
 .L80048018:
 /* ABF1B8 80048018 86190142 */  lh    $t9, 0x142($s0)
-/* ABF1BC 8004801C 3C098012 */  lui   $t1, %hi(D_8011D068)
+/* ABF1BC 8004801C 3C098012 */  lui   $t1, %hi(sCameraSettings)
 /* ABF1C0 80048020 860A0144 */  lh    $t2, 0x144($s0)
 /* ABF1C4 80048024 001940C0 */  sll   $t0, $t9, 3
 /* ABF1C8 80048028 01284821 */  addu  $t1, $t1, $t0
-/* ABF1CC 8004802C 8D29D068 */  lw    $t1, %lo(D_8011D068)($t1)
+/* ABF1CC 8004802C 8D29D068 */  lw    $t1, %lo(sCameraSettings+4)($t1)
 /* ABF1D0 80048030 000A58C0 */  sll   $t3, $t2, 3
 /* ABF1D4 80048034 3C018014 */  lui   $at, %hi(D_80139ECC)
 /* ABF1D8 80048038 012B6021 */  addu  $t4, $t1, $t3

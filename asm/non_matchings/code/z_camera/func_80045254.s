@@ -14,8 +14,8 @@ glabel func_80045254
 /* ABC40C 8004526C AFB10018 */  sw    $s1, 0x18($sp)
 /* ABC410 80045270 AFB00014 */  sw    $s0, 0x14($sp)
 /* ABC414 80045274 848E0142 */  lh    $t6, 0x142($a0)
-/* ABC418 80045278 3C158012 */  lui   $s5, %hi(D_8011D064) # $s5, 0x8012
-/* ABC41C 8004527C 26B5D064 */  addiu $s5, %lo(D_8011D064) # addiu $s5, $s5, -0x2f9c
+/* ABC418 80045278 3C158012 */  lui   $s5, %hi(sCameraSettings) # $s5, 0x8012
+/* ABC41C 8004527C 26B5D064 */  addiu $s5, %lo(sCameraSettings) # addiu $s5, $s5, -0x2f9c
 /* ABC420 80045280 000E78C0 */  sll   $t7, $t6, 3
 /* ABC424 80045284 84880144 */  lh    $t0, 0x144($a0)
 /* ABC428 80045288 02AFC021 */  addu  $t8, $s5, $t7

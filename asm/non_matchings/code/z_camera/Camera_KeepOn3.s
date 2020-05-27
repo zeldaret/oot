@@ -104,13 +104,13 @@ glabel Camera_KeepOn3
 /* AC4CA0 8004DB00 86780142 */  lh    $t8, 0x142($s3)
 /* AC4CA4 8004DB04 468021A0 */  cvt.s.w $f6, $f4
 /* AC4CA8 8004DB08 44812000 */  mtc1  $at, $f4
-/* AC4CAC 8004DB0C 3C098012 */  lui   $t1, %hi(D_8011D068)
+/* AC4CAC 8004DB0C 3C098012 */  lui   $t1, %hi(sCameraSettings)
 /* AC4CB0 8004DB10 0018C8C0 */  sll   $t9, $t8, 3
 /* AC4CB4 8004DB14 866A0144 */  lh    $t2, 0x144($s3)
 /* AC4CB8 8004DB18 01394821 */  addu  $t1, $t1, $t9
 /* AC4CBC 8004DB1C 460E3082 */  mul.s $f2, $f6, $f14
 /* AC4CC0 8004DB20 46002183 */  div.s $f6, $f4, $f0
-/* AC4CC4 8004DB24 8D29D068 */  lw    $t1, %lo(D_8011D068)($t1)
+/* AC4CC4 8004DB24 8D29D068 */  lw    $t1, %lo(sCameraSettings+4)($t1)
 /* AC4CC8 8004DB28 000A58C0 */  sll   $t3, $t2, 3
 /* AC4CCC 8004DB2C 012B6021 */  addu  $t4, $t1, $t3
 /* AC4CD0 8004DB30 8D820004 */  lw    $v0, 4($t4)

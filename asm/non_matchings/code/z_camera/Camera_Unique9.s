@@ -104,11 +104,11 @@ glabel Camera_Unique9
 .L80052E58:
 /* AC9FF8 80052E58 86380142 */  lh    $t8, 0x142($s1)
 .L80052E5C:
-/* AC9FFC 80052E5C 3C0A8012 */  lui   $t2, %hi(D_8011D068)
+/* AC9FFC 80052E5C 3C0A8012 */  lui   $t2, %hi(sCameraSettings)
 /* ACA000 80052E60 862B0144 */  lh    $t3, 0x144($s1)
 /* ACA004 80052E64 0018C8C0 */  sll   $t9, $t8, 3
 /* ACA008 80052E68 01595021 */  addu  $t2, $t2, $t9
-/* ACA00C 80052E6C 8D4AD068 */  lw    $t2, %lo(D_8011D068)($t2)
+/* ACA00C 80052E6C 8D4AD068 */  lw    $t2, %lo(sCameraSettings+4)($t2)
 /* ACA010 80052E70 000B60C0 */  sll   $t4, $t3, 3
 /* ACA014 80052E74 3C0F8016 */  lui   $t7, %hi(gGameInfo) # $t7, 0x8016
 /* ACA018 80052E78 014C6821 */  addu  $t5, $t2, $t4

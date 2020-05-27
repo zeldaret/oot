@@ -1,10 +1,10 @@
 glabel Camera_Parallel3
 /* AC0B44 800499A4 848E0142 */  lh    $t6, 0x142($a0)
-/* AC0B48 800499A8 3C188012 */  lui   $t8, %hi(D_8011D068)
+/* AC0B48 800499A8 3C188012 */  lui   $t8, %hi(sCameraSettings)
 /* AC0B4C 800499AC 84990144 */  lh    $t9, 0x144($a0)
 /* AC0B50 800499B0 000E78C0 */  sll   $t7, $t6, 3
 /* AC0B54 800499B4 030FC021 */  addu  $t8, $t8, $t7
-/* AC0B58 800499B8 8F18D068 */  lw    $t8, %lo(D_8011D068)($t8)
+/* AC0B58 800499B8 8F18D068 */  lw    $t8, %lo(sCameraSettings+4)($t8)
 /* AC0B5C 800499BC 001940C0 */  sll   $t0, $t9, 3
 /* AC0B60 800499C0 3C018012 */  lui   $at, %hi(D_8011D3A0) # $at, 0x8012
 /* AC0B64 800499C4 03084821 */  addu  $t1, $t8, $t0

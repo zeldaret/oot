@@ -195,7 +195,7 @@ extern s32 gMaxActorId; // original name: "MaxProfile"
 //extern ? sPREGInitCnt;
 //extern ? sCameraSettingNames;
 //extern ? sCameraModeNames;
-//extern ? D_8011D064;
+//extern ? sCameraSettings;
 //extern ? sInitRegs;
 extern s32 D_8011D394;
 //extern ? D_8011D398;
@@ -208,7 +208,7 @@ extern s32 D_8011D3AC;
 //extern ? D_8011D3E8;
 //extern ? D_8011D3F0;
 //extern ? D_8011D3F4;
-//extern ? D_8011D3F8;
+//extern ? sCameraFunctionNames;
 //extern ? D_8011D658;
 //extern ? D_8011D678;
 //extern ? D_8011D6A8;

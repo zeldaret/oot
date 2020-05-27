@@ -31,11 +31,11 @@ glabel Camera_Special6
 .L80056FB4:
 /* ACE154 80056FB4 860F0142 */  lh    $t7, 0x142($s0)
 .L80056FB8:
-/* ACE158 80056FB8 3C198012 */  lui   $t9, %hi(D_8011D068)
+/* ACE158 80056FB8 3C198012 */  lui   $t9, %hi(sCameraSettings)
 /* ACE15C 80056FBC 860B0144 */  lh    $t3, 0x144($s0)
 /* ACE160 80056FC0 000FC0C0 */  sll   $t8, $t7, 3
 /* ACE164 80056FC4 0338C821 */  addu  $t9, $t9, $t8
-/* ACE168 80056FC8 8F39D068 */  lw    $t9, %lo(D_8011D068)($t9)
+/* ACE168 80056FC8 8F39D068 */  lw    $t9, %lo(sCameraSettings+4)($t9)
 /* ACE16C 80056FCC 000B60C0 */  sll   $t4, $t3, 3
 /* ACE170 80056FD0 3C0F8016 */  lui   $t7, %hi(gGameInfo) # $t7, 0x8016
 /* ACE174 80056FD4 032C6821 */  addu  $t5, $t9, $t4

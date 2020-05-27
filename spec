@@ -300,7 +300,6 @@ beginseg
     include "build/src/code/code_800430A0.o"
     include "build/src/code/code_80043480.o"
     include "build/src/code/z_camera.o"
-    include "build/data/z_camera.data.o"
     include "build/data/z_camera.bss.o"
     include "build/src/code/z_collision_btltbls.o"
     include "build/src/code/z_collision_check.o"
@@ -8532,7 +8531,7 @@ beginseg
     name "syotes2_scene"
     romalign 0x1000
     include "build/scenes/test_levels/syotes2/syotes2_scene.o"
-    address SEGMENT_SCENE   
+    address SEGMENT_SCENE
 endseg
 
 beginseg

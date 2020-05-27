@@ -2,7 +2,7 @@
 glabel D_80139094
     .asciz "camera: res: stat (%d/%d/%d)\n"
     .balign 4
-    
+
 glabel D_801390B4
     .asciz "camera: res: PREG(%02d) = %d\n"
     .balign 4
@@ -35,8 +35,8 @@ glabel func_80045128
 /* ABC324 80045184 02003825 */   move  $a3, $s0
 .L80045188:
 /* ABC328 80045188 86B80142 */  lh    $t8, 0x142($s5)
-/* ABC32C 8004518C 3C168012 */  lui   $s6, %hi(D_8011D064) # $s6, 0x8012
-/* ABC330 80045190 26D6D064 */  addiu $s6, %lo(D_8011D064) # addiu $s6, $s6, -0x2f9c
+/* ABC32C 8004518C 3C168012 */  lui   $s6, %hi(sCameraSettings) # $s6, 0x8012
+/* ABC330 80045190 26D6D064 */  addiu $s6, %lo(sCameraSettings) # addiu $s6, $s6, -0x2f9c
 /* ABC334 80045194 0018C8C0 */  sll   $t9, $t8, 3
 /* ABC338 80045198 02D94021 */  addu  $t0, $s6, $t9
 /* ABC33C 8004519C 8D090004 */  lw    $t1, 4($t0)

@@ -121,13 +121,13 @@ glabel Camera_Jump3
 /* AC1FD4 8004AE34 468042A0 */  cvt.s.w $f10, $f8
 /* AC1FD8 8004AE38 44814000 */  mtc1  $at, $f8
 /* AC1FDC 8004AE3C 860B0142 */  lh    $t3, 0x142($s0)
-/* AC1FE0 8004AE40 3C0D8012 */  lui   $t5, %hi(D_8011D068)
+/* AC1FE0 8004AE40 3C0D8012 */  lui   $t5, %hi(sCameraSettings)
 /* AC1FE4 8004AE44 862E0022 */  lh    $t6, 0x22($s1)
 /* AC1FE8 8004AE48 000B60C0 */  sll   $t4, $t3, 3
 /* AC1FEC 8004AE4C 46105082 */  mul.s $f2, $f10, $f16
 /* AC1FF0 8004AE50 460E4283 */  div.s $f10, $f8, $f14
 /* AC1FF4 8004AE54 01AC6821 */  addu  $t5, $t5, $t4
-/* AC1FF8 8004AE58 8DADD068 */  lw    $t5, %lo(D_8011D068)($t5)
+/* AC1FF8 8004AE58 8DADD068 */  lw    $t5, %lo(sCameraSettings+4)($t5)
 /* AC1FFC 8004AE5C 000E78C0 */  sll   $t7, $t6, 3
 /* AC2000 8004AE60 3C018014 */  lui   $at, %hi(D_80139FB4)
 /* AC2004 8004AE64 01AFC021 */  addu  $t8, $t5, $t7

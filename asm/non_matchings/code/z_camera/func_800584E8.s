@@ -166,17 +166,17 @@ glabel func_800584E8
 /* ACF8B0 80058710 0C018DDB */  jal   func_8006376C
 /* ACF8B4 80058714 24060005 */   li    $a2, 5
 /* ACF8B8 80058718 86190142 */  lh    $t9, 0x142($s0)
-/* ACF8BC 8005871C 3C188012 */  lui   $t8, %hi(D_8011D068)
+/* ACF8BC 8005871C 3C188012 */  lui   $t8, %hi(sCameraSettings)
 /* ACF8C0 80058720 860E0144 */  lh    $t6, 0x144($s0)
 /* ACF8C4 80058724 001978C0 */  sll   $t7, $t9, 3
 /* ACF8C8 80058728 030FC021 */  addu  $t8, $t8, $t7
-/* ACF8CC 8005872C 8F18D068 */  lw    $t8, %lo(D_8011D068)($t8)
+/* ACF8CC 8005872C 8F18D068 */  lw    $t8, %lo(sCameraSettings+4)($t8)
 /* ACF8D0 80058730 000EC8C0 */  sll   $t9, $t6, 3
 /* ACF8D4 80058734 24040005 */  li    $a0, 5
 /* ACF8D8 80058738 03197821 */  addu  $t7, $t8, $t9
 /* ACF8DC 8005873C 85EE0000 */  lh    $t6, ($t7)
-/* ACF8E0 80058740 3C198012 */  lui   $t9, %hi(D_8011D3F8) # $t9, 0x8012
-/* ACF8E4 80058744 2739D3F8 */  addiu $t9, %lo(D_8011D3F8) # addiu $t9, $t9, -0x2c08
+/* ACF8E0 80058740 3C198012 */  lui   $t9, %hi(sCameraFunctionNames) # $t9, 0x8012
+/* ACF8E4 80058744 2739D3F8 */  addiu $t9, %lo(sCameraFunctionNames) # addiu $t9, $t9, -0x2c08
 /* ACF8E8 80058748 000EC0C0 */  sll   $t8, $t6, 3
 /* ACF8EC 8005874C 03193821 */  addu  $a3, $t8, $t9
 /* ACF8F0 80058750 24050019 */  li    $a1, 25

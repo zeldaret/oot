@@ -46,11 +46,11 @@ glabel func_8005A7A8
 /* AD19D8 8005A838 1460000A */  bnez  $v1, .L8005A864
 /* AD19DC 8005A83C 02002025 */   move  $a0, $s0
 /* AD19E0 8005A840 860B0142 */  lh    $t3, 0x142($s0)
-/* AD19E4 8005A844 3C0D8012 */  lui   $t5, %hi(D_8011D064)
+/* AD19E4 8005A844 3C0D8012 */  lui   $t5, %hi(sCameraSettings)
 /* AD19E8 8005A848 2861FFFF */  slti  $at, $v1, -1
 /* AD19EC 8005A84C 000B60C0 */  sll   $t4, $t3, 3
 /* AD19F0 8005A850 01AC6821 */  addu  $t5, $t5, $t4
-/* AD19F4 8005A854 8DADD064 */  lw    $t5, %lo(D_8011D064)($t5)
+/* AD19F4 8005A854 8DADD064 */  lw    $t5, %lo(sCameraSettings)($t5)
 /* AD19F8 8005A858 000D7000 */  sll   $t6, $t5, 0
 /* AD19FC 8005A85C 05C10009 */  bgez  $t6, .L8005A884
 /* AD1A00 8005A860 00000000 */   nop
