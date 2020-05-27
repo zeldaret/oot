@@ -85,6 +85,8 @@ glabel D_8081275C
  .word 0x00640096, 0x00FF0064, 0x00640064
 glabel D_80812768
  .word 0x3E3E3E3E, 0x3E3E3E3E
+
+
 glabel D_80812770
  .word func_8080B40C
 .word func_8080B494
@@ -129,9 +131,6 @@ glabel D_80812770
 .word func_8080BE30
 glabel D_80812814
  .word 0x004600C8
-
-# z_file_choose
-
 glabel D_80812818
  .word 0x001A000A, 0x000A000A
 glabel D_80812820

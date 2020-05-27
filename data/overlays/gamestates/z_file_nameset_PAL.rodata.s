@@ -120,37 +120,3 @@ glabel D_80812CE4
 glabel D_80812CE8
     .float 0.4
     .balign 4
-
-.align 4
-
-glabel D_80812CF0
- .word 0xA3D3A3F2, 0xA3E1A3ED, 0x20A3D3A3, 0xF4A3E1A3, 0xF2A3F4A8, 0xA1A3CCA3, 0xEFA3E1A3, 0xE42020A1, 0xD5A1D5A1, 0xD5A1D5A1, 0xD5202000
-glabel D_80812D1C
- .word 0xBDAACEBB, 0xA1AAA1AA, 0xA1AA0A00
-glabel D_80812D28
-    .asciz "REGCK_ALL[%x]=%x,%x,%x,%x,%x,%x\n"
-    .balign 4
-
-glabel D_80812D4C
-    .asciz "1:read_buff[]=%x, %x, %x, %x\n"
-    .balign 4
-
-glabel D_80812D6C
-    .asciz "read_buff[]=%x, %x, %x, %x\n"
-    .balign 4
-
-glabel D_80812D88
-    .asciz "1:read_buff[]=%x, %x, %x, %x\n"
-    .balign 4
-
-glabel D_80812DA8
-    .asciz "read_buff[]=%x, %x, %x, %x\n"
-    .balign 4
-
-glabel D_80812DC4
-    .asciz "1:read_buff[]=%x, %x, %x, %x\n"
-    .balign 4
-
-glabel D_80812DE4
-    .asciz "read_buff[]=%x, %x, %x, %x\n"
-    .balign 4
