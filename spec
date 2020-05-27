@@ -417,7 +417,6 @@ beginseg
     include "build/src/code/sys_math_atan.o"
     include "build/src/code/sys_matrix.o"
     include "build/src/code/sys_ucode.o"
-    include "build/data/sys_ucode.data.o"
     include "build/src/code/code_800D2E30.o"
     include "build/data/code_800D2E30.data.o"
     include "build/src/code/code_800D31A0.o"
@@ -516,7 +515,7 @@ beginseg
     include "build/src/libultra_code/osDpGetStatus.o"
     include "build/src/libultra_code/osDpSetStatus.o"
     include "build/asm/code_801041E0.o"
-    include "build/asm/code_80104450.o"
+    include "build/src/libultra_code/ortho.o"
     include "build/src/libultra_code/cosf.o"
     include "build/src/libultra_code/coss.o"
     include "build/src/libultra_code/osViSetEvent.o"
@@ -539,8 +538,7 @@ beginseg
     include "build/asm/osWritebackDCacheAll.o"
     include "build/src/libultra_code/__osGetCurrFaultedThread.o"
     include "build/asm/guMtxF2L.o"
-    include "build/asm/code_80106550.o"
-    include "build/data/code_80106550.rodata.o"
+    include "build/src/libultra_code/llcvt.o"
     include "build/src/libultra_code/osViGetCurrentFramebuffer.o"
     include "build/src/libultra_code/__osSpSetPc.o"
     include "build/src/libultra_code/sqrt.o"
@@ -2643,8 +2641,7 @@ endseg
 beginseg
     name "ovl_En_Hata"
     include "build/src/overlays/actors/ovl_En_Hata/z_en_hata.o"
-    include "build/data/overlays/actors/z_en_hata.data.o"
-    include "build/data/overlays/actors/z_en_hata.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Hata/z_en_hata_reloc.o"
 endseg
 
 beginseg

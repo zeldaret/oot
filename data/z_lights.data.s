@@ -10,4 +10,6 @@
 .balign 16
 
 glabel D_80120030
-    .incbin "baserom.z64", 0xB971D0, 0x10
+    .word func_8007A0B4
+    .word func_8007A40C
+    .word func_8007A0B4

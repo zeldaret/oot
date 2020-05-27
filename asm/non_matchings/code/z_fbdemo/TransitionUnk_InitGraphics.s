@@ -47,7 +47,7 @@ glabel TransitionUnk_InitGraphics
 /* B28ABC 800B191C E7A40014 */  swc1  $f4, 0x14($sp)
 /* B28AC0 800B1920 E7A00010 */  swc1  $f0, 0x10($sp)
 /* B28AC4 800B1924 E7A60018 */  swc1  $f6, 0x18($sp)
-/* B28AC8 800B1928 0C041169 */  jal   func_801045A4
+/* B28AC8 800B1928 0C041169 */  jal   guOrtho
 /* B28ACC 800B192C E7A8001C */   swc1  $f8, 0x1c($sp)
 /* B28AD0 800B1930 0000F825 */  move  $ra, $zero
 /* B28AD4 800B1934 00009825 */  move  $s3, $zero
