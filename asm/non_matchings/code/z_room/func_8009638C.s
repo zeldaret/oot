@@ -117,7 +117,7 @@ glabel func_8009638C
 /* B0D6F0 80096550 A4A60006 */  sh    $a2, 6($a1)
 /* B0D6F4 80096554 A4A7000E */  sh    $a3, 0xe($a1)
 /* B0D6F8 80096558 AFA50018 */  sw    $a1, 0x18($sp)
-/* B0D6FC 8009655C 0C0412C0 */  jal   func_80104B00
+/* B0D6FC 8009655C 0C0412C0 */  jal   guS2DInitBg
 /* B0D700 80096560 AFA2001C */   sw    $v0, 0x1c($sp)
 /* B0D704 80096564 97B9003E */  lhu   $t9, 0x3e($sp)
 /* B0D708 80096568 3C010020 */  lui   $at, 0x20

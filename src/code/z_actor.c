@@ -1521,13 +1521,13 @@ s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u3
     // This is convoluted but it seems like it must be a single if statement to match
     if ((player->actor.flags & 0x100) || ((arg4 != 0) && func_8008E988(globalCtx)) ||
         ((actor->unk_10C == 0) &&
-         ((arg3 < fabsf(actor->yDistanceFromLink)) || (player->unk_698 < actor->xzDistanceFromLink) ||
+         ((arg3 < fabsf(actor->yDistanceFromLink)) || (player->targetActorDistance < actor->xzDistanceFromLink) ||
           (arg2 < actor->xzDistanceFromLink)))) {
         return 0;
     }
 
-    player->unk_694 = actor;
-    player->unk_698 = actor->xzDistanceFromLink;
+    player->naviTargetActor = actor;
+    player->targetActorDistance = actor->xzDistanceFromLink;
     player->exchangeItemId = arg4;
 
     return 1;
@@ -1582,7 +1582,8 @@ s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzR
     s32 abs_var;
 
     if (!(player->stateFlags1 & 0x3C7080) && func_8008F29C(player) < 0) {
-        if ((((player->heldActor != NULL) || (actor == player->unk_694)) && (getItemId > 0) && (getItemId < 0x7E)) ||
+        if ((((player->heldActor != NULL) || (actor == player->naviTargetActor)) && (getItemId > 0) &&
+             (getItemId < 0x7E)) ||
             (!(player->stateFlags1 & 0x20000800))) {
             if ((actor->xzDistanceFromLink < xzRange) && (fabsf(actor->yDistanceFromLink) < yRange)) {
                 var = actor->rotTowardsLinkY - player->actor.shape.rot.y;
@@ -2072,7 +2073,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     }
 
     if ((player->stateFlags1 & 0x40) && ((player->actor.textId & 0xFF00) != 0x600)) {
-        sp74 = player->unk_694;
+        sp74 = player->naviTargetActor;
     }
 
     for (i = 0; i < ARRAY_COUNT(actorCtx->actorList); i++, sp80++) {
@@ -2097,7 +2098,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 Actor_Kill(actor);
                 actor = actor->next;
             } else if ((unkFlag && !(actor->flags & unkFlag)) ||
-                       (!unkFlag && unkCondition && (sp74 != actor) && (actor != player->unk_68C) &&
+                       (!unkFlag && unkCondition && (sp74 != actor) && (actor != player->navi) &&
                         (actor != player->heldActor) && (&player->actor != actor->attachedA))) {
                 func_80061E8C(&actor->colChkInfo);
                 actor = actor->next;
@@ -3086,16 +3087,6 @@ s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
 
     return arg0[0];
 }
-
-typedef struct {
-    /* 0x00 */ MtxF* unk_00;
-    /* 0x04 */ s16* unk_04;
-    /* 0x08 */ s16 unk_08;
-    /* 0x0A */ char unk_0A[0x02];
-    /* 0x0C */ s32* unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-} struct_80032E24;
 
 void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx) {
     u32 sp28;

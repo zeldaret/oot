@@ -78,4 +78,6 @@
      viewport.topY = ty; \
      viewport.leftX = lx;
 
+#define CHECK_PAD(state, combo) (~(state.in.button | ~(combo)) == 0)
+
 #endif

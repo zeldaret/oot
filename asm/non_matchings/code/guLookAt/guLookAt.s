@@ -22,7 +22,7 @@ glabel guLookAt
 /* B79024 80101E84 0C0406E4 */  jal   guLookAtF
 /* B79028 80101E88 E7B20024 */   swc1  $f18, 0x24($sp)
 /* B7902C 80101E8C 27A40030 */  addiu $a0, $sp, 0x30
-/* B79030 80101E90 0C041938 */  jal   func_801064E0
+/* B79030 80101E90 0C041938 */  jal   guMtxF2L
 /* B79034 80101E94 8FA50070 */   lw    $a1, 0x70($sp)
 /* B79038 80101E98 8FBF002C */  lw    $ra, 0x2c($sp)
 /* B7903C 80101E9C 27BD0070 */  addiu $sp, $sp, 0x70
