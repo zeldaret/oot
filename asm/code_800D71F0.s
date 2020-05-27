@@ -3,11 +3,11 @@
 # assembler directives
 .set noat      # allow manual use of $at
 .set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purposee registers
+.set gp=64     # allow use of 64-bit general purpose registers
 
 .section .text
 
-.align 4
+.balign 16
 
 glabel func_800D71F0
 /* B4E390 800D71F0 34018800 */  li    $at, 34816
